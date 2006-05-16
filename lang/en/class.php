@@ -200,6 +200,4 @@ $string['emailfooterdisclaimer']='
 		strictly prohibited.';
 $string['passwords']='Passwords';
 $string['']='';
-$string['']='';
-$string['']='';
 ?>
