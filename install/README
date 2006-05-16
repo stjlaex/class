@@ -1,0 +1,135 @@
+This is the INSTALL README for ClaSS-0.6 (last updated 16/11/2005)
+
+For further help or advice refer to the ClaSS homepage 
+www.laex.org/class/ or email class@laex.org
+
+------------------------------ 
+(0) ClaSS uses PHP and MySQL. It is assumed you already have these
+correctly installed on your webserver and that you have full
+command-line access to the server. 
+
+In addition, the PEAR libraries for PHP are used. The PEAR:DB package
+is essential. The PEAR:XML_Serializer package is also needed if you
+intend to use any of the ClaSS features that use XML such as printing
+reports.
+
+The versions of these packages you are running is probably not so
+important as long as they are not acient. ClaSS-0.6 is known to work with
+the following:
+
+PEAR::DB 1.6.2
+PHP 4.3.10-13
+Apache 1.3.33
+MySQL 4.0.24
+
+and has been reported running happily runnning on higher versions
+(MySQL 4.1.x and PHP 4.4.x). It is yet to be tested with PHP5. Please
+do let us know about your successes and failures.
+
+------------------------------ 
+(1) Locating the application in your webspace.
+
+(1.1) Create a toplevel directory in your webspace, the name of which
+will be the name users see when accessing your ClaSS
+site. eg. /var/www/class-site/
+
+(1.2) Move the ClaSS.tar package into this toplevel directory.
+And unpack the tarball. eg. tar -xvf ClaSS.tar
+
+(1.3) cd down to the install directory eg. /var/www/class-site/class/install/
+
+(1.4) Unpacking created the class application directory under which all
+files exist, except for the following. These need to be relocated from
+the install directory: 
+	mv toplevel/index.html ../../
+	mv toplevel/school.php ../../  
+	mv toplevel/toplevel/curriculum.tar ../../
+	mv toplevel/toplevel/templates.tar ../../
+
+Files located outside the class application directory are not replaced
+when ClaSS is next updated. This procedure is intended to preserve any
+school-spcefic changes you make to these top-level files.
+
+(1.5) Files used for printing reports are located in a directory called
+templates. Users may create and add their own versions to this
+directory. Some example templates are provided.
+	cd ../../
+	tar -xvf templates.tar
+
+(1.6) "Curriculum Packs" are used to define codes for subjects and courses, 
+yeargroups and forms, and to setup some predefined types of marks. The 
+English National Curriculum pack is the default one (if anyone wishes to
+contribute alternatives, please do!). This needs to be unpacked in the
+toplevel directory:
+	cd ../../
+	tar -xvf curriculum.tar
+
+(1.7) Edit school.php to make it relevant to your site. The csv files
+in the curriculum directory may also be edited to match local needs.
+
+------------------------------ 
+(2) Preparing MySQL for the first time (if you already have a mysql
+user this won't be neccessary).
+
+(2.1) Run mysql as root user at the command line: 
+	mysql
+
+(2.2) Add a user:
+      GRANT ALL PRIVILEGES ON *.*
+    ->     TO username@localhost
+    ->     IDENTIFIED BY 'some_password' WITH GRANT OPTION;
+
+(2.3) Make sure root gets a password if they haven't already:
+      SET PASSWORD FOR root@localhost=PASSWORD('new_password');
+
+(2.4) exit
+
+------------------------------ 
+(3) Installing the empty database and connection script.
+
+(3.1) Ensure that the toplevel directory is writable by the
+webserver. This can be done most simply (if insecurely!) by executing
+the command:
+		 chmod 777 /var/www/class-site 
+
+Be warned! You must change this setting back once the install script
+has been run or else you risk leaving your site wide open to security
+issues. Probably you need:
+		 chmod 755 /var/www/class-site 
+
+(3.2) Run the install script by pointing your browser at:
+		http://localhost/class-site/class/install/ 
+
+(3.3) You will be asked to supply the MySQL user detials you just
+set-up above. If it fails go back to (3.1) and check the directory
+permissions are set so the webserver script is allowed to write to the
+class-site directory.
+
+(3.4) If you used chmod in step (3.1) then make sure you use it again
+now. Change the settings back to how they were using something like:
+		chmod 755 /var/www/class-site
+
+------------------------------ 
+(4) Test all is working. 
+
+(4.1) Point your browser at http://localhost/class-site/ and use
+username:administrator and password:(the MySQL Connect password given
+above).
+
+(4.2) For security I'd recommend removing the install directory once all
+is working. And check the permissions of the webspace are secure.
+
+(4.3) Read the ClaSS Administrator's Guide
+(http://www.laex.org/adminguide.html) to get yourself started on
+populating the database for your school.
+
+------------------------------ 
+(5) Send an email (to class@laex.org) with feedback or just to say
+you've given ClaSS a try. All your comments and support help in making
+ClaSS a better piece of software! 
+
+--------------------------------
+
+NB. A second instance of ClaSS can be installed on the same server.
+Simply install to a second directory (eg. /var/www/classtwo) and this
+time supply a different database name when running the install script.

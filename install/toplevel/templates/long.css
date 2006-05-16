@@ -1,0 +1,89 @@
+/* CSS Document containing styles specific for pages prepared for printing */
+
+body {
+  	font-family:Arial, helvetica, sans-serif; font-weight:500; font-size:12pt; 
+	margin:0px; border:0px;
+	text-align:left;
+	}
+.studenthead {  
+	font-size:14pt;
+	}
+p.blank {  
+	margin-top:160px;
+	}
+p.signature {  
+	text-align:right; font-weight:300; margin-right:170px; font-size:10pt;
+	}
+h1  {
+	text-align:center; font-weight:600; font-size:16pt;	
+	}
+div {
+	display:block; border:solid 1px #000000; margin-top:20px; padding:10px;
+	}
+div#tutor {
+	display:relative; position:relative; border:solid 1px #000000; margin:10px; height:200px;
+	}	
+div#head {
+	display:relative; position:relative; border:solid 1px #000000; margin:10px; height:50px;
+	}	
+div#year {
+	display:relative; position:relative; border:solid 1px #000000; margin:10px; height:200px;
+	}	
+div.subcomment {
+	display:block; border:solid 1px #000000; margin:10px; height:300px;
+	}	
+div.comment-text {
+    border:0;
+	font-weight:600; margin-left:20px; padding:10px;
+	}	
+div#xmlStudent {
+	display:relative; border:solid 0px #000000; margin:10px; height:50px;
+	}	
+
+table {
+	border:solid 0pt #000000; padding:2pt;
+	text-align:left; font-weight:300; margin:10px; 
+	} 
+
+div.spacer {
+	border:solid 0pt #000000; clear:both; 
+	} 
+
+div.criteria {
+	border:solid 0pt #000000; padding 2pt; margin-left:50px;
+	} 
+div.criteria table {
+	border:solid 2px #000000; padding 2pt;  
+	} 
+div.criteria td {
+	border:solid 2px #000000; padding 2pt; width:100px; text-align:center;  
+	} 
+
+div.grades {
+	width:40%; 
+	} 
+div#gradesleft {
+	float:left; margin-left:30px;
+	} 
+div#gradesright {
+	float:right; margin-right:30px;
+	} 
+div.grades td {
+	border:solid 2px #000000; padding 2pt; width:100px; text-align:center;  
+	} 
+
+th 	{
+	text-align:center; font-weight:400; font-size:11pt;
+	}
+td 	{
+	text-align:left; font-weight:600; 
+	}
+td#form {
+	float:right; margin-left:60px;
+	} 
+
+label, legend, caption {
+	text-align:left; font-weight:300; padding:4px; font-size:11pt; 
+	}
+
+hr { page-break-after: always }

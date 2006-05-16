@@ -1,0 +1,15 @@
+.registercolor {
+	background-color:#444444; color:#000000;
+	}	
+div#bookbox{
+	border-color:#44aa66;
+	}
+.registercolor button, .registercolor legend, .registercolor caption {
+	background-color:#44aa66; color:#ffffff;
+	}	
+.registercolor fieldset {
+	background-color:#cccccc; border-color:#44aa66
+	} 
+.registercolor div {
+	border-color:#44aa66;
+	}

@@ -1,0 +1,100 @@
+/* CSS Document containing styles specific for pages prepared for printing */
+
+body {
+	page:normal;
+  	font-family:Arial, helvetica, sans-serif; font-weight:300; font-size:10pt; 
+	margin:0px; border:0px;
+	text-align:left;
+	}
+div.studenthead {  
+    float:right; padding-right:80px;
+	border:0;
+	}
+h1, h2  {
+	text-align:left; font-weight:600; font-size:12pt;	
+	}
+div {
+	border:0; margin:20px 5px 5px 5px; padding:10px;
+	}
+div#logo {
+	float:left; border:solid 0px #000000;  margin:2px 2px 2px 60px; padding:2px;
+	}
+div#xmlStudent {
+	border:solid 0px #000000; margin:10px; height:10px;
+	}	
+div.spacer {
+	border:solid 0px #000000; clear:both; 
+	} 
+p.signature { 
+	float:right; padding:10px 30% 0 0; margin:0; border:0;
+	}
+div.comment { 
+	border:solid 1px #000000; 
+	position:relative; margin:5px; height:100px; width:100%; padding:0px;
+	}
+div.tinycomment { 
+	border:solid 1px #000000; 
+	position:relative; margin:5px; height:50px; width:100%; padding:0px;
+	}
+table {
+	border:0; padding:0;
+	text-align:left; font-weight:300; margin:5px; 
+	} 
+table.grades {
+	width:100%; 
+	border:1;
+	} 
+table.grades td {
+	border:solid 1pt #000000; 
+	padding:0.2em; text-align:center;  
+	font-weight:600; 
+	}
+table.descriptor {
+	width:30%; 
+	border:0;
+	float:left;
+    font-size:8pt;
+	padding:0 0 0 30px; margin:0;
+	} 
+table.descriptor td {
+	font-weight:300; 
+	}
+table#studentdata td {
+	font-size:11pt; 
+	}
+table#left {
+    margin-left:15%;
+	} 
+table#gradesleft {
+	float:left; margin-left:10px;
+	} 
+table#gradesright {
+	float:right; margin-right:10px;
+	} 
+table.grades th {
+	border:solid 1pt #000000;
+	text-align:center;
+	font-weight:300;
+	font-size:10pt;
+	padding:0.3em 0.5em;
+	} 
+td 	{
+	font-weight:600; 
+	}
+
+th 	{
+	text-align:center; font-weight:600; 
+	}
+label, legend, caption {
+	text-align:left; padding:2px; font-weight:300;
+	font-size:10pt;
+	}
+label { 
+    margin:0 1em;
+	}
+hr { 
+	color:#ffffff;
+	page-break-after: always; 
+	height:0;
+	width:0%
+	}

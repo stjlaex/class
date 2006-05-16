@@ -1,0 +1,13 @@
+.infocolor fieldset, .infocolor div.topform, .infocolor table.listmenu {
+	border-color:#aaaa44;
+    color:#000000;
+	}
+div#bookbox{
+	border-color:#aaaa44;
+	}
+.infocolor button {
+	background-color:#aaaa44;
+	}
+.infocolor legend, .infocolor caption {
+    border-color:#aaaa44;
+	}

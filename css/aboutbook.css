@@ -1,0 +1,26 @@
+.aboutcolor fieldset, .aboutcolor div.topform, .aboutcolor table.listmenu {
+	border-color:#ee9900;
+	background-color:#444444; color:#000000;
+	}
+div#bookbox{
+	border-color:#ee9900;
+	}
+.aboutcolor button {
+	background-color:#444444;
+	}
+.aboutcolor legend, .aboutcolor caption {
+    border-color:#ee9900;
+	}
+
+.aboutcolor h2 {
+	color:#000000;
+    text-align:center;
+	}
+.aboutcolor p {
+	color:#000000;
+    text-align:center;
+	}
+#splash { 
+    margin-top:4.5%;
+    background-color:#ffffee;
+	}

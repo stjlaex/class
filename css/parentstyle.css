@@ -1,0 +1,278 @@
+/***************************************************************************/
+/*										parentstyle.css*/
+/* All the styles needed by the top-level parent page*/
+/***************************************************************************/
+
+
+body {
+  	font-family:Verdana, Arial, helvetica, sans-serif; font-weight:500; font-size:medium;
+	background-color:ivory; color:#ffffff; margin:0; border:0;
+	}
+a {
+	font-size:small; color:#000000; font-weight:600;
+    text-decoration:none;
+	}
+
+/***************************************************************************/
+/* the two possible main displays one after login and one before*/
+.bookframe {
+	position:absolute; left:16%; top:5%; width:84%; height:94.7%;	
+	margin:0; border:0;
+	}
+.coverframe {
+	position:absolute; left:16%; top:0%; width:84%; height:99.5%;
+	margin:1px 0 1px 0; border:0;
+	}
+/***************************************************************************/
+/* controls the book tabs along the top*/
+.booktabs {
+	float:right;
+    width:100%;
+    background-color:ivory;
+    font-size:90%;
+    line-height:normal;
+	}
+.booktabs ul {
+    margin:-1.0em 0em 0 0;
+    padding:0;
+    list-style:none;
+    }
+.booktabs li {
+    float:right;
+    margin:0;
+    padding:0;
+    }
+.booktabs li p {
+    display:block;
+    padding:4px 12px 50px 8px;
+	font-weight:900;
+    color:#765;
+	background-color:#cccccc;
+	border:1px solid ivory;
+	-moz-border-radius:0 18% 0 0;
+	cursor:pointer;
+    }
+/*give colour to tab in focus and to current tab*/
+.booktabs p.eportfolio:hover, #currentbook.eportfolio {
+    background-color:#1181AA;
+    }
+.booktabs p.lms:hover, #currentbook.lms {
+    background-color:#ffcc44;
+    }
+.booktabs p.webmail:hover, #currentbook.webmail {
+    background-color:#000066;
+    }
+.booktabs p.admin:hover, #currentbook.admin {
+    background-color:#aa4444;
+    }
+.booktabs p.infobook:hover, #currentbook.infobook {
+    background-color:#aaaa44;
+    }
+.booktabs p.aboutbook:hover,#currentbook.aboutbook {
+    background-color:#ee9900;
+    }
+.booktabs p.register:hover, #currentbook.register {
+    background-color:#44aa66;
+    }
+.booktabs p.markbook:hover, #currentbook.markbook {
+    background-color:#aa66aa;
+    }
+.booktabs p.reportbook:hover, #currentbook.reportbook {
+    background-color:#44aaaa;
+    }
+.booktabs p:hover, .booktabs #currentbook {
+    color:#ffffff;
+    }
+
+/*the special case logbook in top left corner*/
+#logbooktab {
+    float:left;
+    width:18%;
+	}
+.booktabs p.logbook:hover {
+	background-color:#ee9900;
+    color:#ffffff;
+	}
+.booktabs p.logbook {
+    color:#ee9900;
+	background-color:#444444;
+	border:1px solid ivory;
+	border-left:0;
+	-moz-border-radius:20% 0 0 0;
+    padding:4px 12px 40px 14px;
+    }
+/*give current book coloured stripe to the logbook*/
+div#logbookstripe.eportfolio {
+    border-color:#1181AA;
+    }
+div#logbookstripe.lms {
+    border-color:#ffcc44;
+    }
+div#logbookstripe.webmail {
+    border-color:#000066;
+    }
+div#logbookstripe.admin {
+    border-color:#aa4444;
+    }
+div#logbookstripe.infobook {
+    border-color:#aaaa44;
+    }
+div#logbookstripe.aboutbook {
+    border-color:#ee9900;
+    }
+div#logbookstripe.register {
+    border-color:#44aa66;
+    }
+div#logbookstripe.markbook {
+    border-color:#aa66aa;
+    }
+div#logbookstripe.reportbook {
+    border-color:#44aaaa;
+    }
+
+/***************************************************************************/
+/* stuff for the bookoptions in the sidebar*/
+label, legend {
+	text-align:left; font-size:x-small; font-weight:600;
+	}
+fieldset {
+	padding:1%;
+	}
+select, input, button {
+	margin-bottom:10px;
+	}
+select, option, input {
+	width:95%;	font-size:x-small;
+    background-color:#ffffff;
+	}
+input:focus, select:focus {
+	border:2px solid #ee9900;
+	}
+button {
+	width:100%; font-weight:600;
+	cursor:pointer;
+	}
+.bookoptions {
+	position:absolute; left:0.75%; top:18%; width:13.75%;	
+	}
+.bookoptions label {
+    color:#000000;
+	}
+.bookoptions form button { 
+	width:90%;
+	font-weight:300;
+	margin:0 0 5% 5%;
+	}
+.bookoptions button[value="Reset"] {
+	background-color:#666666; 
+	color:#ffffee;
+	}
+.bookoptions p { 
+	text-align:left; font-size:x-small; font-weight:200;
+	}
+.bookoptions fieldset, .bookoptions select { 
+	padding:0; margin:0; width:100%;
+	}
+.formimages {
+	padding:5px; width:10px; height:10px; border-style:none;	
+	}
+
+.logbook {background-color:#999999; border-color:#666666;}
+.logbook legend {background-color:#666666; color:#ffffff;}
+
+.aboutbook {background-color:#cccccc; border-color:#ee9900;}
+.aboutbook legend, .aboutbook button {background-color:#ee9900; color:#ffffff;}	
+
+.admin {background-color:#cccccc; border-color:#aa4444;}
+.admin legend, .admin button {background-color:#aa4444; color:#ffffff;}	
+
+.infobook {background-color:#cccccc; border-color:#aaaa44;}
+.infobook legend, .infobook button {background-color:#aaaa44; color:#ffffff;}	
+.infobook input, .infobook select { 
+	padding:0; width:92%;
+	margin:0 0 5% 2%;
+	}
+
+.markbook {background-color:#cccccc; border-color:#aa66aa;}
+.markbook legend, .markbook button {color:#ffffff; background-color:#aa66aa;}
+
+.reportbook {background-color:#cccccc; border-color:#44aaaa;}
+.reportbook legend, .reportbook button {background-color:#44aaaa; color:#ffffff;}	
+
+.register {background-color:#cccccc; border-color:#44aa66;}
+.register legend, .register button {background-color:#44aa66; color:#ffffff;}	
+
+.eportfolio {background-color:#cccccc; border-color:#1181AA;}
+.eportfolio legend, .eportfolio button {background-color:#1181AA; color:#1181AA;}	
+
+.lms {background-color:#cccccc; border-color:#ffcc44;}
+.lms legend, .lms button {background-color:#ffcc44; color:#ffcc44;}	
+
+.webmail {background-color:#cccccc; border-color:#000066;}
+.webmail legend, .webmail button {background-color:#000066; color:#000066;}	
+
+/***************************************************************************/
+/* the rest of the sidebar - which comes under the logbook*/
+#sitelogo {
+	position:absolute; left:18px; bottom:10px;
+	background-color:#444444;
+    padding:2px;
+    z-index:5;
+	}
+div#logbook {
+	position:absolute; left:0%; top:5%; width:19%; height:94.8%; 
+    margin:0;
+    background-color:#444444;
+	-moz-border-radius:0 0 0 18%;
+	}
+div#logbookstripe {
+	position:absolute; left:0%; top:0%; width:100%; height:3px; 
+    padding:0;
+    background-color:#444444;
+    border-top:3px solid;
+    z-index:1000;
+	}
+div#loginworking {
+	position:absolute; left:39.5%; top:0%; width:48%; height:4.5%;
+    padding:10px 0 1px 10px;
+    z-index:100;
+    border-left:2px solid #ffffff;
+	background-color:#eeeeee;
+    margin:0;
+	}
+div#loginlang {
+	position:absolute; left:0%; top:0%; width:65%;
+    padding:1.5% 0 0 6%;
+    z-index:100;
+	}
+#loginlabel {
+    position:absolute; top:1px; left:7.5%;
+    margin:0 5% 0 0;
+    padding:0.5% 15px 10% 10px;
+	color:#000000;
+	background-color:#eeeeee;
+	font-weight:600;
+    border-left:2px solid #ffffff;
+	}
+#login {
+	background-color:#666666; color:#ee9900;
+	margin:5%;
+    width:100%;
+    border-left:2px solid #ffffff;
+	}
+div#sidebuttons {
+	position:absolute; left:6%; top:0; width:36%; height:4.5%;
+    padding:10px 0 0 0;
+    z-index:100;
+	background-color:#444444;
+    margin:0;
+	}
+#sidebuttons img { 
+	padding:0; margin:0; border:0; 
+	width:20px; height:20px;
+	}
+#sidebuttons button { 
+	padding:0; margin:0; border:0; 
+	width:22px; height:22px;
+    background-color:#444444;
+	}

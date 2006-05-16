@@ -1,0 +1,89 @@
+.markcolor fieldset, .markcolor div.topform, .markcolor table.listmenu {
+	border-color:#aa66aa;
+	color:#000000;
+	}
+div#bookbox{
+	border-color:#aa66aa;
+	}
+.markcolor button {
+	background-color:#aa66aa;
+	}
+.markcolor legend, .markcolor caption {
+    border-color:#aa66aa;
+	}
+.markcolor label {
+	color:#000000;
+	}
+
+
+.markcolor tr.rowplus td, .markcolor tr.rowminus td {
+    color:#666666;
+    border-top:0; border-bottom:0;
+	}
+
+table#marktable {
+	border:0; padding:0; margin:0;
+	color:black;
+	background-color:#444444;
+	}
+#marktable input {
+	text-align:center;
+	}
+#marktable input[type="checkbox"] {
+	width:2em;
+	}
+#marktable td {
+	border-top:1px solid #cccccc; border-bottom:1px solid #cccccc;
+	text-align:left;
+	}
+#marktable td.grade{
+	text-align:center; 
+	border-left:1px solid #cccccc; 
+	border-right:1px solid #cccccc;
+	display:none;
+	}
+#marktable th {
+	border-left:2px solid #999999;
+	border-right:2px solid #999999;
+	background-color:#ffffff;
+	text-align:center;
+	display:none;
+	}
+#marktable tr:hover { 
+	background-color:#fcd39a;
+	}
+#marktable input[type="checkbox"] {
+	clear:none; float:none; 
+	margin:0 0 0.2em 0.4em; padding:0px;
+	}
+#marktable .component { 
+	color:#6666ff;
+	background-color:#ffffff;
+	font-weight:600;
+	}
+#marktable p {
+	margin:0; padding:0;
+	}
+
+table#editscores {
+	border:0; padding:0; margin:0;
+	color:black;
+	background-color:#444444;
+	}
+#editscores input {
+	font-size:x-small;
+	margin:0; padding:0;
+	}
+#editscores select {
+	font-size:x-small;
+	margin:0; padding:0;
+	}
+#editscores td {
+	font-size:x-small;
+	margin:0;
+	}
+#editscores th {
+	font-size:medium;
+	font-weight:600;
+	}
+

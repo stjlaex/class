@@ -1,0 +1,379 @@
+/**							viewstyle.css
+*
+*		All css common to the books. Principly deals with positioning
+*   and layout. The color schemes are defined on a book by book basis
+*   elsewhere.
+*/
+body {
+  	font-family:Verdana, Arial, helvetica, sans-serif; font-weight:500; font-size:medium; 
+	background-color:#444444; color:#ffffff; margin:0; border:0;
+	text-align:left;
+	}
+a {
+	font-size:small; color:#000000; font-weight:600;
+	text-decoration:none;
+	}
+input, textarea, select {
+	font-size:x-small; margin-bottom:10px;
+	text-align:left;
+	cursor:text;
+	float:left;
+    width:auto;
+	border:2px solid #eeeeee;
+	}
+input:focus, textarea:focus, select:focus {
+	border-color:#ff9900;
+	}
+input[type="checkbox"] {
+	width:1em;
+	}
+input[type="radio"] {
+	width:1em;
+	}
+button {
+	width:auto; margin-top:2%; font-weight:300; color:#ffffff;
+	cursor:pointer;
+	}
+table {
+    width:100%;
+	margin:0; border:0; padding:0;
+	empty-cells:hide; border-collapse:collapse;
+	background-color:#cccccc; color:#000000;
+	}
+th 	{
+	text-align:left; font-weight:500; border-style:none; border-width:0px;
+	}
+td 	{
+	text-align:left; border-style:none; border-width:0px;
+	}
+legend, caption  {
+	text-align:left; font-size:x-small; font-weight:300;
+    border:2px solid;
+	background-color:#ffffff;
+    color:#000000;
+	}
+
+/*generic form stuff, including validation*/
+label {
+	clear:both;
+	float:left;
+	width:auto; 
+	text-align:right; 
+	font-size:x-small; font-weight:400;
+	margin-left:5px;
+	margin-right:5px;
+    color:#666666;
+	}
+label[for="Day"], label[for="Month"], label[for="Year"] {
+	clear:none; 
+	}
+label+input, label+select[size="1"], label+textarea {
+	margin-bottom:5px; margin-left:5px;
+	}
+label>input, label>select[size="1"], label>textarea {
+	margin-bottom:5px; margin-left:5px;
+	}
+label>select[multiple="multiple"] {
+	clear:left;
+	margin-bottom:5px; margin-left:5px;
+	}
+label+select[multiple="multiple"] {
+	clear:left;
+	margin-bottom:5px; margin-left:5px;
+	}
+form img {
+	float:left;	
+	width:12px; height:12px; border-style:none;	
+	background-repeat: no-repeat;
+	}
+form img.required { 
+	background-image: url("../images/orangestar.png");
+    padding:1%;
+	}
+form img.caution { 
+	background-image: url("../images/redcross.png");
+    padding:1%;
+	}
+form img.completed { 
+	background-image: url("../images/greentick.png");
+    padding:1%;
+	}
+form img.caution+input {
+	background-color:yellow;
+    padding:1%;
+	}
+form img.calendar { 
+	background-image: url("../images/calendar.png"); 
+    width:20px; height:20px; border:0;
+	cursor:pointer;
+	background-repeat:no-repeat;
+	}
+
+/**/
+fieldset {
+    border-style:none;
+    border-top:2px solid;
+	background-color:#cccccc;
+	}
+div {
+	overflow:hidden; 
+	}
+div.hidden {  
+	display:none;
+	border:0;
+	}
+/*the two possible econtainer divs for each book, one after login and one for before*/
+div#bookbox {
+	position:absolute; left:0%; top:0%; width:100%; height:99%; 
+	border-top:3px solid;
+	border-bottom:none;
+	}
+div#coverbox {
+	position:absolute; left:0%; top:1px; width:100%; height:99.5%; 
+	}
+.externalbookframe {
+	position:absolute; left:4%; top:0%; width:96%; height:100%;	
+	margin:0; border:0;
+	}
+/* only used to place a background image*/
+div.background{
+	position:absolute;
+	width:100%;
+	height:100%;
+    z-index:-10;
+	}
+/*this is main display div within each book*/
+div.content {
+	position:relative; top:7%; height:93%; 
+	font-size:small;
+	overflow:auto;
+	border:0;
+	background-color:#444444;
+	}
+.content input[type="checkbox"] {
+	width:1em;
+	}
+div.content div {
+	border:0; margin:0;
+	}
+div.content fieldset {
+    padding:1%; margin:0;
+	background-color:#cccccc;
+	}
+div.content fieldset div {
+	background-color:#cccccc;
+	}
+/*a fixed height div, always at the top of the page before the content*/
+div.topform {
+	overflow:auto;
+	position:relative; 
+	top:7%; height:30%; width:92%;
+	border-top:2px solid;
+	padding:1%;
+	margin:0 4% 1% 4%;
+	background-color:#cccccc;
+	}
+div.topform+div.content {
+	position:relative; height:56%;
+	}
+/*classes to position fieldsets and divs in a two-column layout*/
+div.content fieldset.left, div.topform fieldset.left {
+	float:left;
+	width:45%;
+	clear:left;
+	margin:0 0 2% 2%;
+	}
+div.content fieldset.right, div.topform fieldset.right {
+	float:right;
+	width:45%;
+	clear:right;
+	margin:0% 2% 2% 0;
+	}
+div.content div.left, div.topform div.left {
+	float:left;
+	width:47%;
+	clear:left;
+	margin:0 0 2% 2%;
+	}
+div.content div.right, div.topform div.right {
+	float:right;
+	width:47%;
+	clear:right;
+	margin:0 2% 2% 0;
+	}
+div.content .center, div.topform .center{
+    margin:0 4% 2% 4%;
+	width:92%;
+	clear:both;
+	overflow:auto; 
+	}
+
+
+/*used (but rarely) to describe page content in the space to the left of the top buttonmenu*/
+div#heading {
+	position:absolute; top:1%; left:10%; width:40%;
+	border:0; margin-top:2px;
+    padding-left:2%;
+	background-color:#ffffff;
+    color:#000000;
+    font-weight:600;
+	}
+
+/*the set of action buttons at the very top of the book*/
+div.buttonmenu {
+	border:0; margin-top:0.5%;
+	overflow:hidden;
+	position:absolute; top:0%; right:10%;
+	background-color:#444444;
+	}
+.buttonmenu button {
+	margin:1px 2px; border:2px; border-style:outset; padding:0;
+	font-size:medium; font-weight:300; color:#ffeeff;
+	cursor:pointer;
+	}
+.buttonmenu button:hover, .buttonmenu button:focus {
+	font-weight:900;
+	}
+.buttonmenu button[value="Submit"], .buttonmenu button[value="Enter"] {
+	background-color:#444444; 
+	color:#ff9900;
+	}
+.buttonmenu button[value="Cancel"], .buttonmenu button.cancel {
+	background-color:#666666; 
+	color:#ffffee;
+	}
+.buttonmenu button[value="Back"] {
+	background-color:#666666; 
+	color:#ffffee;
+	}
+.buttonmenu button[value="Reset"] {
+	background-color:#666666; 
+	color:#ffffee;
+	}
+button[value="Okay"] {
+	background-color:#666666; 
+	color:#ffffee;
+	width:5em;
+	}
+
+/*the micro-action buttons contianed inside content, usually for xmlHttprequests*/
+button.rowaction{
+	margin:1px 2px; border:1px; border-style:outset; padding:0;
+	font-weight:100; font-size:6pt; color:#ffeeff;
+	cursor:pointer;
+	float:right;
+	}
+button.rowaction img { 
+	float:left;
+	width:12px; height:12px; border-style:none;	
+	background-repeat:no-repeat;	
+	}
+button.rowaction:hover, button.rowaction:focus {
+	font-weight:600;
+	}
+img.clicktoedit { 
+	background-image:url("../images/editer.png");
+    padding:1px;
+	}
+img.clicktodelete { 
+	background-image:url("../images/redcross.png");
+    padding:1px;
+	}
+
+/*a generic content table, usually for selecting things from a list*/
+table.listmenu {
+	border-top:2px solid;
+	}
+.center .listmenu caption, .center .listmenu legend {
+	padding-left:5%; margin:0 70% 0 5%;
+	}
+.left .listmenu caption, .left .listmenu legend {
+	padding-left:5%; margin:0 70% 0 5%;
+	}
+.right .listmenu caption, .right .listmenu legend {
+	padding-right:5%; margin:0 5% 0 70%;
+	}
+.listmenu td label {
+    color:#666666;
+	}
+.listmenu td {
+	border-top:1px solid;
+	border-color:#cccccc;
+	background-color:#ffffee;
+    padding-left:1%;
+	}
+.listmenu .special {
+	font-weight:600; font-style:italic;
+	}
+.listmenu .vspecial {
+    background-color:#ffff99;
+	font-weight:600; font-style:italic;
+	}
+.listmenu th {
+	font-weight:600; font-size:medium;
+	border-left:2px solid #999999;
+	background-color:#ffffff;
+	}
+.listmenu th:first-child {
+	border-left:0;
+	}
+.listmenu td.E {
+	background-color:#ffffff;
+	}
+.listmenu tr:hover {
+	background-color:#fcd39a;
+	}
+.listmenu tr:hover td { 
+	background-color:#fcd39a;
+	}
+
+
+/*extra functionality for a listmenu wich lets rows be expanded and collapsed*/
+tr.rowplus th {
+	background-image:url("../images/orangeplus.png");
+	background-repeat:no-repeat;
+	background-position:center;
+	cursor:pointer;
+	background-color:#888888;
+	}
+tr.rowminus th {
+	background-image:url("../images/orangeminus.png");
+	background-repeat:no-repeat;
+	background-position:center;
+	cursor:pointer;
+	background-color:#eeeeee;
+	}
+tr.rowplus {
+	cursor:pointer;
+	}
+tr.rowminus {
+	cursor:pointer;
+	}
+tr.hidden { 
+	display:none;
+	}
+tr.revealed td { 
+	background-color:#999999;
+	}
+
+/*some general colors used across all books*/
+.negative {
+	background-color:#ffffff; 
+	color:red;
+	}
+.positive {
+	background-color:#ffffff; 
+	color:green;
+	}
+p.warn {
+	color:#000000; border: 2px solid #ff9900; background-color:#eeeeee;
+	padding:0.5em;
+	}
+p.success {
+	color:#000000; border: 2px solid #666666; background-color:#ffffff;
+	padding:0.5em;
+	}
+.infoborder {
+	border:2px solid #999900;
+	}
+

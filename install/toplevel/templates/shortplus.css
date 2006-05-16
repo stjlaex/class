@@ -1,0 +1,113 @@
+@page {
+    size: 209mm 296mm;
+    margin: 20mm;
+    padding: 5mm 0;
+    border-top: thin solid black;
+    border-bottom: thin solid black;
+}
+
+/*********************************************************/
+body {
+  	font-family:Arial, helvetica, sans-serif; font-weight:300; font-size:10pt; 
+	margin:0; border:0; padding:0;
+	text-align:left;
+	}
+div.studenthead {  
+    float:right; padding-right:80px;
+	border:0;
+	}
+h1, h2  {
+	text-align:left; font-weight:600; font-size:12pt;	
+	}
+div {
+	border:solid 1px #000000; margin:20px 5px 5px 5px; padding:10px;
+	}
+div#footer {
+	position:relative; margin:5px; height:100px; padding:0px;
+	}	
+div#logo {
+	float:left; border:solid 0px #000000;  margin:2px 2px 2px 60px; padding:2px;
+	}
+div#xmlStudent {
+	border:solid 0px #000000; margin:10px; height:10px;
+	}	
+div.spacer {
+	border:solid 0px #000000; clear:both; 
+	} 
+div.signature { 
+	float:left; padding:10px 30% 0 0; margin:0; border:0;
+	}
+div.comment { 
+	float:left; padding:0; margin:2px 0; border:0;
+	}
+table {
+	border:0; padding:0;
+	text-align:left; font-weight:300; margin:5px; 
+	} 
+table.grades td {
+	border:solid 1pt #000000; 
+	padding:0.2em; text-align:center;  
+	font-weight:600; 
+	}
+table.grades td.subject-comment {
+	border:solid 1pt #000000; padding:4px 20px; text-align:left;  
+	font-weight:300;
+	font-size:8pt;
+	margin-left:5px;
+	}
+table.descriptor {
+	width:30%; 
+	border:0;
+	float:left;
+    font-size:8pt;
+	padding:0 0 0 30px; margin:0;
+	} 
+table.descriptor td {
+	font-weight:300; 
+	}
+table#studentdata td {
+	font-size:11pt; 
+	}
+table#left {
+    margin-left:15%;
+	} 
+table#gradesleft {
+	width:45%; 
+	border:0;
+	float:left; margin-left:10px;
+	} 
+table#gradesright {
+	width:45%; 
+	border:0;
+	float:right; margin-right:10px;
+	} 
+table#fullwidth {
+	float:right; margin-right:10px;
+	} 
+table.grades th {
+	border:solid 1pt #000000;
+	text-align:center;
+	font-weight:300;
+	font-size:10pt;
+	padding:0.3em 0.5em;
+	} 
+td 	{
+	font-weight:600; 
+	}
+
+th 	{
+	text-align:center; font-weight:600; 
+	}
+label, legend, caption {
+	text-align:left; padding:2px; font-weight:300;
+	font-size:10pt;
+	}
+label { 
+    margin:0 1em;
+	}
+hr { 
+	color:#ffffff;
+	page-break-after: always; 
+	height:0;
+	width:0%;
+	}
