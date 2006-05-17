@@ -80,7 +80,7 @@
 		update_user_language(current_language());
 ?>
 		<script>parent.logInSuccess();</script>
-		<script>setTimeout("parent.viewBook('<?php print $firstbookpref; ?>');",4000);</script>
+		<script>setTimeout("parent.viewBook('<?php print $firstbookpref; ?>');",5000);</script>
 <?php
 		}
 include('scripts/end_options.php');
