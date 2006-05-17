@@ -46,7 +46,7 @@ function openPrintReport(contentId, xsltName){
 		printWindow.document.writeln("<head>");
 		printWindow.document.writeln("<link rel='stylesheet' type='text/css' href='../templates/"+xsltName+".css' media='all' title='ReportBook Output' />");	
 		printWindow.document.writeln("<link rel='stylesheet' type='text/xsl' href='../templates/"+xsltName+".xsl' media='all' title='ReportBook Output' />");	
-		printWindow.document.writeln("<script language='JavaScript' type='text/javascript' src='javascripts/printing.js'></script>");
+		printWindow.document.writeln("<script language='JavaScript' type='text/javascript' src='js/printing.js'></script>");
 		printWindow.document.writeln("<meta http-equiv='pragma' content='no-cache'/>");
 		printWindow.document.writeln("<meta http-equiv='Expires' content='0'/>");
 		printWindow.document.writeln("</head>");
