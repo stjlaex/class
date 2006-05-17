@@ -7,7 +7,7 @@
 
 <xsl:template match='text()' />
 
-<xsl:key name='catname' match='cattable/catnames' use='.'/>
+<xsl:key name='catname' match='comments/cattable/catnames' use='.'/>
 <xsl:variable name="student" select="//student"/>
 
 <xsl:template match="/">
@@ -53,7 +53,7 @@
 
 	<div class='spacer'></div>
 
- 	<xsl:variable name="catname" select="cattable/catnames"/>
+ 	<xsl:variable name="catname" select="comments/cattable/catnames"/>
  	<xsl:variable name="comments" select="comments"/>
 
 	<div>
