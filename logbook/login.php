@@ -35,8 +35,21 @@ else{print_string('loginaside');}
 </div>
 
 <div id="coverbox" class="logincolor">
-<form name="formtoprocess" id="formtoprocess" method="post" action="logbook/login_action.php">
 
+<?php 
+if($CFG->sitestatus=='down'){
+?>
+<fieldset id="loginbox">
+<div class="center">
+<?php print_string('siteisdown');?>
+</div>
+</fieldset>
+<?php
+	}
+else{
+?>
+
+<form name="formtoprocess" id="formtoprocess" method="post" action="logbook/login_action.php">
 <fieldset id="loginbox">
 <legend><?php print_string('classarea');?></legend>
 
@@ -51,7 +64,9 @@ else{print_string('loginaside');}
 </tr>
 
 <tr>
-<td><label for="Password"><?php print_string('password');?></label><td>
+<td>
+<label for="Password"><?php print_string('password');?></label>
+<td>
 <td><input type="password" id="Password" name="password" class="required" tabindex="2" 
 	maxlength="20" pattern="truealphanumeric" 
 		onkeypress="capsCheck(arguments[0]);" >
@@ -66,8 +81,12 @@ else{print_string('loginaside');}
 
 </div>
 </fieldset>
-
 </form>
+
+<?php 
+		  }
+?>
+
 </div>
 
 <script>
