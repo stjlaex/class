@@ -5,9 +5,9 @@ $CFG->sitename='ClaSS Demo';
 $CFG->siteaddress='classforschools.com';
 /*the web-site's path*/
 $CFG->sitepath='/demo-site';
-/*flag 'up' or 'down' to prevent any user logins except administrator*/
+/*flag 'up' or 'down' to prevent any user logins*/
 $CFG->sitestatus='up';
-/*the name of the top-level site directory*/
+/*the path to the top-level site directory*/
 $CFG->installpath='/var/www/html/demo-site';
 /*almost always just class*/
 $CFG->applicationdirectory='class';
@@ -26,12 +26,16 @@ $CFG->support='laex.org';
 $CFG->contact='stj@laex.org';
 /*default site language*/
 $CFG->sitelang='en';
-/*details of the school's eportfolio site*/
-$CFG->eportfoliosite='http://classforschools.com/elggforschools';
+/*optional details of the school's eportfolio site*/
+$CFG->eportfoliosite='';
 $CFG->eportfoliotabname='Elgg';
 $CFG->eportfolioshare='secret';
-/*details of the school's lms site*/
-$CFG->lmssite='http://classforschools.com/moodle';
+$CFG->eportfolio_db='classelgg';
+/*optional details of the school's lms site*/
+$CFG->lmssite='';
 $CFG->lmstabname='Moodle';
 $CFG->lmsshare='secret';
+$CFG->lms_db='classmoodle';
+/*optional details of the statement bank for writing report comments*/
+$CFG->statementbank_db='';
 ?>

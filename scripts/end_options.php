@@ -1,9 +1,11 @@
 <?php    
-/*							end_options.php*/	
-
+/**							end_options.php
+ */
 ?>
 <script>parent.loadBookOptions("<?php print $book;?>")</script>
-<div id="helpcontent" class="hidden"><?php print $book.' current='.$current.' - action='.$action.' - cancel='.$cancel;?></div>
+<div id="helpcontent" class="hidden">
+<?php print $book.' current='.$current.' - action='.$action.' -	cancel='.$cancel;?>
+</div>
 <?php
 if($current!=''){
 	if($book=='markbook'){

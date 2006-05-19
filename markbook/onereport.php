@@ -1,9 +1,9 @@
 <?php
-/**			   								onereport.php
+/**	   	   								onereport.php
  */
-		/*this is the xml-ready array*/
 		$inc=0;
 		$Report=array();
+		/*this is the xml-ready array*/
 		$Report['Subject']=array('id'=>$bid, 'value'=>$subjectname);
 		if($pid!=''){$Report['Component']=array('id'=>$pid, 'value'=>$componentname);}
 ?>
@@ -87,7 +87,12 @@
 					id="<?php print $sid.'-'.$entryn.'-'.$rown++;?>">
 	  <th>&nbsp</th>
 	  <td> Teacher Comment:</td>
-		   <td><?php print $Comment['Teacher']['value'];?></td>
+	  <td><?php print $Comment['Teacher']['value'];?></td>
+	  <td>			  
+		<img class="clicktoedit" name="Write"  
+		  onClick="clickToWriteComment(<?php print $sid.','.$rid.',\''.$bid.'\',\''.$pid.'\',\''.$entryn.'\'';?>);" 
+		  title="<?php print_string('clicktowritecomment');?>" />
+	  </td>
 	  <input type="hidden" name="sid<?php print $sid.':'.$inc++;?>" 
 		value="<?php print $inmust;?>" />
 	</tr>
@@ -117,10 +122,11 @@
 		if($report['addcomment']=='yes'){
 			if($report['commentlength']=='0'){$commentlength='';}
 		    else{$commentlength=' maxlength="'.$report['commentlength'].'"';}
-			print '<tr class="hidden"
-		   	id="'.$sid.'-'.$entryn.'-'.$rown++.'" ><th></th><td colspan="5"><textarea 
-			   '.$commentlength.' rows="2" cols="80" 
-				tabindex="'.$tab.'" name="sid'.$sid.':'.$inc++.'" >';
+			print '<tr class="hidden" id="'.$sid.'-'.$entryn.'-'.$rown++.'" >';
+			print '<th></th><td colspan="5">';
+			print '<textarea '.$commentlength.' rows="2" cols="80" ';
+			print 'onClick="clickToWriteComment('.$sid.','.$rid.',\''.$bid.'\',\''.$pid.'\',\''.$entryn.'\');"'; 
+			print ' tabindex="'.$tab.'" name="sid'.$sid.':'.$inc++.'" >';
 			print $Comment['Text']['value'];
 			print '</textarea>';
 			print '</td></tr>';

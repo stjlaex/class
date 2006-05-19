@@ -1,6 +1,6 @@
 
 function openFileExport(){
-	printWindow = window.open('','','height=250,width=450,dependent,left=170');
+	printWindow=window.open('','','height=250,width=450,dependent');
 	printWindow.document.open();
 	printWindow.document.writeln("<html>");
 	printWindow.document.writeln("<head>");
@@ -39,7 +39,7 @@ function openPrintReport(contentId, xsltName){
 	if (document.getElementById(contentId)){
 		var content = document.getElementById(contentId).innerHTML;
 
-		printWindow = window.open('','','height=800,width=750,dependent,resizable,menubar,left=170,scrollbars');
+		printWindow = window.open('','','height=800,width=750,dependent,resizable,menubar,screenX=50,scrollbars');
 		printWindow.document.open();
 		printWindow.document.writeln("<html>");
 
@@ -70,7 +70,7 @@ function process(contentId, xsltName){
   		var myNode=document.getElementById(contentId);
   		var clonedNode=xmlRef.importNode(myNode, true);
 
-  		xmlRef.appendChild(clonedNode); 
+  		xmlRef.appendChild(clonedNode);
 
   		var myXMLHTTPRequest = new XMLHttpRequest();
   		myXMLHTTPRequest.open("GET", "../templates/"+xsltName+".xsl", false);
@@ -88,7 +88,7 @@ function process(contentId, xsltName){
 		document.getElementById(contentId).appendChild(fragment);
 		}
 	else{}
-	}	
+	}
 
 // turns xml into a single string
 function serializeXML (xmlDocument) {

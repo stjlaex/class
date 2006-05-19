@@ -1,13 +1,13 @@
 //------------------------------------------------------
 //opens the comment writer window
-function clickToWriteComment(sid,rid,bid,pid){
+function clickToWriteComment(sid,rid,bid,pid,entryn){
 	var commenturl;
-	commenturl="sid="+sid+"&rid="+rid+"&bid="+bid+"&pid="+pid+"";
+	commenturl="sid="+sid+"&rid="+rid+"&bid="+bid+"&pid="+pid+"&entryn="+entryn;
 	openCommentWriter(commenturl);
 	}
 
 function openCommentWriter(commenturl){
-	writerWindow=window.open('','','height=450,width=650,dependent,left=50');
+	writerWindow=window.open('','','height=650,width=650,screenX=50,dependent');
 	writerWindow.document.open();
 	writerWindow.document.writeln("<html>");
 	writerWindow.document.writeln("<head>");

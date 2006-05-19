@@ -91,6 +91,9 @@ $rtid=$tid;
 		<option <?php if($choice=='ldap_start.php'){print
 				'selected="selected" ';}?>value='ldap_start.php'>
 				<?php print_string('ldaptest');?></option>
+		<option <?php if($choice=='enrol_student.php'){print
+				'selected="selected" ';}?>value='enrol_student.php'>
+				<?php print_string('enrolstudents');?></option>
 		<option <?php if($choice=='demoiser.php'){print
 				'selected="selected" ';}?>value='demoiser.php'>
 				<?php print_string('demoiser');?></option>

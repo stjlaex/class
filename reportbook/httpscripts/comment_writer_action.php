@@ -61,9 +61,9 @@ elseif($sub=='Submit'){
 <meta name="copyright" content="Copyright 2002-2006 S T Johnson.  All trademarks acknowledged. All rights reserved" />
 <meta name="version" content='<?php print "$CFG->version"; ?>' />
 <meta name="licence" content="GNU General Public License version 2" />
-<link id="viewstyle" rel="stylesheet" type="text/css" href="../../stylesheets/viewstyle.css" />
-<link id="viewstyle" rel="stylesheet" type="text/css" href="../../stylesheets/commentwriter.css" />
-<script language="JavaScript" type="text/javascript" src="../../javascripts/formfunctions.js"></script>
+<link id="viewstyle" rel="stylesheet" type="text/css" href="../../css/viewstyle.css" />
+<link id="viewstyle" rel="stylesheet" type="text/css" href="../../css/commentwriter.css" />
+<script language="JavaScript" type="text/javascript" src="../../js/formfunctions.js"></script>
 </head>
 <body onload="setTimeout('window.close();', 2000);">
 	<div id="bookbox">

@@ -12,18 +12,25 @@ if(isset($_GET{'bid'})){$bid=$_GET{'bid'};}
 elseif(isset($_POST{'bid'})){$bid=$_POST{'bid'};}
 if(isset($_GET{'pid'})){$pid=$_GET{'pid'};}
 elseif(isset($_POST{'pid'})){$pid=$_POST{'pid'};}
+if(isset($_GET{'entryn'})){$entryn=$_GET{'entryn'};}
+elseif(isset($_POST{'entryn'})){$entryn=$_POST{'entryn'};}
 
 $reportdef=fetchReportDefinition($rid);
 $Student=fetchshortStudent($sid);
 $Report['Comments']=fetchReportEntry($reportdef, $sid, $bid, $pid);
-if(sizeof($Report['Comments']['Comment'])==0){
-		$Comment=array('Text'=>array('value'=>''),
+if(sizeof($Report['Comments']['Comment'])==0 or $entryn==sizeof($Report['Comments']['Comment'])){
+	$Comment=array('Text'=>array('value'=>''),
 					   'Teacher'=>array('value'=>'ADD NEW ENTRY'));
-		$inmust='yes';
-		}
-else{	
-	$Comment=$Report['Comments']['Comment'][0]; 
+	$inmust='yes';
+	}
+else{
+	$Comment=$Report['Comments']['Comment'][$entryn]; 
 	$inmust=$Comment['id_db'];
+	}
+
+$dbstat=connect_statementbank();
+if($dbstat!=''){
+	$StatementBank=fetchStatementBank($reportdef['report']['course_id'],$bid,$pid,$stage,$dbstat);
 	}
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -35,9 +42,10 @@ else{
 <meta name="copyright" content="Copyright 2002-2006 S T Johnson.  All trademarks acknowledged. All rights reserved" />
 <meta name="version" content='<?php print "$CFG->version"; ?>' />
 <meta name="licence" content="GNU General Public License version 2" />
-<link id="viewstyle" rel="stylesheet" type="text/css" href="../../stylesheets/viewstyle.css" />
-<link rel="stylesheet" type="text/css" href="../../stylesheets/commentwriter.css" />
-<script src="../../javascripts/formfunctions.js" type="text/javascript"></script>
+<link id="viewstyle" rel="stylesheet" type="text/css" href="../../css/viewstyle.css" />
+<link rel="stylesheet" type="text/css" href="../../css/commentwriter.css" />
+<script src="../../js/formfunctions.js" type="text/javascript"></script>
+<script src="../../js/statementbank.js" type="text/javascript"></script>
 <script src="../../lib/spell_checker/cpaint/cpaint2.inc.js" type="text/javascript"></script>
 <script src="../../lib/spell_checker/js/spell_checker.js" type="text/javascript"></script>
 </head>
@@ -57,15 +65,37 @@ else{
 		  <div class="center">
 			<textarea title="spellcheck" id="Comment" style="width:98%; height:180px;"
 			  accesskey="../../lib/spell_checker/spell_checker.php" 
-			  maxlength="1000" tabindex="0" 
-			  name="incom" ><?php print $Comment['Text']['value'];?></textarea>
+			  maxlength="1000" tabindex="0"  name="incom" ><?php print $Comment['Text']['value'];?></textarea>
+		  </div>
+<?php
+			if($dbstat!=''){
+?>
+		  <div class="center" id="statementbank">
+			<fieldset>
+				<table class="listmenu">
+					<tr>
+<?php
+				   while(list($index,$Area)=each($StatementBank['Area'])){
+					   print '<th>'.$Area['Name'].'</th>';
+					   }
+?>
+					</tr>
+				</table>
+			</fieldset>
 		  </div>
 
-		<input type="hidden" name="inmust" value="<?php print $inmust; ?>">
-		<input type="hidden" name="sid" value="<?php print $sid; ?>">
-		<input type="hidden" name="rid" value="<?php print $rid; ?>">
-	    <input type="hidden" name="bid" value="<?php print $bid; ?>">
-		<input type="hidden" name="pid" value="<?php print $pid; ?>">
+		<div class="center" id="xmlStatementBank" style="visibility:hidden;">
+			<?php xmlpreparer('StatementBank',$StatementBank);?>
+		</div>
+<?php
+				  }
+?>
+
+		<input type="hidden" name="inmust" value="<?php print $inmust;?>"/>
+		<input type="hidden" name="sid" value="<?php print $sid; ?>"/>
+		<input type="hidden" name="rid" value="<?php print $rid; ?>"/>
+	    <input type="hidden" name="bid" value="<?php print $bid; ?>"/>
+		<input type="hidden" name="pid" value="<?php print $pid; ?>"/>
 		</form>
 	  </div>
 	</div>
