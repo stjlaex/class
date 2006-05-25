@@ -27,9 +27,14 @@ function closeCommentWriter(commentId,text){
 	}
 
 function updateComment(commentId,text){
-//	alert(commentId,text);
-	document.getElementById('text'+commentId).value=text;
-	document.getElementById('icon'+commentId).setAttribute("class","vspecial");
+//	the id should refer to the containing html entity for the icon (probably a td)
+//  and the actual textarea for the text
+	if(document.getElementById('text'+commentId)){
+		document.getElementById('text'+commentId).value=text;
+		}
+	if(document.getElementById('icon'+commentId)){
+		document.getElementById('icon'+commentId).setAttribute("class","vspecial");
+		}
 	}
 
 //------------------------------------------------------

@@ -26,3 +26,6 @@ CREATE TABLE section (
 	);
 DROP table teacher;
 INSERT subject (id,name) VALUES ('G','General');
+INSERT categorydef (name,type,rating,subject_id,course_id) VALUES ('Form tutor','com','0','summary','%');
+INSERT categorydef (name,type,rating,subject_id,course_id) VALUES ('Year coordinator','com','1','summary','%');
+INSERT categorydef (name,type,rating,subject_id,course_id) VALUES ('Head of secondary','com','2','summary','%');

@@ -16,6 +16,11 @@ if(isset($_GET{'entryn'})){$entryn=$_GET{'entryn'};}
 elseif(isset($_POST{'entryn'})){$entryn=$_POST{'entryn'};}
 if(isset($_GET{'openid'})){$openid=$_GET{'openid'};}
 
+/*Needs to be generalized for rid not being a rid!!!!!
+if(){}
+else{
+*/
+
 $reportdef=fetchReportDefinition($rid);
 $Student=fetchshortStudent($sid);
 $Report['Comments']=fetchReportEntry($reportdef, $sid, $bid, $pid);
@@ -51,7 +56,7 @@ if($dbstat!=''){
 <script src="../../lib/spell_checker/cpaint/cpaint2.inc.js" type="text/javascript"></script>
 <script src="../../lib/spell_checker/js/spell_checker.js" type="text/javascript"></script>
 </head>
-<body>
+<body onload="loadRequired();">
 
 	<div id="bookbox">
 	  <?php three_buttonmenu(); ?>
@@ -68,7 +73,8 @@ if($dbstat!=''){
 		  <div class="center">
 			<textarea title="spellcheck" id="Comment" 
 			  accesskey="../../lib/spell_checker/spell_checker.php" 
-			  maxlength="1000" tabindex="0"  name="incom" ><?php print $Comment['Text']['value'];?></textarea>
+			  maxlength="1000" tabindex="0"  
+				name="incom" ><?php print $Comment['Text']['value'];?></textarea>
 		  </div>
 		<input type="hidden" name="inmust" value="<?php print $inmust;?>"/>
 		<input type="hidden" name="sid" value="<?php print $sid; ?>"/>

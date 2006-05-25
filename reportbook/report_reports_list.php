@@ -33,7 +33,9 @@ twoplusprint_buttonmenu();
 	$reports=array();
 	while(list($index,$rid)=each($rids)){
 		$d_report=mysql_query("SELECT * FROM report WHERE id='$rid'");
-		$reports[]=mysql_fetch_array($d_report,MYSQL_ASSOC);
+		$report=mysql_fetch_array($d_report,MYSQL_ASSOC);
+		$report['summaries']=(array)fetchReportSummaries($rid);
+		$reports[]=$report;
 		/*all of the marks associated with this report*/
 		if(mysql_query("CREATE TEMPORARY TABLE mids$rid (SELECT eidmid.mark_id FROM eidmid
 				JOIN rideid ON eidmid.assessment_id=rideid.assessment_id 
@@ -42,7 +44,7 @@ twoplusprint_buttonmenu();
 ?>
 	 	<input type="hidden" name="rids[]" value="<?php print $rid;?>" />
 <?php
-	}
+		}
 ?>
 		<table class="listmenu">
 		  <tr>
@@ -68,18 +70,33 @@ twoplusprint_buttonmenu();
 				   <?php print $student['surname']; ?>, <?php print $student['forename']; ?>
 					  (<?php print $student['form_id']; ?>)
 			</td>
+			<td>
 <?php
 		reset($rids);
-		while(list($index, $rid)=each($rids)){
-				$d_reportentry=mysql_query("SELECT component_id
-					FROM reportentry WHERE report_id='$rid' AND
-					student_id='$sid' AND subject_id='summary' AND entryn='1' 
-					ORDER BY component_id");
+		while(list($index,$rid)=each($rids)){
 ?>
-			<td <?php if(mysql_num_rows($d_reportentry)>0){print 'class="vspecial"';}?> >
+			  <table>
+				<tr>
+<?php
+   			$summaries=(array)$reports[$index]['summaries'];
+			while(list($index2,$summary)=each($summaries)){
+				$summaryid=$summary['subject_id'];
+				$d_summaryentry=mysql_query("SELECT teacher_id
+					FROM reportentry WHERE report_id='$rid' AND
+					student_id='$sid' AND subject_id='summary' AND
+					component_id='$summaryid' AND entryn='1'");
+				$openId=$sid.'summary-'.$summaryid;
+?>
+			<td id="icon<?php print $openId;?>" <?php if(mysql_num_rows($d_summaryentry)>0){print 'class="vspecial"';}?> >
 			  <img class="clicktoedit" name="Write"  
-				onClick="clickToWriteComment(<?php print $sid.','.$rid.',\'summary\',\'0\'';?>);" 
-				title="<?php print_string('clicktowritecomment');?>" />
+				onClick="clickToWriteComment(<?php print $sid.','.$rid.',\'summary\',\''.$summaryid.'\',\'0\',\''.$openId.'\'';?>);" 
+				title="<?php print get_string('clicktowritecomment').':'.$summary['name'];?>" />
+			</td>
+<?php
+				}
+?>
+				</tr>
+			  </table>
 			</td>
 <?php
 		    $crid=$reports[$index]['course_id'];

@@ -71,55 +71,57 @@ function fetchSubjectReports($sid,$reportdefs){
 
 
 function fetchReportDefinition($rid,$selbid='%'){
-		$reportdef=array();
-		$reportdef['rid']=$rid;
-		$d_report=mysql_query("SELECT * FROM report WHERE id='$rid'");
-		$report=mysql_fetch_array($d_report,MYSQL_ASSOC);
-		$crid=$report['course_id'];
-   		$d_course=mysql_query("SELECT name FROM course WHERE id='$crid'");
-		$report['course_name']=mysql_result($d_course,0);
-		$reportdef['report']=$report;
+	$reportdef=array();
+	$reportdef['rid']=$rid;
+	$d_report=mysql_query("SELECT * FROM report WHERE id='$rid'");
+	$report=mysql_fetch_array($d_report,MYSQL_ASSOC);
+	$crid=$report['course_id'];
+	$d_course=mysql_query("SELECT name FROM course WHERE id='$crid'");
+	$report['course_name']=mysql_result($d_course,0);
+	$reportdef['report']=$report;
 
-		$d_cridbid=mysql_query("SELECT DISTINCT subject_id FROM
+	$d_cridbid=mysql_query("SELECT DISTINCT subject_id FROM
 			cridbid WHERE course_id='$crid' AND subject_id LIKE '$selbid'");
-		$reportdef['bids']=array();
-		while($bid=mysql_fetch_array($d_cridbid,MYSQL_NUM)){
+	$reportdef['bids']=array();
+	while($bid=mysql_fetch_array($d_cridbid,MYSQL_NUM)){
 			$d_subject=mysql_query("SELECT name FROM subject WHERE id='$bid[0]'");
 			$subjectname=mysql_result($d_subject,0);
 			$reportdef['bids'][]=array('id'=>$bid[0], 'name'=>$subjectname);
 			}
 
-		$d_assessment=mysql_query("SELECT * FROM assessment JOIN
+	$d_assessment=mysql_query("SELECT * FROM assessment JOIN
 				rideid ON rideid.assessment_id=assessment.id WHERE report_id='$rid'");
-		$reportdef['eids']=array();
-		$asstable=array();
-		while($ass=mysql_fetch_array($d_assessment,MYSQL_ASSOC)){
+	$reportdef['eids']=array();
+	$asstable=array();
+	while($ass=mysql_fetch_array($d_assessment,MYSQL_ASSOC)){
 			$reportdef['eids'][]=$ass['id'];
 			$asstable['ass'][]=array('name' => $ass['description'],
 				'label' => $ass['label']);
 			}
-	   	$reportdef['asstable']=$asstable;
+	$reportdef['asstable']=$asstable;
 
-		if($reportdef['report']['addcategory']=='yes'){
-    		/*find the categories for this report*/
-			list($ratingnames, $catdefs)=fetchReportCategories($rid);
-			$reportdef['ratingnames']=$ratingnames;
-			$reportdef['catdefs']=$catdefs;
-			}
+	if($reportdef['report']['addcategory']=='yes'){
+		/*find the categories for this report*/
+		list($ratingnames, $catdefs)=fetchReportCategories($rid);
+		$reportdef['ratingnames']=$ratingnames;
+		$reportdef['catdefs']=$catdefs;
+		}
+
+	$reportdef['summaries']=(array)fetchReportSummaries($rid);
 	return $reportdef;
 	}
 
 
 function fetchReportCategories($rid,$bid='%'){
-  /*returns two arrays containing the ratingnames and catdefs for all
-  categories for this report*/
+	/*returns two arrays containing the ratingnames and catdefs for all
+		categories for this report*/
 
-  /*Needs to add subject specific ones IN FUTURE!*/
-
+	/*Needs to add subject specific ones IN FUTURE!*/
 	$d_categorydef=mysql_query("SELECT * FROM categorydef LEFT
 				JOIN ridcatid ON ridcatid.categorydef_id=categorydef.id 
 				WHERE ridcatid.report_id='$rid' AND
-				(ridcatid.subject_id LIKE '$bid' OR ridcatid.subject_id='%')");
+				(ridcatid.subject_id LIKE '$bid' OR
+				ridcatid.subject_id='%') AND ridcatid.subject_id!='summary'");
    	$catdefs=array();
 	$ratingnames=array();
 	while($catdef=mysql_fetch_array($d_categorydef,MYSQL_ASSOC)){
@@ -139,6 +141,22 @@ function fetchReportCategories($rid,$bid='%'){
 	return array($ratingnames, $catdefs);
 	}
 
+function fetchReportSummaries($rid){
+	/*returns one array containing the catdefs for all summaries for this report*/
+
+	$d_categorydef=mysql_query("SELECT categorydef.id,
+				categorydef.name, categorydef.subject_id,
+				categorydef.rating FROM categorydef LEFT
+				JOIN ridcatid ON ridcatid.categorydef_id=categorydef.id 
+				WHERE ridcatid.report_id='$rid' AND
+				ridcatid.subject_id='summary' ORDER BY categorydef.rating");
+   	$catdefs=array();
+	while($catdef=mysql_fetch_array($d_categorydef,MYSQL_ASSOC)){
+	   	$catdefs[]=$catdef;
+	   	}
+	return $catdefs;
+	}
+
 function fetchReportEntry($reportdef, $sid, $bid, $pid){
 /*		Retrieves all report entries for one student in one subject*/
 /*		All report info is prefetched in $reportdef['report'], */  
@@ -152,7 +170,7 @@ function fetchReportEntry($reportdef, $sid, $bid, $pid){
 	while($entry=mysql_fetch_array($d_reportentry)){
 	   $Comment=array();
 	   $Comment['id_db']=$entry['entryn'];
-	   if($reportdef['report']['addcomment']=='yes'){
+	   if($reportdef['report']['addcomment']=='yes' or $bid=='summary'){
 		   $enttid=$entry['teacher_id'];
 		   $d_teacher=mysql_query("SELECT forename, surname 
 							FROM users WHERE username='$enttid'");
@@ -161,7 +179,7 @@ function fetchReportEntry($reportdef, $sid, $bid, $pid){
 						$enttid, 'value'=>$teachername['forename'].' '.$teachername['surname']));
 		   $Comment['Text']=nullCorrect(array('value' => $entry['comment']));
 		   }
-	   if($reportdef['report']['addcategory']=='yes'){
+	   if($reportdef['report']['addcategory']=='yes' and $bid!='summary'){
     		$pairs=explode(";",$entry['category']);
 	    	for($c3=0; $c3<sizeof($pairs)-1; $c3++){
    				list($id, $rank)=split(":",$pairs[$c3]);
