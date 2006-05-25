@@ -94,6 +94,9 @@ $rtid=$tid;
 		<option <?php if($choice=='enrol_student.php'){print
 				'selected="selected" ';}?>value='enrol_student.php'>
 				<?php print_string('enrolstudents');?></option>
+		<option <?php if($choice=='statementbank.php'){print
+				'selected="selected" ';}?>value='statementbank.php'>
+				<?php print_string('statementbank');?></option>
 		<option <?php if($choice=='demoiser.php'){print
 				'selected="selected" ';}?>value='demoiser.php'>
 				<?php print_string('demoiser');?></option>

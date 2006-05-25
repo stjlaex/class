@@ -1,22 +1,26 @@
 <?php
 /**						lang/en/class.php
- *
- */ 
-$string['book']='Book';
-$string['cancel']='Cancel';
+ */
+$string['locale']='en_GB';
+$string['shortlocale']='en';
+$string['language']='Language';
+$string['thislanguage']='English';
 $string['classesandmarks']='Classes and marks';
 $string['classarea']='ClaSS restricted area';
+$string['enter']='Enter';
+$string['no']='No';
+$string['password']='Password';
+$string['username']='Username';
+$string['yes']='Yes';
 $string['clicktowritecomment']='Click to write comment';
 $string['details']='Details';
-$string['enter']='Enter';
+$string['cancel']='Cancel';
 $string['forename']='Forename';
 $string['formgroup']='Form group';
 $string['general']='General';
 $string['helpandsupport']='Help and support';
 $string['help']='Help';
-$string['locale']='en_GB';
-$string['shortlocale']='en';
-$string['language']='Language';
+$string['book']='Book';
 $string['siteisdown']='<p>Sorry the site is temporarily unavailable.</p>
 <p>This is due to a scheduled upgrade.</p>
 <p>Please check back again in a few hours.</p>';
@@ -28,9 +32,7 @@ your own installation you should change this text in the login
 options!)';
 $string['manage']='Manage';
 $string['myclasses']='My classes';
-$string['no']='No';
 $string['options']='Options';
-$string['password']='Password';
 $string['print']='Print';
 $string['reporton']='Report on';
 $string['reset']='Reset';
@@ -40,10 +42,7 @@ $string['submit']='Submit';
 $string['summary']='Summary';
 $string['surname']='Surname';
 $string['thanks']='Thanks!';
-$string['thislanguage']='English';
-$string['username']='Username';
 $string['yeargroup']='Year group';
-$string['yes']='Yes';
 $string['checkall']='Check all';
 $string['tracking']='Tracking';
 $string['comments']='Comments';
@@ -202,7 +201,6 @@ $string['emailfooterdisclaimer']='
 		use or dissemination of this message in whole or in part is
 		strictly prohibited.';
 $string['passwords']='Passwords';
-$string['']='';
 $string['']='';
 $string['']='';
 ?>

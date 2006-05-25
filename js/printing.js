@@ -37,9 +37,9 @@ function xulsave(){
 // A function taylored to process xml and an xsl-template in a new window for printing
 function openPrintReport(contentId, xsltName){
 	if (document.getElementById(contentId)){
-		var content = document.getElementById(contentId).innerHTML;
+		var content=document.getElementById(contentId).innerHTML;
 
-		printWindow = window.open('','','height=800,width=750,dependent,resizable,menubar,screenX=50,scrollbars');
+		printWindow=window.open('','','height=800,width=750,dependent,resizable,menubar,screenX=50,scrollbars');
 		printWindow.document.open();
 		printWindow.document.writeln("<html>");
 
@@ -51,7 +51,7 @@ function openPrintReport(contentId, xsltName){
 		printWindow.document.writeln("<meta http-equiv='Expires' content='0'/>");
 		printWindow.document.writeln("</head>");
 
-		printWindow.document.writeln("<body onLoad=\"process('xmlStudent','"+xsltName+"')\">");
+		printWindow.document.writeln("<body onLoad=\"processXML('xmlStudent','xmlStudent','"+xsltName+"','../templates/')\">");
 		printWindow.document.writeln("<div id='xmlStudent'>"+content+"</div>");
 		printWindow.document.writeln("</body>");
 
@@ -60,32 +60,30 @@ function openPrintReport(contentId, xsltName){
 		}
 	}
 
-function process(contentId, xsltName){ 
+function processXML(targetId, sourceId, xsltName, xsltPath){ 
 	var xslRef;
-	var xsltProcessor = new XSLTProcessor();
+	var xsltProcessor=new XSLTProcessor();
 	var myDOM;
-	if (document.getElementById(contentId)){
+	if(document.getElementById(sourceId)){
 
  		var xmlRef=document.implementation.createDocument("", "", null);
-  		var myNode=document.getElementById(contentId);
+  		var myNode=document.getElementById(sourceId);
   		var clonedNode=xmlRef.importNode(myNode, true);
 
   		xmlRef.appendChild(clonedNode);
 
-  		var myXMLHTTPRequest = new XMLHttpRequest();
-  		myXMLHTTPRequest.open("GET", "../templates/"+xsltName+".xsl", false);
+  		var myXMLHTTPRequest=new XMLHttpRequest();
+  		myXMLHTTPRequest.open("GET", xsltPath+xsltName+".xsl", false);
   		myXMLHTTPRequest.send(null);
 
 		xslRef=myXMLHTTPRequest.responseXML;
   		xsltProcessor.importStylesheet(xslRef);
-
 		var fragment=xsltProcessor.transformToFragment(xmlRef, document);
 
-		document.getElementById(contentId).innerHTML = "";
+		document.getElementById(targetId).innerHTML="";
 
 		myDOM=fragment;
-
-		document.getElementById(contentId).appendChild(fragment);
+		document.getElementById(targetId).appendChild(fragment);
 		}
 	else{}
 	}
@@ -94,7 +92,7 @@ function process(contentId, xsltName){
 function serializeXML (xmlDocument) {
   var xmlSerializer;
   try {
-    xmlSerializer = new XMLSerializer();
+    xmlSerializer=new XMLSerializer();
     return xmlSerializer.serializeToString(xmlDocument);
   }
   catch (e) {

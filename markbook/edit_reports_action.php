@@ -135,13 +135,13 @@ if($sub=='Submit'){
 				}
 				*/
 			/*this assumes that the comment comes after all the category entries!!!*/
-	  		if($inorders['comment']=='yes'){
-				  if(isset($_POST{"sid$sid:$c2"})){
-					$incom=$_POST{"sid$sid:$c2"};
-					$c2++;
-					}
-				  else{$incom='';}
-				  }
+		   	  		if($inorders['comment']=='yes'){
+						  if(isset($_POST{"sid$sid:$c2"})){
+								$incom=$_POST{"sid$sid:$c2"};
+								$c2++;
+								}
+							  else{$incom='';}
+							  }
 			if($inmust=='yes' and ($incom!='' or $incategory!='')){
 						if(mysql_query("INSERT INTO reportentry (comment,
 						category, teacher_id, report_id, student_id, 

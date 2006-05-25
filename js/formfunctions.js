@@ -1,8 +1,8 @@
 //------------------------------------------------------
 //opens the comment writer window
-function clickToWriteComment(sid,rid,bid,pid,entryn){
+function clickToWriteComment(sid,rid,bid,pid,entryn,openId){
 	var commenturl;
-	commenturl="sid="+sid+"&rid="+rid+"&bid="+bid+"&pid="+pid+"&entryn="+entryn;
+	commenturl="sid="+sid+"&rid="+rid+"&bid="+bid+"&pid="+pid+"&entryn="+entryn+"&openid="+openId;
 	openCommentWriter(commenturl);
 	}
 
@@ -20,6 +20,33 @@ function openCommentWriter(commenturl){
 	writerWindow.document.writeln("</html>");
 	writerWindow.document.close();
 	}
+
+function closeCommentWriter(commentId,text){
+	if(commentId!='-100'){opener.updateComment(commentId,text);}
+	window.close();
+	}
+
+function updateComment(commentId,text){
+//	alert(commentId,text);
+	document.getElementById('text'+commentId).value=text;
+	document.getElementById('icon'+commentId).setAttribute("class","vspecial");
+	}
+
+//------------------------------------------------------
+//
+function tinyTabs(tabObject){
+	// the id of containing div
+	var tabmenuId=tabObject.parentNode.parentNode.parentNode.id;
+	var chosentab=tabObject.getAttribute("class");
+	document.getElementById("current-tinytab").removeAttribute('id');
+	document.getElementById("tinytab-"+tabmenuId+"-"+chosentab).firstChild.setAttribute("id","current-tinytab");
+	var targetId="tinytab-display-"+tabmenuId;
+	var sourceId="tinytab-xml-"+tabmenuId+"-"+chosentab;
+//	processXML(targetId,sourceId,'statement.xsl','');
+	var fragment=document.getElementById(sourceId).innerHTML;
+	document.getElementById(targetId).innerHTML="";
+	document.getElementById(targetId).innerHTML=fragment;
+}
 
 //------------------------------------------------------
 //used within a listmenu table

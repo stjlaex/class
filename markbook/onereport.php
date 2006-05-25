@@ -81,19 +81,20 @@
 				$inmust=$Comment['id_db'];
 				}
 		  $rown=0;
+		  $openId=$sid.'-'.$entryn;
 ?>
-  <tbody id="<?php print $sid.'-'.$entryn;?>">
+  <tbody id="<?php print $openId;?>">
 	<tr onClick="clickToReveal(this)" class="rowplus" 
-					id="<?php print $sid.'-'.$entryn.'-'.$rown++;?>">
+					id="<?php print $openId.'-'.$rown++;?>">
 	  <th>&nbsp</th>
 	  <td> Teacher Comment:</td>
 	  <td><?php print $Comment['Teacher']['value'];?></td>
-	  <td>			  
+	  <td id="icon<?php print $openId;?>" class="">			  
 		<img class="clicktoedit" name="Write"  
-		  onClick="clickToWriteComment(<?php print $sid.','.$rid.',\''.$bid.'\',\''.$pid.'\',\''.$entryn.'\'';?>);" 
+		  onClick="clickToWriteComment(<?php print $sid.','.$rid.',\''.$bid.'\',\''.$pid.'\',\''.$entryn.'\',\''.$openId.'\'';?>);" 
 		  title="<?php print_string('clicktowritecomment');?>" />
 	  </td>
-	  <input type="hidden" name="sid<?php print $sid.':'.$inc++;?>" 
+	  <input type="hidden" id="" name="sid<?php print $sid.':'.$inc++;?>" 
 		value="<?php print $inmust;?>" />
 	</tr>
 <?php
@@ -102,7 +103,7 @@
 			$catid=$catdefs[$c4]['id'];
 			$catname=$catdefs[$c4]['name'];
 			$ratings=$ratingnames[$catdefs[$c4]['rating_name']];
-		   	print '<tr class="hidden" id="'.$sid.'-'.$entryn.'-'.$rown++.'"><th></th>';
+		   	print '<tr class="hidden" id="'.$openId.'-'.$rown++.'"><th></th>';
 			  print '<td><label>'.$catname.'</label>: </td>';
 			while(list($value,$descriptor)=each($ratings)){
 			  print '<td style="background-color:#eeeeee;
@@ -122,11 +123,11 @@
 		if($report['addcomment']=='yes'){
 			if($report['commentlength']=='0'){$commentlength='';}
 		    else{$commentlength=' maxlength="'.$report['commentlength'].'"';}
-			print '<tr class="hidden" id="'.$sid.'-'.$entryn.'-'.$rown++.'" >';
+			print '<tr class="hidden" id="'.$openId.'-'.$rown++.'" >';
 			print '<th></th><td colspan="5">';
 			print '<textarea '.$commentlength.' rows="2" cols="80" ';
-			print 'onClick="clickToWriteComment('.$sid.','.$rid.',\''.$bid.'\',\''.$pid.'\',\''.$entryn.'\');"'; 
-			print ' tabindex="'.$tab.'" name="sid'.$sid.':'.$inc++.'" >';
+			print 'onClick="clickToWriteComment('.$sid.','.$rid.',\''.$bid.'\',\''.$pid.'\',\''.$entryn.'\',\''.$openId.'\');"'; 
+			print ' tabindex="'.$tab.'" name="sid'.$sid.':'.$inc++.'" id="text'.$openId.'">';
 			print $Comment['Text']['value'];
 			print '</textarea>';
 			print '</td></tr>';

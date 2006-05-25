@@ -5,6 +5,16 @@
 div#bookbox{
 	border-color:#44aaaa;
 	}
+div.content{ 
+	position:relative; top:7%; height:40%; 
+    overflow:hidden;
+	}
+div#statementbank { 
+    top:0%;height:56%;
+    left:4%;
+	width:92%;
+    overflow:hidden;
+	}
 .commentwritercolor button {
 	background-color:#44aaaa;
 	}
@@ -14,6 +24,7 @@ div#bookbox{
 textarea#Comment {
   	font-weight:300; font-size:12pt; 
 	text-align:left;
+    width:98%; height:180px;
 	}
 
 /*spell_checker*/
@@ -42,14 +53,14 @@ textarea#Comment {
 	color:#005500;
 }
 .addtoDictionary {
-	background-color:#E8F1FF;
+	background-color:#e8f1ff;
 	cursor:pointer;
 	text-decoration:underline;
 	font-size:12pt;
 	color:#000000;
 }
 .edit_box {
-	background-color:#FFFFFF;
+	background-color:#ffffff;
 	color:#000000;
 	font-size:12pt;
 	border:1px inset #000000;
@@ -88,3 +99,4 @@ textarea#Comment {
 	font-size:11pt;
     float:left;
 }
+

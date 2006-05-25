@@ -13,16 +13,17 @@ $tid=$_SESSION['username'];
 $incategory='';
 
 if($sub=='Cancel'){
+	$openerId='-100';
+	$incom='';
 	}
 elseif($sub=='Submit'){
-
+	$openerId=$_POST['openid'];
 	$Student=fetchshortStudent($sid);
 	if(isset($_POST{'bid'})){$bid=$_POST{'bid'};}
 	if(isset($_POST{'pid'})){$pid=$_POST{'pid'};}
 	if(isset($_POST{'incom'})){$incom=$_POST{'incom'};}
 	if(isset($_POST{'inmust'})){$inmust=$_POST{'inmust'};}
 
-	$result[]=$sid.' '.$inmust.' '.$incom.' '.$pid;
 
 	if($inmust=='yes' and ($incom!='' or $incategory!='')){
 		if(mysql_query("INSERT INTO reportentry (comment,
@@ -51,6 +52,8 @@ elseif($sub=='Submit'){
 		else {$error[]=mysql_error();}
 		}
 	}
+$result[]=$openerId;
+$result[]=$incom;
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -65,7 +68,7 @@ elseif($sub=='Submit'){
 <link id="viewstyle" rel="stylesheet" type="text/css" href="../../css/commentwriter.css" />
 <script language="JavaScript" type="text/javascript" src="../../js/formfunctions.js"></script>
 </head>
-<body onload="setTimeout('window.close();', 2000);">
+<body onload="closeCommentWriter(<?php print '\''.$openerId.'\',\''.$incom.'\'';?>);">
 	<div id="bookbox">
 
 	  <div id="heading">
@@ -75,7 +78,7 @@ elseif($sub=='Submit'){
 	  </div>
 
 	  <div id="viewcontent" class="content">
-<?php 
+<?php
 	  include('../../scripts/results.php');
 ?>
 	  </div>

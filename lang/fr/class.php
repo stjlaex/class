@@ -1,21 +1,20 @@
 <?php
 /**						lang/fr/class.php
- *
  */
-$string['classesandmarks'] = 'Classes et Notes';
-$string['classarea'] = 'ClaSS Secteur Restreint';
-$string['enter'] = 'Entrer';
-$string['helpandsupport'] = 'Aide et Soutien';
-$string['forename'] = 'Pr&eacute;nom';
-$string['locale'] = 'fr_FR';
-$string['shortlocale'] = 'fr';
-$string['language'] = 'Langue';
-$string['no'] = 'Non';
-$string['password'] = 'Mot de passe';
-$string['surname'] = 'Nom de famille';
-$string['thislanguage'] = 'Fran&#231;ais';
-$string['username'] = 'Nom d\'utilisateur';
-$string['yes'] = 'Oui';
+$string['classesandmarks']='Classes et Notes';
+$string['classarea']='ClaSS Secteur Restreint';
+$string['enter']='Entrer';
+$string['helpandsupport']='Aide et Soutien';
+$string['forename']='Pr&eacute;nom';
+$string['locale']='fr_FR';
+$string['shortlocale']='fr';
+$string['language']='Langue';
+$string['no']='Non';
+$string['password']='Mot de passe';
+$string['surname']='Nom de famille';
+$string['thislanguage']='Fran&#231;ais';
+$string['username']='Nom d\'utilisateur';
+$string['yes']='Oui';
 $string['book']='Livre';
 $string['cancel']='Annuler';
 $string['details']='D&eacute;tails';

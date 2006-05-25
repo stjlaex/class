@@ -14,6 +14,7 @@ if(isset($_GET{'pid'})){$pid=$_GET{'pid'};}
 elseif(isset($_POST{'pid'})){$pid=$_POST{'pid'};}
 if(isset($_GET{'entryn'})){$entryn=$_GET{'entryn'};}
 elseif(isset($_POST{'entryn'})){$entryn=$_POST{'entryn'};}
+if(isset($_GET{'openid'})){$openid=$_GET{'openid'};}
 
 $reportdef=fetchReportDefinition($rid);
 $Student=fetchshortStudent($sid);
@@ -42,10 +43,11 @@ if($dbstat!=''){
 <meta name="copyright" content="Copyright 2002-2006 S T Johnson.  All trademarks acknowledged. All rights reserved" />
 <meta name="version" content='<?php print "$CFG->version"; ?>' />
 <meta name="licence" content="GNU General Public License version 2" />
-<link id="viewstyle" rel="stylesheet" type="text/css" href="../../css/viewstyle.css" />
+<link rel="stylesheet" type="text/css" href="../../css/viewstyle.css" />
 <link rel="stylesheet" type="text/css" href="../../css/commentwriter.css" />
 <script src="../../js/formfunctions.js" type="text/javascript"></script>
 <script src="../../js/statementbank.js" type="text/javascript"></script>
+<script src="../../js/printing.js" type="text/javascript"></script>
 <script src="../../lib/spell_checker/cpaint/cpaint2.inc.js" type="text/javascript"></script>
 <script src="../../lib/spell_checker/js/spell_checker.js" type="text/javascript"></script>
 </head>
@@ -60,44 +62,60 @@ if($dbstat!=''){
 			  $Student['MiddleNames']['value'];?>
 	  </div>
 
-	  <div id="viewcontent" class="content">
-		<form id="formtoprocess" name="formtoprocess" method="post" action="comment_writer_action.php">
+	  <div class="content">
+		<form id="formtoprocess" name="formtoprocess" method="post" 
+									action="comment_writer_action.php">
 		  <div class="center">
-			<textarea title="spellcheck" id="Comment" style="width:98%; height:180px;"
+			<textarea title="spellcheck" id="Comment" 
 			  accesskey="../../lib/spell_checker/spell_checker.php" 
 			  maxlength="1000" tabindex="0"  name="incom" ><?php print $Comment['Text']['value'];?></textarea>
 		  </div>
-<?php
-			if($dbstat!=''){
-?>
-		  <div class="center" id="statementbank">
-			<fieldset>
-				<table class="listmenu">
-					<tr>
-<?php
-				   while(list($index,$Area)=each($StatementBank['Area'])){
-					   print '<th>'.$Area['Name'].'</th>';
-					   }
-?>
-					</tr>
-				</table>
-			</fieldset>
-		  </div>
-
-		<div class="center" id="xmlStatementBank" style="visibility:hidden;">
-			<?php xmlpreparer('StatementBank',$StatementBank);?>
-		</div>
-<?php
-				  }
-?>
-
 		<input type="hidden" name="inmust" value="<?php print $inmust;?>"/>
 		<input type="hidden" name="sid" value="<?php print $sid; ?>"/>
 		<input type="hidden" name="rid" value="<?php print $rid; ?>"/>
 	    <input type="hidden" name="bid" value="<?php print $bid; ?>"/>
 		<input type="hidden" name="pid" value="<?php print $pid; ?>"/>
+		<input type="hidden" name="openid" value="<?php print $openid; ?>"/>
 		</form>
-	  </div>
+	</div>
+<?php
+			if($dbstat!=''){
+?>
+	<div class="content" id="statementbank">
+		<div class="tinytabs" id="area">
+			<ul>
+<?php
+				   $n=0;
+				   while(list($index,$Area)=each($StatementBank['Area'])){
+?>
+		<li id="<?php print 'tinytab-area-'.$Area['Name'];?>"><p 
+		<?php if($n==0){ print 'id="current-tinytab" ';}?>
+		class="<?php print $Area['Name'];?>"
+		onclick="tinyTabs(this)"><?php print $Area['Name'];?></p></li>
+
+			<div class="hidden" id="tinytab-xml-area-<?php print $Area['Name'];?>">
+				<table class="listmenu">
+<?php
+				   $Statements=(array)$Area['Statements'];
+				   while(list($index,$Statement)=each($Statements)){
+					   $Statement=personaliseStatement($Statement,$Student);
+					   print '<tr><td onclick="chooseStatement(this)">'.$Statement['Value'].'</td></tr>';
+					   }
+?>
+				</table>
+			</div>
+<?php
+				  $n++;
+				  }
+?>
+				</ul>
+			</div>
+			<div id="tinytab-display-area" class="tinytab-display">
+			</div>
+		</div>
+<?php
+				  }
+?>
 	</div>
 </body>
 </html>
