@@ -49,6 +49,7 @@ function fetchStatementBank($crid,$bid,$pid,$stage,$dbstat=''){
 	}
 
 function addStatement($new,$dbstat=''){
+	$todate=date('Y').'-'.date('n').'-'.date('j');
 	if($dbstat==''){$dbstat=connect_statementbank();}
 	if($dbstat!=''){
 		$crid=$new['crid'];
@@ -57,13 +58,14 @@ function addStatement($new,$dbstat=''){
 		$area=$new['area'];
 		$subarea=$new['subarea'];
 		$statement=$new['statement'];
+		$ability=$new['ability'];
 
 		if($new['pid']==''){$pid='%';}else{$pid=$new['pid'];}
 		if($new['stage']==''){$stage='%';}else{$stage=$new['stage'];}
 
 		if(mysql_query("INSERT INTO statement (author,
-					   	entrydate, statement_text
-					) VALUES ('ClaSS', '', '$statement');")){
+					   	entrydate, statement_text, rating_fraction
+					) VALUES ('ClaSS', '$todate', '$statement','$ability');")){
 			$stid=mysql_insert_id();
 
 			$result=='yes';
@@ -80,18 +82,16 @@ function addStatement($new,$dbstat=''){
 						AND component_id LIKE '$pid' AND stage LIKE '$stage';");
 			if(mysql_num_rows($d_grouping)>0){$grid=mysql_result($d_grouping,0);}
 			else{
+				/*everyhting currently only gets a default fivegrade rating_name!!!!*/
 				mysql_query("INSERT INTO grouping (area_id,
 					   	subarea_id, course_id, subject_id,
-						component_id, stage
-					) VALUES ('$areaid', '0', '$crid','$bid','$pid','$stage');");
+						component_id, stage, rating_name
+					) VALUES ('$areaid', '0', '$crid','$bid','$pid','$stage','fivegrade');");
 				$grid=mysql_insert_id();
 				}
 
-
 			mysql_query("INSERT INTO gridstid (grouping_id, statement_id
 					) VALUES ('$grid', '$stid');");
-
-					//need to update statement with rating_fraction?
 			}
 		}
 	return $result;

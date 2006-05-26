@@ -135,26 +135,25 @@ if($sub=='Submit'){
 				}
 				*/
 			/*this assumes that the comment comes after all the category entries!!!*/
-		   	  		if($inorders['comment']=='yes'){
+			if($inorders['comment']=='yes'){
 						  if(isset($_POST{"sid$sid:$c2"})){
 								$incom=$_POST{"sid$sid:$c2"};
 								$c2++;
 								}
 							  else{$incom='';}
 							  }
-			if($inmust=='yes' and ($incom!='' or $incategory!='')){
-						if(mysql_query("INSERT INTO reportentry (comment,
+			if($inmust=='yes' and $incom=='' and $incategory!=''){
+						if(mysql_query("INSERT INTO reportentry (
 						category, teacher_id, report_id, student_id, 
 						subject_id, component_id) VALUES
-						('$incom', '$incategory', '$tid', '$rid', '$sid',
-						'$inbid', '$inpid')")){
-						$result[]="NEW Report entry submitted: ".$incom;}
+						('$incategory', '$tid', '$rid', '$sid',
+						'$inbid', '$inpid')")){}
 						else {$error[]=mysql_error();}
 						}
-			elseif($inmust!='yes' and ($incom!='' or $incategory!='')){
+			elseif($inmust!='yes' and $incom!='' and $incategory!=''){
    						$entryn=$inmust;
 						if(mysql_query("UPDATE reportentry SET
-						comment='$incom', category='$incategory' WHERE report_id='$rid' AND
+						category='$incategory' WHERE report_id='$rid' AND
 						student_id='$sid' AND subject_id='$inbid' AND
 						component_id='$inpid' AND entryn='$entryn'")){
 					    }
@@ -172,6 +171,6 @@ if($sub=='Submit'){
 		}
 	}
 
-include("scripts/results.php");
-include("scripts/redirect.php");
+include('scripts/results.php');
+include('scripts/redirect.php');
 ?>

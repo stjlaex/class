@@ -25,6 +25,11 @@ mysql_query("INSERT INTO rating VALUES ('con','negative','a cause for concern','
 mysql_query("INSERT INTO rating VALUES ('con','positive','an improvement','1')");
 mysql_query("INSERT INTO rating VALUES ('private','confidential','restricted access','-1')");
 mysql_query("INSERT INTO rating VALUES ('private','not confidential','shared with staff','1')");
+mysql_query("INSERT INTO rating VALUES ('fivegrade','Poor','','1')");
+mysql_query("INSERT INTO rating VALUES ('fivegrade','Satisfactory','','2')");
+mysql_query("INSERT INTO rating VALUES ('fivegrade','Good','','3')");
+mysql_query("INSERT INTO rating VALUES ('fivegrade','Very good','','4')");
+mysql_query("INSERT INTO rating VALUES ('fivegrade','Excellent','','5')");
 
 mysql_query("INSERT INTO categorydef VALUES (1,'Academic Performance','con','-1','con','%','%')");
 mysql_query("INSERT INTO categorydef VALUES (2,'Completion of Class / Homework','con','-1','con','%','%')");

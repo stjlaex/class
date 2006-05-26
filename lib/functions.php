@@ -55,8 +55,30 @@ function nullCorrect($array){
 	}
 
 function good_strtolower($value){
+	/*for compatibility with utf8*/
 	$value=mb_strtolower($value, mb_detect_encoding($value));
 	return $value;
+	}
+
+function js_addslashes($value){
+	/*should only be used when writing a sting for use by javascript*/
+	$o='';
+	$l=strlen($value);
+	for($i=0;$i<$l;$i++){
+			$c=$value[$i];
+			switch($c){
+					case '<': $o.='\\x3C'; break;
+					case '>': $o.='\\x3E'; break;
+					case '\'': $o.='\\\''; break;
+					case '\\': $o.='\\\\'; break;
+					case '"':  $o.='\\"'; break;
+					case "\n": $o.='\\n'; break;
+					case "\r": $o.='\\r'; break;
+					default:
+						$o.=$c;
+				}
+		}
+	return $o;
 	}
 
 function checkEntry($value, $format='', $field_name=''){

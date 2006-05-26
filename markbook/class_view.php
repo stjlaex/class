@@ -145,8 +145,8 @@ include('class_view_table.php');
 				'" target="viewinfobook" onclick="parent.viewBook(\'infobook\');">T</a>';
 
 		 /*links through to comments in the infobook*/
-		print '&nbsp;<a href="infobook.php?current=comments_list.php&bid="'. 
-				$bid[0].'&sid='.$viewtable[$c2]['sid'].'&sids[]='. 
+		print '&nbsp;<a href="infobook.php?current=comments_list.php&bid='
+				.$bid[0].'&sid='.$viewtable[$c2]['sid'].'&sids[]='. 
 				$viewtable[$c2]['sid'].'" target="viewinfobook" 
 				onclick="parent.viewBook(\'infobook\');" ';
 		print ' title="'.$viewtable[$c2]['commentbody'].'"';

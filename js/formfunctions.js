@@ -316,6 +316,10 @@ function loadRequired(){
 		  document.forms[0].elements[firstFocus].focus();  
 		  }
 		}
+
+	if(document.getElementById('current-tinytab')){
+		tinyTabs(document.getElementById('current-tinytab'));
+		}
 	}
 
 

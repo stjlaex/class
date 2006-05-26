@@ -63,8 +63,7 @@ if($dbstat!=''){
 
 	  <div id="heading">
 		<label><?php print_string('student'); ?></label>
-			<?php print $Student['Forename']['value'].' '. $Student['Surname']['value'].' '.
-			  $Student['MiddleNames']['value'];?>
+			<?php print $Student['DisplayFullName']['value'];?>
 	  </div>
 
 	  <div class="content">
@@ -95,7 +94,7 @@ if($dbstat!=''){
 				   while(list($index,$Area)=each($StatementBank['Area'])){
 ?>
 		<li id="<?php print 'tinytab-area-'.$Area['Name'];?>"><p 
-		<?php if($n==0){ print 'id="current-tinytab" ';}?>
+		<?php if($n==0){ print ' id="current-tinytab" ';}?>
 		class="<?php print $Area['Name'];?>"
 		onclick="tinyTabs(this)"><?php print $Area['Name'];?></p></li>
 

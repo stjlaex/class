@@ -19,9 +19,8 @@ include('scripts/sub_action.php');
 	     (entrydate, marktype, topic, total, comment, author,
 	     def_name, component_id) 
 	     VALUES ('$entrydate', 'score', '$topic', '$total', 
-	     '$comment', '$tid', '$def_name', '$newpid')"))
-	     {$result[]=get_string('createdmark',$book).$def_name;}
-	     else{$result[]='Failed to create mark: '.$def_name;
+	     '$comment', '$tid', '$def_name', '$newpid')")){}
+	     else{$error[]='Failed to create mark: '.$def_name;
 					$error[]=mysql_error();}
 
 	/*Get the new marks $mid*/	
@@ -32,7 +31,7 @@ include('scripts/sub_action.php');
 			$othercid = $newcid[$c];
 			if(mysql_query("INSERT INTO midcid 
 			     (mark_id, class_id) VALUES ('$mid', '$othercid')")){}
-			else{$result[]="Failed mark already exist for this class!";	
+			else{$error[]='Failed mark already exist for this class!';	
 					$error[]=mysql_error();}
 			}
 

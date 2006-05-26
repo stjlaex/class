@@ -31,3 +31,8 @@ INSERT subject (id,name) VALUES ('G','General');
 INSERT categorydef (name,type,rating,subject_id,course_id) VALUES ('Form tutor','com','0','form','%');
 INSERT categorydef (name,type,rating,subject_id,course_id) VALUES ('Year coordinator','com','1','year','%');
 INSERT categorydef (name,type,rating,subject_id,course_id) VALUES ('Head of secondary','com','2','section','%');
+INSERT INTO rating VALUES ('fivegrade','Poor','','1');
+INSERT INTO rating VALUES ('fivegrade','Satisfactory','','2');
+INSERT INTO rating VALUES ('fivegrade','Good','','3');
+INSERT INTO rating VALUES ('fivegrade','Very good','','4');
+INSERT INTO rating VALUES ('fivegrade','Excellent','','5');

@@ -54,6 +54,7 @@ elseif($sub=='Submit'){
 	}
 $result[]=$openerId;
 $result[]=$incom;
+$comment=js_addslashes($incom);
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -68,13 +69,12 @@ $result[]=$incom;
 <link id="viewstyle" rel="stylesheet" type="text/css" href="../../css/commentwriter.css" />
 <script language="JavaScript" type="text/javascript" src="../../js/formfunctions.js"></script>
 </head>
-<body onload="closeCommentWriter(<?php print '\''.$openerId.'\',\''.$incom.'\'';?>);">
+<body onload="closeCommentWriter(<?php print '\''.$openerId.'\',\''.$comment.'\'';?>);">
 	<div id="bookbox">
 
 	  <div id="heading">
 			  <label><?php print_string('student'); ?></label>
-			<?php print $Student['Forename']['value'].' '. $Student['Surname']['value'].' '.
-			  $Student['MiddleNames']['value'];?>
+			<?php print $Student['DisplayFullName']['value'];?>
 	  </div>
 
 	  <div id="viewcontent" class="content">

@@ -5,7 +5,7 @@ var ability;
 
 function chooseStatement(statementObject){
 	var comment=document.getElementById("Comment").value;
-	comment=comment+statementObject.innerHTML;
+	comment=comment+' '+statementObject.innerHTML;
 	document.getElementById("Comment").value=comment;
 	}
 
