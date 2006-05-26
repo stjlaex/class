@@ -162,7 +162,7 @@ include('class_view_table.php');
 		print '</td>';
 
 		print '<td>'.$viewtable[$c2]['surname'].'</td>';
-		print '<td>'.$viewtable[$c2]['forename'].'</td>';
+		print '<td>'.$viewtable[$c2]['forename'].$viewtable[$c2]['preferredforename'].'</td>';
 		print '<td>'.$viewtable[$c2]['form_id'].'</td>';
 		for($c=0;$c<$c_marks;$c++) {
 //			if ($umns[$c]['display']=='yes'){

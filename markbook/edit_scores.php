@@ -59,9 +59,9 @@ three_buttonmenu();
 		$tab=$c+1;
 		print '<tr>';
 		print '<td>'.$viewtable[$c]['surname'].'</td>';
-		print '<td>'.$viewtable[$c]['forename'].'</td>';
+		print '<td>'.$viewtable[$c]['forename'].$viewtable[$c]['preferredforename'].'</td>';
 		print '<td>'.$viewtable[$c]['form_id'].'</td>';
-		if($scoretype=='grade'){	
+		if($scoretype=='grade'){
 ?>		
 		<td>
 		  <select tabindex='<?php print $tab;?>' name='<?php print $sid;?>'>

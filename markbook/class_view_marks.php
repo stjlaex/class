@@ -40,14 +40,16 @@ for($i=0;$i<sizeof($cids);$i++){
 /* Fetch students for these classes.  */
  
 	if($i==0){ if(mysql_query("CREATE TEMPORARY TABLE students
-		(SELECT a.student_id, b.surname, b.forename, b.form_id, a.class_id FROM
+		(SELECT a.student_id, b.surname, b.forename,
+		b.preferredforename, b.form_id, a.class_id FROM
 		cidsid a, student b WHERE a.class_id='$cid' AND
 		b.id=a.student_id ORDER BY b.surname)")){} else {print
 		'Failed!<br />'; $error=mysql_error(); print $error.'<br />';} 
 		}
 	else
 		{if(mysql_query("INSERT INTO students SELECT
-		a.student_id, b.surname, b.forename, b.form_id, a.class_id FROM cidsid a,
+		a.student_id, b.surname, b.forename, b.preferredforename, 
+		b.form_id, a.class_id FROM cidsid a,
 		student b WHERE a.class_id='$cid' AND b.id=a.student_id ORDER
 		BY b.surname")){} else {print 'Failed!<br />';
 		$error=mysql_error(); print $error.'<br />';} 

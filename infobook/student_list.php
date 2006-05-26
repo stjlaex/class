@@ -50,6 +50,7 @@ two_buttonmenu();
 			<a href='infobook.php?current=student_view.php&sid=<?php print $sid;?>'>
 			  <?php print $student['surname']; ?>, 
 			  <?php print $student['forename']; ?>
+			  <?php if($student['preferredforename']!=''){print ' ('.$student['preferredforename'].')';}; ?>
 			</a>
 		  </td>
 		  <td><?php print $student['gender']; ?></td>	

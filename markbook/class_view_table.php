@@ -2,29 +2,34 @@
 /*********							class_view_table.php
 Generates the array $viewtable and stores as a session variable.
 */
-$d_students = mysql_query("SELECT * FROM students ORDER BY surname"); 
+$d_students=mysql_query("SELECT * FROM students ORDER BY surname"); 
 $row=0;
 $viewtable=array();
 
 /*shows comments for last month, needs sohpisticating!!!*/
-$tomonth = date('n')-1;
-$today	= date('j');
-$toyear = date('Y');
+$tomonth=date('n')-1;
+$today=date('j');
+$toyear=date('Y');
 $commentdate=$toyear.'-'.$tomonth.'-'.$today;
 
 while($student=mysql_fetch_array($d_students, MYSQL_ASSOC)){
-		$sid = $student{'student_id'}; 
+		$sid=$student{'student_id'}; 
 		$d_info= mysql_query("SELECT sen FROM info WHERE student_id='$sid'");
-		$sen = mysql_result($d_info, 0);
+		$sen=mysql_result($d_info, 0);
 
 		$comment=commentDisplay($sid,$commentdate);
 
+		if($student{'preferredforename'}!=''){
+			$displaypfn=' ('.$student{'preferredforename'}.') ';
+			}
+		else{$displaypfn='';}
 		$studentrow=array('row'=>$row, 'sen'=>$sen,
 				'commentclass'=>$comment['class'], 
 				'commentbody'=>$comment['body'], 
 				'sid'=>$sid,
 				'surname'=>$student{'surname'},
 				'forename'=>$student{'forename'},
+				'preferredforename'=>$displaypfn,
 				'form_id'=>$student{'form_id'},
 				'class_id'=>$student{'class_id'});
 
@@ -39,7 +44,7 @@ while($student=mysql_fetch_array($d_students, MYSQL_ASSOC)){
 		  $scoretype=$umns[$c]['scoretype'];
 	      if($marktype=='score'){
 /*				Mark is a score*/
-      		$d_score = mysql_query("SELECT * FROM score 
+      		$d_score=mysql_query("SELECT * FROM score 
 					WHERE mark_id='$col_mid' AND student_id='$sid'");
 		    $score=mysql_fetch_array($d_score,MYSQL_ASSOC);
 
@@ -54,7 +59,7 @@ while($student=mysql_fetch_array($d_students, MYSQL_ASSOC)){
 		      	}
 		    elseif($scoretype=='value'){
 					$score_value=$score{'value'};
-		      		$out = $score_value;
+		      		$out=$score_value;
 					$outrank=$score_value;			      
 			      	}
 		    elseif($scoretype=='percentage'){
@@ -64,7 +69,7 @@ while($student=mysql_fetch_array($d_students, MYSQL_ASSOC)){
 		      	if(!isset($score_total)){$score_total=$marktotal;}
 		      	include('percent_score.php');
 		      	if(isset($percent)){
-		      		$out = $percent.' ('.number_format($score_value,1,'.','').')';
+		      		$out=$percent.' ('.number_format($score_value,1,'.','').')';
 					$outrank=$cent;
 		      		} 
 		      	else{$out='';$outrank=-100;}			      
@@ -130,8 +135,8 @@ while($student=mysql_fetch_array($d_students, MYSQL_ASSOC)){
 					$cent=$scoresum/$scorecount;
 					$cent=round($cent,1);
 					$percent=sprintf('% 01.1f%%',$cent);
-					$out = $percent.' ('.number_format($scorecount,0,'.','').')';
-					$outrank = $percent;
+					$out=$percent.' ('.number_format($scorecount,0,'.','').')';
+					$outrank=$percent;
 					}
 				else{$out='';$outrank=-100;}
 				}
@@ -156,14 +161,14 @@ while($student=mysql_fetch_array($d_students, MYSQL_ASSOC)){
 				if(isset($yestotal)){include('percent_score.php');
 /*					if the scores have a total then must be dealing with a percent */
 					if(isset($percent)){
-						$out = $percent.' ('.number_format($score_value,1,'.','').')';
-						$outrank = $percent;
+						$out=$percent.' ('.number_format($score_value,1,'.','').')';
+						$outrank=$percent;
 						}
 					else{$out='';$outrank=-100;}
 					}
 				else{
 /*					otherwise its a raw score*/
-					if(isset($yesval)){$out=$score_value; $outrank = $score_value;}
+					if(isset($yesval)){$out=$score_value; $outrank=$score_value;}
 					else{$out='';$outrank=-100;}
 					}
 				unset($yesval);
@@ -255,9 +260,9 @@ while($student=mysql_fetch_array($d_students, MYSQL_ASSOC)){
 	    sortx($viewtable, $sort_array);
 		}
 
-function sortx(&$array, $sort = array()) {
-   $function = '';
-   while (list($key) = each($sort)) {
+function sortx(&$array, $sort=array()) {
+   $function='';
+   while (list($key)=each($sort)) {
      if (isset($sort[$key]['case'])&&($sort[$key]['case'] == TRUE)) {
        $function .= 'if (good_strtolower($a["' . $sort[$key]['name'] . '"])<>good_strtolower($b["' . $sort[$key]['name'] . '"])) { return (good_strtolower($a["' . $sort[$key]['name'] . '"]) ';
      } else {

@@ -18,13 +18,29 @@ function fetchshortStudent($sid){
 
 	$Student['id_db']=$sid;
 	
-	$Student['Surname']=array('label' => "surname",  'value' => $student['surname']);
-	$Student['Forename']=array('label' => "forename", 'value' => $student['forename']);
+	$Student['Surname']=array('label' => 'surname',  'value' => $student['surname']);
+	$Student['Forename']=array('label' => 'forename', 'value' => $student['forename']);
    	$Student['MiddleNames']=array('label' => 'middlenames', 'value' => $student['middlenames']);
-	$Student['PreferredForename']=array('label' => "preferredforename",  'value' => $student['preferredforename']);
-	$Student['FormerSurname']=array('label' => "formersurname", 'value' => $student['formersurname']);
+	$Student['PreferredForename']=array('label' =>
+					'preferredforename', 'value' => $student['preferredforename']);
+	$Student['FormerSurname']=array('label' => 'formersurname', 'value' => $student['formersurname']);
 
-	$Student['Gender']=array('label' => "gender", 'value' => $student['gender']);
+	if($student['preferredforename']!=' '){$displaypfn='('.$student['preferredforename'].') ';}
+	else{$displaypfn='';}
+	if($student['middlenamelast']=='Y'){
+		$Student['DisplayFullName']=array('label' => 'fullname',  
+		   'value' => $displaypfn. 
+					$student['forename'] . ' ' . $student['surname']
+									.' '. $student['middlenames']);
+		}
+	else{
+		$Student['DisplayFullName']=array('label' => 'fullname',  
+		   'value' => $displaypfn . 
+					$student['forename'] . ' ' .$student['middlenames']
+									  . ' ' .$student['surname']);
+		}
+
+	$Student['Gender']=array('label' => 'gender', 'value' => $student['gender']);
    	$Student['DOB']=array('label' => 'dateofbirth', 'value' => $student['dob']);
    	$Student['RegistrationGroup']=array('label' => 'formgroup',  'value' => $student['form_id']);
 	$yid=$student['yeargroup_id'];
@@ -70,19 +86,37 @@ function fetchStudent($sid){
 */
 	$Student['id_db']=$sid;
 	
-	$Student['Surname']=array('label' => "surname", 'table_db' => 'student', 'field_db' => "surname",
-					'type_db'=>"varchar(30)", 'value' => $student['surname']);
-	$Student['Forename']=array('label' => "forename",'table_db' => 'student', 'field_db' => "forename",
-					'type_db'=>"varchar(30)", 'value' => $student['forename']);
+	$Student['Surname']=array('label' => 'surname', 'table_db' => 'student', 'field_db' => 'surname',
+					'type_db'=>'varchar(30)', 'value' => $student['surname']);
+	$Student['Forename']=array('label' => 'forename','table_db' => 'student', 'field_db' => 'forename',
+					'type_db'=>'varchar(30)', 'value' => $student['forename']);
    	$Student['MiddleNames']=array('label' => 'middlenames','table_db' => 'student', 'field_db' => 'middlenames',
 					'type_db'=>'varchar(30)', 'value' => $student['middlenames']);
-	$Student['PreferredForename']=array('label' => "preferredforename", 'table_db' => 'student', 'field_db' => "preferredforename",
-					'type_db'=>"varchar(30)", 'value' => $student['preferredforename']);
-	$Student['FormerSurname']=array('label' => "formersurname",'table_db' => 'student', 'field_db' => "formersurname",
-					'type_db'=>"varchar(30)", 'value' => $student['formersurname']);
+	$Student['PreferredForename']=array('label' =>
+					'preferredforename', 'table_db' => 
+					'student', 'field_db' => 'preferredforename',
+					'type_db'=>'varchar(30)', 'value' => $student['preferredforename']);
+	$Student['FormerSurname']=array('label' => 'formersurname', 
+					'table_db' => 'student', 'field_db' => 'formersurname',
+					'type_db'=>'varchar(30)', 'value' => $student['formersurname']);
 
-	$Student['Gender']=array('label' => "gender",'table_db' => 'student', 'field_db' => "gender",
-					'type_db'=>"enum", 'value' => $student['gender']);
+	if($student['preferredforename']!=' '){$displaypfn='('.$student['preferredforename'].') ';}
+	else{$displaypfn='';}
+	if($student['middlenamelast']=='Y'){
+		$Student['DisplayFullName']=array('label' => 'fullname',  
+		   'value' => $displaypfn . 
+					$student['forename'] . ' ' .$student['surname']
+									  . ' ' .$student['middlenames']);
+		}
+	else{
+		$Student['DisplayFullName']=array('label' => 'fullname',  
+		   'value' => $displaypfn . 
+					$student['forename'] . ' ' .$student['middlenames']
+									  . ' ' . $student['surname']);
+		}
+
+	$Student['Gender']=array('label' => 'gender','table_db' => 'student', 'field_db' => 'gender',
+					'type_db'=>'enum', 'value' => $student['gender']);
    	$Student['DOB']=array('label' => 'dateofbirth','table_db' => 'student', 'field_db' => 'dob',
 					'type_db'=>'date', 'value' => $student['dob']);
    	$Student['RegistrationGroup']=array('label' => 'formgroup', 'table_db' => 'student', 'field_db' => 'form_id',
@@ -359,9 +393,9 @@ function fetchStudent($sid){
 		$Categories=array('label' => 'category', 
 					'table_db' => 'comments', 'field_db' => 'category',
 					'type_db'=>'varchar(100)', 'value' => ' ');
-		$pairs=explode(";",$background['category']);
+		$pairs=explode(';',$background['category']);
 		for($c3=0; $c3<sizeof($pairs)-1; $c3++){
-			list($catid, $rank)=split(":",$pairs[$c3]);
+			list($catid, $rank)=split(':',$pairs[$c3]);
 			$Category=array();
 			$d_categorydef = mysql_query("SELECT name FROM categorydef
 				WHERE id='$catid'");
@@ -492,9 +526,9 @@ function fetchComments($sid,$date,$ncyear){
 		$Categories=array();
 		$Categories=array('label' => 'category', 
 					 'value' => ' ');
-		$pairs=explode(";",$comment['category']);
+		$pairs=explode(';',$comment['category']);
 		for($c3=0; $c3<sizeof($pairs)-1; $c3++){
-			list($catid, $rank)=split(":",$pairs[$c3]);
+			list($catid, $rank)=split(':',$pairs[$c3]);
 			$Category=array();
 			$d_categorydef=mysql_query("SELECT name FROM categorydef
 				WHERE id='$catid'");
@@ -537,9 +571,9 @@ function commentDisplay($sid,$date,$Comments=''){
 				$commentdisplay['class']='negative';
 				}
 			else{$commentdisplay['class']='positive';}
-			$header=$Comments[0]['Subject']['value']." 
-				(".$Comments[0]['EntryDate']['value'].")";
-			$commentdisplay['body']=$header."<br />".$Comments[0]['Detail']['value'];
+			$header=$Comments[0]['Subject']['value']. 
+								' ('.$Comments[0]['EntryDate']['value'].')';
+			$commentdisplay['body']=$header.'<br />'.$Comments[0]['Detail']['value'];
 			}
 		else{$commentdisplay['class']='';$commentdisplay['body']='';}
 

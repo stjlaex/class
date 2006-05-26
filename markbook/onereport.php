@@ -13,7 +13,7 @@
 	  <td>
 <?php
 		print $viewtable[$row]['surname'].', ';
-		print $viewtable[$row]['forename'].' (';
+		print $viewtable[$row]['forename'].$viewtable[$row]['preferredforename'].' (';
 		print $viewtable[$row]['form_id'].')</td>';
 
 		$Assessments=array();

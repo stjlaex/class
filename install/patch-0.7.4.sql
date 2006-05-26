@@ -3,6 +3,8 @@ ALTER TABLE subject DROP teacher_id;
 ALTER TABLE yeargroup DROP teacher_id;
 ALTER TABLE users
     ADD language varchar(10) not null default '' AFTER email;
+ALTER TABLE student
+    ADD middlenamelast enum('N','Y') not null default 'N' AFTER surnamefirst;
 ALTER TABLE users
     ADD firstbookpref varchar(20) not null default '' AFTER language;
 ALTER TABLE users
@@ -26,6 +28,6 @@ CREATE TABLE section (
 	);
 DROP table teacher;
 INSERT subject (id,name) VALUES ('G','General');
-INSERT categorydef (name,type,rating,subject_id,course_id) VALUES ('Form tutor','com','0','summary','%');
-INSERT categorydef (name,type,rating,subject_id,course_id) VALUES ('Year coordinator','com','1','summary','%');
-INSERT categorydef (name,type,rating,subject_id,course_id) VALUES ('Head of secondary','com','2','summary','%');
+INSERT categorydef (name,type,rating,subject_id,course_id) VALUES ('Form tutor','com','0','form','%');
+INSERT categorydef (name,type,rating,subject_id,course_id) VALUES ('Year coordinator','com','1','year','%');
+INSERT categorydef (name,type,rating,subject_id,course_id) VALUES ('Head of secondary','com','2','section','%');

@@ -9,6 +9,7 @@ CREATE TABLE student (
 	forename		varchar(30) not null default '',
 	middlenames		varchar(30) not null default '',
 	surnamefirst	enum('Y','N') not null default 'N',
+	middlenamelast	enum('Y','N') not null default 'N',
 	preferredforename varchar(30) not null default '',
 	formersurname	varchar(30) not null default '',
 	gender 			enum('','M','F') not null default '', 

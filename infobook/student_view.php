@@ -11,8 +11,7 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 ?>
   <div id="heading">
 			  <label><?php print_string('student'); ?></label>
-			<?php print $Student['Forename']['value'].' '. $Student['Surname']['value'].' '.
-			  $Student['MiddleNames']['value'];?>
+			<?php print $Student['DisplayFullName']['value'];?>
   </div>
 
   <div id="viewcontent" class="content">
@@ -27,9 +26,8 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 		  </caption>
 		  <tr>
 			<td>
-			  <label><?php print_string($Student['Forename']['label'],$book); ?></label>
-			<?php print $Student['Forename']['value'].' '. $Student['Surname']['value'].' '.
-			  $Student['MiddleNames']['value'];?>
+			  <label><?php print_string($Student['DisplayFullName']['label'],$book); ?></label>
+			<?php print $Student['DisplayFullName']['value'];?>
 			</td>
 			<td>
 			<label><?php print_string($Student['RegistrationGroup']['label'],$book);?></label>
