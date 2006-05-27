@@ -1,10 +1,10 @@
 <?php 
-/**														registerbook.php
+/**														register.php
  *	This is the hostpage for the register
  */
 
-$host='registerbook.php';
-$book='registerbook';
+$host='register.php';
+$book='register';
 $current='';
 $choice='';
 $cancel='';
@@ -19,7 +19,7 @@ if(isset($_POST{'cancel'})){$cancel=$_POST{'cancel'};}
   <div id="bookbox" class="registercolor">
 <?php
 	if($current!=''){
-		$view = 'registerbook/'.$current;
+		$view = 'register/'.$current;
 		include($view);
 		}
 	else{
@@ -35,7 +35,7 @@ if(isset($_POST{'cancel'})){$cancel=$_POST{'cancel'};}
   </div>
 
   <div style="visibility:hidden;" id="hiddenbookoptions">	
-	<fieldset class="registerbook">
+	<fieldset class="register">
 	  <legend><?php print_string('options');?></legend>
 	</fieldset>
   </div>
