@@ -50,13 +50,12 @@ if($dbstat!=''){
 <meta name="licence" content="GNU General Public License version 2" />
 <link rel="stylesheet" type="text/css" href="../../css/viewstyle.css" />
 <link rel="stylesheet" type="text/css" href="../../css/commentwriter.css" />
-<script src="../../js/formfunctions.js" type="text/javascript"></script>
-<script src="../../js/statementbank.js" type="text/javascript"></script>
-<script src="../../js/printing.js" type="text/javascript"></script>
 <script src="../../lib/spell_checker/cpaint/cpaint2.inc.js" type="text/javascript"></script>
 <script src="../../lib/spell_checker/js/spell_checker.js" type="text/javascript"></script>
+<script src="../../js/formfunctions.js" type="text/javascript"></script>
+<script src="../../js/statementbank.js" type="text/javascript"></script>
 </head>
-<body onload="loadRequired();">
+<body onload="setupSpellCheckers(); loadRequired();">
 
 	<div id="bookbox">
 	  <?php three_buttonmenu(); ?>

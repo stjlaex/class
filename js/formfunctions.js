@@ -50,7 +50,7 @@ function tinyTabs(tabObject){
 	var fragment=document.getElementById(sourceId).innerHTML;
 	document.getElementById(targetId).innerHTML="";
 	document.getElementById(targetId).innerHTML=fragment;
-	if(ability){
+	if(document.getElementById("statementbank")){
 		//this must be running the statement bank
 		filterbyAbility(ability);
 		}
@@ -220,17 +220,17 @@ function makeLabel(xmltag){
 //used by the buttonmenu to submit or reset the content form
 
 function processContent(buttonObject){
-	var formObject = document.formtoprocess;
-	var formElements = formObject.elements;
-	var buttonname = buttonObject.name;
-	if(buttonObject.value == 'Reset'){
+	var formObject=document.formtoprocess;
+	var formElements=formObject.elements;
+	var buttonname=buttonObject.name;
+	if(buttonObject.value=="Reset"){
 		document.formtoprocess.reset();
 		}
-	else if(buttonObject.value == 'Cancel'){
-		var input = document.createElement('input');
-		input.type = "hidden";
-		input.name = buttonObject.name;
-		input.value = buttonObject.value;
+	else if(buttonObject.value=="Cancel"){
+		var input=document.createElement("input");
+		input.type="hidden";
+		input.name=buttonObject.name;
+		input.value=buttonObject.value;
 		document.formtoprocess.appendChild(input);
 		document.formtoprocess.submit();
 		}
@@ -238,8 +238,8 @@ function processContent(buttonObject){
 		var done=0;
 		for(c=0; c<formElements.length; c++){
 			if(buttonname==formElements[c].name){
-				document.formtoprocess.elements[c].value = buttonObject.value;
-				var done = 1;
+				document.formtoprocess.elements[c].value=buttonObject.value;
+				var done=1;
 				}
 			}
 		if(done!=1){
@@ -249,7 +249,7 @@ function processContent(buttonObject){
 			input.value=buttonObject.value;
 			document.formtoprocess.appendChild(input);
 			}
-		if(buttonObject.value!='Submit' && buttonObject.value!='Enter'){
+		if(buttonObject.value!="Submit" && buttonObject.value!="Enter"){
 			document.formtoprocess.submit();
 			}
 		else if(validateForm()){
@@ -319,7 +319,6 @@ function loadRequired(){
 		  document.forms[0].elements[firstFocus].focus();  
 		  }
 		}
-
 	if(document.getElementById('current-tinytab')){
 		tinyTabs(document.getElementById('current-tinytab'));
 		}
@@ -345,7 +344,7 @@ function getPattern(patternName){
 
 function validateForm(formObject){
 	if(!formObject){var formObject=document.formtoprocess;}
- 	var errorMessage='';
+ 	var errorMessage="";
  	for(var i=0; i<formObject.elements.length; i++){
 		message=validateResult(formObject.elements[i])
 		if(message){errorMessage=errorMessage+" \n"+message;};
@@ -379,26 +378,32 @@ function validateRequired(formField){
 //
 
 function validateResult(formField){
-	var result='';
+	var result="";
 	var fieldValue=formField.value;
 	var fieldClass=formField.className;
 	var fieldLabel=getLabel(formField.id);
-	var patternName=formField.getAttribute('pattern');
-	var maxLength=formField.getAttribute('maxlength');
-	if(fieldClass=='required' && fieldValue=='Select'){
+	var patternName=formField.getAttribute("pattern");
+	var fieldTitle=formField.getAttribute("title");
+	var maxLength=formField.getAttribute("maxlength");
+	if(fieldTitle=="spellcheck" && currObj.spellingResultsDiv){
+//		setCurrentObject(currObj); 
+//		resumeEditing();
+		result="You need to 'Resume Editing' before you SUBMIT!";
+		}
+	if(fieldClass=="required" && fieldValue=="Select"){
 		result="Please select a value for "+fieldLabel+".";
 		}
-	else if(fieldClass=='required' && fieldValue.length==0){
+	else if(fieldClass=="required" && fieldValue.length==0){
 		result="Please complete "+fieldLabel+".";  
 		}
-   	else if(patternName!=null && patternName!='email'){
+   	else if(patternName!=null && patternName!="email"){
 		var pattern=getPattern(patternName);
      	var problem=fieldValue.match(pattern);
     	if(problem!=null){
        		result="Found this non-allowed value '"+problem+"' in "+fieldLabel+"! \n";
 			}
   		}
-   	else if(patternName!=null && patternName=='email'){
+   	else if(patternName!=null && patternName=="email"){
 		var pattern=getPattern(patternName);
      	var problem=fieldValue.match(pattern);
     	if(problem==null && fieldValue!=''){
