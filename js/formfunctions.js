@@ -40,18 +40,21 @@ function updateComment(commentId,text){
 //------------------------------------------------------
 //
 function tinyTabs(tabObject){
-	// the id of containing div
+	// the id of containing div (eg. area for statementbank)
 	var tabmenuId=tabObject.parentNode.parentNode.parentNode.id;
 	var chosentab=tabObject.getAttribute("class");
 	document.getElementById("current-tinytab").removeAttribute('id');
 	document.getElementById("tinytab-"+tabmenuId+"-"+chosentab).firstChild.setAttribute("id","current-tinytab");
 	var targetId="tinytab-display-"+tabmenuId;
 	var sourceId="tinytab-xml-"+tabmenuId+"-"+chosentab;
-//	processXML(targetId,sourceId,'statement.xsl','');
 	var fragment=document.getElementById(sourceId).innerHTML;
 	document.getElementById(targetId).innerHTML="";
 	document.getElementById(targetId).innerHTML=fragment;
-}
+	if(ability){
+		//this must be running the statement bank
+		filterbyAbility(ability);
+		}
+	}
 
 //------------------------------------------------------
 //used within a listmenu table
@@ -123,10 +126,10 @@ function updatexmlRecord(){
 			var recordId=xmlRecord.getElementsByTagName('id_db').item(0).firstChild.data;
 			var exists=xmlRecord.getElementsByTagName('exists').item(0).firstChild.data;
 //		var xmlId='xml-'+recordId;
-//		var xmlContainer = document.getElementById(xmlId);
+//		var xmlContainer=document.getElementById(xmlId);
 //	    xmlContainer.firstChild.data=xmlRecord;
 			if(exists!='true'){
-				var tableRecord = document.getElementById(recordId);
+				var tableRecord=document.getElementById(recordId);
 				while(tableRecord.hasChildNodes()){
 					tableRecord.removeChild(tableRecord.childNodes[0]);
 					}

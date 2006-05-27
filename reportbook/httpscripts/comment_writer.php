@@ -99,12 +99,27 @@ if($dbstat!=''){
 		onclick="tinyTabs(this)"><?php print $Area['Name'];?></p></li>
 
 			<div class="hidden" id="tinytab-xml-area-<?php print $Area['Name'];?>">
+				<div style="float:left;width:10%;" class="statementlevels">
 				<table class="listmenu">
+<?php
+					   print '<tr><td onclick="filterbyAbility(\'*\')">All</td></tr>';
+				   $Levels=(array)$Area['Levels'];
+				   while(list($index,$Level)=each($Levels)){
+					   print '<tr><td onclick="filterbyAbility('.$Level['Value'].')">'.$Level['Name'].'</td></tr>';
+					   }
+?>
+				</table>
+				</div>
+				<table style="float:left;width:88%;" class="listmenu">
 <?php
 				   $Statements=(array)$Area['Statements'];
 				   while(list($index,$Statement)=each($Statements)){
 					   $Statement=personaliseStatement($Statement,$Student);
-					   print '<tr><td onclick="chooseStatement(this)">'.$Statement['Value'].'</td></tr>';
+					   print '<tr><td onclick="chooseStatement(this)" ';
+					   print ' ability="'.$Statement['Ability'].'" '; 
+					   print ' author="'.$Statement['Author'].'" '; 
+					   print ' count="'.$Statement['Counter'].'" '; 
+					   print '>'.$Statement['Value'].'</td></tr>';
 					   }
 ?>
 				</table>

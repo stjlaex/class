@@ -11,7 +11,7 @@ function updateMarkDisplay(state){
 	var selMarks = document.getElementById('mids');
 	if(!theBook.getElementById("marktable")){
 		//marks not displayed
-		selMarks.style.display = "none";
+		selMarks.style.display="none";
 		return;
 		}
 	else if(state!=0) {

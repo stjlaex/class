@@ -354,6 +354,9 @@ tr.hidden {
 tr.revealed td { 
 	background-color:#999999;
 	}
+td.hidden { 
+	display:none;
+	}
 
 /*tinytabs*/
 .tinytabs {

@@ -201,6 +201,6 @@ $string['emailfooterdisclaimer']='
 		use or dissemination of this message in whole or in part is
 		strictly prohibited.';
 $string['passwords']='Passwords';
-$string['']='';
+$string['statementbank']='Statement bank';
 $string['']='';
 ?>

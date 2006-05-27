@@ -1,7 +1,7 @@
 //							statementbank.js
 
-var area;
-var ability;
+var subarea="*";
+var ability="*";
 
 function chooseStatement(statementObject){
 	var comment=document.getElementById("Comment").value;
@@ -9,17 +9,29 @@ function chooseStatement(statementObject){
 	document.getElementById("Comment").value=comment;
 	}
 
-
-function filterbyArea(newarea){
-	area=newarea;
-	filterStatements(area,ability);
+function filterbySubarea(newsubarea){
+	area=newsubarea;
+	filterStatements(subarea,ability);
 	}
 
 function filterbyAbility(newability){
 	ability=newability;
-	filterStatements(area,ability);
+	filterStatements(subarea,ability);
 	}
 
-function filterStatements(area,ability){
-
+function filterStatements(subarea,ability){
+	currentArea=document.getElementById("current-tinytab").getAttribute("class");
+	var sourceId="tinytab-display-area";
+	var statements=document.getElementById(sourceId).getElementsByTagName('td');
+	for(var i=0; (statement=statements[i]); i++){
+		if(statement.getAttribute('ability')){
+			if(statement.getAttribute('ability')==ability || ability=='*'){
+				statement.style.display="table-cell";
+				}
+			else{
+				statement.style.display="none";
+				}
+			}
+		}
+	return;
 	}

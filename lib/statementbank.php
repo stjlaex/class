@@ -29,8 +29,19 @@ function fetchStatementBank($crid,$bid,$pid,$stage,$dbstat=''){
 			$d_grouping=mysql_query("SELECT id, rating_name FROM grouping WHERE
 						course_id='$crid' AND subject_id='$bid' AND area_id='$areaid'
 						AND component_id LIKE '$pid' AND stage LIKE '$stage';");
-			$grid=mysql_result($d_grouping,0);
-			$ratingname=mysql_result($d_grouping,1);
+			$grid=mysql_result($d_grouping,0,0);
+			$ratingname=mysql_result($d_grouping,0,1);
+			$d_rating=mysql_query("SELECT descriptor, value FROM
+						rating WHERE name='$ratingname' ORDER BY value
+						DESC;");
+			$Levels=array();
+			while($rating=mysql_fetch_array($d_rating,MYSQL_ASSOC)){
+				$Level=array();
+				$Level['Name']=$rating['descriptor'];
+				$Level['Value']=$rating['value'];
+				$Levels[]=$Level;
+				}
+			$nolevels=sizeof($Levels);
 
 			$d_stat=mysql_query("SELECT * FROM statement JOIN gridstid 
 				ON statement.id=gridstid.statement_id WHERE gridstid.grouping_id='$grid';");
@@ -40,9 +51,11 @@ function fetchStatementBank($crid,$bid,$pid,$stage,$dbstat=''){
 				$Statement['Value']=$statement['statement_text'];
 				$Statement['Counter']=$statement['counter'];
 				$Statement['Author']=$statement['author'];
+				$Statement['Ability']=$statement['rating_fraction']*$nolevels;
 				$Statements[]=$Statement;
 				}
 			$StatementBank['Area']["$areaid"]['Statements']=$Statements;
+			$StatementBank['Area']["$areaid"]['Levels']=$Levels;
 			}
 		}
 	return $StatementBank;
