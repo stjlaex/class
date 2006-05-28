@@ -128,7 +128,7 @@ three_buttonmenu();
 		  <tr>
 			<td>
 			  <label for="Topic">
-				<?php print_string('markstitleanidentifyingname',$book);?>
+				<?php print_string('markstitleidentifyingname',$book);?>
 			  </label>
 			</td>
 		  </tr>

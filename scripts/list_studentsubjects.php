@@ -1,13 +1,11 @@
 <?php 
-/*											list_subjects.php
-
-Called within a form to list teacher's subjects.
-
-set $multi qual to size of select list (default=1 and not mutiple)
-set $required to 'no' to make not required (default=yes)
-*/
-	if(!isset($required)){$required="yes";}
-	if(!isset($multi)){$multi="1";}
+/**					   				list_studentsubjects.php
+ *
+ *set $multi qual to size of select list (default=1 and not mutiple)
+ *set $required to 'no' to make not required (default=yes)
+ */
+	if(!isset($required)){$required='yes';}
+	if(!isset($multi)){$multi='1';}
 
    	$d_subject=mysql_query("SELECT DISTINCT subject_id FROM
 				class JOIN cidsid ON class.id=cidsid.class_id WHERE
@@ -29,26 +27,3 @@ set $required to 'no' to make not required (default=yes)
 		}
 ?>			
 </select>
-
- 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

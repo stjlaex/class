@@ -56,7 +56,7 @@ three_buttonmenu();
 				checked="checked" />
 			</td>
 			<td>
-			  <?php print_string('deletemarkonlyforthecurrentlychosenclasses',$book);?>
+			  <?php print_string('deletemarkcurrentlychosen',$book);?>
 			</td>
 		  </tr>
 		  <tr>
@@ -64,7 +64,7 @@ three_buttonmenu();
 			  <input type="radio" name="delete" value="all" />
 			</td>
 			<td>
-			  <?php print_string('deletemarkcompletelyforallclasses',$book);?>
+			  <?php print_string('deletemarkforall',$book);?>
 			</td>
 		  </tr>
 		  <tr><td></td><td></td></tr>

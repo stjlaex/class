@@ -21,14 +21,16 @@ function fetchStatementBank($crid,$bid,$pid,$stage,$dbstat=''){
 		$d_area=mysql_query("SELECT DISTINCT area.id, area.name FROM area
 				JOIN grouping ON area.id=grouping.area_id WHERE
 	   			grouping.course_id='$crid' AND grouping.subject_id='$bid' AND 
-	   			grouping.component_id LIKE '$pid' AND grouping.stage LIKE '$stage';");
+	   			(grouping.component_id LIKE '$pid' OR
+					grouping.component_id='%') AND (grouping.stage
+					LIKE '$stage' OR grouping.stage='%')");
 		while($area=mysql_fetch_array($d_area,MYSQL_ASSOC)){
 			$areaid=$area['id'];
 			$StatementBank['Area']["$areaid"]['Name']=$area['name'];
-
-			$d_grouping=mysql_query("SELECT id, rating_name FROM grouping WHERE
+			$d_grouping=mysql_query("SELECT DISTINCT id, rating_name FROM grouping WHERE
 						course_id='$crid' AND subject_id='$bid' AND area_id='$areaid'
-						AND component_id LIKE '$pid' AND stage LIKE '$stage';");
+						AND (component_id LIKE '$pid' OR
+						component_id='%') AND (stage LIKE '$stage' OR stage='%');");
 			$grid=mysql_result($d_grouping,0,0);
 			$ratingname=mysql_result($d_grouping,0,1);
 			$d_rating=mysql_query("SELECT descriptor, value FROM

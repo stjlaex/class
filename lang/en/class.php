@@ -196,5 +196,8 @@ $string['emailfooterdisclaimer']='
 $string['passwords']='Passwords';
 $string['statementbank']='Statement bank';
 $string['usesubjectcomponents']='Use subject components';
+$string['subjectcomponent']='Subject component';
+$string['teachercomment']='Teacher comment';
+$string['']='';
 $string['']='';
 ?>
