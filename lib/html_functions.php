@@ -69,4 +69,22 @@ function twoplusprint_buttonmenu(){
 
 <?php
 	}
+
+function check_yesno($name='answer',$choice='no'){
+?>
+<div class="left">
+<label for="yes"><?php print_string('yes');?></label>
+<input type="radio" name="<?php print $name;?>" title="yes" id="yes" 
+	  value="yes" <?php if($choice=='yes'){print 'checked';}?> />
+</div>
+<div class="right">
+<label for="no"><?php print_string('no');?></label>
+<input type="radio" name="<?php print $name;?>" title="no" id="no"
+	  value="no" <?php if($choice=='no'){print 'checked';}?> />
+</div>
+<?php
+	}
+
+
+
 ?>

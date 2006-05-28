@@ -22,6 +22,9 @@ else{
 */
 
 $reportdef=fetchReportDefinition($rid);
+if($reportdef['report']['commentlength']=='0'){$commentlength='';}
+else{$commentlength=' maxlength="'.$reportdef['report']['commentlength'].'"';}
+
 $Student=fetchshortStudent($sid);
 $Report['Comments']=fetchReportEntry($reportdef, $sid, $bid, $pid);
 if(sizeof($Report['Comments']['Comment'])==0 or $entryn==sizeof($Report['Comments']['Comment'])){
@@ -71,7 +74,7 @@ if($dbstat!=''){
 		  <div class="center">
 			<textarea title="spellcheck" id="Comment" 
 			  accesskey="../../lib/spell_checker/spell_checker.php" 
-			  maxlength="1000" tabindex="0"  
+			  <?php print $commentlength;?> tabindex="0"  
 				name="incom" ><?php print $Comment['Text']['value'];?></textarea>
 		  </div>
 		<input type="hidden" name="inmust" value="<?php print $inmust;?>"/>

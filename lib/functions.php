@@ -244,4 +244,18 @@ function getEnumArray($field_name) {
 
 	return $$field_name;
 }
+
+
+function list_directory_files($directory,$extension='*'){
+    $results=array();
+    $handler=opendir($directory);
+    while($file=readdir($handler)){
+        if($file!='.' and $file!='..'){
+			$fileparts=explode('.',$file);
+            if($fileparts[1]==$extension or $extension=='*'){$results[]=$fileparts[0];}
+			}
+		}
+    closedir($handler);
+    return $results;
+	}
 ?>

@@ -31,7 +31,7 @@ elseif($sub=='Submit'){
 						subject_id, component_id) VALUES
 						('$incom', '$incategory', '$tid', '$rid', '$sid',
 						'$bid', '$pid')")){
-			$result[]="NEW Report entry submitted: ".$incom;
+			$entryn=mysql_insert_id();
 			}
 		else {$error[]=mysql_error();}
 		}
@@ -52,8 +52,6 @@ elseif($sub=='Submit'){
 		else {$error[]=mysql_error();}
 		}
 	}
-$result[]=$openerId;
-$result[]=$incom;
 $comment=js_addslashes($incom);
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -69,7 +67,7 @@ $comment=js_addslashes($incom);
 <link id="viewstyle" rel="stylesheet" type="text/css" href="../../css/commentwriter.css" />
 <script language="JavaScript" type="text/javascript" src="../../js/formfunctions.js"></script>
 </head>
-<body onload="closeCommentWriter(<?php print '\''.$openerId.'\',\''.$comment.'\'';?>);">
+<body onload="closeCommentWriter(<?php print '\''.$openerId.'\',\''.$entryn.'\',\''.$comment.'\'';?>);">
 	<div id="bookbox">
 
 	  <div id="heading">

@@ -36,41 +36,51 @@ three_buttonmenu();
 
 	  <fieldset class="left">
 		<legend><?php print_string('includeassessmentscores',$book);?></legend>
-	  <?php include('scripts/list_assessment.php');?>
+		<?php include('scripts/list_assessment.php');?>
 	  </fieldset>
 
-	  <fieldset class="right">
-		<legend><?php print_string('properties',$book);?></legend>
-		<div>
-	  <?php include('scripts/list_stage.php') ;?>
-		</div>
-
-		<div class="left">
-		<?php include('scripts/list_componentstatus.php'); ?>
-		</div>
-	  </fieldset>
 
 	  <fieldset class="right">
 		<legend><?php print_string('writtencomments',$book);?></legend>
+
 		<div class="left">
-		  <label for="Report Type"><?php print_string('allowsubjectcomments',$book);?></label>
-		  <input type="checkbox" id="Report Type" name="reptype" value="yes" />
+		  <label><?php print_string('addcategories',$book);?></label>
+		  <?php check_yesno('addcategory')?>
 		</div>
 		<div class="left">
+		  <label><?php print_string('allowsubjectcomments',$book);?></label>
+		  <?php check_yesno('reptype')?>
+		</div>
+		<div class="left">
+		  <label><?php print_string('commentsarecompulsory',$book);?></label>
+		  <?php check_yesno('commentcomp')?>
+		</div>
+		<div class="right">
 		  <label for="Comment Length">
 			<?php print_string('restrictcommentscharacterlength',$book);?>
 		  </label>
 		  <input type="text" pattern="integer" id="Comment Length"
 			name="commentlength" maxlength="5" length="4"/>
 		</div>
+	  </fieldset>
+
+
+	  <fieldset class="right">
+		<legend><?php print_string('properties',$book);?></legend>
+		<div>
+		  <?php include('scripts/list_stage.php') ;?>
+		</div>
+
 		<div class="left">
-		  <label for="Comment Compulsory">
-			<?php print_string('commentsarecompulsory',$book);?>
-		  </label>
-		  <input type="checkbox" id="Comment Compulsory"
-			name="commentcomp" value="yes"/>
+		  <?php include('scripts/list_componentstatus.php'); ?>
 		</div>
 	  </fieldset>
+
+	  <fieldset class="left">
+		<legend><?php print_string('nameoftemplate',$book);?></legend>
+		<?php include('scripts/list_template.php');?>
+	  </fieldset>
+
 
 		<input type="hidden" name="current" value="<?php print $action;?>" />
 		<input type="hidden" name="choice" value="<?php print $choice; ?>"/>

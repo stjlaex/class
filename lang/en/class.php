@@ -116,18 +116,11 @@ $string['stage']='Stage';
 $string['printlabel']='Print label';
 $string['method']='Method';
 $string['resultqualifier']='Result qualifier';
-$string['usesubjectcomponents']='Use subject components';
-$string['identityofreport']='Identity of report';
 $string['title']='Title';
 $string['publisheddate']='Published date';
 $string['deadlineforcompletion']='Deadline for completion';
 $string['includeassessmentscores']='Include assessment scores';
 $string['properties']='Properties';
-$string['writtencomments']='Written comments';
-$string['allowsubjectcomments']='Allow subject comments';
-$string['restrictcommentscharacterlength']='Restrict comment\'s
-character length';
-$string['commentsarecompulsory']='Comments are compulsory';
 $string['formgroups']='Form groups';
 $string['logcounter']='Log counter';
 $string['classesmatrix']='Classes matrix';
@@ -202,5 +195,6 @@ $string['emailfooterdisclaimer']='
 		strictly prohibited.';
 $string['passwords']='Passwords';
 $string['statementbank']='Statement bank';
+$string['usesubjectcomponents']='Use subject components';
 $string['']='';
 ?>

@@ -91,15 +91,14 @@ three_buttonmenu();
 			}
 		$inasses[]=$inorder;
 		}
-
-	/*column headers for the categories and rating details for later use*/
-		list($ratingnames, $catdefs)=fetchReportCategories($rid,$bid);
 ?>
 		  </tr>
 		</thead>
 <?php
 	$inorders=array('rid'=>$rid, 'subject'=>$bid, 'component'=>$pid, 'inasses'=>$inasses);
    	if($report['addcategory']=='yes'){
+		/*the categories and rating details for later use*/
+		list($ratingnames, $catdefs)=fetchReportCategories($rid,$bid);
 		$inorders['category']='yes';
 		$inorders['catdefs']=$catdefs;
 		}

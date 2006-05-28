@@ -194,11 +194,12 @@ function fetchReportEntry($reportdef, $sid, $bid, $pid){
    				$catname=$catdefs[$c4]['name'];
 			   	$ratings=$ratingnames[$catdefs[$c4]['rating_name']];
 			  	$Category=array('label' => $catname, 'id_db' => $catid);
-			   	while(list($value,$descriptor)=each($ratings)){
-			   		if(isset($entry['ratings'][$catid])){
+				if(isset($entry['ratings'][$catid])){
+					while(list($value,$descriptor)=each($ratings)){
 				   		if($entry['ratings'][$catid]==$value){$Category['value']=$value;}
-				   		}
+						}
 				   	}
+				else{$Category['value']='';}
 			   	$Categories['Category'][]=nullCorrect($Category);
 		   		}
 		   $Comment['Categories']=nullCorrect($Categories);

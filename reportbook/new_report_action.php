@@ -13,18 +13,27 @@ if($sub=='Submit'){
 		$compstatus=$_POST{'componentstatus'};
 		$stage=$_POST{'stage'};
 		if(isset($_POST{'reptype'})){$reptype=$_POST{'reptype'};}else{$reptype='no';}
+		if(isset($_POST{'addcategory'})){$addcategory=$_POST{'addcategory'};}else{$addcategory='no';}
 		if(isset($_POST{'commentlength'})){$commentlength=$_POST{'commentlength'};}
 		else{$commentlength='0';}
 		if(isset($_POST{'commentcomp'})){$commentcomp=$_POST{'commentcomp'};}
 		else{$commentcomp='no';}
+		if(isset($_POST{'template'})){$style=$_POST{'template'};}else{$style='';}
+		if(isset($_POST{'template'})){$transform=$_POST{'template'};}else{$template='';}
 		$date=$_POST['date0'];
 		$deadline=$_POST['date1'];
 		if(mysql_query("INSERT INTO report (title, comment, course_id,
-				date, deadline, addcomment, commentlength, commentcomp) VALUES
+				date, deadline, addcomment, commentlength,
+					commentcomp, addcategory, style, transform) VALUES
 				('$title', '$comment', '$rcrid',
-				'$date', '$deadline', '$reptype', '$commentlength', '$commentcomp');"))	
+				'$date', '$deadline', '$reptype', '$commentlength',
+					'$commentcomp', '$addcategory', '$style', '$transform');"))	
 				{$result[]='Successfully created new report.';}
-		else {$result[]='Failed to create report!'; $error[]=mysql_error();}
+		else {$error[]='Failed to create report!';
+				$error[]=mysql_error(); 
+				include('scripts/results.php'); 
+				exit;
+				}
 
 /*		generate mark columns for the new report*/
 		$rid=mysql_insert_id();
@@ -88,6 +97,19 @@ if($sub=='Submit'){
 				VALUES ('$rid', '$eid')")){}
 			else{$error[]='Failed to link to assessment!'.mysql_error();}
 			}
+
+		if($addcategory=='yes'){
+			$d_catdef=mysql_query("SELECT id FROM categorydef WHERE
+						type='rep' AND (course_id='%' OR course_id
+							LIKE '$rcrid')");
+			while($d_catid=mysql_fetch_array($d_catdef,MYSQL_NUM)){
+				$catid=$d_catid[0];
+				mysql_query("INSERT INTO ridcatid (report_id,
+							categorydef_id, subject_id) VALUES
+							('$rid', '$catid', '%')");
+				}
+			}
+
 		}
 
 include('scripts/results.php');

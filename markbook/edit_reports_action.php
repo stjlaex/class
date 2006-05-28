@@ -58,7 +58,6 @@ if($sub=='Submit'){
 				$in=$_POST{"sid$sid:$c2"};
 				if($inorder['table']=='score' and $inorder['field']=='grade' and $in!=''){
 					$mid=$inorder['id'];
-					
 					if(mysql_query("INSERT INTO score (grade,
 						mark_id, student_id) VALUES
 						('$in',  '$mid', '$sid')")){}
@@ -118,31 +117,31 @@ if($sub=='Submit'){
 			}
 		/*finished assessment scores*/
 
-		/*now do subject teacher entries*/
-		while(($inorders['comment']=='yes' or
-					$inorders['category']=='yes') and isset($_POST{"sid$sid:$c2"})){
+		/*now do individual subject teacher entries*/
+		while(isset($_POST{"inmust$sid:$c2"})){
 			$incategory='';
-			$inmust=$_POST{"sid$sid:$c2"}; 
+			$inmust=$_POST{"inmust$sid:$c2"};
 			$c2++;
-			/*	  		if($inorders['category']=='yes'){
-				for($catn=0;$catn<sizeof($catdefs);$catn++){
-				   if(isset($_POST{"sid$sid:$c2"})){
+	   		if($inorders['category']=='yes'){
+				reset($catdefs);
+				while(list($catn,$catdef)=each($catdefs)){
+					if(isset($_POST{"sid$sid:$c2"})){
 					    $in=$_POST{"sid$sid:$c2"};
-						$c2++;
-						$incategory=$incategory.$catdefs['catid'][$catn].":".$in.";";
+						$incategory=$incategory . $catdef['id'].':'.$in.';';
 						}
-				   }
+					$c2++;
+					}
+				$result[]=$inmust.' '.$incategory;
 				}
-				*/
 			/*this assumes that the comment comes after all the category entries!!!*/
 			if($inorders['comment']=='yes'){
-						  if(isset($_POST{"sid$sid:$c2"})){
-								$incom=$_POST{"sid$sid:$c2"};
-								$c2++;
-								}
-							  else{$incom='';}
-							  }
-			if($inmust=='yes' and $incom=='' and $incategory!=''){
+				if(isset($_POST{"sid$sid:$c2"})){
+					$incom=$_POST{"sid$sid:$c2"};
+					$c2++;
+					}
+				else{$incom='';}
+				}
+			if($inmust=='yes' and $incategory!=''){
 						if(mysql_query("INSERT INTO reportentry (
 						category, teacher_id, report_id, student_id, 
 						subject_id, component_id) VALUES

@@ -87,36 +87,38 @@
 	<tr onClick="clickToReveal(this)" class="rowplus" 
 					id="<?php print $openId.'-'.$rown++;?>">
 	  <th>&nbsp</th>
-	  <td> Teacher Comment:</td>
+	  <td><?php print_String('teachercomment');?>:</td>
 	  <td><?php print $Comment['Teacher']['value'];?></td>
-	  <td id="icon<?php print $openId;?>" class="">			  
+	  <td id="icon<?php print $openId;?>" class="">		  
 		<img class="clicktoedit" name="Write"  
 		  onClick="clickToWriteComment(<?php print $sid.','.$rid.',\''.$bid.'\',\''.$pid.'\',\''.$entryn.'\',\''.$openId.'\'';?>);" 
 		  title="<?php print_string('clicktowritecomment');?>" />
 	  </td>
-	  <input type="hidden" id="" name="sid<?php print $sid.':'.$inc++;?>" 
+	  <input type="hidden" id="inmust<?php print $openId;?>" name="inmust<?php print $sid.':'.$inc++;?>" 
 		value="<?php print $inmust;?>" />
 	</tr>
 <?php
 		if($report['addcategory']=='yes'){
+		  reset($catdefs);
   		  while(list($c4,$catdef)=each($catdefs)){
 			$catid=$catdefs[$c4]['id'];
 			$catname=$catdefs[$c4]['name'];
 			$ratings=$ratingnames[$catdefs[$c4]['rating_name']];
 		   	print '<tr class="hidden" id="'.$openId.'-'.$rown++.'"><th></th>';
-			  print '<td><label>'.$catname.'</label>: </td>';
+			print '<td>'.$catname.'</td>';
 			while(list($value,$descriptor)=each($ratings)){
-			  print '<td style="background-color:#eeeeee;
-				padding:0.5em;" ><label>'.$descriptor.'</label>';
-			  print '<input type="radio" style="width:2em;"
-						title="'.$descriptor.'" name="sid'.$sid.':'.$inc++.'"
+			  print '<td><label>'.$descriptor.'</label>';
+			  print '<input type="radio" name="sid'.$sid.':'.$inc.'"
 						tabindex="'.$tab.'" value="'.$value.'" ';
-				if(isset($Comment['Categories']['Category'][$catid])){
-					if($Comment['Categories']['Category'][$catid]==$value){print ' checked ';
-					 $Category['value']=$value;}
+			  if($Comment['Categories']['Category'][$c4]['value']!=' ' 
+				 and $Comment['Categories']['Category'][$c4]['value']!=''){
+				  if($Comment['Categories']['Category'][$c4]['value']==$value){
+						print ' checked ';
+						}
 					}
 				print '/></td>';
 				}
+			$inc++;
 			print '</tr>';
 	   		}
 		  }

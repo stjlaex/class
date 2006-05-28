@@ -48,7 +48,7 @@ define('MAX_SUGGESTIONS', 10);
 $usePersonalDict = false;
 
 //Set whether users are allowed to update the personal dictionary.
-$editablePersonalDict = true;
+$editablePersonalDict = false;
 
 // If using a personal dictionary, set the path to it.  Default is in the
 // personal_dictionary subdirectory of the location of spell_checker.php.

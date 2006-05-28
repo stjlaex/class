@@ -21,12 +21,12 @@ function openCommentWriter(commenturl){
 	writerWindow.document.close();
 	}
 
-function closeCommentWriter(commentId,text){
-	if(commentId!='-100'){opener.updateComment(commentId,text);}
+function closeCommentWriter(commentId,entryn,text){
+	if(commentId!='-100'){opener.updateComment(commentId,entryn,text);}
 	window.close();
 	}
 
-function updateComment(commentId,text){
+function updateComment(commentId,entryn,text){
 //	the id should refer to the containing html entity for the icon (probably a td)
 //  and the actual textarea for the text
 	if(document.getElementById('text'+commentId)){
@@ -34,6 +34,9 @@ function updateComment(commentId,text){
 		}
 	if(document.getElementById('icon'+commentId)){
 		document.getElementById('icon'+commentId).setAttribute("class","vspecial");
+		}
+	if(document.getElementById('inmust'+commentId)){
+		document.getElementById('inmust'+commentId).value=entryn;
 		}
 	}
 
