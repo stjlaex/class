@@ -1,9 +1,9 @@
 <?php
 /**						lang/es/markbook.php
  */
-$string['dateofmark']='Date of mark';
-$string['detailsofmark']='Details of mark';
-$string['subjectcomponent']='Subject component';
-$string['classesthatusethismark']='Classes that use this mark';
-$string['markstitleidentifyingname']='Mark\'s identifying name';
+$string['dateofmark']='D&iacute;a de la marca';
+$string['detailsofmark']='Datos de la marca';
+$string['subjectcomponent']='Componente de materia';
+$string['classesthatusethismark']='Clases que utilizan esta marca';
+$string['markstitleidentifyingname']='Nombre identificativo de la marca';
 ?>

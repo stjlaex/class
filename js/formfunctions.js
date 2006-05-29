@@ -55,7 +55,7 @@ function tinyTabs(tabObject){
 	document.getElementById(targetId).innerHTML=fragment;
 	if(document.getElementById("statementbank")){
 		//this must be running the statement bank
-		filterbyAbility(ability);
+		filterStatements(subarea,ability);
 		}
 	}
 

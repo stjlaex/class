@@ -104,10 +104,10 @@ if($dbstat!=''){
 				<div style="float:left;width:10%;" class="statementlevels">
 				<table class="listmenu">
 <?php
-					   print '<tr><td onclick="filterbyAbility(\'*\')">All</td></tr>';
+				   print '<tr><td abilityoption="*" onclick="filterbyAbility(this)" class="vspecial">All</td></tr>';
 				   $Levels=(array)$Area['Levels'];
 				   while(list($index,$Level)=each($Levels)){
-					   print '<tr><td onclick="filterbyAbility('.$Level['Value'].')">'.$Level['Name'].'</td></tr>';
+					   print '<tr><td abilityoption="'.$Level['Value'].'" onclick="filterbyAbility(this)">'.$Level['Name'].'</td></tr>';
 					   }
 ?>
 				</table>

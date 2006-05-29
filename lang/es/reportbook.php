@@ -1,15 +1,14 @@
 <?php
 /**						lang/es/reportbook.php
  */
-$string['needselectstudents']='You need to select a group of students to search!';
-$string['generatecoversheet']='Generate a cover sheet (none by default)';
-$string['areasforcomments']='Areas for comments';
-$string['completedsubjectreports']='Completed subject reports are highlighted (hover to see staff).';
-$string['summarycomment']='Summary comments';
-$string['subjectreportsfor']='Subject reports for';
-$string['generatecolumns']='Generate mark columns';
-$string['deletecolumns']='Delete mark columns';
-$string['archivescores']='Archive mark scores';
+$string['needselectstudents']='¡Necesita seleccionar un grupo de estudiantes para buscar!';
+$string['generatecoversheet']='Generar una hoja cabezera (ninguna por defecto)';
+$string['areasforcomments']='Areas para comentarios';
+$string['completedsubjectreports']='Informes de materias completados est&aacute;n subrayados (pase sobre ellos para ver el personal).';
+$string['summarycomment']='Contenido del sumario';
+$string['subjectreportsfor']='Informes de materias para';
+$string['generatecolumns']='Generar columnas de marcas';
+$string['deletecolumns']='Eliminar columnas de marcas';
+$string['archivescores']='Archivar resultados de marcas';
 $string['']='';
-$string['']='';
-?>
+$string['']='';?>

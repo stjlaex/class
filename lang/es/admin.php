@@ -1,30 +1,30 @@
 <?php
 /**						lang/es/admin.php
  */
-$string['formatoffilenewteacher']='Format of file: number, id, surname, forename, email, role';
-$string['chooseeitherresponsibility']='Choose either a pastoral OR <br /> academic responsibility for a user.';
-$string['importstudentfileinstructions']='<p>All student records must be on a single line.</p><p>Each record in the file must contain the same number of fields.</p>';
-$string['loadpreviousdefinition']='Load a previously saved definition.';
-$string['generateclassstructurequestion']='<p>Generating a new class structure could lose current data.</p><p>This should normally only be done at the start of the academic term.</p><p>Are you sure you want to continue?</p>';
-$string['studentsnotinsubject']='Students not in subject';
-$string['studentsalreadyinsubject']='Students already in subject';
-$string['currentclassfor']='Current class for subject';
-$string['studentsfromotheryeargroup']='Choose students from another yeargroup';
-$string['firstbookpref']='Use this tab first after login';
-$string['regeneratepasswords']='Regenerate passwords';
-$string['updatepasswordsdetail']='Update all passwords using a three digit number and the keyword set in school.php';
-$string['emailuserpasswordsdetail']='Email all users their newly generated three digit number';
-$string['emailreminders']='Email reminders';
+$string['formatoffilenewteacher']='Formato del archivo: n&uacute;mero, id, apellido, primer nombre, email, funci&oacute;n';
+$string['chooseeitherresponsibility']='Elija entre una responsabilidad no-academica O <br /> academica para un usuario.';
+$string['importstudentfileinstructions']='<p>Todos los expedientes de estudiantes deben estar en una misma l&iacute;nea.</p><p>Cada expediente en el archivo debe contener el mismo n&uacute;mero de campos.</p>';
+$string['loadpreviousdefinition']='Cargar una definici&oacute;n previamente guardada.';
+$string['generateclassstructurequestion']='<p>Generando una nueva estructura de clase podr&iacute;a causar la perdida de los datos actuales.</p><p>Esto normalmente s&oacute;lo se debe hacer al comienzo del ciclo academico. </p><p>¿Est&aacute; seguro que desea continuar?</p>';
+$string['studentsnotinsubject']='Estudiantes que no est&aacute;n en la materia';
+$string['studentsalreadyinsubject']='Estudiantes que ya est&aacute;n en la materia';
+$string['currentclassfor']='Clase actual para materia';
+$string['studentsfromotheryeargroup']='Eligir estudiantes de otro curso';
+$string['firstbookpref']='Utilizar esta leng&uuml;eta despu&eacute;s de conectarse';
+$string['regeneratepasswords']='Regenerar contrase&ntilde;as';
+$string['updatepasswordsdetail']='Actualizar todas las contrase&ntilde;as utilizando un n&uacute;mero de tres digitos y la palabra clave puesta en school.php';
+$string['emailuserpasswordsdetail']='Mandar a todos los usuarios por e-mail su n&uacute;mero de tres digitos que acaba de ser generado';
+$string['emailreminders']='Mandar recordatorios por e-mail';
 $string['emailnewloginuserno']='
-This is notification of your new login details for ClaSS. These
-details are for your own personal use only and should be treated as
-confidential. The details include your username and a unique key
-number needed to construct your password. You will be notified
-seperately, by your ClaSS contact person, of the key phrase which
-makes up the remainder of your password.';
-$string['emailnewloginsubject']='Your new ClaSS login details.';
-$string['emailusernolistsubject']='Newly generated ClaSS user list';
-$string['keynumber']='Key number';
+Le notificamos de sus nuevos datos de acceso al sistema ClaSS.
+Estos datos son para su uso personal y deben ser tratados confidencialmente.
+Los datos incluyen su nombre de usuario y un n&uacute;mero de clave &uacute;nico,
+necesario para constuir su contrase&ntilde;a. Ser&aacute; notificado por separado
+con la otra parte de la clave que formar&aacute; su contrase&ntilde;a, por su persona
+de contacto de ClaSS.';
+$string['emailnewloginsubject']='Sus nuevos datos de acceso ClaSS';
+$string['emailusernolistsubject']='Lista de usuarios de Class nuevamente generado';
+$string['keynumber']='N&uacute;mero de clave';
 $string['']='';
 $string['']='';
 ?>

@@ -5,7 +5,7 @@ var ability="*";
 
 function chooseStatement(statementObject){
 	var comment=document.getElementById("Comment").value;
-	comment=comment+' '+statementObject.innerHTML;
+	comment=comment+" "+statementObject.innerHTML;
 	document.getElementById("Comment").value=comment;
 	}
 
@@ -14,7 +14,22 @@ function filterbySubarea(newsubarea){
 	filterStatements(subarea,ability);
 	}
 
-function filterbyAbility(newability){
+function filterbyAbility(tdObj){
+	newability=tdObj.getAttribute("abilityoption");
+	var divs=document.getElementsByTagName("div");
+	for(var i=0; (div=divs[i]); i++){
+		if(div.getAttribute("class")=="statementlevels"){
+			var choices=div.getElementsByTagName("td");
+			for(var i2=0; (choice=choices[i2]); i2++){
+				if(choice.getAttribute("abilityoption")==ability && newability!=ability){
+					choice.removeAttribute("class");
+					}
+				else if(choice.getAttribute("abilityoption")==newability){
+					choice.setAttribute("class","vspecial");
+					}
+				}
+			}
+		}
 	ability=newability;
 	filterStatements(subarea,ability);
 	}
