@@ -388,7 +388,7 @@ function validateResult(formField){
 	var patternName=formField.getAttribute("pattern");
 	var fieldTitle=formField.getAttribute("title");
 	var maxLength=formField.getAttribute("maxlength");
-	if(fieldTitle=="spellcheck" && currObj.spellingResultsDiv){
+	if(fieldTitle=="spellcheck" && currObj.spellingResultsDiv!=null){
 //		setCurrentObject(currObj); 
 //		resumeEditing();
 		result="You need to 'Resume Editing' before you SUBMIT!";

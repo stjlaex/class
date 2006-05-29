@@ -34,7 +34,7 @@ three_buttonmenu();
 	continue.</p>
 
 <?php
-	include('scripts/confirm.php');
+	check_yesno();
 ?>
 
 	</fieldset>

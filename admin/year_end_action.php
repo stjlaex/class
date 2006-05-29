@@ -9,6 +9,7 @@ if($_POST{'answer'}=='no'){
  	$result[]='NO action taken.';
 	include('scripts/results.php');
 	include('scripts/redirect.php');
+	exit;
 	}
 
 $years=array();

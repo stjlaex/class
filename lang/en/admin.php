@@ -26,6 +26,6 @@ makes up the remainder of your password.';
 $string['emailnewloginsubject']='Your new ClaSS login details.';
 $string['emailusernolistsubject']='Newly generated ClaSS user list';
 $string['keynumber']='Key number';
-$string['']='';
+$string['offline']='Off line';
 $string['']='';
 ?>

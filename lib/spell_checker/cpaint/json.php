@@ -16,7 +16,6 @@
 */
 
   
-  
   /**
   * a JSON parser / generator
   * 
@@ -576,5 +575,4 @@
       }
     }
   }
-  
 ?>

@@ -130,5 +130,4 @@
     echo($http_body);
     @fclose($cp_socket);
   }
-
 ?>

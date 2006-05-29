@@ -26,7 +26,7 @@ three_buttonmenu();
 	<legend>Confirm</legend>
 	<p>Are you ready to continue?</p>
 <?php
-	include('scripts/confirm.php');
+	check_yesno();
 ?>
 
 	</fieldset> 

@@ -72,7 +72,7 @@ if($dbstat!=''){
 		<form id="formtoprocess" name="formtoprocess" method="post" 
 									action="comment_writer_action.php">
 		  <div class="center">
-			<textarea title="spellcheck" id="Comment" 
+			<textarea title="spellcheck" id="Comment" style="width:98%; height:180px;" 
 			  accesskey="../../lib/spell_checker/spell_checker.php" 
 			  <?php print $commentlength;?> tabindex="0"  
 				name="incom" ><?php print $Comment['Text']['value'];?></textarea>

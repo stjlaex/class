@@ -20,8 +20,11 @@ if($sub=='Submit'){
 		else{$commentcomp='no';}
 		if(isset($_POST{'template'})){$style=$_POST{'template'};}else{$style='';}
 		if(isset($_POST{'template'})){$transform=$_POST{'template'};}else{$template='';}
+		if(isset($_POST{'catdefids'})){$catdefids=(array)$_POST{'catdefids'};}
+		else{$catdefids=array();}
 		$date=$_POST['date0'];
 		$deadline=$_POST['date1'];
+
 		if(mysql_query("INSERT INTO report (title, comment, course_id,
 				date, deadline, addcomment, commentlength,
 					commentcomp, addcategory, style, transform) VALUES
@@ -110,25 +113,15 @@ if($sub=='Submit'){
 				}
 			}
 
+		while(list($index,$catid)=each($catdefids)){
+			if($catid!='-100'){
+				mysql_query("INSERT INTO ridcatid (report_id,
+							categorydef_id, subject_id) VALUES
+							('$rid', '$catid', 'summary')");
+				}
+			}
 		}
 
 include('scripts/results.php');
 include('scripts/redirect.php');
 ?>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

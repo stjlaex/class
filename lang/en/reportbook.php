@@ -19,5 +19,8 @@ $string['identityofreport']='Identity of report';
 $string['writtencomments']='Written comments';
 $string['allstages']='All stages';
 $string['nameoftemplate']='Style template for printing';
+$string['markbookcolumns']='Columns in MarkBook';
+$string['scoresentered']='Entered scores';
+$string['template']='Template';
 $string['']='';
 ?>

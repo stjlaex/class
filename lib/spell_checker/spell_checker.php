@@ -52,7 +52,7 @@ $editablePersonalDict = false;
 
 // If using a personal dictionary, set the path to it.  Default is in the
 // personal_dictionary subdirectory of the location of spell_checker.php.
-$path_to_personal_dictionary = dirname(__FILE__) . "/personal_dictionary/personal_dictionary.txt";
+$path_to_personal_dictionary = dirname(__FILE__) . "../../personal_dictionary/personal_dictionary.txt";
 
 //If pspell doesn't exist, then include the pspell wrapper for aspell.
 if(!function_exists('pspell_suggest'))
@@ -426,7 +426,5 @@ function switchText($string)
 	$string = preg_replace('{&lt;/?span.*?&gt;}i', '', $string);
 	$string = html_entity_decode($string);
 	$cp->set_data($string); //the return value
-	
 } // end switchText
-
 ?>

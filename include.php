@@ -16,28 +16,28 @@
 $roles=array('admin','office','support','teacher');
 $books=array();
 $books['admin']=array(
-				 'admin' => 'Admin',
-				 'reportbook' => 'ReportBook',
-				 'infobook' => 'InfoBook',
-				 'markbook' => 'MarkBook',
-				 'register' => 'Register',
-				 'webmail' => $CFG->webmailtabname,
-				 'lms' => $CFG->lmstabname,
-				 'eportfolio' => $CFG->eportfoliotabname
+				 'admin' => 'Admin'
+				 ,'reportbook' => 'ReportBook'
+				 ,'infobook' => 'InfoBook'
+				 ,'markbook' => 'MarkBook'
+				 //,'register' => 'Register'
+				 //,'webmail' => $CFG->webmailtabname
+				 //,'lms' => $CFG->lmstabname
+				 //,'eportfolio' => $CFG->eportfoliotabname
 				 );
 $books['office']=array(
-				 'reportbook' => 'ReportBook',
-				 'infobook' => 'InfoBook',
-				 'register' => 'Register'
+				 'reportbook' => 'ReportBook'
+				 ,'infobook' => 'InfoBook'
+				 ,'register' => 'Register'
 				 );
 $books['support']=array(
 				 'infobook' => 'InfoBook'
 				 );
 $books['teacher']=array(
-				 'admin' => 'Admin',
-				 'reportbook' => 'ReportBook',
-				 'infobook' => 'InfoBook',
-				 'markbook' => 'MarkBook',
-				 'register' => 'Register'
+				 'admin' => 'Admin'
+				 ,'reportbook' => 'ReportBook'
+				 ,'infobook' => 'InfoBook'
+				 ,'markbook' => 'MarkBook'
+				 //,'register' => 'Register'
 				 );
 ?>

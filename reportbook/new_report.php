@@ -1,9 +1,10 @@
 <?php
-/*												new_report.php
+/**												new_report.php
  */
 
 $action='new_report_action.php';
 $choice='new_report.php';
+$rcrid=$respons[$r]{'course_id'};
 
 include('scripts/course_respon.php');
 
@@ -79,6 +80,29 @@ three_buttonmenu();
 	  <fieldset class="left">
 		<legend><?php print_string('nameoftemplate',$book);?></legend>
 		<?php include('scripts/list_template.php');?>
+	  </fieldset>
+
+	  <fieldset class="left">
+		<legend><?php print_string('summarycomment',$book);?></legend>
+		<label for="Summary comments"><?php print_string('summarycomment',$book);?></label>
+		<select style="width:25em;" id="Summary comments" type="text" name="catdefids[]"
+			class="required" size="3" multiple="multiple" >
+		<option value="-100">
+			<?php print_string('none');?>
+		</option>
+<?php 
+	$d_categorydef=mysql_query("SELECT id, name, subject_id FROM
+		categorydef WHERE type='com' AND (course_id LIKE '$rcird' 
+		OR course_id='%') ORDER BY rating");
+	while($catdef=mysql_fetch_array($d_categorydef,MYSQL_ASSOC)){
+?>   				
+		<option value="<?php print $catdef['id'];?>">
+			<?php print $catdef['name'];?>
+		</option>
+<?php
+	   	}
+?>
+		</select>
 	  </fieldset>
 
 

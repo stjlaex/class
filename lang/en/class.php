@@ -198,6 +198,6 @@ $string['statementbank']='Statement bank';
 $string['usesubjectcomponents']='Use subject components';
 $string['subjectcomponent']='Subject component';
 $string['teachercomment']='Teacher comment';
-$string['']='';
+$string['none']='None';
 $string['']='';
 ?>

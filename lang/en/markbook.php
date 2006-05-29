@@ -13,5 +13,7 @@ $string['shortnote']='Short note (NOT used for reporting!)';
 $string['marktodelete']='Deleting the column: ';
 $string['deletemarkcurrentlychosen']='Delete the mark for ONLY the currently selected classes';
 $string['deletemarkforall']='Delete the mark completely for ALL classes';
+$string['decimalvalues']='Decimal values';
+$string['']='';
 $string['']='';
 ?>

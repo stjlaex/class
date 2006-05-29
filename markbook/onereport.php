@@ -110,9 +110,10 @@
 			  print '<td><label>'.$descriptor.'</label>';
 			  print '<input type="radio" name="sid'.$sid.':'.$inc.'"
 						tabindex="'.$tab.'" value="'.$value.'" ';
-			  if($Comment['Categories']['Category'][$c4]['value']!=' ' 
-				 and $Comment['Categories']['Category'][$c4]['value']!=''){
-				  if($Comment['Categories']['Category'][$c4]['value']==$value){
+			  if(($Comment['Categories']['Category'][$c4]['value']!=' ' 
+				 and $Comment['Categories']['Category'][$c4]['value']!='') 
+				 or $Comment['Categories']['Category'][$c4]['value']=='0'){
+					if($Comment['Categories']['Category'][$c4]['value']==$value){
 						print ' checked ';
 						}
 					}

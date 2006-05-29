@@ -1,4 +1,4 @@
-<?
+<?php
 /**
 * CPAINT (Cross-Platform Asynchronous INterface Toolkit)
 *
@@ -8,11 +8,10 @@
 * see http://www.fsf.org/licensing/licenses/gpl.txt for details
 * 
 * $Id: cpaint2.config.php,v 1.1.2.1 2006/05/01 15:09:12 stjohnson Exp $
-* $Log: cpaint2.config.php,v $
+* $Log: cpaint2.config.php,v
 * Revision 1.1.2.1  2006/05/01 15:09:12  stjohnson
 * adding spell_checker
 *
-* 
 * Configuration file for backend scripts, including proxy
 *
 * @package    CPAINT
@@ -23,9 +22,9 @@
 */
 
 //---- proxy settings ----------------------------------------------------------
-	$cpaint2_config["proxy.security.use_whitelist"] = true;		
+	$cpaint2_config["proxy.security.use_whitelist"] = true;
 				// Use the whitelist for allowed URLs?
-					
+
 //---- proxy security whitelist ------------------------------------------------
 	/* 	whitelist data should be added to the variable $cpaint2_proxy_whitelist[]
 			example: $cpaint2_proxy_whitelist[] = "example.com/test.php";
@@ -33,6 +32,5 @@
 			example: $cpaint2_proxy_whitelist[] = "example.com";
 			** Omit http:// and https:// from the URL **
 	*/
-	$cpaint2_proxy_whitelist[] = $_SERVER['HTTP_HOST']; 	// this server	
-
+	$cpaint2_proxy_whitelist[] = $_SERVER['HTTP_HOST']; 	// this server
 ?>

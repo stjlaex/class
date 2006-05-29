@@ -24,8 +24,8 @@ function filterStatements(subarea,ability){
 	var sourceId="tinytab-display-area";
 	var statements=document.getElementById(sourceId).getElementsByTagName('td');
 	for(var i=0; (statement=statements[i]); i++){
-		if(statement.getAttribute('ability')){
-			if(statement.getAttribute('ability')==ability || ability=='*'){
+		if(statement.getAttribute("ability")){
+			if(statement.getAttribute("ability")==ability || ability=='*'){
 				statement.style.display="table-cell";
 				}
 			else{
