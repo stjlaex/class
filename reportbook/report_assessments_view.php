@@ -34,7 +34,7 @@ include('scripts/sub_action.php');
 		if($d_student=mysql_query("SELECT * FROM student WHERE form_id='$fid'")){}
 		else{print mysql_error();}
 		}
-	else{$error[]=get_string('needtoselectstudents'); 
+	else{$error[]=get_string('youneedtoselectstudents'); 
 		$current=$choice;
 		include('scripts/results.php');
 		include('scripts/redirect.php');

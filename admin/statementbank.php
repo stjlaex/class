@@ -12,8 +12,9 @@ three_buttonmenu();
 
 	  <fieldset class="center">
 		<legend><?php print_string('requirements');?></legend>
+		<?php print_string('requirements',$book);?>
 	  </fieldset>
-	
+
 	  <fieldset class="center">
 		<legend><?php print_string('selectfile',$book);?></legend>
 		<label for="Filename"><?php print_string('filename',$book);?></label>

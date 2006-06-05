@@ -9,12 +9,7 @@ include('scripts/sub_action.php');
 /********Check user has permission to view*************/
 $yid=$Student['NCyearActual']['id_db'];
 $perm=getYearPerm($yid, $respons);
-if($perm['r']!=1){
-	print '<h5 class="warn">You do not have the permissions to view this page!</h5>';
-	$current='student_view.php';
-	include('scripts/redirect.php');
-	exit;
-	}	
+include('scripts/perm_action.php');
 
 three_buttonmenu();
 ?>

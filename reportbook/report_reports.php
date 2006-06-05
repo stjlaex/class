@@ -14,7 +14,7 @@ three_buttonmenu();
 		<legend><?php print_string('collateforstudentsfrom',$book);?></legend>
 <?php
  	$required='yes';
-	include('scripts/list_form.php');
+	include('scripts/list_pastoralgroup.php');
 ?>
 	  </fieldset>
 

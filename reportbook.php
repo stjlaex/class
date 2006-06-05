@@ -24,20 +24,27 @@ $_SESSION{'reportchoice'}=$choice;
 ?>
 <div id="bookbox" class="reportcolor">
 <?php
+	$rfids=array();
+	$ryids=array();
 	if($r>-1){
-	 	$rbid=$respons[$r]{'subject_id'};
-		$rcrid=$respons[$r]{'course_id'};
-		$ryid=$respons[$r]{'yeargroup_id'};
-		if($ryid==''){$ryid='%';}   				
+	 	$rbid=$respons[$r]['subject_id'];
+		$rcrid=$respons[$r]['course_id'];
+		$ryid=$respons[$r]['yeargroup_id'];
+		if($ryid==''){$ryid='%';}
 		}
-	else {
-		$error[]=get_string('selectresponsibility');
-		include('scripts/results.php');
-		$current=''; 
-		$choice='';
+	else{
+		$pastorals=listPastoralRespon($respons);
+		$rfids=$pastorals['forms'];
+		$ryids=$pastorals['years'];
+		if(sizeof($rfids)==0 and sizeof($ryids)==0){
+			$error[]=get_string('selectresponsibility');
+			include('scripts/results.php');
+			$current=''; 
+			$choice='';
+			}
 		}
 	if($current!=''){
-		$view = 'reportbook/'.$current;
+		$view='reportbook/'.$current;
 		include($view);
 		}
 ?>

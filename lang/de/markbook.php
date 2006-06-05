@@ -1,5 +1,5 @@
 <?php
-/**						lang/en/markbook.php
+/**						lang/de/markbook.php
  */
 $string['dateofmark']='Date of mark';
 $string['detailsofmark']='Details of mark';
@@ -14,10 +14,6 @@ $string['marktodelete']='Deleting the column: ';
 $string['deletemarkcurrentlychosen']='Delete the mark for ONLY the currently selected classes';
 $string['deletemarkforall']='Delete the mark completely for ALL classes';
 $string['decimalvalues']='Decimal values';
-$string['outoftotal']='Out of total';
-$string['newdefinition']='Add NEW defintion';
-$string['newuserdefinedmarktype']='Create a new user-defined mark-type';
-$string['chooseamarkdefinition']='Choose mark definition';
 $string['']='';
 $string['']='';
 ?>

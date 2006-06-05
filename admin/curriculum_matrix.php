@@ -1,8 +1,8 @@
 <?php
-/*********										curriculum_matrix.php
-	Select which subjects are taught for which courses
-	Select which courses are taught to which yeargroups
-*/
+/**										curriculum_matrix.php
+ *	Select which subjects are taught for which courses
+ *	Select which courses are taught to which yeargroups
+ */
 
 $host='admin.php';
 $current='curriculum_matrix.php';

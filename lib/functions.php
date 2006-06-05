@@ -61,7 +61,7 @@ function good_strtolower($value){
 	}
 
 function js_addslashes($value){
-	/*should only be used when writing a sting for use by javascript*/
+	/*should only be used when writing a string for use by javascript*/
 	$o='';
 	$l=strlen($value);
 	for($i=0;$i<$l;$i++){

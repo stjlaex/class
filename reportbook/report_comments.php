@@ -13,11 +13,11 @@ three_buttonmenu();
 	  <fieldset class="left"><legend><?php print_string('reportonstudentsfrom');?></legend>
 <?php
 		  $required='yes';
-		  include('scripts/list_year.php');
+		  include('scripts/list_pastoralgroup.php');
 ?>
 	  </fieldset>
 
-	  <fieldset class="right" >
+	 <fieldset class="right" >
 		<legend><?php print_string('limittoonesubject');?></legend>
 <?php
 		  $required='no';

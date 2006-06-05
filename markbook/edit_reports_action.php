@@ -131,7 +131,6 @@ if($sub=='Submit'){
 						}
 					$c2++;
 					}
-				$result[]=$inmust.' '.$incategory;
 				}
 			/*this assumes that the comment comes after all the category entries!!!*/
 			if($inorders['comment']=='yes'){

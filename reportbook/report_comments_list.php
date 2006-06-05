@@ -10,7 +10,7 @@ $date0=$_POST['date0'];
 if(isset($_POST{'date1'})){$date1=$_POST['date1'];}else{$date1=date("Y-m-d");}
 if(isset($_POST{'bid'})){$bid=$_POST{'bid'};}else{$bid='';}
 if(isset($_POST{'newyid'})){$yid=$_POST{'newyid'};}else{$yid='';}
-if(isset($_POST{'fid'})){$fid=$_POST{'fid'};}else{$fid='';}
+if(isset($_POST{'newfid'})){$fid=$_POST{'newfid'};}else{$fid='';}
 
 include('scripts/sub_action.php');
 
@@ -21,13 +21,20 @@ if($yid!=''){
 		'$yid' ORDER BY student.surname")){}
 		else{print mysql_error();}
 		}
+elseif($fid!=''){
+		if($d_comments=mysql_query("SELECT * FROM comments JOIN
+		student ON student.id=comments.student_id WHERE
+		comments.entrydate > '$date0' AND student.form_id LIKE
+		'$fid' ORDER BY student.surname")){}
+		else{print mysql_error();}
+		}
 elseif($bid!=''){
 		if($d_comments=mysql_query("SELECT * FROM comments WHERE entrydate
 				> '$date0' AND subject_id LIKE '$bid'")){}
 		else{print mysql_error();}
 		}
-else {
-		$error[]=get_string('needselectstudents');
+else{
+		$error[]=get_string('needselectstudents',$book);
 	    $current=$choice;
     	include('scripts/results.php');
 	    include('scripts/redirect.php');
@@ -101,7 +108,7 @@ twoplusprint_buttonmenu();
 	</fieldset>
 
 	<input type="hidden" name="bid" value="<?php print $bid;?>" />
-	<input type="hidden" name="fid" value="<?php print $fid;?>" />
+	<input type="hidden" name="newfid" value="<?php print $fid;?>" />
 	<input type="hidden" name="newyid" value="<?php print $yid;?>" />
 	<input type="hidden" name="date0" value="<?php print $date0;?>" />
 	<input type="hidden" name="date1" value="<?php print $date1;?>" />

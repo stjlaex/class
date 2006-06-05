@@ -27,7 +27,8 @@
 		  ><?php print_string('myclasses');?></option>
 <?php 
     for($c=0;$c<(sizeof($respons));$c++){
-		if($respons[$c]{'yeargroup_id'}==''){
+		/*only lists the academic responsibilities*/
+		if($respons[$c]['yeargroup_id']==''){
 			print '<option value="'.$c.'"';
 			if(isset($r)){if($r==$c){print ' selected="selected" ';}}
 			print '>'.$respons[$c]['name'].'</option>';

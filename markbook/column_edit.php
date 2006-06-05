@@ -28,7 +28,7 @@ if(sizeof($checkmid)>1){
 	$mark=mysql_fetch_array($d_mark,MYSQL_ASSOC);
 
 /*	Make sure user has priviliges to edit*/	
-	if($mark{'author'}!=$tid){
+	if($mark['author']!=$tid){
 		$perm=getMarkPerm($mid, $respons);
 		if($perm['w']!='1'){
 			$result[]=get_string('youneedtobetheauthor');
@@ -77,7 +77,7 @@ three_buttonmenu();
 	$nocids=mysql_num_rows($d_cids)+1;
 	if($nocids>14){$nocids=14;}
 ?>
-	<label for="Used by Classes"></label>
+	<label for="Used by Classes"><?php print_string('classes');?></label>
 	<select class="required"  
 		name="selcids[]" id="Used by Classes" size="10" multiple="multiple">
 <?php
@@ -107,13 +107,12 @@ three_buttonmenu();
 <?php
 
 /*	Editing the outoftotal needs to be added to the edit scores screen,
-	as each score row needs to be checked against the default value and updated appropriately
+ *	as each score row needs to be checked against the default value and updated appropriately
 */
-	$total=$mark{'total'};
-	
-/*************************************************/	
-?>  		
+	$total=$mark['total'];
 
+/*************************************************/	
+?>
 	  <fieldset class="right">
 		<legend><?php print_string('subjectcomponent');?></legend>
 <?php
@@ -183,10 +182,10 @@ three_buttonmenu();
 		$d_assessment=mysql_query("SELECT * FROM assessment ORDER BY
 		year DESC, id DESC");
 ?>
-			  <label for="assessment">
+			  <label for="Assessment">
 				<?php print_string('linkedtothisassessment',$book);?>
 			  </label>	
-			  <select name="eid" id="assessment" size="1">
+			  <select name="eid" id="Assessment" size="1">
 				<option value=""></option>
 <?php
 		while($assessment=mysql_fetch_array($d_assessment,MYSQL_ASSOC)){

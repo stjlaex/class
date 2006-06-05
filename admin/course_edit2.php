@@ -1,7 +1,7 @@
 <?php 
-/* 											course_edit2.php
-*	Generates the rows in the table:classes for selected yeargroups/courses
-*/
+/** 											course_edit2.php
+ *	Generates the rows in the table:classes for selected yeargroups/courses
+ */
 
 $host='admin.php';
 $current='curriculum_matrix.php';

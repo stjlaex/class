@@ -58,9 +58,9 @@ function getResponStaff($tid,$respons,$r){
 	$users=getAllStaff();
 
 	if($r>-1){
-		$rbid=$respons[$r]{'subject_id'};
-		$rcrid=$respons[$r]{'course_id'};
-		$ryid=$respons[$r]{'yeargroup_id'};
+		$rbid=$respons[$r]['subject_id'];
+		$rcrid=$respons[$r]['course_id'];
+		$ryid=$respons[$r]['yeargroup_id'];
 		if($ryid==""){$ryid="%";}
 		$d_cids=mysql_query("SELECT DISTINCT id FROM class WHERE
 		subject_id LIKE '$rbid' AND course_id LIKE '$rcrid' AND
@@ -117,23 +117,41 @@ function getTeachingStaff($crid='',$bid=''){
 	return $tids;
 	}
 
-function getYearPerm ($year, $respons){
-	$perm{'r'}=0;
-	$perm{'w'}=0;
-	$perm{'x'}=0;
-
-/*		Check perms for year*/	
+function getYearPerm($year,$respons){
+	/* return perms for yeargroup*/	
+	$perm['r']=0;
+	$perm['w']=0;
+	$perm['x']=0;
 	for($c=0;$c<sizeof($respons);$c++){
 		$resp=$respons[$c];
-		if($resp{'yeargroup_id'}==$year and $resp{'course_id'}=='' and $resp{'subject_id'}==''){
-			$perm['r']=$resp{'r'};
-			$perm['w']=$resp{'w'};
-			$perm['x']=$resp{'x'};
+		if($resp['name']=='Year'){
+			if($resp['yeargroup_id']==$year){
+				$perm['r']=$resp['r'];
+				$perm['w']=$resp['w'];
+				$perm['x']=$resp['x'];
+				}
 			}
 		}
+	if($user=='administrator'){$perm{'r'}=1; $perm{'w'}=1; $perm{'x'}=1;}		
+	return $perm;
+	}
 
-//	if ($user=='administrator'){$perm{'r'}=1; $perm{'w'}=1; $perm{'x'}=1;}	
-	
+function getFormPerm($form,$respons){
+	/* return perms for form group*/	
+	$perm['r']=0;
+	$perm['w']=0;
+	$perm['x']=0;
+	for($c=0;$c<sizeof($respons);$c++){
+		$resp=$respons[$c];
+		if($resp['name']=='Form'){
+			if($resp['form_id']==$form){
+				$perm['r']=$resp['r'];
+				$perm['w']=$resp['w'];
+				$perm['x']=$resp['x'];
+				}
+			}
+		}
+	if($user=='administrator'){$perm{'r'}=1; $perm{'w'}=1; $perm{'x'}=1;}		
 	return $perm;
 	}
 	
@@ -143,12 +161,12 @@ function getMarkPerm ($mid, $respons){
 	$class=mysql_fetch_array($d_class,MYSQL_ASSOC);
 /*		this will only takes the first crid/bid, would be a prolem if
 				the mark is defined  across more than one type of class*/
-	$bid=$class{'subject_id'};
-	$crid=$class{'course_id'};
+	$bid=$class['subject_id'];
+	$crid=$class['course_id'];
 
-	$perm{'r'}=0;
-	$perm{'w'}=0;
-	$perm{'x'}=0;
+	$perm['r']=0;
+	$perm['w']=0;
+	$perm['x']=0;
 	for($c=0;$c<sizeof($respons);$c++){
 		$resp=$respons[$c];
 		if(($resp['subject_id']==$bid or $resp['subject_id']=='%') and
@@ -158,32 +176,31 @@ function getMarkPerm ($mid, $respons){
 			$perm['x']=$resp{'x'};
 			}
 		}
+	if($user=='administrator'){$perm{'r'}=1; $perm{'w'}=1; $perm{'x'}=1;}		
 	return $perm;
 	}
 
 function getSubjectPerm ($subject, $respons){
-	$perm{'r'}=0;
-	$perm{'w'}=0;
-	$perm{'x'}=0;
+	$perm['r']=0;
+	$perm['w']=0;
+	$perm['x']=0;
 	for($c=0;$c<sizeof($respons);$c++){
 		$resp=$respons[$c];
-		if($resp{'subject_id'}==$subject and $resp{'course_id'}=='%'){
+		if($resp['subject_id']==$subject and $resp['course_id']=='%'){
 //		if($resp{'subject_id'}==$subject){
-			$perm['r']=$resp{'r'};
-			$perm['w']=$resp{'w'};
-			$perm['x']=$resp{'x'};
+			$perm['r']=$resp['r'];
+			$perm['w']=$resp['w'];
+			$perm['x']=$resp['x'];
 			}
 		}
-
-//	if ($user==$administrator){$perm{'r'}=1; $perm{'w'}=1; $perm{'x'}=1;}	
-
+	if($user==$administrator){$perm{'r'}=1; $perm{'w'}=1; $perm{'x'}=1;}	
 	return $perm;
 	}
 
-function getCoursePerm ($course, $respons){
-	$perm{'r'}=0;
-	$perm{'w'}=0;
-	$perm{'x'}=0;
+function getCoursePerm($course,$respons){
+	$perm['r']=0;
+	$perm['w']=0;
+	$perm['x']=0;
 	for($c=0;$c<sizeof($respons);$c++){
 		$resp=$respons[$c];
 		if($resp['subject_id']=='%' and $resp['course_id']==$course){
@@ -192,10 +209,23 @@ function getCoursePerm ($course, $respons){
 			$perm['x']=$resp['x'];
 			}
 		}
-
-//	if ($user=='administrator'){$perm{'r'}=1; $perm{'w'}=1; $perm{'x'}=1;}	
-
+	if($user==$administrator){$perm{'r'}=1; $perm{'w'}=1; $perm{'x'}=1;}	
 	return $perm;
+	}
+
+function listPastoralRespon($respons){
+	$rfids=array();
+	$ryids=array();
+	for($c=0;$c<sizeof($respons);$c++){
+		$resp=$respons[$c];
+		if($resp['name']=='Form'){
+			if($resp['form_id']!=''){$rfids[]=$resp['form_id'];}
+			}
+		elseif($resp['name']=='Year'){
+			if($resp['yeargroup_id']!=''){$ryids[]=$resp['yeargroup_id'];}
+			}
+		}
+	return array('forms'=>$rfids,'years'=>$ryids);
 	}
 
 function updateUser($user,$update='no',$short='class'){

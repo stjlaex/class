@@ -13,10 +13,7 @@ three_buttonmenu();
 
 	  <fieldset class="center"><legend>Report on students from</legend>
 		<div class="left">
-  <?php include('scripts/list_year.php'); ?>
-		</div>
-		<div class="right">
-		<?php include('scripts/list_form.php'); ?>
+		  <?php include('scripts/list_pastoralgroup.php');?>
 		</div>
 	  </fieldset>
 

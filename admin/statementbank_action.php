@@ -28,12 +28,11 @@ if($sub=='Submit'){
 				$statement['subarea']=$d[5];
 				$statement['ability']=$d[6];
 				$statement['statement']=$d[7];
-				if(addStatement($statement)=='yes'){$in++;};
+				if(addStatement($statement)=='yes'){$in++;}
+				else{$error[]=mysql_error();}
 				}
 			}
-		$result[]='Entered '.$in.' assessment scores into the database.';
-
-
+		$result[]='Entered '.$in.' statements into the database.';
 		}
 }
 

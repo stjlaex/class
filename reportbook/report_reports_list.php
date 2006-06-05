@@ -17,10 +17,13 @@ include('scripts/sub_action.php');
 	else{$error[]=mysql_error();}
 	$sids=array();
 	$students=array();
-	while ($student=mysql_fetch_array($d_student,MYSQL_ASSOC)) {
+	while($student=mysql_fetch_array($d_student,MYSQL_ASSOC)){
 		$sids[]=$student['id'];
 		$students[$student['id']]=$student;
 		}
+
+$formperm=getFormPerm($fid,$respons);
+$yearperm=getYearPerm($yid,$respons);
 
 twoplusprint_buttonmenu();
 ?>
@@ -40,7 +43,7 @@ twoplusprint_buttonmenu();
 		if(mysql_query("CREATE TEMPORARY TABLE mids$rid (SELECT eidmid.mark_id FROM eidmid
 				JOIN rideid ON eidmid.assessment_id=rideid.assessment_id 
 				WHERE rideid.report_id='$rid')")){}
-	 		else{$error[]=mysql_error();}
+		else{$error[]=mysql_error();}
 ?>
 	 	<input type="hidden" name="rids[]" value="<?php print $rid;?>" />
 <?php
@@ -55,7 +58,10 @@ twoplusprint_buttonmenu();
 			  </label>
 			</th>
 			<th><?php print_string('student');?></th>
-			<th><?php print_string('summarycomment',$book);?></th>
+<?php if($formperm['w']==1 or $yearperm['w']==1){
+			print '<th>'.get_string('summarycomment',$book).'</th>';
+			}
+?>
 			<th colspan="16"><?php print_string('completedsubjectreports',$book);?></th>
 		  </tr>
 <?php
@@ -81,11 +87,12 @@ twoplusprint_buttonmenu();
    			$summaries=(array)$reports[$index]['summaries'];
 			while(list($index2,$summary)=each($summaries)){
 				$summaryid=$summary['subject_id'];
-				$d_summaryentry=mysql_query("SELECT teacher_id
+				if($formperm['w']==1 and $summaryid=='form'){
+					$d_summaryentry=mysql_query("SELECT teacher_id
 					FROM reportentry WHERE report_id='$rid' AND
 					student_id='$sid' AND subject_id='summary' AND
 					component_id='$summaryid' AND entryn='1'");
-				$openId=$sid.'summary-'.$summaryid;
+					$openId=$sid.'summary-'.$summaryid;
 ?>
 			<td id="icon<?php print $openId;?>" <?php if(mysql_num_rows($d_summaryentry)>0){print 'class="vspecial"';}?> >
 			  <img class="clicktoedit" name="Write"  
@@ -93,6 +100,7 @@ twoplusprint_buttonmenu();
 				title="<?php print get_string('clicktowritecomment').':'.$summary['name'];?>" />
 			</td>
 <?php
+					}
 				}
 ?>
 				</tr>
@@ -197,4 +205,4 @@ twoplusprint_buttonmenu();
  	<input type="hidden" name="choice" value="<?php print $choice;?>" />
  	<input type="hidden" name="current" value="<?php print $action;?>" />
 </form>
-</div>	
+</div>

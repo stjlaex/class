@@ -3,8 +3,8 @@
  */
 $string['locale']='en_GB';
 $string['shortlocale']='en';
-$string['language']='Language';
 $string['thislanguage']='English';
+$string['language']='Language';
 $string['classesandmarks']='Classes and marks';
 $string['classarea']='ClaSS restricted area';
 $string['enter']='Enter';
@@ -199,5 +199,9 @@ $string['usesubjectcomponents']='Use subject components';
 $string['subjectcomponent']='Subject component';
 $string['teachercomment']='Teacher comment';
 $string['none']='None';
+$string['default']='Default';
+$string['youneedtobetheauthor']='You need to be the author to change this.';
+$string['allstages']='All stages';
+$string['selectfiletoimportfrom']='Select the file to import';
 $string['']='';
 ?>

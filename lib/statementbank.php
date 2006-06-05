@@ -20,7 +20,8 @@ function fetchStatementBank($crid,$bid,$pid,$stage,$dbstat=''){
 		if($stage==''){$stage='%';}
 		$d_area=mysql_query("SELECT DISTINCT area.id, area.name FROM area
 				JOIN grouping ON area.id=grouping.area_id WHERE
-	   			grouping.course_id='$crid' AND grouping.subject_id='$bid' AND 
+	   			(grouping.course_id='$crid' OR grouping.course_id='%')
+				AND grouping.subject_id='$bid' AND 
 	   			(grouping.component_id LIKE '$pid' OR
 					grouping.component_id='%') AND (grouping.stage
 					LIKE '$stage' OR grouping.stage='%')");
@@ -28,7 +29,8 @@ function fetchStatementBank($crid,$bid,$pid,$stage,$dbstat=''){
 			$areaid=$area['id'];
 			$StatementBank['Area']["$areaid"]['Name']=$area['name'];
 			$d_grouping=mysql_query("SELECT DISTINCT id, rating_name FROM grouping WHERE
-						course_id='$crid' AND subject_id='$bid' AND area_id='$areaid'
+						(course_id LIKE '$crid' OR course_id='%') 
+						AND subject_id='$bid' AND area_id='$areaid'
 						AND (component_id LIKE '$pid' OR
 						component_id='%') AND (stage LIKE '$stage' OR stage='%');");
 			$grid=mysql_result($d_grouping,0,0);
@@ -64,27 +66,26 @@ function fetchStatementBank($crid,$bid,$pid,$stage,$dbstat=''){
 	}
 
 function addStatement($new,$dbstat=''){
+	/*currently the bid can not be set to a wildcard and perhaps it*/
+	/*should not be allowed this value either?*/
+	$result='no';
 	$todate=date('Y').'-'.date('n').'-'.date('j');
 	if($dbstat==''){$dbstat=connect_statementbank();}
 	if($dbstat!=''){
-		$crid=$new['crid'];
-		$bid=$new['bid'];
-		$pid=$new['pid'];
+		if($new['crid']==''){$crid='%';}else{$crid=$new['crid'];}
+		if($new['bid']==''){$bid='%';}else{$bid=$new['bid'];}
+		if($new['pid']==''){$pid='%';}else{$pid=$new['pid'];}
+		if($new['stage']==''){$stage='%';}else{$stage=$new['stage'];}
 		$area=$new['area'];
 		$subarea=$new['subarea'];
 		$statement=$new['statement'];
 		$ability=$new['ability'];
 
-		if($new['pid']==''){$pid='%';}else{$pid=$new['pid'];}
-		if($new['stage']==''){$stage='%';}else{$stage=$new['stage'];}
-
 		if(mysql_query("INSERT INTO statement (author,
 					   	entrydate, statement_text, rating_fraction
 					) VALUES ('ClaSS', '$todate', '$statement','$ability');")){
 			$stid=mysql_insert_id();
-
-			$result=='yes';
-
+			$result='yes';
 			$d_area=mysql_query("SELECT id FROM area WHERE name='$area';");
 			if(mysql_num_rows($d_area)>0){$areaid=mysql_result($d_area,0);}
 			else{
@@ -92,9 +93,9 @@ function addStatement($new,$dbstat=''){
 				$areaid=mysql_insert_id();
 				}
 
-			$d_grouping=mysql_query("SELECT id, rating_name FROM grouping WHERE
+			$d_grouping=mysql_query("SELECT DISTINCT id, rating_name FROM grouping WHERE
 						course_id='$crid' AND subject_id='$bid' AND area_id='$areaid'
-						AND component_id LIKE '$pid' AND stage LIKE '$stage';");
+						AND component_id='$pid' AND stage='$stage';");
 			if(mysql_num_rows($d_grouping)>0){$grid=mysql_result($d_grouping,0);}
 			else{
 				/*everyhting currently only gets a default fivegrade rating_name!!!!*/
@@ -124,8 +125,8 @@ function personaliseStatement($Statement,$Student){
 		$pronoun='she';
 		$objectpronoun='her';
 		}
-	if($Student['PreferredForename']!=''){$forename=$Student['PreferredForename'];}
-	else{$forename=$Student['Forename'];}
+	if($Student['PreferredForename']['value']!=' '){$forename=$Student['PreferredForename']['value'];}
+	else{$forename=$Student['Forename']['value'];}
    	$text=str_replace('~',$possessive,$text);
 	$text=str_replace('^',$pronoun,$text);
 	$text=str_replace('*',$objectpronoun,$text);

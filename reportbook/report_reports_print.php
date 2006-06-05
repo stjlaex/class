@@ -14,7 +14,7 @@ if(isset($_POST{'coversheet'})){$coversheet=$_POST{'coversheet'};}else{$covershe
 include('scripts/sub_action.php');
 
 if(sizeof($sids)==0){
-		$result[]=get_string('needtoselectstudents');
+		$result[]=get_string('youneedtoselectstudents');
    		include('scripts/results.php');
    		include('scripts/redirect.php');
 		exit;

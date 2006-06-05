@@ -11,7 +11,7 @@ $date0=$_POST['date0'];
 if(isset($_POST['date1'])){$date1=$_POST['date1'];}else{$date1=date("Y-m-d");}
 if(isset($_POST['bid'])){$bid=$_POST['bid'];}else{$bid='';}
 if(isset($_POST['newyid'])){$newyid=$_POST['newyid'];}else{$newyid='';}
-if(isset($_POST['fid'])){$fid=$_POST['fid'];}else{$fid='';}
+if(isset($_POST['newfid'])){$newfid=$_POST['newfid'];}else{$newfid='';}
 
 include('scripts/sub_action.php');
 

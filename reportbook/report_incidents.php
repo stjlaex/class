@@ -10,10 +10,11 @@ three_buttonmenu();
   <div class="content">
 	<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>"> 
 
-	  <fieldset class="left"><legend><?php print_string('reportonstudentsfrom');?></legend>
+	  <fieldset class="left">
+		<legend><?php print_string('reportonstudentsfrom');?></legend>
 <?php
 		  $required='yes';
-		  include('scripts/list_year.php');
+		  include('scripts/list_pastoralgroup.php');
 ?>
 	  </fieldset>
 

@@ -8,7 +8,7 @@ $action='new_assessment.php';
 
 include('scripts/sub_action.php');
 
-if($sub=='Import'){
+if($sub=='Submit' and $_FILES{'importfile'}{'tmp_name'}!=''){
 	$importfile=$_POST{'importfile'};
 	$fname=$_FILES{'importfile'}{'tmp_name'};
 	if($fname!=''){
