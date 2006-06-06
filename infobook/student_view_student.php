@@ -3,10 +3,11 @@
 */
 
 $action='student_view_student1.php';
+$cancel='student_view.php';
 
 include('scripts/sub_action.php');
 
-/********Check user has permission to view*************/
+/*Check user has permission to view*/
 $yid=$Student['NCyearActual']['id_db'];
 $perm=getYearPerm($yid, $respons);
 include('scripts/perm_action.php');

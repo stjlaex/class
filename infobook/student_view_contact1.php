@@ -1,7 +1,7 @@
 <?php
-/*****									student_view_contact1.php
-
-*/
+/*									student_view_contact1.php
+ *
+ */
 
 $action='student_view_contact.php';
 
@@ -30,7 +30,7 @@ if($sub=='Submit'){
 		if(isset($val['value']) & is_array($val)){
 			$field=$val['field_db'];
 			$inname=$field.$in;
-			$inval=$_POST{"$inname"};
+			$inval=clean_text($_POST{"$inname"});
 			if($val['value']!=$inval){
 //				the value has changed, update database
 				$result[]=$val['label'].' : '.$inval;
@@ -61,7 +61,7 @@ if($sub=='Submit'){
 
 			$field=$val['field_db'];
 			$inname=$field.$addressno.$in;
-			$inval=$_POST{"$inname"};
+			$inval=clean_text($_POST{"$inname"});
 			if($val['value']!=$inval){
 //				the value has changed, update database
 				$result[]=$val['label'].' : '.$inval;
@@ -95,7 +95,7 @@ if($sub=='Submit'){
 
 			$field=$val['field_db'];
 			$inname=$field.$phoneno.$in;
-			$inval=$_POST{"$inname"};
+			$inval=clean_text($_POST{"$inname"});
 			if($val['value']!=$inval){
 //				the value has changed, update database
 				$result[]=$val['label'].' : '.$inval;

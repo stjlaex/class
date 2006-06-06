@@ -10,9 +10,8 @@ $SEN=$Student['SEN'];
   </div>
 <?php 
 
-two_buttonmenu();
-
 if($Student['SENFlag']['value']=='N'){
+	two_buttonmenu();
 ?>
   <div class="content">
 	<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
@@ -29,8 +28,8 @@ if($Student['SENFlag']['value']=='N'){
 <?php
 	}
 else{
+	three_buttonmenu();
 ?>
-
   <div class="content">
 	<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
 

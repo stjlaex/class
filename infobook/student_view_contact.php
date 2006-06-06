@@ -10,21 +10,15 @@ $action='student_view_contact1.php';
 include('scripts/sub_action.php');
 
 if(isset($_GET{'contactno'})){$contactno=$_GET{'contactno'};}
-   else{$contactno=$_POST{'contactno'};}
+else{$contactno=$_POST{'contactno'};}
 
 $Contact=$Student['Contacts'][$contactno];
 	
-/********Check user has permission to view*************/
+/*Check user has permission to view*/
 $yid=$Student['NCyearActual']['id_db'];
 $contactgid=$Student['Contacts'][$contactno]['id_db'];
-$perm=getYearPerm($yid, $respons);
-if($perm['r']!=1){
-	$result[]=get_string('nopermissions',$book); 
-	$current='student_view.php';
-	include('scripts/results.php');
-	include('scripts/redirect.php');
-	exit;
-	}
+$perm=getYearPerm($yid,$respons);
+include('scripts/perm_action.php');
 
 three_buttonmenu();
 ?>

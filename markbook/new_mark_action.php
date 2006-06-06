@@ -4,12 +4,12 @@
 
 $action='class_view.php';
 
-$comment=$_POST['comment'];
+$comment=clean_text($_POST['comment']);
 $def_name=$_POST['def_name'];
-$topic=$_POST['topic'];
+$topic=clean_text($_POST['topic']);
 $newcid=$_POST['newcid'];
 $entrydate=$_POST['date0'];
-if(!isset($_POST['total'])){$total=0;} else {$total=$_POST['total'];}
+if(!isset($_POST['total'])){$total=0;}else{$total=clean_text($_POST['total']);}
 if(!isset($_POST{'newpid'})){$newpid='';}else{$newpid=$_POST{'newpid'};}
 
 include('scripts/sub_action.php');
@@ -34,7 +34,6 @@ include('scripts/sub_action.php');
 			else{$error[]='Failed mark already exist for this class!';	
 					$error[]=mysql_error();}
 			}
-
 	include('scripts/results.php');
 	include('scripts/redirect.php');
 ?>

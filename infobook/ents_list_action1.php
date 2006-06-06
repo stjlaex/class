@@ -11,7 +11,7 @@ if(isset($_POST['bid'])){$bid=$_POST['bid'];}else{$bid='%';}
 if(isset($_POST['catid'])){$catid=$_POST['catid'];}else{$catid=array();}
 if(isset($_POST['ratvalue'])){$ratvalue=$_POST['ratvalue'];}else{$ratvalue='N';}
 if(isset($_POST['newyid'])){$newyid=$_POST['newyid'];}else{$newyid='';}
-$detail=$_POST['detail'];
+$detail=clean_text($_POST['detail']);
 $entrydate = $_POST['date'];
 
 include('scripts/sub_action.php');

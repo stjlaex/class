@@ -132,7 +132,7 @@ function getYearPerm($year,$respons){
 				}
 			}
 		}
-	if($user=='administrator'){$perm{'r'}=1; $perm{'w'}=1; $perm{'x'}=1;}		
+	if($_SESSION['role']=='admin'){$perm['r']=1; $perm['w']=1; $perm['x']=1;}		
 	return $perm;
 	}
 
@@ -151,7 +151,7 @@ function getFormPerm($form,$respons){
 				}
 			}
 		}
-	if($user=='administrator'){$perm{'r'}=1; $perm{'w'}=1; $perm{'x'}=1;}		
+	if($_SESSION['role']=='admin'){$perm['r']=1; $perm['w']=1; $perm['x']=1;}		
 	return $perm;
 	}
 	
@@ -176,7 +176,7 @@ function getMarkPerm ($mid, $respons){
 			$perm['x']=$resp{'x'};
 			}
 		}
-	if($user=='administrator'){$perm{'r'}=1; $perm{'w'}=1; $perm{'x'}=1;}		
+	if($_SESSION['role']=='admin'){$perm['r']=1; $perm['w']=1; $perm['x']=1;}		
 	return $perm;
 	}
 
@@ -193,7 +193,6 @@ function getSubjectPerm ($subject, $respons){
 			$perm['x']=$resp['x'];
 			}
 		}
-	if($user==$administrator){$perm{'r'}=1; $perm{'w'}=1; $perm{'x'}=1;}	
 	return $perm;
 	}
 
@@ -209,7 +208,7 @@ function getCoursePerm($course,$respons){
 			$perm['x']=$resp['x'];
 			}
 		}
-	if($user==$administrator){$perm{'r'}=1; $perm{'w'}=1; $perm{'x'}=1;}	
+	if($_SESSION['role']=='admin'){$perm['r']=1; $perm['w']=1; $perm['x']=1;}		
 	return $perm;
 	}
 

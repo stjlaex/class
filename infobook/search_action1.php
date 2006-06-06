@@ -6,8 +6,8 @@
 
 $action='student_list.php';
 
-	if(isset($_POST{'forename'})){$forename=$_POST{'forename'};}
-	if(isset($_POST{'surname'})){$surname=$_POST{'surname'};}
+	if(isset($_POST{'forename'})){$forename=clean_text($_POST{'forename'});}
+	if(isset($_POST{'surname'})){$surname=clean_text($_POST{'surname'});}
 	if(isset($_POST{'newyid'})){$newyid=$_POST{'newyid'};}
 	if(isset($_POST{'newfid'})){$newfid=$_POST{'newfid'};}
 

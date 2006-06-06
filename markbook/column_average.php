@@ -77,9 +77,7 @@ $checkmid=$_POST{'checkmid'};
 			}
 		else{$result[]='Failed! '; $error[]=mysql_error();}
 		$displaymid=$mid;				
-		$result[]='Average created as a new mark column.';
 		}
-
 	include('scripts/results.php');
 	include('scripts/redirect.php');
 ?>

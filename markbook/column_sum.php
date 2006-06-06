@@ -56,7 +56,6 @@ else{
 				else{$error[]=mysql_error();}
 				}
 			}
-		$result[]='Sum created as a new mark column.';
 		}
 	}
 

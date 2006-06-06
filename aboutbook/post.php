@@ -5,11 +5,11 @@
 $action='about.php';
 $choice='';
 
-$summary=$_POST{'summary'};
+$summary=clean_text($_POST{'summary'});
 if(isset($_POST{'book'})){$book=$_POST{'book'};}else{$book='';}
-$detail=$_POST{'detail'};
+$detail=clean_text($_POST{'detail'});
 $entrydate=$_POST['date0'];
-$subject=$_POST['subject']; 
+$subject=clean_text($_POST['subject']); 
 $address=$_POST['address'];
 $queue=$_POST['queue'];
 

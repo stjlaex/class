@@ -96,8 +96,7 @@ include('class_view_marks.php');
 					  $umns[$col]['component'].'&col='. $col.'&bid='.$bid[0].'">' 
 					  . $umns[$col]['topic']. '</a><p>'.$umns[$col]['entrydate']. 
 		  '</p><p class="component">'.$umns[$col]['component'].'</p>'.
-			  $umns[$col]['marktype']. '<input type="checkbox"
-			  name="checkmid[]" value="'. $umns[$col]['id'].'" /></th>';
+			  $umns[$col]['marktype']. '</th>';
 	      	  }
 		elseif($umns[$col]['marktype']=='compound'){
 			  print '<th id="'.$umns[$col]['id'].'"><a title="'.$umns[$col]['comment'].'"

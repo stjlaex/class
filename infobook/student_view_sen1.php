@@ -6,16 +6,11 @@ $action='student_view.php';
 include('scripts/sub_action.php');
 
 if($sub=="SENStatus"){
-/********Check user has permission to edit*************/
-$yid=$Student['NCyearActual']['id_db'];
-$perm=getYearPerm($yid, $respons);
-/************Needs a seperate SEN perms group for support staff************/
-if($perm['w']!=1){
-	$error[]="You don't have the permissions to edit this page!"; 
-	include("scripts/results.php");
-	include("scripts/redirect.php");
-	exit;
-	}
+	/*Check user has permission to edit*/
+	$yid=$Student['NCyearActual']['id_db'];
+	$perm=getYearPerm($yid, $respons);
+	$neededperm='w';
+	include('scripts/perm_action.php');
 
 	if($Student['SENFlag']['value']=='Y'){
 		mysql_query("UPDATE info SET sen='N' WHERE student_id='$sid'");
@@ -41,20 +36,16 @@ if($perm['w']!=1){
 
 elseif($sub=="Submit"){
 /********Check user has permission to edit*************/
-$yid=$Student['NCyearActual']['id_db'];
-$perm=getYearPerm($yid, $respons);
-if($perm['w']!=1){
-	$error[]="You don't have the permissions to edit this page!"; 
-	include("scripts/results.php");
-	include("scripts/redirect.php");
-	exit;
-	}
+	$yid=$Student['NCyearActual']['id_db'];
+	$perm=getYearPerm($yid,$respons);
+	$needperm='w';
+	include('scripts/perm_action.php');
 
 	$SEN=$Student['SEN'];
-	$current="student_view_sen.php";
+	$action="student_view_sen.php";
 	$senhid=$SEN['SENhistory']['id_db'];
 	$SENhistory=$SEN['SENhistory'];
-	$inval = $_POST['year']."-".$_POST['month']."-".$_POST['day'];
+	$inval=$_POST['year']."-".$_POST['month']."-".$_POST['day'];
 	$table=$SENhistory['NextReviewDate']['table_db'];
 	$field=$SENhistory['NextReviewDate']['field_db'];
 	if($SENhistory['NextReviewDate']['value']!=$inval){
@@ -68,7 +59,7 @@ if($perm['w']!=1){
 			$table=$SENtypes['SENtypeRank']['table_db'];
 			$field=$SENtypes['SENtypeRank']['field_db'];
 			$inname=$field.$key;
-			$inval=$_POST{"$inname"};
+			$inval=clean_text($_POST{"$inname"});
 			if($SENtypes['SENtypeRank']['value']!=$inval){
 				$result[]=$SENtypes['SENtypeRank']['label']." : ".$inval;
 					if(mysql_query("UPDATE $table SET $field='$inval'
@@ -80,7 +71,7 @@ if($perm['w']!=1){
 			$table=$SENtypes['SENtype']['table_db'];
 			$field=$SENtypes['SENtype']['field_db'];
 			$inname=$field.$key;
-			$inval=$_POST{"$inname"};
+			$inval=clean_text($_POST{"$inname"});
 			if($SENtypes['SENtype']['value']!=$inval){
 				$result[]=$SENtypes['SENtype'][0]['label']." : ".$inval;
 					if(mysql_query("UPDATE $table SET $field='$inval'
@@ -96,7 +87,7 @@ if($perm['w']!=1){
 			$table=$Subject['Strengths']['table_db'];
 			$field=$Subject['Strengths']['field_db'];
 			$inname=$field.$key;
-			$inval=$_POST{"$inname"};
+			$inval=clean_text($_POST{"$inname"});
 			if($Subject['Strengths']['value']!=$inval){
 				$result[]=$Subject['Strengths']['label']." : ".$inval;
 					if(mysql_query("UPDATE $table SET $field='$inval'
@@ -109,7 +100,7 @@ if($perm['w']!=1){
 			$table=$Subject['Strategies']['table_db'];
 			$field=$Subject['Strategies']['field_db'];
 			$inname=$field.$key;
-			$inval=$_POST{"$inname"};
+			$inval=clean_text($_POST{"$inname"});
 			if($Subject['Strategies']['value']!=$inval){
 				print $Subject['Strategies']['label']." : ".$inval;
 					if(mysql_query("UPDATE $table SET $field='$inval'
@@ -122,7 +113,7 @@ if($perm['w']!=1){
 			$table=$Subject['Weaknesses']['table_db'];
 			$field=$Subject['Weaknesses']['field_db'];
 			$inname=$field.$key;
-			$inval=$_POST{"$inname"};
+			$inval=clean_text($_POST{"$inname"});
 			if($Subject['Weaknesses']['value']!=$inval){
 				$result[]=$Subject['Weaknesses']['label']." : ".$inval;
 					if(mysql_query("UPDATE $table SET $field='$inval'
@@ -137,8 +128,6 @@ if($perm['w']!=1){
 	$Student['SEN']=$SEN;
 	$_SESSION{'Student'}=$Student;
 	}
-
 	include("scripts/results.php");
 	include("scripts/redirect.php");
 ?>
-

@@ -11,23 +11,3 @@ div#bookbox {
 .admincolor legend, .admincolor caption {
     border-color:#aa4444;
 	}
-
-/*
-.admincolor table {
-	background-color:#cccccc; border:2px solid #990000;
-	empty-cells:show;
-	}
-.admincolor table th {
-	border-left:1px solid #ffeeee; border-right:1px solid #ffeeee;
-	padding-left:5px;
-	}	
-.admincolor table td {
-	background-color:#ffeeee; 
-	border-top:1px solid #cccccc; border-bottom:1px solid #cccccc;
-	padding-left:10px;
-	}
-
-table.listmenu {
-	border-color:#990000;
-	}
-*/

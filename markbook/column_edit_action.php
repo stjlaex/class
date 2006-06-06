@@ -5,11 +5,11 @@
 $action='class_view.php';
 
 $mid=$_POST['mid'];
-$total=$_POST['total'];
+$total=clean_text($_POST['total']);
 $oldcids=$_POST['newcids'];
 $newcids=$_POST['selcids'];
-$topic=$_POST['topic'];
-$comment=$_POST['comment'];
+$topic=clean_text($_POST['topic']);
+$comment=clean_text($_POST['comment']);
 if(isset($_POST['assbut'])){$assbut=$_POST['assbut'];}else{$assbut='';}
 if(isset($_POST['newpid'])){$newpid=$_POST['newpid'];}else{$newpid='';}
 $hidden=$_POST['hidden'];
@@ -22,7 +22,7 @@ include('scripts/sub_action.php');
 		if(mysql_query("UPDATE mark SET
 	     entrydate='$entrydate', topic='$topic', total='$total',
 				hidden='$hidden', comment='$comment', component_id='$newpid' WHERE id='$mid'"))
-	     {$result[]='Updated';}
+	     {}
 	     else{$result[]='Failed mark may not exist!';	
 					$error[]=mysql_error();}
 			
@@ -48,8 +48,7 @@ include('scripts/sub_action.php');
 			/*check for those cids newly selected and add to midcid*/
 			if(!in_array($newcid,$currentcids)){
 				if(mysql_query("INSERT INTO midcid SET mark_id='$mid',
-					class_id='$newcid'")){
-					$result[]='Associated class '.$newcid.' with mark.';}
+					class_id='$newcid'")){}
 				else{$error[]=mysql_error();}
 				}
 			}
@@ -57,8 +56,7 @@ include('scripts/sub_action.php');
 
 	elseif($assbut=='Assess'){
 		if(mysql_query("UPDATE mark SET
-	     assessment='yes' WHERE id='$mid'"))
-	     {$result[]='Updated assessment status';}
+	     assessment='yes' WHERE id='$mid'")){}
 	     else{$result[]='Failed mark may not exist!';	
 					$error[]=mysql_error();}
 		$action='column_edit.php';
@@ -70,21 +68,18 @@ include('scripts/sub_action.php');
 			 mysql_query("DELETE FROM eidmid  
 				WHERE mark_id='$mid' LIMIT 1");
 			 if(mysql_query("UPDATE mark SET
-				assessment='no' WHERE id='$mid'"))
-			 {$result[]='Removed assessment status for mark.';}
+				assessment='no' WHERE id='$mid'")){}
 			 else{$result[]='Failed mark may not exist!';	
 					$error[]=mysql_error();}
 			 }
 	  else{
 			 if(mysql_query("INSERT INTO eidmid SET
-				assessment_id='$eid', mark_id='$mid'"))
-			 {$result[]='Assessment linked to mark.';}
+				assessment_id='$eid', mark_id='$mid'")){}
 			 else{$result[]='Failed mark may not exist!';	
 					$error[]=mysql_error();}
 			}
 		$action='column_edit.php';
 		}
-
 	include('scripts/results.php');
 	include('scripts/redirect.php');
 ?>

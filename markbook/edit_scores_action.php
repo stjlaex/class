@@ -10,7 +10,7 @@ $mid=$_POST{'mid'};
 $col=$_POST{'col'};
 $scoretype=$_POST{'scoretype'};
 $grading_grades=$_POST{'grading_grades'};
-$total=$_POST{'total'};
+$total=clean_text($_POST{'total'});
 
 include('scripts/sub_action.php');
 
@@ -43,9 +43,9 @@ if($sub=='Submit'){
 	for($c=0;$c<sizeof($viewtable);$c++){
 		unset($res);
 		$sid=$viewtable[$c]['sid'];
-		if(isset($_POST{"total$sid"})){$intotal=$_POST{"total$sid"};}
-		$inscore=$_POST{"$sid"};
-		$incomm=$_POST{"comm$sid"};
+		if(isset($_POST{"total$sid"})){$intotal=clean_text($_POST{"total$sid"});}
+		$inscore=clean_text($_POST{"$sid"});
+		$incomm=clean_text($_POST{"comm$sid"});
 		/*$$sid are the names of score values posted by the form*/
 		/*if the value is empty then score will be unset and no entry made*/
 		if($scoretype=='grade'){

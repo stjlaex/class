@@ -15,9 +15,8 @@ else {
 		}
 	else{
 		$_SESSION{'umnrank'}=$checkmid[0];
-		$result[]="Column ranked.";
 		}
-}
+	}
 	include("scripts/results.php");
 	include("scripts/redirect.php");
 ?>
