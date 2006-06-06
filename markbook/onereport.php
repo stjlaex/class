@@ -82,6 +82,7 @@
 				}
 		  $rown=0;
 		  $openId=$sid.'-'.$entryn;
+		  if($edit_comments_off!='yes'){
 ?>
   <tbody id="<?php print $openId;?>">
 	<tr onClick="clickToReveal(this)" class="rowplus" 
@@ -135,6 +136,7 @@
 			print '</textarea>';
 			print '</td></tr>';
 			}
+		  }
 		}
 ?>
   </tbody>

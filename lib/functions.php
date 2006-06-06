@@ -81,6 +81,24 @@ function js_addslashes($value){
 	return $o;
 	}
 
+function clean_text($value){
+	$value=trim($value);
+	$value=stripslashes($value);
+	/*replaces all MS Word smart quotes, EM dashes and EN dashes*/
+	$search=array(chr(145),chr(146),chr(147),chr(148),chr(150),chr(151));
+	$replace=array("'","'",'"','"','-','-');
+	$value=str_replace($search,$replace,$value);
+	/*blanks possible dodgy sql etc.*/
+	$search=array('select','insert','delete','drop','SELECT','INSERT','DELETE','DROP');
+	$value=str_replace($search,'',$value);
+	$search=array('*','<','>');
+	$value=str_replace($search,'',$value);
+	//   	$value=eregi_replace('[^-.?,!;()+:[:digit:][:space:][:alpha:]]','', $value);
+	$value=addslashes($value);
+	return $value;
+ 	}
+
+
 function checkEntry($value, $format='', $field_name=''){
 	$value=trim($value);
 	$value=good_strtolower($value);
@@ -95,33 +113,29 @@ function checkEntry($value, $format='', $field_name=''){
 		$value=$date[2].'-'.$date[1].'-'.$date[0];
 		print $value;
 		}
-
-	if($field_type[0]=='enum'){
+	elseif($field_type[0]=='enum'){
 		$value=strtoupper($value);
 		$value=checkEnum($value, $field_name);
 		}
-
 	return $value;
-}
+	}
 
 function checkEnum($value, $field_name) {
 	$enumarray=getEnumArray($field_name);
-
 	if(array_key_exists($value,$enumarray)){
 		}
 	else{
 		$value='';
 		}
-
 	return $value;
-}
+	}
 
 function displayEnum($value, $field_name) {
-		$value=strtoupper($value);
-		$enumarray=getEnumArray($field_name);
-		$description=$enumarray[$value];
-		return $description;
-}
+	$value=strtoupper($value);
+	$enumarray=getEnumArray($field_name);
+	$description=$enumarray[$value];
+	return $description;
+	}
 
 function getEnumArray($field_name) {
 //		for the student table

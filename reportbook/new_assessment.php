@@ -88,11 +88,11 @@ three_buttonmenu($extrabuttons);
   <div class="content">
 	<div class="center">
 	  <table class="listmenu" name="listmenu">
-		<caption>Assessments</caption>
+		<caption><?php print_string('assessments');?></caption>
 		<thead>
 		  <tr>
 			<th></th>
-			<th><?php print_string('year').'('.print_string('season').')';?></th>
+			<th><?php print get_string('year').'('.get_string('season').')';?></th>
 			<th><?php print_string('stage');?></th>
 			<th><?php print_string('status');?></th>
 			<th><?php print_string('description');?></th>

@@ -17,8 +17,9 @@ else {$displaymid=$_POST['displaymid'];}//new mark created by previous script
 if(isset($_POST{'cids'})){
 	/*If the classes selection has changed then*/
 	if($_SESSION{'cids'}!=$_POST{'cids'}){
-	$_SESSION{'cids'}=$_POST{'cids'}; 
-	$_SESSION{'pid'}='';
+	$_SESSION{'cids'}=$_POST{'cids'};
+	/*really need to check this pid exists for these classes*/ 
+	//	$_SESSION{'pid'}='';
 	$_SESSION{'umnrank'}='surname';}
 	if($displaymid==0){$displaymid=-1;}
 	}

@@ -1,6 +1,6 @@
 <?php 
-/*											edit_reports.php
-*/
+/**											edit_reports.php
+ */
 
 $action='edit_reports_action.php';
 
@@ -108,6 +108,7 @@ three_buttonmenu();
 
 	if(isset($_GET{'sid'})){
 		/*this was called from a clickthrough for one individual student*/
+		$edit_comments_off='no';
 		$sid=$_GET{'sid'};
 		for($c=0;$c<sizeof($viewtable);$c++){if($viewtable[$c]['sid']==$sid){$row=$c;}}
 		$tab=$row+1;
@@ -115,6 +116,7 @@ three_buttonmenu();
 		}
 	else{
 		/*row for each student*/
+		$edit_comments_off='yes';
 		for($row=0;$row<sizeof($viewtable);$row++){
 			$sid=$viewtable[$row]['sid'];
 			$tab=$row+1;

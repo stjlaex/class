@@ -1,12 +1,11 @@
 <?php
-/*									comments_list_action.php
-
-*/
+/**									comments_list_action.php
+ */
 
 $action='comments_list.php';
 
 $id=$_POST['id_db'];
-$detail=$_POST['detail'];
+$detail=clean_text($_POST['detail']);
 $entrydate = $_POST['entrydate'];
 if(isset($_POST['bid'])){$bid=$_POST['bid'];}else{$bid='%';}
 if(isset($_POST['catid'])){$catid=$_POST['catid'];}else{$catid=array();}

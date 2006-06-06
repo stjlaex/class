@@ -22,7 +22,9 @@ function openCommentWriter(commenturl){
 	}
 
 function closeCommentWriter(commentId,entryn,text){
-	if(commentId!='-100'){opener.updateComment(commentId,entryn,text);}
+	if(commentId!='-100'){
+		opener.updateComment(commentId,entryn,text);
+		}
 	window.close();
 	}
 

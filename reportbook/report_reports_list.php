@@ -58,7 +58,8 @@ twoplusprint_buttonmenu();
 			  </label>
 			</th>
 			<th><?php print_string('student');?></th>
-<?php if($formperm['w']==1 or $yearperm['w']==1){
+<?php
+		if($formperm['w']==1 or $yearperm['w']==1){
 			print '<th>'.get_string('summarycomment',$book).'</th>';
 			}
 ?>

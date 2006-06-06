@@ -21,7 +21,7 @@ elseif($sub=='Submit'){
 	$Student=fetchshortStudent($sid);
 	if(isset($_POST{'bid'})){$bid=$_POST{'bid'};}
 	if(isset($_POST{'pid'})){$pid=$_POST{'pid'};}
-	if(isset($_POST{'incom'})){$incom=$_POST{'incom'};}
+	if(isset($_POST{'incom'})){$incom=clean_text($_POST{'incom'});}
 	if(isset($_POST{'inmust'})){$inmust=$_POST{'inmust'};}
 
 

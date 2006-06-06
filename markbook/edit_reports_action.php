@@ -15,7 +15,7 @@ $inbid=$inorders['subject'];
 $inpid=$inorders['component'];
 $rid=$inorders['rid'];
 $catdefs=$inorders['catdefs'];
-$todate=date('Y')."-".date('n')."-".date('j');
+$todate=date('Y').'-'.date('n').'-'.date('j');
 
 include('scripts/sub_action.php');
 
