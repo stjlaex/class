@@ -6,24 +6,31 @@ $action='report_reports_print.php';
 
 if(isset($_POST{'newfid'})){$fid=$_POST{'newfid'};}else{$fid='';}
 if(isset($_POST{'fid'})){$fid=$_POST{'fid'};}
+if(isset($_POST{'newyid'})){$yid=$_POST{'newyid'};}
+if(isset($_POST{'yid'})){$yid=$_POST{'yid'};}
 if(isset($_POST{'selbid'})){$selbid=$_POST{'selbid'};}else{$selbid='%';}
 if(isset($_POST{'rids'})){$rids=$_POST{'rids'};}else{$rids=array();}
 if(isset($_POST{'coversheet'})){$coversheet=$_POST{'coversheet'};}else{$coversheet='no';}
 
 include('scripts/sub_action.php');
 
-	if($d_student=mysql_query("SELECT * FROM student WHERE
-				form_id='$fid' ORDER BY surname, forename")){}
-	else{$error[]=mysql_error();}
+	if($fid!=''){
+		$d_student=mysql_query("SELECT * FROM student WHERE
+				form_id='$fid' ORDER BY surname, forename");
+		$formperm=getFormPerm($fid,$respons);
+		}
+	elseif($yid!=''){
+		$d_student=mysql_query("SELECT * FROM student WHERE
+				yeargroup_id='$yid' ORDER BY surname, forename");
+		$yearperm=getYearPerm($yid,$respons);
+		$formperm=$yearperm;
+		}
 	$sids=array();
 	$students=array();
 	while($student=mysql_fetch_array($d_student,MYSQL_ASSOC)){
 		$sids[]=$student['id'];
 		$students[$student['id']]=$student;
 		}
-
-$formperm=getFormPerm($fid,$respons);
-$yearperm=getYearPerm($yid,$respons);
 
 twoplusprint_buttonmenu();
 ?>
@@ -59,8 +66,18 @@ twoplusprint_buttonmenu();
 			</th>
 			<th><?php print_string('student');?></th>
 <?php
-		if($formperm['w']==1 or $yearperm['w']==1){
-			print '<th>'.get_string('summarycomment',$book).'</th>';
+		reset($rids);
+		while(list($index,$rid)=each($rids)){
+   			$summaries=(array)$reports[$index]['summaries'];
+			while(list($index2,$summary)=each($summaries)){
+				$summaryid=$summary['subject_id'];
+				if($formperm['w']==1 and $summaryid=='form'){
+					print '<th>'.get_string('formtutor').'</th>';
+					}
+				elseif($yearperm['w']==1 and $summaryid=='year'){
+					print '<th>'.get_string('yearhead').'</th>';
+					}
+				}
 			}
 ?>
 			<th colspan="16"><?php print_string('completedsubjectreports',$book);?></th>
@@ -77,14 +94,9 @@ twoplusprint_buttonmenu();
 				   <?php print $student['surname']; ?>, <?php print $student['forename']; ?>
 					  (<?php print $student['form_id']; ?>)
 			</td>
-			<td>
 <?php
 		reset($rids);
 		while(list($index,$rid)=each($rids)){
-?>
-			  <table>
-				<tr>
-<?php
    			$summaries=(array)$reports[$index]['summaries'];
 			while(list($index2,$summary)=each($summaries)){
 				$summaryid=$summary['subject_id'];
@@ -97,17 +109,28 @@ twoplusprint_buttonmenu();
 ?>
 			<td id="icon<?php print $openId;?>" <?php if(mysql_num_rows($d_summaryentry)>0){print 'class="vspecial"';}?> >
 			  <img class="clicktoedit" name="Write"  
-				onClick="clickToWriteComment(<?php print $sid.','.$rid.',\'summary\',\''.$summaryid.'\',\'0\',\''.$openId.'\'';?>);" 
-				title="<?php print get_string('clicktowritecomment').':'.$summary['name'];?>" />
+				onClick="clickToWriteComment(<?php print $sid.','.$rid.',\'summary\',\''.$summaryid.'\',\'0\',\''.$openId.'\'';?>);" />
+			</td>
+<?php
+					}
+				elseif($yearperm['w']==1 and $summaryid=='year'){
+					$d_summaryentry=mysql_query("SELECT teacher_id
+					FROM reportentry WHERE report_id='$rid' AND
+					student_id='$sid' AND subject_id='summary' AND
+					component_id='$summaryid' AND entryn='1'");
+					$openId=$sid.'summary-'.$summaryid;
+?>
+			<td id="icon<?php print $openId;?>" <?php if(mysql_num_rows($d_summaryentry)>0){print 'class="vspecial"';}?> >
+			  <img class="clicktoedit" name="Write"  
+				onClick="clickToWriteComment(<?php print $sid.','.$rid.',\'summary\',\''.$summaryid.'\',\'0\',\''.$openId.'\'';?>);" />
 			</td>
 <?php
 					}
 				}
-?>
-				</tr>
-			  </table>
-			</td>
-<?php
+			}
+
+		reset($rids);
+		while(list($index,$rid)=each($rids)){
 		    $crid=$reports[$index]['course_id'];
 		    $commentcomp=$reports[$index]['commentcomp'];
 			if($selbid=='%'){
@@ -205,5 +228,5 @@ twoplusprint_buttonmenu();
  	<input type="hidden" name="cancel" value="<?php print $choice;?>" />
  	<input type="hidden" name="choice" value="<?php print $choice;?>" />
  	<input type="hidden" name="current" value="<?php print $action;?>" />
-</form>
-</div>
+	</form>
+  </div>

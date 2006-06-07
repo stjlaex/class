@@ -118,13 +118,13 @@ function getTeachingStaff($crid='',$bid=''){
 	}
 
 function getYearPerm($year,$respons){
-	/* return perms for yeargroup*/	
+	/*return perm for yeargroup*/	
 	$perm['r']=0;
 	$perm['w']=0;
 	$perm['x']=0;
 	for($c=0;$c<sizeof($respons);$c++){
 		$resp=$respons[$c];
-		if($resp['name']=='Year'){
+		if($resp['name']!='Form'){
 			if($resp['yeargroup_id']==$year){
 				$perm['r']=$resp['r'];
 				$perm['w']=$resp['w'];
@@ -137,14 +137,23 @@ function getYearPerm($year,$respons){
 	}
 
 function getFormPerm($form,$respons){
-	/* return perms for form group*/	
+	/*return perm for form group*/
 	$perm['r']=0;
 	$perm['w']=0;
 	$perm['x']=0;
+	$d_form=mysql_query("SELECT yeargroup_id FROM form WHERE id='$form'");
+	$formyid=mysql_result($d_form,0);
 	for($c=0;$c<sizeof($respons);$c++){
 		$resp=$respons[$c];
 		if($resp['name']=='Form'){
 			if($resp['form_id']==$form){
+				$perm['r']=$resp['r'];
+				$perm['w']=$resp['w'];
+				$perm['x']=$resp['x'];
+				}
+			}
+		elseif($resp['yeargroup_id']!=''){
+			if($resp['yeargroup_id']==$formyid){
 				$perm['r']=$resp['r'];
 				$perm['w']=$resp['w'];
 				$perm['x']=$resp['x'];
@@ -155,11 +164,11 @@ function getFormPerm($form,$respons){
 	return $perm;
 	}
 	
-function getMarkPerm ($mid, $respons){
+function getMarkPerm($mid, $respons){
 	$d_class=mysql_query("SELECT subject_id, course_id FROM class
 		 JOIN midcid ON class.id=midcid.class_id WHERE midcid.mark_id='$mid'");
 	$class=mysql_fetch_array($d_class,MYSQL_ASSOC);
-/*		this will only takes the first crid/bid, would be a prolem if
+	/*this will only takes the first crid/bid, would be a prolem if
 				the mark is defined  across more than one type of class*/
 	$bid=$class['subject_id'];
 	$crid=$class['course_id'];
@@ -187,7 +196,6 @@ function getSubjectPerm ($subject, $respons){
 	for($c=0;$c<sizeof($respons);$c++){
 		$resp=$respons[$c];
 		if($resp['subject_id']==$subject and $resp['course_id']=='%'){
-//		if($resp{'subject_id'}==$subject){
 			$perm['r']=$resp['r'];
 			$perm['w']=$resp['w'];
 			$perm['x']=$resp['x'];
@@ -220,8 +228,9 @@ function listPastoralRespon($respons){
 		if($resp['name']=='Form'){
 			if($resp['form_id']!=''){$rfids[]=$resp['form_id'];}
 			}
-		elseif($resp['name']=='Year'){
-			if($resp['yeargroup_id']!=''){$ryids[]=$resp['yeargroup_id'];}
+		elseif($resp['yeargroup_id']!=''){
+			/*academic respons must have null yeargroup_id for this to work!*/
+			$ryids[]=$resp['yeargroup_id'];
 			}
 		}
 	return array('forms'=>$rfids,'years'=>$ryids);

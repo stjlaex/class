@@ -1,8 +1,8 @@
 <?php
-/*********							class_view_table.php
-Generates the array $viewtable and stores as a session variable.
-*/
-$d_students=mysql_query("SELECT * FROM students ORDER BY surname"); 
+/**							class_view_table.php
+ * Generates the array $viewtable and stores as a session variable.
+ */
+$d_students=mysql_query("SELECT * FROM students ORDER BY surname, forename"); 
 $row=0;
 $viewtable=array();
 
@@ -194,8 +194,8 @@ while($student=mysql_fetch_array($d_students, MYSQL_ASSOC)){
 
 /*********************************************************/
 
-	   	elseif ($marktype =='compound') {
-/*		Mark is a compound column*/
+	   	elseif($marktype=='compound') {
+			/*Mark is a compound column*/
 				$mids=explode(' ',$midlist[$c]);
 				$yesval=0;
 				for ($c2=0; $c2<sizeof($mids); $c2++){
@@ -210,11 +210,12 @@ while($student=mysql_fetch_array($d_students, MYSQL_ASSOC)){
 
 /*********************************************************/
 
-	   	elseif ($marktype =='report') {
-/*		Mark is a compound column*/
-				$out='<a href="markbook.php?current=edit_reports.php&choice=class_view.php&midlist='.$umns[$c]['midlist'].'&title='.$umns[$c]['topic'].'&mid='.$umns[$c]['id'].'&pid='.$umns[$c]['component'].'&sid='.$sid.'&col='.$c.'&bid='.$bid[0].'">R</a>';
-				$outrank=-100;
-				}
+	   	elseif($marktype=='report'){
+			/*Mark is a compound report column*/
+			$reportentryn=checkReportEntry($umns[$c]['midlist'],$sid,$bid[0],$umns[$c]['component']);
+			$out='<a href="markbook.php?current=edit_reports.php&choice=class_view.php&midlist='.$umns[$c]['midlist'].'&title='.$umns[$c]['topic'].'&mid='.$umns[$c]['id'].'&pid='.$umns[$c]['component'].'&sid='.$sid.'&col='.$c.'&bid='.$bid[0].'">R '.$reportentryn.'</a>';
+			$outrank=-100;
+			}
 
 /********finished with this mark*******************/
 /*		 If no $out set then the mark must be faulty......*/
@@ -248,27 +249,29 @@ while($student=mysql_fetch_array($d_students, MYSQL_ASSOC)){
 		$sort_array[1]['name']='forename';
 		$sort_array[1]['sort']='ASC';
 		$sort_array[1]['case']=TRUE;
-		sortx($viewtable, $sort_array);
+		//		Should already be sorted by mysql so not needed
+		//		sortx($viewtable, $sort_array);
 		}
 	else{
 		$sort_array[0]['name']="rank$umnrank";
 		$sort_array[0]['sort']='DESC';
 		$sort_array[0]['case']=TRUE;
-		$sort_array[1]['name']='surname';
-		$sort_array[1]['sort']='ASC';
-		$sort_array[1]['case']=TRUE;
+		//removed because usort doesn't handle utf8
+		//  	$sort_array[1]['name']='surname';
+		//   	$sort_array[1]['sort']='ASC';
+		// 		$sort_array[1]['case']=TRUE;
 	    sortx($viewtable, $sort_array);
 		}
 
-function sortx(&$array, $sort=array()) {
+function sortx(&$array,$sort=array()){
    $function='';
-   while (list($key)=each($sort)) {
-     if (isset($sort[$key]['case'])&&($sort[$key]['case'] == TRUE)) {
+   while(list($key)=each($sort)){
+     if(isset($sort[$key]['case'])&&($sort[$key]['case']==TRUE)){
        $function .= 'if (good_strtolower($a["' . $sort[$key]['name'] . '"])<>good_strtolower($b["' . $sort[$key]['name'] . '"])) { return (good_strtolower($a["' . $sort[$key]['name'] . '"]) ';
      } else {
        $function .= 'if ($a["' . $sort[$key]['name'] . '"]<>$b["' . $sort[$key]['name'] . '"]) { return ($a["' . $sort[$key]['name'] . '"] ';
      }
-     if (isset($sort[$key]['sort'])&&($sort[$key]['sort'] == 'DESC')) {
+     if(isset($sort[$key]['sort'])&&($sort[$key]['sort']=='DESC')){
        $function .= '<';
      } else {
        $function .= '>';
@@ -280,11 +283,10 @@ function sortx(&$array, $sort=array()) {
      }
    }
    $function .= ' { return 0; }';
-   usort($array, create_function('$a, $b', $function));
-  }
-/*****************************************/
-/*	All finished.*/
+   usort($array,create_function('$a, $b', $function));
+   }
 
+/*	All finished.*/
 $_SESSION{'viewtable'}=$viewtable;
 $_SESSION{'umns'}=$umns;
 ?>

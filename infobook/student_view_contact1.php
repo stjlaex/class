@@ -1,9 +1,9 @@
 <?php
-/*									student_view_contact1.php
+/**									student_view_contact1.php
  *
  */
 
-$action='student_view_contact.php';
+$action='student_view.php';
 
 $gid=$_POST{'contactgid'};
 $contactno=$_POST{'contactno'};
@@ -13,18 +13,13 @@ $sid=$Student['id_db'];
 
 include('scripts/sub_action.php');
 
-	/********Check user has permission to edit*************/
+if($sub=='Submit'){
+	/*Check user has permission to edit*/
 	$yid=$Student['NCyearActual']['id_db'];
 	$perm=getYearPerm($yid, $respons);
-	if($perm['w']!=1){
-		$result[]='You don\'t have the permissions to edit this page!'; 
-		include('scripts/result.php');
-		include('scripts/redirect.php');
-		exit;
-		}
+	$neededperm='w';
+	include('scripts/perm_action.php');
 
-
-if($sub=='Submit'){
 	$in=0;	
 	while(list($key,$val)=each($Contact)){
 		if(isset($val['value']) & is_array($val)){
@@ -159,6 +154,4 @@ elseif($sub=='Delete Checked'){
 
 include('scripts/results.php');
 include('scripts/redirect.php');
-
 ?>
-

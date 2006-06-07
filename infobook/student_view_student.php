@@ -1,6 +1,6 @@
 <?php
-/*									student_view_student.php
-*/
+/**									student_view_student.php
+ */
 
 $action='student_view_student1.php';
 $cancel='student_view.php';

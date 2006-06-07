@@ -11,4 +11,6 @@ elseif(sizeof($rfids)>0){
 	$selfid=$rfids[0];
 	include('list_form.php');
 	}
+else{
+	}
 ?>

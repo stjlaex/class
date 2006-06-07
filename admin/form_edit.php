@@ -2,11 +2,19 @@
 /**											   form_edit.php
  */
 $action='form_edit_action.php';
+$cancel='formgroup_matrix.php';
 
 if(isset($_GET{'newfid'})){$newfid=$_GET{'newfid'};}
 if(isset($_GET{'newtid'})){$newtid=$_GET{'newtid'};}else{$newtid='';}
 if(isset($_POST{'newfid'})){$newfid=$_POST{'newfid'};}
 if(isset($_POST{'newtid'})){$newtid=$_POST{'newtid'};}
+
+/*Check user has permission to edit*/
+$d_test=mysql_query("SELECT yeargroup_id FROM form WHERE id='$newfid'");
+$formyid=mysql_result($d_form,0);
+$perm=getFormPerm($newfid,$respons);
+$neededperm='w';
+include('scripts/perm_action.php');
 
 $d_form=mysql_query("SELECT * FROM form WHERE id='$newfid'");
 $form=mysql_fetch_array($d_form, MYSQL_ASSOC);

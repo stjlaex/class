@@ -33,30 +33,38 @@ function fetchStatementBank($crid,$bid,$pid,$stage,$dbstat=''){
 						AND subject_id='$bid' AND area_id='$areaid'
 						AND (component_id LIKE '$pid' OR
 						component_id='%') AND (stage LIKE '$stage' OR stage='%');");
-			$grid=mysql_result($d_grouping,0,0);
-			$ratingname=mysql_result($d_grouping,0,1);
-			$d_rating=mysql_query("SELECT descriptor, value FROM
+
+			$Statements=array();
+			while($grouping=mysql_fetch_array($d_grouping,MYSQL_ASSOC)){
+				$grid=$grouping['id'];
+				$ratingname=$grouping['rating_name'];
+
+				if(!isset($nolevels)){
+					/*this will only use one set of levels and even
+					worse that of the first group only*/
+					$d_rating=mysql_query("SELECT descriptor, value FROM
 						rating WHERE name='$ratingname' ORDER BY value
 						DESC;");
-			$Levels=array();
-			while($rating=mysql_fetch_array($d_rating,MYSQL_ASSOC)){
-				$Level=array();
-				$Level['Name']=$rating['descriptor'];
-				$Level['Value']=$rating['value'];
-				$Levels[]=$Level;
-				}
-			$nolevels=sizeof($Levels);
+					$Levels=array();
+					while($rating=mysql_fetch_array($d_rating,MYSQL_ASSOC)){
+						$Level=array();
+						$Level['Name']=$rating['descriptor'];
+						$Level['Value']=$rating['value'];
+						$Levels[]=$Level;
+						}
+					$nolevels=sizeof($Levels);
+					}
 
-			$d_stat=mysql_query("SELECT * FROM statement JOIN gridstid 
+				$d_stat=mysql_query("SELECT * FROM statement JOIN gridstid 
 				ON statement.id=gridstid.statement_id WHERE gridstid.grouping_id='$grid';");
-			$Statements=array();
-			while($statement=mysql_fetch_array($d_stat,MYSQL_ASSOC)){
-				$Statement=array();
-				$Statement['Value']=$statement['statement_text'];
-				$Statement['Counter']=$statement['counter'];
-				$Statement['Author']=$statement['author'];
-				$Statement['Ability']=$statement['rating_fraction']*$nolevels;
-				$Statements[]=$Statement;
+				while($statement=mysql_fetch_array($d_stat,MYSQL_ASSOC)){
+					$Statement=array();
+					$Statement['Value']=$statement['statement_text'];
+					$Statement['Counter']=$statement['counter'];
+					$Statement['Author']=$statement['author'];
+					$Statement['Ability']=$statement['rating_fraction']*$nolevels;
+					$Statements[]=$Statement;
+					}
 				}
 			$StatementBank['Area']["$areaid"]['Statements']=$Statements;
 			$StatementBank['Area']["$areaid"]['Levels']=$Levels;

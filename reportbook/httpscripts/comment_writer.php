@@ -39,6 +39,7 @@ else{
 
 $dbstat=connect_statementbank();
 if($dbstat!=''){
+	$stage='';
 	$StatementBank=fetchStatementBank($reportdef['report']['course_id'],$bid,$pid,$stage,$dbstat);
 	}
 ?>
@@ -136,7 +137,7 @@ if($dbstat!=''){
 			</div>
 		</div>
 <?php
-				  }
+			  }
 ?>
 	</div>
 </body>

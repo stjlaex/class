@@ -46,19 +46,16 @@ include('class_view_marks.php');
 	  <table id="marktable">
 		<tr>
 <?php 
-/***************************************************************************************
-*							The main table.
-*			All cells are referenced by their (sid,mid) only.
-*/
+/**
+ *			The main table.
+ *			All cells are referenced by their (sid,mid) only.
+ */
 	$n=sizeof($cids);
 	$cidcolour=array();
 
-	$rowcolour = array('#ffeeff', '#FFddFF', '#FFccff', '#ffbbff',
-	'#ffaaff', '#FF99ff', '#ff88ff', '#ff77ff', '#ff66ff', '#ff55ff',
+	$rowcolour=array('#ffeeff', '#ffddff', '#ffccff', '#ffbbff',
+	'#ffaaff', '#ff99ff', '#ff88ff', '#ff77ff', '#ff66ff', '#ff55ff',
 	'#ff44ff', '#ff33ff', '#ff22ff', '#ff11ff', '#ff00ff');
-//	$rowcolour=array('#ffffee', '#ffffdd', '#ffffcc', '#ffffbb',
-//	'#ffffaa', '#ffff99', '#ffff88', '#ffff77', '#ffff66', '#ffff55',
-//	'#ffff44', '#ffff33', '#ffff22', '#ffff11', '#ffff00');
 
 	print '<td colspan="5">';
 	print '<table>';
@@ -78,7 +75,7 @@ include('class_view_marks.php');
 	print '</td>';
 
 
-/*********	The mark's column header, with a checkbox which provides $mid */	      
+/** The mark's column header, with a checkbox which provides $mid */	      
 	for($col=0;$col<sizeof($umns);$col++){
 //	  if($umns[$col]['display']=='yes'){
 		if($umns[$col]['marktype']=='score'){

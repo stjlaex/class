@@ -149,12 +149,22 @@ function fetchReportSummaries($rid){
 				categorydef.rating FROM categorydef LEFT
 				JOIN ridcatid ON ridcatid.categorydef_id=categorydef.id 
 				WHERE ridcatid.report_id='$rid' AND
-				ridcatid.subject_id='summary' ORDER BY categorydef.rating");
+				ridcatid.subject_id='summary' ORDER BY
+				categorydef.rating DESC");
    	$catdefs=array();
 	while($catdef=mysql_fetch_array($d_categorydef,MYSQL_ASSOC)){
 	   	$catdefs[]=$catdef;
 	   	}
 	return $catdefs;
+	}
+
+
+function checkReportEntry($rid, $sid, $bid, $pid){
+	$d_reportentry=mysql_query("SELECT entryn
+					FROM reportentry WHERE report_id='$rid' AND
+					student_id='$sid' AND subject_id='$bid' AND
+					component_id='$pid'");
+	return mysql_numrows($d_reportentry);
 	}
 
 function fetchReportEntry($reportdef, $sid, $bid, $pid){

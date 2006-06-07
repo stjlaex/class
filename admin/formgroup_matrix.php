@@ -1,20 +1,9 @@
 <?php 
-/**													formgroup_matrix.php
+/**								  		formgroup_matrix.php
  */
 
 $choice='formgroup_matrix.php';
 $action='formgroup_matrix_action.php';
-
-	if($r>-1){
-		$bid=$respons[$r]{'subject_id'};
-		$crid=$respons[$r]{'course_id'};
-		if($bid==''){$bid='%';}
-		}
-	else {
-		$error[]=get_string('selectresponsibility');
-		include('scripts/results.php');
-		exit;
-		}
 
 $tids=getTeachingStaff();
 
@@ -58,8 +47,8 @@ three_buttonmenu();
   <div class="content">
 	  <table class="listmenu">
 		<tr>
-		  <th><?php print_string('teacher',$book);?></th>
-		  <th><?php print_string('formgroup',$book);?></th>
+		  <th><?php print_string('formtutor');?></th>
+		  <th><?php print_string('formgroup');?></th>
 		</tr>
 <?php
     for($c=0;$c<sizeof($tids);$c++){

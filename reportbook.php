@@ -32,17 +32,16 @@ $_SESSION{'reportchoice'}=$choice;
 		$ryid=$respons[$r]['yeargroup_id'];
 		if($ryid==''){$ryid='%';}
 		}
-	else{
-		$pastorals=listPastoralRespon($respons);
-		$rfids=$pastorals['forms'];
-		$ryids=$pastorals['years'];
-		if(sizeof($rfids)==0 and sizeof($ryids)==0){
+	$pastorals=listPastoralRespon($respons);
+	$rfids=$pastorals['forms'];
+	$ryids=$pastorals['years'];
+	if(sizeof($rfids)==0 and sizeof($ryids)==0 and $r=='-1'){
 			$error[]=get_string('selectresponsibility');
 			include('scripts/results.php');
 			$current=''; 
 			$choice='';
 			}
-		}
+
 	if($current!=''){
 		$view='reportbook/'.$current;
 		include($view);

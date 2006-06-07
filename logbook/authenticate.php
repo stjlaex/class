@@ -15,7 +15,7 @@ function getRespons($user){
 							FROM groups LEFT JOIN perms ON
                             groups.gid=perms.gid WHERE
 							perms.uid='$uid' ORDER BY groups.course_id
-							DESC");
+							DESC, groups.yeargroup_id");
 	$c=0;
     while($group=mysql_fetch_array($d_groups, MYSQL_ASSOC)){
 		$groups[$c]=$group; 

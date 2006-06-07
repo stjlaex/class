@@ -204,5 +204,7 @@ $string['youneedtobetheauthor']='You need to be the author to change this.';
 $string['allstages']='All stages';
 $string['selectfiletoimportfrom']='Select the file to import';
 $string['fullname']='Student';
+$string['formtutor']='Tutor';
+$string['yearhead']='Year coordinator';
 $string['']='';
 ?>

@@ -1,11 +1,10 @@
 <?php
 /**									student_view_contact.php
- *
- *	Called by student view. Displays contact details in a form for possible editing.
- *
+ *	Displays contact details in a form for possible editing.
  */
 
 $action='student_view_contact1.php';
+$cancel='student_view.php';
 
 include('scripts/sub_action.php');
 
@@ -228,16 +227,12 @@ three_buttonmenu();
 <?php 
 		}
 ?>
-
 		</table>
 	  </fieldset>
-
  	<input type="hidden" name="contactno" value="<?php print $contactno;?>">
  	<input type="hidden" name="contactgid" value="<?php print $contactgid;?>">
  	<input type="hidden" name="current" value="<?php print $action;?>">
  	<input type="hidden" name="cancel" value="<?php print $cancel;?>">
  	<input type="hidden" name="choice" value="<?php print $choice;?>">
 	</form>
-
 </div>
-
