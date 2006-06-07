@@ -8,9 +8,7 @@ $sid=$_POST{'sid'};
 $rid=$_POST{'rid'};
 $tid=$_SESSION['username'];
 
-/*categories are not handled by the commentwriter*/
-/*and are not yet used for summary comments anyway*/
-$incategory='';
+/*Note: categories are not handled by the commentwriter*/
 
 if($sub=='Cancel'){
 	$openerId='-100';
@@ -24,32 +22,23 @@ elseif($sub=='Submit'){
 	if(isset($_POST{'incom'})){$incom=clean_text($_POST{'incom'});}
 	if(isset($_POST{'inmust'})){$inmust=$_POST{'inmust'};}
 
-
-	if($inmust=='yes' and ($incom!='' or $incategory!='')){
+	if($inmust=='yes' and $incom!=''){
 		if(mysql_query("INSERT INTO reportentry (comment,
-						category, teacher_id, report_id, student_id, 
+						teacher_id, report_id, student_id, 
 						subject_id, component_id) VALUES
-						('$incom', '$incategory', '$tid', '$rid', '$sid',
+						('$incom', '$tid', '$rid', '$sid',
 						'$bid', '$pid')")){
 			$entryn=mysql_insert_id();
 			}
-		else {$error[]=mysql_error();}
+		else{$error[]=mysql_error();}
 		}
-	elseif($inmust!='yes' and ($incom!='' or $incategory!='')){
+	elseif($inmust!='yes'){
 		$entryn=$inmust;
 		if(mysql_query("UPDATE reportentry SET
-						comment='$incom', category='$incategory' WHERE report_id='$rid' AND
+						comment='$incom' WHERE report_id='$rid' AND
 						student_id='$sid' AND subject_id='$bid' AND
 						component_id='$pid' AND entryn='$entryn'")){}
-		else {$error[]=mysql_error();}
-		}
-	elseif($inmust!='yes' and $incom=='' and $incategory==''){	   
-		$entryn=$inmust;
-		if(mysql_query("DELETE FROM reportentry WHERE
-						 report_id='$rid' AND
-						student_id='$sid' AND subject_id='$bid' AND
-						component_id='$pid' AND entryn='$entryn' LIMIT 1")){}
-		else {$error[]=mysql_error();}
+		else{$error[]=mysql_error();}
 		}
 	}
 $comment=js_addslashes($incom);

@@ -148,7 +148,7 @@ if($sub=='Submit'){
 						'$inbid', '$inpid')")){}
 						else {$error[]=mysql_error();}
 						}
-			elseif($inmust!='yes' and $incom!='' and $incategory!=''){
+			elseif($inmust!='yes' and $incategory!=''){
    						$entryn=$inmust;
 						if(mysql_query("UPDATE reportentry SET
 						category='$incategory' WHERE report_id='$rid' AND

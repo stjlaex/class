@@ -89,8 +89,8 @@ function clean_text($value){
 	$replace=array("'","'",'"','"','-','-');
 	$value=str_replace($search,$replace,$value);
 	/*blanks possible dodgy sql etc.*/
-	$search=array('select','insert','delete','drop','SELECT','INSERT','DELETE','DROP');
-	$value=str_replace($search,'',$value);
+	//	$search=array('select ','insert ','delete ','drop ','SELECT ','INSERT ','DELETE ','DROP ');
+	//	$value=str_replace($search,'',$value);
 	$search=array('*','<','>');
 	$value=str_replace($search,'',$value);
 	//   	$value=eregi_replace('[^-.?,!;()+:[:digit:][:space:][:alpha:]]','', $value);
