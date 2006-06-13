@@ -4,8 +4,8 @@
 
 $action="student_reports_print.php";
 
-	$Assessments=fetchshortAssessments($sid);
-/*  generate an index to lookup values from the assessments array*/
+	$Assessments=fetchAssessments($sid);
+	/*generate an index to lookup values from the assessments array*/
 	$eids=array();
 	while(list($assno,$Assessment)=each($Assessments)){
 		$eid=$Assessment['id_db'];

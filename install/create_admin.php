@@ -156,7 +156,7 @@ CREATE TABLE groups (
 	gid 			int(10) unsigned auto_increment,
 	subject_id		varchar(10) not null default '',
 	course_id		varchar(10) not null default '',
-	yeargroup_id	smallint default null,
+	yeargroup_id	smallint not null default '',
 	name 			varchar(50) not null default '',
 	INDEX			index_crid (course_id),
 	INDEX			index_bid (subject_id),

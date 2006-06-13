@@ -82,6 +82,9 @@ $rtid=$tid;
 		<option <?php if($choice=='year_end.php'){print
 				'selected="selected" ';}?>value='year_end.php'>
 				<?php print_string('yearend');?></option>
+		<option <?php if($choice=='statementbank.php'){print
+				'selected="selected" ';}?>value='statementbank.php'>
+				<?php print_string('statementbank');?></option>
 		<option <?php if($choice=='server_test.php'){print
 				'selected="selected" ';}?>value='server_test.php'>
 				<?php print_string('servertest');?></option>
@@ -96,9 +99,9 @@ $rtid=$tid;
 		<option <?php if($choice=='enrol_student.php'){print
 				'selected="selected" ';}?>value='enrol_student.php'>
 				<?php print_string('enrolstudents');?></option>
-		<option <?php if($choice=='statementbank.php'){print
-				'selected="selected" ';}?>value='statementbank.php'>
-				<?php print_string('statementbank');?></option>
+		<option <?php if($choice=='demoiser.php'){print
+				'selected="selected" ';}?>value='demoiser.php'>
+				<?php print_string('demoiser');?></option>
 		<option <?php if($choice=='demoiser.php'){print
 				'selected="selected" ';}?>value='demoiser.php'>
 				<?php print_string('demoiser');?></option>

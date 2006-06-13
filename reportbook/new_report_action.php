@@ -26,9 +26,10 @@ if($sub=='Submit'){
 		$deadline=$_POST['date1'];
 
 		if(mysql_query("INSERT INTO report (title, comment, course_id,
+				stage, component_status,
 				date, deadline, addcomment, commentlength,
 					commentcomp, addcategory, style, transform) VALUES
-				('$title', '$comment', '$rcrid',
+				('$title', '$comment', '$rcrid', '$stage', '$compstatus',
 				'$date', '$deadline', '$reptype', '$commentlength',
 					'$commentcomp', '$addcategory', '$style', '$transform');"))	
 				{$result[]='Successfully created new report.';}

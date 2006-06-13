@@ -1,6 +1,10 @@
 ALTER TABLE concerns RENAME comments;
 ALTER TABLE subject DROP teacher_id;
 ALTER TABLE yeargroup DROP teacher_id;
+ALTER TABLE report
+    ADD stage char(3) not null default ''  AFTER course_id;
+ALTER TABLE report
+    ADD component_status enum('None','N','V','A') not null default 'None' AFTER stage;
 ALTER TABLE users
     ADD language varchar(10) not null default '' AFTER email;
 ALTER TABLE student
@@ -31,6 +35,9 @@ INSERT subject (id,name) VALUES ('G','General');
 INSERT categorydef (name,type,rating,subject_id,course_id) VALUES ('Form tutor','com','0','form','%');
 INSERT categorydef (name,type,rating,subject_id,course_id) VALUES ('Year coordinator','com','1','year','%');
 INSERT categorydef (name,type,rating,subject_id,course_id) VALUES ('Head of secondary','com','2','section','%');
+INSERT categorydef (name,type,rating,subject_id,course_id) VALUES ('Form tutor','sig','0','form','%');
+INSERT categorydef (name,type,rating,subject_id,course_id) VALUES ('Year coordinator','sig','1','year','%');
+INSERT categorydef (name,type,rating,subject_id,course_id) VALUES ('Head of secondary','sig','2','section','%');
 INSERT INTO rating VALUES ('fivegrade','Poor','','1');
 INSERT INTO rating VALUES ('fivegrade','Satisfactory','','2');
 INSERT INTO rating VALUES ('fivegrade','Good','','3');

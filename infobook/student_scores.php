@@ -23,7 +23,7 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 	<table class="listmenu">
 	  <tr><th>Assessment</th>
 <?php
-	$Assessments=fetchshortAssessments($sid);
+	$Assessments=fetchAssessments($sid);
 
 /*  generate two key indexes to lookup values from the assessments array*/
 	$eids=array();

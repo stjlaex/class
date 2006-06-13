@@ -20,12 +20,11 @@ if(isset($_POST{'rids'})){$rids=(array) $_POST{'rids'};}else{$rids=array();}
   <div id="xmlStudent" style="visibility:hidden;">
 <?php
 /*	this taken straight from report_reports_print*/
-		$Student=nullCorrect(fetchshortStudent($sid));
-		$Student['todate']=$date;
+		$Student=fetchshortStudent($sid);
 		$Student['coversheet']=$coversheet;
 		list($Reports,$transform)=fetchSubjectReports($sid,$reportdefs);
+		$Reports['Coversheet']=$coversheet;
 		$Student['Reports']=nullCorrect($Reports);
-
 		xmlpreparer('Student',$Student);
 ?>
   </div>

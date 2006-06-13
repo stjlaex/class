@@ -48,7 +48,8 @@ three_buttonmenu();
 		  <select id="Year" name="yid" size="1">
 <?php
   	$d_group = mysql_query("SELECT * FROM groups WHERE
-		yeargroup_id IS NOT NULL AND course_id IS NULL ORDER BY yeargroup_id"); 
+		(yeargroup_id IS NOT NULL OR yeargroup_id!='') 
+		AND (course_id IS NULL OR course_id='') ORDER BY yeargroup_id"); 
 
 	print '<option value="" selected="selected"></option>';
 	while($group=mysql_fetch_array($d_group,MYSQL_ASSOC)){

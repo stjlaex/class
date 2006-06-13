@@ -34,8 +34,8 @@ if(sizeof($sids)==0){
 	for($c=0;$c<sizeof($sids);$c++){
 		$sid=$sids[$c];
 		$Student=fetchshortStudent($sid);
-		$Student['coversheet']=$coversheet;
 		list($Reports,$transform)=fetchSubjectReports($sid,$reportdefs);
+		$Reports['Coversheet']=$coversheet;
 		$Student['Reports']=nullCorrect($Reports);
 		/*Finished with the student's reports. Output the result as xml.*/
 		xmlpreparer('Student',$Student);

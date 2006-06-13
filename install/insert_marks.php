@@ -47,4 +47,10 @@ mysql_query("INSERT INTO categorydef VALUES ('','Email','bac','-1','private','%'
 mysql_query("INSERT INTO categorydef VALUES ('','Letter','bac','-1','private','%','%')");
 mysql_query("INSERT INTO categorydef VALUES ('','In person','bac','-1','private','%','%')");
 mysql_query("INSERT INTO categorydef VALUES ('','Unknown','bac','-1','private','%','%')");
+mysql_query("INSERT categorydef (name,type,rating,subject_id,course_id) VALUES ('Form tutor','com','0','form','%')");
+mysql_query("INSERT categorydef (name,type,rating,subject_id,course_id) VALUES ('Year coordinator','com','1','year','%')");
+mysql_query("INSERT categorydef (name,type,rating,subject_id,course_id) VALUES ('Head of secondary','com','2','section','%')");
+mysql_query("INSERT categorydef (name,type,rating,subject_id,course_id) VALUES ('Form tutor','sig','0','form','%')");
+mysql_query("INSERT categorydef (name,type,rating,subject_id,course_id) VALUES ('Year coordinator','sig','1','year','%')");
+mysql_query("INSERT categorydef (name,type,rating,subject_id,course_id) VALUES ('Head of secondary','sig','2','section','%')");
 ?>

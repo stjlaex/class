@@ -65,24 +65,7 @@ three_buttonmenu();
 		</div>
 	  </fieldset>
 
-
 	  <fieldset class="right">
-		<legend><?php print_string('properties',$book);?></legend>
-		<div>
-		  <?php include('scripts/list_stage.php') ;?>
-		</div>
-
-		<div class="left">
-		  <?php include('scripts/list_componentstatus.php'); ?>
-		</div>
-	  </fieldset>
-
-	  <fieldset class="left">
-		<legend><?php print_string('nameoftemplate',$book);?></legend>
-		<?php include('scripts/list_template.php');?>
-	  </fieldset>
-
-	  <fieldset class="left">
 		<legend><?php print_string('summarycomment',$book);?></legend>
 		<label for="Summary comments"><?php print_string('summarycomment',$book);?></label>
 		<select style="width:25em;" id="Summary comments" type="text" name="catdefids[]"
@@ -103,6 +86,45 @@ three_buttonmenu();
 	   	}
 ?>
 		</select>
+	  </fieldset>
+
+	  <fieldset class="left">
+		<legend><?php print_string('properties',$book);?></legend>
+		<div>
+		  <?php include('scripts/list_stage.php') ;?>
+		</div>
+
+		<div class="left">
+		  <?php include('scripts/list_componentstatus.php'); ?>
+		</div>
+	  </fieldset>
+
+	  <fieldset class="right">
+		<legend><?php print_string('summarysignature',$book);?></legend>
+		<label for="Summary comments"><?php print_string('summarysignature',$book);?></label>
+		<select style="width:25em;" id="Summary signatures" type="text" name="catdefids[]"
+			class="required" size="3" multiple="multiple" >
+		<option value="-100">
+			<?php print_string('none');?>
+		</option>
+<?php 
+	$d_categorydef=mysql_query("SELECT id, name, subject_id FROM
+		categorydef WHERE type='sig' AND (course_id LIKE '$rcird' 
+		OR course_id='%') ORDER BY rating");
+	while($catdef=mysql_fetch_array($d_categorydef,MYSQL_ASSOC)){
+?>   				
+		<option value="<?php print $catdef['id'];?>">
+			<?php print $catdef['name'];?>
+		</option>
+<?php
+	   	}
+?>
+		</select>
+	  </fieldset>
+
+	  <fieldset class="left">
+		<legend><?php print_string('nameoftemplate',$book);?></legend>
+		<?php include('scripts/list_template.php');?>
 	  </fieldset>
 
 

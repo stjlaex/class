@@ -24,12 +24,12 @@ if(isset($_POST{'breakdown'})){$breakdown=$_POST{'breakdown'};}else{$breakdown='
 
 include('scripts/sub_action.php');
 
-/*Select a group of students by yeargroup_id*/
+	/*Select a group of students by yeargroup_id*/
 	if($yid!=''){
 		if($d_student=mysql_query("SELECT * FROM student WHERE yeargroup_id='$yid'")){}
 		else{print mysql_error();}
 		}
-/*Select a group of students by form_id*/
+	/*Select a group of students by form_id*/
 	elseif($fid!=''){
 		if($d_student=mysql_query("SELECT * FROM student WHERE form_id='$fid'")){}
 		else{print mysql_error();}
@@ -208,13 +208,13 @@ include('scripts/sub_action.php');
 		if($c>0){$sum=$sum+$gradestats[$grades[$c]];}
 		}
 	print ' var grades = [';
-	for ($c=0, $max=sizeof($grades);$c<$max;$c++){ 
+	for($c=0,$max=sizeof($grades);$c<$max;$c++){ 
 		print '"'.$grades[$c].'"';
 		if($c<$max-1){print ',';}else{print '];';}
 		$percents[$c]=100*$gradestats[$grades[$c]]/$sum;
 		}
 	print ' var percents = [';
-	for ($c=0, $max=sizeof($grades);$c<$max;$c++){ 
+	for($c=0,$max=sizeof($grades);$c<$max;$c++){ 
 		print '"'.round($percents[$c],1).'"';
 		if($c<$max-1){print ',';}else{print '];';}
 		}

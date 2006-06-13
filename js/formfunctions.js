@@ -197,7 +197,7 @@ function fillxmlForm(xmlRecord){
 			fieldId=makeLabel(xmltag);
 			//test=xmltag + ' : ' + xmlvalue + ' <br /> ';
 			if(document.getElementById(fieldId)){
-				document.getElementById(fieldId).value = xmlvalue;
+				document.getElementById(fieldId).value=xmlvalue;
 				}
 			}
 		else if(xmltag=='ID_DB'){

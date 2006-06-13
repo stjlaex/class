@@ -71,11 +71,13 @@ twoplusprint_buttonmenu();
    			$summaries=(array)$reports[$index]['summaries'];
 			while(list($index2,$summary)=each($summaries)){
 				$summaryid=$summary['subject_id'];
-				if($formperm['w']==1 and $summaryid=='form'){
-					print '<th>'.get_string('formtutor').'</th>';
-					}
-				elseif($yearperm['w']==1 and $summaryid=='year'){
-					print '<th>'.get_string('yearhead').'</th>';
+				if($summary['type']=='com'){
+					if($formperm['w']==1 and $summaryid=='form'){
+						print '<th>'.get_string('formtutor').'</th>';
+						}
+					elseif($yearperm['w']==1 and $summaryid=='year'){
+						print '<th>'.get_string('yearhead').'</th>';
+						}
 					}
 				}
 			}
@@ -100,31 +102,33 @@ twoplusprint_buttonmenu();
    			$summaries=(array)$reports[$index]['summaries'];
 			while(list($index2,$summary)=each($summaries)){
 				$summaryid=$summary['subject_id'];
-				if($formperm['w']==1 and $summaryid=='form'){
-					$d_summaryentry=mysql_query("SELECT teacher_id
+				if($summary['type']=='com'){
+					if($formperm['w']==1 and $summaryid=='form'){
+						$d_summaryentry=mysql_query("SELECT teacher_id
 					FROM reportentry WHERE report_id='$rid' AND
 					student_id='$sid' AND subject_id='summary' AND
 					component_id='$summaryid' AND entryn='1'");
-					$openId=$sid.'summary-'.$summaryid;
+						$openId=$sid.'summary-'.$summaryid;
 ?>
 			<td id="icon<?php print $openId;?>" <?php if(mysql_num_rows($d_summaryentry)>0){print 'class="vspecial"';}?> >
 			  <img class="clicktoedit" name="Write"  
 				onClick="clickToWriteComment(<?php print $sid.','.$rid.',\'summary\',\''.$summaryid.'\',\'0\',\''.$openId.'\'';?>);" />
 			</td>
 <?php
-					}
-				elseif($yearperm['w']==1 and $summaryid=='year'){
-					$d_summaryentry=mysql_query("SELECT teacher_id
+						}
+					elseif($yearperm['w']==1 and $summaryid=='year'){
+						$d_summaryentry=mysql_query("SELECT teacher_id
 					FROM reportentry WHERE report_id='$rid' AND
 					student_id='$sid' AND subject_id='summary' AND
 					component_id='$summaryid' AND entryn='1'");
-					$openId=$sid.'summary-'.$summaryid;
+						$openId=$sid.'summary-'.$summaryid;
 ?>
 			<td id="icon<?php print $openId;?>" <?php if(mysql_num_rows($d_summaryentry)>0){print 'class="vspecial"';}?> >
 			  <img class="clicktoedit" name="Write"  
 				onClick="clickToWriteComment(<?php print $sid.','.$rid.',\'summary\',\''.$summaryid.'\',\'0\',\''.$openId.'\'';?>);" />
 			</td>
 <?php
+						}
 					}
 				}
 			}
@@ -171,13 +175,18 @@ twoplusprint_buttonmenu();
 						FROM midcid JOIN mids$rid ON midcid.mark_id=mids$rid.mark_id
 						WHERE midcid.class_id='$repcid')")){}
 				else{$error[]=mysql_error();}
-				$d_components=mysql_query("SELECT DISTINCT id
+				$compstatus=$report['component_status'];
+				if($compstatus!='None'){
+					if($compstatus=='A'){$compstatus='%';}
+					$d_components=mysql_query("SELECT DISTINCT id
 					FROM component WHERE course_id='$crid' AND
-					subject_id='$repbid' ORDER BY id");
-				$reppids=array();
-				while($component=mysql_fetch_array($d_components,MYSQL_ASSOC)){
-				    $reppids[]=$component['id'];
+					subject_id='$repbid' AND status LIKE '$compstatus' ORDER BY id");
+					$reppids=array();
+					while($component=mysql_fetch_array($d_components,MYSQL_ASSOC)){
+						$reppids[]=$component['id'];
+						}
 					}
+
 				if(sizeof($reppids)==0){$reppids[]='';}
 			   	while(list($index,$reppid)=each($reppids)){
 					if(mysql_query("CREATE TEMPORARY TABLE
@@ -207,7 +216,7 @@ twoplusprint_buttonmenu();
 			}
 ?>
 		 </tr>
-<?php	
+<?php
 		}
 	reset($sids);
 ?>

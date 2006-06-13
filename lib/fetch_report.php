@@ -62,7 +62,21 @@ function fetchSubjectReports($sid,$reportdefs){
 				$Reports['Report'][]=nullCorrect($Report);
 			    }
 			  }
+
+			$Summaries=array();
+			while(list($index,$repsummary)=each($reportdef['summaries'])){
+				$summaryid=$repsummary['subject_id'];
+				$Summary=array();
+				$Summary['Description']=array('id'=>$summaryid,
+							 'type'=>$repsummary['type'], 'value'=>$repsummary['name']);
+				if($repsummary['type']=='com'){
+					$Summary['Comments']=nullCorrect(fetchReportEntry($reportdef,$sid,'summary',$summaryid));
+					}
+				$Summaries['Summary'][]=nullCorrect($Summary);
+				}
+			$Reports['Summaries']=$Summaries;
 		   	$Reports['asstable']=$reportdef['asstable'];
+		   	$Reports['cattable']=$reportdef['cattable'];
 		   	$Reports['publishdate']=date('jS M Y',strtotime($reportdef['report']['date']));
 		   	$transform=$reportdef['report']['transform'];
 			}
@@ -105,6 +119,16 @@ function fetchReportDefinition($rid,$selbid='%'){
 		list($ratingnames, $catdefs)=fetchReportCategories($rid);
 		$reportdef['ratingnames']=$ratingnames;
 		$reportdef['catdefs']=$catdefs;
+		$cattable=array();
+		while(list($index,$cat)=each($catdefs)){
+			$cattable['cat'][]=array('name' => $cat['name']);
+			}
+		while(list($index,$ratings)=each($ratingnames)){
+			while(list($value,$rat)=each($ratings)){
+				$cattable['rat'][]=array('name' => $rat, 'value' => $value);
+				}
+			}
+		$reportdef['cattable']=$cattable;
 		}
 
 	$reportdef['summaries']=(array)fetchReportSummaries($rid);
@@ -145,12 +169,12 @@ function fetchReportSummaries($rid){
 	/*returns one array containing the catdefs for all summaries for this report*/
 
 	$d_categorydef=mysql_query("SELECT categorydef.id,
-				categorydef.name, categorydef.subject_id,
+				categorydef.name, categorydef.type, categorydef.subject_id,
 				categorydef.rating FROM categorydef LEFT
 				JOIN ridcatid ON ridcatid.categorydef_id=categorydef.id 
 				WHERE ridcatid.report_id='$rid' AND
 				ridcatid.subject_id='summary' ORDER BY
-				categorydef.rating DESC");
+				categorydef.rating");
    	$catdefs=array();
 	while($catdef=mysql_fetch_array($d_categorydef,MYSQL_ASSOC)){
 	   	$catdefs[]=$catdef;
