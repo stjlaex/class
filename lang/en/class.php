@@ -206,5 +206,6 @@ $string['selectfiletoimportfrom']='Select the file to import';
 $string['fullname']='Student';
 $string['formtutor']='Tutor';
 $string['yearhead']='Year coordinator';
+$string['template']='Template';
 $string['']='';
 ?>

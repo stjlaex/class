@@ -2,24 +2,19 @@
 /**											list_subjects.php
  *
  *	$multi=1 returns bid or $multi>1 returns bids[] (default=1)
- *	set $required to 'no' to make not required (default=yes)
+ *	set $required=no to make not required (default=yes)
  */
  	if($r>-1){
 		$rbid=$respons[$r]{'subject_id'};
 		$rcrid=$respons[$r]{'course_id'};
 		$ryid=$respons[$r]{'yeargroup_id'};
-		if($ryid==""){$ryid="%";}
-		/*year respons not implemented!*/
-		/*		$d_subject = mysql_query("SELECT DISTINCT subject_id FROM class WHERE
-				subject_id LIKE '$rbid' AND course_id LIKE '$rcrid' AND
-				yeargroup_id LIKE '$ryid' ORDER BY subject_id");*/
 		if($rbid=='%' AND $rcrid!=''){
 			$d_subject=mysql_query("SELECT DISTINCT subject_id FROM cridbid
 				WHERE course_id LIKE '$rcrid' ORDER BY subject_id");
 			}
 		elseif($rbid!='%' AND $rcrid=='%'){
 			$d_subject=mysql_query("SELECT DISTINCT subject_id FROM cridbid
-				WHERE  subject_id LIKE '$rbid' ORDER BY subject_id");
+				WHERE subject_id LIKE '$rbid' ORDER BY subject_id");
 			}
 		else {
 			$d_subject=mysql_query("SELECT DISTINCT subject_id FROM

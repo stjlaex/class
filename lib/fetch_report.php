@@ -74,7 +74,7 @@ function fetchSubjectReports($sid,$reportdefs){
 					}
 				$Summaries['Summary'][]=nullCorrect($Summary);
 				}
-			$Reports['Summaries']=$Summaries;
+			$Reports['Summaries']=nullCorrect($Summaries);
 		   	$Reports['asstable']=$reportdef['asstable'];
 		   	$Reports['cattable']=$reportdef['cattable'];
 		   	$Reports['publishdate']=date('jS M Y',strtotime($reportdef['report']['date']));

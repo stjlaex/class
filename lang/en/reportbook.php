@@ -7,6 +7,7 @@ $string['generatecoversheet']='Generate a cover sheet (none by default)';
 $string['areasforcomments']='Areas for comments';
 $string['completedsubjectreports']='Completed subject reports are highlighted (hover to see staff).';
 $string['summarycomment']='Summary comments';
+$string['summarysignature']='Summary signatures';
 $string['subjectreportsfor']='Subject reports for';
 $string['generatecolumns']='Generate mark columns';
 $string['deletecolumns']='Delete mark columns';
@@ -21,6 +22,5 @@ $string['allstages']='All stages';
 $string['nameoftemplate']='Style template for printing';
 $string['markbookcolumns']='Columns in MarkBook';
 $string['scoresentered']='Entered scores';
-$string['template']='Template';
 $string['']='';
 ?>

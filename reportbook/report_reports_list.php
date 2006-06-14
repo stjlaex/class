@@ -176,12 +176,12 @@ twoplusprint_buttonmenu();
 						WHERE midcid.class_id='$repcid')")){}
 				else{$error[]=mysql_error();}
 				$compstatus=$report['component_status'];
+				$reppids=array();
 				if($compstatus!='None'){
 					if($compstatus=='A'){$compstatus='%';}
 					$d_components=mysql_query("SELECT DISTINCT id
 					FROM component WHERE course_id='$crid' AND
 					subject_id='$repbid' AND status LIKE '$compstatus' ORDER BY id");
-					$reppids=array();
 					while($component=mysql_fetch_array($d_components,MYSQL_ASSOC)){
 						$reppids[]=$component['id'];
 						}
