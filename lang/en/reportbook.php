@@ -22,5 +22,6 @@ $string['allstages']='All stages';
 $string['nameoftemplate']='Style template for printing';
 $string['markbookcolumns']='Columns in MarkBook';
 $string['scoresentered']='Entered scores';
+$string['areasforincidents']='Areas for incidents';
 $string['']='';
 ?>

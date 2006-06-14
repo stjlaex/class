@@ -9,7 +9,6 @@ $string['sen']='SEN';
 $string['studentdetails']='Details';
 $string['studenthistory']='Student history';
 $string['background']='Background';
-$string['incidents']='Incidents';
 $string['nomedicalinfo']='No medical information for this student.';
 $string['medicalbutton']='Change medical status';
 $string['medicalcaption']='Medical information';

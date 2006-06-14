@@ -207,5 +207,6 @@ $string['fullname']='Student';
 $string['formtutor']='Tutor';
 $string['yearhead']='Year coordinator';
 $string['template']='Template';
+$string['currentreports']='Current reports';
 $string['']='';
 ?>

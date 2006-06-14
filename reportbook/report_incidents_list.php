@@ -72,7 +72,7 @@ two_buttonmenu();
 		  </th>
 		  <th colspan="2"><?php print_string('student');?></th>
 		  <th><?php print_string('formgroup');?></th>
-		  <th><?php print_string('areasforincidents');?></th>
+		  <th><?php print_string('areasforincidents',$book);?></th>
 		</tr>
 <?php
 	while(list($index,$sid)=each($sids)){

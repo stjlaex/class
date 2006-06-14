@@ -5,6 +5,11 @@
 $action='report_comments_list.php';
 $choice='report_comments.php';
 
+$tomonth=date('n')-1;
+$today=date('j');
+$toyear=date('Y');
+$todate=$toyear.'-'.$tomonth.'-'.$today;
+
 three_buttonmenu();
 ?>
   <div class="content">
@@ -32,7 +37,7 @@ three_buttonmenu();
 
 	  <fieldset class="right">
 		<legend><?php print_string('publicationdateforprinting');?></legend>
-		<?php $required='no'; include('scripts/jsdate-form.php'); ?>
+		<?php $required='no'; unset($todate); include('scripts/jsdate-form.php'); ?>
 	  </fieldset>
 
 	  <input type="hidden" name="current" value="<?php print $action; ?>">

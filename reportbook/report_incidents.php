@@ -4,6 +4,10 @@
 
 $action='report_incidents_list.php';
 $choice='report_incidents.php';
+$tomonth=date('n')-1;
+$today=date('j');
+$toyear=date('Y');
+$todate=$toyear.'-'.$tomonth.'-'.$today;
 
 three_buttonmenu();
 ?>
@@ -33,7 +37,7 @@ three_buttonmenu();
 
 	  <fieldset class="right">
 		<legend><?php print_string('publicationdateforprinting');?></legend>
-		<?php $required='no'; include('scripts/jsdate-form.php'); ?>
+		<?php $required='no'; unset($todate); include('scripts/jsdate-form.php'); ?>
 	  </fieldset>
 
 

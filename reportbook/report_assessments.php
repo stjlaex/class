@@ -26,6 +26,7 @@ three_buttonmenu();
 		<?php include('scripts/list_assessment.php');?>
 		</div>
 	  </fieldset>
+	  <input type="hidden" name="selcrid" value="<?php print $selcrid;?>" />
 	  <input type="hidden" name="cancel" value="<?php print '';?>" />
 	  <input type="hidden" name="current" value="<?php print $action;?>" />
 	  <input type="hidden" name="choice" value="<?php print $choice;?>" />
