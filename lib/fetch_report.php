@@ -5,6 +5,7 @@
 function fetchSubjectReports($sid,$reportdefs){
 		$Assessments=fetchshortAssessments($sid);
 		$Reports=array();
+		$Summaries=array();
 
 		/*generate an index to lookup values from the assessments array*/
 		$asseids=array();
@@ -63,7 +64,6 @@ function fetchSubjectReports($sid,$reportdefs){
 			    }
 			  }
 
-			$Summaries=array();
 			while(list($index,$repsummary)=each($reportdef['summaries'])){
 				$summaryid=$repsummary['subject_id'];
 				$Summary=array();
@@ -75,6 +75,8 @@ function fetchSubjectReports($sid,$reportdefs){
 				$Summaries['Summary'][]=nullCorrect($Summary);
 				}
 			$Reports['Summaries']=nullCorrect($Summaries);
+			/*when combining reports, for now this only works if each has the
+				same properties!!!*/
 		   	$Reports['asstable']=$reportdef['asstable'];
 		   	$Reports['cattable']=$reportdef['cattable'];
 		   	$Reports['publishdate']=date('jS M Y',strtotime($reportdef['report']['date']));
@@ -82,7 +84,6 @@ function fetchSubjectReports($sid,$reportdefs){
 			}
 	return array($Reports, $transform);
 	}
-
 
 function fetchReportDefinition($rid,$selbid='%'){
 	$reportdef=array();
@@ -130,7 +131,6 @@ function fetchReportDefinition($rid,$selbid='%'){
 			}
 		$reportdef['cattable']=$cattable;
 		}
-
 	$reportdef['summaries']=(array)fetchReportSummaries($rid);
 	return $reportdef;
 	}

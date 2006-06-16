@@ -137,6 +137,7 @@ twoplusprint_buttonmenu();
 		while(list($index,$rid)=each($rids)){
 		    $crid=$reports[$index]['course_id'];
 		    $commentcomp=$reports[$index]['commentcomp'];
+			$compstatus=$reports[$index]['component_status'];
 			if($selbid=='%'){
 				$d_reportentry=mysql_query("SELECT DISTINCT subject_id, 
 					component_id FROM reportentry WHERE report_id='$rid' AND
@@ -175,7 +176,6 @@ twoplusprint_buttonmenu();
 						FROM midcid JOIN mids$rid ON midcid.mark_id=mids$rid.mark_id
 						WHERE midcid.class_id='$repcid')")){}
 				else{$error[]=mysql_error();}
-				$compstatus=$report['component_status'];
 				$reppids=array();
 				if($compstatus!='None'){
 					if($compstatus=='A'){$compstatus='%';}

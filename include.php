@@ -23,7 +23,7 @@ $books['admin']=array(
 				 //,'register' => 'Register'
 				 //,'webmail' => $CFG->webmailtabname
 				 //,'lms' => $CFG->lmstabname
-				 //,'eportfolio' => $CFG->eportfoliotabname
+				 ,'eportfolio' => $CFG->eportfoliotabname
 				 );
 $books['office']=array(
 				 'reportbook' => 'ReportBook'

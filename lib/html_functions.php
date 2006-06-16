@@ -84,7 +84,4 @@ function check_yesno($name='answer',$choice='no'){
 </div>
 <?php
 	}
-
-
-
 ?>

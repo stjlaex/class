@@ -13,7 +13,7 @@ if(isset($_POST{'current'})){$current=$_POST{'current'};} else{$current='';}
 if(isset($_POST{'choice'})){$choice=$_POST{'choice'};}else{$choice='';}
 
 $ip=$_SERVER['REMOTE_ADDR'];
-$salt=$CFG->eportfolioshare . $CFG->support;
+$salt=$CFG->eportfolioshare;
 $secret=md5($salt . $ip);
 $token=md5($tid . $secret);
 ?>
@@ -30,11 +30,3 @@ $token=md5($tid . $secret);
 include('scripts/end_options.php');
 ?>
 <script>frames["externalbook"].location.href="<?php print $CFG->eportfoliosite;?>/login/indexclass.php?token=<?php print $token;?>&user=<?php print $tid;?>";</script>
-
-
-
-
-
-
-
-

@@ -88,9 +88,6 @@ $rtid=$tid;
 		<option <?php if($choice=='server_test.php'){print
 				'selected="selected" ';}?>value='server_test.php'>
 				<?php print_string('servertest');?></option>
-		<option <?php if($choice=='demoiser.php'){print
-				'selected="selected" ';}?>value='demoiser.php'>
-				<?php print_string('demoiser');?></option>
 <?php
 /*these are all pretty experimental!!!!!
 		<option <?php if($choice=='passwords.php'){print
@@ -99,15 +96,12 @@ $rtid=$tid;
 		<option <?php if($choice=='ldap_start.php'){print
 				'selected="selected" ';}?>value='ldap_start.php'>
 				<?php print_string('ldaptest');?></option>
+		<option <?php if($choice=='demoiser.php'){print
+				'selected="selected" ';}?>value='demoiser.php'>
+				<?php print_string('demoiser');?></option>
 		<option <?php if($choice=='enrol_student.php'){print
 				'selected="selected" ';}?>value='enrol_student.php'>
 				<?php print_string('enrolstudents');?></option>
-		<option <?php if($choice=='demoiser.php'){print
-				'selected="selected" ';}?>value='demoiser.php'>
-				<?php print_string('demoiser');?></option>
-		<option <?php if($choice=='demoiser.php'){print
-				'selected="selected" ';}?>value='demoiser.php'>
-				<?php print_string('demoiser');?></option>
 */
 ?>
 <?php	} ?>
