@@ -38,8 +38,11 @@ INSERT categorydef (name,type,rating,subject_id,course_id) VALUES ('Head of seco
 INSERT categorydef (name,type,rating,subject_id,course_id) VALUES ('Form tutor','sig','0','form','%');
 INSERT categorydef (name,type,rating,subject_id,course_id) VALUES ('Year coordinator','sig','1','year','%');
 INSERT categorydef (name,type,rating,subject_id,course_id) VALUES ('Head of secondary','sig','2','section','%');
+INSERT categorydef (name,type,rating_name,rating,subject_id,course_id) VALUES ('Attendance percentage','attendance','none','-1','att','%');
 INSERT INTO rating VALUES ('fivegrade','Poor','','1');
 INSERT INTO rating VALUES ('fivegrade','Satisfactory','','2');
 INSERT INTO rating VALUES ('fivegrade','Good','','3');
 INSERT INTO rating VALUES ('fivegrade','Very good','','4');
 INSERT INTO rating VALUES ('fivegrade','Excellent','','5');
+ALTER TABLE tidcid
+	ADD component_id varchar(10) not null default '';

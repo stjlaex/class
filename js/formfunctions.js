@@ -99,8 +99,6 @@ function clickToAction(buttonObject){
 	if(action=='Edit'){
 		var test=fillxmlForm(xmlRecord); 
 		}
-	else if(action=='Copy'){alert ('Not Yet Implemented!')}
-	else if(action=='Delete'){alert ('Not Yet Implemented!')}
 	else if(action=='current'){
 		var recordId=xmlRecord.childNodes[1].childNodes[0].nodeValue;
 		var script=buttonObject.value;

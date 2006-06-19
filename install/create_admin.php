@@ -114,6 +114,7 @@ mysql_query("
 CREATE TABLE tidcid (
 		 teacher_id		varchar(10) not null default '',
 		 class_id		varchar(10) not null default '',
+		 component_id  	varchar(10) not null default '',
 		 primary key 	(teacher_id, class_id)
 );");
 

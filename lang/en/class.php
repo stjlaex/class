@@ -197,6 +197,7 @@ $string['passwords']='Passwords';
 $string['statementbank']='Statement bank';
 $string['usesubjectcomponents']='Use subject components';
 $string['subjectcomponent']='Subject component';
+$string['allcomponents']='All components';
 $string['teachercomment']='Teacher comment';
 $string['none']='None';
 $string['default']='Default';

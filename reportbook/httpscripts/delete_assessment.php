@@ -14,7 +14,6 @@ else{print "Failed"; exit;}
    	$d_eidsid=mysql_query("DELETE FROM eidsid WHERE assessment_id='$eid'");
    	$d_ass=mysql_query("DELETE FROM assessment WHERE id='$eid'");
 
-
 $returnXML=fetchAssessmentDefinition($eid);
 $rootName='AssessmentDefinition';
 require_once('commonreturn.php');
