@@ -81,7 +81,7 @@
 				$inmust=$Comment['id_db'];
 				}
 		  $rown=0;
-		  $openId=$sid.'-'.$entryn;
+		  $openId=$rid.'-'.$sid.'-'.$bid.'-'.$pid.'-'.$entryn;
 		  if($edit_comments_off!='yes'){
 ?>
   <tbody id="<?php print $openId;?>">
@@ -134,12 +134,23 @@
 			print ' tabindex="'.$tab.'" name="sid'.$sid.':'.$inc++.'" id="text'.$openId.'">';
 			print $Comment['Text']['value'];
 			print '</textarea>';
+?>
+			  <input class="rowaction" title="Delete this entry"
+				name="current" value="delete_reportentry.php" onClick="clickToAction(this)">
+				<img class="clicktodelete" />
+			  </input>
+<?php
 			print '</td></tr>';
 			}
-		  }
-		}
 ?>
+		  <div id="<?php print 'xml-'.$openId;?>" style="display:none;">
+<?php
+				xmlpreparer('Comment',$Comment);
+?>
+		  </div>
   </tbody>
 <?php
+		  }
+		}
 	}
 ?>

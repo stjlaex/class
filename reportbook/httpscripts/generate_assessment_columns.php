@@ -2,11 +2,11 @@
 /*                    httpscripts/generate_assessment_columns.php
  */
 
-require_once('common.php');
+require_once('../../scripts/http_head_options.php');
 
-if(isset($_GET{'eid'})){$eid=$_GET{'eid'};}
-elseif(isset($_POST{'eid'})){$eid=$_POST{'eid'};}
+if(!isset($xmlid)){print "Failed"; exit;}
 
+$eid=$xmlid;
 $AssDef=fetchAssessmentDefinition($eid);
 $resq=$AssDef['ResultQualifier']['value'];
 $crid=$AssDef['Course']['value'];
@@ -16,7 +16,7 @@ $compstatus=$AssDef['ComponentStatus']['value'];
 $description=$AssDef['Description']['value'];
 $stage=$AssDef['Stage']['value'];
 
-/*			find the markdef_name based on the resultqualifier and method*/
+			/*find the markdef_name based on the resultqualifier and method*/
    			$d_markdef = mysql_query("SELECT * FROM markdef JOIN method ON
 						method.markdef_name=markdef.name WHERE
 						method.resultqualifier='$resq' AND 
@@ -37,14 +37,14 @@ $stage=$AssDef['Stage']['value'];
 			$entrydate=date('Y').'-'.date('n').'-'.date('j');
 
    			/*this only until stage is implemented fully!!!*/
-	   		if($stage!='%'){
+	   		//if($stage!='%'){
 			  //		   		$d_stage=mysql_query("SELECT stage FROM cohort WHERE
 			  //			   			course_id='$crid' AND id='$stage'");
 			  //		      	$stage=mysql_result($d_stage,0);
 			  //			  	mysql_free_result($d_stage);
-		   	   	}
+			//	}
 
-/*			make a list of subjects that will need distinct new marks*/
+			/*make a list of subjects that will need distinct new marks*/
 			$bids=array();
 			if($subject!='%'){$bids[]=$subject;}
 			else{
@@ -134,7 +134,7 @@ $stage=$AssDef['Stage']['value'];
 
 $returnXML=fetchAssessmentDefinition($eid);
 $rootName='AssessmentDefinition';
-require_once('commonreturn.php');
+require_once('../../scripts/http_end_options.php');
 exit;
 ?>
 

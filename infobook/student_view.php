@@ -90,10 +90,9 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 				<?php print_string('incidents'); ?>
 			  </a>
 			</th>
-<?php	
+<?php
 	$Incidents=$Student['Incidents'];
 	$no=sizeof($Incidents);
-	
 	if(is_array($Incidents[0])){
 		print '<td>'.$no.'</td>';
 		$Incident=$Incidents[0];

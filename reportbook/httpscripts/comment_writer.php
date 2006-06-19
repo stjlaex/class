@@ -2,7 +2,7 @@
 /**                    httpscripts/comment_writer.php
  */
 
-require_once('common.php');
+require_once('../../scripts/http_head_options.php');
 
 if(isset($_GET{'sid'})){$sid=$_GET{'sid'};}
 elseif(isset($_POST{'sid'})){$sid=$_POST{'sid'};}

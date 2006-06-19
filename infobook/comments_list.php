@@ -64,11 +64,12 @@ three_buttonmenu();
 <?php
 	$yid=$Student['NCyearActual']['id_db'];
 	$perm=getYearPerm($yid, $respons);
-	$entryno=0;
 	if(is_array($Student['Comments'])){
+		reset($Student['Comments']);
 		while(list($key,$entry)=each($Student['Comments'])){
 			if(is_array($entry)){
 				$rown=0;
+				$entryno=$entry['id_db'];
 ?>
 		<tbody id="<?php print $entryno;?>">
 		  <tr class="rowplus" onClick="clickToReveal(this)" id="<?php print $entryno.'-'.$rown++;?>">
@@ -98,8 +99,8 @@ three_buttonmenu();
 					print $entry['Detail']['value'];}
 ?>
 			  </p>
-			  <button class="rowaction" title="Delete"
-				name="current" value="delete_incident.php" onClick="clickToAction(this)">
+			  <button class="rowaction" title="Delete this comment"
+				name="current" value="delete_comment.php" onClick="clickToAction(this)">
 				<img class="clicktodelete" />
 			  </button>
 			  <button class="rowaction" title="Edit" name="Edit" onClick="clickToAction(this)">
@@ -114,7 +115,6 @@ three_buttonmenu();
 			</div>
 		  </tbody>
 <?php
-				$entryno++;	
 				}
 			}
 		}

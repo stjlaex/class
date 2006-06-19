@@ -495,10 +495,8 @@ function fetchStudent($sid){
 		}
 	$Fails=nullCorrect($Fails);
 	$Student['Fails']=$Fails;
-	
-/**Finished********/
 	return $Student;
-}
+	}
 
 
 function fetchComments($sid,$date,$ncyear){

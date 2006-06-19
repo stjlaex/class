@@ -76,6 +76,7 @@ $string['printwindowwillopen']='A print window will open in a moment.';
 $string['printselected']='Print selected';
 $string['subjectreports']='Subject reports';
 $string['subject']='Subject';
+$string['subjectspecific']='Subject specific';
 $string['detail']='Detail';
 $string['assessments']='Assessments';
 $string['newstatistics']='New statistics';

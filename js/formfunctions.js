@@ -94,15 +94,14 @@ function clickToAction(buttonObject){
 	var xmlId='xml-'+theRowId;
 	var xmlContainer=document.getElementById(xmlId);
 	var xmlRecord=xmlContainer.childNodes[1];
-
 	var action=buttonObject.name;
 	if(action=='Edit'){
-		var test=fillxmlForm(xmlRecord); 
+		var test=fillxmlForm(xmlRecord);
 		}
 	else if(action=='current'){
 		var recordId=xmlRecord.childNodes[1].childNodes[0].nodeValue;
 		var script=buttonObject.value;
-		var url=pathtobook + "httpscripts/" + script + "?eid=" + escape(recordId);
+		var url=pathtobook + "httpscripts/" + script + "?uniqueid=" + escape(recordId);
 		var answer=confirmAction(buttonObject.title);
 		if(answer){
 				xmlHttp.open("GET", url, true);
@@ -113,10 +112,10 @@ function clickToAction(buttonObject){
 	}
 
 function confirmAction(title){
-	var message = "You have requested the following action:\n\n";
-	message= message + title + "\n\n";
-	message = message + "Are you sure you want to continue?";
-	var answer=window.confirm(message)
+	var message="You have requested the following action:\n\n";
+	message=message + title + "\n\n";
+	message=message + "Are you sure you want to continue?";
+	var answer=window.confirm(message);
 	return answer;
 	}
 

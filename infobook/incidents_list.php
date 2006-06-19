@@ -8,7 +8,6 @@ if(isset($_GET['bid'])){$bid=$_GET['bid'];}
 
 three_buttonmenu();
 ?>
-
   <div id="heading">
 	<label><?php print_string('incidents');?></label>
 <?php
@@ -27,7 +26,7 @@ three_buttonmenu();
 		<?php $xmldate='Entrydate'; include('scripts/jsdate-form.php'); ?>
 	  </div>
 	  <div class="right">
-		<label for="Subject">Subject Specific (optional):</label>
+		<label for="Subject"><?php print_string('subjectspecific');?></label>
 			   <?php $required="no"; include('scripts/list_studentsubjects.php');?>
 	  </div>
 
@@ -48,38 +47,42 @@ three_buttonmenu();
 			<th><?php print_string('yeargroup');?></th>
 			<th><?php print_string('date');?></th>
 			<th><?php print_string('subject');?></th>
-			<th><?php print_string('detail');?></th>
+			<th><?php print_string('category');?></th>
 		  </tr>
 		</thead>
 <?php
    	$yid=$Student['NCyearActual']['id_db'];
 	$perm=getYearPerm($yid, $respons);
-	$entryno=0;
 	if(is_array($Student['Incidents'])){
-	while(list($key,$entry)=each($Student['Incidents'])){
-		$rown=0;
-		if(is_array($entry)){
+		reset($Student['Incidents']);
+		while(list($key,$entry)=each($Student['Incidents'])){
+			if(is_array($entry)){
+				$rown=0;
+				$entryno=$entry['id_db'];
 ?>
 		<tbody id="<?php print $entryno;?>">
 		  <tr class="rowplus" onClick="clickToReveal(this)" id="<?php print $entryno.'-'.$rown++;?>">
 			<th>&nbsp</th>
-<?php 
+<?php
 		   if(isset($entry['NCyear']['value'])){print '<td>'.$entry['NCyear']['value'].'</td>';}
 		   else{print'<td></td>';}
 		   if(isset($entry['EntryDate']['value'])){print '<td>'.$entry['EntryDate']['value'].'</td>';}
 		   else{print'<td></td>';}
 		   if(isset($entry['Subject']['value'])){print '<td>'.$entry['Subject']['value'].'</td>';}
 		   else{print'<td></td>';}
-		   if(isset($entry['Detail']['value'])){print '<td>'.$entry['Detail']['value'].'</td>';}
+		   if(isset($entry['Category']['value'])){print '<td>'.$entry['Category']['value'].'</td>';}
 		   else{print'<td></td>';}
 ?>
 		  </tr>
 		  <tr class="hidden" id="<?php print $entryno.'-'.$rown++;?>">
 			<td colspan="5">
 			  <p>
+<?php		   if(isset($entry['Detail']['value'])){print $entry['Detail']['value'];}?>
+			  </p>
+			  <p>
 <?php		   if(isset($entry['Outcome']['value'])){print $entry['Outcome']['value'];}?>
 			  </p>
-			  <button class="rowaction" title="Delete"
+			  <button class="rowaction" title="Delete this incident"
 				name="current" value="delete_incident.php" onClick="clickToAction(this)">
 				<img class="clicktodelete" />
 			  </button>
@@ -95,7 +98,6 @@ three_buttonmenu();
 		  </div>
 		</tbody>
 <?php
-			$entryno++;	
 			}
 		}
 	}

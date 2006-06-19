@@ -33,27 +33,10 @@ three_buttonmenu();
 		<label for="Details"><?php print_string('details',$book);?></label>
 		<textarea name="detail" id="Details" 
 		<?php if($table!='background'){print ' maxlength="248" ';}?> 
-		  rows="5" cols="40"> </textarea>
+		  rows="5" cols="40"></textarea>
 	  </div>
-<?php 
-if($table=='concerns'){
-		$date='';
-		$Concerns=fetchConcerns($sid,$date,'');
-		$Student['Comments']=$Concerns;
-?>
-
-
-	  <div class="left" >
-		<label for="Subject">Subject Specific (optional):</label>
-		<?php $required='no'; include('scripts/list_studentsubjects.php');?>
-	  </div>
-	  <div class="left" >
-		<?php $yid=$Student['NCyearActual']['id_db']; include('scripts/list_year.php'); ?>
-	  </div>
-
 <?php
-	}
-elseif($table=='background'){
+if($table=='background'){
 ?>
 	  <div class="right" >
 		<label for="Category">Source:</label>
@@ -96,10 +79,8 @@ elseif($table=='exclusions'){
 	  </div>
 <?php
 	}
-
 else{
 ?>
-
 	  <div class="right">
 		<label>Subject Specific (optional):</label>
 			   <?php $required="no"; include('scripts/list_studentsubjects.php');?>
@@ -109,7 +90,7 @@ else{
 				<?php include('scripts/jsdate-form.php'); ?>
 	  </div>
 <?php 
-	}
+				}
 ?>
 	<input type="hidden" name="table" value="<?php print $table;?>"/>
 	<input type="hidden" name="title" value="<?php print $title;?>"/>

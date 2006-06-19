@@ -14,4 +14,6 @@ if(!isset($_SESSION['uid'])){session_defaults();}
 $user=new user($db);
 if($_SESSION['uid']==0){exit;}
 require_once('../../lib/include.php');
+if(isset($_GET{'uniqueid'})){$xmlid=$_GET{'uniqueid'};}
+elseif(isset($_POST{'uniqueid'})){$xmlid=$_POST{'uniqueid'};}
 ?>

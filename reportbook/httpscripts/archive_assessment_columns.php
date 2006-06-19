@@ -5,12 +5,12 @@
  *
  */
 
-require_once('common.php');
+require_once('../../scripts/http_head_options.php');
 
-if(isset($_GET{'eid'})){$eid=$_GET{'eid'};}
-elseif(isset($_POST{'eid'})){$eid=$_POST{'eid'};}
-else{print "Failed"; exit;}
 
+if(!isset($xmlid)){print "Failed"; exit;}
+
+$eid=$xmlid;
 $d_score=mysql_query("SELECT * FROM score JOIN eidmid ON
 				score.mark_id=eidmid.mark_id WHERE eidmid.assessment_id='$eid'");
 while($score=mysql_fetch_array($d_score,MYSQL_ASSOC)){
@@ -84,7 +84,7 @@ mysql_free_result($d_markdef);
 
 $returnXML=fetchAssessmentDefinition($eid);
 $rootName='AssessmentDefinition';
-require_once('commonreturn.php');
+require_once('../../scripts/http_end_options.php');
 exit;
 ?>
 

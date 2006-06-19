@@ -7,7 +7,7 @@
 	if(!isset($newyear)){$newyear='';}
 	if(!isset($required)){$required='no';}
 ?>
-<label for="Year">Year:</label>
+<label for="Year"><?php print_string('year');?></label>
 	 <select style="width:5em;" class="required" id="Year" 
 				name="year" size="1">
 	 <option value=""></option>
@@ -28,5 +28,4 @@
 		}
 ?>
 	</select>
-
 <?php  unset($required);?>

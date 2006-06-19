@@ -131,11 +131,3 @@ if(isset($umns)){
 <?php
 include('scripts/end_options.php');
 ?>
-
-
-
-
-
-
-
-

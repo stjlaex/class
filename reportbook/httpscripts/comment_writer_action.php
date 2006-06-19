@@ -2,7 +2,7 @@
 /**                    httpscripts/comment_writer_action.php
  */
 
-require_once('common.php');
+require_once('../../scripts/http_head_options.php');
 $sub=$_POST{'sub'};
 $sid=$_POST{'sid'};
 $rid=$_POST{'rid'};
@@ -66,7 +66,7 @@ $comment=js_addslashes($incom);
 
 	  <div id="viewcontent" class="content">
 <?php
-	  include('../../scripts/results.php');
+	  //	  include('../../scripts/results.php');
 ?>
 	  </div>
 
