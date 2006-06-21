@@ -21,18 +21,20 @@ if(isset($_POST{'newyid'})){$yid=$_POST{'newyid'};}else{$yid='';}
 if(isset($_POST{'newfid'})){$fid=$_POST{'newfid'};}else{$fid='';}
 if(isset($_POST{'selcrid'})){$selcrid=$_POST{'selcrid'};}else{$selcrid=$rcrid;}
 if(isset($_POST{'eids'})){$eids=(array)$_POST{'eids'};}else{$eids=array();}
-if(isset($_POST{'breakdown'})){$breakdown=$_POST{'breakdown'};}else{$breakdown='assessment';}
+if(isset($_POST{'breakdown'})){$breakdown=$_POST{'breakdown'};}else{$breakdown='subject';}
 
 include('scripts/sub_action.php');
 
 	/*Select a group of students by yeargroup_id*/
 	if($yid!=''){
-		if($d_student=mysql_query("SELECT * FROM student WHERE yeargroup_id='$yid'")){}
+		if($d_student=mysql_query("SELECT * FROM student WHERE
+				yeargroup_id='$yid' ORDER BY form_id, surname")){}
 		else{print mysql_error();}
 		}
 	/*Select a group of students by form_id*/
 	elseif($fid!=''){
-		if($d_student=mysql_query("SELECT * FROM student WHERE form_id='$fid'")){}
+		if($d_student=mysql_query("SELECT * FROM student WHERE
+				form_id='$fid' ORDER BY surname")){}
 		else{print mysql_error();}
 		}
 	else{$error[]=get_string('youneedtoselectstudents'); 
@@ -54,7 +56,7 @@ include('scripts/sub_action.php');
 		}
 
 
-/*	using ALL subjects, fetch all bids for this crid*/
+	/*using ALL subjects, fetch all bids for this crid*/
 	if($bids[0]=='%'){
 		$bids=array();
 		$d_cridbid=mysql_query("SELECT DISTINCT subject_id FROM cridbid

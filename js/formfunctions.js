@@ -100,6 +100,7 @@ function clickToAction(buttonObject){
 		}
 	else if(action=='current'){
 		var recordId=xmlRecord.childNodes[1].childNodes[0].nodeValue;
+alert(recordId);
 		var script=buttonObject.value;
 		var url=pathtobook + "httpscripts/" + script + "?uniqueid=" + escape(recordId);
 		var answer=confirmAction(buttonObject.title);

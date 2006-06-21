@@ -81,7 +81,9 @@
 				$inmust=$Comment['id_db'];
 				}
 		  $rown=0;
-		  $openId=$rid.'-'.$sid.'-'.$bid.'-'.$pid.'-'.$entryn;
+		  $en=$entryn+1;
+		  $openId=$rid.'-'.$sid.'-'.$bid.'-'.$pid.'-'.$en;
+		  $Comment['id_db']=$openId;
 		  if($edit_comments_off!='yes'){
 ?>
   <tbody id="<?php print $openId;?>">
@@ -135,18 +137,16 @@
 			print $Comment['Text']['value'];
 			print '</textarea>';
 ?>
-			  <input class="rowaction" title="Delete this entry"
+			  <button class="rowaction" type="button" title="Delete this entry"
 				name="current" value="delete_reportentry.php" onClick="clickToAction(this)">
 				<img class="clicktodelete" />
-			  </input>
+			  </button>
 <?php
 			print '</td></tr>';
 			}
 ?>
 		  <div id="<?php print 'xml-'.$openId;?>" style="display:none;">
-<?php
-				xmlpreparer('Comment',$Comment);
-?>
+	  <?php				xmlpreparer('Comment',$Comment); ?>
 		  </div>
   </tbody>
 <?php

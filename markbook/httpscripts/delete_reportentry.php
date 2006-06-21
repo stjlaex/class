@@ -6,7 +6,7 @@ require_once('../../scripts/http_head_options.php');
 
 if(!isset($xmlid)){print "Failed"; exit;}
 
-	list($rid,$sid,$bid,$pid,$entryn)=split('-':$xmlid);
+	list($rid,$sid,$bid,$pid,$entryn)=split('-',$xmlid);
    	$d_incidents=mysql_query("DELETE FROM reportentry WHERE
 						 report_id='$rid' AND
 						student_id='$sid' AND subject_id='$bid' AND
@@ -16,20 +16,3 @@ $rootName='Comment';
 require_once('../../scripts/http_end_options.php');
 exit;
 ?>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

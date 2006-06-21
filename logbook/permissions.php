@@ -269,7 +269,7 @@ function updateUser($user,$update='no',$short='class'){
 	if($user['passwd']!=''){$passwd=$user['passwd'];}
 	elseif(isset($user['userno'])){$passwd=$short.$user['userno'];}
 	if(isset($passwd)){$assword=md5($passwd);}
-	else{$assword='';$nologin='1';}
+	else{$assword='';}
 
 	$d_user=mysql_query("SELECT username, surname, forename 
 							FROM users WHERE username='$username'");
@@ -285,7 +285,7 @@ function updateUser($user,$update='no',$short='class'){
 							email='$email', role='$role', nologin='$nologin',
 					firstbookpref='$firstbookpref' WHERE username='$username'")){}
 				else {print mysql_error(); exit;}
-		  $result=$result."Updated details for user ".$username;
+		  $result=$result.'Updated details for user '.$username;
 		  }
 		}
 	else{
@@ -298,12 +298,10 @@ function updateUser($user,$update='no',$short='class'){
 				}
 		  else {print mysql_error(); exit;}
 		  }
-
 	if($assword!=''){
 		  $d_user=mysql_query("UPDATE users SET
 					passwd='$assword' WHERE username='$username'");
 		   }
-
 	return $result;
 	}
 ?>

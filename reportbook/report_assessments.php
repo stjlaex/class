@@ -11,14 +11,15 @@ three_buttonmenu();
 	<form id="formtoprocess" 
 		name="formtoprocess" method="post" action="<?php print $host;?>"> 
 
-	  <fieldset class="center"><legend>Report on students from</legend>
+	  <fieldset class="center">
+		<legend><?php print_string('collateforstudentsfrom',$book);?></legend>
 		<div class="left">
-		  <?php include('scripts/list_pastoralgroup.php');?>
+		  <?php $required='yes'; include('scripts/list_pastoralgroup.php');?>
 		</div>
 	  </fieldset>
 
 	  <fieldset class="center">
-		<legend>Choose to include</legend>
+		<legend><?php print_string('choosetoinclude',$book);?></legend>
 		<div class="left" >
 		<?php $multi='12'; include('scripts/list_subjects.php');?>
 		</div>
