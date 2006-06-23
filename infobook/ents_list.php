@@ -1,45 +1,33 @@
 <?php
-/*                                  ents_list.php    
-*/
+/**                                  ents_list.php    
+ */
+
 $current='ents_list.php';
-$action='ents_list_action1.php';
+$action='ents_list_action.php';
 $host='infobook.php';
 
-$table=$_GET{'table'};
-$title=$_GET{'title'};
+$type=$_GET{'type'};
+
 if(isset($_GET{'bid'})){$bid=$_GET{'bid'};}
 
 three_buttonmenu();
 ?>
-
   <div id="heading">
-	<label><?php print_string($table);?></label>
-<?php
-	print $Student['Forename']['value'].' '.$Student['Surname']['value'];
-	print '('.$Student['RegistrationGroup']['value'].')';
-?>
+	<label><?php print_string("$table",$book);?></label>
+	<?php print $Student['DisplayFullName']['value'];?>
   </div>
 
   <div class="topform">
 	<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
-	  <div class="left">
-		<label for="Category"><?php print_string('category',$book);?></label>
-		<?php include('scripts/list_category.php');?>
-	  </div>
-	  <div class="right" >
-		<?php include('scripts/jsdate-form.php'); ?>
-	  </div>
 	  <div class="right">
 		<label for="Details"><?php print_string('details',$book);?></label>
-		<textarea name="detail" id="Details" 
-		<?php if($table!='background'){print ' maxlength="248" ';}?> 
-		  rows="5" cols="40"></textarea>
+		<textarea name="detail" id="Details" rows="5" cols="40"></textarea>
 	  </div>
 <?php
-if($table=='background'){
+if($type=='bac'){
 ?>
-	  <div class="right" >
-		<label for="Category">Source:</label>
+	  <div class="left" >
+		<label for="Category"><?php print_string('source',$book);?></label>
 		<?php $cattype='bac'; include('scripts/list_category.php'); ?>
 	  </div>
 
@@ -47,42 +35,16 @@ if($table=='background'){
 		<?php include('scripts/jsdate-form.php'); ?>
 	  </div>
 
-	  <div class="left" >
+	  <div class="right" >
 		<?php $yid=$Student['NCyearActual']['id_db']; include('scripts/list_year.php'); ?>
 	  </div>
 
 <?php
    	}
-elseif($table=='exclusions'){
-?>
-	  <div class="right">
-		<label>Category:</label>
-		<select id="category" name="category">
-		  <option value=''></option	
-<?php
-		$enum=getEnumArray('category');
-		while(list($inval,$description)=each($enum)){	
-			print "<option value='".$inval."'>".$description."</option>";
-			}
-?>
-		</select>
-	  </div>
-
-	  <div class="right">
-		<label>Starts</label>
-		<?php $idate=1; include('scripts/jsdate-form.php'); ?>
-	  </div>
-
-	  <div class="right">
-		<label>Ends</label>
-				<?php $idate=2; include('scripts/jsdate-form.php'); ?>
-	  </div>
-<?php
-	}
 else{
 ?>
 	  <div class="right">
-		<label>Subject Specific (optional):</label>
+		<label><?php print_string('subjectspecific');?></label>
 			   <?php $required="no"; include('scripts/list_studentsubjects.php');?>
 	  </div>
 
@@ -90,10 +52,9 @@ else{
 				<?php include('scripts/jsdate-form.php'); ?>
 	  </div>
 <?php 
-				}
+	}
 ?>
-	<input type="hidden" name="table" value="<?php print $table;?>"/>
-	<input type="hidden" name="title" value="<?php print $title;?>"/>
+	<input type="hidden" name="type" value="<?php print $type;?>"/>
 	<input type="hidden" name="current" value="<?php print $action;?>"/>
  	<input type="hidden" name="cancel" value="<?php print $cancel;?>"/>
  	<input type="hidden" name="choice" value="<?php print $choice;?>"/>

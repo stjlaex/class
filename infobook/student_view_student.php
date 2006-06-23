@@ -21,14 +21,13 @@ three_buttonmenu();
 	  <div class="center">
 		<table class="listmenu">
 		  <caption><?php print_string('studentdetails',$book);?></caption>
-
 <?php	
 	$in=0;
 	while(list($key,$val)=each($Student)){
-		if(isset($val['value']) & is_array($val)){
+		if(isset($val['value']) & is_array($val) & isset($val['table_db'])){
 ?>	
 		  <tr>
-			<td><label><?php print_string( $val['label'],$book); ?></label></td>
+			<td><label><?php print_string($val['label'],$book); ?></label></td>
 			<td>
 <?php 
 				if($val['type_db']=='enum'){
@@ -38,28 +37,29 @@ three_buttonmenu();
 					while(list($inval,$description)=each($enum)){	
 						print '<option ';
 						if($val['value']==$inval){print 'selected="selected"';}
-						print ' value="'.$inval.'">'.$description.'</option>';
+						print ' value="'.$inval.'">'.get_string($description,$book).'</option>';
 						}
-					print '</select>';					
+					print '</select>';
 					}
 				else {
 ?>
-	<input type="text" name="<?php print $val['field_db'].$in; ?>" value="<?php print $val['value']; ?>" />
-<?php				} 
+			  <input type="text" name="<?php print $val['field_db'].$in; ?>" 
+								value="<?php print $val['value']; ?>" />
+<?php
+				}
 ?>
 			</td>
 		  </tr>
 <?php	
-			$in++;	
+			$in++;
 			}
 		}
 ?>
 		</tr>
 		</table>
-	  </div>	
-	  
-	  <input type="hidden" name="current" value="<?php print $action;?>">
+	  </div>
+	    <input type="hidden" name="current" value="<?php print $action;?>">
 		<input type="hidden" name="cancel" value="<?php print $cancel;?>">
-		  <input type="hidden" name="choice" value="<?php print $choice;?>">
+		<input type="hidden" name="choice" value="<?php print $choice;?>">
 	</form>
   </div>

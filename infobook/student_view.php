@@ -126,7 +126,7 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 		  </tr>
 		  <tr>
 			<th>
-			  <a href="infobook.php?current=ents_list.php&table=exclusions&title=Exclusions&cancel=student_view.php">
+			  <a href="infobook.php?current=ents_list.php&type=exclusions&cancel=student_view.php">
 				<?php print_string('exclusions',$book); ?>
 			  </a>
 			</th>
@@ -144,11 +144,11 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 		  </tr>
 		  <tr>
 			<th>
-			  <a href="infobook.php?current=ents_list.php&cancel=student_view.php&table=prizes&title=Prizes">
+			  <a href="infobook.php?current=ents_list.php&cancel=student_view.php&type=pri">
 				<?php print_string('prizes',$book); ?>
 			  </a>
 			</th>
-<?php	
+<?php
 	$Prizes=$Student['Prizes'];
 	$no=sizeof($Prizes);
 	if(is_array($Prizes[0])){
@@ -162,7 +162,7 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 		  </tr>
 		  <tr>
 			<th>
-			  <a href="infobook.php?current=ents_list.php&cancel=student_view.php&table=fails&title=Fails"> 
+			  <a href="infobook.php?current=ents_list.php&cancel=student_view.php&type=fai"> 
 				<?php print_string('fails',$book); ?>
 			  </a>
 			</th>
@@ -179,8 +179,6 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 		  </tr>
 		</table>
 	  </div>
-
-
 <?php 	
 	$Contacts=(array)$Student['Contacts'];
 ?>
@@ -203,7 +201,7 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 		<?php print $Contact['Forename']['value'].' '. $Contact['Surname']['value'];?>
 			</td>
 			<td>
-					<?php print displayEnum($Contact['Relationship']['value'],$Contact['Relationship']['field_db']);?>
+			  <?php print displayEnum($Contact['Relationship']['value'],$Contact['Relationship']['field_db']);?>
 			</td>
 			<td>
 <?php
@@ -220,10 +218,9 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 		</table>
 	  </div>
 
-
 	  <fieldset class="left">
 		<legend>
-		  <a href="infobook.php?current=ents_list.php&cancel=student_view.php&table=background&title=Backgrounds">
+		  <a href="infobook.php?current=ents_list.php&cancel=student_view.php&type=bac">
 			<img class="clicktoedit" title="<?php print_string('edit');?>" />
 		  </a>
 		  <?php print_string('background',$book);?>
@@ -274,4 +271,3 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 	  <input type="hidden" name="choice" value="<?php print $choice;?>">
 	</form>
   </div>
-
