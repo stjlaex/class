@@ -105,7 +105,8 @@ function fetchReportDefinition($rid,$selbid='%'){
 			}
 
 	$d_assessment=mysql_query("SELECT * FROM assessment JOIN
-				rideid ON rideid.assessment_id=assessment.id WHERE report_id='$rid'");
+				rideid ON rideid.assessment_id=assessment.id 
+				WHERE report_id='$rid' ORDER BY label");
 	$reportdef['eids']=array();
 	$asstable=array();
 	while($ass=mysql_fetch_array($d_assessment,MYSQL_ASSOC)){

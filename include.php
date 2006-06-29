@@ -21,9 +21,9 @@ $books['admin']=array(
 				 ,'infobook' => 'InfoBook'
 				 ,'markbook' => 'MarkBook'
 				 //,'register' => 'Register'
-				 //,'webmail' => $CFG->webmailtabname
+				 ,'webmail' => $CFG->webmailtabname
 				 //,'lms' => $CFG->lmstabname
-				 //,'eportfolio' => $CFG->eportfoliotabname
+				 ,'eportfolio' => $CFG->eportfoliotabname
 				 );
 $books['office']=array(
 				 'reportbook' => 'ReportBook'

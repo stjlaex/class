@@ -38,7 +38,6 @@ if($type=='bac'){
 	  <div class="right" >
 		<?php $yid=$Student['NCyearActual']['id_db']; include('scripts/list_year.php'); ?>
 	  </div>
-
 <?php
    	}
 else{
@@ -66,10 +65,8 @@ else{
 	  <table class="listmenu">
 		<caption><?php print_string('entries',$book);?></caption>
 <?php
-
-$yid=$Student['NCyearActual']['id_db'];
-$perm=getYearPerm($yid, $respons);
-
+	$yid=$Student['NCyearActual']['id_db'];
+	$perm=getYearPerm($yid, $respons);
 	$list=$Student["$title"];
 	$entryno=0;
 	if(is_array($list)){

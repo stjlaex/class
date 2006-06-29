@@ -150,25 +150,25 @@ function getEnumArray($field_name) {
 	'12', '13' => '13', '14' => '14');	
 
 //		for the info table
-	$boarder=array('N' => 'Not a boarder','B' => 'Boarder','6' =>
-	'Boarder, six nights or less', '7' => 'Boarder, seven nights');
+	$boarder=array('N' => 'notaboarder','B' => 'boarder','6' =>
+	'boarder,sixnightsorless', '7' => 'boarder,sevennights');
 	$religion=array('NOT' => 'informationnotobtained', 
-		'BU' => 'Buddhist', 'CH' => 'Christian', 'HI' =>
-		'Hindu', 'JE' => 'Jewish', 'MU' => 'Muslim', 'NO' => 'No
-		religion', 'OT' => 'Other religion', 'SI' => 'Sikh');
-	$reledu=array('A' => 'Attends religious education', 
-		'W' => 'Withdrawn from religious education');
-	$relwo=array('A' => 'Attends collective woship', 
-		'W' => 'Withdrawn from collective worthship');
+		'BU' => 'buddhist', 'CH' => 'christian', 'HI' =>
+		'hindu', 'JE' => 'jewish', 'MU' => 'muslim', 'NO' => 'No
+		religion', 'OT' => 'otherreligion', 'SI' => 'sikh');
+	$reledu=array('A' => 'attendsreligiouseducation', 
+		'W' => 'withdrawnfromreligiouseducation');
+	$relwo=array('A' => 'attendscollectivewoship', 
+		'W' => 'withdrawnfromcollectiveworthship');
 	$parttime=array('N' => 'no', 'Y' => 'yes');
 	$sen=array('N' => 'no', 'Y' => 'yes');
 	$medical=array('N' => 'no', 'Y' => 'yes');
 	$incare=array('N' => 'no', 'Y' => 'yes');
-	$firstlanguage=array('ENG' => 'English', 'ENB' => 'Believed to be
-	english', 'OTH' => 'Other', 'NOT' => 'informationnotobtained');
-	$enrolstatus=array('C' => 'Current', 'P' => 'Previous', 'G' =>
-	'Guest pupil', 'S' => 'Current subsidary (Dual registration)', 'M'
-	=> 'Current main (Dual registration)');
+	$firstlanguage=array('ENG' => 'english', 
+	'ENB' => 'believedtobeenglish', 'OTH' => 'other', 'NOT' => 'informationnotobtained');
+	$enrolstatus=array('C' => 'current', 'P' => 'previous', 'G' =>
+	'guestpupil', 'S' => 'currentsubsidary (dualregistration)', 'M'
+	=> 'currentmain(dualregistration)');
 	$transportmode=array('NOT' => 'informationnotobtained', 'F' =>
 	'onfoot', 'C' => 'privatecar', 'T' => 'train', 'B' => 'bus', 'S'
 	=> 'schoolbus',);
@@ -250,7 +250,7 @@ function getEnumArray($field_name) {
 	'modifiedcurriculum', 'D' => 'curriculumdisapplied');
 
 //			for the exclusions table
-	$category=array('F' => 'fixed-term', 'P' => 'permanent', 'L' => 'lunchtime');
+	$exclusionscategory=array('F' => 'fixed-term', 'P' => 'permanent', 'L' => 'lunchtime');
 
 	$appeal=array('R' => 'appealrejected', 'S' => 'appealsuccesful');
 

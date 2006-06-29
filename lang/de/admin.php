@@ -2,30 +2,29 @@
 /**						lang/de/admin.php
  *
  */
-$string['formatoffilenewteacher']='Format of file: number, id, surname, forename, email, role';
-$string['chooseeitherresponsibility']='Choose either a pastoral OR <br /> academic responsibility for a user.';
-$string['importstudentfileinstructions']='<p>All student records must be on a single line.</p><p>Each record in the file must contain the same number of fields.</p>';
-$string['loadpreviousdefinition']='Load a previously saved definition.';
-$string['generateclassstructurequestion']='<p>Generating a new class structure could lose current data.</p><p>This should normally only be done at the start of the academic term.</p><p>Are you sure you want to continue?</p>';
-$string['studentsnotinsubject']='Students not in subject';
-$string['studentsalreadyinsubject']='Students already in subject';
-$string['currentclassfor']='Current class for subject';
-$string['studentsfromotheryeargroup']='Choose students from another yeargroup';
-$string['firstbookpref']='Use this tab first after login';
-$string['regeneratepasswords']='Regenerate passwords';
-$string['updatepasswordsdetail']='Update all passwords using a three digit number and the keyword set in school.php';
-$string['emailuserpasswordsdetail']='Email all users their newly generated three digit number';
-$string['emailreminders']='Email reminders';
+$string['formatoffilenewteacher']='Format der Datei: Nummer, ID, Name, Vorname, Email, Rolle';
+$string['chooseeitherresponsibility']='W&auml;hle entweder eine pastorale OR <br /> akademische Verantwortlichkeit f&uuml;r den Benutzer.';
+$string['importstudentfileinstructions']='<p>Alle Studenten S&auml;tze m&uuml;ssen auf einer Zeile stehen.</p><p>Jeder Satz in der Datei muss dieselbe Anzahl Felder enthalten.</p>';
+$string['loadpreviousdefinition']='Lade eine vorg&auml;ngig gespeicherte Definition.';
+$string['generateclassstructurequestion']='<p>Generieren einer neuen Klassenstruktur kann zum Verlust aktueller Daten f&uuml;hren.</p><p>Dies sollte normalerweise nur zu Beginn des Semesters getan werden.</p><p>Wollen Sie weiterfahren?</p>';
+$string['studentsnotinsubject']='Student nicht im Schulfach';
+$string['studentsalreadyinsubject']='Student ist bereits im Schulfach';
+$string['currentclassfor']='Aktuelle Klasse f&uuml;r das Schulfach';
+$string['studentsfromotheryeargroup']='W&auml;hle Studenten aus einer anderen Jahresgruppe';
+$string['firstbookpref']='Benutze dieses Register als erstes nach dem Login';
+$string['regeneratepasswords']='Passw&ouml;rter neu generieren';
+$string['updatepasswordsdetail']='Alle Passw&ouml;rter aktualisieren mit einer 3-stelligen Zahl und dem Sch&uuml;sselwort in school.php';
+$string['emailuserpasswordsdetail']='Allen Benutzern die neu erstellte 3-stellige Ziffer emailen';
+$string['emailreminders']='Email Erinnerung';
 $string['emailnewloginuserno']='
-This is notification of your new login details for ClaSS. These
-details are for your own personal use only and should be treated as
-confidential. The details include your username and a unique key
-number needed to construct your password. You will be notified
-seperately, by your ClaSS contact person, of the key phrase which
-makes up the remainder of your password.';
-$string['emailnewloginsubject']='Your new ClaSS login details.';
-$string['emailusernolistsubject']='Newly generated ClaSS user list';
-$string['keynumber']='Key number';
+Das ist die Benachrichtigung Ihrer neuen Login Details f&uuml;r ClaSS. Diese 
+Angaben sind f&uuml;r Ihren eigenen pers&ouml;nlichen Gebrauch und sollten 
+vertraulich behandelt werden. Die Angaben beinhalten Ihren Benutzernamen und einen
+eindeutige Zahl um Ihr Passwort zu erstellen. Sie werden separat informiert durch 
+Ihre ClaSS Kontaktperson &uuml;ber den Schl&uuml;sselsatz zum Erinnern Ihres Passwortes.';
+$string['emailnewloginsubject']='Ihre neuen ClaSS Login Angaben.';
+$string['emailusernolistsubject']='Neu generierte ClaSS Benutzerliste';
+$string['keynumber']='Schl&uuml;sselnummer';
 $string['offline']='Off line';
 $string['']='';
 ?>

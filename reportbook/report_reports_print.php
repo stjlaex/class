@@ -1,5 +1,5 @@
 <?php
-/*									report_reports_print.php
+/**									report_reports_print.php
  */
 
 $action='report_reports_list.php';

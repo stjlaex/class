@@ -86,6 +86,7 @@ CREATE TABLE categorydef (
 	rating_name		varchar(30) not null default '',
 	subject_id		varchar(10) not null default '',
 	course_id		varchar(10) not null default '',
+	section_id		smallint not null default 0,
    	primary key		(id)
 );")){}
      else{print "Failed on categorydef!<br>";	

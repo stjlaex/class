@@ -18,17 +18,22 @@ if(!isset($cattype)){$cattype='con';}
 			}
 ?>
 	</select>
-<div class="left">
-	<select id="Rating" class="required"  
-		name="ratvalue" size="1">
 <?php
         $d_rating=mysql_query("SELECT descriptor, longdescriptor, value FROM rating WHERE
 	        name='$rating_name' ORDER BY value");
-        while($rats=mysql_fetch_row($d_rating)){
-			print '<option value="'.$rats[2].'" ';
-			if($rats[2]=='-1'){print ' selected="selected" ';}
-			print ' >'.$rats[1].'</option>';
-			}
+		if(mysql_num_rows($d_rating)>0){
+?>
+  <div class="left">
+	<select id="Rating" class="required"  name="ratvalue" size="1">
+<?php
+		   while($rats=mysql_fetch_row($d_rating)){
+			   print '<option value="'.$rats[2].'" ';
+			   if($rats[2]=='-1'){print ' selected="selected" ';}
+			   print ' >'.$rats[1].'</option>';
+			   }
 ?>
 	</select>
-</div>
+  </div>
+<?php
+			}
+?>

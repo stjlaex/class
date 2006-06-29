@@ -1,6 +1,6 @@
 <?php
-/*								create_infobook.php	
-*/
+/**								create_infobook.php	
+ */
 	
 if (mysql_query("
 CREATE TABLE info (
@@ -29,7 +29,6 @@ CREATE TABLE info (
      else{print "Failed on info!<br>";	
 					$error=mysql_error(); print $error."<br>";}
 
-	
 if (mysql_query("
 CREATE TABLE senhistory (
 	id				int unsigned not null auto_increment,
@@ -116,64 +115,16 @@ CREATE TABLE comments (
 					$error=mysql_error(); print $error."<br>";}
 
 if (mysql_query("
-CREATE TABLE activities (
-	id				int unsigned not null auto_increment,
-	student_id		int unsigned not null, 
-	entrydate		date,
-	ncyear			enum('N', 'R', '1', '2', '3', '4', '5', '6',
-							'7', '8', '9', '10', '11', '12', '13', '14') not null,
-	category		varchar(30) not null default '',
-	detail			varchar(250) not null default '',
-	subject_id		varchar(10) not null default '',
-	teacher_id		varchar(14) not null default '',	
-	index			index_student (student_id),
-   	primary key		(id)
-);")){}
-     else{print "Failed on activities!<br>";	
-					$error=mysql_error(); print $error."<br>";}
-
-if (mysql_query("
-CREATE TABLE prizes (
-	id				int unsigned not null auto_increment,
-	student_id		int unsigned not null, 
-	entrydate		date,
-	ncyear			enum('N', 'R', '1', '2', '3', '4', '5', '6',
-							'7', '8', '9', '10', '11', '12', '13', '14') not null,
-	category		varchar(30) not null default '',
-	detail			varchar(250) not null default '',
-	subject_id		varchar(10) not null default '',
-	teacher_id		varchar(14) not null default '',	
-	index			index_student (student_id),
-   	primary key		(id)
-);")){}
-     else{print "Failed on prizes!<br>";	
-					$error=mysql_error(); print $error."<br>";}
-if (mysql_query("
-CREATE TABLE fails (
-	id				int unsigned not null auto_increment,
-	student_id		int unsigned not null, 
-	entrydate		date,
-	ncyear			enum('N', 'R', '1', '2', '3', '4', '5', '6',
-							'7', '8', '9', '10', '11', '12', '13', '14') not null,
-	detail			varchar(250) not null default '',
-	subject_id		varchar(10) not null default '',
-	teacher_id		varchar(14) not null default '',	
-	index			index_student (student_id),
-   	primary key		(id)
-);")){}
-     else{print "Failed on fails!<br>";	
-					$error=mysql_error(); print $error."<br>";}
-
-
-if (mysql_query("
 CREATE TABLE background (
 	id				int unsigned not null auto_increment,
-	student_id		int unsigned not null, 
+	student_id		int unsigned not null,
+	type			char(3) not null default '',
 	entrydate		date,
 	ncyear			enum('N', 'R', '1', '2', '3', '4', '5', '6',
 							'7', '8', '9', '10', '11', '12', '13', '14') not null,
-	detail			varchar(250) not null default '',
+	detail			text not null default '',
 	category		varchar(100) not null default '',
+	subject_id		varchar(10) not null default '',
 	teacher_id		varchar(14) not null default '',	
 	index			index_student (student_id),
    	primary key		(id)
@@ -194,7 +145,7 @@ CREATE TABLE exclusions (
 	appealresult	enum('', 'R', 'S') not null default '',
    	primary key		(student_id, startdate)
 );")){}
-     else{print "Failed on exclusions!<br>";	
+     else{print "Failed on exclusions!<br>";
 					$error=mysql_error(); print $error."<br>";}
 
 if (mysql_query("
@@ -214,7 +165,7 @@ CREATE TABLE attendance (
      else{print "Failed on attendance!<br>";	
 					$error=mysql_error(); print $error."<br>";}
 
-if (mysql_query("	
+if (mysql_query("
 CREATE TABLE guardian (
 	id			int unsigned not null auto_increment, 
 	prefix		varchar(30) not null default '',
@@ -286,5 +237,4 @@ CREATE TABLE phone (
 );")){}
 	     else{print "Failed on phone!<br>";	
 					$error=mysql_error(); print $error."<br>";}
-
 ?>

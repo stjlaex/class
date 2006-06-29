@@ -86,11 +86,14 @@ function fetchStudent($sid){
 */
 	$Student['id_db']=$sid;
 	
-	$Student['Surname']=array('label' => 'surname', 'table_db' => 'student', 'field_db' => 'surname',
+	$Student['Surname']=array('label' => 'surname', 
+					'table_db' => 'student', 'field_db' => 'surname',
 					'type_db'=>'varchar(30)', 'value' => $student['surname']);
-	$Student['Forename']=array('label' => 'forename','table_db' => 'student', 'field_db' => 'forename',
+	$Student['Forename']=array('label' => 'forename', 
+					'table_db' => 'student', 'field_db' => 'forename',
 					'type_db'=>'varchar(30)', 'value' => $student['forename']);
-   	$Student['MiddleNames']=array('label' => 'middlenames','table_db' => 'student', 'field_db' => 'middlenames',
+   	$Student['MiddleNames']=array('label' => 'middlenames', 
+					'table_db' => 'student', 'field_db' => 'middlenames',
 					'type_db'=>'varchar(30)', 'value' => $student['middlenames']);
 	$Student['PreferredForename']=array('label' =>
 					'preferredforename', 'table_db' => 
@@ -104,7 +107,7 @@ function fetchStudent($sid){
 	else{$displaypfn='';}
 	if($student['middlenamelast']=='Y'){
 		$Student['DisplayFullName']=array('label' => 'fullname',  
-		   'value' => $displaypfn . 
+					'value' => $displaypfn . 
 					$student['forename'] . ' ' .$student['surname']
 									  . ' ' .$student['middlenames']);
 		}
@@ -115,18 +118,22 @@ function fetchStudent($sid){
 									  . ' ' . $student['surname']);
 		}
 
-	$Student['Gender']=array('label' => 'gender','table_db' => 'student', 'field_db' => 'gender',
+	$Student['Gender']=array('label' => 'gender', 
+					'table_db' => 'student', 'field_db' => 'gender',
 					'type_db'=>'enum', 'value' => $student['gender']);
-   	$Student['DOB']=array('label' => 'dateofbirth','table_db' => 'student', 'field_db' => 'dob',
+   	$Student['DOB']=array('label' => 'dateofbirth', 
+					'table_db' => 'student', 'field_db' => 'dob',
 					'type_db'=>'date', 'value' => $student['dob']);
-   	$Student['RegistrationGroup']=array('label' => 'formgroup', 'table_db' => 'student', 'field_db' => 'form_id',
+   	$Student['RegistrationGroup']=array('label' => 'formgroup', 
+					'table_db' => 'student', 'field_db' => 'form_id',
 					'type_db'=>'varchar(30)', 'value' => $student['form_id']);
 	
 	$yid=$student['yeargroup_id'];
 	$d_yeargroup=mysql_query("SELECT ncyear FROM yeargroup WHERE id='$yid'");
 	$ncyear=mysql_result($d_yeargroup,0);
 	
-	$Student['NCyearActual']=array('label' => 'year', 'table_db' => 'student', 'field_db' => 'yeargroup_id',
+	$Student['NCyearActual']=array('label' => 'year', 
+					'table_db' => 'student', 'field_db' => 'yeargroup_id',
 					'type_db'=>'enum', 'id_db' => $yid, 'value' => $ncyear);
 
 
@@ -351,8 +358,8 @@ function fetchStudent($sid){
 
 /*******Activities****/
 	$Activities=array();
-	$d_activities=mysql_query("SELECT * FROM activities WHERE 
-				student_id='$sid' ORDER BY ncyear");
+	$d_activities=mysql_query("SELECT * FROM background WHERE 
+				student_id='$sid' AND type='act' ORDER BY ncyear");
 	while($activity=mysql_fetch_array($d_activities,MYSQL_ASSOC)){
 		$activities=nullCorrect($activities);
 		$Activity=array();
@@ -378,7 +385,7 @@ function fetchStudent($sid){
 /*******Backgrounds****/
 	$Backgrounds=array();
 	$d_backgrounds=mysql_query("SELECT * FROM background WHERE
-						student_id='$sid' ORDER BY entrydate DESC");
+						student_id='$sid' AND type='bac' ORDER BY entrydate DESC");
 	while($background=mysql_fetch_array($d_backgrounds,MYSQL_ASSOC)){
 		$background=nullCorrect($background);
 		$Background=array();
@@ -455,7 +462,7 @@ function fetchStudent($sid){
 /*******Prizes****/
 	$Prizes=array();
 	$d_prizes=mysql_query("SELECT * FROM prizes WHERE
-	student_id='$sid' ORDER BY entrydate DESC");
+				student_id='$sid' AND type='pri' ORDER BY entrydate DESC");
 	while($prize=mysql_fetch_array($d_prizes,MYSQL_ASSOC)){
 		$prize=nullCorrect($prize);
 		$Prize=array();
@@ -479,7 +486,8 @@ function fetchStudent($sid){
 
 /*******Fails****/
 	$Fails=array();
-	$d_fails=mysql_query("SELECT * FROM fails WHERE student_id='$sid' ORDER BY entrydate DESC");
+	$d_fails=mysql_query("SELECT * FROM background WHERE
+				student_id='$sid' AND type='fai' ORDER BY entrydate DESC");
 	while($fail=mysql_fetch_array($d_fails,MYSQL_ASSOC)){
 		$fail=nullCorrect($fail);
 		$Fail=array();
@@ -501,7 +509,7 @@ function fetchStudent($sid){
 
 function fetchComments($sid,$date,$ncyear){
 	$Comments=array();
-//if no date set choose this academic year
+	/*if no date set choose this academic year*/
 	if($date==''){$date='2005-09-01';}
 	if($ncyear==''){$ncyear='%';}
 	$d_comments=mysql_query("SELECT * FROM comments WHERE
