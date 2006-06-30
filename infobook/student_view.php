@@ -126,7 +126,7 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 		  </tr>
 		  <tr>
 			<th>
-			  <a href="infobook.php?current=ents_list.php&type=exclusions&cancel=student_view.php">
+			  <a href="infobook.php?current=exclusions_list.php&type=exclusions&cancel=student_view.php">
 				<?php print_string('exclusions',$book); ?>
 			  </a>
 			</th>

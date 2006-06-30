@@ -1,6 +1,6 @@
 <?php
-/*								server_test.php
-*/
+/**								server_test.php
+ */
 
 $host='admin.php';
 $choice='server_test.php';
@@ -16,7 +16,5 @@ $current='server_test.php';
 </div>
 
 <p><?php echo phpinfo(); ?></p>
-
-
 
 </div>

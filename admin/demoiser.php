@@ -38,12 +38,12 @@ function generate_random_name($gender){
 					  'Louise','Jessica','Pamela');
 		}
 	$end=array('Smith','Lee','Patrick','Nunn','Bowman','Stewart','Jenkins',
-			   'White','Kirkpatrick','Ibbotson','Owen','Davidson',
+			   'White','Kirkpatrick','Ibbotson','Owen','Davidson','Rowell','Phillips',
 			   'Wainwright','Robson','Ball','Quinn','Davis','Johnson','Hope','Blair',
 			   'Fawcett','Lawrence','Whitehead','Robinson','Wylie','McCartney','Collins',
 			   'West','Anderson','Carter','Mitchell','Main','Mander','Royal','Welsh','Roy',
 			   'Robertson','Riley','Newman','Turner','Hardy','Dene','Poll','Wright','Malick',
-			   'Montgomery','Oscar','Forrest','Hughes');
+			   'Montgomery','Oscar','Forrest','Hughes','Reid','Murray','Hurley','Ashurst');
 	$name=array();
     srand((double)microtime()*1000000);
 	$name[]=$start[(rand() %  count($start))];
@@ -247,6 +247,9 @@ function generate_random_name($gender){
 	if(mysql_query("UPDATE $table SET comment='A constuctive comment
 	from a subject teacher.'")){$error[]=mysql_error();}
 
+	$table='score';
+	if(mysql_query("UPDATE $table SET comment=''")){$error[]=mysql_error();}
+
 	$table='form';
 	$trows=tableRead($table);
 	$name=array('D','C','A','B');
@@ -295,7 +298,6 @@ function generate_random_name($gender){
 				}
 			}
 		}
-$result[]='Done!';
+$result[]='You\'ve been demoised!';
 include('scripts/results.php');
 ?>
-
