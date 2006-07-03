@@ -26,6 +26,12 @@ $CFG->support='laex.org';
 $CFG->contact='stj@laex.org';
 /*default site language*/
 $CFG->sitelang='en';
+/*All of the following are connection details
+ *for optional services residing outside of ClaSS
+ *Once configured they need to be made accessible to users
+ *by uncommenting the relevant entry in include.php
+ *A seperate book tab is then added to frame each.
+ */
 /*optional details of the school's eportfolio site*/
 $CFG->eportfoliosite='';
 $CFG->eportfoliotabname='Elgg';
@@ -36,6 +42,10 @@ $CFG->lmssite='';
 $CFG->lmstabname='Moodle';
 $CFG->lmsshare='secret';
 $CFG->lms_db='classmoodle';
+/*optional details of the school's webmail*/
+$CFG->webmailsite='http://webmail.demo.org';
+$CFG->webmailtabname='WebMail';
+$CFG->webmailshare='secret';
 /*optional details of the statement bank for writing report comments*/
 $CFG->statementbank_db='';
 ?>

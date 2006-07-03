@@ -2,8 +2,7 @@
         contributed to the ClaSS  project.  It is sorted by name and
         formatted to allow easy grepping and beautification by
         scripts.  The fields are: name (N), email (E), web-address
-        (W), PGP key ID and fingerprint (P), description (D), and
-        snail-mail address (S).
+        (W), description (D), and snail-mail address (S).
 
 ----------
 
@@ -15,9 +14,9 @@ S: Flat 43, Hansom Place, Wiggington Road, York. U.K.
 
 N: Marcie Lambert
 E: moley@laex.org
-D: Maintains the translation files and writes documentation.
+D: Maintains the translation files and contributes to documentation.
 
 N: Julian Lea 
 E: julianlea@ya.com 
-D: Led user-interafce desgin and contributed Javascript and CSS leading up to the 0.4 release.
+D: User-interafce desgin and Javascript and CSS leading up to the 0.4 release.
 

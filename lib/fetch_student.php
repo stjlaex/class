@@ -261,14 +261,12 @@ function fetchStudent($sid){
 	$Student['Contacts']=$Contacts;
 
 
-
-
 /*******SEN****/
 	$SEN=array();
 	$d_senhistory=mysql_query("SELECT * FROM senhistory WHERE 
 				student_id='$sid' ORDER BY startdate");
-/*		only working for one senhistory per student but could be */
-/*					ramped up for more*/
+	/*only working for one senhistory per student but could be */
+	/*ramped up for more*/
 
 	$SENhistory=array();
 	while($senhistory=mysql_fetch_array($d_senhistory,MYSQL_ASSOC)){
@@ -284,8 +282,7 @@ function fetchStudent($sid){
 	   	$SENhistory['NextReviewDate']=array('label' => 'nextreviewdate', 
 					'table_db' => 'senhistory', 'field_db' => 'reviewdate',
 					'type_db'=>'date', 'value' => $senhistory['reviewdate']);
-
-/*				only working for one senhistory_id*/
+		/*only working for one senhistory_id*/
 
 		$d_sencurriculum=mysql_query("SELECT * FROM sencurriculum
 				WHERE senhistory_id='$senhid' ORDER BY subject_id");
@@ -356,78 +353,6 @@ function fetchStudent($sid){
 	$Exclusions=nullCorrect($Exclusions);
 	$Student['Exclusions']=$Exclusions;
 
-/*******Activities****/
-	$Activities=array();
-	$d_activities=mysql_query("SELECT * FROM background WHERE 
-				student_id='$sid' AND type='act' ORDER BY ncyear");
-	while($activity=mysql_fetch_array($d_activities,MYSQL_ASSOC)){
-		$activities=nullCorrect($activities);
-		$Activity=array();
-		$Activity['id_db']=$activity['id'];
-	   	$Activity['Category']=array('label' => 'category', 'table_db'
-				=> 'activities', 'field_db' => 'category', 'type_db'=>'varchar(30)', 
-				'value' => $activity['category']);
-	   	$Activity['EntryDate']=array('label' => 'date', 'table_db'
-				=> 'activities', 'field_db' => 'category', 'type_db'=>'date', 
-				'value' => $activity['entrydate']);
-	   	$Activity['Details']=array('label' => 'details', 'table_db'
-				=> 'activities', 'field_db' => 'detail', 'type_db'=>'varchar(250)', 
-				'value' => $activity['category']);
-	   	$Activity['NCyear']=array('label' => 'year', 
-					'table_db' => 'activities', 'field_db' => 'ncyear',
-					'type_db'=>'enum', 'value' => $activities['ncyear']);
-		$Activities[]=$Activity;
-		}
-	$Activities=nullCorrect($Activities);
-	$Student['Activities']=$Activities;
-
-
-/*******Backgrounds****/
-	$Backgrounds=array();
-	$d_backgrounds=mysql_query("SELECT * FROM background WHERE
-						student_id='$sid' AND type='bac' ORDER BY entrydate DESC");
-	while($background=mysql_fetch_array($d_backgrounds,MYSQL_ASSOC)){
-		$background=nullCorrect($background);
-		$Background=array();
-		$Background['id_db']=$background['id'];
-	   	$Background['EntryDate']=array('label' => 'entrydate', 
-				'table_db' => 'background', 'field_db' => 'entrydate',
-			   	'type_db'=>'date', 'value' => $background['entrydate']);
-	   	$Background['Teacher']=array('label' => 'teacher', 
-					'table_db' => 'comments', 'field_db' => 'teacher_id',
-					'type_db'=>'varchar(14)', 'value' => $background['teacher_id']);
-		$Categories=array();
-		$Categories=array('label' => 'category', 
-					'table_db' => 'comments', 'field_db' => 'category',
-					'type_db'=>'varchar(100)', 'value' => ' ');
-		$pairs=explode(';',$background['category']);
-		for($c3=0; $c3<sizeof($pairs)-1; $c3++){
-			list($catid, $rank)=split(':',$pairs[$c3]);
-			$Category=array();
-			$d_categorydef = mysql_query("SELECT name FROM categorydef
-				WHERE id='$catid'");
-			$catname = mysql_result($d_categorydef,0);
-			$Category=array('label' => 'category', 'id_db' => $catid,
-					'table_db' => 'categorydef', 'field_db' => 'name',
-					'type_db'=>'varchar(30)', 'value' => $catname);
-			$Category['rating']=array('value' => $rank);
-			$Categories['Category'][]=$Category;
-			}
-		if (!isset($Categories['Category'])){		
-			$Category=array('label' => 'category', 'id_db' => ' ',
-					'table_db' => 'categorydef', 'field_db' => 'name',
-					'type_db'=>'varchar(30)', 'value' => ' ');
-			$Categories['Category'][]=$Category;
-			}
-		$Background['Categories']=$Categories;
-	   	$Background['Comment']=array('label' => 'comment', 
-				'table_db' => 'background', 'field_db' => 'detail',
-			   	'type_db'=>'blob', 'value' => $background['detail']);
-		$Backgrounds[]=$Background;
-		}
-	$Backgrounds=nullCorrect($Backgrounds);
-	$Student['Backgrounds']=$Backgrounds;
-
 /*******Incidents****/
 	$Incidents=array();
 	$d_incidents=mysql_query("SELECT * FROM incidents WHERE
@@ -459,53 +384,68 @@ function fetchStudent($sid){
 	$Incidents=nullCorrect($Incidents);
 	$Student['Incidents']=$Incidents;
 
-/*******Prizes****/
-	$Prizes=array();
-	$d_prizes=mysql_query("SELECT * FROM prizes WHERE
-				student_id='$sid' AND type='pri' ORDER BY entrydate DESC");
-	while($prize=mysql_fetch_array($d_prizes,MYSQL_ASSOC)){
-		$prize=nullCorrect($prize);
-		$Prize=array();
-		$Prize['id_db']=$prize['id'];
-	   	$Prize['Category']=array('label' => 'priority','table_db' =>
-				'prizes', 'field_db' => 'category',
-			   	'type_db'=>'smallint(5)', 'value' => $prize['category']);
-	   	$Prize['Detail']=array('label' => 'detail', 
-				'table_db' => 'prizes', 'field_db' => 'detail',
-			   	'type_db'=>'varchar(250)', 'value' => $prize['detail']);
-	   	$Prize['NCyear']=array('label' => 'year', 
-				'table_db' => 'prizes', 'field_db' => 'ncyear',
-			   	'type_db'=>'enum', 'value' => $prize['ncyear']);
-	   	$Prize['EntryDate']=array('label' => 'date', 
-				'table_db' => 'prizes', 'field_db' => 'entrydate',
-			   	'type_db'=>'date', 'value' => $prize['entrydate']);
-		$Prizes[]=$Prize;
-		}
-	$Prizes=nullCorrect($Prizes);
-	$Student['Prizes']=$Prizes;
 
-/*******Fails****/
-	$Fails=array();
-	$d_fails=mysql_query("SELECT * FROM background WHERE
-				student_id='$sid' AND type='fai' ORDER BY entrydate DESC");
-	while($fail=mysql_fetch_array($d_fails,MYSQL_ASSOC)){
-		$fail=nullCorrect($fail);
-		$Fail=array();
-		$Fail['id_db']=$fail['id'];
-	   	$Fail['Subject']=array('label' => 'subject', 
-				'table_db' => 'fails', 'field_db' => 'subject_id',
-			   	'type_db'=>'varchar(30)', 'value' => $fail['subject_id']);
-	   	$Fail['Detail']=array('label' => 'detail','table_db' => 'fails', 'field_db' => 'detail',
-					'type_db'=>'varchar(250)', 'value' => $fail['detail']);
-	   	$Fail['NCyear']=array('label' => 'year','table_db' => 'fails', 'field_db' => 'ncyear',
-					'type_db'=>'enum', 'value' => $fail['ncyear']);
-		$Fails[]=$Fail;
+	/*******Backgrounds****/
+	$Backgrounds=array();
+	$d_catdef=mysql_query("SELECT name AS tagname, 
+				subject_id AS background_type FROM categorydef WHERE 
+				type='ent' ORDER BY rating");
+	while($back=mysql_fetch_array($d_catdef,MYSQL_ASSOC)){
+		$type=$back['background_type'];
+		$tagname=ucfirst($back['tagname']);
+
+		$Entries=array();
+		$d_background=mysql_query("SELECT * FROM background WHERE 
+				student_id='$sid' AND type='$type' ORDER BY ncyear");
+		while($entry=mysql_fetch_array($d_background,MYSQL_ASSOC)){
+			$entry=nullCorrect($entry);
+			$Entry=array();
+			$Entry['id_db']=$entry['id'];
+			$Entry['Teacher']=array('label' => 'teacher', 
+					'table_db' => 'comments', 'field_db' => 'teacher_id',
+					'type_db'=>'varchar(14)', 'value' => $entry['teacher_id']);
+			$Categories=array();
+			$Categories=array('label' => 'category', 
+					'table_db' => 'comments', 'field_db' => 'category',
+					'type_db'=>'varchar(100)', 'value' => ' ');
+			$pairs=explode(';',$entry['category']);
+			for($c3=0; $c3<sizeof($pairs)-1; $c3++){
+				list($catid, $rank)=split(':',$pairs[$c3]);
+				$Category=array();
+				$d_categorydef=mysql_query("SELECT name FROM categorydef
+									WHERE id='$catid'");
+				$catname=mysql_result($d_categorydef,0);
+				$Category=array('label' => 'category', 'id_db' => $catid,
+					'table_db' => 'categorydef', 'field_db' => 'name',
+					'type_db'=>'varchar(30)', 'value' => $catname);
+				$Category['rating']=array('value' => $rank);
+				$Categories['Category'][]=$Category;
+				}
+			if (!isset($Categories['Category'])){		
+				$Category=array('label' => 'category', 'id_db' => ' ',
+					'table_db' => 'categorydef', 'field_db' => 'name',
+					'type_db'=>'varchar(30)', 'value' => ' ');
+				$Categories['Category'][]=$Category;
+				}
+			$Entry['Categories']=$Categories;
+			$Entry['EntryDate']=array('label' => 'date',
+			   'field_db' => 'category', 'type_db'=>'date', 
+				'value' => $entry['entrydate']);
+			$Entry['Detail']=array('label' => 'details', 
+			   'field_db' => 'detail', 'type_db'=>'varchar(250)', 
+				'value' => $entry['detail']);
+			$Entry['NCyear']=array('label' => 'year', 
+				   'field_db' => 'ncyear',
+					'type_db'=>'enum', 'value' => $entry['ncyear']);
+			$Entries[]=$Entry;
+			}
+		$Entries=nullCorrect($Entries);
+		$Backgrounds["$tagname"]=$Entries;
 		}
-	$Fails=nullCorrect($Fails);
-	$Student['Fails']=$Fails;
+
+	$Student['Backgrounds']=$Backgrounds;
 	return $Student;
 	}
-
 
 function fetchComments($sid,$date,$ncyear){
 	$Comments=array();

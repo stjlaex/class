@@ -1,7 +1,7 @@
 <?php
 /**									student_view.php
  *
- *	A composite view of all informaiton given one sid	
+ *	A composite view of all informaiton for one sid	
  */
 
 $action='student_view_action.php';
@@ -102,84 +102,34 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 		}
 ?>
 		  </tr>
+<?php
+	$Backgrounds=(array)$Student['Backgrounds'];
+	while(list($tagname,$Ents)=each($Backgrounds)){
+?>
 		  <tr>
 			<th>
-			  <a href="infobook.php?current=student_reports.php&cancel=student_view.php">
-				<?php print_string('subjectreports'); ?>
+			  <a
+	  href="infobook.php?current=ents_list.php&cancel=student_view.php&type=<?php print $tagname;?>"><?php print_string(strtolower($tagname),$book); ?>
 			  </a>
 			</th>
 <?php
-	$date='';
-/******************this is to be written!!!!!**
-	$Reports=fetchReports($sid,$date);
-	$Student['Comments']=$Comments;
-	$no=sizeof($Comments);
-	if(is_array($Comments[0])){
-		print "<td>".$no."</td>";
-		$Comment=$Comments[0];
-		print "<td>".$Comment['EntryDate']['value']."</td>";
-		$out=substr($Comment['Detail']['value'],0,30)."...";
-		print "<td>".$out."</td>";
-		}
-*/
+		$no=sizeof($Ents);
+		if(is_array($Ents[0])){
+			print '<td>'.$no.'</td>';
+			$Ent=$Ents[0];
+			print '<td>'.$Ent['EntryDate']['value'].'</td>';
+			$out=substr($Ent['Detail']['value'],0,30).'...';
+			print '<td>'.$out.'</td>';
+			}
 ?>
 		  </tr>
-		  <tr>
-			<th>
-			  <a href="infobook.php?current=exclusions_list.php&type=exclusions&cancel=student_view.php">
-				<?php print_string('exclusions',$book); ?>
-			  </a>
-			</th>
-<?php	
-	$Exclusions=$Student['Exclusions'];
-	$no=sizeof($Exclusions);
-	if(is_array($Exclusions[0])){
-		print '<td>'.$no.'</td>';
-		$Exclusion=$Exclusions[0];
-		print '<td>'.$Exclusion['StartDate']['value'].'</td>';
-		$out=substr($Exclusion['Reason']['value'],0,30).'...';
-		print '<td>'.$out.'</td>';
-		}
-?>
-		  </tr>
-		  <tr>
-			<th>
-			  <a href="infobook.php?current=ents_list.php&cancel=student_view.php&type=pri">
-				<?php print_string('prizes',$book); ?>
-			  </a>
-			</th>
 <?php
-	$Prizes=$Student['Prizes'];
-	$no=sizeof($Prizes);
-	if(is_array($Prizes[0])){
-		print '<td>'.$no.'</td>';
-		$Prize=$Prizes[0];
-		print '<td>'.$Prize['NCyear']['value'].'</td>';
-		$out=substr($Prize['Detail']['value'],0,30).'...';
-		print '<td>'.$out.'</td>';
 		}
 ?>
-		  </tr>
-		  <tr>
-			<th>
-			  <a href="infobook.php?current=ents_list.php&cancel=student_view.php&type=fai"> 
-				<?php print_string('fails',$book); ?>
-			  </a>
-			</th>
-<?php	
-	$Fails=$Student['Fails'];
-	$no=sizeof($Fails);
-	if(is_array($Fails[0])){
-		print '<td>'.$no.'</td>';
-		$Fail=$Fails[0];
-		print '<td>'.$Fail['NCyear']['value'].'</td>';
-		print '<td>'.$Fail['Subject']['value'].'</td>';
-		}
-?>
-		  </tr>
 		</table>
 	  </div>
-<?php 	
+
+<?php
 	$Contacts=(array)$Student['Contacts'];
 ?>
 	  <div class="right">
@@ -218,29 +168,49 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 		</table>
 	  </div>
 
+	  <div class="left">
 	  <fieldset class="left">
 		<legend>
-		  <a href="infobook.php?current=ents_list.php&cancel=student_view.php&type=bac">
-			<img class="clicktoedit" title="<?php print_string('edit');?>" />
-		  </a>
-		  <?php print_string('background',$book);?>
+		  <?php print_string('reports',$book);?>
 		</legend>
 		<table>
 		  <tr>
-<?php	
-	$Backgrounds=$Student['Backgrounds'];
-	$no=sizeof($Backgrounds);
-	if(is_array($Backgrounds[0])){
-		$Background=$Backgrounds[0];
-		print '<td>Last entry<br />'.$Background['EntryDate']['value'].'</td>';
-		}
-	else{print_string('noinfo',$book);}
-?>
+			  <a href="infobook.php?current=student_reports.php&cancel=student_view.php">
+				<?php print_string('subjectreports'); ?>
+			  </a>
 		  </tr>
 		</table>
 	  </fieldset>
 
+	  <fieldset class="right">
+		<legend>
+		  <a href="infobook.php?current=exclusions_list.php&cancel=student_view.php">
+			<img class="clicktoedit" title="<?php print_string('edit');?>" />
+		  </a>
+		  <?php print_string('exclusions',$book);?>
+		</legend>
+<?php	
+		if(is_array($Student['Exclusions'][0])){print_string('infoavailable',$book);}
+		else{print_string('noinfo',$book);}
+?>
+	  </fieldset>
+
+	  </div>
+
+	  <div class="left">
 	  <fieldset class="left">
+		<legend>
+		  <a href="infobook.php?current=student_view_sen.php&cancel=student_view.php">
+			<img class="clicktoedit" title="<?php print_string('edit');?>" />
+		  </a>
+		<?php print_string('sen',$book);?></legend>
+<?php	
+		if($Student['SENFlag']['value']=='Y'){print_string('infoavailable',$book);}
+		else{print 'Not SEN';}
+?>
+	  </fieldset>
+
+	  <fieldset class="right">
 		<legend>
 		  <a href="infobook.php?current=student_view_medical.php&cancel=student_view.php">
 			<img class="clicktoedit" title="<?php print_string('edit');?>" />
@@ -253,17 +223,7 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 ?>
 	  </fieldset>
 
-	  <fieldset class="left">
-		<legend>
-		  <a href="infobook.php?current=student_view_sen.php&cancel=student_view.php">
-			<img class="clicktoedit" title="<?php print_string('edit');?>" />
-		  </a>
-		<?php print_string('sen',$book);?></legend>
-<?php	
-		if($Student['SENFlag']['value']=='Y'){print_string('infoavailable',$book);}
-		else{print 'Not SEN';}
-?>
-	  </fieldset>
+	  </div>
 
 
 	  <input type="hidden" name="current" value="<?php print $action;?>">

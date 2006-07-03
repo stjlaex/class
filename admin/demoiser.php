@@ -244,8 +244,7 @@ function generate_random_name($gender){
 		}
 
 	$table='reportentry';
-	if(mysql_query("UPDATE $table SET comment='A constuctive comment
-	from a subject teacher.'")){$error[]=mysql_error();}
+	if(mysql_query("UPDATE $table SET comment='A constructive comment from a subject teacher.'")){$error[]=mysql_error();}
 
 	$table='score';
 	if(mysql_query("UPDATE $table SET comment=''")){$error[]=mysql_error();}

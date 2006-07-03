@@ -6,14 +6,14 @@ $current='ents_list.php';
 $action='ents_list_action.php';
 $host='infobook.php';
 
-$type=$_GET{'type'};
+$tagname=$_GET{'type'};
 
 if(isset($_GET{'bid'})){$bid=$_GET{'bid'};}
 
 three_buttonmenu();
 ?>
   <div id="heading">
-	<label><?php print_string("$table",$book);?></label>
+	<label><?php print_string('student',$book);?></label>
 	<?php print $Student['DisplayFullName']['value'];?>
   </div>
 
@@ -24,7 +24,7 @@ three_buttonmenu();
 		<textarea name="detail" id="Details" rows="5" cols="40"></textarea>
 	  </div>
 <?php
-if($type=='bac'){
+if($tagname=='Background'){
 ?>
 	  <div class="left" >
 		<label for="Category"><?php print_string('source',$book);?></label>
@@ -63,15 +63,14 @@ else{
   <div class="content">
 	<div class="center">
 	  <table class="listmenu">
-		<caption><?php print_string('entries',$book);?></caption>
+		<caption><?php print_string(strtolower($tagname),$book);?></caption>
 <?php
-	$yid=$Student['NCyearActual']['id_db'];
 	$perm=getYearPerm($yid, $respons);
-	$list=$Student["$title"];
+	$Entries=$Student['Backgrounds']["$tagname"];
 	$entryno=0;
-	if(is_array($list)){
-	while(list($key,$entry)=each($list)){
-		if($title=='Backgrounds' and $entry['Categories']['Category'][0]['rating']=='-1'
+	if(is_array($Entries)){
+	while(list($key,$entry)=each($Entries)){
+		if($tagname=='Background' and $entry['Categories']['Category'][0]['rating']=='-1'
 					and $perm['r']!=1){$entry['Comment']['value']='Confidential';}
 		if(is_array($entry)){
             print '<tr>';
@@ -90,6 +89,7 @@ else{
 		}
 	}
 ?>
+<tr><td></td></tr>
 	  </table>
 	</div>
   </div>

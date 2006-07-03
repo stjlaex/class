@@ -1,21 +1,21 @@
 The ClaSS README
 ----------------
 
-ClaSS-0.6 is a working, useable version of what is to be a complete
+ClaSS is a working, useable version of what is to be a complete
 classroom information assistant for schools.
 
 You are referred to the ClaSS home-page http://www.laex.org/class/ for
 more information and documentation. Please email class@laex.org with
 questions, requests for support, installation help etc. You can also
 use the integrated suppoprt forms in the AboutBook to post queries
-from inside ClaSS.
+to the development team from inside ClaSS.
 
 Look at the README in the subdiretory class/install for instructions
 to guide you through the installation procedure.
 
 If you already have an install of ClaSS runnning then you'll need to
-migrate your database across to 0.6 by applying the sql-patch script.
-This is also found in the install directory.
+migrate your database across by applying the sql-patch scripts in the
+install directory.
 
 Please do let class@laex.org know if you find this software useful (or
 not useful!). All feedback is valued and will help speed the

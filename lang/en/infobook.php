@@ -30,6 +30,7 @@ $string['modeoftransport']='Mode of transport';
 $string['transportroute']='Transport route';
 $string['exclusions']='Exclusions';
 $string['prizes']='Prizes';
+$string['activities']='Activities';
 $string['nostudentsfoundtryanothersearch']='No students found. Please try another search!';
 $string['informationnotobtained']='Information not obtained';
 $string['']='';
