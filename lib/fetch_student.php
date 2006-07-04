@@ -72,18 +72,14 @@ function fetchStudent($sid){
 	attributes facilitating updates to the database when values are
 	changed (the type_db for instance facilitates validation).
 
-	$Student['xmltag']=array('label' => 'Display label','table_db' => '', 'field_db' =>
+	$Student['xmltag']=array('label' => 'Display label', 'field_db' =>
 				'ClaSSdb field name', 'type_db'=>'ClaSSdb data-type', 'value' => $student['field_db']);
 
-	The table from which the values are pulled are generally
-	identifiable by the array in which they are stored (eg. address,
-	student etc.) but table_db is avaiable if needed.
 
-
-   	$Student['']=array('label' => '','table_db' => '', 'field_db' => '',
+   	$Student['']=array('label' => '', 'field_db' => '',
 					'type_db'=>'', 'value' => $student['']);
-
 */
+
 	$Student['id_db']=$sid;
 	
 	$Student['Surname']=array('label' => 'surname', 
@@ -337,16 +333,12 @@ function fetchStudent($sid){
 		$exclusions=nullCorrect($exclusions);
 		$Exclusion=array();
 	   	$Exclusion['Category']=array('label' => 'category', 
-					'table_db' => 'exclusions', 'field_db' => 'category',
 					'type_db'=>'enum', 'value' => $exclusion['category']);
 	   	$Exclusion['StartDate']=array('label' => 'startdate', 
-					'table_db' => 'exclusions', 'field_db' => 'startdate',
 					'type_db'=>'date', 'value' => $exclusion['startdate']);
 	   	$Exclusion['EndDate']=array('label' => 'enddate', 
-					'table_db' => 'exclusions', 'field_db' => 'enddate',
 					'type_db'=>'date', 'value' => $exclusion['enddate']);
 	   	$Exclusion['Reason']=array('label' => 'reason', 
-					'table_db' => 'exclusions', 'field_db' => 'reason',
 					'type_db'=>'varchar(60)', 'value' => $exclusion['reason']);
 		$Exclusions[]=$Exclusion;
 		}
@@ -361,23 +353,17 @@ function fetchStudent($sid){
 		$incident=nullCorrect($incident);
 		$Incident=array();
 		$Incident['id_db']=$incident['id'];
-	   	$Incident['Category']=array('label' => 'category', 'table_db'
-					=> 'incidents', 'field_db' => 'category',
+	   	$Incident['Category']=array('label' => 'category', 
 					'type_db' => 'varchar(30)', 'value' => $incident['category']);
 	   	$Incident['Detail']=array('label' => 'detail', 
-				'table_db' => 'incidents', 'field_db' => 'detail',
 				'type_db'=>'varchar(250)', 'value' => $incident['detail']);
 	   	$Incident['Subject']=array('label' => 'subject', 
-				'table_db' => 'incidents', 'field_db' => 'subject',
 			   	'type_db'=>'varchar(10)', 'value' => $incident['subject_id']);
 	   	$Incident['Outcome']=array('label' => 'outcome', 
-				'table_db' => 'incidents', 'field_db' => 'outcome',
 			   	'type_db'=>'varchar(200)', 'value' => $incident['outcome']);
 	   	$Incident['EntryDate']=array('label' => 'date', 
-				'table_db' => 'incidents', 'field_db' => 'entrydate',
 			   	'type_db'=>'date', 'value' => $incident['entrydate']);
 	   	$Incident['NCyear']=array('label' => 'year', 
-				'table_db' => 'incidents', 'field_db' => 'ncyear',
 			   	'type_db'=>'enum', 'value' => $incident['ncyear']);
 		$Incidents[]=$Incident;
 		}
@@ -402,11 +388,9 @@ function fetchStudent($sid){
 			$Entry=array();
 			$Entry['id_db']=$entry['id'];
 			$Entry['Teacher']=array('label' => 'teacher', 
-					'table_db' => 'comments', 'field_db' => 'teacher_id',
 					'type_db'=>'varchar(14)', 'value' => $entry['teacher_id']);
 			$Categories=array();
 			$Categories=array('label' => 'category', 
-					'table_db' => 'comments', 'field_db' => 'category',
 					'type_db'=>'varchar(100)', 'value' => ' ');
 			$pairs=explode(';',$entry['category']);
 			for($c3=0; $c3<sizeof($pairs)-1; $c3++){
@@ -415,27 +399,32 @@ function fetchStudent($sid){
 				$d_categorydef=mysql_query("SELECT name FROM categorydef
 									WHERE id='$catid'");
 				$catname=mysql_result($d_categorydef,0);
-				$Category=array('label' => 'category', 'id_db' => $catid,
-					'table_db' => 'categorydef', 'field_db' => 'name',
+				$Category=array('label' => 'category', 'value_db' => $catid,
 					'type_db'=>'varchar(30)', 'value' => $catname);
 				$Category['rating']=array('value' => $rank);
 				$Categories['Category'][]=$Category;
 				}
 			if (!isset($Categories['Category'])){		
-				$Category=array('label' => 'category', 'id_db' => ' ',
-					'table_db' => 'categorydef', 'field_db' => 'name',
+				$Category=array('label' => 'category', 'value_db' => ' ',
 					'type_db'=>'varchar(30)', 'value' => ' ');
 				$Categories['Category'][]=$Category;
 				}
 			$Entry['Categories']=$Categories;
 			$Entry['EntryDate']=array('label' => 'date',
-			   'field_db' => 'category', 'type_db'=>'date', 
 				'value' => $entry['entrydate']);
 			$Entry['Detail']=array('label' => 'details', 
-			   'field_db' => 'detail', 'type_db'=>'varchar(250)', 
+			   'type_db'=>'varchar(250)', 
 				'value' => $entry['detail']);
+			$bid=$entry['subject_id'];
+			if($bid!=' '){
+				$d_subject=mysql_query("SELECT name FROM subject WHERE id='$bid'");
+				$subjectname=mysql_result($d_subject,0);
+				}
+			else{$subjectname=$bid;}
+			$Entry['Subject']=array('label' => 'subject', 
+			   'type_db'=>'varchar(15)', 
+				'value_db' => $bid, 'value' => $subjectname);
 			$Entry['NCyear']=array('label' => 'year', 
-				   'field_db' => 'ncyear',
 					'type_db'=>'enum', 'value' => $entry['ncyear']);
 			$Entries[]=$Entry;
 			}
@@ -466,7 +455,7 @@ function fetchComments($sid,$date,$ncyear){
 			}
 		else{$subjectname=$bid;}
 	   	$Comment['Subject']=array('label' => 'subject',
-					'id' => $bid, 'value' => $subjectname);
+					'value_db' => $bid, 'value' => $subjectname);
 	   	$Comment['Teacher']=array('label' => 'teacher', 
 					 'value' => $comment['teacher_id']);
 		$Categories=array();
@@ -486,19 +475,15 @@ function fetchComments($sid,$date,$ncyear){
 			}
 		if (!isset($Categories['Category'])){		
 			$Category=array('label' => ' ', 
-					'table_db' => 'categorydef', 'field_db' => 'name',
 					'type_db'=>'varchar(30)', 'value' => ' ');
 			$Categories['Category'][]=$Category;
 			}
 		$Comment['Categories']=$Categories;
 	   	$Comment['Detail']=array('label' => 'detail', 
-					'table_db' => 'comments', 'field_db' => 'detail',
 					'type_db'=>'varchar(250)', 'value' => $comment['detail']);
 	   	$Comment['EntryDate']=array('label' => 'date', 
-					'table_db' => 'comments', 'field_db' => 'entrydate',
 					'type_db'=>'date', 'value' => $comment['entrydate']);
 	   	$Comment['NCyear']=array('label' => 'year', 
-					'table_db' => 'comments', 'field_db' => 'ncyear',
 					'type_db'=>'enum', 'value' => $comment['ncyear']);
 		$Comments[]=$Comment;
 		}

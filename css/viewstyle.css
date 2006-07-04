@@ -118,9 +118,9 @@ fieldset {
 div {
 	overflow:hidden; 
 	}
-div.hidden {  
+div.hidden {
 	display:none;
-	border:0;
+	border:0;margin:0;padding:0;
 	}
 /*the two possible econtainer divs for each book, one after login and one for before*/
 div#bookbox {
@@ -358,21 +358,23 @@ td.hidden {
 	display:none;
 	}
 
-/*tinytabs*/
-.tinytabs {
-    width:100%;
+/***********tinytabs*******/
+div.tinytabs {
     font-size:90%;
     line-height:normal;
 	}
+div.tinytab-display {
+    overflow:auto;
+	}
 .tinytabs ul {
-    padding:0;
     list-style:none;
     }
 .tinytabs li {
     float:right;
+    height:40px;
     }
 .tinytabs li p {
-    padding:4px 12px 4px 8px;
+    padding:4px 12px 20px 8px;
 	font-weight:900;
     color:#ffffff;
 	background-color:#888888;
@@ -384,10 +386,6 @@ td.hidden {
     color:#000000;
     background-color:#ffffee;
     }
-div.tinytab-display {
-    overflow:auto;
-    height:82%;
-	}
 
 /*some general colors used across all books*/
 .negative {

@@ -40,7 +40,6 @@ include('scripts/sub_action.php');
 		detail='$detail', entrydate='$entrydate', ncyear='$ncyear',
 		subject_id='$bid', category='$category', teacher_id='$tid'
 		WHERE id='$id'")){
-		$result[]='Comment recorded.';
 		}
 		else{$error[]=mysql_error();}
 		}
@@ -48,7 +47,6 @@ include('scripts/sub_action.php');
 		if(mysql_query("INSERT INTO comments SET student_id='$sid',
 		detail='$detail', entrydate='$entrydate', ncyear='$ncyear',
 		subject_id='$bid', category='$category', teacher_id='$tid'")){
-		$result[]='Comment recorded.';
 		}
 		else{$error[]=mysql_error();}
 		}

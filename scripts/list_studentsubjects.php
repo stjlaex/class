@@ -7,7 +7,7 @@
 	if(!isset($required)){$required='yes';}
 	if(!isset($multi)){$multi='1';}
 
-   	$d_subject=mysql_query("SELECT DISTINCT subject_id FROM
+   	$d_class=mysql_query("SELECT DISTINCT subject_id FROM
 				class JOIN cidsid ON class.id=cidsid.class_id WHERE
 				cidsid.student_id='$sid'");
 ?>
@@ -20,10 +20,13 @@
    	<option value="%" 
 		<?php if(!isset($bid)){print "selected='selected'";}?> >General</option>
 <?php
-	while($subject=mysql_fetch_array($d_subject,MYSQL_ASSOC)){
+	while($subject=mysql_fetch_array($d_class,MYSQL_ASSOC)){
+		$newbid=$subject['subject_id'];
+		$d_subject=mysql_query("SELECT name FROM subject WHERE id='$newbid'");
+		$subjectname=mysql_result($d_subject,0);
 		print '<option ';
-		if(isset($bid)){if($bid==$subject{'subject_id'}){print 'selected="selected"';}}
-		print ' value="'.$subject{'subject_id'}.'">'.$subject{'subject_id'}.'</option>';
+		if(isset($bid)){if($bid==$newbid){print 'selected="selected"';}}
+		print ' value="'.$newbid.'">'.$subjectname.'</option>';
 		}
 ?>			
 </select>

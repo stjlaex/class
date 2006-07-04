@@ -1,9 +1,9 @@
 <?php
-/**									student_view_contact.php
- *	Displays contact details in a form for possible editing.
+/**									contact_details.php
+ *
  */
 
-$action='student_view_contact1.php';
+$action='contact_details_action.php';
 $cancel='student_view.php';
 
 include('scripts/sub_action.php');
@@ -11,7 +11,7 @@ include('scripts/sub_action.php');
 if(isset($_GET{'contactno'})){$contactno=$_GET{'contactno'};}
 else{$contactno=$_POST{'contactno'};}
 
-$Contact=$Student['Contacts'][$contactno];
+if($contactno!='-1'){$Contact=$Student['Contacts'][$contactno];}
 	
 /*Check user has permission to view*/
 $yid=$Student['NCyearActual']['id_db'];
@@ -19,14 +19,13 @@ $contactgid=$Student['Contacts'][$contactno]['id_db'];
 $perm=getYearPerm($yid,$respons);
 include('scripts/perm_action.php');
 
-three_buttonmenu();
+$extrabuttons['removecontact']=array('name'=>'sub','value'=>'Delete Checked');
+three_buttonmenu($extrabuttons);
 ?>
   <div class="content">
 	<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
-	  <button onClick="processContent(this);" name="sub"  value="Delete Checked">Delete&nbsp;Checked</button>
-
 	  <fieldset class="center">
-		<legend>Contact details</legend>
+		<legend><?php print_string('contactdetails',$book);?></legend>
 		<table>
 <?php	
 	$in=0;
@@ -63,16 +62,12 @@ three_buttonmenu();
 	  </fieldset>
 	
 	  <fieldset class="center">
-		<legend>Contact address</legend>
-		<button onClick="processContent(this);" name="sub" value="New Address">New&nbsp;Address</button>
+		<legend><?php print_string('contactaddress',$book);?></legend>
 		<table>
-
 <?php	
 	$Addresses=$Contact['Addresses'];
 	if(!is_array($Addresses)){$Addresses=array();}
 	while(list($addressno,$Address)=each($Addresses)){
-		
-/*	Generate a seperate input area for each contact address... within a table*/
 ?>
 		  <tr>
 			<th valign="top">
@@ -80,8 +75,8 @@ three_buttonmenu();
 				<tr>
 				  <th colspan="2">
 					<label>Select this address:</label>
-					<input type="checkbox" name="unaids[]" value="<?php print
-					$Address['id_db']; ?>" />
+					<input type="checkbox" name="unaids[]" 
+					  value="<?php print $Address['id_db']; ?>" />
 				  </th>
 				</tr>
 <?php
@@ -122,8 +117,7 @@ three_buttonmenu();
 			  <table>	
 			
 <?php
-/*				find other contacts who share this address
-*/
+/*				find other contacts who share this address*/
 				$aid=$Address['id_db'];
 				$d_gidaid=mysql_query("SELECT * FROM gidaid WHERE address_id='$aid'");
 ?>
@@ -175,15 +169,12 @@ three_buttonmenu();
 ?>
 
 	  <fieldset class="center">
-		<legend>Phone-numbers</legend>
-		<button onClick="processContent(this);" name="sub" value="New Phone">New&nbsp;Phone</button>
-
+		<legend><?php print_string('contactphones',$book);?></legend>
 		<table>
-
 <?php	
 	while(list($phoneno,$Phone)=each($Phones)){
 		$pid=$Phone['id_db'];
-?>		
+?>
 		  <tr>
 			<th>
 			  <table>

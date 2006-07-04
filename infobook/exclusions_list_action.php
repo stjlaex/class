@@ -52,6 +52,15 @@ include('scripts/sub_action.php');
 		}
 		else{$error[]=mysql_error();}
 		}
+	elseif($table=='exclusions'){
+		$enddate = $_POST['date2'];
+		$category=$_POST{'category'};
+		if(mysql_query("INSERT INTO $table SET student_id='$sid',
+		reason='$detail', startdate='$entrydate',
+		enddate='$enddate', category='$category'")){}
+		else{$error[]=mysql_error();}
+		$result[]='Exclusion recorded.';
+		}
 
 $_SESSION{'Student'}=fetchStudent($sid);
 include('scripts/results.php');

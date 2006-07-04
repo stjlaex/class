@@ -1,5 +1,5 @@
 <?php
-/**									student_view_contact1.php
+/**									contact_details_action.php
  *
  */
 

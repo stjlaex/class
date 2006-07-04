@@ -109,7 +109,7 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 		  <tr>
 			<th>
 			  <a
-	  href="infobook.php?current=ents_list.php&cancel=student_view.php&type=<?php print $tagname;?>"><?php print_string(strtolower($tagname),$book); ?>
+	  href="infobook.php?current=ents_list.php&cancel=student_view.php&tagname=<?php print $tagname;?>"><?php print_string(strtolower($tagname),$book); ?>
 			  </a>
 			</th>
 <?php
@@ -133,73 +133,108 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 	$Contacts=(array)$Student['Contacts'];
 ?>
 	  <div class="right">
-		<table class="listmenu">
-		  <caption><?php print_string('contacts',$book);?></caption>
+		<div class="tinytabs" id="contact" style="">
+			<ul>
 <?php
-	while(list($contactno,$Contact)=each($Contacts)){
-		$gid=$Contact['id_db'];
+		$n=0;
+		while(list($contactno,$Contact)=each($Contacts)){
+			$gid=$Contact['id_db'];
+			$relation=displayEnum($Contact['Relationship']['value'],$Contact['Relationship']['field_db']);
 ?>
-		  <tr>
-			<td>
-			  <label><?php print_string($Contact['Order']['label'],$book);?></label>
-			       <?php print $Contact['Order']['value'];?>
-			</td>
-			<td>
-			  <a href="infobook.php?current=student_view_contact.php&cancel=student_view.php&contactno=<?php print $contactno;?>">
+			<li id="<?php print 'tinytab-contact-'.$relation;?>"><p 
+		<?php if($n==0){ print ' id="current-tinytab" ';}?>
+		class="<?php print $relation;?>"
+		onclick="tinyTabs(this)"><?php print $relation;?></p></li>
+
+			<div class="hidden" id="tinytab-xml-contact-<?php print $relation;?>">
+			  <table class="listmenu">
+				<tr>
+				  <td>
+					<label><?php print_string($Contact['Order']['label'],$book);?></label>
+					<?php print $Contact['Order']['value'];?>
+				  </td>
+				  <td>
+			  <a href="infobook.php?current=contact_details.php&cancel=student_view.php&contactno=<?php print $contactno;?>">
 				<img class="clicktoedit" title="<?php print_string('edit');?>" />
 			  </a>
 		<?php print $Contact['Forename']['value'].' '. $Contact['Surname']['value'];?>
-			</td>
-			<td>
-			  <?php print displayEnum($Contact['Relationship']['value'],$Contact['Relationship']['field_db']);?>
-			</td>
-			<td>
+				  </td>
+				  <td>
+				  </td>
+				  <td>
 <?php
 		$Phones=$Contact['Phones'];
 		while(list($phoneno,$Phone)=each($Phones)){
 	    	print '<label>'.get_string(displayEnum($Phone['PhoneType']['value'],$Phone['PhoneType']['field_db']),$book).'</label>'.$Phone['PhoneNo']['value'].'<br />';				
 			}
 ?>
-			</td>
-		  </tr>	
+				  </td>
+				</tr>
+			  </table>
+			</div>
 <?php
-		}
+			$n++;
+			}
+		$relation='newentry';
 ?>
-		</table>
+			<li id="<?php print 'tinytab-contact-'.$relation;?>"><p 
+				<?php if($n==0){ print ' id="current-tinytab" ';}?>
+				class="<?php print $relation;?>"
+				onclick="tinyTabs(this)"><?php print $relation;?></p></li>
+			<div class="hidden" id="tinytab-xml-contact-<?php print $relation;?>">
+			  <table class="listmenu">
+				<tr>
+				  <td>&nbsp
+				  </td>
+				  <td>
+			  <a href="infobook.php?current=contact_details.php&cancel=student_view.php&contactno=-1">
+				<img class="clicktoedit" title="<?php print_string('edit');?>" />
+			  </a>
+				  </td>
+				  <td>
+					<?php print_string('addnewcontact',$book);?>
+				  </td>
+				</tr>
+			  </table>
+			</div>
+
+		  </ul>
+		</div>
+		<div id="tinytab-display-contact" class="tinytab-display">
+		</div>
 	  </div>
 
 	  <div class="left">
-	  <fieldset class="left">
-		<legend>
-		  <?php print_string('reports',$book);?>
-		</legend>
-		<table>
-		  <tr>
+		<fieldset class="left">
+		  <legend>
+			<?php print_string('reports',$book);?>
+		  </legend>
+		  <table>
+			<tr>
 			  <a href="infobook.php?current=student_reports.php&cancel=student_view.php">
 				<?php print_string('subjectreports'); ?>
 			  </a>
-		  </tr>
-		</table>
-	  </fieldset>
+			</tr>
+		  </table>
+		</fieldset>
 
-	  <fieldset class="right">
-		<legend>
+		<fieldset class="right">
+		  <legend>
 		  <a href="infobook.php?current=exclusions_list.php&cancel=student_view.php">
 			<img class="clicktoedit" title="<?php print_string('edit');?>" />
 		  </a>
-		  <?php print_string('exclusions',$book);?>
-		</legend>
+			  <?php print_string('exclusions',$book);?>
+		  </legend>
 <?php	
 		if(is_array($Student['Exclusions'][0])){print_string('infoavailable',$book);}
 		else{print_string('noinfo',$book);}
 ?>
-	  </fieldset>
-
+		</fieldset>
 	  </div>
 
 	  <div class="left">
-	  <fieldset class="left">
-		<legend>
+		<fieldset class="left">
+		  <legend>
 		  <a href="infobook.php?current=student_view_sen.php&cancel=student_view.php">
 			<img class="clicktoedit" title="<?php print_string('edit');?>" />
 		  </a>
@@ -208,23 +243,21 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 		if($Student['SENFlag']['value']=='Y'){print_string('infoavailable',$book);}
 		else{print 'Not SEN';}
 ?>
-	  </fieldset>
-
-	  <fieldset class="right">
-		<legend>
+		</fieldset>
+		
+		<fieldset class="right">
+		  <legend>
 		  <a href="infobook.php?current=student_view_medical.php&cancel=student_view.php">
 			<img class="clicktoedit" title="<?php print_string('edit');?>" />
 		  </a>
 		  <?php print_string('medical',$book);?>
-		</legend>	
+		  </legend>	
 <?php	
 		if($Student['MedicalFlag']['value']=='Y'){print_string('infoavailable',$book);}
 		else{print_string('noinfo',$book);}
 ?>
-	  </fieldset>
-
+		</fieldset>
 	  </div>
-
 
 	  <input type="hidden" name="current" value="<?php print $action;?>">
 	  <input type="hidden" name="cancel" value="<?php print 'student_list.php';?>">

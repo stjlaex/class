@@ -169,7 +169,7 @@ function fillxmlTable(recordId, xmlRecord){
 	        var xmlvalue=xmlRecord.nodeValue;
 			fieldId=recordId+'-'+xmltag;
 			if(document.getElementById(fieldId)){
-				document.getElementById(fieldId).firstChild.data = xmlvalue;
+				document.getElementById(fieldId).firstChild.data=xmlvalue;
 				}
 			}
 		}
@@ -177,7 +177,11 @@ function fillxmlTable(recordId, xmlRecord){
 
 
 //-------------------------------------------------------
-// uses the id to refer to an input field and replace its value
+// uses the html field id to refer to an input field and replace its value
+// does this for the xml value contained by VALUE or VALUE_ID where the display
+// VALUE is different from the stored database value
+// ID_DB is the special, hidden form field, which must be the unique identifier
+// for the record in the database record
 
 function fillxmlForm(xmlRecord){
 	var test='';
@@ -188,11 +192,11 @@ function fillxmlForm(xmlRecord){
 		}
     else{
 		var xmltag=xmlRecord.parentNode.tagName;
-		if(xmltag=='VALUE'){
-			var xmltag = xmlRecord.parentNode.parentNode.tagName;
+		if(xmltag=='VALUE' || xmltag=='VALUE_DB'){
+			var xmltag=xmlRecord.parentNode.parentNode.tagName;
 	        var xmlvalue=xmlRecord.nodeValue;
 			fieldId=makeLabel(xmltag);
-			//test=xmltag + ' : ' + xmlvalue + ' <br /> ';
+			//test=xmltag + ' : ' + xmlvalue;
 			if(document.getElementById(fieldId)){
 				document.getElementById(fieldId).value=xmlvalue;
 				}
@@ -200,9 +204,9 @@ function fillxmlForm(xmlRecord){
 		else if(xmltag=='ID_DB'){
 	        var xmlvalue=xmlRecord.nodeValue;
 			fieldId=makeLabel(xmltag);
-			//test=xmltag + ' : ' + xmlvalue + ' <br /> ';
+			//test=xmltag + ' : ' + xmlvalue;
 			if(document.getElementById(fieldId)){
-				document.getElementById(fieldId).value = xmlvalue;
+				document.getElementById(fieldId).value=xmlvalue;
 				}
 			}
 		}
@@ -212,9 +216,9 @@ function fillxmlForm(xmlRecord){
 function makeLabel(xmltag){
 	// the id of the form element is expected to be first-letter capitalised only
 	// ie. does not follow the xml capitalisation!
-	var lower = xmltag.toLowerCase();
-	var upper = xmltag.toUpperCase();
-	var label = upper.substring(0,1) + lower.substring(1,lower.length);
+	var lower=xmltag.toLowerCase();
+	var upper=xmltag.toUpperCase();
+	var label=upper.substring(0,1) + lower.substring(1,lower.length);
 	return label;
 	}
 

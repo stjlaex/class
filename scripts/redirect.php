@@ -55,6 +55,11 @@ if(isset($selbid)){
 	 	<input type="hidden" name="selbid" value="<?php print $selbid;?>">
 <?php
 	}
+if(isset($tagname)){
+?>
+	 	<input type="hidden" name="tagname" value="<?php print $tagname;?>">
+<?php
+	}
 if(isset($selcrid)){
 ?>
 	 	<input type="hidden" name="selcrid" value="<?php print $selcrid;?>">
