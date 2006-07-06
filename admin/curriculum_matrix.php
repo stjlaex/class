@@ -61,7 +61,6 @@ three_buttonmenu();
    		print '</tr>';
 		$c++;
 		}
-
 ?>
 </table>
 

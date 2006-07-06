@@ -46,7 +46,7 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 		  <tr>
 			<td>
 			  <label><?php print_string($Student['TransportMode']['label'],$book);?></label> 
-		  <?php displayEnum($Student['TransportMode']['value'],$Student['TransportMode']['field_db']);?>
+		  <?php print_string(displayEnum($Student['TransportMode']['value'],$Student['TransportMode']['field_db']),$book);?>
 			</td>
 			<td>
 			  <label><?php print_string($Student['TransportRoute']['label'],$book);?></label>
@@ -138,21 +138,24 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 <?php
 		$n=0;
 		while(list($contactno,$Contact)=each($Contacts)){
+			if($Contact['id_db']!=' '){
 			$gid=$Contact['id_db'];
-			$relation=displayEnum($Contact['Relationship']['value'],$Contact['Relationship']['field_db']);
+			$relation=displayEnum($Contact['Relationship']['value'],'relationship');
 ?>
 			<li id="<?php print 'tinytab-contact-'.$relation;?>"><p 
 		<?php if($n==0){ print ' id="current-tinytab" ';}?>
 		class="<?php print $relation;?>"
-		onclick="tinyTabs(this)"><?php print $relation;?></p></li>
+		onclick="tinyTabs(this)"><?php print_string($relation,$book);?></p></li>
 
 			<div class="hidden" id="tinytab-xml-contact-<?php print $relation;?>">
 			  <table class="listmenu">
 				<tr>
-				  <td>
+				  <td colspan="3">
 					<label><?php print_string($Contact['Order']['label'],$book);?></label>
-					<?php print $Contact['Order']['value'];?>
+					<?php print_string(displayEnum($Contact['Order']['value'],'priority'),$book);?>
 				  </td>
+				</tr>
+				<tr>
 				  <td>
 			  <a href="infobook.php?current=contact_details.php&cancel=student_view.php&contactno=<?php print $contactno;?>">
 				<img class="clicktoedit" title="<?php print_string('edit');?>" />
@@ -175,15 +178,20 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 <?php
 			$n++;
 			}
-		$relation='newentry';
+			}
+		$relation='newcontact';
 ?>
 			<li id="<?php print 'tinytab-contact-'.$relation;?>"><p 
 				<?php if($n==0){ print ' id="current-tinytab" ';}?>
 				class="<?php print $relation;?>"
-				onclick="tinyTabs(this)"><?php print $relation;?></p></li>
+				onclick="tinyTabs(this)"><?php print_string($relation,$book);?></p></li>
 			<div class="hidden" id="tinytab-xml-contact-<?php print $relation;?>">
 			  <table class="listmenu">
 				<tr>
+				<tr>
+				  <td colspan="3">&nbsp
+				  </td>
+				</tr>
 				  <td>&nbsp
 				  </td>
 				  <td>

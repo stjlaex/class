@@ -89,8 +89,8 @@ function clean_text($value){
 	$replace=array("'","'",'"','"','-','-');
 	$value=str_replace($search,$replace,$value);
 	/*blanks possible dodgy sql etc.*/
-	//	$search=array('select ','insert ','delete ','drop ','SELECT ','INSERT ','DELETE ','DROP ');
-	//	$value=str_replace($search,'',$value);
+	$search=array('SELECT ','INSERT ','DELETE ','DROP ');
+	$value=str_replace($search,'',$value);
 	$search=array('*','<','>');
 	$value=str_replace($search,'',$value);
 	//   	$value=eregi_replace('[^-.?,!;()+:[:digit:][:space:][:alpha:]]','', $value);
@@ -151,7 +151,7 @@ function getEnumArray($field_name) {
 
 //		for the info table
 	$boarder=array('N' => 'notaboarder','B' => 'boarder','6' =>
-	'boarder,sixnightsorless', '7' => 'boarder,sevennights');
+	'boardersixnightsorless', '7' => 'boardersevennights');
 	$religion=array('NOT' => 'informationnotobtained', 
 		'BU' => 'buddhist', 'CH' => 'christian', 'HI' =>
 		'hindu', 'JE' => 'jewish', 'MU' => 'muslim', 'NO' => 'No
@@ -174,28 +174,30 @@ function getEnumArray($field_name) {
 	=> 'schoolbus',);
 
 //			for the gidsid table
+	$priority=array('0' => 'first', '1' => 'second', '2' => 'third', '3' => 'fourth');
+	$mailing=array('0' => 'nomailing', '1' => 'allmailing', '2' => 'reportsonly');
 	$relationship=array('NOT' => 'informationnotobtained', 'CAR' =>
 	'carer', 'DOC' => 'doctor', 'FAM' => 'otherfamilymember', 'PAM'
 	=> 'mother', 'PAF' => 'father', 'OTH' => 'othercontact', 'STP' =>
 	'stepparent', 'REL' => 'otherrelative', 'SWR' => 'socialworker', 
-						'RLG' => 'religiouscontact');
+	'RLG' => 'religiouscontact', 'AGN' => 'agent', 'HFA' => 'hostfamily');
 	$responsibility=array('N' => 'noparentalresponsibility', 'Y' => 'parentalresponsibility');
 
 //			for the phone table
-	$phonetype=array('H' => 'homephone', 'W' => 'workphone', 'M' =>
-	'mobilephone', 'F' => 'faxnumber', 'O' => 'otherphone');
+	$phonetype=array('H' => 'homephone', 'W' => 'workphone', 
+					 'M' => 'mobilephone', 'F' => 'faxnumber', 'O' => 'otherphone');
 
 //			for the gidaid table
 	$addresstype=array('H' => 'home', 'W' => 'work', 'V' =>
 	'holiday', 'O' => 'other');
 
 //			for the report table
-	$component=array('None' => 'Not Applied', 'N' => 'Non-Validating', 'V' =>
-	'Validating', 'A' => 'All');
+	$component=array('None' => 'notapplied', 'N' => 'non-validating', 'V' =>
+	'validating', 'A' => 'all');
 
 //			for the assessment tables
-	$resultstatus=array('I' => 'Interim', 'R' => 'Result', 'T' =>
-	'Target', 'P' => 'Provisional result', 'E' => 'Estimate');
+	$resultstatus=array('I' => 'interim', 'R' => 'result', 'T' =>
+	'target', 'P' => 'provisionalresult', 'E' => 'estimate');
 
 	$resultqualifier=array('PC' => 'Percentage',
 	'NV' => 'Numerical Value', 'KG' => 'Effort/Attainment A-D Grade', 
@@ -224,11 +226,11 @@ function getEnumArray($field_name) {
 	'International Baccalaureate', 'NVQ' => 'NVQ', 'KS' => 'Key
 	Skills', 'CE' => 'Certificate of Achievement');
 
-	$season=array('S' => 'Summer', 'W' => 'Winter', 'M' =>
-	'Modular/Continuous', '1' => 'January', '2' => 'Feburary', '3' =>
-	'March', '4' => 'April', '5' => 'May', '6' => 'June', '7' =>
-	'July', '8' => 'August', '9' => 'September', 
-	'a' => 'October', 'b' => 'November', 'c' => 'December');
+	$season=array('S' => 'summer', 'W' => 'winter', 'M' =>
+	'modular/continuous', '1' => 'january', '2' => 'feburary', '3' =>
+	'march', '4' => 'april', '5' => 'may', '6' => 'june', '7' =>
+	'july', '8' => 'august', '9' => 'september', 
+	'a' => 'october', 'b' => 'november', 'c' => 'december');
 
 //			for the sen table
 	$senprovision=array('N' => 'notonregister', 'A'=> 'schoolaction',
@@ -271,5 +273,28 @@ function list_directory_files($directory,$extension='*'){
 		}
     closedir($handler);
     return $results;
+	}
+
+/*reads content of csv file into array flines*/
+function fileRead($file){
+	$flines=array();
+   	while($in=fgetcsv($file,1000,',')){
+		if($in[0]!=''){
+			if($in[0]{0}!='#' & $in[0]{0}!='/'){$flines[]=$in;}
+			}
+		}
+   	fclose($file);
+	return $flines;
+}
+
+/*function to open a file*/
+function fileOpen($path){
+   	$file = fopen ($path, 'r');
+   	if (!$file){
+		$error[]='Unable to open remote file '.$path.'!'; 
+		include('scripts/results.php');
+		exit;
+		}
+	return $file;
 	}
 ?>

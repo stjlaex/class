@@ -62,3 +62,9 @@ INSERT INTO background (type,student_id,entrydate,ncyear,category,detail,subject
 DROP table activities;
 DROP table fails;
 DROP table prizes;
+ALTER TABLE gidsid
+	CHANGE relationship relationship enum('NOT','CAR','DOC','FAM','OTH','PAM','PAF','STP','REL','SWR','HFA','AGN') not null;
+ALTER TABLE gidsid
+	CHANGE priority priority enum('0','1','2','3','4') not null;
+ALTER TABLE gidsid
+	ADD mailing enum('0','1','2','3','4') not null AFTER priority;

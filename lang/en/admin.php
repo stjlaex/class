@@ -27,5 +27,11 @@ $string['emailnewloginsubject']='Your new ClaSS login details.';
 $string['emailusernolistsubject']='Newly generated ClaSS user list';
 $string['keynumber']='Key number';
 $string['offline']='Off line';
+$string['logoutandrestart']='You will need to logout and close your browser to see the changes.';
+$string['noactiontaken']='NO action has been taken!';
+$string['updatedcurriculum']='Updated the curriculum structure for ';
+$string['']='';
+$string['']='';
+$string['']='';
 $string['']='';
 ?>

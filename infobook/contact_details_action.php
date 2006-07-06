@@ -20,16 +20,13 @@ if($sub=='Submit'){
 	$neededperm='w';
 	include('scripts/perm_action.php');
 
-	$in=0;	
+	$in=0;
 	while(list($key,$val)=each($Contact)){
 		if(isset($val['value']) & is_array($val)){
 			$field=$val['field_db'];
-			$inname=$field.$in;
+			$inname=$field.$in++;
 			$inval=clean_text($_POST{"$inname"});
 			if($val['value']!=$inval){
-//				the value has changed, update database
-				$result[]=$val['label'].' : '.$inval;
-
 				if($val['table_db']=='guardian'){
 					if(mysql_query("UPDATE guardian SET $field='$inval' WHERE id='$gid'")){
 					$Student['Contacts'][$contactno][$key]['value']=$inval;	
@@ -44,23 +41,39 @@ if($sub=='Submit'){
 					else{$error[]=mysql_error();}
 					}
 				}
-			$in++;		
 			}
 		}
+
+	$Phones=$Contact['Phones'];
+	while(list($phoneno,$Phone)=each($Phones)){
+		$phoneid=$Phone['id_db'];
+		while(list($key,$val)=each($Phone)){
+		if(isset($val['value']) & is_array($val)){	
+			$field=$val['field_db'];
+			$inname=$field.$phoneno.$in++;
+			$inval=clean_text($_POST{"$inname"});
+			if($val['value']!=$inval){
+				if($phoneid=='-1' and $inval!=''){
+					mysql_query("INSERT INTO phone SET some_id='$gid'");
+					$phoneid=mysql_insert_id();
+					}
+				mysql_query("UPDATE phone SET $field='$inval'
+					WHERE some_id='$gid' AND id='$phoneid'");
+				$Student['Contacts'][$contactno]['Phones'][$phoneno][$key]['value']=$inval;	
+				}
+			}
+		}
+	}
 
 	$Addresses=$Contact['Addresses'];
 	while(list($addressno,$Address)=each($Addresses)){
 		$aid=$Address{'id_db'};
 		while(list($key,$val)=each($Address)){
 		if(isset($val['value']) & is_array($val)){
-
 			$field=$val['field_db'];
-			$inname=$field.$addressno.$in;
+			$inname=$field.$addressno.$in++;
 			$inval=clean_text($_POST{"$inname"});
 			if($val['value']!=$inval){
-//				the value has changed, update database
-				$result[]=$val['label'].' : '.$inval;
-
 				if($val['table_db']=='address'){
 					if(mysql_query("UPDATE address SET $field='$inval' WHERE id='$aid'")){
 					$Student['Contacts'][$contactno]['Addresses'][$addressno][$key]['value']=$inval;	
@@ -76,34 +89,6 @@ if($sub=='Submit'){
 					else{$error[]=mysql_error();}
 					}
 				}
-			$in++;	
-			}
-			}
-		}
-
-
-	$Phones=$Contact['Phones'];
-	while(list($phoneno,$Phone)=each($Phones)){
-		$phoneid=$Phone['id_db'];
-		while(list($key,$val)=each($Phone)){
-		if(isset($val['value']) & is_array($val)){
-
-			$field=$val['field_db'];
-			$inname=$field.$phoneno.$in;
-			$inval=clean_text($_POST{"$inname"});
-			if($val['value']!=$inval){
-//				the value has changed, update database
-				$result[]=$val['label'].' : '.$inval;
-
-				if($val['table_db']=='phone'){
-					if(mysql_query("UPDATE phone SET $field='$inval'
-					WHERE some_id='$gid' AND id='$phoneid'")){
-					$Student['Contacts'][$contactno]['Phones'][$phoneno][$key]['value']=$inval;	
-					}
-					else{$error[]=mysql_error();}
-					}
-				}
-			$in++;	
 			}
 			}
 		}
@@ -116,11 +101,6 @@ elseif($sub=='New Address'){
    	$new_aid=mysql_insert_id();
    	mysql_query("INSERT INTO gidaid SET guardian_id='$gid', address_id='$new_aid'");
 	}
-
-elseif($sub=='New Phone'){
-   	mysql_query("INSERT INTO phone SET some_id='$gid'");
-	}
-	
 elseif($sub=='Delete Checked'){
 	if(isset($_POST{'unpids'})){$unpids=$_POST{'unpids'};
 		for($c=0;$c<sizeof($unpids);$c++){

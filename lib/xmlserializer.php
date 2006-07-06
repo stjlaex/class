@@ -1,14 +1,15 @@
 <?php
 
-// Include XML_Serializer
+/*include the PEAR XML stuff*/
 require_once 'XML/Serializer.php';
+require_once 'XML/Unserializer.php';
 
-//takes the root name as input
+/*takes the root name as input*/
 function xmlpreparer($rootName,$xmlentry){
 	nullCorrect($xmlentry);
 	$serializer_options=array(
 							  'addDecl' => FALSE,
-							  'encoding' => 'ISO-8859-1',
+							  'encoding' => 'UTF-8',
 							  'indent' => '  ',
 							  'rootName' => "$rootName",
 							  'defaultTagName' => 'undefined',
@@ -22,6 +23,18 @@ function xmlpreparer($rootName,$xmlentry){
 	$status=$Serializer->serialize($xmlentry);
 	if(PEAR::isError($status)){die($status->getMessage());}
 	echo $Serializer->getSerializedData();
-}
+	}
 
+function xmlfilereader($xmlfilename){
+	nullCorrect($xmlentry);
+	$serializer_options=array(
+							  'complexType' => 'array'
+							  );
+
+	$Unserializer=&new XML_Unserializer($serializer_options);
+	$status=$Unserializer->unserialize($xmlfilename,true);
+	if(PEAR::isError($status)){die($status->getMessage());}
+	$Data=$Unserializer->getUnserializedData();
+	return $Data;
+	}
 ?>

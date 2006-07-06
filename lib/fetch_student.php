@@ -81,7 +81,6 @@ function fetchStudent($sid){
 */
 
 	$Student['id_db']=$sid;
-	
 	$Student['Surname']=array('label' => 'surname', 
 					'table_db' => 'student', 'field_db' => 'surname',
 					'type_db'=>'varchar(30)', 'value' => $student['surname']);
@@ -103,15 +102,15 @@ function fetchStudent($sid){
 	else{$displaypfn='';}
 	if($student['middlenamelast']=='Y'){
 		$Student['DisplayFullName']=array('label' => 'fullname',  
-					'value' => $displaypfn . 
-					$student['forename'] . ' ' .$student['surname']
-									  . ' ' .$student['middlenames']);
+										  'value' => $displaypfn . 
+										  $student['forename'] . ' ' .$student['surname']
+										  . ' ' .$student['middlenames']);
 		}
 	else{
 		$Student['DisplayFullName']=array('label' => 'fullname',  
-		   'value' => $displaypfn . 
-					$student['forename'] . ' ' .$student['middlenames']
-									  . ' ' . $student['surname']);
+										  'value' => $displaypfn . 
+										  $student['forename'] . ' ' .$student['middlenames']
+										  . ' ' . $student['surname']);
 		}
 
 	$Student['Gender']=array('label' => 'gender', 
@@ -127,129 +126,174 @@ function fetchStudent($sid){
 	$yid=$student['yeargroup_id'];
 	$d_yeargroup=mysql_query("SELECT ncyear FROM yeargroup WHERE id='$yid'");
 	$ncyear=mysql_result($d_yeargroup,0);
-	
 	$Student['NCyearActual']=array('label' => 'year', 
 					'table_db' => 'student', 'field_db' => 'yeargroup_id',
 					'type_db'=>'enum', 'id_db' => $yid, 'value' => $ncyear);
-
-
-   	$Student['Nationality']=array('label' => 'nationality','table_db' => 'info', 'field_db' => 'nationality','type_db'=>'char(30)', 'value' => $info['nationality']);
-   	$Student['MedicalFlag']=array('label' => 'medicalinformation','table_db' => 'info', 'field_db' => 'medical',
+   	$Student['Nationality']=array('label' => 'nationality', 
+								  'table_db' => 'info', 
+								  'field_db' => 'nationality', 
+								  'type_db'=>'char(30)', 'value' => $info['nationality']);
+   	$Student['MedicalFlag']=array('label' => 'medicalinformation', 
+								  'table_db' => 'info', 'field_db' => 'medical',
 					'type_db'=>'enum', 'value' => $info['medical']);
-   	$Student['SENFlag']=array('label' => 'seninformation','table_db' => 'info', 'field_db' => 'sen',
-					'type_db'=>'enum', 'value' => $info['sen']);
-
-   	$Student['Religion']=array('label' => 'religion','table_db' => 'info', 'field_db' => 'religion',
-					'type_db' => 'enum', 'value' => $info['religion']);
-   	$Student['FirstLanguage']=array('label' => 'firstlanguage','table_db' => 'info', 'field_db' => 'firstlanguage',
-					'type_db'=>'enum', 'value' => $info['firstlanguage']);
-
+   	$Student['SENFlag']=array('label' => 'seninformation', 
+							  'table_db' => 'info', 'field_db' => 'sen',
+							  'type_db'=>'enum', 'value' => $info['sen']);
+   	$Student['Religion']=array('label' => 'religion', 
+							   'table_db' => 'info', 'field_db' => 'religion',
+							   'type_db' => 'enum', 'value' => $info['religion']);
+   	$Student['FirstLanguage']=array('label' => 'firstlanguage', 
+									'table_db' => 'info', 'field_db' => 'firstlanguage',
+									'type_db'=>'enum', 
+									'value' => $info['firstlanguage']);
    	$Student['E-Mail']=array('label' => 'email','table_db' => 'info', 'field_db' => 'email',
 					'type_db'=>'varhar(50)', 'value' => 'blank');
-
-   	$Student['EnrolNumber']=array('label' => 'enrolmentnumber','table_db' => 'info', 'field_db' => 'formerupn', 'type_db'=>'varchar(13)', 'value' => $info['formerupn']);
-
-	$Student['EntryDate']=array('label' => 'schoolstartdate', 'table_db' => 'info', 'field_db' => 'entrydate', 'type_db'=>'date', 'value' => $info['entrydate']);
-
+   	$Student['EnrolNumber']=array('label' => 'enrolmentnumber', 
+								  'table_db' => 'info', 
+								  'field_db' => 'formerupn', 
+								  'type_db'=>'varchar(13)', 
+								  'value' => $info['formerupn']);
+	$Student['EntryDate']=array('label' => 'schoolstartdate', 
+								'table_db' => 'info', 
+								'field_db' => 'entrydate', 
+								'type_db'=>'date', 'value' => $info['entrydate']);
 	$Student['LeavingDate']=array('label' => 'schoolleavingdate', 
-	   'table_db' => 'info', 'field_db' => 'leavingdate', 'type_db'=>'date', 'value' => 'null');
-   	$Student['Boarder']=array('label' => 'boarder','table_db' => 'info', 'field_db' => 'boarder',
-					'type_db'=>'enum', 'value' => $info['boarder']);
-   	$Student['PartTime']=array('label' => 'parttime','table_db' => 'info', 'field_db' => 'parttime',
-					'type_db'=>'enum', 'value' => $info['parttime']);
-   	$Student['TransportMode']=array('label' => 'modeoftransport','table_db' => 'info', 'field_db' => 'transportmode',
-					'type_db'=>'enum', 'value' => $info['transportmode']);
-   	$Student['TransportRoute']=array('label' => 'transportroute','table_db' => 'info', 'field_db' => 'transportroute',
-					'type_db'=>'transportroute', 'value' => $info['transportroute']);
+								  'table_db' => 'info', 
+								  'field_db' => 'leavingdate', 
+								  'type_db'=>'date', 'value' => 'null');
+   	$Student['Boarder']=array('label' => 'boarder', 
+							  'table_db' => 'info', 'field_db' => 'boarder',
+							  'type_db'=>'enum', 'value' => $info['boarder']);
+   	$Student['PartTime']=array('label' => 'parttime', 
+							   'table_db' => 'info', 'field_db' => 'parttime',
+							   'type_db'=>'enum', 'value' => $info['parttime']);
+   	$Student['TransportMode']=array('label' => 'modeoftransport', 
+									'table_db' => 'info', 'field_db' => 'transportmode',
+									'type_db'=>'enum', 'value' => $info['transportmode']);
+   	$Student['TransportRoute']=array('label' => 'transportroute', 
+									 'table_db' => 'info', 'field_db' => 'transportroute',
+									 'type_db'=>'transportroute', 
+									 'value' => $info['transportroute']);
 
-/*******Contacts****/
+	/*******Contacts****/
 	$Contacts=array();
 
 	$d_gidsid=mysql_query("SELECT * FROM gidsid WHERE student_id='$sid' ORDER BY priority");
 	while($gidsid=mysql_fetch_array($d_gidsid,MYSQL_ASSOC)){
 		$gidsid=nullCorrect($gidsid);
-
 		$Contact=array();
-
 		$gid=$gidsid['guardian_id'];
 	   	$d_guardian=mysql_query("SELECT * FROM guardian WHERE id='$gid'");
-		
 		$guardian=mysql_fetch_array($d_guardian,MYSQL_ASSOC);
 		$guardian=nullCorrect($guardian);
-
 		$Contact['id_db']=$gid;
-	
-	   	$Contact['Order']=array('label' => 'priority','table_db' => 'gidsid', 'field_db' => 'priority',
-				'type_db'=>'smallint(5)', 'value' => $gidsid['priority']);
-
-	   	$Contact['Relationship']=array('label' => 'relationship', 'table_db' => 'gidsid', 'field_db' =>
-					'relationship', 'type_db'=>'enum', 'value' => $gidsid['relationship']);
-
-	   	$Contact['Surname']=array('label' => 'surname','table_db' => 'guardian', 'field_db' => 'surname',
-					'type_db' => 'varchar(30)', 'value' => $guardian['surname']);
-	   	$Contact['Forename']=array('label' => 'forename','table_db' => 'guardian', 'field_db' => 'forename',
-					'type_db' => 'varchar(30)', 'value' => $guardian['forename']);
-	   	$Contact['MiddleNames']=array('label' => 'middlenames','table_db' => 'guardian', 'field_db' =>
-			'middlenames', 'type_db' => 'varchar(30)', 'value' =>	$guardian['middlenames']);
+	   	$Contact['Order']=array('label' => 'priority', 
+								'table_db' => 'gidsid', 'field_db' => 'priority',
+								'type_db'=>'enum', 
+								'value' => $gidsid['priority']);
+	   	$Contact['ReceivesMailing']=array('label' => 'receivesmailing', 
+								'table_db' => 'gidsid', 'field_db' => 'mailing',
+								'type_db'=>'enum', 
+								'value' => $gidsid['mailing']);
+	   	$Contact['Relationship']=array('label' => 'relationship', 
+									   'table_db' => 'gidsid', 'field_db' =>
+									   'relationship',
+									   'type_db'=>'enum', 
+									   'value' => $gidsid['relationship']);
+	   	$Contact['Surname']=array('label' => 'surname', 
+								  'table_db' => 'guardian', 'field_db' => 'surname',
+								  'type_db' => 'varchar(30)', 
+								  'value' => $guardian['surname']);
+	   	$Contact['Forename']=array('label' => 'forename', 
+								   'table_db' => 'guardian', 'field_db' => 'forename',
+								   'type_db' => 'varchar(30)', 
+								   'value' => $guardian['forename']);
+	   	$Contact['MiddleNames']=array('label' => 'middlenames', 
+									  'table_db' => 'guardian', 
+									  'field_db' => 'middlenames', 
+									  'type_db' => 'varchar(30)', 
+									  'value' =>	$guardian['middlenames']);
 		
 
-/*******ContactsAddresses****/
+		/*******ContactsAddresses****/
 		$Addresses=array();
 		$d_gidaid=mysql_query("SELECT * FROM gidaid WHERE guardian_id='$gid' ORDER BY priority");
 		while($gidaid=mysql_fetch_array($d_gidaid,MYSQL_ASSOC)){
 			$gidaid=nullCorrect($gidaid);
 			$Address=array();
-
 			$aid=$gidaid['address_id'];
 		   	$d_address=mysql_query("SELECT * FROM address WHERE id='$aid'");
 			$address=mysql_fetch_array($d_address,MYSQL_ASSOC);
 			$address=nullCorrect($address);
-
 			$Address['id_db']=$aid;
-		   	$Address['Order']=array('label' => 'priority','table_db' => 'gidaid', 'field_db' => 'priority',
-					'type_db'=>'smallint(5)', 'value' => $gidaid['priority']);
-		   	$Address['AddressType']=array('label' => 'type','table_db'=>'gidaid', 'field_db' => 'addresstype',
-					'type_db'=>'enum', 'value' => $gidaid['addresstype']);
-		   	$Address['BuildingName']=array('label' => 'building','table_db' => 'address', 'field_db' => 'building',
-					'type_db'=>'varchar(60)', 'value' => $address['building']);
-		   	$Address['StreetNo']=array('label' => 'streetno.','table_db' => 'address', 'field_db' => 'streetno',
-					'type_db'=>'varchar(10)', 'value' => $address['streetno']);
-		   	$Address['Road']=array('label' => 'street','table_db' => 'address', 'field_db' => 'street',
-					'type_db'=>'varchar(100)', 'value' => $address['street']);
-		   	$Address['Neighbourhood']=array('label' => 'neighbourhood','table_db' => 'address', 'field_db' => 'neighbourhood',
-					'type_db'=>'varchar(50)', 'value' => $address['neighbourhood']);
-		   	$Address['Town']=array('label' => 'town/city','table_db' => 'address', 'field_db' => 'town',
-					'type_db'=>'varchar(40)', 'value' => $address['town']);
-		   	$Address['County']=array('label' => 'county','table_db' => 'address', 'field_db' => 'county',
-					'type_db'=>'varchar(40)', 'value' => $address['county']);
-		   	$Address['Postcode']=array('label' => 'postcode','table_db' => 'address', 'field_db' => 'postcode',
-					'type_db'=>'varchar(8)', 'value' => $address['postcode']);
-
+			/*		   	$Address['Order']=array('label' => 'priority', 
+									'table_db' => 'gidaid', 'field_db' => 'priority',
+									'type_db'=>'enum', 'value' => $gidaid['priority']);
+			*/
+		   	$Address['AddressType']=array('label' => 'type', 
+										  'table_db'=>'gidaid', 'field_db' => 'addresstype',
+										  'type_db'=>'enum', 'value' => $gidaid['addresstype']);
+		   	$Address['BuildingName']=array('label' => 'building', 
+										   'table_db' => 'address', 'field_db' => 'building',
+										   'type_db'=>'varchar(60)', 
+										   'value' => $address['building']);
+		   	$Address['StreetNo']=array('label' => 'streetno.', 
+									   'table_db' => 'address', 'field_db' => 'streetno',
+									   'type_db'=>'varchar(10)', 
+									   'value' => $address['streetno']);
+		   	$Address['Road']=array('label' => 'street',
+								   'table_db' => 'address', 'field_db' => 'street',
+								   'type_db'=>'varchar(100)', 
+								   'value' => $address['street']);
+		   	$Address['Neighbourhood']=array('label' => 'neighbourhood',
+											'table_db' => 'address', 
+											'field_db' => 'neighbourhood',
+											'type_db'=>'varchar(50)', 
+											'value' => $address['neighbourhood']);
+		   	$Address['Town']=array('label' => 'town/city', 
+								   'table_db' => 'address', 'field_db' => 'town',
+								   'type_db'=>'varchar(40)', 'value' => $address['town']);
+		   	$Address['County']=array('label' => 'county', 
+									 'table_db' => 'address', 'field_db' => 'county',
+									 'type_db'=>'varchar(40)', 'value' => $address['county']);
+		   	$Address['Postcode']=array('label' => 'postcode',
+									   'table_db' => 'address', 'field_db' => 'postcode',
+									   'type_db'=>'varchar(8)', 
+									   'value' => $address['postcode']);
 			$Addresses[]=$Address;
 			}
-
 		$Addresses=nullCorrect($Addresses);
 
-/*******ContactsPhones****/
+		/*******ContactsPhones****/
 		$Phones=array();
 		$d_phone=mysql_query("SELECT * FROM phone WHERE some_id='$gid' ORDER BY phonetype");
 		while($phone=mysql_fetch_array($d_phone,MYSQL_ASSOC)){
 			$phone=nullCorrect($phone);
-
 			$Phone=array();
-
 			$Phone['id_db']=$phone['id'];
-	
-		   	$Phone['PhoneNo']=array('label' => 'number','table_db' => 'phone', 'field_db' => 'number',
-					'type_db'=>'varchar(22)', 'value' => $phone['number']);
-		   	$Phone['PhoneType']=array('label' => 'type','table_db' => 'phone', 'field_db' => 'phonetype',
-					'type_db'=>'enum', 'value' =>   	$phone['phonetype']);
+		   	$Phone['PhoneNo']=array('label' => 'phonenumber', 
+									'table_db' => 'phone', 'field_db' => 'number',
+									'type_db'=>'varchar(22)', 'value' => $phone['number']);
+		   	$Phone['PhoneType']=array('label' => 'phonetype', 
+									  'table_db' => 'phone', 'field_db' => 'phonetype',
+									  'type_db'=>'enum', 'value' => $phone['phonetype']);
 			$Phones[]=$Phone;
 			}
+		/*blank for a NEW entry*/
+		$Phone=array();
+		$Phone['id_db']='-1';
+		$Phone['PhoneNo']=array('label' => 'phonenumber', 
+									'table_db' => 'phone', 'field_db' => 'number',
+									'type_db'=>'varchar(22)', 'value'
+									=> ' ');
+		$Phone['PhoneType']=array('label' => 'phonetype', 
+									  'table_db' => 'phone', 'field_db' => 'phonetype',
+									  'type_db'=>'enum', 'value' => ' ');
+		$Phones[]=$Phone;
+
 		$Contact['Addresses']=$Addresses;
 		$Contact['Phones']=$Phones;
 		$Contact=nullCorrect($Contact);
-	
 		$Contacts[]=$Contact;
 		}
 	$Contacts=nullCorrect($Contacts);

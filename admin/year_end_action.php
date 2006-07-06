@@ -14,13 +14,13 @@ if($_POST{'answer'}=='no'){
 
 $years=array();
 $yeargroups=array();
-$d_yeargroup=mysql_query("SELECT id, ncyear,section,name FROM
+$d_yeargroup=mysql_query("SELECT id,ncyear,section,name FROM
 							yeargroup ORDER BY section, ncyear");
 while($year=mysql_fetch_array($d_yeargroup,MYSQL_ASSOC)){
     $yeargroups[$year['id']]=$year;
 	$years[]=$year;
 	}
-	$yeargroups[1000]['name']='Alumni';
+$yeargroups[1000]['name']='Alumni';
 
 $ncyears=array();
 while(list($yid,$year)=each($yeargroups)){

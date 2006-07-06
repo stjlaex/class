@@ -24,72 +24,98 @@ three_buttonmenu($extrabuttons);
 ?>
   <div class="content">
 	<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
-	  <fieldset class="center">
+	  <fieldset class="left">
 		<legend><?php print_string('contactdetails',$book);?></legend>
-		<table>
 <?php	
 	$in=0;
 	while(list($key,$val)=each($Contact)){
 		if(isset($val['value']) & is_array($val)){
 ?>	
-		  <tr>
-			<th><label><?php print $val['label']; ?></label></th>
-			<th>
+		<label><?php print_string($val['label'],$book); ?></label>
 <?php 
 				if($val['type_db']=='enum'){
 					$enum=getEnumArray($val['field_db']);
-					print '<select name="'.$val['field_db'].$in.'" size="1">';
+					print '<select name="'.$val['field_db'].$in++.'" size="1">';
 					while(list($inval,$description)=each($enum)){	
 						print '<option ';
 						if($val['value']==$inval){print 'selected="selected"';}
-						print ' value="'.$inval.'">'.$description.'</option>';
-						}	
+						print ' value="'.$inval.'">'.get_string($description,$book).'</option>';
+						}
 					print '</select>';					
 					}
 				else {
 ?>
-	<input type="text" name="<?php print $val['field_db'].$in; ?>" 
+	<input type="text" name="<?php print $val['field_db'].$in++; ?>" 
 								value="<?php print $val['value']; ?>" />
-<?php				} ?>
-			</th>
-		  </tr>
-<?php			
-			$in++;
-			}
+<?php
+					}
+				}
 		}
 ?>
-		</table>
+	  </fieldset>	
+<?php
+
+	$Phones=$Contact['Phones'];
+?>
+	  <fieldset class="right">
+		<legend><?php print_string('contactphones',$book);?></legend>
+<?php	
+	while(list($phoneno,$Phone)=each($Phones)){
+		$pid=$Phone['id_db'];
+		while(list($phonekey,$val)=each($Phone)){
+?>
+		<div class=center">
+<?php
+				if(isset($val['value']) & is_array($val)){
+?>	
+		<label><?php print_string($val['label'],$book); ?></label>
+<?php 
+					if($val['type_db']=='enum'){
+						$enum=getEnumArray($val['field_db']);
+						print '<select name="'.$val['field_db'].$phoneno.$in++.'" size="1">';
+							print '<option ';
+							if($val['value']==''){print 'selected="selected"';}
+							print ' value=""></option>';
+
+						while(list($inval,$description)=each($enum)){
+							print '<option ';
+							if($val['value']==$inval){print 'selected="selected"';}
+							print ' value="'.$inval.'">'.get_string($description,$book).'</option>';
+							}
+						print '</select>';
+						}
+					else {
+?>
+		<input type="text" 
+		  name="<?php print $val['field_db'].$phoneno.$in++; ?>" 
+		  value="<?php print $val['value']; ?>" />
+<?php					}
+					}
+				}
+?>
+		</div>
+<?php
+			}
+?>
 	  </fieldset>
-	
+
 	  <fieldset class="center">
 		<legend><?php print_string('contactaddress',$book);?></legend>
-		<table>
 <?php	
 	$Addresses=$Contact['Addresses'];
 	if(!is_array($Addresses)){$Addresses=array();}
 	while(list($addressno,$Address)=each($Addresses)){
 ?>
-		  <tr>
-			<th valign="top">
-			  <table>
-				<tr>
-				  <th colspan="2">
-					<label>Select this address:</label>
-					<input type="checkbox" name="unaids[]" 
-					  value="<?php print $Address['id_db']; ?>" />
-				  </th>
-				</tr>
+		  <div class="left">
 <?php
 			while(list($addresskey,$val)=each($Address)){
 				if(isset($val['value']) & is_array($val)){
 ?>			
-				<tr>
-				  <th><label><?php print $val['label']; ?></label></th>
-					<th>
-<?php //print $val['field_db'].$addressno.$in;
+				<label><?php print_string($val['label'],$book); ?></label>
+<?php
 					if($val['type_db']=='enum'){
 						$enum=getEnumArray($val['field_db']);
-						print '<select name="'.$val['field_db'].$addressno.$in.'" size="1">';
+						print '<select name="'.$val['field_db'].$addressno.$in++.'" size="1">';
 						while(list($inval,$description)=each($enum)){	
 							print '<option ';
 							if($val['value']==$inval){print 'selected="selected"';}
@@ -100,33 +126,19 @@ three_buttonmenu($extrabuttons);
 					else 
 						{
 ?>
-						<input type="text" name="<?php print $val['field_db'].$addressno.$in; ?>" value="<?php print $val['value']; ?>" />
+						<input type="text" name="<?php print $val['field_db'].$addressno.$in++; ?>" value="<?php print $val['value']; ?>" />
 
 <?php					}
-   				$in++;	
 				}		
-?>
-				  </th>
-				</tr>
-<?php				
 			}	
-?>		
-			  </table>
-			</th>
-			<th valign="top">
-			  <table>	
-			
-<?php
+
 /*				find other contacts who share this address*/
 				$aid=$Address['id_db'];
 				$d_gidaid=mysql_query("SELECT * FROM gidaid WHERE address_id='$aid'");
 ?>
-				<tr>
-				  <th></th>
-				  <th><label>Linked to:</th>
-				  <th><label>Relationships</label></th>
-				</tr>
-					   
+		</div>
+		<div class="right">
+		  <label><?php print_string('sharedwith',$book);?></label>
 <?php
 					while($gidaid=mysql_fetch_array($d_gidaid,MYSQL_ASSOC)){
 						$gid=$gidaid['guardian_id'];
@@ -134,91 +146,26 @@ three_buttonmenu($extrabuttons);
 				   		$d_gidsid=mysql_query("SELECT * FROM gidsid WHERE guardian_id='$gid'");
 						$guardian=mysql_fetch_array($d_guardian,MYSQL_ASSOC);
 ?>
-				<tr>
-				  <td><label>UnLink</label>
-					<input type="checkbox" name="ungidaids[]" value="<?php print
-												$gid.':'.$aid; ?>" />
-				  </td>
+		  <div class="right">
+			<input type="checkbox" name="ungidaids[]" 
+			  value="<?php print $gid.':'.$aid; ?>" />
 <?php
-						print '<td>'.$guardian['forename'].'<br />'.$guardian['surname'].'</td>';
-						print '<td>';
+						print $guardian['forename'].'&nbsp;'.$guardian['surname'].'&nbsp;';
 						while($gidsid=mysql_fetch_array($d_gidsid,MYSQL_ASSOC)){
 							$siblingsid=$gidsid['student_id'];
 							$d_student=mysql_query("SELECT * FROM
 													student WHERE id='$siblingsid'");
 							$student=mysql_fetch_array($d_student,MYSQL_ASSOC);
 							print displayEnum($gidsid['relationship'],'relationship').'
-								of<br />'.$student['forename'].'&nbsp;'.$student['surname'].'.<br />';
+								of<br />'.$student['forename'].'&nbsp;'.$student['surname'];
 							}
-						print '</td>';
-?>							
-				</tr>					
-<?php			
-					}
 ?>
-			  </table>
-			</th>
-		  </tr>
-<?php 
+		  </div>
+<?php
+					}
 			}
 ?>
-		</table>
-	  </fieldset>
-<?php	
-	$Phones=$Contact['Phones'];
-?>
-
-	  <fieldset class="center">
-		<legend><?php print_string('contactphones',$book);?></legend>
-		<table>
-<?php	
-	while(list($phoneno,$Phone)=each($Phones)){
-		$pid=$Phone['id_db'];
-?>
-		  <tr>
-			<th>
-			  <table>
-				<tr>
-				  <th colspan="2"><label>Select this number:</label>
-<input type="checkbox" name="unpids[]" value="<?php print $pid; ?>" /></th>
-		</tr>
-<?php
-			while(list($phonekey,$val)=each($Phone)){
-				if(isset($val['value']) & is_array($val)){
-?>	
-				<tr>
-				  <th><label><?php print $val['label']; ?></label></th>
-				  <th>
-<?php 
-					if($val['type_db']=='enum'){
-						$enum=getEnumArray($val['field_db']);
-						print '<select name="'.$val['field_db'].$phoneno.$in.'" size="1">';
-						print '<option>Select</option>';
-						while(list($inval,$description)=each($enum)){
-							print '<option ';
-							if($val['value']==$inval){print 'selected="selected"';}
-							print ' value="'.$inval.'">'.$description.'</option>';
-							}
-						print '</select>';				
-						}
-					else {
-?>
-					<input type="text" name="<?php print $val['field_db'].$phoneno.$in; ?>" value="<?php print $val['value']; ?>" />
-<?php					} ?>
-				  </th>
-				</tr>
-<?php			
-					$in++;
-					}
-				}
-?>
-			  </table>
-			</th>
-		  </tr>
-<?php 
-		}
-?>
-		</table>
+		  </div>
 	  </fieldset>
  	<input type="hidden" name="contactno" value="<?php print $contactno;?>">
  	<input type="hidden" name="contactgid" value="<?php print $contactgid;?>">

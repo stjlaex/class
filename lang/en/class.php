@@ -210,5 +210,8 @@ $string['formtutor']='Tutor';
 $string['yearhead']='Year coordinator';
 $string['template']='Template';
 $string['currentreports']='Current reports';
+$string['removecontact']='Remove contact';
+$string['newstudent']='New student';
+$string['newcontact']='New contact';
 $string['']='';
 ?>

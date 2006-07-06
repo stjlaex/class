@@ -190,8 +190,10 @@ if (mysql_query("
 CREATE TABLE gidsid (
 		 guardian_id	int unsigned not null,
 		 student_id		int unsigned not null,
-		 priority		smallint unsigned not null,
-		 relationship	enum('NOT','CAR','DOC','FAM','OTH','PAM','PAF','STP','REL','SWR') not null,
+		 priority		enum('0','1','2','3','4') not null,
+		 mailing		enum('0','1','2','3','4') not null,
+		 relationship	enum('NOT','CAR','DOC','FAM','OTH', 
+				'PAM','PAF','STP','REL','SWR','HFA','AGN') not null,
 		 responsibility	enum('N','Y') not null,
 		 primary key 	(guardian_id, student_id)
 );")){}
