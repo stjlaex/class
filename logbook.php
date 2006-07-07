@@ -42,21 +42,29 @@
 <?php
 	if($fresh!=''){
 		$role=$_SESSION['role'];
-		$showbooks=$books["$role"];
-		foreach($showbooks as $bookhost=>$bookname){
-			/* (re)loading all the books*/
+		foreach($books["$role"] as $bookhost=>$bookname){
+			/*(re)loading all the ClaSS books*/
 ?>
 			<script>parent.loadBook("<?php print $bookhost; ?>")</script>
 <?php
 		   }
-?>
-	<script>parent.loadBook("aboutbook")</script>
-<?php
 	   }
 	if($fresh=='very'){
 		/*this was loaded after a new login so do some extra stuff:*/
-		/*load the booktabs, update langpref, and raise firstbook*/
+		/*load the externalbooks, booktabs, update langpref, and raise firstbook*/
+
+		$externalbooks=$books['external'];
+		foreach($externalbooks["$role"] as $bookhost=>$bookname){
+			/*loading all the external books - only needed once*/
 ?>
+			<script>parent.loadBook("<?php print $bookhost; ?>")</script>
+<?php
+		   }
+
+		$showtabs=$books["$role"]+$externalbooks["$role"];
+?>
+			<script>parent.loadBook("aboutbook")</script>
+
 <div style="visibility:hidden;" id="hiddennavtabs">
 	<div class="booktabs">
 	  <ul>
@@ -66,7 +74,7 @@
 		<li id="aboutbooktab"><p id="currentbook" class="aboutbook"
 			onclick="viewBook(this.getAttribute('class'))">About</p></li>
 <?php
-		foreach($showbooks as $bookhost=>$bookname){
+		foreach($showtabs as $bookhost=>$bookname){
 ?>
 		<li id="<?php print $bookhost.'tab';?>"><p class="<?php print $bookhost;?>"
 		onclick="viewBook(this.getAttribute('class'))"><?php print $bookname;?></p></li>
@@ -84,5 +92,6 @@
 		<script>setTimeout("parent.viewBook('<?php print $firstbookpref; ?>');",5000);</script>
 <?php
 		}
+
 include('scripts/end_options.php');
 ?>

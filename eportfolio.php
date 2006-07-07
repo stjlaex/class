@@ -1,16 +1,12 @@
 <?php 
 /**												  eportfolio.php
  *	This is the hostpage for the eportfolio
- *	The page to be included is set by $current
- *	A preselected menu option is set by $choice
+ *  It currently works only with a customised install of Elgg
  */
 
 $host='eportfolio.php';
 $book='eportfolio';
 include ('scripts/head_options.php');
-if(!isset($sid)){$sid='';}
-if(isset($_POST{'current'})){$current=$_POST{'current'};} else{$current='';}
-if(isset($_POST{'choice'})){$choice=$_POST{'choice'};}else{$choice='';}
 
 $ip=$_SERVER['REMOTE_ADDR'];
 $salt=$CFG->eportfolioshare;
@@ -19,7 +15,8 @@ $token=md5($tid . $secret);
 ?>
 
   <div style="visibility:hidden;" id="hiddenbookoptions">	
-	<fieldset class="eportfolio"><legend><?php print_string('options');?></legend>
+	<fieldset class="eportfolio">
+	  <legend><?php print_string('options');?></legend>
 	</fieldset>
   </div>
 

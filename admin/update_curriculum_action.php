@@ -92,7 +92,6 @@ while(list($index,$curriculum)=each($curriculums)){
 
 			$Yeargroups=$Course['yeargroups'];
 			while(list($index,$yid)=each($Yeargroups['yeargroup'])){
-				$result[]=$yid;
 				if(mysql_query("INSERT INTO classes (many,
 								generate, naming, yeargroup_id, subject_id, course_id) VALUES
 								('$many', '$generate', '$naming', '$yid', '$bid',

@@ -49,7 +49,7 @@ print '<?xml version="1.0" encoding="utf-8"?'.'>';
 <iframe id="viewaboutbook" name="viewaboutbook" class="bookframe"></iframe>
 
 <?php
-	$showbooks=$books['admin'];
+	$showbooks=$books['admin']+$books['external']['admin'];
 	/*admin because it contains all possible books*/
 	foreach($showbooks as $bookhost=>$bookname){
 ?>
