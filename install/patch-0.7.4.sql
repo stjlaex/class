@@ -68,3 +68,42 @@ ALTER TABLE gidsid
 	CHANGE priority priority enum('0','1','2','3','4') not null;
 ALTER TABLE gidsid
 	ADD mailing enum('0','1','2','3','4') not null AFTER priority;
+ALTER TABLE class DROP yeargroup_id;
+DROP TABLE classes;
+CREATE TABLE classes (
+		course_id		varchar(10) not null default '',
+	    subject_id		varchar(10) not null default '',
+		stage			char(3) not null default '',
+        generate		enum('', 'forms','sets','none') not null default '',
+		naming			varchar(40) not null default '',
+		many			smallint unsigned default 4,
+		index			index_crid (course_id),
+		primary 		key (course_id, subject_id, stage)
+);
+CREATE TABLE community (
+	id			smallint unsigned auto_increment, 
+	name		varchar(30) not null default '', 
+    details		varchar(240) not null default '',
+    type		enum('','family','form','year','tutor','trip','reg','stop','extra') not null default '',
+	primary key  	(id)
+);
+CREATE TABLE comidsid (
+	community_id	int unsigned not null default '0',
+	student_id		int unsigned not null default '0',
+	primary key 	(community_id, student_id)
+);
+CREATE TABLE transport (
+	id				smallint unsigned auto_increment, 
+	name			varchar(30) not null default '', 
+    details			varchar(240) not null default '',
+	capacity		smallint unsigned not null default 0,
+	teacher_id		varchar(14) NOT NULL default '',
+	primary key  	(id)
+);
+CREATE TABLE transportstop (
+	id				smallint unsigned auto_increment, 
+	transport_id	smallint not null default 0, 
+	name			varchar(30) not null default '', 
+    details			varchar(240) not null default '',
+	primary key  	(id)
+);

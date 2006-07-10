@@ -68,10 +68,8 @@ INSERT INTO categorydef (id , name , type , rating , rating_name , subject_id , 
 ALTER TABLE background CHANGE detail detail BLOB NULL DEFAULT NULL;
 ALTER TABLE component 
 	ADD status enum('N','V') NOT NULL DEFAULT 'N' AFTER subject_id;
-
 ALTER TABLE class
     ADD stage char(3) not null default '' AFTER yeargroup_id;
-
 ALTER TABLE mark DROP course_id;
 ALTER TABLE mark DROP subject_id;
 CREATE TABLE cohort (
@@ -80,7 +78,8 @@ CREATE TABLE cohort (
 	stage			char(3) not null default '',
 	year			year not null default '0000',
 	season			enum('','S','W','M','1','2','3','4','5','6','7','8','9','a','b','c') NOT NULL DEFAULT 'S',
-	status			enum('','C') not null default ''
+	status			enum('','C') not null default '',
+	primary key 	(id)
 );
 
 ALTER TABLE users

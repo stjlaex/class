@@ -84,14 +84,18 @@ $schooldb = $_POST['school'];
 
 /* 	Create the core database tables */
 	include('create_admin.php');
-	include('insert_users.php');
+	$asswd=md5($password);
+	mysql_query("INSERT INTO users (username, passwd, 
+			forename,role,firstbookpref) VALUES ('administrator', 
+			'$asswd', 'administrator','admin','admin')");
+	$admin_uid=mysql_insert_id();
+
 /*	Optional tables for the books */
 	if(file_exists('create_markbook.php')){
 		include('create_markbook.php');
 		}
 	if(file_exists('create_reportbook.php')){
 		include('create_reportbook.php');
-		include('insert_marks.php');
 		}
 	if(file_exists('create_infobook.php')){
 		include('create_infobook.php');
@@ -137,11 +141,11 @@ $schooldb = $_POST['school'];
 	<br />Your ClaSS is ready for you.</p>
 
 	<hr width=90%> <p>Point your browser at <a
-	href="../index.php">ClaSS</a></p> <p>Two default logins have been
+	href="../index.php">ClaSS</a></p> <p>One administrator login has been
 	automatically generated. </p> <p>Login with username=administrator
-	to configure things.</p> <p>Login with username=office just to
-	view information.</p> <p>Both currently have the same password
-	entered as the ClaSS Connection password on the previous form.</p>
+	to configure things.</p> <p>The password is the same 
+	entered as the ClaSS Connection password on the previous form -
+	you should change this at the first opportunity.</p>
 	<p>If you are going to be repsonsible for the configuration and
 	day-to-day running<br /> of this ClaSS install then refer to the
 	ClaSS Administrators Guide for what to do next<br /> <button

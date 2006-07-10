@@ -33,8 +33,13 @@ function xmlfilereader($xmlfilename){
 
 	$Unserializer=&new XML_Unserializer($serializer_options);
 	$status=$Unserializer->unserialize($xmlfilename,true);
-	if(PEAR::isError($status)){die($status->getMessage());}
-	$Data=$Unserializer->getUnserializedData();
+	if(PEAR::isError($status)){
+		die($status->getMessage());
+		$Data=array();
+		}
+	else{
+		$Data=$Unserializer->getUnserializedData();
+		}
 	return $Data;
 	}
 ?>

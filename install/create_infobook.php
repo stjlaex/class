@@ -239,4 +239,21 @@ CREATE TABLE phone (
 );")){}
 	     else{print "Failed on phone!<br>";	
 					$error=mysql_error(); print $error."<br>";}
+mysql_query("
+CREATE TABLE transport (
+	id				smallint unsigned auto_increment, 
+	name			varchar(30) not null default '', 
+    details			varchar(240) not null default '',
+	capacity		smallint unsigned not null default 0,
+	teacher_id		varchar(14) NOT NULL default '',
+	primary key  	(id)
+);");
+mysql_query("
+CREATE TABLE transportstop (
+	id				smallint unsigned auto_increment, 
+	transport_id	smallint not null default 0, 
+	name			varchar(30) not null default '', 
+    details			varchar(240) not null default '',
+	primary key  	(id)
+);");
 ?>

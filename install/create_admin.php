@@ -1,6 +1,6 @@
 <?php
-/*	Tables for adminbase
-*/
+/**	Tables the core admin tables
+ */
 
 mysql_query("
 CREATE TABLE student (
@@ -20,7 +20,6 @@ CREATE TABLE student (
 	index 			index_forename (forename(5)),
 	primary key (id)
 );");
-
 mysql_query("
 CREATE TABLE form (
 		id					varchar(20) not null default '',
@@ -28,7 +27,6 @@ CREATE TABLE form (
 		teacher_id			varchar(10) not null default '',
 		primary key (id)
 );");
-
 mysql_query("
 CREATE TABLE yeargroup (
 		id				smallint not null default '0',
@@ -39,7 +37,6 @@ CREATE TABLE yeargroup (
 		section_id		smallint unsigned not null default '0',
 		primary key (id)
 );");
-
 mysql_query("
 CREATE TABLE subject (
 		id				varchar(10) not null default '',
@@ -47,7 +44,6 @@ CREATE TABLE subject (
 		primary key (id)
 
 );");
-
 mysql_query("
 CREATE TABLE  course (
 	id				varchar(10) not null default '', 
@@ -59,35 +55,31 @@ CREATE TABLE  course (
    	section_id		smallint unsigned not null default '0',
 	primary key (id)
 );");
-
 mysql_query("
 CREATE TABLE cohort (
-   	id				int not null default '0',
+	id				int unsigned not null auto_increment, 
 	course_id	   	varchar(10) not null default '',
 	stage			char(3) not null default '',
 	year			year not null default '0000',
 	season			enum('','S','W','M','1','2','3','4','5','6','7','8','9','a','b','c') NOT NULL DEFAULT 'S',
 	status			enum('','C') not null default ''
+	primary 		key (id)
 );");
-
 mysql_query("
 CREATE TABLE cridbid (
-		 course_id		varchar(10) not null default '',
-		 subject_id		varchar(10) not null default '',
-		 primary key 	(course_id, subject_id)
+		course_id		varchar(10) not null default '',
+	    subject_id		varchar(10) not null default '',
+		primary 		key (course_id, subject_id)
 );");
-
-
 mysql_query("
 CREATE TABLE classes (
-		yeargroup_id	smallint not null default 0,
 		course_id		varchar(10) not null default '',
-		subject_id		varchar(10) not null default '',
+	    subject_id		varchar(10) not null default '',
+		stage			char(3) not null default '',
         generate		enum('', 'forms','sets','none') not null default '',
 		naming			varchar(40) not null default '',
 		many			smallint unsigned default 4,
-		index			index_crid (course_id),
-		primary 		key (yeargroup_id, course_id, subject_id)
+		primary 		key (course_id, subject_id, stage)
 );");
 mysql_query("
 CREATE TABLE class (
@@ -95,21 +87,18 @@ CREATE TABLE class (
        	details	    	varchar(100) not null default '',
 		subject_id		varchar(10) not null default '',
 		course_id		varchar(10) not null default '',
-		yeargroup_id	smallint not null default 0,
 		stage			char(3) not null default '',
 		index			index_bid (subject_id),
 		index			index_crid (course_id),
 		index			index_yid  (yeargroup_id),
 		primary key  	(id)
 );");
-
 mysql_query("
 CREATE TABLE cidsid (
 		 class_id		varchar(10) not null default '',
 		 student_id		int unsigned not null default 0,
 		 primary key 	(class_id, student_id)
 );");
-
 mysql_query("
 CREATE TABLE tidcid (
 		 teacher_id		varchar(10) not null default '',
@@ -117,7 +106,6 @@ CREATE TABLE tidcid (
 		 component_id  	varchar(10) not null default '',
 		 primary key 	(teacher_id, class_id)
 );");
-
 mysql_query("
 CREATE TABLE component (
 		 id				varchar(10) not null default '',
@@ -180,6 +168,18 @@ CREATE TABLE section (
 	name 	varchar(30) not null default '', 
 	primary key (id)
 )");
+mysql_query("
+CREATE TABLE group (
+	id			smallint unsigned auto_increment, 
+	name		varchar(30) not null default '', 
+    details		varchar(240) not null default '',
+    type		enum('','family','form','year','tutor','trip','reg','stop','extra') not null default '',
+	primary key  	(id)
+);");
+if (mysql_query("
+CREATE TABLE gridsid (
+	group_id		int unsigned not null default '0',
+	student_id		int unsigned not null default '0',
+	primary key 	(group_id, student_id)
+);")){}
 ?>
-
-
