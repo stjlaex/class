@@ -78,19 +78,38 @@ CREATE TABLE classes (
 		naming			varchar(40) not null default '',
 		many			smallint unsigned default 4,
 		index			index_crid (course_id),
-		primary 		key (course_id, subject_id, stage)
+		primary key (course_id, subject_id, stage)
+);
+DROP TABLE cohort;
+CREATE TABLE cohort (
+	id				int unsigned not null auto_increment, 
+	course_id	   	varchar(10) not null default '',
+	stage			char(3) not null default '',
+	year			year not null default '0000',
+	season			enum('','S','W','M','1','2','3','4','5','6','7','8','9','a','b','c') NOT NULL DEFAULT 'S',
+	status			enum('','C') not null default '',
+	unique 			indexcohort (course_id,stage,year,season),
+	primary key (id)
 );
 CREATE TABLE community (
-	id			smallint unsigned auto_increment, 
+	id			smallint unsigned not null auto_increment, 
 	name		varchar(30) not null default '', 
-    details		varchar(240) not null default '',
     type		enum('','family','form','year','tutor','trip','reg','stop','extra') not null default '',
+    details		varchar(240) not null default '',
+	unique 		indexcom (type,name),
 	primary key  	(id)
 );
 CREATE TABLE comidsid (
 	community_id	int unsigned not null default '0',
 	student_id		int unsigned not null default '0',
+	joiningdate		date null,
+	leavingdate 	date null,
 	primary key 	(community_id, student_id)
+);
+CREATE TABLE cohidcomid (
+	cohort_id		int unsigned not null default '0',
+	community_id	int unsigned not null default '0',
+	primary key 	(cohort_id, community_id)
 );
 CREATE TABLE transport (
 	id				smallint unsigned auto_increment, 

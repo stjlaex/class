@@ -45,7 +45,7 @@ CREATE TABLE subject (
 
 );");
 mysql_query("
-CREATE TABLE  course (
+CREATE TABLE course (
 	id				varchar(10) not null default '', 
 	name 			varchar(40) not null default '',
 	stage	   		smallint not null default '0',
@@ -54,16 +54,6 @@ CREATE TABLE  course (
 	many			smallint unsigned not null default '4',
    	section_id		smallint unsigned not null default '0',
 	primary key (id)
-);");
-mysql_query("
-CREATE TABLE cohort (
-	id				int unsigned not null auto_increment, 
-	course_id	   	varchar(10) not null default '',
-	stage			char(3) not null default '',
-	year			year not null default '0000',
-	season			enum('','S','W','M','1','2','3','4','5','6','7','8','9','a','b','c') NOT NULL DEFAULT 'S',
-	status			enum('','C') not null default ''
-	primary 		key (id)
 );");
 mysql_query("
 CREATE TABLE cridbid (
@@ -164,22 +154,42 @@ CREATE TABLE perms (
 )");
 mysql_query("
 CREATE TABLE section (
-	id		smallint unsigned auto_increment, 
+	id		smallint unsigned not null auto_increment, 
 	name 	varchar(30) not null default '', 
 	primary key (id)
 )");
 mysql_query("
-CREATE TABLE group (
-	id			smallint unsigned auto_increment, 
+CREATE TABLE community (
+	id			int unsigned not null auto_increment, 
 	name		varchar(30) not null default '', 
-    details		varchar(240) not null default '',
     type		enum('','family','form','year','tutor','trip','reg','stop','extra') not null default '',
-	primary key  	(id)
+    details		varchar(240) not null default '',
+	unique		indexcom (type,name),
+	primary key (id)
 );");
 if (mysql_query("
-CREATE TABLE gridsid (
-	group_id		int unsigned not null default '0',
+CREATE TABLE comidsid (
+	community_id	int unsigned not null default '0',
 	student_id		int unsigned not null default '0',
-	primary key 	(group_id, student_id)
+	joiningdate		date null,
+	leavingdate 	date null,
+	primary key 	(community_id, student_id)
+);")){}
+mysql_query("
+CREATE TABLE cohort (
+	id				int unsigned not null auto_increment, 
+	course_id	   	varchar(10) not null default '',
+	stage			char(3) not null default '',
+	year			year not null default '0000',
+	season			enum('','S','W','M','1','2','3','4','5','6','7','8','9','a','b','c') NOT NULL DEFAULT 'S',
+	status			enum('','C') not null default '',
+	unique			indexcohort (course_id,stage,year,season),
+	primary key (id)
+);");
+if (mysql_query("
+CREATE TABLE cohidcomid (
+	cohort_id		int unsigned not null default '0',
+	community_id	int unsigned not null default '0',
+	primary key 	(cohort_id, community_id)
 );")){}
 ?>

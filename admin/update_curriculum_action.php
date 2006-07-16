@@ -99,6 +99,7 @@ while(list($index,$curriculum)=each($curriculums)){
 								'$crid')")){}
 				else{$error[]='Failed to insert new classes!';	
 								$error[]=mysql_error();}
+				updateCohort(array('course_id'=>$crid,'stage'=>$stage));
 				}
 
 			while(list($index,$Component)=each($Subject['components']['component'])){
@@ -124,18 +125,19 @@ while(list($index,$curriculum)=each($curriculums)){
 		$d_section=mysql_query("SELECT id FROM section WHERE name='$section'");	
 		if(mysql_num_rows($d_section)>0){$secid=mysql_result($d_section,0);}
 		else{$secid=0;}
-
+		updateCommunity(array('name'=>$yid,'type'=>'year'));
    		if(mysql_query("INSERT INTO yeargroup (id, name, ncyear, section_id)
    			VALUES('$yid','$name','$ncyear','$secid')")){
 				mysql_query("INSERT INTO groups (yeargroup_id,name) VALUES ('$yid', '$name')");
 				$gid=mysql_insert_id();
 				mysql_query("INSERT INTO perms (uid, gid, r, w, x) VALUES('$adminuid','$gid', '1', '1', '1')");
 				}
-		
+
 		while(list($index,$fid)=each($Group['formgroups']['form'])){
 			/*****************Forms************************/
 			mysql_query("INSERT INTO form (id, yeargroup_id)
 						VALUES('$fid','$yid')");
+			updateCommunity(array('name'=>$fid,'type'=>'form'));
 			}
 		}
 

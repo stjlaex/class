@@ -63,18 +63,21 @@ $rtid=$tid;
 <?php 
 	if($rtid=='administrator'){
 ?>
-		<option <?php if($choice=='class_matrix.php'){print
-				 'selected="selected" ';}?>value='class_matrix.php'>
-		  <?php print_string('classesmatrix');?></option>
-		<option <?php if($choice=='curriculum_matrix.php'){print 'selected="selected"
-			';}?>value='curriculum_matrix.php'>
-		  <?php print_string('curriculummatrix');?></option>
 		<option <?php if($choice=='import_students.php'){print
 		'selected="selected" ';}?>value='import_students.php'>
 			<?php print_string('newstudents');?></option>
 		<option <?php if($choice=='new_teacher.php'){print
 		'selected="selected" ';}?>value='new_teacher.php'>
 		  <?php print_string('newteachers');?></option>
+		<option <?php if($choice=='class_matrix.php'){print
+				 'selected="selected" ';}?>value='class_matrix.php'>
+		  <?php print_string('classesmatrix');?></option>
+		<option <?php if($choice=='cohort_matrix.php'){print 'selected="selected"
+			';}?>value='cohort_matrix.php'>
+		  <?php print_string('cohortmatrix');?></option>
+		<option <?php if($choice=='curriculum_matrix.php'){print 'selected="selected"
+			';}?>value='curriculum_matrix.php'>
+		  <?php print_string('curriculummatrix');?></option>
 		<option <?php if($choice=='update_curriculum.php'){print
 				'selected="selected"
 		';}?>value='update_curriculum.php'>

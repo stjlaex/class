@@ -40,7 +40,7 @@ $books['teacher']=array(
 $externalbooks=array();
 $externalbooks['admin']=array(
 							  'webmail' => $CFG->webmailtabname
-							  ,'lms' => $CFG->lmstabname
+							  //,'lms' => $CFG->lmstabname
 							  ,'eportfolio' => $CFG->eportfoliotabname
 				 );
 $externalbooks['office']=array(

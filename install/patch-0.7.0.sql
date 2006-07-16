@@ -73,7 +73,7 @@ ALTER TABLE class
 ALTER TABLE mark DROP course_id;
 ALTER TABLE mark DROP subject_id;
 CREATE TABLE cohort (
-   	id				int not null default '0',
+   	id				int not null auto_increment,
 	course_id	   	varchar(10) not null default '',
 	stage			char(3) not null default '',
 	year			year not null default '0000',
@@ -81,6 +81,5 @@ CREATE TABLE cohort (
 	status			enum('','C') not null default '',
 	primary key 	(id)
 );
-
 ALTER TABLE users
     ADD language varchar(10) not null default '' AFTER email;

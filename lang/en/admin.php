@@ -31,6 +31,6 @@ $string['logoutandrestart']='You will need to logout and close your browser to s
 $string['noactiontaken']='NO action has been taken!';
 $string['updatedcurriculum']='Updated the curriculum structure for ';
 $string['newclassstructure']='New class structure generated.';
-$string['']='';
+$string['cohortmatrix']='Cohort matrix';
 $string['']='';
 ?>

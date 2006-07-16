@@ -34,7 +34,7 @@ elseif($sub=='Submit'){
 						for($c=0;$c<sizeof($changecids);$c++){
 							$cid=$changecids[$c];
 							mysql_query("DELETE FROM cidsid WHERE
-								student_id='$sid' and class_id='$cid' LIMIT 1");
+								student_id='$sid' AND class_id='$cid' LIMIT 1");
 							}
 			   			$result[]='Removed from this forms subject classes too.';
 						}

@@ -297,4 +297,59 @@ function fileOpen($path){
 		}
 	return $file;
 	}
+
+/*checks for a community and either updates or creates*/
+/*expects an array with at least type and name set*/
+function updateCommunity($community){
+	$type=$community['type'];
+	$name=$community['name'];
+	if(isset($community['details'])){$details=$community['details'];}
+	if($type!='' and $name!=''){
+		$d_community=mysql_query("SELECT id FROM community WHERE
+				type='$type' AND name='$name'");	
+		if(mysql_num_rows($d_community)==0){
+			mysql_query("INSERT INTO community (name,type,details) VALUES
+				('$name', '$type', '$details')");
+			}
+		else{
+			mysql_query("UPDATE community SET (details=$details) WHERE name='$name'
+				AND type='$type'");
+			}
+		}
+	}
+
+/*checks for a cohort and either updates or creates*/
+/*expects an array with at least course_id and stage set*/
+function updateCohort($cohort){
+	$crid=$cohort['course_id'];
+	$stage=$cohort['stage'];
+	if(isset($cohort['year'])){$year=$cohort['year'];}
+	else{$year=getCurriculumYear();$status='C';}
+	if(isset($cohort['season'])){$season=$cohort['season'];}
+	else{$season='S';}
+
+	if($crid!='' and $stage!=''){
+		$d_cohort=mysql_query("SELECT id FROM cohort WHERE
+				course_id='$crid' AND stage='$stage' AND year='$year'
+				AND season='$season'");	
+		if(mysql_num_rows($d_cohort)==0){
+			mysql_query("INSERT INTO cohort (course_id,stage,year,season,status) VALUES
+				('$crid','$stage','$year','$season','$status')");
+			}
+		else{
+			mysql_query("UPDATE cohort SET status='$status' WHERE
+				course_id='$crid' AND stage='$stage' AND year='$year'
+				AND season='$season'");
+			}
+		}
+	}
+
+function getCurriculumYear(){
+	/*crudely assumes that the academic year ends in July*/
+	/*to sophisticate in future*/
+	$thismonth=date('m');
+	$thisyear=date('Y');
+	if($thismonth>6){$thisyear++;}
+	return $thisyear;
+	}
 ?>

@@ -99,7 +99,9 @@ elseif($sub=='Submit' and $_POST['answer']=='yes'){
    				$bid=$classes['subject_id'];
 				$stage=$classes['stage'];
 
+
 				if($classes['generate']=='forms' & $classes['many']>0){
+
 					$d_form=mysql_query("SELECT id FROM form WHERE yeargroup_id='$yid'");
 					while($form=mysql_fetch_array($d_form,MYSQL_ASSOC)){
 						$fid=$form['id'];
