@@ -1,6 +1,7 @@
 <?php 
 /**													class_edit.php
  */
+
 $action='class_edit_action.php';
 
 if(isset($_GET{'newcid'})){$newcid=$_GET{'newcid'};}
@@ -8,15 +9,17 @@ if(isset($_GET{'newtid'})){$newtid=$_GET{'newtid'};}else{$newtid='';}
 if(isset($_POST{'newcid'})){$newcid=$_POST{'newcid'};}
 if(isset($_POST{'newtid'})){$newtid=$_POST{'newtid'};}
 
-$d_class = mysql_query("SELECT * FROM class WHERE id='$newcid'");
+$d_class=mysql_query("SELECT * FROM class WHERE id='$newcid'");
 $class=mysql_fetch_array($d_class, MYSQL_ASSOC);
-$yid=$class{'yeargroup_id'};
-$bid=$class{'subject_id'};
-if(isset($_POST{'newyid'})){$newyid=$_POST{'newyid'};}else{$newyid=$yid;}
-$selyid=$newyid;
+$crid=$class['course_id'];
+$bid=$class['subject_id'];
+$stage=$class['stage'];
+/*keeping things simple by fixing season and year to a single value*/
+/*to sophisticate in the future*/
+$currentseason='S';
+$currentyear=getCurriculumYear($crid);
 
 $extrabuttons['unassignclass']=array('name'=>'sub','value'=>'Unassign');
-$extrabuttons['changeyeargroup']=array('name'=>'current','value'=>'class_edit.php');
 three_buttonmenu($extrabuttons);
 ?>
   <div class="content">
@@ -31,6 +34,7 @@ three_buttonmenu($extrabuttons);
 		  <th><?php print_string('remove');?></th>
 		</tr>
 <?php
+		  /*students already in this class*/
 	$c=0;
 	$d_student=mysql_query("SELECT a.student_id, b.surname, b.middlenames,
 				b.forename, b.yeargroup_id, b.form_id FROM cidsid a, student b 
@@ -47,72 +51,86 @@ three_buttonmenu($extrabuttons);
 	  </table>
 	  </div>
 <?php
-	$d_class = mysql_query("SELECT * FROM class WHERE
-		subject_id='$bid' AND yeargroup_id='$yid'");
-	$i=0;
-	while($class = mysql_fetch_array($d_class,MYSQL_ASSOC)){
-		$cid = $class{'id'};
 
-/*	Fetch students for these classes.  */
-		if($i==0){mysql_query("CREATE TEMPORARY TABLE students
+	/*Fetch students in this cohort.*/
+	$d_cohidcomid=mysql_query("SELECT community_id FROM cohidcomid JOIN
+		cohort ON cohidcomid.cohort_id=cohort.id WHERE 
+		course_id='$crid' AND year='$currentyear' AND
+		season='$currentseason' AND stage='$stage'");
+	$firstit=0;
+	while($cohidcomid=mysql_fetch_array($d_cohidcomid,MYSQL_ASSOC)){
+		$comid=$cohidcomid['community_id'];
+		if($firstit==0){mysql_query("CREATE TEMPORARY TABLE cohortstudents
 			(SELECT a.student_id, b.surname, b.forename,
-		b.middlenames, b.form_id, a.class_id FROM
+			b.middlenames, b.form_id FROM
+			comidsid a, student b WHERE a.community_id='$comid' AND
+			b.id=a.student_id)");}
+		else{mysql_query("INSERT INTO cohortstudents SELECT
+				a.student_id, b.surname, b.forename, b.middlenames, 
+				b.form_id FROM comidsid a,
+				student b WHERE a.community_id='$comid' AND b.id=a.student_id");}
+		$firstit++;
+		}
+
+	/*Fetch students already in classes for this subject.*/
+	$d_class=mysql_query("SELECT id FROM class WHERE
+		course_id='$crid' AND subject_id='$bid' AND stage='$stage'");
+	$firstit=0;
+	while($class=mysql_fetch_array($d_class,MYSQL_ASSOC)){
+		$cid=$class['id'];
+		if($firstit==0){mysql_query("CREATE TEMPORARY TABLE subjectstudents
+			(SELECT a.student_id, b.surname, b.forename,
+			b.middlenames, b.form_id, a.class_id FROM
 			cidsid a, student b WHERE a.class_id='$cid' AND
 			b.id=a.student_id ORDER BY b.surname)");}
-		else{mysql_query("INSERT INTO students SELECT
+		else{mysql_query("INSERT INTO subjectstudents SELECT
 			a.student_id, b.surname, b.forename, b.middlenames, 
 				b.form_id, a.class_id FROM cidsid a,
 			student b WHERE a.class_id='$cid' AND b.id=a.student_id ORDER
 			BY b.surname");}
-		$i++;
+		$firstit++;
 		}
 
-/*	Only select those not assigned already in this subject and yeargroup*/
-  	$d_student=mysql_query("SELECT student.id, student.forename, student.middlenames,
-					student.surname, student.form_id FROM student LEFT JOIN students ON
-					student.id=students.student_id WHERE
-					students.student_id IS NULL AND
-					yeargroup_id='$newyid' ORDER BY student.form_id, student.surname"); 
+	/*Filter for those not assigned already in this subject*/
+  	$d_student=mysql_query("SELECT a.student_id, a.forename, a.middlenames,
+					a.surname, a.form_id FROM
+					cohortstudents AS a LEFT JOIN subjectstudents AS b ON
+					a.student_id=b.student_id WHERE
+					b.student_id IS NULL 
+					ORDER BY a.form_id, a.surname");
 ?>
 	  <div style="width:63%;float:right;">
 		<fieldset class="left">
 		  <legend><?php print_string('studentsnotinsubject',$book);?></legend>
 		  <select name="newsid[]" size="20" multiple="multiple">	
 <?php
-	while($student = mysql_fetch_array($d_student,MYSQL_ASSOC)) {
+	while($student=mysql_fetch_array($d_student,MYSQL_ASSOC)) {
 			print '<option ';
-			print	'value="'.$student['id'].'">'.$student['surname'].',
-  	'.$student['forename'].' '.$student{'middlenames'}.' ('.$student['form_id'].')</option>';
+			print	'value="'.$student['student_id'].'">'.$student['surname'].',
+  	'.$student['forename'].' '.$student['middlenames'].' ('.$student['form_id'].')</option>';
 			}
 ?>
-		</select>
-	  </fieldset>
+		  </select>
+		</fieldset>
 
-	  <fieldset class="right">
-		<legend><?php print_string('studentsalreadyinsubject',$book);?></legend>
-		<select name="newsid[]" size="20" multiple="multiple">	
+		<fieldset class="right">
+		  <legend><?php print_string('studentsalreadyinsubject',$book);?></legend>
+		  <select name="newsid[]" size="20" multiple="multiple">	
 <?php
-/*	Select all those assigned already in this subject and yeargroup*/
-  	$d_student = mysql_query("SELECT student_id, forename, middlenames,
-					surname, form_id FROM students ORDER BY surname"); 
-	while($student = mysql_fetch_array($d_student,MYSQL_ASSOC)) {
+		/*Select all those assigned already in this subject and yeargroup*/
+		$d_student=mysql_query("SELECT student_id, forename, middlenames,
+					surname, form_id FROM subjectstudents ORDER BY surname"); 
+		while($student=mysql_fetch_array($d_student,MYSQL_ASSOC)) {
 			print '<option ';
 			print	'value="'.$student['student_id'].'">'. 
 				$student['surname'].', '.$student['forename'].' '. 
 					$student['middlenames'].' ('.$student['form_id'].')</option>';
 			}
 ?>		
-		</select>
-	  </fieldset>
-	  <fieldset class="right">
-		<legend><?php print_string('yeargroup',$book);?></legend>
-		<p><?php print_string('studentsfromotheryeargroup',$book);?>
-		  <?php include('scripts/list_year.php'); ?>
-		</p>
-	  </fieldset>
-</div>
+		  </select>
+		</fieldset>
+	  </div>
 
-	<input type="hidden" name="selyid" value="<?php print $selyid;?>" /> 
 	<input type="hidden" name="newcid" value="<?php print $newcid;?>" /> 
 	<input type="hidden" name="newtid" value="<?php print $newtid;?>" />
 	<input type="hidden" name="choice" value="<?php print $choice;?>" />

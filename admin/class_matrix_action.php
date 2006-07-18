@@ -85,54 +85,70 @@ elseif($sub=='Generate'){
 elseif($sub=='Submit' and $_POST['answer']=='yes'){
 	$result[]=get_string('newclassstructure',$book);
 
-/********* Should delete all from the cidsid and class tables before attempting this?
-*/
-	//	mysql_query("TRUNCATE TABLE cidsid");
-	//	mysql_query("TRUNCATE TABLE tidcid");
+	mysql_query("DELETE cidsid.* FROM cidsid, class WHERE
+		class.id=cidsid.class_id AND class.course_id='$crid'");
+	mysql_query("DELETE tidcid.* FROM tidcid, class WHERE 
+		class.id=tidcid.class_id AND class.course_id='$crid'");
 	mysql_query("DELETE FROM class WHERE course_id='$crid'");
-/*********/
 
-		$d_classes=mysql_query("SELECT * FROM classes WHERE
+	$d_classes=mysql_query("SELECT * FROM classes WHERE
 										course_id='$crid' ORDER BY
 										subject_id, stage");   	
-		while($classes=mysql_fetch_array($d_classes,MYSQL_ASSOC)){
-   				$bid=$classes['subject_id'];
-				$stage=$classes['stage'];
 
+	/*keeping things simple by fixing season and year to a single value*/
+	/*to sophisticate in the future*/
+	$currentseason='S';
+	$currentyear=getCurriculumYear($crid);
+	while($classes=mysql_fetch_array($d_classes,MYSQL_ASSOC)){
+		$bid=$classes['subject_id'];
+		$stage=$classes['stage'];
+		$d_cohidcomid=mysql_query("SELECT cohidcomid.community_id FROM
+			cohidcomid JOIN cohort ON cohidcomid.cohort_id=cohort.id 
+			WHERE course_id='$crid' AND year='$currentyear'
+			AND season='$currentseason' AND stage='$stage'");
+		$communities=array();
+		while($cohidcomid=mysql_fetch_array($d_cohidcomid,MYSQL_ASSOC)){
+			$comid=$cohidcomid['community_id'];
+			$d_community=mysql_query("SELECT * FROM community WHERE
+														id=$comid");
+			$communities[$comid]=mysql_fetch_array($d_community,MYSQL_ASSOC);
+			}
 
-				if($classes['generate']=='forms' & $classes['many']>0){
-
-					$d_form=mysql_query("SELECT id FROM form WHERE yeargroup_id='$yid'");
-					while($form=mysql_fetch_array($d_form,MYSQL_ASSOC)){
-						$fid=$form['id'];
-						$newcid=$bid.$fid;
-						if(mysql_query("INSERT INTO class (id,
-							subject_id, course_id, yeargroup_id) VALUES ('$newcid', '$bid',
-								'$crid', '$yid')")){$result[]=' '.$newcid.' ';}
-						else {$error[]='Already exists '.$newcid.' ';}
-
-						$d_sids=mysql_query("SELECT id FROM student WHERE form_id='$fid'");
-						while($sids=mysql_fetch_array($d_sids, MYSQL_ASSOC)){
-							$sid=$sids{'id'};
-							if(mysql_query("INSERT INTO cidsid
-								(class_id, student_id) VALUES ('$newcid',
-									'$sid')")) { } else {}
-							}
-						}
+		if($classes['generate']=='forms' & $classes['many']>0){
+			while(list($comid,$community)=each($communities)){
+				if($community['type']=='year'){
+					$yid=$community['name'];
+					$d_form=mysql_query("SELECT id FROM form
+								WHERE yeargroup_id='$yid'");
 					}
-				elseif($classes['generate']=='sets' & $classes['many']>0){
-					if($classes['naming']==''){$name=$bid.$stage.'/';}
-					else{$name=$bid.$classes['naming'];}
-					for($c=1;$c<=$classes['many'];$c++){
-						$newcid=$name.$c;
-						if(mysql_query("INSERT INTO class (id,
+				while($form=mysql_fetch_array($d_form,MYSQL_ASSOC)){
+					$fid=$form['id'];
+					$newcid=$bid.$fid;
+					mysql_query("INSERT INTO class (id,
 							subject_id, course_id, stage) VALUES ('$newcid', '$bid',
-								'$crid', '$stage')")){$result[]=' '.$newcid.' ';} 
-						else{$error[]='Already exists '.$newcid.' ';}
+								'$crid', '$stage')");
+					$d_sids=mysql_query("SELECT id FROM student WHERE form_id='$fid'");
+					while($sids=mysql_fetch_array($d_sids, MYSQL_ASSOC)){
+						$sid=$sids['id'];
+						mysql_query("INSERT INTO cidsid
+								(class_id, student_id) VALUES ('$newcid','$sid')");
 						}
 					}
+				}
+			}
+		elseif($classes['generate']=='sets' & $classes['many']>0){
+			if($classes['naming']==''){$name=$bid.$stage.'/';}
+			else{$name=$bid.$classes['naming'];}
+			for($c=1;$c<=$classes['many'];$c++){
+				$newcid=$name.$c;
+				mysql_query("INSERT INTO class (id,
+							subject_id, course_id, stage) VALUES ('$newcid', '$bid',
+								'$crid', '$stage')");
+				}
+			}
 		}
 	}
+
 elseif($sub=='Submit' and $_POST['answer']=='no'){
 	$result[]=get_string('noactiontaken',$book);
 	}

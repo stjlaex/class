@@ -75,8 +75,6 @@ $rtid=$tid;
 		<option <?php if($choice=='cohort_matrix.php'){print 'selected="selected"
 			';}?>value='cohort_matrix.php'>
 		  <?php print_string('cohortmatrix');?></option>
-		<option <?php if($choice=='curriculum_matrix.php'){print 'selected="selected"
-			';}?>value='curriculum_matrix.php'>
 		  <?php print_string('curriculummatrix');?></option>
 		<option <?php if($choice=='update_curriculum.php'){print
 				'selected="selected"
@@ -91,6 +89,9 @@ $rtid=$tid;
 		<option <?php if($choice=='server_test.php'){print
 				'selected="selected" ';}?>value='server_test.php'>
 				<?php print_string('servertest');?></option>
+		<option <?php if($choice=='fix8.php'){print
+				'selected="selected" ';}?>value='fix8.php'>
+				<?php print_string('fix8');?></option>
 <?php
 /*these are all pretty experimental!!!!!
 		<option <?php if($choice=='passwords.php'){print

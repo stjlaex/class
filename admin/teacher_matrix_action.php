@@ -19,7 +19,6 @@ include('scripts/sub_action.php');
 		while(isset($newcid[$c])){
 			if(mysql_query("INSERT INTO tidcid (teacher_id, class_id) 
 				VALUES ('$newtid', '$newcid[$c]')")){ 
-				$result[]="Assigned classes";	
 				}
 			else{$error[]=mysql_error();}
 			$c++;
@@ -31,7 +30,6 @@ include('scripts/sub_action.php');
 		while(isset($newcid[$c])){
 			if(mysql_query("INSERT INTO tidcid (teacher_id, class_id) 
 				VALUES ('$newtid', '$newcid[$c]')")){ 
-				$result[]="Assigned class".$newcid[$c];
 				}
 			else{$error[]="Failed, teacher already has class ".$newcid[$c];}
 			$c++;

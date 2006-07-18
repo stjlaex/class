@@ -33,11 +33,10 @@ if($newtid!='' AND $newfid!=''){
 				$gid=mysql_result($d_groups,0);
 				mysql_query("INSERT perms (uid, gid, r, w, x) 
 					VALUES('$uid','$gid','1','1','0')");
-				$result[]='Assigned form';
 				}
 			else{$error[]=mysql_error();}	
 			}
-		else{$result[]='Teacher '.$newtid.' already has been assigned a form!';}
+		else{$error[]='Teacher '.$newtid.' already has been assigned a form!';}
 		}
 
 include('scripts/results.php');

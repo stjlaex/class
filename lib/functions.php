@@ -312,7 +312,7 @@ function updateCommunity($community){
 				('$name', '$type', '$details')");
 			}
 		else{
-			mysql_query("UPDATE community SET (details=$details) WHERE name='$name'
+			mysql_query("UPDATE community SET details='$details' WHERE name='$name'
 				AND type='$type'");
 			}
 		}
@@ -324,7 +324,7 @@ function updateCohort($cohort){
 	$crid=$cohort['course_id'];
 	$stage=$cohort['stage'];
 	if(isset($cohort['year'])){$year=$cohort['year'];}
-	else{$year=getCurriculumYear();$status='C';}
+	else{$year=getCurriculumYear($crid);$status='C';}
 	if(isset($cohort['season'])){$season=$cohort['season'];}
 	else{$season='S';}
 
@@ -344,12 +344,14 @@ function updateCohort($cohort){
 		}
 	}
 
-function getCurriculumYear(){
-	/*crudely assumes that the academic year ends in July*/
+function getCurriculumYear($crid){
+	/*the academic year ends */
 	/*to sophisticate in future*/
+	$d_course=mysql_query("SELECT endmonth FROM course WHERE id='$crid'");
+	$endmonth=mysql_result($d_course,0);
 	$thismonth=date('m');
 	$thisyear=date('Y');
-	if($thismonth>6){$thisyear++;}
+	if($thismonth>$endmonth){$thisyear++;}
 	return $thisyear;
 	}
 ?>

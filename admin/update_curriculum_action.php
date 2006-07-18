@@ -45,26 +45,29 @@ while(list($index,$curriculum)=each($curriculums)){
 		/*****************Courses************************/
    		$crid=$Course['id'];
    		$name=$Course['name'];
-   		$stage=$Course['stage'];
+   		$sequence=$Course['sequence'];
+   		$endmonth=$Course['endmonth'];
    		$naming='';
 		$course_generate=$Course['setting'];
    		$course_many=$Course['classes'];
-		if(mysql_query("INSERT INTO course (id, name, stage,
-				generate, naming, many)
-				VALUES ('$crid','$name','$stage', 
-				'$course_generate','$naming','$course_many')")){
-					mysql_query("INSERT INTO groups (subject_id,
+		$d_course=mysql_query("SELECT name FROM course WHERE id='$crid'");
+		if(mysql_num_rows($d_course)==0){
+			mysql_query("INSERT INTO course (id, name, sequence,
+				generate, naming, many, endmonth)
+				VALUES ('$crid','$name','$sequence', 
+				'$course_generate','$naming','$course_many','$endmonth')");
+			mysql_query("INSERT INTO groups (subject_id,
 					course_id, name) VALUES ('%', '$crid', '$crid')");
-					$gid=mysql_insert_id();
-					mysql_query("INSERT INTO perms (uid, gid, r, w, x) 
+			$gid=mysql_insert_id();
+			mysql_query("INSERT INTO perms (uid, gid, r, w, x) 
 					VALUES('$adminuid','$gid', '1', '1', '1')");
-					}
+			}
 		else{
-				mysql_query("UPDATE course SET name='$name',
-					stage='$stage', generate='$course_generate', naming='$naming',
-					many='$course_many' WHERE id='$crid'");
-				}
-
+			mysql_query("UPDATE course SET name='$name',
+					sequence='$sequence', generate='$course_generate', naming='$naming',
+					many='$course_many', endmonth='$endmonth' WHERE id='$crid'");
+			}
+	
 		while(list($index,$Subject)=each($Course['subjects']['subject'])){
 			/*****************Subjects************************/
 			$bid=$Subject['id'];
@@ -74,8 +77,10 @@ while(list($index,$curriculum)=each($curriculums)){
 			if(isset($Subject['classes'])){$many=$Subject['classes'];}
 			else{$many=$course_many;}
 			$components=$Subject['components'];
-			if(mysql_query("INSERT INTO subject (id, name)
-						VALUES('$bid','$name')")){
+			$d_subject=mysql_query("SELECT name FROM subject WHERE id='$bid'");
+			if(mysql_num_rows($d_subject)==0){
+			   mysql_query("INSERT INTO subject (id, name)
+						VALUES('$bid','$name')");
 				mysql_query("INSERT INTO groups (subject_id,
 					course_id, name) VALUES ('$bid', '%', '$bid')");
 				$gid=mysql_insert_id();
@@ -107,10 +112,21 @@ while(list($index,$curriculum)=each($curriculums)){
 				$pid=$Component['id'];
 				$status=$Component['status'];
 				$name=$Component['name'];
-				mysql_query("INSERT INTO subject (id, name)
+				$d_subject=mysql_query("SELECT name FROM subject WHERE id='$bid'");
+				if(mysql_num_rows($d_subject)==0){
+					mysql_query("INSERT INTO subject (id, name)
 						VALUES('$pid','$name')");
-				mysql_query("INSERT INTO component (id, course_id, subject_id, status)
+					}
+				$d_component=mysql_query("SELECT status FROM component
+					WHERE id='$pid' AND course_id='$crid' AND subject_id='$bid'");
+				if(mysql_num_rows($d_subject)==0){
+					mysql_query("INSERT INTO component (id, course_id, subject_id, status)
 							VALUES('$pid','$crid','$bid','$status')");
+					}
+				else{
+					mysql_query("UPDATE component SET status='$status'
+					WHERE id='$pid' AND course_id='$crid' AND subject_id='$bid'");
+					}
 				}
 			}
 		}
@@ -194,12 +210,17 @@ while(list($index,$curriculum)=each($curriculums)){
    		$crid=$Category['courseid'];
    		$bid=$Category['subjectid'];
    		$sectionname=$Category['sectionname'];
-   		if(mysql_query("INSERT INTO categorydef (name, grades,  
-				comment, course_id, subject_id, author)
-				VALUES ('$name', '$grades', 
-					'$comment', '$crid', '$bid', '$author')")){}
-		else{mysql_query("UPDATE grading SET 
-				grades='$grades', comment='$comment',
+		$d_categorydef=mysql_query("SELECT id FROM categorydef WHERE
+			name='$name' AND course_id='$crid' AND subject_id='$bid'");
+   		if(mysql_num_rows($d_categorydef)==0){
+			mysql_query("INSERT INTO categorydef (name, type,  
+				rating, rating_name, course_id, subject_id, section_id)
+				VALUES ('$name', '$type', '$rating', 
+					'$ratingname', '$crid', '$bid', '$sectioname')");
+			}
+		else{
+			mysql_query("UPDATE categorydef SET 
+				type='$grades', comment='$comment',
 				subject_id='$bid', author='$author' 
 				WHERE name='$name' AND course_id='$crid'");}
 		}

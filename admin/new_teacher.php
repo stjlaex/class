@@ -4,7 +4,7 @@
 
 $choice='new_teacher.php';
 $action='new_teacher_action.php';
-$extrabuttons['importfrofile']=array('name'=>'sub','value'=>'Load');
+$extrabuttons['importfromfile']=array('name'=>'sub','value'=>'Load');
 three_buttonmenu($extrabuttons);
 ?>
 <div class="content">

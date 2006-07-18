@@ -14,7 +14,6 @@ include('scripts/sub_action.php');
 if($sub=='Unassign'){
    	if(mysql_query("UPDATE form  SET teacher_id='' WHERE 
 		teacher_id='$newtid' AND id='$newfid'")){
-   			$result[]='Unasigned the form from '.$newtid;	
    			}
    	else{$error[]=mysql_error();}
     $action=$cancel;	

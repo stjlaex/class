@@ -23,6 +23,10 @@ UPDATE comments SET subject_id='G' WHERE subject_id='General';
 UPDATE comments SET subject_id='G' WHERE subject_id='%';
 ALTER TABLE course
 	ADD section_id smallint unsigned not null default '0' AFTER many;
+ALTER TABLE course
+	ADD endmonth enum('','1','2','3','4','5','6','7','8','9','10','11','12') NOT NULL DEFAULT '' AFTER section_id;
+ALTER TABLE course
+	CHANGE stage sequence smallint unsigned not null default '0';
 ALTER TABLE categorydef
 	ADD section_id smallint unsigned not null default '0' AFTER course_id;
 ALTER TABLE yeargroup

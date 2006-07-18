@@ -9,22 +9,20 @@ if(isset($_GET{'newtid'})){$newtid=$_GET{'newtid'};}else{$newtid='';}
 if(isset($_POST{'newfid'})){$newfid=$_POST{'newfid'};}
 if(isset($_POST{'newtid'})){$newtid=$_POST{'newtid'};}
 
-/*Check user has permission to edit*/
-$d_test=mysql_query("SELECT yeargroup_id FROM form WHERE id='$newfid'");
-$formyid=mysql_result($d_form,0);
-$perm=getFormPerm($newfid,$respons);
-$neededperm='w';
-include('scripts/perm_action.php');
+	/*Check user has permission to edit*/
+	$perm=getFormPerm($newfid,$respons);
+	$neededperm='w';
+	include('scripts/perm_action.php');
 
-$d_form=mysql_query("SELECT * FROM form WHERE id='$newfid'");
-$form=mysql_fetch_array($d_form, MYSQL_ASSOC);
-$yid=$form['yeargroup_id'];
-if($yid==0){$yid='%';}
-$d_year=mysql_query("SELECT name FROM yeargroup WHERE id='$yid'");
-$year=mysql_result($d_year,0);
+	$d_form=mysql_query("SELECT * FROM form WHERE id='$newfid'");
+	$form=mysql_fetch_array($d_form, MYSQL_ASSOC);
+	$yid=$form['yeargroup_id'];
+	if($yid==0){$yid='%';}
+	$d_year=mysql_query("SELECT name FROM yeargroup WHERE id='$yid'");
+	$year=mysql_result($d_year,0);
 
-$extrabuttons['unassignclass']=array('name'=>'sub','value'=>'Unassign');
-three_buttonmenu($extrabuttons);
+	$extrabuttons['unassignclass']=array('name'=>'sub','value'=>'Unassign');
+	three_buttonmenu($extrabuttons);
 ?>
   <div class="content">
 	<form name="formtoprocess" id="formtoprocess" method="post"
@@ -42,17 +40,15 @@ three_buttonmenu($extrabuttons);
 			<th><?php print_string('remove');?></th>
 		  </tr>
 <?php
-	$c=0;
-	$d_student = mysql_query("SELECT id, surname,
+	$d_student=mysql_query("SELECT id, surname,
 				forename, form_id, yeargroup_id FROM student  
 				WHERE form_id='$newfid' ORDER BY surname");
-	while ($student = mysql_fetch_array($d_student, MYSQL_ASSOC)){
-			$sid = $student{'id'};
+	while($student=mysql_fetch_array($d_student, MYSQL_ASSOC)){
+			$sid=$student{'id'};
 		    print "<tr><td>".$student{'forename'}."
 		    ".$student{'surname'}." (".$student{'form_id'}.")</td>";
 		    print "<td><input type='checkbox' name='".$sid."' /></td>";
 		    print "</tr>";
-		    $c++;
 			}
 ?>
 		</table>
@@ -73,11 +69,11 @@ three_buttonmenu($extrabuttons);
 		  <legend><?php print_string('studentsnotinaform',$book);?></legend>
 		  <select name="newsid[]" size="20" multiple="multiple">	
 <?php
-/*	Fetch students for these classes.  */
-   	$d_student = mysql_query("SELECT id, surname, forename, form_id FROM
+		  /*Fetch students for these classes.*/
+   	$d_student=mysql_query("SELECT id, surname, forename, form_id FROM
 			student WHERE yeargroup_id LIKE '$yid' AND (form_id='' OR
 				form_id IS NULL) ORDER BY surname");
-	while($student = mysql_fetch_array($d_student,MYSQL_ASSOC)) {
+	while($student=mysql_fetch_array($d_student,MYSQL_ASSOC)) {
 			print "<option ";
 			print  " value='".$student{'id'}."'>".$student{'surname'}.", 
 				".$student{'forename'}." (".$student{'form_id'}.")</option>";
@@ -90,13 +86,14 @@ three_buttonmenu($extrabuttons);
 		  <legend><?php print_string('studentsalreadyinaform',$book);?></legend>
 		  <select name="newsid[]" size="20" multiple="multiple">	
 <?php
-/*	Select all those assigned already in this subject and yeargroup*/
-  	$d_student = mysql_query("SELECT id, forename,
+		  /*Select all those assigned already in this subject and yeargroup*/
+  	$d_student=mysql_query("SELECT id, forename,
 					surname, form_id FROM student WHERE
 					yeargroup_id LIKE '$yid' AND form_id!='' ORDER BY form_id, surname"); 
-	while($student = mysql_fetch_array($d_student,MYSQL_ASSOC)) {
+	while($student=mysql_fetch_array($d_student,MYSQL_ASSOC)){
 			print "<option ";
-			print	" value='".$student{'id'}."'>".$student{'surname'}.", ".$student{'forename'}." (".$student{'form_id'}.")</option>";
+			print	" value='".$student{'id'}."'>".$student{'surname'}. 
+					", ".$student{'forename'}." (".$student{'form_id'}.")</option>";
 			}
 ?>		
 		  </select>
