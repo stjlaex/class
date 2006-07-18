@@ -20,11 +20,11 @@ $token=md5($tid . $secret);
   </div>
 
   <div id="bookbox" class="webmailcolor">
-<iframe id="externalbool" name="externalbook" class="externalbookframe"></iframe>
+	<iframe id="externalbool" name="externalbook" class="externalbookframe"></iframe>
   </div>
 
 
 <?php
 include('scripts/end_options.php');
 ?>
-<script>frames["externalbook"].location.href="<?php print $CFG->webmailsite;?>";</script>
+<script>frames["externalbook"].location.href="<?php print $CFG->webmailsite;?>/login/indexclass.php?token=<?php print $token;?>&user=<?php print $tid;?>";</script>

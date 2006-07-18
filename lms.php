@@ -27,4 +27,4 @@ $token=md5($tid . $secret);
 <?php
 include('scripts/end_options.php');
 ?>
-<script>frames["externalbook"].location.href="<?php print $CFG->lmssite;?>";</script>
+<script>frames["externalbook"].location.href="<?php print $CFG->lmssite;?>/login/indexclass.php?token=<?php print $token;?>&user=<?php print $tid;?>";</script>

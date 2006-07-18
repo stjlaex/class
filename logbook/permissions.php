@@ -61,10 +61,10 @@ function getResponStaff($tid,$respons,$r){
 		$rbid=$respons[$r]['subject_id'];
 		$rcrid=$respons[$r]['course_id'];
 		$ryid=$respons[$r]['yeargroup_id'];
-		if($ryid==""){$ryid="%";}
+		if($ryid==''){$rstage='%';}
 		$d_cids=mysql_query("SELECT DISTINCT id FROM class WHERE
 		subject_id LIKE '$rbid' AND course_id LIKE '$rcrid' AND
-		yeargroup_id LIKE '$ryid' ORDER BY id");
+		stage LIKE '$rstage' ORDER BY id");
 		while($cid=mysql_fetch_row($d_cids)){
 			$d_users=mysql_query("SELECT DISTINCT uid,
 			   	username, passwd, forename, surname, email, nologin,

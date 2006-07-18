@@ -83,15 +83,6 @@ $rtid=$tid;
 		<option <?php if($choice=='year_end.php'){print
 				'selected="selected" ';}?>value='year_end.php'>
 				<?php print_string('yearend');?></option>
-		<option <?php if($choice=='statementbank.php'){print
-				'selected="selected" ';}?>value='statementbank.php'>
-				<?php print_string('statementbank');?></option>
-		<option <?php if($choice=='server_test.php'){print
-				'selected="selected" ';}?>value='server_test.php'>
-				<?php print_string('servertest');?></option>
-		<option <?php if($choice=='fix8.php'){print
-				'selected="selected" ';}?>value='fix8.php'>
-				<?php print_string('fix8');?></option>
 <?php
 /*these are all pretty experimental!!!!!
 		<option <?php if($choice=='passwords.php'){print
@@ -106,6 +97,15 @@ $rtid=$tid;
 		<option <?php if($choice=='enrol_student.php'){print
 				'selected="selected" ';}?>value='enrol_student.php'>
 				<?php print_string('enrolstudents');?></option>
+		<option <?php if($choice=='fix8.php'){print
+				'selected="selected" ';}?>value='fix8.php'>
+				<?php print_string('fix8');?></option>
+		<option <?php if($choice=='server_test.php'){print
+				'selected="selected" ';}?>value='server_test.php'>
+				<?php print_string('servertest');?></option>
+		<option <?php if($choice=='statementbank.php'){print
+				'selected="selected" ';}?>value='statementbank.php'>
+				<?php print_string('statementbank');?></option>
 */
 ?>
 <?php	} ?>

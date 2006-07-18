@@ -190,14 +190,19 @@ while(list($index,$curriculum)=each($curriculums)){
    		$crid=$Grade['courseid'];
    		$bid=$Grade['subjectid'];
    		$author='ClaSS';
-   		if(mysql_query("INSERT INTO grading (name, grades,  
+		$d_grading=mysql_query("SELECT subject_id FROM grading WHERE
+			name='$name' AND course_id='$crid'");
+   		if(mysql_num_rows($d_grading)==0){
+			mysql_query("INSERT INTO grading (name, grades,  
 				comment, course_id, subject_id, author)
 				VALUES ('$name', '$grades', 
-					'$comment', '$crid', '$bid', '$author')")){}
+					'$comment', '$crid', '$bid', '$author')");
+			}
 		else{mysql_query("UPDATE grading SET 
 				grades='$grades', comment='$comment',
 				subject_id='$bid', author='$author' 
-				WHERE name='$name' AND course_id='$crid'");}
+				WHERE name='$name' AND course_id='$crid'");
+			}
 		}
 
 	$Categories=$AssessmentMethods['categories'];
@@ -220,8 +225,8 @@ while(list($index,$curriculum)=each($curriculums)){
 			}
 		else{
 			mysql_query("UPDATE categorydef SET 
-				type='$grades', comment='$comment',
-				subject_id='$bid', author='$author' 
+				type='$type', rating='$rating',
+				rating_name='$ratingname', subject_id='$bid', section_id='$sectionname'  
 				WHERE name='$name' AND course_id='$crid'");}
 		}
 
