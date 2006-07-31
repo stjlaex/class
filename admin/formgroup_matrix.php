@@ -29,8 +29,9 @@ three_buttonmenu();
 		<label for="Forms" ><?php print_string('unassignedformgroups',$book);?></label>
 		<select id="Forms" name="newfid" size="1">
 <?php
-  	$d_fids = mysql_query("SELECT id FROM form WHERE teacher_id='' ORDER BY yeargroup_id"); 
-   	while($fids = mysql_fetch_array($d_fids,MYSQL_ASSOC)){
+  	$d_fids=mysql_query("SELECT id FROM form WHERE teacher_id='' OR
+					teacher_id IS NULL ORDER BY yeargroup_id"); 
+   	while($fids=mysql_fetch_array($d_fids,MYSQL_ASSOC)){
    		print '<option ';
 		print	' value="'.$fids['id'].'">'.$fids['id'].'</option>';
 		}

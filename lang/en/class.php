@@ -125,7 +125,6 @@ $string['properties']='Properties';
 $string['formgroups']='Form groups';
 $string['logcounter']='Log counter';
 $string['classesmatrix']='Classes matrix';
-$string['curriculummatrix']='Curriculum matrix';
 $string['newstudents']='New students';
 $string['newteachers']='New teachers';
 $string['updatecurriculum']='Update curriculum';
@@ -213,5 +212,7 @@ $string['currentreports']='Current reports';
 $string['removecontact']='Remove contact';
 $string['newstudent']='New student';
 $string['newcontact']='New contact';
+$string['cohortmatrix']='Cohort matrix';
+$string['communities']='Communities';
 $string['']='';
 ?>

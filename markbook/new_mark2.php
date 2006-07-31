@@ -45,11 +45,11 @@ three_buttonmenu();
 	 	$rbid=$respons[$r]{'subject_id'};
 		$rcrid=$respons[$r]{'course_id'};
 		$ryid=$respons[$r]{'yeargroup_id'};
-		if($ryid==''){$ryid='%';}
+		if($stage==''){$stage='%';}
 		$d_cids=mysql_query("SELECT DISTINCT id AS class_id FROM class WHERE
 			(subject_id LIKE '$rbid' OR subject_id='%') AND (course_id
-			LIKE '$rcrid' OR course_id='%') AND (yeargroup_id LIKE '$ryid'
-				OR yeargroup_id='%') ORDER BY id");
+			LIKE '$rcrid' OR course_id='%') AND (stage LIKE '$stage'
+				OR stage='%') ORDER BY id");
 		}
 	else {
 /*	or by select definitions by subjects of classes taught*/

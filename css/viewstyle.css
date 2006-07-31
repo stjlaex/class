@@ -208,7 +208,6 @@ div.content .center, div.topform .center{
 	overflow:auto; 
 	}
 
-
 /*used (but rarely) to describe page content in the space to the left of the top buttonmenu*/
 div#heading {
 	position:absolute; top:1%; left:10%; width:40%;

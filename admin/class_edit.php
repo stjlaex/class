@@ -26,30 +26,6 @@ three_buttonmenu($extrabuttons);
 	<form name="formtoprocess" id="formtoprocess" method="post"
 	  action="<?php print $host; ?>">
 
-	  <div style="width:35%;float:left;">
-	  <table class="listmenu">
-		<caption><?php print_string('currentclassfor',$book);?><?php print $bid;?></caption>
-		<tr>
-		  <th><?php print $newcid.'/'.$newtid; ?></th>
-		  <th><?php print_string('remove');?></th>
-		</tr>
-<?php
-		  /*students already in this class*/
-	$c=0;
-	$d_student=mysql_query("SELECT a.student_id, b.surname, b.middlenames,
-				b.forename, b.yeargroup_id, b.form_id FROM cidsid a, student b 
-				WHERE a.class_id='$newcid' AND b.id=a.student_id ORDER BY b.surname");
-	while($student=mysql_fetch_array($d_student, MYSQL_ASSOC)){
-			$sid=$student{'student_id'};
-		    print '<tr><td>'.$student['forename'].'
-		    '.$student['surname'].' ('.$student['form_id'].')</td>';
-		    print '<td><input type="checkbox" name="'.$sid.'" /></td>';
-		    print '</tr>';
-		    $c++;
-			}
-?>
-	  </table>
-	  </div>
 <?php
 
 	/*Fetch students in this cohort.*/
@@ -90,30 +66,8 @@ three_buttonmenu($extrabuttons);
 			BY b.surname");}
 		$firstit++;
 		}
-
-	/*Filter for those not assigned already in this subject*/
-  	$d_student=mysql_query("SELECT a.student_id, a.forename, a.middlenames,
-					a.surname, a.form_id FROM
-					cohortstudents AS a LEFT JOIN subjectstudents AS b ON
-					a.student_id=b.student_id WHERE
-					b.student_id IS NULL 
-					ORDER BY a.form_id, a.surname");
 ?>
-	  <div style="width:63%;float:right;">
-		<fieldset class="left">
-		  <legend><?php print_string('studentsnotinsubject',$book);?></legend>
-		  <select name="newsid[]" size="20" multiple="multiple">	
-<?php
-	while($student=mysql_fetch_array($d_student,MYSQL_ASSOC)) {
-			print '<option ';
-			print	'value="'.$student['student_id'].'">'.$student['surname'].',
-  	'.$student['forename'].' '.$student['middlenames'].' ('.$student['form_id'].')</option>';
-			}
-?>
-		  </select>
-		</fieldset>
-
-		<fieldset class="right">
+		<fieldset  style="float:left;width:31%;">
 		  <legend><?php print_string('studentsalreadyinsubject',$book);?></legend>
 		  <select name="newsid[]" size="20" multiple="multiple">	
 <?php
@@ -126,10 +80,58 @@ three_buttonmenu($extrabuttons);
 				$student['surname'].', '.$student['forename'].' '. 
 					$student['middlenames'].' ('.$student['form_id'].')</option>';
 			}
-?>		
+?>
+
 		  </select>
 		</fieldset>
+
+	  <div style="float:left;width:31%;margin:1%;">
+		<table class="listmenu">
+		<caption><?php print_string('currentclassfor',$book);?>: <?php print $bid;?></caption>
+		<tr>
+		  <th><?php print $newcid.'/'.$newtid; ?></th>
+		  <td><?php print_string('remove');?></td>
+		</tr>
+<?php
+		  /*students already in this class*/
+	$c=0;
+	$d_student=mysql_query("SELECT a.student_id, b.surname, b.middlenames,
+				b.forename, b.yeargroup_id, b.form_id FROM cidsid a, student b 
+				WHERE a.class_id='$newcid' AND b.id=a.student_id ORDER BY b.surname");
+	while($student=mysql_fetch_array($d_student, MYSQL_ASSOC)){
+			$sid=$student{'student_id'};
+		    print '<tr><td>'.$student['forename'].'
+		    '.$student['surname'].' ('.$student['form_id'].')</td>';
+		    print '<td><input type="checkbox" name="'.$sid.'" /></td>';
+		    print '</tr>';
+		    $c++;
+			}
+?>
+		</table>
 	  </div>
+
+<?php
+	/*Filter for those not assigned already in this subject*/
+  	$d_student=mysql_query("SELECT a.student_id, a.forename, a.middlenames,
+					a.surname, a.form_id FROM
+					cohortstudents AS a LEFT JOIN subjectstudents AS b ON
+					a.student_id=b.student_id WHERE
+					b.student_id IS NULL 
+					ORDER BY a.form_id, a.surname");
+?>
+		<fieldset  style="float:left;width:31%;">
+		  <legend><?php print_string('studentsnotinsubject',$book);?></legend>
+		  <select name="newsid[]" size="20" multiple="multiple">	
+<?php
+	while($student=mysql_fetch_array($d_student,MYSQL_ASSOC)) {
+			print '<option ';
+			print	'value="'.$student['student_id'].'">'.$student['surname'].',
+  	'.$student['forename'].' '.$student['middlenames'].' ('.$student['form_id'].')</option>';
+			}
+?>
+		  </select>
+		</fieldset>
+		
 
 	<input type="hidden" name="newcid" value="<?php print $newcid;?>" /> 
 	<input type="hidden" name="newtid" value="<?php print $newtid;?>" />

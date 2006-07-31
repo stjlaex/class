@@ -37,7 +37,7 @@ while($cohort=mysql_fetch_array($d_cohort,MYSQL_ASSOC)){
 	}
 ?>
   <div id="heading">
-			  <label><?php print_string('cohorts',$book); ?></label>
+			  <label><?php print_string('cohort',$book); ?></label>
 			<?php print $crid.':'.$currentyear.':'.$currentseason;?>
   </div>
 
@@ -46,7 +46,7 @@ while($cohort=mysql_fetch_array($d_cohort,MYSQL_ASSOC)){
 	  <table class="listmenu">
 		<tr>
 		  <th>
-			<?php print_string('stages',$book); ?>
+			<?php print_string('stage',$book); ?>
 		  </th>
 		  <th>
 			<?php print_string('communities',$book); ?>
