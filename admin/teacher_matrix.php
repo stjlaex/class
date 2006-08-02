@@ -1,19 +1,12 @@
 <?php 
 /**													teacher_matrix.php
  */
+
 $choice='teacher_matrix.php';
 $action='teacher_matrix_action.php';
 
-	if($r>-1){
-		$bid=$respons[$r]{'subject_id'};
-		$crid=$respons[$r]{'course_id'};
-		if($bid==''){$bid='%';}
-		}
-	else {
-		$error[]=get_string('selectresponsibility');
-		include('scripts/results.php');
-		exit;
-		}
+list($crid,$bid,$error)=checkCurrentRespon($r,$respons);
+if($error!=''){include('scripts/results.php');exit;}
 
 $tids=getTeachingStaff($crid,$bid);
 

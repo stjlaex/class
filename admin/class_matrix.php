@@ -7,21 +7,9 @@
 $action='class_matrix_action.php';
 $choice='class_matrix.php';
 
-	if($r>-1){
-		$bid=$respons[$r]{'subject_id'};
-		$crid=$respons[$r]{'course_id'};
-		if($bid==''){$bid='%';}
-		if($bid!='%'){
-		   	$error[]='Select a Course not a Subject responsibility.';
-		   	include('scripts/results.php');
-		   	exit;
-		   	}
-		}
-	else {
-		$error[]='You need to select a Course repsonsibility in the LogBook.';
-		include('scripts/results.php');
-		exit;
-		}
+list($crid,$bid,$error)=checkCurrentRespon($r,$respons,'course');
+if($error!=''){include('scripts/results.php');exit;}
+
 
 	$d_classes=mysql_query("SELECT DISTINCT stage FROM classes WHERE
 							course_id='$crid'");

@@ -32,6 +32,24 @@ $string['noactiontaken']='NO action has been taken!';
 $string['updatedcurriculum']='Updated the curriculum structure for ';
 $string['newclassstructure']='New class structure generated.';
 $string['cohort']='Cohort';
+$string['endofyear']='End of year';
+$string['confidentwhatyouaredoing']='You really do need to be confident you know what your doing to continue.';
+$string['updatecurriculum']='Update curriculum';
+$string['updatecurriculumwarning']='<p>This will reload the curriculum packs for your database. The
+	curriculum packs should have first been configured to match the
+	needs of your school. Please refer to the ClaSS Administrators
+	Guide for instructions on how to do this.<p/>
+
+	<p>The curriculum should, in general, only be updated in advance
+	of the start of an academic year.<p/>
+';
+$string['yearendwarning']='	<p>The end of year function really should be only run after the
+	end of the academic year.</p>
+		<p>This option will promote students up to the next
+	yeargroup. It will also empty all marks from the MarkBook
+	archiving only those linked to an Assessment. <p/>
+';
+$string['']='';
 $string['']='';
 $string['']='';
 ?>

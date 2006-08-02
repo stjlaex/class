@@ -26,7 +26,7 @@ function three_buttonmenu($extrabuttons=array()){
 
 function two_buttonmenu($extrabuttons=array()){
 ?>
-<div class="buttonmenu">
+  <div class="buttonmenu">
 <?php
 		 while(list($description,$value)=each($extrabuttons)){
 ?>
@@ -37,14 +37,14 @@ function two_buttonmenu($extrabuttons=array()){
 ?>
 	<button onClick="processContent(this);" name="sub" value="Cancel"><?php print_string('cancel');?></button>
 	<button onClick="processContent(this);" name="sub" value="Reset"><?php print_string('reset');?></button>
-</div>
+  </div>
 
 <?php
 	}
 
 function twoplus_buttonmenu($currentkey,$maxkey){
 ?>
-<div class="buttonmenu">
+  <div class="buttonmenu">
   	<button onClick="processContent(this);" <?php
 	if($currentkey==0){print 'disabled="disabled"
 	style="visibility:hidden;"';} ?> name="sub" value="Previous"><?php print_string('previous');?></button>
@@ -53,35 +53,40 @@ function twoplus_buttonmenu($currentkey,$maxkey){
 	style="visibility:hidden;"';} ?> name="sub" value="Next"><?php print_string('next');?></button>
 	<button onClick="processContent(this);" name="sub" value="Cancel"><?php print_string('cancel');?></button>
 	<button onClick="processContent(this);" name="sub" value="Reset"><?php print_string('reset');?></button>
-</div>
+  </div>
 
 <?php
 	}
 
 function twoplusprint_buttonmenu(){
 ?>
-<div class="buttonmenu">
+  <div class="buttonmenu">
 	<button onClick="processContent(this);" name="sub" 
 		value="Print"><?php print_string('printselected');?></button>
 	<button onClick="processContent(this);" name="sub" value="Cancel"><?php print_string('cancel');?></button>
 	<button onClick="processContent(this);" name="sub" value="Reset"><?php print_string('reset');?></button>
-</div>
+  </div>
 
 <?php
 	}
 
 function check_yesno($name='answer',$choice='no'){
 ?>
-<div class="left">
-<label for="yes"><?php print_string('yes');?></label>
-<input type="radio" name="<?php print $name;?>" title="yes" id="yes" 
+  <table class="listmenu">
+	<caption><?php print_string('readytocontinue'); ?></caption>
+	<tr>
+	  <td>
+	<label for="yes"><?php print_string('yes');?></label>
+	<input type="radio" name="<?php print $name;?>" title="yes" id="yes" 
 	  value="yes" <?php if($choice=='yes'){print 'checked';}?> />
-</div>
-<div class="right">
-<label for="no"><?php print_string('no');?></label>
-<input type="radio" name="<?php print $name;?>" title="no" id="no"
+	  </td>
+	  <td>
+	<label for="no"><?php print_string('no');?></label>
+	<input type="radio" name="<?php print $name;?>" title="no" id="no"
 	  value="no" <?php if($choice=='no'){print 'checked';}?> />
-</div>
+	  </td>
+	</tr>
+ </table>
 <?php
 	}
 ?>

@@ -56,8 +56,7 @@ $string['student']='Student';
 $string['noinfo']='No information';
 $string['nopermissions']='You do not have the permissions to edit this page!';
 $string['edit']='Edit';
-$string['selectresponsibility']='You need to select a responsibility
-to work with, instead of \'My classes\'.';
+$string['selectresponsibility']='You need to select a responsibility to work with, instead of \'My classes\'.';
 $string['selectcourseresponsibility']='You need to select a course responsibility to work with, instead of \'My classes\'.';
 $string['date']='Date';
 $string['concerns']='Concerns';
@@ -214,5 +213,7 @@ $string['newstudent']='New student';
 $string['newcontact']='New contact';
 $string['cohortmatrix']='Cohort matrix';
 $string['communities']='Communities';
+$string['readytocontinue']='Continue?';
+$string['confirm']='Confirm action.';
 $string['']='';
 ?>

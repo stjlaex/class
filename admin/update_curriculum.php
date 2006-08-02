@@ -16,27 +16,18 @@ three_buttonmenu();
 <form id="formtoprocess" name="formtoprocess" onChange="return
 	validateForm();" method="post" action="<?php print $host;?>">
 	<fieldset class="center"> 
-	<legend>Update Curriculum</legend> 
-
-	<p>This will reload the curriculum packs for your database. The
-	curriculum packs should have first been configured to match the
-	needs of your school. Please refer to the ClaSS Administrators Guide for
-	instructions on how to do this.<p/>
-
-	<p>The curriculum should, in general, only be updated in advance
-	of the start of an academic year.<p/>
-
+	<legend><?php print_string('updatecurriculum',$book); ?></legend> 
+	<?php print_string('updatecurriculumwarning',$book); ?>
 	</fieldset>
 
 	<fieldset class="center"> 
-	<legend>Confirm</legend>
-	<p>You really do need to be confident you know what your doing to
-	continue.</p>
-
+		<legend><?php print_string('confirm',$book);?></legend>
+		<p><?php print_string('confidentwhatyouaredoing',$book);?></p>
+		<div class="right">
 <?php
 	check_yesno();
 ?>
-
+		</div>
 	</fieldset>
 
 

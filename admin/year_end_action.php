@@ -4,8 +4,9 @@
 
 $action='year_end_action2.php';
 
-if($_POST{'answer'}=='no'){
+if($_POST{'answer'}!='yes'){
 	$current='';
+	$action='';
  	$result[]='NO action taken.';
 	include('scripts/results.php');
 	include('scripts/redirect.php');

@@ -8,8 +8,8 @@ $action='responsables_action.php';
 three_buttonmenu();
 ?>
   <div class="topform">
-	<form id="formtoprocess" name="formtoprocess"  onChange="return
-	  validateForm();" method="post" action="<?php print $host;?>"> 
+	<form id="formtoprocess" name="formtoprocess"  
+		onChange="return validateForm();" method="post" action="<?php print $host;?>"> 
 	  <div class="left">
 		<p><?php print_string('chooseeitherresponsibility',$book);?></p>
 		<label for="User">

@@ -6,16 +6,14 @@ $action='class_matrix.php';
 
 include('scripts/sub_action.php');
 
-$crid=$respons[$r]['course_id'];
-$result=array();
-$error=array();
+list($crid,$bid,$error)=checkCurrentRespon($r,$respons,'course');
+if($error!=''){include('scripts/results.php');exit;}
 
 if($sub=='Update'){
 	$d_subject=mysql_query("SELECT DISTINCT subject_id FROM cridbid
 				WHERE course_id='$crid' ORDER BY subject_id");
 	$d_classes=mysql_query("SELECT DISTINCT stage FROM classes WHERE
 							course_id='$crid'");
-
 	$bids=array();
    	while($subject=mysql_fetch_array($d_subject,MYSQL_ASSOC)){
    		$bids[]=$subject{'subject_id'};
@@ -70,12 +68,16 @@ elseif($sub=='Generate'){
 ?>
   <div class="content">
 	<fieldset class="center">
+		<legend><?php print_string('confirm',$book);?></legend>
 	  <?php print_string('generateclassstructurequestion',$book);?>
 	  <form name="formtoprocess" id="formtoprocess" method="post" action="<?php print $host; ?>">
 		<input type="hidden" name="current" value="<?php print $action;?>">
 		<input type="hidden" name="choice" value="<?php print $choice;?>">
 		<input type="hidden" name="cancel" value="<?php print $choice;?>">
-<?php check_yesno();?>
+
+			  <div class="right">
+			   <?php check_yesno();?>
+			  </div>
 	  </form>
 	</fieldset>
   </div>
@@ -107,13 +109,35 @@ elseif($sub=='Submit' and $_POST['answer']=='yes'){
 			WHERE course_id='$crid' AND year='$currentyear'
 			AND season='$currentseason' AND stage='$stage'");
 		$communities=array();
+		$name=array();
 		while($cohidcomid=mysql_fetch_array($d_cohidcomid,MYSQL_ASSOC)){
 			$comid=$cohidcomid['community_id'];
-			$d_community=mysql_query("SELECT * FROM community WHERE
-														id=$comid");
+			$d_community=mysql_query("SELECT * FROM community WHERE id='$comid'");
 			$communities[$comid]=mysql_fetch_array($d_community,MYSQL_ASSOC);
 			}
 
+		if($classes['naming']=='' and $classes['generate']=='forms'){
+			$name['root']=$bid;
+			$name['stem']='-';
+			$name['branch']='';
+			$name_counter='';
+			}
+		elseif($classes['naming']=='' and $classes['generate']=='sets'){
+			$name['root']=$bid;
+			$name['stem']=$stage;
+			$name['branch']='/';
+			$name_counter='';
+			}
+		else{
+			list($name['root'],$name['stem'],$name['branch'],$name_counter)=split(';',$classes['naming'],4);
+			while(list($index,$namecheck)=each($name)){
+				if($namecheck=='subject'){$name[$index]=$bid;}
+				if($namecheck=='stage'){$name[$index]=$stage;}
+				if($namecheck=='course'){$name[$index]=$crid;}
+				}
+			}
+
+		$class_counters=array();
 		if($classes['generate']=='forms' & $classes['many']>0){
 			while(list($comid,$community)=each($communities)){
 				if($community['type']=='year'){
@@ -122,28 +146,36 @@ elseif($sub=='Submit' and $_POST['answer']=='yes'){
 								WHERE yeargroup_id='$yid'");
 					}
 				while($form=mysql_fetch_array($d_form,MYSQL_ASSOC)){
-					$fid=$form['id'];
-					$newcid=$bid.$fid;
-					mysql_query("INSERT INTO class (id,
-							subject_id, course_id, stage) VALUES ('$newcid', '$bid',
-								'$crid', '$stage')");
-					$d_sids=mysql_query("SELECT id FROM student WHERE form_id='$fid'");
-					while($sids=mysql_fetch_array($d_sids, MYSQL_ASSOC)){
-						$sid=$sids['id'];
-						mysql_query("INSERT INTO cidsid
-								(class_id, student_id) VALUES ('$newcid','$sid')");
-						}
+					$class_counters[]=$form['id'];
 					}
 				}
 			}
-		elseif($classes['generate']=='sets' & $classes['many']>0){
-			if($classes['naming']==''){$name=$bid.$stage.'/';}
-			else{$name=$bid.$classes['naming'];}
-			for($c=1;$c<=$classes['many'];$c++){
-				$newcid=$name.$c;
-				mysql_query("INSERT INTO class (id,
+		elseif($classes['many']>0){
+			if($name_counter!=''){
+				for($c=0;$c<$classes['many'];$c++){
+					$class_counters[]=$name_counter[$c];
+					}
+				}
+			else{
+				$class_counters=range('1',$classes['many']);
+				}
+			}
+		else{
+			$class_counters=array();
+			}
+
+		foreach($class_counters as $counter){
+			$newcid=$name['root'].$name['stem'].$name['branch'].$counter;
+			mysql_query("INSERT INTO class (id,
 							subject_id, course_id, stage) VALUES ('$newcid', '$bid',
 								'$crid', '$stage')");
+			if($classes['generate']=='forms'){
+   				$d_sids=mysql_query("SELECT id FROM student WHERE form_id='$counter'");
+				while($sids=mysql_fetch_array($d_sids, MYSQL_ASSOC)){
+					$sid=$sids['id'];
+					mysql_query("INSERT INTO cidsid
+								(class_id, student_id) VALUES ('$newcid','$sid')");
+					}
 				}
 			}
 		}

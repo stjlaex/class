@@ -11,7 +11,7 @@
 $action='';
 $choice='';
 
-if($_POST{'answer'}=='no'){
+if($_POST{'answer'}!='yes'){
 	$current='';
 	$result[]=get_string('noactiontaken',$book);
 	include('scripts/results.php');
@@ -47,15 +47,22 @@ while(list($index,$curriculum)=each($curriculums)){
    		$name=$Course['name'];
    		$sequence=$Course['sequence'];
    		$endmonth=$Course['endmonth'];
-   		$naming='';
 		$course_generate=$Course['setting'];
    		$course_many=$Course['classes'];
+		if(is_array($Course['naming'])){
+			$course_naming=$Course['naming']['root'] 
+					.';'.$Course['naming']['stem'] 
+					.';'.$Course['naming']['branch'].';'.$Course['naming']['counter'];
+			if(sizeof($course_naming)>39){$course_naming='';}
+			}
+   		else{$course_naming='';}
+
 		$d_course=mysql_query("SELECT name FROM course WHERE id='$crid'");
 		if(mysql_num_rows($d_course)==0){
 			mysql_query("INSERT INTO course (id, name, sequence,
 				generate, naming, many, endmonth)
 				VALUES ('$crid','$name','$sequence', 
-				'$course_generate','$naming','$course_many','$endmonth')");
+				'$course_generate','$course_naming','$course_many','$endmonth')");
 			mysql_query("INSERT INTO groups (subject_id,
 					course_id, name) VALUES ('%', '$crid', '$crid')");
 			$gid=mysql_insert_id();
@@ -64,7 +71,7 @@ while(list($index,$curriculum)=each($curriculums)){
 			}
 		else{
 			mysql_query("UPDATE course SET name='$name',
-					sequence='$sequence', generate='$course_generate', naming='$naming',
+					sequence='$sequence', generate='$course_generate', naming='$course_naming',
 					many='$course_many', endmonth='$endmonth' WHERE id='$crid'");
 			}
 	
@@ -76,6 +83,13 @@ while(list($index,$curriculum)=each($curriculums)){
 			else{$generate=$course_generate;}
 			if(isset($Subject['classes'])){$many=$Subject['classes'];}
 			else{$many=$course_many;}
+			if(is_array($Subject['naming'])){
+				$naming=$Subject['naming']['root'] 
+						.';'.$Subject['naming']['stem'] 
+						.';'.$Subject['naming']['branch'].';'.$Subject['naming']['counter'];
+				if(sizeof($naming)>39){$naming='';}
+				}
+	  		else{$naming=$course_naming;}
 			$components=$Subject['components'];
 			$d_subject=mysql_query("SELECT name FROM subject WHERE id='$bid'");
 			if(mysql_num_rows($d_subject)==0){
@@ -102,7 +116,7 @@ while(list($index,$curriculum)=each($curriculums)){
 								generate, naming, stage, subject_id, course_id) VALUES
 								('$many', '$generate', '$naming', '$stage', '$bid',
 								'$crid')")){}
-				else{$error[]='Failed to insert new classes!';	
+				else{$error[]='Failed to insert new classes!';
 								$error[]=mysql_error();}
 				updateCohort(array('course_id'=>$crid,'stage'=>$stage));
 				}

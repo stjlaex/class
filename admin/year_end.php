@@ -11,24 +11,17 @@ three_buttonmenu();
   <div class="content">
 	<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
 	  <fieldset class="center"> 
-		<legend>End of Year</legend> 
-
-	<p>This option will promote students up to the next
-	yeargroup. It will also archive all marks from the MarkBook which
-	have been linked to an Assessment. It is important that any marks
-	needed for future reference have been disignated as an Assessment
-	in this way, as clicking YES empties the MarkBook, ready for the next
-	academic year.<p/>
-
+		<legend><?php print_string('yearend',$book);?></legend> 
+		<?php print_string('yearendwarning',$book);?>
 	</fieldset>
 
-	<fieldset class="center"> 
-	<legend>Confirm</legend>
-	<p>Are you ready to continue?</p>
-<?php
-	check_yesno();
-?>
+	  <fieldset class="center"> 
+		<legend><?php print_string('confirm',$book);?></legend>
+		<p><?php print_string('confidentwhatyouaredoing',$book);?></p>
 
+		<div class="right">
+		  <?php	check_yesno();?>
+		</div>
 	</fieldset> 
 
 

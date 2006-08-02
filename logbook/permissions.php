@@ -117,6 +117,21 @@ function getTeachingStaff($crid='',$bid=''){
 	return $tids;
 	}
 
+function checkCurrentRespon($r,$respons,$required='subject'){
+	if($r>-1){
+		$bid=$respon[$r]['subject_id'];
+		$crid=$respons[$r]['course_id'];
+		if($bid==''){$bid='%';}
+		}
+	if($required=='subject' and $bid==''){
+		$error[]=get_string('selectresponsibility');
+		}
+	elseif($required=='course' and ($crid=='' or $crid=='%')){
+		$error[]=get_string('selectcourseresponsibility');
+		}
+	return array($crid,$bid,$error);
+	}
+
 function getYearPerm($year,$respons){
 	/*return perm for yeargroup*/	
 	$perm['r']=0;
