@@ -110,23 +110,23 @@ elseif($sub=='Submit' and $_POST['answer']=='yes'){
 			AND season='$currentseason' AND stage='$stage'");
 		$communities=array();
 		$name=array();
+		$name_counter='';
 		while($cohidcomid=mysql_fetch_array($d_cohidcomid,MYSQL_ASSOC)){
 			$comid=$cohidcomid['community_id'];
 			$d_community=mysql_query("SELECT * FROM community WHERE id='$comid'");
 			$communities[$comid]=mysql_fetch_array($d_community,MYSQL_ASSOC);
+			if($communities[$comid]['type']=='year'){$yid=$communities[$comid]['name'];}
 			}
 
 		if($classes['naming']=='' and $classes['generate']=='forms'){
 			$name['root']=$bid;
 			$name['stem']='-';
 			$name['branch']='';
-			$name_counter='';
 			}
 		elseif($classes['naming']=='' and $classes['generate']=='sets'){
 			$name['root']=$bid;
 			$name['stem']=$stage;
 			$name['branch']='/';
-			$name_counter='';
 			}
 		else{
 			list($name['root'],$name['stem'],$name['branch'],$name_counter)=split(';',$classes['naming'],4);
@@ -134,6 +134,7 @@ elseif($sub=='Submit' and $_POST['answer']=='yes'){
 				if($namecheck=='subject'){$name[$index]=$bid;}
 				if($namecheck=='stage'){$name[$index]=$stage;}
 				if($namecheck=='course'){$name[$index]=$crid;}
+				if($namecheck=='year'){$name[$index]=$yid;}
 				}
 			}
 
