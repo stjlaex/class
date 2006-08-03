@@ -67,7 +67,7 @@ three_buttonmenu($extrabuttons);
 		$firstit++;
 		}
 ?>
-		<fieldset  style="float:left;width:31%;">
+		<fieldset  style="float:left;width:30%;">
 		  <legend><?php print_string('studentsalreadyinsubject',$book);?></legend>
 		  <select name="newsid[]" size="20" multiple="multiple">	
 <?php
@@ -85,7 +85,7 @@ three_buttonmenu($extrabuttons);
 		  </select>
 		</fieldset>
 
-	  <div style="float:left;width:31%;margin:1%;">
+	  <div style="float:left;width:30%;margin:1%;">
 		<table class="listmenu">
 		<caption><?php print_string('currentclassfor',$book);?>: <?php print $bid;?></caption>
 		<tr>
@@ -119,7 +119,7 @@ three_buttonmenu($extrabuttons);
 					b.student_id IS NULL 
 					ORDER BY a.form_id, a.surname");
 ?>
-		<fieldset  style="float:left;width:31%;">
+		<fieldset  style="float:left;width:30%;">
 		  <legend><?php print_string('studentsnotinsubject',$book);?></legend>
 		  <select name="newsid[]" size="20" multiple="multiple">	
 <?php
