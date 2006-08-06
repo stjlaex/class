@@ -79,43 +79,6 @@ function gradeToScore($grade,$grading_grades){
 	return $score;
 	}
 
-/*
-function fetchResult($score){
-	$mid=$score['mark_id'];
-	$d_markdef=mysql_query("SELECT * FROM markdef JOIN mark ON
-		mark.def_name=markdef.name WHERE mark.id='$mid'");
-	$markdef=mysql_fetch_array($d_markdef,MYSQL_ASSOC);
-	$scoretype=$markdef['scoretype'];
-	if($scoretype=='grade'){
-		$gradingname=$markdef['grading_name'];
-		$d_grading=mysql_query("SELECT grades FROM grading WHERE name='$gradingname'");
-		$grading_grades=mysql_result($d_grading,0);
-		$out=scoreToGrade($score['grade'],$grading_grades);
-		}
-   	elseif($scoretype=='value'){
-		$out=$score['value'];
-		}
-	elseif($scoretype=='percentage'){
-		$score_value=$score{'value'};
-		$score_total=$score{'outoftotal'};
-		$marktotal=$mark_total[$c];
-		if(!isset($score_total)){$score_total=$marktotal;}
-		include('markbook/percent_score.php');
-		if(isset($percent)){
-			$out=$percent.' ('.number_format($score_value,1,'.','').')';
-			}
-		else{$out='';}      
-		}
-	elseif($scoretype=='comment'){
-		$out=$score{'comment'};
-		}
-	elseif($scoretype=='tier'){
-		$out=$score{'tier'};
-		}
-	return $out;
-   	}
-*/
-
 function fetchAssessmentDefinition($eid){
    	$AssDef=array();
   	$AssDef['id_db']=$eid;
@@ -244,6 +207,9 @@ function fetchAssessments($sid){
 	   	$Assessment['Method']=array('label' => 'Method','table_db' =>
 					'assessment', 'field_db' => 'method',
 					'type_db'=>'char(3)', 'value' => $ass['method']);
+	   	$Assessment['GradingScheme']=array('label' => 'Grading Scheme','table_db' =>
+					'assessment', 'field_db' => 'grading_name',
+					'type_db'=>'varchar(20)', 'value' => $ass['grading_name']);
 	   	$Assessment['Element']=array('label' =>
 					'Element','table_db' => 'assessment', 'field_db' => 'element',
 					'type_db'=>'char(3)', 'value' => $ass['element']);

@@ -42,4 +42,16 @@ function xmlfilereader($xmlfilename){
 		}
 	return $Data;
 	}
+
+function xmlarray_indexed_check($inarray,$indexname){
+	$inarray=(array)$inarray;
+	if(sizeof($inarray)>0){
+		if(!array_key_exists(0,$inarray["$indexname"])){
+			$inarray["$indexname"]=array(0=>$inarray["$indexname"]);
+			}
+		}
+	else{$inarray["$indexname"]=array();}
+	return $inarray;
+	}
+
 ?>

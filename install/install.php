@@ -6,12 +6,12 @@
  *	an include by all other database connections.
  */
 
-$hostname = $_POST['hostname'];
-$username = $_POST['username'];
-$oldpassword = $_POST['oldpassword'];
-$password = $_POST['password'];
-$password2 = $_POST['password2'];
-$schooldb = $_POST['school'];
+$hostname=$_POST['hostname'];
+$username=$_POST['username'];
+$oldpassword=$_POST['oldpassword'];
+$password=$_POST['password'];
+$password2=$_POST['password2'];
+$schooldb=$_POST['school'];
 ?>
 
 <html>

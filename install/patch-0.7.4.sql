@@ -29,6 +29,10 @@ ALTER TABLE course
 	CHANGE stage sequence smallint unsigned not null default '0';
 ALTER TABLE categorydef
 	ADD section_id smallint unsigned not null default '0' AFTER course_id;
+ALTER TABLE categorydef
+	ADD subtype	varchar(20) not null default '' AFTER type;
+ALTER TABLE categorydef
+	CHANGE name name varchar(60) not null default '';
 ALTER TABLE yeargroup
 	CHANGE section section_id smallint unsigned not null default '0';
 CREATE TABLE section (
@@ -37,18 +41,19 @@ CREATE TABLE section (
 	primary key (id)
 	);
 DROP table teacher;
+DROP table method;
 INSERT subject (id,name) VALUES ('G','General');
-INSERT categorydef (name,type,rating,subject_id,course_id) VALUES ('Form tutor','com','0','form','%');
-INSERT categorydef (name,type,rating,subject_id,course_id) VALUES ('Year coordinator','com','1','year','%');
-INSERT categorydef (name,type,rating,subject_id,course_id) VALUES ('Head of secondary','com','2','section','%');
-INSERT categorydef (name,type,rating,subject_id,course_id) VALUES ('Form tutor','sig','0','form','%');
+INSERT categorydef (name,type,rating,subtype,course_id) VALUES ('Form tutor','com','0','form','%');
+INSERT categorydef (name,type,rating,subtype,course_id) VALUES ('Year coordinator','com','1','year','%');
+INSERT categorydef (name,type,rating,subtype,course_id) VALUES ('Head of secondary','com','2','section','%');
+INSERT categorydef (name,type,rating,subtype,course_id) VALUES ('Form tutor','sig','0','form','%');
 INSERT categorydef (name,type,rating,subject_id,course_id) VALUES ('Year coordinator','sig','1','year','%');
-INSERT categorydef (name,type,rating,subject_id,course_id) VALUES ('Head of secondary','sig','2','section','%');
-INSERT categorydef (name,type,rating_name,rating,subject_id,course_id) VALUES ('Attendance percentage','att','none','-1','attendance','%');
-INSERT categorydef (name,type,rating_name,rating,subject_id,course_id) VALUES ('fails','ent','none','3','fai','%');
-INSERT categorydef (name,type,rating_name,rating,subject_id,course_id) VALUES ('activities','ent','none','2','act','%');
-INSERT categorydef (name,type,rating_name,rating,subject_id,course_id) VALUES ('prizes','ent','none','1','pri','%');
-INSERT categorydef (name,type,rating_name,rating,subject_id,course_id) VALUES ('background','ent','none','2','bac','%');
+INSERT categorydef (name,type,rating,subtype,course_id) VALUES ('Head of secondary','sig','2','section','%');
+INSERT categorydef (name,type,rating_name,rating,subtype,course_id) VALUES ('Attendance percentage','att','none','-1','attendance','%');
+INSERT categorydef (name,type,rating_name,rating,subtype,course_id) VALUES ('fails','ent','none','3','fai','%');
+INSERT categorydef (name,type,rating_name,rating,subtype,course_id) VALUES ('activities','ent','none','2','act','%');
+INSERT categorydef (name,type,rating_name,rating,subtype,course_id) VALUES ('prizes','ent','none','1','pri','%');
+INSERT categorydef (name,type,rating_name,rating,subtype,course_id) VALUES ('background','ent','none','2','bac','%');
 INSERT INTO rating VALUES ('fivegrade','Poor','','1');
 INSERT INTO rating VALUES ('fivegrade','Satisfactory','','2');
 INSERT INTO rating VALUES ('fivegrade','Good','','3');
@@ -130,3 +135,5 @@ CREATE TABLE transportstop (
     details			varchar(240) not null default '',
 	primary key  	(id)
 );
+ALTER TABLE assessment 
+	ADD grading_name varchar(20) not null default '' AFTER outoftotal;

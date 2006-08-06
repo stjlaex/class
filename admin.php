@@ -63,6 +63,7 @@ $rtid=$tid;
 <?php 
 	if($rtid=='administrator'){
 ?>
+		<option>-------</option>
 		<option <?php if($choice=='import_students.php'){print
 		'selected="selected" ';}?>value='import_students.php'>
 			<?php print_string('newstudents');?></option>

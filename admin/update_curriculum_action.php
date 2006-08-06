@@ -24,7 +24,10 @@ require('../curriculum/curriculums.php');
 
 function read_curriculum_file($filename,$curriculum){
 	$path='../curriculum/'.$curriculum.'/'.$filename;
-	$xmlArray=xmlfilereader($path);
+	if(file_exists($path)){
+		$xmlArray=xmlfilereader($path);
+		}
+	else{$xmlArray=array();}
 	return $xmlArray;
 	}
 
@@ -37,6 +40,8 @@ mysql_query("DELETE FROM yeargroup");
 
 $d_uid=mysql_query("SELECT uid FROM users WHERE username='administrator'");	
 $adminuid=mysql_result($d_uid,0);
+
+$curriculums[]='common';
 
 while(list($index,$curriculum)=each($curriculums)){
 
@@ -75,7 +80,8 @@ while(list($index,$curriculum)=each($curriculums)){
 					many='$course_many', endmonth='$endmonth' WHERE id='$crid'");
 			}
 	
-		while(list($index,$Subject)=each($Course['subjects']['subject'])){
+		$Subjects=xmlarray_indexed_check($Course['subjects'],'subject');
+		while(list($index,$Subject)=each($Subjects['subject'])){
 			/*****************Subjects************************/
 			$bid=$Subject['id'];
 			$name=$Subject['name'];
@@ -108,8 +114,7 @@ while(list($index,$curriculum)=each($curriculums)){
 			mysql_query("INSERT INTO cridbid SET course_id='$crid', subject_id='$bid'");
 
 
-			$Stages=$Course['stages'];
-			if(!is_array($Stages['stage'])){$Stages['stage']=array('stage'=>$Stages['stage']);}
+			$Stages=xmlarray_indexed_check($Course['stages'],'stage');
 			while(list($index,$stage)=each($Stages['stage'])){
 				if(mysql_query("INSERT INTO classes (many,
 								generate, naming, stage, subject_id, course_id) VALUES
@@ -120,7 +125,8 @@ while(list($index,$curriculum)=each($curriculums)){
 				updateCohort(array('course_id'=>$crid,'stage'=>$stage));
 				}
 
-			while(list($index,$Component)=each($Subject['components']['component'])){
+			$Components=xmlarray_indexed_check($Subject['components'],'component');
+			while(list($index,$Component)=each($Components['component'])){
 				/*****************Components************************/
 				$pid=$Component['id'];
 				$status=$Component['status'];
@@ -142,10 +148,119 @@ while(list($index,$curriculum)=each($curriculums)){
 					}
 				}
 			}
+
+		$AssessmentMethods=$Course['assessmentmethods'];
+
+		$GradeSchemes=xmlarray_indexed_check($AssessmentMethods['gradeschemes'],'gradescheme');
+		while(list($index,$GradeScheme)=each($GradeSchemes['gradescheme'])){
+			/*****************Grade Schemes***************/
+			$name=$GradeScheme['name'];
+			$Grades=$GradeScheme['grades'];
+			$listgrades='';
+		    while(list($index,$Grade)=each($Grades['grade'])){
+   				$listgrades=$listgrades . $Grade['value'].':'.$Grade['score'].';';
+   				}
+			$comment=$GradeScheme['comment'];
+			if(isset($GradeScheme['subjectid'])){$bid=$GradeScheme['subjectid'];}
+			else{$bid='%';}
+			$author='ClaSS';
+			$d_grading=mysql_query("SELECT subject_id FROM grading WHERE
+			name='$name' AND course_id='$crid'");
+			if(mysql_num_rows($d_grading)==0){
+				mysql_query("INSERT INTO grading (name, grades,  
+				comment, course_id, subject_id, author)
+				VALUES ('$name', '$listgrades', 
+					'$comment', '$crid', '$bid', '$author')");
+				}
+			else{mysql_query("UPDATE grading SET 
+				grades='$listgrades', comment='$comment',
+				subject_id='$bid', author='$author' 
+				WHERE name='$name' AND course_id='$crid'");
+				}
+			}
+
+		$Categories=xmlarray_indexed_check($AssessmentMethods['categories'],'category');	
+		while(list($index,$Category)=each($Categories['category'])){
+			/*****************Grade Schemes***************/
+			$name=$Category['name'];
+			$type=$Category['typeofuse'];
+			$rating=$Category['order'];
+			$ratingname=$Category['ratingname'];
+			if(isset($Category['subjectid'])){$bid=$Category['subjectid'];}
+			else{$bid='%';}
+			$sectionname=$Category['sectionname'];
+			$d_categorydef=mysql_query("SELECT id FROM categorydef WHERE
+			name='$name' AND course_id='$crid' AND subject_id='$bid'");
+			if(mysql_num_rows($d_categorydef)==0){
+				mysql_query("INSERT INTO categorydef (name, type,  
+				rating, rating_name, course_id, subject_id, section_id)
+				VALUES ('$name', '$type', '$rating', 
+					'$ratingname', '$crid', '$bid', '$sectioname')");
+				}
+			else{
+				mysql_query("UPDATE categorydef SET 
+				type='$type', rating='$rating',
+				rating_name='$ratingname', subject_id='$bid', section_id='$sectionname'  
+				WHERE name='$name' AND course_id='$crid'");}
+			}
+
+		$Ratings=xmlarray_indexed_check($AssessmentMethods['ratings'],'rating');
+		while(list($index,$Rating)=each($Ratings['rating'])){
+			/*****************Ratings***************/
+			$name=$Rating['name'];
+			$Values=xmlarray_indexed_check($Rating['values'],'value');
+			while(list($index,$Value)=each($Values['value'])){
+				$order=$Value['order'];
+				$descriptor=$Value['descriptor'];
+				$description=$Value['description'];
+				$d_rating=mysql_query("SELECT descripor FROM rating WHERE
+						name='$name' AND value='$order'");
+				if(mysql_num_rows($d_rating)==0){
+					mysql_query("INSERT INTO rating (name, descriptor,  
+							longdescriptor, value)
+				VALUES ('$name', '$descriptor', '$description', '$order')");
+					}
+				else{
+					mysql_query("UPDATE rating SET 
+						descriptor='$descriptor', longdescriptor='$description' 
+							WHERE name='$name' AND value='$order'");
+					}
+				}
+			}
+
+		$MarkDefinitions=xmlarray_indexed_check($AssessmentMethods['markdefinitions'],'mark');
+		while(list($index,$Mark)=each($MarkDefinitions['mark'])){
+			/*****************Mark Definitions***************/
+			$name=$Mark['name'];
+			$scoretype=$Mark['scoretype'];
+			$tier=$Mark['tier'];
+			$outoftotal=$Mark['outoftotal'];
+			$grading_name=$Mark['gradingscheme'];
+			$comment=$Mark['comment'];
+			$crid=$Mark['courseid'];
+			$bid=$Mark['subjectid'];
+			$author='ClaSS';
+			$d_markdef=mysql_query("SELECT scoretype FROM markdef WHERE
+			name='$name' AND course_id='$crid'");
+			if(mysql_num_rows($d_markdef)==0){
+				mysql_query("INSERT INTO markdef (name, scoretype, tier, 
+				outoftotal, grading_name, comment, course_id, subject_id, author)
+				VALUES ('$name', '$scoretype', '$tier', '$outoftotal',
+					'$grading_name', '$comment', '$crid', '$bid', '$author')");
+				}
+			else{mysql_query("UPDATE markdef SET 
+				scoretype='$scoretype', tier='$tier', outoftotal='$outoftotal',
+				grading_name='$grading_name', comment='$comment',
+				subject_id='$bid', author='$author' 
+				WHERE name='$name' AND course_id='$crid'");
+				}
+			}
 		}
 
-	$Groups=read_curriculum_file('yeargroups.xml',$curriculum);
-	while(list($index,$Group)=each($Groups['yeargroup'])){
+	$Groups=read_curriculum_file('groups.xml',$curriculum);
+
+	$YearGroups=xmlarray_indexed_check($Groups['yeargroups'],'yeargroup');
+	while(list($index,$Group)=each($YearGroups['yeargroup'])){
 		/*****************Yeargroups************************/
  		$yid=$Group['id'];
    		$name=$Group['name'];
@@ -162,117 +277,12 @@ while(list($index,$curriculum)=each($curriculums)){
 				mysql_query("INSERT INTO perms (uid, gid, r, w, x) VALUES('$adminuid','$gid', '1', '1', '1')");
 				}
 
-		while(list($index,$fid)=each($Group['formgroups']['form'])){
+		$Formgroups=xmlarray_indexed_check($Group['formgroups'],'form');
+		while(list($index,$fid)=each($Formgroups['form'])){
 			/*****************Forms************************/
 			mysql_query("INSERT INTO form (id, yeargroup_id)
 						VALUES('$fid','$yid')");
 			updateCommunity(array('name'=>$fid,'type'=>'form'));
-			}
-		}
-
-	$AssessmentMethods=read_curriculum_file('assessmentmethods.xml',$curriculum);
-	$MarkDefinitions=$AssessmentMethods['markdefinitions'];
-	while(list($index,$Mark)=each($MarkDefinitions['mark'])){
-		/*****************Mark Definitions***************/
-   		$name=$Mark['name'];
-   		$scoretype=$Mark['scoretype'];
-   		$tier=$Mark['tier'];
-   		$outoftotal=$Mark['outoftotal'];
-   		$grading_name=$Mark['gradingname'];
-   		$comment=$Mark['comment'];
-   		$crid=$Mark['courseid'];
-   		$bid=$Mark['subjectid'];
-   		$author='ClaSS';
-		$d_markdef=mysql_query("SELECT scoretype FROM markdef WHERE
-			name='$name' AND course_id='$crid'");
-   		if(mysql_num_rows($d_markdef)==0){
-			mysql_query("INSERT INTO markdef (name, scoretype, tier, 
-				outoftotal, grading_name, comment, course_id, subject_id, author)
-				VALUES ('$name', '$scoretype', '$tier', '$outoftotal',
-					'$grading_name', '$comment', '$crid', '$bid', '$author')");
-			}
-		else{mysql_query("UPDATE markdef SET 
-				scoretype='$scoretype', tier='$tier', outoftotal='$outoftotal',
-				grading_name='$grading_name', comment='$comment',
-				subject_id='$bid', author='$author' 
-				WHERE name='$name' AND course_id='$crid'");
-			}
-		}
-
-	$GradeSchemes=$AssessmentMethods['gradeschemes'];
-	while(list($index,$GradeScheme)=each($GradeSchemes['gradescheme'])){
-		/*****************Grade Schemes***************/
-   		$name=$GradeScheme['name'];
-   		$Grades=$GradeScheme['grades'];
-		$grades='';
-		while(list($index,$Grade)=each($Grades['grade'])){
-			$grades=$grades . $Grade['value'].':'.$Grade['score'].';';
-			}
-   		$comment=$GradeScheme['comment'];
-   		$crid=$GradeScheme['courseid'];
-   		$bid=$GradeScheme['subjectid'];
-   		$author='ClaSS';
-		$d_grading=mysql_query("SELECT subject_id FROM grading WHERE
-			name='$name' AND course_id='$crid'");
-   		if(mysql_num_rows($d_grading)==0){
-			mysql_query("INSERT INTO grading (name, grades,  
-				comment, course_id, subject_id, author)
-				VALUES ('$name', '$grades', 
-					'$comment', '$crid', '$bid', '$author')");
-			}
-		else{mysql_query("UPDATE grading SET 
-				grades='$grades', comment='$comment',
-				subject_id='$bid', author='$author' 
-				WHERE name='$name' AND course_id='$crid'");
-			}
-		}
-
-	$Categories=$AssessmentMethods['categories'];
-	while(list($index,$Category)=each($Categories['category'])){
-		/*****************Grade Schemes***************/
-   		$name=$Category['name'];
-   		$type=$Category['typeofuse'];
-   		$rating=$Category['order'];
-   		$ratingname=$Category['ratingname'];
-   		$crid=$Category['courseid'];
-   		$bid=$Category['subjectid'];
-   		$sectionname=$Category['sectionname'];
-		$d_categorydef=mysql_query("SELECT id FROM categorydef WHERE
-			name='$name' AND course_id='$crid' AND subject_id='$bid'");
-   		if(mysql_num_rows($d_categorydef)==0){
-			mysql_query("INSERT INTO categorydef (name, type,  
-				rating, rating_name, course_id, subject_id, section_id)
-				VALUES ('$name', '$type', '$rating', 
-					'$ratingname', '$crid', '$bid', '$sectioname')");
-			}
-		else{
-			mysql_query("UPDATE categorydef SET 
-				type='$type', rating='$rating',
-				rating_name='$ratingname', subject_id='$bid', section_id='$sectionname'  
-				WHERE name='$name' AND course_id='$crid'");}
-		}
-
-	$Ratings=$AssessmentMethods['ratings'];
-	while(list($index,$Rating)=each($Ratings['rating'])){
-		/*****************Ratings***************/
-   		$name=$Rating['name'];
-   		$Values=$Rating['values'];
-		while(list($index,$Value)=each($Values['value'])){
-			$order=$Value['order'];
-			$descriptor=$Value['descriptor'];
-			$description=$Value['description'];
-			$d_rating=mysql_query("SELECT descripor FROM rating WHERE
-						name='$name' AND value='$order'");
-			if(mysql_num_rows($d_rating)==0){
-				mysql_query("INSERT INTO rating (name, descriptor,  
-							longdescriptor, value)
-				VALUES ('$name', '$descriptor', '$description', '$order')");
-				}
-			else{
-				mysql_query("UPDATE rating SET 
-						descriptor='$descriptor', longdescriptor='$description' 
-							WHERE name='$name' AND value='$order'");
-				}
 			}
 		}
 

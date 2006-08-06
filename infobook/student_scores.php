@@ -56,14 +56,9 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 		$gradecount=0;
 		$resq=$Assessments[$assnos[0]]['ResultQualifier']['value'];
 		$method=$Assessments[$assnos[0]]['Method']['value'];
+		$gradingname=$Assessments[$assnos[0]]['GradingScheme']['value'];
 		$crid=$Assessments[$assnos[0]]['Course']['value'];
-		$d_markdef=mysql_query("SELECT * FROM markdef JOIN method ON
-			method.markdef_name=markdef.name WHERE
-			method.resultqualifier='$resq' AND (method.method='%' OR method.method='$method')
-				AND (method.course_id='%' OR method.course_id='$crid')");
-		$markdef=mysql_fetch_array($d_markdef,MYSQL_ASSOC);
-		if($markdef['scoretype']=='grade'){
-	   		$gradingname=$markdef['grading_name'];		
+		if($gradingname!==''){
 			$d_grading=mysql_query("SELECT grades FROM grading WHERE name='$gradingname'");
 			$grading_grades=mysql_result($d_grading,0);
 	   		}
@@ -90,7 +85,7 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 					$result=$Assessment['Result']['value'];
 					print $result;
 /*					fetch the numerical equivalent for averaging*/
-					if($markdef['scoretype']=='grade'){
+					if($gradingname!=''){
 					    $score=gradeToScore($result,$grading_grades);
 	   					$gradesum=$gradesum+$score;
 		   				$gradecount++;

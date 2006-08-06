@@ -27,21 +27,21 @@ function formsClasses($fid){
 	}
 
 function fputcsv($handle, $row, $fd=',', $quot='"'){
-   $str='';
-   foreach ($row as $cell) {
-       $cell=str_replace(Array($quot,        "\n"),
+	$str='';
+	foreach ($row as $cell) {
+		$cell=str_replace(Array($quot,        "\n"),
                          Array($quot.$quot,  ''),
                          $cell);
-       if (strchr($cell, $fd)!==FALSE || strchr($cell, $quot)!==FALSE){
+		if (strchr($cell, $fd)!==FALSE || strchr($cell, $quot)!==FALSE){
            $str.=$quot.$cell.$quot.$fd;
 		   } 
-	   else {
+		else {
            $str.=$cell.$fd;
 		   }
-   }
-   fputs($handle, substr($str, 0, -1)."\n");
-   return strlen($str);
-}
+		}
+	fputs($handle, substr($str, 0, -1)."\n");
+	return strlen($str);
+	}
 
 function nullCorrect($array){
 	if(sizeof($array)>0 and is_array($array)){
@@ -198,33 +198,6 @@ function getEnumArray($field_name) {
 //			for the assessment tables
 	$resultstatus=array('I' => 'interim', 'R' => 'result', 'T' =>
 	'target', 'P' => 'provisionalresult', 'E' => 'estimate');
-
-	$resultqualifier=array('PC' => 'Percentage',
-	'NV' => 'Numerical Value', 'KG' => 'Effort/Attainment A-D Grade', 
-	'KN' => 'Effort/Attainment 1-5 Scale',
-	'KC' => 'Cause for Concern Flag',
-	 'EG' => 'Examination/Post-14 Grade', 'EL'
-		=> 'EAL Assessment Level (Pre-NC level 2)', 'IA' =>
-	'International Baccalaureate Assessment', 'IG' =>
-	'International Baccalaureate Grade Point', 'IR' =>
-	'International Baccalaureate Final Result', 'IS' =>
-	'International Baccalaureate Aggregate Grad Points', 'NA' =>
-	'National Curriculum Age Standardised Score', 'NF' =>
-	'National Curriculum Level with Fine Grading', 'NL' =>
-	'National Curriculum Level', 'NM' =>
-	'National Curriculum Task/Test Mark', 'NR' =>
-	'National Curriculum Test Raw Score', 'NS' =>
-	'National Curriculum Summary (Aggregate) Mark');
-
-	$method=array('DD' => 'Disapplied', 'NA' => 'Not Assessed', 'TA' =>
-	'Teacher Assessment', 'TT' => 'Task/Test', '35' => 'SATS Tier
-	3-5', '36' => 'SATS Tier 3-6', '46' =>
-	'SATS Tier 4-6', '57' => 'SATS Tier 5-7', '68' => 'SATS Tier 6-8',
-	'GF' => 'GCSE Full Course', 'GH' =>
-	'GCSE Short Course', 'A2' => 'A2 Level', 'AS' => 'AS Level', 'AV'
-	=> 'Advanced GNVQ', 'IB' =>
-	'International Baccalaureate', 'NVQ' => 'NVQ', 'KS' => 'Key
-	Skills', 'CE' => 'Certificate of Achievement');
 
 	$season=array('S' => 'summer', 'W' => 'winter', 'M' =>
 	'modular/continuous', '1' => 'january', '2' => 'feburary', '3' =>

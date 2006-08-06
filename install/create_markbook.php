@@ -41,13 +41,13 @@ CREATE TABLE markdef (
        scoretype		enum('comment','value','grade','percentage','tier') not null
 												default 'value',
        tier				enum('none','tier') not null,
-		outoftotal		smallint unsigned not null default '0',
-		grading_name	varchar(20) not null default '',
-		comment			text,
-		 course_id		varchar(10) not null default '',
-		 subject_id		varchar(10) not null default '',
-		 author			varchar(14) not null default '',
-		index			index_bid (subject_id),
+	   outoftotal		smallint unsigned not null default '0',
+	   grading_name	    varchar(20) not null default '',
+	   comment			text,
+	   course_id		varchar(10) not null default '',
+	   subject_id		varchar(10) not null default '',
+	   author			varchar(14) not null default '',
+	   index			index_bid (subject_id),
        primary key	(course_id, name)
 );");
 

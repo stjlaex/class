@@ -51,6 +51,7 @@ CREATE TABLE assessment (
 	resultstatus    enum('R', 'T', 'E') default 'R' not null,
 	outoftotal		smallint(5) unsigned not null default '0',
 	derivation		varchar(60) not null default '',
+    grading_name	varchar(20) not null default '',
 	course_id		varchar(10) not null default '%',
 	component_status enum('None','N','V','A') not null default 'None',
 	year			year not null default '0000',
@@ -61,50 +62,6 @@ CREATE TABLE assessment (
      else{print "Failed on assessment!<br>";	
 					$error=mysql_error(); print $error."<br>";}
 
-if (mysql_query("
-CREATE TABLE method (
-	method			char(3) not null default '',
-	resultqualifier	char(2) not null default '',
-	course_id		varchar(10)not null,
-	markdef_name	varchar(20) not null default '',
-	levelling_name	varchar(20) not null default '',
-	assessment_year	year not null default '0000',
-   	primary key		(method, resultqualifier, course_id, assessment_year)
-);")){}
-     else{print "Failed on method!<br>";	
-					$error=mysql_error(); print $error."<br>";}
-
-if (mysql_query("
-CREATE TABLE categorydef (
-	id				int unsigned not null auto_increment, 
-	name			varchar(30) not null default '',
-	type			char(3) not null default '',
-	rating			enum('-12', '-11', '-10', '-9', '-8', '-7',
-							'-6', '-5', '-4', '-3', '-2', '-1', 
-							'0', '1', '2', '3', '4', '5', '6',
-							'7', '8', '9', '10', '11', '12') not null default 0,
-	rating_name		varchar(30) not null default '',
-	subject_id		varchar(10) not null default '',
-	course_id		varchar(10) not null default '',
-	section_id		smallint not null default 0,
-   	primary key		(id)
-);")){}
-     else{print "Failed on categorydef!<br>";	
-					$error=mysql_error(); print $error."<br>";}
-
-if (mysql_query("
-CREATE TABLE rating (
-	name			varchar(30) not null default '',
-	descriptor		varchar(30) not null default '',
-	longdescriptor	varchar(250) not null default '',
-	value			enum('-12', '-11', '-10', '-9', '-8', '-7',
-							'-6', '-5', '-4', '-3', '-2', '-1', 
-							'0', '1', '2', '3', '4', '5', '6',
-							'7', '8', '9', '10', '11', '12') not null default 0,
-   	primary key		(name, value)
-);")){}
-     else{print "Failed on categorydef!<br>";	
-					$error=mysql_error(); print $error."<br>";}
 
 if (mysql_query("
 CREATE TABLE eidsid (
