@@ -47,6 +47,13 @@ three_buttonmenu($extrabuttons);
 ?>
 	  </div>
 
+
+	  <div class="left">
+<?php 
+		include('scripts/list_gradescheme.php'); 
+?>
+	  </div>
+
 	  <div class="left">
 		<label for="Method">
 		  <?php print_string('method',$book);?>
@@ -63,7 +70,7 @@ three_buttonmenu($extrabuttons);
 		</select>
 	  </div>
 
-	  <div class="left">
+	  <div class="right">
 		<label for="Resultqualifier">
 		  <?php print_string('resultqualifier',$book);?>
 		</label>
