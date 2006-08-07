@@ -4,8 +4,9 @@
 /*to record the installed curriculum packs. */
 
 $curriculums=array(
-	1=>'english/sixthform'
-	,2=>'english/secondary'
+				    0=>'english/common'
+				   ,1=>'english/sixthform'
+				   ,2=>'english/secondary'
 //	,3=>'english/primary'
 //	,4=>'spanish/convalidation'
 //	,5=>'spanish/bachillerato'

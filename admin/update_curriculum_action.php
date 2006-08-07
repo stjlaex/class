@@ -20,7 +20,7 @@ if($_POST{'answer'}!='yes'){
 	}
 
 /*reads the array $curriculum listing those required for this school-site*/
-require('../curriculum/curriculums.php');
+require('../curriculum/include.php');
 
 function read_curriculum_file($filename,$curriculum){
 	$path='../curriculum/'.$curriculum.'/'.$filename;
@@ -41,14 +41,17 @@ mysql_query("DELETE FROM yeargroup");
 $d_uid=mysql_query("SELECT uid FROM users WHERE username='administrator'");	
 $adminuid=mysql_result($d_uid,0);
 
-$curriculums[]='common';
+//$curriculums[]='common';
 
 while(list($index,$curriculum)=each($curriculums)){
 
 	$Courses=read_curriculum_file('courses.xml',$curriculum);
-	while(list($index,$Course)=each($Courses['course'])){
+
+	$Courses=xmlarray_indexed_check($Courses,'course');
+	while(list($index,$Course)=each($Courses['course']) and $Course!=''){
 		/*****************Courses************************/
    		$crid=$Course['id'];
+		if($crid!='%'){
    		$name=$Course['name'];
    		$sequence=$Course['sequence'];
    		$endmonth=$Course['endmonth'];
@@ -81,7 +84,7 @@ while(list($index,$curriculum)=each($curriculums)){
 			}
 	
 		$Subjects=xmlarray_indexed_check($Course['subjects'],'subject');
-		while(list($index,$Subject)=each($Subjects['subject'])){
+		while(list($index,$Subject)=each($Subjects['subject']) and $Subject!=''){
 			/*****************Subjects************************/
 			$bid=$Subject['id'];
 			$name=$Subject['name'];
@@ -115,7 +118,7 @@ while(list($index,$curriculum)=each($curriculums)){
 
 
 			$Stages=xmlarray_indexed_check($Course['stages'],'stage');
-			while(list($index,$stage)=each($Stages['stage'])){
+			while(list($index,$stage)=each($Stages['stage']) and $stage!=''){
 				if(mysql_query("INSERT INTO classes (many,
 								generate, naming, stage, subject_id, course_id) VALUES
 								('$many', '$generate', '$naming', '$stage', '$bid',
@@ -126,7 +129,8 @@ while(list($index,$curriculum)=each($curriculums)){
 				}
 
 			$Components=xmlarray_indexed_check($Subject['components'],'component');
-			while(list($index,$Component)=each($Components['component'])){
+			while(list($index,$Component)=each($Components['component'])
+																and $Component!=''){
 				/*****************Components************************/
 				$pid=$Component['id'];
 				$status=$Component['status'];
@@ -148,11 +152,12 @@ while(list($index,$curriculum)=each($curriculums)){
 					}
 				}
 			}
+			}
 
 		$AssessmentMethods=$Course['assessmentmethods'];
 
 		$GradeSchemes=xmlarray_indexed_check($AssessmentMethods['gradeschemes'],'gradescheme');
-		while(list($index,$GradeScheme)=each($GradeSchemes['gradescheme'])){
+		while(list($index,$GradeScheme)=each($GradeSchemes['gradescheme']) and $GradeScheme!=''){
 			/*****************Grade Schemes***************/
 			$name=$GradeScheme['name'];
 			$Grades=$GradeScheme['grades'];
@@ -180,8 +185,9 @@ while(list($index,$curriculum)=each($curriculums)){
 			}
 
 		$Categories=xmlarray_indexed_check($AssessmentMethods['categories'],'category');	
-		while(list($index,$Category)=each($Categories['category'])){
-			/*****************Grade Schemes***************/
+		while(list($index,$Category)=each($Categories['category']) and
+																   $Category!=''){
+			/*****************Categories***************/
 			$name=$Category['name'];
 			$type=$Category['typeofuse'];
 			$rating=$Category['order'];
@@ -201,7 +207,8 @@ while(list($index,$curriculum)=each($curriculums)){
 				mysql_query("UPDATE categorydef SET 
 				type='$type', rating='$rating',
 				rating_name='$ratingname', subject_id='$bid', section_id='$sectionname'  
-				WHERE name='$name' AND course_id='$crid'");}
+				WHERE name='$name' AND course_id='$crid'");
+				}
 			}
 
 		$Ratings=xmlarray_indexed_check($AssessmentMethods['ratings'],'rating');
@@ -229,7 +236,7 @@ while(list($index,$curriculum)=each($curriculums)){
 			}
 
 		$MarkDefinitions=xmlarray_indexed_check($AssessmentMethods['markdefinitions'],'mark');
-		while(list($index,$Mark)=each($MarkDefinitions['mark'])){
+		while(list($index,$Mark)=each($MarkDefinitions['mark']) and $Mark!=''){
 			/*****************Mark Definitions***************/
 			$name=$Mark['name'];
 			$scoretype=$Mark['scoretype'];
@@ -237,8 +244,8 @@ while(list($index,$curriculum)=each($curriculums)){
 			$outoftotal=$Mark['outoftotal'];
 			$grading_name=$Mark['gradingscheme'];
 			$comment=$Mark['comment'];
-			$crid=$Mark['courseid'];
-			$bid=$Mark['subjectid'];
+			if(isset($Mark['subjectid'])){$bid=$Mark['subjectid'];}
+			else{$bid='%';}
 			$author='ClaSS';
 			$d_markdef=mysql_query("SELECT scoretype FROM markdef WHERE
 			name='$name' AND course_id='$crid'");
@@ -255,12 +262,52 @@ while(list($index,$curriculum)=each($curriculums)){
 				WHERE name='$name' AND course_id='$crid'");
 				}
 			}
+
+		$Methods=xmlarray_indexed_check($AssessmentMethods['methods'],'method');	
+		while(list($index,$Method)=each($Methods['method']) and $Method!=''){
+			/*****************Methods***************/
+			$subtype=$Method['value'];
+			$name=$Method['description'];
+			$ratingname=$Method['gradescheme'];
+			$d_categorydef=mysql_query("SELECT id FROM categorydef WHERE
+			subtype='$subtype' AND course_id='$crid' AND type='met'");
+			if(mysql_num_rows($d_categorydef)==0){
+				mysql_query("INSERT INTO categorydef (name, type, subtype, 
+				rating_name, course_id)
+				VALUES ('$name', 'met', '$subtype', 
+					'$ratingname', '$crid')");
+				}
+			else{
+				mysql_query("UPDATE categorydef SET 
+					rating_name='$ratingname',   
+					name='$name' WHERE course_id='$crid' AND type='met'
+					AND subtype='$subtype'");
+				}
+			}
+
+		$ResultQualifiers=xmlarray_indexed_check($AssessmentMethods['resultqualifiers'],'resultqualifier');	
+		while(list($index,$ResultQualifier)=each($ResultQualifiers['resultqualifier'])
+																and $ResultQualifier!=''){
+			/*****************ResultQualifierss***************/
+			$subtype=$ResultQualifier['value'];
+			$name=$ResultQualifier['description'];
+			$d_categorydef=mysql_query("SELECT id FROM categorydef WHERE
+			subtype='$subtype' AND course_id='$crid' AND type='rsq'");
+			if(mysql_num_rows($d_categorydef)==0){
+				mysql_query("INSERT INTO categorydef (name, type, subtype, course_id)
+				VALUES ('$name', 'rsq', '$subtype', '$crid')");
+				}
+			else{
+				mysql_query("UPDATE categorydef SET name='$name' 
+				WHERE subtype='$subtype' AND course_id='$crid' AND type='rsq'");
+				}
+			}
 		}
 
 	$Groups=read_curriculum_file('groups.xml',$curriculum);
 
 	$YearGroups=xmlarray_indexed_check($Groups['yeargroups'],'yeargroup');
-	while(list($index,$Group)=each($YearGroups['yeargroup'])){
+	while(list($index,$Group)=each($YearGroups['yeargroup']) and $Group!=''){
 		/*****************Yeargroups************************/
  		$yid=$Group['id'];
    		$name=$Group['name'];
@@ -278,7 +325,7 @@ while(list($index,$curriculum)=each($curriculums)){
 				}
 
 		$Formgroups=xmlarray_indexed_check($Group['formgroups'],'form');
-		while(list($index,$fid)=each($Formgroups['form'])){
+		while(list($index,$fid)=each($Formgroups['form']) and $fid!=''){
 			/*****************Forms************************/
 			mysql_query("INSERT INTO form (id, yeargroup_id)
 						VALUES('$fid','$yid')");
