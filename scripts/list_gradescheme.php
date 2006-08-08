@@ -22,8 +22,8 @@
 				(subject_id LIKE '$selbid' OR subject_id='%') AND (course_id
 				LIKE '$selcrid' OR course_id='%') ORDER BY name");
 ?>
-  <label for="Grade scheme" ><?php print_string('gradescheme');?></label>
-  <select class="required" id="Grade scheme"
+  <label for="Gradingscheme"><?php print_string('gradingscheme');?></label>
+  <select id="Gradingscheme" 
 		<?php if($required=='yes'){ print ' class="required" ';} ?>
 		size="<?php print $multi;?>"
 		<?php if($multi>1){print ' name="genas'.$igena.'[]" multiple="multiple"';}
@@ -36,7 +36,7 @@
 	  <?php print $grading['name'];?>
 	</option>
 <?php
-				}
+			}
 ?>
   </select>
 <?php

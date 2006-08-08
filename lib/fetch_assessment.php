@@ -106,8 +106,11 @@ function fetchAssessmentDefinition($eid){
    	$AssDef['Stage']=array('label' => 'Stage','table_db' => 'assessment', 'field_db' => 'stage',
 					'type_db'=>'char(3)', 'value' => $ass['stage']);
    	$AssDef['Method']=array('label' => 'Method','table_db' =>
-					'assessment', 'field_db' => 'method',
+					'assessment', 'field_db' => 'assessment',
 					'type_db'=>'char(3)', 'value' => $ass['method']);
+	$AssDef['GradingScheme']=array('label' => 'Grading Scheme','table_db' =>
+					'assessment', 'field_db' => 'grading_name',
+					'type_db'=>'varchar(20)', 'value' => $ass['grading_name']);
    	$AssDef['Element']=array('label' => 'Element','table_db' =>
 					'assessment', 'field_db' => 'element',
 					'type_db'=>'char(3)', 'value' => $ass['element']);
@@ -263,7 +266,7 @@ function fetchAssessments($sid){
 		$Assessment=nullCorrect($Assessment);
 		$Assessments[]=$Assessment;
 		}
-	
+
 	return $Assessments;
 	}
 

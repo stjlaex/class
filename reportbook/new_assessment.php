@@ -50,45 +50,27 @@ three_buttonmenu($extrabuttons);
 
 	  <div class="left">
 <?php 
+		$required='no';
 		include('scripts/list_gradescheme.php'); 
 ?>
 	  </div>
 
 	  <div class="left">
-		<label for="Method">
-		  <?php print_string('method',$book);?>
-		</label>
-		<select class="required" type="text" id="Method" name="method" size="1">
-		  <option value="" select="selected"></option>
 <?php
-		$enum=getEnumArray('method');
-		while(list($inval,$description)=each($enum)){	
-				print '<option ';
-				print ' value="'.$inval.'">'.$description.'</option>';
-				}
+		include('scripts/list_method.php'); 
 ?>
-		</select>
 	  </div>
 
 	  <div class="right">
-		<label for="Resultqualifier">
-		  <?php print_string('resultqualifier',$book);?>
-		</label>
-		<select class="" type="text" id="Resultqualifier" name="resultq" size="1">
-		  <option value="" select="selected"></option>
 <?php
-		$enum=getEnumArray('resultqualifier');
-		while(list($inval,$description)=each($enum)){	
-				print '<option ';
-				print ' value="'.$inval.'">'.$description.'</option>';
-				}
+		include('scripts/list_resultqualifier.php'); 
 ?>
-		</select>
 	  </div>
+
 	  <input type="text" style="display:none;" id="Id_db" name="id" value="" />
-		<input type="hidden" name="cancel" value="<?php print '';?>" />
-		  <input type="hidden" name="current" value="<?php print $action;?>" />
-			<input type="hidden" name="choice" value="<?php print $current;?>" />
+	  <input type="hidden" name="cancel" value="<?php print '';?>" />
+	  <input type="hidden" name="current" value="<?php print $action;?>" />
+	  <input type="hidden" name="choice" value="<?php print $current;?>" />
 	</form>
   </div>
 

@@ -58,13 +58,14 @@ elseif($sub=='Submit'){
 		$season=$_POST{'season'};
 		$derivation=$_POST{'derivation'};
 		$componentstatus=$_POST{'componentstatus'};
+		$gena=$_POST{'gena'};
 		if($id==''){
 			if(mysql_query("INSERT INTO assessment (id, stage, year, subject_id, method,
 				component_id, description, resultqualifier, course_id,
-				component_status, label) 
+				component_status, label, grading_name) 
 				VALUES ('$id', '$stage', '$year', '$subject', '$method',
 				'$pid', '$description', '$resultq', '$course',
-				'$componentstatus', '$printlabel');"))	
+				'$componentstatus', '$printlabel', '$gena');"))	
 				{$result[]='Created new assessment.';}
 			else {$error[]='Assessment may already exist!'.mysql_error();}
 			}
@@ -73,7 +74,8 @@ elseif($sub=='Submit'){
 				stage='$stage', subject_id='$subject', method='$method',
 				component_id='$pid', description='$description', 
 				resultqualifier='$resultq', course_id='$course', 
-				component_status='$componentstatus', label='$printlabel' WHERE id='$id';"))	
+				component_status='$componentstatus', 
+				label='$printlabel', grading_name='$gena' WHERE id='$id';"))	
 				{$result[]='Updated assessment details.';}
 			else {$error[]='Assessment may not exist!'.mysql_error();}
 			}

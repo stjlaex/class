@@ -215,5 +215,7 @@ $string['cohortmatrix']='Cohort matrix';
 $string['communities']='Communities';
 $string['readytocontinue']='Continue?';
 $string['confirm']='Confirm action.';
+$string['gradingscheme']='gradingscheme';
+$string['']='';
 $string['']='';
 ?>
