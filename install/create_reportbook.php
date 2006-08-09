@@ -32,7 +32,7 @@ CREATE TABLE reportentry (
 	  	 teacher_id		varchar(14) not null default '',	
 		 primary key 	(report_id, student_id, subject_id,
 							component_id, entryn)
-);")){}
+) type=myisam;")){}
      else{print "Failed on reportentry!<br>";	
 					$error=mysql_error(); print $error."<br>";}
 

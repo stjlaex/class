@@ -1,4 +1,4 @@
-This is the INSTALL README for ClaSS-0.8 (last updated 03/08/2006)
+This is the INSTALL README for ClaSS-0.8 (last updated 06/08/2006)
 
 For additional help and advice refer to the 
 ClaSS homepage: http://www.laex.org/class/ 
@@ -8,9 +8,8 @@ then email your query to: stj@laex.org
 
 
 ------------------------------ 
-The steps to install.
+The five steps to install.
 ------------------------------ 
-
 
 
 (0) Preparation.
@@ -56,25 +55,14 @@ directory:
 	mv install/toplevel/index.html .
 	mv install/toplevel/school.php .  
 	mv install/toplevel/images .  
-	mv install/toplevel/toplevel/templates .
-	mv install/toplevel/toplevel/curriculum.tar .
+	mv install/toplevel/templates .
+	mv install/toplevel/curriculum .
 
 These files, located outside the class application directory, are not automatically 
 replaced when ClaSS is next updated. This procedure is intended to preserve any
 school-specific changes you make to these top-level files.
 
-(1.4) "Curriculum Packs" are used to define codes for subjects and
-courses, yeargroups and forms, and to setup some predefined types of
-marks. The English National Curriculum pack is the default one. This
-needs to be unpacked in the toplevel directory:
-	tar -xvf curriculum.tar
-
-ClaSS can be configured to work with (almost?) any curriculum
-structure and contributions of alternative curriculum packs would be
-welcomed. Please email stj@laex.org if you'd like to collaborate on
-making a pack available for your own national curriculum system.
-
-(1.5) Edit school.php, following the in-line comments, to make it 
+(1.4) Edit school.php, following the in-line comments, to make it 
 relevant to your installation. 
 
 ------------------------------ 
@@ -123,22 +111,25 @@ now. Change the settings back to how they were using something like:
 
 ------------------------------ 
 
-(4) Test all is working.
+(4) Getting started.
 
-(4.1) Point your browser at http://localhost/class-site/ and use
+(4.1) Point your browser at http://localhost/class-site/ and login using
 username:administrator and password:(the MySQL connect password you gave
 above).
 
 (4.2) For security I'd recommend removing the install directory once all
 is working. And check the permissions of the webspace are secure.
 
-(4.3) Read the ClaSS Administrator's Guide
-(http://www.laex.org/adminguide.html) to get yourself started on
-populating the database for your school.
+(4.3) Read the ClaSS Administrator's Guide at
+http://www.laex.org/class/adminguide.html to get yourself started on
+populating the database for your school. ClaSS can be configured to
+work with (almost?) any curriculum structure using a "Curriculum Pack"
+to define codes for subjects and courses, yeargroups and forms
+etc. The packs are made up of a set of easy to read and edit xml
+files, they are distributed seperately from the source code but
+are also available for download from the ClaSS site on sourceforge.
 
------------------------------- 
-
-(5) Send an email to stj@laex.org with your feedback or just to say
+(4.4) Send an email to stj@laex.org with your feedback or just to say
 you've given ClaSS a try. All your comments and encouragement help in
 making ClaSS a better piece of software.
 
