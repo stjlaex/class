@@ -135,71 +135,63 @@ include('scripts/sub_action.php');
 			$assnos=$asshids[$hid];/*all of the entries in Assessments for this hid*/
 			$gradesum=0;
 			$gradecount=0;
-/*			average over all possible Assessments, indexed by assnos*/
+			/*average over all possible Assessments, indexed by assnos*/
 			for($c=0;$c<sizeof($assnos);$c++){
 				$assno=$assnos[$c];
 				$Assessment=$Assessments[$assno];
 				if($breakdown=='subject'){$aid=$Assessment['id_db'];}
 				else{$aid=$Assessment['Subject']['value'].$Assessment['SubjectComponent']['value'];}
-/*				if this matches one of the chosen aids then include in average*/
+				/*if this matches one of the chosen aids then include in average*/
 				if(in_array($aid,$aids)){
-/*					get the marktype for this cell  based on one of the
+					/*get the marktype for this cell  based on one of the
 					Assessments, this simplistically assumes all assessments have
 					the same marktype - can't do much else until there is the ability
 					to translate between grading schemes*/
+			   		$crid=$Assessment['Course']['value'];
 					$result=$Assessment['Result']['value'];
 					$resq=$Assessment['ResultQualifier']['value'];
-			   		$method=$Assessment['Method']['value'];
-			   		$crid=$Assessment['Course']['value'];
-					$d_markdef = mysql_query("SELECT * FROM markdef JOIN method ON
-						method.markdef_name=markdef.name WHERE
-						method.resultqualifier='$resq' AND 
-						(method.method='%' OR method.method='$method')
-						AND (method.course_id='%' OR method.course_id='$crid')");
-					$markdef=mysql_fetch_array($d_markdef,MYSQL_ASSOC);
-
-					if($markdef{'scoretype'}=='grade'){
-						$gradingname=$markdef['grading_name'];		
-						$d_grading = mysql_query("SELECT grades FROM 
-								grading WHERE name='$gradingname'");
+			   		$gena=$Assessment['GradingScheme']['value'];
+					if($gena!=''){
+						$d_grading=mysql_query("SELECT grades FROM grading WHERE name='$gena'");
 						$grading_grades=mysql_result($d_grading,0);
+						}
+					else{$grading_grades='';}
+					if($grading_grades!=''){
 						$score=gradeToScore($result,$grading_grades);
 	   					$gradesum=$gradesum+$score;
 		   				$gradecount++;
 						}
-					/*elseif($markdef{'scoretype'}=='score'){
+					else{
 						$score_grade=$result;
 	   					$gradesum=$gradesum+$score_grade;
 		   				$gradecount++; 
 						}
-					*/
 					}
 				}
 			  }
 			  else{$assnos=array(); $gradecount=0;}
 
-/*			display the assessment average*/
-			if($gradecount>0){
+		  /*display the assessment average*/
+		  if($gradecount>0){
 					$score_average=$gradesum/$gradecount;
 					$score_average=round($score_average,1);
 					//$score=round($score_average);
 					}
-			else{$score='';$score_average='';}
-			$grade=scoreToGrade($score,$grading_grades);
-	   		if(isset($gradestats[$grade])){$gradestats[$grade]=$gradestats[$grade]+1;/*sum for stats*/}
-			else{$gradestats[$grade]=0;$gradestats[$grade]=$gradestats[$grade]+1;}
-			if($gradecount==1){$viewtable[$rowno]['out'][]=$grade;}
-			else{$viewtable[$rowno]['out'][]=$grade.' ('.$score_average.')';}
-			}
+		  else{$score='';$score_average='';}
+		  $grade=scoreToGrade($score,$grading_grades);
+		  if(isset($gradestats[$grade])){$gradestats[$grade]=$gradestats[$grade]+1;/*sum for stats*/}
+		  else{$gradestats[$grade]=0;$gradestats[$grade]=$gradestats[$grade]+1;}
+		  if($gradecount==1){$viewtable[$rowno]['out'][]=$grade;}
+		  else{$viewtable[$rowno]['out'][]=$grade.' ('.$score_average.')';}
+		  }
 
 		/*end of row average needed here*/
-
 		}
 
 ?>
 <script>						
 <?php 
-/* write the grade statistics for display in the javascripts*/
+	/*write the grade statistics for display in the javascripts*/
 	ksort($gradestats);
 	$grades=array_keys($gradestats);
 	$sum=0;

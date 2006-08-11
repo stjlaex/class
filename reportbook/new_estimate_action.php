@@ -1,6 +1,6 @@
 <?php
-/*							   new_estimate_action.php
-*/
+/**							   new_estimate_action.php
+ */
 
 $action='new_estimate.php';
 
@@ -18,23 +18,9 @@ if($sub=='Submit'){
 	else{$error[]="Assessment may not exist!".mysql_error();}
 
 	$AssDef=fetchAssessmentDefinition($estimate_id);
-
 	$resq=$AssDef['ResultQualifier']['value'];
-	$method=$AssDef['Method']['value'];
+	$grading_grades=$AssDef['GradingScheme']['grades'];
 	$crid=$AssDef['Course']['value'];
-	$d_markdef = mysql_query("SELECT * FROM markdef JOIN method ON
-						method.markdef_name=markdef.name WHERE
-						method.resultqualifier='$resq' AND 
-						(method.method='%' OR method.method='$method')
-						AND (method.course_id='%' OR method.course_id='$crid')");
-   	$markdef=mysql_fetch_array($d_markdef,MYSQL_ASSOC);
-
-	if($markdef['scoretype']=='grade'){
-		$gradingname=$markdef['grading_name'];		
-		$d_grading=mysql_query("SELECT grades FROM 
-								grading WHERE name='$gradingname'");
-		$grading_grades=mysql_result($d_grading,0);
-		}
 
 	$entrydate=date('Y')."-".date('n')."-".date('j');
 
@@ -64,21 +50,21 @@ if($sub=='Submit'){
 		$x=$baseline['result'];
 		$dobids=array();
 		if($bid=='G' or $bid=='%'){$dobids=$coursebids;}else{$dobids[]=$bid;}
-		while(list($index, $bid)=each($dobids)){
+		while(list($index,$bid)=each($dobids)){
    		  if(sizeof($stats["$bid"])>0){
 	 		  reset($stats["$bid"]);
 	  		  while(list($pid, $stat)=each($stats["$bid"])){
 			    $value=$stat['m'] * $x + $stat['c'];
 			    $estimate_value=round($value,2);
 				$estimate='';
-			  	if($markdef['scoretype']=='grade'){
+			  	if($grading_grades!=''){
 					$estimate=scoreToGrade($estimate_value,$grading_grades);
 					}
 				if(mysql_query("INSERT INTO eidsid (assessment_id,
 					student_id, subject_id, component_id, date, result, value) 
 					VALUES ('$estimate_id', '$sid', '$bid', '$pid',
 					'$entrydate', '$estimate', '$estimate_value');")){}
-				else {$error[]='Entry may already exist!'.mysql_error();}
+				else{$error[]='Entry may already exist!'.mysql_error();}
 				}
 			  }
 			}
@@ -96,22 +82,4 @@ if($sub=='Submit'){
 
 include('scripts/results.php');
 include('scripts/redirect.php');
-
 ?>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

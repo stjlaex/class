@@ -1,5 +1,7 @@
 <?php
-/* Selects classes to use when defining marks, levels, etc., */
+/**										markbook/classes_to_use.php
+ *	Selects classes to use when defining marks, levels, etc., 
+ */
 	$crids=array();
 	$bids=array();
     for($c=0;$c<(sizeof($cids));$c++){
@@ -18,11 +20,9 @@
    		if(!in_array($bid,$bids)){$bids[]=$bid;}
 		}
 ?>
-<fieldset class="centerrightmiddlebottom">
-<legend>Classes to Use this Mark</legend>
-Select classes which will use this mark:<br />
-<div class="left">
-	<label for="Classes by course">(by course)</label>
+  <legend><?php print_string('classestousethismark',$book);?></legend>
+  <div class="left">
+	<label for="Classes by course"><?php print_string('bycourse',$book);?></label>
 	<select class="required" name="crid" id="Classes by course" size="8">
 <?php
     for($c=0;$c<(sizeof($crids)); $c++){	
@@ -33,10 +33,10 @@ Select classes which will use this mark:<br />
 		}
 ?>
 	</select>
-</div>
+  </div>
 
-<div class="left">
-	<label for="Classes by subject">(and subject)</label>
+  <div class="right">
+	<label for="Classes by subject"><?php print_string('bysubject',$book);?></label>
 	<select class="required" name="bid" id="Classes by subject" size="8">
 <?php    
     for($c=0;$c<(sizeof($bids));$c++){	
@@ -47,5 +47,4 @@ Select classes which will use this mark:<br />
 		}
 ?>
 	</select>
-</div>
-</fieldset>
+  </div>

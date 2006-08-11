@@ -43,63 +43,21 @@ three_buttonmenu();
 			</td><td><?php print $markdef[$c]['comment'];?></td>
 		  </tr>
 <?php
-	 } 
+	 }
+if($_SESSION['role']=='admin'){
 ?>
 		  <tr class="special">
 			<td><input type="radio" name="def_name" id="def_name" value="custom" /></td>
 			<td><?php print_string('newdefinition',$book);?></td>
 			<td><?php print_string('newuserdefinedmarktype',$book);?></td>
 		  </tr>
+<?php
+		}
+?>
 		</table>
 	  </div>
-	  <input type="hidden" name="current" value="<?php print $action;?>" />
-		<input type="hidden" name="choice" value="<?php print $choice;?>" />
-		<input type="hidden" name="cancel" value="<?php print $choice;?>" />
+ 	  <input type="hidden" name="current" value="<?php print $action;?>" />
+	  <input type="hidden" name="choice" value="<?php print $choice;?>" />
+	  <input type="hidden" name="cancel" value="<?php print $choice;?>" />
 	</form>
   </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -1,5 +1,5 @@
 <?php
-/*                    httpscripts/generate_assessment_columns.php
+/**                    httpscripts/generate_assessment_columns.php
  */
 
 require_once('../../scripts/http_head_options.php');
@@ -10,39 +10,31 @@ $eid=$xmlid;
 $AssDef=fetchAssessmentDefinition($eid);
 $resq=$AssDef['ResultQualifier']['value'];
 $crid=$AssDef['Course']['value'];
-$method=$AssDef['Method']['value'];
+$gena=$AssDef['GradingScheme']['value'];
 $subject=$AssDef['Subject']['value'];
 $compstatus=$AssDef['ComponentStatus']['value'];
 $description=$AssDef['Description']['value'];
 $stage=$AssDef['Stage']['value'];
 
-			/*find the markdef_name based on the resultqualifier and method*/
-   			$d_markdef = mysql_query("SELECT * FROM markdef JOIN method ON
-						method.markdef_name=markdef.name WHERE
-						method.resultqualifier='$resq' AND 
-						(method.method='%' OR method.method='$method')
-						AND (method.course_id='%' OR method.course_id='$crid')");
-	   		$markdef=mysql_fetch_array($d_markdef,MYSQL_ASSOC);
+			/*find the appropriate markdef_name*/
+		   	if($gena!=''){
+	   			$grading_grades=$AssDef['GradingScheme']['grades'];
+				$d_markdef=mysql_query("SELECT * FROM markdef WHERE
+						grading_name='$gena' AND scoretype='grade' 
+						AND (course_id='%' OR course_id='$crid')");
+				$markdef=mysql_fetch_array($d_markdef,MYSQL_ASSOC);
+				}
+			else{
+				$d_markdef=mysql_query("SELECT * FROM markdef WHERE
+						scoretype='value' 
+						AND (course_id='%' OR course_id='$crid')");
+				$markdef=mysql_fetch_array($d_markdef,MYSQL_ASSOC);
+				}
 			$markdef_name=$markdef['name'];
 			mysql_free_result($d_markdef);
 			$result[]=$markdef_name;
-		   	if($markdef['scoretype']=='grade'){
-		   		$gradingname=$markdef['grading_name'];		
-		   		$d_grading = mysql_query("SELECT grades FROM 
-								grading WHERE name='$gradingname'");
-	   			$grading_grades=mysql_result($d_grading,0);
-				mysql_free_result($d_grading);
-				}
 
 			$entrydate=date('Y').'-'.date('n').'-'.date('j');
-
-   			/*this only until stage is implemented fully!!!*/
-	   		//if($stage!='%'){
-			  //		   		$d_stage=mysql_query("SELECT stage FROM cohort WHERE
-			  //			   			course_id='$crid' AND id='$stage'");
-			  //		      	$stage=mysql_result($d_stage,0);
-			  //			  	mysql_free_result($d_stage);
-			//	}
 
 			/*make a list of subjects that will need distinct new marks*/
 			$bids=array();
@@ -54,7 +46,7 @@ $stage=$AssDef['Stage']['value'];
 				mysql_free_result($d_cridbid);
 				}
 
-/*			generate a mark for each bid/pid combination*/
+			/*generate a mark for each bid/pid combination*/
 			while(list($index,$bid)=each($bids)){
 				$pids=array();
 				if($compstatus=='A'){$compstatus='%';}
@@ -115,42 +107,19 @@ $stage=$AssDef['Stage']['value'];
 						if(mysql_query("INSERT INTO score (student_id,
 							mark_id, grade, value) VALUES ('$sid',
 							'$mid', '$score', '$value')")){
-						  /*transitional action neded in 0.7.x until eidsid and
-   					score duplicate each other fully*/
-						  //  			   			mysql_query("DELETE FROM eidsid WHERE
-						  //		   					student_id='$sid' AND subject_id='$bid' AND
-						  //								component_id='$pid' AND assessment_id='$eid'");
 						}
 						else{$error[]='Failed on '.$sid.'-'.$bid.'-'.$pid.'-'.$mid.' '.mysql_error();}
    						}
    					mysql_free_result($d_eidsids);
 					}
-   				mysql_free_result($d_class);
+					mysql_free_result($d_class);
 
 
 					}
 				}
-
 
 $returnXML=fetchAssessmentDefinition($eid);
 $rootName='AssessmentDefinition';
 require_once('../../scripts/http_end_options.php');
 exit;
 ?>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

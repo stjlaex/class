@@ -108,9 +108,18 @@ function fetchAssessmentDefinition($eid){
    	$AssDef['Method']=array('label' => 'Method','table_db' =>
 					'assessment', 'field_db' => 'assessment',
 					'type_db'=>'char(3)', 'value' => $ass['method']);
+
+	$gena=$ass['grading_name'];
+	if($gena!=''){
+		$d_grading=mysql_query("SELECT grades FROM grading WHERE name='$gena'");
+		$grading_grades=mysql_result($d_grading,0);
+		}
+	else{$grading_grades='';}
 	$AssDef['GradingScheme']=array('label' => 'Grading Scheme','table_db' =>
-					'assessment', 'field_db' => 'grading_name',
-					'type_db'=>'varchar(20)', 'value' => $ass['grading_name']);
+								   'assessment', 'field_db' => 'grading_name',
+								   'type_db'=>'varchar(20)', 
+								   'value'=>$gena, 'grades' =>$grading_grades);
+
    	$AssDef['Element']=array('label' => 'Element','table_db' =>
 					'assessment', 'field_db' => 'element',
 					'type_db'=>'char(3)', 'value' => $ass['element']);
