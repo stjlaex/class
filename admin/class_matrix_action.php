@@ -84,7 +84,10 @@ elseif($sub=='Generate'){
 <?php
 	exit;
 	}
-elseif($sub=='Submit' and $_POST['answer']=='yes'){
+elseif($sub=='Submit'){
+
+	include('scripts/answer_action.php');
+
 	$result[]=get_string('newclassstructure',$book);
 
 	mysql_query("DELETE cidsid.* FROM cidsid, class WHERE
@@ -182,9 +185,6 @@ elseif($sub=='Submit' and $_POST['answer']=='yes'){
 		}
 	}
 
-elseif($sub=='Submit' and $_POST['answer']=='no'){
-	$result[]=get_string('noactiontaken',$book);
-	}
 include('scripts/results.php');
 include('scripts/redirect.php');
 ?>

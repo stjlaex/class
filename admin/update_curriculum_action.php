@@ -11,13 +11,9 @@
 $action='';
 $choice='';
 
-if($_POST{'answer'}!='yes'){
-	$current='';
-	$result[]=get_string('noactiontaken',$book);
-	include('scripts/results.php');
-	include('scripts/redirect.php');
-	exit;
-	}
+include('scripts/sub_action.php');
+
+include('scripts/answer_action.php');
 
 /*reads the array $curriculum listing those required for this school-site*/
 require('../curriculum/include.php');

@@ -28,7 +28,6 @@ $string['emailusernolistsubject']='Newly generated ClaSS user list';
 $string['keynumber']='Key number';
 $string['offline']='Off line';
 $string['logoutandrestart']='You will need to logout and close your browser to see the changes.';
-$string['noactiontaken']='NO action has been taken!';
 $string['updatedcurriculum']='Updated the curriculum structure for ';
 $string['newclassstructure']='New class structure generated.';
 $string['cohort']='Cohort';
@@ -49,7 +48,10 @@ $string['yearendwarning']='	<p>The end of year function really should be only ru
 	yeargroup. It will also empty all marks from the MarkBook
 	archiving only those linked to an Assessment. <p/>
 ';
-$string['']='';
+$string['endofyearpromotions']='End of year promotions';
+$string['confirmyeargroupstopromote']='Confirm the yeargroups to promote students to';
+$string['endofcoursepromotions']='End of course promotions';
+$string['confirmcoursestopromote']='Confirm the courses to promote students to';
 $string['']='';
 $string['']='';
 ?>

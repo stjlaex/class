@@ -297,10 +297,10 @@ function updateCohort($cohort){
 	$crid=$cohort['course_id'];
 	$stage=$cohort['stage'];
 	if(isset($cohort['year'])){$year=$cohort['year'];}
-	else{$year=getCurriculumYear($crid);$status='C';}
+	else{$year=getCurriculumYear($crid);}
 	if(isset($cohort['season'])){$season=$cohort['season'];}
 	else{$season='S';}
-
+	if($year==getCurriculumYear($crid)){$status='C';}else{$status='';}
 	if($crid!='' and $stage!=''){
 		$d_cohort=mysql_query("SELECT id FROM cohort WHERE
 				course_id='$crid' AND stage='$stage' AND year='$year'
@@ -308,23 +308,24 @@ function updateCohort($cohort){
 		if(mysql_num_rows($d_cohort)==0){
 			mysql_query("INSERT INTO cohort (course_id,stage,year,season,status) VALUES
 				('$crid','$stage','$year','$season','$status')");
+			$cohid=mysql_insert_id();
 			}
 		else{
-			mysql_query("UPDATE cohort SET status='$status' WHERE
-				course_id='$crid' AND stage='$stage' AND year='$year'
-				AND season='$season'");
+			$cohid=mysql_result($d_cohort,0);
+			mysql_query("UPDATE cohort SET status='$status' WHERE id='$cohid'");
 			}
 		}
+	return $cohid;
 	}
 
 function getCurriculumYear($crid){
-	/*the academic year ends */
+	/*the calendar year that the academic year ends */
 	/*to sophisticate in future*/
 	$d_course=mysql_query("SELECT endmonth FROM course WHERE id='$crid'");
 	$endmonth=mysql_result($d_course,0);
 	$thismonth=date('m');
 	$thisyear=date('Y');
 	if($thismonth>$endmonth){$thisyear++;}
-	return $thisyear;
+	return $thisyear='2008';
 	}
 ?>

@@ -216,6 +216,7 @@ $string['communities']='Communities';
 $string['readytocontinue']='Continue?';
 $string['confirm']='Confirm action.';
 $string['gradingscheme']='gradingscheme';
+$string['noactiontaken']='NO action has been taken!';
 $string['']='';
 $string['']='';
 ?>
