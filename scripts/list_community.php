@@ -12,7 +12,7 @@
 	if(!isset($icomid)){$icomid='';}else{$icomid++;}
 	if(!isset($type)){$type='%';}
 	/*keeping this simple and making no distinction between community types*/
-	$d_community=mysql_query("SELECT * FROM community WHERE type LIKe
+	$d_community=mysql_query("SELECT * FROM community WHERE type LIKE
 								'$type' ORDER BY name");
 ?>
 	<select style="width:20em;" id="Community"

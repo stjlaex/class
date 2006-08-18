@@ -326,6 +326,6 @@ function getCurriculumYear($crid){
 	$thismonth=date('m');
 	$thisyear=date('Y');
 	if($thismonth>$endmonth){$thisyear++;}
-	return $thisyear='2008';
+	return $thisyear;
 	}
 ?>
