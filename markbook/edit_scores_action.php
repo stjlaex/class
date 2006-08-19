@@ -103,16 +103,6 @@ if($sub=='Submit'){
 				else {$error[]=mysql_error();}
 				}
 			}
-		elseif($scoretype=='tier'){
-			if($inscore==''){unset($inscore);}
-			else{
-				if (mysql_query("INSERT INTO score (tier, 
-					   	mark_id, student_id) VALUES ('$inscore', '$mid', '$sid')")){}
-				elseif (mysql_query("UPDATE score SET tier='$inscore',
-						WHERE mark_id='$mid' AND student_id='$sid'")){}
-				else {$error[]=mysql_error();}		   
-				}
-			}
 
 		if(isset($eid) and isset($res)){
 			$d_eidsid=mysql_query("SELECT id FROM eidsid

@@ -236,7 +236,6 @@ while(list($index,$curriculum)=each($curriculums)){
 			/*****************Mark Definitions***************/
 			$name=$Mark['name'];
 			$scoretype=$Mark['scoretype'];
-			$tier=$Mark['tier'];
 			$outoftotal=$Mark['outoftotal'];
 			$grading_name=$Mark['gradingscheme'];
 			$comment=$Mark['comment'];
@@ -246,13 +245,13 @@ while(list($index,$curriculum)=each($curriculums)){
 			$d_markdef=mysql_query("SELECT scoretype FROM markdef WHERE
 			name='$name' AND course_id='$crid'");
 			if(mysql_num_rows($d_markdef)==0){
-				mysql_query("INSERT INTO markdef (name, scoretype, tier, 
+				mysql_query("INSERT INTO markdef (name, scoretype,  
 				outoftotal, grading_name, comment, course_id, subject_id, author)
-				VALUES ('$name', '$scoretype', '$tier', '$outoftotal',
+				VALUES ('$name', '$scoretype', '$outoftotal',
 					'$grading_name', '$comment', '$crid', '$bid', '$author')");
 				}
 			else{mysql_query("UPDATE markdef SET 
-				scoretype='$scoretype', tier='$tier', outoftotal='$outoftotal',
+				scoretype='$scoretype', outoftotal='$outoftotal',
 				grading_name='$grading_name', comment='$comment',
 				subject_id='$bid', author='$author' 
 				WHERE name='$name' AND course_id='$crid'");

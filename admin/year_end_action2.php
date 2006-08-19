@@ -62,10 +62,13 @@ include('scripts/sub_action.php');
 							course ORDER BY sequence DESC");
 	while($courses[]=mysql_fetch_array($d_course,MYSQL_ASSOC)){
 		$crid=$courses[$c]['id'];
+		$season='S';/*currently restricted to a single season value*/
+		$yearnow=getCurriculumYear($crid);
 		/*currently sequence of the stages for a course depends solely
 			upon their alphanumeric order - means they require a numeric ending*/
 		$d_stage=mysql_query("SELECT stage FROM cohort WHERE
-				course_id='$crid' AND status='C' ORDER BY stage DESC");
+				course_id='$crid' AND year='$year' AND
+				season='$season' ORDER BY stage DESC");
 		$courses[$c]['stages']=array();
 		while($stage=mysql_fetch_array($d_stage,MYSQL_ASSOC)){
 			$courses[$c]['stages'][]=array('stage'=>$stage['stage'],'newcohid'=>'');
@@ -92,7 +95,8 @@ include('scripts/sub_action.php');
 			if($c2==0 and $nextpostcrid!='1000'){
 				/*last stage of course are graduating to next course*/
 				$d_cohort=mysql_query("SELECT id FROM cohort WHERE
-						course_id='$nextpostcrid' AND year='C' ORDER BY stage ASC");
+						course_id='$nextpostcrid' AND year='$yearnow' AND
+						season='$season' ORDER BY stage ASC");
 				$nextcohid=mysql_result($d_cohort,0,0);
 				}
 			elseif($nextpostcrid!='1000'){

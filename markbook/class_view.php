@@ -81,7 +81,7 @@ include('class_view_marks.php');
 		if($umns[$col]['marktype']=='score'){
 			  print '<th id="'.$umns[$col]['id'].'"><a title="'.$umns[$col]['comment'].'"
 	      href="markbook.php?current=edit_scores.php&cancel=class_view.php&scoretype='. 
-					  $scoretype[$col].'&tier='.$scoretier[$col].'&grading_name='. 
+					  $scoretype[$col].'&grading_name='. 
 					  $scoregrading[$col].'&mid='.$umns[$col]['id'].'&col='.$col.'">' 
 					  .$umns[$col]['topic'].'</a><p>'.$umns[$col]['entrydate'].'</p>
 	      <p class="component">'.$umns[$col]['component'].'</p>'.$umns[$col]['marktype'].'<input type="checkbox" name="checkmid[]" value="'.$umns[$col]['id'].'" /></th>';
@@ -98,7 +98,7 @@ include('class_view_marks.php');
 		elseif($umns[$col]['marktype']=='compound'){
 			  print '<th id="'.$umns[$col]['id'].'"><a title="'.$umns[$col]['comment'].'"
 	      href="markbook.php?current=edit_scores.php&cancel=class_view.php&scoretype='.$scoretype[$col]. 
-					  '&tier='.$scoretier[$col].'&grading_name='.$scoregrading[$col]. 
+					  '&grading_name='.$scoregrading[$col]. 
 					  '&mid='.$umns[$col]['id'].'&col='.$col.'">'.$umns[$col]['topic']. 
 					  '</a><p>'.$umns[$col]['entrydate']. 
 					  '</p><p class="component">'.$umns[$col]['component'].'</p>' 

@@ -49,18 +49,8 @@ if($sub=='Submit'){
 				WHERE course_id LIKE '$rcrid' ORDER BY subject_id");
 		while($bid=mysql_fetch_array($d_cridbid,MYSQL_NUM)){$bids[]=$bid[0];}
 
-   			/*this only until stage is implemented fully!!!
-	   		if($stage!='%'){
-		   		$d_stage=mysql_query("SELECT id FROM cohort WHERE
-			   			course_id='$crid' AND id='$stage' AND status='C'");
-		      	$stage=mysql_result($d_stage,0);
-			  	mysql_free_result($d_stage);
-		   	   	}
-			*/
-
 /*		generate a mark for each crid and bid combination*/
    	   	while(list($index,$bid)=each($bids)){
-
 			$pids=array();
    			if($compstatus=='A'){$compstatus='%';}
    			$d_component=mysql_query("SELECT DISTINCT id FROM component

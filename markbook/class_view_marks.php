@@ -123,7 +123,6 @@ for($i=0;$i<sizeof($cids);$i++){
 			  $markdef=mysql_fetch_array($d_markdef,MYSQL_ASSOC);	      
 		      $scoretype[$c]=$markdef{'scoretype'};
 		      $umns[$c]['scoretype']=$markdef{'scoretype'};
-		      $scoretier[$c]=$markdef{'tier'};
 		      $scoregrading[$c]=$markdef{'grading_name'};
 		      if($scoregrading[$c]!=""){
 				$d_grading=mysql_query("SELECT grades FROM grading WHERE name='$scoregrading[$c]'");

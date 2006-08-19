@@ -48,7 +48,7 @@ while($student=mysql_fetch_array($d_students, MYSQL_ASSOC)){
 					WHERE mark_id='$col_mid' AND student_id='$sid'");
 		    $score=mysql_fetch_array($d_score,MYSQL_ASSOC);
 
-/*			The score can be one of six types: grade, value, percentage, comment, or tier*/
+/*			The score can be one of five types: grade, value, percentage, comment*/
 		    if($scoretype=='grade'){
 		      	$score_grade=$score{'grade'};
 				$grading_grades=$scoregrades[$c];
@@ -78,13 +78,8 @@ while($student=mysql_fetch_array($d_students, MYSQL_ASSOC)){
 		      elseif($scoretype=='comment'){
 			      	$out=$score{'comment'};
 					$outrank=-100;
-					}
-		      	
-		      elseif($scoretype=='tier'){
-			    $out=$score{'tier'};
-				$outrank=-100;
-		      	}
-   			}
+					}		      	
+			}
 /*********************************************************/
 
 	   	elseif ($marktype=='average') {

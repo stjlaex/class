@@ -27,20 +27,16 @@ mysql_query("CREATE TABLE mark (
 
 /*
 	marktype is the definition of a mark. The values in table:score
-	can be any one of scoretype=(comment, value, grade).  Any one of
-	those could be given a tier=tier as well. Alternatively the score
-	might only be an explicit tier without any value indicated by
-	scoretype=tier.  A scoretype=percentage indicates a raw numerical
-	score.value and an score.outoftotal are to be used to generate a
-	rounded percentage in score.grade.
+	can be any one of scoretype=(comment, value, grade, percentage). A
+	scoretype=percentage indicates a raw numerical score.value and an
+	score.outoftotal are to be used to generate a rounded percentage
+	in score.grade.
 */
 
 mysql_query("
 CREATE TABLE markdef (
        name				varchar(20) not null default '',
-       scoretype		enum('comment','value','grade','percentage','tier') not null
-												default 'value',
-       tier				enum('none','tier') not null,
+       scoretype		enum('value','grade','percentage','comment') not null default 'value',
 	   outoftotal		smallint unsigned not null default '0',
 	   grading_name	    varchar(20) not null default '',
 	   comment			text,
@@ -58,7 +54,6 @@ CREATE TABLE score (
        grade			smallint default null,
        value		 	float default null,
        comment		 	text,
-       tier		 		smallint unsigned not null default '0',
        outoftotal	  	smallint unsigned not null default '0',
        primary key	(mark_id, student_id)
 );");

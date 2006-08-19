@@ -118,6 +118,7 @@ CREATE TABLE  users (
   language		varchar(10) NOT NULL DEFAULT '',
   firstbookpref varchar(20),
   role			varchar(20),
+  worklevel	   	enum('-1','0', '1', '2') not null default 0,
   nologin		tinyint(1) NOT NULL default '0',
   logcount		int(10) unsigned NOT NULL default '0',
   logtime		timestamp(14),
@@ -182,7 +183,6 @@ CREATE TABLE cohort (
 	stage			char(3) not null default '',
 	year			year not null default '0000',
 	season			enum('','S','W','M','1','2','3','4','5','6','7','8','9','a','b','c') NOT NULL DEFAULT 'S',
-	status			enum('','C') not null default '',
 	unique			indexcohort (course_id,stage,year,season),
 	primary key (id)
 );");

@@ -13,6 +13,8 @@ ALTER TABLE users
     ADD firstbookpref varchar(20) not null default '' AFTER language;
 ALTER TABLE users
     ADD role varchar(20) not null default '' AFTER firstbookpref;
+ALTER TABLE users
+    ADD worklevel enum('-1','0', '1', '2') not null default '0' AFTER role;
 UPDATE users SET firstbookpref='markbook';
 UPDATE users SET role='teacher';
 UPDATE users SET firstbookpref='infobook' WHERE username='office';
@@ -96,7 +98,6 @@ CREATE TABLE cohort (
 	stage			char(3) not null default '',
 	year			year not null default '0000',
 	season			enum('','S','W','M','1','2','3','4','5','6','7','8','9','a','b','c') NOT NULL DEFAULT 'S',
-	status			enum('','C') not null default '',
 	unique 			indexcohort (course_id,stage,year,season),
 	primary key (id)
 );
@@ -137,3 +138,7 @@ CREATE TABLE transportstop (
 );
 ALTER TABLE assessment 
 	ADD grading_name varchar(20) not null default '' AFTER outoftotal;
+ALTER TABLE markdef DROP tier;
+ALTER TABLE score DROP tier;
+ALTER TABLE markdef
+	CHANGE scoretype scoretype enum('value','grade','percentage','comment') not null default 'value';

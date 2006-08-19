@@ -14,7 +14,7 @@ $class=mysql_fetch_array($d_class, MYSQL_ASSOC);
 $crid=$class['course_id'];
 $bid=$class['subject_id'];
 $stage=$class['stage'];
-/*keeping things simple by fixing season and year to a single value*/
+/*keeping things simple by fixing season to a single value*/
 /*to sophisticate in the future*/
 $season='S';
 $currentyear=getCurriculumYear($crid);
@@ -31,8 +31,8 @@ three_buttonmenu($extrabuttons);
 	/*Fetch students in this cohort.*/
 	$d_cohidcomid=mysql_query("SELECT community_id FROM cohidcomid JOIN
 		cohort ON cohidcomid.cohort_id=cohort.id WHERE 
-		course_id='$crid' AND year='$currentyear' AND
-		season='$season' AND stage='$stage' AND status='C'");
+		cohort.course_id='$crid' AND cohort.year='$currentyear' AND
+		cohort.season='$season' AND cohort.stage='$stage'");
 	$firstit=0;
 	while($cohidcomid=mysql_fetch_array($d_cohidcomid,MYSQL_ASSOC)){
 		$comid=$cohidcomid['community_id'];
@@ -47,7 +47,6 @@ three_buttonmenu($extrabuttons);
 				student b WHERE a.community_id='$comid' AND b.id=a.student_id");}
 		$firstit++;
 		}
-
 	/*Fetch students already in classes for this subject.*/
 	$d_class=mysql_query("SELECT id FROM class WHERE
 		course_id='$crid' AND subject_id='$bid' AND stage='$stage'");
@@ -93,7 +92,7 @@ three_buttonmenu($extrabuttons);
 		  <td><?php print_string('remove');?></td>
 		</tr>
 <?php
-		  /*students already in this class*/
+	/*students already in this class*/
 	$c=0;
 	$d_student=mysql_query("SELECT a.student_id, b.surname, b.middlenames,
 				b.forename, b.yeargroup_id, b.form_id FROM cidsid a, student b 
