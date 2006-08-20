@@ -273,7 +273,7 @@ function fileOpen($path){
 
 /*checks for a community and either updates or creates*/
 /*expects an array with at least type and name set*/
-function updateCommunity($community){
+function updateCommunity($community,$communityfresh=''){
 	$type=$community['type'];
 	$name=$community['name'];
 	if(isset($community['details'])){$details=$community['details'];}
@@ -284,11 +284,17 @@ function updateCommunity($community){
 			mysql_query("INSERT INTO community (name,type,details) VALUES
 				('$name', '$type', '$details')");
 			}
-		else{
-			mysql_query("UPDATE community SET details='$details' WHERE name='$name'
-				AND type='$type'");
+		elseif($communityfresh!=''){
+			$typefresh=$communityfresh['type'];
+			$namefresh=$communityfresh['name'];
+			if(isset($communityfresh['details'])){$detailsfresh=$communityfresh['details'];}
+			mysql_query("UPDATE community SET type='$typefresh',
+							name='$namefresh', details='$detailsfresh' WHERE name='$name'
+								AND type='$type'");
 			}
+		$comid=mysql_insert_id();
 		}
+	return $comid;
 	}
 
 /*checks for a cohort and creates if it doesn't exist*/
@@ -322,6 +328,7 @@ function getCurriculumYear($crid){
 	/*to sophisticate in future*/
 	$d_course=mysql_query("SELECT endmonth FROM course WHERE id='$crid'");
 	$endmonth=mysql_result($d_course,0);
+	if($endmonth==''){$endmonth='6';/*defaults to June*/}
 	$thismonth=date('m');
 	$thisyear=date('Y');
 	if($thismonth>$endmonth){$thisyear++;}

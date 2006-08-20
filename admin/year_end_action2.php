@@ -27,32 +27,37 @@ include('scripts/sub_action.php');
 		$yid=$years[$c]['id'];
 		$nextpostyid=$_POST["$yid"];
 		if($nextpostyid=='1000'){
-			$nextyid=$yid.'-alumni-'.date('Y').'-'.date('m');
+			$nextyid=$yid.'-year-'.date('Y').'-'.date('m');
 			$type='alumni';
 			}
 		else{
 			$nextyid=$nextpostyid;
 			$type='year';
 			}
-		mysql_query("UPDATE community SET name='$nextyid' WHERE
-				type='$type' AND name='$yid';");
+		$community=array('type'=>'year','name'=>$yid);
+		$communitynext=array('type'=>$type,'name'=>$nextyid);
+		updateCommunity($community,$communitynext);
 
 		while(list($index,$fid)=each($years[$c]['fids'])){
 			if($nextpostyid!='1000'){
 				$nextfid=$years[$c+1]['fids'][$index];
+				$type='form';
 				}
 			else{
-				$nextfid=$fid.'-alumni-'.date('Y').'-'.date('m');
+				$nextfid=$fid.'-form-'.date('Y').'-'.date('m');
+				$type='alumni';
 				}
 			if($nextfid==''){$nextfid=$fid.'-'.date('Y').'-'.date('m');}
-			mysql_query("UPDATE community SET name='$nextfid' WHERE
-								type='form' AND name='$fid';");
+			$community=array('type'=>'form','name'=>$fid);
+			$communitynext=array('type'=>$type,'name'=>$nextfid);
+			updateCommunity($community,$communitynext);
+
 			mysql_query("UPDATE student SET form_id='$nextfid' WHERE form_id='$fid';");
-			//$result[]='Promoted form '.$fid.' to '.$nextfid;
+			$result[]='Promoted form '.$fid.' to '.$nextfid;
 			}
 
 		mysql_query("UPDATE student SET yeargroup_id='$nextyid' WHERE yeargroup_id='$yid';");
-		//$result[]='Promoted year '.$yid.' to '.$nextyid;
+		$result[]='Promoted year '.$yid.' to '.$nextyid;
 		}
 
 	/*promote students to next stage of course or graduate to chosen next course*/
@@ -65,10 +70,11 @@ include('scripts/sub_action.php');
 		$season='S';/*currently restricted to a single season value*/
 		$yearnow=getCurriculumYear($crid);
 		/*currently sequence of the stages for a course depends solely
-			upon their alphanumeric order - means they require a numeric ending*/
+			upon their alphanumeric order - so best have a numeric ending*/
+		/*will fail if the stages have changed between years!!!*/
 		$d_stage=mysql_query("SELECT stage FROM cohort WHERE
-				course_id='$crid' AND year='$year' AND
-				season='$season' ORDER BY stage DESC");
+				course_id='$crid' AND year='$yearnow' AND
+				season='$season' AND stage!='END' ORDER BY stage DESC");
 		$courses[$c]['stages']=array();
 		while($stage=mysql_fetch_array($d_stage,MYSQL_ASSOC)){
 			$courses[$c]['stages'][]=array('stage'=>$stage['stage'],'newcohid'=>'');
@@ -88,25 +94,25 @@ include('scripts/sub_action.php');
 			$cohort=array('course_id'=>$crid,'stage'=>$stage,'year'=>$yeargone);
 			$cohidgone=updateCohort($cohort);
 			$cohort=array('course_id'=>$crid,'stage'=>$stage,'year'=>$yearnow);
-			$stages[$c2]['newcohid']=updateCohort($cohort);
-			$result[]='Updating '. $crid.' '. $stage. ' '. $yeargone
-									. ' to ' .$yearnow;
-
+			$stages[$c2]['cohidnow']=updateCohort($cohort);
 			if($c2==0 and $nextpostcrid!='1000'){
 				/*last stage of course are graduating to next course*/
 				$d_cohort=mysql_query("SELECT id FROM cohort WHERE
 						course_id='$nextpostcrid' AND year='$yearnow' AND
-						season='$season' ORDER BY stage ASC");
+						season='$season' AND stage!='END' ORDER BY stage ASC");
 				$nextcohid=mysql_result($d_cohort,0,0);
 				}
 			elseif($nextpostcrid!='1000'){
 				/*just promote to next stage of this course*/
-				$nextcohid=$stages[$c2-1]['newcohid'];
+				$nextcohid=$stages[$c2-1]['cohidnow'];
 				}
 			else{
 				/*last stage is graduating and leaving*/
 				$nextcohid='';
 				}
+			$result[]='Updating '. $crid.' '. $stage. ' '. $cohidgone
+									. ' to ' .$nextcohid;
+
 
 			/*go through each community of students who were studying
 			this stage and promote them*/

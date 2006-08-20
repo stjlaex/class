@@ -16,7 +16,7 @@ $bid=$class['subject_id'];
 $stage=$class['stage'];
 /*keeping things simple by fixing season to a single value*/
 /*to sophisticate in the future*/
-$season='S';
+$currentseason='S';
 $currentyear=getCurriculumYear($crid);
 
 $extrabuttons['unassignclass']=array('name'=>'sub','value'=>'Unassign');
@@ -32,7 +32,7 @@ three_buttonmenu($extrabuttons);
 	$d_cohidcomid=mysql_query("SELECT community_id FROM cohidcomid JOIN
 		cohort ON cohidcomid.cohort_id=cohort.id WHERE 
 		cohort.course_id='$crid' AND cohort.year='$currentyear' AND
-		cohort.season='$season' AND cohort.stage='$stage'");
+		cohort.season='$currentseason' AND cohort.stage='$stage'");
 	$firstit=0;
 	while($cohidcomid=mysql_fetch_array($d_cohidcomid,MYSQL_ASSOC)){
 		$comid=$cohidcomid['community_id'];

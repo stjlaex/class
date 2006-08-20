@@ -16,46 +16,40 @@ if($sub=='Update'){
 							course_id='$crid'");
 	$bids=array();
    	while($subject=mysql_fetch_array($d_subject,MYSQL_ASSOC)){
-   		$bids[]=$subject{'subject_id'};
+   		$bids[]=$subject['subject_id'];
 		}
 	$stages=array();
 	while($stage=mysql_fetch_array($d_classes,MYSQL_ASSOC)){
    		$stages[]=$stage['stage'];
 		}
-	for($c=0; $c<sizeof($bids); $c++){
+	for($c=0;$c<sizeof($bids);$c++){
   		$bid=$bids[$c];
-		for($c2=0; $c2<sizeof($stages); $c2++){
+		for($c2=0;$c2<sizeof($stages);$c2++){
 	  		$stage=$stages[$c2];
 			$ing=$bid.$stage.'g';
 			$inm=$bid.$stage.'m';
-			if(isset($_POST{$ing})){
-				$many=$_POST{$inm}; 
-				$generate=$_POST{$ing};
+			if(isset($_POST[$ing])){
+				$many=$_POST[$inm]; 
+				$generate=$_POST[$ing];
 
 				if($many!='' and $generate!='none'){
-				$d_classes=mysql_query("SELECT * FROM classes WHERE
+					$d_classes=mysql_query("SELECT * FROM classes WHERE
 						subject_id='$bid' AND stage='$stage' AND course_id='$crid'");
-				if(mysql_fetch_array($d_classes,MYSQL_ASSOC)){
-					if(mysql_query("UPDATE classes SET many='$many',
+					if(mysql_fetch_array($d_classes,MYSQL_ASSOC)){
+						mysql_query("UPDATE classes SET many='$many',
 						generate='$generate' WHERE stage='$stage' AND
-						subject_id='$bid' AND course_id='$crid'"))
-						{}
-					else{$error[]=mysql_error();}
-					}
-				else {
-					if(mysql_query("INSERT INTO classes (many, generate,
+						subject_id='$bid' AND course_id='$crid'");
+						}
+					else{
+						mysql_query("INSERT INTO classes (many, generate,
 						yeargroup_id, course_id, subject_id) VALUES ('$many',
-						'$generate', '$stage', '$crid', '$bid')"))
-						{}
-					else{$error[]=mysql_error();}
+						'$generate', '$stage', '$crid', '$bid')");
+						}
 					}
-				}
-				else {
- 					if(mysql_query("DELETE FROM classes WHERE
+				else{
+ 					mysql_query("DELETE FROM classes WHERE
 						stage='$stage' AND  course_id='$crid' AND
-						subject_id='$bid' LIMIT 1"))
-						{}
-					else{$error[]=mysql_error();}
+						subject_id='$bid' LIMIT 1");
 					}
 				}
 			}
@@ -109,16 +103,17 @@ elseif($sub=='Submit'){
 		$stage=$classes['stage'];
 		$d_cohidcomid=mysql_query("SELECT cohidcomid.community_id FROM
 			cohidcomid JOIN cohort ON cohidcomid.cohort_id=cohort.id 
-			WHERE course_id='$crid' AND year='$currentyear'
-			AND season='$currentseason' AND stage='$stage'");
+			WHERE cohort.course_id='$crid' AND cohort.year='$currentyear'
+			AND cohort.season='$currentseason' AND cohort.stage='$stage'");
 		$communities=array();
 		$name=array();
 		$name_counter='';
 		while($cohidcomid=mysql_fetch_array($d_cohidcomid,MYSQL_ASSOC)){
 			$comid=$cohidcomid['community_id'];
 			$d_community=mysql_query("SELECT * FROM community WHERE id='$comid'");
-			$communities[$comid]=mysql_fetch_array($d_community,MYSQL_ASSOC);
-			if($communities[$comid]['type']=='year'){$yid=$communities[$comid]['name'];}
+			$communities["$comid"]=mysql_fetch_array($d_community,MYSQL_ASSOC);
+			if($communities["$comid"]['type']=='year'){$yid=$communities["$comid"]['name'];}
+			$result[]=$crid.' '.$stage.' '.$currentyear.' '.$comid.' '.$yid;
 			}
 
 		if($classes['naming']=='' and $classes['generate']=='forms'){
@@ -134,10 +129,10 @@ elseif($sub=='Submit'){
 		else{
 			list($name['root'],$name['stem'],$name['branch'],$name_counter)=split(';',$classes['naming'],4);
 			while(list($index,$namecheck)=each($name)){
-				if($namecheck=='subject'){$name[$index]=$bid;}
-				if($namecheck=='stage'){$name[$index]=$stage;}
-				if($namecheck=='course'){$name[$index]=$crid;}
-				if($namecheck=='year'){$name[$index]=$yid;}
+				if($namecheck=='subject'){$name["$index"]=$bid;}
+				if($namecheck=='stage'){$name["$index"]=$stage;}
+				if($namecheck=='course'){$name["$index"]=$crid;}
+				if($namecheck=='year'){$name["$index"]=$yid;}
 				}
 			}
 
@@ -186,5 +181,5 @@ elseif($sub=='Submit'){
 	}
 
 include('scripts/results.php');
-include('scripts/redirect.php');
+//include('scripts/redirect.php');
 ?>
