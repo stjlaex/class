@@ -22,7 +22,8 @@ CREATE TABLE student (
 );");
 mysql_query("
 CREATE TABLE form (
-		id					varchar(20) not null default '',
+		id					varchar(10) not null default '',
+		name				varchar(20) not null default '',
 		yeargroup_id		smallint not null default '0',
 		teacher_id			varchar(10) not null default '',
 		primary key (id)

@@ -276,6 +276,8 @@ function fileOpen($path){
 function updateCommunity($community,$communityfresh=''){
 	$type=$community['type'];
 	$name=$community['name'];
+	$typefresh=$communityfresh['type'];
+	$namefresh=$communityfresh['name'];
 	if(isset($community['details'])){$details=$community['details'];}
 	if($type!='' and $name!=''){
 		$d_community=mysql_query("SELECT id FROM community WHERE
@@ -283,16 +285,15 @@ function updateCommunity($community,$communityfresh=''){
 		if(mysql_num_rows($d_community)==0){
 			mysql_query("INSERT INTO community (name,type,details) VALUES
 				('$name', '$type', '$details')");
+			$comid=mysql_insert_id();
 			}
-		elseif($communityfresh!=''){
-			$typefresh=$communityfresh['type'];
-			$namefresh=$communityfresh['name'];
+		elseif($typefresh!='' and $namefresh!=''){
 			if(isset($communityfresh['details'])){$detailsfresh=$communityfresh['details'];}
+			$comid=mysql_result($d_community,0);
 			mysql_query("UPDATE community SET type='$typefresh',
 							name='$namefresh', details='$detailsfresh' WHERE name='$name'
 								AND type='$type'");
 			}
-		$comid=mysql_insert_id();
 		}
 	return $comid;
 	}

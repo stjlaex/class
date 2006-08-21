@@ -33,6 +33,39 @@ function sigfigs($number,$sigfigs,$dec='.',$noround=false) {
     return $output;
 	}
 
+
+function scoreToLevel($score,$scoretotal='',$levels){
+	/*	Returns formated $percent, and floating point $cent*/
+	list($out,$percent,$cent)=scoreToPercent($score,$scoretotal);
+	if($cent==-100){$cent=$score;}
+	$pairs=explode(";",$levels);
+	for($c=0;$c<sizeof($pairs);$c++){
+		list($level_grade, $level)=split(":",$pairs[$c]);
+		if($cent>=$level){$grade=$level_grade;}
+		}
+	if(!isset($grade)){$grade='';$cent=-100;}
+	return array($grade,$cent);
+	}
+
+function scoreToPercent($score,$scoretotal='100'){
+	/*	Returns formated $percent, and floating point $cent
+			and the full works in $display
+	*/
+	if($score!=''){
+		if($scoretotal>0){
+			$cent=($score/$scoretotal)*100;
+//			$cent=round($cent,1);
+			$percent=sprintf("% 01.1f%%",$cent);
+//			$percent=sprintf("% 2d%%",$cent);
+			}
+		}
+	if(isset($percent)){
+		$display=$percent.' ('.number_format($score,0,'.','').')';
+		} 
+	else{$dislpay='';$cent=-100;}
+	return array($display,$percent,$cent);
+	}
+
 function scoreToGrade($score,$grading_grades){
 	/*
 	Looks up the grade equivalent of the numerical score.
@@ -44,7 +77,7 @@ function scoreToGrade($score,$grading_grades){
 		$pairs=explode(';', $grading_grades);
 	    $score=round($score);
 		$high=sizeof($pairs);
-		for($c=0; $c<sizeof($pairs); $c++){
+		for($c=0;$c<sizeof($pairs);$c++){
 			list($levelgrade, $level)=split(':',$pairs[$c]);
 			if($score>=$level){
 				$lowgrade=$levelgrade;

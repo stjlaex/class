@@ -117,19 +117,21 @@ for($i=0;$i<sizeof($cids);$i++){
 				$scoregrades[$c]='';   
 				}
 
-			elseif ($marktype[$c]=='score'){
-	      	  $markdef_name=$mark{'def_name'};
-		      $d_markdef=mysql_query("SELECT * FROM markdef WHERE name='$markdef_name'");
-			  $markdef=mysql_fetch_array($d_markdef,MYSQL_ASSOC);	      
-		      $scoretype[$c]=$markdef{'scoretype'};
-		      $umns[$c]['scoretype']=$markdef{'scoretype'};
-		      $scoregrading[$c]=$markdef{'grading_name'};
-		      if($scoregrading[$c]!=""){
-				$d_grading=mysql_query("SELECT grades FROM grading WHERE name='$scoregrading[$c]'");
-		      	$scoregrades[$c]=mysql_result($d_grading,0);
+			elseif($marktype[$c]=='score'){
+				$markdef_name=$mark['def_name'];
+				$d_markdef=mysql_query("SELECT * FROM markdef WHERE name='$markdef_name'");
+				$markdef=mysql_fetch_array($d_markdef,MYSQL_ASSOC);	      
+				$scoretype[$c]=$markdef['scoretype'];
+				$umns[$c]['scoretype']=$markdef['scoretype'];
+				$scoregrading[$c]=$markdef['grading_name'];
+				if($scoregrading[$c]!=''){
+					$grading_name=$scoregrading[$c];
+					$d_grading=mysql_query("SELECT grades FROM grading 
+											WHERE name='$grading_name'");
+					$scoregrades[$c]=mysql_result($d_grading,0);
+					}
+				else{$scoregrades[$c]='';}     
 				}
-			  else{$scoregrades[$c]="";}	      
-    		  }
 			}
 		$c++;
 		}

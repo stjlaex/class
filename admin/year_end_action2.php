@@ -33,6 +33,7 @@ include('scripts/sub_action.php');
 		else{
 			$nextyid=$nextpostyid;
 			$type='year';
+			if($nextyid==''){$nextyid=$yid.'-'.date('Y').'-'.date('m');}
 			}
 		$community=array('type'=>'year','name'=>$yid);
 		$communitynext=array('type'=>$type,'name'=>$nextyid);
@@ -42,12 +43,12 @@ include('scripts/sub_action.php');
 			if($nextpostyid!='1000'){
 				$nextfid=$years[$c+1]['fids'][$index];
 				$type='form';
+				if($nextfid==''){$nextfid=$fid.'-'.date('Y').'-'.date('m');}
 				}
 			else{
 				$nextfid=$fid.'-form-'.date('Y').'-'.date('m');
 				$type='alumni';
 				}
-			if($nextfid==''){$nextfid=$fid.'-'.date('Y').'-'.date('m');}
 			$community=array('type'=>'form','name'=>$fid);
 			$communitynext=array('type'=>$type,'name'=>$nextfid);
 			updateCommunity($community,$communitynext);

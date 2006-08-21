@@ -124,8 +124,11 @@ function fetchStudent($sid){
 					'type_db'=>'varchar(30)', 'value' => $student['form_id']);
 	
 	$yid=$student['yeargroup_id'];
-	$d_yeargroup=mysql_query("SELECT ncyear FROM yeargroup WHERE id='$yid'");
-	$ncyear=mysql_result($d_yeargroup,0);
+	if($yid!=''){
+		$d_yeargroup=mysql_query("SELECT ncyear FROM yeargroup WHERE id='$yid'");
+		$ncyear=mysql_result($d_yeargroup,0);
+		}
+	else{$ncyear='';}
 	$Student['NCyearActual']=array('label' => 'year', 
 					'table_db' => 'student', 'field_db' => 'yeargroup_id',
 					'type_db'=>'enum', 'id_db' => $yid, 'value' => $ncyear);

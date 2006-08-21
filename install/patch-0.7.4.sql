@@ -142,3 +142,7 @@ ALTER TABLE markdef DROP tier;
 ALTER TABLE score DROP tier;
 ALTER TABLE markdef
 	CHANGE scoretype scoretype enum('value','grade','percentage','comment') not null default 'value';
+ALTER TABLE form
+	CHANGE id id varchar(10) not null default '';
+ALTER TABLE form
+	ADD name varchar(20) not null default '' AFTER id;

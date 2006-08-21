@@ -30,9 +30,6 @@ function read_curriculum_file($filename,$curriculum){
 mysql_query("DELETE FROM cridbid");
 mysql_query("DELETE FROM classes");
 mysql_query("DELETE FROM component");
-mysql_query("DELETE FROM form");
-mysql_query("DELETE FROM yeargroup");
-
 
 $d_uid=mysql_query("SELECT uid FROM users WHERE username='administrator'");	
 $adminuid=mysql_result($d_uid,0);
@@ -159,7 +156,7 @@ while(list($index,$curriculum)=each($curriculums)){
 			$Grades=$GradeScheme['grades'];
 			$listgrades='';
 		    while(list($index,$Grade)=each($Grades['grade'])){
-   				$listgrades=$listgrades . $Grade['value'].':'.$Grade['score'].';';
+   				$listgrades=$listgrades.';'.$Grade['value'].':'.$Grade['score'];
    				}
 			$comment=$GradeScheme['comment'];
 			if(isset($GradeScheme['subjectid'])){$bid=$GradeScheme['subjectid'];}
@@ -216,12 +213,12 @@ while(list($index,$curriculum)=each($curriculums)){
 				$order=$Value['order'];
 				$descriptor=$Value['descriptor'];
 				$description=$Value['description'];
-				$d_rating=mysql_query("SELECT descripor FROM rating WHERE
+				$d_rating=mysql_query("SELECT descriptor FROM rating WHERE
 						name='$name' AND value='$order'");
 				if(mysql_num_rows($d_rating)==0){
 					mysql_query("INSERT INTO rating (name, descriptor,  
 							longdescriptor, value)
-				VALUES ('$name', '$descriptor', '$description', '$order')");
+							VALUES ('$name', '$descriptor', '$description', '$order')");
 					}
 				else{
 					mysql_query("UPDATE rating SET 
@@ -304,26 +301,44 @@ while(list($index,$curriculum)=each($curriculums)){
 	$YearGroups=xmlarray_indexed_check($Groups['yeargroups'],'yeargroup');
 	while(list($index,$Group)=each($YearGroups['yeargroup']) and $Group!=''){
 		/*****************Yeargroups************************/
- 		$yid=$Group['id'];
+ 		$yid=(int)$Group['id'];
    		$name=$Group['name'];
    		$ncyear=$Group['ncyear'];
    		$section=$Group['section'];
 		$d_section=mysql_query("SELECT id FROM section WHERE name='$section'");	
 		if(mysql_num_rows($d_section)>0){$secid=mysql_result($d_section,0);}
 		else{$secid=0;}
+		$d_yeargroup=mysql_query("SELECT name FROM yeargroup WHERE id='$yid'");
+		if(mysql_num_rows($d_yeargroup)==0){
+			mysql_query("INSERT INTO yeargroup (id, name, ncyear, section_id)
+							VALUES('$yid','$name','$ncyear','$secid')");
+			mysql_query("INSERT INTO groups (yeargroup_id,name) VALUES ('$yid', '$name')");
+			$gid=mysql_insert_id();
+			mysql_query("INSERT INTO perms (uid, gid, r, w, x) VALUES('$adminuid','$gid', '1', '1', '1')");
+			}
+		else{
+			mysql_query("UPDATE yeargroup SET name='$name',
+					section_id='$secid', ncyear='$ncyear' WHERE id='$yid'");
+			mysql_query("UPDATE groups SET name='$name' WHERE
+				yeargroup_id='$yid' AND course_id IS NULL AND subject_id IS NULL");
+			}
 		updateCommunity(array('name'=>$yid,'type'=>'year'));
-   		if(mysql_query("INSERT INTO yeargroup (id, name, ncyear, section_id)
-   			VALUES('$yid','$name','$ncyear','$secid')")){
-				mysql_query("INSERT INTO groups (yeargroup_id,name) VALUES ('$yid', '$name')");
-				$gid=mysql_insert_id();
-				mysql_query("INSERT INTO perms (uid, gid, r, w, x) VALUES('$adminuid','$gid', '1', '1', '1')");
-				}
 
 		$Formgroups=xmlarray_indexed_check($Group['formgroups'],'form');
-		while(list($index,$fid)=each($Formgroups['form']) and $fid!=''){
+		while(list($index,$Form)=each($Formgroups['form']) and $Form!=''){
 			/*****************Forms************************/
-			mysql_query("INSERT INTO form (id, yeargroup_id)
-						VALUES('$fid','$yid')");
+			$fid=$yid . $Form['id'];
+			$name=$Form['name'];
+			if($name==''){$name=$fid;}
+			$d_form=mysql_query("SELECT name FROM form WHERE id='$fid'");
+			if(mysql_num_rows($d_form)==0){
+				mysql_query("INSERT INTO form (id, name, yeargroup_id)
+						VALUES('$fid','$name','$yid')");
+				}
+			else{
+				mysql_query("UPDATE form SET name='$name',
+					yeargroup_id='$yid' WHERE id='$fid'");
+				}
 			updateCommunity(array('name'=>$fid,'type'=>'form'));
 			}
 		}

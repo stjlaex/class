@@ -13,198 +13,163 @@ $toyear=date('Y');
 $commentdate=$toyear.'-'.$tomonth.'-'.$today;
 
 while($student=mysql_fetch_array($d_students, MYSQL_ASSOC)){
-		$sid=$student{'student_id'}; 
+		$sid=$student['student_id']; 
 		$d_info= mysql_query("SELECT sen FROM info WHERE student_id='$sid'");
 		$sen=mysql_result($d_info, 0);
 
 		$comment=commentDisplay($sid,$commentdate);
 
-		if($student{'preferredforename'}!=''){
-			$displaypfn=' ('.$student{'preferredforename'}.') ';
+		if($student['preferredforename']!=''){
+			$displaypfn=' ('.$student['preferredforename'].') ';
 			}
 		else{$displaypfn='';}
 		$studentrow=array('row'=>$row, 'sen'=>$sen,
 				'commentclass'=>$comment['class'], 
 				'commentbody'=>$comment['body'], 
 				'sid'=>$sid,
-				'surname'=>$student{'surname'},
-				'forename'=>$student{'forename'},
+				'surname'=>$student['surname'],
+				'forename'=>$student['forename'],
 				'preferredforename'=>$displaypfn,
-				'form_id'=>$student{'form_id'},
-				'class_id'=>$student{'class_id'});
+				'form_id'=>$student['form_id'],
+				'class_id'=>$student['class_id']);
 
 	for($c=0;$c<$c_marks;$c++) {
 		$col_mid=$umns[$c]['id'];
 
-		if ($umns[$c]['display']=='yes' or $umns[$c]['assessment']=='yes'){
-/*
-		The mark can be one of the four types, and if a score one of a further five
-*/
+		if($umns[$c]['display']=='yes' or $umns[$c]['assessment']=='yes'){
+			/*The mark can be one of the four kinds, and if a score one of a further five*/
 		  $marktype=$umns[$c]['marktype'];
 		  $scoretype=$umns[$c]['scoretype'];
 	      if($marktype=='score'){
-/*				Mark is a score*/
+			  /*Mark is a score*/
       		$d_score=mysql_query("SELECT * FROM score 
 					WHERE mark_id='$col_mid' AND student_id='$sid'");
 		    $score=mysql_fetch_array($d_score,MYSQL_ASSOC);
 
-/*			The score can be one of five types: grade, value, percentage, comment*/
+			/*score can be one of four types: grade, value, percentage, comment*/
 		    if($scoretype=='grade'){
-		      	$score_grade=$score{'grade'};
-				$grading_grades=$scoregrades[$c];
-				//		      	include ('grade_score.php');
-				$grade=scoreToGrade($score_grade,$grading_grades);
-				$outrank=$score_grade;
-			    $out=$grade;
+				$out=scoreToGrade($score['grade'],$scoregrades[$c]);
+				$outrank=$score['grade'];
 		      	}
 		    elseif($scoretype=='value'){
-					$score_value=$score{'value'};
-		      		$out=$score_value;
-					$outrank=$score_value;			      
-			      	}
+				$out=$score['value'];
+				$outrank=$score['value'];;			      
+				}
 		    elseif($scoretype=='percentage'){
-		      	$score_value=$score{'value'};
-		      	$score_total=$score{'outoftotal'};
-				$marktotal=$mark_total[$c];
-		      	if(!isset($score_total)){$score_total=$marktotal;}
-		      	include('percent_score.php');
-		      	if(isset($percent)){
-		      		$out=$percent.' ('.number_format($score_value,1,'.','').')';
-					$outrank=$cent;
-		      		} 
-		      	else{$out='';$outrank=-100;}			      
+				list($out,$percent,$outrank)=scoreToPercent($score['value'],$score['outoftotal']);
 		      	}
-
 		      elseif($scoretype=='comment'){
-			      	$out=$score{'comment'};
-					$outrank=-100;
-					}		      	
+				$out=$score['comment'];
+				$outrank=-100;
+				}
 			}
-/*********************************************************/
-
-	   	elseif ($marktype=='average') {
-/*		Mark is average of several score values*/
+		  /*********************************************************/
+		  elseif($marktype=='average'){
+			/*Mark is average of several score values*/
 			$mids=explode(' ',$midlist[$c]);
 			$d_markdef=mysql_query("SELECT markdef.scoretype FROM markdef
 				JOIN  mark ON markdef.name=mark.def_name WHERE mark.id='$mids[1]'");
 			$avtype=mysql_fetch_array($d_markdef,MYSQL_ASSOC);
-			if($avtype{'scoretype'}=='grade'){
+			if($avtype['scoretype']=='grade'){
 				$grading_grades=$scoregrades[$c];
 				$gradesum=0;
 				$gradecount=0;
 				
-				for ($c2=0; $c2<sizeof($mids); $c2++){
-					$d_score=mysql_query("SELECT grade FROM score WHERE mark_id='$mids[$c2]' AND student_id='$sid'");
+				for($c2=0;$c2<sizeof($mids);$c2++){
+					$d_score=mysql_query("SELECT grade FROM score 
+									WHERE mark_id='$mids[$c2]' AND student_id='$sid'");
 					$grade=mysql_fetch_array($d_score,MYSQL_ASSOC);
-
-					if(isset($grade{'grade'})){$gradesum=$gradesum+$grade{'grade'};
-											$gradecount++;}
+					if(isset($grade['grade'])){
+						$gradesum=$gradesum+$grade['grade'];
+						$gradecount++;
+						}
 					}
-				if($gradecount > 0){
+				if($gradecount>0){
 						$score_grade=$gradesum/$gradecount;
 						$score_grade=round($score_grade);
 						} 
-				else {unset($score_grade);}
-				//				include('grade_score.php');		
+				else{unset($score_grade);}
 				$grade=scoreToGrade($score_grade,$grading_grades);
-
 				$out=$grade;
-				if(isset($score_grade)){$outrank=$score_grade;}else{$outrank=-100;}
+				if(isset($score_grade)){$outrank=$score_grade;}
+				else{$outrank=-100;}
 			    }
-			elseif($avtype{'scoretype'}=='percentage'){
+			elseif($avtype['scoretype']=='percentage'){
 				$scoresum=0;
 				$scorecount=0;
-				for ($c2=0; $c2<sizeof($mids); $c2++){
+				for($c2=0;$c2<sizeof($mids);$c2++){
 					$d_score=mysql_query("SELECT value, outoftotal 
 						FROM score WHERE mark_id='$mids[$c2]' AND student_id='$sid'");
 					$score=mysql_fetch_array($d_score,MYSQL_ASSOC);
 					if($score['value']){
-						$score_value=$score{'value'};
-						$score_total=$score{'outoftotal'};
-						include('percent_score.php'); 
+						list($dislpay,$percent,$cent)=scoreToPercent($score['value'],$score['outoftotal']);
 						$scoresum=$cent+$scoresum;
 						$scorecount++;
 						}
 					}
-				if($scorecount>0){
-					$cent=$scoresum/$scorecount;
-					$cent=round($cent,1);
-					$percent=sprintf('% 01.1f%%',$cent);
-					$out=$percent.' ('.number_format($scorecount,0,'.','').')';
-					$outrank=$percent;
-					}
-				else{$out='';$outrank=-100;}
+				if($scorecount>0){$scoresum=$scoresum/$scorecount;}
+				list($display,$out,$outrank)=scoreToPercent($scoresum);
 				}
-			else{$out=$avtype{'scoretype'}.'type';$outrank=-100;}
+			else{$out=$avtype['scoretype'].'type';$outrank=-100;}
 			}
 
 
-/*********************************************************/
-
-	   	elseif ($marktype =='sum') {
-/*		Mark is the sum of several score values*/
-				$mids=explode(' ',$midlist[$c]);
-				$score_value=0;
-				$score_total=0;
-				for ($c2=0; $c2<sizeof($mids); $c2++){
-					$d_score=mysql_query("SELECT value, outoftotal FROM score WHERE mark_id='$mids[$c2]' AND student_id='$sid'");
-					$score=mysql_fetch_array($d_score,MYSQL_ASSOC);
-					if($score['value']){$score_value=$score['value']+$score_value; $yesval=1;}
-					if($score['outoftotal']){$score_total=$score{'outoftotal'}+$score_total; $yestotal=1;}
-					}
-
-				if(isset($yestotal)){include('percent_score.php');
-/*					if the scores have a total then must be dealing with a percent */
-					if(isset($percent)){
-						$out=$percent.' ('.number_format($score_value,1,'.','').')';
-						$outrank=$percent;
-						}
-					else{$out='';$outrank=-100;}
-					}
-				else{
-/*					otherwise its a raw score*/
-					if(isset($yesval)){$out=$score_value; $outrank=$score_value;}
-					else{$out='';$outrank=-100;}
-					}
-				unset($yesval);
-				unset($yestotal);
-			    }
-
-/*********************************************************/
-
-	   	elseif ($marktype =='level') {
-/*		Mark is the levelled grade of a score*/
-				$levelling_levels=$levels[$c];
-				$d_score=mysql_query("SELECT value, outoftotal FROM 
-					score WHERE mark_id='$midlist[$c]' AND student_id='$sid'");
+		/*********************************************************/
+	   	elseif($marktype=='sum'){
+			/*Mark is the sum of several score values*/
+			$mids=explode(' ',$midlist[$c]);
+			$score_value=0;
+			$score_total=0;
+			for($c2=0;$c2<sizeof($mids);$c2++){
+				$d_score=mysql_query("SELECT value, outoftotal 
+								FROM score WHERE mark_id='$mids[$c2]' AND student_id='$sid'");
 				$score=mysql_fetch_array($d_score,MYSQL_ASSOC);
-		      	$score_value=$score{'value'};
-		      	$score_total=$score{'outoftotal'};
-		      	$marktotal=$mark_total[$c];
-		      	include('percent_score.php');
-		      	include('level_score.php'); 
-				$out=$grade;
-				$outrank=$cent;	
+				if($score['value']){$score_value=$score['value']+$score_value; $yesval=1;}
+				if($score['outoftotal']){
+					$score_total=$score['outoftotal']+$score_total; 
+					$yestotal=1;
+					}
 				}
+			if(isset($yestotal)){
+				/*mark's were percentage scores*/
+				list($dislpay,$out,$outrank)=scoreToPercent($score_value,$score_total);
+				}
+			else{
+				/*otherwise mark's were raw scores*/
+				if(isset($yesval)){$out=$score_value; $outrank=$score_value;}
+				else{$out='';$outrank=-100;}
+				}
+			unset($yesval);
+			unset($yestotal);
+			}
 
-/*********************************************************/
+		/*********************************************************/
+	   	elseif($marktype=='level'){
+			/*them mark is the levelled grade of a score*/
+			$d_score=mysql_query("SELECT value, outoftotal FROM 
+					score WHERE mark_id='$midlist[$c]' AND student_id='$sid'");
+			$score=mysql_fetch_array($d_score,MYSQL_ASSOC);
+			list($out,$outrank)=scoreToLevel($score['value'],$score['outoftotal'],$levels[$c]);
+			$out=$grade;
+			$outrank=$cent;
+			}
 
+		/*********************************************************/
 	   	elseif($marktype=='compound') {
 			/*Mark is a compound column*/
-				$mids=explode(' ',$midlist[$c]);
-				$yesval=0;
-				for ($c2=0; $c2<sizeof($mids); $c2++){
-					$d_score=mysql_query("SELECT value, outoftotal FROM score WHERE mark_id='$mids[$c2]' AND student_id='$sid'");
-					$score=mysql_fetch_array($d_score,MYSQL_ASSOC);
-					if($score['value']){$yesval++;}
-					}
-
-				if($yesval<sizeof($mids)){$out='c';}else{$out='C';}
-				$outrank=-100;
+			$mids=explode(' ',$midlist[$c]);
+			$yesval=0;
+			for ($c2=0; $c2<sizeof($mids); $c2++){
+				$d_score=mysql_query("SELECT value, outoftotal FROM 
+								score WHERE mark_id='$mids[$c2]' AND student_id='$sid'");
+				$score=mysql_fetch_array($d_score,MYSQL_ASSOC);
+				if($score['value']){$yesval++;}
 				}
+			if($yesval<sizeof($mids)){$out='c';}else{$out='C';}
+			$outrank=-100;
+			}
 
-/*********************************************************/
-
+		/*********************************************************/
 	   	elseif($marktype=='report'){
 			/*Mark is a compound report column*/
 			$reportentryn=checkReportEntry($umns[$c]['midlist'],$sid,$bid[0],$umns[$c]['component']);
@@ -212,16 +177,16 @@ while($student=mysql_fetch_array($d_students, MYSQL_ASSOC)){
 			$outrank=-100;
 			}
 
-/********finished with this mark*******************/
-/*		 If no $out set then the mark must be faulty......*/
-			if(!isset($out)){$out=''; $outrank=-100;}
+		/********finished with this mark*******************/
+		/*		 If no $out set then the mark must be faulty......*/
+		if(!isset($out)){$out=''; $outrank=-100;}
 					/* .....in case!!!!! */
 
-/*			three entries for each score in the student's row in the $viewtable*/
+			/*three entries for each score in the student's row in the $viewtable*/
 			$studentrow["$col_mid"]=$out;
-/*				displayed on the screen*/
+			/*displayed on the screen*/
 			$studentrow["rank$col_mid"]=$outrank;
-/*				the criteria used to sort by should the column be ranked*/
+			/*the criteria used to sort by should the column be ranked*/
 			if(!isset($score['outoftotal'])){$score['outoftotal']='';}
 			if(!isset($score['value'])){$score['value']='';}
 			if(!isset($score['grade'])){$score['grade']='';}
@@ -282,6 +247,6 @@ function sortx(&$array,$sort=array()){
    }
 
 /*	All finished.*/
-$_SESSION{'viewtable'}=$viewtable;
-$_SESSION{'umns'}=$umns;
+$_SESSION['viewtable']=$viewtable;
+$_SESSION['umns']=$umns;
 ?>

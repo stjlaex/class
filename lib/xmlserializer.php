@@ -45,7 +45,7 @@ function xmlfilereader($xmlfilename){
 
 function xmlarray_indexed_check($inarray,$indexname){
 	$inarray=(array)$inarray;
-	if(sizeof($inarray)>0){
+	if(is_array($inarray["$indexname"])){
 		if(!array_key_exists(0,$inarray["$indexname"])){
 			$inarray["$indexname"]=array(0=>$inarray["$indexname"]);
 			}
@@ -53,5 +53,4 @@ function xmlarray_indexed_check($inarray,$indexname){
 	else{$inarray["$indexname"]=array();}
 	return $inarray;
 	}
-
 ?>
