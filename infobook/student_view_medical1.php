@@ -8,7 +8,7 @@ include('scripts/sub_action.php');
 
 if($sub=='MedicalStatus'){
 	/*Check user has permission to edit*/
-	$yid=$Student['NCyearActual']['id_db'];
+	$yid=$Student['YearGroup']['value'];
 	$perm=getYearPerm($yid, $respons);
 	$neededperm='w';
 	include('scripts/perm_action.php');

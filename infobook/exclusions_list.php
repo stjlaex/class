@@ -47,7 +47,7 @@ three_buttonmenu();
 		<?php $xmldate='Entrydate'; $required='yes'; include('scripts/jsdate-form.php'); ?>
 	  </div>
 	  <div class="left" >
-		<?php $yid=$Student['NCyearActual']['id_db']; include('scripts/list_year.php'); ?>
+		<?php $yid=$Student['YearGroup']['value']; include('scripts/list_year.php'); ?>
 	  </div>
 
 

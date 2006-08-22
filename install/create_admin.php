@@ -32,9 +32,7 @@ mysql_query("
 CREATE TABLE yeargroup (
 		id				smallint not null default '0',
 		name			varchar(20) not null default '',
-		ncyear			enum('P','N', 'R', '1', '2', '3', '4', '5', '6',
-							'7', '8', '9', '10', '11', '12', '13',
-							'14') not null,
+		sequence	   	smallint unsigned not null default '0',
 		section_id		smallint unsigned not null default '0',
 		primary key (id)
 );");
@@ -49,12 +47,12 @@ mysql_query("
 CREATE TABLE course (
 	id				varchar(10) not null default '', 
 	name 			varchar(40) not null default '',
-	sequence	   	smallint not null default '0',
+	sequence	   	smallint unsigned not null default '0',
     generate		enum('', 'forms','sets','none') not null default '',
 	naming			varchar(40) not null default '',
 	many			smallint unsigned not null default '4',
    	section_id		smallint unsigned not null default '0',
-	endmonth	   	enum('','1','2','3','4','5','6','7','8','9','10','11','12') NOT NULL DEFAULT '',
+	endmonth		enum('','1','2','3','4','5','6','7','8','9','10','11','12') not null default '',
 	primary key (id)
 );");
 mysql_query("

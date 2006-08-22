@@ -146,3 +146,13 @@ ALTER TABLE form
 	CHANGE id id varchar(10) not null default '';
 ALTER TABLE form
 	ADD name varchar(20) not null default '' AFTER id;
+ALTER TABLE yeargroup
+	CHANGE ncyear sequence smallint unsigned not null default '0';
+ALTER TABLE attendance
+	CHANGE ncyear yeargroup_id smallint unsigned not null default '0';
+ALTER TABLE background
+	CHANGE ncyear yeargroup_id smallint unsigned not null default '0';
+ALTER TABLE comments
+	CHANGE ncyear yeargroup_id smallint unsigned not null default '0';
+ALTER TABLE incidents
+	CHANGE ncyear yeargroup_id smallint unsigned not null default '0';

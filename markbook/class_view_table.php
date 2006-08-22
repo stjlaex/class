@@ -113,7 +113,6 @@ while($student=mysql_fetch_array($d_students, MYSQL_ASSOC)){
 			else{$out=$avtype['scoretype'].'type';$outrank=-100;}
 			}
 
-
 		/*********************************************************/
 	   	elseif($marktype=='sum'){
 			/*Mark is the sum of several score values*/

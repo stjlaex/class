@@ -9,32 +9,32 @@ include('scripts/answer_action.php');
 
 	$years=array();
 	$yidsyears=array();
-	$d_yeargroup=mysql_query("SELECT id, ncyear, section_id, name FROM
-							yeargroup ORDER BY section_id, ncyear");
+	$d_yeargroup=mysql_query("SELECT id, sequence, section_id, name FROM
+							yeargroup ORDER BY section_id, sequence");
 	while($year=mysql_fetch_array($d_yeargroup,MYSQL_ASSOC)){
 		$years[]=$year;
 		$yidsyears[$year['id']]=$year;
 		}
 	$yidsyears[1000]['name']='Alumni';
 
-	$ncyears=array();
+	$seqyears=array();
 	while(list($yid,$year)=each($yidsyears)){
-		$ncyear=$year['ncyear'];
-		$ncyears[$ncyear][]=$yid;
+		$seqyear=$year['sequence'];
+		$seqyears[$seqyear][]=$yid;
 		}
 
 	reset($yidsyears);
 	for($c=0;$c<sizeof($years);$c++){
 		$yid=$years[$c]['id'];
-		$ncyear=$years[$c]['ncyear'];
+		$seqyear=$years[$c]['sequence'];
 		$yidsyears[$yid]['nextyid']=array();
-		if(sizeof($ncyears[$ncyear+1])==1){
-			$yidsyears[$yid]['nextyid'][]=$ncyears[$ncyear+1][0];
+		if(sizeof($seqyears[$seqyear+1])==1){
+			$yidsyears[$yid]['nextyid'][]=$seqyears[$seqyear+1][0];
 			$yidsyears[$yid]['nextyid'][]=1000;
 			}
 		else{
-			for($c2=0;$c2<sizeof($ncyears[$ncyear+1]);$c2++){
-				$yidsyears[$yid]['nextyid'][]=$ncyears[$ncyear+1][$c2];
+			for($c2=0;$c2<sizeof($seqyears[$seqyear+1]);$c2++){
+				$yidsyears[$yid]['nextyid'][]=$seqyears[$seqyear+1][$c2];
 				}
 			$yidsyears[$yid]['nextyid'][]=1000;
 			}
@@ -87,7 +87,7 @@ three_buttonmenu();
 <?php
      while(list($yid,$year)=each($yidsyears)){
 	   if($year['nextyid']){
-		   $ncyear=$year['ncyear'];
+		   $seqyear=$year['sequence'];
 ?>
 		  <label for="<?php print $year['name'];?>"><?php print $year['name'];?></label>
 		  <select id="<?php print $year['name'];?>" name="<?php print $yid;?>">

@@ -10,8 +10,8 @@ include('scripts/sub_action.php');
 	/*promote students to chosen pastoral groups*/
 	$years=array();
 	$c=0;
-	$d_yeargroup=mysql_query("SELECT id, ncyear, section_id, name FROM
-							yeargroup ORDER BY ncyear ASC");
+	$d_yeargroup=mysql_query("SELECT id, sequence, section_id, name FROM
+							yeargroup ORDER BY sequence ASC");
 	while($years[]=mysql_fetch_array($d_yeargroup,MYSQL_ASSOC)){
 		$yid=$years[$c]['id'];
 		$d_form=mysql_query("SELECT id FROM form WHERE

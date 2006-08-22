@@ -39,7 +39,7 @@ three_buttonmenu();
 		<?php $xmldate='Entrydate'; $required='yes'; include('scripts/jsdate-form.php'); ?>
 	  </div>
 	  <div class="left" >
-		<?php $yid=$Student['NCyearActual']['id_db']; include('scripts/list_year.php'); ?>
+		<?php $yid=$Student['YearGroup']['value']; include('scripts/list_year.php'); ?>
 	  </div>
 	  <input type="text" style="display:none;" id="Id_db" name="id_db" value="" />
 	  <input type="hidden" name="current" value="<?php print $action;?>" />
@@ -62,7 +62,7 @@ three_buttonmenu();
 		  </tr>
 		</thead>
 <?php
-	$yid=$Student['NCyearActual']['id_db'];
+	$yid=$Student['YearGroup']['value'];
 	$perm=getYearPerm($yid, $respons);
 	if(is_array($Student['Comments'])){
 		reset($Student['Comments']);
@@ -75,7 +75,7 @@ three_buttonmenu();
 		  <tr class="rowplus" onClick="clickToReveal(this)" id="<?php print $entryno.'-'.$rown++;?>">
 			<th>&nbsp</th>
 <?php 
-		   if(isset($entry['NCyear']['value'])){print '<td>'.$entry['NCyear']['value'].'</td>';}
+		   if(isset($entry['YearGroup']['value'])){print '<td>'.$entry['YearGroup']['value'].'</td>';}
 		   else{print'<td></td>';}
 		   if(isset($entry['EntryDate']['value'])){print '<td>'.$entry['EntryDate']['value'].'</td>';}
 		   else{print'<td></td>';}

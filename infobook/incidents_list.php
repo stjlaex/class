@@ -51,7 +51,7 @@ three_buttonmenu();
 		  </tr>
 		</thead>
 <?php
-   	$yid=$Student['NCyearActual']['id_db'];
+   	$yid=$Student['YearGroup']['value'];
 	$perm=getYearPerm($yid, $respons);
 	if(is_array($Student['Incidents'])){
 		reset($Student['Incidents']);
@@ -64,7 +64,7 @@ three_buttonmenu();
 		  <tr class="rowplus" onClick="clickToReveal(this)" id="<?php print $entryno.'-'.$rown++;?>">
 			<th>&nbsp</th>
 <?php
-		   if(isset($entry['NCyear']['value'])){print '<td>'.$entry['NCyear']['value'].'</td>';}
+		   if(isset($entry['YearGroup']['value'])){print '<td>'.$entry['YearGroup']['value'].'</td>';}
 		   else{print'<td></td>';}
 		   if(isset($entry['EntryDate']['value'])){print '<td>'.$entry['EntryDate']['value'].'</td>';}
 		   else{print'<td></td>';}

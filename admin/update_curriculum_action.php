@@ -303,22 +303,22 @@ while(list($index,$curriculum)=each($curriculums)){
 		/*****************Yeargroups************************/
  		$yid=(int)$Group['id'];
    		$name=$Group['name'];
-   		$ncyear=$Group['ncyear'];
+   		$seq=$Group['sequence'];
    		$section=$Group['section'];
 		$d_section=mysql_query("SELECT id FROM section WHERE name='$section'");	
 		if(mysql_num_rows($d_section)>0){$secid=mysql_result($d_section,0);}
 		else{$secid=0;}
 		$d_yeargroup=mysql_query("SELECT name FROM yeargroup WHERE id='$yid'");
 		if(mysql_num_rows($d_yeargroup)==0){
-			mysql_query("INSERT INTO yeargroup (id, name, ncyear, section_id)
-							VALUES('$yid','$name','$ncyear','$secid')");
+			mysql_query("INSERT INTO yeargroup (id, name, sequence, section_id)
+							VALUES('$yid','$name','$seq','$secid')");
 			mysql_query("INSERT INTO groups (yeargroup_id,name) VALUES ('$yid', '$name')");
 			$gid=mysql_insert_id();
 			mysql_query("INSERT INTO perms (uid, gid, r, w, x) VALUES('$adminuid','$gid', '1', '1', '1')");
 			}
 		else{
 			mysql_query("UPDATE yeargroup SET name='$name',
-					section_id='$secid', ncyear='$ncyear' WHERE id='$yid'");
+					section_id='$secid', sequence='$seq' WHERE id='$yid'");
 			mysql_query("UPDATE groups SET name='$name' WHERE
 				yeargroup_id='$yid' AND course_id IS NULL AND subject_id IS NULL");
 			}

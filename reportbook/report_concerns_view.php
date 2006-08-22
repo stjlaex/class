@@ -46,8 +46,7 @@ two_buttonmenu();
 
 	  <table class="listmenu">
 <?php
-	$thisncyear=$Student['NCyearActual']['value'];
-	$Comments=fetchConcerns($sid,$date,$thisncyear);
+	$Comments=fetchConcerns($sid,$date);
 	$Student['Concerns']=$Comments;
 ?>
 	  <tr>

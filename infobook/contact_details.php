@@ -14,7 +14,7 @@ else{$contactno=$_POST{'contactno'};}
 if($contactno!='-1'){$Contact=$Student['Contacts'][$contactno];}
 	
 /*Check user has permission to view*/
-$yid=$Student['NCyearActual']['id_db'];
+$yid=$Student['YearGroup']['value'];
 $contactgid=$Student['Contacts'][$contactno]['id_db'];
 $perm=getYearPerm($yid,$respons);
 include('scripts/perm_action.php');

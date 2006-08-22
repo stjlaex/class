@@ -84,8 +84,7 @@ CREATE TABLE incidents (
 	id				int unsigned not null auto_increment,
 	student_id		int unsigned not null, 
 	entrydate		date,
-	ncyear			enum('N', 'R', '1', '2', '3', '4', '5', '6',
-							'7', '8', '9', '10', '11', '12', '13', '14') not null,
+	yeargroup_id	smallint not null default '0',
 	category		varchar(30) not null default '',
 	detail			varchar(250) not null default '',
 	outcome			varchar(200) not null default '',
@@ -102,8 +101,7 @@ CREATE TABLE comments (
 	id				int unsigned not null auto_increment,
 	student_id		int unsigned not null, 
 	entrydate		date,
-	ncyear			enum('N', 'R', '1', '2', '3', '4', '5', '6',
-							'7', '8', '9', '10', '11', '12', '13', '14') not null,
+	yeargroup_id	smallint not null default '0',
 	category		varchar(100) not null default '',
 	detail			varchar(250) not null default '',
 	subject_id		varchar(10) not null default '',
@@ -120,8 +118,7 @@ CREATE TABLE background (
 	student_id		int unsigned not null,
 	type			char(3) not null default '',
 	entrydate		date,
-	ncyear			enum('N', 'R', '1', '2', '3', '4', '5', '6',
-							'7', '8', '9', '10', '11', '12', '13', '14') not null,
+	yeargroup_id	smallint not null default '0',
 	detail			text not null default '',
 	category		varchar(100) not null default '',
 	subject_id		varchar(10) not null default '',
@@ -151,16 +148,14 @@ CREATE TABLE exclusions (
 if (mysql_query("
 CREATE TABLE attendance (
 	student_id			int unsigned not null default 0, 
-	ncyear				enum('N', 'R', '1', '2', '3', '4', '5', '6',
-							'7', '8', '9', '10', '11', '12', '13',
-							'14') not null,
+	yeargroup_id	smallint not null default '0',
 	lea					varchar(3) not null default '',
 	estab				varchar(4) not null default 'XXXX',
 	possible			smallint unsigned,
 	attended			smallint unsigned,
 	unauthorised		smallint unsigned,
 	late				smallint unsigned,
-   	primary key         (student_id, ncyear)
+   	primary key         (student_id, yeargroup_id)
 );")){}
      else{print "Failed on attendance!<br>";	
 					$error=mysql_error(); print $error."<br>";}

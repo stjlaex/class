@@ -88,7 +88,7 @@ function clean_text($value){
 	$search=array(chr(145),chr(146),chr(147),chr(148),chr(150),chr(151));
 	$replace=array("'","'",'"','"','-','-');
 	$value=str_replace($search,$replace,$value);
-	/*blanks possible dodgy sql etc.*/
+	/*blanks possible dodgy sql injection attempt*/
 	$search=array('SELECT ','INSERT ','DELETE ','DROP ');
 	$value=str_replace($search,'',$value);
 	$search=array('*','<','>');
@@ -138,93 +138,98 @@ function displayEnum($value, $field_name) {
 	}
 
 function getEnumArray($field_name) {
-//		for the student table
+	/*for the student table*/
 	$gender=array('M' => 'male', 'F' => 'female');
-	$ncyear=array('N' => 'Nursery', 'R' => 'Reception', '1' => '1',
-	'2' => '2', '3' => '3', '4' => '4', '5' => '5', '6' => '6', '7' =>
-	'7', '8' => '8', '9' => '9', '10' => '10', '11' => '11', '12' =>
-	'12', '13' => '13', '14' => '14');	
-	$yeargroup_id=array('N' => 'Nursery', 'R' => 'Reception', '1' => '1',
-	'2' => '2', '3' => '3', '4' => '4', '5' => '5', '6' => '6', '7' =>
-	'7', '8' => '8', '9' => '9', '10' => '10', '11' => '11', '12' =>
-	'12', '13' => '13', '14' => '14');	
 
-//		for the info table
-	$boarder=array('N' => 'notaboarder','B' => 'boarder','6' =>
-	'boardersixnightsorless', '7' => 'boardersevennights');
+	/*for the info table*/
+	$boarder=array('N' => 'notaboarder',
+				   'B' => 'boarder',
+				   '6' => 'boardersixnightsorless', 
+				   '7' => 'boardersevennights');
 	$religion=array('NOT' => 'informationnotobtained', 
-		'BU' => 'buddhist', 'CH' => 'christian', 'HI' =>
-		'hindu', 'JE' => 'jewish', 'MU' => 'muslim', 'NO' => 'No
-		religion', 'OT' => 'otherreligion', 'SI' => 'sikh');
+					'BU' => 'buddhist', 'CH' => 'christian', 'HI' =>
+					'hindu', 'JE' => 'jewish', 'MU' => 'muslim', 
+					'NO' => 'noreligion', 
+					'OT' => 'otherreligion', 'SI' => 'sikh');
 	$reledu=array('A' => 'attendsreligiouseducation', 
-		'W' => 'withdrawnfromreligiouseducation');
+				  'W' => 'withdrawnfromreligiouseducation');
 	$relwo=array('A' => 'attendscollectivewoship', 
-		'W' => 'withdrawnfromcollectiveworthship');
+				 'W' => 'withdrawnfromcollectiveworthship');
 	$parttime=array('N' => 'no', 'Y' => 'yes');
 	$sen=array('N' => 'no', 'Y' => 'yes');
 	$medical=array('N' => 'no', 'Y' => 'yes');
 	$incare=array('N' => 'no', 'Y' => 'yes');
 	$firstlanguage=array('ENG' => 'english', 
-	'ENB' => 'believedtobeenglish', 'OTH' => 'other', 'NOT' => 'informationnotobtained');
-	$enrolstatus=array('C' => 'current', 'P' => 'previous', 'G' =>
-	'guestpupil', 'S' => 'currentsubsidary (dualregistration)', 'M'
-	=> 'currentmain(dualregistration)');
-	$transportmode=array('NOT' => 'informationnotobtained', 'F' =>
-	'onfoot', 'C' => 'privatecar', 'T' => 'train', 'B' => 'bus', 'S'
-	=> 'schoolbus',);
+						 'ENB' => 'believedtobeenglish', 
+						 'OTH' => 'other', 
+						 'NOT' => 'informationnotobtained');
+	$enrolstatus=array('C' => 'current', 
+					   'P' => 'previous', 
+					   'G' => 'guestpupil', 
+					   'S' => 'currentsubsidary (dualregistration)', 
+					   'M' => 'currentmain(dualregistration)');
+	$transportmode=array('NOT' => 'informationnotobtained', 
+						 'F' => 'onfoot', 'C' => 'privatecar', 
+						 'T' => 'train', 'B' => 'bus', 'S' => 'schoolbus',);
 
-//			for the gidsid table
+	/*for the gidsid table*/
 	$priority=array('0' => 'first', '1' => 'second', '2' => 'third', '3' => 'fourth');
 	$mailing=array('0' => 'nomailing', '1' => 'allmailing', '2' => 'reportsonly');
 	$relationship=array('NOT' => 'informationnotobtained', 'CAR' =>
-	'carer', 'DOC' => 'doctor', 'FAM' => 'otherfamilymember', 'PAM'
-	=> 'mother', 'PAF' => 'father', 'OTH' => 'othercontact', 'STP' =>
-	'stepparent', 'REL' => 'otherrelative', 'SWR' => 'socialworker', 
-	'RLG' => 'religiouscontact', 'AGN' => 'agent', 'HFA' => 'hostfamily');
+						'carer', 'DOC' => 'doctor', 'FAM' => 'otherfamilymember', 'PAM'
+						=> 'mother', 'PAF' => 'father', 'OTH' => 'othercontact', 'STP' =>
+						'stepparent', 'REL' => 'otherrelative', 'SWR' => 'socialworker', 
+						'RLG' => 'religiouscontact', 'AGN' => 'agent', 'HFA' => 'hostfamily');
 	$responsibility=array('N' => 'noparentalresponsibility', 'Y' => 'parentalresponsibility');
 
-//			for the phone table
+	/*for the phone table*/
 	$phonetype=array('H' => 'homephone', 'W' => 'workphone', 
 					 'M' => 'mobilephone', 'F' => 'faxnumber', 'O' => 'otherphone');
 
-//			for the gidaid table
+	/*for the gidaid table*/
 	$addresstype=array('H' => 'home', 'W' => 'work', 'V' =>
-	'holiday', 'O' => 'other');
+					   'holiday', 'O' => 'other');
 
-//			for the report table
-	$component=array('None' => 'notapplied', 'N' => 'non-validating', 'V' =>
-	'validating', 'A' => 'all');
+	/*for the report table*/
+	$component=array('None' => 'notapplied', 
+					 'N' => 'non-validating', 
+					 'V' => 'validating', 
+					 'A' => 'all');
 
-//			for the assessment tables
+	/*for the assessment tables*/
 	$resultstatus=array('I' => 'interim', 'R' => 'result', 'T' =>
-	'target', 'P' => 'provisionalresult', 'E' => 'estimate');
+						'target', 'P' => 'provisionalresult', 'E' => 'estimate');
 
 	$season=array('S' => 'summer', 'W' => 'winter', 'M' =>
-	'modular/continuous', '1' => 'january', '2' => 'feburary', '3' =>
-	'march', '4' => 'april', '5' => 'may', '6' => 'june', '7' =>
-	'july', '8' => 'august', '9' => 'september', 
-	'a' => 'october', 'b' => 'november', 'c' => 'december');
+				  'modular/continuous', '1' => 'january', '2' => 'feburary', '3' =>
+				  'march', '4' => 'april', '5' => 'may', '6' => 'june', '7' =>
+				  'july', '8' => 'august', '9' => 'september', 
+				  'a' => 'october', 'b' => 'november', 'c' => 'december');
 
-//			for the sen table
-	$senprovision=array('N' => 'notonregister', 'A'=> 'schoolaction',
-	'P'=> 'schoolactionplus', 'Q'=>
-	'schoolactionplusandstatutoryassessment', 'S'=> 'statemented');
+	/*for the sen table*/
+	$senprovision=array('N' => 'notonregister', 
+						'A'=> 'schoolaction',
+						'P'=> 'schoolactionplus', 
+						'Q'=> 'schoolactionplusandstatutoryassessment', 
+						'S'=> 'statemented');
 	$senranking=array('1' => 'level 1', '2' => 'level 2', '3' => 'level 3');
 	$sentype=array('SPLD' => 'specificlearningdifficulty(dyslexia)', 
-				   'MLD' => 'moderatelearningdifficulty', 'SLD' =>
-	'severelearningdifficulty', 'PMLD' =>
-				'profoundanmultiplelearningdifficulty', 'EBD' =>
-	'emotionalandbehaviouraldifficulty', 'SCD' =>
-	'speechorcommunicationdifficulty', 
+				   'MLD' => 'moderatelearningdifficulty', 
+				   'SLD' => 'severelearningdifficulty', 
+				   'PMLD' => 'profoundanmultiplelearningdifficulty', 
+				   'EBD' => 'emotionalandbehaviouraldifficulty', 
+				   'SCD' => 'speechorcommunicationdifficulty', 
 				   'HI' => 'hearingimpairment', 
-		'VI' => 'visualimpairment', 'MSI' =>
-	'multi-sensoryimpairment', 
-				   'PD' => 'physicaldisability', 'AUT' => 'autism',
-		'OTH' => 'otherdifficulty/disability');
-	$sencurriculum=array('A' => 'allsubjects', 'M' =>
-	'modifiedcurriculum', 'D' => 'curriculumdisapplied');
+				   'VI' => 'visualimpairment', 
+				   'MSI' => 'multi-sensoryimpairment', 
+				   'PD' => 'physicaldisability', 
+				   'AUT' => 'autism',
+				   'OTH' => 'otherdifficulty/disability');
+	$sencurriculum=array('A' => 'allsubjects', 
+						 'M' => 'modifiedcurriculum', 
+						 'D' => 'curriculumdisapplied');
 
-//			for the exclusions table
+	/*for the exclusions table*/
 	$exclusionscategory=array('F' => 'fixed-term', 'P' => 'permanent', 'L' => 'lunchtime');
 
 	$appeal=array('R' => 'appealrejected', 'S' => 'appealsuccesful');
@@ -232,7 +237,7 @@ function getEnumArray($field_name) {
 	$session=array('NA' => 'NA', 'AM' => 'AM', 'PM' => 'PM');
 
 	return $$field_name;
-}
+	}
 
 
 function list_directory_files($directory,$extension='*'){

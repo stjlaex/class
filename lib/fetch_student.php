@@ -43,15 +43,9 @@ function fetchshortStudent($sid){
 	$Student['Gender']=array('label' => 'gender', 'value' => $student['gender']);
    	$Student['DOB']=array('label' => 'dateofbirth', 'value' => $student['dob']);
    	$Student['RegistrationGroup']=array('label' => 'formgroup',  'value' => $student['form_id']);
-	$yid=$student['yeargroup_id'];
-	$d_yeargroup=mysql_query("SELECT ncyear FROM yeargroup WHERE id='$yid'");
-	$ncyear=mysql_result($d_yeargroup,0);	
-	$Student['NCyearActual']=array('label' => 'year', 'table_db' =>
-		'student', 'field_db' => 'yeargroup_id', 'type_db'=>'enum', 
-		'id_db' => $yid, 'value' => $ncyear);
-
+   	$Student['YearGroup']=array('label' => 'yeargroup',  'value' => $student['yeargroup_id']);
 	return $Student;
-}
+	}
 
 function fetchStudent($sid){
    	$d_student=mysql_query("SELECT * FROM student WHERE id='$sid'");
@@ -82,21 +76,31 @@ function fetchStudent($sid){
 
 	$Student['id_db']=$sid;
 	$Student['Surname']=array('label' => 'surname', 
-					'table_db' => 'student', 'field_db' => 'surname',
-					'type_db'=>'varchar(30)', 'value' => $student['surname']);
+							  'table_db' => 'student', 
+							  'field_db' => 'surname',
+							  'type_db'=>'varchar(30)', 
+							  'value' => $student['surname']);
 	$Student['Forename']=array('label' => 'forename', 
-					'table_db' => 'student', 'field_db' => 'forename',
-					'type_db'=>'varchar(30)', 'value' => $student['forename']);
+							   'table_db' => 'student', 
+							   'field_db' => 'forename',
+							   'type_db'=>'varchar(30)', 
+							   'value' => $student['forename']);
    	$Student['MiddleNames']=array('label' => 'middlenames', 
-					'table_db' => 'student', 'field_db' => 'middlenames',
-					'type_db'=>'varchar(30)', 'value' => $student['middlenames']);
+								  'table_db' => 'student', 
+								  'field_db' => 'middlenames',
+								  'type_db'=>'varchar(30)', 
+								  'value' => $student['middlenames']);
 	$Student['PreferredForename']=array('label' =>
-					'preferredforename', 'table_db' => 
-					'student', 'field_db' => 'preferredforename',
-					'type_db'=>'varchar(30)', 'value' => $student['preferredforename']);
+										'preferredforename', 
+										'table_db' => 'student', 
+										'field_db' => 'preferredforename',
+										'type_db'=>'varchar(30)', 
+										'value' => $student['preferredforename']);
 	$Student['FormerSurname']=array('label' => 'formersurname', 
-					'table_db' => 'student', 'field_db' => 'formersurname',
-					'type_db'=>'varchar(30)', 'value' => $student['formersurname']);
+									'table_db' => 'student', 
+									'field_db' => 'formersurname',
+									'type_db'=>'varchar(30)', 
+									'value' => $student['formersurname']);
 
 	if($student['preferredforename']!=' '){$displaypfn='('.$student['preferredforename'].') ';}
 	else{$displaypfn='';}
@@ -114,43 +118,55 @@ function fetchStudent($sid){
 		}
 
 	$Student['Gender']=array('label' => 'gender', 
-					'table_db' => 'student', 'field_db' => 'gender',
-					'type_db'=>'enum', 'value' => $student['gender']);
+							 'table_db' => 'student', 
+							 'field_db' => 'gender',
+							 'type_db'=>'enum', 
+							 'value' => $student['gender']);
    	$Student['DOB']=array('label' => 'dateofbirth', 
-					'table_db' => 'student', 'field_db' => 'dob',
-					'type_db'=>'date', 'value' => $student['dob']);
+						  'table_db' => 'student', 
+						  'field_db' => 'dob',
+						  'type_db'=>'date', 
+						  'value' => $student['dob']);
    	$Student['RegistrationGroup']=array('label' => 'formgroup', 
-					'table_db' => 'student', 'field_db' => 'form_id',
-					'type_db'=>'varchar(30)', 'value' => $student['form_id']);
-	
-	$yid=$student['yeargroup_id'];
-	if($yid!=''){
-		$d_yeargroup=mysql_query("SELECT ncyear FROM yeargroup WHERE id='$yid'");
-		$ncyear=mysql_result($d_yeargroup,0);
-		}
-	else{$ncyear='';}
-	$Student['NCyearActual']=array('label' => 'year', 
-					'table_db' => 'student', 'field_db' => 'yeargroup_id',
-					'type_db'=>'enum', 'id_db' => $yid, 'value' => $ncyear);
+										'field_db' => 'form_id',
+										'type_db'=>'varchar(30)', 
+										'value' => $student['form_id']);
+   	$Student['YearGroup']=array('label' => 'yeargroup',   
+								'field_db' => 'yeargroup_id',
+								'type_db'=>'smallint',
+								'value' => $student['yeargroup_id']);
+	$Student['NCyearActual']=array('label' => 'ncyear',  
+								   'id_db' => $student['yeargroup_id'], 
+								   'value' => getNCyear($student['yeargroup_id']));
    	$Student['Nationality']=array('label' => 'nationality', 
 								  'table_db' => 'info', 
 								  'field_db' => 'nationality', 
 								  'type_db'=>'char(30)', 'value' => $info['nationality']);
    	$Student['MedicalFlag']=array('label' => 'medicalinformation', 
-								  'table_db' => 'info', 'field_db' => 'medical',
-					'type_db'=>'enum', 'value' => $info['medical']);
+								  'table_db' => 'info', 
+								  'field_db' => 'medical',
+								  'type_db'=>'enum', 
+								  'value' => $info['medical']);
    	$Student['SENFlag']=array('label' => 'seninformation', 
-							  'table_db' => 'info', 'field_db' => 'sen',
-							  'type_db'=>'enum', 'value' => $info['sen']);
+							  'table_db' => 'info', 
+							  'field_db' => 'sen',
+							  'type_db'=>'enum', 
+							  'value' => $info['sen']);
    	$Student['Religion']=array('label' => 'religion', 
-							   'table_db' => 'info', 'field_db' => 'religion',
-							   'type_db' => 'enum', 'value' => $info['religion']);
+							   'table_db' => 'info', 
+							   'field_db' => 'religion',
+							   'type_db' => 'enum', 
+							   'value' => $info['religion']);
    	$Student['FirstLanguage']=array('label' => 'firstlanguage', 
-									'table_db' => 'info', 'field_db' => 'firstlanguage',
+									'table_db' => 'info', 
+									'field_db' => 'firstlanguage',
 									'type_db'=>'enum', 
 									'value' => $info['firstlanguage']);
-   	$Student['E-Mail']=array('label' => 'email','table_db' => 'info', 'field_db' => 'email',
-					'type_db'=>'varhar(50)', 'value' => 'blank');
+   	$Student['E-Mail']=array('label' => 'email',
+							 'table_db' => 'info', 
+							 'field_db' => 'email',
+							 'type_db'=>'varhar(50)', 
+							 'value' => 'blank');
    	$Student['EnrolNumber']=array('label' => 'enrolmentnumber', 
 								  'table_db' => 'info', 
 								  'field_db' => 'formerupn', 
@@ -159,22 +175,31 @@ function fetchStudent($sid){
 	$Student['EntryDate']=array('label' => 'schoolstartdate', 
 								'table_db' => 'info', 
 								'field_db' => 'entrydate', 
-								'type_db'=>'date', 'value' => $info['entrydate']);
+								'type_db'=>'date', 
+								'value' => $info['entrydate']);
 	$Student['LeavingDate']=array('label' => 'schoolleavingdate', 
 								  'table_db' => 'info', 
 								  'field_db' => 'leavingdate', 
-								  'type_db'=>'date', 'value' => 'null');
+								  'type_db'=>'date', 
+								  'value' => 'null');
    	$Student['Boarder']=array('label' => 'boarder', 
-							  'table_db' => 'info', 'field_db' => 'boarder',
-							  'type_db'=>'enum', 'value' => $info['boarder']);
+							  'table_db' => 'info', 
+							  'field_db' => 'boarder',
+							  'type_db'=>'enum', 
+							  'value' => $info['boarder']);
    	$Student['PartTime']=array('label' => 'parttime', 
-							   'table_db' => 'info', 'field_db' => 'parttime',
-							   'type_db'=>'enum', 'value' => $info['parttime']);
+							   'table_db' => 'info', 
+							   'field_db' => 'parttime',
+							   'type_db'=>'enum', 
+							   'value' => $info['parttime']);
    	$Student['TransportMode']=array('label' => 'modeoftransport', 
-									'table_db' => 'info', 'field_db' => 'transportmode',
-									'type_db'=>'enum', 'value' => $info['transportmode']);
+									'table_db' => 'info', 
+									'field_db' => 'transportmode',
+									'type_db'=>'enum', 
+									'value' => $info['transportmode']);
    	$Student['TransportRoute']=array('label' => 'transportroute', 
-									 'table_db' => 'info', 'field_db' => 'transportroute',
+									 'table_db' => 'info', 
+									 'field_db' => 'transportroute',
 									 'type_db'=>'transportroute', 
 									 'value' => $info['transportroute']);
 
@@ -286,12 +311,13 @@ function fetchStudent($sid){
 		$Phone=array();
 		$Phone['id_db']='-1';
 		$Phone['PhoneNo']=array('label' => 'phonenumber', 
-									'table_db' => 'phone', 'field_db' => 'number',
-									'type_db'=>'varchar(22)', 'value'
-									=> ' ');
+								'table_db' => 'phone', 'field_db' => 'number',
+								'type_db'=>'varchar(22)', 
+								'value' => ' ');
 		$Phone['PhoneType']=array('label' => 'phonetype', 
-									  'table_db' => 'phone', 'field_db' => 'phonetype',
-									  'type_db'=>'enum', 'value' => ' ');
+								  'table_db' => 'phone', 'field_db' => 'phonetype',
+								  'type_db'=>'enum', 
+								  'value' => ' ');
 		$Phones[]=$Phone;
 
 		$Contact['Addresses']=$Addresses;
@@ -410,8 +436,8 @@ function fetchStudent($sid){
 			   	'type_db'=>'varchar(200)', 'value' => $incident['outcome']);
 	   	$Incident['EntryDate']=array('label' => 'date', 
 			   	'type_db'=>'date', 'value' => $incident['entrydate']);
-	   	$Incident['NCyear']=array('label' => 'year', 
-			   	'type_db'=>'enum', 'value' => $incident['ncyear']);
+	   	$Incident['YearGroup']=array('label' => 'yeargroup', 
+			   	'type_db'=>'enum', 'value' => $incident['yeargroup_id']);
 		$Incidents[]=$Incident;
 		}
 	$Incidents=nullCorrect($Incidents);
@@ -429,7 +455,7 @@ function fetchStudent($sid){
 
 		$Entries=array();
 		$d_background=mysql_query("SELECT * FROM background WHERE 
-				student_id='$sid' AND type='$type' ORDER BY ncyear");
+				student_id='$sid' AND type='$type' ORDER BY yeargroup_id");
 		while($entry=mysql_fetch_array($d_background,MYSQL_ASSOC)){
 			$entry=nullCorrect($entry);
 			$Entry=array();
@@ -451,7 +477,7 @@ function fetchStudent($sid){
 				$Category['rating']=array('value' => $rank);
 				$Categories['Category'][]=$Category;
 				}
-			if (!isset($Categories['Category'])){		
+			if (!isset($Categories['Category'])){	
 				$Category=array('label' => 'category', 'value_db' => ' ',
 					'type_db'=>'varchar(30)', 'value' => ' ');
 				$Categories['Category'][]=$Category;
@@ -471,8 +497,8 @@ function fetchStudent($sid){
 			$Entry['Subject']=array('label' => 'subject', 
 			   'type_db'=>'varchar(15)', 
 				'value_db' => $bid, 'value' => $subjectname);
-			$Entry['NCyear']=array('label' => 'year', 
-					'type_db'=>'enum', 'value' => $entry['ncyear']);
+			$Entry['YearGroup']=array('label' => 'yeargroup', 
+					'type_db'=>'smallint', 'value' => $entry['yeargroup_id']);
 			$Entries[]=$Entry;
 			}
 		$Entries=nullCorrect($Entries);
@@ -483,20 +509,20 @@ function fetchStudent($sid){
 	return $Student;
 	}
 
-function fetchComments($sid,$date,$ncyear){
+function fetchComments($sid,$date){
 	$Comments=array();
 	/*if no date set choose this academic year*/
-	if($date==''){$date='2005-09-01';}
-	if($ncyear==''){$ncyear='%';}
+	$crid='KS3';
+	if($date==''){$date=getCurriculumYear($crid)-2;}
 	$d_comments=mysql_query("SELECT * FROM comments WHERE
-		student_id='$sid' AND entrydate > '$date' AND ncyear LIKE
-		'$ncyear' ORDER BY ncyear DESC, entrydate DESC, id DESC, subject_id");
+		student_id='$sid' AND entrydate > '$date' 
+		ORDER BY yeargroup_id DESC, entrydate DESC, id DESC, subject_id");
 	while($comment=mysql_fetch_array($d_comments,MYSQL_ASSOC)){
 		$comment=nullCorrect($comment);
 		$Comment=array();
 		$Comment['id_db']=$comment['id'];
 		$bid=$comment['subject_id'];
-		if($bid!=' '){
+		if($bid!=' ' and $bid!=''){
 			$d_subject=mysql_query("SELECT name FROM subject WHERE id='$bid'");
 			$subjectname=mysql_result($d_subject,0);
 			}
@@ -530,8 +556,8 @@ function fetchComments($sid,$date,$ncyear){
 					'type_db'=>'varchar(250)', 'value' => $comment['detail']);
 	   	$Comment['EntryDate']=array('label' => 'date', 
 					'type_db'=>'date', 'value' => $comment['entrydate']);
-	   	$Comment['NCyear']=array('label' => 'year', 
-					'type_db'=>'enum', 'value' => $comment['ncyear']);
+	   	$Comment['YearGroup']=array('label' => 'yeargroup', 
+					'type_db'=>'smallint', 'value' => $comment['yeargroup_id']);
 		$Comments[]=$Comment;
 		}
 	$Comments=nullCorrect($Comments);
@@ -541,8 +567,7 @@ function fetchComments($sid,$date,$ncyear){
 function commentDisplay($sid,$date,$Comments=''){
 	$commentdisplay=array();
 	if($Comments==''){
-		$thisncyear=fetchNCYear($sid);	
-		$Comments=fetchComments($sid,$date,$thisncyear);
+		$Comments=fetchComments($sid,$date);
 		}
 	if(is_array($Comments)){
 			if($Comments[0]['Categories']['Category'][0]['rating']['value']==-1){
@@ -558,10 +583,22 @@ function commentDisplay($sid,$date,$Comments=''){
 	return $commentdisplay;
 	}
 
+/*these are for compatibility with NCYear field as defined by the CBDS */
+/*for state schools in England and Wales - they are needed for */
+/* fetchStudent to work - but can otherwise be ignored*/
 function fetchNCYear($sid){
-	$d_yeargroup=mysql_query("SELECT ncyear FROM yeargroup JOIN
-		student ON student.yeargroup_id=yeargroup.id WHERE student.id='$sid'");
-	$ncyear=mysql_result($d_yeargroup,0);	
+	$d_student=mysql_query("SELECT yeargroup_id FROM student WHERE id='$sid'");
+	$yid=mysql_result($d_student,0);
+	$ncyear=getNCYear($yid);
+	return $ncyear;
+	}
+
+function getNCYear($yid){
+	$ncyears=array('N' => 'Nursery', 'R' => 'Reception', '1' => '1',
+	'2' => '2', '3' => '3', '4' => '4', '5' => '5', '6' => '6', '7' =>
+	'7', '8' => '8', '9' => '9', '10' => '10', '11' => '11', '12' =>
+	'12', '13' => '13', '14' => '14');	
+	$ncyear=$ncyears[$yid];
 	return $ncyear;
 	}
 ?>

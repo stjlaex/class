@@ -8,7 +8,7 @@ $cancel='student_view.php';
 include('scripts/sub_action.php');
 
 /*Check user has permission to view*/
-$yid=$Student['NCyearActual']['id_db'];
+$yid=$Student['YearGroup']['value'];
 $perm=getYearPerm($yid, $respons);
 include('scripts/perm_action.php');
 
