@@ -22,9 +22,11 @@ $books['admin']=array(
 					  ,'infobook' => 'InfoBook'
 					  ,'markbook' => 'MarkBook'
 					  ,'register' => 'Register'
+					  ,'entrybook' => 'EntryBook'
 				 );
 $books['office']=array(
 					   'infobook' => 'InfoBook'
+					   ,'entrybook' => 'EntryBook'
 					   ,'register' => 'Register'
 				 );
 $books['support']=array(
