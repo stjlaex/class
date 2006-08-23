@@ -41,7 +41,7 @@ while(list($index,$curriculum)=each($curriculums)){
 	$Courses=read_curriculum_file('courses.xml',$curriculum);
 
 	$Courses=xmlarray_indexed_check($Courses,'course');
-	while(list($index,$Course)=each($Courses['course']) and $Course!=''){
+	while(list($index,$Course)=each($Courses['course']) and $Course['id']!=''){
 		/*****************Courses************************/
    		$crid=$Course['id'];
 		if($crid!='%'){
@@ -77,7 +77,7 @@ while(list($index,$curriculum)=each($curriculums)){
 			}
 	
 		$Subjects=xmlarray_indexed_check($Course['subjects'],'subject');
-		while(list($index,$Subject)=each($Subjects['subject']) and $Subject!=''){
+		while(list($index,$Subject)=each($Subjects['subject']) and $Subject['id']!=''){
 			/*****************Subjects************************/
 			$bid=$Subject['id'];
 			$name=$Subject['name'];
@@ -123,7 +123,7 @@ while(list($index,$curriculum)=each($curriculums)){
 
 			$Components=xmlarray_indexed_check($Subject['components'],'component');
 			while(list($index,$Component)=each($Components['component'])
-																and $Component!=''){
+																and $Component['id']!=''){
 				/*****************Components************************/
 				$pid=$Component['id'];
 				$status=$Component['status'];
@@ -150,7 +150,8 @@ while(list($index,$curriculum)=each($curriculums)){
 		$AssessmentMethods=$Course['assessmentmethods'];
 
 		$GradeSchemes=xmlarray_indexed_check($AssessmentMethods['gradeschemes'],'gradescheme');
-		while(list($index,$GradeScheme)=each($GradeSchemes['gradescheme']) and $GradeScheme!=''){
+		while(list($index,$GradeScheme)=each($GradeSchemes['gradescheme']) 
+												and $GradeScheme['name']!=''){
 			/*****************Grade Schemes***************/
 			$name=$GradeScheme['name'];
 			$Grades=$GradeScheme['grades'];
@@ -179,7 +180,7 @@ while(list($index,$curriculum)=each($curriculums)){
 
 		$Categories=xmlarray_indexed_check($AssessmentMethods['categories'],'category');	
 		while(list($index,$Category)=each($Categories['category']) and
-																   $Category!=''){
+																   $Category['name']!=''){
 			/*****************Categories***************/
 			$name=$Category['name'];
 			$type=$Category['typeofuse'];
@@ -205,7 +206,7 @@ while(list($index,$curriculum)=each($curriculums)){
 			}
 
 		$Ratings=xmlarray_indexed_check($AssessmentMethods['ratings'],'rating');
-		while(list($index,$Rating)=each($Ratings['rating'])){
+		while(list($index,$Rating)=each($Ratings['rating']) and $Rating['name']!=''){
 			/*****************Ratings***************/
 			$name=$Rating['name'];
 			$Values=xmlarray_indexed_check($Rating['values'],'value');
@@ -229,7 +230,7 @@ while(list($index,$curriculum)=each($curriculums)){
 			}
 
 		$MarkDefinitions=xmlarray_indexed_check($AssessmentMethods['markdefinitions'],'mark');
-		while(list($index,$Mark)=each($MarkDefinitions['mark']) and $Mark!=''){
+		while(list($index,$Mark)=each($MarkDefinitions['mark']) and $Mark['name']!=''){
 			/*****************Mark Definitions***************/
 			$name=$Mark['name'];
 			$scoretype=$Mark['scoretype'];
@@ -256,7 +257,7 @@ while(list($index,$curriculum)=each($curriculums)){
 			}
 
 		$Methods=xmlarray_indexed_check($AssessmentMethods['methods'],'method');	
-		while(list($index,$Method)=each($Methods['method']) and $Method!=''){
+		while(list($index,$Method)=each($Methods['method']) and $Method['value']!=''){
 			/*****************Methods***************/
 			$subtype=$Method['value'];
 			$name=$Method['description'];
@@ -279,7 +280,7 @@ while(list($index,$curriculum)=each($curriculums)){
 
 		$ResultQualifiers=xmlarray_indexed_check($AssessmentMethods['resultqualifiers'],'resultqualifier');	
 		while(list($index,$ResultQualifier)=each($ResultQualifiers['resultqualifier'])
-																and $ResultQualifier!=''){
+														   	and $ResultQualifier['value']!=''){
 			/*****************ResultQualifierss***************/
 			$subtype=$ResultQualifier['value'];
 			$name=$ResultQualifier['description'];
@@ -299,7 +300,7 @@ while(list($index,$curriculum)=each($curriculums)){
 	$Groups=read_curriculum_file('groups.xml',$curriculum);
 
 	$YearGroups=xmlarray_indexed_check($Groups['yeargroups'],'yeargroup');
-	while(list($index,$Group)=each($YearGroups['yeargroup']) and $Group!=''){
+	while(list($index,$Group)=each($YearGroups['yeargroup']) and $Group['id']!=''){
 		/*****************Yeargroups************************/
  		$yid=(int)$Group['id'];
    		$name=$Group['name'];
@@ -325,7 +326,7 @@ while(list($index,$curriculum)=each($curriculums)){
 		updateCommunity(array('name'=>$yid,'type'=>'year'));
 
 		$Formgroups=xmlarray_indexed_check($Group['formgroups'],'form');
-		while(list($index,$Form)=each($Formgroups['form']) and $Form!=''){
+		while(list($index,$Form)=each($Formgroups['form']) and $Form['id']!=''){
 			/*****************Forms************************/
 			$fid=$yid . $Form['id'];
 			$name=$Form['name'];
