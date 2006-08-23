@@ -28,20 +28,21 @@ $ftype=$_FILES{'importfile'}{'type'};
 		else{
 			$inrows=array();
 			$row=0;
-			$nofields=0;
+			$nofields='';
 			while(!feof($file)){
-				$in=fgetcsv($file,999,',');
-//	   						(filename, maxrowsize,delimeter,enclosure)
+				$in=(array)fgetcsv($file,999,',');
+				/*(filename, maxrowsize,delimeter,enclosure)*/
 
-				if($in[0]!='' & $in[0]!='#'){
-//					if first item is null ignore whole row
+				/*if first item is null ignore whole row*/
+				if($in[0][0]!='' & $in[0][0]!='#'){
 					$noin=sizeof($in);
-					if($nofields!=$noin & $row>1){
-						$error[]="WARNING: row $row has wrong field count! ".$in[0];}
-					else {$nofields=$noin;}
+					if($nofields!='' and $nofields!=$noin and $row>0){
+						$error[]="WARNING: row $row has a mismatched field
+					count! ".$in[0].' ';}
+					else{$nofields=$noin;}
 					array_push($inrows, $in);		
 					}
-				$row++;		
+				$row++;	
 				}
 	   		$result[]='Succesfully uploaded	'.sizeof($inrows).' records.';
 			}

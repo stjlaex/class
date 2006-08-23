@@ -28,7 +28,7 @@ $nofields=$_SESSION{'nofields'};
    		$d_student=mysql_query("DESCRIBE student");
 //		remove the first field from user options (id)
 		$ignore=mysql_fetch_array($d_student,MYSQL_ASSOC);
-		while ($student_fields=mysql_fetch_array($d_student,MYSQL_ASSOC)){
+		while($student_fields=mysql_fetch_array($d_student,MYSQL_ASSOC)){
 				$field_name=$student_fields['Field'];
    				array_push($sidfields, $field_name);
 				$c++;		
@@ -36,7 +36,7 @@ $nofields=$_SESSION{'nofields'};
 		$c=0;	
    		$d_info=mysql_query("DESCRIBE info");
 		$ignore=mysql_fetch_array($d_info,MYSQL_ASSOC);
-		while ($info_fields=mysql_fetch_array($d_info,MYSQL_ASSOC)){
+		while($info_fields=mysql_fetch_array($d_info,MYSQL_ASSOC)){
 				$field_name=$info_fields['Field'];
    				array_push($sidfields, $field_name);
 				$c++;		
@@ -47,7 +47,7 @@ $nofields=$_SESSION{'nofields'};
 		$c=0;	
    		$d_guardian=mysql_query("DESCRIBE guardian");
 		$ignore_id=mysql_fetch_array($d_guardian,MYSQL_ASSOC);
-		while ($guardian_fields=mysql_fetch_array($d_guardian,MYSQL_ASSOC)){
+		while($guardian_fields=mysql_fetch_array($d_guardian,MYSQL_ASSOC)){
 				$field_name=$guardian_fields['Field'];
    				array_push($gidfields, $field_name);
 				$c++;		
@@ -58,7 +58,7 @@ $nofields=$_SESSION{'nofields'};
 		$c=0;	
    		$d_address=mysql_query("DESCRIBE address");
 		$ignore_id=mysql_fetch_array($d_address,MYSQL_ASSOC);
-		while ($address_fields=mysql_fetch_array($d_address,MYSQL_ASSOC)){
+		while($address_fields=mysql_fetch_array($d_address,MYSQL_ASSOC)){
 				$field_name=$address_fields['Field'];
    				array_push($gidfields, $field_name);
 				$c++;		
