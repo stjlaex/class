@@ -18,9 +18,8 @@ if(isset($_GET{'choice'})){$choice=$_GET{'choice'};}
 if(isset($_GET{'cancel'})){$cancel=$_GET{'cancel'};}
 if(isset($_GET{'current'})){$current=$_GET{'current'};}
 
-include('infobook/quick_search.php');/*to be in the sidebar at all times*/
 ?>
-  <div id="bookbox" class="infocolor">
+  <div id="bookbox" class="entrybookcolor">
 <?php
 	if($current!=''){
 		$view = 'entrybook/'.$current;
@@ -28,6 +27,22 @@ include('infobook/quick_search.php');/*to be in the sidebar at all times*/
 		}
 ?>
   </div>
+
+  <div style="visibility:hidden;" id="hiddenbookoptions">
+	<fieldset class="entrybook"><legend><?php print_string('addnew');?></legend>
+	  <form id="entrybookchoice" name="entrybookchoice" method="post" 
+		action="entrybook.php" target="viewentrybook">
+		<select name="current" size="6" onChange="document.entrybookchoice.submit();">
+		  <option 
+			<?php if($choice=='new_student.php'){print 'selected="selected" ';} ?>
+				value='new_student.php'>
+			<?php print_string('student');?>
+		  </option>
+		</select>
+	  </form>
+	</fieldset>
+  </div>
+
 <?php
 include('scripts/end_options.php');
 ?>

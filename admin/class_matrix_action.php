@@ -113,7 +113,6 @@ elseif($sub=='Submit'){
 			$d_community=mysql_query("SELECT * FROM community WHERE id='$comid'");
 			$communities["$comid"]=mysql_fetch_array($d_community,MYSQL_ASSOC);
 			if($communities["$comid"]['type']=='year'){$yid=$communities["$comid"]['name'];}
-			$result[]=$crid.' '.$stage.' '.$currentyear.' '.$comid.' '.$yid;
 			}
 
 		if($classes['naming']=='' and $classes['generate']=='forms'){
@@ -181,5 +180,5 @@ elseif($sub=='Submit'){
 	}
 
 include('scripts/results.php');
-//include('scripts/redirect.php');
+include('scripts/redirect.php');
 ?>

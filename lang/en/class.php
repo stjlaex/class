@@ -217,6 +217,8 @@ $string['readytocontinue']='Continue?';
 $string['confirm']='Confirm action.';
 $string['gradingscheme']='gradingscheme';
 $string['noactiontaken']='NO action has been taken!';
-$string['']='';
+$string['male']='Male';
+$string['female']='Female';
+$string['addnew']='Enter new';
 $string['']='';
 ?>

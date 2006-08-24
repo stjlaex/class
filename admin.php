@@ -84,14 +84,15 @@ $rtid=$tid;
 		<option <?php if($choice=='year_end.php'){print
 				'selected="selected" ';}?>value='year_end.php'>
 				<?php print_string('yearend');?></option>
-		<option <?php if($choice=='fix8.php'){print
-				'selected="selected" ';}?>value='fix8.php'>
-				<?php print_string('fix8');?></option>
-<?php
-/*these are all pretty experimental!!!!!
 		<option <?php if($choice=='passwords.php'){print
 				'selected="selected" ';}?>value='passwords.php'>
-				<?php print_string('passwords');?></option>
+				<?php print_string('refreshpasswords');?></option>
+		<option <?php if($choice=='fix8.php'){print
+				'selected="selected" ';}?>value='fix8.php'>
+				<?php print_string('upgradeto0.8');?></option>
+<?php
+/*these are all very experimental!!!!!
+
 		<option <?php if($choice=='ldap_start.php'){print
 				'selected="selected" ';}?>value='ldap_start.php'>
 				<?php print_string('ldaptest');?></option>
@@ -104,9 +105,6 @@ $rtid=$tid;
 		<option <?php if($choice=='statementbank.php'){print
 				'selected="selected" ';}?>value='statementbank.php'>
 				<?php print_string('statementbank');?></option>
-		<option <?php if($choice=='fix8.php'){print
-				'selected="selected" ';}?>value='fix8.php'>
-				<?php print_string('fix8');?></option>
 		<option <?php if($choice=='demoiser.php'){print
 				'selected="selected" ';}?>value='demoiser.php'>
 				<?php print_string('demoiser');?></option>

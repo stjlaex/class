@@ -15,7 +15,7 @@ if($sub=='Submit'){
 		$chars=9;
 		$length=3;
 		foreach($users as $uid => $user){
-			if($user['username']!='administrator'){
+			if($user['username']!='administrator' and $user['nologin']!='1'){
 				unset($nums);
 				unset($code);
 				while(count($nums)<$chars){$nums[rand(0,9)]=null;}
@@ -28,7 +28,6 @@ if($sub=='Submit'){
 
 				if($_POST['emailstaff']=='reminders'){
 					//		$email=$user['email'];
-					$email='stj@laex.org';
 					if(eregi('^[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.([a-zA-Z]{2,4})$', $email)){
 						$headers=emailHeader();
 						$footer='--'. "\r\n" .get_string('emailfooterdisclaimer');
@@ -48,7 +47,6 @@ if($sub=='Submit'){
 
 		unset($message);
 		$email=$admin['email'];
-		$email='stj@laex.org';
 		foreach($usernolist as $index => $line){
 			$message=$message . $line."\r\n";
 			}

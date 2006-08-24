@@ -1,0 +1,13 @@
+.entrybookcolor fieldset, .entrybookcolor div.topform, .entrybookcolor table.listmenu {
+	border-color:#1181AA;
+    color:#000000;
+	}
+div#bookbox{
+	border-color:#1181AA;
+	}
+.entrybookcolor button {
+	background-color:#1181AA;
+	}
+.entrybookcolor legend, .entrybookcolor caption {
+    border-color:#1181AA;
+	}

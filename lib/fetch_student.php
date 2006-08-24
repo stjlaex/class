@@ -47,6 +47,7 @@ function fetchshortStudent($sid){
 	return $Student;
 	}
 
+
 function fetchStudent($sid){
    	$d_student=mysql_query("SELECT * FROM student WHERE id='$sid'");
 	$student=mysql_fetch_array($d_student,MYSQL_ASSOC);
@@ -143,12 +144,10 @@ function fetchStudent($sid){
 								  'field_db' => 'nationality', 
 								  'type_db'=>'char(30)', 'value' => $info['nationality']);
    	$Student['MedicalFlag']=array('label' => 'medicalinformation', 
-								  'table_db' => 'info', 
 								  'field_db' => 'medical',
 								  'type_db'=>'enum', 
 								  'value' => $info['medical']);
    	$Student['SENFlag']=array('label' => 'seninformation', 
-							  'table_db' => 'info', 
 							  'field_db' => 'sen',
 							  'type_db'=>'enum', 
 							  'value' => $info['sen']);
@@ -178,10 +177,9 @@ function fetchStudent($sid){
 								'type_db'=>'date', 
 								'value' => $info['entrydate']);
 	$Student['LeavingDate']=array('label' => 'schoolleavingdate', 
-								  'table_db' => 'info', 
 								  'field_db' => 'leavingdate', 
 								  'type_db'=>'date', 
-								  'value' => 'null');
+								  'value' =>  $info['leavingdate']);
    	$Student['Boarder']=array('label' => 'boarder', 
 							  'table_db' => 'info', 
 							  'field_db' => 'boarder',
@@ -193,12 +191,10 @@ function fetchStudent($sid){
 							   'type_db'=>'enum', 
 							   'value' => $info['parttime']);
    	$Student['TransportMode']=array('label' => 'modeoftransport', 
-									'table_db' => 'info', 
 									'field_db' => 'transportmode',
 									'type_db'=>'enum', 
 									'value' => $info['transportmode']);
    	$Student['TransportRoute']=array('label' => 'transportroute', 
-									 'table_db' => 'info', 
 									 'field_db' => 'transportroute',
 									 'type_db'=>'transportroute', 
 									 'value' => $info['transportroute']);
