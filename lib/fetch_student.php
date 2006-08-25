@@ -48,7 +48,7 @@ function fetchshortStudent($sid){
 	}
 
 
-function fetchStudent($sid){
+function fetchStudent($sid=''){
    	$d_student=mysql_query("SELECT * FROM student WHERE id='$sid'");
 	$student=mysql_fetch_array($d_student,MYSQL_ASSOC);
    	$d_info=mysql_query("SELECT * FROM info WHERE student_id='$sid'");
@@ -129,12 +129,8 @@ function fetchStudent($sid){
 						  'type_db'=>'date', 
 						  'value' => $student['dob']);
    	$Student['RegistrationGroup']=array('label' => 'formgroup', 
-										'field_db' => 'form_id',
-										'type_db'=>'varchar(30)', 
 										'value' => $student['form_id']);
    	$Student['YearGroup']=array('label' => 'yeargroup',   
-								'field_db' => 'yeargroup_id',
-								'type_db'=>'smallint',
 								'value' => $student['yeargroup_id']);
 	$Student['NCyearActual']=array('label' => 'ncyear',  
 								   'id_db' => $student['yeargroup_id'], 
@@ -144,12 +140,8 @@ function fetchStudent($sid){
 								  'field_db' => 'nationality', 
 								  'type_db'=>'char(30)', 'value' => $info['nationality']);
    	$Student['MedicalFlag']=array('label' => 'medicalinformation', 
-								  'field_db' => 'medical',
-								  'type_db'=>'enum', 
 								  'value' => $info['medical']);
    	$Student['SENFlag']=array('label' => 'seninformation', 
-							  'field_db' => 'sen',
-							  'type_db'=>'enum', 
 							  'value' => $info['sen']);
    	$Student['Religion']=array('label' => 'religion', 
 							   'table_db' => 'info', 
@@ -165,7 +157,7 @@ function fetchStudent($sid){
 							 'table_db' => 'info', 
 							 'field_db' => 'email',
 							 'type_db'=>'varhar(50)', 
-							 'value' => 'blank');
+							 'value' => $info['email']);
    	$Student['EnrolNumber']=array('label' => 'enrolmentnumber', 
 								  'table_db' => 'info', 
 								  'field_db' => 'formerupn', 
@@ -191,12 +183,8 @@ function fetchStudent($sid){
 							   'type_db'=>'enum', 
 							   'value' => $info['parttime']);
    	$Student['TransportMode']=array('label' => 'modeoftransport', 
-									'field_db' => 'transportmode',
-									'type_db'=>'enum', 
 									'value' => $info['transportmode']);
    	$Student['TransportRoute']=array('label' => 'transportroute', 
-									 'field_db' => 'transportroute',
-									 'type_db'=>'transportroute', 
 									 'value' => $info['transportroute']);
 
 	/*******Contacts****/

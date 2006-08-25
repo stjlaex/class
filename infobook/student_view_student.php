@@ -21,10 +21,9 @@ three_buttonmenu();
 	  <div class="center">
 		<table class="listmenu">
 		  <caption><?php print_string('studentdetails',$book);?></caption>
-<?php	
-	$in=0;
+<?php
 	while(list($key,$val)=each($Student)){
-		if(isset($val['value']) & is_array($val) & isset($val['table_db'])){
+		if(isset($val['value']) and is_array($val) and isset($val['table_db'])){
 ?>	
 		  <tr>
 			<td><label><?php print_string($val['label'],$book); ?></label></td>
@@ -32,7 +31,7 @@ three_buttonmenu();
 <?php 
 				if($val['type_db']=='enum'){
 					$enum=getEnumArray($val['field_db']);
-					print '<select name="'.$val['field_db'].$in.'" size="1">';
+					print '<select name="'.$val['field_db'].'" size="1">';
 					print '<option value=""></option>';
 					while(list($inval,$description)=each($enum)){	
 						print '<option ';
@@ -41,17 +40,20 @@ three_buttonmenu();
 						}
 					print '</select>';
 					}
-				else {
+				elseif($val['type_db']=='date'){
+					$required='no';$todate=$val['value'];$xmldate=$val['field_db'];
+					include('scripts/jsdate-form.php');
+					}
+				else{
 ?>
-			  <input type="text" name="<?php print $val['field_db'].$in; ?>" 
+			  <input type="text" name="<?php print $val['field_db']; ?>" 
 								value="<?php print $val['value']; ?>" />
 <?php
-				}
+					}
 ?>
 			</td>
 		  </tr>
-<?php	
-			$in++;
+<?php
 			}
 		}
 ?>

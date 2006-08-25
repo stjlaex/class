@@ -10,11 +10,12 @@
 ?>
 	<label for="Yeargroup"><?php print_string('yeargroup');?></label>
 	<select id="Yeargroup" name="newyid"
+			<?php if($onchange=='yes'){ print ' onChange="document.entrybookchoice.submit();" ';} ?> >
 			<?php if($required=='yes'){ print ' class="required" ';} ?> >
     <option value=""></option>
 <?php
 		$d_yeargroup=mysql_query("SELECT id, name  FROM yeargroup ORDER BY sequence");
-    	while($year=mysql_fetch_array($d_yeargroup,MYSQL_ASSOC)) {
+    	while($year=mysql_fetch_array($d_yeargroup,MYSQL_ASSOC)){
 			print '<option ';
 			if(($selyid==$year['id'])){print 'selected="selected"';}
 			print	' value="'.$year['id'].'"> '.$year['name'].'</option>';

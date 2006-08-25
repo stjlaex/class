@@ -220,5 +220,11 @@ $string['noactiontaken']='NO action has been taken!';
 $string['male']='Male';
 $string['female']='Female';
 $string['addnew']='Enter new';
+$string['addto']='Add to';
+$string['staff']='Staff';
+$string['admin']='Administrator';
+$string['office']='Office';
+$string['support']='Support';
+$string['']='';
 $string['']='';
 ?>

@@ -12,31 +12,24 @@ if($sub=='Submit'){
 	$neededperm='w';
 	include('scripts/perm_action.php');
 
-	$in=0;
 	while(list($key,$val)=each($Student)){
-		if(isset($val['value']) & is_array($val)){
+		if(isset($val['value']) and is_array($val) and isset($val['table_db'])){
 			$field=$val['field_db'];
-			$inname=$field.$in;
-			$inval=clean_text($_POST{"$inname"});
+			$inname=$field;
+			$inval=clean_text($_POST["$inname"]);
 			if($val['value']!=$inval){
-//				the value has changed, update database
-				$result[]=$val['label']." : ".$inval."<br />";
-				if($val['table_db']=='' OR $val['table_db']=='student'){
-					if(mysql_query("UPDATE student SET $field='$inval'
-									WHERE id='$sid'")){
+				/*the value has changed, update database*/
+				if($val['table_db']=='student'){
+					mysql_query("UPDATE student SET $field='$inval'
+									WHERE id='$sid'");
 					$Student[$key]['value']=$inval;	
 					}
-					else{$error[]=mysql_error();}
-					}
-				else if($val['table_db']=='info'){
-					if(mysql_query("UPDATE info SET $field='$inval'
-									WHERE student_id='$sid'")){
+				elseif($val['table_db']=='info'){
+					mysql_query("UPDATE info SET $field='$inval'
+									WHERE student_id='$sid'");
 					$Student[$key]['value']=$inval;	
-					}
-					else{$error[]="Info table:".mysql_error();}
 					}					
-				}	
-			$in++;	
+				}
 			}
 		}
 	$_SESSION{'Student'}=$Student;

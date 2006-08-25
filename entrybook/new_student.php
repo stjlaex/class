@@ -19,9 +19,8 @@ $Student=fetchStudent();
 		<table class="listmenu">
 		  <caption><?php print_string('student',$book);?></caption>
 <?php	
-	$in=0;
 	while(list($key,$val)=each($Student)){
-		if(isset($val['value']) & is_array($val) & isset($val['table_db'])){
+		if(isset($val['value']) and is_array($val) and isset($val['table_db'])){
 ?>	
 		  <tr>
 			<td><label><?php print_string($val['label'],$book); ?></label></td>
@@ -29,7 +28,7 @@ $Student=fetchStudent();
 <?php 
 				if($val['type_db']=='enum'){
 					$enum=getEnumArray($val['field_db']);
-					print '<select name="'.$val['field_db'].$in.'" size="1">';
+					print '<select name="'.$val['field_db'].'" size="1">';
 					print '<option value=""></option>';
 					while(list($inval,$description)=each($enum)){	
 						print '<option ';
@@ -38,17 +37,20 @@ $Student=fetchStudent();
 						}
 					print '</select>';
 					}
-				else {
+				elseif($val['type_db']=='date'){
+					$required='no';$todate=''; $xmldate=$val['field_db'];
+					include('scripts/jsdate-form.php');
+					}
+				else{
 ?>
-			  <input type="text" name="<?php print $val['field_db'].$in; ?>" 
+			  <input type="text" name="<?php print $val['field_db']; ?>" 
 								value="<?php print $val['value']; ?>" />
 <?php
-				}
+					}
 ?>
 			</td>
 		  </tr>
 <?php	
-			$in++;
 			}
 		}
 ?>

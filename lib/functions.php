@@ -292,12 +292,14 @@ function updateCommunity($community,$communityfresh=''){
 				('$name', '$type', '$details')");
 			$comid=mysql_insert_id();
 			}
-		elseif($typefresh!='' and $namefresh!=''){
-			if(isset($communityfresh['details'])){$detailsfresh=$communityfresh['details'];}
+		else{
 			$comid=mysql_result($d_community,0);
-			mysql_query("UPDATE community SET type='$typefresh',
+			if($typefresh!='' and $namefresh!=''){
+				if(isset($communityfresh['details'])){$detailsfresh=$communityfresh['details'];}
+				mysql_query("UPDATE community SET type='$typefresh',
 							name='$namefresh', details='$detailsfresh' WHERE name='$name'
 								AND type='$type'");
+				}
 			}
 		}
 	return $comid;

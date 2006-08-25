@@ -7,7 +7,7 @@ $action='new_teacher.php';
 include('scripts/sub_action.php');
 
 $result=array();
-if($sub=='Load'){
+if($sub=='Submit'){
 	/*Load the teachers' details from a file*/
 	$importfile=$_POST{'importfile'};
 	$result[]=get_string('loadingfile').$importfile;
@@ -23,18 +23,6 @@ if($sub=='Load'){
 			$result[]=updateUser($user,'no',$CFG->shortkeyword);
 			}
 	}
-
-/*Keyed in details for a single teacher*/
-elseif($sub=='Submit'){
-		$user=array();
-		$user['username']=$_POST{'newtid'};
-		$user['userno']=$_POST{'no'};
-		$user['surname']=$_POST{'surname'};
-		$user['forename']=$_POST{'forename'};
-		$user['email']=$_POST{'email'};
-		$user['role']=$_POST{'role'};
-   		$result[]=updateUser($user,'no',$CFG->shortkeyword);
-		}
 
 include('scripts/results.php');
 include('scripts/redirect.php');	

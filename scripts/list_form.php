@@ -10,11 +10,11 @@
 		<?php if($required=='yes'){ print ' class="required" ';} ?> >
 	<option value=""></option>
 <?php
-        $d_fids=mysql_query("SELECT id FROM form ORDER BY yeargroup_id, id");
-        while($fids=mysql_fetch_row($d_fids)) {
-			print '<option value="'.$fids[0].'" ';
+        $d_forms=mysql_query("SELECT id, name FROM form ORDER BY yeargroup_id, id");
+        while($form=mysql_fetch_array($d_forms,MYSQL_ASSOC)) {
+			print '<option value="'.$form['id'].'" ';
 			if(isset($selfid)){if($selfid==$fids[0]){print ' selected="selected" ';}}
-			print ' >Form '.$fids[0].'</option>';
+			print ' >'.$form['name'].'</option>';
    			}
 ?>
 	</select>
