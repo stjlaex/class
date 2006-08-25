@@ -53,54 +53,62 @@ $_SESSION{'reportchoice'}=$choice;
 <fieldset class="reportbook"><legend><?php print_string('reporton');?></legend>
 	<form id="reportchoice" name="reportchoice" method="post" 
 		action="reportbook.php" target="viewreportbook">
-	<select name="current" size="10" onChange="document.reportchoice.submit();">
-		<option <?php if($choice=='report_comments.php'){ print
+
+		<select name="current" size="5" onChange="document.reportchoice.submit();">
+		  <option <?php if($choice=='report_comments.php'){ print
 		'selected="selected" ';}?> value='report_comments.php'>
 <?php print_string('comments');?>
 		  </option>
-
-		<option <?php if($choice=='report_incidents.php'){ print
+		  <option <?php if($choice=='report_incidents.php'){ print
 			'selected="selected" ';}?> value='report_incidents.php'>
 <?php print_string('incidents');?>
 		  </option>
-
-		<option <?php if($choice=='report_assessments.php'){ print
+		  <option <?php if($choice=='report_assessments.php'){ print
 		'selected="selected" ';}?> value='report_assessments.php'>
 <?php print_string('assessments');?>
 		  </option>
-
-		<option <?php if($choice=='report_reports.php'){ print
+		  <option <?php if($choice=='report_reports.php'){ print
 			'selected="selected" ';}?> value='report_reports.php'>
 <?php print_string('subjectreports');?>
 		  </option>
+		</select>
 
-<?php if($tid=='administrator'){  
+	  </form>
+	</fieldset>
+
+<?php
+ if($tid=='administrator'){
 ?>
-		<option <?php if($choice=='new_stats.php'){ print
-			'selected="selected" ';}?> value='new_stats.php'>
-			<?php print_string('newstatistics');?>
-		  </option>
 
-		<option <?php if($choice=='new_estimate.php'){ print
+	<fieldset class="reportbook"><legend><?php print_string('manage');?></legend>
+	  <form id="reportadminchoice" name="reportadminchoice" method="post" 
+		action="reportbook.php" target="viewreportbook">
+
+		<select name="current" size="5" onChange="document.reportadminchoice.submit();">
+		  <option <?php if($choice=='new_stats.php'){ print
+			'selected="selected" ';}?> value='new_stats.php'>
+			<?php print_string('newstatistics',$book);?>
+		  </option>
+		  <option <?php if($choice=='new_estimate.php'){ print
 			'selected="selected" ';}?> value='new_estimate.php'>
 			<?php print_string('newestimates',$book);?>
 		  </option>
-
-		<option <?php if($choice=='new_assessment.php'){ print
+		  <option <?php if($choice=='new_assessment.php'){ print
 			'selected="selected" ';}?> value='new_assessment.php'>
 			<?php print_string('newassessments',$book);?>
 		  </option>
-
-		<option <?php if($choice=='new_report.php'){ print
+		  
+		  <option <?php if($choice=='new_report.php'){ print
 			'selected="selected" ';}?> value='new_report.php'>
 			<?php print_string('newsubjectreport',$book);?>
 		  </option>
+		</select>
+
+	  </form>
+	</fieldset>
 
 <?php	}
 ?>
-		</select>
-	  </form>
-	</fieldset>
   </div>
 
 <?php

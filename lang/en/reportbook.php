@@ -23,5 +23,9 @@ $string['nameoftemplate']='Style template for printing';
 $string['markbookcolumns']='Columns in MarkBook';
 $string['scoresentered']='Entered scores';
 $string['areasforincidents']='Areas for incidents';
+$string['newstatistics']='Statistics';
+$string['newestimates']='Estimates';
+$string['newassessments']='Assessments';
+$string['newsubjectreport']='Subject reports';
 $string['']='';
 ?>
