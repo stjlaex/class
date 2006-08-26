@@ -11,11 +11,20 @@ include('scripts/sub_action.php');
 if(isset($_GET{'contactno'})){$contactno=$_GET{'contactno'};}
 else{$contactno=$_POST{'contactno'};}
 
-if($contactno!='-1'){$Contact=$Student['Contacts'][$contactno];}
-	
+if($contactno!='-1'){
+	$Contact=$Student['Contacts'][$contactno];
+	$Phones=$Contact['Phones'];
+	$Addresses=$Contact['Addresses'];
+	}
+else{
+	$Contact=fetchContact();
+	}
+$Phones[]=fetchPhone();
+$Addresses[]=fetchAddress();
+
 /*Check user has permission to view*/
 $yid=$Student['YearGroup']['value'];
-$contactgid=$Student['Contacts'][$contactno]['id_db'];
+$contactgid=$Contact['id_db'];
 $perm=getYearPerm($yid,$respons);
 include('scripts/perm_action.php');
 
@@ -26,8 +35,9 @@ three_buttonmenu($extrabuttons);
 	<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
 	  <fieldset class="left">
 		<legend><?php print_string('contactdetails',$book);?></legend>
-<?php	
-	$in=0;
+<?php
+
+	reset($Contact);
 	while(list($key,$val)=each($Contact)){
 		if(isset($val['value']) & is_array($val)){
 ?>	
@@ -35,7 +45,7 @@ three_buttonmenu($extrabuttons);
 <?php 
 				if($val['type_db']=='enum'){
 					$enum=getEnumArray($val['field_db']);
-					print '<select name="'.$val['field_db'].$in++.'" size="1">';
+					print '<select name="'.$val['field_db'].'" size="1">';
 					while(list($inval,$description)=each($enum)){	
 						print '<option ';
 						if($val['value']==$inval){print 'selected="selected"';}
@@ -43,9 +53,9 @@ three_buttonmenu($extrabuttons);
 						}
 					print '</select>';					
 					}
-				else {
+				else{
 ?>
-	<input type="text" name="<?php print $val['field_db'].$in++; ?>" 
+	<input type="text" name="<?php print $val['field_db']; ?>" 
 								value="<?php print $val['value']; ?>" />
 <?php
 					}
@@ -55,7 +65,6 @@ three_buttonmenu($extrabuttons);
 	  </fieldset>	
 <?php
 
-	$Phones=$Contact['Phones'];
 ?>
 	  <fieldset class="right">
 		<legend><?php print_string('contactphones',$book);?></legend>
@@ -72,7 +81,7 @@ three_buttonmenu($extrabuttons);
 <?php 
 					if($val['type_db']=='enum'){
 						$enum=getEnumArray($val['field_db']);
-						print '<select name="'.$val['field_db'].$phoneno.$in++.'" size="1">';
+						print '<select name="'.$val['field_db'].$phoneno.'" size="1">';
 							print '<option ';
 							if($val['value']==''){print 'selected="selected"';}
 							print ' value=""></option>';
@@ -87,7 +96,7 @@ three_buttonmenu($extrabuttons);
 					else {
 ?>
 		<input type="text" 
-		  name="<?php print $val['field_db'].$phoneno.$in++; ?>" 
+		  name="<?php print $val['field_db'].$phoneno; ?>" 
 		  value="<?php print $val['value']; ?>" />
 <?php					}
 					}
@@ -102,8 +111,7 @@ three_buttonmenu($extrabuttons);
 	  <fieldset class="center">
 		<legend><?php print_string('contactaddress',$book);?></legend>
 <?php	
-	$Addresses=$Contact['Addresses'];
-	if(!is_array($Addresses)){$Addresses=array();}
+
 	while(list($addressno,$Address)=each($Addresses)){
 ?>
 		  <div class="left">
@@ -115,7 +123,7 @@ three_buttonmenu($extrabuttons);
 <?php
 					if($val['type_db']=='enum'){
 						$enum=getEnumArray($val['field_db']);
-						print '<select name="'.$val['field_db'].$addressno.$in++.'" size="1">';
+						print '<select name="'.$val['field_db'].$addressno.'" size="1">';
 						while(list($inval,$description)=each($enum)){	
 							print '<option ';
 							if($val['value']==$inval){print 'selected="selected"';}
@@ -123,14 +131,13 @@ three_buttonmenu($extrabuttons);
 							}
 						print '</select>';
 						}
-					else 
-						{
+					else{
 ?>
-						<input type="text" name="<?php print $val['field_db'].$addressno.$in++; ?>" value="<?php print $val['value']; ?>" />
+						<input type="text" name="<?php print $val['field_db'].$addressno; ?>" value="<?php print $val['value']; ?>" />
 
 <?php					}
-				}		
-			}	
+					}
+				}
 
 /*				find other contacts who share this address*/
 				$aid=$Address['id_db'];

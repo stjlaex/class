@@ -139,13 +139,13 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 		$n=0;
 		while(list($contactno,$Contact)=each($Contacts)){
 			if($Contact['id_db']!=' '){
-			$gid=$Contact['id_db'];
-			$relation=displayEnum($Contact['Relationship']['value'],'relationship');
+				$gid=$Contact['id_db'];
+				$relation=displayEnum($Contact['Relationship']['value'],'relationship');
 ?>
 			<li id="<?php print 'tinytab-contact-'.$relation;?>"><p 
-		<?php if($n==0){ print ' id="current-tinytab" ';}?>
-		class="<?php print $relation;?>"
-		onclick="tinyTabs(this)"><?php print_string($relation,$book);?></p></li>
+					 <?php if($n==0){ print ' id="current-tinytab" ';}?>
+				class="<?php print $relation;?>"
+				onclick="tinyTabs(this)"><?php print_string($relation,$book);?></p></li>
 
 			<div class="hidden" id="tinytab-xml-contact-<?php print $relation;?>">
 			  <table class="listmenu">
@@ -157,27 +157,27 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 				</tr>
 				<tr>
 				  <td>
-			  <a href="infobook.php?current=contact_details.php&cancel=student_view.php&contactno=<?php print $contactno;?>">
-				<img class="clicktoedit" title="<?php print_string('edit');?>" />
-			  </a>
+					<a href="infobook.php?current=contact_details.php&cancel=student_view.php&contactno=<?php print $contactno;?>">
+					  <img class="clicktoedit" title="<?php print_string('edit');?>" />
+					</a>
 		<?php print $Contact['Forename']['value'].' '. $Contact['Surname']['value'];?>
 				  </td>
 				  <td>
 				  </td>
 				  <td>
 <?php
-		$Phones=$Contact['Phones'];
-		while(list($phoneno,$Phone)=each($Phones)){
-	    	print '<label>'.get_string(displayEnum($Phone['PhoneType']['value'],$Phone['PhoneType']['field_db']),$book).'</label>'.$Phone['PhoneNo']['value'].'<br />';				
-			}
+				$Phones=$Contact['Phones'];
+				while(list($phoneno,$Phone)=each($Phones)){
+					print '<label>'.get_string(displayEnum($Phone['PhoneType']['value'],$Phone['PhoneType']['field_db']),$book).'</label>'.$Phone['PhoneNo']['value'].'<br />';				
+					}
 ?>
 				  </td>
 				</tr>
 			  </table>
 			</div>
 <?php
-			$n++;
-			}
+				$n++;
+				}
 			}
 		$relation='newcontact';
 ?>
@@ -195,9 +195,9 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 				  <td>&nbsp
 				  </td>
 				  <td>
-			  <a href="infobook.php?current=contact_details.php&cancel=student_view.php&contactno=-1">
-				<img class="clicktoedit" title="<?php print_string('edit');?>" />
-			  </a>
+					<a href="infobook.php?current=contact_details.php&cancel=student_view.php&contactno=-1">
+					  <img class="clicktoedit" title="<?php print_string('edit');?>" />
+					</a>
 				  </td>
 				  <td>
 					<?php print_string('addnewcontact',$book);?>
