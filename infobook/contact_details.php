@@ -8,8 +8,8 @@ $cancel='student_view.php';
 
 include('scripts/sub_action.php');
 
-if(isset($_GET{'contactno'})){$contactno=$_GET{'contactno'};}
-else{$contactno=$_POST{'contactno'};}
+if(isset($_GET['contactno'])){$contactno=$_GET['contactno'];}
+else{$contactno=$_POST['contactno'];}
 
 if($contactno!='-1'){
 	$Contact=$Student['Contacts'][$contactno];
@@ -46,6 +46,9 @@ three_buttonmenu($extrabuttons);
 				if($val['type_db']=='enum'){
 					$enum=getEnumArray($val['field_db']);
 					print '<select name="'.$val['field_db'].'" size="1">';
+					print '<option ';
+					if($val['value']==''){print 'selected="selected"';}
+					print ' value=""></option>';
 					while(list($inval,$description)=each($enum)){	
 						print '<option ';
 						if($val['value']==$inval){print 'selected="selected"';}
@@ -55,7 +58,7 @@ three_buttonmenu($extrabuttons);
 					}
 				else{
 ?>
-	<input type="text" name="<?php print $val['field_db']; ?>" 
+		<input type="text" name="<?php print $val['field_db']; ?>" 
 								value="<?php print $val['value']; ?>" />
 <?php
 					}
@@ -68,9 +71,11 @@ three_buttonmenu($extrabuttons);
 ?>
 	  <fieldset class="right">
 		<legend><?php print_string('contactphones',$book);?></legend>
-<?php	
+<?php
+
+	reset($Phones);
 	while(list($phoneno,$Phone)=each($Phones)){
-		$pid=$Phone['id_db'];
+		reset($Phone);
 		while(list($phonekey,$val)=each($Phone)){
 ?>
 		<div class=center">
@@ -144,6 +149,7 @@ three_buttonmenu($extrabuttons);
 				$d_gidaid=mysql_query("SELECT * FROM gidaid WHERE address_id='$aid'");
 ?>
 		</div>
+
 		<div class="right">
 		  <label><?php print_string('sharedwith',$book);?></label>
 <?php

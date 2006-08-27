@@ -46,9 +46,12 @@ function fputcsv($handle, $row, $fd=',', $quot='"'){
 function nullCorrect($array){
 	if(sizeof($array)>0 and is_array($array)){
 		foreach($array as $key => $value){
-		  if($value=='' and $value!='0'){$array[$key]=' ';}
+			if(sizeof($value)>0 and is_array($value)){
+				$array[$key]=nullCorrect($value);
+				}
+			elseif($value=='' and $value!='0'){$array[$key]=' ';}
 		  //		  if(!$value){$array[$key]=' ';}
-		  }
+			}
 		}
 	else{$array=' ';}
 	return $array;
