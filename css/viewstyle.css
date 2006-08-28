@@ -14,12 +14,12 @@ a {
 	text-decoration:none;
 	}
 input, textarea, select {
-	font-size:x-small; margin-bottom:10px;
+	font-size:small; margin-bottom:10px;
 	text-align:left;
 	cursor:text;
 	float:left;
     width:auto;
-	border:2px solid #eeeeee;
+	border:2px solid #cccccc;
 	}
 input:focus, textarea:focus, select:focus {
 	border-color:#ff9900;
@@ -300,6 +300,10 @@ table.listmenu {
 	border-color:#cccccc;
 	background-color:#ffffee;
     padding-left:1%;
+	}
+.listmenu input, .listmenu select {
+    padding:2px;
+    margin:2px;
 	}
 .listmenu .special {
 	font-weight:600; font-style:italic;

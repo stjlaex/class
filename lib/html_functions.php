@@ -89,4 +89,52 @@ function check_yesno($name='answer',$choice='no'){
  </table>
 <?php
 	}
+
+function xmlarray_form($Array,$no='',$caption=''){
+	if("$Array"=='Student'){$book='infobook';}
+	else{$book='infobook';}
+?>
+  <table class="listmenu">
+<?php
+	if($caption!=''){print '<caption>'.get_string($caption,$book).'</caption>';}
+	while(list($key,$val)=each($Array)){
+		if(isset($val['value']) and is_array($val) and isset($val['table_db'])){
+?>
+	<tr>
+	  <td><label><?php print_string($val['label'],'infobook'); ?></label></td>
+	  <td>
+<?php																	   
+			if($val['type_db']=='enum'){
+				$enum=getEnumArray($val['field_db']);
+				print '<select name="'.$val['field_db'].$no.'" size="1">';
+				print '<option value=""></option>';
+				while(list($inval,$description)=each($enum)){	
+					print '<option ';
+					if($val['value']==$inval){print 'selected="selected"';}
+					print ' value="'.$inval.'">'.get_string($description,$book).'</option>';
+					}
+				print '</select>';
+				}
+			elseif($val['type_db']=='date'){
+				$required='no';$todate=''; $xmldate=$val['field_db'].$no;
+				include('scripts/jsdate-form.php');
+				}
+			else{
+?>
+		<input type="text" name="<?php print $val['field_db'].$no; ?>" 
+							value="<?php print $val['value']; ?>" />
+<?php
+				 }
+?>
+	  </td>
+	</tr>
+<?php
+			}
+		}
+?>
+  </table>
+<?php
+
+	}
+
 ?>

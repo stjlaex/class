@@ -22,161 +22,79 @@ else{
 $Phones[]=fetchPhone();
 $Addresses[]=fetchAddress();
 
+$Address=$Addresses[0];/*temporarily one address for display*/
+
 /*Check user has permission to view*/
 $yid=$Student['YearGroup']['value'];
 $contactgid=$Contact['id_db'];
 $perm=getYearPerm($yid,$respons);
 include('scripts/perm_action.php');
 
-$extrabuttons['removecontact']=array('name'=>'sub','value'=>'Delete Checked');
+//$extrabuttons['removecontact']=array('name'=>'sub','value'=>'Delete Checked');
 three_buttonmenu($extrabuttons);
 ?>
   <div class="content">
 	<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
-	  <fieldset class="left">
-		<legend><?php print_string('contactdetails',$book);?></legend>
-<?php
 
-	reset($Contact);
-	while(list($key,$val)=each($Contact)){
-		if(isset($val['value']) & is_array($val)){
-?>	
-		<label><?php print_string($val['label'],$book); ?></label>
-<?php 
-				if($val['type_db']=='enum'){
-					$enum=getEnumArray($val['field_db']);
-					print '<select name="'.$val['field_db'].'" size="1">';
-					print '<option ';
-					if($val['value']==''){print 'selected="selected"';}
-					print ' value=""></option>';
-					while(list($inval,$description)=each($enum)){	
-						print '<option ';
-						if($val['value']==$inval){print 'selected="selected"';}
-						print ' value="'.$inval.'">'.get_string($description,$book).'</option>';
-						}
-					print '</select>';					
-					}
-				else{
-?>
-		<input type="text" name="<?php print $val['field_db']; ?>" 
-								value="<?php print $val['value']; ?>" />
-<?php
-					}
-				}
-		}
-?>
-	  </fieldset>	
-<?php
+	  <div class="left">
+		<?php xmlarray_form($Contact,'','contactdetails'); ?>
+	  </div>
 
-?>
-	  <fieldset class="right">
-		<legend><?php print_string('contactphones',$book);?></legend>
+	  <div class="right">
 <?php
-
 	reset($Phones);
 	while(list($phoneno,$Phone)=each($Phones)){
-		reset($Phone);
-		while(list($phonekey,$val)=each($Phone)){
 ?>
 		<div class=center">
-<?php
-				if(isset($val['value']) & is_array($val)){
-?>	
-		<label><?php print_string($val['label'],$book); ?></label>
-<?php 
-					if($val['type_db']=='enum'){
-						$enum=getEnumArray($val['field_db']);
-						print '<select name="'.$val['field_db'].$phoneno.'" size="1">';
-							print '<option ';
-							if($val['value']==''){print 'selected="selected"';}
-							print ' value=""></option>';
-
-						while(list($inval,$description)=each($enum)){
-							print '<option ';
-							if($val['value']==$inval){print 'selected="selected"';}
-							print ' value="'.$inval.'">'.get_string($description,$book).'</option>';
-							}
-						print '</select>';
-						}
-					else {
-?>
-		<input type="text" 
-		  name="<?php print $val['field_db'].$phoneno; ?>" 
-		  value="<?php print $val['value']; ?>" />
-<?php					}
-					}
-				}
-?>
+		  <?php xmlarray_form($Phone,$phoneno); ?>
 		</div>
 <?php
 			}
 ?>
-	  </fieldset>
+	  </div>
 
 	  <fieldset class="center">
 		<legend><?php print_string('contactaddress',$book);?></legend>
 <?php	
 
-	while(list($addressno,$Address)=each($Addresses)){
+//	while(list($addressno,$Address)=each($Addresses)){
+$addressno='0';
 ?>
-		  <div class="left">
-<?php
-			while(list($addresskey,$val)=each($Address)){
-				if(isset($val['value']) & is_array($val)){
-?>			
-				<label><?php print_string($val['label'],$book); ?></label>
-<?php
-					if($val['type_db']=='enum'){
-						$enum=getEnumArray($val['field_db']);
-						print '<select name="'.$val['field_db'].$addressno.'" size="1">';
-						while(list($inval,$description)=each($enum)){	
-							print '<option ';
-							if($val['value']==$inval){print 'selected="selected"';}
-							print ' value="'.$inval.'">'.$description.'</option>';
-							}
-						print '</select>';
-						}
-					else{
-?>
-						<input type="text" name="<?php print $val['field_db'].$addressno; ?>" value="<?php print $val['value']; ?>" />
-
-<?php					}
-					}
-				}
-
-/*				find other contacts who share this address*/
-				$aid=$Address['id_db'];
-				$d_gidaid=mysql_query("SELECT * FROM gidaid WHERE address_id='$aid'");
-?>
+		<div class="left">
+		  <?php xmlarray_form($Address,$addressno); ?>
 		</div>
 
 		<div class="right">
-		  <label><?php print_string('sharedwith',$book);?></label>
+		  <label><?php print_string('addresssharedwith',$book);?></label>
 <?php
+				/*find other contacts who share this address*/
+				$aid=$Address['id_db'];
+				$d_gidaid=mysql_query("SELECT * FROM gidaid WHERE address_id='$aid'");
 					while($gidaid=mysql_fetch_array($d_gidaid,MYSQL_ASSOC)){
 						$gid=$gidaid['guardian_id'];
 				   		$d_guardian=mysql_query("SELECT * FROM guardian WHERE id='$gid'");
 				   		$d_gidsid=mysql_query("SELECT * FROM gidsid WHERE guardian_id='$gid'");
 						$guardian=mysql_fetch_array($d_guardian,MYSQL_ASSOC);
 ?>
-		  <div class="right">
+		  <div class="center">
 			<input type="checkbox" name="ungidaids[]" 
 			  value="<?php print $gid.':'.$aid; ?>" />
 <?php
-						print $guardian['forename'].'&nbsp;'.$guardian['surname'].'&nbsp;';
+						print $guardian['forename'].' '.$guardian['surname'].' ';
 						while($gidsid=mysql_fetch_array($d_gidsid,MYSQL_ASSOC)){
 							$siblingsid=$gidsid['student_id'];
 							$d_student=mysql_query("SELECT * FROM
 													student WHERE id='$siblingsid'");
 							$student=mysql_fetch_array($d_student,MYSQL_ASSOC);
-							print displayEnum($gidsid['relationship'],'relationship').'
-								of<br />'.$student['forename'].'&nbsp;'.$student['surname'];
+							print displayEnum($gidsid['relationship'],'relationship'). 
+									' of &nbsp;'.$student['forename'].' ' 
+										.$student['surname'].'<br /> ';
 							}
 ?>
 		  </div>
 <?php
 					}
-			}
+//			}
 ?>
 		  </div>
 	  </fieldset>

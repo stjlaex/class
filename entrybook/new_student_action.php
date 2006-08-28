@@ -11,6 +11,7 @@ if($sub=='Submit'){
 	mysql_query("INSERT INTO student SET surname=''");
 	$sid=mysql_insert_id();
 	mysql_query("INSERT INTO info SET student_id='$sid'");
+	reset($Student);
 	while(list($key,$val)=each($Student)){
 		if(isset($val['value']) and is_array($val) and isset($val['table_db'])){
 			$field=$val['field_db'];
@@ -33,7 +34,7 @@ if($sub=='Submit'){
 									student_id='$sid', community_id='$comid'");
 			mysql_query("UPDATE student SET yeargroup_id='$yid' WHERE id='$sid'");
 			}
-		$result[]=get_string('newstudentaddedto',$book).' '.$comid.' : '.$yid;
+		$result[]=get_string('newstudentaddedt',$book);
 		}
 
 include('scripts/results.php');
