@@ -3,6 +3,7 @@
  */
 
 $action='class_edit_action.php';
+$cancel='teacher_matrix.php';
 
 if(isset($_GET{'newcid'})){$newcid=$_GET{'newcid'};}
 if(isset($_GET{'newtid'})){$newtid=$_GET{'newtid'};}else{$newtid='';}
@@ -66,25 +67,8 @@ three_buttonmenu($extrabuttons);
 		$firstit++;
 		}
 ?>
-		<fieldset  style="float:left;width:30%;">
-		  <legend><?php print_string('studentsalreadyinsubject',$book);?></legend>
-		  <select name="newsid[]" size="20" multiple="multiple">	
-<?php
-		/*Select all those assigned already in this subject and yeargroup*/
-		$d_student=mysql_query("SELECT student_id, forename, middlenames,
-					surname, form_id FROM subjectstudents ORDER BY surname"); 
-		while($student=mysql_fetch_array($d_student,MYSQL_ASSOC)) {
-			print '<option ';
-			print	'value="'.$student['student_id'].'">'. 
-				$student['surname'].', '.$student['forename'].' '. 
-					$student['middlenames'].' ('.$student['form_id'].')</option>';
-			}
-?>
 
-		  </select>
-		</fieldset>
-
-	  <div style="float:left;width:30%;margin:1%;">
+	  <div style="float:left;width:33%;">
 		<table class="listmenu">
 		<caption><?php print_string('currentclassfor',$book);?>: <?php print $bid;?></caption>
 		<tr>
@@ -109,6 +93,10 @@ three_buttonmenu($extrabuttons);
 		</table>
 	  </div>
 
+		<div  style="float:right;width:66%;">
+		<fieldset>
+		  <legend><?php print_string('choosestudentstoadd',$book);?></legend>
+
 <?php
 	/*Filter for those not assigned already in this subject*/
   	$d_student=mysql_query("SELECT a.student_id, a.forename, a.middlenames,
@@ -118,8 +106,8 @@ three_buttonmenu($extrabuttons);
 					b.student_id IS NULL 
 					ORDER BY a.form_id, a.surname");
 ?>
-		<fieldset  style="float:left;width:30%;">
-		  <legend><?php print_string('studentsnotinsubject',$book);?></legend>
+		<div class="left">
+		  <label><?php print_string('studentsnotinsubject',$book);?></label>
 		  <select name="newsid[]" size="20" multiple="multiple">	
 <?php
 	while($student=mysql_fetch_array($d_student,MYSQL_ASSOC)) {
@@ -129,8 +117,28 @@ three_buttonmenu($extrabuttons);
 			}
 ?>
 		  </select>
-		</fieldset>
-		
+		</div>
+
+		<div class="right">
+		  <label><?php print_string('studentsalreadyinsubject',$book);?></label>
+		  <select name="newsid[]" size="20" multiple="multiple">	
+<?php
+		/*Select all those assigned already in this subject and yeargroup*/
+		$d_student=mysql_query("SELECT student_id, forename, middlenames,
+					surname, form_id FROM subjectstudents ORDER BY surname"); 
+		while($student=mysql_fetch_array($d_student,MYSQL_ASSOC)) {
+			print '<option ';
+			print	'value="'.$student['student_id'].'">'. 
+				$student['surname'].', '.$student['forename'].' '. 
+					$student['middlenames'].' ('.$student['form_id'].')</option>';
+			}
+?>
+
+		  </select>
+		</div>
+
+	  </fieldset>
+	  </div>
 
 	<input type="hidden" name="newcid" value="<?php print $newcid;?>" /> 
 	<input type="hidden" name="newtid" value="<?php print $newtid;?>" />

@@ -13,15 +13,46 @@ function emailHeader(){
 	}
 
 function formsClasses($fid){
+	/*returns an array listing the cids for all classes associated with
+	 *this form where the class is actually populated by just this
+	 *form's sids
+	 */
 	$cids=array();
 	$d_form=mysql_query("SELECT yeargroup_id FROM form WHERE id='$fid'");
 	$yid=mysql_result($d_form,0);
-	$d_classes=mysql_query("SELECT subject_id FROM classes 
-		WHERE yeargroup_id='$yid' AND generate='forms'");
-   	while($classes=mysql_fetch_array($d_classes, MYSQL_ASSOC)){
-		$cids[] = $classes{'subject_id'}.$fid;
-		/*WARNING:this only works so long as the naming is not sophisticated!!!*/
-		/*WARNING:and only if form has a single yid value!!!*/
+	$comid=updateCommunity(array('type'=>'year','name'=>$yid));
+	$d_cohort=mysql_query("SELECT * FROM cohort JOIN
+						cohidcomid ON cohidcomid.cohort_id=cohort.id WHERE
+						cohidcomid.community_id='$comid' ORDER BY course_id");
+   	while($cohort=mysql_fetch_array($d_cohort, MYSQL_ASSOC)){
+		$currentyear=getCurriculumYear($cohort['course_id']);
+		$currentseason='S';
+		if($cohort['year']==$currentyear and $cohort['season']==$currentseason){
+			$stage=$cohort['stage'];
+			$crid=$cohort['course_id'];
+			$d_classes=mysql_query("SELECT subject_id, naming FROM classes 
+				WHERE stage='$stage' AND course_id='$crid' AND generate='forms'");
+			while($classes=mysql_fetch_array($d_classes, MYSQL_ASSOC)){
+				$bid=$classes['subject_id'];
+				$name=array();
+				if($classes['naming']==''){
+					$name['root']=$bid;
+					$name['stem']='-';
+					$name['branch']='';
+					}
+				else{
+					list($name['root'],$name['stem'],$name['branch'],$name_counter)
+								= split(';',$classes['naming'],4);
+					while(list($index,$namecheck)=each($name)){
+						if($namecheck=='subject'){$name["$index"]=$bid;}
+						if($namecheck=='stage'){$name["$index"]=$stage;}
+						if($namecheck=='course'){$name["$index"]=$crid;}
+						if($namecheck=='year'){$name["$index"]=$yid;}
+						}
+					}
+				$cids[]=$name['root'].$name['stem'].$name['branch'].$fid;;
+				}
+			}
 		}
 	return $cids;
 	}
@@ -334,7 +365,7 @@ function updateCohort($cohort){
 	return $cohid;
 	}
 
-function getCurriculumYear($crid){
+function getCurriculumYear($crid=''){
 	/*the calendar year that the academic year ends */
 	/*to sophisticate in future*/
 	$d_course=mysql_query("SELECT endmonth FROM course WHERE id='$crid'");

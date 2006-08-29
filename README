@@ -5,7 +5,7 @@ ClaSS is a working, useable version of what is to be a complete
 classroom information assistant for schools.
 
 You are referred to the ClaSS home-page http://www.laex.org/class/ for
-more information and documentation. Please email class@laex.org with
+more information and documentation. Please email stj@laex.org with
 questions, requests for support, installation help etc. You can also
 use the integrated suppoprt forms in the AboutBook to post queries
 to the development team from inside ClaSS.
@@ -17,7 +17,7 @@ If you already have an install of ClaSS runnning then you'll need to
 migrate your database across by applying the sql-patch scripts in the
 install directory.
 
-Please do let class@laex.org know if you find this software useful (or
+Please do let stj@laex.org know if you find this software useful (or
 not useful!). All feedback is valued and will help speed the
 development of ClaSS.
 

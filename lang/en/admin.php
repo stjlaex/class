@@ -53,7 +53,7 @@ $string['confirmyeargroupstopromote']='Confirm the yeargroups to promote student
 $string['endofcoursepromotions']='End of course promotions';
 $string['confirmcoursestopromote']='Confirm the courses to promote students to';
 $string['studentsaddedtodatabase']='The students have been added to the database';
-$string['']='';
+$string['choosestudentstoadd']='Chooses students to add';
 $string['']='';
 $string['']='';
 ?>

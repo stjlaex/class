@@ -78,6 +78,7 @@ elseif($sub=='Generate'){
 <?php
 	exit;
 	}
+
 elseif($sub=='Submit'){
 
 	include('scripts/answer_action.php');

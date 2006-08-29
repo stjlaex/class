@@ -78,7 +78,7 @@ while(list($index,$curriculum)=each($curriculums)){
 	
 		$Subjects=xmlarray_indexed_check($Course['subjects'],'subject');
 		while(list($index,$Subject)=each($Subjects['subject']) and $Subject['id']!=''){
-			/*****************Subjects************************/
+			/****Subjects*****/
 			$bid=$Subject['id'];
 			$name=$Subject['name'];
 			if(isset($Subject['setting'])){$generate=$Subject['setting'];}
@@ -109,22 +109,20 @@ while(list($index,$curriculum)=each($curriculums)){
 
 			mysql_query("INSERT INTO cridbid SET course_id='$crid', subject_id='$bid'");
 
-
 			$Stages=xmlarray_indexed_check($Course['stages'],'stage');
 			while(list($index,$stage)=each($Stages['stage']) and $stage!=''){
-				if(mysql_query("INSERT INTO classes (many,
+				$result[]=$crid.': '.$stage;
+				mysql_query("INSERT INTO classes (many,
 								generate, naming, stage, subject_id, course_id) VALUES
 								('$many', '$generate', '$naming', '$stage', '$bid',
-								'$crid')")){}
-				else{$error[]='Failed to insert new classes!';
-								$error[]=mysql_error();}
+								'$crid')");
 				updateCohort(array('course_id'=>$crid,'stage'=>$stage));
 				}
 
 			$Components=xmlarray_indexed_check($Subject['components'],'component');
 			while(list($index,$Component)=each($Components['component'])
 																and $Component['id']!=''){
-				/*****************Components************************/
+				/****Components****/
 				$pid=$Component['id'];
 				$status=$Component['status'];
 				$name=$Component['name'];

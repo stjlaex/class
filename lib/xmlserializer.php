@@ -4,8 +4,8 @@
 require_once 'XML/Serializer.php';
 require_once 'XML/Unserializer.php';
 
-/*takes the root name as input*/
 function xmlpreparer($rootName,$xmlentry){
+	/*takes the root name as input*/
 	nullCorrect($xmlentry);
 	$serializer_options=array(
 							  'addDecl' => FALSE,
@@ -44,13 +44,22 @@ function xmlfilereader($xmlfilename){
 	}
 
 function xmlarray_indexed_check($inarray,$indexname){
+	/*this overcomes a discrepency in the way XML_Unserializer chooses
+	 *to generate the array for fields with no value, one value and many
+	 *values. ClaSS requires they should all be treated as for many
+	 *values and a numerically indexed array results. Maybe there is an
+	 *XML_Unserializer option I'm missing that can solve this?
+	 */
 	$inarray=(array)$inarray;
-	if(is_array($inarray["$indexname"])){
-		if(!array_key_exists(0,$inarray["$indexname"])){
-			$inarray["$indexname"]=array(0=>$inarray["$indexname"]);
+	if(is_array($inarray[$indexname])){
+		if(!array_key_exists(0,$inarray[$indexname])){
+			$inarray[$indexname]=array($inarray[$indexname]);
 			}
 		}
-	else{$inarray["$indexname"]=array();}
+	elseif($inarray[$indexname]!=''){
+		$inarray[$indexname]=array($inarray[$indexname]);
+		}
+	else{$inarray[$indexname]=array();}
 	return $inarray;
 	}
 ?>
