@@ -25,15 +25,15 @@ include('scripts/sub_action.php');
 
 	for($c=(sizeof($years)-2);$c>-1;$c--){
 		$yid=$years[$c]['id'];
-		$nextpostyid=$_POST["$yid"];
+		$nextpostyid=$_POST[$yid];
 		if($nextpostyid=='1000'){
-			$nextyid=$yid.'-year-'.date('Y').'-'.date('m');
+			$nextyid=date('Y');
 			$type='alumni';
 			}
 		else{
 			$nextyid=$nextpostyid;
 			$type='year';
-			if($nextyid==''){$nextyid=$yid.'-'.date('Y').'-'.date('m');}
+			if($nextyid==''){$nextyid=date('Y');}
 			}
 		$community=array('type'=>'year','name'=>$yid);
 		$communitynext=array('type'=>$type,'name'=>$nextyid);
@@ -111,8 +111,6 @@ include('scripts/sub_action.php');
 				/*last stage is graduating and leaving*/
 				$nextcohid='';
 				}
-			$result[]='Updating '. $crid.' '. $stage. ' '. $cohidgone
-									. ' to ' .$nextcohid;
 
 
 			/*go through each community of students who were studying
@@ -122,8 +120,6 @@ include('scripts/sub_action.php');
 			while($cohidcomid=mysql_fetch_array($d_cohidcomid,MYSQL_ASSOC)){
 				$comid=$cohidcomid['community_id'];
 				if($nextcohid!=''){
-					$result[]='Promoted community '.$comid.' from '. 
-											$cohidgone. ' to '.$nextcohid;
 					mysql_query("INSERT INTO cohidcomid SET
 								cohort_id='$nextcohid', community_id='$comid'");
 					}
@@ -141,5 +137,5 @@ include('scripts/sub_action.php');
 	mysql_query("DELETE FROM eidmid");
 
 	include('scripts/results.php');
-//	include('scripts/redirect.php');
+	include('scripts/redirect.php');
 ?>

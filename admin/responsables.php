@@ -9,7 +9,8 @@ three_buttonmenu();
 ?>
   <div class="topform">
 	<form id="formtoprocess" name="formtoprocess"  
-		onChange="return validateForm();" method="post" action="<?php print $host;?>"> 
+		method="post" action="<?php print $host;?>"> 
+
 	  <div class="left">
 		<p><?php print_string('chooseeitherresponsibility',$book);?></p>
 		<label for="User">
@@ -17,7 +18,7 @@ three_buttonmenu();
 		</label>
 		<select class="required" name="user" id="User" size="1">	  	
 <?php
-   $d_user=mysql_query("SELECT * FROM users ORDER BY username");
+   $d_user=mysql_query("SELECT * FROM users WHERE nologin='0' ORDER BY username");
 	print '<option value="" selected="selected"></option>';
 	while($user = mysql_fetch_array($d_user,MYSQL_ASSOC)){
 		if( $user{'username'}!='administrator'){
@@ -68,7 +69,7 @@ three_buttonmenu();
   	$d_group=mysql_query("SELECT * FROM groups WHERE subject_id='%' ORDER BY course_id"); 
 	print '<option value="" selected="selected"></option>';
 	print '<option value="%">';
-	print_string('all');
+	print_string('all',$book);
 	print '</option>';
 	while($group=mysql_fetch_array($d_group,MYSQL_ASSOC)){
 			print '<option ';
@@ -109,9 +110,9 @@ three_buttonmenu();
 		<th><?php print_string('academicresponsibilities',$book);?></th>
 	  </tr>
 <?php
-   $d_user = mysql_query("SELECT * FROM users ORDER BY username");
+   $d_user = mysql_query("SELECT * FROM users WHERE nologin='0' ORDER BY username");
    while($user = mysql_fetch_array($d_user,MYSQL_ASSOC)){
-	if($user{'username'}!='administrator'){
+	if($user['username']!='administrator'){
 		$uid=$user{'uid'};	
 		print '<tr>';
 		print '<td>'.$user{'username'};

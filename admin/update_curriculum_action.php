@@ -30,6 +30,8 @@ function read_curriculum_file($filename,$curriculum){
 mysql_query("DELETE FROM cridbid");
 mysql_query("DELETE FROM classes");
 mysql_query("DELETE FROM component");
+mysql_query("DELETE FROM form");
+mysql_query("DELETE FROM yeargroup");
 
 $d_uid=mysql_query("SELECT uid FROM users WHERE username='administrator'");	
 $adminuid=mysql_result($d_uid,0);
@@ -111,12 +113,11 @@ while(list($index,$curriculum)=each($curriculums)){
 
 			$Stages=xmlarray_indexed_check($Course['stages'],'stage');
 			while(list($index,$stage)=each($Stages['stage']) and $stage!=''){
-				$result[]=$crid.': '.$stage;
 				mysql_query("INSERT INTO classes (many,
 								generate, naming, stage, subject_id, course_id) VALUES
 								('$many', '$generate', '$naming', '$stage', '$bid',
 								'$crid')");
-				updateCohort(array('course_id'=>$crid,'stage'=>$stage));
+				$cohid=updateCohort(array('course_id'=>$crid,'stage'=>$stage));
 				}
 
 			$Components=xmlarray_indexed_check($Subject['components'],'component');
@@ -338,7 +339,7 @@ while(list($index,$curriculum)=each($curriculums)){
 				mysql_query("UPDATE form SET name='$name',
 					yeargroup_id='$yid' WHERE id='$fid'");
 				}
-			updateCommunity(array('name'=>$fid,'type'=>'form'));
+			$comid=updateCommunity(array('name'=>$fid,'type'=>'form'));
 			}
 		}
 

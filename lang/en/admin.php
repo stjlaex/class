@@ -54,6 +54,8 @@ $string['endofcoursepromotions']='End of course promotions';
 $string['confirmcoursestopromote']='Confirm the courses to promote students to';
 $string['studentsaddedtodatabase']='The students have been added to the database';
 $string['choosestudentstoadd']='Chooses students to add';
-$string['']='';
+$string['canedit']='Can edit';
+$string['canview']='Can view';
+$string['canconfigure']='Can configure';
 $string['']='';
 ?>

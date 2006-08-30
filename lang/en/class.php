@@ -221,6 +221,6 @@ $string['staff']='Staff';
 $string['admin']='Administrator';
 $string['office']='Office';
 $string['support']='Support';
-$string['']='';
+$string['all']='All';
 $string['']='';
 ?>

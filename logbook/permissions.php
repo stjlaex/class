@@ -69,7 +69,8 @@ function getResponStaff($tid,$respons,$r){
 			$d_users=mysql_query("SELECT DISTINCT uid,
 			   	username, passwd, forename, surname, email, nologin,
 				firstbookpref, role FROM users JOIN tidcid ON 
-				users.username=tidcid.teacher_id WHERE tidcid.class_id='$cid[0]'");
+				users.username=tidcid.teacher_id WHERE
+				tidcid.class_id='$cid[0]' ORDER BY username");
 		  while($user=mysql_fetch_array($d_users,MYSQL_ASSOC)){
 			$uid=$user['uid'];
 			if(!array_key_exists($uid,$users)){
@@ -86,7 +87,7 @@ function getAllStaff(){
    	$users=array();
 	$d_users=mysql_query("SELECT uid, username, passwd, forename,
 				surname, email, nologin, firstbookpref, role
-				FROM users");
+				FROM users ORDER BY username");
 	while($user=mysql_fetch_array($d_users,MYSQL_ASSOC)){;
 		$uid=$user['uid'];
 		$users["$uid"]=$user;
