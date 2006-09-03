@@ -48,6 +48,11 @@ $rtid=$tid;
 			<?php print_string('formgroups');?>
 		  </option>
 		  <option 
+			<?php if($choice=='yeargroup_matrix.php'){print 'selected="selected" ';} ?>
+				value='yeargroup_matrix.php'>
+			<?php print_string('yeargroups');?>
+		  </option>
+		  <option 
 			<?php if($choice=='staff_details.php'){print 'selected="selected" ';}?>
 				value='staff_details.php'>
 			<?php print_string('staffdetails');?>
@@ -86,7 +91,7 @@ $rtid=$tid;
 				<?php print_string('yearend');?></option>
 		<option <?php if($choice=='passwords.php'){print
 				'selected="selected" ';}?>value='passwords.php'>
-				<?php print_string('refreshpasswords');?></option>
+				<?php print_string('refreshpasswords',$book);?></option>
 		<option <?php if($choice=='fix8.php'){print
 				'selected="selected" ';}?>value='fix8.php'>
 				<?php print_string('upgradeto0.8');?></option>

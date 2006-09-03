@@ -21,7 +21,8 @@ if(isset($_POST{'newtid'})){$newtid=$_POST{'newtid'};}
 	$d_year=mysql_query("SELECT name FROM yeargroup WHERE id='$yid'");
 	$year=mysql_result($d_year,0);
 
-	$extrabuttons['unassignclass']=array('name'=>'sub','value'=>'Unassign');
+	$extrabuttons['renamegroup']=array('name'=>'current','value'=>'form_edit_rename.php');
+	$extrabuttons['unassignteacher']=array('name'=>'sub','value'=>'Unassign');
 	three_buttonmenu($extrabuttons);
 ?>
   <div class="content">
@@ -45,8 +46,8 @@ if(isset($_POST{'newtid'})){$newtid=$_POST{'newtid'};}
 				WHERE form_id='$fid' ORDER BY surname");
 	while($student=mysql_fetch_array($d_student, MYSQL_ASSOC)){
 			$sid=$student['id'];
-		    print '<tr><td>'.$student['forename'].'
-		    '.$student['surname'].' ('.$student['form_id'].')</td>';
+		    print '<tr><td>'.$student['surname']. 
+					', '.$student['forename']. ' ('.$student['form_id'].')</td>';
 		    print '<td><input type="checkbox" name="oldsids[]" value="'.$sid.'" /></td>';
 		    print '</tr>';
 			}
@@ -72,7 +73,7 @@ if(isset($_POST{'newtid'})){$newtid=$_POST{'newtid'};}
 		<legend><?php print_string('choosestudentstoadd',$book);?></legend>
 		<div class="left">
 		  <label><?php print_string('studentsnotinaform',$book);?></label>
-		  <select name="newsids[]" size="20" multiple="multiple">	
+		  <select name="newsids[]" size="24" multiple="multiple" style="width:98%;">
 <?php
    	$d_student=mysql_query("SELECT id, surname, forename, form_id FROM
 			student WHERE yeargroup_id LIKE '$yid' AND (form_id='' OR
@@ -88,7 +89,7 @@ if(isset($_POST{'newtid'})){$newtid=$_POST{'newtid'};}
 
 		<div class="right">
 		  <label><?php print_string('studentsalreadyinaform',$book);?></label>
-		  <select name="newsids[]" size="20" multiple="multiple">	
+		  <select name="newsids[]" size="24" multiple="multiple" style="width:98%;">	
 <?php
   	$d_student=mysql_query("SELECT id, forename,
 					surname, form_id FROM student WHERE
@@ -104,6 +105,7 @@ if(isset($_POST{'newtid'})){$newtid=$_POST{'newtid'};}
 		</fieldset>
 	  </div>
 	<input type="hidden" name="fid" value="<?php print $fid;?>" /> 
+	<input type="hidden" name="name" value="<?php print $fid;?>" /> 
 	<input type="hidden" name="newtid" value="<?php print $newtid;?>" />
 	<input type="hidden" name="choice" value="<?php print $choice;?>" />
 	<input type="hidden" name="current" value="<?php print $action;?>" />

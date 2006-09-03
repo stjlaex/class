@@ -20,7 +20,7 @@ if($sub=='Submit'){
 	else{$user['nologin']='0';}
 	if(isset($_POST['password1'])){
 	  if($_POST['password1']==$_POST['password2']){
-	   	$user['passwd']=clean_text($_POST{'password1'});
+	   	$user['passwd']=clean_text($_POST['password1']);
 		}
       else{
 		$error[]=get_text('mistakematchingpasswords',$book);

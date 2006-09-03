@@ -28,14 +28,21 @@ if($sub=='Submit'){
 		}
 
 	if($yid!=''){
-		$comid=updateCommunity(array('type'=>'year','name'=>$yid));
-		if($comid!=''){
-			mysql_query("INSERT INTO comidsid SET
-									student_id='$sid', community_id='$comid'");
-			mysql_query("UPDATE student SET yeargroup_id='$yid' WHERE id='$sid'");
-			}
-		$result[]=get_string('newstudentaddedt',$book);
+		$comtype='year';
+		$comname=$yid;
 		}
+	else{
+		if($enrolstatus=='P'){$comtype='alumni';}
+		elseif($enrolstatus=='EN'){$comtype='enquired';}
+		elseif($enrolstatus=='AP'){$comtype='applied';}
+		elseif($enrolstatus=='AC'){$comtype='accepted';}
+		$comname=date('Y');
+		}
+
+	$community=array('type'=>$comtype,'name'=>$comname);
+	joinCommunity($sid,$community);
+	$result[]=get_string('newstudentadded',$book).$comtype.' :'.$comname;
+
 
 include('scripts/results.php');
 include('scripts/redirect.php');

@@ -115,6 +115,11 @@ if(isset($newyid)){
 	 	<input type="hidden" name="newyid" value="<?php print $newyid;?>">
 <?php
 	}
+if(isset($newcomid)){
+?>
+	 	<input type="hidden" name="newcomid" value="<?php print $newcomid;?>">
+<?php
+	}
 if(isset($contactno)){
 ?>
 	 	<input type="hidden" name="contactno" value="<?php print $contactno;?>">

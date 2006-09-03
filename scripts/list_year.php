@@ -7,6 +7,7 @@
 	if(isset($yid)){$selyid=$yid;}
 	if(isset($newyid)){$selyid=$newyid;}
 	if(!isset($required)){$required='no';}
+	if(!isset($onchange)){$onchange='no';}
 ?>
 	<label for="Yeargroup"><?php print_string('yeargroup');?></label>
 	<select id="Yeargroup" name="newyid"
@@ -22,7 +23,7 @@
 			}
 ?>
 	</select>
-<?php  unset($required); unset($selyid);?>
+<?php  unset($required); unset($selyid); unset($onchange);?>
 
 
 

@@ -222,5 +222,8 @@ $string['admin']='Administrator';
 $string['office']='Office';
 $string['support']='Support';
 $string['all']='All';
+$string['unassignteacher']='Unassign teacher';
+$string['renamegroup']='Rename group';
+$string['yeargroups']='Year groups';
 $string['']='';
 ?>

@@ -135,6 +135,8 @@ include('scripts/sub_action.php');
 	mysql_query("DELETE FROM mark");
 	mysql_query("DELETE FROM midcid");
 	mysql_query("DELETE FROM eidmid");
+	mysql_query("DELETE FROM history");
+	mysql_query("UPDATE users SET logcount='0'");
 
 	include('scripts/results.php');
 	include('scripts/redirect.php');

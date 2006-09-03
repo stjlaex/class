@@ -1,8 +1,7 @@
 <?php
 /*												lib/html_functions.php
  *
- * Generic functions for producing html entities. 
- * 
+ * Generic functions for producing html entities.
  */
 
 function three_buttonmenu($extrabuttons=array()){
@@ -16,9 +15,13 @@ function three_buttonmenu($extrabuttons=array()){
 <?php
 			 }
 ?>
-	<button onClick="processContent(this);" name="sub" value="Submit"><?php print_string('submit');?></button>
-	<button onClick="processContent(this);" name="sub" value="Cancel"><?php print_string('cancel');?></button>
-	<button onClick="processContent(this);" name="sub" value="Reset"><?php print_string('reset');?></button>
+
+	<button onClick="processContent(this);" name="sub"  style="margin-left:1em;"
+	  value="Submit"><?php print_string('submit');?></button>
+	<button onClick="processContent(this);" name="sub" 
+	  value="Cancel"><?php print_string('cancel');?></button>
+	<button onClick="processContent(this);" name="sub" 
+	  value="Reset"><?php print_string('reset');?></button>
 </div>
 
 <?php
@@ -35,8 +38,10 @@ function two_buttonmenu($extrabuttons=array()){
 <?php
 			 }
 ?>
-	<button onClick="processContent(this);" name="sub" value="Cancel"><?php print_string('cancel');?></button>
-	<button onClick="processContent(this);" name="sub" value="Reset"><?php print_string('reset');?></button>
+	<button onClick="processContent(this);" name="sub"  style="margin-left:1em;"
+	  value="Cancel"><?php print_string('cancel');?></button>
+	<button onClick="processContent(this);" name="sub" 
+	  value="Reset"><?php print_string('reset');?></button>
   </div>
 
 <?php

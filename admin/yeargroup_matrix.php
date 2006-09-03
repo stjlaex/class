@@ -1,9 +1,9 @@
 <?php 
-/**								  		formgroup_matrix.php
+/**								  		yeargroup_matrix.php
  */
 
-$choice='formgroup_matrix.php';
-$action='formgroup_matrix_action.php';
+$choice='yeargroup_matrix.php';
+$action='yeargroup_matrix_action.php';
 
 $tids=getTeachingStaff();
 
@@ -14,7 +14,7 @@ three_buttonmenu();
 		action="<?php print $host; ?>" >
 
 	<fieldset class="right">
-		  <legend><?php print_string('assignformtoteacher',$book);?></legend>
+		  <legend><?php print_string('assignyeartoteacher',$book);?></legend>
 
 		<div class="center">
 		  <label for="Teachers"><?php print_string('teachers',$book);?></label>
@@ -30,14 +30,13 @@ three_buttonmenu();
 		</div>
 
 		<div class="center">
-		  <label for="Forms" ><?php print_string('unassignedformgroups',$book);?></label>
+		  <label for="Forms" ><?php print_string('unassignedyeargroups',$book);?></label>
 		  <select id="Forms" name="newfid" size="1" style="width:95%;">
 <?php
-  	$d_form=mysql_query("SELECT id FROM form WHERE teacher_id='' OR
-					teacher_id IS NULL ORDER BY yeargroup_id"); 
-   	while($form=mysql_fetch_array($d_form,MYSQL_ASSOC)){
+  	$d_year=mysql_query("SELECT id, name FROM yeargroup ORDER BY id"); 
+   	while($year=mysql_fetch_array($d_year,MYSQL_ASSOC)){
    		print '<option ';
-		print	' value="'.$form['id'].'">'.$form['id'].'</option>';
+		print	' value="'.$year['id'].'">'.$year['name'].'</option>';
 		}
 ?>		
 		  </select>
@@ -48,20 +47,19 @@ three_buttonmenu();
 	<div class="left">
 	  <table class="listmenu">
 		<tr>
-		  <th><?php print_string('formgroup');?></th>
+		  <th><?php print_string('yeargroup');?></th>
 		  <th><?php print_string('numberofstudents');?></th>
-		  <th><?php print_string('formtutor');?></th>
+		  <th><?php print_string('yearresponsible');?></th>
 		</tr>
 <?php
-	$d_form=mysql_query("SELECT * FROM form ORDER BY yeargroup_id");
-	while($form=mysql_fetch_array($d_form,MYSQL_ASSOC)){
-		$fid=$form['id'];
+	$d_year=mysql_query("SELECT * FROM yeargroup ORDER BY section_id,id");
+	while($year=mysql_fetch_array($d_year,MYSQL_ASSOC)){
+		$yid=$year['id'];
 		$d_student=mysql_query("SELECT COUNT(id) FROM student
-									WHERE form_id='$fid'");
+									WHERE yeargroup_id='$yid'");
 		$nosids=mysql_result($d_student,0);
-		$tid=$form['teacher_id'];
 	   	print '<tr><td>';
-	   		print '<a href="admin.php?current=form_edit.php&cancel='.$choice.'&newtid='.$tid.'&newfid='.$fid.'">'.$fid.'</a>';
+	   		print '<a href="admin.php?current=yeargroup_edit.php&cancel='.$choice.'&newtid='.$tid.'&newyid='.$yid.'">'.$year['name'].'</a>';
 		print '</td>';
 	   	print '<td>'.$nosids.'</td>';
 	   	print '<td>'.$tid.'</td>';

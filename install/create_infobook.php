@@ -7,7 +7,7 @@ CREATE TABLE info (
 	student_id		int unsigned not null default 0, 
 	upn				char(13) not null default '',
 	formerupn		char(13) not null default '',
-	enrolstatus		enum('C', 'P', 'G', 'A') not null,
+	enrolstatus		enum('EN','AP','AC','C', 'P', 'G','S','M') not null default 'C',
 	entrydate		date null,
 	leavingdate 	date null,
 	email			varchar(50) not null default '',

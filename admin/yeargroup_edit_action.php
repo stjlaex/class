@@ -2,15 +2,15 @@
 /**									   		form_edit_action.php
  */
 
-$action='form_edit.php';
+$action='yeargroup_edit.php';
 
-if(isset($_POST{'fid'})){$fid=$_POST{'fid'};}
+if(isset($_POST{'yid'})){$yid=$_POST{'yid'};}
+if(isset($_POST{'newcomid'})){$newcomid=$_POST{'newcomid'};}else{$newcomid='';}
 if(isset($_POST{'newtid'})){$newtid=$_POST{'newtid'};}
 if(isset($_POST{'newsids'})){$newsids=(array)$_POST{'newsids'};}
 else{$newsids=array();}
 if(isset($_POST{'oldsids'})){$oldsids=(array)$_POST{'oldsids'};}
 else{$oldsids=array();}
-if(isset($_POST{'classestoo'})){$classestoo=$_POST{'classestoo'};}
 
 include('scripts/sub_action.php');
 
@@ -22,12 +22,13 @@ if($sub=='Unassign'){
 
 elseif($sub=='Submit'){
 
-    $changecids=array();
-	$changecids=formsClasses($fid);
+	//    $changecids=array();
+	//	$changecids=formsClasses($fid);
+	$yearcommunity=array('type'=>'year','name'=>$yid);
 
 	/*sids to remove*/
    	while(list($index,$sid)=each($oldsids)){
-		leaveCommunity($sid,array('type'=>'form','name'=>$fid));
+		leaveCommunity($sid,$yearcommunity);
 		if($classestoo=='yes'){
 			for($c=0;$c<sizeof($changecids);$c++){
 				$cid=$changecids[$c];
@@ -39,7 +40,8 @@ elseif($sub=='Submit'){
 
 	/*sids to add*/
    	while(list($index,$sid)=each($newsids)){
-		$oldfid=joinCommunity($sid,array('type'=>'form','name'=>$fid));
+		$oldyid=joinCommunity($sid,$yearcommunity);
+		$result[]=$oldyid;
 		if($classestoo=='yes'){
 			if($oldfid!=''){
 				$otherchangecids=array();

@@ -41,7 +41,7 @@ three_buttonmenu($extrabuttons);
 			(SELECT a.student_id, b.surname, b.forename,
 			b.middlenames, b.form_id FROM
 			comidsid a, student b WHERE a.community_id='$comid' AND
-			b.id=a.student_id)");}
+			b.id=a.student_id  AND (a.leavingdate='' OR a.leavingdate IS NULL))");}
 		else{mysql_query("INSERT INTO cohortstudents SELECT
 				a.student_id, b.surname, b.forename, b.middlenames, 
 				b.form_id FROM comidsid a,
@@ -77,18 +77,15 @@ three_buttonmenu($extrabuttons);
 		</tr>
 <?php
 	/*students already in this class*/
-	$c=0;
 	$d_student=mysql_query("SELECT a.student_id, b.surname, b.middlenames,
 				b.forename, b.yeargroup_id, b.form_id FROM cidsid a, student b 
 				WHERE a.class_id='$newcid' AND b.id=a.student_id ORDER BY b.surname");
 	while($student=mysql_fetch_array($d_student, MYSQL_ASSOC)){
-			$sid=$student{'student_id'};
-		    print '<tr><td>'.$student['forename'].'
+		print '<tr><td>'.$student['forename'].'
 		    '.$student['surname'].' ('.$student['form_id'].')</td>';
-		    print '<td><input type="checkbox" name="'.$sid.'" /></td>';
-		    print '</tr>';
-		    $c++;
-			}
+		print '<td><input type="checkbox" name="'.$student['student_id'].'" /></td>';
+		print '</tr>';
+		}
 ?>
 		</table>
 	  </div>
@@ -98,7 +95,7 @@ three_buttonmenu($extrabuttons);
 		  <legend><?php print_string('choosestudentstoadd',$book);?></legend>
 
 <?php
-	/*Filter for those not assigned already in this subject*/
+	/*list those not assigned already in this subject*/
   	$d_student=mysql_query("SELECT a.student_id, a.forename, a.middlenames,
 					a.surname, a.form_id FROM
 					cohortstudents AS a LEFT JOIN subjectstudents AS b ON
@@ -108,7 +105,7 @@ three_buttonmenu($extrabuttons);
 ?>
 		<div class="left">
 		  <label><?php print_string('studentsnotinsubject',$book);?></label>
-		  <select name="newsid[]" size="20" multiple="multiple">	
+		  <select name="newsid[]" size="20" multiple="multiple" style="width:98%;">	
 <?php
 	while($student=mysql_fetch_array($d_student,MYSQL_ASSOC)) {
 			print '<option ';
@@ -121,9 +118,9 @@ three_buttonmenu($extrabuttons);
 
 		<div class="right">
 		  <label><?php print_string('studentsalreadyinsubject',$book);?></label>
-		  <select name="newsid[]" size="20" multiple="multiple">	
+		  <select name="newsid[]" size="20" multiple="multiple" style="width:98%;">	
 <?php
-		/*Select all those assigned already in this subject and yeargroup*/
+		/*all those assigned already in this subject and yeargroup*/
 		$d_student=mysql_query("SELECT student_id, forename, middlenames,
 					surname, form_id FROM subjectstudents ORDER BY surname"); 
 		while($student=mysql_fetch_array($d_student,MYSQL_ASSOC)) {
