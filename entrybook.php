@@ -70,7 +70,7 @@ if(isset($_GET['current'])){$current=$_GET['current'];}
 		include('scripts/list_enrolstatus.php');
 		if($enrolstatus=='C' or $enrolstatus=='G' or $enrolstatus=='S'
 					or $enrolstatus=='M'){
-			$onchange='yes';
+			$onsidechange='yes';
 			include('scripts/list_year.php');
 			}
 ?>

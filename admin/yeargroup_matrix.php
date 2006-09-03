@@ -50,7 +50,7 @@ three_buttonmenu();
 									WHERE yeargroup_id='$yid'");
 		$nosids=mysql_result($d_student,0);
 	   	print '<tr><td>';
-	   		print '<a href="admin.php?current=yeargroup_edit.php&cancel='.$choice.'&newtid='.$tid.'&newyid='.$yid.'">'.$year['name'].'</a>';
+	   		print '<a href="admin.php?current=yeargroup_edit.php&cancel='.$choice.'&choice='.$choice.'&newtid='.$tid.'&newyid='.$yid.'">'.$year['name'].'</a>';
 		print '</td>';
 	   	print '<td>'.$nosids.'</td>';
 	   	print '<td>'.$tid.'</td>';

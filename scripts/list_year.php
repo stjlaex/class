@@ -7,11 +7,11 @@
 	if(isset($yid)){$selyid=$yid;}
 	if(isset($newyid)){$selyid=$newyid;}
 	if(!isset($required)){$required='no';}
-	if(!isset($onchange)){$onchange='no';}
+	if(!isset($onsidechange)){$onsidechange='no';}
 ?>
 	<label for="Yeargroup"><?php print_string('yeargroup');?></label>
 	<select id="Yeargroup" name="newyid"
-			<?php if($onchange=='yes'){ print ' onChange="document.entrybookchoice.submit();" ';} ?> >
+			<?php if($onsidechange=='yes'){ print ' onChange="document.entrybookchoice.submit();" ';} ?> >
 			<?php if($required=='yes'){ print ' class="required" ';} ?> >
     <option value=""></option>
 <?php
@@ -23,7 +23,7 @@
 			}
 ?>
 	</select>
-<?php  unset($required); unset($selyid); unset($onchange);?>
+<?php  unset($required); unset($selyid); unset($onsidechange);?>
 
 
 
