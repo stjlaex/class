@@ -17,16 +17,7 @@ three_buttonmenu();
 		  <legend><?php print_string('assignyeartoteacher',$book);?></legend>
 
 		<div class="center">
-		  <label for="Teachers"><?php print_string('teachers',$book);?></label>
-			<select id="Teachers" name="tid" size="1" style="width:95%;">
-<?php
-	print '<option value="" selected="selected" ></option>';		
-   	while(list($index,$tid)=each($tids)){
-   		print '<option ';
-  		print	' value="'.$tid.'">'.$tid.'</option>';
-   		}
-?>		
-			</select>
+<?php include('scripts/list_teacher.php');?>
 		</div>
 
 		<div class="center">
@@ -52,7 +43,7 @@ three_buttonmenu();
 		  <th><?php print_string('yearresponsible');?></th>
 		</tr>
 <?php
-	$d_year=mysql_query("SELECT * FROM yeargroup ORDER BY section_id,id");
+	$d_year=mysql_query("SELECT * FROM yeargroup ORDER BY section_id, id");
 	while($year=mysql_fetch_array($d_year,MYSQL_ASSOC)){
 		$yid=$year['id'];
 		$d_student=mysql_query("SELECT COUNT(id) FROM student

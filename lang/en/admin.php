@@ -60,6 +60,8 @@ $string['canconfigure']='Can configure';
 $string['refreshpasswords']='Refresh passwords';
 $string['unassignform']='Unassign teacher';
 $string['assignformtoteacher']='Assign a teacher to a form';
+$string['updatedresponsibilities']='Updated responsibilities';
+$string['assignednewresponsibilities']='Assigned new responsibilities.';
 $string['']='';
 $string['']='';
 ?>

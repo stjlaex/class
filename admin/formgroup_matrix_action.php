@@ -4,8 +4,8 @@
 
 $action='formgroup_matrix.php';
 
-if($_POST{'tid'}!=''){$newtid=$_POST{'tid'};}
-if(isset($_POST{'newfid'})){$newfid=$_POST{'newfid'};}else{$newfid='';}
+if($_POST['newtid']!=''){$newtid=$_POST['newtid'];}
+if(isset($_POST['newfid'])){$newfid=$_POST['newfid'];}else{$newfid='';}
 
 include('scripts/sub_action.php');
 
@@ -14,9 +14,7 @@ if($newtid!='' AND $newfid!=''){
 		$rows=mysql_num_rows($d_test);
 
 		/*Check user has permission to edit*/
-		$d_test=mysql_query("SELECT yeargroup_id FROM form WHERE id='$newfid'");
-		$formyid=mysql_result($d_form,0);
-		$perm=getYearPerm($yid,$respons);
+		$perm=getFormPerm($newfid,$respons);
 		$neededperm='w';
 		include('scripts/perm_action.php');
 

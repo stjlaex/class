@@ -4,8 +4,9 @@
 
 function findResponsibles($sid, $bid){
   /* given a sid and a bid this will return a numerical array which
-  lists the responsibles (both pastoral academic) who have been
-  flagged to receive emails*/
+   * lists the responsibles (both pastoral academic) who have been
+   * flagged to receive emails
+   */
 
     $gids=array();
 	$recipients=array();
@@ -152,17 +153,17 @@ function getYearPerm($year,$respons){
 	return $perm;
 	}
 
-function getFormPerm($form,$respons){
+function getFormPerm($fid,$respons){
 	/*return perm for form group*/
 	$perm['r']=0;
 	$perm['w']=0;
 	$perm['x']=0;
-	$d_form=mysql_query("SELECT yeargroup_id FROM form WHERE id='$form'");
+	$d_form=mysql_query("SELECT yeargroup_id FROM form WHERE id='$fid'");
 	$formyid=mysql_result($d_form,0);
 	for($c=0;$c<sizeof($respons);$c++){
 		$resp=$respons[$c];
 		if($resp['name']=='Form'){
-			if($resp['form_id']==$form){
+			if($resp['form_id']==$fid){
 				$perm['r']=$resp['r'];
 				$perm['w']=$resp['w'];
 				$perm['x']=$resp['x'];
@@ -318,6 +319,23 @@ function updateUser($user,$update='no',$short='class'){
 		  $d_user=mysql_query("UPDATE users SET
 					passwd='$assword' WHERE username='$username'");
 		   }
+	return $result;
+	}
+
+function updateStaffPerms($uid,$gid,$newperms){
+	$r=$newperms['r'];
+	$w=$newperms['w'];
+	$x=$newperms['x'];
+	$e=$newperms['e'];
+
+	if(mysql_query("INSERT perms (uid, gid, r, w, x, e) VALUES ('$newuid',
+				'$gid', '$r', '$w', '$x', 'e')")){
+				$result=get_string('assignednewresponsibilities','admin');
+				}
+	else{mysql_query("UPDATE perms WHERE uid='$newuid' AND
+				gid='$gid' SET (r='$r', w='$w', x='$x', e='$e')"); 
+				$result=get_string('updatedresponsibilities','admin');
+				}
 	return $result;
 	}
 ?>

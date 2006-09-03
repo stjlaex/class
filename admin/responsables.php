@@ -20,12 +20,12 @@ three_buttonmenu();
 <?php
    $d_user=mysql_query("SELECT * FROM users WHERE nologin='0' ORDER BY username");
 	print '<option value="" selected="selected"></option>';
-	while($user = mysql_fetch_array($d_user,MYSQL_ASSOC)){
-		if( $user{'username'}!='administrator'){
+	while($user=mysql_fetch_array($d_user,MYSQL_ASSOC)){
+		if($user{'username'}!='administrator'){
 			print '<option ';
-			print	' value="'.$user{'uid'}.'">'.$user['username'].'</option>';}
+			print	' value="'.$user['uid'].'">'.$user['username'].'</option>';}
 			}
-?>	
+?>
 		</select>
 
 		<label for="Permissions">

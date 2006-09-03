@@ -5,8 +5,6 @@
 $choice='formgroup_matrix.php';
 $action='formgroup_matrix_action.php';
 
-$tids=getTeachingStaff();
-
 three_buttonmenu();
 ?>
   <div class="content">
@@ -17,16 +15,7 @@ three_buttonmenu();
 		  <legend><?php print_string('assignformtoteacher',$book);?></legend>
 
 		<div class="center">
-		  <label for="Teachers"><?php print_string('teachers',$book);?></label>
-			<select id="Teachers" name="tid" size="1" style="width:95%;">
-<?php
-	print '<option value="" selected="selected" ></option>';		
-   	while(list($index,$tid)=each($tids)){
-   		print '<option ';
-  		print	' value="'.$tid.'">'.$tid.'</option>';
-   		}
-?>		
-			</select>
+<?php include('scripts/list_teacher.php');?>
 		</div>
 
 		<div class="center">

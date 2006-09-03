@@ -1,41 +1,25 @@
 <?php 
-/*	Script to list teachers
-	Optional $tid
-	Returns $newtid
-	Called within a form
-*/
+/**									scripts/list_teacher.php
+ *	Returns $newtid
+ */
  
 
-		print "<select name='newtid'>";	
-
-   	$d_tids = mysql_query("SELECT id  FROM teacher ORDER BY id");
-    	while($tids = mysql_fetch_array($d_tids,MYSQL_ASSOC)) {
-		print "<option ";
-		if(isset($tid)){if($tid==$tids{'id'}){print "selected";}}
-		print	" value='".$tids{'id'}."'>".$tids{'id'}."</option>";
-			}
-			
-		print "</select>";
+$newtids=getTeachingStaff();
+if(!isset($seltid)){$seltid='';}
 ?>
  
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  <label for="Teachers"><?php print_string('teachers',$book);?></label>
+  <select id="Teachers" name="newtid" size="1" style="width:95%;">
+	<option value="" ></option>
+<?php
+   	while(list($index,$newtid)=each($newtids)){
+   		print '<option ';
+		if(isset($seltid)){if($seltid==$newtid){print 'selected="selected"';}}
+  		print	' value="'.$newtid.'">'.$newtid.'</option>';
+   		}
+?>
+  </select>
+<?php
+	unset($seltid);
+	unset($newtids);
+?>

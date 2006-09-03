@@ -10,13 +10,15 @@
 	if(!isset($required)){$required='yes';}
 	if(!isset($multi)){$multi='4';}
 	if(!isset($icomid)){$icomid='';}else{$icomid++;}
-	if(!isset($type)){$type='%';}
+	if(!isset($type)){$type1='year';$type2='none'}
+	else{$type1=$type;$type2='none'}
 	if(!isset($onchange)){$onchange='no';}
 	if(!isset($selcomids)){$selcomids=(array)$comids;}
+	if($type1=='year' and ($role=='office' or $role=='administrator')){$type2='accepted';}
 
-	/*keeping this simple and making no distinction between community types*/
 	$d_community=mysql_query("SELECT * FROM community WHERE type LIKE
-								'$type' ORDER BY name");
+								'$type1' OR type LIKE '$type2' GROUP
+									BY type ORDER BY name");
 ?>
 	<select style="width:20em;" id="Community"
 		<?php if($required=='yes'){ print ' class="required" ';} ?>
@@ -42,4 +44,6 @@ unset($required);
 unset($multi);
 unset($selcomids);
 unset($onchange);
+unset($type1);
+unset($type2);
 ?>
