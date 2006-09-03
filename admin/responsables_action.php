@@ -8,7 +8,7 @@ include('scripts/sub_action.php');
 
 $crid=$_POST['crid'];
 $bid=$_POST['bid'];
-$yid=$_POST['yid'];
+$yid=$_POST['newyid'];
 $newuid=$_POST['user'];
 $perm=$_POST['privilege'];
 $email=$_POST['email'];
@@ -16,8 +16,8 @@ $email=$_POST['email'];
 
 /* the permissions allowed by change, edit, or view*/
 if($perm=='x'){$newperms=array('r'=>1,'w'=>1,'x'=>1);}
-if($perm=='w'){$newperms=array('r'=1,'w'=>1,'x'=0);}
-if($perm=='r'){$newperms=array('r'=1,'w'=>0,'x'=>0);}
+if($perm=='w'){$newperms=array('r'=>1,'w'=>1,'x'=>0);}
+if($perm=='r'){$newperms=array('r'=>1,'w'=>0,'x'=>0);}
 if($email=='yes'){$newperms['e']=1;}else{$newperms['e']=0;}
 
 $result=array();
@@ -38,7 +38,7 @@ if($yid!=''){
 
 		if($gid==0){print 'Failed on group!'; exit;}
 
-		$result[]=updateStaffPerms($uid,$gid,$newperms);
+		$result[]=updateStaffPerms($newuid,$gid,$newperms);
 
 		}
 	elseif($perm['x']!=1){
@@ -66,7 +66,7 @@ elseif($bid!='' and $crid!=''){
 
 		if($gid==0){print 'Failed on group!'; exit;}
 
-		$result[]=updateStaffPerms($uid,$gid,$newperms);
+		$result[]=updateStaffPerms($newuid,$gid,$newperms);
 
 		}
 	elseif($permc['x']!=1 and $crid!='%'){

@@ -5,7 +5,6 @@
 $choice='new_staff.php';
 $action='new_staff_action.php';
 
-include('scripts/sub_action.php');
 
 three_buttonmenu();
 

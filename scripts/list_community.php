@@ -16,7 +16,7 @@
 	if(!isset($type)){$listtypes[]='year';}
 	else{$listtypes[]=$type;}
 	if($listtypes[0]=='year' and ($_SESSION['role']=='office' 
-						   or $_SESSION['role']=='administrator')){
+						   or $_SESSION['role']=='admin')){
 		$listtypes[]='enquired';$listtypes[]='applied';$listtypes[]='accepted';}
 
 	$listcoms=array();

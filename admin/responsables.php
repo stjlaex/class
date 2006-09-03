@@ -45,20 +45,7 @@ three_buttonmenu();
 	  <div class="right">
 		<fieldset class="center">
 		  <legend><?php print_string('pastoralresponsibility',$book);?></legend>
-		  <label for="Year"><?php print_string('yeargroup');?></label>
-		  <select id="Year" name="yid" size="1">
-<?php
-  	$d_group = mysql_query("SELECT * FROM groups WHERE
-		(yeargroup_id IS NOT NULL OR yeargroup_id!='') 
-		AND (course_id IS NULL OR course_id='') ORDER BY yeargroup_id"); 
-
-	print '<option value="" selected="selected"></option>';
-	while($group=mysql_fetch_array($d_group,MYSQL_ASSOC)){
-		print '<option ';
-		print	' value="'.$group['yeargroup_id'].'">'.$group['name'].'</option>';
-		}
-?>		
-		  </select>
+		  <?php include('scripts/list_year.php');?>
 		</fieldset>
 		<fieldset class="center">
 		  <legend><?php print_string('academicresponsibility',$book);?></legend>

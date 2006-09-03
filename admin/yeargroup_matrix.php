@@ -5,8 +5,6 @@
 $choice='yeargroup_matrix.php';
 $action='yeargroup_matrix_action.php';
 
-$tids=getTeachingStaff();
-
 three_buttonmenu();
 ?>
   <div class="content">
@@ -17,20 +15,11 @@ three_buttonmenu();
 		  <legend><?php print_string('assignyeartoteacher',$book);?></legend>
 
 		<div class="center">
-<?php include('scripts/list_teacher.php');?>
+<?php /*$liststyle='width:95%;'; include('scripts/list_teacher.php')*/;?>
 		</div>
 
 		<div class="center">
-		  <label for="Forms" ><?php print_string('unassignedyeargroups',$book);?></label>
-		  <select id="Forms" name="newfid" size="1" style="width:95%;">
-<?php
-  	$d_year=mysql_query("SELECT id, name FROM yeargroup ORDER BY id"); 
-   	while($year=mysql_fetch_array($d_year,MYSQL_ASSOC)){
-   		print '<option ';
-		print	' value="'.$year['id'].'">'.$year['name'].'</option>';
-		}
-?>		
-		  </select>
+<?php include('scripts/list_year.php');?>
 		</div>
 
 	</fieldset>
@@ -52,9 +41,15 @@ three_buttonmenu();
 	   	print '<tr><td>';
 	   		print '<a href="admin.php?current=yeargroup_edit.php&cancel='.$choice.'&choice='.$choice.'&newtid='.$tid.'&newyid='.$yid.'">'.$year['name'].'</a>';
 		print '</td>';
-	   	print '<td>'.$nosids.'</td>';
-	   	print '<td>'.$tid.'</td>';
-		print '</tr>';
+	   	print '<td>'.$nosids.'</td><td>';
+		/*		$yearrespons=array();
+		$yearrespons[]=array('subject_id'=>'','course_id'=>'','yeargroup_id'=>$yid);
+		$users=(array)getAllResponStaff('',$yearrespons);
+		while(list($index,$user)=each($users)){
+			print $user['username'].' ';
+			}
+		*/
+		print '</td></tr>';
 		}
 ?>
 	  </table>

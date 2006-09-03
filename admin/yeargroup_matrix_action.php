@@ -5,7 +5,7 @@
 $action='yeargroup_matrix.php';
 
 if($_POST['newtid']!=''){$newtid=$_POST['newtid'];}
-if(isset($_POST['newyid'])){$newfid=$_POST['newyid'];}else[$newyid='';]
+if(isset($_POST['newyid'])){$newfid=$_POST['newyid'];}else{$newyid='';}
 
 include('scripts/sub_action.php');
 

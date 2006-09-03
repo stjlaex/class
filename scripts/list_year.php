@@ -10,7 +10,7 @@
 	if(!isset($onsidechange)){$onsidechange='no';}
 ?>
 	<label for="Yeargroup"><?php print_string('yeargroup');?></label>
-	<select id="Yeargroup" name="newyid"
+	<select id="Yeargroup" name="newyid" style="<?php if(isset($liststyle)){print $liststyle;}?>"
 			<?php if($onsidechange=='yes'){ print ' onChange="document.entrybookchoice.submit();" ';} ?> >
 			<?php if($required=='yes'){ print ' class="required" ';} ?> >
     <option value=""></option>

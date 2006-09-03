@@ -52,9 +52,10 @@ function findResponsibles($sid, $bid){
 	return $recipients;
 	}
 
-function getResponStaff($tid,$respons,$r){
-	/* will return all details of users of interest based on the current
-			   	selected respons in an array with the uid as the key*/
+function getResponStaff($tid,$respons,$r=0){
+	/* will return all details of users of interest based on the
+	teachering staff for the classes identified in thecurrent
+	selected respons in an array with the uid as the key*/
    	$users=array();
 	$users=getAllStaff();
 
@@ -79,6 +80,33 @@ function getResponStaff($tid,$respons,$r){
 				}
 			}
 		  }
+		}
+	return $users;
+	}
+
+function getAllResponStaff($respons,$r=0){
+	/* will return all details of users of interest based on the current
+			   	selected respons in an array with the uid as the key*/
+   	$users=array();
+
+	if($r>-1){
+		$rbid=$respons[$r]['subject_id'];
+		$rcrid=$respons[$r]['course_id'];
+		$ryid=$respons[$r]['yeargroup_id'];
+		$d_group=mysql_query("SELECT DISTINCT gid FROM groups WHERE
+			course_id LIKE '$rcrid' AND subject_id LIKE 
+			'$rbid' AND yeargroup_id LIKE '$ryid'");
+		$gid=mysql_result($d_group,0);
+
+		$d_users=mysql_query("SELECT DISTINCT users.uid,
+			   	username, passwd, forename, surname, email, nologin,
+				firstbookpref, role FROM users JOIN perms ON 
+				users.uid=perms.uid WHERE perms.gid='$gid' 
+				ORDER BY username");
+		while($user=mysql_fetch_array($d_users,MYSQL_ASSOC)){
+			$uid=$user['uid'];
+			$users["$uid"]=$user;
+			}
 		}
 	return $users;
 	}
@@ -328,11 +356,11 @@ function updateStaffPerms($uid,$gid,$newperms){
 	$x=$newperms['x'];
 	$e=$newperms['e'];
 
-	if(mysql_query("INSERT perms (uid, gid, r, w, x, e) VALUES ('$newuid',
+	if(mysql_query("INSERT perms (uid, gid, r, w, x, e) VALUES ('$uid',
 				'$gid', '$r', '$w', '$x', 'e')")){
 				$result=get_string('assignednewresponsibilities','admin');
 				}
-	else{mysql_query("UPDATE perms WHERE uid='$newuid' AND
+	else{mysql_query("UPDATE perms WHERE uid='$uid' AND
 				gid='$gid' SET (r='$r', w='$w', x='$x', e='$e')"); 
 				$result=get_string('updatedresponsibilities','admin');
 				}

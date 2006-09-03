@@ -5,8 +5,6 @@
 $choice='new_student.php';
 $action='new_student_action.php';
 
-include('scripts/sub_action.php');
-
 three_buttonmenu();
 
 $Student=fetchStudent();
