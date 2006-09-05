@@ -8,7 +8,7 @@ $action='teacher_matrix_action.php';
 list($crid,$bid,$error)=checkCurrentRespon($r,$respons);
 if($error!=''){include('scripts/results.php');exit;}
 
-$tids=getTeachingStaff($crid,$bid);
+$teachers=getTeachingStaff($crid,$bid);
 
 three_buttonmenu();
 ?>
@@ -17,32 +17,32 @@ three_buttonmenu();
 	  action="<?php print $host; ?>" >
 	  <fieldset class="left">
 		<legend><?php print_string('teachers',$book);?></legend>
-		<div class="left">
-		  <label><?php print_string('subject',$book);?>
+
+		<div class="center">
+		  <label><?php print_string('subject',$book);?></label>
 			<select name="subtid" size="1">
 <?php
    	print '<option value="" selected="selected" ></option>';
-    for($c=0;$c<sizeof($tids);$c++){
-   		$tid=$tids[$c];
-   		print '<option  value="'.$tid.'">'.$tid.'</option>';
+   	while(list($tid,$user)=each($teachers)){
+   		print '<option  value="'.$tid.'">'.$tid.' ('.$user['surname'].')</option>';
    		}
 ?>		
 			</select>
-		  </label>
 		</div>
-		<div class="right">
-			<label><?php print_string('unassigned',$book);?>
+
+		<div class="center">
+		  <label><?php print_string('unassigned',$book);?></label>
 			<select name="tid" size="1">
 <?php
-	$othertids=array_diff(getTeachingStaff(),$tids);
+	$allteachers=getTeachingStaff();
    	print '<option value="" selected="selected" ></option>';		
-   	while(list($index,$othertid)=each($othertids)){
-   		print '<option ';
-  		print	' value="'.$othertid.'">'.$othertid.'</option>';
+   	while(list($tid,$user)=each($allteachers)){
+		if(!array_key_exists($tid,$teachers)){
+			print '<option  value="'.$tid.'">'.$tid.' ('.$user['surname'].')</option>';
+			}
    		}
 ?>		
 			</select>
-		  </label>
 		</div>
 	  </fieldset>
 
@@ -73,7 +73,7 @@ three_buttonmenu();
   	class.subject_id, class.course_id, id"); 
 	while($cids=mysql_fetch_array($d_cids,MYSQL_ASSOC)){
 		print '<option ';
-		print	' value="'.$cids{'id'}.'">'.$cids{'id'}.'</option>';
+		print	' value="'.$cids['id'].'">'.$cids['id'].'</option>';
 		}
 ?>		
 		  </select>
@@ -86,8 +86,6 @@ three_buttonmenu();
 	</form>
   </div>
 
-
-
   <div class="content">
 	  <table style="top:35%;" class="listmenu">
 		<tr>
@@ -95,12 +93,14 @@ three_buttonmenu();
 		  <th><?php print_string('classesalreadyassigned',$book);?></th>
 		</tr>
 <?php
-    for($c=0;$c<sizeof($tids);$c++){
-		$tid=$tids[$c];
-	   	print '<tr><td>'.$tid.'</td>';
+   	reset($teachers);
+   	while(list($tid,$user)=each($teachers)){
+		print '<tr><td>'.$tid.' ('.$user['surname'].')</td>';
 		print '<td>';
-	   	$d_class=mysql_query("SELECT class_id  FROM tidcid WHERE
-					teacher_id='$tid' ORDER BY class_id");   
+	   	$d_class=mysql_query("SELECT class_id  FROM tidcid 
+					JOIN class ON class.id=tidcid.class_id WHERE 
+					tidcid.teacher_id='$tid' AND class.course_id LIKE '$crid' AND
+					class.subject_id LIKE '$bid' ORDER BY tidcid.class_id");   
 	   	while($class=mysql_fetch_array($d_class,MYSQL_ASSOC)){
 			$cids=$class['class_id'];
 			print '<a href="admin.php?current=class_edit.php&cancel='.$choice.'&newtid='.$tid.'&newcid='.$cids.'">'.$cids.'</a>&nbsp&nbsp';

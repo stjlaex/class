@@ -38,8 +38,8 @@ three_buttonmenu();
 	  <table class="listmenu">
 		<tr>
 		  <th><?php print_string('formgroup');?></th>
-		  <th><?php print_string('numberofstudents');?></th>
-		  <th><?php print_string('formtutor');?></th>
+		  <th><?php print_string('numberofstudents',$book);?></th>
+		  <th><?php print_string('formtutor',$book);?></th>
 		</tr>
 <?php
 	$d_form=mysql_query("SELECT * FROM form ORDER BY yeargroup_id");

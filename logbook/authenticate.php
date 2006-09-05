@@ -26,7 +26,7 @@ function getRespons($user){
 	$d_form=mysql_query("SELECT id, yeargroup_id FROM form WHERE
 						  teacher_id='$user' ORDER BY yeargroup_id DESC");
     while($form=mysql_fetch_array($d_form, MYSQL_ASSOC)){
-		$groups[$c]=array('name'=>'Form','form_id'=>$form['id'],'r'=>'1','w'=>'1','x'=>'0',
+		$groups[$c]=array('name'=>'Form','form_id'=>$form['id'],'r'=>'1','w'=>'1','x'=>'1',
 						  'course_id'=>'','subject_id'=>'',
 						  'yeargroup_id'=>$form['yeargroup_id']);
 		$c++;

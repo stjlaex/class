@@ -10,9 +10,10 @@
 	if(!isset($onsidechange)){$onsidechange='no';}
 ?>
 	<label for="Yeargroup"><?php print_string('yeargroup');?></label>
-	<select id="Yeargroup" name="newyid" style="<?php if(isset($liststyle)){print $liststyle;}?>"
-			<?php if($onsidechange=='yes'){ print ' onChange="document.entrybookchoice.submit();" ';} ?> >
-			<?php if($required=='yes'){ print ' class="required" ';} ?> >
+	<select id="Yeargroup" name="newyid" 
+		style="<?php if(isset($liststyle)){print $liststyle;}?>"
+		<?php if($onsidechange=='yes'){ print ' onChange="document.entrybookchoice.submit();" ';} ?>
+		<?php if($required=='yes'){ print ' class="required" ';} ?> >
     <option value=""></option>
 <?php
 		$d_yeargroup=mysql_query("SELECT id, name  FROM yeargroup ORDER BY sequence");
@@ -23,7 +24,9 @@
 			}
 ?>
 	</select>
-<?php  unset($required); unset($selyid); unset($onsidechange);?>
+<?php  
+unset($required); unset($selyid); unset($onsidechange);
+?>
 
 
 

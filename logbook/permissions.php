@@ -20,21 +20,21 @@ function findResponsibles($sid, $bid){
 
 	/*academic groups for course and subject*/
 	if($bid!='' and $bid!='%' and $bid!='General'){
-	  	$d_class = mysql_query("SELECT course_id FROM class JOIN cidsid
+	  	$d_class=mysql_query("SELECT course_id FROM class JOIN cidsid
 		  	ON cidsid.class_id=class.id WHERE
 		  	class.subject_id='$bid' AND cidsid.student_id='$sid'"); 
 		$crid=mysql_result($d_class,0);
-	  	$d_group = mysql_query("SELECT gid FROM groups WHERE
+	  	$d_group=mysql_query("SELECT gid FROM groups WHERE
 		  	course_id='$crid' AND groups.subject_id='%'"); 
 		$group=mysql_fetch_array($d_group);
 		$gids[]=$group['gid'];
 
-	  	$d_group = mysql_query("SELECT gid FROM groups WHERE
+	  	$d_group=mysql_query("SELECT gid FROM groups WHERE
 		  	course_id='%' AND groups.subject_id='$bid'"); 
 		$group=mysql_fetch_array($d_group);
 		$gids[]=$group['gid'];
 
-	  	$d_group = mysql_query("SELECT gid FROM groups WHERE
+	  	$d_group=mysql_query("SELECT gid FROM groups WHERE
 		  	course_id='$crid' AND groups.subject_id='$bid'"); 
 		$group=mysql_fetch_array($d_group);
 		$gids[]=$group['gid'];
@@ -54,7 +54,7 @@ function findResponsibles($sid, $bid){
 
 function getResponStaff($tid,$respons,$r=0){
 	/* will return all details of users of interest based on the
-	teachering staff for the classes identified in thecurrent
+	teaching staff for the classes identified in the current
 	selected respons in an array with the uid as the key*/
    	$users=array();
 	$users=getAllStaff();
@@ -62,11 +62,8 @@ function getResponStaff($tid,$respons,$r=0){
 	if($r>-1){
 		$rbid=$respons[$r]['subject_id'];
 		$rcrid=$respons[$r]['course_id'];
-		$ryid=$respons[$r]['yeargroup_id'];
-		if($ryid==''){$rstage='%';}
 		$d_cids=mysql_query("SELECT DISTINCT id FROM class WHERE
-		subject_id LIKE '$rbid' AND course_id LIKE '$rcrid' AND
-		stage LIKE '$rstage' ORDER BY id");
+		subject_id LIKE '$rbid' AND course_id LIKE '$rcrid' ORDER BY id");
 		while($cid=mysql_fetch_row($d_cids)){
 			$d_users=mysql_query("SELECT DISTINCT uid,
 			   	username, passwd, forename, surname, email, nologin,
@@ -84,29 +81,28 @@ function getResponStaff($tid,$respons,$r=0){
 	return $users;
 	}
 
-function getAllResponStaff($respons,$r=0){
+function getPastoralStaff($ryid,$perms){
 	/* will return all details of users of interest based on the current
-			   	selected respons in an array with the uid as the key*/
+	 * selected yeargroup in an array with the uid as the key
+	 * a head of year would be 111, form tutors 110
+	 */
    	$users=array();
 
-	if($r>-1){
-		$rbid=$respons[$r]['subject_id'];
-		$rcrid=$respons[$r]['course_id'];
-		$ryid=$respons[$r]['yeargroup_id'];
-		$d_group=mysql_query("SELECT DISTINCT gid FROM groups WHERE
-			course_id LIKE '$rcrid' AND subject_id LIKE 
-			'$rbid' AND yeargroup_id LIKE '$ryid'");
-		$gid=mysql_result($d_group,0);
-
-		$d_users=mysql_query("SELECT DISTINCT users.uid,
+	$r=$perms['r'];
+	$w=$perms['w'];
+	$x=$perms['x'];
+	$d_group=mysql_query("SELECT DISTINCT gid FROM groups WHERE
+			course_id IS NULL AND subject_id IS NULL 
+			AND yeargroup_id LIKE '$ryid'");
+	$gid=mysql_result($d_group,0);
+	$d_users=mysql_query("SELECT DISTINCT users.uid,
 			   	username, passwd, forename, surname, email, nologin,
 				firstbookpref, role FROM users JOIN perms ON 
-				users.uid=perms.uid WHERE perms.gid='$gid' 
-				ORDER BY username");
-		while($user=mysql_fetch_array($d_users,MYSQL_ASSOC)){
-			$uid=$user['uid'];
-			$users["$uid"]=$user;
-			}
+				users.uid=perms.uid WHERE perms.gid='$gid' AND perms.r='$r' 
+				AND perms.w='$w' AND perms.x='$x'");
+	while($user=mysql_fetch_array($d_users,MYSQL_ASSOC)){
+		$uid=$user['uid'];
+		$users["$uid"]=$user;
 		}
 	return $users;
 	}
@@ -125,26 +121,32 @@ function getAllStaff(){
 	}
 
 function getTeachingStaff($crid='',$bid=''){
-	$tids=array();
+	$users=array();
 	if($crid!='' or $bid!=''){
 		/*Get ids for the teachers of this subject and store in tids[]*/
 		$d_teacher=mysql_query("SELECT DISTINCT teacher_id FROM tidcid JOIN
 				class ON class.id=tidcid.class_id WHERE class.subject_id LIKE '$bid' 
 				AND class.course_id LIKE '$crid' ORDER BY teacher_id");
-		$tids=array();
 		while($teacher=mysql_fetch_array($d_teacher,MYSQL_ASSOC)){
-			$tids[]=$teacher['teacher_id'];
+			$tid=$teacher['teacher_id'];
+			$d_users=mysql_query("SELECT uid, username, passwd, forename,
+				surname, email, nologin, firstbookpref, role
+				FROM users WHERE username='$tid'");
+			$user=mysql_fetch_array($d_users,MYSQL_ASSOC);
+			$users["$tid"]=$user;
 			}
 		}
 	else{
 		/*Otherwise just return all active teaching staff ie. nologin=0*/
-		$d_teacher=mysql_query("SELECT username FROM users WHERE
+		$d_user=mysql_query("SELECT uid, username, passwd, forename,
+				surname, email, nologin, firstbookpref, role FROM users WHERE
 		role='teacher' AND nologin='0' ORDER BY username");
-		while($teacher=mysql_fetch_array($d_teacher,MYSQL_ASSOC)){
-			$tids[]=$teacher['username'];
+		while($user=mysql_fetch_array($d_user,MYSQL_ASSOC)){
+			$tid=$user['username'];
+			$users["$tid"]=$user;
 			}
 		}
-	return $tids;
+	return $users;
 	}
 
 function checkCurrentRespon($r,$respons,$required='subject'){
@@ -208,7 +210,7 @@ function getFormPerm($fid,$respons){
 	if($_SESSION['role']=='admin'){$perm['r']=1; $perm['w']=1; $perm['x']=1;}		
 	return $perm;
 	}
-	
+
 function getMarkPerm($mid, $respons){
 	$d_class=mysql_query("SELECT subject_id, course_id FROM class
 		 JOIN midcid ON class.id=midcid.class_id WHERE midcid.mark_id='$mid'");
@@ -356,12 +358,12 @@ function updateStaffPerms($uid,$gid,$newperms){
 	$x=$newperms['x'];
 	$e=$newperms['e'];
 
-	if(mysql_query("INSERT perms (uid, gid, r, w, x, e) VALUES ('$uid',
-				'$gid', '$r', '$w', '$x', 'e')")){
+	if(mysql_query("INSERT perms (uid, gid, r, w, x, e) VALUES
+				('$uid', '$gid', '$r', '$w', '$x', '$e')")){
 				$result=get_string('assignednewresponsibilities','admin');
 				}
-	else{mysql_query("UPDATE perms WHERE uid='$uid' AND
-				gid='$gid' SET (r='$r', w='$w', x='$x', e='$e')"); 
+	else{mysql_query("UPDATE perms SET r='$r', w='$w', x='$x',
+				e='$e' WHERE uid='$uid' AND gid='$gid'"); 
 				$result=get_string('updatedresponsibilities','admin');
 				}
 	return $result;

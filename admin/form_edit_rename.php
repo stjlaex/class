@@ -18,7 +18,6 @@ if($sub=='Submit'){
 		form_id='$oldname'");
 	$result[]=$oldname.':'.$newname;
 	$action=$cancel;
-	include('scripts/results.php');
 	include('scripts/redirect.php');
 	exit;
 	}
@@ -28,20 +27,21 @@ else{
 ?>
   <div class="content">
 	<form name="formtoprocess" id="formtoprocess" method="post"
-	  action="<?php print $host; ?>">
+								action="<?php print $host; ?>">
 
 	  <fieldset class="center">
 		<legend><?php print_string('changegroupname',$book);?></legend>
 
 		<div class="center">
-		  <label><?php print_string('oldname',$book);?></label>
-			<input type="text" name="oldname" value="<?php print $oldname;?>" />
-
+		  <label for="Currentname"><?php print_string('currentgroupname',$book);?></label>
+			<input type="text" id="Currentname"  tabindex="1"  maxlength="10"
+						class="required" name="oldname" value="<?php print $oldname;?>" />
 		</div>
 
 		<div class="center">
-		  <label><?php print_string('newname',$book);?></label>
-			<input type="text" id="name" name="newname"
+		  <label for="Newname"><?php print_string('newgroupname',$book);?></label>
+			<input type="text" id="Newname" name="newname"
+						tabindex="2" maxlength="10"
 							class="required" value="" />
 		</div>
 

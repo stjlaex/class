@@ -15,49 +15,49 @@ $cancel='';
 
 include('scripts/head_options.php');
 
-if(!isset($_SESSION{'infosid'})){$_SESSION{'infosid'}='';}
-if(!isset($_SESSION{'infosids'})){$_SESSION{'infosids'}=array();}
-if(!isset($_SESSION{'infoStudent'})){$_SESSION{'infoStudent'}='';}
-if(isset($_SESSION{'infocurrent'})){$current=$_SESSION{'infocurrent'};}
+if(!isset($_SESSION['infosid'])){$_SESSION['infosid']='';}
+if(!isset($_SESSION['infosids'])){$_SESSION['infosids']=array();}
+if(!isset($_SESSION['infoStudent'])){$_SESSION['infoStudent']='';}
+if(isset($_SESSION['infocurrent'])){$current=$_SESSION['infocurrent'];}
 
-if(isset($_GET{'sids'})){
+if(isset($_GET['sids'])){
 	/*If the students selection has changed then*/
-	if($_SESSION{'infosids'}!=$_GET{'sids'}){
-		$_SESSION{'infosids'}=$_GET{'sids'}; 
-		$_SESSION{'umnrank'}='surname';
+	if($_SESSION['infosids']!=$_GET['sids']){
+		$_SESSION['infosids']=$_GET['sids']; 
+		$_SESSION['umnrank']='surname';
 		}
 	$current='student_list.php';
 	}
 	
-if(isset($_POST{'sids'})){
+if(isset($_POST['sids'])){
 	/*If the students selection has changed then*/
-	if($_SESSION{'infosids'}!=$_POST{'sids'}){
-		$_SESSION{'infosids'}=$_POST{'sids'}; 
-		$_SESSION{'umnrank'}='surname';
+	if($_SESSION['infosids']!=$_POST['sids']){
+		$_SESSION['infosids']=$_POST['sids']; 
+		$_SESSION['umnrank']='surname';
 		}
 	$current='student_list.php';
 	}
 
-if(isset($_GET{'sid'})){
+if(isset($_GET['sid'])){
 	/*If the students selection has changed then*/
-	if($_SESSION{'infosid'}!=$_GET{'sid'}){
-		$_SESSION{'infosid'}=$_GET{'sid'}; 
-		$_SESSION{'umnrank'}='surname';
+	if($_SESSION['infosid']!=$_GET['sid']){
+		$_SESSION['infosid']=$_GET['sid']; 
+		$_SESSION['umnrank']='surname';
 		}
 	$current='student_view.php';
 	}
 
-if(isset($_POST{'sid'})){
+if(isset($_POST['sid'])){
 	/*If the students selection has changed then*/
-	if($_SESSION{'infosid'}!=$_POST{'sid'}){
-		$_SESSION{'infosid'}=$_POST{'sid'}; 
-		$_SESSION{'umnrank'}='surname';
+	if($_SESSION['infosid']!=$_POST['sid']){
+		$_SESSION['infosid']=$_POST['sid']; 
+		$_SESSION['umnrank']='surname';
 		}
 	$current='student_view.php';
 	}
 
-$sid=$_SESSION{'infosid'};
-$sids=$_SESSION{'infosids'};
+$sid=$_SESSION['infosid'];
+$sids=$_SESSION['infosids'];
 $sidskey=array_search($sid,$sids);	
 /*temprary moved fetchStudent out of the conditionals to solve server */
 /* dependent issue*/

@@ -62,6 +62,12 @@ $string['unassignform']='Unassign teacher';
 $string['assignformtoteacher']='Assign a teacher to a form';
 $string['updatedresponsibilities']='Updated responsibilities';
 $string['assignednewresponsibilities']='Assigned new responsibilities.';
+$string['numberofstudents']='Number of students';
+$string['yearresponsible']='Yeargroup responsibles';
+$string['assignyeartoteacher']='Assign yeargroup responsibilities';
+$string['currentgroupname']='Current name of group';
+$string['newgroupname']='New name of group';
+$string['changegroupname']='Change the name of this group';
 $string['']='';
 $string['']='';
 ?>

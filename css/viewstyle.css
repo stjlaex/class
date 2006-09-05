@@ -20,6 +20,8 @@ input, textarea, select {
 	float:left;
     width:auto;
 	border:2px solid #cccccc;
+    padding:2px;
+    margin:2px;
 	}
 input:focus, textarea:focus, select:focus {
 	border-color:#ff9900;
@@ -74,11 +76,9 @@ label>input, label>select[size="1"], label>textarea {
 	margin-bottom:5px; margin-left:5px;
 	}
 label>select[multiple="multiple"] {
-	clear:left;
 	margin-bottom:5px; margin-left:5px;
 	}
 label+select[multiple="multiple"] {
-	clear:left;
 	margin-bottom:5px; margin-left:5px;
 	}
 form img {
@@ -98,9 +98,8 @@ form img.completed {
 	background-image: url("../images/greentick.png");
     padding:1%;
 	}
-form img.caution+input {
+form img.caution+input, form img.caution+select {
 	background-color:yellow;
-    padding:1%;
 	}
 form img.calendar { 
 	background-image: url("../images/calendar.png"); 
@@ -300,10 +299,6 @@ table.listmenu {
 	border-color:#cccccc;
 	background-color:#ffffee;
     padding-left:1%;
-	}
-.listmenu input, .listmenu select {
-    padding:2px;
-    margin:2px;
 	}
 .listmenu .special {
 	font-weight:600; font-style:italic;

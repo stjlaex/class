@@ -18,6 +18,6 @@ $string['outoftotal']='Out of total';
 $string['newdefinition']='Add NEW defintion';
 $string['newuserdefinedmarktype']='Create a new user-defined mark-type';
 $string['chooseamarkdefinition']='Choose mark definition';
-$string['']='';
+$string['decimalvalue']='Decimal value';
 $string['']='';
 ?>

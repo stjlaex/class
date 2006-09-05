@@ -51,7 +51,7 @@ else{
 
 <form name="formtoprocess" id="formtoprocess" method="post" action="logbook/login_action.php">
 <fieldset id="loginbox">
-<legend><?php print_string('classarea');?></legend>
+		 <legend><?php print_string('classarea');?></legend>
 
 <div class="center">
 <table>
@@ -59,7 +59,7 @@ else{
 <td><label for="Username"><?php print_string('username');?></label></td>
 <td><input type="text" id="Username" name="username" class="required" tabindex="1" 
 	maxlength="20" pattern="truealphanumeric" 
-		onkeypress="capsCheck(arguments[0]);" >
+		onkeypress="capsCheck(arguments[0]);" />
 </td>
 </tr>
 
@@ -69,7 +69,7 @@ else{
 <td>
 <td><input type="password" id="Password" name="password" class="required" tabindex="2" 
 	maxlength="20" pattern="truealphanumeric" 
-		onkeypress="capsCheck(arguments[0]);" >
+		onkeypress="capsCheck(arguments[0]);" />
 </td>
 </tr>
 </table>

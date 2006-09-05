@@ -4,8 +4,8 @@
 
 $action='yeargroup_matrix.php';
 
-if($_POST['newtid']!=''){$newtid=$_POST['newtid'];}
-if(isset($_POST['newyid'])){$newfid=$_POST['newyid'];}else{$newyid='';}
+if(isset($_POST['newtid'])){$newtid=$_POST['newtid'];}else{$newtid='';}
+if(isset($_POST['newyid'])){$newyid=$_POST['newyid'];}else{$newyid='';}
 
 include('scripts/sub_action.php');
 
@@ -14,7 +14,7 @@ if($newtid!='' AND $newyid!=''){
 	$perm=getYearPerm($newyid,$respons);
 	$neededperm='x';
 	include('scripts/perm_action.php');
-	$newperms=array('r'=>1,'w'=>1,'x'=>0,'e'=>1);
+	$newperms=array('r'=>1,'w'=>1,'x'=>1,'e'=>1);
 	$d_users=mysql_query("SELECT uid FROM users WHERE
 							username='$newtid' AND nologin='0'");
 	$uid=mysql_result($d_users,0);

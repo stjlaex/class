@@ -46,25 +46,22 @@ three_buttonmenu();
 	  <fieldset class="left">
 		<legend><?php print_string('classesthatusethismark',$book);?></legend>
 <?php
-/*	select the classes that already use this mark*/
+	/*select the classes that already use this mark*/
 	$oldcids=array();
-   	$d_cids = mysql_query("SELECT class_id  FROM midcid WHERE mark_id='$mid' ORDER BY class_id");
+   	$d_cids=mysql_query("SELECT class_id  FROM midcid WHERE mark_id='$mid' ORDER BY class_id");
     while($oldcid = mysql_fetch_array($d_cids,MYSQL_ASSOC)){$oldcids[]=$oldcid['class_id'];}
 
-/*	select all possible classes to apply the mark to*/
+	/*select all possible classes to apply the mark to*/
 	if($r>-1){
-/*	   	either by current responsibility choice*/
-	 	$rbid=$respons[$r]{'subject_id'};
-		$rcrid=$respons[$r]{'course_id'};
-		$ryid=$respons[$r]{'yeargroup_id'};
-		if($ryid==''){$ryid='%';}
+		/*	   	either by current responsibility choice*/
+	 	$rbid=$respons[$r]['subject_id'];
+		$rcrid=$respons[$r]['course_id'];
 		$d_cids=mysql_query("SELECT DISTINCT id AS class_id FROM class WHERE
 			(subject_id LIKE '$rbid' OR subject_id='%') AND (course_id
-			LIKE '$rcrid' OR course_id='%') AND (yeargroup_id LIKE '$ryid'
-				OR yeargroup_id='%') ORDER BY id");
+			LIKE '$rcrid' OR course_id='%') ORDER BY id");
 		}
-	else {	 
-/*	by the subject of this class*/
+	else{	 
+		/*by the subject of this class*/
 		$cid=$cids[0];
 		$d_bid = mysql_query("SELECT DISTINCT subject_id FROM class WHERE id='$cid'");
 		$bid = mysql_result($d_bid,0);
@@ -106,12 +103,11 @@ three_buttonmenu();
 
 <?php
 
-/*	Editing the outoftotal needs to be added to the edit scores screen,
- *	as each score row needs to be checked against the default value and updated appropriately
-*/
+ /*	Editing the outoftotal needs to be added to the edit scores screen,
+  *	as each score row needs to be checked against the default value and updated appropriately
+  */
 	$total=$mark['total'];
 
-/*************************************************/	
 ?>
 	  <fieldset class="right">
 		<legend><?php print_string('subjectcomponent');?></legend>
@@ -224,11 +220,11 @@ three_buttonmenu();
 		  </tr>
 		</table>
 	  </fieldset>
-	  <input type="hidden" name="mid" value="<?php print $mid; ?>" />
+	    <input type="hidden" name="mid" value="<?php print $mid; ?>" />
 		<input type="hidden" name="total" value="<?php print $total; ?>" />
-		  <input type="hidden" name="current" value="<?php print $action;?>" />
-			<input type="hidden" name="choice" value="<?php print $choice;?>" />
-			  <input type="hidden" name="cancel" value="<?php print $choice;?>" />
+		<input type="hidden" name="current" value="<?php print $action;?>" />
+		<input type="hidden" name="choice" value="<?php print $choice;?>" />
+		<input type="hidden" name="cancel" value="<?php print $choice;?>" />
 	</form>	
   </div>
 

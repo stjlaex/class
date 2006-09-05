@@ -6,7 +6,6 @@
 
 $action='student_view_action.php';
 
-include('scripts/sub_action.php');
 twoplus_buttonmenu($sidskey,sizeof($sids));
 ?>
   <div id="heading">

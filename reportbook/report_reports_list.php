@@ -72,10 +72,10 @@ twoplusprint_buttonmenu();
 			while(list($index2,$summary)=each($summaries)){
 				$summaryid=$summary['subject_id'];
 				if($summary['type']=='com'){
-					if($formperm['w']==1 and $summaryid=='form'){
+					if($formperm['x']==1 and $summaryid=='form'){
 						print '<th>'.get_string('formtutor').'</th>';
 						}
-					elseif($yearperm['w']==1 and $summaryid=='year'){
+					elseif($yearperm['x']==1 and $summaryid=='year'){
 						print '<th>'.get_string('yearhead').'</th>';
 						}
 					}
