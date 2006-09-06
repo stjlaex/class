@@ -4,10 +4,10 @@
 
 $action='responsables.php';
 
-$bid=$_GET{'bid'};
-$crid=$_GET{'crid'};
-$gid=$_GET{'gid'};
-$uid=$_GET{'uid'};
+$bid=$_GET['bid'];
+$crid=$_GET['crid'];
+$gid=$_GET['gid'];
+$uid=$_GET['uid'];
 
 	$permc=getCoursePerm($crid, $respons);
 	$permb=getSubjectPerm($bid, $respons);
@@ -18,8 +18,8 @@ $uid=$_GET{'uid'};
 		$error[]='You don\'t have the permissions to change this!';
 		}
 	else{
-		mysql_query("DELETE FROM perms WHERE uid='$uid' AND gid='$gid' LIMIT 1");
-		$result[]='Removed academic responsibility.';
+		$staffperms=array('r'=>0,'w'=>0,'x'=>0);
+		$result[]=updateStaffPerms($uid,$gid,$staffperms);
 		}
 
 include('scripts/results.php');

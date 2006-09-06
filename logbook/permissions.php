@@ -107,12 +107,12 @@ function getPastoralStaff($ryid,$perms){
 	return $users;
 	}
 
-function getAllStaff(){
+function getAllStaff($nologin='%'){
 	/* will return all details of users*/
    	$users=array();
 	$d_users=mysql_query("SELECT uid, username, passwd, forename,
 				surname, email, nologin, firstbookpref, role
-				FROM users ORDER BY username");
+				FROM users WHERE nologin LIKE '$nologin' ORDER BY role, username");
 	while($user=mysql_fetch_array($d_users,MYSQL_ASSOC)){;
 		$uid=$user['uid'];
 		$users["$uid"]=$user;
@@ -358,14 +358,20 @@ function updateStaffPerms($uid,$gid,$newperms){
 	$x=$newperms['x'];
 	$e=$newperms['e'];
 
-	if(mysql_query("INSERT perms (uid, gid, r, w, x, e) VALUES
+	if($r==0 and $w==0 and $x==0){
+		mysql_query("DELETE FROM perms WHERE uid='$uid' AND gid='$gid' LIMIT 1");
+		$result=get_string('removedresponsibility','admin');
+		}
+	else{
+		if(mysql_query("INSERT perms (uid, gid, r, w, x, e) VALUES
 				('$uid', '$gid', '$r', '$w', '$x', '$e')")){
 				$result=get_string('assignednewresponsibilities','admin');
 				}
-	else{mysql_query("UPDATE perms SET r='$r', w='$w', x='$x',
+		else{mysql_query("UPDATE perms SET r='$r', w='$w', x='$x',
 				e='$e' WHERE uid='$uid' AND gid='$gid'"); 
 				$result=get_string('updatedresponsibilities','admin');
 				}
+		}
 	return $result;
 	}
 ?>

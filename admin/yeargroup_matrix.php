@@ -47,8 +47,11 @@ three_buttonmenu();
 	   	print '<td>'.$nosids.'</td><td>';
 		$yearperms=array('r'=>1,'w'=>1,'x'=>1);/*head of years only*/
 		$users=(array)getPastoralStaff($yid,$yearperms);
-		while(list($index,$user)=each($users)){
-			if($user['role']!='office' and $user['role']!='admin'){print $user['username'].' ';}
+		while(list($uid,$user)=each($users)){
+			if($user['role']!='office' and $user['role']!='admin'){
+				print '<a href="admin.php?current=responsables_edit_pastoral.php&action='. 
+				$choice.'&uid='.$uid.'&yid='.$yid.'">'.$user['username'].' '.'</a>';
+				}
 			}
 		print '</td></tr>';
 		}

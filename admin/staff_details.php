@@ -17,19 +17,22 @@ three_buttonmenu();
 		<legend><?php print_string('selectstafftoedit',$book);?></legend>
 		<label for="Staff"><?php print_string('username');?></label>
 		<div>
-		  <select name="newuid" size="4" onChange="processContent(this);">
-<?php	
+		  <select tabindex="<?php print $tab++;?>" 
+			name="newuid" size="4" onChange="processContent(this);">
+<?php
    foreach($users as $uid => $user){
-		print '<option ';
-		if($uid==$seluid){print 'selected="selected"';}
-		print	' value="'.$uid.'">'.$user['username'].'</option>';
-		}
+	   if($user['username']!='administrator'){
+			print '<option ';
+			if($uid==$seluid){print 'selected="selected"';}
+			print	' value="'.$uid.'">'.$user['username'].'  ('.$user['surname'].')</option>';
+			}
+	   }
 ?>
 		  </select>
 		</div>
 	  </fieldset>
 
-<?php $user=$users["$seluid"]; ?>
+<?php $user=$users[$seluid]; ?>
 
 	  <fieldset class="center">
 		<legend><?php print_string('changedetails',$book);?></legend>
@@ -37,20 +40,23 @@ three_buttonmenu();
 		  <label for="Surname"><?php print_string('surname');?></label>
 		  <input class="required" pattern="alphanumeric"
 			type="text" id="Surname" name="surname" maxlength="30"
-		  value="<?php print $user['surname'];?>" />  
+		  value="<?php print $user['surname'];?>" tabindex="<?php print $tab++;?>" />  
 
 			<label for="Forename"><?php print_string('forename');?></label>
 			<input class="required" pattern="alphanumeric"
 			  type="text" id="Forename" name="forename" 
-			maxlength="30" value="<?php print $user['forename'];?>" />
+			  maxlength="30" value="<?php print $user['forename'];?>" 
+			  tabindex="<?php print $tab++;?>" />
 
 			  <label for="Email"><?php print_string('email');?></label>
 			  <input pattern="email"
 				type="text" id="Email" name="email" 
-				maxlength="190" style="width:60%;" value="<?php print $user['email'];?>" />
+				maxlength="190" style="width:60%;" 
+				tabindex="<?php print $tab++;?>" 
+				value="<?php print $user['email'];?>" />
 
 			  <label for="Firstbook"><?php print_string('firstbookpref',$book);?></label>
-				<input pattern="alphanumeric"
+				<input pattern="alphanumeric" tabindex="<?php print $tab++;?>" 
 				  type="text" id="Firstbook" name="firstbookpref" class="required"
 				  maxlength="190" style="width:60%;" 
 				  value="<?php print $user['firstbookpref'];?>" />
@@ -58,7 +64,7 @@ three_buttonmenu();
 
 		<div class="right">
 		  <label for="ID"><?php print_string('username');?></label>
-		  <input pattern="alphanumeric" readonly="readonly" 
+		  <input pattern="alphanumeric" readonly="readonly" tabindex="<?php print $tab++;?>" 
 				type="text" id="ID" name="username" 
 				maxlength="14" value="<?php print $user['username'];?>" />
 
@@ -66,17 +72,18 @@ three_buttonmenu();
 if($tid=="administrator"){
 ?>
   	<label for="Password"><?php print_string('newpassword',$book);?></label>
-			<input pattern="truealphanumeric"
+			<input pattern="truealphanumeric" tabindex="<?php print $tab++;?>" 
 			  type="password" id="Password" name="password1" 
 			  maxlength="20" style="width:20%;" />
 
   	<label for="Password2"><?php print_string('retypenewpassword',$book);?></label>
-			  <input pattern="truealphanumeric"
+			  <input pattern="truealphanumeric" tabindex="<?php print $tab++;?>" 
 				type="password" id="Password2" name="password2" 
 				maxlength="20" style="width:20%;" />
 
 				<label for="No Login"><?php print_string('disablelogin',$book);?></label>
-				<input type="checkbox" id="No Login" name="nologin" 
+				<input type="checkbox" id="No Login" 
+				  name="nologin"  tabindex="<?php print $tab++;?>" 
 				  <?php if($user['nologin']=='1'){print 'checked="checked"';}?> value="1"/>
 <?php
 		}

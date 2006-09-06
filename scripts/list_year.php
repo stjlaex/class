@@ -11,6 +11,7 @@
 ?>
 	<label for="Yeargroup"><?php print_string('yeargroup');?></label>
 	<select id="Yeargroup" name="newyid" 
+		tabindex="<?php print $tab++;?>" 
 		style="<?php if(isset($liststyle)){print $liststyle;}?>"
 		<?php if($onsidechange=='yes'){ print ' onChange="document.entrybookchoice.submit();" ';} ?>
 		<?php if($required=='yes'){ print ' class="required" ';} ?> >

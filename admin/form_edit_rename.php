@@ -34,14 +34,15 @@ else{
 
 		<div class="center">
 		  <label for="Currentname"><?php print_string('currentgroupname',$book);?></label>
-			<input type="text" id="Currentname"  tabindex="1"  maxlength="10"
-						class="required" name="oldname" value="<?php print $oldname;?>" />
+			<input type="text" id="Currentname" maxlength="10"
+				readonly="readonly" 
+				class="required" name="oldname" value="<?php print $oldname;?>" />
 		</div>
 
 		<div class="center">
 		  <label for="Newname"><?php print_string('newgroupname',$book);?></label>
 			<input type="text" id="Newname" name="newname"
-						tabindex="2" maxlength="10"
+						tabindex="<?php print $tab++;?>" maxlength="10"
 							class="required" value="" />
 		</div>
 

@@ -301,7 +301,7 @@ function loadRequired(){
 		for(c=0; c<formObject.elements.length; c++){
 			elementObject=formObject.elements[c];
 			if(elementObject.className=='required'){
-				elementObject.setAttribute('onBlur','validateRequired(this)');
+				elementObject.setAttribute('onChange','validateRequired(this)');
 				imageRequired=document.createElement('img');
 				imageRequired.className='required';
 				elementObject.parentNode.insertBefore(imageRequired, elementObject);
@@ -366,7 +366,7 @@ function validateForm(formObject){
 
 
 //-------------------------------------------------------
-// does validation for one input field triggered by onBlur
+// does validation for one input field triggered by an event
 
 function validateRequired(formField){
 	var fieldImage=formField.previousSibling;

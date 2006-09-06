@@ -14,13 +14,7 @@ if(isset($_POST{'classestoo'})){$classestoo=$_POST{'classestoo'};}
 
 include('scripts/sub_action.php');
 
-if($sub=='Unassign'){
-   	mysql_query("UPDATE form SET teacher_id='' WHERE 
-		teacher_id='$newtid' AND id='$fid'");
-    $action=$cancel;
-	}
-
-elseif($sub=='Submit'){
+if($sub=='Submit'){
 
     $changecids=array();
 	$changecids=formsClasses($fid);

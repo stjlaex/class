@@ -20,7 +20,7 @@ three_buttonmenu();
 
 		<div class="center">
 		  <label><?php print_string('subject',$book);?></label>
-			<select name="subtid" size="1">
+			<select tabindex="<?php print $tab++;?>" name="subtid" size="1">
 <?php
    	print '<option value="" selected="selected" ></option>';
    	while(list($tid,$user)=each($teachers)){
@@ -32,7 +32,7 @@ three_buttonmenu();
 
 		<div class="center">
 		  <label><?php print_string('unassigned',$book);?></label>
-			<select name="tid" size="1">
+			<select name="tid"  tabindex="<?php print $tab++;?>" size="1">
 <?php
 	$allteachers=getTeachingStaff();
    	print '<option value="" selected="selected" ></option>';		
@@ -50,7 +50,8 @@ three_buttonmenu();
 		<legend><?php print_string('classes',$book);?></legend>
 		<div class="left">
 		  <label for="Unassigned"><?php print_string('unassigned',$book);?></label>
-		  <select id="Unassigned" name="newcid[]" size="6" multiple="multiple">
+		  <select id="Unassigned" name="newcid[]"  
+			tabindex="<?php print $tab++;?>" size="6" multiple="multiple">
 <?php		
   	$d_cids=mysql_query("SELECT DISTINCT class.id FROM class LEFT JOIN tidcid
 	  	ON class.id=tidcid.class_id WHERE tidcid.class_id IS NULL AND class.subject_id
@@ -65,7 +66,8 @@ three_buttonmenu();
 		</div>
 		<div class="right">
 		  <label for="Assigned"><?php print_string('assigned',$book);?></label>
-		  <select id="Assigned" name="newcid[]" size="6" multiple="multiple">
+		  <select id="Assigned" name="newcid[]" 
+			tabindex="<?php print $tab++;?>" size="6" multiple="multiple">
 <?php
   	$d_cids=mysql_query("SELECT DISTINCT class.id FROM class LEFT
   	JOIN tidcid ON class.id=tidcid.class_id WHERE tidcid.class_id IS
@@ -80,7 +82,7 @@ three_buttonmenu();
 		</div>
 	  </fieldset>
 
-	  <input type="hidden" name="current" value="<?php print $action;?>" />
+	    <input type="hidden" name="current" value="<?php print $action;?>" />
 		<input type="hidden" name="choice" value="<?php print $choice;?>" />
 		<input type="hidden" name="cancel" value="<?php print '';?>" />
 	</form>

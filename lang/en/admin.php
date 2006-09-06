@@ -68,6 +68,7 @@ $string['assignyeartoteacher']='Assign yeargroup responsibilities';
 $string['currentgroupname']='Current name of group';
 $string['newgroupname']='New name of group';
 $string['changegroupname']='Change the name of this group';
-$string['']='';
+$string['removedresponsibility']='Removed responsibility';
+$string['config']='Configure';
 $string['']='';
 ?>

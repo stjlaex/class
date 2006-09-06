@@ -22,6 +22,7 @@ if(isset($_POST{'cancel'})){$cancel=$_POST{'cancel'};}
 $_SESSION{'admincurrent'}=$current;
 $_SESSION{'adminchoice'}=$choice;
 $rtid=$tid;
+$tab=1;
 ?>
   <div id="bookbox" class="admincolor">
 <?php	
@@ -36,7 +37,7 @@ $rtid=$tid;
 	<fieldset class="admin"><legend><?php print_string('manage');?></legend>
 	  <form id="adminchoice" name="adminchoice" method="post" 
 		action="admin.php" target="viewadmin">
-		<select name="current" size="14" onChange="document.adminchoice.submit();">
+		<select name="current" size="6" onChange="document.adminchoice.submit();">
 		  <option 
 			<?php if($choice=='teacher_matrix.php'){print 'selected="selected" ';} ?>
 				value='teacher_matrix.php'>
@@ -53,22 +54,30 @@ $rtid=$tid;
 			<?php print_string('yeargroups');?>
 		  </option>
 		  <option 
-			<?php if($choice=='staff_details.php'){print 'selected="selected" ';}?>
-				value='staff_details.php'>
-			<?php print_string('staffdetails');?>
-		  </option>
-		  <option 
 			<?php if($choice=='responsables.php'){print 'selected="selected" ';}?>
 				value='responsables.php'>
 			<?php print_string('responsibilities');?>
 		  </option>
+		  <option 
+			<?php if($choice=='staff_details.php'){print 'selected="selected" ';}?>
+				value='staff_details.php'>
+			<?php print_string('staffdetails');?>
+		  </option>
 		  <option <?php if($choice=='counter.php'){print
 		'selected="selected" ';}?>value='counter.php'>
 		  <?php print_string('logcounter');?></option>
+
+		</select>
+	  </form>
+	</fieldset>
+
 <?php 
 	if($rtid=='administrator'){
 ?>
-		<option>-------</option>
+	<fieldset class="admin"><legend><?php print_string('configure','admin');?></legend>
+	  <form id="adminchoice" name="adminchoice" method="post" 
+		action="admin.php" target="viewadmin">
+		<select name="current" size="6" onChange="document.adminchoice.submit();">
 		<option <?php if($choice=='import_students.php'){print
 		'selected="selected" ';}?>value='import_students.php'>
 			<?php print_string('newstudents');?></option>
@@ -115,9 +124,10 @@ $rtid=$tid;
 				<?php print_string('demoiser');?></option>
 */
 ?>
-<?php	} ?>
 		</select>
 	  </form>
 	</fieldset>
+<?php	} ?>
+
   </div>
 <?php include('scripts/end_options.php'); ?>

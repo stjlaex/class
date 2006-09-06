@@ -10,8 +10,9 @@ if(!isset($seltid)){$seltid='';}
  
   <label for="Teachers"><?php print_string('teachers',$book);?></label>
   <select id="Teachers" name="newtid" size="1" style="width:95%;" 
-		<?php if($required=='yes'){ print ' class="required" ';} ?> >
-
+	<?php if($required=='yes'){ print ' class="required" ';} ?> 
+	tabindex="<?php print $tab++;?>" 
+	>
 	<option value="" ></option>
 <?php
    	while(list($newtid,$newuser)=each($newusers)){
