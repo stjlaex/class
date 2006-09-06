@@ -23,7 +23,7 @@
 				LIKE '$selcrid' OR course_id='%') ORDER BY name");
 ?>
   <label for="Gradingscheme"><?php print_string('gradingscheme');?></label>
-  <select id="Gradingscheme" 
+  <select id="Gradingscheme"  tabindex="<?php print $tab++;?>" 
 		<?php if($required=='yes'){ print ' class="required" ';} ?>
 		size="<?php print $multi;?>"
 		<?php if($multi>1){print ' name="genas'.$igena.'[]" multiple="multiple"';}

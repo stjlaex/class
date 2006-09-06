@@ -9,7 +9,7 @@
 ?>
 <label for="Year"><?php print_string('year');?></label>
 	 <select style="width:5em;" class="required" id="Year" 
-				name="year" size="1">
+				 tabindex="<?php print $tab++;?>" name="year" size="1">
 	 <option value=""></option>
 <?php
 	if(!($toyear>1900)){$toyear=2005;}

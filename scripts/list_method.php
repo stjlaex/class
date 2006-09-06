@@ -25,7 +25,7 @@
   <label for="Method">
 	<?php print_string('method',$book);?>
   </label>
-  <select type="text" id="Method"
+  <select type="text" id="Method"  tabindex="<?php print $tab++;?>" 
 	<?php if($required=='yes'){ print ' class="required" ';} ?>
 		size="<?php print $multi;?>"
 		<?php if($multi>1){print ' name="methods'.$imethod.'[]" multiple="multiple"';}

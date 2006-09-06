@@ -7,7 +7,7 @@ if(!isset($required)){$required='yes';}
 $showtemplates=(array)list_directory_files('../templates','xsl');
 ?>
   <label for="template"><?php print_string('template');?></label>
-  <select name="template" id="template" size="1"
+  <select name="template" id="template" size="1" tabindex="<?php print $tab++;?>" 
   <?php if($required=='yes'){ print ' class="required" ';} ?>
 	>
    	<option value=""></option>

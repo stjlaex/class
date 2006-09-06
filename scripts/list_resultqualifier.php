@@ -25,7 +25,7 @@
   <label for="Resultqualifier">
 	<?php print_string('resultqualifier',$book);?>
   </label>
-  <select type="text" id="Resultqualifier"
+  <select type="text" id="Resultqualifier"  tabindex="<?php print $tab++;?>" 
 	<?php if($required=='yes'){ print ' class="required" ';} ?>
 		size="<?php print $multi;?>"
 		<?php if($multi>1){print ' name="resultqs'.$iresultq.'[]" multiple="multiple"';}

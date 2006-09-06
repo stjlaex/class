@@ -21,6 +21,7 @@ if(isset($_POST{'choice'})){$choice=$_POST{'choice'};}
 if(isset($_POST{'cancel'})){$cancel=$_POST{'cancel'};}
 $_SESSION{'reportcurrent'}=$current;
 $_SESSION{'reportchoice'}=$choice;
+$tab=1;
 ?>
 <div id="bookbox" class="reportcolor">
 <?php

@@ -33,8 +33,8 @@
 	if(!isset($multi)){$multi='1';}
 	if(!isset($bid)){$current_bid='nowt';}else{$current_bid=$bid;}
 ?>
-<label for="Subject">Subject</label>
-<select  style="width:14em;" 
+<label for="Subject"><?php print_string('subject');?></label>
+<select  style="width:14em;" tabindex="<?php print $tab++;?>"
 	<?php if($multi>1){print 'name="bids[]" multiple="multiple"';}else{print 'name="bid"';}?>" 
 	id="Subject" size="<?php print $multi;?>"
 <?php if($required=='yes'){ print ' class="required" ';} ?>

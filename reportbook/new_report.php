@@ -18,7 +18,7 @@ three_buttonmenu();
 		<div class="left">
 		  <label for="Title"><?php print_string('title');?></label>
 		  <input class="required" type="text" id="Title" name="title"
-		  length="40" maxlength="60" />
+			tabindex="<?php print $tab++;?>" length="40" maxlength="60" />
 		</div>
 		<div class="right">
 		  <label><?php print_string('publisheddate');?></label>
@@ -27,7 +27,7 @@ three_buttonmenu();
 		<div class="left">
 		  <label for="Comment"><?php print_string('description');?></label>
 		  <input type="text" id="Comment" name="comment" length="40" maxlength="250"
-				onChange="tickAndSelect(this);	" />
+				tabindex="<?php print $tab++;?>" />
 		</div>
 		<div class="right">
 		  <label><?php print_string('deadlineforcompletion',$book);?></label>
@@ -44,32 +44,27 @@ three_buttonmenu();
 	  <fieldset class="right">
 		<legend><?php print_string('writtencomments',$book);?></legend>
 
-		<div class="left">
-		  <label><?php print_string('addcategories',$book);?></label>
-		  <?php check_yesno('addcategory')?>
-		</div>
-		<div class="left">
-		  <label><?php print_string('allowsubjectcomments',$book);?></label>
-		  <?php check_yesno('reptype')?>
-		</div>
-		<div class="left">
-		  <label><?php print_string('commentsarecompulsory',$book);?></label>
-		  <?php check_yesno('commentcomp')?>
-		</div>
-		<div class="right">
-		  <label for="Comment Length">
+		  <?php $checkcaption=get_string('addcategories',$book);
+		        $checkname='addcategory'; include('scripts/check_yesno.php');?>
+		  <?php $checkcaption=get_string('allowsubjectcomments',$book);
+		        $checkname='reptype'; include('scripts/check_yesno.php');?>
+		  <?php $checkcaption=get_string('commentsarecompulsory',$book);
+		        $checkname='commentcomp'; include('scripts/check_yesno.php');?>
+
+		<table class="listmenu"><tr>
+			<th><label for="Comment Length">
 			<?php print_string('restrictcommentscharacterlength',$book);?>
-		  </label>
-		  <input type="text" pattern="integer" id="Comment Length"
-			name="commentlength" maxlength="5" length="4"/>
-		</div>
+			  </label></th>
+			<td><input type="text" pattern="integer" id="Comment Length"
+				name="commentlength" maxlength="5" length="4" tabindex="<?php print $tab++;?>" />
+			</td></tr></table>
 	  </fieldset>
 
 	  <fieldset class="right">
 		<legend><?php print_string('summarycomment',$book);?></legend>
 		<label for="Summary comments"><?php print_string('summarycomment',$book);?></label>
 		<select style="width:25em;" id="Summary comments" type="text" name="catdefids[]"
-			class="required" size="3" multiple="multiple" >
+			class="required" size="3" multiple="multiple" tabindex="<?php print $tab++;?>" >
 		<option value="-100">
 			<?php print_string('none');?>
 		</option>
@@ -103,7 +98,7 @@ three_buttonmenu();
 		<legend><?php print_string('summarysignature',$book);?></legend>
 		<label for="Summary comments"><?php print_string('summarysignature',$book);?></label>
 		<select style="width:25em;" id="Summary signatures" type="text" name="catdefids[]"
-			class="required" size="3" multiple="multiple" >
+			class="required" size="3" multiple="multiple" tabindex="<?php print $tab++;?>" >
 		<option value="-100">
 			<?php print_string('none');?>
 		</option>

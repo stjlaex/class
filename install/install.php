@@ -15,16 +15,33 @@ $schooldb=$_POST['school'];
 ?>
 
 <html>
-<head>
-<meta http-equiv="Content-Script-Type" content="text/JavaScript" />
-<meta name="copyright" content="Copyright 2002, 2003, 2004, 2005, 2006
-	Stuart Thomas Johnson. All trademarks acknowledged. All rights reserved." />
-<meta name="license" content="GNU General Public License version 2" />
-</head>
-<body>
+  <head>
+	<meta http-equiv="Content-Script-Type" content="text/JavaScript" />
+	<meta name="copyright" content="Copyright 2002, 2003, 2004, 2005, 2006
+		Stuart Thomas Johnson. All trademarks acknowledged. All rights reserved." />
+	<meta name="license" content="GNU General Public License version 2" />
+	<link rel="stylesheet" type="text/css" href="../css/viewstyle.css" />
+  </head>
 
-<img name="sitelogo"  src="../images/orangelogo.png" style="width:120px;"/>
-<h2>The (hopefully) ClaSS Results</h2>
+  <body>
+
+
+	<div class="externalbookframe">
+	  <div class="content">
+		<div class="center">
+		  <div class="left">
+			The (hopefully) ClaSS Results
+		  </div>
+		  <div class="right">
+			<div class="center">Your new</div>
+			<div class="center">
+			<img name="sitelogo" 
+			  onClick="window.open('../../index.html','ClaSS');"
+			  src="../images/orangelogo.png" style="width:120px;cursor:pointer;"/>
+			</div>
+			<div class="center">application site.</div>
+		  </div>
+	  <div class="left">
 <?php
 	/*check the password*/
 	if($password!=$password2){die('Mistake in matching the passwords. Please try again!');}
@@ -40,7 +57,7 @@ $schooldb=$_POST['school'];
 	/*check db doesn't already exist*/
 	$result=mysql_list_dbs();
 	$exists='';
-	while($row=mysql_fetch_array($result, MYSQL_NUM)) {
+	while($row=mysql_fetch_array($result, MYSQL_NUM)){
 	    if($row[0]==$schooldb){$exists='yes';}
 		}
 	if($exists=='yes'){
@@ -134,23 +151,47 @@ $schooldb=$_POST['school'];
 		print 'Flushed with success.<br />';
 		}
 ?>
+		  </div>
+		  <div class="left">
+			<hr width="100%" />
+			  <p>If all the above lines where successful, well done!</p>
+			  <p>Your ClaSS is ready for you; click on the link to the right.</p>
+			  <p>If you've encountered a problem then consult the
+				Install-FAQ and README both available from the documentation
+				link.</p>
+			  <hr width="100%" />
+		  </div>
 
-	<hr width=90%>
-	<p>If all the above lines where successful, well done! 
-	<br />Your ClaSS is ready for you.</p>
+		  <div class="left">
+			<p>One administrator login has been automatically generated.
+			</p>
 
-	<hr width=90%> <p>Point your browser at <a
-	href="../index.php">ClaSS</a></p> <p>One administrator login has been
-	automatically generated. </p> <p>Login with username=administrator
-	to configure things.</p> <p>The password is the same 
-	entered as the ClaSS Connection password on the previous form -
-	you should change this at the first opportunity.</p>
-	<p>If you are going to be repsonsible for the configuration and
-	day-to-day running<br /> of this ClaSS install then refer to the
-	ClaSS Administrators Guide for what to do next<br /> <button
-	onClick="window.open('http://www.laex.org/class/docu.html', 'ClaSS
-	Homepage');">ClaSS Documentation</button>
-</p>
+			<p>Login with username=administrator to configure things.
+			</p>
 
-</body>
+			<p>The password is the same entered as the ClaSS Connection
+			  password on the previous form - you should change this at
+			  the first opportunity.
+			</p>
+		
+			<p>If you are going to be repsonsible for the configuration
+			  and day-to-day running of this ClaSS install then
+			  refer to the ClaSS Administrators' Guide for what to do
+			  next, available from the documentation link to the right. 
+			</p>
+		  </div>
+
+		  <div class="right">	
+			<div class="center">Where next</div>
+			<div class="center">
+			<button class="install"
+			  onClick="window.open('http://www.laex.org/class/docu.html',
+			  'ClaSS Homepage');">ClaSS Documentation</button>
+			</div>
+			<div class="center">for help and support.</div>
+		  </div>
+
+		</div>
+	  </div>
+  </body>
 </html>

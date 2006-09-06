@@ -10,12 +10,11 @@ function three_buttonmenu($extrabuttons=array()){
 <?php
 		 while(list($description,$value)=each($extrabuttons)){
 ?>
-	<button onClick="processContent(this);" name="<?php print $value['name'];?>" value="<?php
-	print $value['value'];?>"><?php print_string($description);?></button>
+	<button onClick="processContent(this);" name="<?php print $value['name'];?>" 
+	  value="<?php print $value['value'];?>"><?php print_string($description);?></button>
 <?php
 			 }
 ?>
-
 	<button onClick="processContent(this);" name="sub"  style="margin-left:1em;"
 	  value="Submit"><?php print_string('submit');?></button>
 	<button onClick="processContent(this);" name="sub" 
@@ -33,8 +32,8 @@ function two_buttonmenu($extrabuttons=array()){
 <?php
 		 while(list($description,$value)=each($extrabuttons)){
 ?>
-	<button onClick="processContent(this);" name="<?php print $value['name'];?>" value="<?php
-	print $value['value'];?>"><?php print_string($description);?></button>
+	<button onClick="processContent(this);" name="<?php print $value['name'];?>" 
+	  value="<?php print $value['value'];?>"><?php print_string($description);?></button>
 <?php
 			 }
 ?>
@@ -75,27 +74,7 @@ function twoplusprint_buttonmenu(){
 <?php
 	}
 
-function check_yesno($name='answer',$choice='no'){
-?>
-  <table class="listmenu">
-	<caption><?php print_string('readytocontinue'); ?></caption>
-	<tr>
-	  <td>
-	<label for="yes"><?php print_string('yes');?></label>
-	<input type="radio" name="<?php print $name;?>" title="yes" id="yes" 
-	  value="yes" <?php if($choice=='yes'){print 'checked';}?> />
-	  </td>
-	  <td>
-	<label for="no"><?php print_string('no');?></label>
-	<input type="radio" name="<?php print $name;?>" title="no" id="no"
-	  value="no" <?php if($choice=='no'){print 'checked';}?> />
-	  </td>
-	</tr>
- </table>
-<?php
-	}
-
-function xmlarray_form($Array,$no='',$caption=''){
+function xmlarray_form($Array,$no='',$caption='',$tab=1){
 	if("$Array"=='Student'){$book='infobook';}
 	else{$book='infobook';}
 ?>
@@ -111,7 +90,9 @@ function xmlarray_form($Array,$no='',$caption=''){
 <?php																	   
 			if($val['type_db']=='enum'){
 				$enum=getEnumArray($val['field_db']);
-				print '<select name="'.$val['field_db'].$no.'" size="1">';
+				print '<select name="'.$val['field_db'].$no.'" ';
+				print ' tabindex="'.$tab++.'" ';
+				print ' size="1">';
 				print '<option value=""></option>';
 				while(list($inval,$description)=each($enum)){	
 					print '<option ';
@@ -127,7 +108,7 @@ function xmlarray_form($Array,$no='',$caption=''){
 			else{
 ?>
 		<input type="text" name="<?php print $val['field_db'].$no; ?>" 
-							value="<?php print $val['value']; ?>" />
+					tabindex="<?php print $tab++;?>" value="<?php print $val['value']; ?>" />
 <?php
 				 }
 ?>

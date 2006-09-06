@@ -22,7 +22,6 @@ if(isset($_POST{'newtid'})){$newtid=$_POST{'newtid'};}
 	$year=mysql_result($d_year,0);
 
 	$extrabuttons['renamegroup']=array('name'=>'current','value'=>'form_edit_rename.php');
-	$extrabuttons['unassignteacher']=array('name'=>'sub','value'=>'Unassign');
 	three_buttonmenu($extrabuttons);
 ?>
   <div class="content">

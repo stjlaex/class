@@ -7,7 +7,8 @@ $d_stage=mysql_query("SELECT DISTINCT stage FROM cohort WHERE
 				course_id='$rcrid' ORDER BY year");
 ?>
 	<label for="Stage"><?php print_string('stage');?></label>
-	<select style="width:12em;" type="text" id="Stage" name="stage" class="required">
+	<select style="width:12em;" type="text" 
+		tabindex="<?php print $tab++;?>" id="Stage" name="stage" class="required">
 		<option value="" select="selected"></option>
 		<option value="%"><?php print_string('allstages');?></option>
 <?php

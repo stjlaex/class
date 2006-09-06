@@ -15,6 +15,12 @@ three_buttonmenu($extrabuttons);
 	<form id="formtoprocess" name="formtoprocess" 
 	enctype="multipart/form-data" method="post" action="<?php print $host;?>">
 
+	  <div class="left"> 
+		<label for="Description"><?php print_string('description');?></label>
+		<input class="required" type="text" id="Description" tabindex="<?php print $tab++;?>" 
+				name="description"  style="width:20em;" maxlength="59" value="" />
+	  </div>
+
 	  <div class="right">
 <?php 
 		include('scripts/list_stage.php'); 
@@ -22,15 +28,10 @@ three_buttonmenu($extrabuttons);
 		include('scripts/list_calendar_year.php'); 
 ?>
 	  </div>
-	  <div class="left"> 
-		<label for="Description"><?php print_string('description');?></label>
-		<input class="required" type="text" id="Description"
-				name="description"  style="width:20em;" maxlength="59" value="" />
-	  </div>
 
 	  <div class="left"> 
 		<label for="Printlabel"><?php print_string('printlabel',$book);?></label>
-		<input class="required" type="text" id="Printlabel"
+		<input class="required" type="text" id="Printlabel" tabindex="<?php print $tab++;?>" 
 				name="printlabel"  style="width:20em;" maxlength="59" value="" />
 	  </div>
 

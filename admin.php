@@ -74,10 +74,12 @@ $tab=1;
 <?php 
 	if($rtid=='administrator'){
 ?>
+
 	<fieldset class="admin"><legend><?php print_string('configure','admin');?></legend>
-	  <form id="adminchoice" name="adminchoice" method="post" 
+	  <form id="configadminchoice" name="configadminchoice" method="post" 
 		action="admin.php" target="viewadmin">
-		<select name="current" size="6" onChange="document.adminchoice.submit();">
+
+		<select name="current" size="6" onChange="document.configadminchoice.submit();">
 		<option <?php if($choice=='import_students.php'){print
 		'selected="selected" ';}?>value='import_students.php'>
 			<?php print_string('newstudents');?></option>

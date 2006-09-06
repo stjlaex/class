@@ -23,6 +23,7 @@ if(isset($_POST{'choice'})){$choice=$_POST{'choice'};}
 if(isset($_POST{'cancel'})){$cancel=$_POST{'cancel'};}
 $_SESSION{'aboutcurrent'}=$current;
 $_SESSION{'aboutchoice'}=$choice;
+$tab=1;
 ?>
   <div id="bookbox" class="aboutcolor">
 <?php

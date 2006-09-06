@@ -253,6 +253,10 @@ button[value="Okay"] {
 	color:#ffffee;
 	width:5em;
 	}
+button.install {
+	background-color:#666666; 
+	color:#ffffee; font-size:90%; 
+	}
 
 /*the micro-action buttons contianed inside content, usually for xmlHttprequests*/
 button.rowaction{

@@ -20,7 +20,7 @@ three_buttonmenu();
 		<p><?php print_string('confidentwhatyouaredoing',$book);?></p>
 
 		<div class="right">
-		  <?php	check_yesno();?>
+		  <?php $required='yes'; include('scripts/check_yesno.php');?>
 		</div>
 	</fieldset> 
 

@@ -18,6 +18,7 @@ three_buttonmenu($extrabuttons);
 	  <div class="left"> 
 		<label for="Description"><?php print_string('description');?></label>
 		<input class="required" type="text" id="Description"
+				tabindex="<?php print $tab++;?>" 
 				name="description"  style="width:20em;" length="20" maxlength="59" />
 	  </div>
 

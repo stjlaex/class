@@ -32,6 +32,7 @@ if(isset($_POST['cancel'])){$cancel=$_POST['cancel'];}
 if(isset($_GET['choice'])){$choice=$_GET['choice'];}
 if(isset($_GET['cancel'])){$cancel=$_GET['cancel'];}
 if(isset($_GET['current'])){$current=$_GET['current'];}
+$tab=1;
 ?>
 
   <div id="bookbox" class="entrybookcolor">

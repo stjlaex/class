@@ -1,5 +1,7 @@
 <?php
 /**			       		list_pastoralgroup.php
+ *
+ * use to decide between year heads or form tutors
  */
 
 $required='yes';
@@ -7,13 +9,17 @@ if(sizeof($ryids)>0){
 	$selyid=$ryids[0];
 ?>
 	<label for="Year Group"><?php print_string('yeargroup');?></label>
-	<select id="Year Group" name="newyid" class="required">
+	<select id="Year Group" name="newyid" tabindex="<?php print $tab++;?>"
+		<?php if($required=='yes'){ print ' class="required" ';} ?> >
     <option value=""></option>
 <?php
     	while(list($index,$yid)=each($ryids)){
+			$d_yeargroup=mysql_query("SELECT name  FROM yeargroup
+			WHERE id='$yid'");
+			$yeargroup=mysql_result($d_yeargroup,0);
 			print '<option ';
 			if($selyid==$yid){print 'selected="selected"';}
-			print	' value="'.$yid.'"> Year '.$yid.' </option>';
+			print	' value="'.$yid.'">'.$yeargroup.'</option>';
 			}
 ?>
 	</select>
@@ -23,13 +29,17 @@ elseif(sizeof($rfids)>0){
 	$selfid=$rfids[0];
 ?>
 	<label for="Form group"><?php print_string('formgroup');?></label>
-	<select type="text" id="Form group" name="newfid" class="required">
+	<select type="text" id="Form group" name="newfid" tabindex="<?php print $tab++;?>"  
+		<?php if($required=='yes'){ print ' class="required" ';} ?> >
 	<option value=""></option>
 <?php
         while(list($index,$fid)=each($rfids)){
+			$d_group=mysql_query("SELECT name FROM formgroup
+									WHERE id='$fid'");
+			$formgroup=mysql_result($d_group,0);
 			print '<option value="'.$fid.'" ';
 			if($selfid==$fid){print ' selected="selected" ';}
-			print ' > Form '.$fid.' </option>';
+			print ' >'.$formgroup.'</option>';
    			}
 ?>
 	</select>

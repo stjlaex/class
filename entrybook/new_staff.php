@@ -19,26 +19,26 @@ three_buttonmenu();
 
 		  <tr>
 			<td><label for="ID"><?php print_string('teacherid');?></label></td>
-			<td><input class="required"  pattern="alphanumeric" 
+			<td><input class="required"  pattern="alphanumeric" tabindex="<?php print $tab++;?>" 
 				type="text" id="ID" name="newtid" maxlength="14" /></td>
 		  </tr>
 
 		  <tr>
 			<td><label for="Surname"><?php print_string('surname');?></label></td>
-			<td><input class="required" pattern="alphanumeric"
+			<td><input class="required" pattern="alphanumeric" tabindex="<?php print $tab++;?>" 
 			  type="text" id="Surname" name="surname" maxlength="30" /></td>
 		  </tr>
 
 		  <tr>
 			<td><label for="Forename"><?php print_string('forename');?></label></td>
-			<td><input class="required" pattern="alphanumeric"
+			<td><input class="required" pattern="alphanumeric" tabindex="<?php print $tab++;?>" 
 				type="text" id="Forename" name="forename"
 			  maxlength="30" /></td>
 		  </tr>
 
 		  <tr>
 			<td><label for="Number"><?php print_string('staffno');?></label></td>
-			<td><input  class="required" pattern="integer"
+			<td><input  class="required" pattern="integer" tabindex="<?php print $tab++;?>" 
 			type="text" id="Number" name="no" maxlength="3" /></td>
 		  </tr>
 
@@ -49,7 +49,7 @@ three_buttonmenu();
 		  
 		  <tr>
 			<td><label for="Email"><?php print_string('email');?></label></td>
-			<td><input pattern="email"
+			<td><input pattern="email" tabindex="<?php print $tab++;?>" 
 				  type="text" id="Email" name="email" maxlength="190" /></td>
 		  </tr>
 		</table>

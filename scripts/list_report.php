@@ -35,9 +35,11 @@
 		$reports[$report['id']]=$report;
 		}
 ?>
+
+<div class="center"> 
   <label for="Current Reports"><?php print_string('currentreports');?></label>
   <select style="width:25em;" id="Current Reports" type="text" name="rids[]"
-			size="4" multiple="multiple" >
+			tabindex="<?php print $tab++;?>" size="4" multiple="multiple" >
 <?php
    	while(list($rid,$report)=each($reports)){
 		if($report['date']>=$todate){
@@ -50,10 +52,12 @@
  		}
 ?>
   </select>
+</div>
 
+<div class="center"> 
   <label for="Reports"><?php print_string('reports');?></label>
   <select style="width:25em;" id="Reports" type="text" name="rids[]"
-			size="10" multiple="multiple" >
+			size="10" multiple="multiple" tabindex="<?php print $tab++;?>">
 <?php
 	reset($reports);
 	while(list($rid,$report)=each($reports)){
@@ -67,3 +71,4 @@
  		}
 ?>
   </select>
+</div>

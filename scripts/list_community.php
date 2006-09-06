@@ -31,7 +31,8 @@
 	<select style="width:20em;" id="Community"
 		<?php if($required=='yes'){ print ' class="required" ';} ?>
 		size="<?php print $multi;?>"
-		<?php if($onchange=='yes'){print ' onChange="processContent(this);" ';} ?>
+		<?php if($onchange=='yes'){print ' onChange="processContent(this);" ';}?>
+		<?php print ' tabindex="'.$tab++.'" ';?>
 		<?php if($multi>1){print ' name="newcomids'.$icomid.'[]" multiple="multiple"';}
 				else{print ' name="newcomid'.$icomid.'"';}?> >
     <option value=""></option>

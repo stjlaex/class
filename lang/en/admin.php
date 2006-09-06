@@ -69,6 +69,11 @@ $string['currentgroupname']='Current name of group';
 $string['newgroupname']='New name of group';
 $string['changegroupname']='Change the name of this group';
 $string['removedresponsibility']='Removed responsibility';
-$string['config']='Configure';
+$string['configure']='Configure';
+$string['changegroup']='Select students from this group';
+$string['studentsnotin']='Not in this yeargroup';
+$string['studentsalreadyin']='Already in this yeargroup';
+$string['']='';
+$string['']='';
 $string['']='';
 ?>
