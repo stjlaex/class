@@ -19,10 +19,10 @@ $string['emailreminders']='Email reminders';
 $string['emailnewloginuserno']='
 This is notification of your new login details for ClaSS. These
 details are for your own personal use only and should be treated as
-confidential. The details include your username and a unique key
-number needed to construct your password. You will be notified
-seperately, by your ClaSS contact person, of the key phrase which
-makes up the remainder of your password.';
+confidential. The details include your username and a unique PIN 
+number needed to complete your password. You will be notified
+seperately, by your ClaSS contact person, of the key-word which
+makes up the first part of your password.';
 $string['emailnewloginsubject']='Your new ClaSS login details.';
 $string['emailusernolistsubject']='Newly generated ClaSS user list';
 $string['keynumber']='Key number';

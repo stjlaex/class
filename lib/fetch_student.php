@@ -79,11 +79,13 @@ function fetchStudent($sid='-1'){
 	$Student=array();
 	$Student['id_db']=$sid;
 	$Student['Surname']=array('label' => 'surname', 
+							  'inputtype'=> 'required',
 							  'table_db' => 'student', 
 							  'field_db' => 'surname',
 							  'type_db'=>'varchar(30)', 
 							  'value' => ''.$student['surname']);
 	$Student['Forename']=array('label' => 'forename', 
+							   'inputtype'=> 'required',
 							   'table_db' => 'student', 
 							   'field_db' => 'forename',
 							   'type_db'=>'varchar(30)', 
@@ -121,6 +123,7 @@ function fetchStudent($sid='-1'){
 		}
 
 	$Student['Gender']=array('label' => 'gender', 
+							 'inputtype'=> 'required',
 							 'table_db' => 'student', 
 							 'field_db' => 'gender',
 							 'type_db'=>'enum', 
@@ -417,11 +420,13 @@ function fetchContact($gidsid=array('guardian_id'=>'-1')){
 	$Contact=array();
 	$Contact['id_db']=$gid;
 	$Contact['Order']=array('label' => 'priority', 
+							'inputtype'=> 'required',
 							'table_db' => 'gidsid', 
 							'field_db' => 'priority',
 							'type_db'=>'enum', 
 							'value' => ''.$gidsid['priority']);
 	$Contact['ReceivesMailing']=array('label' => 'receivesmailing', 
+									  'inputtype'=> 'required',
 									  'table_db' => 'gidsid', 
 									  'field_db' => 'mailing',
 									  'type_db'=>'enum', 
@@ -432,6 +437,7 @@ function fetchContact($gidsid=array('guardian_id'=>'-1')){
 								   'type_db'=>'enum', 
 								   'value' => ''.$gidsid['relationship']);
 	$Contact['Surname']=array('label' => 'surname', 
+							  'inputtype'=> 'required',
 							  'table_db' => 'guardian', 
 							  'field_db' => 'surname',
 							  'type_db' => 'varchar(30)', 

@@ -23,7 +23,7 @@ if($sub=='Submit'){
 				$user['userno']=$code;
 				$user['passwd']='';
 				$usernolist[]=$user['surname']. ','.$user['forename']. 
-						'   '.$user['username'].' : '.$user['userno'];
+						' '.$user['email'].' '.$user['username'].' : '.$user['userno'];
 				$result[]=updateUser($user,'yes',$CFG->shortkeyword);
 
 				if($_POST['emailstaff']=='reminders'){

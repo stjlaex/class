@@ -19,15 +19,15 @@ $books=array();
 $books['admin']=array(
 					  'admin' => 'Admin'
 					  ,'reportbook' => 'ReportBook'
-					  ,'infobook' => 'InfoBook'
 					  ,'markbook' => 'MarkBook'
 					  //,'register' => 'Register'
+					  ,'infobook' => 'InfoBook'
 					  ,'entrybook' => 'EntryBook'
 				 );
 $books['office']=array(
-					   'infobook' => 'InfoBook'
+					   'register' => 'Register'
+					   ,'infobook' => 'InfoBook'
 					   ,'entrybook' => 'EntryBook'
-					   ,'register' => 'Register'
 				 );
 $books['support']=array(
 						'infobook' => 'InfoBook'
@@ -36,8 +36,8 @@ $books['teacher']=array(
 						'admin' => 'Admin'
 						,'reportbook' => 'ReportBook'
 						,'infobook' => 'InfoBook'
-						,'markbook' => 'MarkBook'
 						//,'register' => 'Register'
+						,'markbook' => 'MarkBook'
 				 );
 $externalbooks=array();
 $externalbooks['admin']=array(

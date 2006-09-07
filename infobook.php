@@ -74,10 +74,10 @@ if(isset($_GET{'cancel'})){$cancel=$_GET{'cancel'};}
 if(isset($_GET{'current'})){$current=$_GET{'current'};}
 $_SESSION{'infocurrent'}=$current;
 
-include('infobook/quick_search.php');/*to be in the sidebar at all times*/
 ?>
   <div id="bookbox" class="infocolor">
 <?php
+	$tab=1;
 	if($current!=''){
 		$view = 'infobook/'.$current;
 		include($view);
@@ -85,5 +85,7 @@ include('infobook/quick_search.php');/*to be in the sidebar at all times*/
 ?>
   </div>
 <?php
+unset($yid);
+include('infobook/quick_search.php');/*to be in the sidebar at all times*/
 include('scripts/end_options.php');
 ?>

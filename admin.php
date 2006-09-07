@@ -79,7 +79,7 @@ $tab=1;
 	  <form id="configadminchoice" name="configadminchoice" method="post" 
 		action="admin.php" target="viewadmin">
 
-		<select name="current" size="6" onChange="document.configadminchoice.submit();">
+		<select name="current" size="10" onChange="document.configadminchoice.submit();">
 		<option <?php if($choice=='import_students.php'){print
 		'selected="selected" ';}?>value='import_students.php'>
 			<?php print_string('newstudents');?></option>

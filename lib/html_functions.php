@@ -85,14 +85,19 @@ function xmlarray_form($Array,$no='',$caption='',$tab=1){
 		if(isset($val['value']) and is_array($val) and isset($val['table_db'])){
 ?>
 	<tr>
-	  <td><label><?php print_string($val['label'],'infobook'); ?></label></td>
+	  <td>
+		<label for="<?php print $val['label'];?>">
+		  <?php print_string($val['label'],'infobook');?>
+		</label>
+	  </td>
 	  <td>
 <?php																	   
 			if($val['type_db']=='enum'){
 				$enum=getEnumArray($val['field_db']);
 				print '<select name="'.$val['field_db'].$no.'" ';
 				print ' tabindex="'.$tab++.'" ';
-				print ' size="1">';
+				print ' class="'.$val['inputtype'].'" ';
+				print ' id="'.$val['label'].'" size="1">';
 				print '<option value=""></option>';
 				while(list($inval,$description)=each($enum)){	
 					print '<option ';
@@ -107,7 +112,8 @@ function xmlarray_form($Array,$no='',$caption='',$tab=1){
 				}
 			else{
 ?>
-		<input type="text" name="<?php print $val['field_db'].$no; ?>" 
+		<input type="text" id="<?php print $val['label'];?>" 
+			class="<?php print $val['inputtype'];?>" name="<?php print $val['field_db'].$no; ?>" 
 					tabindex="<?php print $tab++;?>" value="<?php print $val['value']; ?>" />
 <?php
 				 }
@@ -121,6 +127,7 @@ function xmlarray_form($Array,$no='',$caption='',$tab=1){
   </table>
 <?php
 
+	return $tab;
 	}
 
 ?>
