@@ -103,11 +103,11 @@ $tab=1;
 		<option <?php if($choice=='passwords.php'){print
 				'selected="selected" ';}?>value='passwords.php'>
 				<?php print_string('refreshpasswords',$book);?></option>
-		<option <?php if($choice=='fix8.php'){print
-				'selected="selected" ';}?>value='fix8.php'>
-				<?php print_string('upgradeto0.8');?></option>
+		<option <?php if($choice=='server_test.php'){print
+				'selected="selected" ';}?>value='server_test.php'>
+				<?php print_string('servertest');?></option>
 <?php
-/*these are all very experimental!!!!!
+/*these are all either very experimental or completely useless!!!!!
 
 		<option <?php if($choice=='ldap_start.php'){print
 				'selected="selected" ';}?>value='ldap_start.php'>
@@ -115,15 +115,15 @@ $tab=1;
 		<option <?php if($choice=='enrol_student.php'){print
 				'selected="selected" ';}?>value='enrol_student.php'>
 				<?php print_string('enrolstudents');?></option>
-		<option <?php if($choice=='server_test.php'){print
-				'selected="selected" ';}?>value='server_test.php'>
-				<?php print_string('servertest');?></option>
 		<option <?php if($choice=='statementbank.php'){print
 				'selected="selected" ';}?>value='statementbank.php'>
 				<?php print_string('statementbank');?></option>
 		<option <?php if($choice=='demoiser.php'){print
 				'selected="selected" ';}?>value='demoiser.php'>
 				<?php print_string('demoiser');?></option>
+		<option <?php if($choice=='fix8.php'){print
+				'selected="selected" ';}?>value='fix8.php'>
+				<?php print_string('upgradeto0.8');?></option>
 */
 ?>
 		</select>

@@ -158,3 +158,4 @@ ALTER TABLE incidents
 	CHANGE ncyear yeargroup_id smallint unsigned not null default '0';
 ALTER TABLE info
 	CHANGE enrolstatus 	enrolstatus	enum('EN','AP','AC','C', 'P', 'G','S','M') not null default 'C';
+ALTER TABLE student CHANGE yeargroup_id yeargroup_id SMALLINT( 6 );

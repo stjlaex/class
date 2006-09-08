@@ -18,8 +18,11 @@ function formsClasses($fid){
 	 *form's sids
 	 */
 	$cids=array();
-	$d_form=mysql_query("SELECT yeargroup_id FROM form WHERE id='$fid'");
-	$yid=mysql_result($d_form,0);
+	if($fid!=''){
+		$d_form=mysql_query("SELECT yeargroup_id FROM form WHERE id='$fid'");
+		$yid=mysql_result($d_form,0);
+		}
+	else{$yid='';}
 	$comid=updateCommunity(array('type'=>'year','name'=>$yid));
 	$d_cohort=mysql_query("SELECT * FROM cohort JOIN
 						cohidcomid ON cohidcomid.cohort_id=cohort.id WHERE
@@ -393,7 +396,142 @@ function listinCommunity($community){
 	return $students;
 	}
 
+function checkCommunityMember($sid,$community){
+	$todate=date("Y-m-d");
+	$type=$community['type'];
+	$name=$community['name'];
+	if($community['id']!=''){
+		$comid=$community['id'];
+		$d_community=mysql_query("SELECT * FROM community JOIN
+				comidsid ON community.id=comidsid.community_id
+				WHERE community.id='$comid' AND comidsid.student_id='$sid' AND
+   				(comidsid.entrydate<='$todate' OR comidsid.joiningdate  IS NULL) 
+				AND (comidsid.leavingdate IS NULL OR comidsid.leavingdate='0000-00-00')");
+		}
+	elseif($name!=''){
+		$comid=updateCommunity($community);
+		$d_community=mysql_query("SELECT * FROM community JOIN
+				comidsid ON community.id=comidsid.community_id
+				WHERE community.id='$comid' AND comidsid.student_id='$sid' AND
+   				(comidsid.entrydate<='$todate' OR comidsid.joiningdate IS NULL) 
+				AND (comidsid.leavingdate IS NULL OR comidsid.leavingdate='0000-00-00')");
+		}
+	elseif($type!=''){
+		$d_community=mysql_query("SELECT * FROM community JOIN
+				comidsid ON community.id=comidsid.community_id
+				WHERE community.type='$type' AND comidsid.student_id='$sid' AND
+   				(comidsid.joiningdate<='$todate' OR comidsid.joiningdate IS NULL)
+				AND (comidsid.leavingdate IS NULL OR comidsid.leavingdate='0000-00-00')");
+		}
+	else{
+		$d_community=mysql_query("SELECT * FROM community JOIN
+				comidsid ON community.id=comidsid.community_id
+				WHERE comidsid.student_id='$sid' AND
+   				(comidsid.joiningdate<='$todate' OR comidsid.joiningdate IS NULL)
+				AND (comidsid.leavingdate IS NULL OR comidsid.leavingdate='0000-00-00')");
+		}
+	$communities=array();
+   	while($community=mysql_fetch_array($d_community, MYSQL_ASSOC)){
+		$communities[]=$community;
+		}
+	return $communities;
+	}
+
+/* Add a sid to a community, type must be set, if name is blank then */
+/* you are actually leaving any communities of that type. Will also */
+/* leave any communitites which conflict the one being joined. Always */
+/* returns an array of oldcommunities left*/
+function joinCommunity($sid,$community){
+	$todate=date("Y-m-d");
+	$type=$community['type'];
+	$name=$community['name'];
+
+	/*membership of a form or yeargroup is exclusive - need to remove
+	from old group first, and also where student progresses through
+	application procedure from enquired to apllied to accepted to year*/
+	$oldtypes=array();
+    if($type=='form'){
+		$studentfield='form_id';
+		$oldtypes[]=$type;
+		$enrolstatus='C';
+		$d_yeargroup=mysql_query("SELECT yeargroup_id FROM form WHERE id='$name'");
+		$newyid=mysql_result($d_yeargroup,0);
+		$d_student=mysql_query("SELECT yeargroup_id FROM student WHERE id='$sid'");
+		$oldyid=mysql_result($d_yeargroup,0);
+		if($newyid!=$oldyid){joinCommunity($sid,array('type'=>'year','name'=>$yid));}
+		}
+	elseif($type=='year'){
+		$studentfield='yeargroup_id';
+		$oldtypes[]='form';
+		$oldtypes[]=$type;
+		$oldtypes[]='accepted';
+		$oldtypes[]='applied';
+		$oldtypes[]='enquired';
+		$enrolstatus='C';
+		/*on current roll so can't just disappear*/
+		if($name==''){$name='none';$community['name']=$name;}
+		}
+	elseif($type=='alumni'){
+		$oldtypes[]='year';
+		$oldtypes[]='form';
+		$enrolstatus='P';
+		}
+	elseif($type=='accepted'){
+		$oldtypes[]='applied';
+		$oldtypes[]='enquired';
+		$enrolstatus='AC';
+		}
+	elseif($type=='applied'){
+		$oldtypes[]='enquired';
+		$enrolstatus='AP';
+		}
+	elseif($type=='enquired'){
+		$enrolstatus='EN';
+		}
+	if($community['id']!=''){$comid=$community['id'];}
+	elseif($name!=''){$comid=updateCommunity($community);}
+	else{$comid='';}
+
+	/*first remove sid from any old conflicting communities*/
+	$leftcommunities=array();
+	while(list($index,$oldtype)=each($oldtypes)){
+		$checkcommunity=array('type'=>$oldtype,'name'=>'');
+		$oldcommunities=array();
+		$oldcommunities=checkCommunityMember($sid,$checkcommunity);
+		while(list($index,$oldcommunity)=each($oldcommunities)){
+			if($oldcommunity['name']!=$name){
+				$leftcommunities[$oldtype][]=$oldcommunity;
+				leaveCommunity($sid,$oldcommunity);
+				}
+			}
+		}
+
+	if($comid!=''){
+		$d_comidsid=mysql_query("SELECT * FROM comidsid WHERE
+				community_id='$comid' AND student_id='$sid'");
+		if(mysql_num_rows($d_comidsid)==0){
+			mysql_query("INSERT INTO comidsid SET joiningdate='$todate',
+							community_id='$comid', student_id='$sid'");
+			}
+		else{
+			mysql_query("UPDATE comidsid SET leavingdate='' WHERE
+							community_id='$comid' AND student_id='$sid'");
+			}
+		}
+
+	/*update the student with new enrolstatus, and new id for form or yeargroup*/
+	if(isset($studentfield)){
+		mysql_query("UPDATE student SET $studentfield='$name' WHERE id='$sid'");
+		}
+	if(isset($enrolstatus)){
+		mysql_query("UPDATE info SET enrolstatus='$enrolstatus' WHERE student_id='$sid'");
+		}
+
+	return $leftcommunities;
+	}
+
 /*Remove a sid from a commmunity*/
+/*Should only really be called to do the work from within joinCommunity*/
 function leaveCommunity($sid,$community){
 	$todate=date("Y-m-d");
 	$type=$community['type'];
@@ -402,73 +540,9 @@ function leaveCommunity($sid,$community){
 	else{$comid=updateCommunity($community);}
 	mysql_query("UPDATE comidsid SET leavingdate='$todate' WHERE
 							community_id='$comid' AND student_id='$sid'");
-	if($type=='year'){$studentfield='yeargroup_id';}
-	elseif($type=='form'){$studentfield='form_id';}
-	if($studentfield!=''){
-		mysql_query("UPDATE student SET $studentfield='' WHERE id='$sid'");
-		}
-	}
-
-/*Add a sid to a community*/
-function joinCommunity($sid,$community){
-	$todate=date("Y-m-d");
-	$type=$community['type'];
-	$name=$community['name'];
-	if($community['id']!=''){$comid=$community['id'];}
-	else{$comid=updateCommunity($community);}
-
-	/*membership of a form or yeargroup is exclusive - need to remove
-	from old group first - and where student progresses through
-	application procedure form enquired to year*/
-	$oldtypes=array();
-	if($type=='year'){
-		$studentfield='yeargroup_id';
-		$oldtypes[]=$type;
-		$oldtypes[]='accepted';
-		}
-	elseif($type=='form'){
-		$studentfield='form_id';
-		$oldtypes[]=$type;
-		}
-	elseif($type=='alumni' ){
-		$studentfield='yeargroup_id';
-		$oldtypes[]='year';
-		}
-	elseif($type=='applied'){
-		$studentfield='yeargroup_id';
-		$oldtypes[]='accepted';
-		}
-	elseif($type=='accepted'){
-		$studentfield='yeargroup_id';
-		$oldtypes[]='enquired';
-		}
-
-	if($studentfield!=''){
-	   	$d_student=mysql_query("SELECT $studentfield FROM student WHERE id='$sid'");
-		$oldname=mysql_result($d_student,0);
-
-   		if($oldname!='' and $name!=$oldname){
-			/*first remove sid from their old group*/
-			while(list($index,$oldtype)=each($oldtypes)){
-				$oldcommunity=array('type'=>$oldtype,'name'=>$oldname);
-				leaveCommunity($sid,$oldcommunity);
-				}
-			}
-		mysql_query("UPDATE student SET $studentfield='$name' WHERE id='$sid'");
-		}
-
-	$d_comidsid=mysql_query("SELECT * FROM comidsid WHERE
-				community_id='$comid' AND student_id='$sid'");
-	if(mysql_num_rows($d_comidsid)==0){
-		mysql_query("INSERT INTO comidsid SET joiningdate='$todate',
-							community_id='$comid', student_id='$sid'");
-		}
-	else{
-		mysql_query("UPDATE comidsid SET leavingdate='' WHERE
-							community_id='$comid' AND student_id='$sid'");
-		}
-
-	return $oldname;
+	if($type=='year'){mysql_query("UPDATE student SET yeargroup_id=NULL WHERE id='$sid'");}
+	elseif($type=='form'){mysql_query("UPDATE student SET form_id='' WHERE id='$sid'");}
+	return;
 	}
 
 /*checks for a cohort and creates if it doesn't exist*/

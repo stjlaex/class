@@ -15,7 +15,7 @@ CREATE TABLE student (
 	gender 			enum('','M','F') not null default '', 
 	dob 			date not null default '0000-00-00', 
 	form_id 		varchar(10) not null default '',
-	yeargroup_id 	smallint not null default '0', 
+	yeargroup_id 	smallint, 
 	index 			index_name (surname(5),forename(5)),
 	index 			index_forename (forename(5)),
 	primary key (id)

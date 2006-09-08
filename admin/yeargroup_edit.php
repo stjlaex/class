@@ -4,11 +4,11 @@
 $action='yeargroup_edit_action.php';
 $cancel='yeargroup_matrix.php';
 
-if(isset($_GET{'newyid'})){$yid=$_GET{'newyid'};}
-if(isset($_GET{'newtid'})){$newtid=$_GET{'newtid'};}else{$newtid='';}
-if(isset($_POST{'yid'})){$yid=$_POST{'yid'};}
-if(isset($_POST{'newcomid'})){$newcomid=$_POST{'newcomid'};}else{$newcomid='';}
-if(isset($_POST{'newtid'})){$newtid=$_POST{'newtid'};}
+if(isset($_GET['newyid'])){$yid=$_GET['newyid'];}
+if(isset($_GET['newtid'])){$newtid=$_GET['newtid'];}else{$newtid='';}
+if(isset($_POST['yid'])){$yid=$_POST['yid'];}
+if(isset($_POST['newcomid'])){$newcomid=$_POST['newcomid'];}else{$newcomid='';}
+if(isset($_POST['newtid'])){$newtid=$_POST['newtid'];}
 
 	/*Check user has permission to edit*/
 	$perm=getYearPerm($yid,$respons);

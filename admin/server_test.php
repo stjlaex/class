@@ -6,6 +6,7 @@ $host='admin.php';
 $choice='server_test.php';
 $current='server_test.php';
 
+if(!isset($_SESSION['username'])){exit;}
 ?>
 
 <div class="content">

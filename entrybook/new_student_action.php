@@ -16,7 +16,7 @@ if($sub=='Submit'){
 		if(isset($val['value']) and is_array($val) and isset($val['table_db'])){
 			$field=$val['field_db'];
 			$inname=$field;
-			$inval=clean_text($_POST{"$inname"});
+			$inval=clean_text($_POST[$inname]);
 				if($val['table_db']=='student'){
 					mysql_query("UPDATE student SET $field='$inval'	WHERE id='$sid'");
 					}
@@ -31,17 +31,21 @@ if($sub=='Submit'){
 		$comtype='year';
 		$comname=$yid;
 		}
+	elseif($enrolstatus=='C'){
+		$comtype='year';
+		$comname='';
+		}
 	else{
 		if($enrolstatus=='P'){$comtype='alumni';}
 		elseif($enrolstatus=='EN'){$comtype='enquired';}
 		elseif($enrolstatus=='AP'){$comtype='applied';}
 		elseif($enrolstatus=='AC'){$comtype='accepted';}
-		$comname=date('Y');
+		$comname=$comtype;
 		}
 
 	$community=array('type'=>$comtype,'name'=>$comname);
 	joinCommunity($sid,$community);
-	$result[]=get_string('newstudentadded',$book).$comtype.' :'.$comname;
+	$result[]=get_string('newstudentadded',$book);
 
 
 include('scripts/results.php');

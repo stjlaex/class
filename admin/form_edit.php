@@ -3,11 +3,12 @@
  */
 $action='form_edit_action.php';
 $cancel='formgroup_matrix.php';
+$choice='formgroup_matrix.php';
 
-if(isset($_GET{'newfid'})){$fid=$_GET{'newfid'};}
-if(isset($_GET{'newtid'})){$newtid=$_GET{'newtid'};}else{$newtid='';}
-if(isset($_POST{'fid'})){$fid=$_POST{'fid'};}
-if(isset($_POST{'newtid'})){$newtid=$_POST{'newtid'};}
+if(isset($_GET['newfid'])){$fid=$_GET['newfid'];}
+if(isset($_GET['newtid'])){$newtid=$_GET['newtid'];}else{$newtid='';}
+if(isset($_POST['fid'])){$fid=$_POST['fid'];}
+if(isset($_POST['newtid'])){$newtid=$_POST['newtid'];}
 
 	/*Check user has permission to edit*/
 	$perm=getFormPerm($fid,$respons);

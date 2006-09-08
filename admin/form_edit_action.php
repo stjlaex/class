@@ -4,13 +4,13 @@
 
 $action='form_edit.php';
 
-if(isset($_POST{'fid'})){$fid=$_POST{'fid'};}
-if(isset($_POST{'newtid'})){$newtid=$_POST{'newtid'};}
-if(isset($_POST{'newsids'})){$newsids=(array)$_POST{'newsids'};}
+if(isset($_POST['fid'])){$fid=$_POST['fid'];}
+if(isset($_POST['newtid'])){$newtid=$_POST['newtid'];}
+if(isset($_POST['newsids'])){$newsids=(array)$_POST['newsids'];}
 else{$newsids=array();}
-if(isset($_POST{'oldsids'})){$oldsids=(array)$_POST{'oldsids'};}
+if(isset($_POST['oldsids'])){$oldsids=(array)$_POST['oldsids'];}
 else{$oldsids=array();}
-if(isset($_POST{'classestoo'})){$classestoo=$_POST{'classestoo'};}
+if(isset($_POST['classestoo'])){$classestoo=$_POST['classestoo'];}
 
 include('scripts/sub_action.php');
 
@@ -21,8 +21,9 @@ if($sub=='Submit'){
 
 	/*sids to remove*/
    	while(list($index,$sid)=each($oldsids)){
-		leaveCommunity($sid,array('type'=>'form','name'=>$fid));
-		if($classestoo=='yes'){
+		$oldcommunities=joinCommunity($sid,array('type'=>'form','name'=>''));
+		$oldfid=$oldcommunities['form'][0]['name'];
+		if($classestoo=='yes' and $oldfid==$fid){
 			for($c=0;$c<sizeof($changecids);$c++){
 				$cid=$changecids[$c];
 				mysql_query("DELETE FROM cidsid WHERE
@@ -33,29 +34,25 @@ if($sub=='Submit'){
 
 	/*sids to add*/
    	while(list($index,$sid)=each($newsids)){
-		$oldfid=joinCommunity($sid,array('type'=>'form','name'=>$fid));
-		if($classestoo=='yes'){
-			if($oldfid!=''){
-				$otherchangecids=array();
-				$otherchangecids=formsClasses($oldfid);
-				for($c=0;$c<sizeof($otherchangecids);$c++){
-					$cid=$otherchangecids[$c];
-					mysql_query("DELETE FROM cidsid WHERE
+		$oldcommunities=joinCommunity($sid,array('type'=>'form','name'=>$fid));
+		$oldfid=$oldcommunities['form'][0]['name'];
+		if($classestoo=='yes' and $oldfid!=$fid){
+			$otherchangecids=array();
+			$otherchangecids=formsClasses($oldfid);
+			for($c=0;$c<sizeof($otherchangecids);$c++){
+				$cid=$otherchangecids[$c];
+				mysql_query("DELETE FROM cidsid WHERE
 								student_id='$sid' AND class_id='$cid' LIMIT 1");
-					}
 				}
-			if($oldfid!=$fid){
-				for($c=0;$c<sizeof($changecids);$c++){
-					$cid=$changecids[$c];
-					mysql_query("INSERT INTO cidsid
+			for($c=0;$c<sizeof($changecids);$c++){
+				$cid=$changecids[$c];
+				mysql_query("INSERT INTO cidsid
 		   				(student_id, class_id) VALUES ('$sid', '$cid')");
-					}
 				}
 			}
 		}
 
 	}
 
-include('scripts/results.php');
 include('scripts/redirect.php');
 ?>

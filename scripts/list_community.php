@@ -7,7 +7,7 @@
  */
 
 
-	if(!isset($required)){$required='yes';}
+	if(!isset($required)){$required='no';}
 	if(!isset($multi)){$multi='4';}
 	if(!isset($icomid)){$icomid='';}else{$icomid++;}
 	if(!isset($onchange)){$onchange='no';}

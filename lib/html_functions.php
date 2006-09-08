@@ -4,16 +4,18 @@
  * Generic functions for producing html entities.
  */
 
-function three_buttonmenu($extrabuttons=array()){
+function three_buttonmenu($extrabuttons=''){
 ?>
 <div class="buttonmenu">
 <?php
+	if(is_array($extrabuttons)){
 		 while(list($description,$value)=each($extrabuttons)){
 ?>
 	<button onClick="processContent(this);" name="<?php print $value['name'];?>" 
 	  value="<?php print $value['value'];?>"><?php print_string($description);?></button>
 <?php
 			 }
+		}
 ?>
 	<button onClick="processContent(this);" name="sub"  style="margin-left:1em;"
 	  value="Submit"><?php print_string('submit');?></button>
