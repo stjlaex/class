@@ -1,29 +1,25 @@
 <?php 
-/**											   year_edit.php
+/**											  community_group_edit.php
  */
-$action='yeargroup_edit_action.php';
-$cancel='yeargroup_matrix.php';
 
-if(isset($_GET['newyid'])){$yid=$_GET['newyid'];}
-if(isset($_GET['newtid'])){$newtid=$_GET['newtid'];}else{$newtid='';}
-if(isset($_POST['yid'])){$yid=$_POST['yid'];}
+$action='community_group_edit_action.php';
+$cancel='community_group.php';
+
+if(isset($_GET['comid'])){$comid=$_GET['comid'];}
+if(isset($_GET['newcomtype'])){$newcomtype=$_GET['newcomtype'];}
+if(isset($_POST['comid'])){$comid=$_POST['comid'];}
 if(isset($_POST['newcomid'])){$newcomid=$_POST['newcomid'];}else{$newcomid='';}
-if(isset($_POST['newtid'])){$newtid=$_POST['newtid'];}
+if(isset($_POST['newcomtype'])){$newcomtype=$_POST['newcomtype'];}
 
-	/*Check user has permission to edit*/
-	$perm=getYearPerm($yid,$respons);
-	$neededperm='w';
-	include('scripts/perm_action.php');
-
-	$d_year=mysql_query("SELECT * FROM yeargroup WHERE id='$yid'");
-	$yeargroup=mysql_fetch_array($d_year, MYSQL_ASSOC);
-	$yearcommunity=array('type'=>'year','name'=>$yid);
+	$d_com=mysql_query("SELECT name FROM community WHERE id='$comid'");
+	$comname=mysql_result($d_com,0);
+	$currentcommunity=array('type'=>$newcomtype,'id'=>$comid);
 
 	if($newcomid!=''){$newcommunity=array('id'=>$newcomid);}
-	else{$newcommunity=array('type'=>'year','name'=>'none');}
+	else{$newcommunity=array('type'=>'year','name'=>'');}
 
-	$oldstudents=listinCommunity($yearcommunity);
-	$newstudents=listin_unionCommunities($yearcommunity,$newcommunity);
+	$oldstudents=listinCommunity($currentcommunity);
+	$newstudents=listin_unionCommunities($currentcommunity,$newcommunity);
 
 	three_buttonmenu($extrabuttons);
 ?>
@@ -34,11 +30,13 @@ if(isset($_POST['newtid'])){$newtid=$_POST['newtid'];}
 	  <div style="width:33%;float:left;">
 		<table class="listmenu">
 		  <caption>
-			<?php print_string('current');?>
-			<?php print_string('yeargroup');?>
+			<?php
+			$description=displayEnum($newcomtype,'community_type');
+			print_string($description,$book);
+			?>
 		  </caption>
 		  <tr>
-		  <th><?php print $yeargroup['name'];?></th>
+		  <th><?php print $comname;?></th>
 			<th><?php print_string('remove');?></th>
 		  </tr>
 <?php
@@ -95,10 +93,9 @@ if(isset($_POST['newtid'])){$newtid=$_POST['newtid'];}
 		</div>
 		</fieldset>
 	  </div>
-	<input type="hidden" name="yid" value="<?php print $yid;?>" /> 
-	<input type="hidden" name="name" value="<?php print $yid;?>" /> 
-	<input type="hidden" name="newtid" value="<?php print $newtid;?>" />
-	<input type="hidden" name="newyid" value="<?php print $newyid;?>" />
+	<input type="hidden" name="comid" value="<?php print $comid;?>" /> 
+	<input type="hidden" name="newcomid" value="<?php print $newcomid;?>" /> 
+	<input type="hidden" name="newcomtype" value="<?php print $newcomtype;?>" />
 	<input type="hidden" name="choice" value="<?php print $choice;?>" />
 	<input type="hidden" name="current" value="<?php print $action;?>" />
 	<input type="hidden" name="cancel" value="<?php print $cancel;?>" />

@@ -71,12 +71,22 @@ $string['changegroupname']='Change the name of this group';
 $string['removedresponsibility']='Removed responsibility';
 $string['configure']='Configure';
 $string['changegroup']='Select students from this group';
-$string['studentsnotin']='Not in this yeargroup';
-$string['studentsalreadyin']='Already in this yeargroup';
+$string['studentsnotin']='Not in this group';
+$string['studentsalreadyin']='Already in this group';
 $string['listofuserssenttoadmin']='List of users sent to administrator.';
 $string['emailadminwithuserlist']='Send a list detailing all users to
 	administrator - without changing passwords.';
 $string['emailuserlist']='Email list to administrator';
-$string['']='';
+$string['communitytype']='Type of community';
+$string['communitygroups']='Community groups';
+$string['changetype']='Change type';
+$string['createnewgroup']='Create new group';
+$string['academic']='Curriculum group';
+$string['registrationgroup']='Registration group';
+$string['tutorgroup']='Study group';
+$string['trip']='Excursion';
+$string['travelstop']='Bus stop';
+$string['other']='Other';
+$string['community']='Community';
 $string['']='';
 ?>

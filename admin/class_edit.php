@@ -5,10 +5,10 @@
 $action='class_edit_action.php';
 $cancel='teacher_matrix.php';
 
-if(isset($_GET{'newcid'})){$newcid=$_GET{'newcid'};}
-if(isset($_GET{'newtid'})){$newtid=$_GET{'newtid'};}else{$newtid='';}
-if(isset($_POST{'newcid'})){$newcid=$_POST{'newcid'};}
-if(isset($_POST{'newtid'})){$newtid=$_POST{'newtid'};}
+if(isset($_GET['newcid'])){$newcid=$_GET['newcid'];}
+if(isset($_GET['newtid'])){$newtid=$_GET['newtid'];}else{$newtid='';}
+if(isset($_POST['newcid'])){$newcid=$_POST['newcid'];}
+if(isset($_POST['newtid'])){$newtid=$_POST['newtid'];}
 
 $d_class=mysql_query("SELECT * FROM class WHERE id='$newcid'");
 $class=mysql_fetch_array($d_class, MYSQL_ASSOC);
@@ -41,11 +41,12 @@ three_buttonmenu($extrabuttons);
 			(SELECT a.student_id, b.surname, b.forename,
 			b.middlenames, b.form_id FROM
 			comidsid a, student b WHERE a.community_id='$comid' AND
-			b.id=a.student_id  AND (a.leavingdate='' OR a.leavingdate IS NULL))");}
+			b.id=a.student_id  AND (a.leavingdate='0000-00-00' OR a.leavingdate IS NULL))");}
 		else{mysql_query("INSERT INTO cohortstudents SELECT
 				a.student_id, b.surname, b.forename, b.middlenames, 
 				b.form_id FROM comidsid a,
-				student b WHERE a.community_id='$comid' AND b.id=a.student_id");}
+				student b WHERE a.community_id='$comid' AND b.id=a.student_id
+				AND (a.leavingdate='0000-00-00' OR a.leavingdate IS NULL)");}
 		$firstit++;
 		}
 	/*Fetch students already in classes for this subject.*/
@@ -81,8 +82,8 @@ three_buttonmenu($extrabuttons);
 				b.forename, b.yeargroup_id, b.form_id FROM cidsid a, student b 
 				WHERE a.class_id='$newcid' AND b.id=a.student_id ORDER BY b.surname");
 	while($student=mysql_fetch_array($d_student, MYSQL_ASSOC)){
-		print '<tr><td>'.$student['forename'].'
-		    '.$student['surname'].' ('.$student['form_id'].')</td>';
+		print '<tr><td>'.$student['surname']. 
+				', '.$student['forename'].' ('.$student['form_id'].')</td>';
 		print '<td><input type="checkbox" name="'.$student['student_id'].'" /></td>';
 		print '</tr>';
 		}

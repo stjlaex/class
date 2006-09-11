@@ -37,9 +37,7 @@ three_buttonmenu();
 	$d_year=mysql_query("SELECT * FROM yeargroup ORDER BY section_id, id");
 	while($year=mysql_fetch_array($d_year,MYSQL_ASSOC)){
 		$yid=$year['id'];
-		$d_student=mysql_query("SELECT COUNT(id) FROM student
-									WHERE yeargroup_id='$yid'");
-		$nosids=mysql_result($d_student,0);
+		$nosids=countinCommunity(array('type'=>'year','name'=>$yid));
 		$nosidstotal=$nosidstotal+$nosids;
 	   	print '<tr><td>';
 	   		print '<a href="admin.php?current=yeargroup_edit.php&cancel='.$choice.'&choice='.$choice.'&newtid='.$tid.'&newyid='.$yid.'">'.$year['name'].'</a>';

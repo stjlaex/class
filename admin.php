@@ -86,6 +86,12 @@ $tab=1;
 		<option <?php if($choice=='new_teacher.php'){print
 		'selected="selected" ';}?>value='new_teacher.php'>
 		  <?php print_string('newteachers');?></option>
+		<option <?php if($choice=='passwords.php'){print
+				'selected="selected" ';}?>value='passwords.php'>
+				<?php print_string('refreshpasswords',$book);?></option>
+		<option <?php if($choice=='community_group.php'){print
+				 'selected="selected" ';}?>value='community_group.php'>
+		  <?php print_string('communitygroups',$book);?></option>
 		<option <?php if($choice=='class_matrix.php'){print
 				 'selected="selected" ';}?>value='class_matrix.php'>
 		  <?php print_string('classesmatrix');?></option>
@@ -100,9 +106,6 @@ $tab=1;
 		<option <?php if($choice=='year_end.php'){print
 				'selected="selected" ';}?>value='year_end.php'>
 				<?php print_string('yearend');?></option>
-		<option <?php if($choice=='passwords.php'){print
-				'selected="selected" ';}?>value='passwords.php'>
-				<?php print_string('refreshpasswords',$book);?></option>
 		<option <?php if($choice=='server_test.php'){print
 				'selected="selected" ';}?>value='server_test.php'>
 				<?php print_string('servertest');?></option>

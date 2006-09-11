@@ -106,7 +106,7 @@ three_buttonmenu();
 		if($user['username']!='administrator'){
 			$uid=$user['uid'];
 			print '<tr>';
-			print '<td>'.$user['username'];
+			print '<td>'.$user['username'].' ('.$user['surname'].')';
 			print '</td><td>';
 			$d_group=mysql_query("SELECT * FROM groups LEFT JOIN perms ON
 			perms.gid=groups.gid WHERE perms.uid='$uid' AND

@@ -89,6 +89,8 @@ elseif($sub=='Submit'){
 		class.id=cidsid.class_id AND class.course_id='$crid'");
 	mysql_query("DELETE tidcid.* FROM tidcid, class WHERE 
 		class.id=tidcid.class_id AND class.course_id='$crid'");
+	mysql_query("DELETE midcid.* FROM midcid, class WHERE 
+		class.id=midcid.class_id AND class.course_id='$crid'");
 	mysql_query("DELETE FROM class WHERE course_id='$crid'");
 
 	$d_classes=mysql_query("SELECT * FROM classes WHERE

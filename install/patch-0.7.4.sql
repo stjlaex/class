@@ -104,7 +104,7 @@ CREATE TABLE cohort (
 CREATE TABLE community (
 	id			smallint unsigned not null auto_increment, 
 	name		varchar(30) not null default '', 
-    type		enum('','family','form','year','tutor','alumni','enquired','applied','accepted','trip','reg','stop','extra') not null default '',
+    type		enum('','academic','family','form','year','tutor','alumni','enquired','applied','accepted','trip','reg','stop','extra') not null default '',
     details		varchar(240) not null default '',
 	unique 		indexcom (type,name),
 	primary key  	(id)
@@ -158,4 +158,4 @@ ALTER TABLE incidents
 	CHANGE ncyear yeargroup_id smallint unsigned not null default '0';
 ALTER TABLE info
 	CHANGE enrolstatus 	enrolstatus	enum('EN','AP','AC','C', 'P', 'G','S','M') not null default 'C';
-ALTER TABLE student CHANGE yeargroup_id yeargroup_id SMALLINT( 6 );
+ALTER TABLE student CHANGE yeargroup_id yeargroup_id SMALLINT(6);

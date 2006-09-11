@@ -49,9 +49,7 @@ three_buttonmenu();
 		$fid=$form['id'];
 		$fid=$form['id'];
 		$yid=$form['yeargroup_id'];
-		$d_student=mysql_query("SELECT COUNT(id) FROM student
-									WHERE form_id='$fid'");
-		$nosids=mysql_result($d_student,0);
+		$nosids=countinCommunity(array('type'=>'form','name'=>$fid));
 		$tid=$form['teacher_id'];
 	   	print '<tr><td>';
 	   	print '<a href="admin.php?current=form_edit.php&cancel='. 

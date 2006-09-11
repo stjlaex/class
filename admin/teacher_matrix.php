@@ -105,7 +105,7 @@ three_buttonmenu();
 					class.subject_id LIKE '$bid' ORDER BY tidcid.class_id");   
 	   	while($class=mysql_fetch_array($d_class,MYSQL_ASSOC)){
 			$cids=$class['class_id'];
-			print '<a href="admin.php?current=class_edit.php&cancel='.$choice.'&newtid='.$tid.'&newcid='.$cids.'">'.$cids.'</a>&nbsp&nbsp';
+			print '<a href="admin.php?current=class_edit.php&choice='.$choice.'&cancel='.$choice.'&newtid='.$tid.'&newcid='.$cids.'">'.$cids.'</a>&nbsp&nbsp';
 			}
 		print '</td></tr>';
 		}

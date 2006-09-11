@@ -39,6 +39,9 @@ while($cohort=mysql_fetch_array($d_cohort,MYSQL_ASSOC)){
 		  <th>
 			<?php print_string('communities',$book); ?>
 		  </th>
+		  <th>
+			&nbsp
+		  </th>
 		</tr>
 <?php
 	while(list($index,$cohort)=each($cohorts)){
@@ -50,11 +53,14 @@ while($cohort=mysql_fetch_array($d_cohort,MYSQL_ASSOC)){
 			$comids[]=$comid['community_id'];
 			}
 
-  		print '<tr><th>'.$cohort['stage'].'</th>';
+  		print '<tr><th>'.$cohort['stage'].$index.'</th>';
 		print '<input type="hidden" name="cohids[]" value="'.$cohid.'" />'
 ?>
 		  <td>
 <?php  $icomid=$index; $type='year'; include('scripts/list_community.php'); ?>
+		  </td>
+		  <td>
+<?php  $icomid=$icomid-1; $type='academic'; include('scripts/list_community.php'); ?>
 		  </td>
 		</tr>
 <?php
