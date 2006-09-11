@@ -73,7 +73,10 @@ $string['configure']='Configure';
 $string['changegroup']='Select students from this group';
 $string['studentsnotin']='Not in this yeargroup';
 $string['studentsalreadyin']='Already in this yeargroup';
-$string['']='';
+$string['listofuserssenttoadmin']='List of users sent to administrator.';
+$string['emailadminwithuserlist']='Send a list detailing all users to
+	administrator - without changing passwords.';
+$string['emailuserlist']='Email list to administrator';
 $string['']='';
 $string['']='';
 ?>

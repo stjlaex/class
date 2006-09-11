@@ -11,7 +11,7 @@ if($sub=='Submit'){
 
 	$users=getAllStaff();
 
-	if($_POST['newpasswords']=='regenerate'){
+	if($_POST['passwords']=='yes'){
 		$chars=9;
 		$length=3;
 		foreach($users as $uid => $user){
@@ -26,7 +26,7 @@ if($sub=='Submit'){
 						' '.$user['email'].' '.$user['username'].' : '.$user['userno'];
 				$result[]=updateUser($user,'yes',$CFG->shortkeyword);
 
-				if($_POST['emailstaff']=='reminders'){
+				if($_POST['emailstaff']=='yes'){
 					//$email=$user['email'];
 					if(eregi('^[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.([a-zA-Z]{2,4})$', $email)){
 						$headers=emailHeader();
@@ -44,42 +44,36 @@ if($sub=='Submit'){
 				}
 			else{$admin=$user;}
 			}
+		}
 
-		unset($message);
-		$email=$admin['email'];
-		foreach($usernolist as $index => $line){
-			$message=$message . $line."\r\n";
-			}
-		if(eregi('^[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.([a-zA-Z]{2,4})$', $email)){
-			$headers=emailHeader();
-			$footer='--'. "\r\n".get_string('emailfooterdisclaimer');
-			$message=$message .$footer;
-			$subject=get_string('emailusernolistsubject',$book);
-			if(mail($email,$subject,$message,$headers)){
-				$result[]='List of user numbers sent to administrator'."\r\n";
+	elseif($_POST['emailadmin']=='yes'){
+		foreach($users as $uid => $user){
+			if($user['username']!='administrator'){
+				$user['userno']=$code;
+				$user['passwd']='';
+				$usernolist[]=$user['username'].' '.$user['surname']. ','.$user['forename']. 
+						' '.$user['role'].'-'.$user['nologin'].' '.$user['email'];
 				}
+			else{$admin=$user;}
 			}
 		}
+
+	unset($message);
+	$email=$admin['email'];
+	foreach($usernolist as $index => $line){
+		$message=$message . $line."\r\n";
+		}
+	if(eregi('^[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.([a-zA-Z]{2,4})$', $email)){
+		$headers=emailHeader();
+		$footer='--'. "\r\n".get_string('emailfooterdisclaimer');
+		$message=$message .$footer;
+		$subject=get_string('emailusernolistsubject',$book);
+		if(mail($email,$subject,$message,$headers)){
+			$result[]=get_string('listofuserssenttoadmin',$book);
+			}
+		}
+
 	}
 include('scripts/results.php');
 include('scripts/redirect.php');	
 ?>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

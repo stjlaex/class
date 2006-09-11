@@ -17,13 +17,19 @@ if(!isset($iyesno)){$iyesno=0;}else{$iyesno++;}
 	<label for="yes<?php print $iyesno; ?>"><?php print_string('yes');?></label>
 	<input type="radio" name="<?php print $checkname;?>" 
 		  title="yes" id="yes<?php print $iyesno; ?>" 
-		  value="yes" <?php if($choice=='yes'){print 'checked';}?> />
+		  value="yes" <?php if($checkchoice=='yes'){print 'checked';}?> />
 	  </td>
 	  <td>
 	<label for="no<?php print $iyesno; ?>"><?php print_string('no');?></label>
 	<input type="radio" name="<?php print $checkname;?>" 
 		  title="no" id="no<?php print $iyesno; ?>"
-		  value="no" <?php if($choice=='no'){print 'checked';}?> />
+		  value="no" <?php if($checkchoice=='no'){print 'checked';}?> />
 	  </td>
 	</tr>
  </table>
+<?php
+unset($checkcaption);
+unset($checkname);
+unset($checkchoice);
+unset($required);
+?>
