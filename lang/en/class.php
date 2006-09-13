@@ -226,6 +226,8 @@ $string['unassignteacher']='Unassign teacher';
 $string['renamegroup']='Rename group';
 $string['yeargroups']='Year groups';
 $string['createnewgroup']='Add new community';
+$string['savedefinition']='Save definition';
+$string['loaddefinition']='Load definition';
 $string['']='';
 $string['']='';
 ?>

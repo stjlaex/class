@@ -8,9 +8,9 @@ $action='';
 
 include('scripts/sub_action.php');
 
-$idef=$_SESSION{'idef'};
-$instudents=$_SESSION{'instudents'};
-$nofields=$_SESSION{'nofields'};
+$idef=$_SESSION['idef'];
+$instudents=$_SESSION['instudents'];
+$nofields=$_SESSION['nofields'];
 
 if($sub=='Save'){
 	$action='import_students_cidef.php';
@@ -20,16 +20,16 @@ if($sub=='Save'){
 		$table='';
 		$field='';
 		$preset='';
-		if(isset($_POST{"table$c"})){
-			$table=$_POST{"table$c"};
-			$field=$_POST{"field$c"};
-			if(isset($_POST{"preset$c"})){$preset=$_POST{"preset$c"};}
-			else {$preset='';}
+		if(isset($_POST["table$c"])){
+			$table=$_POST["table$c"];
+			$field=$_POST["field$c"];
+			if(isset($_POST["preset$c"])){$preset=$_POST["preset$c"];}
+			else{$preset='';}
 			}
 		$out=array($c, $table, $field, $preset);
 		array_push($idef, $out);			
 		}
-	$_SESSION{'idef'}=$idef;
+	$_SESSION['idef']=$idef;
 
 	three_buttonmenu();
 ?>
@@ -99,7 +99,7 @@ elseif($sub=='Submit'){
 		$gid1fields=array_merge($row, $gid1fields);
 		$gid2fields=array_merge($row, $gid2fields);
 		$gid3fields=array_merge($row, $gid3fields);
-		$row=array("relationship" => "enum");
+		$row=array('relationship' => 'enum');
 		$gidformats=array_merge($row, $gidformats);
 
 		$gid1address=array();
@@ -120,7 +120,7 @@ elseif($sub=='Submit'){
 		$gid1phone=array();
 		$gid2phone=array();
 		$gid3phone=array();
-   		$d_table=array("home phone", "mobile phone", "work phone", "fax");
+   		$d_table=array('home phone', 'mobile phone', 'work phone', 'fax');
 		while(list($c, $field_key)=each($d_table)){
 			$row=array("$field_key" => -1);
   			$gid1phone=array_merge($row, $gid1phone);
@@ -138,7 +138,7 @@ elseif($sub=='Submit'){
 				if (array_key_exists("$field", $infofields)){$infofields["$field"]=$c;}
 				}
 			if($table=='gid1'){
-				$gid1="exists";
+				$gid1='exists';
 				if (array_key_exists("$field", $gid1fields)){$gid1fields["$field"]=$c;}
 				if (array_key_exists("$field",
 					$gid1address)){$gid1address["$field"]=$c; $gid1a="exists";}
@@ -146,14 +146,14 @@ elseif($sub=='Submit'){
 					$gid1phone)){$gid1phone["$field"]=$c; $gid1p="exists";}
 				}
 			if($table=='gid2'){
-				$gid2="exists";
+				$gid2='exists';
 				if (array_key_exists("$field", $gid2fields)){$gid2fields["$field"]=$c;}
 				if (array_key_exists("$field",
 					$gid2address)){$gid2address["$field"]=$c; $gid2a="exists";}
 				if (array_key_exists("$field", $gid2phone)){$gid2phone["$field"]=$c; $gid2p="exists";}
 				}
 			if($table=='gid3'){
-				$gid3="exists";
+				$gid3='exists';
 				if (array_key_exists("$field", $gid3fields)){$gid3fields["$field"]=$c;}
 				if (array_key_exists("$field",
 					$gid3address)){$gid3address["$field"]=$c; $gid3a="exists";}
@@ -175,14 +175,14 @@ elseif($sub=='Submit'){
 			else{
 				$val=$student[$field_no];
 				$format=$sidformats[$field_name];
-				if(isset($_POST{"preset$field_no"})){$val=$_POST{"preset$field_no"};}
+				if(isset($_POST["preset$field_no"])){$val=$_POST["preset$field_no"];}
 				$val=checkEntry($val, $format, $field_name);
 				mysql_query("UPDATE student SET $field_name='$val' WHERE id='$new_sid'");
 				if($field_name=='yeargroup_id'){
-					$oldcoms=joinCommunity(array('type'=>'year','name'=>$val));
+					$oldcoms=joinCommunity($new_sid,array('type'=>'year','name'=>$val));
 					}
-				if($field_name=='form_id'){
-					$oldcoms=joinCommunity(array('type'=>'form','name'=>$val));
+				elseif($field_name=='form_id'){
+					$oldcoms=joinCommunity($new_sid,array('type'=>'form','name'=>$val));
 					}
 				}
 			}
@@ -194,7 +194,7 @@ elseif($sub=='Submit'){
 			else{
 				$val=$student[$field_no];
 				$format=$sidformats[$field_name];
-				if(isset($_POST{"preset$field_no"})){$val=$_POST{"preset$field_no"};}
+				if(isset($_POST["preset$field_no"])){$val=$_POST["preset$field_no"];}
 				$val=checkEntry($val, $format, $field_name);
 				mysql_query("UPDATE info SET $field_name='$val' WHERE student_id='$new_sid'");			
 				}
@@ -203,10 +203,10 @@ elseif($sub=='Submit'){
 
 		/********* input for guardian number $gno ********/
 		for($gno=1;$gno<4;$gno++){
-			$gname="gid".$gno;
-			$gfields=$gname."fields";
-			$gaddress=$gname."address";
-			$gphone=$gname."phone";
+			$gname='gid'.$gno;
+			$gfields=$gname.'fields';
+			$gaddress=$gname.'address';
+			$gphone=$gname.'phone';
 			if(isset(${$gname})){
 				$surname=$student[${$gfields}['surname']];
 				$forename=$student[${$gfields}['forename']];
@@ -231,12 +231,12 @@ elseif($sub=='Submit'){
 				reset(${$gfields});
 				while (list($field_name, $field_no) = each(${$gfields})) {
 					if($field_no==-1){$val='';}//value is null
-					else {
+					else{
 						$val=$student[$field_no];
 						$format=$gidformats[$field_name];
-						if(isset($_POST{"preset$field_no"})){$val=$_POST{"preset$field_no"};}
+						if(isset($_POST["preset$field_no"])){$val=$_POST["preset$field_no"];}
 						$val=checkEntry($val, $format, $field_name);
-						if($field_name=='relationship'){$relationship=$val;} 
+						if($field_name=='relationship'){$relationship=$val;}
 						else{mysql_query("UPDATE guardian SET
 									$field_name='$val' WHERE id='$new_gid'");}
 						}
@@ -246,7 +246,7 @@ elseif($sub=='Submit'){
 						student_id='$new_sid', relationship='$relationship'");
 				/*input to address table: the four key items to check*/ 
 				$ok=0;	
-				if(isset(${$gname."a"})){
+				if(isset(${$gname.'a'})){
 					if(${$gaddress}['town']!=-1){$town=$student[${$gaddress}['town']]; $ok++;}
 						else{$town=''; }
 					if(${$gaddress}['building']!=-1){
@@ -297,7 +297,7 @@ elseif($sub=='Submit'){
 						else{
 							$val=$student[$field_no];
 							$format=$gidformats[$field_name];
-							if(isset($_POST{"preset$field_no"})){$val=$_POST{"preset$field_no"};}
+							if(isset($_POST["preset$field_no"])){$val=$_POST["preset$field_no"];}
 							$val=checkEntry($val, $format, $field_name);
 							mysql_query("UPDATE address SET
 								$field_name='$val' WHERE id='$new_aid'");
@@ -307,7 +307,7 @@ elseif($sub=='Submit'){
 					}
 	
 				/*input to phone table*/	
-				if(isset(${$gname."p"})){	
+				if(isset(${$gname.'p'})){	
 					reset(${$gphone});
 					while (list($field_name, $field_no) = each(${$gphone})) {
 						if($field_no==-1){$val='';}//value is null

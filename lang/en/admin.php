@@ -88,5 +88,11 @@ $string['trip']='Excursion';
 $string['travelstop']='Bus stop';
 $string['other']='Other';
 $string['community']='Community';
+$string['resultofdatafile']='Result of datafile';
+$string['fieldnumber']='Fieldnumber';
+$string['examplevalue']='Example imported value';
+$string['presetvalue']='Preset value';
+$string['fieldname']='Field-name';
+$string['']='';
 $string['']='';
 ?>

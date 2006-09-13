@@ -18,7 +18,6 @@ if(isset($_POST['newtid'])){$newtid=$_POST['newtid'];}
 	$d_form=mysql_query("SELECT * FROM form WHERE id='$fid'");
 	$form=mysql_fetch_array($d_form, MYSQL_ASSOC);
 	$yid=$form['yeargroup_id'];
-	if($yid==0){$yid='%';}
 	$d_year=mysql_query("SELECT name FROM yeargroup WHERE id='$yid'");
 	$year=mysql_result($d_year,0);
 

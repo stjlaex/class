@@ -8,9 +8,9 @@
 
 $action='import_students_action2.php';
 
-$idef=$_SESSION{'idef'};
-$instudents=$_SESSION{'instudents'};
-$nofields=$_SESSION{'nofields'};
+$idef=$_SESSION['idef'];
+$instudents=$_SESSION['instudents'];
+$nofields=$_SESSION['nofields'];
 
 /***********************************************************************/
 /*The imported definition idef() must match the nofields imported, so */
@@ -39,7 +39,7 @@ $nofields=$_SESSION{'nofields'};
 		while($info_fields=mysql_fetch_array($d_info,MYSQL_ASSOC)){
 				$field_name=$info_fields['Field'];
    				array_push($sidfields, $field_name);
-				$c++;		
+				$c++;
 				}
 	
 //				the possible fields for guardian data
@@ -93,10 +93,11 @@ $nofields=$_SESSION{'nofields'};
 		  <td><?php print $c;?></td>
 		  <td><?php print $egstudent[$c];?></td>
 		  <td>
-			<input type="text" size="10" name="<?php print 'preset'.$c; ?>" value="<?php print $idef[$c][3];?>"/>
+			<input type="text" size="10" 
+			  name="<?php print 'preset'.$c; ?>" value="<?php print $idef[$c][3];?>"/>
 		  </td>
 		  <td>
-			<select name="<?php print 'sidfield'.$c;?>">
+			<select tabindex="<?php print $tab++;?>" name="<?php print 'sidfield'.$c;?>">
 			  <option value=""></option>
 <?php
     for($c2=0; $c2<(sizeof($sidfields)); $c2++){
