@@ -53,7 +53,7 @@ while($cohort=mysql_fetch_array($d_cohort,MYSQL_ASSOC)){
 			$comids[]=$comid['community_id'];
 			}
 
-  		print '<tr><th>'.$cohort['stage'].$index.'</th>';
+  		print '<tr><th>'.$cohort['stage'].'</th>';
 		print '<input type="hidden" name="cohids[]" value="'.$cohid.'" />'
 ?>
 		  <td>

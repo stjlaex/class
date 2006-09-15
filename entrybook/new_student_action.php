@@ -33,7 +33,7 @@ if($sub=='Submit'){
 		}
 	elseif($enrolstatus=='C'){
 		$comtype='year';
-		$comname='';
+		$comname='none';
 		}
 	else{
 		if($enrolstatus=='P'){$comtype='alumni';}

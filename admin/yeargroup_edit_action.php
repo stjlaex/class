@@ -5,6 +5,7 @@
 $action='yeargroup_edit.php';
 
 if(isset($_POST['yid'])){$yid=$_POST['yid'];}
+if(isset($_POST['comtype'])){$comtype=$_POST['comtype'];}
 if(isset($_POST['newcomid'])){$newcomid=$_POST['newcomid'];}else{$newcomid='';}
 if(isset($_POST['newtid'])){$newtid=$_POST['newtid'];}
 if(isset($_POST['newsids'])){$newsids=(array)$_POST['newsids'];}
@@ -36,7 +37,7 @@ if($sub=='Submit'){
 		}
 
 	/*sids to add*/
-	$yearcommunity=array('type'=>'year','name'=>$yid);
+	$yearcommunity=array('type'=>$comtype,'name'=>$yid);
    	while(list($index,$sid)=each($newsids)){
 		$oldcommunities=joinCommunity($sid,$yearcommunity);
 		$oldfid=$oldcommunities['form'][0]['name'];

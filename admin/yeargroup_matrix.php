@@ -9,7 +9,7 @@ three_buttonmenu();
 ?>
   <div class="content">
 	  <form id="formtoprocess" name="formtoprocess" method="post"
-		action="<?php print $host; ?>" >
+										action="<?php print $host; ?>" >
 
 	<fieldset class="right">
 		  <legend><?php print_string('assignyeartoteacher',$book);?></legend>
@@ -43,7 +43,7 @@ three_buttonmenu();
 	   		print '<a href="admin.php?current=yeargroup_edit.php&cancel='.$choice.'&choice='.$choice.'&newtid='.$tid.'&newyid='.$yid.'">'.$year['name'].'</a>';
 		print '</td>';
 	   	print '<td>'.$nosids.'</td><td>';
-		$yearperms=array('r'=>1,'w'=>1,'x'=>1);/*head of years only*/
+		$yearperms=array('r'=>1,'w'=>1,'x'=>1);/*head of year only*/
 		$users=(array)getPastoralStaff($yid,$yearperms);
 		while(list($uid,$user)=each($users)){
 			if($user['role']!='office' and $user['role']!='admin'){
@@ -64,7 +64,37 @@ three_buttonmenu();
 	  </table>
 	</div>
 
+<?php 
 
+	if($_SESSION['role']=='office'  or $_SESSION['role']=='admin'){
+
+?>
+	<div class="right">
+	  <table class="listmenu">
+		<tr>
+		  <th><?php print_string('studentsnotonroll',$book);?></th>
+		  <th><?php print_string('numberofstudents',$book);?></th>
+		</tr>
+<?php
+
+		$communities=array();
+		$communities[]=array('type'=>'enquired','name'=>'enquired');
+		$communities[]=array('type'=>'applied','name'=>'applied');
+		$communities[]=array('type'=>'accepted','name'=>'accepted');
+		$communities[]=array('type'=>'alumni','name'=>getCurriculumYear());
+		while(list($index,$community)=each($communities)){
+			$nosids=countinCommunity($community);
+			print '<tr><td>';
+	   		print '<a href="admin.php?current=yeargroup_edit.php&cancel='.$choice.'&choice='.$choice.'&comtype='.$community['type'].'">'.get_string($community['type'],'infobook').'</a>';
+			print '</td>';
+			print '<td>'.$nosids.'</td></tr>';
+			}
+?>
+	  </table>
+	</div>
+<?php
+	}
+?>
 	  <input type="hidden" name="current" value="<?php print $action;?>" />
 	  <input type="hidden" name="choice" value="<?php print $choice;?>" />
 	  <input type="hidden" name="cancel" value="<?php print '';?>" />

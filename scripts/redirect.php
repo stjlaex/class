@@ -130,6 +130,11 @@ if(isset($newcomtype)){
 	 	<input type="hidden" name="newcomtype" value="<?php print $newcomtype;?>">
 <?php
 	}
+if(isset($comtype)){
+?>
+	 	<input type="hidden" name="comtype" value="<?php print $comtype;?>">
+<?php
+	}
 if(isset($contactno)){
 ?>
 	 	<input type="hidden" name="contactno" value="<?php print $contactno;?>">

@@ -1,27 +1,48 @@
 <?php 
-/**											   year_edit.php
+/**											   yeargroup_edit.php
  */
 $action='yeargroup_edit_action.php';
 $cancel='yeargroup_matrix.php';
 
 if(isset($_GET['newyid'])){$yid=$_GET['newyid'];}
 if(isset($_GET['newtid'])){$newtid=$_GET['newtid'];}else{$newtid='';}
+if(isset($_GET['comtype'])){$comtype=$_GET['comtype'];}else{$comtype='year';}
 if(isset($_POST['yid'])){$yid=$_POST['yid'];}
+if(isset($_POST['comtype'])){$comtype=$_POST['comtype'];}
 if(isset($_POST['newcomid'])){$newcomid=$_POST['newcomid'];}else{$newcomid='';}
 if(isset($_POST['newtid'])){$newtid=$_POST['newtid'];}
 
+
+if($newcomid!=''){$newcommunity=array('id'=>$newcomid);}
+
+if($comtype=='year'){
 	/*Check user has permission to edit*/
 	$perm=getYearPerm($yid,$respons);
 	$neededperm='w';
 	include('scripts/perm_action.php');
 
-	$d_year=mysql_query("SELECT * FROM yeargroup WHERE id='$yid'");
+	$d_year=mysql_query("SELECT name FROM yeargroup WHERE id='$yid'");
 	$yeargroup=mysql_fetch_array($d_year, MYSQL_ASSOC);
-	$yearcommunity=array('type'=>'year','name'=>$yid);
-
-	if($newcomid!=''){$newcommunity=array('id'=>$newcomid);}
-	else{$newcommunity=array('type'=>'year','name'=>'none');}
-
+	if($newcomid==''){$newcommunity=array('type'=>'year','name'=>'none');}
+	}
+elseif($comtype=='alumni'){
+	$yeargroup['name']=get_string($comtype,'infobook');
+	$yid=getCurriculumYear();
+	if($newcomid==''){
+		$newcommunity=array('type'=>'year','name'=>'none');
+		}
+	}
+else{
+	$yeargroup['name']=get_string($comtype,'infobook');
+	$yid=$comtype;
+	if($newcomid=='' and $comtype=='applied'){
+		$newcommunity=array('type'=>'enquired','name'=>'enquired');
+		}
+	elseif($newcomid=='' and $comtype=='accepted'){
+		$newcommunity=array('type'=>'accepted','name'=>'accepted');
+		}
+	}
+	$yearcommunity=array('type'=>$comtype,'name'=>$yid);
 	$oldstudents=listinCommunity($yearcommunity);
 	$newstudents=listin_unionCommunities($yearcommunity,$newcommunity);
 
@@ -97,6 +118,7 @@ if(isset($_POST['newtid'])){$newtid=$_POST['newtid'];}
 	  </div>
 	<input type="hidden" name="yid" value="<?php print $yid;?>" /> 
 	<input type="hidden" name="name" value="<?php print $yid;?>" /> 
+	<input type="hidden" name="comtype" value="<?php print $comtype;?>" /> 
 	<input type="hidden" name="newtid" value="<?php print $newtid;?>" />
 	<input type="hidden" name="newyid" value="<?php print $newyid;?>" />
 	<input type="hidden" name="choice" value="<?php print $choice;?>" />

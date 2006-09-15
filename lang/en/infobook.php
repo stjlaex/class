@@ -79,12 +79,14 @@ $string['home']='Home';
 $string['work']='Work';
 $string['holiday']='Holiday';
 $string['other']='Other';
-$string['enquired']='Enquiry';
+$string['enquired']='Enquired';
 $string['applied']='Applied';
 $string['accepted']='Accepted';
+$string['alumni']='Alumni';
 $string['guestpupil']='Guest pupil';
 $string['currentsubsidary(dualregistration)']='Current subsidary (dual reg.)';
 $string['currentmain(dualregistration)']='Current main (dual reg.)';
 $string['enrolstatus']='Enrolment status';
+$string['']='';
 $string['']='';
 ?>

@@ -26,6 +26,10 @@ input, textarea, select {
 input:focus, textarea:focus, select:focus {
 	border-color:#ff9900;
 	}
+input[readonly="readonly"]{
+	border-color:#cccccc;
+    background-color:#dddddd; 
+	}
 input[type="checkbox"] {
 	width:1em;
 	}

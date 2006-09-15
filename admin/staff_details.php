@@ -40,7 +40,7 @@ three_buttonmenu();
 		<div class="center">
 		  <label for="ID"><?php print_string('username');?></label>
 		  <input pattern="alphanumeric" readonly="readonly"  
-				type="text" id="ID" name="username" 
+				type="text" id="ID" name="username"  
 				maxlength="14" value="<?php print $user['username'];?>" />
 		</div>
 

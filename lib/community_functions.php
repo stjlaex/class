@@ -170,7 +170,7 @@ function joinCommunity($sid,$community){
 		$oldtypes[]='enquired';
 		$enrolstatus='C';
 		/*on current roll so can't just disappear*/
-		if($name==''){$name='none';$community['name']=$name;}
+		if($name=='' or $name=='none'){$name='none';$community['name']='none';}
 		}
 	elseif($type=='alumni'){
 		$oldtypes[]='year';
@@ -222,7 +222,12 @@ function joinCommunity($sid,$community){
 
 	/*update the student with new enrolstatus, and new id for form or yeargroup*/
 	if(isset($studentfield)){
-		mysql_query("UPDATE student SET $studentfield='$name' WHERE id='$sid'");
+		if($name!='none'){
+			mysql_query("UPDATE student SET $studentfield='$name' WHERE id='$sid'");
+			}
+		else{
+			mysql_query("UPDATE student SET $studentfield NULL WHERE id='$sid'");
+			}
 		}
 	if(isset($enrolstatus)){
 		mysql_query("UPDATE info SET enrolstatus='$enrolstatus' WHERE student_id='$sid'");

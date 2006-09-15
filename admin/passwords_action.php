@@ -22,12 +22,13 @@ if($sub=='Submit'){
 				while(strlen($code)<$length){$code.=array_rand($nums);}
 				$user['userno']=$code;
 				$user['passwd']='';
-				$usernolist[]=$user['surname']. ','.$user['forename']. 
-						' '.$user['email'].' '.$user['username'].' : '.$user['userno'];
+				$usernolist[]=$user['username']. 
+						':'.$user['userno'].', '.$user['surname']. ','.$user['forename']. 
+						', '.$user['role'].', '.$user['email'];
 				$result[]=updateUser($user,'yes',$CFG->shortkeyword);
 
 				if($_POST['emailstaff']=='yes'){
-					//$email=$user['email'];
+					$email=$user['email'];
 					if(eregi('^[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.([a-zA-Z]{2,4})$', $email)){
 						$headers=emailHeader();
 						$footer='--'. "\r\n" .get_string('emailfooterdisclaimer');
@@ -36,9 +37,9 @@ if($sub=='Submit'){
 						$message=$message .get_string('keynumber',$book).':'.$code."\r\n";
 						$message=$message ."\r\n".$footer;
 						$subject=get_string('emailnewloginsubject',$book);
-						//if(mail($email,$subject,$message,$headers)){
-						//	$result[]='Email sent to '.$user['username'];
-						//	}
+						if(mail($email,$subject,$message,$headers)){
+							$result[]='Email sent to '.$user['username'];
+							}
 						}
 					}
 				}

@@ -30,7 +30,7 @@ print '<?xml version="1.0" encoding="utf-8"?'.'>';
 </div>
 
 <div id="schoollogo">
-	<img src="../images/<?php print $CFG->schoollogo;?>" style="width:200px;" />
+	<img src="../images/<?php print $CFG->schoollogo;?>" />
 </div>
 
 </div>
