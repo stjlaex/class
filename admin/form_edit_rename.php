@@ -10,14 +10,18 @@ if(isset($_POST['newname'])){$newname=$_POST['newname'];}
 include('scripts/sub_action.php');
 
 if($sub=='Submit'){
-   	mysql_query("UPDATE form SET id='$newname', name='$newname'  WHERE 
-		id='$oldname'");
-   	mysql_query("UPDATE community SET name='$newname' WHERE 
+   	if(mysql_query("UPDATE form SET id='$newname', name='$newname'  WHERE 
+		id='$oldname'")){
+		mysql_query("UPDATE community SET name='$newname' WHERE 
 		name='$oldname' AND type='form'");
-   	mysql_query("UPDATE student SET form_id='$newname' WHERE 
+		mysql_query("UPDATE student SET form_id='$newname' WHERE 
 		form_id='$oldname'");
-	$result[]=$oldname.':'.$newname;
+		}
+	else{
+		$error[]=get_string('aformwiththisnamealreadyexists',$book);
+		}
 	$action=$cancel;
+	include('scripts/results.php');
 	include('scripts/redirect.php');
 	exit;
 	}

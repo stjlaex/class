@@ -74,7 +74,12 @@ three_buttonmenu($extrabuttons);
 		<caption><?php print_string('currentclassfor',$book);?>: <?php print $bid;?></caption>
 		<tr>
 		  <th><?php print $newcid.'/'.$newtid; ?></th>
-		  <td><?php print_string('remove');?></td>
+			<td>
+			  <?php print_string('remove');?><br />
+			  <input type="checkbox" name="checkall" 
+				value="yes" onChange="checkAll(this);" />
+				<?php print_string('checkall'); ?>
+			</td>
 		</tr>
 <?php
 	/*students already in this class*/

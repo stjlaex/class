@@ -94,5 +94,7 @@ $string['examplevalue']='Example imported value';
 $string['presetvalue']='Preset value';
 $string['fieldname']='Field-name';
 $string['studentsnotonroll']='Students not on current roll';
+$string['aformwiththisnamealreadyexists']='A form with this name already exists!';
+$string['']='';
 $string['']='';
 ?>

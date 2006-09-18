@@ -50,10 +50,9 @@ if($sub=='Submit'){
 	elseif($_POST['emailadmin']=='yes'){
 		foreach($users as $uid => $user){
 			if($user['username']!='administrator'){
-				$user['userno']=$code;
-				$user['passwd']='';
-				$usernolist[]=$user['username'].' '.$user['surname']. ','.$user['forename']. 
-						' '.$user['role'].'-'.$user['nologin'].' '.$user['email'];
+				$usernolist[]=$user['username']. 
+						':'.$user['userno'].', '.$user['surname']. ','.$user['forename']. 
+						', '.$user['role'].', '.$user['email'];
 				}
 			else{$admin=$user;}
 			}
@@ -61,6 +60,7 @@ if($sub=='Submit'){
 
 	unset($message);
 	$email=$admin['email'];
+	reset($usernolist);
 	foreach($usernolist as $index => $line){
 		$message=$message . $line."\r\n";
 		}

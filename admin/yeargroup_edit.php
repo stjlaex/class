@@ -59,8 +59,15 @@ else{
 			<?php print_string('yeargroup');?>
 		  </caption>
 		  <tr>
-		  <th><?php print $yeargroup['name'];?></th>
-			<th><?php print_string('remove');?></th>
+			<th>
+			  <?php print $yeargroup['name'];?>
+			</th>
+			<td>
+			  <?php print_string('remove');?><br />
+			  <input type="checkbox" name="checkall" 
+				value="yes" onChange="checkAll(this);" />
+				<?php print_string('checkall'); ?>
+			</td>
 		  </tr>
 <?php
 	while(list($sid,$student)=each($oldstudents)){

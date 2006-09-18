@@ -100,8 +100,7 @@ $tab=1;
 		  <?php print_string('cohortmatrix');?></option>
 		  <?php print_string('curriculummatrix');?></option>
 		<option <?php if($choice=='update_curriculum.php'){print
-				'selected="selected"
-		';}?>value='update_curriculum.php'>
+				'selected="selected" ';}?>value='update_curriculum.php'>
 			<?php print_string('updatecurriculum');?></option>
 		<option <?php if($choice=='year_end.php'){print
 				'selected="selected" ';}?>value='year_end.php'>
@@ -112,6 +111,9 @@ $tab=1;
 <?php
 /*these are all either very experimental or completely useless!!!!!
 
+		<option <?php if($choice=='demoiser.php'){print
+				'selected="selected" ';}?>value='demoiser.php'>
+				<?php print_string('demoiser');?></option>
 		<option <?php if($choice=='ldap_start.php'){print
 				'selected="selected" ';}?>value='ldap_start.php'>
 				<?php print_string('ldaptest');?></option>

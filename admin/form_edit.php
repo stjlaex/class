@@ -36,8 +36,15 @@ if(isset($_POST['newtid'])){$newtid=$_POST['newtid'];}
 			<?php print_string('formgroup');?>
 		  </caption>
 		  <tr>
-		  <th><?php print $fid.'/'.$newtid; ?></th>
-			<th><?php print_string('remove');?></th>
+			<th>
+			  <?php print $fid.'/'.$newtid; ?>
+			</th>
+			<td>
+			  <?php print_string('remove');?><br />
+			<input type="checkbox" name="checkall" 
+				value="yes" onChange="checkAll(this);" />
+			<?php print_string('checkall'); ?>
+			</td>
 		  </tr>
 <?php
 	$d_student=mysql_query("SELECT id, surname,
