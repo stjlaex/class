@@ -14,7 +14,7 @@ function findResponsibles($sid, $bid){
 	/*first find pastoral group*/
   	$d_group = mysql_query("SELECT gid FROM groups JOIN student
   	ON student.yeargroup_id=groups.yeargroup_id WHERE
-  	student.id='$sid' AND groups.course_id IS NULL"); 
+  	student.id='$sid' AND groups.course_id=''"); 
 	$group=mysql_fetch_array($d_group);
 	$gids[]=$group['gid'];
 
@@ -91,8 +91,8 @@ function getPastoralStaff($ryid,$perms){
 	$r=$perms['r'];
 	$w=$perms['w'];
 	$x=$perms['x'];
-	$d_group=mysql_query("SELECT DISTINCT gid FROM groups WHERE
-			course_id IS NULL AND subject_id IS NULL 
+	$d_group=mysql_query("SELECT gid FROM groups WHERE
+			course_id='' AND subject_id='' 
 			AND yeargroup_id LIKE '$ryid'");
 	$gid=mysql_result($d_group,0);
 	$d_users=mysql_query("SELECT DISTINCT users.uid,

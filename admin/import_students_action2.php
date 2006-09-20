@@ -37,9 +37,9 @@ if($sub=='Submit'){
 		  <td><?php print $egstudent[$c];?></td>
 		  <td>
 <?php
-	if($_POST{"preset$c"}!=''){
-		print $_POST{"preset$c"};
-?>		<input type='hidden' name='<?php print "preset$c"; ?>' value='<?php print $_POST{"preset$c"}; ?>'>
+	if($_POST["preset$c"]!=''){
+		print $_POST["preset$c"];
+?>		<input type='hidden' name='<?php print "preset$c"; ?>' value='<?php print $_POST["preset$c"]; ?>'>
 <?php
 		}	
 	
@@ -47,27 +47,27 @@ if($sub=='Submit'){
 		  </td>
 		  <td>
 <?php
-	if($_POST{"sidfield$c"}!=''){
-		print "Student: ".$_POST{"sidfield$c"};
-?>		<input type='hidden' name='<?php print "field$c"; ?>' value='<?php print $_POST{"sidfield$c"}; ?>'>
+	if($_POST["sidfield$c"]!=''){
+		print "Student: ".$_POST["sidfield$c"];
+?>		<input type='hidden' name='<?php print "field$c"; ?>' value='<?php print $_POST["sidfield$c"]; ?>'>
 		<input type='hidden' name='<?php print "table$c"; ?>' value='sid'>
 <?php
 		}
-	elseif($_POST{"gid1field$c"}!=''){
-		print "Guardian One: ".$_POST{"gid1field$c"};
-?>		<input type='hidden' name='<?php print "field$c"; ?>' value='<?php print $_POST{"gid1field$c"}; ?>'>
+	elseif($_POST["gid1field$c"]!=''){
+		print "Guardian One: ".$_POST["gid1field$c"];
+?>		<input type='hidden' name='<?php print "field$c"; ?>' value='<?php print $_POST["gid1field$c"]; ?>'>
 		<input type='hidden' name='<?php print "table$c"; ?>' value='gid1'>
 <?php
 		}	
-	elseif($_POST{"gid2field$c"}!=''){
-		print "Guardian Two: ".$_POST{"gid2field$c"};
-?>		<input type='hidden' name='<?php print "field$c"; ?>' value='<?php print $_POST{"gid2field$c"}; ?>'>
+	elseif($_POST["gid2field$c"]!=''){
+		print "Guardian Two: ".$_POST["gid2field$c"];
+?>		<input type='hidden' name='<?php print "field$c"; ?>' value='<?php print $_POST["gid2field$c"]; ?>'>
 		<input type='hidden' name='<?php print "table$c"; ?>' value='gid2'>
 <?php
 		}	
 	elseif($_POST{"gid3field$c"}!=''){
-		print "Guardian Three: ".$_POST{"gid3field$c"};
-?>		<input type='hidden' name='<?php print "field$c"; ?>' value='<?php print $_POST{"gid3field$c"}; ?>'>
+		print "Guardian Three: ".$_POST["gid3field$c"];
+?>		<input type='hidden' name='<?php print "field$c"; ?>' value='<?php print $_POST["gid3field$c"]; ?>'>
 		<input type='hidden' name='<?php print "table$c"; ?>' value='gid3'>
 <?php
 		}	

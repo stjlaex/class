@@ -148,7 +148,6 @@ function checkEntry($value, $format='', $field_name=''){
 		/*assumes date order day-month-year, php wants year-month-day*/
 		$date=split('[/]',$value);
 		$value=$date[2].'-'.$date[1].'-'.$date[0];
-		print $value;
 		}
 	elseif($field_type[0]=='enum'){
 		$value=strtoupper($value);
@@ -358,7 +357,8 @@ function getCurriculumYear($crid=''){
 	/*the calendar year that the academic year ends */
 	/*to sophisticate in future*/
 	$d_course=mysql_query("SELECT endmonth FROM course WHERE id='$crid'");
-	$endmonth=mysql_result($d_course,0);
+	if(mysql_num_rows($d_course)>0){$endmonth=mysql_result($d_course,0);}
+	else{$endmonth='';}
 	if($endmonth==''){$endmonth='6';/*defaults to June*/}
 	$thismonth=date('m');
 	$thisyear=date('Y');

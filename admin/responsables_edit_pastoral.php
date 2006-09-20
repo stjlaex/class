@@ -8,8 +8,9 @@ else{$action=$_GET['action'];}
 
 	$yid=$_GET['yid'];
 	$uid=$_GET['uid'];
-	$d_group=mysql_query("SELECT DISTINCT gid FROM groups WHERE yeargroup_id='$yid'");
-	$gid=mysql_result($d_group,0);
+	$d_groups=mysql_query("SELECT gid FROM groups WHERE
+				yeargroup_id='$yid' AND course_id=''");
+	$gid=mysql_result($d_groups,0);
 	$perms=getYearPerm($yid, $respons);
 
 	if($perms['x']!=1){
@@ -21,7 +22,7 @@ else{$action=$_GET['action'];}
 			$tid=$_GET['tid'];
 			mysql_query("UPDATE form SET teacher_id='' WHERE 
 				teacher_id='$tid' AND id='$fid'");
-			$d_user=mysql_query("SELECT DISTINCT uid FROM user WHERE username='$tid'");
+			$d_user=mysql_query("SELECT uid FROM user WHERE username='$tid'");
 			$uid=mysql_result($d_user,0);
 			}
 		$newperms=array('r'=>0,'w'=>0,'x'=>0);

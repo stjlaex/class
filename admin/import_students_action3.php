@@ -49,7 +49,7 @@ if($sub=='Save'){
 <?php
 	}
 
-/****************************************************************************/
+/**********************************************************/
 elseif($sub=='Submit'){
 	/*		set up arrays to point from table fields to input values*/
 	/*				null values point to -1 is default*/
@@ -130,9 +130,9 @@ elseif($sub=='Submit'){
 
 		/*match the imported fields with the table fields*/
 	for($c=0;$c<$nofields;$c++){
-		if(isset($_POST{"table$c"})){
-			$table=$_POST{"table$c"};
-			$field=$_POST{"field$c"};
+		if(isset($_POST["table$c"])){
+			$table=$_POST["table$c"];
+			$field=$_POST["field$c"];
 			if($table=='sid'){
 				if (array_key_exists("$field", $sidfields)){$sidfields["$field"]=$c;}
 				if (array_key_exists("$field", $infofields)){$infofields["$field"]=$c;}
@@ -229,7 +229,7 @@ elseif($sub=='Submit'){
 
 				/*input to guardian table*/
 				reset(${$gfields});
-				while (list($field_name, $field_no) = each(${$gfields})) {
+				while (list($field_name, $field_no)=each(${$gfields})) {
 					if($field_no==-1){$val='';}//value is null
 					else{
 						$val=$student[$field_no];
@@ -292,7 +292,7 @@ elseif($sub=='Submit'){
 						}
 	
 					reset(${$gaddress});
-					while (list($field_name, $field_no) = each(${$gaddress})) {
+					while (list($field_name, $field_no)=each(${$gaddress})) {
 						if($field_no==-1){$val='';}//value is null
 						else{
 							$val=$student[$field_no];
@@ -303,7 +303,6 @@ elseif($sub=='Submit'){
 								$field_name='$val' WHERE id='$new_aid'");
 							}
 						}
-
 					}
 	
 				/*input to phone table*/	
@@ -317,7 +316,7 @@ elseif($sub=='Submit'){
 							if($field_name=='work phone'){$type='W';}
 							if($field_name=='mobile phone'){$type='M';}
 							if($field_name=='fax'){$type='Fax';}
-							if(isset($_POST{"preset$field_no"})){$val=$_POST{"preset$field_no"};}
+							if(isset($_POST["preset$field_no"])){$val=$_POST["preset$field_no"];}
 							$format="varchar(22)";
 							$val=checkEntry($val, $format, $field_name);
 							$d_phone=mysql_query("SELECT * FROM phone
