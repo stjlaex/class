@@ -162,8 +162,8 @@ include('scripts/sub_action.php');
 		   				$gradecount++;
 						}
 					else{
-						$score_grade=$result;
-	   					$gradesum=$gradesum+$score_grade;
+						$score=$result;
+	   					$gradesum=$gradesum+$score;
 		   				$gradecount++; 
 						}
 					}
@@ -173,23 +173,22 @@ include('scripts/sub_action.php');
 
 		  /*display the assessment average*/
 		  if($gradecount>0){
-					$score_average=$gradesum/$gradecount;
-					$score_average=round($score_average,1);
-					//$score=round($score_average);
+					$scoreaverage=$gradesum/$gradecount;
+					$scoreaverage=round($scoreaverage,1);
+					$score=round($scoreaverage);
+					$grade=scoreToGrade($score,$grading_grades);
 					}
-		  else{$score='';$score_average='';}
-		  $grade=scoreToGrade($score,$grading_grades);
+		  else{$score='';$scoreaverage='';$grade='';}
 		  if(isset($gradestats[$grade])){$gradestats[$grade]=$gradestats[$grade]+1;/*sum for stats*/}
 		  else{$gradestats[$grade]=0;$gradestats[$grade]=$gradestats[$grade]+1;}
 		  if($gradecount==1){$viewtable[$rowno]['out'][]=$grade;}
-		  else{$viewtable[$rowno]['out'][]=$grade.' ('.$score_average.')';}
+		  else{$viewtable[$rowno]['out'][]=$grade.' ('.$scoreaverage.')';}
 		  }
 
 		/*end of row average needed here*/
 		}
-
 ?>
-<script>						
+<script>					
 <?php 
 	/*write the grade statistics for display in the javascripts*/
 	ksort($gradestats);

@@ -15,13 +15,14 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
   </div>
   <div id="viewcontent" class="content">
 	<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
-	  <input type="hidden" name="current" value="<?php print $action;?>" />
+	    <input type="hidden" name="current" value="<?php print $action;?>" />
 		<input type="hidden" name="cancel" value="<?php print 'student_view.php';?>" />
-		  <input type="hidden" name="choice" value="<?php print $choice;?>" />
+		<input type="hidden" name="choice" value="<?php print $choice;?>" />
 	</form>
 
 	<table class="listmenu">
-	  <tr><th>Assessment</th>
+	  <tr>
+		<th><?php print_string('assessments');?></th>
 <?php
 	$Assessments=fetchAssessments($sid);
 
