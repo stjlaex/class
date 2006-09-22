@@ -18,27 +18,22 @@ include('scripts/sub_action.php');
 	if($bid==''){$bid='%';}
 	$category='';
 	for($c=0;$c<sizeof($catid);$c++){
-	    $category=$category.$catid[$c].':'.$ratvalue.';';
+	    $category=$category . $catid[$c].':'.$ratvalue.';';
 		}
-
 
 	if($id!=''){
-		if(mysql_query("UPDATE comments SET student_id='$sid',
+		mysql_query("UPDATE comments SET student_id='$sid',
 		detail='$detail', entrydate='$entrydate', yeargroup_id='$newyid',
 		subject_id='$bid', category='$category', teacher_id='$tid'
-		WHERE id='$id'")){
-		}
-		else{$error[]=mysql_error();}
+		WHERE id='$id'");
 		}
 	else{
-		if(mysql_query("INSERT INTO comments SET student_id='$sid',
+		mysql_query("INSERT INTO comments SET student_id='$sid',
 		detail='$detail', entrydate='$entrydate', yeargroup_id='$newyid',
-		subject_id='$bid', category='$category', teacher_id='$tid'")){
-		}
-		else{$error[]=mysql_error();}
+		subject_id='$bid', category='$category', teacher_id='$tid'");
 		}
 
-$_SESSION{'Student'}=fetchStudent($sid);
+$_SESSION['Student']=fetchStudent($sid);
 include('scripts/results.php');
 include('scripts/redirect.php');	
 ?>

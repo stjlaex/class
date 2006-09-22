@@ -156,7 +156,8 @@ while(list($index,$curriculum)=each($curriculums)){
 			$Grades=$GradeScheme['grades'];
 			$listgrades='';
 		    while(list($index,$Grade)=each($Grades['grade'])){
-   				$listgrades=$listgrades.';'.$Grade['value'].':'.$Grade['score'];
+				if($listgrades!=''){$listgrades=$listgrades.';';}
+   				$listgrades=$listgrades . $Grade['value'].':'.$Grade['score'];
    				}
 			$comment=$GradeScheme['comment'];
 			if(isset($GradeScheme['subjectid'])){$bid=$GradeScheme['subjectid'];}

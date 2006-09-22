@@ -140,7 +140,8 @@ function getTeachingStaff($crid='',$bid=''){
 		/*Otherwise just return all active teaching staff ie. nologin=0*/
 		$d_user=mysql_query("SELECT uid, username, passwd, forename,
 				surname, email, nologin, firstbookpref, role FROM users WHERE
-		role='teacher' AND nologin='0' ORDER BY username");
+				(role='teacher' or role='admin') AND nologin='0' AND
+				username!='administrator' ORDER BY username");
 		while($user=mysql_fetch_array($d_user,MYSQL_ASSOC)){
 			$tid=$user['username'];
 			$users["$tid"]=$user;
@@ -180,6 +181,7 @@ function getYearPerm($year,$respons){
 			}
 		}
 	if($_SESSION['role']=='admin'){$perm['r']=1; $perm['w']=1; $perm['x']=1;}		
+	elseif($_SESSION['role']=='office'){$perm['r']=1; $perm['w']=1; $perm['x']=0;}		
 	return $perm;
 	}
 
@@ -208,6 +210,7 @@ function getFormPerm($fid,$respons){
 			}
 		}
 	if($_SESSION['role']=='admin'){$perm['r']=1; $perm['w']=1; $perm['x']=1;}		
+	elseif($_SESSION['role']=='office'){$perm['r']=1; $perm['w']=1; $perm['x']=0;}
 	return $perm;
 	}
 

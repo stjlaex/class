@@ -64,6 +64,9 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 		<table class="listmenu">
 		  <caption><?php print_string('studenthistory',$book);?></caption>
 		  <tr>
+<?php
+	if($_SESSION['role']!='office'){
+?>
 			<th>
 			  <a href="infobook.php?current=comments_list.php&cancel=student_view.php">
 				<?php print_string('comments'); ?>
@@ -102,6 +105,7 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 ?>
 		  </tr>
 <?php
+		}
 	$Backgrounds=(array)$Student['Backgrounds'];
 	while(list($tagname,$Ents)=each($Backgrounds)){
 ?>
