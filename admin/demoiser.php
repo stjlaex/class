@@ -258,11 +258,14 @@ function generate_random_name($gender){
 		if($yid!=$row['yeargroup_id']){$i=0; $yid=$row['yeargroup_id'];}
 		$id=$row['id'];
 		$nid=$yid.'-'.$name[$i];
-		if(mysql_query("UPDATE $table SET id='$nid'
+		if(mysql_query("UPDATE $table SET id='$nid', name='$nid' 
 				WHERE id='$id'")){}
 		else{print mysql_error();}
 		if(mysql_query("UPDATE student SET form_id='$nid'
 				WHERE form_id='$id'")){}
+		else{print mysql_error();}
+		if(mysql_query("UPDATE community SET name='$nid'
+				WHERE name='$id' AND type='form'")){}
 		else{print mysql_error();}
 		$i++;
 		}
@@ -274,13 +277,13 @@ function generate_random_name($gender){
 		if($row['generate']=='forms'){
 			$bid=$row['subject_id'];
 			$crid=$row['course_id'];
-			$yid=$row['yeargroup_id'];
-			$d_class=mysql_query("SELECT * FROM class WHERE yeargroup_id='$yid'
+			$stage=$row['stage'];
+			$d_class=mysql_query("SELECT * FROM class WHERE stage='$stage'
 				AND course_id='$crid' AND subject_id='$bid'");
 			$i=0;
 			while($row=mysql_fetch_array($d_class,MYSQL_ASSOC)){
 				$cid=$row['id'];
-				$ncid=$bid.$yid.$name[$i];
+				$ncid=$bid . $stage . $name[$i];
 				$i++;
 				if(mysql_query("UPDATE class SET id='$ncid'
 				WHERE id='$cid'")){}
