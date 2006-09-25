@@ -202,7 +202,7 @@ function printGenericContent(iFrameName){
 		}
 	printWindow=window.open("","","height=800,width=750,dependent,resizable,menubar,left=170,scrollbars");
 	if(printWindow!=null){
-		printWindow.document.write("<html><head><link rel='stylesheet' type='text/css' href='stylesheets/printstyle.css' /></head>");	
+		printWindow.document.write("<html><head><link rel='stylesheet' type='text/css' href='css/printstyle.css' /></head>");	
 		printWindow.document.write("<body><br />"+contentToPrint+"</body></html>");
 		printWindow.document.close();
 		}

@@ -37,7 +37,7 @@ $tab=1;
 	<fieldset class="admin"><legend><?php print_string('manage');?></legend>
 	  <form id="adminchoice" name="adminchoice" method="post" 
 		action="admin.php" target="viewadmin">
-		<select name="current" size="6" onChange="document.adminchoice.submit();">
+		<select name="current" size="7" onChange="document.adminchoice.submit();">
 		  <option 
 			<?php if($choice=='teacher_matrix.php'){print 'selected="selected" ';} ?>
 				value='teacher_matrix.php'>
@@ -53,6 +53,9 @@ $tab=1;
 				value='yeargroup_matrix.php'>
 			<?php print_string('yeargroups');?>
 		  </option>
+		<option <?php if($choice=='community_group.php'){print
+				 'selected="selected" ';}?>value='community_group.php'>
+		  <?php print_string('communitygroups',$book);?></option>
 		  <option 
 			<?php if($choice=='responsables.php'){print 'selected="selected" ';}?>
 				value='responsables.php'>
@@ -66,7 +69,6 @@ $tab=1;
 		  <option <?php if($choice=='counter.php'){print
 		'selected="selected" ';}?>value='counter.php'>
 		  <?php print_string('logcounter');?></option>
-
 		</select>
 	  </form>
 	</fieldset>
@@ -89,9 +91,6 @@ $tab=1;
 		<option <?php if($choice=='passwords.php'){print
 				'selected="selected" ';}?>value='passwords.php'>
 				<?php print_string('refreshpasswords',$book);?></option>
-		<option <?php if($choice=='community_group.php'){print
-				 'selected="selected" ';}?>value='community_group.php'>
-		  <?php print_string('communitygroups',$book);?></option>
 		<option <?php if($choice=='class_matrix.php'){print
 				 'selected="selected" ';}?>value='class_matrix.php'>
 		  <?php print_string('classesmatrix');?></option>

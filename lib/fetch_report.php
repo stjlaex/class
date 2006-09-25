@@ -3,7 +3,7 @@
  */
 
 function fetchSubjectReports($sid,$reportdefs){
-		$Assessments=fetchshortAssessments($sid);
+		$Assessments=fetchAssessments_short($sid);
 		$Reports=array();
 		$Summaries=array();
 

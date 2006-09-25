@@ -5,7 +5,7 @@
 $choice='community_group.php';
 $action='community_group_action.php';
 
-if(isset($_POST['newcomtype'])){$newcomtype=$_POST['newcomtype'];}else{$newcomtype='academic';}
+if(isset($_POST['newcomtype'])){$newcomtype=$_POST['newcomtype'];}else{$newcomtype='ACADEMIC';}
 
 $extrabuttons['createnewgroup']=array('name'=>'current','value'=>'community_group_rename.php');
 three_buttonmenu($extrabuttons);
@@ -28,7 +28,6 @@ three_buttonmenu($extrabuttons);
 		<tr>
 		  <th><?php print_string('communitytype',$book);?></th>
 		  <th><?php print_string('numberofstudents',$book);?></th>
-		  <th><?php print_string('',$book);?></th>
 		</tr>
 <?php
 

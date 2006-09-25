@@ -32,8 +32,6 @@ if($sub=='Submit'){
 				}
 			}
 		}
-	$_SESSION{'Student'}=$Student;
 	}
-include('scripts/results.php');
 include('scripts/redirect.php');
 ?>

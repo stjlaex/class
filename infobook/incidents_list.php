@@ -20,7 +20,8 @@ three_buttonmenu();
 	<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
 	  <div class="left">
 		<label for="Detail"><?php print_string('details',$book);?></label>
-		<textarea name="detail" class="required" id="Detail" maxlength="250" rows="5" cols="40"></textarea>
+		<textarea name="detail"   tabindex="<?php print $tab++;?>" 
+		  class="required" id="Detail" maxlength="250" rows="5" cols="35"></textarea>
 	  </div>
 	  <div class="right" >
 		<?php $xmldate='Entrydate'; include('scripts/jsdate-form.php'); ?>

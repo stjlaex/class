@@ -33,7 +33,7 @@ if(sizeof($sids)==0){
 /*	doing one student at a time*/
 	for($c=0;$c<sizeof($sids);$c++){
 		$sid=$sids[$c];
-		$Student=fetchshortStudent($sid);
+		$Student=fetchStudent_short($sid);
 		list($Reports,$transform)=fetchSubjectReports($sid,$reportdefs);
 		$Reports['Coversheet']=$coversheet;
 		$Student['Reports']=nullCorrect($Reports);

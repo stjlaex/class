@@ -6,7 +6,7 @@
 */	
 
 
-function fetchshortStudent($sid){
+function fetchStudent_short($sid){
    	$d_student=mysql_query("SELECT * FROM student WHERE id='$sid'");
 	$student=mysql_fetch_array($d_student,MYSQL_ASSOC);
    	$d_info=mysql_query("SELECT * FROM info WHERE student_id='$sid'");
@@ -51,6 +51,34 @@ function fetchshortStudent($sid){
 	return nullCorrect($Student);
 	}
 
+
+function fetchStudent_singlefield($sid,$tag){
+	/*this is a ad-hoc function for use by student_list only at the moment*/
+	/*to quickly get at sid fields outside of  student*/
+	if($tag=='Nationality'){$fieldname='nationality';}
+	elseif($tag=='EnrolNumber'){$fieldname='formerupn';}
+	elseif($tag=='FirstLanguage'){$fieldname='firstlanguage';}
+	elseif($tag=='EntryDate'){$fieldname='entrydate';}
+	elseif($tag=='FirstContactPhone'){
+		/*NOT a part of the xml def for Student but useful here*/
+		$Contacts=(array)fetchContacts($sid);
+		$Phones=(array)$Contacts[0]['Phones'];
+		$Student[$tag]=array('label' => '',
+							 'value' => '');
+		while(list($phoneno,$Phone)=each($Phones)){
+			$Student[$tag]['value']=$Student[$tag]['value'] . 
+					$Phone['PhoneNo']['value'].' ';				
+			}
+		}
+
+	if(isset($fieldname)){
+		$d_info=mysql_query("SELECT $fieldname FROM info WHERE student_id='$sid'");
+		$info=mysql_fetch_array($d_info,MYSQL_ASSOC);
+		$Student[$tag]=array('label' => '',
+							 'value' => ''.$info[$fieldname]);
+		}
+	return $Student;
+	}
 
 function fetchStudent($sid='-1'){
    	$d_student=mysql_query("SELECT * FROM student WHERE id='$sid'");
@@ -284,6 +312,7 @@ function fetchStudent($sid='-1'){
 				student_id='$sid' ORDER BY startdate");
 	while($exclusion=mysql_fetch_array($d_exclusions,MYSQL_ASSOC)){
 		$Exclusion=array();
+	   	$Exclusion['id_db']=$exclusion['startdate'];
 	   	$Exclusion['Category']=array('label' => 'category', 
 									 'type_db'=>'enum', 
 									 'value' => ''.$exclusion['category']);
@@ -420,7 +449,7 @@ function fetchContact($gidsid=array('guardian_id'=>'-1')){
 	$Contact=array();
 	$Contact['id_db']=$gid;
 	$Contact['Order']=array('label' => 'priority', 
-							'inputtype'=> 'required',
+							'inputtype'=> 'required', 
 							'table_db' => 'gidsid', 
 							'field_db' => 'priority',
 							'type_db'=>'enum', 

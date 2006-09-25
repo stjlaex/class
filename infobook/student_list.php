@@ -3,10 +3,19 @@
  *   	Lists students identified by their ids in array sids.
  */
 
-$action='student_view.php';
+$action='student_list.php';
 $choice='student_list.php';
 
-two_buttonmenu(); 
+include('scripts/sub_action.php');
+
+$displayfields=array();
+$displayfields[]='RegistrationGroup';$displayfields[]='Gender';$displayfields[]='DOB';
+if(isset($_POST['displayfield'])){$displayfields[0]=$_POST['displayfield'];}
+if(isset($_POST['displayfield1'])){$displayfields[1]=$_POST['displayfield1'];}
+if(isset($_POST['displayfield2'])){$displayfields[2]=$_POST['displayfield2'];}
+
+two_buttonmenu();
+
 ?>
 
 <div id="viewcontent" class="content">
@@ -15,18 +24,18 @@ two_buttonmenu();
 	<th><?php print_string('checkall'); ?><input type="checkbox" name="checkall" 
 				value="yes" onChange="checkAll(this);" /></th>
 	<th><?php print_string('student'); ?></th>
-	<th><?php print_string('gender'); ?></th>
-	<th><?php print_string('dateofbirth'); ?></th>
-	<th><?php print_string('formgroup'); ?></th>
 <?php
-	$students=array();
+	while(list($index,$displayfield)=each($displayfields)){
+?>
+		<th><?php include('scripts/list_studentfield.php');?></th>
+<?php
+		}
+
 	$tomonth=date('n')-1;/*highlights comments for past month, needs sohpisticating!!!*/
-	$commentdate=date('Y')."-".$tomonth."-".date('j');
+	$commentdate=date('Y').'-'.$tomonth.'-'.date('j');
 	
 	while(list($index,$sid)=each($sids)){
-		$d_student=mysql_query("SELECT * FROM student WHERE id='$sid'");
-		$student=mysql_fetch_array($d_student,MYSQL_ASSOC);
-		$students[$sid]=$student;
+		$Student=fetchStudent_short($sid);
 		$comment=commentDisplay($sid,$commentdate);
 ?>
 		<tr>
@@ -40,14 +49,21 @@ two_buttonmenu();
 		  </td>
 		  <td>
 			<a href='infobook.php?current=student_view.php&sid=<?php print $sid;?>'>
-			  <?php print $student['surname']; ?>, 
-			  <?php print $student['forename']; ?>
-			  <?php if($student['preferredforename']!=''){print ' ('.$student['preferredforename'].')';}; ?>
+			  <?php print $Student['DisplayFullName']['value']; ?>
 			</a>
 		  </td>
-		  <td><?php print $student['gender']; ?></td>	
-		  <td><?php print $student['dob']; ?></td>	
-		  <td><?php print $student['form_id']; ?></td>
+<?php
+	reset($displayfields);
+	while(list($index,$displayfield)=each($displayfields)){
+		if(array_key_exists($displayfield,$Student)){
+			print '<td>'.$Student[$displayfield]['value'].'</td>';
+			}
+		else{
+			$field=fetchStudent_singlefield($sid,$displayfield);
+			print '<td>'.$field[$displayfield]['value'].'</td>';
+			}
+		}
+?>
 		</tr>
 <?php
 		}

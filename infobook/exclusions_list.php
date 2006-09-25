@@ -3,17 +3,16 @@
  *
  */
 
-$action='comments_list_action.php';
+$action='exclusions_list_action.php';
 
 if(isset($_GET['bid'])){$bid=$_GET['bid'];}
-$Comments=fetchComments($sid,'','');
-$Student['Comments']=$Comments;
+$Exclusions=$Student['Exclusions'];
 
 three_buttonmenu();
 ?>
 
   <div id="heading">
-	<label><?php print_string('comments');?></label>
+	<label><?php print_string('exclusions',$book);?></label>
 <?php
 	print $Student['Forename']['value'].' '.$Student['Surname']['value'];
 	print '('.$Student['RegistrationGroup']['value'].')';
@@ -23,17 +22,14 @@ three_buttonmenu();
   <div class="topform">
 	<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
 	  <div class="left">
-		<label for="Detail"><?php print_string('details',$book);?></label>
-		<textarea name="detail" class="required" id="Detail"  maxlength="250"  
-		  rows="5" cols="40"></textarea>
+		<label for="Reason"><?php print_string('reason',$book);?></label>
+		<textarea name="detail" class="required" id="Reason"  maxlength="250"  
+		  tabindex="<?php print $tab++;?>" rows="5" cols="30"></textarea>
 	  </div>
-	  <div class="right" >
-		<label for="Subject">Subject Specific (optional):</label>
-		<?php $required='no'; include('scripts/list_studentsubjects.php');?>
-	  </div>
+
 	  <div class="right">
-		<label>Category:</label>
-		<select id="category" name="category">
+		<label for="Category"><?php print_string('category',$book);?></label>
+		<select id="Category" name="category" class="required" tabindex="<?php print $tab++;?>">
 		  <option value=''></option	
 <?php
 		$enum=getEnumArray('exclusionscategory');
@@ -43,23 +39,15 @@ three_buttonmenu();
 ?>
 		</select>
 	  </div>
-	  <div class="left" >
-		<?php $xmldate='Entrydate'; $required='yes'; include('scripts/jsdate-form.php'); ?>
-	  </div>
-	  <div class="left" >
-		<?php $yid=$Student['YearGroup']['value']; include('scripts/list_year.php'); ?>
-	  </div>
-
-
 
 	  <div class="right">
-		<label>Starts</label>
-		<?php $idate=1; include('scripts/jsdate-form.php'); ?>
+		<label>Start</label>
+		<?php $xmldate='Startdate'; $required='yes'; include('scripts/jsdate-form.php'); ?>
 	  </div>
 
 	  <div class="right">
-		<label>Ends</label>
-				<?php $idate=2; include('scripts/jsdate-form.php'); ?>
+		<label>End</label>
+		<?php $xmldate='Enddate'; $required='yes'; include('scripts/jsdate-form.php'); ?>
 	  </div>
 
 	  <input type="text" style="display:none;" id="Id_db" name="id_db" value="" />
@@ -76,18 +64,17 @@ three_buttonmenu();
 		<thead>
 		  <tr>
 			<th></th>
-			<th><?php print_string('yeargroup');?></th>
-			<th><?php print_string('date');?></th>
-			<th><?php print_string('subject');?></th>
+			<th><?php print_string('start');?></th>
+			<th><?php print_string('end');?></th>
 			<th colspan="2"><?php print_string('category');?></th>
 		  </tr>
 		</thead>
 <?php
 	$yid=$Student['NCyearActual']['id_db'];
 	$perm=getYearPerm($yid, $respons);
-	if(is_array($Student['Comments'])){
-		reset($Student['Comments']);
-		while(list($key,$entry)=each($Student['Comments'])){
+	if(is_array($Student['Exclusions'])){
+		reset($Student['Exclusions']);
+		while(list($key,$entry)=each($Student['Exclusions'])){
 			if(is_array($entry)){
 				$rown=0;
 				$entryno=$entry['id_db'];
@@ -96,28 +83,23 @@ three_buttonmenu();
 		  <tr class="rowplus" onClick="clickToReveal(this)" id="<?php print $entryno.'-'.$rown++;?>">
 			<th>&nbsp</th>
 <?php 
-		   if(isset($entry['NCyear']['value'])){print '<td>'.$entry['NCyear']['value'].'</td>';}
+		   if(isset($entry['StartDate']['value'])){print '<td>'.$entry['StartDate']['value'].'</td>';}
 		   else{print'<td></td>';}
-		   if(isset($entry['EntryDate']['value'])){print '<td>'.$entry['EntryDate']['value'].'</td>';}
-		   else{print'<td></td>';}
-		   if(isset($entry['Subject']['value'])){print '<td>'.$entry['Subject']['value'].'</td>';}
+		   if(isset($entry['EndDate']['value'])){print '<td>'.$entry['EndDate']['value'].'</td>';}
 		   else{print'<td></td>';}
 ?>
 			 <td>
 <?php
-		   while(list($index,$category)=each($entry['Categories']['Category'])){
-			   if($category['rating']['value']==-1){print '<div class="negative">';}
-			   else{print'<div style="float:left;padding:0 6px 0 6px;" class="positive">';}
-			   print $category['label'].'</div>';
-			   }
+			   print'<div style="float:left;padding:0 6px 0 6px;" class="negative">';
+			   print $entry['Category']['value'].'</div>';
 ?>
 			</td>
 		  </tr>
 		  <tr class="hidden" id="<?php print $entryno.'-'.$rown++;?>">
 			<td colspan="6">
 			  <p>
-<?php		   if(isset($entry['Detail']['value'])){
-					print $entry['Detail']['value'];}
+<?php		   if(isset($entry['Reason']['value'])){
+					print $entry['Reason']['value'];}
 ?>
 			  </p>
 			  <button class="rowaction" title="Delete this comment"

@@ -25,7 +25,7 @@ $reportdef=fetchReportDefinition($rid);
 if($reportdef['report']['commentlength']=='0'){$commentlength='';}
 else{$commentlength=' maxlength="'.$reportdef['report']['commentlength'].'"';}
 
-$Student=fetchshortStudent($sid);
+$Student=fetchStudent_short($sid);
 $Report['Comments']=fetchReportEntry($reportdef, $sid, $bid, $pid);
 if(sizeof($Report['Comments']['Comment'])==0 or $entryn==sizeof($Report['Comments']['Comment'])){
 	$Comment=array('Text'=>array('value'=>''),

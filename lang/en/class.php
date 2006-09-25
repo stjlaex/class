@@ -26,7 +26,7 @@ $string['siteisdown']='<p>Sorry, the site is temporarily unavailable.</p>
 <p>Please check back again in a few hours.</p>';
 $string['loginaside']='The demo-site has a full data-set to show off its
 features.  Login as a teacher with the Username of \'ProfXX\' and
-Password of \'guest\', where XX is any number from 1 to 60. A good
+Password of \'guest\', where XX is any number from 1 to 49. A good
 choice with plenty of data to see is Prof31.<br /> <hr /> (If this is
 your own installation you should change this text in the login
 options!)';
@@ -228,6 +228,8 @@ $string['yeargroups']='Year groups';
 $string['createnewgroup']='Add new community';
 $string['savedefinition']='Save definition';
 $string['loaddefinition']='Load definition';
+$string['start']='Start';
+$string['end']='End';
 $string['']='';
 $string['']='';
 ?>

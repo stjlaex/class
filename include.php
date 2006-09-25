@@ -35,9 +35,9 @@ $books['support']=array(
 $books['teacher']=array(
 						'admin' => 'Admin'
 						,'reportbook' => 'ReportBook'
-						,'infobook' => 'InfoBook'
 						//,'register' => 'Register'
 						,'markbook' => 'MarkBook'
+						,'infobook' => 'InfoBook'
 				 );
 $externalbooks=array();
 $externalbooks['admin']=array(

@@ -37,38 +37,38 @@ else{
 		<legend>Current SEN Profile</legend>
 
 		<div class="left">
-		  <label for="Start Date"><?php print $SEN['SENhistory']['StartDate']['label'];?>:</label>
+		  <label for="Start Date"><?php print $SEN['SENhistory']['StartDate']['label'];?></label>
 		  <p id="Start Date"><?php  print $SEN['SENhistory']['StartDate']['value']; ?></p>
 		</div>
 
-		<div class="right">	
-<?php print $SEN['SENhistory']['NextReviewDate']['label'];?>
+		<div class="right">
+		  <label><?php print_string($SEN['SENhistory']['NextReviewDate']['label']);?></label>
 <?php
 		$entrydate=$SEN['SENhistory']['NextReviewDate']['value'];
-		include('scripts/date-form.php');
+		include('scripts/jsdate-form.php');
 ?>
 		</div>
 
 		<div class="left">
-		  <label for="Type"><?php print $SEN['SENtypes'][0]['SENtype']['label'];?>:</label>
+		  <label for="Type"><?php print $SEN['SENtypes'][0]['SENtype']['label'];?></label>
 <?php
 	$key=0;
 	$enum=getEnumArray($SEN['SENtypes'][0]['SENtype']['field_db']);
 	print "<select id='Type'
 			name='".$SEN['SENtypes'][0]['SENtype']['field_db'].$key."'>";
-	print "<option value=''>Select</option>";		
+	print "<option value=''>Select</option>";
 	while(list($inval,$description)=each($enum)){	
 		print "<option ";
 		if($SEN['SENtypes'][0]['SENtype']['value']==$inval){print "selected='selected'";}
 		print " value='".$inval."'>".$description."</option>";
-		}			
+		}
     print '</select>';					
 ?>
 		</div>
 
 		<div class="right">
-		  <label for="Rank"><?php print  $SEN['SENtypes'][0]['SENtypeRank']['label'];?>:</label>
-<?php	
+		  <label for="Rank"><?php print  $SEN['SENtypes'][0]['SENtypeRank']['label'];?></label>
+<?php
 	$enum=getEnumArray($SEN['SENtypes'][0]['SENtypeRank']['field_db']);
 	print "<select id='Rank' name='".$SEN['SENtypes'][0]['SENtypeRank']['field_db'].$key."' size='1'>";
 	print "<option value=''>Select</option>";		
@@ -95,14 +95,19 @@ else{
 
 		<div class="right">
 		  <label for="Weaknesses"><?php print $Subject['Weaknesses']['label']; ?>:</label>
-		  <textarea id="Weaknesses" wrap="on" rows="4" cols="28"  name="<?php print $Subject['Weaknesses']['field_db'].$key; ?>"><?php print $Subject['Weaknesses']['value']; ?></textarea>
+		  <textarea id="Weaknesses" 
+			wrap="on" rows="4" cols="28"  
+			name="<?php print $Subject['Weaknesses']['field_db'].$key;?>" 
+			><?php print $Subject['Weaknesses']['value']; ?></textarea>
 		</div>
 
 		<div class="left">
 		  <label for="Strategies"><?php print $Subject['Strategies']['label']; ?>:</label>
-		  <textarea id="Strategies" wrap="on" rows="4" cols="28"  name="<?php print $Subject['Strategies']['field_db'].$key; ?>"><?php print $Subject['Strategies']['value']; ?></textarea>
+		  <textarea id="Strategies" wrap="on" rows="4" cols="28"  
+			name="<?php print $Subject['Strategies']['field_db'].$key;?>" 
+			><?php print $Subject['Strategies']['value']; ?></textarea>
 		</div>
-<?php           
+<?php
 			}
 		}
 	}

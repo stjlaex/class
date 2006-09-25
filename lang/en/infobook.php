@@ -87,6 +87,10 @@ $string['guestpupil']='Guest pupil';
 $string['currentsubsidary(dualregistration)']='Current subsidary (dual reg.)';
 $string['currentmain(dualregistration)']='Current main (dual reg.)';
 $string['enrolstatus']='Enrolment status';
-$string['']='';
+$string['firstcontactphone']='First Contact Phone';
+$string['source']='Source';
+$string['subjectspecificoptional']='Subject Specific (optional):';
+$string['exclusions']='Exclusions';
+$string['reason']='Reason';
 $string['']='';
 ?>

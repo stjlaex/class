@@ -312,7 +312,7 @@ function fetchAssessments($sid){
 	return $Assessments;
 	}
 
-function fetchshortAssessments($sid){
+function fetchAssessments_short($sid){
 	$Assessments=array();
    	$d_eidsid=mysql_query("SELECT * FROM eidsid WHERE
 				student_id='$sid'");

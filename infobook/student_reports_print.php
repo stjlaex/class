@@ -20,7 +20,7 @@ if(isset($_POST{'rids'})){$rids=(array) $_POST{'rids'};}else{$rids=array();}
   <div id="xmlStudent" style="visibility:hidden;">
 <?php
 /*	this taken straight from report_reports_print*/
-		$Student=fetchshortStudent($sid);
+		$Student=fetchStudent_short($sid);
 		$Student['coversheet']=$coversheet;
 		list($Reports,$transform)=fetchSubjectReports($sid,$reportdefs);
 		$Reports['Coversheet']=$coversheet;

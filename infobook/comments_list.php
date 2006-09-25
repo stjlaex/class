@@ -24,11 +24,12 @@ three_buttonmenu();
 	<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
 	  <div class="left">
 		<label for="Detail"><?php print_string('details',$book);?></label>
-		<textarea name="detail" class="required" id="Detail"  maxlength="250"  
-		  rows="5" cols="40"></textarea>
+		<textarea  tabindex="<?php print $tab++;?>"
+		  name="detail" class="required" id="Detail"  maxlength="250"  
+		  rows="5" cols="35"></textarea>
 	  </div>
 	  <div class="right" >
-		<label for="Subject">Subject Specific (optional):</label>
+		<label for="Subject"><?php print_string('subjectspecificoptional',$book);?></label>
 		<?php $required='no'; include('scripts/list_studentsubjects.php');?>
 	  </div>
 	  <div class="right">

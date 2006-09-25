@@ -17,7 +17,7 @@ if(isset($_GET{'yid'})){$yid=$_GET{'yid'};}else{$yid='';}
 if(isset($_GET{'fid'})){$fid=$_GET{'fid'};}else{$fid='';}
 
 
-$Student=fetchshortStudent($sid);
+$Student=fetchStudent_short($sid);
 
 two_buttonmenu();
 ?>

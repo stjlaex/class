@@ -39,7 +39,7 @@ include('scripts/results.php');
 
 	for($c=0;$c<sizeof($sids);$c++){
 		$sid=$sids[$c];
-		$Student=fetchshortStudent($sid);
+		$Student=fetchStudent_short($sid);
 		$Student['pubdate']=$date1;
 		$Comments=fetchComments($sid,$date0);
 		$Student['Comments']=$Comments;

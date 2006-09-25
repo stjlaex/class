@@ -56,24 +56,20 @@ if(isset($_POST['sid'])){
 	$current='student_view.php';
 	}
 
-$sid=$_SESSION['infosid'];
+if(isset($_POST['current'])){$current=$_POST['current'];}
+if(isset($_POST['choice'])){$choice=$_POST['choice'];}
+if(isset($_POST['cancel'])){$cancel=$_POST['cancel'];}
+if(isset($_GET['choice'])){$choice=$_GET['choice'];}
+if(isset($_GET['cancel'])){$cancel=$_GET['cancel'];}
+if(isset($_GET['current'])){$current=$_GET['current'];}
+$_SESSION['infocurrent']=$current;
+
 $sids=$_SESSION['infosids'];
+$sid=$_SESSION['infosid'];
 $sidskey=array_search($sid,$sids);	
-/*temprary moved fetchStudent out of the conditionals to solve server */
-/* dependent issue*/
-$Student=fetchStudent($sid);
-//$_SESSION{'infoStudent'}=$Student;
-//$Student=$_SESSION{'infoStudent'};
-/***/
-
-if(isset($_POST{'current'})){$current=$_POST{'current'};}
-if(isset($_POST{'choice'})){$choice=$_POST{'choice'};}
-if(isset($_POST{'cancel'})){$cancel=$_POST{'cancel'};}
-if(isset($_GET{'choice'})){$choice=$_GET{'choice'};}
-if(isset($_GET{'cancel'})){$cancel=$_GET{'cancel'};}
-if(isset($_GET{'current'})){$current=$_GET{'current'};}
-$_SESSION{'infocurrent'}=$current;
-
+if($current!='student_list.php'){
+	$Student=fetchStudent($sid);
+	}
 ?>
   <div id="bookbox" class="infocolor">
 <?php

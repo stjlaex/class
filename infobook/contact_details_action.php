@@ -102,8 +102,8 @@ if($sub=='Submit'){
 			}
 		}
 
-	$Student['Conacts']=fetchContacts($sid);
-	$_SESSION['Student']=$Student;
+	//$Student['Conacts']=fetchContacts($sid);
+	//$_SESSION['Student']=$Student;
 	}
 
 

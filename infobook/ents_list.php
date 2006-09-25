@@ -20,19 +20,21 @@ three_buttonmenu();
 
   <div class="topform">
 	<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
-	  <div class="right">
+	  <div class="left">
 		<label for="Detail"><?php print_string('details',$book);?></label>
-		<textarea name="detail" id="Detail" class="required" rows="5" cols="40"></textarea>
+		<textarea name="detail" id="Detail"   
+		  tabindex="<?php print $tab++;?>"
+		  class="required" rows="5" cols="30"></textarea>
 	  </div>
 <?php
 if($tagname=='Background'){
 ?>
-	  <div class="left" >
+	  <div class="right" >
 		<label for="Category"><?php print_string('source',$book);?></label>
 		<?php $cattype='bac'; include('scripts/list_category.php'); ?>
 	  </div>
 
-	  <div class="left" >
+	  <div class="right" >
 		<?php $xmldate='Entrydate'; $required='yes'; include('scripts/jsdate-form.php'); ?>
 	  </div>
 
@@ -48,7 +50,7 @@ else{
 			   <?php $required="no"; include('scripts/list_studentsubjects.php');?>
 	  </div>
 
-	  <div class="left">
+	  <div class="right">
 		<?php $xmldate='Entrydate'; $required='yes'; include('scripts/jsdate-form.php'); ?>
 	  </div>
 <?php 

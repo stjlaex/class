@@ -12,7 +12,7 @@
 				cidsid.student_id='$sid'");
 ?>
 
-<select style="width:14em;" size="1" 
+<select style="width:14em;" size="1"   tabindex="<?php print $tab++;?>"
 	<?php if($multi>1){print 'name="bids[]" multiple="multiple" ';}else{print 'name="bid"';}?> 
 	id="Subject" size="<?php print $multi;?>"
 <?php if($required=='yes'){ print ' class="required" ';} ?>
@@ -30,3 +30,7 @@
 		}
 ?>			
 </select>
+<?php
+unset($required);
+unset($multi);
+?>

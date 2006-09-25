@@ -16,7 +16,7 @@ if($sub=='Cancel'){
 	}
 elseif($sub=='Submit'){
 	$openerId=$_POST['openid'];
-	$Student=fetchshortStudent($sid);
+	$Student=fetchStudent_short($sid);
 	if(isset($_POST{'bid'})){$bid=$_POST{'bid'};}
 	if(isset($_POST{'pid'})){$pid=$_POST{'pid'};}
 	if(isset($_POST{'incom'})){$incom=clean_text($_POST{'incom'});}

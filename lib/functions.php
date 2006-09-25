@@ -285,6 +285,20 @@ function getEnumArray($field_name) {
 						  'STOP' => 'travelstop', 
 						  'EXTRA' => 'other'
 						  );
+	/*for the list_studentfield script, not an enumarray at all!*/
+	$studentfield=array(
+						'' => '',
+						'Surname' => 'surname', 
+						'Gender' => 'gender', 
+						'YearGroup' => 'yeargroup', 
+						'RegistrationGroup' => 'formgroup', 
+						'DOB' => 'dateofbirth',
+						'Nationality' => 'nationality',
+						'EnrolNumber' => 'enrolmentnumber',
+						'FirstLanguage' => 'firstlanguage',
+						'EntryDate' => 'schoolstartdate',
+						'FirstContactPhone' => 'firstcontactphone'
+						);
 
 	return $$field_name;
 	}
