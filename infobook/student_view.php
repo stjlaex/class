@@ -44,19 +44,26 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 		  </tr>
 		  <tr>
 			<td>
-			  <label><?php print_string($Student['TransportMode']['label'],$book);?></label> 
-		  <?php print_string(displayEnum($Student['TransportMode']['value'],$Student['TransportMode']['field_db']),$book);?>
+			  <label><?php print_string($Student['Nationality']['label'],$book);?></label> 
+			  <?php print $Student['Nationality']['value'];?>
 			</td>
 			<td>
-			  <label><?php print_string($Student['TransportRoute']['label'],$book);?></label>
-			  <?php print $Student['TransportRoute']['value'];?>
+<?php if($Student['Boarder']['value']!='N' and $Student['Boarder']['value']!=''){ ?>
+			  <label><?php print_string($Student['Boarder']['label'],$book);?></label>
+			  <?php print $Student['Boarder']['value'];?>
+<?php
+			  }
+			else{print '&nbsp';}
+?>
 			</td>
 		  </tr>
-<?php if ($Student['Boarder']['value']!='N'){ ?>
-			<tr><td><label><?php print_string($Student['Boarder']['label'],$book);?></label></td></tr>
-<?php
-			 }
-?>
+		  <tr>
+			<td>
+			  <label><?php print_string($Student['FirstLanguage']['label'],$book);?></label>
+			  <?php print $Student['FirstLanguage']['value'];?>
+			</td>
+			<td>&nbsp</td>
+		  </tr>
 		</table>
 	  </div>
 	

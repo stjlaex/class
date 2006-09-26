@@ -3,6 +3,7 @@
  */
 
 $action='student_view.php';
+
 include('scripts/sub_action.php');
 
 if($sub=='SENStatus'){
@@ -39,7 +40,7 @@ elseif($sub=='Submit'){
 	$SEN=$Student['SEN'];
 	$senhid=$SEN['SENhistory']['id_db'];
 	$SENhistory=$SEN['SENhistory'];
-	$inval=$_POST['date0'];
+	$inval=$_POST['date1'];
 	$table=$SENhistory['NextReviewDate']['table_db'];
 	$field=$SENhistory['NextReviewDate']['field_db'];
 	if($SENhistory['NextReviewDate']['value']!=$inval){
@@ -49,7 +50,7 @@ elseif($sub=='Submit'){
 			$table=$SENtypes['SENtypeRank']['table_db'];
 			$field=$SENtypes['SENtypeRank']['field_db'];
 			$inname=$field.$key;
-			$inval=clean_text($_POST{"$inname"});
+			$inval=clean_text($_POST[$inname]);
 			if($SENtypes['SENtypeRank']['value']!=$inval){
 				mysql_query("UPDATE $table SET $field='$inval'
 									WHERE student_id='$sid'");
@@ -57,10 +58,10 @@ elseif($sub=='Submit'){
 			$table=$SENtypes['SENtype']['table_db'];
 			$field=$SENtypes['SENtype']['field_db'];
 			$inname=$field.$key;
-			$inval=clean_text($_POST{"$inname"});
+			$inval=clean_text($_POST[$inname]);
 			if($SENtypes['SENtype']['value']!=$inval){
 				mysql_query("UPDATE $table SET $field='$inval'
-									WHERE student_id='$senhid'");
+									WHERE student_id='$sid'");
 				}
 			}
 
@@ -69,7 +70,7 @@ elseif($sub=='Submit'){
 			$table=$Subject['Strengths']['table_db'];
 			$field=$Subject['Strengths']['field_db'];
 			$inname=$field.$key;
-			$inval=clean_text($_POST{"$inname"});
+			$inval=clean_text($_POST[$inname]);
 			if($Subject['Strengths']['value']!=$inval){
 				mysql_query("UPDATE $table SET $field='$inval'
 									WHERE senhistory_id='$senhid'");
@@ -78,7 +79,7 @@ elseif($sub=='Submit'){
 			$table=$Subject['Strategies']['table_db'];
 			$field=$Subject['Strategies']['field_db'];
 			$inname=$field.$key;
-			$inval=clean_text($_POST{"$inname"});
+			$inval=clean_text($_POST[$inname]);
 			if($Subject['Strategies']['value']!=$inval){
 				print $Subject['Strategies']['label']." : ".$inval;
 				mysql_query("UPDATE $table SET $field='$inval'
@@ -88,7 +89,7 @@ elseif($sub=='Submit'){
 			$table=$Subject['Weaknesses']['table_db'];
 			$field=$Subject['Weaknesses']['field_db'];
 			$inname=$field.$key;
-			$inval=clean_text($_POST{"$inname"});
+			$inval=clean_text($_POST[$inname]);
 			if($Subject['Weaknesses']['value']!=$inval){
 				mysql_query("UPDATE $table SET $field='$inval'
 									WHERE senhistory_id='$senhid'");

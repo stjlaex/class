@@ -9,7 +9,7 @@
  */
 if(!isset($required)){$required='yes';}
 if(isset($todate)){$thedate=$todate;}
-else{$thedate=date("Y-m-d");}
+else{$thedate=date('Y-m-d');}
 /* Set if this is the ith time that date-form has been called*/
 if(!isset($idate)){$idate=0;}else{$idate++;}
 if(isset($xmldate)){$dateid=$xmldate;}else{$dateid='Date'.$idate;}

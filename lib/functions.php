@@ -255,7 +255,7 @@ function getEnumArray($field_name) {
 	$sentype=array('SPLD' => 'specificlearningdifficulty(dyslexia)', 
 				   'MLD' => 'moderatelearningdifficulty', 
 				   'SLD' => 'severelearningdifficulty', 
-				   'PMLD' => 'profoundanmultiplelearningdifficulty', 
+				   'PMLD' => 'profoundandmultiplelearningdifficulty', 
 				   'EBD' => 'emotionalandbehaviouraldifficulty', 
 				   'SCD' => 'speechorcommunicationdifficulty', 
 				   'HI' => 'hearingimpairment', 

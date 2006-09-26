@@ -45,7 +45,8 @@ include('class_view_marks.php');
 
   <div id="viewcontent" class="content">
 	<form id="formtoprocess" name="formtoprocess" 
-	  method="post" action="markbook.php" target="viewmarkbook">
+	  method="post" action="markbook.php">
+
 	  <table id="marktable">
 		<tr>
 <?php 
@@ -184,29 +185,3 @@ include('class_view_table.php');
 	<input type="hidden" name="bid" value="<?php print $bid[0]; ?>" />
 	</form>
   </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
