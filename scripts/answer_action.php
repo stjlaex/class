@@ -2,7 +2,7 @@
 /** 			   					answer_action.php
  */
 
-if($_POST['answer']!='yes'){
+if($_POST['answer0']!='yes'){
 	$current='';
 	$action='';
 	$choice='';

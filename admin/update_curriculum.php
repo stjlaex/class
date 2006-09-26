@@ -6,15 +6,14 @@
  *it has been removed from the curriculum files.
  */
 
-$action='update_curriculum_action.php';
+$action='update_curriculum_check.php';
 $choice='update_curriculum.php';
 
 three_buttonmenu();
 ?>
 
 <div class="content">
-<form id="formtoprocess" name="formtoprocess" onChange="return
-	validateForm();" method="post" action="<?php print $host;?>">
+<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
 	<fieldset class="center"> 
 	<legend><?php print_string('updatecurriculum',$book); ?></legend> 
 	<?php print_string('updatecurriculumwarning',$book); ?>
