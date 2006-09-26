@@ -4,6 +4,7 @@
  *	Fetch information about the classes (indexed by i)
  *		- first the teachers
  */
+
 $bid=array();
 for($i=0;$i<sizeof($cids);$i++){
 	$cid=$cids[$i];

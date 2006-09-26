@@ -149,8 +149,6 @@ while($student=mysql_fetch_array($d_students, MYSQL_ASSOC)){
 					score WHERE mark_id='$midlist[$c]' AND student_id='$sid'");
 			$score=mysql_fetch_array($d_score,MYSQL_ASSOC);
 			list($out,$outrank)=scoreToLevel($score['value'],$score['outoftotal'],$levels[$c]);
-			$out=$grade;
-			$outrank=$cent;
 			}
 
 		/*********************************************************/

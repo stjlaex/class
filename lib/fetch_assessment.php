@@ -61,7 +61,7 @@ function scoreToPercent($score,$scoretotal='100'){
 		}
 	if(isset($percent)){
 		$display=$percent.' ('.number_format($score,0,'.','').')';
-		} 
+		}
 	else{$dislpay='';$cent=-100;}
 	return array($display,$percent,$cent);
 	}

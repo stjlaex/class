@@ -18,24 +18,24 @@ three_buttonmenu();
 	</fieldset>
 
 	<fieldset class="center">
-		<legend><?php print_string('curriculum',$book);?></legend>
-		<p><?php print_string('',$book);?></p>
-		<div class="right">
-		  <?php $checkname='coursecheck'; include('scripts/check_yesno.php');?>
-		</div>
-	</fieldset>
-
-	<fieldset class="center">
 		<legend><?php print_string('assessmentmethods',$book);?></legend>
-		<p><?php print_string('',$book);?></p>
+		<p><?php print_string('deletesallmarksetc',$book);?></p>
 		<div class="right">
 		  <?php $checkname='asscheck'; include('scripts/check_yesno.php');?>
 		</div>
 	</fieldset>
 
 	<fieldset class="center">
+		<legend><?php print_string('curriculum',$book);?></legend>
+		<p><?php print_string('deletesallclassesetc',$book);?></p>
+		<div class="right">
+		  <?php $checkname='coursecheck'; include('scripts/check_yesno.php');?>
+		</div>
+	</fieldset>
+
+	<fieldset class="center">
 		<legend><?php print_string('pastoralgroups',$book);?></legend>
-		<p><?php print_string('',$book);?></p>
+		<p><?php print_string('deletesallyeargroupsetc',$book);?></p>
 		<div class="right">
 		  <?php $checkname='groupcheck'; include('scripts/check_yesno.php');?>
 		</div>

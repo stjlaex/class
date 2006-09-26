@@ -15,9 +15,14 @@ $string['deletemarkcurrentlychosen']='Delete the mark for ONLY the currently sel
 $string['deletemarkforall']='Delete the mark completely for ALL classes';
 $string['decimalvalues']='Decimal values';
 $string['outoftotal']='Out of total';
-$string['newdefinition']='Add NEW defintion';
+$string['newdefinition']='Add a new defintion';
 $string['newuserdefinedmarktype']='Create a new user-defined mark-type';
 $string['chooseamarkdefinition']='Choose mark definition';
 $string['decimalvalue']='Decimal value';
+$string['createnewlevelscheme']='Create a new levelling scheme';
+$string['choosealevellingscheme']='Choose a levelling scheme';
+$string['definelevelboundaries']='Define level boundaries for ';
+$string['enterlevels']='Enter levels in <em>ascending</em> order!';
+$string['gradescheme']='Grade scheme';
 $string['']='';
 ?>

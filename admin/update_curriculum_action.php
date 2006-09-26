@@ -42,6 +42,15 @@ if($groupcheck=='yes'){
 	mysql_query("DELETE FROM form");
 	mysql_query("DELETE FROM yeargroup");
 	}
+if($asscheck=='yes'){
+	/*don't delete from grade because old schmes may still be
+	referenced and needed by assessments*/
+	mysql_query("DELETE FROM mark");
+	mysql_query("DELETE FROM midcid");
+	mysql_query("DELETE FROM eidmid");
+	mysql_query("DELETE FROM score");
+	mysql_query("DELETE FROM markdef");
+	}
 
 while(list($index,$curriculum)=each($curriculums)){
 

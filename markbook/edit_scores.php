@@ -39,7 +39,8 @@ three_buttonmenu();
 		$total=$umns[$col]['mark_total'];
 ?>
 		  <th style="width:15%;">
-			<?php print_string('total');?>(<?php print_string('default',$book);?>=<?php print $total;?>)
+			<?php print_string('total');?><br />
+			  (<?php print_string('default',$book);?>=<?php print $total;?>)
 		  </th>
 		  <th>
 			<?php print_string('shortnote',$book);?>

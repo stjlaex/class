@@ -95,6 +95,11 @@ $string['presetvalue']='Preset value';
 $string['fieldname']='Field-name';
 $string['studentsnotonroll']='Students not on current roll';
 $string['aformwiththisnamealreadyexists']='A form with this name already exists!';
-$string['']='';
+$string['curriculum']='Curriculum';
+$string['assessmentmethods']='Assessment methods';
+$string['pastoralgroups']='Pastoral groups';
+$string['deletesallyeargroupsetc']='Loses all changes to yeargroups and may require them to be repopulated.';
+$string['deletesallmarksetc']='Loses all mark columns, and any user-defined mark definitions and grade-schemes.';
+$string['deletesallclassesetc']='Will lose any local changes made to the Classes matrix.';
 $string['']='';
 ?>

@@ -72,15 +72,15 @@ three_buttonmenu();
 	<div class="content">
 	  <form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>"> 
 		<table class="listmenu">
-		  <caption>Choose a Levelling Scheme</caption>
+		  <caption><?php print_string('choosealevellingscheme',$book);?></caption>
 <?php
     	for($c=0;$c<sizeof($levelling);$c++){
 ?>
 		<tr>
 		  <td>
 			<input type="radio" name="lena" id="lena"
-			  tabindex="<?php print $c;?>" value="<?php print
-				$levelling[$c]['name'];?>" />
+			  tabindex="<?php print $c;?>" 
+				value="<?php print $levelling[$c]['name'];?>" />
 		  </td>
 		  <td>
 			<?php print $levelling[$c]['name'];?> 
@@ -95,9 +95,9 @@ three_buttonmenu();
 ?>			
 		<tr class="special">
 		  <td><input type="radio" name="lena" id="lena" value="new" /></td>
-		  <td>NEW scheme</td>
+		  <td><?php print_string('new',$book);?></td>
 		  <td></td>
-		  <td>Create a New Levelling Scheme</td>
+		  <td><?php print_string('createnewlevelscheme',$book);?></td>
 		</tr>
 	  </table>
 

@@ -4,18 +4,18 @@
 
 $action='class_view.php';
 
-$viewtable=$_SESSION{'viewtable'};
-$umns=$_SESSION{'umns'};
-$mid=$_POST{'mid'};
-$col=$_POST{'col'};
-$scoretype=$_POST{'scoretype'};
-$grading_grades=$_POST{'grading_grades'};
-$total=clean_text($_POST{'total'});
+$viewtable=$_SESSION['viewtable'];
+$umns=$_SESSION['umns'];
+$mid=$_POST['mid'];
+$col=$_POST['col'];
+$scoretype=$_POST['scoretype'];
+$grading_grades=$_POST['grading_grades'];
+$total=clean_text($_POST['total']);
 
 include('scripts/sub_action.php');
 
 if($sub=='Submit'){
-	if($umns["$col"]['assessment']=='yes'){
+	if($umns[$col]['assessment']=='yes'){
 		$todate=date('Y')."-".date('n')."-".date('j');
 		/*if associated with an assessment then find which*/
 		$d_assessment=mysql_query("SELECT id, subject_id, component_id FROM assessment JOIN
@@ -43,65 +43,25 @@ if($sub=='Submit'){
 	for($c=0;$c<sizeof($viewtable);$c++){
 		unset($res);
 		$sid=$viewtable[$c]['sid'];
-		if(isset($_POST{"total$sid"})){$intotal=clean_text($_POST{"total$sid"});}
-		$inscore=clean_text($_POST{"$sid"});
-		$incomm=clean_text($_POST{"comm$sid"});
+		if(isset($_POST["total$sid"])){$intotal=clean_text($_POST["total$sid"]);}
+		$inscore=clean_text($_POST[$sid]);
+		$incomm=clean_text($_POST["comm$sid"]);
 		/*$$sid are the names of score values posted by the form*/
 		/*if the value is empty then score will be unset and no entry made*/
-		if($scoretype=='grade'){
-			if($inscore==''){unset($inscore);}
-			else{
-				if(mysql_query("INSERT INTO score (grade,
-					comment, mark_id, student_id) VALUES
-					('$inscore', '$incomm', '$mid', '$sid')")){}
-				elseif(mysql_query("UPDATE score SET
-							grade='$inscore', comment='$incomm' 
-						WHERE mark_id='$mid' AND student_id='$sid'")){}
-				else{$error[]='Failed!'.mysql_error();}
-				$res=scoreToGrade($inscore,$grading_grades);
-			    }
+		if($inscore=='' and $incomm==''){unset($inscore);}
+		elseif($scoretype=='grade'){
+			$ingrade=$inscore;
+			$res=scoreToGrade($inscore,$grading_grades);
 			}
 		elseif($scoretype=='value'){
-			if($inscore==''){unset($inscore);}
-			else{
-				if(mysql_query("INSERT INTO score (value,
-						comment, mark_id, student_id) VALUES
-						('$inscore', '$incomm', '$mid', '$sid')")){}
-				elseif(mysql_query("UPDATE score SET
-									value='$inscore', comment='$incomm' 
-									WHERE mark_id='$mid' AND student_id='$sid'")){}
-				else{$error[]=mysql_error();}		   
-				$res=$inscore;
-				}
+			$res=$inscore;
 			}
 		elseif($scoretype=='percentage'){
-			if($inscore==''){unset($inscore);}
-			else{
-				if($intotal==''){$intotal=$total;}
-				if(mysql_query("INSERT INTO score (value, outoftotal, comment,
-						   	mark_id, student_id) VALUES
-							('$inscore', '$intotal', '$incomm', '$mid', '$sid')")){}
-				elseif(mysql_query("UPDATE score SET value='$inscore',
-							outoftotal='$intotal', comment='$incomm' 
-							WHERE mark_id='$mid' AND student_id='$sid'")){}
-				else {$error[]=mysql_error();}		   
-				include('markbook/percent_score.php');
-				if(isset($percent)){
-					$res=$percent.' ('.number_format($score_value,1,'.','').')';
-					}
-				else{$res='';}
-				}
+			if($intotal=='' or $intotal=='0'){$intotal=$total;}
+			list($out,$res,$outrank)=scoreToPercent($inscore,$intotal);
 			}
 		elseif($scoretype=='comment'){
-			if($incomm==''){unset($inscore);}
-			else{
-				set($inscore);
-				if(mysql_query("INSERT INTO score (comment, 
-					   	mark_id, student_id) VALUES ('$incomm', '$mid', '$sid')")){}
-				elseif(mysql_query("UPDATE score SET comment='$incomm',
-						WHERE mark_id='$mid' AND student_id='$sid'")){}
-				else {$error[]=mysql_error();}
-				}
+			set($inscore);
 			}
 
 		if(isset($eid) and isset($res)){
@@ -122,12 +82,10 @@ if($sub=='Submit'){
 
 /*		Tidy up any empty value entries by deleting their score 
  *		entry - one of the above must have unset $inscore to indicate this
- */		   	
+ */   	
 		if(!isset($inscore)){
-			if (mysql_query("DELETE FROM score WHERE
-					mark_id='$mid' AND student_id='$sid' LIMIT 1")){}
-			else {$error[]=mysql_error();}
-
+			mysql_query("DELETE FROM score WHERE
+					mark_id='$mid' AND student_id='$sid' LIMIT 1");
 			if(isset($eid)){
 				$d_eidsid=mysql_query("SELECT id FROM eidsid
 					WHERE subject_id='$bid' AND component_id='$pid' 
@@ -137,6 +95,27 @@ if($sub=='Submit'){
 					mysql_query("DELETE FROM eidsid WHERE id='$eidsidid'");
 					}
 				}
+			}
+		elseif($inscore=='' and $incomm!=''){
+			if(mysql_query("INSERT INTO score (value, grade, outoftotal, comment,
+						   	mark_id, student_id) VALUES
+							(NULL, NULL, '$intotal', 
+							'$incomm', '$mid', '$sid')")){}
+			else{mysql_query("UPDATE score SET grade=NULL, value=NULL, 
+							outoftotal='$intotal', comment='$incomm'
+							WHERE mark_id='$mid' AND
+							student_id='$sid'");}
+			}
+		else{
+			if(mysql_query("INSERT INTO score (value, grade, outoftotal, comment,
+						   	mark_id, student_id) VALUES
+							('$inscore', '$ingrade', '$intotal', 
+							'$incomm', '$mid', '$sid')")){}
+			else{
+				mysql_query("UPDATE score SET value='$inscore', grade='$ingrade',
+							outoftotal='$intotal', comment='$incomm' 
+							WHERE mark_id='$mid' AND
+							student_id='$sid'");}
 			}
 		}
 	}
