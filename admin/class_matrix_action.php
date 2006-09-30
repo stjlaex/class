@@ -70,8 +70,9 @@ elseif($sub=='Generate'){
 		<input type="hidden" name="cancel" value="<?php print $choice;?>">
 
 			  <div class="right">
-				<?php $required='yes'; include('scripts/check_yesno.php');?>
+				<?php include('scripts/check_yesno.php');?>
 			  </div>
+
 	  </form>
 	</fieldset>
   </div>

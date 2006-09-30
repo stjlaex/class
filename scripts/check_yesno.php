@@ -1,6 +1,9 @@
 <?php
 /**									check_yesno.php
  *
+ * simple radio checkboxes which return either 'yes' or 'no'
+ * name defaults to 'answer0' but can be set by $checkname
+ * it does not support required but one check box is always checked anyway
  */
 
 if(!isset($checkcaption)){$checkcaption=get_string('readytocontinue');}

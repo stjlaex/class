@@ -3,24 +3,23 @@
  */
 
 $action='new_report.php';
-$rcrid=$respons[$r]{'course_id'};
+$rcrid=$respons[$r]['course_id'];
 
 include('scripts/sub_action.php');
 
 if($sub=='Submit'){
-		$title=$_POST{'title'};
-		$comment=$_POST{'comment'};
-		$compstatus=$_POST{'componentstatus'};
-		$stage=$_POST{'stage'};
-		if(isset($_POST{'reptype'})){$reptype=$_POST{'reptype'};}else{$reptype='no';}
-		if(isset($_POST{'addcategory'})){$addcategory=$_POST{'addcategory'};}else{$addcategory='no';}
-		if(isset($_POST{'commentlength'})){$commentlength=$_POST{'commentlength'};}
+		$title=$_POST['title'];
+		$comment=$_POST['comment'];
+		$compstatus=$_POST['componentstatus'];
+		$stage=$_POST['stage'];
+		$reptype=$_POST['reptype0'];
+		$addcategory=$_POST['addcategory0'];
+		$commentcomp=$_POST['commentcomp0'];
+		if(isset($_POST['commentlength'])){$commentlength=$_POST['commentlength'];}
 		else{$commentlength='0';}
-		if(isset($_POST{'commentcomp'})){$commentcomp=$_POST{'commentcomp'};}
-		else{$commentcomp='no';}
-		if(isset($_POST{'template'})){$style=$_POST{'template'};}else{$style='';}
-		if(isset($_POST{'template'})){$transform=$_POST{'template'};}else{$template='';}
-		if(isset($_POST{'catdefids'})){$catdefids=(array)$_POST{'catdefids'};}
+		if(isset($_POST['template'])){$style=$_POST['template'];}else{$style='';}
+		if(isset($_POST['template'])){$transform=$_POST['template'];}else{$template='';}
+		if(isset($_POST['catdefids'])){$catdefids=(array)$_POST['catdefids'];}
 		else{$catdefids=array();}
 		$date=$_POST['date0'];
 		$deadline=$_POST['date1'];

@@ -23,7 +23,7 @@ three_buttonmenu();
 		<legend><?php print_string('confirm',$book);?></legend>
 		<p><?php print_string('confidentwhatyouaredoing',$book);?></p>
 		<div class="right">
-		  <?php $required='yes'; include('scripts/check_yesno.php');?>
+		  <?php include('scripts/check_yesno.php');?>
 		</div>
 	</fieldset>
 
@@ -33,5 +33,3 @@ three_buttonmenu();
 	<input type="hidden" name="choice" value="<?php print $choice;?>" />
 </form> 
 </div>
-
-
