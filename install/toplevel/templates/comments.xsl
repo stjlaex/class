@@ -7,16 +7,13 @@
 
 <xsl:template match='text()' />
 
-<xsl:key name='catname' match='comments/cattable/catnames' use='.'/>
-<xsl:variable name="student" select="//student"/>
 
-<xsl:template match="/">
-	  <xsl:apply-templates select="div"/>
+<xsl:template match="html/body/div">
+  <xsl:apply-templates select="student"/>
 </xsl:template>
 
-<xsl:template match="div">
-<xsl:for-each select="$student">
 
+<xsl:template match="student">
 
   <div>
 
@@ -37,7 +34,7 @@
 			<xsl:value-of select="surname/value/text()" />
 		  </td>
 		</tr>
-		<tr>		
+		<tr>
 		  <td>
 			<label>
 			  Form
@@ -53,8 +50,9 @@
 
 	<div class='spacer'></div>
 
- 	<xsl:variable name="catname" select="comments/cattable/catnames"/>
- 	<xsl:variable name="comments" select="comments"/>
+ 	<xsl:variable name="catname" select="comments/cattable/category/name"/>
+ 	<xsl:variable name="comment" select="comments/comment"/>
+	<xsl:variable name="subject" select="comments/subtable/subject"/>
 
 	<div>
 	  <table class="grades">
@@ -68,99 +66,35 @@
 			</th>
 		  </xsl:for-each>
 		</tr>
-		<xsl:for-each select="$comments">
-		  <xsl:sort select="subject/value" order="ascending"/>
-		  <xsl:variable name="subname" select="subject/value"/>
-		  <xsl:variable name="subid" select="subject/id"/>
-		  <xsl:if test="generate-id(.)=generate-id($comments[subject/id=$subid])">
 
-			<tr>
-			  <th>
-				<xsl:value-of select="$subname"/>
-			  </th>
+		<xsl:for-each select="$subject">
+		  <xsl:variable name="currentsubid" select="value_db"/>
+		  <tr>
+			<th>
+			  <xsl:value-of select="value"/>
+			</th>
+			<xsl:for-each select="$catname">
+			  <xsl:variable name="currentcatname" select="."/>
 			  <td>
-				<xsl:choose>
-				  <xsl:when test="categories/category[label=$catname[1] and (rating/value&lt;0 or rating/value='N')]">
-					<xsl:text>Poor</xsl:text>
-				  </xsl:when>
-				  <xsl:when test="categories/category[label=$catname[1] and (rating/value&gt;0)]">
-					<xsl:text>Good</xsl:text>
-				  </xsl:when>
-				  <xsl:when test="../comments[categories/category/label=$catname[1] and (rating/value&lt;0 or rating/value='N') and subject/id=$subid]">
-					<xsl:text>Poor</xsl:text>
-				  </xsl:when>
-				  <xsl:otherwise>
-					<xsl:text>-</xsl:text>
-				  </xsl:otherwise>
-				</xsl:choose>
+				<xsl:variable name="catrating">
+				  <xsl:value-of select="sum($comment[subject/value_db=$currentsubid]/categories/category[label=$currentcatname]/rating/value)" />
+				</xsl:variable>
+			  <xsl:choose>
+				<xsl:when test="$catrating&lt;0">
+				  <xsl:text>Poor</xsl:text>
+				</xsl:when>
+				<xsl:when test="$catrating&gt;0">
+				  <xsl:text>Good</xsl:text>
+				</xsl:when>
+				<xsl:otherwise>
+				  <xsl:text>-</xsl:text>
+				</xsl:otherwise>
+			  </xsl:choose>
 			  </td>
-			  <td>
-				<xsl:choose>
-				  <xsl:when test="categories/category[label=$catname[2] and (rating/value&lt;0 or rating/value='N')]">
-					<xsl:text>Poor</xsl:text>
-				  </xsl:when>
-				  <xsl:when test="categories/category[label=$catname[2] and (rating/value&gt;0)]">
-					<xsl:text>Good</xsl:text>
-				  </xsl:when>
-				  <xsl:when test="../comments[categories/category/label=$catname[2] and (rating/value&lt;0 or rating/value='N') and subject/id=$subid] ">
-					<xsl:text>Poor</xsl:text>
-				  </xsl:when>
-				  <xsl:otherwise>
-					<xsl:text>-</xsl:text>
-				  </xsl:otherwise>
-				</xsl:choose>
-			  </td>
-			  <td>
-				<xsl:choose>
-				  <xsl:when test="categories/category[label=$catname[3] and (rating/value&lt;0 or rating/value='N')]">
-					<xsl:text>Poor</xsl:text>
-				  </xsl:when>
-				  <xsl:when test="categories/category[label=$catname[3] and (rating/value&gt;0)]">
-					<xsl:text>Good</xsl:text>
-				  </xsl:when>
-				  <xsl:when test="../comments[categories/category/label=$catname[3] and (rating/value&lt;0 or rating/value='N') and subject/id=$subid] ">
-					<xsl:text>Poor</xsl:text>
-				  </xsl:when>
-				  <xsl:otherwise>
-					<xsl:text>-</xsl:text>
-				  </xsl:otherwise>
-				</xsl:choose>
-			  </td>
-			  <td>
-				<xsl:choose>
-				  <xsl:when test="categories/category[label=$catname[4] and (rating/value&lt;0 or rating/value='N')]">
-					<xsl:text>Poor</xsl:text>
-				  </xsl:when>
-				  <xsl:when test="categories/category[label=$catname[4] and (rating/value&gt;0)]">
-					<xsl:text>Good</xsl:text>
-				  </xsl:when>
-				  <xsl:when test="../comments[categories/category/label=$catname[4] and (rating/value&lt;0 or rating/value='N') and subject/id=$subid] ">
-					<xsl:text>Poor</xsl:text>
-				  </xsl:when>
-				  <xsl:otherwise>
-					<xsl:text>-</xsl:text>
-				  </xsl:otherwise>
-				</xsl:choose>
-			  </td>
-			  <td>
-				<xsl:choose>
-				  <xsl:when test="categories/category[label=$catname[5] and (rating/value&lt;0 or rating/value='N')]">
-					<xsl:text>Poor</xsl:text>
-				  </xsl:when>
-				  <xsl:when test="categories/category[label=$catname[5] and (rating/value&gt;0)]">
-					<xsl:text>Good</xsl:text>
-				  </xsl:when>
-				  <xsl:when test="../comments[categories/category/label=$catname[5] and (rating/value&lt;0 or rating/value='N') and subject/id=$subid] ">
-					<xsl:text>Poor</xsl:text>
-				  </xsl:when>
-				  <xsl:otherwise>
-					<xsl:text>-</xsl:text>
-				  </xsl:otherwise>
-				</xsl:choose>
-			  </td>
-			</tr>
-		  </xsl:if>
+			</xsl:for-each>
+		  </tr>
 		</xsl:for-each>
+
 	  </table>
 	</div>
 
@@ -179,7 +113,7 @@
 
 </div>
 <hr />
-</xsl:for-each>
+
 </xsl:template>
 
 </xsl:stylesheet>

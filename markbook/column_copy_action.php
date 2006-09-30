@@ -4,19 +4,19 @@
 
 $action='class_view.php';
 
-$mid=$_POST{'mid'};
-$marktype=$_POST{'marktype'};
-$lena=$_POST{'lena'};
-if(isset($_POST{'total'})){$total=$_POST{'total'};}
-if(isset($_POST{'scale'})){$scale=$_POST{'scale'};}else{$scale='no';}
-$oldtotal=$_POST{'oldtotal'};
-$midlist=$_POST{'midlist'};
-$bid=$_POST{'bid'};
-$crid=$_POST{'crid'};
-$entrydate=$_POST{'date0'};
-$comment=$_POST{'comment'};	
-$def_name=$_POST{'def_name'};
-$topic=$_POST{'topic'};
+$mid=$_POST['mid'];
+$marktype=$_POST['marktype'];
+$lena=$_POST['lena'];
+if(isset($_POST['total'])){$total=$_POST['total'];}
+if(isset($_POST['scale'])){$scale=$_POST['scale'];}else{$scale='no';}
+$oldtotal=$_POST['oldtotal'];
+$midlist=$_POST['midlist'];
+$bid=$_POST['bid'];
+$crid=$_POST['crid'];
+$entrydate=$_POST['date0'];
+$comment=$_POST['comment'];	
+$def_name=$_POST['def_name'];
+$topic=$_POST['topic'];
 
 include('scripts/sub_action.php');
 
@@ -40,13 +40,12 @@ if($sub=='Submit'){
 
 		$d_midcid=mysql_query("SELECT class_id FROM midcid WHERE mark_id='$mid'");	
 		while($midcid=mysql_fetch_array($d_midcid,MYSQL_ASSOC)){
-		$cid=$midcid{'class_id'};
+		$cid=$midcid['class_id'];
 		if(mysql_query("INSERT INTO midcid 
 		     (mark_id, class_id) VALUES ('$newmid', '$cid')")){}
 		else{$error[]=mysql_error();}
 
-/* 		Copy the score rows into new scores with the new mark_id
-*/	
+		/* 		Copy the score rows into new scores with the new mark_id*/	
 		$d_student = mysql_query("SELECT a.student_id, b.surname,
 				b.forename FROM cidsid a, student b WHERE
 				a.class_id='$cid' AND b.id=a.student_id ORDER BY b.surname");
@@ -57,7 +56,7 @@ if($sub=='Submit'){
 
 		if($marktype=='score'){
 			while($student=mysql_fetch_array($d_student, MYSQL_ASSOC)){
-				$sid = $student{'student_id'};
+				$sid = $student['student_id'];
 				$d_old=mysql_query("SELECT * FROM score WHERE
 						mark_id='$mid' AND student_id='$sid'");
 				$old=mysql_fetch_array($d_old,MYSQL_BOTH);
@@ -71,20 +70,16 @@ if($sub=='Submit'){
 					}
 
 				if($old[0]==$mid){
-		   			if (mysql_query("INSERT INTO score () VALUES
+		   			mysql_query("INSERT INTO score () VALUES
 						('$newmid', '$sid', '$old[2]', '$old[3]', '$old[4]',
-						'$old[5]', '$old[6]')")){}
-					else{
-						$error[]='Failed to insert new score!';	
-						$error[]=mysql_error();
-						}
+						'$old[5]', '$old[6]')");
 				    }
 				}
 			}
 			
-/*********************************************************/
+		/*****************************************/
 	   elseif($marktype=='sum'){
-/*		Mark is the sum of several score values*/
+		   /*		Mark is the sum of several score values*/
 				$mids=explode(' ',$midlist);
 				while($student=mysql_fetch_array($d_student, MYSQL_ASSOC)){
 					$sid=$student['student_id'];
@@ -113,9 +108,9 @@ if($sub=='Submit'){
 //							$error[]=mysql_error();}
 			}
 			
-/*********************************************************/
+	   /********************************************/
 	   	elseif($marktype=='average' and $newscoretype=='grade'){
-/*		Mark is average of several score values*/
+			/*		Mark is average of several score values*/
 				$mids=explode(' ',$midlist);
 				while($student=mysql_fetch_array($d_student, MYSQL_ASSOC)){
 					$sid=$student{'student_id'};
@@ -131,20 +126,18 @@ if($sub=='Submit'){
 					if($gradecount>0){
 						$score_grade=$gradesum/$gradecount;
 						$score_grade=round($score_grade);
-						if(mysql_query("INSERT INTO score 
+						mysql_query("INSERT INTO score 
 							(mark_id, student_id, grade) VALUES 
-							('$newmid', '$sid', '$score_grade')")){}
-						else{$result[]="Failed to insert new score!";	
-							$error[]=mysql_error();}
+							('$newmid', '$sid', '$score_grade')");
 						}
 					}
 				}
 
 	   	elseif($marktype=='average' and $newscoretype=='percentage'){
-/*		Mark is average of several score values*/
+			/*		Mark is average of several score values*/
 				$mids=explode(' ',$midlist);
 				while($student=mysql_fetch_array($d_student, MYSQL_ASSOC)){
-					$sid=$student{'student_id'};
+					$sid=$student['student_id'];
 					unset($score_value);
 					$scoresum=0;
 					$scorecount=0;
@@ -165,11 +158,9 @@ if($sub=='Submit'){
 						$score_value=$scoresum/$scorecount;
 						$score_total=100;
 						}
-					if (mysql_query("INSERT INTO score (mark_id, 
+					mysql_query("INSERT INTO score (mark_id, 
 						student_id, value, outoftotal) VALUES 
-						('$newmid', '$sid','$score_value', '$score_total')")){}
-					else{$result[]='Failed to insert new score!';	
-							$error[]=mysql_error();}
+						('$newmid', '$sid','$score_value', '$score_total')");
 					}
 		
 //					if($mark_total<$score_total){$mark_total=$score_total;}	
@@ -178,9 +169,10 @@ if($sub=='Submit'){
 //				else{$result[]='Failed to update total!';	
 //							$error[]=mysql_error();}
 			   	}
-/*********************************************************/
+
+		/*******************************/
 	   	elseif($marktype=='level'){
-/*		Mark is the levelled grade of a score*/
+			/*		Mark is the levelled grade of a score*/
 				$mid=$midlist;
 				$d_levelling=mysql_query("SELECT * FROM levelling WHERE name='$lena'");
 				$levelling=mysql_fetch_array($d_levelling,MYSQL_ASSOC);
@@ -207,18 +199,14 @@ if($sub=='Submit'){
 						$score_grade=$grade;
 						include('score_grade.php');
 						$result[]=$score_grade;			      	
-			      		if (mysql_query("INSERT INTO score (mark_id,
-							student_id, grade) VALUES ('$newmid', '$sid', '$score_grade')")){}
-						else{$error[]='Failed to insert new score!'; $error[]=mysql_error();}
+			      		mysql_query("INSERT INTO score (mark_id,
+							student_id, grade) VALUES ('$newmid', '$sid', '$score_grade')");
 						}
 	  				}
 				}
-	}
+			}
+		}
 
-	$result[]='Mark\'s values have been copied to a new column.';
-}
-
-include('scripts/results.php');
 include('scripts/redirect.php');
 ?>
 

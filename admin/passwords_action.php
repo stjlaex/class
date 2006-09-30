@@ -10,8 +10,9 @@ $result=array();
 if($sub=='Submit'){
 
 	$users=getAllStaff();
+	$usernolist=array();
 
-	if($_POST['passwords']=='yes'){
+	if($_POST['passwords0']=='yes'){
 		$chars=9;
 		$length=3;
 		foreach($users as $uid => $user){
@@ -27,8 +28,8 @@ if($sub=='Submit'){
 						', '.$user['role'].', '.$user['email'];
 				$result[]=updateUser($user,'yes',$CFG->shortkeyword);
 
-				if($_POST['emailstaff']=='yes'){
-					$email=$user['email'];
+				if($_POST['emailstaff0']=='yes'){
+					//					$email=$user['email'];
 					if(eregi('^[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.([a-zA-Z]{2,4})$', $email)){
 						$headers=emailHeader();
 						$footer='--'. "\r\n" .get_string('emailfooterdisclaimer');
@@ -47,11 +48,12 @@ if($sub=='Submit'){
 			}
 		}
 
-	elseif($_POST['emailadmin']=='yes'){
+	elseif($_POST['emailadmin0']=='yes'){
+		/*this will be used if the passwords have not been changed*/
 		foreach($users as $uid => $user){
 			if($user['username']!='administrator'){
 				$usernolist[]=$user['username']. 
-						':'.$user['userno'].', '.$user['surname']. ','.$user['forename']. 
+						', '.$user['surname']. ','.$user['forename']. 
 						', '.$user['role'].', '.$user['email'];
 				}
 			else{$admin=$user;}

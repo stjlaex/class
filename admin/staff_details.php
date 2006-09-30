@@ -71,7 +71,7 @@ three_buttonmenu();
 		</div>
 
 <?php
-if($tid=="administrator"){
+if($tid=='administrator'){
 ?>
 		<div class="center">
 

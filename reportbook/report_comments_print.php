@@ -30,11 +30,9 @@ include('scripts/results.php');
 <?php
     $d_categorydef=mysql_query("SELECT id, name FROM categorydef WHERE
         type='con' ORDER BY name, id");
-	$catids=array();
-	$catnames=array();
-    while($category=mysql_fetch_array($d_categorydef,MYSQL_ASSOC)) {
-		$catids[]=$category{'id'};
-		$catnames[]=$category{'name'};
+	$cattable['category']=array();
+    while($category=mysql_fetch_array($d_categorydef,MYSQL_ASSOC)){
+		$cattable['category'][]=$category;
 		}
 
 	for($c=0;$c<sizeof($sids);$c++){
@@ -43,9 +41,7 @@ include('scripts/results.php');
 		$Student['publishdate']=date('jS M Y',strtotime($date1));
 		$Comments=fetchComments($sid,$date0);
 		$Student['Comments']=$Comments;
-		$cattable=array();
-		$cattable['catnames']=$catnames;
-		$Student['cattable']=$cattable;
+		$Student['Comments']['cattable']=$cattable;
 		xmlpreparer('Student',$Student);
 		}
 ?>

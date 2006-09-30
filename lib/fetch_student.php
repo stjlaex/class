@@ -573,6 +573,7 @@ function fetchAddress($gidaid=array('address_id'=>'-1','addresstype'=>'')){
 
 function fetchComments($sid,$date){
 	$Comments=array();
+	$subtable=array();
 	/*if no date set choose this academic year*/
 	$crid='KS3';
 	if($date==''){$date=getCurriculumYear($crid)-2;}
@@ -583,11 +584,13 @@ function fetchComments($sid,$date){
 		$Comment=array();
 		$Comment['id_db']=$comment['id'];
 		$bid=$comment['subject_id'];
+		if($bid=='%'){$bid='G';}/*this is a fix that should be fixed in future!*/
 		if($bid!=' ' and $bid!=''){
 			$d_subject=mysql_query("SELECT name FROM subject WHERE id='$bid'");
 			$subjectname=mysql_result($d_subject,0);
 			}
 		else{$subjectname=$bid;}
+		$subtable[$bid]=$subjectname;
 	   	$Comment['Subject']=array('label' => 'subject',
 								  'value_db' => ''.$bid, 
 								  'value' => ''.$subjectname);
@@ -597,7 +600,7 @@ function fetchComments($sid,$date){
 		$Categories=array('label' => 'category', 
 						  'value' => ' ');
 		$pairs=explode(';',$comment['category']);
-		for($c3=0; $c3<sizeof($pairs)-1; $c3++){
+		for($c3=0;$c3<sizeof($pairs)-1;$c3++){
 			list($catid, $rank)=split(':',$pairs[$c3]);
 			$Category=array();
 			$d_categorydef=mysql_query("SELECT name FROM categorydef
@@ -624,8 +627,11 @@ function fetchComments($sid,$date){
 	   	$Comment['YearGroup']=array('label' => 'yeargroup', 
 									'type_db'=>'smallint', 
 									'value' => ''.$comment['yeargroup_id']);
-		$Comments[]=$Comment;
+		$Comments['Comment'][]=$Comment;
 		}
+
+	$Comments['subtable']['subject']=array();
+	while(list($bid,$name)=each($subtable)){$Comments['subtable']['subject'][]=array('value_db'=>$bid,'value'=>$name);}
 	return nullCorrect($Comments);
 	}
 
