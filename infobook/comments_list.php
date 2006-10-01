@@ -65,9 +65,9 @@ three_buttonmenu();
 <?php
 	$yid=$Student['YearGroup']['value'];
 	$perm=getYearPerm($yid, $respons);
-	if(is_array($Student['Comments'])){
-		reset($Student['Comments']);
-		while(list($key,$entry)=each($Student['Comments'])){
+	if(is_array($Student['Comments']['Comment'])){
+		reset($Student['Comments']['Comment']);
+		while(list($key,$entry)=each($Student['Comments']['Comment'])){
 			if(is_array($entry)){
 				$rown=0;
 				$entryno=$entry['id_db'];

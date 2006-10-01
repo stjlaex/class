@@ -8,7 +8,7 @@ $action='new_mark_action.php';
 
 include('scripts/sub_action.php');
 
-if(isset($_POST{'def_name'})){$def_name=$_POST{'def_name'};} else {$def_name='';}
+if(isset($_POST{'def_name'})){$def_name=$_POST{'def_name'};}else{$def_name='';}
 
 if($def_name=='custom'){
 		$action='define_mark.php';
@@ -42,26 +42,26 @@ three_buttonmenu();
 /*	Select all possible classes to apply the mark to*/
 	if($r>-1){
 		/*either by current responsibility choice*/
-	 	$rbid=$respons[$r]{'subject_id'};
-		$rcrid=$respons[$r]{'course_id'};
-		$ryid=$respons[$r]{'yeargroup_id'};
+	 	$rbid=$respons[$r]['subject_id'];
+		$rcrid=$respons[$r]['course_id'];
+		$ryid=$respons[$r]['yeargroup_id'];
 		if($stage==''){$stage='%';}
 		$d_cids=mysql_query("SELECT DISTINCT id AS class_id FROM class WHERE
 			(subject_id LIKE '$rbid' OR subject_id='%') AND (course_id
 			LIKE '$rcrid' OR course_id='%') AND (stage LIKE '$stage'
 				OR stage='%') ORDER BY id");
 		}
-	else {
+	else{
 /*	or by select definitions by subjects of classes taught*/
-		$d_cids = mysql_query("SELECT class_id FROM tidcid WHERE
+		$d_cids=mysql_query("SELECT class_id FROM tidcid WHERE
 		   teacher_id='$tid' ORDER BY class_id");
 		}
-	while($newcids = mysql_fetch_array($d_cids,MYSQL_ASSOC)) {
+	while($newcids=mysql_fetch_array($d_cids,MYSQL_ASSOC)) {
 		print '<option ';
 		if(in_array($newcids{'class_id'},$cids)){print 'selected="selected"';}
 		print ' value="'.$newcids{'class_id'}.'">'.$newcids{'class_id'}.'</option>';
 		}
-?>			
+?>
 		</select>
 	  </fieldset>
 

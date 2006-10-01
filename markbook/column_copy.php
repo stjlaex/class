@@ -5,7 +5,7 @@
 $action='column_copy_action.php';
 
 /* Make sure a column is checked*/
-if(!isset($_POST{'checkmid'})){
+if(!isset($_POST['checkmid'])){
 	$action='class_view.php';
 	$result[]='Please choose a mark column to copy!';
 	include('scripts/results.php');
@@ -13,23 +13,23 @@ if(!isset($_POST{'checkmid'})){
 	exit;
 	}
 
-$checkmid=$_POST{'checkmid'};
-/*	Make sure only one column was checked*/	
-	if(sizeof($checkmid)>1){
-		$action='class_view.php';
-		$result[]='Please choose only one mark column to copy!';
-		include('scripts/results.php');
-		include('scripts/redirect.php');
-		exit;
-		}
-	else{$mid=$checkmid[0];}
+$checkmid=$_POST['checkmid'];
+/*Make sure only one column was checked*/	
+if(sizeof($checkmid)>1){
+	$action='class_view.php';
+	$result[]='Please choose only one mark column to copy!';
+	include('scripts/results.php');
+	include('scripts/redirect.php');
+	exit;
+	}
+else{$mid=$checkmid[0];}
 	
 	$d_mark=mysql_query("SELECT * FROM mark WHERE id='$mid'");
 	$mark=mysql_fetch_array($d_mark,MYSQL_ASSOC);
 	$markdefname=$mark['def_name'];
 	$marktype=$mark['marktype'];
 	$scoretypes=array();
-/*This is a horrible hack. Solves the problem (as things work now)
+	/*This is a horrible hack. Solves the problem (as things work now)
 	that dependent columns have no real markdef of their own - so we'll guess!*/
     if($marktype=='level'){
 	  /*make a guess at the best markdef to choose*/
@@ -49,8 +49,11 @@ $checkmid=$_POST{'checkmid'};
 		}
 	elseif($marktype=='level'){$scoretypes[]='grade';}
 	elseif($marktype=='sum'){$scoretypes[]='percentage';$scoretypes[]='value';}
-	elseif($marktype=='average'){$scoretypes[]='percentage';$scoretypes[]='value';$scoretypes[]='grade';}
-/*End horible hack.*/
+	elseif($marktype=='average'){
+		$scoretypes[]='percentage'; 
+		$scoretypes[]='value';$scoretypes[]='grade';
+		}
+	/*End horible hack.*/
 
 	for($c7=0;$c7<sizeof($cids);$c7++){
 		$cid=$cids[$c7];
@@ -59,8 +62,8 @@ $checkmid=$_POST{'checkmid'};
 		}
 
 	$markdefs=array();
-    while ($subject=mysql_fetch_array($d_subject,MYSQL_ASSOC)){
-		$newbid=$subject{'subject_id'};
+    while($subject=mysql_fetch_array($d_subject,MYSQL_ASSOC)){
+		$newbid=$subject['subject_id'];
 		for($c=0;$c<sizeof($scoretypes);$c++){
 		  $d_markdef=mysql_query("SELECT * FROM markdef WHERE scoretype='$scoretypes[$c]'
 					AND	(subject_id LIKE '$newbid' OR subject_id='%')");
@@ -79,56 +82,62 @@ three_buttonmenu();
 		  method="post" action="<?php print $host;?>"> 
 
 		  <fieldset class="center">
-			<legend>Type to copy into</legend>
-			<label for="Mark Type">Mark-Type</label>
+			<legend><?php print_string('detailsofthenewmark',$book);?></legend>
+			<label for="Mark Type"><?php print_string('thetypeofmark',$book);?></label>
 			<select class="required" id="Mark Type" name="def_name" tabindex="1" >
-<?php	   	for($c=0; $c<sizeof($markdefs); $c++){
+<?php
+			for($c=0;$c<sizeof($markdefs);$c++){
 				print '<option ';
-				print ' value="'.$markdefs[$c]{'name'}.'"';
+				print ' value="'.$markdefs[$c]['name'].'"';
 				if($markdefname==$markdefs[$c]['name']){print ' selected="selected" ';}
-				print '>'.$markdefs[$c]{'name'}.'</option>';
+				print '>'.$markdefs[$c]['name'].'</option>';
 				}
 ?>
 			</select>
 		  </fieldset>
 
-		  <fieldset class="left">
-			<legend>Date of Mark</legend>
-<?php
-		$todate=$mark{'entrydate'};
-		include('scripts/jsdate-form.php');
-?>
+		  <fieldset class="center">
+			<legend><?php print_string('dateofmark',$book);?></legend>
+			<?php $todate=$mark['entrydate']; include('scripts/jsdate-form.php');?>
 		  </fieldset>
 
-		  <fieldset class="right">
-			<legend>New Mark's Identifying Name</legend>
-			<label for="Topic">Mark's Title:</label>
+		  <fieldset class="center">
+			<legend><?php print_string('detailsofmark',$book);?></legend>
+			<label for="Topic"><?php print_string('markstitleidentifyingname',$book);?></label>
 			<input class="required" type="text" id="Topic" name="topic"
-			  value="<?php print $mark{'topic'};?>" size="20" maxlength="38"  pattern="alphanumeric" />
-			  <label for="Comment">Comment (optional):</label>
+			  value="<?php print $mark['topic'];?>" size="20" 
+			  maxlength="38"  pattern="alphanumeric" />
+
+			  <label for="Comment"><?php print_string('optionalcomment',$book);?></label>
 			  <input type="text" id="Comment" name="comment" value="<?php print
-				$mark{'comment'}; ?>" size="40" maxlength="98" pattern="alphanumeric" />
+				$mark['comment']; ?>" size="40" maxlength="98" pattern="alphanumeric" />
 		  </fieldset>
 
 <?php if($scoretypes[0]=='percentage' or $scoretypes[0]=='value'){
 ?>
-		  <fieldset class="left">
+		  <fieldset class="center">
 			<legend>If Copying to a Percentage</legend>
-			<label for="Total">Default Out-of-Total:</label>
-			<input type="text" id="Total" name="total" value="<?php print
-			  $mark{'total'}; ?>" sixe="3" maxlength="4"  pattern="integer" />
-			  <label for="Scale">Scale Old Values:</label>
-			  <input type="checkbox" id="Scale" name="scale" value="yes"/>
+
+			<div class="left">
+			  <label for="Total">Default Out-of-Total:</label>
+			  <input type="text" id="Total" name="total" value="<?php print
+			  $mark['total']; ?>" sixe="3" maxlength="4"
+				pattern="integer" />
+			</div>
+			<div class="right">
+			  <?php $checkname='scale'; $checkcaption='Scale old values?'; 
+			  include('scripts/check_yesno.php');?>
+			</div>
 		  </fieldset>
 <?php	}
 ?>
 	<input type="hidden" name="mid" value="<?php print $mid; ?>"/>
-	<input type="hidden" name="oldtotal" value="<?php print $mark{'total'}; ?>"/>
-	<input type="hidden" name="marktype" value="<?php print $mark{'marktype'}; ?>"/>
-	<input type="hidden" name="lena" value="<?php print $mark{'levelling_name'}; ?>"/>	
-	<input type="hidden" name="midlist" value="<?php print $mark{'midlist'}; ?>"/>
-	<input type="hidden" name="bid" value="<?php print $mark{'subject_id'}; ?>"/>
-	<input type="hidden" name="crid" value="<?php print $mark{'course_id'}; ?>"/>	
+	<input type="hidden" name="oldtotal" value="<?php print $mark['total']; ?>"/>
+	<input type="hidden" name="marktype" value="<?php print $mark['marktype']; ?>"/>
+	<input type="hidden" name="lena" value="<?php print $mark['levelling_name']; ?>"/>	
+	<input type="hidden" name="midlist" value="<?php print $mark['midlist']; ?>"/>
+	<input type="hidden" name="bid" value="<?php print $mark['subject_id']; ?>"/>
+	<input type="hidden" name="crid" value="<?php print $mark['course_id']; ?>"/>	
 	<input type="hidden" name="current" value="<?php print $action;?>"/>
 	<input type="hidden" name="choice" value="<?php print $choice;?>"/>
 	<input type="hidden" name="cancel" value="<?php print $choice;?>"/>

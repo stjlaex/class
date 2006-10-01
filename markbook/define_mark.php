@@ -31,7 +31,7 @@ three_buttonmenu();
 		<label for="Name"><?php print_string('name',$book);?></label>
 		<input class="required" type="text" name="name" id="Name" 
 		  tabindex="2" maxlength="20"  pattern="alphanumeric" />
-		  <label for="Comment"><?php print_string('descriptivecomment',$book);?></label>
+		  <label for="Comment"><?php print_string('description',$book);?></label>
 		  <input type="text" name="comment" id="Comment" 
 			tabindex="3" maxlength="98" pattern="alphanumeric" />
 	  </fieldset>

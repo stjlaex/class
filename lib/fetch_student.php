@@ -640,14 +640,14 @@ function commentDisplay($sid,$date,$Comments=''){
 	if($Comments==''){
 		$Comments=fetchComments($sid,$date);
 		}
-	if(is_array($Comments)){
-			if($Comments[0]['Categories']['Category'][0]['rating']['value']==-1){
+	if(is_array($Comments['Comment'])){
+			if($Comments['Comment'][0]['Categories']['Category'][0]['rating']['value']==-1){
 				$commentdisplay['class']='negative';
 				}
 			else{$commentdisplay['class']='positive';}
-			$header=$Comments[0]['Subject']['value']. 
-								' ('.$Comments[0]['EntryDate']['value'].')';
-			$commentdisplay['body']=$header.'<br />'.$Comments[0]['Detail']['value'];
+			$header=$Comments['Comment'][0]['Subject']['value']. 
+								' ('.$Comments['Comment'][0]['EntryDate']['value'].')';
+			$commentdisplay['body']=$header.'<br />'.$Comments['Comment'][0]['Detail']['value'];
 			}
 		else{$commentdisplay['class']='';$commentdisplay['body']='';}
 

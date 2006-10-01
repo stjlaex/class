@@ -74,7 +74,6 @@ while($student=mysql_fetch_array($d_students, MYSQL_ASSOC)){
 				$grading_grades=$scoregrades[$c];
 				$gradesum=0;
 				$gradecount=0;
-				
 				for($c2=0;$c2<sizeof($mids);$c2++){
 					$d_score=mysql_query("SELECT grade FROM score 
 									WHERE mark_id='$mids[$c2]' AND student_id='$sid'");
@@ -87,7 +86,7 @@ while($student=mysql_fetch_array($d_students, MYSQL_ASSOC)){
 				if($gradecount>0){
 						$score_grade=$gradesum/$gradecount;
 						$score_grade=round($score_grade);
-						} 
+						}
 				else{unset($score_grade);}
 				$grade=scoreToGrade($score_grade,$grading_grades);
 				$out=$grade;
@@ -110,7 +109,24 @@ while($student=mysql_fetch_array($d_students, MYSQL_ASSOC)){
 				if($scorecount>0){$scoresum=$scoresum/$scorecount;}
 				list($display,$out,$outrank)=scoreToPercent($scoresum);
 				}
-			else{$out=$avtype['scoretype'].'type';$outrank=-100;}
+			else{
+				$scoresum=0;
+				$scorecount=0;
+				for($c2=0;$c2<sizeof($mids);$c2++){
+					$d_score=mysql_query("SELECT value 
+						FROM score WHERE mark_id='$mids[$c2]' AND student_id='$sid'");
+					$score=mysql_fetch_array($d_score,MYSQL_ASSOC);
+					if($score['value']){
+						$scoresum=$scoresum+$score['value'];
+						$scorecount++;
+						}
+					}
+				if($scorecount>0){
+					$scoresum=$scoresum/$scorecount;
+					$out=$scoresum;$outrank=$scoresum;
+					}
+				else{$out='';$outrank=-100;}
+				}
 			}
 
 		/*********************************************************/

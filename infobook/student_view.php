@@ -84,9 +84,9 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 	$Comments=fetchComments($sid,$date,'');
 	$Student['Comments']=$Comments;
 	$no=sizeof($Comments);
-	if(is_array($Comments[0])){
+	if(is_array($Comments['Comment'][0])){
 		print '<td>'.$no.'</td>';
-		$Comment=$Comments[0];
+		$Comment=$Comments['Comment'][0];
 		print '<td>'.$Comment['EntryDate']['value'].'</td>';
 		$out=substr($Comment['Detail']['value'],0,30).'...';
 		print '<td>'.$out.'</td>';

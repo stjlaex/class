@@ -20,12 +20,9 @@ include('class_view_marks.php');
 	<button onClick="processContent(this);" name="current" value="column_delete.php">
 	  <?php print_string('delete',$book);?>
 	</button>	
-<?php
-	/*	<button onClick="processContent(this);" name="current" value="column_copy.php">
+	<button onClick="processContent(this);" name="current" value="column_copy.php">
 	 <?php print_string('copy',$book);?>
 	</button>
-	*/
-?>
 	<button onClick="processContent(this);" name="current" value="column_average.php">
 	  <?php print_string('average',$book);?>
 	</button>

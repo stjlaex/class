@@ -20,9 +20,9 @@
    		if(!in_array($bid,$bids)){$bids[]=$bid;}
 		}
 ?>
-  <legend><?php print_string('classestousethismark',$book);?></legend>
+  <legend><?php print_string('classesthatusethismark',$book);?></legend>
   <div class="left">
-	<label for="Classes by course"><?php print_string('bycourse',$book);?></label>
+	<label for="Classes by course"><?php print_string('course',$book);?></label>
 	<select class="required" name="crid" id="Classes by course" size="8">
 <?php
     for($c=0;$c<(sizeof($crids)); $c++){	
@@ -36,7 +36,7 @@
   </div>
 
   <div class="right">
-	<label for="Classes by subject"><?php print_string('bysubject',$book);?></label>
+	<label for="Classes by subject"><?php print_string('subject',$book);?></label>
 	<select class="required" name="bid" id="Classes by subject" size="8">
 <?php    
     for($c=0;$c<(sizeof($bids));$c++){	

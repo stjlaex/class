@@ -24,5 +24,10 @@ $string['choosealevellingscheme']='Choose a levelling scheme';
 $string['definelevelboundaries']='Define level boundaries for ';
 $string['enterlevels']='Enter levels in <em>ascending</em> order!';
 $string['gradescheme']='Grade scheme';
+$string['thetypeofmark']='The type of mark';
+$string['descriptionofnewdefinition']='Description of the new definition';
+$string['detailsofthenewmark']='Details of the new mark';
+$string['']='';
+$string['']='';
 $string['']='';
 ?>
