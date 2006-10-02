@@ -107,7 +107,7 @@ three_buttonmenu($extrabuttons);
 					cohortstudents AS a LEFT JOIN subjectstudents AS b ON
 					a.student_id=b.student_id WHERE
 					b.student_id IS NULL 
-					ORDER BY a.form_id, a.surname");
+					ORDER BY a.surname");
 ?>
 		<div class="left">
 		  <label><?php print_string('studentsnotinsubject',$book);?></label>

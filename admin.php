@@ -11,16 +11,16 @@ $cancel='';
 
 include ('scripts/head_options.php');
 
-if(isset($_SESSION{'admincurrent'})){$current=$_SESSION{'admincurrent'};}
-if(isset($_SESSION{'adminchoice'})){$choice=$_SESSION{'adminchoice'};}
-if(isset($_GET{'current'})){$current=$_GET{'current'};}
-if(isset($_GET{'choice'})){$choice=$_GET{'choice'};}
-if(isset($_GET{'cancel'})){$cancel=$_GET{'cancel'};}
-if(isset($_POST{'current'})){$current=$_POST{'current'};}
-if(isset($_POST{'choice'})){$choice=$_POST{'choice'};}
-if(isset($_POST{'cancel'})){$cancel=$_POST{'cancel'};}
-$_SESSION{'admincurrent'}=$current;
-$_SESSION{'adminchoice'}=$choice;
+if(isset($_SESSION['admincurrent'])){$current=$_SESSION['admincurrent'];}
+if(isset($_SESSION['adminchoice'])){$choice=$_SESSION['adminchoice'];}
+if(isset($_GET['current'])){$current=$_GET['current'];}
+if(isset($_GET['choice'])){$choice=$_GET['choice'];}
+if(isset($_GET['cancel'])){$cancel=$_GET['cancel'];}
+if(isset($_POST['current'])){$current=$_POST['current'];}
+if(isset($_POST['choice'])){$choice=$_POST['choice'];}
+if(isset($_POST['cancel'])){$cancel=$_POST['cancel'];}
+$_SESSION['admincurrent']=$current;
+$_SESSION['adminchoice']=$choice;
 $rtid=$tid;
 $tab=1;
 ?>
@@ -39,11 +39,6 @@ $tab=1;
 		action="admin.php" target="viewadmin">
 		<select name="current" size="7" onChange="document.adminchoice.submit();">
 		  <option 
-			<?php if($choice=='teacher_matrix.php'){print 'selected="selected" ';} ?>
-				value='teacher_matrix.php'>
-			<?php print_string('subjectclasses');?>
-		  </option>
-		  <option 
 			<?php if($choice=='formgroup_matrix.php'){print 'selected="selected" ';} ?>
 				value='formgroup_matrix.php'>
 			<?php print_string('formgroups');?>
@@ -53,9 +48,18 @@ $tab=1;
 				value='yeargroup_matrix.php'>
 			<?php print_string('yeargroups');?>
 		  </option>
-		<option <?php if($choice=='community_group.php'){print
-				 'selected="selected" ';}?>value='community_group.php'>
-		  <?php print_string('communitygroups',$book);?></option>
+		  <option <?php if($choice=='community_group.php'){print 'selected="selected" ';}?> 
+			value='community_group.php'>
+			<?php print_string('communitygroups',$book);?>
+		  </option>
+<?php
+	if($_SESSION['role']=='admin' or $_SESSION['role']=='teacher'){
+?>
+		  <option 
+			<?php if($choice=='teacher_matrix.php'){print 'selected="selected" ';} ?>
+				value='teacher_matrix.php'>
+			<?php print_string('subjectclasses');?>
+		  </option>
 		  <option 
 			<?php if($choice=='responsables.php'){print 'selected="selected" ';}?>
 				value='responsables.php'>
@@ -70,6 +74,9 @@ $tab=1;
 		'selected="selected" ';}?>value='counter.php'>
 		  <?php print_string('logcounter');?></option>
 		</select>
+<?php
+		  }
+?>
 	  </form>
 	</fieldset>
 

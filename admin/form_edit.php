@@ -99,7 +99,7 @@ if(isset($_POST['newtid'])){$newtid=$_POST['newtid'];}
 <?php
   	$d_student=mysql_query("SELECT id, forename,
 					surname, form_id FROM student WHERE
-					yeargroup_id LIKE '$yid' AND form_id!='' ORDER BY form_id, surname"); 
+					yeargroup_id LIKE '$yid' AND form_id!='' ORDER BY surname"); 
 	while($student=mysql_fetch_array($d_student,MYSQL_ASSOC)){
 			print '<option ';
 			print	' value="'.$student['id'].'">'.$student['surname']. 
