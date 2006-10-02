@@ -21,12 +21,12 @@ else{
 
 		/*first do the column headers*/
 		$csv=array();
-		$csv[]=' ';
+		$csv[]='Students';
 		for($c=0;$c<sizeof($checkmids);$c++){
 			$col_mid=$checkmids[$c];
 			for($col=0;$col<sizeof($umns);$col++){
 				if($col_mid==$umns[$col]['id']){
-					$csv[]=$umns[$col]['topic'] .' '. $umns[$col]['entrydate']
+					$csv[]=$umns[$col]['topic'] .' '. $umns[$col]['entrydate'].
 						' '.$umns[$col]['component'].' '. $umns[$col]['marktype'];
 					$col=sizeof($umns);
 					}
@@ -57,4 +57,3 @@ else{
 include('scripts/results.php');
 include('scripts/redirect.php');
 ?>
-

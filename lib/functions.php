@@ -62,15 +62,15 @@ function formsClasses($fid){
 
 function fputcsv($handle, $row, $fd=',', $quot='"'){
 	$str='';
-	foreach ($row as $cell) {
+	foreach($row as $cell){
 		$cell=str_replace(Array($quot,        "\n"),
                          Array($quot.$quot,  ''),
                          $cell);
-		if (strchr($cell, $fd)!==FALSE || strchr($cell, $quot)!==FALSE){
-           $str.=$quot.$cell.$quot.$fd;
+		if(strchr($cell, $fd)!==FALSE || strchr($cell, $quot)!==FALSE){
+           $str.=$quot. $cell. $quot. $fd;
 		   } 
 		else {
-           $str.=$cell.$fd;
+           $str.=$cell. $fd;
 		   }
 		}
 	fputs($handle, substr($str, 0, -1)."\n");
