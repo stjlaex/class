@@ -42,14 +42,18 @@ three_buttonmenu();
 			<?php print_string('total');?><br />
 			  (<?php print_string('default',$book);?>=<?php print $total;?>)
 		  </th>
-		  <th>
+		  <th
+<?php if($_SESSION['worklevel']<0){print ' class="hidden" '; }?>
+			>
 			<?php print_string('shortnote',$book);?>
 		  </th>
 <?php
 		}
 	else{
 ?>
-		  <th colspan="2"><?php print_string('shortnote',$book);?></th>
+		  <th colspan="2" 
+<?php if($_SESSION['worklevel']<0){print ' class="hidden" '; } print $_SESSION['worklevel'];?>
+			><?php print_string('shortnote',$book);?></th>
 <?php
 		}
 ?>
@@ -82,15 +86,18 @@ three_buttonmenu();
 		</td>
 <?php
 			}
-		else {
+		else{
 			print '<td><input pattern="decimal" type="text" tabindex="'.$tab.'" name="'.$sid.'" maxlength="8" value="'.$viewtable[$c]["score$mid"]['value'].'" /></td>';
 			}
 		if($scoretype=='percentage'){
 			print '<td><input pattern="decimal" type="text" name="total'.$sid.'" maxlength="8" value="'.$viewtable[$c]["score$mid"]['outoftotal'].'" /></td>';
 			}
 		else{print '<td>&nbsp;</td>';}
-		print '<td><input type="text" style="width:80%"
-			name="comm'.$sid.'" maxlength="98" value="';
+		print '<td';
+		if($_SESSION['worklevel']<0){print ' class="hidden" '; }
+		print '>';
+		print '<input type="text" style="width:80%"';
+		print '	name="comm'.$sid.'" maxlength="98" value="';
 		print $viewtable[$c]["score$mid"]['comment'].'" /></td>';	      
 		print '</tr>';
 		}

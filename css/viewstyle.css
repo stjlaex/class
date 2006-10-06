@@ -363,6 +363,9 @@ tr.revealed td {
 td.hidden { 
 	display:none;
 	}
+th.hidden { 
+	display:none;
+	}
 
 /***********tinytabs*******/
 div.tinytabs {

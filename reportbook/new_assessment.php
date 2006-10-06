@@ -22,11 +22,18 @@ three_buttonmenu($extrabuttons);
 	  </div>
 
 	  <div class="right">
-<?php 
-		include('scripts/list_stage.php'); 
+		<?php 		include('scripts/list_stage.php'); ?>
+		<?php 		include('scripts/list_calendar_year.php');?>
+	  </div>
 
-		include('scripts/list_calendar_year.php'); 
-?>
+	  <div class="left">
+		<label><?php print_string('create',$book);?></label>
+		<?php $xmldate='Creation'; $required='no'; 
+			$todate='0000-00-00'; include('scripts/jsdate-form.php');?>
+	  </div>
+	  <div class="right">
+		<label><?php print_string('deadlineforcompletion');?></label>
+		<?php $xmldate='Deadline'; $required='no'; include('scripts/jsdate-form.php');?>
 	  </div>
 
 	  <div class="left"> 
@@ -82,11 +89,11 @@ three_buttonmenu($extrabuttons);
 		<thead>
 		  <tr>
 			<th></th>
-			<th><?php print get_string('year').'('.get_string('season').')';?></th>
+			<th><?php print get_string('curriculumyear').' ('.get_string('season').')';?></th>
 			<th><?php print_string('stage');?></th>
 			<th><?php print_string('status');?></th>
 			<th><?php print_string('description');?></th>
-			<th><?php print_string('elementid');?></th>
+			<th><?php print_string('elementid',$book);?></th>
 		  </tr>
 		</thead>
 <?php

@@ -186,6 +186,12 @@ function fetchAssessmentDefinition($eid){
    	$AssDef['Season']=array('label' => 'Season', 'table_db' =>
 					'assessment', 'field_db' => 'season',
 					'type_db'=>'enum', 'value' => $ass['season']);
+   	$AssDef['Deadline']=array('label' => 'Deadlineforentry', 'table_db' =>
+					'assessment', 'field_db' => 'deadline',
+					'type_db'=>'date', 'value' => $ass['deadline']);
+   	$AssDef['Creation']=array('label' => 'Creation', 'table_db' =>
+					'assessment', 'field_db' => 'creation',
+					'type_db'=>'date', 'value' => $ass['creation']);
    	$AssDef['MarkCount']=array('label' => 'Mark Columns', 'table_db' =>
 					'', 'field_db' => '',
 					'type_db'=>'', 'value' => $markcount);

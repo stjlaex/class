@@ -7,7 +7,19 @@ $action='staff_details_action.php';
 
 if(isset($_POST['seluid'])){$seluid=$_POST['seluid'];}
 else{$seluid=$_SESSION['uid'];}
+
+$users=array();
 $users=getResponStaff($tid,$respons,$r);
+if($_SESSION['role']=='admin' and sizeof($users)==0){
+	$users=getAllStaff();
+	}
+elseif(sizeof($users)==0){
+	$d_users=mysql_query("SELECT * FROM users WHERE username='$tid'");
+	$user=mysql_fetch_array($d_users,MYSQL_ASSOC);
+	$uid=$user['uid'];
+	$users[$uid]=$user;
+	}
+
 three_buttonmenu();
 ?>
   <div class="content">
@@ -74,6 +86,22 @@ three_buttonmenu();
 if($tid=='administrator'){
 ?>
 		<div class="center">
+		  <label for="Work level"><?php print_string('workexperiencelevel',$book);?></label>
+		  <select name="worklevel" id="Worklevel" size="1" tabindex="<?php print $tab++;?>" 
+			class="required" >
+			<option value=""></option>
+<?php
+
+	$worklevels=array('-1'=>'useless','0'=>'tryharder','1'=>'good', 
+					  '2'=>'verygood','3'=>'teacherspet');
+	foreach($worklevels as $key => $worklevel){
+			print '<option ';
+			if(isset($user['worklevel'])){if($user['worklevel']==$key){print 'selected="selected"';}}
+			print	' value="'.$key.'">'.get_string($worklevel,$book).'</option>';
+		}
+?>
+		  </select>
+
 
 		  <label for="Password"><?php print_string('newpassword',$book);?></label>
 		  <input pattern="truealphanumeric" tabindex="<?php print $tab++;?>" 
@@ -85,14 +113,20 @@ if($tid=='administrator'){
 				type="password" id="Password2" name="password2" 
 				maxlength="20" style="width:20%;" />
 
-			  <label for="No Login"><?php print_string('disablelogin',$book);?></label>
-			  <input type="checkbox" id="No Login" 
+			  <label for="Nologin"><?php print_string('disablelogin',$book);?></label>
+			  <input type="checkbox" id="Nologin" class="required" 
 				  name="nologin"  tabindex="<?php print $tab++;?>" 
 				  <?php if($user['nologin']=='1'){print 'checked="checked"';}?> value="1"/>
 
 		</div>
 <?php
 		}
+else{
+?>
+	  <input type="hidden" name="worklevel" value="<?php print $user['worklevel']; ?>">
+	  <input type="hidden" name="nologin" value="<?php print $user['nologin']; ?>">
+<?php
+	}
 ?>
 
 	  </fieldset>

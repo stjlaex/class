@@ -10,13 +10,14 @@ include('scripts/sub_action.php');
 
 if($sub=='Submit'){
    	$user=array();
-   	$user['username']=clean_text($_POST{'username'});
-   	$user['surname']=clean_text($_POST{'surname'});
-   	$user['forename']=clean_text($_POST{'forename'});
-   	$user['email']=($_POST{'email'});
-   	$user['role']=$_POST{'role'};
-   	$user['firstbookpref']=clean_text($_POST{'firstbookpref'});
-   	if(isset($_POST['nologin'])){$user['nologin']=$_POST{'nologin'};}
+   	$user['username']=clean_text($_POST['username']);
+   	$user['surname']=clean_text($_POST['surname']);
+   	$user['forename']=clean_text($_POST['forename']);
+   	$user['email']=($_POST['email']);
+   	$user['role']=$_POST['role'];
+   	$user['firstbookpref']=clean_text($_POST['firstbookpref']);
+   	$user['worklevel']=$_POST['worklevel'];
+   	if(isset($_POST['nologin'])){$user['nologin']=$_POST['nologin'];}
 	else{$user['nologin']='0';}
 	if(isset($_POST['password1'])){
 	  if($_POST['password1']==$_POST['password2']){

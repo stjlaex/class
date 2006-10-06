@@ -124,6 +124,7 @@ $string['newstudents']='New students';
 $string['newteachers']='New teachers';
 $string['updatecurriculum']='Update curriculum';
 $string['yearend']='Year end';
+$string['curriculumyear']='Curriculum year';
 $string['servertest']='Server test';
 $string['ldaptest']='LDAP test';
 $string['demoiser']='Demoiser';

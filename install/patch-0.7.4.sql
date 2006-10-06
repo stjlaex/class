@@ -138,6 +138,10 @@ CREATE TABLE transportstop (
 );
 ALTER TABLE assessment 
 	ADD grading_name varchar(20) not null default '' AFTER outoftotal;
+ALTER TABLE assessment 
+	ADD deadline date not null default '0000-00-00' AFTER season;
+ALTER TABLE assessment 
+	ADD creation date not null default '0000-00-00' AFTER season;
 ALTER TABLE markdef DROP tier;
 ALTER TABLE score DROP tier;
 ALTER TABLE markdef

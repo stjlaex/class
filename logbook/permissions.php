@@ -57,7 +57,6 @@ function getResponStaff($tid,$respons,$r=0){
 	teaching staff for the classes identified in the current
 	selected respons in an array with the uid as the key*/
    	$users=array();
-	$users=getAllStaff();
 
 	if($r>-1){
 		$rbid=$respons[$r]['subject_id'];
@@ -108,10 +107,10 @@ function getPastoralStaff($ryid,$perms){
 	}
 
 function getAllStaff($nologin='%'){
-	/* will return all details of users*/
+	/* will return all details of all users*/
    	$users=array();
 	$d_users=mysql_query("SELECT uid, username, passwd, forename,
-				surname, email, nologin, firstbookpref, role
+				surname, email, nologin, firstbookpref, role, worklevel
 				FROM users WHERE nologin LIKE '$nologin' ORDER BY role, username");
 	while($user=mysql_fetch_array($d_users,MYSQL_ASSOC)){;
 		$uid=$user['uid'];
@@ -130,7 +129,7 @@ function getTeachingStaff($crid='',$bid=''){
 		while($teacher=mysql_fetch_array($d_teacher,MYSQL_ASSOC)){
 			$tid=$teacher['teacher_id'];
 			$d_users=mysql_query("SELECT uid, username, passwd, forename,
-				surname, email, nologin, firstbookpref, role
+				surname, email, nologin, firstbookpref, role, worklevel
 				FROM users WHERE username='$tid'");
 			$user=mysql_fetch_array($d_users,MYSQL_ASSOC);
 			$users["$tid"]=$user;
@@ -139,7 +138,7 @@ function getTeachingStaff($crid='',$bid=''){
 	else{
 		/*Otherwise just return all active teaching staff ie. nologin=0*/
 		$d_user=mysql_query("SELECT uid, username, passwd, forename,
-				surname, email, nologin, firstbookpref, role FROM users WHERE
+				surname, email, nologin, firstbookpref, role, worklevel FROM users WHERE
 				(role='teacher' or role='admin') AND nologin='0' AND
 				username!='administrator' ORDER BY username");
 		while($user=mysql_fetch_array($d_user,MYSQL_ASSOC)){
@@ -292,6 +291,16 @@ function updateUser($user,$update='no',$short='class'){
 	$surname=checkEntry($user['surname']);
 	$forename=$user['forename'];
 	$role=$user['role'];
+	if(isset($user['worklevel'])){
+		$worklevel=$user['worklevel'];
+		}
+	else{
+		if($role=='office'){$worklevel='-1';}
+		elseif($role=='admin'){$worklevel='3';}
+		elseif($role=='teacher'){$worklevel='0';}
+		elseif($role=='support'){$worklevel='-1';}
+		else{$worklevel='0';}
+		}
 	if(isset($user['firstbookpref'])){
 		$firstbookpref=$user['firstbookpref'];
 		}
@@ -330,24 +339,22 @@ function updateUser($user,$update='no',$short='class'){
 						'.$olduser{'surname'}.', '.$olduser{'forename'};
 				}
 		  else{
-				if($d_user=mysql_query("UPDATE users SET
+			  mysql_query("UPDATE users SET
 				  surname='$surname', forename='$forename',
-							email='$email', role='$role', nologin='$nologin',
-					firstbookpref='$firstbookpref' WHERE username='$username'")){}
-				else {print mysql_error(); exit;}
-		  $result=$result.'Updated details for user '.$username;
-		  }
+							email='$email', role='$role', worklevel='$worklevel',
+							nologin='$nologin',
+					firstbookpref='$firstbookpref' WHERE username='$username'");
+			  $result=$result.'Updated details for user '.$username;
+			}
 		}
 	else{
-  		  if(mysql_query("INSERT INTO users (username, passwd, forename, surname,
-					email, role, nologin, firstbookpref) 
+		mysql_query("INSERT INTO users (username, passwd, forename, surname,
+					email, role, nologin, worklevel, firstbookpref) 
 					VALUES ('$username', '$assword', '$forename',
-					'$surname', '$email', '$role', '$nologin',
-							'$firstbookpref')")){
-				$result=$result.'Username '.$username.' added.';
-				}
-		  else {print mysql_error(); exit;}
-		  }
+					'$surname', '$email', '$role', '$nologin', '$worklevel'
+							'$firstbookpref')");
+		$result=$result.'Username '.$username.' added.';
+		}
 	if($assword!=''){
 		  $d_user=mysql_query("UPDATE users SET
 					passwd='$assword' WHERE username='$username'");

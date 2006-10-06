@@ -207,18 +207,20 @@ while(list($index,$curriculum)=each($curriculums)){
 			$ratingname=$Category['ratingname'];
 			if(isset($Category['subjectid'])){$bid=$Category['subjectid'];}
 			else{$bid='%';}
+			if(isset($Category['subtype'])){$subtype=$Category['subtype'];}
+			else{$subtype='';}
 			$sectionname=$Category['sectionname'];
 			$d_categorydef=mysql_query("SELECT id FROM categorydef WHERE
 			name='$name' AND course_id='$crid' AND subject_id='$bid'");
 			if(mysql_num_rows($d_categorydef)==0){
-				mysql_query("INSERT INTO categorydef (name, type,  
+				mysql_query("INSERT INTO categorydef (name, type, subtype,  
 				rating, rating_name, course_id, subject_id, section_id)
-				VALUES ('$name', '$type', '$rating', 
+				VALUES ('$name', '$type', '$subtype', '$rating', 
 					'$ratingname', '$crid', '$bid', '$sectioname')");
 				}
 			else{
 				mysql_query("UPDATE categorydef SET 
-				type='$type', rating='$rating',
+				type='$type', subtype='$subtype', rating='$rating',
 				rating_name='$ratingname', subject_id='$bid', section_id='$sectionname'  
 				WHERE name='$name' AND course_id='$crid'");
 				}

@@ -9,6 +9,7 @@ $choice='class_view.php';
 include('class_view_marks.php');
 
 /*	buttonmenu contains action buttons for column checkboxes */
+if($_SESSION['worklevel']>-1){
 ?>
   <div class="buttonmenu">
 	<button onClick="processContent(this);" name="current" value="new_mark.php">
@@ -39,7 +40,9 @@ include('class_view_marks.php');
 	  <?php print_string('export',$book);?>
 	</button>
   </div>
-
+<?php
+	}
+?>
   <div id="viewcontent" class="content">
 	<form id="formtoprocess" name="formtoprocess" 
 	  method="post" action="markbook.php">
@@ -62,14 +65,20 @@ include('class_view_marks.php');
 	print '<table>';
 	for($i=0;$i<$n;$i++){ 
 		/*colour students by their teaching class */	
-		$cidcolour{$cids[$i]}=$rowcolour[$i];
+		$cidcolour[$cids[$i]]=$rowcolour[$i];
 		if($cids[$i]!=""){
 			print '<tr bgcolor="'.$rowcolour[$i].'">';
-			print '<td colspan="5">&nbsp;&nbsp;<a
+			if($_SESSION['worklevel']>-1){
+				print '<td colspan="5">&nbsp;&nbsp;<a
 					href="admin.php?current=class_edit.php&newcid='.$cids[$i].'" 
 					target="viewadmin" 
 					onclick="parent.viewBook(\'admin\');">'.$cids[$i]
 					.$teachers[$i].'</a></td></tr>';
+				}
+			else{
+				print '<td colspan="5">&nbsp;&nbsp;'.$cids[$i]
+					.$teachers[$i].'</td></tr>';
+				}
 			}
 		}
 	print '</table>';

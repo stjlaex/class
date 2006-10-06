@@ -363,7 +363,7 @@ function fetchStudent($sid='-1'){
 	/*******Backgrounds****/
 	$Backgrounds=array();
 	$d_catdef=mysql_query("SELECT name AS tagname, 
-				subject_id AS background_type FROM categorydef WHERE 
+				subtype AS background_type FROM categorydef WHERE 
 				type='ent' ORDER BY rating");
 	while($back=mysql_fetch_array($d_catdef,MYSQL_ASSOC)){
 		$type=$back['background_type'];
@@ -407,7 +407,7 @@ function fetchStudent($sid='-1'){
 			$Entry['EntryDate']=array('label' => 'date',
 									  'value' => ''.$entry['entrydate']);
 			$Entry['Detail']=array('label' => 'details', 
-								   'type_db'=>'varchar(250)', 
+								   'type_db'=> 'text', 
 								   'value' => ''.$entry['detail']);
 			$bid=$entry['subject_id'];
 			if($bid!=' '){

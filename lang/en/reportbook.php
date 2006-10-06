@@ -27,5 +27,8 @@ $string['newstatistics']='Statistics';
 $string['newestimates']='Estimates';
 $string['newassessments']='Assessments';
 $string['newsubjectreport']='Subject reports';
+$string['elementid']='ID';
+$string['create']='Create columns';
+$string['']='';
 $string['']='';
 ?>

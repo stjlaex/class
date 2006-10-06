@@ -4,6 +4,7 @@ function session_defaults(){
 	$_SESSION['uid']=0;
 	$_SESSION['username']='';
 	$_SESSION['role']='';
+	$_SESSION['worklevel']='';
 	$_SESSION['cookie']=0;
 	$_SESSION['remember']=true;
 	}
@@ -69,6 +70,7 @@ function _setSession(&$values, $remember, $init=true){
 	$_SESSION['lang']=$values->language;
 	$_SESSION['firstbookpref']=$values->firstbookpref;
 	$_SESSION['role']=$values->role;
+	$_SESSION['worklevel']=$values->worklevel;
 	$_SESSION['logged']=true;
 	if($remember){
 		$this->updateCookie($values->cookie, true);

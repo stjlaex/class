@@ -12,7 +12,7 @@ for($i=0;$i<sizeof($cids);$i++){
 	$d_tidcid=mysql_query("SELECT teacher_id FROM tidcid WHERE
 					class_id='$cid' ORDER BY teacher_id");
 	while($tidcid=mysql_fetch_array($d_tidcid,MYSQL_ASSOC)){
-		$teachers[$i]=$teachers[$i].' / '.$tidcid{'teacher_id'};
+		$teachers[$i]=$teachers[$i].' - '.$tidcid{'teacher_id'};
 		}
 	
 	/*	Fetch the subject of the class*/

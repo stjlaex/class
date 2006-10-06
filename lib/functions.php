@@ -147,7 +147,7 @@ function checkEntry($value, $format='', $field_name=''){
 	if($field_type[0]=='date'){
 		/*assumes date order day-month-year, php wants year-month-day*/
 		$date=split('[/]',$value);
-		$value=$date[2].'-'.$date[1].'-'.$date[0];
+		$value=$date[0].'-'.$date[1].'-'.$date[2];
 		}
 	elseif($field_type[0]=='enum'){
 		$value=strtoupper($value);

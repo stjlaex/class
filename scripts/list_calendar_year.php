@@ -8,7 +8,7 @@
 	if(!isset($required)){$required='no';}
 ?>
 <label for="Year"><?php print_string('year');?></label>
-	 <select style="width:5em;" class="required" id="Year" 
+	 <select style="width:7em;" class="required" id="Year" 
 				 tabindex="<?php print $tab++;?>" name="year" size="1">
 	 <option value=""></option>
 <?php

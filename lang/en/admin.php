@@ -101,5 +101,10 @@ $string['pastoralgroups']='Pastoral groups';
 $string['deletesallyeargroupsetc']='Loses all changes to yeargroups and may require them to be repopulated.';
 $string['deletesallmarksetc']='Loses all mark columns, and any user-defined mark definitions and grade-schemes.';
 $string['deletesallclassesetc']='Will lose any local changes made to the Classes matrix.';
-$string['']='';
+$string['workexperiencelevel']='Work experience level';
+$string['useless']='Useless';
+$string['tryharder']='Try harder';
+$string['good']='Good';
+$string['verygood']='Very good';
+$string['teacherspet']='Teacher\'s pet';
 ?>

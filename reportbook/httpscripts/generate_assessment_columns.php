@@ -15,6 +15,7 @@ $subject=$AssDef['Subject']['value'];
 $compstatus=$AssDef['ComponentStatus']['value'];
 $description=$AssDef['Description']['value'];
 $stage=$AssDef['Stage']['value'];
+$deadline=$AssDef['Deadline']['value'];
 
 			/*find the appropriate markdef_name*/
 		   	if($gena!=''){
@@ -34,7 +35,8 @@ $stage=$AssDef['Stage']['value'];
 			mysql_free_result($d_markdef);
 			$result[]=$markdef_name;
 
-			$entrydate=date('Y').'-'.date('n').'-'.date('j');
+			if($deadline!='0000-00-00'){$entrydate=$deadline;}
+			else{$entrydate=date('Y').'-'.date('n').'-'.date('j');}
 
 			/*make a list of subjects that will need distinct new marks*/
 			$bids=array();
@@ -69,11 +71,11 @@ $stage=$AssDef['Stage']['value'];
 					else{$error[]='Failed on new mark for:'.$bid.$pid.' '.mysql_error();}
 					$mid=mysql_insert_id();
 
-/*			        entry in eidmid for this new mark*/
+					/*entry in eidmid for this new mark*/
 					mysql_query("INSERT INTO eidmid (assessment_id, 
 						mark_id) VALUES ('$eid', '$mid')");
 
-/*			   	    entry in midcid for new mark and classes with crid and bid*/
+					/*entry in midcid for new mark and classes with crid and bid*/
 					if($bid==' ' or $bid=='G'){$bid='%';}
 					$d_class=mysql_query("SELECT id FROM class WHERE
 						course_id='$crid' AND subject_id LIKE '$bid' 

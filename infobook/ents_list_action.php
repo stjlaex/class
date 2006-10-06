@@ -18,7 +18,7 @@ if(isset($_POST['newyid'])){$newyid=$_POST['newyid'];}else{$newyid='';}
 include('scripts/sub_action.php');
 
 if($sub=='Submit'){
-	$d_catdef=mysql_query("SELECT subject_id FROM categorydef WHERE 
+	$d_catdef=mysql_query("SELECT subtype FROM categorydef WHERE 
 				type='ent' AND name='$tagname'");
 	$backgroundtype=mysql_result($d_catdef,0);
 
@@ -36,7 +36,6 @@ if($sub=='Submit'){
 		detail='$detail', entrydate='$entrydate', yeargroup_id='$newyid', subject_id='$bid',
 		category='$category', teacher_id='$tid'");
 		}
-	//$_SESSION['Student']=fetchStudent($sid);
 	}
 
 include('scripts/redirect.php');

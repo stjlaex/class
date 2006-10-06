@@ -239,7 +239,7 @@ function joinCommunity($sid,$community){
 /* Remove a sid from a commmunity*/
 /* Should only really be called to do the work from within joinCommunity*/
 function leaveCommunity($sid,$community){
-	$todate=date("Y-m-d");
+	$todate=date('Y-m-d');
 	$type=$community['type'];
 	$name=$community['name'];
 	if($community['id']!=''){$comid=$community['id'];}
