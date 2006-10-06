@@ -42,7 +42,8 @@ if(isset($_POST['newcomtype'])){$newcomtype=$_POST['newcomtype'];}
 <?php
 	while(list($sid,$student)=each($oldstudents)){
 		print '<tr><td>'.$student['surname']. 
-				', '.$student['forename']. ' ('.$student['form_id'].')</td>';
+				', '.$student['forename']. 
+				' '.$student['preferredforename']. ' ('.$student['form_id'].')</td>';
 		print '<td><input type="checkbox" name="oldsids[]" value="'.$student['id'].'" /></td>';
 		print '</tr>';
 		}
@@ -72,7 +73,8 @@ if(isset($_POST['newcomtype'])){$newcomtype=$_POST['newcomtype'];}
 		print '<option ';
 		print	'value="'.$student['student_id'].'">'. 
 		$student['surname'].', '.$student['forename'].' '. 
-		$student['middlenames'].' ('.$student['form_id'].')</option>';
+		$student['middlenames'].' '.$student['preferredforename']. 
+		' ('.$student['form_id'].')</option>';
 		}
 ?>
 		  </select>
@@ -86,7 +88,8 @@ if(isset($_POST['newcomtype'])){$newcomtype=$_POST['newcomtype'];}
 		print '<option ';
 		print	'value="'.$student['student_id'].'">'. 
 		$student['surname'].', '.$student['forename'].' '. 
-		$student['middlenames'].' ('.$student['form_id'].')</option>';
+		$student['middlenames'].' '.$student['preferredforename']. 
+		' ('.$student['form_id'].')</option>';
 		}
 ?>
 		  </select>

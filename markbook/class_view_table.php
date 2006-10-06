@@ -38,31 +38,31 @@ while($student=mysql_fetch_array($d_students, MYSQL_ASSOC)){
 
 		if($umns[$c]['display']=='yes' or $umns[$c]['assessment']=='yes'){
 			/*The mark can be one of the four kinds, and if a score one of a further five*/
-		  $marktype=$umns[$c]['marktype'];
-		  $scoretype=$umns[$c]['scoretype'];
-	      if($marktype=='score'){
-			  /*Mark is a score*/
-      		$d_score=mysql_query("SELECT * FROM score 
+			$marktype=$umns[$c]['marktype'];
+			$scoretype=$umns[$c]['scoretype'];
+			if($marktype=='score'){
+				/*Mark is a score*/
+				$d_score=mysql_query("SELECT * FROM score 
 					WHERE mark_id='$col_mid' AND student_id='$sid'");
-		    $score=mysql_fetch_array($d_score,MYSQL_ASSOC);
-
-			/*score can be one of four types: grade, value, percentage, comment*/
-		    if($scoretype=='grade'){
-				$out=scoreToGrade($score['grade'],$scoregrades[$c]);
-				$outrank=$score['grade'];
-		      	}
-		    elseif($scoretype=='value'){
-				$out=$score['value'];
-				$outrank=$score['value'];;			      
+				$score=mysql_fetch_array($d_score,MYSQL_ASSOC);
+				
+				/*score can be one of four types: grade, value, percentage, comment*/
+				if($scoretype=='grade'){
+					$out=scoreToGrade($score['grade'],$scoregrades[$c]);
+					$outrank=$score['grade'];
+					}
+				elseif($scoretype=='value'){
+					$out=$score['value'];
+					$outrank=$score['value'];;			      
+					}
+				elseif($scoretype=='percentage'){
+					list($out,$percent,$outrank)=scoreToPercent($score['value'],$score['outoftotal']);
+					}
+				elseif($scoretype=='comment'){
+					$out=$score['comment'];
+					$outrank=-100;
+					}
 				}
-		    elseif($scoretype=='percentage'){
-				list($out,$percent,$outrank)=scoreToPercent($score['value'],$score['outoftotal']);
-		      	}
-		      elseif($scoretype=='comment'){
-				$out=$score['comment'];
-				$outrank=-100;
-				}
-			}
 		  /*********************************************************/
 		  elseif($marktype=='average'){
 			/*Mark is average of several score values*/
@@ -184,6 +184,7 @@ while($student=mysql_fetch_array($d_students, MYSQL_ASSOC)){
 
 		/*********************************************************/
 	   	elseif($marktype=='report'){
+			$score['scoreclass']='report';
 			/*Mark is a compound report column*/
 			$reportentryn=checkReportEntry($umns[$c]['midlist'],$sid,$bid[0],$umns[$c]['component']);
 			$out='<a href="markbook.php?current=edit_reports.php&choice=class_view.php&midlist='.$umns[$c]['midlist'].'&title='.$umns[$c]['topic'].'&mid='.$umns[$c]['id'].'&pid='.$umns[$c]['component'].'&sid='.$sid.'&col='.$c.'&bid='.$bid[0].'">R '.$reportentryn.'</a>';
@@ -196,7 +197,7 @@ while($student=mysql_fetch_array($d_students, MYSQL_ASSOC)){
 					/* .....in case!!!!! */
 
 			/*three entries for each score in the student's row in the $viewtable*/
-			$studentrow["$col_mid"]=$out;
+			$studentrow[$col_mid]=$out;
 			/*displayed on the screen*/
 			$studentrow["rank$col_mid"]=$outrank;
 			/*the criteria used to sort by should the column be ranked*/
@@ -204,8 +205,9 @@ while($student=mysql_fetch_array($d_students, MYSQL_ASSOC)){
 			if(!isset($score['value'])){$score['value']='';}
 			if(!isset($score['grade'])){$score['grade']='';}
 			if(!isset($score['comment'])){$score['comment']='';}
+			if(!isset($score['scoreclass'])){$score['scoreclass']='grade';}
 			$studentrow["score$col_mid"]=$score;
-/*				and score values form the database to be used by column_scripts*/
+			/*and score values form the database to be used by column_scripts*/
 			}
 		}
 		array_push($viewtable, $studentrow);

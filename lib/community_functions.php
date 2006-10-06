@@ -39,16 +39,16 @@ function listin_unionCommunities($community1,$community2){
 
 	mysql_query("CREATE TEMPORARY TABLE com1students
 			(SELECT a.student_id, b.surname, b.forename,
-			b.middlenames, b.form_id FROM
+			b.middlenames, b.preferredforename, b.form_id FROM
 			comidsid a, student b WHERE a.community_id='$comid1' AND
 			b.id=a.student_id AND (a.leavingdate='0000-00-00' OR a.leavingdate IS NULL))");
 	mysql_query("CREATE TEMPORARY TABLE com2students
 			(SELECT a.student_id, b.surname, b.forename,
-			b.middlenames, b.form_id FROM
+			b.middlenames, b.preferredforename, b.form_id FROM
 			comidsid a, student b WHERE a.community_id='$comid2' AND
 			b.id=a.student_id AND (a.leavingdate='0000-00-00' OR a.leavingdate IS NULL))");
   	$d_student=mysql_query("SELECT a.student_id, a.forename, a.middlenames,
-					a.surname, a.form_id FROM
+					a.surname, a.preferredforename, a.form_id FROM
 					com2students AS a LEFT JOIN com1students AS b ON
 					a.student_id=b.student_id WHERE
 					b.student_id IS NULL ORDER BY a.form_id, a.surname");
@@ -58,7 +58,7 @@ function listin_unionCommunities($community1,$community2){
 		}
 
   	$d_student=mysql_query("SELECT a.student_id, a.forename, a.middlenames,
-					a.surname, a.form_id FROM
+					a.surname, a.preferredforename, a.form_id FROM
 					com2students AS a LEFT JOIN com1students AS b ON
 					a.student_id=b.student_id WHERE
 					b.student_id IS NOT NULL ORDER BY a.form_id, a.surname");

@@ -39,11 +39,11 @@ three_buttonmenu($extrabuttons);
 		$comid=$cohidcomid['community_id'];
 		if($firstit==0){mysql_query("CREATE TEMPORARY TABLE cohortstudents
 			(SELECT a.student_id, b.surname, b.forename,
-			b.middlenames, b.form_id FROM
+			b.middlenames, b.preferredforename, b.form_id FROM
 			comidsid a, student b WHERE a.community_id='$comid' AND
 			b.id=a.student_id  AND (a.leavingdate='0000-00-00' OR a.leavingdate IS NULL))");}
 		else{mysql_query("INSERT INTO cohortstudents SELECT
-				a.student_id, b.surname, b.forename, b.middlenames, 
+				a.student_id, b.surname, b.forename, b.middlenames, b.preferredforename, 
 				b.form_id FROM comidsid a,
 				student b WHERE a.community_id='$comid' AND b.id=a.student_id
 				AND (a.leavingdate='0000-00-00' OR a.leavingdate IS NULL)");}
@@ -56,12 +56,12 @@ three_buttonmenu($extrabuttons);
 	while($class=mysql_fetch_array($d_class,MYSQL_ASSOC)){
 		$cid=$class['id'];
 		if($firstit==0){mysql_query("CREATE TEMPORARY TABLE subjectstudents
-			(SELECT a.student_id, b.surname, b.forename,
-			b.middlenames, b.form_id, a.class_id FROM
+			(SELECT a.student_id, b.surname, b.forename, 
+			b.middlenames, b.preferredforename, b.form_id, a.class_id FROM
 			cidsid a, student b WHERE a.class_id='$cid' AND
 			b.id=a.student_id ORDER BY b.surname)");}
 		else{mysql_query("INSERT INTO subjectstudents SELECT
-			a.student_id, b.surname, b.forename, b.middlenames, 
+			a.student_id, b.surname, b.forename, b.middlenames, b.preferredforename, 
 				b.form_id, a.class_id FROM cidsid a,
 			student b WHERE a.class_id='$cid' AND b.id=a.student_id ORDER
 			BY b.surname");}
@@ -83,12 +83,13 @@ three_buttonmenu($extrabuttons);
 		</tr>
 <?php
 	/*students already in this class*/
-	$d_student=mysql_query("SELECT a.student_id, b.surname, b.middlenames,
+	$d_student=mysql_query("SELECT a.student_id, b.surname,
+				b.middlenames, b.preferredforename,
 				b.forename, b.yeargroup_id, b.form_id FROM cidsid a, student b 
 				WHERE a.class_id='$newcid' AND b.id=a.student_id ORDER BY b.surname");
 	while($student=mysql_fetch_array($d_student, MYSQL_ASSOC)){
 		print '<tr><td>'.$student['surname']. 
-				', '.$student['forename'].' ('.$student['form_id'].')</td>';
+				', '.$student['forename'].' '.$student['preferredforename'].' ('.$student['form_id'].')</td>';
 		print '<td><input type="checkbox" name="'.$student['student_id'].'" /></td>';
 		print '</tr>';
 		}
@@ -103,7 +104,7 @@ three_buttonmenu($extrabuttons);
 <?php
 	/*list those not assigned already in this subject*/
   	$d_student=mysql_query("SELECT a.student_id, a.forename, a.middlenames,
-					a.surname, a.form_id FROM
+					a.surname, a.preferredforename, a.form_id FROM
 					cohortstudents AS a LEFT JOIN subjectstudents AS b ON
 					a.student_id=b.student_id WHERE
 					b.student_id IS NULL 
@@ -115,8 +116,9 @@ three_buttonmenu($extrabuttons);
 <?php
 	while($student=mysql_fetch_array($d_student,MYSQL_ASSOC)) {
 			print '<option ';
-			print	'value="'.$student['student_id'].'">'.$student['surname'].',
-  	'.$student['forename'].' '.$student['middlenames'].' ('.$student['form_id'].')</option>';
+			print 'value="'.$student['student_id'].'">'.$student['surname']. 
+			', '.$student['forename'].' '.$student['middlenames']. 
+			' '.$student['preferredforename'].' ('.$student['form_id'].')</option>';
 			}
 ?>
 		  </select>
@@ -128,12 +130,12 @@ three_buttonmenu($extrabuttons);
 <?php
 		/*all those assigned already in this subject and yeargroup*/
 		$d_student=mysql_query("SELECT student_id, forename, middlenames,
-					surname, form_id FROM subjectstudents ORDER BY surname"); 
+					surname, preferredforename, form_id FROM subjectstudents ORDER BY surname"); 
 		while($student=mysql_fetch_array($d_student,MYSQL_ASSOC)) {
 			print '<option ';
 			print	'value="'.$student['student_id'].'">'. 
 				$student['surname'].', '.$student['forename'].' '. 
-					$student['middlenames'].' ('.$student['form_id'].')</option>';
+					$student['middlenames'].' '.$student['preferredforename'].' ('.$student['form_id'].')</option>';
 			}
 ?>
 

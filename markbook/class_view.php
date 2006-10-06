@@ -4,11 +4,10 @@
 
 $choice='class_view.php';
 
-
-/******  Fetches all the info needed for this view *****/
+/*Fetches all the info needed for this view*/
 include('class_view_marks.php');
 
-/*	buttonmenu contains action buttons for column checkboxes */
+/*buttonmenu contains action buttons for column checkboxes */
 if($_SESSION['worklevel']>-1){
 ?>
   <div class="buttonmenu">
@@ -51,8 +50,8 @@ if($_SESSION['worklevel']>-1){
 		<tr>
 <?php 
 /**
- *			The main table.
- *			All cells are referenced by their (sid,mid) only.
+ *	   	The main table.
+ *	   	All cells are referenced by their (sid,mid) only.
  */
 	$n=sizeof($cids);
 	$cidcolour=array();
@@ -127,10 +126,9 @@ if($_SESSION['worklevel']>-1){
 ?>
 		</tr>
 <?php
-/*********************************************************/
-/*	Generate each student's row in the table*/
-
-include('class_view_table.php');	      	      	      
+   	/*********************************************************/
+   	/*	Generate each student's row in the table*/
+   	include('class_view_table.php');
 
 	for($c2=0;$c2<$row;$c2++){
 		$c4=$c2+1;
@@ -173,7 +171,7 @@ include('class_view_table.php');
 		for($c=0;$c<$c_marks;$c++) {
 //			if ($umns[$c]['display']=='yes'){
 				$col_mid=$umns[$c]['id'];
-				print '<td class="grade"
+				print '<td class="'.$viewtable[$c2]["score$col_mid"]['scoreclass'].'"
 		id="'.$viewtable[$c2]['sid'].'-'. $col_mid.'"
 		title="'.$viewtable[$c2]["score$col_mid"]['comment']. '">'. 
 						$viewtable[$c2]["$col_mid"].'</td>';
