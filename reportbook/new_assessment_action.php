@@ -2,7 +2,7 @@
 /*                    new_assessment_action.php
 */
 
-$rcrid=$respons[$r]{'course_id'};
+$rcrid=$respons[$r]['course_id'];
 
 $action='new_assessment.php';
 
@@ -29,15 +29,14 @@ if($sub=='Submit' and $_FILES['importfile']['tmp_name']!=''){
 				$derivation=$d[9];
 				$resultstatus=$d[10];
 				$compstatus=$d[11];
-				$create=$d[12];
-				$deadline=$d[13];
-				mysql_query("INSERT INTO assessment (stage, year, subject_id, method,
-					element, description, resultqualifier, outoftotal,
-					derivation, resultstatus, component_status, course_id,create,deadline) 
-					VALUES ('$stage', '$year', '$subject', '$method',
-					'$element', '$description', '$resultq', '$outoftotal',
-					'$derivation', '$resultstatus', '$compstatus',
-					'$rcrid','$create','$deadline');");
+				$gena=$d[12];
+				$create=$d[13];
+				$deadline=$d[14];
+				mysql_query("INSERT INTO assessment (stage, year, subject_id, method, element,
+					description, resultqualifier, outoftotal, 
+	derivation, resultstatus, component_status, course_id,
+	grading_name, create, deadline) VALUES ('$stage', '$year',
+	'$subject', '$method', '$element', '$description', '$resultq', '$outoftotal', '$derivation', '$resultstatus', '$compstatus', '$rcrid', '$gena', '$create', '$deadline');");
 				}
 			}
 		}
@@ -60,6 +59,7 @@ elseif($sub=='Submit'){
 		$season=$_POST['season'];
 		$derivation=$_POST['derivation'];
 		$componentstatus=$_POST['componentstatus'];
+		if(isset($_POST['gena'])){$gena=$_POST['gena'];}else{$gena='';};
 		$deadline=$_POST['deadline'];
 		$creation=$_POST['creation'];
 		if($id==''){
