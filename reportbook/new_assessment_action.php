@@ -24,19 +24,24 @@ if($sub=='Submit' and $_FILES['importfile']['tmp_name']!=''){
 				$method=$d[3];
 				$element=$d[4];
 				$description=$d[5];
-				$resultq=$d[6];
+				$label=$d[6];
+				$resultq=$d[7];
 				$outoftotal=$d[8];
 				$derivation=$d[9];
 				$resultstatus=$d[10];
-				$compstatus=$d[11];
+				$componentstatus=$d[11];
 				$gena=$d[12];
 				$create=$d[13];
 				$deadline=$d[14];
 				mysql_query("INSERT INTO assessment (stage, year, subject_id, method, element,
-					description, resultqualifier, outoftotal, 
-	derivation, resultstatus, component_status, course_id,
-	grading_name, create, deadline) VALUES ('$stage', '$year',
-	'$subject', '$method', '$element', '$description', '$resultq', '$outoftotal', '$derivation', '$resultstatus', '$compstatus', '$rcrid', '$gena', '$create', '$deadline');");
+					description, label, resultqualifier, outoftotal,
+					derivation, resultstatus, component_status,
+					course_id, grading_name, creation, deadline) VALUES
+					('$stage', '$year', '$subject', '$method',
+					'$element', '$description', '$label', '$resultq',
+					'$outoftotal', '$derivation', '$resultstatus',
+					'$componentstatus', '$rcrid', '$gena', '$create',
+					'$deadline');");
 				}
 			}
 		}
