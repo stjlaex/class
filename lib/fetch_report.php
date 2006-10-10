@@ -65,7 +65,7 @@ function fetchSubjectReports($sid,$reportdefs){
 			  }
 
 			while(list($index,$repsummary)=each($reportdef['summaries'])){
-				$summaryid=$repsummary['subject_id'];
+				$summaryid=$repsummary['subtype'];
 				$Summary=array();
 				$Summary['Description']=array('id'=>$summaryid,
 							 'type'=>$repsummary['type'], 'value'=>$repsummary['name']);
@@ -170,7 +170,7 @@ function fetchReportSummaries($rid){
 	/*returns one array containing the catdefs for all summaries for this report*/
 
 	$d_categorydef=mysql_query("SELECT categorydef.id,
-				categorydef.name, categorydef.type, categorydef.subject_id,
+				categorydef.name, categorydef.type, categorydef.subtype, categorydef.subject_id,
 				categorydef.rating FROM categorydef LEFT
 				JOIN ridcatid ON ridcatid.categorydef_id=categorydef.id 
 				WHERE ridcatid.report_id='$rid' AND

@@ -109,7 +109,8 @@ function xmlarray_form($Array,$no='',$caption='',$tab=1){
 				print '</select>';
 				}
 			elseif($val['type_db']=='date'){
-				$required='no';$todate=''; $xmldate=$val['field_db'].$no;
+				$required='no';$todate='';$xmldate=$val['field_db'].$no;
+				$todate=$val['value'];
 				include('scripts/jsdate-form.php');
 				}
 			else{

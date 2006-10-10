@@ -16,8 +16,7 @@ if($sub=='Submit' and $_FILES['importfile']['tmp_name']!=''){
 		include('scripts/file_import_csv.php');
 		if(sizeof($inrows>0)){
 			while(list($index,$d)=each($inrows)){
-				/*this matches the UK CBDS spreadsheets and isn't
-					generally useful*/
+				/*this matches partly the UK CBDS spreadsheets and isn't generally useful*/
 				$stage=$d[0];
 				$year=$d[1];
 				$subject=$d[2];

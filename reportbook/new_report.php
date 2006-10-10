@@ -70,7 +70,7 @@ three_buttonmenu();
 		</option>
 <?php 
 	$d_categorydef=mysql_query("SELECT id, name, subject_id FROM
-		categorydef WHERE type='com' AND (course_id LIKE '$rcird' 
+		categorydef WHERE type='com' AND (course_id LIKE '$rcrid' 
 		OR course_id='%') ORDER BY rating");
 	while($catdef=mysql_fetch_array($d_categorydef,MYSQL_ASSOC)){
 ?>   				

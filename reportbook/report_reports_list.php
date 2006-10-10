@@ -70,7 +70,7 @@ twoplusprint_buttonmenu();
 		while(list($index,$rid)=each($rids)){
    			$summaries=(array)$reports[$index]['summaries'];
 			while(list($index2,$summary)=each($summaries)){
-				$summaryid=$summary['subject_id'];
+				$summaryid=$summary['subtype'];
 				if($summary['type']=='com'){
 					if($formperm['x']==1 and $summaryid=='form'){
 						print '<th>'.get_string('formtutor').'</th>';
@@ -101,7 +101,7 @@ twoplusprint_buttonmenu();
 		while(list($index,$rid)=each($rids)){
    			$summaries=(array)$reports[$index]['summaries'];
 			while(list($index2,$summary)=each($summaries)){
-				$summaryid=$summary['subject_id'];
+				$summaryid=$summary['subtype'];
 				if($summary['type']=='com'){
 					if($formperm['w']==1 and $summaryid=='form'){
 						$d_summaryentry=mysql_query("SELECT teacher_id

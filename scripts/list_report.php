@@ -11,19 +11,27 @@
 		}
 	elseif(sizeof($ryids)==1){
 		$selyid=$ryids[0];
+		$d_report=mysql_query("SELECT id, course_id, title, date FROM report
+			    ORDER BY date DESC, title, course_id");
+		/*This needs to moved to use cohorts!!!
 		$d_report=mysql_query("SELECT DISTINCT report.id,
 				report.course_id, report.title, report.date FROM
 				report JOIN class ON class.course_id=report.course_id WHERE
 				class.yeargroup_id='$selyid' ORDER BY report.date DESC, report.title");
+		*/
 		}
 	elseif(sizeof($rfids)==1){
 		$selfid=$rfids[0];
 		$d_yeargroup=mysql_query("SELECT yeargroup_id FROM form WHERE id='$selfid'");
 		$selyid=mysql_result($d_yeargroup,0);
+		$d_report=mysql_query("SELECT id, course_id, title, date FROM report
+			    ORDER BY date DESC, title, course_id");
+		/*This needs to moved to use cohorts!!!
 		$d_report=mysql_query("SELECT DISTINCT report.id,
 				report.course_id, report.title, report.date FROM
 				report JOIN class ON class.course_id=report.course_id WHERE
 				class.yeargroup_id='$selyid' ORDER BY report.date DESC, report.title");
+		*/
 		}
 	else{
 		$d_report=mysql_query("SELECT id, course_id, title, date FROM report
