@@ -6,6 +6,14 @@ $action='report_reports_list.php';
 $choice='report_reports.php';
 
 three_buttonmenu();
+
+
+if($rcrid!='' and $r>-1){
+	$reportpubs='no';
+	}
+elseif(sizeof($ryids)==1 or sizeof($rfids)==1){
+	$reportpubs='yes';
+	}
 ?>
 
   <div class="content">
@@ -18,18 +26,25 @@ three_buttonmenu();
 ?>
 	  </fieldset>
 
-	  <fieldset class="left">
+<?php
+	  if($reportpubs=='yes'){
+?>
+	  <fieldset class="center">
 		<legend><?php print_string('choosetoinclude',$book);?></legend>
 <?php
-	 include('scripts/list_report.php');
+		include('scripts/list_report_wrapper.php');
 ?>
 	  </fieldset>
 
-	  <fieldset class="right">
+<?php
+		  }
+	  else{
+?>
+	  <fieldset class="left">
 		<legend><?php print_string('limitbysubject',$book);?></legend>
 <?php
-	  $multi='1'; $bid='%'; $required='no';
-	include('scripts/list_subjects.php');
+		$multi='1'; $bid='%'; $required='no';
+		include('scripts/list_subjects.php');
 ?>
 	  </fieldset>
 
@@ -39,6 +54,16 @@ three_buttonmenu();
 		<input style="width:2em;"  id="Coversheet" 
 		  type="checkbox" name="coversheet" value="yes" />
 	  </fieldset>
+
+	  <fieldset class="center">
+		<legend><?php print_string('choosetoinclude',$book);?></legend>
+<?php
+		include('scripts/list_report.php');
+?>
+	  </fieldset>
+<?php
+	  }
+?>
 
 	  <input type="hidden" name="cancel" value="<?php print '';?>" />
 	  <input type="hidden" name="current" value="<?php print $action; ?>">

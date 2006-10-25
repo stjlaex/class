@@ -10,7 +10,7 @@ if(sizeof($ryids)>0){
 ?>
 	<label for="Year Group"><?php print_string('yeargroup');?></label>
 	<select id="Year Group" name="newyid" tabindex="<?php print $tab++;?>"
-		<?php if($required=='yes'){ print ' class="required" ';} ?> >
+		 style="width:20%;" <?php if($required=='yes'){ print ' class="required" ';} ?> >
     <option value=""></option>
 <?php
     	while(list($index,$yid)=each($ryids)){
@@ -30,7 +30,7 @@ elseif(sizeof($rfids)>0){
 ?>
 	<label for="Form group"><?php print_string('formgroup');?></label>
 	<select type="text" id="Form group" name="newfid" tabindex="<?php print $tab++;?>"  
-		<?php if($required=='yes'){ print ' class="required" ';} ?> >
+		 style="width:20%;" <?php if($required=='yes'){ print ' class="required" ';} ?> >
 	<option value=""></option>
 <?php
         while(list($index,$fid)=each($rfids)){

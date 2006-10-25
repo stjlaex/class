@@ -192,14 +192,14 @@ function generate_random_name($gender){
 
 	$table='users';
 	$trows=tableRead($table);
-	while (list($index, $row) = each($trows)) {
+	while(list($index, $row)=each($trows)){
 		$id=$row['uid'];
 		$username=$row['username'];
 		if($username!='administrator' and $username!='office'){
 			$nun='Prof'.$index;
 			$passwd=md5('guest');
 			if(mysql_query("UPDATE $table SET username='$nun',
-			forename='P', surname='Prof', email='', logcount='0',
+			forename='P', surname='Prof', email='', nologin='0', logcount='0',
 			passwd='$passwd', ip=''
 				WHERE uid='$id'")){}
 			else{$error[]=mysql_error();}
@@ -251,13 +251,16 @@ function generate_random_name($gender){
 
 	$table='form';
 	$trows=tableRead($table);
-	$name=array('D','C','A','B');
+	$name=array('DD','CC','AA','BB','EE','FF','GG','HH','JJ','KK','LL','MM');
 	$i=0;
 	$yid='';
 	while(list($index,$row)=each($trows)){
 		if($yid!=$row['yeargroup_id']){$i=0; $yid=$row['yeargroup_id'];}
 		$id=$row['id'];
-		$nid=$yid.'-'.$name[$i];
+		if($yid=='-2'){$nid='PRE'.$name[$i];}
+		elseif($yid=='-1'){$nid='NUR'.$name[$i];}
+		elseif($yid=='0'){$nid='REC'.$name[$i];}
+		else{$nid=$yid.''.$name[$i];}
 		if(mysql_query("UPDATE $table SET id='$nid', name='$nid' 
 				WHERE id='$id'")){}
 		else{print mysql_error();}
@@ -272,7 +275,7 @@ function generate_random_name($gender){
 
 	$table='classes';
 	$trows=tableRead($table);
-	$name=array('D','C','A','B');
+	$name=array('DD','CC','AA','BB','EE','FF','GG','HH','JJ','KK','LL','MM');
 	while(list($index,$row)=each($trows)){
 		if($row['generate']=='forms'){
 			$bid=$row['subject_id'];

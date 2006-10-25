@@ -103,6 +103,7 @@ if (mysql_query("
 CREATE TABLE rideid (
 	report_id		int unsigned not null default '0',
 	assessment_id	int unsigned not null default '0',
+	priority		smallint unsigned not null default 0,
 	primary key 	(report_id, assessment_id)
 );")){}
 		     else{print "Failed on rideid!<br>";	

@@ -163,3 +163,5 @@ ALTER TABLE incidents
 ALTER TABLE info
 	CHANGE enrolstatus 	enrolstatus	enum('EN','AP','AC','C', 'P', 'G','S','M') not null default 'C';
 ALTER TABLE student CHANGE yeargroup_id yeargroup_id SMALLINT(6);
+ALTER TABLE rideid
+	ADD priority smallint unsigned not null default 0;

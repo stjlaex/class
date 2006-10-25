@@ -91,8 +91,11 @@ function fetchReportDefinition($rid,$selbid='%'){
 	$d_report=mysql_query("SELECT * FROM report WHERE id='$rid'");
 	$report=mysql_fetch_array($d_report,MYSQL_ASSOC);
 	$crid=$report['course_id'];
-	$d_course=mysql_query("SELECT name FROM course WHERE id='$crid'");
-	$report['course_name']=mysql_result($d_course,0);
+	if($crid!='wrapper'){
+		$d_course=mysql_query("SELECT name FROM course WHERE id='$crid'");
+		$report['course_name']=mysql_result($d_course,0);
+		}
+	else{$report['course_name']='';}
 	$reportdef['report']=$report;
 
 	$d_cridbid=mysql_query("SELECT DISTINCT subject_id FROM
@@ -106,7 +109,7 @@ function fetchReportDefinition($rid,$selbid='%'){
 
 	$d_assessment=mysql_query("SELECT * FROM assessment JOIN
 				rideid ON rideid.assessment_id=assessment.id 
-				WHERE report_id='$rid' ORDER BY label");
+				WHERE report_id='$rid' ORDER BY rideid.priority, assessment.label");
 	$reportdef['eids']=array();
 	$asstable=array();
 	while($ass=mysql_fetch_array($d_assessment,MYSQL_ASSOC)){
@@ -175,7 +178,7 @@ function fetchReportSummaries($rid){
 				JOIN ridcatid ON ridcatid.categorydef_id=categorydef.id 
 				WHERE ridcatid.report_id='$rid' AND
 				ridcatid.subject_id='summary' ORDER BY
-				categorydef.rating");
+				categorydef.type, categorydef.rating");
    	$catdefs=array();
 	while($catdef=mysql_fetch_array($d_categorydef,MYSQL_ASSOC)){
 	   	$catdefs[]=$catdef;

@@ -9,35 +9,11 @@
 			title, date FROM report WHERE course_id
 			LIKE '$rcrid' ORDER BY date DESC, title");
 		}
-	elseif(sizeof($ryids)==1){
-		$selyid=$ryids[0];
-		$d_report=mysql_query("SELECT id, course_id, title, date FROM report
-			    ORDER BY date DESC, title, course_id");
-		/*This needs to moved to use cohorts!!!
-		$d_report=mysql_query("SELECT DISTINCT report.id,
-				report.course_id, report.title, report.date FROM
-				report JOIN class ON class.course_id=report.course_id WHERE
-				class.yeargroup_id='$selyid' ORDER BY report.date DESC, report.title");
-		*/
-		}
-	elseif(sizeof($rfids)==1){
-		$selfid=$rfids[0];
-		$d_yeargroup=mysql_query("SELECT yeargroup_id FROM form WHERE id='$selfid'");
-		$selyid=mysql_result($d_yeargroup,0);
-		$d_report=mysql_query("SELECT id, course_id, title, date FROM report
-			    ORDER BY date DESC, title, course_id");
-		/*This needs to moved to use cohorts!!!
-		$d_report=mysql_query("SELECT DISTINCT report.id,
-				report.course_id, report.title, report.date FROM
-				report JOIN class ON class.course_id=report.course_id WHERE
-				class.yeargroup_id='$selyid' ORDER BY report.date DESC, report.title");
-		*/
-		}
 	else{
 		$d_report=mysql_query("SELECT id, course_id, title, date FROM report
-			    ORDER BY date DESC, title, course_id");
+			    WHERE course_id!='wrapper' ORDER BY date DESC, title, course_id");
 		}
-	$todate=date("Y-m-d");
+	$todate=date('Y-m-d');
 	$reports=array();
    	while($report=mysql_fetch_array($d_report,MYSQL_ASSOC)){
 		$reports[$report['id']]=$report;
@@ -45,9 +21,9 @@
 ?>
 
 <div class="center"> 
-  <label for="Current Reports"><?php print_string('currentreports');?></label>
-  <select style="width:25em;" id="Current Reports" type="text" name="rids[]"
-			tabindex="<?php print $tab++;?>" size="4" multiple="multiple" >
+  <label for="Current Reports"><?php print_string('current');?></label>
+  <select style="width:60%;" id="Current Reports" type="text" name="rids[]"
+			tabindex="<?php print $tab++;?>" size="6" multiple="multiple" >
 <?php
    	while(list($rid,$report)=each($reports)){
 		if($report['date']>=$todate){
@@ -63,9 +39,9 @@
 </div>
 
 <div class="center"> 
-  <label for="Reports"><?php print_string('reports');?></label>
-  <select style="width:25em;" id="Reports" type="text" name="rids[]"
-			size="10" multiple="multiple" tabindex="<?php print $tab++;?>">
+  <label for="Previous"><?php print_string('previous');?></label>
+  <select style="width:60%;" id="Previous" type="text" name="rids[]"
+			size="8" multiple="multiple" tabindex="<?php print $tab++;?>">
 <?php
 	reset($reports);
 	while(list($rid,$report)=each($reports)){

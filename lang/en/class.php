@@ -204,7 +204,7 @@ $string['fullname']='Student';
 $string['formtutor']='Tutor';
 $string['yearhead']='Year coordinator';
 $string['template']='Template';
-$string['currentreports']='Current reports';
+$string['current']='Current';
 $string['removecontact']='Remove contact';
 $string['newstudent']='New student';
 $string['newcontact']='New contact';
@@ -231,6 +231,6 @@ $string['savedefinition']='Save definition';
 $string['loaddefinition']='Load definition';
 $string['start']='Start';
 $string['end']='End';
-$string['']='';
+$string['previous']='Previous';
 $string['']='';
 ?>

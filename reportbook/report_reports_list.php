@@ -4,13 +4,14 @@
 
 $action='report_reports_print.php';
 
-if(isset($_POST{'newfid'})){$fid=$_POST{'newfid'};}else{$fid='';}
-if(isset($_POST{'fid'})){$fid=$_POST{'fid'};}
-if(isset($_POST{'newyid'})){$yid=$_POST{'newyid'};}
-if(isset($_POST{'yid'})){$yid=$_POST{'yid'};}
-if(isset($_POST{'selbid'})){$selbid=$_POST{'selbid'};}else{$selbid='%';}
-if(isset($_POST{'rids'})){$rids=$_POST{'rids'};}else{$rids=array();}
-if(isset($_POST{'coversheet'})){$coversheet=$_POST{'coversheet'};}else{$coversheet='no';}
+if(isset($_POST['newfid'])){$fid=$_POST['newfid'];}else{$fid='';}
+if(isset($_POST['fid'])){$fid=$_POST['fid'];}
+if(isset($_POST['newyid'])){$yid=$_POST['newyid'];}
+if(isset($_POST['yid'])){$yid=$_POST['yid'];}
+if(isset($_POST['selbid'])){$selbid=$_POST['selbid'];}else{$selbid='%';}
+if(isset($_POST['rids'])){$rids=$_POST['rids'];}else{$rids=array();}
+if(isset($_POST['wrapper_rid'])){$wrapper_rid=$_POST['wrapper_rid'];}
+if(isset($_POST['coversheet'])){$coversheet=$_POST['coversheet'];}else{$coversheet='no';}
 
 include('scripts/sub_action.php');
 
@@ -31,6 +32,17 @@ include('scripts/sub_action.php');
 		$sids[]=$student['id'];
 		$students[$student['id']]=$student;
 		}
+
+if(isset($wrapper_rid)){
+	$coversheet='yes';
+	$d_rid=mysql_query("SELECT categorydef_id AS report_id FROM ridcatid WHERE
+				 report_id='$wrapper_rid' AND subject_id='wrapper' ORDER BY categorydef_id");
+	$rids=array();
+	$rids[]=$wrapper_rid;
+	while($rid=mysql_fetch_array($d_rid,MYSQL_ASSOC)){
+		$rids[]=$rid['report_id'];
+		}
+	}
 
 twoplusprint_buttonmenu();
 ?>
@@ -103,7 +115,7 @@ twoplusprint_buttonmenu();
 			while(list($index2,$summary)=each($summaries)){
 				$summaryid=$summary['subtype'];
 				if($summary['type']=='com'){
-					if($formperm['w']==1 and $summaryid=='form'){
+					if($formperm['x']==1 and $summaryid=='form'){
 						$d_summaryentry=mysql_query("SELECT teacher_id
 					FROM reportentry WHERE report_id='$rid' AND
 					student_id='$sid' AND subject_id='summary' AND
@@ -116,7 +128,7 @@ twoplusprint_buttonmenu();
 			</td>
 <?php
 						}
-					elseif($yearperm['w']==1 and $summaryid=='year'){
+					elseif($yearperm['x']==1 and $summaryid=='year'){
 						$d_summaryentry=mysql_query("SELECT teacher_id
 					FROM reportentry WHERE report_id='$rid' AND
 					student_id='$sid' AND subject_id='summary' AND
@@ -202,7 +214,8 @@ twoplusprint_buttonmenu();
 						print $reptid." ";
 						}
 					reset($reptids);
-					if((isset($donereports["$repbid"]["$reppid"]) and $commentcomp=='yes') or 
+					if((isset($donereports["$repbid"]["$reppid"]) and
+						$commentcomp=='yes' and mysql_numrows($d_scores)>0) or 
 						($commentcomp=='no' and mysql_numrows($d_scores)>0)){
 						print '" class="vspecial">';}
 					else{print '">';}
@@ -222,6 +235,9 @@ twoplusprint_buttonmenu();
 ?>
 		</table>
 
+<?php if(isset($wrapper_rid)){?>
+ 	<input type="hidden" name="wrapper_rid" value="<?php print $wrapper_rid;?>" />
+<?php	} ?>
 <?php if(isset($yid)){?>
  	<input type="hidden" name="yid" value="<?php print $yid;?>" />
 <?php	} ?>
