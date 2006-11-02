@@ -351,7 +351,7 @@ function updateUser($user,$update='no',$short='class'){
 		mysql_query("INSERT INTO users (username, passwd, forename, surname,
 					email, role, nologin, worklevel, firstbookpref) 
 					VALUES ('$username', '$assword', '$forename',
-					'$surname', '$email', '$role', '$nologin', '$worklevel'
+					'$surname', '$email', '$role', '$nologin', '$worklevel',
 							'$firstbookpref')");
 		$result=$result.'Username '.$username.' added.';
 		}
