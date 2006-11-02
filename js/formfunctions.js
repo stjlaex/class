@@ -90,7 +90,15 @@ requestxmlHttp();
 
 function clickToAction(buttonObject){
 	var i=0;
-	var theRowId=buttonObject.parentNode.parentNode.parentNode.id;
+	//need the id of the div containing the xml from either the button id
+	var theButtonId=buttonObject.id;
+	if(theButtonId==''){
+		//or this gets it from the id of the tbody container for this row
+		var theRowId=buttonObject.parentNode.parentNode.parentNode.id;
+		}
+	else{
+		var theRowId=theButtonId;
+		}
 	var xmlId='xml-'+theRowId;
 	var xmlContainer=document.getElementById(xmlId);
 	var xmlRecord=xmlContainer.childNodes[1];
@@ -105,7 +113,7 @@ function clickToAction(buttonObject){
 		var answer=confirmAction(buttonObject.title);
 		if(answer){
 				xmlHttp.open("GET", url, true);
-				xmlHttp.onreadystatechange = updatexmlRecord;
+				xmlHttp.onreadystatechange=updatexmlRecord;
 				xmlHttp.send(null);
 				}
 		}

@@ -29,8 +29,8 @@ if($newtid!='' AND $newfid!=''){
 				$d_groups=mysql_query("SELECT DISTINCT gid
 					FROM groups WHERE yeargroup_id='$yid' AND course_id IS NULL");
 				$gid=mysql_result($d_groups,0);
-				mysql_query("INSERT perms (uid, gid, r, w, x) 
-					VALUES('$uid','$gid','1','1','0')");
+				$newperms=array('r'=>1,'w'=>1,'x'=>0);
+				$result[]=updateStaffPerms($uid,$gid,$newperms);
 				}
 			else{$error[]=mysql_error();}	
 			}

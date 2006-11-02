@@ -24,6 +24,11 @@ three_buttonmenu();
 
 	</fieldset>
 
+	    <input type="hidden" name="current" value="<?php print $action;?>" />
+		<input type="hidden" name="choice" value="<?php print $choice;?>" />
+		<input type="hidden" name="cancel" value="<?php print '';?>" />
+	</form>
+
 	<div class="left">
 	  <table class="listmenu">
 		<tr>
@@ -32,26 +37,57 @@ three_buttonmenu();
 		  <th><?php print_string('yearresponsible',$book);?></th>
 		</tr>
 <?php
-
 	$nosidstotal=0;
 	$d_year=mysql_query("SELECT * FROM yeargroup ORDER BY section_id, id");
 	while($year=mysql_fetch_array($d_year,MYSQL_ASSOC)){
 		$yid=$year['id'];
+		$d_groups=mysql_query("SELECT gid FROM groups WHERE
+				yeargroup_id='$yid' AND course_id=''");
+		$gid=mysql_result($d_groups,0);
+		$perms=getYearPerm($yid, $respons);
 		$nosids=countinCommunity(array('type'=>'year','name'=>$yid));
 		$nosidstotal=$nosidstotal+$nosids;
-	   	print '<tr><td>';
-	   		print '<a href="admin.php?current=yeargroup_edit.php&cancel='.$choice.'&choice='.$choice.'&newtid='.$tid.'&newyid='.$yid.'">'.$year['name'].'</a>';
-		print '</td>';
-	   	print '<td>'.$nosids.'</td><td>';
+?>
+		<tr>
+		  <td>
+<?php
+		if($perms['w']==1){
+			print '<a href="admin.php?current=yeargroup_edit.php&cancel='.$choice.'&choice='.$choice.'&newtid='.$tid.'&newyid='.$yid.'">'.$year['name'].'</a>';
+			}
+		else{
+	   		print $year['name'];
+	   		}
+?>
+		  </td>
+		  <td><?php print $nosids;?></td>
+		  <td>
+<?php
 		$yearperms=array('r'=>1,'w'=>1,'x'=>1);/*head of year only*/
 		$users=(array)getPastoralStaff($yid,$yearperms);
 		while(list($uid,$user)=each($users)){
+			$Responsible=array('id_db'=>$yid.'-'.$uid);
 			if($user['role']!='office' and $user['role']!='admin'){
-				print '<a href="admin.php?current=responsables_edit_pastoral.php&action='. 
-				$choice.'&uid='.$uid.'&yid='.$yid.'">'.$user['username'].' '.'</a>';
+				if($perms['x']==1){
+?>
+			<button class="rowaction" title="Remove this responsibility"
+			  name="current" id="<?php print $yid.'-'.$uid;?>"
+			  value="responsables_edit_yeargroup.php" 
+			  onClick="clickToAction(this)">
+			  <?php print $user['username'];?>
+			</button>
+			<div id="<?php print 'xml-'.$yid.'-'.$uid;?>" style="display:none;">
+							  <?php xmlpreparer('Responsible',$Responsible);?>
+			</div>
+<?php
+					}
+				else{
+					print $user['username'].' ';
+					}
 				}
 			}
-		print '</td></tr>';
+?>
+		  </td></tr>
+<?php
 		}
 ?>
 		  <tr>
@@ -95,8 +131,5 @@ three_buttonmenu();
 <?php
 	}
 ?>
-	  <input type="hidden" name="current" value="<?php print $action;?>" />
-	  <input type="hidden" name="choice" value="<?php print $choice;?>" />
-	  <input type="hidden" name="cancel" value="<?php print '';?>" />
-	</form>
+
   </div>

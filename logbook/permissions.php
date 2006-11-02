@@ -149,6 +149,12 @@ function getTeachingStaff($crid='',$bid=''){
 	return $users;
 	}
 
+function getUid($tid){
+	$d_users=mysql_query("SELECT uid FROM users WHERE username='$tid'");
+	$uid=mysql_result($d_users,0);
+	return $uid;
+	}
+
 function checkCurrentRespon($r,$respons,$required='subject'){
 	if($r>-1){
 		$bid=$respon[$r]['subject_id'];

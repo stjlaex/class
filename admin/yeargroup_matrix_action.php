@@ -33,6 +33,5 @@ if($newtid!='' AND $newyid!=''){
 	$result[]=updateStaffPerms($uid,$gid,$newperms);
 	}
 
-include('scripts/results.php');
 include('scripts/redirect.php');
 ?>
