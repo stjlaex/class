@@ -3,11 +3,142 @@
  */
 
 $action='new_report.php';
+
 $rcrid=$respons[$r]['course_id'];
+include('scripts/course_respon.php');
 
 include('scripts/sub_action.php');
+print $sub;
 
-if($sub=='Submit'){
+if($sub!='Submit'){
+
+$action='new_report_action.php';
+$choice='new_report.php';
+
+three_buttonmenu();
+?>
+  <div class="content">
+	<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
+	  <fieldset class="center">
+		<legend><?php print_string('identityofreport',$book);?></legend>
+
+		<div class="left">
+		  <label for="Title"><?php print_string('title');?></label>
+		  <input class="required" type="text" id="Title" name="title"
+			tabindex="<?php print $tab++;?>" length="40" maxlength="60" />
+		</div>
+		<div class="right">
+		  <label><?php print_string('publisheddate');?></label>
+		  <?php include('scripts/jsdate-form.php'); ?>
+		</div>
+		<div class="left">
+		  <label for="Comment"><?php print_string('description');?></label>
+		  <input type="text" id="Comment" name="comment" length="40" maxlength="250"
+				tabindex="<?php print $tab++;?>" />
+		</div>
+		<div class="right">
+		  <label><?php print_string('deadlineforcompletion',$book);?></label>
+		  <?php include('scripts/jsdate-form.php'); ?>
+		</div>
+	  </fieldset>
+
+	  <fieldset class="left">
+		<legend><?php print_string('includeassessmentscores',$book);?></legend>
+		<?php include('scripts/list_assessment.php');?>
+	  </fieldset>
+
+
+	  <fieldset class="right">
+		<legend><?php print_string('writtencomments',$book);?></legend>
+
+		  <?php $checkcaption=get_string('addcategories',$book);
+		        $checkname='addcategory'; include('scripts/check_yesno.php');?>
+		  <?php $checkcaption=get_string('allowsubjectcomments',$book);
+		        $checkname='reptype'; include('scripts/check_yesno.php');?>
+		  <?php $checkcaption=get_string('commentsarecompulsory',$book);
+		        $checkname='commentcomp'; include('scripts/check_yesno.php');?>
+
+		<table class="listmenu"><tr>
+			<th><label for="Comment Length">
+			<?php print_string('restrictcommentscharacterlength',$book);?>
+			  </label></th>
+			<td><input type="text" pattern="integer" id="Comment Length"
+				name="commentlength" maxlength="5" length="4" tabindex="<?php print $tab++;?>" />
+			</td></tr></table>
+	  </fieldset>
+
+	  <fieldset class="right">
+		<legend><?php print_string('summarycomment',$book);?></legend>
+		<label for="Summary comments"><?php print_string('summarycomment',$book);?></label>
+		<select style="width:25em;" id="Summary comments" type="text" name="catdefids[]"
+			class="required" size="3" multiple="multiple" tabindex="<?php print $tab++;?>" >
+		<option value="-100">
+			<?php print_string('none');?>
+		</option>
+<?php 
+	$d_categorydef=mysql_query("SELECT id, name, subject_id FROM
+		categorydef WHERE type='com' AND (course_id LIKE '$rcrid' 
+		OR course_id='%') ORDER BY rating");
+	while($catdef=mysql_fetch_array($d_categorydef,MYSQL_ASSOC)){
+?>   				
+		<option value="<?php print $catdef['id'];?>">
+			<?php print $catdef['name'];?>
+		</option>
+<?php
+	   	}
+?>
+		</select>
+	  </fieldset>
+
+	  <fieldset class="left">
+		<legend><?php print_string('properties',$book);?></legend>
+		<div>
+		  <?php include('scripts/list_stage.php') ;?>
+		</div>
+
+		<div class="left">
+		  <?php include('scripts/list_componentstatus.php'); ?>
+		</div>
+	  </fieldset>
+
+	  <fieldset class="right">
+		<legend><?php print_string('summarysignature',$book);?></legend>
+		<label for="Summary comments"><?php print_string('summarysignature',$book);?></label>
+		<select style="width:25em;" id="Summary signatures" type="text" name="catdefids[]"
+			class="required" size="3" multiple="multiple" tabindex="<?php print $tab++;?>" >
+		<option value="-100">
+			<?php print_string('none');?>
+		</option>
+<?php 
+	$d_categorydef=mysql_query("SELECT id, name, subject_id FROM
+		categorydef WHERE type='sig' AND (course_id LIKE '$rcird' 
+		OR course_id='%') ORDER BY rating");
+	while($catdef=mysql_fetch_array($d_categorydef,MYSQL_ASSOC)){
+?>   				
+		<option value="<?php print $catdef['id'];?>">
+			<?php print $catdef['name'];?>
+		</option>
+<?php
+	   	}
+?>
+		</select>
+	  </fieldset>
+
+	  <fieldset class="left">
+		<legend><?php print_string('nameoftemplate',$book);?></legend>
+		<?php include('scripts/list_template.php');?>
+	  </fieldset>
+
+
+		<input type="hidden" name="current" value="<?php print $action;?>" />
+		<input type="hidden" name="choice" value="<?php print $choice; ?>"/>
+		<input type="hidden" name="cancel" value="<?php print ''; ?>"/>
+	</form>
+  </div>
+<?php
+	   	exit;
+		}
+elseif($sub=='Submit'){
 		$title=$_POST['title'];
 		$comment=$_POST['comment'];
 		$compstatus=$_POST['componentstatus'];
@@ -24,71 +155,19 @@ if($sub=='Submit'){
 		$date=$_POST['date0'];
 		$deadline=$_POST['date1'];
 
-		if(mysql_query("INSERT INTO report (title, comment, course_id,
+		mysql_query("INSERT INTO report (title, comment, course_id,
 				stage, component_status,
 				date, deadline, addcomment, commentlength,
 					commentcomp, addcategory, style, transform) VALUES
 				('$title', '$comment', '$rcrid', '$stage', '$compstatus',
 				'$date', '$deadline', '$reptype', '$commentlength',
-					'$commentcomp', '$addcategory', '$style', '$transform');"))	
-				{$result[]='Successfully created new report.';}
-		else {$error[]='Failed to create report!';
-				$error[]=mysql_error(); 
-				include('scripts/results.php'); 
-				exit;
-				}
+					'$commentcomp', '$addcategory', '$style', '$transform');");	
 
-/*		generate mark columns for the new report*/
-		$rid=mysql_insert_id();
-		/*the rid will be stored in the midlist for each new mark*/
-
-/*		make a list of subjects that will need distinct new marks*/
-		$bids=array();
-		$d_cridbid=mysql_query("SELECT DISTINCT subject_id FROM cridbid
-				WHERE course_id LIKE '$rcrid' ORDER BY subject_id");
-		while($bid=mysql_fetch_array($d_cridbid,MYSQL_NUM)){$bids[]=$bid[0];}
-
-/*		generate a mark for each crid and bid combination*/
-   	   	while(list($index,$bid)=each($bids)){
-			$pids=array();
-   			if($compstatus=='A'){$compstatus='%';}
-   			$d_component=mysql_query("SELECT DISTINCT id FROM component
-					WHERE course_id='$rcrid' AND subject_id='$bid'
-						AND status LIKE '$compstatus'");
-   			while($pid=mysql_fetch_array($d_component,MYSQL_NUM)){$pids[]=$pid[0];}
-
-			if(sizeof($pids)==0){$pids[0]='';}
-		   	while(list($index,$pid)=each($pids)){
-				/*if there is no component for this subject or componenets are not
-					requested then $pid is blank*/
-				if(mysql_query("INSERT INTO mark 
-				(entrydate, marktype, topic, comment, author,
-				 def_name, assessment, midlist, component_id) 
-					VALUES ('$date', 'report', '$title', 
-				 'complete by $deadline', '$tid', '', 'no', '$rid', '$pid')"))
-				{$result[]='Created report for '.$bid.' - '.$pid;}
-				else{$error[]='Failed mark may already exist!'.mysql_error();}
-				$mid=mysql_insert_id();
-
-/*		        entry in midcid for new mark and classes with crid and bid*/
-				$d_class=mysql_query("SELECT id FROM class WHERE
-						course_id LIKE '$rcrid' AND subject_id LIKE
-						'$bid' AND stage LIKE '$stage' ORDER BY subject_id");
-				while($d_cid=mysql_fetch_array($d_class,MYSQL_NUM)){
-						$cid=$d_cid[0];
-						mysql_query("INSERT INTO midcid (mark_id,
-							class_id) VALUES ('$mid', '$cid')");
-						}
-				}
-			}
-
-/*      entry in rideid to link new report with chosen assessments*/
+		/*entry in rideid to link new report with chosen assessments*/
 		$eids=(array)$_POST{'eids'};
 		foreach($eids as $eid){ 
-  			if(mysql_query("INSERT INTO rideid 
-		     (report_id, assessment_id) 
-				VALUES ('$rid', '$eid')")){}
-			else{$error[]='Failed to link to assessment!'.mysql_error();}
+  			mysql_query("INSERT INTO rideid 
+		     (report_id, assessment_id) VALUES ('$rid', '$eid')");
 			}
 
 		if($addcategory=='yes'){
@@ -112,6 +191,5 @@ if($sub=='Submit'){
 			}
 		}
 
-include('scripts/results.php');
 include('scripts/redirect.php');
 ?>
