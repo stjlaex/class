@@ -90,16 +90,17 @@ requestxmlHttp();
 
 function clickToAction(buttonObject){
 	var i=0;
-	//need the id of the div containing the xml from either the button id
-	var theButtonId=buttonObject.id;
-	if(theButtonId==''){
-		//or this gets it from the id of the tbody container for this row
-		var theRowId=buttonObject.parentNode.parentNode.parentNode.id;
+	//need the id of the div containing the xml-record 
+	var theDivId=buttonObject.parentNode.id;
+	if(theDivId==''){
+		//gets it from the id of the tbody container for this row
+		var theContainerId=buttonObject.parentNode.parentNode.parentNode.id;
 		}
 	else{
-		var theRowId=theButtonId;
+		//or gets it from the id of the parent div container
+		var theContainerId=theDivId;
 		}
-	var xmlId='xml-'+theRowId;
+	var xmlId='xml-'+theContainerId;
 	var xmlContainer=document.getElementById(xmlId);
 	var xmlRecord=xmlContainer.childNodes[1];
 	var action=buttonObject.name;

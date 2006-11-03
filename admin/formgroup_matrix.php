@@ -76,14 +76,16 @@ three_buttonmenu();
 			$uid=getUid($tid);
 			$Responsible=array('id_db'=>$fid.'-'.$uid);
 ?>
-			<button class="rowaction" title="Remove this responsibility"
-			  name="current" id="<?php print $fid.'-'.$uid;?>"
-			  value="responsables_edit_formgroup.php" 
-			  onClick="clickToAction(this)">
-			  <?php print $tid;?>
-			</button>
-			<div id="<?php print 'xml-'.$fid.'-'.$uid;?>" style="display:none;">
+			<div  id="<?php print $fid.'-'.$uid;?>" class="rowaction" >
+			  <button title="Remove this responsibility"
+				name="current"
+				value="responsables_edit_formgroup.php" 
+				onClick="clickToAction(this)">
+					 <?php print $tid;?>
+			  </button>
+			  <div id="<?php print 'xml-'.$fid.'-'.$uid;?>" style="display:none;">
 							  <?php xmlpreparer('Responsible',$Responsible);?>
+			  </div>
 			</div>
 <?php
 			}

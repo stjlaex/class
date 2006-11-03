@@ -94,45 +94,111 @@ three_buttonmenu();
 	</form>
   </div>
 
-  <div class="content">
-	<table class="listmenu">
-	  <tr>
-		<th><?php print_string('users',$book);?></th>
-		<th style="width:30%;"><?php print_string('pastoralresponsibilities',$book);?></th>
-		<th><?php print_string('academicresponsibilities',$book);?></th>
-	  </tr>
 <?php
 	foreach($users as $uid => $user){
 		if($user['username']!='administrator'){
 			$uid=$user['uid'];
-			print '<tr>';
-			print '<td>'.$user['username'].' ('.$user['surname'].')';
-			print '</td><td>';
 			$d_group=mysql_query("SELECT * FROM groups LEFT JOIN perms ON
 			perms.gid=groups.gid WHERE perms.uid='$uid' AND
 			groups.yeargroup_id IS NOT NULL");
+			$user['pastoral'][]=array();
 			while($group=mysql_fetch_array($d_group,MYSQL_ASSOC)){
-				$gid=$group['gid'];
-				print '<a href="admin.php?current=responsables_edit_pastoral.php&uid='. 
-					$uid.'&gid='.$gid.'&yid='.$group['yeargroup_id']. 
-					'" >'.$group['name'].'</a>'; 
+				if($group['gid']>0){$user['pastoral'][]=$group;}
 				}
-			print '</td><td>';
-
 			$d_group=mysql_query("SELECT * FROM groups LEFT JOIN perms ON
 				perms.gid=groups.gid WHERE perms.uid='$uid' AND
 				groups.yeargroup_id IS NULL");
+			$user['academic'][]=array();
 			while($group=mysql_fetch_array($d_group,MYSQL_ASSOC)){
-				$gid=$group['gid'];
-				print '<a href="admin.php?current=responsables_edit.php&uid='. 
-						$uid.'&gid='.$gid.'&crid='.$group['course_id'].'&bid='. 
-						$group['subject_id'].'">'.$group['name'].'</a>'; 
+				if($group['gid']>0){$user['academic'][]=$group;}
 				}
-			print '</td>';
-			print '</tr>';
+			}
+		$users[$uid]=$user;
+		}
+?>
+  <div class="content">
+	<div class="center">
+	  <table class="listmenu">
+	  <tr>
+		<th><?php print_string('users',$book);?></th>
+		<th style="width:25%;"><?php print_string('pastoralresponsibilities',$book);?></th>
+		<th><?php print_string('academicresponsibilities',$book);?></th>
+	  </tr>
+<?php
+	foreach($users as $uid => $user){
+		if($user['username']!='administrator' and 
+		   (sizeof($user['pastoral'])>1 or sizeof($user['academic'])>1)){
+			$uid=$user['uid'];
+?>
+	  <tr>
+		<td>
+		  <?php print $user['username'].' ('.$user['surname'].')';?>
+		</td>
+		<td>
+<?php
+			foreach($user['pastoral'] as $index=>$group){
+				$gid=$group['gid'];
+				if($gid>0){
+					$yid=$group['yeargroup_id'];
+					$Responsible=array('id_db'=>$yid.'-'.$uid);
+					$perms=getYearPerm($yid, $respons);
+					if($perms['x']==1){
+?>
+			<button class="rowaction" title="Remove this responsibility"
+			  name="current" id="<?php print $yid.'-'.$uid;?>"
+			  value="responsables_edit_yeargroup.php" 
+			  onClick="clickToAction(this)">
+			  <?php print $group['name'];?>
+			</button>
+			<div id="<?php print 'xml-'.$yid.'-'.$uid;?>" style="display:none;">
+							  <?php xmlpreparer('Responsible',$Responsible);?>
+			</div>
+<?php
+					  }
+					else{
+						print $group['name'].' ';
+						}
+					}
+				}
+?>
+		</td>
+		<td>
+<?php
+			foreach($user['academic'] as $index=>$group){
+				$gid=$group['gid'];
+				if($gid>0){
+					$crid=$group['course_id'];
+					$bid=$group['subject_id'];
+					$Responsible=array('id_db'=>$crid.'-'.$bid.'-'.$uid);
+					$perms=getCoursePerm($crid, $respons);
+					if($perms['x']==1){
+?>
+			<div id="<?php print $crid.'-'.$bid.'-'.$uid;?>" class="rowaction" >
+			  <button title="Remove this responsibility"
+				name="current"
+				value="responsables_edit_course.php" 
+				onClick="clickToAction(this)">
+					 <?php print $group['name'];?>
+			  </button>
+			  <div id="<?php print 'xml-'.$crid.'-'.$bid.'-'.$uid;?>" style="display:none;">
+							  <?php xmlpreparer('Responsible',$Responsible);?>
+			  </div>
+			</div>
+<?php
+						}
+					else{
+						print $group['name'].' ';
+						}
+					}
+				}
+?>
+		</td>
+	  </tr>
+<?php
 			}
 		}
 ?>
 	</table>
+	</div>
   </div>
 </div>

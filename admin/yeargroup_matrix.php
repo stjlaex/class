@@ -69,14 +69,16 @@ three_buttonmenu();
 			if($user['role']!='office' and $user['role']!='admin'){
 				if($perms['x']==1){
 ?>
-			<button class="rowaction" title="Remove this responsibility"
-			  name="current" id="<?php print $yid.'-'.$uid;?>"
-			  value="responsables_edit_yeargroup.php" 
-			  onClick="clickToAction(this)">
-			  <?php print $user['username'];?>
-			</button>
-			<div id="<?php print 'xml-'.$yid.'-'.$uid;?>" style="display:none;">
+			<div  id="<?php print $yid.'-'.$uid;?>" class="rowaction" >
+			  <button title="Remove this responsibility"
+				name="current" 
+				value="responsables_edit_yeargroup.php" 
+				onClick="clickToAction(this)">
+					 <?php print $user['username'];?>
+			  </button>
+			  <div id="<?php print 'xml-'.$yid.'-'.$uid;?>" style="display:none;">
 							  <?php xmlpreparer('Responsible',$Responsible);?>
+			  </div>
 			</div>
 <?php
 					}

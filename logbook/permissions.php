@@ -25,17 +25,17 @@ function findResponsibles($sid, $bid){
 		  	class.subject_id='$bid' AND cidsid.student_id='$sid'"); 
 		$crid=mysql_result($d_class,0);
 	  	$d_group=mysql_query("SELECT gid FROM groups WHERE
-		  	course_id='$crid' AND groups.subject_id='%'"); 
+		  	course_id='$crid' AND subject_id='%'");
 		$group=mysql_fetch_array($d_group);
 		$gids[]=$group['gid'];
 
 	  	$d_group=mysql_query("SELECT gid FROM groups WHERE
-		  	course_id='%' AND groups.subject_id='$bid'"); 
+		  	course_id='%' AND subject_id='$bid'"); 
 		$group=mysql_fetch_array($d_group);
 		$gids[]=$group['gid'];
 
 	  	$d_group=mysql_query("SELECT gid FROM groups WHERE
-		  	course_id='$crid' AND groups.subject_id='$bid'"); 
+		  	course_id='$crid' AND subject_id='$bid'"); 
 		$group=mysql_fetch_array($d_group);
 		$gids[]=$group['gid'];
 		}
