@@ -78,7 +78,7 @@ $tab=1;
 	</fieldset>
 
 <?php
- if($tid=='administrator'){
+ if($tid=='administrator' or $_SESSION['role']=='admin'){
 ?>
 
 	<fieldset class="reportbook"><legend><?php print_string('manage');?></legend>

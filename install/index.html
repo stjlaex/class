@@ -11,14 +11,13 @@
 
 	<body>
 
-	<div class="externalbookframe">
-	  <div class="content">
+	  <div class="externalbookframe">
+		<div class="content">
 		  <img name="sitelogo"  src="../images/orangelogo.png" style="width:120px;"/>
-		  <form method='post' action='install.php'>
-			<div class="center">
-			  <h2>Welcome to the ClaSS Installation script.</h2>
+		  <div class="center">
+			<h2>Welcome to the ClaSS Installation script.</h2>
 
-			  <h4>What you are doing.</h4>
+			<h4>What you are doing.</h4>
 
 			<p>You should have already unpacked class into the top-level of your web 
 			  directory.</p>
@@ -29,7 +28,7 @@
 			<p>You will need to give a name for the ClaSS database you want created
 			  and of a separate password for ClaSS to use when connecting to MySQL.</p>
 
-			<p>Need I say you should be running the latest Firefox as your browser
+			<p>Need I say you should be running Firefox as your browser
 			  (with Javascript and Cookies switched to on).</p>
 
 			<p>In other words, you need to know what you are doing... </p>
@@ -41,16 +40,17 @@
 				  'ClaSS Homepage');">ClaSS Homepage</button>
 			</p>
 
-			</div>
+		  </div>
 
-			<hr width="90%" /> 
+		  <hr width="90%" /> 
 			
+		  <form method='post' action='install.php'>
 			<div class="center">
 			  <h4>Your MySQL Account.</h4>
-
+			  
 			  <p>Please supply details of an existing administrator's account on the
 				MySQL server you are installing to.</p>
-
+			  
 			  <table>
 				  <tr>
 					<td>Name of host machine:</td>
@@ -65,14 +65,13 @@
 					<td><input  tabindex="3" type='password' name='oldpassword' /></td>
 				  </tr>
 			  </table>
-			  
 			</div>
 
 			<hr width="90%" /> 
-
+		  
 			<div class="center">
 			  <h4>The ClaSS MySQL Account.</h4>
-
+			
 			  <p>The database to be created could be called anything but usually
 				related to the school it serves.<br> WARNING: any existing
 				database on this server with that name will be forever
@@ -85,7 +84,7 @@
 				Password here WILL STOP them connecting. In that case you must use
 				the same password here!
 			  </p>
-
+			
 			  <table>
 				  <tr>	
 					<td>Name of ClaSS Database:</td>
@@ -109,14 +108,15 @@
 				  <tr>	
 					<td>If you have completed all the above information:</td>
 					<td>
-					  <button  tabindex="7" type="submit" class="install" 
+					<button  tabindex="7" type="submit" class="install" 
 						name="submit">Configure ClaSS Database</button>
 					</td>
 				  </tr>
 			  </table>
-			</div>
+			</div>			
+			<hr width="90%" />
 		  </form>
-		  <hr width="90%" />
+
 		</div>
 	  </div>
 	  

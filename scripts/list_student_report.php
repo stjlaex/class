@@ -1,0 +1,60 @@
+<?php
+/**										scripts/list_student_report.php
+ *
+ * returns array rids[]
+ * list reports for which a student has assessments entered
+ */
+
+	$todate=date('Y-m-d');
+	$d_rideid=mysql_query("SELECT DISTINCT report_id FROM rideid JOIN eidsid ON 
+				rideid.assessment_id=eidsid.assessment_id WHERE eidsid.student_id='$sid'
+			    ORDER BY report_id DESC");
+	$reports=array();
+	while($rideid=mysql_fetch_array($d_rideid,MYSQL_ASSOC)){
+		$rid=$rideid['report_id'];
+		$d_report=mysql_query("SELECT id, title, date FROM report JOIN
+				ridcatid ON ridcatid.report_id=report.id  
+			    WHERE ridcatid.categorydef_id='$rid' 
+				AND ridcatid.subject_id='wrapper' ORDER BY date DESC, title");
+		while($report=mysql_fetch_array($d_report,MYSQL_ASSOC)){
+			$reports[$report['id']]=mysql_fetch_array($d_report,MYSQL_ASSOC);
+			}
+		}
+?>
+
+<div class="center"> 
+  <label for="Current Reports"><?php print_string('current');?></label>
+  <select style="width:60%;" id="Current Reports" type="text" name="wrapper_rid"
+			tabindex="<?php print $tab++;?>" size="4">
+<?php
+   	while(list($rid,$report)=each($reports)){
+		if($report['date']>=$todate){
+?>
+		<option value="<?php print $report['id'];?>">
+			<?php print $report['course_id'].' '.$report['title'].' ('.$report['date'].')';?>
+		</option>
+<?php
+			}
+ 		}
+?>
+  </select>
+</div>
+
+<div class="center"> 
+  <label for="Previous"><?php print_string('previous');?></label>
+  <select style="width:60%;" id="Previous" type="text" name="wrapper_rid"
+			size="8" multiple="multiple" tabindex="<?php print $tab++;?>">
+<?php
+	reset($reports);
+	while(list($rid,$report)=each($reports)){
+		if($report['date']<$todate){
+?>
+		<option value="<?php print $report['id'];?>">
+			<?php print $report['course_id'].' '.$report['title'].' ('.$report['date'].')';?>
+		</option>
+<?php
+			}
+ 		}
+?>
+  </select>
+</div>

@@ -51,12 +51,9 @@ unpack the tarball. eg. tar -xvf ClaSS-0.8.tar
 application files exist. In addition an installation directory
 (class/install) includes all the files needed to install and configure
 the database. The following files from the install directory need to
-be moved to be in your top-level directory:
-	mv install/toplevel/index.html .
-	mv install/toplevel/school.php .  
-	mv install/toplevel/images .  
-	mv install/toplevel/templates .
-	mv install/toplevel/curriculum .
+be moved to be located in your class-site directory using the command:
+
+	mv class/install/toplevel/* .
 
 These files, located outside the class application directory, are not
 automatically replaced when ClaSS is next updated. This procedure is
