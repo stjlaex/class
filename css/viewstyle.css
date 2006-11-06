@@ -106,8 +106,7 @@ form img.caution+input, form img.caution+select {
 	background-color:yellow;
 	}
 form img.calendar { 
-	background-image: url("../images/calendar.png"); 
-    width:20px; height:20px; border:0;
+    width:0; height:0; border:0;
 	cursor:pointer;
 	background-repeat:no-repeat;
 	}

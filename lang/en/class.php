@@ -232,5 +232,7 @@ $string['loaddefinition']='Load definition';
 $string['start']='Start';
 $string['end']='End';
 $string['previous']='Previous';
+$string['newreportbinder']='New report binder';
+$string['newsubjectreport']='New subject report';
 $string['']='';
 ?>

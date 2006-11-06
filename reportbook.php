@@ -97,18 +97,18 @@ $tab=1;
 		  <option <?php if($choice=='new_assessment.php'){ print
 			'selected="selected" ';}?> value='new_assessment.php'>
 			<?php print_string('newassessments',$book);?>
-		  </option>
-		  
-		  <option <?php if($choice=='new_report.php'){ print
+		  </option>		  
+		  <option <?php if($choice=='new_report.php'){ print 
 			'selected="selected" ';}?> value='new_report.php'>
-			<?php print_string('newsubjectreport',$book);?>
+			<?php print_string('subjectreports',$book);?>
 		  </option>
 		</select>
 
 	  </form>
 	</fieldset>
 
-<?php	}
+<?php
+	}
 ?>
   </div>
 

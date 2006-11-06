@@ -86,17 +86,37 @@ function fetchSubjectReports($sid,$reportdefs){
 	}
 
 function fetchReportDefinition($rid,$selbid='%'){
+	/*this is NOT an xml array and needs to be rewritten*/
 	$reportdef=array();
+	$reportdef['id_db']=$rid;
 	$reportdef['rid']=$rid;
 	$d_report=mysql_query("SELECT * FROM report WHERE id='$rid'");
+	if(mysql_numrows($d_report)==0){$reportdef['exists']='false';}
+	else{$reportdef['exists']='true';}
 	$report=mysql_fetch_array($d_report,MYSQL_ASSOC);
 	$crid=$report['course_id'];
 	if($crid!='wrapper'){
 		$d_course=mysql_query("SELECT name FROM course WHERE id='$crid'");
 		$report['course_name']=mysql_result($d_course,0);
+		$d_mid=mysql_query("SELECT id FROM mark WHERE midlist='$rid' and marktype='report'");
+		$markcount=mysql_numrows($d_mid);
+		$reportdef['MarkCount']=array('label' => 'Mark Columns', 
+								  'value' => $markcount);
 		}
-	else{$report['course_name']='';}
-	$reportdef['report']=$report;
+	else{
+		$report['course_name']='';
+		$d_report=mysql_query("SELECT id,title,stage,course_id FROM report JOIN
+				ridcatid ON ridcatid.categorydef_id=report.id 
+				WHERE ridcatid.report_id='$rid' AND ridcatid.subject_id='wrapper'");
+		$reptable=array();
+		while($rep=mysql_fetch_array($d_report,MYSQL_ASSOC)){
+			$reptable['rep'][]=array('name' => $rep['title'],'course_id'=>$rep['course_id'],
+				'stage'=>$rep['stage'],'id_db' => $rep['id']);
+			}
+		$reportdef['reptable']=nullCorrect($reptable);
+		}
+
+	$reportdef['report']=nullCorrect($report);
 
 	$d_cridbid=mysql_query("SELECT DISTINCT subject_id FROM
 			cridbid WHERE course_id='$crid' AND subject_id LIKE '$selbid'");
@@ -117,7 +137,7 @@ function fetchReportDefinition($rid,$selbid='%'){
 			$asstable['ass'][]=array('name' => $ass['description'],
 				'label' => $ass['label']);
 			}
-	$reportdef['asstable']=$asstable;
+	$reportdef['asstable']=nullCorrect($asstable);
 
 	if($reportdef['report']['addcategory']=='yes'){
 		/*find the categories for this report*/
@@ -133,9 +153,10 @@ function fetchReportDefinition($rid,$selbid='%'){
 				$cattable['rat'][]=array('name' => $rat, 'value' => $value);
 				}
 			}
-		$reportdef['cattable']=$cattable;
+		$reportdef['cattable']=nullCorrect($cattable);
 		}
 	$reportdef['summaries']=(array)fetchReportSummaries($rid);
+
 	return $reportdef;
 	}
 
@@ -214,7 +235,7 @@ function fetchReportEntry($reportdef, $sid, $bid, $pid){
 							FROM users WHERE username='$enttid'");
 		   $teachername=mysql_fetch_array($d_teacher,MYSQL_ASSOC);	      
 		   $Comment['Teacher']=nullCorrect(array('id_db' => 
-						$enttid, 'value'=>$teachername['forename'].' '.$teachername['surname']));
+				   $enttid, 'value'=>$teachername['forename'].' '.$teachername['surname']));
 		   $Comment['Text']=nullCorrect(array('value' => $entry['comment']));
 		   }
 	   if($reportdef['report']['addcategory']=='yes' and $bid!='summary'){
