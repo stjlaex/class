@@ -13,7 +13,7 @@
 
 <xsl:template match="student">
 <div id='logo'>
-<img src="../images/schoollogo.png" width="130px"/>
+  <img src="../images/schoollogo.png" width="140px"/>
 </div>
 
 <div class='studenthead'>
@@ -23,9 +23,7 @@
 		  <label>
 			Student
 		  </label>
-		  <xsl:value-of select="forename/value/text()" />&#160;
-		  <xsl:value-of select="middlenames/value/text()" />&#160;
-		  <xsl:value-of select="surname/value/text()" />
+		  <xsl:value-of select="displayfullname/value/text()" />&#160;
 		</td>
 	  </tr>
 	  <tr>		
@@ -53,11 +51,11 @@
   </table>
   <table class="descriptor">
 	<tr><td>Effort / Esfuerzo</td><td></td></tr>
-	<tr><td>Sobrasaliente</td><td>1</td></tr>
-	<tr><td>Notable</td><td>2</td></tr>
-	<tr><td>Bien</td><td>3</td></tr>
-	<tr><td>Suficente</td><td>4</td></tr>
-	<tr><td>Insuficiente</td><td>5</td></tr>
+	<tr><td>Sobrasaliente</td><td>A</td></tr>
+	<tr><td>Notable</td><td>B+</td></tr>
+	<tr><td>Bien</td><td>B</td></tr>
+	<tr><td>Suficente</td><td>C</td></tr>
+	<tr><td>Insuficiente</td><td>D</td></tr>
   </table>
 
 <div class='spacer'></div>
@@ -66,13 +64,9 @@
 
 <div class='spacer'></div>
 
-<div id='footer'>
-  <div class='comment'><label>Tutor Comment:</label></div>
-  <div class='spacer'></div>
-  <div class='signature'><label>Tutor:</label></div>
-</div>
+<xsl:apply-templates select="reports/summaries/summary" />
 
-  <hr />
+<hr />
 </xsl:template>
 
 <xsl:template match="reports">
@@ -128,10 +122,10 @@
   <xsl:variable name='asslabel' select='asstable/ass/label' />
   <xsl:if test="$index &lt; $maxindex">
 	<th>
-		  <label>
-	  <xsl:value-of select="$asslabel[$index]" />  
-	  <xsl:text>&#160; </xsl:text>
-		  </label>
+	  <label>
+		<xsl:value-of select="$asslabel[$index]" />  
+		<xsl:text>&#160; </xsl:text>
+	  </label>
 	</th>
     <xsl:call-template name="assheader">
 	  <xsl:with-param name="index" select="$index + 1"/>
@@ -155,6 +149,33 @@
 	  <xsl:with-param name="index" select="$index + 1"/>
     </xsl:call-template>
   </xsl:if>
+</xsl:template>
+
+<xsl:template match="reports/summaries/summary">
+  <xsl:if test="description/type='com' and comments/text()!=' '" >
+	<div class="sumcomment">
+	  <xsl:value-of select="description/value/text()" /><br />
+	  <xsl:apply-templates select="comments"/>
+	</div>
+
+	<div class="sumsignature">
+	  Year Coordinator
+	  <p class='signature'>Signed</p>
+	</div>
+  </xsl:if>
+</xsl:template>
+
+<xsl:template match="comments">
+  <xsl:apply-templates select="comment"/>
+</xsl:template>
+
+<xsl:template match="comment">
+  <p class="comment-text">
+	<xsl:value-of select="text/value/text()" />
+  </p>
+  <p class="signature">
+	<xsl:value-of select="teacher/value/text()" />
+  </p>
 </xsl:template>
 
 </xsl:stylesheet>

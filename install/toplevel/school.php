@@ -1,9 +1,9 @@
 <?php
-/*name visible to users in the browser*/
+/*title visible to users along the top of the browser*/
 $CFG->sitename='ClaSS Demo';
-/*the web-site's domain name*/
+/*the web-site's real domain name*/
 $CFG->siteaddress='classforschools.com';
-/*the web-site's path*/
+/*the web-site's url path*/
 $CFG->sitepath='/demo-site';
 /*flag 'up' or 'down' to prevent any user logins*/
 $CFG->sitestatus='up';
@@ -17,16 +17,17 @@ $CFG->schoolname='Demo School Site';
 $CFG->schoollogo='schoollogo.png';
 /*the welcome/warning text displayed in the sidebar at login*/
 $CFG->loginaside='';
-/*site-specific abbreviated name of site*/
+/*school-specific abbreviated name of site*/
 $CFG->shortname='demo';
-/*site-specific magic word - must be changed!*/
+/*school-specific magic word - must be changed!*/
 $CFG->shortkeyword='guest';
 /*details for posting bug reports etc.*/
 $CFG->support='laex.org';
 $CFG->contact='stj@laex.org';
 /*default site language*/
 $CFG->sitelang='en';
-/*All of the following are connection details
+/*****
+ *All of the following are connection details
  *for optional services residing outside of ClaSS
  *Once configured they need to be made accessible to users
  *by uncommenting the relevant entry in include.php
@@ -34,7 +35,7 @@ $CFG->sitelang='en';
  */
 /*optional details of the school's eportfolio site*/
 $CFG->eportfoliosite='';
-$CFG->eportfoliotabname='Elgg';
+$CFG->eportfoliotabname='Portfolio';
 $CFG->eportfolioshare='secret';
 $CFG->eportfolio_db='classelgg';
 /*optional details of the school's lms site*/
@@ -46,6 +47,7 @@ $CFG->lms_db='classmoodle';
 $CFG->webmailsite='http://webmail.demo.org';
 $CFG->webmailtabname='WebMail';
 $CFG->webmailshare='secret';
+$CFG->webmail_db='classmail';
 /*optional details of the statement bank for writing report comments*/
 $CFG->statementbank_db='';
 ?>

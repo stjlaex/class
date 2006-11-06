@@ -5,7 +5,7 @@ ClaSS stands for ClaSS Student System, a complete student
 tracking, reporting, and information management system for schools.
 
 ClaSS is a working, useable version of what is to be a complete
-classroom information assistant for schools.
+classroom information assistant.
 
 You are referred to the ClaSS home-page http://www.laex.org/class/ for
 more information and documentation. Please email stj@laex.org with
@@ -18,7 +18,8 @@ to guide you through the installation procedure.
 
 If you already have an install of ClaSS runnning then you'll need to
 migrate your database across by applying the appropriate sql-patch
-scripts in the install directory (if any are needed).
+scripts in the install directory (if any are more recent than your 
+current install).
 
 Please do let stj@laex.org know if you find this software useful (or
 not useful!). All feedback is valued and will help speed the
