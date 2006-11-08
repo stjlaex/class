@@ -46,5 +46,6 @@ elseif(sizeof($rfids)>0){
 <?php
 	}
 else{
+	print '<label>You have no pastoral responsibilities assigned.</label>';
 	}
 ?>

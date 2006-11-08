@@ -18,3 +18,6 @@ takes care of telling index.php about pre-loading all viewbooks.
 Added seneeds book which displays just sids flagged with SEN='Y'. Uses
 a new getSENPerm to allow access for pastoral and sen responsibles to
 change the sen records.
+
+Now check for admin role in report_reports and for users with more
+than one pastoral responsibility.

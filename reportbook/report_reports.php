@@ -11,7 +11,7 @@ three_buttonmenu();
 if($rcrid!='' and $r>-1){
 	$reportpubs='no';
 	}
-elseif(sizeof($ryids)==1 or sizeof($rfids)==1){
+elseif(sizeof($ryids)>0 or sizeof($rfids)>0 or $_SESSION['role']=='admin'){
 	$reportpubs='yes';
 	}
 ?>
