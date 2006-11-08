@@ -1,0 +1,13 @@
+.seneedscolor fieldset, .seneedscolor div.topform, .seneedscolor table.listmenu {
+	border-color:#1181AA;
+    color:#000000;
+	}
+div#bookbox{
+	border-color:#1181AA;
+	}
+.seneedscolor button {
+	background-color:#1181AA;
+	}
+.seneedscolor legend, .seneedscolor caption {
+    border-color:#1181AA;
+	}

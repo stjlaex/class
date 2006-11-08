@@ -12,9 +12,12 @@ $cancel='';
 include ('scripts/head_options.php');
 
 if(!isset($sid)){$sid='';}
-if(isset($_POST{'current'})){$current=$_POST{'current'};} else{$current='';}
-if(isset($_POST{'choice'})){$choice=$_POST{'choice'};}else{$choice='';}
-if(isset($_POST{'cancel'})){$cancel=$_POST{'cancel'};}
+if(isset($_POST['current'])){$current=$_POST['current'];}
+if(isset($_POST['choice'])){$choice=$_POST['choice'];}
+if(isset($_POST['cancel'])){$cancel=$_POST['cancel'];}
+if(isset($_GET['choice'])){$choice=$_GET['choice'];}
+if(isset($_GET['cancel'])){$cancel=$_GET['cancel'];}
+if(isset($_GET['current'])){$current=$_GET['current'];}
 ?>
   <div id="bookbox" class="registercolor">
 <?php
@@ -26,7 +29,7 @@ if(isset($_POST{'cancel'})){$cancel=$_POST{'cancel'};}
 ?>
 	<div class="content">
 	  <fieldset class="center">
-		<h2>The RegisterBook is under development!</h2>
+		<h2>The Register is under development...</h2>
 	  </fieldset>
 	</div>
 <?php
@@ -34,17 +37,16 @@ if(isset($_POST{'cancel'})){$cancel=$_POST{'cancel'};}
 ?>
   </div>
 
-  <div style="visibility:hidden;" id="hiddenbookoptions">	
+  <div style="visibility:hidden;" id="hiddenbookoptions" class="bookoptions">	
+	<form id="registerchoice" name="registerchoice" method="post" 
+		action="register.php" target="viewregister">
+
 	<fieldset class="register">
 	  <legend><?php print_string('options');?></legend>
 	</fieldset>
+
+	</form>
   </div>
-<?php include('scripts/end_options.php'); ?>
-
-
-
-
-
-
-
-
+<?php
+ include('scripts/end_options.php'); 
+?>

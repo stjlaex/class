@@ -42,7 +42,7 @@
 <?php
 	if($fresh!=''){
 		$role=$_SESSION['role'];
-		foreach($books["$role"] as $bookhost=>$bookname){
+		foreach($books[$role] as $bookhost=>$bookname){
 			/*(re)loading all the ClaSS books*/
 ?>
 			<script>parent.loadBook("<?php print $bookhost; ?>")</script>
@@ -53,15 +53,17 @@
 		/*this was loaded after a new login so do some extra stuff:*/
 		/*load the externalbooks, booktabs, update langpref, and raise firstbook*/
 
-		$externalbooks=$books['external'];
-		foreach($externalbooks["$role"] as $bookhost=>$bookname){
+		$externalbooks=array();
+		if(isset($books['external'][$role])){$externalbooks[$role]=$books['external'][$role];}
+		else{$externalbooks[$role]=array();}
+		foreach($externalbooks[$role] as $bookhost=>$bookname){
 			/*loading all the external books - only needed once*/
 ?>
 			<script>parent.loadBook("<?php print $bookhost; ?>")</script>
 <?php
 		   }
 
-		$showtabs=$books["$role"]+$externalbooks["$role"];
+		$showtabs=$books[$role]+$externalbooks[$role];
 ?>
 			<script>parent.loadBook("aboutbook")</script>
 

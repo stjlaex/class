@@ -14,7 +14,7 @@ if(!isset($required)){$required='yes';}
    	<option value=""></option>
 <?php
 	foreach($roles as $key => $role){
-		if($role!='admin'){
+		if($role!='admin' or ($role=='admin' and $_SESSION['role']=='admin')){
 			print '<option ';
 			if(isset($selrole)){if($selrole==$role){print 'selected="selected"';}}
 			print	' value="'.$role.'">'.get_string($role).'</option>';
@@ -22,26 +22,3 @@ if(!isset($required)){$required='yes';}
 		}
 ?>
   </select>
-
- 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

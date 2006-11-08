@@ -49,8 +49,9 @@ print '<?xml version="1.0" encoding="utf-8"?'.'>';
 <iframe id="viewaboutbook" name="viewaboutbook" class="bookframe"></iframe>
 
 <?php
-	$showbooks=$books['admin']+$books['external']['admin'];
-	/*admin because it contains all possible books*/
+	/*all because it contains all possible books*/
+	/* even if after login user does not have access*/
+	$showbooks=$books['all']+$books['external']['all'];
 	foreach($showbooks as $bookhost=>$bookname){
 ?>
 		<div id="<?php print $bookhost.'options';?>" class="bookoptions"></div>

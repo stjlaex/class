@@ -74,8 +74,7 @@ $string['changegroup']='Select students from this group';
 $string['studentsnotin']='Not in this group';
 $string['studentsalreadyin']='Already in this group';
 $string['listofuserssenttoadmin']='List of users sent to administrator.';
-$string['emailadminwithuserlist']='Send a list detailing all users to
-	administrator - without changing passwords.';
+$string['emailadminwithuserlist']='Send a list detailing all users to administrator - without changing passwords.';
 $string['emailuserlist']='Email list to administrator';
 $string['communitytype']='Type of community';
 $string['communitygroups']='Community groups';
@@ -106,5 +105,12 @@ $string['useless']='Useless';
 $string['tryharder']='Try harder';
 $string['good']='Good';
 $string['verygood']='Very good';
-$string['teacherspet']='Teacher\'s pet';
+$string['teacherspet']='Excellent';
+$string['newstaffpin']='New staff PIN';
+$string['retypenewstaffpin']='Retype new staff PIN';
+$string['disablelogin']='Disable login';
+$string['mistakematchingpasswords']='The passwords don\'t match: please try again!';
+$string['']='';
+$string['']='';
+$string['']='';
 ?>

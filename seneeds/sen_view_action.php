@@ -1,8 +1,8 @@
 <?php
-/**									student_view_sen1.php
+/**									sen_view_action.php
  */
 
-$action='student_view.php';
+$action='sen_view.php';
 
 include('scripts/sub_action.php');
 
@@ -18,20 +18,19 @@ if($sub=='SENStatus'){
 		}
 	elseif($Student['SENFlag']['value']=='N'){
 		mysql_query("UPDATE info SET sen='Y' WHERE student_id='$sid'");
-		/*		Set up first blank record for the profile*/
+		/*set up first blank record for the profile*/
 		$todate=date('Y')."-".date('n')."-".date('j');
 		mysql_query("INSERT INTO senhistory SET startdate='$todate', student_id='$sid'");
 		$senhid=mysql_insert_id();
 		mysql_query("INSERT INTO sentypes SET student_id='$sid'");
-		/*		creates a blank entry for general comments applicable to all subjects*/
+		/*creates a blank entry for general comments applicable to all subjects*/
 		mysql_query("INSERT INTO sencurriculum SET
-		senhistory_id='$senhid', subject_id='General'");
+					senhistory_id='$senhid', subject_id='General'");
 		}
 	}
 
 elseif($sub=='Submit'){
-/********Check user has permission to edit*************/
-	$action='student_view_sen.php';
+	/********Check user has permission to edit*************/
 	$yid=$Student['NCyearActual']['id_db'];
 	$perm=getSENPerm($yid,$respons);
 	$neededperm='w';
@@ -78,7 +77,7 @@ elseif($sub=='Submit'){
 
 			$table=$Subject['Strategies']['table_db'];
 			$field=$Subject['Strategies']['field_db'];
-			$inname=$field.$key;
+			$inname=$field . $key;
 			$inval=clean_text($_POST[$inname]);
 			if($Subject['Strategies']['value']!=$inval){
 				print $Subject['Strategies']['label']." : ".$inval;

@@ -73,7 +73,6 @@ if($current!='student_list.php'){
 ?>
   <div id="bookbox" class="infocolor">
 <?php
-	$tab=1;
 	if($current!=''){
 		$view = 'infobook/'.$current;
 		include($view);

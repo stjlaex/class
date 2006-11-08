@@ -51,19 +51,19 @@ three_buttonmenu();
 
 		<div class="center">
 		  <label for="ID"><?php print_string('username');?></label>
-		  <input pattern="alphanumeric" readonly="readonly"  
+		  <input pattern="truealphanumeric" readonly="readonly"  
 				type="text" id="ID" name="username"  
 				maxlength="14" value="<?php print $user['username'];?>" />
 		</div>
 
 		<div class="center">
 		  <label for="Surname"><?php print_string('surname');?></label>
-		  <input class="required" pattern="alphanumeric"
+		  <input class="required" 
 			type="text" id="Surname" name="surname" maxlength="30"
 		  value="<?php print $user['surname'];?>" tabindex="<?php print $tab++;?>" />  
 
 			<label for="Forename"><?php print_string('forename');?></label>
-			<input class="required" pattern="alphanumeric"
+			<input class="required" 
 			  type="text" id="Forename" name="forename" 
 			  maxlength="30" value="<?php print $user['forename'];?>" 
 			  tabindex="<?php print $tab++;?>" />
@@ -75,15 +75,13 @@ three_buttonmenu();
 				tabindex="<?php print $tab++;?>" 
 				value="<?php print $user['email'];?>" />
 
-			  <label for="Firstbook"><?php print_string('firstbookpref',$book);?></label>
-				<input pattern="alphanumeric" tabindex="<?php print $tab++;?>" 
-				  type="text" id="Firstbook" name="firstbookpref" class="required"
-				  maxlength="190" style="width:40%;" 
-				  value="<?php print $user['firstbookpref'];?>" />
+			  <label><?php print_string('firstbookpref',$book);?></label>
+				<?php $selbook=$user['firstbookpref'];?>
+				<?php include('scripts/list_books.php'); ?>
 		</div>
 
 <?php
-if($tid=='administrator'){
+if($tid=='administrator' or $_SESSION['role']=='admin'){
 ?>
 		<div class="center">
 		  <label for="Work level"><?php print_string('workexperiencelevel',$book);?></label>
@@ -91,7 +89,6 @@ if($tid=='administrator'){
 			class="required" >
 			<option value=""></option>
 <?php
-
 	$worklevels=array('-1'=>'useless','0'=>'tryharder','1'=>'good', 
 					  '2'=>'verygood','3'=>'teacherspet');
 	foreach($worklevels as $key => $worklevel){
@@ -102,19 +99,20 @@ if($tid=='administrator'){
 ?>
 		  </select>
 
+		  <?php $selrole=$user['role']; include('scripts/list_roles.php');?>
 
-		  <label for="Password"><?php print_string('newpassword',$book);?></label>
-		  <input pattern="truealphanumeric" tabindex="<?php print $tab++;?>" 
-			  type="password" id="Password" name="password1" 
-			  maxlength="20" style="width:20%;" />
+		  <label for="Number1"><?php print_string('newstaffpin',$book);?></label>
+		  <input pattern="integer" tabindex="<?php print $tab++;?>" 
+			  type="password" id="Number1" name="pin1" pattern="integer" 
+			  maxlength="4" style="width:20%;" />
 
-			<label for="Password2"><?php print_string('retypenewpassword',$book);?></label>
-			<input pattern="truealphanumeric" tabindex="<?php print $tab++;?>" 
-				type="password" id="Password2" name="password2" 
-				maxlength="20" style="width:20%;" />
+		  <label for="Number2"><?php print_string('retypenewstaffpin',$book);?></label>
+		  <input pattern="integer" tabindex="<?php print $tab++;?>" 
+				type="password" id="Number2" name="pin2" pattern="integer" 
+				maxlength="4" style="width:20%;" />
 
-			  <label for="Nologin"><?php print_string('disablelogin',$book);?></label>
-			  <input type="checkbox" id="Nologin" class="required" 
+		  <label for="Nologin"><?php print_string('disablelogin',$book);?></label>
+		  <input type="checkbox" id="Nologin" class="required" 
 				  name="nologin"  tabindex="<?php print $tab++;?>" 
 				  <?php if($user['nologin']=='1'){print 'checked="checked"';}?> value="1"/>
 
@@ -123,6 +121,7 @@ if($tid=='administrator'){
 		}
 else{
 ?>
+	  <input type="hidden" name="role" value="<?php print $user['role']; ?>">
 	  <input type="hidden" name="worklevel" value="<?php print $user['worklevel']; ?>">
 	  <input type="hidden" name="nologin" value="<?php print $user['nologin']; ?>">
 <?php
@@ -131,7 +130,6 @@ else{
 
 	  </fieldset>
 
-	  <input type="hidden" name="role" value="<?php print $user['role']; ?>">
 	  <input type="hidden" name="current" value="<?php print $action; ?>">
 	  <input type="hidden" name="choice" value="<?php print $choice; ?>">
 	  <input type="hidden" name="cancel" value="<?php print ''; ?>">

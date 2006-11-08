@@ -1,11 +1,13 @@
 <?php 
 /**									scripts/list_books.php
  *
+ * lists only those books available to the chosen role
  */
 
 $books=$CFG->books;
 
 if(!isset($required)){$required='yes';}
+if(!isset($user['role'])){$role=$_SESSION['role'];}else{$role=$user['role'];}
 ?>
 
   <label for="book"><?php print_string('book');?></label>
@@ -13,13 +15,11 @@ if(!isset($required)){$required='yes';}
   <?php if($required=='yes'){ print ' class="required" ';} ?>
 	>
    	<option value=""></option>
-   	<option value="General"><?php print_string('general');?></option>
 <?php
-	$role=$_SESSION['role'];
-	$showbooks=$books["$role"];
+	$showbooks=$books[$role];
 	foreach($showbooks as $key => $bookname){
 		print '<option ';
-		if(isset($book)){if($book==$key){print 'selected="selected"';}}
+		if(isset($selbook)){if($selbook==$key){print 'selected="selected"';}}
 		print	' value="'.$key.'">'.$bookname.'</option>';
 		}
 ?>

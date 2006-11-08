@@ -1,8 +1,8 @@
 <?php 
 /**												entrybook.php
  *	This is the hostpage for the entrybook.
- *	
  */
+
 $host='entrybook.php';
 $book='entrybook';
 $current='';
@@ -32,7 +32,6 @@ if(isset($_POST['cancel'])){$cancel=$_POST['cancel'];}
 if(isset($_GET['choice'])){$choice=$_GET['choice'];}
 if(isset($_GET['cancel'])){$cancel=$_GET['cancel'];}
 if(isset($_GET['current'])){$current=$_GET['current'];}
-$tab=1;
 ?>
 
   <div id="bookbox" class="entrybookcolor">
@@ -45,9 +44,10 @@ $tab=1;
   </div>
 
   <div style="visibility:hidden;" id="hiddenbookoptions" class="bookoptions">
-	  <form id="entrybookchoice" name="entrybookchoice" method="post" 
+	<form id="entrybookchoice" name="entrybookchoice" method="post" 
 		action="entrybook.php" target="viewentrybook">
-	<fieldset class="entrybook"><legend><?php print_string('addnew');?></legend>
+	  <fieldset class="entrybook">
+		<legend><?php print_string('addnew');?></legend>
 		<select name="current" size="6" onChange="document.entrybookchoice.submit();">
 		  <option 
 			<?php if($choice=='new_student.php'){print 'selected="selected" ';} ?>
@@ -60,12 +60,12 @@ $tab=1;
 			<?php print_string('staff');?>
 		  </option>
 		</select>
-
-	</fieldset>
+	  </fieldset>
 <?php 
 	if($choice=='new_student.php'){
 ?>
-	<fieldset class="entrybook"><legend><?php print_string('addto');?></legend>
+	<fieldset class="entrybook">
+		<legend><?php print_string('addto');?></legend>
 <?php
 		$onsidechange='yes';
 		include('scripts/list_enrolstatus.php');
@@ -77,10 +77,9 @@ $tab=1;
 ?>
 	</fieldset>
 <?php
-  }
+		}
 ?>
-  </form>
-
+	</form>
   </div>
 
 <?php

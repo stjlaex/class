@@ -170,7 +170,7 @@ function checkCurrentRespon($r,$respons,$required='subject'){
 	return array($crid,$bid,$error);
 	}
 
-function getYearPerm($year,$respons){
+function getYearPerm($yid,$respons){
 	/*return perm for yeargroup*/	
 	$perm['r']=0;
 	$perm['w']=0;
@@ -178,7 +178,7 @@ function getYearPerm($year,$respons){
 	for($c=0;$c<sizeof($respons);$c++){
 		$resp=$respons[$c];
 		if($resp['name']!='Form'){
-			if($resp['yeargroup_id']==$year){
+			if($resp['yeargroup_id']==$yid){
 				$perm['r']=$resp['r'];
 				$perm['w']=$resp['w'];
 				$perm['x']=$resp['x'];
@@ -187,6 +187,16 @@ function getYearPerm($year,$respons){
 		}
 	if($_SESSION['role']=='admin'){$perm['r']=1; $perm['w']=1; $perm['x']=1;}		
 	elseif($_SESSION['role']=='office'){$perm['r']=1; $perm['w']=1; $perm['x']=0;}		
+	return $perm;
+	}
+
+function getSENPerm($yid,$respons){
+	/*return perm for sen in this yeargroup*/	
+	$perm['r']=0;
+	$perm['w']=0;
+	$perm['x']=0;
+	$perm=getYearPerm($yid,$respons);
+	if($_SESSION['role']=='sen'){$perm['w']=1;}
 	return $perm;
 	}
 

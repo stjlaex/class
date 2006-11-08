@@ -11,17 +11,16 @@ $cancel='';
 
 include ('scripts/head_options.php');
 
-if(isset($_SESSION{'reportcurrent'})){$current=$_SESSION{'reportcurrent'};}
-if(isset($_SESSION{'reportchoice'})){$choice=$_SESSION{'reportchoice'};}
-if(isset($_GET{'current'})){$current=$_GET{'current'};}
-if(isset($_GET{'choice'})){$choice=$_GET{'choice'};}
-if(isset($_GET{'cancel'})){$choice=$_GET{'cancel'};}
-if(isset($_POST{'current'})){$current=$_POST{'current'};} 
-if(isset($_POST{'choice'})){$choice=$_POST{'choice'};}
-if(isset($_POST{'cancel'})){$cancel=$_POST{'cancel'};}
-$_SESSION{'reportcurrent'}=$current;
-$_SESSION{'reportchoice'}=$choice;
-$tab=1;
+if(isset($_SESSION['reportcurrent'])){$current=$_SESSION['reportcurrent'];}
+if(isset($_SESSION['reportchoice'])){$choice=$_SESSION['reportchoice'];}
+if(isset($_GET['current'])){$current=$_GET['current'];}
+if(isset($_GET['choice'])){$choice=$_GET['choice'];}
+if(isset($_GET['cancel'])){$choice=$_GET['cancel'];}
+if(isset($_POST['current'])){$current=$_POST['current'];} 
+if(isset($_POST['choice'])){$choice=$_POST['choice'];}
+if(isset($_POST['cancel'])){$cancel=$_POST['cancel'];}
+$_SESSION['reportcurrent']=$current;
+$_SESSION['reportchoice']=$choice;
 ?>
 <div id="bookbox" class="reportcolor">
 <?php
@@ -36,10 +35,10 @@ $tab=1;
 	$pastorals=listPastoralRespon($respons);
 	$rfids=$pastorals['forms'];
 	$ryids=$pastorals['years'];
-	if(sizeof($rfids)==0 and sizeof($ryids)==0 and $r=='-1'){
+	if(sizeof($rfids)==0 and sizeof($ryids)==0 and $r=='-1' and $_SESSION['role']!='admin'){
 			$error[]=get_string('selectresponsibility');
 			include('scripts/results.php');
-			$current=''; 
+			$current='';
 			$choice='';
 			}
 

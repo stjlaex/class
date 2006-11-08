@@ -364,7 +364,7 @@ function validateForm(formObject){
 		message=validateResult(formObject.elements[i])
 		if(message){errorMessage=errorMessage+" \n"+message;};
  		}
- 	if(errorMessage!=''){
+ 	if(errorMessage!=""){
    		parent.alert("Check your entries! \n" + errorMessage);
 		return false;
  		}

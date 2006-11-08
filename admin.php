@@ -22,7 +22,7 @@ if(isset($_POST['cancel'])){$cancel=$_POST['cancel'];}
 $_SESSION['admincurrent']=$current;
 $_SESSION['adminchoice']=$choice;
 $rtid=$tid;
-$tab=1;
+//$tab=1;
 ?>
   <div id="bookbox" class="admincolor">
 <?php	
@@ -125,9 +125,6 @@ $tab=1;
 		<option <?php if($choice=='statementbank.php'){print
 				'selected="selected" ';}?>value='statementbank.php'>
 				<?php print_string('statementbank');?></option>
-		<option <?php if($choice=='fix8.php'){print
-				'selected="selected" ';}?>value='fix8.php'>
-				<?php print_string('upgradeto0.8');?></option>
 		<option <?php if($choice=='demoiser.php'){print
 				'selected="selected" ';}?>value='demoiser.php'>
 				<?php print_string('demoiser');?></option>

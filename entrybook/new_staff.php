@@ -18,28 +18,30 @@ three_buttonmenu();
 		  <caption><?php print_string('staff',$book);?></caption>
 
 		  <tr>
-			<td><label for="ID"><?php print_string('teacherid');?></label></td>
-			<td><input class="required"  pattern="alphanumeric" tabindex="<?php print $tab++;?>" 
-				type="text" id="ID" name="newtid" maxlength="14" /></td>
-		  </tr>
-
-		  <tr>
 			<td><label for="Surname"><?php print_string('surname');?></label></td>
-			<td><input class="required" pattern="alphanumeric" tabindex="<?php print $tab++;?>" 
+			<td><input class="required" tabindex="<?php print $tab++;?>" 
 			  type="text" id="Surname" name="surname" maxlength="30" /></td>
 		  </tr>
 
 		  <tr>
 			<td><label for="Forename"><?php print_string('forename');?></label></td>
-			<td><input class="required" pattern="alphanumeric" tabindex="<?php print $tab++;?>" 
+			<td><input class="required" tabindex="<?php print $tab++;?>" 
 				type="text" id="Forename" name="forename"
-			  maxlength="30" /></td>
+				maxlength="30" />
+			</td>
 		  </tr>
 
 		  <tr>
-			<td><label for="Number"><?php print_string('staffno');?></label></td>
-			<td><input  class="required" pattern="integer" tabindex="<?php print $tab++;?>" 
-			type="text" id="Number" name="no" maxlength="3" /></td>
+			<td><label for="ID"><?php print_string('teacherid',$book);?></label></td>
+			<td><input class="required"  pattern="alphanumeric" tabindex="<?php print $tab++;?>" 
+				type="text" id="ID" name="newtid" maxlength="14" /></td>
+		  </tr>
+
+		  <tr>
+			<td><label for="Number"><?php print_string('staffpin',$book);?></label></td>
+			<td>
+			  <input  class="required" pattern="integer" tabindex="<?php print $tab++;?>" 
+				type="password" id="Number" name="no" maxlength="4" /></td>
 		  </tr>
 
 		  <tr>
