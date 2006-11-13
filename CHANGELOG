@@ -21,3 +21,7 @@ change the sen records.
 
 Now check for admin role in report_reports and for users with more
 than one pastoral responsibility.
+
+Fixed bug in list_student_reports which caused no reports to be
+displayed, and added selections ofr individual course reports as well
+as report wrappers.
