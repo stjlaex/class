@@ -146,21 +146,6 @@ CREATE TABLE exclusions (
 					$error=mysql_error(); print $error."<br>";}
 
 if (mysql_query("
-CREATE TABLE attendance (
-	student_id			int unsigned not null default 0, 
-	yeargroup_id	smallint not null default '0',
-	lea					varchar(3) not null default '',
-	estab				varchar(4) not null default 'XXXX',
-	possible			smallint unsigned,
-	attended			smallint unsigned,
-	unauthorised		smallint unsigned,
-	late				smallint unsigned,
-   	primary key         (student_id, yeargroup_id)
-);")){}
-     else{print "Failed on attendance!<br>";	
-					$error=mysql_error(); print $error."<br>";}
-
-if (mysql_query("
 CREATE TABLE guardian (
 	id			int unsigned not null auto_increment, 
 	prefix		varchar(30) not null default '',

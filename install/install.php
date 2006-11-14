@@ -117,6 +117,9 @@ $schooldb=$_POST['school'];
 	if(file_exists('create_infobook.php')){
 		include('create_infobook.php');
 		}
+	if(file_exists('create_register.php')){
+		include('create_register.php');
+		}
 
 /* Write the database access file to the toplevel directory*/	
 	$file=fopen ('../../dbh_connect.php', 'w');	

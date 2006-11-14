@@ -1,10 +1,16 @@
+Version ClaSS-0.8.2 release (2006/11/23)
+---------------------------------------------------- 
+
+Working on the Register. Added create_register to the install process
+which creates two new tables, event and attendance.
+
 Version ClaSS-0.8.1 release (2006/11/09)
 ---------------------------------------------------- 
 
 Changed password to pin for the staff_details form, added list_role,
 and used list_book for the firstbookpref.
 
-Changed naming of teacher id and staff no in the entrybook.
+Changed naming of teacher id and staff number in the entrybook.
 
 Moved the setting of $tab=1 into the head_options.
 
@@ -12,10 +18,10 @@ A statement of intent, adding library, medical, and sen to the array
 of user roles - even though they don't yet do anything.
 
 Removed the limitation of needing all books enabled for the 'admin'
-role by adding a non-ole to the the books array called 'all'. This now
+role by adding a non-role to the the books array called 'all'. This now
 takes care of telling index.php about pre-loading all viewbooks. 
 
-Added seneeds book which displays just sids flagged with SEN='Y'. Uses
+Added SENeeds book which displays just sids flagged with SEN='Y'. Uses
 a new getSENPerm to allow access for pastoral and sen responsibles to
 change the sen records.
 

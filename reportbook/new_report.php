@@ -21,8 +21,7 @@ else{
 
 two_buttonmenu($extrabuttons);
 ?>
-  <form id="formtoprocess" name="formtoprocess" 
-	  enctype="multipart/form-data" method="post" action="<?php print $host;?>">
+  <form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
 
 	  <input type="text" style="display:none;" id="Id_db" name="id" value="" />
 	  <input type="hidden" name="cancel" value="<?php print '';?>" />
@@ -50,7 +49,7 @@ two_buttonmenu($extrabuttons);
 		$rown=0;
 ?>
 		<tbody id="<?php print $rid;?>">
-		  <tr class="rowplus" onClick="clickToReveal(this)" id="<?php print $rid.'-'.$rown++;?>">
+		  <tr class="rowplus" onClick="clickToReveal(this);" id="<?php print $rid.'-'.$rown++;?>">
 			<th>&nbsp</th>
 			<td><?php print $ReportDef['report']['date']; ?></td>
 			<td><?php print $ReportDef['report']['stage']; ?></td>
@@ -62,8 +61,9 @@ two_buttonmenu($extrabuttons);
 <?php
 		if($rcrid!=''){
 ?>
-				<value id="<?php print $rid;?>-MarkCount"><?php print
-						 $ReportDef['MarkCount']['value'];?></value> 
+				<value id="<?php print $rid;?>-MarkCount">
+				  <?php print $ReportDef['MarkCount']['value'];?>
+				</value> 
 				<?php print_string('markbookcolumns',$book);?>
 <?php
 			}
@@ -78,22 +78,21 @@ two_buttonmenu($extrabuttons);
 				}
 			}
 ?>
-
 			  </p>
 
 			  <button class="rowaction" title="Delete this report"
-				name="current" value="delete_report.php" onClick="clickToAction(this)">
+				name="current" value="delete_report.php" onClick="clickToAction(this);">
 				<img class="clicktodelete" />
 			  </button>
 <?php
 		if($rcrid!=''){
 ?>
 			  <button class="rowaction" title="Delete MarkBook columns" name="current" 
-				value="delete_report_columns.php" onClick="clickToAction(this)">
+				value="delete_report_columns.php" onClick="clickToAction(this);">
 				<?php print_string('deletecolumns',$book);?>
 			  </button>
 			  <button class="rowaction" title="Generate MarkBook columns" name="current" 
-				value="generate_report_columns.php" onClick="clickToAction(this)">
+				value="generate_report_columns.php" onClick="clickToAction(this);">
 				<?php print_string('generatecolumns',$book);?>
 			  </button>
 <?php
@@ -112,4 +111,4 @@ two_buttonmenu($extrabuttons);
 ?>
 	  </table>
 	</div>
-  </div>	
+  </div>

@@ -9,11 +9,11 @@
 	if(!isset($required)){$required='no';}
 	if(!isset($onsidechange)){$onsidechange='no';}
 ?>
-	<label for="Yeargroup"><?php print_string('yeargroup');?></label>
-	<select id="Yeargroup" name="newyid"  tabindex="<?php print $tab++;?>" 
+  <label for="Yeargroup"><?php print_string('yeargroup');?></label>
+  <select id="Yeargroup" name="newyid"  tabindex="<?php print $tab++;?>" 
 		<?php if(isset($tab)){print ' tabindex="'.$tab++.'" ';}?> 
 		style="<?php if(isset($liststyle)){print $liststyle;}?>"
-		<?php if($onsidechange=='yes'){ print ' onChange="document.entrybookchoice.submit();" ';} ?>
+		<?php if($onsidechange=='yes'){print ' onChange="document.'.$book.'choice.submit();"';}?>
 		<?php if($required=='yes'){ print ' class="required" ';} ?> >
     <option value=""></option>
 <?php
@@ -24,7 +24,7 @@
 			print	' value="'.$year['id'].'"> '.$year['name'].'</option>';
 			}
 ?>
-	</select>
+  </select>
 <?php  
 unset($required); unset($selyid); unset($onsidechange);
 ?>

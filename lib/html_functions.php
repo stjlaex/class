@@ -28,16 +28,18 @@ function three_buttonmenu($extrabuttons=''){
 <?php
 	}
 
-function two_buttonmenu($extrabuttons=array()){
+function two_buttonmenu($extrabuttons=''){
 ?>
   <div class="buttonmenu">
 <?php
-		 while(list($description,$value)=each($extrabuttons)){
+	if(is_array($extrabuttons)){
+		while(list($description,$value)=each($extrabuttons)){
 ?>
 	<button onClick="processContent(this);" name="<?php print $value['name'];?>" 
 	  value="<?php print $value['value'];?>"><?php print_string($description);?></button>
 <?php
 			 }
+		}
 ?>
 	<button onClick="processContent(this);" name="sub"  style="margin-left:1em;"
 	  value="Cancel"><?php print_string('cancel');?></button>

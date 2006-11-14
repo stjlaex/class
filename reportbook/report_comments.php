@@ -15,18 +15,11 @@ three_buttonmenu();
   <div class="content">
 	<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>"> 
 
-	  <fieldset class="left"><legend><?php print_string('reportonstudentsfrom');?></legend>
+	  <fieldset class="center">
+		<legend><?php print_string('reportonstudentsfrom');?></legend>
 <?php
 		  $required='yes';
 		  include('scripts/list_pastoralgroup.php');
-?>
-	  </fieldset>
-
-	 <fieldset class="right" >
-		<legend><?php print_string('limittoonesubject');?></legend>
-<?php
-		  $required='no';
-		  include('scripts/list_subjects.php');
 ?>
 	  </fieldset>
 
@@ -38,6 +31,14 @@ three_buttonmenu();
 	  <fieldset class="right">
 		<legend><?php print_string('publicationdateforprinting');?></legend>
 		<?php $required='no'; unset($todate); include('scripts/jsdate-form.php'); ?>
+	  </fieldset>
+
+	 <fieldset class="right" >
+		<legend><?php print_string('limittoonesubject');?></legend>
+<?php
+		  $required='no';
+		  include('scripts/list_subjects.php');
+?>
 	  </fieldset>
 
 	  <input type="hidden" name="current" value="<?php print $action; ?>">

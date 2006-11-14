@@ -40,7 +40,7 @@
 <div class="center"> 
   <label for="Current Reports"><?php print_string('current');?></label>
   <select style="width:60%;" id="Current Reports" type="text" name="wrapper_rid"
-			tabindex="<?php print $tab++;?>" size="6" >
+			tabindex="<?php print $tab++;?>" size="4" >
 <?php
    	while(list($rid,$report)=each($reports)){
 		if($report['date']>=$todate){
@@ -58,7 +58,7 @@
 <div class="center"> 
   <label for="Previous"><?php print_string('previous');?></label>
   <select style="width:60%;" id="Previous" type="text" name="wrapper_rid"
-			size="8 tabindex="<?php print $tab++;?>">
+			tabindex="<?php print $tab++;?>"  size="12" >
 <?php
 	reset($reports);
 	while(list($rid,$report)=each($reports)){

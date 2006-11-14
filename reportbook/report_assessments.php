@@ -13,9 +13,7 @@ three_buttonmenu();
 
 	  <fieldset class="center">
 		<legend><?php print_string('collateforstudentsfrom',$book);?></legend>
-		<div class="left">
 		  <?php $required='yes'; include('scripts/list_pastoralgroup.php');?>
-		</div>
 	  </fieldset>
 
 	  <fieldset class="center">
