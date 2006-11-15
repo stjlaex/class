@@ -25,10 +25,10 @@ if(isset($_GET['current'])){$current=$_GET['current'];}
 
 $community=$_SESSION['registergroup'];
 if(isset($_POST['newfid'])){
-	$community=array('type'=>'form','name'=>$_POST['newfid']);
+	$community=array('id'=>'','type'=>'form','name'=>$_POST['newfid']);
 	}
 //elseif(isset($_POST['newyid'])){
-//	$community=array('type'=>'year','name'=>$_POST['newyid']);
+//	$community=array('id'=>'','type'=>'year','name'=>$_POST['newyid']);
 //	}
 if(is_array($community)){
 	if($community['type']=='form'){$fid=$community['name'];}
@@ -43,11 +43,11 @@ else{
 	$ryids=$pastorals['years'];
 	if(sizeof($rfids)!=0){
 		$fid=$rfids[0];
-		$community=array('type'=>'form','name'=>$fid);
+		$community=array('id'=>'','type'=>'form','name'=>$fid);
 		}
 //	elseif(sizeof($ryids)!=0 and $fid==''){
 //		$yid=$ryids[0];
-//		$community=array('type'=>'year','name'=>$yid);
+//		$community=array('id'=>'','type'=>'year','name'=>$yid);
 //		}
 	else{
 		$current='';

@@ -6,11 +6,14 @@
  * simply reloads the current page (with some new post value presumably)
  */
 
-	$sub=$_POST['sub'];
-	if($sub=='Cancel'){
-		if($cancel==''){$action='';$choice='';}
-		else{$action=$cancel;}
-		include('scripts/redirect.php');
-		exit;
+	if(isset($_POST['sub'])){
+		$sub=$_POST['sub'];
+		if($sub=='Cancel'){
+			if($cancel==''){$action='';$choice='';}
+			else{$action=$cancel;}
+			include('scripts/redirect.php');
+			exit;
+			}
 		}
+	else{$sub='';}
 ?>

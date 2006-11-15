@@ -59,7 +59,7 @@ if(isset($_POST['pid'])){
 	}
 
 if(!isset($_SESSION['cids'])){$_SESSION['cids']=array('','');}
-if(!isset($_SESSION['pids'])){$_SESSION['pids']=array('','');}
+if(!isset($_SESSION['pids'])){$_SESSION['pids']=array();}
 if(!isset($_SESSION['pid'])){$_SESSION['pid']='';}
 if(!isset($_SESSION['umnrank'])){$_SESSION['umnrank']='surname';}
 
