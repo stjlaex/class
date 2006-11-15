@@ -43,10 +43,7 @@ function fetchAttendances($sid,$date='',$period='%'){
 	$Attendances=array();
 	/*if no date set choose this week*/
 	if($date==''){
-		$today=date('d');
-		$tomonth=date('m');
-		$toyear=date('Y');
-		$date=$toyear.'-'.$tomonth.'-'.$today-7;
+		$date=date('Y-m-d',mktime(0,0,0,date('m'),date('d')-7,date('Y')));
 		}
 	$d_attendance=mysql_query("SELECT attendance.code, event.id,
 			event.period, event.date FROM attendance JOIN
@@ -75,10 +72,7 @@ function fetchAttendanceEvents($date=''){
 	$index=0;
 	/*if no date set choose this week*/
 	if($date==''){
-		$today=date('d');
-		$tomonth=date('m');
-		$toyear=date('Y');
-		$date=$toyear.'-'.$tomonth.'-'.$today-7;
+		$date=date('Y-m-d',mktime(0,0,0,date('m'),date('d')-7,date('Y')));
 		}
 	$d_event=mysql_query("SELECT id,
 			period, date FROM event WHERE date > '$date' 
@@ -87,10 +81,10 @@ function fetchAttendanceEvents($date=''){
 		$Event=array();
 		$Event['id_db']=$event['id'];
 	   	$Event['Period']=array('label' => 'period',
-								  'value' => ''.$event['period']);
+							   'value' => ''.$event['period']);
 	   	$Event['Date']=array('label' => 'date', 
-									'type_db'=>'date', 
-									'value' => ''.$event['date']);
+							 'type_db'=>'date', 
+							 'value' => ''.$event['date']);
 		$AttendanceEvents['Event'][]=$Event;
 		$evetable[$event['date']][$event['period']]=$index++;
 		}

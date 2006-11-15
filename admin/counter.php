@@ -15,6 +15,7 @@ $choice='counter.php';
 	  </tr>	
 <?php
 $tot=0;
+$tot_on=0;
 $d_user=mysql_query("SELECT uid, username, logcount,
 		UNIX_TIMESTAMP(logtime) AS logtime FROM users ORDER BY logtime DESC");
 while($user=mysql_fetch_array($d_user,MYSQL_ASSOC)){
@@ -39,14 +40,14 @@ while($user=mysql_fetch_array($d_user,MYSQL_ASSOC)){
 	   print '</td>';
 				}
 	   print '</tr>';
-	   $tot=$user{'logcount'}+$tot;
+	   $tot=$user['logcount']+$tot;
 	   }
 	}
 	  ?>
 	  <tr>
 		<td><?php print_string('total');?></td>
 		<td><?php print $tot; ?></td>
-		<td></td>
+		<td>&nbsp</td>
 		<td><?php print $tot_on; ?></td>
 	  </tr>
 	</table>

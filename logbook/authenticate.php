@@ -37,11 +37,9 @@ function getRespons($user){
 class User{
 	var $db=null;
 	var $failed=false;
-	var $date;
 	var $uid=0;
 function User(&$db){
 		$this->db=$db;
-		$this->date=$GLOBALS['date'];
 		if($_SESSION['logged']){
 				$this->_checkSession();} 
 		elseif(isset($_COOKIE['ClaSSwebLogin'])){

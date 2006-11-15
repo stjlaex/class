@@ -6,18 +6,12 @@ $d_students=mysql_query("SELECT * FROM students ORDER BY surname, forename");
 $row=0;
 $viewtable=array();
 
-/*shows comments for last month, needs sohpisticating!!!*/
-$tomonth=date('n')-1;
-$today=date('j');
-$toyear=date('Y');
-$commentdate=$toyear.'-'.$tomonth.'-'.$today;
 
 while($student=mysql_fetch_array($d_students, MYSQL_ASSOC)){
 		$sid=$student['student_id']; 
 		$d_info= mysql_query("SELECT sen FROM info WHERE student_id='$sid'");
 		$sen=mysql_result($d_info, 0);
-
-		$comment=commentDisplay($sid,$commentdate);
+		$comment=commentDisplay($sid);
 
 		if($student['preferredforename']!=''){
 			$displaypfn=' ('.$student['preferredforename'].') ';

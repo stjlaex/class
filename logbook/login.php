@@ -29,7 +29,7 @@ else{print_string('loginaside');}
 
 <div style="visibility:hidden;" id="hiddenlang">
 <?php
-	if(isset($_POST{'langchoice'})){update_user_language($_POST{'langchoice'});};
+	if(isset($_POST['langchoice'])){update_user_language($_POST['langchoice']);};
 	include('logbook/language_select.php');
 ?>
 </div>
@@ -94,7 +94,6 @@ parent.document.getElementById("langchoice").innerHTML=document.getElementById("
 document.getElementById("coverbox").style.zIndex="100";
 </script>
 
-<?php
-include('scripts/end_options.php');
-?>
+</body>
+</html>
 

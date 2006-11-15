@@ -50,4 +50,6 @@ $CFG->webmailshare='secret';
 $CFG->webmail_db='classmail';
 /*optional details of the statement bank for writing report comments*/
 $CFG->statementbank_db='';
+/*Should always be set to off*/
+$CFG->debug='Off';
 ?>

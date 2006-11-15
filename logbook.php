@@ -94,6 +94,6 @@
 		<script>setTimeout("parent.viewBook('<?php print $firstbookpref; ?>');",5000);</script>
 <?php
 		}
-
-include('scripts/end_options.php');
 ?>
+</body>
+</html>

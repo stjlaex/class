@@ -5,8 +5,9 @@
 
 $host='admin.php';
 $book='admin';
-$choice='';
 $current='';
+$choice='';
+$action='';
 $cancel='';
 
 include ('scripts/head_options.php');

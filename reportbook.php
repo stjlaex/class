@@ -7,6 +7,7 @@ $host='reportbook.php';
 $book='reportbook';
 $current='';
 $choice='';
+$action='';
 $cancel='';
 
 include ('scripts/head_options.php');

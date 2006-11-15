@@ -11,7 +11,7 @@
 	session_name("$session");
 	ini_set('globals','off');
 	session_start();
-	$langchoice=$_SESSION['lang'];
+	if(isset($_SESSION['lang'])){$langchoice=$_SESSION['lang'];}else{$langchoice='';}
 	$username=$_POST['username'];
 	$password=$_POST['password'];
 	if(!isset($remember)){$remember=false;}
@@ -24,5 +24,3 @@
 	if($langchoice!=''){update_user_language($langchoice);}
 ?>
 <script>self.location.href = '../logbook.php'</script>
-
-

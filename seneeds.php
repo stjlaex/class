@@ -7,9 +7,12 @@ $host='seneeds.php';
 $book='seneeds';
 $current='';
 $choice='';
+$action='';
 $cancel='';
 
 include('scripts/head_options.php');
+
+if(!isset($_SESSION['sensid'])){$_SESSION['sensid']='';}
 
 if(isset($_POST['sensid'])){
 	if($_SESSION['sensid']!=$_POST['sensid']){

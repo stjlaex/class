@@ -7,21 +7,23 @@ $host='markbook.php';
 $book='markbook';
 $current='';
 $choice='';
+$action='';
 $cancel='';
 
 include('scripts/head_options.php');
+
 
 if(!isset($_POST['displaymid'])){$displaymid=0;}//means no change to marks displayed
 else{$displaymid=$_POST['displaymid'];}//new mark created by previous script
 
 $pids=array();
-if(isset($_POST{'cids'})){
+if(isset($_POST['cids'])){
 	/*If the classes selection has changed then*/
-	if($_SESSION{'cids'}!=$_POST{'cids'}){
-	$_SESSION{'cids'}=$_POST{'cids'};
-	$_SESSION{'umnrank'}='surname';}
+	if($_SESSION['cids']!=$_POST['cids']){
+	$_SESSION['cids']=$_POST['cids'];
+	$_SESSION['umnrank']='surname';}
 	if($displaymid==0){$displaymid=-1;}
-	foreach($_SESSION{'cids'} as $key => $cid){
+	foreach($_SESSION['cids'] as $key => $cid){
 		$d_components=mysql_query("SELECT component.id FROM component JOIN
 		class ON component.course_id=class.course_id AND component.subject_id=class.subject_id
 		WHERE class.id='$cid' ORDER BY component.id");
@@ -29,48 +31,49 @@ if(isset($_POST{'cids'})){
 			if(!in_array($component['id'],$pids)){$pids[]=$component['id'];}
 			}
 		}
-	$_SESSION{'pids'}=$pids;
+	$_SESSION['pids']=$pids;
 	if(!in_array($_SESSION{'pid'},$pids)){
 		$etid=$tid;
 		$d_component=mysql_query("SELECT component_id FROM tidcid 
 						WHERE class_id='$cid' AND teacher_id='$tid'");
 		if(mysql_num_rows($d_component)>0){
-			$_SESSION{'pid'}=mysql_result($d_component,0);
+			$_SESSION['pid']=mysql_result($d_component,0);
 			}
 		else{
-			$_SESSION{'pid'}='';
+			$_SESSION['pid']='';
 			}
 		}
 	}
 
-if(isset($_POST{'pid'})){
+if(isset($_POST['pid'])){
 	/*If the component selection has changed then*/
-	if($_SESSION{'pid'}!=$_POST{'pid'}){
-	$_SESSION{'pid'}=$_POST{'pid'};
-	$pid=$_SESSION{'pid'};
-	foreach($_SESSION{'cids'} as $key => $cid){
+	if($_SESSION['pid']!=$_POST['pid']){
+	$_SESSION['pid']=$_POST['pid'];
+	$pid=$_SESSION['pid'];
+	foreach($_SESSION['cids'] as $key => $cid){
 		$d_component=mysql_query("UPDATE tidcid SET component_id='$pid' 
 						WHERE class_id='$cid' AND teacher_id='$tid'");
 		}
-	$_SESSION{'umnrank'}='surname';}
+	$_SESSION['umnrank']='surname';}
 	if($displaymid==0){$displaymid=-1;}
 	}
 
-if(!isset($_SESSION{'cids'})){$_SESSION{'cids'}=array('','');}
-if(!isset($_SESSION{'pid'})){$_SESSION{'pid'}='';}
-if(!isset($_SESSION{'umnrank'})){$_SESSION{'umnrank'}='surname';}
+if(!isset($_SESSION['cids'])){$_SESSION['cids']=array('','');}
+if(!isset($_SESSION['pids'])){$_SESSION['pids']=array('','');}
+if(!isset($_SESSION['pid'])){$_SESSION['pid']='';}
+if(!isset($_SESSION['umnrank'])){$_SESSION['umnrank']='surname';}
 
-$cids=$_SESSION{'cids'};
-$pids=$_SESSION{'pids'};
-$pid=$_SESSION{'pid'};
-$umnrank=$_SESSION{'umnrank'};
+$cids=$_SESSION['cids'];
+$pids=$_SESSION['pids'];
+$pid=$_SESSION['pid'];
+$umnrank=$_SESSION['umnrank'];
 
-if(isset($_GET{'current'})){$current=$_GET{'current'};}
-if(isset($_GET{'choice'})){$choice=$_GET{'choice'};}
-if(isset($_GET{'cancel'})){$choice=$_GET{'cancel'};}
-if(isset($_POST{'current'})){$current=$_POST{'current'};}
-if(isset($_POST{'choice'})){$choice=$_POST{'choice'};}
-if(isset($_POST{'cancel'})){$cancel=$_POST{'cancel'};}
+if(isset($_GET['current'])){$current=$_GET['current'];}
+if(isset($_GET['choice'])){$choice=$_GET['choice'];}
+if(isset($_GET['cancel'])){$choice=$_GET['cancel'];}
+if(isset($_POST['current'])){$current=$_POST['current'];}
+if(isset($_POST['choice'])){$choice=$_POST['choice'];}
+if(isset($_POST['cancel'])){$cancel=$_POST['cancel'];}
 ?>
 
 <div class="markcolor" id="bookbox">
@@ -117,9 +120,9 @@ if(sizeof($pids)>0){
 if(isset($umns)){
    	for($col=0;$col<sizeof($umns);$col++){
 	   	if($umns[$col]['component']==$pid or $pid==''){
-			print "<option value='".$umns[$col]['id']."' id='sel-".$umns[$col]['id']."'>";
-			if($umns[$col]['component']!=''){print $umns[$col]['component'].": ";}
-			print $umns[$col]['topic']." (".$umns[$col]['entrydate'].")</option>";
+			print '<option value="'.$umns[$col]['id'].'" id="sel-'.$umns[$col]['id'].'">';
+			if($umns[$col]['component']!=''){print $umns[$col]['component'].': ';}
+			print $umns[$col]['topic'].' ('.$umns[$col]['entrydate'].')</option>';
 			}
 		}
 	}

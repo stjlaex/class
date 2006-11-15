@@ -410,7 +410,7 @@ function fetchStudent($sid='-1'){
 								   'type_db'=> 'text', 
 								   'value' => ''.$entry['detail']);
 			$bid=$entry['subject_id'];
-			if($bid!=' '){
+			if($bid!=' ' and $bid!='G' and $bid!='General'){
 				$d_subject=mysql_query("SELECT name FROM subject WHERE id='$bid'");
 				$subjectname=mysql_result($d_subject,0);
 				}
@@ -571,7 +571,7 @@ function fetchAddress($gidaid=array('address_id'=>'-1','addresstype'=>'')){
 	return $Address;
 	}
 
-function fetchComments($sid,$date){
+function fetchComments($sid,$date=''){
 	$Comments=array();
 	$subtable=array();
 	/*if no date set choose this academic year*/
@@ -635,12 +635,16 @@ function fetchComments($sid,$date){
 	return nullCorrect($Comments);
 	}
 
-function commentDisplay($sid,$date,$Comments=''){
+function commentDisplay($sid,$date='',$Comments=''){
 	$commentdisplay=array();
+	if($date==''){
+		$date=date('Y-m-d',mktime(0,0,0,date('m'),date('d')-31,date('Y')));
+		}
 	if($Comments==''){
 		$Comments=fetchComments($sid,$date);
 		}
-	if(is_array($Comments['Comment'])){
+	//	if(is_array($Comments['Comment'])){
+	if(array_key_exists('Comment',$Comments)){
 			if($Comments['Comment'][0]['Categories']['Category'][0]['rating']['value']==-1){
 				$commentdisplay['class']='negative';
 				}

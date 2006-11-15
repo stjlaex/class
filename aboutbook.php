@@ -9,6 +9,7 @@ $host='aboutbook.php';
 $book='aboutbook';
 $current='about.php';
 $choice='';
+$action='';
 $cancel='';
 
 include ('scripts/head_options.php');

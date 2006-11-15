@@ -4,6 +4,11 @@ Version ClaSS-0.8.2 release (2006/11/23)
 Working on the Register. Added create_register to the install process
 which creates two new tables, event and attendance.
 
+Moved commendate to a default value in commentDisplay and moved to
+using mktime to do the claculation.
+ 
+Removed the unused date variable from the User class.
+
 Version ClaSS-0.8.1 release (2006/11/09)
 ---------------------------------------------------- 
 

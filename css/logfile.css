@@ -1,0 +1,34 @@
+errorentry {  
+	border:0; margin-top:2px;
+    float:left;
+	background-color:#666666; 
+	color:#ffffee; font-size:90%; 
+	}
+errorentry[errortype="Notice"] {  
+	background-color:#666666; 
+	color:#ffffee; font-size:50%; 
+	}
+errorentry[errortype="Notice"] datetime {  
+	color:yellow; 
+	}
+errorentry[errortype="Warning"] {  
+	background-color:#eeeeee; 
+	color:#222211; 
+	}
+errorentry[errortype="Warning"] datetime {  
+	color:blue; 
+	}
+mysqlerror {
+	border:0; margin-top:2px;
+    float:right;
+	background-color:red; 
+	color:#ffffee; font-size:90%; 
+	}
+classbook {
+	border:1px solid orange;
+    float:right;
+	}
+classcurrent {
+	border:1px solid orange;
+    float:right;
+	}

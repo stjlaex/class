@@ -1,9 +1,9 @@
 <?php 
-/**									users/list_languages.php
+/**									logbook/list_languages.php
  *
  */
 
-$sellang=$_SESSION['lang'];
+if(isset($_SESSION['lang'])){$sellang=$_SESSION['lang'];}else{$sellang='';}
 $languages=get_list_of_languages();
 ?>
   <div id="loginlang">

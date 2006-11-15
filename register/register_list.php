@@ -11,7 +11,6 @@ $students=(array)listinCommunity($community);
 $AttendanceEvents=fetchAttendanceEvents();
 
 include('scripts/sub_action.php');
-
 ?>
 
   <div id="viewcontent" class="content">
@@ -34,14 +33,12 @@ include('scripts/sub_action.php');
 <?php
 		}
 
-	$tomonth=date('n')-1;/*highlights comments for past month, needs sohpisticating!!!*/
-	$commentdate=date('Y').'-'.$tomonth.'-'.date('j');
 	$c=1;
 	while(list($index,$student)=each($students)){
 		$sid=$student['id'];
 		$Student=fetchStudent_short($sid);
 		$Attendances=(array)fetchAttendances($sid);
-		$comment=commentDisplay($sid,$commentdate);
+		$comment=commentDisplay($sid);
 ?>
 	  <tr>
 		<td><?php print $c++;?></td>

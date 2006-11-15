@@ -7,9 +7,12 @@ $host='register.php';
 $book='register';
 $current='register_list.php';
 $choice='register_list.php';
+$action='';
 $cancel='';
 
 include('scripts/head_options.php');
+
+if(!isset($_SESSION['registergroup'])){$_SESSION['registergroup']='';}
 
 if(isset($_SESSION['registercurrent'])){$current=$_SESSION['registercurrent'];}
 if(isset($_SESSION['registerchoice'])){$choice=$_SESSION['registerchoice'];}

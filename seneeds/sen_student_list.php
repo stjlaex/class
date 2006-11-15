@@ -31,12 +31,9 @@ two_buttonmenu();
 <?php
 		}
 
-	$tomonth=date('n')-1;/*highlights comments for past month, needs sohpisticating!!!*/
-	$commentdate=date('Y').'-'.$tomonth.'-'.date('j');
-	
 	while(list($index,$sid)=each($sids)){
 		$Student=fetchStudent_short($sid);
-		$comment=commentDisplay($sid,$commentdate);
+		$comment=commentDisplay($sid);
 ?>
 		<tr>
 		  <td>

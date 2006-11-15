@@ -7,9 +7,13 @@ $host='entrybook.php';
 $book='entrybook';
 $current='';
 $choice='';
+$action='';
 $cancel='';
 
 include('scripts/head_options.php');
+
+if(!isset($_SESSION['enrolstatus'])){$_SESSION['enrolstatus']='';}
+if(!isset($_SESSION['entryyid'])){$_SESSION['entryyid']='';}
 
 if(isset($_POST['newenrolstatus'])){
 	if($_SESSION['enrolstatus']!=$_POST['newenrolstatus']){

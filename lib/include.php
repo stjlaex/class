@@ -12,6 +12,7 @@ $languages=array(
 				 'fr' => 'Francais'
 				 );
 require_once($CFG->dirroot.'/lib/functions.php');
+if($CFG->debug=='on'){require_once($CFG->dirroot.'/lib/logging.php');}
 require_once($CFG->dirroot.'/lib/community_functions.php');
 require_once($CFG->dirroot.'/lib/fetch_student.php');
 require_once($CFG->dirroot.'/lib/fetch_assessment.php');
