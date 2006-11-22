@@ -43,9 +43,10 @@ if($sub=='Submit'){
 	for($c=0;$c<sizeof($viewtable);$c++){
 		unset($res);
 		$sid=$viewtable[$c]['sid'];
-		if(isset($_POST["total$sid"])){$intotal=clean_text($_POST["total$sid"]);}
+		if(isset($_POST["total$sid"])){$intotal=clean_text($_POST["total$sid"]);}else{$intotal='';}
 		$inscore=clean_text($_POST[$sid]);
 		$incomm=clean_text($_POST["comm$sid"]);
+		$ingrade='';
 		/*$$sid are the names of score values posted by the form*/
 		/*if the value is empty then score will be unset and no entry made*/
 		if($inscore=='' and $incomm==''){unset($inscore);}

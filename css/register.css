@@ -13,3 +13,28 @@ div#bookbox{
 .registercolor div {
 	border-color:#44aa66;
 	}
+.registercolor th {
+	font-size:x-small;
+	}
+.registercolor .selected {  
+ 	background-color:#44cc66; color:#000000;
+	}
+.registercolor .revealed {  
+    background-color:red;
+	padding:0; margin:0; border:0;
+	}
+.registercolor td.blank, .registercolor th.blank {  
+	padding:0; margin:0; border:0;
+    width:5%;
+	background-color:#444444;
+	}
+.registercolor .edit select {
+ 	background-color:#44cc66; color:#000000;
+    float:left;
+	padding:0; margin:0; border:0;
+	}
+.registercolor .edit select:focus {
+	border:0;
+    background-color:#ff9900;
+    text-decoration:none;
+	}

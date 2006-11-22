@@ -29,6 +29,7 @@ while($student=mysql_fetch_array($d_students, MYSQL_ASSOC)){
 
 	for($c=0;$c<$c_marks;$c++) {
 		$col_mid=$umns[$c]['id'];
+		$score=array();
 
 		if($umns[$c]['display']=='yes' or $umns[$c]['assessment']=='yes'){
 			/*The mark can be one of the four kinds, and if a score one of a further five*/
@@ -47,7 +48,7 @@ while($student=mysql_fetch_array($d_students, MYSQL_ASSOC)){
 					}
 				elseif($scoretype=='value'){
 					$out=$score['value'];
-					$outrank=$score['value'];;			      
+					$outrank=$score['value'];			      
 					}
 				elseif($scoretype=='percentage'){
 					list($out,$percent,$outrank)=scoreToPercent($score['value'],$score['outoftotal']);
@@ -162,7 +163,7 @@ while($student=mysql_fetch_array($d_students, MYSQL_ASSOC)){
 			}
 
 		/*********************************************************/
-	   	elseif($marktype=='compound') {
+	   	elseif($marktype=='compound'){
 			/*Mark is a compound column*/
 			$mids=explode(' ',$midlist[$c]);
 			$yesval=0;

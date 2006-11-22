@@ -1,17 +1,19 @@
 <?php 
 /**											logging.php
- * used for debugging only
- * this is called after login authentication has taken place
+ * Used for debugging only.
+ * Turned on by setting debug to 'On' in school.php
+ * This is called after login authentication has taken place
  * and so errors before that will be logged as per php.ini settings
  *
- * example to force a call would be:
+ * Example to force a call would be:
  *    trigger_error('my message',E_USER_WARNING);
  */
 
 if($CFG->debug=='on'){
 	error_reporting(0);
-	function myErrorHandler($errno, $errmsg, $filename, $linenum, $vars){
 
+	function myErrorHandler($errno, $errmsg, $filename, $linenum, $vars){
+		global $CFG;
 		// in reality the only entries to be
 		// considered are E_WARNING, E_NOTICE, E_USER_ERROR,
 		// E_USER_WARNING and E_USER_NOTICE
@@ -58,7 +60,7 @@ if($CFG->debug=='on'){
 		// $hide_errors=array(E_NOTICE);
 		 $hide_errors=array();
 		if(!in_array($errno, $hide_errors)){
-			error_log($err,3,'/var/www/classerrors.xml');
+			error_log($err,3,$CFG->classlog);
 			}
 		if($errno==E_USER_ERROR){
 			//mail('stj@laex.org', 'Critical User Error', $err);

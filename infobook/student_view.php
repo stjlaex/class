@@ -81,10 +81,10 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 			</th>
 <?php
 	$date='';
-	$Comments=fetchComments($sid,$date,'');
+	$Comments=(array)fetchComments($sid,$date,'');
 	$Student['Comments']=$Comments;
 	$no=sizeof($Comments);
-	if(is_array($Comments['Comment'][0])){
+	if(array_key_exists('Comment',$Comments)){
 		print '<td>'.$no.'</td>';
 		$Comment=$Comments['Comment'][0];
 		print '<td>'.$Comment['EntryDate']['value'].'</td>';
@@ -100,9 +100,9 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 			  </a>
 			</th>
 <?php
-	$Incidents=$Student['Incidents'];
+	$Incidents=(array)$Student['Incidents'];
 	$no=sizeof($Incidents);
-	if(is_array($Incidents[0])){
+	if(array_key_exists(0,$Incidents)){
 		print '<td>'.$no.'</td>';
 		$Incident=$Incidents[0];
 		print '<td>'.$Incident['EntryDate']['value'].'</td>';
@@ -124,7 +124,7 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 			</th>
 <?php
 		$no=sizeof($Ents);
-		if(is_array($Ents[0])){
+		if(array_key_exists(0,$Ents)){
 			print '<td>'.$no.'</td>';
 			$Ent=$Ents[0];
 			print '<td>'.$Ent['EntryDate']['value'].'</td>';
@@ -244,7 +244,7 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 			  <?php print_string('exclusions',$book);?>
 		  </legend>
 <?php	
-		if(is_array($Student['Exclusions'][0])){print_string('infoavailable',$book);}
+		if(array_key_exists(0,$Student['Exclusions'])){print_string('infoavailable',$book);}
 		else{print_string('noinfo',$book);}
 ?>
 		</fieldset>

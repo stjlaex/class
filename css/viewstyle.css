@@ -23,7 +23,7 @@ input, textarea, select {
     padding:2px;
     margin:2px;
 	}
-input:focus, textarea:focus, select:focus {
+input:focus, textarea:focus, select:focus, option:focus {
 	border-color:#ff9900;
 	}
 input[readonly="readonly"]{
@@ -292,7 +292,7 @@ img.clicktodelete {
 
 /*a generic content table, usually for selecting things from a list*/
 table.listmenu {
-	border-top:2px solid;
+	border-top:0;
 	}
 .center .listmenu caption, .center .listmenu legend {
 	padding-left:5%; margin:0 70% 0 5%;
@@ -419,4 +419,26 @@ p.success {
 	}
 .infoborder {
 	border:2px solid #999900;
+	}
+
+/*qTip for the title attributes*/
+div#qTip {
+	background-color: #ff9900;
+    color: #000;
+    padding: 3px;
+    border: 1px solid #666;
+    border-right-width: 2px;
+    border-bottom-width: 2px;
+    display: none;
+    font: bold 13px Verdana, Arial, Helvetica, sans-serif;
+    text-align: left;
+    position: absolute;
+    z-index: 1000;
+	max-width:28em;
+	min-width:6em;
+	-moz-border-radius-bottomleft: 10px;
+	-moz-border-radius-bottomright: 10px;
+	-moz-border-radius-topleft: 0;
+	-moz-border-radius-topright: 10px;
+	-moz-opacity: .80;
 	}

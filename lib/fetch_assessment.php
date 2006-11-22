@@ -39,7 +39,7 @@ function scoreToLevel($score,$scoretotal='',$levels){
 	list($out,$percent,$cent)=scoreToPercent($score,$scoretotal);
 	if($cent==-100){$cent=$score;}
 	$pairs=explode(";",$levels);
-	for($c=1;$c<sizeof($pairs);$c++){
+	for($c=0;$c<sizeof($pairs);$c++){
 		list($level_grade, $level)=split(":",$pairs[$c]);
 		if($cent>=$level){$grade=$level_grade;}
 		}
@@ -62,7 +62,7 @@ function scoreToPercent($score,$scoretotal='100'){
 	if(isset($percent)){
 		$display=$percent.' ('.number_format($score,0,'.','').')';
 		}
-	else{$dislpay='';$cent=-100;}
+	else{$display='';$percent='';$cent=-100;}
 	return array($display,$percent,$cent);
 	}
 
@@ -77,7 +77,7 @@ function scoreToGrade($score,$grading_grades){
 		$pairs=explode(';', $grading_grades);
 	    $score=round($score);
 		$high=sizeof($pairs);
-		for($c=1;$c<sizeof($pairs);$c++){
+		for($c=0;$c<sizeof($pairs);$c++){
 			list($levelgrade, $level)=split(':',$pairs[$c]);
 			if($score>=$level){
 				$lowgrade=$levelgrade;
@@ -104,7 +104,7 @@ function gradeToScore($grade,$grading_grades){
     $score='';
 	$pairs=explode (';', $grading_grades);
 	if($grade!=''){
-		for($c=1; $c<sizeof($pairs); $c++){
+		for($c=0; $c<sizeof($pairs); $c++){
 			list($levelgrade, $level)=split(':',$pairs[$c]);
 			if($grade==$levelgrade){$score=$level;}	
 			}

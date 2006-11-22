@@ -84,6 +84,15 @@ function markDisplay(){
 	}
 
 //--------------------------------------------------------
+//  the scripts for the userinterface - handles the selery in the bookoptions
+
+function selerySubmit(liObject){
+	liObject.getElementsByTagName("input")[0].setAttribute("checked","checked");
+	//assumes the form to be the direct parent of the fieldset containing the selery ul
+	liObject.parentNode.parentNode.parentNode.submit();
+	}
+
+//--------------------------------------------------------
 //  the scripts for the userinterface - handles the Book Tabs and bookframe
 
 function loadLogin(page){

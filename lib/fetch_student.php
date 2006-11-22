@@ -410,9 +410,10 @@ function fetchStudent($sid='-1'){
 								   'type_db'=> 'text', 
 								   'value' => ''.$entry['detail']);
 			$bid=$entry['subject_id'];
-			if($bid!=' ' and $bid!='G' and $bid!='General'){
+			if($bid!=' ' and $bid!='G' and $bid!='General' and $bid!=''){
 				$d_subject=mysql_query("SELECT name FROM subject WHERE id='$bid'");
 				$subjectname=mysql_result($d_subject,0);
+trigger_error('Subject'.$bid,E_USER_WARNING);
 				}
 			else{$subjectname=$bid;}
 			$Entry['Subject']=array('label' => 'subject', 
@@ -669,7 +670,7 @@ function fetchNCYear($sid){
 	}
 
 function getNCYear($yid){
-	$ncyears=array('N' => 'Nursery', 'R' => 'Reception', '1' => '1',
+	$ncyears=array(''=>'','N' => 'Nursery', 'R' => 'Reception', '1' => '1',
 	'2' => '2', '3' => '3', '4' => '4', '5' => '5', '6' => '6', '7' =>
 	'7', '8' => '8', '9' => '9', '10' => '10', '11' => '11', '12' =>
 	'12', '13' => '13', '14' => '14');	

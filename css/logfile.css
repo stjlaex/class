@@ -18,6 +18,13 @@ errorentry[errortype="Warning"] {
 errorentry[errortype="Warning"] datetime {  
 	color:blue; 
 	}
+errorentry[errortype="User Warning"] {  
+	background-color:#eeeeee; 
+	color:#222211; 
+	}
+errorentry[errortype="User Warning"] datetime {  
+	color:blue;
+	}
 mysqlerror {
 	border:0; margin-top:2px;
     float:right;

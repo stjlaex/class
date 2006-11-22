@@ -50,20 +50,14 @@ if(isset($_GET['current'])){$current=$_GET['current'];}
   <div style="visibility:hidden;" id="hiddenbookoptions" class="bookoptions">
 	<form id="entrybookchoice" name="entrybookchoice" method="post" 
 		action="entrybook.php" target="viewentrybook">
-	  <fieldset class="entrybook">
+	  <fieldset class="entrybook selery">
 		<legend><?php print_string('addnew');?></legend>
-		<select name="current" size="6" onChange="document.entrybookchoice.submit();">
-		  <option 
-			<?php if($choice=='new_student.php'){print 'selected="selected" ';} ?>
-				value='new_student.php'>
-			<?php print_string('student');?>
-		  </option>
-		  <option 
-			<?php if($choice=='new_staff.php'){print 'selected="selected" ';} ?>
-				value='new_staff.php'>
-			<?php print_string('staff');?>
-		  </option>
-		</select>
+<?php
+	$choices=array('new_student.php' => 'student'
+			   ,'new_staff.php' => 'staff'
+			   );
+	selery_stick($choices,$choice,$book);
+?>
 	  </fieldset>
 <?php 
 	if($choice=='new_student.php'){

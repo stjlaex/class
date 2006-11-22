@@ -50,6 +50,11 @@ $CFG->webmailshare='secret';
 $CFG->webmail_db='classmail';
 /*optional details of the statement bank for writing report comments*/
 $CFG->statementbank_db='';
-/*Should always be set to off*/
+/*****
+ * These are for development sites only - they will dramatically
+ * slow performance - should always be set to off.
+ */
 $CFG->debug='Off';
+$CFG->classlog='/var/www/classerrors.xml';
+$CFG->serverlog='/var/www/myerrors.html';
 ?>

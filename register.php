@@ -34,8 +34,6 @@ if(is_array($community)){
 	if($community['type']=='form'){$fid=$community['name'];}
 	elseif($community['type']=='year'){$yid=$community['name'];}
 	elseif($community['type']=='reg'){$comid=$community['id'];}
-	$current='register_list.php';
-	$choice='register_list.php';
 	}
 else{
 	$pastorals=listPastoralRespon($respons);
@@ -59,6 +57,7 @@ else{
   <div id="bookbox" class="registercolor">
 <?php
 	if($current!=''){
+		$currentevent=currentEvent();
 		$_SESSION['registercurrent']=$current;
 		$_SESSION['registerchoice']=$choice;
 		$_SESSION['registergroup']=$community;
@@ -78,8 +77,16 @@ else{
   </div>
 
   <div style="visibility:hidden;" id="hiddenbookoptions" class="bookoptions">	
+
 	<form id="registerchoice" name="registerchoice" method="post" 
 							action="register.php" target="viewregister">
+
+	<fieldset class="register">
+	  <legend><?php print_string('registrationsession');?></legend>
+	  <label><?php print date('H:i:s');?></label>
+
+	</fieldset>
+
 	  <fieldset class="register">
 		<legend><?php print_string('registrationgroups');?></legend>
 <?php

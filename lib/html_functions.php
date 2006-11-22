@@ -100,7 +100,7 @@ function xmlarray_form($Array,$no='',$caption='',$tab=1){
 				$enum=getEnumArray($val['field_db']);
 				print '<select name="'.$val['field_db'].$no.'" ';
 				print ' tabindex="'.$tab++.'" ';
-				print ' class="'.$val['inputtype'].'" ';
+				if(isset($val['inputtype'])){print ' class="'.$val['inputtype'].'" ';}
 				print ' id="'.$val['label'].'" size="1">';
 				print '<option value=""></option>';
 				while(list($inval,$description)=each($enum)){	
@@ -118,7 +118,8 @@ function xmlarray_form($Array,$no='',$caption='',$tab=1){
 			else{
 ?>
 		<input type="text" id="<?php print $val['label'];?>" 
-			class="<?php print $val['inputtype'];?>" name="<?php print $val['field_db'].$no; ?>" 
+			class="<?php if(isset($val['inputtype'])){print $val['inputtype'];}?>" 
+				name="<?php print $val['field_db'].$no; ?>" 
 					tabindex="<?php print $tab++;?>" value="<?php print $val['value']; ?>" />
 <?php
 				 }
@@ -135,4 +136,24 @@ function xmlarray_form($Array,$no='',$caption='',$tab=1){
 	return $tab;
 	}
 
+function selery_stick($choices,$choice='',$book=''){
+?>
+		<ul class="selery">
+<?php
+	while(list($page,$title)=each($choices)){
+?>
+		  <li onClick="selerySubmit(this)"  
+			<?php if($choice==$page){print 'class="checked" ';}?> >
+			<input type="radio"
+				<?php if($choice==$page){print 'checked="checked" ';} ?>
+			  value="<?php print $page;?>" name="current" >
+			  <p><?php print_string($title,$book);?></p>
+			</input>
+		  </li>
+<?php
+		}
+?>
+		</ul>
+<?php
+	}
 ?>

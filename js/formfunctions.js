@@ -337,6 +337,8 @@ function loadRequired(){
 	if(document.getElementById('current-tinytab')){
 		tinyTabs(document.getElementById('current-tinytab'));
 		}
+	/*prepares the title attributes for qtip*/
+	tooltip.init();
 	}
 
 
@@ -451,10 +453,10 @@ function getLabel(fieldId) {
 	}
 
 
-function submitNewMark1(buttonObject){
-	document.newmark1.def_name.value = buttonObject.value;
-	document.newmark1.submit();
-	}
+//function submitNewMark1(buttonObject){
+//	document.newmark1.def_name.value = buttonObject.value;
+//	document.newmark1.submit();
+//	}
 
 
 //-------------------------------------------------------

@@ -51,62 +51,38 @@ $_SESSION['reportchoice']=$choice;
 </div>
 
 <div style="visibility:hidden;" id="hiddenbookoptions">	
-<fieldset class="reportbook"><legend><?php print_string('reporton');?></legend>
 	<form id="reportchoice" name="reportchoice" method="post" 
 		action="reportbook.php" target="viewreportbook">
-
-		<select name="current" size="5" onChange="document.reportchoice.submit();">
-		  <option <?php if($choice=='report_comments.php'){ print
-		'selected="selected" ';}?> value='report_comments.php'>
-<?php print_string('comments');?>
-		  </option>
-		  <option <?php if($choice=='report_incidents.php'){ print
-			'selected="selected" ';}?> value='report_incidents.php'>
-<?php print_string('incidents');?>
-		  </option>
-		  <option <?php if($choice=='report_assessments.php'){ print
-		'selected="selected" ';}?> value='report_assessments.php'>
-<?php print_string('assessments');?>
-		  </option>
-		  <option <?php if($choice=='report_reports.php'){ print
-			'selected="selected" ';}?> value='report_reports.php'>
-<?php print_string('subjectreports');?>
-		  </option>
-		</select>
-
-	  </form>
-	</fieldset>
+	  <fieldset class="reportbook selery">
+		<legend><?php print_string('reporton');?></legend>
+<?php
+	$choices=array('report_comments.php' => 'comments'
+			   ,'report_incidents.php' => 'incidents'
+			   ,'report_assessments.php' => 'assessments'
+			   ,'report_reports.php' => 'subjectreports'
+			   );
+	selery_stick($choices,$choice,$book);
+?>
+	  </fieldset>
+	</form>
 
 <?php
  if($tid=='administrator' or $_SESSION['role']=='admin'){
 ?>
 
-	<fieldset class="reportbook"><legend><?php print_string('manage');?></legend>
-	  <form id="reportadminchoice" name="reportadminchoice" method="post" 
-		action="reportbook.php" target="viewreportbook">
-
-		<select name="current" size="5" onChange="document.reportadminchoice.submit();">
-		  <option <?php if($choice=='new_stats.php'){ print
-			'selected="selected" ';}?> value='new_stats.php'>
-			<?php print_string('newstatistics',$book);?>
-		  </option>
-		  <option <?php if($choice=='new_estimate.php'){ print
-			'selected="selected" ';}?> value='new_estimate.php'>
-			<?php print_string('newestimates',$book);?>
-		  </option>
-		  <option <?php if($choice=='new_assessment.php'){ print
-			'selected="selected" ';}?> value='new_assessment.php'>
-			<?php print_string('newassessments',$book);?>
-		  </option>		  
-		  <option <?php if($choice=='new_report.php'){ print 
-			'selected="selected" ';}?> value='new_report.php'>
-			<?php print_string('subjectreports',$book);?>
-		  </option>
-		</select>
-
-	  </form>
-	</fieldset>
-
+	<form id="reportadminchoice" name="reportadminchoice" method="post" 
+	  action="reportbook.php" target="viewreportbook">
+	  <fieldset class="reportbook selery"><legend><?php print_string('manage');?></legend>
+<?php
+	$choices=array('new_stats.php' => 'newstatistics'
+			   ,'new_estimate.php' => 'newestimates'
+			   ,'new_assessment.php' => 'newassessments'
+			   ,'new_report.php' => 'subjectreports'
+			   );
+	selery_stick($choices,$choice,$book);
+?>
+	  </fieldset>
+	</form>
 <?php
 	}
 ?>

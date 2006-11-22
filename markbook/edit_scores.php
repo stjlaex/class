@@ -4,12 +4,14 @@
 
 $action='edit_scores_action.php';
 
-$viewtable=$_SESSION{'viewtable'};
-$umns=$_SESSION{'umns'};
-$mid=$_GET{'mid'};
-$col=$_GET{'col'};
-$scoretype=$_GET{'scoretype'};
-$grading_name=$_GET{'grading_name'};
+$viewtable=$_SESSION['viewtable'];
+$umns=$_SESSION['umns'];
+$mid=$_GET['mid'];
+$col=$_GET['col'];
+$scoretype=$_GET['scoretype'];
+$grading_name=$_GET['grading_name'];
+$total='';
+$grading_grades='';
 
 three_buttonmenu();
 ?>
@@ -72,13 +74,13 @@ three_buttonmenu();
 		  <select tabindex='<?php print $tab;?>' name='<?php print $sid;?>'>
 <?php 
 		print '<option value="" ';
-		if ($viewtable[$c]["score$mid"]['grade']==''){print 'selected';}	
+		if($viewtable[$c]["score$mid"]['grade']==''){print 'selected';}	
 		print ' ></option>';
 
 		for($c3=0; $c3<sizeof($pairs); $c3++){
 			list($level_grade, $level)=split(':',$pairs[$c3]);
 			print '<option value="'.$level.'" ';
-			if($viewtable[$c]["score$mid"]['grade'] == $level){print 'selected';}	
+			if($viewtable[$c]["score$mid"]['grade']==$level){print 'selected';}	
 			print '>'.$level_grade.'</option>';
 			}
 ?>
@@ -94,7 +96,7 @@ three_buttonmenu();
 			}
 		else{print '<td>&nbsp;</td>';}
 		print '<td';
-		if($_SESSION['worklevel']<0){print ' class="hidden" '; }
+		if($_SESSION['worklevel']<0){print ' class="hidden" ';}
 		print '>';
 		print '<input type="text" style="width:80%"';
 		print '	name="comm'.$sid.'" maxlength="98" value="';

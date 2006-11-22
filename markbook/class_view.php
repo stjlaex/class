@@ -88,31 +88,31 @@ if($_SESSION['worklevel']>-1){
 	for($col=0;$col<sizeof($umns);$col++){
 //	  if($umns[$col]['display']=='yes'){
 		if($umns[$col]['marktype']=='score'){
-			  print '<th id="'.$umns[$col]['id'].'"><a title="'.$umns[$col]['comment'].'"
-	      href="markbook.php?current=edit_scores.php&cancel=class_view.php&scoretype='. 
+			  print '<th id="'.$umns[$col]['id'].'"><span title="'.$umns[$col]['comment'].'"><a 
+				href="markbook.php?current=edit_scores.php&cancel=class_view.php&scoretype='. 
 					  $scoretype[$col].'&grading_name='. 
 					  $scoregrading[$col].'&mid='.$umns[$col]['id'].'&col='.$col.'">' 
 					  .$umns[$col]['topic'].'</a><p>'.$umns[$col]['entrydate'].'</p>
-	      <p class="component">'.$umns[$col]['component'].'</p>'.$umns[$col]['marktype'].'<input type="checkbox" name="checkmid[]" value="'.$umns[$col]['id'].'" /></th>';
+	      <p class="component">'.$umns[$col]['component'].'</p>'.$umns[$col]['marktype'].'<input type="checkbox" name="checkmid[]" value="'.$umns[$col]['id'].'" /></span></th>';
 	      	  }
 		elseif($umns[$col]['marktype']=='report'){
-			  print '<th  id="'.$umns[$col]['id'].'"><a title="'.$umns[$col]['comment'].'"
+			  print '<th  id="'.$umns[$col]['id'].'"><span title="'.$umns[$col]['comment'].'"><a 
 	      href="markbook.php?current=edit_reports.php&cancel=class_view.php&midlist='.$umns[$col]['midlist']. 
 					  '&title='.$umns[$col]['topic'].'&mid='.$umns[$col]['id'].'&pid='. 
 					  $umns[$col]['component'].'&col='. $col.'&bid='.$bid[0].'">' 
 					  . $umns[$col]['topic']. '</a><p>'.$umns[$col]['entrydate']. 
 		  '</p><p class="component">'.$umns[$col]['component'].'</p>'.
-			  $umns[$col]['marktype']. '</th>';
+			  $umns[$col]['marktype']. '</span></th>';
 	      	  }
 		elseif($umns[$col]['marktype']=='compound'){
-			  print '<th id="'.$umns[$col]['id'].'"><a title="'.$umns[$col]['comment'].'"
+			  print '<th id="'.$umns[$col]['id'].'"><span title="'.$umns[$col]['comment'].'"><a 
 	      href="markbook.php?current=edit_scores.php&cancel=class_view.php&scoretype='.$scoretype[$col]. 
 					  '&grading_name='.$scoregrading[$col]. 
 					  '&mid='.$umns[$col]['id'].'&col='.$col.'">'.$umns[$col]['topic']. 
 					  '</a><p>'.$umns[$col]['entrydate']. 
 					  '</p><p class="component">'.$umns[$col]['component'].'</p>' 
 					  .$umns[$col]['marktype'].'<input type="checkbox" 
-					name="checkmid[]" value="'.$umns[$col]['id'].'" /></th>';
+					name="checkmid[]" value="'.$umns[$col]['id'].'" /></span></th>';
 	      	  }
 		else{
 	      	print '<th id="'.$umns[$col]['id'].'">'.$umns[$col]['topic'].'</a><p>'. 
@@ -153,9 +153,8 @@ if($_SESSION['worklevel']>-1){
 				.$bid[0].'&sid='.$viewtable[$c2]['sid'].'&sids[]='. 
 				$viewtable[$c2]['sid'].'" target="viewinfobook" 
 				onclick="parent.viewBook(\'infobook\');" ';
-		print ' title="'.$viewtable[$c2]['commentbody'].'"';
 		print  ' class="'.$viewtable[$c2]['commentclass'].'"';
-		print '>C</a>';
+		print '><span title="'.$viewtable[$c2]['commentbody'].'">C</span></a>';
 
 		 /*links through to incidents in the infobook*/
 		print '&nbsp;<a href="infobook.php?current=incidents_list.php&bid='. 
@@ -171,10 +170,15 @@ if($_SESSION['worklevel']>-1){
 		for($c=0;$c<$c_marks;$c++) {
 //			if ($umns[$c]['display']=='yes'){
 				$col_mid=$umns[$c]['id'];
-				print '<td class="'.$viewtable[$c2]["score$col_mid"]['scoreclass'].'"
-		id="'.$viewtable[$c2]['sid'].'-'. $col_mid.'"
-		title="'.$viewtable[$c2]["score$col_mid"]['comment']. '">'. 
-						$viewtable[$c2]["$col_mid"].'</td>';
+				print '<td class="'.$viewtable[$c2]['score'.$col_mid]['scoreclass']. '" '. 
+						' id="'.$viewtable[$c2]['sid'].'-'. $col_mid. '" ';
+				if($viewtable[$c2]['score'.$col_mid]['comment']!=''){
+					print 'title=""><span title="'.$viewtable[$c2]['score'.$col_mid]['comment'].'">';
+					print $viewtable[$c2][$col_mid].'</span></td>';
+					}
+				else{
+					print '>'.$viewtable[$c2][$col_mid].'</td>';
+					}
 //				}
 			}
 		print '</tr>';

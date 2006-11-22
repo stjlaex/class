@@ -33,36 +33,20 @@ $_SESSION['aboutchoice']=$choice;
   </div>
 
   <div style="visibility:hidden;" id="hiddenbookoptions">	
-	<fieldset class="aboutbook">
-	  <legend><?php print_string('helpandsupport');?></legend>
-	  <form id="aboutchoice" name="aboutchoice" method="post" 
-				action="aboutbook.php" target="viewaboutbook">
+	<form id="aboutchoice" name="aboutchoice" method="post" 
+	  action="aboutbook.php" target="viewaboutbook">
+	  <fieldset class="aboutbook selery">
+		<legend><?php print_string('helpandsupport');?></legend>
+<?php
+	$choices=array('report_bug.php' => 'reportbug'
+			   ,'request_feature.php' => 'requestfeature'
+			   ,'support.php' => 'contactsupport'
+			   );
 
-		<select name="current" size="4" onChange="document.aboutchoice.submit();">
-		  <option 
-<?php 
-if($choice=='report_bug.php'){print "selected='selected' ";} 
+	selery_stick($choices,$choice,$book);
 ?>
-		value="report_bug.php"><?php print_string('reportbug',$book);?></option>
-		  <option 
-<?php 
-		if($choice=='request_feature.php'){print "selected='selected' ";} 
-?>
-		value="request_feature.php"><?php print_string('requestfeature',$book);?></option>
-<?php
-		if(isset($CFG->clientid)){
-?>
-	  <option 
-<?php 
-		if($choice=='support.php'){print "selected='selected' ";} 
-?>
-		value="support.php"><?php print_string('contactsupport',$book);?></option>
-<?php
-			}
-?>
-		</select>
-	  </form>
-	</fieldset>
+	  </fieldset>
+	</form>
   </div>
 
 <?php include('scripts/end_options.php');?>

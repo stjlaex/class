@@ -9,6 +9,14 @@ using mktime to do the claculation.
  
 Removed the unused date variable from the User class.
 
+Have dropped the nicetitles code in favour of the neater leaner
+qTip. This means all the popup title attributes are now moved out to
+span elements. All much tidier.
+
+Added to the css and html_functions tp provide a new "selery" class
+which replaces the ugly select elements on the sideoptions. Requires
+two lines of javascript to work and part of the userinterface code.
+
 Version ClaSS-0.8.1 release (2006/11/09)
 ---------------------------------------------------- 
 

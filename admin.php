@@ -35,105 +35,55 @@ $rtid=$tid;
   </div>
 
   <div style="visibility:hidden;" id="hiddenbookoptions">
-	<fieldset class="admin"><legend><?php print_string('manage');?></legend>
-	  <form id="adminchoice" name="adminchoice" method="post" 
-		action="admin.php" target="viewadmin">
-		<select name="current" size="7" onChange="document.adminchoice.submit();">
-		  <option 
-			<?php if($choice=='formgroup_matrix.php'){print 'selected="selected" ';} ?>
-				value='formgroup_matrix.php'>
-			<?php print_string('formgroups');?>
-		  </option>
-		  <option 
-			<?php if($choice=='yeargroup_matrix.php'){print 'selected="selected" ';} ?>
-				value='yeargroup_matrix.php'>
-			<?php print_string('yeargroups');?>
-		  </option>
-		  <option <?php if($choice=='community_group.php'){print 'selected="selected" ';}?> 
-			value='community_group.php'>
-			<?php print_string('communitygroups',$book);?>
-		  </option>
+	<form id="adminchoice" name="adminchoice" method="post" 
+							action="admin.php" target="viewadmin">
+	  <fieldset class="admin selery">
+		<legend><?php print_string('manage');?></legend>
 <?php
+	$choices=array('formgroup_matrix.php' => 'formgroups'
+			   ,'yeargroup_matrix.php' => 'yeargroups'
+			   ,'community_group.php' => 'communitygroups'
+			   );
+	selery_stick($choices,$choice,$book);
 	if($_SESSION['role']=='admin' or $_SESSION['role']=='teacher'){
+		$choices=array('teacher_matrix.php' => 'subjectclasses'
+			   ,'responsables.php' => 'responsibilities'
+			   ,'staff_details.php' => 'staffdetails'
+			   ,'counter.php' => 'logcounter'
+			   );
+		selery_stick($choices,$choice,$book);
+		}
 ?>
-		  <option 
-			<?php if($choice=='teacher_matrix.php'){print 'selected="selected" ';} ?>
-				value='teacher_matrix.php'>
-			<?php print_string('subjectclasses');?>
-		  </option>
-		  <option 
-			<?php if($choice=='responsables.php'){print 'selected="selected" ';}?>
-				value='responsables.php'>
-			<?php print_string('responsibilities');?>
-		  </option>
-		  <option 
-			<?php if($choice=='staff_details.php'){print 'selected="selected" ';}?>
-				value='staff_details.php'>
-			<?php print_string('staffdetails');?>
-		  </option>
-		  <option <?php if($choice=='counter.php'){print
-		'selected="selected" ';}?>value='counter.php'>
-		  <?php print_string('logcounter');?></option>
-		</select>
-<?php
-		  }
-?>
-	  </form>
 	</fieldset>
+  </form>
 
 <?php 
 	if($rtid=='administrator'){
 ?>
 
-	<fieldset class="admin"><legend><?php print_string('configure','admin');?></legend>
-	  <form id="configadminchoice" name="configadminchoice" method="post" 
-		action="admin.php" target="viewadmin">
-
-		<select name="current" size="10" onChange="document.configadminchoice.submit();">
-		<option <?php if($choice=='import_students.php'){print
-		'selected="selected" ';}?>value='import_students.php'>
-			<?php print_string('newstudents');?></option>
-		<option <?php if($choice=='new_teacher.php'){print
-		'selected="selected" ';}?>value='new_teacher.php'>
-		  <?php print_string('newteachers');?></option>
-		<option <?php if($choice=='passwords.php'){print
-				'selected="selected" ';}?>value='passwords.php'>
-				<?php print_string('refreshpasswords',$book);?></option>
-		<option <?php if($choice=='class_matrix.php'){print
-				 'selected="selected" ';}?>value='class_matrix.php'>
-		  <?php print_string('classesmatrix');?></option>
-		<option <?php if($choice=='cohort_matrix.php'){print 'selected="selected"
-			';}?>value='cohort_matrix.php'>
-		  <?php print_string('cohortmatrix');?></option>
-		  <?php print_string('curriculummatrix');?></option>
-		<option <?php if($choice=='update_curriculum.php'){print
-				'selected="selected" ';}?>value='update_curriculum.php'>
-			<?php print_string('updatecurriculum');?></option>
-		<option <?php if($choice=='year_end.php'){print
-				'selected="selected" ';}?>value='year_end.php'>
-				<?php print_string('yearend');?></option>
-		<option <?php if($choice=='server_test.php'){print
-				'selected="selected" ';}?>value='server_test.php'>
-				<?php print_string('servertest');?></option>
+	<form id="configadminchoice" name="configadminchoice" method="post" 
+	  action="admin.php" target="viewadmin">
+	  <fieldset class="admin selery">
+		<legend><?php print_string('configure','admin');?></legend>
 <?php
-/*these are all either very experimental or completely useless!!!!!
-		<option <?php if($choice=='ldap_start.php'){print
-				'selected="selected" ';}?>value='ldap_start.php'>
-				<?php print_string('ldaptest');?></option>
-		<option <?php if($choice=='enrol_student.php'){print
-				'selected="selected" ';}?>value='enrol_student.php'>
-				<?php print_string('enrolstudents');?></option>
-		<option <?php if($choice=='statementbank.php'){print
-				'selected="selected" ';}?>value='statementbank.php'>
-				<?php print_string('statementbank');?></option>
-		<option <?php if($choice=='demoiser.php'){print
-				'selected="selected" ';}?>value='demoiser.php'>
-				<?php print_string('demoiser');?></option>
-*/
+	$choices=array('import_students.php' => 'newstudents'
+			   ,'new_teacher.php' => 'newteachers'
+			   ,'passwords.php' => 'refreshpasswords'
+			   ,'class_matrix.php' => 'classesmatrix'
+			   ,'cohort_matrix.php' => 'cohortmatrix'
+			   ,'update_curriculum.php' => 'updatecurriculum'
+			   ,'year_end.php' => 'yearend'
+			   ,'server_test.php' => 'servertest'
+				   /*these are all either very experimental or completely useless!!!!!*/
+				   //,'ldap_start.php' => 'ldaptest'
+				   //,'enrol_student.php' => 'enrolstudents'
+				   //,'statementbank.php' => 'statementbank'
+				   //,'demoiser.php' => 'demoiser'
+			   );
+	selery_stick($choices,$choice,$book);
 ?>
-		</select>
-	  </form>
-	</fieldset>
+	  </fieldset>
+	</form>
 <?php	} ?>
 
   </div>

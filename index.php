@@ -16,7 +16,8 @@ print '<?xml version="1.0" encoding="utf-8"?'.'>';
 	Stuart Thomas Johnson. All trademarks acknowledged. All rights reserved." />
 <meta name="version" content="<?php print $CFG->version; ?>" />
 <meta name="license" content="GNU General Public License version 2" />
-<link id="parentstyle" href="css/parentstyle.css" rel="stylesheet" type="text/css" />
+<link href="css/parentstyle.css" rel="stylesheet" type="text/css" />
+<link href="css/selery.css" rel="stylesheet" type="text/css" />
 <script language="JavaScript" type="text/javascript" src="js/userinterface.js"></script>
 </head>
 <body onload="loadLogin('cover');">

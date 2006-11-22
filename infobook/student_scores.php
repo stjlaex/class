@@ -50,8 +50,8 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
    	print '<th>Average</th>';
 	print '</tr>';
 
-/*  each row in the table is is for a single assessment using eid as
-	the key, first find the mark type for this row's values*/
+	/* each row in the table is for a single assessment using eid as
+	 * the key, first find the mark type for this row's values*/
 	while(list($eid,$assnos)=each($eids)){
 		$gradesum=0;
 		$gradecount=0;
@@ -59,18 +59,18 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 		$method=$Assessments[$assnos[0]]['Method']['value'];
 		$gradingname=$Assessments[$assnos[0]]['GradingScheme']['value'];
 		$crid=$Assessments[$assnos[0]]['Course']['value'];
-		if($gradingname!==''){
+		if($gradingname!='' and $gradingname!=' '){
 			$d_grading=mysql_query("SELECT grades FROM grading WHERE name='$gradingname'");
 			$grading_grades=mysql_result($d_grading,0);
 	   		}
 
-/*		display the row for this eid*/
+		/*		display the row for this eid*/
 		print '<tr><td>';
 		print $Assessments[$assnos[0]]['Year']['value'].' ';
 		print $Assessments[$assnos[0]]['Description']['value'];
 		print '</td>';
 
-/*      display values for each bid along the row*/
+		/*      display values for each bid along the row*/
 		reset($bids);
 		while(list($bid,$pids)=each($bids)){
 		  while(list($pid,$assses)=each($pids)){
@@ -80,12 +80,12 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 			for($c=0;$c<sizeof($assnos);$c++){
 				$assno=$assnos[$c];
 				$Assessment=$Assessments[$assno];
-/*				if this matches the bid for this cell we use it*/
+				/* if this matches the bid for this cell we use it*/
 				if($bid==$Assessment['Subject']['value'] 
 				  and $pid==$Assessment['SubjectComponent']['value']){
 					$result=$Assessment['Result']['value'];
 					print $result;
-/*					fetch the numerical equivalent for averaging*/
+					/* fetch the numerical equivalent for averaging*/
 					if($gradingname!=''){
 					    $score=gradeToScore($result,$grading_grades);
 	   					$gradesum=$gradesum+$score;
@@ -96,7 +96,7 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 			print '</td>';
 			}
 		  }
-/*		display the assessment row average*/
+		/* display the assessment row average*/
 		if($gradecount>0){
 				$scoreaverage=$gradesum/$gradecount;
 				$scoreaverage=round($scoreaverage,1);

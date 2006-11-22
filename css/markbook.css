@@ -25,6 +25,7 @@ table#marktable {
 	border:0; padding:0; margin:0;
 	color:black;
 	background-color:#444444;
+    width:99%;
 	}
 #marktable input {
 	text-align:center;
@@ -42,7 +43,7 @@ table#marktable {
 	border-right:1px solid #cccccc;
 	display:none;
 	}
-#marktable td[nicetitle]{
+#marktable td[title] {
 	background-image: url("../images/purplecorner.png");
 	background-repeat: no-repeat;
 	}
@@ -61,6 +62,9 @@ table#marktable {
 	display:none;
 	}
 #marktable tr:hover { 
+	background-color:#fcd39a;
+	}
+#marktable tr:hover td { 
 	background-color:#fcd39a;
 	}
 #marktable input[type="checkbox"] {
