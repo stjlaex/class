@@ -16,25 +16,36 @@ div#bookbox{
 .registercolor th {
 	font-size:x-small;
 	}
-.registercolor .selected {  
- 	background-color:#44cc66; color:#000000;
-	}
-.registercolor .revealed {  
-    background-color:red;
-	padding:0; margin:0; border:0;
+.registercolor td.selected, .registercolor th.selected {  
+ 	background-color:#5599dd; color:#ffffff;
 	}
 .registercolor td.blank, .registercolor th.blank {  
 	padding:0; margin:0; border:0;
-    width:5%;
 	background-color:#444444;
 	}
+.registercolor td.blank {  
+    width:2em;
+	}
+.registercolor td.edit {  
+	padding:0 25px; margin:0;
+	}
 .registercolor .edit select {
- 	background-color:#44cc66; color:#000000;
     float:left;
-	padding:0; margin:0; border:0;
+	padding:0; margin:0;
+    font-size:x-small;
+	}
+.registercolor td.revealed {  
+    background-color:yellow;
+	padding:0 10px; margin:0;
 	}
 .registercolor .edit select:focus {
-	border:0;
-    background-color:#ff9900;
-    text-decoration:none;
+    border:2px solid #ff9900;
+	}
+.registercolor td[status="a"] { 
+    background-color:yellow;
+	}
+.registercolor td img { 
+    padding:0 5px;
+    width:10px;
+    height:10px;
 	}

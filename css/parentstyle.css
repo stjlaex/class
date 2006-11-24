@@ -167,8 +167,9 @@ button {
 .bookoptions {
 	position:absolute; left:0.75%; top:18%; width:13.75%;	
 	}
-.bookoptions label {
-    color:#000000;
+.bookoptions label, {
+	margin:0 0 5% 2%;
+    color:#ffffff;
 	}
 .bookoptions form button { 
 	width:90%;
@@ -179,12 +180,18 @@ button {
 	background-color:#666666; 
 	color:#ffffee;
 	}
-.bookoptions p { 
-	text-align:left; font-size:x-small; font-weight:200;
+.bookoptions fieldset { 
+    border-width:3px 0 0 0;
+	padding:0; margin:0;
+    background-color:#444444;
 	}
-.bookoptions fieldset, .bookoptions select { 
-	padding:0; margin:0; width:100%;
+.bookoptions select {  
+    width:100%;
 	}
+.bookoptions input {  
+    width:98%;
+	}
+
 .formimages {
 	padding:5px; width:10px; height:10px; border-style:none;	
 	}
@@ -200,13 +207,10 @@ button {
 
 .infobook {background-color:#cccccc; border-color:#aaaa44;}
 .infobook legend, .infobook button {background-color:#aaaa44; color:#ffffff;}	
-.infobook input, .infobook select { 
-	padding:0; width:92%;
-	margin:0 0 5% 2%;
-	}
 
 .markbook {background-color:#cccccc; border-color:#aa66aa;}
 .markbook legend, .markbook button {color:#ffffff; background-color:#aa66aa;}
+.markbook select {padding:0;margin:0;}
 
 .reportbook {background-color:#cccccc; border-color:#44aaaa;}
 .reportbook legend, .reportbook button {background-color:#44aaaa; color:#ffffff;}	

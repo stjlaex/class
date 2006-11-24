@@ -30,9 +30,9 @@
 <meta name="copyright" content="Copyright 2002-2005 S T Johnson.  All trademarks acknowledged. All rights reserved" />
 <meta name="version" content='<?php print "$CFG->version"; ?>' />
 <meta name="licence" content="GNU General Public License version 2" />
+<style type="text/css">@import url(lib/jscalendar/skins/aqua/theme.css);</style>
 <link rel="stylesheet" type="text/css" href="css/viewstyle.css" />
 <link rel="stylesheet" type="text/css" href="css/<?php print $book; ?>.css" />
-<style type="text/css">@import url(lib/jscalendar/skins/aqua/theme.css);</style>
 <script language="JavaScript" type="text/javascript">
 var pathtobook = "<?php print $CFG->sitepath.'/'.$CFG->applicationdirectory.'/'.$book.'/';?>";
 </script>

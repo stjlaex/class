@@ -1,5 +1,15 @@
-Version ClaSS-0.8.2 release (2006/11/23)
+Version ClaSS-0.8.2 release (2006/11/24)
 ---------------------------------------------------- 
+
+First working version of hte register completed. The javascript for
+editing table columns needs some refining. Currently only records
+absent or present. So still a lot to do.
+
+New javascript extension to the UI added for highlighting selected
+table columns and student rows. Currently only implemented in the
+register. Uses a css class "selected".
+
+The css of the sideoptions has been cleaned up.
 
 Working on the Register. Added create_register to the install process
 which creates two new tables, event and attendance.
@@ -16,6 +26,7 @@ span elements. All much tidier.
 Added to the css and html_functions tp provide a new "selery" class
 which replaces the ugly select elements on the sideoptions. Requires
 two lines of javascript to work and part of the userinterface code.
+
 
 Version ClaSS-0.8.1 release (2006/11/09)
 ---------------------------------------------------- 

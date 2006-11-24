@@ -18,23 +18,24 @@ three_buttonmenu();
 	<div class="center">
 	  <form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
 		<table class="listmenu">
+		  <thead>
 		  <th colspan="2">&nbsp</th>
 		  <th><?php print_string('student'); ?></th>
 <?php
 	$selevent=$currentevent;
-	$newevent='yes';
 	$events=array();
 	while(list($index,$Event)=each($AttendanceEvents['Event'])){
 		$cssclass='';
 		$checked='';
 		$events[]=$Event['id_db'];
 		if($selevent['id']==$Event['id_db']){
-			$newevent='no';
 			$cssclass='selected';
 			$checked=' checked="checked" ';
 			}
 ?>
-		  <th class="<?php print $cssclass;?>"  onClick="selectColumn(this,1);">
+		  <th id="event-<?php print $Event['id_db'];?>"
+			   class="<?php print $cssclass;?>" 
+			   onClick="selectColumn(this,1);" >
 <?php 
 		  $t=strtotime($Event['Date']['value']);
 		  print date('D',$t) .'<br />';
@@ -49,7 +50,8 @@ three_buttonmenu();
 		}
 	if($newevent=='yes'){
 ?>
-		  <th class="selected"  onClick="selectColumn(this,1);">
+		  <th id="event-0" 
+			  class="selected" onClick="selectColumn(this,1);">
 <?php 
 		  $t=strtotime($selevent['date']);
 		  print date('D',$t) .'<br />';
@@ -62,7 +64,10 @@ three_buttonmenu();
 <?php
 	 	}
 ?>
-		  <th colspan="2" class="blank"></th>
+			<th class="blank">&nbsp</th>
+			<th>&nbsp</th>
+		  </thead>
+		  <tbody>
 <?php
 //trigger_error('',E_USER_WARNING);
 
@@ -90,51 +95,57 @@ three_buttonmenu();
 			</td>
 <?php
 		reset($events);
+		$attodds=array('p'=>array('forstroke','backstroke'),'a'=>array('ostroke','ostroke'),'n'=>array('null','null'));
 		while(list($index,$eveid)=each($events)){
+			if($index%2){$odds=0;}else{$odds=1;}
 ?>
+
 			<td id="cell-<?php print $eveid.'-'.$sid;?>" 
-				<?php if($selevent['id']==$eveid){print 'class="selected" ';}?> >
+				<?php if($selevent['id']==$eveid){print 'class="selected" ';}?> 
 <?php
 			if(array_key_exists($eveid,$Attendances['evetable'])){
 				$Attendance=$Attendances['Attendance'][$Attendances['evetable'][$eveid]];
-				print $Attendance['Status']['value'];
+				$attvalue=$Attendance['Status']['value'];
 				}
-			else{print '';}
+			else{$attvalue='n';}
 ?>
+				status="<?php print $attvalue;?>"
+				>
+				<img src="images/<?php print $attodds[$attvalue][$odds];?>.png" />
 			</td>
 <?php
 			}
 
-		if($newevent=='yes'){
-			$eveid='0';
+		if($selevent['id']==0){
 ?>
-			<td id="<?php print 'cell-'.$eveid.'-'.$sid;?>" class="selected">
+			<td id="<?php print 'cell-0-'.$sid;?>" 
+				status="n" class="selected">
 			  <?php print '&nbsp';?>
 			</td>
 <?php
 			}
 ?>
-			<td class="blank">&nbsp</td>
-			<td class="edit">
-
-				  <select
-					<?php print ' tabindex="'.$tab++.'" ';?>
-					<?php if($tab>2){ print 'onFocus="checkAttendance(this);"'; }?>
-					onBlur="processAttendance(this);" 
-					id="<?php print 'edit-'.$eveid.'-'.$sid;?>" 
-					name="<?php print 'edit-'.$sid;?>" >
-					<option value=""></option>
-					<option value="p">Present</option>
-					<option value="a">Absent</option>
-				  </select>
-			  
-			</td>
-		  </tr>
+			  <td class="blank">&nbsp</td>
+			  <td id="edit-<?php print $sid;?>"
+<?php				if($rown<3){print ' class="edit selected" ';}
+					else{print ' class="edit" ';} 
+?>
+				>
+				<select tabindex="<?php print $tab++;?>" 					
+					name="status-<?php print $sid;?>"
+				    onFocus="checkAttendance(this);" 
+				    onBlur="processAttendance(this);" 
+				  >
+				  <option value="n"></option>
+				  <option value="p">Present</option>
+				  <option value="a">Absent</option>
+				</select>
+			  </td>
+			</tr>
 <?php
-					 /*
-					  */
 		}
 ?>
+		  </tbody>
 		</table>
 
 		<input type="hidden" name="date" value="<?php print $currentevent['date'];?>" />
@@ -145,3 +156,10 @@ three_buttonmenu();
 	  </form>
 	</div>
   </div>
+<?php
+if($selevent['id']!=0){
+?>
+        <script>updateEditColumn(<?php print $selevent['id'];?>);</script>
+<?php
+		}
+?>

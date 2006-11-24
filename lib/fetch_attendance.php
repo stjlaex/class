@@ -131,7 +131,7 @@ function currentEvent(){
 	$session=date('A');
 	$d_event=mysql_query("SELECT id FROM event WHERE date='$date' AND period='$session'");
 	if(mysql_num_rows($d_event)==0){
-		$eveid='';
+		$eveid='0';
 		}
 	else{
 		$eveid=mysql_result($d_event,0);

@@ -298,6 +298,7 @@ function checkAll(checkAllBox){
 
 //-------------------------------------------------------
 // adds the images and attributes to required input fields
+// inits the js-calendar elements and the tooltip titles
 
 function loadRequired(){
 	var firstFocus;

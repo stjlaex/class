@@ -82,13 +82,17 @@ else{
 							action="register.php" target="viewregister">
 
 	<fieldset class="register">
-	  <legend><?php print_string('registrationsession');?></legend>
-	  <label><?php print date('H:i:s');?></label>
+	  <legend><?php print_string('currentsession',$book);?></legend>
+	  <label>
+		  <?php print get_string('registrationsession',$book).': '.$currentevent['period'];?><br />
+		  <?php print $currentevent['date'];?><br />
+			<?php print date('H:i:s');?>
+		</label>
 
 	</fieldset>
 
 	  <fieldset class="register">
-		<legend><?php print_string('registrationgroups');?></legend>
+		<legend><?php print_string('registrationgroups',$book);?></legend>
 <?php
 		$onsidechange='yes'; include('scripts/list_form.php'); 		
 //		$onsidechange='yes'; include('scripts/list_year.php');
