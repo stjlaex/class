@@ -30,14 +30,17 @@ function fetchAttendance($sid='-1'){
 							  'field_db' => 'code',
 							  'type_db' => 'enum', 
 							  'value' => ''.$attendance['code']);
+	$Attendance['Late']=array('label' => 'late',
+							  'table_db' => 'attendance', 
+							  'field_db' => 'code',
+							  'type_db' => 'enum', 
+							  'value' => ''.$attendance['late']);
 	$Attendance['Comment']=array('label' => 'comment',
-							  'inputtype'=> 'required',
 							  'table_db' => 'attendance', 
 							  'field_db' => 'comment',
 							  'type_db' => 'text', 
 							  'value' => ''.$attendance['comment']);
 	$Attendance['Teacher']=array('label' => 'teacher',
-							  'inputtype'=> 'required',
 							  'table_db' => 'attendance', 
 							  'field_db' => 'teacher_id',
 							  'type_db' => 'varchar(14)', 
@@ -50,9 +53,10 @@ function fetchAttendances($sid,$date='',$period='%'){
 	$evetable=array();
 	/*if no date set choose this week*/
 	if($date==''){
-		$date=date('Y-m-d',mktime(0,0,0,date('m'),date('d')-14,date('Y')));
+		$date=date('Y-m-d',mktime(0,0,0,date('m'),date('d')-5,date('Y')));
 		}
-	$d_attendance=mysql_query("SELECT attendance.status, attendance.code, event.id,
+	$d_attendance=mysql_query("SELECT attendance.status,
+			attendance.code, attendance.late, attendance.comment, event.id,
 			event.period, event.date FROM attendance JOIN
 			event ON event.id=attendance.event_id WHERE
 			attendance.student_id='$sid' AND event.date > '$date' 
@@ -70,6 +74,10 @@ function fetchAttendances($sid,$date='',$period='%'){
 								  'value' => ''.$attendance['status']);
 	   	$Attendance['Code']=array('label' => 'code',
 								  'value' => ''.$attendance['code']);
+	   	$Attendance['Late']=array('label' => 'late',
+								  'value' => ''.$attendance['late']);
+	   	$Attendance['Comment']=array('label' => 'comment',
+								  'value' => ''.$attendance['comment']);
 		$Attendances['Attendance'][]=$Attendance;
 		$evetable[$attendance['id']]=$index++;
 		}

@@ -8,15 +8,21 @@ fieldset.selery {
 .selery ul {
     margin:0;
     border:0;
-    padding:1px;
+    padding:1px 1px 0 1px;
     list-style:none;
     width:100%;
 	float:left;
 	}
 
+.selery ul + ul {
+    border:0;
+    margin:0;
+    padding:0;
+	}
+
 .selery li {
     border:0;
-    padding:0 4px 0px 0px;
+    padding:0 4px 0 0;
     margin-bottom:2px;
 	border-top:1px solid #999999;
     background:#ffffff;

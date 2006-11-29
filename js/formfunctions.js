@@ -306,9 +306,9 @@ function loadRequired(){
 	var elementObject;
 	var imageRequired;
 	firstFocus=-1;
-	for(i=0; i<document.forms.length; i++){
+	for(i=0;i<document.forms.length;i++){
 		formObject=document.forms[i];
-		for(c=0; c<formObject.elements.length; c++){
+		for(c=0;c<formObject.elements.length;c++){
 			elementObject=formObject.elements[c];
 			if(elementObject.className=='required'){
 				elementObject.setAttribute('onChange','validateRequired(this)');
@@ -329,17 +329,24 @@ function loadRequired(){
 				}
 			}
 		}
+	/*load the first tiny-tab (if there is one)*/
+	if(document.getElementById('current-tinytab')){
+		tinyTabs(document.getElementById('current-tinytab'));
+		}
+	/*prepares the title attributes for qtip*/
+	tooltip.init();
+	/*prepares a sidtable if it is present*/
+	if(document.getElementById('sidtable')){
+		sidtableInit();
+		}
+	/*give focus to the tab=1 form element if this is a form*/
+	/*should always be last!*/
 	if(i>0){
 		if(firstFocus==-1){firstFocus=0;}
 		if(document.forms[0].elements[firstFocus]){
 		  document.forms[0].elements[firstFocus].focus();  
 		  }
 		}
-	if(document.getElementById('current-tinytab')){
-		tinyTabs(document.getElementById('current-tinytab'));
-		}
-	/*prepares the title attributes for qtip*/
-	tooltip.init();
 	}
 
 

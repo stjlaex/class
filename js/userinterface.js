@@ -238,3 +238,4 @@ function helpPage(){
 		helpWindow.document.close();
 		}
 	}
+

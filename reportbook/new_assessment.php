@@ -142,10 +142,6 @@ three_buttonmenu($extrabuttons);
 				value="generate_assessment_columns.php" onClick="clickToAction(this)">
 				<?php print_string('generatecolumns',$book);?>
 			  </button>
-			  <button class="rowaction" title="Archive Scores" name="current" 
-				value="archive_assessment_columns.php" onClick="clickToAction(this)">
-				<?php print_string('archivescores',$book);?>
-			  </button>
 			</td>
 		  </tr>
 		  <div id="<?php print 'xml-'.$eid;?>" style="display:none;">
