@@ -60,7 +60,7 @@ if($_SESSION['worklevel']>-1){
 	'#ffaaff', '#ff99ff', '#ff88ff', '#ff77ff', '#ff66ff', '#ff55ff',
 	'#ff44ff', '#ff33ff', '#ff22ff', '#ff11ff', '#ff00ff');
 
-	print '<td colspan="5">';
+	print '<td colspan="6">';
 	print '<table>';
 	for($i=0;$i<$n;$i++){ 
 		/*colour students by their teaching class */	
@@ -167,7 +167,10 @@ if($_SESSION['worklevel']>-1){
 		print '<td>'.$viewtable[$c2]['surname'].'</td>';
 		print '<td>'.$viewtable[$c2]['forename'].$viewtable[$c2]['preferredforename'].'</td>';
 		print '<td>'.$viewtable[$c2]['form_id'].'</td>';
-		for($c=0;$c<$c_marks;$c++) {
+		print '<td status="'.$viewtable[$c2]['attstatus'].'">';
+		print '<span title="'.$viewtable[$c2]['attcode'].': '.$viewtable[$c2]['attcomment'].'">&nbsp</span>';
+		print '</td>';
+		for($c=0;$c<$c_marks;$c++){
 //			if ($umns[$c]['display']=='yes'){
 				$col_mid=$umns[$c]['id'];
 				print '<td class="'.$viewtable[$c2]['score'.$col_mid]['scoreclass']. '" '. 

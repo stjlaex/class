@@ -24,14 +24,14 @@ div#bookbox{
 .registercolor td.selected, .registercolor th.selected {  
  	background-color:#44aa66; color:#ffffff;
 	}
-
-/*these are register specifi additions to the sidtable class*/
 .sidtable td[status="a"] { 
     background-color:yellow;
     font-weight:900;
     font-size:large;
     color:#000000;
 	}
+
+/*these are register specifi additions to the sidtable class*/
 .sidtable td[late="1"] {  
 	background-image:url("../images/dot1.png");
 	background-repeat: no-repeat;

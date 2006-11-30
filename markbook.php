@@ -67,6 +67,7 @@ $cids=$_SESSION['cids'];
 $pids=$_SESSION['pids'];
 $pid=$_SESSION['pid'];
 $umnrank=$_SESSION['umnrank'];
+$attdate=date('Y-m-d',mktime(0,0,0,date('m'),date('d'),date('Y')));
 
 if(isset($_GET['current'])){$current=$_GET['current'];}
 if(isset($_GET['choice'])){$choice=$_GET['choice'];}

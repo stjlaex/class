@@ -86,6 +86,37 @@ function fetchAttendances($sid,$date='',$period='%'){
 	return nullCorrect($Attendances);
 	}
 
+function fetchcurrentAttendance($sid,$eveid=''){
+	if($eveid==''){
+		$event=currentEvent();
+		$eveid=$event['id'];
+		}
+	$Attendance=array();
+	if($eveid!=''){
+		$d_attendance=mysql_query("SELECT attendance.status,
+			attendance.code, attendance.late, attendance.comment, event.id,
+			event.period, event.date FROM attendance JOIN
+			event ON event.id=attendance.event_id WHERE
+			attendance.student_id='$sid' AND event.id='$eveid'");
+
+		$attendance=mysql_fetch_array($d_attendance,MYSQL_ASSOC);
+		$Attendance['id_db']=$attendance['id'];
+		$Attendance['Period']=array('label' => 'period',
+								'value' => ''.$attendance['period']);
+	   	$Attendance['Date']=array('label' => 'date', 
+									'value' => ''.$attendance['date']);
+	   	$Attendance['Status']=array('label' => 'attendance',
+								  'value' => ''.$attendance['status']);
+	   	$Attendance['Code']=array('label' => 'code',
+								  'value' => ''.$attendance['code']);
+	   	$Attendance['Late']=array('label' => 'late',
+								  'value' => ''.$attendance['late']);
+	   	$Attendance['Comment']=array('label' => 'comment',
+								  'value' => ''.$attendance['comment']);
+		}
+	return nullCorrect($Attendance);
+	}
+
 function fetchAttendanceEvents($date=''){
 	$AttendanceEvents=array();
 	$evetable=array();
@@ -112,26 +143,6 @@ function fetchAttendanceEvents($date=''){
 	$AttendanceEvents['evetable']=$evetable;
 
 	return nullCorrect($AttendanceEvents);
-	}
-
-/*used to decorate the student's name with attendance status*/
-function attendanceDisplay($sid,$Attendances=''){
-	$display=array();
-	if($Attendances==''){
-		$Attendances=fetchAttendances($sid);
-		}
-	if(is_array($Attendances['Attendance'])){
-		if($Attendances['Attendance'][0]['Code']['value']!='P'){
-			$display['class']='positive';
-			}
-		else{$display['class']='negative';}
-		$header=$Attendances['Attendance'][0]['Period']['value']. 
-				' ('.$Attendances['Attendance'][0]['EntryDate']['value'].')';
-		$display['body']=$header.'<br />'.$Attendances['Attendance'][0]['Comment']['value'];
-		}
-	else{$display['class']='';$display['body']='';}
-
-	return $display;
 	}
 
 function currentEvent(){

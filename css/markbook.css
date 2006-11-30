@@ -105,3 +105,14 @@ table#editscores {
 	font-size:medium;
 	font-weight:600;
 	}
+/*for the attendance status*/
+td[status="a"] { 
+    background-color:yellow;
+    font-weight:900;
+    font-size:large;
+    color:#000000;
+	}
+td[status="p"] { 
+    background-color:#44aa66;
+	}
+

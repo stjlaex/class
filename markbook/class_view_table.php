@@ -12,6 +12,7 @@ while($student=mysql_fetch_array($d_students, MYSQL_ASSOC)){
 		$d_info= mysql_query("SELECT sen FROM info WHERE student_id='$sid'");
 		$sen=mysql_result($d_info, 0);
 		$comment=commentDisplay($sid);
+		$Attendance=fetchcurrentAttendance($sid);
 
 		if($student['preferredforename']!=''){
 			$displaypfn=' ('.$student['preferredforename'].') ';
@@ -20,6 +21,9 @@ while($student=mysql_fetch_array($d_students, MYSQL_ASSOC)){
 		$studentrow=array('row'=>$row, 'sen'=>$sen,
 				'commentclass'=>$comment['class'], 
 				'commentbody'=>$comment['body'], 
+				'attstatus'=>$Attendance['Status']['value'], 
+				'attcode'=>$Attendance['Code']['value'], 
+				'attcomment'=>$Attendance['Comment']['value'], 
 				'sid'=>$sid,
 				'surname'=>$student['surname'],
 				'forename'=>$student['forename'],
