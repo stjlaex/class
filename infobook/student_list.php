@@ -40,8 +40,12 @@ two_buttonmenu();
 			<input type="checkbox" name="sids[]" value="<?php print $sid; ?>" />
 			&nbsp
 			<a href='infobook.php?current=student_scores.php&sid=<?php print $sid;?>'>T</a> 
-			<a href='infobook.php?current=comments_list.php&sid=<?php print $sid;?>'
-			  <?php print " class='".$comment['class']."' title='".$comment['body']."'"; ?>>C</a> 
+
+			<span <?php print ' title="'.$comment['body'].'"';?>>
+			  <a href='infobook.php?current=comments_list.php&sid=<?php print $sid;?>'
+				<?php print ' class="'.$comment['class'].'" ';?>>C</a> 
+			</span>
+
 			<a href='infobook.php?current=incidents_list.php&sid=<?php print $sid;?>'>I</a>
 		  </td>
 		  <td>
