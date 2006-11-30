@@ -54,7 +54,7 @@ three_buttonmenu();
 <?php
 	 	}
 ?>
-		  <th class="edit">&nbsp</th>
+		  <th class="edit"><?php print_string('attendance',$book);?></th>
 		</tr>
 <?php
 	$rown=1;
@@ -91,18 +91,26 @@ three_buttonmenu();
 			<td id="cell-<?php print $eveid.'-'.$sid;?>"  
 <?php
 			$cell='';
+			$des='';
 			if(array_key_exists($eveid,$Attendances['evetable'])){
 				$Attendance=$Attendances['Attendance'][$Attendances['evetable'][$eveid]];
 				$attvalue=$Attendance['Status']['value'];
 				$attcode=$Attendance['Code']['value'];
 				$attlate=$Attendance['Late']['value'];
 				$attcomm=$Attendance['Comment']['value'];
-				if($attvalue=='a'){
-					$cell='<span title="'.$attcode .': '. $attcomm.'" >';
-					$cell.='<img src="images/ostroke.png" /></span>';	
+				if($attvalue=='a' and ($attcode==' ' or $attcode=='O')){
+					$cell='title="" ><span title="? : <br />'. $attcomm.'" >';
+					$cell.='<img src="images/ostroke.png" /></span>';
+					}
+				else if($attvalue=='a' and $attcode!=' ' and $attcode!='O'){
+					$des=displayEnum($attcode,'absencecode');
+					$des=get_string($des,'register');
+					$cell='title="" ><span title="'.$attcode .': '. $des
+							.'<br />'.$attcomm.'" >';
+					$cell.=$attcode.'</span>';
 					}
 				else{
-					$cell='<img src="images/'.$attodds[$odds].'.png" />';
+					$cell='><img src="images/'.$attodds[$odds].'.png" />';
 					}
 				}
 			else{
@@ -113,7 +121,6 @@ three_buttonmenu();
 				code="<?php print $attcode;?>"
 				late="<?php print $attlate;?>"
 				comm="<?php print $attcomm;?>"
-				>
 				  <?php print $cell;?>
 			</td>
 <?php
@@ -152,25 +159,22 @@ three_buttonmenu();
 
   <div class="hidden" id="extra-p">
 	<button type="button" name="late" id="late-butt" value="0" 
-	  onclick="seleryGrow(this)"  class="rowaction selery">
+	  onclick="parent.seleryGrow(this)"  class="rowaction selery">
 	  <img src="images/null.png" />
 	</button>
 	<input type="hidden" id="late" name="late" value="0" />
   </div>
 
-  <div class="hidden" id="extra-a">
-	<select name="code" id="code">
-	  <option value=""></option>
-	  <option value="B">B</option>
-	  <option value="C">C</option>
-	  <option value="D">D</option>
-	  <option value="E">E</option>
-	  <option value="F">F</option>
-	  <option value="G">G</option>
-	  <option value="G">I</option>
-	  <option value="M">M</option>
-	  <option value="N">N</option>
-	</select>
 
+  <div class="hidden" id="extra-a">
+	<select name="code" id="code" style="width:10em;">
+<?php
+	$enum=getEnumArray('absencecode');
+	while(list($inval,$description)=each($enum)){	
+		print '<option ';
+		print ' value="'.$inval.'">'.$inval.': '.get_string($description,$book).'</option>';
+		}
+?>
+	</select>
 	<input type="hidden" name="comm" id="comm" value="" title="" />
   </div>

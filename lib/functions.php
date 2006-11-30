@@ -299,6 +299,32 @@ function getEnumArray($field_name) {
 						'EntryDate' => 'schoolstartdate',
 						'FirstContactPhone' => 'firstcontactphone'
 						);
+	/*for the register*/
+	$absencecode=array(
+						'O' => 'unauthorisedabsence',
+						'I' => 'illness',
+						'M' => 'medicaldentalappointments',
+						'P' => 'approvedsportingactivity',
+						'S' => 'studyleave',
+						'V' => 'educationalvisitortrip',
+						'B' => 'educatedoffsite',
+						'E' => 'excluded',
+						'F' => 'extendedfamilyholidayagreed',
+						'G' => 'familyholidaynotagreeded',
+						'H' => 'familyholidayagreed',
+						'J' => 'interview',
+						'R' => 'religiousobservance',
+						'T' => 'travellerabsence',
+						'W' => 'workexperience',
+						'C' => 'otherauthorisedcircumstances',
+						'D' => 'dualregistrationattendingother',
+						'N' => 'noreasonyetprovided',
+						'U' => 'lateafterregisterclosed',
+						'X' => 'untimetabledsessions',
+						'Y' => 'enforcedclosure',
+						'Z' => 'pupilnotonrole',
+						'#' => 'schoolclosedtopupils'
+						);
 
 	return $$field_name;
 	}

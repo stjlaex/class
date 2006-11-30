@@ -54,7 +54,7 @@ a {
     }
 /*give colour to tab in focus and to current tab*/
 .booktabs p.seneeds:hover, #currentbook.seneeds {
-    background-color:#1181AA;
+    background-color:#554466;
     }
 .booktabs p.entrybook:hover, #currentbook.entrybook {
     background-color:#1181AA;
@@ -109,7 +109,7 @@ a {
     }
 /*give current book coloured stripe to the logbook*/
 div#logbookstripe.seneeds {
-    border-color:#1181AA;
+    border-color:#554466;
     }
 div#logbookstripe.entrybook {
     border-color:#1181AA;
@@ -227,8 +227,8 @@ button {
 .entrybook {background-color:#cccccc; border-color:#1181AA;}
 .entrybook legend, .entrybook button {background-color:#1181AA; color:#ffffff;}	
 
-.seneeds {background-color:#cccccc; border-color:#1181AA;}
-.seneeds legend, .seneeds button {background-color:#1181AA; color:#ffffff;}	
+.seneeds {background-color:#cccccc; border-color:#554466;}
+.seneeds legend, .seneeds button {background-color:#554466; color:#ffffff;}	
 
 /***************************************************************************/
 /* the rest of the sidebar - which comes under the logbook*/

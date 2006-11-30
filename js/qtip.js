@@ -20,24 +20,24 @@ tooltip = {
   	tip : null
 	}
 
-tooltip.init = function () {
+tooltip.init = function(){
 	var tipNameSpaceURI = "http://www.w3.org/1999/xhtml";
 	if(!tipContainerID){ var tipContainerID = "qTip";}
 	var tipContainer = document.getElementById(tipContainerID);
-	if(!tipContainer) {
-	  tipContainer = document.createElementNS ? document.createElementNS(tipNameSpaceURI, "div") : document.createElement("div");
+	if(!tipContainer){
+	  	tipContainer = document.createElementNS ? document.createElementNS(tipNameSpaceURI, "div") : document.createElement("div");
 		tipContainer.setAttribute("id", tipContainerID);
-	  document.getElementsByTagName("body").item(0).appendChild(tipContainer);
-	}
-	if (!document.getElementById) return;
-	this.tip = document.getElementById (this.name);
-	if (this.tip) document.onmousemove = function (evt) {tooltip.move (evt)};
+	  	document.getElementsByTagName("body").item(0).appendChild(tipContainer);
+		}
+	if(!document.getElementById){return;}
+	this.tip = document.getElementById(this.name);
+	if(this.tip)document.onmousemove=function(evt){tooltip.move (evt)};
 
 	var a, sTitle;
-	var anchors = document.getElementsByTagName("span");
-	for (var i = 0; i < anchors.length; i ++){
-		a = anchors[i];
-		sTitle = a.getAttribute("title");
+	var anchors=document.getElementsByTagName("span");
+	for(var i=0; i<anchors.length; i++){
+		a=anchors[i];
+		sTitle=a.getAttribute("title");
 		if(sTitle){
 			a.setAttribute("tiptitle", sTitle);
 			a.removeAttribute("title");
@@ -47,7 +47,7 @@ tooltip.init = function () {
 		}
 	}
 
-tooltip.move = function (evt) {
+tooltip.move = function(evt){
 	var x=0, y=0;
 	x = evt.pageX;
 	y = evt.pageY;
@@ -55,14 +55,14 @@ tooltip.move = function (evt) {
 	this.tip.style.top = (y + this.offsetY) + "px";
 	}
 
-tooltip.show = function (text) {
-	if (!this.tip) return;
+tooltip.show = function(text){
+	if(!this.tip){return;}
 	this.tip.innerHTML = text;
 	this.tip.style.display = "block";
 	}
 
-tooltip.hide = function () {
-	if (!this.tip) return;
+tooltip.hide = function(){
+	if(!this.tip){return;}
 	this.tip.innerHTML = "";
 	this.tip.style.display = "none";
 	}

@@ -84,12 +84,21 @@ function markDisplay(){
 	}
 
 //--------------------------------------------------------
-//  the scripts for the userinterface - handles the selery in the bookoptions
+//  the scripts for the userinterface - handles the selery menu in the bookoptions
+//  and grows selery buttons
 
-function selerySubmit(liObject){
-	liObject.getElementsByTagName("input")[0].setAttribute("checked","checked");
+function selerySubmit(liObj){
+	liObj.getElementsByTagName("input")[0].setAttribute("checked","checked");
 	//assumes the form to be the direct parent of the fieldset containing the selery ul
-	liObject.parentNode.parentNode.parentNode.submit();
+	liObj.parentNode.parentNode.parentNode.submit();
+	}
+
+function seleryGrow(buttonObj){
+	var start=buttonObj.value;
+	var end=++start;
+	if(end>4){end=0;}
+	buttonObj.value=end;
+	buttonObj.parentNode.getElementsByTagName("input")[0].value=end;
 	}
 
 //--------------------------------------------------------

@@ -1,3 +1,8 @@
+/*										markbook.css
+ * main color: aa66aa
+ * light shade: 
+ */
+
 .markcolor fieldset, .markcolor div.topform, .markcolor table.listmenu {
 	border-color:#aa66aa;
 	color:#000000;
@@ -14,7 +19,6 @@ div#bookbox{
 .markcolor label {
 	color:#000000;
 	}
-
 
 .markcolor tr.rowplus td, .markcolor tr.rowminus td {
     color:#666666;

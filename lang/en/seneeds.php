@@ -2,7 +2,7 @@
 /**						lang/en/seneeds.php
  *
  */
-$string['']='';
+$string['filterlistbyneeds']='Filter list by needs';
 $string['']='';
 $string['']='';
 $string['']='';

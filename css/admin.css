@@ -1,3 +1,8 @@
+/**										admin.css
+ * main color: aa4444
+ * light shade:
+ */
+
 .admincolor fieldset, .admincolor div.topform, .admincolor table.listmenu {
 	border-color:#aa4444;
 	color:#000000;

@@ -1,4 +1,8 @@
-/*										selery.css*/
+/**										selery.css
+ * a selery class for offering either a menu made up of of <li>s 
+ * or buttons which click round a selectiong of 1-4 values 
+ * main color: 5599cc mimics the blue of a slected <select> option
+ */
 
 fieldset.selery { 
     border-width:2px 0 0 0;
@@ -53,4 +57,28 @@ fieldset.selery {
     border:0;
     padding:0;
 	font-size:x-small; font-weight:600;
+	}
+
+/*these are fo rthe grow selery button*/
+button.selery { 
+	width:16px; height:16px; border-style:none;	
+	background-repeat:no-repeat;
+	}
+button.selery img { 
+    float:left;
+	width:12px; height:12px;
+	background-repeat:no-repeat;	
+    padding:1px;border:0;
+	}
+button.selery[value="1"] img { 
+	background-image:url("../images/dot1.png");
+	}
+button.selery[value="2"] img { 
+	background-image:url("../images/dot2.png");
+	}
+button.selery[value="3"] img { 
+	background-image:url("../images/dot3.png");
+	}
+button.selery[value="4"] img { 
+	background-image:url("../images/dot4.png");
 	}

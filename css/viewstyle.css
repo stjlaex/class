@@ -371,6 +371,43 @@ th.hidden {
 	display:none;
 	}
 
+/***********sidtable selected class*******/
+table.sidtable {
+    width:99%;
+	}
+.sidtable th {
+	font-size:x-small;
+	}
+.sidtable td.edit, .sidtable th.edit {  
+    border-left:20px solid #444444;
+	padding:0 25px; margin:0;
+	}
+.sidtable .edit select {
+    float:left;
+	padding:0; margin:0;
+    font-size:x-small;
+	}
+.sidtable td.extra {  
+    background-color:yellow;
+	padding:0 5px; margin:0;
+	}
+.sidtable .extra input {  
+    width:1em;
+	padding:0; margin:0;
+	}
+.sidtable .edit select:focus {
+    border:2px solid #ff9900;
+	}
+.sidtable td img { 
+    padding:0 20%;
+    width:10px;
+    height:10px;
+	}
+.sidtable td[title] {
+	background-repeat: no-repeat;
+	}
+
+
 /***********tinytabs*******/
 div.tinytabs {
     font-size:90%;

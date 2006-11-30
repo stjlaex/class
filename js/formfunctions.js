@@ -331,16 +331,19 @@ function loadRequired(){
 		}
 	/*load the first tiny-tab (if there is one)*/
 	if(document.getElementById('current-tinytab')){
-		tinyTabs(document.getElementById('current-tinytab'));
+		tinyTabs(document.getElementById("current-tinytab"));
 		}
-	/*prepares the title attributes for qtip*/
+	/*prepares the span elements with title attributes for qtip*/
 	tooltip.init();
+
 	/*prepares a sidtable if it is present*/
-	if(document.getElementById('sidtable')){
+	if(document.getElementById("sidtable")){
 		sidtableInit();
 		}
 	/*give focus to the tab=1 form element if this is a form*/
 	/*should always be last!*/
+
+
 	if(i>0){
 		if(firstFocus==-1){firstFocus=0;}
 		if(document.forms[0].elements[firstFocus]){

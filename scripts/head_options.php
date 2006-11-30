@@ -32,6 +32,7 @@
 <meta name="licence" content="GNU General Public License version 2" />
 <style type="text/css">@import url(lib/jscalendar/skins/aqua/theme.css);</style>
 <link rel="stylesheet" type="text/css" href="css/viewstyle.css" />
+<link rel="stylesheet" type="text/css" href="css/selery.css" />
 <link rel="stylesheet" type="text/css" href="css/<?php print $book; ?>.css" />
 <script language="JavaScript" type="text/javascript">
 var pathtobook = "<?php print $CFG->sitepath.'/'.$CFG->applicationdirectory.'/'.$book.'/';?>";

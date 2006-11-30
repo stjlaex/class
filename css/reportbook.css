@@ -1,3 +1,8 @@
+/**										reportbook.css
+ * main color: 44aaaa
+ * light shade:
+ */
+
 .reportcolor fieldset, .reportcolor div.topform, .reportcolor table.listmenu {
 	border-color:#44aaaa;
     color:#000000;

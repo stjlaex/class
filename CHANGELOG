@@ -1,18 +1,17 @@
-Version ClaSS-0.8.2 release (2006/11/24)
----------------------------------------------------- 
+Version ClaSS-0.8.2 release (2006/11/30)
+----------------------------------------
 
-First working version of hte register completed. The javascript for
-editing table columns needs some refining. Currently only records
-absent or present. So still a lot to do.
+First working version of the register completed. Now records
+absent or present status; when present lateness; when absent a absence code.
+
+Added create_register to the install process
+which creates two new tables, event and attendance.
 
 New javascript extension to the UI added for highlighting selected
 table columns and student rows. Currently only implemented in the
 register. Uses a css class "selected".
 
-The css of the sideoptions has been cleaned up.
-
-Working on the Register. Added create_register to the install process
-which creates two new tables, event and attendance.
+The css of the sideoptions has been cleaned up with a new class selery.
 
 Moved commendate to a default value in commentDisplay and moved to
 using mktime to do the claculation.

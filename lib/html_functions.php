@@ -142,7 +142,7 @@ function selery_stick($choices,$choice='',$book=''){
 <?php
 	while(list($page,$title)=each($choices)){
 ?>
-		  <li onClick="selerySubmit(this)"  
+		  <li onclick="selerySubmit(this)" 
 			<?php if($choice==$page){print 'class="checked" ';}?> >
 			<input type="radio"
 				<?php if($choice==$page){print 'checked="checked" ';} ?>

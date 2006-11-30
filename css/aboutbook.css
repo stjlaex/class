@@ -1,3 +1,8 @@
+/**										aboutbook.css
+ * main color: ee9900 (a lighter shade of the ClaSS orange)
+ * dark shade: ff9900
+ */
+
 .aboutcolor fieldset, .aboutcolor div.topform, .aboutcolor table.listmenu {
 	border-color:#ee9900;
 	background-color:#444444; color:#000000;

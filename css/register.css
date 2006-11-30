@@ -1,8 +1,13 @@
-.registercolor {
-	background-color:#444444; color:#000000;
-	}	
+/**										register.css
+ * main color: 44aa66
+ * light shade: 66cc66
+ */
+
 div#bookbox{
 	border-color:#44aa66;
+	}
+.registercolor {
+	background-color:#444444; color:#000000;
 	}
 .registercolor button, .registercolor legend, .registercolor caption {
 	background-color:#44aa66; color:#ffffff;
@@ -13,68 +18,33 @@ div#bookbox{
 .registercolor div {
 	border-color:#44aa66;
 	}
+.registercolor button.selery { 
+    background-color:#66cc66;
+	}
+.registercolor td.selected, .registercolor th.selected {  
+ 	background-color:#44aa66; color:#ffffff;
+	}
 
-
-table.sidtable {
-    width:99%;
-	}
-.sidtable th {
-	font-size:x-small;
-	}
-.sidtable td.edit, .sidtable th.edit {  
-    border-left:20px solid #444444;
-	padding:0 25px; margin:0;
-	}
-.sidtable .edit select {
-    float:left;
-	padding:0; margin:0;
-    font-size:x-small;
-	}
-.sidtable td.extra {  
-    background-color:yellow;
-	padding:0 5px; margin:0;
-	}
-.sidtable .extra input {  
-    width:1em;
-	padding:0; margin:0;
-	}
-.sidtable .edit select:focus {
-    border:2px solid #ff9900;
-	}
+/*these are register specifi additions to the sidtable class*/
 .sidtable td[status="a"] { 
     background-color:yellow;
+    font-weight:900;
+    font-size:large;
+    color:#000000;
 	}
-.sidtable td[late="1"], .sidtable td[late="2"], .sidtable td[late="3"], .sidtable td[late="4"] { 
-    background-color:#44aa66;
+.sidtable td[late="1"] {  
+	background-image:url("../images/dot1.png");
+	background-repeat: no-repeat;
 	}
-.sidtable td.selected, .sidtable th.selected {  
- 	background-color:#5599dd; color:#ffffff;
+.sidtable td[late="2"] {  
+	background-image:url("../images/dot2.png");
+	background-repeat: no-repeat;
 	}
-.sidtable td img { 
-    padding:0 5px;
-    width:10px;
-    height:10px;
+.sidtable td[late="3"] {  
+	background-image:url("../images/dot3.png");
+	background-repeat: no-repeat;
 	}
-
-button.selery { 
-	width:16px; height:16px; border-style:none;	
-	background-repeat:no-repeat;	
-	}
-button.selery img { 
-    float:left;
-	width:12px; height:12px;
-	background-repeat:no-repeat;	
-    padding:1px;border:0;
-	}
-button.selery[value="1"] img { 
-	background-image:url("../images/redcross.png");
-	}
-button.selery[value="2"] img { 
-	background-image:url("../images/redcross.png");
-	}
-button.selery[value="3"] img { 
-	background-image:url("../images/redcross.png");
-	}
-button.selery[value="4"] img { 
-	background-image:url("../images/redcross.png");
+.sidtable td[late="4"] {  
+	background-image:url("../images/dot4.png");
+	background-repeat: no-repeat;
 	}

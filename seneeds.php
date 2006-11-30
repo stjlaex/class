@@ -60,7 +60,19 @@ elseif($sid!=''){
 	<form id="seneedschoice" name="seneedschoice" method="post" 
 		action="seneeds.php" target="viewseneeds">
 	  <fieldset class="seneeds">
-		<legend><?php print_string('');?></legend>
+		<legend><?php print_string('filterlistbyneeds',$book);?></legend>
+<?php
+	$enum=getEnumArray('sentype');
+	print '<select id="Type"
+			name="sentype">';
+	print '<option value="">'.get_string('all').'</option>';
+	while(list($inval,$description)=each($enum)){	
+		print '<option ';
+		if($selsentype==$inval){print 'selected="selected" ';}
+		print ' value="'.$inval.'">'.get_string($description,'infobook').'</option>';
+		}
+    print '</select>';	
+?>
 	  </fieldset>
 	</form>
   </div>
