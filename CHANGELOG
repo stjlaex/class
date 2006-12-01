@@ -26,6 +26,9 @@ Added to the css and html_functions tp provide a new "selery" class
 which replaces the ugly select elements on the sideoptions. Requires
 two lines of javascript to work and part of the userinterface code.
 
+Increased the lenght of the email field in the guardian table.
+
+Added js for font resizing using a third sidebutton in the logbook.
 
 Version ClaSS-0.8.1 release (2006/11/09)
 ---------------------------------------------------- 
