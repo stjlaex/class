@@ -482,6 +482,11 @@ function fetchContact($gidsid=array('guardian_id'=>'-1')){
 								  'field_db' => 'middlenames', 
 								  'type_db' => 'varchar(30)', 
 								  'value' => ''.$guardian['middlenames']);
+	$Contact['EmailAddress']=array('label' => 'emailaddress', 
+								  'table_db' => 'guardian', 
+								  'field_db' => 'email', 
+								  'type_db' => 'varchar(240)', 
+								  'value' => ''.$guardian['email']);
 
 	/*******ContactsAddresses****/
 	$Addresses=array();

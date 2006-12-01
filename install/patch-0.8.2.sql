@@ -17,3 +17,5 @@ CREATE TABLE attendance (
 	  	 teacher_id		varchar(14) not null default '',	
 		 primary key 	(event_id, student_id)
 ) type=myisam;
+ALTER TABLE guardian
+	CHANGE email email varchar(240) not null default '';

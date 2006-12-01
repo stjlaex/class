@@ -67,8 +67,6 @@ else{
 	else{
 ?>
 	<div class="content">
-	  <fieldset class="center">
-	  </fieldset>
 	</div>
 <?php
 		}

@@ -107,7 +107,7 @@ three_buttonmenu();
 					$des=get_string($des,'register');
 					$cell='title="" ><span title="'.$attcode .': '. $des
 							.'<br />'.$attcomm.'" >';
-					$cell.=$attcode.'</span>';
+					$cell.=' &nbsp '.$attcode.'</span>';
 					}
 				else{
 					$cell='><img src="images/'.$attodds[$odds].'.png" />';

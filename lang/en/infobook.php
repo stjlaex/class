@@ -113,5 +113,7 @@ $string['otherdifficulty/disability']='Other difficulty/disability';
 $string['english']='English';
 $string['believedtobeenglish']='Believed to be English';
 $string['senprofile']='SEN statement';
+$string['emailaddress']='Email address';
+$string['']='';
 $string['']='';
 ?>

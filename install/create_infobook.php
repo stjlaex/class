@@ -157,7 +157,7 @@ CREATE TABLE guardian (
 	translator	enum('N','Y') not null,
 	language	char(3) not null default '',
 	nationality	char(4) not null default '',
-	email		varchar(50) not null default '',
+	email		varchar(240) not null default '',
 	profession	varchar(10) not null default '',
 	index index_name (surname(5),forename(5)),
 	index index_forename (forename(5)), 	

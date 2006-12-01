@@ -20,6 +20,7 @@ $string['formgroup']='Form group';
 $string['general']='General';
 $string['helpandsupport']='Help and support';
 $string['help']='Help';
+$string['fontsize']='Font size';
 $string['book']='Book';
 $string['siteisdown']='<p>Sorry, the site is temporarily unavailable.</p>
 <p>This is due to a scheduled upgrade.</p>
