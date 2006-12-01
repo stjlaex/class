@@ -68,7 +68,6 @@ else{
 ?>
 	<div class="content">
 	  <fieldset class="center">
-		<h2>The Register is under development...</h2>
 	  </fieldset>
 	</div>
 <?php

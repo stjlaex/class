@@ -26,7 +26,7 @@ div#bookbox{
 	}
 .sidtable td[status="a"] { 
     background-color:yellow;
-    font-weight:900;
+    font-weight:600;
     font-size:large;
     color:#000000;
 	}

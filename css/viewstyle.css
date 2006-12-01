@@ -377,6 +377,7 @@ table.sidtable {
 	}
 .sidtable th {
 	font-size:x-small;
+	cursor:pointer;
 	}
 .sidtable td.edit, .sidtable th.edit {  
     border-left:20px solid #444444;
