@@ -8,6 +8,7 @@ if(isset($_POST['newfid'])){$fid=$_POST['newfid'];}else{$fid='';}
 if(isset($_POST['fid'])){$fid=$_POST['fid'];}
 if(isset($_POST['newyid'])){$yid=$_POST['newyid'];}
 if(isset($_POST['yid'])){$yid=$_POST['yid'];}
+
 if(isset($_POST['selbid'])){$selbid=$_POST['selbid'];}else{$selbid='%';}
 if(isset($_POST['rids'])){$rids=$_POST['rids'];}else{$rids=array();}
 if(isset($_POST['wrapper_rid'])){$wrapper_rid=$_POST['wrapper_rid'];}

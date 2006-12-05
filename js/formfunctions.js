@@ -316,6 +316,13 @@ function loadRequired(){
 				imageRequired.className='required';
 				elementObject.parentNode.insertBefore(imageRequired, elementObject);
 				}
+			else if(elementObject.className=='requiredor'){
+				elementObject.setAttribute('onChange','validateRequiredOr(this)');
+				imageRequired=document.createElement('img');
+				imageRequired.className='required';
+				elementObject.parentNode.insertBefore(imageRequired, elementObject);
+				}
+
 			if(elementObject.getAttribute('tabindex')=='1' & firstFocus=='-1'){
 				firstFocus=c;
 				}
@@ -370,11 +377,17 @@ function getPattern(patternName){
 //-------------------------------------------------------
 // does validation for all input fields when a form is submitted
 
-function validateForm(formObject){
-	if(!formObject){var formObject=document.formtoprocess;}
+function validateForm(formObj){
+	if(!formObj){var formObj=document.formtoprocess;}
  	var errorMessage="";
- 	for(var i=0; i<formObject.elements.length; i++){
-		message=validateResult(formObject.elements[i])
+ 	for(var i=0; i<formObj.elements.length; i++){
+		var fieldClass=formObj.elements[i].className;
+		if(fieldClass=="requiredor"){
+			message=validateRequiredOr(formObj.elements[i]);
+			}
+		else{
+			message=validateResult(formObj.elements[i]);
+			}
 		if(message){errorMessage=errorMessage+" \n"+message;};
  		}
  	if(errorMessage!=""){
@@ -390,38 +403,73 @@ function validateForm(formObject){
 //-------------------------------------------------------
 // does validation for one input field triggered by an event
 
-function validateRequired(formField){
-	var fieldImage=formField.previousSibling;
- 	if(validateResult(formField)){
-		fieldImage.className='caution';
-		formField.focus();
+function validateRequired(fieldObj){
+	var fieldImage=fieldObj.previousSibling;
+ 	if(validateResult(fieldObj)){
+		fieldImage.className="caution";
+		fieldObj.focus();
  		}
  	else{
-		fieldImage.className='completed';
+		fieldImage.className="completed";
 		}
 	}
 
+//-------------------------------------------------------
+// does validation triggered by an event, checks either current 
+// field or field identified by eitheror attribute for values
+
+function validateRequiredOr(eifieldObj){
+	var result="";
+	var eiLen=eifieldObj.value.length;
+	var eifieldImage=eifieldObj.previousSibling;
+	var eifieldLabel=getLabel(eifieldObj.id);
+
+	var orId=eifieldObj.getAttribute("eitheror");
+	var orfieldObj=document.getElementById(orId);
+	var orfieldLabel=getLabel(orfieldObj.id);
+	var orLen=orfieldObj.value.length;
+	var orfieldImage=orfieldObj.previousSibling;
+
+	if(eiLen==0 && orLen==0){
+		eifieldImage.className="caution";
+		orfieldImage.className="caution";
+		result="Please complete "+eifieldLabel+" or "+orfieldLabel+".";  
+		}
+	else if(eiLen==0 && orLen!=0){
+		eifieldImage.className="completed";
+		eifieldObj.value="";
+		}
+	else if(eiLen!=0){
+	 	if(validateResult(eifieldObj)){
+			eifieldImage.className="caution";
+			eifieldObj.focus();
+ 			}
+ 		else{
+			eifieldImage.className="completed";
+			orfieldImage.className="completed";
+			orfieldObj.value="";
+			}
+		}
+	if(result==""){return false;}else{return result;}
+	}
 
 //---------------------------------------------------------
 //
 
-function validateResult(formField){
+function validateResult(fieldObj){
 	var result="";
-	var fieldValue=formField.value;
-	var fieldClass=formField.className;
-	var fieldLabel=getLabel(formField.id);
-	var patternName=formField.getAttribute("pattern");
-	var fieldTitle=formField.getAttribute("title");
-	var maxLength=formField.getAttribute("maxlength");
+	var fieldValue=fieldObj.value;
+	var fieldClass=fieldObj.className;
+	var fieldLabel=getLabel(fieldObj.id);
+	var patternName=fieldObj.getAttribute("pattern");
+	var fieldTitle=fieldObj.getAttribute("title");
+	var maxLength=fieldObj.getAttribute("maxlength");
 	if(fieldTitle=="spellcheck" && currObj.spellingResultsDiv!=null){
 //		setCurrentObject(currObj); 
 //		resumeEditing();
 		result="You need to 'Resume Editing' before you SUBMIT!";
 		}
-	if(fieldClass=="required" && fieldValue=="Select"){
-		result="Please select a value for "+fieldLabel+".";
-		}
-	else if(fieldClass=="required" && fieldValue.length==0){
+	if(fieldClass=="required" && fieldValue.length==0){
 		result="Please complete "+fieldLabel+".";  
 		}
    	else if(patternName!=null && patternName!="email"){
@@ -443,7 +491,7 @@ function validateResult(formField){
        		result="Too many characters in "+fieldLabel+"! \n";
 			}
   		}
-	if(result==''){return false;}else{return result;}
+	if(result==""){return false;}else{return result;}
 	}
 
 

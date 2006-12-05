@@ -67,7 +67,6 @@ three_buttonmenu();
 		  <tr id="sid-<?php print $sid;?>">
 			<td><?php print $rown++;?></td>
 			<td>
-			  &nbsp
 			  <a onclick="parent.viewBook('infobook');" target="viewinfobook" 
 				href='infobook.php?current=student_scores.php&sid=<?php print $sid;?>'>T</a> 
 			<span <?php print ' title="'.$comment['body'].'"';?>>
@@ -79,7 +78,9 @@ three_buttonmenu();
 				href='infobook.php?current=incidents_list.php&sid=<?php print $sid;?>'>I</a>
 			</td>
 			<td>
-			  <?php print $Student['DisplayFullName']['value']; ?>
+			<a href="infobook.php?current=student_view.php&sid=<?php print $sid;?>&sids[]=<?php print $sid;?>"
+			  target="viewinfobook" onclick="parent.viewBook('infobook');">
+			<?php print $Student['DisplayFullName']['value']; ?></a>
 			</td>
 <?php
 		reset($events);

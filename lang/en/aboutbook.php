@@ -2,8 +2,8 @@
 /**						lang/en/aboutbook.php
  *
  */
-$string['reportbug']='Report bug';
-$string['requestfeature']='Request feature';
+$string['reportbug']='Report a bug';
+$string['requestfeature']='Request a feature';
 $string['contactsupport']='Contact support';
 $string['supportprocedure']='Support procedure';
 $string['explainfeaturehelps']='Please explain what the feature should

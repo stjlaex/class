@@ -4,12 +4,12 @@
 
 $action='report_reports_list.php';
 
-if(isset($_POST{'sids'})){$sids=(array) $_POST{'sids'};}else{$sids=array();}
-if(isset($_POST{'rids'})){$rids=(array) $_POST{'rids'};}else{$rids=array();}
-if(isset($_POST{'yid'})){$yid=$_POST{'yid'};}else{$yid='';}
-if(isset($_POST{'fid'})){$fid=$_POST{'fid'};}else{$fid='';}
-if(isset($_POST{'selbid'})){$selbid=$_POST{'selbid'};}else{$selbid='%';}
-if(isset($_POST{'coversheet'})){$coversheet=$_POST{'coversheet'};}else{$coversheet='no';}
+if(isset($_POST['sids'])){$sids=(array) $_POST['sids'];}else{$sids=array();}
+if(isset($_POST['rids'])){$rids=(array) $_POST['rids'];}else{$rids=array();}
+if(isset($_POST['yid'])){$yid=$_POST['yid'];}else{$yid='';}
+if(isset($_POST['fid'])){$fid=$_POST['fid'];}else{$fid='';}
+if(isset($_POST['selbid'])){$selbid=$_POST['selbid'];}else{$selbid='%';}
+if(isset($_POST['coversheet'])){$coversheet=$_POST['coversheet'];}else{$coversheet='no';}
 
 include('scripts/sub_action.php');
 

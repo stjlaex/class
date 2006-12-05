@@ -12,7 +12,7 @@ function fetchSubjectReports($sid,$reportdefs){
 		$assbids=array();
 		while(list($assno,$Assessment)=each($Assessments)){
 		   	$eid=$Assessment['id_db'];
-		   	$asseids["$eid"][]=$assno;
+		   	$asseids[$eid][]=$assno;
 		   	}
 
 		/*collect all subject reports for each course report chosen*/
@@ -21,13 +21,13 @@ function fetchSubjectReports($sid,$reportdefs){
 			/*index the assessments by subject and component*/
 			$repbids=array();
 			while(list($index,$eid)=each($reportdef['eids'])){
-			  if(isset($asseids["$eid"])){
-				reset($asseids["$eid"]);
-				while(list($index,$assno)=each($asseids["$eid"])){
+			  if(isset($asseids[$eid])){
+				reset($asseids[$eid]);
+				while(list($index,$assno)=each($asseids[$eid])){
 					$bid=$Assessments[$assno]['Subject']['value'];
 					$pid=$Assessments[$assno]['SubjectComponent']['value'];
 					if($pid==' '){$pid='';}
-					$repbids["$bid"]["$pid"][]=$assno;
+					$repbids[$bid][$pid][]=$assno;
 					}
 			    }
 			  }
@@ -107,7 +107,8 @@ function fetchReportDefinition($rid,$selbid='%'){
 		$report['course_name']='';
 		$d_report=mysql_query("SELECT id,title,stage,course_id FROM report JOIN
 				ridcatid ON ridcatid.categorydef_id=report.id 
-				WHERE ridcatid.report_id='$rid' AND ridcatid.subject_id='wrapper'");
+				WHERE ridcatid.report_id='$rid' AND
+				ridcatid.subject_id='wrapper'");
 		$reptable=array();
 		while($rep=mysql_fetch_array($d_report,MYSQL_ASSOC)){
 			$reptable['rep'][]=array('name' => $rep['title'],'course_id'=>$rep['course_id'],
@@ -132,11 +133,17 @@ function fetchReportDefinition($rid,$selbid='%'){
 				WHERE report_id='$rid' ORDER BY rideid.priority, assessment.label");
 	$reportdef['eids']=array();
 	$asstable=array();
+	$asselements=array();
 	while($ass=mysql_fetch_array($d_assessment,MYSQL_ASSOC)){
-			$reportdef['eids'][]=$ass['id'];
-			$asstable['ass'][]=array('name' => $ass['description'],
-				'label' => $ass['label']);
+		$reportdef['eids'][]=$ass['id'];
+		if(!in_array($ass['element'],$asselements)){
+			/*this is only used by the xslt... 
+				an element can only apear once on the printed report!*/
+			$asselements[]=$ass['element'];
+			$asstable['ass'][$ass['element']]=array('name' => $ass['description'],
+				'label' => $ass['label'], 'element' => $ass['element']);
 			}
+		}
 	$reportdef['asstable']=nullCorrect($asstable);
 
 	if($reportdef['report']['addcategory']=='yes'){

@@ -35,4 +35,6 @@ if(isset($_POST['wrapper_rid'])){$wrapper_rid=$_POST['wrapper_rid'];}else{$wrapp
 ?>
   </div>
   <script>openPrintReport('xmlStudent', '<?php print $transform;?>')</script>
-<?php		include('scripts/redirect.php');?>
+<?php
+		include('scripts/redirect.php');
+?>

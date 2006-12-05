@@ -1,3 +1,17 @@
+Version ClaSS-0.8.3 release (2006/12/30)
+----------------------------------------
+
+Bug-fix to eliminate multiple assessments cells being printed. Now
+uses the assessment element to check they only exist once.
+
+Added requiredor class to the javascript validation for eitheror
+fields. Imlpemented in the reportbook to start with.
+
+Changed MarkBook table colours to match the other books.
+
+Cosmetic changes to the marktable including addition of a shortcut
+link for student_view.
+
 Version ClaSS-0.8.2 release (2006/11/30)
 ----------------------------------------
 
@@ -26,7 +40,7 @@ Added to the css and html_functions tp provide a new "selery" class
 which replaces the ugly select elements on the sideoptions. Requires
 two lines of javascript to work and part of the userinterface code.
 
-Increased the lenght of the email field in the guardian table.
+Increased the length of the email field in the guardian table.
 
 Added js for font resizing using a third sidebutton in the logbook.
 
@@ -55,5 +69,5 @@ Now check for admin role in report_reports and for users with more
 than one pastoral responsibility.
 
 Fixed bug in list_student_reports which caused no reports to be
-displayed, and added selections ofr individual course reports as well
+displayed, and added selections for individual course reports as well
 as report wrappers.

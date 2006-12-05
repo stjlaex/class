@@ -191,6 +191,12 @@ div.content fieldset.right, div.topform fieldset.right {
 	clear:right;
 	margin:0% 2% 2% 0;
 	}
+div.content fieldset.center, div.topform fieldset.center {
+	float:right;
+	width:90%;
+	clear:right;
+	margin:0% 4% 2% 4%;
+	}
 div.content div.left, div.topform div.left {
 	float:left;
 	width:47%;
@@ -207,7 +213,7 @@ div.content .center, div.topform .center{
     margin:0 4% 2% 4%;
 	width:92%;
 	clear:both;
-	overflow:auto; 
+	overflow:auto;
 	}
 
 /*used (but rarely) to describe page content in the space to the left of the top buttonmenu*/
@@ -407,7 +413,12 @@ table.sidtable {
 .sidtable td[title] {
 	background-repeat: no-repeat;
 	}
-
+.sidtable td:first-child { 
+    width:2em;
+	}
+.sidtable td:first-child + td { 
+    width:4em;
+	}
 /***********tinytabs*******/
 div.tinytabs {
     font-size:90%;
@@ -428,7 +439,7 @@ div.tinytab-display {
 	font-weight:900;
     color:#ffffff;
 	background-color:#888888;
-	border:1px solid ivory;
+	border:1px solid #cccccc;
 	-moz-border-radius:0 18% 0 0;
 	cursor:pointer;
     }

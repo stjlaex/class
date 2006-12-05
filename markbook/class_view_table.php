@@ -15,7 +15,7 @@ while($student=mysql_fetch_array($d_students, MYSQL_ASSOC)){
 		$Attendance=fetchcurrentAttendance($sid);
 
 		if($student['preferredforename']!=''){
-			$displaypfn=' ('.$student['preferredforename'].') ';
+			$displaypfn='&nbsp;('.$student['preferredforename'].')';
 			}
 		else{$displaypfn='';}
 		$studentrow=array('row'=>$row, 'sen'=>$sen,
