@@ -76,12 +76,11 @@ $schooldb=$_POST['school'];
 		print 'Successfully dropped the tables from the old database.<br />';
 		if(mysql_query("ALTER DATABASE $schooldb DEFAULT COLLATE
 							utf8_general_ci CHARACTER SET utf8;")){}
-		else{print 'WARNING: Did not have the priviliges to alter the
-						character set to utf8!';}
+		else{print 'WARNING: Did not have the priviliges to alter the character set to utf8!';}
 		}
 	elseif(mysql_query("CREATE DATABASE $schooldb DEFAULT CHARACTER SET
 				utf8 COLLATE utf8_general_ci;")){
-			print 'Successfully created new database: ';	
+			print 'Successfully created new database: ';
 			print $schooldb.'<br />';
 			$selected=mysql_select_db($schooldb) 
 					or die('Could not select db '.$schooldb);

@@ -28,7 +28,7 @@ input:focus, textarea:focus, select:focus, option:focus {
 	}
 input[readonly="readonly"]{
 	border-color:#cccccc;
-    background-color:#dddddd; 
+    background-color:#cccccc; 
 	}
 input[type="checkbox"] {
 	width:1em;
@@ -44,7 +44,7 @@ table {
     width:100%;
 	margin:0; border:0; padding:0;
 	empty-cells:hide; border-collapse:collapse;
-	background-color:#cccccc; color:#000000;
+	background-color:#ddd; color:#000000;
 	}
 th 	{
 	text-align:left; font-weight:500; border-style:none; border-width:0px;
@@ -68,7 +68,7 @@ label {
 	font-size:x-small; font-weight:400;
 	margin-left:5px;
 	margin-right:5px;
-    color:#666666;
+    color:#666;
 	}
 label[for="Day"], label[for="Month"], label[for="Year"] {
 	clear:none; 
@@ -115,7 +115,7 @@ form img.calendar {
 fieldset {
     border-style:none;
     border-top:2px solid;
-	background-color:#cccccc;
+	background-color:#ddd;
 	}
 div {
 	overflow:hidden; 
@@ -160,10 +160,10 @@ div.content div {
 	}
 div.content fieldset {
     padding:1%; margin:0;
-	background-color:#cccccc;
+	background-color:#ddd;
 	}
 div.content fieldset div {
-	background-color:#cccccc;
+	background-color:#ddd;
 	}
 /*a fixed height div, always at the top of the page before the content*/
 div.topform {
@@ -173,7 +173,7 @@ div.topform {
 	border-top:2px solid;
 	padding:1%;
 	margin:0 4% 1% 4%;
-	background-color:#cccccc;
+	background-color:#ddd;
 	}
 div.topform+div.content {
 	position:relative; height:56%;
@@ -414,7 +414,7 @@ table.sidtable {
 	background-repeat: no-repeat;
 	}
 .sidtable td:first-child { 
-    width:2em;
+    width:3em;
 	}
 .sidtable td:first-child + td { 
     width:4em;

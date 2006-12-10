@@ -425,11 +425,18 @@ function validateRequiredOr(eifieldObj){
 	var eifieldLabel=getLabel(eifieldObj.id);
 
 	var orId=eifieldObj.getAttribute("eitheror");
-	var orfieldObj=document.getElementById(orId);
-	var orfieldLabel=getLabel(orfieldObj.id);
-	var orLen=orfieldObj.value.length;
-	var orfieldImage=orfieldObj.previousSibling;
-
+	if(document.getElementById(orId)){
+		var orfieldObj=document.getElementById(orId);
+		var orfieldLabel=getLabel(orfieldObj.id);
+		var orLen=orfieldObj.value.length;
+		var orfieldImage=orfieldObj.previousSibling;
+		}
+	else{
+		var orfieldObj="";
+		var orfieldLabel="";
+		var orLen=0;
+		var orfieldImage="";
+		}
 	if(eiLen==0 && orLen==0){
 		eifieldImage.className="caution";
 		orfieldImage.className="caution";

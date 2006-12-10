@@ -76,8 +76,7 @@ if($_SESSION['worklevel']>-1){
 ?>
 			  <td colspan="5">&nbsp;&nbsp;<a
 				  href="admin.php?current=class_edit.php&newcid=<?php print $cids[$i];?>" 
-				  target="viewadmin" 
-				  onclick="parent.viewBook(\'admin\');">
+				  target="viewadmin" onclick="parent.viewBook('admin');">
 				  <?php print $cids[$i].$teachers[$i];?></a>
 			  </td>
 			</tr>
@@ -151,7 +150,7 @@ if($_SESSION['worklevel']>-1){
 		  <td>
 			<a href="infobook.php?current=student_scores.php&sid=<?php print $viewtable[$c2]['sid'];?>&sids[]=<?php print $viewtable[$c2]['sid'];?>"
 			  target="viewinfobook" onclick="parent.viewBook('infobook');">T</a>
-			<a href="infobook.php?current=comments_list.php&bid=<?php print $bid[0];?>&sid=<?php print $viewtable[$c2]['sid'];?>&sids[]=<?php print $viewtable[$c2]['sid'];?>
+			<a href="infobook.php?current=comments_list.php&bid=<?php print $bid[0];?>&sid=<?php print $viewtable[$c2]['sid'];?>&sids[]=<?php print $viewtable[$c2]['sid'];?>"
 			  target="viewinfobook" onclick="parent.viewBook('infobook');" 
 			  class="<?php print $viewtable[$c2]['commentclass'];?>"
 			  ><span title="<?php print $viewtable[$c2]['commentbody'];?>">C</span></a>
@@ -169,21 +168,29 @@ if($_SESSION['worklevel']>-1){
 		  </td>
 		  <td><?php print $viewtable[$c2]['form_id'];?></td>
 		  <td status="<?php print $viewtable[$c2]['attstatus'];?>" >
-			<span title="<?php print $viewtable[$c2]['attcode'].': '. 
-						   $viewtable[$c2]['attcomment'];?>">&nbsp</span>
-		  </td>
+<?php 
+		  if($viewtable[$c2]['attcomment']!=" "){
+?>			
+				<span title="<?php print $viewtable[$c2]['attcode'].':'. 
+						   $viewtable[$c2]['attcomment'];?>"></span>
+<?php 
+				}
+?>
+		  &nbsp;</td>
 <?php
 		for($c=0;$c<$c_marks;$c++){
 //			if ($umns[$c]['display']=='yes'){
 				$col_mid=$umns[$c]['id'];
-				print '<td class="'.$viewtable[$c2]['score'.$col_mid]['scoreclass']. '" '. 
-						' id="'.$viewtable[$c2]['sid'].'-'. $col_mid. '" ';
 				if($viewtable[$c2]['score'.$col_mid]['comment']!=''){
-					print 'title=""><span title="'.$viewtable[$c2]['score'.$col_mid]['comment'].'">';
+					print '<td class="'.$viewtable[$c2]['score'.$col_mid]['scoreclass']. '" '. 
+						' id="'.$viewtable[$c2]['sid'].'-'. $col_mid. '" title="" >';
+					print '<span title="'.$viewtable[$c2]['score'.$col_mid]['comment'].'">';
 					print $viewtable[$c2][$col_mid].'</span></td>';
 					}
 				else{
-					print '>'.$viewtable[$c2][$col_mid].'</td>';
+					print '<td class="'.$viewtable[$c2]['score'.$col_mid]['scoreclass']. '" '. 
+						' id="'.$viewtable[$c2]['sid'].'-'. $col_mid. '" >';
+					print $viewtable[$c2][$col_mid].'</td>';
 					}
 //				}
 			}

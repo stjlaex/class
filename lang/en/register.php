@@ -5,6 +5,7 @@
 $string['currentsession']='Current session';
 $string['registrationsession']='Session';
 $string['registrationgroups']='Groups';
+$string['takeregister']='Register group';
 $string['attendance']='Attendance';
 $string['noreasonyetprovided']='No reason yet provided';
 $string['lateafterregisterclosed']='Late after register closed';
@@ -31,6 +32,10 @@ $string['enforcedclosure']='Enforced closure';
 $string['pupilnotonrole']='Pupil not on role';
 $string['schoolclosedtopupils']='School closed to pupils';
 $string['unauthorisedabsence']='Unauthorised absence';
+$string['absencelists']='Absences';
+$string['list']='List';
+$string['completions']='Completions';
+$string['']='';
 $string['']='';
 $string['']='';
 ?>

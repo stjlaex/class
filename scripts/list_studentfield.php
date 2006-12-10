@@ -11,7 +11,8 @@
 ?>
 	<select id="Displayfield" name="displayfield<?php print $istudentfield++;?>"
 		<?php if($onchange=='yes'){print ' onChange="processContent(this);" ';}?>
-		<?php if($required=='yes'){ print ' class="required" ';} ?> >
+		<?php if($required=='yes'){ print ' class="required" ';} ?> 
+		style="width:12em;" >
 <?php
 	$displayfield_array=getEnumArray('studentfield');
 	while(list($val,$description)=each($displayfield_array)){

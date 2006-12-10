@@ -38,7 +38,8 @@ table#marktable {
 	width:2em;
 	}
 #marktable td {
-	border-top:1px solid #cccccc; border-bottom:1px solid #cccccc;
+	border-top:1px solid #cccccc; 
+    border-bottom:1px solid #cccccc;
 	text-align:left;
 	}
 #marktable td.grade{
@@ -46,6 +47,9 @@ table#marktable {
 	border-left:1px solid #cccccc; 
 	border-right:1px solid #cccccc;
 	display:none;
+	}
+#marktable td.grade span { 
+    padding:49%;
 	}
 #marktable td[title] {
 	background-image: url("../images/purplecorner.png");
@@ -115,4 +119,3 @@ td[status="a"] {
 td[status="p"] { 
     background-color:#44aa66;
 	}
-

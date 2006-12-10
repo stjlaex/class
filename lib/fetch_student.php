@@ -413,7 +413,6 @@ function fetchStudent($sid='-1'){
 			if($bid!=' ' and $bid!='G' and $bid!='General' and $bid!=''){
 				$d_subject=mysql_query("SELECT name FROM subject WHERE id='$bid'");
 				$subjectname=mysql_result($d_subject,0);
-trigger_error('Subject'.$bid,E_USER_WARNING);
 				}
 			else{$subjectname=$bid;}
 			$Entry['Subject']=array('label' => 'subject', 

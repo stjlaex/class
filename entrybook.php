@@ -5,12 +5,10 @@
 
 $host='entrybook.php';
 $book='entrybook';
-$current='';
-$choice='';
-$action='';
-$cancel='';
 
 include('scripts/head_options.php');
+
+include('scripts/book_variables.php');
 
 if(!isset($_SESSION['enrolstatus'])){$_SESSION['enrolstatus']='';}
 if(!isset($_SESSION['entryyid'])){$_SESSION['entryyid']='';}
@@ -30,19 +28,11 @@ if(isset($_POST['newyid'])){
 $enrolstatus=$_SESSION['enrolstatus'];
 $yid=$_SESSION['entryyid'];
 
-if(isset($_POST['current'])){$current=$_POST['current'];}
-if(isset($_POST['choice'])){$choice=$_POST['choice'];}
-if(isset($_POST['cancel'])){$cancel=$_POST['cancel'];}
-if(isset($_GET['choice'])){$choice=$_GET['choice'];}
-if(isset($_GET['cancel'])){$cancel=$_GET['cancel'];}
-if(isset($_GET['current'])){$current=$_GET['current'];}
 ?>
-
   <div id="bookbox" class="entrybookcolor">
 <?php
 	if($current!=''){
-		$view = 'entrybook/'.$current;
-		include($view);
+		include($book.'/'.$current);
 		}
 ?>
   </div>

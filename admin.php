@@ -5,31 +5,17 @@
 
 $host='admin.php';
 $book='admin';
-$current='';
-$choice='';
-$action='';
-$cancel='';
 
-include ('scripts/head_options.php');
+include('scripts/head_options.php');
 
-if(isset($_SESSION['admincurrent'])){$current=$_SESSION['admincurrent'];}
-if(isset($_SESSION['adminchoice'])){$choice=$_SESSION['adminchoice'];}
-if(isset($_GET['current'])){$current=$_GET['current'];}
-if(isset($_GET['choice'])){$choice=$_GET['choice'];}
-if(isset($_GET['cancel'])){$cancel=$_GET['cancel'];}
-if(isset($_POST['current'])){$current=$_POST['current'];}
-if(isset($_POST['choice'])){$choice=$_POST['choice'];}
-if(isset($_POST['cancel'])){$cancel=$_POST['cancel'];}
-$_SESSION['admincurrent']=$current;
-$_SESSION['adminchoice']=$choice;
+include('scripts/book_variables.php');
+
 $rtid=$tid;
-//$tab=1;
 ?>
   <div id="bookbox" class="admincolor">
 <?php	
 	if($current!=''){
-		$view = 'admin/'.$current;
-		include($view);
+		include($book.'/'.$current);
 		}
 ?>
   </div>

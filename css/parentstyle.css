@@ -255,9 +255,9 @@ div#logbookstripe {
 	}
 div#loginworking {
 	position:absolute; left:43%; top:0%; width:50%;
-    padding:10px 0 0 0;
+    padding:8px 0 0 0;
     z-index:100;
-    border-left:2px solid #ffffff;
+    border-left:3px solid #ffffff;
 	background-color:#eeeeee;
     margin:0;
 	}
@@ -271,7 +271,7 @@ div#loginlang {
     z-index:100;
 	}
 #loginlabel {
-    position:absolute; top:1px; left:8.1%;
+    position:absolute; top:1px; left:8.2%;
     margin:0 5% 0 0;
     padding:0.5% 15px 10% 10px;
 	color:#000000;
@@ -283,7 +283,7 @@ div#loginlang {
 	background-color:#666666; color:#ee9900;
 	margin:5%;
     width:100%;
-    border-left:2px solid #ffffff;
+    border-left:3px solid #ffffff;
 	}
 div#sidebuttons {
 	position:absolute; left:1%; width:41%;

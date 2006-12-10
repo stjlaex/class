@@ -12,6 +12,9 @@ Changed MarkBook table colours to match the other books.
 Cosmetic changes to the marktable including addition of a shortcut
 link for student_view.
 
+Moved out the page variables from each of the book host pages to
+scripts/book_variables.php.
+
 Version ClaSS-0.8.2 release (2006/11/30)
 ----------------------------------------
 

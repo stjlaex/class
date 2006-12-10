@@ -21,8 +21,8 @@ three_buttonmenu();
 
   <div class="content">
 	<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>"> 
-	  <table class="listmenu" id="editscores">
-		<tr><th colspan="3"></th>
+	  <table class="listmenu sidtable" id="editscores">
+		<tr><th colspan="4"></th>
 <?php
 	if($scoretype=='grade'){
 		$d_grading=mysql_query("SELECT grades FROM grading WHERE name='$grading_name'");
@@ -64,10 +64,17 @@ three_buttonmenu();
 	for($c=0;$c<sizeof($viewtable);$c++){
 		$sid=$viewtable[$c]['sid'];
 		$tab=$c+1;
-		print '<tr>';
-		print '<td>'.$viewtable[$c]['surname'].'</td>';
-		print '<td>'.$viewtable[$c]['forename'].$viewtable[$c]['preferredforename'].'</td>';
-		print '<td>'.$viewtable[$c]['form_id'].'</td>';
+?>
+		<tr id="sid-<?php print $sid;?>">
+		  <td><?php print $tab;?></td>
+		  <td>&nbsp</td>
+		  <td>
+			<a href="infobook.php?current=student_view.php&sid=<?php print $viewtable[$c]['sid'];?>&sids[]=<?php print $viewtable[$c]['sid'];?>"
+			  target="viewinfobook" onclick="parent.viewBook('infobook');">
+			<?php print $viewtable[$c]['surname'];?>,&nbsp;<?php print $viewtable[$c]['forename'].$viewtable[$c]['preferredforename'];?></a>
+		  </td>
+		  <td><?php print $viewtable[$c]['form_id'];?></td>
+<?php
 		if($scoretype=='grade'){
 ?>		
 		<td>

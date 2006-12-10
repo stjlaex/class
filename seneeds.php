@@ -5,12 +5,10 @@
 
 $host='seneeds.php';
 $book='seneeds';
-$current='';
-$choice='';
-$action='';
-$cancel='';
 
 include('scripts/head_options.php');
+
+include('scripts/book_variables.php');
 
 if(!isset($_SESSION['sensid'])){$_SESSION['sensid']='';}
 
@@ -26,13 +24,6 @@ if(isset($_GET['sensid'])){
 	}
 $sid=$_SESSION['sensid'];
 
-if(isset($_POST['current'])){$current=$_POST['current'];}
-if(isset($_POST['choice'])){$choice=$_POST['choice'];}
-if(isset($_POST['cancel'])){$cancel=$_POST['cancel'];}
-if(isset($_GET['choice'])){$choice=$_GET['choice'];}
-if(isset($_GET['cancel'])){$cancel=$_GET['cancel'];}
-if(isset($_GET['current'])){$current=$_GET['current'];}
-
 if($sid=='' or $current==''){
 	$d_info=mysql_query("SELECT student_id FROM info WHERE sen='Y' AND enrolstatus='C';");
 	$sids=array();
@@ -46,12 +37,10 @@ elseif($sid!=''){
 	$SEN=$Student['SEN'];
 	}
 ?>
-
   <div id="bookbox" class="seneedscolor">
 <?php
 	if($current!=''){
-		$view='seneeds/'.$current;
-		include($view);
+		include($book.'/'.$current);
 		}
 ?>
   </div>

@@ -29,7 +29,7 @@ if(isset($_GET['sids'])){
 		}
 	$current='student_list.php';
 	}
-	
+
 if(isset($_POST['sids'])){
 	/*If the students selection has changed then*/
 	if($_SESSION['infosids']!=$_POST['sids']){
@@ -75,8 +75,7 @@ if($current!='student_list.php'){
   <div id="bookbox" class="infocolor">
 <?php
 	if($current!=''){
-		$view = 'infobook/'.$current;
-		include($view);
+		include($book.'/'.$current);
 		}
 ?>
   </div>

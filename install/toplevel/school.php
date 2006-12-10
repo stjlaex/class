@@ -26,6 +26,8 @@ $CFG->support='laex.org';
 $CFG->contact='stj@laex.org';
 /*default site language*/
 $CFG->sitelang='en';
+/*the choice of 'double' (AM/PM) or 'single' (AM) attendance registration*/
+$CFG->registration='double';
 /*****
  *All of the following are connection details
  *for optional services residing outside of ClaSS

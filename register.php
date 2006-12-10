@@ -5,31 +5,20 @@
 
 $host='register.php';
 $book='register';
-$current='register_list.php';
-$choice='register_list.php';
-$action='';
-$cancel='';
 
 include('scripts/head_options.php');
 
-if(!isset($_SESSION['registergroup'])){$_SESSION['registergroup']='';}
+include('scripts/book_variables.php');
 
-if(isset($_SESSION['registercurrent'])){$current=$_SESSION['registercurrent'];}
-if(isset($_SESSION['registerchoice'])){$choice=$_SESSION['registerchoice'];}
-if(isset($_POST['current'])){$current=$_POST['current'];}
-if(isset($_POST['choice'])){$choice=$_POST['choice'];}
-if(isset($_POST['cancel'])){$cancel=$_POST['cancel'];}
-if(isset($_GET['choice'])){$choice=$_GET['choice'];}
-if(isset($_GET['cancel'])){$cancel=$_GET['cancel'];}
-if(isset($_GET['current'])){$current=$_GET['current'];}
+if(!isset($_SESSION['registergroup'])){$_SESSION['registergroup']='';}
 
 $community=$_SESSION['registergroup'];
 if(isset($_POST['newfid'])){
 	$community=array('id'=>'','type'=>'form','name'=>$_POST['newfid']);
 	}
-//elseif(isset($_POST['newyid'])){
-//	$community=array('id'=>'','type'=>'year','name'=>$_POST['newyid']);
-//	}
+elseif(isset($_POST['newyid'])){
+	$community=array('id'=>'','type'=>'year','name'=>$_POST['newyid']);
+	}
 if(is_array($community)){
 	if($community['type']=='form'){$fid=$community['name'];}
 	elseif($community['type']=='year'){$yid=$community['name'];}
@@ -47,28 +36,17 @@ else{
 //		$yid=$ryids[0];
 //		$community=array('id'=>'','type'=>'year','name'=>$yid);
 //		}
-	else{
-		$current='';
-		$choice='';
-		$community='';
-		}
 	}
 ?>
   <div id="bookbox" class="registercolor">
 <?php
+	$currentevent=currentEvent();
 	if($current!=''){
-		$currentevent=currentEvent();
-		$_SESSION['registercurrent']=$current;
-		$_SESSION['registerchoice']=$choice;
+		include($book.'/'.$current);
 		$_SESSION['registergroup']=$community;
-		$view='register/'.$current;
-		include($view);
 		}
 	else{
-?>
-	<div class="content">
-	</div>
-<?php
+		//include($book.'/'.$current);
 		}
 ?>
   </div>
@@ -77,25 +55,38 @@ else{
 
 	<form id="registerchoice" name="registerchoice" method="post" 
 							action="register.php" target="viewregister">
-
-	<fieldset class="register">
-	  <legend><?php print_string('currentsession',$book);?></legend>
-	  <label>
-		  <?php print get_string('registrationsession',$book).': '.$currentevent['period'];?><br />
-		  <?php print $currentevent['date'];?><br />
+	  <fieldset class="register">
+		<legend><?php print_string('takeregister',$book);?></legend>
+		<label>
+		  <?php print get_string('currentsession',$book).':';?><br />
+		  <?php print $currentevent['period'].' '.$currentevent['date'];?><br />
 			<?php print date('H:i:s');?>
 		</label>
-
-	</fieldset>
-
-	  <fieldset class="register">
-		<legend><?php print_string('registrationgroups',$book);?></legend>
+		<br />
+		<br />
 <?php
 		$onsidechange='yes'; include('scripts/list_form.php'); 		
-//		$onsidechange='yes'; include('scripts/list_year.php');
 ?>
 	  </fieldset>
+	  <input type="hidden" name="current" value="register_list.php" />
 	</form>
+
+	<br />
+	<br />
+
+	<form id="registerchoicesel" name="registerchoicesel" method="post" 
+							action="register.php" target="viewregister">
+	  <fieldset class="register selery">
+		<legend><?php print_string('list',$book);?></legend>
+<?php
+		$choices=array('absence_list.php' => 'absencelists'
+					   ,'completions.php' => 'completions'
+					   );
+		selery_stick($choices,$choice,$book);
+?>
+	  </fieldset>
+  </form>
+
   </div>
 <?php
 	  include('scripts/end_options.php'); 

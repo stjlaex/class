@@ -20,8 +20,8 @@ two_buttonmenu();
 
 <div id="viewcontent" class="content">
 <form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
-<table class="listmenu">
-	<th><?php print_string('checkall'); ?><input type="checkbox" name="checkall" 
+<table class="listmenu sidtable">
+	<th colspan="2"><?php print_string('checkall'); ?><input type="checkbox" name="checkall" 
 				value="yes" onChange="checkAll(this);" /></th>
 	<th><?php print_string('student'); ?></th>
 <?php
@@ -31,21 +31,22 @@ two_buttonmenu();
 <?php
 		}
 
+	$rown=1;
 	while(list($index,$sid)=each($sids)){
 		$Student=fetchStudent_short($sid);
 		$comment=commentDisplay($sid);
 ?>
 		<tr>
 		  <td>
-			<input type="checkbox" name="sids[]" value="<?php print $sid; ?>" />
-			&nbsp
+			<input type="checkbox" name="sids[]" value="<?php print $sid;?>" />
+			<?php print $rown++;?>
+		  </td>
+		  <td>
 			<a href='infobook.php?current=student_scores.php&sid=<?php print $sid;?>'>T</a> 
-
 			<span <?php print ' title="'.$comment['body'].'"';?>>
 			  <a href='infobook.php?current=comments_list.php&sid=<?php print $sid;?>'
 				<?php print ' class="'.$comment['class'].'" ';?>>C</a> 
 			</span>
-
 			<a href='infobook.php?current=incidents_list.php&sid=<?php print $sid;?>'>I</a>
 		  </td>
 		  <td>

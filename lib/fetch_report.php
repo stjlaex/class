@@ -136,11 +136,11 @@ function fetchReportDefinition($rid,$selbid='%'){
 	$asselements=array();
 	while($ass=mysql_fetch_array($d_assessment,MYSQL_ASSOC)){
 		$reportdef['eids'][]=$ass['id'];
-		if(!in_array($ass['element'],$asselements)){
+		if(!in_array($ass['element'],$asselements) or $ass['element']==''){
 			/*this is only used by the xslt... 
 				an element can only apear once on the printed report!*/
 			$asselements[]=$ass['element'];
-			$asstable['ass'][$ass['element']]=array('name' => $ass['description'],
+			$asstable['ass'][]=array('name' => $ass['description'],
 				'label' => $ass['label'], 'element' => $ass['element']);
 			}
 		}

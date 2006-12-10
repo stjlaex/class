@@ -116,6 +116,9 @@ three_buttonmenu();
 				}
 			else{
 				$attvalue='n';
+				$attcode='';
+				$attlate='';
+				$attcomm='';
 				}
 ?>
 				status="<?php print $attvalue;?>"
