@@ -19,7 +19,7 @@ print '<?xml version="1.0" encoding="utf-8"?'.'>';
 <link href="css/parentstyle.css" rel="stylesheet" type="text/css" />
 <link href="css/selery.css" rel="stylesheet" type="text/css" />
 <script language="JavaScript" type="text/javascript" src="js/fonter.js"></script>
-<script language="JavaScript" type="text/javascript" src="js/userinterface.js"></script>
+<script language="JavaScript" type="text/javascript" src="js/hostfunctions.js"></script>
 </head>
 <body onload="loadLogin('cover');">
 

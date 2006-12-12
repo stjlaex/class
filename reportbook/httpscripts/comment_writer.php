@@ -56,7 +56,7 @@ if($dbstat!=''){
 <link rel="stylesheet" type="text/css" href="../../css/commentwriter.css" />
 <script src="../../lib/spell_checker/cpaint/cpaint2.inc.js" type="text/javascript"></script>
 <script src="../../lib/spell_checker/js/spell_checker.js" type="text/javascript"></script>
-<script src="../../js/formfunctions.js" type="text/javascript"></script>
+<script src="../../js/bookfunctions.js" type="text/javascript"></script>
 <script src="../../js/statementbank.js" type="text/javascript"></script>
 </head>
 <body onload="setupSpellCheckers(); loadRequired();">

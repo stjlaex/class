@@ -39,7 +39,7 @@ var pathtobook = "<?php print $CFG->sitepath.'/'.$CFG->applicationdirectory.'/'.
 </script>
 <script language="JavaScript" type="text/javascript" src="js/printing.js"></script>
 <script language="JavaScript" type="text/javascript" src="js/qtip.js"></script>
-<script language="JavaScript" type="text/javascript"src="js/formfunctions.js"></script> 
+<script language="JavaScript" type="text/javascript"src="js/bookfunctions.js"></script> 
 <?php
 if($book=='reportbook'){
 ?>

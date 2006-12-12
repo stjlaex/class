@@ -13,7 +13,7 @@
 <link href="css/viewstyle.css" rel="stylesheet" type="text/css" />
 <link href="css/logbook.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="js/qtip.js"></script>
-<script type="text/javascript" src="js/formfunctions.js"></script>
+<script type="text/javascript" src="js/bookfunctions.js"></script>
 </head>
 
 

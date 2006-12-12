@@ -54,7 +54,7 @@ $comment=js_addslashes($incom);
 <meta name="licence" content="GNU General Public License version 2" />
 <link id="viewstyle" rel="stylesheet" type="text/css" href="../../css/viewstyle.css" />
 <link id="viewstyle" rel="stylesheet" type="text/css" href="../../css/commentwriter.css" />
-<script language="JavaScript" type="text/javascript" src="../../js/formfunctions.js"></script>
+<script language="JavaScript" type="text/javascript" src="../../js/bookfunctions.js"></script>
 </head>
 <body onload="closeCommentWriter(<?php print '\''.$openerId.'\',\''.$entryn.'\',\''.$comment.'\'';?>);">
 	<div id="bookbox">

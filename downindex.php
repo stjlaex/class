@@ -15,7 +15,7 @@
 <meta name="author" content="Stuart Johnson" />
 <meta name="coauthor" content="Julian Lea" />
 <link id="parentstyle" href="stylesheets/parentstyle.css" rel="stylesheet" type="text/css" />
-<script language="JavaScript" type="text/javascript" src="javascripts/userinterface.js"></script>
+<script language="JavaScript" type="text/javascript" src="javascripts/hostfunctions.js"></script>
 <body>
 
 <p>The site is temporarily unavailable due to maintenance.</p>
