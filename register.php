@@ -32,10 +32,6 @@ else{
 		$fid=$rfids[0];
 		$community=array('id'=>'','type'=>'form','name'=>$fid);
 		}
-//	elseif(sizeof($ryids)!=0 and $fid==''){
-//		$yid=$ryids[0];
-//		$community=array('id'=>'','type'=>'year','name'=>$yid);
-//		}
 	}
 ?>
   <div id="bookbox" class="registercolor">
@@ -44,6 +40,10 @@ else{
 	if($current!=''){
 		include($book.'/'.$current);
 		$_SESSION['registergroup']=$community;
+		}
+	elseif(is_array($community)){
+		$current='register_list.php';
+		include($book.'/'.$current);
 		}
 	else{
 		//include($book.'/'.$current);
@@ -64,9 +64,7 @@ else{
 		</label>
 		<br />
 		<br />
-<?php
-		$onsidechange='yes'; include('scripts/list_form.php'); 		
-?>
+<?php		$onsidechange='yes'; include('scripts/list_form.php');?>
 	  </fieldset>
 	  <input type="hidden" name="current" value="register_list.php" />
 	</form>
@@ -75,12 +73,13 @@ else{
 	<br />
 
 	<form id="registerchoicesel" name="registerchoicesel" method="post" 
-							action="register.php" target="viewregister">
+		  action="register.php" target="viewregister">
 	  <fieldset class="register selery">
 		<legend><?php print_string('list',$book);?></legend>
 <?php
 		$choices=array('absence_list.php' => 'absencelists'
-					   ,'completions.php' => 'completions'
+					   //,'late_list.php' => 'lates'
+					   //,'completions.php' => 'completions'
 					   );
 		selery_stick($choices,$choice,$book);
 ?>

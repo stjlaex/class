@@ -1,9 +1,8 @@
 <?php	
-/*													scripts/find_sid.php
-	Expects $surname
-		optional $yid OR $fid OR $forename
-	Returns array of $d_sids and number of $rows in it
-*/
+/**								  scripts/find_sid.php
+ *
+ *	Returns array of $d_sids and number of $rows in it
+ */
 
 
 if($surname!=''){

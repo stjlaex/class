@@ -52,9 +52,8 @@ function fetchAttendances($sid,$date='',$period='%'){
 	$Attendances=array();
 	$evetable=array();
 	/*if no date set choose this week*/
-	if($date==''){
-		$date=date('Y-m-d',mktime(0,0,0,date('m'),date('d')-5,date('Y')));
-		}
+	if($date==''){$date=date('Y-m-d',mktime(0,0,0,date('m'),date('d')-5,date('Y')));}
+
 	$d_attendance=mysql_query("SELECT attendance.status,
 			attendance.code, attendance.late, attendance.comment, event.id,
 			event.period, event.date FROM attendance JOIN
@@ -159,5 +158,38 @@ function currentEvent(){
 		}
 	$event=array('id'=>$eveid,'date'=>$date,'period'=>$session);
 	return $event;
+	}
+
+function list_absentStudents($eveid=''){
+	if($eveid==''){
+		$event=currentEvent();
+		$eveid=$event['id'];
+		}
+	$Students['Student']=array();
+	if($eveid!=''){
+		$d_attendance=mysql_query("SELECT student.id AS sid, attendance.status, 
+			attendance.code, attendance.late, attendance.comment
+			FROM attendance JOIN student ON student.id=attendance.student_id WHERE
+			attendance.student_id=student.id AND
+			attendance.event_id='$eveid' AND attendance.status='a'");
+
+		$Attendance=array();
+		$Student=array();
+		while($attendance=mysql_fetch_array($d_attendance,MYSQL_ASSOC)){
+			$Attendance['id_db']=$eveid;
+			$Attendance['Status']=array('label' => 'attendance',
+								  'value' => ''.$attendance['status']);
+			$Attendance['Code']=array('label' => 'code',
+								  'value' => ''.$attendance['code']);
+			$Attendance['Late']=array('label' => 'late',
+								  'value' => ''.$attendance['late']);
+			$Attendance['Comment']=array('label' => 'comment',
+								  'value' => ''.$attendance['comment']);
+			$Student['id_db']=$attendance['sid'];
+			$Student['Attendance']=$Attendance;
+			$Students['Student'][]=$Student;
+			}
+		}
+	return nullCorrect($Students);
 	}
 ?>

@@ -12,7 +12,11 @@
   <select type="text" id="Form Group" name="newfid"
 		<?php if(isset($tab)){print ' tabindex="'.$tab++.'" ';}?> 
 		style="<?php if(isset($liststyle)){print $liststyle;}?>"
-		<?php if($onsidechange=='yes'){print ' onChange="document.'.$book.'choice.submit();"';}?>
+	<?php if($onsidechange=='yes'){
+				print 'onchange="document.'.$book.'choice.submit();"'.
+				' onkeypress="seleryCheckKey(event,document.'.$book.'choice);"';
+				}
+	?>
 		<?php if($required=='yes'){ print ' class="required" ';} ?> >
 	<option value=""></option>
 <?php

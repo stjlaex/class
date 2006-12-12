@@ -519,12 +519,6 @@ function getLabel(fieldId) {
 	}
 
 
-//function submitNewMark1(buttonObject){
-//	document.newmark1.def_name.value = buttonObject.value;
-//	document.newmark1.submit();
-//	}
-
-
 //-------------------------------------------------------
 // checks if CAPSLOCK is on during the login
 // the fine logic for this script came courtesy of http://www.howtocreate.co.uk 

@@ -1,11 +1,13 @@
-Version ClaSS-0.8.3 release (2006/12/30)
+Version ClaSS-0.8.3 release (2006/12/12)
 ----------------------------------------
+
+Basic absence lists added to the register.
 
 Bug-fix to eliminate multiple assessments cells being printed. Now
 uses the assessment element to check they only exist once.
 
 Added requiredor class to the javascript validation for eitheror
-fields. Imlpemented in the reportbook to start with.
+fields. Implemented in the reportbook to start with.
 
 Changed MarkBook table colours to match the other books.
 
@@ -14,6 +16,8 @@ link for student_view.
 
 Moved out the page variables from each of the book host pages to
 scripts/book_variables.php.
+
+Reorganised the infobook search to allow onsidechange for the groups.
 
 Version ClaSS-0.8.2 release (2006/11/30)
 ----------------------------------------

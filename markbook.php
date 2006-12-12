@@ -66,12 +66,6 @@ $pid=$_SESSION['pid'];
 $umnrank=$_SESSION['umnrank'];
 $attdate=date('Y-m-d',mktime(0,0,0,date('m'),date('d'),date('Y')));
 
-if(isset($_GET['current'])){$current=$_GET['current'];}
-if(isset($_GET['choice'])){$choice=$_GET['choice'];}
-if(isset($_GET['cancel'])){$choice=$_GET['cancel'];}
-if(isset($_POST['current'])){$current=$_POST['current'];}
-if(isset($_POST['choice'])){$choice=$_POST['choice'];}
-if(isset($_POST['cancel'])){$cancel=$_POST['cancel'];}
 ?>
 
 <div class="markcolor" id="bookbox">

@@ -87,6 +87,12 @@ function markDisplay(){
 //  the scripts for the userinterface - handles the selery menu in the bookoptions
 //  and grows selery buttons
 
+function seleryCheckKey(event,formObj){
+	if(event.keyCode==13){
+		formObj.submit();
+		}
+	}
+
 function selerySubmit(liObj){
 	liObj.getElementsByTagName("input")[0].setAttribute("checked","checked");
 	//assumes the form to be the direct parent of the fieldset containing the selery ul
@@ -167,44 +173,6 @@ function viewBook(newbook){
 	// change the colour of the logbook's stripe to match
 	document.getElementById('logbookstripe').setAttribute('class',newbook);
 	}
-
-
-//----------------------------------------------------
-//for the Student Search in the sidebar of InfoBook
-
-function validateQuickSearch(formObject) 
-	{
- 	var str = "";
- 	for (var i=0; i < formObject.elements.length; i++) 
-		{
-		formObject.elements[i].style.borderStyle = "none"; 
-		var thisId = formObject.elements[i].id;
-		var thisType = formObject.elements[i].type;
-		var thisValue = formObject.elements[i].value;
-	  	var pattern = '[^A-Za-z ]+';
-   		if (thisType == 'text') 
-			{
-     		var offendingChar = thisValue.match(pattern);
-    		if(offendingChar != null) 
-				{
-				formObject.elements[i].style.border = "2px solid #ff9900"; 
-       			str += "Found this illegal value '" +offendingChar+ "' in " +thisId+ " ! \n";
-				}
-  			}
- 		}  
- 	if (str != "") 
-		{
-   		// do not submit the form
-   		alert("Check Entry!\n" +str);
-		return false;  
- 		} 
-	else 
-		{
-   		// form values are valid; submit
-		return true;
-		}
-	}
-
 
 // A print function that handles pages designated as printable
 function printGenericContent(iFrameName){
