@@ -52,11 +52,12 @@ if($dbstat!=''){
 <meta name="copyright" content="Copyright 2002-2006 S T Johnson.  All trademarks acknowledged. All rights reserved" />
 <meta name="version" content='<?php print "$CFG->version"; ?>' />
 <meta name="licence" content="GNU General Public License version 2" />
-<link rel="stylesheet" type="text/css" href="../../css/viewstyle.css" />
+<link rel="stylesheet" type="text/css" href="../../css/bookstyle.css" />
 <link rel="stylesheet" type="text/css" href="../../css/commentwriter.css" />
 <script src="../../lib/spell_checker/cpaint/cpaint2.inc.js" type="text/javascript"></script>
 <script src="../../lib/spell_checker/js/spell_checker.js" type="text/javascript"></script>
 <script src="../../js/bookfunctions.js" type="text/javascript"></script>
+<script src="../../js/qtip.js" type="text/javascript"></script>
 <script src="../../js/statementbank.js" type="text/javascript"></script>
 </head>
 <body onload="setupSpellCheckers(); loadRequired();">

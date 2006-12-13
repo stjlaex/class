@@ -39,6 +39,7 @@ $string['reporton']='Report on';
 $string['reset']='Reset';
 $string['search']='Search';
 $string['studentsearch']='Student search';
+$string['studentgroups']='Student groups';
 $string['submit']='Submit';
 $string['summary']='Summary';
 $string['surname']='Surname';

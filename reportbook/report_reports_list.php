@@ -11,7 +11,10 @@ if(isset($_POST['yid'])){$yid=$_POST['yid'];}
 
 if(isset($_POST['selbid'])){$selbid=$_POST['selbid'];}else{$selbid='%';}
 if(isset($_POST['rids'])){$rids=$_POST['rids'];}else{$rids=array();}
-if(isset($_POST['wrapper_rid'])){$wrapper_rid=$_POST['wrapper_rid'];}
+if(isset($_POST['wrapper_rids'])){
+	$wrapper_rids=(array)$_POST['wrapper_rids'];
+	while(list($index,$value)=each($wrapper_rids)){if($value!=''){$wrapper_rid=$value;}}
+	}
 if(isset($_POST['coversheet'])){$coversheet=$_POST['coversheet'];}else{$coversheet='no';}
 
 include('scripts/sub_action.php');

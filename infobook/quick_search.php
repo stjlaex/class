@@ -27,8 +27,7 @@ $action='search_action1.php'
 		  <label for="Forename"><?php print_string('forename');?></label>
 		  <input type="text" id="Forename" name="forename" value="" maxlength="30"/>
 
-			<button type="submit" name="submit" 
-						onClick="document.quicksearch.submit();">
+			<button type="submit" name="submit">
 				<?php print_string('search');?>
 			</button>
 			<button type="reset" name="reset" value="Reset">

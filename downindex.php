@@ -14,7 +14,7 @@
 <meta name="licence" content="GNU General Public License version 2" />
 <meta name="author" content="Stuart Johnson" />
 <meta name="coauthor" content="Julian Lea" />
-<link id="parentstyle" href="stylesheets/parentstyle.css" rel="stylesheet" type="text/css" />
+<link id="hoststyle" href="stylesheets/hosttstyle.css" rel="stylesheet" type="text/css" />
 <script language="JavaScript" type="text/javascript" src="javascripts/hostfunctions.js"></script>
 <body>
 

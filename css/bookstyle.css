@@ -1,4 +1,4 @@
-/**							viewstyle.css
+/**							bookstyle.css
 *
 *		All css common to the books. Principly deals with positioning
 *   and layout. The color schemes are defined on a book by book basis
@@ -414,10 +414,12 @@ table.sidtable {
 	background-repeat: no-repeat;
 	}
 .sidtable td:first-child { 
-    width:3em;
+    width:4em;
+    padding:0;
 	}
 .sidtable td:first-child + td { 
     width:4em;
+    padding:0;
 	}
 /***********tinytabs*******/
 div.tinytabs {

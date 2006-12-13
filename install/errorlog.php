@@ -44,7 +44,7 @@ function tail_xml($file,$tail_size){
 	<meta name="copyright" content="Copyright 2002, 2003, 2004, 2005, 2006
 		Stuart Thomas Johnson. All trademarks acknowledged. All rights reserved." />
 	<meta name="license" content="GNU General Public License version 2" />
-	<link rel="stylesheet" type="text/css" href="../css/viewstyle.css" />
+	<link rel="stylesheet" type="text/css" href="../css/bookstyle.css" />
 	<link rel="stylesheet" type="text/css" href="../css/logfile.css" />
   </head>
 

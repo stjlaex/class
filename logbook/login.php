@@ -10,7 +10,7 @@
 <meta http-equiv="content-type" content="application/xhtml+xml; charset=utf-8" />
 <meta http-equiv="Content-Script-Type" content="text/JavaScript" />
 <meta name="copyright" content="Copyright 2002-2005 S T Johnson. All trademarks acknowledged. All rights reserved" />
-<link href="css/viewstyle.css" rel="stylesheet" type="text/css" />
+<link href="css/bookstyle.css" rel="stylesheet" type="text/css" />
 <link href="css/logbook.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="js/qtip.js"></script>
 <script type="text/javascript" src="js/bookfunctions.js"></script>

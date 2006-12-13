@@ -39,9 +39,9 @@
 
 <div class="center"> 
   <label for="Current Reports"><?php print_string('current');?></label>
-  <select style="width:60%;" id="Current Reports" type="text" name="wrapper_rid"
+  <select style="width:60%;" id="Current Reports" type="text" name="wrapper_rids[]"
 	  class="requiredor" eitheror="Previous Reports"
-	  tabindex="<?php print $tab++;?>" size="2" >
+	  tabindex="<?php print $tab++;?>" size="4" >
 		<option value=""></option>
 <?php
    	while(list($rid,$report)=each($reports)){
@@ -59,7 +59,7 @@
 
 <div class="center"> 
   <label for="Previous Reports"><?php print_string('previous');?></label>
-  <select style="width:60%;" id="Previous Reports" type="text" name="wrapper_rid"
+  <select style="width:60%;" id="Previous Reports" type="text" name="wrapper_rids[]"
 	  class="requiredor"
 		 eitheror="Current Reports" tabindex="<?php print $tab++;?>"  size="12" >
 		<option value=""></option>

@@ -12,8 +12,8 @@ print '<?xml version="1.0" encoding="utf-8"?'.'>';
 	Stuart Thomas Johnson. All trademarks acknowledged. All rights reserved." />
 <meta name="version" content="<?php print $CFG->version; ?>" />
 <meta name="license" content="GNU General Public License version 2" />
-<link id="parentstyle" href="css/viewstyle.css" rel="stylesheet" type="text/css" />
-<link id="parentstyle" href="css/logbook.css" rel="stylesheet" type="text/css" />
+<link href="css/bookstyle.css" rel="stylesheet" type="text/css" />
+<link href="css/logbook.css" rel="stylesheet" type="text/css" />
 </head>
 <body>
 

@@ -1,7 +1,11 @@
 Version ClaSS-0.8.3 release (2006/12/12)
 ----------------------------------------
 
+Bug-fix to list_report_wrappers, the requiredor form elements need to
+be arrays if named the same or a blank value can be passed.
+
 Moved formfunctions to bookfunctions and userinterface to hostfunctions.
+Moved viewstyle to bookstyle and parentstyle to hoststyle.
 
 Basic absence lists added to the register.
 
