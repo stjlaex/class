@@ -6,7 +6,7 @@ $action='sen_view.php';
 
 include('scripts/sub_action.php');
 
-if($sub=='SENStatus'){
+if($sub=='senstatus'){
 	/*Check user has permission to edit*/
 	$yid=$Student['YearGroup']['value'];
 	$perm=getSENPerm($yid, $respons);
@@ -27,6 +27,7 @@ if($sub=='SENStatus'){
 		mysql_query("INSERT INTO sencurriculum SET
 					senhistory_id='$senhid', subject_id='General'");
 		}
+	$action='sen_student_list.php';
 	}
 
 elseif($sub=='Submit'){

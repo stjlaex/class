@@ -9,25 +9,7 @@ $action='sen_view_action.php';
   </div>
 <?php 
 
-if($Student['SENFlag']['value']=='N'){
-	two_buttonmenu();
-?>
-  <div class="content">
-	<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
-	  <fieldset class="left">	
-		<legend><?php print_string('Not classed as an SEN student','infobook');?></legend>
-		<button onClick="processContent(this);" name="sub" 
-		  value="SENStatus"><?php print_string('Change SEN status','infobook');?></button>
-	  </fieldset>
-	<input type="hidden" name="current" value="<?php print $action;?>"/>
-	<input type="hidden" name="cancel" value="<?php print $cancel;?>"/>
-	<input type="hidden" name="choice" value="<?php print $choice;?>"/>
-	</form>
-  </div>
-<?php
-	}
-else{
-	three_buttonmenu();
+	three_buttonmenu(array('removesen'=>array('name'=>'sub','value'=>'senstatus')));
 ?>
   <div class="content">
 	<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
@@ -131,7 +113,7 @@ else{
 <?php
 			}
 		}
-	}
+
 ?>
 	  </fieldset>	
 	

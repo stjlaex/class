@@ -15,6 +15,7 @@
 		style="width:12em;" >
 <?php
 	$displayfield_array=getEnumArray('studentfield');
+	if(isset($extra_studentfields)){$displayfield_array+=$extra_studentfields;}
 	while(list($val,$description)=each($displayfield_array)){
 		print '<option ';
 		if(($seldisplayfield==$val)){print 'selected="selected"';}

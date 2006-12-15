@@ -11,7 +11,6 @@ $host='infobook.php';
 $book='infobook';
 
 include('scripts/head_options.php');
-
 include('scripts/book_variables.php');
 
 if(!isset($_SESSION['infosid'])){$_SESSION['infosid']='';}

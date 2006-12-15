@@ -1,6 +1,6 @@
 <?php
 /**									student_list.php
- *   	Lists students identified by their ids in array sids.
+ *   	Lists students identified in array sids.
  */
 
 $action='student_list.php';

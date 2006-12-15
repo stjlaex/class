@@ -1,3 +1,14 @@
+Version ClaSS-0.8.4 release (2006/12/16)
+----------------------------------------
+
+Now made book_session_variables script available to host pages to
+handle post and get for vars that maintain state between reloads. It
+does do anything extra upon var change so is currently only used in
+the seneeds book.
+
+Filtering the student_list in seneeds book by sentype, yeargroup, and
+sen review date now implemented as part of the sideoptions.
+
 Version ClaSS-0.8.3 release (2006/12/12)
 ----------------------------------------
 

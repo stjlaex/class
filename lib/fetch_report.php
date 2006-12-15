@@ -75,14 +75,14 @@ function fetchSubjectReports($sid,$reportdefs){
 				$Summaries['Summary'][]=nullCorrect($Summary);
 				}
 			$Reports['Summaries']=nullCorrect($Summaries);
-			/*when combining reports, for now this only works if each has the
-				same properties!!!*/
+			/* when combining reports, for now this only works if each has the*/
+			/*	same properties!!!*/
 		   	$Reports['asstable']=$reportdef['asstable'];
 		   	$Reports['cattable']=$reportdef['cattable'];
 		   	$Reports['publishdate']=date('jS M Y',strtotime($reportdef['report']['date']));
 		   	$transform=$reportdef['report']['transform'];
 			}
-	return array($Reports, $transform);
+	return array($Reports,$transform);
 	}
 
 function fetchReportDefinition($rid,$selbid='%'){

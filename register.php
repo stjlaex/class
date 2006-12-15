@@ -7,7 +7,6 @@ $host='register.php';
 $book='register';
 
 include('scripts/head_options.php');
-
 include('scripts/book_variables.php');
 
 if(!isset($_SESSION['registergroup'])){$_SESSION['registergroup']='';}

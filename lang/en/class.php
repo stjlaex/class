@@ -234,5 +234,6 @@ $string['end']='End';
 $string['previous']='Previous';
 $string['newreportbinder']='New report binder';
 $string['newsubjectreport']='New subject report';
+$string['removesen']='Remove SEN status';
 $string['']='';
 ?>

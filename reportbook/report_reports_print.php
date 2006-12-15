@@ -20,7 +20,7 @@ if(sizeof($sids)==0){
 		exit;
 		}
 
-/*	find the details, assessments, etc. specific to each report */
+	/*find the details, assessments, etc. specific to each report */
 	$reportdefs=array();
 	for($c=0;$c<sizeof($rids);$c++){
         $reportdefs[]=fetchReportDefinition($rids[$c],$selbid);
@@ -30,7 +30,7 @@ if(sizeof($sids)==0){
 ?>
   <div id="xmlStudent" style="visibility:hidden;">
 <?php
-/*	doing one student at a time*/
+	/*doing one student at a time*/
 	for($c=0;$c<sizeof($sids);$c++){
 		$sid=$sids[$c];
 		$Student=fetchStudent_short($sid);

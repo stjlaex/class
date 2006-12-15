@@ -7,7 +7,6 @@ $host='reportbook.php';
 $book='reportbook';
 
 include('scripts/head_options.php');
-
 include('scripts/book_variables.php');
 
 ?>

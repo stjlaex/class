@@ -7,7 +7,6 @@ $host='entrybook.php';
 $book='entrybook';
 
 include('scripts/head_options.php');
-
 include('scripts/book_variables.php');
 
 if(!isset($_SESSION['enrolstatus'])){$_SESSION['enrolstatus']='';}

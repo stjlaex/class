@@ -10,12 +10,41 @@ $choice='sen_student_list.php';
 include('scripts/sub_action.php');
 
 $displayfields=array();
-$displayfields[]='RegistrationGroup';$displayfields[]='Gender';$displayfields[]='DOB';
+$displayfields[]='RegistrationGroup';$displayfields[]='Gender';$displayfields[]='NextReviewDate';
 if(isset($_POST['displayfield'])){$displayfields[0]=$_POST['displayfield'];}
 if(isset($_POST['displayfield1'])){$displayfields[1]=$_POST['displayfield1'];}
 if(isset($_POST['displayfield2'])){$displayfields[2]=$_POST['displayfield2'];}
 
 two_buttonmenu();
+
+	/*these are the filter vars form the sideoptions*/
+	if($sentype!='' and $newyid!=''){
+		mysql_query("CREATE TEMPORARY TABLE students
+				(SELECT info.student_id FROM info JOIN sentypes
+				ON sentypes.student_id=info.student_id WHERE sentypes.sentype='$sentype'
+				AND info.sen='Y' AND info.enrolstatus='C')");
+		$d_info=mysql_query("SELECT student_id FROM students JOIN student
+				ON student.id=students.student_id WHERE student.yeargroup_id='$newyid';");
+		mysql_query('DROP TABLE students;');
+		}
+	elseif($sentype!=''){
+		$d_info=mysql_query("SELECT info.student_id FROM info JOIN sentypes
+				ON sentypes.student_id=info.student_id WHERE sentypes.sentype='$sentype'
+				AND info.sen='Y' AND info.enrolstatus='C';");
+		}
+	elseif($newyid!=''){
+		$d_info=mysql_query("SELECT info.student_id FROM info JOIN student
+				ON student.id=info.student_id WHERE student.yeargroup_id='$newyid'
+				AND info.sen='Y' AND info.enrolstatus='C';");
+		}
+	else{
+		$d_info=mysql_query("SELECT student_id FROM info WHERE sen='Y' AND enrolstatus='C';");
+		}
+
+	$sids=array();
+	while($info=mysql_fetch_array($d_info,MYSQL_ASSOC)){
+		$sids[]=$info['student_id'];
+		}
 ?>
 
 <div id="viewcontent" class="content">
@@ -25,6 +54,8 @@ two_buttonmenu();
 				value="yes" onChange="checkAll(this);" /></th>
 	<th><?php print_string('student'); ?></th>
 <?php
+
+	$extra_studentfields=array('NextReviewDate'=>'nextreviewdate');
 	while(list($index,$displayfield)=each($displayfields)){
 ?>
 		<th><?php include('scripts/list_studentfield.php');?></th>
@@ -34,6 +65,11 @@ two_buttonmenu();
 	while(list($index,$sid)=each($sids)){
 		$Student=fetchStudent_short($sid);
 		$comment=commentDisplay($sid);
+		$d_senhistory=mysql_query("SELECT reviewdate FROM senhistory WHERE 
+				student_id='$sid' ORDER BY reviewdate DESC");
+		$Student['NextReviewDate']=array();
+		$Student['NextReviewDate']['label']='nextreviewdate';
+		$Student['NextReviewDate']['value']=mysql_result($d_senhistory,0);
 ?>
 		<tr>
 		  <td>
@@ -48,7 +84,7 @@ two_buttonmenu();
 			  href='infobook.php?current=incidents_list.php&sid=<?php print $sid;?>'>I</a>
 		  </td>
 		  <td>
-			<a href='seneeds.php?current=sen_view.php&sensid=<?php print $sid;?>'>
+			<a href='seneeds.php?current=sen_view.php&sid=<?php print $sid;?>'>
 			  <?php print $Student['DisplayFullName']['value']; ?>
 			</a>
 		  </td>

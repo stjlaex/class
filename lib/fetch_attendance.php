@@ -48,19 +48,20 @@ function fetchAttendance($sid='-1'){
 	return $Attendance;
 	}
 
-function fetchAttendances($sid,$date='',$period='%'){
+function fetchAttendances($sid,$date=''){
 	$Attendances=array();
 	$evetable=array();
 	/*if no date set choose this week*/
-	if($date==''){$date=date('Y-m-d',mktime(0,0,0,date('m'),date('d')-5,date('Y')));}
+	if($date==''){$date=date('Y-m-d',mktime(0,0,0,date('m'),date('d')-8,date('Y')));}
 
 	$d_attendance=mysql_query("SELECT attendance.status,
 			attendance.code, attendance.late, attendance.comment, event.id,
 			event.period, event.date FROM attendance JOIN
 			event ON event.id=attendance.event_id WHERE
 			attendance.student_id='$sid' AND event.date > '$date' 
-			AND event.period LIKE '$period' ORDER BY event.date");
+			ORDER BY event.date, event.period");
 	$index=0;
+	$Attendances['Attendance']=array();
 	while($attendance=mysql_fetch_array($d_attendance,MYSQL_ASSOC)){
 		$Attendance=array();
 		$Attendance['id_db']=$attendance['id'];
@@ -121,7 +122,7 @@ function fetchAttendanceEvents($date=''){
 	$evetable=array();
 	/*if no date set choose this week*/
 	if($date==''){
-		$date=date('Y-m-d',mktime(0,0,0,date('m'),date('d')-14,date('Y')));
+		$date=date('Y-m-d',mktime(0,0,0,date('m'),date('d')-8,date('Y')));
 		}
 	$d_event=mysql_query("SELECT id, period, date FROM event WHERE date > '$date' 
 								ORDER BY date, period");

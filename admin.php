@@ -7,7 +7,6 @@ $host='admin.php';
 $book='admin';
 
 include('scripts/head_options.php');
-
 include('scripts/book_variables.php');
 
 $rtid=$tid;
