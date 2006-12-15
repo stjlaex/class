@@ -4,13 +4,13 @@
 
 $action='register_list.php';
 
-$eveid=$_POST['checkeveid'];
+$checkeveid=$_POST['checkeveid'];
 
 include('scripts/sub_action.php');
 
 if($sub=='Submit'){
 
-	if($eveid==0){
+	if($checkeveid==0){
 		$date=$_POST['date'];
 		$period=$_POST['period'];
 		$d_event=mysql_query("SELECT id FROM event
@@ -23,7 +23,9 @@ if($sub=='Submit'){
 		else{
 			$eveid=mysql_result($d_event,0);
 			}
+		$checkeveid=$eveid;
 		}
+	else{$eveid=$checkeveid;}
 
 	$students=(array)listinCommunity($community);
 	while(list($index,$student)=each($students)){

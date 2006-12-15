@@ -21,7 +21,6 @@ three_buttonmenu();
 		  <th colspan="2">&nbsp</th>
 		  <th><?php print_string('student'); ?></th>
 <?php
-	$selevent=$currentevent;
 	$events=array();
 	while(list($index,$Event)=each($AttendanceEvents['Event'])){
 		$events[]=$Event['id_db'];

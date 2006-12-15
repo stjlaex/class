@@ -161,6 +161,18 @@ function currentEvent(){
 	return $event;
 	}
 
+function fetchEvent($eveid){
+	$d_event=mysql_query("SELECT id,date,period FROM event WHERE id='$eveid'");
+	if(mysql_num_rows($d_event)==0){
+		$eveid='0';
+		$event=array('id'=>$eveid,'date'=>'','period'=>'');
+		}
+	else{
+		$event=mysql_fetch_array($d_event,MYSQL_ASSOC);
+		}
+	return $event;
+	}
+
 function list_absentStudents($eveid=''){
 	if($eveid==''){
 		$event=currentEvent();

@@ -8,34 +8,35 @@ $book='register';
 
 include('scripts/head_options.php');
 include('scripts/book_variables.php');
+$session_vars=array('group','newfid','checkeveid');
+include('scripts/book_session_variables.php');
 
-if(!isset($_SESSION['registergroup'])){$_SESSION['registergroup']='';}
+$community=$group;
+if($newfid!=''){
+	$community=array('id'=>'','type'=>'form','name'=>$newfid);
+	}
 
-$community=$_SESSION['registergroup'];
-if(isset($_POST['newfid'])){
-	$community=array('id'=>'','type'=>'form','name'=>$_POST['newfid']);
-	}
-elseif(isset($_POST['newyid'])){
-	$community=array('id'=>'','type'=>'year','name'=>$_POST['newyid']);
-	}
 if(is_array($community)){
-	if($community['type']=='form'){$fid=$community['name'];}
-	elseif($community['type']=='year'){$yid=$community['name'];}
-	elseif($community['type']=='reg'){$comid=$community['id'];}
+	if($community['type']=='form'){$newfid=$community['name'];}
+	elseif($community['type']=='reg'){$comid=$community['id'];unset($newfid);}
 	}
 else{
+	/*on first load select teachers formgorup by default*/
 	$pastorals=listPastoralRespon($respons);
 	$rfids=$pastorals['forms'];
 	$ryids=$pastorals['years'];
 	if(sizeof($rfids)!=0){
-		$fid=$rfids[0];
-		$community=array('id'=>'','type'=>'form','name'=>$fid);
+		$newfid=$rfids[0];
+		$community=array('id'=>'','type'=>'form','name'=>$newfid);
 		}
 	}
 ?>
   <div id="bookbox" class="registercolor">
 <?php
 	$currentevent=currentEvent();
+	if($checkeveid!='' and $checkeveid!='0'){$selevent=fetchEvent($checkeveid);}
+	else{$selevent=$currentevent;}
+
 	if($current!=''){
 		include($book.'/'.$current);
 		$_SESSION['registergroup']=$community;

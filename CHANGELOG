@@ -9,6 +9,9 @@ the seneeds book.
 Filtering the student_list in seneeds book by sentype, yeargroup, and
 sen review date now implemented as part of the sideoptions.
 
+Added checkeveid to the session vars in the Register, it now maintains
+the selected column.
+
 Version ClaSS-0.8.3 release (2006/12/12)
 ----------------------------------------
 
