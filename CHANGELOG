@@ -1,5 +1,8 @@
-Version ClaSS-0.8.5 release (2006/12/21)
+Version ClaSS-0.8.5 release (2006/12/19)
 ----------------------------------------
+
+Bug fix to responables page. The pastoral buttons needed their
+rowaction container to work.
 
 Moving towards using listCommunties function in both admin and
 register, to list all communities of one type.
