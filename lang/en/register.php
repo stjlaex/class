@@ -35,7 +35,14 @@ $string['unauthorisedabsence']='Unauthorised absence';
 $string['absencelists']='Absences';
 $string['list']='List';
 $string['completions']='Completions';
-$string['']='';
+$string['absencesthissession']='Absences for current session';
+$string['completedregisters']='Completed registers';
+$string['present']='Present';
+$string['absent']='Absent';
+$string['registrationgroup']='Registration group';
+$string['registersthissession']='Registers for current session';
+$string['complete']='Complete';
+$string['incomplete']='Incomplete';
 $string['']='';
 $string['']='';
 ?>

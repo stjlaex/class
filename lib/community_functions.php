@@ -1,7 +1,37 @@
 <?php
 
-/*checks for a community and either updates or creates*/
-/*expects an array with at least type and name set*/
+/* return an array of communitites of one particular type*/
+function listCommunities($type=''){
+	if($type!=''){
+		$d_com=mysql_query("SELECT id, name FROM community WHERE 
+								type='$type' ORDER BY name");
+		$communities=array();
+		while($com=mysql_fetch_array($d_com,MYSQL_ASSOC)){
+			$community=array();
+			$community['id']=$com['id'];
+			$community['type']=$type;
+			$community['name']=$com['name'];
+			$communities[]=$community;
+			}
+		}
+	return $communities;
+	}
+
+/**/
+function fetchCommunity($comid=''){
+  	$d_com=mysql_query("SELECT name, type FROM community WHERE id='$comid'");
+	$com=mysql_fetch_array($d_com,MYSQL_ASSOC);
+	$Community=array();
+	$Community['id_db']=$comid;
+	$Community['Type']=array('label' => 'type',
+							 'value' => ''.$com['type']);
+	$Community['Name']=array('label' => 'name',
+							 'value' => ''.$com['name']);
+	return $Community;
+	}
+
+/* checks for a community and either updates or creates*/
+/* expects an array with at least type and name set*/
 function updateCommunity($community,$communityfresh=array('type'=>'','name'=>'',)){
 	$type=$community['type'];
 	$name=$community['name'];

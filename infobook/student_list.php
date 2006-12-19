@@ -42,15 +42,15 @@ two_buttonmenu();
 			<?php print $rown++;?>
 		  </td>
 		  <td>
-			<a href='infobook.php?current=student_scores.php&sid=<?php print $sid;?>'>T</a> 
-			<span <?php print ' title="'.$comment['body'].'"';?>>
-			  <a href='infobook.php?current=comments_list.php&sid=<?php print $sid;?>'
-				<?php print ' class="'.$comment['class'].'" ';?>>C</a> 
+			<a href="infobook.php?current=student_scores.php&sid=<?php print $sid;?>">T</a> 
+			<span title="<?php print $comment['body'];?>">
+			  <a href="infobook.php?current=comments_list.php&sid=<?php print $sid;?>"
+				class="<?php print $comment['class'];?>">C</a> 
 			</span>
-			<a href='infobook.php?current=incidents_list.php&sid=<?php print $sid;?>'>I</a>
+			<a href="infobook.php?current=incidents_list.php&sid=<?php print $sid;?>">I</a>
 		  </td>
 		  <td>
-			<a href='infobook.php?current=student_view.php&sid=<?php print $sid;?>'>
+			<a href="infobook.php?current=student_view.php&sid=<?php print $sid;?>">
 			  <?php print $Student['DisplayFullName']['value']; ?>
 			</a>
 		  </td>

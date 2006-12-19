@@ -145,6 +145,11 @@ if(isset($checkeveid)){
 	 	<input type="hidden" name="checkeveid" value="<?php print $checkeveid;?>">
 <?php
 	}
+if(isset($startday)){
+?>
+	 	<input type="hidden" name="startday" value="<?php print $startday;?>">
+<?php
+	}
 ?>
 
 </form>

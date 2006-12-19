@@ -1,9 +1,25 @@
+Version ClaSS-0.8.5 release (2006/12/21)
+----------------------------------------
+
+Moving towards using listCommunties function in both admin and
+register, to list all communities of one type.
+
+Added completion_list to the register to list the status of
+registration groups for the current event. This also uses a new xsl
+template to print the registers.
+
+To allow xsl printing within the register the events have been given
+an AttendanceEvent xmlarray.
+ 
+Added simple nav buttons to the register_list to move back in time one
+week at a time.
+
 Version ClaSS-0.8.4 release (2006/12/16)
 ----------------------------------------
 
-Now made book_session_variables script available to host pages to
+Now made the book_session_variables script available to host pages to
 handle post and get for vars that maintain state between reloads. It
-does do anything extra upon var change so is currently only used in
+doesn't do anything extra upon var change so is currently only used in
 the seneeds book.
 
 Filtering the student_list in seneeds book by sentype, yeargroup, and
@@ -70,6 +86,7 @@ two lines of javascript to work and part of the userinterface code.
 Increased the length of the email field in the guardian table.
 
 Added js for font resizing using a third sidebutton in the logbook.
+
 
 Version ClaSS-0.8.1 release (2006/11/09)
 ---------------------------------------------------- 

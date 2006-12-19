@@ -8,7 +8,14 @@ $checkeveid=$_POST['checkeveid'];
 
 include('scripts/sub_action.php');
 
-if($sub=='Submit'){
+if($sub=='Previous'){
+	$startday=$startday-7;
+	}
+elseif($sub=='Next'){
+	$startday=$startday+7;
+	if($startday>=0){$startday='';}
+	}
+elseif($sub=='Submit'){
 
 	if($checkeveid==0){
 		$date=$_POST['date'];
@@ -44,7 +51,6 @@ if($sub=='Submit'){
 					$incode='';
 					$incomm='';
 					}
-
 
 				$d_attendance=mysql_query("SELECT status FROM attendance
 				WHERE student_id='$sid' AND event_id='$eveid'");

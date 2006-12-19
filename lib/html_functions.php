@@ -53,12 +53,25 @@ function two_buttonmenu($extrabuttons=''){
 function twoplus_buttonmenu($currentkey,$maxkey){
 ?>
   <div class="buttonmenu">
-  	<button onClick="processContent(this);" <?php
-	if($currentkey==0){print 'disabled="disabled"
+  	<button onClick="processContent(this);" <?php if($currentkey==0){print 'disabled="disabled"
 	style="visibility:hidden;"';} ?> name="sub" value="Previous"><?php print_string('previous');?></button>
-	<button onClick="processContent(this);" <?php
-	if($currentkey==($maxkey-1)){print 'disabled="disabled"
-	style="visibility:hidden;"';} ?> name="sub" value="Next"><?php print_string('next');?></button>
+	<button onClick="processContent(this);" <?php if($currentkey==($maxkey-1)){print 'disabled="disabled" style="visibility:hidden;"';} ?> name="sub" value="Next"><?php print_string('next');?></button>
+	<button onClick="processContent(this);" name="sub" value="Cancel"><?php print_string('cancel');?></button>
+	<button onClick="processContent(this);" name="sub" value="Reset"><?php print_string('reset');?></button>
+  </div>
+
+<?php
+	}
+
+function threeplus_buttonmenu($currentkey,$maxkey){
+	if($currentkey==''){$currentkey=1;}//Register only needs this
+	trigger_error($currentkey.':'.$maxkey,E_USER_WARNING);
+?>
+  <div class="buttonmenu">
+  	<button onClick="processContent(this);" <?php if($currentkey==0){print 'disabled="disabled" style="visibility:hidden;"';} ?> name="sub" value="Previous"><?php print_string('previous');?></button>
+	<button onClick="processContent(this);" <?php if($currentkey==($maxkey-1)){print 'disabled="disabled" style="visibility:hidden;"';} ?> name="sub" value="Next"><?php print_string('next');?></button>
+	<button onClick="processContent(this);" name="sub"  style="margin-left:1em;"
+	  value="Submit"><?php print_string('submit');?></button>
 	<button onClick="processContent(this);" name="sub" value="Cancel"><?php print_string('cancel');?></button>
 	<button onClick="processContent(this);" name="sub" value="Reset"><?php print_string('reset');?></button>
   </div>

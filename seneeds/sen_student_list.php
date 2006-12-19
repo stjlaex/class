@@ -49,12 +49,11 @@ two_buttonmenu();
 
 <div id="viewcontent" class="content">
 <form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
-<table class="listmenu">
-	<th><?php print_string('checkall'); ?><input type="checkbox" name="checkall" 
+<table class="listmenu sidtable">
+	<th colspan="2"><?php print_string('checkall'); ?><input type="checkbox" name="checkall" 
 				value="yes" onChange="checkAll(this);" /></th>
 	<th><?php print_string('student'); ?></th>
 <?php
-
 	$extra_studentfields=array('NextReviewDate'=>'nextreviewdate');
 	while(list($index,$displayfield)=each($displayfields)){
 ?>
@@ -74,17 +73,21 @@ two_buttonmenu();
 		<tr>
 		  <td>
 			<input type="checkbox" name="sids[]" value="<?php print $sid; ?>" />
-			&nbsp
-			<a onclick="parent.viewBook('infobook');" target="viewinfobook" 
-			  href='infobook.php?current=student_scores.php&sid=<?php print $sid;?>'>T</a> 
-			<a onclick="parent.viewBook('infobook');" target="viewinfobook"  
-			  href='infobook.php?current=comments_list.php&sid=<?php print $sid;?>'
-			  <?php print " class='".$comment['class']."' title='".$comment['body']."'"; ?>>C</a> 
-			<a onclick="parent.viewBook('infobook');" target="viewinfobook"  
-			  href='infobook.php?current=incidents_list.php&sid=<?php print $sid;?>'>I</a>
+			<?php print $index+1;?>
 		  </td>
 		  <td>
-			<a href='seneeds.php?current=sen_view.php&sid=<?php print $sid;?>'>
+			<a onclick="parent.viewBook('infobook');" target="viewinfobook" 
+			  href="infobook.php?current=student_scores.php&sid=<?php print $sid;?>">T</a> 
+			<span title="<?php print $comment['body'];?>">
+			<a onclick="parent.viewBook('infobook');" target="viewinfobook"  
+			  href="infobook.php?current=comments_list.php&sid=<?php print $sid;?>"
+			  class="<?php print $comment['class'];?>">C</a> 
+			</span>
+			<a onclick="parent.viewBook('infobook');" target="viewinfobook"  
+			  href="infobook.php?current=incidents_list.php&sid=<?php print $sid;?>">I</a>
+		  </td>
+		  <td>
+			<a href="seneeds.php?current=sen_view.php&sid=<?php print $sid;?>">
 			  <?php print $Student['DisplayFullName']['value']; ?>
 			</a>
 		  </td>

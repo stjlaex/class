@@ -7,13 +7,16 @@
 $action='register_list_action.php';
 $choice='register_list.php';
 
-$students=(array)listinCommunity($community);
-$AttendanceEvents=fetchAttendanceEvents();
-
 include('scripts/sub_action.php');
-three_buttonmenu();
-?>
+$students=(array)listinCommunity($community);
+$AttendanceEvents=fetchAttendanceEvents($startday);
 
+threeplus_buttonmenu($startday,2);
+?>
+  <div id="heading">
+	<label><?php print_string('formgroup');?></label>
+	<?php print $newfid;?>
+  </div>
   <div id="viewcontent" class="content">
 	  <form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
 		<table class="listmenu sidtable" id="sidtable">
@@ -60,7 +63,7 @@ three_buttonmenu();
 	while(list($index,$student)=each($students)){
 		$sid=$student['id'];
 		$Student=fetchStudent_short($sid);
-		$Attendances=(array)fetchAttendances($sid);
+		$Attendances=(array)fetchAttendances($sid,$startday);
 		$comment=commentDisplay($sid);
 ?>
 		  <tr id="sid-<?php print $sid;?>">
@@ -84,7 +87,6 @@ three_buttonmenu();
 <?php
 		reset($events);
 		$attodds=array('forstroke','backstroke');
-		//$attodds=array('/','\\');
 		while(list($index,$eveid)=each($events)){
 			if($index%2){$odds=1;}else{$odds=0;}
 ?>
@@ -136,6 +138,7 @@ three_buttonmenu();
 			  </td>
 <?php
 			 }
+		if(sizeof($AttendanceEvents['Event'])>0){
 ?>
 			  <td id="edit-<?php print $sid;?>" class="edit">
 				<select tabindex="<?php print $tab++;?>" 					
@@ -145,10 +148,16 @@ three_buttonmenu();
 				  <option value="a">Absent</option>
 				</select>
 			  </td>
-			</tr>
 <?php
+   			}
+   		else{
+?>
+		  <td></td>
+<?php
+   		   }
 		}
 ?>
+		</tr>
 		</table>
 
 		<input type="hidden" name="date" value="<?php print $currentevent['date'];?>" />

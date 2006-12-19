@@ -11,9 +11,11 @@ $students=list_absentStudents();
 //trigger_error('Subject'.$bid,E_USER_WARNING);
 
 include('scripts/sub_action.php');
-three_buttonmenu();
+two_buttonmenu();
 ?>
-
+  <div id="heading">
+	<label><?php print_string('absencesthissession','register');?></label>
+  </div>
   <div id="viewcontent" class="content">
 	  <form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
 		<table class="listmenu sidtable">

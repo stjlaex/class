@@ -103,7 +103,7 @@ form img.completed {
     padding:1%;
 	}
 form img.caution+input, form img.caution+select {
-	background-color:yellow;
+	background-color:#ffff99;
 	}
 form img.calendar { 
     width:0; height:0; border:0;

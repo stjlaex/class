@@ -8,7 +8,7 @@ $book='register';
 
 include('scripts/head_options.php');
 include('scripts/book_variables.php');
-$session_vars=array('group','newfid','checkeveid');
+$session_vars=array('group','newfid','startday','checkeveid');
 include('scripts/book_session_variables.php');
 
 $community=$group;
@@ -79,7 +79,7 @@ else{
 <?php
 		$choices=array('absence_list.php' => 'absencelists'
 					   //,'late_list.php' => 'lates'
-					   //,'completions.php' => 'completions'
+					   ,'completion_list.php' => 'completedregisters'
 					   );
 		selery_stick($choices,$choice,$book);
 ?>

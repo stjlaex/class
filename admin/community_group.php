@@ -32,13 +32,12 @@ three_buttonmenu($extrabuttons);
 <?php
 
 	$nosidstotal=0;
-	$d_com=mysql_query("SELECT * FROM community WHERE type='$newcomtype' ORDER BY name");
-	while($com=mysql_fetch_array($d_com,MYSQL_ASSOC)){
-		$comid=$com['id'];
-		$nosids=countinCommunity(array('id'=>$comid));
+	$communities=listCommunities($newcomtype);
+	while(list($index,$com)=each($communities)){
+		$nosids=countinCommunity($com);
 		$nosidstotal=$nosidstotal+$nosids;
 	   	print '<tr><td>';
-	   		print '<a href="admin.php?current=community_group_edit.php&cancel='.$choice.'&choice='.$choice.'&newcomtype='.$newcomtype.'&comid='.$comid.'">'.$com['name'].'</a>';
+	   		print '<a href="admin.php?current=community_group_edit.php&cancel='.$choice.'&choice='.$choice.'&newcomtype='.$newcomtype.'&comid='.$com['id'].'">'.$com['name'].'</a>';
 		print '</td>';
 	   	print '<td>'.$nosids.'</td><td>';
 		print '</td></tr>';

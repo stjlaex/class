@@ -1,5 +1,5 @@
 <?php	
-/**									 fetch_attendance.php
+/**	   							 fetch_attendance.php
  *
  */	
 
@@ -48,17 +48,19 @@ function fetchAttendance($sid='-1'){
 	return $Attendance;
 	}
 
-function fetchAttendances($sid,$date=''){
+function fetchAttendances($sid,$startday=0){
 	$Attendances=array();
 	$evetable=array();
 	/*if no date set choose this week*/
-	if($date==''){$date=date('Y-m-d',mktime(0,0,0,date('m'),date('d')-8,date('Y')));}
+	$startdate=date('Y-m-d',mktime(0,0,0,date('m'),date('d')-$startday+1,date('Y')));
+	$enddate=date('Y-m-d',mktime(0,0,0,date('m'),date('d')-$startday-8,date('Y')));
 
 	$d_attendance=mysql_query("SELECT attendance.status,
 			attendance.code, attendance.late, attendance.comment, event.id,
 			event.period, event.date FROM attendance JOIN
 			event ON event.id=attendance.event_id WHERE
-			attendance.student_id='$sid' AND event.date > '$date' 
+			attendance.student_id='$sid' AND event.date < '$startdate' 
+			AND event.date > '$enddate' 
 			ORDER BY event.date, event.period");
 	$index=0;
 	$Attendances['Attendance']=array();
@@ -117,15 +119,26 @@ function fetchcurrentAttendance($sid,$eveid=''){
 	return nullCorrect($Attendance);
 	}
 
-function fetchAttendanceEvents($date=''){
+function fetchAttendanceEvent($eveid){
+	$Event=array();
+	$d_event=mysql_query("SELECT period, date FROM event WHERE id='$eveid'");
+	$event=mysql_fetch_array($d_event,MYSQL_ASSOC);
+	$Event=array();
+	$Event['id_db']=$eveid;
+	$Event['Period']=array('label' => 'period',
+						   'value' => ''.$event['period']);
+	$Event['Date']=array('label' => 'date', 
+						 'value' => ''.$event['date']);
+	return nullCorrect($Event);
+	}
+
+function fetchAttendanceEvents($startday=0,$nodays=7){
 	$AttendanceEvents=array();
 	$evetable=array();
-	/*if no date set choose this week*/
-	if($date==''){
-		$date=date('Y-m-d',mktime(0,0,0,date('m'),date('d')-8,date('Y')));
-		}
-	$d_event=mysql_query("SELECT id, period, date FROM event WHERE date > '$date' 
-								ORDER BY date, period");
+	$startdate=date('Y-m-d',mktime(0,0,0,date('m'),date('d')-$startday+1,date('Y')));
+	$enddate=date('Y-m-d',mktime(0,0,0,date('m'),date('d')-$startday-$nodays,date('Y')));
+	$d_event=mysql_query("SELECT id, period, date FROM event WHERE date < '$startdate' 
+			AND date > '$enddate'  ORDER BY date, period");
 	$AttendanceEvents['Event']=array();
 	$index=0;
 	while($event=mysql_fetch_array($d_event,MYSQL_ASSOC)){
@@ -137,7 +150,6 @@ function fetchAttendanceEvents($date=''){
 							 'type_db'=>'date', 
 							 'value' => ''.$event['date']);
 		$AttendanceEvents['Event'][]=$Event;
-		//		$evetable[$event['date']][$event['period']]=$index++;
 		$evetable[$event['id']]=$index++;
 		}
 	$AttendanceEvents['evetable']=$evetable;
@@ -171,6 +183,25 @@ function fetchEvent($eveid){
 		$event=mysql_fetch_array($d_event,MYSQL_ASSOC);
 		}
 	return $event;
+	}
+
+function check_communityAttendance($community,$eveid=''){
+	if($community['id']!=''){$comid=$community['id'];}
+	else{$comid=updateCommunity($community);}
+	$nosids=countinCommunity($community);
+	$d_att=mysql_query("SELECT COUNT(attendance.student_id) FROM attendance JOIN comidsid
+							 ON comidsid.student_id=attendance.student_id 
+							 WHERE comidsid.community_id='$comid' 
+							 AND attendance.event_id='$eveid' AND attendance.status='a'");
+	$noa=mysql_result($d_att,0);
+	$d_att=mysql_query("SELECT COUNT(attendance.student_id) FROM attendance JOIN comidsid
+							 ON comidsid.student_id=attendance.student_id 
+							 WHERE comidsid.community_id='$comid' 
+							 AND attendance.event_id='$eveid' AND attendance.status='p'");
+	$nop=mysql_result($d_att,0);
+
+	$results=array($nosids,$nop,$noa);
+	return $results;
 	}
 
 function list_absentStudents($eveid=''){
