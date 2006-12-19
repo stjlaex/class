@@ -15,7 +15,6 @@ twoplusprint_buttonmenu();
 ?>
   <div id="heading">
 	<label><?php print_string('registersthissession',$book);?></label>
-	<?php print $eveid;?>
   </div>
   <div id="viewcontent" class="content">
 	  <form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
