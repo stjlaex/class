@@ -388,6 +388,7 @@ table.sidtable {
 .sidtable td.edit, .sidtable th.edit {  
     border-left:20px solid #444444;
 	padding:0 25px; margin:0;
+    width:20%;
 	}
 .sidtable .edit select {
     float:left;

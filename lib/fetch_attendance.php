@@ -159,9 +159,9 @@ function fetchAttendanceEvents($startday=0,$nodays=7){
 
 function currentEvent(){
 	global $CFG;
-	$date=date('Y-m-d');
 	if($CFG->registration=='double'){$session=date('A');}
 	else{$session='AM';}
+	$date=date('Y-m-d');
 	$d_event=mysql_query("SELECT id FROM event WHERE date='$date' AND period='$session'");
 	if(mysql_num_rows($d_event)==0){
 		$eveid='0';

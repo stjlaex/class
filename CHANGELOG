@@ -1,5 +1,9 @@
-Version ClaSS-0.8.5 release (2006/12/19)
+Version ClaSS-0.8.5 release (2006/12/20)
 ----------------------------------------
+
+Added a timezone setting to $CFG and included in classdata to set for
+all pages. Really only needed by the Register when the school's
+timezone differs form the servers.
 
 Bug fix to responables page. The pastoral buttons needed their
 rowaction container to work.

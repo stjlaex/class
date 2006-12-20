@@ -28,6 +28,8 @@ $CFG->contact='stj@laex.org';
 $CFG->sitelang='en';
 /*the choice of 'double' (AM/PM) or 'single' (AM) attendance registration*/
 $CFG->registration='double';
+/*used by the register - see http://es2.php.net/manual/en/timezones.php*/
+$CFG->timezone='Europe/Madrid';
 /*****
  *All of the following are connection details
  *for optional services residing outside of ClaSS
