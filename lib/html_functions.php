@@ -65,7 +65,6 @@ function twoplus_buttonmenu($currentkey,$maxkey){
 
 function threeplus_buttonmenu($currentkey,$maxkey){
 	if($currentkey==''){$currentkey=1;}//Register only needs this
-	trigger_error($currentkey.':'.$maxkey,E_USER_WARNING);
 ?>
   <div class="buttonmenu">
   	<button onClick="processContent(this);" <?php if($currentkey==0){print 'disabled="disabled" style="visibility:hidden;"';} ?> name="sub" value="Previous"><?php print_string('previous');?></button>

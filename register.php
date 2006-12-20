@@ -34,8 +34,6 @@ else{
   <div id="bookbox" class="registercolor">
 <?php
 	$currentevent=currentEvent();
-	if($checkeveid!='' and $checkeveid!='0'){$selevent=fetchEvent($checkeveid);}
-	else{$selevent=$currentevent;}
 
 	if($current!=''){
 		include($book.'/'.$current);

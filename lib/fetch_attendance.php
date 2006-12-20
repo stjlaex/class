@@ -48,12 +48,12 @@ function fetchAttendance($sid='-1'){
 	return $Attendance;
 	}
 
-function fetchAttendances($sid,$startday=0){
+function fetchAttendances($sid,$startday=0,$nodays=7){
 	$Attendances=array();
 	$evetable=array();
 	/*if no date set choose this week*/
-	$startdate=date('Y-m-d',mktime(0,0,0,date('m'),date('d')-$startday+1,date('Y')));
-	$enddate=date('Y-m-d',mktime(0,0,0,date('m'),date('d')-$startday-8,date('Y')));
+	$startdate=date('Y-m-d',mktime(0,0,0,date('m'),date('d')+$startday+1,date('Y')));
+	$enddate=date('Y-m-d',mktime(0,0,0,date('m'),date('d')+$startday-$nodays,date('Y')));
 
 	$d_attendance=mysql_query("SELECT attendance.status,
 			attendance.code, attendance.late, attendance.comment, event.id,
@@ -135,8 +135,8 @@ function fetchAttendanceEvent($eveid){
 function fetchAttendanceEvents($startday=0,$nodays=7){
 	$AttendanceEvents=array();
 	$evetable=array();
-	$startdate=date('Y-m-d',mktime(0,0,0,date('m'),date('d')-$startday+1,date('Y')));
-	$enddate=date('Y-m-d',mktime(0,0,0,date('m'),date('d')-$startday-$nodays,date('Y')));
+	$startdate=date('Y-m-d',mktime(0,0,0,date('m'),date('d')+$startday+1,date('Y')));
+	$enddate=date('Y-m-d',mktime(0,0,0,date('m'),date('d')+$startday-$nodays,date('Y')));
 	$d_event=mysql_query("SELECT id, period, date FROM event WHERE date < '$startdate' 
 			AND date > '$enddate'  ORDER BY date, period");
 	$AttendanceEvents['Event']=array();

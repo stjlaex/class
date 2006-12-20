@@ -4,7 +4,8 @@
 
 $action='register_list.php';
 
-$checkeveid=$_POST['checkeveid'];
+if(isset($_POST['checkeveid'])){$checkeveid=$_POST['checkeveid'];}
+else{$checkeveid=0;}
 
 include('scripts/sub_action.php');
 

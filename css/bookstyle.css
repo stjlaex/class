@@ -218,9 +218,9 @@ div.content .center, div.topform .center{
 
 /*used (but rarely) to describe page content in the space to the left of the top buttonmenu*/
 div#heading {
-	position:absolute; top:1%; left:10%; width:40%;
+	position:absolute; top:1%; left:10%;
 	border:0; margin-top:2px;
-    padding-left:2%;
+    padding-right:0.8em;
 	background-color:#ffffff;
     color:#000000;
     font-weight:600;

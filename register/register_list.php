@@ -8,10 +8,27 @@ $action='register_list_action.php';
 $choice='register_list.php';
 
 include('scripts/sub_action.php');
-$students=(array)listinCommunity($community);
-$AttendanceEvents=fetchAttendanceEvents($startday);
 
-threeplus_buttonmenu($startday,2);
+
+	$students=(array)listinCommunity($community);
+	$AttendanceEvents=fetchAttendanceEvents($startday);
+	$evetable=$AttendanceEvents['evetable'];
+		/*make sure an event is selected which is part of the current window*/
+	if(!array_key_exists($checkeveid,$evetable)){
+			if($startday>-7){
+				$checkeveid=0;
+				}
+			else{
+				end($evetable);
+				$checkeveid=key($evetable);
+				reset($evetable);
+				}
+			}
+	if($checkeveid=='' or $checkeveid=='0'){$selevent=$currentevent;}
+	else{$selevent=fetchEvent($checkeveid);}
+
+
+	threeplus_buttonmenu($startday,2);
 ?>
   <div id="heading">
 	<label><?php print_string('formgroup');?></label>
@@ -41,9 +58,10 @@ threeplus_buttonmenu($startday,2);
 		  </th>
 <?php
 		}
-	if($selevent['id']==0){
+	if($currentevent['id']==0  and $startday==''){
 ?>
-		  <th id="event-0" class="selected">
+		  <th id="event-0" 
+			class="<?php if($selevent['id']==0){ print 'selected';}?>"  >
 <?php 
 		  $t=strtotime($selevent['date']);
 		  print date('D',$t) .'<br />';
@@ -131,7 +149,7 @@ threeplus_buttonmenu($startday,2);
 <?php
 			}
 
-		if($selevent['id']==0){
+		if($currentevent['id']==0  and $startday==''){
 ?>
 			  <td id="<?php print 'cell-0-'.$sid;?>" status="n">
 				<?php print '&nbsp';?>
