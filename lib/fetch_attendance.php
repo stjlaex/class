@@ -119,10 +119,11 @@ function fetchcurrentAttendance($sid,$eveid=''){
 	return nullCorrect($Attendance);
 	}
 
-function fetchAttendanceEvent($eveid){
+function fetchAttendanceEvent($eveid='-1'){
 	$Event=array();
 	$d_event=mysql_query("SELECT period, date FROM event WHERE id='$eveid'");
 	$event=mysql_fetch_array($d_event,MYSQL_ASSOC);
+
 	$Event=array();
 	$Event['id_db']=$eveid;
 	$Event['Period']=array('label' => 'period',
@@ -132,6 +133,8 @@ function fetchAttendanceEvent($eveid){
 	return nullCorrect($Event);
 	}
 
+/* returns all events which exist in the db inclusive of the period */
+/* from startday to the previous nodays */
 function fetchAttendanceEvents($startday=0,$nodays=7){
 	$AttendanceEvents=array();
 	$evetable=array();

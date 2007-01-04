@@ -13,19 +13,28 @@ include('scripts/sub_action.php');
 	$students=(array)listinCommunity($community);
 	$AttendanceEvents=fetchAttendanceEvents($startday);
 	$evetable=$AttendanceEvents['evetable'];
-		/*make sure an event is selected which is part of the current window*/
+	/*make sure an event is selected which is part of the current window*/
 	if(!array_key_exists($checkeveid,$evetable)){
-			if($startday>-7){
+		if($startday>-7){
 				$checkeveid=0;
 				}
-			else{
+		else{
 				end($evetable);
 				$checkeveid=key($evetable);
 				reset($evetable);
 				}
+		}
+	if($checkeveid=='' or $checkeveid=='0'){
+		$seleveid=$currentevent['id'];
+		if($currentevent['id']==0 and $startday==''){
+			$Event=fetchAttendanceEvent();
+			$Event['id_db']=0;
+			$Event['Date']['value']=$currentevent['date'];
+			$Event['Period']['value']=$currentevent['period'];
+			$AttendanceEvents['Event'][]=$Event;
 			}
-	if($checkeveid=='' or $checkeveid=='0'){$selevent=$currentevent;}
-	else{$selevent=fetchEvent($checkeveid);}
+		}
+	else{$seleveid=$checkeveid;}
 
 
 	threeplus_buttonmenu($startday,2);
@@ -46,7 +55,7 @@ include('scripts/sub_action.php');
 		$events[]=$Event['id_db'];
 ?>
 		  <th id="event-<?php print $Event['id_db'];?>" 
-			class="<?php if($selevent['id']==$Event['id_db']){ print 'selected';}?>"  >
+			class="<?php if($seleveid==$Event['id_db']){ print 'selected';}?>"  >
 <?php 
 		  $t=strtotime($Event['Date']['value']);
 		  print date('D',$t) .'<br />';
@@ -54,25 +63,11 @@ include('scripts/sub_action.php');
 		  print date('M',$t) .'<br />';
 		  print $Event['Period']['value'];
 ?>
-		  <input type="radio" name="checkeveid" value="<?php print $Event['id_db'];?>" />
+				<input type="radio" name="checkeveid" value="<?php print $Event['id_db'];?>" />
 		  </th>
 <?php
 		}
-	if($currentevent['id']==0  and $startday==''){
-?>
-		  <th id="event-0" 
-			class="<?php if($selevent['id']==0){ print 'selected';}?>"  >
-<?php 
-		  $t=strtotime($selevent['date']);
-		  print date('D',$t) .'<br />';
-		  print date('j S',$t) .'<br />';
-		  print date('M',$t) .'<br />';
-		  print $selevent['period'];
-?>
-			<input type="radio" name="checkeveid" value="0" />
-		  </th>
-<?php
-	 	}
+
 ?>
 		  <th class="edit"><?php print_string('attendance',$book);?></th>
 		</tr>
@@ -149,14 +144,7 @@ include('scripts/sub_action.php');
 <?php
 			}
 
-		if($currentevent['id']==0  and $startday==''){
-?>
-			  <td id="<?php print 'cell-0-'.$sid;?>" status="n">
-				<?php print '&nbsp';?>
-			  </td>
-<?php
-			 }
-		if(sizeof($AttendanceEvents['Event'])>0){
+   		if(sizeof($AttendanceEvents['Event'])>0){
 ?>
 			  <td id="edit-<?php print $sid;?>" class="edit">
 				<select tabindex="<?php print $tab++;?>" 					
@@ -167,8 +155,8 @@ include('scripts/sub_action.php');
 				</select>
 			  </td>
 <?php
-   			}
-   		else{
+			}
+		else{
 ?>
 		  <td></td>
 <?php
