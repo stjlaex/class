@@ -67,7 +67,7 @@ while($student=mysql_fetch_array($d_students, MYSQL_ASSOC)){
 			/*Mark is average of several score values*/
 			$mids=explode(' ',$midlist[$c]);
 			$d_markdef=mysql_query("SELECT markdef.scoretype FROM markdef
-				JOIN  mark ON markdef.name=mark.def_name WHERE mark.id='$mids[1]'");
+				JOIN mark ON markdef.name=mark.def_name WHERE mark.id='$mids[1]'");
 			$avtype=mysql_fetch_array($d_markdef,MYSQL_ASSOC);
 			if($avtype['scoretype']=='grade'){
 				$grading_grades=$scoregrades[$c];
@@ -159,7 +159,7 @@ while($student=mysql_fetch_array($d_students, MYSQL_ASSOC)){
 
 		/*********************************************************/
 	   	elseif($marktype=='level'){
-			/*them mark is the levelled grade of a score*/
+			/*then mark is the levelled grade of a score*/
 			$d_score=mysql_query("SELECT value, outoftotal FROM 
 					score WHERE mark_id='$midlist[$c]' AND student_id='$sid'");
 			$score=mysql_fetch_array($d_score,MYSQL_ASSOC);

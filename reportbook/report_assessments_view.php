@@ -15,30 +15,28 @@
 
 $action='report_assessments_view.php';
 
-if(isset($_POST{'day'})){$date = $_POST['year'].'-'.$_POST['month'].'-'.$_POST['day'];}else{$date='';}
-if(isset($_POST{'bids'})){$bids=(array)$_POST{'bids'};}else{$bids=array();}
-if(isset($_POST{'newyid'})){$yid=$_POST{'newyid'};}else{$yid='';}
-if(isset($_POST{'newfid'})){$fid=$_POST{'newfid'};}else{$fid='';}
-if(isset($_POST{'selcrid'})){$selcrid=$_POST{'selcrid'};}else{$selcrid=$rcrid;}
-if(isset($_POST{'eids'})){$eids=(array)$_POST{'eids'};}else{$eids=array();}
-if(isset($_POST{'breakdown'})){$breakdown=$_POST{'breakdown'};}else{$breakdown='subject';}
+if(isset($_POST['day'])){$date=$_POST['year'].'-'.$_POST['month'].'-'.$_POST['day'];}else{$date='';}
+if(isset($_POST['bids'])){$bids=(array)$_POST['bids'];}else{$bids=array();}
+if(isset($_POST['newyid'])){$yid=$_POST['newyid'];}else{$yid='';}
+if(isset($_POST['newfid'])){$fid=$_POST['newfid'];}else{$fid='';}
+if(isset($_POST['selcrid'])){$selcrid=$_POST['selcrid'];}else{$selcrid=$rcrid;}
+if(isset($_POST['eids'])){$eids=(array)$_POST['eids'];}else{$eids=array();}
+if(isset($_POST['breakdown'])){$breakdown=$_POST['breakdown'];}else{$breakdown='subject';}
 
 include('scripts/sub_action.php');
 
 	/*Select a group of students by yeargroup_id*/
 	if($yid!=''){
-		if($d_student=mysql_query("SELECT * FROM student WHERE
-				yeargroup_id='$yid' ORDER BY form_id, surname")){}
-		else{print mysql_error();}
+		$d_student=mysql_query("SELECT * FROM student WHERE
+				yeargroup_id='$yid' ORDER BY form_id, surname");
 		}
 	/*Select a group of students by form_id*/
 	elseif($fid!=''){
-		if($d_student=mysql_query("SELECT * FROM student WHERE
-				form_id='$fid' ORDER BY surname")){}
-		else{print mysql_error();}
+		$d_student=mysql_query("SELECT * FROM student WHERE
+				form_id='$fid' ORDER BY surname");
 		}
 	else{$error[]=get_string('youneedtoselectstudents'); 
-		$current=$choice;
+		$action=$choice;
 		include('scripts/results.php');
 		include('scripts/redirect.php');
 		exit;
@@ -67,7 +65,7 @@ include('scripts/sub_action.php');
 			$d_component=mysql_query("SELECT DISTINCT id FROM component
 				WHERE course_id LIKE '$selcrid' AND subject_id='$bid' ORDER BY id");
 			while($pid=mysql_fetch_array($d_component,MYSQL_ASSOC)){
-				$bids[]=$bid.$pid['id'];
+				$bids[]=$bid . $pid['id'];
 				}
 			}
 		}
@@ -114,8 +112,8 @@ include('scripts/sub_action.php');
 				$eid=$Assessment['id_db'];
 				$bid=$Assessment['Subject']['value'];
 				$pid=$Assessment['SubjectComponent']['value'];
-				$asshids["$bid$pid"][]=$assno;
-				$assaids["$eid"][]=$assno;
+				$asshids[$bid.$pid][]=$assno;
+				$assaids[$eid][]=$assno;
 				}
 			}
 		else if($breakdown=='assessment'){
@@ -123,8 +121,8 @@ include('scripts/sub_action.php');
 				$eid=$Assessment['id_db'];
 				$bid=$Assessment['Subject']['value'];
 				$pid=$Assessment['SubjectComponent']['value'];
-				$asshids["$eid"][]=$assno;
-				$assaids["$bid$pid"][]=$assno;
+				$asshids[$eid][]=$assno;
+				$assaids[$bid.$pid][]=$assno;
 				}
 			}
 
@@ -149,7 +147,6 @@ include('scripts/sub_action.php');
 					to translate between grading schemes*/
 			   		$crid=$Assessment['Course']['value'];
 					$result=$Assessment['Result']['value'];
-					$resq=$Assessment['ResultQualifier']['value'];
 			   		$gena=$Assessment['GradingScheme']['value'];
 					if($gena!=''){
 						$d_grading=mysql_query("SELECT grades FROM grading WHERE name='$gena'");
@@ -164,7 +161,7 @@ include('scripts/sub_action.php');
 					else{
 						$score=$result;
 	   					$gradesum=$gradesum+$score;
-		   				$gradecount++; 
+		   				$gradecount++;
 						}
 					}
 				}
@@ -272,10 +269,11 @@ include('scripts/sub_action.php');
 </div>
 
 <div class="buttonmenu">
-	<button onClick="processContent(this);" name="breakdown" value="subject">Display by Subject</button>
-	<button onClick="processContent(this);" name="breakdown" value="assessment">Display by Assessment</button>
-	<button  type="button" onClick="stats(grades,gradestats,percents)" name="stats">Show Statistics</button>
-	<button onClick="processContent(this);" name="sub" value="Cancel">Cancel</button>
-	<button onClick="processContent(this);" name="sub" value="Reset">Reset</button>
+	<button onClick="processContent(this);" name="breakdown" value="subject"><?php print_string('displaybysubject',$book);?></button>
+	<button onClick="processContent(this);" name="breakdown" value="assessment"><?php print_string('displaybyassessment',$book);?></button>
+	<button  type="button" onClick="stats(grades,gradestats,percents)" name="stats"><?php print_string('showstatistics',$book);?></button>
+	<button onClick="processContent(this);" name="sub" value="Cancel"><?php print_string('cancel',$book);?></button>
+	<button onClick="processContent(this);" name="sub"
+	value="Reset"><?php print_string('reset',$book);?></button>
 	<button style="visibility:hidden;" name="" value=""></button>
 </div>

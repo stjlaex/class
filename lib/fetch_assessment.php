@@ -51,7 +51,7 @@ function scoreToPercent($score,$scoretotal='100'){
 	/*	Returns formated $percent, and floating point $cent
 			and the full works in $display
 	*/
-	if($score!=''){
+	if(is_numeric($score)){
 		if($scoretotal>0){
 			$cent=($score/$scoretotal)*100;
 //			$cent=round($cent,1);
@@ -73,7 +73,7 @@ function scoreToGrade($score,$grading_grades){
 	The numerical equivalents for the grades (levels in the grading
 	scheme) must have integer values.
 	*/
-	if($score!=''){
+	if(is_numeric($score)){
 		$pairs=explode(';', $grading_grades);
 	    $score=round($score);
 		$high=sizeof($pairs);

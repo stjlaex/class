@@ -1,4 +1,16 @@
-Version ClaSS-0.8.5 release (2007/01/03)
+Version ClaSS-0.8.7 release (2007/01/12)
+----------------------------------------
+
+A bugfix to the register which fixes the completion list. It was
+failing to exclude students who had left a registration group. The
+leavingdate clause has been added to the check_CommunityAttendance
+function.
+
+Tracked down missing D grades in the ReportBook to scoreToGrade()
+function mistaking grades with score value zero for null strings.
+Now use is_numeric for scoreToGrade() and scoreToPercent().
+ 
+Version ClaSS-0.8.6 release (2007/01/03)
 ----------------------------------------
 
 A bugfix to the register to allow the display of a fresh attendance

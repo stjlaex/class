@@ -30,5 +30,9 @@ $string['newassessments']='Assessments';
 $string['reportwrappers']='Report wrappers';
 $string['elementid']='ID';
 $string['create']='Create columns';
+$string['displaybysubject']='View by subject';
+$string['displaybyassessment']='View by assessment';
+$string['showstatistics']='Show statistics';
+$string['']='';
 $string['']='';
 ?>
