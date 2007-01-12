@@ -48,7 +48,11 @@ if(isset($wrapper_rid)){
 		}
 	}
 
-twoplusprint_buttonmenu();
+if($_SESSION['role']=='admin'){
+	$extrabuttons['publish']=array('name'=>'current','value'=>'report_reports_publish.php');
+	}
+else{$extrabuttons='';}
+twoplusprint_buttonmenu($extrabuttons);
 ?>
   <div id="heading">
   <?php print get_string('subjectreportsfor',$book).' '.$fid;?>

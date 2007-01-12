@@ -146,7 +146,7 @@
 			}
 ?>
 		  <div id="<?php print 'xml-'.$openId;?>" style="display:none;">
-	  <?php				xmlpreparer('Comment',$Comment); ?>
+	  <?php				xmlechoer('Comment',$Comment); ?>
 		  </div>
   </tbody>
 <?php

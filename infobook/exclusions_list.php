@@ -113,7 +113,7 @@ three_buttonmenu();
 		  </tr>
 		  <div id="<?php print 'xml-'.$entryno;?>" style="display:none;">
 <?php
-				xmlpreparer('Comment',$entry);
+				xmlechoer('Comment',$entry);
 ?>
 			</div>
 		  </tbody>

@@ -4,9 +4,26 @@
 require_once 'XML/Serializer.php';
 require_once 'XML/Unserializer.php';
 
+/*apllied to ensure lowercase for all xml tagnames*/
+function caseCorrect($array){
+	if(is_array($array)){
+		$newarray=array();
+		//$array=array_change_key_case($array,CASE_LOWER);
+		foreach($array as $key => $value){
+			$key=mb_strtolower($key);
+			$newarray[$key]=caseCorrect($value);
+			}
+		}
+	else{
+		$newarray=$array;
+		}
+	return $newarray;
+	}
+
 function xmlpreparer($rootName,$xmlentry){
 	/*takes the root name as input*/
-	nullCorrect($xmlentry);
+	$xmlentry=nullCorrect($xmlentry);
+	$xmlentry=caseCorrect($xmlentry);
 	$serializer_options=array(
 							  'addDecl' => FALSE,
 							  'encoding' => 'UTF-8',
@@ -16,17 +33,73 @@ function xmlpreparer($rootName,$xmlentry){
 							  'mode'           => 'simplexml'
 							  //	'scalarAsAttributes' => TRUE,
 							  //   'attributesArray' => array('field_db', 'label'),
-							  //	'contentNAME'        => 'value'
+							  //	'contentNAME' => 'value'
+							  //	"addDoctype" => true,
+							  //	"doctype" => array(
+							  //	'uri' => 'http://pear.php.net/dtd/package-1.0',
+							  //	'id'  => '-//PHP//PEAR/DTD PACKAGE 0.1')
 							  );
 
 	$Serializer=&new XML_Serializer($serializer_options);
 	$status=$Serializer->serialize($xmlentry);
 	if(PEAR::isError($status)){die($status->getMessage());}
-	echo $Serializer->getSerializedData();
+	return $Serializer->getSerializedData();
 	}
 
+function xmlechoer($rootName,$xmlentry){
+	$xml=xmlpreparer($rootName,$xmlentry);
+	echo $xml;
+	}
+
+function xmlprocessor($xml,$xsl_filename){
+	global $CFG;
+	$arguments=array(
+					 '/_xml' => $xml
+					 //,'/_xsl' => $xsl
+					 );
+	$parameters=array(
+					   );
+	$xh=xslt_create();
+	$filebase='file://'.$CFG->installpath . '/templates/';
+	xslt_set_base($xh,$filebase);
+	$html=xslt_process($xh
+					   ,'arg:/_xml'
+					   ,$xsl_filename 
+					   //,NULL
+					   ,'output.html'
+					   ,$arguments
+					   );
+	if(empty($html)){
+		trigger_error('XSLT processing error: '. xslt_error($xh), E_USER_WARNING);
+		}
+	else{
+		trigger_error('XSLT processing error: '. xslt_error($xh), E_USER_WARNING);
+		}
+
+	xslt_free($xh);
+	return $html;
+	}
+
+function xmlfileprocessor($xml_filename,$xsl_filename){
+	global $CFG;
+
+	$xh=xslt_create();
+	$filebase='file://'.$CFG->installpath . '/templates/';
+	xslt_set_base($xh,$filebase);
+	xslt_process($xh
+						 ,$xml_filename 
+						 ,$xsl_filename 
+						 ,'output2.html'
+						 ,$arguments
+						 );
+	trigger_error('XSLT processing error: '. xslt_error($xh), E_USER_WARNING);
+	xslt_free($xh);
+	return;
+	}
+
+
 function xmlfilereader($xmlfilename){
-	nullCorrect($xmlentry);
+	$xmlentry=nullCorrect($xmlentry);
 	$serializer_options=array(
 							  'complexType' => 'array'
 							  );
@@ -35,12 +108,12 @@ function xmlfilereader($xmlfilename){
 	$status=$Unserializer->unserialize($xmlfilename,true);
 	if(PEAR::isError($status)){
 		die($status->getMessage());
-		$Data=array();
+		$data=array();
 		}
 	else{
-		$Data=$Unserializer->getUnserializedData();
+		$data=$Unserializer->getUnserializedData();
 		}
-	return $Data;
+	return $data;
 	}
 
 function xmlarray_indexed_check($inarray,$indexname){

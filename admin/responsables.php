@@ -152,7 +152,7 @@ three_buttonmenu();
 				<?php print $group['name'];?>
 			  </button>
 			  <div id="<?php print 'xml-'.$yid.'-'.$uid;?>" style="display:none;">
-							  <?php xmlpreparer('Responsible',$Responsible);?>
+							  <?php xmlechoer('Responsible',$Responsible);?>
 			  </div>
 			</div>
 <?php
@@ -183,7 +183,7 @@ three_buttonmenu();
 					 <?php print $group['name'];?>
 			  </button>
 			  <div id="<?php print 'xml-'.$crid.'-'.$bid.'-'.$uid;?>" style="display:none;">
-							  <?php xmlpreparer('Responsible',$Responsible);?>
+							  <?php xmlechoer('Responsible',$Responsible);?>
 			  </div>
 			</div>
 <?php

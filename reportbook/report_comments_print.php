@@ -42,7 +42,7 @@ include('scripts/results.php');
 		$Comments=fetchComments($sid,$date0);
 		$Student['Comments']=$Comments;
 		$Student['Comments']['cattable']=$cattable;
-		xmlpreparer('Student',$Student);
+		xmlechoer('Student',$Student);
 		}
 ?>
 </div>

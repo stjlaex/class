@@ -84,7 +84,7 @@ three_buttonmenu();
 					 <?php print $tid;?>
 			  </button>
 			  <div id="<?php print 'xml-'.$fid.'-'.$uid;?>" style="display:none;">
-							  <?php xmlpreparer('Responsible',$Responsible);?>
+							  <?php xmlechoer('Responsible',$Responsible);?>
 			  </div>
 			</div>
 <?php

@@ -9,7 +9,12 @@ function.
 Tracked down missing D grades in the ReportBook to scoreToGrade()
 function mistaking grades with score value zero for null strings.
 Now use is_numeric for scoreToGrade() and scoreToPercent().
- 
+
+Added Element and Derivation to the new_assessments form.
+
+Renamed xmlpreparer to be xmlechoer and now using xmlpreparer to
+return xml for use by xslt_process.
+
 Version ClaSS-0.8.6 release (2007/01/03)
 ----------------------------------------
 

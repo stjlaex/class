@@ -22,7 +22,7 @@ if(sizeof($comids)==0){
 <?php
 
   	$AttendanceEvent=fetchAttendanceEvent($currentevent['id']);
- 	xmlpreparer('AttendanceEvent',$AttendanceEvent);
+ 	xmlechoer('AttendanceEvent',$AttendanceEvent);
 
 	while(list($index,$comid)=each($comids)){
 		$Community=fetchCommunity($comid);
@@ -33,7 +33,7 @@ if(sizeof($comids)==0){
 			$Student['Attendances']['Attendnace'][]=fetchcurrentAttendance($student['id']);
 			$Community['Student'][]=$Student;
 			}
-		xmlpreparer('Community',$Community);
+		xmlechoer('Community',$Community);
 		}
 ?>
   </div>

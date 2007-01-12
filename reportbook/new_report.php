@@ -102,7 +102,7 @@ two_buttonmenu($extrabuttons);
 		  </tr>
 		  <div id="<?php print 'xml-'.$rid;?>" style="display:none;">
 <?php
-	xmlpreparer('ReportDefinition',$ReportDef);
+	xmlechoer('ReportDefinition',$ReportDef);
 ?>
 		  </div>
 		</tbody>

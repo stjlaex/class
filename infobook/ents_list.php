@@ -120,7 +120,7 @@ else{
 		  </tr>
 		  <div id="<?php print 'xml-'.$entryno;?>" style="display:none;">
 <?php
-				xmlpreparer("$tagname",$entry);
+				xmlechoer("$tagname",$entry);
 ?>
 			</div>
 		  </tbody>

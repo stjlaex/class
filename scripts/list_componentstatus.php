@@ -10,7 +10,7 @@
 		$enum=getEnumArray('component');
 		while(list($inval,$description)=each($enum)){	
 				print '<option ';
-				print ' value="'.$inval.'">'.$description.'</option>';
+				print ' value="'.$inval.'">'.get_string($description,'reportbook').'</option>';
 				}
 ?>
 	</select>

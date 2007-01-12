@@ -72,7 +72,7 @@ $externalbooks['all']=array(
 $externalbooks['admin']=array(
 							  //'webmail' => $CFG->webmailtabname
 							  //,'lms' => $CFG->lmstabname
-							  //,'eportfolio' => $CFG->eportfoliotabname
+							  'eportfolio' => $CFG->eportfoliotabname
 				 );
 $externalbooks['office']=array(
 							   //'webmail' => $CFG->webmailtabname

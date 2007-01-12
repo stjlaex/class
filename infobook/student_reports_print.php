@@ -31,7 +31,7 @@ if(isset($_POST['wrapper_rid'])){$wrapper_rid=$_POST['wrapper_rid'];}else{$wrapp
 	list($Reports,$transform)=fetchSubjectReports($sid,$reportdefs);
 	$Reports['Coversheet']=$coversheet;
 	$Student['Reports']=nullCorrect($Reports);
-	xmlpreparer('Student',$Student);
+	xmlechoer('Student',$Student);
 ?>
   </div>
   <script>openPrintReport('xmlStudent', '<?php print $transform;?>')</script>

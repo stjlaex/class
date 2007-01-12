@@ -104,10 +104,10 @@ function clickToAction(buttonObject){
 	var xmlContainer=document.getElementById(xmlId);
 	var xmlRecord=xmlContainer.childNodes[1];
 	var action=buttonObject.name;
-	if(action=='Edit'){
+	if(action=="Edit"){
 		var test=fillxmlForm(xmlRecord);
 		}
-	else if(action=='current'){
+	else if(action=="current"){
 		var recordId=xmlRecord.childNodes[1].childNodes[0].nodeValue;
 		var script=buttonObject.value;
 		var url=pathtobook + "httpscripts/" + script + "?uniqueid=" + escape(recordId);
@@ -281,7 +281,7 @@ function processContent(buttonObject){
 function checkAll(checkAllBox){
 	var formObject=checkAllBox.form;
 	for(var c=0; c<formObject.elements.length; c++){
-		if(formObject.elements[c].name=='checkall'){
+		if(formObject.elements[c].name=="checkall"){
 			c=c+1;
 			}
 		if(formObject.elements[c].type=='checkbox'){

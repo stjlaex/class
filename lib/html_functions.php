@@ -78,12 +78,22 @@ function threeplus_buttonmenu($currentkey,$maxkey){
 <?php
 	}
 
-function twoplusprint_buttonmenu(){
+function twoplusprint_buttonmenu($extrabuttons=''){
 ?>
   <div class="buttonmenu">
+<?php
+	if(is_array($extrabuttons)){
+		while(list($description,$value)=each($extrabuttons)){
+?>
+	<button onClick="processContent(this);" name="<?php print $value['name'];?>" 
+	  value="<?php print $value['value'];?>"><?php print_string($description);?></button>
+<?php
+			 }
+		}
+?>
 	<button onClick="processContent(this);" name="sub" 
 		value="Print"><?php print_string('printselected');?></button>
-	<button onClick="processContent(this);" name="sub" value="Cancel"><?php print_string('cancel');?></button>
+	<button onClick="processContent(this);" name="sub" style="margin-left:1em;" value="Cancel"><?php print_string('cancel');?></button>
 	<button onClick="processContent(this);" name="sub" value="Reset"><?php print_string('reset');?></button>
   </div>
 

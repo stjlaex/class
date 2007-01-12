@@ -77,7 +77,7 @@ three_buttonmenu();
 					 <?php print $user['username'];?>
 			  </button>
 			  <div id="<?php print 'xml-'.$yid.'-'.$uid;?>" style="display:none;">
-							  <?php xmlpreparer('Responsible',$Responsible);?>
+							  <?php xmlechoer('Responsible',$Responsible);?>
 			  </div>
 			</div>
 <?php

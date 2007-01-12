@@ -46,7 +46,7 @@ include('scripts/results.php');
 		$cattable=array();
 		$cattable['catnames']=$catnames;
 		$Student['cattable']=$cattable;
-		xmlpreparer('Student',$Student);
+		xmlechoer('Student',$Student);
 		}
 ?>
 </div>

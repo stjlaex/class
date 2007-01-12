@@ -353,7 +353,7 @@ function fileRead($file){
 		}
    	fclose($file);
 	return $flines;
-}
+	}
 
 /*function to open a file*/
 function fileOpen($path){

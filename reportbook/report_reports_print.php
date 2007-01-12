@@ -38,7 +38,7 @@ if(sizeof($sids)==0){
 		$Reports['Coversheet']=$coversheet;
 		$Student['Reports']=nullCorrect($Reports);
 		/*Finished with the student's reports. Output the result as xml.*/
-		xmlpreparer('Student',$Student);
+		xmlechoer('Student',$Student);
 		}
 ?>
   </div>

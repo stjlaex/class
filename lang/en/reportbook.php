@@ -28,11 +28,14 @@ $string['newstatistics']='Statistics';
 $string['newestimates']='Estimates';
 $string['newassessments']='Assessments';
 $string['reportwrappers']='Report wrappers';
-$string['elementid']='ID';
+$string['element']='Element ID';
 $string['create']='Create columns';
 $string['displaybysubject']='View by subject';
 $string['displaybyassessment']='View by assessment';
 $string['showstatistics']='Show statistics';
-$string['']='';
+$string['validating']='Validating';
+$string['non-validating']='Non-validating';
+$string['not-appliad']='Not applied';
+$string['derivation']='Derivation';
 $string['']='';
 ?>

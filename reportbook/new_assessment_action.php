@@ -67,10 +67,10 @@ elseif($sub=='Submit'){
 		$deadline=$_POST['deadline'];
 		$creation=$_POST['creation'];
 		if($id==''){
-			mysql_query("INSERT INTO assessment (stage, year, subject_id, method,
+			mysql_query("INSERT INTO assessment (stage, year, subject_id, method, derivation, 
 				element, component_id, description, resultqualifier, course_id,
-				component_status, label, grading_name,creation,deadline) 
-				VALUES ('$stage', '$year', '$subject', '$method',
+				component_status, label, grading_name, creation, deadline) 
+				VALUES ('$stage', '$year', '$subject', '$method', '$derivation',
 				'$element', '$pid', '$description', '$resultq', '$course',
 				'$componentstatus', '$printlabel', '$gena','$creation','$deadline');");	
 			}
@@ -79,6 +79,7 @@ elseif($sub=='Submit'){
 				stage='$stage', subject_id='$subject', method='$method',
 				component_id='$pid', description='$description', 
 				resultqualifier='$resultq', course_id='$course', 
+				element='$element', derivation='$derivation', 
 				component_status='$componentstatus', 
 				label='$printlabel', grading_name='$gena',
 				deadline='$deadline', creation='$creation' WHERE id='$id';");

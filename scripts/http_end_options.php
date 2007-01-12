@@ -6,5 +6,5 @@
 		error_log($out." # ",3,"/var/tmp/my-errors.log");
 		}
  	header('Content-Type: text/xml'); 
-	xmlpreparer("$rootName",$returnXML);
+	xmlechoer("$rootName",$returnXML);
 ?>
