@@ -9,7 +9,8 @@ if($surname!=''){
 	if($forename!=''){
 		$d_sids=mysql_query("SELECT * FROM student WHERE
 			 MATCH (surname) AGAINST ('$surname*' IN BOOLEAN MODE) 
-				AND MATCH (forename) AGAINST ('$forename*' IN BOOLEAN MODE) 
+				AND (MATCH (forename,preferredforename) AGAINST ('$forename*' IN BOOLEAN MODE) 
+				OR forename='$forename' OR preferredforename='$forename')
 						ORDER BY surname, forename");
 		$rows=mysql_num_rows($d_sids);
 		if($rows==0) {$result[]='Failed to find '.$surname.', '.$forename.'.';}
@@ -31,16 +32,12 @@ if($surname!=''){
 
 	if(!isset($rows)){
 		$d_sids=mysql_query("SELECT * FROM student WHERE
-		MATCH (surname) AGAINST ('$surname*' IN BOOLEAN MODE) ORDER BY surname, forename");
-		$rows=mysql_num_rows($d_sids);
-		}	
-		
-	if(!isset($rows)){
-		$d_sids=mysql_query("SELECT * FROM student WHERE
-		MATCH (surname) AGAINST ('*$surname*' IN BOOLEAN MODE) ORDER BY surname, forename");
+		MATCH (surname) AGAINST ('$surname*' IN BOOLEAN MODE) 
+		OR surname='$surname' 
+		ORDER BY surname, forename");
 		$rows=mysql_num_rows($d_sids);
 		if($rows==0) {$result[]='Failed to find surname '.$surname.'.';}	
-		}
+		}		
 	}
 elseif($forename!=''){
 	if($newfid!=''){
@@ -59,7 +56,9 @@ elseif($forename!=''){
 		}	
 	if(!isset($rows)){
 		$d_sids=mysql_query("SELECT * FROM student WHERE 
-		MATCH (forename) AGAINST ('$forename*' IN BOOLEAN MODE) ORDER BY surname, forename");
+				MATCH (forename,preferredforename) AGAINST ('*$forename*' IN BOOLEAN MODE) 
+				OR forename='$forename' OR preferredforename='$forename' 
+				ORDER BY surname, forename");
 		$rows=mysql_num_rows($d_sids);
 		if($rows==0) {$result[]='Failed to find '.$forename.'.';}
 		}

@@ -294,9 +294,12 @@ function getEnumArray($field_name) {
 						'RegistrationGroup' => 'formgroup', 
 						'DOB' => 'dateofbirth',
 						'Nationality' => 'nationality',
+						'EmailAddress' => 'email',
+						'MobilePhone' => 'mobilephone',
 						'EnrolNumber' => 'enrolmentnumber',
 						'FirstLanguage' => 'firstlanguage',
 						'EntryDate' => 'schoolstartdate',
+						'FirstContact' => 'firstcontact',
 						'FirstContactPhone' => 'firstcontactphone'
 						);
 	/*for the register*/

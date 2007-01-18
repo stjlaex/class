@@ -54,11 +54,13 @@ function fetchStudent_short($sid){
 
 function fetchStudent_singlefield($sid,$tag){
 	/*this is a ad-hoc function for use by student_list only at the moment*/
-	/*to quickly get at sid fields outside of  student*/
+	/*to quickly get at sid fields outside of student*/
 	if($tag=='Nationality'){$fieldname='nationality';}
 	elseif($tag=='EnrolNumber'){$fieldname='formerupn';}
 	elseif($tag=='FirstLanguage'){$fieldname='firstlanguage';}
 	elseif($tag=='EntryDate'){$fieldname='entrydate';}
+	elseif($tag=='EmailAddress'){$fieldname='email';}
+	elseif($tag=='MobilePhone'){$fieldname='phonenumber';}
 	elseif($tag=='FirstContactPhone'){
 		/*NOT a part of the xml def for Student but useful here*/
 		$Contacts=(array)fetchContacts($sid);
@@ -69,6 +71,17 @@ function fetchStudent_singlefield($sid,$tag){
 			$Student[$tag]['value']=$Student[$tag]['value'] . 
 					$Phone['PhoneNo']['value'].' ';				
 			}
+		}
+	elseif($tag=='FirstContact'){
+		/*NOT a part of the xml def for Student but useful here*/
+		$Contacts=(array)fetchContacts($sid);
+		$rel=displayEnum($Contacts[0]['Relationship']['value'], 'relationship'); 
+		$rel=get_string($rel,'infobook');
+		$firstcontact='('.$rel.') '. 
+				$Contacts[0]['Forename']['value']. ' '.$Contacts[0]['Surname']['value'];
+		$Student[$tag]=array('label' => '',
+							 'value' => '');
+		$Student[$tag]['value']=$firstcontact; 
 		}
 
 	if(isset($fieldname)){
@@ -187,10 +200,15 @@ function fetchStudent($sid='-1'){
 									'field_db' => 'firstlanguage',
 									'type_db'=>'enum', 
 									'value' => ''.$info['firstlanguage']);
-   	$Student['E-Mail']=array('label' => 'email',
+   	$Student['MobilePhone']=array('label' => 'mobilephone',
+							 'table_db' => 'info', 
+							 'field_db' => 'phonenumber',
+							 'type_db'=>'varhar(22)', 
+							 'value' => ''.$info['phonenumber']);
+   	$Student['EmailAddress']=array('label' => 'email',
 							 'table_db' => 'info', 
 							 'field_db' => 'email',
-							 'type_db'=>'varhar(50)', 
+							 'type_db'=>'varhar(240)', 
 							 'value' => ''.$info['email']);
    	$Student['EnrolNumber']=array('label' => 'enrolmentnumber', 
 								  'table_db' => 'info', 

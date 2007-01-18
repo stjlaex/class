@@ -55,7 +55,7 @@ three_buttonmenu($extrabuttons);
 
 	  <fieldset class="center">
 		<legend><?php print_string('contactaddress',$book);?></legend>
-<?php	
+<?php
 
 //	while(list($addressno,$Address)=each($Addresses)){
 $addressno='0';

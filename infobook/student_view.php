@@ -62,7 +62,15 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 			  <label><?php print_string($Student['FirstLanguage']['label'],$book);?></label>
 			  <?php print $Student['FirstLanguage']['value'];?>
 			</td>
-			<td>&nbsp</td>
+			<td>
+<?php if($Student['MobilePhone']['value']!=''){ ?>
+			  <label><?php print_string($Student['MobilePhone']['label'],$book);?></label>
+			  <?php print $Student['MobilePhone']['value'];?>
+<?php
+			  }
+			else{print '&nbsp';}
+?>
+			</td>
 		  </tr>
 		</table>
 	  </div>

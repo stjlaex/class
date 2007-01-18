@@ -88,6 +88,7 @@ $string['currentsubsidary(dualregistration)']='Current subsidary (dual reg.)';
 $string['currentmain(dualregistration)']='Current main (dual reg.)';
 $string['enrolstatus']='Enrolment status';
 $string['firstcontactphone']='First Contact Phone';
+$string['firstcontact']='First Contact';
 $string['source']='Source';
 $string['subjectspecificoptional']='Subject Specific (optional):';
 $string['exclusions']='Exclusions';

@@ -16,7 +16,7 @@
 $action='report_assessments_view.php';
 
 if(isset($_POST['day'])){$date=$_POST['year'].'-'.$_POST['month'].'-'.$_POST['day'];}else{$date='';}
-if(isset($_POST['bids'])){$bids=(array)$_POST['bids'];}else{$bids=array();}
+if(isset($_POST['bids'])){$selbids=(array)$_POST['bids'];}else{$selbids=array();}
 if(isset($_POST['newyid'])){$yid=$_POST['newyid'];}else{$yid='';}
 if(isset($_POST['newfid'])){$fid=$_POST['newfid'];}else{$fid='';}
 if(isset($_POST['selcrid'])){$selcrid=$_POST['selcrid'];}else{$selcrid=$rcrid;}
@@ -53,20 +53,23 @@ include('scripts/sub_action.php');
 		$c++;
 		}
 
-
 	/*using ALL subjects, fetch all bids for this crid*/
-	if($bids[0]=='%'){
-		$bids=array();
+	if($selbids[0]=='%'){
 		$d_cridbid=mysql_query("SELECT DISTINCT subject_id FROM cridbid
 				WHERE course_id LIKE '$selcrid' ORDER BY subject_id");
+		$selbids=array();
 		while($bid=mysql_fetch_array($d_cridbid,MYSQL_ASSOC)){
-			$bid=$bid['subject_id'];
-			$bids[]=$bid.' ';
-			$d_component=mysql_query("SELECT DISTINCT id FROM component
+			$selbids[]=$bid['subject_id'];
+			}
+		}
+
+	$bids=array();
+	while(list($index,$bid)=each($selbids)){
+		$bids[]=$bid.' ';
+		$d_component=mysql_query("SELECT DISTINCT id FROM component
 				WHERE course_id LIKE '$selcrid' AND subject_id='$bid' ORDER BY id");
-			while($pid=mysql_fetch_array($d_component,MYSQL_ASSOC)){
-				$bids[]=$bid . $pid['id'];
-				}
+		while($pid=mysql_fetch_array($d_component,MYSQL_ASSOC)){
+			$bids[]=$bid . $pid['id'];
 			}
 		}
 

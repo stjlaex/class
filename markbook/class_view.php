@@ -183,9 +183,10 @@ if($_SESSION['worklevel']>-1){
 				$col_mid=$umns[$c]['id'];
 				if($viewtable[$c2]['score'.$col_mid]['comment']!=''){
 					print '<td class="'.$viewtable[$c2]['score'.$col_mid]['scoreclass']. '" '. 
-						' id="'.$viewtable[$c2]['sid'].'-'. $col_mid. '" title="" >';
-					print '<span title="'.$viewtable[$c2]['score'.$col_mid]['comment'].'">';
-					print $viewtable[$c2][$col_mid].'</span></td>';
+						' id="'.$viewtable[$c2]['sid'].'-'. $col_mid.
+							'" title="" >';
+					print '<span title="'.$viewtable[$c2]['score'.$col_mid]['comment'].'" >';
+					print $viewtable[$c2][$col_mid].'&nbsp</span></td>';
 					}
 				else{
 					print '<td class="'.$viewtable[$c2]['score'.$col_mid]['scoreclass']. '" '. 

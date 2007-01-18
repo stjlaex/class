@@ -59,9 +59,9 @@ $rtid=$tid;
 			   ,'update_curriculum.php' => 'updatecurriculum'
 			   ,'year_end.php' => 'yearend'
 			   ,'server_test.php' => 'servertest'
+			   ,'enrol_student.php' => 'enrolstudents'
 				   /*these are all either very experimental or completely useless!!!!!*/
 				   //,'ldap_start.php' => 'ldaptest'
-				   //,'enrol_student.php' => 'enrolstudents'
 				   //,'statementbank.php' => 'statementbank'
 				   //,'demoiser.php' => 'demoiser'
 			   );

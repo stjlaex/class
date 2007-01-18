@@ -32,7 +32,7 @@ function fetchCommunity($comid=''){
 
 /* checks for a community and either updates or creates*/
 /* expects an array with at least type and name set*/
-function updateCommunity($community,$communityfresh=array('type'=>'','name'=>'',)){
+function updateCommunity($community,$communityfresh=array('type'=>'','name'=>'')){
 	$type=$community['type'];
 	$name=$community['name'];
 	$typefresh=$communityfresh['type'];

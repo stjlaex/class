@@ -15,8 +15,8 @@
 
 tooltip = {
   	name : "qTip",
-  	offsetX : -30,
-  	offsetY : 25,
+  	offsetX : 15,
+  	offsetY : 0,
   	tip : null
 	}
 
@@ -31,7 +31,7 @@ tooltip.init = function(){
 		}
 	if(!document.getElementById){return;}
 	this.tip = document.getElementById(this.name);
-	if(this.tip)document.onmousemove=function(evt){tooltip.move (evt)};
+	if(this.tip){document.onmousemove=function(evt){tooltip.move(evt)}};
 
 	var a, sTitle;
 	var anchors=document.getElementsByTagName("span");
@@ -41,16 +41,17 @@ tooltip.init = function(){
 		if(sTitle!=""){
 			a.setAttribute("tiptitle", sTitle);
 			a.removeAttribute("title");
-			a.onmouseover=function(){tooltip.show(this.getAttribute('tiptitle'))};
+			a.onmouseover=function(){tooltip.show(this.getAttribute("tiptitle"))};
 			a.onmouseout=function(){tooltip.hide()};
 			}
 		}
 	}
 
 tooltip.move = function(evt){
-	var x=0, y=0;
-	x = evt.pageX;
-	y = evt.pageY;
+	var x=0;
+	var y=0;
+	x=evt.pageX;
+	y=evt.pageY;
 	this.tip.style.left = (x + this.offsetX) + "px";
 	this.tip.style.top = (y + this.offsetY) + "px";
 	}

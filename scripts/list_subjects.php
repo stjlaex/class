@@ -42,7 +42,7 @@
 	<option value="" 
 		<?php if($current_bid==''){print 'selected="selected"';}?> ></option>
   	<option value="%" 
-		<?php if($current_bid=='%'){print 'selected="selected"';}?> >All subjects</option>
+		<?php if($current_bid=='%'){print 'selected="selected"';}?> ><?php print_string('all');?></option>
 <?php
 	while($subject=mysql_fetch_array($d_subject,MYSQL_ASSOC)){
 		print '<option ';

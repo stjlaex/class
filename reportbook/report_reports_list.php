@@ -49,7 +49,7 @@ if(isset($wrapper_rid)){
 	}
 
 if($_SESSION['role']=='admin'){
-	$extrabuttons['publish']=array('name'=>'current','value'=>'report_reports_publish.php');
+	//$extrabuttons['publish']=array('name'=>'current','value'=>'report_reports_publish.php');
 	}
 else{$extrabuttons='';}
 twoplusprint_buttonmenu($extrabuttons);

@@ -1,4 +1,4 @@
-Version ClaSS-0.8.7 release (2007/01/12)
+Version ClaSS-0.8.7 release (2007/01/19)
 ----------------------------------------
 
 A bugfix to the register which fixes the completion list. It was
@@ -14,6 +14,22 @@ Added Element and Derivation to the new_assessments form.
 
 Renamed xmlpreparer to be xmlechoer and now using xmlpreparer to
 return xml for use by xslt_process.
+
+Added phonenumber to the info table and fixed the length of the email
+field to 240 - needs patch-0.8.7.sql.
+
+Use phonenumber field for 'MobilePhone' in the Student xml fields.
+
+Email, MobilePhone and FirstContact all added to the studentfields 
+displaying from the select lists in the InfoBook student list.
+
+The padding of the span element used by qtip was causing a problem for
+onhover and has bee replaced by giving the span just the width and
+height of its contents - it must now have a content or qtip!
+
+The find_sids script has a problem with matching three letter
+names. Best for now is to pull out results for an exact match. But its
+only a work round not a solution.
 
 Version ClaSS-0.8.6 release (2007/01/03)
 ----------------------------------------
