@@ -60,7 +60,7 @@ function formsClasses($fid){
 	return $cids;
 	}
 
-function fputcsv($handle, $row, $fd=',', $quot='"'){
+function file_putcsv($handle, $row, $fd=',', $quot='"'){
 	$str='';
 	foreach($row as $cell){
 		$cell=str_replace(Array($quot,        "\n"),
@@ -300,7 +300,8 @@ function getEnumArray($field_name) {
 						'FirstLanguage' => 'firstlanguage',
 						'EntryDate' => 'schoolstartdate',
 						'FirstContact' => 'firstcontact',
-						'FirstContactPhone' => 'firstcontactphone'
+						'FirstContactPhone' => 'firstcontactphone',
+						'FirstContactEmailAddress' => 'firstcontactemailaddress'
 						);
 	/*for the register*/
 	$absencecode=array(

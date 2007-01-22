@@ -83,6 +83,12 @@ function fetchStudent_singlefield($sid,$tag){
 							 'value' => '');
 		$Student[$tag]['value']=$firstcontact; 
 		}
+	elseif($tag=='FirstContactEmailAddress'){
+		/*NOT a part of the xml def for Student but useful here*/
+		$Contacts=(array)fetchContacts($sid);
+		$Student[$tag]=array('label' => '',
+							 'value' => $Contacts[0]['EmailAddress']['value']);
+		}
 
 	if(isset($fieldname)){
 		$d_info=mysql_query("SELECT $fieldname FROM info WHERE student_id='$sid'");

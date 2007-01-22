@@ -32,7 +32,7 @@ else{
 					}
 				}
 			}
-		fputcsv($file,$csv);
+		file_putcsv($file,$csv);
 
 		/*cycle through the student rows*/
 		for($c2=0;$c2<sizeof($viewtable);$c2++){
@@ -44,7 +44,7 @@ else{
     			$col_mid=$checkmids[$c];
 				$csv[]=$viewtable[$c2]["$col_mid"];
 				}
-		   	fputcsv($file,$csv);
+		   	file_putcsv($file,$csv);
 			}
 	   	fclose($file);
 		$result[]='Exported table in current view to file.';

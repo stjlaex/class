@@ -93,6 +93,7 @@ else{
 <script>
 parent.document.getElementById("langchoice").innerHTML=document.getElementById("hiddenlang").innerHTML;
 document.getElementById("coverbox").style.zIndex="100";
+parent.loadBookOptions("logbook");
 </script>
 
 </body>

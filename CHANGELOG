@@ -1,3 +1,12 @@
+Version ClaSS-0.8.8 release (2007/01/22)
+----------------------------------------
+
+The loginaside text had gone missing - it needed the
+loadBookOptions("logbook") to be called at the end of login.php.
+
+Have renamed fputcsv to be file_putcsv as it conflicts with the stock
+fputcsv function in PHP5.
+
 Version ClaSS-0.8.7 release (2007/01/19)
 ----------------------------------------
 
