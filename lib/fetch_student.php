@@ -291,17 +291,17 @@ function fetchStudent($sid='-1'){
 			$Subject['Strengths']=array('label' => 'strengths', 
 										'table_db' => 'sencurriculum', 
 										'field_db' => 'comments', 
-										'type_db'=>'varchar(250)', 
+										'type_db'=>'text', 
 										'value' => ''.$sencurriculum['comments']);
 		   	$Subject['Weaknesses']=array('label' => 'weaknesses', 
 										 'table_db' => 'sencurriculum', 
 										 'field_db' => 'targets', 
-										 'type_db'=>'varchar(250)', 
+										 'type_db'=>'text', 
 										 'value' => ''.$sencurriculum['targets']);
 		   	$Subject['Strategies']=array('label' => 'strategies',
 										 'table_db' => 'sencurriculum', 
 										 'field_db' => 'outcome', 
-										 'type_db'=>'varchar(250)', 
+										 'type_db'=>'text', 
 										 'value' => ''.$sencurriculum['outcome']);
 		   	$NationalCurriculum[]=$Subject;
 			}
@@ -364,7 +364,7 @@ function fetchStudent($sid='-1'){
 									'type_db' => 'varchar(30)', 
 									'value' => ''.$incident['category']);
 	   	$Incident['Detail']=array('label' => 'detail', 
-								  'type_db'=>'varchar(250)', 
+								  'type_db'=>'text', 
 								  'value' => ''.$incident['detail']);
 	   	$Incident['Subject']=array('label' => 'subject', 
 								   'type_db'=>'varchar(10)', 
@@ -648,7 +648,7 @@ function fetchComments($sid,$date=''){
 			}
 		$Comment['Categories']=$Categories;
 	   	$Comment['Detail']=array('label' => 'detail', 
-								 'type_db'=>'varchar(250)', 
+								 'type_db'=>'text', 
 								 'value' => ''.$comment['detail']);
 	   	$Comment['EntryDate']=array('label' => 'date', 
 									'type_db'=>'date', 

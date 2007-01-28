@@ -2,7 +2,7 @@
 /**								create_infobook.php	
  */
 	
-if (mysql_query("
+mysql_query("
 CREATE TABLE info (
 	student_id		int unsigned not null default 0, 
 	upn				char(13) not null default '',
@@ -26,11 +26,9 @@ CREATE TABLE info (
 	transportmode	enum('NOT','F', 'C', 'T', 'B', 'S') not null,
 	transportroute	varchar(20) not null default '',
    	primary key		(student_id)
-);")){}
-     else{print "Failed on info!<br>";	
-					$error=mysql_error(); print $error."<br>";}
+);");
 
-if (mysql_query("
+mysql_query("
 CREATE TABLE senhistory (
 	id				int unsigned not null auto_increment,
 	student_id		int unsigned not null, 
@@ -40,22 +38,18 @@ CREATE TABLE senhistory (
 	reviewdate		date,
 	index			index_student (student_id),
    	primary key		(id)
-);")){}
-     else{print "Failed on senhistory!<br>";	
-					$error=mysql_error(); print $error."<br>";}
+);");
 
-if (mysql_query("
+mysql_query("
 CREATE TABLE sentypes (
 	student_id		int unsigned not null, 
 	senranking		enum('1', '2', '3') not null,
 	sentype			enum('SPLD', 'MLD', 'SLD', 'PMLD', 'EBD', 'SCD', 'HI',
 						'VI', 'MSI', 'PD', 'AUT', 'OTH') not null,
    	primary key		(student_id, sentype)
-);")){}
-     else{print "Failed on sentypes!<br>";	
-					$error=mysql_error(); print $error."<br>";}
+);");
 
-if (mysql_query("
+mysql_query("
 CREATE TABLE sencurriculum (
 	senhistory_id	int unsigned not null,
 	subject_id		varchar(10) not null default '', 
@@ -63,57 +57,48 @@ CREATE TABLE sencurriculum (
 	targets			text,
 	outcome			text,
    	primary key		(senhistory_id, subject_id)
-);")){}
-     else{print "Failed on sencurriculum!<br>";	
-					$error=mysql_error(); print $error."<br>";}
+);");
 
-if (mysql_query("
+mysql_query("
 CREATE TABLE medical (
 	student_id		int unsigned not null, 
 	startdate		date,
 	reviewdate      date,
 	medranking      enum('1', '2', '3') not null default '1',
-	detail			varchar(250) not null default '',
+	detail			text not null default '',
    	primary key		(student_id)
-);")){}
-     else{print "Failed on medical!<br>";	
-					$error=mysql_error(); print $error."<br>";}
+);");
 
-
-if (mysql_query("
+mysql_query("
 CREATE TABLE incidents (
 	id				int unsigned not null auto_increment,
 	student_id		int unsigned not null, 
 	entrydate		date,
 	yeargroup_id	smallint not null default '0',
 	category		varchar(30) not null default '',
-	detail			varchar(250) not null default '',
-	outcome			varchar(200) not null default '',
+	detail			text not null default '',
+	outcome			text not null default '',
 	subject_id		varchar(10) not null default '',
 	teacher_id		varchar(14) not null default '',	
 	index			index_student (student_id),
    	primary key		(id)
-);")){}
-     else{print "Failed on incidents!<br>";	
-					$error=mysql_error(); print $error."<br>";}
+);");
 
-if (mysql_query("
+mysql_query("
 CREATE TABLE comments (
 	id				int unsigned not null auto_increment,
 	student_id		int unsigned not null, 
 	entrydate		date,
 	yeargroup_id	smallint not null default '0',
 	category		varchar(100) not null default '',
-	detail			varchar(250) not null default '',
+	detail			text not null default '',
 	subject_id		varchar(10) not null default '',
 	teacher_id		varchar(14) not null default '',	
 	index			index_student (student_id),
    	primary key		(id)
-);")){}
-     else{print "Failed on comments!<br>";	
-					$error=mysql_error(); print $error."<br>";}
+);");
 
-if (mysql_query("
+mysql_query("
 CREATE TABLE background (
 	id				int unsigned not null auto_increment,
 	student_id		int unsigned not null,
@@ -126,15 +111,13 @@ CREATE TABLE background (
 	teacher_id		varchar(14) not null default '',	
 	index			index_student (student_id),
    	primary key		(id)
-);")){}
-     else{print "Failed on background!<br>";	
-					$error=mysql_error(); print $error."<br>";}
+);");
 
-if (mysql_query("
+mysql_query("
 CREATE TABLE exclusions (
 	student_id		int unsigned not null,
 	category		enum('F', 'P', 'L') not null default 'F',
-	reason			varchar(250) not null default '',
+	reason			text not null default '',
 	startdate		date not null default '0000-00-00',
 	session			enum('NA', 'AM', 'PM') not null,
 	enddate			date not null default '0000-00-00',
@@ -142,11 +125,9 @@ CREATE TABLE exclusions (
 	appealdate		date not null default '0000-00-00',
 	appealresult	enum('', 'R', 'S') not null default '',
    	primary key		(student_id, startdate)
-);")){}
-     else{print "Failed on exclusions!<br>";
-					$error=mysql_error(); print $error."<br>";}
+);");
 
-if (mysql_query("
+mysql_query("
 CREATE TABLE guardian (
 	id			int unsigned not null auto_increment, 
 	prefix		varchar(30) not null default '',
@@ -163,11 +144,9 @@ CREATE TABLE guardian (
 	index index_name (surname(5),forename(5)),
 	index index_forename (forename(5)), 	
 	primary key (id)
-);")){}
-	     else{print "Failed on guardian!<br>";	
-					$error=mysql_error(); print $error."<br>";}
+);");
 
-if (mysql_query("
+mysql_query("
 CREATE TABLE gidsid (
 		 guardian_id	int unsigned not null,
 		 student_id		int unsigned not null,
@@ -177,22 +156,18 @@ CREATE TABLE gidsid (
 				'PAM','PAF','STP','REL','SWR','HFA','AGN') not null,
 		 responsibility	enum('N','Y') not null,
 		 primary key 	(guardian_id, student_id)
-);")){}
-		     else{print "Failed on gidsid!<br>";	
-					$error=mysql_error(); print $error."<br>";}
+);");
 
-if(mysql_query("
+mysql_query("
 CREATE TABLE gidaid (
 		 guardian_id	int unsigned not null,
 		 address_id		int unsigned not null,
 		 priority		smallint unsigned not null,
 		 addresstype	enum('H', 'W', 'V', 'O') not null,
 		 primary key 	(guardian_id, address_id)
-);")){}
-		     else{print "Failed on gidaid!<br>";	
-					$error=mysql_error(); print $error."<br>";}
+);");
 
-if (mysql_query("
+mysql_query("
 CREATE TABLE address (
    	id				int unsigned not null auto_increment, 	
 	building		varchar(60) not null default '',
@@ -205,11 +180,9 @@ CREATE TABLE address (
 	country			varchar(40) not null default '',
 	index			index_address (county(5),town(5)),
 	primary key (id)
-);")){}
-	     else{print "Failed on address!<br>";	
-					$error=mysql_error(); print $error."<br>";}
+);");
 
-if (mysql_query("
+mysql_query("
 CREATE TABLE phone (
 	id				int unsigned not null auto_increment,
 	some_id			int unsigned not null default '0',
@@ -217,9 +190,8 @@ CREATE TABLE phone (
 	phonetype		enum('H', 'M', 'W', 'F', 'O') not null,
 	index			index_id (some_id),
 	primary key 	(id)	
-);")){}
-	     else{print "Failed on phone!<br>";	
-					$error=mysql_error(); print $error."<br>";}
+);");
+
 mysql_query("
 CREATE TABLE transport (
 	id				smallint unsigned auto_increment, 
@@ -229,6 +201,7 @@ CREATE TABLE transport (
 	teacher_id		varchar(14) NOT NULL default '',
 	primary key  	(id)
 );");
+
 mysql_query("
 CREATE TABLE transportstop (
 	id				smallint unsigned auto_increment, 

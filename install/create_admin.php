@@ -167,14 +167,16 @@ CREATE TABLE community (
 	unique		indexcom (type,name),
 	primary key (id)
 );");
-if (mysql_query("
+
+mysql_query("
 CREATE TABLE comidsid (
 	community_id	int unsigned not null default '0',
 	student_id		int unsigned not null default '0',
 	joiningdate		date null,
 	leavingdate 	date null,
 	primary key 	(community_id, student_id)
-);")){}
+);");
+
 mysql_query("
 CREATE TABLE cohort (
 	id				int unsigned not null auto_increment, 
@@ -185,14 +187,15 @@ CREATE TABLE cohort (
 	unique			indexcohort (course_id,stage,year,season),
 	primary key (id)
 );");
-if (mysql_query("
+
+mysql_query("
 CREATE TABLE cohidcomid (
 	cohort_id		int unsigned not null default '0',
 	community_id	int unsigned not null default '0',
 	primary key 	(cohort_id, community_id)
-);")){}
+);");
 
-if (mysql_query("
+mysql_query("
 CREATE TABLE categorydef (
 	id				int unsigned not null auto_increment, 
 	name			varchar(60) not null default '',
@@ -207,11 +210,9 @@ CREATE TABLE categorydef (
 	course_id		varchar(10) not null default '',
 	section_id		smallint not null default 0,
    	primary key		(id)
-);")){}
-     else{print "Failed on categorydef!<br>";	
-					$error=mysql_error(); print $error."<br>";}
+);");
 
-if (mysql_query("
+mysql_query("
 CREATE TABLE rating (
 	name			varchar(30) not null default '',
 	descriptor		varchar(30) not null default '',
@@ -221,7 +222,6 @@ CREATE TABLE rating (
 							'0', '1', '2', '3', '4', '5', '6',
 							'7', '8', '9', '10', '11', '12') not null default 0,
    	primary key		(name, value)
-);")){}
-     else{print "Failed on categorydef!<br>";	
-					$error=mysql_error(); print $error."<br>";}
+);");
+
 ?>

@@ -18,7 +18,7 @@ $stage=$AssDef['Stage']['value'];
 $deadline=$AssDef['Deadline']['value'];
 
 			/*find the appropriate markdef_name*/
-		   	if($gena!=''){
+		   	if($gena!='' and $gena!=' '){
 	   			$grading_grades=$AssDef['GradingScheme']['grades'];
 				$d_markdef=mysql_query("SELECT * FROM markdef WHERE
 						grading_name='$gena' AND scoretype='grade' 
