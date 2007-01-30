@@ -301,7 +301,10 @@ function getEnumArray($field_name) {
 						'EntryDate' => 'schoolstartdate',
 						'FirstContact' => 'firstcontact',
 						'FirstContactPhone' => 'firstcontactphone',
-						'FirstContactEmailAddress' => 'firstcontactemailaddress'
+						'FirstContactEmailAddress' => 'firstcontactemailaddress',
+						'SecondContact' => 'secondcontact',
+						'SecondContactPhone' => 'secondcontactphone',
+						'SecondContactEmailAddress' => 'secondcontactemailaddress'
 						);
 	/*for the register*/
 	$absencecode=array(

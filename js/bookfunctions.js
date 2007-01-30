@@ -176,6 +176,7 @@ function fillxmlTable(recordId, xmlRecord){
 		if(xmltag=='value'){
 			var xmltag=xmlRecord.parentNode.parentNode.tagName;
 	        var xmlvalue=xmlRecord.nodeValue;
+			xmltag=makeLabel(xmltag);
 			fieldId=recordId+'-'+xmltag;
 			if(document.getElementById(fieldId)){
 				document.getElementById(fieldId).firstChild.data=xmlvalue;

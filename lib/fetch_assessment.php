@@ -192,13 +192,13 @@ function fetchAssessmentDefinition($eid){
    	$AssDef['Creation']=array('label' => 'Creation', 'table_db' =>
 					'assessment', 'field_db' => 'creation',
 					'type_db'=>'date', 'value' => $ass['creation']);
-   	$AssDef['MarkCount']=array('label' => 'Mark Columns', 'table_db' =>
+   	$AssDef['MarkCount']=array('label' => 'Markcolumns', 'table_db' =>
 					'', 'field_db' => '',
 					'type_db'=>'', 'value' => $markcount);
-   	$AssDef['ScoreCount']=array('label' => 'Mark Scores', 'table_db' =>
+   	$AssDef['ScoreCount']=array('label' => 'Markscores', 'table_db' =>
 					'', 'field_db' => '',
 					'type_db'=>'', 'value' => $scorecount);
-   	$AssDef['ArchiveCount']=array('label' => 'Archive Scores', 'table_db' =>
+   	$AssDef['ArchiveCount']=array('label' => 'Archivescores', 'table_db' =>
 					'', 'field_db' => '',
 					'type_db'=>'', 'value' => $archivecount);
 	return $AssDef;

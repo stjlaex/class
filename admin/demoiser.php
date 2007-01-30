@@ -184,70 +184,68 @@ function generate_random_name($gender){
 		$id=$row['id'];
 		if($row['gender']=='M'){$gender='F';}else{$gender='M';};
 		$name=generate_random_name($gender);
-		if(mysql_query("UPDATE $table SET surname='$name[2]',
+		mysql_query("UPDATE $table SET surname='$name[2]',
 				forename='$name[0]', middlenames='$name[1]', dob='1998-04-01'
-				WHERE id='$id'")){}
-		else{$error[]=mysql_error();}
+				WHERE id='$id'");
 		}
 
 	$table='users';
 	$trows=tableRead($table);
+	$profindex=1;
+	$officeindex=1;
+	$adminindex=1;
+	$senindex=1;
+	$medicalindex=1;
+	$libraryindex=1;
 	while(list($index, $row)=each($trows)){
 		$id=$row['uid'];
 		$username=$row['username'];
-		if($username!='administrator' and $username!='office'){
-			$nun='Prof'.$index;
-			$passwd=md5('guest');
-			if(mysql_query("UPDATE $table SET username='$nun',
-			forename='P', surname='Prof', email='', nologin='0', logcount='0',
-			passwd='$passwd', ip=''
-				WHERE uid='$id'")){}
-			else{$error[]=mysql_error();}
-			if(mysql_query("UPDATE tidcid SET teacher_id='$nun'
-			WHERE teacher_id='$username'")){}
-			else{$error[]=mysql_error();}
-			if(mysql_query("UPDATE reportentry SET teacher_id='$nun'
-			WHERE teacher_id='$username'")){}
-			else{$error[]=mysql_error();}
-			if(mysql_query("UPDATE comments SET teacher_id='$nun'
-			WHERE teacher_id='$username'")){}
-			else{$error[]=mysql_error();}
-			if(mysql_query("UPDATE incidents SET teacher_id='$nun'
-			WHERE teacher_id='$username'")){}
-			else{$error[]=mysql_error();}
-			if(mysql_query("UPDATE grading SET author='$nun'
-			WHERE author='$username'")){}
-			else{$error[]=mysql_error();}
-			if(mysql_query("UPDATE form SET teacher_id='$nun'
-			WHERE teacher_id='$username'")){}
-			else{$error[]=mysql_error();}
-			if(mysql_query("UPDATE markdef SET author='$nun'
-			WHERE author='$username'")){}
-			else{$error[]=mysql_error();}
+		$role=$row['role'];
+		$passwd=md5('guest');
+		if($role=='teacher'){
+			$nun='Prof'.$profindex++;
+			mysql_query("UPDATE tidcid SET teacher_id='$nun'
+			WHERE teacher_id='$username'");
+			mysql_query("UPDATE reportentry SET teacher_id='$nun'
+			WHERE teacher_id='$username'");
+			mysql_query("UPDATE comments SET teacher_id='$nun'
+			WHERE teacher_id='$username'");
+			mysql_query("UPDATE incidents SET teacher_id='$nun'
+			WHERE teacher_id='$username'");
+			mysql_query("UPDATE grading SET author='$nun'
+			WHERE author='$username'");
+			mysql_query("UPDATE form SET teacher_id='$nun'
+			WHERE teacher_id='$username'");
+			mysql_query("UPDATE markdef SET author='$nun'
+			WHERE author='$username'");
 			}
-		elseif($username=='administrator'){
+		elseif($role=='admin'){
+			if($username!='administrator'){$nun='admin'.$adimindex++;}
+			else{$nun=$username;}
 			$passwd=md5('demoadmin');
-			if(mysql_query("UPDATE users SET username='administrator',
-			email='stj@laex.org', logcount='0',
-			passwd='$passwd', ip=''
-				WHERE uid='$id'")){}
-			else{$error[]=mysql_error();}
 			}
-		elseif($username=='office'){
-			$passwd=md5('demooffice');
-			if(mysql_query("UPDATE users SET username='office',
-			email='', logcount='0',
-			passwd='$passwd', ip=''
-				WHERE uid='$id'")){}
-			else{$error[]=mysql_error();}
+		elseif($role=='office'){
+			$nun='office'.$officeindex++;
 			}
+		elseif($role=='sen'){
+			$nun='sen'.$senindex++;
+			}
+		elseif($role=='library'){
+			$nun='library'.$libraryindex++;
+			}
+		elseif($role=='medical'){
+			$nun='medical'.$medicalindex++;
+			}
+		mysql_query("UPDATE $table SET username='$nun',
+			forename='P', surname='Prof', email='', nologin='0', logcount='0',
+			passwd='$passwd', ip='' WHERE uid='$id'");
 		}
 
 	$table='reportentry';
-	if(mysql_query("UPDATE $table SET comment='A constructive comment from a subject teacher.'")){$error[]=mysql_error();}
+	mysql_query("UPDATE $table SET comment='A constructive comment from a subject teacher.'");
 
 	$table='score';
-	if(mysql_query("UPDATE $table SET comment=''")){$error[]=mysql_error();}
+	mysql_query("UPDATE $table SET comment=''");
 
 	$table='form';
 	$trows=tableRead($table);
@@ -288,18 +286,14 @@ function generate_random_name($gender){
 				$cid=$row['id'];
 				$ncid=$bid . $stage . $name[$i];
 				$i++;
-				if(mysql_query("UPDATE class SET id='$ncid'
-				WHERE id='$cid'")){}
-				else{print mysql_error();}
-				if(mysql_query("UPDATE tidcid SET class_id='$ncid'
-				WHERE class_id='$cid'")){}
-				else{print mysql_error();}
-				if(mysql_query("UPDATE midcid SET class_id='$ncid'
-				WHERE class_id='$cid'")){}
-				else{print mysql_error();}
-				if(mysql_query("UPDATE cidsid SET class_id='$ncid'
-				WHERE class_id='$cid'")){}
-				else{print mysql_error();}
+				mysql_query("UPDATE class SET id='$ncid'
+				WHERE id='$cid'");
+				mysql_query("UPDATE tidcid SET class_id='$ncid'
+				WHERE class_id='$cid'");
+				mysql_query("UPDATE midcid SET class_id='$ncid'
+				WHERE class_id='$cid'");
+				mysql_query("UPDATE cidsid SET class_id='$ncid'
+				WHERE class_id='$cid'");
 				}
 			}
 		}

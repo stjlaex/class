@@ -61,33 +61,38 @@ function fetchStudent_singlefield($sid,$tag){
 	elseif($tag=='EntryDate'){$fieldname='entrydate';}
 	elseif($tag=='EmailAddress'){$fieldname='email';}
 	elseif($tag=='MobilePhone'){$fieldname='phonenumber';}
-	elseif($tag=='FirstContactPhone'){
-		/*NOT a part of the xml def for Student but useful here*/
-		$Contacts=(array)fetchContacts($sid);
-		$Phones=(array)$Contacts[0]['Phones'];
-		$Student[$tag]=array('label' => '',
+	elseif(substr_count($tag,'FirstContact')){$contactno=0;}
+	elseif(substr_count($tag,'SecondContact')){$contactno=1;}
+
+	if(isset($contactno)){
+		if(substr_count($tag,'Phone')){
+			/*NOT a part of the xml def for Student but useful here*/
+			$Contacts=(array)fetchContacts($sid);
+			$Phones=(array)$Contacts[$contactno]['Phones'];
+			$Student[$tag]=array('label' => '',
 							 'value' => '');
-		while(list($phoneno,$Phone)=each($Phones)){
-			$Student[$tag]['value']=$Student[$tag]['value'] . 
-					$Phone['PhoneNo']['value'].' ';				
+			while(list($phoneno,$Phone)=each($Phones)){
+				$Student[$tag]['value']=$Student[$tag]['value'] . 
+						$Phone['PhoneNo']['value'].' ';				
+				}
 			}
-		}
-	elseif($tag=='FirstContact'){
-		/*NOT a part of the xml def for Student but useful here*/
-		$Contacts=(array)fetchContacts($sid);
-		$rel=displayEnum($Contacts[0]['Relationship']['value'], 'relationship'); 
-		$rel=get_string($rel,'infobook');
-		$firstcontact='('.$rel.') '. 
-				$Contacts[0]['Forename']['value']. ' '.$Contacts[0]['Surname']['value'];
-		$Student[$tag]=array('label' => '',
+		elseif(substr_count($tag,'EmailAddress')){
+			/*NOT a part of the xml def for Student but useful here*/
+			$Contacts=(array)fetchContacts($sid);
+			$Student[$tag]=array('label' => '',
+							 'value' => $Contacts[$contactno]['EmailAddress']['value']);
+			}
+		else{
+			/*NOT a part of the xml def for Student but useful here*/
+			$Contacts=(array)fetchContacts($sid);
+			$rel=displayEnum($Contacts[$contactno]['Relationship']['value'], 'relationship'); 
+			$rel=get_string($rel,'infobook');
+			$firstcontact='('.$rel.') '. 
+					$Contacts[0]['Forename']['value']. ' '.$Contacts[0]['Surname']['value'];
+			$Student[$tag]=array('label' => '',
 							 'value' => '');
-		$Student[$tag]['value']=$firstcontact; 
-		}
-	elseif($tag=='FirstContactEmailAddress'){
-		/*NOT a part of the xml def for Student but useful here*/
-		$Contacts=(array)fetchContacts($sid);
-		$Student[$tag]=array('label' => '',
-							 'value' => $Contacts[0]['EmailAddress']['value']);
+			$Student[$tag]['value']=$firstcontact; 
+			}
 		}
 
 	if(isset($fieldname)){

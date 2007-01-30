@@ -26,9 +26,9 @@ $string['siteisdown']='<p>Sorry, the site is temporarily unavailable.</p>
 <p>This is due to a scheduled upgrade.</p>
 <p>Please check back again in a few hours.</p>';
 $string['loginaside']='The demo-site has a full data-set to show off its
-features.  Login as a teacher with the Username of \'profXX\' and
-Password of \'guest\', where XX is any number from 10 to 50. A good
-choice with plenty of data to see is Prof31.<br /> <hr /> (If this is
+features.  Login as a teacher with the Username of \'profX\' and
+Password of \'guest\', where X is any number from 1 to 50. A good
+choice with plenty of data to see is prof31.<br /> <hr /> (If this is
 your own installation you should change this text, edit loginaside in school.php!)';
 $string['manage']='Manage';
 $string['myclasses']='My classes';

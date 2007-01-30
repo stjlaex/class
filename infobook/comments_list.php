@@ -3,6 +3,7 @@
  *
  */
 
+$cancel='student_view.php';
 $action='comments_list_action.php';
 
 if(isset($_GET['bid'])){$bid=$_GET['bid'];}

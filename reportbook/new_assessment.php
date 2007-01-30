@@ -107,13 +107,13 @@ three_buttonmenu($extrabuttons);
 		  <tr class="hidden" id="<?php print $eid.'-'.$rown++;?>">
 			<td colspan="7">
 			  <p>
-				<value id="<?php print $eid;?>-MarkCount"><?php print
+				<value id="<?php print $eid;?>-Markcount"><?php print
 						 $AssDef['MarkCount']['value'];?></value> 
 				<?php print_string('markbookcolumns',$book);?>
 				<?php print_string('scoresentered',$book);?>
-				<value id="<?php print $eid;?>-ArchiveCount">
+				<value id="<?php print $eid;?>-Archivecount">
 				  <?php print $AssDef['ArchiveCount']['value'];?></value>
-				(<value id="<?php print $eid;?>-ScoreCount"> 
+				(<value id="<?php print $eid;?>-Scorecount"> 
 				  <?php print $AssDef['ScoreCount']['value'];?></value>).
 			  </p>
 			  <button class="rowaction" title="Delete this assessment"
