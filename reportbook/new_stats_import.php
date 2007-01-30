@@ -26,9 +26,9 @@ three_buttonmenu();
 		  <input type="hidden" name="MAX_FILE_SIZE" value="800000" /> 	
 	  </fieldset>
 
-	  <input type="hidden" name="cancel" value="<?php print $choice;?>" />
+	    <input type="hidden" name="cancel" value="<?php print $choice;?>" />
 		<input type="hidden" name="current" value="<?php print $action; ?>"/>
-		  <input type="hidden" name="choice" value="<?php print $choice; ?>"/>
+		<input type="hidden" name="choice" value="<?php print $choice; ?>"/>
 	</form>
 
   </div>

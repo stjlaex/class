@@ -41,7 +41,7 @@ three_buttonmenu($extrabuttons);
 	  <caption><?php print_string('estimates',$book);?></caption>
 <?php
    	$d_stats=mysql_query("SELECT DISTINCT id, description FROM stats
-			   WHERE (course_id LIKE '$crid' OR course_id='%') ORDER BY id DESC");
+			   WHERE (course_id LIKE '$rcrid' OR course_id='%') ORDER BY id DESC");
 	$statids=array();
 	$stats=array();
 	while($stat=mysql_fetch_array($d_stats,MYSQL_ASSOC)){

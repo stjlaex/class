@@ -1,4 +1,4 @@
-Version ClaSS-0.8.9 release (2007/02/01)
+Version ClaSS-0.8.9 release (2007/01/30)
 ----------------------------------------
 
 Corrected all varchar(250) fields in the infobook tables to be plain text
@@ -8,6 +8,8 @@ In bookfunctions.js, makeLabel was not being used to prepare the
 xmltag by fillxmlTable but it is now.
 
 Added second contact options to the student display fields in the InfoBook.
+
+Bugfixes to the import_stats and new_stats pages in the ReportBook.
 
 Version ClaSS-0.8.8 release (2007/01/22)
 ----------------------------------------

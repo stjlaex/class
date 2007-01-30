@@ -1,30 +1,29 @@
 <?php
-/*							    new_stats_action.php
-*/
+/**							    new_stats_action.php
+ */
 
 $action='new_stats.php';
 
-$rcrid=$respons[$r]{'course_id'};
-
-$description=$_POST{'description'};
+$description=$_POST['description'];
 include('scripts/sub_action.php');
 
-if($sub=='Import'){
 
-	$importfile=$_POST{'importfile'};
-	$fname=$_FILES{'importfile'}{'tmp_name'};
-	$fuser=$_FILES{'importfile'}{'name'};
-	$ferror=$_FILES{'importfile'}{'error'};
-	$ftype=$_FILES{'importfile'}{'type'};
+if($sub=='Submit'){
 
-  if(mysql_query("INSERT INTO stats (description, course_id) 
+	$importfile=$_POST['importfile'];
+	$fname=$_FILES['importfile']['tmp_name'];
+	$fuser=$_FILES['importfile']['name'];
+	$ferror=$_FILES['importfile']['error'];
+	$ftype=$_FILES['importfile']['type'];
+
+	if(mysql_query("INSERT INTO stats (description, course_id) 
    			VALUES ('$description', '$rcrid');"))
    			{$result[]="Created new statistics.";}
-   	else {$error[]="Assessment may already exist!".mysql_error();}
+   	else{$error[]="Assessment may already exist!".mysql_error();}
    	$statid=mysql_insert_id();
 
 	if($fname!=''){
-	   	$result[]="Loading file ".$importfile;
+	   	$result[]='Loading file '.$importfile;
 		include('scripts/file_import_csv.php');
 		if(sizeof($inrows>0)){
 			while(list($index,$d)=each($inrows)){
@@ -45,31 +44,12 @@ if($sub=='Import'){
 				}
 			}
 		}
-
 	else{
-	   	$eid0=$_POST{'eid'};
-	   	$eid1=$_POST{'eid1'};
+	   	$eid0=$_POST['eid'];
+	   	$eid1=$_POST['eid1'];
 	   	}
 	}
 
-include("scripts/results.php");
-include("scripts/redirect.php");
-
+include('scripts/results.php');
+include('scripts/redirect.php');
 ?>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
