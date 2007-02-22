@@ -37,7 +37,7 @@ include('scripts/sub_action.php');
 			}
 		$community=array('type'=>'year','name'=>$yid);
 		$communitynext=array('type'=>$type,'name'=>$nextyid);
-		updateCommunity($community,$communitynext);
+		update_community($community,$communitynext);
 
 		while(list($index,$fid)=each($years[$c]['fids'])){
 			if($nextpostyid!='1000'){
@@ -51,7 +51,7 @@ include('scripts/sub_action.php');
 				}
 			$community=array('type'=>'form','name'=>$fid);
 			$communitynext=array('type'=>$type,'name'=>$nextfid);
-			updateCommunity($community,$communitynext);
+			update_community($community,$communitynext);
 
 			mysql_query("UPDATE student SET form_id='$nextfid' WHERE form_id='$fid';");
 			$result[]='Promoted form '.$fid.' to '.$nextfid;
@@ -69,7 +69,7 @@ include('scripts/sub_action.php');
 	while($courses[]=mysql_fetch_array($d_course,MYSQL_ASSOC)){
 		$crid=$courses[$c]['id'];
 		$season='S';/*currently restricted to a single season value*/
-		$yearnow=getCurriculumYear($crid);
+		$yearnow=get_curriculumyear($crid);
 		/*currently sequence of the stages for a course depends solely
 			upon their alphanumeric order - so best have a numeric ending*/
 		/*will fail if the stages have changed between years!!!*/
@@ -87,15 +87,15 @@ include('scripts/sub_action.php');
 		$crid=$courses[$c]['id'];
 		$nextpostcrid=$_POST["$crid"];
 		$season='S';/*currently restricted to a single season value*/
-		$yearnow=getCurriculumYear($crid);
+		$yearnow=get_curriculumyear($crid);
 		$yeargone=$yearnow-1;
 		$stages=$courses[$c]['stages'];
 		for($c2=0;$c2<sizeof($stages);$c2++){
 			$stage=$stages[$c2]['stage'];
 			$cohort=array('course_id'=>$crid,'stage'=>$stage,'year'=>$yeargone);
-			$cohidgone=updateCohort($cohort);
+			$cohidgone=update_cohort($cohort);
 			$cohort=array('course_id'=>$crid,'stage'=>$stage,'year'=>$yearnow);
-			$stages[$c2]['cohidnow']=updateCohort($cohort);
+			$stages[$c2]['cohidnow']=update_cohort($cohort);
 			if($c2==0 and $nextpostcrid!='1000'){
 				/*last stage of course are graduating to next course*/
 				$d_cohort=mysql_query("SELECT id FROM cohort WHERE

@@ -35,7 +35,7 @@ elseif($sub=='Submit'){
 		}
 	else{$eveid=$checkeveid;}
 
-	$students=(array)listinCommunity($community);
+	$students=(array)listin_community($community);
 	while(list($index,$student)=each($students)){
 		$instatus='';
 		$sid=$student['id'];

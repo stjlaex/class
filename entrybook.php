@@ -9,7 +9,7 @@ $book='entrybook';
 include('scripts/head_options.php');
 include('scripts/book_variables.php');
 
-if(!isset($_SESSION['enrolstatus'])){$_SESSION['enrolstatus']='';}
+if(!isset($_SESSION['enrolstatus'])){$_SESSION['enrolstatus']='EN';}
 if(!isset($_SESSION['entryyid'])){$_SESSION['entryyid']='';}
 
 if(isset($_POST['newenrolstatus'])){

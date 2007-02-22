@@ -16,11 +16,8 @@ three_buttonmenu();
 	<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>"> 
 
 	  <fieldset class="center">
-		<legend><?php print_string('reportonstudentsfrom');?></legend>
-<?php
-		  $required='yes';
-		  include('scripts/list_pastoralgroup.php');
-?>
+		<legend><?php print_string('collateforstudentsfrom',$book);?></legend>
+		  <?php $required='yes'; include('scripts/'.$listgroup);?>
 	  </fieldset>
 
 	  <fieldset class="left">

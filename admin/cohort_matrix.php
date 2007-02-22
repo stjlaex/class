@@ -15,7 +15,7 @@ three_buttonmenu();
 /*keeping things simple by fixing season and year to a single value*/
 /*to sophisticate in the future*/
 $currentseason='S';
-$currentyear=getCurriculumYear($crid);
+$currentyear=get_curriculumyear($crid);
 $d_cohort=mysql_query("SELECT id, stage FROM cohort WHERE
 							course_id='$crid' AND year='$currentyear'
 							AND season='$currentseason' AND stage!='END'");

@@ -45,6 +45,7 @@ if($sub=='Submit'){
 			}
 		}
 	else{
+		/*TODO*/
 	   	$eid0=$_POST['eid'];
 	   	$eid1=$_POST['eid1'];
 	   	}

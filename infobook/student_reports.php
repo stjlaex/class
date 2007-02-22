@@ -3,7 +3,7 @@
  */
 
 $cancel='student_view.php';
-$action="student_reports_print.php";
+$action='student_reports_print.php';
 
 three_buttonmenu();
 ?>

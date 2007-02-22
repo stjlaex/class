@@ -8,33 +8,30 @@ $action='report_incidents_print.php';
 $choice='report_incidents.php';
 
 $date0=$_POST['date0'];
-if(isset($_POST{'date1'})){$date1=$_POST['date1'];}else{$date1=date("Y-m-d");}
-if(isset($_POST{'bid'})){$bid=$_POST{'bid'};}else{$bid='';}
-if(isset($_POST{'newyid'})){$yid=$_POST{'newyid'};}else{$yid='';}
-if(isset($_POST{'newfid'})){$fid=$_POST{'newfid'};}else{$fid='';}
+if(isset($_POST['date1'])){$date1=$_POST['date1'];}else{$date1=date("Y-m-d");}
+if(isset($_POST['bid'])){$bid=$_POST['bid'];}else{$bid='';}
+if(isset($_POST['newyid'])){$yid=$_POST['newyid'];}else{$yid='';}
+if(isset($_POST['newfid'])){$fid=$_POST['newfid'];}else{$fid='';}
 
 include('scripts/sub_action.php');
 
 	if($yid!=''){
-		if($d_incidents=mysql_query("SELECT * FROM incidents JOIN
+		$d_incidents=mysql_query("SELECT * FROM incidents JOIN
 		student ON student.id=incidents.student_id WHERE
 		incidents.entrydate > '$date0' AND student.yeargroup_id LIKE
-		'$yid' ORDER BY student.surname")){}
-		else{print mysql_error();}
+		'$yid' ORDER BY student.surname");
 		}
 	elseif($fid!=''){
-		if($d_incidents=mysql_query("SELECT * FROM incidents JOIN
+		$d_incidents=mysql_query("SELECT * FROM incidents JOIN
 		student ON student.id=incidents.student_id WHERE
 		incidents.entrydate > '$date0' AND student.form_id LIKE
-		'$fid' ORDER BY student.surname")){}
-		else{print mysql_error();}
+		'$fid' ORDER BY student.surname");
 		}
 	elseif($bid!=''){
-		if($d_incidents=mysql_query("SELECT * FROM incidents WHERE entrydate
-				> '$date0' AND subject_id LIKE '$bid'")){}
-		else{print mysql_error();}
+		$d_incidents=mysql_query("SELECT * FROM incidents WHERE entrydate
+				> '$date0' AND subject_id LIKE '$bid'");
 		}
-	else {
+	else{
 		$error[]=get_string('needselectstudents',$book);
 	    $current=$choice;
     	include('scripts/results.php');

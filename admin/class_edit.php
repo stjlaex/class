@@ -18,7 +18,7 @@ $stage=$class['stage'];
 /*keeping things simple by fixing season to a single value*/
 /*to sophisticate in the future*/
 $currentseason='S';
-$currentyear=getCurriculumYear($crid);
+$currentyear=get_curriculumyear($crid);
 
 $extrabuttons['unassignclass']=array('name'=>'sub','value'=>'Unassign');
 three_buttonmenu($extrabuttons);

@@ -8,8 +8,6 @@ if(isset($_POST['sids'])){$sids=(array) $_POST['sids'];}else{$sids=array();}
 if(isset($_POST['rids'])){$rids=(array) $_POST['rids'];}else{$rids=array();}
 if(isset($_POST['yid'])){$yid=$_POST['yid'];}else{$yid='';}
 if(isset($_POST['fid'])){$fid=$_POST['fid'];}else{$fid='';}
-if(isset($_POST['selbid'])){$selbid=$_POST['selbid'];}else{$selbid='%';}
-if(isset($_POST['coversheet'])){$coversheet=$_POST['coversheet'];}else{$coversheet='no';}
 
 include('scripts/sub_action.php');
 
@@ -23,7 +21,7 @@ if(sizeof($sids)==0){
 	/*find the details, assessments, etc. specific to each report */
 	$reportdefs=array();
 	for($c=0;$c<sizeof($rids);$c++){
-        $reportdefs[]=fetchReportDefinition($rids[$c],$selbid);
+        $reportdefs[]=fetchReportDefinition($rids[$c]);
 		}
    	$result[]=get_string('seperateprintwindow');
   	include('scripts/results.php');
@@ -35,14 +33,14 @@ if(sizeof($sids)==0){
 		$sid=$sids[$c];
 		$Student=fetchStudent_short($sid);
 		list($Reports,$transform)=fetchSubjectReports($sid,$reportdefs);
-		$Reports['Coversheet']=$coversheet;
+		$Reports['Coversheet']='yes';
 		$Student['Reports']=nullCorrect($Reports);
 		/*Finished with the student's reports. Output the result as xml.*/
 		xmlechoer('Student',$Student);
 		}
 ?>
   </div>
-<script>openPrintReport('xmlStudent', '<?php print $transform;?>')</script>
+<script>openPrintReport('xmlStudent', '<?php print $transform;?>','')</script>
 <?php
 		include('scripts/redirect.php');
 ?>

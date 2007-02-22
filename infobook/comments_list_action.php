@@ -25,11 +25,32 @@ include('scripts/sub_action.php');
 		WHERE id='$id'");
 		}
 	else{
-		mysql_query("INSERT INTO comments SET student_id='$sid',
+		if(mysql_query("INSERT INTO comments SET student_id='$sid',
 		detail='$detail', entrydate='$entrydate', yeargroup_id='$newyid',
-		subject_id='$bid', category='$category', teacher_id='$tid'");
+		subject_id='$bid', category='$category',
+		teacher_id='$tid'")){$result[]=get_string('commentrecorded',$book);}
+
+		$footer='--'. "\r\n" . get_string('pastoralemailfooterdisclaimer');
+		$subject='Comment for '.$Student['Forename']['value']
+				.' '.$Student['Surname']['value'].' ('. 
+					$Student['RegistrationGroup']['value'].')'; 
+		$message=$subject."\r\n".'Subject: '. $bid."\r\n".  $detail."\r\n".
+				'Posted by '.$tid. "\r\n" .$footer;
+		$recipients=findResponsibles($sid,$bid);
+		if($recipients and $CFG->emailoff!='yes' and $CFG->emailcomments=='yes'){
+			if(sizeof($recipients)>0){
+				$headers=emailHeader();
+				foreach($recipients as $key => $recipient){
+					$recipient['email']=strtolower($recipient['email']);
+					if(mail($recipient['email'],$subject,$message,$headers)){
+						$result[]=get_string('emailsentto').' '.$recipient['username'];}
+					}
+				}
+			}
+
 		}
 
 //$_SESSION['Student']=fetchStudent($sid);
+include('scripts/results.php');	
 include('scripts/redirect.php');	
 ?>

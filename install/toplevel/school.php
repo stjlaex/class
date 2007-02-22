@@ -31,6 +31,17 @@ $CFG->registration='double';
 /*used by the register - see http://es2.php.net/manual/en/timezones.php*/
 $CFG->timezone='Europe/Madrid';
 /*****
+ *Optional settings to tune the use of emails for notifying staff
+ *values set to either 'yes' or 'no'
+ */
+/*setting to yes will mean all emailing to staff is prevented*/
+$CFG->emailoff='no';
+/*choose to send email notifications to the responsible staff for a student*/
+$CFG->emailincidents='yes';
+$CFG->emailcomments='no';
+/*send out reminders to relevant staff of approaching deadlines*/
+$CFG->emailreminders='no';
+/*****
  *All of the following are connection details
  *for optional services residing outside of ClaSS
  *Once configured they need to be made accessible to users
@@ -58,7 +69,7 @@ $CFG->statementbank_db='';
  * These are for development sites only - they will dramatically
  * slow performance - should always be set to off.
  */
-$CFG->debug='Off';
+$CFG->debug='off';
 $CFG->classlog='/var/www/classerrors.xml';
 $CFG->serverlog='/var/www/myerrors.html';
 ?>

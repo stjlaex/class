@@ -27,7 +27,7 @@ if($comtype=='year'){
 	}
 elseif($comtype=='alumni'){
 	$yeargroup['name']=get_string($comtype,'infobook');
-	$yid=getCurriculumYear();
+	$yid=get_curriculumyear();
 	if($newcomid==''){
 		$newcommunity=array('type'=>'year','name'=>'none');
 		}
@@ -43,8 +43,8 @@ else{
 		}
 	}
 	$yearcommunity=array('type'=>$comtype,'name'=>$yid);
-	$oldstudents=listinCommunity($yearcommunity);
-	$newstudents=listin_unionCommunities($yearcommunity,$newcommunity);
+	$oldstudents=listin_community($yearcommunity);
+	$newstudents=listin_union_communities($yearcommunity,$newcommunity);
 
 	three_buttonmenu($extrabuttons);
 ?>

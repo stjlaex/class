@@ -45,7 +45,7 @@ three_buttonmenu();
 				yeargroup_id='$yid' AND course_id=''");
 		$gid=mysql_result($d_groups,0);
 		$perms=getYearPerm($yid, $respons);
-		$nosids=countinCommunity(array('type'=>'year','name'=>$yid));
+		$nosids=countin_community(array('type'=>'year','name'=>$yid));
 		$nosidstotal=$nosidstotal+$nosids;
 ?>
 		<tr>
@@ -119,9 +119,9 @@ three_buttonmenu();
 		$communities[]=array('type'=>'enquired','name'=>'enquired');
 		$communities[]=array('type'=>'applied','name'=>'applied');
 		$communities[]=array('type'=>'accepted','name'=>'accepted');
-		$communities[]=array('type'=>'alumni','name'=>getCurriculumYear());
+		$communities[]=array('type'=>'alumni','name'=>get_curriculumyear());
 		while(list($index,$community)=each($communities)){
-			$nosids=countinCommunity($community);
+			$nosids=countin_community($community);
 			print '<tr><td>';
 	   		print '<a href="admin.php?current=yeargroup_edit.php&cancel='.$choice.'&choice='.$choice.'&comtype='.$community['type'].'">'.get_string($community['type'],'infobook').'</a>';
 			print '</td>';

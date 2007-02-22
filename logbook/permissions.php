@@ -72,7 +72,7 @@ function getResponStaff($tid,$respons,$r=0){
 		  while($user=mysql_fetch_array($d_users,MYSQL_ASSOC)){
 			$uid=$user['uid'];
 			if(!array_key_exists($uid,$users)){
-				$users["$uid"]=$user;
+				$users[$uid]=$user;
 				}
 			}
 		  }

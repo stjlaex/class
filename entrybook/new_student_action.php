@@ -43,8 +43,8 @@ if($sub=='Submit'){
 		$comname=$comtype;
 		}
 
-	$community=array('type'=>$comtype,'name'=>$comname);
-	joinCommunity($sid,$community);
+	$community=array('id'=>'','type'=>$comtype,'name'=>$comname);
+	join_community($sid,$community);
 	$result[]=get_string('newstudentadded',$book);
 
 

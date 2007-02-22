@@ -46,7 +46,7 @@ include('scripts/results.php');
 		}
 ?>
 </div>
-<script>openPrintReport('xmlStudent', 'comments')</script>
+<script>openPrintReport('xmlStudent', 'comments','')</script>
 <?php
 	include('scripts/redirect.php');
 ?>

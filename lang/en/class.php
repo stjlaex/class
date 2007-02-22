@@ -27,8 +27,7 @@ $string['siteisdown']='<p>Sorry, the site is temporarily unavailable.</p>
 <p>Please check back again in a few hours.</p>';
 $string['loginaside']='The demo-site has a full data-set to show off its
 features.  Login as a teacher with the Username of \'profX\' and
-Password of \'guest\', where X is any number from 1 to 50. A good
-choice with plenty of data to see is prof31.<br /> <hr /> (If this is
+Password of \'guest\', where X is any number from 1 to 50. <br /> <hr /> (If this is
 your own installation you should change this text, edit loginaside in school.php!)';
 $string['manage']='Manage';
 $string['myclasses']='My classes';
@@ -55,7 +54,7 @@ $string['next']='Next';
 $string['previous']='Previous';
 $string['student']='Student';
 $string['noinfo']='No information';
-$string['nopermissions']='You do not have the permissions to edit this page!';
+$string['nopermissions']='You do not have the permissions to edit this!';
 $string['edit']='Edit';
 $string['selectresponsibility']='You need to select a responsibility to work with, instead of \'My classes\'.';
 $string['selectcourseresponsibility']='You need to select a course responsibility to work with, instead of \'My classes\'.';
@@ -74,6 +73,7 @@ $string['priority']='Priority';
 $string['youneedtoselectstudents']='You need to select one or more students from the list.';
 $string['printwindowwillopen']='A print window will open in a moment.';
 $string['printselected']='Preview selected';
+$string['previewselected']='Preview selected';
 $string['subjectreports']='Subject reports';
 $string['subject']='Subject';
 $string['subjectspecific']='Subject specific';
@@ -185,6 +185,15 @@ $string['emailfooterdisclaimer']='
 		from your system once it has been acted upon. Any unauthorised
 		use or dissemination of this message in whole or in part is
 		strictly prohibited.';
+$string['pastoralemailfooterdisclaimer']='		
+		This message is confidential. You have received it
+		because you are recorded as being responsible for either the
+		pastoral or academic interests of this student. Please advise
+		your ClaSS administrator if you believe you have received this
+		email by mistake. Please delete this message from your system
+		once it has been acted upon. Any unauthorized use or
+		dissemination of this message in whole or in part is strictly
+		prohibited.';
 $string['passwords']='Passwords';
 $string['statementbank']='Statement bank';
 $string['usesubjectcomponents']='Use subject components';
@@ -205,6 +214,7 @@ $string['removecontact']='Remove contact';
 $string['newstudent']='New student';
 $string['newcontact']='New contact';
 $string['cohortmatrix']='Cohort matrix';
+$string['cohort']='Cohort';
 $string['communities']='Communities';
 $string['readytocontinue']='Continue?';
 $string['confirm']='Confirm action.';
@@ -234,5 +244,7 @@ $string['previous']='Previous';
 $string['newreportbinder']='New report binder';
 $string['newsubjectreport']='New subject report';
 $string['removesen']='Remove SEN status';
+$string['emailsentto']='Email sent to';
+$string['']='';
 $string['']='';
 ?>

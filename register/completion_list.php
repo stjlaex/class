@@ -7,7 +7,7 @@
 $action='completion_list_action.php';
 $choice='completion_list.php';
 
-$registration_coms=listCommunities('form');
+$registration_coms=list_communities('form');
 $eveid=$currentevent['id'];
 
 include('scripts/sub_action.php');

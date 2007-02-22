@@ -11,13 +11,13 @@ if(isset($_POST['newname'])){$newname=$_POST['newname'];}
 include('scripts/sub_action.php');
 
 if($sub=='Submit'){
-	$community=array('type'=>$newcomtype,'name'=>$newname);
+	$community=array('id'=>'','type'=>$newcomtype,'name'=>$newname);
 	if($newcomid!=''){
 		$communityfresh=$community;
 		$community=array('id'=>$newcomid);
 		}
 	else{$communityfresh=array();}
-	$newcomid=updateCommunity($community,$communityfresh);
+	$newcomid=update_community($community,$communityfresh);
 	$action=$cancel;
 	include('scripts/redirect.php');
 	exit;

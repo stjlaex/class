@@ -53,8 +53,9 @@ if(sizeof($ryids)>0){
 <?php
 	}
 
-
 if(sizeof($rfids)==0 and sizeof($ryids)==0){
-	print '<label>You have no pastoral responsibilities assigned.</label>';
+	print '<label>'.get_string('youhavenopastoralresponsibilities').'</label>';
 	}
+reset($ryids);
+reset($rfids);
 ?>

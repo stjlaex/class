@@ -101,7 +101,7 @@ elseif($sub=='Submit'){
 	/*keeping things simple by fixing season and year to a single value*/
 	/*to sophisticate in the future*/
 	$currentseason='S';
-	$currentyear=getCurriculumYear($crid);
+	$currentyear=get_curriculumyear($crid);
 	while($classes=mysql_fetch_array($d_classes,MYSQL_ASSOC)){
 		$bid=$classes['subject_id'];
 		$stage=$classes['stage'];

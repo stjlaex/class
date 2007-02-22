@@ -163,58 +163,18 @@ three_buttonmenu();
 ?>
 
 	  <fieldset class="left">
-		<legend><?php print_string('associatewithanassessment',$book);?></legend>
 		<table width="100%">
 		  <tr>
 			<td>
 <?php
   if($tid=='administrator'){
 	if($mark{'assessment'}=='yes'){
-		/*if already associated with an assessment then find it*/
-		$d_eid=mysql_query("SELECT id FROM assessment JOIN
-			eidmid ON assessment.id=eidmid.assessment_id WHERE eidmid.mark_id='$mid'");
-		$eid=mysql_fetch_array($d_eid,MYSQL_ASSOC);
-		/*find all possible assessments that could be associated with mark*/
-		$d_assessment=mysql_query("SELECT * FROM assessment ORDER BY
-		year DESC, id DESC");
-?>
-			  <label for="Assessment">
-				<?php print_string('linkedtothisassessment',$book);?>
-			  </label>	
-			  <select name="eid" id="Assessment" size="1">
-				<option value=""></option>
-<?php
-		while($assessment=mysql_fetch_array($d_assessment,MYSQL_ASSOC)){
-			print '<option ';
-			if($assessment['id']==$eid['id']){print 'selected="selected"';}
-			print ' value="'.$assessment['id'].'">'.$assessment['course_id'].':'
-					.$assessment['stage'].':'.$assessment['description'].' ('.$assessment['year'].')</option>';
-			}
-?>
-				<option value='unassess'>
-				</option>
-			  </select>
-			</td>
-		  </tr><tr>
-			<td>
-			  <button name="assbut" value="Unassess">
-				<?php print_string('changeassessmentstatus',$book);?>
-			  </button>
-<?php
+		print_string('linkedtothisassessment',$book);
 		}
 	else{
 		print_string('notlinkedtoanassessment',$book);		
-?>
-			</td>
-		  </tr>
-		  <tr>
-			<td>
-			  <button name="assbut" value="Assess">
-				<?php print_string('changeassessmentstatus',$book);?>
-			  </button>
-<?php
 		}
-  }
+	}
 ?>
 			</td>
 		  </tr>

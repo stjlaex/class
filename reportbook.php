@@ -15,20 +15,26 @@ include('scripts/book_variables.php');
 	$rfids=array();
 	$ryids=array();
 	if($r>-1){
-	 	$rbid=$respons[$r]['subject_id'];
 		$rcrid=$respons[$r]['course_id'];
+	 	$rbid=$respons[$r]['subject_id'];
 		$ryid=$respons[$r]['yeargroup_id'];
 		if($ryid==''){$ryid='%';}
+		$listgroup='list_cohort.php';
+		$reportpubs='no';
 		}
-	$pastorals=listPastoralRespon($respons);
-	$rfids=$pastorals['forms'];
-	$ryids=$pastorals['years'];
+	else{
+		$pastorals=listPastoralRespon($respons);
+		$rfids=$pastorals['forms'];
+		$ryids=$pastorals['years'];
+		$listgroup='list_pastoralgroup.php';
+		$reportpubs='yes';
+		}
 	if(sizeof($rfids)==0 and sizeof($ryids)==0 and $r=='-1' and $_SESSION['role']!='admin'){
-			$error[]=get_string('selectresponsibility');
-			include('scripts/results.php');
-			$current='';
-			$choice='';
-			}
+		$error[]=get_string('selectresponsibility');
+		include('scripts/results.php');
+		$current='';
+		$choice='';
+		}
 
 	if($current!=''){
 		include($book.'/'.$current);
@@ -53,24 +59,24 @@ include('scripts/book_variables.php');
 	</form>
 
 <?php
- if($tid=='administrator' or $_SESSION['role']=='admin'){
+	if($tid=='administrator' or $_SESSION['role']=='admin'){
 ?>
-
 	<form id="reportadminchoice" name="reportadminchoice" method="post" 
 	  action="reportbook.php" target="viewreportbook">
-	  <fieldset class="reportbook selery"><legend><?php print_string('manage');?></legend>
+	  <fieldset class="reportbook selery">
+		<legend><?php print_string('manage');?></legend>
 <?php
-	$choices=array('new_stats.php' => 'newstatistics'
+		$choices=array('new_stats.php' => 'newstatistics'
 			   ,'new_estimate.php' => 'newestimates'
 			   ,'new_assessment.php' => 'newassessments'
 			   ,'new_report.php' => 'subjectreports'
 			   );
-	selery_stick($choices,$choice,$book);
+		selery_stick($choices,$choice,$book);
 ?>
 	  </fieldset>
 	</form>
 <?php
-	}
+		}
 ?>
   </div>
 

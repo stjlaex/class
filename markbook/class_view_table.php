@@ -224,6 +224,7 @@ while($student=mysql_fetch_array($d_students, MYSQL_ASSOC)){
 		$sort_array[1]['sort']='ASC';
 		$sort_array[1]['case']=TRUE;
 		//		Should already be sorted by mysql so not needed
+		//		and it doesn't support utf8!
 		//		sortx($viewtable, $sort_array);
 		}
 	else{
@@ -236,29 +237,6 @@ while($student=mysql_fetch_array($d_students, MYSQL_ASSOC)){
 		// 		$sort_array[1]['case']=TRUE;
 	    sortx($viewtable, $sort_array);
 		}
-
-function sortx(&$array,$sort=array()){
-   $function='';
-   while(list($key)=each($sort)){
-     if(isset($sort[$key]['case'])&&($sort[$key]['case']==TRUE)){
-       $function .= 'if (good_strtolower($a["' . $sort[$key]['name'] . '"])<>good_strtolower($b["' . $sort[$key]['name'] . '"])) { return (good_strtolower($a["' . $sort[$key]['name'] . '"]) ';
-     } else {
-       $function .= 'if ($a["' . $sort[$key]['name'] . '"]<>$b["' . $sort[$key]['name'] . '"]) { return ($a["' . $sort[$key]['name'] . '"] ';
-     }
-     if(isset($sort[$key]['sort'])&&($sort[$key]['sort']=='DESC')){
-       $function .= '<';
-     } else {
-       $function .= '>';
-     }
-     if (isset($sort[$key]['case'])&&($sort[$key]['case'] == TRUE)) {
-       $function .= ' good_strtolower($b["' . $sort[$key]['name'] . '"])) ? 1 : -1; } else';
-     } else {
-       $function .= ' $b["' . $sort[$key]['name'] . '"]) ? 1 : -1; } else';
-     }
-   }
-   $function .= ' { return 0; }';
-   usort($array,create_function('$a, $b', $function));
-   }
 
 /*	All finished.*/
 $_SESSION['viewtable']=$viewtable;

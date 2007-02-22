@@ -1,55 +1,66 @@
 <?php
 /**										scripts/list_assessment.php
  *
- *$multi>1 returns eids[] or $multi=1 returns eid (default=10)
- *set $required='no' to make not required (default=yes)
- *first call returns eid, second call returns eid1
+ * $multi>1 returns eids[] or $multi=1 returns eid (default=10)
+ * set $required='no' to make not required (default=yes)
+ * first call returns eid, second call returns eid1
  */
 
-	if($rcrid!='' and $r>-1){$selcrid=$rcrid;}
-	elseif(sizeof($ryids)==1){
-		$d_class=mysql_query("SELECT DISTINCT course_id
-				FROM class WHERE yeargroup_id='$selyid'");
-		$selcrid=mysql_result($d_class,0);
+
+	$cohorts=array();
+	$cohids=array();
+	if($r>-1){
+		$cohorts[]=array('id'=>'','course_id'=>$rcrid,'stage'=>'%','year'=>'%');
 		}
-	elseif(sizeof($rfids)==1){
-		$selfid=$rfids[0];
-		$d_yeargroup=mysql_query("SELECT yeargroup_id FROM form WHERE id='$selfid'");
-		$selyid=mysql_result($d_yeargroup,0);
-		$d_class=mysql_query("SELECT DISTINCT course_id
-				FROM class WHERE yeargroup_id='$selyid'");
-		$selcrid=mysql_result($d_class,0);
+	elseif(sizeof($ryids)>0){
+   		while(list($index,$ryid)=each($ryids)){
+			$comcohorts=(array)list_community_cohorts(array('id'=>'','type'=>'year','name'=>$ryid));
+			while(list($index,$cohort)=each($comcohorts)){
+				$cohorts[$cohort['id']]=$cohort;
+				}
+			}
+		reset($ryids);
 		}
-	else{
-		$selcrid='%';
+	elseif(sizeof($rfids)>0){
+		$cohorts=list_community_cohorts(array('id'=>'','type'=>'form','name'=>$rfids[0]));
 		}
-	$d_assessment=mysql_query("SELECT id, description, year,
-			   stage, course_id FROM assessment
-			   WHERE (course_id LIKE '$selcrid' or course_id='%') ORDER
-			   BY year DESC, id DESC");
 
 	if(!isset($required)){$required='yes';}
 	if(!isset($multi)){$multi='10';}
 	if(!isset($ieid)){$ieid='';}else{$ieid++;}
 ?>
 	<label for="Assessments"><?php print_string('assessment');?></label>
-	<select style="width:25em;" id="Assessments" tabindex="<?php print $tab++;?>"
+	<select style="width:30em;" id="Assessments" tabindex="<?php print $tab++;?>"
 		<?php if($required=='yes'){ print ' class="required" ';} ?>
 		size="<?php print $multi;?>"
 		<?php if($multi>1){print ' name="eids'.$ieid.'[]" multiple="multiple"';}
 				else{print ' name="eid'.$ieid.'"';}?> >
-    <option value=""></option>
+		<option value=""></option>
 <?php
-   		while ($assessment=mysql_fetch_array($d_assessment,MYSQL_ASSOC)){
+		$eids=array();
+   		while(list($index,$cohort)=each($cohorts)){
+			$AssDefs=array();
+			$AssDefs=(array)fetch_cohortAssessmentDefinitions($cohort);
+			while(list($index,$AssDef)=each($AssDefs)){
+				if(!array_key_exists($AssDef['id_db'],$eids)){
+					$eids[$AssDef['id_db']]=$AssDef['id_db'];
 ?>
-		<option value="<?php print $assessment['id'];?>">
-				<?php print $assessment['course_id'].':'.$assessment['stage'].':'.$assessment['description'].' ('.$assessment['year'].')';?>
+		<option value="<?php print $AssDef['id_db'];?>">
+				 <?php print 
+					$AssDef['Course']['value']. 
+				 ' ('.$AssDef['Stage']['value'].' '.$AssDef['Year']['value'].') '.
+					$AssDef['Description']['value'];?>
 		</option>
 <?php
+					}
 				}
+			}
 ?>
 	</select>
 <?php
 unset($required);
 unset($multi);
+unset($cohorts);
+unset($eids);
+unset($AssDefs);
 ?>

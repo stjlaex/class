@@ -130,7 +130,7 @@ three_buttonmenu($extrabuttons);
 			  </button>
 <?php 
 				}
-			else {
+			else{
 ?>
 			  <button class="rowaction" title="Delete MarkBook columns" name="current" 
 				value="delete_assessment_columns.php" onClick="clickToAction(this)">

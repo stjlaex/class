@@ -23,11 +23,11 @@ if($sub=='Submit'){
 	/*sids to remove*/
 	$yearcommunity=array('type'=>'year','name'=>'');
    	while(list($index,$sid)=each($oldsids)){
-		$oldcommunities=joinCommunity($sid,$yearcommunity);
+		$oldcommunities=join_community($sid,$yearcommunity);
 		$oldfid=$oldcommunities['form'][0]['name'];
 		if($classestoo=='yes' and $oldfid!=''){
 			$changecids=array();
-			$changecids=formsClasses($oldfid);
+			$changecids=list_forms_classes($oldfid);
 			for($c=0;$c<sizeof($changecids);$c++){
 				$cid=$changecids[$c];
 				mysql_query("DELETE FROM cidsid WHERE
@@ -39,11 +39,11 @@ if($sub=='Submit'){
 	/*sids to add*/
 	$yearcommunity=array('type'=>$comtype,'name'=>$yid);
    	while(list($index,$sid)=each($newsids)){
-		$oldcommunities=joinCommunity($sid,$yearcommunity);
+		$oldcommunities=join_community($sid,$yearcommunity);
 		$oldfid=$oldcommunities['form'][0]['name'];
 		if($classestoo=='yes' and $oldfid!=''){
 			$changecids=array();
-			$changecids=formsClasses($oldfid);
+			$changecids=list_forms_classes($oldfid);
 			for($c=0;$c<sizeof($changecids);$c++){
 				$cid=$otherchangecids[$c];
 				mysql_query("DELETE FROM cidsid WHERE

@@ -179,10 +179,10 @@ elseif($sub=='Submit'){
 				$val=checkEntry($val, $format, $field_name);
 				mysql_query("UPDATE student SET $field_name='$val' WHERE id='$new_sid'");
 				if($field_name=='yeargroup_id'){
-					$oldcoms=joinCommunity($new_sid,array('type'=>'year','name'=>$val));
+					$oldcoms=join_community($new_sid,array('id'=>'','type'=>'year','name'=>$val));
 					}
 				elseif($field_name=='form_id'){
-					$oldcoms=joinCommunity($new_sid,array('type'=>'form','name'=>$val));
+					$oldcoms=join_community($new_sid,array('id'=>'','type'=>'form','name'=>$val));
 					}
 				}
 			}

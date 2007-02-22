@@ -23,8 +23,11 @@ print '<?xml version="1.0" encoding="utf-8"?'.'>';
 </head>
 <body onload="loadLogin('cover');">
 
-<div id="sitelogo">
+<div id="sitelogo" class="fixed">
 	<img name="sitelogo" src="images/orangelogo.png"/>
+</div>
+<div id="sitestatus" class="fixed">
+	<img name="sitelogo" src="images/roller.gif"/>
 </div>
 
 <div id="navtabs">

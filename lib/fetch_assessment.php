@@ -143,7 +143,7 @@ function fetchAssessmentDefinition($eid){
 					'type_db'=>'char(3)', 'value' => $ass['method']);
 
 	$gena=$ass['grading_name'];
-	if($gena!=''){
+	if($gena!='' and $gena!=' '){
 		$d_grading=mysql_query("SELECT grades FROM grading WHERE name='$gena'");
 		$grading_grades=mysql_result($d_grading,0);
 		}
@@ -152,7 +152,6 @@ function fetchAssessmentDefinition($eid){
 								   'assessment', 'field_db' => 'grading_name',
 								   'type_db'=>'varchar(20)', 
 								   'value'=>$gena, 'grades' =>$grading_grades);
-
    	$AssDef['Element']=array('label' => 'Element','table_db' =>
 					'assessment', 'field_db' => 'element',
 					'type_db'=>'char(3)', 'value' => $ass['element']);
@@ -204,7 +203,7 @@ function fetchAssessmentDefinition($eid){
 	return $AssDef;
    	}
 
-function fetchAssessments($sid){
+function fetchAssessments($sid,$eid='%'){
 	$Assessments=array();
 
 /*
@@ -230,10 +229,10 @@ function fetchAssessments($sid){
 */
 
    	$d_eidsid=mysql_query("SELECT * FROM eidsid WHERE
-				student_id='$sid'");
+				student_id='$sid' AND assessment_id LIKE '$eid'");
   	while($eidsid=mysql_fetch_array($d_eidsid,MYSQL_ASSOC)){
 		$eidsid=nullCorrect($eidsid);
-		$eid=$eidsid{'assessment_id'};
+		$eid=$eidsid['assessment_id'];
 		$d_ass=mysql_query("SELECT * FROM assessment WHERE id='$eid'");
 		$ass=mysql_fetch_array($d_ass,MYSQL_ASSOC);
 		$ass=nullCorrect($ass);
@@ -318,10 +317,10 @@ function fetchAssessments($sid){
 	return $Assessments;
 	}
 
-function fetchAssessments_short($sid){
+function fetchAssessments_short($sid,$eid='%'){
 	$Assessments=array();
    	$d_eidsid=mysql_query("SELECT * FROM eidsid WHERE
-				student_id='$sid'");
+				student_id='$sid' AND assessment_id LIKE '$eid'");
   	while($eidsid=mysql_fetch_array($d_eidsid,MYSQL_ASSOC)) {
 		$eidsid=nullCorrect($eidsid);
 		$eid=$eidsid{'assessment_id'};
@@ -344,4 +343,24 @@ function fetchAssessments_short($sid){
 		}
 	return $Assessments;
 	}
+
+/*Returns all assdefs of relevance to a cohort*/
+function fetch_cohortAssessmentDefinitions($cohort){
+	$crid=$cohort['course_id'];
+	$stage=$cohort['stage'];
+	$year=$cohort['year'];
+	$season='S';
+	$AssDefs=array();
+	$d_assessment=mysql_query("SELECT id FROM assessment
+			   WHERE (course_id LIKE '$crid' OR course_id='%') AND 
+				(stage LIKE '$stage' OR stage='%') AND
+				year LIKE '$year'
+				ORDER BY year DESC, stage DESC, id");
+   	while($ass=mysql_fetch_array($d_assessment, MYSQL_ASSOC)){
+		$AssDefs[]=fetchAssessmentDefinition($ass['id']);
+		}
+	return $AssDefs;
+	}
+
+
 ?>

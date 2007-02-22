@@ -7,7 +7,6 @@ $action='student_reports.php';
 include('scripts/sub_action.php');
 
 if(isset($_POST['wrapper_rid'])){$wrapper_rid=$_POST['wrapper_rid'];}else{$wrapper_rid='';}
-	$coversheet='yes';
 	$d_rid=mysql_query("SELECT categorydef_id AS report_id FROM ridcatid WHERE
 				 report_id='$wrapper_rid' AND subject_id='wrapper' ORDER BY categorydef_id");
 	$rids=array();
@@ -27,14 +26,14 @@ if(isset($_POST['wrapper_rid'])){$wrapper_rid=$_POST['wrapper_rid'];}else{$wrapp
 <?php
 	/*this taken straight from report_reports_print*/
 	$Student=fetchStudent_short($sid);
-	$Student['coversheet']=$coversheet;
+	$Student['coversheet']='yes';
 	list($Reports,$transform)=fetchSubjectReports($sid,$reportdefs);
-	$Reports['Coversheet']=$coversheet;
+	$Reports['Coversheet']='yes';
 	$Student['Reports']=nullCorrect($Reports);
 	xmlechoer('Student',$Student);
 ?>
   </div>
-  <script>openPrintReport('xmlStudent', '<?php print $transform;?>')</script>
+  <script>openPrintReport('xmlStudent', '<?php print $transform;?>','')</script>
 <?php
 		include('scripts/redirect.php');
 ?>

@@ -1,3 +1,57 @@
+Version ClaSS-0.8.10 release (2007/02/23)
+----------------------------------------
+
+A third rating of 'general' added to the comments.
+
+Removed the length limit for incident details.
+
+Added a pastoralemailfooter to lang/en/class.php which is used by both
+incidents and comments.
+
+New options added to school.php. $CFG->emailoff disables sending all
+emails to staff (only the administrator user's email address will be
+active). $CFG->emailcomments will notify responsibile staff by email
+of new commments, in the same way that incidents are already
+posted. Incidents can now be turned off with $CFG->emailincidents.
+
+Bugfix to the EntryBook which solves new students with enrolstatus of
+'enquired' not joining their community group.
+
+Finally working with cohorts in the ReportBook. Using lisinCohort and
+listinCommunity for matching students to academic and pastoral responsibilities
+respectively when it comes to collating subject reports or whatever.
+
+Added a sitestatus div which is swapped in and out with sitelogo to
+provide a progress or activity indicator in the bottom left
+corner. Controlled by javascript progressIndicator(). Used during
+xmlHttp requests - could be used for messages too?
+
+Have moved the "Preview selected" form buttons over to use an xmlHttp
+request instead of a page reload. New javascript function
+checksidsAction grabs the sids from the checked boxes and makes a call
+to reportbook/httpscripts report_reports_print.php.
+
+openPrintReport() can now take the xml directly passed as a third term
+as well as grabbing it from a hidden div in the page to allow for
+above.
+
+Removed the redundant code in column_edit.php for linking marks to
+assessments.
+
+Implment cohorts to filter for relevance in list_assessments.
+
+Cleaned up the naming of cohort and community functions to be consistent
+with the rudimentary conventions described in the head of
+functions.php.
+
+fetchAssessments can no take an eid as an optional value to return all
+results for just that one assessment (before it returned ALL results).
+
+The report_assessments scripts now work with cohorts and consequently
+can handle assessments across multiple courses correctly
+side-by-side. The recoding has increased the speed of this slug
+hugely; it is now actually useful!
+
 Version ClaSS-0.8.9 release (2007/01/30)
 ----------------------------------------
 
@@ -139,7 +193,7 @@ register. Uses a css class "selected".
 
 The css of the sideoptions has been cleaned up with a new class selery.
 
-Moved commendate to a default value in commentDisplay and moved to
+Moved commentdate to a default value in commentDisplay and moved to
 using mktime to do the claculation.
  
 Removed the unused date variable from the User class.

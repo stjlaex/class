@@ -1,5 +1,8 @@
 <?php 
-/**								  myerrors.php
+/**								  errorlog.php
+ *
+ * Example to force a call would be:
+ *    trigger_error('my message',E_USER_WARNING);
  */
 
 require('../../school.php');

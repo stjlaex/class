@@ -1,3 +1,12 @@
+var xmlHttp = false;
+requestxmlHttp();
+
+function requestxmlHttp(){
+	try { xmlHttp=new XMLHttpRequest(); } 
+	catch (failed) { xmlHttp=false; }
+	if (!xmlHttp) {alert("Error initializing XMLHttpRequest!");}
+	}
+
 //------------------------------------------------------
 //opens the comment writer window
 function clickToWriteComment(sid,rid,bid,pid,entryn,openId){
@@ -85,9 +94,7 @@ function clickToReveal(rowObject){
 	}
 
 
-var xmlHttp = false;
-requestxmlHttp();
-
+//only for rowaction buttons NOT for form buttons
 function clickToAction(buttonObject){
 	var i=0;
 	//need the id of the div containing the xml-record 
@@ -113,10 +120,25 @@ function clickToAction(buttonObject){
 		var url=pathtobook + "httpscripts/" + script + "?uniqueid=" + escape(recordId);
 		var answer=confirmAction(buttonObject.title);
 		if(answer){
-				xmlHttp.open("GET", url, true);
-				xmlHttp.onreadystatechange=updatexmlRecord;
-				xmlHttp.send(null);
-				}
+			xmlHttp.open("GET", url, true);
+			xmlHttp.onreadystatechange=function () {
+					if(xmlHttp.readyState==4){
+						if(xmlHttp.status==200){
+							xmlRecord=xmlHttp.responseXML;
+							//function to actually process the returned xml
+							updatexmlRecord(xmlRecord);
+							}
+						else if(xmlHttp.status==404){alert ("Requested URL is not found.");}
+        				else if(xmlHttp.status==403){alert("Access denied.");} 
+						else {alert("status is " + xmlHttp.status);}
+						progressIndicator("stop");
+						}
+					else{
+						progressIndicator("start");
+						}
+					}
+			xmlHttp.send(null);
+			}
 		}
 	}
 
@@ -128,39 +150,102 @@ function confirmAction(title){
 	return answer;
 	}
 
-function updatexmlRecord(){
+
+function updatexmlRecord(xmlRecord){
 	var exists=false;
-	if(xmlHttp.readyState==4){
-//		test=xmlHttp.responseText;
-		if(xmlHttp.status==200){
-			xmlRecord=xmlHttp.responseXML;
-			var recordId=xmlRecord.getElementsByTagName('id_db').item(0).firstChild.data;
-			var exists=xmlRecord.getElementsByTagName('exists').item(0).firstChild.data;
+	if(xmlRecord!=''){
+		var recordId=xmlRecord.getElementsByTagName('id_db').item(0).firstChild.data;
+		var exists=xmlRecord.getElementsByTagName('exists').item(0).firstChild.data;
 //		var xmlId='xml-'+recordId;
 //		var xmlContainer=document.getElementById(xmlId);
 //	    xmlContainer.firstChild.data=xmlRecord;
-			if(exists!='true'){
-				var tableRecord=document.getElementById(recordId);
-				while(tableRecord.hasChildNodes()){
-					tableRecord.removeChild(tableRecord.childNodes[0]);
-					}
-				}
-			else{
-				fillxmlTable(recordId, xmlRecord);
+		if(exists!='true'){
+			var tableRecord=document.getElementById(recordId);
+			while(tableRecord.hasChildNodes()){
+				tableRecord.removeChild(tableRecord.childNodes[0]);
 				}
 			}
-		else if(xmlHttp.status==404){alert ("Requested URL is not found.");}
-        else if(xmlHttp.status==403){alert("Access denied.");} 
-		else {alert("status is " + xmlHttp.status);}
+		else{
+			fillxmlTable(recordId, xmlRecord);
+			}
 		}
 	}
 
-function requestxmlHttp(){
-	try { xmlHttp=new XMLHttpRequest(); } 
-	catch (failed) { xmlHttp=false; }
-	if (!xmlHttp) {alert("Error initializing XMLHttpRequest!");}
+//-------------------------------------------------------
+//only for form buttons instead of processContent()
+//TODO this should be generalised to work with more than just openPrintReports!
+
+function checksidsAction(buttonObject){
+	var formObject=document.formtoprocess;
+	var formElements=formObject.elements;
+	var buttonname=buttonObject.name;
+	var script=buttonObject.value;
+	var params='';
+
+	//first grab all the checked input sids
+	var sids=new Array();
+	var sidno=0;
+	for(var c=0; c<formObject.elements.length; c++){
+		if(formObject.elements[c].name=="checkall"){
+			c=c+1;
+			}
+		if(formObject.elements[c].type=="checkbox"){
+			if(formObject.elements[c].checked){
+				sids[sidno++]=formObject.elements[c].value;
+				params=params+"&sids[]=" + escape(formObject.elements[c].value);
+				//and uncheck them for (maybe) convenience
+				formObject.elements[c].checked=false;
+				}
+			}
+		}
+
+	//need the id of the div containing the xml-record to work with
+	//currently this is fixed but maybe need multiple values?
+	var theContainerId="checked-action";
+	if(theContainerId!=''){
+		var xmlId="xml-"+theContainerId;
+		var xmlContainer=document.getElementById(xmlId);
+		var xmlRecord=xmlContainer.childNodes[1];
+        for(var i=0; i < xmlRecord.childNodes.length; i++){
+			var xmlreportid=xmlRecord.childNodes[i];
+			if(xmlreportid.tagName=="ID_DB"){
+	        	var xmlvalue=xmlreportid.firstChild.data;
+				params=params+"&rids[]=" + escape(xmlvalue);
+				}
+		    }
+		}
+	var url=pathtobook + "httpscripts/" + script + "?" +params;
+	xmlHttp.open("GET", url, true);
+	xmlHttp.onreadystatechange=function () {
+					if(xmlHttp.readyState==4){
+						if(xmlHttp.status==200){
+							var xmlReport=xmlHttp.responseXML;
+							//function to actually process the returned xml
+							openPrintReport("","medium",xmlReport);
+							}
+						else if(xmlHttp.status==404){alert ("Requested URL is not found.");}
+        				else if(xmlHttp.status==403){alert("Access denied.");} 
+						else {alert("status is " + xmlHttp.status);}
+						progressIndicator("stop");
+						}
+					else{
+						progressIndicator("start");
+						}
+					}
+	xmlHttp.send(null);
 	}
 
+function progressIndicator(action){
+	var statusObject=parent.document.getElementById("sitelogo");
+	if(action=="start"){
+		parent.document.getElementById("sitelogo").setAttribute("class","working");
+		parent.document.getElementById("sitestatus").setAttribute("class","working");
+		}
+	else{
+		parent.document.getElementById("sitelogo").setAttribute("class","fixed");
+		parent.document.getElementById("sitestatus").setAttribute("class","fixed");
+		}
+	}
 
 //-------------------------------------------------------
 // uses the id to refer to a <value> and replace its content
@@ -173,11 +258,11 @@ function fillxmlTable(recordId, xmlRecord){
 		}
     else{
 		var xmltag=xmlRecord.parentNode.tagName;
-		if(xmltag=='value'){
+		if(xmltag=="value"){
 			var xmltag=xmlRecord.parentNode.parentNode.tagName;
 	        var xmlvalue=xmlRecord.nodeValue;
 			xmltag=makeLabel(xmltag);
-			fieldId=recordId+'-'+xmltag;
+			fieldId=recordId+"-"+xmltag;
 			if(document.getElementById(fieldId)){
 				document.getElementById(fieldId).firstChild.data=xmlvalue;
 				}
@@ -508,7 +593,7 @@ function validateResult(fieldObj){
 
 function getLabel(fieldId) {
  	var label;
-	var labels=document.getElementsByTagName('label');
+	var labels=document.getElementsByTagName("label");
  	for(var i=0; (label=labels[i]); i++){
    		if(label.getAttribute('for')==fieldId){
 			var fieldLabel=label.firstChild.nodeValue;

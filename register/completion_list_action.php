@@ -27,7 +27,7 @@ if(sizeof($comids)==0){
 	while(list($index,$comid)=each($comids)){
 		$Community=fetchCommunity($comid);
 		$Community['Student']=array();
-		$students=(array)listinCommunity(array('id'=>$comid));
+		$students=(array)listin_community(array('id'=>$comid));
 		while(list($index,$student)=each($students)){
 			$Student=fetchStudent_short($student['id']);
 			$Student['Attendances']['Attendnace'][]=fetchcurrentAttendance($student['id']);
@@ -37,7 +37,7 @@ if(sizeof($comids)==0){
 		}
 ?>
   </div>
-  <script>openPrintReport('xmlStudent', 'register')</script>
+  <script>openPrintReport('xmlStudent', 'register','')</script>
 <?php
 		include('scripts/redirect.php');
 ?>

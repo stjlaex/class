@@ -35,10 +35,18 @@ function xulsave(){
 
 
 // A function taylored to process xml and an xsl-template in a new window for printing
-function openPrintReport(contentId, xsltName){
-	if (document.getElementById(contentId)){
-		var content=document.getElementById(contentId).innerHTML;
+// Either the xml for printing is contained within a hidden div of the parent 
+// with id=contentId or the xml is fed directly to the function in the xml parameter
+function openPrintReport(contentId, xsltName, xml){
+	var content='';
+	if(xml!=''){
+		content=serializeXML(xml);
+		}
+	else if(document.getElementById(contentId)){
+		content=document.getElementById(contentId).innerHTML;
+		}
 
+	if(content!=''){
 		printWindow=window.open('','','height=800,width=750,dependent,resizable,menubar,screenX=50,scrollbars');
 		printWindow.document.open();
 		printWindow.document.writeln("<html>");

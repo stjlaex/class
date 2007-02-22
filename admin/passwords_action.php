@@ -28,8 +28,8 @@ if($sub=='Submit'){
 						', '.$user['role'].', '.$user['email'];
 				$result[]=updateUser($user,'yes',$CFG->shortkeyword);
 
-				if($_POST['emailstaff0']=='yes'){
-					//					$email=$user['email'];
+				if($_POST['emailstaff0']=='yes' and $CFG->emailoff=='no'){
+					$email=$user['email'];
 					if(eregi('^[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.([a-zA-Z]{2,4})$', $email)){
 						$headers=emailHeader();
 						$footer='--'. "\r\n" .get_string('emailfooterdisclaimer');
@@ -47,7 +47,6 @@ if($sub=='Submit'){
 			else{$admin=$user;}
 			}
 		}
-
 	elseif($_POST['emailadmin0']=='yes'){
 		/*this will be used if the passwords have not been changed*/
 		foreach($users as $uid => $user){
@@ -77,6 +76,7 @@ if($sub=='Submit'){
 		}
 
 	}
+
 include('scripts/results.php');
 include('scripts/redirect.php');	
 ?>

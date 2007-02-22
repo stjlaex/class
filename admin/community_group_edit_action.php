@@ -19,12 +19,12 @@ if($sub=='Submit'){
 	/*sids to remove*/
 	$currentcommunity=array('type'=>$newcomtype,'id'=>$comid);
    	while(list($index,$sid)=each($oldsids)){
-		$oldcommunities=leaveCommunity($sid,$currentcommunity);
+		$oldcommunities=leave_community($sid,$currentcommunity);
 		}
 
 	/*sids to add*/
    	while(list($index,$sid)=each($newsids)){
-		$oldcommunities=joinCommunity($sid,$currentcommunity);
+		$oldcommunities=join_community($sid,$currentcommunity);
 		}
 	}
 

@@ -10,7 +10,7 @@ $choice='register_list.php';
 include('scripts/sub_action.php');
 
 
-	$students=(array)listinCommunity($community);
+	$students=(array)listin_community($community);
 	$AttendanceEvents=fetchAttendanceEvents($startday);
 	$evetable=$AttendanceEvents['evetable'];
 	/*make sure an event is selected which is part of the current window*/

@@ -28,7 +28,7 @@ include('scripts/sub_action.php');
 
 	$recipients[]=array('email'=> $queue.'@'.$CFG->support,
 					'username'=>'ClaSS Support');
-	if(isset($CFG->contact) and $queue=='support'){
+	if(isset($CFG->contact) and $queue=='support' and $CFG->emailoff!='yes'){
 		$recipients[]=array('email'=> $CFG->contact,'username'=>'ClaSS Contact');
 		}
 

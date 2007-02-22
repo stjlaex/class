@@ -5,40 +5,31 @@
 $action='report_reports_print.php';
 
 if(isset($_POST['newfid'])){$fid=$_POST['newfid'];}else{$fid='';}
-if(isset($_POST['fid'])){$fid=$_POST['fid'];}
-if(isset($_POST['newyid'])){$yid=$_POST['newyid'];}
-if(isset($_POST['yid'])){$yid=$_POST['yid'];}
-
-if(isset($_POST['selbid'])){$selbid=$_POST['selbid'];}else{$selbid='%';}
+if(isset($_POST['newyid'])){$yid=$_POST['newyid'];}else{$yid='';}
+if(isset($_POST['year'])){$year=$_POST['year'];}
+if(isset($_POST['stage'])){$stage=$_POST['stage'];}
 if(isset($_POST['rids'])){$rids=$_POST['rids'];}else{$rids=array();}
 if(isset($_POST['wrapper_rids'])){
 	$wrapper_rids=(array)$_POST['wrapper_rids'];
 	while(list($index,$value)=each($wrapper_rids)){if($value!=''){$wrapper_rid=$value;}}
 	}
-if(isset($_POST['coversheet'])){$coversheet=$_POST['coversheet'];}else{$coversheet='no';}
 
 include('scripts/sub_action.php');
 
 	if($fid!=''){
-		$d_student=mysql_query("SELECT * FROM student WHERE
-				form_id='$fid' ORDER BY surname, forename");
+		$students=listin_community(array('id'=>'','type'=>'form','name'=>$fid));
 		$formperm=getFormPerm($fid,$respons);
 		}
 	elseif($yid!=''){
-		$d_student=mysql_query("SELECT * FROM student WHERE
-				yeargroup_id='$yid' ORDER BY surname, forename");
+		$students=listin_community(array('id'=>'','type'=>'year','name'=>$yid));
 		$yearperm=getYearPerm($yid,$respons);
 		$formperm=$yearperm;
 		}
-	$sids=array();
-	$students=array();
-	while($student=mysql_fetch_array($d_student,MYSQL_ASSOC)){
-		$sids[]=$student['id'];
-		$students[$student['id']]=$student;
+	else{
+		$students=listin_cohort(array('id'=>'','course_id'=>$rcrid,'year'=>$year,'stage'=>$stage));
 		}
 
 if(isset($wrapper_rid)){
-	$coversheet='yes';
 	$d_rid=mysql_query("SELECT categorydef_id AS report_id FROM ridcatid WHERE
 				 report_id='$wrapper_rid' AND subject_id='wrapper' ORDER BY categorydef_id");
 	$rids=array();
@@ -48,17 +39,24 @@ if(isset($wrapper_rid)){
 		}
 	}
 
+$extrabuttons=array();
+$extrabuttons['previewselected']=array('name'=>'current',
+								'value'=>'report_reports_print.php',
+								'onclick'=>'checksidsAction(this)');
 if($_SESSION['role']=='admin'){
-	//$extrabuttons['publish']=array('name'=>'current','value'=>'report_reports_publish.php');
+	$extrabuttons['publish']=array('name'=>'current',
+								   'value'=>'report_reports_publish.php');
 	}
-else{$extrabuttons='';}
-twoplusprint_buttonmenu($extrabuttons);
+
+two_buttonmenu($extrabuttons);
 ?>
   <div id="heading">
   <?php print get_string('subjectreportsfor',$book).' '.$fid;?>
   </div>
   <div id="viewcontent" class="content">
 	<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
+	  <div id="xml-checked-action" style="display:none;">
+<reportids>
 <?php
 	$reports=array();
 	while(list($index,$rid)=each($rids)){
@@ -67,15 +65,19 @@ twoplusprint_buttonmenu($extrabuttons);
 		$report['summaries']=(array)fetchReportSummaries($rid);
 		$reports[]=$report;
 		/*all of the marks associated with this report*/
-		if(mysql_query("CREATE TEMPORARY TABLE mids$rid (SELECT eidmid.mark_id FROM eidmid
+		mysql_query("CREATE TEMPORARY TABLE mids$rid (SELECT eidmid.mark_id FROM eidmid
 				JOIN rideid ON eidmid.assessment_id=rideid.assessment_id 
-				WHERE rideid.report_id='$rid')")){}
-		else{$error[]=mysql_error();}
+				WHERE rideid.report_id='$rid')");
+		if($rid!=''){
+			/*this is to feed the rids to the javascript function*/
 ?>
-	 	<input type="hidden" name="rids[]" value="<?php print $rid;?>" />
+		  <id_db><?php print $rid;?></id_db>
 <?php
+			}
 		}
 ?>
+</reportids>
+	  </div>
 		<table class="listmenu">
 		  <tr>
 			<th>
@@ -105,8 +107,8 @@ twoplusprint_buttonmenu($extrabuttons);
 			<th colspan="16"><?php print_string('completedsubjectreports',$book);?></th>
 		  </tr>
 <?php
-	while(list($index,$sid)=each($sids)){
-		$student=$students[$sid];
+	while(list($index,$student)=each($students)){
+		$sid=$student['id'];
 ?>
 		  <tr>
 			<td>
@@ -158,25 +160,13 @@ twoplusprint_buttonmenu($extrabuttons);
 		    $crid=$reports[$index]['course_id'];
 		    $commentcomp=$reports[$index]['commentcomp'];
 			$compstatus=$reports[$index]['component_status'];
-			if($selbid=='%'){
-				$d_reportentry=mysql_query("SELECT DISTINCT subject_id, 
+			$d_reportentry=mysql_query("SELECT DISTINCT subject_id, 
 					component_id FROM reportentry WHERE report_id='$rid' AND
 					student_id='$sid' ORDER BY report_id, subject_id, component_id");
-				$d_subjects=mysql_query("SELECT DISTINCT subject_id, class_id
+			$d_subjects=mysql_query("SELECT DISTINCT subject_id, class_id
 					FROM class JOIN cidsid ON cidsid.class_id=class.id
 					WHERE cidsid.student_id='$sid' AND
 					class.course_id='$crid' ORDER BY subject_id");
-				}
-			else{
-				$d_reportentry=mysql_query("SELECT DISTINCT subject_id,
-					component_id FROM reportentry WHERE report_id='$rid' AND
-					student_id='$sid' AND subject_id='$selbid' 
-					ORDER BY report_id, component_id");
-				$d_subjects=mysql_query("SELECT DISTINCT subject_id
-					FROM class JOIN cidsid ON cidsid.class_id=class.id
-					WHERE cidsid.student_id='$sid' AND
-					class.course_id='$crid' ORDER BY subject_id");
-				}
 			$donereports=array();
 			while($reportentry=mysql_fetch_array($d_reportentry,MYSQL_ASSOC)){
 			    $repbid=$reportentry['subject_id'];
@@ -222,7 +212,7 @@ twoplusprint_buttonmenu($extrabuttons);
 						print $reptid." ";
 						}
 					reset($reptids);
-					if((isset($donereports["$repbid"]["$reppid"]) and
+					if((isset($donereports[$repbid][$reppid]) and
 						$commentcomp=='yes' and mysql_numrows($d_scores)>0) or 
 						($commentcomp=='no' and mysql_numrows($d_scores)>0)){
 						print '" class="vspecial">';}
@@ -239,27 +229,13 @@ twoplusprint_buttonmenu($extrabuttons);
 		 </tr>
 <?php
 		}
-	reset($sids);
 ?>
 		</table>
 
-<?php if(isset($wrapper_rid)){?>
- 	<input type="hidden" name="wrapper_rid" value="<?php print $wrapper_rid;?>" />
-<?php	} ?>
-<?php if(isset($yid)){?>
- 	<input type="hidden" name="yid" value="<?php print $yid;?>" />
-<?php	} ?>
-<?php if(isset($fid)){?>
- 	<input type="hidden" name="fid" value="<?php print $fid;?>" />
-<?php	} ?>
-<?php if(isset($selbid)){?>
- 	<input type="hidden" name="selbid" value="<?php print $selbid;?>" />
-<?php	} ?>
-<?php if(isset($coversheet)){?>
- 	<input type="hidden" name="coversheet" value="<?php print $coversheet;?>" />
-<?php	} ?>
+		</div>
  	<input type="hidden" name="cancel" value="<?php print $choice;?>" />
  	<input type="hidden" name="choice" value="<?php print $choice;?>" />
  	<input type="hidden" name="current" value="<?php print $action;?>" />
 	</form>
   </div>
+

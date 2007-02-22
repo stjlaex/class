@@ -50,7 +50,7 @@ include('scripts/results.php');
 		}
 ?>
 </div>
-<script>openPrintReport('xmlStudent', 'commentsprint')</script>
+<script>openPrintReport('xmlStudent', 'commentsprint','')</script>
 <?php
 	include('scripts/redirect.php');
 ?>

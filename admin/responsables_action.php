@@ -42,7 +42,7 @@ if($yid!=''){
 
 		}
 	elseif($perm['x']!=1){
-		$error[]='You don\'t have the permissions to change this!';
+		$error[]=get_string('nopermissions');
 		}
 	}
 
@@ -53,7 +53,7 @@ elseif($bid!='' and $crid!=''){
 	if(($permc['x']==1 and $crid!='%') or ($permb['x']==1 and $bid!='%' and $crid=='%')){
 		$d_group=mysql_query("SELECT gid FROM groups WHERE
 				subject_id='$bid' AND course_id='$crid' AND yeargroup_id IS NULL");
-		if (mysql_num_rows($d_group)==0){
+		if(mysql_num_rows($d_group)==0){
 			/*if no group exists create one for this combination*/
 				if ($crid!='%' and $bid!='%'){$name=$crid.'/'.$bid;}
 				else if ($crid!='%'){$name=$crid;}
@@ -70,15 +70,14 @@ elseif($bid!='' and $crid!=''){
 
 		}
 	elseif($permc['x']!=1 and $crid!='%'){
-		$error[]='You don\'t have the permissions for this course!';
+		$error[]=get_string('nopermissions');
 		}
 	else if($permb['x']!=1 and $bid!='%' and $crid=='%'){
-		$error[]='You don\'t have the permissions for this subject!';
+		$error[]=get_string('nopermissions');
 		}
 	}
 else{
-	$error[]='You need to select both a Course and a Subject for academic
-		priviliges.';
+	$error[]='You need to select both a Course and a Subject for academic priviliges.';
 	}
 include('scripts/results.php');
 include('scripts/redirect.php');

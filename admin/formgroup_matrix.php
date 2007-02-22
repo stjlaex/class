@@ -56,7 +56,7 @@ three_buttonmenu();
 				yeargroup_id='$yid' AND course_id=''");
 		$gid=mysql_result($d_groups,0);
 		$perms=getFormPerm($fid, $respons);
-		$nosids=countinCommunity(array('type'=>'form','name'=>$fid));
+		$nosids=countin_community(array('type'=>'form','name'=>$fid));
 ?>
 		<tr>
 		  <td>

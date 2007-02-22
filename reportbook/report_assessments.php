@@ -13,19 +13,28 @@ three_buttonmenu();
 
 	  <fieldset class="center">
 		<legend><?php print_string('collateforstudentsfrom',$book);?></legend>
-		  <?php $required='yes'; include('scripts/list_pastoralgroup.php');?>
+		  <?php $required='yes'; include('scripts/'.$listgroup);?>
 	  </fieldset>
+<?php
+	  if($r>-1){
+?>
+
+	  <fieldset class="center">
+		<legend><?php print_string('limitbysubject',$book);?></legend>
+		<div class="left" >
+		<?php $multi='4'; include('scripts/list_subjects.php');?>
+		</div>
+	  </fieldset>
+<?php
+	  }
+?>
 
 	  <fieldset class="center">
 		<legend><?php print_string('choosetoinclude',$book);?></legend>
-		<div class="left" >
-		<?php $multi='12'; include('scripts/list_subjects.php');?>
-		</div>
-		<div class="right" >
-		<?php include('scripts/list_assessment.php');?>
+		<div class="center" >
+		  <?php include('scripts/list_assessment.php');?>
 		</div>
 	  </fieldset>
-	  <input type="hidden" name="selcrid" value="<?php print $selcrid;?>" />
 	  <input type="hidden" name="cancel" value="<?php print '';?>" />
 	  <input type="hidden" name="current" value="<?php print $action;?>" />
 	  <input type="hidden" name="choice" value="<?php print $choice;?>" />

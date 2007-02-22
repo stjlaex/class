@@ -191,7 +191,7 @@ function fetchEvent($eveid){
 function check_communityAttendance($community,$eveid=''){
 	if($community['id']!=''){$comid=$community['id'];}
 	else{$comid=updateCommunity($community);}
-	$nosids=countinCommunity($community);
+	$nosids=countin_community($community);
 	$d_att=mysql_query("SELECT COUNT(attendance.student_id) FROM attendance JOIN comidsid
 							 ON comidsid.student_id=attendance.student_id 
 							 WHERE comidsid.community_id='$comid'  

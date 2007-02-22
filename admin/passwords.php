@@ -29,10 +29,17 @@ three_buttonmenu();
 		  <p><?php print_string('emailuserpasswordsdetail',$book);?></p>
 		  <div class="right">
 <?php 
-	$checkname='emailstaff';
-	$checkchoice='yes';
-	$checkcaption=get_string('emailreminders',$book); 
-	include('scripts/check_yesno.php')
+		  if($CFG->emailoff!='yes'){
+			  $checkname='emailstaff';
+			  $checkchoice='yes';
+			  $checkcaption=get_string('emailreminders',$book); 
+			  include('scripts/check_yesno.php');
+			  }
+		  else{
+?>
+		  <p><?php print_string('emailtostaffisdisabled',$book);?></p>
+<?php
+			}
 ?>
 		  </div>
 		</div>

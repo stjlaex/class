@@ -133,7 +133,7 @@ while(list($index,$curriculum)=each($curriculums)){
 								generate, naming, stage, subject_id, course_id) VALUES
 								('$many', '$generate', '$naming', '$stage', '$bid',
 								'$crid')");
-					$cohid=updateCohort(array('course_id'=>$crid,'stage'=>$stage));
+					$cohid=update_cohort(array('id'=>'','course_id'=>$crid,'stage'=>$stage));
 					}
 
 				$Components=xmlarray_indexed_check($Subject['components'],'component');
@@ -349,7 +349,7 @@ while(list($index,$curriculum)=each($curriculums)){
 			mysql_query("UPDATE groups SET name='$name' WHERE
 				yeargroup_id='$yid' AND course_id IS NULL AND subject_id IS NULL");
 			}
-		updateCommunity(array('name'=>$yid,'type'=>'year'));
+		update_community(array('id'=>'','name'=>$yid,'type'=>'year'));
 
 		$Formgroups=xmlarray_indexed_check($Group['formgroups'],'form');
 		while(list($index,$Form)=each($Formgroups['form']) and $Form['id']!=''){
@@ -366,7 +366,7 @@ while(list($index,$curriculum)=each($curriculums)){
 				mysql_query("UPDATE form SET name='$name',
 					yeargroup_id='$yid' WHERE id='$fid'");
 				}
-			$comid=updateCommunity(array('name'=>$fid,'type'=>'form'));
+			$comid=update_community(array('id'=>'','name'=>$fid,'type'=>'form'));
 			}
 		}
 	  }

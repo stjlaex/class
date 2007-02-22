@@ -78,7 +78,7 @@ function fetchSubjectReports($sid,$reportdefs){
 			/* when combining reports, for now this only works if each has the*/
 			/*	same properties!!!*/
 		   	$Reports['asstable']=$reportdef['asstable'];
-		   	$Reports['cattable']=$reportdef['cattable'];
+		   	if(isset($reportdef['cattable'])){$Reports['cattable']=$reportdef['cattable'];}
 		   	$Reports['publishdate']=date('jS M Y',strtotime($reportdef['report']['date']));
 		   	$transform=$reportdef['report']['transform'];
 			}

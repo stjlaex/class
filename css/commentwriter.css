@@ -24,6 +24,7 @@ div#statementbank {
 textarea#Comment {
   	font-weight:300; font-size:12pt; 
 	text-align:left;
+    overflow:scroll;
 	}
 
 /*spell_checker*/

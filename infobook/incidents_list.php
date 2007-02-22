@@ -21,7 +21,7 @@ three_buttonmenu();
 	  <div class="left">
 		<label for="Detail"><?php print_string('details',$book);?></label>
 		<textarea name="detail"   tabindex="<?php print $tab++;?>" 
-		  class="required" id="Detail" maxlength="250" rows="5" cols="35"></textarea>
+		  class="required" id="Detail" rows="5" cols="35"></textarea>
 	  </div>
 	  <div class="right" >
 		<?php $xmldate='Entrydate'; include('scripts/jsdate-form.php'); ?>

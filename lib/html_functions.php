@@ -4,18 +4,23 @@
  * Generic functions for producing html entities.
  */
 
+function all_extrabuttons($extrabuttons){
+	if(is_array($extrabuttons)){
+		while(list($description,$attributes)=each($extrabuttons)){
+			if(!isset($attributes['onclick'])){$attributes['onclick']='processContent(this)';}
+?>
+	<button onClick="<?php print $attributes['onclick'];?>" name="<?php print $attributes['name'];?>" 
+	  value="<?php print $attributes['value'];?>"><?php print_string($description);?></button>
+<?php
+			 }
+		}
+	}
+
 function three_buttonmenu($extrabuttons=''){
 ?>
 <div class="buttonmenu">
 <?php
-	if(is_array($extrabuttons)){
-		 while(list($description,$value)=each($extrabuttons)){
-?>
-	<button onClick="processContent(this);" name="<?php print $value['name'];?>" 
-	  value="<?php print $value['value'];?>"><?php print_string($description);?></button>
-<?php
-			 }
-		}
+		 all_extrabuttons($extrabuttons);
 ?>
 	<button onClick="processContent(this);" name="sub"  style="margin-left:1em;"
 	  value="Submit"><?php print_string('submit');?></button>
@@ -32,14 +37,7 @@ function two_buttonmenu($extrabuttons=''){
 ?>
   <div class="buttonmenu">
 <?php
-	if(is_array($extrabuttons)){
-		while(list($description,$value)=each($extrabuttons)){
-?>
-	<button onClick="processContent(this);" name="<?php print $value['name'];?>" 
-	  value="<?php print $value['value'];?>"><?php print_string($description);?></button>
-<?php
-			 }
-		}
+		 all_extrabuttons($extrabuttons);
 ?>
 	<button onClick="processContent(this);" name="sub"  style="margin-left:1em;"
 	  value="Cancel"><?php print_string('cancel');?></button>
@@ -82,14 +80,7 @@ function twoplusprint_buttonmenu($extrabuttons=''){
 ?>
   <div class="buttonmenu">
 <?php
-	if(is_array($extrabuttons)){
-		while(list($description,$value)=each($extrabuttons)){
-?>
-	<button onClick="processContent(this);" name="<?php print $value['name'];?>" 
-	  value="<?php print $value['value'];?>"><?php print_string($description);?></button>
-<?php
-			 }
-		}
+		 all_extrabuttons($extrabuttons);
 ?>
 	<button onClick="processContent(this);" name="sub" 
 		value="Print"><?php print_string('printselected');?></button>

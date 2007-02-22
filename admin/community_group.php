@@ -32,9 +32,9 @@ three_buttonmenu($extrabuttons);
 <?php
 
 	$nosidstotal=0;
-	$communities=listCommunities($newcomtype);
+	$communities=list_communities($newcomtype);
 	while(list($index,$com)=each($communities)){
-		$nosids=countinCommunity($com);
+		$nosids=countin_community($com);
 		$nosidstotal=$nosidstotal+$nosids;
 	   	print '<tr><td>';
 	   		print '<a href="admin.php?current=community_group_edit.php&cancel='.$choice.'&choice='.$choice.'&newcomtype='.$newcomtype.'&comid='.$com['id'].'">'.$com['name'].'</a>';

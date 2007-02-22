@@ -610,7 +610,7 @@ function fetchComments($sid,$date=''){
 	$subtable=array();
 	/*if no date set choose this academic year*/
 	$crid='KS3';
-	if($date==''){$date=getCurriculumYear($crid)-2;}
+	if($date==''){$date=get_curriculumyear($crid)-2;}
 	$d_comments=mysql_query("SELECT * FROM comments WHERE
 			student_id='$sid' AND entrydate > '$date' 
 			ORDER BY yeargroup_id DESC, entrydate DESC, id DESC, subject_id");
@@ -642,7 +642,8 @@ function fetchComments($sid,$date=''){
 			$catname=mysql_result($d_categorydef,0);
 			$Category=array('label' => $catname, 
 							'value' => ''.$catid);
-			$Category['rating']=array('value' => ''.$rank);
+			$Category['rating']=array('label'=> 'type',
+									  'value' => ''.$rank);
 			$Categories['Category'][]=$Category;
 			}
 		if(!isset($Categories['Category'])){

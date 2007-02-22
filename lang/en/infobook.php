@@ -116,6 +116,7 @@ $string['english']='English';
 $string['believedtobeenglish']='Believed to be English';
 $string['senprofile']='SEN statement';
 $string['emailaddress']='Email address';
-$string['']='';
+$string['incidentrecorded']='Incident recorded';
+$string['commentrecorded']='Comment recorded';
 $string['']='';
 ?>

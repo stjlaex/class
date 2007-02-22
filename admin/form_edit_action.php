@@ -17,11 +17,11 @@ include('scripts/sub_action.php');
 if($sub=='Submit'){
 
     $changecids=array();
-	$changecids=formsClasses($fid);
+	$changecids=list_forms_classes($fid);
 
 	/*sids to remove*/
    	while(list($index,$sid)=each($oldsids)){
-		$oldcommunities=joinCommunity($sid,array('type'=>'form','name'=>''));
+		$oldcommunities=join_community($sid,array('id'=>'','type'=>'form','name'=>''));
 		$oldfid=$oldcommunities['form'][0]['name'];
 		if($classestoo=='yes' and $oldfid==$fid){
 			for($c=0;$c<sizeof($changecids);$c++){
@@ -34,11 +34,11 @@ if($sub=='Submit'){
 
 	/*sids to add*/
    	while(list($index,$sid)=each($newsids)){
-		$oldcommunities=joinCommunity($sid,array('type'=>'form','name'=>$fid));
+		$oldcommunities=join_community($sid,array('id'=>'','type'=>'form','name'=>$fid));
 		$oldfid=$oldcommunities['form'][0]['name'];
 		if($classestoo=='yes' and $oldfid!=$fid){
 			$otherchangecids=array();
-			$otherchangecids=formsClasses($oldfid);
+			$otherchangecids=list_forms_classes($oldfid);
 			for($c=0;$c<sizeof($otherchangecids);$c++){
 				$cid=$otherchangecids[$c];
 				mysql_query("DELETE FROM cidsid WHERE

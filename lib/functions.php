@@ -1,6 +1,26 @@
 <?php 
 /**			   								functions.php   
  * General purpose ClaSS functions. 
+ *
+ * Notes on conventions for naming functions:
+ * (0) First clause is indicative of the action the function performs
+ * (1) Use underscores for clarity only (no meaning), capitals can
+ *     have meaning so avoid javascript style constructions BUT older
+ *     functions did use this!
+ * (3) get_ refers to returning a single valued variable
+ * (4) list_ refers to returning a plain array usually the result of
+ *     a db query and the fields will be named accordingly
+ * (5) fetch_ used instead of list to indicate the returned array is
+ *     in the inernal class xmlarray format
+ * (6) The last clause of the function generally indicates what is returned,
+ *     capitalised will be an xmlarray, lowercase will be plain array, a
+ *     plural will indicate multiple records
+ * (7) For convenience some fetch functions have a _short alternative
+ *	   which returns just the essential fields when the full version
+ *	   is overly verbose.
+ * (8) If unspecified the subject of a listin or countin style
+ *     functions will be sids, anything else should be identified as
+ *     a clause in the function name
  */
 
 
@@ -12,23 +32,16 @@ function emailHeader(){
 	return $headers;
 	}
 
-function formsClasses($fid){
-	/*returns an array listing the cids for all classes associated with
-	 *this form where the class is actually populated by just this
-	 *form's sids
-	 */
+/*Returns an array listing the cids for all classes associated with
+ *this form where the class is actually populated by just this
+ *form's sids
+ */
+function list_forms_classes($fid){
 	$cids=array();
-	if($fid!=''){
-		$d_form=mysql_query("SELECT yeargroup_id FROM form WHERE id='$fid'");
-		$yid=mysql_result($d_form,0);
-		}
-	else{$yid='';}
-	$comid=updateCommunity(array('type'=>'year','name'=>$yid));
-	$d_cohort=mysql_query("SELECT * FROM cohort JOIN
-						cohidcomid ON cohidcomid.cohort_id=cohort.id WHERE
-						cohidcomid.community_id='$comid' ORDER BY course_id");
-   	while($cohort=mysql_fetch_array($d_cohort, MYSQL_ASSOC)){
-		$currentyear=getCurriculumYear($cohort['course_id']);
+	$cohorts=list_community_cohorts(array('id'=>'','type'=>'form','name'=>$fid));
+
+   	while(list($index,$cohort)=each($cohorts)){
+		$currentyear=get_curriculumyear($cohort['course_id']);
 		$currentseason='S';
 		if($cohort['year']==$currentyear and $cohort['season']==$currentseason){
 			$stage=$cohort['stage'];
@@ -91,14 +104,14 @@ function nullCorrect($array){
 	return $array;
 	}
 
+/*For compatibility with utf8*/
 function good_strtolower($value){
-	/*for compatibility with utf8*/
 	$value=mb_strtolower($value, mb_detect_encoding($value));
 	return $value;
 	}
 
+/*Should only be used when writing a string for use by javascript*/
 function js_addslashes($value){
-	/*should only be used when writing a string for use by javascript*/
 	$o='';
 	$l=strlen($value);
 	for($i=0;$i<$l;$i++){
@@ -118,6 +131,7 @@ function js_addslashes($value){
 	return $o;
 	}
 
+/*Attempts to get rid of any nasties before a mysql insert*/
 function clean_text($value){
 	$value=trim($value);
 	$value=stripslashes($value);
@@ -136,6 +150,7 @@ function clean_text($value){
  	}
 
 
+/*Does some simple data validation for input*/
 function checkEntry($value, $format='', $field_name=''){
 	$value=trim($value);
 	$value=good_strtolower($value);
@@ -156,6 +171,7 @@ function checkEntry($value, $format='', $field_name=''){
 	return $value;
 	}
 
+/*Validates a value which claims to be compatible with a enum field*/
 function checkEnum($value, $field_name) {
 	$enumarray=getEnumArray($field_name);
 	if(array_key_exists($value,$enumarray)){
@@ -166,6 +182,7 @@ function checkEnum($value, $field_name) {
 	return $value;
 	}
 
+/**/
 function displayEnum($value, $field_name) {
 	$value=strtoupper($value);
 	$enumarray=getEnumArray($field_name);
@@ -173,6 +190,7 @@ function displayEnum($value, $field_name) {
 	return $description;
 	}
 
+/*Retursn the array of valid enum values and their meanings for a field*/
 function getEnumArray($field_name) {
 	/*for the student table*/
 	$gender=array('M' => 'male', 'F' => 'female');
@@ -336,7 +354,32 @@ function getEnumArray($field_name) {
 	return $$field_name;
 	}
 
+/*Sorts an array but is not utf8 friendly*/
+function sortx(&$array,$sort=array()){
+   $function='';
+   while(list($key)=each($sort)){
+     if(isset($sort[$key]['case'])&&($sort[$key]['case']==TRUE)){
+       $function .= 'if (good_strtolower($a["' . $sort[$key]['name'] . '"])<>good_strtolower($b["' . $sort[$key]['name'] . '"])) { return (good_strtolower($a["' . $sort[$key]['name'] . '"]) ';
+     } else {
+       $function .= 'if ($a["' . $sort[$key]['name'] . '"]<>$b["' . $sort[$key]['name'] . '"]) { return ($a["' . $sort[$key]['name'] . '"] ';
+     }
+     if(isset($sort[$key]['sort'])&&($sort[$key]['sort']=='DESC')){
+       $function .= '<';
+     } else {
+       $function .= '>';
+     }
+     if (isset($sort[$key]['case'])&&($sort[$key]['case'] == TRUE)) {
+       $function .= ' good_strtolower($b["' . $sort[$key]['name'] . '"])) ? 1 : -1; } else';
+     } else {
+       $function .= ' $b["' . $sort[$key]['name'] . '"]) ? 1 : -1; } else';
+     }
+   }
+   $function .= ' { return 0; }';
+   usort($array,create_function('$a, $b', $function));
+   }
 
+/*Lists the contents of a directory on the server, can limit by extension*/
+/*Currently used only for the templates*/
 function list_directory_files($directory,$extension='*'){
     $results=array();
     $handler=opendir($directory);
@@ -350,7 +393,7 @@ function list_directory_files($directory,$extension='*'){
     return $results;
 	}
 
-/*reads content of csv file into array flines*/
+/*Reads content of csv file into array flines*/
 function fileRead($file){
 	$flines=array();
    	while($in=fgetcsv($file,1000,',')){
@@ -362,7 +405,7 @@ function fileRead($file){
 	return $flines;
 	}
 
-/*function to open a file*/
+/*Function to open a file*/
 function fileOpen($path){
    	$file = fopen ($path, 'r');
    	if (!$file){
@@ -373,54 +416,4 @@ function fileOpen($path){
 	return $file;
 	}
 
-
-/*checks for a cohort and creates if it doesn't exist*/
-/*expects an array with at least course_id and stage set*/
-/*returns the cohort_id*/
-function updateCohort($cohort){
-	$crid=$cohort['course_id'];
-	$stage=$cohort['stage'];
-	if(isset($cohort['year'])){$year=$cohort['year'];}
-	else{$year=getCurriculumYear($crid);}
-	if(isset($cohort['season'])){$season=$cohort['season'];}
-	else{$season='S';}
-	if($crid!='' and $stage!=''){
-		$d_cohort=mysql_query("SELECT id FROM cohort WHERE
-				course_id='$crid' AND stage='$stage' AND year='$year'
-				AND season='$season'");
-		if(mysql_num_rows($d_cohort)==0){
-			mysql_query("INSERT INTO cohort (course_id,stage,year,season) VALUES
-				('$crid','$stage','$year','$season')");
-			$cohid=mysql_insert_id();
-			}
-		else{
-			$cohid=mysql_result($d_cohort,0);
-			}
-		}
-	return $cohid;
-	}
-
-function getCurriculumYear($crid=''){
-	/*the calendar year that the academic year ends */
-	/*to sophisticate in future*/
-	$d_course=mysql_query("SELECT endmonth FROM course WHERE id='$crid'");
-	if(mysql_num_rows($d_course)>0){$endmonth=mysql_result($d_course,0);}
-	else{$endmonth='';}
-	if($endmonth==''){$endmonth='6';/*defaults to June*/}
-	$thismonth=date('m');
-	$thisyear=date('Y');
-	if($thismonth>$endmonth){$thisyear++;}
-	return $thisyear;
-	}
-
-function getcurrentCohortId($crid,$stage,$year='',$season='S'){
-	/*returns the id for the cohort specified by crid and stage*/
-	/*will default to the current active cohort unless year is specified*/
-	if($year==''){$year=getCurriculumYear($crid);}
-	$d_cohort=mysql_query("SELECT id FROM cohort WHERE
-						course_id='$crid' AND stage='$stage' AND
-						year='$year' AND season='$season'");
-	$cohid=mysql_result($d_cohort,0);
-	return $cohid;
-	}
 ?>

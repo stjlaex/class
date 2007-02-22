@@ -18,8 +18,8 @@ if(isset($_POST['newcomtype'])){$newcomtype=$_POST['newcomtype'];}
 	if($newcomid!=''){$newcommunity=array('id'=>$newcomid);}
 	else{$newcommunity=array('type'=>'year','name'=>'');}
 
-	$oldstudents=listinCommunity($currentcommunity);
-	$newstudents=listin_unionCommunities($currentcommunity,$newcommunity);
+	$oldstudents=listin_community($currentcommunity);
+	$newstudents=listin_union_communities($currentcommunity,$newcommunity);
 
 	three_buttonmenu($extrabuttons);
 ?>
