@@ -22,14 +22,14 @@ if($sub=='Submit'){
 	if($_POST['pin1']!=''){
 		if($_POST['pin1']==$_POST['pin2']){
 			$user['userno']=clean_text($_POST['pin1']);
-			$result[]=updateUser($user,'yes',$CFG->shortkeyword);
+			$result[]=update_user($user,'yes',$CFG->shortkeyword);
 			}
 		else{
 			$error[]=get_string('mistakematchingpasswords',$book);
 			}
 		}
 	else{
-		$result[]=updateUser($user,'yes');
+		$result[]=update_user($user,'yes');
 		}
 	include('scripts/results.php');
    	}

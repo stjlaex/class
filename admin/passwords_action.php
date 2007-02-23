@@ -9,7 +9,7 @@ include('scripts/sub_action.php');
 $result=array();
 if($sub=='Submit'){
 
-	$users=getAllStaff();
+	$users=list_all_users();
 	$usernolist=array();
 
 	if($_POST['passwords0']=='yes'){
@@ -26,7 +26,7 @@ if($sub=='Submit'){
 				$usernolist[]=$user['username']. 
 						':'.$user['userno'].', '.$user['surname']. ','.$user['forename']. 
 						', '.$user['role'].', '.$user['email'];
-				$result[]=updateUser($user,'yes',$CFG->shortkeyword);
+				$result[]=update_user($user,'yes',$CFG->shortkeyword);
 
 				if($_POST['emailstaff0']=='yes' and $CFG->emailoff=='no'){
 					$email=$user['email'];

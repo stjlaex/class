@@ -36,7 +36,7 @@ include('scripts/sub_action.php');
 					$Student['RegistrationGroup']['value'].')'; 
 		$message=$subject."\r\n".'Subject: '. $bid."\r\n".  $detail."\r\n".
 				'Posted by '.$tid. "\r\n" .$footer;
-		$recipients=findResponsibles($sid,$bid);
+		$recipients=list_sid_responsible_users($sid,$bid);
 		if($recipients and $CFG->emailoff!='yes' and $CFG->emailcomments=='yes'){
 			if(sizeof($recipients)>0){
 				$headers=emailHeader();

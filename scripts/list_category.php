@@ -11,6 +11,7 @@ if(!isset($required)){$required='yes';}
 		<?php if($required=='yes'){ print ' class="required" ';} ?>
 		size="<?php print $multi;?>"
 		<?php if($multi>1){print ' name="catids'.$icatid++.'[]" multiple="multiple"';}
+				elseif(isset($key)){print ' name="catid'.$key.'"';}?> >
 				else{print ' name="catid'.$icatid++.'"';}?> >
     <option value=""></option>
 <?php
@@ -48,4 +49,6 @@ if(!isset($required)){$required='yes';}
 <?php
 			}
 unset($required);
+unset($multi);
+unset($cattype);
 ?>

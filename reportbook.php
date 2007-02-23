@@ -23,7 +23,7 @@ include('scripts/book_variables.php');
 		$reportpubs='no';
 		}
 	else{
-		$pastorals=listPastoralRespon($respons);
+		$pastorals=list_pastoral_respon($respons);
 		$rfids=$pastorals['forms'];
 		$ryids=$pastorals['years'];
 		$listgroup='list_pastoralgroup.php';

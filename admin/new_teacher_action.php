@@ -20,7 +20,7 @@ if($sub=='Submit'){
 			$user['forename']=$d[3];
 			$user['email']=$d[4];
 			$user['role']=$d[5];
-			$result[]=updateUser($user,'no',$CFG->shortkeyword);
+			$result[]=update_user($user,'no',$CFG->shortkeyword);
 			}
 	}
 

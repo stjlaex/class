@@ -15,7 +15,7 @@ if(!isset($xmlid)){print "Failed"; exit;}
 	$Responsible['id_db']=$yid.'-'.$uid;
 	if($perms['x']==1){
 		$newperms=array('r'=>0,'w'=>0,'x'=>0);
-		$result[]=updateStaffPerms($uid,$gid,$newperms);
+		$result[]=update_staff_perms($uid,$gid,$newperms);
 		$Responsible['exists']='false';
 		}
 	else{

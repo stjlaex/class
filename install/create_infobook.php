@@ -33,7 +33,6 @@ CREATE TABLE senhistory (
 	id				int unsigned not null auto_increment,
 	student_id		int unsigned not null, 
 	senprovision	enum('N','A','P','Q','S') not null, 
-	sencurriculum	enum('A','M','D') not null,
 	startdate		date,
 	reviewdate		date,
 	index			index_student (student_id),
@@ -53,6 +52,8 @@ mysql_query("
 CREATE TABLE sencurriculum (
 	senhistory_id	int unsigned not null,
 	subject_id		varchar(10) not null default '', 
+	curriculum		enum('A','M','D') not null,
+	categorydef_id	int unsigned not null default '0',
 	comments		text,
 	targets			text,
 	outcome			text,

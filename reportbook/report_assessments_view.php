@@ -67,6 +67,14 @@ include('scripts/sub_action.php');
 		}
 	else{
 		/*selbids can only be returned when rcrid is set so easier!*/
+		if($selbids[0]=='%'){
+			$selbids=array();
+			$d_cridbid=mysql_query("SELECT DISTINCT subject_id FROM cridbid
+							WHERE course_id='$rcrid' ORDER BY subject_id");
+			while($subject=mysql_fetch_array($d_cridbid,MYSQL_ASSOC)){
+				$selbids[]=$subject['subject_id'];
+				}
+			}
 		while(list($index,$bid)=each($selbids)){
 			$assbids[]=$bid.' ';
 			$d_component=mysql_query("SELECT DISTINCT id FROM component
@@ -112,7 +120,7 @@ include('scripts/sub_action.php');
 			}
 		}
 
-   	$viewtable[0]=$viewtable[0].'<th></th></tr>';
+   	$viewtable[0]=$viewtable[0].'</tr>';
 
 	/* the main loop - working the values for each student row in the table*/
 	for($rowno=0;$rowno<sizeof($viewtable);$rowno++){
@@ -253,7 +261,6 @@ include('scripts/sub_action.php');
 <?php 
 		}
 ?>
-					<td></td>
 				  </tr>
 <?php	
 		}
@@ -292,13 +299,17 @@ include('scripts/sub_action.php');
 			<input type="hidden" name="cancel" value="<?php print $choice;?>" />
 			</form>
 		  </div>
+<?php
+$extrabuttons=array();
+$extrabuttons['showstatistics']=array('name'=>'stats',
+								'value'=>'',
+								'onclick'=>'stats(grades,gradestats,percents)');
+$extrabuttons['displaybysubject']=array('name'=>'breakdown',
+						'value'=>'subject'
+						);
+$extrabuttons['displaybyassessment']=array('name'=>'breakdown',
+						'value'=>'assessment'
+						);
+two_buttonmenu($extrabuttons,$book);
 
-<div class="buttonmenu">
-	<button onClick="processContent(this);" name="breakdown" value="subject"><?php print_string('displaybysubject',$book);?></button>
-	<button onClick="processContent(this);" name="breakdown" value="assessment"><?php print_string('displaybyassessment',$book);?></button>
-	<button  type="button" onClick="stats(grades,gradestats,percents)" name="stats"><?php print_string('showstatistics',$book);?></button>
-	<button onClick="processContent(this);" name="sub" value="Cancel"><?php print_string('cancel',$book);?></button>
-	<button onClick="processContent(this);" name="sub"
-	value="Reset"><?php print_string('reset',$book);?></button>
-	<button style="visibility:hidden;" name="" value=""></button>
-</div>
+?>

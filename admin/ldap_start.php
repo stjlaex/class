@@ -9,7 +9,7 @@ $action='ldap_start.php';
 
 if(isset($_POST['seluid'])){$seluid=$_POST['seluid'];}
 else{$seluid=$_SESSION['uid'];}
-//$users=getResponStaff($tid,$respons,$r);
+//$users=list_responsible_users($tid,$respons,$r);
 
 require_once('lib/moodle/moodlelib.php');
 require_once('lib/moodle/weblib.php');

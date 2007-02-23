@@ -63,7 +63,7 @@ three_buttonmenu();
 		  <td>
 <?php
 		$yearperms=array('r'=>1,'w'=>1,'x'=>1);/*head of year only*/
-		$users=(array)getPastoralStaff($yid,$yearperms);
+		$users=(array)list_pastoral_users($yid,$yearperms);
 		while(list($uid,$user)=each($users)){
 			$Responsible=array('id_db'=>$yid.'-'.$uid);
 			if($user['role']!='office' and $user['role']!='admin'){

@@ -4,23 +4,23 @@
  * Generic functions for producing html entities.
  */
 
-function all_extrabuttons($extrabuttons){
+function all_extrabuttons($extrabuttons,$book=''){
 	if(is_array($extrabuttons)){
 		while(list($description,$attributes)=each($extrabuttons)){
 			if(!isset($attributes['onclick'])){$attributes['onclick']='processContent(this)';}
 ?>
 	<button onClick="<?php print $attributes['onclick'];?>" name="<?php print $attributes['name'];?>" 
-	  value="<?php print $attributes['value'];?>"><?php print_string($description);?></button>
+	  value="<?php print $attributes['value'];?>"><?php print_string($description,$book);?></button>
 <?php
 			 }
 		}
 	}
 
-function three_buttonmenu($extrabuttons=''){
+function three_buttonmenu($extrabuttons='',$book=''){
 ?>
 <div class="buttonmenu">
 <?php
-		 all_extrabuttons($extrabuttons);
+		 all_extrabuttons($extrabuttons,$book);
 ?>
 	<button onClick="processContent(this);" name="sub"  style="margin-left:1em;"
 	  value="Submit"><?php print_string('submit');?></button>
@@ -33,11 +33,11 @@ function three_buttonmenu($extrabuttons=''){
 <?php
 	}
 
-function two_buttonmenu($extrabuttons=''){
+function two_buttonmenu($extrabuttons='',$book=''){
 ?>
   <div class="buttonmenu">
 <?php
-		 all_extrabuttons($extrabuttons);
+		 all_extrabuttons($extrabuttons,$book);
 ?>
 	<button onClick="processContent(this);" name="sub"  style="margin-left:1em;"
 	  value="Cancel"><?php print_string('cancel');?></button>
@@ -76,11 +76,11 @@ function threeplus_buttonmenu($currentkey,$maxkey){
 <?php
 	}
 
-function twoplusprint_buttonmenu($extrabuttons=''){
+function twoplusprint_buttonmenu($extrabuttons='',$book=''){
 ?>
   <div class="buttonmenu">
 <?php
-		 all_extrabuttons($extrabuttons);
+		 all_extrabuttons($extrabuttons,$book);
 ?>
 	<button onClick="processContent(this);" name="sub" 
 		value="Print"><?php print_string('printselected');?></button>

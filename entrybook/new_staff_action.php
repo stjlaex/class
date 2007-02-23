@@ -13,7 +13,7 @@ if($sub=='Submit'){
 	$user['forename']=$_POST['forename'];
 	$user['email']=$_POST['email'];
 	$user['role']=$_POST['role'];
-	$result[]=updateUser($user,'no',$CFG->shortkeyword);
+	$result[]=update_user($user,'no',$CFG->shortkeyword);
 	}
 
 include('scripts/results.php');

@@ -22,7 +22,7 @@ if(is_array($community)){
 	}
 else{
 	/*on first load select teachers formgorup by default*/
-	$pastorals=listPastoralRespon($respons);
+	$pastorals=list_pastoral_respon($respons);
 	$rfids=$pastorals['forms'];
 	$ryids=$pastorals['years'];
 	if(sizeof($rfids)!=0){

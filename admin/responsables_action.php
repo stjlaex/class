@@ -38,7 +38,7 @@ if($yid!=''){
 
 		if($gid==0){print 'Failed on group!'; exit;}
 
-		$result[]=updateStaffPerms($newuid,$gid,$newperms);
+		$result[]=update_staff_perms($newuid,$gid,$newperms);
 
 		}
 	elseif($perm['x']!=1){
@@ -66,7 +66,7 @@ elseif($bid!='' and $crid!=''){
 
 		if($gid==0){print 'Failed on group!'; exit;}
 
-		$result[]=updateStaffPerms($newuid,$gid,$newperms);
+		$result[]=update_staff_perms($newuid,$gid,$newperms);
 
 		}
 	elseif($permc['x']!=1 and $crid!='%'){

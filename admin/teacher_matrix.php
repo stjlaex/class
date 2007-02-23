@@ -8,7 +8,7 @@ $action='teacher_matrix_action.php';
 list($crid,$bid,$error)=checkCurrentRespon($r,$respons);
 if($error!=''){include('scripts/results.php');exit;}
 
-$teachers=getTeachingStaff($crid,$bid);
+$teachers=list_teacher_users($crid,$bid);
 
 three_buttonmenu();
 ?>
@@ -34,7 +34,7 @@ three_buttonmenu();
 		  <label><?php print_string('unassigned',$book);?></label>
 			<select name="tid"  tabindex="<?php print $tab++;?>" size="1">
 <?php
-	$allteachers=getTeachingStaff();
+	$allteachers=list_teacher_users();
    	print '<option value="" selected="selected" ></option>';		
    	while(list($tid,$user)=each($allteachers)){
 		if(!array_key_exists($tid,$teachers)){

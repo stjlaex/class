@@ -5,7 +5,7 @@
 $choice='responsables.php';
 $action='responsables_action.php';
 
-$users=getAllStaff(0);
+$users=list_all_users(0);
 three_buttonmenu();
 ?>
   <div class="topform">

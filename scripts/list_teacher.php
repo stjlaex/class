@@ -4,7 +4,7 @@
  */
  
 
-$newusers=getTeachingStaff();
+$newusers=list_teacher_users();
 if(!isset($seltid)){$seltid='';}
 ?>
  

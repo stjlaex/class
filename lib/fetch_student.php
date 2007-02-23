@@ -271,6 +271,9 @@ function fetchStudent($sid='-1'){
 										  'field_db' => 'senprovision',
 										  'type_db'=>'enum', 
 										  'value' => ''.$senhistory['senprovision']);
+	   	$SENhistory['SpecialProvisionIndicator']=array('label' => 'specialprovisionindicator', 
+										  'type_db'=>'enum', 
+										  'value' => '');
 	   	$SENhistory['StartDate']=array('label' => 'startdate', 
 									   'table_db' => 'senhistory', 
 									   'field_db' => 'startdate',
@@ -285,7 +288,7 @@ function fetchStudent($sid='-1'){
 
 		$d_sencurriculum=mysql_query("SELECT * FROM sencurriculum
 				WHERE senhistory_id='$senhid' ORDER BY subject_id");
-		$NationalCurriculum=array();
+		$Curriculum=array();
 		while($sencurriculum=mysql_fetch_array($d_sencurriculum,MYSQL_ASSOC)){
 			$Subject=array();
 		   	$Subject['Subject']=array('label' => 'subject', 
@@ -293,6 +296,22 @@ function fetchStudent($sid='-1'){
 									  'field_db' => 'subject_id', 
 									  'type_db'=>'varchar(10)', 
 									  'value' => ''.$sencurriculum['subject_id']);
+			$Subject['Modification']=array('label' => 'sencurriculum', 
+										  'table_db' => 'sencurriculum', 
+										  'field_db' => 'curriculum',
+										  'type_db'=>'enum', 
+										  'value' => ''.$sencurriculum['curriculum']);
+
+			$catid=$sencurriculum['categorydef_id'];
+			$d_categorydef=mysql_query("SELECT name FROM categorydef WHERE id='$catid'");
+			$catname=mysql_result($d_categorydef,0);
+		   	$Subject['ExtraSupport']=array('label' => 'extrasupport',
+										 'table_db' => 'sencurriculum',
+										 'field_db' => 'categorydef_id',
+										 'type_db'=> 'int',
+										 'value_db' => ''.$catid,
+										 'value' => ''.$catname);
+
 			$Subject['Strengths']=array('label' => 'strengths', 
 										'table_db' => 'sencurriculum', 
 										'field_db' => 'comments', 
@@ -308,9 +327,9 @@ function fetchStudent($sid='-1'){
 										 'field_db' => 'outcome', 
 										 'type_db'=>'text', 
 										 'value' => ''.$sencurriculum['outcome']);
-		   	$NationalCurriculum[]=$Subject;
+		   	$Curriculum[]=$Subject;
 			}
-		$SEN['NationalCurriculum']=$NationalCurriculum;
+		$SEN['NCmodifications']=$Curriculum;
 		}
 
 	$SEN['SENhistory']=$SENhistory;

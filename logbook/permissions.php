@@ -2,11 +2,12 @@
 /**												permissions.php
  */	
 
-function findResponsibles($sid, $bid){
-  /* given a sid and a bid this will return a numerical array which
-   * lists the responsibles (both pastoral academic) who have been
-   * flagged to receive emails
-   */
+
+/** given a sid and a bid this will return a numerical array which
+ * lists the responsibles (both pastoral academic) who have been
+ * flagged to receive emails
+ */
+function list_sid_responsible_users($sid, $bid){
 
     $gids=array();
 	$recipients=array();
@@ -52,10 +53,11 @@ function findResponsibles($sid, $bid){
 	return $recipients;
 	}
 
-function getResponStaff($tid,$respons,$r=0){
-	/* will return all details of users of interest based on the
-	teaching staff for the classes identified in the current
-	selected respons in an array with the uid as the key*/
+/* will return all details of users of interest based on the
+ *	teaching staff for the classes identified in the current
+ *	selected respons in an array with the uid as the key
+ */
+function list_responsible_users($tid,$respons,$r=0){
    	$users=array();
 
 	if($r>-1){
@@ -80,11 +82,11 @@ function getResponStaff($tid,$respons,$r=0){
 	return $users;
 	}
 
-function getPastoralStaff($ryid,$perms){
-	/* will return all details of users of interest based on the current
-	 * selected yeargroup in an array with the uid as the key
-	 * a head of year would be 111, form tutors 110
-	 */
+/* will return all details of users of interest based on the current
+ * selected yeargroup in an array with the uid as the key
+ * a head of year would be 111, form tutors 110
+ */
+function list_pastoral_users($ryid,$perms){
    	$users=array();
 
 	$r=$perms['r'];
@@ -106,8 +108,9 @@ function getPastoralStaff($ryid,$perms){
 	return $users;
 	}
 
-function getAllStaff($nologin='%'){
-	/* will return all details of all users*/
+
+/* will return all details of all users*/
+function list_all_users($nologin='%'){
    	$users=array();
 	$d_users=mysql_query("SELECT uid, username, passwd, forename,
 				surname, email, nologin, firstbookpref, role, worklevel
@@ -119,7 +122,7 @@ function getAllStaff($nologin='%'){
 	return $users;
 	}
 
-function getTeachingStaff($crid='',$bid=''){
+function list_teacher_users($crid='',$bid=''){
 	$users=array();
 	if($crid!='' or $bid!=''){
 		/*Get ids for the teachers of this subject and store in tids[]*/
@@ -132,7 +135,7 @@ function getTeachingStaff($crid='',$bid=''){
 				surname, email, nologin, firstbookpref, role, worklevel
 				FROM users WHERE username='$tid'");
 			$user=mysql_fetch_array($d_users,MYSQL_ASSOC);
-			$users["$tid"]=$user;
+			$users[$tid]=$user;
 			}
 		}
 	else{
@@ -143,7 +146,7 @@ function getTeachingStaff($crid='',$bid=''){
 				username!='administrator' ORDER BY username");
 		while($user=mysql_fetch_array($d_user,MYSQL_ASSOC)){
 			$tid=$user['username'];
-			$users["$tid"]=$user;
+			$users[$tid]=$user;
 			}
 		}
 	return $users;
@@ -285,7 +288,7 @@ function getCoursePerm($course,$respons){
 	return $perm;
 	}
 
-function listPastoralRespon($respons){
+function list_pastoral_respon($respons){
 	$rfids=array();
 	$ryids=array();
 	for($c=0;$c<sizeof($respons);$c++){
@@ -301,7 +304,7 @@ function listPastoralRespon($respons){
 	return array('forms'=>$rfids,'years'=>$ryids);
 	}
 
-function updateUser($user,$update='no',$short='class'){
+function update_user($user,$update='no',$short='class'){
 	/* Optional $update='yes' will amend an existing record.*/
 	$username=$user['username'];
 	$surname=checkEntry($user['surname']);
@@ -378,7 +381,7 @@ function updateUser($user,$update='no',$short='class'){
 	return $result;
 	}
 
-function updateStaffPerms($uid,$gid,$newperms){
+function update_staff_perms($uid,$gid,$newperms){
 	$r=$newperms['r'];
 	$w=$newperms['w'];
 	$x=$newperms['x'];

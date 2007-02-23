@@ -30,7 +30,7 @@ if($newtid!='' AND $newyid!=''){
 		}
 	else{$gid=mysql_result($d_groups,0);}
 
-	$result[]=updateStaffPerms($uid,$gid,$newperms);
+	$result[]=update_staff_perms($uid,$gid,$newperms);
 	}
 
 include('scripts/redirect.php');

@@ -6,11 +6,19 @@
  * first call returns eid, second call returns eid1
  */
 
-
 	$cohorts=array();
 	$cohids=array();
 	if($r>-1){
-		$cohorts[]=array('id'=>'','course_id'=>$rcrid,'stage'=>'%','year'=>'%');
+		if($rcrid=='%'){
+			$d_cridbid=mysql_query("SELECT DISTINCT course_id FROM cridbid WHERE
+						subject_id='$rbid' ORDER BY course_id"); 
+			while($course=mysql_fetch_array($d_cridbid,MYSQL_ASSOC)){
+				$cohorts[]=array('id'=>'','course_id'=>$course['course_id'],'stage'=>'%','year'=>'%');
+				}
+			}
+		else{
+			$cohorts[]=array('id'=>'','course_id'=>$rcrid,'stage'=>'%','year'=>'%');
+			}
 		}
 	elseif(sizeof($ryids)>0){
    		while(list($index,$ryid)=each($ryids)){

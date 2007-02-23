@@ -9,9 +9,9 @@ if(isset($_POST['seluid'])){$seluid=$_POST['seluid'];}
 else{$seluid=$_SESSION['uid'];}
 
 $users=array();
-$users=getResponStaff($tid,$respons,$r);
+$users=list_responsible_users($tid,$respons,$r);
 if($_SESSION['role']=='admin' and sizeof($users)==0){
-	$users=getAllStaff();
+	$users=list_all_users();
 	}
 elseif(sizeof($users)==0){
 	$d_users=mysql_query("SELECT * FROM users WHERE username='$tid'");

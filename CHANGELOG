@@ -40,9 +40,9 @@ assessments.
 
 Implment cohorts to filter for relevance in list_assessments.
 
-Cleaned up the naming of cohort and community functions to be consistent
-with the rudimentary conventions described in the head of
-functions.php.
+Cleaned up the naming of cohort, community and permissions functions
+to be consistent with the rudimentary conventions described in the
+head of functions.php.
 
 fetchAssessments can no take an eid as an optional value to return all
 results for just that one assessment (before it returned ALL results).
@@ -51,6 +51,21 @@ The report_assessments scripts now work with cohorts and consequently
 can handle assessments across multiple courses correctly
 side-by-side. The recoding has increased the speed of this slug
 hugely; it is now actually useful!
+
+Added $book sensitivity to the extrabuttons functions so they can have
+their description in the book lang files instead of all in class.php.
+
+Improved list_stage and list_assessment so they can filter for rbid as
+well as rcrid responsibilities.
+
+Implemented sencurriculum to allow per subject statements of need, the
+current statements are maintained as a starting 'General' subject. New
+category field added to the sencurriculum table to flag for type of
+extra support provided - this also needs new 'sen' types in the
+categorydef table loaded. This needs patch-0.8.10.sql to be applied!
+
+Updating to match CBDS changes, SEN NationalCurriculum is now
+NCmodifications.
 
 Version ClaSS-0.8.9 release (2007/01/30)
 ----------------------------------------
@@ -64,6 +79,7 @@ xmltag by fillxmlTable but it is now.
 Added second contact options to the student display fields in the InfoBook.
 
 Bugfixes to the import_stats and new_stats pages in the ReportBook.
+
 
 Version ClaSS-0.8.8 release (2007/01/22)
 ----------------------------------------

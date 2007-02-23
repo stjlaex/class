@@ -4,7 +4,7 @@
  */
 $string['filterlistbyneeds']='Filter list';
 $string['sentype']='SEN type';
-$string['']='';
+$string['extrasupport']='Extra support';
 $string['']='';
 $string['']='';
 $string['']='';

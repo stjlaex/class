@@ -20,7 +20,7 @@ if(!isset($xmlid)){print "Failed"; exit;}
 		$gid=mysql_result($d_groups,0);
 		mysql_query("UPDATE form SET teacher_id='' WHERE id='$fid'");
 		$newperms=array('r'=>0,'w'=>0,'x'=>0);
-		$result[]=updateStaffPerms($uid,$gid,$newperms);
+		$result[]=update_staff_perms($uid,$gid,$newperms);
 		$Responsible['exists']='false';
 		}
 	else{

@@ -267,7 +267,6 @@ function getEnumArray($field_name) {
 	$senprovision=array('N' => 'notonregister', 
 						'A'=> 'schoolaction',
 						'P'=> 'schoolactionplus', 
-						'Q'=> 'schoolactionplusandstatutoryassessment', 
 						'S'=> 'statemented');
 	$senranking=array('1' => 'level 1', '2' => 'level 2', '3' => 'level 3');
 	$sentype=array('SPLD' => 'specificlearningdifficulty(dyslexia)', 
@@ -282,8 +281,7 @@ function getEnumArray($field_name) {
 				   'PD' => 'physicaldisability', 
 				   'AUT' => 'autism',
 				   'OTH' => 'otherdifficulty/disability');
-	$sencurriculum=array('A' => 'allsubjects', 
-						 'M' => 'modifiedcurriculum', 
+	$sencurriculum=array('M' => 'modifiedcurriculum', 
 						 'D' => 'curriculumdisapplied');
 
 	/*for the exclusions table*/
