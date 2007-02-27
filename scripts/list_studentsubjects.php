@@ -28,7 +28,7 @@
 		if(isset($bid)){if($bid==$newbid){print 'selected="selected"';}}
 		print ' value="'.$newbid.'">'.$subjectname.'</option>';
 		}
-?>			
+?>
 </select>
 <?php
 unset($required);

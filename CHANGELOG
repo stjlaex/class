@@ -1,5 +1,5 @@
 Version ClaSS-0.8.10 release (2007/02/23)
-----------------------------------------
+-----------------------------------------
 
 A third rating of 'general' added to the comments.
 
@@ -62,10 +62,14 @@ Implemented sencurriculum to allow per subject statements of need, the
 current statements are maintained as a starting 'General' subject. New
 category field added to the sencurriculum table to flag for type of
 extra support provided - this also needs new 'sen' types in the
-categorydef table loaded. This needs patch-0.8.10.sql to be applied!
+categorydef table loaded. The database field sentype changed from an
+enum to a char(3). This all needs patch-0.8.10.sql to be applied!
 
 Updating to match CBDS changes, SEN NationalCurriculum is now
 NCmodifications.
+
+Started to standardise the list_scripts to use the same named
+variables and then a function call to list_select().
 
 Version ClaSS-0.8.9 release (2007/01/30)
 ----------------------------------------

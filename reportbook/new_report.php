@@ -81,7 +81,8 @@ two_buttonmenu($extrabuttons);
 			  </p>
 
 			  <button class="rowaction" title="Delete this report"
-				name="current" value="delete_report.php" onClick="clickToAction(this);">
+				name="current" value="delete_report.php"
+				onClick="clickToAction(this);" >
 				<img class="clicktodelete" />
 			  </button>
 <?php
@@ -102,7 +103,7 @@ two_buttonmenu($extrabuttons);
 		  </tr>
 		  <div id="<?php print 'xml-'.$rid;?>" style="display:none;">
 <?php
-	xmlechoer('ReportDefinition',$ReportDef);
+					  xmlechoer('ReportDefinition',$ReportDef);
 ?>
 		  </div>
 		</tbody>

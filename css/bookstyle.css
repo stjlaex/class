@@ -5,7 +5,8 @@
 *   elsewhere.
 */
 body {
-  	font-family:Verdana, Arial, helvetica, sans-serif; font-weight:500; font-size:medium; 
+  	font-family:Verdana, Arial, helvetica, sans-serif; 
+    font-weight:500; font-size:medium; 
 	background-color:#444444; color:#ffffff; margin:0; border:0;
 	text-align:left;
 	}
@@ -25,6 +26,9 @@ input, textarea, select {
 	}
 input:focus, textarea:focus, select:focus, option:focus {
 	border-color:#ff9900;
+	}
+textarea { 
+    width:95%;
 	}
 input[readonly="readonly"]{
 	border-color:#cccccc;
@@ -122,7 +126,7 @@ div {
 	}
 div.hidden {
 	display:none;
-	border:0;margin:0;padding:0;
+	border:0; margin:0; padding:0;
 	}
 /*the two possible econtainer divs for each book, one after login and one for before*/
 div#bookbox {
@@ -209,7 +213,7 @@ div.content div.right, div.topform div.right {
 	clear:right;
 	margin:0 2% 2% 0;
 	}
-div.content .center, div.topform .center{
+div.content .center, div.topform .center {
     margin:0 4% 2% 4%;
 	width:92%;
 	clear:both;
@@ -426,6 +430,7 @@ table.sidtable {
 div.tinytabs {
     font-size:90%;
     line-height:normal;
+    padding:0 1px;
 	}
 div.tinytab-display {
     overflow:auto;

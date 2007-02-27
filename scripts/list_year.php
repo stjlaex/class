@@ -1,30 +1,13 @@
 <?php 
-/**					list_year.php
- *   returns $newyid
+/**						list_year.php
  */
  
-	if(!isset($selyid)){$selyid='';}
-	if(isset($yid)){$selyid=$yid;}
-	if(isset($newyid)){$selyid=$newyid;}
-	if(!isset($required)){$required='no';}
-	if(!isset($onsidechange)){$onsidechange='no';}
-?>
-  <label for="Yeargroup"><?php print_string('yeargroup');?></label>
-  <select id="Yeargroup" name="newyid"  tabindex="<?php print $tab++;?>" 
-		<?php if(isset($tab)){print ' tabindex="'.$tab++.'" ';}?> 
-		style="<?php if(isset($liststyle)){print $liststyle;}?>"
-		<?php if($onsidechange=='yes'){print ' onChange="document.'.$book.'choice.submit();"';}?>
-		<?php if($required=='yes'){ print ' class="required" ';} ?> >
-    <option value=""></option>
-<?php
-		$d_yeargroup=mysql_query("SELECT id, name  FROM yeargroup ORDER BY sequence");
-    	while($year=mysql_fetch_array($d_yeargroup,MYSQL_ASSOC)){
-			print '<option ';
-			if(($selyid==$year['id'])){print 'selected="selected"';}
-			print	' value="'.$year['id'].'"> '.$year['name'].'</option>';
-			}
-?>
-  </select>
-<?php  
-unset($required); unset($selyid); unset($onsidechange);
+if(!isset($listname)){$listname='newyid';}
+if(!isset($listlabel)){$listlabel='yeargroup';}
+include('scripts/set_list_variables.php');
+$d_yeargroup=mysql_query("SELECT id AS value, name AS description 
+				FROM yeargroup ORDER BY sequence");
+list_select($listoptions,$d_yeargroup,$book);
+mysql_free_result($d_yeargroup);
+unset($listoptions);
 ?>

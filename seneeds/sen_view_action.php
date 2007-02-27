@@ -5,14 +5,17 @@
 $action='sen_view.php';
 
 include('scripts/sub_action.php');
+if(isset($_POST['ncmod'])){$ncmodkey=$_POST['ncmod'];}else{$ncmodkey='';}
+$SEN=$Student['SEN'];
+$senhid=$SEN['SENhistory']['id_db'];
 
-if($sub=='senstatus'){
 	/*Check user has permission to edit*/
 	$yid=$Student['YearGroup']['value'];
 	$perm=getSENPerm($yid, $respons);
 	$neededperm='w';
 	include('scripts/perm_action.php');
 
+if($sub=='senstatus'){
 	if($Student['SENFlag']['value']=='Y'){
 		mysql_query("UPDATE info SET sen='N' WHERE student_id='$sid'");
 		}
@@ -29,16 +32,15 @@ if($sub=='senstatus'){
 		}
 	$action='sen_student_list.php';
 	}
+elseif($ncmodkey=='-1'){
+	if(isset($_POST['bid'])){
+		$bid=$_POST['bid'];
+		mysql_query("INSERT INTO sencurriculum SET
+			senhistory_id='$senhid', subject_id='$bid'");
+		}
 
+	}
 elseif($sub=='Submit'){
-	/********Check user has permission to edit*************/
-	$yid=$Student['NCyearActual']['id_db'];
-	$perm=getSENPerm($yid,$respons);
-	$neededperm='w';
-	include('scripts/perm_action.php');
-
-	$SEN=$Student['SEN'];
-	$senhid=$SEN['SENhistory']['id_db'];
 	$SENhistory=$SEN['SENhistory'];
 	$inval=$_POST['date1'];
 	$table=$SENhistory['NextReviewDate']['table_db'];
@@ -65,35 +67,38 @@ elseif($sub=='Submit'){
 				}
 			}
 
-	while(list($key,$Subject)=each($SEN['NationalCurriculum'])){
-		if(is_array($Subject)){
-			$table=$Subject['Strengths']['table_db'];
-			$field=$Subject['Strengths']['field_db'];
-			$inname=$field.$key;
-			$inval=clean_text($_POST[$inname]);
-			if($Subject['Strengths']['value']!=$inval){
-				mysql_query("UPDATE $table SET $field='$inval'
-									WHERE senhistory_id='$senhid'");
+	while(list($key,$Subject)=each($SEN['NCmodifications'])){
+		$bid=$Subject['Subject']['value_db'];
+		$table='sencurriculum';
+		$inname='extrasupport'.$key;
+		$inval=clean_text($_POST[$inname]);
+		if($Subject['ExtraSupport']['value_db']!=$inval){
+			mysql_query("UPDATE $table SET categorydef_id='$inval'
+									WHERE senhistory_id='$senhid' AND subject_id='$bid'");
+			}
+
+		$field=$Subject['Strengths']['field_db'];
+		$inname=$field.$key;
+		$inval=clean_text($_POST[$inname]);
+		if($Subject['Strengths']['value']!=$inval){
+			mysql_query("UPDATE $table SET $field='$inval'
+									WHERE senhistory_id='$senhid' AND subject_id='$bid'");
 				}
 
-			$table=$Subject['Strategies']['table_db'];
-			$field=$Subject['Strategies']['field_db'];
-			$inname=$field . $key;
-			$inval=clean_text($_POST[$inname]);
-			if($Subject['Strategies']['value']!=$inval){
-				print $Subject['Strategies']['label']." : ".$inval;
-				mysql_query("UPDATE $table SET $field='$inval'
-									WHERE senhistory_id='$senhid'");
+		$field=$Subject['Weaknesses']['field_db'];
+		$inname=$field . $key;
+		$inval=clean_text($_POST[$inname]);
+		if($Subject['Strategies']['value']!=$inval){
+			mysql_query("UPDATE $table SET $field='$inval'
+									WHERE senhistory_id='$senhid' AND subject_id='$bid'");
 				}
 
-			$table=$Subject['Weaknesses']['table_db'];
-			$field=$Subject['Weaknesses']['field_db'];
-			$inname=$field.$key;
-			$inval=clean_text($_POST[$inname]);
-			if($Subject['Weaknesses']['value']!=$inval){
-				mysql_query("UPDATE $table SET $field='$inval'
-									WHERE senhistory_id='$senhid'");
-				}	
+		$field=$Subject['Strategies']['field_db'];
+		$inname=$field.$key;
+		$inval=clean_text($_POST[$inname]);
+		if($Subject['Weaknesses']['value']!=$inval){
+			mysql_query("UPDATE $table SET $field='$inval'
+									WHERE senhistory_id='$senhid' AND subject_id='$bid'");
 			}
 		}
 	}

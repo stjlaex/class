@@ -101,7 +101,7 @@ function fetchReportDefinition($rid,$selbid='%'){
 		$d_mid=mysql_query("SELECT id FROM mark WHERE midlist='$rid' and marktype='report'");
 		$markcount=mysql_numrows($d_mid);
 		$reportdef['MarkCount']=array('label' => 'Mark Columns', 
-								  'value' => $markcount);
+								  'value' => ''.$markcount);
 		}
 	else{
 		$report['course_name']='';
@@ -125,7 +125,7 @@ function fetchReportDefinition($rid,$selbid='%'){
 	while($bid=mysql_fetch_array($d_cridbid,MYSQL_NUM)){
 			$d_subject=mysql_query("SELECT name FROM subject WHERE id='$bid[0]'");
 			$subjectname=mysql_result($d_subject,0);
-			$reportdef['bids'][]=array('id'=>$bid[0], 'name'=>$subjectname);
+			$reportdef['bids'][]=array('id'=>$bid[0], 'name'=>''.$subjectname);
 			}
 
 	$d_assessment=mysql_query("SELECT * FROM assessment JOIN
@@ -141,7 +141,7 @@ function fetchReportDefinition($rid,$selbid='%'){
 				an element can only apear once on the printed report!*/
 			$asselements[]=$ass['element'];
 			$asstable['ass'][]=array('name' => $ass['description'],
-				'label' => $ass['label'], 'element' => $ass['element']);
+				'label' => $ass['label'], 'element' => ''.$ass['element']);
 			}
 		}
 	$reportdef['asstable']=nullCorrect($asstable);
@@ -153,11 +153,11 @@ function fetchReportDefinition($rid,$selbid='%'){
 		$reportdef['catdefs']=$catdefs;
 		$cattable=array();
 		while(list($index,$cat)=each($catdefs)){
-			$cattable['cat'][]=array('name' => $cat['name']);
+			$cattable['cat'][]=array('name' => ''.$cat['name']);
 			}
 		while(list($index,$ratings)=each($ratingnames)){
 			while(list($value,$rat)=each($ratings)){
-				$cattable['rat'][]=array('name' => $rat, 'value' => $value);
+				$cattable['rat'][]=array('name' => ''.$rat, 'value' => ''.$value);
 				}
 			}
 		$reportdef['cattable']=nullCorrect($cattable);

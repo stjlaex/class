@@ -62,13 +62,22 @@ two_buttonmenu();
 		}
 
 	while(list($index,$sid)=each($sids)){
+		$display='yes';
 		$Student=fetchStudent_short($sid);
 		$comment=commentDisplay($sid);
-		$d_senhistory=mysql_query("SELECT reviewdate FROM senhistory WHERE 
+		$d_senhistory=mysql_query("SELECT id, reviewdate FROM senhistory WHERE 
 				student_id='$sid' ORDER BY reviewdate DESC");
+		$senhistory=mysql_fetch_array($d_senhistory,MYSQL_ASSOC);
 		$Student['NextReviewDate']=array();
 		$Student['NextReviewDate']['label']='nextreviewdate';
-		$Student['NextReviewDate']['value']=mysql_result($d_senhistory,0);
+		$Student['NextReviewDate']['value']=$senhistory['reviewdate'];
+		if($sensupport!=''){
+			$senhid=$senhistory['id'];
+			$d_senhistory=mysql_query("SELECT subject_id FROM sencurriculum WHERE 
+				senhistory_id='$senhid' AND categorydef_id='$sensupport'");
+			if(mysql_num_rows($d_senhistory)==0){$display='no';}
+			}
+		if($display=='yes'){
 ?>
 		<tr>
 		  <td>
@@ -105,6 +114,7 @@ two_buttonmenu();
 ?>
 		</tr>
 <?php
+				  }
 		}
 	reset($sids);
 ?>

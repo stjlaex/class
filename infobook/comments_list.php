@@ -34,8 +34,7 @@ three_buttonmenu();
 		<?php $required='no'; include('scripts/list_studentsubjects.php');?>
 	  </div>
 	  <div class="right">
-		<label for="Category"><?php print_string('category',$book);?></label>
-		<?php include('scripts/list_category.php');?>
+		<?php $listlabel='category'; $listid='category'; include('scripts/list_category.php');?>
 	  </div>
 	  <div class="left" >
 		<?php $xmldate='Entrydate'; $required='yes'; include('scripts/jsdate-form.php'); ?>

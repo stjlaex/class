@@ -157,7 +157,7 @@ if($_SESSION['worklevel']>-1){
 			<a href="infobook.php?current=incidents_list.php&bid=<?php print $bid[0];?>&sid=<?php print $viewtable[$c2]['sid'];?>&sids[]=<?php print $viewtable[$c2]['sid'];?>"
 			  target="viewinfobook" onclick="parent.viewBook('infobook');">I</a>
 <?php		if($viewtable[$c2]['sen']=='Y'){ ?>
-			<a href="infobook.php?current=student_view_sen.php&sid=<?php print $viewtable[$c2]['sid'];?>&sids[]=<?php print $viewtable[$c2]['sid'];?>"
+			<a href="infobook.php?current=student_view_sen.php&sid=<?php print $viewtable[$c2]['sid'];?>&sids[]=<?php print $viewtable[$c2]['sid'];?>&bid=<?php print $bid[0];?>"
 			  target="viewinfobook" onclick="parent.viewBook('infobook');">S</a>
 <?php			} ?>
 		  </td>

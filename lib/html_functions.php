@@ -169,4 +169,34 @@ function selery_stick($choices,$choice='',$book=''){
 		</ul>
 <?php
 	}
+
+/* include scripts/set_list_variables.php first to define all the options */
+/* available in $vars  and see in there how to override defaults*/
+/* the $d_list should be the SELECT result from mysql with AS value and */
+/* AS description used */
+function list_select($vars,$d_list,$book=''){
+
+?>
+  <label for="<?php print $vars['id'];?>">
+	<?php print_string($vars['label'],$book);?>
+  </label>
+  <select 
+	id="<?php print $vars['id'];?>" 
+	name="<?php print $vars['name'].$vars['i'];?>"  
+	tabindex="<?php print $vars['tab'];?>"  
+	<?php print $vars['style'];?>
+	<?php if($vars['onsidechange']=='yes'){print ' onChange="document.'.$book.'choice.submit();"';}?>
+	<?php if($vars['required']=='yes'){ print ' class="required" ';} ?>
+	>
+    <option value=""></option>
+<?php
+	while($item=mysql_fetch_array($d_list,MYSQL_ASSOC)){
+		print '<option ';
+		if(($vars['selectedvalue']==$item['value'])){print 'selected="selected"';}
+		print	' value="'.$item['value'].'"> '.$item['description'].'</option>';
+		}
+?>
+  </select>
+<?php
+	}
 ?>

@@ -284,34 +284,41 @@ function fetchStudent($sid='-1'){
 											'field_db' => 'reviewdate',
 											'type_db'=>'date', 
 											'value' => ''.$senhistory['reviewdate']);
-		/*only working for one senhistory_id*/
 
+		/*only working for one senhistory_id - in other words no history!*/
 		$d_sencurriculum=mysql_query("SELECT * FROM sencurriculum
 				WHERE senhistory_id='$senhid' ORDER BY subject_id");
 		$Curriculum=array();
 		while($sencurriculum=mysql_fetch_array($d_sencurriculum,MYSQL_ASSOC)){
 			$Subject=array();
+			$bid=$sencurriculum['subject_id'];
+			$subjectname=get_subjectname($bid);
 		   	$Subject['Subject']=array('label' => 'subject', 
 									  'table_db' => 'sencurriculum', 
 									  'field_db' => 'subject_id', 
 									  'type_db'=>'varchar(10)', 
-									  'value' => ''.$sencurriculum['subject_id']);
+									  'value_db' => ''.$bid,
+									  'value' => ''.$subjectname);
 			$Subject['Modification']=array('label' => 'sencurriculum', 
 										  'table_db' => 'sencurriculum', 
 										  'field_db' => 'curriculum',
 										  'type_db'=>'enum', 
 										  'value' => ''.$sencurriculum['curriculum']);
-
 			$catid=$sencurriculum['categorydef_id'];
-			$d_categorydef=mysql_query("SELECT name FROM categorydef WHERE id='$catid'");
-			$catname=mysql_result($d_categorydef,0);
+			if($catid!=0){
+				$d_categorydef=mysql_query("SELECT name FROM
+						categorydef WHERE id='$catid'");
+				$catname=mysql_result($d_categorydef,0);
+				}
+			else{
+				$catname='';
+				}
 		   	$Subject['ExtraSupport']=array('label' => 'extrasupport',
-										 'table_db' => 'sencurriculum',
-										 'field_db' => 'categorydef_id',
-										 'type_db'=> 'int',
-										 'value_db' => ''.$catid,
-										 'value' => ''.$catname);
-
+										   'table_db' => 'sencurriculum',
+										   'field_db' => 'categorydef_id',
+										   'type_db'=> 'int',
+										   'value_db' => ''.$catid,
+										   'value' => ''.$catname);
 			$Subject['Strengths']=array('label' => 'strengths', 
 										'table_db' => 'sencurriculum', 
 										'field_db' => 'comments', 
@@ -343,7 +350,7 @@ function fetchStudent($sid='-1'){
 									  'field_db' => 'senranking', 
 									  'type_db'=>'enum', 
 									  'value' => ''.$sentypes['senranking']);
-	   	$SENtype['SENtype']=array('label' => 'type', 
+	   	$SENtype['SENtype']=array('label' => 'sentype', 
 								  'table_db' => 'sentypes', 
 								  'field_db' => 'sentype', 
 								  'type_db'=>'enum', 
@@ -458,11 +465,7 @@ function fetchStudent($sid='-1'){
 								   'type_db'=> 'text', 
 								   'value' => ''.$entry['detail']);
 			$bid=$entry['subject_id'];
-			if($bid!=' ' and $bid!='G' and $bid!='General' and $bid!=''){
-				$d_subject=mysql_query("SELECT name FROM subject WHERE id='$bid'");
-				$subjectname=mysql_result($d_subject,0);
-				}
-			else{$subjectname=$bid;}
+			$subjectname=get_subjectname($bid);
 			$Entry['Subject']=array('label' => 'subject', 
 									'type_db'=>'varchar(15)', 
 									'value_db' => ''.$bid, 
@@ -637,12 +640,7 @@ function fetchComments($sid,$date=''){
 		$Comment=array();
 		$Comment['id_db']=$comment['id'];
 		$bid=$comment['subject_id'];
-		if($bid=='%'){$bid='G';}/*this is a fix that should be fixed in future!*/
-		if($bid!=' ' and $bid!=''){
-			$d_subject=mysql_query("SELECT name FROM subject WHERE id='$bid'");
-			$subjectname=mysql_result($d_subject,0);
-			}
-		else{$subjectname=$bid;}
+		$subjectname=get_subjectname($bid);
 		$subtable[$bid]=$subjectname;
 	   	$Comment['Subject']=array('label' => 'subject',
 								  'value_db' => ''.$bid, 

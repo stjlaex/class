@@ -264,10 +264,10 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 		  <a href="infobook.php?current=student_view_sen.php&cancel=student_view.php">
 			<img class="clicktoedit" title="<?php print_string('edit');?>" />
 		  </a>
-		<?php print_string('sen',$book);?></legend>
+		<?php print_string('sen','seneeds');?></legend>
 <?php	
-		if($Student['SENFlag']['value']=='Y'){print_string('infoavailable',$book);}
-		else{print 'Not SEN';}
+		if($Student['SENFlag']['value']=='Y'){print_string('senprofile','seneeds');}
+		else{print_string('noinfo',$book);}
 ?>
 		</fieldset>
 		

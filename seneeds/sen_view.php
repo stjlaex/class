@@ -4,7 +4,7 @@
 $action='sen_view_action.php';
 
 ?>
-  <div id="heading"><label><?php print_string('senprofile','infobook');?></label>
+  <div id="heading"><label><?php print_string('iep',$book);?></label>
   <?php print $Student['Forename']['value'].' '.$Student['Surname']['value'];?>
   </div>
 <?php 
@@ -15,11 +15,11 @@ $action='sen_view_action.php';
 	<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
 
 	  <fieldset class="left">
-		<legend><?php print_string('senprofile','infobook');?></legend>
+		<legend><?php print_string('senprofile',$book);?></legend>
 
 		<div class="center">
 		  <label for="Start Date">
-			<?php print_string($SEN['SENhistory']['StartDate']['label'],'infobook');?>
+			<?php print_string($SEN['SENhistory']['StartDate']['label'],$book);?>
 		  </label>
 <?php
 		$todate=$SEN['SENhistory']['StartDate']['value'];
@@ -29,7 +29,7 @@ $action='sen_view_action.php';
 
 		<div class="center">
 		  <label>
-			<?php print_string($SEN['SENhistory']['NextReviewDate']['label'],'infobook');?>
+			<?php print_string($SEN['SENhistory']['NextReviewDate']['label'],$book);?>
 		  </label>
 <?php
 		$todate=$SEN['SENhistory']['NextReviewDate']['value'];
@@ -39,7 +39,7 @@ $action='sen_view_action.php';
 
 		<div class="center">
 		  <label for="Type">
-			<?php print_string($SEN['SENtypes'][0]['SENtype']['label'],'infobook');?>
+			<?php print_string($SEN['SENtypes'][0]['SENtype']['label'],$book);?>
 		  </label>
 <?php
 	$key=0;
@@ -50,7 +50,7 @@ $action='sen_view_action.php';
 	while(list($inval,$description)=each($enum)){ 
 		print '<option ';
 		if($SEN['SENtypes'][0]['SENtype']['value']==$inval){print 'selected="selected" ';}
-		print ' value="'.$inval.'">'.get_string($description,'infobook').'</option>';
+		print ' value="'.$inval.'">'.get_string($description,$book).'</option>';
 		}
     print '</select>';				
 ?>
@@ -58,7 +58,7 @@ $action='sen_view_action.php';
 
 		<div class="center">
 		  <label for="Rank">
-			<?php print_string($SEN['SENtypes'][0]['SENtypeRank']['label'],'infobook');?>
+			<?php print_string($SEN['SENtypes'][0]['SENtypeRank']['label'],$book);?>
 		  </label>
 <?php
 	$enum=getEnumArray($SEN['SENtypes'][0]['SENtypeRank']['field_db']);
@@ -81,7 +81,7 @@ $action='sen_view_action.php';
 <?php
 	$key=-1;
 	while(list($key,$Subject)=each($SEN['NCmodifications'])){
-		if(is_array($Subject)){    
+		if(is_array($Subject)){
 ?>
 			<li id="<?php print 'tinytab-sen-'.$Subject['Subject']['value'];?>"><p 
 					 <?php if($key==0){ print ' id="current-tinytab" ';}?>
@@ -91,26 +91,28 @@ $action='sen_view_action.php';
 
 			<div class="hidden" id="tinytab-xml-sen-<?php print $Subject['Subject']['value'];?>">
 			  <table>
-			  <tr><td>
-				  <label for="Category">
-					<?php print_string($Subject['ExtraSupport']['label'],$book); ?>
-				  </label>
+				<tr>
+				  <td>
 <?php
-				$cattype='sen';
+				$cattype='sen';$required='no';
+				$listname='extrasupport';
+				$selextrasupport=$Subject['ExtraSupport']['value_db'];
+				$listlabel=$Subject['ExtraSupport']['label'];
 				include('scripts/list_category.php');
 ?>
-			  </td></tr>
+				  </td>
+				</tr>
 				<tr>
 				  <td>
 				  <label for="Strengths">
-					<?php print_string($Subject['Strengths']['label'],'infobook'); ?>
+					<?php print_string($Subject['Strengths']['label'],$book); ?>
 				  </label>
 				  </td>
 				</tr>
 				<tr>
 				  <td>
 				  <textarea id="Stengths" 
-				  wrap="on" rows="5" cols="38" tabindex="<?php print $tab++;?>" 
+				  wrap="on" rows="5" tabindex="<?php print $tab++;?>" 
 				  name="<?php print $Subject['Strengths']['field_db'].$key;?>" 
 				  ><?php print $Subject['Strengths']['value']; ?></textarea>
 				  </td>
@@ -118,14 +120,14 @@ $action='sen_view_action.php';
 				<tr>
 				  <td>
 				  <label for="Weaknesses">
-					<?php print_string($Subject['Weaknesses']['label'],'infobook'); ?>
+					<?php print_string($Subject['Weaknesses']['label'],$book); ?>
 				  </label>
 				  </td>
 				</tr>
 				<tr>
 				  <td>
 				  <textarea id="Weaknesses" 
-				  wrap="on" rows="5" cols="38" tabindex="<?php print $tab++;?>"
+				  wrap="on" rows="5" tabindex="<?php print $tab++;?>"
 				  name="<?php print $Subject['Weaknesses']['field_db'].$key;?>" 
 				  ><?php print $Subject['Weaknesses']['value']; ?></textarea>
 				  </td>
@@ -133,14 +135,14 @@ $action='sen_view_action.php';
 				<tr>
 				  <td>
 				  <label for="Strategies">
-				  <?php print_string($Subject['Strategies']['label'],'infobook'); ?> 
+				  <?php print_string($Subject['Strategies']['label'],$book); ?> 
 				  </label>
 				  </td>
 				</tr>
 				<tr>
 				  <td>
 				  <textarea id="Strategies" 
-				  wrap="on" rows="5" cols="38" tabindex="<?php print $tab++;?>"
+				  wrap="on" rows="5" tabindex="<?php print $tab++;?>"
 				  name="<?php print $Subject['Strategies']['field_db'].$key;?>" 
 				  ><?php print $Subject['Strategies']['value']; ?></textarea>
 				  </td>
@@ -150,12 +152,12 @@ $action='sen_view_action.php';
 <?php
 			}
 		}
-		$subject='newsubject';
+		$subject='addsubject';
 ?>
 			<li id="<?php print 'tinytab-sen-'.$subject;?>"><p 
 					 <?php if($key==-1){ print ' id="current-tinytab" ';}?>
 				class="<?php print $subject;?>"
-				onclick="tinyTabs(this)"><?php print $subject;?></p></li>
+				onclick="tinyTabs(this)"><?php print_string($subject,$book);?></p></li>
 
 			<div class="hidden" id="tinytab-xml-sen-<?php print $subject;?>">
 			  <table>
@@ -165,7 +167,13 @@ $action='sen_view_action.php';
 				</tr>
 				<tr>
 				  <td>
-					<?php print_string('addnewsubject',$book);?>
+					<button class="rowaction" 
+					  name="ncmod" 
+					  value="-1" 
+					  onClick="processContent(this);">
+					  <?php print_string('addsubject',$book);?>
+					</button>
+					<?php $required='no'; include('scripts/list_studentsubjects.php');?>
 				  </td>
 				</tr>
 				<tr>

@@ -1,5 +1,5 @@
 <?php
-/*						list_componentstatus.php
+/**						list_componentstatus.php
  */
 ?>
     <label for="Componentstatus"><?php print_string('usesubjectcomponents');?></label>

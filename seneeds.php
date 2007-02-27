@@ -8,7 +8,7 @@ $book='seneeds';
 
 include('scripts/head_options.php');
 include('scripts/book_variables.php');
-$session_vars=array('sid','sentype','newyid');
+$session_vars=array('sid','sentype','newyid','sensupport');
 include('scripts/book_session_variables.php');
 
 if($sid=='' or $current==''){
@@ -45,21 +45,26 @@ elseif($sid!=''){
 		  onChange="document.<?php print $book;?>choice.submit();">
 		  <option value=""></option>
 <?php
-	while(list($inval,$description)=each($enum)){	
-		print '<option ';
-		if($sentype==$inval){print 'selected="selected" ';}
-		print ' value="'.$inval.'">'.get_string($description,'infobook').'</option>';
-		}
+		  while(list($inval,$description)=each($enum)){	
+			  print '<option ';
+			  if($sentype==$inval){print 'selected="selected" ';}
+			  print ' value="'.$inval.'">'.get_string($description,$book).'</option>';
+			  }
 ?>
 		</select>
-	  </fieldset>
 <?php
+		  $onsidechange='yes'; 
+		  include('scripts/list_year.php');
 
-	$onsidechange='yes'; include('scripts/list_year.php');
-
-  	}
+		  $listname='sensupport';
+		  $listlabel='extrasupport';
+		  $cattype='sen';
+		  $onsidechange='yes';
+		  include('scripts/list_category.php');
+		  }
 ?>
 
+	  </fieldset>
 	</form>
   </div>
 <?php

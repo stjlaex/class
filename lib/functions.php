@@ -73,6 +73,22 @@ function list_forms_classes($fid){
 	return $cids;
 	}
 
+/*reutrns the subjectname for that bid from the database*/
+function get_subjectname($bid){
+	if($bid=='%' or $bid=='G' or $bid=='General'){
+		/*this is a fix that should be fixed in future!*/
+		$subjectname='General';
+		}
+	elseif($bid!=' ' and $bid!=''){
+		$d_subject=mysql_query("SELECT name FROM subject WHERE id='$bid'");
+		$subjectname=mysql_result($d_subject,0);
+		}
+	else{
+		$subjectname=$bid;
+		}
+	return $subjectname;
+	}
+
 function file_putcsv($handle, $row, $fd=',', $quot='"'){
 	$str='';
 	foreach($row as $cell){
@@ -280,8 +296,10 @@ function getEnumArray($field_name) {
 				   'MSI' => 'multi-sensoryimpairment', 
 				   'PD' => 'physicaldisability', 
 				   'AUT' => 'autism',
+				   'GT' => 'giftedandtalented',
 				   'OTH' => 'otherdifficulty/disability');
-	$sencurriculum=array('M' => 'modifiedcurriculum', 
+	$sencurriculum=array('A'=>'allsubject',
+						 'M' => 'modifiedcurriculum', 
 						 'D' => 'curriculumdisapplied');
 
 	/*for the exclusions table*/
