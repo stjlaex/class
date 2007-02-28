@@ -13,6 +13,8 @@ if(isset($onsidechange)){$listoptions['onsidechange']=$onsidechange;unset($onsid
 if(isset($onchange)){$listoptions['onchange']=$onchange;unset($onchange);}else{$listoptions['onchange']='no';}
 if(isset($listsyle)){$listoptions['style']='style="'.$liststyle.'"';unset($liststyle);}else{$listoptions['style']='';}
 if(isset($listlabel)){$listoptions['label']=$listlabel;unset($listlabel);}else{$listoptions['label']=$listname;}
+if(isset($listvaluefield)){$listoptions['valuefield']=$listvaluefield;}else{$listoptions['valuefield']='id';}
+if(isset($listdescriptionfield)){$listoptions['descriptionfield']=$listdescriptionfield;}else{$listoptions['descriptionfield']='name';}
 /*these can all still exist outside this list scripts so don't unset 'em*/
 if(isset($tab)){$listoptions['tab']=$tab++;}else{$listoptions['tab']='';}
 if(isset($key)){

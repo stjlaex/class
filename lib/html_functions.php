@@ -171,11 +171,12 @@ function selery_stick($choices,$choice='',$book=''){
 	}
 
 /* include scripts/set_list_variables.php first to define all the options */
-/* available in $vars  and see in there how to override defaults*/
+/* set in the $vars array (see in there how to over-ride defaults)*/
 /* the $d_list should be the SELECT result from mysql with AS value and */
 /* AS description used */
-function list_select($vars,$d_list,$book=''){
-
+function list_select_db($d_list,$vars,$book=''){
+	$valuefield=$vars['valuefield'];
+	$descriptionfield=$vars['descriptionfield'];
 ?>
   <label for="<?php print $vars['id'];?>">
 	<?php print_string($vars['label'],$book);?>
@@ -192,11 +193,41 @@ function list_select($vars,$d_list,$book=''){
 <?php
 	while($item=mysql_fetch_array($d_list,MYSQL_ASSOC)){
 		print '<option ';
-		if(($vars['selectedvalue']==$item['value'])){print 'selected="selected"';}
-		print	' value="'.$item['value'].'"> '.$item['description'].'</option>';
+		if(($vars['selectedvalue']==$item[$valuefield])){print 'selected="selected"';}
+		print	' value="'.$item[$valuefield].'"> '.$item[$descriptionfield].'</option>';
 		}
 ?>
   </select>
 <?php
 	}
+
+/* as for list_select_db except that the $list is not a mysql result */
+/* resource*/
+function list_select_list($list,$vars,$book=''){
+	$valuefield=$vars['valuefield'];
+	$descriptionfield=$vars['descriptionfield'];
+?>
+  <label for="<?php print $vars['id'];?>">
+	<?php print_string($vars['label'],$book);?>
+  </label>
+  <select 
+	id="<?php print $vars['id'];?>" 
+	name="<?php print $vars['name'].$vars['i'];?>"  
+	tabindex="<?php print $vars['tab'];?>"  
+	<?php print $vars['style'];?>
+	<?php if($vars['onsidechange']=='yes'){print ' onChange="document.'.$book.'choice.submit();"';}?>
+	<?php if($vars['required']=='yes'){ print ' class="required" ';} ?>
+	>
+    <option value=""></option>
+<?php
+	while(list($index,$item)=each($list)){
+		print '<option ';
+		if(($vars['selectedvalue']==$item[$valuefield])){print 'selected="selected"';}
+		print	' value="'.$item[$valuefield].'"> '.$item[$descriptionfield].'</option>';
+		}
+?>
+  </select>
+<?php
+	}
+
 ?>

@@ -2,6 +2,7 @@
 /**                                  sen_view.php
  */
 $action='sen_view_action.php';
+$selbid='G';
 
 ?>
   <div id="heading"><label><?php print_string('iep',$book);?></label>
@@ -80,11 +81,21 @@ $action='sen_view_action.php';
 		  <ul>
 <?php
 	$key=-1;
+	$keybids=array();
+	while(list($key,$Subject)=each($SEN['NCmodifications'])){
+		if(is_array($Subject)){
+			$keybids[$Subject['Subject']['value_db']]=$key;
+			}
+		}
+	if(array_key_exists($selbid,$keybids)){$selkey=$keybids[$selbid];$selbid='';}
+	else{$selkey=0;}
+
+	reset($SEN['NCmodifications']);
 	while(list($key,$Subject)=each($SEN['NCmodifications'])){
 		if(is_array($Subject)){
 ?>
 			<li id="<?php print 'tinytab-sen-'.$Subject['Subject']['value'];?>"><p 
-					 <?php if($key==0){ print ' id="current-tinytab" ';}?>
+					 <?php if($key==$selkey){ print ' id="current-tinytab" ';}?>
 				class="<?php print $Subject['Subject']['value'];?>"
 				onclick="tinyTabs(this)"><?php print $Subject['Subject']['value'];?></p>
 			</li>
@@ -173,7 +184,35 @@ $action='sen_view_action.php';
 					  onClick="processContent(this);">
 					  <?php print_string('addsubject',$book);?>
 					</button>
-					<?php $required='no'; include('scripts/list_studentsubjects.php');?>
+<?php 
+   	$d_class=mysql_query("SELECT DISTINCT subject_id, course_id FROM
+				class JOIN cidsid ON class.id=cidsid.class_id WHERE
+				cidsid.student_id='$sid'");
+	$subjects=array();
+	while($subject=mysql_fetch_array($d_class,MYSQL_ASSOC)){
+		$subbid=$subject['subject_id'];
+		$subcrid=$subject['course_id'];
+		if(!array_key_exists($subbid,$keybids)){
+			$d_subject=mysql_query("SELECT name FROM subject WHERE id='$subbid'");
+			$subjectname=mysql_result($d_subject,0);
+			$subjects[]=array('id'=>$subbid,'name'=>$subjectname);
+			}
+		$d_subject=mysql_query("SELECT component.id, subject.name FROM
+			  subject JOIN component ON component.id=subject.id WHERE 
+			component.subject_id='$subbid' AND 
+			component.course_id='$subcrid' ORDER BY subject.name");
+		while($subject=mysql_fetch_array($d_subject,MYSQL_ASSOC)){
+			if(!array_key_exists($subject['id'],$keybids)){
+				$subjects[]=array('id'=>$subject['id'],'name'=>$subject['name']);
+				}
+			}
+		}
+	$listname='bid';$listlabel='subject';
+	include('scripts/set_list_variables.php');
+	list_select_list($subjects,$listoptions,$book);
+	unset($listoptions);
+?>
+
 				  </td>
 				</tr>
 				<tr>
