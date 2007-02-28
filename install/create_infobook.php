@@ -43,7 +43,7 @@ mysql_query("
 CREATE TABLE sentypes (
 	student_id		int unsigned not null, 
 	senranking		enum('1', '2', '3') not null,
-	sentype			char(3) not null defualt '',
+	sentype			char(3) not null default '',
    	primary key		(student_id, sentype)
 );");
 
