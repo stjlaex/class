@@ -42,7 +42,7 @@ table {
 	} 
 table.grades {
 	width:100%; 
-	border:1;
+	border:0;
 	} 
 table.grades td {
 	border:solid 1pt #000000; 

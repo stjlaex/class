@@ -71,6 +71,8 @@ NCmodifications.
 Started to standardise the list_scripts to use the same named
 variables and then a function call to list_select().
 
+Bugfix for the comment.xsl templates.
+
 Version ClaSS-0.8.9 release (2007/01/30)
 ----------------------------------------
 

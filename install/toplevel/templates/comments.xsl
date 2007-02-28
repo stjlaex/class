@@ -15,7 +15,6 @@
 
 <xsl:template match="student">
 
-  <div>
 
 	<div id="logo">
 	  <img src="../images/schoollogo.png" width="130px"/>
@@ -111,7 +110,7 @@
 	<p class='signature'>Signed</p>
   </div>
 
-</div>
+
 <hr />
 
 </xsl:template>
