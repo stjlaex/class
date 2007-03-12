@@ -53,6 +53,7 @@ $CFG->eportfoliosite='';
 $CFG->eportfoliotabname='Portfolio';
 $CFG->eportfolioshare='secret';
 $CFG->eportfolio_db='classelgg';
+$CFG->eportfolio_db_prefix='elgg';
 /*optional details of the school's lms site*/
 $CFG->lmssite='';
 $CFG->lmstabname='Moodle';

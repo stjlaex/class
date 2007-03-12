@@ -11,7 +11,8 @@ include ('scripts/head_options.php');
 $ip=$_SERVER['REMOTE_ADDR'];
 $salt=$CFG->eportfolioshare;
 $secret=md5($salt . $ip);
-$token=md5($tid . $secret);
+$token=md5(strtolower($tid) . $secret);
+//trigger_error('epf '.$tid.': '.$ip.' '.$salt,E_USER_WARNING);
 ?>
 
   <div style="visibility:hidden;" id="hiddenbookoptions">	
@@ -21,9 +22,12 @@ $token=md5($tid . $secret);
   </div>
 
   <div id="bookbox" class="eportfoliocolor">
+	<div style="visibility:hidden;" id="eportfoliosite"	
+	  logout="<?php print $CFG->eportfoliosite . '/login/logout.php';?>" >
+	</div>
 	<iframe id="externalbook" name="externalbook" class="externalbookframe"></iframe>
   </div>
 <?php
-include('scripts/end_options.php');
+	  include('scripts/end_options.php');
 ?>
-<script>frames["externalbook"].location.href="<?php print $CFG->eportfoliosite;?>/login/indexclass.php?token=<?php print $token;?>&user=<?php print $tid;?>";</script>
+<script>frames["externalbook"].location.href="<?php print $CFG->eportfoliosite;?>/login/index.php?password=<?php print $token;?>&username=<?php print $tid;?>";</script>

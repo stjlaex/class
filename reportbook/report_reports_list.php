@@ -33,7 +33,7 @@ if(isset($wrapper_rid)){
 	$d_rid=mysql_query("SELECT categorydef_id AS report_id FROM ridcatid WHERE
 				 report_id='$wrapper_rid' AND subject_id='wrapper' ORDER BY categorydef_id");
 	$rids=array();
-	$rids[]=$wrapper_rid;
+	$rids[]=$wrapper_rid;//add to the end of the rids
 	while($rid=mysql_fetch_array($d_rid,MYSQL_ASSOC)){
 		$rids[]=$rid['report_id'];
 		}
@@ -64,6 +64,8 @@ two_buttonmenu($extrabuttons);
 		$report=mysql_fetch_array($d_report,MYSQL_ASSOC);
 		$report['summaries']=(array)fetchReportSummaries($rid);
 		$reports[]=$report;
+		$transform=$report['transform'];
+
 		/*all of the marks associated with this report*/
 		mysql_query("CREATE TEMPORARY TABLE mids$rid (SELECT eidmid.mark_id FROM eidmid
 				JOIN rideid ON eidmid.assessment_id=rideid.assessment_id 
@@ -76,6 +78,13 @@ two_buttonmenu($extrabuttons);
 			}
 		}
 ?>
+		  <transform>
+<?php 
+		  /*this means the last entry in rids[] defines the transform
+		to use (can only use one!) and which is usually the wrapper anyway*/
+			print $transform;
+?>
+		  </transform>
 </reportids>
 	  </div>
 		<table class="listmenu">

@@ -212,6 +212,10 @@ function checksidsAction(buttonObject){
 	        	var xmlvalue=xmlreportid.firstChild.data;
 				params=params+"&rids[]=" + escape(xmlvalue);
 				}
+			else if(xmlreportid.tagName=="TRANSFORM"){
+	        	var xmlvalue=xmlreportid.firstChild.data;
+				var transform=escape(xmlvalue);
+				}
 		    }
 		}
 	var url=pathtobook + "httpscripts/" + script + "?" +params;
@@ -221,7 +225,7 @@ function checksidsAction(buttonObject){
 						if(xmlHttp.status==200){
 							var xmlReport=xmlHttp.responseXML;
 							//function to actually process the returned xml
-							openPrintReport("","medium",xmlReport);
+							openPrintReport("",transform,xmlReport);
 							}
 						else if(xmlHttp.status==404){alert ("Requested URL is not found.");}
         				else if(xmlHttp.status==403){alert("Access denied.");} 

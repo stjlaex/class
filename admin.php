@@ -59,11 +59,11 @@ $rtid=$tid;
 			   ,'update_curriculum.php' => 'updatecurriculum'
 			   ,'year_end.php' => 'yearend'
 			   ,'server_test.php' => 'servertest'
-			   ,'enrol_student.php' => 'enrolstudents'
 				   /*these are all either very experimental or completely useless!!!!!*/
+				   //,'enrol_student.php' => 'enrolstudents'
 				   //,'ldap_start.php' => 'ldaptest'
 				   //,'statementbank.php' => 'statementbank'
-				   ,'demoiser.php' => 'demoiser'
+				   //,'demoiser.php' => 'demoiser'
 			   );
 	selery_stick($choices,$choice,$book);
 ?>

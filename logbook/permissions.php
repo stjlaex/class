@@ -53,7 +53,7 @@ function list_sid_responsible_users($sid, $bid){
 	return $recipients;
 	}
 
-/* will return all details of users of interest based on the
+/*  will return all details of users of interest based on the
  *	teaching staff for the classes identified in the current
  *	selected respons in an array with the uid as the key
  */
@@ -103,7 +103,7 @@ function list_pastoral_users($ryid,$perms){
 				AND perms.w='$w' AND perms.x='$x'");
 	while($user=mysql_fetch_array($d_users,MYSQL_ASSOC)){
 		$uid=$user['uid'];
-		$users["$uid"]=$user;
+		$users[$uid]=$user;
 		}
 	return $users;
 	}
@@ -117,7 +117,7 @@ function list_all_users($nologin='%'){
 				FROM users WHERE nologin LIKE '$nologin' ORDER BY role, username");
 	while($user=mysql_fetch_array($d_users,MYSQL_ASSOC)){;
 		$uid=$user['uid'];
-		$users["$uid"]=$user;
+		$users[$uid]=$user;
 		}
 	return $users;
 	}
@@ -146,7 +146,7 @@ function list_teacher_users($crid='',$bid=''){
 				username!='administrator' ORDER BY username");
 		while($user=mysql_fetch_array($d_user,MYSQL_ASSOC)){
 			$tid=$user['username'];
-			$users[$tid]=$user;
+			$users[$tid]=$user;	
 			}
 		}
 	return $users;

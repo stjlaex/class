@@ -82,7 +82,7 @@ $externalbooks['support']=array(
 $externalbooks['teacher']=array(
 								//'webmail' => $CFG->webmailtabname
 								//,'lms' => $CFG->lmstabname
-								//'eportfolio' => $CFG->eportfoliotabname
+								'eportfolio' => $CFG->eportfoliotabname
 				 );
 $books['external']=$externalbooks;
 ?>

@@ -10,7 +10,7 @@ $entrydate=$_POST['entrydate'];
 if(isset($_POST['bid'])){$bid=$_POST['bid'];}else{$bid='%';}
 if(isset($_POST['catid'])){$catid=$_POST['catid'];}else{$catid='';}
 if(isset($_POST['ratvalue'])){$ratvalue=$_POST['ratvalue'];}else{$ratvalue='N';}
-if(isset($_POST['newyid'])){$newyid=$_POST['newyid'];}else{$newyid='';}
+if(isset($_POST['newyid'])){$newyid=$_POST['newyid'];}else{$newyid=$Student['YearGroup']['value'];;}
 
 
 include('scripts/sub_action.php');

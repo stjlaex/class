@@ -138,6 +138,10 @@ function logInSuccess(){
 
 function logOut(){
 	//  only called when the LogOut button is hit
+	if(window.frames["vieweportfolio"].document.getElementById("eportfoliosite")){
+		var epflogout=window.frames["vieweportfolio"].document.getElementById("eportfoliosite").getAttribute("logout");
+		window.frames["vieweportfolio"].frames["externalbook"].location.href=epflogout;
+		}
 	window.frames["viewlogbook"].location.href="logbook/exit.php";
 	}
 
@@ -154,6 +158,9 @@ function loadBook(book){
 		document.getElementById("view"+book).style.zIndex = "-100";
 		document.getElementById(book+"options").style.zIndex = "-100";
 		}
+
+	//window.frames["view"+book].history.forward();
+
 	}
 
 function loadBookOptions(book){
@@ -162,7 +169,7 @@ function loadBookOptions(book){
 
 function viewBook(newbook){
 	// hide the oldbook and tab first
-	var oldbook=document.getElementById("currentbook").getAttribute("class");	
+	var oldbook=document.getElementById("currentbook").getAttribute("class");
 	document.getElementById(oldbook+"options").style.zIndex = "-100";
 	document.getElementById("view"+oldbook).style.zIndex = "-100";
 	document.getElementById('currentbook').removeAttribute('id');
@@ -178,7 +185,7 @@ function viewBook(newbook){
 function printGenericContent(iFrameName){
 	var printWindow;
 	var contentToPrint="";
-	var currentbook=document.getElementById("currentbook").getAttribute("class");	
+	var currentbook=document.getElementById("currentbook").getAttribute("class");
 
 	if(window.frames["view"+currentbook].document.getElementById("viewcontent")){
 		contentToPrint=window.frames["view"+currentbook].document.getElementById("viewcontent").innerHTML;

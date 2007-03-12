@@ -1,5 +1,11 @@
-Version ClaSS-0.8.11 release (2007/03/28)
+Version ClaSS-0.8.11 release (2007/03/12)
 -----------------------------------------
+
+Added a logout call for the eportfolio to the js logout function.
+
+Bugfix to the new http/report_reports_print.php which was not getting
+the transform right. This is now passed through the imbedded
+xml-check-action div in the report_reports_list.php page.
 
 Version ClaSS-0.8.10 release (2007/02/28)
 -----------------------------------------
@@ -41,7 +47,7 @@ above.
 Removed the redundant code in column_edit.php for linking marks to
 assessments.
 
-Implment cohorts to filter for relevance in list_assessments.
+Implement cohorts to filter for relevance in list_assessments.
 
 Cleaned up the naming of cohort, community and permissions functions
 to be consistent with the rudimentary conventions described in the
