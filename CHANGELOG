@@ -3,6 +3,9 @@ Version ClaSS-0.8.11 release (2007/03/12)
 
 Added a logout call for the eportfolio to the js logout function.
 
+Added eportfolio_db_prefix to the school.php config options to bring
+into line with how these often implement shared databases.
+
 Bugfix to the new http/report_reports_print.php which was not getting
 the transform right. This is now passed through the imbedded
 xml-check-action div in the report_reports_list.php page.
