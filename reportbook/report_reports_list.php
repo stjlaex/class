@@ -77,14 +77,11 @@ two_buttonmenu($extrabuttons);
 <?php
 			}
 		}
-?>
-		  <transform>
-<?php 
-		  /*this means the last entry in rids[] defines the transform
+
+	/*this means the last entry in rids[] defines the transform
 		to use (can only use one!) and which is usually the wrapper anyway*/
-			print $transform;
 ?>
-		  </transform>
+		  <transform><?php print $transform;?></transform>
 </reportids>
 	  </div>
 		<table class="listmenu">
