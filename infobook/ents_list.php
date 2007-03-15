@@ -2,10 +2,8 @@
 /**                                  ents_list.php    
  */
 
-$current='ents_list.php';
 $action='ents_list_action.php';
-$host='infobook.php';
-
+$cancel='student_view.php';
 
 if(isset($_GET{'tagname'})){$tagname=$_GET{'tagname'};}
 elseif(isset($_POST{'tagname'})){$tagname=$_POST{'tagname'};}
@@ -30,8 +28,10 @@ three_buttonmenu();
 if($tagname=='Background'){
 ?>
 	  <div class="right" >
-		<label for="Category"><?php print_string('source',$book);?></label>
-		<?php $cattype='bac'; include('scripts/list_category.php'); ?>
+<?php 
+		$cattype='bac'; $required='yes'; $listlabel='source';
+		$listname='category'; include('scripts/list_category.php'); 
+?>
 	  </div>
 
 	  <div class="right" >
@@ -39,7 +39,7 @@ if($tagname=='Background'){
 	  </div>
 
 	  <div class="right" >
-		<?php $yid=$Student['YearGroup']['value']; include('scripts/list_year.php'); ?>
+		<?php $listid='yeargroup'; $newyid=$Student['YearGroup']['value']; include('scripts/list_year.php'); ?>
 	  </div>
 <?php
    	}

@@ -4,6 +4,7 @@
  */
 
 $action='student_view_medical1.php';
+$cancel='student_view.php';
 
 two_buttonmenu();
 ?>

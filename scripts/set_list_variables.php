@@ -2,8 +2,19 @@
 /**					set_list_variables.php
  *
  * must have the select's name already defined in $listname
- * any option can be overridden by setting the value explicity first
- * 
+ * any option can be overridden by setting the value explicity first:
+ * multi>1 to post back an array of values
+ * required=yes to add the orange star
+ * onsidechange=yes only if this is in the bookoptions on the leftside
+ * onchange=yes if the form is to be submitted on value change
+ * liststyle!='' if you need this element to have a css class
+ * listlabel!='' if you want to display a label different to the name
+ * listname must be set and is the name of the returned post variable
+ * listid!='' if you want the id to be something special ie. not
+ *				related to the listname, automatic iterations of the same id are
+ *				done automatically, so this is only needed if your id must match an
+ *				xml tagname for autofill or something (gets uppercase first letter)
+ * selectedvalue!='' if a value is preselected
  */
 $listoptions=array();
 $listoptions['name']=$listname;

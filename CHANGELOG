@@ -10,6 +10,8 @@ Updated the medium.xsl report template to use summary elements.
 Added portfolio_accounts to the Admin book - in a state of heavy
 development and not ready for use yet.
 
+Fixed up the ents_list form in the InfoBook.
+
 Version ClaSS-0.8.11 release (2007/03/12)
 -----------------------------------------
 
@@ -21,6 +23,7 @@ into line with how these often implement shared databases.
 Bugfix to the new http/report_reports_print.php which was not getting
 the transform right. This is now passed through the imbedded
 xml-check-action div in the report_reports_list.php page.
+
 
 Version ClaSS-0.8.10 release (2007/02/28)
 -----------------------------------------
