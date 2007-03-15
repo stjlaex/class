@@ -85,6 +85,25 @@ three_buttonmenu($extrabuttons);
 		  </tr>
 		</thead>
 <?php
+	/*the rowaction buttons used within each assessments table row*/
+    $imagebuttons=array();
+	$imagebuttons['clicktodelete']=array('name'=>'current',
+										 'value'=>'delete_assessment.php',
+										 'title'=>'delete');
+	$imagebuttons['clicktoedit']=array('name'=>'Edit',
+									   'value'=>'',
+									   'title'=>'edit');
+    $extrabuttons=array();
+	$extrabuttons['editscores']=array('name'=>'current',
+									  'title'=>'editscores',
+									  'value'=>'edit_scores.php');
+   	$extrabuttons['generatecolumns']=array('name'=>'current',
+										   'title'=>'generatecolumns',
+										   'value'=>'generate_assessment_columns.php');
+   	$extrabuttons['deletecolumns']=array('name'=>'current',
+										 'title'=>'deletecolumns',
+										 'value'=>'delete_assessment_columns.php');
+
    	$d_assessment=mysql_query("SELECT id FROM assessment
 			   WHERE (course_id LIKE '$rcrid' OR course_id='%') ORDER
 					BY year DESC, id DESC");
@@ -116,28 +135,9 @@ three_buttonmenu($extrabuttons);
 				(<value id="<?php print $eid;?>-Scorecount"> 
 				  <?php print $AssDef['ScoreCount']['value'];?></value>).
 			  </p>
-			  <button class="rowaction" title="Delete this assessment"
-				name="current" value="delete_assessment.php" onClick="clickToAction(this)">
-				<img class="clicktodelete" />
-			  </button>
-			  <button class="rowaction" title="Edit" name="Edit" onClick="clickToAction(this)">
-				<img class="clicktoedit" />
-			  </button>
-<?php		if($AssDef['MarkCount']['value']==0){ ;?>
-			  <button class="rowaction" title="Generate MarkBook columns" name="current" 
-				value="generate_assessment_columns.php" onClick="clickToAction(this)">
-				<?php print_string('generatecolumns',$book);?>
-			  </button>
-<?php 
-				}
-			else{
-?>
-			  <button class="rowaction" title="Delete MarkBook columns" name="current" 
-				value="delete_assessment_columns.php" onClick="clickToAction(this)">
-				<?php print_string('deletecolumns',$book);?>
-			  </button>
-<?php 
-				}
+
+<?php
+		rowaction_buttonmenu($imagebuttons,$extrabuttons,$book);
 ?>
 			</td>
 		  </tr>

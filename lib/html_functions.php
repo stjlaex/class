@@ -1,16 +1,23 @@
 <?php
-/*												lib/html_functions.php
+/**												lib/html_functions.php
  *
  * Generic functions for producing html entities.
  */
 
-function all_extrabuttons($extrabuttons,$book=''){
+function all_extrabuttons($extrabuttons,$book='',
+						  $onclick='processContent(this)',$class=''){
 	if(is_array($extrabuttons)){
 		while(list($description,$attributes)=each($extrabuttons)){
-			if(!isset($attributes['onclick'])){$attributes['onclick']='processContent(this)';}
+			if(!isset($attributes['onclick'])){$attributes['onclick']=$onclick;}
+			if(!isset($attributes['title'])){$attributes['title']=$description;}
 ?>
-	<button onClick="<?php print $attributes['onclick'];?>" name="<?php print $attributes['name'];?>" 
-	  value="<?php print $attributes['value'];?>"><?php print_string($description,$book);?></button>
+  <button onClick="<?php print $attributes['onclick'];?>" 
+	<?php print $class;?> 
+	title="<?php print_string($attributes['title'],$book);?>" 
+	name="<?php print $attributes['name'];?>" 
+	value="<?php print $attributes['value'];?>">
+	<?php print_string($description,$book);?>
+  </button>
 <?php
 			 }
 		}
@@ -22,7 +29,7 @@ function three_buttonmenu($extrabuttons='',$book=''){
 <?php
 		 all_extrabuttons($extrabuttons,$book);
 ?>
-	<button onClick="processContent(this);" name="sub"  style="margin-left:1em;"
+	<button onClick="processContent(this);" name="sub" style="margin-left:1em;"
 	  value="Submit"><?php print_string('submit');?></button>
 	<button onClick="processContent(this);" name="sub" 
 	  value="Cancel"><?php print_string('cancel');?></button>
@@ -89,6 +96,23 @@ function twoplusprint_buttonmenu($extrabuttons='',$book=''){
   </div>
 
 <?php
+	}
+
+function rowaction_buttonmenu($imagebuttons,$extrabuttons='',$book=''){
+
+	if(is_array($imagebuttons)){
+		while(list($imageclass,$attributes)=each($imagebuttons)){
+?>
+  <button class="rowaction" 
+	title="<?php print_string($attributes['title']);?>" 
+	name="<?php print $attributes['name'];?>" 
+	value="<?php print $attributes['value'];?>" onClick="clickToAction(this)">
+	<img class="<?php print($imageclass);?>" />
+  </button>
+<?php
+			 }
+		}
+   	all_extrabuttons($extrabuttons,$book,'clickToAction(this)','class="rowaction" ');
 	}
 
 function xmlarray_form($Array,$no='',$caption='',$tab=1){

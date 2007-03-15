@@ -58,9 +58,9 @@ $rtid=$tid;
 			   ,'cohort_matrix.php' => 'cohortmatrix'
 			   ,'update_curriculum.php' => 'updatecurriculum'
 			   ,'year_end.php' => 'yearend'
+			   ,'portfolio_accounts.php' => 'refreshportfolios'
 			   ,'server_test.php' => 'servertest'
 				   /*these are all either very experimental or completely useless!!!!!*/
-				   //,'enrol_student.php' => 'enrolstudents'
 				   //,'ldap_start.php' => 'ldaptest'
 				   //,'statementbank.php' => 'statementbank'
 				   //,'demoiser.php' => 'demoiser'

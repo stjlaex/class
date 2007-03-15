@@ -42,6 +42,15 @@ two_buttonmenu($extrabuttons);
 		  </tr>
 		</thead>
 <?php
+    $imagebuttons=array();
+	$imagebuttons['clicktodelete']=array('name'=>'current',
+										 'value'=>'delete_report.php',
+										  'title'=>'delete');
+	$imagebuttons['clicktoedit']=array('name'=>'Edit',
+										 'value'=>'',
+										  'title'=>'edit');
+    $extrabuttons=array();
+
 	while($report=mysql_fetch_array($d_report,MYSQL_ASSOC)){
 	    unset($ReportDef);
 		$rid=$report['id'];
@@ -80,24 +89,14 @@ two_buttonmenu($extrabuttons);
 ?>
 			  </p>
 
-			  <button class="rowaction" title="Delete this report"
-				name="current" value="delete_report.php"
-				onClick="clickToAction(this);" >
-				<img class="clicktodelete" />
-			  </button>
 <?php
 		if($rcrid!=''){
-?>
-			  <button class="rowaction" title="Delete MarkBook columns" name="current" 
-				value="delete_report_columns.php" onClick="clickToAction(this);">
-				<?php print_string('deletecolumns',$book);?>
-			  </button>
-			  <button class="rowaction" title="Generate MarkBook columns" name="current" 
-				value="generate_report_columns.php" onClick="clickToAction(this);">
-				<?php print_string('generatecolumns',$book);?>
-			  </button>
-<?php
+			$extrabuttons['generatecolumns']=array('name'=>'current',
+											   'value'=>'generate_report_columns.php');
+			$extrabuttons['deletecolumns']=array('name'=>'current',
+											 'value'=>'delete_report_columns.php');
 			}
+		rowaction_buttonmenu($imagebuttons,$extrabuttons,$book);
 ?>
 			</td>
 		  </tr>

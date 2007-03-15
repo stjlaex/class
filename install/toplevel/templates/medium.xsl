@@ -65,14 +65,21 @@
 	  <xsl:sort select="course/value/text()" order="descending" case-order="upper-first" />
 	</xsl:apply-templates>
 
-	<tr>
-	  <td class='footer' colspan='5' ><label>Tutor</label></td>
-	</tr>
-	<tr>
-	  <td class='footer' colspan='5' ><label>Year Coordinator</label></td>
-	</tr>
-
   </table>
+
+  <div class='spacer'></div>
+
+  <xsl:apply-templates select="summaries/summary" />
+
+</xsl:template>
+
+<xsl:template match="reports/summaries/summary">
+  <xsl:if test="description/type='com' and comments/text()!=' '" >
+	<div class="sumcomment">
+	  <xsl:value-of select="description/value/text()" /><br />
+	  <xsl:apply-templates select="comments"/>
+	</div>
+  </xsl:if>
 </xsl:template>
 
 <xsl:template match="report">

@@ -1,5 +1,14 @@
-Version ClaSS-0.8.12 release (2007/03/28)
+Version ClaSS-0.8.12 release (2007/03/15)
 -----------------------------------------
+
+The rowaction buttons are now generated using a library call to
+html_functions, uses the same extrabuttons function as the other
+buttonmenus.
+
+Updated the medium.xsl report template to use summary elements.
+
+Added portfolio_accounts to the Admin book - in a state of heavy
+development and not ready for use yet.
 
 Version ClaSS-0.8.11 release (2007/03/12)
 -----------------------------------------
