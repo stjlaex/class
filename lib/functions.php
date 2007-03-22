@@ -236,7 +236,13 @@ function getEnumArray($field_name) {
 						 'NOT' => 'informationnotobtained');
 	$enrolstatus=array('EN' => 'enquired', 
 					   'AP' => 'applied', 
+					   'AT' => 'awaitingtesting', 
+					   'ATD' => 'testingdelayed', 
+					   'ACP' => 'acceptedpending', 
 					   'AC' => 'accepted', 
+					   'RE' => 'rejected', 
+					   'CA' => 'cancelled', 
+					   'WL' => 'waitinglist', 
 					   'C' => 'current', 
 					   'P' => 'previous', 
 					   'G' => 'guestpupil',  

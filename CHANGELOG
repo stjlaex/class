@@ -13,6 +13,10 @@ decrypt the password upon receipt.
 The xmlprocessor function is under development for publishing reports
 to files.
 
+Added hostfamily as a valid value for the boarder field and a list of
+additional categories to the enrollment status field. Both additions
+are outside the CBDS.
+
 
 Version ClaSS-0.8.12 release (2007/03/15)
 -----------------------------------------
