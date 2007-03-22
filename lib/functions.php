@@ -245,9 +245,10 @@ function getEnumArray($field_name) {
 					   'WL' => 'waitinglist', 
 					   'C' => 'current', 
 					   'P' => 'previous', 
-					   'G' => 'guestpupil',  
-					   'S' => 'currentsubsidary(dualregistration)', 
-					   'M' => 'currentmain(dualregistration)');
+					   'G' => 'guestpupil'  
+					   //'S' => 'currentsubsidary(dualregistration)', 
+					   //'M' => 'currentmain(dualregistration)'
+					   );
 	$transportmode=array('NOT' => 'informationnotobtained', 
 						 'F' => 'onfoot', 'C' => 'privatecar', 
 						 'T' => 'train', 'B' => 'bus', 'S' => 'schoolbus');

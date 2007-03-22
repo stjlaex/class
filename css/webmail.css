@@ -1,7 +1,13 @@
-.eportfoliocolor fieldset, .eportfoliocolor div.topform, .eportfoliocolor table.listmenu {
-	border-color:#000066;
-	background-color:#444444; color:#000000;
-	}
+/*										webmail.css
+ * main color: 002266
+ * light shade:
+ */
+
+
 div#bookbox{
-	border-color:#000066;
+	border-color:#002266;
+	}
+.webmailcolor fieldset, .webmailcolor div.topform, .webmailcolor table.listmenu {
+	border-color:#002266;
+	background-color:#444444; color:#000000;
 	}

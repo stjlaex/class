@@ -42,11 +42,16 @@ while(list($param,$value)=each($externalparams)){
 ?>
 
   <div style="visibility:hidden;" id="hiddenbookoptions">
-	<fieldset class="webmail"><legend><?php print_string('options');?></legend>
+	<fieldset class="webmail">
+	  <legend>WebMail</legend>
+	  <div>
+		<?php print $CFG->webmailaside;?>
+	  </div>
 	</fieldset>
   </div>
 
   <div id="bookbox" class="webmailcolor">
+
 	<div style="visibility:hidden;" id="webmailsite"	
 	  logout="<?php print $CFG->webmailsite . '/logout.php';?>" >
 	</div>
@@ -56,5 +61,9 @@ while(list($param,$value)=each($externalparams)){
 
 <?php
 include('scripts/end_options.php');
+if($user['emailpasswd']!='' and $user['email']!=''){
 ?>
 <script>frames["externalbook"].location.href="<?php print $externalred;?>";</script>
+<?php
+	}
+?>
