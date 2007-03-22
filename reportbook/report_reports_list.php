@@ -59,6 +59,7 @@ two_buttonmenu($extrabuttons);
 <reportids>
 <?php
 	$reports=array();
+	$input_elements='';
 	while(list($index,$rid)=each($rids)){
 		$d_report=mysql_query("SELECT * FROM report WHERE id='$rid'");
 		$report=mysql_fetch_array($d_report,MYSQL_ASSOC);
@@ -75,6 +76,7 @@ two_buttonmenu($extrabuttons);
 ?>
 		  <id_db><?php print $rid;?></id_db>
 <?php
+			$input_elements.=' <input type="hidden" name="rids[]" value="'.$rid.'" />';
 			}
 		}
 
@@ -239,9 +241,9 @@ two_buttonmenu($extrabuttons);
 		</table>
 
 		</div>
+  <?php print $input_elements;?>
  	<input type="hidden" name="cancel" value="<?php print $choice;?>" />
  	<input type="hidden" name="choice" value="<?php print $choice;?>" />
  	<input type="hidden" name="current" value="<?php print $action;?>" />
 	</form>
   </div>
-

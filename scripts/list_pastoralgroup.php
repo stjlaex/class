@@ -42,10 +42,12 @@ if(sizeof($ryids)>0){
     	while(list($index,$yid)=each($ryids)){
 			$d_yeargroup=mysql_query("SELECT name FROM yeargroup
 									WHERE id='$yid'");
-			$yeargroup=mysql_result($d_yeargroup,0);
-			print '<option ';
-			if($selyid==$yid){print 'selected="selected"';}
-			print	' value="'.$yid.'">'.$yeargroup.'</option>';
+			if(mysql_num_rows($d_yeargroup)>0){
+				$yeargroup=mysql_result($d_yeargroup,0);
+				print '<option ';
+				if($selyid==$yid){print 'selected="selected"';}
+				print	' value="'.$yid.'">'.$yeargroup.'</option>';
+				}
 			}
 ?>
 	</select>

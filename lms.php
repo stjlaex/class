@@ -13,6 +13,21 @@ $ip=$_SERVER['REMOTE_ADDR'];
 $salt=$CFG->lmsshare.$CFG->support;
 $secret=md5($salt . $ip);
 $token=md5($tid . $secret);
+$entrypage='';
+$user=get_user($tid);
+$externalparams=array(
+			  'lang' => current_language(),
+			  'token' => $token,
+			  'user' => $tid,
+			  'passwd' => '',
+			  );
+/*construct the redirect string*/
+$externalred=$CFG->lmssite . '/'.$entrypage;
+while(list($param,$value)=each($externalparams)){
+	if(!isset($joiner)){$joiner='?';}
+	else{$joiner='&';}
+	$externalred=$externalred . $joiner . $param . '=' . $value;
+	}
 ?>
 
   <div style="visibility:hidden;" id="hiddenbookoptions">
@@ -28,4 +43,4 @@ $token=md5($tid . $secret);
 <?php
 include('scripts/end_options.php');
 ?>
-<script>frames["externalbook"].location.href="<?php print $CFG->lmssite;?>/login/indexclass.php?token=<?php print $token;?>&user=<?php print $tid;?>";</script>
+<script>frames["externalbook"].location.href="<?php print $externalred;?>";</script>

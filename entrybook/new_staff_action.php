@@ -12,6 +12,7 @@ if($sub=='Submit'){
 	$user['surname']=$_POST['surname'];
 	$user['forename']=$_POST['forename'];
 	$user['email']=$_POST['email'];
+	$user['emailpasswd']=$_POST['emailpasswd'];
 	$user['role']=$_POST['role'];
 	$result[]=update_user($user,'no',$CFG->shortkeyword);
 	}

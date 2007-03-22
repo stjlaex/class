@@ -33,7 +33,7 @@ $books['admin']=array(
 					  ,'register' => 'Register'
 					  ,'infobook' => 'InfoBook'
 					  ,'entrybook' => 'EntryBook'
-					  ,'seneeds' => 'SpecialNeeds'
+					  //,'seneeds' => 'SpecialNeeds'
 				 );
 $books['office']=array(
 					   'admin' => 'Admin'
@@ -70,9 +70,9 @@ $externalbooks['all']=array(
 							,'eportfolio' => $CFG->eportfoliotabname
 				 );
 $externalbooks['admin']=array(
-							  //'webmail' => $CFG->webmailtabname
+							  'webmail' => $CFG->webmailtabname
 							  //,'lms' => $CFG->lmstabname
-							  'eportfolio' => $CFG->eportfoliotabname
+							  //,'eportfolio' => $CFG->eportfoliotabname
 				 );
 $externalbooks['office']=array(
 							   //'webmail' => $CFG->webmailtabname
@@ -80,9 +80,9 @@ $externalbooks['office']=array(
 $externalbooks['support']=array(
 				 );
 $externalbooks['teacher']=array(
-								//'webmail' => $CFG->webmailtabname
+								'webmail' => $CFG->webmailtabname
 								//,'lms' => $CFG->lmstabname
-								//'eportfolio' => $CFG->eportfoliotabname
+								,'eportfolio' => $CFG->eportfoliotabname
 				 );
 $books['external']=$externalbooks;
 ?>

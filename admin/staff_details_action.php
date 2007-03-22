@@ -4,7 +4,7 @@
 
 $action='staff_details.php';
 
-$seluid=$_POST['newuid'];
+if(isset($_POST['newuid'])){$seluid=$_POST['newuid'];}
 
 include('scripts/sub_action.php');
 
@@ -14,6 +14,7 @@ if($sub=='Submit'){
    	$user['surname']=clean_text($_POST['surname']);
    	$user['forename']=clean_text($_POST['forename']);
    	$user['email']=($_POST['email']);
+   	$user['emailpasswd']=($_POST['emailpasswd']);
    	$user['role']=$_POST['role'];
    	$user['firstbookpref']=clean_text($_POST['book']);
    	$user['worklevel']=$_POST['worklevel'];

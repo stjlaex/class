@@ -67,7 +67,8 @@ function list_responsible_users($tid,$respons,$r=0){
 		subject_id LIKE '$rbid' AND course_id LIKE '$rcrid' ORDER BY id");
 		while($cid=mysql_fetch_row($d_cids)){
 			$d_users=mysql_query("SELECT DISTINCT uid,
-			   	username, passwd, forename, surname, email, nologin,
+			   	username, passwd, forename, surname, email,
+				emailpasswd, nologin,
 				firstbookpref, role FROM users JOIN tidcid ON 
 				users.username=tidcid.teacher_id WHERE
 				tidcid.class_id='$cid[0]' ORDER BY username");
@@ -97,7 +98,8 @@ function list_pastoral_users($ryid,$perms){
 			AND yeargroup_id LIKE '$ryid'");
 	$gid=mysql_result($d_group,0);
 	$d_users=mysql_query("SELECT DISTINCT users.uid,
-			   	username, passwd, forename, surname, email, nologin,
+			   	username, passwd, forename, surname, email,
+				emailpasswd, nologin,
 				firstbookpref, role FROM users JOIN perms ON 
 				users.uid=perms.uid WHERE perms.gid='$gid' AND perms.r='$r' 
 				AND perms.w='$w' AND perms.x='$x'");
@@ -113,7 +115,7 @@ function list_pastoral_users($ryid,$perms){
 function list_all_users($nologin='%'){
    	$users=array();
 	$d_users=mysql_query("SELECT uid, username, passwd, forename,
-				surname, email, nologin, firstbookpref, role, worklevel
+				surname, email, emailpasswd, nologin, firstbookpref, role, worklevel
 				FROM users WHERE nologin LIKE '$nologin' ORDER BY role, username");
 	while($user=mysql_fetch_array($d_users,MYSQL_ASSOC)){;
 		$uid=$user['uid'];
@@ -132,7 +134,7 @@ function list_teacher_users($crid='',$bid=''){
 		while($teacher=mysql_fetch_array($d_teacher,MYSQL_ASSOC)){
 			$tid=$teacher['teacher_id'];
 			$d_users=mysql_query("SELECT uid, username, passwd, forename,
-				surname, email, nologin, firstbookpref, role, worklevel
+				surname, email, emailpasswd, nologin, firstbookpref, role, worklevel
 				FROM users WHERE username='$tid'");
 			$user=mysql_fetch_array($d_users,MYSQL_ASSOC);
 			$users[$tid]=$user;
@@ -141,7 +143,8 @@ function list_teacher_users($crid='',$bid=''){
 	else{
 		/*Otherwise just return all active teaching staff ie. nologin=0*/
 		$d_user=mysql_query("SELECT uid, username, passwd, forename,
-				surname, email, nologin, firstbookpref, role, worklevel FROM users WHERE
+				surname, email, emailpasswd, 
+				nologin, firstbookpref, role, worklevel FROM users WHERE
 				(role='teacher' or role='admin') AND nologin='0' AND
 				username!='administrator' ORDER BY username");
 		while($user=mysql_fetch_array($d_user,MYSQL_ASSOC)){
@@ -156,6 +159,12 @@ function getUid($tid){
 	$d_users=mysql_query("SELECT uid FROM users WHERE username='$tid'");
 	$uid=mysql_result($d_users,0);
 	return $uid;
+	}
+
+function get_user($tid){
+	$d_users=mysql_query("SELECT * FROM users WHERE username='$tid'");
+	$user=mysql_fetch_array($d_users,MYSQL_ASSOC);
+	return $user;
 	}
 
 function checkCurrentRespon($r,$respons,$required='subject'){
@@ -305,6 +314,8 @@ function list_pastoral_respon($respons){
 	}
 
 function update_user($user,$update='no',$short='class'){
+	global $CFG;
+	$result='';
 	/* Optional $update='yes' will amend an existing record.*/
 	$username=$user['username'];
 	$surname=checkEntry($user['surname']);
@@ -333,10 +344,18 @@ function update_user($user,$update='no',$short='class'){
 	   if(eregi('^[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.([a-zA-Z]{2,4})$', $user['email'])){ 
 			$user['email']=strtolower($user['email']);
 			$email=$user['email'];
+			/*endecrypt is the rc4 encryption function from moodlelib*/
+			/*the same function (and webmailshare!) needs to be used
+			/*by the webmail app to decrypt the passwd if its passed encrypted*/
+			/*NB. changing webmailshare will invalidate any email
+			/*passwds already stored in the class db*/
+			$emailpasswd=endecrypt($CFG->webmailshare,$user['emailpasswd']);
+			//$emailpasswd=$user['emailpasswd'];
 	   		}
 		}
 	else{
 		$email='';
+		$emailpasswd='';
 		}
     if(isset($user['nologin'])){$nologin=$user['nologin'];}else{$nologin='0';}
 
@@ -344,7 +363,7 @@ function update_user($user,$update='no',$short='class'){
    	/*userno, this formula should be personalised to meet your needs*/
 	/*The userno should be unique to each staff login, is not stored in*/
 	/*the database and should be recorded elsewhere for reference if needed*/
-	if($user['passwd']!=''){$passwd=$user['passwd'];}
+	if(isset($user['passwd']) and $user['passwd']!=''){$passwd=$user['passwd'];}
 	elseif(isset($user['userno'])){$passwd=$short.$user['userno'];}
 	if(isset($passwd)){$assword=md5($passwd);}
 	else{$assword='';}
@@ -360,17 +379,17 @@ function update_user($user,$update='no',$short='class'){
 		  else{
 			  mysql_query("UPDATE users SET
 				  surname='$surname', forename='$forename',
-							email='$email', role='$role', worklevel='$worklevel',
-							nologin='$nologin',
+							email='$email', emailpasswd='$emailpasswd', 
+					role='$role', worklevel='$worklevel', nologin='$nologin',
 					firstbookpref='$firstbookpref' WHERE username='$username'");
 			  $result=$result.'Updated details for user '.$username;
 			}
 		}
 	else{
 		mysql_query("INSERT INTO users (username, passwd, forename, surname,
-					email, role, nologin, worklevel, firstbookpref) 
+					email, emailpasswd, role, nologin, worklevel, firstbookpref) 
 					VALUES ('$username', '$assword', '$forename',
-					'$surname', '$email', '$role', '$nologin', '$worklevel',
+					'$surname', '$email', '$emailpasswd', '$role', '$nologin', '$worklevel',
 							'$firstbookpref')");
 		$result=$result.'Username '.$username.' added.';
 		}
@@ -403,4 +422,71 @@ function update_staff_perms($uid,$gid,$newperms){
 		}
 	return $result;
 	}
+
+/**
+ * Taken from Moodle (lib/moodlelib.php) for ClaSS without ammendment
+ * Based on a class by Mukul Sabharwal [mukulsabharwal @ yahoo.com]
+ *
+ * @param string $pwd ?
+ * @param string $data ?
+ * @param string $case ?
+ * @return string
+ * @todo Finish documenting this function
+ */
+function endecrypt ($pwd, $data, $case='en') {
+
+    if ($case == 'de') {
+        $data = urldecode($data);
+    }
+
+    $key[] = '';
+    $box[] = '';
+    $temp_swap = '';
+    $pwd_length = 0;
+
+    $pwd_length = strlen($pwd);
+
+    for ($i = 0; $i <= 255; $i++) {
+        $key[$i] = ord(substr($pwd, ($i % $pwd_length), 1));
+        $box[$i] = $i;
+    }
+
+    $x = 0;
+
+    for ($i = 0; $i <= 255; $i++) {
+        $x = ($x + $box[$i] + $key[$i]) % 256;
+        $temp_swap = $box[$i];
+        $box[$i] = $box[$x];
+        $box[$x] = $temp_swap;
+    }
+
+    $temp = '';
+    $k = '';
+
+    $cipherby = '';
+    $cipher = '';
+
+    $a = 0;
+    $j = 0;
+
+    for ($i = 0; $i < strlen($data); $i++) {
+        $a = ($a + 1) % 256;
+        $j = ($j + $box[$a]) % 256;
+        $temp = $box[$a];
+        $box[$a] = $box[$j];
+        $box[$j] = $temp;
+        $k = $box[(($box[$a] + $box[$j]) % 256)];
+        $cipherby = ord(substr($data, $i, 1)) ^ $k;
+        $cipher .= chr($cipherby);
+    }
+
+    if ($case == 'de') {
+        $cipher = urldecode(urlencode($cipher));
+    } else {
+        $cipher = urlencode($cipher);
+    }
+
+    return $cipher;
+}
+
 ?>

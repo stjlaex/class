@@ -51,7 +51,12 @@ function xmlechoer($rootName,$xmlentry){
 	echo $xml;
 	}
 
-function xmlprocessor($xml,$xsl_filename){
+/* Combines an $xml string with an xsl file which it reads, writes the */
+/* html output to a file if (output_filename is set) otherwise just */
+/* returns the html*/
+/* Any ouput currently goes to the toplevel directory reports.*/
+/* Still under development!!!!*/
+function xmlprocessor($xml,$xsl_filename,$output_filename=NULL){
 	global $CFG;
 	$arguments=array(
 					 '/_xml' => $xml
@@ -60,19 +65,16 @@ function xmlprocessor($xml,$xsl_filename){
 	$parameters=array(
 					   );
 	$xh=xslt_create();
-	$filebase='file://'.$CFG->installpath . '/templates/';
+	$filebase='file://'.$CFG->installpath;
 	xslt_set_base($xh,$filebase);
+	if($output_filename!=''){$output_filename=$filebase.'/reports/'.$output_filename;}
 	$html=xslt_process($xh
 					   ,'arg:/_xml'
-					   ,$xsl_filename 
-					   //,NULL
-					   ,'output.html'
+					   ,$filebase.'/templates/'.$xsl_filename 
+					   ,$output_filename
 					   ,$arguments
 					   );
 	if(empty($html)){
-		trigger_error('XSLT processing error: '. xslt_error($xh), E_USER_WARNING);
-		}
-	else{
 		trigger_error('XSLT processing error: '. xslt_error($xh), E_USER_WARNING);
 		}
 
@@ -80,6 +82,7 @@ function xmlprocessor($xml,$xsl_filename){
 	return $html;
 	}
 
+/*Reads an xml file and xsl file, writes output to a third file*/
 function xmlfileprocessor($xml_filename,$xsl_filename){
 	global $CFG;
 

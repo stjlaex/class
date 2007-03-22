@@ -9,7 +9,6 @@
 
 $action='portfolio_accounts.php';
 
-//if(isset($_POST['sids'])){$sids=(array)$_POST['sids'];}else{$sids=array();}
 //if(isset($_POST['yid'])){$yid=$_POST['yid'];}else{$yid='';}
 //if(isset($_POST['fid'])){$fid=$_POST['fid'];}else{$fid='';}
 

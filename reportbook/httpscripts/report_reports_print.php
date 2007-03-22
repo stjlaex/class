@@ -1,5 +1,5 @@
 <?php
-/**									httpscripts/report_reports_print.php
+/**			   					httpscripts/report_reports_print.php
  */
 
 require_once('../../scripts/http_head_options.php');
@@ -20,7 +20,7 @@ if(isset($_POST['rids'])){$rids=(array) $_POST['rids'];}
 		for($c=0;$c<sizeof($rids);$c++){
 			$reportdefs[]=fetchReportDefinition($rids[$c]);
 			}
-		
+
 		$Students=array();
 		$Students['Student']=array();
 		/*doing one student at a time*/

@@ -214,6 +214,7 @@ function getEnumArray($field_name) {
 	/*for the info table*/
 	$boarder=array('N' => 'notaboarder',
 				   'B' => 'boarder',
+				   'H' => 'hostfamily',
 				   '6' => 'boardersixnightsorless', 
 				   '7' => 'boardersevennights');
 	$religion=array('NOT' => 'informationnotobtained', 
@@ -243,7 +244,7 @@ function getEnumArray($field_name) {
 					   'M' => 'currentmain(dualregistration)');
 	$transportmode=array('NOT' => 'informationnotobtained', 
 						 'F' => 'onfoot', 'C' => 'privatecar', 
-						 'T' => 'train', 'B' => 'bus', 'S' => 'schoolbus',);
+						 'T' => 'train', 'B' => 'bus', 'S' => 'schoolbus');
 
 	/*for the gidsid table*/
 	$priority=array('0' => 'first', '1' => 'second', '2' => 'third', '3' => 'fourth');

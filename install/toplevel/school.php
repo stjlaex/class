@@ -63,7 +63,7 @@ $CFG->lms_db='classmoodle';
 $CFG->webmailsite='http://webmail.demo.org';
 $CFG->webmailtabname='WebMail';
 $CFG->webmailshare='secret';
-$CFG->webmail_db='classmail';
+$CFG->webmail_db='';/*probably not needed!*/
 /*optional details of the statement bank for writing report comments*/
 $CFG->statementbank_db='';
 /*****

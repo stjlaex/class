@@ -1,5 +1,6 @@
 <?php 
 /**												  eportfolio.php
+ *
  *	This is the hostpage for the eportfolio
  *  It currently works only with a customised install of Elgg
  */
@@ -12,7 +13,20 @@ $ip=$_SERVER['REMOTE_ADDR'];
 $salt=$CFG->eportfolioshare;
 $secret=md5($salt . $ip);
 $token=md5(strtolower($tid) . $secret);
-//trigger_error('epf '.$tid.': '.$ip.' '.$salt,E_USER_WARNING);
+$entrypage='login/index.php';
+$externalparams=array(
+			  'action' => 'login',
+			  'lang' => current_language(),
+			  'password' => $token,
+			  'username' => $tid
+			  );
+/*construct the redirect string*/
+$externalred=$CFG->eportfoliosite . '/'.$entrypage;
+while(list($param,$value)=each($externalparams)){
+	if(!isset($joiner)){$joiner='?';}
+	else{$joiner='&';}
+	$externalred=$externalred . $joiner . $param . '=' . $value;
+	}
 ?>
 
   <div style="visibility:hidden;" id="hiddenbookoptions">	
@@ -30,4 +44,4 @@ $token=md5(strtolower($tid) . $secret);
 <?php
 	  include('scripts/end_options.php');
 ?>
-<script>frames["externalbook"].location.href="<?php print $CFG->eportfoliosite;?>/login/index.php?password=<?php print $token;?>&username=<?php print $tid;?>";</script>
+<script>frames["externalbook"].location.href="<?php print $externalred;?>";</script>

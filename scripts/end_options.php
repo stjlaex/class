@@ -4,7 +4,11 @@
 ?>
 <script>parent.loadBookOptions("<?php print $book;?>")</script>
 <div id="helpcontent" class="hidden">
-<?php print $book.' current='.$current.' - action='.$action.' -	cancel='.$cancel;?>
+<?php 
+print $book;
+if(isset($current)){print ' current='.$current.' - action='.$action.' - cancel='.$cancel;}
+else{$current='';}
+?>
 </div>
 <?php
 if($current!=''){

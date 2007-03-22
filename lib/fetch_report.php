@@ -17,7 +17,9 @@ function fetchSubjectReports($sid,$reportdefs){
 
 		/*collect all subject reports for each course report chosen*/
 		while(list($index,$reportdef)=each($reportdefs)){
+
 			$rid=$reportdef['rid'];
+			//trigger_error('reportdef: '.$rid,E_USER_WARNING);
 			/*index the assessments by subject and component*/
 			$repbids=array();
 			while(list($index,$eid)=each($reportdef['eids'])){

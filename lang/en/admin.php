@@ -112,5 +112,5 @@ $string['disablelogin']='Disable login';
 $string['mistakematchingpasswords']='The passwords don\'t match: please try again!';
 $string['emailtostaffisdisabled']='Emails to staff are disabled (you need to edit your school.php file to change this.)';
 $string['refreshportfolios']='Refresh portfolios';
-$string['']='';
+$string['emailpassword']='Webmail password';
 ?>

@@ -1,3 +1,19 @@
+Version ClaSS-0.8.13 release (2007/03/29)
+-----------------------------------------
+
+Standardised on an externalparams array for constructing the link in
+all the externalbooks.
+
+New field added to table users to hold the emailpasswd needed to feed
+to the external webmail app (use the patch!!!). This is encrypted
+before storing in the db using endecrypt taken from moodlelib. The
+same function is needed at the other end (in the webmail app) to
+decrypt the password upon receipt.
+
+The xmlprocessor function is under development for publishing reports
+to files.
+
+
 Version ClaSS-0.8.12 release (2007/03/15)
 -----------------------------------------
 

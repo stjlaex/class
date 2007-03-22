@@ -114,6 +114,7 @@ CREATE TABLE  users (
   forename		varchar(50) NOT NULL DEFAULT '',
   surname		varchar(50) NOT NULL DEFAULT '',
   email			varchar(200) NOT NULL DEFAULT '',
+  emailpasswd	char(32) binary NOT NULL default '',
   language		varchar(10) NOT NULL DEFAULT '',
   firstbookpref varchar(20),
   role			varchar(20),
