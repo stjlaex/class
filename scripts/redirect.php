@@ -135,6 +135,11 @@ if(isset($comtype)){
 	 	<input type="hidden" name="comtype" value="<?php print $comtype;?>">
 <?php
 	}
+if(isset($comname)){
+?>
+	 	<input type="hidden" name="comname" value="<?php print $comname;?>">
+<?php
+	}
 if(isset($contactno)){
 ?>
 	 	<input type="hidden" name="contactno" value="<?php print $contactno;?>">

@@ -9,9 +9,10 @@ $action='search_action1.php'
 
 	<fieldset class="infobook">
 		<legend><?php print_string('studentgroups');?></legend>
-<?php	
+<?php
 	$onsidechange='yes'; include('scripts/list_year.php');
 	$onsidechange='yes'; include('scripts/list_form.php');
+	$listtype='applied'; $onsidechange='yes'; include('scripts/list_community.php');
 ?>
 	</fieldset>
 

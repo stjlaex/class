@@ -164,7 +164,7 @@ CREATE TABLE community (
 	id			int unsigned not null auto_increment, 
 	name		varchar(30) not null default '', 
     type		enum('','family','form','year','tutor','alumni','enquired','applied','accepted','trip','reg','stop','extra') not null default '',
-    details		varchar(240) not null default '',
+    detail		varchar(240) not null default '',
 	unique		indexcom (type,name),
 	primary key (id)
 );");

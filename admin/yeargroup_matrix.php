@@ -52,7 +52,7 @@ three_buttonmenu();
 		  <td>
 <?php
 		if($perms['w']==1){
-			print '<a href="admin.php?current=yeargroup_edit.php&cancel='.$choice.'&choice='.$choice.'&newtid='.$tid.'&newyid='.$yid.'">'.$year['name'].'</a>';
+			print '<a href="admin.php?current=yeargroup_edit.php&cancel='.$choice.'&choice='.$choice.'&newtid='.$tid.'&comtype=year'.'&comname='.$yid.'">'.$year['name'].'</a>';
 			}
 		else{
 	   		print $year['name'];
@@ -115,17 +115,24 @@ three_buttonmenu();
 		</tr>
 <?php
 
-		$communities=array();
-		$communities[]=array('type'=>'enquired','name'=>'enquired');
-		$communities[]=array('type'=>'applied','name'=>'applied');
-		$communities[]=array('type'=>'accepted','name'=>'accepted');
-		$communities[]=array('type'=>'alumni','name'=>get_curriculumyear());
-		while(list($index,$community)=each($communities)){
-			$nosids=countin_community($community);
-			print '<tr><td>';
-	   		print '<a href="admin.php?current=yeargroup_edit.php&cancel='.$choice.'&choice='.$choice.'&comtype='.$community['type'].'">'.get_string($community['type'],'infobook').'</a>';
-			print '</td>';
-			print '<td>'.$nosids.'</td></tr>';
+		$comtypes=array();
+		$comtypes[]='enquired';
+		$comtypes[]='applied';
+		$comtypes[]='accepted';
+		//$comtypes[]='alumni';
+		//$communities[]=array('type'=>'alumni','name'=>get_curriculumyear());
+		while(list($index,$comtype)=each($comtypes)){
+			$communities=(array)list_communities($comtype);
+			print '<tr><th colspan="2">'.get_string($comtype,'infobook').'</th></tr>';
+
+			while(list($index,$community)=each($communities)){
+				$description=displayEnum($community['name'],'enrolstatus');
+				$nosids=countin_community($community);
+				print '<tr><td>';
+				print '<a href="admin.php?current=yeargroup_edit.php&cancel='.$choice.'&choice='.$choice.'&comtype='.$community['type'].'&comname='.$community['name'].'">'.get_string($description,'infobook').'</a>';
+				print '</td>';
+				print '<td>'.$nosids.'</td></tr>';
+				}
 			}
 ?>
 	  </table>

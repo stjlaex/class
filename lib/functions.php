@@ -198,15 +198,16 @@ function checkEnum($value, $field_name) {
 	return $value;
 	}
 
-/**/
-function displayEnum($value, $field_name) {
+/*Uses the enum $value for the enum $field_name to look up and return the $description*/
+/*call this before displaying the lang string*/
+function displayEnum($value, $field_name){
 	$value=strtoupper($value);
 	$enumarray=getEnumArray($field_name);
 	$description=$enumarray[$value];
 	return $description;
 	}
 
-/*Retursn the array of valid enum values and their meanings for a field*/
+/*Returns the array of valid enum values and their meanings for a field*/
 function getEnumArray($field_name) {
 	/*for the student table*/
 	$gender=array('M' => 'male', 'F' => 'female');

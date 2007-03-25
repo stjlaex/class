@@ -4,6 +4,10 @@
 
 $action='student_list.php';
 
+if(isset($_POST['comid'])){
+	$comid=$_POST['comid'];
+	}
+
 if(isset($_POST['forename'])){$forename=clean_text($_POST['forename']);}else{$forename='';}
 if(isset($_POST['surname'])){$surname=clean_text($_POST['surname']);}else{$surname='';}
 if(isset($_POST['newyid'])){$newyid=$_POST['newyid'];}

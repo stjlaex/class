@@ -211,6 +211,7 @@ function list_select_db($d_list,$vars,$book=''){
 	tabindex="<?php print $vars['tab'];?>"  
 	<?php print $vars['style'];?>
 	<?php if($vars['onsidechange']=='yes'){print ' onChange="document.'.$book.'choice.submit();"';}?>
+	<?php if($vars['onchange']=='yes'){print ' onChange="processContent(this);"';}?>
 	<?php if($vars['required']=='yes'){ print ' class="required" ';} ?>
 	>
     <option value=""></option>
@@ -240,6 +241,7 @@ function list_select_list($list,$vars,$book=''){
 	tabindex="<?php print $vars['tab'];?>"  
 	<?php print $vars['style'];?>
 	<?php if($vars['onsidechange']=='yes'){print ' onChange="document.'.$book.'choice.submit();"';}?>
+	<?php if($vars['onchange']=='yes'){print ' onChange="processContent(this);"';}?>
 	<?php if($vars['required']=='yes'){ print ' class="required" ';} ?>
 	>
     <option value=""></option>

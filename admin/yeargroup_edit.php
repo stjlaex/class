@@ -1,52 +1,60 @@
 <?php 
-/**											   yeargroup_edit.php
+/**			   						   yeargroup_edit.php
  */
+
 $action='yeargroup_edit_action.php';
 $cancel='yeargroup_matrix.php';
 
-if(isset($_GET['newyid'])){$yid=$_GET['newyid'];}
-if(isset($_GET['newtid'])){$newtid=$_GET['newtid'];}else{$newtid='';}
 if(isset($_GET['comtype'])){$comtype=$_GET['comtype'];}else{$comtype='year';}
-if(isset($_POST['yid'])){$yid=$_POST['yid'];}
-if(isset($_POST['comtype'])){$comtype=$_POST['comtype'];}
+if(isset($_GET['comname'])){$comname=$_GET['comname'];}else{$comname='';}
+if(isset($_POST['comid'])){$comid=$_POST['comid'];}else{$comid='';}
 if(isset($_POST['newcomid'])){$newcomid=$_POST['newcomid'];}else{$newcomid='';}
-if(isset($_POST['newtid'])){$newtid=$_POST['newtid'];}
 
 
-if($newcomid!=''){$newcommunity=array('id'=>$newcomid);}
-
-if($comtype=='year'){
-	/*Check user has permission to edit*/
-	$perm=getYearPerm($yid,$respons);
-	$neededperm='w';
-	include('scripts/perm_action.php');
-
-	$d_year=mysql_query("SELECT name FROM yeargroup WHERE id='$yid'");
-	$yeargroup=mysql_fetch_array($d_year, MYSQL_ASSOC);
-	if($newcomid==''){$newcommunity=array('type'=>'year','name'=>'none');}
-	}
-elseif($comtype=='alumni'){
-	$yeargroup['name']=get_string($comtype,'infobook');
-	$yid=get_curriculumyear();
-	if($newcomid==''){
-		$newcommunity=array('type'=>'year','name'=>'none');
+	if($newcomid!=''){
+		$newcommunity=get_community($newcomid);
 		}
-	}
-else{
-	$yeargroup['name']=get_string($comtype,'infobook');
-	$yid=$comtype;
-	if($newcomid=='' and $comtype=='applied'){
-		$newcommunity=array('type'=>'enquired','name'=>'enquired');
+	if($comid!=''){
+		$currentcommunity=get_community($comid);
+		$comtype=$currentcommunity['type'];
+		$comname=$currentcommunity['name'];
 		}
-	elseif($newcomid=='' and $comtype=='accepted'){
-		$newcommunity=array('type'=>'accepted','name'=>'accepted');
+	else{
+		$currentcommunity=array('type'=>$comtype,'name'=>$comname);
+		$comid=update_community($currentcommunity);
 		}
-	}
-	$yearcommunity=array('type'=>$comtype,'name'=>$yid);
-	$oldstudents=listin_community($yearcommunity);
-	$newstudents=listin_union_communities($yearcommunity,$newcommunity);
 
-	three_buttonmenu($extrabuttons);
+	if($comtype=='year'){
+		/*Check user has permission to edit*/
+		$perm=getYearPerm($comname,$respons);
+		$neededperm='w';
+		include('scripts/perm_action.php');
+	
+		$d_year=mysql_query("SELECT name FROM yeargroup WHERE id='$comname'");
+		$displayname=mysql_result($d_year,0);
+		if($newcomid==''){$newcommunity=array('type'=>'year','name'=>'none');}
+		}
+	elseif($comtype=='alumni'){
+		$displayname=get_string($comtype,'infobook');
+		//$yid=get_curriculumyear();
+		if($newcomid==''){$newcommunity=array('type'=>'year','name'=>'none');}
+		}
+	else{
+		/*or enquired, applied, accepted*/
+		$displayname=get_string($comtype,'infobook').' '.$comname;
+		if($newcomid=='' and $comtype=='applied'){
+			$newcommunity=array('type'=>'enquired','name'=>'EN');
+			}
+		elseif($newcomid=='' and $comtype=='accepted'){
+			$newcommunity=array('type'=>'accepted','name'=>'AC');
+			}
+		}
+
+	$oldstudents=listin_community($currentcommunity);
+	$newstudents=listin_union_communities($currentcommunity,$newcommunity);
+
+
+	three_buttonmenu();
 ?>
   <div class="content">
 	<form name="formtoprocess" id="formtoprocess" method="post"
@@ -60,7 +68,7 @@ else{
 		  </caption>
 		  <tr>
 			<th>
-			  <?php print $yeargroup['name'];?>
+			  <?php print $displayname;?>
 			</th>
 			<td>
 			  <?php print_string('remove');?><br />
@@ -85,7 +93,7 @@ else{
 		<legend><?php print_string('changegroup',$book);?></legend>
 		  <div class="center">
 <?php
-			$onchange='yes';$required='no';$type='year';$multi='1';
+			$onchange='yes';$type='year';
 			$selcomids=array($newcomid);
 			include('scripts/list_community.php');
 ?>
@@ -123,11 +131,8 @@ else{
 		</div>
 		</fieldset>
 	  </div>
-	<input type="hidden" name="yid" value="<?php print $yid;?>" /> 
-	<input type="hidden" name="name" value="<?php print $yid;?>" /> 
-	<input type="hidden" name="comtype" value="<?php print $comtype;?>" /> 
-	<input type="hidden" name="newtid" value="<?php print $newtid;?>" />
-	<input type="hidden" name="newyid" value="<?php print $newyid;?>" />
+
+	<input type="hidden" name="comid" value="<?php print $comid;?>" /> 
 	<input type="hidden" name="choice" value="<?php print $choice;?>" />
 	<input type="hidden" name="current" value="<?php print $action;?>" />
 	<input type="hidden" name="cancel" value="<?php print $cancel;?>" />

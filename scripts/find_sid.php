@@ -15,7 +15,7 @@ if($surname!=''){
 		$rows=mysql_num_rows($d_sids);
 		if($rows==0) {$result[]='Failed to find '.$surname.', '.$forename.'.';}
 		}
-	else if($newfid!=''){
+	elseif($newfid!=''){
 		$d_sids=mysql_query("SELECT * FROM student WHERE 
 		MATCH (surname) AGAINST ('$surname*' IN BOOLEAN MODE) 
 		AND form_id='$newfid' ORDER BY surname, forename");

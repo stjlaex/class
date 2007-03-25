@@ -38,9 +38,11 @@ if($sub=='Submit'){
 	else{
 		if($enrolstatus=='P'){$comtype='alumni';}
 		elseif($enrolstatus=='EN'){$comtype='enquired';}
-		elseif($enrolstatus=='AP'){$comtype='applied';}
 		elseif($enrolstatus=='AC'){$comtype='accepted';}
-		$comname=$comtype;
+		/*all other enrolstatus values place the student within the*/
+		/*application procedure*/
+		else{$comtype='applied';}
+		$comname=$enrolstatus;
 		}
 
 	$community=array('id'=>'','type'=>$comtype,'name'=>$comname);

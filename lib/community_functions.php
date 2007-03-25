@@ -3,7 +3,7 @@
 /* return an array of communitites of one particular type*/
 function list_communities($type=''){
 	if($type!=''){
-		$d_com=mysql_query("SELECT id, name FROM community WHERE 
+		$d_com=mysql_query("SELECT id, name, detail FROM community WHERE 
 								type='$type' ORDER BY name");
 		$communities=array();
 		while($com=mysql_fetch_array($d_com,MYSQL_ASSOC)){
@@ -11,15 +11,16 @@ function list_communities($type=''){
 			$community['id']=$com['id'];
 			$community['type']=$type;
 			$community['name']=$com['name'];
+			$community['detail']=$com['detail'];
 			$communities[]=$community;
 			}
 		}
 	return $communities;
 	}
 
-/*Returns the Community identified by its comid*/
+/*Returns the xml Community identified by its comid*/
 function fetchCommunity($comid=''){
-  	$d_com=mysql_query("SELECT name, type FROM community WHERE id='$comid'");
+  	$d_com=mysql_query("SELECT name, type, detail FROM community WHERE id='$comid'");
 	$com=mysql_fetch_array($d_com,MYSQL_ASSOC);
 	$Community=array();
 	$Community['id_db']=$comid;
@@ -27,7 +28,29 @@ function fetchCommunity($comid=''){
 							 'value' => ''.$com['type']);
 	$Community['Name']=array('label' => 'name',
 							 'value' => ''.$com['name']);
+	$Community['Detail']=array('label' => 'name',
+							 'value' => ''.$com['detail']);
 	return $Community;
+	}
+
+/*Returns the a community array identified by its comid*/
+function get_community($comid=''){
+	$community=array();
+  	$d_com=mysql_query("SELECT name, type, detail FROM community WHERE id='$comid'");
+	if(mysql_num_rows($d_com)>0){
+		$com=mysql_fetch_array($d_com,MYSQL_ASSOC);
+		$community['id']=$comid;
+		$community['type']=$com['type'];
+		$community['name']=$com['name'];
+		$community['detail']=$com['detail'];
+		}
+	else{
+		$community['id']='';
+		$community['type']='';
+		$community['name']='';
+		$community['detail']='';
+		}
+	return $community;
 	}
 
 /* checks for a community and either updates or creates*/
@@ -39,21 +62,22 @@ function update_community($community,$communityfresh=array('id'=>'','type'=>'','
 	//trigger_error('upcom type:'.$type.' name:'.$name,E_USER_WARNING);
 	$typefresh=$communityfresh['type'];
 	$namefresh=$communityfresh['name'];
-	if(isset($community['details'])){$details=$community['details'];}
+	if(isset($community['detail'])){$detail=$community['detail'];}
+	else{$detail='';}
 	if($type!='' and $name!=''){
 		$d_community=mysql_query("SELECT id FROM community WHERE
 				type='$type' AND name='$name'");	
 		if(mysql_num_rows($d_community)==0){
-			mysql_query("INSERT INTO community (name,type,details) VALUES
-				('$name', '$type', '$details')");
+			mysql_query("INSERT INTO community (name,type,detail) VALUES
+				('$name', '$type', '$detail')");
 			$comid=mysql_insert_id();
 			}
 		else{
 			$comid=mysql_result($d_community,0);
 			if($typefresh!='' and $namefresh!=''){
-				if(isset($communityfresh['details'])){$detailsfresh=$communityfresh['details'];}
+				if(isset($communityfresh['detail'])){$detailfresh=$communityfresh['detail'];}
 				mysql_query("UPDATE community SET type='$typefresh',
-							name='$namefresh', details='$detailsfresh' WHERE name='$name'
+							name='$namefresh', detail='$detailfresh' WHERE name='$name'
 								AND type='$type'");
 				}
 			}
@@ -64,9 +88,9 @@ function update_community($community,$communityfresh=array('id'=>'','type'=>'','
 
 /*Lists all sids who are current members of a commmunity*/
 function listin_union_communities($community1,$community2){
-	if($community1['id']!=''){$comid1=$community1['id'];}
+	if(isset($community1['id']) and $community1['id']!=''){$comid1=$community1['id'];}
 	else{$comid1=update_community($community1);}
-	if($community2['id']!=''){$comid2=$community2['id'];}
+	if(isset($community2['id']) and $community2['id']!=''){$comid2=$community2['id'];}
 	else{$comid2=update_community($community2);}
 
 	mysql_query("CREATE TEMPORARY TABLE com1students
@@ -103,7 +127,7 @@ function listin_union_communities($community1,$community2){
 
 /*Lists all sids who are current members of a commmunity*/
 function listin_community($community){
-	if($community['id']!=''){$comid=$community['id'];}
+	if(isset($community['id']) and $community['id']!=''){$comid=$community['id'];}
 	else{$comid=update_community($community);}
 	$d_student=mysql_query("SELECT id, surname,
 				forename, form_id FROM student 
@@ -120,7 +144,7 @@ function listin_community($community){
 
 /*simply does what it says*/
 function countin_community($community){
-	if($community['id']!=''){$comid=$community['id'];}
+	if(isset($community['id']) and $community['id']!=''){$comid=$community['id'];}
 	else{$comid=update_community($community);}
 	$d_student=mysql_query("SELECT COUNT(student_id) FROM comidsid
 							  WHERE community_id='$comid' AND
@@ -184,6 +208,9 @@ function join_community($sid,$community){
 	from old group first, and also where student progresses through
 	application procedure from enquired to apllied to accepted to year*/
 	$oldtypes=array();
+	$oldtypes[]='accepted';
+	$oldtypes[]='applied';
+	$oldtypes[]='enquired';
     if($type=='form'){
 		$studentfield='form_id';
 		$oldtypes[]=$type;
@@ -198,18 +225,22 @@ function join_community($sid,$community){
 		$studentfield='yeargroup_id';
 		$oldtypes[]='form';
 		$oldtypes[]=$type;
-		$oldtypes[]='accepted';
-		$oldtypes[]='applied';
-		$oldtypes[]='enquired';
 		$enrolstatus='C';
 		/*on current roll so can't just disappear*/
 		if($name=='' or $name=='none'){$name='none';$community['name']='none';}
 		}
 	elseif($type=='alumni'){
+		/*remove form current roll*/
 		$oldtypes[]='year';
 		$oldtypes[]='form';
 		$enrolstatus='P';
 		}
+	else{
+		/*remove from previous point in application procedure*/
+		$enrolstatus=$name;
+		}
+
+	/*prior to version 0.8.13
 	elseif($type=='accepted'){
 		$oldtypes[]='applied';
 		$oldtypes[]='enquired';
@@ -222,7 +253,9 @@ function join_community($sid,$community){
 	elseif($type=='enquired'){
 		$enrolstatus='EN';
 		}
-	if($community['id']!=''){$comid=$community['id'];}
+	*/
+
+	if(isset($community['id']) and $community['id']!=''){$comid=$community['id'];}
 	elseif($name!=''){$comid=update_community($community);}
 	else{$comid='';}
 

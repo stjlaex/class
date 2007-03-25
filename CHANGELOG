@@ -17,6 +17,11 @@ Added hostfamily as a valid value for the boarder field and a list of
 additional categories to the enrollment status field. Both additions
 are outside the CBDS.
 
+Exapanded the communties available for enrollment, and added matching
+entries to enrolmentstatus in the info table (patch
+needed!!!). Reworked yeargroup_edit pages to work with these.
+
+
 
 Version ClaSS-0.8.12 release (2007/03/15)
 -----------------------------------------

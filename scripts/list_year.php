@@ -1,7 +1,7 @@
 <?php 
 /**						list_year.php
  */
- 
+
 if(!isset($listname)){$listname='newyid';}
 if(!isset($listlabel)){$listlabel='yeargroup';}
 include('scripts/set_list_variables.php');
