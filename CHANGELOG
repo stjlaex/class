@@ -32,6 +32,12 @@ list_community now compatible with listoptions.
 Reorganised the infobook search scripts and added the option to search
 any community for office and admin users.
 
+Adopted phpmailer library for handling email. This needs instructions
+added to the install. It is called only from send_email_to(), a new
+function adopted from Moodle to handle attachments. Requires new
+config settings in school.php.
+
+ 
 
 Version ClaSS-0.8.12 release (2007/03/15)
 -----------------------------------------
