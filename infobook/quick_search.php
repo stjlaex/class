@@ -1,7 +1,7 @@
 <?php 
 /**										quick_search.php
  */
-$action='search_action1.php'
+$action='search_action.php'
 ?>	
   <div style="visibility:hidden;" id="hiddenbookoptions" class="bookoptions">	
 	<form id="infobookchoice" name="infobookchoice" method="post"
@@ -12,7 +12,9 @@ $action='search_action1.php'
 <?php
 	$onsidechange='yes'; include('scripts/list_year.php');
 	$onsidechange='yes'; include('scripts/list_form.php');
-	$listtype='applied'; $onsidechange='yes'; include('scripts/list_community.php');
+	if($_SESSION['role']=='office' or $_SESSION['role']=='admin'){
+		$listtype='applied'; $onsidechange='yes'; include('scripts/list_community.php');
+		}
 ?>
 	</fieldset>
 

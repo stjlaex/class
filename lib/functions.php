@@ -441,4 +441,279 @@ function fileOpen($path){
 	return $file;
 	}
 
+function file_mimeinfo($element, $filename) {
+    $mimeinfo = array (
+        'xxx'  => array ('type'=>'document/unknown', 'icon'=>'unknown.gif'),
+        '3gp'  => array ('type'=>'video/quicktime', 'icon'=>'video.gif'),
+        'ai'   => array ('type'=>'application/postscript', 'icon'=>'image.gif'),
+        'aif'  => array ('type'=>'audio/x-aiff', 'icon'=>'audio.gif'),
+        'aiff' => array ('type'=>'audio/x-aiff', 'icon'=>'audio.gif'),
+        'aifc' => array ('type'=>'audio/x-aiff', 'icon'=>'audio.gif'),
+        'applescript'  => array ('type'=>'text/plain', 'icon'=>'text.gif'),
+        'asc'  => array ('type'=>'text/plain', 'icon'=>'text.gif'),
+        'asm'  => array ('type'=>'text/plain', 'icon'=>'text.gif'),
+        'au'   => array ('type'=>'audio/au', 'icon'=>'audio.gif'),
+        'avi'  => array ('type'=>'video/x-ms-wm', 'icon'=>'avi.gif'),
+        'bmp'  => array ('type'=>'image/bmp', 'icon'=>'image.gif'),
+        'c'    => array ('type'=>'text/plain', 'icon'=>'text.gif'),
+        'cct'  => array ('type'=>'shockwave/director', 'icon'=>'flash.gif'),
+        'cpp'  => array ('type'=>'text/plain', 'icon'=>'text.gif'),
+        'cs'   => array ('type'=>'application/x-csh', 'icon'=>'text.gif'),
+        'css'  => array ('type'=>'text/css', 'icon'=>'text.gif'),
+        'dv'   => array ('type'=>'video/x-dv', 'icon'=>'video.gif'),
+        'doc'  => array ('type'=>'application/msword', 'icon'=>'word.gif'),
+        'dcr'  => array ('type'=>'application/x-director', 'icon'=>'flash.gif'),
+        'dif'  => array ('type'=>'video/x-dv', 'icon'=>'video.gif'),
+        'dir'  => array ('type'=>'application/x-director', 'icon'=>'flash.gif'),
+        'dxr'  => array ('type'=>'application/x-director', 'icon'=>'flash.gif'),
+        'eps'  => array ('type'=>'application/postscript', 'icon'=>'pdf.gif'),
+        'gif'  => array ('type'=>'image/gif', 'icon'=>'image.gif'),
+        'gtar' => array ('type'=>'application/x-gtar', 'icon'=>'zip.gif'),
+        'gz'   => array ('type'=>'application/g-zip', 'icon'=>'zip.gif'),
+        'gzip' => array ('type'=>'application/g-zip', 'icon'=>'zip.gif'),
+        'h'    => array ('type'=>'text/plain', 'icon'=>'text.gif'),
+        'hpp'  => array ('type'=>'text/plain', 'icon'=>'text.gif'),
+        'hqx'  => array ('type'=>'application/mac-binhex40', 'icon'=>'zip.gif'),
+        'html' => array ('type'=>'text/html', 'icon'=>'html.gif'),
+        'htm'  => array ('type'=>'text/html', 'icon'=>'html.gif'),
+        'java' => array ('type'=>'text/plain', 'icon'=>'text.gif'),
+        'jcb'  => array ('type'=>'text/xml', 'icon'=>'jcb.gif'),
+        'jcl'  => array ('type'=>'text/xml', 'icon'=>'jcl.gif'),
+        'jcw'  => array ('type'=>'text/xml', 'icon'=>'jcw.gif'),
+        'jmt'  => array ('type'=>'text/xml', 'icon'=>'jmt.gif'),
+        'jmx'  => array ('type'=>'text/xml', 'icon'=>'jmx.gif'),
+        'jpe'  => array ('type'=>'image/jpeg', 'icon'=>'image.gif'),
+        'jpeg' => array ('type'=>'image/jpeg', 'icon'=>'image.gif'),
+        'jpg'  => array ('type'=>'image/jpeg', 'icon'=>'image.gif'),
+        'jqz'  => array ('type'=>'text/xml', 'icon'=>'jqz.gif'),
+        'js'   => array ('type'=>'application/x-javascript', 'icon'=>'text.gif'),
+        'latex'=> array ('type'=>'application/x-latex', 'icon'=>'text.gif'),
+        'm'    => array ('type'=>'text/plain', 'icon'=>'text.gif'),
+        'mov'  => array ('type'=>'video/quicktime', 'icon'=>'video.gif'),
+        'movie'=> array ('type'=>'video/x-sgi-movie', 'icon'=>'video.gif'),
+        'm3u'  => array ('type'=>'audio/x-mpegurl', 'icon'=>'audio.gif'),
+        'mp3'  => array ('type'=>'audio/mp3', 'icon'=>'audio.gif'),
+        'mp4'  => array ('type'=>'video/mp4', 'icon'=>'video.gif'),
+        'mpeg' => array ('type'=>'video/mpeg', 'icon'=>'video.gif'),
+        'mpe'  => array ('type'=>'video/mpeg', 'icon'=>'video.gif'),
+        'mpg'  => array ('type'=>'video/mpeg', 'icon'=>'video.gif'),
+
+        'odt'  => array ('type'=>'application/vnd.oasis.opendocument.text', 'icon'=>'odt.gif'),
+        'ott'  => array ('type'=>'application/vnd.oasis.opendocument.text-template', 'icon'=>'odt.gif'),
+        'oth'  => array ('type'=>'application/vnd.oasis.opendocument.text-web', 'icon'=>'odt.gif'),
+        'odm'  => array ('type'=>'application/vnd.oasis.opendocument.text-master', 'icon'=>'odt.gif'),
+        'odg'  => array ('type'=>'application/vnd.oasis.opendocument.graphics', 'icon'=>'odt.gif'),
+        'otg'  => array ('type'=>'application/vnd.oasis.opendocument.graphics-template', 'icon'=>'odt.gif'),
+        'odp'  => array ('type'=>'application/vnd.oasis.opendocument.presentation', 'icon'=>'odt.gif'),
+        'otp'  => array ('type'=>'application/vnd.oasis.opendocument.presentation-template', 'icon'=>'odt.gif'),
+        'ods'  => array ('type'=>'application/vnd.oasis.opendocument.spreadsheet', 'icon'=>'odt.gif'),
+        'ots'  => array ('type'=>'application/vnd.oasis.opendocument.spreadsheet-template', 'icon'=>'odt.gif'),
+        'odc'  => array ('type'=>'application/vnd.oasis.opendocument.chart', 'icon'=>'odt.gif'),
+        'odf'  => array ('type'=>'application/vnd.oasis.opendocument.formula', 'icon'=>'odt.gif'),
+        'odb'  => array ('type'=>'application/vnd.oasis.opendocument.database', 'icon'=>'odt.gif'),
+        'odi'  => array ('type'=>'application/vnd.oasis.opendocument.image', 'icon'=>'odt.gif'),
+
+        'pct'  => array ('type'=>'image/pict', 'icon'=>'image.gif'),
+        'pdf'  => array ('type'=>'application/pdf', 'icon'=>'pdf.gif'),
+        'php'  => array ('type'=>'text/plain', 'icon'=>'text.gif'),
+        'pic'  => array ('type'=>'image/pict', 'icon'=>'image.gif'),
+        'pict' => array ('type'=>'image/pict', 'icon'=>'image.gif'),
+        'png'  => array ('type'=>'image/png', 'icon'=>'image.gif'),
+        'pps'  => array ('type'=>'application/vnd.ms-powerpoint', 'icon'=>'powerpoint.gif'),
+        'ppt'  => array ('type'=>'application/vnd.ms-powerpoint', 'icon'=>'powerpoint.gif'),
+        'ps'   => array ('type'=>'application/postscript', 'icon'=>'pdf.gif'),
+        'qt'   => array ('type'=>'video/quicktime', 'icon'=>'video.gif'),
+        'ra'   => array ('type'=>'audio/x-realaudio', 'icon'=>'audio.gif'),
+        'ram'  => array ('type'=>'audio/x-pn-realaudio', 'icon'=>'audio.gif'),
+        'rhb'  => array ('type'=>'text/xml', 'icon'=>'xml.gif'),
+        'rm'   => array ('type'=>'audio/x-pn-realaudio', 'icon'=>'audio.gif'),
+        'rtf'  => array ('type'=>'text/rtf', 'icon'=>'text.gif'),
+        'rtx'  => array ('type'=>'text/richtext', 'icon'=>'text.gif'),
+        'sh'   => array ('type'=>'application/x-sh', 'icon'=>'text.gif'),
+        'sit'  => array ('type'=>'application/x-stuffit', 'icon'=>'zip.gif'),
+        'smi'  => array ('type'=>'application/smil', 'icon'=>'text.gif'),
+        'smil' => array ('type'=>'application/smil', 'icon'=>'text.gif'),
+        'sqt'  => array ('type'=>'text/xml', 'icon'=>'xml.gif'),
+        'swa'  => array ('type'=>'application/x-director', 'icon'=>'flash.gif'),
+        'swf'  => array ('type'=>'application/x-shockwave-flash', 'icon'=>'flash.gif'),
+        'swfl' => array ('type'=>'application/x-shockwave-flash', 'icon'=>'flash.gif'),
+
+        'sxw'  => array ('type'=>'application/vnd.sun.xml.writer', 'icon'=>'odt.gif'),
+        'stw'  => array ('type'=>'application/vnd.sun.xml.writer.template', 'icon'=>'odt.gif'),
+        'sxc'  => array ('type'=>'application/vnd.sun.xml.calc', 'icon'=>'odt.gif'),
+        'stc'  => array ('type'=>'application/vnd.sun.xml.calc.template', 'icon'=>'odt.gif'),
+        'sxd'  => array ('type'=>'application/vnd.sun.xml.draw', 'icon'=>'odt.gif'),
+        'std'  => array ('type'=>'application/vnd.sun.xml.draw.template', 'icon'=>'odt.gif'),
+        'sxi'  => array ('type'=>'application/vnd.sun.xml.impress', 'icon'=>'odt.gif'),
+        'sti'  => array ('type'=>'application/vnd.sun.xml.impress.template', 'icon'=>'odt.gif'),
+        'sxg'  => array ('type'=>'application/vnd.sun.xml.writer.global', 'icon'=>'odt.gif'),
+        'sxm'  => array ('type'=>'application/vnd.sun.xml.math', 'icon'=>'odt.gif'),
+
+        'tar'  => array ('type'=>'application/x-tar', 'icon'=>'zip.gif'),
+        'tif'  => array ('type'=>'image/tiff', 'icon'=>'image.gif'),
+        'tiff' => array ('type'=>'image/tiff', 'icon'=>'image.gif'),
+        'tex'  => array ('type'=>'application/x-tex', 'icon'=>'text.gif'),
+        'texi' => array ('type'=>'application/x-texinfo', 'icon'=>'text.gif'),
+        'texinfo'  => array ('type'=>'application/x-texinfo', 'icon'=>'text.gif'),
+        'tsv'  => array ('type'=>'text/tab-separated-values', 'icon'=>'text.gif'),
+        'txt'  => array ('type'=>'text/plain', 'icon'=>'text.gif'),
+        'wav'  => array ('type'=>'audio/wav', 'icon'=>'audio.gif'),
+        'wmv'  => array ('type'=>'video/x-ms-wmv', 'icon'=>'avi.gif'),
+        'asf'  => array ('type'=>'video/x-ms-asf', 'icon'=>'avi.gif'),
+        'xls'  => array ('type'=>'application/vnd.ms-excel', 'icon'=>'excel.gif'),
+        'xml'  => array ('type'=>'application/xml', 'icon'=>'xml.gif'),
+        'xsl'  => array ('type'=>'text/xml', 'icon'=>'xml.gif'),
+        'zip'  => array ('type'=>'application/zip', 'icon'=>'zip.gif')
+    );
+
+    if (eregi('\.([a-z0-9]+)$', $filename, $match)) {
+        if (isset($mimeinfo[strtolower($match[1])][$element])) {
+            return $mimeinfo[strtolower($match[1])][$element];
+        } else {
+            return $mimeinfo['xxx'][$element];   // By default
+        }
+    } else {
+        return $mimeinfo['xxx'][$element];   // By default
+    }
+}
+
+/**
+ * Send an email (with attachments)
+ *
+ * Taken from moodlelib and adapted for ClaSS
+ *
+ * @uses $CFG
+ * @uses $_SERVER
+ * @uses SITEID
+ * @param recipient 
+ * @param from 
+ * @param string $subject plain text subject line of the email
+ * @param string $messagetext plain text version of the message
+ * @param string $messagehtml complete html version of the message (optional)
+ * @param string $attachments array of files on the filesystem (extension indicates MIME)
+ * @param boolean $usetrueaddress determines whether $from email address should
+ *          be sent out. Will be overruled by user profile setting for maildisplay
+ * @return boolean|string Returns "true" if mail was sent OK, "emailstop" if email
+ *          was blocked by user and "false" if there was another sort of error.
+ */
+function send_email_to($recipient, $from, $subject, $messagetext, $messagehtml='', $attachments='', $usetrueaddress=true, $repyto='', $replytoname=''){
+
+    global $CFG;
+    include_once('libphp-phpmailer/class.phpmailer.php');//this works for Debian 
+
+    if(empty($recipient)){
+        return false;
+		}
+    if($CFG->emailoff=='yes'){
+        return 'emailstop';
+		}
+	/*    if (over_bounce_threshold($user)) {
+        error_log("User $user->id (".fullname($user).") is over bounce threshold! Not sending.");
+        return false;
+    }
+	*/
+
+    $mail = new phpmailer;
+    $mail->Version = $CFG->version;
+    //$mail->PluginDir = $CFG->libdir .'/libphp-phpmailer/';// plugin directory (eg smtp plugin)
+
+	/*    if(current_language()!='en'){
+        $mail->CharSet = get_string('thischarset');
+		}
+	*/
+
+    if($CFG->emailsmtphosts=='qmail'){
+        $mail->IsQmail();                              // use Qmail system
+		} 
+	else if (empty($CFG->emailsmtphosts)){
+        $mail->IsMail();                               // use PHP mail() = sendmail
+		} 
+	else{
+        $mail->IsSMTP();                               // use SMTP directly
+        if($CFG->debug=='on'){
+            echo '<pre>' . "\n";
+            $mail->SMTPDebug = true;
+			}
+        $mail->Host = $CFG->emailsmtphosts;               // specify main and backup servers
+        if($CFG->smtpuser){                          // Use SMTP authentication
+            $mail->SMTPAuth = true;
+            $mail->Username = $CFG->smtpuser;
+            $mail->Password = $CFG->smtppass;
+			}
+		}
+
+    $adminuser='admin@classforschools.com';
+
+    // for handling bounces
+    if(!empty($CFG->emailhandlebounces)){
+        $mail->Sender = $CFG->emailhandlebounces;
+		}
+    else{
+        $mail->Sender=$adminuser;
+		}
+
+    if(is_string($from)){
+        $mail->From     = $CFG->emailnoreply;
+        $mail->FromName = $from;
+		}
+	else{
+        $mail->From     = $CFG->emailnoreply;
+        $mail->FromName = 'ClaSS';
+        if(empty($replyto)){
+            $mail->AddReplyTo($CFG->emailnoreply,'ClaSS');
+			}
+		}
+
+    if(!empty($replyto)){
+        $mail->AddReplyTo($replyto,$replytoname);
+		}
+
+    $mail->Subject = substr(stripslashes($subject), 0, 900);
+    $mail->AddAddress($recipient,'');
+    $mail->WordWrap = 79;                              // set word wrap
+
+	/*
+    if(!empty($from->customheaders)){                 // Add custom headers
+        if(is_array($from->customheaders)){
+            foreach ($from->customheaders as $customheader) {
+                $mail->AddCustomHeader($customheader);
+            }
+        } else {
+            $mail->AddCustomHeader($from->customheaders);
+        }
+    }
+    if (!empty($from->priority)) {
+        $mail->Priority = $from->priority;
+    }
+	*/
+
+    if($messagehtml){
+        $mail->IsHTML(true);
+        $mail->Encoding='quoted-printable';// Encoding to use
+        $mail->Body=$messagehtml;
+        $mail->AltBody="\n$messagetext\n";
+		}
+	else{
+        $mail->IsHTML(false);
+        $mail->Body="\n$messagetext\n";
+		}
+
+    if(is_array($attachments)){
+		while(list($index,$attachment)=each($attachments)){
+			if(is_file($attachment['filepath'])){ 
+				$mimetype=file_mimeinfo('type', $attachment['filename']);
+				$mail->AddAttachment($attachment['filepath'], $attachment['filename'], 'base64', $mimetype);
+				}
+			}
+		}
+
+    if($mail->Send()){
+		return true;
+		}
+	else{
+        //mtrace('ERROR: '. $mail->ErrorInfo);
+        //add_to_log(SITEID, 'library', 'mailer', $FULLME, 'ERROR: '. $mail->ErrorInfo);
+        return false;
+		}
+	}
 ?>

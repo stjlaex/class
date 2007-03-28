@@ -14,8 +14,14 @@ if(isset($_POST['displayfield'])){$displayfields[0]=$_POST['displayfield'];}
 if(isset($_POST['displayfield1'])){$displayfields[1]=$_POST['displayfield1'];}
 if(isset($_POST['displayfield2'])){$displayfields[2]=$_POST['displayfield2'];}
 
-two_buttonmenu();
 
+$extrabuttons='';
+if($_SESSION['role']=='office' or $_SESSION['role']=='admin'){
+   	$extrabuttons['exportstudentrecords']=array('name'=>'current',
+										 'title'=>'exportstudentrecords',
+										 'value'=>'export_students.php');
+	}
+two_buttonmenu($extrabuttons);
 ?>
 
 <div id="viewcontent" class="content">

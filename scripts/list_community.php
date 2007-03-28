@@ -7,7 +7,7 @@
  */
 
 if(!isset($listname)){$listname='newcomid';}
-if(!isset($listlabel)){$listlabel='community';}
+if(!isset($listlabel)){$listlabel='communities';}
 include('scripts/set_list_variables.php');
 
 	$listcomtypes=array();

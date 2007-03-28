@@ -37,5 +37,7 @@ $string['validating']='Validating';
 $string['non-validating']='Non-validating';
 $string['not-appliad']='Not applied';
 $string['derivation']='Derivation';
+$string['publishpdf']='Publish to PDF';
+$string['']='';
 $string['']='';
 ?>

@@ -36,6 +36,8 @@ $CFG->timezone='Europe/Madrid';
  */
 /*setting to yes will mean all emailing to staff is prevented*/
 $CFG->emailoff='no';
+$CFG->emailsmtphosts='';
+$CFG->emailnoreply='';
 /*choose to send email notifications to the responsible staff for a student*/
 $CFG->emailincidents='yes';
 $CFG->emailcomments='no';

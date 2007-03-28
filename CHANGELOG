@@ -21,6 +21,16 @@ Exapanded the communties available for enrollment, and added matching
 entries to enrolmentstatus in the info table (patch
 needed!!!). Reworked yeargroup_edit pages to work with these.
 
+New feature is student export added to the InfoBook as an action
+button for the student_list.
+
+The db tables "form" and "tidcid" both had the old varchar(10) for
+teacher_id, now corrected in the new patch.
+
+list_community now compatible with listoptions.
+
+Reorganised the infobook search scripts and added the option to search
+any community for office and admin users.
 
 
 Version ClaSS-0.8.12 release (2007/03/15)

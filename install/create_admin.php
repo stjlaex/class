@@ -25,7 +25,7 @@ CREATE TABLE form (
 		id					varchar(10) not null default '',
 		name				varchar(20) not null default '',
 		yeargroup_id		smallint not null default '0',
-		teacher_id			varchar(10) not null default '',
+		teacher_id			varchar(14) not null default '',
 		primary key (id)
 );");
 mysql_query("
@@ -90,7 +90,7 @@ CREATE TABLE cidsid (
 );");
 mysql_query("
 CREATE TABLE tidcid (
-		 teacher_id		varchar(10) not null default '',
+		 teacher_id		varchar(14) not null default '',
 		 class_id		varchar(10) not null default '',
 		 component_id  	varchar(10) not null default '',
 		 primary key 	(teacher_id, class_id)

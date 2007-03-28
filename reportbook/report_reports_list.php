@@ -10,6 +10,7 @@ if(isset($_POST['year'])){$year=$_POST['year'];}
 if(isset($_POST['stage'])){$stage=$_POST['stage'];}
 if(isset($_POST['rids'])){$rids=$_POST['rids'];}else{$rids=array();}
 if(isset($_POST['wrapper_rids'])){
+	/*there is always one blank wrapper_rid and one wrapper_rid with a value*/
 	$wrapper_rids=(array)$_POST['wrapper_rids'];
 	while(list($index,$value)=each($wrapper_rids)){if($value!=''){$wrapper_rid=$value;}}
 	}
@@ -33,7 +34,7 @@ if(isset($wrapper_rid)){
 	$d_rid=mysql_query("SELECT categorydef_id AS report_id FROM ridcatid WHERE
 				 report_id='$wrapper_rid' AND subject_id='wrapper' ORDER BY categorydef_id");
 	$rids=array();
-	$rids[]=$wrapper_rid;//add to the end of the rids
+	$rids[]=$wrapper_rid;//add to the start of the rids
 	while($rid=mysql_fetch_array($d_rid,MYSQL_ASSOC)){
 		$rids[]=$rid['report_id'];
 		}
@@ -43,12 +44,14 @@ $extrabuttons=array();
 $extrabuttons['previewselected']=array('name'=>'current',
 								'value'=>'report_reports_print.php',
 								'onclick'=>'checksidsAction(this)');
-if($_SESSION['role']=='admin'){
-	$extrabuttons['publish']=array('name'=>'current',
+if($_SESSION['role']!='admin'){
+	$extrabuttons['publishpdf']=array('name'=>'current',
 								   'value'=>'report_reports_publish.php');
+	$extrabuttons['email']=array('name'=>'current',
+								   'value'=>'report_reports_email.php');
 	}
 
-two_buttonmenu($extrabuttons);
+two_buttonmenu($extrabuttons,$book);
 ?>
   <div id="heading">
   <?php print get_string('subjectreportsfor',$book).' '.$fid;?>
@@ -108,6 +111,9 @@ two_buttonmenu($extrabuttons);
 					elseif($yearperm['x']==1 and $summaryid=='year'){
 						print '<th>'.get_string('yearhead').'</th>';
 						}
+					elseif($yearperm['x']==1 and $summaryid=='section'){
+						print '<th>'.get_string('sectionhead').'</th>';
+						}
 					}
 				}
 			}
@@ -147,6 +153,19 @@ two_buttonmenu($extrabuttons);
 <?php
 						}
 					elseif($yearperm['x']==1 and $summaryid=='year'){
+						$d_summaryentry=mysql_query("SELECT teacher_id
+					FROM reportentry WHERE report_id='$rid' AND
+					student_id='$sid' AND subject_id='summary' AND
+					component_id='$summaryid' AND entryn='1'");
+						$openId=$sid.'summary-'.$summaryid;
+?>
+			<td id="icon<?php print $openId;?>" <?php if(mysql_num_rows($d_summaryentry)>0){print 'class="vspecial"';}?> >
+			  <img class="clicktoedit" name="Write"  
+				onClick="clickToWriteComment(<?php print $sid.','.$rid.',\'summary\',\''.$summaryid.'\',\'0\',\''.$openId.'\'';?>);" />
+			</td>
+<?php
+						}
+					elseif($yearperm['x']==1 and $summaryid=='section'){
 						$d_summaryentry=mysql_query("SELECT teacher_id
 					FROM reportentry WHERE report_id='$rid' AND
 					student_id='$sid' AND subject_id='summary' AND
