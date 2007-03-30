@@ -11,7 +11,11 @@ same function is needed at the other end (in the webmail app) to
 decrypt the password upon receipt.
 
 The xmlprocessor function is under development for publishing reports
-to files.
+to files. The feature is currently an admin only button for the
+report_reports_list.php page. It needs a new (and temporary!)
+toplevel directory called reports to publish the html files in, one
+per student. Set the $CFG->html2ps path and you'll very slwoly get pdf
+too.
 
 Added hostfamily as a valid value for the boarder field and a list of
 additional categories to the enrollment status field. Both additions
@@ -27,7 +31,7 @@ button for the student_list.
 The db tables "form" and "tidcid" both had the old varchar(10) for
 teacher_id, now corrected in the new patch.
 
-list_community now compatible with listoptions.
+list_community.php now compatible with listoptions.
 
 Reorganised the infobook search scripts and added the option to search
 any community for office and admin users.
@@ -35,9 +39,15 @@ any community for office and admin users.
 Adopted phpmailer library for handling email. This needs instructions
 added to the install. It is called only from send_email_to(), a new
 function adopted from Moodle to handle attachments. Requires new
-config settings in school.php.
+config settings for email in school.php, including optional smtp options.
 
- 
+Bugfix to book_variables.php which was missing the get value for cancel.
+
+First crude implementation of searching for contacts in the
+InfoBook. This has added contact_list.php as the main page for the
+results and some changes to contact_details.php to work when no sid is
+selected. Testing needed.
+
 
 Version ClaSS-0.8.12 release (2007/03/15)
 -----------------------------------------

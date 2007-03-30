@@ -5,29 +5,36 @@
 
 $action='student_view.php';
 
-$gid=$_POST['contactgid'];
+$gid=$_POST['gid'];
 $contactno=$_POST['contactno'];
-$Contact=$Student['Contacts'][$contactno];
-$sid=$Student['id_db'];
+//$Contact=$Student['Contacts'][$contactno];
+//$sid=$Student['id_db'];
 
 include('scripts/sub_action.php');
-
-/*Check user has permission to edit*/
-$yid=$Student['YearGroup']['value'];
-$perm=getYearPerm($yid, $respons);
-$neededperm='w';
-include('scripts/perm_action.php');
-
 
 if($sub=='Submit'){
 
 	if($contactno!='-1'){
+		/*Check user has permission to edit*/
+		$yid=$Student['YearGroup']['value'];
+		$perm=getYearPerm($yid, $respons);
+		$neededperm='w';
+		include('scripts/perm_action.php');
+
+
+		$action='student_view.php';
 		$Contact=$Student['Contacts'][$contactno];
 		$Phones=$Contact['Phones'];
 		$Addresses=$Contact['Addresses'];
 		}
+	elseif($gid!=''){
+		$action='contact_details.php';
+		$Contact=fetchContact(array('guardian_id'=>$gid));
+		$Phones=$Contact['Phones'];
+		$Addresses=$Contact['Addresses'];
+		}
 	else{
-		mysql_query("INSERT INTO guardian SET surname='';");
+		mysql_query("INSERT INTO guardian SET surname=''");
 		$gid=mysql_insert_id();
 		mysql_query("INSERT INTO gidsid SET guardian_id='$gid', student_id='$sid'");
 		$Contact=fetchContact();
@@ -81,7 +88,8 @@ if($sub=='Submit'){
 			if(isset($val['value']) & is_array($val)){
 				$field=$val['field_db'];
 				$inname=$field.$addressno;
-				$inval=clean_text($_POST["$inname"]);
+				if(isset($_POST[$inname])){$inval=clean_text($_POST[$inname]);}
+				else{$inval='';}
 				if($val['value']!=$inval){
 					if($val['table_db']=='address'){
 						if($aid=='-1' and $inval!=''){
@@ -101,9 +109,6 @@ if($sub=='Submit'){
 				}
 			}
 		}
-
-	//$Student['Conacts']=fetchContacts($sid);
-	//$_SESSION['Student']=$Student;
 	}
 
 

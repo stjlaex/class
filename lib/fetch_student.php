@@ -493,29 +493,36 @@ function fetchContacts($sid='-1'){
 	return $Contacts;
 	}
 
-function fetchContact($gidsid=array('guardian_id'=>'-1')){
+/* Receives a gidsid record and returns full Contact for a sid or a
+ * blank Contact for gid=-1,sid=-1. Will be none sid specific if sid
+ * is not set (which is used by contact search in the InfoBook)
+ */
+function fetchContact($gidsid=array('guardian_id'=>'-1','student_id'=>'-1')){
 	$gid=$gidsid['guardian_id'];
 	$d_guardian=mysql_query("SELECT * FROM guardian WHERE id='$gid'");
 	$guardian=mysql_fetch_array($d_guardian,MYSQL_ASSOC);
 	$Contact=array();
 	$Contact['id_db']=$gid;
-	$Contact['Order']=array('label' => 'priority', 
+
+	if(isset($gidsid['student_id'])){
+		$Contact['Order']=array('label' => 'priority', 
 							'inputtype'=> 'required', 
 							'table_db' => 'gidsid', 
 							'field_db' => 'priority',
 							'type_db'=>'enum', 
 							'value' => ''.$gidsid['priority']);
-	$Contact['ReceivesMailing']=array('label' => 'receivesmailing', 
+		$Contact['ReceivesMailing']=array('label' => 'receivesmailing', 
 									  'inputtype'=> 'required',
 									  'table_db' => 'gidsid', 
 									  'field_db' => 'mailing',
 									  'type_db'=>'enum', 
 									  'value' => ''.$gidsid['mailing']);
-	$Contact['Relationship']=array('label' => 'relationship', 
+		$Contact['Relationship']=array('label' => 'relationship', 
 								   'table_db' => 'gidsid', 
 								   'field_db' => 'relationship',
 								   'type_db'=>'enum', 
 								   'value' => ''.$gidsid['relationship']);
+		}
 	$Contact['Surname']=array('label' => 'surname', 
 							  'inputtype'=> 'required',
 							  'table_db' => 'guardian', 

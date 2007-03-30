@@ -13,8 +13,8 @@ $book='infobook';
 include('scripts/head_options.php');
 include('scripts/book_variables.php');
 
-if(!isset($_SESSION['infosid'])){$_SESSION['infosid']='';}
-if(!isset($_SESSION['infosids'])){$_SESSION['infosids']=array();}
+if(!isset($_SESSION['infosid']) or $current=='contact_list.php'){$_SESSION['infosid']='';}
+if(!isset($_SESSION['infosids']) or $current=='contact_list.php'){$_SESSION['infosids']=array();}
 
 if(isset($_GET['sids'])){
 	if($_SESSION['infosids']!=$_GET['sids']){
@@ -41,10 +41,11 @@ if(isset($_POST['sid'])){
 		}
 	}
 
-$sids=$_SESSION['infosids'];
+$sids=(array)$_SESSION['infosids'];
 $sid=$_SESSION['infosid'];
 $sidskey=array_search($sid,$sids);
-if($current!='student_list.php'){
+
+if($current!='student_list.php' and $sid!=''){
 	$Student=fetchStudent($sid);
 	}
 ?>

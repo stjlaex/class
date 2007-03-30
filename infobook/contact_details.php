@@ -4,34 +4,48 @@
  */
 
 $action='contact_details_action.php';
-$cancel='student_view.php';
 
 include('scripts/sub_action.php');
 
-if(isset($_GET['contactno'])){$contactno=$_GET['contactno'];}
-else{$contactno=$_POST['contactno'];}
+if(isset($_GET['contactno'])){$contactno=$_GET['contactno'];}else{$contactno='-1';}
+if(isset($_POST['contactno'])){$contactno=$_POST['contactno'];}
 
 if($contactno!='-1'){
 	$Contact=$Student['Contacts'][$contactno];
 	$Phones=$Contact['Phones'];
 	$Addresses=$Contact['Addresses'];
+	/*Check user has permission to view*/
+	$yid=$Student['YearGroup']['value'];
+	$gid=$Contact['id_db'];
+	$perm=getYearPerm($yid,$respons);
+	include('scripts/perm_action.php');
 	}
 else{
-	$Contact=fetchContact();
+	if(isset($_GET['gid'])){$_SESSION['infogid']=$_GET['gid'];}
+	if(isset($_POST['gid'])){$_SESSION['infogid']=$_POST['gid'];}
+	$gid=$_SESSION['infogid'];
+
+	if($gid!=''){
+		$Contact=fetchContact(array('guardian_id'=>$gid));
+		$Phones=$Contact['Phones'];
+		$Addresses=$Contact['Addresses'];
+		}
+	else{
+		/*returns a blank for new contact*/
+		$Contact=fetchContact();
+		}
 	}
+
+/*always add a blank record for new entries*/
 $Phones[]=fetchPhone();
 $Addresses[]=fetchAddress();
 
-$Address=$Addresses[0];/*temporarily one address for display*/
-
-/*Check user has permission to view*/
-$yid=$Student['YearGroup']['value'];
-$contactgid=$Contact['id_db'];
-$perm=getYearPerm($yid,$respons);
-include('scripts/perm_action.php');
+/*TODO: temporarily only one address for display*/
+$Address=$Addresses[0];
 
 //$extrabuttons['removecontact']=array('name'=>'sub','value'=>'Delete Checked');
-three_buttonmenu($extrabuttons);
+$extrabuttons=array();
+three_buttonmenu($extrabuttons,$book);
 ?>
   <div class="content">
 	<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
@@ -99,7 +113,7 @@ $addressno='0';
 		  </div>
 	  </fieldset>
  	<input type="hidden" name="contactno" value="<?php print $contactno;?>">
- 	<input type="hidden" name="contactgid" value="<?php print $contactgid;?>">
+ 	<input type="hidden" name="gid" value="<?php print $gid;?>">
  	<input type="hidden" name="current" value="<?php print $action;?>">
  	<input type="hidden" name="cancel" value="<?php print $cancel;?>">
  	<input type="hidden" name="choice" value="<?php print $choice;?>">

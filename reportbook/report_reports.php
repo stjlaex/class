@@ -6,7 +6,6 @@ $action='report_reports_list.php';
 $choice='report_reports.php';
 
 three_buttonmenu();
-
 ?>
 
   <div class="content">

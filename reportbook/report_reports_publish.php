@@ -26,8 +26,7 @@ if(sizeof($sids)==0){
 	for($c=0;$c<sizeof($rids);$c++){ 
 		$reportdefs[]=fetchReportDefinition($rids[$c]);
 		}
-
-   	$result[]=get_string('publishedtofile');
+	$pubdate=$reportdefs[0]['report']['date'];
 
 	/*doing one student at a time*/
 	$postdata=array();
@@ -41,6 +40,7 @@ if(sizeof($sids)==0){
 
 		/*Finished with the student's reports. Output the result as xml.*/
 		$xsl_filename=$transform.'.xsl';
+
 		$html_header='<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/DTD/loose.dtd">
 <html>
 <head>
@@ -57,10 +57,10 @@ if(sizeof($sids)==0){
 		$html_report=xmlprocessor($xml,$xsl_filename);
 		$html=$html_header. $html_report . $html_footer;
 
-		$filename='Report_'.$Student['Surname']['value'].'_'.$sid.'_'.$wrapper_rid.'.html';
+		$filename='Report'.$pubdate.'_'.$Student['Surname']['value'].'_'.$sid.'_'.$wrapper_rid.'.html';
 		$postdata['batch['.$c.']']=$filename;
 
-		$file=fopen($CFG->installpath.'/reports/'.$filename, 'w');
+		$file=fopen($CFG->installpath.'/spareports/'.$filename, 'w');
 		if(!$file){
 			$error[]='Unable to open file for writing!';
 			}
@@ -70,16 +70,20 @@ if(sizeof($sids)==0){
 			}
 		}
 
-	/*call the conversion for pdf*/
-	if(isset($CFG->html2psscript) and $CFG->html2psscript!=''){
-		$postdata['url']='http://'.$CFG->siteaddress.$CFG->sitepath.'/reports/';
-		$postdata['process_mode']='batch';
-		$curl=curl_init();
-		curl_setopt($curl, CURLOPT_URL,$CFG->html2psscript);
-		curl_setopt($curl, CURLOPT_POST, 1);
-		curl_setopt($curl, CURLOPT_POSTFIELDS, $postdata);
-		curl_exec($curl);
-		curl_close($curl);
+	if(!isset($error)){
+		$result[]=get_string('publishedtofile');
+
+		/*call the html2ps server for conversion to pdf*/
+		if(isset($CFG->html2psscript) and $CFG->html2psscript!=''){
+			$postdata['url']='http://'.$CFG->siteaddress.$CFG->sitepath.'/reports/';
+			$postdata['process_mode']='batch';
+			$curl=curl_init();
+			curl_setopt($curl, CURLOPT_URL,$CFG->html2psscript);
+			curl_setopt($curl, CURLOPT_POST, 1);
+			curl_setopt($curl, CURLOPT_POSTFIELDS, $postdata);
+			curl_exec($curl);
+			curl_close($curl);
+			}
 		}
 
 	include('scripts/results.php');

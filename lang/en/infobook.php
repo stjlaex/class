@@ -107,7 +107,7 @@ $string['emailaddress']='Email address';
 $string['incidentrecorded']='Incident recorded';
 $string['commentrecorded']='Comment recorded';
 $string['extrasupport']='Extra support';
-$string['']='';
-$string['']='';
+$string['exportstudentrecords']='Export student records';
+$string['contactsearch']='Contact search';
 $string['']='';
 ?>

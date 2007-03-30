@@ -36,8 +36,12 @@ $CFG->timezone='Europe/Madrid';
  */
 /*setting to yes will mean all emailing to staff is prevented*/
 $CFG->emailoff='no';
-$CFG->emailsmtphosts='';
 $CFG->emailnoreply='';
+$CFG->emailhandlebounces='';
+/*only needed if using an external mail server, something other than local sendmail*/
+$CFG->smtphosts='';
+$CFG->smtpuser='';
+$CFG->smtppasswd='';
 /*choose to send email notifications to the responsible staff for a student*/
 $CFG->emailincidents='yes';
 $CFG->emailcomments='no';
@@ -68,6 +72,8 @@ $CFG->webmailshare='secret';
 $CFG->webmail_db='';/*probably not needed!*/
 /*optional details of the statement bank for writing report comments*/
 $CFG->statementbank_db='';
+/*optional details for publishing reports to pdf using html2ps*/
+$CFG->html2psscript='';
 /*****
  * These are for development sites only - they will dramatically
  * slow performance - should always be set to off.

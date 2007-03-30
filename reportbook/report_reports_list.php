@@ -2,7 +2,7 @@
 /**				   				report_reports_list.php
  */
 
-$action='report_reports_print.php';
+$action='report_reports.php';
 
 if(isset($_POST['newfid'])){$fid=$_POST['newfid'];}else{$fid='';}
 if(isset($_POST['newyid'])){$yid=$_POST['newyid'];}else{$yid='';}

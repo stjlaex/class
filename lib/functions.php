@@ -596,7 +596,7 @@ function file_mimeinfo($element, $filename) {
  * @return boolean|string Returns "true" if mail was sent OK, "emailstop" if email
  *          was blocked by user and "false" if there was another sort of error.
  */
-function send_email_to($recipient, $from, $subject, $messagetext, $messagehtml='', $attachments='', $usetrueaddress=true, $repyto='', $replytoname=''){
+function send_email_to($recipient, $from, $subject, $messagetext, $messagehtml='', $attachments='', $usetrueaddress=true, $replyto='', $replytoname=''){
 
     global $CFG;
     include_once('libphp-phpmailer/class.phpmailer.php');//this works for Debian 
@@ -622,10 +622,10 @@ function send_email_to($recipient, $from, $subject, $messagetext, $messagehtml='
 		}
 	*/
 
-    if($CFG->emailsmtphosts=='qmail'){
+    if($CFG->smtphosts=='qmail'){
         $mail->IsQmail();                              // use Qmail system
 		} 
-	else if (empty($CFG->emailsmtphosts)){
+	else if (empty($CFG->smtphosts)){
         $mail->IsMail();                               // use PHP mail() = sendmail
 		} 
 	else{
@@ -634,22 +634,21 @@ function send_email_to($recipient, $from, $subject, $messagetext, $messagehtml='
             echo '<pre>' . "\n";
             $mail->SMTPDebug = true;
 			}
-        $mail->Host = $CFG->emailsmtphosts;               // specify main and backup servers
-        if($CFG->smtpuser){                          // Use SMTP authentication
+        $mail->Host=$CFG->smtphosts;         // specify main and backup servers
+        if($CFG->smtpuser){                  // Use SMTP authentication
             $mail->SMTPAuth = true;
             $mail->Username = $CFG->smtpuser;
-            $mail->Password = $CFG->smtppass;
+            $mail->Password = $CFG->smtppasswd;
 			}
 		}
 
-    $adminuser='admin@classforschools.com';
 
     // for handling bounces
     if(!empty($CFG->emailhandlebounces)){
         $mail->Sender = $CFG->emailhandlebounces;
 		}
     else{
-        $mail->Sender=$adminuser;
+        $mail->Sender='';
 		}
 
     if(is_string($from)){
