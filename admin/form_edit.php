@@ -28,7 +28,7 @@ if(isset($_POST['newtid'])){$newtid=$_POST['newtid'];}
 	<form name="formtoprocess" id="formtoprocess" method="post"
 	  action="<?php print $host; ?>">
 
-	  <div style="width:33%;float:left;">
+	  <div style="width:33%;float:left;"  id="viewcontent">
 		<table class="listmenu">
 		  <caption>
 			<?php print_string('current');?> 

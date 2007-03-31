@@ -10,3 +10,6 @@ ALTER TABLE tidcid
 	CHANGE teacher_id teacher_id varchar(14) not null default '';
 ALTER TABLE form
 	CHANGE teacher_id teacher_id varchar(14) not null default '';
+UPDATE community SET name='AP' WHERE name='applied';
+UPDATE community SET name='AC' WHERE name='accepted';
+UPDATE community SET name='EN' WHERE name='enquired';

@@ -1,4 +1,6 @@
 <?php
+/**							lib/community_functions.php
+ */
 
 /* return an array of communitites of one particular type*/
 function list_communities($type=''){
@@ -53,6 +55,7 @@ function get_community($comid=''){
 	return $community;
 	}
 
+/* this is the uber community function*/
 /* checks for a community and either updates or creates*/
 /* expects an array with at least type and name set*/
 function update_community($community,$communityfresh=array('id'=>'','type'=>'','name'=>'')){
@@ -130,7 +133,7 @@ function listin_community($community){
 	if(isset($community['id']) and $community['id']!=''){$comid=$community['id'];}
 	else{$comid=update_community($community);}
 	$d_student=mysql_query("SELECT id, surname,
-				forename, form_id FROM student 
+				forename, preferredforename, form_id FROM student 
 				JOIN comidsid ON comidsid.student_id=student.id
 				WHERE comidsid.community_id='$comid' AND
 				(comidsid.leavingdate='0000-00-00' OR comidsid.leavingdate IS NULL)
@@ -208,9 +211,6 @@ function join_community($sid,$community){
 	from old group first, and also where student progresses through
 	application procedure from enquired to apllied to accepted to year*/
 	$oldtypes=array();
-	$oldtypes[]='accepted';
-	$oldtypes[]='applied';
-	$oldtypes[]='enquired';
     if($type=='form'){
 		$studentfield='form_id';
 		$oldtypes[]=$type;
@@ -221,7 +221,9 @@ function join_community($sid,$community){
 		$oldyid=mysql_result($d_yeargroup,0);
 		if($newyid!=$oldyid){join_community($sid,array('type'=>'year','name'=>$yid));}
 		}
-	elseif($type=='year'){
+	else{
+		}
+	if($type=='year'){
 		$studentfield='yeargroup_id';
 		$oldtypes[]='form';
 		$oldtypes[]=$type;
@@ -230,14 +232,26 @@ function join_community($sid,$community){
 		if($name=='' or $name=='none'){$name='none';$community['name']='none';}
 		}
 	elseif($type=='alumni'){
-		/*remove form current roll*/
 		$oldtypes[]='year';
 		$oldtypes[]='form';
+		/*may be joining form previous point in application procedure*/
+		$oldtypes[]='accepted';
+		$oldtypes[]='applied';
+		$oldtypes[]='enquired';
 		$enrolstatus='P';
 		}
-	else{
-		/*remove from previous point in application procedure*/
+	elseif($type=='accepted' or $type=='applied' or $type=='accepted'){
 		$enrolstatus=$name;
+		/*may be joining form previous point in application procedure*/
+		$oldtypes[]='accepted';
+		$oldtypes[]='applied';
+		$oldtypes[]='enquired';
+		/*remove form current roll if appropriate*/
+		$d_student=mysql_query("SELECT yeargroup_id FROM student WHERE id='$sid'");
+		if(mysql_num_rows($d_student)>0){
+			$oldtypes[]='year';
+			$oldtypes[]='form';
+			}
 		}
 
 	/*prior to version 0.8.13

@@ -1,9 +1,9 @@
 <?php
 /**										scripts/list_community.php
  *
- * $multi>1 returns newcomids[] or $multi=1 returns newcomid (default=10)
- * set $required='no' to make not required (default=yes)
- * first call returns newcomid, second call returns newcomid1
+ * set $type to list communities of that type
+ * will default to type=year
+ * special $type=admissions to list all communities not on roll
  */
 
 if(!isset($listname)){$listname='newcomid';}
@@ -11,12 +11,24 @@ if(!isset($listlabel)){$listlabel='communities';}
 include('scripts/set_list_variables.php');
 
 	$listcomtypes=array();
-	if(!isset($type)){$listcomtypes[]='year';}
-	else{$listcomtypes[]=$type;}
-	if($listcomtypes[0]=='year' and ($_SESSION['role']=='office' 
-						   or $_SESSION['role']=='admin')){
-		$listcomtypes[]='enquired';$listcomtypes[]='applied';$listcomtypes[]='accepted';
+	if(!isset($type)){
+		$listcomtypes[]='year';
+		if($_SESSION['role']=='office' 
+						   or $_SESSION['role']=='admin'){
+			$listcomtypes[]='enquired';
+			$listcomtypes[]='applied';
+			$listcomtypes[]='accepted';
+			$listcomtypes[]='alumni';
+			}
 		}
+	elseif($type=='admissions'){
+		$listcomtypes[]='enquired';
+		$listcomtypes[]='applied';
+		$listcomtypes[]='accepted';
+		$listcomtypes[]='alumni';
+		}
+	else{$listcomtypes[]=$type;}
+
 
 	$listcomids=array();
 	while(list($index,$listtype)=each($listcomtypes)){
@@ -24,6 +36,9 @@ include('scripts/set_list_variables.php');
    		$listcoms=(array)list_communities($listtype);
 		while(list($index,$listcom)=each($listcoms)){
 			$listcomids[$listcom['id']]=$listcom;
+			/*a fix to display something meaningfull until detail is used*/
+			$listcomids[$listcom['id']]['name']=$listcomids[$listcom['id']]['type'] . 
+												' : '.$listcomids[$listcom['id']]['name'];
 			}
 		}
 

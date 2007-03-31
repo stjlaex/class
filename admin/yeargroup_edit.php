@@ -42,11 +42,15 @@ if(isset($_POST['newcomid'])){$newcomid=$_POST['newcomid'];}else{$newcomid='';}
 	else{
 		/*or enquired, applied, accepted*/
 		$displayname=get_string($comtype,'infobook').' '.$comname;
-		if($newcomid=='' and $comtype=='applied'){
-			$newcommunity=array('type'=>'enquired','name'=>'EN');
+		/*should not really have comid blank but... */
+		if($newcomid=='' and $comtype=='enquired'){
+			$newcommunity=array('type'=>'applied','name'=>'AP');
+			}
+		elseif($newcomid=='' and $comtype=='applied'){
+			$newcommunity=array('type'=>'accepted','name'=>'AC');
 			}
 		elseif($newcomid=='' and $comtype=='accepted'){
-			$newcommunity=array('type'=>'accepted','name'=>'AC');
+			$newcommunity=array('type'=>'year','name'=>'none');
 			}
 		}
 
@@ -60,7 +64,7 @@ if(isset($_POST['newcomid'])){$newcomid=$_POST['newcomid'];}else{$newcomid='';}
 	<form name="formtoprocess" id="formtoprocess" method="post"
 	  action="<?php print $host; ?>">
 
-	  <div style="width:33%;float:left;">
+	  <div style="width:33%;float:left;"  id="viewcontent">
 		<table class="listmenu">
 		  <caption>
 			<?php print_string('current');?>
@@ -93,7 +97,11 @@ if(isset($_POST['newcomid'])){$newcomid=$_POST['newcomid'];}else{$newcomid='';}
 		<legend><?php print_string('changegroup',$book);?></legend>
 		  <div class="center">
 <?php
-			$onchange='yes';$type='year';
+			$onchange='yes';
+			if($newcomid==''){
+				/*user has not selected ac ommunity but one must be chosen*/
+				$newcomid=update_community($newcommunity);
+				}
 			$selcomids=array($newcomid);
 			include('scripts/list_community.php');
 ?>

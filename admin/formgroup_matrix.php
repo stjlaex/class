@@ -39,7 +39,7 @@ three_buttonmenu();
       <input type="hidden" name="cancel" value="<?php print '';?>" />
 	</form>
 
-	<div class="left">
+	<div class="left"  id="viewcontent">
 	  <table class="listmenu">
 		<tr>
 		  <th><?php print_string('formgroup');?></th>

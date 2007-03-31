@@ -21,13 +21,13 @@ if(isset($_POST['newcomtype'])){$newcomtype=$_POST['newcomtype'];}
 	$oldstudents=listin_community($currentcommunity);
 	$newstudents=listin_union_communities($currentcommunity,$newcommunity);
 
-	three_buttonmenu($extrabuttons);
+	three_buttonmenu();
 ?>
   <div class="content">
 	<form name="formtoprocess" id="formtoprocess" method="post"
 	  action="<?php print $host; ?>">
 
-	  <div style="width:33%;float:left;">
+	  <div style="width:33%;float:left;"  id="viewcontent" >
 		<table class="listmenu">
 		  <caption>
 			<?php
@@ -56,8 +56,8 @@ if(isset($_POST['newcomtype'])){$newcomtype=$_POST['newcomtype'];}
 		<legend><?php print_string('changegroup',$book);?></legend>
 		  <div class="center">
 <?php
-			$onchange='yes';$required='no';$type='year';$multi='1';
-			$selcomids=array($newcomid);
+			$onchange='yes';$required='no';$multi='1';
+			$type=$newcomtype;$selcomids=array($newcomid);
 			include('scripts/list_community.php');
 ?>
 		  </div>

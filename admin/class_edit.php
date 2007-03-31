@@ -69,7 +69,7 @@ three_buttonmenu($extrabuttons);
 		}
 ?>
 
-	  <div style="float:left;width:33%;">
+	  <div style="float:left;width:33%;"  id="viewcontent">
 		<table class="listmenu">
 		<caption><?php print_string('currentclassfor',$book);?>: <?php print $bid;?></caption>
 		<tr>

@@ -117,7 +117,7 @@ three_buttonmenu();
 		}
 ?>
   <div class="content">
-	<div class="center">
+	<div class="center" id="viewcontent">
 	  <table class="listmenu">
 	  <tr>
 		<th><?php print_string('users',$book);?></th>
