@@ -46,7 +46,12 @@ Bugfix to book_variables.php which was missing the get value for cancel.
 First crude implementation of searching for contacts in the
 InfoBook. This has added contact_list.php as the main page for the
 results and some changes to contact_details.php to work when no sid is
-selected. Testing needed.
+selected.
+
+The contacts can now call on fetchDependents() function to list the
+contents of the gidsid table. Although its an xml-array Dependents
+does not fit with the rest of the Student xml logic and will remain
+localised to the contacts pages of the InfoBook.
 
 
 Version ClaSS-0.8.12 release (2007/03/15)

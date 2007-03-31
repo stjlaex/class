@@ -10,6 +10,7 @@ $languages=array(
 				 'de' => 'Deutsch',
 				 'en' => 'English',
 				 'es' => 'Espanol',
-				 'fr' => 'Francais'
+				 'fr' => 'Francais',
+				 'it' => 'Italiano'
 				 );
 ?>

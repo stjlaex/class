@@ -493,6 +493,36 @@ function fetchContacts($sid='-1'){
 	return $Contacts;
 	}
 
+function fetchDependents($gid='-1'){
+	$Dependents=array();
+	$d_gidsid=mysql_query("SELECT * FROM gidsid WHERE guardian_id='$gid' ORDER BY priority");
+	while($gidsid=mysql_fetch_array($d_gidsid,MYSQL_ASSOC)){
+		$Dependent=array();
+		$Dependent['id_db']=$gidsid['student_id'];
+		$Dependent['Student']=fetchStudent_short($gidsid['student_id']);
+		$Dependent['Order']=array('label' => 'priority', 
+								  'inputtype'=> 'required', 
+								  'table_db' => 'gidsid', 
+								  'field_db' => 'priority',
+								  'type_db'=>'enum', 
+								  'value' => ''.$gidsid['priority']);
+		$Dependent['ReceivesMailing']=array('label' => 'receivesmailing', 
+									  'inputtype'=> 'required',
+									  'table_db' => 'gidsid', 
+									  'field_db' => 'mailing',
+									  'type_db'=>'enum', 
+									  'value' => ''.$gidsid['mailing']);
+		$Dependent['Relationship']=array('label' => 'relationship', 
+								   'table_db' => 'gidsid', 
+								   'field_db' => 'relationship',
+								   'type_db'=>'enum', 
+								   'value' => ''.$gidsid['relationship']);
+		$Dependents[]=$Dependent;
+		}
+	return $Dependents;
+	}
+
+
 /* Receives a gidsid record and returns full Contact for a sid or a
  * blank Contact for gid=-1,sid=-1. Will be none sid specific if sid
  * is not set (which is used by contact search in the InfoBook)
@@ -565,7 +595,7 @@ function fetchContact($gidsid=array('guardian_id'=>'-1','student_id'=>'-1')){
 	}
 
 
-function fetchPhone($phone=array('id'=>'-1')){
+function fetchPhone($phone=array('id'=>'-1','number'=>'','phonetype'=>'')){
 	$Phone=array();
 	$Phone['id_db']=$phone['id'];
 	$Phone['PhoneNo']=array('label' => 'phonenumber', 

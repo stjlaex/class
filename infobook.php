@@ -4,7 +4,8 @@
  *	The page to be included is set by $current
  *	If a single sid is set then student_view.php is displayed
  *	or student_list.php if more than one student is set in sids.
- *	Alternatively $current can be POSTed by another script.
+ *	Alternatively, a limited set of pages are based around
+ *	contact_list and gid (independent of any sid by setting sid='').
  */
 
 $host='infobook.php';
@@ -16,30 +17,10 @@ include('scripts/book_variables.php');
 if(!isset($_SESSION['infosid']) or $current=='contact_list.php'){$_SESSION['infosid']='';}
 if(!isset($_SESSION['infosids']) or $current=='contact_list.php'){$_SESSION['infosids']=array();}
 
-if(isset($_GET['sids'])){
-	if($_SESSION['infosids']!=$_GET['sids']){
-		$_SESSION['infosids']=$_GET['sids']; 
-		$_SESSION['umnrank']='surname';
-		}
-	}
-if(isset($_POST['sids'])){
-	if($_SESSION['infosids']!=$_POST['sids']){
-		$_SESSION['infosids']=$_POST['sids']; 
-		$_SESSION['umnrank']='surname';
-		}
-	}
-if(isset($_GET['sid'])){
-	if($_SESSION['infosid']!=$_GET['sid']){
-		$_SESSION['infosid']=$_GET['sid']; 
-		$_SESSION['umnrank']='surname';
-		}
-	}
-if(isset($_POST['sid'])){
-	if($_SESSION['infosid']!=$_POST['sid']){
-		$_SESSION['infosid']=$_POST['sid']; 
-		$_SESSION['umnrank']='surname';
-		}
-	}
+if(isset($_GET['sids'])){$_SESSION['infosids']=$_GET['sids'];}
+if(isset($_POST['sids'])){$_SESSION['infosids']=$_POST['sids'];}
+if(isset($_GET['sid'])){$_SESSION['infosid']=$_GET['sid'];}
+if(isset($_POST['sid'])){$_SESSION['infosid']=$_POST['sid'];}
 
 $sids=(array)$_SESSION['infosids'];
 $sid=$_SESSION['infosid'];
@@ -57,7 +38,7 @@ if($current!='student_list.php' and $sid!=''){
 ?>
   </div>
 <?php
-unset($yid);
+  //unset($yid);
 include('infobook/quick_search.php');
 include('scripts/end_options.php');
 ?>

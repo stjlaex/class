@@ -346,6 +346,9 @@ table.listmenu {
 .listmenu tr:hover td { 
 	background-color:#fcd39a;
 	}
+.listmenu tr td table td:hover { 
+	background-color:#eeeeee;
+	}
 
 /*extra functionality for a listmenu wich lets rows be expanded and collapsed*/
 tr.rowplus th {
@@ -373,6 +376,11 @@ tr.hidden {
 	}
 tr.revealed td { 
 	background-color:#999999;
+	}
+tr.revealed p { 
+	background-color:#ffffff;
+    padding:2px;
+    width:50%;
 	}
 td.hidden { 
 	display:none;
