@@ -207,8 +207,12 @@ function list_select_db($d_list,$vars,$book=''){
   </label>
   <select 
 	id="<?php print $vars['id'];?>" 
-	name="<?php print $vars['name'].$vars['i'];?>"  
+<?php 
+	if($vars['multi']>1){print ' name="'.$vars['name'].$vars['i'].'[]" multiple="multiple" ';}
+	else{print ' name="'.$vars['name'].$vars['i'].'" ';}
+?>
 	tabindex="<?php print $vars['tab'];?>"  
+	size="<?php print $vars['multi'];?>"
 	<?php print $vars['style'];?>
 	<?php if($vars['onsidechange']=='yes'){print ' onChange="document.'.$book.'choice.submit();"';}?>
 	<?php if($vars['onchange']=='yes'){print ' onChange="processContent(this);"';}?>
@@ -218,7 +222,10 @@ function list_select_db($d_list,$vars,$book=''){
 <?php
 	while($item=mysql_fetch_array($d_list,MYSQL_ASSOC)){
 		print '<option ';
-		if(($vars['selectedvalue']==$item[$valuefield])){print 'selected="selected"';}
+		if($vars['multi']==1){
+			if($vars['selectedvalue']==$item[$valuefield]){print 'selected="selected"';}
+			}
+		elseif(in_array($item[$valuefield],$vars['selectedvalue'])){print 'selected="selected"';}
 		print	' value="'.$item[$valuefield].'"> '.$item[$descriptionfield].'</option>';
 		}
 ?>
@@ -237,8 +244,12 @@ function list_select_list($list,$vars,$book=''){
   </label>
   <select 
 	id="<?php print $vars['id'];?>" 
-	name="<?php print $vars['name'].$vars['i'];?>"  
+<?php 
+	if($vars['multi']>1){print ' name="'.$vars['name'].$vars['i'].'[]" multiple="multiple" ';}
+	else{print ' name="'.$vars['name'].$vars['i'].'" ';}
+?>
 	tabindex="<?php print $vars['tab'];?>"  
+	size="<?php print $vars['multi'];?>"
 	<?php print $vars['style'];?>
 	<?php if($vars['onsidechange']=='yes'){print ' onChange="document.'.$book.'choice.submit();"';}?>
 	<?php if($vars['onchange']=='yes'){print ' onChange="processContent(this);"';}?>
@@ -247,13 +258,16 @@ function list_select_list($list,$vars,$book=''){
     <option value=""></option>
 <?php
 	while(list($index,$item)=each($list)){
+
 		print '<option ';
-		if(($vars['selectedvalue']==$item[$valuefield])){print 'selected="selected"';}
+		if($vars['multi']==1){
+			if($vars['selectedvalue']==$item[$valuefield]){print 'selected="selected"';}
+			}
+		elseif(in_array($item[$valuefield],$vars['selectedvalue'])){print 'selected="selected"';}
 		print	' value="'.$item[$valuefield].'"> '.$item[$descriptionfield].'</option>';
 		}
 ?>
   </select>
 <?php
 	}
-
 ?>

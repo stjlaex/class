@@ -48,19 +48,19 @@ while($cohort=mysql_fetch_array($d_cohort,MYSQL_ASSOC)){
 		$cohid=$cohort['id'];
 		$d_cohidcomid=mysql_query("SELECT community_id FROM cohidcomid WHERE
 							cohort_id='$cohid'");
-		$comids=array();
+		$newcomids=array();
 		while($comid=mysql_fetch_array($d_cohidcomid,MYSQL_ASSOC)){
-			$comids[]=$comid['community_id'];
+			$newcomids[]=$comid['community_id'];
 			}
 
   		print '<tr><th>'.$cohort['stage'].'</th>';
 		print '<input type="hidden" name="cohids[]" value="'.$cohid.'" />'
 ?>
 		  <td>
-<?php  $icomid=$index; include('scripts/list_community.php'); ?>
+<?php  $multi=4; $type='year'; include('scripts/list_community.php'); ?>
 		  </td>
 		  <td>
-<?php  $icomid=$icomid-1; $type='academic'; include('scripts/list_community.php'); ?>
+<?php  $multi=4; $type='academic'; include('scripts/list_community.php'); ?>
 		  </td>
 		</tr>
 <?php

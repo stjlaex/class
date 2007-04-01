@@ -36,7 +36,7 @@ include('scripts/set_list_variables.php');
    		$listcoms=(array)list_communities($listtype);
 		while(list($index,$listcom)=each($listcoms)){
 			$listcomids[$listcom['id']]=$listcom;
-			/*a fix to display something meaningfull until detail is used*/
+			/*a fix to display something meaningful until detail is used*/
 			$listcomids[$listcom['id']]['name']=$listcomids[$listcom['id']]['type'] . 
 												' : '.$listcomids[$listcom['id']]['name'];
 			}

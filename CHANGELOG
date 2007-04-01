@@ -1,3 +1,13 @@
+Version ClaSS-0.8.14 release (2007/04/02)
+-----------------------------------------
+
+The use of listvariables for list_community.php had broken the cohort
+matrix. Had to bugfix by making selectedvalue for arrays to be
+correctly handled.
+
+Also the import_students dob was broken. This needs to be made clever.
+
+
 Version ClaSS-0.8.13 release (2007/03/30)
 -----------------------------------------
 
