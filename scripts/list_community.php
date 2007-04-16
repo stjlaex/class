@@ -22,6 +22,7 @@ include('scripts/set_list_variables.php');
 			}
 		}
 	elseif($type=='admissions'){
+		$listcomtypes[]='academic';
 		$listcomtypes[]='enquired';
 		$listcomtypes[]='applied';
 		$listcomtypes[]='accepted';

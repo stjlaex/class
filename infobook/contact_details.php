@@ -7,10 +7,10 @@ $action='contact_details_action.php';
 
 include('scripts/sub_action.php');
 
-if(isset($_GET['contactno'])){$contactno=$_GET['contactno'];}else{$contactno='-1';}
+if(isset($_GET['contactno'])){$contactno=$_GET['contactno'];}else{$contactno='-2';}
 if(isset($_POST['contactno'])){$contactno=$_POST['contactno'];}
 
-if($contactno!='-1'){
+if($contactno>'-1'){
 	$Contact=$Student['Contacts'][$contactno];
 	$Phones=$Contact['Phones'];
 	$Addresses=$Contact['Addresses'];
@@ -20,10 +20,14 @@ if($contactno!='-1'){
 	$perm=getYearPerm($yid,$respons);
 	include('scripts/perm_action.php');
 	}
+elseif($contactno=='-1'){
+	/*returns a blank for new contact*/
+	$Contact=fetchContact();
+	}
 else{
-	if(isset($_GET['gid'])){$_SESSION['infogid']=$_GET['gid'];}
-	if(isset($_POST['gid'])){$_SESSION['infogid']=$_POST['gid'];}
-	$gid=$_SESSION['infogid'];
+	if(isset($_GET['gid'])){$_SESSION['infosearchgid']=$_GET['gid'];}
+	if(isset($_POST['gid'])){$_SESSION['infosearchgid']=$_POST['gid'];}
+	$gid=$_SESSION['infosearchgid'];
 
 	if($gid!=''){
 		$Contact=fetchContact(array('guardian_id'=>$gid));
@@ -54,32 +58,28 @@ three_buttonmenu($extrabuttons,$book);
 		<?php $tab=xmlarray_form($Contact,'','contactdetails',$tab); ?>
 	  </div>
 
-	  <div class="right">
 <?php
 	reset($Phones);
 	while(list($phoneno,$Phone)=each($Phones)){
 ?>
-		<div class=center">
+		<div class="right">
 		  <?php $tab=xmlarray_form($Phone,$phoneno,'',$tab); ?>
 		</div>
 <?php
 			}
 ?>
-	  </div>
 
-	  <fieldset class="center">
-		<legend><?php print_string('contactaddress',$book);?></legend>
+	  <div class="left">
 <?php
-
+	  /* not implementing more than one address*/
 //	while(list($addressno,$Address)=each($Addresses)){
 $addressno='0';
 ?>
-		<div class="left">
-		  <?php $tab=xmlarray_form($Address,$addressno,'',$tab); ?>
-		</div>
+		  <?php $tab=xmlarray_form($Address,$addressno,'contactaddress',$tab); ?>
+	  </div>
 
-		<div class="right">
-		  <label><?php print_string('addresssharedwith',$book);?></label>
+	  <fieldset class="right">
+		<legend><?php print_string('addresssharedwith',$book);?></legend>
 <?php
 				/*find other contacts who share this address*/
 				$aid=$Address['id_db'];
@@ -90,11 +90,11 @@ $addressno='0';
 				   		$d_gidsid=mysql_query("SELECT * FROM gidsid WHERE guardian_id='$gid'");
 						$guardian=mysql_fetch_array($d_guardian,MYSQL_ASSOC);
 ?>
-		  <div class="center">
+		<div class="center">
 			<input type="checkbox" name="ungidaids[]" 
 			  value="<?php print $gid.':'.$aid; ?>" />
 <?php
-						print $guardian['forename'].' '.$guardian['surname'].' ';
+						print $guardian['forename'].' '.$guardian['surname'].'<br /> ';
 						while($gidsid=mysql_fetch_array($d_gidsid,MYSQL_ASSOC)){
 							$siblingsid=$gidsid['student_id'];
 							$d_student=mysql_query("SELECT * FROM
@@ -102,20 +102,20 @@ $addressno='0';
 							$student=mysql_fetch_array($d_student,MYSQL_ASSOC);
 							print displayEnum($gidsid['relationship'],'relationship'). 
 									' of &nbsp;'.$student['forename'].' ' 
-										.$student['surname'].'<br /> ';
+										.$student['surname'].' ';
 							}
 ?>
-		  </div>
+		</div>
+	  </fieldset>
 <?php
 					}
 //			}
 ?>
-		  </div>
-	  </fieldset>
+
  	<input type="hidden" name="contactno" value="<?php print $contactno;?>">
  	<input type="hidden" name="gid" value="<?php print $gid;?>">
  	<input type="hidden" name="current" value="<?php print $action;?>">
  	<input type="hidden" name="cancel" value="<?php print $cancel;?>">
  	<input type="hidden" name="choice" value="<?php print $choice;?>">
 	</form>
-</div>
+  </div>

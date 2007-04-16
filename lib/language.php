@@ -27,11 +27,10 @@ function current_language() {
 /* Return the code of the current charset, currently always UTF-8!
  * @return string
  */
-function current_charset($ignorecache = false) {
-
+function current_charset($ignorecache = false){
 	$currentcharset='UTF-8';
     return $currentcharset;
-}
+	}
 
 /**
  * Prints out a translated string.
@@ -57,9 +56,9 @@ function current_charset($ignorecache = false) {
  * @param mixed $a An object, string or number that can be used
  * within translation strings
  */
-function print_string($identifier, $book='', $a=NULL) {
+function print_string($identifier, $book='', $a=NULL){
     echo get_string($identifier, $book, $a);
-}
+	}
 
 /**
  * fix up the optional data in get_string()/print_string() etc
@@ -68,7 +67,7 @@ function print_string($identifier, $book='', $a=NULL) {
  * @param mixed $a An object, string or number that can be used
  * @return mixed the supplied parameter 'cleaned'
  */
-function clean_getstring_data( $a ) {
+function clean_getstring_data( $a ){
     if (is_string($a)) {
         return str_replace( '%','%%',$a );
     }
@@ -262,7 +261,7 @@ function get_strings($array, $book='') {
  * Returns a list of language codes and their full names
  * @return array An associative array with contents in the form of LanguageCode => LanguageName
  */
-function get_list_of_languages() {
+function get_list_of_languages(){
     global $CFG;
 
 	require_once($CFG->dirroot.'/lang/include.php');
@@ -275,69 +274,8 @@ function get_list_of_languages() {
 			}
 		}
     return $okaylanguages;
-}
+	}
 
-/**
- * Returns a list of country names in the current language
- *
- * @uses $CFG
- * @return string?
- */
-function get_list_of_countries() {
-    global $CFG;
-
-    $lang = current_language();
-
-    if (!file_exists($CFG->dirroot .'/lang/'. $lang .'/countries.php')) {
-        if ($parentlang = get_string('parentlanguage')) {
-            if (file_exists($CFG->dirroot .'/lang/'. $parentlang .'/countries.php')) {
-                $lang = $parentlang;
-            } else {
-                $lang = 'en';  // countries.php must exist in this pack
-            }
-        } else {
-            $lang = 'en';  // countries.php must exist in this pack
-        }
-    }
-
-    include($CFG->dirroot .'/lang/'. $lang .'/countries.php');
-
-    if (!empty($string)) {
-        asort($string);
-    }
-
-    return $string;
-}
-
-
-/**
- * Returns a list of picture names in the current language
- *
- * @uses $CFG
- * @return string?
- * @todo Finish documenting this function.
- */
-function get_list_of_pixnames() {
-    global $CFG;
-
-    $lang = current_language();
-
-    if (!file_exists($CFG->dirroot .'/lang/'. $lang .'/pix.php')) {
-        if ($parentlang = get_string('parentlanguage')) {
-            if (file_exists($CFG->dirroot .'/lang/'. $parentlang .'/pix.php')) {
-                $lang = $parentlang;
-            } else {
-                $lang = 'en';  // countries.php must exist in this pack
-            }
-        } else {
-            $lang = 'en';  // countries.php must exist in this pack
-        }
-    }
-
-    include_once($CFG->dirroot .'/lang/'. $lang .'/pix.php');
-
-    return $string;
-}
 
 /**
  * Can include a given document file (depends on second

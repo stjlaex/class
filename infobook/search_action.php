@@ -25,24 +25,80 @@ if(isset($com)){
 		$ids[]=$student['id'];
 		}
 	}
-/*else results from the fre text name searches*/
+/*else results from the free text searches*/
 else{
-
 	if(isset($_POST['forename']) and $_POST['forename']!=''){$forename=clean_text($_POST['forename']);$table='student';}
 	if(isset($_POST['surname']) and $_POST['surname']!=''){$surname=clean_text($_POST['surname']);$table='student';}
-
-	if(isset($_POST['gname']) and $_POST['gname']!=''){$surname=clean_text($_POST['gname']);$table='guardian';}
-
-	if(isset($table)){
-		include('scripts/find_sid.php');
+	if(isset($_POST['gvalue']) and $_POST['gvalue']!=''){
+		$value=clean_text($_POST['gvalue']);
+		$table='guardian';
+		$field=clean_text($_POST['gfield']);
+		}
+	if(isset($_POST['svalue']) and $_POST['svalue']!=''){
+		$value=clean_text($_POST['svalue']);
+		$table='student';
+		$field=clean_text($_POST['sfield']);
 		}
 
-	if(!isset($rows)){
+
+	/*
+	 *	Returns array of $d_sids and number of $rows in it
+	 *  $table should be set to student or guardian
+	 */
+
+	/*new search method using field and value - currently for admin and office only*/
+	if(isset($field)){
+		if($table=='guardian' and $field=='country'){
+			$d_sids=mysql_query("SELECT DISTINCT guardian_id AS id FROM gidaid
+				JOIN address ON gidaid.address_id=address.id WHERE
+				MATCH (address.county) AGAINST ('$value*' IN BOOLEAN MODE) 
+				OR address.county='$value'");
+			}
+		elseif($table=='student' and $field=='forename'){
+			$d_sids=mysql_query("SELECT id FROM $table WHERE 
+				MATCH (forename,preferredforename) AGAINST ('*$value*' IN BOOLEAN MODE) 
+				OR forename='$value' OR preferredforename='$value' 
+				ORDER BY surname, forename");
+			}
+		elseif($table=='student' and ($field!='surname' and $field!='gender')){
+			$d_sids=mysql_query("SELECT student_id AS id FROM info WHERE
+				MATCH ($field) AGAINST ('$value*' IN BOOLEAN MODE) 
+				OR $field='$value' ORDER BY $field");
+			}
+		else{
+			$d_sids=mysql_query("SELECT id FROM $table WHERE
+				MATCH ($field) AGAINST ('$value*' IN BOOLEAN MODE) 
+				OR $field='$value' ORDER BY surname, forename");
+			}
+		}
+	/*old search method for students only using surname and forename*/
+	elseif(isset($surname) and $surname!=''){
+		if(isset($forename) and $forename!=''){
+			$d_sids=mysql_query("SELECT id FROM $table WHERE
+				MATCH (surname) AGAINST ('$surname*' IN BOOLEAN MODE) 
+				AND (MATCH (forename,preferredforename) AGAINST ('$forename*' IN BOOLEAN MODE) 
+				OR forename='$forename' OR preferredforename='$forename')
+						ORDER BY surname, forename");
+			}
+		else{
+			$d_sids=mysql_query("SELECT id FROM $table WHERE
+				MATCH (surname) AGAINST ('$surname*' IN BOOLEAN MODE) 
+				OR surname='$surname' ORDER BY surname, forename");
+			}
+		}
+	elseif(isset($forename) and $forename!=''){
+		$d_sids=mysql_query("SELECT id FROM $table WHERE 
+				MATCH (forename,preferredforename) AGAINST ('*$forename*' IN BOOLEAN MODE) 
+				OR forename='$forename' OR preferredforename='$forename' 
+				ORDER BY surname, forename");
+		}
+
+	if(!isset($d_sids)){
 		$rows=0;
 		$result[]='No matches found!';
 		}
-	elseif($rows>0){
-		/*rows is the number of matching students found by find_sid*/
+	else{
+		$rows=mysql_num_rows($d_sids);
 		while($student=mysql_fetch_array($d_sids,MYSQL_ASSOC)){
 			$ids[]=$student['id'];
 			}
@@ -52,11 +108,11 @@ else{
 
 if($rows>0 and $table=='student'){
 	$_SESSION['infosids']=$ids;
-	$_SESSION['infogids']=array();
+	$_SESSION['infosearchgids']=array();
 	$action='student_list.php';
 	}
 elseif($rows>0 and $table=='guardian'){
-	$_SESSION['infogids']=$ids;
+	$_SESSION['infosearchgids']=$ids;
 	$_SESSION['infosids']=array();
 	$action='contact_list.php';
 	}

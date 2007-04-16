@@ -1,3 +1,20 @@
+Version ClaSS-0.8.15 release (2007/04/16)
+-----------------------------------------
+
+Exposed the nationality field for the guardians.
+
+Incorporated a choice of contactfield for searching in the
+quick_search.php which defaults to surname.
+
+Added the ISO two letter country codes, these are translated in the
+countries.php file which is part of each lang pack. These still need
+to be implemented for the nationality and country fields.
+
+Office and admin roles can now search in the infobook using a choice
+of fields for both contact and student. The fields can be extended.
+
+
+
 Version ClaSS-0.8.14 release (2007/04/02)
 -----------------------------------------
 
@@ -67,8 +84,6 @@ The contacts can now call on fetchDependents() function to list the
 contents of the gidsid table. Although its an xml-array Dependents
 does not fit with the rest of the Student xml logic and will remain
 localised to the contacts pages of the InfoBook.
-
-
 
 Made the lists for yeargroup, form, academic group printable by adding
 viewcontent ids.

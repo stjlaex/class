@@ -7,24 +7,14 @@
 $action='contact_list.php';
 $choice='contact_list.php';
 
-if(!isset($_SESSION['infogid'])){$_SESSION['infogid']='';}
-if(!isset($_SESSION['infogids'])){$_SESSION['infogids']=array();}
+if(!isset($_SESSION['infosearchgid'])){$_SESSION['infosearchgid']='';}
+if(!isset($_SESSION['infosearchgids'])){$_SESSION['infosearchgids']=array();}
 
-if(isset($_GET['gid'])){
-	if($_SESSION['infogid']!=$_GET['gid']){
-		$_SESSION['infogid']=$_GET['gid']; 
-		$_SESSION['umnrank']='surname';
-		}
-	}
-if(isset($_POST['gid'])){
-	if($_SESSION['infogid']!=$_POST['gid']){
-		$_SESSION['infogid']=$_POST['gid']; 
-		$_SESSION['umnrank']='surname';
-		}
-	}
+if(isset($_GET['gid'])){$_SESSION['infosearchgid']=$_GET['gid'];}
+if(isset($_POST['gid'])){$_SESSION['infosearchgid']=$_POST['gid'];}
 
-$gids=$_SESSION['infogids'];
-$gid=$_SESSION['infogid'];
+$gids=$_SESSION['infosearchgids'];
+$gid=$_SESSION['infosearchgid'];
 
 include('scripts/sub_action.php');
 
@@ -81,14 +71,19 @@ two_buttonmenu($extrabuttons,$book);
 <?php
 		while(list($index,$Dependent)=each($Dependents)){
 			$Student=$Dependent['Student'];
+			$relation=displayEnum($Dependent['Relationship']['value'],'relationship');
 ?>
 				  <table>
-					<tr><td><p>
-						<?php 
-			$relation=displayEnum($Dependent['Relationship']['value'],'relationship');
-			print get_string($relation,$book).':  ' .$Student['DisplayFullName']['value']; 
-						?>
-					</p></td></tr>
+					<tr>
+					  <td>
+						<p>
+						  <?php print get_string($relation,$book).':  ';?>
+						  <a href="infobook.php?current=student_view.php&cancel=contact_list.php&sid=<?php print $Student['id_db'];?>&sids[]=<?php print $Student['id_db'];?>">
+							<?php print $Student['DisplayFullName']['value']; ?>
+						  </a>
+						</p>
+					  </td>
+					</tr>
 				  </table>
 <?php
 			}

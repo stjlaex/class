@@ -68,6 +68,7 @@ $string['street']='Street';
 $string['neighbourhood']='Neighbourhood';
 $string['town/city']='Town/City';
 $string['county']='County';
+$string['country']='Country';
 $string['postcode']='Postcode';
 $string['addresssharedwith']='Address is shared with';
 $string['boardersevennights']='Boarder seven nights';

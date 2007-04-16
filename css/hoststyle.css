@@ -175,6 +175,11 @@ button {
 	margin:0 0 5% 2%;
     color:#ffffff;
 	}
+.bookoptions select.searchlabel, .bookoptions select.searchlabel option {
+	font-weight:600;
+    color:#ffffff;
+	background-color:#444444;
+	}
 .bookoptions form button { 
 	width:90%;
 	font-weight:300;

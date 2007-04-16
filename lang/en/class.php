@@ -1,6 +1,7 @@
 <?php
 /**						lang/en/class.php
  */
+include('countries.php');
 $string['locale']='en_GB';
 $string['shortlocale']='en';
 $string['thislanguage']='English';

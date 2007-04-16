@@ -18,6 +18,7 @@
 	if(isset($extra_studentfields)){$displayfield_array+=$extra_studentfields;}
 	while(list($val,$description)=each($displayfield_array)){
 		print '<option ';
+		print ' tabindex="'.$tab++.'" '; 
 		if(($seldisplayfield==$val)){print 'selected="selected"';}
 		print	' value="'.$val.'">'.get_string($description,'infobook').'</option>';
 		}

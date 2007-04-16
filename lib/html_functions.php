@@ -1,7 +1,7 @@
 <?php
 /**												lib/html_functions.php
  *
- * Generic functions for producing html entities.
+ * Generic functions for producing html elements.
  */
 
 function all_extrabuttons($extrabuttons,$book='',

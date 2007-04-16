@@ -574,12 +574,18 @@ function fetchContact($gidsid=array('guardian_id'=>'-1','student_id'=>'-1')){
 								  'field_db' => 'email', 
 								  'type_db' => 'varchar(240)', 
 								  'value' => ''.$guardian['email']);
+   	$Contact['Nationality']=array('label' => 'nationality', 
+								  'table_db' => 'guardian', 
+								  'field_db' => 'nationality', 
+								  'type_db'=>'enum', 
+								  'value' => ''.$guardian['nationality']);
 
 	/*******ContactsAddresses****/
 	$Addresses=array();
 	$d_gidaid=mysql_query("SELECT * FROM gidaid WHERE guardian_id='$gid' ORDER BY priority");
 	while($gidaid=mysql_fetch_array($d_gidaid,MYSQL_ASSOC)){
 		$Addresses[]=fetchAddress($gidaid);
+
 		}
 	$Contact['Addresses']=$Addresses;
 

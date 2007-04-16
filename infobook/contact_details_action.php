@@ -7,20 +7,17 @@ $action='student_view.php';
 
 $gid=$_POST['gid'];
 $contactno=$_POST['contactno'];
-//$Contact=$Student['Contacts'][$contactno];
-//$sid=$Student['id_db'];
 
 include('scripts/sub_action.php');
 
 if($sub=='Submit'){
 
-	if($contactno!='-1'){
+	if($contactno>'-1'){
 		/*Check user has permission to edit*/
 		$yid=$Student['YearGroup']['value'];
 		$perm=getYearPerm($yid, $respons);
 		$neededperm='w';
 		include('scripts/perm_action.php');
-
 
 		$action='student_view.php';
 		$Contact=$Student['Contacts'][$contactno];
