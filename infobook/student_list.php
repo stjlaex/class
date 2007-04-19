@@ -63,13 +63,18 @@ two_buttonmenu($extrabuttons,$book);
 <?php
 	reset($displayfields);
 	while(list($index,$displayfield)=each($displayfields)){
-		if(array_key_exists($displayfield,$Student)){
-			print '<td>'.$Student[$displayfield]['value'].'</td>';
+		if(!array_key_exists($displayfield,$Student)){
+			$field=fetchStudent_singlefield($sid,$displayfield);
+			$Student=array_merge($Student,$field);
+			}
+		if($Student[$displayfield]['type_db']=='enum'){
+			$displayout=displayEnum($Student[$displayfield]['value'],$Student[$displayfield]['field_db']);
+			$displayout=get_string($displayout,$book);
 			}
 		else{
-			$field=fetchStudent_singlefield($sid,$displayfield);
-			print '<td>'.$field[$displayfield]['value'].'</td>';
+			$displayout=$Student[$displayfield]['value'];
 			}
+		print '<td>'.$displayout.'</td>';
 		}
 ?>
 		</tr>

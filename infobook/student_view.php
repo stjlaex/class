@@ -45,12 +45,12 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 		  <tr>
 			<td>
 			  <label><?php print_string($Student['Nationality']['label'],$book);?></label> 
-			  <?php print $Student['Nationality']['value'];?>
+			  <?php print_string(displayEnum($Student['Nationality']['value'],$Student['Nationality']['field_db']),$book);?>
 			</td>
 			<td>
 <?php if($Student['Boarder']['value']!='N' and $Student['Boarder']['value']!=''){ ?>
 			  <label><?php print_string($Student['Boarder']['label'],$book);?></label>
-			  <?php print $Student['Boarder']['value'];?>
+			  <?php print_string(displayEnum($Student['Boarder']['value'],$Student['Boarder']['field_db']),$book);?>
 <?php
 			  }
 			else{print '&nbsp';}
@@ -59,8 +59,8 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 		  </tr>
 		  <tr>
 			<td>
-			  <label><?php print_string($Student['FirstLanguage']['label'],$book);?></label>
-			  <?php print $Student['FirstLanguage']['value'];?>
+			  <label><?php print_string($Student['Language']['label'],$book);?></label>
+			  <?php print_string(displayEnum($Student['Language']['value'],$Student['Language']['field_db']),$book);?>
 			</td>
 			<td>
 <?php if($Student['MobilePhone']['value']!=''){ ?>

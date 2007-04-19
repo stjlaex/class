@@ -1,3 +1,27 @@
+Version ClaSS-0.8.16 release (2007/04/23)
+-----------------------------------------
+
+Use patch-0.8.16.sql to bring the db into line with the changes!
+
+The student firstlanguage field has been brought in to line with CBDS
+2007, renamed language and allows a char4 code. This is accompanied by
+the addition of the languagetype field. Maintains compatibility by
+maintaing the old firstlanguage codes in the language list but these
+should be deprecated.
+
+All nationality fields (in tables guardian and student) are moved to
+char2 and now use the iso codes.
+
+Added new field companyname to the guardian table and exposed both
+this and the profession fields through the Contact array.
+
+The transportmode field has been included as part of the Student
+array. While the transportroute field has been dropped from the info
+table and will be superceded by membership of the communities for
+school buses.
+
+
+
 Version ClaSS-0.8.15 release (2007/04/16)
 -----------------------------------------
 
@@ -12,7 +36,6 @@ to be implemented for the nationality and country fields.
 
 Office and admin roles can now search in the infobook using a choice
 of fields for both contact and student. The fields can be extended.
-
 
 
 Version ClaSS-0.8.14 release (2007/04/02)

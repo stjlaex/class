@@ -1,13 +1,13 @@
 /*										webmail.css
- * main color: 002266
+ * main color: 203468
  * light shade:
  */
 
 
 div#bookbox{
-	border-color:#002266;
+	border-color:#203468;
 	}
 .webmailcolor fieldset, .webmailcolor div.topform, .webmailcolor table.listmenu {
-	border-color:#002266;
+	border-color:#203468;
 	background-color:#444444; color:#000000;
 	}

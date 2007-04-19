@@ -43,8 +43,9 @@ $yid=$_SESSION['entryyid'];
 		<legend><?php print_string('addnew');?></legend>
 <?php
 	$choices=array('new_student.php' => 'student'
-			   ,'new_staff.php' => 'staff'
-			   );
+				   ,'new_contact.php' => 'contact'
+				   ,'new_staff.php' => 'staff'
+				   );
 	selery_stick($choices,$choice,$book);
 ?>
 	  </fieldset>

@@ -9,7 +9,8 @@ $languages=array(
 				 'de' => 'Deutsch',
 				 'en' => 'English',
 				 'es' => 'Espanol',
-				 'fr' => 'Francais'
+				 'fr' => 'Francais',
+				 'it' => 'Italiano'
 				 );
 require_once($CFG->dirroot.'/lib/functions.php');
 if($CFG->debug=='on'){require_once($CFG->dirroot.'/lib/logging.php');}

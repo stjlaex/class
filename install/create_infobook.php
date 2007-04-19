@@ -14,9 +14,11 @@ CREATE TABLE info (
 	phonenumber		varchar(22) not null default '',
 	parttime		enum('N','Y') not null,
 	boarder			enum('N','B','6','7') not null,
-	nationality		char(30) not null default '',
-	countryoforigin	varchar(30) not null default '',
-	firstlanguage	enum('NOT', 'ENG', 'ENB', 'OTH', 'OTB', 'REF') not null,
+	nationality		char(2) not null default '',
+	birthplace		varchar(240) not null default '',
+	countryoforigin	char(2) not null default '',
+	language		char(4) not null default '',
+	languagetype	enum('NOT','F','M','H','T','S','C') not null,
 	religion		enum('NOT', 'NO','BU','CH','HI','JE','MU','SI','OT') not null,
 	reledu			enum('A','W' ) not null,
 	relwor			enum('A','W') not null,
@@ -24,7 +26,6 @@ CREATE TABLE info (
 	medical			enum('N','Y') not null,
 	incare			enum('N','Y') not null,
 	transportmode	enum('NOT','F', 'C', 'T', 'B', 'S') not null,
-	transportroute	varchar(20) not null default '',
    	primary key		(student_id)
 );");
 
@@ -138,9 +139,10 @@ CREATE TABLE guardian (
 	dob			date not null default '0000-00-00',
 	translator	enum('N','Y') not null,
 	language	char(3) not null default '',
-	nationality	char(4) not null default '',
+	nationality	char(2) not null default '',
 	email		varchar(240) not null default '',
 	profession	varchar(10) not null default '',
+	companyname	varchar(240) not nul default '',
 	index index_name (surname(5),forename(5)),
 	index index_forename (forename(5)), 	
 	primary key (id)

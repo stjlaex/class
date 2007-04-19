@@ -41,6 +41,8 @@ function fetchStudent_short($sid){
 		}
 
 	$Student['Gender']=array('label' => 'gender', 
+							 'field_db' => 'gender',
+							 'type_db' => 'enum',
 							 'value' => ''.$student['gender']);
    	$Student['DOB']=array('label' => 'dateofbirth', 
 						  'value' => ''.$student['dob']);
@@ -55,9 +57,9 @@ function fetchStudent_short($sid){
 function fetchStudent_singlefield($sid,$tag){
 	/*this is a ad-hoc function for use by student_list only at the moment*/
 	/*to quickly get at sid fields outside of student*/
-	if($tag=='Nationality'){$fieldname='nationality';}
+	if($tag=='Nationality'){$fieldname='nationality';$fieldtype='enum';}
 	elseif($tag=='EnrolNumber'){$fieldname='formerupn';}
-	elseif($tag=='FirstLanguage'){$fieldname='firstlanguage';}
+	elseif($tag=='Language'){$fieldname='language';$fieldtype='enum';}
 	elseif($tag=='EntryDate'){$fieldname='entrydate';}
 	elseif($tag=='EmailAddress'){$fieldname='email';}
 	elseif($tag=='MobilePhone'){$fieldname='phonenumber';}
@@ -70,7 +72,7 @@ function fetchStudent_singlefield($sid,$tag){
 			$Contacts=(array)fetchContacts($sid);
 			$Phones=(array)$Contacts[$contactno]['Phones'];
 			$Student[$tag]=array('label' => '',
-							 'value' => '');
+								 'value' => '');
 			while(list($phoneno,$Phone)=each($Phones)){
 				$Student[$tag]['value']=$Student[$tag]['value'] . 
 						$Phone['PhoneNo']['value'].' ';				
@@ -80,7 +82,7 @@ function fetchStudent_singlefield($sid,$tag){
 			/*NOT a part of the xml def for Student but useful here*/
 			$Contacts=(array)fetchContacts($sid);
 			$Student[$tag]=array('label' => '',
-							 'value' => $Contacts[$contactno]['EmailAddress']['value']);
+								 'value' => $Contacts[$contactno]['EmailAddress']['value']);
 			}
 		else{
 			/*NOT a part of the xml def for Student but useful here*/
@@ -90,7 +92,7 @@ function fetchStudent_singlefield($sid,$tag){
 			$firstcontact='('.$rel.') '. 
 					$Contacts[0]['Forename']['value']. ' '.$Contacts[0]['Surname']['value'];
 			$Student[$tag]=array('label' => '',
-							 'value' => '');
+								 'value' => '');
 			$Student[$tag]['value']=$firstcontact; 
 			}
 		}
@@ -99,7 +101,10 @@ function fetchStudent_singlefield($sid,$tag){
 		$d_info=mysql_query("SELECT $fieldname FROM info WHERE student_id='$sid'");
 		$info=mysql_fetch_array($d_info,MYSQL_ASSOC);
 		$Student[$tag]=array('label' => '',
-							 'value' => ''.$info[$fieldname]);
+							 'field_db' => ''.$fieldname,
+							 'type_db' => ''.$fieldtype,
+							 'value' => ''.$info[$fieldname]
+							 );
 		}
 	return $Student;
 	}
@@ -179,77 +184,105 @@ function fetchStudent($sid='-1'){
 							 'table_db' => 'student', 
 							 'field_db' => 'gender',
 							 'type_db'=>'enum', 
-							 'value' => ''.$student['gender']);
+							 'value' => ''.$student['gender']
+							 );
    	$Student['DOB']=array('label' => 'dateofbirth', 
 						  'table_db' => 'student', 
 						  'field_db' => 'dob',
 						  'type_db'=>'date', 
-						  'value' => ''.$student['dob']);
+						  'value' => ''.$student['dob']
+						  );
    	$Student['RegistrationGroup']=array('label' => 'formgroup', 
-										'value' => ''.$student['form_id']);
+										'value' => ''.$student['form_id']
+										);
    	$Student['YearGroup']=array('label' => 'yeargroup',   
 								'value' => ''.$student['yeargroup_id']);
 	$Student['NCyearActual']=array('label' => 'ncyear',  
 								   'id_db' => ''.$student['yeargroup_id'], 
-								   'value' => ''.getNCyear($student['yeargroup_id']));
+								   'value' => ''.getNCyear($student['yeargroup_id'])
+								   );
    	$Student['Nationality']=array('label' => 'nationality', 
 								  'table_db' => 'info', 
 								  'field_db' => 'nationality', 
-								  'type_db'=>'char(30)', 
-								  'value' => ''.$info['nationality']);
+								  'type_db'=>'enum', 
+								  'value' => ''.$info['nationality']
+								  );
+   	$Student['Birthplace']=array('label' => 'placeofbirth', 
+								 'table_db' => 'info', 
+								 'field_db' => 'birthplace', 
+								 'type_db'=>'varchar(240)', 
+								 'value' => ''.$info['birthplace']
+								 );
+   	$Student['CountryofOrigin']=array('label' => 'countryoforigin', 
+									  'table_db' => 'info', 
+									  'field_db' => 'countryoforigin', 
+									  'type_db'=>'enum', 
+									  'value' =>''.$info['countryoforigin']
+									  );
    	$Student['MedicalFlag']=array('label' => 'medicalinformation', 
-								  'value' => ''.$info['medical']);
+								  'value' => ''.$info['medical']
+								  );
    	$Student['SENFlag']=array('label' => 'seninformation', 
-							  'value' => ''.$info['sen']);
+							  'value' => ''.$info['sen']
+							  );
    	$Student['Religion']=array('label' => 'religion', 
 							   'table_db' => 'info', 
 							   'field_db' => 'religion',
 							   'type_db' => 'enum', 
-							   'value' => ''.$info['religion']);
-   	$Student['FirstLanguage']=array('label' => 'firstlanguage', 
-									'table_db' => 'info', 
-									'field_db' => 'firstlanguage',
-									'type_db'=>'enum', 
-									'value' => ''.$info['firstlanguage']);
+							   'value' => ''.$info['religion']
+							   );
+   	$Student['Language']=array('label' => 'firstlanguage', 
+							   'table_db' => 'info', 
+							   'field_db' => 'language',
+							   'type_db'=>'enum', 
+							   'value' => ''.$info['language']
+							   );
    	$Student['MobilePhone']=array('label' => 'mobilephone',
-							 'table_db' => 'info', 
-							 'field_db' => 'phonenumber',
-							 'type_db'=>'varhar(22)', 
-							 'value' => ''.$info['phonenumber']);
+								  'table_db' => 'info', 
+								  'field_db' => 'phonenumber',
+								  'type_db'=>'varhar(22)', 
+								  'value' => ''.$info['phonenumber']
+								  );
    	$Student['EmailAddress']=array('label' => 'email',
-							 'table_db' => 'info', 
-							 'field_db' => 'email',
-							 'type_db'=>'varhar(240)', 
-							 'value' => ''.$info['email']);
+								   'table_db' => 'info', 
+								   'field_db' => 'email',
+								   'type_db'=>'varhar(240)', 
+								   'value' => ''.$info['email']
+								   );
    	$Student['EnrolNumber']=array('label' => 'enrolmentnumber', 
 								  'table_db' => 'info', 
 								  'field_db' => 'formerupn', 
 								  'type_db'=>'varchar(13)', 
-								  'value' => ''.$info['formerupn']);
+								  'value' => ''.$info['formerupn']
+								  );
 	$Student['EntryDate']=array('label' => 'schoolstartdate', 
 								'table_db' => 'info', 
 								'field_db' => 'entrydate', 
 								'type_db'=>'date', 
-								'value' => ''.$info['entrydate']);
+								'value' => ''.$info['entrydate']
+								);
 	$Student['LeavingDate']=array('label' => 'schoolleavingdate', 
 								  'field_db' => 'leavingdate', 
 								  'type_db'=>'date', 
-								  'value' => ''.$info['leavingdate']);
+								  'value' => ''.$info['leavingdate']
+								  );
    	$Student['Boarder']=array('label' => 'boarder', 
 							  'table_db' => 'info', 
 							  'field_db' => 'boarder',
 							  'type_db'=>'enum', 
-							  'value' => ''.$info['boarder']);
+							  'value' => ''.$info['boarder']
+							  );
    	$Student['PartTime']=array('label' => 'parttime', 
 							   'table_db' => 'info', 
 							   'field_db' => 'parttime',
 							   'type_db'=>'enum', 
-							   'value' => ''.$info['parttime']);
+							   'value' => ''.$info['parttime']
+							   );
    	$Student['TransportMode']=array('label' => 'modeoftransport', 
+									'table_db' => 'info', 
+									'field_db' => 'transportmode',
+									'type_db'=>'enum', 
 									'value' => ''.$info['transportmode']);
-   	$Student['TransportRoute']=array('label' => 'transportroute', 
-									 'value' => ''.$info['transportroute']);
-
 	/*******Contacts****/
 
 	$Student['Contacts']=fetchContacts($sid);
@@ -579,13 +612,22 @@ function fetchContact($gidsid=array('guardian_id'=>'-1','student_id'=>'-1')){
 								  'field_db' => 'nationality', 
 								  'type_db'=>'enum', 
 								  'value' => ''.$guardian['nationality']);
+   	$Contact['Profession']=array('label' => 'profession', 
+								  'table_db' => 'guardian', 
+								  'field_db' => 'profession', 
+								  'type_db'=>'enum', 
+								  'value' => ''.$guardian['profession']);
+   	$Contact['CompanyName']=array('label' => 'nameofcompany', 
+								  'table_db' => 'guardian', 
+								  'field_db' => 'companyname', 
+								  'type_db'=>'varchar(240)', 
+								  'value' => ''.$guardian['companyname']);
 
 	/*******ContactsAddresses****/
 	$Addresses=array();
 	$d_gidaid=mysql_query("SELECT * FROM gidaid WHERE guardian_id='$gid' ORDER BY priority");
 	while($gidaid=mysql_fetch_array($d_gidaid,MYSQL_ASSOC)){
 		$Addresses[]=fetchAddress($gidaid);
-
 		}
 	$Contact['Addresses']=$Addresses;
 
@@ -662,6 +704,11 @@ function fetchAddress($gidaid=array('address_id'=>'-1','addresstype'=>'')){
 							 'field_db' => 'county',
 							 'type_db'=>'varchar(40)', 
 							 'value' => ''.$address['county']);
+	$Address['Country']=array('label' => 'country', 
+							 'table_db' => 'address', 
+							 'field_db' => 'country',
+							 'type_db' => 'enum', 
+							 'value' => ''.$address['country']);
 	$Address['Postcode']=array('label' => 'postcode',
 							   'table_db' => 'address', 
 							   'field_db' => 'postcode',

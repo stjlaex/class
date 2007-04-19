@@ -214,6 +214,7 @@ $string['current']='Current';
 $string['removecontact']='Remove contact';
 $string['newstudent']='New student';
 $string['newcontact']='New contact';
+$string['contact']='Contact';
 $string['cohortmatrix']='Cohort matrix';
 $string['cohort']='Cohort';
 $string['communities']='Communities';

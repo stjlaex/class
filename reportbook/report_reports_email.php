@@ -39,8 +39,8 @@ if(sizeof($sids)==0){
 		$attachments=array();
 		$attachments[]=array('filepath'=>$CFG->installpath.'/pdfreports/'.$filename,
 							 'filename'=>$filename);
-		$attachments[]=array('filepath'=>$CFG->installpath.'/pdfreports/smc_newsletter.pdf',
-							 'filename'=>'newsletter.pdf');
+		//$attachments[]=array('filepath'=>$CFG->installpath.'/pdfreports/smc_newsletter.pdf',
+		//					 'filename'=>'newsletter.pdf');
 
 		while(list($index,$Contact)=each($Contacts)){
 			$mailing=$Contact['ReceivesMailing']['value'];
