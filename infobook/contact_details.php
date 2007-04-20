@@ -55,7 +55,7 @@ three_buttonmenu($extrabuttons,$book);
 	<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
 
 	  <div class="left">
-		<?php $tab=xmlarray_form($Contact,'','contactdetails',$tab); ?>
+		<?php $tab=xmlarray_form($Contact,'','contactdetails',$tab,$book); ?>
 	  </div>
 
 <?php
@@ -63,7 +63,7 @@ three_buttonmenu($extrabuttons,$book);
 	while(list($phoneno,$Phone)=each($Phones)){
 ?>
 		<div class="right">
-		  <?php $tab=xmlarray_form($Phone,$phoneno,'',$tab); ?>
+		  <?php $tab=xmlarray_form($Phone,$phoneno,'',$tab,$book); ?>
 		</div>
 <?php
 			}
@@ -75,7 +75,7 @@ three_buttonmenu($extrabuttons,$book);
 //	while(list($addressno,$Address)=each($Addresses)){
 $addressno='0';
 ?>
-		  <?php $tab=xmlarray_form($Address,$addressno,'contactaddress',$tab); ?>
+		  <?php $tab=xmlarray_form($Address,$addressno,'contactaddress',$tab,$book); ?>
 	  </div>
 
 	  <fieldset class="right">

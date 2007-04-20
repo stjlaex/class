@@ -14,7 +14,7 @@ $Student=fetchStudent();
 	<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
 
 	  <div class="center">
-		  <?php xmlarray_form($Student,'','newstudent',$tab); ?>
+		  <?php $tab=xmlarray_form($Student,'','newstudent',$tab,'infobook'); ?>
 	  </div>
 	    <input type="hidden" name="current" value="<?php print $action;?>">
 		<input type="hidden" name="cancel" value="<?php print '';?>">

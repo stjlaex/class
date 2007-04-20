@@ -20,6 +20,13 @@ array. While the transportroute field has been dropped from the info
 table and will be superceded by membership of the communities for
 school buses.
 
+Attempted to solve a problem with the selct fields in the bookoptions;
+optins of different lengths also had different css widths and made
+clicking difficult. Have had to use fixed widths in px to get around
+this, as nothing else worked. Firefox rendering css problem?
+
+Have added a new contact option and associated scripts to the
+EntryBook. This still needs tying in with a new student though.
 
 
 Version ClaSS-0.8.15 release (2007/04/16)

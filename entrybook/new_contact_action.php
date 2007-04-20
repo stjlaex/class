@@ -1,8 +1,9 @@
 <?php
 /**			  					new_contact_action.php
+ *
  */
 
-$action='new_student.php';
+$action='new_contact.php';
 include('scripts/sub_action.php');
 
 if($sub=='Submit'){
@@ -10,45 +11,47 @@ if($sub=='Submit'){
 	$Contact=fetchContact(array('guardian_id'=>'-1'));
 	mysql_query("INSERT INTO guardian SET surname=''");
 	$gid=mysql_insert_id();
-
-	mysql_query("INSERT INTO info SET student_id='$sid'");
 	reset($Contact);
 	while(list($key,$val)=each($Contact)){
 		if(isset($val['value']) and is_array($val) and isset($val['table_db'])){
 			$field=$val['field_db'];
 			$inname=$field;
 			$inval=clean_text($_POST[$inname]);
-				if($val['table_db']=='contact'){
-					mysql_query("UPDATE contact SET $field='$inval'	WHERE id='$gid'");
-					}
-				elseif($val['table_db']=='info'){
-					mysql_query("UPDATE info SET $field='$inval' WHERE student_id='$gid'");
-					}
+			if($val['table_db']=='guardian'){
+				mysql_query("UPDATE guardian SET $field='$inval' WHERE id='$gid'");
 				}
 			}
 		}
 
-	if($yid!=''){
-		$comtype='year';
-		$comname=$yid;
-		}
-	elseif($enrolstatus=='C'){
-		$comtype='year';
-		$comname='none';
-		}
-	else{
-		if($enrolstatus=='P'){$comtype='alumni';}
-		elseif($enrolstatus=='EN'){$comtype='enquired';}
-		elseif($enrolstatus=='AC'){$comtype='accepted';}
-		/*all other enrolstatus values place the student within the*/
-		/*application procedure*/
-		else{$comtype='applied';}
-		$comname=$enrolstatus;
+	if(isset($_POST['addresstype']) and $_POST['addresstype']!=''){
+		$atype=$_POST['addresstype'];
+		$Address=fetchContact(array('guardian_id'=>'-1'));
+		mysql_query("INSERT INTO address SET country=''");
+		$aid=mysql_insert_id();
+		mysql_query("INSERT INTO gidaid SET guardian_id='$gid',
+					address_id='$aid', addresstype='$atype'");
+		reset($Address);
+		while(list($key,$val)=each($Address)){
+			if(isset($val['value']) and is_array($val) and isset($val['table_db'])){
+				$field=$val['field_db'];
+				$inname=$field;
+				$inval=clean_text($_POST[$inname]);
+				if($val['table_db']=='address'){
+					mysql_query("UPDATE address SET $field='$inval'	WHERE id='$aid'");
+					}
+				elseif($val['table_db']=='gidaid'){
+					mysql_query("UPDATE gidaid SET $field='$inval'
+								   WHERE guardian_id='$gid' AND address_id='$aid'");
+					}
+				}
+			}
+
+
 		}
 
-	$community=array('id'=>'','type'=>$comtype,'name'=>$comname);
-	join_community($sid,$community);
-	$result[]=get_string('newstudentadded',$book);
+	$result[]=get_string('newcontactadded',$book);
+	}
+
 
 
 include('scripts/results.php');

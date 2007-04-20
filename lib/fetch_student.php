@@ -665,15 +665,17 @@ function fetchAddress($gidaid=array('address_id'=>'-1','addresstype'=>'')){
 	$d_address=mysql_query("SELECT * FROM address WHERE id='$aid'");
 	$address=mysql_fetch_array($d_address,MYSQL_ASSOC);
 	$Address['id_db']=$aid;
-	/*	 $Address['Order']=array('label' => 'priority', 
+	/*Only makes sense if multiple addresses are implemented
+	 $Address['Order']=array('label' => 'priority', 
 									'table_db' => 'gidaid', 'field_db' => 'priority',
 									'type_db'=>'enum', 'value' => $gidaid['priority']);
 	*/
 	$Address['AddressType']=array('label' => 'type', 
+								  //'inputtype'=> 'required',
 								  'table_db'=>'gidaid', 
 								  'field_db' => 'addresstype',
 								  'type_db'=>'enum', 
-								  'value' => $gidaid['addresstype']);
+								  'value' => ''.$gidaid['addresstype']);
 	$Address['BuildingName']=array('label' => 'building', 
 								   'table_db' => 'address', 
 								   'field_db' => 'building',

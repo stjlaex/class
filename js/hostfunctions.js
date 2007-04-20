@@ -117,6 +117,7 @@ function loadLogin(page){
 	window.frames["viewlogbook"].location.href=page+".php";
 	document.getElementById("sidebuttons").style.zIndex="-100";
 	document.getElementById("viewlogbook").style.zIndex="100";
+	document.getElementById("viewlogbook").focus();
 	}
 
 function logInSuccess(){
@@ -179,6 +180,7 @@ function viewBook(newbook){
 	document.getElementById('currentbook').removeAttribute('id');
 	// now bring the new tab and book to the top
 	document.getElementById("view"+newbook).style.zIndex = "50";
+	document.getElementById("view"+newbook).focus();
 	document.getElementById(newbook+"options").style.zIndex = "50";
 	document.getElementById(newbook+"tab").firstChild.setAttribute('id','currentbook');
 	// change the colour of the logbook's stripe to match

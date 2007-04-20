@@ -115,9 +115,7 @@ function rowaction_buttonmenu($imagebuttons,$extrabuttons='',$book=''){
    	all_extrabuttons($extrabuttons,$book,'clickToAction(this)','class="rowaction" ');
 	}
 
-function xmlarray_form($Array,$no='',$caption='',$tab=1){
-	if("$Array"=='Student'){$book='infobook';}
-	else{$book='infobook';}
+function xmlarray_form($Array,$no='',$caption='',$tab=1,$book=''){
 ?>
   <table class="listmenu">
 <?php
@@ -128,7 +126,7 @@ function xmlarray_form($Array,$no='',$caption='',$tab=1){
 	<tr>
 	  <td>
 		<label for="<?php print $val['label'];?>">
-		  <?php print_string($val['label'],'infobook');?>
+		  <?php print_string($val['label'],$book);?>
 		</label>
 	  </td>
 	  <td>

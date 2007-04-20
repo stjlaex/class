@@ -157,12 +157,18 @@ label, legend {
 select, input, button {
 	margin-bottom:10px;
 	}
-select, option, input {
-	width:95%;	font-size:x-small;
+select, input {
+	width:95%;
+    font-size:x-small;
+    background-color:#ffffff;
+	}
+option {
+	font-size:x-small;
     background-color:#ffffff;
 	}
 input:focus, select:focus {
 	border:2px solid #ee9900;
+    z-index:10000;
 	}
 button {
 	width:100%; font-weight:600;
@@ -194,15 +200,29 @@ button {
 	padding:2px; margin:0;
     background-color:#444444;
 	}
-.bookoptions select {  
-    width:100%;
+/*these thre widths are not ideal but seem to solve a firefox bug!*/
+.bookoptions select {
+    width:130px;
 	}
-.bookoptions input {  
+.bookoptions select:focus {
+    width:148px;
+	}
+.bookoptions option {
+    width:200px;
+	}
+.bookoptions option:hover {
+    background-color:#5599cc;
+    color:#ffffff;
+	}
+.bookoptions input { 
     width:98%;
 	}
 
 .formimages {
-	padding:5px; width:10px; height:10px; border-style:none;	
+	padding:5px; 
+    width:10px; 
+    height:10px; 
+    border-style:none;	
 	}
 
 .logbook {background-color:#999999; border-color:#666666;}
