@@ -30,21 +30,22 @@ $action='search_action.php'
 ?>
 	  <fieldset class="infobook">
 		<legend><?php print_string('contactsearch',$book);?></legend>
-		<select class="searchlabel" type="text" id="Contactfield" 
+		<select class="switcher" type="text" id="contact" 
+		  onChange="selerySwitch('contact',this.value)"  
 		  tabindex="<?php print $tab++;?>" name="gfield" size="1">
 <?php
-		$selgfield='surname';
+		$selgfield='country';
 		/*only used for the infobook search options, not an enumarray at all!*/
 		$contactfield=array(
-						'surname' => 'name', 
-						'country' => 'country'
-						);
+							'country' => 'country',
+							'surname' => 'name'
+							);
 		$studentfield=array(
-						'surname' => 'surname', 
-						'forename' => 'forename', 
-						'nationality' => 'nationality',
-						'gender' => 'gender'
-						);
+							'surname' => 'surname', 
+							'forename' => 'forename', 
+							'nationality' => 'nationality',
+							'gender' => 'gender'
+							);
 		/***/
 		$enum=$contactfield;
 		while(list($val,$description)=each($enum)){	
@@ -54,13 +55,16 @@ $action='search_action.php'
 				}
 ?>
 		</select>
-		<input tabindex="<?php print $tab++;?>" 
-		  type="text" id="Contactname" name="gvalue" value="" maxlength="30"/>
+
+		<div id="switchcontact">
+		</div>
+
 	  </fieldset>
 
 	  <fieldset class="infobook">
 		<legend><?php print_string('studentsearch');?></legend>
-		<select  class="searchlabel" type="text" id="Studentfield" 
+		<select class="switcher" type="text" id="student" 
+		  onChange="selerySwitch('student',this.value)" 
 		  tabindex="<?php print $tab++;?>" name="sfield" size="1">
 <?php
 		$selsfield='surname';
@@ -72,8 +76,9 @@ $action='search_action.php'
 				}
 ?>
 		</select>
-		<input tabindex="<?php print $tab++;?>" 
-		  type="text" id="Studentvalue" name="svalue" value="" maxlength="30"/>
+
+		<div id="switchstudent">
+		</div>
 
 			<button type="submit" name="submit">
 				<?php print_string('search');?>
@@ -108,4 +113,41 @@ $action='search_action.php'
 
 	  <input type="hidden" name="current" value="<?php print $action;?>"/>
 	</form>
+
+		<div id="switchcontactsurname" class="hidden">
+		  <input tabindex="<?php print $tab++;?>" 
+			type="text" id="Contactsurname" name="contactsurname" value="" maxlength="30"/>
+		</div>
+		<div id="switchcontactcountry" style="visibility:hidden;" class="hidden">
+<?php 
+		  $listname='contactcountry';$listlabel='';
+		  include('scripts/set_list_variables.php');
+		  list_select_enum('country',$listoptions,$book);
+?>
+		</div>
+		<div id="switchstudentsurname" class="hidden">
+		  <input tabindex="<?php print $tab++;?>" 
+			type="text" name="studentsurname" value="" maxlength="30"/>
+		</div>
+		<div id="switchstudentforename" class="hidden">
+		  <input tabindex="<?php print $tab;?>" 
+			type="text" name="studentforename" value="" maxlength="30"/>
+		</div>
+		<div id="switchstudentgender"  class="hidden">
+<?php 
+		$listname='studentgender';$listlabel='';
+		include('scripts/set_list_variables.php');
+		list_select_enum('gender',$listoptions,$book);
+?>
+		</div>
+		<div id="switchstudentnationality"  class="hidden">
+<?php 
+		$listname='studentnationality';$listlabel='';
+		include('scripts/set_list_variables.php');
+		list_select_enum('nationality',$listoptions,$book);
+?>
+		</div>
+
   </div>
+
+

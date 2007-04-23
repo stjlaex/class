@@ -28,6 +28,11 @@ this, as nothing else worked. Firefox rendering css problem?
 Have added a new contact option and associated scripts to the
 EntryBook. This still needs tying in with a new student though.
 
+Incorporated selerySwitch into the js to allow selerylabel fields to
+switch the input fields the user sees. Used first as part of the
+contact search options.
+
+
 
 Version ClaSS-0.8.15 release (2007/04/16)
 -----------------------------------------

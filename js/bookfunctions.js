@@ -400,17 +400,23 @@ function loadRequired(){
 		formObject=document.forms[i];
 		for(c=0;c<formObject.elements.length;c++){
 			elementObject=formObject.elements[c];
-			if(elementObject.className=='required'){
+			if(elementObject.className=="required"){
 				elementObject.setAttribute('onChange','validateRequired(this)');
 				imageRequired=document.createElement('img');
 				imageRequired.className='required';
 				elementObject.parentNode.insertBefore(imageRequired, elementObject);
 				}
-			else if(elementObject.className=='requiredor'){
+			else if(elementObject.className=="requiredor"){
 				elementObject.setAttribute('onChange','validateRequiredOr(this)');
 				imageRequired=document.createElement('img');
 				imageRequired.className='required';
 				elementObject.parentNode.insertBefore(imageRequired, elementObject);
+				}
+			else if(elementObject.className=="switcher"){
+				switcherId=elementObject.getAttribute('id');
+				//alert(switcherId,elementObject.value);
+				parent.selerySwitch(switcherId,elementObject.value);
+				elementObject.setAttribute("onChange","selerySwitch('"+switcherId+"',this.value)");
 				}
 
 			if(elementObject.getAttribute('tabindex')=='1' & firstFocus=='-1'){
@@ -438,6 +444,8 @@ function loadRequired(){
 	if(document.getElementById("sidtable")){
 		sidtableInit();
 		}
+
+
 
 	/*give focus to the tab=1 form element if this is a form*/
 	/*should always be last!*/

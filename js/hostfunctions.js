@@ -107,6 +107,16 @@ function seleryGrow(buttonObj){
 	buttonObj.parentNode.getElementsByTagName("input")[0].value=end;
 	}
 
+
+function selerySwitch(servantclass,fieldvalue){
+	switchedId="switch"+servantclass;
+	newfielddivId="switch"+servantclass+fieldvalue;
+	if(document.getElementById(newfielddivId)){	
+		//alert(switchedId,fieldvalue);
+		document.getElementById(switchedId).innerHTML=document.getElementById(newfielddivId).innerHTML;
+		}
+	}
+
 //--------------------------------------------------------
 //  the scripts for the userinterface - handles the Book Tabs and bookframe
 
@@ -169,7 +179,7 @@ function loadBook(book){
 	}
 
 function loadBookOptions(book){
-	document.getElementById(book+"options").innerHTML=window.frames["view"+book].document.getElementById('hiddenbookoptions').innerHTML;
+	document.getElementById(book+"options").innerHTML=window.frames["view"+book].document.getElementById("hiddenbookoptions").innerHTML;
 	}
 
 function viewBook(newbook){

@@ -199,10 +199,14 @@ function selery_stick($choices,$choice='',$book=''){
 function list_select_db($d_list,$vars,$book=''){
 	$valuefield=$vars['valuefield'];
 	$descriptionfield=$vars['descriptionfield'];
+	if($vars['label']!=''){
 ?>
   <label for="<?php print $vars['id'];?>">
 	<?php print_string($vars['label'],$book);?>
   </label>
+<?php
+		  }
+?>
   <select 
 	id="<?php print $vars['id'];?>" 
 <?php 
@@ -231,16 +235,18 @@ function list_select_db($d_list,$vars,$book=''){
 <?php
 	}
 
-/* as for list_select_db except that the $list is not a mysql result */
-/* resource*/
+/* as for list_select_db except that the $list is not a mysql result resource*/
 function list_select_list($list,$vars,$book=''){
 	$valuefield=$vars['valuefield'];
 	$descriptionfield=$vars['descriptionfield'];
+	if($vars['label']!=''){
 ?>
   <label for="<?php print $vars['id'];?>">
 	<?php print_string($vars['label'],$book);?>
   </label>
-  <select 
+<?php
+		}
+?>  <select 
 	id="<?php print $vars['id'];?>" 
 <?php 
 	if($vars['multi']>1){print ' name="'.$vars['name'].$vars['i'].'[]" multiple="multiple" ';}
@@ -256,7 +262,6 @@ function list_select_list($list,$vars,$book=''){
     <option value=""></option>
 <?php
 	while(list($index,$item)=each($list)){
-
 		print '<option ';
 		if($vars['multi']==1){
 			if($vars['selectedvalue']==$item[$valuefield]){print 'selected="selected"';}
@@ -266,6 +271,42 @@ function list_select_list($list,$vars,$book=''){
 		}
 ?>
   </select>
+<?php
+	}
+
+
+function list_select_enum($fieldname,$vars,$book=''){
+	$enum=getEnumArray($fieldname);
+	if($vars['label']!=''){
+?>
+  <label for="<?php print $vars['id'];?>">
+	<?php print_string($vars['label'],$book);?>
+  </label>
+<?php 
+		}
+?>
+  <select 
+	id="<?php print $vars['id'];?>" 
+<?php 
+	if($vars['multi']>1){print ' name="'.$vars['name'].$vars['i'].'[]" multiple="multiple" ';}
+	else{print ' name="'.$vars['name'].$vars['i'].'" ';}
+?>
+	tabindex="<?php print $vars['tab'];?>"  
+	size="<?php print $vars['multi'];?>"
+	<?php print $vars['style'];?>
+	<?php if($vars['onsidechange']=='yes'){print ' onChange="document.'.$book.'choice.submit();"';}?>
+	<?php if($vars['onchange']=='yes'){print ' onChange="processContent(this);"';}?>
+	<?php if($vars['required']=='yes'){ print ' class="required" ';} ?>
+	>
+    <option value=""></option>
+<?php
+			 while(list($inval,$description)=each($enum)){	
+				 print '<option ';
+				 if($vars['selectedvalue']==$inval){print 'selected="selected"';}
+				 print ' value="'.$inval.'">'.get_string($description,$book).'</option>';
+				 }
+?>
+	</select>
 <?php
 	}
 ?>

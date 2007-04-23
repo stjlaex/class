@@ -63,6 +63,9 @@ $yid=$_SESSION['entryyid'];
 			include('scripts/list_year.php');
 			}
 ?>
+		<div id="switchenrol">
+		</div>
+
 	</fieldset>
 <?php
 		}

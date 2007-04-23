@@ -29,17 +29,20 @@ if(isset($com)){
 else{
 	if(isset($_POST['forename']) and $_POST['forename']!=''){$forename=clean_text($_POST['forename']);$table='student';}
 	if(isset($_POST['surname']) and $_POST['surname']!=''){$surname=clean_text($_POST['surname']);$table='student';}
-	if(isset($_POST['gvalue']) and $_POST['gvalue']!=''){
-		$value=clean_text($_POST['gvalue']);
+	/*these are the switchlabels set for guardian and student*/
+	$gfield=$_POST['gfield'];
+	$sfield=$_POST['sfield'];
+	if(isset($_POST['contact'.$gfield]) and $_POST['contact'.$gfield]!=''){
+		$value=clean_text($_POST['contact'.$gfield]);
 		$table='guardian';
-		$field=clean_text($_POST['gfield']);
+		$field=$gfield;
 		}
-	if(isset($_POST['svalue']) and $_POST['svalue']!=''){
-		$value=clean_text($_POST['svalue']);
+	if(isset($_POST['student'.$sfield]) and $_POST['student'.$sfield]!=''){
+		$value=clean_text($_POST['student'.$sfield]);
 		$table='student';
-		$field=clean_text($_POST['sfield']);
+		$field=$sfield;
 		}
-
+	trigger_error(' Field: '.$field.' Value: '.$value,E_USER_WARNING);
 
 	/*
 	 *	Returns array of $d_sids and number of $rows in it
