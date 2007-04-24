@@ -8,24 +8,9 @@ $book='entrybook';
 
 include('scripts/head_options.php');
 include('scripts/book_variables.php');
+$session_vars=array('enrolstatus','enrolyid','enrolyear');
+include('scripts/book_session_variables.php');
 
-if(!isset($_SESSION['enrolstatus'])){$_SESSION['enrolstatus']='EN';}
-if(!isset($_SESSION['entryyid'])){$_SESSION['entryyid']='';}
-
-if(isset($_POST['newenrolstatus'])){
-	if($_SESSION['enrolstatus']!=$_POST['newenrolstatus']){
-		$_SESSION['enrolstatus']=$_POST['newenrolstatus']; 
-		$_POST['newyid']='';
-		}
-	}
-if(isset($_POST['newyid'])){
-	if($_SESSION['entryyid']!=$_POST['newyid']){
-		$_SESSION['entryyid']=$_POST['newyid']; 
-		}
-	}
-
-$enrolstatus=$_SESSION['enrolstatus'];
-$yid=$_SESSION['entryyid'];
 
 ?>
   <div id="bookbox" class="entrybookcolor">
@@ -57,11 +42,20 @@ $yid=$_SESSION['entryyid'];
 <?php
 		$onsidechange='yes';
 		include('scripts/list_enrolstatus.php');
+		$onsidechange='yes';
 		if($enrolstatus=='C' or $enrolstatus=='G' or $enrolstatus=='S'
 					or $enrolstatus=='M'){
-			$onsidechange='yes';
-			include('scripts/list_year.php');
+			/*on current roll so can only be this academic year*/
+			$enrolyear=get_curriculumyear();$_SESSION['entryyear']=$enrolyear;
 			}
+		else{
+			$listname='enrolyear';$listlabel='academicyear';
+			if($enrolyear==''){$enrolyear=get_curriculumyear()+1;$_SESSION['entryyear']=$enrolyear;}
+			include('scripts/list_calendar_year.php');
+			}
+		$onsidechange='yes';
+		$selenrolyid=$yid;$listname='enrolyid';
+		include('scripts/list_year.php');
 ?>
 		<div id="switchenrol">
 		</div>

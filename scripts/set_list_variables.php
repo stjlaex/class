@@ -18,7 +18,7 @@
  * selectedvalue!='' if a value is preselected
  */
 $listoptions=array();
-if(isset($multi)){$listoptions['multi']=$multi;$listname.='s';unset($multi);}else{$listoptions['multi']=1;}
+if(isset($multi) and $multi>1){$listoptions['multi']=$multi;$listname.='s';unset($multi);}else{$listoptions['multi']=1;}
 $listoptions['name']=$listname;
 if(isset($required)){$listoptions['required']=$required;unset($required);}else{$listoptions['required']='no';}
 if(isset($onsidechange)){$listoptions['onsidechange']=$onsidechange;unset($onsidechange);}else{$listoptions['onsidechange']='no';}

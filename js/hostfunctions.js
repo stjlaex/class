@@ -107,7 +107,6 @@ function seleryGrow(buttonObj){
 	buttonObj.parentNode.getElementsByTagName("input")[0].value=end;
 	}
 
-
 function selerySwitch(servantclass,fieldvalue){
 	switchedId="switch"+servantclass;
 	newfielddivId="switch"+servantclass+fieldvalue;
@@ -191,10 +190,10 @@ function viewBook(newbook){
 	// now bring the new tab and book to the top
 	document.getElementById("view"+newbook).style.zIndex = "50";
 	document.getElementById("view"+newbook).focus();
-	document.getElementById(newbook+"options").style.zIndex = "50";
+	document.getElementById(newbook+"options").style.zIndex = "60";
 	document.getElementById(newbook+"tab").firstChild.setAttribute('id','currentbook');
 	// change the colour of the logbook's stripe to match
-	document.getElementById('logbookstripe').setAttribute('class',newbook);
+	document.getElementById('logbookstripe').setAttribute("class",newbook);
 	}
 
 // A print function that handles pages designated as printable

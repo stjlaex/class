@@ -417,16 +417,4 @@ function get_curriculumyear($crid=''){
 	return $thisyear;
 	}
 
-/*Returns the id for the cohort specified by crid and stage*/
-/*will default to the current active cohort unless year is specified*/
-/*TODO should be made redundant by update_cohort()?*/
-//function getcurrentCohortId($crid,$stage,$year='',$season='S'){
-//	if($year==''){$year=getCurriculumYear($crid);}
-//	$d_cohort=mysql_query("SELECT id FROM cohort WHERE
-//						course_id='$crid' AND stage='$stage' AND
-//						year='$year' AND season='$season'");
-//	$cohid=mysql_result($d_cohort,0);
-//	return $cohid;
-//	}
-
 ?>

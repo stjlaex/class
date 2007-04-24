@@ -200,16 +200,14 @@ button {
 	padding:2px; margin:0;
     background-color:#444444;
 	}
-/*these thre widths are not ideal but seem to solve a firefox bug!*/
-.bookoptions select {
-    width:130px;
-	}
-.bookoptions select:focus {
-    width:148px;
-	}
+/*these select widths are not ideal but seem to solve a firefox bug for 100%!*/
 .bookoptions option {
-    width:200px;
+    width:160px;
 	}
+.bookoptions select#mids:focus {
+    width:180px;
+	}
+
 .bookoptions option:hover {
     background-color:#5599cc;
     color:#ffffff;

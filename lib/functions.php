@@ -1086,7 +1086,6 @@ function file_mimeinfo($element, $filename) {
         'mpeg' => array ('type'=>'video/mpeg', 'icon'=>'video.gif'),
         'mpe'  => array ('type'=>'video/mpeg', 'icon'=>'video.gif'),
         'mpg'  => array ('type'=>'video/mpeg', 'icon'=>'video.gif'),
-
         'odt'  => array ('type'=>'application/vnd.oasis.opendocument.text', 'icon'=>'odt.gif'),
         'ott'  => array ('type'=>'application/vnd.oasis.opendocument.text-template', 'icon'=>'odt.gif'),
         'oth'  => array ('type'=>'application/vnd.oasis.opendocument.text-web', 'icon'=>'odt.gif'),
@@ -1101,7 +1100,6 @@ function file_mimeinfo($element, $filename) {
         'odf'  => array ('type'=>'application/vnd.oasis.opendocument.formula', 'icon'=>'odt.gif'),
         'odb'  => array ('type'=>'application/vnd.oasis.opendocument.database', 'icon'=>'odt.gif'),
         'odi'  => array ('type'=>'application/vnd.oasis.opendocument.image', 'icon'=>'odt.gif'),
-
         'pct'  => array ('type'=>'image/pict', 'icon'=>'image.gif'),
         'pdf'  => array ('type'=>'application/pdf', 'icon'=>'pdf.gif'),
         'php'  => array ('type'=>'text/plain', 'icon'=>'text.gif'),
@@ -1126,7 +1124,6 @@ function file_mimeinfo($element, $filename) {
         'swa'  => array ('type'=>'application/x-director', 'icon'=>'flash.gif'),
         'swf'  => array ('type'=>'application/x-shockwave-flash', 'icon'=>'flash.gif'),
         'swfl' => array ('type'=>'application/x-shockwave-flash', 'icon'=>'flash.gif'),
-
         'sxw'  => array ('type'=>'application/vnd.sun.xml.writer', 'icon'=>'odt.gif'),
         'stw'  => array ('type'=>'application/vnd.sun.xml.writer.template', 'icon'=>'odt.gif'),
         'sxc'  => array ('type'=>'application/vnd.sun.xml.calc', 'icon'=>'odt.gif'),
@@ -1137,7 +1134,6 @@ function file_mimeinfo($element, $filename) {
         'sti'  => array ('type'=>'application/vnd.sun.xml.impress.template', 'icon'=>'odt.gif'),
         'sxg'  => array ('type'=>'application/vnd.sun.xml.writer.global', 'icon'=>'odt.gif'),
         'sxm'  => array ('type'=>'application/vnd.sun.xml.math', 'icon'=>'odt.gif'),
-
         'tar'  => array ('type'=>'application/x-tar', 'icon'=>'zip.gif'),
         'tif'  => array ('type'=>'image/tiff', 'icon'=>'image.gif'),
         'tiff' => array ('type'=>'image/tiff', 'icon'=>'image.gif'),

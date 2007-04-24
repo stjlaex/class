@@ -64,7 +64,7 @@ if(isset($_POST['newcomid'])){$newcomid=$_POST['newcomid'];}else{$newcomid='';}
 	<form name="formtoprocess" id="formtoprocess" method="post"
 	  action="<?php print $host; ?>">
 
-	  <div style="width:33%;float:left;"  id="viewcontent">
+	  <div style="width:48%;float:left;"  id="viewcontent">
 		<table class="listmenu">
 		  <caption>
 			<?php print_string('current');?>
@@ -92,7 +92,7 @@ if(isset($_POST['newcomid'])){$newcomid=$_POST['newcomid'];}else{$newcomid='';}
 		</table>
 	  </div>
 
-	  <div style="width:67%;float:right;">
+	  <div style="width:50%;float:right;">
 		<fieldset class="center">
 		<legend><?php print_string('changegroup',$book);?></legend>
 		  <div class="center">
@@ -110,7 +110,7 @@ if(isset($_POST['newcomid'])){$newcomid=$_POST['newcomid'];}else{$newcomid='';}
 
 		<fieldset class="center">
 		<legend><?php print_string('choosestudentstoadd',$book);?></legend>
-		<div class="left">
+		<div class="center">
 		  <label><?php print_string('studentsnotin',$book);?></label>
 		  <select name="newsids[]" size="24" multiple="multiple" style="width:98%;">
 <?php
@@ -124,19 +124,6 @@ if(isset($_POST['newcomid'])){$newcomid=$_POST['newcomid'];}else{$newcomid='';}
 		  </select>
 		</div>
 
-		<div class="right">
-		  <label><?php print_string('studentsalreadyin',$book);?></label>
-		  <select name="newsids[]" size="24" multiple="multiple" style="width:98%;">
-<?php
-	while(list($index,$student)=each($newstudents['union'])){
-		print '<option ';
-		print	'value="'.$student['student_id'].'">'. 
-		$student['surname'].', '.$student['forename'].' '. 
-		$student['middlenames'].' ('.$student['form_id'].')</option>';
-		}
-?>
-		  </select>
-		</div>
 		</fieldset>
 	  </div>
 

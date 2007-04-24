@@ -1,31 +1,26 @@
 <?php 
-/*						list_calendar_year.php
- returns $year
-*/
+/**						list_calendar_year.php
+ *
+ */
 
-	if(!isset($year)){$toyear=date('Y');}else{$toyear=$year;}
-	if(!isset($newyear)){$newyear='';}
-	if(!isset($required)){$required='no';}
+if(!isset($required)){$required='yes';}
+if(!isset($listname)){$listname='year';}
+if(!isset($listlabel)){$listlabel='year';}
+if(!isset($year)){$selyear=get_curriculumyear();}else{$selyear=$year;}
+if(!($selyear>1900)){$selyear=get_curriculumyear();}
+$c=$selyear-5;
+$years=array();
+while($c<$selyear){
+	$years[]=array('id'=>$c,'name'=>$c);
+	$c++;
+	}
+$c=$selyear;
+while($c<$selyear+6){
+	$years[]=array('id'=>$c,'name'=>$c);
+	$c++;
+	}
+
+include('scripts/set_list_variables.php');
+list_select_list($years,$listoptions,$book);
+unset($listoptions);
 ?>
-<label for="Year"><?php print_string('year');?></label>
-	 <select style="width:7em;" class="required" id="Year" 
-				 tabindex="<?php print $tab++;?>" name="year" size="1">
-	 <option value=""></option>
-<?php
-	if(!($toyear>1900)){$toyear=2005;}
-	$c=$toyear;
-	while ($c<$toyear+5){
-		print "<option value='$c' ";
-		if($c==$toyear){print " selected='selected' ";}
-		print ">".$c."</option>";
-		$c++;
-		}
-	$c=$toyear-1;
-	while ($c>$toyear-5){
-		print "<option value='$c' "; 
-		print ">".$c."</option>";
-		$c--;
-		}
-?>
-	</select>
-<?php  unset($required);?>

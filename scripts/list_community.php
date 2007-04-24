@@ -39,7 +39,7 @@ include('scripts/set_list_variables.php');
 			$listcomids[$listcom['id']]=$listcom;
 			/*a fix to display something meaningful until detail is used*/
 			$listcomids[$listcom['id']]['name']=$listcomids[$listcom['id']]['type'] . 
-												' : '.$listcomids[$listcom['id']]['name'];
+												': '.$listcomids[$listcom['id']]['name'];
 			}
 		}
 

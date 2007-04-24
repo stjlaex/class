@@ -29,7 +29,11 @@ $rtid=$tid;
 			   ,'yeargroup_matrix.php' => 'yeargroups'
 			   ,'community_group.php' => 'communitygroups'
 			   );
+	if($_SESSION['role']=='admin' or $_SESSION['role']=='office'){
+		$choices['enrolments_matrix.php']='enrolments';
+		}
 	selery_stick($choices,$choice,$book);
+
 	if($_SESSION['role']=='admin' or $_SESSION['role']=='teacher'){
 		$choices=array('teacher_matrix.php' => 'subjectclasses'
 			   ,'responsables.php' => 'responsibilities'

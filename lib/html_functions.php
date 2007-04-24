@@ -246,8 +246,8 @@ function list_select_list($list,$vars,$book=''){
   </label>
 <?php
 		}
-?>  <select 
-	id="<?php print $vars['id'];?>" 
+?>  
+<select id="<?php print $vars['id'];?>" 
 <?php 
 	if($vars['multi']>1){print ' name="'.$vars['name'].$vars['i'].'[]" multiple="multiple" ';}
 	else{print ' name="'.$vars['name'].$vars['i'].'" ';}
@@ -264,10 +264,10 @@ function list_select_list($list,$vars,$book=''){
 	while(list($index,$item)=each($list)){
 		print '<option ';
 		if($vars['multi']==1){
-			if($vars['selectedvalue']==$item[$valuefield]){print 'selected="selected"';}
+			if($vars['selectedvalue']==$item[$valuefield]){print  ' selected="selected"';}
 			}
-		elseif(in_array($item[$valuefield],$vars['selectedvalue'])){print 'selected="selected"';}
-		print	' value="'.$item[$valuefield].'"> '.$item[$descriptionfield].'</option>';
+		elseif(in_array($item[$valuefield],$vars['selectedvalue'])){print ' selected="selected"';}
+		print	' value="'.$item[$valuefield].'">'.$item[$descriptionfield].'</option>';
 		}
 ?>
   </select>
@@ -302,7 +302,7 @@ function list_select_enum($fieldname,$vars,$book=''){
 <?php
 			 while(list($inval,$description)=each($enum)){	
 				 print '<option ';
-				 if($vars['selectedvalue']==$inval){print 'selected="selected"';}
+				 if($vars['selectedvalue']==$inval){print ' selected="selected"';}
 				 print ' value="'.$inval.'">'.get_string($description,$book).'</option>';
 				 }
 ?>

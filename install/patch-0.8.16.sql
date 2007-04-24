@@ -16,3 +16,5 @@ ALTER TABLE info
 	ADD birthplace varchar(240) NOT NULL default '' AFTER nationality;
 ALTER TABLE info
 	DROP transportroute;
+ALTER TABLE community
+	ADD capacity smallint unsigned not null default 0 AFTER type;

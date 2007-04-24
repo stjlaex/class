@@ -126,10 +126,11 @@ three_buttonmenu();
 			print '<tr><th colspan="2">'.get_string($comtype,'infobook').'</th></tr>';
 
 			while(list($index,$community)=each($communities)){
-				$description=displayEnum($community['name'],'enrolstatus');
+				list($enrolstatus,$enrolyear)=split('-',$community['name']);
+				$description=get_string(displayEnum($enrolstatus,'enrolstatus'),$book).' '.$enrolyear;
 				$nosids=countin_community($community);
 				print '<tr><td>';
-				print '<a href="admin.php?current=yeargroup_edit.php&cancel='.$choice.'&choice='.$choice.'&comtype='.$community['type'].'&comname='.$community['name'].'">'.get_string($description,'infobook').'</a>';
+				print '<a href="admin.php?current=yeargroup_edit.php&cancel='.$choice.'&choice='.$choice.'&comtype='.$community['type'].'&comname='.$community['name'].'">'.$description.'</a>';
 				print '</td>';
 				print '<td>'.$nosids.'</td></tr>';
 				}

@@ -76,12 +76,13 @@ $attdate=date('Y-m-d',mktime(0,0,0,date('m'),date('d'),date('Y')));
 </div>
 
 <div style="visibility:hidden;" id="hiddenbookoptions">
-<fieldset class="markbook"><legend><?php print_string('classesandmarks');?></legend>
-	<form id="classchoice" name="classchoice" method="post" 
+	<fieldset class="markbook">
+	  <legend><?php print_string('classesandmarks');?></legend>
+	  <form id="classchoice" name="classchoice" method="post" 
 		action="markbook.php" target="viewmarkbook">
 <?php	include('scripts/list_class.php');?>
-	</form>
-	<form id="componentchoice" name="componentchoice" method="post" 
+	  </form>
+	  <form id="componentchoice" name="componentchoice" method="post" 
 		action="markbook.php" target="viewmarkbook">
 		<input name="tid" type="hidden" value="<?php print $tid;?>">
 		  <input name="current" type="hidden" value="class_view.php">		
@@ -102,9 +103,9 @@ if(sizeof($pids)>0){
 	}
 ?>
 	  </form>
-	  <form id="gradechoice" name="gradechoice" method="post" 
+	  <form id="gradechoice" name="gradechoice"  method="post" 
 		action="markbook.php" target="viewmarkbook">
-		<select id="mids" name="mids[]" size="12"
+		<select id="mids" name="mids[]" size="12" 
 		  multiple="multiple" onChange="changeMarkDisplay(this.form);">
 <?php
 if(isset($umns)){

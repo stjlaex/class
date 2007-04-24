@@ -27,13 +27,16 @@ if($sub=='Submit'){
 			}
 		}
 
-	if($yid!=''){
+	/*joining the current roll directly is special*/
+	/*as the student joins a yeargroup community*/
+	if($enrolstatus=='C' or $enrolstatus=='G'){
 		$comtype='year';
-		$comname=$yid;
-		}
-	elseif($enrolstatus=='C'){
-		$comtype='year';
-		$comname='none';
+		if($enrolyid!=''){
+			$comname=$enrolyid;
+			}
+		else{
+			$comname='none';
+			}
 		}
 	else{
 		if($enrolstatus=='P'){$comtype='alumni';}
@@ -42,7 +45,10 @@ if($sub=='Submit'){
 		/*all other enrolstatus values place the student within the*/
 		/*application procedure*/
 		else{$comtype='applied';}
-		$comname=$enrolstatus;
+		$comname=$enrolstatus.'-'.$enrolyear;
+		if($enrolyid!=''){
+			mysql_query("UPDATE student SET yeargroup_id='$enrolyid' WHERE id='$sid'");
+			}
 		}
 
 	$community=array('id'=>'','type'=>$comtype,'name'=>$comname);
