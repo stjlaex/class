@@ -13,20 +13,40 @@ CREATE TABLE info (
 	email			varchar(240) not null default '',
 	phonenumber		varchar(22) not null default '',
 	parttime		enum('N','Y') not null,
-	boarder			enum('N','B','6','7') not null,
+	boarder			enum('N','B','H','6','7') not null,
 	nationality		char(2) not null default '',
 	birthplace		varchar(240) not null default '',
 	countryoforigin	char(2) not null default '',
 	language		char(4) not null default '',
 	languagetype	enum('NOT','F','M','H','T','S','C') not null,
 	religion		enum('NOT', 'NO','BU','CH','HI','JE','MU','SI','OT') not null,
-	reledu			enum('A','W' ) not null,
+	reledu			enum('A','W') not null,
 	relwor			enum('A','W') not null,
 	sen				enum('N','Y') not null,
 	medical			enum('N','Y') not null,
 	incare			enum('N','Y') not null,
 	transportmode	enum('NOT','F', 'C', 'T', 'B', 'S') not null,
    	primary key		(student_id)
+);");
+
+mysql_query("
+CREATE TABLE accomodation (
+	id					int unsigned not null auto_increment,
+	student_id			int unsigned not null, 
+	roomcategory		char(2) not null default '',
+	invoice				enum('N','Y') not null,
+	bookingdate			date null,
+	level				char(12) not null default '',
+	arrivaldate			date,
+	arrivaltime			time,
+	arrivalairport		varchar(240) not null default '',
+	arrivalflight		varchar(240) not null default '',
+	departuredate		date,
+	departuretime		time,
+	departureairport	varchar(240) not null default '',
+	departureflight		varchar(240) not null default '',
+	index				index_student (student_id),
+   	primary key			(id)
 );");
 
 mysql_query("

@@ -163,10 +163,12 @@ mysql_query("
 CREATE TABLE community (
 	id			int unsigned not null auto_increment, 
 	name		varchar(30) not null default '', 
-    type		enum('','family','form','year','tutor','alumni','enquired','applied','accepted','trip','reg','stop','extra') not null default '',
+    type		enum('','academic','family','form','year','tutor','alumni','enquired','applied','accepted','trip','reg','stop','extra','','accomodation') not null default '',
+	year		year not null default '0000',
+	season		enum('','S','W','M','1','2','3','4','5','6','7','8','9','a','b','c') NOT NULL DEFAULT '',
 	capacity	smallint unsigned not null default 0,
     detail		varchar(240) not null default '',
-	unique		indexcom (type,name),
+	unique		indexcom (type,name,year,season),
 	primary key (id)
 );");
 

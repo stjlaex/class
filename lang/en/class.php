@@ -262,5 +262,14 @@ $string['guestpupil']='Guest pupil';
 $string['currentsubsidary(dualregistration)']='Current subsidary (dual reg.)';
 $string['currentmain(dualregistration)']='Current main (dual reg.)';
 $string['academicyear']='Academic year';
+$string['applications']='Applications';
+$string['spaces']='Spaces';
+$string['leavers']='Leavers';
+$string['reenrolled']='Re-enrolled';
+$string['newenrolments']='New enrollments';
+$string['capacity']='Capacity';
+$string['currentroll']='Current roll';
 $string['']='';
+$string['']='';
+
 ?>

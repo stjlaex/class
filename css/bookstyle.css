@@ -19,14 +19,14 @@ input, textarea, select {
 	text-align:left;
 	cursor:text;
 	float:left;
-    width:auto;
 	border:2px solid #cccccc;
     padding:2px;
     margin:2px;
+    width:auto;
 	}
 input:focus, textarea:focus, select:focus {
 	border-color:#ff9900;
-    z-index:1000;
+    z-index:20000;
 	}
 textarea { 
     width:95%;
@@ -143,7 +143,7 @@ div#coverbox {
 	margin:0; border:0;
 	}
 /* only used to place a background image*/
-div.background{
+div.background {
 	position:absolute;
 	width:100%;
 	height:100%;

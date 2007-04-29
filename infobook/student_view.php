@@ -48,13 +48,8 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 			  <?php print_string(displayEnum($Student['Nationality']['value'],$Student['Nationality']['field_db']),$book);?>
 			</td>
 			<td>
-<?php if($Student['Boarder']['value']!='N' and $Student['Boarder']['value']!=''){ ?>
-			  <label><?php print_string($Student['Boarder']['label'],$book);?></label>
-			  <?php print_string(displayEnum($Student['Boarder']['value'],$Student['Boarder']['field_db']),$book);?>
-<?php
-			  }
-			else{print '&nbsp';}
-?>
+			  <label><?php print_string($Student['EnrolNumber']['label'],$book);?></label> 
+			  <?php print $Student['EnrolNumber']['value'];?>
 			</td>
 		  </tr>
 		  <tr>
@@ -283,6 +278,22 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 		else{print_string('noinfo',$book);}
 ?>
 		</fieldset>
+	  </div>
+
+	  <div class="left">
+		<fieldset class="left">
+		  <legend>
+		  <a href="infobook.php?current=student_view_boarder.php&cancel=student_view.php">
+			<img class="clicktoedit" title="<?php print_string('edit');?>" />
+		  </a>
+		  <?php print_string('boarder',$book);?>
+		  </legend>	
+<?php 
+			if($Student['Boarder']['value']!='N' and $Student['Boarder']['value']!=''){ 
+				print_string(displayEnum($Student['Boarder']['value'],$Student['Boarder']['field_db']),$book);}
+			else{print_string('noinfo',$book);}
+?>
+
 	  </div>
 
 	  <input type="hidden" name="current" value="<?php print $action;?>">

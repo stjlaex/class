@@ -115,8 +115,8 @@ elseif($sub=='Submit'){
 		while($cohidcomid=mysql_fetch_array($d_cohidcomid,MYSQL_ASSOC)){
 			$comid=$cohidcomid['community_id'];
 			$d_community=mysql_query("SELECT * FROM community WHERE id='$comid'");
-			$communities["$comid"]=mysql_fetch_array($d_community,MYSQL_ASSOC);
-			if($communities["$comid"]['type']=='year'){$yid=$communities["$comid"]['name'];}
+			$communities[$comid]=mysql_fetch_array($d_community,MYSQL_ASSOC);
+			if($communities[$comid]['type']=='year'){$yid=$communities[$comid]['name'];}
 			}
 
 		if($classes['naming']=='' and $classes['generate']=='forms'){

@@ -54,7 +54,7 @@ include('scripts/book_session_variables.php');
 			include('scripts/list_calendar_year.php');
 			}
 		$onsidechange='yes';
-		$selenrolyid=$yid;$listname='enrolyid';
+		$selenrolyid=$enrolyid;$listname='enrolyid';
 		include('scripts/list_year.php');
 ?>
 		<div id="switchenrol">

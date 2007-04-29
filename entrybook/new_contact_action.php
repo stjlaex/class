@@ -3,14 +3,31 @@
  *
  */
 
-$action='new_contact.php';
+if(isset($_POST['sid'])){
+	$action='new_student.php';
+	$cancel='new_student.php';
+	$sid=$_POST['sid'];
+	}
+else{
+	$action='new_contact.php';
+	}
+
 include('scripts/sub_action.php');
 
 if($sub=='Submit'){
 
-	$Contact=fetchContact(array('guardian_id'=>'-1'));
+	if(isset($sid)){
+		$Contact=fetchContact(array('guardian_id'=>'-1','student_id'=>'-1'));
+		}
+	else{
+		$Contact=fetchContact(array('guardian_id'=>'-1'));
+		}
 	mysql_query("INSERT INTO guardian SET surname=''");
 	$gid=mysql_insert_id();
+	if(isset($sid)){
+		mysql_query("INSERT INTO gidsid SET
+				guardian_id='$gid', student_id='$sid'");
+		}
 	reset($Contact);
 	while(list($key,$val)=each($Contact)){
 		if(isset($val['value']) and is_array($val) and isset($val['table_db'])){
@@ -20,12 +37,16 @@ if($sub=='Submit'){
 			if($val['table_db']=='guardian'){
 				mysql_query("UPDATE guardian SET $field='$inval' WHERE id='$gid'");
 				}
+			elseif($val['table_db']=='gidsid'){
+				mysql_query("UPDATE gidsid SET $field='$inval'
+						WHERE guardian_id='$gid' AND student_id='$sid'");
+				}
 			}
 		}
 
 	if(isset($_POST['addresstype']) and $_POST['addresstype']!=''){
 		$atype=$_POST['addresstype'];
-		$Address=fetchContact(array('guardian_id'=>'-1'));
+		$Address=fetchAddress(array('guardian_id'=>'-1'));
 		mysql_query("INSERT INTO address SET country=''");
 		$aid=mysql_insert_id();
 		mysql_query("INSERT INTO gidaid SET guardian_id='$gid',
@@ -49,11 +70,9 @@ if($sub=='Submit'){
 
 		}
 
-	$result[]=get_string('newcontactadded',$book);
+	//$result[]=get_string('newcontactadded'.$sid,$book);
 	}
 
-
-
-include('scripts/results.php');
+//include('scripts/results.php');
 include('scripts/redirect.php');
 ?>

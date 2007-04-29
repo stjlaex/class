@@ -19,7 +19,7 @@ three_buttonmenu();
 	<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
 
 	  <div class="center">
-		<?php		  $tab=xmlarray_form($Student,'','studentdetails',$tab,$book);?>	  
+		<?php $tab=xmlarray_form($Student,'','studentdetails',$tab,$book);?>	  
 	  </div>
 	    <input type="hidden" name="current" value="<?php print $action;?>">
 		<input type="hidden" name="cancel" value="<?php print $cancel;?>">

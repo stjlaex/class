@@ -17,13 +17,12 @@ if($sub=='MedicalStatus'){
 		mysql_query("UPDATE info SET medical='N' WHERE student_id='$sid'");
 		}
 
-	else if($Student['MedicalFlag']['value']=='N'){
+	elseif($Student['MedicalFlag']['value']=='N'){
 		mysql_query("UPDATE info SET medical='Y' WHERE student_id='$sid'");
 
 		/*	Set up first blank record for the profile*/
 		$todate = date('Y').'-'.date('n').'-'.date('j');
 		}
-	$_SESSION{'infoStudent'}=fetchStudent($_SESSION{'sid'});
 	}
 
 	include('scripts/results.php');

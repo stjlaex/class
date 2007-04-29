@@ -184,6 +184,10 @@ function checkEntry($value, $format='', $field_name=''){
 		$value=strtoupper($value);
 		$value=checkEnum($value, $field_name);
 		}
+	elseif($field_type[0]=='time'){
+		$time=split('[:]',$value);
+		//$value=$date[2].'-'.$date[1].'-'.$date[0];
+		}
 	return $value;
 	}
 
@@ -236,6 +240,14 @@ function getEnumArray($field_name) {
 	$sen=array('N' => 'no', 'Y' => 'yes');
 	$medical=array('N' => 'no', 'Y' => 'yes');
 	$incare=array('N' => 'no', 'Y' => 'yes');
+	$roomcategory=array('' => '', 'GL' => 'groupleader');
+	$invoice=array('N' => 'no', 'Y' => 'yes');
+
+	/*for the travelevent table*/
+	$type=array('NOT' => 'informationnotobtained', 
+				'A' => 'arrival', 
+				'D' => 'departure'
+				);
 
 	/*codes from CBDS 2007, the deprecated first six are for compatibility*/
 	/*not always the same as ISO 639-2 is the alpha-3 code for language!*/
@@ -664,7 +676,8 @@ function getEnumArray($field_name) {
 						  'TRIP' => 'trip', 
 						  'REG' => 'registrationgroup', 
 						  'STOP' => 'travelstop', 
-						  'EXTRA' => 'other'
+						  'EXTRA' => 'other',
+						  'ACCOMODATION' => 'accomodation'
 						  );
 	/*for the list_studentfield script, not an enumarray at all!*/
 	$studentfield=array(
@@ -1161,6 +1174,21 @@ function file_mimeinfo($element, $filename) {
         return $mimeinfo['xxx'][$element];   // By default
     }
 }
+
+
+/**
+ * Will reduce the $startarray to just those indexes listed in $fields
+ * If fields is empty then the whole of $startarray is returned untouched
+ */
+function array_filter_fields($startarray,$fields){
+	if(is_array($fields) and sizeof($fields)>0){
+		while(list($index,$value)=each($startarray)){
+			if(!in_array($index,$fields)){unset($startarray[$index]);}
+			}
+		}
+	return $startarray;
+	}
+
 
 /**
  * Send an email (with attachments)

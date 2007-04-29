@@ -11,7 +11,7 @@ if(!isset($listlabel)){$listlabel='communities';}
 include('scripts/set_list_variables.php');
 
 	$listcomtypes=array();
-	if(!isset($type)){
+	if(!isset($listtype)){
 		$listcomtypes[]='year';
 		if($_SESSION['role']=='office' 
 						   or $_SESSION['role']=='admin'){
@@ -21,14 +21,15 @@ include('scripts/set_list_variables.php');
 			$listcomtypes[]='alumni';
 			}
 		}
-	elseif($type=='admissions'){
+	elseif($listtype=='admissions'){
 		$listcomtypes[]='academic';
+		$listcomtypes[]='accomodation';
 		$listcomtypes[]='enquired';
 		$listcomtypes[]='applied';
 		$listcomtypes[]='accepted';
 		$listcomtypes[]='alumni';
 		}
-	else{$listcomtypes[]=$type;}
+	else{$listcomtypes[]=$listtype;}
 
 
 	$listcomids=array();

@@ -6,7 +6,7 @@
 $action='ents_list.php';
 
 $id=$_POST['id_db'];
-$result[]=$id;
+//$result[]=$id;
 $tagname=$_POST['tagname'];
 $detail=clean_text($_POST['detail']);
 $entrydate=$_POST['entrydate'];

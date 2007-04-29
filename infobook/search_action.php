@@ -42,7 +42,6 @@ else{
 		$table='student';
 		$field=$sfield;
 		}
-	trigger_error(' Field: '.$field.' Value: '.$value,E_USER_WARNING);
 
 	/*
 	 *	Returns array of $d_sids and number of $rows in it

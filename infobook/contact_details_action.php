@@ -49,7 +49,7 @@ if($sub=='Submit'){
 				if($val['table_db']=='guardian'){
 					mysql_query("UPDATE guardian SET $field='$inval' WHERE id='$gid'");
 					}
-				if($val['table_db']=='gidsid'){
+				elseif($val['table_db']=='gidsid'){
 					mysql_query("UPDATE gidsid SET $field='$inval'
 						WHERE guardian_id='$gid' AND student_id=$sid");
 					}

@@ -15,7 +15,9 @@ $action='search_action.php'
 	$onsidechange='yes'; include('scripts/list_year.php');
 	$onsidechange='yes'; include('scripts/list_form.php');
 	if($_SESSION['role']=='office' or $_SESSION['role']=='admin'){
-		$type='admissions'; $onsidechange='yes'; include('scripts/list_community.php');
+		$listtype='admissions';
+		$onsidechange='yes'; 
+		include('scripts/list_community.php');
 		}
 ?>
 	</fieldset>

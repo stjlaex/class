@@ -68,6 +68,7 @@ $rtid=$tid;
 				   //,'ldap_start.php' => 'ldaptest'
 				   //,'statementbank.php' => 'statementbank'
 				   //,'demoiser.php' => 'demoiser'
+				   //,'class_nos.php' => 'classnos'
 			   );
 	selery_stick($choices,$choice,$book);
 ?>

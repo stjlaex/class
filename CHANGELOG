@@ -52,12 +52,15 @@ when entering students into the enrolments process.
 Migrated both the list scripts for year and enrolment_status over to use
 the new list_select functions.
 
-Changed the naming of the communities for enrolments to include the
-curriculum year of entry (although strictly the curriculum year is
-tied to the course!). The prospective yeargroup for enrolment is
-recorded in the student table under yeargroup_id BUT they are not
-subscribed to any yeargroup related community only their enrolment
-community until they join the current roll.
+Changed the naming of the communities during the enrolments procedure.
+New fields year and season have been added to the community table to
+allow enrolments to work with different academic sessions. The
+prospective year of entry is the same as the curriculum year (though
+strictly this is tied to a course!). The prospective yeargroup for
+enrolment is recorded as part of the name of the community. NOTE they
+are only subscribed to a yeargroup community once they join the
+current roll, yeargroup and form communities only exist for the
+current cohort and so their year/season fields remain empty.
 
 
 Version ClaSS-0.8.15 release (2007/04/16)

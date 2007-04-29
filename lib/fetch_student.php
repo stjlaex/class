@@ -152,8 +152,7 @@ function fetchStudent($sid='-1'){
 								  'field_db' => 'middlenames',
 								  'type_db'=>'varchar(30)', 
 								  'value' => ''.$student['middlenames']);
-	$Student['PreferredForename']=array('label' =>
-										'preferredforename', 
+	$Student['PreferredForename']=array('label' => 'preferredforename', 
 										'table_db' => 'student', 
 										'field_db' => 'preferredforename',
 										'type_db'=>'varchar(30)', 
@@ -192,6 +191,7 @@ function fetchStudent($sid='-1'){
 						  'type_db'=>'date', 
 						  'value' => ''.$student['dob']
 						  );
+
    	$Student['RegistrationGroup']=array('label' => 'formgroup', 
 										'value' => ''.$student['form_id']
 										);
@@ -207,6 +207,7 @@ function fetchStudent($sid='-1'){
 								  'type_db'=>'enum', 
 								  'value' => ''.$info['nationality']
 								  );
+
    	$Student['Birthplace']=array('label' => 'placeofbirth', 
 								 'table_db' => 'info', 
 								 'field_db' => 'birthplace', 
@@ -283,6 +284,7 @@ function fetchStudent($sid='-1'){
 									'field_db' => 'transportmode',
 									'type_db'=>'enum', 
 									'value' => ''.$info['transportmode']);
+
 	/*******Contacts****/
 
 	$Student['Contacts']=fetchContacts($sid);
@@ -802,6 +804,88 @@ function commentDisplay($sid,$date='',$Comments=''){
 	return $commentdisplay;
 	}
 
+
+function fetchStay($sid='-1'){
+	$d_ac=mysql_query("SELECT * FROM accomodation WHERE
+			student_id='$sid' ORDER BY arrivaldate DESC");
+	$ac=mysql_fetch_array($d_ac,MYSQL_ASSOC);
+	$Stay=array();
+	$Stay['id_db']=$ac['id'];
+   	$Stay['Level']=array('label' => 'level', 
+							'table_db' => 'accomodation', 
+							'field_db' => 'level', 
+							'type_db'=>'varchar(240)', 
+							'value' => ''.$ac['level']
+							);
+   	$Stay['BookingDate']=array('label' => 'bookingdate', 
+							'table_db' => 'accomodation', 
+							'field_db' => 'bookingdate', 
+							'type_db'=>'date', 
+							'value' => ''.$ac['bookingdate']
+							);
+   	$Stay['Invoice']=array('label' => 'invoice', 
+							'table_db' => 'accomodation', 
+							'field_db' => 'invoice', 
+							'type_db'=>'enum', 
+							'value' => ''.$ac['invoice']
+							);
+  	$Stay['RoomCategory']=array('label' => 'roomcategory', 
+							'table_db' => 'accomodation', 
+							'field_db' => 'roomcategory', 
+							'type_db'=> 'enum', 
+							'value' => ''.$ac['roomcategory']
+							);
+	$Stay['ArrivalDate']=array('label' => 'arrivaldate', 
+							'table_db' => 'accomodation', 
+							'field_db' => 'arrivaldate', 
+							'type_db'=>'date', 
+							'value' => ''.$ac['arrivaldate']
+							);
+	$Stay['ArrivalTime']=array('label' => 'arrivaltime', 
+							'table_db' => 'accomodation', 
+							'field_db' => 'arrivaltime', 
+							'type_db'=>'time', 
+							'value' => ''.$ac['arrivaltime']
+							);
+	$Stay['ArrivalAirport']=array('label' => 'arrivalairport', 
+							'table_db' => 'accomodation', 
+							'field_db' => 'arrivalairport', 
+							'type_db'=>'varchar(240)', 
+							'value' => ''.$ac['arrivalairport']
+							);
+	$Stay['ArrivalFlight']=array('label' => 'arrivalflight', 
+							'table_db' => 'accomodation', 
+							'field_db' => 'arrivalflight', 
+							'type_db'=>'varchar(240)', 
+							'value' => ''.$ac['arrivalflight']
+							);
+	$Stay['DepartureDate']=array('label' => 'departuredate', 
+							'table_db' => 'accomodation', 
+							'field_db' => 'departuredate', 
+							'type_db'=>'date', 
+							'value' => ''.$ac['departuredate']
+							);
+	$Stay['DepartureTime']=array('label' => 'departuretime', 
+							'table_db' => 'accomodation', 
+							'field_db' => 'departuretime', 
+							'type_db'=>'time', 
+							'value' => ''.$ac['departuretime']
+							);
+	$Stay['DepartureAirport']=array('label' => 'departureairport', 
+							'table_db' => 'accomodation', 
+							'field_db' => 'departureairport', 
+							'type_db'=>'varchar(240)', 
+							'value' => ''.$ac['departureairport']
+							);
+	$Stay['DepartureFlight']=array('label' => 'departureflight', 
+							'table_db' => 'accomodation', 
+							'field_db' => 'departureflight', 
+							'type_db'=>'varchar(240)', 
+							'value' => ''.$ac['departureflight']
+							);
+	return $Stay;
+	}
+
 /*these are for compatibility with NCYear field as defined by the CBDS */
 /*for state schools in England and Wales - they are needed for */
 /* fetchStudent to work - but can otherwise be ignored*/
@@ -817,7 +901,8 @@ function getNCYear($yid){
 	'2' => '2', '3' => '3', '4' => '4', '5' => '5', '6' => '6', '7' =>
 	'7', '8' => '8', '9' => '9', '10' => '10', '11' => '11', '12' =>
 	'12', '13' => '13', '14' => '14');	
-	$ncyear=$ncyears[$yid];
+	if(in_array($yid,$ncyears)){$ncyear=$ncyears[$yid];}
+	else{$ncyear='';}
 	return $ncyear;
 	}
 ?>

@@ -114,4 +114,5 @@ $string['emailtostaffisdisabled']='Emails to staff are disabled (you need to edi
 $string['refreshportfolios']='Refresh portfolios';
 $string['emailpassword']='Webmail password';
 $string['enrolments']='Enrolments';
+$string['changeyear']='Next year';
 ?>
