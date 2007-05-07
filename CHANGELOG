@@ -89,6 +89,10 @@ page) and a first contact (second contact needs adding?).
 A crude new script in the Admin book to give a snapshot of the class
 sizes for a course.
 
+Temporary fix to the display of community names; now can use the
+detail field if it is not null. And displays the year for the
+enrolment communities.
+
 
 
 Version ClaSS-0.8.15 release (2007/04/16)
