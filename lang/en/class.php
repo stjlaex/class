@@ -268,7 +268,10 @@ $string['reenrolled']='Re-enrolled';
 $string['newenrolments']='New enrollments';
 $string['capacity']='Capacity';
 $string['currentroll']='Current roll';
+$string['accomodation']='Accomodation';
+$string['academic']='Curriculum';
 $string['']='';
 $string['']='';
-
+$string['']='';
+$string['']='';
 ?>

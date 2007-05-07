@@ -50,3 +50,19 @@ input[type="checkbox"], label#checkall, button, .formimages {
 #marktable th {
 	display:none;
 	}
+tr.hidden { 
+	display:none;
+	}
+tr.revealed td { 
+	}
+tr.revealed p { 
+    padding:2px;
+    width:50%;
+	}
+td.hidden { 
+	display:none;
+	}
+th.hidden { 
+	display:none;
+	}
+

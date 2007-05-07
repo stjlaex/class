@@ -44,10 +44,10 @@ if(isset($_POST['newcomid'])){$newcomid=$_POST['newcomid'];}else{$newcomid='';}
 		$displayname=get_string($comtype,'infobook').' '.$comname;
 		/*should not really have comid blank but... */
 		if($newcomid=='' and $comtype=='enquired'){
-			$newcommunity=array('type'=>'applied','name'=>'AP');
+			$newcommunity=array('type'=>'applied','name'=>'AP:');
 			}
 		elseif($newcomid=='' and $comtype=='applied'){
-			$newcommunity=array('type'=>'accepted','name'=>'AC');
+			$newcommunity=array('type'=>'accepted','name'=>'AC:');
 			}
 		elseif($newcomid=='' and $comtype=='accepted'){
 			$newcommunity=array('type'=>'year','name'=>'none');

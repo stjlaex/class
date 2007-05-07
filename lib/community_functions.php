@@ -93,6 +93,12 @@ function update_community($community,$communityfresh=array('id'=>'','type'=>'','
 		$d_community=mysql_query("SELECT id FROM community WHERE
 				type='$type' AND name='$name' AND year='$year'");	
 		if(mysql_num_rows($d_community)==0){
+			if($type=='year'){
+				/*a year group always gets a detail of yeargroup_name*/
+				$d_y=mysql_query("SELECT name FROM yeargroup WHERE id='$name'");
+				if(mysql_num_rows($d_y)>0){$detail=mysql_result($d_y,0);}
+				else{$detail='No year group';}
+				}
 			mysql_query("INSERT INTO community (name,type,year,capacity,detail) VALUES
 				('$name', '$type', '$year', '$capacity', '$detail')");
 			$comid=mysql_insert_id();
@@ -135,14 +141,15 @@ function listin_union_communities($community1,$community2){
 			(SELECT a.student_id, b.surname, b.forename,
 			b.middlenames, b.preferredforename, b.form_id FROM
 			comidsid a, student b WHERE a.community_id='$comid1' AND
-			b.id=a.student_id AND (a.comidsid.leavingdate>'$todate' 
+			b.id=a.student_id AND (a.leavingdate>'$todate' 
 			OR a.leavingdate='0000-00-00' OR a.leavingdate IS NULL))");
 	mysql_query("CREATE TEMPORARY TABLE com2students
 			(SELECT a.student_id, b.surname, b.forename,
 			b.middlenames, b.preferredforename, b.form_id FROM
 			comidsid a, student b WHERE a.community_id='$comid2' AND
-			b.id=a.student_id AND (a.comidsid.leavingdate>'$todate' OR 
+			b.id=a.student_id AND (a.leavingdate>'$todate' OR 
 			a.leavingdate='0000-00-00' OR a.leavingdate IS NULL))");
+
   	$d_student=mysql_query("SELECT a.student_id, a.forename, a.middlenames,
 					a.surname, a.preferredforename, a.form_id FROM
 					com2students AS a LEFT JOIN com1students AS b ON

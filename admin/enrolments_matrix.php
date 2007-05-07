@@ -6,14 +6,17 @@ $choice='enrolments_matrix.php';
 $action='enrolments_matrix_action.php';
 
 $currentyear=get_curriculumyear();
-if(!isset($enrolyear)){$enrolyear=$currentyear;}
-else{$enrolyear='2008';}
+if(isset($_POST['enrolyear']) and $_POST['enrolyear']!=''){$enrolyear=$_POST['enrolyear'];}
+else{$enrolyear=$currentyear;}
+
 $extrabuttons['changeyear']=array('name'=>'year',
 						'value'=>$enrolyear
 						);
 two_buttonmenu($extrabuttons,$book);
 ?>
   <div class="content">
+ 	  <form id="formtoprocess" name="formtoprocess" method="post"
+		action="<?php print $host; ?>" >
 
 	<div id="viewcontent">
 	  <table class="listmenu">
@@ -122,4 +125,10 @@ two_buttonmenu($extrabuttons,$book);
 	  </table>
 	</div>
 
+	  <input type="hidden" name="current" value="<?php print $action;?>" />
+	  <input type="hidden" name="choice" value="<?php print $choice;?>" />
+	  <input type="hidden" name="cancel" value="<?php print '';?>" />
+	</form>
+
   </div>
+

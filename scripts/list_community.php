@@ -35,12 +35,18 @@ include('scripts/set_list_variables.php');
 	$listcomids=array();
 	while(list($index,$listtype)=each($listcomtypes)){
 		$listcoms=array();
+		$display=get_string($listtype);
    		$listcoms=(array)list_communities($listtype);
 		while(list($index,$listcom)=each($listcoms)){
 			$listcomids[$listcom['id']]=$listcom;
 			/*a fix to display something meaningful until detail is used*/
-			$listcomids[$listcom['id']]['name']=$listcomids[$listcom['id']]['type'] . 
-												': '.$listcomids[$listcom['id']]['name'];
+			if($listtype!='year'){
+				$listcomids[$listcom['id']]['name']=$display . 
+												' - '.$listcomids[$listcom['id']]['name'];
+				}
+			else{
+				$listcomids[$listcom['id']]['name']=$listcomids[$listcom['id']]['detail'];
+				}
 			}
 		}
 

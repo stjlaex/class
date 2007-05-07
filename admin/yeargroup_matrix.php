@@ -123,7 +123,7 @@ three_buttonmenu();
 		//$communities[]=array('type'=>'alumni','name'=>get_curriculumyear());
 		while(list($index,$comtype)=each($comtypes)){
 			$communities=(array)list_communities($comtype,get_curriculumyear());
-			print '<tr><th colspan="2">'.get_string($comtype,'infobook').'</th></tr>';
+			print '<tr><th colspan="2">'.get_string($comtype).'</th></tr>';
 
 			while(list($index,$community)=each($communities)){
 				list($enrolstatus,$enrolyear)=split(':',$community['name']);

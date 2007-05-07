@@ -36,9 +36,6 @@ $Address=$Addresses[0];
 if(isset($sid)){
 ?>
   <div id="heading">
-	<label><?php print_string('newstudent'); ?></label>
-	<?php print $Student['DisplayFullName']['value'];?>
-
 	<form id="headertoprocess" name="headertoprocess" method="post" action="<?php print $host;?>">
 	<label><?php print_string('existingcontacts','entrybook'); ?></label>
 <?php
@@ -58,6 +55,7 @@ if(isset($sid)){
 	}
 ?>
   <div class="content">
+
 	<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
 
 	  <div class="center">

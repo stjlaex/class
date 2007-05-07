@@ -53,8 +53,8 @@ else{
 		if($table=='guardian' and $field=='country'){
 			$d_sids=mysql_query("SELECT DISTINCT guardian_id AS id FROM gidaid
 				JOIN address ON gidaid.address_id=address.id WHERE
-				MATCH (address.county) AGAINST ('$value*' IN BOOLEAN MODE) 
-				OR address.county='$value'");
+				MATCH (address.country) AGAINST ('$value*' IN BOOLEAN MODE) 
+				OR address.country='$value'");
 			}
 		elseif($table=='student' and $field=='forename'){
 			$d_sids=mysql_query("SELECT id FROM $table WHERE 
