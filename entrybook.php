@@ -1,5 +1,6 @@
 <?php 
 /**												entrybook.php
+ *
  *	This is the hostpage for the entrybook.
  */
 

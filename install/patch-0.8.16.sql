@@ -24,6 +24,40 @@ UPDATE info SET nationality='UA' WHERE nationality='Ukraine';
 UPDATE info SET nationality='ES' WHERE nationality='Spanish';
 UPDATE info SET nationality='KR' WHERE nationality='Korea';
 UPDATE info SET nationality='MY' WHERE nationality='Malaysia';
+
+UPDATE address SET country='TR', county='' WHERE county='Turkish';
+UPDATE address SET country='TR', county='' WHERE county='Turkey';
+UPDATE address SET country='JP', county=''  WHERE county='Japan';
+UPDATE address SET country='RU', county=''  WHERE county='Russian';
+UPDATE address SET country='RU', county=''  WHERE county='Russia';
+UPDATE address SET country='GN', county=''  WHERE county='Guinea';
+UPDATE address SET country='GN', county=''  WHERE county='Rep de Guinee';
+UPDATE address SET country='GN', county=''  WHERE county='Guinean';
+UPDATE address SET country='VN', county=''  WHERE county='Vietnam';
+UPDATE address SET country='CN', county=''  WHERE county='China';
+UPDATE address SET country='CN', county=''  WHERE county='CHINA';
+UPDATE address SET country='CN', county=''  WHERE county='Chinese';
+UPDATE address SET country='TW', county=''  WHERE county='Taiwan';
+UPDATE address SET country='HK', county=''  WHERE county='Hong Kong';
+UPDATE address SET country='FR', county=''  WHERE county='France';
+UPDATE address SET country='TH', county=''  WHERE county='Thai';
+UPDATE address SET country='TH', county=''  WHERE county='Thailand';
+UPDATE address SET country='TH', county=''  WHERE county='THAILAND';
+UPDATE address SET country='NG', county=''  WHERE county='Nigeria';
+UPDATE address SET country='IN', county=''  WHERE county='India';
+UPDATE address SET country='MX', county=''  WHERE county='Mexico';
+UPDATE address SET country='AZ', county=''  WHERE county='Azerbaijan';
+UPDATE address SET country='DE', county=''  WHERE county='Germany';
+UPDATE address SET country='BR', county=''  WHERE county='Brazil';
+UPDATE address SET country='KZ', county=''  WHERE county='Kazakhstan';
+UPDATE address SET country='HU', county=''  WHERE county='Hungary';
+UPDATE address SET country='UA', county=''  WHERE county='Ukraine';
+UPDATE address SET country='ES', county=''  WHERE county='Spanish';
+UPDATE address SET country='KR', county=''  WHERE county='Korea';
+UPDATE address SET country='MY', county=''  WHERE county='Malaysia';
+UPDATE address SET country='NL', county=''  WHERE county='Holland';
+UPDATE address SET country='VE', county=''  WHERE county='Venezuela';
+
 ALTER TABLE guardian
 	ADD companyname	varchar(240) NOT NULL default '' AFTER profession;
 ALTER TABLE guardian
@@ -61,10 +95,12 @@ DROP table accomodation;
 CREATE TABLE accomodation (
 	id					int unsigned not null auto_increment,
 	student_id			int unsigned not null, 
-	roomcategory		enum('N','Y') not null,
-	invoice				enum('N','Y') not null,
+	roomcategory		char(2) not null default '',
+	building			char(2) not null default '',
+	room				varchar(4) not null default '',
+	bed					varchar(4) not null default '',
+	invoice				varchar(80),
 	bookingdate			date null,
-	level				char(12) not null default '',
 	arrivaldate			date,
 	arrivaltime			time,
 	arrivalairport		varchar(240) not null default '',

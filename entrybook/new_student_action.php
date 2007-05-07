@@ -2,7 +2,16 @@
 /**			  					new_student_action.php
  */
 
-$action='new_contact.php';
+
+if($_POST['boarder']!='N' and $_POST['boarder']!=''){
+	/*extra fields for residencial students*/
+	$Inputs[]=fetchStay();
+	$action='new_boarder.php';
+	}
+else{
+	$action='new_contact.php';
+	}
+
 include('scripts/sub_action.php');
 
 if($sub=='Submit'){
@@ -27,30 +36,6 @@ if($sub=='Submit'){
 			}
 		}
 
-
-	if(isset($_POST['boarder']) and $_POST['boarder']!='' and $_POST['boarder']!='N'){
-		/*extra fields for residencial students*/
-		mysql_query("INSERT INTO accomodation SET student_id='$sid'");
-		$accid=mysql_insert_id();
-		$Stay=fetchStay();
-		reset($Stay);
-		while(list($key,$val)=each($Stay)){
-			if(isset($val['value']) and is_array($val) and isset($val['table_db'])){
-				$field=$val['field_db'];
-				$inname=$field;
-				$inval=clean_text($_POST[$inname]);
-				if($val['table_db']=='accomodation'){
-					mysql_query("UPDATE accomodation SET
-							$field='$inval' WHERE id='$accid'");
-					}
-				}
-			}
-		$comname=$_POST['gender']. $_POST['roomcategory']. $_POST['boarder'];
-		$community=array('id'=>'','type'=>'accomodation','name'=>$comname);
-		set_community_stay($sid,$community,$_POST['arrivaldate'],$_POST['departuredate']);
-		}
-
-
 	/*Figure out the community they need to join*/
 	if($enrolstatus=='C' or $enrolstatus=='G'){
 		/*joining the current roll directly is special*/
@@ -69,9 +54,6 @@ if($sub=='Submit'){
 		}
 
 	join_community($sid,$community);
-//	$result[]=get_string('newstudentadded',$book);
 
-
-//include('scripts/results.php');
 include('scripts/redirect.php');
 ?>

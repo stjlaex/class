@@ -3,27 +3,38 @@
  *
  */
 
-if(isset($_POST['sid'])){
+$action='new_contact.php';
+
+if(isset($_POST['pregid']) and $_POST['pregid']!=''){
+	/*don't need to do anything else*/
+	$sid=$_POST['sid'];
+	$pregid=$_POST['pregid'];
+	}
+elseif(isset($_POST['sid']) and $_POST['sid']!=''){
 	$action='new_student.php';
 	$cancel='new_student.php';
 	$sid=$_POST['sid'];
-	}
-else{
-	$action='new_contact.php';
+	if(isset($_POST['gid'])){$gid=$_POST['gid'];}
 	}
 
 include('scripts/sub_action.php');
 
 if($sub=='Submit'){
 
-	if(isset($sid)){
+	if(isset($gid) and $gid!='-1' and $gid!=''){
 		$Contact=fetchContact(array('guardian_id'=>'-1','student_id'=>'-1'));
 		}
 	else{
-		$Contact=fetchContact(array('guardian_id'=>'-1'));
+		if(isset($sid)){
+			$Contact=fetchContact(array('guardian_id'=>'-1','student_id'=>'-1'));
+			}
+		else{
+			$Contact=fetchContact(array('guardian_id'=>'-1'));
+			}
+		mysql_query("INSERT INTO guardian SET surname=''");
+		$gid=mysql_insert_id();
 		}
-	mysql_query("INSERT INTO guardian SET surname=''");
-	$gid=mysql_insert_id();
+
 	if(isset($sid)){
 		mysql_query("INSERT INTO gidsid SET
 				guardian_id='$gid', student_id='$sid'");

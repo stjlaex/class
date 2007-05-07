@@ -9,8 +9,8 @@ the addition of the languagetype field. Maintains compatibility by
 maintaing the old firstlanguage codes in the language list but these
 should be deprecated.
 
-All nationality fields (in tables guardian and student) are moved to
-char2 and now use the iso codes.
+All nationality and country fields (in tables guardian, student, and
+address) are moved to char2 and now use the iso codes.
 
 Added new field companyname to the guardian table and exposed both
 this and the profession fields through the Contact array.
@@ -21,7 +21,7 @@ table and will be superceded by membership of the communities for
 school buses.
 
 Attempted to solve a problem with the selct fields in the bookoptions;
-optins of different lengths also had different css widths and made
+options of different lengths also had different css widths and made
 clicking difficult. Have had to use fixed widths in px to get around
 this, as nothing else worked. Firefox rendering css problem?
 
@@ -34,13 +34,13 @@ contact search options.
 
 Completed the set of html_functions with a new list_select_enum().
  
-The entrybook session variables now use the book_seesion_variables
+The entrybook session variables now use the book_session_variables
 script.
 
 A new field "capacity" (or maximum size) added to the community table
 to limit available places for enrolments.
 
-Simplified the yeargroup_edit screen (as the students already in
+Simplified the yeargroup_edit screen (as the "students already in"
 column was redundant).
 
 A new enrolments_matrix.php option added to the Admin book. Available
@@ -61,6 +61,34 @@ enrolment is recorded as part of the name of the community. NOTE they
 are only subscribed to a yeargroup community once they join the
 current roll, yeargroup and form communities only exist for the
 current cohort and so their year/season fields remain empty.
+
+Added option of a local lang file which sits outside of the class
+application path. Create schoollang.php in the toplevel directory to
+have any string customised for the school (as opposed to the
+language).
+
+Incorporated a button to unlink a contact from a student as part of
+contact_details.php. The contact remains in the database.
+
+Both the EntryBook and InfoBook pages for contact details have been
+given a select field as part of the action buttons which pulls an
+existing contact record from the database and allows it to be linked
+to the student. Have made the relationship a required field.
+
+A new table for accomodation and an eccompanying section of the
+student profile has been added. This allows the managment of details
+for boarders including their arrival and departure times. A student is
+subscribed to a new type of community 'accomodation' which is named
+based on their gender and accomodation category with memebership
+linked to the dates of the stay.
+
+The sequence of pages in the EntryBook has been changed to incorporate
+giving a new student both a boarder stay (if boarder set on first
+page) and a first contact (second contact needs adding?).
+
+A crude new script in the Admin book to give a snapshot of the class
+sizes for a course.
+
 
 
 Version ClaSS-0.8.15 release (2007/04/16)

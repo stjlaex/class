@@ -8,24 +8,12 @@ $action='new_student_action.php';
 three_buttonmenu();
 
 $Student=fetchStudent();
-$guestfields=array();
 
 $Inputs=array();
-$labels=array();
-if($enrolyid==200){
-	/*special residencial yeargroup*/
-	$Student['Boarder']['value']='B';
-	$studentfields=array('Forename','Surname','Gender','DOB','Boarder');
-	}
-
+//$studentfields=array('Forename','Surname','Gender','DOB','Boarder');
+$studentfields=array();
 $Inputs[]=array_filter_fields($Student,$studentfields);
-$labels[]='newstudent';
 
-if($Student['Boarder']['value']!='N' and $Student['Boarder']['value']!=''){
-	/*extra fields for residencial students*/
-	$Inputs[]=fetchStay();
-	$labels[]='stay';
-	}
 ?>
 
   <div class="content">
@@ -35,7 +23,7 @@ if($Student['Boarder']['value']!='N' and $Student['Boarder']['value']!=''){
 while(list($index,$Input)=each($Inputs)){
 ?>
 	  <div class="center">
-		  <?php $tab=xmlarray_form($Input,'',$labels[$index],$tab,'infobook'); ?>
+		  <?php $tab=xmlarray_form($Input,'','newstudent',$tab,'infobook'); ?>
 	  </div>
 <?php
 	}

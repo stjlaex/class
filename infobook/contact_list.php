@@ -32,7 +32,7 @@ two_buttonmenu($extrabuttons,$book);
 
 <div id="viewcontent" class="content">
 <form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
-<table class="listmenu" name="listmenu">
+<table class="listmenu">
 		<thead>
 		  <tr>
 			<th></th>
@@ -58,7 +58,7 @@ two_buttonmenu($extrabuttons,$book);
 				  <input type="checkbox" name="gids[]" value="<?php print $gid;?>" />
 				</td>
 				<td colspan="2">
-				  <a href="infobook.php?current=contact_details.php&cancel=contact_list.php&gid=<?php print $gid;?>">
+				  <a href="infobook.php?current=contact_details.php&cancel=contact_list.php&sid=&gid=<?php print $gid;?>">
 						  <?php print $Contact['Surname']['value']; ?>
 						  <?php print ', '.$Contact['Forename']['value']; ?>
 				  </a>

@@ -241,7 +241,8 @@ function getEnumArray($field_name) {
 	$medical=array('N' => 'no', 'Y' => 'yes');
 	$incare=array('N' => 'no', 'Y' => 'yes');
 	$roomcategory=array('' => '', 'GL' => 'groupleader');
-	$invoice=array('N' => 'no', 'Y' => 'yes');
+	$building=array('' => '');
+	$bed=array('' => '');
 
 	/*for the travelevent table*/
 	$type=array('NOT' => 'informationnotobtained', 
@@ -974,9 +975,13 @@ function getEnumArray($field_name) {
 					   'ZW'=>'zimbabwe'
 					   );
 
+	$profession=array(''=>'');
+
 	$countryoforigin=$nationality;
 
 	$country=$nationality;
+
+	if(file_exists('../schoolarrays.php')){include('../schoolarrays.php');}
 
 	return $$field_name;
 	}

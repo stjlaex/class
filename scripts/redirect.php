@@ -155,6 +155,11 @@ if(isset($startday)){
 	 	<input type="hidden" name="startday" value="<?php print $startday;?>">
 <?php
 	}
+if(isset($pregid)){
+?>
+	 	<input type="hidden" name="pregid" value="<?php print $pregid;?>">
+<?php
+	}
 ?>
 
 </form>

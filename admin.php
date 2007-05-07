@@ -26,9 +26,9 @@ $rtid=$tid;
 		<legend><?php print_string('manage');?></legend>
 <?php
 	$choices=array('formgroup_matrix.php' => 'formgroups'
-			   ,'yeargroup_matrix.php' => 'yeargroups'
-			   ,'community_group.php' => 'communitygroups'
-			   );
+				   ,'yeargroup_matrix.php' => 'yeargroups'
+				   ,'community_group.php' => 'communitygroups'
+				   );
 	if($_SESSION['role']=='admin' or $_SESSION['role']=='office'){
 		$choices['enrolments_matrix.php']='enrolments';
 		}
@@ -36,10 +36,11 @@ $rtid=$tid;
 
 	if($_SESSION['role']=='admin' or $_SESSION['role']=='teacher'){
 		$choices=array('teacher_matrix.php' => 'subjectclasses'
-			   ,'responsables.php' => 'responsibilities'
-			   ,'staff_details.php' => 'staffdetails'
-			   ,'counter.php' => 'logcounter'
-			   );
+					   ,'responsables.php' => 'responsibilities'
+					   ,'staff_details.php' => 'staffdetails'
+					   ,'class_nos.php' => 'classnumbers'
+					   ,'counter.php' => 'logcounter'
+					   );
 		selery_stick($choices,$choice,$book);
 		}
 ?>
@@ -68,7 +69,6 @@ $rtid=$tid;
 				   //,'ldap_start.php' => 'ldaptest'
 				   //,'statementbank.php' => 'statementbank'
 				   //,'demoiser.php' => 'demoiser'
-				   //,'class_nos.php' => 'classnos'
 			   );
 	selery_stick($choices,$choice,$book);
 ?>

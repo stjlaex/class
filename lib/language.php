@@ -154,7 +154,7 @@ function get_string($identifier, $book='', $a=NULL) {
 	/// First check all the normal locations for the string in the current language
     foreach($langfiles as $langfile){
         if(file_exists($langfile)){
-            if($result = get_string_from_file($identifier, $langfile, "\$resultstring")){
+            if($result=get_string_from_file($identifier, $langfile, "\$resultstring")){
                 eval($result);
                 return $resultstring;
 				}
@@ -170,7 +170,7 @@ function get_string($identifier, $book='', $a=NULL) {
 
     foreach($langfiles as $langfile){
         if(file_exists($langfile)){
-            if($result = get_string_from_file('parentlanguage', $langfile, "\$parentlang")) {
+            if($result=get_string_from_file('parentlanguage', $langfile, "\$parentlang")) {
                 eval($result);
                 if(!empty($parentlang)){   // found it!
 					$parentlangfiles=langfile_locations($parentlang,$book);
@@ -226,20 +226,22 @@ function get_string_from_file($identifier, $langfile, $destination) {
 
     static $strings;    // Keep the strings cached in memory.
 
-    if (empty($strings[$langfile])) {
-        $string = array();
-        include ($langfile);
-        $strings[$langfile] = $string;
-    } else {
-        $string = &$strings[$langfile];
-    }
+    if(empty($strings[$langfile])){
+        $string=array();
+        include($langfile);
+		if(file_exists('../schoollang.php')){include('../schoollang.php');}
+        $strings[$langfile]=$string;
+		}
+	else{
+        $string=&$strings[$langfile];
+		}
 
-    if (!isset ($string[$identifier])) {
+    if(!isset($string[$identifier])){
         return false;
-    }
+		}
 
     return $destination .'= sprintf("'. $string[$identifier] .'");';
-}
+	}
 
 /**
  * Converts an array of strings to their localized value.
@@ -251,7 +253,7 @@ function get_string_from_file($identifier, $langfile, $destination) {
 function get_strings($array, $book='') {
 
    $string = NULL;
-   foreach ($array as $item) {
+   foreach($array as $item){
        $string->$item = get_string($item, $book);
    }
    return $string;

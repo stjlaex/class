@@ -230,20 +230,16 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 		  <legend>
 			<?php print_string('reports',$book);?>
 		  </legend>
-		  <table>
-			<tr>
 			  <a href="infobook.php?current=student_reports.php&cancel=student_view.php">
 				<?php print_string('subjectreports'); ?>
 			  </a>
-			</tr>
-		  </table>
 		</fieldset>
 
 		<fieldset class="right">
 		  <legend>
-		  <a href="infobook.php?current=exclusions_list.php&cancel=student_view.php">
-			<img class="clicktoedit" title="<?php print_string('edit');?>" />
-		  </a>
+			<a href="infobook.php?current=exclusions_list.php&cancel=student_view.php">
+			  <img class="clicktoedit" title="<?php print_string('edit');?>" />
+			</a>
 			  <?php print_string('exclusions',$book);?>
 		  </legend>
 <?php	
@@ -290,7 +286,7 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 		  </legend>	
 <?php 
 			if($Student['Boarder']['value']!='N' and $Student['Boarder']['value']!=''){ 
-				print_string(displayEnum($Student['Boarder']['value'],$Student['Boarder']['field_db']),$book);}
+				print '<div>'.get_string(displayEnum($Student['Boarder']['value'],$Student['Boarder']['field_db']),$book).'</div>';}
 			else{print_string('noinfo',$book);}
 ?>
 

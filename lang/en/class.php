@@ -211,7 +211,6 @@ $string['formtutor']='Tutor';
 $string['yearhead']='Year coordinator';
 $string['template']='Template';
 $string['current']='Current';
-$string['removecontact']='Remove contact';
 $string['newstudent']='New student';
 $string['newcontact']='New contact';
 $string['contact']='Contact';

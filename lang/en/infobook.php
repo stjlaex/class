@@ -30,6 +30,7 @@ $string['nostudentsfoundtryanothersearch']='No students found. Please try anothe
 $string['informationnotobtained']='Information not obtained';
 $string['addnewcontact']='Add a new contact';
 $string['newcontact']='NEW contact';
+$string['unlinkcontact']='Unlink contact';
 $string['father']='Father';
 $string['mother']='Mother';
 $string['carer']='Carer';
@@ -128,6 +129,8 @@ $string['bookingdate']='Booking date';
 $string['groupleader']='Group leader';
 $string['stay']='Residencial stay';
 $string['roomcategory']='Room category';
+$string['residencebuilding']='Residence buidling';
+$string['residencebed']='Residence Bed';
 $string['']='';
 $string['']='';
 ?>

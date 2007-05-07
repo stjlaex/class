@@ -19,18 +19,28 @@ if($sub=='Submit'){
 		$neededperm='w';
 		include('scripts/perm_action.php');
 
+		/*editing exisiting contact link*/
 		$action='student_view.php';
 		$Contact=$Student['Contacts'][$contactno];
 		$Phones=$Contact['Phones'];
 		$Addresses=$Contact['Addresses'];
 		}
+	elseif($gid!='' and $sid!=''){
+		/*pre-existing contact being linked to*/
+		mysql_query("INSERT INTO gidsid SET guardian_id='$gid', student_id='$sid'");
+		$Contact=fetchContact(array('guardian_id'=>$gid,'student_id'=>$sid));
+		$Phones=$Contact['Phones'];
+		$Addresses=$Contact['Addresses'];
+		}
 	elseif($gid!=''){
+		/*just editing a contact within reference to a sid*/
 		$action='contact_details.php';
 		$Contact=fetchContact(array('guardian_id'=>$gid));
 		$Phones=$Contact['Phones'];
 		$Addresses=$Contact['Addresses'];
 		}
 	else{
+		/*completely fresh contact being linked to*/
 		mysql_query("INSERT INTO guardian SET surname=''");
 		$gid=mysql_insert_id();
 		mysql_query("INSERT INTO gidsid SET guardian_id='$gid', student_id='$sid'");
@@ -109,34 +119,15 @@ if($sub=='Submit'){
 	}
 
 
-elseif($sub=='Delete Checked'){
-	if(isset($_POST{'unpids'})){$unpids=$_POST{'unpids'};
-		for($c=0;$c<sizeof($unpids);$c++){
-			$pid=$unpids[$c];
-			mysql_query("DELETE FROM phone WHERE id='$pid' LIMIT 1");
-			}
+elseif($sub=='Unlink'){
+
+	if($gid!='' and $sid!=''){
+		mysql_query("DELETE FROM gidsid WHERE 
+						guardian_id='$gid' AND student_id='$sid'");
+
 		}
 
-	if(isset($_POST{'unaids'})){$unaids=$_POST{'unaids'};
-		for($c=0;$c<sizeof($unaids);$c++){
-			$aid=$unaids[$c];
-			mysql_query("DELETE FROM address WHERE id='$aid' LIMIT 1");
-			mysql_query("DELETE FROM gidaid WHERE address_id='$aid'");
-			}
-		}
-
-	if(isset($_POST{'ungidaids'})){$ungidaids=$_POST{'ungidaids'};
-		for($c=0;$c<sizeof($ungidaids);$c++){
-			list($ungid,$unaid)=explode(':',$ungidaids[$c]);
-			$d_gidaid=mysql_query("SELECT guardian_id FROM gidaid WHERE address_id='$unaid'");
-			if(mysql_num_rows($d_gidaid)==1){mysql_query("DELETE FROM address 
-												WHERE id='$unaid' LIMIT 1");}
-			mysql_query("DELETE FROM gidaid WHERE 
-						address_id='$unaid' AND guardian_id='$ungid'");
-			}
-		}
-
-   	}
+	}
 
 include('scripts/redirect.php');
 ?>

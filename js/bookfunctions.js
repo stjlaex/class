@@ -364,6 +364,12 @@ function processContent(buttonObject){
 	}
 
 
+function processHeader(buttonObject){
+	var formObject=document.headertoprocess;
+	var formElements=formObject.elements;
+	var buttonname=buttonObject.name;
+	document.headertoprocess.submit();
+	}
 
 //-------------------------------------------------------
 //ticks all checkboxes in a form

@@ -13,16 +13,22 @@ a {
     text-decoration:none;
 	}
 
+div#currentbook { 
+    overflow:hidden;
+	}
+
 /***************************************************************************/
 /* the two possible main displays one after login and one before*/
 /* plus the logbook div which fills out the rest of the display*/
 .bookframe {
 	position:absolute; left:16%; top:5%; width:84%; height:94.7%;
 	margin:0 0 1px 0; border:0;
+	overflow:hidden;
 	}
 .coverframe {
 	position:absolute; left:16%; top:0%; width:84%; height:99.5%;
 	margin:1px 0 1px 0; border:0;
+	overflow:hidden;
 	}
 div#logbook {
 	position:absolute; left:0%; top:5%; width:18%; height:94.75%; 
@@ -176,6 +182,7 @@ button {
 	}
 .bookoptions {
 	position:absolute; left:0.75%; top:18%; width:13.75%;
+    overflow:hidden;
 	}
 .bookoptions label {
 	margin:0 0 5% 2%;

@@ -115,4 +115,8 @@ $string['refreshportfolios']='Refresh portfolios';
 $string['emailpassword']='Webmail password';
 $string['enrolments']='Enrolments';
 $string['changeyear']='Next year';
+$string['classnumbers']='Class sizes';
+$string['']='';
+$string['']='';
+$string['']='';
 ?>

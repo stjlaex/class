@@ -26,9 +26,9 @@ input, textarea, select {
 	}
 input:focus, textarea:focus, select:focus {
 	border-color:#ff9900;
-    z-index:20000;
+    z-index:10000;
 	}
-textarea { 
+textarea {
     width:95%;
 	}
 input[readonly="readonly"]{
@@ -122,21 +122,21 @@ fieldset {
     border-top:2px solid;
 	background-color:#ddd;
 	}
-div {
-	overflow:hidden; 
-	}
 div.hidden {
 	display:none;
 	border:0; margin:0; padding:0;
 	}
 /*the two possible container divs for each book, one after login and one for before*/
 div#bookbox {
-	position:absolute; left:0%; top:0%; width:100%; height:99%; 
+	position:absolute;
+    left:0%; top:0%; width:100%; height:99%; 
 	border-top:3px solid;
 	border-bottom:none;
+	overflow:hidden; 
 	}
 div#coverbox {
 	position:absolute; left:0%; top:1px; width:100%; height:99.5%; 
+	overflow:hidden; 
 	}
 .externalbookframe {
 	position:absolute; left:4%; top:0%; width:96%; height:100%;	
@@ -153,15 +153,16 @@ div.background {
 div.content {
 	position:relative; top:7%; height:93%; 
 	font-size:small;
-	overflow:auto;
 	border:0;
 	background-color:#444444;
+	overflow:auto; 
 	}
 .content input[type="checkbox"] {
 	width:1em;
 	}
 div.content div {
 	border:0; margin:0;
+	overflow:hidden;
 	}
 div.content fieldset {
     padding:1%; margin:0;
@@ -218,7 +219,6 @@ div.content .center, div.topform .center {
     margin:0 4% 2% 4%;
 	width:92%;
 	clear:both;
-	overflow:auto;
 	}
 
 /*used (but rarely) to describe page content in the space to the left of the top buttonmenu*/
@@ -230,7 +230,6 @@ div#heading {
     color:#000000;
     font-weight:600;
 	}
-
 /*the set of action buttons at the very top of the book*/
 div.buttonmenu {
 	border:0; margin-top:0.5%;
@@ -238,12 +237,13 @@ div.buttonmenu {
 	position:absolute; top:0%; right:10%;
 	background-color:#444444;
 	}
-.buttonmenu button {
+.buttonmenu button, #heading button {
 	margin:1px 2px; border:2px; border-style:outset; padding:0;
 	font-size:medium; font-weight:300; color:#ffeeff;
 	cursor:pointer;
 	}
-.buttonmenu button:hover, .buttonmenu button:focus {
+.buttonmenu button:hover, .buttonmenu button:focus, 
+#heading button:hover, #heading button:focus {
 	font-weight:900;
 	}
 .buttonmenu button[value="Submit"], .buttonmenu button[value="Enter"] {

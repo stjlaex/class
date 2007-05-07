@@ -58,7 +58,8 @@ else{
 <table>
 <tr>
 <td><label for="Username"><?php print_string('username');?></label></td>
-<td><input type="text" id="Username" name="username" class="required" tabindex="1" 
+<td>
+<input type="text" id="Username" name="username" class="required" tabindex="1" 
 	maxlength="20" pattern="truealphanumeric" 
 		onkeypress="capsCheck(arguments[0]);" />
 </td>

@@ -194,8 +194,8 @@ function selery_stick($choices,$choice='',$book=''){
 
 /* include scripts/set_list_variables.php first to define all the options */
 /* set in the $vars array (see in there how to over-ride defaults)*/
-/* the $d_list should be the SELECT result from mysql with AS value and */
-/* AS description used */
+/* the $d_list should be the SELECT result from mysql with AS id and */
+/* AS name used */
 function list_select_db($d_list,$vars,$book=''){
 	$valuefield=$vars['valuefield'];
 	$descriptionfield=$vars['descriptionfield'];

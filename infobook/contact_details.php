@@ -11,6 +11,7 @@ if(isset($_GET['contactno'])){$contactno=$_GET['contactno'];}else{$contactno='-2
 if(isset($_POST['contactno'])){$contactno=$_POST['contactno'];}
 
 if($contactno>'-1'){
+	/*editing a pre-existing link to a contact*/
 	$Contact=$Student['Contacts'][$contactno];
 	$Phones=$Contact['Phones'];
 	$Addresses=$Contact['Addresses'];
@@ -21,10 +22,15 @@ if($contactno>'-1'){
 	include('scripts/perm_action.php');
 	}
 elseif($contactno=='-1'){
-	/*returns a blank for new contact*/
-	$Contact=fetchContact();
+	/*this is a new link to a contact*/
+	if(isset($_POST['pregid']) and $_POST['pregid']!=''){$gid=$_POST['pregid'];}
+	else{$gid=-1;}
+	$Contact=fetchContact(array('guardian_id'=>$gid,'student_id'=>-1));
+	$Phones=$Contact['Phones'];
+	$Addresses=$Contact['Addresses'];
 	}
 else{
+	/*called from the contact_list as the result of a contact search*/
 	if(isset($_GET['gid'])){$_SESSION['infosearchgid']=$_GET['gid'];}
 	if(isset($_POST['gid'])){$_SESSION['infosearchgid']=$_POST['gid'];}
 	$gid=$_SESSION['infosearchgid'];
@@ -47,8 +53,32 @@ $Addresses[]=fetchAddress();
 /*TODO: temporarily only one address for display*/
 $Address=$Addresses[0];
 
-//$extrabuttons['removecontact']=array('name'=>'sub','value'=>'Delete Checked');
-$extrabuttons=array();
+if($contactno>-1){
+	$extrabuttons['unlinkcontact']=array('name'=>'sub','value'=>'Unlink');
+	}
+elseif($contactno=='-1'){
+	$extrabuttons=array();
+	$d_guardian=mysql_query("SELECT id, CONCAT(surname,', ',forename) AS name FROM guardian ORDER BY surname");
+?>
+  <div id="heading">
+	<form id="headertoprocess" name="headertoprocess" method="post" action="<?php print $host;?>">
+	<label><?php print_string('existingcontacts','entrybook');?></label>
+<?php
+		$listname='pregid';$listlabel='';
+		include('scripts/set_list_variables.php');
+		list_select_db($d_guardian,$listoptions,$book);
+		$button['linkcontact']=array('name'=>'sub','value'=>'Link');
+		all_extrabuttons($button,'entrybook','processHeader(this)');
+?>
+ 	<input type="hidden" name="contactno" value="<?php print $contactno;?>">
+ 	<input type="hidden" name="gid" value="<?php print $gid;?>">
+ 	<input type="hidden" name="current" value="<?php print $current;?>">
+ 	<input type="hidden" name="cancel" value="<?php print $cancel;?>">
+ 	<input type="hidden" name="choice" value="<?php print $choice;?>">
+	</form>
+  </div>
+<?php
+	}
 three_buttonmenu($extrabuttons,$book);
 ?>
   <div class="content">

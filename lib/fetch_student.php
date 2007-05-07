@@ -60,6 +60,7 @@ function fetchStudent_singlefield($sid,$tag){
 	if($tag=='Nationality'){$fieldname='nationality';$fieldtype='enum';}
 	elseif($tag=='EnrolNumber'){$fieldname='formerupn';}
 	elseif($tag=='Language'){$fieldname='language';$fieldtype='enum';}
+	elseif($tag=='Boarder'){$fieldname='boarder';$fieldtype='enum';}
 	elseif($tag=='EntryDate'){$fieldname='entrydate';}
 	elseif($tag=='EmailAddress'){$fieldname='email';}
 	elseif($tag=='MobilePhone'){$fieldname='phonenumber';}
@@ -542,16 +543,17 @@ function fetchDependents($gid='-1'){
 								  'type_db'=>'enum', 
 								  'value' => ''.$gidsid['priority']);
 		$Dependent['ReceivesMailing']=array('label' => 'receivesmailing', 
-									  'inputtype'=> 'required',
-									  'table_db' => 'gidsid', 
-									  'field_db' => 'mailing',
-									  'type_db'=>'enum', 
-									  'value' => ''.$gidsid['mailing']);
+											'inputtype'=> 'required',
+											'table_db' => 'gidsid', 
+											'field_db' => 'mailing',
+											'type_db'=>'enum', 
+											'value' => ''.$gidsid['mailing']);
 		$Dependent['Relationship']=array('label' => 'relationship', 
-								   'table_db' => 'gidsid', 
-								   'field_db' => 'relationship',
-								   'type_db'=>'enum', 
-								   'value' => ''.$gidsid['relationship']);
+										 'inputtype'=> 'required', 
+										 'table_db' => 'gidsid', 
+										 'field_db' => 'relationship',
+										 'type_db'=>'enum', 
+										 'value' => ''.$gidsid['relationship']);
 		$Dependents[]=$Dependent;
 		}
 	return $Dependents;
@@ -571,22 +573,23 @@ function fetchContact($gidsid=array('guardian_id'=>'-1','student_id'=>'-1')){
 
 	if(isset($gidsid['student_id'])){
 		$Contact['Order']=array('label' => 'priority', 
-							'inputtype'=> 'required', 
-							'table_db' => 'gidsid', 
-							'field_db' => 'priority',
-							'type_db'=>'enum', 
-							'value' => ''.$gidsid['priority']);
+								'inputtype'=> 'required', 
+								'table_db' => 'gidsid', 
+								'field_db' => 'priority',
+								'type_db'=>'enum', 
+								'value' => ''.$gidsid['priority']);
 		$Contact['ReceivesMailing']=array('label' => 'receivesmailing', 
-									  'inputtype'=> 'required',
-									  'table_db' => 'gidsid', 
-									  'field_db' => 'mailing',
-									  'type_db'=>'enum', 
-									  'value' => ''.$gidsid['mailing']);
+										  'inputtype'=> 'required',
+										  'table_db' => 'gidsid', 
+										  'field_db' => 'mailing',
+										  'type_db'=>'enum', 
+										  'value' => ''.$gidsid['mailing']);
 		$Contact['Relationship']=array('label' => 'relationship', 
-								   'table_db' => 'gidsid', 
-								   'field_db' => 'relationship',
-								   'type_db'=>'enum', 
-								   'value' => ''.$gidsid['relationship']);
+									  'inputtype'=> 'required',
+									   'table_db' => 'gidsid', 
+									   'field_db' => 'relationship',
+									   'type_db'=>'enum', 
+									   'value' => ''.$gidsid['relationship']);
 		}
 	$Contact['Surname']=array('label' => 'surname', 
 							  'inputtype'=> 'required',
@@ -811,12 +814,6 @@ function fetchStay($sid='-1'){
 	$ac=mysql_fetch_array($d_ac,MYSQL_ASSOC);
 	$Stay=array();
 	$Stay['id_db']=$ac['id'];
-   	$Stay['Level']=array('label' => 'level', 
-							'table_db' => 'accomodation', 
-							'field_db' => 'level', 
-							'type_db'=>'varchar(240)', 
-							'value' => ''.$ac['level']
-							);
    	$Stay['BookingDate']=array('label' => 'bookingdate', 
 							'table_db' => 'accomodation', 
 							'field_db' => 'bookingdate', 
@@ -826,7 +823,7 @@ function fetchStay($sid='-1'){
    	$Stay['Invoice']=array('label' => 'invoice', 
 							'table_db' => 'accomodation', 
 							'field_db' => 'invoice', 
-							'type_db'=>'enum', 
+							'type_db'=>'varchar(80)', 
 							'value' => ''.$ac['invoice']
 							);
   	$Stay['RoomCategory']=array('label' => 'roomcategory', 
@@ -834,6 +831,18 @@ function fetchStay($sid='-1'){
 							'field_db' => 'roomcategory', 
 							'type_db'=> 'enum', 
 							'value' => ''.$ac['roomcategory']
+							);
+  	$Stay['ResidenceBuilding']=array('label' => 'residencebuilding', 
+							'table_db' => 'accomodation', 
+							'field_db' => 'building', 
+							'type_db'=> 'enum', 
+							'value' => ''.$ac['building']
+							);
+  	$Stay['ResidenceBed']=array('label' => 'residencebed', 
+							'table_db' => 'accomodation', 
+							'field_db' => 'bed', 
+							'type_db'=> 'varchar(4)', 
+							'value' => ''.$ac['bed']
 							);
 	$Stay['ArrivalDate']=array('label' => 'arrivaldate', 
 							'table_db' => 'accomodation', 
