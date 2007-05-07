@@ -670,15 +670,14 @@ function getEnumArray($field_name) {
 	$session=array('NA' => 'NA', 'AM' => 'AM', 'PM' => 'PM');
 
 	/*for the community table, does not list special types like
-	yeargroup, formgroup, family etc*/
+	yeargroup, formgroup, accomodation, family etc*/
 	$community_type=array('' => '', 
 						  'ACADEMIC' => 'academic', 
 						  'TUTOR' => 'tutorgroup', 
 						  'TRIP' => 'trip', 
 						  'REG' => 'registrationgroup', 
 						  'STOP' => 'travelstop', 
-						  'EXTRA' => 'other',
-						  'ACCOMODATION' => 'accomodation'
+						  'EXTRA' => 'other'
 						  );
 	/*for the list_studentfield script, not an enumarray at all!*/
 	$studentfield=array(

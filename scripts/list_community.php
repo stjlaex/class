@@ -40,12 +40,17 @@ include('scripts/set_list_variables.php');
 		while(list($index,$listcom)=each($listcoms)){
 			$listcomids[$listcom['id']]=$listcom;
 			/*a fix to display something meaningful until detail is used*/
-			if($listtype!='year'){
+			if($listcomids[$listcom['id']]['detail']!=''){
+				$listcomids[$listcom['id']]['name']=$listcomids[$listcom['id']]['detail'];
+				}
+			elseif($listtype=='applied' or $listtype=='enquired' or $listtype=='accepted'){
 				$listcomids[$listcom['id']]['name']=$display . 
-												' - '.$listcomids[$listcom['id']]['name'];
+												' - '.$listcomids[$listcom['id']]['name'].
+												' '.$listcomids[$listcom['id']]['year'];
 				}
 			else{
-				$listcomids[$listcom['id']]['name']=$listcomids[$listcom['id']]['detail'];
+				$listcomids[$listcom['id']]['name']=$display . 
+						' - '.$listcomids[$listcom['id']]['name'];
 				}
 			}
 		}
