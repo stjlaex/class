@@ -3,6 +3,7 @@
  */
 
 $action='yeargroup_edit.php';
+$action_post_vars=array('newcomid','comid');
 
 if(isset($_POST['comid'])){$comid=$_POST['comid'];}else{$comid='';}
 if(isset($_POST['newcomid'])){$newcomid=$_POST['newcomid'];}else{$newcomid='';}

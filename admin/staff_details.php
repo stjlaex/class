@@ -6,7 +6,7 @@ $choice='staff_details.php';
 $action='staff_details_action.php';
 
 if(isset($_POST['seluid'])){$seluid=$_POST['seluid'];}
-else{$seluid=$_SESSION['uid'];}
+else{$seluid=$_SESSION['uid'];/*by default display logged in user*/}
 
 $users=array();
 $users=list_responsible_users($tid,$respons,$r);

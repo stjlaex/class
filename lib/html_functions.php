@@ -19,7 +19,7 @@ function all_extrabuttons($extrabuttons,$book='',
 	<?php print_string($description,$book);?>
   </button>
 <?php
-			 }
+			}
 		}
 	}
 
@@ -55,12 +55,15 @@ function two_buttonmenu($extrabuttons='',$book=''){
 <?php
 	}
 
-function twoplus_buttonmenu($currentkey,$maxkey){
+function twoplus_buttonmenu($currentkey,$maxkey,$extrabuttons='',$book=''){
 ?>
   <div class="buttonmenu">
+<?php
+		 all_extrabuttons($extrabuttons,$book);
+?>
   	<button onClick="processContent(this);" <?php if($currentkey==0){print 'disabled="disabled"
-	style="visibility:hidden;"';} ?> name="sub" value="Previous"><?php print_string('previous');?></button>
-	<button onClick="processContent(this);" <?php if($currentkey==($maxkey-1)){print 'disabled="disabled" style="visibility:hidden;"';} ?> name="sub" value="Next"><?php print_string('next');?></button>
+	style="visibility:hidden;"';} ?> name="sub" value="Previous"><?php print_string('previous',$book);?></button>
+	<button onClick="processContent(this);" <?php if($currentkey==($maxkey-1)){print 'disabled="disabled" style="visibility:hidden;"';} ?> name="sub" value="Next"><?php print_string('next',$book);?></button>
 	<button onClick="processContent(this);" name="sub" value="Cancel"><?php print_string('cancel');?></button>
 	<button onClick="processContent(this);" name="sub" value="Reset"><?php print_string('reset');?></button>
   </div>
@@ -68,12 +71,15 @@ function twoplus_buttonmenu($currentkey,$maxkey){
 <?php
 	}
 
-function threeplus_buttonmenu($currentkey,$maxkey){
+function threeplus_buttonmenu($currentkey,$maxkey,$extrabuttons='',$book=''){
 	if($currentkey==''){$currentkey=1;}//Register only needs this
 ?>
   <div class="buttonmenu">
-  	<button onClick="processContent(this);" <?php if($currentkey==0){print 'disabled="disabled" style="visibility:hidden;"';} ?> name="sub" value="Previous"><?php print_string('previous');?></button>
-	<button onClick="processContent(this);" <?php if($currentkey==($maxkey-1)){print 'disabled="disabled" style="visibility:hidden;"';} ?> name="sub" value="Next"><?php print_string('next');?></button>
+<?php
+		 all_extrabuttons($extrabuttons,$book);
+?>
+  	<button onClick="processContent(this);" <?php if($currentkey==0){print 'disabled="disabled" style="visibility:hidden;"';} ?> name="sub" value="Previous"><?php print_string('previous',$book);?></button>
+	<button onClick="processContent(this);" <?php if($currentkey==($maxkey-1)){print 'disabled="disabled" style="visibility:hidden;"';} ?> name="sub" value="Next"><?php print_string('next',$book);?></button>
 	<button onClick="processContent(this);" name="sub"  style="margin-left:1em;"
 	  value="Submit"><?php print_string('submit');?></button>
 	<button onClick="processContent(this);" name="sub" value="Cancel"><?php print_string('cancel');?></button>

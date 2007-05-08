@@ -3,6 +3,7 @@
  */
 
 $action='register_list.php';
+$action_post_vars=array('startday','checkeveid');
 
 if(isset($_POST['checkeveid'])){$checkeveid=$_POST['checkeveid'];}
 else{$checkeveid=0;}

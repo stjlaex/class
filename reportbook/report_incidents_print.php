@@ -5,13 +5,14 @@
  */
 
 $action='report_incidents_list.php';
+$action_post_vars=array('newyid','newfid');
 
-$sids=$_POST{'sids'};
-$date0=$_POST{'date0'};
-if(isset($_POST{'date1'})){$date1=$_POST{'date1'};}else{$date1=$today;}
-if(isset($_POST{'bid'})){$bid=$_POST{'bid'};}else{$bid='';}
-if(isset($_POST{'newyid'})){$newyid=$_POST{'newyid'};}else{$newyid='';}
-if(isset($_POST{'newfid'})){$newfid=$_POST{'newfid'};}else{$newfid='';}
+$sids=$_POST['sids'];
+$date0=$_POST['date0'];
+if(isset($_POST['date1'])){$date1=$_POST['date1'];}else{$date1=$today;}
+if(isset($_POST['bid'])){$bid=$_POST['bid'];}else{$bid='';}
+if(isset($_POST['newyid'])){$newyid=$_POST['newyid'];}else{$newyid='';}
+if(isset($_POST['newfid'])){$newfid=$_POST['newfid'];}else{$newfid='';}
 
 include('scripts/sub_action.php');
 

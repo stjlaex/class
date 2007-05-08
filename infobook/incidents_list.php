@@ -106,5 +106,3 @@ three_buttonmenu();
 	  </table>
 	</div>
   </div>
-
-

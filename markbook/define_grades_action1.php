@@ -53,19 +53,3 @@ $comment=$_POST['comment'];
 	<button onClick="processContent(this);" name="sub" value="Reset">Reset</button>
 	<button style="visibility:hidden;" name="" value=""></button>
 </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

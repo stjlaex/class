@@ -3,6 +3,7 @@
  */
 
 $action='community_group_rename.php';
+$action_post_vars=array('newcomtype','newcomid');
 
 if(isset($_POST['newcomid'])){$newcomid=$_POST['newcomid'];}else{$newcomid='';}
 if(isset($_POST['newcomtype'])){$newcomtype=$_POST['newcomtype'];}

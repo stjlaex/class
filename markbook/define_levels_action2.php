@@ -33,6 +33,7 @@ $bid=$_POST['bid'];
 			else{
 				$error[]='The level boundaries must be in ascending order!';	
 				$current='define_levels_action1.php';
+				$action_post_vars=array('gena','lena','comment');
 				include('scripts/results.php');
 				include('scripts/redirect.php');
 				exit;

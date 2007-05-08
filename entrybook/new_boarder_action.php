@@ -8,7 +8,6 @@ if(isset($_POST['sid'])){
 	$sid=$_POST['sid'];
 	$Student=fetchStudent_short($sid);
 	$Boarder=fetchStudent_singlefield($sid,'Boarder');
-	trigger_error('SID:'. $sid,E_USER_WARNING);
 	}
 else{
 	$action='new_booking.php';

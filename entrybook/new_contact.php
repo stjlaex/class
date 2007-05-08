@@ -6,7 +6,6 @@ $action='new_contact_action.php';
 
 if(isset($_POST['sid']) and $_POST['sid']!=''){
 	$sid=$_POST['sid'];
-	trigger_error('SID:'. $sid,E_USER_WARNING);
 	if(isset($_POST['pregid']) and $_POST['pregid']!=''){$gid=$_POST['pregid'];}else{$gid=-1;}
 	$Contact=fetchContact(array('guardian_id'=>$gid,'student_id'=>-1));
 	$Phones=$Contact['Phones'];
@@ -23,7 +22,6 @@ else{
 
 three_buttonmenu();
 
-trigger_error('GID:'. $gid,E_USER_WARNING);
 
 /*always add a blank record for new entries*/
 $Phones[]=fetchPhone();

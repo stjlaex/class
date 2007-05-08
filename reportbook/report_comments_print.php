@@ -5,6 +5,8 @@
  */
 
 $action='report_comments_list.php';
+$action_post_vars=array('newyid','newfid');
+
 
 $sids=$_POST['sids'];
 $date0=$_POST['date0'];

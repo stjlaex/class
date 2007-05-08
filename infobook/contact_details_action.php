@@ -4,6 +4,7 @@
  */
 
 $action='student_view.php';
+$action_post_vars=array('contactno');
 
 $gid=$_POST['gid'];
 $contactno=$_POST['contactno'];

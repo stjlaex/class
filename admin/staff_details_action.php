@@ -3,6 +3,7 @@
  */
 
 $action='staff_details.php';
+$action_post_vars=array('seluid');
 
 if(isset($_POST['newuid'])){$seluid=$_POST['newuid'];}
 

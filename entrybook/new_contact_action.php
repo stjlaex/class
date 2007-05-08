@@ -4,6 +4,7 @@
  */
 
 $action='new_contact.php';
+$action_post_vars=array('pregid');
 
 if(isset($_POST['pregid']) and $_POST['pregid']!=''){
 	/*don't need to do anything else*/

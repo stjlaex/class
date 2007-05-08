@@ -5,9 +5,9 @@
 $action='ents_list_action.php';
 $cancel='student_view.php';
 
-if(isset($_GET{'tagname'})){$tagname=$_GET{'tagname'};}
-elseif(isset($_POST{'tagname'})){$tagname=$_POST{'tagname'};}
-if(isset($_GET{'bid'})){$bid=$_GET{'bid'};}
+if(isset($_GET['tagname'])){$tagname=$_GET['tagname'];}
+elseif(isset($_POST['tagname'])){$tagname=$_POST['tagname'];}
+if(isset($_GET['bid'])){$bid=$_GET['bid'];}
 
 three_buttonmenu();
 ?>

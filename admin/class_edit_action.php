@@ -3,6 +3,7 @@
  */
 
 $action='class_edit.php';
+$action_post_vars=array('newtid','newcid');
 
 if(isset($_POST['newcid'])){$newcid=$_POST['newcid'];}
 if(isset($_POST['newtid'])){$newtid=$_POST['newtid'];}

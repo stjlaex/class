@@ -1,4 +1,14 @@
-Version ClaSS-0.8.16 release (2007/04/23)
+Version ClaSS-0.8.17 release (2007/05/30)
+-----------------------------------------
+
+The ugly redirect.php script has finally been updated to call
+script/set_action_post_vars.php and include only those vars for
+posting which are listed by the parent page in the array
+$action_post_vars.
+
+
+
+Version ClaSS-0.8.16 release (2007/05/07)
 -----------------------------------------
 
 Use patch-0.8.16.sql to bring the db into line with the changes!

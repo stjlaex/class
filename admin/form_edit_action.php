@@ -3,6 +3,7 @@
  */
 
 $action='form_edit.php';
+$action_post_vars=array('newtid');
 
 if(isset($_POST['fid'])){$fid=$_POST['fid'];}
 if(isset($_POST['newtid'])){$newtid=$_POST['newtid'];}
