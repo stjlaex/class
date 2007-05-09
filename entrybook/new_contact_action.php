@@ -4,7 +4,7 @@
  */
 
 $action='new_contact.php';
-$action_post_vars=array('pregid');
+$action_post_vars=array('pregid','sid');
 
 if(isset($_POST['pregid']) and $_POST['pregid']!=''){
 	/*don't need to do anything else*/
@@ -85,6 +85,5 @@ if($sub=='Submit'){
 	//$result[]=get_string('newcontactadded'.$sid,$book);
 	}
 
-//include('scripts/results.php');
 include('scripts/redirect.php');
 ?>

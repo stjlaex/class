@@ -3,11 +3,10 @@
  */
 
 $action='report_reports.php';
+$action_post_vars=array('rids');
 
 if(isset($_POST['sids'])){$sids=(array) $_POST['sids'];}else{$sids=array();}
 if(isset($_POST['rids'])){$rids=(array) $_POST['rids'];}else{$rids=array();}
-if(isset($_POST['yid'])){$yid=$_POST['yid'];}else{$yid='';}
-if(isset($_POST['fid'])){$fid=$_POST['fid'];}else{$fid='';}
 
 include('scripts/sub_action.php');
 

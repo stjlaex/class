@@ -3,21 +3,23 @@
  */
 
 $action='class_view.php';
+$action_post_vars=array('displaymid');
+
 
 /* Make sure a column is checked*/
-if(!isset($_POST{'checkmid'})){
+if(!isset($_POST['checkmid'])){
 	$action='class_view.php';
 	$result[]='Choose more than one column to sum.';
 	}
 /*	Make sure more than one column was checked*/	
-elseif(sizeof($_POST{'checkmid'})<2){
+elseif(sizeof($_POST['checkmid'])<2){
 	$result[]='Choose more than one column to sum.';
 	}
 else{
-	$checkmid=$_POST{'checkmid'};
+	$checkmids=(array)$_POST['checkmid'];
 	$midlist='';
-	for ($c=0; $c < sizeof($checkmid); $c++){
-		$mid=$checkmid[$c];	
+	for ($c=0; $c<sizeof($checkmids); $c++){
+		$mid=$checkmids[$c];	
 		$d_markdef=mysql_query("SELECT markdef.scoretype, markdef.name 
 				FROM markdef, mark WHERE mark.id='$mid' AND markdef.name=mark.def_name");
 		$markdef=mysql_fetch_array($d_markdef, MYSQL_ASSOC);

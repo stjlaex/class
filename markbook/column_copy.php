@@ -13,16 +13,16 @@ if(!isset($_POST['checkmid'])){
 	exit;
 	}
 
-$checkmid=$_POST['checkmid'];
+$checkmids=(array)$_POST['checkmid'];
 /*Make sure only one column was checked*/	
-if(sizeof($checkmid)>1){
+if(sizeof($checkmids)>1){
 	$action='class_view.php';
 	$result[]='Please choose only one mark column to copy!';
 	include('scripts/results.php');
 	include('scripts/redirect.php');
 	exit;
 	}
-else{$mid=$checkmid[0];}
+else{$mid=$checkmids[0];}
 	
 	$d_mark=mysql_query("SELECT * FROM mark WHERE id='$mid'");
 	$mark=mysql_fetch_array($d_mark,MYSQL_ASSOC);
@@ -136,8 +136,6 @@ three_buttonmenu();
 	<input type="hidden" name="marktype" value="<?php print $mark['marktype']; ?>"/>
 	<input type="hidden" name="lena" value="<?php print $mark['levelling_name']; ?>"/>	
 	<input type="hidden" name="midlist" value="<?php print $mark['midlist']; ?>"/>
-	<input type="hidden" name="bid" value="<?php print $mark['subject_id']; ?>"/>
-	<input type="hidden" name="crid" value="<?php print $mark['course_id']; ?>"/>	
 	<input type="hidden" name="current" value="<?php print $action;?>"/>
 	<input type="hidden" name="choice" value="<?php print $choice;?>"/>
 	<input type="hidden" name="cancel" value="<?php print $choice;?>"/>

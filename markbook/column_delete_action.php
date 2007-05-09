@@ -3,16 +3,18 @@
  */
 
 $action='class_view.php';
+$action_post_vars=array('displaymid');
 
-if(isset($_POST{'delete'})){$delete=$_POST['delete'];}
-$mid=$_POST{'mid'};
+
+if(isset($_POST['delete'])){$delete=$_POST['delete'];}
+$mid=$_POST['mid'];
 
 include('scripts/sub_action.php');
 
 	$d_cids = mysql_query("SELECT DISTINCT class_id  FROM midcid WHERE mark_id='$mid'");
 
    	if(sizeof($cids)==mysql_num_rows($d_cids) or $delete=='all'){
-/*					then no longer needed by other classes, delete*/
+		/*then no longer needed by other classes, delete*/
 					if(mysql_query("DELETE FROM mark WHERE id='$mid' LIMIT 1")){}
 				     else{
 						 $result[]='Failed mark may not exist!';
@@ -47,7 +49,7 @@ include('scripts/sub_action.php');
 						$d_sids=mysql_query("SELECT student_id FROM cidsid
 							WHERE class_id='$cid'");
 						while($delsid=mysql_fetch_array($d_sids,MYSQL_ASSOC)){
-							$sid=$deldsid{'student_id'};
+							$sid=$delsid{'student_id'};
 							if(mysql_query("DELETE FROM score WHERE
 							mark_id='$mid' AND student_id='$sid'")){}
 							else{

@@ -5,9 +5,9 @@
 $action='student_view_sen.php';
 
 include('scripts/sub_action.php');
+
 if(isset($_POST['ncmod'])){$ncmodkey=$_POST['ncmod'];}else{$ncmodkey='';}
 $SEN=$Student['SEN'];
-$senhid=$SEN['SENhistory']['id_db'];
 
 if($sub=='senstatus'){
 	/*Check user has permission to edit*/
@@ -33,12 +33,14 @@ if($sub=='senstatus'){
 	}
 elseif($ncmodkey=='-1'){
 	if(isset($_POST['bid'])){
+		$senhid=$SEN['SENhistory']['id_db'];
 		$bid=$_POST['bid'];
 		mysql_query("INSERT INTO sencurriculum SET
 			senhistory_id='$senhid', subject_id='$bid'");
 		}
 	}
 elseif($sub=='Submit'){
+	$senhid=$SEN['SENhistory']['id_db'];
 	$SENhistory=$SEN['SENhistory'];
 	$inval=$_POST['date1'];
 	$table=$SENhistory['NextReviewDate']['table_db'];
@@ -100,5 +102,6 @@ elseif($sub=='Submit'){
 			}
 		}
 	}
-	include('scripts/redirect.php');
+
+include('scripts/redirect.php');
 ?>

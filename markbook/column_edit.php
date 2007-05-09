@@ -5,7 +5,7 @@
 $action='column_edit_action.php';
 
 /* Make sure a column is checked*/
-if(!isset($_POST{'checkmid'})){
+if(!isset($_POST['checkmid'])){
 	$action='class_view.php';
    	$result[]=get_string('pleasechooseamarkcolumn');
    	include('scripts/results.php');
@@ -13,9 +13,9 @@ if(!isset($_POST{'checkmid'})){
     exit;
 	}
 
-$checkmid=$_POST{'checkmid'};
+$checkmids=(array)$_POST['checkmid'];
 
-if(sizeof($checkmid)>1){
+if(sizeof($checkmids)>1){
 		$action='class_view.php';
 		$result[]=get_string('pleasechooseonlyonemarkcolumn');
 		include('scripts/results.php');
@@ -23,7 +23,7 @@ if(sizeof($checkmid)>1){
 		exit;
 		} 
 
-	$mid=$checkmid[0];
+	$mid=$checkmids[0];
 	$d_mark=mysql_query("SELECT * FROM mark WHERE id='$mid'");
 	$mark=mysql_fetch_array($d_mark,MYSQL_ASSOC);
 
@@ -150,36 +150,7 @@ three_buttonmenu();
 		  </tr>
 		</table>
 	  </fieldset>
-<?php
-/**********NOT USED
-<fieldset class="rightmiddle"><legend>By default Column is:</legend>
-	<label for="Hide or Show">Display:<br /></label>
-  		<select name="hidden" id="Hide or Show" size="3">
-			<option value="yes" <?php if($mark{'hidden'}=='yes'){print "selected";} ?>>Hidden</option>
-			<option value="no" <?php if($mark{'hidden'}=='no'){print "selected";} ?> >Shown</option>
-		</select>
-</fieldset>
-**************/
-?>
 
-	  <fieldset class="left">
-		<table width="100%">
-		  <tr>
-			<td>
-<?php
-  if($tid=='administrator'){
-	if($mark{'assessment'}=='yes'){
-		print_string('linkedtothisassessment',$book);
-		}
-	else{
-		print_string('notlinkedtoanassessment',$book);		
-		}
-	}
-?>
-			</td>
-		  </tr>
-		</table>
-	  </fieldset>
 	    <input type="hidden" name="mid" value="<?php print $mid; ?>" />
 		<input type="hidden" name="total" value="<?php print $total; ?>" />
 		<input type="hidden" name="current" value="<?php print $action;?>" />

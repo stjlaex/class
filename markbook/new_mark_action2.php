@@ -1,8 +1,9 @@
 <?php 
-/**								new_mark_action.php
+/**								new_mark_action2.php
  */
 
 $action='class_view.php';
+$action_post_vars=array('displaymid');
 
 $comment=clean_text($_POST['comment']);
 $def_name=$_POST['def_name'];
@@ -10,7 +11,7 @@ $topic=clean_text($_POST['topic']);
 $newcid=$_POST['newcid'];
 $entrydate=$_POST['date0'];
 if(!isset($_POST['total'])){$total=0;}else{$total=clean_text($_POST['total']);}
-if(!isset($_POST{'newpid'})){$newpid='';}else{$newpid=$_POST{'newpid'};}
+if(!isset($_POST['newpid'])){$newpid='';}else{$newpid=$_POST['newpid'];}
 
 include('scripts/sub_action.php');
 

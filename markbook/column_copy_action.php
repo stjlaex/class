@@ -3,20 +3,19 @@
  */
 
 $action='class_view.php';
+$action_post_vars=array('displaymid');
 
 $mid=$_POST['mid'];
 $marktype=$_POST['marktype'];
 $lena=$_POST['lena'];
-$total=$_POST['total'];
-$scale=$_POST['scale'];
 $oldtotal=$_POST['oldtotal'];
 $midlist=$_POST['midlist'];
-$bid=$_POST['bid'];
-$crid=$_POST['crid'];
 $entrydate=$_POST['date0'];
 $comment=$_POST['comment'];	
 $def_name=$_POST['def_name'];
 $topic=$_POST['topic'];
+if(isset($_POST['total'])){$total=$_POST['total'];}else{$total='';}
+if(isset($_POST['scale'])){$scale=$_POST['scale'];}else{$scale='';}
 
 include('scripts/sub_action.php');
 
@@ -49,6 +48,7 @@ if($sub=='Submit'){
 				$sid=$score['student_id'];
 				$scoretotal=$score['outoftotal'];
 				$scorevalue=$score['value'];
+				$scoregrade=$score['grade'];
 				if($scoretotal!='' and $total!=0 and $scale=='yes'){
 					$newtotal=$total*$scoretotal/$oldtotal;
 					$scorevalue=$scorevalue*$total/$oldtotal;
@@ -61,8 +61,8 @@ if($sub=='Submit'){
 					$scoretotal=$total;
 					}
 				mysql_query("INSERT INTO score (mark_id,
-						student_id,value,outoftotal) VALUES
-						('$newmid', '$sid', '$scorevalue', '$scoretotal')");
+						student_id,grade,value,outoftotal) VALUES
+						('$newmid', '$sid', '$scoregrade', '$scorevalue', '$scoretotal')");
 				}
 			}
 

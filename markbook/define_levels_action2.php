@@ -3,12 +3,11 @@
 */
 
 $action='column_level.php';
+$action_post_vars=array('checkmid');
 
 include('scripts/sub_action.php');
 
-if(isset($_POST['mid'])){$mid=$_POST['mid'];}
-
-$sub=$_POST['sub'];
+if(isset($_POST['checkmid'])){$checkmid=$_POST['checkmid'];}
 
 $gena=$_POST['gena'];
 $lena=$_POST['lena'];
@@ -53,50 +52,3 @@ $bid=$_POST['bid'];
 	include('scripts/results.php');
 	include('scripts/redirect.php');
 ?>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

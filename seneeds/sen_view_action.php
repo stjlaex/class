@@ -102,5 +102,6 @@ elseif($sub=='Submit'){
 			}
 		}
 	}
-	include('scripts/redirect.php');
+
+include('scripts/redirect.php');
 ?>

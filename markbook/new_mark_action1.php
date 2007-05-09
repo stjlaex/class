@@ -1,14 +1,15 @@
 <?php 
-/**										new_mark2.php
- *	Creates a new row in the table:mark 
+/**										new_mark_action1.php
+ *
+ *	Creates a new record in the table:mark 
  *	for one or more classes using table:midcid
  */
 
-$action='new_mark_action.php';
+$action='new_mark_action2.php';
 
 include('scripts/sub_action.php');
 
-if(isset($_POST{'def_name'})){$def_name=$_POST{'def_name'};}else{$def_name='';}
+if(isset($_POST['def_name'])){$def_name=$_POST['def_name'];}else{$def_name='';}
 
 if($def_name=='custom'){
 		$action='define_mark.php';
@@ -39,20 +40,19 @@ three_buttonmenu();
 	 	<select class="required" id="Classes" name="newcid[]" 
 		  size="14"	multiple="multiple" tabindex="2">
 <?php
-/*	Select all possible classes to apply the mark to*/
+		/* Select all possible classes to apply the mark to*/
 	if($r>-1){
 		/*either by current responsibility choice*/
 	 	$rbid=$respons[$r]['subject_id'];
 		$rcrid=$respons[$r]['course_id'];
 		$ryid=$respons[$r]['yeargroup_id'];
-		if($stage==''){$stage='%';}
 		$d_cids=mysql_query("SELECT DISTINCT id AS class_id FROM class WHERE
 			(subject_id LIKE '$rbid' OR subject_id='%') AND (course_id
-			LIKE '$rcrid' OR course_id='%') AND (stage LIKE '$stage'
+			LIKE '$rcrid' OR course_id='%') AND (stage LIKE '%'
 				OR stage='%') ORDER BY id");
 		}
 	else{
-/*	or by select definitions by subjects of classes taught*/
+		/* or by select definitions by subjects of classes taught*/
 		$d_cids=mysql_query("SELECT class_id FROM tidcid WHERE
 		   teacher_id='$tid' ORDER BY class_id");
 		}

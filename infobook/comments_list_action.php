@@ -50,7 +50,6 @@ include('scripts/sub_action.php');
 
 		}
 
-//$_SESSION['Student']=fetchStudent($sid);
 include('scripts/results.php');	
 include('scripts/redirect.php');	
 ?>

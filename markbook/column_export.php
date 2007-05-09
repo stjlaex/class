@@ -17,7 +17,7 @@ else{
 		$error[]='Unable to open file for writing!';
 		}
 	else{
-		$checkmids=$_POST['checkmid'];
+		$checkmids=(array)$_POST['checkmid'];
 
 		/*first do the column headers*/
 		$csv=array();

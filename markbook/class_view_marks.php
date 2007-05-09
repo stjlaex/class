@@ -77,17 +77,19 @@ for($i=0;$i<sizeof($cids);$i++){
 
 		  /*umn an array of mark properties for this column*/	
 	      $umn=array('id'=>$mark{'id'}, 'mark_total'=>$mark{'total'}, 
-					'marktype' => $mark{'marktype'},
-					'scoretype' => '',
-					'midlist'=>$mark{'midlist'},
-					'def_name'=>$mark{'def_name'}, 
-					'hidden'=>$mark{'hidden'}, 'display'=>$display, 'topic'=>$mark{'topic'}, 
-					'entrydate'=>$mark{'entrydate'},
-					'lena'=>$mark{'levelling_name'}, 
-					'comment'=>$mark{'comment'},
-					'assessment'=>$mark{'assessment'},
-					'component'=>$mark{'component_id'});
-		 $umns[$c] = $umn;/*each mark in umns is referenced by its column count*/
+					 'marktype' => $mark{'marktype'},
+					 'scoretype' => '',
+					 'midlist'=>$mark{'midlist'},
+					 'def_name'=>$mark{'def_name'}, 
+					 'hidden'=>$mark{'hidden'}, 
+					 'display'=>$display, 
+					 'topic'=>$mark{'topic'}, 
+					 'entrydate'=>$mark{'entrydate'},
+					 'lena'=>$mark{'levelling_name'}, 
+					 'comment'=>$mark{'comment'},
+					 'assessment'=>$mark{'assessment'},
+					 'component'=>$mark{'component_id'});
+		 $umns[$c]=$umn;/*each mark in umns is referenced by its column count*/
 
 
 		if($display=='yes' or $mark{'assessment'}=='yes'){

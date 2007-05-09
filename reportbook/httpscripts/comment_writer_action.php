@@ -3,9 +3,9 @@
  */
 
 require_once('../../scripts/http_head_options.php');
-$sub=$_POST{'sub'};
-$sid=$_POST{'sid'};
-$rid=$_POST{'rid'};
+$sub=$_POST['sub'];
+$sid=$_POST['sid'];
+$rid=$_POST['rid'];
 $tid=$_SESSION['username'];
 
 /*Note: categories are not handled by the commentwriter*/

@@ -4,7 +4,7 @@
 
 $action='column_level_action.php';
 
-if(!isset($_POST{'checkmid'})){
+if(!isset($_POST['checkmid'])){
 		$action='class_view.php';
 		$result[]='Choose a column to level!';
 		include('scripts/results.php');
@@ -12,9 +12,9 @@ if(!isset($_POST{'checkmid'})){
 	   	exit;
 		}
 
-$mids=$_POST{'checkmid'};
+$checkmids=(array)$_POST['checkmid'];
 
-if(sizeof($mids)>1){
+if(sizeof($checkmids)>1){
 		$action='class_view.php';
 		$result[]='Choose only one column to level!';
 		include('scripts/results.php');
@@ -22,7 +22,7 @@ if(sizeof($mids)>1){
 		exit;
 		}
 
-$mid=$mids[0];
+$mid=$checkmids[0];
 $d_mark=mysql_query("SELECT * FROM mark WHERE id='$mid'");
 $mark=mysql_fetch_array($d_mark,MYSQL_ASSOC);
 
@@ -101,7 +101,7 @@ three_buttonmenu();
 		</tr>
 	  </table>
 
-	<input type="hidden" name="mid" value="<?php print $mid; ?>" />
+	<input type="hidden" name="checkmid" value="<?php print $mid; ?>" />
 	<input type="hidden" name="markdefname" value="<?php print $markdefname; ?>" />
 	<input type="hidden" name="bid" value="<?php print $bid; ?>" />			
 	<input type="hidden" name="crid" value="<?php print $crid; ?>" />			

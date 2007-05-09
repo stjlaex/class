@@ -98,7 +98,8 @@ three_buttonmenu();
 			<td colspan="6">
 			  <p>
 <?php		   if(isset($entry['Detail']['value'])){
-					print $entry['Detail']['value'];}
+					print $entry['Detail']['value'];
+					}
 ?>
 			  </p>
 			  <button class="rowaction" title="Delete this comment"
@@ -124,5 +125,3 @@ three_buttonmenu();
 	  </table>
 	</div>
   </div>
-
-

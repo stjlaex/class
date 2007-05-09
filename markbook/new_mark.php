@@ -3,7 +3,7 @@
  *	Creates a new row in the table:mark for one or more classes using table:midcid
  */
 
-$action='new_mark2.php';
+$action='new_mark_action1.php';
 
 	$markdef=array();
 	for($c=0;$c<sizeof($cids);$c++){

@@ -5,8 +5,7 @@
  */
 
 $action='report_comments_list.php';
-$action_post_vars=array('newyid','newfid');
-
+$action_post_vars=array('newyid','newfid','date0','date1','bid');
 
 $sids=$_POST['sids'];
 $date0=$_POST['date0'];

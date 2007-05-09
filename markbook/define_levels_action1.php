@@ -16,9 +16,9 @@ $comment=$_POST['comment'];
 
 	$d_grading=mysql_query("SELECT * FROM grading WHERE name='$gena'");
 	$grading=mysql_fetch_array($d_grading,MYSQL_ASSOC);
-	$bid=$grading{'subject_id'};
-	$crid=$grading{'course_id'};
-	$pairs=explode (';', $grading{'grades'});
+	$bid=$grading['subject_id'];
+	$crid=$grading['course_id'];
+	$pairs=explode (';', $grading['grades']);
 
 three_buttonmenu();
 ?>
@@ -55,9 +55,9 @@ three_buttonmenu();
 		<input type="hidden" name="lena" value="<?php print $lena; ?>" />
 		<input type="hidden" name="comment" value="<?php print $comment; ?>" />
 		<input type="hidden" name="bid" value="<?php print $bid; ?>" />
-		<input type="hidden" name="mid" value="<?php print $_POST{'mid'}; ?>" />
+		<input type="hidden" name="checkmid" value="<?php print $_POST['checkmid']; ?>" />
 		<input type="hidden" name="crid" value="<?php print $crid; ?>" />
-		<input type="hidden" name="grades" value="<?php print $grading{'grades'}; ?>" />
+		<input type="hidden" name="grades" value="<?php print $grading['grades']; ?>" />
 		<input type="hidden" name="current" value="<?php print $action;?>" />
 		<input type="hidden" name="choice" value="<?php print $choice;?>" />
 </form>

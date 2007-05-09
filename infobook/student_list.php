@@ -67,7 +67,8 @@ two_buttonmenu($extrabuttons,$book);
 			$field=fetchStudent_singlefield($sid,$displayfield);
 			$Student=array_merge($Student,$field);
 			}
-		if($Student[$displayfield]['type_db']=='enum'){
+		if(isset($Student[$displayfield]['type_db'])  
+			and $Student[$displayfield]['type_db']=='enum'){
 			$displayout=displayEnum($Student[$displayfield]['value'],$Student[$displayfield]['field_db']);
 			$displayout=get_string($displayout,$book);
 			}

@@ -7,6 +7,9 @@ var marks = new Array();
 function updateMarkDisplay(state){
 	// called whenever the marktable is reloaded to check for changes
 	// and adjust the marks array accordingly
+	// state=0 means no change
+	// state=-1 means a change
+	// state=mid where mid is the value of the new mark column to display
 	var theBook = window.frames["viewmarkbook"].document;
 	var selMarks = document.getElementById('mids');
 	if(!theBook.getElementById("marktable")){

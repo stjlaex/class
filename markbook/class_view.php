@@ -56,9 +56,6 @@ if($_SESSION['worklevel']>-1){
 	$n=sizeof($cids);
 	$cidcolour=array();
 
-//	$rowcolour=array('#ffeeff', '#ffddff', '#ffccff', '#ffbbff',
-//	'#ffaaff', '#ff99ff', '#ff88ff', '#ff77ff', '#ff66ff', '#ff55ff',
-//	'#ff44ff', '#ff33ff', '#ff22ff', '#ff11ff', '#ff00ff');
 
 	$rowcolour=array('#ffffee', '#ffffcc', '#ffffaa', '#ffff99',
 	'#ffff77', '#ffff55', '#ffff33', '#ffff11', '#ffffdd', '#ffffbb',

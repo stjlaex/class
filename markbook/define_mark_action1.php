@@ -13,7 +13,6 @@ $type=$_POST['type'];
 $comment=$_POST['comment'];
 $name=$_POST['name'];
 
-
 three_buttonmenu();
 ?>
   <div id="heading">New mark definition '<?php print $name; ?>'</div>
@@ -23,11 +22,12 @@ three_buttonmenu();
 	  <fieldset class="center">
 		<legend>Details for New Mark-Type</legend>
 <?php
-	if($type=="value"){}
-	elseif($type=="grade"){
+	if($type=='value'){
+		}
+	elseif($type=='grade'){
 		include('scripts/list_gradescheme.php');
 		}
-	elseif($type=="percentage"){ 
+	elseif($type=='percentage'){ 
 ?>
 
 <label for="Total" >What is the default 'out-of-total':</label>
@@ -35,7 +35,8 @@ three_buttonmenu();
 		id="Total" value="" maxlength="4" pattern="numeric" />
 <?php 
 		}
-	elseif($type=="comment"){}
+	elseif($type=='comment'){
+		}
 ?>
 	  </fieldset>
 

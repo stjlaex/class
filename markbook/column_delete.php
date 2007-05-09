@@ -5,7 +5,7 @@
 $action='column_delete_action.php';
 
 /* Make sure a column is checked*/
-if(!isset($_POST{'checkmid'})){
+if(!isset($_POST['checkmid'])){
 	$result[]='Please choose a mark to delete!';
 	$action='class_view.php';
 	include('scripts/results.php');
@@ -13,17 +13,17 @@ if(!isset($_POST{'checkmid'})){
    	exit;
 	}
 
-$checkmid=$_POST{'checkmid'};
+$checkmids=(array)$_POST['checkmid'];
 
 /*	Make sure only one column was checked*/	
-if(sizeof($checkmid)>1){
+if(sizeof($checkmids)>1){
 		$result[]='You can only delete one mark at a time!';
 		$action='class_view.php';
 		include('scripts/results.php');
 		include('scripts/redirect.php');
 		exit;
 		} 
-	$mid=$checkmid[0];
+	$mid=$checkmids[0];
 	$d_mark=mysql_query("SELECT * FROM mark WHERE id='$mid'");
 	$mark = mysql_fetch_array($d_mark,MYSQL_ASSOC);
 

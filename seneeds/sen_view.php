@@ -1,9 +1,9 @@
 <?php
 /**                                  sen_view.php
  */
+
 $action='sen_view_action.php';
 $selbid='G';
-
 ?>
   <div id="heading"><label><?php print_string('iep',$book);?></label>
   <?php print $Student['Forename']['value'].' '.$Student['Surname']['value'];?>

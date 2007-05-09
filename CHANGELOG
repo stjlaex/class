@@ -6,6 +6,13 @@ script/set_action_post_vars.php and include only those vars for
 posting which are listed by the parent page in the array
 $action_post_vars.
 
+Bug-fix to column_copy.php in the MarkBook when copying grades.
+
+Renamed new_mark2 and new_mark_action to be consistent with other
+action scripts; now new_mark_action1 and new_mark_action2
+respectively.
+
+Removed the dead and unused scripts column_hide.php and column_show.php.
 
 
 Version ClaSS-0.8.16 release (2007/05/07)

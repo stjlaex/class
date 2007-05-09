@@ -9,8 +9,6 @@
 
 $action='portfolio_accounts.php';
 
-//if(isset($_POST['yid'])){$yid=$_POST['yid'];}else{$yid='';}
-//if(isset($_POST['fid'])){$fid=$_POST['fid'];}else{$fid='';}
 
 include('scripts/sub_action.php');
 

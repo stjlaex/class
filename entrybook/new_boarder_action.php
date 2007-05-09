@@ -2,6 +2,8 @@
 /**									new_boarder_action.php
  */
 
+$action_post_vars=array('sid');
+
 if(isset($_POST['sid'])){
 	/*this means part of a new_student sequence*/
 	$action='new_contact.php';

@@ -132,15 +132,3 @@ $_SESSION{'inorders'}=$inorders;
 	  <input type="hidden" name="cancel" value="<?php print $choice;?>" />
 	</form>
   </div>
-
-
-
-
-
-
-
-
-
-
-
-
