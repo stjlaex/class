@@ -17,7 +17,7 @@ three_buttonmenu();
 	 <fieldset class="center">
 <?php 
 	$selboarder=$Student['Boarder']['value'];
-	$listname='boarder';$listlabel='boarder';
+	$listname='boarder';$listlabel='boarder';$required='yes';
 	include('scripts/set_list_variables.php');
 	$tab=list_select_enum('boarder',$listoptions,$book);
 ?>
@@ -25,8 +25,12 @@ three_buttonmenu();
 
 	 <div class="center">
 <?php 
-	$Stay=fetchStay($sid);
-	$tab=xmlarray_form($Stay,'','stay',$tab,$book);
+	$Stays=fetchStays($sid);
+	if(sizeof($Stays)>0){$Stay=$Stays[0];}
+	else{$Stay=fetchStay();}
+	if($Student['Boarder']['value']!='N' and $Student['Boarder']['value']!=''){
+		$tab=xmlarray_form($Stay,'','stay',$tab,$book);
+		}
 ?>
 	  </div>
 

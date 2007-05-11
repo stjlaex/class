@@ -136,7 +136,12 @@ function xmlarray_form($Array,$no='',$caption='',$tab=1,$book=''){
 		</label>
 	  </td>
 	  <td>
-<?php																	   
+<?php
+			if($val['value']=='' and isset($val['default_value'])){
+				$setval=$val['default_value'];
+				}							   
+			else{$setval=$val['value'];}
+
 			if($val['type_db']=='enum'){
 				$enum=getEnumArray($val['field_db']);
 				print '<select name="'.$val['field_db'].$no.'" ';
@@ -146,14 +151,14 @@ function xmlarray_form($Array,$no='',$caption='',$tab=1,$book=''){
 				print '<option value=""></option>';
 				while(list($inval,$description)=each($enum)){	
 					print '<option ';
-					if($val['value']==$inval){print 'selected="selected"';}
+					if($setval==$inval){print 'selected="selected"';}
 					print ' value="'.$inval.'">'.get_string($description,$book).'</option>';
 					}
 				print '</select>';
 				}
 			elseif($val['type_db']=='date'){
 				$required='no';$todate='';$xmldate=$val['field_db'].$no;
-				$todate=$val['value'];
+				$todate=$setval;
 				include('scripts/jsdate-form.php');
 				}
 			else{
@@ -161,7 +166,7 @@ function xmlarray_form($Array,$no='',$caption='',$tab=1,$book=''){
 		<input type="text" id="<?php print $val['label'];?>" 
 			class="<?php if(isset($val['inputtype'])){print $val['inputtype'];}?>" 
 				name="<?php print $val['field_db'].$no; ?>" 
-					tabindex="<?php print $tab++;?>" value="<?php print $val['value']; ?>" />
+					tabindex="<?php print $tab++;?>" value="<?php print $setval; ?>" />
 <?php
 				 }
 ?>

@@ -95,6 +95,7 @@ DROP table accomodation;
 CREATE TABLE accomodation (
 	id					int unsigned not null auto_increment,
 	student_id			int unsigned not null, 
+	community_id		int unsigned not null, 
 	roomcategory		char(2) not null default '',
 	building			char(2) not null default '',
 	room				varchar(4) not null default '',

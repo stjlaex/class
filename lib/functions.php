@@ -204,7 +204,7 @@ function checkEnum($value, $field_name) {
 
 /*Uses the enum $value for the enum $field_name to look up and return the $description*/
 /*call this before displaying the lang string*/
-function displayEnum($value, $field_name){
+function displayEnum($value,$field_name){
 	$value=strtoupper($value);
 	$enumarray=getEnumArray($field_name);
 	$description=$enumarray[$value];

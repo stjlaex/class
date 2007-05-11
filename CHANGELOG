@@ -14,6 +14,14 @@ respectively.
 
 Removed the dead and unused scripts column_hide.php and column_show.php.
 
+Expanded the xmlarray capabilities to allow for a default_value, this
+is set by xmlarray_form() when the field value is empty.
+
+Have working first versions of the admin pages for enrolments and
+accomodation. These use coutin_community to show a spreadsheet of the
+student numbers subscribed.
+
+
 
 Version ClaSS-0.8.16 release (2007/05/07)
 -----------------------------------------

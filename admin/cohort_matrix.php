@@ -57,10 +57,10 @@ while($cohort=mysql_fetch_array($d_cohort,MYSQL_ASSOC)){
 		print '<input type="hidden" name="cohids[]" value="'.$cohid.'" />'
 ?>
 		  <td>
-<?php  $multi=4; $type='year'; include('scripts/list_community.php'); ?>
+<?php  $multi=4; $listtype='year'; include('scripts/list_community.php'); ?>
 		  </td>
 		  <td>
-<?php  $multi=4; $type='academic'; include('scripts/list_community.php'); ?>
+<?php  $multi=4; $listtype='academic'; include('scripts/list_community.php'); ?>
 		  </td>
 		</tr>
 <?php

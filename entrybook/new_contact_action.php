@@ -78,11 +78,7 @@ if($sub=='Submit'){
 					}
 				}
 			}
-
-
 		}
-
-	//$result[]=get_string('newcontactadded'.$sid,$book);
 	}
 
 include('scripts/redirect.php');

@@ -38,12 +38,7 @@ if($sub=='Submit'){
 		}
 
 	if(isset($sid)){
-		/*joins an accomodation community named to match gender/roomcat/boardercode*/
-		/*eg. MGLH (male group leader host family) or MB (male boarder)*/
-		$comname=$Student['Gender']['value']. $_POST['roomcategory']. 
-						$Boarder['value'];
-		$community=array('id'=>'','type'=>'accomodation','name'=>$comname);
-		set_community_stay($sid,$community,$_POST['arrivaldate'],$_POST['departuredate']);
+		set_accomodation($sid,$accid);
 		}
 	}
 

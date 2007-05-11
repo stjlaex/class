@@ -1,5 +1,5 @@
 <?php 
-/**				   	   				   enrolments_matrix_action.php
+/**				   	   			   enrolments_matrix_action.php
  */
 
 $action='enrolments_matrix.php';

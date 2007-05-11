@@ -269,9 +269,11 @@ function fetchStudent($sid='-1'){
 								  'value' => ''.$info['leavingdate']
 								  );
    	$Student['Boarder']=array('label' => 'boarder', 
+							  'inputtype'=> 'required',
 							  'table_db' => 'info', 
 							  'field_db' => 'boarder',
 							  'type_db'=>'enum', 
+							  'default_value' => 'N',
 							  'value' => ''.$info['boarder']
 							  );
    	$Student['PartTime']=array('label' => 'parttime', 
@@ -808,89 +810,101 @@ function commentDisplay($sid,$date='',$Comments=''){
 	}
 
 
-function fetchStay($sid='-1'){
-	$d_ac=mysql_query("SELECT * FROM accomodation WHERE
-			student_id='$sid' ORDER BY arrivaldate DESC");
-	$ac=mysql_fetch_array($d_ac,MYSQL_ASSOC);
+/*Returns all residencial Stays where the dpearture date falls after $date*/
+/*by defualt $date='' and only Stays returned are current or future ones.*/
+function fetchStays($sid,$date=''){
+	if($date==''){$todate=date("Y-m-d");}
+	$Stays=array();
+	$d_stays=mysql_query("SELECT * FROM accomodation WHERE
+				student_id='$sid' AND 
+				(departuredate>'$date' OR departuredate='0000-00-00') ORDER BY
+				arrivaldate DESC, id DESC");
+	while($stay=mysql_fetch_array($d_stays,MYSQL_ASSOC)){
+		$Stays[]=fetchStay($stay);
+		}
+	return $Stays;
+	}
+
+function fetchStay($stay=array('id'=>'-1','bookingdate'=>'','invoice'=>'')){
 	$Stay=array();
-	$Stay['id_db']=$ac['id'];
+	$Stay['id_db']=$stay['id'];
    	$Stay['BookingDate']=array('label' => 'bookingdate', 
 							'table_db' => 'accomodation', 
 							'field_db' => 'bookingdate', 
 							'type_db'=>'date', 
-							'value' => ''.$ac['bookingdate']
+							'value' => ''.$stay['bookingdate']
 							);
    	$Stay['Invoice']=array('label' => 'invoice', 
 							'table_db' => 'accomodation', 
 							'field_db' => 'invoice', 
 							'type_db'=>'varchar(80)', 
-							'value' => ''.$ac['invoice']
+							'value' => ''.$stay['invoice']
 							);
   	$Stay['RoomCategory']=array('label' => 'roomcategory', 
 							'table_db' => 'accomodation', 
 							'field_db' => 'roomcategory', 
 							'type_db'=> 'enum', 
-							'value' => ''.$ac['roomcategory']
+							'value' => ''.$stay['roomcategory']
 							);
   	$Stay['ResidenceBuilding']=array('label' => 'residencebuilding', 
 							'table_db' => 'accomodation', 
 							'field_db' => 'building', 
 							'type_db'=> 'enum', 
-							'value' => ''.$ac['building']
+							'value' => ''.$stay['building']
 							);
   	$Stay['ResidenceBed']=array('label' => 'residencebed', 
 							'table_db' => 'accomodation', 
 							'field_db' => 'bed', 
 							'type_db'=> 'varchar(4)', 
-							'value' => ''.$ac['bed']
+							'value' => ''.$stay['bed']
 							);
 	$Stay['ArrivalDate']=array('label' => 'arrivaldate', 
 							'table_db' => 'accomodation', 
 							'field_db' => 'arrivaldate', 
 							'type_db'=>'date', 
-							'value' => ''.$ac['arrivaldate']
+							'value' => ''.$stay['arrivaldate']
 							);
 	$Stay['ArrivalTime']=array('label' => 'arrivaltime', 
 							'table_db' => 'accomodation', 
 							'field_db' => 'arrivaltime', 
 							'type_db'=>'time', 
-							'value' => ''.$ac['arrivaltime']
+							'value' => ''.$stay['arrivaltime']
 							);
 	$Stay['ArrivalAirport']=array('label' => 'arrivalairport', 
 							'table_db' => 'accomodation', 
 							'field_db' => 'arrivalairport', 
 							'type_db'=>'varchar(240)', 
-							'value' => ''.$ac['arrivalairport']
+							'value' => ''.$stay['arrivalairport']
 							);
 	$Stay['ArrivalFlight']=array('label' => 'arrivalflight', 
 							'table_db' => 'accomodation', 
 							'field_db' => 'arrivalflight', 
 							'type_db'=>'varchar(240)', 
-							'value' => ''.$ac['arrivalflight']
+							'value' => ''.$stay['arrivalflight']
 							);
 	$Stay['DepartureDate']=array('label' => 'departuredate', 
 							'table_db' => 'accomodation', 
 							'field_db' => 'departuredate', 
 							'type_db'=>'date', 
-							'value' => ''.$ac['departuredate']
+							'value' => ''.$stay['departuredate']
 							);
 	$Stay['DepartureTime']=array('label' => 'departuretime', 
 							'table_db' => 'accomodation', 
 							'field_db' => 'departuretime', 
 							'type_db'=>'time', 
-							'value' => ''.$ac['departuretime']
+							'value' => ''.$stay['departuretime']
 							);
 	$Stay['DepartureAirport']=array('label' => 'departureairport', 
 							'table_db' => 'accomodation', 
 							'field_db' => 'departureairport', 
 							'type_db'=>'varchar(240)', 
-							'value' => ''.$ac['departureairport']
+							'value' => ''.$stay['departureairport']
 							);
 	$Stay['DepartureFlight']=array('label' => 'departureflight', 
 							'table_db' => 'accomodation', 
 							'field_db' => 'departureflight', 
 							'type_db'=>'varchar(240)', 
-							'value' => ''.$ac['departureflight']
+							'value' => ''.$stay['departureflight']
 							);
 	return $Stay;
 	}

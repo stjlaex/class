@@ -1,5 +1,5 @@
 <?php
-/*****									student_view_mecial1.php
+/*****									student_view_boarder_action.php
  *
  */
 
@@ -15,8 +15,10 @@ if($sub=='Submit'){
 	$neededperm='w';
 	include('scripts/perm_action.php');
 
+	mysql_query("UPDATE info SET boarder='$boarder' WHERE student_id='$sid'");
+
 	if($boarder!='' and $boarder!='N'){
-		if($accid==''){
+		if($accid=='-1'){
 			mysql_query("INSERT INTO accomodation SET student_id='$sid'");
 			$accid=mysql_insert_id();
 			}
@@ -33,21 +35,13 @@ if($sub=='Submit'){
 					}
 				}
 			}
-
-		$comname=$Student['Gender']['value']. $_POST['roomcategory']. $_POST['boarder'];
-		$community=array('id'=>'','type'=>'accomodation','name'=>$comname);
-		set_community_stay($sid,$community,$_POST['arrivaldate'],$_POST['departuredate']);
-
+		set_accomodation($sid,$accid);
 		}
-	elseif($accid!='' and ($boarder=='N' or $boarder=='')){
+	elseif($accid!='-1' and ($boarder=='N' or $boarder=='')){
 		mysql_query("DELETE FROM accomodation WHERE id='$accid' LIMIT 1");
-		$accid='';
 		}
-
-	mysql_query("UPDATE info SET boarder='$boarder' WHERE student_id='$sid'");
 
 	}
 
-	include('scripts/results.php');
 	include('scripts/redirect.php');
 ?>

@@ -2,6 +2,7 @@
 /**			  					new_student_action.php
  */
 
+$action_post_vars=array('sid');
 
 if($_POST['boarder']!='N' and $_POST['boarder']!=''){
 	/*extra fields for residencial students*/

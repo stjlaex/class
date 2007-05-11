@@ -16,22 +16,29 @@ if($sub=='Submit'){
 		if(isset($val['value']) and is_array($val) and isset($val['table_db'])){
 			$field=$val['field_db'];
 			$inname=$field;
-			$inval=clean_text($_POST["$inname"]);
+			$inval=clean_text($_POST[$inname]);
 			if($val['value']!=$inval){
 				/*the value has changed, update database*/
 				if($val['table_db']=='student'){
 					mysql_query("UPDATE student SET $field='$inval'
 									WHERE id='$sid'");
-					$Student[$key]['value']=$inval;	
 					}
 				elseif($val['table_db']=='info'){
 					mysql_query("UPDATE info SET $field='$inval'
 									WHERE student_id='$sid'");
-					$Student[$key]['value']=$inval;	
-					}					
+					}
 				}
 			}
 		}
+
+	if($Student['Boarder']['value']!=$_POST['boarder']){
+
+		}
+	if($Student['Gender']['value']!=$_POST['gender']){
+
+		}
+
+
 	}
 include('scripts/redirect.php');
 ?>
