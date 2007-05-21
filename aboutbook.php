@@ -10,7 +10,7 @@ $book='aboutbook';
 
 include('scripts/head_options.php');
 
-include('scripts/book_variables.php');
+include('scripts/set_book_vars.php');
 
 ?>
   <div id="bookbox" class="aboutcolor">

@@ -7,9 +7,9 @@ $host='seneeds.php';
 $book='seneeds';
 
 include('scripts/head_options.php');
-include('scripts/book_variables.php');
+include('scripts/set_book_vars.php');
 $session_vars=array('sid','sentype','newyid','sensupport');
-include('scripts/book_session_variables.php');
+include('scripts/set_book_session_vars.php');
 
 if($sid=='' or $current==''){
 	$current='sen_student_list.php';

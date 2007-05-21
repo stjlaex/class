@@ -18,7 +18,7 @@ three_buttonmenu();
 <?php 
 	$selboarder=$Student['Boarder']['value'];
 	$listname='boarder';$listlabel='boarder';$required='yes';
-	include('scripts/set_list_variables.php');
+	include('scripts/set_list_vars.php');
 	$tab=list_select_enum('boarder',$listoptions,$book);
 ?>
 	  </fieldset>

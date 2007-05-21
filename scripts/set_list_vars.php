@@ -1,5 +1,5 @@
 <?php
-/**					set_list_variables.php
+/**					scripts/set_list_vars.php
  *
  * must have the select's name already defined in $listname
  * any option can be overridden by setting the value explicity first:

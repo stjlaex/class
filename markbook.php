@@ -7,7 +7,7 @@ $host='markbook.php';
 $book='markbook';
 
 include('scripts/head_options.php');
-include('scripts/book_variables.php');
+include('scripts/set_book_vars.php');
 
 if(!isset($_POST['displaymid'])){$displaymid=0;}//means no change to marks displayed
 else{$displaymid=$_POST['displaymid'];}//new mark created by previous script

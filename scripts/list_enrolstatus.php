@@ -5,26 +5,7 @@
  
 if(!isset($listname)){$listname='enrolstatus';}
 if(!isset($listlabel)){$listlabel='enrolstatus';}
-include('scripts/set_list_variables.php');
+include('scripts/set_list_vars.php');
 list_select_enum('enrolstatus',$listoptions,$book);
 unset($listoptions);
 ?>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

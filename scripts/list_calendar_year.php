@@ -20,7 +20,7 @@ while($c<$selyear+6){
 	$c++;
 	}
 
-include('scripts/set_list_variables.php');
+include('scripts/set_list_vars.php');
 list_select_list($years,$listoptions,$book);
 unset($listoptions);
 ?>

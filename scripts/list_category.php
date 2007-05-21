@@ -5,7 +5,7 @@
 
 if(!isset($listname)){$listname='catid';}
 if(!isset($cattype)){$cattype='con';}
-include('scripts/set_list_variables.php');
+include('scripts/set_list_vars.php');
 $d_catdef=mysql_query("SELECT id, name FROM categorydef WHERE
 								  type='$cattype' ORDER BY rating, name");
 list_select_db($d_catdef,$listoptions,$book);
@@ -24,7 +24,7 @@ if(mysql_num_rows($d_rating)>0){
 	$listname='ratvalue';
 	$listid='rating';
 	$listlabel='';
-	include('scripts/set_list_variables.php');
+	include('scripts/set_list_vars.php');
 ?>
   <div class="left">
 	<?php list_select_db($d_rating,$listoptions,$book);?>

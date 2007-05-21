@@ -1,5 +1,5 @@
 <?php
-/**					book_variables.php
+/**									scripts/set_book_vars.php
  */
 $current='';
 $choice='';

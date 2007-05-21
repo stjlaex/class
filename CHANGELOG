@@ -1,4 +1,11 @@
-Version ClaSS-0.8.17 release (2007/05/30)
+Version ClaSS-0.8.18 release (2007/05/28)
+-----------------------------------------
+
+Consistently renamed the set_ vars scripts.
+
+
+
+Version ClaSS-0.8.17 release (2007/05/11)
 -----------------------------------------
 
 The ugly redirect.php script has finally been updated to call
@@ -20,7 +27,6 @@ is set by xmlarray_form() when the field value is empty.
 Have working first versions of the admin pages for enrolments and
 accomodation. These use coutin_community to show a spreadsheet of the
 student numbers subscribed.
-
 
 
 Version ClaSS-0.8.16 release (2007/05/07)

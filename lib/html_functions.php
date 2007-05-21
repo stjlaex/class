@@ -203,7 +203,7 @@ function selery_stick($choices,$choice='',$book=''){
 <?php
 	}
 
-/* include scripts/set_list_variables.php first to define all the options */
+/* Before calling this, include scripts/set_list_vars.php first to define all the options */
 /* set in the $vars array (see in there how to over-ride defaults)*/
 /* the $d_list should be the SELECT result from mysql with AS id and */
 /* AS name used */

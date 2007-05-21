@@ -4,23 +4,23 @@
 	$fresh='';
 	include('scripts/head_options.php');
 ?>
-<div style="visibility:hidden;" id="hiddenbookoptions">	
-</div>
-<div style="visibility:hidden;" id="hiddenloginlabel">
+  <div style="visibility:hidden;" id="hiddenbookoptions">	
+  </div>
+  <div style="visibility:hidden;" id="hiddenloginlabel">
 	<?php print $tid;?>
-</div>
-<div style="visibility:hidden;" id="hiddensidebuttons">
+  </div>
+  <div style="visibility:hidden;" id="hiddensidebuttons">
 	  <button onClick="helpPage();"  title="<?php print_string('help');?>">
 		<img src="images/helper.png" alt="<?php print_string('help');?>" /></button>
 	  <button onClick="printGenericContent();"  title="<?php print_string('print');?>">
 		<img src="images/printer.png" alt="<?php print_string('print');?>" /></button>
 	  <button onClick="changeFont();"  title="<?php print_string('fontsize');?>">
 		<img src="images/fonter.png" alt="<?php print_string('fontsize');?>" /></button>
-</div>
-<div style="visibility:hidden;" id="hiddenlogbook">
+  </div>
+  <div style="visibility:hidden;" id="hiddenlogbook">
 	<div id="logbookstripe" class="logbook"></div>
 	<div id="loginworking">
-	<select name="new_r" size="1" onChange="document.workingas.submit();">
+	  <select name="new_r" size="1" onChange="document.workingas.submit();">
 		<option value="-1" 
 <?php  if($r==-1){print 'selected="selected" ';} ?>
 		  ><?php print_string('myclasses');?></option>
@@ -34,9 +34,9 @@
 			}
 		}
 ?>
-	</select>
+	  </select>
 	</div>
-</div>
+  </div>
 
 <?php
 	if($fresh!=''){
@@ -66,7 +66,7 @@
 ?>
 			<script>parent.loadBook("aboutbook")</script>
 
-<div style="visibility:hidden;" id="hiddennavtabs">
+  <div style="visibility:hidden;" id="hiddennavtabs">
 	<div class="booktabs">
 	  <ul>
 		<label id="loginlabel">
@@ -84,7 +84,7 @@
 ?>
 	  </ul>
 	</div>
-</div>
+  </div>
 <?php
 		$firstbookpref=$_SESSION['firstbookpref'];
 		update_user_language(current_language());

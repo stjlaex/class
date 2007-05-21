@@ -1,5 +1,5 @@
 <?php
-/**								scripts/book_session_variables.php
+/**								scripts/set_book_session_vars.php
  *
  * For any book variables which maintain state between page loads.
  * Only guaranteed for single-valued vars NOT arrays!

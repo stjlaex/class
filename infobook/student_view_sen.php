@@ -232,7 +232,7 @@ else{
 			}
 		}
 	$listname='bid';$listlabel='subject';
-	include('scripts/set_list_variables.php');
+	include('scripts/set_list_vars.php');
 	list_select_list($subjects,$listoptions,$book);
 	unset($listoptions);
 ?>

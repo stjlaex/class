@@ -197,7 +197,8 @@ function listin_community($community,$enddate='',$startdate=''){
 				(comidsid.leavingdate>'$enddate' OR 
 				comidsid.leavingdate='0000-00-00' OR comidsid.leavingdate IS NULL) 
 				AND (comidsid.joiningdate<='$startdate' OR 
-				comidsid.joiningdate='0000-00-00' OR comidsid.joiningdate IS NULL)");
+				comidsid.joiningdate='0000-00-00' OR
+				comidsid.joiningdate IS NULL) ORDER BY surname, forename");
 
 	$students=array();
 	while($student=mysql_fetch_array($d_student, MYSQL_ASSOC)){

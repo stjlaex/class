@@ -125,6 +125,3 @@ function DOMDiv (x,y,w,h,col){
 	 lyr.style.padding= "0px 0px 0px 0px"
 	return lyr
 }
-
-
-

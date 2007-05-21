@@ -38,7 +38,7 @@ if(isset($sid)){
 	<label><?php print_string('existingcontacts','entrybook'); ?></label>
 <?php
 		$listname='pregid';$listlabel='';
-		include('scripts/set_list_variables.php');
+		include('scripts/set_list_vars.php');
 		list_select_db($d_guardian,$listoptions,$book);
 		$button['linkcontact']=array('name'=>'sub','value'=>'Link');
 		all_extrabuttons($button,'entrybook','processHeader(this)');

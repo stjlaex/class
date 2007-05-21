@@ -1,11 +1,17 @@
 <?php
-/**		   					counter.php
+/**								usage.php
  *	a simple log counter
  */
 
-$choice='counter.php';
+$choice='usage.php';
+$action='usage.php';
+
+include('scripts/sub_action.php');
+
+$extrabuttons['usagestatistics']=array('name'=>'current','value'=>'usage_statistics.php');
+two_buttonmenu($extrabuttons);
 ?>
-  <div class="content">
+  <div id="viewcontent" class="content">
 	<table class="listmenu">
 	  <tr>
 		<th><?php print_string('username');?></th>
@@ -51,4 +57,12 @@ while($user=mysql_fetch_array($d_user,MYSQL_ASSOC)){
 		<td><?php print $tot_on; ?></td>
 	  </tr>
 	</table>
+ 	  <form id="formtoprocess" name="formtoprocess" method="post"
+		action="<?php print $host; ?>" >
+
+	  <input type="hidden" name="current" value="<?php print $action;?>" />
+	  <input type="hidden" name="choice" value="<?php print $choice;?>" />
+	  <input type="hidden" name="cancel" value="<?php print '';?>" />
+	</form>
+
   </div>

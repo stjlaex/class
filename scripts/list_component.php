@@ -4,7 +4,7 @@
 
 if(!isset($listname)){$listname='pid';}
 if(!isset($listlabel)){$listlabel='subjectcomponent';}
-include('scripts/set_list_variables.php');
+include('scripts/set_list_vars.php');
 $d_subject=mysql_query("SELECT component.id, subject.name FROM
 			  subject JOIN component ON component.id=subject.id WHERE 
 			component.subject_id='$bid' AND 

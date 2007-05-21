@@ -9,6 +9,7 @@ $action='report_comments_print.php';
 $date0=$_POST['date0'];
 if(isset($_POST['date1'])){$date1=$_POST['date1'];}else{$date1=date("Y-m-d");}
 if(isset($_POST['bid'])){$bid=$_POST['bid'];}else{$bid='';}
+if(isset($_POST['stage'])){$stage=$_POST['stage'];}
 if(isset($_POST['newyid'])){$yid=$_POST['newyid'];}else{$yid='';}
 if(isset($_POST['newfid'])){$fid=$_POST['newfid'];}else{$fid='';}
 
@@ -21,7 +22,7 @@ include('scripts/sub_action.php');
 		'$yid' ORDER BY student.surname");
 		}
 	elseif($fid!=''){
-		$d_comments=mysql_query("SELECT * FROM comments JOIN
+	$d_comments=mysql_query("SELECT * FROM comments JOIN
 		student ON student.id=comments.student_id WHERE
 		comments.entrydate > '$date0' AND student.form_id LIKE
 		'$fid' ORDER BY student.surname");
@@ -32,7 +33,7 @@ include('scripts/sub_action.php');
 		}
 	else{
 		$error[]=get_string('needselectstudents',$book);
-	    $current=$choice;
+		$action='report_comments.php';
     	include('scripts/results.php');
 	    include('scripts/redirect.php');
 		exit;
@@ -57,7 +58,7 @@ include('scripts/sub_action.php');
 twoplusprint_buttonmenu();
 ?>
 <div id="viewcontent" class="content">
-<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>"> 
+	<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>"> 
 	  <table class="listmenu">
 		<tr>
 		  <th>
