@@ -503,6 +503,20 @@ function listin_cohort($cohort){
 	return $students;
 	}
 
+/* returns an array of all posible stages for a single course*/
+function list_course_stages($crid){
+	$stages=array();
+	if($crid!=''){
+		$d_stage=mysql_query("SELECT DISTINCT stage FROM cohort WHERE
+					course_id='$crid' ORDER BY year");
+		while($stage=mysql_fetch_array($d_stage,MYSQL_ASSOC)){
+			$stages[]=$stage['stage'];
+			}
+
+		}
+	return $stages;
+	}
+
 /*Find all current cohorts which a community is associated with*/
 function list_community_cohorts($community){
 	if($community['type']=='form'){

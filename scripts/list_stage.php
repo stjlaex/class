@@ -1,29 +1,22 @@
 <?php
 /**										list_stage.php
- *	called within a form, returns stage
- * should only be called when working wit a respons has been checked 
+ * 
+ * should only be called when working with a respons has been checked 
  */
 
-	$stages=array();
 	if($r>-1){
 		if($rcrid=='%'){
+			$stages=array();
 			$d_cridbid=mysql_query("SELECT DISTINCT course_id FROM cridbid WHERE
 						subject_id='$rbid' ORDER BY course_id"); 
 			while($course=mysql_fetch_array($d_cridbid,MYSQL_ASSOC)){
-				$crid=$course['course_id'];
-				$d_stage=mysql_query("SELECT DISTINCT stage FROM cohort WHERE
-					course_id='$crid' ORDER BY year");
-				while($stage=mysql_fetch_array($d_stage,MYSQL_ASSOC)){
-					$stages[]=$stage['stage'];	
-					}
+				$extrastages=array();
+				$extrastages=(array)list_course_stages($course['course_id']);
+				$stages=array_merge($stages,$extrastages);
 				}
 			}
 		else{
-			$d_stage=mysql_query("SELECT DISTINCT stage FROM cohort WHERE
-				course_id='$rcrid' ORDER BY year");
-			while($stage=mysql_fetch_array($d_stage,MYSQL_ASSOC)){
-				$stages[]=$stage['stage'];
-				}
+			$stages=(array)list_course_stages($rcrid);
 			}
 		}
 ?>

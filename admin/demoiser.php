@@ -168,14 +168,9 @@ function generate_random_name($gender){
 
 	$table='sencurriculum';
 	$trows=array();
-	$trows=tableRead($table);
-	while(list($index, $row)=each($trows)){
-		$id=$row['senhistory_id'];
-		if(mysql_query("UPDATE $table SET comments='The background.',
-					targets='To improve.', outcome='The result.' WHERE
-					senhistory_id='$id' AND  subject_id='General'")){}
-		else{$error[]=mysql_error();}
-		}
+	if(mysql_query("UPDATE $table SET comments='The background.',
+					targets='To improve.', outcome='The result.")){}
+	else{$error[]=mysql_error();}
 
 	$table='student';
 	$trows=array();
