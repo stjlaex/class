@@ -9,7 +9,7 @@ $action='usage.php';
 include('scripts/sub_action.php');
 
 $extrabuttons['usagestatistics']=array('name'=>'current','value'=>'usage_statistics.php');
-two_buttonmenu($extrabuttons);
+two_buttonmenu($extrabuttons,$book);
 
 $year=get_curriculumyear();
 $time=mktime(0,0,0,8,0,$year-1);
@@ -84,10 +84,10 @@ $date=date('Y-m-d',$time);
 	  <table class="listmenu">
 		<tr>
 		  <th><?php print_string('totalnumberofpagesserved',$book);?></th>
-		  <td><?php print $totalrequests;?></td>
+		  <th><?php print_string('uniquepagesserved',$book);?></th>
 		</tr>
 		<tr>
-		  <th><?php print_string('uniquepagesserved',$book);?></th>
+		  <td><?php print $totalrequests;?></td>
 		  <td><?php print $totalpages;?></td>
 		</tr>
 	  </table>
@@ -143,14 +143,16 @@ $date=date('Y-m-d',$time);
 	  <table class="listmenu">
 		<tr>
 		  <th><?php print_string('course',$book);?></th>
-		  <th><?php print_string('nameofreport',$book);?></th>
+		  <th><?php print_string('report',$book);?></th>
 		  <th><?php print_string('date',$book);?></th>
-		  <th><?php print_string('numberofwrittensubjectreports',$book);?></th>
+		  <th><?php print_string('numberofreports',$book);?></th>
+		  <th><?php print_string('numberofwrittensubjectcomments',$book);?></th>
 		</tr>
 <?php
 	$d_c=mysql_query("SELECT id, name FROM course ORDER BY sequence");
 	$tot1=0;
 	$tot2=0;
+	$tot3=0;
 	while($course=mysql_fetch_array($d_c,MYSQL_ASSOC)){
 		$crid=$course['id'];
 		$d_r=mysql_query("SELECT id, title, deadline FROM report WHERE
@@ -161,11 +163,17 @@ $date=date('Y-m-d',$time);
 		<tr>
 		  <td><?php print $crid.': '.$noreports.' reports';?></td>
 		  <td>&nbsp</td>
-		  <td colspan="2">&nbsp</td>
+		  <td colspan="3">&nbsp</td>
 		</tr>
 <?php
 		while($report=mysql_fetch_array($d_r,MYSQL_ASSOC)){
 			$rid=$report['id'];
+			$d_e=mysql_query("SELECT COUNT(DISTINCT student_id) FROM
+							eidsid JOIN rideid ON
+							rideid.assessment_id=eidsid.assessment_id 
+							WHERE rideid.report_id='$rid'");
+			$nosids=mysql_result($d_e,0);
+			$tot3+=$nosids;
 			$d_u=mysql_query("SELECT COUNT(*) FROM
 							reportentry WHERE report_id='$rid'");
 			$nocomments=mysql_result($d_u,0);
@@ -175,6 +183,7 @@ $date=date('Y-m-d',$time);
 		  <td></td>
 		  <td><?php print $report['title'];?></td>
 		  <td><?php print $report['deadline'];?></td>
+		  <td><?php print $nosids;?></td>
 		  <td><?php print $nocomments;?></td>
 		</tr>
 <?php
@@ -182,16 +191,18 @@ $date=date('Y-m-d',$time);
 		}
 ?>
 		<tr>
-		  <td><?php print_string('total',$book);?><?php print ': '.$tot1;?></td>
+		  <th><?php print_string('total',$book);?></th>
+		  <td><?php print 'reports: '.$tot1;?></td>
 		  <td>&nbsp</td>
-		  <td>&nbsp</td>
+		  <td><?php print $tot3;?></td>
 		  <td><?php print $tot2;?></td>
 		</tr>
 	  </table>
 	</fieldset>
 
 	<fieldset class="center">
-	  <legend><?php print_string('assessmentscores',$book);?></legend>
+	  <legend><?php print_string('assessmentandtrackingscores',$book);?></legend>
+
 	  <table class="listmenu">
 		<tr>
 		  <th><?php print_string('course',$book);?></th>
@@ -210,7 +221,7 @@ $date=date('Y-m-d',$time);
 					assessment ON assessment.id=eidsid.assessment_id WHERE
 					assessment.course_id='$crid' AND assessment.deadline>'$date'");
 		$noscores=mysql_result($d_a,0);
-		$tot1+=$no;
+		$tot1+=$noscores;
 		$nosids=0;
 		$stages=list_course_stages($crid);
 		while(list($index,$stage)=each($stages)){
@@ -227,11 +238,115 @@ $date=date('Y-m-d',$time);
 <?php
 		}
 ?>
+		<tr>
+		  <th><?php print_string('total',$book);?></th>
+		  <td><?php print $tot1;?></td>
+		  <td>&nbsp</td>
+		</tr>
 	  </table>
 	</fieldset>
 
 
- 	  <form id="formtoprocess" name="formtoprocess" method="post"
+
+	<fieldset class="center">
+	  <legend><?php print_string('pastoralandacademicmonitoring',$book);?></legend>
+<?php
+		$d_h=mysql_query("SELECT COUNT(*)
+				FROM comments WHERE entrydate>'$date'");
+		$nocoms=mysql_result($d_h,0);
+		$d_h=mysql_query("SELECT COUNT(*)
+				FROM incidents WHERE entrydate>'$date'");
+		$noins=mysql_result($d_h,0);
+		$d_h=mysql_query("SELECT COUNT(*)
+				FROM background WHERE entrydate>'$date'");
+		$noents=mysql_result($d_h,0);
+?>
+	  <table class="listmenu">
+		<tr>
+		  <th><?php print_string('comments',$book);?></th>
+		  <th><?php print_string('incidents',$book);?></th>
+		  <th><?php print_string('other',$book);?></th>
+		</tr>
+		<tr>
+		  <td><?php print $nocoms;?></td>
+		  <td><?php print $noins;?></td>
+		  <td><?php print $noents;?></td>
+		</tr>
+	  </table>
+
+<br />
+
+	  <table class="listmenu">
+		<tr>
+		  <th><?php print_string('yeargroup',$book);?></th>
+		  <th><?php print_string('comments',$book);?></th>
+		  <th><?php print_string('incidents',$book);?></th>
+		  <th><?php print_string('other',$book);?></th>
+		  <th><?php print_string('numberofstudents',$book);?></th>
+		  <th><?php print_string('averageperstudent',$book);?></th>
+		</tr>
+<?php
+
+	$d_y=mysql_query("SELECT id, name FROM yeargroup ORDER BY sequence");
+	while($yeargroup=mysql_fetch_array($d_y,MYSQL_ASSOC)){
+		$yid=$yeargroup['id'];
+		$nosids=countin_community(array('type'=>'year','name'=>$yid));
+		$d_h=mysql_query("SELECT COUNT(*)
+			FROM comments WHERE entrydate>'$date' AND yeargroup_id='$yid'");
+		$nocoms=mysql_result($d_h,0);
+		$d_h=mysql_query("SELECT COUNT(*)
+			FROM incidents WHERE entrydate>'$date' AND yeargroup_id='$yid'");
+		$noins=mysql_result($d_h,0);
+		$d_h=mysql_query("SELECT COUNT(*)
+			FROM background WHERE entrydate>'$date' AND yeargroup_id='$yid'");
+		$noents=mysql_result($d_h,0);
+		if($nosids>0){$ave=round(($noents+$noins+$nocoms)/$nosids);}else{$ave=0;}
+
+?>
+		<tr>
+		  <td><?php print $yeargroup['name'];?></td>
+		  <td><?php print $nocoms;?></td>
+		  <td><?php print $noins;?></td>
+		  <td><?php print $noents;?></td>
+		  <td><?php print $nosids;?></td>
+		  <td><?php print $ave;?></td>
+		</tr>
+<?php
+		}
+?>
+		</table>
+	</fieldset>
+
+
+
+	<fieldset class="center">
+	  <legend><?php print_string('specialneedsandsupport',$book);?></legend>
+<?php
+		$d_h=mysql_query("SELECT COUNT(*) 
+				FROM senhistory WHERE reviewdate>'$date' OR reviewdate IS NULL");
+		$noieps=mysql_result($d_h,0);
+
+		$d_h=mysql_query("SELECT COUNT(*) FROM sencurriculum 
+				JOIN senhistory ON senhistory.id=sencurriculum.senhistory_id
+				WHERE (senhistory.reviewdate>'$date' OR senhistory.reviewdate IS NULL)
+				AND sencurriculum.categorydef_id!='0'");
+		$nosups=mysql_result($d_h,0);
+?>
+	  <table class="listmenu">
+		<tr>
+		  <th><?php print_string('studentswithiep',$book);?></th>
+		  <th><?php print_string('receivingextrasupport',$book);?></th>
+		</tr>
+		<tr>
+		  <td><?php print $noieps;?></td>
+		  <td><?php print $nosups;?></td>
+		</tr>
+	  </table>
+	</fieldset>
+
+
+
+	<form id="formtoprocess" name="formtoprocess" method="post"
 		action="<?php print $host; ?>" >
 
 	  <input type="hidden" name="current" value="<?php print $action;?>" />

@@ -9,7 +9,7 @@ $action='usage.php';
 include('scripts/sub_action.php');
 
 $extrabuttons['usagestatistics']=array('name'=>'current','value'=>'usage_statistics.php');
-two_buttonmenu($extrabuttons);
+two_buttonmenu($extrabuttons,$book);
 ?>
 
   <div id="viewcontent" class="content">
