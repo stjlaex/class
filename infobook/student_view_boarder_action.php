@@ -35,12 +35,8 @@ if($sub=='Submit'){
 					}
 				}
 			}
-		set_accomodation($sid,$accid);
 		}
-	elseif($accid!='-1' and ($boarder=='N' or $boarder=='')){
-		mysql_query("DELETE FROM accomodation WHERE id='$accid' LIMIT 1");
-		}
-
+	set_accomodation($sid,$accid);
 	}
 
 	include('scripts/redirect.php');

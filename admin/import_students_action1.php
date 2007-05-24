@@ -41,6 +41,16 @@ $nofields=$_SESSION['nofields'];
    				array_push($sidfields, $field_name);
 				$c++;
 				}
+
+//accomodation stay	
+		$c=0;	
+   		$d_acc=mysql_query("DESCRIBE accomodation");
+		$ignore=mysql_fetch_array($d_acc,MYSQL_ASSOC);
+		while($info_fields=mysql_fetch_array($d_acc,MYSQL_ASSOC)){
+				$field_name=$info_fields['Field'];
+   				array_push($sidfields, $field_name);
+				$c++;
+				}
 	
 //				the possible fields for guardian data
 		$gidfields=array();

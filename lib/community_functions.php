@@ -209,14 +209,24 @@ function listin_community($community,$enddate='',$startdate=''){
 
 /* Joins $sid to the appropriate accomodation community based on a residencial stay */
 /* identified by $accid*/
-function set_accomodation($sid,$accid){
+function set_accomodation($sid,$accid=''){
 	$Student=fetchStudent_short($sid);
 	$field=fetchStudent_singlefield($sid,'Boarder');
 	$Student=array_merge($Student,$field);
+	if($accid==''){
+		$d_a=mysql_query("SELECT id FROM accomodation ORDER BY departuredate DESC");
+		if(mysql_num_rows($d_a)<1){
+			if($Student['Boarder']['value']!='' and  $Student['Boarder']['value']!='N'){
+				mysql_query("INSERT INTO accomodation SET student_id='$sid'");
+				$accid=mysql_insert_id();
+				}
+			}
+		else{$a=mysql_fetch_array($d_a);$accid=$a['id'];}
+		}
 	$d_acc=mysql_query("SELECT * FROM accomodation WHERE id='$accid'");
 	$acc=mysql_fetch_array($d_acc, MYSQL_ASSOC);
-	$comname=$Student['Gender']['value']. $acc['roomcategory']. $Student['Boarder']['value'];
 	$oldcomid=$acc['community_id'];
+	$comname=$Student['Gender']['value']. $acc['roomcategory']. $Student['Boarder']['value'];
 	if($oldcomid!=0){$oldcom=get_community($oldcomid);}
 	else{$oldcom=array('id'=>'','name'=>'');}
 	if($oldcom['name']!=$comname and $oldcomid!=0){
@@ -224,10 +234,15 @@ function set_accomodation($sid,$accid){
 		/* membership will have to change too, delete the old one*/
 		mysql_query("DELETE FROM comidsid WHERE community_id='$oldcomid' AND student_id='$sid'");
 		}
-	$community=array('type'=>'accomodation','name'=>$comname);
-	$comid=set_community_stay($sid,$community,$acc['arrivaldate'],$acc['departuredate']);
-	mysql_query("UPDATE accomodation SET community_id='$comid' WHERE id='$accid'");
 
+	if($Student['Boarder']['value']!='' and  $Student['Boarder']['value']!='N'){
+		$community=array('type'=>'accomodation','name'=>$comname);
+		$comid=set_community_stay($sid,$community,$acc['arrivaldate'],$acc['departuredate']);
+		mysql_query("UPDATE accomodation SET community_id='$comid' WHERE id='$accid'");
+		}
+	else{
+		mysql_query("DELETE FROM accomodation WHERE id='$accid' LIMIT 1");
+		}
 		/*delete any double bookings for accomodation!!!
 		$d_comidsid=mysql_query("DELETE FROM comidsid USING comidsid, community WHERE
 				 community.id=comidsid.community_id AND community.type='accomodation' 
@@ -508,11 +523,10 @@ function list_course_stages($crid){
 	$stages=array();
 	if($crid!=''){
 		$d_stage=mysql_query("SELECT DISTINCT stage FROM cohort WHERE
-					course_id='$crid' ORDER BY year");
+					course_id='$crid' AND stage!='%' ORDER BY year");
 		while($stage=mysql_fetch_array($d_stage,MYSQL_ASSOC)){
-			$stages[]=$stage['stage'];
+			$stages[]=array('id'=>$stage['stage'],'name'=>$stage['stage']);
 			}
-
 		}
 	return $stages;
 	}

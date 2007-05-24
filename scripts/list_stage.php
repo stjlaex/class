@@ -1,12 +1,19 @@
 <?php
 /**										list_stage.php
  * 
- * should only be called when working with a respons has been checked 
+ * should only be called when working with a respons
  */
 
+if(!isset($listname)){$listname='stage';}
+if(!isset($listlabel)){$listlabel='stage';}
+if(!isset($liststyle)){$liststyle='width:12em;';}
+if(!isset($required)){$required='yes';}
+include('scripts/set_list_vars.php');
+
 	if($r>-1){
+		$stages=array();
+		$stages[]=array('id'=>'%','name'=>get_string('allstages','reportbook'));
 		if($rcrid=='%'){
-			$stages=array();
 			$d_cridbid=mysql_query("SELECT DISTINCT course_id FROM cridbid WHERE
 						subject_id='$rbid' ORDER BY course_id"); 
 			while($course=mysql_fetch_array($d_cridbid,MYSQL_ASSOC)){
@@ -16,23 +23,11 @@
 				}
 			}
 		else{
-			$stages=(array)list_course_stages($rcrid);
+			$extrastages=(array)list_course_stages($rcrid);
+			$stages=array_merge($stages,$extrastages);
 			}
 		}
-?>
-	<label for="Stage"><?php print_string('stage');?></label>
-	<select style="width:12em;" type="text" 
-		tabindex="<?php print $tab++;?>" id="Stage" name="stage" class="required">
-		<option value="" select="selected"></option>
-		<option value="%"><?php print_string('allstages');?></option>
-<?php
-   	while(list($index,$stage)=each($stages)){
-?> 				
-		<option value="<?php print $stage; ?>"><?php print $stage; ?></option>
-<?php
-		}
+list_select_list($stages,$listoptions,$book);
+unset($listoptions);
 unset($stages);
 ?>
-	</select>
-
-

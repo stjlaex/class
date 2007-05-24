@@ -177,8 +177,9 @@ function checkEntry($value, $format='', $field_name=''){
 
 	if($field_type[0]=='date'){
 		/*assumes date order day-month-year, php wants year-month-day*/
-		$date=split('[/]',$value);
-		$value=$date[2].'-'.$date[1].'-'.$date[0];
+		$date=split('[-]',$value);
+		//$value=$date[2].'-'.$date[1].'-'.$date[0];
+		$value=$date[0].'-'.$date[1].'-'.$date[2];
 		}
 	elseif($field_type[0]=='enum'){
 		$value=strtoupper($value);
@@ -186,6 +187,7 @@ function checkEntry($value, $format='', $field_name=''){
 		}
 	elseif($field_type[0]=='time'){
 		$time=split('[:]',$value);
+		/*should be validating but no!!!*/
 		//$value=$date[2].'-'.$date[1].'-'.$date[0];
 		}
 	return $value;

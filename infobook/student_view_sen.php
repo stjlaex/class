@@ -16,6 +16,13 @@ $SEN=$Student['SEN'];
 
 if($Student['SENFlag']['value']=='N'){
 	two_buttonmenu();
+
+	/*Check user has permission to view*/
+	$yid=$Student['YearGroup']['value'];
+	$perm=getYearPerm($yid,$respons);
+	include('scripts/perm_action.php');
+
+
 ?>
   <div class="content">
 	<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">

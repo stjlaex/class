@@ -287,7 +287,17 @@ function list_select_list($list,$vars,$book=''){
 
 
 function list_select_enum($fieldname,$vars,$book=''){
-	$enum=getEnumArray($fieldname);
+	if($vars['filter']!=''){
+		$table=$vars['filter'];
+		$d_t=mysql_query("SELECT DISTINCT $fieldname FROM $table ORDER BY $fieldname");
+		$enum=array();
+		while($field=mysql_fetch_array($d_t,MYSQL_ASSOC)){
+			$enum[$field[$fieldname]]=displayEnum($field[$fieldname],$fieldname);
+			}
+		}
+	else{
+		$enum=getEnumArray($fieldname);
+		}
 	if($vars['label']!=''){
 ?>
   <label for="<?php print $vars['id'];?>">

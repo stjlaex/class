@@ -9,6 +9,26 @@ In the Admin book, renamed the logcounter page and added a new option
 to call from it which gives overall statistics for the current
 academic year.
 
+Locked down the permissions in the InfoBook a little further. For role
+of 'support' and 'office' there is no access to the comments, incidents
+or tracking. Also 'support' can only view and not edit.
+
+A new field for the list_vars called filter. This can be used for enum
+fields to limit their values to just the enum values which exist in
+the database table named by $listfilter. Has been implemented for the
+InfoBook search fields.
+
+Migrated list_stage.php over to use list_vars.
+
+Included some ad hoc stuff to calculate overall totals for the Admin
+book's accomodation.
+
+Hooked in set_accomodation to the editing of student details from the
+InfoBook.
+
+The search for accomodation communities temporarily(!) lists all students
+who have ever belonged regardless of start and end date.
+
 
 Version ClaSS-0.8.17 release (2007/05/11)
 -----------------------------------------

@@ -48,12 +48,21 @@ two_buttonmenu($extrabuttons,$book);
 			<?php print $rown++;?>
 		  </td>
 		  <td>
+<?php
+			if($_SESSION['role']!='office' and $_SESSION['role']!='support'){
+?>
 			<a href="infobook.php?current=student_scores.php&sid=<?php print $sid;?>">T</a> 
 			<span title="<?php print $comment['body'];?>">
 			  <a href="infobook.php?current=comments_list.php&sid=<?php print $sid;?>"
 				class="<?php print $comment['class'];?>">C</a> 
 			</span>
 			<a href="infobook.php?current=incidents_list.php&sid=<?php print $sid;?>">I</a>
+<?php
+				}
+			else{
+				print '&nbsp';
+				}
+?>
 		  </td>
 		  <td>
 			<a href="infobook.php?current=student_view.php&sid=<?php print $sid;?>">

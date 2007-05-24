@@ -23,10 +23,11 @@ $listoptions['name']=$listname;
 if(isset($required)){$listoptions['required']=$required;unset($required);}else{$listoptions['required']='no';}
 if(isset($onsidechange)){$listoptions['onsidechange']=$onsidechange;unset($onsidechange);}else{$listoptions['onsidechange']='no';}
 if(isset($onchange)){$listoptions['onchange']=$onchange;unset($onchange);}else{$listoptions['onchange']='no';}
-if(isset($listsyle)){$listoptions['style']='style="'.$liststyle.'"';unset($liststyle);}else{$listoptions['style']='';}
+if(isset($liststyle)){$listoptions['style']='style="'.$liststyle.'"';unset($liststyle);}else{$listoptions['style']='';}
 if(isset($listlabel)){$listoptions['label']=$listlabel;unset($listlabel);}else{$listoptions['label']=$listname;}
 if(isset($listvaluefield)){$listoptions['valuefield']=$listvaluefield;}else{$listoptions['valuefield']='id';}
 if(isset($listdescriptionfield)){$listoptions['descriptionfield']=$listdescriptionfield;}else{$listoptions['descriptionfield']='name';}
+if(isset($listfilter)){$listoptions['filter']=$listfilter;unset($listfilter);}else{$listoptions['filter']='';}
 /*these can all still exist outside this list scripts so don't unset 'em*/
 if(isset($tab)){$listoptions['tab']=$tab++;}else{$listoptions['tab']='';}
 if(isset($key)){

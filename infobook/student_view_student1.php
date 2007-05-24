@@ -31,14 +31,11 @@ if($sub=='Submit'){
 			}
 		}
 
-	if($Student['Boarder']['value']!=$_POST['boarder']){
-
+	/*check if the accomodation community needs to be updated*/
+	if($Student['Boarder']['value']!=$_POST['boarder'] 
+	   or $Student['Gender']['value']!=$_POST['gender']){
+		set_accomodation($sid);
 		}
-	if($Student['Gender']['value']!=$_POST['gender']){
-
-		}
-
-
 	}
 include('scripts/redirect.php');
 ?>

@@ -10,16 +10,17 @@ include('scripts/sub_action.php');
 if(isset($_GET['contactno'])){$contactno=$_GET['contactno'];}else{$contactno='-2';}
 if(isset($_POST['contactno'])){$contactno=$_POST['contactno'];}
 
+	/*Check user has permission to view*/
+	$yid=$Student['YearGroup']['value'];
+	$perm=getYearPerm($yid,$respons);
+	include('scripts/perm_action.php');
+
 if($contactno>'-1'){
 	/*editing a pre-existing link to a contact*/
 	$Contact=$Student['Contacts'][$contactno];
 	$Phones=$Contact['Phones'];
 	$Addresses=$Contact['Addresses'];
-	/*Check user has permission to view*/
-	$yid=$Student['YearGroup']['value'];
 	$gid=$Contact['id_db'];
-	$perm=getYearPerm($yid,$respons);
-	include('scripts/perm_action.php');
 	}
 elseif($contactno=='-1'){
 	/*this is a new link to a contact*/

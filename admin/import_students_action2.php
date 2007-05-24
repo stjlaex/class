@@ -41,8 +41,7 @@ if($sub=='Submit'){
 		print $_POST["preset$c"];
 ?>		<input type='hidden' name='<?php print "preset$c"; ?>' value='<?php print $_POST["preset$c"]; ?>'>
 <?php
-		}	
-	
+		}
 ?>
 		  </td>
 		  <td>
@@ -109,18 +108,3 @@ elseif($sub=='Load'){
 <?php
 				}
 ?>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

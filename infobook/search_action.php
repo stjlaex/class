@@ -14,12 +14,22 @@ elseif(isset($_POST['newfid']) and $_POST['newfid']!=''){
 	$com=array('id'=>'','type'=>'form','name'=>$_POST['newfid']);
 	}
 elseif(isset($_POST['newcomid']) and $_POST['newcomid']!=''){
-	$com=array('id'=>$_POST['newcomid'],'type'=>'','name'=>'');
+	//$com=array('id'=>$_POST['newcomid'],'type'=>'','name'=>'');
+	$com=get_community($_POST['newcomid']);
 	}
 
 if(isset($com)){
 	$table='student';
-	$students=(array)listin_community($com);
+	if($com['type']=='accomodation'){
+		/*temporary hack!*/
+		$startdate='2000-01-01';
+		$startdate='2010-01-01';
+		$students=(array)listin_community($com,$enddate,$startdate);
+		/*to remove!*/
+		}
+	else{
+		$students=(array)listin_community($com);
+		}
 	$rows=sizeof($students);
 	while(list($index,$student)=each($students)){
 		$ids[]=$student['id'];

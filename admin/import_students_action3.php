@@ -26,8 +26,8 @@ if($sub=='Save'){
 			if(isset($_POST["preset$c"])){$preset=$_POST["preset$c"];}
 			else{$preset='';}
 			}
-		$out=array($c, $table, $field, $preset);
-		array_push($idef, $out);			
+		$out=array($c,$table,$field,$preset);
+		array_push($idef,$out);
 		}
 	$_SESSION['idef']=$idef;
 
@@ -54,7 +54,7 @@ elseif($sub=='Submit'){
 	/*		set up arrays to point from table fields to input values*/
 	/*				null values point to -1 is default*/
 
-	/*	sidfields is combination of student and info tables	*/
+	/*	sidfields is combination of student and info and accomodation tables	*/
 		$sidfields=array();
 		$sidformats=array();
    		$d_table=mysql_query("DESCRIBE student");
@@ -77,6 +77,18 @@ elseif($sub=='Submit'){
 			$row=array("$field_key" => "$field_format");
   			$sidformats=array_merge($row, $sidformats);
 			}
+
+		$accfields=array();
+   		$d_table=mysql_query("DESCRIBE accomodation");
+		while($table_field=mysql_fetch_array($d_table,MYSQL_ASSOC)){
+			$field_key=$table_field['Field'];
+			$row=array("$field_key" => -1);
+  			$accfields=array_merge($row, $accfields);
+			$field_format=$table_field['Type'];
+			$row=array("$field_key" => "$field_format");
+  			$sidformats=array_merge($row, $sidformats);
+			}
+
 
 		/*gidfields is a combination of guardian, address and phone tables*/
 		$gid1fields=array();
@@ -128,36 +140,37 @@ elseif($sub=='Submit'){
   			$gid3phone=array_merge($row, $gid3phone);
 			}
 
-		/*match the imported fields with the table fields*/
+	/*match the imported fields with the table fields*/
 	for($c=0;$c<$nofields;$c++){
 		if(isset($_POST["table$c"])){
 			$table=$_POST["table$c"];
 			$field=$_POST["field$c"];
 			if($table=='sid'){
-				if (array_key_exists("$field", $sidfields)){$sidfields["$field"]=$c;}
-				if (array_key_exists("$field", $infofields)){$infofields["$field"]=$c;}
+				if(array_key_exists("$field", $sidfields)){$sidfields["$field"]=$c;}
+				if(array_key_exists("$field", $infofields)){$infofields["$field"]=$c;}
+				if(array_key_exists("$field", $accfields)){$accfields["$field"]=$c;}
 				}
 			if($table=='gid1'){
 				$gid1='exists';
-				if (array_key_exists("$field", $gid1fields)){$gid1fields["$field"]=$c;}
-				if (array_key_exists("$field",
+				if(array_key_exists("$field", $gid1fields)){$gid1fields["$field"]=$c;}
+				if(array_key_exists("$field",
 					$gid1address)){$gid1address["$field"]=$c; $gid1a="exists";}
-				if (array_key_exists("$field",
+				if(array_key_exists("$field",
 					$gid1phone)){$gid1phone["$field"]=$c; $gid1p="exists";}
 				}
 			if($table=='gid2'){
 				$gid2='exists';
-				if (array_key_exists("$field", $gid2fields)){$gid2fields["$field"]=$c;}
-				if (array_key_exists("$field",
+				if(array_key_exists("$field", $gid2fields)){$gid2fields["$field"]=$c;}
+				if(array_key_exists("$field",
 					$gid2address)){$gid2address["$field"]=$c; $gid2a="exists";}
-				if (array_key_exists("$field", $gid2phone)){$gid2phone["$field"]=$c; $gid2p="exists";}
+				if(array_key_exists("$field", $gid2phone)){$gid2phone["$field"]=$c; $gid2p="exists";}
 				}
 			if($table=='gid3'){
 				$gid3='exists';
-				if (array_key_exists("$field", $gid3fields)){$gid3fields["$field"]=$c;}
-				if (array_key_exists("$field",
+				if(array_key_exists("$field", $gid3fields)){$gid3fields["$field"]=$c;}
+				if(array_key_exists("$field",
 					$gid3address)){$gid3address["$field"]=$c; $gid3a="exists";}
-				if (array_key_exists("$field",
+				if(array_key_exists("$field",
 					$gid3phone)){$gid3phone["$field"]=$c; $gid3p="exists";}
 				}
 			}
@@ -198,6 +211,24 @@ elseif($sub=='Submit'){
 				$val=checkEntry($val, $format, $field_name);
 				mysql_query("UPDATE info SET $field_name='$val' WHERE student_id='$new_sid'");			
 				}
+			}
+
+		$Student=fetchStudent_singlefield($new_sid,'Boarder');
+		if($Student['Boarder']['value']!='N' and $Student['Boarder']['value']!=''){
+			reset($accfields);
+			mysql_query("INSERT INTO accomodation SET student_id='$new_sid'");
+			$accid=mysql_insert_id();
+			while(list($field_name, $field_no)=each($accfields)){
+				if($field_no==-1){$val='';}//value is null
+				else{
+					$val=$student[$field_no];
+					$format=$sidformats[$field_name];
+					if(isset($_POST["preset$field_no"])){$val=$_POST["preset$field_no"];}
+					$val=checkEntry($val, $format, $field_name);
+					mysql_query("UPDATE accomodation SET $field_name='$val' WHERE id='$accid'");
+					}
+				}
+			set_accomodation($new_sid,$accid);
 			}
 
 

@@ -7,6 +7,12 @@ $action='student_view_medical1.php';
 $cancel='student_view.php';
 
 two_buttonmenu();
+
+	/*Check user has permission to view*/
+	$yid=$Student['YearGroup']['value'];
+	$perm=getYearPerm($yid,$respons);
+	include('scripts/perm_action.php');
+
 ?>
   <div id="heading">
 	<?php print $Student['Forename']['value'].' '.$Student['Surname']['value'];?>

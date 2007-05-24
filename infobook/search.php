@@ -122,9 +122,9 @@ $action='search_action.php'
 		</div>
 		<div id="switchcontactcountry" style="visibility:hidden;" class="hidden">
 <?php 
-		  $listname='contactcountry';$listlabel='';
-		  include('scripts/set_list_vars.php');
-		  list_select_enum('country',$listoptions,$book);
+	    $listname='contactcountry';$listlabel='';$listfilter='address';
+		include('scripts/set_list_vars.php');
+		list_select_enum('country',$listoptions,$book);
 ?>
 		</div>
 		<div id="switchstudentsurname" class="hidden">
@@ -143,8 +143,8 @@ $action='search_action.php'
 ?>
 		</div>
 		<div id="switchstudentnationality"  class="hidden">
-<?php 
-		$listname='studentnationality';$listlabel='';
+<?php
+		$listname='studentnationality';$listlabel='';$listfilter='info';
 		include('scripts/set_list_vars.php');
 		list_select_enum('nationality',$listoptions,$book);
 ?>

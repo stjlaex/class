@@ -44,7 +44,7 @@ $date=date('Y-m-d',$time);
 		$d_u=mysql_query("SELECT SUM(logcount) FROM users WHERE
 						nologin='0' AND role='$role'");
 		$sum=mysql_result($d_u,0);
-		if($count>0){$ave=round($sum/$count);}
+		if($count>0){$ave=round($sum/$count);}else{$ave=0;}
 		$tot1+=$count;
 		$tot2+=$sum;
 
@@ -223,9 +223,9 @@ $date=date('Y-m-d',$time);
 		$noscores=mysql_result($d_a,0);
 		$tot1+=$noscores;
 		$nosids=0;
-		$stages=list_course_stages($crid);
+		$stages=(array)list_course_stages($crid);
 		while(list($index,$stage)=each($stages)){
-			$sids=listin_cohort(array('id'=>'','course_id'=>$crid,'stage'=>$stage));
+			$sids=listin_cohort(array('id'=>'','course_id'=>$crid,'stage'=>$stage['id']));
 			$nosids+=sizeof($sids);
 			}
 		if($nosids>0){$ave=round($noscores/$nosids);}else{$ave=0;}
