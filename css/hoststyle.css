@@ -211,8 +211,8 @@ button {
 .bookoptions option {
     width:160px;
 	}
-.bookoptions select#mids:focus {
-    width:180px;
+.bookoptions select#mids:focus, select#mids:focus option {
+    width:100%;
 	}
 
 .bookoptions option:hover {

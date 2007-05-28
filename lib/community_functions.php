@@ -518,8 +518,19 @@ function listin_cohort($cohort){
 	return $students;
 	}
 
+/* returns an array of all posible courses for a single section*/
+function list_courses($secid='%'){
+	$courses=array();
+	$d_c=mysql_query("SELECT DISTINCT * FROM course WHERE
+					section_id='%' OR section_id LIKE '$secid' ORDER BY sequence");
+	while($course=mysql_fetch_array($d_c,MYSQL_ASSOC)){
+		$courses[]=$course;
+		}
+	return $courses;
+	}
+
 /* returns an array of all posible stages for a single course*/
-function list_course_stages($crid){
+function list_course_stages($crid=''){
 	$stages=array();
 	if($crid!=''){
 		$d_stage=mysql_query("SELECT DISTINCT stage FROM cohort WHERE
@@ -529,6 +540,63 @@ function list_course_stages($crid){
 			}
 		}
 	return $stages;
+	}
+
+/*Returns an array listing the cids for all classes associated with
+ *this form where the class is actually populated by just this
+ *form's sids
+ */
+function list_forms_classes($fid){
+	$cids=array();
+	$cohorts=list_community_cohorts(array('id'=>'','type'=>'form','name'=>$fid));
+
+   	while(list($index,$cohort)=each($cohorts)){
+		$currentyear=get_curriculumyear($cohort['course_id']);
+		$currentseason='S';
+		if($cohort['year']==$currentyear and $cohort['season']==$currentseason){
+			$stage=$cohort['stage'];
+			$crid=$cohort['course_id'];
+			$d_classes=mysql_query("SELECT subject_id, naming FROM classes 
+				WHERE stage='$stage' AND course_id='$crid' AND generate='forms'");
+			while($classes=mysql_fetch_array($d_classes, MYSQL_ASSOC)){
+				$bid=$classes['subject_id'];
+				$name=array();
+				if($classes['naming']==''){
+					$name['root']=$bid;
+					$name['stem']='-';
+					$name['branch']='';
+					}
+				else{
+					list($name['root'],$name['stem'],$name['branch'],$name_counter)
+								= split(';',$classes['naming'],4);
+					while(list($index,$namecheck)=each($name)){
+						if($namecheck=='subject'){$name["$index"]=$bid;}
+						if($namecheck=='stage'){$name["$index"]=$stage;}
+						if($namecheck=='course'){$name["$index"]=$crid;}
+						if($namecheck=='year'){$name["$index"]=$yid;}
+						}
+					}
+				$cids[]=$name['root'].$name['stem'].$name['branch'].$fid;;
+				}
+			}
+		}
+	return $cids;
+	}
+
+/*reutrns the subjectname for that bid from the database*/
+function get_subjectname($bid){
+	if($bid=='%' or $bid=='G' or $bid=='General'){
+		/*this is a fix that should be fixed in future!*/
+		$subjectname='General';
+		}
+	elseif($bid!=' ' and $bid!=''){
+		$d_subject=mysql_query("SELECT name FROM subject WHERE id='$bid'");
+		$subjectname=mysql_result($d_subject,0);
+		}
+	else{
+		$subjectname=$bid;
+		}
+	return $subjectname;
 	}
 
 /*Find all current cohorts which a community is associated with*/

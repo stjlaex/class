@@ -73,9 +73,10 @@ else{
 				ORDER BY surname, forename");
 			}
 		elseif($table=='student' and ($field!='surname' and $field!='gender')){
-			$d_sids=mysql_query("SELECT student_id AS id FROM info WHERE
-				MATCH ($field) AGAINST ('$value*' IN BOOLEAN MODE) 
-				OR $field='$value' ORDER BY $field");
+			$d_sids=mysql_query("SELECT id FROM student JOIN info ON
+					info.student_id=student.id WHERE
+				MATCH (info.$field) AGAINST ('$value*' IN BOOLEAN MODE) 
+				OR info.$field='$value' ORDER BY student.surname, student.forename");
 			}
 		else{
 			$d_sids=mysql_query("SELECT id FROM $table WHERE

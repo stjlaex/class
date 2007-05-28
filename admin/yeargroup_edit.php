@@ -3,7 +3,6 @@
  */
 
 $action='yeargroup_edit_action.php';
-$cancel='yeargroup_matrix.php';
 
 if(isset($_GET['comtype'])){$comtype=$_GET['comtype'];}else{$comtype='year';}
 if(isset($_GET['comname'])){$comname=$_GET['comname'];}else{$comname='';}

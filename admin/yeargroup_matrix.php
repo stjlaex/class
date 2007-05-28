@@ -34,10 +34,18 @@ three_buttonmenu();
 		<tr>
 		  <th><?php print_string('yeargroup');?></th>
 		  <th><?php print_string('numberofstudents',$book);?></th>
+<?php
+	if($_SESSION['role']=='admin' or $_SESSION['role']=='office'){
+?>
+		  <th><?php print_string('capacity',$book);?></th>
+<?php
+		}
+?>
 		  <th><?php print_string('yearresponsible',$book);?></th>
 		</tr>
 <?php
 	$nosidstotal=0;
+	$capacitytotal=0;
 	$d_year=mysql_query("SELECT * FROM yeargroup ORDER BY section_id, id");
 	while($year=mysql_fetch_array($d_year,MYSQL_ASSOC)){
 		$yid=$year['id'];
@@ -45,7 +53,9 @@ three_buttonmenu();
 				yeargroup_id='$yid' AND course_id=''");
 		$gid=mysql_result($d_groups,0);
 		$perms=getYearPerm($yid, $respons);
-		$nosids=countin_community(array('type'=>'year','name'=>$yid));
+		$comid=update_community(array('type'=>'year','name'=>$yid));
+		$com=get_community($comid);
+		$nosids=countin_community($com);
 		$nosidstotal=$nosidstotal+$nosids;
 ?>
 		<tr>
@@ -60,6 +70,15 @@ three_buttonmenu();
 ?>
 		  </td>
 		  <td><?php print $nosids;?></td>
+<?php
+	if($_SESSION['role']=='admin' or $_SESSION['role']=='office'){
+		$capacity=$com['capacity'];
+		$capcitytotal+=$capacity;
+?>
+		  <td><?php print $capacity;?></td>
+<?php
+		}
+?>
 		  <td>
 <?php
 		$yearperms=array('r'=>1,'w'=>1,'x'=>1);/*head of year only*/
@@ -97,6 +116,13 @@ three_buttonmenu();
 			  <?php print get_string('total',$book).' '.get_string('numberofstudents',$book);?>
 			</th>
 			<td><?php print $nosidstotal;?></td>
+<?php
+	if($_SESSION['role']=='admin' or $_SESSION['role']=='office'){
+?>
+		  <td><?php print $capcitytotal;?></td>
+<?php
+		}
+?>
 			<td>&nbsp;</td>
 		  </tr>
 	  </table>
@@ -104,7 +130,7 @@ three_buttonmenu();
 
 <?php 
 
-	if($_SESSION['role']=='office'  or $_SESSION['role']=='admin'){
+	if($_SESSION['role']=='xxx'  or $_SESSION['role']=='xxx'){
 
 ?>
 	<div class="right">
@@ -139,7 +165,7 @@ three_buttonmenu();
 	  </table>
 	</div>
 <?php
-	}
+		}
 ?>
 
   </div>

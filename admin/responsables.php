@@ -65,7 +65,7 @@ three_buttonmenu();
 	print '</option>';
 	while($group=mysql_fetch_array($d_group,MYSQL_ASSOC)){
 			print '<option ';
-			print	' value="'.$group{'course_id'}.'">'.$group{'course_id'}.'</option>';
+			print	' value="'.$group['course_id'].'">'.$group['course_id'].'</option>';
 			}
 ?>
 			</select>
@@ -81,7 +81,7 @@ three_buttonmenu();
 	print '</option>';
 	while($group=mysql_fetch_array($d_group,MYSQL_ASSOC)) {
 			print '<option ';
-			print	' value="'.$group['subject_id'].'">'.$group{'subject_id'}.'</option>';
+			print	' value="'.$group['subject_id'].'">'.$group['subject_id'].'</option>';
 			}
 ?>
 			</select>

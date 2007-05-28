@@ -1,13 +1,13 @@
-Version ClaSS-0.8.18 release (2007/05/28)
+Version ClaSS-0.8.18 release (2007/05/30)
 -----------------------------------------
 
 Consistently renamed the set_XXX vars scripts.
 
-New function to list_course_stages.
+New functions to list_courses and list_course_stages.
 
 In the Admin book, renamed the logcounter page and added a new option
 to call from it which gives overall statistics for the current
-academic year.
+academic year. Working towards more in depth stats.
 
 Locked down the permissions in the InfoBook a little further. For role
 of 'support' and 'office' there is no access to the comments, incidents
@@ -21,13 +21,17 @@ InfoBook search fields.
 Migrated list_stage.php over to use list_vars.
 
 Included some ad hoc stuff to calculate overall totals for the Admin
-book's accomodation.
+book's accomodation page.
 
 Hooked in set_accomodation to the editing of student details from the
 InfoBook.
 
 The search for accomodation communities temporarily(!) lists all students
 who have ever belonged regardless of start and end date.
+
+Revealed the capacity as a new column on the yeargroup_matrix for
+admin and office roles.
+
 
 
 Version ClaSS-0.8.17 release (2007/05/11)

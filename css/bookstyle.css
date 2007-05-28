@@ -347,6 +347,9 @@ table.listmenu {
 .listmenu tr:hover td { 
 	background-color:#fcd39a;
 	}
+.listmenu tr:hover th { 
+	background-color:#fcd39a;
+	}
 .listmenu tr td table td:hover { 
 	background-color:#eeeeee;
 	}

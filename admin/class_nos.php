@@ -7,25 +7,30 @@
 $action='class_nos.php';
 $choice='class_nos.php';
 
-list($crid,$bid,$error)=checkCurrentRespon($r,$respons,'course');
-if($error!=''){include('scripts/results.php');exit;}
-
-	$d_classes=mysql_query("SELECT DISTINCT stage FROM classes WHERE
-							course_id='$crid'");
-	$d_subject=mysql_query("SELECT DISTINCT subject_id FROM cridbid 
-							WHERE course_id='$crid' ORDER BY subject_id");
-	$bids=array();
-   	while($subject=mysql_fetch_array($d_subject,MYSQL_ASSOC)){
-   		$bids[]=$subject['subject_id'];
-		}
+//list($crid,$bid,$error)=checkCurrentRespon($r,$respons,'course');
+//if($error!=''){include('scripts/results.php');exit;}
 
 two_buttonmenu($extrabuttons);
 ?>
   <div class="content" id="viewcontent">
 	<form name="formtoprocess" id="formtoprocess" method="post" action="<?php print $host; ?>">
+<?php
+	$courses=(array)list_courses();
+	while(list($index,$course)=each($courses)){
+		$crid=$course['id'];
+		$d_classes=mysql_query("SELECT DISTINCT stage FROM classes WHERE
+							course_id='$crid'");
+		$d_subject=mysql_query("SELECT DISTINCT subject_id FROM cridbid 
+							WHERE course_id='$crid' ORDER BY subject_id");
+		$bids=array();
+		while($subject=mysql_fetch_array($d_subject,MYSQL_ASSOC)){
+			$bids[]=$subject['subject_id'];
+			}
+?>
+
 	  <table class="listmenu">
 		<tr>
-		  <th></th>
+		  <th>&nbsp</th>
 <?php
 	$stages=array();
 	while($stage=mysql_fetch_array($d_classes,MYSQL_ASSOC)){
@@ -77,8 +82,12 @@ two_buttonmenu($extrabuttons);
 	   	}
 ?>
 	  </table>
+	  <br />
+<?php
+		}
+?>
 
-	  <input type="hidden" name="current" value="<?php print $action;?>" />
+	    <input type="hidden" name="current" value="<?php print $action;?>" />
 		<input type="hidden" name="choice" value="<?php print $choice;?>" />
 		<input type="hidden" name="cancel" value="<?php print '';?>" />
 	</form>
