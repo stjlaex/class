@@ -31,27 +31,20 @@ if(isset($_POST['newcomid'])){$newcomid=$_POST['newcomid'];}else{$newcomid='';}
 	
 		$d_year=mysql_query("SELECT name FROM yeargroup WHERE id='$comname'");
 		$displayname=mysql_result($d_year,0);
-		if($newcomid==''){$newcommunity=array('type'=>'year','name'=>'none');}
+		if($newcomid==''){
+			/*default to newly accepted students for this yeargroup*/
+			$year=get_curriculumyear();
+			$newcommunity=array('type'=>'accepted','name'=>'AC:'.$comname,'year'=>$year);
+			}
 		}
 	elseif($comtype=='alumni'){
 		$displayname=get_string($comtype,'infobook');
-		//$yid=get_curriculumyear();
 		if($newcomid==''){$newcommunity=array('type'=>'year','name'=>'none');}
 		}
 	else{
-		/*or enquired, applied, accepted*/
 		$displayname=get_string($comtype,'infobook').' '.$comname;
-		/*should not really have comid blank but... */
-		if($newcomid=='' and $comtype=='enquired'){
-			$newcommunity=array('type'=>'applied','name'=>'AP:');
-			}
-		elseif($newcomid=='' and $comtype=='applied'){
-			$newcommunity=array('type'=>'accepted','name'=>'AC:');
-			}
-		elseif($newcomid=='' and $comtype=='accepted'){
-			$newcommunity=array('type'=>'year','name'=>'none');
-			}
 		}
+
 
 	$oldstudents=listin_community($currentcommunity);
 	$newstudents=listin_union_communities($currentcommunity,$newcommunity);
@@ -98,7 +91,7 @@ if(isset($_POST['newcomid'])){$newcomid=$_POST['newcomid'];}else{$newcomid='';}
 <?php
 			$onchange='yes';
 			if($newcomid==''){
-				/*user has not selected ac ommunity but one must be chosen*/
+				/*the selected community*/
 				$newcomid=update_community($newcommunity);
 				}
 			$selcomids=array($newcomid);

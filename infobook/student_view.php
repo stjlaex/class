@@ -147,7 +147,7 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 ?>
 	  <div class="right">
 		<div class="tinytabs" id="contact" style="">
-			<ul>
+		  <ul>
 <?php
 		$n=0;
 		while(list($contactno,$Contact)=each($Contacts)){
@@ -201,7 +201,7 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 			<div class="hidden" id="tinytab-xml-contact-<?php print $relation;?>">
 			  <table class="listmenu">
 				<tr>
-				<tr>
+				  <tr>
 				  <td colspan="3">&nbsp
 				  </td>
 				</tr>
@@ -218,7 +218,7 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 				</tr>
 			  </table>
 			</div>
-
+			
 		  </ul>
 		</div>
 		<div id="tinytab-display-contact" class="tinytab-display">
@@ -230,17 +230,17 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 		  <legend>
 			<?php print_string('reports',$book);?>
 		  </legend>
-			  <a href="infobook.php?current=student_reports.php&cancel=student_view.php">
-				<?php print_string('subjectreports'); ?>
-			  </a>
+		  <a href="infobook.php?current=student_reports.php&cancel=student_view.php">
+			<?php print_string('subjectreports'); ?>
+		  </a>
 		</fieldset>
-
+		
 		<fieldset class="right">
 		  <legend>
 			<a href="infobook.php?current=exclusions_list.php&cancel=student_view.php">
 			  <img class="clicktoedit" title="<?php print_string('edit');?>" />
 			</a>
-			  <?php print_string('exclusions',$book);?>
+			<?php print_string('exclusions',$book);?>
 		  </legend>
 <?php	
 		if(array_key_exists(0,$Student['Exclusions'])){print_string('infoavailable',$book);}
@@ -279,20 +279,33 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 	  <div class="left">
 		<fieldset class="left">
 		  <legend>
-		  <a href="infobook.php?current=student_view_boarder.php&cancel=student_view.php">
-			<img class="clicktoedit" title="<?php print_string('edit');?>" />
-		  </a>
-		  <?php print_string('boarder',$book);?>
-		  </legend>	
+			<a href="infobook.php?current=student_view_boarder.php&cancel=student_view.php">
+			  <img class="clicktoedit" title="<?php print_string('edit');?>" />
+			</a>
+		<?php print_string('boarder',$book);?>
+		  </legend>
 <?php 
 			if($Student['Boarder']['value']!='N' and $Student['Boarder']['value']!=''){ 
 				print '<div>'.get_string(displayEnum($Student['Boarder']['value'],$Student['Boarder']['field_db']),$book).'</div>';}
 			else{print_string('noinfo',$book);}
 ?>
+		</fieldset>
 
-	  </div>
+	  <fieldset class="right">
+		<legend>
+		  <a href="infobook.php?current=student_view_enrolment.php&cancel=student_view.php">
+			<img class="clicktoedit" title="<?php print_string('edit');?>" />
+		  </a>
+		  <?php print_string('enrolstatus',$book);?>
+		  </legend>
+<?php 
+		  print '<div>'.get_string(displayEnum($Student['EnrolmentStatus']['value'],$Student['EnrolmentStatus']['field_db']),$book).'</div>';
+?>
+		</fieldset>
+	</div>
 
-	  <input type="hidden" name="current" value="<?php print $action;?>">
+
+  <input type="hidden" name="current" value="<?php print $action;?>">
 	  <input type="hidden" name="cancel" value="<?php print 'student_list.php';?>">
 	  <input type="hidden" name="choice" value="<?php print $choice;?>">
 	</form>

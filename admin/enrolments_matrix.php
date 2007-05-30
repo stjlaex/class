@@ -37,14 +37,12 @@ $rowcells=array('EN','AP','AT','ATD','RE','ACP','CA','WL','AC');
 	while($year=mysql_fetch_array($d_year,MYSQL_ASSOC)){
 ?>
 		<tr>
-		  <td>
+		  <th>
 <?php
 		$nocol=0;
-	    print '<a href="admin.php?current=yeargroup_edit.php&cancel='.
-				 $choice.'&choice='. $choice.'&enrolyear='. $enrolyear.
-				  '&comid='.$com['id'].'">' .$year['name'].'</a>';
+	    print $year['name'];
 ?>
-		  </td>
+		  </th>
 <?php
 		$values=array();
 		reset($rowcells);
@@ -53,13 +51,19 @@ $rowcells=array('EN','AP','AT','ATD','RE','ACP','CA','WL','AC');
 			if($enrolstatus=='EN'){$comtype='enquired';}
 			elseif($enrolstatus=='AC'){$comtype='accepted';}
 			else{$comtype='applied';}
-			$com=array('type'=>$comtype,'name'=>$enrolstatus.':'.$yid,'year'=>$enrolyear);
-			//$comid=update_community();
-			//$com=get_community($comid);
+			$com=array('id'=>'','type'=>$comtype, 
+					   'name'=>$enrolstatus.':'.$yid,'year'=>$enrolyear);
+			$comid=update_community($com);
+			$com['id']=$comid;
 			$values[$index]=countin_community($com);
 			$totals[$index]+=$values[$index];
 ?>
-		  <td><?php print $values[$nocol++];?></td>
+		  <td>
+<?php 	    print '<a href="admin.php?current=community_list.php&cancel='.
+				 $choice.'&choice='. $choice.'&enrolyear='. $enrolyear.'&type='.$comtype.
+				  '&comid='.$com['id'].'">' .$values[$nocol++].'</a>';
+?>
+		  </td>
 <?php
 			}
 ?>

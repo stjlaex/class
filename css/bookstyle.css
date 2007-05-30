@@ -49,7 +49,7 @@ table {
     width:100%;
 	margin:0; border:0; padding:0;
 	empty-cells:hide; border-collapse:collapse;
-	background-color:#ddd; color:#000000;
+	background-color:#dde; color:#000000;
 	}
 th 	{
 	text-align:left; font-weight:500; border-style:none; border-width:0px;
@@ -120,7 +120,7 @@ form img.calendar {
 fieldset {
     border-style:none;
     border-top:2px solid;
-	background-color:#ddd;
+	background-color:#dde;
 	}
 div.hidden {
 	display:none;
@@ -166,10 +166,10 @@ div.content div {
 	}
 div.content fieldset {
     padding:1%; margin:0;
-	background-color:#ddd;
+	background-color:#dde;
 	}
 div.content fieldset div {
-	background-color:#ddd;
+	background-color:#dde;
 	}
 /*a fixed height div, always at the top of the page before the content*/
 div.topform {
@@ -179,7 +179,7 @@ div.topform {
 	border-top:2px solid;
 	padding:1%;
 	margin:0 4% 1% 4%;
-	background-color:#ddd;
+	background-color:#dde;
 	}
 div.topform+div.content {
 	position:relative; height:56%;
@@ -352,6 +352,12 @@ table.listmenu {
 	}
 .listmenu tr td table td:hover { 
 	background-color:#eeeeee;
+	}
+.listmenu tr.lowlite td, .listmenu tr.lowlite a { 
+    color:#aaaaaa;
+	}
+.listmenu tr.hilite td, .listmenu td.hilite { 
+    background-color:#ff6600;
 	}
 
 /*extra functionality for a listmenu wich lets rows be expanded and collapsed*/

@@ -77,17 +77,17 @@ function clickToReveal(rowObject){
 	var theRow;
 	var i=0;
 	while(theRow=document.getElementById(rowId+"-"+i)){
-		if(theRow.className=='rowplus'){ 
-			theRow.className='rowminus'; 
+		if(theRow.className=="rowplus"){ 
+			theRow.className="rowminus"; 
 			}		
-		else if(theRow.className=='rowminus'){ 
-			theRow.className='rowplus';
+		else if(theRow.className=="rowminus"){ 
+			theRow.className="rowplus";
 			}
-		else if(theRow.className=='revealed'){ 
-			theRow.className='hidden';
+		else if(theRow.className=="revealed"){ 
+			theRow.className="hidden";
 			}
-		else if(theRow.className=='hidden'){ 
-			theRow.className='revealed';
+		else if(theRow.className=="hidden"){ 
+			theRow.className="revealed";
 			}	
 		i++;
 		}	
@@ -174,6 +174,19 @@ function updatexmlRecord(xmlRecord){
 //-------------------------------------------------------
 //only for form buttons instead of processContent()
 //TODO this should be generalised to work with more than just openPrintReports!
+
+function checkrowIndicator(inputObj){
+	var rowId=inputObj.value;
+	var theRow;
+	theRow=document.getElementById(rowId);
+
+	if(inputObj.checked){
+		theRow.setAttribute("class","lowlite");
+		}
+	else{
+		theRow.setAttribute("class","");
+		}
+	}
 
 function checksidsAction(buttonObject){
 	var formObject=document.formtoprocess;

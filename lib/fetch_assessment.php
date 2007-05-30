@@ -115,7 +115,8 @@ function gradeToScore($grade,$grading_grades){
 function fetchAssessmentDefinition($eid){
    	$AssDef=array();
   	$AssDef['id_db']=$eid;
-   	$d_ass=mysql_query("SELECT * FROM assessment WHERE id='$eid'");
+   	$d_ass=mysql_query("SELECT * FROM assessment WHERE id='$eid' ORDER
+							BY creation");
 	if(mysql_numrows($d_ass)==0){$AssDef['exists']='false';}
 	else{$AssDef['exists']='true';}
 	$ass=mysql_fetch_array($d_ass,MYSQL_ASSOC);
@@ -355,7 +356,7 @@ function fetch_cohortAssessmentDefinitions($cohort){
 			   WHERE (course_id LIKE '$crid' OR course_id='%') AND 
 				(stage LIKE '$stage' OR stage='%') AND
 				year LIKE '$year'
-				ORDER BY year DESC, stage DESC, id");
+				ORDER BY year DESC, stage DESC, creation DESC");
    	while($ass=mysql_fetch_array($d_assessment, MYSQL_ASSOC)){
 		$AssDefs[]=fetchAssessmentDefinition($ass['id']);
 		}

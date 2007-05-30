@@ -93,7 +93,9 @@ function update_community($community,$communityfresh=array('id'=>'','type'=>'','
 	$type=$community['type'];
 	$name=$community['name'];
 	if(isset($community['year'])){$year=$community['year'];}
-	elseif($type=='accepted' or $type=='applied' or $type=='enquired'){$year=get_curriculumyear();}
+	elseif($type=='accepted' or $type=='applied' or $type=='enquired'){
+		$year=get_curriculumyear();
+		}
 	else{$year='0000';}
 	//trigger_error('upcom type:'.$type.' name:'.$name,E_USER_WARNING);
 	if(isset($community['detail'])){$detail=$community['detail'];}else{$detail='';}
@@ -191,7 +193,7 @@ function listin_community($community,$enddate='',$startdate=''){
 	if(isset($community['id']) and $community['id']!=''){$comid=$community['id'];}
 	else{$comid=update_community($community);}
 	$d_student=mysql_query("SELECT id, surname,
-				forename, preferredforename, form_id FROM student 
+				forename, preferredforename, form_id, dob FROM student 
 				JOIN comidsid ON comidsid.student_id=student.id
 				WHERE comidsid.community_id='$comid' AND
 				(comidsid.leavingdate>'$enddate' OR 
@@ -345,6 +347,7 @@ function join_community($sid,$community){
 	$todate=date("Y-m-d");
 	$type=$community['type'];
 	$name=$community['name'];
+	$year=$community['year'];
 
 	/*membership of a form or yeargroup is exclusive - need to remove
 	from old group first, and also where student progresses through
@@ -378,8 +381,8 @@ function join_community($sid,$community){
 		$enrolstatus='P';
 		}
 	elseif($type=='accepted' or $type=='applied' or $type=='enquired'){
-		list($enrolstatus,$year)=split($name,':');
-		/*may be joining form previous point in application procedure*/
+		list($enrolstatus,$yid)=split(':',$name);
+		/*may be joining from previous point in application procedure*/
 		$oldtypes[]='accepted';
 		$oldtypes[]='applied';
 		$oldtypes[]='enquired';
@@ -391,21 +394,6 @@ function join_community($sid,$community){
 			}
 		}
 
-	/*prior to version 0.8.13
-	elseif($type=='accepted'){
-		$oldtypes[]='applied';
-		$oldtypes[]='enquired';
-		$enrolstatus='AC';
-		}
-	elseif($type=='applied'){
-		$oldtypes[]='enquired';
-		$enrolstatus='AP';
-		}
-	elseif($type=='enquired'){
-		$enrolstatus='EN';
-		}
-	*/
-
 	if(isset($community['id']) and $community['id']!=''){$comid=$community['id'];}
 	elseif($name!=''){$comid=update_community($community);}
 	else{$comid='';}
@@ -415,9 +403,9 @@ function join_community($sid,$community){
 	while(list($index,$oldtype)=each($oldtypes)){
 		$checkcommunity=array('id'=>'','type'=>$oldtype,'name'=>'');
 		$oldcommunities=array();
-		$oldcommunities=list_member_communities($sid,$checkcommunity);
+		$oldcommunities=(array)list_member_communities($sid,$checkcommunity);
 		while(list($index,$oldcommunity)=each($oldcommunities)){
-			if($oldcommunity['name']!=$name){
+			if($oldcommunity['name']!=$name or $oldcommunity['year']!=$year){
 				$leftcommunities[$oldtype][]=$oldcommunity;
 				leave_community($sid,$oldcommunity);
 				}
@@ -460,10 +448,12 @@ function leave_community($sid,$community){
 	$todate=date('Y-m-d');
 	$type=$community['type'];
 	$name=$community['name'];
-	if($community['id']!=''){$comid=$community['id'];}
-	else{$comid=update_community($community);}
-	mysql_query("UPDATE comidsid SET leavingdate='$todate' WHERE
+	if($community['id']!=''){
+		$comid=$community['id'];
+		//else{$comid=update_community($community);}
+		mysql_query("UPDATE comidsid SET leavingdate='$todate' WHERE
 							community_id='$comid' AND student_id='$sid'");
+		}
 	if($type=='year'){mysql_query("UPDATE student SET yeargroup_id=NULL WHERE id='$sid'");}
 	elseif($type=='form'){mysql_query("UPDATE student SET form_id='' WHERE id='$sid'");}
 	return;

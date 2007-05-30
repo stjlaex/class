@@ -37,7 +37,7 @@ while($user=mysql_fetch_array($d_user,MYSQL_ASSOC)){
 	   $usertime=date('H:i:s',$user['logtime']);
 	   print "<td>$userdate, $usertime</td>";
 	   if(time() - $lasttime < mktime(0,15,0,0,0,1) - mktime(0,0,0,0,0,1)){
-		   print '<td>';
+		   print '<td class="hilite">';
 		   print_string('online',$book);
 		   print '</td>';
 		   $tot_on++;

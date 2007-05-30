@@ -4,6 +4,8 @@
 
 $action='edit_scores_action.php';
 
+include('scripts/sub_action.php');
+
 $viewtable=$_SESSION['viewtable'];
 $umns=$_SESSION['umns'];
 $mid=$_GET['mid'];

@@ -1,4 +1,37 @@
-Version ClaSS-0.8.18 release (2007/05/30)
+Version ClaSS-0.8.19 release (2007/05/21)
+-----------------------------------------
+
+Minor bugfix to edit_scores to make cancel button work - sub_action() was
+not being called.
+
+Tweaked the #ddd dull grey background colour to be less dull.
+
+New scripts in the infobook and a new div on the student_view page to
+display and edit enrolment properties of a student. Will also show the
+history of their application in future. A new fetchEnrolment()
+function added which is specicifically for this purpose and no other.
+
+The enrollments and accomodation pages in the Admin book both now make
+use of the new community_list scripts. Which should become general
+purpose for listing sids and editing in any type of community in
+future. These now allow click-throughs from the table of numbers to
+the list of students relating to that position on the
+accomodation/enrolment table. Enrolment fully working. Only partially
+implemented for accomodation so far.
+
+The access to enrolment communities through yeargroup_edit has now
+been deprecated because of the above.
+
+Two new css classes (hilife and lowlife).
+
+Any sids not on current roll and listed in InfoBook are now
+de-emphasised using the lowlife class.
+
+New onchange js function for checkboxes in listmenus which
+de-emphasises/emphasises the table row based on its checked status.
+
+
+Version ClaSS-0.8.18 release (2007/05/25)
 -----------------------------------------
 
 Consistently renamed the set_XXX vars scripts.
@@ -31,7 +64,6 @@ who have ever belonged regardless of start and end date.
 
 Revealed the capacity as a new column on the yeargroup_matrix for
 admin and office roles.
-
 
 
 Version ClaSS-0.8.17 release (2007/05/11)
@@ -70,7 +102,12 @@ maintaing the old firstlanguage codes in the language list but these
 should be deprecated.
 
 All nationality and country fields (in tables guardian, student, and
-address) are moved to char2 and now use the iso codes.
+address) are moved to char2 and now use the iso codes. The patch which
+updates the database will curtail entries to their first two letters
+and, be warned, this may lose you data! It is straightforward to check the
+nationailities you have against there relevant iso code and add some
+entries to the patch to convert them in advance of the change
+(examples are included).
 
 Added new field companyname to the guardian table and exposed both
 this and the profession fields through the Contact array.

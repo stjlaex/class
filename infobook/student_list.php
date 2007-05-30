@@ -40,9 +40,10 @@ two_buttonmenu($extrabuttons,$book);
 	$rown=1;
 	while(list($index,$sid)=each($sids)){
 		$Student=fetchStudent_short($sid);
-		$comment=commentDisplay($sid);
+		if($Student['YearGroup']['value']==' '){$enrolclass=' class="lowlite"';}
+		else{$enrolclass='';}
 ?>
-		<tr>
+		<tr<?php print $enrolclass;?>>
 		  <td>
 			<input type="checkbox" name="sids[]" value="<?php print $sid;?>" />
 			<?php print $rown++;?>
@@ -50,6 +51,7 @@ two_buttonmenu($extrabuttons,$book);
 		  <td>
 <?php
 			if($_SESSION['role']!='office' and $_SESSION['role']!='support'){
+				$comment=commentDisplay($sid);
 ?>
 			<a href="infobook.php?current=student_scores.php&sid=<?php print $sid;?>">T</a> 
 			<span title="<?php print $comment['body'];?>">

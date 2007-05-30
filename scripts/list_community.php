@@ -13,12 +13,12 @@ include('scripts/set_list_vars.php');
 	$listcomtypes=array();
 	if(!isset($listtype)){
 		$listcomtypes[]='year';
-		if($_SESSION['role']=='office' 
+	  		if($_SESSION['role']=='office' 
 						   or $_SESSION['role']=='admin'){
-			$listcomtypes[]='enquired';
-			$listcomtypes[]='applied';
+				//$listcomtypes[]='enquired';
+				//$listcomtypes[]='applied';
+				//$listcomtypes[]='alumni';
 			$listcomtypes[]='accepted';
-			$listcomtypes[]='alumni';
 			}
 		}
 	elseif($listtype=='admissions'){

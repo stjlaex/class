@@ -37,7 +37,6 @@ for($day=0;$day<$totdays;$day++){
 		$com=array('type'=>'accomodation','name'=>'F'.$index);
 		$tot+=countin_community($com,$date);
 		$totnos[$index]=$tot;
-		//trigger_error('tot '.$index.' '.$tot,E_USER_WARNING);
 		}
 	}
 
@@ -76,7 +75,9 @@ twoplus_buttonmenu($enrolyear,$currentyear+3,$extrabuttons,$book);
 		  <td>
 <?php
 		$overall=countin_community($com,$overallstart,$date);
-	    print $overall;
+ 	    print '<a href="admin.php?current=community_list.php&cancel='.
+				 $choice.'&choice='. $choice.'&enrolyear='. $enrolyear.'&type=accomodation'.
+				  '&date=&comid='.$com['id'].'">' .$overall.'</a>';
 		$totoverall+=$overall;
 ?>
 		  </td>
@@ -86,7 +87,12 @@ twoplus_buttonmenu($enrolyear,$currentyear+3,$extrabuttons,$book);
 				$values[$index]=countin_community($com,$coldate);
 				$totals[$index]+=$values[$index];
 		  ?>
-			<td><?php print $values[$index];?></td>
+			<td>
+<?php 	    print '<a href="admin.php?current=community_list.php&cancel='.
+				 $choice.'&choice='. $choice.'&enrolyear='. $enrolyear.'&type=accomodation'.
+				  '&date='.$coldate.'&comid='.$com['id'].'">' .$values[$index].'</a>';
+?>
+			</td>
 <?php
 				}
 ?>

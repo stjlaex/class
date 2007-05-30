@@ -110,6 +110,7 @@ function fetchStudent_singlefield($sid,$tag){
 	return $Student;
 	}
 
+
 function fetchStudent($sid='-1'){
    	$d_student=mysql_query("SELECT * FROM student WHERE id='$sid'");
 	$student=mysql_fetch_array($d_student,MYSQL_ASSOC);
@@ -180,7 +181,7 @@ function fetchStudent($sid='-1'){
 		}
 
 	$Student['Gender']=array('label' => 'gender', 
-							 'inputtype'=> 'required',
+							 //'inputtype'=> 'required',
 							 'table_db' => 'student', 
 							 'field_db' => 'gender',
 							 'type_db'=>'enum', 
@@ -256,6 +257,12 @@ function fetchStudent($sid='-1'){
 								  'field_db' => 'formerupn', 
 								  'type_db'=>'varchar(13)', 
 								  'value' => ''.$info['formerupn']
+								  );
+   	$Student['EnrolmentStatus']=array('label' => 'enrolstatus', 
+									  //'table_db' => 'info', 
+								  'field_db' => 'enrolstatus', 
+								  'type_db'=>'enum', 
+								  'value' => ''.$info['enrolstatus']
 								  );
 	$Student['EntryDate']=array('label' => 'schoolstartdate', 
 								'table_db' => 'info', 
@@ -809,6 +816,73 @@ function commentDisplay($sid,$date='',$Comments=''){
 	return $commentdisplay;
 	}
 
+/* Only used for tasks specific to enrolment and not to be part of the */
+/* Student array (at least for now!)*/
+function fetchEnrolment($sid='-1'){
+   	$d_info=mysql_query("SELECT * FROM info WHERE student_id='$sid'");
+	if(mysql_num_rows($d_info)>0){
+		$info=mysql_fetch_array($d_info,MYSQL_ASSOC);
+		if($info['enrolstatus']=='EN'){
+			$comtype='enquired';
+			}
+		elseif($info['enrolstatus']=='AC'){
+			$comtype='accepted';
+			}
+		elseif($info['enrolstatus']=='C'){
+			$comtype='accepted';
+			}
+		else{
+			$comtype='applied';
+			}
+		$searchcom=array('id'=>'','name'=>'','type'=>$comtype);
+		$coms=(array)list_member_communities($sid,$searchcom);
+		while(list($index,$com)=each($coms)){
+			list($enrolstatus,$yid)=split(':',$com['name']);
+			$year=$com['year'];
+			}
+		}
+
+	$Enrolment=array();
+   	$Enrolment['EnrolmentStatus']=array('label' => 'enrolstatus', 
+										//'table_db' => 'info', 
+										'field_db' => 'enrolstatus', 
+										'type_db'=>'enum', 
+										'value' => ''.$enrolstatus
+										);
+   	$Enrolment['YearGroup']=array('label' => 'yeargroup', 
+								  //'table_db' => 'student', 
+								  'field_db' => 'yeargroup_id', 
+								  'type_db' => 'int', 
+								  'value' => ''.$yid
+								  );
+   	$Enrolment['Year']=array('label' => 'year', 
+							 //'table_db' => '', 
+							 'field_db' => 'year', 
+							 'type_db' => 'year', 
+							 'value' => ''.$year
+							 );
+   	$Enrolment['EnrolNumber']=array('label' => 'enrolmentnumber', 
+									'table_db' => 'info', 
+									'field_db' => 'formerupn', 
+									'type_db' =>'varchar(13)', 
+									'value' => ''.$info['formerupn']
+									);
+	$Enrolment['EntryDate']=array('label' => 'schoolstartdate', 
+								  'table_db' => 'info', 
+								  'field_db' => 'entrydate', 
+								  'type_db' =>'date', 
+								  'value' => ''.$info['entrydate']
+								  );
+	$Enrolment['LeavingDate']=array('label' => 'schoolleavingdate', 
+									'table_db' => 'info', 
+									'field_db' => 'leavingdate', 
+									'type_db' =>'date', 
+									'value' => ''.$info['leavingdate']
+									);
+
+	//trigger_error($enrolstatus.' '.$year.' '.$yid.'-'.$com['name'],E_USER_WARNING);
+	return $Enrolment;
+	}
 
 /*Returns all residencial Stays where the dpearture date falls after $date*/
 /*by defualt $date='' and only Stays returned are current or future ones.*/
