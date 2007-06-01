@@ -186,7 +186,7 @@ while($student=mysql_fetch_array($d_students, MYSQL_ASSOC)){
 			$score['scoreclass']='report';
 			/*Mark is a compound report column*/
 			$reportentryn=checkReportEntry($umns[$c]['midlist'],$sid,$bid[0],$umns[$c]['component']);
-			$out='<a href="markbook.php?current=edit_reports.php&choice=class_view.php&midlist='.$umns[$c]['midlist'].'&title='.$umns[$c]['topic'].'&mid='.$umns[$c]['id'].'&pid='.$umns[$c]['component'].'&sid='.$sid.'&col='.$c.'&bid='.$bid[0].'">R '.$reportentryn.'</a>';
+			$out='<a href="markbook.php?current=edit_reports.php&cancel=class_view.php&midlist='.$umns[$c]['midlist'].'&title='.$umns[$c]['topic'].'&mid='.$umns[$c]['id'].'&pid='.$umns[$c]['component'].'&sid='.$sid.'&col='.$c.'&bid='.$bid[0].'">R '.$reportentryn.'</a>';
 			$outrank=-100;
 			}
 

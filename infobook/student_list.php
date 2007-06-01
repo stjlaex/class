@@ -43,7 +43,7 @@ two_buttonmenu($extrabuttons,$book);
 		if($Student['YearGroup']['value']==' '){$enrolclass=' class="lowlite"';}
 		else{$enrolclass='';}
 ?>
-		<tr<?php print $enrolclass;?>>
+		<tr id="sid-<?php print $sid;?>" <?php print $enrolclass;?>>
 		  <td>
 			<input type="checkbox" name="sids[]" value="<?php print $sid;?>" />
 			<?php print $rown++;?>

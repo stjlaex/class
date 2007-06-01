@@ -169,6 +169,6 @@ if($sub=='Submit'){
 		}
 	}
 
-include('scripts/results.php');
+//include('scripts/results.php');
 include('scripts/redirect.php');
 ?>

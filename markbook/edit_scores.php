@@ -4,7 +4,6 @@
 
 $action='edit_scores_action.php';
 
-include('scripts/sub_action.php');
 
 $viewtable=$_SESSION['viewtable'];
 $umns=$_SESSION['umns'];
@@ -122,6 +121,6 @@ three_buttonmenu();
 	<input type="hidden" name="total" value="<?php print $total;?>" />
 	<input type="hidden" name="current" value="<?php print $action;?>" />
 	<input type="hidden" name="choice" value="<?php print $choice;?>" />
-	<input type="hidden" name="cancel" value="<?php print $choice;?>" />
+	<input type="hidden" name="cancel" value="<?php print $cancel;?>" />
 	</form>
   </div>

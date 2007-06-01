@@ -4,14 +4,14 @@
 
 $action='edit_reports_action.php';
 
-$viewtable=$_SESSION{'viewtable'};
-$umns=$_SESSION{'umns'};
-$mid=$_GET{'mid'};
-$bid=$_GET{'bid'};
-$col=$_GET{'col'};
-$title=$_GET{'title'};
-$rid=$_GET{'midlist'};
-$pid=$_GET{'pid'};
+$viewtable=$_SESSION['viewtable'];
+$umns=$_SESSION['umns'];
+$mid=$_GET['mid'];
+$bid=$_GET['bid'];
+$col=$_GET['col'];
+$title=$_GET['title'];
+$rid=$_GET['midlist'];
+$pid=$_GET['pid'];
 
    	$d_report=mysql_query("SELECT * FROM report WHERE id='$rid'");
    	$report=mysql_fetch_array($d_report,MYSQL_ASSOC);
@@ -106,10 +106,10 @@ three_buttonmenu();
 		$inorders['comment']='yes';
 		}
 
-	if(isset($_GET{'sid'})){
+	if(isset($_GET['sid'])){
 		/*this was called from a clickthrough for one individual student*/
 		$edit_comments_off='no';
-		$sid=$_GET{'sid'};
+		$sid=$_GET['sid'];
 		for($c=0;$c<sizeof($viewtable);$c++){if($viewtable[$c]['sid']==$sid){$row=$c;}}
 		$tab=$row+1;
 		include('onereport.php');
@@ -124,11 +124,11 @@ three_buttonmenu();
 			}
 		}
 
-$_SESSION{'inorders'}=$inorders;
+$_SESSION['inorders']=$inorders;
 ?>
 	</table>
 	  <input type="hidden" name="current" value="<?php print $action;?>" />
 	  <input type="hidden" name="choice" value="<?php print $choice;?>" />
-	  <input type="hidden" name="cancel" value="<?php print $choice;?>" />
+	  <input type="hidden" name="cancel" value="<?php print $cancel;?>" />
 	</form>
   </div>

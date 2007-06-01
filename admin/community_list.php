@@ -42,7 +42,7 @@ if(isset($_POST['date'])){$date=$_POST['date'];}
 	  action="<?php print $host; ?>">
 
 	  <div class="center" id="viewcontent">
-		<table class="listmenu">
+		<table class="listmenu" id="sidtable">
 		  <caption>
 			<?php print_string($comtype,$book);?>
 		  </caption>
@@ -61,13 +61,13 @@ if(isset($_POST['date'])){$date=$_POST['date'];}
 	while(list($index,$student)=each($students)){
 		$sid=$student['id'];
 ?>
-		  <tr id="<?php print $sid;?>">
+		  <tr id="sid-<?php print $sid;?>">
 			<td>
 			  <a href="infobook.php?current=<?php print $infobookcurrent;?>&cancel=student_view.php&sid=<?php print $sid;?>&sids[]=<?php print $sid;?>" target="viewinfobook" onClick="parent.viewBook('infobook');"><?php print $student['surname']. ', '.$student['forename']. 
 				' '.$student['preferredforename']. ' ('.$student['dob'].')';?></a>
 			</td>
 		  <td>
-			<input type="checkbox" onchange="checkrowIndicator(this);" 
+			<input type="checkbox"  
 				name="sids[]" value="<?php print $sid;?>" />
 		  </td>
 		</tr>

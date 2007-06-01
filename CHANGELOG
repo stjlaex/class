@@ -1,4 +1,4 @@
-Version ClaSS-0.8.19 release (2007/05/21)
+Version ClaSS-0.8.19 release (2007/05/31)
 -----------------------------------------
 
 Minor bugfix to edit_scores to make cancel button work - sub_action() was
@@ -29,6 +29,10 @@ de-emphasised using the lowlife class.
 
 New onchange js function for checkboxes in listmenus which
 de-emphasises/emphasises the table row based on its checked status.
+
+Made the event handlers for the checkrowIndicator part of loadRequired
+and standardised the trId to have a "sid-" prefix to be consistent
+with the sidtable functions.
 
 
 Version ClaSS-0.8.18 release (2007/05/25)

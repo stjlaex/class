@@ -38,6 +38,7 @@ function sidtableInit(){
 			//selObj.addEventListener("blur",processAttendance(this),false);
 			}
 		}
+
 	}
 
 function checkAttendance(selObj){
@@ -184,4 +185,3 @@ function removeExtraFields(sidId,extraId){
 	var extraDiv=document.getElementById(extraId+"-"+sidId);
 	if(extraDiv){document.getElementById("edit-"+sidId).removeChild(extraDiv);}
 	}
-

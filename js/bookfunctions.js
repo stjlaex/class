@@ -175,19 +175,6 @@ function updatexmlRecord(xmlRecord){
 //only for form buttons instead of processContent()
 //TODO this should be generalised to work with more than just openPrintReports!
 
-function checkrowIndicator(inputObj){
-	var rowId=inputObj.value;
-	var theRow;
-	theRow=document.getElementById(rowId);
-
-	if(inputObj.checked){
-		theRow.setAttribute("class","lowlite");
-		}
-	else{
-		theRow.setAttribute("class","");
-		}
-	}
-
 function checksidsAction(buttonObject){
 	var formObject=document.formtoprocess;
 	var formElements=formObject.elements;
@@ -393,16 +380,33 @@ function checkAll(checkAllBox){
 		if(formObject.elements[c].name=="checkall"){
 			c=c+1;
 			}
-		if(formObject.elements[c].type=='checkbox'){
+		if(formObject.elements[c].type=="checkbox"){
 			if(checkAllBox.checked){
 				formObject.elements[c].checked=true;
 				}
 			else{
 				formObject.elements[c].checked=false;
 				}
+			checkrowIndicator(formObject.elements[c]);
 			}
 		}
 	}
+
+/*changes the class of the row when checked and unchecked*/
+function checkrowIndicator(inputObj){
+	var rowId="sid-"+inputObj.value;
+	var theRow;
+	if(document.getElementById(rowId)){
+		theRow=document.getElementById(rowId);
+		if(inputObj.checked){
+			theRow.setAttribute("class","lowlite");
+			}
+		else{
+			theRow.setAttribute("class","");
+			}
+		}
+	}
+
 
 
 //-------------------------------------------------------
@@ -420,29 +424,34 @@ function loadRequired(){
 		for(c=0;c<formObject.elements.length;c++){
 			elementObject=formObject.elements[c];
 			if(elementObject.className=="required"){
-				elementObject.setAttribute('onChange','validateRequired(this)');
-				imageRequired=document.createElement('img');
-				imageRequired.className='required';
+				elementObject.setAttribute("onChange","validateRequired(this)");
+				imageRequired=document.createElement("img");
+				imageRequired.className="required";
 				elementObject.parentNode.insertBefore(imageRequired, elementObject);
 				}
 			else if(elementObject.className=="requiredor"){
 				elementObject.setAttribute('onChange','validateRequiredOr(this)');
-				imageRequired=document.createElement('img');
-				imageRequired.className='required';
+				imageRequired=document.createElement("img");
+				imageRequired.className="required";
 				elementObject.parentNode.insertBefore(imageRequired, elementObject);
 				}
 			else if(elementObject.className=="switcher"){
-				switcherId=elementObject.getAttribute('id');
+				switcherId=elementObject.getAttribute("id");
 				//alert(switcherId,elementObject.value);
 				parent.selerySwitch(switcherId,elementObject.value);
 				elementObject.setAttribute("onChange","selerySwitch('"+switcherId+"',this.value)");
 				}
 
-			if(elementObject.getAttribute('tabindex')=='1' & firstFocus=='-1'){
+			// add event handlers to the checkbox input elements
+			if(elementObject.getAttribute("type")=="checkbox" & elementObject.name=="sids[]"){
+				elementObject.onchange=function(){checkrowIndicator(this)};
+				}
+
+			if(elementObject.getAttribute("tabindex")=="1" & firstFocus=="-1"){
 				firstFocus=c;
 				}
-			if(elementObject.getAttribute('type')=='date'){
-				var inputId=elementObject.getAttribute('id');
+			if(elementObject.getAttribute("type")=="date"){
+				var inputId=elementObject.getAttribute("id");
 				Calendar.setup({
       					inputField  : inputId,
       					ifFormat    : "%Y-%m-%d",
@@ -463,7 +472,6 @@ function loadRequired(){
 	if(document.getElementById("sidtable")){
 		sidtableInit();
 		}
-
 
 
 	/*give focus to the tab=1 form element if this is a form*/
