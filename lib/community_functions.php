@@ -532,6 +532,22 @@ function list_course_stages($crid=''){
 	return $stages;
 	}
 
+/* returns an array of all cohorts for a single course year*/
+function list_course_cohorts($crid,$year='',$season='S'){
+	$cohorts=array();
+	if($year==''){
+		$year=get_curriculumyear($crid);
+		$season='S';
+		}
+	$d_coh=mysql_query("SELECT * FROM cohort WHERE
+			   	course_id='$crid' AND year='$year' AND season='$season' ORDER BY stage");
+	while($cohort=mysql_fetch_array($d_coh,MYSQL_ASSOC)){
+		$cohorts[]=array('id'=>$cohort['id'], 
+						 'name'=>'('.$cohort['stage'].' '.$cohort['year'].')');
+		}
+	return $cohorts;
+	}
+
 /*Returns an array listing the cids for all classes associated with
  *this form where the class is actually populated by just this
  *form's sids

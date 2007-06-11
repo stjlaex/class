@@ -1,3 +1,8 @@
+Version ClaSS-0.8.20 release (2007/06/18)
+-----------------------------------------
+
+
+
 Version ClaSS-0.8.19 release (2007/05/31)
 -----------------------------------------
 
@@ -11,7 +16,7 @@ display and edit enrolment properties of a student. Will also show the
 history of their application in future. A new fetchEnrolment()
 function added which is specicifically for this purpose and no other.
 
-The enrollments and accomodation pages in the Admin book both now make
+The enrolments and accomodation pages in the Admin book both now make
 use of the new community_list scripts. Which should become general
 purpose for listing sids and editing in any type of community in
 future. These now allow click-throughs from the table of numbers to

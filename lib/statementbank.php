@@ -73,7 +73,7 @@ function fetchStatementBank($crid,$bid,$pid,$stage,$dbstat=''){
 	return $StatementBank;
 	}
 
-function addStatement($new,$dbstat=''){
+function add_statement($new,$dbstat=''){
 	/*currently the bid can not be set to a wildcard and perhaps it*/
 	/*should not be allowed this value either?*/
 	$result='no';

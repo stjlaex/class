@@ -113,3 +113,11 @@ CREATE TABLE accomodation (
 	index				index_student (student_id),
    	primary key			(id)
 );
+
+CREATE TABLE derivation (
+	resultid		int unsigned not null default '0',
+	operandid		int unsigned not null default '0',
+	type		    enum('A', 'M') default 'A' not null,
+	element			char(3) not null default '',
+	primary key 	(resultid, operandid, type)
+);

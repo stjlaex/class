@@ -363,5 +363,48 @@ function fetch_cohortAssessmentDefinitions($cohort){
 	return $AssDefs;
 	}
 
+/**/
+function update_derivation($eid,$der){
+   	$d_ass=mysql_query("SELECT course_id, derivation FROM assessment WHERE id='$eid'");
+	$ass=mysql_fetch_array($d_ass);
+	$older=$ass['derivation'];
+	$crid=$ass['course_id'];
+	if($older!=$der){
+		mysql_query("UPDATE assessment SET
+			derivation='$der' WHERE id='$eid';");
+		trigger_error('Update from'.$older.'to '.$der,E_USER_WARNING);
+		$algo=derive_algorithm($der);
+		$cohorts=(array)list_course_cohorts($crid);
+		$students=array();
+		if($older==''){
+			while(list($index,$cohort)=each($cohorts)){
+				$cohortstudents=(array)listin_cohort($cohort);
+				$students=array_merge($students,$cohortstudents);
+				}
+			}
+		else{
+			$d_eidsid=mysql_query("SELECT DISTINCT student_id AS id FROM eidsid WHERE
+				assessment_id LIKE '$eid'");
+			while($student=mysql_fetch_array($d_eidsid,MYSQL_ASSOC)){
+				$students[]=$student;
+				}
+			}
+		while(list($index,$student)=each($students)){
+			derive_score($student['id'],$eid,$algo);
+			}
+		}
+	}
+
+/**/
+function derive_algorithm($der){
+	$algo=array();
+	return $algo;
+	}
+
+/**/
+function derive_score($sid,$eid,$algo){
+
+	return $score;
+	}
 
 ?>

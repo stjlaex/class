@@ -1,6 +1,6 @@
 <?php
-/*                    new_assessment_action.php
-*/
+/**                    new_assessment_action.php
+ */
 
 $rcrid=$respons[$r]['course_id'];
 
@@ -16,7 +16,8 @@ if($sub=='Submit' and $_FILES['importfile']['tmp_name']!=''){
 		include('scripts/file_import_csv.php');
 		if(sizeof($inrows>0)){
 			while(list($index,$d)=each($inrows)){
-				/*this matches partly the UK CBDS spreadsheets and isn't generally useful*/
+				/*this matches partly the UK CBDS spreadsheets and
+							isn't always generally useful*/
 				$stage=$d[0];
 				$year=$d[1];
 				$subject=$d[2];
@@ -34,20 +35,24 @@ if($sub=='Submit' and $_FILES['importfile']['tmp_name']!=''){
 				$deadline=$d[14];
 				mysql_query("INSERT INTO assessment (stage, year, subject_id, method, element,
 					description, label, resultqualifier, outoftotal,
-					derivation, resultstatus, component_status,
+					resultstatus, component_status,
 					course_id, grading_name, creation, deadline) VALUES
 					('$stage', '$year', '$subject', '$method',
 					'$element', '$description', '$label', '$resultq',
-					'$outoftotal', '$derivation', '$resultstatus',
+					'$outoftotal', '$resultstatus',
 					'$componentstatus', '$rcrid', '$gena', '$create',
 					'$deadline');");
+				if($derivation!=''){
+					$eid=mysql_insert_id();
+					update_derivation($eid,$derivation);
+					}
 				}
 			}
 		}
 	}
 
 elseif($sub=='Submit'){
-		$id=$_POST['id'];
+		$eid=$_POST['id'];
 		$stage=$_POST['stage'];
 		$year=$_POST['year'];
 		$subject=$_POST['bid'];
@@ -66,23 +71,27 @@ elseif($sub=='Submit'){
 		if(isset($_POST['gena'])){$gena=$_POST['gena'];}else{$gena='';};
 		$deadline=$_POST['deadline'];
 		$creation=$_POST['creation'];
-		if($id==''){
-			mysql_query("INSERT INTO assessment (stage, year, subject_id, method, derivation, 
+		if($eid==''){
+			mysql_query("INSERT INTO assessment (stage, year, subject_id, method,  
 				element, component_id, description, resultqualifier, course_id,
 				component_status, label, grading_name, creation, deadline) 
-				VALUES ('$stage', '$year', '$subject', '$method', '$derivation',
+				VALUES ('$stage', '$year', '$subject', '$method', 
 				'$element', '$pid', '$description', '$resultq', '$course',
 				'$componentstatus', '$printlabel', '$gena','$creation','$deadline');");	
+			if($derivation!=''){
+				$eid=mysql_insert_id();
+				update_derivation($eid,$derivation);
+				}
 			}
-		elseif($id!=''){
+		elseif($eid!=''){
 			mysql_query("UPDATE assessment SET year='$year',
 				stage='$stage', subject_id='$subject', method='$method',
 				component_id='$pid', description='$description', 
 				resultqualifier='$resultq', course_id='$course', 
-				element='$element', derivation='$derivation', 
-				component_status='$componentstatus', 
+				element='$element', component_status='$componentstatus', 
 				label='$printlabel', grading_name='$gena',
-				deadline='$deadline', creation='$creation' WHERE id='$id';");
+				deadline='$deadline', creation='$creation' WHERE id='$eid';");
+			update_derivation($eid,$derivation);
 			}
 		}
 

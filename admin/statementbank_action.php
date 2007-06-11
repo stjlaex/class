@@ -7,11 +7,11 @@ $action='statementbank.php';
 include('scripts/sub_action.php');
 
 if($sub=='Submit'){
-	$importfile=$_POST{'importfile'};
-	$fname=$_FILES{'importfile'}{'tmp_name'};
-	$fuser=$_FILES{'importfile'}{'name'};
-	$ferror=$_FILES{'importfile'}{'error'};
-	$ftype=$_FILES{'importfile'}{'type'};
+	$importfile=$_POST['importfile'];
+	$fname=$_FILES['importfile']['tmp_name'];
+	$fuser=$_FILES['importfile']['name'];
+	$ferror=$_FILES['importfile']['error'];
+	$ftype=$_FILES['importfile']['type'];
 	if($fname!=''){
 	   	$result[]='Loading file '.$importfile;
 		include('scripts/file_import_csv.php');
@@ -28,13 +28,13 @@ if($sub=='Submit'){
 				$statement['subarea']=$d[5];
 				$statement['ability']=$d[6];
 				$statement['statement']=$d[7];
-				if(addStatement($statement)=='yes'){$in++;}
+				if(add_statement($statement)=='yes'){$in++;}
 				else{$error[]=mysql_error();}
 				}
 			}
 		$result[]='Entered '.$in.' statements into the database.';
 		}
-}
+	}
 
 include('scripts/results.php');
 include('scripts/redirect.php');

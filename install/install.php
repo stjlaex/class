@@ -12,13 +12,17 @@ $oldpassword=$_POST['oldpassword'];
 $password=$_POST['password'];
 $password2=$_POST['password2'];
 $schooldb=$_POST['school'];
+
+	require_once('../../school.php');
+	require_once('../classdata.php');
+	require_once('../lib/include.php');
 ?>
 
 <html>
   <head>
 	<meta http-equiv="Content-Script-Type" content="text/JavaScript" />
-	<meta name="copyright" content="Copyright 2002, 2003, 2004, 2005, 2006
-		Stuart Thomas Johnson. All trademarks acknowledged. All rights reserved." />
+	<meta name="copyright" content="Copyright 2002, 2003, 2004, 2005,
+	2006, 2007 Stuart Thomas Johnson. All trademarks acknowledged. All rights reserved." />
 	<meta name="license" content="GNU General Public License version 2" />
 	<link rel="stylesheet" type="text/css" href="../css/bookstyle.css" />
   </head>
@@ -30,16 +34,16 @@ $schooldb=$_POST['school'];
 	  <div class="content">
 		<div class="center">
 		  <div class="left">
-			The (hopefully) ClaSS Results
+			<?php print_string('hopefullyclassresults','install');?>
 		  </div>
 		  <div class="right">
-			<div class="center">Your new</div>
+			<div class="center"><?php print_string('yournew','install');?></div>
 			<div class="center">
 			<img name="sitelogo" 
 			  onClick="window.open('../../index.html','ClaSS');"
 			  src="../images/orangelogo.png" style="width:120px;cursor:pointer;"/>
 			</div>
-			<div class="center">application site.</div>
+			<div class="center"><?php print_string('applicationsite','install');?></div>
 		  </div>
 	  <div class="left">
 <?php
@@ -184,13 +188,13 @@ $schooldb=$_POST['school'];
 		  </div>
 
 		  <div class="right">	
-			<div class="center">Where next</div>
+			<div class="center"><?php print_string('wherenext','install');?></div>
 			<div class="center">
 			<button class="install"
 			  onClick="window.open('http://www.laex.org/class/docu.html',
 			  'ClaSS Homepage');">ClaSS Documentation</button>
 			</div>
-			<div class="center">for help and support.</div>
+			<div class="center"><?php print_string('forhelpandsupport','install');?></div>
 		  </div>
 
 		</div>

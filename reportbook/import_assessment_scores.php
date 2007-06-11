@@ -7,16 +7,16 @@ $action='new_assessment.php';
 include('scripts/sub_action.php');
 include('scripts/course_respon.php');
 
-$eid=$_POST{'eid'};
-$bid=$_POST{'bid'};
-$firstcol=$_POST{'firstcol'};
+$eid=$_POST['eid'];
+$bid=$_POST['bid'];
+$firstcol=$_POST['firstcol'];
 
 if($sub=='Submit'){
-	$importfile=$_POST{'importfile'};
-	$fname=$_FILES{'importfile'}{'tmp_name'};
-	$fuser=$_FILES{'importfile'}{'name'};
-	$ferror=$_FILES{'importfile'}{'error'};
-	$ftype=$_FILES{'importfile'}{'type'};
+	$importfile=$_POST['importfile'];
+	$fname=$_FILES['importfile']['tmp_name'];
+	$fuser=$_FILES['importfile']['name'];
+	$ferror=$_FILES['importfile']['error'];
+	$ftype=$_FILES['importfile']['type'];
 	if($fname!=''){
 	   	$result[]='Loading file '.$importfile;
 		include('scripts/file_import_csv.php');
@@ -44,9 +44,8 @@ if($sub=='Submit'){
 			}
 		$result[]='Entered '.$in.' assessment scores into the database.';
 
-
 		}
-}
+	}
 
 include('scripts/results.php');
 include('scripts/redirect.php');

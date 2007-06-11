@@ -151,6 +151,7 @@ CREATE TABLE exclusions (
    	primary key		(student_id, startdate)
 );");
 
+
 mysql_query("
 CREATE TABLE guardian (
 	id			int unsigned not null auto_increment, 
@@ -165,9 +166,9 @@ CREATE TABLE guardian (
 	nationality	char(2) not null default '',
 	email		varchar(240) not null default '',
 	profession	varchar(10) not null default '',
-	companyname	varchar(240) not nul default '',
+	companyname	varchar(240) not null default '',
 	index index_name (surname(5),forename(5)),
-	index index_forename (forename(5)), 	
+	index index_forename (forename(5)),
 	primary key (id)
 );");
 

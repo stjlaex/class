@@ -67,11 +67,9 @@ CREATE TABLE levelling (
        levels			varchar(200) not null default '',
        grading_name		varchar(20) not null default '',
        comment			text,
-		course_id		varchar(10) not null default '',
-		subject_id		varchar(10) not null default '',
-		author			varchar(14) not null default '',
-		index			index_crid (course_id),
-		index			index_bid (subject_id),
+	   course_id		varchar(10) not null default '',
+	   subject_id		varchar(10) not null default '',
+	   author			varchar(14) not null default '',
        primary key		(course_id, name)
 );");
 
