@@ -1,6 +1,12 @@
 Version ClaSS-0.8.20 release (2007/06/18)
 -----------------------------------------
 
+A new 'dif' marktype added to the mark table in preparation ofr the
+new option.
+
+New table 'derivation' to be used for linking to dependent marks and
+assessments.
+
 
 
 Version ClaSS-0.8.19 release (2007/05/31)

@@ -10,7 +10,7 @@ and their values in the table:score.  */
 mysql_query("CREATE TABLE mark ( 
 	id int unsigned not null auto_increment, 
 	entrydate date not null default '0000-00-00', 
-	marktype enum('score', 'sum', 'average', 'level', 'compound', 'report') not null, 
+	marktype enum('score', 'sum', 'average', 'level', 'dif', 'compound', 'report') not null, 
 	topic varchar(60) not null default '', 
 	comment varchar(100) not null default '', 
 	def_name varchar(20) not null default '', 

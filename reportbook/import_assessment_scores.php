@@ -1,5 +1,5 @@
 <?php
-/*							    import_assessment_scores.php
+/**							    import_assessment_scores.php
  */
 
 $action='new_assessment.php';

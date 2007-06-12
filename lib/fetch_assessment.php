@@ -238,7 +238,7 @@ function fetchAssessments($sid,$eid='%'){
 		$ass=mysql_fetch_array($d_ass,MYSQL_ASSOC);
 		$ass=nullCorrect($ass);
 
-		$Assessment['id_db']=$ass{'id'};
+		$Assessment['id_db']=$ass['id'];
 	   	$Assessment['Stage']=array('label' => 'Stage','table_db' =>
 					'assessment', 'field_db' => 'stage',
 					'type_db'=>'char(3)', 'value' => $ass['stage']);
@@ -365,15 +365,30 @@ function fetch_cohortAssessmentDefinitions($cohort){
 
 /**/
 function update_derivation($eid,$der){
-   	$d_ass=mysql_query("SELECT course_id, derivation FROM assessment WHERE id='$eid'");
-	$ass=mysql_fetch_array($d_ass);
-	$older=$ass['derivation'];
-	$crid=$ass['course_id'];
+	$AssDef=fetchAssessmentDefinition($eid);
+	$older=$AssDef['Derivation']['value'];
+	$crid=$AssDef['Course']['value'];
+	$assyear=$AssDef['Year']['value'];
 	if($older!=$der){
-		mysql_query("UPDATE assessment SET
-			derivation='$der' WHERE id='$eid';");
-		trigger_error('Update from'.$older.'to '.$der,E_USER_WARNING);
-		$algo=derive_algorithm($der);
+		/*identify the assessments with elements and in store in derivation*/
+		list($operation,$elements)=parse_derivation($der);
+		while(list($index,$element)=each($elements)){
+			$d_ass=mysql_query("SELECT id FROM assessment WHERE
+						course_id='$crid' AND element='$element' AND year='$assyear'");
+			while($ass=mysql_fetch_array($d_ass,MYSQL_ASSOC)){
+				$elementeid=$ass['id'];
+				/*must specify type=A for all assessments*/
+				mysql_query("DELETE FROM derivation WHERE
+							resultid='$eid' AND type='A'");
+				mysql_query("INSERT INTO derivation (resultid,
+					operandid, type, element) VALUES ('$eid','$elementeid','A','$element')");
+				trigger_error('Element '.$element.' argument '.$elementeid ,E_USER_WARNING);
+				}
+			}
+
+		mysql_query("UPDATE assessment SET derivation='$der' WHERE id='$eid';");
+		$AssDef['Derivation']['value']=$der;
+		$steps=(array)derive_algorithm_steps($der);
 		$cohorts=(array)list_course_cohorts($crid);
 		$students=array();
 		if($older==''){
@@ -390,19 +405,60 @@ function update_derivation($eid,$der){
 				}
 			}
 		while(list($index,$student)=each($students)){
-			derive_score($student['id'],$eid,$algo);
+			derive_score($student['id'],$AssDef,$steps);
 			}
 		}
 	}
 
 /**/
-function derive_algorithm($der){
-	$algo=array();
-	return $algo;
+function derive_algorithm_steps($der){
+	list($operation,$elements)=parse_derivation($der);
+	$steps=array();
+	while(list($index,$element)=each($elements)){
+		if($operation=='SUM' or $operation=='AVE'){
+			$step=array('op'=>'+','val'=>$element);
+			}
+		elseif($operation=='DIF' and $index>0){
+			$step=array('op'=>'-','val'=>$element);
+			}
+		elseif($operation=='DIF' and $index==0){
+			$step=array('op'=>'+','val'=>$element);
+			}
+		$steps[]=$step;
+		}
+	if($operation=='AVE'){
+		$steps[]=array('op'=>'/','val'=>$index);
+		}
+	return $steps;
+	}
+
+/* takes the string $der which is the derivation field of an */
+/* assessment and returns the operation (the characters before the */
+/* first open bracket) and the elements as an array which are the colon seperated */
+/* contents of the brackets*/
+function parse_derivation($der){
+	$open=strpos($der,'(');
+	$operation=substr($der,0,$open);
+	$argument=substr($der,$open+1);
+	$argument=trim($argument,' )');
+	//trigger_error('Function '.$operation.' argument '.$argument,E_USER_WARNING);
+	$elements=(array)explode(':',$argument);
+	return ($operation,$elements);
 	}
 
 /**/
-function derive_score($sid,$eid,$algo){
+function derive_score($sid,$AssDef,$steps=''){
+	$score=0;
+	$resultid=$AssDef['id_db'];
+	if($steps==''){
+		$der=$AssDef['Derivation']['value'];
+		$steps=(array)derive_algorithm_steps($der);
+		}
+
+	while(list($index,$step)=each($steps)){
+
+		$Assessments=(array)fetchAssessments_short($sid,$operandid);
+		}
 
 	return $score;
 	}

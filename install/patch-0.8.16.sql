@@ -121,3 +121,6 @@ CREATE TABLE derivation (
 	element			char(3) not null default '',
 	primary key 	(resultid, operandid, type)
 );
+
+ALTER TABLE mark
+	CHANGE marktype	marktype enum('score', 'sum', 'average', 'level', 'dif', 'compound', 'report') not null;
