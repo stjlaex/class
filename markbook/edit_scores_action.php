@@ -66,19 +66,8 @@ if($sub=='Submit'){
 			}
 
 		if(isset($eid) and isset($res)){
-			$d_eidsid=mysql_query("SELECT id FROM eidsid
-				WHERE subject_id='$bid' AND component_id='$pid' 
-				AND assessment_id='$eid' AND student_id='$sid'");
-			if(mysql_num_rows($d_eidsid)==0){
-				mysql_query("INSERT INTO eidsid (assessment_id,
-					student_id, subject_id, component_id, result, value, date) 
-					VALUES ('$eid','$sid','$bid','$pid','$res','$inscore','$todate');");
-				}
-			else{
-				$eidsidid=mysql_result($d_eidsid,0);
-				mysql_query("UPDATE eidsid SET result='$res',
-				 value='$inscore', date='$todate' WHERE id='$eidsidid'");
-				}
+			$ass=array('result'=>$res,'value'=>$inscore,'date'=>$todate);
+			update_assessment_score($eid,$sid,$bid,$pid,$ass);
 			}
 
 /*		Tidy up any empty value entries by deleting their score 

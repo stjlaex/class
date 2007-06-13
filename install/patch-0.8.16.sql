@@ -124,3 +124,6 @@ CREATE TABLE derivation (
 
 ALTER TABLE mark
 	CHANGE marktype	marktype enum('score', 'sum', 'average', 'level', 'dif', 'compound', 'report') not null;
+
+ALTER TABLE assessment
+	ADD statistics enum('N','Y') not null AFTER derivation;

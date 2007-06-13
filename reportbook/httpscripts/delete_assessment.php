@@ -12,6 +12,7 @@ if(!isset($xmlid)){print "Failed"; exit;}
    	$d_eidmid=mysql_query("DELETE FROM eidmid WHERE assessment_id='$eid'");
    	$d_eidsid=mysql_query("DELETE FROM eidsid WHERE assessment_id='$eid'");
    	$d_ass=mysql_query("DELETE FROM assessment WHERE id='$eid'");
+   	$d_der=mysql_query("DELETE FROM derivation WHERE resultid='$eid'");
 
 $returnXML=fetchAssessmentDefinition($eid);
 $rootName='AssessmentDefinition';

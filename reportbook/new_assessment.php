@@ -94,6 +94,9 @@ three_buttonmenu($extrabuttons);
 									   'value'=>'',
 									   'title'=>'edit');
     $extrabuttons=array();
+	$extrabuttons['statistics']=array('name'=>'current',
+									  'title'=>'statistics',
+									  'value'=>'calculate_assessment_statistics.php');
 	$extrabuttons['editscores']=array('name'=>'current',
 									  'title'=>'editscores',
 									  'value'=>'edit_scores.php');
@@ -126,9 +129,12 @@ three_buttonmenu($extrabuttons);
 		  <tr class="hidden" id="<?php print $eid.'-'.$rown++;?>">
 			<td colspan="7">
 			  <p>
-				<value id="<?php print $eid;?>-Markcount"><?php print
-						 $AssDef['MarkCount']['value'];?></value> 
+				<?php print_string('statistics',$book);?>
+				<value id="<?php print $eid;?>-Statistics"><?php print
+						 $AssDef['Statistics']['value'];?></value>.&nbsp
 				<?php print_string('markbookcolumns',$book);?>
+				<value id="<?php print $eid;?>-Markcount"><?php print
+						 $AssDef['MarkCount']['value'];?></value>.&nbsp
 				<?php print_string('scoresentered',$book);?>
 				<value id="<?php print $eid;?>-Archivecount">
 				  <?php print $AssDef['ArchiveCount']['value'];?></value>

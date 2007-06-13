@@ -1,5 +1,5 @@
 <?php 
-/**										student_scores.php
+/**					   				student_scores.php
  */
 
 $action='student_scores_action.php';
@@ -26,7 +26,7 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 <?php
 	$Assessments=fetchAssessments($sid);
 
-/*  generate two key indexes to lookup values from the assessments array*/
+	/* generate two key indexes to lookup values from the assessments array*/
 	$eids=array();
 	$bids=array();
 	while(list($assno,$Assessment)=each($Assessments)){
@@ -47,9 +47,10 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 		  else{print '<th>'.$pid.'</th>';}
 		  }
 		}
-   	print '<th>Average</th>';
-	print '</tr>';
-
+?>
+   	<th><?php print_string('average',$book);?></th>
+	</tr>
+<?php
 	/* each row in the table is for a single assessment using eid as
 	 * the key, first find the mark type for this row's values*/
 	while(list($eid,$assnos)=each($eids)){
@@ -64,13 +65,13 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 			$grading_grades=mysql_result($d_grading,0);
 	   		}
 
-		/*		display the row for this eid*/
+		/* display the row for this eid*/
 		print '<tr><td>';
 		print $Assessments[$assnos[0]]['Year']['value'].' ';
 		print $Assessments[$assnos[0]]['Description']['value'];
 		print '</td>';
 
-		/*      display values for each bid along the row*/
+		/* display values for each bid along the row*/
 		reset($bids);
 		while(list($bid,$pids)=each($bids)){
 		  while(list($pid,$assses)=each($pids)){

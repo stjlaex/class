@@ -7,6 +7,19 @@ new option.
 New table 'derivation' to be used for linking to dependent marks and
 assessments.
 
+Brought the install pages within the lang translations scheme - still
+need to convert index.html and instal.php fully.
+
+Started migrating all assessment related stuff to function calls; now
+using update_assessment_scores() in both the MarkBook and ReportBook.
+
+New field added to the assessment table to flag the existence of
+overall statistics exist for that assessment.
+
+Added calculate_assessment_statistics as a httpscript, accessed as a
+rowaction button from the new_assessments page. So, far calculates and
+stores an average for every bid-pid in the eidsid table with sid=0 for
+that eid.
 
 
 Version ClaSS-0.8.19 release (2007/05/31)

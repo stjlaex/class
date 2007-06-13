@@ -48,6 +48,7 @@ CREATE TABLE assessment (
 	resultstatus    enum('R', 'T', 'E') default 'R' not null,
 	outoftotal		smallint(5) unsigned not null default '0',
 	derivation		varchar(60) not null default '',
+	statistics enum('N','Y') not null AFTER derivation,
     grading_name	varchar(20) not null default '',
 	course_id		varchar(10) not null default '%',
 	component_status enum('None','N','V','A') not null default 'None',

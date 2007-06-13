@@ -78,7 +78,7 @@ function scoreToGrade($score,$grading_grades){
 	    $score=round($score);
 		$high=sizeof($pairs);
 		for($c=0;$c<sizeof($pairs);$c++){
-			list($levelgrade, $level)=split(':',$pairs[$c]);
+			list($levelgrade,$level)=split(':',$pairs[$c]);
 			if($score>=$level){
 				$lowgrade=$levelgrade;
 				$lowlevel=$level;
@@ -128,7 +128,7 @@ function fetchAssessmentDefinition($eid){
 		JOIN eidmid ON eidmid.mark_id=score.mark_id WHERE eidmid.assessment_id='$eid'");
 	$scorecount=mysql_numrows($d_score);
 	$d_eidsid=mysql_query("SELECT student_id FROM eidsid
-									WHERE assessment_id='$eid'");
+				   		WHERE assessment_id='$eid' AND student_id!='0'");
 	$archivecount=mysql_numrows($d_eidsid);
 
    	$AssDef['Subject']=array('label' => 'Subject','table_db' =>
@@ -142,6 +142,10 @@ function fetchAssessmentDefinition($eid){
    	$AssDef['Method']=array('label' => 'Method','table_db' =>
 					'assessment', 'field_db' => 'assessment',
 					'type_db'=>'char(3)', 'value' => $ass['method']);
+	$AssDef['Statistics']=array('label' => 'Statistics','table_db' =>
+								   'assessment', 'field_db' => 'statistics',
+								   'type_db'=>'', 
+								   'value'=>$ass['statistics']);
 
 	$gena=$ass['grading_name'];
 	if($gena!='' and $gena!=' '){
@@ -311,6 +315,9 @@ function fetchAssessments($sid,$eid='%'){
 	   	$Assessment['Result']=array('label' => 'Result','table_db'
 					=> 'eidsid', 'field_db' => 'result', 
 					'type_db'=>'', 'value' => $eidsid['result']);
+	   	$Assessment['Value']=array('label' => 'Result value','table_db'
+					=> 'eidsid', 'field_db' => 'value', 
+					'type_db'=>'', 'value' => $eidsid['value']);
 		$Assessment=nullCorrect($Assessment);
 		$Assessments[]=$Assessment;
 		}
@@ -339,6 +346,7 @@ function fetchAssessments_short($sid,$eid='%'){
 	   	$Assessment['PrintLabel']=array('value'=>$ass['label']);
 	   	$Assessment['Result']=array('value'=>$eidsid['result']);
 		$Assessment['Result']=nullCorrect($Assessment['Result']);
+	   	$Assessment['Value']=array('value' => $eidsid['value']);
 		$Assessment=nullCorrect($Assessment);
 		$Assessments[]=$Assessment;
 		}
@@ -372,26 +380,25 @@ function update_derivation($eid,$der){
 	if($older!=$der){
 		/*identify the assessments with elements and in store in derivation*/
 		list($operation,$elements)=parse_derivation($der);
+		/*must specify type=A for all assessments*/
+		mysql_query("DELETE FROM derivation WHERE
+							resultid='$eid' AND type='A'");
 		while(list($index,$element)=each($elements)){
 			$d_ass=mysql_query("SELECT id FROM assessment WHERE
 						course_id='$crid' AND element='$element' AND year='$assyear'");
 			while($ass=mysql_fetch_array($d_ass,MYSQL_ASSOC)){
 				$elementeid=$ass['id'];
-				/*must specify type=A for all assessments*/
-				mysql_query("DELETE FROM derivation WHERE
-							resultid='$eid' AND type='A'");
 				mysql_query("INSERT INTO derivation (resultid,
 					operandid, type, element) VALUES ('$eid','$elementeid','A','$element')");
-				trigger_error('Element '.$element.' argument '.$elementeid ,E_USER_WARNING);
 				}
 			}
 
-		mysql_query("UPDATE assessment SET derivation='$der' WHERE id='$eid';");
+		mysql_query("UPDATE assessment SET derivation='$der' WHERE id='$eid'");
 		$AssDef['Derivation']['value']=$der;
-		$steps=(array)derive_algorithm_steps($der);
+		$steps=(array)derive_algorithm_steps($der,$eid);
 		$cohorts=(array)list_course_cohorts($crid);
 		$students=array();
-		if($older==''){
+		if($older==' ' or $older==''){
 			while(list($index,$cohort)=each($cohorts)){
 				$cohortstudents=(array)listin_cohort($cohort);
 				$students=array_merge($students,$cohortstudents);
@@ -405,29 +412,41 @@ function update_derivation($eid,$der){
 				}
 			}
 		while(list($index,$student)=each($students)){
-			derive_score($student['id'],$AssDef,$steps);
+			$result=derive_student_score($student['id'],$AssDef,$steps);
+			//trigger_error('Student '.$student['id'].' score '.$result ,E_USER_WARNING);
 			}
 		}
 	}
 
-/**/
-function derive_algorithm_steps($der){
+/* each step has an operator and an array of operandids (eids) */
+/* which could hold that operand's value */
+function derive_algorithm_steps($der,$resultid){
 	list($operation,$elements)=parse_derivation($der);
 	$steps=array();
 	while(list($index,$element)=each($elements)){
+		$step=array();
 		if($operation=='SUM' or $operation=='AVE'){
-			$step=array('op'=>'+','val'=>$element);
+			$step['op']='+';
 			}
 		elseif($operation=='DIF' and $index>0){
-			$step=array('op'=>'-','val'=>$element);
+			$step['op']='-';
 			}
 		elseif($operation=='DIF' and $index==0){
-			$step=array('op'=>'+','val'=>$element);
+			$step['op']='+';
 			}
+		$step['element']=$element;//not needed but...
+		$step['operation']=$operation;//not needed but...
+
+		/* list all possible eids associated which could hold this
+								operands value*/
+		$d_op=mysql_query("SELECT operandid FROM derivation WHERE
+			resultid='$resultid' AND type='A' AND element='$element'");
+		$operandids=array();
+		while($op=mysql_fetch_array($d_op,MYSQL_ASSOC)){
+			$operandids[]=$op['operandid'];
+			}
+		$step['operandids']=$operandids;
 		$steps[]=$step;
-		}
-	if($operation=='AVE'){
-		$steps[]=array('op'=>'/','val'=>$index);
 		}
 	return $steps;
 	}
@@ -441,26 +460,106 @@ function parse_derivation($der){
 	$operation=substr($der,0,$open);
 	$argument=substr($der,$open+1);
 	$argument=trim($argument,' )');
-	//trigger_error('Function '.$operation.' argument '.$argument,E_USER_WARNING);
 	$elements=(array)explode(':',$argument);
-	return ($operation,$elements);
+	//trigger_error('Function '.$operation.' argument '.$argument,E_USER_WARNING);
+	return array($operation,$elements);
 	}
 
 /**/
-function derive_score($sid,$AssDef,$steps=''){
-	$score=0;
+function derive_student_score($sid,$AssDef,$steps=''){
+	/*both resultid and operandid are eids, simply being careful in naming */
+								/*to avoid confusion! */
 	$resultid=$AssDef['id_db'];
+	$grading_grades=$AssDef['GradingScheme']['grades'];
 	if($steps==''){
 		$der=$AssDef['Derivation']['value'];
-		$steps=(array)derive_algorithm_steps($der);
+		$steps=(array)derive_algorithm_steps($der,$resultid);
 		}
 
-	while(list($index,$step)=each($steps)){
+	$accumulators=compute_accumulators($sid,$AssDef,$steps);
 
-		$Assessments=(array)fetchAssessments_short($sid,$operandid);
+	reset($accumulators);
+	while(list($bid,$componentaccs)=each($accumulators)){
+		reset($componentaccs);
+		while(list($pid,$acc)=each($componentaccs)){
+			if($pid==' '){$pid='';}
+			if($grading_grades!=''){
+				$value=$acc['value']/$acc['count'];
+				$value=round($value);
+				$res=scoreToGrade($value,$grading_grades);
+				}
+			else{
+				$res=round($acc['value']);
+				}
+			//if($bid=='Art'){trigger_error('Subject '.$bid.' '.$pid.' accvalue '.$value,E_USER_WARNING);}
+			$score=array('result'=>$res,'value'=>$value);
+			update_assessment_score($resultid,$sid,$bid,$pid,$score);
+			}
 		}
-
-	return $score;
 	}
 
+
+function compute_accumulators($sid,$AssDef,$steps,$accumulators=''){
+	if($accumulators==''){
+		$accumulators=array();
+		}
+	while(list($index,$step)=each($steps)){
+		$op=$step['op'];
+		$operandid=$step['operandids'][0];//temporarily only does one!!!
+		//trigger_error('Step '.$index.' '.$op.' : '.$val.' '.$operandid,E_USER_WARNING);
+		if($operandid!=''){$Assessments=(array)fetchAssessments_short($sid,$operandid);}
+		while(list($assno,$Assessment)=each($Assessments)){
+			$bid=$Assessment['Subject']['value'];
+			$pid=$Assessment['SubjectComponent']['value'];
+			if($pid==''){$pid=' ';}/*cause of nullCorrect*/
+			if(!isset($accumulators[$bid][$pid]['value'])){
+				$accumulators[$bid][$pid]['value']=0;
+				$accumulators[$bid][$pid]['count']=0;
+				}
+			$opline=$accumulators[$bid][$pid]['value']. $op. $Assessment['Value']['value'];
+			//trigger_error('Eval '.$opline.' ',E_USER_WARNING);
+			$accumulators[$bid][$pid]['value']=evalstring($opline);
+			$accumulators[$bid][$pid]['count']++;
+			}
+		}
+	return $accumulators;
+	}
+
+/* Should always be used when writing to the eidisd table. The $score */
+/* being recorded  is an array with both result and value set, and 
+/* optionally a date. */
+function update_assessment_score($eid,$sid,$bid,$pid,$score){
+	$res=$score['result'];
+	$val=$score['value'];
+	if(isset($score['date'])){$date=$score['date'];}else{$date='';}
+	$d_eidsid=mysql_query("SELECT id FROM eidsid
+				WHERE subject_id='$bid' AND component_id='$pid' 
+				AND assessment_id='$eid' AND student_id='$sid'");
+	if(mysql_num_rows($d_eidsid)==0){
+		mysql_query("INSERT INTO eidsid (assessment_id,
+					student_id, subject_id, component_id, result, value, date) 
+					VALUES ('$eid','$sid','$bid','$pid','$res','$val','$date');");
+		}
+	else{
+		$id=mysql_result($d_eidsid,0);
+		mysql_query("UPDATE eidsid SET result='$res',
+				 value='$val', date='$date' WHERE id='$id'");
+		}
+
+	$d_der=mysql_query("SELECT resultid FROM derivation
+				WHERE type='A' AND operandid='$eid'");
+	while($der=mysql_fetch_array($d_der,MYSQL_ASSOC)){
+		$resultid=$der['resultid'];
+		$AssDef=fetchAssessmentDefinition($resultid);
+		$result=derive_student_score($sid,$AssDef);
+		trigger_error('Updated assessment score for '.$sid.'-'.$resultid ,E_USER_WARNING);
+		}
+	}
+
+function evalstring($string){
+    $string=preg_replace('`([^+\-*=/\(\)\d\^<>&|\.]*)`','',$string);
+    if(empty($string)){$string='0';}
+    else{eval("\$string = $string;");}
+    return $string;
+	}
 ?>
