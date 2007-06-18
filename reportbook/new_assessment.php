@@ -94,9 +94,7 @@ three_buttonmenu($extrabuttons);
 									   'value'=>'',
 									   'title'=>'edit');
     $extrabuttons=array();
-	$extrabuttons['statistics']=array('name'=>'current',
-									  'title'=>'statistics',
-									  'value'=>'calculate_assessment_statistics.php');
+
 	$extrabuttons['editscores']=array('name'=>'current',
 									  'title'=>'editscores',
 									  'value'=>'edit_scores.php');
@@ -108,21 +106,24 @@ three_buttonmenu($extrabuttons);
 										 'value'=>'delete_assessment_columns.php');
 
    	$d_assessment=mysql_query("SELECT id FROM assessment
-			   WHERE (course_id LIKE '$rcrid' OR course_id='%') ORDER
+			   WHERE course_id='$rcrid' AND resultstatus!='S' ORDER
 					BY year DESC, id DESC");
 	while($assessment=mysql_fetch_array($d_assessment,MYSQL_ASSOC)){
 	    unset($AssDef);
 		$eid=$assessment['id'];
 		$AssDef=fetchAssessmentDefinition($eid);
 		$rown=0;
+		if($AssDef['Derivation']['value'][0]!=' '){$AssDef['ResultStatus']['value']='E';}
+		else{$rowclass='';}
 ?>
 		<tbody id="<?php print $eid;?>">
-		  <tr class="rowplus" onClick="clickToReveal(this)" id="<?php print $eid.'-'.$rown++;?>">
+		  <tr class="rowplus"  
+					onClick="clickToReveal(this)" id="<?php print $eid.'-'.$rown++;?>">
 			<th>&nbsp</th>
 			<td><?php print $AssDef['Year']['value'].'('.$AssDef['Season']['value'].')'; ?></td>
 			<td><?php print $AssDef['Stage']['value']; ?></td>
 			<td><?php print $AssDef['Subject']['value']; ?></td>
-			<td class='<?php print $AssDef['ResultStatus']['value']; ?>'><?php print $AssDef['ResultStatus']['value']; ?></td>
+			<td class="<?php print $AssDef['ResultStatus']['value']; ?>"><?php print $AssDef['ResultStatus']['value']; ?></td>
 			<td><?php print $AssDef['Description']['value']; ?></td>
 			<td><?php print $AssDef['Element']['value']; ?></td>
 		  </tr>
@@ -143,7 +144,19 @@ three_buttonmenu($extrabuttons);
 			  </p>
 
 <?php
+		if($AssDef['Derivation']['value'][0]==' '){
+			$extrabuttons['statistics']=array('name'=>'current',
+											  'title'=>'updatestatistics',
+											  'value'=>'calculate_assessment_statistics.php');
+			}
+		elseif($AssDef['Derivation']['value'][0]=='R'){
+			$extrabuttons['rank']=array('name'=>'current',
+										'title'=>'updateranking',
+										'value'=>'calculate_assessment_ranking.php');
+			}
 		rowaction_buttonmenu($imagebuttons,$extrabuttons,$book);
+		unset($extrabuttons['statistics']);
+		unset($extrabuttons['rank']);
 ?>
 			</td>
 		  </tr>

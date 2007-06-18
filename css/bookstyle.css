@@ -339,6 +339,7 @@ table.listmenu {
 	border-left:0;
 	}
 .listmenu td.E {
+    color:#aaaaaa;
 	background-color:#ffffff;
 	}
 .listmenu tr:hover {

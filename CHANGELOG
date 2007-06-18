@@ -21,6 +21,8 @@ rowaction button from the new_assessments page. So, far calculates and
 stores an average for every bid-pid in the eidsid table with sid=0 for
 that eid.
 
+Improved the algorithm for how fetchReports relates to fetchAssessments.
+
 
 Version ClaSS-0.8.19 release (2007/05/31)
 -----------------------------------------

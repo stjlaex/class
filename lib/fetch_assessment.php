@@ -235,12 +235,17 @@ function fetchAssessments($sid,$eid='%'){
 
    	$d_eidsid=mysql_query("SELECT * FROM eidsid WHERE
 				student_id='$sid' AND assessment_id LIKE '$eid'");
+
   	while($eidsid=mysql_fetch_array($d_eidsid,MYSQL_ASSOC)){
 		$eidsid=nullCorrect($eidsid);
+
+		/*TODO: this is repeated for every bid-pid combination and only
+				needs to be done the once*/
 		$eid=$eidsid['assessment_id'];
 		$d_ass=mysql_query("SELECT * FROM assessment WHERE id='$eid'");
 		$ass=mysql_fetch_array($d_ass,MYSQL_ASSOC);
 		$ass=nullCorrect($ass);
+		/**/
 
 		$Assessment['id_db']=$ass['id'];
 	   	$Assessment['Stage']=array('label' => 'Stage','table_db' =>
@@ -371,12 +376,14 @@ function fetch_cohortAssessmentDefinitions($cohort){
 	return $AssDefs;
 	}
 
+
 /**/
 function update_derivation($eid,$der){
 	$AssDef=fetchAssessmentDefinition($eid);
 	$older=$AssDef['Derivation']['value'];
 	$crid=$AssDef['Course']['value'];
 	$assyear=$AssDef['Year']['value'];
+	$assstage=$AssDef['Stage']['value'];
 	if($older!=$der){
 		/*identify the assessments with elements and in store in derivation*/
 		list($operation,$elements)=parse_derivation($der);
@@ -395,32 +402,103 @@ function update_derivation($eid,$der){
 
 		mysql_query("UPDATE assessment SET derivation='$der' WHERE id='$eid'");
 		$AssDef['Derivation']['value']=$der;
-		$steps=(array)derive_algorithm_steps($der,$eid);
-		$cohorts=(array)list_course_cohorts($crid);
+
+		$steps=(array)derive_accumulator_steps($der,$eid);
+		$cohorts=(array)list_course_cohorts($crid,$assyear);
 		$students=array();
-		if($older==' ' or $older==''){
-			while(list($index,$cohort)=each($cohorts)){
-				$cohortstudents=(array)listin_cohort($cohort);
-				$students=array_merge($students,$cohortstudents);
+
+		if($steps[0]['operation']!='RANK'){
+			/*ranking is done different and only on request*/
+			if($older==' ' or $older==''){
+				/*this is the first time computing a derivation for this*/
+				while(list($index,$cohort)=each($cohorts)){
+					if($assstage=='%' or $cohort['stage']==$assstage){
+						$cohortstudents=(array)listin_cohort($cohort);
+						/* compile all students who relate to this assessment*/
+						$students=array_merge($students,$cohortstudents);
+						}
+					}
 				}
-			}
-		else{
-			$d_eidsid=mysql_query("SELECT DISTINCT student_id AS id FROM eidsid WHERE
-				assessment_id LIKE '$eid'");
-			while($student=mysql_fetch_array($d_eidsid,MYSQL_ASSOC)){
-				$students[]=$student;
+			else{
+				/*easier beacuase the eidsid values already exist*/
+				$d_eidsid=mysql_query("SELECT DISTINCT student_id AS id FROM eidsid WHERE
+						assessment_id LIKE '$eid'");
+				while($student=mysql_fetch_array($d_eidsid,MYSQL_ASSOC)){
+					$students[]=$student;
+					}
 				}
-			}
-		while(list($index,$student)=each($students)){
-			$result=derive_student_score($student['id'],$AssDef,$steps);
-			//trigger_error('Student '.$student['id'].' score '.$result ,E_USER_WARNING);
+
+			while(list($index,$student)=each($students)){
+				$result=derive_student_score($student['id'],$AssDef,$steps);
+				//trigger_error('Student '.$student['id'].' score '.$result ,E_USER_WARNING);
+				}
 			}
 		}
 	}
 
-/* each step has an operator and an array of operandids (eids) */
-/* which could hold that operand's value */
-function derive_algorithm_steps($der,$resultid){
+/**/
+function compute_assessment_ranking($AssDef,$steps,$cohorts){
+	$todate=date('Y-m-d');
+	$eid=$AssDef['id_db'];
+	$crid=$AssDef['Course']['value'];
+	while(list($index,$cohort)=each($cohorts)){
+		$cohid=$cohort['id'];
+		mysql_query("CREATE TEMPORARY TABLE
+			   			cohortstudent$cohid (SELECT DISTINCT student_id FROM comidsid 
+			   			JOIN cohidcomid ON comidsid.community_id=cohidcomid.community_id
+			   			WHERE cohidcomid.cohort_id='$cohid' AND
+			   			(comidsid.joiningdate<='$todate' OR comidsid.joiningdate IS NULL)
+			   			AND (comidsid.leavingdate>'$todate' OR 
+			   			comidsid.leavingdate='0000-00-00' OR comidsid.leavingdate IS NULL))");
+		}
+
+	//only working for a unique element to assessment relation!!!
+	$operandid=$steps[0]['operandids'][0];
+	$d_sub=mysql_query("SELECT DISTINCT subject_id AS id FROM cridbid
+				WHERE course_id='$crid'");
+	while($subject=mysql_fetch_array($d_sub,MYSQL_ASSOC)){
+		$rankbid=$subject['id'];
+		$d_comp=mysql_query("SELECT component.id AS id FROM
+					subject JOIN component ON component.id=subject.id WHERE 
+					component.subject_id='$rankbid' AND  component.course_id='$crid'");
+		$rankpids=array();
+		while($component=mysql_fetch_array($d_comp,MYSQL_ASSOC)){
+			$rankpids[]=$component['id'];
+			}
+		$rankpids[]='';
+		while(list($index,$rankpid)=each($rankpids)){
+			reset($cohorts);
+			while(list($index,$cohort)=each($cohorts)){
+				/* this will rank by stage*/
+				$cohid=$cohort['id'];
+				$d_r=mysql_query("SELECT b.student_id FROM cohortstudent$cohid a,
+							eidsid b WHERE b.student_id=a.student_id AND
+							b.assessment_id='$operandid' AND b.subject_id='$rankbid' AND
+							b.component_id='$rankpid' ORDER BY b.value DESC");
+				$rankindex=0;
+				//trigger_error('Ranking score for '.$rankbid.'-'.$rankpid. ' sids '.mysql_num_rows($d_r) ,E_USER_WARNING);
+				while($r=mysql_fetch_array($d_r,MYSQL_ASSOC)){
+					$rankindex++;
+					$ranksid=$r['student_id'];
+					$score=array('result'=>$rankindex,'value'=>$rankindex);
+					update_assessment_score($eid,$ranksid,$rankbid,$rankpid,$score);
+					}
+				}
+			}
+		}
+
+	/* tidy up */
+	reset($cohorts);
+	while(list($index,$cohort)=each($cohorts)){
+		$cohid=$cohort['id'];
+		mysql_query("DROP TABLE cohortstudent$cohid");
+		}
+
+	}
+
+/* each step has an operator and an array of operandids (eids pointed 
+/* to by element) which may hold a value for that operand */
+function derive_accumulator_steps($der,$resultid){
 	list($operation,$elements)=parse_derivation($der);
 	$steps=array();
 	while(list($index,$element)=each($elements)){
@@ -434,11 +512,16 @@ function derive_algorithm_steps($der,$resultid){
 		elseif($operation=='DIF' and $index==0){
 			$step['op']='+';
 			}
-		$step['element']=$element;//not needed but...
-		$step['operation']=$operation;//not needed but...
+		elseif($operation=='RANK'){
+			/*if a rank, then $steps is not going to be used by the accumulators*/
+			/*and this may not be neccessary?*/
+			$step['op']='R';
+			}
+		$step['element']=$element;//may not needed but...
+		$step['operation']=$operation;
 
-		/* list all possible eids associated which could hold this
-								operands value*/
+		/* list all possible eids associated which could hold this*/
+		/*						operands value*/
 		$d_op=mysql_query("SELECT operandid FROM derivation WHERE
 			resultid='$resultid' AND type='A' AND element='$element'");
 		$operandids=array();
@@ -447,9 +530,11 @@ function derive_algorithm_steps($der,$resultid){
 			}
 		$step['operandids']=$operandids;
 		$steps[]=$step;
+		//trigger_error('Steps '.sizeof($steps).' argument '.$steps[0]['op'],E_USER_WARNING);
 		}
 	return $steps;
 	}
+
 
 /* takes the string $der which is the derivation field of an */
 /* assessment and returns the operation (the characters before the */
@@ -461,7 +546,7 @@ function parse_derivation($der){
 	$argument=substr($der,$open+1);
 	$argument=trim($argument,' )');
 	$elements=(array)explode(':',$argument);
-	//trigger_error('Function '.$operation.' argument '.$argument,E_USER_WARNING);
+	//trigger_error('Function '.$operation.' argument '.$elements[0],E_USER_WARNING);
 	return array($operation,$elements);
 	}
 
@@ -473,19 +558,24 @@ function derive_student_score($sid,$AssDef,$steps=''){
 	$grading_grades=$AssDef['GradingScheme']['grades'];
 	if($steps==''){
 		$der=$AssDef['Derivation']['value'];
-		$steps=(array)derive_algorithm_steps($der,$resultid);
+		$steps=(array)derive_accumulator_steps($der,$resultid);
 		}
 
 	$accumulators=compute_accumulators($sid,$AssDef,$steps);
-
 	reset($accumulators);
+
+	if(sizeof($steps)==1){
+		/*only a rank has a single step*/
+		/*empty the accumulators so nothing else is done*/
+		$accumulators=array();
+		}
 	while(list($bid,$componentaccs)=each($accumulators)){
 		reset($componentaccs);
 		while(list($pid,$acc)=each($componentaccs)){
 			if($pid==' '){$pid='';}
 			if($grading_grades!=''){
 				$value=$acc['value']/$acc['count'];
-				$value=round($value);
+				$value=round($value,2);
 				$res=scoreToGrade($value,$grading_grades);
 				}
 			else{
@@ -498,11 +588,18 @@ function derive_student_score($sid,$AssDef,$steps=''){
 		}
 	}
 
-
+/* Used to iterate over the $steps for a derivation for one $sid, */
+/* every bid-pid combination for this $AssDef is covered and the */
+/* results return in $accumulators, passing an already active */
+/* $accumulator allows for iterating across many $sids and is the */
+/* method used for overall statistics (ie. averages) for an assessment. */
+/* Should only be called for derivations of type=M,A or S but not R */
 function compute_accumulators($sid,$AssDef,$steps,$accumulators=''){
-	if($accumulators==''){
-		$accumulators=array();
-		}
+	if($accumulators==''){$accumulators=array();}
+	/*the general accumulator is reset for each fresh call*/
+	$accumulators['G']['value']='';
+	$accumulators['G']['count']='';
+
 	while(list($index,$step)=each($steps)){
 		$op=$step['op'];
 		$operandid=$step['operandids'][0];//temporarily only does one!!!
@@ -511,15 +608,25 @@ function compute_accumulators($sid,$AssDef,$steps,$accumulators=''){
 		while(list($assno,$Assessment)=each($Assessments)){
 			$bid=$Assessment['Subject']['value'];
 			$pid=$Assessment['SubjectComponent']['value'];
-			if($pid==''){$pid=' ';}/*cause of nullCorrect*/
+			if($pid==''){$pid=' ';$rankpid='';}/*cause of nullCorrect*/
+			else{$rankpid=$pid;}
 			if(!isset($accumulators[$bid][$pid]['value'])){
 				$accumulators[$bid][$pid]['value']=0;
 				$accumulators[$bid][$pid]['count']=0;
 				}
+			/*This is the subject-component average*/
 			$opline=$accumulators[$bid][$pid]['value']. $op. $Assessment['Value']['value'];
-			//trigger_error('Eval '.$opline.' ',E_USER_WARNING);
-			$accumulators[$bid][$pid]['value']=evalstring($opline);
+			eval("\$opline = $opline;");
+			$accumulators[$bid][$pid]['value']=$opline;
 			$accumulators[$bid][$pid]['count']++;
+
+			/* This is the 'General' cross-curricular average*/
+			/* it is not preserved across sids, so can't be used for*/
+			/* an overall overall average*/
+			$opline=$accumulators['G']['value']. $op. $Assessment['Value']['value'];
+			eval("\$opline = $opline;");
+			$accumulators['G']['value']=$opline;
+			$accumulators['G']['count']++;
 			}
 		}
 	return $accumulators;
@@ -532,6 +639,7 @@ function update_assessment_score($eid,$sid,$bid,$pid,$score){
 	$res=$score['result'];
 	$val=$score['value'];
 	if(isset($score['date'])){$date=$score['date'];}else{$date='';}
+	/*first simply update eidsid*/
 	$d_eidsid=mysql_query("SELECT id FROM eidsid
 				WHERE subject_id='$bid' AND component_id='$pid' 
 				AND assessment_id='$eid' AND student_id='$sid'");
@@ -546,20 +654,18 @@ function update_assessment_score($eid,$sid,$bid,$pid,$score){
 				 value='$val', date='$date' WHERE id='$id'");
 		}
 
-	$d_der=mysql_query("SELECT resultid FROM derivation
+	/* now check to see if this score is an operand in any derivations*/
+	/* not needed if sid=0 (meaning just statistics being updated)*/
+	if($sid>0){
+		$d_der=mysql_query("SELECT resultid FROM derivation
 				WHERE type='A' AND operandid='$eid'");
-	while($der=mysql_fetch_array($d_der,MYSQL_ASSOC)){
-		$resultid=$der['resultid'];
-		$AssDef=fetchAssessmentDefinition($resultid);
-		$result=derive_student_score($sid,$AssDef);
-		trigger_error('Updated assessment score for '.$sid.'-'.$resultid ,E_USER_WARNING);
+		while($der=mysql_fetch_array($d_der,MYSQL_ASSOC)){
+			$resultid=$der['resultid'];
+			$AssDef=fetchAssessmentDefinition($resultid);
+			$result=derive_student_score($sid,$AssDef);
+			//trigger_error('Updated assessment score for '.$sid.'-'.$resultid ,E_USER_WARNING);
+			}
 		}
 	}
 
-function evalstring($string){
-    $string=preg_replace('`([^+\-*=/\(\)\d\^<>&|\.]*)`','',$string);
-    if(empty($string)){$string='0';}
-    else{eval("\$string = $string;");}
-    return $string;
-	}
 ?>

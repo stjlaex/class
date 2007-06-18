@@ -117,7 +117,7 @@ CREATE TABLE accomodation (
 CREATE TABLE derivation (
 	resultid		int unsigned not null default '0',
 	operandid		int unsigned not null default '0',
-	type		    enum('A', 'M') default 'A' not null,
+	type		    enum('A', 'M','R','S') default 'A' not null,
 	element			char(3) not null default '',
 	primary key 	(resultid, operandid, type)
 );
@@ -127,3 +127,5 @@ ALTER TABLE mark
 
 ALTER TABLE assessment
 	ADD statistics enum('N','Y') not null AFTER derivation;
+ALTER TABLE assessment
+	CHANGE resultstatus resultstatus enum('R', 'T', 'E', 'S') default 'R' not null;

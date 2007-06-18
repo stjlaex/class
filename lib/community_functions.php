@@ -180,6 +180,8 @@ function listin_union_communities($community1,$community2){
 	while($student=mysql_fetch_array($d_student, MYSQL_ASSOC)){
 		if($student['student_id']!=''){$unionstudents[]=$student;}
 		}
+	mysql_query("DROP TABLE com2students");
+	mysql_query("DROP TABLE com1students");
 	return array('scab'=>$scabstudents,'union'=>$unionstudents);
 	}
 
@@ -501,6 +503,7 @@ function listin_cohort($cohort){
 				b.forename, b.middlenames, b.preferredforename, 
 				b.form_id FROM cohortstudent a,
 				student b WHERE b.id=a.student_id ORDER BY b.surname");
+	mysql_query("DROP TABLE cohortstudent");
 	$students=array();
    	while($student=mysql_fetch_array($d_cohortstudent,MYSQL_ASSOC)){
 		$students[]=$student;
@@ -542,7 +545,8 @@ function list_course_cohorts($crid,$year='',$season='S'){
 	$d_coh=mysql_query("SELECT * FROM cohort WHERE
 			   	course_id='$crid' AND year='$year' AND season='$season' ORDER BY stage");
 	while($cohort=mysql_fetch_array($d_coh,MYSQL_ASSOC)){
-		$cohorts[]=array('id'=>$cohort['id'], 
+		$cohorts[]=array('id'=>$cohort['id'],
+						 'stage'=>$cohort['stage'], 'year'=>$cohort['year'], 
 						 'name'=>'('.$cohort['stage'].' '.$cohort['year'].')');
 		}
 	return $cohorts;

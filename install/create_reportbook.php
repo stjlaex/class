@@ -45,7 +45,7 @@ CREATE TABLE assessment (
 	description		varchar(60) not null default '',
 	label			varchar(12) not null default '',
 	resultqualifier	char(2) not null default '',
-	resultstatus    enum('R', 'T', 'E') default 'R' not null,
+	resultstatus    enum('R', 'T', 'E', 'S') default 'R' not null,
 	outoftotal		smallint(5) unsigned not null default '0',
 	derivation		varchar(60) not null default '',
 	statistics enum('N','Y') not null AFTER derivation,
@@ -132,7 +132,7 @@ mysql_query("
 CREATE TABLE derivation (
 	resultid		int unsigned not null default '0',
 	operandid		int unsigned not null default '0',
-	type		    enum('A', 'M') default 'A' not null,
+	type		    enum('A', 'M', 'R', 'S') default 'A' not null,
 	element			char(3) not null default '',
 	primary key 	(resultid, operandid, type)
 );");

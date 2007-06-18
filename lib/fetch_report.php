@@ -1,51 +1,80 @@
 <?php	
-/**											fetch_report.php
+/**									   	fetch_report.php
  */
 
 function fetchSubjectReports($sid,$reportdefs){
-		$Assessments=fetchAssessments_short($sid);
 		$Reports=array();
+		$Reports['SummaryAssessments']=array();
+		$Assessments=array();
 		$Summaries=array();
-
-		/*generate an index to lookup values from the assessments array*/
 		$asseids=array();
-		$assbids=array();
-		while(list($assno,$Assessment)=each($Assessments)){
-		   	$eid=$Assessment['id_db'];
-		   	$asseids[$eid][]=$assno;
-		   	}
 
-		/*collect all subject reports for each course report chosen*/
+		/*Collate all assessment and report entries by subject for each course report chosen*/
 		while(list($index,$reportdef)=each($reportdefs)){
-
 			$rid=$reportdef['rid'];
-			//trigger_error('reportdef: '.$rid,E_USER_WARNING);
-			/*index the assessments by subject and component*/
+
+			/* Provide a look-up array $repbids which references the $Assessments */
+			/* array by index for every subject and component combination which
+			/* has an Assessment for this student*/
 			$repbids=array();
 			while(list($index,$eid)=each($reportdef['eids'])){
-			  if(isset($asseids[$eid])){
-				reset($asseids[$eid]);
-				while(list($index,$assno)=each($asseids[$eid])){
-					$bid=$Assessments[$assno]['Subject']['value'];
-					$pid=$Assessments[$assno]['SubjectComponent']['value'];
-					if($pid==' '){$pid='';}
-					$repbids[$bid][$pid][]=$assno;
+				if(!isset($asseids[$eid])){
+					/*only need to fetch for each eid once*/
+					$asseids[$eid]=(array)fetchAssessments_short($sid,$eid);
 					}
-			    }
-			  }
+				//trigger_error('eid '.$eid.' number '.sizeof($asseids[$eid]),E_USER_WARNING);
+				if(sizeof($asseids[$eid])>0){
+					$Assessments=array_merge($Assessments,$asseids[$eid]);
+					reset($Assessments);
+					}
+				}
+			while(list($index,$Assessment)=each($Assessments)){
+				$bid=$Assessment['Subject']['value'];
+				$pid=$Assessment['SubjectComponent']['value'];
+				if($pid==''){$pid=' ';}/*nullCorrect as usual!*/
+				$repbids[$bid][$pid][]=$index;
+				}
  			ksort($repbids);
 
-			/*now loop through all subjects with a report assessment for this student*/
-			/*and generate a subject report for each*/
+			/* This is for assessments which are really statistics.
+			 They have two components: overall averages (sid=0) for
+			 every bid-pid possible which are independent of the sid,
+			 and the sid specific cross-curricular average. They must
+			 not be used to generate indexes for repbids otherwise a
+			 reportentry for ALL conceivable bid-pid combinations is
+			 included */
+			while(list($index,$eid)=each($reportdef['stateids'])){
+				$GAssessments=(array)fetchAssessments_short($sid,$eid);
+				//trigger_error('GStats: '.$eid.' number '.sizeof($GAssessments),E_USER_WARNING);
+				if(sizeof($GAssessments)>0){
+					$Reports['SummaryAssessments'][]['Assessment']=$GAssessments;
+					/* only take the overall assessments for the statseid
+						which is relevant to this sid */
+					$StatsAssessments=(array)fetchAssessments_short(0,$eid);
+					while(list($index,$Assessment)=each($StatsAssessments)){
+						$bid=$Assessment['Subject']['value'];
+						$pid=$Assessment['SubjectComponent']['value'];
+						if($pid==''){$pid=' ';}/*nullCorrect as usual!*/
+						if(isset($repbids[$bid][$pid])){
+							$Assessments[]=$Assessment;
+							end($Assessments);
+							$repbids[$bid][$pid][]=key($Assessments);
+							}
+						}
+					}
+				}
+
+			/* Now loop through all subjects with an assessment for this student*/
+			/*and generate a subject report for each - WARNING reportentries*/
+			/*will be missed if there is not at least one assessment*/
+			/*which accompanies it for that subject*/
 			while(list($index,$subject)=each($reportdef['bids'])){
 			  $bid=$subject['id'];
 			  if(isset($repbids[$bid])){$reppids=$repbids[$bid];}
 			  else{$reppids=array();}
-//			while(list($bid,$reppids)=each($repbids)){
-
 			  while(list($pid,$assnos)=each($reppids)){
 				$Report=array();
-				if($pid!=''){
+				if($pid!=' '){
 					$d_subject=mysql_query("SELECT name FROM subject WHERE id='$pid'");
 					$componentname=mysql_result($d_subject,0);
 					}
@@ -78,7 +107,7 @@ function fetchSubjectReports($sid,$reportdefs){
 				}
 			$Reports['Summaries']=nullCorrect($Summaries);
 			/* when combining reports, for now this only works if each has the*/
-			/*	same properties!!!*/
+			/* same properties!!!*/
 		   	$Reports['asstable']=$reportdef['asstable'];
 		   	if(isset($reportdef['cattable'])){$Reports['cattable']=$reportdef['cattable'];}
 		   	$Reports['publishdate']=date('jS M Y',strtotime($reportdef['report']['date']));
@@ -134,13 +163,22 @@ function fetchReportDefinition($rid,$selbid='%'){
 				rideid ON rideid.assessment_id=assessment.id 
 				WHERE report_id='$rid' ORDER BY rideid.priority, assessment.label");
 	$reportdef['eids']=array();
+	$reportdef['stateids']=array();
 	$asstable=array();
 	$asselements=array();
 	while($ass=mysql_fetch_array($d_assessment,MYSQL_ASSOC)){
-		$reportdef['eids'][]=$ass['id'];
+		if($ass['resultstatus']=='S'){
+			$reportdef['stateids'][]=$ass['id'];
+			}
+		else{
+			$reportdef['eids'][]=$ass['id'];
+			}
 		if(!in_array($ass['element'],$asselements) or $ass['element']==''){
-			/*this is only used by the xslt... 
-				an element can only apear once on the printed report!*/
+			/* This $asstable is only used by the xslt to construct
+				the grade table, it uses the value of element to
+				identify assessments in the xml. Hence an element
+				should be unique, it can only apear once on the
+				printed report! */
 			$asselements[]=$ass['element'];
 			$asstable['ass'][]=array('name' => $ass['description'],
 				'label' => $ass['label'], 'element' => ''.$ass['element']);
