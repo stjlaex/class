@@ -469,31 +469,50 @@ function compute_assessment_ranking($AssDef,$steps,$cohorts){
 		while(list($index,$rankpid)=each($rankpids)){
 			reset($cohorts);
 			while(list($index,$cohort)=each($cohorts)){
-				/* this will rank by stage*/
 				$cohid=$cohort['id'];
-				$d_r=mysql_query("SELECT b.student_id FROM cohortstudent$cohid a,
+				/* this will rank within a stage*/
+				/*$d_r=mysql_query("SELECT b.student_id, b.value FROM cohortstudent$cohid a,
 							eidsid b WHERE b.student_id=a.student_id AND
 							b.assessment_id='$operandid' AND b.subject_id='$rankbid' AND
 							b.component_id='$rankpid' ORDER BY b.value DESC");
-				$rankindex=0;
-				//trigger_error('Ranking score for '.$rankbid.'-'.$rankpid. ' sids '.mysql_num_rows($d_r) ,E_USER_WARNING);
-				while($r=mysql_fetch_array($d_r,MYSQL_ASSOC)){
-					$rankindex++;
-					$ranksid=$r['student_id'];
-					$score=array('result'=>$rankindex,'value'=>$rankindex);
-					update_assessment_score($eid,$ranksid,$rankbid,$rankpid,$score);
+				*/
+
+				/*this will rank within a teaching class?*/
+				$stage=$cohort['stage'];
+				$d_c=mysql_query("SELECT DISTINCT id FROM class
+					WHERE course_id='$crid' AND subject_id='$rankbid' AND stage='$stage'");
+				while($class=mysql_fetch_array($d_c,MYSQL_ASSOC)){
+					$cid=$class['id'];
+					$cids[]=$cid;
+					mysql_query("CREATE TEMPORARY TABLE classstudent 
+						(SELECT DISTINCT student_id FROM
+			   			cidsid WHERE class_id='$cid')");
+					$d_r=mysql_query("SELECT b.student_id, b.value FROM classstudent a,
+							eidsid b WHERE b.student_id=a.student_id AND
+							b.assessment_id='$operandid' AND b.subject_id='$rankbid' AND
+							b.component_id='$rankpid' ORDER BY b.value DESC");
+					mysql_query("DROP TABLE classstudent");
+
+					$index=0;
+					$preval=-10000;
+					while($r=mysql_fetch_array($d_r,MYSQL_ASSOC)){
+						$index++;
+						$ranksid=$r['student_id'];
+						if($preval!=$r['value']){$rankindex=$index;}/*ties get the same rank*/
+						$score=array('result'=>$rankindex,'value'=>$rankindex);
+						update_assessment_score($eid,$ranksid,$rankbid,$rankpid,$score);
+						$preval=$r['value'];
+						}
 					}
 				}
 			}
 		}
-
 	/* tidy up */
 	reset($cohorts);
 	while(list($index,$cohort)=each($cohorts)){
 		$cohid=$cohort['id'];
 		mysql_query("DROP TABLE cohortstudent$cohid");
 		}
-
 	}
 
 /* each step has an operator and an array of operandids (eids pointed 

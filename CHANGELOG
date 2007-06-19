@@ -4,24 +4,40 @@ Version ClaSS-0.8.20 release (2007/06/18)
 A new 'dif' marktype added to the mark table in preparation ofr the
 new option.
 
-New table 'derivation' to be used for linking to dependent marks and
-assessments.
-
 Brought the install pages within the lang translations scheme - still
 need to convert index.html and instal.php fully.
 
 Started migrating all assessment related stuff to function calls; now
 using update_assessment_scores() in both the MarkBook and ReportBook.
 
+New table 'derivation' to be used for linking to dependent marks and
+assessments.
+
+The derivation field for an assessment can now be used to calculate
+either SUM or AVE or RANK based on the scores of other assessments
+identified by their element.
+
+A suite of new functions in lib/fetch_assessment.php handle the
+derivation of assessment scores. The update_assessment_score function
+includes a call to check the derivation table and run an update of
+derived assessments if neccessary.
+
 New field added to the assessment table to flag the existence of
 overall statistics exist for that assessment.
 
-Added calculate_assessment_statistics as a httpscript, accessed as a
-rowaction button from the new_assessments page. So, far calculates and
-stores an average for every bid-pid in the eidsid table with sid=0 for
-that eid.
+Two new httpscripts in the ReportBook, accessed as a rowaction button
+from the new_assessments page. So, calculate_assessment_statistics
+stores both an overall stage average for every bid-pid in the eidsid
+table with sid=0 for and individual cross-curricular sid averages with
+bid='G'; it generates a a new eid for each stage to do this. Also,
+calculate_assessment_rank is available when an assessment is created
+using the derivation RANK(element) and it generates student ranks
+based on their score for the assessment identified by element. Neither
+the ranks nor averages are dynamic, they need ot be updated using the
+button as required.
 
 Improved the algorithm for how fetchReports relates to fetchAssessments.
+
 
 
 Version ClaSS-0.8.19 release (2007/05/31)
