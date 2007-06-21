@@ -1,5 +1,5 @@
 <?php
-/**			   					httpscripts/report_reports_print.php
+/**			   					httpscripts/report_summary_preview.php
  */
 
 require_once('../../scripts/http_head_options.php');
@@ -8,6 +8,10 @@ if(isset($_GET['sids'])){$sids=(array) $_GET['sids'];}else{$sids=array();}
 if(isset($_POST['sids'])){$sids=(array) $_POST['sids'];}
 if(isset($_GET['rids'])){$rids=(array) $_GET['rids'];}else{$rids=array();}
 if(isset($_POST['rids'])){$rids=(array) $_POST['rids'];}
+if(isset($_GET['bid'])){$bid=$_GET['bid'];}else{$bid=array();}
+if(isset($_POST['bid'])){$bid=$_POST['bid'];}
+if(isset($_GET['pid'])){$pid=$_GET['pid'];}else{$bid=array();}
+if(isset($_POST['pid'])){$pid=$_POST['pid'];}
 
 	if(sizeof($sids)==0){
 		$result[]=get_string('youneedtoselectstudents');
@@ -17,9 +21,9 @@ if(isset($_POST['rids'])){$rids=(array) $_POST['rids'];}
 	else{
 		/*find the details, assessments, etc. specific to each report */
 		$reportdefs=array();
-		for($c=0;$c<sizeof($rids);$c++){
-			$reportdefs[]=fetchReportDefinition($rids[$c]);
-			}
+		$rid=$rids[0];
+
+		$reportdefs[]=fetchReportDefinition($rid,$bid);
 
 		$Students=array();
 		$Students['Student']=array();

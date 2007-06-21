@@ -20,24 +20,25 @@ three_buttonmenu();
 	<?php print $umns[$col]['topic'];?>
   </div>
 
-  <div class="content">
+  <div  id="viewcontent" class="content">
 	<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>"> 
 	  <table class="listmenu sidtable" id="editscores">
 		<tr><th colspan="4"></th>
+		  <th style="width:15%;">
 <?php
 	if($scoretype=='grade'){
 		$d_grading=mysql_query("SELECT grades FROM grading WHERE name='$grading_name'");
 		$grading_grades=mysql_result($d_grading,0);
 		$pairs=explode (';', $grading_grades);
-		print '<th style="width:15%;">'.$grading_name.'</th>';
+		print $grading_name;
 		}
 	else{
+
+		print_string('decimalvalue',$book);
+		}
 ?>
-		  <th style="width:15%;">
-			<?php print_string('decimalvalue',$book); ?>
 		  </th>
 <?php
-		}
 	if($scoretype=='percentage'){
 		$total=$umns[$col]['mark_total'];
 ?>

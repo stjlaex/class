@@ -171,16 +171,21 @@ function updatexmlRecord(xmlRecord){
 		}
 	}
 
-//-------------------------------------------------------
-//only for form buttons instead of processContent()
-//TODO this should be generalised to work with more than just openPrintReports!
+//------------------------------------------------------- 
+//only called by form buttons in place of processContent() 
+//this will pass all the checked sids[] in a sidtable alongwith 
+//whatever parameters are listed in the embedded xml contained 
+//in a div with id=xml-checked-action
+//whatever xml is returned by the httpscript called by the button
+//is transformed using the xsl transformation named in transform 
+//(which must be listed alogwith the other params in the embedded xml)
 
 function checksidsAction(buttonObject){
 	var formObject=document.formtoprocess;
 	var formElements=formObject.elements;
 	var buttonname=buttonObject.name;
 	var script=buttonObject.value;
-	var params='';
+	var params="";
 
 	//first grab all the checked input sids
 	var sids=new Array();
@@ -202,21 +207,25 @@ function checksidsAction(buttonObject){
 	//need the id of the div containing the xml-record to work with
 	//currently this is fixed but maybe need multiple values?
 	var theContainerId="checked-action";
-	if(theContainerId!=''){
+	if(theContainerId!=""){
 		var xmlId="xml-"+theContainerId;
 		var xmlContainer=document.getElementById(xmlId);
 		var xmlRecord=xmlContainer.childNodes[1];
         for(var i=0; i < xmlRecord.childNodes.length; i++){
-			var xmlreportid=xmlRecord.childNodes[i];
-			if(xmlreportid.tagName=="ID_DB"){
-	        	var xmlvalue=xmlreportid.firstChild.data;
-				params=params+"&rids[]=" + escape(xmlvalue);
-				}
-			else if(xmlreportid.tagName=="TRANSFORM"){
-	        	var xmlvalue=xmlreportid.firstChild.data;
-				var transform=escape(xmlvalue);
-				}
-		    }
+			var xmlfieldid=xmlRecord.childNodes[i];
+			if(xmlfieldid.tagName){
+				var paramname=makeParam(xmlfieldid.tagName);
+				if(xmlfieldid.firstChild){var xmlvalue=xmlfieldid.firstChild.data;}
+				else{var xmlvalue="";}
+				if(paramname=="transform"){
+					//the transform is used by the js and not passed as a param
+					var transform=escape(xmlvalue);
+					}
+				else{
+					params=params + "&" + paramname + "=" + escape(xmlvalue);
+					}
+		    	}
+			}
 		}
 	var url=pathtobook + "httpscripts/" + script + "?" +params;
 	xmlHttp.open("GET", url, true);
@@ -319,6 +328,21 @@ function makeLabel(xmltag){
 	var upper=xmltag.toUpperCase();
 	var label=upper.substring(0,1) + lower.substring(1,lower.length);
 	return label;
+	}
+
+function makeParam(xmltag){
+	// the id of the form element is expected to be first-letter capitalised only
+	// ie. does not follow the xml capitalisation!
+	var lower=xmltag.toLowerCase();
+	//var upper=xmltag.toUpperCase();
+	var plurality=lower.substring(lower.length-1,lower.length);
+	if(plurality=='s'){
+		param=lower + "[]";
+		}
+	else{
+		param=lower;
+		}
+	return param;
 	}
 
 //------------------------------------------------------

@@ -77,7 +77,7 @@ two_buttonmenu($extrabuttons,$book);
 		if($rid!=''){
 			/*this is to feed the rids to the javascript function*/
 ?>
-		  <id_db><?php print $rid;?></id_db>
+		  <rids><?php print $rid;?></rids>
 <?php
 			$input_elements.=' <input type="hidden" name="rids[]" value="'.$rid.'" />';
 			}

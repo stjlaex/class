@@ -7,10 +7,24 @@
 		$Report['Subject']=array('id'=>$bid, 'value'=>$subjectname);
 		if($pid!=''){$Report['Component']=array('id'=>$pid, 'value'=>$componentname);}
 ?>
-  <tbody>
-	<tr>
-	  <th></th>
-	  <td>
+	<tr id="sid-<?php print $sid;?>">
+<?php
+	if($edit_comments_off!='yes'){
+?>
+	<th>
+	</th>
+<?php
+		}
+	else{
+?>
+	<td>
+	  <input type="checkbox" name="sids[]" value="<?php print $sid;?>" />
+		<?php print $tab;?>
+	</td>
+<?php
+		}
+?>
+	<td>
 <?php
 		print $viewtable[$row]['surname'].', ';
 		print $viewtable[$row]['forename'].$viewtable[$row]['preferredforename'].' (';
@@ -63,12 +77,11 @@
    	$Report['Assessments']=$Assessments;
 ?>
 	</tr>
-  </tbody>
 <?php
 	if($report['addcomment']=='yes' or $report['addcategory']=='yes'){
 		$reportdef['report']=$report;
-		$reportdef['catdefs']=$catdefs;
-		$reportdef['ratingnames']=$ratingnames;
+		if(isset($catdefs)){$reportdef['catdefs']=$catdefs;}
+		if(isset($ratingnames)){$reportdef['ratingnames']=$ratingnames;}
 		$Report['Comments']=array();
 		$Report['Comments']=fetchReportEntry($reportdef, $sid, $bid, $pid);
 		for($entryn=0;$entryn<=sizeof($Report['Comments']['Comment']);$entryn++){

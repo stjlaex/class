@@ -1,4 +1,4 @@
-Version ClaSS-0.8.20 release (2007/06/18)
+Version ClaSS-0.8.20 release (2007/06/21)
 -----------------------------------------
 
 A new 'dif' marktype added to the mark table in preparation ofr the
@@ -36,8 +36,15 @@ based on their score for the assessment identified by element. Neither
 the ranks nor averages are dynamic, they need ot be updated using the
 button as required.
 
-Improved the algorithm for how fetchReports relates to fetchAssessments.
+Improved the algorithm for how fetchReports calls to fetchAssessments.
 
+Now generalised the checksidsAction javascript function to be used in
+any context, passing whatever parameters are listed in the embedded xml.
+
+Added a new button to the edit_reports page, and the neccessary check
+boxes, which uses checksidsAction to print simple summaries of student
+reports for just the bid of the current class. Uses a new template
+called subject_report_summary.
 
 
 Version ClaSS-0.8.19 release (2007/05/31)

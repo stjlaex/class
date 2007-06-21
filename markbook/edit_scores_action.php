@@ -15,8 +15,9 @@ $total=clean_text($_POST['total']);
 include('scripts/sub_action.php');
 
 if($sub=='Submit'){
+
 	if($umns[$col]['assessment']=='yes'){
-		$todate=date('Y')."-".date('n')."-".date('j');
+		$todate=date('Y').'-'.date('n').'-'.date('j');
 		/*if associated with an assessment then find which*/
 		$d_assessment=mysql_query("SELECT id, subject_id, component_id FROM assessment JOIN
 				eidmid ON assessment.id=eidmid.assessment_id WHERE eidmid.mark_id='$mid'");
@@ -29,7 +30,7 @@ if($sub=='Submit'){
 				is already explicity defined, probably as G for
 				general. Note G for general cannot be found from midcid anyway!
 				And the mid must only be linked to classes for a single bid -
-				which is always the case if columns have been auto-generated*/
+				which is always so when columns have been auto-generated*/
 				$d_bid=mysql_query("SELECT DISTINCT subject_id FROM class JOIN midcid ON
 					midcid.class_id=class.id WHERE midcid.mark_id='$mid'");
 				$bid=mysql_result($d_bid,0);
@@ -68,6 +69,7 @@ if($sub=='Submit'){
 		if(isset($eid) and isset($res)){
 			$ass=array('result'=>$res,'value'=>$inscore,'date'=>$todate);
 			update_assessment_score($eid,$sid,$bid,$pid,$ass);
+			trigger_error($eid.' '.$res.'-'.$inscore,E_USER_WARNING);
 			}
 
 /*		Tidy up any empty value entries by deleting their score 

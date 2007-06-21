@@ -12,6 +12,14 @@ $col=$_GET['col'];
 $title=$_GET['title'];
 $rid=$_GET['midlist'];
 $pid=$_GET['pid'];
+if(isset($_GET['sid'])){
+	/*this was called from a clickthrough for one individual student*/
+	$edit_comments_off='no';
+	$sid=$_GET['sid'];
+	}
+else{
+	$edit_comments_off='yes';
+	}
 
    	$d_report=mysql_query("SELECT * FROM report WHERE id='$rid'");
    	$report=mysql_fetch_array($d_report,MYSQL_ASSOC);
@@ -26,13 +34,14 @@ $pid=$_GET['pid'];
 		}
 	else{$componentname='';}
 
-/*	find assessment marks specific to this report */
+	/* find assessment marks specific to this report */
 	$d_mids=mysql_query("SELECT DISTINCT eidmid.mark_id FROM eidmid LEFT
 				JOIN rideid ON eidmid.assessment_id=rideid.assessment_id 
 				WHERE rideid.report_id='$rid'");
 	$mids=array();
 	$cols=array();
-/*  identify which columns represent the assessment marks and store in cols*/
+
+	/* identify which columns represent the assessment marks and store in cols*/
 	while($mid=mysql_fetch_array($d_mids,MYSQL_NUM)){
 		for($c=0;$c<sizeof($umns);$c++){
    			if($mid[0]==$umns[$c]['id'] and
@@ -42,49 +51,87 @@ $pid=$_GET['pid'];
    			}
 		}
 
-three_buttonmenu();
+$extrabuttons='';
+if($edit_comments_off=='yes'){
+	$extrabuttons['printreportsummary']=array('name'=>'current',
+											  'title'=>'printreportsummary',
+											  'value'=>'report_summary_preview.php',
+											  'onclick'=>'checksidsAction(this)'
+											  );
+	}
+three_buttonmenu($extrabuttons,$book);
 ?>
   <div id="heading">
 	<?php print $title;?>
   </div>
 
-  <div class="content">
+  <div  id="viewcontent" class="content">
 	<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>"> 
+
+	  <div id="xml-checked-action" style="display:none;">
+		<reportids>
+		  <rids><?php print $rid;?></rids>
+		  <bid><?php print $bid;?></bid>
+		  <pid><?php print $pid;?></pid>
+		  <transform>subject_report_summary</transform>
+		</reportids>
+	  </div>
 
 	  <table class="listmenu" id="editscores">
 		<thead>
 		  <tr>
-			<th></th>
-			<td></td>
 <?php
-/* headers for the entry field columns*/
+		if($edit_comments_off=='yes'){
+?>
+			<th>
+			  <?php print_string('checkall'); ?>
+			  <input type="checkbox" name="checkall" value="yes" onChange="checkAll(this);" />
+			</th>
+<?php
+			}
+		else{
+?>
+			<th>
+			</th>
+<?php
+			}
+?>	
+			<th>
+			  <?php print_string('student'); ?>
+			</th>
+<?php
+	/* headers for the entry field columns*/
    	$inasses=array();
 	for($c=0;$c<sizeof($cols);$c++){
-    /*iterate over all of the assessment mark columns*/
-	/* at same time store information in $inorders[] for use in action page*/	
+		/*iterate over all of the assessment mark columns*/
+		/* at same time store information in $inorders[] for use in action page*/	
 		$umn=$umns[$cols[$c]];
 		$markdef_name=$umn['def_name'];
 		$d_markdef=mysql_query("SELECT * FROM markdef WHERE name='$markdef_name'");
 		$markdef=mysql_fetch_array($d_markdef,MYSQL_ASSOC);	      
-		$scoretype=$markdef{'scoretype'};
-		$grading_name=$markdef{'grading_name'};
+		$scoretype=$markdef['scoretype'];
+		$grading_name=$markdef['grading_name'];
+?>
+			<th>
+<?php
+		print $umn['topic'];
+		if($umn['component']!=''){print '<br />'.$umn['component'];}
 		if($scoretype=='grade'){
 			$d_grading=mysql_query("SELECT grades FROM grading WHERE name='$grading_name'");
 			$grading_grades=mysql_result($d_grading,0);
-			$pairs=explode (';', $grading_grades);
-			print '<th>'.$umn['topic'];
-			if($umn['component']!=''){print '<br />'.$umn['component'];}
-			print '</th>';
+			$pairs=explode(';', $grading_grades);
 		   	$inorder=array('table'=>'score',
 					'field'=>'grade', 'scoretype'=>$scoretype, 
 					'grading_grades'=>$grading_grades,'id'=>$mids[$c]);
 			}
 		else{
 		    $inorder=array('table'=>'score',
-					'field'=>'score', 'scoretype'=>$scoretype, 
-					'grading_grades'=>$grading_grades,'id'=>$mids[$c]);
-			print '<th>Decimal Values</th>';
+					'field'=>'value', 'scoretype'=>$scoretype, 
+					'grading_grades'=>'','id'=>$mids[$c]);
 			}
+?>
+		  </th>
+<?php
 		if($scoretype=='percentage'){
 			$total=$umn['mark_total'];
 			print '<th>Total (default = '.$total.')</th>';
@@ -102,21 +149,23 @@ three_buttonmenu();
 		$inorders['category']='yes';
 		$inorders['catdefs']=$catdefs;
 		}
+	else{
+		$inorders['category']='no';
+		}
    	if($report['addcomment']=='yes'){
 		$inorders['comment']='yes';
 		}
+	else{
+		$inorders['comment']='no';
+		}
 
-	if(isset($_GET['sid'])){
-		/*this was called from a clickthrough for one individual student*/
-		$edit_comments_off='no';
-		$sid=$_GET['sid'];
+	if($edit_comments_off!='yes'){
 		for($c=0;$c<sizeof($viewtable);$c++){if($viewtable[$c]['sid']==$sid){$row=$c;}}
 		$tab=$row+1;
 		include('onereport.php');
 		}
 	else{
 		/*row for each student*/
-		$edit_comments_off='yes';
 		for($row=0;$row<sizeof($viewtable);$row++){
 			$sid=$viewtable[$row]['sid'];
 			$tab=$row+1;

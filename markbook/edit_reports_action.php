@@ -7,14 +7,13 @@ $action='class_view.php';
 $viewtable=$_SESSION['viewtable'];
 $umns=$_SESSION['umns'];
 $inorders=$_SESSION['inorders'];	
-/* inorders contains all info for storing values in the database,
- *	in the order in which they were entered
-*/
+/* inorders contains all info for storing values in the database, in
+ the order in which they were entered*/
 $inasses=$inorders['inasses'];
 $inbid=$inorders['subject'];
 $inpid=$inorders['component'];
 $rid=$inorders['rid'];
-$catdefs=$inorders['catdefs'];
+if(isset($inorders['catdefs'])){$catdefs=$inorders['catdefs'];}
 $todate=date('Y').'-'.date('n').'-'.date('j');
 
 include('scripts/sub_action.php');
@@ -36,7 +35,7 @@ if($sub=='Submit'){
 				is already explicity defined, probably as G for
 				general. Note G for general cannot be found from midcid anyway!
 				And the mid must only be linked to classes for a single bid -
-				which is always the case if columns have been auto-generated*/
+				which is always so when columns have been auto-generated*/
 				$d_bid=mysql_query("SELECT DISTINCT subject_id FROM class JOIN midcid ON
 					midcid.class_id=class.id WHERE midcid.mark_id='$mid'");
 				$inasses[$c]['bid']=mysql_result($d_bid,0);
@@ -54,16 +53,15 @@ if($sub=='Submit'){
 		    unset($inorder);
 			unset($res);
 			$inorder=$inasses[$c2];
-			if(isset($_POST{"sid$sid:$c2"})){
-				$in=$_POST{"sid$sid:$c2"};
+			if(isset($_POST["sid$sid:$c2"])){
+				$in=$_POST["sid$sid:$c2"];
 				if($inorder['table']=='score' and $inorder['field']=='grade' and $in!=''){
 					$mid=$inorder['id'];
 					if(mysql_query("INSERT INTO score (grade,
 						mark_id, student_id) VALUES
 						('$in',  '$mid', '$sid')")){}
-					elseif(mysql_query("UPDATE score SET
-							grade='$in' WHERE mark_id='$mid' AND student_id='$sid'")){}
-					else{$error[]=mysql_error();}
+					else{mysql_query("UPDATE score SET
+							grade='$in' WHERE mark_id='$mid' AND student_id='$sid'");}
 					$res=scoreToGrade($in,$inorder['grading_grades']);
 					}
 				elseif($inorder['table']=='score' and $inorder['field']=='value' and $in!=''){
@@ -71,16 +69,14 @@ if($sub=='Submit'){
 					if(mysql_query("INSERT INTO score (value,
 					 mark_id, student_id) VALUES
 					('$in',  '$mid', '$sid')")){}
-					elseif(mysql_query("UPDATE score SET
-					value='$in' WHERE mark_id='$mid' AND student_id='$sid'")){}
-					else {$error[]=mysql_error();}
+					else{mysql_query("UPDATE score SET
+					value='$in' WHERE mark_id='$mid' AND student_id='$sid'");}
 					$res=$in;
 					}
    				elseif($inorder['table']=='score' and $in==''){
 					$mid=$inorder['id'];
-					if(mysql_query("DELETE FROM score WHERE
-						mark_id='$mid' AND student_id='$sid' LIMIT 1")){}
-					else{$error[]=mysql_error();}
+					mysql_query("DELETE FROM score WHERE
+						mark_id='$mid' AND student_id='$sid' LIMIT 1");
 					if(isset($inorder['eid'])){
 						$eid=$inorder['eid'];
 						$bid=$inorder['bid'];
@@ -103,61 +99,57 @@ if($sub=='Submit'){
 					update_assessment_score($eid,$sid,$bid,$pid,$ass);
 					}
 				}
+			/*finished assessment scores*/
 			}
-		/*finished assessment scores*/
 
 		/*now do individual subject teacher entries*/
-		while(isset($_POST{"inmust$sid:$c2"})){
+		while(isset($_POST["inmust$sid:$c2"])){
 			$incategory='';
-			$inmust=$_POST{"inmust$sid:$c2"};
+			$inmust=$_POST["inmust$sid:$c2"];
 			$c2++;
 	   		if($inorders['category']=='yes'){
 				reset($catdefs);
 				while(list($catn,$catdef)=each($catdefs)){
-					if(isset($_POST{"sid$sid:$c2"})){
-					    $in=$_POST{"sid$sid:$c2"};
+					if(isset($_POST["sid$sid:$c2"])){
+					    $in=$_POST["sid$sid:$c2"];
 						$incategory=$incategory . $catdef['id'].':'.$in.';';
 						}
 					$c2++;
 					}
 				}
+
 			/*this assumes that the comment comes after all the category entries!!!*/
 			if($inorders['comment']=='yes'){
-				if(isset($_POST{"sid$sid:$c2"})){
-					$incom=$_POST{"sid$sid:$c2"};
+				if(isset($_POST["sid$sid:$c2"])){
+					$incom=$_POST["sid$sid:$c2"];
 					$c2++;
 					}
 				else{$incom='';}
 				}
 			if($inmust=='yes' and $incategory!=''){
-						if(mysql_query("INSERT INTO reportentry (
+						mysql_query("INSERT INTO reportentry (
 						category, teacher_id, report_id, student_id, 
 						subject_id, component_id) VALUES
 						('$incategory', '$tid', '$rid', '$sid',
-						'$inbid', '$inpid')")){}
-						else {$error[]=mysql_error();}
+						'$inbid', '$inpid')");
 						}
 			elseif($inmust!='yes' and $incategory!=''){
    						$entryn=$inmust;
-						if(mysql_query("UPDATE reportentry SET
+						mysql_query("UPDATE reportentry SET
 						category='$incategory' WHERE report_id='$rid' AND
 						student_id='$sid' AND subject_id='$inbid' AND
-						component_id='$inpid' AND entryn='$entryn'")){
-					    }
-						else {$error[]=mysql_error();}
+						component_id='$inpid' AND entryn='$entryn'");
 						}
 			elseif($inmust!='yes' and $incom=='' and $incategory==''){	   
    						$entryn=$inmust;
-						if(mysql_query("DELETE FROM reportentry WHERE
+						mysql_query("DELETE FROM reportentry WHERE
 						 report_id='$rid' AND
 						student_id='$sid' AND subject_id='$inbid' AND
-						component_id='$inpid' AND entryn='$entryn' LIMIT 1")){}
-						else {$error[]=mysql_error();}
+						component_id='$inpid' AND entryn='$entryn' LIMIT 1");
 						}
 			}
 		}
 	}
 
-//include('scripts/results.php');
 include('scripts/redirect.php');
 ?>

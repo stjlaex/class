@@ -4,7 +4,6 @@
 
 function fetchSubjectReports($sid,$reportdefs){
 		$Reports=array();
-		$Reports['SummaryAssessments']=array();
 		$Assessments=array();
 		$Summaries=array();
 		$asseids=array();
@@ -46,8 +45,9 @@ function fetchSubjectReports($sid,$reportdefs){
 			while(list($index,$eid)=each($reportdef['stateids'])){
 				$GAssessments=(array)fetchAssessments_short($sid,$eid);
 				//trigger_error('GStats: '.$eid.' number '.sizeof($GAssessments),E_USER_WARNING);
+				$Reports['SummaryAssessments']=array();
 				if(sizeof($GAssessments)>0){
-					$Reports['SummaryAssessments'][]['Assessment']=$GAssessments;
+					$Reports['SummaryAssessments'][]['Assessment']=nullCorrect($GAssessments);
 					/* only take the overall assessments for the statseid
 						which is relevant to this sid */
 					$StatsAssessments=(array)fetchAssessments_short(0,$eid);
@@ -313,5 +313,5 @@ function fetchReportEntry($reportdef, $sid, $bid, $pid){
 	   $Comments['Comment'][]=nullCorrect($Comment);
 	   }
 	return $Comments;
-}
+	}
 ?>
