@@ -3,13 +3,14 @@
  */
 
 function fetchSubjectReports($sid,$reportdefs){
-		$Reports=array();
-		$Assessments=array();
-		$Summaries=array();
-		$asseids=array();
+	$Reports=array();
+	$Assessments=array();
+	$Summaries=array();
+	$asseids=array();
+	$asselements=array();
 
-		/*Collate all assessment and report entries by subject for each course report chosen*/
-		while(list($index,$reportdef)=each($reportdefs)){
+	/*Collate all assessment and report entries by subject for each course report chosen*/
+	while(list($repindex,$reportdef)=each($reportdefs)){
 			$rid=$reportdef['rid'];
 
 			/* Provide a look-up array $repbids which references the $Assessments */
@@ -21,7 +22,6 @@ function fetchSubjectReports($sid,$reportdefs){
 					/*only need to fetch for each eid once*/
 					$asseids[$eid]=(array)fetchAssessments_short($sid,$eid);
 					}
-				//trigger_error('eid '.$eid.' number '.sizeof($asseids[$eid]),E_USER_WARNING);
 				if(sizeof($asseids[$eid])>0){
 					$Assessments=array_merge($Assessments,$asseids[$eid]);
 					reset($Assessments);
@@ -65,9 +65,9 @@ function fetchSubjectReports($sid,$reportdefs){
 				}
 
 			/* Now loop through all subjects with an assessment for this student*/
-			/*and generate a subject report for each - WARNING reportentries*/
-			/*will be missed if there is not at least one assessment*/
-			/*which accompanies it for that subject*/
+			/* and generate a subject report for each - WARNING reportentries*/
+			/* will be missed if there is not at least one assessment*/
+			/* which accompanies it for that subject*/
 			while(list($index,$subject)=each($reportdef['bids'])){
 			  $bid=$subject['id'];
 			  if(isset($repbids[$bid])){$reppids=$repbids[$bid];}
@@ -105,11 +105,23 @@ function fetchSubjectReports($sid,$reportdefs){
 					}
 				$Summaries['Summary'][]=nullCorrect($Summary);
 				}
-			$Reports['Summaries']=nullCorrect($Summaries);
-			/* when combining reports, for now this only works if each has the*/
-			/* same properties!!!*/
-		   	$Reports['asstable']=$reportdef['asstable'];
+
+			/* Add assessments to the asstable, to display using aslt
+			in the report. Each element appears only once.*/
+			if(is_array($reportdef['asstable']['ass'])){
+				while(list($index,$ass)=each($reportdef['asstable']['ass'])){
+					if(!in_array($ass['element'],$asselements)){
+						$asselements[]=$ass['element'];
+						$Reports['asstable']['ass'][]=$ass;
+						}
+					}
+				}				
+
+			/* When combining reports, for now this only works if each
+			 has the same properties. Otherwise it will be the properties
+			 of the last reportdef in the list which dominate!!!*/
 		   	if(isset($reportdef['cattable'])){$Reports['cattable']=$reportdef['cattable'];}
+			$Reports['Summaries']=nullCorrect($Summaries);
 		   	$Reports['publishdate']=date('jS M Y',strtotime($reportdef['report']['date']));
 		   	$transform=$reportdef['report']['transform'];
 			}
@@ -132,7 +144,7 @@ function fetchReportDefinition($rid,$selbid='%'){
 		$d_mid=mysql_query("SELECT id FROM mark WHERE midlist='$rid' and marktype='report'");
 		$markcount=mysql_numrows($d_mid);
 		$reportdef['MarkCount']=array('label' => 'Mark Columns', 
-								  'value' => ''.$markcount);
+									  'value' => ''.$markcount);
 		}
 	else{
 		$report['course_name']='';
@@ -142,8 +154,10 @@ function fetchReportDefinition($rid,$selbid='%'){
 				ridcatid.subject_id='wrapper'");
 		$reptable=array();
 		while($rep=mysql_fetch_array($d_report,MYSQL_ASSOC)){
-			$reptable['rep'][]=array('name' => $rep['title'],'course_id'=>$rep['course_id'],
-				'stage'=>$rep['stage'],'id_db' => $rep['id']);
+			$reptable['rep'][]=array('name' => $rep['title'],
+									 'course_id'=>$rep['course_id'],
+									 'stage'=>$rep['stage'],
+									 'id_db' => $rep['id']);
 			}
 		$reportdef['reptable']=nullCorrect($reptable);
 		}
@@ -176,12 +190,14 @@ function fetchReportDefinition($rid,$selbid='%'){
 		if(!in_array($ass['element'],$asselements) or $ass['element']==''){
 			/* This $asstable is only used by the xslt to construct
 				the grade table, it uses the value of element to
-				identify assessments in the xml. Hence an element
-				should be unique, it can only apear once on the
-				printed report! */
+				identify assessments in the xml. Many alternative
+				assessments may share the same spot on the report if
+				they have the same element. Hence an element
+				should be unique, each can only apear once in the report. */
 			$asselements[]=$ass['element'];
-			$asstable['ass'][]=array('name' => $ass['description'],
-				'label' => $ass['label'], 'element' => ''.$ass['element']);
+			$asstable['ass'][]=array('name' => ''.$ass['description'],
+									 'label' => ''.$ass['label'],
+									 'element' => ''.$ass['element']);
 			}
 		}
 	$reportdef['asstable']=nullCorrect($asstable);

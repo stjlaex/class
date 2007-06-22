@@ -8,7 +8,7 @@ if(isset($_POST['newfid'])){$fid=$_POST['newfid'];}else{$fid='';}
 if(isset($_POST['newyid'])){$yid=$_POST['newyid'];}else{$yid='';}
 if(isset($_POST['year'])){$year=$_POST['year'];}
 if(isset($_POST['stage'])){$stage=$_POST['stage'];}
-if(isset($_POST['rids'])){$rids=$_POST['rids'];}else{$rids=array();}
+if(isset($_POST['rids'])){$postrids=$_POST['rids'];}else{$postrids=array();}
 if(isset($_POST['wrapper_rids'])){
 	/*there is always one blank wrapper_rid and one wrapper_rid with a value*/
 	$wrapper_rids=(array)$_POST['wrapper_rids'];
@@ -20,6 +20,8 @@ include('scripts/sub_action.php');
 	if($fid!=''){
 		$students=listin_community(array('id'=>'','type'=>'form','name'=>$fid));
 		$formperm=getFormPerm($fid,$respons);
+		$yid=get_form_yeargroup($fid);
+		$yearperm=getYearPerm($yid,$respons);
 		}
 	elseif($yid!=''){
 		$students=listin_community(array('id'=>'','type'=>'year','name'=>$yid));
@@ -30,16 +32,20 @@ include('scripts/sub_action.php');
 		$students=listin_cohort(array('id'=>'','course_id'=>$rcrid,'year'=>$year,'stage'=>$stage));
 		}
 
+$rids=array();
 if(isset($wrapper_rid)){
 	$d_rid=mysql_query("SELECT categorydef_id AS report_id FROM ridcatid WHERE
 				 report_id='$wrapper_rid' AND subject_id='wrapper' ORDER BY categorydef_id");
-	$rids=array();
 	$rids[]=$wrapper_rid;//add to the start of the rids
 	while($rid=mysql_fetch_array($d_rid,MYSQL_ASSOC)){
 		$rids[]=$rid['report_id'];
 		}
 	}
-
+else{
+	while(list($index,$rid)=each($postrids)){
+		if($rid!=0){$rids[]=$rid;}
+		}
+	}
 $extrabuttons=array();
 $extrabuttons['previewselected']=array('name'=>'current',
 								'value'=>'report_reports_print.php',
@@ -59,35 +65,33 @@ two_buttonmenu($extrabuttons,$book);
   <div id="viewcontent" class="content">
 	<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
 	  <div id="xml-checked-action" style="display:none;">
-<reportids>
+		<reportids>
 <?php
 	$reports=array();
 	$input_elements='';
 	while(list($index,$rid)=each($rids)){
-		$d_report=mysql_query("SELECT * FROM report WHERE id='$rid'");
-		$report=mysql_fetch_array($d_report,MYSQL_ASSOC);
-		$report['summaries']=(array)fetchReportSummaries($rid);
-		$reports[]=$report;
-		$transform=$report['transform'];
+			$d_report=mysql_query("SELECT * FROM report WHERE id='$rid'");
+			$report=mysql_fetch_array($d_report,MYSQL_ASSOC);
+			$report['summaries']=(array)fetchReportSummaries($rid);
+			$reports[]=$report;
+			$transform=$report['transform'];
 
-		/*all of the marks associated with this report*/
-		mysql_query("CREATE TEMPORARY TABLE mids$rid (SELECT eidmid.mark_id FROM eidmid
+			/*all of the marks associated with this report*/
+			mysql_query("CREATE TEMPORARY TABLE mids$rid (SELECT eidmid.mark_id FROM eidmid
 				JOIN rideid ON eidmid.assessment_id=rideid.assessment_id 
 				WHERE rideid.report_id='$rid')");
-		if($rid!=''){
 			/*this is to feed the rids to the javascript function*/
 ?>
 		  <rids><?php print $rid;?></rids>
 <?php
 			$input_elements.=' <input type="hidden" name="rids[]" value="'.$rid.'" />';
 			}
-		}
 
 	/*this means the last entry in rids[] defines the transform
 		to use (can only use one!) and which is usually the wrapper anyway*/
 ?>
 		  <transform><?php print $transform;?></transform>
-</reportids>
+		</reportids>
 	  </div>
 		<table class="listmenu">
 		  <tr>
@@ -101,22 +105,23 @@ two_buttonmenu($extrabuttons,$book);
 <?php
 		reset($rids);
 		while(list($index,$rid)=each($rids)){
-   			$summaries=(array)$reports[$index]['summaries'];
-			while(list($index2,$summary)=each($summaries)){
-				$summaryid=$summary['subtype'];
-				if($summary['type']=='com'){
-					if($formperm['x']==1 and $summaryid=='form'){
-						print '<th>'.get_string('formtutor').'</th>';
-						}
-					elseif($yearperm['x']==1 and $summaryid=='year'){
-						print '<th>'.get_string('yearhead').'</th>';
-						}
-					elseif($yearperm['x']==1 and $summaryid=='section'){
-						print '<th>'.get_string('sectionhead').'</th>';
+				$summaries=(array)$reports[$index]['summaries'];
+				while(list($index2,$summary)=each($summaries)){
+					$summaryid=$summary['subtype'];
+					if($summary['type']=='com'){
+						if($formperm['x']==1 and $summaryid=='form'){
+							print '<th>'.get_string('formtutor').'</th>';
+							}
+						elseif($yearperm['x']==1 and $summaryid=='year'){
+							print '<th>'.get_string('yearhead').'</th>';
+							}
+						elseif($yearperm['x']==1 and $summaryid=='section'){
+							print '<th>'.get_string('sectionhead').'</th>';
+							}
 						}
 					}
 				}
-			}
+			
 ?>
 			<th colspan="16"><?php print_string('completedsubjectreports',$book);?></th>
 		  </tr>
@@ -184,9 +189,11 @@ two_buttonmenu($extrabuttons,$book);
 
 		reset($rids);
 		while(list($index,$rid)=each($rids)){
-		    $crid=$reports[$index]['course_id'];
-		    $commentcomp=$reports[$index]['commentcomp'];
-			$compstatus=$reports[$index]['component_status'];
+		    if(isset($reports[$index]['course_id'])){
+				$crid=$reports[$index]['course_id'];
+				$commentcomp=$reports[$index]['commentcomp'];
+				$compstatus=$reports[$index]['component_status'];
+				}
 			$d_reportentry=mysql_query("SELECT DISTINCT subject_id, 
 					component_id FROM reportentry WHERE report_id='$rid' AND
 					student_id='$sid' ORDER BY report_id, subject_id, component_id");

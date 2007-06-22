@@ -1,7 +1,7 @@
 <?php
 /**			       		list_pastoralgroup.php
  *
- * use to decide between year heads or form tutors
+ * Used to distinguish selections available to year heads or form tutors
  */
 
 $required='yes';
@@ -9,7 +9,7 @@ $required='yes';
 if(sizeof($ryids)>0){
 	$selyid=$ryids[0];
 ?>
-<div class="right">
+<div class="left">
 	<label for="Year group"><?php print_string('yeargroup');?></label>
 	<select id="Year group" name="newyid" eitheror="Form group" tabindex="<?php print $tab++;?>"
 		 style="width:20em;" <?php if($required=='yes'){ print ' class="requiredor" ';} ?> >
@@ -41,7 +41,7 @@ if(sizeof($ryids)>0){
 if(sizeof($rfids)>0){
 	$selfid=$rfids[0];
 ?>
-<div class="left">
+<div class="right">
 	<label for="Form group"><?php print_string('formgroup');?></label>
 	<select type="text" id="Form group" name="newfid"  eitheror="Year group"
 	  tabindex="<?php print $tab++;?>" style="width:20em;" 

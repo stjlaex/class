@@ -1,4 +1,4 @@
-Version ClaSS-0.8.20 release (2007/06/21)
+Version ClaSS-0.8.20 release (2007/06/22)
 -----------------------------------------
 
 A new 'dif' marktype added to the mark table in preparation ofr the
@@ -45,6 +45,9 @@ Added a new button to the edit_reports page, and the neccessary check
 boxes, which uses checksidsAction to print simple summaries of student
 reports for just the bid of the current class. Uses a new template
 called subject_report_summary.
+
+Fixed fetchSubjectReports so combining reports with contrary numbers of
+assessments does not ommit any.
 
 
 Version ClaSS-0.8.19 release (2007/05/31)

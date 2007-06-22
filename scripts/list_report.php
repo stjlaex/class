@@ -2,7 +2,7 @@
 /**										scripts/list_report.php
  *
  * generic script called from within a form, returns array rids[]
- * if rcrid is blank then actually list report wrappers
+ * if rcrid is blank then actually lists report wrappers
  */
 
  	if($rcrid!='' and $r>-1){

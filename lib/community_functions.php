@@ -609,6 +609,18 @@ function get_subjectname($bid){
 	return $subjectname;
 	}
 
+/*reutrns the subjectname for that bid from the database*/
+function get_form_yeargroup($fid){
+	if($fid!=' ' and $fid!=''){
+		$d_subject=mysql_query("SELECT yeargroup_id FROM form WHERE id='$fid'");
+		$yid=mysql_result($d_subject,0);
+		}
+	else{
+		$yid='';
+		}
+	return $yid;
+	}
+
 /*Find all current cohorts which a community is associated with*/
 function list_community_cohorts($community){
 	if($community['type']=='form'){
