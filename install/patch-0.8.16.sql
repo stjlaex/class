@@ -127,3 +127,7 @@ ALTER TABLE assessment
 	ADD statistics enum('N','Y') not null AFTER derivation;
 ALTER TABLE assessment
 	CHANGE resultstatus resultstatus enum('R', 'T', 'E', 'S') default 'R' not null;
+ALTER TABLE report
+	CHANGE addcomment addcomment enum('no','yes') not null default 'no';
+ALTER TABLE report
+	CHANGE addcategory addcategory	enum('no','yes') not null default 'no';
