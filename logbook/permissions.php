@@ -169,7 +169,7 @@ function get_user($tid){
 
 function checkCurrentRespon($r,$respons,$required='subject'){
 	if($r>-1){
-		$bid=$respon[$r]['subject_id'];
+		$bid=$respons[$r]['subject_id'];
 		$crid=$respons[$r]['course_id'];
 		if($bid==''){$bid='%';}
 		}

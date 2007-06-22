@@ -49,6 +49,9 @@ called subject_report_summary.
 Fixed fetchSubjectReports so combining reports with contrary numbers of
 assessments does not ommit any.
 
+Bugfix to a typo in checkcurrentRespon in permissions, it was
+over-looking subject responsibilities.
+
 
 Version ClaSS-0.8.19 release (2007/05/31)
 -----------------------------------------

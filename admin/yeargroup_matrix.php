@@ -73,7 +73,7 @@ three_buttonmenu();
 <?php
 	if($_SESSION['role']=='admin' or $_SESSION['role']=='office'){
 		$capacity=$com['capacity'];
-		$capcitytotal+=$capacity;
+		$capacitytotal+=$capacity;
 ?>
 		  <td><?php print $capacity;?></td>
 <?php
@@ -119,7 +119,7 @@ three_buttonmenu();
 <?php
 	if($_SESSION['role']=='admin' or $_SESSION['role']=='office'){
 ?>
-		  <td><?php print $capcitytotal;?></td>
+		  <td><?php print $capacitytotal;?></td>
 <?php
 		}
 ?>
