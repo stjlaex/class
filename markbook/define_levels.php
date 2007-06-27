@@ -4,30 +4,14 @@
 
 $action='define_levels_action1.php';
 
-   	$c=0;
-	$grading=array();
-	/* select grading schemes by the crid/bid of the displayed classes*/
-	for($c=0;$c<sizeof($cids);$c++){
-		$cid=$cids[$c];	
-		$d_cridbid=mysql_query("SELECT DISTINCT subject_id, 
-				course_id FROM class WHERE id='$cid'");
-		$cridbid = mysql_fetch_array($d_cridbid,MYSQL_ASSOC);
-		$bid=$cridbid{'subject_id'};
-		$crid=$cridbid{'course_id'};
-		$d_grading=mysql_query("SELECT name FROM grading
-					WHERE (subject_id LIKE '$bid' OR subject_id='%') 
-						AND (course_id LIKE '$crid' OR course_id='%')");
-		$c2=0;
-		while ($new=mysql_fetch_array($d_grading,MYSQL_ASSOC)){
-			if(!in_array($new,$grading)){
-				$grading[$c2]=$new;
-				$c2++;
-				}
-			}
-		}
 
 three_buttonmenu();
 
+$grading=array();
+$d_grading=mysql_query("SELECT name FROM grading");
+while($new=mysql_fetch_array($d_grading,MYSQL_ASSOC)){
+	$grading[]=$new;
+	}
 ?>
 
   <div class="content">
@@ -39,10 +23,10 @@ three_buttonmenu();
 		<select class="required" name="gena" id="Grading Scheme" tabindex="1">
 		  <option selected="selected" value=""></option>
 <?php	  
-			for($c=0; $c<sizeof($grading); $c++){
+			for($c=0;$c<sizeof($grading);$c++){
 				print '<option ';
-				print	' value="'.$grading[$c]{'name'}.'">'.$grading[$c]{'name'}.'</option>';
-			}
+				print	' value="'.$grading[$c]['name'].'">'.$grading[$c]['name'].'</option>';
+				}
 ?>  
 		</select>
 	  </fieldset>

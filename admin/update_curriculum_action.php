@@ -167,7 +167,10 @@ while(list($index,$curriculum)=each($curriculums)){
 	  if($asscheck=='yes'){
 
  		  $AssessmentMethods=$Course['assessmentmethods'];
-		  $GradeSchemes=xmlarray_indexed_check($AssessmentMethods['gradeschemes'],'gradescheme');
+
+		  $GradeSchemes=read_curriculum_file('gradeschemes.xml',$curriculum);
+
+		  $GradeSchemes=xmlarray_indexed_check($GradeSchemes,'gradescheme');
 		  while(list($index,$GradeScheme)=each($GradeSchemes['gradescheme']) 
 												and $GradeScheme['name']!=''){
 			/*****************Grade Schemes***************/
@@ -178,22 +181,17 @@ while(list($index,$curriculum)=each($curriculums)){
 				if($listgrades!=''){$listgrades=$listgrades.';';}
    				$listgrades=$listgrades . $Grade['value'].':'.$Grade['score'];
    				}
-			$comment=$GradeScheme['comment'];
-			if(isset($GradeScheme['subjectid'])){$bid=$GradeScheme['subjectid'];}
-			else{$bid='%';}
+			$comment=$GradeScheme['description'];
 			$author='ClaSS';
-			$d_grading=mysql_query("SELECT subject_id FROM grading WHERE
-			name='$name' AND course_id='$crid'");
+			$d_grading=mysql_query("SELECT * FROM grading WHERE name='$name'");
 			if(mysql_num_rows($d_grading)==0){
 				mysql_query("INSERT INTO grading (name, grades,  
-				comment, course_id, subject_id, author)
-				VALUES ('$name', '$listgrades', 
-					'$comment', '$crid', '$bid', '$author')");
+				comment, author) VALUES ('$name', '$listgrades', 
+					'$comment', '$author')");
 				}
 			else{mysql_query("UPDATE grading SET 
-				grades='$listgrades', comment='$comment',
-				subject_id='$bid', author='$author' 
-				WHERE name='$name' AND course_id='$crid'");
+				grades='$listgrades', comment='$comment', author='$author' 
+				WHERE name='$name'");
 				}
 			}
 
@@ -332,6 +330,7 @@ while(list($index,$curriculum)=each($curriculums)){
    		$name=$Group['name'];
    		$seq=$Group['sequence'];
    		$section=$Group['section'];
+   		if(isset($Group['capacity'])){$capacity=$Group['capacity'];}else{$capacity='';}
 		$d_section=mysql_query("SELECT id FROM section WHERE name='$section'");	
 		if(mysql_num_rows($d_section)>0){$secid=mysql_result($d_section,0);}
 		else{$secid=0;}
@@ -349,7 +348,8 @@ while(list($index,$curriculum)=each($curriculums)){
 			mysql_query("UPDATE groups SET name='$name' WHERE
 				yeargroup_id='$yid' AND course_id IS NULL AND subject_id IS NULL");
 			}
-		update_community(array('id'=>'','name'=>$yid,'type'=>'year'));
+
+		update_community(array('id'=>'','name'=>$yid,'type'=>'year','capacity'=>$capacity));
 
 		$Formgroups=xmlarray_indexed_check($Group['formgroups'],'form');
 		while(list($index,$Form)=each($Formgroups['form']) and $Form['id']!=''){

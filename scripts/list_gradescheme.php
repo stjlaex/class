@@ -6,21 +6,12 @@
  *first call returns gena, second call returns gena1
  */
 
-	if($rcrid!='' and $r>-1){$selcrid=$rcrid;}
-	elseif($crid!=''){$selcrid=$crid;}
-	else{$selcrid='%';}
-
-	if($rbid!='' and $r>-1){$selbid=$rbid;}
-	elseif($bid!=''){$selbid=$bid;}
-	else{$selbid='%';}
 
 	if(!isset($required)){$required='yes';}
 	if(!isset($multi)){$multi='1';}
 	if(!isset($igena)){$igena='';}else{$igena++;}
 
-	$d_grading=mysql_query("SELECT name, comment FROM grading WHERE
-				(subject_id LIKE '$selbid' OR subject_id='%') AND (course_id
-				LIKE '$selcrid' OR course_id='%') ORDER BY name");
+	$d_grading=mysql_query("SELECT name, comment FROM grading WHERE ORDER BY name");
 ?>
   <label for="Gradingscheme"><?php print_string('gradingscheme');?></label>
   <select id="Gradingscheme"  tabindex="<?php print $tab++;?>" 

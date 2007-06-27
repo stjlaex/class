@@ -81,11 +81,8 @@ CREATE TABLE grading (
        name				varchar(20) not null default '',
        grades			varchar(200) not null default '',
        comment			text,
-		course_id		varchar(10) not null default '',
-       subject_id		varchar(10) not null default '',
        author			varchar(14) not null default '',
-		index			index_bid (subject_id),	
-       primary key		(course_id, name)
+       primary key		(name)
 );");
 
 

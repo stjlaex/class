@@ -58,12 +58,13 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 		$gradecount=0;
 		$resq=$Assessments[$assnos[0]]['ResultQualifier']['value'];
 		$method=$Assessments[$assnos[0]]['Method']['value'];
-		$gradingname=$Assessments[$assnos[0]]['GradingScheme']['value'];
-		$crid=$Assessments[$assnos[0]]['Course']['value'];
-		if($gradingname!='' and $gradingname!=' '){
-			$d_grading=mysql_query("SELECT grades FROM grading WHERE name='$gradingname'");
+		$gena=$Assessments[$assnos[0]]['GradingScheme']['value'];
+		if($gena!='' and $gena!=' '){
+			$d_grading=mysql_query("SELECT grades FROM grading WHERE name='$gena'");
 			$grading_grades=mysql_result($d_grading,0);
-	   		}
+			}
+		else{$grading_grades='';}
+		$crid=$Assessments[$assnos[0]]['Course']['value'];
 
 		/* display the row for this eid*/
 		print '<tr><td>';
@@ -87,22 +88,27 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 					$result=$Assessment['Result']['value'];
 					print $result;
 					/* fetch the numerical equivalent for averaging*/
-					if($gradingname!=''){
+					if($grading_grades!=''){
 					    $score=gradeToScore($result,$grading_grades);
-	   					$gradesum=$gradesum+$score;
-		   				$gradecount++;
 			   			}
+					else{$score=$result;}
+					$gradesum=$gradesum+$score;
+					$gradecount++;
 					}
 				}
 			print '</td>';
 			}
 		  }
 		/* display the assessment row average*/
-		if($gradecount>0){
+		if($gradecount>0 and $grading_grades!=''){
 				$scoreaverage=$gradesum/$gradecount;
 				$scoreaverage=round($scoreaverage,1);
 				$score=round($scoreaverage);
 				$grade=scoreToGrade($score,$grading_grades);
+				}
+		elseif($gradecount>0){
+				$scoreaverage=round($gradesum/$gradecount);
+				$grade='';
 				}
 		else{$grade='';$scoreaverage='';}
 		print '<td> '.$grade.' ('.$scoreaverage.')'.'</td>';

@@ -10,9 +10,10 @@ $host='admin.php';
 $current='demoiser.php';
 $choice='demoiser.php';
 
-function tableRead($table){
+function tableRead($table,$sort=''){
 	$trows=array();
-	$d_table=mysql_query("SELECT * FROM $table");
+	if($sort!=''){$d_table=mysql_query("SELECT * FROM $table ORDER BY $sort");}
+	else{$d_table=mysql_query("SELECT * FROM $table");}
    	while($row=mysql_fetch_array($d_table,MYSQL_ASSOC)){
 		$trows[]=$row;
 		}
@@ -81,7 +82,7 @@ function generate_random_name($gender){
 	$trows=tableRead($table);
 	while(list($index, $row)=each($trows)){
 		$id=$row['id'];
-		if(mysql_query("UPDATE $table SET detail='A specific comment
+		if(mysql_query("UPDATE $table SET detail='A general comment
 			about positive or negative progress.'
 					 WHERE id='$id'")){}
 		else{$error[]=mysql_error();}
@@ -140,7 +141,7 @@ function generate_random_name($gender){
 	while (list($index, $row) = each($trows)) {
 		$id=$row['student_id'];
 		if(mysql_query("UPDATE $table SET formerupn='20987',
-			entrydate='2001-04-01', leavingdate='', nationality='British', medical='N'
+			entrydate='2001-04-01', leavingdate='', nationality='GB', medical='N'
 				WHERE student_id='$id'")){}
 		else{$error[]=mysql_error();}
 		}
@@ -169,7 +170,7 @@ function generate_random_name($gender){
 	$table='sencurriculum';
 	$trows=array();
 	if(mysql_query("UPDATE $table SET comments='The background.',
-					targets='To improve.', outcome='The result.")){}
+					targets='To improve.', outcome='The result.'")){}
 	else{$error[]=mysql_error();}
 
 	$table='student';
@@ -243,12 +244,14 @@ function generate_random_name($gender){
 	mysql_query("UPDATE $table SET comment=''");
 
 	$table='form';
-	$trows=tableRead($table);
-	$name=array('DD','CC','AA','BB','EE','FF','GG','HH','JJ','KK','LL','MM');
-	$i=0;
-	$yid='';
+	$trows=tableRead($table,'yeargroup_id');
+	$name=array('AA','BB','CC','DD','EE','FF','GG','HH','JJ','KK','LL','MM');
+	$i=2;
+	$yid=-100;
 	while(list($index,$row)=each($trows)){
-		if($yid!=$row['yeargroup_id']){$i=0; $yid=$row['yeargroup_id'];}
+		if($yid!=$row['yeargroup_id']){$i=2;}
+		else{$i++;}
+		$yid=$row['yeargroup_id'];
 		$id=$row['id'];
 		if($yid=='-2'){$nid='PRE'.$name[$i];}
 		elseif($yid=='-1'){$nid='NUR'.$name[$i];}
@@ -256,14 +259,13 @@ function generate_random_name($gender){
 		else{$nid=$yid.''.$name[$i];}
 		if(mysql_query("UPDATE $table SET id='$nid', name='$nid' 
 				WHERE id='$id'")){}
-		else{print mysql_error();}
+		else{print '<br />'.$id.' '.$nid. mysql_error();}
 		if(mysql_query("UPDATE student SET form_id='$nid'
 				WHERE form_id='$id'")){}
 		else{print mysql_error();}
 		if(mysql_query("UPDATE community SET name='$nid'
 				WHERE name='$id' AND type='form'")){}
 		else{print mysql_error();}
-		$i++;
 		}
 
 	$table='classes';
