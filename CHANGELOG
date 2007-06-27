@@ -1,4 +1,4 @@
-Version ClaSS-0.8.21 release (2007/07/22)
+Version ClaSS-0.8.21 release (2007/07/27)
 -----------------------------------------
 
 Bugfix to checkyesno script.
@@ -6,10 +6,11 @@ Bugfix to checkyesno script.
 Fixed the student_scores tracking page to do averages for plain
 numerical results as well as grades.
 
-Dropped the subject and course fields from the grading table and made
-corresponding changes to the select queries. The crid/bid fields in
-markdef is sufficient to filter for nearly all purposes and the crid
-part of the key was not being used consistently.
+Dropped the subject and course fields from the grading table (apply
+the patch!!!) and made corresponding changes to the select
+queries. The crid/bid fields in markdef is sufficient to filter for
+nearly all purposes and the crid part of the key was not being used
+consistently.
 
 The definition of grade schemes has been moved out to its own file
 gradeschemes.xml in the curriculum packs.
