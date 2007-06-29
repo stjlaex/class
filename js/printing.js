@@ -38,15 +38,15 @@ function xulsave(){
 // Either the xml for printing is contained within a hidden div of the parent 
 // with id=contentId or the xml is fed directly to the function in the xml parameter
 function openPrintReport(contentId, xsltName, xml){
-	var content='';
-	if(xml!=''){
+	var content="";
+	if(xml!=""){
 		content=serializeXML(xml);
 		}
 	else if(document.getElementById(contentId)){
 		content=document.getElementById(contentId).innerHTML;
 		}
 
-	if(content!=''){
+	if(content!=""){
 		printWindow=window.open('','','height=800,width=750,dependent,resizable,menubar,screenX=50,scrollbars');
 		printWindow.document.open();
 		printWindow.document.writeln("<html>");

@@ -1,7 +1,6 @@
 <?php
 /**										scripts/list_report.php
  *
- * generic script called from within a form, returns array rids[]
  * if rcrid is blank then actually lists report wrappers
  */
 
@@ -22,11 +21,10 @@
 ?>
 
 <div class="center"> 
-  <label for="Current Reports"><?php print_string('current');?></label>
-  <select style="width:60%;" id="Current Reports" type="text" name="rids[]"
-	  class="requiredor" eitheror="Previous Reports"
-			tabindex="<?php print $tab++;?>" size="6" multiple="multiple" >
-		<option value=""></option>
+  <label for="Reports"><?php print_string('reports');?></label>
+  <select style="width:70%;" id="Reports" type="text" name="rids[]"
+	  class="required" tabindex="<?php print $tab++;?>" size="18" multiple="multiple" >
+	  <option value="">----<?php print_string('current');?>----------------</option>
 <?php
    	while(list($rid,$report)=each($reports)){
 		if($report['date']>=$todate){
@@ -38,15 +36,7 @@
 			}
  		}
 ?>
-  </select>
-</div>
-
-<div class="center"> 
-  <label for="Previous Reports"><?php print_string('previous');?></label>
-  <select style="width:60%;" id="Previous Reports" type="text" name="rids[]"
-	  class="requiredor" eitheror="Current Reports"
-			size="8" multiple="multiple" tabindex="<?php print $tab++;?>">
-		<option value=""></option>
+	  <option value="">----<?php print_string('previous');?>----------------</option>
 <?php
 	reset($reports);
 	while(list($rid,$report)=each($reports)){

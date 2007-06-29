@@ -5,6 +5,8 @@
 $action='report_reports_list.php';
 $choice='report_reports.php';
 
+include('scripts/sub_action.php');
+
 three_buttonmenu();
 ?>
 

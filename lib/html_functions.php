@@ -13,6 +13,10 @@ function all_extrabuttons($extrabuttons,$book='',
 ?>
   <button onClick="<?php print $attributes['onclick'];?>" 
 	<?php print $class;?> 
+	<?php if(isset($attributes['pathtoscript'])){print '
+						  pathtoscript="'.$attributes['pathtoscript'].'" ';}?>
+	<?php if(isset($attributes['xmlcontainerid'])){print '
+						  xmlcontainerid="'.$attributes['xmlcontainerid'].'" ';}?>
 	title="<?php print_string($attributes['title'],$book);?>" 
 	name="<?php print $attributes['name'];?>" 
 	value="<?php print $attributes['value'];?>">

@@ -28,6 +28,11 @@ input:focus, textarea:focus, select:focus {
 	border-color:#ff9900;
     z-index:10000;
 	}
+option[value=""]{ 
+    background-color:#eeeeee;
+    color:#aaaaaa;
+    margin:5px 0;
+	}
 textarea {
     width:95%;
 	}

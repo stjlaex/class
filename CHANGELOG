@@ -1,4 +1,26 @@
-Version ClaSS-0.8.21 release (2007/07/27)
+Version ClaSS-0.8.22 release (2007/06/29)
+-----------------------------------------
+
+Generalised the js checksidsAction to work in any context; the sids
+don't have to be checked checkboxes but can be in the hidden xml-div
+instead. It now grabs the name of the xsltransform to use from the
+returned xml if one is not already set in the xml-div.
+
+The extrabuttons array can now take a pathtoscript attribute to be
+used by checksidsAction instead of the default pathtobook when it has
+to call outside of its own book. A further attribute can point to a
+named hidden xml-div instead of the default id=xml-checked-action.
+
+The improved checksidsAction used to replace student_reports_print in
+the InfoBook.
+
+Simplified the list scripts for reports and wrappers to use a single
+select (including both previous and current).
+
+
+
+ 
+Version ClaSS-0.8.21 release (2007/06/27)
 -----------------------------------------
 
 Bugfix to checkyesno script.

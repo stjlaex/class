@@ -59,7 +59,7 @@ if(sizeof($sids)==0){
 		$filename='Report'.$pubdate.'_'.$Student['Surname']['value'].'_'.$sid.'_'.$wrapper_rid.'.html';
 		$postdata['batch['.$c.']']=$filename;
 
-		$file=fopen($CFG->installpath.'/spareports/'.$filename, 'w');
+		$file=fopen($CFG->installpath.'/reports/'.$filename, 'w');
 		if(!$file){
 			$error[]='Unable to open file for writing!';
 			}

@@ -29,10 +29,10 @@
 ?>
 
 <div class="center"> 
-  <label for="Current Reports"><?php print_string('current');?></label>
-  <select style="width:60%;" id="Current Reports" type="text" name="wrapper_rid"
-	  class="requiredor" eitheror="Previous Reports"
-			tabindex="<?php print $tab++;?>" size="4">
+  <label for="Current Reports"><?php print_string('reports');?></label>
+  <select style="width:80%;" id="Current Reports" name="wrapper_rid"
+	  tabindex="<?php print $tab++;?>" size="18">
+	  <option value="">----<?php print_string('current');?>----------------</option>
 <?php
 	while(list($rid,$report)=each($reportwrappers)){
 		if($report['date']>=$todate){
@@ -44,26 +44,7 @@
 			}
  		}
 ?>
-		<option value="">--------------------</option>
-<?php
-   	while(list($rid,$report)=each($reports)){
-		if($report['date']>=$todate){
-?>
-		<option value="<?php print $report['id'];?>">
-			<?php print $report['course_id'].' '.$report['title'].' ('.$report['date'].')';?>
-		</option>
-<?php
-			}
- 		}
-?>
-  </select>
-</div>
-
-<div class="center">
-  <label for="Previous Reports"><?php print_string('previous');?></label>
-  <select style="width:60%;" id="Previous Reports" type="text" name="wrapper_rid"
-	  class="requiredor" eitheror="Current Reports"
-			size="18" multiple="multiple" tabindex="<?php print $tab++;?>">
+		<option value="">----<?php print_string('previous');?>----------------</option>
 <?php
 	reset($reportwrappers);
 	while(list($rid,$report)=each($reportwrappers)){
@@ -71,19 +52,6 @@
 ?>
 		<option value="<?php print $report['id'];?>">
 			<?php print $report['title'].' ('.$report['date'].')';?>
-		</option>
-<?php
-			}
- 		}
-?>
-		<option value="">--------------------</option>
-<?php
-	reset($reports);
-	while(list($rid,$report)=each($reports)){
-		if($report['date']<$todate){
-?>
-		<option value="<?php print $report['id'];?>">
-			<?php print $report['course_id'].' '.$report['title'].' ('.$report['date'].')';?>
 		</option>
 <?php
 			}

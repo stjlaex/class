@@ -11,7 +11,7 @@
 	if(!isset($multi)){$multi='1';}
 	if(!isset($igena)){$igena='';}else{$igena++;}
 
-	$d_grading=mysql_query("SELECT name, comment FROM grading WHERE ORDER BY name");
+	$d_grading=mysql_query("SELECT name, comment FROM grading ORDER BY name");
 ?>
   <label for="Gradingscheme"><?php print_string('gradingscheme');?></label>
   <select id="Gradingscheme"  tabindex="<?php print $tab++;?>" 

@@ -9,11 +9,7 @@ if(isset($_POST['newyid'])){$yid=$_POST['newyid'];}else{$yid='';}
 if(isset($_POST['year'])){$year=$_POST['year'];}
 if(isset($_POST['stage'])){$stage=$_POST['stage'];}
 if(isset($_POST['rids'])){$postrids=$_POST['rids'];}else{$postrids=array();}
-if(isset($_POST['wrapper_rids'])){
-	/*there is always one blank wrapper_rid and one wrapper_rid with a value*/
-	$wrapper_rids=(array)$_POST['wrapper_rids'];
-	while(list($index,$value)=each($wrapper_rids)){if($value!=''){$wrapper_rid=$value;}}
-	}
+if(isset($_POST['wrapper_rid'])){$wrapper_rid=$_POST['wrapper_rid'];}
 
 include('scripts/sub_action.php');
 
@@ -74,7 +70,6 @@ two_buttonmenu($extrabuttons,$book);
 			$report=mysql_fetch_array($d_report,MYSQL_ASSOC);
 			$report['summaries']=(array)fetchReportSummaries($rid);
 			$reports[]=$report;
-			$transform=$report['transform'];
 
 			/*all of the marks associated with this report*/
 			mysql_query("CREATE TEMPORARY TABLE mids$rid (SELECT eidmid.mark_id FROM eidmid
@@ -86,11 +81,7 @@ two_buttonmenu($extrabuttons,$book);
 <?php
 			$input_elements.=' <input type="hidden" name="rids[]" value="'.$rid.'" />';
 			}
-
-	/*this means the last entry in rids[] defines the transform
-		to use (can only use one!) and which is usually the wrapper anyway*/
 ?>
-		  <transform><?php print $transform;?></transform>
 		</reportids>
 	  </div>
 		<table class="listmenu">

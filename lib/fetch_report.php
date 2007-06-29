@@ -125,6 +125,7 @@ function fetchSubjectReports($sid,$reportdefs){
 		   	$Reports['publishdate']=date('jS M Y',strtotime($reportdef['report']['date']));
 		   	$transform=$reportdef['report']['transform'];
 			}
+
 	return array($Reports,$transform);
 	}
 

@@ -1,5 +1,5 @@
 <?php
-/**									report_reports_publish.php
+/**									report_reports_email.php
  */
 
 $action='report_reports.php';
@@ -24,6 +24,7 @@ if(sizeof($sids)==0){
 		//trigger_error('rid'.$rids[$c],E_USER_WARNING);
 		$reportdefs[]=fetchReportDefinition($rids[$c]);
 		}
+	$pubdate=$reportdefs[0]['report']['date'];
 
 	/*doing one student at a time*/
 	for($c=0;$c<sizeof($sids);$c++){
@@ -34,18 +35,17 @@ if(sizeof($sids)==0){
 		$body='Please find attached the term report for '.$Student['DisplayFullName']['value'].' and the latest edition of the school newsletter.';
 		$subject='Saint Michael\'s College report for '.$Student['DisplayFullName']['value'];
 		$fromaddress='smc@classforschools.com';
-		$filename='Report_'.$Student['Surname']['value'].'_'.$sid.'_'.$wrapper_rid.'.pdf';
+		$filename='Report'.$pubdate.'_'.$Student['Surname']['value'].'_'.$sid.'_'.$wrapper_rid.'.pdf';
 		$attachments=array();
 		$attachments[]=array('filepath'=>$CFG->installpath.'/pdfreports/'.$filename,
 							 'filename'=>$filename);
-		//$attachments[]=array('filepath'=>$CFG->installpath.'/pdfreports/smc_newsletter.pdf',
-		//					 'filename'=>'newsletter.pdf');
+		$attachments[]=array('filepath'=>$CFG->installpath.'/pdfreports/smc_newsletter.pdf',
+							 'filename'=>'newsletter.pdf');
 
 		while(list($index,$Contact)=each($Contacts)){
 			$mailing=$Contact['ReceivesMailing']['value'];
 			if(($mailing=='1' or $mailing=='2') and $Contact['EmailAddress']['value']!=''){
 				$recipient=$Contact['EmailAddress']['value'];
-				//$recipient='stj@laex.org';
 				send_email_to($recipient,$fromaddress,$subject,$body,'',$attachments);
 				$result[]=get_string('reportsemailed').': '.$recipient;
 				}

@@ -186,31 +186,24 @@ function checksidsAction(buttonObject){
 	var buttonname=buttonObject.name;
 	var script=buttonObject.value;
 	var params="";
-
-	//first grab all the checked input sids
-	var sids=new Array();
-	var sidno=0;
-	for(var c=0; c<formObject.elements.length; c++){
-		if(formObject.elements[c].name=="checkall"){
-			c=c+1;
-			}
-		if(formObject.elements[c].type=="checkbox"){
-			if(formObject.elements[c].checked){
-				sids[sidno++]=formObject.elements[c].value;
-				params=params+"&sids[]=" + escape(formObject.elements[c].value);
-				//and uncheck them for (maybe) convenience
-				formObject.elements[c].checked=false;
-				}
-			}
+	//need the path for the script being called - this is always set 
+	//by default to path to the current book but can be overridden
+	var pathtoscript=pathtobook;
+	if(buttonObject.getAttribute("pathtoscript")){
+		pathtoscript=buttonObject.getAttribute("pathtoscript");
+		}
+	//need the id of the div containing the params to work with
+	//this defaults to checked-action but can be overridden
+	var theContainerId="checked-action";
+	if(buttonObject.getAttribute("xmlcontainerid")){
+		theContainerId=buttonObject.getAttribute("xmlcontainerid");
 		}
 
-	//need the id of the div containing the xml-record to work with
-	//currently this is fixed but maybe need multiple values?
-	var theContainerId="checked-action";
-	if(theContainerId!=""){
+	if(theContainerId!="" && document.getElementById("xml-"+theContainerId)){
 		var xmlId="xml-"+theContainerId;
 		var xmlContainer=document.getElementById(xmlId);
 		var xmlRecord=xmlContainer.childNodes[1];
+		var xsltransform="";
         for(var i=0; i < xmlRecord.childNodes.length; i++){
 			var xmlfieldid=xmlRecord.childNodes[i];
 			if(xmlfieldid.tagName){
@@ -219,7 +212,11 @@ function checksidsAction(buttonObject){
 				else{var xmlvalue="";}
 				if(paramname=="transform"){
 					//the transform is used by the js and not passed as a param
-					var transform=escape(xmlvalue);
+					var xsltransform=escape(xmlvalue);
+					}
+				else if(paramname=="selectname"){
+					//the transform is used by the js and not passed as a param
+					var selectname=escape(xmlvalue);
 					}
 				else{
 					params=params + "&" + paramname + "=" + escape(xmlvalue);
@@ -227,24 +224,64 @@ function checksidsAction(buttonObject){
 		    	}
 			}
 		}
-	var url=pathtobook + "httpscripts/" + script + "?" +params;
+
+
+	//now grab all the checked input sids
+	var sids=new Array();
+	var sidno=0;
+	for(var c=0; c<formObject.elements.length; c++){
+		if(formObject.elements[c].name=="checkall"){
+			c=c+1;
+			}
+		if(formObject.elements[c].type=="checkbox" && formObject.elements[c].name=="sids[]"){
+			if(formObject.elements[c].checked){
+				sids[sidno++]=formObject.elements[c].value;
+				params=params+"&sids[]=" + escape(formObject.elements[c].value);
+				//and uncheck them for (maybe) convenience
+				formObject.elements[c].checked=false;
+				}
+			}
+		else if(formObject.elements[c].name==selectname && 
+						formObject.elements[c].type=="select-one"){
+			var selectObj=formObject.elements[c];
+			for(var i=0; i < selectObj.options.length; i++){
+				if(selectObj.options[i].selected){
+					params=params + "&" + selectname + "=" + escape(selectObj.options[i].value);
+					}
+				}
+			}
+		else if(formObject.elements[c].name==selectname && 
+						formObject.elements[c].type=="select-multiple"){
+			var selectObj=formObject.elements[c];
+			for(var i=0; i < selectObj.options.length; i++){
+				if(selectObj.options[i].selected){
+					params=params + "&" + selectname + "[]=" + escape(selectObj.options[i].value);
+					}
+				}
+			}
+		}
+
+	var url=pathtoscript + "httpscripts/" + script + "?" +params;
 	xmlHttp.open("GET", url, true);
 	xmlHttp.onreadystatechange=function () {
-					if(xmlHttp.readyState==4){
-						if(xmlHttp.status==200){
-							var xmlReport=xmlHttp.responseXML;
-							//function to actually process the returned xml
-							openPrintReport("",transform,xmlReport);
-							}
-						else if(xmlHttp.status==404){alert ("Requested URL is not found.");}
-        				else if(xmlHttp.status==403){alert("Access denied.");} 
-						else {alert("status is " + xmlHttp.status);}
-						progressIndicator("stop");
+			if(xmlHttp.readyState==4){
+				if(xmlHttp.status==200){
+					var xmlReport=xmlHttp.responseXML;
+					if(xsltransform==""){
+						xsltransform=xmlReport.getElementsByTagName("transform")[0].firstChild.nodeValue;
 						}
-					else{
-						progressIndicator("start");
-						}
+					//function to actually process the returned xml
+					openPrintReport("",xsltransform,xmlReport);
 					}
+				else if(xmlHttp.status==404){alert ("Requested URL is not found.");}
+        		else if(xmlHttp.status==403){alert("Access denied.");} 
+				else {alert("status is " + xmlHttp.status);}
+				progressIndicator("stop");
+				}
+			else{
+				progressIndicator("start");
+				}
+			}
 	xmlHttp.send(null);
 	}
 
@@ -467,11 +504,11 @@ function loadRequired(){
 				}
 
 			// add event handlers to the checkbox input elements
-			if(elementObject.getAttribute("type")=="checkbox" & elementObject.name=="sids[]"){
+			if(elementObject.getAttribute("type")=="checkbox" && elementObject.name=="sids[]"){
 				elementObject.onchange=function(){checkrowIndicator(this)};
 				}
 
-			if(elementObject.getAttribute("tabindex")=="1" & firstFocus=="-1"){
+			if(elementObject.getAttribute("tabindex")=="1" && firstFocus=="-1"){
 				firstFocus=c;
 				}
 			if(elementObject.getAttribute("type")=="date"){
