@@ -60,11 +60,13 @@ div#logbook {
     padding:4px 12px 50px 8px;
 	font-weight:900;
     color:#765;
-	background-color:#cccccc;
 	border:1px solid ivory;
 	-moz-border-radius:0 18% 0 0;
 	cursor:pointer;
-    }
+	background-image:url("../images/gradient_horizontal.png");
+    background-repeat:repeat-y;	
+	background-color:#ccc;
+	}
 /*give colour to tab in focus and to current tab*/
 .booktabs p.seneeds:hover, #currentbook.seneeds {
     background-color:#554466;
@@ -99,8 +101,12 @@ div#logbook {
 .booktabs p.reportbook:hover, #currentbook.reportbook {
     background-color:#44aaaa;
     }
-.booktabs p:hover, .booktabs #currentbook {
+.booktabs p:hover {
+    color:ivory;
+    }
+.booktabs #currentbook {
     color:#ffffff;
+	background-image:url("");
     }
 
 /*the special case logbook in top left corner*/
@@ -119,6 +125,7 @@ div#logbook {
 	border-left:0;
 	-moz-border-radius:20% 0 0 0;
     padding:4px 12px 40px 14px;
+	background-image:url("");
     }
 /*give current book coloured stripe to the logbook*/
 div#logbookstripe.seneeds {

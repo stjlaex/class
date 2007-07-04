@@ -28,11 +28,13 @@ fieldset.selery {
     border:0;
     padding:0 4px 0 0;
     margin-bottom:2px;
-	border-top:1px solid #999999;
-    background:#ffffff;
-    color:#444444;
+	border-top:1px solid #765;
+    color:#765;
 	text-align:left;
     width:auto;
+	background-image:url("../images/gradient_vertical.png");
+    background-repeat:repeat-x;
+    background-color:#ccc;
 	}
 
 .selery li input {
@@ -46,7 +48,7 @@ fieldset.selery {
 	}
 
 .selery li:hover, .selery li.checked  {  
-    border-color:#ffffff;
+    border-color:#5599cc;
     background-color:#5599cc;
     color:#ffffff;
 	cursor:pointer;

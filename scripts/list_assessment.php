@@ -21,6 +21,7 @@
 			}
 		}
 	elseif(sizeof($ryids)>0){
+		reset($ryids);
    		while(list($index,$ryid)=each($ryids)){
 			$comcohorts=(array)list_community_cohorts(array('id'=>'','type'=>'year','name'=>$ryid));
 			while(list($index,$cohort)=each($comcohorts)){

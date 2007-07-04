@@ -1,4 +1,4 @@
-Version ClaSS-0.8.22 release (2007/06/29)
+Version ClaSS-0.8.22 release (2007/07/06)
 -----------------------------------------
 
 Generalised the js checksidsAction to work in any context; the sids
@@ -17,7 +17,9 @@ the InfoBook.
 Simplified the list scripts for reports and wrappers to use a single
 select (including both previous and current).
 
-
+Using background images in the css to add some shine to the user
+interface. A vertical gradient effect added to the selery li elements
+and a hrizontal gradient to the book tabs.
 
  
 Version ClaSS-0.8.21 release (2007/06/27)
