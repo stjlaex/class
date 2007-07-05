@@ -94,6 +94,11 @@ assessments does not ommit any.
 Bugfix to a typo in checkcurrentRespon in permissions, it was
 over-looking subject responsibilities.
 
+The moodle libraries which were being used for ldap development have
+been removed from the repository until a time when ldap is back on the
+roadmap.
+
+
 
 Version ClaSS-0.8.19 release (2007/05/31)
 -----------------------------------------

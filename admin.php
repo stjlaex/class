@@ -67,9 +67,8 @@ $rtid=$tid;
 			   ,'portfolio_accounts.php' => 'refreshportfolios'
 			   ,'server_test.php' => 'servertest'
 				   /*these are all either very experimental or completely useless!!!!!*/
-				   //,'ldap_start.php' => 'ldaptest'
 				   //,'statementbank.php' => 'statementbank'
-				   ,'demoiser.php' => 'demoiser'
+				   //,'demoiser.php' => 'demoiser'
 			   );
 	selery_stick($choices,$choice,$book);
 ?>

@@ -211,6 +211,7 @@ button {
 	}
 .bookoptions fieldset { 
     border-width:3px 0 0 0;
+    border-style:solid;
 	padding:2px; margin:0;
     background-color:#444444;
 	}
@@ -231,7 +232,7 @@ button {
 	}
 
 .formimages {
-	padding:5px; 
+	padding:5px;
     width:10px; 
     height:10px; 
     border-style:none;	
