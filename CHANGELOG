@@ -37,7 +37,8 @@ nearly all purposes and the crid part of the key was not being used
 consistently.
 
 The definition of grade schemes has been moved out to its own file
-gradeschemes.xml in the curriculum packs.
+gradeschemes.xml in the curriculum packs. Curiiculum packs need to be
+upgraded!!!
 
 
 Version ClaSS-0.8.20 release (2007/06/22)

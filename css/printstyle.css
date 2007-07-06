@@ -66,3 +66,24 @@ th.hidden {
 	display:none;
 	}
 
+/*address labels*/
+.barcode {
+    font-family: IDAutomationHC39M;
+    font-size: 10pt;
+	}
+@page Section1 {
+    size:3.5in 1.0in;
+    margin: .10in .15in .0in .15in;
+    mso-page-orientation:landscape;
+	}
+
+div.Section1 {
+    font-family: Arial;
+    font-size: 12pt;
+    page:Section1;
+	}
+div.labelbreak {
+    clear:all;
+    page-break-before:always;
+	}
+/**/
