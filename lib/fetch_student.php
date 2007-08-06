@@ -616,6 +616,16 @@ function fetchContact($gidsid=array('guardian_id'=>'-1','student_id'=>'-1')){
 								  'field_db' => 'middlenames', 
 								  'type_db' => 'varchar(30)', 
 								  'value' => ''.$guardian['middlenames']);
+	$Contact['Title']=array('label' => 'title', 
+								  'table_db' => 'guardian', 
+								  'field_db' => 'title', 
+								  'type_db' => 'varchar(20)', 
+								  'value' => ''.$guardian['title']);
+	$Contact['DisplayFullName']=array('label' => 'fullname',  
+									  'value' => $guardian['title'] .' ' . 
+									  $guardian['forename'] . ' ' .$guardian['middlenames']
+									  . ' ' . $guardian['surname']);
+
 	$Contact['EmailAddress']=array('label' => 'emailaddress', 
 								  'table_db' => 'guardian', 
 								  'field_db' => 'email', 
@@ -636,6 +646,7 @@ function fetchContact($gidsid=array('guardian_id'=>'-1','student_id'=>'-1')){
 								  'field_db' => 'companyname', 
 								  'type_db'=>'varchar(240)', 
 								  'value' => ''.$guardian['companyname']);
+
 
 	/*******ContactsAddresses****/
 	$Addresses=array();
@@ -700,7 +711,7 @@ function fetchAddress($gidaid=array('address_id'=>'-1','addresstype'=>'')){
 							   'field_db' => 'streetno',
 							   'type_db'=>'varchar(10)', 
 							   'value' => ''.$address['streetno']);
-	$Address['Road']=array('label' => 'street',
+	$Address['Street']=array('label' => 'street',
 						   'table_db' => 'address', 
 						   'field_db' => 'street',
 						   'type_db'=>'varchar(100)', 

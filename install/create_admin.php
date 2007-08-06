@@ -168,8 +168,8 @@ CREATE TABLE community (
 	season		enum('','S','W','M','1','2','3','4','5','6','7','8','9','a','b','c') NOT NULL DEFAULT '',
 	capacity	smallint unsigned not null default 0,
     detail		varchar(240) not null default '',
-	unique		indexcom (type,name,year,season),
-	primary key (id)
+	index		indexcom (type,name),
+	primary		key (id)
 );");
 
 mysql_query("

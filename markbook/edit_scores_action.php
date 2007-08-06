@@ -69,7 +69,7 @@ if($sub=='Submit'){
 		if(isset($eid) and isset($res)){
 			$ass=array('result'=>$res,'value'=>$inscore,'date'=>$todate);
 			update_assessment_score($eid,$sid,$bid,$pid,$ass);
-			trigger_error($eid.' '.$res.'-'.$inscore,E_USER_WARNING);
+			//trigger_error($eid.' '.$res.'-'.$inscore,E_USER_WARNING);
 			}
 
 /*		Tidy up any empty value entries by deleting their score 

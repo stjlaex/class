@@ -42,10 +42,10 @@ function fetchSubjectReports($sid,$reportdefs){
 			 not be used to generate indexes for repbids otherwise a
 			 reportentry for ALL conceivable bid-pid combinations is
 			 included */
+			$Reports['SummaryAssessments']=array();
 			while(list($index,$eid)=each($reportdef['stateids'])){
 				$GAssessments=(array)fetchAssessments_short($sid,$eid);
 				//trigger_error('GStats: '.$eid.' number '.sizeof($GAssessments),E_USER_WARNING);
-				$Reports['SummaryAssessments']=array();
 				if(sizeof($GAssessments)>0){
 					$Reports['SummaryAssessments'][]['Assessment']=nullCorrect($GAssessments);
 					/* only take the overall assessments for the statseid
@@ -106,7 +106,7 @@ function fetchSubjectReports($sid,$reportdefs){
 				$Summaries['Summary'][]=nullCorrect($Summary);
 				}
 
-			/* Add assessments to the asstable, to display using aslt
+			/* Add assessments to the asstable, to display using xslt
 			in the report. Each element appears only once.*/
 			if(is_array($reportdef['asstable']['ass'])){
 				while(list($index,$ass)=each($reportdef['asstable']['ass'])){
@@ -182,19 +182,22 @@ function fetchReportDefinition($rid,$selbid='%'){
 	$asstable=array();
 	$asselements=array();
 	while($ass=mysql_fetch_array($d_assessment,MYSQL_ASSOC)){
-		if($ass['resultstatus']=='S'){
+		if($ass['resultstatus']=='S' or $ass['subject_id']=='G'){
 			$reportdef['stateids'][]=$ass['id'];
 			}
 		else{
 			$reportdef['eids'][]=$ass['id'];
 			}
-		if(!in_array($ass['element'],$asselements) or $ass['element']==''){
+		if((!in_array($ass['element'],$asselements) or
+				$ass['element']=='') and $ass['subject_id']!='G'){
 			/* This $asstable is only used by the xslt to construct
 				the grade table, it uses the value of element to
 				identify assessments in the xml. Many alternative
 				assessments may share the same spot on the report if
 				they have the same element. Hence an element
 				should be unique, each can only apear once in the report. */
+			/* Assessments which are not subject specific (G for
+				general) belong in summaryassessments. */
 			$asselements[]=$ass['element'];
 			$asstable['ass'][]=array('name' => ''.$ass['description'],
 									 'label' => ''.$ass['label'],

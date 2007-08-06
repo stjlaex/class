@@ -186,6 +186,7 @@ function checksidsAction(buttonObject){
 	var buttonname=buttonObject.name;
 	var script=buttonObject.value;
 	var params="";
+	var xsltransform="";
 	//need the path for the script being called - this is always set 
 	//by default to path to the current book but can be overridden
 	var pathtoscript=pathtobook;
@@ -203,7 +204,6 @@ function checksidsAction(buttonObject){
 		var xmlId="xml-"+theContainerId;
 		var xmlContainer=document.getElementById(xmlId);
 		var xmlRecord=xmlContainer.childNodes[1];
-		var xsltransform="";
         for(var i=0; i < xmlRecord.childNodes.length; i++){
 			var xmlfieldid=xmlRecord.childNodes[i];
 			if(xmlfieldid.tagName){
@@ -215,7 +215,7 @@ function checksidsAction(buttonObject){
 					var xsltransform=escape(xmlvalue);
 					}
 				else if(paramname=="selectname"){
-					//the transform is used by the js and not passed as a param
+					//used by the js and not passed as a param
 					var selectname=escape(xmlvalue);
 					}
 				else{

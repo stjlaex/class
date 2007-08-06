@@ -20,7 +20,7 @@ if($_SESSION['role']=='admin'){
    	$extrabuttons['addresslabels']=array('name'=>'current',
 										 'title'=>'printaddresslabels',
 										 'onclick'=>'checksidsAction(this)',
-										 'value'=>'print_labels.php');
+										 'value'=>'contact_labels_print.php');
 	}
 if($_SESSION['role']=='office' or $_SESSION['role']=='admin'){
    	$extrabuttons['exportstudentrecords']=array('name'=>'current',

@@ -97,7 +97,6 @@ function update_community($community,$communityfresh=array('id'=>'','type'=>'','
 		$year=get_curriculumyear();
 		}
 	else{$year='0000';}
-	//trigger_error('upcom type:'.$type.' name:'.$name,E_USER_WARNING);
 	if(isset($community['detail'])){$detail=$community['detail'];}else{$detail='';}
 	if(isset($community['capacity'])){$capacity=$community['capacity'];}else{$capacity='0';}
 	if($type!='' and $name!=''){
@@ -121,6 +120,7 @@ function update_community($community,$communityfresh=array('id'=>'','type'=>'','
 			if($tfresh!='' and $nfresh!=''){
 				mysql_query("UPDATE community SET type='$tfresh', 
 									name='$nfresh' WHERE id='$comid'");
+				trigger_error('upcom type:'.$type.' name:'.$name.' >' .$nfresh .mysql_error(),E_USER_WARNING);
 				}
 			if(isset($communityfresh['detail'])){
 				$dfresh=$communityfresh['detail'];
@@ -654,11 +654,10 @@ function get_curriculumyear($crid=''){
 	$d_course=mysql_query("SELECT endmonth FROM course WHERE id='$crid'");
 	if(mysql_num_rows($d_course)>0){$endmonth=mysql_result($d_course,0);}
 	else{$endmonth='';}
-	if($endmonth==''){$endmonth='10';/*defaults to July*/}
+	if($endmonth==''){$endmonth='7';/*defaults to July*/}
 	$thismonth=date('m');
 	$thisyear=date('Y');
 	if($thismonth>$endmonth){$thisyear++;}
 	return $thisyear;
 	}
-
 ?>

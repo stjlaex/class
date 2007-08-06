@@ -25,6 +25,7 @@ if(sizeof($sids)==0){
 		$csv=array();
 		$Student=fetchStudent();
 		$Contact=fetchContact();
+		$Address_blank=fetchAddress();
 
 		$csv[]='student_id_db';
 		while(list($tagname,$field)=each($Student)){
@@ -32,9 +33,13 @@ if(sizeof($sids)==0){
 			}
 		for($c=0;$c<4;$c++){
 			reset($Contact);
+			reset($Address_blank);
 			$csv[]='';
 			$csv[]='contact_id_db';
 			while(list($tagname,$field)=each($Contact)){
+				if(is_array($field) and isset($field['value'])){$csv[]=$field['label'];}
+				}
+			while(list($tagname,$field)=each($Address_blank)){
 				if(is_array($field) and isset($field['value'])){$csv[]=$field['label'];}
 				}
 			}
@@ -63,6 +68,23 @@ if(sizeof($sids)==0){
 				$csv[]='';
 				$csv[]=$Contact['id_db'];
 				while(list($tagname,$field)=each($Contact)){
+					if(is_array($field) and isset($field['value'])){
+						if($field['type_db']=='enum'){
+							if($field['value']!='NOT'){
+								$csv[]=displayEnum($field['value'],$field['field_db']);
+								}
+							else{$csv[]='';}
+							}
+						else{$csv[]=$field['value'];}
+						}
+					}
+				if(is_array($Contact['Addresses']) & sizeof($Contact['Addresses'][0])>1){
+					$Address=$Contact['Addresses'][0];
+					}
+				else{
+					$Address=$Address_blank;
+					}		
+				while(list($tagname,$field)=each($Address)){
 					if(is_array($field) and isset($field['value'])){
 						if($field['type_db']=='enum'){
 							if($field['value']!='NOT'){

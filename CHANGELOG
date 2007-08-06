@@ -1,3 +1,30 @@
+Version ClaSS-0.8.23 release (2007/08/06)
+-----------------------------------------
+
+Added a title field to the guardian table which is used for new
+DisplayFullName field in the $Contacts array. Apply the patch!
+
+New action button for office users on the student_list page for
+printing address labels. This uses checksidsAction to call
+contact_labels_print.php and has a new template called labels. Need
+some way of configuring the default label style (ie. template name) in
+the school.php file. 
+
+Fixed a bug in year_end_action which had been introduced back in
+0.8.16. Needed to lift the unique contstraint on the secondary index
+in the community table.
+
+Changed to the student_scores scheme so it now only displays genuinely
+cross-curricular (subject_id=%) assessments in the table. Need to
+display subject_id=G in a seperate table, and allow for click on
+subject header to subject specific perhaps?
+
+Started transition of the incidents to full incident tracking
+system. A new table incidenthistory added and flag for closing and
+incident added to the existing table.
+
+
+
 Version ClaSS-0.8.22 release (2007/07/06)
 -----------------------------------------
 

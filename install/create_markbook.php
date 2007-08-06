@@ -80,7 +80,7 @@ mysql_query("
 CREATE TABLE grading (
        name				varchar(20) not null default '',
        grades			varchar(200) not null default '',
-       comment			text,
+       comment			text not null default'',
        author			varchar(14) not null default '',
        primary key		(name)
 );");

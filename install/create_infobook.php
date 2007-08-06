@@ -101,12 +101,24 @@ CREATE TABLE incidents (
 	yeargroup_id	smallint not null default '0',
 	category		varchar(30) not null default '',
 	detail			text not null default '',
-	outcome			text not null default '',
+	closed			enum('N','Y') not null,
 	subject_id		varchar(10) not null default '',
 	teacher_id		varchar(14) not null default '',	
 	index			index_student (student_id),
    	primary key		(id)
 );");
+
+mysql_query("
+CREATE TABLE incidenthistory (
+	incident_id		int unsigned not null, 
+	entryn			smallint unsigned not null auto_increment,
+	comment			text not null default '',
+	categorydef_id	int unsigned not null default '0',
+	teacher_id		varchar(14) not null default '',
+	entrydate		date not null,
+   	primary key		(incident_id,entryn)
+);");
+
 
 mysql_query("
 CREATE TABLE comments (
@@ -159,6 +171,7 @@ CREATE TABLE guardian (
 	surname		varchar(30) not null default '', 
 	forename	varchar(30) not null default '', 
 	middlenames	varchar(30) not null default '', 
+	title		varchar(20) not null default '', 
 	gender		enum('F','M') not null, 
 	dob			date not null default '0000-00-00',
 	translator	enum('N','Y') not null,

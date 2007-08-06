@@ -131,6 +131,6 @@ $string['stay']='Residencial stay';
 $string['roomcategory']='Room category';
 $string['residencebuilding']='Residence buidling';
 $string['residencebed']='Residence Bed';
-$string['']='';
+$string['addresslabels']='Address labels';
 $string['']='';
 ?>

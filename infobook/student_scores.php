@@ -56,63 +56,62 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 	while(list($eid,$assnos)=each($eids)){
 		$gradesum=0;
 		$gradecount=0;
-		$resq=$Assessments[$assnos[0]]['ResultQualifier']['value'];
-		$method=$Assessments[$assnos[0]]['Method']['value'];
-		$gena=$Assessments[$assnos[0]]['GradingScheme']['value'];
-		if($gena!='' and $gena!=' '){
-			$d_grading=mysql_query("SELECT grades FROM grading WHERE name='$gena'");
-			$grading_grades=mysql_result($d_grading,0);
-			}
-		else{$grading_grades='';}
-		$crid=$Assessments[$assnos[0]]['Course']['value'];
+		$AssDef=(array)fetchAssessmentDefinition($eid);
+		$resq=$AssDef['ResultQualifier']['value'];
+		$method=$AssDef['Method']['value'];
+		$grading_grades=$AssDef['GradingScheme']['grades'];
+		$crid=$AssDef['Course']['value'];
 
-		/* display the row for this eid*/
-		print '<tr><td>';
-		print $Assessments[$assnos[0]]['Year']['value'].' ';
-		print $Assessments[$assnos[0]]['Description']['value'];
-		print '</td>';
+		/*only include assessments in the table which are for all subjects*/
+		if($AssDef['Subject']['value']=='%'){
+			/* display the row for this eid*/
+			print '<tr><td>';
+			print $Assessments[$assnos[0]]['Year']['value'].' ';
+			print $Assessments[$assnos[0]]['Description']['value'];
+			print '</td>';
 
-		/* display values for each bid along the row*/
-		reset($bids);
-		while(list($bid,$pids)=each($bids)){
-		  while(list($pid,$assses)=each($pids)){
-			print '<td>';
-			/* iterate over assnos, that is the pointer to all entries in
+			/* display values for each bid along the row*/
+			reset($bids);
+			while(list($bid,$pids)=each($bids)){
+				while(list($pid,$assses)=each($pids)){
+					print '<td>';
+					/* iterate over assnos, that is the pointer to all entries in
 					assessments with this eid*/
-			for($c=0;$c<sizeof($assnos);$c++){
-				$assno=$assnos[$c];
-				$Assessment=$Assessments[$assno];
-				/* if this matches the bid for this cell we use it*/
-				if($bid==$Assessment['Subject']['value'] 
-				  and $pid==$Assessment['SubjectComponent']['value']){
-					$result=$Assessment['Result']['value'];
-					print $result;
-					/* fetch the numerical equivalent for averaging*/
-					if($grading_grades!=''){
-					    $score=gradeToScore($result,$grading_grades);
-			   			}
-					else{$score=$result;}
-					$gradesum=$gradesum+$score;
-					$gradecount++;
+					for($c=0;$c<sizeof($assnos);$c++){
+						$assno=$assnos[$c];
+						$Assessment=$Assessments[$assno];
+						/* if this matches the bid for this cell we use it*/
+						if($bid==$Assessment['Subject']['value'] 
+						   and $pid==$Assessment['SubjectComponent']['value']){
+							$result=$Assessment['Result']['value'];
+							print $result;
+							/* fetch the numerical equivalent for averaging*/
+							if($grading_grades!=''){
+								$score=gradeToScore($result,$grading_grades);
+								}
+							else{$score=$result;}
+							$gradesum=$gradesum+$score;
+							$gradecount++;
+							}
+						}
+					print '</td>';
 					}
 				}
-			print '</td>';
-			}
-		  }
-		/* display the assessment row average*/
-		if($gradecount>0 and $grading_grades!=''){
+			/* display the assessment row average*/
+			if($gradecount>0 and $grading_grades!=''){
 				$scoreaverage=$gradesum/$gradecount;
 				$scoreaverage=round($scoreaverage,1);
 				$score=round($scoreaverage);
 				$grade=scoreToGrade($score,$grading_grades);
 				}
-		elseif($gradecount>0){
+			elseif($gradecount>0){
 				$scoreaverage=round($gradesum/$gradecount);
 				$grade='';
 				}
-		else{$grade='';$scoreaverage='';}
-		print '<td> '.$grade.' ('.$scoreaverage.')'.'</td>';
-		print '</tr>';
+			else{$grade='';$scoreaverage='';}
+			print '<td> '.$grade.' ('.$scoreaverage.')'.'</td>';
+			print '</tr>';
+			}
 		}
 ?>
 	</table>
