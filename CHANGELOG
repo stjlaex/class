@@ -6,6 +6,11 @@ new $CFG option in school.php.  Use of phpmailer will soon be
 obligatory for all emails and this is therefore now a dependency and
 mentioned in the install README as such.
 
+Added a multiline option for importing csv records split across
+multiple lines - which is often the case with spreadsheet exports for
+student records.
+
+
 Version ClaSS-0.8.23 release (2007/08/06)
 -----------------------------------------
 

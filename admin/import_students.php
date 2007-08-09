@@ -21,6 +21,18 @@ three_buttonmenu();
 		<input class="required" type="file" id="Filename" name="importfile" />
 	  </fieldset>
 	
+	  <fieldset class="center">
+		<legend><?php print_string('records',$book);?></legend>
+		<label for="multiline"><?php print_string('multiplelines',$book);?></label>
+		<select class="required" id="multiline" name="multiline">
+		  <option value="1">1</option>
+		  <option value="2">2</option>
+		  <option value="3">3</option>
+		  <option value="4">4</option>
+		  <option value="5">5</option>
+		</select>
+	  </fieldset>
+	
  	<input type="hidden" name="MAX_FILE_SIZE" value="800000">	
  	<input type="hidden" name="current" value="<?php print $action;?>">
  	<input type="hidden" name="choice" value="<?php print $choice;?>">

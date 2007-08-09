@@ -4,7 +4,7 @@
  */
 $string['formatoffilenewteacher']='Format of file: number, id, surname, forename, email, role';
 $string['chooseeitherresponsibility']='Choose either a pastoral OR <br /> academic responsibility for a user.';
-$string['importstudentfileinstructions']='<p>All student records must be on a single line.</p><p>Each record in the file must contain the same number of fields.</p>';
+$string['importstudentfileinstructions']='<p>All student records in the file must contain the same number of fields.</p>';
 $string['loadpreviousdefinition']='Load a previously saved definition.';
 $string['generateclassstructurequestion']='<p>Generating a new class structure could lose current data.</p><p>This should normally only be done at the start of the academic term.</p><p>Are you sure you want to continue?</p>';
 $string['studentsnotinsubject']='Students not in subject';

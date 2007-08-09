@@ -4,12 +4,13 @@
  *generic file import for csv
  *returns the contents as $inrows, and the $nofields for a row
  *aborts to the originating form page on failure
+ *if records are split across multiple lines then set $multiline>1
  */
 
-$fname=$_FILES{'importfile'}{'tmp_name'};
-$fuser=$_FILES{'importfile'}{'name'};
-$ferror=$_FILES{'importfile'}{'error'};
-$ftype=$_FILES{'importfile'}{'type'};
+$fname=$_FILES['importfile']['tmp_name'];
+$fuser=$_FILES['importfile']['name'];
+$ferror=$_FILES['importfile']['error'];
+$ftype=$_FILES['importfile']['type'];
 	
 	if($ferror>0){
 		$error[]='Unable to open remote file.';
@@ -21,29 +22,41 @@ $ftype=$_FILES{'importfile'}{'type'};
 		$action=$choice;
 		}
 	elseif(is_uploaded_file($fname)){
-		$file=fopen("$fname", "r");
+		$file=fopen("$fname", 'r');
 		if(!$file){
 			$error[]='Failed to open uploaded file at the last.';
 			}
 		else{
 			$inrows=array();
+			$record=array();
 			$row=0;
+			$recordline=0;
+			if(!isset($multiline)){$multiline=1;}
 			$nofields='';
 			while(!feof($file)){
 				$in=(array)fgetcsv($file,999,',');
 				/*(filename, maxrowsize,delimeter,enclosure)*/
 
-				/*if first item is null ignore whole row*/
-				if($in[0][0]!='' & $in[0][0]!='#'){
-					$noin=sizeof($in);
-					if($nofields!='' and $nofields!=$noin and $row>0){
-						$error[]="WARNING: row $row has a mismatched field
-					count! ".$in[0].' ';}
-					else{$nofields=$noin;}
-					array_push($inrows, $in);		
+				/*if first item a # then ignore whole row*/
+				if(sizeof($in)>1 and $in[0][0]!='#'){
+					$recordline++;
+					//$record=$record . $in;
+					$record=array_merge($record,$in);
+					if($recordline==$multiline){
+						$recordcount++;
+						$noin=sizeof($record);
+						if($nofields!='' and $nofields!=$noin and $recordcount>$multiline){
+							$error[]='WARNING: record '. $recordcount. 
+									' has a mismatched field count! ' 
+									.$in[0].' ';}
+						else{$nofields=$noin;}
+						array_push($inrows, $record);
+						$record=array();
+						$recordline=0;
+						}
 					}
-				$row++;	
 				}
+
 	   		$result[]='Succesfully uploaded	'.sizeof($inrows).' records.';
 			}
 		}

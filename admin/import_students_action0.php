@@ -8,15 +8,15 @@ $action='import_students_action1.php';
 include('scripts/sub_action.php');
 
 if($sub=='Submit'){
-
+	$multiline=$_POST['multiline'];
 	include('scripts/file_import_csv.php');
 
 	/*to be used by the other action pages*/
 	if(sizeof($inrows>0)){
-		$_SESSION{'instudents'}=$inrows;
+		$_SESSION['instudents']=$inrows;
 		$idef=array();
-		$_SESSION{'idef'}=$idef;
-		$_SESSION{'nofields'}=$nofields;
+		$_SESSION['idef']=$idef;
+		$_SESSION['nofields']=$nofields;
 		}
 	}
 
