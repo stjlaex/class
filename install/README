@@ -21,6 +21,12 @@ In addition, the PEAR libraries for PHP are used. The PEAR:DB package
 is essential. ClaSS will install but won't work correctly without the
 PEAR:XML_Serializer package.
 
+If you turn the automated emailing on, setting $CFG->emailoff='no' in
+school.php, then you will also need the phpmailer library
+installed. Under debian this is installed at /usr/php/libphp-mailer
+and this is the default setting in in school.php. If your install path
+is different then edit $CFG->phpmailerpath.
+
 The versions of these packages you are running is probably not so
 important as long as they are not ancient. ClaSS-0.8 is known to work
 with the following:

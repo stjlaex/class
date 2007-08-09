@@ -1162,7 +1162,8 @@ function array_filter_fields($startarray,$fields){
 function send_email_to($recipient, $from, $subject, $messagetext, $messagehtml='', $attachments='', $usetrueaddress=true, $replyto='', $replytoname=''){
 
     global $CFG;
-    include_once('libphp-phpmailer/class.phpmailer.php');//this works for Debian 
+
+    include_once($CFG->phpmailerpath.'/class.phpmailer.php'); 
 
     if(empty($recipient)){
         return false;

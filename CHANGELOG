@@ -1,3 +1,11 @@
+Version ClaSS-0.8.24 release (2007/08/28)
+-----------------------------------------
+
+Moved the path to phpmailer library out of the functions and into a
+new $CFG option in school.php.  Use of phpmailer will soon be
+obligatory for all emails and this is therefore now a dependency and
+mentioned in the install README as such.
+
 Version ClaSS-0.8.23 release (2007/08/06)
 -----------------------------------------
 
@@ -22,7 +30,6 @@ subject header to subject specific perhaps?
 Started transition of the incidents to full incident tracking
 system. A new table incidenthistory added and flag for closing and
 incident added to the existing table.
-
 
 
 Version ClaSS-0.8.22 release (2007/07/06)

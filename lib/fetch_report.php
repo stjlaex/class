@@ -63,6 +63,7 @@ function fetchSubjectReports($sid,$reportdefs){
 						}
 					}
 				}
+			$Reports['SummaryAssessments']=nullCorrect($Reports['SummaryAssessments']);
 
 			/* Now loop through all subjects with an assessment for this student*/
 			/* and generate a subject report for each - WARNING reportentries*/

@@ -1,4 +1,19 @@
 <?php
+/**									school.php 
+ *
+ * The default settings in this file are intended as illustrative
+ *examples and you will need to check each option and edit
+ *appropriately for your local installation of ClaSS.
+
+ * This file is not overwritten during an upgrade. If you are upgrading
+ *your installation of ClaSS then do check the CHANGELOG for any
+ *changes to this file, very occassionally there will be new $CFG
+ *options which you will need to take from the distributed version
+ *class/install/school.php and add to your local version.
+ *
+ * NB. The convention is to NOT add trailling slashes to any of the path variables
+ *
+ */
 /*title visible to users along the top of the browser*/
 $CFG->sitename='ClaSS Demo';
 /*the web-site's real domain name*/
@@ -38,6 +53,8 @@ $CFG->timezone='Europe/Madrid';
 $CFG->emailoff='no';
 $CFG->emailnoreply='';
 $CFG->emailhandlebounces='';
+/*path to where you've installed the phpmailer library*/
+$CFG->phpmailerpath='/usr/share/php/libphp-phpmailer';//this works for Debian
 /*only needed if using an external mail server, something other than local sendmail*/
 $CFG->smtphosts='';
 $CFG->smtpuser='';
