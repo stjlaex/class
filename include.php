@@ -33,7 +33,6 @@ $books['admin']=array(
 					  ,'register' => 'Register'
 					  ,'infobook' => 'InfoBook'
 					  ,'entrybook' => 'EntryBook'
-					  ,'seneeds' => 'SpecialNeeds'
 					  );
 $books['office']=array(
 					   'admin' => 'Admin'
@@ -45,9 +44,9 @@ $books['support']=array(
 						'infobook' => 'InfoBook'
 						);
 $books['sen']=array(
-						'infobook' => 'InfoBook'
-					   ,'seneeds' => 'SpecialNeeds'
-						);
+					'infobook' => 'InfoBook'
+					,'seneeds' => 'SpecialNeeds'
+					);
 $books['medical']=array(
 						'infobook' => 'InfoBook'
 						//,'medical' => 'Medical'

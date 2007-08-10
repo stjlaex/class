@@ -167,9 +167,8 @@ CREATE TABLE exclusions (
 mysql_query("
 CREATE TABLE guardian (
 	id			int unsigned not null auto_increment, 
-	prefix		varchar(30) not null default '',
-	surname		varchar(30) not null default '', 
-	forename	varchar(30) not null default '', 
+	surname		varchar(120) not null default '', 
+	forename	varchar(120) not null default '', 
 	middlenames	varchar(30) not null default '', 
 	title		varchar(20) not null default '', 
 	gender		enum('F','M') not null, 
@@ -178,7 +177,7 @@ CREATE TABLE guardian (
 	language	char(3) not null default '',
 	nationality	char(2) not null default '',
 	email		varchar(240) not null default '',
-	profession	varchar(10) not null default '',
+	profession	varchar(120) not null default '',
 	companyname	varchar(240) not null default '',
 	index index_name (surname(5),forename(5)),
 	index index_forename (forename(5)),

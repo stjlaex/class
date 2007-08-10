@@ -17,6 +17,7 @@ if($sub=='Submit'){
    	$user['email']=($_POST['email']);
    	$user['emailpasswd']=($_POST['emailpasswd']);
    	$user['role']=$_POST['role'];
+   	$user['senrole']=$_POST['senrole'];
    	$user['firstbookpref']=clean_text($_POST['book']);
    	$user['worklevel']=$_POST['worklevel'];
    	if(isset($_POST['nologin'])){$user['nologin']=$_POST['nologin'];}

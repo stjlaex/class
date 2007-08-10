@@ -553,6 +553,7 @@ function getEnumArray($field_name) {
 	/*for the gidsid table*/
 	$priority=array('0' => 'first', '1' => 'second', '2' => 'third', '3' => 'fourth');
 	$mailing=array('0' => 'nomailing', '1' => 'allmailing', '2' => 'reportsonly');
+	$title=array('0' => 'mr', '1' => 'mrs', '2' => 'srd', '3' => 'srada');
 	$relationship=array('NOT' => 'informationnotobtained', 'CAR' =>
 						'carer', 'DOC' => 'doctor', 'FAM' => 'otherfamilymember', 'PAM'
 						=> 'mother', 'PAF' => 'father', 'OTH' => 'othercontact', 'STP' =>

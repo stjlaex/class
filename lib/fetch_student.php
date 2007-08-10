@@ -141,18 +141,18 @@ function fetchStudent($sid='-1'){
 							  'inputtype'=> 'required',
 							  'table_db' => 'student', 
 							  'field_db' => 'surname',
-							  'type_db'=>'varchar(30)', 
+							  'type_db'=>'varchar(120)', 
 							  'value' => ''.$student['surname']);
 	$Student['Forename']=array('label' => 'forename', 
 							   'inputtype'=> 'required',
 							   'table_db' => 'student', 
 							   'field_db' => 'forename',
-							   'type_db'=>'varchar(30)', 
+							   'type_db'=>'varchar(120)', 
 							   'value' => ''.$student['forename']);
    	$Student['MiddleNames']=array('label' => 'middlenames', 
 								  'table_db' => 'student', 
 								  'field_db' => 'middlenames',
-								  'type_db'=>'varchar(30)', 
+								  'type_db'=>'varchar(120)', 
 								  'value' => ''.$student['middlenames']);
 	$Student['PreferredForename']=array('label' => 'preferredforename', 
 										'table_db' => 'student', 
@@ -162,7 +162,7 @@ function fetchStudent($sid='-1'){
 	$Student['FormerSurname']=array('label' => 'formersurname', 
 									'table_db' => 'student', 
 									'field_db' => 'formersurname',
-									'type_db'=>'varchar(30)', 
+									'type_db'=>'varchar(120)', 
 									'value' => ''.$student['formersurname']);
 
 	if($student['preferredforename']!=''){$displaypfn='('.$student['preferredforename'].') ';}
@@ -604,29 +604,32 @@ function fetchContact($gidsid=array('guardian_id'=>'-1','student_id'=>'-1')){
 							  'inputtype'=> 'required',
 							  'table_db' => 'guardian', 
 							  'field_db' => 'surname',
-							  'type_db' => 'varchar(30)', 
+							  'type_db' => 'varchar(120)', 
 							  'value' => ''.$guardian['surname']);
 	$Contact['Forename']=array('label' => 'forename', 
 							   'table_db' => 'guardian', 
 							   'field_db' => 'forename',
-							   'type_db' => 'varchar(30)', 
+							   'type_db' => 'varchar(120)', 
 							   'value' => ''.$guardian['forename']);
-	$Contact['MiddleNames']=array('label' => 'middlenames', 
+	/*	$Contact['MiddleNames']=array('label' => 'middlenames', 
 								  'table_db' => 'guardian', 
 								  'field_db' => 'middlenames', 
 								  'type_db' => 'varchar(30)', 
 								  'value' => ''.$guardian['middlenames']);
+	*/
 	$Contact['Title']=array('label' => 'title', 
 								  'table_db' => 'guardian', 
 								  'field_db' => 'title', 
-								  'type_db' => 'varchar(20)', 
+								  'type_db' => 'enum', 
 								  'value' => ''.$guardian['title']);
 	$Contact['DisplayFullName']=array('label' => 'fullname',  
-									  'value' => $guardian['title'] .' ' . 
-									  $guardian['forename'] . ' ' .$guardian['middlenames']
+									  'value' =>
+									  displayEnum($Contact['title']['value'], 'title')
+									  .' ' . $guardian['forename'] . ' ' 
+									  .$guardian['middlenames']
 									  . ' ' . $guardian['surname']);
 
-	$Contact['EmailAddress']=array('label' => 'emailaddress', 
+	$Contact['EmailAddress']=array('label' => 'email', 
 								  'table_db' => 'guardian', 
 								  'field_db' => 'email', 
 								  'type_db' => 'varchar(240)', 
@@ -639,7 +642,7 @@ function fetchContact($gidsid=array('guardian_id'=>'-1','student_id'=>'-1')){
    	$Contact['Profession']=array('label' => 'profession', 
 								  'table_db' => 'guardian', 
 								  'field_db' => 'profession', 
-								  'type_db'=>'enum', 
+								  'type_db'=> 'varchar(120)', 
 								  'value' => ''.$guardian['profession']);
    	$Contact['CompanyName']=array('label' => 'nameofcompany', 
 								  'table_db' => 'guardian', 

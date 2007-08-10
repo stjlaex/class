@@ -114,6 +114,14 @@ if($tid=='administrator' or $_SESSION['role']=='admin'){
 
 		  <?php $selrole=$user['role']; include('scripts/list_roles.php');?>
 
+<?php 
+		  $listname='senrole';$selsenrole=$user['senrole'];$listlabel='senrole';
+		  include('scripts/set_list_vars.php');
+		  $list[]=array('value'=>'0','name'=>get_string('no'));
+		  $list[]=array('value'=>'1','name'=>get_string('yes'));
+		  list_select_list($list,$listoptions);
+?>
+
 		  <label for="Number1"><?php print_string('newstaffpin',$book);?></label>
 		  <input pattern="integer" tabindex="<?php print $tab++;?>" 
 			  type="password" id="Number1" name="pin1" pattern="integer" 
@@ -135,6 +143,7 @@ if($tid=='administrator' or $_SESSION['role']=='admin'){
 else{
 ?>
 	  <input type="hidden" name="role" value="<?php print $user['role']; ?>">
+	  <input type="hidden" name="senrole" value="<?php print $user['senrole']; ?>">
 	  <input type="hidden" name="worklevel" value="<?php print $user['worklevel']; ?>">
 	  <input type="hidden" name="nologin" value="<?php print $user['nologin']; ?>">
 <?php

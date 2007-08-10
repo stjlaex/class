@@ -10,6 +10,17 @@ Added a multiline option for importing csv records split across
 multiple lines - which is often the case with spreadsheet exports for
 student records.
 
+Slight changes to the guardian and student tables to lengthen the
+forename and surname fields. The guardian title field is made an enum
+and this replaces the prefix field (whiuch was never implemented
+anyway).
+
+Added a new field senrole to the users table to allow any user to be
+given acces to the seneeds tab (it is was restricted to role=sen
+previously). This senrole field is checked in the logbook to add the
+seneeds to the book array if needed. Also senrole can be set to yes or
+no in the staff_details page by an admin user.
+
 
 Version ClaSS-0.8.23 release (2007/08/06)
 -----------------------------------------
