@@ -120,9 +120,9 @@ function checkEntry($value, $format='', $field_name=''){
 
 	if($field_type[0]=='date'){
 		/*assumes date order day-month-year, php wants year-month-day*/
-		$date=split('[-]',$value);
-		//$value=$date[2].'-'.$date[1].'-'.$date[0];
-		$value=$date[0].'-'.$date[1].'-'.$date[2];
+		$date=split('[/]',$value);
+		$value=$date[2].'-'.$date[1].'-'.$date[0];
+		//$value=$date[0].'-'.$date[1].'-'.$date[2];
 		}
 	elseif($field_type[0]=='enum'){
 		$value=strtoupper($value);
@@ -975,6 +975,7 @@ function list_directory_files($directory,$extension='*'){
 function fileRead($file){
 	$flines=array();
    	while($in=fgetcsv($file,1000,',')){
+		//(filename,maxrowsize,delimeter,enclosure)
 		if($in[0]!=''){
 			if($in[0]{0}!='#' & $in[0]{0}!='/'){$flines[]=$in;}
 			}
@@ -985,8 +986,8 @@ function fileRead($file){
 
 /*Function to open a file*/
 function fileOpen($path){
-   	$file = fopen ($path, 'r');
-   	if (!$file){
+   	$file=fopen($path, 'r');
+   	if(!$file){
 		$error[]='Unable to open remote file '.$path.'!'; 
 		include('scripts/results.php');
 		exit;

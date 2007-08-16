@@ -24,7 +24,7 @@ if($sub=='Submit'){
 		list($enrolstatus,$yid)=split(':',$com['name']);
 		if(isset($_POST['enrolstatus'])){$newenrolstatus=$_POST['enrolstatus'];}
 		if($newenrolstatus=='EN'){$newtype='enquired';}
-		elseif($newenrolstatus=='AC'){$newtype='accepted';}
+		elseif($newenrolstatus=='AC' or $enrolstatus=='C'){$newtype='accepted';}
 		else{$newtype='applied';}
 		$newcom=array('id'=>'','type'=>$newtype, 
 					  'name'=>$newenrolstatus.':'.$yid,'year'=>$enrolyear);

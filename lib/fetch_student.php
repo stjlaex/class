@@ -118,7 +118,7 @@ function fetchStudent($sid='-1'){
 	$info=mysql_fetch_array($d_info,MYSQL_ASSOC);
 
 
-/*
+	/**
 	Student is an xml compliant array designed for use with Serialize
 	to generate xml from the values in the database. Each value from
 	the database is stored in an array element identified by its
@@ -130,10 +130,7 @@ function fetchStudent($sid='-1'){
 	$Student['xmltag']=array('label' => 'Display label', 'field_db' =>
 				'ClaSSdb field name', 'type_db'=>'ClaSSdb data-type', 'value' => $student['field_db']);
 
-
-   	$Student['']=array('label' => '', 'field_db' => '',
-					'type_db'=>'', 'value' => $student['']);
-*/
+	*/
 
 	$Student=array();
 	$Student['id_db']=$sid;
@@ -181,7 +178,7 @@ function fetchStudent($sid='-1'){
 		}
 
 	$Student['Gender']=array('label' => 'gender', 
-							 //'inputtype'=> 'required',
+							 'inputtype'=> 'required',
 							 'table_db' => 'student', 
 							 'field_db' => 'gender',
 							 'type_db'=>'enum', 
@@ -209,7 +206,6 @@ function fetchStudent($sid='-1'){
 								  'type_db'=>'enum', 
 								  'value' => ''.$info['nationality']
 								  );
-
    	$Student['Birthplace']=array('label' => 'placeofbirth', 
 								 'table_db' => 'info', 
 								 'field_db' => 'birthplace', 
@@ -294,6 +290,13 @@ function fetchStudent($sid='-1'){
 									'field_db' => 'transportmode',
 									'type_db'=>'enum', 
 									'value' => ''.$info['transportmode']);
+   	$Student['EnrolmentNotes']=array('label' => 'enrolmentnotes', 
+									 'table_db' => 'info', 
+									 'field_db' => 'enrolnotes',
+									 'type_db' => 'text', 
+									 'value' => ''.$info['enrolnotes']
+									 );
+
 
 	/*******Contacts****/
 
@@ -524,6 +527,8 @@ function fetchStudent($sid='-1'){
 		}
 
 	$Student['Backgrounds']=$Backgrounds;
+
+	if(file_exists('../schoolarrays.php')){include('../schoolarrays.php');}
 
 	return $Student;
 	}

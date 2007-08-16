@@ -51,7 +51,7 @@ include('scripts/set_book_session_vars.php');
 			}
 		else{
 			$listname='enrolyear';$listlabel='academicyear';
-			if($enrolyear==''){$enrolyear=get_curriculumyear()+1;$_SESSION['entryyear']=$enrolyear;}
+			if($enrolyear==''){$enrolyear=get_curriculumyear();$_SESSION['entryyear']=$enrolyear;}
 			include('scripts/list_calendar_year.php');
 			}
 		$onsidechange='yes';

@@ -8,9 +8,9 @@ $action='import_students_action3.php';
 
 include('scripts/sub_action.php');
 
-$nofields=$_SESSION{'nofields'};
-$idef=$_SESSION{'idef'};
-$instudents=$_SESSION{'instudents'};
+$nofields=$_SESSION['nofields'];
+$idef=$_SESSION['idef'];
+$instudents=$_SESSION['instudents'];
 
 if($sub=='Submit'){
 	$extrabuttons['savedefinition']=array('name'=>'sub','value'=>'Save');
@@ -29,52 +29,52 @@ if($sub=='Submit'){
 			<th><?php print_string('fieldname',$book);?></th>
 		  </tr>
 <?php
-		$egstudent=$instudents[0];
-		for($c=0;$c<$nofields;$c++){
+	$egstudent=$instudents[0];
+   	for($c=0;$c<$nofields;$c++){
 ?>
 		<tr>
 		  <td><?php print $c;?></td>
 		  <td><?php print $egstudent[$c];?></td>
 		  <td>
 <?php
-	if($_POST["preset$c"]!=''){
-		print $_POST["preset$c"];
+	    if($_POST["preset$c"]!=''){
+			print $_POST["preset$c"];
 ?>		<input type='hidden' name='<?php print "preset$c"; ?>' value='<?php print $_POST["preset$c"]; ?>'>
 <?php
-		}
+			}
 ?>
 		  </td>
 		  <td>
 <?php
-	if($_POST["sidfield$c"]!=''){
-		print "Student: ".$_POST["sidfield$c"];
+		if($_POST["sidfield$c"]!=''){
+			print "Student: ".$_POST["sidfield$c"];
 ?>		<input type='hidden' name='<?php print "field$c"; ?>' value='<?php print $_POST["sidfield$c"]; ?>'>
 		<input type='hidden' name='<?php print "table$c"; ?>' value='sid'>
 <?php
-		}
-	elseif($_POST["gid1field$c"]!=''){
-		print "Guardian One: ".$_POST["gid1field$c"];
+			}
+		elseif($_POST["gid1field$c"]!=''){
+			print "Guardian One: ".$_POST["gid1field$c"];
 ?>		<input type='hidden' name='<?php print "field$c"; ?>' value='<?php print $_POST["gid1field$c"]; ?>'>
 		<input type='hidden' name='<?php print "table$c"; ?>' value='gid1'>
 <?php
-		}	
-	elseif($_POST["gid2field$c"]!=''){
-		print "Guardian Two: ".$_POST["gid2field$c"];
+			}
+		elseif($_POST["gid2field$c"]!=''){
+			print "Guardian Two: ".$_POST["gid2field$c"];
 ?>		<input type='hidden' name='<?php print "field$c"; ?>' value='<?php print $_POST["gid2field$c"]; ?>'>
 		<input type='hidden' name='<?php print "table$c"; ?>' value='gid2'>
 <?php
-		}	
-	elseif($_POST{"gid3field$c"}!=''){
-		print "Guardian Three: ".$_POST["gid3field$c"];
+			}	
+		elseif($_POST{"gid3field$c"}!=''){
+			print "Guardian Three: ".$_POST["gid3field$c"];
 ?>		<input type='hidden' name='<?php print "field$c"; ?>' value='<?php print $_POST["gid3field$c"]; ?>'>
 		<input type='hidden' name='<?php print "table$c"; ?>' value='gid3'>
 <?php
-		}	
+			}
 ?>
 		  </td>
 		</tr>
 <?php
-				}
+	   	}
 ?>
 		</table>
 	  </div>
@@ -85,7 +85,7 @@ if($sub=='Submit'){
 	</form>
   </div>
 <?php
-}
+	}
 elseif($sub=='Load'){
 	$action="import_students_cidef.php";
 
@@ -97,8 +97,8 @@ elseif($sub=='Load'){
 	  <form  name="formtoprocess" id="formtoprocess" 
 		method="post" enctype="multipart/form-data" action="<?php print $host;?>">
 		<input type="hidden" name="MAX_FILE_SIZE" value="100000" />
-		  <label><?php print_string('filename');?></label>
-		  <input class="required" type="file" id="importfile" name="importfile" />
+			<label><?php print_string('filename');?></label>
+			<input class="required" type="file" id="importfile" name="importfile" />
 			<input type="hidden" name="current" value="<?php print $action;?>"/>
 			<input type="hidden" name="choice" value="<?php print $choice;?>"/>
 			<input type="hidden" name="cancel" value="<?php print $cancel;?>" />
@@ -106,5 +106,5 @@ elseif($sub=='Load'){
 	</fieldset>
   </div>
 <?php
-				}
+	}
 ?>

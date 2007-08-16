@@ -343,7 +343,7 @@ function list_member_communities($sid,$community){
 
 /* Add a sid to a community, type must be set, if name is blank then */
 /* you are actually leaving any communities of that type. Will also */
-/* leave any communitites which conflict the one being joined. Always */
+/* leave any communitites which conflict with the one being joined. Always */
 /* returns an array of oldcommunities left*/
 function join_community($sid,$community){
 	$todate=date("Y-m-d");

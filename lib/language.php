@@ -1,5 +1,5 @@
 <?php
-/*												lib/language.php
+/**												lib/language.php
  * Originally taken from moodlelib.php
  * Changes are ongoing to entirely ClaSSify it.
  */
@@ -12,17 +12,16 @@
  * @uses $CFG
  * @return string
  */
-
-function current_language() {
-    global $CFG;
-
-	if(!empty($_SESSION['lang'])){    // Session language chosen by user
-        return $_SESSION['lang'];
+function current_language(){
+	global $CFG;
+	if(!empty($_SESSION['lang'])){
+		// Session language chosen by user
+		return $_SESSION['lang'];
 		}
 	else {
-        return $CFG->sitelang;
-	    }
-}
+		return $CFG->sitelang;
+		}
+	}
 
 /* Return the code of the current charset, currently always UTF-8!
  * @return string

@@ -11,6 +11,8 @@ include('scripts/sub_action.php');
 $idef=$_SESSION['idef'];
 $instudents=$_SESSION['instudents'];
 $nofields=$_SESSION['nofields'];
+$enrolyear=get_curriculumyear();
+$enrolstatus='C';
 
 if($sub=='Save'){
 	$action='import_students_cidef.php';
@@ -107,11 +109,19 @@ elseif($sub=='Submit'){
   			$gidformats=array_merge($row, $gidformats);
 			}
 		/*add in relationship from gidsid*/
-		$row=array("relationship" => -1);
+		$row=array('relationship' => -1);
 		$gid1fields=array_merge($row, $gid1fields);
 		$gid2fields=array_merge($row, $gid2fields);
 		$gid3fields=array_merge($row, $gid3fields);
 		$row=array('relationship' => 'enum');
+		$gidformats=array_merge($row, $gidformats);
+
+		/*add in receives mailings from gidsid*/
+		$row=array('mailing' => -1);
+		$gid1fields=array_merge($row, $gid1fields);
+		$gid2fields=array_merge($row, $gid2fields);
+		$gid3fields=array_merge($row, $gid3fields);
+		$row=array('mailing' => 'enum');
 		$gidformats=array_merge($row, $gidformats);
 
 		$gid1address=array();
@@ -192,7 +202,14 @@ elseif($sub=='Submit'){
 				$val=checkEntry($val, $format, $field_name);
 				mysql_query("UPDATE student SET $field_name='$val' WHERE id='$new_sid'");
 				if($field_name=='yeargroup_id'){
+					if($enrolstatus=='EN'){$newtype='enquired';}
+					elseif($enrolstatus=='AC' or $enrolstatus=='C'){$newtype='accepted';}
+					else{$newtype='applied';}
+					$newcom=array('id'=>'','type'=>$newtype, 
+								  'name'=>$enrolstatus.':'.$val,'year'=>$enrolyear);
+					$oldcoms=join_community($new_sid,$newcom);
 					$oldcoms=join_community($new_sid,array('id'=>'','type'=>'year','name'=>$val));
+
 					}
 				elseif($field_name=='form_id'){
 					$oldcoms=join_community($new_sid,array('id'=>'','type'=>'form','name'=>$val));
@@ -268,13 +285,16 @@ elseif($sub=='Submit'){
 						if(isset($_POST["preset$field_no"])){$val=$_POST["preset$field_no"];}
 						$val=checkEntry($val, $format, $field_name);
 						if($field_name=='relationship'){$relationship=$val;}
+						elseif($field_name=='mailing'){$mailing=$val;}
 						else{mysql_query("UPDATE guardian SET
 									$field_name='$val' WHERE id='$new_gid'");}
 						}
 					}	
 				if(!isset($relationship)){$relationship='';}
+				if(!isset($mailing)){$mailing='';}
 				mysql_query("INSERT INTO gidsid SET guardian_id='$new_gid', 
-						student_id='$new_sid', relationship='$relationship'");
+						student_id='$new_sid',
+						mailing='$mailing', relationship='$relationship'");
 				/*input to address table: the four key items to check*/ 
 				$ok=0;	
 				if(isset(${$gname.'a'})){

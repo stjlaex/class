@@ -41,7 +41,6 @@ three_buttonmenu();
 
 	  </fieldset>
 
-
 	  <div class="center">
 
 		<table class="listmenu">

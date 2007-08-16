@@ -1,10 +1,10 @@
 <?php
 /**						file_import_csv.php
  *
- *generic file import for csv
- *returns the contents as $inrows, and the $nofields for a row
- *aborts to the originating form page on failure
- *if records are split across multiple lines then set $multiline>1
+ * generic file import for csv
+ * returns the contents as $inrows, and the $nofields for a row
+ * aborts to the originating form page on failure
+ * if records are split across multiple lines then set $multiline>1
  */
 
 $fname=$_FILES['importfile']['tmp_name'];

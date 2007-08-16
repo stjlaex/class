@@ -131,6 +131,11 @@ function xmlarray_form($Array,$no='',$caption='',$tab=1,$book=''){
 <?php
 	if($caption!=''){print '<caption>'.get_string($caption,$book).'</caption>';}
 	while(list($key,$val)=each($Array)){
+		/* If the table_db attribute is omitted it indicates this is not */
+		/* a field for entry by the user - it */
+		/* may be becuase it is disabled or */
+		/* because it is dependent on some */
+		/* other value*/
 		if(isset($val['value']) and is_array($val) and isset($val['table_db'])){
 ?>
 	<tr>
@@ -143,7 +148,7 @@ function xmlarray_form($Array,$no='',$caption='',$tab=1,$book=''){
 <?php
 			if($val['value']=='' and isset($val['default_value'])){
 				$setval=$val['default_value'];
-				}							   
+				}   
 			else{$setval=$val['value'];}
 
 			if($val['type_db']=='enum'){
@@ -165,12 +170,23 @@ function xmlarray_form($Array,$no='',$caption='',$tab=1,$book=''){
 				$todate=$setval;
 				include('scripts/jsdate-form.php');
 				}
-			else{
+			elseif($val['type_db']=='text'){
 ?>
-		<input type="text" id="<?php print $val['label'];?>" 
+		<textarea rows="2" cols="80"  id="<?php print $val['label'];?>" 
 			class="<?php if(isset($val['inputtype'])){print $val['inputtype'];}?>" 
 				name="<?php print $val['field_db'].$no; ?>" 
-					tabindex="<?php print $tab++;?>" value="<?php print $setval; ?>" />
+					tabindex="<?php print $tab++;?>" 
+				 value="<?php print $setval; ?>"></textarea>
+<?php
+				 }
+			else{
+		$maxlength='5000';
+?>
+		<input type="text" id="<?php print $val['label'];?>" 
+		  maxlength="<?php print $maxlength; ?>"
+		  class="<?php if(isset($val['inputtype'])){print $val['inputtype'];}?>" 
+		  name="<?php print $val['field_db'].$no; ?>" 
+		  tabindex="<?php print $tab++;?>" value="<?php print $setval; ?>" />
 <?php
 				 }
 ?>

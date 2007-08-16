@@ -1,5 +1,5 @@
 <?php 
-/**								   				import_students_action1.php
+/**								   		import_students_action1.php
  *
  *	Reads the import file into an array.
  *	Allows user-defined definition of the fields in array.
@@ -21,7 +21,7 @@ $nofields=$_SESSION['nofields'];
 				$idef[$b]=array($b, '', '', '');
 				}
 	
-/************************Define the fields*******************************************/	
+/************************Define the fields******************************/	
 //				the possible fields for student data
 		$sidfields=array();
 		$c=0;	
@@ -51,7 +51,7 @@ $nofields=$_SESSION['nofields'];
    				array_push($sidfields, $field_name);
 				$c++;
 				}
-	
+
 //				the possible fields for guardian data
 		$gidfields=array();
 		$c=0;	
@@ -63,9 +63,10 @@ $nofields=$_SESSION['nofields'];
 				$c++;		
 				}
 //				plus the relationship
-		array_push($gidfields, "relationship");
+		array_push($gidfields, 'relationship');
+		array_push($gidfields, 'mailing');
 
-		$c=0;	
+		$c=0;
    		$d_address=mysql_query("DESCRIBE address");
 		$ignore_id=mysql_fetch_array($d_address,MYSQL_ASSOC);
 		while($address_fields=mysql_fetch_array($d_address,MYSQL_ASSOC)){

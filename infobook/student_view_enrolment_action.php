@@ -23,7 +23,6 @@ if($sub=='Submit'){
 	//trigger_error($enrolstatus.' '.$enrolyear.' '.$enrolyid.'-'.$newtype,E_USER_WARNING);
 	$newcom=array('id'=>'','type'=>$newtype, 
 					  'name'=>$enrolstatus.':'.$enrolyid,'year'=>$enrolyear);
-
 	$oldcommunities=join_community($sid,$newcom);
 
 

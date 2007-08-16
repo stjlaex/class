@@ -1,4 +1,4 @@
-Version ClaSS-0.8.24 release (2007/08/28)
+Version ClaSS-0.8.24 release (2007/08/16)
 -----------------------------------------
 
 Moved the path to phpmailer library out of the functions and into a
@@ -12,7 +12,7 @@ student records.
 
 Slight changes to the guardian and student tables to lengthen the
 forename and surname fields. The guardian title field is made an enum
-and this replaces the prefix field (whiuch was never implemented
+and this replaces the prefix field (which was never implemented
 anyway).
 
 Added a new field senrole to the users table to allow any user to be
@@ -20,6 +20,18 @@ given acces to the seneeds tab (it is was restricted to role=sen
 previously). This senrole field is checked in the logbook to add the
 seneeds to the book array if needed. Also senrole can be set to yes or
 no in the staff_details page by an admin user.
+
+fetchStudent now includes a call to schoolarray to allow for localised
+changes to fields.
+
+A new field added to info table and included as part of the $Student
+array to record admission's notes.
+
+Included joining enrolment community as part of import_students when
+they have yeargroup set. Current enrolment year is default and not yet
+changeable.
+
+Added mailing as a field to the student import definition.
 
 
 Version ClaSS-0.8.23 release (2007/08/06)

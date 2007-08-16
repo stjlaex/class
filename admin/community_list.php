@@ -17,7 +17,7 @@ if(isset($_POST['date'])){$date=$_POST['date'];}
 		$students=listin_community($com);
 		$enrolyear=$com['year'];
 		list($enrolstatus,$yid)=split(':',$com['name']);
-		$description='Year '.$yid.' ('.$enrolyear.')';
+		$description=$yid.' ('.$enrolyear.')';
 		$infobookcurrent='student_view_enrolment.php';
 		}
 	elseif($comtype=='accomodation'){

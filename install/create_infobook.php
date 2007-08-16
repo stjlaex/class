@@ -26,6 +26,7 @@ CREATE TABLE info (
 	medical			enum('N','Y') not null,
 	incare			enum('N','Y') not null,
 	transportmode	enum('NOT','F', 'C', 'T', 'B', 'S') not null,
+	enrolnotes		text not null default '',
    	primary key		(student_id)
 );");
 
@@ -77,9 +78,9 @@ CREATE TABLE sencurriculum (
 	subject_id		varchar(10) not null default '', 
 	curriculum		enum('A','M','D') not null,
 	categorydef_id	int unsigned not null default '0',
-	comments		text,
-	targets			text,
-	outcome			text,
+	comments		text not null default '',
+	targets			text not null default '',
+	outcome			text not null default '',
    	primary key		(senhistory_id, subject_id)
 );");
 

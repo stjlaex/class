@@ -136,5 +136,6 @@ $string['mr']='Mr.';
 $string['mrs']='Mrs.';
 $string['srd']='Sr. D.';
 $string['srada']='Sra. Da.';
+$string['enrolmentnotes']='Enrolment notes';
 $string['']='';
 ?>
