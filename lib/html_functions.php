@@ -175,8 +175,7 @@ function xmlarray_form($Array,$no='',$caption='',$tab=1,$book=''){
 		<textarea rows="2" cols="80"  id="<?php print $val['label'];?>" 
 			class="<?php if(isset($val['inputtype'])){print $val['inputtype'];}?>" 
 				name="<?php print $val['field_db'].$no; ?>" 
-					tabindex="<?php print $tab++;?>" 
-				 value="<?php print $setval; ?>"></textarea>
+					tabindex="<?php print $tab++;?>" ><?php print $setval; ?></textarea>
 <?php
 				 }
 			else{

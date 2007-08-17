@@ -13,14 +13,14 @@
 </xsl:template>
 
 
-<xsl:template match="students">
+<xsl:template match="students/student/contacts">
   <table id="leftcol">
-	<xsl:apply-templates select="student/contacts/contact[(position() mod 2)=1]">
+	<xsl:apply-templates select="contact[(position() mod 2)=1]">
 	</xsl:apply-templates>
   </table>
 
   <table id="rightcol">
-	<xsl:apply-templates select="student/contacts/contact[(position() mod 2)=0]">
+	<xsl:apply-templates select="contact[(position() mod 2)=0]">
 	</xsl:apply-templates>
   </table>
 </xsl:template>

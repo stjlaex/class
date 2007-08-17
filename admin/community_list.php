@@ -47,7 +47,9 @@ if(isset($_POST['date'])){$date=$_POST['date'];}
 			<?php print_string($comtype,$book);?>
 		  </caption>
 		  <tr>
-			<th style="width:60%;"><?php print $description;?></th>
+			<th style="width:40%;"><?php print $description;?></th>
+			<th style="width:15%;"><?php print_string('dateofbirth','infobook');?></th>
+			<th style="width:15%;"><?php print_string('schoolstartdate','infobook');?></th>
 			<th>
 <?php
 			if($comtype!='accomodation'){
@@ -60,17 +62,26 @@ if(isset($_POST['date'])){$date=$_POST['date'];}
 <?php
 	while(list($index,$student)=each($students)){
 		$sid=$student['id'];
+		$Enrolment=fetchEnrolment($sid);
 ?>
 		  <tr id="sid-<?php print $sid;?>">
 			<td>
+			  <span title="<?php print $Enrolment['EnrolmentNotes']['value'];?>">
 			  <a href="infobook.php?current=<?php print $infobookcurrent;?>&cancel=student_view.php&sid=<?php print $sid;?>&sids[]=<?php print $sid;?>" target="viewinfobook" onClick="parent.viewBook('infobook');"><?php print $student['surname']. ', '.$student['forename']. 
-				' '.$student['preferredforename']. ' ('.$student['dob'].')';?></a>
+				' '.$student['preferredforename']. ' ('.$Enrolment['EnrolNumber']['value'].')';?></a>
+			  </span>
 			</td>
-		  <td>
-			<input type="checkbox"  
+			<td>
+			  <?php print $student['dob'];?>
+			</td>
+			<td>
+			  <?php print $Enrolment['EntryDate']['value'];?>
+			</td>
+			<td>
+			  <input type="checkbox"  
 				name="sids[]" value="<?php print $sid;?>" />
-		  </td>
-		</tr>
+			</td>
+		  </tr>
 <?php
 		}
 ?>

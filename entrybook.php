@@ -12,7 +12,6 @@ include('scripts/set_book_vars.php');
 $session_vars=array('enrolstatus','enrolyid','enrolyear');
 include('scripts/set_book_session_vars.php');
 
-
 ?>
   <div id="bookbox" class="entrybookcolor">
 <?php
@@ -41,20 +40,22 @@ include('scripts/set_book_session_vars.php');
 	<fieldset class="entrybook">
 		<legend><?php print_string('addto');?></legend>
 <?php
+		if($enrolstatus==''){$enrolstatus='EN';$_SESSION[$book.'enrolstatus']=$enrolstatus;}
 		$onsidechange='yes';
 		include('scripts/list_enrolstatus.php');
 		$onsidechange='yes';
 		if($enrolstatus=='C' or $enrolstatus=='G' or $enrolstatus=='S'
 					or $enrolstatus=='M'){
 			/*on current roll so can only be this academic year*/
-			$enrolyear=get_curriculumyear();$_SESSION['entryyear']=$enrolyear;
+			$enrolyear=get_curriculumyear();$_SESSION[$book.'enrolyear']=$enrolyear;
 			}
 		else{
 			$listname='enrolyear';$listlabel='academicyear';
-			if($enrolyear==''){$enrolyear=get_curriculumyear();$_SESSION['entryyear']=$enrolyear;}
+			if($enrolyear==''){$enrolyear=get_curriculumyear();$_SESSION[$book.'enrolyear']=$enrolyear;}
 			include('scripts/list_calendar_year.php');
 			}
 		$onsidechange='yes';
+		if($enrolyid==''){$enrolyid='1';$_SESSION[$book.'enrolyid']=$enrolyid;}
 		$selenrolyid=$enrolyid;$listname='enrolyid';
 		include('scripts/list_year.php');
 ?>

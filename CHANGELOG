@@ -1,4 +1,4 @@
-Version ClaSS-0.8.24 release (2007/08/16)
+Version ClaSS-0.8.24 release (2007/08/17)
 -----------------------------------------
 
 Moved the path to phpmailer library out of the functions and into a
@@ -25,13 +25,19 @@ fetchStudent now includes a call to schoolarray to allow for localised
 changes to fields.
 
 A new field added to info table and included as part of the $Student
-array to record admission's notes.
+and $Enrolment arrays to record admission's notes. This is revealed as
+a onhover on the admin enrolments' page and can be edited as part the
+enrolments screen in the Infobook.
 
 Included joining enrolment community as part of import_students when
-they have yeargroup set. Current enrolment year is default and not yet
+they have a yeargroup_id set. Current enrolment year is default and not yet
 changeable.
 
 Added mailing as a field to the student import definition.
+
+Bugfix to the default values in the Entrybook's session vars.
+
+Bugfix to the display of text fields in the xml array.
 
 
 Version ClaSS-0.8.23 release (2007/08/06)

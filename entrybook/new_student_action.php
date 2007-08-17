@@ -50,7 +50,7 @@ if($sub=='Submit'){
 		/*all other enrolstatus values place the student within the*/
 		/*applied category - apllication is in progress*/
 		else{$comtype='applied';}
-		if($enrolstatus==''){$enrolstatus='AP';}/*default if blank*/
+		//if($enrolstatus==''){$enrolstatus='EN';}/*default if blank*/
 		$comname=$enrolstatus.':'.$enrolyid;
 		$community=array('id'=>'','type'=>$comtype,'name'=>$comname,'year'=>$enrolyear);
 		}

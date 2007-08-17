@@ -16,13 +16,11 @@ if(isset($_POST['displayfield2'])){$displayfields[2]=$_POST['displayfield2'];}
 
 
 $extrabuttons='';
-if($_SESSION['role']=='admin'){
+if($_SESSION['role']=='office' or $_SESSION['role']=='admin'){
    	$extrabuttons['addresslabels']=array('name'=>'current',
 										 'title'=>'printaddresslabels',
 										 'onclick'=>'checksidsAction(this)',
 										 'value'=>'contact_labels_print.php');
-	}
-if($_SESSION['role']=='office' or $_SESSION['role']=='admin'){
    	$extrabuttons['exportstudentrecords']=array('name'=>'current',
 										 'title'=>'exportstudentrecords',
 										 'value'=>'export_students.php');

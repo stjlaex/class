@@ -868,6 +868,12 @@ function fetchEnrolment($sid='-1'){
 										'type_db'=>'enum', 
 										'value' => ''.$enrolstatus
 										);
+   	$Enrolment['EnrolmentNotes']=array('label' => 'enrolmentnotes', 
+									   'table_db' => 'info', 
+									   'field_db' => 'enrolnotes',
+									   'type_db' => 'text', 
+									   'value' => ''.$info['enrolnotes']
+									   );
    	$Enrolment['YearGroup']=array('label' => 'yeargroup', 
 								  //'table_db' => 'student', 
 								  'field_db' => 'yeargroup_id', 
