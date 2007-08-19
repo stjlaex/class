@@ -152,6 +152,7 @@ function xmlarray_form($Array,$no='',$caption='',$tab=1,$book=''){
 			else{$setval=$val['value'];}
 
 			if($val['type_db']=='enum'){
+				$setval=strtoupper($setval);
 				$enum=getEnumArray($val['field_db']);
 				print '<select name="'.$val['field_db'].$no.'" ';
 				print ' tabindex="'.$tab++.'" ';
@@ -306,6 +307,7 @@ function list_select_list($list,$vars,$book=''){
 
 
 function list_select_enum($fieldname,$vars,$book=''){
+	$vars['selectedvalue']=strtoupper($vars['selectedvalue']);
 	if($vars['filter']!=''){
 		$table=$vars['filter'];
 		$d_t=mysql_query("SELECT DISTINCT $fieldname FROM $table ORDER BY $fieldname");

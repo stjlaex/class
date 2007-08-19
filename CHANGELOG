@@ -39,6 +39,9 @@ Bugfix to the default values in the Entrybook's session vars.
 
 Bugfix to the display of text fields in the xml array.
 
+All values in enum fields are expected to be uppercase, added
+strtoupper for slected values on the html functions to cover for this.
+
 
 Version ClaSS-0.8.23 release (2007/08/06)
 -----------------------------------------

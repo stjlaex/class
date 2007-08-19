@@ -623,10 +623,11 @@ function fetchContact($gidsid=array('guardian_id'=>'-1','student_id'=>'-1')){
 								  'value' => ''.$guardian['middlenames']);
 	*/
 	$Contact['Title']=array('label' => 'title', 
-								  'table_db' => 'guardian', 
-								  'field_db' => 'title', 
-								  'type_db' => 'enum', 
-								  'value' => ''.$guardian['title']);
+							'table_db' => 'guardian', 
+							'field_db' => 'title', 
+							'type_db' => 'enum', 
+							'default_value' => '0',
+							'value' => ''.$guardian['title']);
 	$Contact['DisplayFullName']=array('label' => 'fullname',  
 									  'value' =>
 									  displayEnum($Contact['title']['value'], 'title')

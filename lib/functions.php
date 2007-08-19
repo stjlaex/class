@@ -152,12 +152,16 @@ function checkEnum($value, $field_name) {
 function displayEnum($value,$field_name){
 	$value=strtoupper($value);
 	$enumarray=getEnumArray($field_name);
-	$description=$enumarray[$value];
+	if(isset($enumarray[$value])){$description=$enumarray[$value];}
+	else{
+		$description='';
+		//trigger_error('WRONG ENUM value: '.$value.' field: '.$field_name,E_USER_WARNING);
+		}
 	return $description;
 	}
 
 /*Returns the array of valid enum values and their meanings for a field*/
-function getEnumArray($field_name) {
+function getEnumArray($field_name){
 	/*for the student table*/
 	$gender=array('M' => 'male', 'F' => 'female');
 
@@ -553,7 +557,7 @@ function getEnumArray($field_name) {
 	/*for the gidsid table*/
 	$priority=array('0' => 'first', '1' => 'second', '2' => 'third', '3' => 'fourth');
 	$mailing=array('0' => 'nomailing', '1' => 'allmailing', '2' => 'reportsonly');
-	$title=array('0' => 'mr', '1' => 'mrs', '2' => 'srd', '3' => 'srada');
+	$title=array('0' => '', '1' => 'mr', '2' => 'mrs', '3' => 'srd', '4' => 'srada');
 	$relationship=array('NOT' => 'informationnotobtained', 'CAR' =>
 						'carer', 'DOC' => 'doctor', 'FAM' => 'otherfamilymember', 'PAM'
 						=> 'mother', 'PAF' => 'father', 'OTH' => 'othercontact', 'STP' =>
