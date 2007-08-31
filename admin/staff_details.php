@@ -102,23 +102,24 @@ if($tid=='administrator' or $_SESSION['role']=='admin'){
 			class="required" >
 			<option value=""></option>
 <?php
-	$worklevels=array('-1'=>'useless','0'=>'tryharder','1'=>'good', 
+		$worklevels=array('-1'=>'useless','0'=>'tryharder','1'=>'good', 
 					  '2'=>'verygood','3'=>'teacherspet');
-	foreach($worklevels as $key => $worklevel){
+		foreach($worklevels as $index => $worklevel){
 			print '<option ';
-			if(isset($user['worklevel'])){if($user['worklevel']==$key){print 'selected="selected"';}}
-			print	' value="'.$key.'">'.get_string($worklevel,$book).'</option>';
-		}
+			if(isset($user['worklevel'])){if($user['worklevel']==$index){print 'selected="selected"';}}
+			print	' value="'.$index.'">'.get_string($worklevel,$book).'</option>';
+			}
 ?>
 		  </select>
 
 		  <?php $selrole=$user['role']; include('scripts/list_roles.php');?>
 
-<?php 
+<?php
+		  unset($key);
 		  $listname='senrole';$selsenrole=$user['senrole'];$listlabel='senrole';
 		  include('scripts/set_list_vars.php');
-		  $list[]=array('value'=>'0','name'=>get_string('no'));
-		  $list[]=array('value'=>'1','name'=>get_string('yes'));
+		  $list[]=array('id'=>'0','name'=>get_string('no'));
+		  $list[]=array('id'=>'1','name'=>get_string('yes'));
 		  list_select_list($list,$listoptions);
 ?>
 
@@ -133,7 +134,7 @@ if($tid=='administrator' or $_SESSION['role']=='admin'){
 				maxlength="4" style="width:20%;" />
 
 		  <label for="Nologin"><?php print_string('disablelogin',$book);?></label>
-		  <input type="checkbox" id="Nologin" class="required" 
+		  <input type="checkbox" id="Nologin"  
 				  name="nologin"  tabindex="<?php print $tab++;?>" 
 				  <?php if($user['nologin']=='1'){print 'checked="checked"';}?> value="1"/>
 

@@ -187,6 +187,7 @@ function getEnumArray($field_name){
 				 'W' => 'withdrawnfromcollectiveworthship');
 	$parttime=array('N' => 'no', 'Y' => 'yes');
 	$sen=array('N' => 'no', 'Y' => 'yes');
+	$closed=array('N' => 'no', 'Y' => 'yes');
 	$medical=array('N' => 'no', 'Y' => 'yes');
 	$incare=array('N' => 'no', 'Y' => 'yes');
 	$roomcategory=array('' => '', 'GL' => 'groupleader');

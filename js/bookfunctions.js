@@ -113,6 +113,15 @@ function clickToAction(buttonObject){
 	var action=buttonObject.name;
 	if(action=="Edit"){
 		var test=fillxmlForm(xmlRecord);
+		document.getElementById("Subject").parentNode.setAttribute("class","right");
+		if(document.getElementById("No_db")){document.getElementById("No_db").value=""};
+		}
+	else if(action=="New"){
+		document.formtoprocess.reset();
+		var recordId=xmlRecord.getElementsByTagName('id_db').item(0).firstChild.data;
+		document.getElementById("Id_db").value=recordId;
+		document.getElementById("No_db").value="-1";
+		document.getElementById("Subject").parentNode.setAttribute("class","hidden");
 		}
 	else if(action=="current"){
 		var recordId=xmlRecord.childNodes[1].childNodes[0].nodeValue;
@@ -322,7 +331,7 @@ function fillxmlTable(recordId, xmlRecord){
 
 
 //-------------------------------------------------------
-// uses the html field id to refer to an input field and replace its value
+// Uses the html field id to refer to an input field and replace its value
 // does this for the xml value contained by VALUE or VALUE_ID where the display
 // VALUE is different from the stored database value
 // ID_DB is the special, hidden form field, which must be the unique identifier

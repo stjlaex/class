@@ -17,10 +17,10 @@ if(!isset($user['role'])){$role=$_SESSION['role'];}else{$role=$user['role'];}
    	<option value=""></option>
 <?php
 	$showbooks=$books[$role];
-	foreach($showbooks as $key => $bookname){
+	foreach($showbooks as $index => $bookname){
 		print '<option ';
-		if(isset($selbook)){if($selbook==$key){print 'selected="selected"';}}
-		print	' value="'.$key.'">'.$bookname.'</option>';
+		if(isset($selbook)){if($selbook==$index){print 'selected="selected"';}}
+		print	' value="'.$index.'">'.$bookname.'</option>';
 		}
 ?>
   </select>

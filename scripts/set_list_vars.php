@@ -1,7 +1,7 @@
 <?php
 /**					scripts/set_list_vars.php
  *
- * must have the select's name already defined in $listname
+ * Must have the select's name already defined in $listname
  * any option can be overridden by setting the value explicity first:
  * multi>1 to post back an array of values (the name is returned a plural)
  * required=yes to add the orange star

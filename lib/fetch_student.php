@@ -432,36 +432,6 @@ function fetchStudent($sid='-1'){
 		}
 	$Student['Exclusions']=$Exclusions;
 
-	/*******Incidents****/
-	$Incidents=array();
-	$d_incidents=mysql_query("SELECT * FROM incidents WHERE
-		student_id='$sid' ORDER BY entrydate DESC");
-	while($incident=mysql_fetch_array($d_incidents,MYSQL_ASSOC)){
-		$Incident=array();
-		$Incident['id_db']=$incident['id'];
-	   	$Incident['Category']=array('label' => 'category', 
-									'type_db' => 'varchar(30)', 
-									'value' => ''.$incident['category']);
-	   	$Incident['Detail']=array('label' => 'detail', 
-								  'type_db'=>'text', 
-								  'value' => ''.$incident['detail']);
-	   	$Incident['Subject']=array('label' => 'subject', 
-								   'type_db'=>'varchar(10)', 
-								   'value' => ''.$incident['subject_id']);
-	   	$Incident['Outcome']=array('label' => 'outcome', 
-								   'type_db'=>'varchar(200)', 
-								   'value' => ''.$incident['outcome']);
-	   	$Incident['EntryDate']=array('label' => 'date', 
-									 'type_db'=>'date', 
-									 'value' => ''.$incident['entrydate']);
-	   	$Incident['YearGroup']=array('label' => 'yeargroup', 
-									 'type_db'=>'enum', 
-									 'value' => ''.$incident['yeargroup_id']);
-		$Incidents[]=$Incident;
-		}
-	$Incidents=$Incidents;
-	$Student['Incidents']=$Incidents;
-
 
 	/*******Backgrounds****/
 	$Backgrounds=array();
@@ -493,16 +463,16 @@ function fetchStudent($sid='-1'){
 									WHERE id='$catid'");
 				$catname=mysql_result($d_categorydef,0);
 				$Category=array('label' => 'category', 
-								'value_db' => ''.$catid,
 								'type_db'=> 'varchar(30)', 
+								'value_db' => ''.$catid,
 								'value' => ''.$catname);
 				$Category['rating']=array('value' => $rank);
 				$Categories['Category'][]=$Category;
 				}
 			if(!isset($Categories['Category'])){
 				$Category=array('label' => 'category', 
-								'value_db' => ' ',
 								'type_db'=>'varchar(30)', 
+								'value_db' => ' ',
 								'value' => ' ');
 				$Categories['Category'][]=$Category;
 				}
@@ -630,7 +600,7 @@ function fetchContact($gidsid=array('guardian_id'=>'-1','student_id'=>'-1')){
 							'value' => ''.$guardian['title']);
 	$Contact['DisplayFullName']=array('label' => 'fullname',  
 									  'value' =>
-									  displayEnum($Contact['title']['value'], 'title')
+									  displayEnum($Contact['Title']['value'], 'title')
 									  .' ' . $guardian['forename'] . ' ' 
 									  .$guardian['middlenames']
 									  . ' ' . $guardian['surname']);
@@ -751,6 +721,72 @@ function fetchAddress($gidaid=array('address_id'=>'-1','addresstype'=>'')){
 							   'type_db'=>'varchar(8)', 
 							   'value' => ''.$address['postcode']);
 	return $Address;
+	}
+
+/*******Incidents***/
+function fetchIncidents($sid){
+	$Incidents=array();
+	$d_incidents=mysql_query("SELECT * FROM incidents WHERE
+		student_id='$sid' ORDER BY entrydate DESC");
+	while($incident=mysql_fetch_array($d_incidents,MYSQL_ASSOC)){
+		$incid=$incident['id'];
+		$Incident=array();
+		$Incident['id_db']=$incid;
+		$pairs=explode(';',$incident['category']);
+		list($catid, $rank)=split(':',$pairs[0]);
+		$d_categorydef=mysql_query("SELECT name FROM categorydef
+						WHERE id='$catid'");
+		$Incident['Sanction']=array('label' => 'sanction', 
+								  'type_db' => 'varchar(30)', 
+								  'value_db' => ''.$catid,
+								  'value' => ''.mysql_result($d_categorydef,0));
+	   	$Incident['Detail']=array('label' => 'detail', 
+								  'type_db'=>'text', 
+								  'value' => ''.$incident['detail']);
+	   	$Incident['Subject']=array('label' => 'subject', 
+								   'type_db'=>'varchar(10)', 
+								   'value' => ''.$incident['subject_id']);
+	   	$Incident['Closed']=array('label' => 'closed', 
+								   'type_db'=>'enum', 
+								   'value' => ''.$incident['closed']);
+	   	$Incident['EntryDate']=array('label' => 'date',
+									 'type_db'=>'date',
+									 'value' => ''.$incident['entrydate']);
+	   	$Incident['YearGroup']=array('label' => 'yeargroup', 
+									 'type_db'=>'enum', 
+									 'value' => ''.$incident['yeargroup_id']);
+
+		$d_history=mysql_query("SELECT * FROM incidenthistory
+				WHERE incident_id='$incid' ORDER BY entryn");
+		$Actions=array();
+		while($action=mysql_fetch_array($d_history)){
+			$Action=array();
+			$Action['no_db']=$action['entryn'];
+			$acttid=$action['teacher_id'];
+			$d_teacher=mysql_query("SELECT forename, surname 
+							FROM users WHERE username='$acttid'");
+			$teachername=mysql_fetch_array($d_teacher,MYSQL_ASSOC);	      
+			$Action['Teacher']=array('username' => ''.$acttid, 
+							  'value' => $teachername['forename'].' '.$teachername['surname']);
+			$Action['Comment']=array('value' => ''.$action['comment']);
+			$Action['EntryDate']=array('label' => 'date', 
+									 'type_db'=>'date', 
+									 'value' => ''.$action['entrydate']);
+			$pairs=explode(';',$action['category']);
+			list($catid, $rank)=split(':',$pairs[0]);
+			//trigger_error(''.$action['category']. ' pairs: '.$pairs[0],E_USER_WARNING);
+			$d_categorydef=mysql_query("SELECT name FROM categorydef
+						WHERE id='$catid'");
+			$Action['Sanction']=array('label' => 'sanction', 
+							'value_db' => ''.$catid,
+							'value' => ''.mysql_result($d_categorydef,0));
+			$Actions['Action'][]=nullCorrect($Action);
+			}
+		$Incident['Actions']=$Actions;
+		$Incidents['Incident'][]=$Incident;
+		}
+
+	return nullCorrect($Incidents);
 	}
 
 function fetchComments($sid,$date=''){

@@ -1,6 +1,7 @@
 <?php
 /**                                  incidents_list.php    
  */
+
 $current='incidents_list.php';
 $action='incidents_list_action.php';
 
@@ -11,27 +12,43 @@ three_buttonmenu();
   <div id="heading">
 	<label><?php print_string('incidents');?></label>
 <?php
-	print $Student['Forename']['value'].' '.$Student['Surname']['value'];
+	print $Student['DisplayFullName']['value'].' ';
 	print '('.$Student['RegistrationGroup']['value'].')';
 ?>
   </div>
 
   <div class="topform">
 	<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
+	<label><?php print_string('recordnewincident');?></label>
 	  <div class="left">
 		<label for="Detail"><?php print_string('details',$book);?></label>
 		<textarea name="detail"   tabindex="<?php print $tab++;?>" 
 		  class="required" id="Detail" rows="5" cols="35"></textarea>
 	  </div>
+
 	  <div class="right" >
 		<?php $xmldate='Entrydate'; include('scripts/jsdate-form.php'); ?>
 	  </div>
+
 	  <div class="right">
 		<label for="Subject"><?php print_string('subjectspecific');?></label>
 			   <?php $required="no"; include('scripts/list_studentsubjects.php');?>
 	  </div>
 
+	  <div class="right">
+		<?php $listlabel='sanction'; $listid='sanction'; $cattype='inc';
+		$required='yes'; include('scripts/list_category.php');?>
+	  </div>
+
+	  <div class="right">
+		<?php $listlabel='incidentclosed'; $required='yes'; $listname='closed';
+		include('scripts/set_list_vars.php');
+		list_select_enum('closed',$listoptions,'infobook');
+		?>
+	  </div>
+
 	  <input type="text" style="display:none;" id="Id_db" name="id_db" value="" />
+	  <input type="text" style="display:none;" id="No_db" name="no_db" value="" />
 	  <input type="hidden" name="current" value="<?php print $action;?>" />
 	  <input type="hidden" name="cancel" value="<?php print 'student_view.php';?>" />
 	  <input type="hidden" name="choice" value="<?php print $choice;?>" />
@@ -41,47 +58,43 @@ three_buttonmenu();
   <div class="content">
 	<div class="center">
 	  <table class="listmenu">
-		<caption><?php print_string('entries',$book);?></caption>
+		<caption><?php print_string('existingincidents',$book);?></caption>
 		<thead>
 		  <tr>
 			<th></th>
 			<th><?php print_string('yeargroup');?></th>
 			<th><?php print_string('date');?></th>
 			<th><?php print_string('subject');?></th>
-			<th><?php print_string('category');?></th>
+			<th><?php print_string('status');?></th>
 		  </tr>
 		</thead>
 <?php
+	$Incidents=(array)fetchIncidents($sid);
    	$yid=$Student['YearGroup']['value'];
 	$perm=getYearPerm($yid, $respons);
-	if(is_array($Student['Incidents'])){
-		reset($Student['Incidents']);
-		while(list($key,$entry)=each($Student['Incidents'])){
-			if(is_array($entry)){
+	if(is_array($Incidents['Incident'])){
+		reset($Incidents['Incident']);
+		while(list($key,$Incident)=each($Incidents['Incident'])){
+			if(is_array($Incident)){
 				$rown=0;
-				$entryno=$entry['id_db'];
+				$entryno=$Incident['id_db'];
 ?>
 		<tbody id="<?php print $entryno;?>">
-		  <tr class="rowplus" onClick="clickToReveal(this)" id="<?php print $entryno.'-'.$rown++;?>">
+		  <tr class="rowplus" onClick="clickToReveal(this)" 
+							id="<?php print $entryno.'-'.$rown++;?>">
 			<th>&nbsp</th>
-<?php
-		   if(isset($entry['YearGroup']['value'])){print '<td>'.$entry['YearGroup']['value'].'</td>';}
-		   else{print'<td></td>';}
-		   if(isset($entry['EntryDate']['value'])){print '<td>'.$entry['EntryDate']['value'].'</td>';}
-		   else{print'<td></td>';}
-		   if(isset($entry['Subject']['value'])){print '<td>'.$entry['Subject']['value'].'</td>';}
-		   else{print'<td></td>';}
-		   if(isset($entry['Category']['value'])){print '<td>'.$entry['Category']['value'].'</td>';}
-		   else{print'<td></td>';}
-?>
+			<td><?php print $Incident['YearGroup']['value'];?></td>
+			<td><?php print $Incident['EntryDate']['value'];?></td>
+			<td><?php print $Incident['Subject']['value'];?></td>
+			<td>&nbsp<?php if($Incident['Closed']['value']=='N'){print_string('open');} ?></td>
 		  </tr>
 		  <tr class="hidden" id="<?php print $entryno.'-'.$rown++;?>">
 			<td colspan="5">
 			  <p>
-<?php		   if(isset($entry['Detail']['value'])){print $entry['Detail']['value'];}?>
+				<?php if(isset($Incident['Detail']['value'])){print $Incident['Detail']['value'];}?>
 			  </p>
 			  <p>
-<?php		   if(isset($entry['Outcome']['value'])){print $entry['Outcome']['value'];}?>
+				<?php print get_string('sanction','infobook').': '.$Incident['Sanction']['value'];?>
 			  </p>
 			  <button class="rowaction" title="Delete this incident"
 				name="current" value="delete_incident.php" onClick="clickToAction(this)">
@@ -92,9 +105,42 @@ three_buttonmenu();
 			  </button>
 			</td>
 		  </tr>
+<?php
+			 while(list($index,$Action)=each($Incident['Actions']['Action'])){
+?>
+		  <tr class="hidden" id="<?php print $entryno.'-'.$rown++;?>">
+			<td colspan="5">
+			  <p>
+				<?php print $Action['Comment']['value'];?>
+				<?php print '('.$Action['EntryDate']['value'].' - ';?>
+				<?php print $Action['Teacher']['value'].')';?>
+			  </p>
+			  <p>
+				<?php print get_string('sanction','infobook').': '.$Action['Sanction']['value'];?>
+			  </p>
+			  <button class="rowaction" title="Edit" name="Edit" onClick="clickToAction(this)">
+				<img class="clicktoedit" />
+			  </button>
+			</td>
+		  </tr>
+<?php
+				 }
+			if($Incident['Closed']['value']=='N'){
+?>
+		  <tr class="hidden" id="<?php print $entryno.'-'.$rown++;?>">
+			<td colspan="5">
+			  <button class="rowaction" title="New action" 
+							name="New" onClick="clickToAction(this)">
+				<?php print_string('newaction',$book);?>				
+			  </button>
+			</td>
+		  </tr>
+<?php
+				}
+?>
 		  <div id="<?php print 'xml-'.$entryno;?>" style="display:none;">
 <?php
-				xmlechoer('Incident',$entry);
+				xmlechoer('Incident',$Incident);
 ?>
 		  </div>
 		</tbody>

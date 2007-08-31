@@ -103,11 +103,12 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 			  </a>
 			</th>
 <?php
-	$Incidents=(array)$Student['Incidents'];
+	$Incidents=(array)fetchIncidents($sid);
+	$Student['Incidents']=$Incidents;
 	$no=sizeof($Incidents);
-	if(array_key_exists(0,$Incidents)){
+	if(array_key_exists(0,$Incidents['Incident'])){
 		print '<td>'.$no.'</td>';
-		$Incident=$Incidents[0];
+		$Incident=$Incidents['Incident'][0];
 		print '<td>'.$Incident['EntryDate']['value'].'</td>';
 		$out=substr($Incident['Detail']['value'],0,40).'...';
 		print '<td>'.$out.'</td>';

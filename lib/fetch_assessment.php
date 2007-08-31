@@ -336,7 +336,7 @@ function fetchAssessments_short($sid,$eid='%'){
 				student_id='$sid' AND assessment_id LIKE '$eid'");
   	while($eidsid=mysql_fetch_array($d_eidsid,MYSQL_ASSOC)) {
 		$eidsid=nullCorrect($eidsid);
-		$eid=$eidsid{'assessment_id'};
+		$eid=$eidsid['assessment_id'];
 		$d_ass=mysql_query("SELECT * FROM assessment WHERE id='$eid'");
 		$ass=mysql_fetch_array($d_ass,MYSQL_ASSOC);
 		$ass=nullCorrect($ass);

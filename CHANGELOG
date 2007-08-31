@@ -1,3 +1,24 @@
+Version ClaSS-0.8.25 release (2007/09/02)
+-----------------------------------------
+
+Bug fixed the staff_details page which was choking on the new senrole
+field, this needed senrole adding to the permissions' functions and
+confusion in the use of $key (when it should be $index) before using
+the set_list_vars.
+
+Some database changes to finalise the incident tracking and "inc"
+entries to categorydef to get started.
+
+The Incidents has been moved from fetchStudent() to its own
+fetchIncidents() function and Actions added to include the incident's
+history.
+
+To allow new actions to be added on to the end of an open Incident
+then the js function clickToAction() has had a new action added and it
+set no_db to -1 (similar to report entries) to flag the submit to the
+action page as a new action.
+
+
 Version ClaSS-0.8.24 release (2007/08/17)
 -----------------------------------------
 
