@@ -349,7 +349,8 @@ function join_community($sid,$community){
 	$todate=date("Y-m-d");
 	$type=$community['type'];
 	$name=$community['name'];
-	$year=$community['year'];
+	if(isset($community['year'])){$year=$community['year'];}
+	else{$year='';}
 
 	/*membership of a form or yeargroup is exclusive - need to remove
 	from old group first, and also where student progresses through
@@ -627,7 +628,8 @@ function list_community_cohorts($community){
 		/*forms only associate with cohorts through their yeargroup*/
 		$fid=$community['name'];
 		$d_form=mysql_query("SELECT yeargroup_id FROM form WHERE id='$fid'");
-		$yid=mysql_result($d_form,0);
+		if(mysql_num_rows($d_form)>0){$yid=mysql_result($d_form,0);}
+		else{$yid='';}
 		$community=array('id'=>'','type'=>'year','name'=>$yid);
 		}
 

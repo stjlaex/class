@@ -36,7 +36,9 @@ if($sub=='Submit'){
 	/*sids to add*/
    	while(list($index,$sid)=each($newsids)){
 		$oldcommunities=join_community($sid,array('id'=>'','type'=>'form','name'=>$fid));
-		$oldfid=$oldcommunities['form'][0]['name'];
+		if(isset($oldcommunities['form'][0]['name'])){
+			$oldfid=$oldcommunities['form'][0]['name'];}
+		else{$oldfid='';}
 		if($classestoo=='yes' and $oldfid!=$fid){
 			$otherchangecids=array();
 			$otherchangecids=list_forms_classes($oldfid);
