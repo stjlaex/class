@@ -16,3 +16,25 @@ div#bookbox{
 .infocolor legend, .infocolor caption {
     border-color:#aaaa44;
 	}
+/*used (but rarely) to describe page content in the space to the left of the top buttonmenu*/
+div#formstatus-new {
+	border:0; margin:2px 0 10px 0;
+    padding:0.2em 0.8em;
+	background-color:#aaaa44;
+    color:#fff;
+    font-weight:600;
+	}
+div#formstatus-edit {
+	border:0; margin:2px 0 10px 0;
+    padding:0.2em 0.8em;
+	background-color:#664;
+    color:#eee;
+    font-weight:600;
+	}
+div#formstatus-action {
+	border:0; margin:2px 0 10px 0;
+    padding:0.2em 0.8em;
+	background-color:#334;
+    color:#eee;
+    font-weight:600;
+	}

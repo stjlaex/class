@@ -43,16 +43,22 @@ include('scripts/sub_action.php');
 	$sids=array();
 	while($incident=mysql_fetch_array($d_incidents,MYSQL_ASSOC)){
 		$sid=$incident['student_id'];
+		if($incident['subject_id']=='%'){$incident['subject_id']='G';}
 		$bids=array();
+		$closeds=array();
 		if(in_array($sid,$sids)){
-			$bids=$summary[$sid];
+			$bids=$summary[$sid]['bids'];
+			$closeds=$summary[$sid]['closeds'];
 			$bids[]=$incident['subject_id'];
+			if($incident['closed']=='N'){$closeds[]=$incident['closed'];}
 			}
 		else{
 			$sids[]=$sid;
-			$bids[]=$incident{'subject_id'};
+			$bids[]=$incident['subject_id'];
+			if($incident['closed']=='N'){$closeds[]=$incident['closed'];}
 			}
-		$summary[$sid]=$bids;
+		$summary[$sid]['bids']=$bids;
+		$summary[$sid]['closeds']=$closeds;
 		}
 
 two_buttonmenu();
@@ -73,10 +79,15 @@ two_buttonmenu();
 		</tr>
 <?php
 	while(list($index,$sid)=each($sids)){
-		$d_student=mysql_query("SELECT * FROM student WHERE id='$sid'");
-		$student=mysql_fetch_array($d_student,MYSQL_ASSOC);
+		$Student=fetchStudent_short($sid);
 ?>
-		<tr>
+		<tr
+<?php
+		if(sizeof($summary[$sid]['closeds'])>0){$styleclass=' class="hilite"';}
+		else{$styleclass='';}
+	    print $styleclass;
+?>
+>
 		  <td>
 			<input type='checkbox' name='sids[]' value='<?php print $sid; ?>' />
 		  </td>
@@ -85,16 +96,20 @@ two_buttonmenu();
 			  print $sid;?>"  target="viewinfobook" onclick="parent.viewBook('infobook');">I</a>
 		  </td>
 		  <td>
-		<?php print $student['surname']; ?>, <?php print $student['forename']; ?>
+			<a href="infobook.php?current=incidents_list.php&sid=<?php
+			  print $sid;?>&sids[]=<?php print $sid;?>"  target="viewinfobook"
+			  onclick="parent.viewBook('infobook');"> 
+			  <?php print $Student['DisplayFullName']['value']; ?>
+			</a>
 		  </td>
 		  <td>
-			<?php print $student['form_id']; ?>
+			<?php print $Student['RegistrationGroup']['value']; ?>
 		  </td>
 		  <td>
 <?php
-		for($c=0;$c<sizeof($summary[$sid]);$c++){
-				print $summary[$sid][$c].'&nbsp;';
-				}
+		for($c=0;$c<sizeof($summary[$sid]['bids']);$c++){
+			print $summary[$sid]['bids'][$c].'&nbsp;';
+			}
 ?>
 		  </td>
 		</tr>

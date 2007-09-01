@@ -74,7 +74,7 @@ $externalbooks['admin']=array(
 							  //'eportfolio' => $CFG->eportfoliotabname
 				 );
 $externalbooks['office']=array(
-							   'webmail' => $CFG->webmailtabname
+							   //'webmail' => $CFG->webmailtabname
 				 );
 $externalbooks['support']=array(
 				 );

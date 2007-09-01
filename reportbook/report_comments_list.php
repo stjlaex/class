@@ -43,6 +43,7 @@ include('scripts/sub_action.php');
 	$sids=array();
 	while($comment=mysql_fetch_array($d_comments,MYSQL_ASSOC)){
 		$sid=$comment['student_id'];
+		if($comment['subject_id']=='%'){$comment['subject_id']='G';}
 		$bids=array();
 		if(in_array($sid,$sids)){
 			$bids=$summary[$sid];
@@ -72,22 +73,26 @@ twoplusprint_buttonmenu();
 		</tr>
 <?php	
 	while(list($index,$sid)=each($sids)){
-		$d_student=mysql_query("SELECT * FROM student WHERE id='$sid'");
-		$student=mysql_fetch_array($d_student,MYSQL_ASSOC);
+		$Student=fetchStudent_short($sid);
 ?>
 		<tr>
 		  <td>
 			<input type='checkbox' name='sids[]' value='<?php print $sid; ?>' />
 		  </td>
 		  <td>
-			<a href="infobook.php?current=comments_list.php&sid=<?php print $sid;?>"
+			<a href="infobook.php?current=comments_list.php&sid=<?php 
+			  print $sid;?>&sids[]=<?php print $sid;?>"
 			  target="viewinfobook" onclick="parent.viewBook('infobook');">C</a>
 		  </td>
 		  <td>
-		<?php print $student['surname']; ?>, <?php print $student['forename']; ?>			
+			<a href="infobook.php?current=comments_list.php&sid=<?php
+			  print $sid;?>&sids[]=<?php print $sid;?>"  target="viewinfobook"
+			  onclick="parent.viewBook('infobook');"> 
+			  <?php print $Student['DisplayFullName']['value']; ?>
+			</a>
 		  </td>
 		  <td>
-			<?php print $student['form_id']; ?>
+			<?php print $Student['RegistrationGroup']['value']; ?>
 		  </td>
 		  <td>
 <?php

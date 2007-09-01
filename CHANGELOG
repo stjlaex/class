@@ -15,8 +15,12 @@ history.
 
 To allow new actions to be added on to the end of an open Incident
 then the js function clickToAction() has had a new action added and it
-set no_db to -1 (similar to report entries) to flag the submit to the
-action page as a new action.
+sets no_db to -1 (similar to report entries) to flag the submit to the
+action page as a new entry.
+
+Some alternative divs added to the topform and brough in and out by
+the clickToAction to keep the user aware of the topform's status. The
+css id formstatus is only in the InfoBook at the moment.
 
 Fixed bug with Add New Contact which was only affecting new contacts
 created from student_view in the InfoBook but was setting gid=0 for
@@ -26,6 +30,9 @@ Fixed the create_infobook.php install script so that the enrolstatus
 has the full compliment of enum values - should have been done back in
 0.8.13!
 
+Rejigged report_incidents_list page in the ReportBook to high-light
+students with "Open" Incidents. Bugfix for passing sids on the
+clickthru to the InfoBook too.
 
 
 Version ClaSS-0.8.24 release (2007/08/17)

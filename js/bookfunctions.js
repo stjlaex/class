@@ -114,7 +114,10 @@ function clickToAction(buttonObject){
 	if(action=="Edit"){
 		var test=fillxmlForm(xmlRecord);
 		document.getElementById("Subject").parentNode.setAttribute("class","right");
-		if(document.getElementById("No_db")){document.getElementById("No_db").value=""};
+		if(document.getElementById("No_db")){document.getElementById("No_db").value="";}
+		document.getElementById("formstatus-new").setAttribute("class","hidden");
+		document.getElementById("formstatus-edit").setAttribute("class","");
+		document.getElementById("formstatus-action").setAttribute("class","hidden");
 		}
 	else if(action=="New"){
 		document.formtoprocess.reset();
@@ -122,6 +125,9 @@ function clickToAction(buttonObject){
 		document.getElementById("Id_db").value=recordId;
 		document.getElementById("No_db").value="-1";
 		document.getElementById("Subject").parentNode.setAttribute("class","hidden");
+		document.getElementById("formstatus-new").setAttribute("class","hidden");
+		document.getElementById("formstatus-edit").setAttribute("class","hidden");
+		document.getElementById("formstatus-action").setAttribute("class","");
 		}
 	else if(action=="current"){
 		var recordId=xmlRecord.childNodes[1].childNodes[0].nodeValue;
@@ -400,6 +406,10 @@ function processContent(buttonObject){
 	var buttonname=buttonObject.name;
 	if(buttonObject.value=="Reset"){
 		document.formtoprocess.reset();
+		if(document.getElementById("No_db")){document.getElementById("No_db").value="";}
+		if(document.getElementById("formstatus-new")){document.getElementById("formstatus-new").setAttribute("class","");}
+		if(document.getElementById("formstatus-edit")){document.getElementById("formstatus-edit").setAttribute("class","hidden");}
+		if(document.getElementById("formstatus-action")){document.getElementById("formstatus-action").setAttribute("class","hidden");}
 		}
 	else if(buttonObject.value=="Cancel"){
 		var input=document.createElement("input");

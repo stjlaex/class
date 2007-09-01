@@ -38,6 +38,7 @@ $string['non-validating']='Non-validating';
 $string['notapplied']='Not applied';
 $string['derivation']='Derivation';
 $string['publishpdf']='Publish to PDF';
+$string['collatesince']='Collate since';
 $string['']='';
 $string['']='';
 ?>

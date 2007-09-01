@@ -680,6 +680,7 @@ function fetchAddress($gidaid=array('address_id'=>'-1','addresstype'=>'')){
 								  'table_db'=>'gidaid', 
 								  'field_db' => 'addresstype',
 								  'type_db'=>'enum', 
+								  //'default_value' => 'H',
 								  'value' => ''.$gidaid['addresstype']);
 	$Address['BuildingName']=array('label' => 'building', 
 								   'table_db' => 'address', 

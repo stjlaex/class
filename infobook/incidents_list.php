@@ -17,9 +17,29 @@ three_buttonmenu();
 ?>
   </div>
 
-  <div class="topform">
+  <div id="topform" class="topform">
 	<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
-	<label><?php print_string('recordnewincident');?></label>
+
+
+	  <div class="left">
+		<div id="formstatus-new" class="">
+		  <?php print_string('recordnewincident',$book);?>
+		</div>
+		<div id="formstatus-edit" class="hidden">
+		  <?php print_string('editincident',$book);?>
+		</div>
+		<div id="formstatus-action" class="hidden">
+		  <?php print_string('newaction',$book);?>
+		</div>
+	  </div>
+
+	  <div class="right">
+		<?php $listlabel='incidentstatus'; $required='yes'; $listname='closed';
+		include('scripts/set_list_vars.php');
+		list_select_enum('closed',$listoptions,'infobook');
+		?>
+	  </div>
+
 	  <div class="left">
 		<label for="Detail"><?php print_string('details',$book);?></label>
 		<textarea name="detail"   tabindex="<?php print $tab++;?>" 
@@ -31,20 +51,13 @@ three_buttonmenu();
 	  </div>
 
 	  <div class="right">
-		<label for="Subject"><?php print_string('subjectspecific');?></label>
-			   <?php $required="no"; include('scripts/list_studentsubjects.php');?>
-	  </div>
-
-	  <div class="right">
 		<?php $listlabel='sanction'; $listid='sanction'; $cattype='inc';
 		$required='yes'; include('scripts/list_category.php');?>
 	  </div>
 
 	  <div class="right">
-		<?php $listlabel='incidentclosed'; $required='yes'; $listname='closed';
-		include('scripts/set_list_vars.php');
-		list_select_enum('closed',$listoptions,'infobook');
-		?>
+		<label for="Subject"><?php print_string('subjectspecific');?></label>
+			   <?php $required="no"; include('scripts/list_studentsubjects.php');?>
 	  </div>
 
 	  <input type="text" style="display:none;" id="Id_db" name="id_db" value="" />
@@ -86,7 +99,7 @@ three_buttonmenu();
 			<td><?php print $Incident['YearGroup']['value'];?></td>
 			<td><?php print $Incident['EntryDate']['value'];?></td>
 			<td><?php print $Incident['Subject']['value'];?></td>
-			<td>&nbsp<?php if($Incident['Closed']['value']=='N'){print_string('open');} ?></td>
+			<td>&nbsp <?php if($Incident['Closed']['value']=='N'){print_string('open');} ?></td>
 		  </tr>
 		  <tr class="hidden" id="<?php print $entryno.'-'.$rown++;?>">
 			<td colspan="5">

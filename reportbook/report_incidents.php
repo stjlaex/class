@@ -20,7 +20,7 @@ three_buttonmenu();
 	  </fieldset>
 
 	  <fieldset class="left">
-		<legend><?php print_string('collatecommentssince');?></legend>
+		<legend><?php print_string('collatesince',$book);?></legend>
 		<?php include('scripts/jsdate-form.php'); ?>
 	  </fieldset>
 
