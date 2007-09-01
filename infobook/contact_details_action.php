@@ -1,6 +1,5 @@
 <?php
 /**									contact_details_action.php
- *
  */
 
 $action='student_view.php';
@@ -13,7 +12,7 @@ include('scripts/sub_action.php');
 
 if($sub=='Submit'){
 
-	if($contactno>'-1'){
+	if($contactno>-1){
 		/*Check user has permission to edit*/
 		$yid=$Student['YearGroup']['value'];
 		$perm=getYearPerm($yid, $respons);
@@ -26,6 +25,13 @@ if($sub=='Submit'){
 		$Phones=$Contact['Phones'];
 		$Addresses=$Contact['Addresses'];
 		}
+	elseif($contactno==-1 and $gid==''){
+		/*completely fresh contact being linked to*/
+		mysql_query("INSERT INTO guardian SET surname=''");
+		$gid=mysql_insert_id();
+		mysql_query("INSERT INTO gidsid SET guardian_id='$gid', student_id='$sid'");
+		$Contact=fetchContact();
+		}
 	elseif($gid!='' and $sid!=''){
 		/*pre-existing contact being linked to*/
 		mysql_query("INSERT INTO gidsid SET guardian_id='$gid', student_id='$sid'");
@@ -34,18 +40,11 @@ if($sub=='Submit'){
 		$Addresses=$Contact['Addresses'];
 		}
 	elseif($gid!=''){
-		/*just editing a contact within reference to a sid*/
+		/*just editing a contact without reference to a sid*/
 		$action='contact_details.php';
 		$Contact=fetchContact(array('guardian_id'=>$gid));
 		$Phones=$Contact['Phones'];
 		$Addresses=$Contact['Addresses'];
-		}
-	else{
-		/*completely fresh contact being linked to*/
-		mysql_query("INSERT INTO guardian SET surname=''");
-		$gid=mysql_insert_id();
-		mysql_query("INSERT INTO gidsid SET guardian_id='$gid', student_id='$sid'");
-		$Contact=fetchContact();
 		}
 	$Phones[]=fetchPhone();
 	$Addresses[]=fetchAddress();

@@ -298,12 +298,14 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 			<img class="clicktoedit" title="<?php print_string('edit');?>" />
 		  </a>
 		  <?php print_string('enrolstatus',$book);?>
-		  </legend>
+		</legend>
+		<div>
 <?php 
-		  print '<div>'.get_string(displayEnum($Student['EnrolmentStatus']['value'],$Student['EnrolmentStatus']['field_db']),$book).'</div>';
+		print get_string(displayEnum($Student['EnrolmentStatus']['value'],$Student['EnrolmentStatus']['field_db']),$book);
 ?>
-		</fieldset>
-	</div>
+		</div>
+	  </fieldset>
+  </div>
 
 
   <input type="hidden" name="current" value="<?php print $action;?>">

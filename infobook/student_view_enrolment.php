@@ -23,7 +23,6 @@ three_buttonmenu();
 	  <fieldset class="center">
 		<div class="left">
 <?php 
-  //$enrolstatus=$Student['EnrolmentStatus']['value'];
 	$Enrolment=fetchEnrolment($sid);
 	$enrolstatus=$Enrolment['EnrolmentStatus']['value'];
 	$listname='enrolstatus';$listlabel='enrolstatus';$required='yes';

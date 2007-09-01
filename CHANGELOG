@@ -18,6 +18,15 @@ then the js function clickToAction() has had a new action added and it
 set no_db to -1 (similar to report entries) to flag the submit to the
 action page as a new action.
 
+Fixed bug with Add New Contact which was only affecting new contacts
+created from student_view in the InfoBook but was setting gid=0 for
+each new one.
+
+Fixed the create_infobook.php install script so that the enrolstatus
+has the full compliment of enum values - should have been done back in
+0.8.13!
+
+
 
 Version ClaSS-0.8.24 release (2007/08/17)
 -----------------------------------------
