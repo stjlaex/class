@@ -91,6 +91,8 @@ three_buttonmenu();
 			if(is_array($Incident)){
 				$rown=0;
 				$entryno=$Incident['id_db'];
+		if($Incident['Closed']['value']=='N'){$styleclass=' class="hilite"';}
+		else{$styleclass='';}
 ?>
 		<tbody id="<?php print $entryno;?>">
 		  <tr class="rowplus" onClick="clickToReveal(this)" 
@@ -99,7 +101,9 @@ three_buttonmenu();
 			<td><?php print $Incident['YearGroup']['value'];?></td>
 			<td><?php print $Incident['EntryDate']['value'];?></td>
 			<td><?php print $Incident['Subject']['value'];?></td>
-			<td>&nbsp <?php if($Incident['Closed']['value']=='N'){print_string('open');} ?></td>
+			<td	<?php print $styleclass;?>>&nbsp 
+			  <?php if($Incident['Closed']['value']=='N'){print_string('open');}?>
+			</td>
 		  </tr>
 		  <tr class="hidden" id="<?php print $entryno.'-'.$rown++;?>">
 			<td colspan="5">
@@ -141,7 +145,7 @@ three_buttonmenu();
 			if($Incident['Closed']['value']=='N'){
 ?>
 		  <tr class="hidden" id="<?php print $entryno.'-'.$rown++;?>">
-			<td colspan="5">
+			<td colspan="5" <?php print $styleclass;?>>
 			  <button class="rowaction" title="New action" 
 							name="New" onClick="clickToAction(this)">
 				<?php print_string('newaction',$book);?>				

@@ -254,7 +254,6 @@ function fetchStudent($sid='-1'){
 								  'type_db'=>'varchar(13)', 
 								  'value' => ''.$info['formerupn']
 								  );
-	trigger_error('enrolstatus'.$info['enrolstatus'],E_USER_WARNING);
    	$Student['EnrolmentStatus']=array('label' => 'enrolstatus', 
 									  //'table_db' => 'info', 
 								  'field_db' => 'enrolstatus', 

@@ -8,7 +8,10 @@ $action='usage.php';
 
 include('scripts/sub_action.php');
 
-$extrabuttons['usagestatistics']=array('name'=>'current','value'=>'usage_statistics.php');
+if($_SESSION['role']=='admin'  or $_SESSION['role']=='district'){
+	$extrabuttons['usagestatistics']=array('name'=>'current','value'=>'usage_statistics.php');
+	}
+
 two_buttonmenu($extrabuttons,$book);
 ?>
 

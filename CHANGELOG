@@ -36,6 +36,10 @@ clickthru to the InfoBook too.
 
 Tidied form_edit_action of warnings.
 
+Added a new user role called "district" for access to only the Admin
+book by those responsible for a overseeing a group or district of
+schools. Limits to only accessing pages for overall statistics.
+
 
 Version ClaSS-0.8.24 release (2007/08/17)
 -----------------------------------------

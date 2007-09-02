@@ -95,6 +95,7 @@ $string['believedtobeenglish']='Believed to be English';
 $string['incidentrecorded']='Incident recorded';
 $string['recordnewincident']='Record new incident';
 $string['editincident']='Edit incident';
+$string['existingincidents']='Existing incidents';
 $string['newaction']='New action';
 $string['incidentstatus']='Incident status';
 $string['commentrecorded']='Comment recorded';

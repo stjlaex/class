@@ -230,6 +230,7 @@ $string['staff']='Staff';
 $string['admin']='Administrator';
 $string['office']='Office';
 $string['support']='Support';
+$string['district']='District supervisor';
 $string['library']='Library';
 $string['medical']='Medical';
 $string['sen']='Special needs';

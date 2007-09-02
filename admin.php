@@ -29,7 +29,8 @@ $rtid=$tid;
 				   ,'yeargroup_matrix.php' => 'yeargroups'
 				   ,'community_group.php' => 'communitygroups'
 				   );
-	if($_SESSION['role']=='admin' or $_SESSION['role']=='office'){
+	if($_SESSION['role']=='admin' or $_SESSION['role']=='office' 
+	   or $_SESSION['role']=='district'){
 		$choices['enrolments_matrix.php']='enrolments';
 		$choices['accomodation_matrix.php']='accomodation';
 		}
@@ -39,7 +40,12 @@ $rtid=$tid;
 		$choices=array('teacher_matrix.php' => 'subjectclasses'
 					   ,'responsables.php' => 'responsibilities'
 					   ,'staff_details.php' => 'staffdetails'
-					   ,'class_nos.php' => 'classnumbers'
+					   );
+		selery_stick($choices,$choice,$book);
+		}
+	if($_SESSION['role']=='admin' or $_SESSION['role']=='teacher'
+	   or $_SESSION['role']=='district'){
+		$choices=array('class_nos.php' => 'classnumbers'
 					   ,'usage.php' => 'logcounter'
 					   );
 		selery_stick($choices,$choice,$book);

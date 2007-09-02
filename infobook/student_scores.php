@@ -62,7 +62,10 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 		$grading_grades=$AssDef['GradingScheme']['grades'];
 		$crid=$AssDef['Course']['value'];
 
-		/*only include assessments in the table which are for all subjects*/
+		/* Only include assessments in the table which are for all subjects.*/
+		/* This is controversial, in a sense, and it needs care for*/
+		/* assessments which are of general interest, sya those which have a single*/
+		/* subject but are perhaps across a range of components. */
 		if($AssDef['Subject']['value']=='%'){
 			/* display the row for this eid*/
 			print '<tr><td>';
