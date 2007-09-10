@@ -25,21 +25,23 @@ if($sub=='Submit'){
 		$Phones=$Contact['Phones'];
 		$Addresses=$Contact['Addresses'];
 		}
-	elseif($contactno==-1 and $gid==''){
+	elseif($contactno==-1 and $gid==-1){
 		/*completely fresh contact being linked to*/
 		mysql_query("INSERT INTO guardian SET surname=''");
 		$gid=mysql_insert_id();
 		mysql_query("INSERT INTO gidsid SET guardian_id='$gid', student_id='$sid'");
 		$Contact=fetchContact();
 		}
-	elseif($gid!='' and $sid!=''){
+	elseif($gid>=-1 and $sid!=''){
 		/*pre-existing contact being linked to*/
 		mysql_query("INSERT INTO gidsid SET guardian_id='$gid', student_id='$sid'");
-		$Contact=fetchContact(array('guardian_id'=>$gid,'student_id'=>$sid));
+		$gidsid=array('guardian_id'=>$gid,'student_id'=>$sid,
+					  'priority'=>'','mailing'=>'','relationship'=>'');
+		$Contact=fetchContact($gidsid);
 		$Phones=$Contact['Phones'];
 		$Addresses=$Contact['Addresses'];
 		}
-	elseif($gid!=''){
+	elseif($gid>=-1){
 		/*just editing a contact without reference to a sid*/
 		$action='contact_details.php';
 		$Contact=fetchContact(array('guardian_id'=>$gid));
@@ -51,7 +53,7 @@ if($sub=='Submit'){
 
 	reset($Contact);
 	while(list($key,$val)=each($Contact)){
-		if(isset($val['value']) & is_array($val)){
+		if(isset($val['value']) and is_array($val) and isset($val['field_db'])){
 			$field=$val['field_db'];
 			$inname=$field;
 			$inval=clean_text($_POST["$inname"]);
@@ -71,7 +73,7 @@ if($sub=='Submit'){
 	while(list($phoneno,$Phone)=each($Phones)){
 		$phoneid=$Phone['id_db'];
 		while(list($key,$val)=each($Phone)){
-			if(isset($val['value']) & is_array($val)){	
+			if(isset($val['value']) and is_array($val) and isset($val['field_db'])){	
 				$field=$val['field_db'];
 				$inname=$field.$phoneno;
 				$inval=clean_text($_POST["$inname"]);
@@ -92,7 +94,7 @@ if($sub=='Submit'){
 		$aid=$Address['id_db'];
 		reset($Address);
 		while(list($key,$val)=each($Address)){
-			if(isset($val['value']) & is_array($val)){
+			if(isset($val['value']) & is_array($val) and isset($val['field_db'])){
 				$field=$val['field_db'];
 				$inname=$field.$addressno;
 				if(isset($_POST[$inname])){$inval=clean_text($_POST[$inname]);}

@@ -1,3 +1,18 @@
+Version ClaSS-0.8.26 release (2007/09/12)
+-----------------------------------------
+
+Fixed bug with Add New Contact which was only affecting new contacts
+created from student_view in the InfoBook but was setting gid=0 for
+each new one.
+
+Moved the emails for new PINs code from the Admin passwords page to be
+a part of the update_user function. So, any new PIN is always emailed
+to the member of staff (as long as $CFG->email options are set). This
+also now uses the send_email_to() function instead of just plain mail().
+
+Added the status to emails for incidents.
+
+
 Version ClaSS-0.8.25 release (2007/09/02)
 -----------------------------------------
 
@@ -21,10 +36,6 @@ action page as a new entry.
 Some alternative divs added to the topform and brough in and out by
 the clickToAction to keep the user aware of the topform's status. The
 css id formstatus is only in the InfoBook at the moment.
-
-Fixed bug with Add New Contact which was only affecting new contacts
-created from student_view in the InfoBook but was setting gid=0 for
-each new one.
 
 Fixed the create_infobook.php install script so that the enrolstatus
 has the full compliment of enum values - should have been done back in

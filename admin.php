@@ -32,7 +32,7 @@ $rtid=$tid;
 	if($_SESSION['role']=='admin' or $_SESSION['role']=='office' 
 	   or $_SESSION['role']=='district'){
 		$choices['enrolments_matrix.php']='enrolments';
-		$choices['accomodation_matrix.php']='accomodation';
+		//$choices['accomodation_matrix.php']='accomodation';
 		}
 	selery_stick($choices,$choice,$book);
 

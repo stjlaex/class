@@ -26,7 +26,8 @@ elseif($contactno=='-1'){
 	/*this is a new link to a contact*/
 	if(isset($_POST['pregid']) and $_POST['pregid']!=''){$gid=$_POST['pregid'];}
 	else{$gid=-1;}
-	$Contact=fetchContact(array('guardian_id'=>$gid,'student_id'=>-1));
+	$gidsid=array('guardian_id'=>$gid,'student_id'=>-1,'priority'=>'','mailing'=>'','relationship'=>'');
+	$Contact=fetchContact($gidsid);
 	$Phones=$Contact['Phones'];
 	$Addresses=$Contact['Addresses'];
 	}

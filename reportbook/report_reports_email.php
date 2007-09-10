@@ -33,14 +33,15 @@ if(sizeof($sids)==0){
 		$Contacts=fetchContacts($sid);
 
 		$body='Please find attached the term report for '.$Student['DisplayFullName']['value'].' and the latest edition of the school newsletter.';
-		$subject='Saint Michael\'s College report for '.$Student['DisplayFullName']['value'];
-		$fromaddress='smc@classforschools.com';
+		$subject='Report for '.$Student['DisplayFullName']['value'];
+		$fromaddress='ClaSS';
 		$filename='Report'.$pubdate.'_'.$Student['Surname']['value'].'_'.$sid.'_'.$wrapper_rid.'.pdf';
 		$attachments=array();
 		$attachments[]=array('filepath'=>$CFG->installpath.'/pdfreports/'.$filename,
 							 'filename'=>$filename);
-		$attachments[]=array('filepath'=>$CFG->installpath.'/pdfreports/smc_newsletter.pdf',
+		/*		$attachments[]=array('filepath'=>$CFG->installpath.'/pdfreports/smc_newsletter.pdf',
 							 'filename'=>'newsletter.pdf');
+		*/
 
 		while(list($index,$Contact)=each($Contacts)){
 			$mailing=$Contact['ReceivesMailing']['value'];

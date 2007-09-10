@@ -26,14 +26,11 @@ three_buttonmenu();
 		</div>
 
 		<div class="center">
-		  <p><?php print_string('emailuserpasswordsdetail',$book);?></p>
-		  <div class="right">
 <?php 
 		  if($CFG->emailoff!='yes'){
-			  $checkname='emailstaff';
-			  $checkchoice='yes';
-			  $checkcaption=get_string('emailreminders',$book); 
-			  include('scripts/check_yesno.php');
+?>
+		  <p><?php print_string('emailuserpasswordsdetail',$book);?></p>
+<?php
 			  }
 		  else{
 ?>
@@ -41,7 +38,6 @@ three_buttonmenu();
 <?php
 			}
 ?>
-		  </div>
 		</div>
 	  </fieldset>
 

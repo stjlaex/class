@@ -548,7 +548,7 @@ function fetchDependents($gid='-1'){
  * blank Contact for gid=-1,sid=-1. Will be none sid specific if sid
  * is not set (which is used by contact search in the InfoBook)
  */
-function fetchContact($gidsid=array('guardian_id'=>'-1','student_id'=>'-1')){
+function fetchContact($gidsid=array('guardian_id'=>'-1','student_id'=>'-1','priority'=>'','mailing'=>'','relationship'=>'')){
 	$gid=$gidsid['guardian_id'];
 	$d_guardian=mysql_query("SELECT * FROM guardian WHERE id='$gid'");
 	$guardian=mysql_fetch_array($d_guardian,MYSQL_ASSOC);
@@ -727,6 +727,7 @@ function fetchAddress($gidaid=array('address_id'=>'-1','addresstype'=>'')){
 /*******Incidents***/
 function fetchIncidents($sid){
 	$Incidents=array();
+	$Incidents['Incident']=array();
 	$d_incidents=mysql_query("SELECT * FROM incidents WHERE
 		student_id='$sid' ORDER BY entrydate DESC");
 	while($incident=mysql_fetch_array($d_incidents,MYSQL_ASSOC)){

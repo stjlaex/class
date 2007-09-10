@@ -363,9 +363,9 @@ function update_user($user,$update='no',$short='class'){
     if(isset($user['senrole'])){$senrole=$user['senrole'];}else{$senrole='0';}
 
  	/*All users get a passwd based on the shortkeyword (set in $CFG) and a
-   	/*userno, this formula should be personalised to meet your needs*/
+   	/*userno, this formula should be personalised to meet your needs.*/
 	/*The userno should be unique to each staff login, is not stored in*/
-	/*the database and should be recorded elsewhere for reference if needed*/
+	/*the database and should be recorded elsewhere for reference if needed.*/
 	if(isset($user['passwd']) and $user['passwd']!=''){$passwd=$user['passwd'];}
 	elseif(isset($user['userno'])){$passwd=$short.$user['userno'];}
 	if(isset($passwd)){$assword=md5($passwd);}
@@ -377,15 +377,15 @@ function update_user($user,$update='no',$short='class'){
 		  if($update!='yes'){
 				$result=$result.'Username '.$username.' already exists
 							for a member of staff:
-						'.$olduser{'surname'}.', '.$olduser{'forename'};
+						'.$olduser['surname'].', '.$olduser['forename'];
 				}
 		  else{
-			  mysql_query("UPDATE users SET
+			mysql_query("UPDATE users SET
 				  surname='$surname', forename='$forename',
 							email='$email', emailpasswd='$emailpasswd', 
 					role='$role', senrole='$senrole', worklevel='$worklevel', nologin='$nologin',
 					firstbookpref='$firstbookpref' WHERE username='$username'");
-			  $result=$result.'Updated details for user '.$username;
+			$result=$result.'Updated details for user '.$username;
 			}
 		}
 	else{
@@ -397,10 +397,25 @@ function update_user($user,$update='no',$short='class'){
 					   '$senrole', '$firstbookpref')");
 		$result=$result.'Username '.$username.' added.';
 		}
+
 	if($assword!=''){
 		  $d_user=mysql_query("UPDATE users SET
 					passwd='$assword' WHERE username='$username'");
+		  if($CFG->emailoff=='no' and $user['userno']!=''){
+			  if(eregi('^[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.([a-zA-Z]{2,4})$', $email)){
+				  //$headers=emailHeader();
+				  $footer='--'. "\r\n" .get_string('emailfooterdisclaimer');
+				  $message=get_string('emailnewloginuserno','admin')."\r\n";
+				  $message=$message ."\r\n".get_string('username').': '.$username."\r\n";
+				  $message=$message .get_string('keynumber','admin').': '.$user['userno']."\r\n";
+				  $message=$message ."\r\n".$footer;
+				  $subject=get_string('emailnewloginsubject','admin');
+				  $fromaddress='ClaSS';
+   				  send_email_to($email,$fromaddress,$subject,$message);
+				  }
+			  }
 		   }
+
 	return $result;
 	}
 
