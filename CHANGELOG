@@ -1,3 +1,18 @@
+Version ClaSS-0.8.27 release (2007/09/19)
+-----------------------------------------
+
+Tidied the address labels to have the title and country properly
+displayed.
+
+Contacts now have four blank phone records by default and only four
+phone records as a maximum.
+
+The EntryBook now cycles through up to two new contacts for each
+student.
+
+Added an attendance code 'L' for authorised lates.
+
+
 Version ClaSS-0.8.26 release (2007/09/12)
 -----------------------------------------
 

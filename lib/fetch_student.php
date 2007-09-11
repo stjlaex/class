@@ -1,9 +1,9 @@
 <?php	
-/*												infobook/fetch_student.php
-
-	Retrieves all infobook information about one student using only their sid.
-	Returns the data in an array $Student and sets it as a session variable.
-*/	
+/**												infobook/fetch_student.php
+ *
+ *	Retrieves all infobook information about one student using only their sid.
+ *	Returns the data in an array $Student and sets it as a session variable.
+ */	
 
 
 function fetchStudent_short($sid){
@@ -57,6 +57,7 @@ function fetchStudent_short($sid){
 function fetchStudent_singlefield($sid,$tag){
 	/*this is a ad-hoc function for use by student_list only at the moment*/
 	/*to quickly get at sid fields outside of student*/
+	$fieldtype='';
 	if($tag=='Nationality'){$fieldname='nationality';$fieldtype='enum';}
 	elseif($tag=='EnrolNumber'){$fieldname='formerupn';}
 	elseif($tag=='Language'){$fieldname='language';$fieldtype='enum';}
@@ -600,8 +601,8 @@ function fetchContact($gidsid=array('guardian_id'=>'-1','student_id'=>'-1','prio
 							'value' => ''.$guardian['title']);
 	$Contact['DisplayFullName']=array('label' => 'fullname',  
 									  'value' =>
-									  displayEnum($Contact['Title']['value'], 'title')
-									  .' ' . $guardian['forename'] . ' ' 
+			   					  get_string(displayEnum($Contact['Title']['value'], 'title'),'infobook')
+									  .'  ' . $guardian['forename'] . ' ' 
 									  .$guardian['middlenames']
 									  . ' ' . $guardian['surname']);
 
@@ -714,7 +715,9 @@ function fetchAddress($gidaid=array('address_id'=>'-1','addresstype'=>'')){
 	$Address['Country']=array('label' => 'country', 
 							 'table_db' => 'address', 
 							 'field_db' => 'country',
-							 'type_db' => 'enum', 
+							 'type_db' => 'enum',
+							  'value_display' => 
+							get_string(displayEnum($address['country'], 'country'),'infobook'), 
 							 'value' => ''.$address['country']);
 	$Address['Postcode']=array('label' => 'postcode',
 							   'table_db' => 'address', 

@@ -666,6 +666,7 @@ function getEnumArray($field_name){
 						'G' => 'familyholidaynotagreeded',
 						'H' => 'familyholidayagreed',
 						'J' => 'interview',
+						'L' => 'lateafterregisterclosedauthorised',
 						'R' => 'religiousobservance',
 						'T' => 'travellerabsence',
 						'W' => 'workexperience',

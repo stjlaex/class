@@ -40,8 +40,9 @@
 	  </tr>
 	  <tr>
 		<td>
+		  <xsl:value-of select="addresses/street/value/text()" />&#160;
 		  <xsl:value-of select="addresses/streetno/value/text()" />&#160;
-		  &#160;<xsl:value-of select="addresses/street/value/text()" />&#160;
+		  <xsl:value-of select="addresses/buildingname/value/text()" />&#160;
 		</td>
 	  </tr>
 	  <tr>
@@ -61,13 +62,12 @@
 	  </tr>
 	  <tr>
 		<td>
-		  <xsl:value-of select="addresses/country/value/text()" />&#160;
+		  <xsl:value-of select="addresses/country/value_display/text()" />&#160;
 		</td>
 	  </tr>
 	</table>
 	<div class='studentdata'>
 			<xsl:value-of select="../../displayfullname/value/text()" />&#160;
-			<xsl:value-of select="../../enrolnumber/value/text()" />&#160;
 	</div>
   </div>
 </xsl:template>

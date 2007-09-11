@@ -56,6 +56,8 @@ if($sub=='Submit'){
 		}
 
 	join_community($sid,$community);
+	$result[]=get_string('newstudentadded',$book);
 
+include('scripts/results.php');
 include('scripts/redirect.php');
 ?>

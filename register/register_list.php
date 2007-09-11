@@ -150,8 +150,8 @@ include('scripts/sub_action.php');
 				<select tabindex="<?php print $tab++;?>" 					
 					name="status-<?php print $sid;?>" >
 				  <option value="n"></option>
-				  <option value="p">Present</option>
-				  <option value="a">Absent</option>
+				  <option value="p"><?php print_string('present',$book);?></option>
+				  <option value="a"><?php print_string('absent',$book);?></option>
 				</select>
 			  </td>
 <?php

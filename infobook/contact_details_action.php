@@ -38,17 +38,18 @@ if($sub=='Submit'){
 		$gidsid=array('guardian_id'=>$gid,'student_id'=>$sid,
 					  'priority'=>'','mailing'=>'','relationship'=>'');
 		$Contact=fetchContact($gidsid);
-		$Phones=$Contact['Phones'];
+		$Phones=(array)$Contact['Phones'];
 		$Addresses=$Contact['Addresses'];
 		}
 	elseif($gid>=-1){
 		/*just editing a contact without reference to a sid*/
 		$action='contact_details.php';
 		$Contact=fetchContact(array('guardian_id'=>$gid));
-		$Phones=$Contact['Phones'];
+		$Phones=(array)$Contact['Phones'];
 		$Addresses=$Contact['Addresses'];
 		}
-	$Phones[]=fetchPhone();
+
+	while(sizeof($Phones)<4){$Phones[]=fetchPhone();}
 	$Addresses[]=fetchAddress();
 
 	reset($Contact);

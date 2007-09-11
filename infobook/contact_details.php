@@ -7,7 +7,7 @@ $action='contact_details_action.php';
 
 include('scripts/sub_action.php');
 
-if(isset($_GET['contactno'])){$contactno=$_GET['contactno'];}else{$contactno='-2';}
+if(isset($_GET['contactno'])){$contactno=$_GET['contactno'];}else{$contactno=-2;}
 if(isset($_POST['contactno'])){$contactno=$_POST['contactno'];}
 
 	/*Check user has permission to view*/
@@ -15,18 +15,19 @@ if(isset($_POST['contactno'])){$contactno=$_POST['contactno'];}
 	$perm=getYearPerm($yid,$respons);
 	include('scripts/perm_action.php');
 
-if($contactno>'-1'){
+if($contactno>-1){
 	/*editing a pre-existing link to a contact*/
 	$Contact=$Student['Contacts'][$contactno];
 	$Phones=$Contact['Phones'];
 	$Addresses=$Contact['Addresses'];
 	$gid=$Contact['id_db'];
 	}
-elseif($contactno=='-1'){
+elseif($contactno==-1){
 	/*this is a new link to a contact*/
 	if(isset($_POST['pregid']) and $_POST['pregid']!=''){$gid=$_POST['pregid'];}
 	else{$gid=-1;}
-	$gidsid=array('guardian_id'=>$gid,'student_id'=>-1,'priority'=>'','mailing'=>'','relationship'=>'');
+	$gidsid=array('guardian_id'=>$gid,'student_id'=>-1,'priority'=>'',
+				  'mailing'=>'','relationship'=>'');
 	$Contact=fetchContact($gidsid);
 	$Phones=$Contact['Phones'];
 	$Addresses=$Contact['Addresses'];
@@ -49,17 +50,17 @@ else{
 	}
 
 /*always add a blank record for new entries*/
-$Phones[]=fetchPhone();
+while(sizeof($Phones)<4){$Phones[]=fetchPhone();}
 $Addresses[]=fetchAddress();
 
 /*TODO: temporarily only one address for display*/
 $Address=$Addresses[0];
 
+$extrabuttons=array();
 if($contactno>-1){
 	$extrabuttons['unlinkcontact']=array('name'=>'sub','value'=>'Unlink');
 	}
-elseif($contactno=='-1'){
-	$extrabuttons=array();
+elseif($contactno==-1){
 	$d_guardian=mysql_query("SELECT id, CONCAT(surname,', ',forename) AS name FROM guardian ORDER BY surname");
 ?>
   <div id="heading">

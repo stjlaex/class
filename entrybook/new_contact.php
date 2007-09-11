@@ -8,7 +8,7 @@ if(isset($_POST['sid']) and $_POST['sid']!=''){
 	$sid=$_POST['sid'];
 	if(isset($_POST['pregid']) and $_POST['pregid']!=''){$gid=$_POST['pregid'];}else{$gid=-1;}
 	$Contact=fetchContact(array('guardian_id'=>$gid,'student_id'=>-1));
-	$Phones=$Contact['Phones'];
+	$Phones=(array)$Contact['Phones'];
 	$Addresses=$Contact['Addresses'];
 	$Student=fetchStudent_short($sid);
 	$extrabuttons=array();
@@ -18,13 +18,14 @@ if(isset($_POST['sid']) and $_POST['sid']!=''){
 else{
 	$choice='new_contact.php';
 	$Contact=fetchContact(array('guardian_id'=>-1));
+	$Phones=array();
 	}
 
 three_buttonmenu();
 
 
 /*always add a blank record for new entries*/
-$Phones[]=fetchPhone();
+while(sizeof($Phones)<4){$Phones[]=fetchPhone();}
 $Addresses[]=fetchAddress();
 
 /*TODO: temporarily only one address for display*/
@@ -81,6 +82,11 @@ if(isset($sid)){
 if(isset($gid)){
 ?>
 	    <input type="hidden" name="gid" value="<?php print $gid;?>">
+<?php
+		}
+if(isset($_POST['contactno'])){
+?>
+	    <input type="hidden" name="contactno" value="<?php print $_POST['contactno'];?>">
 <?php
 		}
 ?>

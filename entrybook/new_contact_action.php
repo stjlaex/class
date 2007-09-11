@@ -4,7 +4,7 @@
  */
 
 $action='new_contact.php';
-$action_post_vars=array('pregid','sid');
+$action_post_vars=array('pregid','sid','contactno');
 
 if(isset($_POST['pregid']) and $_POST['pregid']!=''){
 	/*don't need to do anything else*/
@@ -12,8 +12,16 @@ if(isset($_POST['pregid']) and $_POST['pregid']!=''){
 	$pregid=$_POST['pregid'];
 	}
 elseif(isset($_POST['sid']) and $_POST['sid']!=''){
-	$action='new_student.php';
-	$cancel='new_student.php';
+
+	if(isset($_POST['contactno']) and $_POST['contactno']>0){
+		$action='new_student.php';
+		$cancel='new_student.php';
+		$contactno=2;
+		}
+	else{
+		$contactno=1;
+		}
+
 	$sid=$_POST['sid'];
 	if(isset($_POST['gid'])){$gid=$_POST['gid'];}
 	}
@@ -24,6 +32,7 @@ if($sub=='Submit'){
 
 	if(isset($gid) and $gid!='-1' and $gid!=''){
 		$Contact=fetchContact(array('guardian_id'=>'-1','student_id'=>'-1'));
+		$Phones=(array)$Contact['Phones'];
 		}
 	else{
 		if(isset($sid)){
@@ -32,6 +41,7 @@ if($sub=='Submit'){
 		else{
 			$Contact=fetchContact(array('guardian_id'=>'-1'));
 			}
+		$Phones=array();
 		mysql_query("INSERT INTO guardian SET surname=''");
 		$gid=mysql_insert_id();
 		}
@@ -52,6 +62,27 @@ if($sub=='Submit'){
 			elseif($val['table_db']=='gidsid'){
 				mysql_query("UPDATE gidsid SET $field='$inval'
 						WHERE guardian_id='$gid' AND student_id='$sid'");
+				}
+			}
+		}
+
+	while(sizeof($Phones)<4){$Phones[]=fetchPhone();}
+	reset($Phones);
+	while(list($phoneno,$Phone)=each($Phones)){
+		$phoneid=$Phone['id_db'];
+		while(list($key,$val)=each($Phone)){
+			if(isset($val['value']) and is_array($val) and isset($val['field_db'])){	
+				$field=$val['field_db'];
+				$inname=$field.$phoneno;
+				$inval=clean_text($_POST["$inname"]);
+				if($val['value']!=$inval){
+					if($phoneid=='-1' and $inval!=''){
+						mysql_query("INSERT INTO phone SET some_id='$gid'");
+						$phoneid=mysql_insert_id();
+						}
+					mysql_query("UPDATE phone SET $field='$inval'
+					WHERE some_id='$gid' AND id='$phoneid'");
+					}
 				}
 			}
 		}
@@ -81,5 +112,8 @@ if($sub=='Submit'){
 		}
 	}
 
+	$result[]=get_string('newcontactadded',$book);
+
+include('scripts/results.php');
 include('scripts/redirect.php');
 ?>
