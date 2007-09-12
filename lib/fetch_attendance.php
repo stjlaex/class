@@ -3,6 +3,7 @@
  *
  */	
 
+/* Returns a blank attendance record (even for sid!=-1!)*/
 function fetchAttendance($sid='-1'){
 	$Attendance=array();
 	$Attendance['id_db']=$attendance['id'];
@@ -48,10 +49,13 @@ function fetchAttendance($sid='-1'){
 	return $Attendance;
 	}
 
+
+/* Returns all attendance records for the $nodays before the day */
+/* specified by $startday (and $startday=0 is today)*/
 function fetchAttendances($sid,$startday=0,$nodays=7){
 	$Attendances=array();
 	$evetable=array();
-	/*if no date set choose this week*/
+	/*defaults to choose this past week*/
 	$startdate=date('Y-m-d',mktime(0,0,0,date('m'),date('d')+$startday+1,date('Y')));
 	$enddate=date('Y-m-d',mktime(0,0,0,date('m'),date('d')+$startday-$nodays,date('Y')));
 

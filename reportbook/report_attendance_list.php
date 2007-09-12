@@ -41,6 +41,10 @@ include('scripts/sub_action.php');
 		exit;
 		}
 
+	/*no of days between today and date selected*/
+	$todate=date('Y-m-d');
+	$diff=strtotime($todate)-strtotime($date0);
+	$nodays=round($diff/86400);
 
 twoplusprint_buttonmenu();
 ?>
@@ -59,6 +63,7 @@ twoplusprint_buttonmenu();
 		</tr>
 <?php	
 	while(list($index,$student)=each($students)){
+		$summary=array();
 		$sid=$student['id'];
 		$Student=fetchStudent_short($sid);
 		$fid=$Student['RegistrationGroup']['value'];
@@ -73,7 +78,7 @@ twoplusprint_buttonmenu();
 			  target="viewinfobook" onclick="parent.viewBook('infobook');">C</a>
 		  </td>
 		  <td>
-			<a href="register.php?current=register_list.php&fid=<?php
+			<a href="register.php?current=register_list.php&newfid=<?php
 			  print $fid;?>"  target="viewregister"
 			  onclick="parent.viewBook('register');"> 
 			  <?php print $Student['DisplayFullName']['value']; ?>
@@ -84,9 +89,22 @@ twoplusprint_buttonmenu();
 		  </td>
 		  <td>
 <?php
-		for($c=0;$c<sizeof($summary[$sid]);$c++){
-				print $summary[$sid][$c].'&nbsp;';
+		$summary='';
+		$present=0;
+		$absent=0;
+		$Attendances=(array)fetchAttendances($sid,0,$nodays);
+		$noevents=sizeof($Attendances['Attendance']);
+		for($c=0;$c<$noevents;$c++){
+			if($Attendances['Attendance'][$c]['Status']['value']=='p'){
+				$present++;
 				}
+			else{
+				$absent++;
+				$summary.=$Attendances['Attendance'][$c]['Code']['value'];
+				}
+			}
+		$average=round(($present/$noevents)*100);
+		print $average.'% &nbsp;(Absences '.$absent.' &nbsp;'.$summary.')';
 ?>
 		  </td>
 		</tr>
