@@ -109,6 +109,8 @@ three_buttonmenu();
 			<td colspan="5">
 			  <p>
 				<?php if(isset($Incident['Detail']['value'])){print $Incident['Detail']['value'];}?>
+				<?php if(isset($Incident['Teacher']['value'])){print
+				'  - '.$Incident['Teacher']['value'];}?>
 			  </p>
 			  <p>
 				<?php print get_string('sanction','infobook').': '.$Incident['Sanction']['value'];?>

@@ -100,6 +100,8 @@ three_buttonmenu();
 <?php		   if(isset($entry['Detail']['value'])){
 					print $entry['Detail']['value'];
 					}
+				if(isset($entry['Teacher']['value'])){print
+				'  - '.$entry['Teacher']['value'];}
 ?>
 			  </p>
 			  <button class="rowaction" title="Delete this comment"
