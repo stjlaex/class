@@ -42,7 +42,8 @@ twoplusprint_buttonmenu();
 			<input type="checkbox" name="comids[]" value="<?php print $com['id']; ?>" />
 		  </td>
 		  <td>
-			<?php print $com['name'];?>
+			<a onclick="parent.viewBook('register');" target="viewregister"  
+			  href='register.php?current=register_list.php&cancel=completion_list.php&newfid=<?php print $com['name'];?>'><?php print $com['displayname'];?></a>
 		  </td>
 		  <td class="<?php print $cssclass;?>">
 			<?php print_string($status,$book);?>

@@ -1,4 +1,26 @@
-Version ClaSS-0.8.27 release (2007/09/19)
+Version ClaSS-0.8.28 release (2007/09/12)
+-----------------------------------------
+
+To aid customisations which are preserved across upgrades, the
+schoolarray.php and scholllang.php files have been added to the
+toplevel directory. Instructions are in the in the files.
+
+More logically ordered the countries selection.
+
+The list_communitities() function now properly orders formgroups and
+yeargroups.
+
+The Register's absence_list now provides a shortcut link to each form
+group.
+
+Fixed report_assessments_view.php to handle assessments with numerical
+scores as well as grades and to work when the chosen responsibility is
+for only a subject.
+
+Started new ReportBook option for summarising attendance.
+
+
+Version ClaSS-0.8.27 release (2007/09/11)
 -----------------------------------------
 
 Tidied the address labels to have the title and country properly
@@ -13,7 +35,7 @@ student.
 Added an attendance code 'L' for authorised lates.
 
 
-Version ClaSS-0.8.26 release (2007/09/12)
+Version ClaSS-0.8.26 release (2007/09/10)
 -----------------------------------------
 
 Fixed bug with Add New Contact which was only affecting new contacts

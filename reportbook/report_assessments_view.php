@@ -32,6 +32,14 @@ include('scripts/sub_action.php');
 		$students=listin_community(array('id'=>'','type'=>'year','name'=>$yid));
 		}
 	else{
+		if($rcrid=='%'){
+			/*User has a subject not a course responsibility selected*/
+			$d_course=mysql_query("SELECT DISTINCT cohort.course_id FROM
+				cohort JOIN cridbid ON cridbid.course_id=cohort.course_id WHERE
+				cridbid.subject_id='$rbid' AND cohort.stage='$stage' AND cohort.year='$year'");
+			$rcrid=mysql_result($d_course,0);
+			}
+
 		$students=listin_cohort(array('id'=>'','course_id'=>$rcrid,'year'=>$year,'stage'=>$stage));
 		}
 
@@ -160,6 +168,7 @@ include('scripts/sub_action.php');
 			$assnos=$asshids[$hid];/*all of the entries in Assessments for this hid*/
 			$gradesum=0;
 			$gradecount=0;
+			$scorecount=0;
 			/*average over all possible Assessments, indexed by assnos*/
 			for($c=0;$c<sizeof($assnos);$c++){
 				$assno=$assnos[$c];
@@ -174,21 +183,23 @@ include('scripts/sub_action.php');
 					the same marktype - can't do much else until there is the ability
 					to translate between grading schemes*/
 			   		$crid=$Assessment['Course']['value'];
-					$result=$Assessment['Result']['value'];
+					//trigger_error('grade scheme:'.$assdefs[$eid]['GradingScheme']['grades'],E_USER_WARNING);
 					if($assdefs[$eid]['GradingScheme']['grades']!=''){
+						$result=$Assessment['Result']['value'];
 						$score=gradeToScore($result,$assdefs[$eid]['GradingScheme']['grades']);
 	   					$gradesum=$gradesum+$score;
 		   				$gradecount++;
 						}
 					else{
+						$result=$Assessment['Value']['value'];
 						$score=$result;
 	   					$gradesum=$gradesum+$score;
-		   				$gradecount++;
+		   				$scorecount++;
 						}
 					}
 				}
 			  }
-			  else{$assnos=array(); $gradecount=0;}
+			  else{$assnos=array(); $gradecount=0; $scorecount=0;}
 
 		  /*display the assessment average*/
 		  if($gradecount>0){
@@ -197,11 +208,23 @@ include('scripts/sub_action.php');
 					$score=round($scoreaverage);
 					$grade=scoreToGrade($score,$assdefs[$eid]['GradingScheme']['grades']);
 					}
+		  elseif($scorecount>0){
+					$scoreaverage=$gradesum/$scorecount;
+					$scoreaverage=round($scoreaverage,1);
+					$grade=round($scoreaverage);
+					}
 		  else{$score='';$scoreaverage='';$grade='';}
 		  if(isset($gradestats[$grade])){$gradestats[$grade]=$gradestats[$grade]+1;/*sum for stats*/}
 		  else{$gradestats[$grade]=0;$gradestats[$grade]=$gradestats[$grade]+1;}
-		  if($gradecount==1){$viewtable[$rowno]['out'][]=$grade;}
-		  else{$viewtable[$rowno]['out'][]=$grade.' ('.$scoreaverage.')';}
+		  if($gradecount>1){
+			  $viewtable[$rowno]['out'][]=$grade.' ('.$scoreaverage.')';
+			  }
+		  elseif($scorecount>1){
+			  $viewtable[$rowno]['out'][]=$scoreaverage;
+			  }
+		  else{
+			  $viewtable[$rowno]['out'][]=$grade;
+			  }
 		  }
 
 		/*end of row average needed here*/

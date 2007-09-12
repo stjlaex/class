@@ -6,7 +6,6 @@ $string['currentsession']='Current session';
 $string['registrationsession']='Session';
 $string['registrationgroups']='Groups';
 $string['takeregister']='Register group';
-$string['attendance']='Attendance';
 $string['noreasonyetprovided']='No reason yet provided';
 $string['lateafterregisterclosed']='Late after register closed';
 $string['illness']='Illness';

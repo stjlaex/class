@@ -51,6 +51,7 @@ include('scripts/set_book_vars.php');
 	$choices=array('report_comments.php' => 'comments'
 			   ,'report_incidents.php' => 'incidents'
 			   ,'report_assessments.php' => 'assessments'
+			   ,'report_attendance.php' => 'attendance'
 			   ,'report_reports.php' => 'subjectreports'
 			   );
 	selery_stick($choices,$choice,$book);

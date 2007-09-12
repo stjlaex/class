@@ -6,8 +6,26 @@
 /* ignores differences in year by default*/
 function list_communities($type='',$year=''){
 	if($type!='' and $year==''){
-		$d_com=mysql_query("SELECT id, name, year, capacity, detail FROM community WHERE 
+		if($type=='year'){
+			$d_com=mysql_query("SELECT community.id, community.name, 
+					community.year, community.capacity,
+					community.detail FROM community JOIN yeargroup ON
+					community.name=yeargroup.id WHERE 
+					community.type='$type' ORDER BY yeargroup.section,
+					yeargroup.sequence");
+			}
+		elseif($type=='form'){
+			$d_com=mysql_query("SELECT community.id, community.name, 
+					community.year, community.capacity,
+					community.detail FROM community JOIN form ON
+					community.name=form.id WHERE 
+					community.type='$type' ORDER BY form.yeargroup_id,
+					form.name");
+			}
+		else{
+			$d_com=mysql_query("SELECT id, name, year, capacity, detail FROM community WHERE 
 								type='$type' ORDER BY name");
+			}
 		}
 	elseif($type!=''){
 		$d_com=mysql_query("SELECT id, name, year, capacity, detail FROM community WHERE 

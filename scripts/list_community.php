@@ -11,6 +11,8 @@ if(!isset($listlabel)){$listlabel='communities';}
 include('scripts/set_list_vars.php');
 
 	$listcomtypes=array();
+	$listcomtypes[]='academic';
+	$listcomtypes[]='accomodation';
 	if(!isset($listtype)){
 		$listcomtypes[]='year';
 	  		if($_SESSION['role']=='office' 
@@ -22,8 +24,6 @@ include('scripts/set_list_vars.php');
 			}
 		}
 	elseif($listtype=='admissions'){
-		$listcomtypes[]='academic';
-		$listcomtypes[]='accomodation';
 		$listcomtypes[]='enquired';
 		$listcomtypes[]='applied';
 		$listcomtypes[]='accepted';

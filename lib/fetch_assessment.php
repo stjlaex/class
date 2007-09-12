@@ -369,7 +369,7 @@ function fetch_cohortAssessmentDefinitions($cohort){
 			   WHERE (course_id LIKE '$crid' OR course_id='%') AND 
 				(stage LIKE '$stage' OR stage='%') AND
 				year LIKE '$year' 
-				ORDER BY year DESC, stage DESC, creation DESC");
+				ORDER BY year DESC, stage DESC, creation DESC, element");
    	while($ass=mysql_fetch_array($d_assessment, MYSQL_ASSOC)){
 		$AssDefs[]=fetchAssessmentDefinition($ass['id']);
 		}
