@@ -113,15 +113,17 @@ include('scripts/sub_action.php');
 				$attcode=$Attendance['Code']['value'];
 				$attlate=$Attendance['Late']['value'];
 				$attcomm=$Attendance['Comment']['value'];
+				$atttime=$Attendance['Logtime']['value'];
 				if($attvalue=='a' and ($attcode==' ' or $attcode=='O')){
-					$cell='title="" ><span title="? : <br />'. $attcomm.'" >';
+					$cell='title="" ><span title="? : <br />'. 
+							date('H:i',$atttime).' '.$attcomm.'" >';
 					$cell.='<img src="images/ostroke.png" /></span>';
 					}
 				else if($attvalue=='a' and $attcode!=' ' and $attcode!='O'){
 					$des=displayEnum($attcode,'absencecode');
 					$des=get_string($des,'register');
 					$cell='title="" ><span title="'.$attcode .': '. $des
-							.'<br />'.$attcomm.'" >';
+							.'<br />'.date('H:i',$atttime).' '.$attcomm.'" >';
 					$cell.=' &nbsp '.$attcode.'</span>';
 					}
 				else{
@@ -194,5 +196,5 @@ include('scripts/sub_action.php');
 		}
 ?>
 	</select>
-	<input type="hidden" name="comm" id="comm" value="" title="" />
+	<input style="width:10em;" name="comm" id="comm" value="" />
   </div>

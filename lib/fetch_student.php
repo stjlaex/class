@@ -514,6 +514,18 @@ function fetchContacts($sid='-1'){
 	return $Contacts;
 	}
 
+
+function fetchContacts_emails($sid='-1'){
+	$Contacts=array();
+	$d_gidsid=mysql_query("SELECT * FROM gidsid JOIN guardian ON
+				guardian.id=gidsid.guardian_id WHERE guardian.email IS
+				NOT NULL AND gidsid.student_id='$sid' AND gidsid.mailing='1'");
+	while($gidsid=mysql_fetch_array($d_gidsid,MYSQL_ASSOC)){
+		$Contacts[]=fetchContact($gidsid);
+		}
+	return $Contacts;
+	}
+
 function fetchDependents($gid='-1'){
 	$Dependents=array();
 	$d_gidsid=mysql_query("SELECT * FROM gidsid WHERE guardian_id='$gid' ORDER BY priority");
@@ -523,7 +535,7 @@ function fetchDependents($gid='-1'){
 		$Dependent['Student']=fetchStudent_short($gidsid['student_id']);
 		$Dependent['Order']=array('label' => 'priority', 
 								  'inputtype'=> 'required', 
-								  'table_db' => 'gidsid', 
+								  'table_db' => 'gidsid',
 								  'field_db' => 'priority',
 								  'type_db'=>'enum', 
 								  'value' => ''.$gidsid['priority']);
@@ -687,11 +699,13 @@ function fetchAddress($gidaid=array('address_id'=>'-1','addresstype'=>'')){
 								   'field_db' => 'building',
 								   'type_db'=>'varchar(60)', 
 								   'value' => ''.$address['building']);
+	/*Now deprecated...
 	$Address['StreetNo']=array('label' => 'streetno.', 
 							   'table_db' => 'address', 
 							   'field_db' => 'streetno',
 							   'type_db'=>'varchar(10)', 
 							   'value' => ''.$address['streetno']);
+	*/
 	$Address['Street']=array('label' => 'street',
 						   'table_db' => 'address', 
 						   'field_db' => 'street',
@@ -903,7 +917,7 @@ function fetchEnrolment($sid='-1'){
 			$comtype='accepted';
 			}
 		elseif($info['enrolstatus']=='C'){
-			$comtype='accepted';
+			$comtype='year';
 			}
 		else{
 			$comtype='applied';
@@ -911,8 +925,17 @@ function fetchEnrolment($sid='-1'){
 		$searchcom=array('id'=>'','name'=>'','type'=>$comtype);
 		$coms=(array)list_member_communities($sid,$searchcom);
 		while(list($index,$com)=each($coms)){
-			list($enrolstatus,$yid)=split(':',$com['name']);
-			$year=$com['year'];
+			if($comtype=='year'){
+				$yid=$com['name'];
+				$enrolstatus='C';
+				/* current roll can only exist for the current year*/
+				/* and so is not really logical to have displayed?*/
+				$year=get_curriculumyear();
+				}
+			else{
+				list($enrolstatus,$yid)=split(':',$com['name']);
+				$year=$com['year'];
+				}
 			}
 		}
 
@@ -960,7 +983,7 @@ function fetchEnrolment($sid='-1'){
 									'value' => ''.$info['leavingdate']
 									);
 
-	//trigger_error($enrolstatus.' '.$year.' '.$yid.'-'.$com['name'],E_USER_WARNING);
+	//trigger_error($enrolstatus.' '.$year.' '.$yid.'-'.$comtype,E_USER_WARNING);
 	return $Enrolment;
 	}
 

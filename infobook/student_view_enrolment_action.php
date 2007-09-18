@@ -1,5 +1,5 @@
 <?php
-/*****									student_view_enrolment_action.php
+/**				   				student_view_enrolment_action.php
  *
  */
 
@@ -17,12 +17,17 @@ if($sub=='Submit'){
 	if(isset($_POST['enrolyear'])){$enrolyear=$_POST['enrolyear'];}else{$enrolyear='';}
 	if(isset($_POST['enrolyid'])){$enrolyid=$_POST['enrolyid'];}else{$enrolyid='';}
 
+	/*see community_list_action for the same - needs to be moved out*/
+	/*crucial to th elogic of enrolments*/
 	if($enrolstatus=='EN'){$newtype='enquired';}
-	elseif($enrolstatus=='AC' or $enrolstatus=='C'){$newtype='accepted';}
+	elseif($enrolstatus=='AC'){$newtype='accepted';}
 	else{$newtype='applied';}
-	//trigger_error($enrolstatus.' '.$enrolyear.' '.$enrolyid.'-'.$newtype,E_USER_WARNING);
 	$newcom=array('id'=>'','type'=>$newtype, 
 					  'name'=>$enrolstatus.':'.$enrolyid,'year'=>$enrolyear);
+	if($enrolstatus=='C'){
+		$newcom=array('id'=>'','type'=>'year', 'name'=>$enrolyid);
+		}
+	/**/
 	$oldcommunities=join_community($sid,$newcom);
 
 

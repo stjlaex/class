@@ -24,6 +24,7 @@ while($student=mysql_fetch_array($d_students, MYSQL_ASSOC)){
 				'attstatus'=>$Attendance['Status']['value'], 
 				'attcode'=>$Attendance['Code']['value'], 
 				'attcomment'=>$Attendance['Comment']['value'], 
+				'atttime'=>$Attendance['Logtime']['value'], 
 				'sid'=>$sid,
 				'surname'=>$student['surname'],
 				'forename'=>$student['forename'],

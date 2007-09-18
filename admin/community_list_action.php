@@ -23,11 +23,18 @@ if($sub=='Submit'){
 		$enrolyear=$com['year'];
 		list($enrolstatus,$yid)=split(':',$com['name']);
 		if(isset($_POST['enrolstatus'])){$newenrolstatus=$_POST['enrolstatus'];}
+		
+		/*see student_view_enrolment_action for the same - needs to be moved out*/
+		/*crucial to th elogic of enrolments*/
 		if($newenrolstatus=='EN'){$newtype='enquired';}
-		elseif($newenrolstatus=='AC' or $enrolstatus=='C'){$newtype='accepted';}
+		elseif($newenrolstatus=='AC'){$newtype='accepted';}
 		else{$newtype='applied';}
 		$newcom=array('id'=>'','type'=>$newtype, 
 					  'name'=>$newenrolstatus.':'.$yid,'year'=>$enrolyear);
+		if($newenrolstatus=='C'){
+			$newcom=array('id'=>'','type'=>'year', 'name'=>$yid);
+			}
+		/**/
 		}
 
 	if(isset($newcom)){

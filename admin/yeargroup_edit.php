@@ -95,6 +95,7 @@ if(isset($_POST['newcomid'])){$newcomid=$_POST['newcomid'];}else{$newcomid='';}
 				$newcomid=update_community($newcommunity);
 				}
 			$selcomids=array($newcomid);
+			$listtype='yeargroups';
 			include('scripts/list_community.php');
 ?>
 		  </div>

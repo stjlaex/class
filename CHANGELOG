@@ -1,3 +1,41 @@
+Version ClaSS-0.8.29 release (2007/09/19)
+-----------------------------------------
+
+Bugfix to list_community and added $listtype of 'yeargoups'.
+
+Fixed problem with getSubjectPerm when checking for all courses.
+
+Added text/csv to the mime-type check for file_import_csv script.
+
+The streetno field has been dropped form the address table. The patch
+will merge streetno with the building field (so be prepared!).
+
+A new CFG option to emailguardianincidents which will cause incidents
+to be emailed to parents if they have an email address entered and are
+flagged to receive all mailings.
+
+Bugfix to the register which was recording tid instead of $tid upon
+updates.
+
+The comment box is now turned on for absences (but could still be
+nicer with a popup) and is displayed in both the Register and
+MarkBook.
+
+Added a timestamp field to the attendance table which is displayed as
+part of the onhover comment. To make the timestamp of use when logging
+arrivals outside of registration (effectively signing-in) then
+register_list_action.php has to now compare the input with the
+existing record and only update accordingly.
+
+A new field in the users table allows for a webmail username which can
+be derived from the user's email address. But not yet turned for the
+staff_details.php page.
+
+The logic of the enrolment action pages has been improved to allow
+students to move straight to the current roll.
+
+
+
 Version ClaSS-0.8.28 release (2007/09/12)
 -----------------------------------------
 
@@ -21,6 +59,8 @@ Started new ReportBook option for summarising attendance.
 
 Added the teacher's name to the display of comments and incidents in
 the InfoBook.
+
+Bugfix to the incidents, emails were always reporting open status.
 
 
 Version ClaSS-0.8.27 release (2007/09/11)

@@ -11,15 +11,19 @@ if(!isset($listlabel)){$listlabel='communities';}
 include('scripts/set_list_vars.php');
 
 	$listcomtypes=array();
-	$listcomtypes[]='academic';
-	$listcomtypes[]='accomodation';
 	if(!isset($listtype)){
+		$listcomtypes[]='academic';
+		$listcomtypes[]='accomodation';
 		$listcomtypes[]='year';
 	  		if($_SESSION['role']=='office' 
 						   or $_SESSION['role']=='admin'){
-				//$listcomtypes[]='enquired';
-				//$listcomtypes[]='applied';
-				//$listcomtypes[]='alumni';
+			$listcomtypes[]='accepted';
+			}
+		}
+	elseif($listtype=='yeargroups'){
+		$listcomtypes[]='year';
+	  		if($_SESSION['role']=='office' 
+						   or $_SESSION['role']=='admin'){
 			$listcomtypes[]='accepted';
 			}
 		}

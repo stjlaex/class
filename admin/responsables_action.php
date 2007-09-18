@@ -11,7 +11,7 @@ $bid=$_POST['bid'];
 $yid=$_POST['newyid'];
 $newuid=$_POST['user'];
 $perm=$_POST['privilege'];
-$email=$_POST['email'];
+if(isset($_POST['email'])){$email=$_POST['email'];}else{$email='no';}
 
 
 /* the permissions allowed by change, edit, or view*/
@@ -72,8 +72,8 @@ elseif($bid!='' and $crid!=''){
 	elseif($permc['x']!=1 and $crid!='%'){
 		$error[]=get_string('nopermissions');
 		}
-	else if($permb['x']!=1 and $bid!='%' and $crid=='%'){
-		$error[]=get_string('nopermissions');
+	elseif($permb['x']!=1 and $bid!='%' and $crid=='%'){
+		$error[]=get_string('nosubjectpermissions');
 		}
 	}
 else{

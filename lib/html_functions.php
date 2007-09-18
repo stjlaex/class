@@ -179,11 +179,20 @@ function xmlarray_form($Array,$no='',$caption='',$tab=1,$book=''){
 					tabindex="<?php print $tab++;?>" ><?php print $setval; ?></textarea>
 <?php
 				 }
-			else{
-		$maxlength='5000';
+			elseif(substr($val['type_db'],0,3)=='var' or substr($val['type_db'],0,3)=='cha'){
+				$field_type=split('[()]', $val['type_db']);
+				$maxlength=$field_type[1];
 ?>
 		<input type="text" id="<?php print $val['label'];?>" 
 		  maxlength="<?php print $maxlength; ?>"
+		  class="<?php if(isset($val['inputtype'])){print $val['inputtype'];}?>" 
+		  name="<?php print $val['field_db'].$no; ?>" 
+		  tabindex="<?php print $tab++;?>" value="<?php print $setval; ?>" />
+<?php
+				}
+			else{
+?>
+		<input type="text" id="<?php print $val['label'];?>" 
 		  class="<?php if(isset($val['inputtype'])){print $val['inputtype'];}?>" 
 		  name="<?php print $val['field_db'].$no; ?>" 
 		  tabindex="<?php print $tab++;?>" value="<?php print $setval; ?>" />

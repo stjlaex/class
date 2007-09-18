@@ -38,11 +38,11 @@ include('scripts/sub_action.php');
 		$subject='Incident Report for '.$Student['Forename']['value']
 				.' '.$Student['Surname']['value'].' ('. 
 					$Student['RegistrationGroup']['value'].')';
-		if($closed=='yes'){$status='Closed';}else{$status='Open';} 
+		if($closed=='Y'){$status='Closed';}else{$status='Open';} 
 		$message=$subject."\r\n". 'Status: '.$status."\r\n". 'Subject: '.$bid."\r\n". 
 				'Posted by '.$tid. "\r\n";
 		$message.="\r\n". $detail. "\r\n";
-		$message.="\r\n" .$footer;
+		$message.="\r\n". $footer;
 		$fromaddress='ClaSS';
 
 		$recipients=list_sid_responsible_users($sid,$bid);
@@ -51,10 +51,27 @@ include('scripts/sub_action.php');
 				foreach($recipients as $index => $recipient){
 					$recipient['email']=strtolower($recipient['email']);
 					send_email_to($recipient['email'],$fromaddress,$subject,$message);
-					$result[]=get_string('emailsentto').' '.$recipient['username'];}
-					//					$headers=emailHeader();
-					//					if(mail($recipient['email'],$subject,$message,$headers)){
-					//	 			}
+					$result[]=get_string('emailsentto').' '.$recipient['username'];
+					}
+				}
+			}
+
+		$Contacts=fetchContacts_emails($sid);
+		$footer='--'. "\r\n" . get_string('guardianemailfooterdisclaimer');
+		$message=$subject."\r\n". 'Status: '.$status."\r\n". 'Subject: '.$bid."\r\n". 
+				'Posted by '.$tid. "\r\n";
+		$message.="\r\n". $detail. "\r\n";
+		$message.="\r\n". $footer;
+		$fromaddress=$CFG->schoolname;
+
+		if($Contacts and $CFG->emailoff!='yes' and $CFG->emailguardianincidents=='yes'){
+			if(sizeof($Contacts)>0){
+				foreach($Contacts as $index => $Contact){
+					$emailaddress=strtolower($Contact['EmailAddress']['value']);
+					send_email_to($emailaddress,$fromaddress,$subject,$message);
+					$result[]=get_string('emailsentto').' '. 
+							$Contact['Relationship']['value'].' '.$Contact['Surname']['value'];
+					}
 				}
 			}
 

@@ -41,7 +41,6 @@
 	  <tr>
 		<td>
 		  <xsl:value-of select="addresses/street/value/text()" />&#160;
-		  <xsl:value-of select="addresses/streetno/value/text()" />&#160;
 		  <xsl:value-of select="addresses/buildingname/value/text()" />&#160;
 		</td>
 	  </tr>

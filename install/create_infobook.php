@@ -209,7 +209,6 @@ mysql_query("
 CREATE TABLE address (
    	id				int unsigned not null auto_increment, 	
 	building		varchar(60) not null default '',
-	streetno		varchar(10) not null default '',
 	street			varchar(100) not null default '',
 	neighbourhood	varchar(50) not null default '',
 	town			varchar(40) not null default '',

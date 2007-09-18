@@ -16,7 +16,8 @@ $ftype=$_FILES['importfile']['type'];
 		$error[]='Unable to open remote file.';
 		$action=$choice;
 		}
-	elseif($ftype!='text/x-comma-separated-values' and $ftype!='text/comma-separated-values'){
+	elseif($ftype!='text/x-comma-separated-values' and 
+		   $ftype!='text/csv' and $ftype!='text/comma-separated-values'){
 		$error[]=$ftype;
 		$error[]='File is of the wrong type, it must be a csv file.';
 		$action=$choice;

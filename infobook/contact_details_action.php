@@ -97,7 +97,7 @@ if($sub=='Submit'){
 		while(list($key,$val)=each($Address)){
 			if(isset($val['value']) & is_array($val) and isset($val['field_db'])){
 				$field=$val['field_db'];
-				$inname=$field.$addressno;
+				$inname=$field. $addressno;
 				if(isset($_POST[$inname])){$inval=clean_text($_POST[$inname]);}
 				else{$inval='';}
 				if($val['value']!=$inval){

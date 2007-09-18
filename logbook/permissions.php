@@ -67,7 +67,7 @@ function list_responsible_users($tid,$respons,$r=0){
 		subject_id LIKE '$rbid' AND course_id LIKE '$rcrid' ORDER BY id");
 		while($cid=mysql_fetch_row($d_cids)){
 			$d_users=mysql_query("SELECT DISTINCT uid,
-			   	username, passwd, forename, surname, email,
+			   	username, passwd, forename, surname, email, emailuser,
 				emailpasswd, nologin,
 				firstbookpref, role, senrole FROM users JOIN tidcid ON 
 				users.username=tidcid.teacher_id WHERE
@@ -98,7 +98,7 @@ function list_pastoral_users($ryid,$perms){
 			AND yeargroup_id LIKE '$ryid'");
 	$gid=mysql_result($d_group,0);
 	$d_users=mysql_query("SELECT DISTINCT users.uid,
-			   	username, passwd, forename, surname, email,
+			   	username, passwd, forename, surname, email, emailuser,
 				emailpasswd, nologin,
 				firstbookpref, role, senrole FROM users JOIN perms ON 
 				users.uid=perms.uid WHERE perms.gid='$gid' AND perms.r='$r' 
@@ -115,7 +115,7 @@ function list_pastoral_users($ryid,$perms){
 function list_all_users($nologin='%'){
    	$users=array();
 	$d_users=mysql_query("SELECT uid, username, passwd, forename,
-				surname, email, emailpasswd, nologin, firstbookpref,
+				surname, email, emailuser, emailpasswd, nologin, firstbookpref,
 				role, worklevel, senrole
 				FROM users WHERE nologin LIKE '$nologin' ORDER BY role, username");
 	while($user=mysql_fetch_array($d_users,MYSQL_ASSOC)){;
@@ -135,7 +135,7 @@ function list_teacher_users($crid='',$bid=''){
 		while($teacher=mysql_fetch_array($d_teacher,MYSQL_ASSOC)){
 			$tid=$teacher['teacher_id'];
 			$d_users=mysql_query("SELECT uid, username, passwd, forename,
-				surname, email, emailpasswd, nologin, firstbookpref, role, worklevel,
+				surname, email, emailuser, emailpasswd, nologin, firstbookpref, role, worklevel,
 				senrole FROM users WHERE username='$tid'");
 			$user=mysql_fetch_array($d_users,MYSQL_ASSOC);
 			$users[$tid]=$user;
@@ -144,7 +144,7 @@ function list_teacher_users($crid='',$bid=''){
 	else{
 		/*Otherwise just return all active teaching staff ie. nologin=0*/
 		$d_user=mysql_query("SELECT uid, username, passwd, forename,
-				surname, email, emailpasswd, 
+				surname, email, emailuser, emailpasswd, 
 				nologin, firstbookpref, role, worklevel FROM users WHERE
 				(role='teacher' or role='admin') AND nologin='0' AND
 				username!='administrator' ORDER BY username");
@@ -259,19 +259,20 @@ function getMarkPerm($mid, $respons){
 		$resp=$respons[$c];
 		if(($resp['subject_id']==$bid or $resp['subject_id']=='%') and
 				($resp['course_id']==$crid or $resp['course_id']=='%')){
-			$perm['r']=$resp{'r'};
-			$perm['w']=$resp{'w'};
-			$perm['x']=$resp{'x'};
+			$perm['r']=$resp['r'];
+			$perm['w']=$resp['w'];
+			$perm['x']=$resp['x'];
 			}
 		}
 	if($_SESSION['role']=='admin'){$perm['r']=1; $perm['w']=1; $perm['x']=1;}		
 	return $perm;
 	}
 
-function getSubjectPerm ($subject, $respons){
+function getSubjectPerm($subject, $respons){
 	$perm['r']=0;
 	$perm['w']=0;
 	$perm['x']=0;
+	$crids=array();
 	for($c=0;$c<sizeof($respons);$c++){
 		$resp=$respons[$c];
 		if($resp['subject_id']==$subject and $resp['course_id']=='%'){
@@ -279,7 +280,20 @@ function getSubjectPerm ($subject, $respons){
 			$perm['w']=$resp['w'];
 			$perm['x']=$resp['x'];
 			}
+		elseif($resp['course_id']!='%' and
+			   ($resp['subject_id']=='%' or $resp['subject_id']==$subject)){
+			$crids[$resp['course_id']]=$resp['course_id'];
+			}
 		}
+
+	$d_crid=mysql_query("SELECT DISTINCT course_id 
+							FROM cridbid WHERE subject_id='$subject'");
+	if(sizeof($crids)>=mysql_num_rows($d_crid)){
+		$perm['r']=1;
+		$perm['w']=1;
+		$perm['x']=1;
+		}
+
 	return $perm;
 	}
 
@@ -346,6 +360,8 @@ function update_user($user,$update='no',$short='class'){
 	   if(eregi('^[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.([a-zA-Z]{2,4})$', $user['email'])){ 
 			$user['email']=strtolower($user['email']);
 			$email=$user['email'];
+			if(isset($user['emailuser'])){$emailuser=$user['emailuser'];}
+			else{$emailuser='';}
 			/*endecrypt is the rc4 encryption function from moodlelib*/
 			/*the same function (and webmailshare!) needs to be used
 			/*by the webmail app to decrypt the passwd if its passed encrypted*/
@@ -357,6 +373,7 @@ function update_user($user,$update='no',$short='class'){
 		}
 	else{
 		$email='';
+		$emailuser='';
 		$emailpasswd='';
 		}
     if(isset($user['nologin'])){$nologin=$user['nologin'];}else{$nologin='0';}
@@ -382,7 +399,7 @@ function update_user($user,$update='no',$short='class'){
 		  else{
 			mysql_query("UPDATE users SET
 				  surname='$surname', forename='$forename',
-							email='$email', emailpasswd='$emailpasswd', 
+							email='$email', emailuser='$emailuser', emailpasswd='$emailpasswd', 
 					role='$role', senrole='$senrole', worklevel='$worklevel', nologin='$nologin',
 					firstbookpref='$firstbookpref' WHERE username='$username'");
 			$result=$result.'Updated details for user '.$username;
@@ -390,10 +407,11 @@ function update_user($user,$update='no',$short='class'){
 		}
 	else{
 		mysql_query("INSERT INTO users (username, passwd, forename, surname,
-					email, emailpasswd, role, nologin, worklevel,
+					email, emailuser, emailpasswd, role, nologin, worklevel,
 							senrole, firstbookpref) 
 					VALUES ('$username', '$assword', '$forename',
-					'$surname', '$email', '$emailpasswd', '$role', '$nologin', '$worklevel',
+					'$surname', '$email', '$emailuser', 
+						'$emailpasswd', '$role', '$nologin', '$worklevel',
 					   '$senrole', '$firstbookpref')");
 		$result=$result.'Username '.$username.' added.';
 		}

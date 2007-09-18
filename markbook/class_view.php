@@ -164,19 +164,23 @@ if($_SESSION['worklevel']>-1){
 			<?php print $viewtable[$c2]['surname'];?>,&nbsp;<?php print $viewtable[$c2]['forename'].$viewtable[$c2]['preferredforename'];?></a>
 		  </td>
 		  <td><?php print $viewtable[$c2]['form_id'];?></td>
-		  <td status="<?php print $viewtable[$c2]['attstatus'];?>" >
+		  <td status="<?php print $viewtable[$c2]['attstatus'];?>" 
 <?php 
-		  if($viewtable[$c2]['attcomment']!=" "){
+		  if($viewtable[$c2]['attcomment']!=' '){
 ?>			
-				<span title="<?php print $viewtable[$c2]['attcode'].':'. 
-						   $viewtable[$c2]['attcomment'];?>"></span>
+				title="">
+				<span title="<?php print $viewtable[$c2]['attcode'].':<br />'. 
+				 date('H:i',$viewtable[$c2]['atttime']).' '.$viewtable[$c2]['attcomment'];?>">
+				&nbsp;</span>
 <?php 
 				}
+		  else{print '>';}
 ?>
+
 		  &nbsp;</td>
 <?php
 		for($c=0;$c<$c_marks;$c++){
-//			if ($umns[$c]['display']=='yes'){
+//			if($umns[$c]['display']=='yes'){
 				$col_mid=$umns[$c]['id'];
 				if($viewtable[$c2]['score'.$col_mid]['comment']!=''){
 					print '<td class="'.$viewtable[$c2]['score'.$col_mid]['scoreclass']. '" '. 

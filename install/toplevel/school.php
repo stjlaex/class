@@ -61,6 +61,7 @@ $CFG->smtpuser='';
 $CFG->smtppasswd='';
 /*choose to send email notifications to the responsible staff for a student*/
 $CFG->emailincidents='yes';
+$CFG->emailguardianincidents='no';
 $CFG->emailcomments='no';
 /*send out reminders to relevant staff of approaching deadlines*/
 $CFG->emailreminders='no';

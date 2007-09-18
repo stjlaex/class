@@ -59,12 +59,17 @@ twoplusprint_buttonmenu();
 		  </th>
 		  <th colspan="2"><?php print_string('student');?></th>
 		  <th><?php print_string('formgroup');?></th>
-		  <th><?php print_string('attendancesummary',$book);?></th>
+		  <th>
+			<?php print_string('attendancepercentage','register');?> 
+			(<?php print_string('absences','register');?>)
+		  </th>
 		</tr>
 <?php	
+	$sids=array();
 	while(list($index,$student)=each($students)){
 		$summary=array();
 		$sid=$student['id'];
+		$sids[]=$sid;
 		$Student=fetchStudent_short($sid);
 		$fid=$Student['RegistrationGroup']['value'];
 ?>
@@ -103,8 +108,11 @@ twoplusprint_buttonmenu();
 				$summary.=$Attendances['Attendance'][$c]['Code']['value'];
 				}
 			}
-		$average=round(($present/$noevents)*100);
-		print $average.'% &nbsp;(Absences '.$absent.' &nbsp;'.$summary.')';
+		if($noevents>0){
+			$average=round(($present/$noevents)*100);
+			print $average.'% &nbsp;('.$absent.' &nbsp;'.$summary.')';
+			}
+		else{$average='';$absent='';$summary='';}
 ?>
 		  </td>
 		</tr>

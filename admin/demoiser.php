@@ -60,7 +60,7 @@ function generate_random_name($gender){
 	while(list($index, $row)=each($trows)){
 		$id=$row['id'];
 		if(mysql_query("UPDATE $table SET building='The house',
-	streetno='23', street='Longstreet', neighbourhood='Housing
+	street='Longstreet', neighbourhood='Housing
 	estate', town='Small town', county='County Big', postcode='SG4 9PQ', country='England'
 					 WHERE id='$id'")){}
 		else{$error[]=mysql_error();}

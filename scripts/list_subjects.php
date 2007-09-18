@@ -5,9 +5,9 @@
  *	set $required=no to make not required (default=yes)
  */
  	if($r>-1){
-		$rbid=$respons[$r]{'subject_id'};
-		$rcrid=$respons[$r]{'course_id'};
-		$ryid=$respons[$r]{'yeargroup_id'};
+		$rbid=$respons[$r]['subject_id'];
+		$rcrid=$respons[$r]['course_id'];
+		$ryid=$respons[$r]['yeargroup_id'];
 		if($rbid=='%' AND $rcrid!=''){
 			$d_subject=mysql_query("SELECT DISTINCT subject_id FROM cridbid
 				WHERE course_id LIKE '$rcrid' ORDER BY subject_id");
@@ -16,7 +16,7 @@
 			$d_subject=mysql_query("SELECT DISTINCT subject_id FROM cridbid
 				WHERE subject_id LIKE '$rbid' ORDER BY subject_id");
 			}
-		else {
+		else{
 			$d_subject=mysql_query("SELECT DISTINCT subject_id FROM
 				cridbid WHERE subject_id LIKE '$rbid' AND course_id
 				LIKE '$rcrid' ORDER BY subject_id");

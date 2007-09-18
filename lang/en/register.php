@@ -43,6 +43,8 @@ $string['registrationgroup']='Registration group';
 $string['registersthissession']='Registers for current session';
 $string['complete']='Complete';
 $string['incomplete']='Incomplete';
+$string['attendancepercentage']='Attendnace Percentage';
+$string['absences']='Absences';
 $string['']='';
 $string['']='';
 ?>

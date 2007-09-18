@@ -30,7 +30,7 @@ three_buttonmenu();
 	list_select_enum('enrolstatus',$listoptions,$book);
 ?>
 		</div>
-		<div class="right">
+		<div class="right" >
 <?php 
 	$listname='enrolyear';$listlabel='year';$required='yes';
 	$enrolyear=$Enrolment['Year']['value'];

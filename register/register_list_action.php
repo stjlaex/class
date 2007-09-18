@@ -54,7 +54,7 @@ elseif($sub=='Submit'){
 					$incomm='';
 					}
 
-				$d_attendance=mysql_query("SELECT status FROM attendance
+				$d_attendance=mysql_query("SELECT status, code, late, comment FROM attendance
 				WHERE student_id='$sid' AND event_id='$eveid'");
 				if(mysql_num_rows($d_attendance)==0){
 					mysql_query("INSERT INTO attendance (event_id,
@@ -62,10 +62,14 @@ elseif($sub=='Submit'){
 					VALUES ('$eveid','$sid','$instatus','$incode','$inlate','$incomm','$tid');");
 					}
 				else{
-					mysql_query("UPDATE attendance SET status='$instatus',
+					$att=mysql_fetch_array($d_attendance,MYSQL_ASSOC);
+					if($att['status']!=$instatus or $att['code']!=$incode or 
+					   $att['late']!=$inlate or $att['comment']!=$incomm){
+						mysql_query("UPDATE attendance SET status='$instatus',
 							code='$incode', late='$inlate',
-							comment='$incomm', teacher_id='tid' WHERE
+							comment='$incomm', teacher_id='$tid' WHERE
 							event_id='$eveid' AND student_id='$sid'");
+						}
 					}
 				}
 			}

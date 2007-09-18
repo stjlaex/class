@@ -9,7 +9,7 @@ include('scripts/sub_action.php');
 $result=array();
 if($sub=='Submit'){
 	/*Load the teachers' details from a file*/
-	$importfile=$_POST{'importfile'};
+	$importfile=$_POST['importfile'];
 	$result[]=get_string('loadingfile').$importfile;
     include('scripts/file_import_csv.php');
 	while(list($index,$d)=each($inrows)){

@@ -11,7 +11,7 @@ function list_communities($type='',$year=''){
 					community.year, community.capacity,
 					community.detail FROM community JOIN yeargroup ON
 					community.name=yeargroup.id WHERE 
-					community.type='$type' ORDER BY yeargroup.section,
+					community.type='$type' ORDER BY yeargroup.section_id,
 					yeargroup.sequence");
 			}
 		elseif($type=='form'){
@@ -33,7 +33,7 @@ function list_communities($type='',$year=''){
 		}
 
 	$communities=array();
-	if(mysql_num_rows($d_com)>0){
+	if(isset($d_com) and mysql_num_rows($d_com)>0){
 		while($com=mysql_fetch_array($d_com,MYSQL_ASSOC)){
 			$community=array();
 			$community['id']=$com['id'];
@@ -138,7 +138,7 @@ function update_community($community,$communityfresh=array('id'=>'','type'=>'','
 			if($tfresh!='' and $nfresh!=''){
 				mysql_query("UPDATE community SET type='$tfresh', 
 									name='$nfresh' WHERE id='$comid'");
-				trigger_error('upcom type:'.$type.' name:'.$name.' >' .$nfresh .mysql_error(),E_USER_WARNING);
+//trigger_error('upcom type:'.$type.' name:'.$name.' >' .$nfresh .mysql_error(),E_USER_WARNING);
 				}
 			if(isset($communityfresh['detail'])){
 				$dfresh=$communityfresh['detail'];
@@ -388,9 +388,13 @@ function join_community($sid,$community){
 		$studentfield='yeargroup_id';
 		$oldtypes[]='form';
 		$oldtypes[]=$type;
-		$enrolstatus='C';
+		/*may be joining from previous point in application procedure*/
+		$oldtypes[]='accepted';
+		$oldtypes[]='applied';
+		$oldtypes[]='enquired';
 		/*on current roll so can't just disappear if yeargroup blank*/
 		if($name=='' or $name=='none'){$name='none';$community['name']='none';}
+		$enrolstatus='C';
 		}
 	elseif($type=='alumni'){
 		$oldtypes[]='year';
@@ -462,7 +466,7 @@ function join_community($sid,$community){
 	return $leftcommunities;
 	}
 
-/* Make a sid as having left a commmunity*/
+/* Mark a sid as having left a commmunity*/
 /* Does not delete the record only sets leavingdate to today*/
 /* Should only really be called to do the work from within join_community*/
 function leave_community($sid,$community){

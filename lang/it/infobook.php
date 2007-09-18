@@ -63,7 +63,6 @@ $string['reportsonly']='Only reports';
 $string['allmailing']='All';
 $string['type']='Type';
 $string['building']='Building';
-$string['streetno.']='Number';
 $string['street']='Street';
 $string['neighbourhood']='Neighbourhood';
 $string['town/city']='Town/City';

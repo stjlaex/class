@@ -310,10 +310,6 @@ elseif($sub=='Submit'){
 						$ok++;
 						}
 					else{$street='';}
-					if(${$gaddress}['streetno']!=-1){
-						$streetno=$student[${$gaddress}['streetno']];
-						}
-					else{$streetno='';}
 //					if(${$gaddress}['county']!=-1){$county=$student[${$gaddress}['county']];}
 //						else{$county='';}
 					}

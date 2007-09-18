@@ -196,6 +196,12 @@ $string['pastoralemailfooterdisclaimer']='
 		once it has been acted upon. Any unauthorized use or
 		dissemination of this message in whole or in part is strictly
 		prohibited.';
+$string['guardianemailfooterdisclaimer']='		
+		This message is confidential. You have received it because you
+		are recorded as being responsible for this student. Please
+		advise the school if you believe you have received this email
+		by mistake. Any unauthorized use or dissemination of this
+		message in whole or in part is strictly prohibited.';
 $string['passwords']='Passwords';
 $string['statementbank']='Statement bank';
 $string['usesubjectcomponents']='Use subject components';

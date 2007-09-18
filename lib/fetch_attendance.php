@@ -41,6 +41,11 @@ function fetchAttendance($sid='-1'){
 							  'field_db' => 'comment',
 							  'type_db' => 'text', 
 							  'value' => ''.$attendance['comment']);
+	$Attendance['Logtime']=array('label' => 'time',
+							  'table_db' => 'attendance', 
+							  'field_db' => 'logtime',
+							  'type_db' => 'text', 
+							  'value' => ''.$attendance['logtime']);
 	$Attendance['Teacher']=array('label' => 'teacher',
 							  'table_db' => 'attendance', 
 							  'field_db' => 'teacher_id',
@@ -60,7 +65,8 @@ function fetchAttendances($sid,$startday=0,$nodays=7){
 	$enddate=date('Y-m-d',mktime(0,0,0,date('m'),date('d')+$startday-$nodays,date('Y')));
 
 	$d_attendance=mysql_query("SELECT attendance.status,
-			attendance.code, attendance.late, attendance.comment, event.id,
+			attendance.code, attendance.late, attendance.comment, 
+			UNIX_TIMESTAMP(attendance.logtime) AS logtime, event.id,
 			event.period, event.date FROM attendance JOIN
 			event ON event.id=attendance.event_id WHERE
 			attendance.student_id='$sid' AND event.date < '$startdate' 
@@ -84,6 +90,8 @@ function fetchAttendances($sid,$startday=0,$nodays=7){
 								  'value' => ''.$attendance['late']);
 	   	$Attendance['Comment']=array('label' => 'comment',
 								  'value' => ''.$attendance['comment']);
+	   	$Attendance['Logtime']=array('label' => 'time',
+								  'value' => ''.$attendance['logtime']);
 		$Attendances['Attendance'][]=$Attendance;
 		$evetable[$attendance['id']]=$index++;
 		}
@@ -100,7 +108,8 @@ function fetchcurrentAttendance($sid,$eveid=''){
 	$Attendance=array();
 	if($eveid!=''){
 		$d_attendance=mysql_query("SELECT attendance.status,
-			attendance.code, attendance.late, attendance.comment, event.id,
+			attendance.code, attendance.late, attendance.comment, 
+			UNIX_TIMESTAMP(logtime) AS logtime, event.id,
 			event.period, event.date FROM attendance JOIN
 			event ON event.id=attendance.event_id WHERE
 			attendance.student_id='$sid' AND event.id='$eveid'");
@@ -119,6 +128,8 @@ function fetchcurrentAttendance($sid,$eveid=''){
 								  'value' => ''.$attendance['late']);
 	   	$Attendance['Comment']=array('label' => 'comment',
 								  'value' => ''.$attendance['comment']);
+	   	$Attendance['Logtime']=array('label' => 'time',
+								  'value' => ''.$attendance['logtime']);
 		}
 	return nullCorrect($Attendance);
 	}
@@ -221,7 +232,8 @@ function list_absentStudents($eveid=''){
 	$Students['Student']=array();
 	if($eveid!=''){
 		$d_attendance=mysql_query("SELECT student.id AS sid, attendance.status, 
-			attendance.code, attendance.late, attendance.comment
+			attendance.code, attendance.late, attendance.comment, 
+			UNIX_TIMESTAMP(attendance.logtime) AS logtime
 			FROM attendance JOIN student ON student.id=attendance.student_id WHERE
 			attendance.student_id=student.id AND
 			attendance.event_id='$eveid' AND attendance.status='a'");
@@ -238,6 +250,8 @@ function list_absentStudents($eveid=''){
 								  'value' => ''.$attendance['late']);
 			$Attendance['Comment']=array('label' => 'comment',
 								  'value' => ''.$attendance['comment']);
+			$Attendance['Logtime']=array('label' => 'time',
+								  'value' => ''.$attendance['logtime']);
 			$Student['id_db']=$attendance['sid'];
 			$Student['Attendance']=$Attendance;
 			$Students['Student'][]=$Student;

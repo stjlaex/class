@@ -61,7 +61,8 @@ if($contactno>-1){
 	$extrabuttons['unlinkcontact']=array('name'=>'sub','value'=>'Unlink');
 	}
 elseif($contactno==-1){
-	$d_guardian=mysql_query("SELECT id, CONCAT(surname,', ',forename) AS name FROM guardian ORDER BY surname");
+	$d_guardian=mysql_query("SELECT id, CONCAT(surname,', ',forename)
+								AS name FROM guardian ORDER BY surname");
 ?>
   <div id="heading">
 	<form id="headertoprocess" name="headertoprocess" method="post" action="<?php print $host;?>">
@@ -104,9 +105,9 @@ three_buttonmenu($extrabuttons,$book);
 
 	  <div class="left">
 <?php
-	  /* not implementing more than one address*/
-//	while(list($addressno,$Address)=each($Addresses)){
-$addressno='0';
+		/* not implementing more than one address*/
+		//while(list($addressno,$Address)=each($Addresses)){
+		$addressno='0';
 ?>
 		  <?php $tab=xmlarray_form($Address,$addressno,'contactaddress',$tab,$book); ?>
 	  </div>

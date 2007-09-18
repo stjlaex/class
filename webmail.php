@@ -13,7 +13,12 @@ $entrypage='action.php';
 $user=get_user($tid);
 /* all emails have the same domain which is set in the webmail app so */
 /* just need the name part of the address*/
-$emailnames=explode('@',$user['email']);
+if($user['emailuser']!=''){
+	$emailnames[]=$user['emailuser'];
+	}
+else{
+	$emailnames=explode('@',$user['email']);
+	}
 $emailpasswd=$user['emailpasswd'];
 
 $ip=$_SERVER['REMOTE_ADDR'];
@@ -31,7 +36,7 @@ $externalparams=array(
 			  'user' => $emailnames[0],
 			  'passwd' => $emailpasswd
 			  );
-  //trigger_error($ip. ' '.$salt. ' '.$emailnames[0].' '.$token,E_USER_WARNING);
+//trigger_error($ip. ' '.$salt. ' '.$emailnames[0].' '.$token,E_USER_WARNING);
 /*construct the redirect string*/
 $externalred=$CFG->webmailsite . '/'.$entrypage;
 while(list($param,$value)=each($externalparams)){
