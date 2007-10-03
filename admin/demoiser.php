@@ -59,9 +59,9 @@ function generate_random_name($gender){
 	$trows=tableRead($table);
 	while(list($index, $row)=each($trows)){
 		$id=$row['id'];
-		if(mysql_query("UPDATE $table SET building='The house',
-	street='Longstreet', neighbourhood='Housing
-	estate', town='Small town', county='County Big', postcode='SG4 9PQ', country='England'
+		if(mysql_query("UPDATE $table SET 
+		street='36 Longstreet', neighbourhood='Housing
+		estate', region='Small town', postcode='SG4 9PQ', country='England'
 					 WHERE id='$id'")){}
 		else{$error[]=mysql_error();}
 		}
@@ -125,13 +125,20 @@ function generate_random_name($gender){
 	$table='history';
 	$trows=tableClear($table);
 
+	$table='incidenthistory';
+	$trows=tableClear($table);
+
+	$table='medical';
+	$trows=tableClear($table);
+	mysql_query("UPDATE attendance SET comment='', teacher_id=''");
+
 	$table='incidents';
 	$trows=array();
 	$trows=tableRead($table);
 	while(list($index, $row)=each($trows)){
 		$id=$row['id'];
 		if(mysql_query("UPDATE $table SET detail='The nature of the incident.',
-					entrydate='2006-04-01' WHERE id='$id'")){}
+					entrydate='2007-09-21' WHERE id='$id'")){}
 		else{$error[]=mysql_error();}
 		}
 

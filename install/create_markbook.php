@@ -10,7 +10,7 @@ and their values in the table:score.  */
 mysql_query("CREATE TABLE mark ( 
 	id int unsigned not null auto_increment, 
 	entrydate date not null default '0000-00-00', 
-	marktype enum('score', 'sum', 'average', 'level', 'dif', 'compound', 'report') not null, 
+	marktype enum('score', 'sum', 'average', 'level', 'dif', 'compound', 'report', 'hw') not null, 
 	topic varchar(60) not null default '', 
 	comment varchar(100) not null default '', 
 	def_name varchar(20) not null default '', 
@@ -18,8 +18,6 @@ mysql_query("CREATE TABLE mark (
 	levelling_name varchar(20) not null default '', 
 	total smallint unsigned not null default '0', 
 	assessment enum('no','yes') not null, 
-	hidden enum('no','yes') not null, 
-	visible varchar(200) not null default '',
 	author varchar(14) not null default '', 
 	component_id varchar(10) not null default '', 
 	primary key (id) 
@@ -79,7 +77,7 @@ CREATE TABLE levelling (
 mysql_query("
 CREATE TABLE grading (
        name				varchar(20) not null default '',
-       grades			varchar(200) not null default '',
+       grades			text not null default '',
        comment			text not null default'',
        author			varchar(14) not null default '',
        primary key		(name)

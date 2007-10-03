@@ -95,12 +95,12 @@ if($_SESSION['worklevel']>-1){
 	/*The mark's column header, with a checkbox which provides $mid */	      
 	for($col=0;$col<sizeof($umns);$col++){
 //	  if($umns[$col]['display']=='yes'){
-		if($umns[$col]['marktype']=='score'){
+		if($umns[$col]['marktype']=='score' or $umns[$col]['marktype']=='hw'){
 			  print '<th id="'.$umns[$col]['id'].'"><span title="'.$umns[$col]['comment'].'"><a 
 				href="markbook.php?current=edit_scores.php&cancel=class_view.php&scoretype='. 
 					  $scoretype[$col].'&grading_name='. 
 					  $scoregrading[$col].'&mid='.$umns[$col]['id'].'&col='.$col.'">' 
-					  .$umns[$col]['topic'].'</a><p>'.$umns[$col]['entrydate'].'</p>
+					  .$umns[$col]['topic'].'<p>'.$umns[$col]['entrydate'].'</p></a>
 	      <p class="component">'.$umns[$col]['component'].'</p>'.$umns[$col]['marktype'].'<input type="checkbox" name="checkmid[]" value="'.$umns[$col]['id'].'" /></span></th>';
 	      	  }
 		elseif($umns[$col]['marktype']=='report'){
@@ -108,8 +108,8 @@ if($_SESSION['worklevel']>-1){
 	      href="markbook.php?current=edit_reports.php&cancel=class_view.php&midlist='.$umns[$col]['midlist']. 
 					  '&title='.$umns[$col]['topic'].'&mid='.$umns[$col]['id'].'&pid='. 
 					  $umns[$col]['component'].'&col='. $col.'&bid='.$bid[0].'">' 
-					  . $umns[$col]['topic']. '</a><p>'.$umns[$col]['entrydate']. 
-		  '</p><p class="component">'.$umns[$col]['component'].'</p>'.
+					  . $umns[$col]['topic']. '<p>'.$umns[$col]['entrydate']. 
+		  '</p></a><p class="component">'.$umns[$col]['component'].'</p>'.
 			  $umns[$col]['marktype']. '</span></th>';
 	      	  }
 		elseif($umns[$col]['marktype']=='compound'){
@@ -117,14 +117,14 @@ if($_SESSION['worklevel']>-1){
 	      href="markbook.php?current=edit_scores.php&cancel=class_view.php&scoretype='.$scoretype[$col]. 
 					  '&grading_name='.$scoregrading[$col]. 
 					  '&mid='.$umns[$col]['id'].'&col='.$col.'">'.$umns[$col]['topic']. 
-					  '</a><p>'.$umns[$col]['entrydate']. 
-					  '</p><p class="component">'.$umns[$col]['component'].'</p>' 
+					  '<p>'.$umns[$col]['entrydate']. 
+					  '</p></a><p class="component">'.$umns[$col]['component'].'</p>' 
 					  .$umns[$col]['marktype'].'<input type="checkbox" 
 					name="checkmid[]" value="'.$umns[$col]['id'].'" /></span></th>';
 	      	  }
 		else{
-	      	print '<th id="'.$umns[$col]['id'].'">'.$umns[$col]['topic'].'</a><p>'. 
-					$umns[$col]['entrydate'].'</p><p class="component">'. 
+	      	print '<th id="'.$umns[$col]['id'].'">'.$umns[$col]['topic'].'<p>'. 
+					$umns[$col]['entrydate'].'</p></a><p class="component">'. 
 					$umns[$col]['component'].'</p>'.$umns[$col]['marktype']. 
 					'<input type="checkbox" name="checkmid[]" value="'
 					.$umns[$col]['id'].'" /></th>';

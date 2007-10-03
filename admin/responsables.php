@@ -80,7 +80,7 @@ three_buttonmenu();
 	print '</option>';
 	while($group=mysql_fetch_array($d_group,MYSQL_ASSOC)) {
 			print '<option ';
-			print	' value="'.$group['subject_id'].'">'.$group['subject_id'].$group['gid'].'</option>';
+			print	' value="'.$group['subject_id'].'">'.$group['subject_id'].'</option>';
 			}
 ?>
 			</select>
@@ -180,7 +180,7 @@ three_buttonmenu();
 				name="current"
 				value="responsables_edit_course.php" 
 				onClick="clickToAction(this)">
-					 <?php print $group['name'].$group['gid'];?>
+					 <?php print $group['name'];?>
 			  </button>
 			  <div id="<?php print 'xml-'.$crid.'-'.$bid.'-'.$uid;?>" style="display:none;">
 							  <?php xmlechoer('Responsible',$Responsible);?>

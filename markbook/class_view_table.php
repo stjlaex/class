@@ -36,16 +36,15 @@ while($student=mysql_fetch_array($d_students, MYSQL_ASSOC)){
 		$col_mid=$umns[$c]['id'];
 		$score=array();
 
-		if($umns[$c]['display']=='yes' or $umns[$c]['assessment']=='yes'){
-			/*The mark can be one of the four kinds, and if a score one of a further five*/
+		//		if($umns[$c]['display']=='yes' or $umns[$c]['assessment']=='yes'){
+			/*The mark can be one of the five kinds - if a score or hw
+			 then one of a further five*/
 			$marktype=$umns[$c]['marktype'];
 			$scoretype=$umns[$c]['scoretype'];
-			if($marktype=='score'){
-				/*Mark is a score*/
+			if($marktype=='score' or $marktype=='hw'){
 				$d_score=mysql_query("SELECT * FROM score 
 					WHERE mark_id='$col_mid' AND student_id='$sid'");
-				$score=mysql_fetch_array($d_score,MYSQL_ASSOC);
-				
+				$score=mysql_fetch_array($d_score,MYSQL_ASSOC);				
 				/*score can be one of four types: grade, value, percentage, comment*/
 				if($scoretype=='grade'){
 					$out=scoreToGrade($score['grade'],$scoregrades[$c]);
@@ -209,7 +208,7 @@ while($student=mysql_fetch_array($d_students, MYSQL_ASSOC)){
 			$studentrow["score$col_mid"]=$score;
 			/*and score values form the database to be used by column_scripts*/
 			}
-		}
+	//		}
 		array_push($viewtable, $studentrow);
 		$row++;		
 		}

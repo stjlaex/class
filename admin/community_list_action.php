@@ -22,6 +22,12 @@ if($sub=='Submit'){
 	   $comtype=='accepted'){
 		$enrolyear=$com['year'];
 		list($enrolstatus,$yid)=split(':',$com['name']);
+
+		/*Check user has permission to edit*/
+		$perm=getYearPerm($yid,$respons);
+		$neededperm='w';
+		include('scripts/perm_action.php');
+
 		if(isset($_POST['enrolstatus'])){$newenrolstatus=$_POST['enrolstatus'];}
 		
 		/*see student_view_enrolment_action for the same - needs to be moved out*/

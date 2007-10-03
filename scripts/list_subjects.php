@@ -23,7 +23,7 @@
 			}
 		}
 	else{
-/*		otherwise choose subjects based on classes taught */
+		/* otherwise choose subjects based on classes taught */
 		$d_subject=mysql_query("SELECT DISTINCT subject_id FROM
 				class JOIN tidcid ON class.id=tidcid.class_id WHERE
 				tidcid.teacher_id='$tid'");

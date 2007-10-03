@@ -12,7 +12,7 @@ if(isset($_POST['newtid'])){$newtid=$_POST['newtid'];}
 
 	/*Check user has permission to edit*/
 	$perm=getFormPerm($fid,$respons);
-	$neededperm='w';
+	$neededperm='r';
 	include('scripts/perm_action.php');
 
 	$d_form=mysql_query("SELECT * FROM form WHERE id='$fid'");

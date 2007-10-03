@@ -330,10 +330,10 @@ function fetchAssessments($sid,$eid='%'){
 	return $Assessments;
 	}
 
-function fetchAssessments_short($sid,$eid='%'){
+function fetchAssessments_short($sid,$eid='%',$bid='%'){
 	$Assessments=array();
    	$d_eidsid=mysql_query("SELECT * FROM eidsid WHERE
-				student_id='$sid' AND assessment_id LIKE '$eid'");
+				student_id='$sid' AND assessment_id LIKE '$eid' AND subject_id LIKE '$bid'");
   	while($eidsid=mysql_fetch_array($d_eidsid,MYSQL_ASSOC)) {
 		$eidsid=nullCorrect($eidsid);
 		$eid=$eidsid['assessment_id'];

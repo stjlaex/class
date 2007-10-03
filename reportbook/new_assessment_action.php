@@ -9,6 +9,11 @@ $action='new_assessment.php';
 include('scripts/sub_action.php');
 
 if($sub=='Submit' and $_FILES['importfile']['tmp_name']!=''){
+	/*Check user has permission to configure*/
+	$perm=getCoursePerm($rcrid,$respons);
+	$neededperm='x';
+	include('scripts/perm_action.php');
+
 	$importfile=$_POST['importfile'];
 	$fname=$_FILES['importfile']['tmp_name'];
 	if($fname!=''){
@@ -52,6 +57,11 @@ if($sub=='Submit' and $_FILES['importfile']['tmp_name']!=''){
 	}
 
 elseif($sub=='Submit'){
+	/*Check user has permission to configure*/
+	$perm=getCoursePerm($rcrid,$respons);
+	$neededperm='x';
+	include('scripts/perm_action.php');
+
 		$eid=$_POST['id'];
 		$stage=$_POST['stage'];
 		$year=$_POST['year'];

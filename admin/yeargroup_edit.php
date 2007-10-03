@@ -26,7 +26,7 @@ if(isset($_POST['newcomid'])){$newcomid=$_POST['newcomid'];}else{$newcomid='';}
 	if($comtype=='year'){
 		/*Check user has permission to edit*/
 		$perm=getYearPerm($comname,$respons);
-		$neededperm='w';
+		$neededperm='r';
 		include('scripts/perm_action.php');
 	
 		$d_year=mysql_query("SELECT name FROM yeargroup WHERE id='$comname'");

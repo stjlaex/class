@@ -20,16 +20,18 @@ if($newtid!='' AND $newfid!=''){
 
 		if($rows==0){
 			if(mysql_query("UPDATE form SET teacher_id='$newtid' WHERE id='$newfid'")){
-				$d_form=mysql_query("SELECT DISTINCT yeargroup_id
+				$d_form=mysql_query("SELECT yeargroup_id
 						FROM form WHERE id='$newfid'");
 				$yid=mysql_result($d_form,0);
 				$d_users=mysql_query("SELECT DISTINCT uid
 						FROM users WHERE username='$newtid'");
 				$uid=mysql_result($d_users,0);
 				$d_groups=mysql_query("SELECT DISTINCT gid
-					FROM groups WHERE yeargroup_id='$yid' AND course_id IS NULL");
+					FROM groups WHERE yeargroup_id='$yid' AND
+					course_id='' AND subject_id=''");
 				$gid=mysql_result($d_groups,0);
-				$newperms=array('r'=>1,'w'=>1,'x'=>0);
+				trigger_error('gid: '.$gid.' year:'.$yid,E_USER_WARNING);
+				$newperms=array('r'=>1,'w'=>1,'x'=>0,'e'=>1);
 				$result[]=update_staff_perms($uid,$gid,$newperms);
 				}
 			else{$error[]=mysql_error();}	

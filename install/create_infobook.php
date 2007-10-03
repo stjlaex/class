@@ -208,14 +208,12 @@ CREATE TABLE gidaid (
 mysql_query("
 CREATE TABLE address (
    	id				int unsigned not null auto_increment, 	
-	building		varchar(60) not null default '',
-	street			varchar(100) not null default '',
-	neighbourhood	varchar(50) not null default '',
-	town			varchar(40) not null default '',
-	county			varchar(40) not null default '',
+	street			varchar(160) not null default '',
+	neighbourhood	varchar(160) not null default '',
+	region			varchar(160) not null default '',
 	postcode		varchar(8) not null default '',
 	country			varchar(40) not null default '',
-	index			index_address (county(5),town(5)),
+	index			index_address (region(5)),
 	primary key (id)
 );");
 

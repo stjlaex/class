@@ -1,3 +1,51 @@
+Version ClaSS-0.8.30 release (2007/10/03)
+-----------------------------------------
+
+A new page edit_scores.php added to the ReportBook and linked to from
+the manage assessments option. Allows the editing of all scores for
+all students in the cohort associated with that assessment. Scores are
+displayed on a subject by subject basis.
+
+The student_view_enrolment page was inadvertantly unsubscribing
+students from form groups. It now only updates community membership
+if something has changed to avoid this.
+
+Finally changed the mark table (apply the patch!) to remove the
+long-deprecated visible and hidden fields. Also, added "hw" as a value
+to the marktype field. To allow bigger grading schemes the grades
+fields is now text instead of varchar.
+
+Made some rudimentary use of the maxlength attribute in the
+loadRequired() js function to try to style the width of input fields.
+
+Made subject_classes available to office users in Admin - office users
+need access to a course to make use of it though.
+
+Moved import_assessment_scores to the new edit_scores page in the
+ReportBook.
+
+Fine grained the access permissions on the form and yeargroup pages to
+allow read only. Added the district user to the year and form perms
+for read only. Bugfix to adding teachers to a formgroup which was not
+finding the perms group to add them to.
+
+Migrated the comments_action page to use the phpmailer send_email_to()
+function.
+
+Much user feedback on the input of addresses suggests simplicity is
+the answer. As a result fields have been merged and dropped to provide
+basically "Address line 1", "Address line 2" and "Address line 3" plus
+the postcode and country stored separately. The patch to the address
+table tries to gentle in its logic for existing data.
+
+The address labels.xsl template is updated correspondingly.
+
+Exposed to the new_assessment option in the ReportBook to all users
+with a course responsibility but tied down the permissions of related
+functions to configure. This allows edit_scores to be accessed by any
+with write perms for a course.
+
+
 Version ClaSS-0.8.29 release (2007/09/19)
 -----------------------------------------
 

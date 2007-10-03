@@ -17,8 +17,14 @@ if(isset($_POST['date'])){$date=$_POST['date'];}
 		$students=listin_community($com);
 		$enrolyear=$com['year'];
 		list($enrolstatus,$yid)=split(':',$com['name']);
-		$description=$yid.' ('.$enrolyear.')';
+		$description=display_yeargroupname($yid).' ('.$enrolyear.')';
 		$infobookcurrent='student_view_enrolment.php';
+
+		/*Check user has permission to edit*/
+		$perm=getYearPerm($yid,$respons);
+		$neededperm='r';
+		include('scripts/perm_action.php');
+
 		}
 	elseif($comtype=='accomodation'){
 		$boarder=$com['name'];
@@ -29,7 +35,7 @@ if(isset($_POST['date'])){$date=$_POST['date'];}
 			}
 		else{
 			$startdate='2000-01-01';
-			$startdate='2010-01-01';
+			$enddate='2010-01-01';
 			$students=(array)listin_community($com,$enddate,$startdate);
 			$description=' '.$boarder.' (overall)';
 			}
@@ -67,8 +73,25 @@ if(isset($_POST['date'])){$date=$_POST['date'];}
 		  <tr id="sid-<?php print $sid;?>">
 			<td>
 			  <span title="<?php print $Enrolment['EnrolmentNotes']['value'];?>">
-			  <a href="infobook.php?current=<?php print $infobookcurrent;?>&cancel=student_view.php&sid=<?php print $sid;?>&sids[]=<?php print $sid;?>" target="viewinfobook" onClick="parent.viewBook('infobook');"><?php print $student['surname']. ', '.$student['forename']. 
-				' '.$student['preferredforename']. ' ('.$Enrolment['EnrolNumber']['value'].')';?></a>
+<?php
+		if($perm['w']==1){
+?>
+			  <a href="infobook.php?current=<?php print
+	$infobookcurrent;?>&cancel=student_view.php&sid=<?php print
+	$sid;?>&sids[]=<?php print $sid;?>" target="viewinfobook"
+	onClick="parent.viewBook('infobook');"><?php print
+				   $student['surname']. ', '.$student['forename']. 
+				   ' '.$student['preferredforename']. 
+				   ' ('.$Enrolment['EnrolNumber']['value'].')';?>
+				</a>
+<?php
+			}
+		else{
+			print $student['surname']. ', '.$student['forename']. 
+				   ' '.$student['preferredforename']. 
+				   ' ('.$Enrolment['EnrolNumber']['value'].')';
+			}
+?>
 			  </span>
 			</td>
 			<td>

@@ -1287,4 +1287,25 @@ function send_email_to($recipient, $from, $subject, $messagetext, $messagehtml='
         return false;
 		}
 	}
+
+function display_teachername($tid){
+	$d_teacher=mysql_query("SELECT forename, surname 
+							FROM users WHERE username='$tid'");
+	$teacher=mysql_fetch_array($d_teacher,MYSQL_NUM);	      
+	$teachername=$teacher[0].' '.$teacher[1];
+	return $teachername;
+	}
+
+function display_yeargroupname($yid){
+	$d_y=mysql_query("SELECT name 
+							FROM yeargroup WHERE id='$yid'");
+	$yeargroupname=mysql_result($d_y,0);	      
+	return $yeargroupname;
+	}
+
+function display_subjectname($bid){
+	$d_subject=mysql_query("SELECT name FROM subject WHERE id='$bid'");
+	$subjectname=mysql_result($d_subject,0);
+	return $subjectname;
+	}
 ?>

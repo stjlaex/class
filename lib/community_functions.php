@@ -684,4 +684,10 @@ function get_curriculumyear($crid=''){
 	if($thismonth>$endmonth){$thisyear++;}
 	return $thisyear;
 	}
+
+function display_curriculumyear($year){
+	$lastyear=$year-1;
+	$dispyear=$lastyear.'/'. substr($year,-2);
+	return $dispyear;
+	}
 ?>

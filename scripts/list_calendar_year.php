@@ -11,12 +11,12 @@ if(!($selyear>1900)){$selyear=get_curriculumyear();}
 $c=$selyear-5;
 $years=array();
 while($c<$selyear){
-	$years[]=array('id'=>$c,'name'=>$c);
+	$years[]=array('id'=>$c,'name'=>display_curriculumyear($c));
 	$c++;
 	}
 $c=$selyear;
 while($c<$selyear+6){
-	$years[]=array('id'=>$c,'name'=>$c);
+	$years[]=array('id'=>$c,'name'=>display_curriculumyear($c));
 	$c++;
 	}
 

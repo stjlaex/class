@@ -8,7 +8,6 @@ $book='reportbook';
 
 include('scripts/head_options.php');
 include('scripts/set_book_vars.php');
-
 ?>
 <div id="bookbox" class="reportcolor">
 <?php
@@ -60,36 +59,30 @@ include('scripts/set_book_vars.php');
 	</form>
 
 <?php
-	if($tid=='administrator' or $_SESSION['role']=='admin'){
+
+	if($_SESSION['role']=='admin'){
+		$choices=array('new_stats.php' => 'newstatistics'
+					   ,'new_estimate.php' => 'newestimates'
+					   ,'new_assessment.php' => 'newassessments'
+					   ,'new_report.php' => 'subjectreports'
+					   );
+		}
+	else{
+		$choices=array('new_assessment.php' => 'newassessments'
+					   );
+		}
 ?>
 	<form id="reportadminchoice" name="reportadminchoice" method="post" 
 	  action="reportbook.php" target="viewreportbook">
 	  <fieldset class="reportbook selery">
 		<legend><?php print_string('manage');?></legend>
 <?php
-		$choices=array('new_stats.php' => 'newstatistics'
-			   ,'new_estimate.php' => 'newestimates'
-			   ,'new_assessment.php' => 'newassessments'
-			   ,'new_report.php' => 'subjectreports'
-			   );
 		selery_stick($choices,$choice,$book);
 ?>
 	  </fieldset>
 	</form>
-<?php
-		}
-?>
   </div>
 
 <?php
 include('scripts/end_options.php');
 ?>
-
-
-
-
-
-
-
-
-

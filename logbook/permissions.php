@@ -3,8 +3,8 @@
  */	
 
 
-/** given a sid and a bid this will return a numerical array which
- * lists the responsibles (both pastoral academic) who have been
+/* given a sid and a bid this will return a numerical array which
+ * lists the responsibles (both pastoral and academic) who have been
  * flagged to receive emails
  */
 function list_sid_responsible_users($sid, $bid){
@@ -13,7 +13,7 @@ function list_sid_responsible_users($sid, $bid){
 	$recipients=array();
 
 	/*first find pastoral group*/
-  	$d_group = mysql_query("SELECT gid FROM groups JOIN student
+  	$d_group=mysql_query("SELECT gid FROM groups JOIN student
   	ON student.yeargroup_id=groups.yeargroup_id WHERE
   	student.id='$sid' AND groups.course_id=''"); 
 	$group=mysql_fetch_array($d_group);
@@ -201,6 +201,7 @@ function getYearPerm($yid,$respons){
 		}
 	if($_SESSION['role']=='admin'){$perm['r']=1; $perm['w']=1; $perm['x']=1;}		
 	elseif($_SESSION['role']=='office'){$perm['r']=1; $perm['w']=1; $perm['x']=0;}		
+	elseif($_SESSION['role']=='district'){$perm['r']=1; $perm['w']=0; $perm['x']=0;}
 	return $perm;
 	}
 
@@ -240,6 +241,7 @@ function getFormPerm($fid,$respons){
 		}
 	if($_SESSION['role']=='admin'){$perm['r']=1; $perm['w']=1; $perm['x']=1;}		
 	elseif($_SESSION['role']=='office'){$perm['r']=1; $perm['w']=1; $perm['x']=0;}
+	elseif($_SESSION['role']=='district'){$perm['r']=1; $perm['w']=0; $perm['x']=0;}
 	return $perm;
 	}
 
@@ -354,6 +356,7 @@ function update_user($user,$update='no',$short='class'){
 		if($role=='office'){$firstbookpref='infobook';}
 		elseif($role=='admin'){$firstbookpref='admin';}
 		elseif($role=='teacher'){$firstbookpref='markbook';}
+		elseif($role=='district'){$firstbookpref='admin';}
 		else{$firstbookpref='infobook';}
 		}
     if(isset($user['email'])){

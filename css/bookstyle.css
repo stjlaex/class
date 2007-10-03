@@ -120,7 +120,6 @@ form img.calendar {
 	cursor:pointer;
 	background-repeat:no-repeat;
 	}
-
 /**/
 fieldset {
     border-style:none;
@@ -366,7 +365,7 @@ table.listmenu {
     background-color:#ff6600;
 	}
 
-/*extra functionality for a listmenu wich lets rows be expanded and collapsed*/
+/*extra functionality for a listmenu which lets rows be expanded and collapsed*/
 tr.rowplus th {
 	background-image:url("../images/orangeplus.png");
 	background-repeat:no-repeat;
@@ -395,8 +394,9 @@ tr.revealed td {
 	}
 tr.revealed p { 
 	background-color:#ffffff;
+    margin-left:2px;
     padding:2px;
-    width:50%;
+    width:80%;
 	}
 td.hidden { 
 	display:none;

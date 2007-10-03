@@ -694,12 +694,12 @@ function fetchAddress($gidaid=array('address_id'=>'-1','addresstype'=>'')){
 								  'type_db'=>'enum', 
 								  //'default_value' => 'H',
 								  'value' => ''.$gidaid['addresstype']);
+	/*Now deprecated...
 	$Address['BuildingName']=array('label' => 'building', 
 								   'table_db' => 'address', 
 								   'field_db' => 'building',
 								   'type_db'=>'varchar(60)', 
 								   'value' => ''.$address['building']);
-	/*Now deprecated...
 	$Address['StreetNo']=array('label' => 'streetno.', 
 							   'table_db' => 'address', 
 							   'field_db' => 'streetno',
@@ -709,23 +709,18 @@ function fetchAddress($gidaid=array('address_id'=>'-1','addresstype'=>'')){
 	$Address['Street']=array('label' => 'street',
 						   'table_db' => 'address', 
 						   'field_db' => 'street',
-						   'type_db'=>'varchar(100)', 
+						   'type_db'=>'varchar(160)', 
 						   'value' => ''.$address['street']);
 	$Address['Neighbourhood']=array('label' => 'neighbourhood',
 									'table_db' => 'address', 
 									'field_db' => 'neighbourhood',
-									'type_db'=>'varchar(50)', 
+									'type_db'=>'varchar(160)', 
 									'value' => ''.$address['neighbourhood']);
 	$Address['Town']=array('label' => 'town/city', 
 						   'table_db' => 'address', 
-						   'field_db' => 'town',
-						   'type_db'=>'varchar(40)', 
-						   'value' => ''.$address['town']);
-	$Address['County']=array('label' => 'county', 
-							 'table_db' => 'address', 
-							 'field_db' => 'county',
-							 'type_db'=>'varchar(40)', 
-							 'value' => ''.$address['county']);
+						   'field_db' => 'region',
+						   'type_db'=>'varchar(160)', 
+						   'value' => ''.$address['region']);
 	$Address['Country']=array('label' => 'country', 
 							 'table_db' => 'address', 
 							 'field_db' => 'country',
@@ -789,12 +784,10 @@ function fetchIncidents($sid){
 			$Action=array();
 			$Action['no_db']=$action['entryn'];
 			$acttid=$action['teacher_id'];
-			$d_teacher=mysql_query("SELECT forename, surname 
-							FROM users WHERE username='$acttid'");
-			$teachername=mysql_fetch_array($d_teacher,MYSQL_ASSOC);	      
+
 			$Action['Teacher']=array('username' => ''.$acttid, 
 									 'label' => 'teacher',
-							  'value' => $teachername['forename'].' '.$teachername['surname']);
+							  'value' => display_teachername($acttid));
 			$Action['Comment']=array('value' => ''.$action['comment']);
 			$Action['EntryDate']=array('label' => 'date', 
 									 'type_db'=>'date', 

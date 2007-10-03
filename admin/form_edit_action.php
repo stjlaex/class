@@ -15,6 +15,11 @@ if(isset($_POST['classestoo'])){$classestoo=$_POST['classestoo'];}
 
 include('scripts/sub_action.php');
 
+	/*Check user has permission to edit*/
+	$perm=getFormPerm($fid,$respons);
+	$neededperm='w';
+	include('scripts/perm_action.php');
+
 if($sub=='Submit'){
 
     $changecids=array();

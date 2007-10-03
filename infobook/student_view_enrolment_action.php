@@ -17,21 +17,25 @@ if($sub=='Submit'){
 	if(isset($_POST['enrolyear'])){$enrolyear=$_POST['enrolyear'];}else{$enrolyear='';}
 	if(isset($_POST['enrolyid'])){$enrolyid=$_POST['enrolyid'];}else{$enrolyid='';}
 
-	/*see community_list_action for the same - needs to be moved out*/
-	/*crucial to th elogic of enrolments*/
-	if($enrolstatus=='EN'){$newtype='enquired';}
-	elseif($enrolstatus=='AC'){$newtype='accepted';}
-	else{$newtype='applied';}
-	$newcom=array('id'=>'','type'=>$newtype, 
+	$Enrolment=fetchEnrolment($sid);
+
+	/* Only update enrolment community if it's changed*/
+	if($enrolyid!=$Enrolment['YearGroup']['value'] or 
+	   $enrolyear!=$Enrolment['Year']['value'] or 
+	   $enrolstatus!=$Enrolment['EnrolmentStatus']['value']){
+			/*see community_list_action for the same - needs to be moved out*/
+			/*crucial to the logic of enrolments*/
+			if($enrolstatus=='EN'){$newtype='enquired';}
+			elseif($enrolstatus=='AC'){$newtype='accepted';}
+			else{$newtype='applied';}
+			$newcom=array('id'=>'','type'=>$newtype, 
 					  'name'=>$enrolstatus.':'.$enrolyid,'year'=>$enrolyear);
-	if($enrolstatus=='C'){
-		$newcom=array('id'=>'','type'=>'year', 'name'=>$enrolyid);
-		}
-	/**/
-	$oldcommunities=join_community($sid,$newcom);
+			if($enrolstatus=='C'){
+				$newcom=array('id'=>'','type'=>'year', 'name'=>$enrolyid);
+				}
+			$oldcommunities=join_community($sid,$newcom);
+			}
 
-
-	$Enrolment=fetchEnrolment();
 	reset($Enrolment);
 	while(list($key,$val)=each($Enrolment)){
 		if(isset($val['value']) and is_array($val) and isset($val['table_db'])){

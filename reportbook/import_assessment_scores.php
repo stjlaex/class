@@ -2,10 +2,16 @@
 /**							    import_assessment_scores.php
  */
 
-$action='new_assessment.php';
+$action='edit_scores.php';
+$action_post_vars=array('eid','bid','pid');
 
 include('scripts/sub_action.php');
-include('scripts/course_respon.php');
+
+	/*Check user has permission to configure*/
+	$perm=getCoursePerm($rcrid,$respons);
+	$neededperm='x';
+	include('scripts/perm_action.php');
+
 
 $eid=$_POST['eid'];
 $bid=$_POST['bid'];
@@ -50,20 +56,3 @@ if($sub=='Submit'){
 include('scripts/results.php');
 include('scripts/redirect.php');
 ?>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

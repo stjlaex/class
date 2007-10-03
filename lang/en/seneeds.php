@@ -27,7 +27,6 @@ $string['weaknesses']='Weaknesses';
 $string['strategies']='Strategies';
 $string['ranking']='Rank';
 $string['startdate']='Start';
-$string['nextreviewdate']='Next review';
 $string['allsubject']='All subject';
 $string['modifiedcurriculum']='Modified curriculum';
 $string['curriculumdisapplied']='Curriculum disapplied';

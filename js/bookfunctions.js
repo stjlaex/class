@@ -526,9 +526,20 @@ function loadRequired(){
 			if(elementObject.getAttribute("type")=="checkbox" && elementObject.name=="sids[]"){
 				elementObject.onchange=function(){checkrowIndicator(this)};
 				}
-
 			if(elementObject.getAttribute("tabindex")=="1" && firstFocus=="-1"){
 				firstFocus=c;
+				}
+			if(elementObject.getAttribute("maxlength")){
+				var maxlength=elementObject.getAttribute("maxlength");
+				if(maxlength>180){
+					elementObject.style.width="80%";
+					}
+				else if(maxlength>50){
+					elementObject.style.width="60%";
+					}
+				else if(maxlength<20 && maxlength>0){
+					elementObject.style.width=maxlength+"em";
+					}
 				}
 			if(elementObject.getAttribute("type")=="date"){
 				var inputId=elementObject.getAttribute("id");

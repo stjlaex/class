@@ -33,7 +33,6 @@ three_buttonmenu();
 		print $grading_name;
 		}
 	else{
-
 		print_string('decimalvalue',$book);
 		}
 ?>

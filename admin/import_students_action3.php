@@ -298,31 +298,23 @@ elseif($sub=='Submit'){
 				/*input to address table: the four key items to check*/ 
 				$ok=0;	
 				if(isset(${$gname.'a'})){
-					if(${$gaddress}['town']!=-1){$town=$student[${$gaddress}['town']]; $ok++;}
-						else{$town=''; }
-					if(${$gaddress}['building']!=-1){
-						$building=$student[${$gaddress}['building']]; 
-						$ok++;
-						}
-					else{$building='';}
+					if(${$gaddress}['region']!=-1){$region=$student[${$gaddress}['region']]; $ok++;}
+						else{$region=''; }
 					if(${$gaddress}['street']!=-1){
 						$street=$student[${$gaddress}['street']]; 
 						$ok++;
 						}
 					else{$street='';}
-//					if(${$gaddress}['county']!=-1){$county=$student[${$gaddress}['county']];}
-//						else{$county='';}
 					}
 
-				/*if town and street blank then too little info for new entry*/
+				/*if region and street blank then too little info for new entry*/
 				if($ok>1){
 					/*check if there is already an entry for this address*/
 					$d_aid=mysql_query("SELECT id FROM address WHERE
-						streetno='$streetno' AND street='$street' AND
-						town='$town' AND building='$building'");
+						street='$street' AND region='$region'");
 					if(mysql_num_rows($d_aid)==0){
 						/*no entry found so make a new one*/
-						mysql_query("INSERT INTO address SET town=''");
+						mysql_query("INSERT INTO address SET region=''");
 						$new_aid=mysql_insert_id();
 						mysql_query("INSERT INTO gidaid SET 
 										guardian_id='$new_gid', address_id='$new_aid'");

@@ -61,7 +61,7 @@ three_buttonmenu();
 		<tr>
 		  <td>
 <?php
-		if($perms['w']==1){
+		if($perms['r']==1){
 			print '<a href="admin.php?current=yeargroup_edit.php&cancel='.$choice.'&choice='.$choice.'&newtid='.$tid.'&comtype=year'.'&comname='.$yid.'">'.$year['name'].'</a>';
 			}
 		else{

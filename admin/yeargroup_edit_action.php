@@ -14,6 +14,11 @@ else{$oldsids=array();}
 
 include('scripts/sub_action.php');
 
+		/*Check user has permission to edit*/
+		$perm=getYearPerm($comname,$respons);
+		$neededperm='w';
+		include('scripts/perm_action.php');
+
 if($sub=='Submit'){
 	/*not currently offering this option to the user*/
 	/*should really always be yes, surely?*/

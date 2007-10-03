@@ -197,11 +197,18 @@ $string['pastoralemailfooterdisclaimer']='
 		dissemination of this message in whole or in part is strictly
 		prohibited.';
 $string['guardianemailfooterdisclaimer']='		
-		This message is confidential. You have received it because you
-		are recorded as being responsible for this student. Please
-		advise the school if you believe you have received this email
-		by mistake. Any unauthorized use or dissemination of this
-		message in whole or in part is strictly prohibited.';
+		This message is confidential and has been generated
+		automatically by the school\'s information management
+		system. Please do not reply to this email. You have received
+		it because you are recorded as being responsible for this
+		student. The message is for your information only and requires
+		no further action on your part. Should you wish to discuss
+		this matter then please contact the teacher who has posted
+		this information, they can be contacted using the school\'s
+		telephone number or email address. Please advise the school if
+		you believe you have received this email by mistake. Any
+		unauthorized use or dissemination of this message in whole or
+		in part is strictly prohibited.';
 $string['passwords']='Passwords';
 $string['statementbank']='Statement bank';
 $string['usesubjectcomponents']='Use subject components';

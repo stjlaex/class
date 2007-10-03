@@ -33,37 +33,41 @@
 		  <xsl:value-of select="displayfullname/value/text()" />&#160;
 		</td>
 	  </tr>
-	  <tr>
-		<td>
-		  <xsl:value-of select="addresses/building/value/text()" />&#160;
-		</td>
-	  </tr>
-	  <tr>
-		<td>
-		  <xsl:value-of select="addresses/street/value/text()" />&#160;
-		  <xsl:value-of select="addresses/buildingname/value/text()" />&#160;
-		</td>
-	  </tr>
-	  <tr>
-		<td>
-		  <xsl:value-of select="addresses/neighbourhood/value/text()" />&#160;
-		</td>
-	  </tr>
-	  <tr>
-		<td>
-		  <xsl:value-of select="addresses/town/value/text()" />&#160;
-		</td>
-	  </tr>
-	  <tr>
-		<td>
-		  <xsl:value-of select="addresses/county/value/text()" />&#160;
-		</td>
-	  </tr>
-	  <tr>
-		<td>
-		  <xsl:value-of select="addresses/country/value_display/text()" />&#160;
-		</td>
-	  </tr>
+	  <xsl:if test="addresses/street/value/text()!=' '">
+		<tr>
+		  <td>
+			<xsl:value-of select="addresses/street/value/text()" />&#160;
+		  </td>
+		</tr>
+	  </xsl:if>
+	  <xsl:if test="addresses/neighbourhood/value/text()!=' '">
+		<tr>
+		  <td>
+			<xsl:value-of select="addresses/neighbourhood/value/text()" />&#160;
+		  </td>
+		</tr>
+	  </xsl:if>
+	  <xsl:if test="addresses/town/value/text()!=' '">
+		<tr>
+		  <td>
+			<xsl:value-of select="addresses/town/value/text()" />&#160;
+		  </td>
+		</tr>
+	  </xsl:if>
+	  <xsl:if test="addresses/postcode/value/text()!=' '">
+		<tr>
+		  <td>
+			<xsl:value-of select="addresses/postcode/value/text()" />&#160;
+		  </td>
+		</tr>
+	  </xsl:if>
+	  <xsl:if test="addresses/country/value_display/text()!=' '">
+		<tr>
+		  <td>
+			<xsl:value-of select="addresses/country/value_display/text()" />&#160;
+		  </td>
+		</tr>
+	  </xsl:if>
 	</table>
 	<div class='studentdata'>
 			<xsl:value-of select="../../displayfullname/value/text()" />&#160;

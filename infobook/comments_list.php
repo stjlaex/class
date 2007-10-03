@@ -50,7 +50,7 @@ three_buttonmenu();
 	</form>
   </div>
 
-  <div class="content">
+  <div id="viewcontent" class="content">
 	<div class="center">
 	  <table class="listmenu">
 	  <caption><?php print_string('entries',$book);?></caption>

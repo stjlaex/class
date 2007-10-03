@@ -54,8 +54,7 @@ for($i=0;$i<sizeof($cids);$i++){
 		BY b.surname")){} else {print 'Failed!<br />';
 		$error=mysql_error(); print $error.'<br />';} 
 		}
-	
-}
+	}
 
 	/*Fetch information about all marks and store in array $umns*/	
 	$umns=array();
@@ -70,29 +69,26 @@ for($i=0;$i<sizeof($cids);$i++){
 	      $midlist[$c]=$mark{'midlist'};
 	      $lena[$c]=$mark{'levelling_name'};
 	
-		  /*decide whether mark is to be displayed: depends on hidden */
-		  /*property of mark and on tid specific selections in visible*/
-  		  $visible=explode (';',$mark{'visible'});
-		  if($mark{'hidden'}=='yes' xor in_array($tid, $visible)){$display='no';}else{$display='yes';}
-
+		  /*this display option is now deprecated and needs to be
+		  removed properly*/
+		  //$display='yes';
 		  /*umn an array of mark properties for this column*/	
-	      $umn=array('id'=>$mark{'id'}, 'mark_total'=>$mark{'total'}, 
-					 'marktype' => $mark{'marktype'},
+	      $umn=array('id'=>$mark['id'], 'mark_total'=>$mark['total'], 
+					 'marktype' => $mark['marktype'],
 					 'scoretype' => '',
-					 'midlist'=>$mark{'midlist'},
-					 'def_name'=>$mark{'def_name'}, 
-					 'hidden'=>$mark{'hidden'}, 
-					 'display'=>$display, 
-					 'topic'=>$mark{'topic'}, 
-					 'entrydate'=>$mark{'entrydate'},
-					 'lena'=>$mark{'levelling_name'}, 
-					 'comment'=>$mark{'comment'},
-					 'assessment'=>$mark{'assessment'},
-					 'component'=>$mark{'component_id'});
+					 'midlist'=>$mark['midlist'],
+					 'def_name'=>$mark['def_name'], 
+					 //'display'=>$display, 
+					 'topic'=>$mark['topic'], 
+					 'entrydate'=>$mark['entrydate'],
+					 'lena'=>$mark['levelling_name'], 
+					 'comment'=>$mark['comment'],
+					 'assessment'=>$mark['assessment'],
+					 'component'=>$mark['component_id']);
 		 $umns[$c]=$umn;/*each mark in umns is referenced by its column count*/
 
 
-		if($display=='yes' or $mark{'assessment'}=='yes'){
+		 //		if($display=='yes' or $mark['assessment']=='yes'){
 			/*only need to fetch if the column is displayed - improves speed*/	
 			/*though may still be needed by a report column if an assessment*/
 
@@ -100,7 +96,8 @@ for($i=0;$i<sizeof($cids);$i++){
 				/*no markdef for an average, have to get grading_name from the levelname*/
 				$scoregrading[$c]=$lena[$c];
 				if($scoregrading[$c]!=""){
-					$d_grading=mysql_query("SELECT grades FROM grading WHERE name='$scoregrading[$c]'");
+					$d_grading=mysql_query("SELECT grades FROM grading 
+								WHERE name='$scoregrading[$c]'");
 					$scoregrades[$c]=mysql_result($d_grading,0);
 					}
 				else{$scoregrades[$c]='';}
@@ -109,7 +106,8 @@ for($i=0;$i<sizeof($cids);$i++){
 				/*no markdef for a level, have to get grading_name from the levelname*/
 				$scoregrading[$c]=$lena[$c];
 				if($lena[$c]!=""){
-					$d_levelling=mysql_query("SELECT levels FROM levelling WHERE name='$lena[$c]'");
+					$d_levelling=mysql_query("SELECT levels FROM
+									levelling WHERE name='$lena[$c]'");
 					$levels[$c]=mysql_result($d_levelling,0);
 					}
 				else{$levels[$c]='';}
@@ -120,7 +118,7 @@ for($i=0;$i<sizeof($cids);$i++){
 				$scoregrades[$c]='';   
 				}
 
-			elseif($marktype[$c]=='score'){
+			elseif($marktype[$c]=='score' or $marktype[$c]=='hw'){
 				$markdef_name=$mark['def_name'];
 				$d_markdef=mysql_query("SELECT * FROM markdef WHERE name='$markdef_name'");
 				$markdef=mysql_fetch_array($d_markdef,MYSQL_ASSOC);	      
@@ -135,7 +133,7 @@ for($i=0;$i<sizeof($cids);$i++){
 					}
 				else{$scoregrades[$c]='';}     
 				}
-			}
+			//			}
 		$c++;
 		}
 ?>

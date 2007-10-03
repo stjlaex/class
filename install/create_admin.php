@@ -74,7 +74,7 @@ CREATE TABLE classes (
 mysql_query("
 CREATE TABLE class (
        	id	    		varchar(10) not null default '',
-       	details	    	varchar(100) not null default '',
+       	detail	    	varchar(240) not null default '',
 		subject_id		varchar(10) not null default '',
 		course_id		varchar(10) not null default '',
 		stage			char(3) not null default '',

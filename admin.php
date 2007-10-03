@@ -32,24 +32,23 @@ $rtid=$tid;
 	if($_SESSION['role']=='admin' or $_SESSION['role']=='office' 
 	   or $_SESSION['role']=='district'){
 		$choices['enrolments_matrix.php']='enrolments';
+		//$choices['invoices.php']='invoices';
 		//$choices['accomodation_matrix.php']='accomodation';
 		}
-	selery_stick($choices,$choice,$book);
-
+	if($_SESSION['role']=='admin' or $_SESSION['role']=='teacher' 
+	   or $_SESSION['role']=='office'){
+		$choices['teacher_matrix.php']='subjectclasses';
+		}
 	if($_SESSION['role']=='admin' or $_SESSION['role']=='teacher'){
-		$choices=array('teacher_matrix.php' => 'subjectclasses'
-					   ,'responsables.php' => 'responsibilities'
-					   ,'staff_details.php' => 'staffdetails'
-					   );
-		selery_stick($choices,$choice,$book);
+		$choices['responsables.php']='responsibilities';
+		$choices['staff_details.php']='staffdetails';
 		}
 	if($_SESSION['role']=='admin' or $_SESSION['role']=='teacher'
 	   or $_SESSION['role']=='district'){
-		$choices=array('class_nos.php' => 'classnumbers'
-					   ,'usage.php' => 'logcounter'
-					   );
-		selery_stick($choices,$choice,$book);
+		$choices['class_nos.php']='classnumbers';
+		$choices['usage.php']='logcounter';
 		}
+	selery_stick($choices,$choice,$book);
 ?>
 	</fieldset>
   </form>
@@ -57,13 +56,12 @@ $rtid=$tid;
 <?php 
 	if($rtid=='administrator'){
 ?>
-
 	<form id="configadminchoice" name="configadminchoice" method="post" 
 	  action="admin.php" target="viewadmin">
 	  <fieldset class="admin selery">
 		<legend><?php print_string('configure','admin');?></legend>
 <?php
-	$choices=array('import_students.php' => 'newstudents'
+		$choices=array('import_students.php' => 'newstudents'
 			   ,'new_teacher.php' => 'newteachers'
 			   ,'passwords.php' => 'refreshpasswords'
 			   ,'class_matrix.php' => 'classesmatrix'
@@ -76,11 +74,12 @@ $rtid=$tid;
 				   //,'statementbank.php' => 'statementbank'
 				   //,'demoiser.php' => 'demoiser'
 			   );
-	selery_stick($choices,$choice,$book);
+		selery_stick($choices,$choice,$book);
 ?>
 	  </fieldset>
 	</form>
-<?php	} ?>
-
+<?php
+		} 
+?>
   </div>
 <?php include('scripts/end_options.php'); ?>

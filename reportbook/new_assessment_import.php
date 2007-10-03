@@ -3,13 +3,17 @@
 */
 
 $action='new_assessment_action.php';
+$rcrid=$respons[$r]['course_id'];
 
 include('scripts/sub_action.php');
 
-include('scripts/course_respon.php');
+/*Check user has permission to configure*/
+$perm=getCoursePerm($rcrid,$respons);
+$neededperm='x';
+include('scripts/perm_action.php');
+
 
 three_buttonmenu();
-
 ?>
   <div class="content">
 	<form id="formtoprocess" name="formtoprocess" 

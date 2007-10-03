@@ -9,6 +9,11 @@ if(isset($_POST['newname'])){$newname=$_POST['newname'];}
 
 include('scripts/sub_action.php');
 
+	/*Check user has permission to edit*/
+	$perm=getFormPerm($fid,$respons);
+	$neededperm='w';
+	include('scripts/perm_action.php');
+
 if($sub=='Submit'){
    	if(mysql_query("UPDATE form SET id='$newname', name='$newname'  WHERE 
 		id='$oldname'")){

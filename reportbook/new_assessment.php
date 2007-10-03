@@ -8,7 +8,6 @@ $choice='new_assessment.php';
 include('scripts/course_respon.php');
 
 $extrabuttons['importfromfile']=array('name'=>'current','value'=>'new_assessment_import.php');
-$extrabuttons['importscores']=array('name'=>'current','value'=>'new_assessment_scores.php');
 three_buttonmenu($extrabuttons);
 ?>
   <div class="topform">
@@ -85,23 +84,20 @@ three_buttonmenu($extrabuttons);
 		  </tr>
 		</thead>
 <?php
+
+	$imagebuttons=array();
+	$extrabuttons=array();
 	/*the rowaction buttons used within each assessments table row*/
-    $imagebuttons=array();
 	$imagebuttons['clicktodelete']=array('name'=>'current',
 										 'value'=>'delete_assessment.php',
 										 'title'=>'delete');
 	$imagebuttons['clicktoedit']=array('name'=>'Edit',
 									   'value'=>'',
 									   'title'=>'edit');
-    $extrabuttons=array();
-
-	$extrabuttons['editscores']=array('name'=>'current',
-									  'title'=>'editscores',
-									  'value'=>'edit_scores.php');
-   	$extrabuttons['generatecolumns']=array('name'=>'current',
+	$extrabuttons['generatecolumns']=array('name'=>'current',
 										   'title'=>'generatecolumns',
 										   'value'=>'generate_assessment_columns.php');
-   	$extrabuttons['deletecolumns']=array('name'=>'current',
+	$extrabuttons['deletecolumns']=array('name'=>'current',
 										 'title'=>'deletecolumns',
 										 'value'=>'delete_assessment_columns.php');
 
@@ -136,13 +132,16 @@ three_buttonmenu($extrabuttons);
 				<?php print_string('markbookcolumns',$book);?>
 				<value id="<?php print $eid;?>-Markcount"><?php print
 						 $AssDef['MarkCount']['value'];?></value>.&nbsp
-				<?php print_string('scoresentered',$book);?>
+			<a href="reportbook.php?current=edit_scores.php&cancel=new_assessment.php&eid=<?php print $eid;?>&pid=&bid="><?php print_string('scoresentered',$book);?>				
 				<value id="<?php print $eid;?>-Archivecount">
 				  <?php print $AssDef['ArchiveCount']['value'];?></value>
 				(<value id="<?php print $eid;?>-Scorecount"> 
-				  <?php print $AssDef['ScoreCount']['value'];?></value>).
+				  <?php print $AssDef['ScoreCount']['value'];?></value>).</a>
 			  </p>
-
+			</td>
+		  </tr>
+		  <tr class="hidden" id="<?php print $eid.'-'.$rown++;?>">
+			<td colspan="7">
 <?php
 		if($AssDef['Derivation']['value'][0]==' '){
 			$extrabuttons['statistics']=array('name'=>'current',
@@ -154,7 +153,12 @@ three_buttonmenu($extrabuttons);
 										'title'=>'updateranking',
 										'value'=>'calculate_assessment_ranking.php');
 			}
-		rowaction_buttonmenu($imagebuttons,$extrabuttons,$book);
+		/*Check user has permission to configure*/
+		$perm=getCoursePerm($rcrid,$respons);
+		$neededperm='x';
+		if($perm["$neededperm"]==1){
+			rowaction_buttonmenu($imagebuttons,$extrabuttons,$book);
+			}
 		unset($extrabuttons['statistics']);
 		unset($extrabuttons['rank']);
 ?>

@@ -17,6 +17,11 @@ $description=$AssDef['Description']['value'];
 $stage=$AssDef['Stage']['value'];
 $deadline=$AssDef['Deadline']['value'];
 
+	/*Check user has permission to configure*/
+	$perm=getCoursePerm($crid,$respons);
+	$neededperm='x';
+	if($perm["$neededperm"]==1){
+
 			/*find the appropriate markdef_name*/
 		   	if($gena!='' and $gena!=' '){
 	   			$grading_grades=$AssDef['GradingScheme']['grades'];
@@ -119,6 +124,10 @@ $deadline=$AssDef['Deadline']['value'];
 
 					}
 				}
+		}
+	else{
+		$error[]=get_string('nopermissions');
+		}
 
 $returnXML=fetchAssessmentDefinition($eid);
 $rootName='AssessmentDefinition';

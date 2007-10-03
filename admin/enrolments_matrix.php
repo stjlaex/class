@@ -59,7 +59,8 @@ $rowcells=array('EN','AP','AT','ATD','RE','ACP','CA','WL','AC');
 			$totals[$index]+=$values[$index];
 ?>
 		  <td>
-<?php 	    print '<a href="admin.php?current=community_list.php&cancel='.
+<?php
+			print '<a href="admin.php?current=community_list.php&cancel='.
 				 $choice.'&choice='. $choice.'&enrolyear='. $enrolyear.'&type='.$comtype.
 				  '&comid='.$com['id'].'">' .$values[$nocol++].'</a>';
 ?>

@@ -103,7 +103,7 @@ if($sub=='Submit'){
 				if($val['value']!=$inval){
 					if($val['table_db']=='address'){
 						if($aid=='-1' and $inval!=''){
-							mysql_query("INSERT INTO address SET town=''");
+							mysql_query("INSERT INTO address SET region=''");
 							$aid=mysql_insert_id();
 							mysql_query("INSERT INTO gidaid SET
 											guardian_id='$gid', address_id='$aid'");

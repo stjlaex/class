@@ -4,12 +4,15 @@
 
 $action='import_assessment_scores.php';
 
-$eid=$_POST{'id'};
+$eid=$_POST['id'];
 include('scripts/sub_action.php');
 
-$AssDef=fetchAssessmentDefinition($eid);
+	/*Check user has permission to configure*/
+	$perm=getCoursePerm($rcrid,$respons);
+	$neededperm='x';
+	include('scripts/perm_action.php');
 
-include('scripts/course_respon.php');
+$AssDef=fetchAssessmentDefinition($eid);
 
 three_buttonmenu();
 ?>
