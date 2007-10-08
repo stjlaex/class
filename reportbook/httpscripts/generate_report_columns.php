@@ -46,7 +46,7 @@ $deadline=$ReportDef['report']['deadline'];
 				(entrydate, marktype, topic, comment, author,
 				 def_name, assessment, midlist, component_id) 
 					VALUES ('$date', 'report', '$title', 
-				 'complete by $deadline', '$tid', '', 'no', '$rid', '$pid')");
+				 'complete by $deadline', 'ClaSS', '', 'no', '$rid', '$pid')");
 				$mid=mysql_insert_id();
 
 				/*entry in midcid for new mark and classes with crid and bid*/

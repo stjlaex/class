@@ -1,3 +1,16 @@
+Version ClaSS-0.8.31 release (2007/10/10)
+-----------------------------------------
+
+Changed the way perms are handled for form tutors. The tutor no longer
+joins the group for that yid, instead they are checked for
+independently and always receive rwe=1 perms.
+
+A new option added to the yeargroup_matrix page, available to admin
+and office roles, produces basic demographic statistics of male/female
+ratios and nationalities broken down by yeargroup. This adds
+countin_community_gender() to the functions.
+
+
 Version ClaSS-0.8.30 release (2007/10/03)
 -----------------------------------------
 

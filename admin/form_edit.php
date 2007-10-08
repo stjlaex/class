@@ -36,7 +36,7 @@ if(isset($_POST['newtid'])){$newtid=$_POST['newtid'];}
 			<?php print_string('formgroup');?>
 		  </caption>
 		  <tr>
-			<th>
+			<th colspan="2">
 			  <?php print $fid.'/'.$newtid; ?>
 			</th>
 			<td>
@@ -52,8 +52,14 @@ if(isset($_POST['newtid'])){$newtid=$_POST['newtid'];}
 				WHERE form_id='$fid' ORDER BY surname");
 	while($student=mysql_fetch_array($d_student, MYSQL_ASSOC)){
 			$sid=$student['id'];
-		    print '<tr><td>'.$student['surname']. 
-					', '.$student['forename']. ' ('.$student['form_id'].')</td>';
+			if($_SESSION['role']=='admin' or $_SESSION['role']=='office'){
+				$Enrolment=fetchEnrolment($sid);
+				$extra=$Enrolment['EnrolNumber']['value'];
+				}
+			else{$extra='&nbsp;';}
+
+		    print '<tr><td>'.$student['surname']. ', '.$student['forename']. 
+					' ('.$student['form_id'].')</td><td>'.$extra.'</td>';
 		    print '<td><input type="checkbox" name="oldsids[]" value="'.$sid.'" /></td>';
 		    print '</tr>';
 			}

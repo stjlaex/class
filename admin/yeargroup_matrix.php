@@ -5,7 +5,13 @@
 $choice='yeargroup_matrix.php';
 $action='yeargroup_matrix_action.php';
 
-three_buttonmenu();
+if($_SESSION['role']=='admin' or $_SESSION['role']=='office'){
+	$extrabuttons['statistics']=array('name'=>'current','value'=>'yeargroup_statistics.php');
+	}
+else{
+	$extrabuttons=array();
+	}
+three_buttonmenu($extrabuttons);
 ?>
   <div class="content">
 	  <form id="formtoprocess" name="formtoprocess" method="post"

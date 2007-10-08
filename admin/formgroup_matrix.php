@@ -73,7 +73,7 @@ three_buttonmenu();
 		  <td>
 <?php
 		if($perms['x']==1 and $tid!=''){
-			$uid=getUid($tid);
+			$uid=get_uid($tid);
 			$Responsible=array('id_db'=>$fid.'-'.$uid);
 ?>
 			<div  id="<?php print $fid.'-'.$uid;?>" class="rowaction" >

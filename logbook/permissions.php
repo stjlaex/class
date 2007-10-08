@@ -1,5 +1,6 @@
 <?php	
 /**												permissions.php
+ *
  */	
 
 
@@ -14,8 +15,8 @@ function list_sid_responsible_users($sid, $bid){
 
 	/*first find pastoral group*/
   	$d_group=mysql_query("SELECT gid FROM groups JOIN student
-  	ON student.yeargroup_id=groups.yeargroup_id WHERE
-  	student.id='$sid' AND groups.course_id=''"); 
+	  	ON student.yeargroup_id=groups.yeargroup_id WHERE
+	  	student.id='$sid' AND groups.course_id=''"); 
 	$group=mysql_fetch_array($d_group);
 	$gids[]=$group['gid'];
 
@@ -50,6 +51,16 @@ function list_sid_responsible_users($sid, $bid){
 				}
 			}
 		}
+
+	/*checks for the form tutor*/
+	$d_group=mysql_query("SELECT teacher_id FROM form JOIN student ON
+		  	student.form_id=form.id WHERE student.id='$sid'"); 
+	$formtid=mysql_result($d_form,0);
+	$user=get_user($tid);
+	if(eregi('^[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.([a-zA-Z]{2,4})$', $user['email'])){ 
+		$recipients[]=array('username'=>$user['username'], 'email'=>$user['email']);
+		}
+
 	return $recipients;
 	}
 
@@ -85,7 +96,7 @@ function list_responsible_users($tid,$respons,$r=0){
 
 /* will return all details of users of interest based on the current
  * selected yeargroup in an array with the uid as the key
- * a head of year would be 111, form tutors 110
+ * a head of year would be 111
  */
 function list_pastoral_users($ryid,$perms){
    	$users=array();
@@ -156,7 +167,7 @@ function list_teacher_users($crid='',$bid=''){
 	return $users;
 	}
 
-function getUid($tid){
+function get_uid($tid){
 	$d_users=mysql_query("SELECT uid FROM users WHERE username='$tid'");
 	$uid=mysql_result($d_users,0);
 	return $uid;

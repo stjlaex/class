@@ -38,8 +38,8 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 			  <?php print $Student['DOB']['value'];?>
 			</td>
 			<td>
-			<label><?php print_string($Student['EntryDate']['label'],$book);?></label>
-			  <?php print $Student['EntryDate']['value'];?>
+			<label><?php print_string($Student['Gender']['label'],$book);?></label>
+			  <?php print_string(displayEnum($Student['Gender']['value'],$Student['Gender']['field_db']),$book);?>
 			</td>
 		  </tr>
 		  <tr>
@@ -58,15 +58,23 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 			  <?php print_string(displayEnum($Student['Language']['value'],$Student['Language']['field_db']),$book);?>
 			</td>
 			<td>
-<?php if($Student['MobilePhone']['value']!=''){ ?>
-			  <label><?php print_string($Student['MobilePhone']['label'],$book);?></label>
-			  <?php print $Student['MobilePhone']['value'];?>
-<?php
-			  }
-			else{print '&nbsp';}
-?>
+			<label><?php print_string($Student['EntryDate']['label'],$book);?></label>
+			  <?php print $Student['EntryDate']['value'];?>
 			</td>
 		  </tr>
+<?php if($Student['MobilePhone']['value']!=''){ ?>
+		  <tr>
+			<td>
+			  <label><?php print_string($Student['MobilePhone']['label'],$book);?></label>
+			  <?php print $Student['MobilePhone']['value'];?>
+			</td>
+			<td>&nbsp;
+			</td>
+		  </tr>
+<?php
+			  }
+?>
+
 		</table>
 	  </div>
 	

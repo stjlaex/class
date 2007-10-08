@@ -10,7 +10,7 @@ $currentyear=get_curriculumyear();
 if(isset($_POST['enrolyear']) and $_POST['enrolyear']!=''){$enrolyear=$_POST['enrolyear'];}
 else{$enrolyear=$currentyear;}
 
-//$extrabuttons['print']=array('name'=>'sub','value'=>'Print');
+$extrabuttons=array();
 twoplus_buttonmenu($enrolyear,$currentyear+3,$extrabuttons,$book);
 
 $rowcells=array('EN','AP','AT','ATD','RE','ACP','CA','WL','AC');
@@ -21,7 +21,7 @@ $rowcells=array('EN','AP','AT','ATD','RE','ACP','CA','WL','AC');
 
 	  <table class="listmenu">
 		<tr>
-		  <th><?php print $enrolyear;?></th>
+		  <th><?php print display_curriculumyear($enrolyear);?></th>
 <?php
 		  while(list($index,$enrolstatus)=each($rowcells)){ 
 			  $totals[$index]=0;

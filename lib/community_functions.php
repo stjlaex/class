@@ -213,7 +213,7 @@ function listin_community($community,$enddate='',$startdate=''){
 	if(isset($community['id']) and $community['id']!=''){$comid=$community['id'];}
 	else{$comid=update_community($community);}
 	$d_student=mysql_query("SELECT id, surname,
-				forename, preferredforename, form_id, dob FROM student 
+				forename, preferredforename, form_id, gender, dob FROM student 
 				JOIN comidsid ON comidsid.student_id=student.id
 				WHERE comidsid.community_id='$comid' AND
 				(comidsid.leavingdate>'$enddate' OR 
@@ -221,7 +221,6 @@ function listin_community($community,$enddate='',$startdate=''){
 				AND (comidsid.joiningdate<='$startdate' OR 
 				comidsid.joiningdate='0000-00-00' OR
 				comidsid.joiningdate IS NULL) ORDER BY surname, forename");
-
 	$students=array();
 	while($student=mysql_fetch_array($d_student, MYSQL_ASSOC)){
 		if($student['id']!=''){$students[]=$student;}
@@ -313,7 +312,26 @@ function countin_community($community,$enddate='',$startdate=''){
 	return $nosids;
 	}
 
-/*Returns all communities to which a student is currently enrolled*/
+function countin_community_gender($community,$gender='M',$enddate='',$startdate=''){
+	$todate=date("Y-m-d");
+	if($enddate==''){$enddate=$todate;}
+	if($startdate==''){$startdate=$enddate;}
+	if(isset($community['id']) and $community['id']!=''){$comid=$community['id'];}
+	else{$comid=update_community($community);}
+	$d_student=mysql_query("SELECT COUNT(student_id) FROM comidsid
+				JOIN student ON student.id=comidsid.student_id	
+				WHERE comidsid.community_id='$comid' AND student.gender='$gender'
+				AND (comidsid.leavingdate>'$enddate' OR 
+				comidsid.leavingdate='0000-00-00' OR comidsid.leavingdate IS NULL) 
+				AND (comidsid.joiningdate<='$startdate' OR 
+				comidsid.joiningdate='0000-00-00' OR comidsid.joiningdate IS NULL)");
+	$nosids=mysql_result($d_student,0);
+	return $nosids;
+	}
+
+
+
+/* Returns all communities to which a student is currently enrolled*/
 function list_member_communities($sid,$community){
 	$todate=date("Y-m-d");
 	$type=$community['type'];

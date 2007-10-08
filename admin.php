@@ -62,18 +62,18 @@ $rtid=$tid;
 		<legend><?php print_string('configure','admin');?></legend>
 <?php
 		$choices=array('import_students.php' => 'newstudents'
-			   ,'new_teacher.php' => 'newteachers'
-			   ,'passwords.php' => 'refreshpasswords'
-			   ,'class_matrix.php' => 'classesmatrix'
-			   ,'cohort_matrix.php' => 'cohortmatrix'
-			   ,'update_curriculum.php' => 'updatecurriculum'
-			   ,'year_end.php' => 'yearend'
-			   ,'portfolio_accounts.php' => 'refreshportfolios'
-			   ,'server_test.php' => 'servertest'
-				   /*these are all either very experimental or completely useless!!!!!*/
-				   //,'statementbank.php' => 'statementbank'
-				   //,'demoiser.php' => 'demoiser'
-			   );
+					   ,'new_teacher.php' => 'newteachers'
+					   ,'passwords.php' => 'refreshpasswords'
+					   ,'class_matrix.php' => 'classesmatrix'
+					   ,'cohort_matrix.php' => 'cohortmatrix'
+					   ,'update_curriculum.php' => 'updatecurriculum'
+					   ,'year_end.php' => 'yearend'
+					   ,'portfolio_accounts.php' => 'refreshportfolios'
+					   ,'server_test.php' => 'servertest'
+					   /*these are all either very experimental or completely useless!!!!!*/
+					   //,'statementbank.php' => 'statementbank'
+					   //,'demoiser.php' => 'demoiser'
+					   );
 		selery_stick($choices,$choice,$book);
 ?>
 	  </fieldset>

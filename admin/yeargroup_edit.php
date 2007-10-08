@@ -63,7 +63,7 @@ if(isset($_POST['newcomid'])){$newcomid=$_POST['newcomid'];}else{$newcomid='';}
 			<?php print_string('yeargroup');?>
 		  </caption>
 		  <tr>
-			<th>
+			<th colspan="2">
 			  <?php print $displayname;?>
 			</th>
 			<td>
@@ -75,8 +75,13 @@ if(isset($_POST['newcomid'])){$newcomid=$_POST['newcomid'];}else{$newcomid='';}
 		  </tr>
 <?php
 	while(list($sid,$student)=each($oldstudents)){
+		if($_SESSION['role']=='admin' or $_SESSION['role']=='office'){
+			$Enrolment=fetchEnrolment($sid);
+			$extra=$Enrolment['EnrolNumber']['value'];
+			}
+		else{$extra='&nbsp;';}
 		print '<tr><td>'.$student['surname']. 
-				', '.$student['forename']. ' ('.$student['form_id'].')</td>';
+				', '.$student['forename']. ' ('.$student['form_id'].')</td><td>'.$extra.'</td>';
 		print '<td><input type="checkbox" name="oldsids[]" value="'.$student['id'].'" /></td>';
 		print '</tr>';
 		}

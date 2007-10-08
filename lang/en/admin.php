@@ -137,7 +137,7 @@ $string['report']='Report';
 $string['specialneedsandsupport']='Special needs and support';
 $string['receivingextrasupport']='Receiving extra support';
 $string['studentswithiep']='Students with current IEP';
-$string['']='';
+$string['ratio']='Ratio';
 $string['']='';
 $string['']='';
 ?>

@@ -17,7 +17,7 @@ if(isset($_POST['date'])){$date=$_POST['date'];}
 		$students=listin_community($com);
 		$enrolyear=$com['year'];
 		list($enrolstatus,$yid)=split(':',$com['name']);
-		$description=display_yeargroupname($yid).' ('.$enrolyear.')';
+		$description=display_yeargroupname($yid).' ('.display_curriculumyear($enrolyear).')';
 		$infobookcurrent='student_view_enrolment.php';
 
 		/*Check user has permission to edit*/
