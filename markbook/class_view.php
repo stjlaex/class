@@ -100,7 +100,7 @@ if($_SESSION['worklevel']>-1){
 				href="markbook.php?current=edit_scores.php&cancel=class_view.php&scoretype='. 
 					  $scoretype[$col].'&grading_name='. 
 					  $scoregrading[$col].'&mid='.$umns[$col]['id'].'&col='.$col.'">' 
-					  .$umns[$col]['topic'].'<p>'.$umns[$col]['entrydate'].'</p></a>
+					  .$umns[$col]['topic'].'<p>'.display_date($umns[$col]['entrydate']).'</p></a>
 	      <p class="component">'.$umns[$col]['component'].'</p>'.$umns[$col]['marktype'].'<input type="checkbox" name="checkmid[]" value="'.$umns[$col]['id'].'" /></span></th>';
 	      	  }
 		elseif($umns[$col]['marktype']=='report'){
@@ -108,7 +108,7 @@ if($_SESSION['worklevel']>-1){
 	      href="markbook.php?current=edit_reports.php&cancel=class_view.php&midlist='.$umns[$col]['midlist']. 
 					  '&title='.$umns[$col]['topic'].'&mid='.$umns[$col]['id'].'&pid='. 
 					  $umns[$col]['component'].'&col='. $col.'&bid='.$bid[0].'">' 
-					  . $umns[$col]['topic']. '<p>'.$umns[$col]['entrydate']. 
+					  . $umns[$col]['topic']. '<p>'.display_date($umns[$col]['entrydate']). 
 		  '</p></a><p class="component">'.$umns[$col]['component'].'</p>'.
 			  $umns[$col]['marktype']. '</span></th>';
 	      	  }
@@ -117,14 +117,14 @@ if($_SESSION['worklevel']>-1){
 	      href="markbook.php?current=edit_scores.php&cancel=class_view.php&scoretype='.$scoretype[$col]. 
 					  '&grading_name='.$scoregrading[$col]. 
 					  '&mid='.$umns[$col]['id'].'&col='.$col.'">'.$umns[$col]['topic']. 
-					  '<p>'.$umns[$col]['entrydate']. 
+					  '<p>'.display_date($umns[$col]['entrydate']). 
 					  '</p></a><p class="component">'.$umns[$col]['component'].'</p>' 
 					  .$umns[$col]['marktype'].'<input type="checkbox" 
 					name="checkmid[]" value="'.$umns[$col]['id'].'" /></span></th>';
 	      	  }
 		else{
 	      	print '<th id="'.$umns[$col]['id'].'">'.$umns[$col]['topic'].'<p>'. 
-					$umns[$col]['entrydate'].'</p></a><p class="component">'. 
+					display_date($umns[$col]['entrydate']).'</p></a><p class="component">'. 
 					$umns[$col]['component'].'</p>'.$umns[$col]['marktype']. 
 					'<input type="checkbox" name="checkmid[]" value="'
 					.$umns[$col]['id'].'" /></th>';

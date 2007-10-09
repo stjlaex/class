@@ -35,7 +35,7 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 		  </tr>
 		  <tr>
 			<td><label><?php print_string($Student['DOB']['label'],$book);?></label>
-			  <?php print $Student['DOB']['value'];?>
+			  <?php print display_date($Student['DOB']['value']);?>
 			</td>
 			<td>
 			<label><?php print_string($Student['Gender']['label'],$book);?></label>
@@ -59,7 +59,7 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 			</td>
 			<td>
 			<label><?php print_string($Student['EntryDate']['label'],$book);?></label>
-			  <?php print $Student['EntryDate']['value'];?>
+			  <?php print display_date($Student['EntryDate']['value']);?>
 			</td>
 		  </tr>
 <?php if($Student['MobilePhone']['value']!=''){ ?>
@@ -98,7 +98,7 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 	if(array_key_exists('Comment',$Comments)){
 		print '<td>'.$no.'</td>';
 		$Comment=$Comments['Comment'][0];
-		print '<td>'.$Comment['EntryDate']['value'].'</td>';
+		print '<td>'.display_date($Comment['EntryDate']['value']).'</td>';
 		$out=substr($Comment['Detail']['value'],0,30).'...';
 		print '<td>'.$out.'</td>';
 		}
@@ -117,7 +117,7 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 	if(array_key_exists(0,$Incidents['Incident'])){
 		print '<td>'.$no.'</td>';
 		$Incident=$Incidents['Incident'][0];
-		print '<td>'.$Incident['EntryDate']['value'].'</td>';
+		print '<td>'.display_date($Incident['EntryDate']['value']).'</td>';
 		$out=substr($Incident['Detail']['value'],0,40).'...';
 		print '<td>'.$out.'</td>';
 		}
@@ -138,7 +138,7 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 		if(array_key_exists(0,$Ents)){
 			print '<td>'.$no.'</td>';
 			$Ent=$Ents[0];
-			print '<td>'.$Ent['EntryDate']['value'].'</td>';
+			print '<td>'.display_date($Ent['EntryDate']['value']).'</td>';
 			$out=substr($Ent['Detail']['value'],0,30).'...';
 			print '<td>'.$out.'</td>';
 			}

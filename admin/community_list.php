@@ -31,7 +31,7 @@ if(isset($_POST['date'])){$date=$_POST['date'];}
 		$infobookcurrent='student_view_boarder.php';
 		if($date!=''){
 			$students=(array)listin_community($com,$date);
-			$description=' '.$boarder.' ('.$date.')';
+			$description=' '.$boarder.' ('.display_date($date).')';
 			}
 		else{
 			$startdate='2000-01-01';
@@ -95,10 +95,10 @@ if(isset($_POST['date'])){$date=$_POST['date'];}
 			  </span>
 			</td>
 			<td>
-			  <?php print $student['dob'];?>
+			  <?php print display_date($student['dob']);?>
 			</td>
 			<td>
-			  <?php print $Enrolment['EntryDate']['value'];?>
+			  <?php print display_date($Enrolment['EntryDate']['value']);?>
 			</td>
 			<td>
 			  <input type="checkbox"  

@@ -1308,4 +1308,15 @@ function display_subjectname($bid){
 	$subjectname=mysql_result($d_subject,0);
 	return $subjectname;
 	}
+function display_date($date=''){
+	if($date!=''){
+		list($year,$month,$day)=split('-',$date);
+		$time=mktime(0,0,0,$month,$day,$year);
+		$displaydate=date('jS M Y',$time);
+		}
+	else{
+		$displaydate='';
+		}
+	return $displaydate;
+	}
 ?>

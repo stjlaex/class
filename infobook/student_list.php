@@ -87,6 +87,10 @@ two_buttonmenu($extrabuttons,$book);
 			$displayout=displayEnum($Student[$displayfield]['value'],$Student[$displayfield]['field_db']);
 			$displayout=get_string($displayout,$book);
 			}
+		elseif(isset($Student[$displayfield]['type_db'])  
+			and $Student[$displayfield]['type_db']=='date'){
+			$displayout=display_date($Student[$displayfield]['value']);
+			}
 		else{
 			$displayout=$Student[$displayfield]['value'];
 			}

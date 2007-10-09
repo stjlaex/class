@@ -10,6 +10,9 @@ and office roles, produces basic demographic statistics of male/female
 ratios and nationalities broken down by yeargroup. This adds
 countin_community_gender() to the functions.
 
+Added a crude display_date() function which improves the presentaiton
+of dates. cannot yet be used for input boxes though!
+
 
 Version ClaSS-0.8.30 release (2007/10/03)
 -----------------------------------------

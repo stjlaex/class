@@ -45,6 +45,7 @@ function fetchStudent_short($sid){
 							 'type_db' => 'enum',
 							 'value' => ''.$student['gender']);
    	$Student['DOB']=array('label' => 'dateofbirth', 
+						  'type_db' => 'date',
 						  'value' => ''.$student['dob']);
    	$Student['RegistrationGroup']=array('label' => 'formgroup',  
 										'value' => ''.$student['form_id']);
