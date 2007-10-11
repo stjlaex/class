@@ -230,6 +230,7 @@ div#heading {
 	position:absolute; top:1%; left:10%;
 	border:0; margin-top:2px;
     padding-right:0.8em;
+    padding-left:0.4em;
 	background-color:#ffffff;
     color:#000000;
     font-weight:600;
@@ -326,6 +327,9 @@ table.listmenu {
 	border-color:#cccccc;
 	background-color:#ffffee;
     padding-left:1%;
+	}
+div.content fieldset.listmenu, div.content fieldset.listmenu div {
+	background-color:#ffffee;
 	}
 .listmenu .special {
 	font-weight:600; font-style:italic;

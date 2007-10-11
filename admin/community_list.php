@@ -5,7 +5,7 @@
 $action='community_list_action.php';
 
 if(isset($_GET['comid'])){$comid=$_GET['comid'];}
-if(isset($_GET['date'])){$date=$_GET['date'];}
+if(isset($_GET['date'])){$date=$_GET['date'];}else{$date='';}
 if(isset($_POST['comid'])){$comid=$_POST['comid'];}
 if(isset($_POST['enrolyear'])){$enrolyear=$_POST['enrolyear'];}
 if(isset($_POST['date'])){$date=$_POST['date'];}
@@ -14,17 +14,19 @@ if(isset($_POST['date'])){$date=$_POST['date'];}
 	$comtype=$com['type'];
 	if($comtype=='applied' or $comtype=='enquired' or 
 	   $comtype=='accepted'){
+
 		$students=listin_community($com);
 		$enrolyear=$com['year'];
 		list($enrolstatus,$yid)=split(':',$com['name']);
 		$description=display_yeargroupname($yid).' ('.display_curriculumyear($enrolyear).')';
 		$infobookcurrent='student_view_enrolment.php';
+		$AssDefs=fetch_enrolmentAssessmentDefinitions($com);
 
 		/*Check user has permission to edit*/
 		$perm=getYearPerm($yid,$respons);
 		$neededperm='r';
 		include('scripts/perm_action.php');
-
+		
 		}
 	elseif($comtype=='accomodation'){
 		$boarder=$com['name'];
@@ -56,9 +58,14 @@ if(isset($_POST['date'])){$date=$_POST['date'];}
 			<th style="width:40%;"><?php print $description;?></th>
 			<th style="width:15%;"><?php print_string('dateofbirth','infobook');?></th>
 			<th style="width:15%;"><?php print_string('schoolstartdate','infobook');?></th>
-			<th>
 <?php
 			if($comtype!='accomodation'){
+				reset($AssDefs);
+				while(list($index,$AssDef)=each($AssDefs)){
+				print '<th>'.get_coursename($AssDef['Course']['value']).'<br />'. 
+						$AssDef['Description']['value'].'</th>';
+					}
+				print '<th>';
 				$required='no';$multi='1';
 				include('scripts/list_enrolstatus.php');
 				}
@@ -100,6 +107,22 @@ if(isset($_POST['date'])){$date=$_POST['date'];}
 			<td>
 			  <?php print display_date($Enrolment['EntryDate']['value']);?>
 			</td>
+<?php
+			if($comtype!='accomodation'){
+				reset($AssDefs);
+				while(list($index,$AssDef)=each($AssDefs)){
+					$eid=$AssDef['id_db'];
+					$Assessments=(array)fetchAssessments_short($sid,$eid,'G');
+					/*assumes only one score allowed per enrolment
+						assessment per student - no problem unless
+						subject specific assessments are allowed - which
+						bid='G' ensures they are not but could be in future*/
+					if(sizeof($Assessments)>0){$result=$Assessments[0]['Result']['value'];}
+					else{$result='&nbsp;';}
+					print '<td>'.$result.'</td>';
+					}
+				}
+?>
 			<td>
 			  <input type="checkbox"  
 				name="sids[]" value="<?php print $sid;?>" />

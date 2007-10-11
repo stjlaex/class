@@ -20,7 +20,7 @@ three_buttonmenu();
   <div id="viewcontent" class="content">
 	<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
 
-	  <fieldset class="center">
+	  <fieldset class="center listmenu">
 		<div class="left">
 <?php 
 	$Enrolment=fetchEnrolment($sid);
@@ -31,20 +31,19 @@ three_buttonmenu();
 ?>
 		</div>
 		<div class="right" >
-<?php 
+<?php
 	$listname='enrolyear';$listlabel='year';$required='yes';
 	$enrolyear=$Enrolment['Year']['value'];
 	include('scripts/list_calendar_year.php');
 ?>
 		</div>
-
 	  </fieldset>
 
-	  <div class="center">
-
+	  <fieldset class="center listmenu">
 		<table class="listmenu">
 		  <tr>
-			<td>&nbsp
+			<td>
+			  &nbsp
 			</td>
 			<td>
 <?php 
@@ -56,10 +55,67 @@ three_buttonmenu();
 		  </tr>
 		</table>
 
-
 <?php 	$tab=xmlarray_form($Enrolment,'','',$tab,'infobook');?>
-	  </div>
 
+	  </fieldset>
+
+	  <fieldset class="center listmenu">
+		<table class="listmenu">
+<?php 
+	$com=get_community($Enrolment['Community']['id_db']);
+	$AssDefs=fetch_enrolmentAssessmentDefinitions($com);
+	reset($AssDefs);
+	$input_elements='';
+	while(list($index,$AssDef)=each($AssDefs)){
+		$eid=$AssDef['id_db'];
+		$input_elements.=' <input type="hidden" name="eids[]" value="'.$eid.'" />';
+		$gena=$AssDef['GradingScheme']['value'];
+		$Assessments=(array)fetchAssessments_short($sid,$eid,'G');		
+		if(sizeof($Assessments)>0){$value=$Assessments[0]['Value']['value'];}
+		else{$value='';}
+?>
+		  <tr>
+			  <td>
+<?php 
+		print '<label>'.get_coursename($AssDef['Course']['value']).'<br />'. 
+						$AssDef['Description']['value'].'</label>';
+		if($gena!='' and $gena!=' '){
+			$input_elements.=' <input type="hidden" name="scoretype'.$eid.'" value="grade" />';
+			$pairs=explode (';',$AssDef['GradingScheme']['grades']);
+?>
+				<select tabindex='<?php print $tab++;?>' name='<?php print $eid;?>'>
+<?php 
+			print '<option value="" ';
+			if($value==''){print 'selected';}	
+			print ' ></option>';
+			for($c3=0; $c3<sizeof($pairs); $c3++){
+				list($level_grade, $level)=split(':',$pairs[$c3]);
+				print '<option value="'.$level.'" ';
+				if($value==$level){print 'selected';}	
+				print '>'.$level_grade.'</option>';
+				}
+?>
+				</select>	
+<?php
+			}
+		else{
+?>
+				<input tabindex="<?php print $tab++;?>" 
+				  name="<?php print $eid;?>" value="<?php print $value;?>"/>
+<?php
+			}
+?>
+
+			  </td>
+		  </tr>
+<?php 
+		}
+?>
+		</table>
+
+	  </fieldset>
+
+	  <?php print $input_elements;?>
 	    <input type="hidden" name="current" value="<?php print $action;?>" />
 		<input type="hidden" name="cancel" value="<?php print $cancel;?>">
 		<input type="hidden" name="choice" value="<?php print $choice;?>">

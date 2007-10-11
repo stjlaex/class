@@ -17,3 +17,5 @@ ALTER TABLE address CHANGE
 	town region varchar(160) not null default '';
 UPDATE address SET region=CONCAT(region, ' ', county);
 ALTER TABLE address DROP county;
+ALTER TABLE info
+	ADD secondnationality char(2) not null default '' AFTER nationality;

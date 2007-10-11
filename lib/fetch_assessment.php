@@ -112,6 +112,8 @@ function gradeToScore($grade,$grading_grades){
 	return $score;
 	}
 
+/**
+ */
 function fetchAssessmentDefinition($eid){
    	$AssDef=array();
   	$AssDef['id_db']=$eid;
@@ -131,6 +133,9 @@ function fetchAssessmentDefinition($eid){
 				   		WHERE assessment_id='$eid' AND student_id!='0'");
 	$archivecount=mysql_numrows($d_eidsid);
 
+   	$AssDef['Course']=array('label' => 'Course','table_db' =>
+					'assessment', 'field_db' => 'course_id',
+					'type_db'=>'varchar(10)', 'value' => $ass['course_id']);
    	$AssDef['Subject']=array('label' => 'Subject','table_db' =>
 					'assessment', 'field_db' => 'subject_id',
 					'type_db'=>'varchar(10)', 'value' => $ass['subject_id']);
@@ -179,9 +184,6 @@ function fetchAssessmentDefinition($eid){
    	$AssDef['Derivation']=array('label' => 'Derivation','table_db' => 
 					'assessment', 'field_db' => 'derivation',
 					'type_db'=>'varchar(60)', 'value' => $ass['derivation']);
-   	$AssDef['Course']=array('label' => 'Course','table_db' =>
-					'assessment', 'field_db' => 'course_id',
-					'type_db'=>'varchar(10)', 'value' => $ass['course_id']);
    	$AssDef['ComponentStatus']=array('label' => 'Component Status', 
 					'table_db' => 'assessment', 'field_db' => 'component_status',
 					'type_db'=>'enum', 'value' => $ass['component_status']);
@@ -208,11 +210,12 @@ function fetchAssessmentDefinition($eid){
 	return $AssDef;
    	}
 
+
 function fetchAssessments($sid,$eid='%'){
 	$Assessments=array();
 
 /*
-	Assessments is an xml compliant array designed for use with Serialize
+	Assessments is an xm- compliant array designed for use with Serialize
 	to generate xml from the values in the database. Each value from
 	the database is stored in an array element identified by its
 	xmltag. Various useful accompanying attributes are also stored. Of
@@ -330,10 +333,12 @@ function fetchAssessments($sid,$eid='%'){
 	return $Assessments;
 	}
 
-function fetchAssessments_short($sid,$eid='%',$bid='%'){
+
+function fetchAssessments_short($sid,$eid='%',$bid='%',$pid='%'){
 	$Assessments=array();
    	$d_eidsid=mysql_query("SELECT * FROM eidsid WHERE
-				student_id='$sid' AND assessment_id LIKE '$eid' AND subject_id LIKE '$bid'");
+				student_id='$sid' AND assessment_id LIKE '$eid' AND
+				subject_id LIKE '$bid' AND component_id LIKE '$pid'");
   	while($eidsid=mysql_fetch_array($d_eidsid,MYSQL_ASSOC)) {
 		$eidsid=nullCorrect($eidsid);
 		$eid=$eidsid['assessment_id'];
@@ -358,7 +363,27 @@ function fetchAssessments_short($sid,$eid='%',$bid='%'){
 	return $Assessments;
 	}
 
-/*Returns all assdefs of relevance to a cohort*/
+function fetch_enrolmentAssessmentDefinitions($com=''){
+	$AssDefs=array();
+	$crids=array();
+	if($com==''){$crids[]='%';}
+	else{
+		list($enrolstatus,$yid)=split(':',$com['name']);
+		$yearcommunity=array('id'=>'','type'=>'year','name'=>$yid);
+		$cohorts=list_community_cohorts($yearcommunity);
+		while(list($index,$cohort)=each($cohorts)){
+			$crids[]=$cohort['course_id'];
+			}
+		}
+	while(list($index,$crid)=each($crids)){
+		$cohort=array('course_id'=>$crid,'stage'=>'E','year'=>'0000');
+		$AssDefs=fetch_cohortAssessmentDefinitions($cohort);
+		//trigger_error('chort:'.sizeof($AssDefs).' '.$crid,E_USER_WARNING);
+		}
+	return $AssDefs;
+	}
+
+/* Returns all assdefs of relevance to a cohort */
 function fetch_cohortAssessmentDefinitions($cohort){
 	$crid=$cohort['course_id'];
 	$stage=$cohort['stage'];
@@ -652,25 +677,32 @@ function compute_accumulators($sid,$AssDef,$steps,$accumulators=''){
 	}
 
 /* Should always be used when writing to the eidisd table. The $score */
-/* being recorded  is an array with both result and value set, and 
+/* being recorded is an array with both result and value set, with 
 /* optionally a date. */
 function update_assessment_score($eid,$sid,$bid,$pid,$score){
 	$res=$score['result'];
 	$val=$score['value'];
 	if(isset($score['date'])){$date=$score['date'];}else{$date='';}
+
 	/*first simply update eidsid*/
-	$d_eidsid=mysql_query("SELECT id FROM eidsid
+	$d_eidsid=mysql_query("SELECT id, result FROM eidsid
 				WHERE subject_id='$bid' AND component_id='$pid' 
-				AND assessment_id='$eid' AND student_id='$sid'");
-	if(mysql_num_rows($d_eidsid)==0){
+				AND assessment_id='$eid' AND student_id='$sid';");
+	if(mysql_num_rows($d_eidsid)==0 and $res!=''){
 		mysql_query("INSERT INTO eidsid (assessment_id,
 					student_id, subject_id, component_id, result, value, date) 
 					VALUES ('$eid','$sid','$bid','$pid','$res','$val','$date');");
 		}
 	else{
-		$id=mysql_result($d_eidsid,0);
-		mysql_query("UPDATE eidsid SET result='$res',
-				 value='$val', date='$date' WHERE id='$id'");
+		$oldscore=mysql_fetch_array($d_eidsid,MYSQL_ASSOC);
+		$id=$oldscore['id'];
+		if($res==''){
+			mysql_query("DELETE FROM eidsid WHERE id='$id' LIMIT 1;");
+			}
+		elseif($oldscore['result']!=$res){
+			mysql_query("UPDATE eidsid SET result='$res',
+				 value='$val', date='$date' WHERE id='$id';");
+			}
 		}
 
 	/* now check to see if this score is an operand in any derivations*/

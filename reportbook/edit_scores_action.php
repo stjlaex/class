@@ -9,9 +9,7 @@ $action_post_vars=array('eid','bid','pid');
 $eid=$_POST['eid'];
 $bid=$_POST['bid'];
 $pid=$_POST['pid'];
-$scoretype=$_POST['scoretype'];
 $todate=date('Y-m-d');
-$newbid=$_POST['newbid'];
 
 
 include('scripts/sub_action.php');
@@ -40,29 +38,24 @@ if($sub=='Submit'){
 		}
 
 	for($c=0;$c<sizeof($students);$c++){
-		unset($res);
 		$sid=$students[$c]['id'];
-		$inscore=clean_text($_POST[$sid]);
-		$ingrade='';
+		$scorevalue=clean_text($_POST[$sid]);
 		/*$$sid are the names of score values posted by the form*/
 		/*if the value is empty then score will be unset and no entry made*/
-		if($inscore==''){unset($inscore);}
-		elseif($scoretype=='grade'){
-			$ingrade=$inscore;
-			$res=scoreToGrade($inscore,$grading_grades);
+		if($scorevalue==''){$result='';}
+		elseif($grading_grades!='' and $grading_grades!=' '){
+			$result=scoreToGrade($scorevalue,$grading_grades);
 			}
-		elseif($scoretype=='value'){
-			$res=$inscore;
+		else{
+			$result=$scorevalue;
 			}
-
-		if(isset($eid) and isset($res)){
-			$score=array('result'=>$res,'value'=>$inscore,'date'=>$todate);
-			update_assessment_score($eid,$sid,$bid,$pid,$score);
-			}
+		$score=array('result'=>$result,'value'=>$scorevalue,'date'=>$todate);
+		update_assessment_score($eid,$sid,$bid,$pid,$score);
 		}
 	}
 
-elseif($newbid!=$bid){$bid=$newbid;}
+if(isset($_POST['newbid'])){$bid=$_POST['newbid'];}
+if(isset($_POST['newpid'])){$pid=$_POST['newpid'];}
 
 include('scripts/redirect.php');
 ?>

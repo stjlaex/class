@@ -15,6 +15,7 @@ CREATE TABLE info (
 	parttime		enum('N','Y') not null,
 	boarder			enum('N','B','H','6','7') not null,
 	nationality		char(2) not null default '',
+	secondnationality		char(2) not null default '',
 	birthplace		varchar(240) not null default '',
 	countryoforigin	char(2) not null default '',
 	language		char(4) not null default '',

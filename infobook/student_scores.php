@@ -29,18 +29,24 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 	/* generate two key indexes to lookup values from the assessments array*/
 	$eids=array();
 	$bids=array();
+	$elements=array();
 	while(list($assno,$Assessment)=each($Assessments)){
 		$eid=$Assessment['id_db'];
 		$bid=$Assessment['Subject']['value'];
 		$pid=$Assessment['SubjectComponent']['value'];
-		if($pid==''){$pid=' ';}/*cause of nullCorrect*/
-		$eids["$eid"][]=$assno;
-		$bids["$bid"]["$pid"][]=$assno;
+		$year=$Assessment['Year']['value'];
+		/*spaces are cause of nullCorrect*/
+		if($Assessment['Element']['value']==' '){$element=$eid;}
+		else{$element=$year. $Assessment['Element']['value'];}
+		if($pid==''){$pid=' ';}
+		$elements[$element][]=$assno;
+		$eids[$eid][]=$assno;
+		$bids[$bid][$pid][]=$assno;
 		}
 	ksort($bids);
-	krsort($eids);
+	krsort($elements);
 
-/*  display the column headers - subject codes*/
+	/* display the column headers - subject codes*/
 	while(list($bid,$pids)=each($bids)){
 		while(list($pid,$assnos)=each($pids)){
 		  if($pid==' ' or $pid==''){print '<th>'.$bid.'</th>';}
@@ -53,10 +59,12 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 <?php
 	/* each row in the table is for a single assessment using eid as
 	 * the key, first find the mark type for this row's values*/
-	while(list($eid,$assnos)=each($eids)){
+	while(list($element,$assnos)=each($elements)){
 		$gradesum=0;
 		$gradecount=0;
+		$eid=$Assessments[$assnos[0]]['id_db'];
 		$AssDef=(array)fetchAssessmentDefinition($eid);
+		$element=$AssDef['Element']['value'];
 		$resq=$AssDef['ResultQualifier']['value'];
 		$method=$AssDef['Method']['value'];
 		$grading_grades=$AssDef['GradingScheme']['grades'];

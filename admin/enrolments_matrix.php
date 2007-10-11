@@ -47,6 +47,7 @@ $rowcells=array('EN','AP','AT','ATD','RE','ACP','CA','WL','AC');
 		$values=array();
 		reset($rowcells);
 		while(list($index,$enrolstatus)=each($rowcells)){ 
+			if(!isset($totals[$index])){$totals[$index]=0;}
 			$yid=$year['id'];
 			if($enrolstatus=='EN'){$comtype='enquired';}
 			elseif($enrolstatus=='AC'){$comtype='accepted';}

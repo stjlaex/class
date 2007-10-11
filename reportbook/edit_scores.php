@@ -28,38 +28,26 @@ elseif(isset($_POST['pid'])){$selpid=$_POST['pid'];}
 	while(list($index,$cohort)=each($cohorts)){
 		$students=array_merge($students,listin_cohort($cohort));
 		}
-	$gena=$AssDef['GradingScheme']['value'];
 
 	$compstatus=$AssDef['ComponentStatus']['value'];
 	$resq=$AssDef['ResultQualifier']['value'];
 	$deadline=$AssDef['Deadline']['value'];
 
-	/*find the appropriate markdef_name*/
-	if($gena!='' and $gena!=' '){
-		$pairs=explode (';',$AssDef['GradingScheme']['grades']);
-		$d_markdef=mysql_query("SELECT * FROM markdef WHERE
-						grading_name='$gena' AND scoretype='grade' 
-						AND (course_id='%' OR course_id='$crid')");
-		$markdef=mysql_fetch_array($d_markdef,MYSQL_ASSOC);
+	$grading_grades=$AssDef['GradingScheme']['grades'];
+	if($grading_grades!='' and $grading_grades!=' '){
+		$pairs=explode (';',$grading_grades);
 		}
 	else{
-		$d_markdef=mysql_query("SELECT * FROM markdef WHERE
-						scoretype='value' 
-						AND (course_id='%' OR course_id='$crid')");
-		$markdef=mysql_fetch_array($d_markdef,MYSQL_ASSOC);
 		}
-	$scoretype=$markdef['scoretype'];
 
 	if($deadline!='0000-00-00'){$entrydate=$deadline;}
 	else{$entrydate=date('Y').'-'.date('n').'-'.date('j');}
 
 	/*make a list of subjects*/
 	$subjects=array();
-	if($compstatus=='A'){$compstatus='%';}
 	if($AssDef['Subject']['value']!='%'){
 		$subjects[]=array('id'=>$AssDef['Subject']['value'],
-						  'name'=>$AssDef['Subject']['value'],
-						  'pids'=>array());
+						  'name'=>get_subjectname($AssDef['Subject']['value']));
 		}
 	else{
 		$d_cridbid=mysql_query("SELECT id, name FROM subject
@@ -67,17 +55,8 @@ elseif(isset($_POST['pid'])){$selpid=$_POST['pid'];}
 					WHERE cridbid.course_id LIKE '$crid' ORDER BY subject.id");
 		while($subject=mysql_fetch_array($d_cridbid,MYSQL_ASSOC)){
 			$bid=$subject['id'];
-			$pids=array();
-			$d_component=mysql_query("SELECT DISTINCT id FROM component
-						WHERE course_id='$crid' AND subject_id='$bid'
-						AND status LIKE '$compstatus'");
-			while($pid=mysql_fetch_array($d_component,MYSQL_NUM)){
-				$pids[]=$pid[0];
-				}
-			if(sizeof($pids)==0){$pids[0]='';}
 			$subjects[]=array('id'=>$subject['id'],
-							  'name'=>$subject['name'],
-							  'pids'=>$pids);
+							  'name'=>$subject['name']);
 			}
 		}
 
@@ -102,7 +81,6 @@ three_buttonmenu($extrabuttons);
 	if($selbid==''){
 		$selbid=$subjects[0]['id'];
 		$selnewbid=$selbid;
-		trigger_error($selnewbid,E_USER_WARNING);
 		}
 	else{
 		$selnewbid=$selbid;
@@ -110,6 +88,31 @@ three_buttonmenu($extrabuttons);
 	$listname='newbid';$listlabel='subject';$onchange='yes';$multi=1;
 	include('scripts/set_list_vars.php');
 	list_select_list($subjects,$listoptions,$book);
+
+	if($compstatus=='A'){$compstatus='%';}
+	$d_component=mysql_query("SELECT component.id AS id, subject.name
+					AS name FROM component JOIN subject ON subject.id=component.id
+					WHERE component.course_id='$crid' AND component.subject_id='$selbid'
+					AND component.status LIKE '$compstatus'");
+	if(mysql_num_rows($d_component)>0){
+		$components=array();
+		while($component=mysql_fetch_array($d_component,MYSQL_ASSOC)){
+			$components[]=$component;
+			}
+		if($selpid==''){
+			$selpid=$components[0]['id'];
+			$selnewpid=$selpid;
+			}
+		else{
+			$selnewpid=$selpid;
+			}
+		$listname='newpid';$listlabel='subjectcomponent';$onchange='yes';$multi=1;
+		include('scripts/set_list_vars.php');
+		list_select_list($components,$listoptions,$book);
+		}
+	else{
+		$selpid='';
+		}
 ?>
 		  </th>
 		</tr>
@@ -119,7 +122,7 @@ three_buttonmenu($extrabuttons);
 	while(list($index,$student)=each($students)){
 		$sid=$student['id'];
 		$Student=fetchStudent_short($sid);
-		$Assessments=(array)fetchAssessments_short($sid,$eid,$selbid);
+		$Assessments=(array)fetchAssessments_short($sid,$eid,$selbid,$selpid);
 ?>
 		  <tr id="sid-<?php print $sid;?>">
 			<td><?php print $rown++;?></td>
@@ -133,9 +136,9 @@ three_buttonmenu($extrabuttons);
 <?php 
 		if(sizeof($Assessments)>0){$value=$Assessments[0]['Value']['value'];}
 		else{$value='';}
-		if($scoretype=='grade'){
+		if($grading_grades!='' and $grading_grades!=' '){
 ?>
-		  <select tabindex='<?php print $tab;?>' name='<?php print $sid;?>'>
+		  <select tabindex='<?php print $tab++;?>' name='<?php print $sid;?>'>
 <?php 
 		print '<option value="" ';
 		if($value==''){print 'selected';}	
@@ -151,6 +154,12 @@ three_buttonmenu($extrabuttons);
 		  </select>
 <?php
 			}
+		else{
+?>
+				<input tabindex="<?php print $tab++;?>" 
+				  name="<?php print $sid;?>" value="<?php print $value;?>"/>
+<?php
+			}
 ?>
 
 		  </td>
@@ -161,7 +170,6 @@ three_buttonmenu($extrabuttons);
 		</table>
 
 
-	  <input type="hidden" name="scoretype" value="<?php print $scoretype; ?>"/>
 	  <input type="hidden" name="bid" value="<?php print $selbid; ?>"/>
 	  <input type="hidden" name="pid" value="<?php print $selpid; ?>"/>
 	  <input type="hidden" name="eid" value="<?php print $eid; ?>"/>

@@ -930,7 +930,7 @@ function getEnumArray($field_name){
 	//$profession=array(''=>'');
 
 	$countryoforigin=$nationality;
-
+	$secondnationality=$nationality;
 	$country=$nationality;
 
 	if(file_exists('../schoolarrays.php')){include('../schoolarrays.php');}
@@ -1303,11 +1303,45 @@ function display_yeargroupname($yid){
 	return $yeargroupname;
 	}
 
+/* just a convenient synonym for get_subjectname */
 function display_subjectname($bid){
-	$d_subject=mysql_query("SELECT name FROM subject WHERE id='$bid'");
-	$subjectname=mysql_result($d_subject,0);
+	$subjectname=get_subjectname($bid);
 	return $subjectname;
 	}
+
+/*reutrns the subjectname for that bid from the database*/
+function get_subjectname($bid){
+	if($bid=='%' or $bid=='G' or $bid=='General'){
+		/*this is a fix that should be fixed in future!*/
+		$subjectname='General';
+		}
+	elseif($bid!=' ' and $bid!=''){
+		$d_subject=mysql_query("SELECT name FROM subject WHERE id='$bid'");
+		$subjectname=mysql_result($d_subject,0);
+		}
+	else{
+		$subjectname=$bid;
+		}
+	return $subjectname;
+	}
+
+/*reutrns the subjectname for that bid from the database*/
+function get_coursename($crid){
+	if($crid=='%' or $crid=='G' or $crid=='General'){
+		/*this is a fix that should be fixed in future!*/
+		$coursename='General';
+		}
+	elseif($crid!=' ' and $crid!=''){
+		$d_course=mysql_query("SELECT name FROM course WHERE id='$crid'");
+		$coursename=mysql_result($d_course,0);
+		}
+	else{
+		$coursename=$bid;
+		}
+	return $coursename;
+	}
+
+
 function display_date($date=''){
 	if($date!=''){
 		list($year,$month,$day)=split('-',$date);

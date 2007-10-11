@@ -84,6 +84,15 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 ?>
 		<table class="listmenu">
 		  <caption><?php print_string('studenthistory',$book);?></caption>
+
+		  <tr>
+			<th>
+			  <a href="infobook.php?current=student_scores.php&cancel=student_view.php&sid=<?php print $sid;?>">
+				<?php print_string('assessments'); ?>
+			  </a> 
+			</th>
+			<td colspan="3">&nbsp;</td>
+		  </tr>
 		  <tr>
 			<th>
 			  <a href="infobook.php?current=comments_list.php&cancel=student_view.php">

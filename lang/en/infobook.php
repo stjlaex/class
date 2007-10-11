@@ -13,6 +13,7 @@ $string['medicalbutton']='Change medical status';
 $string['medicalcaption']='Medical information';
 $string['schoolstartdate']='School start date';
 $string['nationality']='Nationality';
+$string['secondnationality']='Second nationality';
 $string['medicalinformation']='Medical information';
 $string['religion']='Religion';
 $string['firstlanguage']='First language';

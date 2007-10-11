@@ -208,6 +208,12 @@ function fetchStudent($sid='-1'){
 								  'type_db'=>'enum', 
 								  'value' => ''.$info['nationality']
 								  );
+   	$Student['SecondNationality']=array('label' => 'secondnationality', 
+								  'table_db' => 'info', 
+								  'field_db' => 'secondnationality', 
+								  'type_db'=>'enum', 
+								  'value' => ''.$info['secondnationality']
+								  );
    	$Student['Birthplace']=array('label' => 'placeofbirth', 
 								 'table_db' => 'info', 
 								 'field_db' => 'birthplace', 
@@ -901,6 +907,7 @@ function commentDisplay($sid,$date='',$Comments=''){
 /* Only used for tasks specific to enrolment and not to be part of the */
 /* Student array (at least for now!)*/
 function fetchEnrolment($sid='-1'){
+	$comid=-1;
    	$d_info=mysql_query("SELECT * FROM info WHERE student_id='$sid'");
 	if(mysql_num_rows($d_info)>0){
 		$info=mysql_fetch_array($d_info,MYSQL_ASSOC);
@@ -930,10 +937,15 @@ function fetchEnrolment($sid='-1'){
 				list($enrolstatus,$yid)=split(':',$com['name']);
 				$year=$com['year'];
 				}
+			$comid=$com['id'];
 			}
 		}
 
 	$Enrolment=array();
+   	$Enrolment['Community']=array('id_db' => $comid, 
+										//'table_db' => 'info', 
+										//'value' => ''.$enrolstatus
+										);
    	$Enrolment['EnrolmentStatus']=array('label' => 'enrolstatus', 
 										//'table_db' => 'info', 
 										'field_db' => 'enrolstatus', 

@@ -1,4 +1,4 @@
-Version ClaSS-0.8.31 release (2007/10/10)
+Version ClaSS-0.8.31 release (2007/10/11)
 -----------------------------------------
 
 Changed the way perms are handled for form tutors. The tutor no longer
@@ -10,8 +10,35 @@ and office roles, produces basic demographic statistics of male/female
 ratios and nationalities broken down by yeargroup. This adds
 countin_community_gender() to the functions.
 
-Added a crude display_date() function which improves the presentaiton
-of dates. cannot yet be used for input boxes though!
+New and crude display_date() function which improves the presentaiton
+of dates. Cannot yet be used for input boxes though!
+
+Added secondnationality field to the info table and Student array.
+
+Introduced the concept of an entry test, or assessments specifically
+used during the entry process. These can be specific to the course of
+entry and fetch_enrolmentAssDef() will find the relevant ones based on
+the yeargroup a student is enroling for. The assessments for
+enrolments are distinguished by stage='E' and bid='G' and
+year='0000'. The scores display as part of the community_list page for
+enrolments.
+
+Editing of enrolment assessments added to the student_view_enrolment
+page.
+
+The update_assessment() function has been relaxed to allow blanked
+scores to be deleted from eidsid table.
+
+Improved student_scores in the InfoBook by using the Assessment's
+element to condense all asses with equivalent year and element values
+into the same table row. This means a row can transcend courses and is
+truly cross-curricular.
+
+Fixed the report_incidents and report_comments pages to be able to
+handle selection of students by cohort.
+
+Finished edit_scores with working component selection and the ability to
+edit numerical scores.
 
 
 Version ClaSS-0.8.30 release (2007/10/03)

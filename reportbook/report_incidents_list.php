@@ -5,13 +5,14 @@
  */
 
 $action='report_incidents_print.php';
-$choice='report_incidents.php';
 
 $date0=$_POST['date0'];
-if(isset($_POST['date1'])){$date1=$_POST['date1'];}else{$date1=date("Y-m-d");}
+if(isset($_POST['date1'])){$date1=$_POST['date1'];}else{$date1=date('Y-m-d');}
 if(isset($_POST['bid'])){$bid=$_POST['bid'];}else{$bid='';}
 if(isset($_POST['newyid'])){$yid=$_POST['newyid'];}else{$yid='';}
 if(isset($_POST['newfid'])){$fid=$_POST['newfid'];}else{$fid='';}
+if(isset($_POST['stage'])){$stage=$_POST['stage'];}
+if(isset($_POST['year'])){$year=$_POST['year'];}
 
 include('scripts/sub_action.php');
 
@@ -32,8 +33,27 @@ include('scripts/sub_action.php');
 				> '$date0' AND subject_id LIKE '$bid'");
 		}
 	else{
-		$error[]=get_string('needselectstudents',$book);
-	    $current=$choice;
+		if($rcrid=='%'){
+			/*User has a subject not a course responsibility selected*/
+			$d_course=mysql_query("SELECT DISTINCT cohort.course_id FROM
+				cohort JOIN cridbid ON cridbid.course_id=cohort.course_id WHERE
+				cridbid.subject_id='$rbid' AND cohort.stage='$stage' AND cohort.year='$year'");
+			$rcrid=mysql_result($d_course,0);
+			}
+
+		$d_community=mysql_query("SELECT community_id FROM cohidcomid JOIN
+				cohort ON cohidcomid.cohort_id=cohort.id WHERE
+			    cohort.stage='$stage' AND cohort.year='$year' AND
+				cohort.course_id='$rcrid' LIMIT 1");
+		$comid=mysql_result($d_community,0);
+		$d_incidents=mysql_query("SELECT * FROM incidents JOIN
+				comidsid ON comidsid.student_id=incidents.student_id
+				WHERE incidents.entrydate > '$date0' AND comidsid.community_id='$comid'");
+		}
+
+	if(mysql_num_rows($d_incidents)==0){
+		$error[]=get_string('noincidentsfound',$book);
+		$action='report_incidents.php';
     	include('scripts/results.php');
 	    include('scripts/redirect.php');
 		exit;
@@ -130,4 +150,3 @@ two_buttonmenu();
  	<input type="hidden" name="current" value="<?php print $action;?>" />
 	</form>
   </div>
-

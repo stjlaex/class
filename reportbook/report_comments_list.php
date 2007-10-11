@@ -10,6 +10,7 @@ $date0=$_POST['date0'];
 if(isset($_POST['date1'])){$date1=$_POST['date1'];}else{$date1=date("Y-m-d");}
 if(isset($_POST['bid'])){$bid=$_POST['bid'];}else{$bid='';}
 if(isset($_POST['stage'])){$stage=$_POST['stage'];}
+if(isset($_POST['year'])){$year=$_POST['year'];}
 if(isset($_POST['newyid'])){$yid=$_POST['newyid'];}else{$yid='';}
 if(isset($_POST['newfid'])){$fid=$_POST['newfid'];}else{$fid='';}
 
@@ -22,17 +23,36 @@ include('scripts/sub_action.php');
 		'$yid' ORDER BY student.surname");
 		}
 	elseif($fid!=''){
-	$d_comments=mysql_query("SELECT * FROM comments JOIN
-		student ON student.id=comments.student_id WHERE
-		comments.entrydate > '$date0' AND student.form_id LIKE
-		'$fid' ORDER BY student.surname");
+		$d_comments=mysql_query("SELECT * FROM comments JOIN
+			student ON student.id=comments.student_id WHERE
+			comments.entrydate > '$date0' AND student.form_id LIKE
+			'$fid' ORDER BY student.surname");
 		}
 	elseif($bid!=''){
 		$d_comments=mysql_query("SELECT * FROM comments WHERE entrydate
 				> '$date0' AND subject_id LIKE '$bid'");
 		}
 	else{
-		$error[]=get_string('needselectstudents',$book);
+		if($rcrid=='%'){
+			/*User has a subject not a course responsibility selected*/
+			$d_course=mysql_query("SELECT DISTINCT cohort.course_id FROM
+				cohort JOIN cridbid ON cridbid.course_id=cohort.course_id WHERE
+				cridbid.subject_id='$rbid' AND cohort.stage='$stage' AND cohort.year='$year'");
+			$rcrid=mysql_result($d_course,0);
+			}
+
+		$d_community=mysql_query("SELECT community_id FROM cohidcomid JOIN
+				cohort ON cohidcomid.cohort_id=cohort.id WHERE
+			    cohort.stage='$stage' AND cohort.year='$year' AND
+				cohort.course_id='$rcrid' LIMIT 1");
+		$comid=mysql_result($d_community,0);
+		$d_comments=mysql_query("SELECT * FROM comments JOIN
+				comidsid ON comidsid.student_id=comments.student_id
+				WHERE comments.entrydate > '$date0' AND comidsid.community_id='$comid'");
+		}
+
+	if(mysql_num_rows($d_comments)==0){
+		$error[]=get_string('nocommentsfound',$book);
 		$action='report_comments.php';
     	include('scripts/results.php');
 	    include('scripts/redirect.php');
