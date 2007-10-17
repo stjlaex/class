@@ -12,24 +12,22 @@
 <script>
 <!-- hide script from old browsers
 
+// checks the window is top i.e. has not been opened in a frame
 function preventFraming(){
 	if(window.top != window){
-		// checks the window is top i.e. has not been opened in a frame	
 		window.top.location = window.location;
 		}
 	}
 
+// checks this is Firefox or some other Gecko-based browser
 function checkDomBrowser(){
 	if(document.documentElement && document.createElement){
-		if(navigator.userAgent.indexOf('msie') != -1){
-				window.location.replace("class/wrongbrowser.html");
-				}
-        else if (navigator.userAgent.indexOf('Gecko') != -1){
-                window.location.replace("class/index.php");
-                }
+        if(navigator.userAgent.indexOf('Gecko')!=-1){
+            window.location.replace("class/index.php");
+            }
 		else{
-				window.location.replace("class/index.html");
-				}
+			window.location.replace("class/wrongbrowser.html");
+			}
 		}
 	}
 

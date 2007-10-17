@@ -4,7 +4,7 @@
 
 require_once('../../scripts/http_head_options.php');
 
-if(!isset($xmlid)){print "Failed"; exit;}
+if(!isset($xmlid)){print 'Failed'; exit;}
 
 $rid=$xmlid;
 $ReportDef=fetchReportDefinition($rid);
@@ -15,19 +15,24 @@ $title=$ReportDef['report']['title'];
 $date=$ReportDef['report']['date'];
 $deadline=$ReportDef['report']['deadline'];
 
-		/*the rid is stored in the midlist field for each mark*/
-
-		/*make a list of subjects that will need distinct new marks*/
-		$bids=array();
-		$d_cridbid=mysql_query("SELECT DISTINCT subject_id FROM cridbid
-				WHERE course_id LIKE '$crid' ORDER BY subject_id");
-		while($bid=mysql_fetch_array($d_cridbid,MYSQL_NUM)){
-			$bids[]=$bid[0];
+		/* First generate the associated assessment columns for this report
+   	   	while(list($index,$eid)=each($ReportDef['eids'])){
+			$url='http://'.$CFG->siteaddress.$CFG->sitepath.'/'.$CFG->applicationdirectory.'/reportbook/httpscripts/generate_assessment_columns.php?uniqueid='.$eid;
+			//trigger_error('url:'.$url,E_USER_WARNING);
+			$postdata['process_mode']='batch';
+			$curl=curl_init();
+			curl_setopt($curl,CURLOPT_URL,$url);
+			$result[]=curl_exec($curl);
+			curl_close($curl);
 			}
-		mysql_free_result($d_cridbid);
+		*/
 
-		/*generate a mark for each crid and bid combination*/
-   	   	while(list($index,$bid)=each($bids)){
+		/* Make a list of subjects that will need distinct new marks*/
+		$subjects=list_course_subjects($crid);
+
+		/* Generate a mark column for each subject*/
+   	   	while(list($index,$subject)=each($subjects)){
+			$bid=$subject['id'];
 			$pids=array();
    			if($compstatus=='A'){$compstatus='%';}
    			$d_component=mysql_query("SELECT DISTINCT id FROM component
@@ -40,8 +45,9 @@ $deadline=$ReportDef['report']['deadline'];
 
 			if(sizeof($pids)==0){$pids[0]='';}
 		   	while(list($index,$pid)=each($pids)){
-				/*if there is no component for this subject or componenets are not
-					requested then $pid is blank*/
+				/* NB. If there is no component for this subject or components are not
+					requested then $pid is blank. */
+				/* The rid is stored in the midlist field for each mark*/
 				mysql_query("INSERT INTO mark 
 				(entrydate, marktype, topic, comment, author,
 				 def_name, assessment, midlist, component_id) 

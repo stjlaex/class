@@ -32,9 +32,9 @@ $CFG->schoolname='Demo School Site';
 $CFG->schoollogo='schoollogo.png';
 /*the welcome/warning text displayed in the sidebar at login*/
 $CFG->loginaside='';
-/*school-specific abbreviated name of site*/
+/*abbreviated name of site (single word containing only alphanumeric characters)*/
 $CFG->shortname='demo';
-/*school-specific magic word - must be changed!*/
+/*magic word used to construct passwords - must be changed!*/
 $CFG->shortkeyword='guest';
 /*details for posting bug reports etc.*/
 $CFG->support='laex.org';
@@ -49,7 +49,7 @@ $CFG->timezone='Europe/Madrid';
  *Optional settings to tune the use of emails for notifying staff
  *values set to either 'yes' or 'no'
  */
-/*setting to yes will mean all emailing to staff is prevented*/
+/*setting to yes will mean all emailing is prevented*/
 $CFG->emailoff='no';
 $CFG->emailnoreply='';
 $CFG->emailhandlebounces='';

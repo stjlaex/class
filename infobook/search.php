@@ -36,7 +36,7 @@ $action='search_action.php'
 		  onChange="selerySwitch('contact',this.value)"  
 		  tabindex="<?php print $tab++;?>" name="gfield" size="1">
 <?php
-		$selgfield='country';
+		$selgfield='surname';
 		/*only used for the infobook search options, not an enumarray at all!*/
 		$contactfield=array(
 							'country' => 'country',

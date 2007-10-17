@@ -74,9 +74,10 @@ if(isset($_POST['newcomid'])){$newcomid=$_POST['newcomid'];}else{$newcomid='';}
 			</td>
 		  </tr>
 <?php
-	while(list($sid,$student)=each($oldstudents)){
-		if($_SESSION['role']=='admin' or $_SESSION['role']=='office'){
-			$Enrolment=fetchEnrolment($sid);
+	while(list($index,$student)=each($oldstudents)){
+		if($_SESSION['role']=='admin' or $_SESSION['role']=='office'
+		   or $_SESSION['role']=='district'){
+			$Enrolment=fetchEnrolment($student['id']);
 			$extra=$Enrolment['EnrolNumber']['value'];
 			}
 		else{$extra='&nbsp;';}

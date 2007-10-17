@@ -119,14 +119,14 @@ three_buttonmenu($extrabuttons,$book);
 				$aid=$Address['id_db'];
 				$d_gidaid=mysql_query("SELECT * FROM gidaid WHERE address_id='$aid'");
 					while($gidaid=mysql_fetch_array($d_gidaid,MYSQL_ASSOC)){
-						$gid=$gidaid['guardian_id'];
-				   		$d_guardian=mysql_query("SELECT * FROM guardian WHERE id='$gid'");
-				   		$d_gidsid=mysql_query("SELECT * FROM gidsid WHERE guardian_id='$gid'");
+						$familygid=$gidaid['guardian_id'];
+				   		$d_guardian=mysql_query("SELECT * FROM guardian WHERE id='$familygid'");
+				   		$d_gidsid=mysql_query("SELECT * FROM gidsid WHERE guardian_id='$familygid'");
 						$guardian=mysql_fetch_array($d_guardian,MYSQL_ASSOC);
 ?>
 		<div class="center">
 			<input type="checkbox" name="ungidaids[]" 
-			  value="<?php print $gid.':'.$aid; ?>" />
+			  value="<?php print $familygid.':'.$aid; ?>" />
 <?php
 						print $guardian['forename'].' '.$guardian['surname'].'<br /> ';
 						while($gidsid=mysql_fetch_array($d_gidsid,MYSQL_ASSOC)){
@@ -140,11 +140,11 @@ three_buttonmenu($extrabuttons,$book);
 							}
 ?>
 		</div>
-	  </fieldset>
 <?php
 					}
 //			}
 ?>
+	  </fieldset>
 
  	<input type="hidden" name="contactno" value="<?php print $contactno;?>">
  	<input type="hidden" name="gid" value="<?php print $gid;?>">

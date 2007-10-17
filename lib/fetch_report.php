@@ -145,7 +145,7 @@ function fetchReportDefinition($rid,$selbid='%'){
 		$report['course_name']=mysql_result($d_course,0);
 		$d_mid=mysql_query("SELECT id FROM mark WHERE midlist='$rid' and marktype='report'");
 		$markcount=mysql_numrows($d_mid);
-		$reportdef['MarkCount']=array('label' => 'Mark Columns', 
+		$reportdef['MarkCount']=array('label' => 'Markcolumns', 
 									  'value' => ''.$markcount);
 		}
 	else{

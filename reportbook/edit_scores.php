@@ -50,14 +50,7 @@ elseif(isset($_POST['pid'])){$selpid=$_POST['pid'];}
 						  'name'=>get_subjectname($AssDef['Subject']['value']));
 		}
 	else{
-		$d_cridbid=mysql_query("SELECT id, name FROM subject
-					JOIN cridbid ON cridbid.subject_id=subject.id
-					WHERE cridbid.course_id LIKE '$crid' ORDER BY subject.id");
-		while($subject=mysql_fetch_array($d_cridbid,MYSQL_ASSOC)){
-			$bid=$subject['id'];
-			$subjects[]=array('id'=>$subject['id'],
-							  'name'=>$subject['name']);
-			}
+		$subjects=list_course_subjects($crid);
 		}
 
 $extrabuttons['importscores']=array('name'=>'current','value'=>'new_assessment_scores.php');

@@ -70,9 +70,9 @@ two_buttonmenu($extrabuttons);
 <?php
 		if($rcrid!=''){
 ?>
-				<value id="<?php print $rid;?>-MarkCount">
+				<value id="<?php print $rid;?>-Markcount">
 				  <?php print $ReportDef['MarkCount']['value'];?>
-				</value> 
+				</value>
 				<?php print_string('markbookcolumns',$book);?>
 <?php
 			}

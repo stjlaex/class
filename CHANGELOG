@@ -1,3 +1,13 @@
+Version ClaSS-0.8.32 release (2007/10/25)
+-----------------------------------------
+
+Bugfix to the contact_details.php in the InfoBook which was confusing
+gids when they share an address.
+
+New list_course_subjects() function.
+
+
+
 Version ClaSS-0.8.31 release (2007/10/11)
 -----------------------------------------
 

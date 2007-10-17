@@ -576,6 +576,21 @@ function list_course_stages($crid=''){
 	return $stages;
 	}
 
+/* returns an array of all subjects for a single course*/
+function list_course_subjects($crid=''){
+	$subjects=array();
+	if($crid!=''){
+		$d_cridbid=mysql_query("SELECT id, name FROM subject
+					JOIN cridbid ON cridbid.subject_id=subject.id
+					WHERE cridbid.course_id LIKE '$crid' ORDER BY subject.id");
+		while($subject=mysql_fetch_array($d_cridbid,MYSQL_ASSOC)){
+			$subjects[]=array('id'=>$subject['id'],
+							  'name'=>$subject['name']);
+			}
+		}
+	return $subjects;
+	}
+
 /* returns an array of all cohorts for a single course year*/
 function list_course_cohorts($crid,$year='',$season='S'){
 	$cohorts=array();

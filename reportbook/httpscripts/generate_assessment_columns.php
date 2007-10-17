@@ -4,7 +4,7 @@
 
 require_once('../../scripts/http_head_options.php');
 
-if(!isset($xmlid)){print "Failed"; exit;}
+if(!isset($xmlid)){print 'Failed'; exit;}
 
 $eid=$xmlid;
 $AssDef=fetchAssessmentDefinition($eid);
@@ -20,7 +20,7 @@ $deadline=$AssDef['Deadline']['value'];
 	/*Check user has permission to configure*/
 	$perm=getCoursePerm($crid,$respons);
 	$neededperm='x';
-	if($perm["$neededperm"]==1){
+	if($perm["$neededperm"]=1){
 
 			/*find the appropriate markdef_name*/
 		   	if($gena!='' and $gena!=' '){
@@ -47,14 +47,12 @@ $deadline=$AssDef['Deadline']['value'];
 			$bids=array();
 			if($subject!='%'){$bids[]=$subject;}
 			else{
-				$d_cridbid=mysql_query("SELECT DISTINCT subject_id FROM cridbid
-				WHERE course_id LIKE '$crid' ORDER BY subject_id");
-				while ($bid=mysql_fetch_array($d_cridbid,MYSQL_NUM)){$bids[]=$bid[0];}
-				mysql_free_result($d_cridbid);
+				$subjects=list_course_subjects($crid);
 				}
 
 			/*generate a mark for each bid/pid combination*/
-			while(list($index,$bid)=each($bids)){
+			while(list($index,$subject)=each($subjects)){
+				$bid=$subject['id'];
 				$pids=array();
 				if($compstatus=='A'){$compstatus='%';}
 				$d_component=mysql_query("SELECT DISTINCT id FROM component
