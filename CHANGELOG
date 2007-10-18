@@ -6,6 +6,10 @@ gids when they share an address.
 
 New list_course_subjects() function.
 
+Exposed the detail field of the class table to allow an annotation
+describing a class. Displayed as a qtip title in the MarkBook and the
+teacher_matrix in Admin. It can be edited through the class_edit.php
+page.
 
 
 Version ClaSS-0.8.31 release (2007/10/11)
