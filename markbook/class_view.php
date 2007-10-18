@@ -67,14 +67,16 @@ if($_SESSION['worklevel']>-1){
 	for($i=0;$i<$n;$i++){ 
 		/*colour students by their teaching class */	
 		$cidcolour[$cids[$i]]=$rowcolour[$i];
-		if($cids[$i]!=""){
+		if($cids[$i]!=''){
+			$d_classdetail=mysql_query("SELECT detail FROM class WHERE id='$cids[$i]';");
+			$detail=mysql_result($d_classdetail,0);
 			print '<tr bgcolor="'.$rowcolour[$i].'">';
 			if($_SESSION['worklevel']>-1){
 ?>
-			  <td colspan="5">&nbsp;&nbsp;<a
+			  <td colspan="5"><span title="<?php print $detail;?>">&nbsp;&nbsp;<a
 				  href="admin.php?current=class_edit.php&newcid=<?php print $cids[$i];?>" 
 				  target="viewadmin" onclick="parent.viewBook('admin');">
-				  <?php print $cids[$i].$teachers[$i];?></a>
+				  <?php print $cids[$i].$teachers[$i];?></a></span>
 			  </td>
 			</tr>
 <?php

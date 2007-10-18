@@ -138,6 +138,6 @@ $string['specialneedsandsupport']='Special needs and support';
 $string['receivingextrasupport']='Receiving extra support';
 $string['studentswithiep']='Students with current IEP';
 $string['ratio']='Ratio';
-$string['']='';
+$string['notesonclass']='Description of this class';
 $string['']='';
 ?>

@@ -12,6 +12,7 @@ if(isset($_POST['newtid'])){$newtid=$_POST['newtid'];}
 
 $d_class=mysql_query("SELECT * FROM class WHERE id='$newcid'");
 $class=mysql_fetch_array($d_class, MYSQL_ASSOC);
+$detail=$class['detail'];
 $crid=$class['course_id'];
 $bid=$class['subject_id'];
 $stage=$class['stage'];
@@ -112,7 +113,9 @@ three_buttonmenu($extrabuttons);
 ?>
 		<div class="left">
 		  <label><?php print_string('studentsnotinsubject',$book);?></label>
-		  <select name="newsid[]" size="20" multiple="multiple" style="width:98%;">	
+			<select name="newsid[]" size="20" 	
+			  tabindex="<?php print $tab++;?>"
+			  multiple="multiple" style="width:98%;">	
 <?php
 	while($student=mysql_fetch_array($d_student,MYSQL_ASSOC)) {
 			print '<option ';
@@ -126,7 +129,9 @@ three_buttonmenu($extrabuttons);
 
 		<div class="right">
 		  <label><?php print_string('studentsalreadyinsubject',$book);?></label>
-		  <select name="newsid[]" size="20" multiple="multiple" style="width:98%;">	
+			<select name="newsid[]" size="20" 
+			  tabindex="<?php print $tab++;?>"
+			  multiple="multiple" style="width:98%;">	
 <?php
 		/*all those assigned already in this subject and yeargroup*/
 		$d_student=mysql_query("SELECT student_id, forename, middlenames,
@@ -144,6 +149,17 @@ three_buttonmenu($extrabuttons);
 
 	  </fieldset>
 	  </div>
+		<div  style="float:right;width:66%;">
+		<fieldset>
+		  <legend>
+			<?php print get_string('notesonclass',$book);?>
+		  </legend>
+		  <input name="detail" maxlength="240" 
+			tabindex="<?php print $tab++;?>"
+			value="<?php print $detail;?>"/>
+	  </fieldset>
+	  </div>
+
 
 	<input type="hidden" name="newcid" value="<?php print $newcid;?>" /> 
 	<input type="hidden" name="newtid" value="<?php print $newtid;?>" />

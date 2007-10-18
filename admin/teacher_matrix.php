@@ -99,13 +99,13 @@ three_buttonmenu();
    	while(list($tid,$user)=each($teachers)){
 		print '<tr><td>'.$tid.' ('.$user['surname'].')</td>';
 		print '<td>';
-	   	$d_class=mysql_query("SELECT class_id  FROM tidcid 
+	   	$d_class=mysql_query("SELECT class_id, class.detail  FROM tidcid 
 					JOIN class ON class.id=tidcid.class_id WHERE 
 					tidcid.teacher_id='$tid' AND class.course_id LIKE '$crid' AND
 					class.subject_id LIKE '$bid' ORDER BY tidcid.class_id");   
 	   	while($class=mysql_fetch_array($d_class,MYSQL_ASSOC)){
 			$cids=$class['class_id'];
-			print '<a href="admin.php?current=class_edit.php&choice='.$choice.'&cancel='.$choice.'&newtid='.$tid.'&newcid='.$cids.'">'.$cids.'</a>&nbsp&nbsp';
+			print '<span title="'.$class['detail'].'"><a href="admin.php?current=class_edit.php&choice='.$choice.'&cancel='.$choice.'&newtid='.$tid.'&newcid='.$cids.'">'.$cids.'</a>&nbsp&nbsp</span>';
 			}
 		print '</td></tr>';
 		}

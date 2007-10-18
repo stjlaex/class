@@ -6,6 +6,7 @@ $action='class_edit.php';
 $action_post_vars=array('newtid','newcid');
 
 if(isset($_POST['newcid'])){$newcid=$_POST['newcid'];}
+if(isset($_POST['detail'])){$detail=$_POST['detail'];}
 if(isset($_POST['newtid'])){$newtid=$_POST['newtid'];}
 if(isset($_POST['newsid'])){$newsid=(array)$_POST['newsid'];}
 
@@ -38,6 +39,11 @@ elseif($sub=='Submit'){
 			}
    		else{$error[]='Failed'.$newcid.' '.$sid;}
    		}
+
+	if(isset($detail)){
+		$detail=clean_text($detail);
+		mysql_query("UPDATE class SET detail='$detail' WHERE id='$newcid';");
+		}
 	}
 
 include('scripts/results.php');
