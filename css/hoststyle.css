@@ -195,6 +195,13 @@ button {
 	margin:0 0 5% 2%;
     color:#ffffff;
 	}
+.bookoptions label.neat, .bookoptions input[type="radio"] {
+	font-weight:300;
+	font-size:x-small;
+	margin:0;
+	padding:0;
+    color:#dddddd;
+	}
 .bookoptions select.switcher, .bookoptions select.switcher option {
 	font-weight:600;
     color:#ffffff;
@@ -229,6 +236,9 @@ button {
 	}
 .bookoptions input { 
     width:98%;
+	}
+.bookoptions input[type="radio"] {
+	width:1em;
 	}
 
 .formimages {

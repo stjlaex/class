@@ -11,6 +11,16 @@ describing a class. Displayed as a qtip title in the MarkBook and the
 teacher_matrix in Admin. It can be edited through the class_edit.php
 page.
 
+The enrolments_matrix table is now defined by the $enrolmentsteps
+array, accessed through list_enrolmentsteps() which simply retrieves
+it from getEnumArray(). This makes it customisable through the
+schoolarray.php file. Each step must itself be an item in the
+enrolment status array.
+
+The ability to filter the MarkBook columns from the bookoptions by
+type has been provided using the $umntype bookvar. It provides four
+options classwork, homework or tracking (reports and assessments).
+
 
 Version ClaSS-0.8.31 release (2007/10/11)
 -----------------------------------------

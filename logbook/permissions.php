@@ -222,7 +222,17 @@ function getSENPerm($yid,$respons){
 	$perm['w']=0;
 	$perm['x']=0;
 	$perm=getYearPerm($yid,$respons);
-	if($_SESSION['role']=='sen'){$perm['w']=1;}
+	if($_SESSION['role']=='sen'){$perm['r']=1;$perm['w']=1;}
+	return $perm;
+	}
+
+function getMedicalPerm($yid,$respons){
+	/*return perm for sen in this yeargroup*/	
+	$perm['r']=0;
+	$perm['w']=0;
+	$perm['x']=0;
+	$perm=getYearPerm($yid,$respons);
+	if($_SESSION['role']=='medical'){$perm['r']=1;$perm['w']=1;}
 	return $perm;
 	}
 

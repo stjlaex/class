@@ -15,7 +15,7 @@
 	$nocids=mysql_num_rows($d_cids)+1;
 	if($nocids>6){$nocids=6;}
 ?>
-	
+
 <input name="tid" type="hidden" value="<?php print $tid;?>">
 <input name="current" type="hidden" value="class_view.php">		
 <select name="cids[]" size="<?php print $nocids; ?>"

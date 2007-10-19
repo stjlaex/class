@@ -554,6 +554,8 @@ function getEnumArray($field_name){
 						 'B' => 'bus', 
 						 'S' => 'schoolbus'
 						 );
+	/*NOT an enum array but defines the enrolment matrix*/
+	$enrolmentsteps=array('EN','AP','AT','ATD','RE','ACP','CA','WL','AC');
 
 	/*for the gidsid table*/
 	$priority=array('0' => 'first', '1' => 'second', '2' => 'third', '3' => 'fourth');
@@ -1343,13 +1345,13 @@ function get_coursename($crid){
 
 
 function display_date($date=''){
-	if($date!=''){
+	if($date!='' and $date!='0000-00-00'){
 		list($year,$month,$day)=split('-',$date);
 		$time=mktime(0,0,0,$month,$day,$year);
 		$displaydate=date('jS M Y',$time);
 		}
 	else{
-		$displaydate='';
+		$displaydate='0000-00-00';
 		}
 	return $displaydate;
 	}

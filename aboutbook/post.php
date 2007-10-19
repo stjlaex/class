@@ -12,13 +12,13 @@ $entrydate=$_POST['date0'];
 $subject=clean_text($_POST['subject']); 
 $address=$_POST['address'];
 $queue=$_POST['queue'];
+$recipients=array();
 
 include('scripts/sub_action.php');
 
-	$footer='';
 	$message=$subject."\r\n".'Date:
 	'.$entrydate."\r\n".$CFG->version."\r\n". $book. "\r\n". 
-				$detail. "\r\n" .'Posted by '.$tid. "\r\n" .$footer;
+				$detail. "\r\n" .'Posted by '.$tid. "\r\n";
 
 	if(isset($CFG->clientid)){
 		$clientid=$CFG->clientid;
@@ -27,22 +27,23 @@ include('scripts/sub_action.php');
 		}
 
 	$recipients[]=array('email'=> $queue.'@'.$CFG->support,
-					'username'=>'ClaSS Support');
-	if(isset($CFG->contact) and $queue=='support' and $CFG->emailoff!='yes'){
-		$recipients[]=array('email'=> $CFG->contact,'username'=>'ClaSS Contact');
+						'username'=>'ClaSS Support');
+	if(isset($CFG->contact) and $queue=='support'){
+		$recipients[]=array('email'=> $CFG->contact,
+							'username'=>'ClaSS Contact');
 		}
 
-	$headers='From: ClaSS@'.$CFG->siteaddress . "\r\n" . 
-				'Reply-To: noreply@'.$CFG->siteaddress . "\r\n" .
-				'List-Id: '.$clientid . "\r\n" .
+	$fromaddress=$CFG->schoolname.'<ClaSS@'.$CFG->siteaddress.'>';
+	$headers='List-Id: '.$clientid . "\r\n" .
 			    'X-Mailer: PHP/' . phpversion();
 
-   	foreach($recipients as $key => $recipient){
-   		if(mail($recipient['email'],$summary,$message,$headers)){
-	 		$result[]='Email sent to '.$recipient['username'];
+	if(sizeof($recipients)>0 and $CFG->emailoff!='yes'){
+		foreach($recipients as $key => $recipient){
+			send_email_to($recipient['email'],$fromaddress,$summary,$message);
+			$result[]='Email sent to '.$recipient['username'];
 			}
-		else{$error[]='No mail sent!'.$recipient['username'].$recipient['email'];}
 		}
+	else{$error[]='No mail sent!';}
 
 include('scripts/results.php');
 include('scripts/redirect.php');

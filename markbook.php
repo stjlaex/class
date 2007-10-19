@@ -3,6 +3,7 @@
  *	This is the hostpage for the markbook
  *	The classes being viewed is set by $cids 
  */
+
 $host='markbook.php';
 $book='markbook';
 
@@ -54,14 +55,24 @@ if(isset($_POST['pid'])){
 	if($displaymid==0){$displaymid=-1;}
 	}
 
+if(isset($_POST['umntype'])){
+	/*If the column type filter has changed then*/
+	if($_SESSION['umntype']!=$_POST['umntype']){
+	$_SESSION['umntype']=$_POST['umntype'];
+	$umntype=$_SESSION['umntype'];}
+	if($displaymid==0){$displaymid=-1;}
+	}
+
 if(!isset($_SESSION['cids'])){$_SESSION['cids']=array('','');}
 if(!isset($_SESSION['pids'])){$_SESSION['pids']=array();}
 if(!isset($_SESSION['pid'])){$_SESSION['pid']='';}
+if(!isset($_SESSION['umntype'])){$_SESSION['umntype']='%';}
 if(!isset($_SESSION['umnrank'])){$_SESSION['umnrank']='surname';}
 
 $cids=$_SESSION['cids'];
 $pids=$_SESSION['pids'];
 $pid=$_SESSION['pid'];
+$umntype=$_SESSION['umntype'];
 $umnrank=$_SESSION['umnrank'];
 $attdate=date('Y-m-d',mktime(0,0,0,date('m'),date('d'),date('Y')));
 
@@ -119,6 +130,29 @@ if(isset($umns)){
 	}
 ?>
 		</select>
+	  </form>
+
+	  <form id="umntypechoice" name="umntypechoice" method="post" 
+		action="markbook.php" target="viewmarkbook">
+		<input name="tid" type="hidden" value="<?php print $tid;?>">
+		<input name="current" type="hidden" value="class_view.php">		
+			<label class="neat">All</label>
+			<input type="radio" name="umntype"
+			  value="%" <?php if($umntype=='%'){print 'checked';}?>
+			  onchange="document.umntypechoice.submit();" />
+			  <br />
+			<label class="neat">CW</label>
+			<input type="radio" name="umntype"
+			  value="cw" <?php if($umntype=='cw'){print 'checked';}?>
+			  onchange="document.umntypechoice.submit();" />
+			<label class="neat">HW</label>
+			<input type="radio" name="umntype"
+			  value="hw" <?php if($umntype=='hw'){print 'checked';}?>
+			  onchange="document.umntypechoice.submit();" />
+			<label class="neat">T</label>
+			<input type="radio" name="umntype" 
+			  value="t" <?php if($umntype=='t'){print 'checked';}?>
+			  onchange="document.umntypechoice.submit();" />
 	  </form>
 	</fieldset>
   </div>

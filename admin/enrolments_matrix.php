@@ -13,7 +13,7 @@ else{$enrolyear=$currentyear;}
 $extrabuttons=array();
 twoplus_buttonmenu($enrolyear,$currentyear+3,$extrabuttons,$book);
 
-$rowcells=array('EN','AP','AT','ATD','RE','ACP','CA','WL','AC');
+$rowcells=list_enrolmentsteps();
 ?>
   <div id="viewcontent" class="content">
  	  <form id="formtoprocess" name="formtoprocess" method="post"
@@ -23,6 +23,7 @@ $rowcells=array('EN','AP','AT','ATD','RE','ACP','CA','WL','AC');
 		<tr>
 		  <th><?php print display_curriculumyear($enrolyear);?></th>
 <?php
+		  reset($rowcells);
 		  while(list($index,$enrolstatus)=each($rowcells)){ 
 			  $totals[$index]=0;
 ?>

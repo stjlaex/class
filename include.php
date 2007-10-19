@@ -16,7 +16,7 @@ $books['all']=array(
 					  ,'infobook' => 'InfoBook'
 					  ,'entrybook' => 'EntryBook'
 					  ,'seneeds' => 'SpecialNeeds'
-					  //,'medical' => 'Medical'
+					  ,'medbook' => 'MedBook'
 					  //,'library' => 'Library'
 				 );
 /** User roles (office, teacher etc.) can have books added or removed
@@ -49,7 +49,7 @@ $books['sen']=array(
 					);
 $books['medical']=array(
 						'infobook' => 'InfoBook'
-						//,'medical' => 'Medical'
+						,'medbook' => 'MedBook'
 						);
 $books['district']=array(
 						'admin' => 'Admin'

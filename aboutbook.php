@@ -31,8 +31,8 @@ include('scripts/set_book_vars.php');
 		<legend><?php print_string('helpandsupport');?></legend>
 <?php
 	$choices=array('report_bug.php' => 'reportbug'
-			   ,'request_feature.php' => 'requestfeature'
-			   ,'support.php' => 'contactsupport'
+				   ,'request_feature.php' => 'requestfeature'
+				   ,'support.php' => 'contactsupport'
 			   );
 
 	selery_stick($choices,$choice,$book);

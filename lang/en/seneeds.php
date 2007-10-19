@@ -6,7 +6,6 @@ $string['sen']='Special Needs';
 $string['iep']='IEP';
 $string['senprofile']='Individual Education Plan';
 $string['seninformation']='SEN information';
-$string['filterlistbyneeds']='Filter list';
 $string['sentype']='SEN type';
 $string['extrasupport']='Extra support';
 $string['autism']='Autism';

@@ -12,13 +12,13 @@ for($i=0;$i<sizeof($cids);$i++){
 	$d_tidcid=mysql_query("SELECT teacher_id FROM tidcid WHERE
 					class_id='$cid' ORDER BY teacher_id");
 	while($tidcid=mysql_fetch_array($d_tidcid,MYSQL_ASSOC)){
-		$teachers[$i]=$teachers[$i].' - '.$tidcid{'teacher_id'};
+		$teachers[$i]=$teachers[$i].' - '.$tidcid['teacher_id'];
 		}
 	
 	/*	Fetch the subject of the class*/
-	$d_class = mysql_query("SELECT * FROM class WHERE id='$cid'");
-	$class = mysql_fetch_array($d_class,MYSQL_ASSOC);
-	$bid[$i] = $class{'subject_id'};
+	$d_class=mysql_query("SELECT * FROM class WHERE id='$cid'");
+	$class=mysql_fetch_array($d_class,MYSQL_ASSOC);
+	$bid[$i]=$class['subject_id'];
 
 	
 	/* Fetch marks for classes. Where there is more than one class, any */
@@ -56,18 +56,28 @@ for($i=0;$i<sizeof($cids);$i++){
 		}
 	}
 
-	/*Fetch information about all marks and store in array $umns*/	
+	/*Fetch information about all marks and store in array $umns (ie. columns)*/	
 	$umns=array();
-	$d_marks=mysql_query("SELECT * FROM $table");
+	if($umntype=='t'){$filtertype='report';$filterass='yes';
+		$d_marks=mysql_query("SELECT * FROM $table WHERE marktype LIKE
+				'$filtertype' OR assessment LIKE '$filterass';");
+		}
+	else{
+		if($umntype=='%'){$filtertype='%';$filterass='%';}
+		elseif($umntype=='cw'){$filtertype='score';$filterass='no';}
+		elseif($umntype=='hw'){$filtertype='hw';$filterass='no';}
+		$d_marks=mysql_query("SELECT * FROM $table WHERE marktype LIKE
+				'$filtertype' AND assessment LIKE '$filterass';");
+		}
 	$c_marks=mysql_num_rows($d_marks); /*number of marks for class*/
 	$c=0;
 	while($mark=mysql_fetch_array($d_marks,MYSQL_ASSOC)){
 		  /*Store all the mark's attributes in arrays for use later in each cell*/	      
-	      $mid[$c]=$mark{'id'};
-	      $mark_total[$c]=$mark{'total'};
-	      $marktype[$c]=$mark{'marktype'};
-	      $midlist[$c]=$mark{'midlist'};
-	      $lena[$c]=$mark{'levelling_name'};
+	      $mid[$c]=$mark['id'];
+	      $mark_total[$c]=$mark['total'];
+	      $marktype[$c]=$mark['marktype'];
+	      $midlist[$c]=$mark['midlist'];
+	      $lena[$c]=$mark['levelling_name'];
 	
 		  /*this display option is now deprecated and needs to be
 		  removed properly*/
@@ -95,7 +105,7 @@ for($i=0;$i<sizeof($cids);$i++){
 			if($marktype[$c]=='average'){
 				/*no markdef for an average, have to get grading_name from the levelname*/
 				$scoregrading[$c]=$lena[$c];
-				if($scoregrading[$c]!=""){
+				if($scoregrading[$c]!=''){
 					$d_grading=mysql_query("SELECT grades FROM grading 
 								WHERE name='$scoregrading[$c]'");
 					$scoregrades[$c]=mysql_result($d_grading,0);
@@ -105,7 +115,7 @@ for($i=0;$i<sizeof($cids);$i++){
 			elseif($marktype[$c]=='level'){
 				/*no markdef for a level, have to get grading_name from the levelname*/
 				$scoregrading[$c]=$lena[$c];
-				if($lena[$c]!=""){
+				if($lena[$c]!=''){
 					$d_levelling=mysql_query("SELECT levels FROM
 									levelling WHERE name='$lena[$c]'");
 					$levels[$c]=mysql_result($d_levelling,0);

@@ -707,4 +707,9 @@ function display_curriculumyear($year){
 	$dispyear=$lastyear.'/'. substr($year,-2);
 	return $dispyear;
 	}
+
+function list_enrolmentsteps(){
+	$steps=getEnumArray('enrolmentsteps');
+	return $steps;
+	}
 ?>
