@@ -12,7 +12,7 @@ function all_extrabuttons($extrabuttons,$book='',
 			if(!isset($attributes['title'])){$attributes['title']=$description;}
 ?>
   <button onClick="<?php print $attributes['onclick'];?>" 
-	tabindex="<?php print $tab++;?>"
+	tabindex="<?php // print $tab++;?>"
 	<?php print $class;?> 
 	<?php if(isset($attributes['pathtoscript'])){print '
 						  pathtoscript="'.$attributes['pathtoscript'].'" ';}?>
@@ -147,7 +147,7 @@ function xmlarray_form($Array,$no='',$caption='',$tab=1,$book=''){
 	  </td>
 	  <td>
 <?php
-		$tab=xmlelement_input($val,$tab,$book);
+		$tab=xmlelement_input($val,$no,$tab,$book);
 ?>
 	  </td>
 	</tr>
@@ -178,7 +178,7 @@ function xmlarray_divform($Array,$no='',$caption='',$tab=1,$book=''){
 		  <?php print_string($val['label'],$book);?>
 		</label>
 <?php
-		$tab=xmlelement_input($val,$tab,$book);
+		$tab=xmlelement_input($val,$no,$tab,$book);
 ?>
   </div>
 <?php
@@ -191,7 +191,7 @@ function xmlarray_divform($Array,$no='',$caption='',$tab=1,$book=''){
 
 /**
  */
-function xmlelement_input($val,$tab,$book){
+function xmlelement_input($val,$no,$tab,$book){
 
 	if($val['value']=='' and isset($val['default_value'])){
 				$setval=$val['default_value'];
