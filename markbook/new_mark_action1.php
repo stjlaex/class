@@ -31,6 +31,10 @@ elseif($def_name==''){
 
 three_buttonmenu();
 ?>
+  <div id="heading">
+			  <label><?php print_string('newmark',$book); ?></label>
+			<?php print_string('classwork',$book);?>
+  </div>
   <div class="content">
 	<form name="formtoprocess" id="formtoprocess" method="post"
 		action="<?php print $host; ?>" > 
@@ -87,7 +91,7 @@ three_buttonmenu();
 		  if($scoretype=='percentage'){ 
 ?>
 			<label for="Total"><?php print_string('outoftotal',$book);?></label>
-			<input class="required" style="width:4em;" type="text" id="Total" name="total" 
+			<input class="required" type="text" id="Total" name="total" 
 			  maxlength="4" pattern="integer" />
 <?php
 			}

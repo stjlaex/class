@@ -1,6 +1,12 @@
 <?php
 /**						lang/en/markbook.php
  */
+$string['mark']='Mark';
+$string['newmark']='New mark';
+$string['classwork']='Classwork';
+$string['homework']='Homework';
+$string['existinghomework']='Existing homework';
+$string['formalassessments']='Tracking, reports and assessments';
 $string['dateofmark']='Date of mark';
 $string['detailsofmark']='Details of mark';
 $string['classesthatusethismark']='Classes that use this mark';
@@ -24,6 +30,10 @@ $string['thetypeofmark']='The type of mark';
 $string['descriptionofnewdefinition']='Description of the new definition';
 $string['detailsofthenewmark']='Details of the new mark';
 $string['printreportsummary']='Preview report summaries';
+$string['dateset']='Work set';
+$string['datedue']='Work due';
+$string['references']='References';
+$string['']='';
 $string['']='';
 $string['']='';
 ?>

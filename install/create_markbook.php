@@ -8,19 +8,20 @@ are user-defined and are given their definition in the table:markdef
 and their values in the table:score.  */
 
 mysql_query("CREATE TABLE mark ( 
-	id int unsigned not null auto_increment, 
-	entrydate date not null default '0000-00-00', 
-	marktype enum('score', 'sum', 'average', 'level', 'dif', 'compound', 'report', 'hw') not null, 
-	topic varchar(60) not null default '', 
-	comment varchar(100) not null default '', 
-	def_name varchar(20) not null default '', 
-	midlist text, 
-	levelling_name varchar(20) not null default '', 
-	total smallint unsigned not null default '0', 
-	assessment enum('no','yes') not null, 
-	author varchar(14) not null default '', 
-	component_id varchar(10) not null default '', 
-	primary key (id) 
+	id				int unsigned not null auto_increment, 
+	entrydate		date not null default '0000-00-00', 
+	marktype		enum('score', 'sum', 'average', 'level', 
+							'dif', 'compound', 'report', 'hw') not null, 
+	topic			varchar(60) not null default '', 
+	comment			varchar(100) not null default '', 
+	def_name		varchar(20) not null default '', 
+	midlist			text, 
+	levelling_name	varchar(20) not null default '', 
+	total			smallint unsigned not null default '0', 
+	assessment		enum('no','yes') not null, 
+	author			varchar(14) not null default '', 
+	component_id	varchar(10) not null default '', 
+	primary key		(id) 
 );");
 
 /*
@@ -43,6 +44,22 @@ CREATE TABLE markdef (
 	   author			varchar(14) not null default '',
 	   index			index_bid (subject_id),
        primary key	(course_id, name)
+);");
+
+mysql_query("
+CREATE TABLE homework (
+	   id				int unsigned not null auto_increment, 
+       title			varchar(120) not null default '',
+	   description		text not null default '',
+	   refs				text not null default '',
+	   def_name			varchar(20) not null default '', 
+	   course_id		varchar(10) not null default '',
+	   subject_id		varchar(10) not null default '',
+	   component_id		varchar(10) not null default '',
+	   stage			char(3) not null default '',
+	   author			varchar(14) not null default '',
+	   index			index_crid (course_id),
+       primary key	(id)
 );");
 
 mysql_query("

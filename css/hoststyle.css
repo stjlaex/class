@@ -195,12 +195,24 @@ button {
 	margin:0 0 5% 2%;
     color:#ffffff;
 	}
-.bookoptions label.neat, .bookoptions input[type="radio"] {
+.bookoptions .neat label, .bookoptions .neat input[type="radio"] {
 	font-weight:300;
-	font-size:x-small;
 	margin:0;
 	padding:0;
     color:#dddddd;
+	}
+.bookoptions div.neat {
+	font-size:xx-small;
+    background-color:#666666;
+    width:95%;
+	margin:0;
+	padding:0;
+	}
+.bookoptions .neat div {
+    background-color:#888888;
+    float:right;
+    padding:0 1em;
+    margin:0;
 	}
 .bookoptions select.switcher, .bookoptions select.switcher option {
 	font-weight:600;

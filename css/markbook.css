@@ -13,13 +13,15 @@ div#bookbox{
 .markcolor button {
 	background-color:#aa66aa;
 	}
+.markcolor .buttongroup button {  
+    font-size:x-small;
+	}
 .markcolor legend, .markcolor caption {
     border-color:#aa66aa;
 	}
 .markcolor label {
 	color:#000000;
 	}
-
 .markcolor tr.rowplus td, .markcolor tr.rowminus td {
     color:#666666;
     border-top:0; border-bottom:0;

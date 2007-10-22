@@ -42,8 +42,8 @@ if($sub=='Update'){
 						}
 					else{
 						mysql_query("INSERT INTO classes (many, generate,
-						yeargroup_id, course_id, subject_id) VALUES ('$many',
-						'$generate', '$stage', '$crid', '$bid')");
+						course_id, subject_id, stage) VALUES ('$many',
+						'$generate', '$crid', '$bid', '$stage')");
 						}
 					}
 				else{

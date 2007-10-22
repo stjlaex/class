@@ -11,9 +11,18 @@ include('class_view_marks.php');
 if($_SESSION['worklevel']>-1){
 ?>
   <div class="buttonmenu">
+	<div class="buttongroup">
+	  <label>
+		<?php print get_string('new',$book).'<br />'.get_string('mark',$book);?>
+	  </label>
 	<button onClick="processContent(this);" name="current" value="new_mark.php">
-	  <?php print_string('new',$book);?>
+	  <?php print_string('classwork',$book);?>
 	</button>
+	<button onClick="processContent(this);" name="current" value="new_homework.php">
+	  <?php print_string('homework',$book);?>
+	</button>
+	</div>
+	<div class="buttongroup">
 	<button onClick="processContent(this);" name="current" value="column_edit.php">
 	  <?php print_string('edit',$book);?>
 	</button>
@@ -38,7 +47,8 @@ if($_SESSION['worklevel']>-1){
 	<button onClick="processContent(this);" name="current" value="column_export.php">
 	  <?php print_string('export',$book);?>
 	</button>
-  </div>
+	</div>
+ </div>
 <?php
 	}
 ?>

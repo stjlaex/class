@@ -29,7 +29,7 @@ if(isset($_POST['cids'])){
 			}
 		}
 	$_SESSION['pids']=$pids;
-	if(!in_array($_SESSION{'pid'},$pids)){
+	if(!in_array($_SESSION['pid'],$pids)){
 		$etid=$tid;
 		$d_component=mysql_query("SELECT component_id FROM tidcid 
 						WHERE class_id='$cid' AND teacher_id='$tid'");
@@ -131,29 +131,35 @@ if(isset($umns)){
 ?>
 		</select>
 	  </form>
+	  <div class="neat">
+		<form id="umntypechoice" name="umntypechoice" method="post" 
+		  action="markbook.php" target="viewmarkbook">
+		  <input name="tid" type="hidden" value="<?php print $tid;?>">
+			<input name="current" type="hidden" value="class_view.php">		
+			<label>&nbsp;CW</label>
+			  <input  title="<?php print_string('classwork',$book);?>" 
+				type="radio" name="umntype"
+				value="cw" <?php if($umntype=='cw'){print 'checked';}?>
+				onchange="document.umntypechoice.submit();" />
+			<label>&nbsp;HW</label>
+				<input title="<?php print_string('homework',$book);?>" 
+				  type="radio" name="umntype"
+				  value="hw" <?php if($umntype=='hw'){print 'checked';}?>
+				  onchange="document.umntypechoice.submit();" />
+			<label>&nbsp;T</label>
+				<input  title="<?php print_string('formalassessments',$book);?>" 
+					type="radio" name="umntype" 
+					value="t" <?php if($umntype=='t'){print 'checked';}?>
+					onchange="document.umntypechoice.submit();" />
+				<br />
+			<div><?php print_string('filterlist');?></div>
+			<label><?php print_string('all');?></label>
+				<input  title="<?php print_string('all');?>" type="radio" name="umntype"
+				  value="%" <?php if($umntype=='%'){print 'checked';}?>
+				  onchange="document.umntypechoice.submit();" />
+		</form>
+	  </div>
 
-	  <form id="umntypechoice" name="umntypechoice" method="post" 
-		action="markbook.php" target="viewmarkbook">
-		<input name="tid" type="hidden" value="<?php print $tid;?>">
-		<input name="current" type="hidden" value="class_view.php">		
-			<label class="neat">All</label>
-			<input type="radio" name="umntype"
-			  value="%" <?php if($umntype=='%'){print 'checked';}?>
-			  onchange="document.umntypechoice.submit();" />
-			  <br />
-			<label class="neat">CW</label>
-			<input type="radio" name="umntype"
-			  value="cw" <?php if($umntype=='cw'){print 'checked';}?>
-			  onchange="document.umntypechoice.submit();" />
-			<label class="neat">HW</label>
-			<input type="radio" name="umntype"
-			  value="hw" <?php if($umntype=='hw'){print 'checked';}?>
-			  onchange="document.umntypechoice.submit();" />
-			<label class="neat">T</label>
-			<input type="radio" name="umntype" 
-			  value="t" <?php if($umntype=='t'){print 'checked';}?>
-			  onchange="document.umntypechoice.submit();" />
-	  </form>
 	</fieldset>
   </div>
 <?php

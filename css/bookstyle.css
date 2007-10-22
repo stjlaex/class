@@ -248,7 +248,7 @@ div.buttonmenu {
 	cursor:pointer;
 	}
 .buttonmenu button:hover, .buttonmenu button:focus, 
-#heading button:hover, #heading button:focus {
+ #heading button:hover, #heading button:focus {
 	font-weight:900;
 	}
 .buttonmenu button[value="Submit"], .buttonmenu button[value="Enter"] {
@@ -263,9 +263,18 @@ div.buttonmenu {
 	background-color:#666666; 
 	color:#ffffee;
 	}
-.buttonmenu button[value="Reset"] {
+div.buttongroup { 
+    margin-left:10px; padding:2px;
+    float:left;
+	}
+.buttonmenu button[value="Reset"], div.buttongroup {
 	background-color:#666666; 
 	color:#ffffee;
+	}
+div.buttongroup label {
+	color:#dddddd;
+    line-height:90%;
+    font-size:50%;
 	}
 button[value="Okay"] {
 	background-color:#666666; 
@@ -276,7 +285,6 @@ button.install {
 	background-color:#666666; 
 	color:#ffffee; font-size:90%; 
 	}
-
 /*the micro-action buttons contianed inside content, usually for xmlHttprequests*/
 div.rowaction {
 	padding:0;margin:0;

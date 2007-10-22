@@ -291,7 +291,7 @@ $string['weeks']='Weeks';
 $string['closed']='Closed';
 $string['open']='Open';
 $string['attendance']='Attendance';
-$string['filterlist']='Filter list';
+$string['filterlist']='Filter';
 $string['']='';
 $string['']='';
 ?>

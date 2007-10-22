@@ -21,6 +21,17 @@ The ability to filter the MarkBook columns from the bookoptions by
 type has been provided using the $umntype bookvar. It provides four
 options classwork, homework or tracking (reports and assessments).
 
+Fixed a bug in class_matrix.php which prevented blank records being
+updated even when cribbid entry existed.
+
+Allowed grouping of the MarkBook buttons with the css class
+buttongroup. Split the New button into two buttons one for classwork
+(as before) and one for homework.
+
+A new db table added for homework. This is currently only used by the
+new_homework.php scripts.
+
+
 
 Version ClaSS-0.8.31 release (2007/10/11)
 -----------------------------------------

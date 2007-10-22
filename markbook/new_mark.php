@@ -5,6 +5,8 @@
 
 $action='new_mark_action1.php';
 
+if($umntype!='%'){$umntype='cw';}
+
 	$markdef=array();
 	for($c=0;$c<sizeof($cids);$c++){
 		$cid=$cids[$c];	
@@ -26,6 +28,10 @@ $action='new_mark_action1.php';
 
 three_buttonmenu();
 ?>
+  <div id="heading">
+			  <label><?php print_string('newmark',$book); ?></label>
+			<?php print_string('classwork',$book);?>
+  </div>
   <div class="content">
 	<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
 
@@ -37,24 +43,42 @@ three_buttonmenu();
 ?>
 		  <tr>
 			<td>
-			  <input type="radio" name="def_name" id="def_name" tabindex="<?php print $c;?>"
+			  <input type="radio" name="def_name" id="def_name" 
+				tabindex="<?php print $tab++;?>"
 				value="<?php print $markdef[$c]['name'];?>" />
-			</td><td><?php print $markdef[$c]['name'];?>
-			</td><td><?php print $markdef[$c]['comment'];?></td>
+			</td>
+			<td>
+			  <?php print $markdef[$c]['name'];?>
+			</td>
+			<td>
+			  <label><?php print $markdef[$c]['comment'];?></label>
+			</td>
 		  </tr>
 <?php
 	 }
+?>
+		</table>
+		<br />
+<?php
 if($_SESSION['role']=='admin'){
 ?>
+		<table class="listmenu">
 		  <tr class="special">
-			<td><input type="radio" name="def_name" id="def_name" value="custom" /></td>
-			<td><?php print_string('newdefinition',$book);?></td>
-			<td><?php print_string('newuserdefinedmarktype',$book);?></td>
+			<td>
+			  <input type="radio" name="def_name" id="def_name"
+				 tabindex="<?php print $tab++;?>" value="custom" />
+			</td>
+			<td>
+			  <?php print_string('newdefinition',$book);?>
+			</td>
+			<td>
+			  <label><?php print_string('newuserdefinedmarktype',$book);?></label>
+			</td>
 		  </tr>
+		</table>
 <?php
 		}
 ?>
-		</table>
 	  </div>
  	  <input type="hidden" name="current" value="<?php print $action;?>" />
 	  <input type="hidden" name="choice" value="<?php print $choice;?>" />

@@ -12,6 +12,7 @@ function all_extrabuttons($extrabuttons,$book='',
 			if(!isset($attributes['title'])){$attributes['title']=$description;}
 ?>
   <button onClick="<?php print $attributes['onclick'];?>" 
+	tabindex="<?php print $tab++;?>"
 	<?php print $class;?> 
 	<?php if(isset($attributes['pathtoscript'])){print '
 						  pathtoscript="'.$attributes['pathtoscript'].'" ';}?>
@@ -132,10 +133,10 @@ function xmlarray_form($Array,$no='',$caption='',$tab=1,$book=''){
 	if($caption!=''){print '<caption>'.get_string($caption,$book).'</caption>';}
 	while(list($key,$val)=each($Array)){
 		/* If the table_db attribute is omitted it indicates this is not */
-		/* a field for entry by the user - it */
+		/* a field for entry by the user - this */
 		/* may be becuase it is disabled or */
 		/* because it is dependent on some */
-		/* other value*/
+		/* other value - it will not appear in the table*/
 		if(isset($val['value']) and is_array($val) and isset($val['table_db'])){
 ?>
 	<tr>
@@ -146,12 +147,58 @@ function xmlarray_form($Array,$no='',$caption='',$tab=1,$book=''){
 	  </td>
 	  <td>
 <?php
-			if($val['value']=='' and isset($val['default_value'])){
+		$tab=xmlelement_input($val,$tab,$book);
+?>
+	  </td>
+	</tr>
+<?php
+			}
+		}
+?>
+  </table>
+<?php
+
+	return $tab;
+	}
+
+
+function xmlarray_divform($Array,$no='',$caption='',$tab=1,$book=''){
+
+	if($caption!=''){print '<caption>'.get_string($caption,$book).'</caption>';}
+	while(list($key,$val)=each($Array)){
+		/* If the table_db attribute is omitted it indicates this is not */
+		/* a field for entry by the user - this */
+		/* may be becuase it is disabled or */
+		/* because it is dependent on some */
+		/* other value - it will not appear in the table*/
+		if(isset($val['value']) and is_array($val) and isset($val['table_db'])){
+?>
+  <div class="center">
+		<label for="<?php print $val['label'];?>">
+		  <?php print_string($val['label'],$book);?>
+		</label>
+<?php
+		$tab=xmlelement_input($val,$tab,$book);
+?>
+  </div>
+<?php
+			}
+		}
+
+	return $tab;
+	}
+
+
+/**
+ */
+function xmlelement_input($val,$tab,$book){
+
+	if($val['value']=='' and isset($val['default_value'])){
 				$setval=$val['default_value'];
 				}   
-			else{$setval=$val['value'];}
+	else{$setval=$val['value'];}
 
-			if($val['type_db']=='enum'){
+	if($val['type_db']=='enum'){
 				$setval=strtoupper($setval);
 				$enum=getEnumArray($val['field_db']);
 				print '<select name="'.$val['field_db'].$no.'" ';
@@ -166,12 +213,12 @@ function xmlarray_form($Array,$no='',$caption='',$tab=1,$book=''){
 					}
 				print '</select>';
 				}
-			elseif($val['type_db']=='date'){
+	elseif($val['type_db']=='date'){
 				$required='no';$todate='';$xmldate=$val['field_db'].$no;
 				$todate=$setval;
 				include('scripts/jsdate-form.php');
 				}
-			elseif($val['type_db']=='text'){
+	elseif($val['type_db']=='text'){
 ?>
 		<textarea rows="2" cols="80"  id="<?php print $val['label'];?>" 
 			class="<?php if(isset($val['inputtype'])){print $val['inputtype'];}?>" 
@@ -179,7 +226,7 @@ function xmlarray_form($Array,$no='',$caption='',$tab=1,$book=''){
 					tabindex="<?php print $tab++;?>" ><?php print $setval; ?></textarea>
 <?php
 				 }
-			elseif(substr($val['type_db'],0,3)=='var' or substr($val['type_db'],0,3)=='cha'){
+	elseif(substr($val['type_db'],0,3)=='var' or substr($val['type_db'],0,3)=='cha'){
 				$field_type=split('[()]', $val['type_db']);
 				$maxlength=$field_type[1];
 ?>
@@ -190,7 +237,7 @@ function xmlarray_form($Array,$no='',$caption='',$tab=1,$book=''){
 		  tabindex="<?php print $tab++;?>" value="<?php print $setval; ?>" />
 <?php
 				}
-			else{
+	else{
 ?>
 		<input type="text" id="<?php print $val['label'];?>" 
 		  class="<?php if(isset($val['inputtype'])){print $val['inputtype'];}?>" 
@@ -198,16 +245,6 @@ function xmlarray_form($Array,$no='',$caption='',$tab=1,$book=''){
 		  tabindex="<?php print $tab++;?>" value="<?php print $setval; ?>" />
 <?php
 				 }
-?>
-	  </td>
-	</tr>
-<?php
-			}
-		}
-?>
-  </table>
-<?php
-
 	return $tab;
 	}
 
