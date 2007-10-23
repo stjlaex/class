@@ -64,16 +64,18 @@ if(isset($_POST['umntype'])){
 	}
 
 if(!isset($_SESSION['cids'])){$_SESSION['cids']=array('','');}
-if(!isset($_SESSION['pids'])){$_SESSION['pids']=array();}
-if(!isset($_SESSION['pid'])){$_SESSION['pid']='';}
-if(!isset($_SESSION['umntype'])){$_SESSION['umntype']='%';}
-if(!isset($_SESSION['umnrank'])){$_SESSION['umnrank']='surname';}
-
 $cids=$_SESSION['cids'];
+$cidsno=sizeof($cids);
+if(!isset($_SESSION['pids'])){$_SESSION['pids']=array();}
 $pids=$_SESSION['pids'];
+if(!isset($_SESSION['pid'])){$_SESSION['pid']='';}
 $pid=$_SESSION['pid'];
+if(!isset($_SESSION['umntype']) or 
+	($cidsno>1 and $_SESSION['umntype']=='hw')){$_SESSION['umntype']='%';}
 $umntype=$_SESSION['umntype'];
+if(!isset($_SESSION['umnrank'])){$_SESSION['umnrank']='surname';}
 $umnrank=$_SESSION['umnrank'];
+
 $attdate=date('Y-m-d',mktime(0,0,0,date('m'),date('d'),date('Y')));
 
 ?>
@@ -141,11 +143,17 @@ if(isset($umns)){
 				type="radio" name="umntype"
 				value="cw" <?php if($umntype=='cw'){print 'checked';}?>
 				onchange="document.umntypechoice.submit();" />
+<?php
+		if($cidsno==1){
+?>
 			<label>&nbsp;HW</label>
 				<input title="<?php print_string('homework',$book);?>" 
 				  type="radio" name="umntype"
 				  value="hw" <?php if($umntype=='hw'){print 'checked';}?>
 				  onchange="document.umntypechoice.submit();" />
+<?php
+			}
+?>
 			<label>&nbsp;T</label>
 				<input  title="<?php print_string('formalassessments',$book);?>" 
 					type="radio" name="umntype" 

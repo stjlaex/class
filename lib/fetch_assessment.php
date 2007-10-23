@@ -728,54 +728,54 @@ function fetchHomeworkDefinition($hwid){
 	if(mysql_numrows($d_hw)==0){$Def['exists']='false';}
 	else{$Def['exists']='true';}
 	$hw=mysql_fetch_array($d_hw,MYSQL_ASSOC);
-	$hw=nullCorrect($hw);
+	//$hw=nullCorrect($hw);
    	$Def['Course']=array('label' => 'course',
 						 // 'table_db' => 'homework', 
 						 'field_db' => 'course_id',
 						 'type_db'=>'varchar(10)', 
-						 'value' => $hw['course_id']);
+						 'value' => ''.$hw['course_id']);
    	$Def['Subject']=array('label' => 'subject',
 						  // 'table_db' => 'homework', 
 						  'field_db' => 'subject_id',
 						  'type_db'=>'varchar(10)', 
-						  'value' => $hw['subject_id']);
+						  'value' => ''.$hw['subject_id']);
    	$Def['Component']=array('label' => 'component',
 							// 'table_db' => 'asssessment', 
 							'field_db' => 'component_id',
 							'type_db'=>'varchar(10)', 
-							'value' => $hw['component_id']);
+							'value' => ''.$hw['component_id']);
    	$Def['Stage']=array('label' => 'stage',
 						// 'table_db' => 'homework', 
 						'field_db' => 'stage',
 						'type_db'=>'char(3)', 
-						'value' => $hw['stage']);
+						'value' => ''.$hw['stage']);
    	$Def['Title']=array('label' => 'title',
 						'table_db' => 'homework', 
-						'field_db' => 'homework',
+						'field_db' => 'title',
 						'inputtype'=> 'required',
 						'type_db'=>'varchar(120)', 
-						'value' => $hw['title']);
+						'value' => ''.$hw['title']);
    	$Def['Description']=array('label' => 'description',
 							  'table_db' => 'homework', 
 							  'field_db' => 'description',
 							  'type_db'=>'text', 
 							  'inputtype'=> 'required',
-							  'value' => $hw['description']);
+							  'value' => ''.$hw['description']);
    	$Def['References']=array('label' => 'references', 
 							 'table_db' => 'homework', 
 							 'field_db' => 'refs',
 							 'type_db'=>'text', 
-							 'value' => $hw['refs']);
+							 'value' => ''.$hw['refs']);
    	$Def['Markdef']=array('label' => 'marktype', 
 						  // 'table' => 'homework', 
 						  'field_db' => 'def_name',
 						  'type_db'=>'varchar(20)', 
-						  'value' => $hw['def_name']);
+						  'value' => ''.$hw['def_name']);
    	$Def['Author']=array('label' => 'author',
 						 // 'table_db' => 'homework', 
 						 'field_db' => 'author',
 						 'type_db'=>'varchar(14)', 
-						 'value' => $hw['author']);
+						 'value' => ''.$hw['author']);
 	return $Def;
    	}
 ?>

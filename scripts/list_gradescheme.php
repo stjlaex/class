@@ -1,9 +1,9 @@
 <?php
 /**										scripts/list_gradescheme.php
  *
- *$multi>1 returns genas[] or $multi=1 returns gena (default multi=1)
- *set $required='no' to make not required (default=yes)
- *first call returns gena, second call returns gena1
+ * $multi>1 returns genas[] or $multi=1 returns gena (default multi=1)
+ * set $required='no' to make not required (default=yes)
+ * first call returns gena, second call returns gena1
  */
 
 

@@ -18,9 +18,15 @@ if($_SESSION['worklevel']>-1){
 	<button onClick="processContent(this);" name="current" value="new_mark.php">
 	  <?php print_string('classwork',$book);?>
 	</button>
+<?php
+	if($cidsno==1){
+?>
 	<button onClick="processContent(this);" name="current" value="new_homework.php">
 	  <?php print_string('homework',$book);?>
 	</button>
+<?php
+		}
+?>
 	</div>
 	<div class="buttongroup">
 	<button onClick="processContent(this);" name="current" value="column_edit.php">
@@ -63,7 +69,6 @@ if($_SESSION['worklevel']>-1){
  *	   	The main table.
  *	   	All cells are referenced by their (sid,mid) only.
  */
-	$n=sizeof($cids);
 	$cidcolour=array();
 
 
@@ -74,7 +79,7 @@ if($_SESSION['worklevel']>-1){
 		  <td colspan="5">
 			<table>
 <?php
-	for($i=0;$i<$n;$i++){ 
+	for($i=0;$i<$cidsno;$i++){ 
 		/*colour students by their teaching class */	
 		$cidcolour[$cids[$i]]=$rowcolour[$i];
 		if($cids[$i]!=''){

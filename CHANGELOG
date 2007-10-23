@@ -31,10 +31,14 @@ buttongroup. Split the New button into two buttons one for classwork
 A new db table added for homework. This is currently only used by the
 new_homework.php scripts.
 
-The xmlarray_form() has has its main guts split of into a new function
+The xmlarray_form() has had its main guts split off into a new function
 xmlelement_input() which does the work for a single field in the
 array. This can now be used by xmlarray_divform() too, which produces
 a div instead table formatted form.
+
+Added $cidsno to the MarkBook to keep track of the number of classes;
+homeworks can only be set on a class by class basis and cidsno>1 means
+the homework functions are filtered out.
 
 
 Version ClaSS-0.8.31 release (2007/10/11)

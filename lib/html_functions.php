@@ -174,12 +174,10 @@ function xmlarray_divform($Array,$no='',$caption='',$tab=1,$book=''){
 		if(isset($val['value']) and is_array($val) and isset($val['table_db'])){
 ?>
   <div class="center">
-		<label for="<?php print $val['label'];?>">
-		  <?php print_string($val['label'],$book);?>
-		</label>
-<?php
-		$tab=xmlelement_input($val,$no,$tab,$book);
-?>
+	<label for="<?php print $val['label'];?>">
+	  <?php print_string($val['label'],$book);?>
+	</label>
+	<?php $tab=xmlelement_input($val,$no,$tab,$book);?>
   </div>
 <?php
 			}
@@ -195,7 +193,7 @@ function xmlelement_input($val,$no,$tab,$book){
 
 	if($val['value']=='' and isset($val['default_value'])){
 				$setval=$val['default_value'];
-				}   
+				}
 	else{$setval=$val['value'];}
 
 	if($val['type_db']=='enum'){

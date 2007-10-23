@@ -18,7 +18,7 @@ if($umntype!='%'){$umntype='cw';}
 					(subject_id LIKE '$bid' OR subject_id='%') AND
 					(course_id LIKE '$crid' OR course_id='%') ORDER BY subject_id");
    		$c2=0;
-		while ($new=mysql_fetch_array($d_markdef,MYSQL_ASSOC)){
+		while($new=mysql_fetch_array($d_markdef,MYSQL_ASSOC)){
 			if(!in_array($new,$markdef)){
 				$markdef[$c2]=$new;
 				$c2++;
