@@ -19,6 +19,8 @@ UPDATE address SET region=CONCAT(region, ' ', county);
 ALTER TABLE address DROP county;
 ALTER TABLE info
 	ADD secondnationality char(2) not null default '' AFTER nationality;
+ALTER TABLE info
+	ADD ethnicity char(4) not null default '' AFTER countryoforigin;
 DROP TABLE homework;
 CREATE TABLE homework (
 	   id				int unsigned not null auto_increment, 

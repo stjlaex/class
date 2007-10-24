@@ -26,10 +26,9 @@ three_buttonmenu();
 	  <div class="left">
 		<label for="Detail"><?php print_string('details',$book);?></label>
 		<textarea  tabindex="<?php print $tab++;?>"
-		  name="detail" class="required" id="Detail"   
-		  rows="3" cols="35"></textarea>
+		  name="detail" class="required" id="Detail" rows="3" cols="35"></textarea>
 	  </div>
-	  <div class="right" >
+	  <div class="right">
 		<label for="Subject"><?php print_string('subjectspecificoptional',$book);?></label>
 		<?php $required='no'; include('scripts/list_studentsubjects.php');?>
 	  </div>
@@ -37,12 +36,23 @@ three_buttonmenu();
 		<?php $listlabel='category'; $listid='category';
 		$required='yes'; include('scripts/list_category.php');?>
 	  </div>
-	  <div class="left" >
+	  <div class="left">
 		<?php $xmldate='Entrydate'; $required='yes'; include('scripts/jsdate-form.php'); ?>
 	  </div>
-	  <div class="right" >
+
+	  <div class="left">
+<?php 
+	  if($CFG->emailguardiancomments=='yes'){
+		  $checkname='guardianemail';$checkcaption=get_string('emailtoguardian',$book);
+		  include('scripts/check_yesno.php'); 
+		  }
+?>
+	  </div>
+
+	  <div class="right">
 		<?php $newyid=$Student['YearGroup']['value']; // include('scripts/list_year.php'); ?>
 	  </div>
+
 	  <input type="text" style="display:none;" id="Id_db" name="id_db" value="" />
 	  <input type="hidden" name="current" value="<?php print $action;?>" />
 	  <input type="hidden" name="cancel" value="<?php print 'student_view.php';?>" />

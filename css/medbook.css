@@ -1,0 +1,18 @@
+/**										seneeds.css
+ * main color: 554466
+ * light shade: 
+ */
+
+div#bookbox{
+	border-color:#554466;
+	}
+.medbookcolor fieldset, .medbookcolor div.topform, .medbookcolor table.listmenu {
+	border-color:#554466;
+    color:#000000;
+	}
+.medbookcolor button {
+	background-color:#554466;
+	}
+.medbookcolor legend, .medbookcolor caption {
+    border-color:#554466;
+	}

@@ -141,5 +141,6 @@ $string['srd']='Sr. D.';
 $string['srada']='Sra. Da.';
 $string['enrolmentnotes']='Enrolment notes';
 $string['nextreviewdate']='Next review';
+$string['ethnicity']='Ethnicity';
 $string['']='';
 ?>

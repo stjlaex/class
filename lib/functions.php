@@ -204,11 +204,11 @@ function getEnumArray($field_name){
 	/*not always the same as ISO 639-2 is the alpha-3 code for language!*/
 	$language=array('ENG' => 'english', 
 					'ENB' => 'believedtobeenglish', 
-					'OTB'=>'Believed to be Other than English',
+					'OTB' => 'believedtobeotherthanenglish',
 					'OTH' => 'other', 
 					'NOT' => 'informationnotobtained',
-					'OTL'=>'Other Language',
-					'REF'=>'Refused',
+					'OTL'=>'otherlanguage',
+					'REF'=>'refused',
 					'ACL'=>'Acholi',
 					'ADA'=>'Adangme',
 					'AFA'=>'Afar-Saho',
@@ -523,8 +523,10 @@ function getEnumArray($field_name){
 					'YOR'=>'Yoruba',
 					'ZND'=>'Zande',
 					'ZUL'=>'Zulu',
-					'ZZZ'=>'Classification Pending'
+					'ZZZ'=>'classificationpending'
 					);
+	$ethnicity=array('' => ''
+					 );
 	$languagetype=array('F' => 'firstlanguage', 
 						'M' => 'multiplefirstlanguage',
 						'H' => 'home',

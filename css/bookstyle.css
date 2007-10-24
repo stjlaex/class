@@ -175,6 +175,11 @@ div.content fieldset {
 div.content fieldset div {
 	background-color:#dde;
 	}
+div.content fieldset.divgroup { 
+	background-color:#666666; 
+	color:#ffffee;
+	}
+
 /*a fixed height div, always at the top of the page before the content*/
 div.topform {
 	overflow:auto;

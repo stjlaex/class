@@ -18,12 +18,12 @@ $date=date('Y-m-d',$time);
 ?>
   <div id="heading">
 	<label><?php print_string(''); ?></label>
-	<?php print 'Usage statistics since '.$date;?>
+	<?php print 'Usage statistics since '.display_date($date);?>
   </div>
 
   <div id="viewcontent" class="content">
 
-	<fieldset class="center">
+	<fieldset class="center divgroup">
 	  <legend><?php print_string('userlogins',$book);?></legend>
 	  <table class="listmenu">
 		<tr>
@@ -66,10 +66,9 @@ $date=date('Y-m-d',$time);
 		  <td><?php print $ave;?></td>
 		</tr>
 	  </table>
-	</fieldset>
+  </fieldset>
 
-
-	<fieldset class="center">
+	<fieldset class="center divgroup">
 	  <legend><?php print_string('pagesaccessed',$book);?></legend>
 <?php
 	$tot1=0;
@@ -138,7 +137,7 @@ $date=date('Y-m-d',$time);
 
 
 
-	<fieldset class="center">
+	<fieldset class="center divgroup">
 	  <legend><?php print_string('reportstoparents',$book);?></legend>
 	  <table class="listmenu">
 		<tr>
@@ -200,7 +199,7 @@ $date=date('Y-m-d',$time);
 	  </table>
 	</fieldset>
 
-	<fieldset class="center">
+	<fieldset class="center divgroup">
 	  <legend><?php print_string('assessmentandtrackingscores',$book);?></legend>
 
 	  <table class="listmenu">
@@ -248,7 +247,7 @@ $date=date('Y-m-d',$time);
 
 
 
-	<fieldset class="center">
+	<fieldset class="center divgroup">
 	  <legend><?php print_string('pastoralandacademicmonitoring',$book);?></legend>
 <?php
 		$d_h=mysql_query("SELECT COUNT(*)
@@ -319,7 +318,7 @@ $date=date('Y-m-d',$time);
 
 
 
-	<fieldset class="center">
+	<fieldset class="center divgroup">
 	  <legend><?php print_string('specialneedsandsupport',$book);?></legend>
 <?php
 		$d_h=mysql_query("SELECT COUNT(*) 

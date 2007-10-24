@@ -68,6 +68,9 @@ div#logbook {
 	background-color:#ccc;
 	}
 /*give colour to tab in focus and to current tab*/
+.booktabs p.medbook:hover, #currentbook.medbook {
+    background-color:#554466;
+    }
 .booktabs p.seneeds:hover, #currentbook.seneeds {
     background-color:#554466;
     }
@@ -128,6 +131,9 @@ div#logbook {
 	background-image:url("");
     }
 /*give current book coloured stripe to the logbook*/
+div#logbookstripe.medbook {
+    border-color:#554466;
+    }
 div#logbookstripe.seneeds {
     border-color:#554466;
     }
@@ -296,6 +302,9 @@ button {
 
 .seneeds {background-color:#cccccc; border-color:#554466;}
 .seneeds legend, .seneeds button {background-color:#554466; color:#ffffff;}	
+
+.medbook {background-color:#cccccc; border-color:#554466;}
+.medbook legend, .medbook button {background-color:#554466; color:#ffffff;}	
 
 /***************************************************************************/
 /* the rest of the sidebar - which comes under the logbook*/

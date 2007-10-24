@@ -140,28 +140,28 @@ function fetchStudent($sid='-1'){
 							  'inputtype'=> 'required',
 							  'table_db' => 'student', 
 							  'field_db' => 'surname',
-							  'type_db'=>'varchar(120)', 
+							  'type_db' => 'varchar(120)', 
 							  'value' => ''.$student['surname']);
 	$Student['Forename']=array('label' => 'forename', 
 							   'inputtype'=> 'required',
 							   'table_db' => 'student', 
 							   'field_db' => 'forename',
-							   'type_db'=>'varchar(120)', 
+							   'type_db' => 'varchar(120)', 
 							   'value' => ''.$student['forename']);
    	$Student['MiddleNames']=array('label' => 'middlenames', 
 								  'table_db' => 'student', 
 								  'field_db' => 'middlenames',
-								  'type_db'=>'varchar(120)', 
+								  'type_db' => 'varchar(120)', 
 								  'value' => ''.$student['middlenames']);
 	$Student['PreferredForename']=array('label' => 'preferredforename', 
 										'table_db' => 'student', 
 										'field_db' => 'preferredforename',
-										'type_db'=>'varchar(30)', 
+										'type_db' => 'varchar(30)', 
 										'value' => ''.$student['preferredforename']);
 	$Student['FormerSurname']=array('label' => 'formersurname', 
 									'table_db' => 'student', 
 									'field_db' => 'formersurname',
-									'type_db'=>'varchar(120)', 
+									'type_db' => 'varchar(120)', 
 									'value' => ''.$student['formersurname']);
 
 	if($student['preferredforename']!=''){$displaypfn='('.$student['preferredforename'].') ';}
@@ -183,13 +183,13 @@ function fetchStudent($sid='-1'){
 							 'inputtype'=> 'required',
 							 'table_db' => 'student', 
 							 'field_db' => 'gender',
-							 'type_db'=>'enum', 
+							 'type_db' => 'enum', 
 							 'value' => ''.$student['gender']
 							 );
    	$Student['DOB']=array('label' => 'dateofbirth', 
 						  'table_db' => 'student', 
 						  'field_db' => 'dob',
-						  'type_db'=>'date', 
+						  'type_db' => 'date', 
 						  'value' => ''.$student['dob']
 						  );
 
@@ -205,27 +205,33 @@ function fetchStudent($sid='-1'){
    	$Student['Nationality']=array('label' => 'nationality', 
 								  'table_db' => 'info', 
 								  'field_db' => 'nationality', 
-								  'type_db'=>'enum', 
+								  'type_db' => 'enum', 
 								  'value' => ''.$info['nationality']
 								  );
    	$Student['SecondNationality']=array('label' => 'secondnationality', 
 								  'table_db' => 'info', 
 								  'field_db' => 'secondnationality', 
-								  'type_db'=>'enum', 
+								  'type_db' => 'enum', 
 								  'value' => ''.$info['secondnationality']
 								  );
    	$Student['Birthplace']=array('label' => 'placeofbirth', 
 								 'table_db' => 'info', 
 								 'field_db' => 'birthplace', 
-								 'type_db'=>'varchar(240)', 
+								 'type_db' => 'varchar(240)', 
 								 'value' => ''.$info['birthplace']
 								 );
    	$Student['CountryofOrigin']=array('label' => 'countryoforigin', 
 									  'table_db' => 'info', 
 									  'field_db' => 'countryoforigin', 
-									  'type_db'=>'enum', 
+									  'type_db' => 'enum', 
 									  'value' =>''.$info['countryoforigin']
 									  );
+   	$Student['Ethnicity']=array('label' => 'ethnicity', 
+								'table_db' => 'info', 
+								'field_db' => 'ethnicity', 
+								'type_db' => 'enum', 
+								'value' =>''.$info['ethnicity']
+								);
    	$Student['MedicalFlag']=array('label' => 'medicalinformation', 
 								  'value' => ''.$info['medical']
 								  );
@@ -241,62 +247,62 @@ function fetchStudent($sid='-1'){
    	$Student['Language']=array('label' => 'firstlanguage', 
 							   'table_db' => 'info', 
 							   'field_db' => 'language',
-							   'type_db'=>'enum', 
+							   'type_db' => 'enum', 
 							   'value' => ''.$info['language']
 							   );
    	$Student['MobilePhone']=array('label' => 'mobilephone',
 								  'table_db' => 'info', 
 								  'field_db' => 'phonenumber',
-								  'type_db'=>'varhar(22)', 
+								  'type_db' => 'varhar(22)', 
 								  'value' => ''.$info['phonenumber']
 								  );
    	$Student['EmailAddress']=array('label' => 'email',
 								   'table_db' => 'info', 
 								   'field_db' => 'email',
-								   'type_db'=>'varhar(240)', 
+								   'type_db' => 'varhar(240)', 
 								   'value' => ''.$info['email']
 								   );
    	$Student['EnrolNumber']=array('label' => 'enrolmentnumber', 
 								  'table_db' => 'info', 
 								  'field_db' => 'formerupn', 
-								  'type_db'=>'varchar(13)', 
+								  'type_db' => 'varchar(13)', 
 								  'value' => ''.$info['formerupn']
 								  );
    	$Student['EnrolmentStatus']=array('label' => 'enrolstatus', 
 									  //'table_db' => 'info', 
 								  'field_db' => 'enrolstatus', 
-								  'type_db'=>'enum', 
+								  'type_db' => 'enum', 
 								  'value' => ''.$info['enrolstatus']
 								  );
 	$Student['EntryDate']=array('label' => 'schoolstartdate', 
 								'table_db' => 'info', 
 								'field_db' => 'entrydate', 
-								'type_db'=>'date', 
+								'type_db' => 'date', 
 								'value' => ''.$info['entrydate']
 								);
 	$Student['LeavingDate']=array('label' => 'schoolleavingdate', 
 								  'field_db' => 'leavingdate', 
-								  'type_db'=>'date', 
+								  'type_db' => 'date', 
 								  'value' => ''.$info['leavingdate']
 								  );
    	$Student['Boarder']=array('label' => 'boarder', 
 							  'inputtype'=> 'required',
 							  'table_db' => 'info', 
 							  'field_db' => 'boarder',
-							  'type_db'=>'enum', 
+							  'type_db' => 'enum', 
 							  'default_value' => 'N',
 							  'value' => ''.$info['boarder']
 							  );
    	$Student['PartTime']=array('label' => 'parttime', 
 							   'table_db' => 'info', 
 							   'field_db' => 'parttime',
-							   'type_db'=>'enum', 
+							   'type_db' => 'enum', 
 							   'value' => ''.$info['parttime']
 							   );
    	$Student['TransportMode']=array('label' => 'modeoftransport', 
 									'table_db' => 'info', 
 									'field_db' => 'transportmode',
-									'type_db'=>'enum', 
+									'type_db' => 'enum', 
 									'value' => ''.$info['transportmode']);
    	$Student['EnrolmentNotes']=array('label' => 'enrolmentnotes', 
 									 'table_db' => 'info', 
@@ -325,20 +331,20 @@ function fetchStudent($sid='-1'){
 	   	$SENhistory['SENprovision']=array('label' => 'provision', 
 										  'table_db' => 'senhistory', 
 										  'field_db' => 'senprovision',
-										  'type_db'=>'enum', 
+										  'type_db' => 'enum', 
 										  'value' => ''.$senhistory['senprovision']);
 	   	$SENhistory['SpecialProvisionIndicator']=array('label' => 'specialprovisionindicator', 
-										  'type_db'=>'enum', 
+										  'type_db' => 'enum', 
 										  'value' => '');
 	   	$SENhistory['StartDate']=array('label' => 'startdate', 
 									   'table_db' => 'senhistory', 
 									   'field_db' => 'startdate',
-									   'type_db'=>'date', 
+									   'type_db' => 'date', 
 									   'value' => ''.$senhistory['startdate']);
 	   	$SENhistory['NextReviewDate']=array('label' => 'nextreviewdate', 
 											'table_db' => 'senhistory', 
 											'field_db' => 'reviewdate',
-											'type_db'=>'date', 
+											'type_db' => 'date', 
 											'value' => ''.$senhistory['reviewdate']);
 
 		/*only working for one senhistory_id - in other words no history!*/
@@ -352,13 +358,13 @@ function fetchStudent($sid='-1'){
 		   	$Subject['Subject']=array('label' => 'subject', 
 									  'table_db' => 'sencurriculum', 
 									  'field_db' => 'subject_id', 
-									  'type_db'=>'varchar(10)', 
+									  'type_db' => 'varchar(10)', 
 									  'value_db' => ''.$bid,
 									  'value' => ''.$subjectname);
 			$Subject['Modification']=array('label' => 'sencurriculum', 
 										  'table_db' => 'sencurriculum', 
 										  'field_db' => 'curriculum',
-										  'type_db'=>'enum', 
+										  'type_db' => 'enum', 
 										  'value' => ''.$sencurriculum['curriculum']);
 			$catid=$sencurriculum['categorydef_id'];
 			if($catid!=0){
@@ -378,17 +384,17 @@ function fetchStudent($sid='-1'){
 			$Subject['Strengths']=array('label' => 'strengths', 
 										'table_db' => 'sencurriculum', 
 										'field_db' => 'comments', 
-										'type_db'=>'text', 
+										'type_db' => 'text', 
 										'value' => ''.$sencurriculum['comments']);
 		   	$Subject['Weaknesses']=array('label' => 'weaknesses', 
 										 'table_db' => 'sencurriculum', 
 										 'field_db' => 'targets', 
-										 'type_db'=>'text', 
+										 'type_db' => 'text', 
 										 'value' => ''.$sencurriculum['targets']);
 		   	$Subject['Strategies']=array('label' => 'strategies',
 										 'table_db' => 'sencurriculum', 
 										 'field_db' => 'outcome', 
-										 'type_db'=>'text', 
+										 'type_db' => 'text', 
 										 'value' => ''.$sencurriculum['outcome']);
 		   	$Curriculum[]=$Subject;
 			}
@@ -404,12 +410,12 @@ function fetchStudent($sid='-1'){
 	   	$SENtype['SENtypeRank']=array('label' => 'ranking',
 									  'table_db' => 'sentypes', 
 									  'field_db' => 'senranking', 
-									  'type_db'=>'enum', 
+									  'type_db' => 'enum', 
 									  'value' => ''.$sentypes['senranking']);
 	   	$SENtype['SENtype']=array('label' => 'sentype', 
 								  'table_db' => 'sentypes', 
 								  'field_db' => 'sentype', 
-								  'type_db'=>'enum', 
+								  'type_db' => 'enum', 
 								  'value' => ''.$sentypes['sentype']);
 		$SENtypes[]=$SENtype;
 		}
@@ -425,16 +431,16 @@ function fetchStudent($sid='-1'){
 		$Exclusion=array();
 	   	$Exclusion['id_db']=$exclusion['startdate'];
 	   	$Exclusion['Category']=array('label' => 'category', 
-									 'type_db'=>'enum', 
+									 'type_db' => 'enum', 
 									 'value' => ''.$exclusion['category']);
 	   	$Exclusion['StartDate']=array('label' => 'startdate', 
-									  'type_db'=>'date', 
+									  'type_db' => 'date', 
 									  'value' => ''.$exclusion['startdate']);
 	   	$Exclusion['EndDate']=array('label' => 'enddate', 
-									'type_db'=>'date', 
+									'type_db' => 'date', 
 									'value' => ''.$exclusion['enddate']);
 	   	$Exclusion['Reason']=array('label' => 'reason', 
-								   'type_db'=>'varchar(60)', 
+								   'type_db' => 'varchar(60)', 
 								   'value' => ''.$exclusion['reason']);
 		$Exclusions[]=$Exclusion;
 		}
@@ -457,11 +463,11 @@ function fetchStudent($sid='-1'){
 			$Entry=array();
 			$Entry['id_db']=$entry['id'];
 			$Entry['Teacher']=array('label' => 'teacher', 
-									'type_db'=>'varchar(14)', 
+									'type_db' => 'varchar(14)', 
 									'value' => ''.$entry['teacher_id']);
 			$Categories=array();
 			$Categories=array('label' => 'category', 
-							  'type_db'=>'varchar(100)', 
+							  'type_db' => 'varchar(100)', 
 							  'value' => ' ');
 			$pairs=explode(';',$entry['category']);
 			for($c3=0; $c3<sizeof($pairs)-1; $c3++){
@@ -479,7 +485,7 @@ function fetchStudent($sid='-1'){
 				}
 			if(!isset($Categories['Category'])){
 				$Category=array('label' => 'category', 
-								'type_db'=>'varchar(30)', 
+								'type_db' => 'varchar(30)', 
 								'value_db' => ' ',
 								'value' => ' ');
 				$Categories['Category'][]=$Category;
@@ -493,11 +499,11 @@ function fetchStudent($sid='-1'){
 			$bid=$entry['subject_id'];
 			$subjectname=get_subjectname($bid);
 			$Entry['Subject']=array('label' => 'subject', 
-									'type_db'=>'varchar(15)', 
+									'type_db' => 'varchar(15)', 
 									'value_db' => ''.$bid, 
 									'value' => ''.$subjectname);
 			$Entry['YearGroup']=array('label' => 'yeargroup', 
-									  'type_db'=>'smallint', 
+									  'type_db' => 'smallint', 
 									  'value' => ''.$entry['yeargroup_id']);
 			$Entries[]=$Entry;
 			}
@@ -544,19 +550,19 @@ function fetchDependents($gid='-1'){
 								  'inputtype'=> 'required', 
 								  'table_db' => 'gidsid',
 								  'field_db' => 'priority',
-								  'type_db'=>'enum', 
+								  'type_db' => 'enum', 
 								  'value' => ''.$gidsid['priority']);
 		$Dependent['ReceivesMailing']=array('label' => 'receivesmailing', 
 											'inputtype'=> 'required',
 											'table_db' => 'gidsid', 
 											'field_db' => 'mailing',
-											'type_db'=>'enum', 
+											'type_db' => 'enum', 
 											'value' => ''.$gidsid['mailing']);
 		$Dependent['Relationship']=array('label' => 'relationship', 
 										 'inputtype'=> 'required', 
 										 'table_db' => 'gidsid', 
 										 'field_db' => 'relationship',
-										 'type_db'=>'enum', 
+										 'type_db' => 'enum', 
 										 'value' => ''.$gidsid['relationship']);
 		$Dependents[]=$Dependent;
 		}
@@ -580,19 +586,19 @@ function fetchContact($gidsid=array('guardian_id'=>'-1','student_id'=>'-1','prio
 								'inputtype'=> 'required', 
 								'table_db' => 'gidsid', 
 								'field_db' => 'priority',
-								'type_db'=>'enum', 
+								'type_db' => 'enum', 
 								'value' => ''.$gidsid['priority']);
 		$Contact['ReceivesMailing']=array('label' => 'receivesmailing', 
 										  'inputtype'=> 'required',
 										  'table_db' => 'gidsid', 
 										  'field_db' => 'mailing',
-										  'type_db'=>'enum', 
+										  'type_db' => 'enum', 
 										  'value' => ''.$gidsid['mailing']);
 		$Contact['Relationship']=array('label' => 'relationship', 
 									  'inputtype'=> 'required',
 									   'table_db' => 'gidsid', 
 									   'field_db' => 'relationship',
-									   'type_db'=>'enum', 
+									   'type_db' => 'enum', 
 									   'value' => ''.$gidsid['relationship']);
 		}
 	$Contact['Surname']=array('label' => 'surname', 
@@ -633,7 +639,7 @@ function fetchContact($gidsid=array('guardian_id'=>'-1','student_id'=>'-1','prio
    	$Contact['Nationality']=array('label' => 'nationality', 
 								  'table_db' => 'guardian', 
 								  'field_db' => 'nationality', 
-								  'type_db'=>'enum', 
+								  'type_db' => 'enum', 
 								  'value' => ''.$guardian['nationality']);
    	$Contact['Profession']=array('label' => 'profession', 
 								  'table_db' => 'guardian', 
@@ -643,7 +649,7 @@ function fetchContact($gidsid=array('guardian_id'=>'-1','student_id'=>'-1','prio
    	$Contact['CompanyName']=array('label' => 'nameofcompany', 
 								  'table_db' => 'guardian', 
 								  'field_db' => 'companyname', 
-								  'type_db'=>'varchar(240)', 
+								  'type_db' => 'varchar(240)', 
 								  'value' => ''.$guardian['companyname']);
 
 
@@ -673,12 +679,12 @@ function fetchPhone($phone=array('id'=>'-1','number'=>'','phonetype'=>'')){
 	$Phone['PhoneNo']=array('label' => 'phonenumber', 
 							'table_db' => 'phone', 
 							'field_db' => 'number',
-							'type_db'=>'varchar(22)', 
+							'type_db' => 'varchar(22)', 
 							'value' => ''.$phone['number']);
 	$Phone['PhoneType']=array('label' => 'phonetype', 
 							  'table_db' => 'phone', 
 							  'field_db' => 'phonetype',
-							  'type_db'=>'enum', 
+							  'type_db' => 'enum', 
 							  'value' => ''.$phone['phonetype']);
 	return $Phone;
 	}
@@ -692,41 +698,41 @@ function fetchAddress($gidaid=array('address_id'=>'-1','addresstype'=>'')){
 	/*Only makes sense if multiple addresses are implemented
 	 $Address['Order']=array('label' => 'priority', 
 									'table_db' => 'gidaid', 'field_db' => 'priority',
-									'type_db'=>'enum', 'value' => $gidaid['priority']);
+									'type_db' => 'enum', 'value' => $gidaid['priority']);
 	*/
 	$Address['AddressType']=array('label' => 'type', 
 								  //'inputtype'=> 'required',
-								  'table_db'=>'gidaid', 
+								  'table_db' => 'gidaid', 
 								  'field_db' => 'addresstype',
-								  'type_db'=>'enum', 
+								  'type_db' => 'enum', 
 								  //'default_value' => 'H',
 								  'value' => ''.$gidaid['addresstype']);
 	/*Now deprecated...
 	$Address['BuildingName']=array('label' => 'building', 
 								   'table_db' => 'address', 
 								   'field_db' => 'building',
-								   'type_db'=>'varchar(60)', 
+								   'type_db' => 'varchar(60)', 
 								   'value' => ''.$address['building']);
 	$Address['StreetNo']=array('label' => 'streetno.', 
 							   'table_db' => 'address', 
 							   'field_db' => 'streetno',
-							   'type_db'=>'varchar(10)', 
+							   'type_db' => 'varchar(10)', 
 							   'value' => ''.$address['streetno']);
 	*/
 	$Address['Street']=array('label' => 'street',
 						   'table_db' => 'address', 
 						   'field_db' => 'street',
-						   'type_db'=>'varchar(160)', 
+						   'type_db' => 'varchar(160)', 
 						   'value' => ''.$address['street']);
 	$Address['Neighbourhood']=array('label' => 'neighbourhood',
 									'table_db' => 'address', 
 									'field_db' => 'neighbourhood',
-									'type_db'=>'varchar(160)', 
+									'type_db' => 'varchar(160)', 
 									'value' => ''.$address['neighbourhood']);
 	$Address['Town']=array('label' => 'town/city', 
 						   'table_db' => 'address', 
 						   'field_db' => 'region',
-						   'type_db'=>'varchar(160)', 
+						   'type_db' => 'varchar(160)', 
 						   'value' => ''.$address['region']);
 	$Address['Country']=array('label' => 'country', 
 							 'table_db' => 'address', 
@@ -738,7 +744,7 @@ function fetchAddress($gidaid=array('address_id'=>'-1','addresstype'=>'')){
 	$Address['Postcode']=array('label' => 'postcode',
 							   'table_db' => 'address', 
 							   'field_db' => 'postcode',
-							   'type_db'=>'varchar(8)', 
+							   'type_db' => 'varchar(8)', 
 							   'value' => ''.$address['postcode']);
 	return $Address;
 	}
@@ -762,19 +768,19 @@ function fetchIncidents($sid){
 								  'value_db' => ''.$catid,
 								  'value' => ''.mysql_result($d_categorydef,0));
 	   	$Incident['Detail']=array('label' => 'detail', 
-								  'type_db'=>'text', 
+								  'type_db' => 'text', 
 								  'value' => ''.$incident['detail']);
 	   	$Incident['Subject']=array('label' => 'subject', 
-								   'type_db'=>'varchar(10)', 
+								   'type_db' => 'varchar(10)', 
 								   'value' => ''.$incident['subject_id']);
 	   	$Incident['Closed']=array('label' => 'closed', 
-								   'type_db'=>'enum', 
+								   'type_db' => 'enum', 
 								   'value' => ''.$incident['closed']);
 	   	$Incident['EntryDate']=array('label' => 'date',
-									 'type_db'=>'date',
+									 'type_db' => 'date',
 									 'value' => ''.$incident['entrydate']);
 	   	$Incident['YearGroup']=array('label' => 'yeargroup', 
-									 'type_db'=>'enum', 
+									 'type_db' => 'enum', 
 									 'value' => ''.$incident['yeargroup_id']);
 		$tid=$incident['teacher_id'];
 		$d_teacher=mysql_query("SELECT forename, surname 
@@ -797,7 +803,7 @@ function fetchIncidents($sid){
 							  'value' => display_teachername($acttid));
 			$Action['Comment']=array('value' => ''.$action['comment']);
 			$Action['EntryDate']=array('label' => 'date', 
-									 'type_db'=>'date', 
+									 'type_db' => 'date', 
 									 'value' => ''.$action['entrydate']);
 			$pairs=explode(';',$action['category']);
 			list($catid, $rank)=split(':',$pairs[0]);
@@ -859,19 +865,19 @@ function fetchComments($sid,$date=''){
 			}
 		if(!isset($Categories['Category'])){
 			$Category=array('label' => ' ', 
-							'type_db'=>'varchar(30)', 
+							'type_db' => 'varchar(30)', 
 							'value' => ' ');
 			$Categories['Category'][]=$Category;
 			}
 		$Comment['Categories']=$Categories;
 	   	$Comment['Detail']=array('label' => 'detail', 
-								 'type_db'=>'text', 
+								 'type_db' => 'text', 
 								 'value' => ''.$comment['detail']);
 	   	$Comment['EntryDate']=array('label' => 'date', 
-									'type_db'=>'date', 
+									'type_db' => 'date', 
 									'value' => ''.$comment['entrydate']);
 	   	$Comment['YearGroup']=array('label' => 'yeargroup', 
-									'type_db'=>'smallint', 
+									'type_db' => 'smallint', 
 									'value' => ''.$comment['yeargroup_id']);
 		$Comments['Comment'][]=$Comment;
 		}
@@ -1014,13 +1020,13 @@ function fetchStay($stay=array('id'=>'-1','bookingdate'=>'','invoice'=>'')){
    	$Stay['BookingDate']=array('label' => 'bookingdate', 
 							'table_db' => 'accomodation', 
 							'field_db' => 'bookingdate', 
-							'type_db'=>'date', 
+							'type_db' => 'date', 
 							'value' => ''.$stay['bookingdate']
 							);
    	$Stay['Invoice']=array('label' => 'invoice', 
 							'table_db' => 'accomodation', 
 							'field_db' => 'invoice', 
-							'type_db'=>'varchar(80)', 
+							'type_db' => 'varchar(80)', 
 							'value' => ''.$stay['invoice']
 							);
   	$Stay['RoomCategory']=array('label' => 'roomcategory', 
@@ -1044,49 +1050,49 @@ function fetchStay($stay=array('id'=>'-1','bookingdate'=>'','invoice'=>'')){
 	$Stay['ArrivalDate']=array('label' => 'arrivaldate', 
 							'table_db' => 'accomodation', 
 							'field_db' => 'arrivaldate', 
-							'type_db'=>'date', 
+							'type_db' => 'date', 
 							'value' => ''.$stay['arrivaldate']
 							);
 	$Stay['ArrivalTime']=array('label' => 'arrivaltime', 
 							'table_db' => 'accomodation', 
 							'field_db' => 'arrivaltime', 
-							'type_db'=>'time', 
+							'type_db' => 'time', 
 							'value' => ''.$stay['arrivaltime']
 							);
 	$Stay['ArrivalAirport']=array('label' => 'arrivalairport', 
 							'table_db' => 'accomodation', 
 							'field_db' => 'arrivalairport', 
-							'type_db'=>'varchar(240)', 
+							'type_db' => 'varchar(240)', 
 							'value' => ''.$stay['arrivalairport']
 							);
 	$Stay['ArrivalFlight']=array('label' => 'arrivalflight', 
 							'table_db' => 'accomodation', 
 							'field_db' => 'arrivalflight', 
-							'type_db'=>'varchar(240)', 
+							'type_db' => 'varchar(240)', 
 							'value' => ''.$stay['arrivalflight']
 							);
 	$Stay['DepartureDate']=array('label' => 'departuredate', 
 							'table_db' => 'accomodation', 
 							'field_db' => 'departuredate', 
-							'type_db'=>'date', 
+							'type_db' => 'date', 
 							'value' => ''.$stay['departuredate']
 							);
 	$Stay['DepartureTime']=array('label' => 'departuretime', 
 							'table_db' => 'accomodation', 
 							'field_db' => 'departuretime', 
-							'type_db'=>'time', 
+							'type_db' => 'time', 
 							'value' => ''.$stay['departuretime']
 							);
 	$Stay['DepartureAirport']=array('label' => 'departureairport', 
 							'table_db' => 'accomodation', 
 							'field_db' => 'departureairport', 
-							'type_db'=>'varchar(240)', 
+							'type_db' => 'varchar(240)', 
 							'value' => ''.$stay['departureairport']
 							);
 	$Stay['DepartureFlight']=array('label' => 'departureflight', 
 							'table_db' => 'accomodation', 
 							'field_db' => 'departureflight', 
-							'type_db'=>'varchar(240)', 
+							'type_db' => 'varchar(240)', 
 							'value' => ''.$stay['departureflight']
 							);
 	return $Stay;

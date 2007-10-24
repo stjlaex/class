@@ -40,6 +40,14 @@ Added $cidsno to the MarkBook to keep track of the number of classes;
 homeworks can only be set on a class by class basis and cidsno>1 means
 the homework functions are filtered out.
 
+The info table has had a field for ethnicity added and made part of
+the Student array. It is disabled by default. Check the
+schoolarays.php config file to switch on and for some example
+ehtnicity arrays.
+
+Added an option to flag comments to be emailed home to contacts. This
+needs the $CFG->emailguardiancomments option set to 'yes'.
+
 
 Version ClaSS-0.8.31 release (2007/10/11)
 -----------------------------------------

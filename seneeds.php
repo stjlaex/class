@@ -39,7 +39,7 @@ elseif($sid!=''){
 		  $enum=getEnumArray('sentype');
 ?>
 	  <fieldset class="seneeds">
-		<legend><?php print_string('filterlistbyneeds',$book);?></legend>
+		<legend><?php print_string('filterlist',$book);?></legend>
 		<label for="Type"><?php print_string('sentype',$book);?></label>
 		<select id="Type" name="sentype" 
 		  onChange="document.<?php print $book;?>choice.submit();">

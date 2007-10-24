@@ -115,10 +115,12 @@ function generate_random_name($gender){
 		$d_gidsid=mysql_query("SELECT relationship FROM gidsid 
 				WHERE guardian_id='$id'");
 		$rel=mysql_result($d_gidsid,0);
-		if($rel=='PAF'){$gender='M';}else{$gender='F';}
+		if($rel=='PAF'){$gender='M';$title='1';}else{$gender='F';$title='2';}
 		$name=generate_random_name($gender);
-		if(mysql_query("UPDATE $table SET surname='$name[2]', forename='$name[0]', middlenames='$name[1]'
-				WHERE id='$id'")){}
+		if(mysql_query("UPDATE $table SET surname='$name[2]',
+			forename='$name[0]', middlenames='$name[1]', title='$title',
+			profession='', email='', companyname='', nationality='', language='',
+			dob='' WHERE id='$id'")){}
 		else{$error[]=mysql_error();}
 		}
 
@@ -145,10 +147,13 @@ function generate_random_name($gender){
 	$table='info';
 	$trows=array();
 	$trows=tableRead($table);
-	while (list($index, $row) = each($trows)) {
+	while(list($index,$row)=each($trows)){
 		$id=$row['student_id'];
 		if(mysql_query("UPDATE $table SET formerupn='20987',
-			entrydate='2001-04-01', leavingdate='', nationality='GB', medical='N'
+			ethnicity='', email='', phonenumber='', countryoforigin='',
+			language='EN', religion='', incare='N', enrolnotes='',
+			entrydate='2001-04-01', leavingdate='', nationality='GB', 
+				secondnationality='', medical='N'
 				WHERE student_id='$id'")){}
 		else{$error[]=mysql_error();}
 		}

@@ -41,7 +41,7 @@
 <?php
 	if($fresh!=''){
 		$role=$_SESSION['role'];
-		if($_SESSION['senrole']=='1'){$books[$role]['seneeds']='SpecialNeeds';}
+		if($_SESSION['senrole']=='1'){$books[$role]['seneeds']='SEN';}
 		foreach($books[$role] as $bookhost=>$bookname){
 			/*(re)loading all the ClaSS books*/
 ?>

@@ -1,0 +1,36 @@
+<?php 
+/**								new_homework_action.php
+ */
+
+$action='class_view.php';
+$action_post_vars=array('displaymid');
+
+include('scripts/sub_action.php');
+
+
+$title=clean_text($_POST['comment']);
+$def_name=$_POST['def_name'];
+$description=clean_text($_POST['description']);
+$references=clean_text($_POST['references']);
+$dateset=$_POST['date0'];
+$datedue=$_POST['date1'];
+
+
+if(!isset($_POST['total'])){$total=0;}else{$total=clean_text($_POST['total']);}
+if(!isset($_POST['newpid'])){$newpid='';}else{$newpid=$_POST['newpid'];}
+
+	mysql_query("INSERT INTO mark 
+	     (entrydate, marktype, topic, total, comment, author,
+	     def_name, component_id) 
+	     VALUES ('$entrydate', 'score', '$topic', '$total', 
+	     '$comment', '$tid', '$def_name', '$newpid')");
+
+   	$mid=mysql_insert_id();
+	$displaymid=$mid;
+	$cid=$cids[0];
+	mysql_query("INSERT INTO midcid 
+			     (mark_id, class_id) VALUES ('$mid', '$cid')");
+
+	include('scripts/results.php');
+	include('scripts/redirect.php');
+?>
