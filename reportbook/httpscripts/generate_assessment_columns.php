@@ -44,8 +44,8 @@ $deadline=$AssDef['Deadline']['value'];
 			else{$entrydate=date('Y').'-'.date('n').'-'.date('j');}
 
 			/*make a list of subjects that will need distinct new marks*/
-			$bids=array();
-			if($subject!='%'){$bids[]=$subject;}
+			$subjects=array();
+			if($subject!='%'){$subjects[]['id']=$subject;}
 			else{
 				$subjects=list_course_subjects($crid);
 				}
@@ -53,25 +53,32 @@ $deadline=$AssDef['Deadline']['value'];
 			/*generate a mark for each bid/pid combination*/
 			while(list($index,$subject)=each($subjects)){
 				$bid=$subject['id'];
-				$pids=array();
+				$components=array();
 				if($compstatus=='A'){$compstatus='%';}
 				$d_component=mysql_query("SELECT DISTINCT id FROM component
-					WHERE course_id='$crid' AND subject_id='$bid'
+						WHERE course_id='$crid' AND subject_id='$bid'
 						AND status LIKE '$compstatus'");
-				while($pid=mysql_fetch_array($d_component,MYSQL_NUM)){$pids[]=$pid[0];}
+				while($component=mysql_fetch_array($d_component,MYSQL_NUM)){
+					$components[]=$component[0];
+					}
 				mysql_free_result($d_component);
 
-				if(sizeof($pids)==0){$pids[0]='';}
-				while(list($index,$pid)=each($pids)){
-				/*if there is no component for this subject or components are not
-					requested then $pid is blank*/
+				/* If there is no component for this subject or*/
+				/* components are not requested then $pid is blank*/
+				if(sizeof($components)==0){$components[0]='';}
+				while(list($index,$component)=each($components)){
+				  $strands=list_subject_components($component,$crid);
+				  if(sizeof($strands)==0){$strands[0]['id']=$component;}
+				  while(list($index,$strand)=each($strands)){
+					$pid=$strand['id'];
+					trigger_error($bid. sizeof($strands). $pid,E_USER_WARNING);
 					if(mysql_query("INSERT INTO mark 
 					  (entrydate, marktype, topic, comment, author,
 						 def_name, assessment, component_id) 
 							VALUES ('$entrydate', 'score', '$description', 
 						 '', 'ClaSS', '$markdef_name', 'yes', '$pid')"))
 					{$result[]='Created mark for '.$bid.'-'.$pid;}
-					else{$error[]='Failed on new mark for:'.$bid.$pid.' '.mysql_error();}
+					else{$error[]='Failed on new mark for:'.$bid. $pid.' '.mysql_error();}
 					$mid=mysql_insert_id();
 
 					/*entry in eidmid for this new mark*/
@@ -119,8 +126,8 @@ $deadline=$AssDef['Deadline']['value'];
 					}
 					mysql_free_result($d_class);
 
-
 					}
+				  }
 				}
 		}
 	else{

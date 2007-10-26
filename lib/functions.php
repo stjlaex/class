@@ -200,14 +200,16 @@ function getEnumArray($field_name){
 				'D' => 'departure'
 				);
 
-	/*codes from CBDS 2007, the deprecated first six are for compatibility*/
+	/*codes from CBDS 2007, including deprecated six for compatibility*/
 	/*not always the same as ISO 639-2 is the alpha-3 code for language!*/
 	$language=array('ENG' => 'english', 
 					'ENB' => 'believedtobeenglish', 
 					'OTB' => 'believedtobeotherthanenglish',
-					'OTH' => 'other', 
-					'NOT' => 'informationnotobtained',
+					'SPA'=>'spanish',
+					//'OTH' => 'other', 
 					'OTL'=>'otherlanguage',
+					'NOT' => 'informationnotobtained'
+/*
 					'REF'=>'refused',
 					'ACL'=>'Acholi',
 					'ADA'=>'Adangme',
@@ -459,7 +461,6 @@ function getEnumArray($field_name){
 					'SNG'=>'Sango',
 					'SNH'=>'Sinhala',
 					'SOM'=>'Somali',
-					'SPA'=>'Spanish',
 					'SRD'=>'Sardinian',
 					'SRK'=>'Siraiki',
 					'SSO'=>'Sotho/Sesotho',
@@ -524,6 +525,7 @@ function getEnumArray($field_name){
 					'ZND'=>'Zande',
 					'ZUL'=>'Zulu',
 					'ZZZ'=>'classificationpending'
+*/
 					);
 	$ethnicity=array('' => ''
 					 );

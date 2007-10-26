@@ -5,7 +5,7 @@
 
 $action='new_homework_action.php';
 
-if($umntype!='%'){$umntype='hw';}
+if($umntype!='%'){$umntype='hw';$_SESSION['umntype']=$umntype;}
 
 include('scripts/sub_action.php');
 

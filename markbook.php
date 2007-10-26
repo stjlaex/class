@@ -13,22 +13,40 @@ include('scripts/set_book_vars.php');
 if(!isset($_POST['displaymid'])){$displaymid=0;}//means no change to marks displayed
 else{$displaymid=$_POST['displaymid'];}//new mark created by previous script
 
-$pids=array();
+/* If the classes selection has changed then need to refresh some of */
+/* the session data for components*/
 if(isset($_POST['cids'])){
-	/*If the classes selection has changed then*/
+	$pids=array();
+	$classes=array();
 	if($_SESSION['cids']!=$_POST['cids']){
 	$_SESSION['cids']=$_POST['cids'];
 	$_SESSION['umnrank']='surname';}
 	if($displaymid==0){$displaymid=-1;}
-	foreach($_SESSION['cids'] as $key => $cid){
-		$d_components=mysql_query("SELECT component.id FROM component JOIN
-		class ON component.course_id=class.course_id AND component.subject_id=class.subject_id
-		WHERE class.id='$cid' ORDER BY component.id");
-		while($component=mysql_fetch_array($d_components,MYSQL_ASSOC)){
-			if(!in_array($component['id'],$pids)){$pids[]=$component['id'];}
+
+	foreach($_SESSION['cids'] as $index => $cid){
+		/*this is used to describe the class*/
+		$d_c=mysql_query("SELECT detail, subject_id AS bid, course_id
+					AS crid	FROM class WHERE id='$cid';");
+		$classes[$cid]=mysql_fetch_array($d_c,MYSQL_ASSOC);
+		/*grab the class's subject components*/
+		$components=list_subject_components($classes[$cid]['bid'],$classes[$cid]['crid']);
+		while(list($index,$component)=each($components)){
+			if(!in_array($component['id'],$pids)){
+				$pids[]=$component['id'];
+				/*and the subject component's components ie. strands*/
+				$strands=list_subject_components($component['id'],$classes[$cid]['crid']);
+				while(list($index,$strand)=each($strands)){
+					if(!in_array($strand['id'],$pids)){
+						$pids[]=$strand['id'];
+						}
+					}
+				}
 			}
 		}
 	$_SESSION['pids']=$pids;
+	$_SESSION['classes']=$classes;
+
+	/* Tries to recall a tid's previous choice of pid for this class*/
 	if(!in_array($_SESSION['pid'],$pids)){
 		$etid=$tid;
 		$d_component=mysql_query("SELECT component_id FROM tidcid 
@@ -42,12 +60,12 @@ if(isset($_POST['cids'])){
 		}
 	}
 
+/* If the component selection has changed then update*/
 if(isset($_POST['pid'])){
-	/*If the component selection has changed then*/
 	if($_SESSION['pid']!=$_POST['pid']){
 	$_SESSION['pid']=$_POST['pid'];
 	$pid=$_SESSION['pid'];
-	foreach($_SESSION['cids'] as $key => $cid){
+	foreach($_SESSION['cids'] as $index => $cid){
 		$d_component=mysql_query("UPDATE tidcid SET component_id='$pid' 
 						WHERE class_id='$cid' AND teacher_id='$tid'");
 		}
@@ -55,17 +73,20 @@ if(isset($_POST['pid'])){
 	if($displaymid==0){$displaymid=-1;}
 	}
 
+/* If the column-type filter has changed then update*/
 if(isset($_POST['umntype'])){
-	/*If the column type filter has changed then*/
 	if($_SESSION['umntype']!=$_POST['umntype']){
 	$_SESSION['umntype']=$_POST['umntype'];
 	$umntype=$_SESSION['umntype'];}
 	if($displaymid==0){$displaymid=-1;}
 	}
 
+/* Now initialise all of the variables from the session data*/
 if(!isset($_SESSION['cids'])){$_SESSION['cids']=array('','');}
 $cids=$_SESSION['cids'];
 $cidsno=sizeof($cids);
+if(!isset($_SESSION['classes'])){$_SESSION['classes']=array();}
+$classes=$_SESSION['classes'];
 if(!isset($_SESSION['pids'])){$_SESSION['pids']=array();}
 $pids=$_SESSION['pids'];
 if(!isset($_SESSION['pid'])){$_SESSION['pid']='';}
@@ -75,9 +96,7 @@ if(!isset($_SESSION['umntype']) or
 $umntype=$_SESSION['umntype'];
 if(!isset($_SESSION['umnrank'])){$_SESSION['umnrank']='surname';}
 $umnrank=$_SESSION['umnrank'];
-
 $attdate=date('Y-m-d',mktime(0,0,0,date('m'),date('d'),date('Y')));
-
 ?>
 
 <div class="markcolor" id="bookbox">
@@ -105,7 +124,7 @@ if(sizeof($pids)>0){
 			<select name="pid" size="1" onchange="document.componentchoice.submit();">
 			  <option value=""><?php print_string('allcomponents');?></option>
 <?php
-   foreach($pids as $key => $spid){
+   foreach($pids as $index => $spid){
 		print '<option ';
 		if($spid==$pid){print 'selected="selected"';}
 		print ' value="'.$spid.'">'.$spid.'</option>';

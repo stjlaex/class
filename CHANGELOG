@@ -48,6 +48,25 @@ ehtnicity arrays.
 Added an option to flag comments to be emailed home to contacts. This
 needs the $CFG->emailguardiancomments option set to 'yes'.
 
+The lib functions have been rearranged to reduce the size of the
+files; some of community_functions being been split off into
+curriculum_functions.
+
+The listing of subject components has been moved out to a new function
+list_subject_components(). Recursive use of this function now allows for
+components of components (or strands).
+
+The markbook.php has had its listing of components updated to include
+strands alongside their parent components.
+
+The generate_assessment_columns script now iterates across strands
+too. A component with strands has no assessments of its own but it
+does have an assessment for each of its strands. This will become
+optional at some point. The primary distinction is that unlike
+components then strands can not have report columns and hence no
+written comments for reporting.
+
+
 
 Version ClaSS-0.8.31 release (2007/10/11)
 -----------------------------------------
