@@ -63,15 +63,15 @@ $deadline=$AssDef['Deadline']['value'];
 					}
 				mysql_free_result($d_component);
 
-				/* If there is no component for this subject or*/
-				/* components are not requested then $pid is blank*/
+				/* If there is no component for this subject or
+				 components are not requested then $pid is blank*/
 				if(sizeof($components)==0){$components[0]='';}
 				while(list($index,$component)=each($components)){
 				  $strands=list_subject_components($component,$crid);
 				  if(sizeof($strands)==0){$strands[0]['id']=$component;}
 				  while(list($index,$strand)=each($strands)){
 					$pid=$strand['id'];
-					trigger_error($bid. sizeof($strands). $pid,E_USER_WARNING);
+					//trigger_error($bid. sizeof($strands). $pid,E_USER_WARNING);
 					if(mysql_query("INSERT INTO mark 
 					  (entrydate, marktype, topic, comment, author,
 						 def_name, assessment, component_id) 

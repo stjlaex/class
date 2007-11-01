@@ -1,5 +1,5 @@
 <?php 
-/** 		  							edit_reports_action.php
+/** 		  							new_edit_reports_action.php
  */
 
 $action='class_view.php';

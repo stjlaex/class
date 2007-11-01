@@ -211,7 +211,7 @@ function fetchReportDefinition($rid,$selbid='%'){
 		$reportdef['catdefs']=$catdefs;
 		$cattable=array();
 		while(list($index,$cat)=each($catdefs)){
-			$cattable['cat'][]=array('name' => ''.$cat['name']);
+			$cattable['cat'][]=array('name'=>''.$cat['name']);
 			}
 		while(list($index,$ratings)=each($ratingnames)){
 			while(list($value,$rat)=each($ratings)){
@@ -274,7 +274,7 @@ function fetchReportSummaries($rid){
 	}
 
 
-function checkReportEntry($rid, $sid, $bid, $pid){
+function checkReportEntry($rid,$sid,$bid,$pid){
 	$d_reportentry=mysql_query("SELECT entryn
 					FROM reportentry WHERE report_id='$rid' AND
 					student_id='$sid' AND subject_id='$bid' AND
@@ -282,14 +282,14 @@ function checkReportEntry($rid, $sid, $bid, $pid){
 	return mysql_numrows($d_reportentry);
 	}
 
-function fetchReportEntry($reportdef, $sid, $bid, $pid){
+function fetchReportEntry($reportdef,$sid,$bid,$pid){
 /*		Retrieves all report entries for one student in one subject*/
-/*		All report info is prefetched in $reportdef['report'], */  
+/*		All report info is pre-fetched in $reportdef['report'], */  
 /*				$reportdef['catdefs'] and $reportdef['ratingnames']*/
 
 	$Comments=array();
 	$rid=$reportdef['report']['id'];
-  	$d_reportentry=mysql_query("SELECT * FROM reportentry WHERE
+   	$d_reportentry=mysql_query("SELECT * FROM reportentry WHERE
 		  report_id='$rid' AND student_id='$sid' AND subject_id='$bid'
 		  AND component_id='$pid' ORDER BY entryn");
 	while($entry=mysql_fetch_array($d_reportentry)){
@@ -297,9 +297,9 @@ function fetchReportEntry($reportdef, $sid, $bid, $pid){
 	   $Comment['id_db']=$entry['entryn'];
 	   if($reportdef['report']['addcomment']=='yes' or $bid=='summary'){
 		   $enttid=$entry['teacher_id'];
-		   $teachername=get_teachername($enttid);
+		   $teachername=display_teachername($enttid);
 		   $Comment['Teacher']=nullCorrect(array('id_db' => 
-				   $enttid, 'value'=>$teachername['forename'].' '.$teachername['surname']));
+				   $enttid, 'value'=>$teachername));
 		   $Comment['Text']=nullCorrect(array('value' => $entry['comment']));
 		   }
 	   if($reportdef['report']['addcategory']=='yes' and $bid!='summary'){

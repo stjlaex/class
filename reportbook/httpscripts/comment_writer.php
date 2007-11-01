@@ -4,17 +4,17 @@
 
 require_once('../../scripts/http_head_options.php');
 
-if(isset($_GET{'sid'})){$sid=$_GET{'sid'};}
-elseif(isset($_POST{'sid'})){$sid=$_POST{'sid'};}
-if(isset($_GET{'rid'})){$rid=$_GET{'rid'};}
-elseif(isset($_POST{'rid'})){$rid=$_POST{'rid'};}
-if(isset($_GET{'bid'})){$bid=$_GET{'bid'};}
-elseif(isset($_POST{'bid'})){$bid=$_POST{'bid'};}
-if(isset($_GET{'pid'})){$pid=$_GET{'pid'};}
-elseif(isset($_POST{'pid'})){$pid=$_POST{'pid'};}
-if(isset($_GET{'entryn'})){$entryn=$_GET{'entryn'};}
-elseif(isset($_POST{'entryn'})){$entryn=$_POST{'entryn'};}
-if(isset($_GET{'openid'})){$openid=$_GET{'openid'};}
+if(isset($_GET['sid'])){$sid=$_GET['sid'];}
+elseif(isset($_POST['sid'])){$sid=$_POST['sid'];}
+if(isset($_GET['rid'])){$rid=$_GET['rid'];}
+elseif(isset($_POST['rid'])){$rid=$_POST['rid'];}
+if(isset($_GET['bid'])){$bid=$_GET['bid'];}
+elseif(isset($_POST['bid'])){$bid=$_POST['bid'];}
+if(isset($_GET['pid'])){$pid=$_GET['pid'];}
+elseif(isset($_POST['pid'])){$pid=$_POST['pid'];}
+if(isset($_GET['entryn'])){$entryn=$_GET['entryn'];}
+elseif(isset($_POST['entryn'])){$entryn=$_POST['entryn'];}
+if(isset($_GET['openid'])){$openid=$_GET['openid'];}
 
 /*Needs to be generalized for rid not being a rid!!!!!
 if(){}

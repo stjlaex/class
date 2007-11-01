@@ -43,14 +43,16 @@ if($sub=='Submit'){
 		$scorevalue=clean_text($_POST[$sid]);
 		/*$$sid are the names of score values posted by the form*/
 		/*if the value is empty then score will be unset and no entry made*/
-		if($scorevalue==''){$result='';}
+		if($scorevalue==''){$result='';$scoretype='';}
 		elseif($grading_grades!='' and $grading_grades!=' '){
 			$result=scoreToGrade($scorevalue,$grading_grades);
+			$scoretype='grade';
 			}
 		else{
 			$result=$scorevalue;
+			$scoretype='value';
 			}
-		$score=array('result'=>$result,'value'=>$scorevalue,'date'=>$todate);
+		$score=array('type'=>$scoretype,'result'=>$result,'value'=>$scorevalue,'date'=>$todate);
 		update_assessment_score($eid,$sid,$bid,$pid,$score);
 		update_mark_score($mid,$sid,$score);
 		}

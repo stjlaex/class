@@ -1,8 +1,9 @@
 <?php
-/**	   	   								onereport.php
+/**	   	   								new_onereport.php
  */
 		$inc=0;
 		$Report=array();
+		$Report['Assessments']['Assessment']=array();
 		/*this is the xml-ready array*/
 		$Report['Subject']=array('id'=>$bid, 'value'=>$subjectname);
 		if($pid!=''){$Report['Component']=array('id'=>$pid, 'value'=>$componentname);}
@@ -35,8 +36,13 @@
 			$Assessments=array();
 			$eid=$AssDef['id_db'];
 			$Assessments=fetchAssessments_short($sid,$eid,$bid,$pid);
-			if(sizeof($Assessments)>0){$value=$Assessments[0]['Value']['value'];}
-			else{$value='';}
+			if(sizeof($Assessments)>0){
+				$Report['Assessments']['Assessment'][]=$Assessments[0];
+				$value=$Assessments[0]['Value']['value'];
+				}
+			else{
+				$value='';
+				}
 			$grading_grades=$AssDef['GradingScheme']['grades'];
 			if($grading_grades!='' and $grading_grades!=' '){
 				$pairs=explode (';', $grading_grades);
@@ -62,24 +68,23 @@
 			   	print '<td><input pattern="decimal" type="text" tabindex="'.$tab.'" name="sid'.$sid.':'.$inc++.'" maxlength="8" value="'.$value.'" /></td>';
 				}
 		}
-   	$Report['Assessments']=$Assessments;
 ?>
 	</tr>
 <?php
-	if($report['addcomment']=='yes' or $report['addcategory']=='yes'){
-		if(isset($catdefs)){$reportdef['catdefs']=$catdefs;}
-		if(isset($ratingnames)){$reportdef['ratingnames']=$ratingnames;}
-		$Report['Comments']=array();
-		$Report['Comments']=fetchReportEntry($reportdef, $sid, $bid, $pid);
+	if($reportdef['report']['addcomment']=='yes' or 
+						$reportdef['report']['addcategory']=='yes'){ 
+
+ 		$Report['Comments']=fetchReportEntry($reportdef,$sid,$bid,$pid);
 		for($entryn=0;$entryn<=sizeof($Report['Comments']['Comment']);$entryn++){
-		  if($entryn==sizeof($Report['Comments']['Comment'])){
+			if($entryn==sizeof($Report['Comments']['Comment'])){
 				$Comment=array('Text'=>array('value'=>''),
 				'Teacher'=>array('value'=>'ADD NEW ENTRY'));
 				$inmust='yes';
 				$rowstate='rowminus';
 				$rowclass='revealed';
 				}
-		  else{$Comment=$Report['Comments']['Comment'][$entryn]; 
+			else{
+				$Comment=$Report['Comments']['Comment'][$entryn];
 				$inmust=$Comment['id_db'];
 				$rowstate='rowplus';
 				$rowclass='hidden';
@@ -88,24 +93,26 @@
 		  $en=$entryn+1;
 		  $openId=$rid.'-'.$sid.'-'.$bid.'-'.$pid.'-'.$en;
 		  $Comment['id_db']=$openId;
+		
 		  if($edit_comments_off!='yes'){
 ?>
   <tbody id="<?php print $openId;?>">
 	<tr onClick="clickToReveal(this)" class="<?php print $rowstate;?>" 
 					id="<?php print $openId.'-'.$rown++;?>">
 	  <th>&nbsp</th>
-	  <td><?php print_String('teachercomment');?>:</td>
+	  <td><?php print_string('teachercomment');?>:</td>
 	  <td><?php print $Comment['Teacher']['value'];?></td>
 	  <td id="icon<?php print $openId;?>" class="">		  
 		<img class="clicktoedit" name="Write"  
 		  onClick="clickToWriteComment(<?php print $sid.','.$rid.',\''.$bid.'\',\''.$pid.'\',\''.$entryn.'\',\''.$openId.'\'';?>);" 
 		  title="<?php print_string('clicktowritecomment');?>" />
 	  </td>
-	  <input type="hidden" id="inmust<?php print $openId;?>" name="inmust<?php print $sid.':'.$inc++;?>" 
+	  <input type="hidden" id="inmust<?php print $openId;?>" 
+		name="inmust<?php print $sid.':'.$inc++;?>" 
 		value="<?php print $inmust;?>" />
 	</tr>
 <?php
-		if($report['addcategory']=='yes'){
+		if($reportdef['report']['addcategory']=='yes'){
 		  reset($catdefs);
   		  while(list($c4,$catdef)=each($catdefs)){
 			$catid=$catdefs[$c4]['id'];
@@ -130,9 +137,9 @@
 			print '</tr>';
 	   		}
 		  }
-		if($report['addcomment']=='yes'){
-			if($report['commentlength']=='0'){$commentlength='';}
-		    else{$commentlength=' maxlength="'.$report['commentlength'].'"';}
+		if($reportdef['report']['addcomment']=='yes'){
+			if($reportdef['report']['commentlength']=='0'){$commentlength='';}
+		    else{$commentlength=' maxlength="'.$reportdef['report']['commentlength'].'"';}
 			print '<tr class="'.$rowclass.'" id="'.$openId.'-'.$rown++.'" >';
 			print '<th></th><td colspan="5">';
 			print '<textarea '.$commentlength.' rows="2" cols="80" ';
@@ -151,9 +158,9 @@
 			print '</td></tr>';
 			}
 ?>
-		  <div id="<?php print 'xml-'.$openId;?>" style="display:none;">
-	  <?php				xmlechoer('Comment',$Comment); ?>
-		  </div>
+	<div id="<?php print 'xml-'.$openId;?>" style="display:none;">
+	  <?php	 xmlechoer('Comment',$Comment); ?>
+	</div>
   </tbody>
 <?php
 		  }

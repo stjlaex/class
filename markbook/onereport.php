@@ -107,10 +107,10 @@
 	<tr onClick="clickToReveal(this)" class="<?php print $rowstate;?>" 
 					id="<?php print $openId.'-'.$rown++;?>">
 	  <th>&nbsp</th>
-	  <td><?php print_String('teachercomment');?>:</td>
+	  <td><?php print_string('teachercomment');?>:</td>
 	  <td><?php print $Comment['Teacher']['value'];?></td>
 	  <td id="icon<?php print $openId;?>" class="">		  
-		<img class="clicktoedit" name="Write"  
+		<img class="clicktoedit" name="Write" 
 		  onClick="clickToWriteComment(<?php print $sid.','.$rid.',\''.$bid.'\',\''.$pid.'\',\''.$entryn.'\',\''.$openId.'\'';?>);" 
 		  title="<?php print_string('clicktowritecomment');?>" />
 	  </td>

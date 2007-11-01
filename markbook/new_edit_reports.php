@@ -6,9 +6,9 @@ $action='new_edit_reports_action.php';
 
 $viewtable=$_SESSION['viewtable'];
 $bid=$_GET['bid'];
+$pid=$_GET['pid'];
 $title=$_GET['title'];
 $rid=$_GET['midlist'];
-$pid=$_GET['pid'];
 if(isset($_GET['sid'])){
 	/* This was called from a clickthrough for one individual student */
 	/* so give access to editing comments. */
@@ -21,10 +21,7 @@ else{
 	$edit_comments_off='yes';
 	}
 
-	$reportdefs=array();
 	$reportdef=fetchReportDefinition($rid,$bid);
-	$reportdefs[]=fetchReportDefinition($rid,$bid);
-	$report=$reportdef['report'];
 	$eids=(array)$reportdef['eids'];
 
 	$subjectname=get_subjectname($bid);
@@ -120,7 +117,7 @@ three_buttonmenu($extrabuttons,$book);
 		</thead>
 <?php
 	$inorders=array('rid'=>$rid, 'subject'=>$bid, 'component'=>$pid, 'inasses'=>$inasses);
-   	if($report['addcategory']=='yes'){
+   	if($reportdef['report']['addcategory']=='yes'){
 		/*the categories and rating details for later use*/
 		list($ratingnames,$catdefs)=fetchReportCategories($rid,$bid);
 		$inorders['category']='yes';
@@ -129,7 +126,7 @@ three_buttonmenu($extrabuttons,$book);
 	else{
 		$inorders['category']='no';
 		}
-   	if($report['addcomment']=='yes'){
+   	if($reportdef['report']['addcomment']=='yes'){
 		$inorders['comment']='yes';
 		}
 	else{

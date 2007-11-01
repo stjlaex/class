@@ -41,7 +41,8 @@ function list_course_subjects($crid=''){
 	return $subjects;
 	}
 
-/* Returns an array of all components for a single subject*/
+/* Returns an array of all components for a single subject. If the subject is */
+/* itself a component then you'll really get strands. */
 function list_subject_components($bid,$crid){
 	$components=array();
 	if($bid!='' and $crid!=''){
