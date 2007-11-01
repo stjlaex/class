@@ -348,8 +348,8 @@ while(list($index,$curriculum)=each($curriculums)){
 			mysql_query("UPDATE groups SET name='$name' WHERE
 				yeargroup_id='$yid' AND course_id IS NULL AND subject_id IS NULL");
 			}
-
-		update_community(array('id'=>'','name'=>$yid,'type'=>'year','capacity'=>$capacity));
+		$comyear=array('id'=>'','name'=>$yid,'type'=>'year','capacity'=>$capacity);
+		update_community($comyear,$comyear);
 
 		$Formgroups=xmlarray_indexed_check($Group['formgroups'],'form');
 		while(list($index,$Form)=each($Formgroups['form']) and $Form['id']!=''){
@@ -366,7 +366,8 @@ while(list($index,$curriculum)=each($curriculums)){
 				mysql_query("UPDATE form SET name='$name',
 					yeargroup_id='$yid' WHERE id='$fid'");
 				}
-			$comid=update_community(array('id'=>'','name'=>$fid,'type'=>'form'));
+			$comform=array('id'=>'','name'=>$fid,'type'=>'form');
+			$comid=update_community($comform,$comform);
 			}
 		}
 	  }

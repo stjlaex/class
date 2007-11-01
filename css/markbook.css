@@ -63,7 +63,6 @@ table#marktable {
 	border-left:1px solid #cccccc; 
 	border-right:1px solid #cccccc;
 	display:none;
-	background-color:#eeeeee;
 	}
 #marktable th {
 	border-left:2px solid #999999;
@@ -71,6 +70,12 @@ table#marktable {
 	background-color:#ffffff;
 	text-align:center;
 	display:none;
+	}
+#marktable th.other, #marktable td.other {
+	background-color:#ddeeff;
+	}
+#marktable th.report, #marktable td.report {
+	background-color:#eeeeee;
 	}
 #marktable tr:hover { 
 	background-color:#fcd39a;

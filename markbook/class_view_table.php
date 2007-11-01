@@ -46,6 +46,7 @@ while($student=mysql_fetch_array($d_students, MYSQL_ASSOC)){
 					WHERE mark_id='$col_mid' AND student_id='$sid'");
 				$score=mysql_fetch_array($d_score,MYSQL_ASSOC);				
 				/*score can be one of four types: grade, value, percentage, comment*/
+				$scoreclass='grade';
 				if($scoretype=='grade'){
 					$out=scoreToGrade($score['grade'],$scoregrades[$c]);
 					$outrank=$score['grade'];
@@ -65,6 +66,7 @@ while($student=mysql_fetch_array($d_students, MYSQL_ASSOC)){
 		  /*********************************************************/
 		  elseif($marktype=='average'){
 			/*Mark is average of several score values*/
+			$scoreclass='grade other';
 			$mids=explode(' ',$midlist[$c]);
 			$d_markdef=mysql_query("SELECT markdef.scoretype FROM markdef
 				JOIN mark ON markdef.name=mark.def_name WHERE mark.id='$mids[1]'");
@@ -131,6 +133,7 @@ while($student=mysql_fetch_array($d_students, MYSQL_ASSOC)){
 		/*********************************************************/
 	   	elseif($marktype=='sum'){
 			/*Mark is the sum of several score values*/
+			$scoreclass='grade other';
 			$mids=explode(' ',$midlist[$c]);
 			$score_value=0;
 			$score_total=0;
@@ -159,6 +162,7 @@ while($student=mysql_fetch_array($d_students, MYSQL_ASSOC)){
 
 		/*********************************************************/
 	   	elseif($marktype=='level'){
+			$scoreclass='grade other';
 			/*then mark is the levelled grade of a score*/
 			$d_score=mysql_query("SELECT value, outoftotal FROM 
 					score WHERE mark_id='$midlist[$c]' AND student_id='$sid'");
@@ -183,10 +187,10 @@ while($student=mysql_fetch_array($d_students, MYSQL_ASSOC)){
 
 		/*********************************************************/
 	   	elseif($marktype=='report'){
-			$score['scoreclass']='report';
+			$scoreclass='report';
 			/*Mark is a compound report column*/
 			$reportentryn=checkReportEntry($umns[$c]['midlist'],$sid,$bid[0],$umns[$c]['component']);
-			$out='<a href="markbook.php?current=edit_reports.php&cancel=class_view.php&midlist='.$umns[$c]['midlist'].'&title='.$umns[$c]['topic'].'&mid='.$umns[$c]['id'].'&pid='.$umns[$c]['component'].'&sid='.$sid.'&col='.$c.'&bid='.$bid[0].'">R '.$reportentryn.'</a>';
+			$out='<a href="markbook.php?current=new_edit_reports.php&cancel=class_view.php&midlist='.$umns[$c]['midlist'].'&title='.$umns[$c]['topic'].'&mid='.$umns[$c]['id'].'&pid='.$umns[$c]['component'].'&sid='.$sid.'&col='.$c.'&bid='.$bid[0].'">R '.$reportentryn.'</a>';
 			$outrank=-100;
 			}
 
@@ -204,13 +208,13 @@ while($student=mysql_fetch_array($d_students, MYSQL_ASSOC)){
 			if(!isset($score['value'])){$score['value']='';}
 			if(!isset($score['grade'])){$score['grade']='';}
 			if(!isset($score['comment'])){$score['comment']='';}
-			if(!isset($score['scoreclass'])){$score['scoreclass']='grade';}
+			$score['scoreclass']=$scoreclass;
 			$studentrow["score$col_mid"]=$score;
 			/*and score values form the database to be used by column_scripts*/
 			}
 	//		}
 		array_push($viewtable, $studentrow);
-		$row++;		
+		$row++;
 		}
 
 /**************************************************************/

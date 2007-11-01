@@ -230,7 +230,7 @@ div.content .center, div.topform .center {
 	clear:both;
 	}
 
-/*used (but rarely) to describe page content in the space to the left of the top buttonmenu*/
+/*used to describe page content in the space to the left of the top buttonmenu*/
 div#heading {
 	position:absolute; top:1%; left:10%;
 	border:0; margin-top:2px;
@@ -249,7 +249,7 @@ div.buttonmenu {
 	}
 .buttonmenu button, #heading button {
 	margin:1px 2px; border:2px; border-style:outset; padding:0;
-	font-size:medium; font-weight:300; color:#ffeeff;
+	font-size:small; font-weight:300; color:#ffeeff;
 	cursor:pointer;
 	}
 .buttonmenu button:hover, .buttonmenu button:focus, 

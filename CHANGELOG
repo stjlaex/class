@@ -1,4 +1,4 @@
-Version ClaSS-0.8.32 release (2007/10/25)
+Version ClaSS-0.8.32 release (2007/11/01)
 -----------------------------------------
 
 Bugfix to the contact_details.php in the InfoBook which was confusing
@@ -65,6 +65,17 @@ does have an assessment for each of its strands. This will become
 optional at some point. The primary distinction is that unlike
 components then strands can not have report columns and hence no
 written comments for reporting.
+
+Gave some colour to the diferent types of mark columns.
+
+In transition to upgrading the MarkBook, the edit_reports pages have
+been taken over by new_edit_reports etc. These don't rely on the
+viewtable and so lift the restriction that assessments must have mark
+columns to access them. All changes in values now go through
+update_mark_score and update_assessment_score functions. A new
+function which finds a specific mid for an assessment based on
+crid/bid/pid is key. This is also put to work in the ReportBook for
+edit_scores.
 
 
 

@@ -117,8 +117,8 @@ function gradeToScore($grade,$grading_grades){
 function fetchAssessmentDefinition($eid){
    	$AssDef=array();
   	$AssDef['id_db']=$eid;
-   	$d_ass=mysql_query("SELECT * FROM assessment WHERE id='$eid' ORDER
-							BY creation");
+   	$d_ass=mysql_query("SELECT * FROM assessment WHERE id='$eid' 
+						ORDER BY creation");
 	if(mysql_numrows($d_ass)==0){$AssDef['exists']='false';}
 	else{$AssDef['exists']='true';}
 	$ass=mysql_fetch_array($d_ass,MYSQL_ASSOC);
@@ -244,11 +244,12 @@ function fetchAssessments($sid,$eid='%'){
 
 		/*TODO: this is repeated for every bid-pid combination and only
 				needs to be done the once*/
+		/*!!!*/
 		$eid=$eidsid['assessment_id'];
 		$d_ass=mysql_query("SELECT * FROM assessment WHERE id='$eid'");
 		$ass=mysql_fetch_array($d_ass,MYSQL_ASSOC);
 		$ass=nullCorrect($ass);
-		/**/
+		/*!!!*/
 
 		$Assessment['id_db']=$ass['id'];
 	   	$Assessment['Stage']=array('label' => 'Stage','table_db' =>
@@ -339,7 +340,7 @@ function fetchAssessments_short($sid,$eid='%',$bid='%',$pid='%'){
    	$d_eidsid=mysql_query("SELECT * FROM eidsid WHERE
 				student_id='$sid' AND assessment_id LIKE '$eid' AND
 				subject_id LIKE '$bid' AND component_id LIKE '$pid'");
-  	while($eidsid=mysql_fetch_array($d_eidsid,MYSQL_ASSOC)) {
+  	while($eidsid=mysql_fetch_array($d_eidsid,MYSQL_ASSOC)){
 		$eidsid=nullCorrect($eidsid);
 		$eid=$eidsid['assessment_id'];
 		$d_ass=mysql_query("SELECT * FROM assessment WHERE id='$eid'");
@@ -684,7 +685,9 @@ function update_assessment_score($eid,$sid,$bid,$pid,$score){
 	$val=$score['value'];
 	if(isset($score['date'])){$date=$score['date'];}else{$date='';}
 
-	/*first simply update eidsid*/
+	/* Check if this is really an update of eidsid and if not insert a
+		new record. If the result is blank then simply delete the old
+		record. */
 	$d_eidsid=mysql_query("SELECT id, result FROM eidsid
 				WHERE subject_id='$bid' AND component_id='$pid' 
 				AND assessment_id='$eid' AND student_id='$sid';");
@@ -705,8 +708,8 @@ function update_assessment_score($eid,$sid,$bid,$pid,$score){
 			}
 		}
 
-	/* now check to see if this score is an operand in any derivations*/
-	/* not needed if sid=0 (meaning just statistics being updated)*/
+	/* Now check to see if this score is an operand in any derivations*/
+	/* not needed if sid=0 (meaning just statistics being updated).*/
 	if($sid>0){
 		$d_der=mysql_query("SELECT resultid FROM derivation
 				WHERE type='A' AND operandid='$eid'");
@@ -717,6 +720,49 @@ function update_assessment_score($eid,$sid,$bid,$pid,$score){
 			//trigger_error('Updated assessment score for '.$sid.'-'.$resultid ,E_USER_WARNING);
 			}
 		}
+	}
+
+/* Should always be used when writing to the score table. The $score */
+/* being recorded is an array with both result and value.*/
+function update_mark_score($mid,$sid,$score){
+	if($mid!=-1 and $mid!=''){
+		$res=$score['result'];
+		$val=$score['value'];
+		if($val==''){
+			mysql_query("DELETE FROM score WHERE
+						mark_id='$mid' AND student_id='$sid' LIMIT 1");
+			}
+		elseif(isset($score['type'])){
+			$field=$score['type'];/*either grade or value*/
+			if(mysql_query("INSERT INTO score ($field,
+					 mark_id, student_id) VALUES
+					('$val',  '$mid', '$sid')")){}
+			else{mysql_query("UPDATE score SET
+					$field='$val' WHERE mark_id='$mid' AND student_id='$sid'");}
+			}
+		}
+	}
+
+/* This tries to find the mid (if one exists otherwise -1) associated */
+/* with an assessment for a distinct $crid/$bid/$pid combination. And */
+/* its not easy and only hopefully unique! WARNING!*/
+function get_assessment_mid($eid,$crid,$bid,$pid=''){
+	if(mysql_query("CREATE TEMPORARY TABLE assmids (SELECT DISTINCT mark_id FROM eidmid 
+				JOIN mark ON mark.id=eidmid.mark_id WHERE mark.assessment='yes' AND
+				mark.component_id='$pid' AND eidmid.assessment_id='$eid');")){}
+	else{print 'Failed!<br />'; $error=mysql_error(); print $error.'<br />';}
+	if(mysql_query("CREATE TEMPORARY TABLE classmids (SELECT
+				mark_id FROM midcid JOIN class
+				ON class.id=midcid.class_id WHERE class.subject_id='$bid' 
+				AND class.course_id='$crid');")){}
+	else{print 'Failed!<br />'; $error=mysql_error(); print $error.'<br />';}
+	$d_marks=mysql_query("SELECT DISTINCT assmids.mark_id FROM assmids JOIN
+						classmids ON classmids.mark_id=assmids.mark_id;");
+	if(mysql_num_rows($d_marks)>0){$mid=mysql_result($d_marks,0);}
+	else{$mid=-1;}
+	mysql_query("DROP TABLE assmids;");
+	mysql_query("DROP TABLE classmids;");
+	return $mid;
 	}
 
 /**

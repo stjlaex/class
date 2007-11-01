@@ -26,6 +26,7 @@ if($sub=='Submit'){
 	$crid=$AssDef['Course']['value'];
 	$stage=$AssDef['Stage']['value'];
 	$year=$AssDef['Year']['value'];
+	$mid=get_assessment_mid($eid,$crid,$bid,$pid);
 	$students=array();
 	if($stage!='%'){
 		$cohorts[]=array('id'=>'','course_id'=>$crid,'stage'=>$stage,'year'=>$year);
@@ -51,6 +52,7 @@ if($sub=='Submit'){
 			}
 		$score=array('result'=>$result,'value'=>$scorevalue,'date'=>$todate);
 		update_assessment_score($eid,$sid,$bid,$pid,$score);
+		update_mark_score($mid,$sid,$score);
 		}
 	}
 

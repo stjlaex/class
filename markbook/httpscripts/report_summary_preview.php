@@ -1,5 +1,5 @@
 <?php
-/**			   					httpscripts/report_summary_preview.php
+/**		   					httpscripts/report_summary_preview.php
  */
 
 require_once('../../scripts/http_head_options.php');
@@ -19,7 +19,7 @@ if(isset($_POST['pid'])){$pid=$_POST['pid'];}
 		$rootName='Error';
 		}
 	else{
-		/*find the details, assessments, etc. specific to each report */
+		/* Find the details, assessments, etc. specific to each report. */
 		$reportdefs=array();
 		$rid=$rids[0];
 
@@ -27,7 +27,7 @@ if(isset($_POST['pid'])){$pid=$_POST['pid'];}
 
 		$Students=array();
 		$Students['Student']=array();
-		/*doing one student at a time*/
+		/* Doing one student at a time.*/
 		for($c=0;$c<sizeof($sids);$c++){
 			$sid=$sids[$c];
 			$Student=fetchStudent_short($sid);

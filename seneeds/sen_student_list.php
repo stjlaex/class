@@ -24,7 +24,8 @@ two_buttonmenu();
 				ON sentypes.student_id=info.student_id WHERE sentypes.sentype='$sentype'
 				AND info.sen='Y' AND info.enrolstatus='C')");
 		$d_info=mysql_query("SELECT student_id FROM students JOIN student
-				ON student.id=students.student_id WHERE student.yeargroup_id='$newyid';");
+				ON student.id=students.student_id WHERE
+				student.yeargroup_id='$newyid' ORDER BY student.surname;");
 		mysql_query('DROP TABLE students;');
 		}
 	elseif($sentype!=''){
@@ -35,10 +36,13 @@ two_buttonmenu();
 	elseif($newyid!=''){
 		$d_info=mysql_query("SELECT info.student_id FROM info JOIN student
 				ON student.id=info.student_id WHERE student.yeargroup_id='$newyid'
-				AND info.sen='Y' AND info.enrolstatus='C';");
+				AND info.sen='Y' AND info.enrolstatus='C' ORDER BY student.surname;");
 		}
 	else{
 		$d_info=mysql_query("SELECT student_id FROM info WHERE sen='Y' AND enrolstatus='C';");
+		$d_info=mysql_query("SELECT info.student_id FROM info JOIN student
+				ON student.id=info.student_id WHERE 
+				info.sen='Y' AND info.enrolstatus='C' ORDER BY student.surname;");
 		}
 
 	$sids=array();

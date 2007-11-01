@@ -1,20 +1,17 @@
 <?php 
-/**											edit_reports.php
+/**											new_edit_reports.php
  */
 
-$action='edit_reports_action.php';
+$action='new_edit_reports_action.php';
 
 $viewtable=$_SESSION['viewtable'];
-$umns=$_SESSION['umns'];
-$mid=$_GET['mid'];
 $bid=$_GET['bid'];
-$col=$_GET['col'];
 $title=$_GET['title'];
 $rid=$_GET['midlist'];
 $pid=$_GET['pid'];
 if(isset($_GET['sid'])){
 	/* This was called from a clickthrough for one individual student */
-	/* so give access to editing comments.*/
+	/* so give access to editing comments. */
 	$edit_comments_off='no';
 	$sid=$_GET['sid'];
 	}
@@ -24,32 +21,18 @@ else{
 	$edit_comments_off='yes';
 	}
 
-   	$d_report=mysql_query("SELECT * FROM report WHERE id='$rid'");
-   	$report=mysql_fetch_array($d_report,MYSQL_ASSOC);
+	$reportdefs=array();
+	$reportdef=fetchReportDefinition($rid,$bid);
+	$reportdefs[]=fetchReportDefinition($rid,$bid);
+	$report=$reportdef['report'];
+	$eids=(array)$reportdef['eids'];
+
 	$subjectname=get_subjectname($bid);
 	$teachername=display_teachername($tid);
 	if($pid!=''){
-		$componentname=get_subjectname($pid);
+   		$componentname=get_subjectname($pid);
 		}
 	else{$componentname='';}
-
-	/* Find assessment marks specific to this report. */
-	$d_mids=mysql_query("SELECT DISTINCT eidmid.mark_id FROM eidmid LEFT
-				JOIN rideid ON eidmid.assessment_id=rideid.assessment_id 
-				WHERE rideid.report_id='$rid'");
-	$mids=array();
-	$cols=array();
-
-	/* Identify which columns represent the assessment marks and store */
-	/* in cols. */
-	while($mid=mysql_fetch_array($d_mids,MYSQL_NUM)){
-		for($c=0;$c<sizeof($umns);$c++){
-   			if($mid[0]==$umns[$c]['id'] and
-				($umns[$c]['component']==$pid
-//				or $umns[$c]['component']==''
-					)){$mids[]=$mid[0];$cols[]=$c;}
-   			}
-		}
 
 $extrabuttons='';
 if($edit_comments_off=='yes'){
@@ -62,7 +45,8 @@ if($edit_comments_off=='yes'){
 three_buttonmenu($extrabuttons,$book);
 ?>
   <div id="heading">
-	<?php print $title;?>
+	<label><?php print $title;?></label>
+	<label><?php print $subjectname.' '.$componentname;?></label>
   </div>
 
   <div  id="viewcontent" class="content">
@@ -77,7 +61,7 @@ three_buttonmenu($extrabuttons,$book);
 		</reportids>
 	  </div>
 
-	  <table class="listmenu" id="editscores">
+	  <table class="listmenu center" id="editscores">
 		<thead>
 		  <tr>
 <?php
@@ -100,43 +84,36 @@ three_buttonmenu($extrabuttons,$book);
 			  <?php print_string('student'); ?>
 			</th>
 <?php
-	/* Headers for the entry field columns. */
-	$inasses=array();
-	for($c=0;$c<sizeof($cols);$c++){
-		/* Iterate over all of the assessment mark columns*/
-		/* at same time store information in $inorders[] for use in action page*/	
-		$umn=$umns[$cols[$c]];
-		$markdef_name=$umn['def_name'];
-		$d_markdef=mysql_query("SELECT * FROM markdef WHERE name='$markdef_name';");
-		$markdef=mysql_fetch_array($d_markdef,MYSQL_ASSOC);
-		$scoretype=$markdef['scoretype'];
-		$grading_name=$markdef['grading_name'];
+	/* Headers for the entry field columns. Iterate over the assessment columns and
+		at the same time store information in $inorders[] for use in the action page. */	
+   	$inasses=array();
+	while(list($index,$eid)=each($eids)){
+		$AssDef=fetchAssessmentDefinition($eid);
+		$AssDefs[]=$AssDef;
+		/* Need to identify the mid (if one exists) that is related to 
+			this assessment for updating scores in the action page.*/
+		$mid=get_assessment_mid($eid,$AssDef['Course']['value'],$bid,$pid);
 ?>
 			<th>
 <?php
-		print $umn['topic'];
-		if($umn['component']!=''){print '<br />'.$umn['component'];}
-		if($scoretype=='grade'){
-			$d_grading=mysql_query("SELECT grades FROM grading WHERE name='$grading_name'");
-			$grading_grades=mysql_result($d_grading,0);
+		print $AssDef['Description']['value'];
+		if($AssDef['Component']['value']!=''){print '<br />'.$AssDef['Component']['value'];}
+		$grading_grades=$AssDef['GradingScheme']['grades'];
+		if($grading_grades!='' and $grading_grades!=' '){
 			$pairs=explode(';', $grading_grades);
-		   	$inorder=array('table'=>'score',
-						   'field'=>'grade', 'scoretype'=>$scoretype, 
-						   'grading_grades'=>$grading_grades,'id'=>$mids[$c]);
+		   	$inass=array('table'=>'score','pid'=>$pid,
+					'field'=>'grade', 'scoretype'=>'grade', 
+					'grading_grades'=>$grading_grades,'eid'=>$eid,'mid'=>$mid);
 			}
 		else{
-		    $inorder=array('table'=>'score',
-						   'field'=>'value', 'scoretype'=>$scoretype, 
-						   'grading_grades'=>'','id'=>$mids[$c]);
+		    $inass=array('table'=>'score','bid'=>$bid,'pid'=>$pid,
+					'field'=>'value', 'scoretype'=>'value', 
+					'grading_grades'=>'','eid'=>$eid,'mid'=>$mid);
 			}
 ?>
 		  </th>
 <?php
-		if($scoretype=='percentage'){
-			$total=$umn['mark_total'];
-			print '<th>Total (default = '.$total.')</th>';
-			}
-		$inasses[]=$inorder;
+		$inasses[]=$inass;
 		}
 ?>
 		  </tr>
@@ -144,8 +121,8 @@ three_buttonmenu($extrabuttons,$book);
 <?php
 	$inorders=array('rid'=>$rid, 'subject'=>$bid, 'component'=>$pid, 'inasses'=>$inasses);
    	if($report['addcategory']=='yes'){
-		/* The categories and rating details for later use. */
-		list($ratingnames, $catdefs)=fetchReportCategories($rid,$bid);
+		/*the categories and rating details for later use*/
+		list($ratingnames,$catdefs)=fetchReportCategories($rid,$bid);
 		$inorders['category']='yes';
 		$inorders['catdefs']=$catdefs;
 		}
@@ -162,14 +139,14 @@ three_buttonmenu($extrabuttons,$book);
 	if($edit_comments_off!='yes'){
 		for($c=0;$c<sizeof($viewtable);$c++){if($viewtable[$c]['sid']==$sid){$row=$c;}}
 		$tab=$row+1;
-		//include('onereport.php');
+		include('new_onereport.php');
 		}
 	else{
-		/* Row for each student*/
+		/*row for each student*/
 		for($row=0;$row<sizeof($viewtable);$row++){
 			$sid=$viewtable[$row]['sid'];
 			$tab=$row+1;
-			//include('onereport.php');
+			include('new_onereport.php');
 			}
 		}
 
