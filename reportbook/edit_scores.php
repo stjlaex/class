@@ -82,16 +82,8 @@ three_buttonmenu($extrabuttons);
 	include('scripts/set_list_vars.php');
 	list_select_list($subjects,$listoptions,$book);
 
-	if($compstatus=='A'){$compstatus='%';}
-	$d_component=mysql_query("SELECT component.id AS id, subject.name
-					AS name FROM component JOIN subject ON subject.id=component.id
-					WHERE component.course_id='$crid' AND component.subject_id='$selbid'
-					AND component.status LIKE '$compstatus'");
-	if(mysql_num_rows($d_component)>0){
-		$components=array();
-		while($component=mysql_fetch_array($d_component,MYSQL_ASSOC)){
-			$components[]=$component;
-			}
+	$components=list_subject_components($selbid,$crid,$compstatus);
+	if(sizeof($components)>0){
 		if($selpid==''){
 			$selpid=$components[0]['id'];
 			$selnewpid=$selpid;

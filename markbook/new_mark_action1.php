@@ -71,7 +71,12 @@ three_buttonmenu();
 
 	  <fieldset class="right">
 		<legend><?php print_string('subjectcomponent',$book);?></legend>
-		<?php	include('markbook/list_components.php');?>
+<?php
+   	$selnewpid=$pid;
+	$listname='newpid';$listlabel='subjectcomponent';$multi=1;
+	include('scripts/set_list_vars.php');
+	list_select_list($components,$listoptions,$book);
+?>
 	  </fieldset>
 
 	  <fieldset class="right">

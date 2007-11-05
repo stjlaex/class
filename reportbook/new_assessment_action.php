@@ -23,6 +23,7 @@ if($sub=='Submit' and $_FILES['importfile']['tmp_name']!=''){
 			while(list($index,$d)=each($inrows)){
 				/*this matches partly the UK CBDS spreadsheets and
 							isn't always generally useful*/
+				/*TODO: allow strand_status to be imported*/
 				$stage=$d[0];
 				$year=$d[1];
 				$subject=$d[2];
@@ -78,16 +79,17 @@ elseif($sub=='Submit'){
 		$season=$_POST['season'];
 		$derivation=$_POST['derivation'];
 		$componentstatus=$_POST['componentstatus'];
+		$strandstatus=$_POST['strandstatus'];
 		if(isset($_POST['gena'])){$gena=$_POST['gena'];}else{$gena='';};
 		$deadline=$_POST['deadline'];
 		$creation=$_POST['creation'];
 		if($eid==''){
 			mysql_query("INSERT INTO assessment (stage, year, subject_id, method,  
 				element, component_id, description, resultqualifier, course_id,
-				component_status, label, grading_name, creation, deadline) 
+				component_status, strand_status, label, grading_name, creation, deadline) 
 				VALUES ('$stage', '$year', '$subject', '$method', 
-				'$element', '$pid', '$description', '$resultq', '$course',
-				'$componentstatus', '$printlabel', '$gena','$creation','$deadline');");	
+				'$element', '$pid', '$description', '$resultq', '$course','$componentstatus',
+				'$strandstatus', '$printlabel', '$gena','$creation','$deadline');");	
 			if($derivation!=''){
 				$eid=mysql_insert_id();
 				update_derivation($eid,$derivation);
@@ -99,7 +101,7 @@ elseif($sub=='Submit'){
 				component_id='$pid', description='$description', 
 				resultqualifier='$resultq', course_id='$course', 
 				element='$element', component_status='$componentstatus', 
-				label='$printlabel', grading_name='$gena',
+				strand_status='$strandstatus',label='$printlabel', grading_name='$gena',
 				deadline='$deadline', creation='$creation' WHERE id='$eid';");
 			update_derivation($eid,$derivation);
 			}

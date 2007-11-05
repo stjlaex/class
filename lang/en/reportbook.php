@@ -39,6 +39,9 @@ $string['notapplied']='Not applied';
 $string['derivation']='Derivation';
 $string['publishpdf']='Publish to PDF';
 $string['collatesince']='Collate since';
+$string['usestrands']='Use strands';
+$string['usesubjectcomponents']='Use components';
+$$string['']='';
 $string['']='';
 $string['']='';
 ?>

@@ -26,7 +26,7 @@ function list_course_stages($crid=''){
 	return $stages;
 	}
 
-/* returns an array of all subjects for a single course*/
+/* Returns an array of all subjects for a single course*/
 function list_course_subjects($crid=''){
 	$subjects=array();
 	if($crid!=''){
@@ -34,8 +34,7 @@ function list_course_subjects($crid=''){
 					JOIN cridbid ON cridbid.subject_id=subject.id
 					WHERE cridbid.course_id LIKE '$crid' ORDER BY subject.id");
 		while($subject=mysql_fetch_array($d_cridbid,MYSQL_ASSOC)){
-			$subjects[]=array('id'=>$subject['id'],
-							  'name'=>$subject['name']);
+			$subjects[]=$subject;
 			}
 		}
 	return $subjects;
@@ -43,16 +42,17 @@ function list_course_subjects($crid=''){
 
 /* Returns an array of all components for a single subject. If the subject is */
 /* itself a component then you'll really get strands. */
-function list_subject_components($bid,$crid){
+function list_subject_components($bid,$crid,$compstatus='%'){
+	if($compstatus=='A'){$compstatus='%';}
 	$components=array();
 	if($bid!='' and $crid!=''){
-		$d_component=mysql_query("SELECT subject.id, subject.name FROM subject
-					JOIN component ON subject.id=component.id
-					WHERE component.course_id='$crid' AND
-					component.subject_id='$bid' ORDER BY subject.name");
-		while($component=mysql_fetch_array($d_component,MYSQL_ASSOC)){
-			$components[]=array('id'=>$component['id'],
-							  'name'=>$component['name']);
+		$d_com=mysql_query("SELECT subject.id, subject.name FROM subject
+						JOIN component ON subject.id=component.id
+						WHERE component.status LIKE '$compstatus' AND 
+						component.course_id='$crid' AND
+						component.subject_id='$bid' ORDER BY subject.name");
+		while($component=mysql_fetch_array($d_com,MYSQL_ASSOC)){
+			$components[]=$component;
 			}
 		}
 	return $components;
@@ -202,7 +202,7 @@ function display_yeargroupname($yid){
 	return $yeargroupname;
 	}
 
-/* just a convenient synonym for get_subjectname */
+/* Just a convenient synonym for get_subjectname */
 function display_subjectname($bid){
 	$subjectname=get_subjectname($bid);
 	return $subjectname;

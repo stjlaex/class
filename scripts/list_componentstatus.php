@@ -1,17 +1,12 @@
 <?php
 /**						list_componentstatus.php
  */
-?>
-    <label for="Componentstatus"><?php print_string('usesubjectcomponents');?></label>
-	<select class="required" type="text" id="Componentstatus" 
-		tabindex="<?php print $tab++;?>" name="componentstatus" size="1">
-		<option value="" select="selected"></option>
-<?php
-		$enum=getEnumArray('component');
-		while(list($inval,$description)=each($enum)){	
-				print '<option ';
-				print ' value="'.$inval.'">'.get_string($description,'reportbook').'</option>';
-				}
-?>
-	</select>
 
+if(!isset($listid)){$listid='Componentstatus';}
+if(!isset($listname)){$listname='componentstatus';}
+if(!isset($listlabel)){$listlabel='usesubjectcomponents';}
+if(!isset($required)){$required='yes';}
+include('scripts/set_list_vars.php');
+list_select_enum('componentstatus',$listoptions,'reportbook');
+unset($listoptions);
+?>

@@ -52,6 +52,7 @@ CREATE TABLE assessment (
     grading_name	varchar(20) not null default '',
 	course_id		varchar(10) not null default '%',
 	component_status enum('None','N','V','A') not null default 'None',
+	strand_status	enum('None','N','V','A') not null default 'None',
 	year			year not null default '0000',
 	season          enum('','S','W','M','1','2','3','4','5','6','7','8','9','a','b','c') not null,
 	creation		date not null default '0000-00-00',

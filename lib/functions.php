@@ -581,10 +581,11 @@ function getEnumArray($field_name){
 					   'holiday', 'O' => 'other');
 
 	/*for the report table*/
-	$component=array('None' => 'notapplied', 
+	$componentstatus=array('None' => 'notapplied', 
 					 'N' => 'non-validating', 
 					 'V' => 'validating', 
 					 'A' => 'all');
+	$strandstatus=$componentstatus;
 
 	/*for the assessment tables*/
 	$resultstatus=array('I' => 'interim', 'R' => 'result', 'T' =>

@@ -9,7 +9,7 @@ function fetchSubjectReports($sid,$reportdefs){
 	$asseids=array();
 	$asselements=array();
 
-	/*Collate all assessment and report entries by subject for each course report chosen*/
+	/* Collate all assessment and report entries by subject for each course report chosen*/
 	while(list($repindex,$reportdef)=each($reportdefs)){
 			$rid=$reportdef['rid'];
 
@@ -65,34 +65,41 @@ function fetchSubjectReports($sid,$reportdefs){
 				}
 			$Reports['SummaryAssessments']=nullCorrect($Reports['SummaryAssessments']);
 
-			/* Now loop through all subjects with an assessment for this student*/
-			/* and generate a subject report for each - WARNING reportentries*/
-			/* will be missed if there is not at least one assessment*/
-			/* which accompanies it for that subject*/
+			/* Now loop through all possible subjects and generate a
+			 Report for each which has at least one assessment or a
+			 reportentry - any subjects which have neither will not
+			 have a Report*/
 			while(list($index,$subject)=each($reportdef['bids'])){
 			  $bid=$subject['id'];
-			  if(isset($repbids[$bid])){$reppids=$repbids[$bid];}
-			  else{$reppids=array();}
-			  while(list($pid,$assnos)=each($reppids)){
-				$Report=array();
-				if($pid!=' '){
-					$componentname=get_subjectname($pid);
-					}
-				else{$componentname=' ';}
+			  //if(isset($subject['pids'])){$components=$subject['pids'];}
+			  //else{$components=array('id'=>' ','name'=>' ');}
+			  $components=$subject['pids'];
+			  while(list($index,$component)=each($components)){
+				  $pid=$component['id'];
+				  if($pid!=' '){$componentname=$component['name'];}
+				  else{$componentname=' ';}
+				  /*TODO: have to combine assnos for all strands*/
+				  if(isset($repbids[$bid][$pid])){$assnos=$repbids[$bid][$pid];}
+				  else{$assnos=array();}
+				  $Comments=fetchReportEntry($reportdef,$sid,$bid,$pid);
+				  if(sizeof($Comments)>0 or sizeof($assnos)>0){
+					  $Report=array();
+					  $Report['Course']=nullCorrect(array('id'=>$reportdef['report']['course_id'], 
+														  'value'=>$reportdef['report']['course_name']));
+					  $Report['Subject']=nullCorrect(array('id'=>$bid, 
+														   'value'=>$subject['name']));
+					  $Report['Component']=nullCorrect(array('id'=>$pid, 
+															 'value'=>$componentname));
 
-				$Report['Course']=nullCorrect(array('id'=>$reportdef['report']['course_id'], 
-					'value'=>$reportdef['report']['course_name']));
-				$Report['Subject']=nullCorrect(array('id'=>$bid, 'value'=>$subject['name']));
-				$Report['Component']=nullCorrect(array('id'=>$pid, 'value'=>$componentname));
-
-				$repasses=array();
-				for($c8=0;$c8<sizeof($assnos);$c8++){
-					$repasses['Assessment'][]=nullCorrect($Assessments[$assnos[$c8]]);
-					}
-				$Report['Assessments']=nullCorrect($repasses);
-				$Report['Comments']=nullCorrect(fetchReportEntry($reportdef,$sid,$bid,$pid));
-				$Reports['Report'][]=nullCorrect($Report);
-			    }
+					  $repasses=array();
+					  for($c8=0;$c8<sizeof($assnos);$c8++){
+						  $repasses['Assessment'][]=nullCorrect($Assessments[$assnos[$c8]]);
+						  }
+					  $Report['Assessments']=nullCorrect($repasses);
+					  $Report['Comments']=nullCorrect($Comments);
+					  $Reports['Report'][]=nullCorrect($Report);
+					  }
+				  }
 			  }
 
 			while(list($index,$repsummary)=each($reportdef['summaries'])){
@@ -130,7 +137,7 @@ function fetchSubjectReports($sid,$reportdefs){
 	}
 
 function fetchReportDefinition($rid,$selbid='%'){
-	/* This is NOT an xml array and needs to be rewritten.*/
+	/* This is NOT an xml-friendly array and needs to be rewritten.*/
 	$reportdef=array();
 	$reportdef['id_db']=$rid;
 	$reportdef['rid']=$rid;
@@ -148,8 +155,8 @@ function fetchReportDefinition($rid,$selbid='%'){
 		}
 	else{
 		$report['course_name']='';
-		$d_report=mysql_query("SELECT id,title,stage,course_id FROM report JOIN
-				ridcatid ON ridcatid.categorydef_id=report.id 
+		$d_report=mysql_query("SELECT id,title,stage,course_id FROM
+				report JOIN ridcatid ON ridcatid.categorydef_id=report.id 
 				WHERE ridcatid.report_id='$rid' AND
 				ridcatid.subject_id='wrapper'");
 		$reptable=array();
@@ -161,16 +168,27 @@ function fetchReportDefinition($rid,$selbid='%'){
 			}
 		$reportdef['reptable']=nullCorrect($reptable);
 		}
-
 	$reportdef['report']=nullCorrect($report);
 
-	$d_cridbid=mysql_query("SELECT DISTINCT subject_id FROM
-			cridbid WHERE course_id='$crid' AND subject_id LIKE '$selbid'");
-	$reportdef['bids']=array();
-	while($bid=mysql_fetch_array($d_cridbid,MYSQL_NUM)){
-		$subjectname=get_subjectname($bid[0]);
-		$reportdef['bids'][]=array('id'=>$bid[0], 'name'=>''.$subjectname);
+	/* Build a reference of relevant bids/pids/strands */
+	$subjects=array();
+	if($selbid=='%'){
+		$subjects=list_course_subjects($crid);
 		}
+	else{
+		$subjectname=get_subjectname($selbid);
+		$subjects[]=array('id'=>$selbid, 
+						'name'=>''.$subjectname);
+		}
+	while(list($index0,$subject)=each($subjects)){
+		$components=(array)list_subject_components($subject['id'],$crid);
+		while(list($index1,$component)=each($components)){
+			$strands=(array)list_subject_components($component['id'],$crid);
+			$components[$index1]['strands']=$strands;
+			}
+		$subjects[$index0]['pids']=$components;
+		}
+	$reportdef['bids']=$subjects;
 
 	$d_assessment=mysql_query("SELECT * FROM assessment JOIN
 				rideid ON rideid.assessment_id=assessment.id 
@@ -288,6 +306,7 @@ function fetchReportEntry($reportdef,$sid,$bid,$pid){
 /*				$reportdef['catdefs'] and $reportdef['ratingnames']*/
 
 	$Comments=array();
+	//$Comments['Comment']=array();
 	$rid=$reportdef['report']['id'];
    	$d_reportentry=mysql_query("SELECT * FROM reportentry WHERE
 		  report_id='$rid' AND student_id='$sid' AND subject_id='$bid'

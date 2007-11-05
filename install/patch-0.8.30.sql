@@ -36,3 +36,5 @@ CREATE TABLE homework (
 	   index			index_crid (course_id),
        primary key	(id)
 );
+ALTER TABLE assessment
+	ADD strand_status enum('None','N','V','A') not null default 'None' AFTER component_status;

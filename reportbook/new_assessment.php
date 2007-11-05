@@ -29,12 +29,21 @@ three_buttonmenu($extrabuttons);
 	  </div>
 
 	  <div class="right">
-		<?php 		include('scripts/list_stage.php'); ?>
-		<?php 		include('scripts/list_calendar_year.php');?>
-<?php 
-		include('scripts/list_subjects.php'); 
-		include('scripts/list_componentstatus.php'); 
+<?php
+ 		include('scripts/list_stage.php');
+		include('scripts/list_calendar_year.php');
+		include('scripts/list_subjects.php');
 ?>
+		<div class="left">
+<?php
+		include('scripts/list_componentstatus.php');
+?>
+		</div>
+		<div class="right">
+<?php
+		include('scripts/list_strandstatus.php');
+?>
+		</div>
 	  </div>
 
 	  <div class="left">

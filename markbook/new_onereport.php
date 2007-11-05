@@ -35,17 +35,19 @@
 		while(list($index,$AssDef)=each($AssDefs)){
 			$Assessments=array();
 			$eid=$AssDef['id_db'];
-			$Assessments=fetchAssessments_short($sid,$eid,$bid,$pid);
-			if(sizeof($Assessments)>0){
-				$Report['Assessments']['Assessment'][]=$Assessments[0];
-				$value=$Assessments[0]['Value']['value'];
-				}
-			else{
-				$value='';
-				}
-			$grading_grades=$AssDef['GradingScheme']['grades'];
-			if($grading_grades!='' and $grading_grades!=' '){
-				$pairs=explode (';', $grading_grades);
+			reset($inasses);
+			while(list($index,$inass)=each($inasses)){
+				$Assessments=fetchAssessments_short($sid,$eid,$bid,$inass['pid']);
+				if(sizeof($Assessments)>0){
+					$Report['Assessments']['Assessment'][]=$Assessments[0];
+					$value=$Assessments[0]['Value']['value'];
+					}
+				else{
+					$value='';
+					}
+				$grading_grades=$AssDef['GradingScheme']['grades'];
+				if($grading_grades!='' and $grading_grades!=' '){
+					$pairs=explode (';', $grading_grades);
 ?>
 		  <td>
 			<select tabindex="<?php print $tab;?>" name="sid<?php print $sid.':'.$inc++;?>">
@@ -67,6 +69,8 @@
 			else{
 			   	print '<td><input pattern="decimal" type="text" tabindex="'.$tab.'" name="sid'.$sid.':'.$inc++.'" maxlength="8" value="'.$value.'" /></td>';
 				}
+			}
+
 		}
 ?>
 	</tr>
@@ -75,6 +79,7 @@
 						$reportdef['report']['addcategory']=='yes'){ 
 
  		$Report['Comments']=fetchReportEntry($reportdef,$sid,$bid,$pid);
+		if(!isset($Report['Comments']['Comment'])){$Report['Comments']['Comment']=array();}
 		for($entryn=0;$entryn<=sizeof($Report['Comments']['Comment']);$entryn++){
 			if($entryn==sizeof($Report['Comments']['Comment'])){
 				$Comment=array('Text'=>array('value'=>''),

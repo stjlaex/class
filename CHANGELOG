@@ -61,10 +61,14 @@ strands alongside their parent components.
 
 The generate_assessment_columns script now iterates across strands
 too. A component with strands has no assessments of its own but it
-does have an assessment for each of its strands. This will become
-optional at some point. The primary distinction is that unlike
-components then strands can not have report columns and hence no
-written comments for reporting.
+does have an assessment for each of its strands. The primary
+distinction is that unlike components the strands can not have report
+columns and hence no written comments for reporting.
+
+The assessment table has had strand_status added. This is identical to
+component status and is used to identify which if any of the strands
+are to be applied. Setting this to none would mean, as in the past,
+the assessment only exists for the parent component.
 
 Gave some colour to the diferent types of mark columns.
 
@@ -77,6 +81,8 @@ function which finds a specific mid for an assessment based on
 crid/bid/pid is key. This is also put to work in the ReportBook for
 edit_scores.
 
+Components in the MarkBook now use (id,name) pairs and so can replace the
+list_components.php script with list_select_list() calls.
 
 
 Version ClaSS-0.8.31 release (2007/10/11)

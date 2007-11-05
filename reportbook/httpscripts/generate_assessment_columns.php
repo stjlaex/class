@@ -13,6 +13,7 @@ $crid=$AssDef['Course']['value'];
 $gena=$AssDef['GradingScheme']['value'];
 $subject=$AssDef['Subject']['value'];
 $compstatus=$AssDef['ComponentStatus']['value'];
+$strandstatus=$AssDef['StrandStatus']['value'];
 $description=$AssDef['Description']['value'];
 $stage=$AssDef['Stage']['value'];
 $deadline=$AssDef['Deadline']['value'];
@@ -53,25 +54,15 @@ $deadline=$AssDef['Deadline']['value'];
 			/*generate a mark for each bid/pid combination*/
 			while(list($index,$subject)=each($subjects)){
 				$bid=$subject['id'];
-				$components=array();
-				if($compstatus=='A'){$compstatus='%';}
-				$d_component=mysql_query("SELECT DISTINCT id FROM component
-						WHERE course_id='$crid' AND subject_id='$bid'
-						AND status LIKE '$compstatus'");
-				while($component=mysql_fetch_array($d_component,MYSQL_NUM)){
-					$components[]=$component[0];
-					}
-				mysql_free_result($d_component);
-
+				$components=(array)list_subject_components($bid,$crid,$compstatus);
 				/* If there is no component for this subject or
 				 components are not requested then $pid is blank*/
-				if(sizeof($components)==0){$components[0]='';}
+				if(sizeof($components)==0){$components[0]['id']='';}
 				while(list($index,$component)=each($components)){
-				  $strands=list_subject_components($component,$crid);
-				  if(sizeof($strands)==0){$strands[0]['id']=$component;}
+				  $strands=(array)list_subject_components($component['id'],$crid,$strandstatus);
+				  if(sizeof($strands)==0){$strands[0]['id']=$component['id'];}
 				  while(list($index,$strand)=each($strands)){
 					$pid=$strand['id'];
-					//trigger_error($bid. sizeof($strands). $pid,E_USER_WARNING);
 					if(mysql_query("INSERT INTO mark 
 					  (entrydate, marktype, topic, comment, author,
 						 def_name, assessment, component_id) 
@@ -118,14 +109,14 @@ $deadline=$AssDef['Deadline']['value'];
 						else{$score='';}
 						if(mysql_query("INSERT INTO score (student_id,
 							mark_id, grade, value) VALUES ('$sid',
-							'$mid', '$score', '$value')")){
-						}
-						else{$error[]='Failed on '.$sid.'-'.$bid.'-'.$pid.'-'.$mid.' '.mysql_error();}
+							'$mid', '$score', '$value')")){}
+						else{
+							$error[]='Failed:' .$sid.'-'.$bid.'-'.$pid.'-'.$mid.mysql_error();
+							}
    						}
    					mysql_free_result($d_eidsids);
 					}
 					mysql_free_result($d_class);
-
 					}
 				  }
 				}

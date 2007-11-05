@@ -19,8 +19,9 @@ if(isset($_POST['cids'])){
 	$pids=array();
 	$classes=array();
 	if($_SESSION['cids']!=$_POST['cids']){
-	$_SESSION['cids']=$_POST['cids'];
-	$_SESSION['umnrank']='surname';}
+		$_SESSION['cids']=$_POST['cids'];
+		$_SESSION['umnrank']='surname';
+		}
 	if($displaymid==0){$displaymid=-1;}
 
 	foreach($_SESSION['cids'] as $index => $cid){
@@ -38,12 +39,14 @@ if(isset($_POST['cids'])){
 				while(list($index,$strand)=each($strands)){
 					if(!in_array($strand['id'],$pids)){
 						$pids[]=$strand['id'];
+						$components[]=$strand;
 						}
 					}
 				}
 			}
 		}
 	$_SESSION['pids']=$pids;
+	$_SESSION['components']=$components;
 	$_SESSION['classes']=$classes;
 
 	/* Tries to recall a tid's previous choice of pid for this class*/
@@ -87,8 +90,8 @@ $cids=$_SESSION['cids'];
 $cidsno=sizeof($cids);
 if(!isset($_SESSION['classes'])){$_SESSION['classes']=array();}
 $classes=$_SESSION['classes'];
-if(!isset($_SESSION['pids'])){$_SESSION['pids']=array();}
-$pids=$_SESSION['pids'];
+if(!isset($_SESSION['pids'])){$_SESSION['pids']=array();$_SESSION['components']=array();}
+$pids=$_SESSION['pids'];$components=$_SESSION['components'];
 if(!isset($_SESSION['pid'])){$_SESSION['pid']='';}
 $pid=$_SESSION['pid'];
 if(!isset($_SESSION['umntype']) or 
@@ -124,10 +127,10 @@ if(sizeof($pids)>0){
 			<select name="pid" size="1" onchange="document.componentchoice.submit();">
 			  <option value=""><?php print_string('allcomponents');?></option>
 <?php
-   foreach($pids as $index => $spid){
+   foreach($components as $index => $component){
 		print '<option ';
-		if($spid==$pid){print 'selected="selected"';}
-		print ' value="'.$spid.'">'.$spid.'</option>';
+		if($component['id']==$pid){print 'selected="selected"';}
+		print ' value="'.$component['id'].'">'.$component['name'].'</option>';
 		}
 ?>
 			</select>
