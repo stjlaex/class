@@ -13,10 +13,10 @@ function fetchSubjectReports($sid,$reportdefs){
 	while(list($repindex,$reportdef)=each($reportdefs)){
 			$rid=$reportdef['rid'];
 
-			/* Provide a look-up array $repbids which references the $Assessments */
+			/* Provide a look-up array $assbids which references the $Assessments */
 			/* array by index for every subject and component combination which
 			/* has an Assessment for this student*/
-			$repbids=array();
+			$assbids=array();
 			while(list($index,$eid)=each($reportdef['eids'])){
 				if(!isset($asseids[$eid])){
 					/*only need to fetch for each eid once*/
@@ -31,15 +31,15 @@ function fetchSubjectReports($sid,$reportdefs){
 				$bid=$Assessment['Subject']['value'];
 				$pid=$Assessment['SubjectComponent']['value'];
 				if($pid==''){$pid=' ';}/*nullCorrect as usual!*/
-				$repbids[$bid][$pid][]=$index;
+				$assbids[$bid][$pid][]=$index;
 				}
- 			ksort($repbids);
+ 			ksort($assbids);
 
 			/* This is for assessments which are really statistics.
 			 They have two components: overall averages (sid=0) for
 			 every bid-pid possible which are independent of the sid,
 			 and the sid specific cross-curricular average. They must
-			 not be used to generate indexes for repbids otherwise a
+			 not be used to generate indexes for assbids otherwise a
 			 reportentry for ALL conceivable bid-pid combinations is
 			 included */
 			$Reports['SummaryAssessments']=array();
@@ -55,10 +55,10 @@ function fetchSubjectReports($sid,$reportdefs){
 						$bid=$Assessment['Subject']['value'];
 						$pid=$Assessment['SubjectComponent']['value'];
 						if($pid==''){$pid=' ';}/*nullCorrect as usual!*/
-						if(isset($repbids[$bid][$pid])){
+						if(isset($assbids[$bid][$pid])){
 							$Assessments[]=$Assessment;
 							end($Assessments);
-							$repbids[$bid][$pid][]=key($Assessments);
+							$assbids[$bid][$pid][]=key($Assessments);
 							}
 						}
 					}
@@ -71,29 +71,34 @@ function fetchSubjectReports($sid,$reportdefs){
 			 have a Report*/
 			while(list($index,$subject)=each($reportdef['bids'])){
 			  $bid=$subject['id'];
-			  //if(isset($subject['pids'])){$components=$subject['pids'];}
-			  //else{$components=array('id'=>' ','name'=>' ');}
-			  $components=$subject['pids'];
-			  while(list($index,$component)=each($components)){
+			  while(list($index,$component)=each($subject['pids'])){
 				  $pid=$component['id'];
 				  if($pid!=' '){$componentname=$component['name'];}
 				  else{$componentname=' ';}
-				  /*TODO: have to combine assnos for all strands*/
-				  if(isset($repbids[$bid][$pid])){$assnos=$repbids[$bid][$pid];}
-				  else{$assnos=array();}
+
+				  /* Combine assessment indexes for this component and all of its
+					strands into a single array $assnos.*/
+				  $assnos=array();
+				  $component['strands'][]=array('id'=>$pid);
+				  while(list($index,$strand)=each($component['strands'])){
+					  if(isset($assbids[$bid][$strand['id']])){
+						  $assnos=array_merge($assnos,$assbids[$bid][$strand['id']]);
+						  }
+					  }
+
 				  $Comments=fetchReportEntry($reportdef,$sid,$bid,$pid);
 				  if(sizeof($Comments)>0 or sizeof($assnos)>0){
 					  $Report=array();
-					  $Report['Course']=nullCorrect(array('id'=>$reportdef['report']['course_id'], 
-														  'value'=>$reportdef['report']['course_name']));
-					  $Report['Subject']=nullCorrect(array('id'=>$bid, 
-														   'value'=>$subject['name']));
-					  $Report['Component']=nullCorrect(array('id'=>$pid, 
-															 'value'=>$componentname));
+					  $Report['Course']=array('id'=>''.$reportdef['report']['course_id'], 
+											  'value'=>''.$reportdef['report']['course_name']);
+					  $Report['Subject']=array('id'=>''.$bid, 
+											   'value'=>''.$subject['name']);
+					  $Report['Component']=array('id'=>''.$pid, 
+												 'value'=>''.$componentname);
 
 					  $repasses=array();
-					  for($c8=0;$c8<sizeof($assnos);$c8++){
-						  $repasses['Assessment'][]=nullCorrect($Assessments[$assnos[$c8]]);
+					  while(list($index,$assno)=each($assnos)){
+						  $repasses['Assessment'][]=nullCorrect($Assessments[$assno]);
 						  }
 					  $Report['Assessments']=nullCorrect($repasses);
 					  $Report['Comments']=nullCorrect($Comments);
@@ -186,6 +191,7 @@ function fetchReportDefinition($rid,$selbid='%'){
 			$strands=(array)list_subject_components($component['id'],$crid);
 			$components[$index1]['strands']=$strands;
 			}
+		if(sizeof($components)==0){$components[]=array('id'=>' ','name'=>'');}
 		$subjects[$index0]['pids']=$components;
 		}
 	$reportdef['bids']=$subjects;

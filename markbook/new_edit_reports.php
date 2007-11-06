@@ -89,7 +89,7 @@ three_buttonmenu($extrabuttons,$book);
 		$AssDefs[]=$AssDef;
 		$grading_grades=$AssDef['GradingScheme']['grades'];
 		$strands=(array)list_subject_components($pid,$AssDef['Course']['value'],$AssDef['StrandStatus']['value']);
-		if(sizeof($strands)==0){$strands[0]['id']=$component['id'];}
+		if(sizeof($strands)==0){$strands[0]=array('id'=>$pid);}
 		while(list($index,$strand)=each($strands)){
 			/* Need to identify the mid (if one exists) that is related to 
 				this assessment for updating scores in the action page.*/
@@ -102,14 +102,22 @@ three_buttonmenu($extrabuttons,$book);
 			if(isset($strand['name'])){print '<br />'.$strand['name'];}
 			if($grading_grades!='' and $grading_grades!=' '){
 				$pairs=explode(';', $grading_grades);
-				$inass=array('table'=>'score','pid'=>$strand['id'],
-					'field'=>'grade', 'scoretype'=>'grade', 
-					'grading_grades'=>$grading_grades,'eid'=>$eid,'mid'=>$mid);
+				$inass=array('table'=>'score', 
+							 'pid'=>$strand['id'],
+							 'field'=>'grade', 
+							 'scoretype'=>'grade', 
+							 'grading_grades'=>$grading_grades,
+							 'eid'=>$eid,
+							 'mid'=>$mid);
 				}
 			else{
-				$inass=array('table'=>'score','bid'=>$bid,'pid'=>$strand['id'],
-					'field'=>'value', 'scoretype'=>'value', 
-					'grading_grades'=>'','eid'=>$eid,'mid'=>$mid);
+				$inass=array('table'=>'score',
+							 'pid'=>$strand['id'],
+							 'field'=>'value', 
+							 'scoretype'=>'value', 
+							 'grading_grades'=>'',
+							 'eid'=>$eid,
+							 'mid'=>$mid);
 				}
 ?>
 		  </th>

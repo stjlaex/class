@@ -66,21 +66,14 @@ two_buttonmenu($extrabuttons,$book);
 	$reports=array();
 	$input_elements='';
 	while(list($index,$rid)=each($rids)){
-			$d_report=mysql_query("SELECT * FROM report WHERE id='$rid'");
-			$report=mysql_fetch_array($d_report,MYSQL_ASSOC);
-			$report['summaries']=(array)fetchReportSummaries($rid);
-			$reports[]=$report;
-
-			/*all of the marks associated with this report*/
-			mysql_query("CREATE TEMPORARY TABLE mids$rid (SELECT eidmid.mark_id FROM eidmid
-				JOIN rideid ON eidmid.assessment_id=rideid.assessment_id 
-				WHERE rideid.report_id='$rid')");
+		$reportdef=fetchReportDefinition($rid);
+		$reportdefs[]=$reportdef;
 			/*this is to feed the rids to the javascript function*/
 ?>
 		  <rids><?php print $rid;?></rids>
 <?php
-			$input_elements.=' <input type="hidden" name="rids[]" value="'.$rid.'" />';
-			}
+	    $input_elements.=' <input type="hidden" name="rids[]" value="'.$rid.'" />';
+		}
 ?>
 		</reportids>
 	  </div>
@@ -96,7 +89,7 @@ two_buttonmenu($extrabuttons,$book);
 <?php
 		reset($rids);
 		while(list($index,$rid)=each($rids)){
-				$summaries=(array)$reports[$index]['summaries'];
+				$summaries=(array)$reportdefs[$index]['summaries'];
 				while(list($index2,$summary)=each($summaries)){
 					$summaryid=$summary['subtype'];
 					if($summary['type']=='com'){
@@ -131,7 +124,7 @@ two_buttonmenu($extrabuttons,$book);
 <?php
 		reset($rids);
 		while(list($index,$rid)=each($rids)){
-   			$summaries=(array)$reports[$index]['summaries'];
+   			$summaries=(array)$reportdefs[$index]['summaries'];
 			while(list($index2,$summary)=each($summaries)){
 				$summaryid=$summary['subtype'];
 				if($summary['type']=='com'){
@@ -178,76 +171,67 @@ two_buttonmenu($extrabuttons,$book);
 				}
 			}
 
+		/* Going to check each subject class for completed assessments
+		and reportentrys and list in the table highlighting those that
+		met this reports required elements for completion. */
 		reset($rids);
 		while(list($index,$rid)=each($rids)){
-		    if(isset($reports[$index]['course_id'])){
-				$crid=$reports[$index]['course_id'];
-				$commentcomp=$reports[$index]['commentcomp'];
-				$compstatus=$reports[$index]['component_status'];
+			$eids=(array)$reportdefs[$index]['eids'];
+		    if(isset($reportdefs[$index]['report']['course_id'])){
+				$crid=$reportdefs[$index]['report']['course_id'];
+				$commentcomp=$reportdefs[$index]['report']['commentcomp'];
+				$compstatus=$reportdefs[$index]['report']['component_status'];
 				}
-			$d_reportentry=mysql_query("SELECT DISTINCT subject_id, 
-					component_id FROM reportentry WHERE report_id='$rid' AND
-					student_id='$sid' ORDER BY report_id, subject_id, component_id");
-			$d_subjects=mysql_query("SELECT DISTINCT subject_id, class_id
+
+			$d_subjectclasses=mysql_query("SELECT DISTINCT subject_id, class_id
 					FROM class JOIN cidsid ON cidsid.class_id=class.id
 					WHERE cidsid.student_id='$sid' AND
 					class.course_id='$crid' ORDER BY subject_id");
-			$donereports=array();
-			while($reportentry=mysql_fetch_array($d_reportentry,MYSQL_ASSOC)){
-			    $repbid=$reportentry['subject_id'];
-				$reppid=$reportentry['component_id'];
-			    $donereports["$repbid"]["$reppid"]='';
-				}
-			while($subject=mysql_fetch_array($d_subjects,MYSQL_ASSOC)){
-			    $repbid=$subject['subject_id'];
-				$repcid=$subject['class_id'];
+			while($subject=mysql_fetch_array($d_subjectclasses,MYSQL_ASSOC)){
+			    $bid=$subject['subject_id'];
+				$cid=$subject['class_id'];
 				$d_teacher=mysql_query("SELECT teacher_id FROM tidcid
-						WHERE class_id='$repcid'");
+						WHERE class_id='$cid'");
 				$reptids=array();
-				while($teacher=mysql_fetch_array($d_teacher)){$reptids[]=$teacher['teacher_id'];}
-
-	    		/*list of report marks for this subject class*/
-				if(mysql_query("CREATE TEMPORARY TABLE tempmarks (SELECT midcid.mark_id
-						FROM midcid JOIN mids$rid ON midcid.mark_id=mids$rid.mark_id
-						WHERE midcid.class_id='$repcid')")){}
-				else{$error[]=mysql_error();}
-				$reppids=array();
-				if($compstatus!='None'){
-					if($compstatus=='A'){$compstatus='%';}
-					$d_components=mysql_query("SELECT DISTINCT id
-					FROM component WHERE course_id='$crid' AND
-					subject_id='$repbid' AND status LIKE '$compstatus' ORDER BY id");
-					while($component=mysql_fetch_array($d_components,MYSQL_ASSOC)){
-						$reppids[]=$component['id'];
-						}
+				while($teacher=mysql_fetch_array($d_teacher)){
+					$reptids[]=$teacher['teacher_id'];
 					}
 
-				if(sizeof($reppids)==0){$reppids[]='';}
-			   	while(list($index,$reppid)=each($reppids)){
-					if(mysql_query("CREATE TEMPORARY TABLE
-						tempscores (SELECT score.mark_id FROM score
-						JOIN tempmarks ON tempmarks.mark_id=score.mark_id
-						WHERE score.student_id='$sid')")){}
-					else{$error[]=mysql_error();}
-					$d_scores=mysql_query("SELECT mark.id FROM mark JOIN
-						tempscores ON mark.id=tempscores.mark_id WHERE 
-						mark.component_id LIKE '$reppid'");
+				$components=array();
+				if($compstatus!='None'){
+					$components=list_subject_components($bid,$crid,$compstatus);
+					}
+				if(sizeof($components)==0){$components[]=array('id'=>' ','name'=>'');}
+
+				reset($components);
+			   	while(list($compindex,$component)=each($components)){
+					$pid=$component['id'];
+					$strands=(array)list_subject_components($pid,$crid);
+
+					reset($eids);
+					$scoreno=0;
+					while(list($eidindex,$eid)=each($eids)){
+						$Assessments=fetchAssessments_short($sid,$eid,$bid,$pid);
+						$scoreno+=sizeof($Assessments);
+						while(list($strandindex,$strand)=each($strands)){
+							$Assessments=fetchAssessments_short($sid,$eid,$bid,$strand['id']);
+							$scoreno+=sizeof($Assessments);
+							}
+						}
+
 					print '<td style="width:3em;" title="';
 				   	while(list($index, $reptid)=each($reptids)){
-						print $reptid." ";
+						print $reptid.' ';
 						}
 					reset($reptids);
-					if((isset($donereports[$repbid][$reppid]) and
-						$commentcomp=='yes' and mysql_numrows($d_scores)>0) or 
-						($commentcomp=='no' and mysql_numrows($d_scores)>0)){
+					$reportentryno=checkReportEntry($rid,$sid,$bid,$pid);
+					if(($reportentryno>0 and
+						$commentcomp=='yes' and $scoreno>0) or 
+						($commentcomp=='no' and $scoreno>0)){
 						print '" class="vspecial">';}
 					else{print '">';}
-					print $repbid.'.'.$reppid.'</td>';
-					if(mysql_query("DROP TEMPORARY TABLE tempscores")){}
-					else{$error[]=mysql_error();}
+					print $bid.'.'.$pid.'</td>';
 			   		}
-				if(mysql_query("DROP TEMPORARY TABLE tempmarks")){}
-				else{$error[]=mysql_error();}
 				}
 			}
 ?>

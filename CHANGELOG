@@ -84,6 +84,11 @@ edit_scores.
 Components in the MarkBook now use (id,name) pairs and so can replace the
 list_components.php script with list_select_list() calls.
 
+Changed the way report_reports_list checks for completed subject
+reports to match the fact that mark columns are no longer obligatory
+for assessments during reporting.
+
+
 
 Version ClaSS-0.8.31 release (2007/10/11)
 -----------------------------------------

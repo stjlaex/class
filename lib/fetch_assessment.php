@@ -342,6 +342,7 @@ function fetchAssessments($sid,$eid='%'){
 
 
 function fetchAssessments_short($sid,$eid='%',$bid='%',$pid='%'){
+	if($pid==' '){$pid='%';}
 	$Assessments=array();
    	$d_eidsid=mysql_query("SELECT * FROM eidsid WHERE
 				student_id='$sid' AND assessment_id LIKE '$eid' AND
@@ -360,6 +361,7 @@ function fetchAssessments_short($sid,$eid='%',$bid='%',$pid='%'){
 		if($eidsid['component_id']=='%'){$component='';}
 				else{$component=$eidsid['component_id'];}
 	   	$Assessment['SubjectComponent']=array('value'=>$component);
+	   	$Assessment['Component']=array('value'=>get_subjectname($component));
 	   	$Assessment['PrintLabel']=array('value'=>$ass['label']);
 	   	$Assessment['Result']=array('value'=>$eidsid['result']);
 		$Assessment['Result']=nullCorrect($Assessment['Result']);

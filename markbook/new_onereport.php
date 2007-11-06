@@ -33,11 +33,10 @@
 
 		reset($AssDefs);
 		while(list($index,$AssDef)=each($AssDefs)){
-			$Assessments=array();
 			$eid=$AssDef['id_db'];
 			reset($inasses);
 			while(list($index,$inass)=each($inasses)){
-				$Assessments=fetchAssessments_short($sid,$eid,$bid,$inass['pid']);
+				$Assessments=(array)fetchAssessments_short($sid,$eid,$bid,$inass['pid']);
 				if(sizeof($Assessments)>0){
 					$Report['Assessments']['Assessment'][]=$Assessments[0];
 					$value=$Assessments[0]['Value']['value'];
