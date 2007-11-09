@@ -35,7 +35,7 @@ if(isset($_POST['cids'])){
 			if(!in_array($component['id'],$pids)){
 				$pids[]=$component['id'];
 				/*and the subject component's components ie. strands*/
-				$strands=list_subject_components($component['id'],$classes[$cid]['crid']);
+				$strands=list_subject_components($component['id'],$classes[$cid]['crid'],'V');
 				while(list($index,$strand)=each($strands)){
 					if(!in_array($strand['id'],$pids)){
 						$pids[]=$strand['id'];

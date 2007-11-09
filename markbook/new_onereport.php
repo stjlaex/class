@@ -32,10 +32,10 @@
 		print $viewtable[$row]['form_id'].')</td>';
 
 		reset($AssDefs);
-		while(list($index,$AssDef)=each($AssDefs)){
-			$eid=$AssDef['id_db'];
+//		while(list($index,$AssDef)=each($AssDefs)){
 			reset($inasses);
 			while(list($index,$inass)=each($inasses)){
+				$eid=$inass['eid'];
 				$Assessments=(array)fetchAssessments_short($sid,$eid,$bid,$inass['pid']);
 				if(sizeof($Assessments)>0){
 					$Report['Assessments']['Assessment'][]=$Assessments[0];
@@ -44,7 +44,7 @@
 				else{
 					$value='';
 					}
-				$grading_grades=$AssDef['GradingScheme']['grades'];
+				$grading_grades=$inass['grading_grades'];
 				if($grading_grades!='' and $grading_grades!=' '){
 					$pairs=explode (';', $grading_grades);
 ?>
@@ -69,8 +69,6 @@
 			   	print '<td><input pattern="decimal" type="text" tabindex="'.$tab.'" name="sid'.$sid.':'.$inc++.'" maxlength="8" value="'.$value.'" /></td>';
 				}
 			}
-
-		}
 ?>
 	</tr>
 <?php
