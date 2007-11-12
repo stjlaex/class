@@ -11,20 +11,18 @@
 </xsl:template>
 
 <xsl:template match="student">
-<div id='logo'>
-<img src="../images/schoollogo.png" width="130px"/>
-</div>
+  <div id="logo">
+	<img src="../images/schoollogo.png" width="200px"/>
+  </div>
 
-<div class='studenthead'>
+<div class="studenthead">
 	<table>
 	  <tr>
 		<td colspan="2">
 		  <label>
 			Student
 		  </label>
-		  <xsl:value-of select="forename/value/text()" />&#160;
-		  <xsl:value-of select="surname/value/text()" />&#160;
-		  <xsl:value-of select="middlenames/value/text()" />
+		  <xsl:value-of select="displayfullname/value/text()" />&#160;
 		</td>
 	  </tr>
 	  <tr>		
@@ -45,22 +43,24 @@
 	</table>
 </div>
 
-<div class='spacer'></div>
+<div class="spacer"></div>
+
 <xsl:apply-templates select="reports"/>
-<div class='spacer'></div>
 
 <hr />
 
 </xsl:template>
 
 <xsl:template match="reports">
-  <table class="grades">
+  <table class="subject">
 	<tr class="label">
 	  <th>
-		<xsl:text>Subject</xsl:text>
+		Subject
 	  </th>
 	  <xsl:call-template name="assheader" />
-	  <th>Subject teacher's comment.</th>
+	  <th>
+		Subject teacher's comment.
+	  </th>
 	</tr>
 
 	<xsl:apply-templates select="report">
@@ -69,7 +69,7 @@
 
   </table>
 
-<div class='spacer'></div>
+<div class="spacer"></div>
 
 <xsl:apply-templates select="summaries/summary" />
 
@@ -77,52 +77,56 @@
 
 <xsl:template match="reports/summaries/summary">
   <xsl:if test="description/type='com' and comments/text()!=' '" >
-	<div class="sumcomment">
-	  <xsl:value-of select="description/value/text()" /><br />
+	<div class="summary">
+	  <label><xsl:value-of select="description/value/text()" /></label>&#160;
 	  <xsl:apply-templates select="comments"/>
 	</div>
   </xsl:if>
 </xsl:template>
 
 <xsl:template match="report">
-<tr>
-  <th>
-	<xsl:choose>
-	  <xsl:when test="component/value/text()!=' '">
-		<xsl:value-of select="component/value/text()" />
-	  </xsl:when>
-	  <xsl:otherwise>
-		<xsl:value-of select="subject/value/text()" />
-	  </xsl:otherwise>
-	</xsl:choose>
-  </th>
-  <td colspan="2">
-  </td>
-</tr>
-<tr>
+  <tr></tr>
+  <tr>
+	<th>
+	  <xsl:choose>
+		<xsl:when test="component/value/text()!=' '">
+		  <xsl:value-of select="component/value/text()" />
+		</xsl:when>
+		<xsl:otherwise>
+		  <xsl:value-of select="subject/value/text()" />
+		</xsl:otherwise>
+	  </xsl:choose>
+	</th>
+	<td colspan="2">
+	</td>
+  </tr>
+  <tr>
 	<xsl:choose>
 	  <xsl:when test="component/id/text()!=assessments/assessment/subjectcomponent/value/text()">
 		<td colspan="2">
-		  <xsl:variable name='strandlabel' select='assessments/assessment/component/value' />
+		  <xsl:variable name="strandlabel" select="assessments/assessment/component/value" />
 		  <xsl:call-template name="strandrow">
 			<xsl:with-param name="strandlabel" select="$strandlabel"/>
+			<xsl:with-param name="index" select="1"/>
 		  </xsl:call-template>
 		</td>
 	  </xsl:when>
 	  <xsl:otherwise>
 		<td>
 		</td>
-		<xsl:call-template name="asscell" />
-
+		<xsl:call-template name="asscell">
+			<xsl:with-param name="index" select="1"/>
+		</xsl:call-template>
+		
 	  </xsl:otherwise>
 	</xsl:choose>
+	
+	<td class="subject-comment">
+	  <xsl:apply-templates select="comments"/>
+	  <xsl:text>&#160;</xsl:text>
+	</td>
 
-		<td class="subject-comment">
-		  <xsl:apply-templates select="comments"/>
-		  <xsl:text>&#160;</xsl:text>
-		</td>
-
-</tr>
+  </tr>
 </xsl:template>
 
 <xsl:template match="comments">
@@ -162,13 +166,20 @@
   <xsl:variable name="maxindex">
 	<xsl:value-of select="count(../asstable/ass/label)+1"/>
   </xsl:variable>
-  <xsl:variable name='asslabel' select='../asstable/ass/label' />
+  <xsl:variable name="asslabel" select="../asstable/ass/label" />
+  <xsl:variable name="ass" select="assessments/assessment" />
 
   <xsl:if test="$index &lt; $maxindex">
-	<td>
+	<td class="asscell">
 	  <div>
-	  <xsl:value-of select="assessments/assessment[printlabel/value=$asslabel[$index]]/result/value/text()" />  
-	  <xsl:text>&#160; </xsl:text>
+		<xsl:choose>
+		  <xsl:when test="$ass[printlabel/value/text()=$asslabel[$index]]/result/value!=' '">
+			<xsl:value-of select="$ass[printlabel/value/text()=$asslabel[$index]]/result/value/text()" />
+		  </xsl:when>
+		  <xsl:otherwise>
+			<xsl:text>&#160; </xsl:text>
+		  </xsl:otherwise>
+		</xsl:choose>
 	  </div>
 	</td>
     <xsl:call-template name="asscell">
@@ -183,22 +194,23 @@
   <xsl:variable name="maxindex">
 	<xsl:value-of select="count($strandlabel)+1"/>
   </xsl:variable>
-  <xsl:variable name='asslabel' select='asstable/ass/label' />
+  <xsl:variable name="asslabel" select="asstable/ass/label" />
   <xsl:if test="$index &lt; $maxindex">
-		  <table class="strand">
-			<tr>
-			<th>
-			  <xsl:value-of select="$strandlabel[$index]" />
-			</th>
-			<xsl:call-template name="strandasscell">
-			  <xsl:with-param name="strand" select="$strandlabel[$index]"/>
-			</xsl:call-template>
-		  </tr>
-		  </table>
-		  <xsl:call-template name="strandrow">
-			<xsl:with-param name="index" select="$index + 1"/>
-			<xsl:with-param name="strandlabel" select="$strandlabel"/>
-		  </xsl:call-template>
+	<table class="strand">
+	  <tr>
+		<th>
+		  <xsl:value-of select="$strandlabel[$index]" />
+		</th>
+		<xsl:call-template name="strandasscell">
+		  <xsl:with-param name="strand" select="$strandlabel[$index]"/>
+		  <xsl:with-param name="index" select="1"/>
+		</xsl:call-template>
+	  </tr>
+	</table>
+	<xsl:call-template name="strandrow">
+	  <xsl:with-param name="index" select="$index + 1"/>
+	  <xsl:with-param name="strandlabel" select="$strandlabel"/>
+	</xsl:call-template>
   </xsl:if>
 </xsl:template>
 
@@ -211,9 +223,9 @@
   <xsl:variable name='asslabel' select='../asstable/ass/label' />
 
   <xsl:if test="$index &lt; $maxindex">
-	<td>
+	<td class="asscell">
 	  <div>
-	  <xsl:value-of select="assessments/assessment[component/value=$strand][printlabel/value=$asslabel[$index]]/result/value/text()" />  
+	  <xsl:value-of select="assessments/assessment[component/value/text()=$strand][printlabel/value/text()=$asslabel[$index]]/result/value/text()" />  
 	  <xsl:text>&#160; </xsl:text>
 	  </div>
 	</td>

@@ -60,6 +60,7 @@ two_buttonmenu($extrabuttons,$book);
   </div>
   <div id="viewcontent" class="content">
 	<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
+
 	  <div id="xml-checked-action" style="display:none;">
 		<reportids>
 <?php
@@ -77,6 +78,7 @@ two_buttonmenu($extrabuttons,$book);
 ?>
 		</reportids>
 	  </div>
+	  <div class="fullwidth">
 		<table class="listmenu">
 		  <tr>
 			<th>
@@ -240,8 +242,7 @@ two_buttonmenu($extrabuttons,$book);
 		}
 ?>
 		</table>
-
-		</div>
+	  </div>
   <?php print $input_elements;?>
  	<input type="hidden" name="cancel" value="<?php print $choice;?>" />
  	<input type="hidden" name="choice" value="<?php print $choice;?>" />

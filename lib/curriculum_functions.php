@@ -191,7 +191,7 @@ function display_teachername($tid){
 	$d_teacher=mysql_query("SELECT forename, surname 
 							FROM users WHERE username='$tid'");
 	$teacher=mysql_fetch_array($d_teacher,MYSQL_NUM);	      
-	$teachername=$teacher[0].' '.$teacher[1];
+	$teachername=$teacher[0][0].' '.$teacher[1];
 	return $teachername;
 	}
 

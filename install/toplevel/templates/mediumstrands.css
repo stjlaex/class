@@ -1,13 +1,19 @@
 /* CSS Document containing styles specific for pages prepared for printing */
 body {  
 	page:normal;
-  	font-family:Arial, helvetica, sans-serif; font-weight:300; font-size:8pt; 
+  	font-family:Arial, helvetica, sans-serif; 
+    font-weight:300; 
+    font-size:8pt; 
 	margin:0px; border:0px;
 	text-align:left;
 	}
 div.studenthead {  
-	font-size:12pt; float:right; padding-right:80px;
+    float:right; 
+    padding-right:80px;
 	border:solid 0px #000000;
+	}
+.studenthead td { 
+    font-size:12pt;
 	}
 div.container {
 	border:0;
@@ -16,108 +22,119 @@ h1, h2  {
 	text-align:left; font-weight:600; font-size:10pt;	
 	}
 div {
-	border:solid 1px #000000; margin:20px 5px 5px 5px; padding:10px;
-	}
- div.footer {
-	border:solid 1px #000000;
-	position:relative; margin:5px; height:80px; padding:0px;
-	width:90%;
-	margin-left:5%;
-	}
- td.footer {
-	border:solid 0px #000000;
-	margin:5px; height:100px; padding:0px;
-	}
- td.footer label {
-	float:left;
+    margin:20px 5px 5px 5px; 
+    padding:10px;
 	}
 div#logo {
-	float:left; border:solid 0px #000000; margin:2px 2px 2px 60px; padding:2px;
+	float:left; 
+    border:solid 0px #000000; 
+    margin:2px 2px 2px 60px; 
+    padding:2px;
 	}
 div#xmlStudent {
-	border:solid 0px #000000; margin:10px; height:10px;
+	margin:10px; 
+    height:10px;
 	}
 div.spacer {
-	border:solid 0pt #000000; clear:both; 
+	clear:both; 
+    margin:0 0 20px 0;
 	}
-div.comment { 
-	float:left; padding:0; margin:2px 0; border:0;
+div.summary { 
+    margin:2px 10%;
+	border:solid 1pt #ddd; 
+	float:left;
+	}
+div.summary p.comment-text { 
+	font-size:11pt;
+    padding:20px 20px; 
 	}
 p.comment-text { 
-	padding:0; margin:2px 0 0 0; border:0;
+	padding:0; 
+    margin:2px 0 0 0; 
+    border:0;
+	font-size:10pt;
 	}
 table {
-	border:0; padding:0pt;
-	text-align:left; font-weight:300; margin:5px; 
+	border:0; 
+    padding:0;
+	text-align:left; 
+    margin:5px; 
 	}
 td 	{
 	font-weight:600; 
 	}
-table.grades {
-	width:94%; 
+table.subject {
+	width:90%; 
 	border:0;
-/*	border:solid 1pt #000000;*/
-	float:left; margin-left:3%;
+	float:left; 
+    margin-left:5%;
 	} 
 
-table.grades td {
-	border:solid 0pt #000000; 
-	padding:0.2em; text-align:center;  
-	}
-table.grades tr {
+table.subject tr {
 	margin:1em 0;
 	}
-table.grades td.subject-comment {
-	border:solid 1pt #ddd; padding:4px 20px; text-align:left;  
+table.subject td.subject-comment {
+	border:solid 1pt #ddd; 
+    padding:4px 20px; 
+    text-align:left;  
 	font-weight:300;
 	margin-left:5px;
 	}
-p.comment-text { 
-	font-size:10pt;
-	}
-table.grades th {
+table.subject th {
 	border:0;  
     background-color:#ddd;
     color:#222;
 	text-align:left;
 	font-weight:600;
 	font-size:11pt;
-	padding:0.3em 0.5em;
+	padding:2px 6px;
 	} 
-table.grades tr.label th {
+table.subject tr.label th, .summary label {
 	border:0;  
     background-color:#888;
     color:#fff;
+	font-weight:300;
 	text-align:center;
-	font-weight:600;
 	font-size:8pt;
 	padding:0.3em 0.5em;
 	} 
-.grades td div { 
-	padding:1pt; margin:0 1em; border:solid 1pt #ddd;
+table.subject tr.label > th:first-child, .summary label {
+	text-align:left;
+    width:25%;
+	} 
+td div { 
+	padding:2px; 
+    border:solid 1pt #ddd;
     font-size:12pt;
-    float:center;
+    margin:0;
+	}
+td.asscell {
+    border:0;
+    padding:0;
+    margin:0;
+    text-align:center;  
+	}
+td.asscell div { 
+    width:5em;
+    margin:0 15px 0 5px;
+    float:right;
+	}
+.strand td.asscell div { 
+    width:5em;
+    margin:0 10px;
+    float:right;
 	}
 table.descriptor {
 	width:30%; 
 	border:0;
 	float:left;
 	font-size:8pt;
-	padding:0 0 0 30px; margin:0;
-	} 
-table#labels { 
-	width:80%; 
-	float:left;
-	padding:10px 0 0 100px;
-	}
-table#left {
-	margin-left:15%;
-	} 
-td#form {
-	float:right; margin-left:60px;
+	padding:0 0 0 30px; 
+    margin:0;
 	} 
 label, legend, caption {
-	float:left; padding:2px; font-weight:300;
+	float:left; 
+    padding:2px; font-weight:300;
 	font-size:8pt;
 	}
 label { 
@@ -133,15 +150,13 @@ table.strand {
     width:100%;
 	}
 table.strand th {
-    width:65%;
+    width:12em;
 	border:0;  
     background-color:#ddd;
     color:#222;
 	text-align:left;
 	font-weight:400;
 	font-size:10pt;
-	padding:0.3em 1em;
-	} 
-table.strand td {
-    width:15%;
-	} 
+	padding:0.2em 1em;
+    margin-right:5em;
+	}

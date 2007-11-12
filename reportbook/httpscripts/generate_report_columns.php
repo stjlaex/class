@@ -15,6 +15,7 @@ $title=$ReportDef['report']['title'];
 $date=$ReportDef['report']['date'];
 $deadline=$ReportDef['report']['deadline'];
 
+		/*EXPERIMENTAL! and no longer required.*/
 		/* First generate the associated assessment columns for this report
    	   	while(list($index,$eid)=each($ReportDef['eids'])){
 			$url='http://'.$CFG->siteaddress.$CFG->sitepath.'/'.$CFG->applicationdirectory.'/reportbook/httpscripts/generate_assessment_columns.php?uniqueid='.$eid;
@@ -30,7 +31,7 @@ $deadline=$ReportDef['report']['deadline'];
 		/* Make a list of subjects that will need distinct new marks*/
 		$subjects=list_course_subjects($crid);
 
-		/* Generate a mark column for each subject*/
+		/* Generate a report column for each subject*/
    	   	while(list($index,$subject)=each($subjects)){
 			$bid=$subject['id'];
 			$pids=array();

@@ -1,4 +1,4 @@
-Version ClaSS-0.8.32 release (2007/11/06)
+Version ClaSS-0.8.32 release (2007/11/10)
 -----------------------------------------
 
 Bugfix to the contact_details.php in the InfoBook which was confusing
@@ -87,6 +87,7 @@ list_components.php script with list_select_list() calls.
 Changed the way report_reports_list checks for completed subject
 reports to match the fact that mark columns are no longer obligatory
 for assessments during reporting.
+
 
 
 Version ClaSS-0.8.31 release (2007/10/11)

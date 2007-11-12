@@ -13,9 +13,9 @@ function fetchSubjectReports($sid,$reportdefs){
 	while(list($repindex,$reportdef)=each($reportdefs)){
 			$rid=$reportdef['rid'];
 
-			/* Provide a look-up array $assbids which references the $Assessments */
-			/* array by index for every subject and component combination which
-			/* has an Assessment for this student*/
+			/* Provide a look-up array $assbids which references the $Assessments
+			 array by index for every subject and component combination which
+			 has an Assessment for this student*/
 			$assbids=array();
 			while(list($index,$eid)=each($reportdef['eids'])){
 				if(!isset($asseids[$eid])){
@@ -71,10 +71,12 @@ function fetchSubjectReports($sid,$reportdefs){
 			 have a Report*/
 			while(list($index,$subject)=each($reportdef['bids'])){
 			  $bid=$subject['id'];
-			  while(list($index,$component)=each($subject['pids'])){
+			  $pids=array();
+			  $pids=(array)$subject['pids'];
+			  //if(sizeof($pids)>0){$pids[]=array('id'=>' ','name'=>'');}
+			  while(list($index,$component)=each($pids)){
 				  $pid=$component['id'];
-				  if($pid!=' '){$componentname=$component['name'];}
-				  else{$componentname=' ';}
+				  $componentname=$component['name'];
 
 				  /* Combine assessment indexes for this component and all of its
 					strands into a single array $assnos.*/
@@ -95,7 +97,6 @@ function fetchSubjectReports($sid,$reportdefs){
 											   'value'=>''.$subject['name']);
 					  $Report['Component']=array('id'=>''.$pid, 
 												 'value'=>''.$componentname);
-
 					  $repasses=array();
 					  while(list($index,$assno)=each($assnos)){
 						  $repasses['Assessment'][]=nullCorrect($Assessments[$assno]);
@@ -191,7 +192,8 @@ function fetchReportDefinition($rid,$selbid='%'){
 			$strands=(array)list_subject_components($component['id'],$crid);
 			$components[$index1]['strands']=$strands;
 			}
-		if(sizeof($components)==0){$components[]=array('id'=>' ','name'=>'');}
+		/* Must always be a blank entry to catch the parent subject itself.*/
+		$components[]=array('id'=>' ','name'=>'');
 		$subjects[$index0]['pids']=$components;
 		}
 	$reportdef['bids']=$subjects;
