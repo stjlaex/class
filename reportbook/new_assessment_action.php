@@ -21,9 +21,8 @@ if($sub=='Submit' and $_FILES['importfile']['tmp_name']!=''){
 		include('scripts/file_import_csv.php');
 		if(sizeof($inrows>0)){
 			while(list($index,$d)=each($inrows)){
-				/*this matches partly the UK CBDS spreadsheets and
-							isn't always generally useful*/
-				/*TODO: allow strand_status to be imported*/
+				/* This is based on the UK CBDS spreadsheets originaly
+						but has developed to be generally useful. */
 				$stage=$d[0];
 				$year=$d[1];
 				$subject=$d[2];
@@ -36,18 +35,18 @@ if($sub=='Submit' and $_FILES['importfile']['tmp_name']!=''){
 				$derivation=$d[9];
 				$resultstatus=$d[10];
 				$componentstatus=$d[11];
-				$gena=$d[12];
-				$create=$d[13];
-				$deadline=$d[14];
+				$strandstatus=$d[12];
+				$gena=$d[13];
+				$create=$d[14];
+				$deadline=$d[15];
 				mysql_query("INSERT INTO assessment (stage, year, subject_id, method, element,
 					description, label, resultqualifier, outoftotal,
-					resultstatus, component_status,
+					resultstatus, component_status, strand_status,
 					course_id, grading_name, creation, deadline) VALUES
 					('$stage', '$year', '$subject', '$method',
 					'$element', '$description', '$label', '$resultq',
-					'$outoftotal', '$resultstatus',
-					'$componentstatus', '$rcrid', '$gena', '$create',
-					'$deadline');");
+					'$outoftotal', '$resultstatus', '$componentstatus', 
+					'$strandstatus', '$rcrid', '$gena', '$create', '$deadline');");
 				if($derivation!=''){
 					$eid=mysql_insert_id();
 					update_derivation($eid,$derivation);

@@ -14,6 +14,7 @@ two_buttonmenu($extrabuttons,$book);
 $year=get_curriculumyear();
 $time=mktime(0,0,0,8,0,$year-1);
 $date=date('Y-m-d',$time);
+$todate=date('Y-m-d');
 
 ?>
   <div id="heading">
@@ -22,6 +23,17 @@ $date=date('Y-m-d',$time);
   </div>
 
   <div id="viewcontent" class="content">
+
+  <fieldset class="right divgroup">
+<?php 
+	print 'Statistics for '.$CFG->sitename;
+	if(isset($CFG->client)){
+		print '  Client ID '.$CFG->client;
+		}
+?>
+	  <br />
+	  <?php print 'Between '.display_date($date) .' and '.display_date($todate);?>
+  </fieldset>
 
 	<fieldset class="center divgroup">
 	  <legend><?php print_string('userlogins',$book);?></legend>

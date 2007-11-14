@@ -1,4 +1,4 @@
-Version ClaSS-0.8.32 release (2007/11/10)
+Version ClaSS-0.8.32 release (2007/11/14)
 -----------------------------------------
 
 Bugfix to the contact_details.php in the InfoBook which was confusing
@@ -70,6 +70,9 @@ component status and is used to identify which if any of the strands
 are to be applied. Setting this to none would mean, as in the past,
 the assessment only exists for the parent component.
 
+Strandstatus is an extra field after componentstatus in the import
+assessments file format.
+
 Gave some colour to the diferent types of mark columns.
 
 In transition to upgrading the MarkBook, the edit_reports pages have
@@ -88,6 +91,7 @@ Changed the way report_reports_list checks for completed subject
 reports to match the fact that mark columns are no longer obligatory
 for assessments during reporting.
 
+The absences list has had lates filtered from it.
 
 
 Version ClaSS-0.8.31 release (2007/10/11)

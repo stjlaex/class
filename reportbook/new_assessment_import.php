@@ -12,7 +12,6 @@ $perm=getCoursePerm($rcrid,$respons);
 $neededperm='x';
 include('scripts/perm_action.php');
 
-
 three_buttonmenu();
 ?>
   <div class="content">

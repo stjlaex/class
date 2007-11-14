@@ -224,7 +224,7 @@ function check_communityAttendance($community,$eveid=''){
 	return $results;
 	}
 
-function list_absentStudents($eveid=''){
+function list_absentStudents($eveid='',$lates=0){
 	if($eveid==''){
 		$event=currentEvent();
 		$eveid=$event['id'];
@@ -236,25 +236,32 @@ function list_absentStudents($eveid=''){
 			UNIX_TIMESTAMP(attendance.logtime) AS logtime
 			FROM attendance JOIN student ON student.id=attendance.student_id WHERE
 			attendance.student_id=student.id AND
-			attendance.event_id='$eveid' AND attendance.status='a'");
-
+			attendance.event_id='$eveid' AND attendance.status='a'
+			ORDER BY student.yeargroup_id, student.form_id, student.surname");
 		$Attendance=array();
 		$Student=array();
 		while($attendance=mysql_fetch_array($d_attendance,MYSQL_ASSOC)){
-			$Attendance['id_db']=$eveid;
-			$Attendance['Status']=array('label' => 'attendance',
-								  'value' => ''.$attendance['status']);
-			$Attendance['Code']=array('label' => 'code',
-								  'value' => ''.$attendance['code']);
-			$Attendance['Late']=array('label' => 'late',
-								  'value' => ''.$attendance['late']);
-			$Attendance['Comment']=array('label' => 'comment',
-								  'value' => ''.$attendance['comment']);
-			$Attendance['Logtime']=array('label' => 'time',
-								  'value' => ''.$attendance['logtime']);
-			$Student['id_db']=$attendance['sid'];
-			$Student['Attendance']=$Attendance;
-			$Students['Student'][]=$Student;
+			/* Logical lates defaults to 0 and flags to filter out those
+				students who are merely late (codes U and L), as these students
+				will be on site and in classes. They will though still be
+				counted in statistics as absent.*/
+			if($attendance['code']!='U' and $attendance['code']!='L' and
+			   $lates==0){
+				$Attendance['id_db']=$eveid;
+				$Attendance['Status']=array('label' => 'attendance',
+											'value' => ''.$attendance['status']);
+				$Attendance['Code']=array('label' => 'code',
+										  'value' => ''.$attendance['code']);
+				$Attendance['Late']=array('label' => 'late',
+										  'value' => ''.$attendance['late']);
+				$Attendance['Comment']=array('label' => 'comment',
+										 'value' => ''.$attendance['comment']);
+				$Attendance['Logtime']=array('label' => 'time',
+										 'value' => ''.$attendance['logtime']);
+				$Student['id_db']=$attendance['sid'];
+				$Student['Attendance']=$Attendance;
+				$Students['Student'][]=$Student;
+				}
 			}
 		}
 	return nullCorrect($Students);
