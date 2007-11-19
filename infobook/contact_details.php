@@ -68,7 +68,7 @@ elseif($contactno==-1){
 	<form id="headertoprocess" name="headertoprocess" method="post" action="<?php print $host;?>">
 	<label><?php print_string('existingcontacts','entrybook');?></label>
 <?php
-		$listname='pregid';$listlabel='';
+		$listname='pregid';$listlabel='';$liststyle='width:12em;';
 		include('scripts/set_list_vars.php');
 		list_select_db($d_guardian,$listoptions,$book);
 		$button['linkcontact']=array('name'=>'sub','value'=>'Link');
