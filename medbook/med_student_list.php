@@ -10,7 +10,7 @@ $choice='med_student_list.php';
 include('scripts/sub_action.php');
 
 $displayfields=array();
-$displayfields[]='RegistrationGroup';$displayfields[]='Gender';$displayfields[]='NextReviewDate';
+$displayfields[]='RegistrationGroup';$displayfields[]='Gender';$displayfields[]='DOB';
 if(isset($_POST['displayfield'])){$displayfields[0]=$_POST['displayfield'];}
 if(isset($_POST['displayfield1'])){$displayfields[1]=$_POST['displayfield1'];}
 if(isset($_POST['displayfield2'])){$displayfields[2]=$_POST['displayfield2'];}
@@ -20,16 +20,17 @@ two_buttonmenu();
 	/*these are the filter vars form the sideoptions*/
 	if($medtype!='' and $newyid!=''){
 		mysql_query("CREATE TEMPORARY TABLE students
-				(SELECT info.student_id FROM info JOIN sentypes
-				ON sentypes.student_id=info.student_id WHERE sentypes.sentype='$sentype'
+				(SELECT info.student_id FROM info JOIN background
+				ON background.student_id=info.student_id WHERE background.type='$medtype'
 				AND info.medical='Y' AND info.enrolstatus='C')");
 		$d_info=mysql_query("SELECT student_id FROM students JOIN student
 				ON student.id=students.student_id WHERE student.yeargroup_id='$newyid';");
 		mysql_query('DROP TABLE students;');
 		}
-	elseif($sentype!=''){
-		$d_info=mysql_query("SELECT info.student_id FROM info JOIN sentypes
-				ON sentypes.student_id=info.student_id WHERE sentypes.sentype='$sentype'
+	elseif($medtype!=''){
+		trigger_error('medtype='.$medtype,E_USER_WARNING);
+		$d_info=mysql_query("SELECT info.student_id FROM info JOIN background
+				ON background.student_id=info.student_id WHERE background.type='$medtype'
 				AND info.medical='Y' AND info.enrolstatus='C';");
 		}
 	elseif($newyid!=''){
@@ -82,8 +83,6 @@ two_buttonmenu();
 			<?php print $index+1;?>
 		  </td>
 		  <td>
-			<a onclick="parent.viewBook('infobook');" target="viewinfobook" 
-			  href="infobook.php?current=student_scores.php&sid=<?php print $sid;?>">T</a> 
 			<span title="<?php print $comment['body'];?>">
 			<a onclick="parent.viewBook('infobook');" target="viewinfobook"  
 			  href="infobook.php?current=comments_list.php&sid=<?php print $sid;?>"

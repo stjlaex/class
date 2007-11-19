@@ -168,7 +168,7 @@ function xmlarray_divform($Array,$no='',$caption='',$tab=1,$book=''){
 	while(list($key,$val)=each($Array)){
 		/* If the table_db attribute is omitted it indicates this is not */
 		/* a field for entry by the user - this */
-		/* may be becuase it is disabled or */
+		/* may be because it is disabled or */
 		/* because it is dependent on some */
 		/* other value - it will not appear in the table*/
 		if(isset($val['value']) and is_array($val) and isset($val['table_db'])){
@@ -186,8 +186,9 @@ function xmlarray_divform($Array,$no='',$caption='',$tab=1,$book=''){
 	return $tab;
 	}
 
-
 /**
+ * Prints one form element including the
+ * element's label and its formatted value.
  */
 function xmlelement_input($val,$no,$tab,$book){
 
@@ -244,6 +245,30 @@ function xmlelement_input($val,$no,$tab,$book){
 <?php
 				 }
 	return $tab;
+	}
+
+/**
+ * Prints one cell designed for a listmenu table including the
+ * element's label and its formatted value.
+ */
+function xmlelement_display($val,$book){
+	print '<td>';
+	print '<label>'.get_string($val['label'],$book).'</label>';
+	if($val['type_db']=='enum'){
+		print_string(displayEnum($val['value'],$val['field_db']),$book);
+		}
+	elseif($val['type_db']=='date'){
+		print display_date($val['value']);
+		}
+	/*	elseif($val['type_db']=='text'){
+				 }
+	elseif(substr($val['type_db'],0,3)=='var' or substr($val['type_db'],0,3)=='cha'){
+				}
+	*/
+	else{
+		print $val['value'];
+		}
+	print '</td>';
 	}
 
 function selery_stick($choices,$choice='',$book=''){

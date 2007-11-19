@@ -32,7 +32,7 @@ $string['curriculumdisapplied']='Curriculum disapplied';
 $string['notsenstudent']='Not classed as an SEN student';
 $string['changesenstatus']='Change SEN status';
 $string['addsubject']='Add subject';
-$string['']='';
+$string['nextreviewdate']='Next review';
 $string['']='';
 $string['']='';
 ?>

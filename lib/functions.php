@@ -200,6 +200,19 @@ function getEnumArray($field_name){
 				'D' => 'departure'
 				);
 
+	/*for the orderbudget table*/
+	$currency=array('0' => 'euros', 
+					'1' => 'pounds', 
+					);
+	$yearcode=array('0' => '2006/07', 
+					'1' => '2007/08', 
+					'2' => '2008/09', 
+					);
+	$ordertype=array('0' => '0', 
+					'1' => '1', 
+					'2' => '2', 
+					);
+
 	/*codes from CBDS 2007, including deprecated six for compatibility*/
 	/*not always the same as ISO 639-2 is the alpha-3 code for language!*/
 	$language=array('ENG' => 'english', 

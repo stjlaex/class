@@ -18,7 +18,7 @@ if($sid=='' or $current==''){
 elseif($sid!=''){
 	/*working with a single student*/
 	$Student=fetchStudent($sid);
-	$MedicalFlag=$Student['MedicalFlag'];
+	$Medical=fetchMedical($sid);
 	}
 ?>
   <div id="bookbox" class="medbookcolor">
@@ -40,22 +40,22 @@ elseif($sid!=''){
 	  <fieldset class="medbook">
 		<legend><?php print_string('filterlist',$book);?></legend>
 <?php
-		  $onsidechange='yes';
-		  include('scripts/list_year.php');
+		$onsidechange='yes';
+		include('scripts/list_year.php');
 
-		  $listname='medtype';
-		  $listlabel='medtype';
-		  $cattype='med';
-		  $onsidechange='yes';
-		  include('scripts/list_category.php');
+		$listname='medtype';
+		$listlabel='medtype';
+		$cattype='med';
+		$onsidechange='yes';
+		include('scripts/set_list_vars.php');
+		$d_catdef=mysql_query("SELECT subtype AS id, name FROM categorydef WHERE
+								  type='med' ORDER BY rating, name");
+		list_select_db($d_catdef,$listoptions,$book);
 ?>
 	  </fieldset>
 <?php
 		  }
 ?>
-
-
-
 	</form>
   </div>
 <?php

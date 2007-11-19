@@ -87,16 +87,6 @@ CREATE TABLE sencurriculum (
 );");
 
 mysql_query("
-CREATE TABLE medical (
-	student_id		int unsigned not null, 
-	startdate		date,
-	reviewdate      date,
-	medranking      enum('1', '2', '3') not null default '1',
-	detail			text not null default '',
-   	primary key		(student_id)
-);");
-
-mysql_query("
 CREATE TABLE incidents (
 	id				int unsigned not null auto_increment,
 	student_id		int unsigned not null, 

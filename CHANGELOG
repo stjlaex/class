@@ -1,3 +1,27 @@
+Version ClaSS-0.8.33 release (2007/11/20)
+-----------------------------------------
+
+Added DisplayFullSurname as a field in the Student array for use by
+user roles' who prefer student lists with surname first.
+
+Given access to the register for support staff but buttoned down more
+of the student_view content.
+
+Included a new xmlelement_display() function which prints a single
+formatted td cell suitable to fill out a listmenu table.
+
+Have added fetchMedical() and got the medbook working. This is based
+on storing medical notes in the background table and having notes of
+different medical categories enabled by having entries in
+categorydef. The first two categories will be shared with all staff
+through the InfoBook, the rest remaining for exclusive use of the
+medical staff.
+
+The db patch loses the unloved medical table and gives five example
+medical categories.
+
+Fixed sen permissions for staff with roles other than sen.
+
 Version ClaSS-0.8.32 release (2007/11/14)
 -----------------------------------------
 

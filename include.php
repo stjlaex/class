@@ -6,7 +6,7 @@
  * The LogBook and AboutBook are special cases, should not be in this
  * list, and obviously cannot be disabled!
  */
-$roles=array('teacher','office','support','sen','medical','library','admin','district');
+$roles=array('teacher','office','support','sen','medical','library','admin','district','supply');
 $books=array();
 $books['all']=array(
 					  'admin' => 'Admin'
@@ -42,6 +42,7 @@ $books['office']=array(
 					   );
 $books['support']=array(
 						'infobook' => 'InfoBook'
+						,'register' => 'Register'
 						);
 $books['sen']=array(
 					'infobook' => 'InfoBook'
@@ -54,6 +55,9 @@ $books['medical']=array(
 $books['district']=array(
 						'admin' => 'Admin'
 						);
+$books['supply']=array(
+					   'register' => 'Register'
+					   );
 $books['library']=array(
 						'infobook' => 'InfoBook'
 						//,'library' => 'Library'
@@ -81,10 +85,13 @@ $externalbooks['office']=array(
 							   );
 $externalbooks['district']=array(
 							   //'webmail' => $CFG->webmailtabname
-				 );
+								);
+$externalbooks['supply']=array(
+							   //'webmail' => $CFG->webmailtabname
+								);
 $externalbooks['support']=array(
-							   'webmail' => $CFG->webmailtabname
-				 );
+								//'webmail' => $CFG->webmailtabname
+							   );
 $externalbooks['teacher']=array(
 								'webmail' => $CFG->webmailtabname
 								//,'lms' => $CFG->lmstabname

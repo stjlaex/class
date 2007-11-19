@@ -87,7 +87,7 @@ two_buttonmenu($extrabuttons,$book);
 				<input type="checkbox" name="checkall" value="yes" onChange="checkAll(this);" />
 			  </label>
 			</th>
-			<th><?php print_string('student');?></th>
+			<th style="width:30%;"><?php print_string('student');?></th>
 <?php
 		reset($rids);
 		while(list($index,$rid)=each($rids)){

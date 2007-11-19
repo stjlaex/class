@@ -1,13 +1,12 @@
 <?php	
-/**												permissions.php
+/**						   			permissions.php
  *
- */	
+ */
 
 
 /* given a sid and a bid this will return a numerical array which
  * lists the responsibles (both pastoral and academic) who have been
- * flagged to receive emails
- */
+ * flagged to receive emails */
 function list_sid_responsible_users($sid, $bid){
 
     $gids=array();
@@ -222,12 +221,12 @@ function getSENPerm($yid,$respons){
 	$perm['w']=0;
 	$perm['x']=0;
 	$perm=getYearPerm($yid,$respons);
-	if($_SESSION['role']=='sen'){$perm['r']=1;$perm['w']=1;}
+	if($_SESSION['senrole']=='1' or $_SESSION['role']=='sen'){$perm['r']=1;$perm['w']=1;}
 	return $perm;
 	}
 
 function getMedicalPerm($yid,$respons){
-	/*return perm for sen in this yeargroup*/	
+	/*return perm for med in this yeargroup*/	
 	$perm['r']=0;
 	$perm['w']=0;
 	$perm['x']=0;
@@ -378,6 +377,8 @@ function update_user($user,$update='no',$short='class'){
 		elseif($role=='admin'){$firstbookpref='admin';}
 		elseif($role=='teacher'){$firstbookpref='markbook';}
 		elseif($role=='district'){$firstbookpref='admin';}
+		elseif($role=='medical'){$firstbookpref='medbook';}
+		elseif($role=='sen'){$firstbookpref='seneeds';}
 		else{$firstbookpref='infobook';}
 		}
     if(isset($user['email'])){

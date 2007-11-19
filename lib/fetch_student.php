@@ -32,12 +32,20 @@ function fetchStudent_short($sid){
 										  'value' => $displaypfn. 
 										  $student['forename'] . ' ' . $student['surname']
 										  .' '. $student['middlenames']);
+		$Student['DisplayFullSurname']=array('label' => 'fullname',  
+											 'value' => $student['surname'] . 
+											 ' '. $student['middlenames'] .', '.  
+											 $student['forename'] .' '. $displaypfn);
 		}
 	else{
 		$Student['DisplayFullName']=array('label' => 'fullname',  
 										  'value' => $displaypfn . 
 										  $student['forename'] . ' ' .$student['middlenames']
 										  . ' ' .$student['surname']);
+		$Student['DisplayFullSurname']=array('label' => 'fullname',  
+										  'value' => $student['surname'] .', '. 
+										  $student['forename'] . ' ' .$student['middlenames']
+										  . ' ' .$displaypfn);
 		}
 
 	$Student['Gender']=array('label' => 'gender', 
@@ -1116,5 +1124,39 @@ function getNCYear($yid){
 	if(in_array($yid,$ncyears)){$ncyear=$ncyears[$yid];}
 	else{$ncyear='';}
 	return $ncyear;
+	}
+
+
+/******* Medical ****/
+function fetchMedical($sid='-1'){
+	$Medical=array();
+	$Medical['Notes']=array();
+	$Notes['Note']=array();
+	$d_catdef=mysql_query("SELECT name, subtype FROM categorydef WHERE 
+				type='med' ORDER BY rating");
+	while($cat=mysql_fetch_array($d_catdef,MYSQL_ASSOC)){
+		$Note=array();
+		$cattype=$cat['subtype'];
+		$d_background=mysql_query("SELECT * FROM background WHERE 
+				student_id='$sid' AND type='$cattype';");
+		$entry=mysql_fetch_array($d_background,MYSQL_ASSOC);
+		$Note['id_db']=''.$entry['id'];
+		$Note['MedicalCategory']=array('label' => 'medicalcategory', 
+										'value_db' => ''.$cattype,
+										'value' => ''.$cat['name']);
+		$Note['Signature']=array('label' => 'signature', 
+								  'type_db' => 'varchar(14)', 
+								  'value' => ''.$entry['teacher_id']);
+		$Note['LastReviewDate']=array('label' => 'lastreviewdate',
+									   'type_db' => 'date', 
+									   'value' => ''.$entry['entrydate']);
+		$Note['Detail']=array('label' => 'details', 
+							   'field_db'=> 'detail', 
+							   'type_db'=> 'text', 
+							   'value' => ''.$entry['detail']);
+		$Notes['Note'][]=$Note;
+		}
+	$Medical['Notes']=$Notes;
+	return $Medical;
 	}
 ?>

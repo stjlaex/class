@@ -17,6 +17,7 @@ if(isset($_POST['displayfield2'])){$displayfields[2]=$_POST['displayfield2'];}
 
 $extrabuttons='';
 if($_SESSION['role']=='office' or $_SESSION['role']=='admin'){
+	$displayname='DisplayFullSurname';
    	$extrabuttons['addresslabels']=array('name'=>'current',
 										 'title'=>'printaddresslabels',
 										 'onclick'=>'checksidsAction(this)',
@@ -25,6 +26,10 @@ if($_SESSION['role']=='office' or $_SESSION['role']=='admin'){
 										 'title'=>'exportstudentrecords',
 										 'value'=>'export_students.php');
 	}
+else{
+	$displayname='DisplayFullName';
+	}
+
 two_buttonmenu($extrabuttons,$book);
 ?>
 
@@ -35,9 +40,16 @@ two_buttonmenu($extrabuttons,$book);
 				value="yes" onChange="checkAll(this);" /></th>
 	<th><?php print_string('student'); ?></th>
 <?php
-	while(list($index,$displayfield)=each($displayfields)){
+	if($_SESSION['role']!='support'){
+		while(list($index,$displayfield)=each($displayfields)){
 ?>
 		<th><?php include('scripts/list_studentfield.php');?></th>
+<?php
+			}
+		}
+	else{
+?>
+	<th colspan="<?php print sizeof($displayfields);?>">&nbsp</th>
 <?php
 		}
 
@@ -72,7 +84,9 @@ two_buttonmenu($extrabuttons,$book);
 		  </td>
 		  <td>
 			<a href="infobook.php?current=student_view.php&sid=<?php print $sid;?>">
-			  <?php print $Student['DisplayFullName']['value']; ?>
+<?php 
+				print $Student[$displayname]['value']; 
+?>
 			</a>
 		  </td>
 <?php

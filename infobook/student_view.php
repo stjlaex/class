@@ -9,8 +9,8 @@ $action='student_view_action.php';
 twoplus_buttonmenu($sidskey,sizeof($sids));
 ?>
   <div id="heading">
-			  <label><?php print_string('student'); ?></label>
-			<?php print $Student['DisplayFullName']['value'];?>
+	<label><?php print_string('student'); ?></label>
+	<?php print $Student['DisplayFullName']['value'];?>
   </div>
 
   <div id="viewcontent" class="content">
@@ -26,15 +26,16 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 		  <tr>
 			<td>
 			  <label><?php print_string($Student['DisplayFullName']['label'],$book); ?></label>
-			<?php print $Student['DisplayFullName']['value'];?>
+			  <?php print $Student['DisplayFullName']['value'];?>
 			</td>
 			<td>
-			<label><?php print_string($Student['RegistrationGroup']['label'],$book);?></label>
+			  <label><?php print_string($Student['RegistrationGroup']['label'],$book);?></label>
 			  <?php print $Student['RegistrationGroup']['value'];?>
 			</td>
 		  </tr>
 		  <tr>
-			<td><label><?php print_string($Student['DOB']['label'],$book);?></label>
+			<td>
+			  <label><?php print_string($Student['DOB']['label'],$book);?></label>
 			  <?php print display_date($Student['DOB']['value']);?>
 			</td>
 			<td>
@@ -49,7 +50,7 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 			</td>
 			<td>
 			  <label><?php print_string($Student['EnrolNumber']['label'],$book);?></label> 
-			  <?php print $Student['EnrolNumber']['value'];?>
+			  <?php if($_SESSION['role']!='support'){print $Student['EnrolNumber']['value'];}?>
 			</td>
 		  </tr>
 		  <tr>
@@ -58,7 +59,7 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 			  <?php print_string(displayEnum($Student['Language']['value'],$Student['Language']['field_db']),$book);?>
 			</td>
 			<td>
-			<label><?php print_string($Student['EntryDate']['label'],$book);?></label>
+			  <label><?php print_string($Student['EntryDate']['label'],$book);?></label>
 			  <?php print display_date($Student['EntryDate']['value']);?>
 			</td>
 		  </tr>
@@ -243,6 +244,9 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 		</div>
 	  </div>
 
+<?php
+		if($_SESSION['role']!='support'){
+?>
 	  <div class="left">
 		<fieldset class="left">
 		  <legend>
@@ -266,7 +270,6 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 ?>
 		</fieldset>
 	  </div>
-
 	  <div class="left">
 		<fieldset class="left">
 		  <legend>
@@ -293,7 +296,9 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 ?>
 		</fieldset>
 	  </div>
-
+<?php
+		}
+?>
 	  <div class="left">
 		<fieldset class="left">
 		  <legend>
