@@ -4,6 +4,7 @@
 
 function fetchSubjectReports($sid,$reportdefs){
 	$Reports=array();
+	$Reports['SummaryAssessments']=array();
 	$Assessments=array();
 	$Summaries=array();
 	$asseids=array();
@@ -42,7 +43,6 @@ function fetchSubjectReports($sid,$reportdefs){
 			 not be used to generate indexes for assbids otherwise a
 			 reportentry for ALL conceivable bid-pid combinations is
 			 included */
-			$Reports['SummaryAssessments']=array();
 			while(list($index,$eid)=each($reportdef['stateids'])){
 				$GAssessments=(array)fetchAssessments_short($sid,$eid);
 				//trigger_error('GStats: '.$eid.' number '.sizeof($GAssessments),E_USER_WARNING);
@@ -63,7 +63,6 @@ function fetchSubjectReports($sid,$reportdefs){
 						}
 					}
 				}
-			$Reports['SummaryAssessments']=nullCorrect($Reports['SummaryAssessments']);
 
 			/* Now loop through all possible subjects and generate a
 			 Report for each which has at least one assessment or a
@@ -138,6 +137,10 @@ function fetchSubjectReports($sid,$reportdefs){
 		   	$Reports['publishdate']=date('jS M Y',strtotime($reportdef['report']['date']));
 		   	$transform=$reportdef['report']['transform'];
 			}
+
+	if(sizeof($Reports['SummaryAssessments'])==0){
+		$Reports['SummaryAssessments']=nullCorrect($Reports['SummaryAssessments']);
+		}
 
 	return array($Reports,$transform);
 	}

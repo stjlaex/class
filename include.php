@@ -6,7 +6,7 @@
  * The LogBook and AboutBook are special cases, should not be in this
  * list, and obviously cannot be disabled!
  */
-$roles=array('teacher','office','support','sen','medical','library','admin','district','supply');
+$roles=array('teacher','office','support','sen','medical','library','admin','district');
 $books=array();
 $books['all']=array(
 					  'admin' => 'Admin'
@@ -83,15 +83,18 @@ $externalbooks['admin']=array(
 $externalbooks['office']=array(
 							   'webmail' => $CFG->webmailtabname
 							   );
+$externalbooks['medical']=array(
+								'webmail' => $CFG->webmailtabname
+								);
+$externalbooks['sen']=array(
+								'webmail' => $CFG->webmailtabname
+								);
 $externalbooks['district']=array(
 							   //'webmail' => $CFG->webmailtabname
 								);
-$externalbooks['supply']=array(
-							   //'webmail' => $CFG->webmailtabname
-								);
 $externalbooks['support']=array(
-								//'webmail' => $CFG->webmailtabname
-							   );
+								'webmail' => $CFG->webmailtabname
+								);
 $externalbooks['teacher']=array(
 								'webmail' => $CFG->webmailtabname
 								//,'lms' => $CFG->lmstabname

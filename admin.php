@@ -43,7 +43,7 @@ $rtid=$tid;
 		$choices['responsables.php']='responsibilities';
 		$choices['staff_details.php']='staffdetails';
 		}
-	$choices['orders.php']='orders';
+//$choices['orders.php']='orders';
 	if($_SESSION['role']=='admin' or $_SESSION['role']=='teacher'
 	   or $_SESSION['role']=='district'){
 		$choices['class_nos.php']='classnumbers';

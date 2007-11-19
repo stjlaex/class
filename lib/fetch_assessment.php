@@ -354,18 +354,18 @@ function fetchAssessments_short($sid,$eid='%',$bid='%',$pid='%'){
 		$ass=mysql_fetch_array($d_ass,MYSQL_ASSOC);
 		$ass=nullCorrect($ass);
 		$Assessment['id_db']=$ass['id'];
-	   	$Assessment['Course']=array('value'=>$ass['course_id']);
+	   	$Assessment['Course']=array('value'=>''.$ass['course_id']);
 		if($eidsid['subject_id']=='%'){$subject='';}
 				else{$subject=$eidsid['subject_id'];}
-	   	$Assessment['Subject']=array('value'=>$subject);
+	   	$Assessment['Subject']=array('value'=>''.$subject);
 		if($eidsid['component_id']=='%'){$component='';}
 				else{$component=$eidsid['component_id'];}
-	   	$Assessment['SubjectComponent']=array('value'=>$component);
-	   	$Assessment['Component']=array('value'=>get_subjectname($component));
-	   	$Assessment['PrintLabel']=array('value'=>$ass['label']);
-	   	$Assessment['Result']=array('value'=>$eidsid['result']);
+	   	$Assessment['SubjectComponent']=array('value'=>''.$component);
+	   	$Assessment['Component']=array('value'=>''.get_subjectname($component));
+	   	$Assessment['PrintLabel']=array('value'=>''.$ass['label']);
+	   	$Assessment['Result']=array('value'=>''.$eidsid['result']);
 		$Assessment['Result']=nullCorrect($Assessment['Result']);
-	   	$Assessment['Value']=array('value' => $eidsid['value']);
+	   	$Assessment['Value']=array('value' =>''.$eidsid['value']);
 		$Assessment=nullCorrect($Assessment);
 		$Assessments[]=$Assessment;
 		}
