@@ -76,6 +76,7 @@ function fetchSubjectReports($sid,$reportdefs){
 			  while(list($index,$component)=each($pids)){
 				  $pid=$component['id'];
 				  $componentname=$component['name'];
+				  $componentstatus=$component['status'];
 
 				  /* Combine assessment indexes for this component and all of its
 					strands into a single array $assnos.*/
@@ -95,6 +96,7 @@ function fetchSubjectReports($sid,$reportdefs){
 					  $Report['Subject']=array('id'=>''.$bid, 
 											   'value'=>''.$subject['name']);
 					  $Report['Component']=array('id'=>''.$pid, 
+												 'status'=>''.$componentstatus,
 												 'value'=>''.$componentname);
 					  $repasses=array();
 					  while(list($index,$assno)=each($assnos)){
