@@ -59,6 +59,12 @@ $Address=$Addresses[0];
 $extrabuttons=array();
 if($contactno>-1){
 	$extrabuttons['unlinkcontact']=array('name'=>'sub','value'=>'Unlink');
+?>
+  <div id="heading">
+	<label><?php print_string('student'); ?></label>
+	<?php print $Student['DisplayFullName']['value'];?>
+  </div>
+<?php
 	}
 elseif($contactno==-1){
 	$d_guardian=mysql_query("SELECT id, CONCAT(surname,', ',forename)

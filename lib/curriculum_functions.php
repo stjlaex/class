@@ -18,7 +18,7 @@ function list_course_stages($crid=''){
 	$stages=array();
 	if($crid!=''){
 		$d_stage=mysql_query("SELECT DISTINCT stage FROM cohort WHERE
-					course_id='$crid' AND stage!='%' ORDER BY year");
+			   	course_id='$crid' AND stage!='%' ORDER BY year, stage");
 		while($stage=mysql_fetch_array($d_stage,MYSQL_ASSOC)){
 			$stages[]=array('id'=>$stage['stage'],'name'=>$stage['stage']);
 			}
@@ -187,14 +187,6 @@ function display_curriculumyear($year){
 	return $dispyear;
 	}
 
-function display_teachername($tid){
-	$d_teacher=mysql_query("SELECT forename, surname 
-							FROM users WHERE username='$tid'");
-	$teacher=mysql_fetch_array($d_teacher,MYSQL_NUM);	      
-	$teachername=$teacher[0][0].' '.$teacher[1];
-	return $teachername;
-	}
-
 function display_yeargroupname($yid){
 	$d_y=mysql_query("SELECT name 
 							FROM yeargroup WHERE id='$yid'");
@@ -206,6 +198,14 @@ function display_yeargroupname($yid){
 function display_subjectname($bid){
 	$subjectname=get_subjectname($bid);
 	return $subjectname;
+	}
+
+function get_teachername($tid){
+	$d_teacher=mysql_query("SELECT forename, surname 
+							FROM users WHERE username='$tid'");
+	$teacher=mysql_fetch_array($d_teacher,MYSQL_NUM);	      
+	$teachername=$teacher[0][0].' '.$teacher[1];
+	return $teachername;
 	}
 
 /* Returns the subjectname for that bid from the database*/

@@ -380,11 +380,17 @@ div.content fieldset.listmenu, div.content fieldset.listmenu div {
 .listmenu tr td table td:hover { 
 	background-color:#eeeeee;
 	}
-.listmenu tr.lowlite td, .listmenu tr.lowlite a { 
+.listmenu tr.lowlite td, .listmenu tr.lowlite { 
     color:#aaaaaa;
 	}
 .listmenu tr.hilite td, .listmenu td.hilite { 
     background-color:#ff6600;
+	}
+.listmenu tr.midlite td, .listmenu td.midlite { 
+    background-color:#ff9966;
+	}
+.listmenu tr.golite td, .listmenu td.golite { 
+    background-color:#669900;
 	}
 
 /*extra functionality for a listmenu which lets rows be expanded and collapsed*/

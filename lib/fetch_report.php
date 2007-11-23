@@ -329,10 +329,10 @@ function fetchReportEntry($reportdef,$sid,$bid,$pid){
 	   $Comment['id_db']=$entry['entryn'];
 	   if($reportdef['report']['addcomment']=='yes' or $bid=='summary'){
 		   $enttid=$entry['teacher_id'];
-		   $teachername=display_teachername($enttid);
-		   $Comment['Teacher']=nullCorrect(array('id_db' => 
-				   $enttid, 'value'=>$teachername));
-		   $Comment['Text']=nullCorrect(array('value' => $entry['comment']));
+		   $teachername=get_teachername($enttid);
+		   $Comment['Teacher']=nullCorrect(array('id_db' => ''.$enttid, 
+												 'value'=> ''.$teachername));
+		   $Comment['Text']=nullCorrect(array('value' => ''.$entry['comment']));
 		   }
 	   if($reportdef['report']['addcategory']=='yes' and $bid!='summary'){
     		$pairs=explode(";",$entry['category']);

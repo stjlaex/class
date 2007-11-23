@@ -791,12 +791,9 @@ function fetchIncidents($sid){
 									 'type_db' => 'enum', 
 									 'value' => ''.$incident['yeargroup_id']);
 		$tid=$incident['teacher_id'];
-		$d_teacher=mysql_query("SELECT forename, surname 
-							FROM users WHERE username='$tid'");
-		$teachername=mysql_fetch_array($d_teacher,MYSQL_ASSOC);	      
 		$Incident['Teacher']=array('username' => ''.$tid,
 								   'label' => 'teacher',
-								   'value' => $teachername['forename'].' '.$teachername['surname']);
+								   'value' => ''.get_teachername($tid));
 
 		$d_history=mysql_query("SELECT * FROM incidenthistory
 				WHERE incident_id='$incid' ORDER BY entryn");
@@ -808,7 +805,7 @@ function fetchIncidents($sid){
 
 			$Action['Teacher']=array('username' => ''.$acttid, 
 									 'label' => 'teacher',
-							  'value' => display_teachername($acttid));
+							  'value' => get_teachername($acttid));
 			$Action['Comment']=array('value' => ''.$action['comment']);
 			$Action['EntryDate']=array('label' => 'date', 
 									 'type_db' => 'date', 
@@ -850,11 +847,9 @@ function fetchComments($sid,$date=''){
 								  'value' => ''.$subjectname);
 
 		$tid=$comment['teacher_id'];
-		$d_teacher=mysql_query("SELECT forename, surname 
-							FROM users WHERE username='$tid'");
-		$teachername=mysql_fetch_array($d_teacher,MYSQL_ASSOC);	      
-		$Comment['Teacher']=array('label' => 'teacher', 'username' => ''.$tid, 
-							  'value' => $teachername['forename'].' '.$teachername['surname']);
+		$Comment['Teacher']=array('label' => 'teacher', 
+								  'username' => ''.$tid, 
+								  'value' => ''.get_teachername($tid));
 		$Categories=array();
 		$Categories=array('label' => 'category', 
 						  'value' => ' ');

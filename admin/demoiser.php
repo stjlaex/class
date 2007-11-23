@@ -72,7 +72,7 @@ function generate_random_name($gender){
 	while(list($index, $row)=each($trows)){
 		$id=$row['id'];
 		if(mysql_query("UPDATE $table SET detail='A specific piece of
-			background information from outside school.', entrydate='2000-01-01'
+			background information.', entrydate='2000-01-01'
 					 WHERE id='$id'")){}
 		else{$error[]=mysql_error();}
 		}
@@ -98,14 +98,6 @@ function generate_random_name($gender){
 		else{$error[]=mysql_error();}
 		}
 
-	$table='fails';
-	$trows=array();
-	$trows=tableRead($table);
-	while(list($index, $row)=each($trows)){
-		$id=$row['id'];
-		if(mysql_query("UPDATE $table SET detail='The exam failed', entrydate='2005-04-01' WHERE id='$id'")){}
-		else{$error[]=mysql_error();}
-		}
 
 	$table='guardian';
 	$trows=array();
@@ -130,8 +122,6 @@ function generate_random_name($gender){
 	$table='incidenthistory';
 	$trows=tableClear($table);
 
-	$table='medical';
-	$trows=tableClear($table);
 	mysql_query("UPDATE attendance SET comment='', teacher_id=''");
 
 	$table='incidents';
@@ -164,17 +154,6 @@ function generate_random_name($gender){
 	while (list($index, $row) = each($trows)) {
 		$id=$row['id'];
 		if(mysql_query("UPDATE $table SET number='1907893333'
-				WHERE id='$id'")){}
-		else{$error[]=mysql_error();}
-		}
-
-	$table='prizes';
-	$trows=array();
-	$trows=tableRead($table);
-	while (list($index, $row) = each($trows)) {
-		$id=$row['id'];
-		if(mysql_query("UPDATE $table SET detail='A special
-				achievement.', teacher_id=''
 				WHERE id='$id'")){}
 		else{$error[]=mysql_error();}
 		}
@@ -228,7 +207,7 @@ function generate_random_name($gender){
 			WHERE author='$username'");
 			}
 		elseif($role=='admin'){
-			if($username!='administrator'){$nun='admin'.$adimindex++;}
+			if($username!='administrator'){$nun='admin'.$adminindex++;}
 			else{$nun=$username;}
 			$passwd=md5('demoadmin');
 			}
@@ -282,7 +261,7 @@ function generate_random_name($gender){
 
 	$table='classes';
 	$trows=tableRead($table);
-	$name=array('DD','CC','AA','BB','EE','FF','GG','HH','JJ','KK','LL','MM');
+	$name=array('AA','BB','CC','DD','EE','FF','GG','HH','JJ','KK','LL','MM');
 	while(list($index,$row)=each($trows)){
 		if($row['generate']=='forms'){
 			$bid=$row['subject_id'];

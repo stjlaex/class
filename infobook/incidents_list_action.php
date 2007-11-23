@@ -33,7 +33,7 @@ include('scripts/sub_action.php');
 							teacher_id='$tid'");
 		$incid=mysql_insert_id();
 		$result[]=get_string('incidentrecorded',$book);
-		$teachername=display_teachername($tid);
+		$teachername=get_teachername($tid);
 
 		$footer='--'. "\r\n" . get_string('pastoralemailfooterdisclaimer');
 		$subject='Incident Report for '.$Student['Forename']['value']

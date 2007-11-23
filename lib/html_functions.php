@@ -191,32 +191,35 @@ function xmlarray_divform($Array,$no='',$caption='',$tab=1,$book=''){
  * element's label and its formatted value.
  */
 function xmlelement_input($val,$no,$tab,$book){
-
-	if($val['value']=='' and isset($val['default_value'])){
-				$setval=$val['default_value'];
-				}
+	$pattern='';
+	if(($val['value']=='' or $val['value']==' ') and isset($val['default_value'])){
+		$setval=$val['default_value'];
+		}
 	else{$setval=$val['value'];}
 
 	if($val['type_db']=='enum'){
-				$setval=strtoupper($setval);
-				$enum=getEnumArray($val['field_db']);
-				print '<select name="'.$val['field_db'].$no.'" ';
-				print ' tabindex="'.$tab++.'" ';
-				if(isset($val['inputtype'])){print ' class="'.$val['inputtype'].'" ';}
-				print ' id="'.$val['label'].'" size="1">';
-				print '<option value=""></option>';
-				while(list($inval,$description)=each($enum)){	
-					print '<option ';
-					if($setval==$inval){print 'selected="selected"';}
-					print ' value="'.$inval.'">'.get_string($description,$book).'</option>';
-					}
-				print '</select>';
-				}
+		$setval=strtoupper($setval);
+		$enum=getEnumArray($val['field_db']);
+		print '<select name="'.$val['field_db'].$no.'" ';
+		print ' tabindex="'.$tab++.'" ';
+		if(isset($val['inputtype'])){print ' class="'.$val['inputtype'].'" ';}
+		print ' id="'.$val['label'].'" size="1">';
+		print '<option value=""></option>';
+		while(list($inval,$description)=each($enum)){	
+			print '<option ';
+			if($setval==$inval){print 'selected="selected"';}
+			print ' value="'.$inval.'">'.get_string($description,$book).'</option>';
+			}
+		print '</select>';
+		}
 	elseif($val['type_db']=='date'){
-				$required='no';$todate='';$xmldate=$val['field_db'].$no;
-				$todate=$setval;
-				include('scripts/jsdate-form.php');
-				}
+		if(isset($val['inputtype']) and $val['inputtype']=='required'){$required='yes';}
+		else{$required='no';}
+		$todate=$setval;
+		$xmldate=$val['field_db'].$no;
+		$todate=$setval;
+		include('scripts/jsdate-form.php');
+		}
 	elseif($val['type_db']=='text'){
 ?>
 		<textarea rows="2" cols="80"  id="<?php print $val['label'];?>" 
@@ -224,18 +227,37 @@ function xmlelement_input($val,$no,$tab,$book){
 				name="<?php print $val['field_db'].$no; ?>" 
 					tabindex="<?php print $tab++;?>" ><?php print $setval; ?></textarea>
 <?php
-				 }
+		}
 	elseif(substr($val['type_db'],0,3)=='var' or substr($val['type_db'],0,3)=='cha'){
-				$field_type=split('[()]', $val['type_db']);
-				$maxlength=$field_type[1];
+		if($val['field_db']=='email'){$pattern='pattern="email"';}
+		/* TODO: add these patterns for all possible inputs BUT js
+		 needs to be UTF8 aware first!*/
+		//else{$pattern='pattern="alphanumeric"';}
+		$field_type=split('[()]', $val['type_db']);
+		$maxlength=$field_type[1];
 ?>
 		<input type="text" id="<?php print $val['label'];?>" 
+			<?php print $pattern;?> 
 		  maxlength="<?php print $maxlength; ?>"
 		  class="<?php if(isset($val['inputtype'])){print $val['inputtype'];}?>" 
 		  name="<?php print $val['field_db'].$no; ?>" 
 		  tabindex="<?php print $tab++;?>" value="<?php print $setval; ?>" />
 <?php
-				}
+		}
+	elseif($val['type_db']=='smallint' or $val['type_db']=='decimal'){
+		if($val['type_db']=='decimal'){$pattern='pattern="decimal"';}
+		else{$pattern='pattern="integer"';}
+		$field_type=split('[()]', $val['type_db']);
+		$maxlength=$field_type[1];
+?>
+		<input type="text" id="<?php print $val['label'];?>" 
+			<?php print $pattern;?> 
+		  maxlength="<?php print $maxlength; ?>"
+		  class="<?php if(isset($val['inputtype'])){print $val['inputtype'];}?>" 
+		  name="<?php print $val['field_db'].$no; ?>" 
+		  tabindex="<?php print $tab++;?>" value="<?php print $setval; ?>" />
+<?php
+		}
 	else{
 ?>
 		<input type="text" id="<?php print $val['label'];?>" 
@@ -243,7 +265,7 @@ function xmlelement_input($val,$no,$tab,$book){
 		  name="<?php print $val['field_db'].$no; ?>" 
 		  tabindex="<?php print $tab++;?>" value="<?php print $setval; ?>" />
 <?php
-				 }
+		}
 	return $tab;
 	}
 

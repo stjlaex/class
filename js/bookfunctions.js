@@ -129,6 +129,22 @@ function clickToAction(buttonObject){
 		document.getElementById("formstatus-edit").setAttribute("class","hidden");
 		document.getElementById("formstatus-action").setAttribute("class","");
 		}
+	else if(action=="process"){
+		var recordId=xmlRecord.childNodes[1].childNodes[0].nodeValue;
+		var formObject=document.formtoprocess;
+		var formElements=formObject.elements;
+		var input1=document.createElement("input");
+		input1.type="hidden";
+		input1.name="recordid";
+		input1.value=recordId;
+		document.formtoprocess.appendChild(input1);
+		var input2=document.createElement("input");
+		input2.type="hidden";
+		input2.name="sub";
+		input2.value=buttonObject.value;
+		document.formtoprocess.appendChild(input2);
+		document.formtoprocess.submit();
+		}
 	else if(action=="current"){
 		var recordId=xmlRecord.childNodes[1].childNodes[0].nodeValue;
 		var script=buttonObject.value;
@@ -583,6 +599,7 @@ function getPattern(patternName){
 	if(patternName=='integer'){ var pattern = '[^0-9]+';}
 	if(patternName=='numeric'){ var pattern = '[^.0-9]+';}
 	if(patternName=='decimal'){ var pattern = '[^.0-9]+';}
+	// TODO: How to make these utf8 friendly?
 	if(patternName=='alphanumeric'){ var pattern = '[^-.?,!;()+/\':A-Za-z0-9_ ]+';}
 	if(patternName=='truealphanumeric'){ var pattern = '[^A-Za-z0-9]+';}
 	if(patternName=='email'){ var pattern = '[-.A-Za-z0-9_]+@[-.A-Za-z0-9_]+\.[-.A-Za-z]{2,4}';}

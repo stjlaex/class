@@ -1,3 +1,15 @@
+Version ClaSS-0.8.34 release (2007/11/27)
+-----------------------------------------
+
+xmlelement_input() now adds validation patterns for decimal, numeric
+and email.
+
+An order tracking system added to Admin, its called the OrderBook but
+is not a real book just a set of scripts within admin. It has a
+distinct set of tables in create_orderbook.php which can be considered
+optional.
+
+
 Version ClaSS-0.8.33 release (2007/11/20)
 -----------------------------------------
 

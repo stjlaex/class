@@ -147,8 +147,8 @@ function checkEnum($value, $field_name) {
 	return $value;
 	}
 
-/*Uses the enum $value for the enum $field_name to look up and return the $description*/
-/*call this before displaying the lang string*/
+/*Uses the enum $value for the enum $field_name to look up and return the $description
+ call this before displaying the lang string*/
 function displayEnum($value,$field_name){
 	$value=strtoupper($value);
 	$enumarray=getEnumArray($field_name);
@@ -573,6 +573,10 @@ function getEnumArray($field_name){
 						 );
 	/*NOT an enum array but defines the enrolment matrix*/
 	$enrolmentsteps=array('EN','AP','AT','ATD','RE','ACP','CA','WL','AC');
+
+	/*for the orderaction table*/
+	$action=array('0' => 'authorised', '1' => 'placed', '2' =>
+				  'delivered', '3' => 'cancelled', '4' => 'closed');
 
 	/*for the gidsid table*/
 	$priority=array('0' => 'first', '1' => 'second', '2' => 'third', '3' => 'fourth');

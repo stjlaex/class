@@ -1,5 +1,5 @@
 <?php
-/**						httpscripts/print_label.php
+/**						httpscripts/contact_labels_print.php
  */
 
 require_once('../../scripts/http_head_options.php');

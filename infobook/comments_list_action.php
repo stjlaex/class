@@ -32,7 +32,7 @@ include('scripts/sub_action.php');
 		teacher_id='$tid'");
 		$result[]=get_string('commentrecorded',$book);
 
-		$teachername=display_teachername($tid);
+		$teachername=get_teachername($tid);
 		$footer='--'. "\r\n" . get_string('pastoralemailfooterdisclaimer');
 		$subject='Comment for '.$Student['Forename']['value']
 				.' '.$Student['Surname']['value'].' ('. 

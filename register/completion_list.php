@@ -34,8 +34,9 @@ twoplusprint_buttonmenu();
 <?php
 	while(list($index,$com)=each($registration_coms)){
 		list($nosids,$nop,$noa)=check_communityAttendance($com,$eveid);
-		if(($nop+$noa)==$nosids and $nosids!=0){$status='complete';$cssclass='';}
-		else{$status='incomplete';$cssclass='vspecial';}
+		if($nosids>0){
+			if(($nop+$noa)==$nosids and $nosids!=0){$status='complete';$cssclass='';}
+			else{$status='incomplete';$cssclass='vspecial';}
 ?>
 		<tr>
 		  <td>
@@ -57,6 +58,7 @@ twoplusprint_buttonmenu();
 		</tr>
 <?php
 			}
+		}
 ?>
 		</table>
 

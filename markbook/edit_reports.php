@@ -27,7 +27,7 @@ else{
    	$d_report=mysql_query("SELECT * FROM report WHERE id='$rid'");
    	$report=mysql_fetch_array($d_report,MYSQL_ASSOC);
 	$subjectname=get_subjectname($bid);
-	$teachername=display_teachername($tid);
+	$teachername=get_teachername($tid);
 	if($pid!=''){
 		$componentname=get_subjectname($pid);
 		}

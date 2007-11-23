@@ -25,7 +25,7 @@ else{
 	$eids=(array)$reportdef['eids'];
 
 	$subjectname=get_subjectname($bid);
-	$teachername=display_teachername($tid);
+	$teachername=get_teachername($tid);
 	if($pid!=''){
    		$componentname=get_subjectname($pid);
 		}
