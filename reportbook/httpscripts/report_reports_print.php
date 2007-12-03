@@ -43,6 +43,8 @@ if(isset($_POST['wrapper_rid'])){$wrapper_rid=$_POST['wrapper_rid'];}
 			list($Reports,$transform)=fetchSubjectReports($sid,$reportdefs);
 			$Reports['Coversheet']='yes';
 			$Reports['Transform']=$transform;
+			$Reports['Paper']='portrait';
+			$Reports['Paper']='landscape';
 			$Student['Reports']=nullCorrect($Reports);
 			$Students['Student'][]=$Student;
 			}

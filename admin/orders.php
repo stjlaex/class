@@ -12,7 +12,7 @@ if($_SESSION['role']=='admin'){
 else{
 	$extrabuttons=array();
 	}
-two_buttonmenu($extrabuttons);
+two_buttonmenu($extrabuttons,$book);
 ?>
   <div class="content">
 	<form id="formtoprocess" name="formtoprocess" method="post"
@@ -22,13 +22,23 @@ two_buttonmenu($extrabuttons);
 		<legend><?php print_string('ordersearch',$book);?></legend>
 		
 		<div class="center">
-		  <label for="Ordernumber"><?php print_string('ordernumber');?></label>
+		  <div class="left">
+		  <label for="Ordernumber"><?php print_string('ordernumber',$book);?></label>
 		  <input tabindex="<?php print $tab++;?>" 
 			type="text" id="Ordernumber" name="ordernumber" maxlength="30"/>
-
+<?php 
+		$orderstatus='';
+		$listlabel='status';
+		$listname='orderstatus';
+		include('scripts/set_list_vars.php');
+		list_select_enum('action',$listoptions,$book);
+?>
+		  </div>
+		  <div class="right">
 			<button type="submit" name="sub" value="search">
 			  <?php print_string('search');?>
 			</button>
+		  </div>
 		</div>
 
 	  </fieldset>
@@ -43,7 +53,8 @@ two_buttonmenu($extrabuttons);
 		<tr>
 		  <th><?php print_string('name');?></th>
 		  <th><?php print_string('limit',$book);?></th>
-		  <th><?php print_string('balance',$book);?></th>
+		  <th><?php print_string('currentbalance',$book);?></th>
+		  <th><?php print_string('projectedbalance',$book);?></th>
 		</tr>
 <?php
 		$budgets=list_user_budgets($tid);
@@ -60,11 +71,8 @@ two_buttonmenu($extrabuttons);
 		print $budget['costlimit'];
 ?>
 		  </td>
-		  <td>
-<?php
-		print get_budget_total($budget['id']);
-?>
-		  </td>
+		  <td><?php print get_budget_current($budget['id']);?></td>
+		  <td><?php print get_budget_projected($budget['id']);?></td>
 		</tr>
 <?php
 		}

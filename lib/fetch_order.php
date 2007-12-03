@@ -63,7 +63,7 @@ function list_orders($ordernumber='%'){
 				orderorder.id LIKE '$ordid' AND 
 				orderorder.supplier_id LIKE '$supid' 
 				ORDER BY entrydate DESC");
-	trigger_error($ordernumber.': '.$budcode.' - '.$yearcode.' - '.$ordid,E_USER_WARNING);
+	//trigger_error($ordernumber.': '.$budcode.' - '.$yearcode.' - '.$ordid,E_USER_WARNING);
 	while($order=mysql_fetch_array($d_order,MYSQL_ASSOC)){
 		$orders[]=$order;
 		}
@@ -101,7 +101,7 @@ function fetchOrder($ordid='-1'){
 							  'default_value' => '0',
 							  'value' => ''.$order['ordertype']
 							  );
-   	$Order['Currency']=array('label' => 'curency', 
+   	$Order['Currency']=array('label' => 'currency', 
 							 'inputtype'=> 'required',
 							 'table_db' => 'orderorder', 
 							 'field_db' => 'currency',
@@ -244,7 +244,7 @@ function fetchBudget($budid='-1'){
 						   'value' => ''.$bud['costlimit']
 						   );
 	/*
-   	$Budget['Currency']=array('label' => 'curency', 
+   	$Budget['Currency']=array('label' => 'currency', 
 							  'inputtype'=> 'required',
 							  'table_db' => 'orderbudget', 
 							  'field_db' => 'currency',
@@ -307,7 +307,7 @@ function fetchSupplier($supid='-1'){
 	return nullCorrect($Supplier);
 	}
 
-function get_budget_total($budid=-1){
+function get_budget_projected($budid=-1){
 	$d_bud=mysql_query("SELECT costlimit FROM orderbudget WHERE id='$budid'");
 	if(mysql_num_rows($d_bud)>0){
 		$costlimit=mysql_result($d_bud,0);
@@ -315,11 +315,26 @@ function get_budget_total($budid=-1){
 				ordermaterial JOIN orderorder ON
 				orderorder.id=ordermaterial.order_id WHERE
 				orderorder.budget_id='$budid'");
-		/*		while($mat=mysql_fetch_array($d_mat,MYSQL_ASSOC)){
-			$sum=$mat['']*$mat[''];
-			}
-		*/
 		$sum=mysql_result($d_mat,0);
+		$costremain=$costlimit-$sum;
+		}
+	else{
+		$costremain='';
+		}
+	return $costremain;
+	}
+
+function get_budget_current($budid=-1){
+	$d_bud=mysql_query("SELECT costlimit FROM orderbudget WHERE id='$budid'");
+	if(mysql_num_rows($d_bud)>0){
+		$costlimit=mysql_result($d_bud,0);
+		mysql_query("CREATE TEMPORARY TABLE inv (SELECT invoice_id FROM
+				orderaction JOIN orderorder ON
+				orderorder.id=orderaction.order_id WHERE
+				orderorder.budget_id='$budid' AND orderaction.action='2');");
+		$d_sum=mysql_query("SELECT SUM(totalcost) FROM
+				orderinvoice JOIN inv ON invoice.id=inv.invoice_id;");
+		$sum=mysql_result($d_sum,0);
 		$costremain=$costlimit-$sum;
 		}
 	else{
@@ -370,7 +385,7 @@ function fetchInvoice($invid='-1'){
 						   'value' => ''.$inv['totalcost']
 						   );
 	/*
-   	$Invoice['Currency']=array('label' => 'curency', 
+   	$Invoice['Currency']=array('label' => 'currency', 
 							  'inputtype'=> 'required',
 							  'table_db' => 'orderinvoice', 
 							  'field_db' => 'currency',

@@ -24,10 +24,10 @@ else{
 
 $Budget=fetchBudget($budid);
 
-three_buttonmenu($extrabuttons);
+three_buttonmenu($extrabuttons,$book);
 ?>
   <div id="heading">
-	<label><?php print_string('orders',$book);?></label>
+	<label><?php print_string('budget',$book);?></label>
 <?php
 	print $Budget['Name']['value'].' ';
 ?>
@@ -44,10 +44,10 @@ three_buttonmenu($extrabuttons);
 		  <tr>
 			<th></th>
 			<th><?php print_string('date');?></th>
-			<th><?php print_string('supplier');?></th>
-			<th><?php print_string('ordernumber');?></th>
-			<th><?php print_string('lodged');?></th>
-<?php  	if($budid==-1){ print '<th>'.get_string('budget').'</th>';}?>
+			<th><?php print_string('supplier',$book);?></th>
+			<th><?php print_string('ordernumber',$book);?></th>
+			<th><?php print_string('lodged',$book);?></th>
+<?php  	if($budid==-1){ print '<th>'.get_string('budget',$book).'</th>';}?>
 			<th>&nbsp;</th>
 		  </tr>
 		</thead>
@@ -81,7 +81,10 @@ three_buttonmenu($extrabuttons);
 			<td colspan="<?php print $colspan;?>">
 <?php
 			 while(list($index,$Material)=each($Order['Materials']['Material'])){
-				 print '<p>'.$Material['Detail']['value'].' '.$Material['Quantity']['value'].'</p>';
+				 print '<p>'.$Material['Detail']['value'].' - ' 
+				 .$Material['Quantity']['value']. 
+				 ' ('.$Material['Unitcost']['value']. ' '. 
+				 displayEnum($Order['Currency']['value'],$Order['Currency']['field_db']).')</p>';
 				 }
 ?>
 			</td>
@@ -99,8 +102,7 @@ three_buttonmenu($extrabuttons);
 </p>
 <?php
 				 }
-?>
-<?php
+
 			if($status!='closed'){
 				if($status=='lodged'){$orderaction='authorise';}
 				elseif($status=='authorised'){$orderaction='place';}
@@ -123,7 +125,7 @@ three_buttonmenu($extrabuttons);
 		  </tr>
 		  <div id="<?php print 'xml-'.$entryno;?>" style="display:none;">
 <?php
-			xmlechoer('Order',$Order);
+					  xmlechoer('Order',$Order);
 ?>
 		  </div>
 		</tbody>

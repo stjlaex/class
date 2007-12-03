@@ -31,29 +31,30 @@ $checkmids=(array)$_POST['checkmid'];
 				FROM markdef, mark WHERE mark.id='$mid' AND markdef.name=mark.def_name");
 		$markdef=mysql_fetch_array($d_markdef, MYSQL_ASSOC);
 
-/*		will store grading_grades in mark.levelname, as an average has no markdef row*/		
+		/* Will store grading_grades in mark.levelname, as an average has no markdef row*/		
 
-/*		check all columns are compatible*/
+		/* Check all columns are compatible*/
 		if($markdef['scoretype']=='grade'){
-			if($c==0){$grading_grades=$markdef['grading_name'];}
+			if($c==0){$grading_grades=$markdef['grading_name'];$joiner='';}
 			if($grading_grades==$markdef['grading_name']){
-				$midlist=$midlist.' '.$mid;
+				$midlist.=$joiner. $mid;
 				$scoretype=$markdef['scoretype'];
 				$def_name=$markdef['name'];
 				}
 				else{$result[]='Warning! Mark '.$mid.' must use the same grading scheme.';}
 				}
 		elseif($markdef['scoretype']=='value' or $markdef['scoretype']=='percentage'){
-			if($c==0){$scoretype=$markdef['scoretype']; $grading_grades='';}
-			if($markdef{'scoretype'}==$scoretype){
-				$midlist=$midlist.' '.$mid;
+			if($c==0){$scoretype=$markdef['scoretype']; $grading_grades='';$joiner='';}
+			if($markdef['scoretype']==$scoretype){
+				$midlist.=$joiner. $mid;
 				$def_name=$markdef['name'];
 				}
 			else{$result[]='Warning! Mark '.$mid.' must also be a '.$scoretype.'.';}	
 			}
 		else{$result[]='Warning! Mark '.$mid.' must be a grade to be averaged.';}
+		$joiner=' ';
 		}
-		
+
 	if($midlist!=''){
 		$tomonth=date('n');
 		$today=date('j');

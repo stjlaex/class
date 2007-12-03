@@ -24,6 +24,7 @@ $Budget=fetchBudget();
 						WHERE course_id='%' ORDER BY name"); 
 	$listname='gid';
 	$listlabel='department';
+	$required='yes';
 	include('scripts/set_list_vars.php');
 	list_select_db($d_group,$listoptions,$book);
 	unset($listoptions);

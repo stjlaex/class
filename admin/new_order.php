@@ -24,12 +24,12 @@ three_buttonmenu();
 	<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
 
 	  <div class="left">
-		<?php $tab=xmlarray_form($Order,'','neworder',$tab,'admin'); ?>
+		<?php $tab=xmlarray_form($Order,'','neworder',$tab,$book); ?>
 	  </div>
 
 	  <div class="right">
 		<table class="listmenu">
-		  <caption><?php print_string('supplier','admin');?></caption>
+		  <caption><?php print_string('supplier',$book);?></caption>
 		  <tr>
 			<td>
 <?php 

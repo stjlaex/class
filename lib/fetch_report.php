@@ -138,6 +138,7 @@ function fetchSubjectReports($sid,$reportdefs){
 			$Reports['Summaries']=nullCorrect($Summaries);
 		   	$Reports['publishdate']=date('jS M Y',strtotime($reportdef['report']['date']));
 		   	$transform=$reportdef['report']['transform'];
+		   	$style=$reportdef['report']['style'];
 			}
 
 	if(sizeof($Reports['SummaryAssessments'])==0){

@@ -163,8 +163,8 @@ function logOut(){
 	}
 
 function loadBook(book){
-	//	reloads this book without giving focus (never used for logbook!)
-	//	always called by logbook if a session is set
+	//	Reloads the book without giving focus (never used for logbook!)
+	//	always called by logbook if a session is set,
 	//	also called when changes in one book needs to update another
 	var currentbook='';	
 	if(document.getElementById("currentbook")){

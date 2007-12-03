@@ -4,12 +4,11 @@
 /*to record the installed curriculum packs. */
 
 $curriculums=array(
-				    0=>'english/common'
-				   ,1=>'english/sixthform'
+				   0=>'english/common'
+				   ,1=>'english/primary'
 				   ,2=>'english/secondary'
-//	,3=>'english/primary'
-//	,4=>'spanish/convalidation'
-//	,5=>'spanish/bachillerato'
-	);
+				   ,3=>'english/sixthform'
+				   //,4=>'spanish/common'
+				   );
 ?>
 

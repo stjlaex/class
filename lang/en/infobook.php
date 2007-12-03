@@ -18,6 +18,8 @@ $string['medicalinformation']='Medical information';
 $string['religion']='Religion';
 $string['firstlanguage']='First language';
 $string['email']='Email';
+$string['emailstudents']='Email students';
+$string['emailcontacts']='Email contacts';
 $string['enrolmentnumber']='Enrolment number';
 $string['schoolleavingdate']='School leaving date';
 $string['boarder']='Boarder';
@@ -142,7 +144,7 @@ $string['srada']='Sra. Da.';
 $string['enrolmentnotes']='Enrolment notes';
 $string['nextreviewdate']='Next review';
 $string['ethnicity']='Ethnicity';
-$string['emailtoguardian']='Email this to parents';
+$string['emailtoguardian']='Email this to contacts';
 $string['']='';
 $string['']='';
 ?>

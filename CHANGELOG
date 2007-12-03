@@ -1,4 +1,4 @@
-Version ClaSS-0.8.34 release (2007/11/27)
+Version ClaSS-0.8.34 release (2007/12/04)
 -----------------------------------------
 
 xmlelement_input() now adds validation patterns for decimal, numeric
@@ -8,6 +8,24 @@ An order tracking system added to Admin, its called the OrderBook but
 is not a real book just a set of scripts within admin. It has a
 distinct set of tables in create_orderbook.php which can be considered
 optional.
+
+Have reworked the style field in the report table to be
+paper-orientation (portrait or landscape) and this is now passed to
+the js printing function which will orient the pop-up window
+appropriately - the page setup option still needs ot be set manually
+to either landscape or portrait.
+
+Bugfix to MarkBook averages and sums to trim whitespace from the
+midlist.
+
+Improved the way edit_reports checks assessments to include/exclude
+based on component status - the component status for the report column no
+longer has to match that of the assessments to work.
+
+The student_list in the InfoBook now has buttons for sending emails to
+students and contacts - this depends on both the WebMail being
+configured for the user and the $CFG->emailoff option being no.
+
 
 
 Version ClaSS-0.8.33 release (2007/11/20)

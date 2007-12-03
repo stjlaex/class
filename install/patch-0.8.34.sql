@@ -16,7 +16,7 @@ CREATE TABLE orderbudget (
 	code			varchar(8) not null default '',
 	yearcode	   	char(2) not null default '',
 	name			varchar(160) not null default '',
-	costlimit		decimal unsigned not null default '0',
+	costlimit		decimal(10,2) unsigned not null default '0',
 	section_id		int unsigned not null default '0',
 	unique			indexbudget (code,yearcode),
 	primary key (id)
@@ -51,7 +51,7 @@ CREATE TABLE ordermaterial (
 	order_id		int unsigned not null default '0', 
 	entryn			tinyint unsigned not null auto_increment,
 	quantity		smallint unsigned not null default '0',
-	unitcost		decimal unsigned not null default '0',
+	unitcost		decimal(10,2) unsigned not null default '0',
 	refno			varchar(240) not null default '',
 	detail			text not null default '',
    	primary key		(order_id,entryn)
@@ -61,9 +61,10 @@ CREATE TABLE orderinvoice (
 	id				int unsigned not null auto_increment, 
 	invoicedate		date not null,
 	reference		varchar(40) not null default '',
-	deliverycost	decimal unsigned not null default '0',
-	taxcost			decimal unsigned not null default '0',
-	discountcost	decimal unsigned not null default '0',
-	totalcost		decimal unsigned not null default '0',
+	deliverycost	decimal(10,2) unsigned not null default '0',
+	taxcost			decimal(10,2) unsigned not null default '0',
+	discountcost	decimal(10,2) unsigned not null default '0',
+	totalcost		decimal(10,2) unsigned not null default '0',
    	primary key		(id)
 );
+UPDATE report SET style="portrait";

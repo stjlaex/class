@@ -176,7 +176,7 @@ elseif($sub=='Submit'){
 			}
 		if(isset($_POST['catdefids'])){$catdefids=(array)$_POST['catdefids'];}
 		else{$catdefids=array();}
-		if(isset($_POST['template'])){$style=$_POST['template'];}else{$style='';}
+		if(isset($_POST['style'])){$style=$_POST['style'];}else{$style='portrait';}
 		if(isset($_POST['template'])){$transform=$_POST['template'];}else{$template='';}
 
 		mysql_query("INSERT INTO report (title, comment, course_id,

@@ -76,7 +76,7 @@ for($i=0;$i<sizeof($cids);$i++){
 	      $mid[$c]=$mark['id'];
 	      $mark_total[$c]=$mark['total'];
 	      $marktype[$c]=$mark['marktype'];
-	      $midlist[$c]=$mark['midlist'];
+		  $midlist[$c]=trim($mark['midlist']);
 	      $lena[$c]=$mark['levelling_name'];
 	
 		  /*this display option is now deprecated and needs to be
@@ -86,7 +86,7 @@ for($i=0;$i<sizeof($cids);$i++){
 	      $umn=array('id'=>$mark['id'], 'mark_total'=>$mark['total'], 
 					 'marktype' => $mark['marktype'],
 					 'scoretype' => '',
-					 'midlist'=>$mark['midlist'],
+					 'midlist'=>trim($mark['midlist']),
 					 'def_name'=>$mark['def_name'], 
 					 //'display'=>$display, 
 					 'topic'=>$mark['topic'], 

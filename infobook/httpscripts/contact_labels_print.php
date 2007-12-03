@@ -37,6 +37,7 @@ if(isset($_POST['sids'])){$sids=(array)$_POST['sids'];}
 				}
 			}
 		$Students['transform']='labels';
+		$Students['paper']='portrait';
 		$returnXML=$Students;
 		$rootName='Students';
 		}

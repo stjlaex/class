@@ -37,7 +37,7 @@ function xulsave(){
 // A function taylored to process xml and an xsl-template in a new window for printing
 // Either the xml for printing is contained within a hidden div of the parent 
 // with id=contentId or the xml is fed directly to the function in the xml parameter
-function openPrintReport(contentId, xsltName, xml){
+function openPrintReport(contentId, xsltName, xml, paper){
 	var content="";
 	if(xml!=""){
 		content=serializeXML(xml);
@@ -47,7 +47,12 @@ function openPrintReport(contentId, xsltName, xml){
 		}
 
 	if(content!=""){
-		printWindow=window.open('','','height=800,width=750,dependent,resizable,menubar,screenX=50,scrollbars');
+		if(paper=="landscape"){
+			printWindow=window.open('','','height=600,width=900,dependent,resizable,menubar,screenX=50,scrollbars');
+			}
+		else{
+			printWindow=window.open('','','height=800,width=750,dependent,resizable,menubar,screenX=50,scrollbars');
+			}
 		printWindow.document.open();
 		printWindow.document.writeln("<html>");
 

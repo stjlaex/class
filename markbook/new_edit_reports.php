@@ -88,8 +88,24 @@ three_buttonmenu($extrabuttons,$book);
 		$AssDef=fetchAssessmentDefinition($eid);
 		$AssDefs[]=$AssDef;
 		$grading_grades=$AssDef['GradingScheme']['grades'];
-		$strands=(array)list_subject_components($pid,$AssDef['Course']['value'],$AssDef['StrandStatus']['value']);
-		if(sizeof($strands)==0){$strands[]=array('id'=>$pid);}
+		$compstatus=$AssDef['ComponentStatus']['value'];
+		$strands=array();
+		if($pid!=''){
+			/* If this column is for a component then include any strands*/
+			$strandstatus=$AssDef['StrandStatus']['value'];
+			$strands=(array)list_subject_components($pid,$AssDef['Course']['value'],$strandstatus);
+			if(sizeof($strands)==0 and $compstatus!='None'){
+				$strands[]=array('id'=>$pid);
+				}
+			}
+		else{
+			/* If this column is for a subject then include any
+				components - but the strands won't be there*/
+			$strands=(array)list_subject_components($bid,$AssDef['Course']['value'],$compstatus);
+			if(sizeof($strands)==0){
+				$strands[]=array('id'=>$pid);
+				}
+			}
 		while(list($index,$strand)=each($strands)){
 			/* Need to identify the mid (if one exists) that is related to 
 				this assessment for updating scores in the action page.*/

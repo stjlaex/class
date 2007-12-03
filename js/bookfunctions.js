@@ -203,13 +203,13 @@ function updatexmlRecord(xmlRecord){
 	}
 
 //------------------------------------------------------- 
-//only called by form buttons in place of processContent() 
-//this will pass all the checked sids[] in a sidtable alongwith 
-//whatever parameters are listed in the embedded xml contained 
-//in a div with id=xml-checked-action
-//whatever xml is returned by the httpscript called by the button
-//is transformed using the xsl transformation named in transform 
-//(which must be listed alogwith the other params in the embedded xml)
+// Only called by form buttons in place of processContent() 
+// this will pass all the checked sids[] in a sidtable alongwith 
+// whatever parameters are listed in the embedded xml contained 
+// in a div with id=xml-checked-action
+// whatever xml is returned by the httpscript called by the button
+// is transformed using the xsl transformation named in transform 
+// (which must be listed along-with the other params in the embedded xml)
 
 function checksidsAction(buttonObject){
 	var formObject=document.formtoprocess;
@@ -218,14 +218,15 @@ function checksidsAction(buttonObject){
 	var script=buttonObject.value;
 	var params="";
 	var xsltransform="";
-	//need the path for the script being called - this is always set 
-	//by default to path to the current book but can be overridden
+	// Need the path for the script being called - this is set 
+	// by default to the path of the current book but can be overridden
+	// if the buttonObject has this attribute set.
 	var pathtoscript=pathtobook;
 	if(buttonObject.getAttribute("pathtoscript")){
 		pathtoscript=buttonObject.getAttribute("pathtoscript");
 		}
-	//need the id of the div containing the params to work with
-	//this defaults to checked-action but can be overridden
+	// Need the id of the div containing the params to work with
+	// this defaults to checked-action but can be overridden
 	var theContainerId="checked-action";
 	if(buttonObject.getAttribute("xmlcontainerid")){
 		theContainerId=buttonObject.getAttribute("xmlcontainerid");
@@ -300,9 +301,12 @@ function checksidsAction(buttonObject){
 					var xmlReport=xmlHttp.responseXML;
 					if(xsltransform==""){
 						xsltransform=xmlReport.getElementsByTagName("transform")[0].firstChild.nodeValue;
+						paper=xmlReport.getElementsByTagName("paper")[0].firstChild.nodeValue;
 						}
-					//function to actually process the returned xml
-					openPrintReport("",xsltransform,xmlReport);
+					//function to actually process the returned xml	
+					if(xsltransform!=""){
+						openPrintReport("",xsltransform,xmlReport,paper);
+						}
 					}
 				else if(xmlHttp.status==404){alert ("Requested URL is not found.");}
         		else if(xmlHttp.status==403){alert("Access denied.");} 
