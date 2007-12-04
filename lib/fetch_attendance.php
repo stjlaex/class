@@ -102,7 +102,7 @@ function fetchAttendances($sid,$startday=0,$nodays=7){
 
 function fetchcurrentAttendance($sid,$eveid=''){
 	if($eveid==''){
-		$event=currentEvent();
+		$event=get_event();
 		$eveid=$event['id'];
 		}
 	$Attendance=array();
@@ -113,7 +113,6 @@ function fetchcurrentAttendance($sid,$eveid=''){
 			event.period, event.date FROM attendance JOIN
 			event ON event.id=attendance.event_id WHERE
 			attendance.student_id='$sid' AND event.id='$eveid'");
-
 		$attendance=mysql_fetch_array($d_attendance,MYSQL_ASSOC);
 		$Attendance['id_db']=$attendance['id'];
 		$Attendance['Period']=array('label' => 'period',
@@ -134,6 +133,9 @@ function fetchcurrentAttendance($sid,$eveid=''){
 	return nullCorrect($Attendance);
 	}
 
+/* Given an event_id it returns the xml_array for the event.*/
+/* An event does not neccessarily have to be an attendance event and */
+/* this is therefore not really exclusive to attendnace but... */
 function fetchAttendanceEvent($eveid='-1'){
 	$Event=array();
 	$d_event=mysql_query("SELECT period, date FROM event WHERE id='$eveid'");
@@ -148,7 +150,7 @@ function fetchAttendanceEvent($eveid='-1'){
 	return nullCorrect($Event);
 	}
 
-/* returns all events which exist in the db inclusive of the period */
+/* Returns all events which exist in the db inclusive of the period */
 /* from startday to the previous nodays */
 function fetchAttendanceEvents($startday=0,$nodays=7){
 	$AttendanceEvents=array();
@@ -175,11 +177,17 @@ function fetchAttendanceEvents($startday=0,$nodays=7){
 	return nullCorrect($AttendanceEvents);
 	}
 
-function currentEvent(){
+/* Returns an event record for the matching date, if no date set then */
+/* the default is to return the current session event.*/
+function get_event($date='',$session=''){
 	global $CFG;
-	if($CFG->registration=='double'){$session=date('A');}
-	else{$session='AM';}
-	$date=date('Y-m-d');
+	if($date==''){
+		$date=date('Y-m-d');
+		}
+	if($session==''){
+		if($CFG->registration=='double'){$session=date('A');}
+		else{$session='AM';}
+		}
 	$d_event=mysql_query("SELECT id FROM event WHERE date='$date' AND period='$session'");
 	if(mysql_num_rows($d_event)==0){
 		$eveid='0';
@@ -188,18 +196,6 @@ function currentEvent(){
 		$eveid=mysql_result($d_event,0);
 		}
 	$event=array('id'=>$eveid,'date'=>$date,'period'=>$session);
-	return $event;
-	}
-
-function fetchEvent($eveid){
-	$d_event=mysql_query("SELECT id,date,period FROM event WHERE id='$eveid'");
-	if(mysql_num_rows($d_event)==0){
-		$eveid='0';
-		$event=array('id'=>$eveid,'date'=>'','period'=>'');
-		}
-	else{
-		$event=mysql_fetch_array($d_event,MYSQL_ASSOC);
-		}
 	return $event;
 	}
 
@@ -226,7 +222,7 @@ function check_communityAttendance($community,$eveid=''){
 
 function list_absentStudents($eveid='',$lates=0){
 	if($eveid==''){
-		$event=currentEvent();
+		$event=get_event();
 		$eveid=$event['id'];
 		}
 	$Students['Student']=array();

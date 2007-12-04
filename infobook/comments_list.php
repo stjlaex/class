@@ -44,6 +44,7 @@ three_buttonmenu();
 <?php 
 	  if($CFG->emailguardiancomments=='yes'){
 		  $checkname='guardianemail';$checkcaption=get_string('emailtoguardian',$book);
+		  $checkalert=get_string('emailcommentalert',$book);
 		  include('scripts/check_yesno.php'); 
 		  }
 ?>

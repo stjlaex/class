@@ -5,7 +5,7 @@
 $string['medicalrecord']='Medical record';
 $string['lastreviewdate']='Last review date';
 $string['removemed']='Remove medical status';
-$string['medtype']='Medical category';
+$string['medicalcategory']='Medical category';
 $string['']='';
 $string['']='';
 $string['']='';

@@ -25,9 +25,10 @@ elseif($lena!=''){
 
 	/* Insert the mark row for the level. The mid to level goes in midlist.*/	
    	if(mysql_query("INSERT INTO mark (entrydate, marktype,
-				levelling_name, def_name, topic, total, midlist, author) 
+				levelling_name, def_name, topic, total, midlist,
+				author, component_id) 
 				VALUES ('$entrydate', 'level', '$lena', '$markdefname', '$topic',
-				'$total', '$mid', '$tid')")){
+				'$total', '$mid', '$tid', '$pid');")){
 			$newmid=mysql_insert_id();
 			$displaymid=$newmid;
 			/*	Do the level for each class that is assigned that mark not just */
@@ -36,12 +37,10 @@ elseif($lena!=''){
 			$d_midcid=mysql_query("SELECT class_id FROM midcid WHERE mark_id='$mid'");	
 			while ($midcid=mysql_fetch_array($d_midcid,MYSQL_ASSOC)){
 				$cid=$midcid{'class_id'};
-				if(mysql_query("INSERT INTO midcid 
-			     (mark_id, class_id) VALUES ('$newmid', '$cid')")){}
-				else{$result[]='Failed midcid already exists for class!';	
-					$error[]=mysql_error();}
+				mysql_query("INSERT INTO midcid 
+							(mark_id, class_id) VALUES ('$newmid', '$cid')");
 				}
-			$result[]='Column levelled.';
+			$result[]=get_string('columnlevelled',$book);
 			}
 	}
 include('scripts/redirect.php');

@@ -23,15 +23,15 @@ else{
 		$d_markdef=mysql_query("SELECT markdef.scoretype, markdef.name 
 				FROM markdef, mark WHERE mark.id='$mid' AND markdef.name=mark.def_name");
 		$markdef=mysql_fetch_array($d_markdef, MYSQL_ASSOC);
-		if($markdef{'scoretype'}=='value' or $markdef{'scoretype'}=='percentage'){
-			if($c==0){$scoretype=$markdef{'scoretype'};}
-			if($markdef{'scoretype'}==$scoretype){
+		if($markdef['scoretype']=='value' or $markdef['scoretype']=='percentage'){
+			if($c==0){$scoretype=$markdef['scoretype'];}
+			if($markdef['scoretype']==$scoretype){
 				$midlist=$midlist.' '.$mid;
-				$def_name=$markdef{'name'};
+				$def_name=$markdef['name'];
 				}
-			else{$result[]= 'Warning! All marks must be of the same type: '.$scoretype;}	
+			else{$result[]='Warning! All marks must be of the same type: '.$scoretype;}	
 			}
-		else{$result[]= 'Warning! All marks must be numerical values to be summed.';}	
+		else{$result[]='Warning! All marks must be numerical values to be summed.';}	
 		}
 		
 	if($midlist!=''){
@@ -42,8 +42,8 @@ else{
 		$topic='(sum)';		
 
 		if(mysql_query("INSERT INTO mark (entrydate, marktype, def_name,
-				midlist, author, topic) VALUES ('$entrydate', 'sum',
-				'$def_name', '$midlist', '$tid', '$topic')")){
+				midlist, author, topic, component_id) VALUES ('$entrydate', 'sum',
+				'$def_name', '$midlist', '$tid', '$topic', '$pid');")){
 			$mid = mysql_insert_id();
 			$displaymid = $mid;
 

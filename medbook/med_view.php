@@ -5,7 +5,10 @@
 $action='med_view_action.php';
 ?>
   <div id="heading"><label><?php print_string('medicalrecord',$book);?></label>
+	<a href="infobook.php?current=student_view.php&sid=<?php print $sid;?>&sids[]=<?php print $sid;?>"
+			  target="viewinfobook" onclick="parent.viewBook('infobook');">
   <?php print $Student['Forename']['value'].' '.$Student['Surname']['value'];?>
+	</a>
   </div>
 <?php
 	three_buttonmenu(array('removemed'=>array('name'=>'sub','value'=>'medstatus')),$book);
@@ -57,14 +60,16 @@ $action='med_view_action.php';
 		<div class="tinytabs" id="med">
 		  <ul>
 <?php
-	$keycatids=array();
 	$Notes=$Medical['Notes'];
+			  /*
+	$keycatids=array();
 	while(list($index,$Note)=each($Notes['Note'])){
 		if(is_array($Note)){
 			$cattype=$Note['MedicalCategory']['value_db'];
 			$keycatids[$cattype]=$index;
 			}
 		}
+			  */
 
 	$selkey=0;
 	reset($Notes['Note']);

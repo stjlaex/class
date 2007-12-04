@@ -293,6 +293,29 @@ function xmlelement_display($val,$book){
 	print '</td>';
 	}
 
+/**
+ * Prints one cell designed for a listmenu table including the
+ * element's label and its formatted value.
+ */
+function xmlattendance_display($Attendance){
+?>
+	  <td status="<?php print $Attendance['Status']['value'];?>" 
+<?php 
+	if($Attendance['Comment']['value']!=' '){
+?>			
+		title="">
+		<span title="<?php print $Attendance['Code']['value'].':<br />'. 
+		date('H:i',$Attendnace['Logtime']['value']). 
+		  ' '.$Attendance['Comment']['value'];?>">
+		  &nbsp;</span>
+<?php 
+		}
+	else{print '>';}
+?>
+		&nbsp;</td>
+<?php
+	}
+
 function selery_stick($choices,$choice='',$book=''){
 ?>
 		<ul class="selery">

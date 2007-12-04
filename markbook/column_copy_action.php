@@ -22,14 +22,14 @@ include('scripts/sub_action.php');
 if($sub=='Submit'){
 
 	mysql_query("INSERT INTO mark (entrydate, marktype, topic, 
-		total, comment, author, def_name) 
+		total, comment, author, def_name, component_id) 
 		VALUES ('$entrydate', 'score', '$topic', '$total', 
-		     '$comment',  '$tid', '$def_name')");
+		     '$comment',  '$tid', '$def_name', '$pid');");
 	$newmid=mysql_insert_id();
 	$displaymid=$newmid;
 
-	/*Copy for each class that is assigned that mark not just */
-	/*						those in the view table.*/
+	/* Copy for each class that is assigned that mark not just 
+						those in the view table.*/
 	$d_midcid=mysql_query("SELECT class_id FROM midcid WHERE mark_id='$mid'");	
 	while($midcid=mysql_fetch_array($d_midcid,MYSQL_ASSOC)){
 		$cid=$midcid['class_id'];

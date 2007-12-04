@@ -44,12 +44,12 @@ elseif($sid!=''){
 		include('scripts/list_year.php');
 
 		$listname='medtype';
-		$listlabel='medtype';
+		$listlabel='medcategory';
 		$cattype='med';
 		$onsidechange='yes';
 		include('scripts/set_list_vars.php');
 		$d_catdef=mysql_query("SELECT subtype AS id, name FROM categorydef WHERE
-								  type='med' ORDER BY rating, name");
+								  type='med' ORDER BY rating DESC, name");
 		list_select_db($d_catdef,$listoptions,$book);
 ?>
 	  </fieldset>

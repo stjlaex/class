@@ -1127,8 +1127,8 @@ function fetchMedical($sid='-1'){
 	$Medical=array();
 	$Medical['Notes']=array();
 	$Notes['Note']=array();
-	$d_catdef=mysql_query("SELECT name, subtype FROM categorydef WHERE 
-				type='med' ORDER BY rating");
+	$d_catdef=mysql_query("SELECT name, subtype, rating FROM categorydef WHERE 
+				type='med' ORDER BY rating DESC, name");
 	while($cat=mysql_fetch_array($d_catdef,MYSQL_ASSOC)){
 		$Note=array();
 		$cattype=$cat['subtype'];
@@ -1139,6 +1139,9 @@ function fetchMedical($sid='-1'){
 		$Note['MedicalCategory']=array('label' => 'medicalcategory', 
 										'value_db' => ''.$cattype,
 										'value' => ''.$cat['name']);
+		$Note['MedicalRating']=array('label' => 'medicalcategory', 
+										'value_db' => ''.$cattype,
+										'value' => ''.$cat['rating']);
 		$Note['Signature']=array('label' => 'signature', 
 								  'type_db' => 'varchar(14)', 
 								  'value' => ''.$entry['teacher_id']);

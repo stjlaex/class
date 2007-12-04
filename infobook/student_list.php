@@ -18,12 +18,14 @@ if(isset($_POST['displayfield2'])){$displayfields[2]=$_POST['displayfield2'];}
 $extrabuttons='';
 if($_SESSION['role']=='office' or $_SESSION['role']=='admin'){
 	$displayname='DisplayFullSurname';
-   	$extrabuttons['emailstudents']=array('name'=>'current',
-								 'title'=>'emailstudents',
-								 'value'=>'email_students.php');
-   	$extrabuttons['emailcontacts']=array('name'=>'current',
-								 'title'=>'emailstudents',
-								 'value'=>'email_contacts.php');
+	if(isset($CFG->books['external'][$_SESSION['role']]['webmail'])){
+		$extrabuttons['emailstudents']=array('name'=>'current',
+											 'title'=>'emailstudents',
+											 'value'=>'email_students.php');
+		$extrabuttons['emailcontacts']=array('name'=>'current',
+											 'title'=>'emailstudents',
+											 'value'=>'email_contacts.php');
+		}
    	$extrabuttons['addresslabels']=array('name'=>'current',
 										 'title'=>'printaddresslabels',
 										 'onclick'=>'checksidsAction(this)',

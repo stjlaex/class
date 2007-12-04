@@ -26,6 +26,24 @@ The student_list in the InfoBook now has buttons for sending emails to
 students and contacts - this depends on both the WebMail being
 configured for the user and the $CFG->emailoff option being no.
 
+The check_yesno script can no have an optional pop-up alert on the yes
+checked option by setting $checkalert to the message. 
+
+Added an alert to warn about emails to contacts for the comments.
+
+The InfoBook now displays medical categories on the
+student_view_medical page but only those which are flagged as rating=1
+in the categorydef table. No editing of the values is allowed.
+
+Fixed the column action scripts so they match the component of any new
+columns to the currently selected value.
+
+The edit_scores page now displays attendance data for set and due
+dates when editing homework scores.
+
+Added a quick display function for attendance td cells to
+html_functions.
+
 
 
 Version ClaSS-0.8.33 release (2007/11/20)

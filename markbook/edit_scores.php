@@ -13,6 +13,15 @@ $scoretype=$_GET['scoretype'];
 $grading_name=$_GET['grading_name'];
 $total='';
 $grading_grades='';
+$marktype=$umns[$col]['marktype'];
+if($marktype=='hw'){
+	$d_m=mysql_query("SELECT entrydate, comment FROM
+					mark WHERE id='$mid';");
+	$setdate=mysql_result($d_m,0,1);
+	$duedate=mysql_result($d_m,0,0);
+	$setevent=get_event($setdate);
+	$dueevent=get_event($duedate);
+	}
 
 three_buttonmenu();
 ?>
@@ -23,7 +32,20 @@ three_buttonmenu();
   <div  id="viewcontent" class="content">
 	<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>"> 
 	  <table class="listmenu sidtable" id="editscores">
-		<tr><th colspan="4"></th>
+		<tr>
+		  <th colspan="4"></th>
+<?php
+	if($marktype=='hw'){
+?>
+		  <th style="width:3em;">
+			<p><?php print get_string('dateset',$book).'<br />'. display_date($setdate);?></p>
+		  </th>
+		  <th style="width:3em;">
+			<p><?php print get_string('datedue',$book).'<br />'. display_date($duedate);?></p>
+		  </th>
+<?php
+		}
+?>
 		  <th style="width:15%;">
 <?php
 	if($scoretype=='grade'){
@@ -74,9 +96,16 @@ three_buttonmenu();
 			  target="viewinfobook" onclick="parent.viewBook('infobook');">
 			<?php print $viewtable[$c]['surname'];?>,&nbsp;<?php print $viewtable[$c]['forename'].$viewtable[$c]['preferredforename'];?></a>
 		  </td>
-		  <td><?php print $viewtable[$c]['form_id'];?></td>
+		  <td><?php print $viewtable[$c]['form_id'];?>&nbsp;</td>
 <?php
-		if($scoretype=='grade'){
+	if($marktype=='hw'){
+		$set_Attendance=fetchcurrentAttendance($sid,$setevent['id']);
+		$due_Attendance=fetchcurrentAttendance($sid,$dueevent['id']);
+		xmlattendance_display($set_Attendance);
+		xmlattendance_display($due_Attendance);
+		}
+
+	if($scoretype=='grade'){
 ?>		
 		<td>
 		  <select tabindex='<?php print $tab;?>' name='<?php print $sid;?>'>

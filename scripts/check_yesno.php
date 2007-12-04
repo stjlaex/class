@@ -11,6 +11,7 @@ if(!isset($checkchoice)){$checkchoice='no';}
 if(!isset($checkname)){$checkname='answer';}
 $icheckname='i'.$checkname;
 if(!isset($$icheckname)){$$icheckname=0;}else{$$icheckname++;}
+if(isset($checkalert)){$doublecheck='onClick="alert(\''.$checkalert.'\');"';}else{$doublecheck='';}
 ?>
   <table class="listmenu">
 	<tr>
@@ -19,14 +20,14 @@ if(!isset($$icheckname)){$$icheckname=0;}else{$$icheckname++;}
 	<label for="yes<?php print $$icheckname; ?>"><?php print_string('yes');?></label>
 	<input type="radio" name="<?php print $checkname;?><?php print $$icheckname; ?>" 
 		  title="yes" id="yes<?php print $$icheckname; ?>" 
-		  tabindex="<?php print $tab++;?>"
+		  tabindex="<?php print $tab++;?>" <?php print $doublecheck;?>
 		  value="yes" <?php if($checkchoice=='yes'){print 'checked';}?> />
 	  </td>
 	  <td>
 	<label for="no<?php print $$icheckname; ?>"><?php print_string('no');?></label>
 	<input type="radio" name="<?php print $checkname;?><?php print $$icheckname; ?>" 
 		  title="no" id="no<?php print $$icheckname; ?>"
-		  tabindex="<?php print $tab++;?>"
+		  tabindex="<?php print $tab++;?>" 
 		  value="no" <?php if($checkchoice=='no'){print 'checked';}?> />
 	  </td>
 	</tr>

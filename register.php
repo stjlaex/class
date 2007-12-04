@@ -33,7 +33,7 @@ else{
 ?>
   <div id="bookbox" class="registercolor">
 <?php
-	$currentevent=currentEvent();
+	$currentevent=get_event();
 
 	if($current!=''){
 		include($book.'/'.$current);

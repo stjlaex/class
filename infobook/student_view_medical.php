@@ -35,11 +35,38 @@ if($Student['MedicalFlag']['value']=='N'){
 <?php
 	}
 else{
+	$Medical=fetchMedical($sid);
 ?>
 		<div class="center">
-		  <p>Medical information is available on file.</p>
+		  <p>Further medical information is available on file.</p>
 		</div>
 <?php
+		$Notes=$Medical['Notes'];
+		while(list($index,$Note)=each($Notes['Note'])){
+			if(is_array($Note) and $Note['MedicalRating']['value']==1){
+				$cattype=$Note['MedicalCategory']['value_db'];
+?>
+			<div class="center">
+			  <table>
+				<tr>
+				  <?php xmlelement_display($Note['MedicalCategory'],'medbook');?>
+				  <?php xmlelement_display($Note['LastReviewDate'],'medbook');?>
+				</tr>
+				<tr>
+				  <td colspan="2">
+				  <textarea id="Detail" 
+				  wrap="on" rows="5" tabindex="<?php print $tab++;?>"
+				  name="<?php print $Note['Detail']['field_db'].$index;?>" 
+				  ><?php print $Note['Detail']['value'];?></textarea>
+				  </td>
+				</tr>
+			  </table>
+			</div>
+<?php
+
+				}
+			}
+
 		}
 ?>
 	  </fieldset>

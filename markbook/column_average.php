@@ -65,9 +65,9 @@ $checkmids=(array)$_POST['checkmid'];
 		/*this will assign the attributes to the average of the last
 		column in the list, which might be good or bad!*/		
 		mysql_query("INSERT INTO mark (entrydate, marktype,
-			midlist, author, levelling_name, def_name, topic) VALUES
+			midlist, author, levelling_name, def_name, topic,component_id) VALUES
 			('$entrydate', 'average', '$midlist', '$tid',
-			'$grading_grades', '$def_name', '$topic')");
+			'$grading_grades', '$def_name', '$topic','$pid')");
 		$mid=mysql_insert_id();
 		for($c=0;$c<sizeof($cids);$c++){
 			$cid=$cids[$c];

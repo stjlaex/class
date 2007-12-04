@@ -26,7 +26,7 @@ $mid=$checkmids[0];
 $d_mark=mysql_query("SELECT * FROM mark WHERE id='$mid'");
 $mark=mysql_fetch_array($d_mark,MYSQL_ASSOC);
 
-if($mark['marktype']!='score'){
+if($mark['marktype']!='score' and $mark['marktype']!='hw'){
 		$action='class_view.php';
 		$result[]='It is not possible to level this type ('.$mark['marktype'].') of column!';
 		include('scripts/results.php');
@@ -40,7 +40,7 @@ $markdef=mysql_fetch_array($d_markdef,MYSQL_ASSOC);
 
 if($markdef['scoretype']!='percentage' and $markdef['scoretype']!='value'){
 		$action='class_view.php';
-		$result[]='It is not possible to level this type ('.$markdef['scoretype'].') of values!';
+		$result[]='It is not possible to level this type ('.$markdef['scoretype'].') of mark!';
 		include('scripts/results.php');
 		include('scripts/redirect.php');
 		exit;
