@@ -393,6 +393,9 @@ div.content fieldset.listmenu, div.content fieldset.listmenu div {
 .listmenu tr.golite td, .listmenu td.golite { 
     background-color:#669900;
 	}
+.listmenu tr.nolite td, .listmenu td.nolite { 
+    background-color:#eeeeee;
+	}
 
 /*extra functionality for a listmenu which lets rows be expanded and collapsed*/
 tr.rowplus th {

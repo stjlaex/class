@@ -1,4 +1,4 @@
-Version ClaSS-0.8.34 release (2007/12/04)
+Version ClaSS-0.8.34 release (2007/12/08)
 -----------------------------------------
 
 xmlelement_input() now adds validation patterns for decimal, numeric

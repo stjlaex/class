@@ -5,6 +5,7 @@
 $action='orders_list.php';
 $cancel='orders_list.php';
 $budid=$_POST['budid'];
+$maxmatn=$_POST['matn'];
 $supid=$_POST['supid'];
 $action_post_vars=array('budid');
 
@@ -30,23 +31,24 @@ if($sub=='Submit'){
 			}
 		}
 
-	$matn=1;
 	$Material=fetchMaterial();
-	mysql_query("INSERT INTO ordermaterial SET order_id='$ordid', entryn='$matn';");
-	while(list($index,$val)=each($Material)){
-
-		if(isset($val['value']) and is_array($val) and isset($val['table_db'])){
-			$field=$val['field_db'];
-			$inname=$field. $matn;
-			$inval=clean_text($_POST[$inname]);
-			if($val['table_db']=='ordermaterial'){
-				mysql_query("UPDATE ordermaterial SET $field='$inval'
-					WHERE entryn='$matn' AND order_id='$ordid'");
-				trigger_error(''.$val['field_db'].''.$inval,E_USER_WARNING);
+	for($matn=1;$matn<$maxmatn;$matn++){
+		if(isset($_POST['detail'.$matn]) and $_POST['detail'.$matn]!=''){
+			reset($Material);
+			mysql_query("INSERT INTO ordermaterial SET order_id='$ordid', entryn='$matn';");
+			while(list($index,$val)=each($Material)){
+				if(isset($val['value']) and is_array($val) and isset($val['table_db'])){
+					$field=$val['field_db'];
+					$inname=$field. $matn;
+					$inval=clean_text($_POST[$inname]);
+					if($val['table_db']=='ordermaterial'){
+						mysql_query("UPDATE ordermaterial SET $field='$inval'
+								WHERE entryn='$matn' AND order_id='$ordid'");
+						}
+					}
 				}
 			}
 		}
-
 	$result[]=get_string('neworderadded',$book);
 	}
 

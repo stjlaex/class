@@ -55,6 +55,7 @@ three_buttonmenu($extrabuttons,$book);
 		  <bid><?php print $bid;?></bid>
 		  <pid><?php print $pid;?></pid>
 		  <transform>subject_report_summary</transform>
+		  <paper>portrait</paper>
 		</reportids>
 	  </div>
 
@@ -114,8 +115,8 @@ three_buttonmenu($extrabuttons,$book);
 			<th>
 <?php
 			print $AssDef['Description']['value'];
-			if($AssDef['Component']['value']!=' '){print '<br />'.$AssDef['Component']['value'];}
-			if(isset($strand['name'])){print '<label>'.$strand['name'].'</label>';}
+			if($AssDef['Component']['value']!=' '){print '<p>'.$AssDef['Component']['value'].'</p>';}
+			if(isset($strand['name'])){print '<p>'.$strand['name'].'</p>';}
 			if($grading_grades!='' and $grading_grades!=' '){
 				$pairs=explode(';', $grading_grades);
 				$inass=array('table'=>'score', 

@@ -62,7 +62,8 @@ three_buttonmenu($extrabuttons,$book);
 			if($status=='closed'){$styleclass='';}
 			elseif($status=='lodged'){$styleclass='class="midlite"';}
 			elseif($status=='authorised'){$styleclass='class="hilite"';}
-			else{$styleclass=' class="golite"';}
+			elseif($status=='placed'){$styleclass='class="golite"';}
+			else{$styleclass=' class="nolite"';}
 ?>
 		<tbody id="<?php print $entryno;?>">
 		  <tr class="rowplus" onClick="clickToReveal(this)" 

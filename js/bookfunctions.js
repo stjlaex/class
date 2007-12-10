@@ -245,6 +245,7 @@ function checksidsAction(buttonObject){
 				if(paramname=="transform"){
 					//the transform is used by the js and not passed as a param
 					var xsltransform=escape(xmlvalue);
+					var paper="portrait";
 					}
 				else if(paramname=="selectname"){
 					//used by the js and not passed as a param

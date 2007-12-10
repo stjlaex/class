@@ -7,7 +7,7 @@ $action='orders_action.php';
 
 if($_SESSION['role']=='admin'){
 	$extrabuttons['newbudget']=array('name'=>'current','value'=>'new_budget.php');
-	$extrabuttons['suppliers']=array('name'=>'current','value'=>'list_supplier.php');
+	$extrabuttons['suppliers']=array('name'=>'current','value'=>'suppliers_list.php');
 	}
 else{
 	$extrabuttons=array();
@@ -18,9 +18,8 @@ two_buttonmenu($extrabuttons,$book);
 	<form id="formtoprocess" name="formtoprocess" method="post"
 	  action="<?php print $host; ?>" >
 	  
-	  <fieldset class="center">
-		<legend><?php print_string('ordersearch',$book);?></legend>
-		
+	  <fieldset class="left">
+		<legend><?php print_string('ordersearch',$book);?></legend>		
 		<div class="center">
 		  <div class="left">
 		  <label for="Ordernumber"><?php print_string('ordernumber',$book);?></label>
@@ -40,15 +39,31 @@ two_buttonmenu($extrabuttons,$book);
 			</button>
 		  </div>
 		</div>
-
 	  </fieldset>
+
+	  <fieldset class="right">
+		<legend><?php print_string('invoicesearch',$book);?></legend>		
+		<div class="center">
+		  <div class="left">
+		  <label for="Invoicenumber"><?php print_string('reference',$book);?></label>
+		  <input tabindex="<?php print $tab++;?>" 
+			type="text" id="Invoicenumber" name="invoicenumber" maxlength="30"/>
+		  </div>
+		  <div class="right">
+			<button type="submit" name="sub" value="search">
+			  <?php print_string('search');?>
+			</button>
+		  </div>
+		</div>
+	  </fieldset>
+
 		<input type="hidden" name="current" value="<?php print $action;?>" />
 		<input type="hidden" name="choice" value="<?php print $choice;?>" />
 		<input type="hidden" name="cancel" value="<?php print '';?>" />
 	</form>
 
 	<fieldset class="center">
-	  <legend><?php print_string('budgets',$book);?></legend>
+	  <legend><?php print_string('orders',$book);?></legend>
 	  <table class="listmenu">
 		<tr>
 		  <th><?php print_string('name');?></th>

@@ -32,6 +32,7 @@ if(isset($_POST['pid'])){$pid=$_POST['pid'];}
 			$Student=fetchStudent_short($sid);
 			list($Reports,$transform)=fetchSubjectReports($sid,$reportdefs);
 			$Reports['Coversheet']='yes';
+			$Reports['Paper']=$reportdefs[0]['report']['style'];
 			$Student['Reports']=nullCorrect($Reports);
 			$Students['Student'][]=$Student;
 			}

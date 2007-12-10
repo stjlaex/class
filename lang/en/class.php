@@ -290,6 +290,12 @@ $string['closed']='Closed';
 $string['open']='Open';
 $string['attendance']='Attendance';
 $string['filterlist']='Filter';
-$string['']='';
+$string['street']='Address Line 1';
+$string['neighbourhood']='Address Line 2';
+$string['town/city']='Address Line 3';
+$string['country']='Country';
+$string['postcode']='Postcode';
+$string['phonenumber']='Telephone number';
+$string['faxnumber']='Fax number';
 $string['']='';
 ?>

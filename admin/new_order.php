@@ -32,7 +32,7 @@ three_buttonmenu();
 		  <caption><?php print_string('supplier',$book);?></caption>
 		  <tr>
 			<td>
-<?php 
+<?php
 		$d_sup=mysql_query("SELECT id, name FROM ordersupplier;");
 		$required='yes';
 		$listlabel='supplier';
@@ -54,10 +54,10 @@ three_buttonmenu();
 		  <th><?php print_string($Material['Quantity']['label'],$book);?></th>
 		  <th><?php print_string($Material['Unitcost']['label'],$book);?></th>
 <?php
-	  for($matn=1;$matn<2;$matn++){
+	  for($matn=1;$matn<6;$matn++){
 ?>
 		  <tr>
-			<td><?php print $matn+1;?></td>
+			<td><?php print $matn;?></td>
 			<td><?php $tab=xmlelement_input($Material['Detail'],$matn,$tab,$book);?></td>
 			<td><?php $tab=xmlelement_input($Material['SupplierReference'],$matn,$tab,$book);?></td>
 			<td><?php $tab=xmlelement_input($Material['Quantity'],$matn,$tab,$book);?></td>
@@ -70,6 +70,7 @@ three_buttonmenu();
 	  </div>
 
 	    <input type="hidden" name="budid" value="<?php print $budid;?>">
+	    <input type="hidden" name="matn" value="<?php print $matn;?>">
 	    <input type="hidden" name="current" value="<?php print $action;?>">
 		<input type="hidden" name="cancel" value="<?php print $choice;?>">
 		<input type="hidden" name="choice" value="<?php print $choice;?>">

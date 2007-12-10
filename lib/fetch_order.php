@@ -180,14 +180,14 @@ function fetchMaterial($mat=array()){
 	$Material=array();
 	$Material['id_db']=$mat['entryn'];
 	$Material['Quantity']=array('label' => 'quantity', 
-								'inputtype'=> 'required',
+								//'inputtype'=> 'required',
 								'table_db' => 'ordermaterial', 
 								'field_db' => 'quantity',
 								'type_db' => 'smallint', 
 								'value' => ''.$mat['quantity']
 								);
 	$Material['Unitcost']=array('label' => 'unitcost', 
-								'inputtype'=> 'required',
+								//'inputtype'=> 'required',
 								'table_db' => 'ordermaterial', 
 								'field_db' => 'unitcost',
 								'type_db' => 'decimal', 
@@ -200,7 +200,7 @@ function fetchMaterial($mat=array()){
 										 'value' => ''.$mat['refno']
 										 );
 	$Material['Detail']=array('label' => 'detail', 
-							  'inputtype'=> 'required',
+							  //'inputtype'=> 'required',
 							  'table_db' => 'ordermaterial', 
 							  'field_db' => 'detail',
 							  'type_db' => 'text', 
@@ -268,39 +268,39 @@ function fetchSupplier($supid='-1'){
 							'value' => ''.$sup['name']
 							);
 	$Supplier['Street']=array('label' => 'street',
-						   'table_db' => 'supplier', 
+						   'table_db' => 'ordersupplier', 
 						   'field_db' => 'street',
 						   'type_db' => 'varchar(160)', 
 						   'value' => ''.$sup['street']);
 	$Supplier['Neighbourhood']=array('label' => 'neighbourhood',
-									'table_db' => 'supplier', 
+									'table_db' => 'ordersupplier', 
 									'field_db' => 'neighbourhood',
 									'type_db' => 'varchar(160)', 
 									'value' => ''.$sup['neighbourhood']);
 	$Supplier['Town']=array('label' => 'town/city', 
-						   'table_db' => 'supplier', 
+						   'table_db' => 'ordersupplier', 
 						   'field_db' => 'region',
 						   'type_db' => 'varchar(160)', 
 						   'value' => ''.$sup['region']);
 	$Supplier['Country']=array('label' => 'country', 
-							 'table_db' => 'supplier', 
+							 'table_db' => 'ordersupplier', 
 							 'field_db' => 'country',
 							 'type_db' => 'enum',
 							  'value_display' => 
 							get_string(displayEnum($sup['country'], 'country'),'infobook'), 
 							 'value' => ''.$sup['country']);
 	$Supplier['Postcode']=array('label' => 'postcode',
-							   'table_db' => 'supplier', 
+							   'table_db' => 'ordersupplier', 
 							   'field_db' => 'postcode',
 							   'type_db' => 'varchar(8)', 
 							   'value' => ''.$sup['postcode']);
-	$Supplier['Phonenumber']=array('label' => 'phone',
-							   'table_db' => 'supplier', 
+	$Supplier['Phonenumber']=array('label' => 'phonenumber',
+							   'table_db' => 'ordersupplier', 
 							   'field_db' => 'phonenumber1',
 							   'type_db' => 'varchar(22)', 
 							   'value' => ''.$sup['phonenumber1']);
-	$Supplier['Faxnumber']=array('label' => 'fax',
-							   'table_db' => 'supplier', 
+	$Supplier['Faxnumber']=array('label' => 'faxnumber',
+							   'table_db' => 'ordersupplier', 
 							   'field_db' => 'phonenumber2',
 							   'type_db' => 'varchar(22)', 
 							   'value' => ''.$sup['phonenumber2']);
