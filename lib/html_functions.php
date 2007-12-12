@@ -380,7 +380,9 @@ function list_select_db($d_list,$vars,$book=''){
 <?php
 	}
 
-/* as for list_select_db except that the $list is not a mysql result resource*/
+/* As for list_select_db except that the $list is not a mysql result
+ resource. It requires an array of 'id' and 'name' pairs to choose
+ from, often returned from one of the list_something_things() functions.*/
 function list_select_list($list,$vars,$book=''){
 	$valuefield=$vars['valuefield'];
 	$descriptionfield=$vars['descriptionfield'];

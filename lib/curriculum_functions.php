@@ -116,6 +116,141 @@ function list_forms_classes($fid){
 	return $cids;
 	}
 
+function get_subjectclassdef($crid,$bid,$stagename){
+	$d_c=mysql_query("SELECT many, generate, naming FROM classes WHERE
+				subject_id='$bid' AND stage='$stagename' AND course_id='$crid'");
+	$classdef=mysql_fetch_array($d_c,MYSQL_ASSOC);
+	$classdef['crid']=$crid;
+	$classdef['bid']=$bid;
+	$classdef['stage']=$stagename;
+	return $classdef;
+	}
+
+function update_subjectclassdef($classdef){
+	$many=$classdef['many'];
+	$generate=$classdef['generate'];
+	if($generate=='none'){$generate='sets';}
+	if(isset($classdef['naming']) and $classdef['naming']!=''){
+		$naming=$classdef['naming'];
+		}
+	$bid=$classdef['bid'];
+	$stage=$classdef['stage'];
+	$crid=$classdef['crid'];
+
+	if($many!='0'){
+		$d_classes=mysql_query("SELECT * FROM classes WHERE
+						subject_id='$bid' AND stage='$stage' AND course_id='$crid'");
+		if(mysql_numrows($d_classes)>0){
+			mysql_query("UPDATE classes SET many='$many',
+						generate='$generate' WHERE stage='$stage' AND
+						subject_id='$bid' AND course_id='$crid'");
+			}
+		else{
+			mysql_query("INSERT INTO classes (many, generate,
+						course_id, subject_id, stage) VALUES ('$many',
+						'$generate', '$crid', '$bid', '$stage')");
+			}
+		if(isset($naming)){
+			mysql_query("UPDATE classes SET naming='$naming'
+						WHERE stage='$stage' AND
+						subject_id='$bid' AND course_id='$crid'");
+			}
+		}
+	else{
+		mysql_query("DELETE FROM classes WHERE
+						stage='$stage' AND  course_id='$crid' AND
+						subject_id='$bid' LIMIT 1");
+		}
+
+	}
+
+
+/* Keeping things simple by fixing season and year to a single value
+ to sophisticate in the future*/
+function populate_subjectclassdef($classdef,$currentseason='S'){
+	$many=$classdef['many'];
+	$generate=$classdef['generate'];
+	$bid=$classdef['bid'];
+	$stage=$classdef['stage'];
+	$crid=$classdef['crid'];
+	$currentyear=get_curriculumyear($crid);
+
+	$d_cohidcomid=mysql_query("SELECT cohidcomid.community_id FROM
+			cohidcomid JOIN cohort ON cohidcomid.cohort_id=cohort.id 
+			WHERE cohort.course_id='$crid' AND cohort.year='$currentyear'
+			AND cohort.season='$currentseason' AND cohort.stage='$stage'");
+	$communities=array();
+	$name=array();
+	$name_counter='';
+	while($cohidcomid=mysql_fetch_array($d_cohidcomid,MYSQL_ASSOC)){
+			$comid=$cohidcomid['community_id'];
+			$d_community=mysql_query("SELECT * FROM community WHERE id='$comid'");
+			$communities[$comid]=mysql_fetch_array($d_community,MYSQL_ASSOC);
+			if($communities[$comid]['type']=='year'){$yid=$communities[$comid]['name'];}
+			}
+
+	if($classdef['naming']=='' and $classdef['generate']=='forms'){
+			$name['root']=$bid;
+			$name['stem']='-';
+			$name['branch']='';
+			}
+	elseif($classdef['naming']=='' and $classdef['generate']=='sets'){
+			$name['root']=$bid;
+			$name['stem']=$stage;
+			$name['branch']='/';
+			}
+	else{
+		list($name['root'],$name['stem'],$name['branch'],$name_counter)=split(';',$classdef['naming'],4);
+		while(list($index,$namecheck)=each($name)){
+				if($namecheck=='subject'){$name["$index"]=$bid;}
+				if($namecheck=='stage'){$name["$index"]=$stage;}
+				if($namecheck=='course'){$name["$index"]=$crid;}
+				if($namecheck=='year'){$name["$index"]=$yid;}
+				}
+		}
+
+	$class_counters=array();
+	if($classdef['generate']=='forms' & $classdef['many']>0){
+		while(list($comid,$community)=each($communities)){
+			if($community['type']=='year'){
+				$yid=$community['name'];
+				$d_form=mysql_query("SELECT id FROM form
+								WHERE yeargroup_id='$yid'");
+				}
+			while($form=mysql_fetch_array($d_form,MYSQL_ASSOC)){
+				$class_counters[]=$form['id'];
+				}
+			}
+		}
+	elseif($classdef['many']>0){
+		if($name_counter!=''){
+			for($c=0;$c<$classdef['many'];$c++){
+				$class_counters[]=$name_counter[$c];
+				}
+			}
+		else{
+			$class_counters=range('1',$classdef['many']);
+			}
+		}
+	else{
+		$class_counters=array();
+		}
+	foreach($class_counters as $counter){
+		$newcid=$name['root'].$name['stem'].$name['branch'].$counter;
+		if(mysql_query("INSERT INTO class (id,subject_id,course_id,stage) 
+				VALUES ('$newcid','$bid','$crid','$stage')")){
+			if($classdef['generate']=='forms'){
+				$d_sids=mysql_query("SELECT id FROM student WHERE form_id='$counter'");
+				while($sids=mysql_fetch_array($d_sids, MYSQL_ASSOC)){
+					$sid=$sids['id'];
+					mysql_query("INSERT INTO cidsid
+								(class_id, student_id) VALUES ('$newcid','$sid')");
+					}
+				}
+			}
+		}
+	}
+
 
 /* Checks for a cohort and creates if it doesn't exist*/
 /* expects an array with at least course_id and stage set*/

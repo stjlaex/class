@@ -179,11 +179,12 @@ function get_user($tid){
 	}
 
 function checkCurrentRespon($r,$respons,$required='subject'){
-	//$error=array();
+	$error=array();
 	if($r>-1){
 		$bid=$respons[$r]['subject_id'];
 		$crid=$respons[$r]['course_id'];
 		if($bid==''){$bid='%';}
+		//$error[]='';
 		}
 	if($required=='subject' and $bid==''){
 		$error[]=get_string('selectresponsibility');

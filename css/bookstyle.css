@@ -175,16 +175,17 @@ div.content fieldset {
 div.content fieldset div {
 	background-color:#dde;
 	}
-div.content fieldset.divgroup { 
-	background-color:#666666; 
-	color:#ffffee;
+div.content fieldset.divgroup, div.topform fieldset.divgroup, div.divgroup { 
+	background-color:#666666 !important; 
+	color:#ffffee !important;
+    border:0 !important;
 	}
 
 /*a fixed height div, always at the top of the page before the content*/
 div.topform {
 	overflow:auto;
-	position:relative; 
-	top:7%; height:30%; width:92%;
+	position:relative;
+	top:7%; height:30%; width:90%;
 	border-top:2px solid;
 	padding:1%;
 	margin:0 4% 1% 4%;
@@ -208,7 +209,7 @@ div.content fieldset.right, div.topform fieldset.right {
 	}
 div.content fieldset.center, div.topform fieldset.center {
 	float:right;
-	width:90%;
+	width:92%;
 	clear:right;
 	margin:0% 4% 2% 4%;
 	}

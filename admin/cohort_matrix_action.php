@@ -10,7 +10,7 @@ $cancel='';
 include('scripts/sub_action.php');
 
 list($crid,$bid,$error)=checkCurrentRespon($r,$respons,'course');
-if($error!=''){include('scripts/results.php');exit;}
+if(sizeof($error)>0){include('scripts/results.php');exit;}
 
 
 $cohids=(array)$_POST['cohids'];

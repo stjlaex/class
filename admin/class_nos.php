@@ -7,9 +7,6 @@
 $action='class_nos.php';
 $choice='class_nos.php';
 
-//list($crid,$bid,$error)=checkCurrentRespon($r,$respons,'course');
-//if($error!=''){include('scripts/results.php');exit;}
-
 two_buttonmenu($extrabuttons);
 ?>
   <div class="content" id="viewcontent">

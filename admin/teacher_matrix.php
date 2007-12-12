@@ -6,33 +6,30 @@ $choice='teacher_matrix.php';
 $action='teacher_matrix_action.php';
 
 list($crid,$bid,$error)=checkCurrentRespon($r,$respons);
-if($error!=''){include('scripts/results.php');exit;}
+if(sizeof($error)>0){include('scripts/results.php');exit;}
 
 $teachers=list_teacher_users($crid,$bid);
 
-three_buttonmenu();
+$perm=getCoursePerm($crid,$respons);
+if($perm['x']==1){
+	$extrabuttons['editclasses']=array('name'=>'current','value'=>'new_class.php');
+	}
+else{
+	$extrabuttons=array();
+	}
+three_buttonmenu($extrabuttons,$book);
 ?>
-  <div class="topform">
+  <div class="topform divgroup">
 	<form id="formtoprocess" name="formtoprocess" method="post"
 	  action="<?php print $host; ?>" >
 	  <fieldset class="left">
-		<legend><?php print_string('teachers',$book);?></legend>
+		<legend><?php print_string('teacher',$book);?></legend>
 
 		<div class="center">
-		  <label><?php print_string('subject',$book);?></label>
-			<select tabindex="<?php print $tab++;?>" name="subtid" size="1">
-<?php
-   	print '<option value="" selected="selected" ></option>';
-   	while(list($tid,$user)=each($teachers)){
-   		print '<option  value="'.$tid.'">'.$tid.' ('.$user['surname'].')</option>';
-   		}
-?>		
-			</select>
-		</div>
-
-		<div class="center">
-		  <label><?php print_string('unassigned',$book);?></label>
-			<select name="tid"  tabindex="<?php print $tab++;?>" size="1">
+		  <label for="tid"><?php print_string('unassigned',$book);?></label>
+		  <select name="tid" id="tid"  
+			eitheror="subtid"  class="requiredor" 
+			tabindex="<?php print $tab++;?>" size="1">
 <?php
 	$allteachers=list_teacher_users();
    	print '<option value="" selected="selected" ></option>';		
@@ -44,6 +41,21 @@ three_buttonmenu();
 ?>		
 			</select>
 		</div>
+
+		<div class="center">
+		  <label for="subtid"><?php print_string('assigned',$book);?></label>
+			<select tabindex="<?php print $tab++;?>"  id="subtid"
+			eitheror="tid"  class="requiredor" 
+			name="subtid" size="1">
+<?php
+   	print '<option value="" selected="selected" ></option>';
+   	while(list($tid,$user)=each($teachers)){
+   		print '<option  value="'.$tid.'">'.$tid.' ('.$user['surname'].')</option>';
+   		}
+?>		
+			</select>
+		</div>
+
 	  </fieldset>
 
 	  <fieldset class="right">
@@ -51,7 +63,7 @@ three_buttonmenu();
 		<div class="left">
 		  <label for="Unassigned"><?php print_string('unassigned',$book);?></label>
 		  <select id="Unassigned" name="newcid[]"  
-			tabindex="<?php print $tab++;?>" size="6" multiple="multiple">
+			tabindex="<?php print $tab++;?>" size="8" multiple="multiple">
 <?php		
   	$d_cids=mysql_query("SELECT DISTINCT class.id FROM class LEFT JOIN tidcid
 	  	ON class.id=tidcid.class_id WHERE tidcid.class_id IS NULL AND class.subject_id
@@ -67,7 +79,7 @@ three_buttonmenu();
 		<div class="right">
 		  <label for="Assigned"><?php print_string('assigned',$book);?></label>
 		  <select id="Assigned" name="newcid[]" 
-			tabindex="<?php print $tab++;?>" size="6" multiple="multiple">
+			tabindex="<?php print $tab++;?>" size="8" multiple="multiple">
 <?php
   	$d_cids=mysql_query("SELECT DISTINCT class.id FROM class LEFT
   	JOIN tidcid ON class.id=tidcid.class_id WHERE tidcid.class_id IS
@@ -88,10 +100,11 @@ three_buttonmenu();
 	</form>
   </div>
 
-  <div class="content">
-	  <table style="top:35%;" class="listmenu">
+  <div class="content" id="viewcontent">
+	<div class="center">
+	  <table class="listmenu">
 		<tr>
-		  <th><?php print_string('teacher',$book);?></th>
+		  <th><?php print get_string('assigned',$book).' '.get_string('teachers',$book);?></th>
 		  <th><?php print_string('classesalreadyassigned',$book);?></th>
 		</tr>
 <?php
@@ -111,20 +124,5 @@ three_buttonmenu();
 		}
 ?>
 	  </table>
+	</div>
   </div>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

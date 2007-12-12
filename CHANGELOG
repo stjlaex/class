@@ -1,3 +1,20 @@
+Version ClaSS-0.8.35 release (2008/01/08)
+-----------------------------------------
+
+The teacher_matrix now has a new editclasses button to allow staff to
+add/change teaching classes on a subject by subject basis - previously
+only possible by the amdinistrator using the class_matrix and done for
+a whole course at once. 
+
+Access to the classes table has been moved out to a curriculum
+function update_subjectclassdef() and get_subjectclassdef().
+
+The changes to the classes are effected using
+populate_subjectclassdef() and the class_matrix.php script amended to
+use these functions.
+
+
+
 Version ClaSS-0.8.34 release (2007/12/08)
 -----------------------------------------
 

@@ -7,7 +7,7 @@ $action='class_matrix.php';
 include('scripts/sub_action.php');
 
 list($crid,$bid,$error)=checkCurrentRespon($r,$respons,'course');
-if($error!=''){include('scripts/results.php');exit;}
+if(sizeof($error)>0){include('scripts/results.php');exit;}
 
 if($sub=='Update'){
 	$d_subject=mysql_query("SELECT DISTINCT subject_id FROM cridbid
@@ -26,31 +26,13 @@ if($sub=='Update'){
   		$bid=$bids[$c];
 		for($c2=0;$c2<sizeof($stages);$c2++){
 	  		$stage=$stages[$c2];
-			$ing=$bid.$stage.'g';
-			$inm=$bid.$stage.'m';
+			$ing=$bid. $stage.'g';
+			$inm=$bid. $stage.'m';
+			$classdef=array('crid'=>$crid,'bid'=>$bid,'stage'=>$stage);
 			if(isset($_POST[$ing])){
-				$many=$_POST[$inm]; 
-				$generate=$_POST[$ing];
-
-				if($many!='' and $generate!='none'){
-					$d_classes=mysql_query("SELECT * FROM classes WHERE
-						subject_id='$bid' AND stage='$stage' AND course_id='$crid'");
-					if(mysql_fetch_array($d_classes,MYSQL_ASSOC)){
-						mysql_query("UPDATE classes SET many='$many',
-						generate='$generate' WHERE stage='$stage' AND
-						subject_id='$bid' AND course_id='$crid'");
-						}
-					else{
-						mysql_query("INSERT INTO classes (many, generate,
-						course_id, subject_id, stage) VALUES ('$many',
-						'$generate', '$crid', '$bid', '$stage')");
-						}
-					}
-				else{
- 					mysql_query("DELETE FROM classes WHERE
-						stage='$stage' AND  course_id='$crid' AND
-						subject_id='$bid' LIMIT 1");
-					}
+				$classdef['many']=$_POST[$inm]; 
+				$classdef['generate']=$_POST[$ing];
+				update_subjectclassdef($classdef);
 				}
 			}
 		}
@@ -98,88 +80,11 @@ elseif($sub=='Submit'){
 										course_id='$crid' ORDER BY
 										subject_id, stage");   	
 
-	/*keeping things simple by fixing season and year to a single value*/
-	/*to sophisticate in the future*/
-	$currentseason='S';
-	$currentyear=get_curriculumyear($crid);
 	while($classes=mysql_fetch_array($d_classes,MYSQL_ASSOC)){
 		$bid=$classes['subject_id'];
 		$stage=$classes['stage'];
-		$d_cohidcomid=mysql_query("SELECT cohidcomid.community_id FROM
-			cohidcomid JOIN cohort ON cohidcomid.cohort_id=cohort.id 
-			WHERE cohort.course_id='$crid' AND cohort.year='$currentyear'
-			AND cohort.season='$currentseason' AND cohort.stage='$stage'");
-		$communities=array();
-		$name=array();
-		$name_counter='';
-		while($cohidcomid=mysql_fetch_array($d_cohidcomid,MYSQL_ASSOC)){
-			$comid=$cohidcomid['community_id'];
-			$d_community=mysql_query("SELECT * FROM community WHERE id='$comid'");
-			$communities[$comid]=mysql_fetch_array($d_community,MYSQL_ASSOC);
-			if($communities[$comid]['type']=='year'){$yid=$communities[$comid]['name'];}
-			}
-
-		if($classes['naming']=='' and $classes['generate']=='forms'){
-			$name['root']=$bid;
-			$name['stem']='-';
-			$name['branch']='';
-			}
-		elseif($classes['naming']=='' and $classes['generate']=='sets'){
-			$name['root']=$bid;
-			$name['stem']=$stage;
-			$name['branch']='/';
-			}
-		else{
-			list($name['root'],$name['stem'],$name['branch'],$name_counter)=split(';',$classes['naming'],4);
-			while(list($index,$namecheck)=each($name)){
-				if($namecheck=='subject'){$name["$index"]=$bid;}
-				if($namecheck=='stage'){$name["$index"]=$stage;}
-				if($namecheck=='course'){$name["$index"]=$crid;}
-				if($namecheck=='year'){$name["$index"]=$yid;}
-				}
-			}
-
-		$class_counters=array();
-		if($classes['generate']=='forms' & $classes['many']>0){
-			while(list($comid,$community)=each($communities)){
-				if($community['type']=='year'){
-					$yid=$community['name'];
-					$d_form=mysql_query("SELECT id FROM form
-								WHERE yeargroup_id='$yid'");
-					}
-				while($form=mysql_fetch_array($d_form,MYSQL_ASSOC)){
-					$class_counters[]=$form['id'];
-					}
-				}
-			}
-		elseif($classes['many']>0){
-			if($name_counter!=''){
-				for($c=0;$c<$classes['many'];$c++){
-					$class_counters[]=$name_counter[$c];
-					}
-				}
-			else{
-				$class_counters=range('1',$classes['many']);
-				}
-			}
-		else{
-			$class_counters=array();
-			}
-
-		foreach($class_counters as $counter){
-			$newcid=$name['root'].$name['stem'].$name['branch'].$counter;
-			mysql_query("INSERT INTO class (id,
-							subject_id, course_id, stage) VALUES ('$newcid', '$bid',
-								'$crid', '$stage')");
-			if($classes['generate']=='forms'){
-   				$d_sids=mysql_query("SELECT id FROM student WHERE form_id='$counter'");
-				while($sids=mysql_fetch_array($d_sids, MYSQL_ASSOC)){
-					$sid=$sids['id'];
-					mysql_query("INSERT INTO cidsid
-								(class_id, student_id) VALUES ('$newcid','$sid')");
-					}
-				}
-			}
+		$classdef=get_subjectclassdef($crid,$bid,$stage);
+		populate_subjectclassdef($classdef);
 		}
 	}
 

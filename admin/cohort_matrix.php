@@ -8,7 +8,7 @@ $action='cohort_matrix_action.php';
 $choice='cohort_matrix.php';
 
 list($crid,$bid,$error)=checkCurrentRespon($r,$respons,'course');
-if($error!=''){include('scripts/results.php');exit;}
+if(sizeof($error)>0){include('scripts/results.php');exit;}
 
 three_buttonmenu();
 

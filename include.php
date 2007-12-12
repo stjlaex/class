@@ -10,7 +10,7 @@ $roles=array('teacher','office','support','sen','medical','library','admin','dis
 $books=array();
 $books['all']=array(
 					  'admin' => 'Admin'
-					  ,'reportbook' => 'ReportBook'
+					  ,'reportbook' => 'Report'
 					  ,'markbook' => 'MarkBook'
 					  ,'register' => 'Register'
 					  ,'infobook' => 'InfoBook'
@@ -28,7 +28,7 @@ $books['all']=array(
  */
 $books['admin']=array(
 					  'admin' => 'Admin'
-					  ,'reportbook' => 'ReportBook'
+					  ,'reportbook' => 'Report'
 					  ,'markbook' => 'MarkBook'
 					  ,'register' => 'Register'
 					  ,'infobook' => 'InfoBook'
@@ -64,7 +64,7 @@ $books['library']=array(
 						);
 $books['teacher']=array(
 						'admin' => 'Admin'
-						,'reportbook' => 'ReportBook'
+						,'reportbook' => 'Report'
 						,'register' => 'Register'
 						,'markbook' => 'MarkBook'
 						,'infobook' => 'InfoBook'
@@ -78,7 +78,7 @@ $externalbooks['all']=array(
 $externalbooks['admin']=array(
 							  'webmail' => $CFG->webmailtabname
 							  //,'lms' => $CFG->lmstabname
-							  //,'eportfolio' => $CFG->eportfoliotabname
+							  ,'eportfolio' => $CFG->eportfoliotabname
 							  );
 $externalbooks['office']=array(
 							   'webmail' => $CFG->webmailtabname
@@ -98,7 +98,7 @@ $externalbooks['support']=array(
 $externalbooks['teacher']=array(
 								'webmail' => $CFG->webmailtabname
 								//,'lms' => $CFG->lmstabname
-								//'eportfolio' => $CFG->eportfoliotabname
+								,'eportfolio' => $CFG->eportfoliotabname
 								);
 $books['external']=$externalbooks;
 ?>

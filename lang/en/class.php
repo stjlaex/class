@@ -297,5 +297,8 @@ $string['country']='Country';
 $string['postcode']='Postcode';
 $string['phonenumber']='Telephone number';
 $string['faxnumber']='Fax number';
+$string['type']='Type';
+$string['number']='Number';
+$string['']='';
 $string['']='';
 ?>
