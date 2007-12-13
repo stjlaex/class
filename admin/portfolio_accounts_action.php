@@ -98,11 +98,16 @@ include('scripts/sub_action.php');
 			}
 		}
 
+
 //trigger_error('Family epfuid: '.$epfuid.' sids:'.$index,E_USER_WARNING);}
 
 include('scripts/results.php');
 include('scripts/redirect.php');
+exit;
 
+/*******************************************
+ *						elgg functions
+ */
 
 function elgg_refresh(){
 	global $CFG;
@@ -144,7 +149,8 @@ function elgg_newUser($Newuser,$role){
 		$email='';
 		$epfusername=good_strtolower($Newuser['Forename']['value'][0].$surname[0].$no);
 		$epfusertype='person';
-		$epftemplate='Student_Template';
+		$epftemplate_name='Student_Template';
+		$epftemplate=6;
 		$password=good_strtolower($surname[0]);
 		$assword=md5($password);
 		}
@@ -153,7 +159,8 @@ function elgg_newUser($Newuser,$role){
 		$email='';
 		$epfusername=good_strtolower($surname[0]).'family'.$no;
 		$epfusertype='guardian';
-		$epftemplate='Guardian_Template';
+		$epftemplate_name='Guardian_Template';
+		$epftemplate=6;
 		$password=good_strtolower($surname[0]);
 		$assword=md5($password);
 		}
@@ -162,7 +169,8 @@ function elgg_newUser($Newuser,$role){
 		$email='';
 		$epfusername=$Newuser['Username']['value'];
 		$epfusertype='person';
-		$epftemplate='Staff_Template';
+		$epftemplate_name='Staff_Template';
+		$epftemplate=6;
 		$assword=$Newuser['Password']['value'];
 		}
 
@@ -185,7 +193,7 @@ function elgg_newUser($Newuser,$role){
 		}
 
 	mysql_query("INSERT INTO $table (username, password, name, 
-					email, active, user_type, template_name) VALUES 
+					email, active, user_type, template_id) VALUES 
 					('$epfusername', '$assword', '$name',
 					'$email', '$active', '$epfusertype','$epftemplate')");
 	$epfuid=mysql_insert_id();
@@ -216,9 +224,10 @@ function elgg_update_community($community,$communityfresh=array('type'=>'','name
 		$d_community=mysql_query("SELECT ident FROM $table WHERE
 				username='$epfusername'");
 		if(mysql_num_rows($d_community)==0){
-			$epftemplate='Staff_Template';
+			$epftemplate_name='Staff_Template';
+			$epftemplate=6;
 			mysql_query("INSERT INTO $table (username, name, 
-				    active, moderation, owner, user_type, template_name) 
+				    active, moderation, owner, user_type, template_id) 
 					VALUES ('$epfusername', '$epfname',
 					'yes', 'yes', '1', 'community','$epftemplate')");
 			$comid=mysql_insert_id();
@@ -235,6 +244,7 @@ function elgg_update_community($community,$communityfresh=array('type'=>'','name
 				}
 			}
 		}
+trigger_error('community: '.$name.' user:'.$epfusername.' '.mysql_error(),E_USER_WARNING);
 	return $comid;
 	$db=db_connect();
 	mysql_query("SET NAMES 'utf8'");

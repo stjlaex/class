@@ -57,7 +57,7 @@ if($sub!='Submit'){
 ?>
 	  <fieldset class="left">
 		<legend><?php print_string('includeassessmentscores',$book);?></legend>
-		<?php include('scripts/list_assessment.php');?>
+		<?php $required='no'; include('scripts/list_assessment.php');?>
 	  </fieldset>
 
 	  <fieldset class="right">

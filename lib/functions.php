@@ -1,4 +1,4 @@
-<?php 
+<?php
 /**			   								functions.php   
  * General purpose ClaSS functions. 
  *

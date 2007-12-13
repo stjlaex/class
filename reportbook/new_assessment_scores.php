@@ -1,10 +1,12 @@
 <?php
-/*							new_assessment_scores.php
+/**							new_assessment_scores.php
  */
 
-$action='import_assessment_scores.php';
+$action='new_assessment_scores_action.php';
+$choice='new_assessment.php';
 
-$eid=$_POST['id'];
+if(isset($_POST['eid'])){$eid=$_POST['eid'];}
+
 include('scripts/sub_action.php');
 
 	/*Check user has permission to configure*/
@@ -17,31 +19,32 @@ $AssDef=fetchAssessmentDefinition($eid);
 three_buttonmenu();
 ?>
 <div id="heading">
-Importing scores for <?php print $AssDef['Description']['value'];?>
+<?php print get_string('importscores',$book).': '. $AssDef['Description']['value'];?>
 </div>
 
 <div class="content">
 	<form id="formtoprocess" name="formtoprocess" 
 	  enctype="multipart/form-data" method="post" action="<?php print $host;?>"
 
-	  <fieldset class="center">
-		<legend><?php print_string('scoresareforthissubject');?></legend>
-		<?php include('scripts/list_subjects.php');?>
+	  <fieldset class="left">
+		<legend><?php print_string('firstcolumnidentifier',$book);?></legend>
+
+		<label for="enrolno"><?php print_string('enrolmentnumber','infobook');?></label>
+		<input type="radio" name="firstcol" 
+		  eitheror="sid"  class="requiredor" checked="checked" 
+		  title="" id="enrolno" value="enrolno" />
+		  
+		<label for="sid"><?php print_string('studentdbid',$book);?></label>
+		<input type="radio" name="firstcol" 
+			eitheror="enrolno"  class="requiredor" 
+			id="sid" title="" value="sid" />
 	  </fieldset>
 
-	  <fieldset class="center">
-		<legend><?php print_string('firstcolumn:studentidentifier');?></legend>
-
-		<label for="enrolno"><?php print_string('enrolemntnumber');?></label>
-		<input type="radio" name="firstcol" title="" id="enrolno" value="enrolno" />
-		  <label for="sid"><?php print_string('studentdatabaseid');?></label>
-		  <input type="radio" name="firstcol" id="sid" title="" value="sid" />
-	  </fieldset>
-
-	  <fieldset class="center">
+	  <fieldset class="right">
 		<legend><?php print_string('selectfiletoimportfrom');?></legend>
 		<label for="File name"><?php print_string('filename');?></label>
-		<input style="width:20em;" type="file" id="File name" name="importfile" />
+		<input style="width:20em;" type="file" id="File name" 
+		  class="required" name="importfile" />
 		<input type="hidden" name="MAX_FILE_SIZE" value="800000">	
 	  </fieldset>
 
@@ -51,5 +54,4 @@ Importing scores for <?php print $AssDef['Description']['value'];?>
  	<input type="hidden" name="choice" value="<?php print $choice; ?>">
 	</form>
   </div>
-
 

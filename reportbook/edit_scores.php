@@ -54,7 +54,7 @@ elseif(isset($_POST['pid'])){$selpid=$_POST['pid'];}
 		}
 
 $extrabuttons['importscores']=array('name'=>'current','value'=>'new_assessment_scores.php');
-three_buttonmenu($extrabuttons);
+three_buttonmenu($extrabuttons,$book);
 ?>
 
   <div id="heading">

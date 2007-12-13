@@ -41,7 +41,11 @@ $string['publishpdf']='Publish to PDF';
 $string['collatesince']='Collate since';
 $string['usestrands']='Use strands';
 $string['usesubjectcomponents']='Use components';
-$$string['']='';
+$string['firstcolumnidentifier']='First column: Student ID';
+$string['studentdbid']='ClaSS Database ID';
+$string['importscores']='Import scores';
+$string['']='';
+$string['']='';
 $string['']='';
 $string['']='';
 ?>

@@ -56,7 +56,7 @@ if($_SESSION['role']=='admin'){
 two_buttonmenu($extrabuttons,$book);
 ?>
   <div id="heading">
-  <?php print get_string('subjectreportsfor',$book).' '.$fid;?>
+  <?php print get_string('subjectreportsfor',$book).' '.$yid.' '.$fid;?>
   </div>
   <div id="viewcontent" class="content">
 	<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
@@ -87,7 +87,7 @@ two_buttonmenu($extrabuttons,$book);
 				<input type="checkbox" name="checkall" value="yes" onChange="checkAll(this);" />
 			  </label>
 			</th>
-			<th style="width:30%;"><?php print_string('student');?></th>
+			<th><?php print_string('student');?></th>
 <?php
 		reset($rids);
 		while(list($index,$rid)=each($rids)){
@@ -109,7 +109,7 @@ two_buttonmenu($extrabuttons,$book);
 				}
 			
 ?>
-			<th colspan="16"><?php print_string('completedsubjectreports',$book);?></th>
+			<th><?php print_string('completedsubjectreports',$book);?></th>
 		  </tr>
 <?php
 	while(list($index,$student)=each($students)){
@@ -173,6 +173,7 @@ two_buttonmenu($extrabuttons,$book);
 				}
 			}
 
+				print '<td>';
 		/* Going to check each subject class for completed assessments
 		and reportentrys and list in the table highlighting those that
 		met this reports required elements for completion. */
@@ -221,7 +222,7 @@ two_buttonmenu($extrabuttons,$book);
 							}
 						}
 
-					print '<td style="width:3em;" title="';
+					print '<p style="float:left;padding:0 0.5em;margin:0;" title="';
 				   	while(list($index, $reptid)=each($reptids)){
 						print $reptid.' ';
 						}
@@ -232,10 +233,12 @@ two_buttonmenu($extrabuttons,$book);
 						($commentcomp=='no' and $scoreno>0)){
 						print '" class="vspecial">';}
 					else{print '">';}
-					print $bid.'.'.$pid.'</td>';
+					if($pid!=' '){print $pid;}else{print $bid;}
+					print '</p>';
 			   		}
 				}
 			}
+				print '</td>';
 ?>
 		 </tr>
 <?php

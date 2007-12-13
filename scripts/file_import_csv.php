@@ -32,6 +32,7 @@ $ftype=$_FILES['importfile']['type'];
 			$record=array();
 			$row=0;
 			$recordline=0;
+			$recordcount=0;
 			if(!isset($multiline)){$multiline=1;}
 			$nofields='';
 			while(!feof($file)){
@@ -39,7 +40,7 @@ $ftype=$_FILES['importfile']['type'];
 				/*(filename, maxrowsize,delimeter,enclosure)*/
 
 				/*if first item a # then ignore whole row*/
-				if(sizeof($in)>1 and $in[0][0]!='#'){
+				if(sizeof($in)>1 and isset($in[0][0]) and $in[0][0]!='#'){
 					$recordline++;
 					//$record=$record . $in;
 					$record=array_merge($record,$in);
