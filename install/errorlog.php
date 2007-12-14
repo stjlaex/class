@@ -56,19 +56,19 @@ function tail_xml($file,$tail_size){
 	setTimeout("reload()", 2400000);
 	</script>
 
-	<div class="externalbookframe">
-	  <div class="header">
-		<?php print 'Last update '.date('H:i:s');?>
-	  </div>
-	  <div class="content">
-		<div class="center" style="height:12%;">
-		  <?php echo tail_html($CFG->serverlog,'30');?>
+	  <div class="externalbookframe">
+		<div class="header">
+		  <?php print 'Last update '.date('H:i:s');?>
 		</div>
-		<hr style="width:80%;"/>
-		  <div class="center" style="height:80%;">
-		<?php echo tail_xml($CFG->classlog,'150');?>
+		<div class="content">
+		  <div class="fullwidth" style="height:12%;">
+			<?php echo tail_html($CFG->serverlog,'30');?>
 		  </div>
+		  <hr style="width:80%;"/>
+		  <div id="classerrors" class="fullwidth" style="height:80%;">
+			  <?php echo tail_xml($CFG->classlog,'210');?>
+		  </div>
+		</div>
 	  </div>
-	</div>
-  </body>
-</html>
+	</body>
+  </html>

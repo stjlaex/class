@@ -1,5 +1,13 @@
 <?php
 /**							    new_assessment_scores_action.php
+ *
+ *	This will import a csv file of assessment scores for a whoole
+ *  bunch of students. The student identified either by their ClaSS
+ *  db id (sid) or by their enrolment no. The scores must start from
+ *	the second column and the first line has column headers which must be
+ *	either the bid or pid for scores in that column. Use a hash as the
+ *	first character in a column header or row to ignore it. Scores
+ *  which are grades should be in their grade value (not numerical equivalent),
  */
 
 $action='edit_scores.php';
@@ -89,22 +97,23 @@ if($sub=='Submit'){
 			elseif($firstcol=='sid'){
 				$sid=$row[0];
 				}
+			//trigger_error(' sid:'.$sid.' Index:'.$index.' '.sizeof($row),E_USER_WARNING);
 			if($sid!=''){
 				$insid++;
 				reset($bids);
 				while(list($col,$bid)=each($bids)){
-					if($bid!='#'){
-						$value=$row[$col+2];
+					if($bid[0]!='#'){
+						$invalue=$row[$col+2];
 						if($grading_grades!=''){
-							$res=$value;
+							$res=$invalue;
 							$value=gradeToScore($res,$grading_grades);
 							}
 						else{
+							$value=$invalue;
 							$res=sigfigs($value,3);
 							}
 						$score=array('result'=>$res,'value'=>$value);
 						update_assessment_score($eid,$sid,$bid,$pids[$col],$score);
-						trigger_error($eid. ' sid:'.$sid.' Val:'.$value.' '.$bid.'-'.$pids[$col],E_USER_WARNING);
 						$inscore++;
 						}
 					}

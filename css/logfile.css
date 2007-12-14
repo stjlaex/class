@@ -1,12 +1,20 @@
+div.externalbookframe { 
+    width:98%;
+    left:1%;
+    overflow:hidden;
+	}
+div#classerrors { 
+    overflow:auto;
+	}
 errorentry {  
 	border:0; margin-top:2px;
     float:left;
 	background-color:#666666; 
-	color:#ffffee; font-size:90%; 
+	color:#ffffee; font-size:9pt; 
 	}
 errorentry[errortype="Notice"] {  
 	background-color:#666666; 
-	color:#ffffee; font-size:50%; 
+	color:#ffffee; font-size:8pt; 
 	}
 errorentry[errortype="Notice"] datetime {  
 	color:yellow; 
@@ -29,7 +37,7 @@ mysqlerror {
 	border:0; margin-top:2px;
     float:right;
 	background-color:red; 
-	color:#ffffee; font-size:90%; 
+	color:#ffffee; font-size:8pt; 
 	}
 classbook {
 	border:1px solid orange;

@@ -12,6 +12,10 @@ $todate=$toyear.'-'.$tomonth.'-'.$today;
 
 three_buttonmenu();
 ?>
+  <div id="heading">
+	<label><?php print_string('search',$book);?></label>
+<?php	print_string('comments',$book);?>
+  </div>
   <div class="content">
 	<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>"> 
 
@@ -28,6 +32,15 @@ three_buttonmenu();
 	  <fieldset class="right">
 		<legend><?php print_string('publicationdateforprinting');?></legend>
 		<?php $required='no'; unset($todate); include('scripts/jsdate-form.php'); ?>
+	  </fieldset>
+
+	 <fieldset class="left" >
+		<legend><?php print_string('limittoonetype');?></legend>
+<?php
+		$listlabel='category'; $listid='category';
+		$required='no';
+		include('scripts/list_rating.php');
+?>
 	  </fieldset>
 
 	 <fieldset class="right" >

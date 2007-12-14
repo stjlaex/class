@@ -5,14 +5,20 @@
 
 
 body {
-  	font-family:Verdana, Arial, Helvetica, sans-serif; font-weight:500; font-size:medium;
-	background-color:ivory; color:#ffffff; margin:0; border:0;
+  	font-family:Verdana, Arial, Helvetica, sans-serif; 
+    font-weight:500; 
+    font-size:medium;
+	background-color:ivory; color:#ffffff; 
+    margin:0; 
+    border:0;
+    overflow:hidden;
 	}
 a {
-	font-size:small; color:#000000; font-weight:600;
+	font-size:small; 
+    color:#000000; 
+    font-weight:600;
     text-decoration:none;
 	}
-
 div#currentbook { 
     overflow:hidden;
 	}

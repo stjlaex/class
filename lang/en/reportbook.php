@@ -44,8 +44,8 @@ $string['usesubjectcomponents']='Use components';
 $string['firstcolumnidentifier']='First column: Student ID';
 $string['studentdbid']='ClaSS Database ID';
 $string['importscores']='Import scores';
-$string['']='';
-$string['']='';
+$string['nocommentsfound']='No comments found!';
+$string['limittoonetype']='Limit to one type';
 $string['']='';
 $string['']='';
 ?>

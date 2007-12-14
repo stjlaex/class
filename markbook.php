@@ -30,14 +30,17 @@ if(isset($_POST['cids'])){
 					AS crid	FROM class WHERE id='$cid';");
 		$classes[$cid]=mysql_fetch_array($d_c,MYSQL_ASSOC);
 		/*grab the class's subject components*/
-		$components=list_subject_components($classes[$cid]['bid'],$classes[$cid]['crid']);
-		while(list($index,$component)=each($components)){
+		$comps=list_subject_components($classes[$cid]['bid'],$classes[$cid]['crid']);
+		$components=array();
+		while(list($index,$component)=each($comps)){
 			if(!in_array($component['id'],$pids)){
+				$components[]=$component;
 				$pids[]=$component['id'];
 				/*and the subject component's components ie. strands*/
 				$strands=list_subject_components($component['id'],$classes[$cid]['crid'],'V');
 				while(list($index,$strand)=each($strands)){
 					if(!in_array($strand['id'],$pids)){
+						$strand['name']='&nbsp;&nbsp;'.$strand['name'];
 						$pids[]=$strand['id'];
 						$components[]=$strand;
 						}

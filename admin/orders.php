@@ -63,7 +63,7 @@ two_buttonmenu($extrabuttons,$book);
 	</form>
 
 	<fieldset class="center">
-	  <legend><?php print_string('orders',$book);?></legend>
+	  <legend><?php print_string('budgets',$book);?></legend>
 	  <table class="listmenu">
 		<tr>
 		  <th><?php print_string('name');?></th>

@@ -7,8 +7,12 @@
 $action='report_comments_print.php';
 
 $date0=$_POST['date0'];
-if(isset($_POST['date1'])){$date1=$_POST['date1'];}else{$date1=date("Y-m-d");}
-if(isset($_POST['bid'])){$bid=$_POST['bid'];}else{$bid='';}
+if(isset($_POST['date1'])){$date1=$_POST['date1'];}else{$date1=date('Y-m-d');}
+if(isset($_POST['bid'])){$bid=$_POST['bid'];}else{$bid='%';}
+if($bid==''){$bid='%';}
+if(isset($_POST['ratvalue'])){$ratvalue=$_POST['ratvalue'];}else{$ratvalue='%';}
+if($ratvalue==''){$ratvalue='%';}
+else{$ratvalue='%:'.$ratvalue.';%';}
 if(isset($_POST['stage'])){$stage=$_POST['stage'];}
 if(isset($_POST['year'])){$year=$_POST['year'];}
 if(isset($_POST['newyid'])){$yid=$_POST['newyid'];}else{$yid='';}
@@ -20,17 +24,15 @@ include('scripts/sub_action.php');
 		$d_comments=mysql_query("SELECT * FROM comments JOIN
 		student ON student.id=comments.student_id WHERE
 		comments.entrydate > '$date0' AND student.yeargroup_id LIKE
-		'$yid' ORDER BY student.surname");
+		'$yid' AND comments.subject_id LIKE '$bid'  
+		AND comments.category LIKE '$ratvalue' ORDER BY student.surname");
 		}
 	elseif($fid!=''){
 		$d_comments=mysql_query("SELECT * FROM comments JOIN
 			student ON student.id=comments.student_id WHERE
 			comments.entrydate > '$date0' AND student.form_id LIKE
-			'$fid' ORDER BY student.surname");
-		}
-	elseif($bid!=''){
-		$d_comments=mysql_query("SELECT * FROM comments WHERE entrydate
-				> '$date0' AND subject_id LIKE '$bid'");
+			'$fid' AND comments.subject_id LIKE '$bid' 
+			AND comments.category LIKE '$ratvalue' ORDER BY student.surname");
 		}
 	else{
 		if($rcrid=='%'){
@@ -48,7 +50,9 @@ include('scripts/sub_action.php');
 		$comid=mysql_result($d_community,0);
 		$d_comments=mysql_query("SELECT * FROM comments JOIN
 				comidsid ON comidsid.student_id=comments.student_id
-				WHERE comments.entrydate > '$date0' AND comidsid.community_id='$comid'");
+				WHERE comments.entrydate > '$date0' AND
+				comments.subject_id LIKE '$bid' AND comments.category LIKE '$ratvalue' 
+				AND comidsid.community_id='$comid'");
 		}
 
 	if(mysql_num_rows($d_comments)==0){

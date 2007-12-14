@@ -1,5 +1,5 @@
-Version ClaSS-0.8.35 release (2008/013/)
-----------------------------------------
+Version ClaSS-0.8.35 release (2008/12/14)
+-----------------------------------------
 
 The teacher_matrix now has a new editclasses button to allow staff to
 add/change teaching classes on a subject by subject basis - previously
@@ -15,11 +15,16 @@ use these functions.
 
 Tidied up the report_reports_list table.
 
-Completed the import_scores scripts in the ReportBook to allow the
+Completed the new_assessment_scores scripts in the ReportBook to allow the
 import of scores for an assessment in the form of a grid. Columns are
 identified by either valid bid or pid values for that course and the
 first value in a row identifies the student either by enrolment number
 or their sid on the ClaSS db.
+
+The MarkBook's component list now groups validating strands underneath
+their parent component.
+
+Improved the comments search to include type and subject properly.
 
 
 Version ClaSS-0.8.34 release (2007/12/08)
