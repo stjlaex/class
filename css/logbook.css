@@ -5,7 +5,9 @@
 	}	
 .logincolor button {
 	background-color:#666666;
-    width:60%; margin-left:20%; margin-top:10%;
+    width:60%; 
+    margin-left:20%; 
+    margin-top:10%;
 	}
 .logincolor button:hover, .logincolor button:focus {
 	background-color:#eeeeee;
@@ -37,8 +39,8 @@
     float:left;
     width:80%;
 	}
-.logincolor table label { 
-    font-size:small;
+.logincolor table label, .logincolor button  { 
+    font-size:medium;
     font-weight:600;
 	}
 

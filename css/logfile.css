@@ -1,3 +1,10 @@
+#sitelogo.fixed {
+	position:absolute; right:10px; top:10px;
+	background-color:#444444;
+    padding:2px;
+    visibility:visible;
+    z-index:500;
+	}
 div.externalbookframe { 
     width:98%;
     left:1%;

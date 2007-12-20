@@ -60,6 +60,9 @@ function tail_xml($file,$tail_size){
 		<div class="header">
 		  <?php print 'Last update '.date('H:i:s');?>
 		</div>
+		<div id="sitelogo" class="fixed">
+		  <img name="sitelogo" src="../images/orangelogo.png"  onclick="reload()"/>
+		</div>
 		<div class="content">
 		  <div class="fullwidth" style="height:12%;">
 			<?php echo tail_html($CFG->serverlog,'30');?>

@@ -1,7 +1,13 @@
+/**										eportfolio.css
+ * main color: 52aee7
+ * complimentary shade: 3393cf 
+ */
+
+
 .eportfoliocolor fieldset, .eportfoliocolor div.topform, .eportfoliocolor table.listmenu {
-	border-color:#1181AA;
+	border-color:#52aee7;
 	background-color:#444444; color:#000000;
 	}
 div#bookbox{
-	border-color:#1181AA;
+	border-color:#52aee7;
 	}

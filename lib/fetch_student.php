@@ -1157,4 +1157,23 @@ function fetchMedical($sid='-1'){
 	$Medical['Notes']=$Notes;
 	return $Medical;
 	}
+
+/* Returns the epfusername for that sid either from the database if */
+/* the eportfolio is configured or generates a usable name based on */
+/* the formula but not a unique username suitable for joining the portfolio!.*/
+function get_epfusername($sid,$Student=array(),$type='student'){
+	$epfusername='';
+	$d_info=mysql_query("SELECT epfusername FROM info WHERE student_id='$sid';");
+	$epfusername=mysql_result($d_info,0);
+	setlocale(LC_CTYPE,'en_GB');
+	if($epfusername==''){
+		if(sizeof($Student)==0){$Student=fetchshortStudent($sid);}
+		$surname=(array)split(' ',$Student['Surname']['value']);
+		$start=iconv('UTF-8', 'ASCII//TRANSLIT', $Student['Forename']['value'][0]);
+		$tail=iconv('UTF-8', 'ASCII//TRANSLIT', $surname[0]);
+		$epfusername=good_strtolower($start. $tail);
+		}
+	return $epfusername;
+	}
+
 ?>

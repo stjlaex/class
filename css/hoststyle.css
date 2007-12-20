@@ -5,7 +5,7 @@
 
 
 body {
-  	font-family:Verdana, Arial, Helvetica, sans-serif; 
+  	font-family:Verdana, Arial, sans-serif; 
     font-weight:500; 
     font-size:medium;
 	background-color:ivory; color:#ffffff; 
@@ -48,7 +48,7 @@ div#logbook {
 	float:right;
     width:100%;
     background-color:ivory;
-    font-size:90%;
+    font-size:medium;
     line-height:normal;
 	}
 .booktabs ul {
@@ -65,6 +65,7 @@ div#logbook {
     display:block;
     padding:4px 10px 50px 6px;
 	font-weight:900;
+  	font-family:Verdana, Arial, sans-serif; 
     color:#765;
 	border:1px solid ivory;
 	-moz-border-radius:0 18% 0 0;
@@ -84,7 +85,7 @@ div#logbook {
     background-color:#1181AA;
     }
 .booktabs p.eportfolio:hover, #currentbook.eportfolio {
-    background-color:#1181AA;
+    background-color:#52aee7;
     }
 .booktabs p.lms:hover, #currentbook.lms {
     background-color:#ffcc44;
@@ -147,7 +148,7 @@ div#logbookstripe.entrybook {
     border-color:#1181AA;
     }
 div#logbookstripe.eportfolio {
-    border-color:#1181AA;
+    border-color:#52aee7;
     }
 div#logbookstripe.lms {
     border-color:#ffcc44;
@@ -294,8 +295,8 @@ button {
 .register {background-color:#cccccc; border-color:#44aa66;}
 .register legend, .register button {background-color:#44aa66; color:#ffffff;}	
 
-.eportfolio {background-color:#cccccc; border-color:#1181AA;}
-.eportfolio legend, .eportfolio button {background-color:#1181AA; color:#ffffff;}	
+.eportfolio {background-color:#cccccc; border-color:#52aee7;}
+.eportfolio legend, .eportfolio button {background-color:#52aee7; color:#ffffff;}	
 
 .lms {background-color:#cccccc; border-color:#ffcc44;}
 .lms legend, .lms button {background-color:#ffcc44; color:#ffffff;}	
@@ -367,6 +368,7 @@ div#loginlang {
 	color:#222;
 	background-color:#eeeeee;
 	font-weight:300;
+	font-size:medium;
     border-left:3px solid #ffffff;
 	}
 #login {

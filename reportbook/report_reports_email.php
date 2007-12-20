@@ -1,4 +1,4 @@
-<?php
+ <?php
 /**									report_reports_email.php
  */
 
@@ -32,12 +32,16 @@ if(sizeof($sids)==0){
 		$Student=fetchStudent_short($sid);
 		$Contacts=fetchContacts($sid);
 
-		$body='Please find attached the term report for '.$Student['DisplayFullName']['value'].' and the latest edition of the school newsletter.';
-		$subject='Report for '.$Student['DisplayFullName']['value'];
-		$fromaddress='ClaSS';
-		$filename='Report'.$pubdate.'_'.$Student['Surname']['value'].'_'.$sid.'_'.$wrapper_rid.'.pdf';
+		setlocale(LC_CTYPE,'en_GB');
+		$studentname=iconv('UTF-8', 'ASCII//TRANSLIT',$Student['DisplayFullName']['value']);
+
+		$body='Please find attached the term report for '.$studentname.'.';
+		$subject='King\'s Training Report for '.$studentname;
+		$fromaddress='King\'s Training La Moraleja';
+		$epfusername=get_epfusername($sid,$Student);
+		$filename='Report'.$pubdate.'_'.$epfusername.'_'.$sid.'_'.$wrapper_rid.'.pdf';
 		$attachments=array();
-		$attachments[]=array('filepath'=>$CFG->installpath.'/pdfreports/'.$filename,
+		$attachments[]=array('filepath'=>$CFG->installpath.'/reports/'.$filename,
 							 'filename'=>$filename);
 		/*		$attachments[]=array('filepath'=>$CFG->installpath.'/pdfreports/smc_newsletter.pdf',
 							 'filename'=>'newsletter.pdf');

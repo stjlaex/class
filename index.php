@@ -23,7 +23,7 @@ print '<?xml version="1.0" encoding="utf-8"?'.'>';
 <body onload="loadLogin('cover');">
 
 <div id="sitelogo" class="fixed">
-	<img name="sitelogo" src="images/orangelogo.png"/>
+	<img name="sitelogo" src="images/orangelogo.png"  onclick="loadBook('')"/>
 </div>
 <div id="sitestatus" class="fixed">
 	<img name="sitelogo" src="images/roller.gif"/>

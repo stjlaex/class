@@ -166,11 +166,12 @@ function loadBook(book){
 	//	Reloads the book without giving focus (never used for logbook!)
 	//	always called by logbook if a session is set,
 	//	also called when changes in one book needs to update another
-	var currentbook='';	
+	var currentbook="";	
 	if(document.getElementById("currentbook")){
 		currentbook=document.getElementById("currentbook").getAttribute("class");	
 		}
-	window.frames["view"+book].location.href = book+".php";
+	if(book==""){book=currentbook;}
+	if(book!=""){window.frames["view"+book].location.href = book+".php";}
 	if(book!=currentbook){
 		document.getElementById("view"+book).style.zIndex = "-100";
 		document.getElementById(book+"options").style.zIndex = "-100";

@@ -141,39 +141,45 @@ function elgg_newUser($Newuser,$role){
     $name=$Newuser['Forename']['value'].' '.$Newuser['Surname']['value'];
 	$active='yes';
 	$no=0;
+	setlocale(LC_CTYPE,'en_GB');
 
 	/*while testing guardians get a fake email address*/
-	/*and the password is always just the surname*/
+	/*and the password is always the ????*/
 	if($role=='student'){
 		//$email=$Newuser['EmailAddress']['value'];
 		$email='';
-		$epfusername=good_strtolower($Newuser['Forename']['value'][0].$surname[0].$no);
+		$start=iconv('UTF-8', 'ASCII//TRANSLIT', $Newuser['Forename']['value'][0]);
+		$tail=iconv('UTF-8', 'ASCII//TRANSLIT', $surname[0]).$no;
 		$epfusertype='person';
 		$epftemplate_name='Student_Template';
 		$epftemplate=6;
-		$password=good_strtolower($surname[0]);
+		$password=good_strtolower('guest');
 		$assword=md5($password);
 		}
 	elseif($role=='guardian'){
 		//$email=$Newuser['EmailAddress']['value'];
 		$email='';
-		$epfusername=good_strtolower($surname[0]).'family'.$no;
+		$start=iconv('UTF-8', 'ASCII//TRANSLIT', $surname[0]);
+		$tail='family'.$no;
 		$epfusertype='guardian';
 		$epftemplate_name='Guardian_Template';
 		$epftemplate=6;
-		$password=good_strtolower($surname[0]);
+		$password=good_strtolower('guest');
 		$assword=md5($password);
 		}
 	elseif($role=='staff'){
 		//$email=$Newuser['EmailAddress']['value'];
 		$email='';
-		$epfusername=$Newuser['Username']['value'];
+		$start='';
+		$tail=$Newuser['Username']['value'];
 		$epfusertype='person';
 		$epftemplate_name='Staff_Template';
 		$epftemplate=6;
 		$assword=$Newuser['Password']['value'];
 		}
-
+	$epfusername=good_strtolower($start. $tail);
+	$epfusername=str_replace("'",'',$epfusername);
+	$epfusername=clean_text($epfusername);
 
 	$d_user=mysql_query("SELECT ident 
 							FROM $table WHERE username='$epfusername'");

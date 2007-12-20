@@ -12,20 +12,21 @@ if(isset($_POST['rids'])){$rids=(array) $_POST['rids'];}else{$rids=array();}
 
 include('scripts/sub_action.php');
 
-if(sizeof($sids)==0){
+	if(sizeof($sids)==0){
 		$result[]=get_string('youneedtoselectstudents');
    		include('scripts/results.php');
    		include('scripts/redirect.php');
 		exit;
 		}
 
-	/*find the definition specific to each report */
+	/* Find the definition specific to each report */
 	$reportdefs=array();
-	$wrapper_rid=$rids[0];/*should be first in rids*/
+	$wrapper_rid=$rids[0];/* Should be first in rids*/
 	for($c=0;$c<sizeof($rids);$c++){ 
 		$reportdefs[]=fetchReportDefinition($rids[$c]);
 		}
 	$pubdate=$reportdefs[0]['report']['date'];
+	$paper=$reportdefs[0]['report']['style'];
 
 	/*doing one student at a time*/
 	$postdata=array();
@@ -35,6 +36,7 @@ if(sizeof($sids)==0){
 
 		list($Reports,$transform)=fetchSubjectReports($sid,$reportdefs);
 		$Reports['Coversheet']='yes';/*no longer used, always yes*/
+		$Reports['Paper']=$paper;
 		$Student['Reports']=nullCorrect($Reports);
 
 		/*Finished with the student's reports. Output the result as xml.*/
@@ -56,7 +58,8 @@ if(sizeof($sids)==0){
 		$html_report=xmlprocessor($xml,$xsl_filename);
 		$html=$html_header. $html_report . $html_footer;
 
-		$filename='Report'.$pubdate.'_'.$Student['Surname']['value'].'_'.$sid.'_'.$wrapper_rid.'.html';
+		$epfusername=get_epfusername($sid,$Student);
+		$filename='Report'.$pubdate.'_'.$epfusername.'_'.$sid.'_'.$wrapper_rid.'.html';
 		$postdata['batch['.$c.']']=$filename;
 
 		$file=fopen($CFG->installpath.'/reports/'.$filename, 'w');
@@ -70,12 +73,18 @@ if(sizeof($sids)==0){
 		}
 
 	if(!isset($error)){
-		$result[]=get_string('publishedtofile');
+		$result[]=get_string('publishedtofile',$book);
 
 		/*call the html2ps server for conversion to pdf*/
 		if(isset($CFG->html2psscript) and $CFG->html2psscript!=''){
 			$postdata['url']='http://'.$CFG->siteaddress.$CFG->sitepath.'/reports/';
 			$postdata['process_mode']='batch';
+			$postdata['topmargin']='5';
+			$postdata['bottommargin']='0';
+			$postdata['leftmargin']='15';
+			$postdata['rightargin']='0';
+			$postdata['pixels']='1028';
+			if($paper=='landscape'){$postdata['landscape']='true';}
 			$curl=curl_init();
 			curl_setopt($curl, CURLOPT_URL,$CFG->html2psscript);
 			curl_setopt($curl, CURLOPT_POST, 1);
