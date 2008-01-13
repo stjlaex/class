@@ -101,7 +101,7 @@ function fetchStudent_singlefield($sid,$tag){
 			$rel=displayEnum($Contacts[$contactno]['Relationship']['value'], 'relationship'); 
 			$rel=get_string($rel,'infobook');
 			$firstcontact='('.$rel.') '. 
-					$Contacts[0]['Forename']['value']. ' '.$Contacts[0]['Surname']['value'];
+					$Contacts[$contactno]['Forename']['value']. ' '.$Contacts[$contactno]['Surname']['value'];
 			$Student[$tag]=array('label' => '',
 								 'value' => '');
 			$Student[$tag]['value']=$firstcontact; 
@@ -584,7 +584,7 @@ function fetchDependents($gid='-1'){
  */
 function fetchContact($gidsid=array('guardian_id'=>'-1','student_id'=>'-1','priority'=>'','mailing'=>'','relationship'=>'')){
 	$gid=$gidsid['guardian_id'];
-	$d_guardian=mysql_query("SELECT * FROM guardian WHERE id='$gid'");
+	$d_guardian=mysql_query("SELECT * FROM guardian WHERE id='$gid';");
 	$guardian=mysql_fetch_array($d_guardian,MYSQL_ASSOC);
 	$Contact=array();
 	$Contact['id_db']=$gid;
@@ -1158,7 +1158,7 @@ function fetchMedical($sid='-1'){
 	return $Medical;
 	}
 
-/* Returns the epfusername for that sid either from the database if */
+/** Returns the epfusername for that sid either from the database if */
 /* the eportfolio is configured or generates a usable name based on */
 /* the formula but not a unique username suitable for joining the portfolio!.*/
 function get_epfusername($sid,$Student=array(),$type='student'){

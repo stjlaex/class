@@ -1,5 +1,5 @@
 <?php 
-/**											new_edit_reports.php
+/**			   							new_edit_reports.php
  */
 
 $action='new_edit_reports_action.php';

@@ -14,6 +14,7 @@ if($sub=='Submit'){
    	$user['username']=clean_text($_POST['username']);
    	$user['surname']=clean_text($_POST['surname']);
    	$user['forename']=clean_text($_POST['forename']);
+   	$user['title']=$_POST['title'];
    	$user['email']=($_POST['email']);
    	$user['emailpasswd']=($_POST['emailpasswd']);
    	$user['role']=$_POST['role'];

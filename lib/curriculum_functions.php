@@ -75,7 +75,7 @@ function list_course_cohorts($crid,$year='',$season='S'){
 	return $cohorts;
 	}
 
-/* Returns an array listing the cids for all classes associated with
+/** Returns an array listing the cids for all classes associated with
  * this form where the class is actually populated by just this
  * form's sids
  */
@@ -114,6 +114,20 @@ function list_forms_classes($fid){
 			}
 		}
 	return $cids;
+	}
+
+/** Returns an array listing the classes associated with
+ * this course and subject
+ */
+function list_course_classes($crid='%',$bid='%'){
+	$classes=array();
+	$d_c=mysql_query("SELECT class_id, class.detail  FROM tidcid 
+					JOIN class WHERE class.course_id LIKE '$crid' AND
+					class.subject_id LIKE '$bid' ORDER BY course_id, class_id");   
+   	while($class=mysql_fetch_array($d_c,MYSQL_ASSOC)){
+		$classes[]=$class;
+		}
+	return $classes;
 	}
 
 function get_subjectclassdef($crid,$bid,$stagename){

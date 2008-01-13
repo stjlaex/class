@@ -49,6 +49,8 @@ else{
 		}
 	}
 
+//trigger_error('contact:'.$contactno.' gid:' . $gid .' sid:'.$sid,E_USER_WARNING);
+
 /*always add a blank record for new entries*/
 while(sizeof($Phones)<4){$Phones[]=fetchPhone();}
 $Addresses[]=fetchAddress();
@@ -91,7 +93,7 @@ elseif($contactno==-1){
 	}
 three_buttonmenu($extrabuttons,$book);
 ?>
-  <div class="content">
+  <div class="content" id="viewcontent">
 	<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
 
 	  <div class="left">

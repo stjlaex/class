@@ -164,6 +164,11 @@ function fetchReportDefinition($rid,$selbid='%'){
 		$markcount=mysql_numrows($d_mid);
 		$reportdef['MarkCount']=array('label' => 'Markcolumns', 
 									  'value' => ''.$markcount);
+		$d_categorydef=mysql_query("SELECT name
+				FROM categorydef JOIN ridcatid ON ridcatid.categorydef_id=categorydef.id 
+				WHERE ridcatid.report_id='$rid' AND
+				ridcatid.subject_id='profile'");
+		$report['profile_name']=mysql_result($d_categorydef,0);
 		}
 	else{
 		$report['course_name']='';
@@ -267,7 +272,9 @@ function fetchReportCategories($rid,$bid='%'){
 				JOIN ridcatid ON ridcatid.categorydef_id=categorydef.id 
 				WHERE ridcatid.report_id='$rid' AND
 				(ridcatid.subject_id LIKE '$bid' OR
-				ridcatid.subject_id='%') AND ridcatid.subject_id!='summary'");
+				ridcatid.subject_id='%') AND
+				ridcatid.subject_id!='summary' AND
+				ridcatid.subject_id!='wrapper' AND ridcatid.subject_id!='profile'");
    	$catdefs=array();
 	$ratingnames=array();
 	while($catdef=mysql_fetch_array($d_categorydef,MYSQL_ASSOC)){
@@ -314,11 +321,12 @@ function checkReportEntry($rid,$sid,$bid,$pid){
 	return mysql_numrows($d_reportentry);
 	}
 
-function fetchReportEntry($reportdef,$sid,$bid,$pid){
-/*		Retrieves all report entries for one student in one subject*/
-/*		All report info is pre-fetched in $reportdef['report'], */  
-/*				$reportdef['catdefs'] and $reportdef['ratingnames']*/
 
+/**		Retrieves all report entries for one student in one subject
+ *		All report info is pre-fetched in $reportdef['report'],
+ *				$reportdef['catdefs'] and $reportdef['ratingnames']
+ */
+function fetchReportEntry($reportdef,$sid,$bid,$pid){
 	$Comments=array();
 	//$Comments['Comment']=array();
 	$rid=$reportdef['report']['id'];

@@ -1,5 +1,5 @@
 <?php 
-/**													teacher_matrix.php
+/**			  									teacher_matrix.php
  */
 
 $choice='teacher_matrix.php';
@@ -71,7 +71,7 @@ three_buttonmenu($extrabuttons,$book);
 		ORDER BY class.subject_id, class.course_id, id");
    	while($cids=mysql_fetch_array($d_cids,MYSQL_ASSOC)){
    		print '<option ';
-		print	' value="'.$cids{'id'}.'">'.$cids{'id'}.'</option>';
+		print	' value="'.$cids['id'].'">'.$cids['id'].'</option>';
 	   	}
 ?>		
 		  </select>

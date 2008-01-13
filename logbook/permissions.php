@@ -125,7 +125,7 @@ function list_pastoral_users($ryid,$perms){
 function list_all_users($nologin='%'){
    	$users=array();
 	$d_users=mysql_query("SELECT uid, username, passwd, forename,
-				surname, email, emailuser, emailpasswd, nologin, firstbookpref,
+				surname, title, email, emailuser, emailpasswd, nologin, firstbookpref,
 				role, worklevel, senrole
 				FROM users WHERE nologin LIKE '$nologin' ORDER BY role, username");
 	while($user=mysql_fetch_array($d_users,MYSQL_ASSOC)){;
@@ -145,7 +145,8 @@ function list_teacher_users($crid='',$bid=''){
 		while($teacher=mysql_fetch_array($d_teacher,MYSQL_ASSOC)){
 			$tid=$teacher['teacher_id'];
 			$d_users=mysql_query("SELECT uid, username, passwd, forename,
-				surname, email, emailuser, emailpasswd, nologin, firstbookpref, role, worklevel,
+				surname, title, email, emailuser, emailpasswd,
+					nologin, firstbookpref, role, worklevel,
 				senrole FROM users WHERE username='$tid'");
 			$user=mysql_fetch_array($d_users,MYSQL_ASSOC);
 			$users[$tid]=$user;
@@ -154,7 +155,7 @@ function list_teacher_users($crid='',$bid=''){
 	else{
 		/*Otherwise just return all active teaching staff ie. nologin=0*/
 		$d_user=mysql_query("SELECT uid, username, passwd, forename,
-				surname, email, emailuser, emailpasswd, 
+				surname, title, email, emailuser, emailpasswd, 
 				nologin, firstbookpref, role, worklevel FROM users WHERE
 				(role='teacher' or role='admin') AND nologin='0' AND
 				username!='administrator' ORDER BY username");
@@ -359,6 +360,7 @@ function update_user($user,$update='no',$short='class'){
 	$username=$user['username'];
 	$surname=checkEntry($user['surname']);
 	$forename=$user['forename'];
+	$title=$user['title'];
 	$role=$user['role'];
 	if(isset($user['worklevel'])){
 		$worklevel=$user['worklevel'];
@@ -424,7 +426,7 @@ function update_user($user,$update='no',$short='class'){
 				}
 		  else{
 			mysql_query("UPDATE users SET
-				  surname='$surname', forename='$forename',
+				  surname='$surname', forename='$forename', title='$title',
 							email='$email', emailuser='$emailuser', emailpasswd='$emailpasswd', 
 					role='$role', senrole='$senrole', worklevel='$worklevel', nologin='$nologin',
 					firstbookpref='$firstbookpref' WHERE username='$username'");
@@ -432,11 +434,12 @@ function update_user($user,$update='no',$short='class'){
 			}
 		}
 	else{
-		mysql_query("INSERT INTO users (username, passwd, forename, surname,
+		mysql_query("INSERT INTO users (username, passwd, forename,
+							surname, title,
 					email, emailuser, emailpasswd, role, nologin, worklevel,
 							senrole, firstbookpref) 
 					VALUES ('$username', '$assword', '$forename',
-					'$surname', '$email', '$emailuser', 
+					 '$surname', '$title', '$email', '$emailuser', 
 						'$emailpasswd', '$role', '$nologin', '$worklevel',
 					   '$senrole', '$firstbookpref')");
 		$result=$result.'Username '.$username.' added.';

@@ -31,9 +31,36 @@ if(sizeof($Report['Comments']['Comment'])==0 or $entryn==sizeof($Report['Comment
 	$Comment=array('Text'=>array('value'=>''),
 					   'Teacher'=>array('value'=>'ADD NEW ENTRY'));
 	$inmust='yes';
+	if($reportdef['report']['profile_name']!=''){
+		$profile_name=$reportdef['report']['profile_name'];
+		$profilepids=(array)list_subject_components($pid,'FS');
+		$profilepids[]=array('id'=>$pid,'name'=>'');
+		while(list($pidindex,$component)=each($profilepids)){
+			$profilepid=$component['id'];
+			$d_eidsid=mysql_query("SELECT 
+				assessment.description, assessment.id FROM eidsid JOIN assessment ON
+				assessment.id=eidsid.assessment_id WHERE
+				eidsid.student_id='$sid' AND eidsid.subject_id='$bid'
+				AND eidsid.component_id='$profilepid' AND
+				assessment.profile_name='$profile_name' AND
+				eidsid.date > '2007-09-01'");
+			$stats=array();
+			while($eidsid=mysql_fetch_array($d_eidsid,MYSQL_ASSOC)){
+				$topic=$eidsid['description'];
+				$d_mark=mysql_query("SELECT comment
+			    FROM mark JOIN eidmid ON
+				mark.id=eidmid.mark_id WHERE
+				mark.component_id='$profilepid' AND
+				mark.def_name='$profile_name' AND
+				topic='$topic';");
+				$Comment['Text']['value'].=' '.mysql_result($d_mark,0);
+				trigger_error($reportdef['report']['profile_name'].' '.$topic.' '.$profilepid,E_USER_WARNING);
+				}
+			}
+		}
 	}
 else{
-	$Comment=$Report['Comments']['Comment'][$entryn]; 
+	$Comment=$Report['Comments']['Comment'][$entryn];
 	$inmust=$Comment['id_db'];
 	}
 

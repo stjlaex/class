@@ -57,6 +57,7 @@ CREATE TABLE assessment (
 	season          enum('','S','W','M','1','2','3','4','5','6','7','8','9','a','b','c') not null,
 	creation		date not null default '0000-00-00',
 	deadline		date not null default '0000-00-00',
+	profile_name	varchar(60) not null default '',
 	index			index_subject(subject_id),
    	primary key		(id)
 );");

@@ -1,13 +1,22 @@
-Version ClaSS-0.8.36 release (2008/01/07)
+Version ClaSS-0.8.36 release (2008/01/16)
 -----------------------------------------
 
 Gave an onclick to the ClaSS logo so it can act as a refresh for the
 current book; modified the js function loadBook() to work with this.
 
 Added get_epfusername() function and a new field to the info table
-to store the epf_username in.
+to store the epfusername in.
+
+Added title and epfusername fields to users table for staff.
 
 Fixed the report_reports_publish to pdf to handle landscape.
+
+Fixed a bug in fetchsinglefield function when displaying second
+contacts from student_list in the InfoBook.
+
+Have added a profile_name field to the assessment table. This is a
+categorydef.name which allows assessments to be grouped in to a
+profile. The name is also the markdef name used by that profile.
 
 
 Version ClaSS-0.8.35 release (2007/12/14)

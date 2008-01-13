@@ -9,28 +9,33 @@
 
 $action='portfolio_accounts.php';
 
-
 include('scripts/sub_action.php');
 
 	/*get all ClaSS data first*/
 	$yearcoms=(array)list_communities('year');
 	$formcoms=(array)list_communities('form');
+	$classes=(array)list_course_classes();
 	$Students=array();
-	$formusers=array();
+	$yearusers=array();
 	$epf_contacts=array();
-	while(list($index,$com)=each($formcoms)){
-		$fid=$com['name'];
-		$d_form=mysql_query("SELECT teacher_id FROM form WHERE id='$fid'");
-		$formusers[]=mysql_result($d_form,0);
+	while(list($yearindex,$com)=each($yearcoms)){
+		$yid=$com['name'];
+		$yearusers[$yid]=array();
+		$yearperms=array('r'=>1,'w'=>1,'x'=>1);/*heads of year only*/
+		$owners=(array)list_pastoral_users($yid,$yearperms);
+		while(list($uid,$user)=each($owners)){
+			if($user['role']!='office' and $user['role']!='admin'){
+				$yearusers[$yid][]=$user['username'];
+				}
+			}
 		$students=listin_community($com);
-		while(list($index,$student)=each($students)){
+		while(list($studentindex,$student)=each($students)){
 			$sid=$student['id'];
 			$Students[$sid]=fetchStudent_short($sid);
 			$Email=fetchStudent_singlefield($sid,'EmailAddress');
 			$Students[$sid]['EmailAddress']['value']=$Email['EmailAddress']['value'];
-
 			$Contacts=fetchContacts($sid);
-			while(list($index,$Contact)=each($Contacts)){
+			while(list($contactindex,$Contact)=each($Contacts)){
 				$mailing=$Contact['ReceivesMailing']['value'];
 				if($mailing=='0' or $mailing=='1' or $mailing=='2'){
 					if(!array_key_exists($Contact['id_db'],$epf_contacts)){
@@ -42,18 +47,30 @@ include('scripts/sub_action.php');
 				}
 			}
 		}
+
+	$formusers=array();
+	while(list($index,$com)=each($formcoms)){
+		$fid=$com['name'];
+		$d_form=mysql_query("SELECT teacher_id FROM form WHERE id='$fid'");
+		$formusers[]=mysql_result($d_form,0);
+		}
 	reset($formcoms);
 
-	$users=list_teacher_users();
+	$allteachers=list_teacher_users();
 
-	/*now insert into elgg*/
-	/*all db calls beneath this must now be to elgg and NOT class*/
+	/* Now insert into elgg*/
+	/* All db calls beneath this must now be to elgg and NOT class*/
 	elgg_refresh();
 	$staff=array();
 
-	while(list($index,$user)=each($users)){
+	while(list($index,$user)=each($allteachers)){
 		$Newuser['Surname']['value']=$user['surname'];
-		$Newuser['Forename']['value']=$user['forename'];
+		if($user['title']!=''){
+			$Newuser['Forename']['value']=get_string(displayEnum($user['title'],'title'),'infobook');
+			}
+		else{
+			$Newuser['Forename']['value']=$user['forename'];
+			}
 		$Newuser['Email']['value']=$user['email'];
 		$Newuser['Username']['value']=$user['username'];
 		$Newuser['Password']['value']=$user['passwd'];
@@ -61,27 +78,39 @@ include('scripts/sub_action.php');
 		$staff[$user['username']]=$epfuid;
 		}
 
-	while(list($index,$com)=each($yearcoms)){
-		elgg_update_community($com);
+	reset($yearcoms);
+	while(list($yearindex,$com)=each($yearcoms)){
+		$yid=$com['name'];
+		$epfcomid=elgg_update_community($com);
+		$com['epfcomid']=$epfcomid;
+		$yearepfcomids[$yid]=$epfcomid;
+		$comowners=$yearusers[$yid];
+		while(list($index,$tid)=each($comowners)){
+			$epfuid=$staff[$tid];
+			elgg_join_community($epfuid,$com);
+			}
+		/*Only one can be the owner and this takes it the last in the list.*/
+		elgg_update_community($com,$com,$epfuid);
 		}
-	while(list($index,$com)=each($formcoms)){
-		elgg_update_community($com);
-		$tid=$formusers[$index];
+	reset($formcoms);
+	while(list($formindex,$com)=each($formcoms)){
+		$tid=$formusers[$formindex];
 		$epfuid=$staff[$tid];
+		elgg_update_community($com,$com,$epfuid);
 		elgg_join_community($epfuid,$com);
 		}
-
 	while(list($sid,$Student)=each($Students)){
 		$epfuid=elgg_newUser($Student,'student');
 		$Students[$sid]['epfuid']=$epfuid;
 		$com=array('epfcomid'=>'','type'=>'form','name'=>$Student['RegistrationGroup']['value']);
 		elgg_join_community($epfuid,$com);
-		$com=array('epfcomid'=>'','type'=>'year','name'=>$Student['YearGroup']['value']);
+		$yid=$Student['YearGroup']['value'];
+		$com=array('epfcomid'=>$yearepfcomids[$yid],'type'=>'year','name'=>'');
 		elgg_join_community($epfuid,$com);
 		$group=array('epfgroupid'=>'','owner'=>$epfuid,'name'=>'family','access'=>'');
 		$epfgroupid=elgg_update_group($group);
-		elgg_new_folder($owner=$epfuid,$name='Reports',$access='group'.$epfgroupid);
-		elgg_new_folder($owner=$epfuid,$name='Portfolio Work',$access='group'.$epfgroupid);
+		elgg_new_folder($owner=1,$name='Reports',$access='group'.$epfgroupid);
+		elgg_new_folder($owner=1,$name='Portfolio Work',$access='group'.$epfgroupid);
 		$Students[$sid]['epfgroupid']=$epfgroupid;
 		}
 
@@ -99,7 +128,6 @@ include('scripts/sub_action.php');
 		}
 
 
-//trigger_error('Family epfuid: '.$epfuid.' sids:'.$index,E_USER_WARNING);}
 
 include('scripts/results.php');
 include('scripts/redirect.php');
@@ -139,17 +167,15 @@ function elgg_newUser($Newuser,$role){
 		}
 	$surname=(array)split(' ',$Newuser['Surname']['value']);
     $name=$Newuser['Forename']['value'].' '.$Newuser['Surname']['value'];
-	$active='yes';
 	$no=0;
+	$active='yes';
 	setlocale(LC_CTYPE,'en_GB');
 
-	/*while testing guardians get a fake email address*/
-	/*and the password is always the ????*/
 	if($role=='student'){
 		//$email=$Newuser['EmailAddress']['value'];
 		$email='';
 		$start=iconv('UTF-8', 'ASCII//TRANSLIT', $Newuser['Forename']['value'][0]);
-		$tail=iconv('UTF-8', 'ASCII//TRANSLIT', $surname[0]).$no;
+		$tail=iconv('UTF-8', 'ASCII//TRANSLIT', $surname[0]);
 		$epfusertype='person';
 		$epftemplate_name='Student_Template';
 		$epftemplate=6;
@@ -160,7 +186,8 @@ function elgg_newUser($Newuser,$role){
 		//$email=$Newuser['EmailAddress']['value'];
 		$email='';
 		$start=iconv('UTF-8', 'ASCII//TRANSLIT', $surname[0]);
-		$tail='family'.$no;
+		$tail='family';
+		$name='Family '.$Newuser['Surname']['value'];
 		$epfusertype='guardian';
 		$epftemplate_name='Guardian_Template';
 		$epftemplate=6;
@@ -176,31 +203,21 @@ function elgg_newUser($Newuser,$role){
 		$epftemplate_name='Staff_Template';
 		$epftemplate=6;
 		$assword=$Newuser['Password']['value'];
+		$no='';
 		}
 	$epfusername=good_strtolower($start. $tail);
 	$epfusername=str_replace("'",'',$epfusername);
 	$epfusername=clean_text($epfusername);
 
-	$d_user=mysql_query("SELECT ident 
-							FROM $table WHERE username='$epfusername'");
+	$d_user=mysql_query("SELECT ident FROM $table WHERE username='$epfusername$no'");
 	while($olduser=mysql_fetch_array($d_user)){
-		$d_user=mysql_query("SELECT ident 
-							FROM $table WHERE username='$epfusername'");
 		$no++;
-		if($role=='student'){
-			$epfusername=good_strtolower($Newuser['Forename']['value'][0].$surname[0].$no);
-			}
-		elseif($role=='guardian'){
-			$epfusername=good_strtolower($surname[0]).'family'.$no;
-			}
-		elseif($role=='staff'){
-			$epfusername=good_strtolower($surname[0]).'family'.$no;
-			}
+		$d_user=mysql_query("SELECT ident FROM $table WHERE username='$epfusername$no'");
 		}
 
 	mysql_query("INSERT INTO $table (username, password, name, 
 					email, active, user_type, template_id) VALUES 
-					('$epfusername', '$assword', '$name',
+					('$epfusername$no', '$assword', '$name',
 					'$email', '$active', '$epfusertype','$epftemplate')");
 	$epfuid=mysql_insert_id();
 	return $epfuid;
@@ -210,8 +227,7 @@ function elgg_newUser($Newuser,$role){
 
 /* checks for a community and either updates or creates*/
 /* expects an array with at least type and name set*/
-
-function elgg_update_community($community,$communityfresh=array('type'=>'','name'=>'')){
+function elgg_update_community($community,$communityfresh=array('type'=>'','name'=>''),$epfuidowner=''){
 	global $CFG;
 	$table=$CFG->eportfolio_db_prefix.'users';
 	$dbepf='';
@@ -225,10 +241,14 @@ function elgg_update_community($community,$communityfresh=array('type'=>'','name
 	$typefresh=$communityfresh['type'];
 	$namefresh=$communityfresh['name'];
 	if($type!='' and $name!=''){
-		$epfusername=$type . $name;
-		$epfname=$type . ' ' . $name;
-		$d_community=mysql_query("SELECT ident FROM $table WHERE
-				username='$epfusername'");
+		/*The portfolio communities want the real name not the yid etc.*/
+		if(isset($community['displayname'])){$epfname=$community['displayname'];}
+		else{$epfname=$name;}
+		$epfname=str_replace("-",'',$epfname);
+		/* Make sure username is still unique across all user types.*/
+		$epfusername=str_replace(' ','',$epfname);
+		$epfusername=$type . $epfusername;
+		$d_community=mysql_query("SELECT ident FROM $table WHERE username='$epfusername'");
 		if(mysql_num_rows($d_community)==0){
 			$epftemplate_name='Staff_Template';
 			$epftemplate=6;
@@ -241,7 +261,6 @@ function elgg_update_community($community,$communityfresh=array('type'=>'','name
 		else{
 			$comid=mysql_result($d_community,0);
 			if($typefresh!='' and $namefresh!=''){
-				if(isset($communityfresh['details'])){$detailsfresh=$communityfresh['details'];}
 				/*TODO update all references to epfusername, if
 					allowed by elgg?*/
 				$epfusername=$typefresh . $namefresh;
@@ -250,7 +269,10 @@ function elgg_update_community($community,$communityfresh=array('type'=>'','name
 				}
 			}
 		}
-trigger_error('community: '.$name.' user:'.$epfusername.' '.mysql_error(),E_USER_WARNING);
+	if(isset($comid) and $epfuidowner!=''){
+		mysql_query("UPDATE $table SET owner='$epfuidowner' WHERE ident='$comid'");
+		}
+
 	return $comid;
 	$db=db_connect();
 	mysql_query("SET NAMES 'utf8'");
@@ -272,11 +294,8 @@ function elgg_join_community($epfuid,$community){
 	if(!isset($community['epfcomid'])){$community['epfcomid']='';}
 	if($community['epfcomid']!=''){$epfcomid=$community['epfcomid'];}
 	else{
-		$name=$community['name'];
-		$epfcomname=$type . $name;
-		$d_elgg=mysql_query("SELECT ident FROM $table_users WHERE
-							username='$epfcomname' AND user_type='community'");
-		$epfcomid=mysql_result($d_elgg,0);
+		$epfcomid=elgg_update_community($community);
+		if($community['name']=='-2'){trigger_error($epfuid.' '.$epfcomid,E_USER_WARNING);}
 		}
 	mysql_query("INSERT INTO $table_friends SET owner='$epfuid',
 							friend='$epfcomid', status='perm'");

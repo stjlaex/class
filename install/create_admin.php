@@ -113,9 +113,11 @@ CREATE TABLE  users (
   ip			varchar(15) binary NOT NULL default '', 
   forename		varchar(50) NOT NULL DEFAULT '',
   surname		varchar(50) NOT NULL DEFAULT '',
+  title			varchar(20) not null default '',
   email			varchar(200) NOT NULL DEFAULT '',
   emailuser		varchar(60) NOT NULL DEFAULT '',
   emailpasswd	char(32) binary NOT NULL default '',
+  epfusername	varchar(128) not null default '',
   language		varchar(10) NOT NULL DEFAULT '',
   firstbookpref varchar(20),
   role			varchar(20),
@@ -125,7 +127,7 @@ CREATE TABLE  users (
   logcount		int(10) unsigned NOT NULL default '0',
   logtime		timestamp(14),
   INDEX			index_name (username),
-  PRIMARY KEY  (uid)
+  PRIMARY KEY	(uid)
 )");
 mysql_query("
 CREATE TABLE  history (

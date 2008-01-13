@@ -11,6 +11,7 @@ CREATE TABLE info (
 	entrydate		date null,
 	leavingdate 	date null,
 	email			varchar(240) not null default '',
+	epfusername		varchar(128) not null default '',
 	phonenumber		varchar(22) not null default '',
 	parttime		enum('N','Y') not null,
 	boarder			enum('N','B','H','6','7') not null,

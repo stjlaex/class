@@ -4,12 +4,12 @@
 // array for the gradechoice box - (mid, style.display, select)
 var marks = new Array();
 
+// called whenever the marktable is reloaded to check for changes
+// and adjust the marks array accordingly
+// state=0 means no change
+// state=-1 means a change
+// state=mid where mid is the value of the new mark column to display
 function updateMarkDisplay(state){
-	// called whenever the marktable is reloaded to check for changes
-	// and adjust the marks array accordingly
-	// state=0 means no change
-	// state=-1 means a change
-	// state=mid where mid is the value of the new mark column to display
 	var theBook = window.frames["viewmarkbook"].document;
 	var selMarks = document.getElementById('mids');
 	if(!theBook.getElementById("marktable")){
@@ -41,10 +41,10 @@ function updateMarkDisplay(state){
 		}
 	}
 
-function changeMarkDisplay(){
-	// takes the display state from the selected values in the options 
-	// and stores in the marks array (calls markDisplay to apply them)
 
+// takes the display state from the selected values in the options 
+// and stores in the marks array (calls markDisplay to apply them)
+function changeMarkDisplay(){
 	var i=0;
 	var theBook = window.frames["viewmarkbook"].document;
 	var selMarks = document.getElementById('mids');
@@ -59,10 +59,10 @@ function changeMarkDisplay(){
 	markDisplay();
 	}
 
-function markDisplay(){
-	// takes the selected state from those stored in the marks array
-	// and applies them to the marktable
 
+// takes the selected state from those stored in the marks array
+// and applies them to the marktable
+function markDisplay(){
 	var theBook = window.frames["viewmarkbook"].document;
 	var selMarks = document.getElementById('mids');
 
@@ -122,9 +122,9 @@ function selerySwitch(servantclass,fieldvalue){
 //--------------------------------------------------------
 //  the scripts for the userinterface - handles the Book Tabs and bookframe
 
-function loadLogin(page){
 //  only called when index is loaded or the LogIn button is hit
 //  displays the cover or login page respectively
+function loadLogin(page){
 	window.frames["viewlogbook"].location.href="logbook/exit.php";
 	window.frames["viewlogbook"].location.href=page+".php";
 	document.getElementById("sidebuttons").style.zIndex="-100";
@@ -132,9 +132,9 @@ function loadLogin(page){
 	document.getElementById("viewlogbook").focus();
 	}
 
-function logInSuccess(){
 //  only called once after a new session has been started
 //  flashscreen is the aboutbook followed after delay by markbook
+function logInSuccess(){
 	document.getElementById("navtabs").innerHTML=viewlogbook.document.getElementById("hiddennavtabs").innerHTML;
 	document.getElementById("loginchoice").innerHTML=viewlogbook.document.getElementById("hiddenlogbook").innerHTML;
 	document.getElementById("sidebuttons").innerHTML=viewlogbook.document.getElementById("hiddensidebuttons").innerHTML;
@@ -149,8 +149,8 @@ function logInSuccess(){
 	viewBook("aboutbook");
 	}
 
+//  only called when the LogOut button is hit
 function logOut(){
-	//  only called when the LogOut button is hit
 	if(window.frames["vieweportfolio"].document.getElementById("eportfoliosite")){
 		var epflogout=window.frames["vieweportfolio"].document.getElementById("eportfoliosite").getAttribute("logout");
 		window.frames["vieweportfolio"].frames["externalbook"].location.href=epflogout;
@@ -162,10 +162,10 @@ function logOut(){
 	window.frames["viewlogbook"].location.href="logbook/exit.php";
 	}
 
+//	Reloads the book without giving focus (never used for logbook!)
+//	always called by logbook if a session is set,
+//	also called when changes in one book needs to update another
 function loadBook(book){
-	//	Reloads the book without giving focus (never used for logbook!)
-	//	always called by logbook if a session is set,
-	//	also called when changes in one book needs to update another
 	var currentbook="";	
 	if(document.getElementById("currentbook")){
 		currentbook=document.getElementById("currentbook").getAttribute("class");	
@@ -176,9 +176,7 @@ function loadBook(book){
 		document.getElementById("view"+book).style.zIndex = "-100";
 		document.getElementById(book+"options").style.zIndex = "-100";
 		}
-
 	//window.frames["view"+book].history.forward();
-
 	}
 
 function loadBookOptions(book){

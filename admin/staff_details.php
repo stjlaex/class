@@ -67,6 +67,15 @@ three_buttonmenu();
 			  maxlength="30" value="<?php print $user['forename'];?>" 
 			  tabindex="<?php print $tab++;?>" />
 
+<?php
+$listname='title';
+$listlabel='title';
+$seltitle=$user['title'];
+include('scripts/set_list_vars.php');
+$tab=list_select_enum('title',$listoptions,'infobook');
+unset($listoptions);
+?>
+
 			  <label for="Email"><?php print_string('email');?></label>
 			  <input pattern="email"
 				type="text" id="Email" name="email" 

@@ -9,7 +9,8 @@ function list_communities($type='',$year=''){
 		if($type=='year'){
 			$d_com=mysql_query("SELECT community.id, community.name, 
 					community.year, community.capacity,
-					community.detail FROM community JOIN yeargroup ON
+					community.detail, yeargroup.name AS displayname 
+					FROM community JOIN yeargroup ON
 					community.name=yeargroup.id WHERE 
 					community.type='$type' ORDER BY yeargroup.section_id,
 					yeargroup.sequence");
@@ -17,7 +18,8 @@ function list_communities($type='',$year=''){
 		elseif($type=='form'){
 			$d_com=mysql_query("SELECT community.id, community.name, 
 					community.year, community.capacity,
-					community.detail FROM community JOIN form ON
+					community.detail, form.name AS displayname 
+					FROM community JOIN form ON
 					community.name=form.id WHERE 
 					community.type='$type' ORDER BY form.yeargroup_id,
 					form.name");
@@ -42,9 +44,10 @@ function list_communities($type='',$year=''){
 			$community['year']=$com['year'];
 			$community['capacity']=$com['capacity'];
 			$community['detail']=$com['detail'];
-			if($community['detail']==''){$community['displayname']=$community['name'];}
-			else{$community['displayname']=$community['detail'];}
-			$communities[]=$community;
+			if(!isset($com['displayname'])){$community['displayname']=$community['name'];}
+			else{$community['displayname']=$com['displayname'];}
+			if($community['detail']!=''){$community['displayname']=$community['detail'];}
+  			$communities[]=$community;
 			}
 		}
 
