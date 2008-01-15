@@ -18,6 +18,9 @@ Have added a profile_name field to the assessment table. This is a
 categorydef.name which allows assessments to be grouped in to a
 profile. The name is also the markdef name used by that profile.
 
+Tweaked the commentwriter textarea to better fill the available space.
+
+
 
 Version ClaSS-0.8.35 release (2007/12/14)
 -----------------------------------------

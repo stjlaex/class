@@ -12,22 +12,22 @@
 <xsl:template match="html/body/div">
 </xsl:template>
 
+<xsl:template match="students">
+  <xsl:param name="homecountry">ES</xsl:param>
+  <xsl:variable name="contact" select="student/contacts/contact"/>
+  <xsl:for-each select="$contact">
+ 
+	<xsl:if test="position() mod 14 = 1 and position()!=1">
+	  <div class="spacer">
+	  </div>
+	  <hr />
+	  <div class="spacer">
+	  </div>
+	</xsl:if>
 
-<xsl:template match="students/student/contacts">
-  <table id="leftcol">
-	<xsl:apply-templates select="contact[(position() mod 2)=1]">
-	</xsl:apply-templates>
-  </table>
 
-  <table id="rightcol">
-	<xsl:apply-templates select="contact[(position() mod 2)=0]">
-	</xsl:apply-templates>
-  </table>
-</xsl:template>
-
-<xsl:template match="contact">
-  <div class="label">
-	<table class="address">
+	  <div class="label leftcol">
+		<table class="address">
 	  <tr>
 		<td>
 		  <xsl:value-of select="displayfullname/value/text()" />&#160;
@@ -47,21 +47,22 @@
 		  </td>
 		</tr>
 	  </xsl:if>
-	  <xsl:if test="addresses/town/value/text()!=' '">
+	  <xsl:if test="addresses/town/value/text()!=' ' and addresses/country/value/text()='ES'">
 		<tr>
 		  <td>
+			<xsl:value-of select="addresses/postcode/value/text()" />&#160;
 			<xsl:value-of select="addresses/town/value/text()" />&#160;
 		  </td>
 		</tr>
 	  </xsl:if>
-	  <xsl:if test="addresses/postcode/value/text()!=' '">
+	  <xsl:if test="addresses/postcode/value/text()!=' ' and addresses/country/value/text()!='ES'">
 		<tr>
 		  <td>
 			<xsl:value-of select="addresses/postcode/value/text()" />&#160;
 		  </td>
 		</tr>
 	  </xsl:if>
-	  <xsl:if test="addresses/country/value_display/text()!=' '">
+	  <xsl:if test="addresses/country/value_display/text()!=' ' and addresses/country/value/text()!=$homecountry">
 		<tr>
 		  <td>
 			<xsl:value-of select="addresses/country/value_display/text()" />&#160;
@@ -73,27 +74,16 @@
 			<xsl:value-of select="../../displayfullname/value/text()" />&#160;
 	</div>
   </div>
+
+	</xsl:for-each>
+
+	<xsl:if test="position() mod 2 = 1">
+	  <div class="spacer">
+	  </div>
+	</xsl:if>
+
 </xsl:template>
 
-
-<xsl:template name="assheader">
-  <xsl:param name="index">1</xsl:param>
-  <xsl:variable name="maxindex">
-	<xsl:value-of select="count(asstable/ass/label)+1"/>
-  </xsl:variable>
-  <xsl:variable name='asslabel' select='asstable/ass/label' />
-  <xsl:if test="$index &lt; $maxindex">
-	<th>
-		  <label>
-	  <xsl:value-of select="$asslabel[$index]" />  
-	  <xsl:text>&#160; </xsl:text>
-		  </label>
-	</th>
-    <xsl:call-template name="assheader">
-	  <xsl:with-param name="index" select="$index + 1"/>
-    </xsl:call-template>
-  </xsl:if>
-</xsl:template>
 
 
 </xsl:stylesheet>

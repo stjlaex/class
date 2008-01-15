@@ -69,6 +69,12 @@ if($dbstat!=''){
 	$stage='';
 	$StatementBank=fetchStatementBank($reportdef['report']['course_id'],$bid,$pid,$stage,$dbstat);
 	}
+if(isset($StatementBank) and sizeof($StatementBank['Area'])>0){
+	$commentheight=180;
+	}
+else{
+	$commentheight=400;
+	}
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -97,11 +103,12 @@ if($dbstat!=''){
 			<?php print $Student['DisplayFullName']['value'];?>
 	  </div>
 
-	  <div class="content">
+	  <div class="content" style="height:<?php print $commentheight+60;?>px;">
 		<form id="formtoprocess" name="formtoprocess" method="post" 
 									action="comment_writer_action.php">
 		  <div class="center">
-			<textarea title="spellcheck" id="Comment" style="width:98%; height:180px;" 
+			<textarea title="spellcheck" id="Comment"
+			  style="height:<?php print $commentheight-20;?>px;" 
 			  accesskey="../../lib/spell_checker/spell_checker.php" 
 			  <?php print $commentlength;?> tabindex="0"  
 				name="incom" ><?php print $Comment['Text']['value'];?></textarea>
@@ -115,7 +122,7 @@ if($dbstat!=''){
 		</form>
 	</div>
 <?php
-			if($dbstat!=''){
+			if($commentheight<300){
 ?>
 	<div class="content" id="statementbank">
 		<div class="tinytabs" id="area">

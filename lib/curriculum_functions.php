@@ -336,11 +336,16 @@ function display_curriculumyear($year){
 	return $dispyear;
 	}
 
-function display_yeargroupname($yid){
-	$d_y=mysql_query("SELECT name 
-							FROM yeargroup WHERE id='$yid'");
+function get_yeargroupname($yid){
+	$d_y=mysql_query("SELECT name FROM yeargroup WHERE id='$yid'");
 	$yeargroupname=mysql_result($d_y,0);	      
 	return $yeargroupname;
+	}
+
+/* Just a convenient synonym for get_yeargroupname */
+function display_yeargroupname($yid){
+	$name=get_yeargroupname($yid);
+	return $name;
 	}
 
 /* Just a convenient synonym for get_subjectname */

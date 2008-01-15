@@ -77,8 +77,9 @@
 
  		$Report['Comments']=fetchReportEntry($reportdef,$sid,$bid,$pid);
 		if(!isset($Report['Comments']['Comment'])){$Report['Comments']['Comment']=array();}
-		for($entryn=0;$entryn<=sizeof($Report['Comments']['Comment']);$entryn++){
-			if($entryn==sizeof($Report['Comments']['Comment'])){
+		$totalentryn=sizeof($Report['Comments']['Comment']);
+		for($entryn=0;$entryn<=$totalentryn;$entryn++){
+			if($entryn==$totalentryn){
 				$Comment=array('Text'=>array('value'=>''),
 				'Teacher'=>array('value'=>'ADD NEW ENTRY'));
 				$inmust='yes';
@@ -88,8 +89,14 @@
 			else{
 				$Comment=$Report['Comments']['Comment'][$entryn];
 				$inmust=$Comment['id_db'];
-				$rowstate='rowplus';
-				$rowclass='hidden';
+				if($totalentryn<3){
+					$rowstate='rowminus';
+					$rowclass='revealed';
+					}
+				else{
+					$rowstate='rowplus';
+					$rowclass='hidden';
+					}
 				}
 		  $rown=0;
 		  $en=$entryn+1;

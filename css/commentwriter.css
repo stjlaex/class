@@ -6,7 +6,8 @@ div#bookbox{
 	border-color:#44aaaa;
 	}
 div.content{ 
-	position:relative; top:7%; height:40%; 
+	position:relative; 
+    top:7%; 
     overflow:hidden;
 	}
 div#statementbank { 
@@ -22,7 +23,9 @@ div#statementbank {
     border-color:#44aaaa;
 	}
 textarea#Comment {
-  	font-weight:300; font-size:12pt; 
+    width:98%; 
+  	font-weight:300; 
+    font-size:12pt; 
 	text-align:left;
     overflow:scroll;
 	}

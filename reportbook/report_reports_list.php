@@ -56,7 +56,7 @@ if($_SESSION['role']=='admin'){
 two_buttonmenu($extrabuttons,$book);
 ?>
   <div id="heading">
-  <?php print get_string('subjectreportsfor',$book).' '.$yid.' '.$fid;?>
+  <?php print get_string('subjectreportsfor',$book).' '.get_yeargroupname($yid).' '.$fid;?>
   </div>
   <div id="viewcontent" class="content">
 	<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
@@ -213,7 +213,9 @@ two_buttonmenu($extrabuttons,$book);
 
 					reset($eids);
 					$scoreno=0;
+					$eidno=0;
 					while(list($eidindex,$eid)=each($eids)){
+						$eidno++;
 						$Assessments=fetchAssessments_short($sid,$eid,$bid,$pid);
 						$scoreno+=sizeof($Assessments);
 						while(list($strandindex,$strand)=each($strands)){
@@ -229,7 +231,7 @@ two_buttonmenu($extrabuttons,$book);
 					reset($reptids);
 					$reportentryno=checkReportEntry($rid,$sid,$bid,$pid);
 					if(($reportentryno>0 and
-						$commentcomp=='yes' and $scoreno>0) or 
+						$commentcomp=='yes' and ($scoreno>0 or $eidno==0)) or 
 						($commentcomp=='no' and $scoreno>0)){
 						print '" class="vspecial">';}
 					else{print '">';}

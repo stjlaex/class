@@ -17,19 +17,18 @@ table {
 	}
 div.label {
 	border:0;
-	margin:0;
-	padding:0px; 
-    width:100%;
-    height:160px;
+	margin:0 0 0 25px;
+	padding:0; 
+    height:150px;
 	}
 table.address {
     text-align:left;  
 	font-weight:600; 
 	font-size:9pt;
-    margin:5px 0 5px 10px;
+    margin:10px 0 5px 15px;
 	}
 table.address td {
-	margin-left:5px;
+	margin-left:25px;
 	}
 div.studentdata {
 	font-size:6pt; 
@@ -38,23 +37,28 @@ div.studentdata {
     text-align:right;  
     margin:0; border:0;
 	}
-table#leftcol {
+.leftcol {
 	width:45%; 
 	border:0;
-	float:left; margin-left:5px;
+    float:left;
+    margin-left:25px;
 	}
-table#rightcol {
-	width:45%; 
+.rightcol {
+	width:45%;
 	border:0;
-	float:right; margin-right:5px;
-	}
-table#fullwidth {
-	margin-left:2%;
-    width:96%;
+	float:right; 
+    padding-left:40px;
+    margin-right:0px;
 	}
 hr { 
 	color:#ffffff;
 	page-break-after: always; 
 	height:0;
-	width:0%;
+	width:0;
+	}
+div.spacer {
+	clear:both; 
+    margin:0;
+    height:0;
+    border:0;
 	}
