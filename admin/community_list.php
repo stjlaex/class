@@ -6,21 +6,43 @@ $action='community_list_action.php';
 
 if(isset($_GET['comid'])){$comid=$_GET['comid'];}
 if(isset($_GET['date'])){$date=$_GET['date'];}else{$date='';}
+if(isset($_GET['enrolyear'])){$enrolyear=$_GET['enrolyear'];}
+if(isset($_GET['yid'])){$yid=$_GET['yid'];}
 if(isset($_POST['comid'])){$comid=$_POST['comid'];}
 if(isset($_POST['enrolyear'])){$enrolyear=$_POST['enrolyear'];}
 if(isset($_POST['date'])){$date=$_POST['date'];}
 
-	$com=get_community($comid);
-	$comtype=$com['type'];
-	if($comtype=='applied' or $comtype=='enquired' or 
-	   $comtype=='accepted'){
+	if($comid!=-1){
+		$com=get_community($comid);
+		$coms[]=$com;
+		$comtype=$com['type'];
+		}
+	else{
+		$comtype='allapplied';
+		$rowcells=list_enrolmentsteps();
+		while(list($index,$enrolstatus)=each($rowcells)){ 
+			if($enrolstatus=='EN'){$type='enquired';}
+			elseif($enrolstatus=='AC'){$type='accepted';}
+			else{$type='applied';}
+			$coms[]=array('id'=>'','type'=>$type, 
+					   'name'=>$enrolstatus.':'.$yid,'year'=>$enrolyear);
+			}
+		}
 
-		$students=listin_community($com);
-		$enrolyear=$com['year'];
-		list($enrolstatus,$yid)=split(':',$com['name']);
+	if($comtype=='applied' or $comtype=='enquired' or 
+	   $comtype=='accepted' or $comtype=='allapplied'){
+
+		$students=array();
+		reset($coms);
+		while(list($index,$com)=each($coms)){
+			$comstudents=listin_community($com);
+			trigger_error(' '.$com['name']. ' '.sizeof($comstudents),E_USER_WARNING);
+			$students=array_merge($students,$comstudents);
+			$AssDefs=fetch_enrolmentAssessmentDefinitions($com);
+			}
 		$description=display_yeargroupname($yid).' ('.display_curriculumyear($enrolyear).')';
 		$infobookcurrent='student_view_enrolment.php';
-		$AssDefs=fetch_enrolmentAssessmentDefinitions($com);
+
 
 		/*Check user has permission to edit*/
 		$perm=getYearPerm($yid,$respons);
@@ -67,7 +89,12 @@ if(isset($_POST['date'])){$date=$_POST['date'];}
 					}
 				print '<th>';
 				$required='no';$multi='1';
-				include('scripts/list_enrolstatus.php');
+				if($comtype=='allapplied'){
+					print_string('enrolstatus','infobook');
+					}
+				else{
+					include('scripts/list_enrolstatus.php');
+					}
 				}
 ?>
 			</th>
@@ -84,9 +111,9 @@ if(isset($_POST['date'])){$date=$_POST['date'];}
 		if($perm['w']==1){
 ?>
 			  <a href="infobook.php?current=<?php print
-	$infobookcurrent;?>&cancel=student_view.php&sid=<?php print
-	$sid;?>&sids[]=<?php print $sid;?>" target="viewinfobook"
-	onClick="parent.viewBook('infobook');"><?php print
+				$infobookcurrent;?>&cancel=student_view.php&sid=<?php print
+				$sid;?>&sids[]=<?php print $sid;?>" target="viewinfobook"
+				  onClick="parent.viewBook('infobook');"><?php print
 				   $student['surname']. ', '.$student['forename']. 
 				   ' '.$student['preferredforename']. 
 				   ' ('.$Enrolment['EnrolNumber']['value'].')';?>
@@ -122,11 +149,22 @@ if(isset($_POST['date'])){$date=$_POST['date'];}
 					print '<td>'.$result.'</td>';
 					}
 				}
+			if($comtype=='allapplied'){
+?>
+			<td>
+			  <?php print_string(displayEnum($Enrolment['EnrolmentStatus']['value'],$Enrolment['EnrolmentStatus']['field_db']),'admin');?>
+			</td>
+<?php
+				}
+			else{
 ?>
 			<td>
 			  <input type="checkbox"  
 				name="sids[]" value="<?php print $sid;?>" />
 			</td>
+<?php
+				}
+?>
 		  </tr>
 <?php
 		}

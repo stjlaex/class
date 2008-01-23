@@ -27,20 +27,20 @@ else{
 						   		FROM class WHERE id='$cid'");
 	$bid=mysql_result($d_cridbid,0,0);
 	$crid=mysql_result($d_cridbid,0,1);
-	$stage=mysql_result($d_cridbid,0,1);
+	$stage=mysql_result($d_cridbid,0,2);
+
 
    	$d_markdef=mysql_query("SELECT name, comment FROM markdef WHERE 
 					 ORDER BY subject_id");
-
 	$d_hw=mysql_query("SELECT id, title AS name FROM homework WHERE
 					(component_id LIKE '$pid' OR component_id='%') AND
 					(subject_id LIKE '$bid' OR subject_id='%') AND
 					(stage LIKE '$stage' OR stage='%') AND
 					(course_id LIKE '$crid' OR course_id='%') ORDER BY title");
-
 ?>
   <div id="heading">
-	<form id="headertoprocess" name="headertoprocess" method="post" action="<?php print $host;?>">
+	<form id="headertoprocess" name="headertoprocess" 
+					method="post" action="<?php print $host;?>">
 <?php
 	$listname='hwid';$listlabel='';
 	include('scripts/set_list_vars.php');

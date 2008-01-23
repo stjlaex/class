@@ -121,9 +121,9 @@ function list_forms_classes($fid){
  */
 function list_course_classes($crid='%',$bid='%'){
 	$classes=array();
-	$d_c=mysql_query("SELECT class_id, class.detail  FROM tidcid 
-					JOIN class WHERE class.course_id LIKE '$crid' AND
-					class.subject_id LIKE '$bid' ORDER BY course_id, class_id");   
+	$d_c=mysql_query("SELECT id, detail, subject_id FROM  
+					class WHERE course_id LIKE '$crid' AND
+					subject_id LIKE '$bid' ORDER BY course_id, id");   
    	while($class=mysql_fetch_array($d_c,MYSQL_ASSOC)){
 		$classes[]=$class;
 		}

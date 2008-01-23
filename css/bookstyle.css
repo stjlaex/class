@@ -400,10 +400,10 @@ div.content fieldset.listmenu, div.content fieldset.listmenu div {
 .listmenu tr td table td:hover { 
 	background-color:#eeeeee;
 	}
-.listmenu tr.lowlite td, .listmenu tr.lowlite { 
+.listmenu tr.lowlite td, .listmenu td.lowlite, tr.lowlite a { 
     color:#aaaaaa;
 	}
-.listmenu tr.hilite td, .listmenu td.hilite { 
+.listmenu tr.hilite td, .listmenu td.hilite, tr.hilite a { 
     background-color:#ff6600;
 	}
 .listmenu tr.midlite td, .listmenu td.midlite { 

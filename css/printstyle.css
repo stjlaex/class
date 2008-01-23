@@ -44,7 +44,7 @@ input[type="checkbox"], label#checkall, button, .formimages {
 	visibility:hidden;
 	display:none;
 	}
-#marktable td.grade{
+#marktable td.grade, #marktable td.report {
 	display:none;
 	}
 #marktable th {

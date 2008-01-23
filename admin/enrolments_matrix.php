@@ -13,7 +13,9 @@ else{$enrolyear=$currentyear;}
 $extrabuttons=array();
 twoplus_buttonmenu($enrolyear,$currentyear+3,$extrabuttons,$book);
 
+$rowcells=array();
 $rowcells=list_enrolmentsteps();
+
 ?>
   <div id="viewcontent" class="content">
  	  <form id="formtoprocess" name="formtoprocess" method="post"
@@ -24,31 +26,32 @@ $rowcells=list_enrolmentsteps();
 		  <th><?php print display_curriculumyear($enrolyear);?></th>
 <?php
 		  reset($rowcells);
+		  $totals=array();
+		  $totals[0]=0;
 		  while(list($index,$enrolstatus)=each($rowcells)){ 
-			  $totals[$index]=0;
+			  $totals[$index+1]=0;
 ?>
 		  <th><?php print_string(displayEnum($enrolstatus,'enrolstatus'),$book);?></th>
 <?php
 			}
 ?>
+		  <th><?php print get_string('total',$book).' '.get_string('applied',$book);?></th>
 		</tr>
 <?php
-	$totals=array();
 	$d_year=mysql_query("SELECT * FROM yeargroup ORDER BY section_id, id");
 	while($year=mysql_fetch_array($d_year,MYSQL_ASSOC)){
 ?>
 		<tr>
 		  <th>
 <?php
-		$nocol=0;
+		$values=array();
 	    print $year['name'];
 ?>
 		  </th>
 <?php
-		$values=array();
 		reset($rowcells);
 		while(list($index,$enrolstatus)=each($rowcells)){ 
-			if(!isset($totals[$index])){$totals[$index]=0;}
+			if(!isset($totals[$index+1])){$totals[$index+1]=0;}
 			$yid=$year['id'];
 			if($enrolstatus=='EN'){$comtype='enquired';}
 			elseif($enrolstatus=='AC'){$comtype='accepted';}
@@ -57,19 +60,27 @@ $rowcells=list_enrolmentsteps();
 					   'name'=>$enrolstatus.':'.$yid,'year'=>$enrolyear);
 			$comid=update_community($com);
 			$com['id']=$comid;
-			$values[$index]=countin_community($com);
-			$totals[$index]+=$values[$index];
+			$values[$index+1]=countin_community($com);
+			$values[0]+=$values[$index+1];
+			$totals[$index+1]+=$values[$index+1];
 ?>
 		  <td>
 <?php
 			print '<a href="admin.php?current=community_list.php&cancel='.
-				 $choice.'&choice='. $choice.'&enrolyear='. $enrolyear.'&type='.$comtype.
-				  '&comid='.$com['id'].'">' .$values[$nocol++].'</a>';
+				 $choice.'&choice='. $choice.'&enrolyear='. $enrolyear.'&yid='. $yid.
+				  '&comid='.$com['id'].'">' .$values[$index+1].'</a>';
 ?>
 		  </td>
 <?php
 			}
 ?>
+		  <td>
+<?php
+			print '<a href="admin.php?current=community_list.php&cancel='.
+				 $choice.'&choice='. $choice.'&enrolyear='. 
+			$enrolyear.'&yid='. $yid.'&comid=-1">' .$values[0].'</a>';
+?>
+		  </td>
 		</tr>
 <?php
 		}
@@ -81,11 +92,13 @@ $rowcells=list_enrolmentsteps();
 <?php
 		reset($rowcells);
 		while(list($index,$enrolstatus)=each($rowcells)){ 
+			$totals[0]+=$totals[$index+1];
 ?>
-		  <td><?php print $totals[$index];?></td>
+		  <td><?php print $totals[$index+1];?></td>
 <?php
 			}
 ?>
+		  <td><?php print $totals[0];?></td>
 
 		</tr>
 	  </table>

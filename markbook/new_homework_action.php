@@ -12,7 +12,7 @@ $defname=$_POST['defname'];
 $description=clean_text($_POST['description']);
 $dateset=$_POST['dateset'];
 $datedue=$_POST['datedue'];
-if(!isset($_POST['references'])){$refs='';}else{$refs=clean_text($_POST['references']);}
+if(!isset($_POST['refs'])){$refs='';}else{$refs=clean_text($_POST['refs']);}
 if(!isset($_POST['total'])){$total=0;}else{$total=clean_text($_POST['total']);}
 if(!isset($_POST['newpid'])){$newpid=$pid;}else{$newpid=$_POST['newpid'];}
 $hwid=$_POST['hwid'];
@@ -38,6 +38,16 @@ $stage=$_POST['stage'];
 	$cid=$cids[0];
 	mysql_query("INSERT INTO midcid 
 			     (mark_id, class_id) VALUES ('$mid', '$cid')");
+
+	if($CFG->eportfoliosite!=''){
+		require_once('lib/eportfolio_functions.php');
+		$body=$description. '<hr />'.$refs. 
+				'<hr /> <p>Work set: '.display_date($dateset). 
+				'&nbsp;&nbsp;&nbsp; Work due by: '. display_date($datedue).'</p><hr />';
+		$subject=get_subjectname($bid);
+		$component=get_subjectname($pid);
+		elgg_new_homework($tid,$cid,$subject,$component,$title,$body,$dateset);
+		}
 
 	$result[]='New homework added.';
 	include('scripts/results.php');

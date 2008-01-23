@@ -1,3 +1,23 @@
+Version ClaSS-0.8.37 release (2008/02/01)
+-----------------------------------------
+
+Moved the portfolio functions out to lib/eportfolio_functions.php
+these will never be generally included and need therefore to be
+specifically loaded when needed.
+
+The new_homework_action.php now checks for an eportfolio and posts the
+homework to the class blog.
+
+Fixed a bug in new_homework which was posting the stage as the
+course_id in the homework table.
+
+Added a total applied colmn to the enrolments table. This still clicks
+through to community_list but with a special type of allapplied which
+accumulates students of every enrolmentstatus into a single list.
+
+Bugfix to printing the marktable.
+
+
 Version ClaSS-0.8.36 release (2008/01/16)
 -----------------------------------------
 
