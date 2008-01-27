@@ -1,4 +1,4 @@
-Version ClaSS-0.8.37 release (2008/02/01)
+Version ClaSS-0.8.37 release (2008/01/27)
 -----------------------------------------
 
 Moved the portfolio functions out to lib/eportfolio_functions.php
@@ -16,6 +16,7 @@ through to community_list but with a special type of allapplied which
 accumulates students of every enrolmentstatus into a single list.
 
 Bugfix to printing the marktable.
+
 
 
 Version ClaSS-0.8.36 release (2008/01/16)

@@ -69,7 +69,7 @@ $rtid=$tid;
 					   ,'cohort_matrix.php' => 'cohortmatrix'
 					   ,'update_curriculum.php' => 'updatecurriculum'
 					   ,'year_end.php' => 'yearend'
-					   ,'portfolio_accounts.php' => 'refreshportfolios'
+					   ,'portfolio_accounts.php' => 'eportfolios'
 					   ,'server_test.php' => 'servertest'
 					   /*these are all either very experimental or completely useless!!!!!*/
 					   //,'statementbank.php' => 'statementbank'

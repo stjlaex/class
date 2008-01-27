@@ -11,7 +11,7 @@ include('scripts/sub_action.php');
 twoplusprint_buttonmenu();
 ?>
   <div id="heading">
-  <?php print get_string('refreshportfolios',$book).' ';?>
+  <?php print get_string('eportfolios',$book).' ';?>
   </div>
   <div id="viewcontent" class="content">
 	<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">

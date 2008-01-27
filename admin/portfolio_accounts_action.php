@@ -1,7 +1,5 @@
 <?php
 /**									portfolio_accounts_action.php
- *
- *
  */
 
 $action='portfolio_accounts.php';
@@ -32,6 +30,7 @@ include('scripts/sub_action.php');
 			$sid=$student['id'];
 			$Students[$sid]=fetchStudent_short($sid);
 			$Email=fetchStudent_singlefield($sid,'EmailAddress');
+			$EnrolNumber=fetchStudent_singlefield($sid,'EnrolNumber');
 			$Students[$sid]['EmailAddress']['value']=$Email['EmailAddress']['value'];
 			$Contacts=fetchContacts($sid);
 			while(list($contactindex,$Contact)=each($Contacts)){
@@ -39,6 +38,7 @@ include('scripts/sub_action.php');
 				if($mailing=='0' or $mailing=='1' or $mailing=='2'){
 					if(!array_key_exists($Contact['id_db'],$epf_contacts)){
 						$epf_contacts[$Contact['id_db']]['sids']=array();
+						$Contact['firstchild']=$EnrolNumber['EnrolNumber']['value'];
 						$epf_contacts[$Contact['id_db']]['Contact']=$Contact;
 						}
 					$epf_contacts[$Contact['id_db']]['sids'][]=$sid;
@@ -74,6 +74,7 @@ include('scripts/sub_action.php');
 		$Newuser['Username']['value']=$user['username'];
 		$Newuser['Password']['value']=$user['passwd'];
 		$epfuid=elgg_newUser($Newuser,'staff');
+		if($user['username']=='mrt'){trigger_error('mrt!!!!!',E_USER_WARNING);}
 		$staff[$user['username']]=$epfuid;
 		}
 
@@ -108,20 +109,27 @@ include('scripts/sub_action.php');
 		$epfuid=elgg_newUser($Student,'student');
 		$Students[$sid]['epfuid']=$epfuid;
 		$fid=$Student['RegistrationGroup']['value'];
-		$com=array('epfcomid'=>$formepfcomids[$fid],'type'=>'form','name'=>'');
-		elgg_join_community($epfuid,$com);
+		if(isset($formepfcomids[$fid])){
+			$com=array('epfcomid'=>$formepfcomids[$fid],'type'=>'form','name'=>'');
+			elgg_join_community($epfuid,$com);
+			}
 		$yid=$Student['YearGroup']['value'];
-		$com=array('epfcomid'=>$yearepfcomids[$yid],'type'=>'year','name'=>'');
-		elgg_join_community($epfuid,$com);
-		$group=array('epfgroupid'=>'','owner'=>$epfuid,'name'=>'family','access'=>'');
+		if(isset($yearepfcomids[$yid])){
+			$com=array('epfcomid'=>$yearepfcomids[$yid],'type'=>'year','name'=>'');
+			elgg_join_community($epfuid,$com);
+			}
+		$group=array('epfgroupid'=>'','owner'=>$epfuid,'name'=>'Family','access'=>'');
 		$epfgroupid=elgg_update_group($group);
-		elgg_new_folder($epfuid,$name='Reports',$access='group'.$epfgroupid);
-		elgg_new_folder($epfuid,$name='Portfolio Work',$access='group'.$epfgroupid);
+		elgg_new_folder($epfuid,'Reports','group'.$epfgroupid);
+		elgg_new_folder($epfuid,'Portfolio Work','group'.$epfgroupid);
 		$Students[$sid]['epfgroupid']=$epfgroupid;
 		}
 
 	while(list($gid,$epf_contact)=each($epf_contacts)){
 		$Contact=$epf_contact['Contact'];
+		if($Contact['Title']['value']!=''){
+			$Contact['Title']['value']=get_string(displayEnum($Contact['Title']['value'],'title'),'infobook');
+			}
 		$epfuid=elgg_newUser($Contact,'guardian');
 		$sids=$epf_contact['sids'];
 		while(list($index,$sid)=each($sids)){
@@ -148,7 +156,7 @@ include('scripts/sub_action.php');
 				WHERE a.class_id='$cid' AND b.id=a.student_id ORDER BY b.surname");
 		while($student=mysql_fetch_array($d_student, MYSQL_ASSOC)){
 			$sid=$student['id'];
-			elgg_join_community($Students[$sid]['epfuid'],$com);
+			if(isset($Students[$sid])){elgg_join_community($Students[$sid]['epfuid'],$com);}
 			}
 		}
 

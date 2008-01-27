@@ -4,6 +4,8 @@ ALTER TABLE users
 	ADD epfusername varchar(128) not null default '' AFTER emailpasswd;
 ALTER TABLE info 
 	ADD epfusername varchar(128) not null default '' AFTER email;
+ALTER TABLE guardian 
+	ADD epfusername varchar(128) not null default '' AFTER email;
 ALTER TABLE assessment 
 	ADD profile_name varchar(60) not null default '' AFTER deadline;
 INSERT INTO categorydef (name,type,subject_id,course_id) VALUES ('FS Steps','pro','EY','FS');

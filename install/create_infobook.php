@@ -170,6 +170,7 @@ CREATE TABLE guardian (
 	language	char(3) not null default '',
 	nationality	char(2) not null default '',
 	email		varchar(240) not null default '',
+	epfusername	varchar(128) not null default '',
 	profession	varchar(120) not null default '',
 	companyname	varchar(240) not null default '',
 	index index_name (surname(5),forename(5)),
