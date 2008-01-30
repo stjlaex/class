@@ -1,4 +1,4 @@
-Version ClaSS-0.8.37 release (2008/01/27)
+Version ClaSS-0.8.37 release (2008/01/30)
 -----------------------------------------
 
 Moved the portfolio functions out to lib/eportfolio_functions.php
@@ -17,6 +17,15 @@ accumulates students of every enrolmentstatus into a single list.
 
 Bugfix to printing the marktable.
 
+The comment writer will pre-complete the report comment with
+statements which the student has been graded, if the report is linked
+to a profile. This is still experimental and needs to be incorporated
+into report_edit.
+
+The epfusername is now part of the Student xml-array.
+
+Added a plain text field to categorydef. Currently only used for
+report summaries to provide a proforma blank for comments.
 
 
 Version ClaSS-0.8.36 release (2008/01/16)

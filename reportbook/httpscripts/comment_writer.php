@@ -16,7 +16,9 @@ if(isset($_GET['entryn'])){$entryn=$_GET['entryn'];}
 elseif(isset($_POST['entryn'])){$entryn=$_POST['entryn'];}
 if(isset($_GET['openid'])){$openid=$_GET['openid'];}
 
-/*Needs to be generalized for rid not being a rid!!!!!
+
+/*
+Needs to be generalized for rid not being a rid!!!!!
 if(){}
 else{
 */
@@ -28,22 +30,37 @@ else{$commentlength=' maxlength="'.$reportdef['report']['commentlength'].'"';}
 $Student=fetchStudent_short($sid);
 $Report['Comments']=fetchReportEntry($reportdef, $sid, $bid, $pid);
 if(sizeof($Report['Comments']['Comment'])==0 or $entryn==sizeof($Report['Comments']['Comment'])){
+	/*This is a fresh comment so can do a few extra things*/
 	$Comment=array('Text'=>array('value'=>''),
 					   'Teacher'=>array('value'=>'ADD NEW ENTRY'));
 	$inmust='yes';
-	if($reportdef['report']['profile_name']!=''){
+	if($bid=='summary'){
+		$summaries=(array)$reportdef['summaries'];
+		/*This will fill out the blank comment with some preset text.*/
+		while(list($index,$summary)=each($summaries)){
+			if($summary['subtype']==$pid){
+				$Comment['Text']['value']=$summary['comment'];
+				}
+			}
+		}
+	elseif($reportdef['report']['profile_name']=='FS Steps'){
 		$profile_name=$reportdef['report']['profile_name'];
 		$profilepids=(array)list_subject_components($pid,'FS');
 		$profilepids[]=array('id'=>$pid,'name'=>'');
 		while(list($pidindex,$component)=each($profilepids)){
 			$profilepid=$component['id'];
+			/*this is just a hack to work with the FS profile*/
+			/*TODO properly!*/
+			/*This ensures only Reception statements are used for Reception classes*/
+			if($Student['YearGroup']['value']=='0'){$cutoff_grade=3;}
+			else{$cutoff_grade=0;}
 			$d_eidsid=mysql_query("SELECT 
 				assessment.description, assessment.id FROM eidsid JOIN assessment ON
 				assessment.id=eidsid.assessment_id WHERE
 				eidsid.student_id='$sid' AND eidsid.subject_id='$bid'
 				AND eidsid.component_id='$profilepid' AND
 				assessment.profile_name='$profile_name' AND
-				eidsid.date > '2007-09-01'");
+				eidsid.date > '2007-09-01' AND eidsid.value > '$cutoff_grade';");
 			$stats=array();
 			while($eidsid=mysql_fetch_array($d_eidsid,MYSQL_ASSOC)){
 				$topic=$eidsid['description'];
@@ -54,12 +71,12 @@ if(sizeof($Report['Comments']['Comment'])==0 or $entryn==sizeof($Report['Comment
 				mark.def_name='$profile_name' AND
 				topic='$topic';");
 				$Comment['Text']['value'].=' '.mysql_result($d_mark,0);
-				trigger_error($reportdef['report']['profile_name'].' '.$topic.' '.$profilepid,E_USER_WARNING);
 				}
 			}
 		}
 	}
 else{
+	/*Re-editing an existing comment.*/
 	$Comment=$Report['Comments']['Comment'][$entryn];
 	$inmust=$Comment['id_db'];
 	}

@@ -300,7 +300,7 @@ function fetchReportCategories($rid,$bid='%'){
 function fetchReportSummaries($rid){
 	$d_categorydef=mysql_query("SELECT categorydef.id,
 				categorydef.name, categorydef.type, categorydef.subtype, categorydef.subject_id,
-				categorydef.rating FROM categorydef LEFT
+				categorydef.rating, categorydef.comment FROM categorydef LEFT
 				JOIN ridcatid ON ridcatid.categorydef_id=categorydef.id 
 				WHERE ridcatid.report_id='$rid' AND
 				ridcatid.subject_id='summary' ORDER BY

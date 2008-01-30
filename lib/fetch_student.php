@@ -74,6 +74,7 @@ function fetchStudent_singlefield($sid,$tag){
 	elseif($tag=='EntryDate'){$fieldname='entrydate';}
 	elseif($tag=='EmailAddress'){$fieldname='email';}
 	elseif($tag=='MobilePhone'){$fieldname='phonenumber';}
+	elseif($tag=='EPFUsername'){$fieldname='epfusername';}
 	elseif(substr_count($tag,'FirstContact')){$contactno=0;}
 	elseif(substr_count($tag,'SecondContact')){$contactno=1;}
 
@@ -269,6 +270,12 @@ function fetchStudent($sid='-1'){
 								   'field_db' => 'email',
 								   'type_db' => 'varhar(240)', 
 								   'value' => ''.$info['email']
+								   );
+   	$Student['EPFUsername']=array('label' => 'epfusername',
+								   'table_db' => 'info', 
+								   'field_db' => 'epfusername',
+								   'type_db' => 'varhar(128)', 
+								   'value' => ''.$info['epfusername']
 								   );
    	$Student['EnrolNumber']=array('label' => 'enrolmentnumber', 
 								  'table_db' => 'info', 
@@ -997,8 +1004,6 @@ function fetchEnrolment($sid='-1'){
 									'type_db' =>'date', 
 									'value' => ''.$info['leavingdate']
 									);
-
-	//trigger_error($enrolstatus.' '.$year.' '.$yid.'-'.$comtype,E_USER_WARNING);
 	return $Enrolment;
 	}
 
@@ -1167,7 +1172,7 @@ function get_epfusername($sid,$Student=array(),$type='student'){
 	$epfusername=mysql_result($d_info,0);
 	setlocale(LC_CTYPE,'en_GB');
 	if($epfusername==''){
-		if(sizeof($Student)==0){$Student=fetchshortStudent($sid);}
+		if(sizeof($Student)==0){$Student=fetchStudent_short($sid);}
 		$surname=(array)split(' ',$Student['Surname']['value']);
 		$start=iconv('UTF-8', 'ASCII//TRANSLIT', $Student['Forename']['value'][0]);
 		$tail=iconv('UTF-8', 'ASCII//TRANSLIT', $surname[0]);
@@ -1175,5 +1180,4 @@ function get_epfusername($sid,$Student=array(),$type='student'){
 		}
 	return $epfusername;
 	}
-
 ?>

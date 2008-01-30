@@ -253,11 +253,18 @@ div.content .fullwidth, div.topform .fullwidth {
 div#heading {
 	position:absolute; top:1%; left:10%;
 	border:0; margin-top:2px;
+    padding-top:0;
     padding-right:0.8em;
     padding-left:0.4em;
 	background-color:#ffffff;
     color:#000000;
     font-weight:600;
+    max-width:55%;
+	}
+#heading span {  
+    clear:none;
+    font-size:xx-small;
+    font-weight:100;
 	}
 /*the set of action buttons at the very top of the book*/
 div.buttonmenu {
@@ -337,10 +344,12 @@ button.rowaction:hover, button.rowaction:focus {
 img.clicktoedit { 
 	background-image:url("../images/editer.png");
     padding:1px;
+	cursor:pointer;
 	}
 img.clicktodelete { 
 	background-image:url("../images/redcross.png");
     padding:1px;
+	cursor:pointer;
 	}
 
 /*a generic content table, usually for selecting things from a list*/
@@ -469,7 +478,7 @@ table.sidtable {
 	padding:0 25px; margin:0;
     width:20%;
 	}
-.sidtable .edit select {
+.sidtable .edit select, .sidtable th select {
     float:left;
 	padding:0; margin:0;
     font-size:x-small;

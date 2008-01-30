@@ -213,7 +213,8 @@ CREATE TABLE categorydef (
 							'-6', '-5', '-4', '-3', '-2', '-1', 
 							'0', '1', '2', '3', '4', '5', '6',
 							'7', '8', '9', '10', '11', '12') not null default 0,
-	rating_name		varchar(30) not null default '',
+	rating_name		varchar(30) not null default ''
+	comment			text not null default '',
 	subject_id		varchar(10) not null default '',
 	course_id		varchar(10) not null default '',
 	section_id		smallint not null default 0,

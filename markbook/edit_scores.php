@@ -26,7 +26,10 @@ if($marktype=='hw'){
 three_buttonmenu();
 ?>
   <div id="heading">
-	<?php print $umns[$col]['topic'];?>
+<?php 
+	print '<label>'.$umns[$col]['topic'].'</label>';
+	print '<span>'.' - '.$umns[$col]['comment'].'</span>';
+?>
   </div>
 
   <div  id="viewcontent" class="content">

@@ -581,7 +581,7 @@ function getEnumArray($field_name){
 	/*for the gidsid table*/
 	$priority=array('0' => 'first', '1' => 'second', '2' => 'third', '3' => 'fourth');
 	$mailing=array('0' => 'nomailing', '1' => 'allmailing', '2' => 'reportsonly');
-	$title=array('0' => '', '1' => 'mr', '2' => 'mrs', '3' => 'srd', '4' => 'srada');
+	$title=array('0' => '', '1' => 'mr', '2' => 'mrs', '3' => 'srd', '4' => 'srada','5'=>'miss','6'=>'dr');
 	$relationship=array('NOT' => 'informationnotobtained', 'CAR' =>
 						'carer', 'DOC' => 'doctor', 'FAM' => 'otherfamilymember', 'PAM'
 						=> 'mother', 'PAF' => 'father', 'OTH' => 'othercontact', 'STP' =>
@@ -668,6 +668,7 @@ function getEnumArray($field_name){
 						'EmailAddress' => 'email',
 						'MobilePhone' => 'mobilephone',
 						'EnrolNumber' => 'enrolmentnumber',
+						'EPFUsername' => 'epfusername',
 						'Language' => 'language',
 						'EntryDate' => 'schoolstartdate',
 						'FirstContact' => 'firstcontact',

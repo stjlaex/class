@@ -46,7 +46,7 @@ two_buttonmenu($extrabuttons,$book);
 <table class="listmenu sidtable">
 	<th colspan="2"><?php print_string('checkall'); ?><input type="checkbox" name="checkall" 
 				value="yes" onChange="checkAll(this);" /></th>
-	<th><?php print_string('student'); ?></th>
+	<th ><?php print_string('student'); ?></th>
 <?php
 	if($_SESSION['role']!='support'){
 		while(list($index,$displayfield)=each($displayfields)){
