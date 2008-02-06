@@ -372,7 +372,15 @@ function fetchAssessments_short($sid,$eid='%',$bid='%',$pid='%'){
 	return $Assessments;
 	}
 
-function fetch_enrolmentAssessmentDefinitions($com=''){
+/**
+ * Special assessment definitions for the enrolment process. Will
+ * check for assdefs for all cohorts associated with the yeargroup
+ * community. If no association between yeargroup and cohort is needed
+ * and this is just a one off then leave $com blank. The $stage is
+ * either 'E' for assdefs used before being accepted or 'RE' for
+ * reenrolment of current students each academic year.
+ */
+function fetch_enrolmentAssessmentDefinitions($com='',$stage='E'){
 	$AssDefs=array();
 	$crids=array();
 	if($com==''){$crids[]='%';}
@@ -385,7 +393,7 @@ function fetch_enrolmentAssessmentDefinitions($com=''){
 			}
 		}
 	while(list($index,$crid)=each($crids)){
-		$cohort=array('course_id'=>$crid,'stage'=>'E','year'=>'0000');
+		$cohort=array('course_id'=>$crid,'stage'=>$stage,'year'=>'0000');
 		$AssDefs=fetch_cohortAssessmentDefinitions($cohort);
 		//trigger_error('chort:'.sizeof($AssDefs).' '.$crid,E_USER_WARNING);
 		}

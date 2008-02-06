@@ -1,28 +1,27 @@
 <?php 
-/**										 community_list.php
+/**										 enrolments_list.php
  */
 
-$action='community_list_action.php';
+$action='enrolments_list_action.php';
 
 if(isset($_GET['comid'])){$comid=$_GET['comid'];}
-if(isset($_GET['date'])){$date=$_GET['date'];}else{$date='';}
 if(isset($_GET['enrolyear'])){$enrolyear=$_GET['enrolyear'];}
 if(isset($_GET['yid'])){$yid=$_GET['yid'];}
 if(isset($_GET['enrolstage'])){$enrolstage=$_GET['enrolstage'];}else{$enrolstage='E';}
 if(isset($_POST['comid'])){$comid=$_POST['comid'];}
 if(isset($_POST['enrolyear'])){$enrolyear=$_POST['enrolyear'];}
-if(isset($_POST['date'])){$date=$_POST['date'];}
 if(isset($_POST['enrolstage'])){$enrolstage=$_POST['enrolstage'];}
 
+	$enrolsteps=list_enrolmentsteps();
 	if($comid!=-1){
 		$com=get_community($comid);
 		$coms[]=$com;
 		$comtype=$com['type'];
+		list($current_enrolstatus,$junkyear)=split(':',$com['name']);
 		}
 	else{
 		$comtype='allapplied';
-		$rowcells=list_enrolmentsteps();
-		while(list($index,$enrolstatus)=each($rowcells)){ 
+		while(list($index,$enrolstatus)=each($enrolsteps)){ 
 			if($enrolstatus=='EN'){$type='enquired';}
 			elseif($enrolstatus=='AC'){$type='accepted';}
 			else{$type='applied';}
@@ -31,39 +30,35 @@ if(isset($_POST['enrolstage'])){$enrolstage=$_POST['enrolstage'];}
 			}
 		}
 
-	if($comtype=='applied' or $comtype=='enquired' or 
-	   $comtype=='accepted' or $comtype=='allapplied'){
-
-		$students=array();
-		reset($coms);
-		while(list($index,$com)=each($coms)){
-			$comstudents=listin_community($com);
-			trigger_error(' '.$com['name']. ' '.sizeof($comstudents),E_USER_WARNING);
-			$students=array_merge($students,$comstudents);
+	$students=array();
+	reset($coms);
+	while(list($index,$com)=each($coms)){
+		$comstudents=listin_community($com);
+		//trigger_error(' '.$com['name']. ' '.sizeof($comstudents),E_USER_WARNING);
+		$students=array_merge($students,$comstudents);
+		if($enrolstage!='RE'){
 			$AssDefs=fetch_enrolmentAssessmentDefinitions($com);
 			}
-		$description=display_yeargroupname($yid).' ('.display_curriculumyear($enrolyear).')';
-		$infobookcurrent='student_view_enrolment.php';
+		}
 
-		/*Check user has permission to edit*/
-		$perm=getYearPerm($yid,$respons);
-		$neededperm='r';
-		include('scripts/perm_action.php');
-		}
-	elseif($comtype=='accomodation'){
-		$boarder=$com['name'];
-		$infobookcurrent='student_view_boarder.php';
-		if($date!=''){
-			$students=(array)listin_community($com,$date);
-			$description=' '.$boarder.' ('.display_date($date).')';
+	if($enrolstage=='RE'){
+		$AssDefs=fetch_enrolmentAssessmentDefinitions('','RE');
+		$pairs=explode (';', $AssDefs[0]['GradingScheme']['grades']);
+		$grades=array();
+		while(list($index,$pair)=each($pairs)){
+			list($grade['result'], $grade['value'])=split(':',$pair);
+			$grades[]=$grade;
 			}
-		else{
-			$startdate='2000-01-01';
-			$enddate='2010-01-01';
-			$students=(array)listin_community($com,$enddate,$startdate);
-			$description=' '.$boarder.' (overall)';
-			}
+		$eid=$AssDefs[0]['id_db'];
 		}
+
+	$description=display_yeargroupname($yid).' ('.display_curriculumyear($enrolyear).')';
+	$infobookcurrent='student_view_enrolment.php';
+
+	/*Check user has permission to edit*/
+	$perm=getYearPerm($yid,$respons);
+	$neededperm='r';
+	include('scripts/perm_action.php');
 
 	three_buttonmenu();
 ?>
@@ -78,24 +73,23 @@ if(isset($_POST['enrolstage'])){$enrolstage=$_POST['enrolstage'];}
 		  </caption>
 		  <tr>
 			<th style="width:40%;"><?php print $description;?></th>
-			<th style="width:15%;"><?php print_string('dateofbirth','infobook');?></th>
-			<th style="width:15%;"><?php print_string('schoolstartdate','infobook');?></th>
+			<th>
 <?php
-			if($comtype!='accomodation'){
-				reset($AssDefs);
-				while(list($index,$AssDef)=each($AssDefs)){
-				print '<th>'.get_coursename($AssDef['Course']['value']).'<br />'. 
-						$AssDef['Description']['value'].'</th>';
-					}
-				print '<th>';
-				$required='no';$multi='1';
-				if($comtype=='allapplied'){
-					print_string('enrolstatus','infobook');
-					}
-				else{
-					include('scripts/list_enrolstatus.php');
-					}
+		   	$required='no';$multi='1';
+		   	if($comtype=='allapplied'){
+				print_string('enrolstatus','infobook');
 				}
+			elseif($enrolstage=='RE'){
+				print_string('reenrolled','infobook');
+				}
+		   	else{
+		   		reset($AssDefs);
+		   		while(list($index,$AssDef)=each($AssDefs)){
+		   			print get_coursename($AssDef['Course']['value']).'<br />'. 
+		   					$AssDef['Description']['value'].'</th><th>';
+		   			}
+				print_string('enrolstatus','infobook');
+		   		}
 ?>
 			</th>
 		  </tr>
@@ -106,7 +100,8 @@ if(isset($_POST['enrolstage'])){$enrolstage=$_POST['enrolstage'];}
 ?>
 		  <tr id="sid-<?php print $sid;?>">
 			<td>
-			  <span title="<?php print $Enrolment['EnrolmentNotes']['value'];?>">
+			  <span title="<?php print display_date($student['dob']). 
+				' <br />'.$Enrolment['EnrolmentNotes']['value'];?>">
 <?php
 		if($perm['w']==1){
 ?>
@@ -129,13 +124,29 @@ if(isset($_POST['enrolstage'])){$enrolstage=$_POST['enrolstage'];}
 			  </span>
 			</td>
 			<td>
-			  <?php print display_date($student['dob']);?>
-			</td>
-			<td>
-			  <?php print display_date($Enrolment['EntryDate']['value']);?>
-			</td>
 <?php
-			if($comtype!='accomodation'){
+			if($comtype=='allapplied'){
+?>
+			  <?php print_string(displayEnum($Enrolment['EnrolmentStatus']['value'],$Enrolment['EnrolmentStatus']['field_db']),'admin');?>
+<?php
+				}
+			elseif($enrolstage=='RE'){
+				$Assessments=(array)fetchAssessments_short($sid,$eid,'G');
+				if(sizeof($Assessments)>0){$value=$Assessments[0]['Value']['value'];}
+				else{$value='';}
+				reset($grades);
+				while(list($index,$grade)=each($grades)){
+					print '<div class="row"><label>' 
+							.$grade['result'].'</label>';
+					print '<input type="radio" name="RE'.$sid.'"
+						tabindex="'.$tab++.'" value="'.$grade['value'].'" ';
+					if($value!='' and $value==$grade['value']){
+						print ' checked="checked" ';
+						}
+					print '/></div>';
+					}
+				}
+			else{
 				reset($AssDefs);
 				while(list($index,$AssDef)=each($AssDefs)){
 					$eid=$AssDef['id_db'];
@@ -146,25 +157,24 @@ if(isset($_POST['enrolstage'])){$enrolstage=$_POST['enrolstage'];}
 						bid='G' ensures they are not but could be in future*/
 					if(sizeof($Assessments)>0){$result=$Assessments[0]['Result']['value'];}
 					else{$result='&nbsp;';}
-					print '<td>'.$result.'</td>';
+					print $result.'</td>';
+					}
+				reset($enrolsteps);
+				while(list($index,$value)=each($enrolsteps)){
+					print '<div class="row"><label>' 
+							.$value.'</label>';
+					print '<input type="radio" name="E'.$sid.'"
+						tabindex="'.$tab++.'" value="'.$value.'" ';
+					if($current_enrolstatus!='' and $value==$current_enrolstatus){
+						print ' checked="checked" ';
+						}
+					print '/></div>';
 					}
 				}
-			if($comtype=='allapplied'){
 ?>
-			<td>
-			  <?php print_string(displayEnum($Enrolment['EnrolmentStatus']['value'],$Enrolment['EnrolmentStatus']['field_db']),'admin');?>
-			</td>
-<?php
-				}
-			else{
-?>
-			<td>
-			  <input type="checkbox"  
+			  <input type="hidden"  
 				name="sids[]" value="<?php print $sid;?>" />
 			</td>
-<?php
-				}
-?>
 		  </tr>
 <?php
 		}
@@ -172,8 +182,8 @@ if(isset($_POST['enrolstage'])){$enrolstage=$_POST['enrolstage'];}
 		</table>
 	  </div>
 
+	<input type="hidden" name="enrolstage" value="<?php print $enrolstage;?>" /> 
 	<input type="hidden" name="enrolyear" value="<?php print $enrolyear;?>" /> 
-	<input type="hidden" name="date" value="<?php print $date;?>" /> 
 	<input type="hidden" name="comid" value="<?php print $comid;?>" /> 
 	<input type="hidden" name="choice" value="<?php print $choice;?>" />
 	<input type="hidden" name="current" value="<?php print $action;?>" />

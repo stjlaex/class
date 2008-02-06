@@ -47,7 +47,7 @@
 		  </td>
 		</tr>
 	  </xsl:if>
-	  <xsl:if test="addresses/town/value/text()!=' ' and addresses/country/value/text()='ES'">
+	  <xsl:if test="(addresses/town/value/text()!=' ' or addresses/postcode/value/text()!='') and addresses/country/value/text()!='GB'">
 		<tr>
 		  <td>
 			<xsl:value-of select="addresses/postcode/value/text()" />&#160;
@@ -55,7 +55,12 @@
 		  </td>
 		</tr>
 	  </xsl:if>
-	  <xsl:if test="addresses/postcode/value/text()!=' ' and addresses/country/value/text()!='ES'">
+	  <xsl:if test="addresses/postcode/value/text()!=' ' and addresses/country/value/text()='GB'">
+		<tr>
+		  <td>
+			<xsl:value-of select="addresses/town/value/text()" />&#160;
+		  </td>
+		</tr>
 		<tr>
 		  <td>
 			<xsl:value-of select="addresses/postcode/value/text()" />&#160;

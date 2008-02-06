@@ -705,7 +705,8 @@ function validateResult(fieldObj){
 	var result="";
 	var fieldValue=fieldObj.value;
 	var fieldClass=fieldObj.className;
-	var fieldLabel=getLabel(fieldObj.id);
+	if(fieldObj.id){var fieldLabel=getLabel(fieldObj.id);}
+	else{var fieldLabel='';}
 	var patternName=fieldObj.getAttribute("pattern");
 	var fieldTitle=fieldObj.getAttribute("title");
 	var maxLength=fieldObj.getAttribute("maxlength");

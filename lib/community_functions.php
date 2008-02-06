@@ -300,7 +300,7 @@ function set_community_stay($sid,$community,$startdate,$enddate){
 
 /* Simply does what it says*/
 function countin_community($community,$enddate='',$startdate=''){
-	$todate=date("Y-m-d");
+	$todate=date('Y-m-d');
 	if($enddate==''){$enddate=$todate;}
 	if($startdate==''){$startdate=$enddate;}
 	if(isset($community['id']) and $community['id']!=''){$comid=$community['id'];}
@@ -316,7 +316,7 @@ function countin_community($community,$enddate='',$startdate=''){
 	}
 
 function countin_community_gender($community,$gender='M',$enddate='',$startdate=''){
-	$todate=date("Y-m-d");
+	$todate=date('Y-m-d');
 	if($enddate==''){$enddate=$todate;}
 	if($startdate==''){$startdate=$enddate;}
 	if(isset($community['id']) and $community['id']!=''){$comid=$community['id'];}

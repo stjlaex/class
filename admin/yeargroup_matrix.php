@@ -52,8 +52,8 @@ three_buttonmenu($extrabuttons);
 <?php
 	$nosidstotal=0;
 	$capacitytotal=0;
-	$d_year=mysql_query("SELECT * FROM yeargroup ORDER BY section_id, id");
-	while($year=mysql_fetch_array($d_year,MYSQL_ASSOC)){
+	$yeargroups=list_yeargroups();
+	while(list($index,$year)=each($yeargroups)){
 		$yid=$year['id'];
 		$d_groups=mysql_query("SELECT gid FROM groups WHERE
 				yeargroup_id='$yid' AND course_id=''");

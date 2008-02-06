@@ -59,6 +59,6 @@ hr {
 div.spacer {
 	clear:both; 
     margin:0;
-    height:0;
+    height:10px;
     border:0;
 	}

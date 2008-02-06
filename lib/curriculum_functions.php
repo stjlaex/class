@@ -13,6 +13,17 @@ function list_courses($secid='%'){
 	return $courses;
 	}
 
+/* returns an array of all posible yeargroups for a single section*/
+function list_yeargroups($secid='%'){
+	$yeargroups=array();
+	$d_y=mysql_query("SELECT DISTINCT * FROM yeargroup WHERE
+					section_id='%' OR section_id LIKE '$secid' ORDER BY sequence");
+	while($y=mysql_fetch_array($d_y,MYSQL_ASSOC)){
+		$yeargroups[]=$y;
+		}
+	return $yeargroups;
+	}
+
 /* returns an array of all posible stages for a single course*/
 function list_course_stages($crid=''){
 	$stages=array();

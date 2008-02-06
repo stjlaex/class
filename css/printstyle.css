@@ -66,6 +66,20 @@ th.hidden {
 	display:none;
 	}
 
+/*handy for checkboxes inside a table*/
+.listmenu td div.row, .listmenu td div.row p  { 
+    float:left;
+    padding:0 1.5em 0 0.5em;
+    margin:0;
+	}
+.listmenu td div.row input { 
+    margin:0;
+	}
+
+
+
+
+
 /*address labels*/
 .barcode {
     font-family: IDAutomationHC39M;

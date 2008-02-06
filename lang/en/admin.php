@@ -185,7 +185,7 @@ $string['newsupplieradded']='New supplier added';
 $string['editsubjectclasses']='Edit subject classes';
 $string['editclasses']='Edit classes';
 $string['allapplied']='All applications';
-$string['']='';
+$string['applicationsreceived']='Applications received';
 $string['']='';
 $string['']='';
 ?>

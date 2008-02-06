@@ -1,3 +1,20 @@
+Version ClaSS-0.8.38 release (2008/02/06)
+-----------------------------------------
+
+Moved the enrolments pages over to use enrolments_list instead of
+community_list. And changed the the way enrolemnt status is selected
+to be checkboxes.
+
+The enrolments_matrix has a second table to summarise projected spaces
+and include re-enrolments.
+
+Added a second table to the nerolments matrix to cover re-enrolments
+for next academic year. 
+
+The js getLabel function now checks for an id attribute on the input
+before wasting searching for the label.
+
+
 Version ClaSS-0.8.37 release (2008/01/30)
 -----------------------------------------
 
