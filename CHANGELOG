@@ -1,15 +1,26 @@
+Version ClaSS-0.8.39 release (2008/02/13)
+-----------------------------------------
+
+Bugfixes for the handling of alumni in fetchEnrolment and join_community.
+
+Full implementation of the admissions logic to the applications and
+enrolments tables, including correct tallying of projected roll and
+spaces etc. both for current and future academic years.
+
+Added the ability to access the current roll to the enrolments_list
+page to allow students to be flagged as leavers moving between current
+and previous states.
+
+
 Version ClaSS-0.8.38 release (2008/02/06)
 -----------------------------------------
 
 Moved the enrolments pages over to use enrolments_list instead of
-community_list. And changed the the way enrolemnt status is selected
+community_list. And changed the the way enrolment status is selected
 to be checkboxes.
 
-The enrolments_matrix has a second table to summarise projected spaces
-and include re-enrolments.
-
-Added a second table to the nerolments matrix to cover re-enrolments
-for next academic year. 
+Added preliminary version of a second table to the enrolments matrix
+to cover re-enrolments for next academic year.
 
 The js getLabel function now checks for an id attribute on the input
 before wasting searching for the label.

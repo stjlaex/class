@@ -113,6 +113,7 @@ $string['emailtostaffisdisabled']='Emails to staff are disabled (you need to edi
 $string['eportfolios']='ePortfolios';
 $string['emailpassword']='Webmail password';
 $string['enrolments']='Enrolments';
+$string['reenrolments']='Re-enrolments';
 $string['changeyear']='Next year';
 $string['classnumbers']='Class sizes';
 $string['assessmentandtrackingscores']='Tracking and assessment scores';

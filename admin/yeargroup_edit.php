@@ -6,8 +6,10 @@ $action='yeargroup_edit_action.php';
 
 if(isset($_GET['comtype'])){$comtype=$_GET['comtype'];}else{$comtype='year';}
 if(isset($_GET['comname'])){$comname=$_GET['comname'];}else{$comname='';}
+if(isset($_GET['enrolyear'])){$enrolyear=$_GET['enrolyear'];}else{$enrolyear='';}
 if(isset($_POST['comid'])){$comid=$_POST['comid'];}else{$comid='';}
 if(isset($_POST['newcomid'])){$newcomid=$_POST['newcomid'];}else{$newcomid='';}
+if(isset($_POST['enrolyear'])){$enrolyear=$_POST['enrolyear'];}
 
 
 	if($newcomid!=''){
@@ -126,6 +128,7 @@ if(isset($_POST['newcomid'])){$newcomid=$_POST['newcomid'];}else{$newcomid='';}
 		</fieldset>
 	  </div>
 
+	<input type="hidden" name="enrolyear" value="<?php print $enrolyear;?>" /> 
 	<input type="hidden" name="comid" value="<?php print $comid;?>" /> 
 	<input type="hidden" name="choice" value="<?php print $choice;?>" />
 	<input type="hidden" name="current" value="<?php print $action;?>" />

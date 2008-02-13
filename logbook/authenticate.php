@@ -61,6 +61,7 @@ function _checkLogin($username, $passwd, $remember) {
 		}
 	}
 function _setSession(&$values, $remember, $init=true){
+    ini_set('session.gc_maxlifetime', 7200);
 	$this->uid=$values->uid;
 	$_SESSION['uid']=$this->uid;
 	$_SESSION['username']=htmlspecialchars($values->username);

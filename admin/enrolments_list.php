@@ -12,12 +12,32 @@ if(isset($_POST['comid'])){$comid=$_POST['comid'];}
 if(isset($_POST['enrolyear'])){$enrolyear=$_POST['enrolyear'];}
 if(isset($_POST['enrolstage'])){$enrolstage=$_POST['enrolstage'];}
 
-	$enrolsteps=list_enrolmentsteps();
+	/* Four possible types of table: current yeargroup for selecting
+	 * leavers, current yeargroup for re-enrolment, one of the
+	 * enrolment groups, or displaying all enrolment groups in one
+	 * go.
+	 */
+	if($enrolstage=='C'){
+		$enrolsteps=array('C','P');
+		}
+	else{
+		$enrolsteps=list_enrolmentsteps();
+		}
 	if($comid!=-1){
 		$com=get_community($comid);
 		$coms[]=$com;
 		$comtype=$com['type'];
-		list($current_enrolstatus,$junkyear)=split(':',$com['name']);
+		if($comtype=='year'){
+			$yid=$com['name'];
+			$current_enrolstatus='C';
+			}
+		elseif($comtype=='alumni'){
+			$yid=$com['name'];
+			$current_enrolstatus='P';
+			}
+		else{
+			list($current_enrolstatus,$junkyear)=split(':',$com['name']);
+			}
 		}
 	else{
 		$comtype='allapplied';
@@ -30,19 +50,8 @@ if(isset($_POST['enrolstage'])){$enrolstage=$_POST['enrolstage'];}
 			}
 		}
 
-	$students=array();
-	reset($coms);
-	while(list($index,$com)=each($coms)){
-		$comstudents=listin_community($com);
-		//trigger_error(' '.$com['name']. ' '.sizeof($comstudents),E_USER_WARNING);
-		$students=array_merge($students,$comstudents);
-		if($enrolstage!='RE'){
-			$AssDefs=fetch_enrolmentAssessmentDefinitions($com);
-			}
-		}
-
 	if($enrolstage=='RE'){
-		$AssDefs=fetch_enrolmentAssessmentDefinitions('','RE');
+		$AssDefs=fetch_enrolmentAssessmentDefinitions('','RE',$enrolyear);
 		$pairs=explode (';', $AssDefs[0]['GradingScheme']['grades']);
 		$grades=array();
 		while(list($index,$pair)=each($pairs)){
@@ -50,6 +59,17 @@ if(isset($_POST['enrolstage'])){$enrolstage=$_POST['enrolstage'];}
 			$grades[]=$grade;
 			}
 		$eid=$AssDefs[0]['id_db'];
+		}
+
+
+	$students=array();
+	reset($coms);
+	while(list($index,$com)=each($coms)){
+		$comstudents=listin_community($com);
+		$students=array_merge($students,$comstudents);
+		if($enrolstage=='E'){
+			$AssDefs=fetch_enrolmentAssessmentDefinitions($com);
+			}
 		}
 
 	$description=display_yeargroupname($yid).' ('.display_curriculumyear($enrolyear).')';
@@ -79,8 +99,11 @@ if(isset($_POST['enrolstage'])){$enrolstage=$_POST['enrolstage'];}
 		   	if($comtype=='allapplied'){
 				print_string('enrolstatus','infobook');
 				}
+		   	elseif($enrolstage=='C'){
+				print_string('current','infobook');
+				}
 			elseif($enrolstage=='RE'){
-				print_string('reenrolled','infobook');
+				print_string('reenroled','infobook');
 				}
 		   	else{
 		   		reset($AssDefs);
@@ -129,6 +152,19 @@ if(isset($_POST['enrolstage'])){$enrolstage=$_POST['enrolstage'];}
 ?>
 			  <?php print_string(displayEnum($Enrolment['EnrolmentStatus']['value'],$Enrolment['EnrolmentStatus']['field_db']),'admin');?>
 <?php
+				}
+		   	elseif($enrolstage=='C'){
+				reset($enrolsteps);
+				while(list($index,$value)=each($enrolsteps)){
+					print '<div class="row"><label>' 
+							.$value.'</label>';
+					print '<input type="radio" name="C'.$sid.'"
+						tabindex="'.$tab++.'" value="'.$value.'" ';
+					if($value==$current_enrolstatus){
+						print ' checked="checked" ';
+						}
+					print '/></div>';
+					}
 				}
 			elseif($enrolstage=='RE'){
 				$Assessments=(array)fetchAssessments_short($sid,$eid,'G');

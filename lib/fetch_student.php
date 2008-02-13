@@ -936,6 +936,9 @@ function fetchEnrolment($sid='-1'){
 		elseif($info['enrolstatus']=='C'){
 			$comtype='year';
 			}
+		elseif($info['enrolstatus']=='P'){
+			$comtype='alumni';
+			}
 		else{
 			$comtype='applied';
 			}
@@ -949,6 +952,11 @@ function fetchEnrolment($sid='-1'){
 				/* and so is not really logical to have displayed?*/
 				$year=get_curriculumyear();
 				}
+			elseif($comtype=='alumni'){
+				$yid=$com['name'];
+				$enrolstatus='P';
+				$year=$com['year'];
+				}
 			else{
 				list($enrolstatus,$yid)=split(':',$com['name']);
 				$year=$com['year'];
@@ -959,9 +967,9 @@ function fetchEnrolment($sid='-1'){
 
 	$Enrolment=array();
    	$Enrolment['Community']=array('id_db' => $comid, 
-										//'table_db' => 'info', 
-										//'value' => ''.$enrolstatus
-										);
+								  //'table_db' => 'info', 
+								  //'value' => ''.$enrolstatus
+								  );
    	$Enrolment['EnrolmentStatus']=array('label' => 'enrolstatus', 
 										//'table_db' => 'info', 
 										'field_db' => 'enrolstatus', 

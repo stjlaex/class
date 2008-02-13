@@ -593,3 +593,26 @@ div#qTip {
 	-moz-border-radius-topright: 10px;
 	-moz-opacity: .80;
 	}
+
+/*only used on the enrolments page*/
+table.smalltable {    
+    width:100%;
+    border-top:2px solid;
+	}
+.smalltable caption {
+    width:25%;
+    margin-left:5%;
+    padding-left:5px;
+	}
+.smalltable th {
+	font-size:small;
+    font-weight:300;
+    width:10%;
+    text-align:left;
+	}
+.smalltable th + th, .smalltable td  {
+	font-size:small;
+    font-weight:300;
+    width:10%;
+    text-align:center;
+	}

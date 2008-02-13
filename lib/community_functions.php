@@ -385,15 +385,16 @@ function list_member_communities($sid,$community){
 /* leave any communitites which conflict with the one being joined. Always */
 /* returns an array of oldcommunities left*/
 function join_community($sid,$community){
-	$todate=date("Y-m-d");
+	$todate=date('Y-m-d');
 	$type=$community['type'];
 	$name=$community['name'];
 	if(isset($community['year'])){$year=$community['year'];}
 	else{$year='';}
 
-	/*membership of a form or yeargroup is exclusive - need to remove
-	from old group first, and also where student progresses through
-	application procedure from enquired to apllied to accepted to year*/
+	/* Membership of a form or yeargroup is exclusive - need to remove
+	 * from old group first, and also where student progresses through
+	 * application procedure from enquired to apllied to accepted to year
+	 */
 	$oldtypes=array();
     if($type=='form'){
 		$studentfield='form_id';
@@ -402,14 +403,19 @@ function join_community($sid,$community){
 		$d_yeargroup=mysql_query("SELECT yeargroup_id FROM form WHERE id='$name'");
 		$newyid=mysql_result($d_yeargroup,0);
 		$d_student=mysql_query("SELECT yeargroup_id FROM student WHERE id='$sid'");
-		$oldyid=mysql_result($d_yeargroup,0);
+		$oldyid=mysql_result($d_student,0);
+		/*if new form is in another yeargroup then need to move yeargroup too*/
 		if($newyid!=$oldyid){join_community($sid,array('type'=>'year','name'=>$yid));}
 		}
 	elseif($type=='year'){
 		$studentfield='yeargroup_id';
-		$oldtypes[]='form';
-		$oldtypes[]=$type;
+		$newyid=$name;
+		$d_student=mysql_query("SELECT yeargroup_id FROM student WHERE id='$sid'");
+		$oldyid=mysql_result($d_student,0);
+		/*if moving yeargroup then need to leave old form too*/
+		if($newyid!=$oldyid){$oldtypes[]='form';$oldtypes[]=$type;}
 		/*may be joining from previous point in application procedure*/
+		$oldtypes[]='alumni';
 		$oldtypes[]='accepted';
 		$oldtypes[]='applied';
 		$oldtypes[]='enquired';
@@ -420,7 +426,7 @@ function join_community($sid,$community){
 	elseif($type=='alumni'){
 		$oldtypes[]='year';
 		$oldtypes[]='form';
-		/*may be joining form previous point in application procedure*/
+		/*may be joining from previous point in application procedure*/
 		$oldtypes[]='accepted';
 		$oldtypes[]='applied';
 		$oldtypes[]='enquired';

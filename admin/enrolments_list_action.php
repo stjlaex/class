@@ -17,8 +17,8 @@ if($sub=='Submit'){
 
 	$com=get_community($comid);
 	$comtype=$com['type'];
-	if($comtype!='year'){list($enrolstatus,$yid)=split(':',$com['name']);}
-	else{$yid=$com['name'];}
+	if($comtype=='year' or $comtype=='alumni'){$yid=$com['name'];}
+	else{list($enrolstatus,$yid)=split(':',$com['name']);}
 
 
 	/*Check user has permission to edit*/
@@ -28,7 +28,7 @@ if($sub=='Submit'){
 
 	if($enrolstage=='RE'){
 		$todate=date('Y-m-d');
-		$AssDefs=fetch_enrolmentAssessmentDefinitions('','RE');
+		$AssDefs=fetch_enrolmentAssessmentDefinitions('','RE',$enrolyear);
 		$eid=$AssDefs[0]['id_db'];
 		$AssDef=fetchAssessmentDefinition($eid);
 		$grading_grades=$AssDef['GradingScheme']['grades'];
@@ -49,8 +49,21 @@ if($sub=='Submit'){
 			if($in=='C'){
 				$newcom=array('id'=>'','type'=>'year', 'name'=>$yid);
 				}
-			/***********************/
 			$oldcommunities=join_community($sid,$newcom);
+			}
+		elseif($enrolstage=='C'){
+			if(isset($_POST["C$sid"])){
+				$in=clean_text($_POST["C$sid"]);
+				if($in=='P'){
+					$newcom=array('id'=>'','type'=>'alumni', 
+								  'name'=>$yid,'year'=>$enrolyear);
+					}
+				elseif($in=='C'){
+					$newcom=array('id'=>'','type'=>'year','name'=>$yid);
+					trigger_error($sid.' '.$yid,E_USER_WARNING);
+					}
+				$oldcommunities=join_community($sid,$newcom);
+				}
 			}
 		elseif($enrolstage=='RE'){
 			if(isset($_POST["RE$sid"])){

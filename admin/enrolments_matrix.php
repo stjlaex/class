@@ -6,24 +6,40 @@ $choice='enrolments_matrix.php';
 $action='enrolments_matrix_action.php';
 
 $currentyear=get_curriculumyear();
-
 if(isset($_POST['enrolyear']) and $_POST['enrolyear']!=''){$enrolyear=$_POST['enrolyear'];}
 else{$enrolyear=$currentyear;}
 
 $extrabuttons=array();
 twoplus_buttonmenu($enrolyear,$currentyear+3,$extrabuttons,$book);
 
+$todate=date('Y-m-d');
+$yearstartdate=$currentyear-1;
 $enrol_tablerows=array();
 $rowcells=array();
 $rowcells=list_enrolmentsteps();
-$reenrolsteps=array('reenrolled','newenrolments','currentroll','leavers','capacity','spaces');
+if($enrolyear==$currentyear){
+	$reenrolsteps=array('reenroled','newenrolments',
+						'currentroll','leaverssince','capacity','spaces');
+	}
+else{
+	$reenrolsteps=array('reenroling','newenrolments','projectedroll',
+						'currentroll','leavers','capacity','spaces');
+	}
 $yeargroups=list_yeargroups();
+$yeargroup_names=array();
 ?>
+
+  <div id="heading">
+	<label><?php print_string('academicyear'); ?></label>
+	<?php  print display_curriculumyear($enrolyear);?>
+  </div>
+
   <div id="viewcontent" class="content">
  	  <form id="formtoprocess" name="formtoprocess" method="post"
 		action="<?php print $host; ?>" >
 
-	  <table class="listmenu center">
+	  <table class="listmenu center smalltable">
+		<caption><?php print_string('applications',$book);?></caption>
 		<tr>
 		  <th><?php print display_curriculumyear($enrolyear);?></th>
 <?php
@@ -43,21 +59,25 @@ $yeargroups=list_yeargroups();
 	reset($yeargroups);
 	while(list($index,$year)=each($yeargroups)){
 		$enrol_tablecells=array();
-
+		$yid=$year['id'];
+		$yearcom=array('id'=>'','type'=>'year', 
+					   'name'=>$yid);
+		$yearcomid=update_community($yearcom);
+		$yeargroup_names[$yid]=$year['name'];
+		$yeargroup_comids[$yid]=$yearcomid;
 ?>
 		<tr>
 		  <th>
 <?php
 		$values=array();
 		$values[0]=0;
-	    print $year['name'];
+	    print $yeargroup_names[$yid];
 ?>
 		  </th>
 <?php
 		reset($rowcells);
 		while(list($index,$enrolstatus)=each($rowcells)){ 
 			if(!isset($totals[$index+1])){$totals[$index+1]=0;}
-			$yid=$year['id'];
 			if($enrolstatus=='EN'){$comtype='enquired';}
 			elseif($enrolstatus=='AC'){$comtype='accepted';}
 			else{$comtype='applied';}
@@ -79,6 +99,20 @@ $yeargroups=list_yeargroups();
 <?php
 			$enrol_tablecells[$enrolstatus]['value']=$values[$index+1];
 			}
+
+		$newcurrentsids=0;
+		if($enrolyear==$currentyear){
+			/*Now count applicants who have joined the current roll and
+			hence are not counted in one of the applied groups*/
+			$d_nosids=mysql_query("SELECT COUNT(student_id) FROM
+						comidsid WHERE community_id='$yearcomid'
+					AND (leavingdate>'$todate' OR 
+					leavingdate='0000-00-00' OR leavingdate IS NULL) 
+					AND joiningdate<='$todate' AND joiningdate>='$yearstartdate-09-01';");
+			$newcurrentsids=mysql_result($d_nosids,0);
+			$values[0]+=$newcurrentsids;
+			}
+		$enrol_tablecells['C']['value']=$newcurrentsids;
 ?>
 		  <td>
 <?php
@@ -109,24 +143,36 @@ $yeargroups=list_yeargroups();
 		</tr>
 	  </table>
 
-
 <?php
 	$tablerows=array();
 	reset($yeargroups);
-	$todate=date('Y-m-d');
+	$reenrol_assdefs=fetch_enrolmentAssessmentDefinitions('','RE',$enrolyear);
+	if(isset($reenrol_assdefs[0])){
+		$reenrol_eid=$reenrol_assdefs[0]['id_db'];
+		}
+	else{
+		$reenrol_eid=-1;
+		}
+	$reenroled_assdefs=fetch_enrolmentAssessmentDefinitions('','RE',$enrolyear-1);
+	if(isset($reenrol_assdefs[0])){
+		$reenroled_eid=$reenroled_assdefs[0]['id_db'];
+		}
+	else{
+		$reenroled_eid=-1;
+		}
+
 	while(list($yearindex,$yeargroup)=each($yeargroups)){
+		$yid=$yeargroup['id'];
 		$rowcells=array();
 		reset($reenrolsteps);
-		$comid=update_community(array('id'=>'','type'=>'year','name'=>$yeargroup['id']));
+		$comid=$yeargroup_comids[$yid];
 		$yearcommunity=get_community($comid);
 		while(list($stepindex,$reenrolstep)=each($reenrolsteps)){
 			$cell=array();
 			$cell['value']=0;
-			$cell['yid']=$yeargroup['id'];
+			$cell['yid']=$yid;
 			$cell['comid']=$comid;
-			if($reenrolstep=='reenrolled'){
-				$reenrol_assdefs=fetch_enrolmentAssessmentDefinitions('','RE');
-				$reenrol_eid=$reenrol_assdefs[0]['id_db'];
+			if($reenrolstep=='reenroling'){
 				$d_nosids=mysql_query("SELECT COUNT(eidsid.student_id) FROM
 						eidsid JOIN comidsid ON
 					eidsid.student_id=comidsid.student_id WHERE comidsid.community_id='$comid'
@@ -135,38 +181,110 @@ $yeargroups=list_yeargroups();
 					AND (comidsid.joiningdate<='$todate' OR 
 					comidsid.joiningdate='0000-00-00' OR comidsid.joiningdate IS NULL) 
 					AND assessment_id='$reenrol_eid' AND result='C';");
-				if(mysql_num_rows($d_nosids)>0){$cell['value']=mysql_result($d_nosids,0);}
-				$cell['display']='<a href="admin.php?current=enrolments_list.php&cancel='.
-				 $choice.'&choice='. $choice.'&enrolyear='. $enrolyear.'&yid='. $cell['yid'].
-				  '&comid='.$cell['comid'].'&enrolstage=RE">' .$cell['value'].'</a>';
+				if(mysql_num_rows($d_nosids)>0){
+					$cell['value']=mysql_result($d_nosids,0);
+					}
+				if(isset($tablerows[$yid-1])){
+					$pre_reenrolcell=$tablerows[$yid-1][$reenrolstep];
+					$cell['display']='<a href="admin.php?current=enrolments_list.php&cancel='.
+							$choice.'&choice='. $choice.'&enrolyear='. 
+							$enrolyear.'&yid='. $pre_reenrolcell['yid'].
+							'&comid='. $pre_reenrolcell['comid'].'&enrolstage=RE">' 
+							.$pre_reenrolcell['value'].'</a>';
+					}
+				else{$cell['display']='';}
+				}
+			elseif($reenrolstep=='reenroled'){
+				$d_nosids=mysql_query("SELECT COUNT(eidsid.student_id) FROM
+						eidsid JOIN comidsid ON
+					eidsid.student_id=comidsid.student_id WHERE comidsid.community_id='$comid'
+					AND (comidsid.leavingdate>'$todate' OR 
+					comidsid.leavingdate='0000-00-00' OR comidsid.leavingdate IS NULL) 
+					AND (comidsid.joiningdate<='$todate' OR 
+					comidsid.joiningdate='0000-00-00' OR comidsid.joiningdate IS NULL) 
+					AND assessment_id='$reenroled_eid' AND result='C';");
+				if(mysql_num_rows($d_nosids)>0){
+					$cell['value']=mysql_result($d_nosids,0);
+					}
+				else{$cell['display']='';}
 				}
 			elseif($reenrolstep=='newenrolments'){
-				$cell['value']=$enrol_tablerows[$yeargroup['name']]['AC']['value'];
-				}
-			elseif($reenrolstep=='currentroll'){
-				if($enrolyear==2008){
-					$cell['value']=countin_community($yearcommunity);
+				if($enrolyear!=$currentyear){
+					$cell['value']=$enrol_tablerows[$yeargroup['name']]['AC']['value'];
 					}
 				else{
-					$cell['value']=$rowcells['newenrolments']['value'] + $rowcells['reenrolled']['value'];
+					$cell['value']=$enrol_tablerows[$yeargroup['name']]['C']['value']+$enrol_tablerows[$yeargroup['name']]['AC']['value'];
 					}
 				}
+			elseif($reenrolstep=='currentroll'){
+				$cell['value']=countin_community($yearcommunity);
+				if($enrolyear==$currentyear){
+					$cell['display']='<a href="admin.php?current=enrolments_list.php&cancel='.
+							$choice.'&choice='. $choice.'&enrolyear='. 
+							$enrolyear.'&comname='. $cell['yid'].'&comtype=year'.
+							'&comid='. $cell['comid'].'&enrolstage=C">' 
+							.$cell['value'].'</a>';
+					}
+				}
+			elseif($reenrolstep=='projectedroll'){
+					$cell['value']=$rowcells['newenrolments']['value'] + $pre_reenrolcell['value'];
+				}
+			elseif($reenrolstep=='leaverssince'){
+				$leavercomid=update_community(array('id'=>'','type'=>'alumni','name'=>$yid,'year'=>$currentyear));
+				$leavercom=get_community($leavercomid);
+				$cell['value']=countin_community($leavercom);
+				$cell['display']='<a href="admin.php?current=enrolments_list.php&cancel='.
+							$choice.'&choice='. $choice.'&enrolyear='. 
+							$enrolyear.'&comname='. $cell['yid'].'&comtype=alumni'.
+							'&comid='. $leavercomid.'&enrolstage=C">' 
+							.$cell['value'].'</a>';
+				}
 			elseif($reenrolstep=='leavers'){
-				//if(mysql_num_rows($d_nosids)>0){$cell['value']=mysql_result($d_nosids,0);}
+				$d_nosids=mysql_query("SELECT COUNT(eidsid.student_id) FROM
+						eidsid JOIN comidsid ON
+					eidsid.student_id=comidsid.student_id WHERE comidsid.community_id='$comid'
+					AND (comidsid.leavingdate>'$todate' OR 
+					comidsid.leavingdate='0000-00-00' OR comidsid.leavingdate IS NULL) 
+					AND (comidsid.joiningdate<='$todate' OR 
+					comidsid.joiningdate='0000-00-00' OR comidsid.joiningdate IS NULL) 
+					AND assessment_id='$reenrol_eid' AND (result='L' OR result='LL');");
+				if(mysql_num_rows($d_nosids)>0){$cell['value']=mysql_result($d_nosids,0);}
+				if(isset($tablerows[$yid-1])){
+					$pre_leavercell=$tablerows[$yid-1][$reenrolstep];
+					$cell['display']='<a href="admin.php?current=enrolments_list.php&cancel='.
+							$choice.'&choice='. $choice.'&enrolyear='. 
+							$enrolyear.'&yid='. $pre_leavercell['yid'].
+							'&comid='. $pre_leavercell['comid'].'&enrolstage=RE">' 
+							.$pre_leavercell['value'].'</a>';
+					$cell['display']=$pre_leavercell['value'];
+				//$cell['display']='<a href="admin.php?current=enrolments_list.php&cancel='.
+				// $choice.'&choice='. $choice.'&enrolyear='. $enrolyear.'&yid='. $cell['yid'].
+				// '&comid='.$cell['comid'].'&enrolstage=RE">' .$cell['value'].'</a>';
+					}
+				else{$cell['display']='';}
 				}
 			elseif($reenrolstep=='capacity'){
 				$cell['value']=$yearcommunity['capacity'];
 				}
 			elseif($reenrolstep=='spaces'){
-				$cell['value']=$rowcells['capacity']['value'] - $rowcells['newenrolments']['value'] - $rowcells['reenrolled']['value'];
+				if($enrolyear==$currentyear){
+					$cell['value']=$rowcells['capacity']['value'] - $rowcells['currentroll']['value'];
+					}
+				elseif(isset($pre_reenrolcell)){
+					$cell['value']=$rowcells['capacity']['value'] - $rowcells['newenrolments']['value'] - $pre_reenrolcell['value'];
+					}
+				else{
+					$cell['value']=$rowcells['capacity']['value'] - $rowcells['newenrolments']['value'];
+					}
 				}
 			if(!isset($cell['display'])){$cell['display']=$cell['value'];}
 			$rowcells[$reenrolstep]=$cell;
 			}
-	    $tablerows[$yeargroup['name']]=$rowcells;
+	    $tablerows[$yid]=$rowcells;
 		}
 ?>
-	  <table class="listmenu center">
+	  <table class="listmenu center smalltable">
+		<caption><?php print_string('enrolments',$book);?></caption>
 		<tr>
 		  <th><?php print display_curriculumyear($enrolyear);?></th>
 <?php
@@ -175,6 +293,12 @@ $yeargroups=list_yeargroups();
 ?>
 			<th><?php print_string($reenrolstep,$book);?></th>
 <?php
+			$total=0;
+			reset($yeargroups);
+			while(list($index,$yeargroup)=each($yeargroups)){
+				$total+=$tablerows[$yeargroup['id']][$reenrolstep]['value'];
+				}
+			$column_totals[$stepindex]=$total;
 			}
 ?>
 		</tr>
@@ -184,7 +308,7 @@ $yeargroups=list_yeargroups();
 	while(list($rowindex,$rowcells)=each($tablerows)){
 ?>
 		<tr>
-		<th><?php print $rowindex;?></th>
+		<th><?php print $yeargroup_names[$rowindex];?></th>
 <?php
 		reset($rowcells);
 		while(list($cellindex,$cell)=each($rowcells)){
@@ -193,12 +317,22 @@ $yeargroups=list_yeargroups();
 <?php
 			}
 ?>
-
 		</tr>
 <?php
 		}
 ?>
-
+		<tr>
+		  <th>
+			<?php print get_string('total',$book).' '.get_string('numberofstudents',$book);?>
+		  </th>
+<?php
+		while(list($index,$total)=each($column_totals)){ 
+?>
+		  <td><?php print $total;?></td>
+<?php
+			}
+?>
+		</tr>
 	  </table>
 
 	  <input type="hidden" name="enrolyear" value="<?php print $enrolyear;?>" />

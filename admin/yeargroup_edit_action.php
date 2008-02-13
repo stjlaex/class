@@ -3,7 +3,7 @@
  */
 
 $action='yeargroup_edit.php';
-$action_post_vars=array('newcomid','comid');
+$action_post_vars=array('newcomid','comid','enrolyear');
 
 if(isset($_POST['comid'])){$comid=$_POST['comid'];}else{$comid='';}
 if(isset($_POST['newcomid'])){$newcomid=$_POST['newcomid'];}else{$newcomid='';}
@@ -11,6 +11,7 @@ if(isset($_POST['newsids'])){$newsids=(array)$_POST['newsids'];}
 else{$newsids=array();}
 if(isset($_POST['oldsids'])){$oldsids=(array)$_POST['oldsids'];}
 else{$oldsids=array();}
+if(isset($_POST['enrolyear'])){$enrolyear=$_POST['enrolyear'];}
 
 include('scripts/sub_action.php');
 
