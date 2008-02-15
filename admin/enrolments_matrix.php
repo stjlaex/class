@@ -173,7 +173,9 @@ $yeargroup_names=array();
 			$cell['yid']=$yid;
 			$cell['comid']=$comid;
 			if($reenrolstep=='reenroling'){
-				$d_nosids=mysql_query("SELECT COUNT(eidsid.student_id) FROM
+				$cell['repeat']=0;
+				$cell['confirm']=0;
+				$d_noc=mysql_query("SELECT COUNT(eidsid.student_id) FROM
 						eidsid JOIN comidsid ON
 					eidsid.student_id=comidsid.student_id WHERE comidsid.community_id='$comid'
 					AND (comidsid.leavingdate>'$todate' OR 
@@ -181,18 +183,33 @@ $yeargroup_names=array();
 					AND (comidsid.joiningdate<='$todate' OR 
 					comidsid.joiningdate='0000-00-00' OR comidsid.joiningdate IS NULL) 
 					AND assessment_id='$reenrol_eid' AND result='C';");
-				if(mysql_num_rows($d_nosids)>0){
-					$cell['value']=mysql_result($d_nosids,0);
+				if(mysql_num_rows($d_noc)>0){
+					$cell['confirm']=mysql_result($d_noc,0);
+					}
+				$d_nor=mysql_query("SELECT COUNT(eidsid.student_id) FROM
+						eidsid JOIN comidsid ON
+					eidsid.student_id=comidsid.student_id WHERE comidsid.community_id='$comid'
+					AND (comidsid.leavingdate>'$todate' OR 
+					comidsid.leavingdate='0000-00-00' OR comidsid.leavingdate IS NULL) 
+					AND (comidsid.joiningdate<='$todate' OR 
+					comidsid.joiningdate='0000-00-00' OR comidsid.joiningdate IS NULL) 
+					AND assessment_id='$reenrol_eid' AND result='R';");
+				if(mysql_num_rows($d_nor)>0){
+					$cell['repeat']=mysql_result($d_nor,0);
 					}
 				if(isset($tablerows[$yid-1])){
 					$pre_reenrolcell=$tablerows[$yid-1][$reenrolstep];
-					$cell['display']='<a href="admin.php?current=enrolments_list.php&cancel='.
-							$choice.'&choice='. $choice.'&enrolyear='. 
-							$enrolyear.'&yid='. $pre_reenrolcell['yid'].
-							'&comid='. $pre_reenrolcell['comid'].'&enrolstage=RE">' 
-							.$pre_reenrolcell['value'].'</a>';
 					}
-				else{$cell['display']='';}
+				else{
+					$pre_reenrolcell=$cell;
+					$pre_reenrolcell['confirm']=0;
+					}
+				$cell['value']=$pre_reenrolcell['confirm']+$cell['repeat'];	
+				$cell['display']='<a href="admin.php?current=enrolments_list.php&cancel='.
+							$choice.'&choice='. $choice.'&enrolyear='. 
+							$enrolyear.'&yid='. $yid.
+							'&comid='. $comid.'&enrolstage=RE">' 
+							.$cell['value'].'</a>';
 				}
 			elseif($reenrolstep=='reenroled'){
 				$d_nosids=mysql_query("SELECT COUNT(eidsid.student_id) FROM
@@ -202,7 +219,7 @@ $yeargroup_names=array();
 					comidsid.leavingdate='0000-00-00' OR comidsid.leavingdate IS NULL) 
 					AND (comidsid.joiningdate<='$todate' OR 
 					comidsid.joiningdate='0000-00-00' OR comidsid.joiningdate IS NULL) 
-					AND assessment_id='$reenroled_eid' AND result='C';");
+					AND assessment_id='$reenroled_eid' AND (result='C' OR result='R');");
 				if(mysql_num_rows($d_nosids)>0){
 					$cell['value']=mysql_result($d_nosids,0);
 					}
@@ -228,6 +245,7 @@ $yeargroup_names=array();
 				}
 			elseif($reenrolstep=='projectedroll'){
 					$cell['value']=$rowcells['newenrolments']['value'] + $pre_reenrolcell['value'];
+					$cell['value']=$rowcells['newenrolments']['value'] + $rowcells['reenroling']['repeat'] + $pre_reenrolcell['confirm'];
 				}
 			elseif($reenrolstep=='leaverssince'){
 				$leavercomid=update_community(array('id'=>'','type'=>'alumni','name'=>$yid,'year'=>$currentyear));
@@ -271,7 +289,7 @@ $yeargroup_names=array();
 					$cell['value']=$rowcells['capacity']['value'] - $rowcells['currentroll']['value'];
 					}
 				elseif(isset($pre_reenrolcell)){
-					$cell['value']=$rowcells['capacity']['value'] - $rowcells['newenrolments']['value'] - $pre_reenrolcell['value'];
+					$cell['value']=$rowcells['capacity']['value'] -	$rowcells['newenrolments']['value'] - $rowcells['reenroling']['repeat'] - $pre_reenrolcell['confirm'];
 					}
 				else{
 					$cell['value']=$rowcells['capacity']['value'] - $rowcells['newenrolments']['value'];

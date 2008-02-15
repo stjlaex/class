@@ -6,6 +6,8 @@ $action='portfolio_accounts.php';
 require_once('lib/eportfolio_functions.php');
 
 include('scripts/sub_action.php');
+include('scripts/answer_action.php');
+
 
 	/*get all ClaSS data first*/
 	$yearcoms=(array)list_communities('year');
@@ -160,9 +162,5 @@ include('scripts/sub_action.php');
 			}
 		}
 
-
-include('scripts/results.php');
 include('scripts/redirect.php');
-exit;
-
 ?>

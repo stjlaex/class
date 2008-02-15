@@ -13,8 +13,8 @@ three_buttonmenu();
 	  <fieldset class="center"> 
 		<legend><?php print_string('yearend',$book);?></legend> 
 		<?php print_string('yearendwarning',$book);?>
-	</fieldset>
-
+	  </fieldset>
+	  
 	  <fieldset class="center"> 
 		<legend><?php print_string('confirm',$book);?></legend>
 		<p><?php print_string('confidentwhatyouaredoing',$book);?></p>
@@ -22,7 +22,7 @@ three_buttonmenu();
 		<div class="right">
 		  <?php include('scripts/check_yesno.php');?>
 		</div>
-	</fieldset> 
+	  </fieldset> 
 
 
 		<input type="hidden" name="cancel" value="<?php print ''; ?>">
