@@ -2,8 +2,8 @@
 /**				   				eportfolio_accounts.php
  */
 
-$choice='portfolio_accounts.php';
-$action='portfolio_accounts_action.php';
+$choice='eportfolio_accounts.php';
+$action='eportfolio_accounts_action.php';
 
 include('scripts/sub_action.php');
 

@@ -1,8 +1,8 @@
 <?php
-/**									portfolio_accounts_action.php
+/**									eportfolio_accounts_action.php
  */
 
-$action='portfolio_accounts.php';
+$action='eportfolio_accounts.php';
 require_once('lib/eportfolio_functions.php');
 
 include('scripts/sub_action.php');
