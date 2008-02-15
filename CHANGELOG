@@ -1,6 +1,12 @@
-Version ClaSS-0.8.40 release (2008/02/20)
+Version ClaSS-0.8.40 release (2008/02/16)
 -----------------------------------------
 
+Renamed the portfolio scripts so that eportfolio is used consistently
+throughout.
+
+Added the eportfolio function library.
+
+The enrolments_matrix can now handle R for students repeating a year.
 
 
 Version ClaSS-0.8.39 release (2008/02/13)
