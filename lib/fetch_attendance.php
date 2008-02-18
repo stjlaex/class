@@ -262,4 +262,58 @@ function list_absentStudents($eveid='',$lates=0){
 		}
 	return nullCorrect($Students);
 	}
+
+
+/* */
+function fetchAttendanceSummary($sid,$startdate,$endate){
+	$Attendance['Summary']=array();
+
+	$no_present=count_attendance($sid,$startdate,$endate);
+	$no_late_authorised=count_attendance($sid,$startdate,$endate,'L');
+	$no_late_unauthorised=count_attendance($sid,$startdate,$endate,'U');
+	$no_late=$no_late_authorised+$no_late_unauthorised;
+	$no_attended=$no_present+$no_late;
+
+	$Attendance['Summary'][]=array('label' => 'attended',
+								 'value' => ''.$no_attended);
+	$Attendance['Summary'][]=array('label' => 'late',
+								 'value' => ''.$no_late);
+
+	$no_absent=count_attendance($sid,$startdate,$endate,'%') - $no_late;
+	$no_ill=count_attendance($sid,$startdate,$endate,'I');
+	$no_medical=count_attendance($sid,$startdate,$endate,'M');
+	$no_notagreed=count_attendance($sid,$startdate,$endate,'G');
+	$no_notexplained=count_attendance($sid,$startdate,$endate,'O');
+	$no_noreason=count_attendance($sid,$startdate,$endate,'N');
+
+	$no_unauthorised_absent=$no_ill+$no_medical+$no_notagreed+$no_noreason+$no_notexplained;
+	$no_authorised_absent=$no_absent-$no_unauthorised_absent;
+
+	$Attendance['Summary'][]=array('label' => 'authorisedabsent',
+								 'value' => ''.$no_authorised_absent);
+	$Attendance['Summary'][]=array('label' => 'unauthorisedabsent',
+								 'value' => ''.$no_unauthorised_absent);
+
+	return $Attendance;
+	}
+
+/* */
+function count_attendance($sid,$startdate,$enddate,$code=''){
+
+	if($code==''){
+		$status='p';
+		$code='%';
+		}
+	else{
+		$status='a';
+		}
+	$d_attendance=mysql_query("SELECT COUNT(attendance.status) FROM attendance JOIN
+			event ON event.id=attendance.event_id WHERE
+			attendance.student_id='$sid' AND
+			attendance.status='$status' AND attendance.code LIKE '$code' 
+			AND event.date > '$startdate' AND event.date < '$enddate';");
+	$noatts=mysql_result($d_attendance,0);
+
+	return $noatts;
+	}
 ?>

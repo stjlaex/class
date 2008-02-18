@@ -1,4 +1,4 @@
-Version ClaSS-0.8.40 release (2008/02/16)
+Version ClaSS-0.8.40 release (2008/02/19)
 -----------------------------------------
 
 Renamed the portfolio scripts so that eportfolio is used consistently
@@ -7,6 +7,11 @@ throughout.
 Added the eportfolio function library.
 
 The enrolments_matrix can now handle R for students repeating a year.
+
+An attendance summary is now included in reports, using
+fetchAttendanceSummary() which contains the rules for calculating the
+differnet numbers, and this in turn calls upon the basic
+count_attendnace.
 
 
 Version ClaSS-0.8.39 release (2008/02/13)

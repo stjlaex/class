@@ -45,6 +45,7 @@ if(isset($_POST['wrapper_rid'])){$wrapper_rid=$_POST['wrapper_rid'];}
 			$Reports['Transform']=$transform;
 			$Reports['Paper']=$reportdefs[0]['report']['style'];
 			$Student['Reports']=nullCorrect($Reports);
+			$Student['Reports']['Attendance']=fetchAttendanceSummary($sid,'2007-09-01','2008-02-15');
 			$Students['Student'][]=$Student;
 			}
 		$returnXML=$Students;
