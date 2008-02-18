@@ -6,7 +6,8 @@
 
 $action='report_attendance.php';
 
-$date0=$_POST['date0'];
+$startdate=$_POST['date0'];
+$enddate=$_POST['date1'];
 if(isset($_POST['newyid'])){$yid=$_POST['newyid'];}else{$yid='';}
 if(isset($_POST['newfid'])){$fid=$_POST['newfid'];}else{$fid='';}
 if(isset($_POST['stage'])){$stage=$_POST['stage'];}
@@ -43,14 +44,14 @@ include('scripts/sub_action.php');
 
 	/*no of days between today and date selected*/
 	$todate=date('Y-m-d');
-	$diff=strtotime($todate)-strtotime($date0);
+	$diff=strtotime($todate)-strtotime($startdate);
 	$nodays=round($diff/86400);
 
 twoplusprint_buttonmenu();
 ?>
 <div id="viewcontent" class="content">
 	<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>"> 
-	  <table class="listmenu">
+	  <table class="listmenu sidtable">
 		<tr>
 		  <th>
 			<label id="checkall"><?php print_string('checkall');?>
@@ -59,10 +60,10 @@ twoplusprint_buttonmenu();
 		  </th>
 		  <th colspan="2"><?php print_string('student');?></th>
 		  <th><?php print_string('formgroup');?></th>
-		  <th>
-			<?php print_string('attendancepercentage','register');?> 
-			(<?php print_string('absences','register');?>)
-		  </th>
+		  <th class="smalltable"><?php print_string('attended','register');?></th>
+		  <th class="smalltable"><?php print_string('authorisedabsence','register');?></th>
+		  <th class="smalltable"><?php print_string('unauthorisedabsence','register');?></th>
+		  <th class="smalltable"><?php print_string('late','register');?></th>
 		</tr>
 <?php	
 	$sids=array();
@@ -92,29 +93,23 @@ twoplusprint_buttonmenu();
 		  <td>
 			<?php print $fid; ?>
 		  </td>
-		  <td>
 <?php
-		$summary='';
-		$present=0;
-		$absent=0;
-		$Attendances=(array)fetchAttendances($sid,0,$nodays);
-		$noevents=sizeof($Attendances['Attendance']);
-		for($c=0;$c<$noevents;$c++){
-			if($Attendances['Attendance'][$c]['Status']['value']=='p'){
-				$present++;
-				}
-			else{
-				$absent++;
-				$summary.=$Attendances['Attendance'][$c]['Code']['value'];
-				}
-			}
-		if($noevents>0){
-			$average=round(($present/$noevents)*100);
-			print $average.'% &nbsp;('.$absent.' &nbsp;'.$summary.')';
+		$Attendance=fetchAttendanceSummary($sid,$startdate,$enddate);
+		$noattended=$Attendance['Summary'][0]['value'];
+		$nolate=$Attendance['Summary'][1]['value'];
+		$noabsent_authorised=$Attendance['Summary'][2]['value'];
+		$noabsent_unauthorised=$Attendance['Summary'][3]['value'];
+		if($noattended>0){
+			$noabsent=$noabsent_authorised+$noabsent_unauthorised;
+			$nosession=$noattended+$noabsent;
+			$average=round(($noattended / $nosession)*100);
+			print '<td>'.$average.'% &nbsp;('.$noattended.')</td>';
+			print '<td>'.$noabsent_authorised.'</td>';
+			print '<td>'.$noabsent_unauthorised.'</td>';
+			print '<td>'.$nolate.'</td>';
 			}
 		else{$average='';$absent='';$summary='';}
 ?>
-		  </td>
 		</tr>
 <?php	
 		}

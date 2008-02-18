@@ -434,8 +434,6 @@ div.content fieldset.listmenu, div.content fieldset.listmenu div {
     margin:0;
 	}
 
-
-
 /*extra functionality for a listmenu which lets rows be expanded and collapsed*/
 tr.rowplus th {
 	background-image:url("../images/orangeplus.png");
@@ -520,6 +518,7 @@ table.sidtable {
 .sidtable td:first-child + td { 
     width:4em;
     padding:0;
+    text-align:left;
 	}
 /***********tinytabs*******/
 div.tinytabs {
@@ -604,7 +603,7 @@ table.smalltable {
     margin-left:5%;
     padding-left:5px;
 	}
-.smalltable th {
+.smalltable th, th.smalltable {
 	font-size:small;
     font-weight:300;
     width:10%;

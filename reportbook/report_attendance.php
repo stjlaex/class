@@ -8,7 +8,6 @@ $choice='report_attendance.php';
 $tomonth=date('n')-1;
 $today=date('j');
 $toyear=date('Y');
-$todate=$toyear.'-'.$tomonth.'-'.$today;
 
 three_buttonmenu();
 ?>
@@ -20,9 +19,20 @@ three_buttonmenu();
 		  <?php $required='yes'; include('scripts/'.$listgroup);?>
 	  </fieldset>
 
-	  <fieldset class="center">
+	  <fieldset class="left">
 		<legend><?php print_string('collatesince',$book);?></legend>
-		<?php include('scripts/jsdate-form.php'); ?>
+<?php 
+		$todate=$toyear.'-'.$tomonth.'-'.$today;
+		include('scripts/jsdate-form.php'); 
+?>
+	  </fieldset>
+
+	  <fieldset class="right">
+		<legend><?php print_string('collateuntil');?></legend>
+<?php 
+		unset($todate);
+		include('scripts/jsdate-form.php'); 
+?>
 	  </fieldset>
 
 
