@@ -1,7 +1,7 @@
 <?php
 /**									report_attendance_list.php
  *
- *	Lists students and summarises their attendance over a period of time.
+ *	Lists students and summarises their attendance between to given dates.
  */
 
 $action='report_attendance.php';
@@ -42,15 +42,23 @@ include('scripts/sub_action.php');
 		exit;
 		}
 
-	/*no of days between today and date selected*/
-	$todate=date('Y-m-d');
-	$diff=strtotime($todate)-strtotime($startdate);
-	$nodays=round($diff/86400);
+$extrabuttons=array();
+$extrabuttons['previewselected']=array('name'=>'current',
+								'value'=>'report_attendance_print.php',
+								'onclick'=>'checksidsAction(this)');
+two_buttonmenu($extrabuttons,$book);
 
-twoplusprint_buttonmenu();
 ?>
 <div id="viewcontent" class="content">
 	<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>"> 
+
+	  <div id="xml-checked-action" style="display:none;">
+		<period>
+		  <startdate><?php print $startdate;?></startdate>
+		  <enddate><?php print $enddate;?></enddate>
+		</period>
+	  </div>
+
 	  <table class="listmenu sidtable">
 		<tr>
 		  <th>
@@ -68,7 +76,6 @@ twoplusprint_buttonmenu();
 <?php	
 	$sids=array();
 	while(list($index,$student)=each($students)){
-		$summary=array();
 		$sid=$student['id'];
 		$sids[]=$sid;
 		$Student=fetchStudent_short($sid);
@@ -79,9 +86,7 @@ twoplusprint_buttonmenu();
 			<input type='checkbox' name='sids[]' value='<?php print $sid; ?>' />
 		  </td>
 		  <td>
-			<a href="infobook.php?current=comments_list.php&sid=<?php 
-			  print $sid;?>&sids[]=<?php print $sid;?>"
-			  target="viewinfobook" onclick="parent.viewBook('infobook');">C</a>
+			&nbsp;
 		  </td>
 		  <td>
 			<a href="register.php?current=register_list.php&newfid=<?php
@@ -95,10 +100,10 @@ twoplusprint_buttonmenu();
 		  </td>
 <?php
 		$Attendance=fetchAttendanceSummary($sid,$startdate,$enddate);
-		$noattended=$Attendance['Summary'][0]['value'];
-		$nolate=$Attendance['Summary'][1]['value'];
-		$noabsent_authorised=$Attendance['Summary'][2]['value'];
-		$noabsent_unauthorised=$Attendance['Summary'][3]['value'];
+		$noattended=$Attendance['Summary']['Attended']['value'];
+		$nolate=$Attendance['Summary']['Late']['value'];
+		$noabsent_authorised=$Attendance['Summary']['Absentunauthorised']['value'];
+		$noabsent_unauthorised=$Attendance['Summary']['Absentauthorised']['value'];
 		if($noattended>0){
 			$noabsent=$noabsent_authorised+$noabsent_unauthorised;
 			$nosession=$noattended+$noabsent;
@@ -108,7 +113,6 @@ twoplusprint_buttonmenu();
 			print '<td>'.$noabsent_unauthorised.'</td>';
 			print '<td>'.$nolate.'</td>';
 			}
-		else{$average='';$absent='';$summary='';}
 ?>
 		</tr>
 <?php	
@@ -119,9 +123,8 @@ twoplusprint_buttonmenu();
 
 	</fieldset>
 
-	<input type="hidden" name="newfid" value="<?php print $fid;?>" />
-	<input type="hidden" name="newyid" value="<?php print $yid;?>" />
-	<input type="hidden" name="date0" value="<?php print $date0;?>" />
+	<input type="hidden" name="date0" value="<?php print $startdate;?>" />
+	<input type="hidden" name="date1" value="<?php print $enddate;?>" />
  	<input type="hidden" name="cancel" value="<?php print $choice;?>" />
  	<input type="hidden" name="choice" value="<?php print $choice;?>" />
  	<input type="hidden" name="current" value="<?php print $action;?>" />

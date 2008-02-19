@@ -10,11 +10,12 @@ The enrolments_matrix can now handle R for students repeating a year.
 
 An attendance summary is now included in reports, using
 fetchAttendanceSummary() which contains the rules for calculating the
-differnet numbers, and this in turn calls upon the basic
-count_attendnace.
+various statistics. This in turn calls upon the basic
+count_attendnace() to do the db count.
 
 The report_attendnace script now accepts a from and to date, and uses
-the new attendance summary functions to do the reporting.
+the new attendance summary functions to do the reporting. Added a
+template for printing a detailed attendance report.
 
 
 Version ClaSS-0.8.39 release (2008/02/13)

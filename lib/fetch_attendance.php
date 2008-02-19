@@ -267,40 +267,48 @@ function list_absentStudents($eveid='',$lates=0){
 /* Produces an xml-array called Summary with label,value pairs containg */
 /* number of lates, attended, authorised absences and unauthorised absences.*/
 /* Need to add count for approved educational activity codes.*/
-function fetchAttendanceSummary($sid,$startdate,$endate){
+function fetchAttendanceSummary($sid,$startdate,$enddate){
 	$Attendance['Summary']=array();
 
-	$no_present=count_attendance($sid,$startdate,$endate);
+	$no_present=count_attendance($sid,$startdate,$enddate);
 	/*These are lates after the register closed only*/
-	$no_late_authorised=count_attendance($sid,$startdate,$endate,'L');
-	$no_late_unauthorised=count_attendance($sid,$startdate,$endate,'U');
+	$no_late_authorised=count_attendance($sid,$startdate,$enddate,'L');
+	$no_late_unauthorised=count_attendance($sid,$startdate,$enddate,'U');
 	$no_late=$no_late_authorised+$no_late_unauthorised;
-	/*Government says a late does not count as a present but here it does*/
+	/*UK Government says a late does not count as a present but here it does*/
 	$no_attended=$no_present+$no_late;
-
-	$Attendance['Summary'][]=array('label' => 'attended',
+	$Attendance['Summary']['Attended']=array('label' => 'attended',
 								 'value' => ''.$no_attended);
-	$Attendance['Summary'][]=array('label' => 'late',
+	$Attendance['Summary']['Late']=array('label' => 'late',
 								 'value' => ''.$no_late);
 	/* For the purpose of official statistics an attendnace code can
 	 *	be either unorthorised absence, authorised absence or in
 	 *	attendnace and the following formula resepcts this for
 	 *	compiling the summary are  */
-	$no_absent=count_attendance($sid,$startdate,$endate,'%') - $no_late;
-	$no_notagreed=count_attendance($sid,$startdate,$endate,'G');
-	$no_notexplained=count_attendance($sid,$startdate,$endate,'O');
-	$no_noreason=count_attendance($sid,$startdate,$endate,'N');
+	$no_absent=count_attendance($sid,$startdate,$enddate,'%') - $no_late;
+	$no_notagreed=count_attendance($sid,$startdate,$enddate,'G');
+	$no_notexplained=count_attendance($sid,$startdate,$enddate,'O');
+	$no_noreason=count_attendance($sid,$startdate,$enddate,'N');
 	//$no_ill=count_attendance($sid,$startdate,$endate,'I');
 	//$no_medical=count_attendance($sid,$startdate,$endate,'M');
 
 	$no_unauthorised_absent=$no_notagreed+$no_noreason+$no_notexplained;
 	$no_authorised_absent=$no_absent-$no_unauthorised_absent;
 
-	$Attendance['Summary'][]=array('label' => 'authorisedabsent',
+	$Attendance['Summary']['Absentauthorised']=array('label' => 'authorisedabsent',
 								 'value' => ''.$no_authorised_absent);
-	$Attendance['Summary'][]=array('label' => 'unauthorisedabsent',
+	$Attendance['Summary']['Absentunauthorised']=array('label' => 'unauthorisedabsent',
 								 'value' => ''.$no_unauthorised_absent);
-
+	$Attendance['Summary']['Lateunauthorised']=array('label' => 'lateunauthrosied',
+								 'value' => ''.$no_late_unauthorised);
+	$Attendance['Summary']['Lateauthorised']=array('label' => 'lateauthorised',
+								 'value' => ''.$no_late_authorised);
+	$Attendance['Summary']['Notexplained']=array('label' => 'unexplained',
+								 'value' => ''.$no_notexplained);
+	$Attendance['Summary']['Enddate']=array('label' => 'enddate',
+								 'value' => ''.$enddate);
+	$Attendance['Summary']['Startdate']=array('label' => 'startdate',
+								 'value' => ''.$startdate);
 	return $Attendance;
 	}
 

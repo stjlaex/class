@@ -42,6 +42,7 @@ else{
 		if($rid!=0){$rids[]=$rid;}
 		}
 	}
+
 $extrabuttons=array();
 $extrabuttons['previewselected']=array('name'=>'current',
 								'value'=>'report_reports_print.php',
