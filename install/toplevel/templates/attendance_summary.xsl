@@ -94,7 +94,7 @@
 		</td>
 	  </tr>
 	  <tr>
-		<td>Unexplianed absences</td>
+		<td>Unexplained absences</td>
 		<td>
 		<div><xsl:value-of select="attendance/summary/notexplained/value/text()" />&#160;</div>
 		</td>

@@ -38,7 +38,7 @@ function scoreToLevel($score,$scoretotal='',$levels){
 	/*	Returns formated $percent, and floating point $cent*/
 	list($out,$percent,$cent)=scoreToPercent($score,$scoretotal);
 	if($cent==-100){$cent=$score;}
-	$pairs=explode(";",$levels);
+	$pairs=explode(';',$levels);
 	for($c=0;$c<sizeof($pairs);$c++){
 		list($level_grade, $level)=split(":",$pairs[$c]);
 		if($cent>=$level){$grade=$level_grade;}

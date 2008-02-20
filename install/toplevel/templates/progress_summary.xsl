@@ -15,37 +15,24 @@
 
 <xsl:template match="student">
 
-
-	<div id="logo">
-	  <img src="../images/schoollogo.png" width="130px"/>
+  <div class="studenthead">
+	<div style="background-color:#fff;">
+	  <label>&#160;</label>
+	  Progress Report
+	  <label>
+		<xsl:value-of select="attendance/summary/startdate/value/text()" />&#160;
+		<xsl:value-of select="attendance/summary/enddate/value/text()" />&#160;
+	  </label>
 	</div>
-
-	<div class='studenthead'>
-	  <h1>Monthly Progress Report</h1>
-	  <table id='studentdata'>
-		<tr>
-		  <td>
-			<label>
-			  Student
-			</label>
-			<xsl:value-of select="forename/value/text()" />&#160;
-			<xsl:value-of select="middlenames/value/text()" />&#160;
-			<xsl:value-of select="surname/value/text()" />
-		  </td>
-		</tr>
-		<tr>
-		  <td>
-			<label>
-			  Form
-			</label>
-			<xsl:value-of select="registrationgroup/value/text()" />
-			<xsl:text>&#160;&#160;&#160;&#160;&#160;&#160;</xsl:text>
-			<label>Date</label>
-			<xsl:value-of select="publishdate/text()" />
-		  </td>
-		</tr>
-	  </table>
+	<div>
+	  <label>Student</label>
+	  <xsl:value-of select="displayfullname/value/text()" />&#160;
 	</div>
+	<div>
+	  <label>Form</label>
+	  <xsl:value-of select="registrationgroup/value/text()" />
+	</div>
+  </div>
 
 	<div class='spacer'></div>
 
@@ -53,14 +40,12 @@
  	<xsl:variable name="comment" select="comments/comment"/>
 	<xsl:variable name="subject" select="comments/subtable/subject"/>
 
-	<div>
-	  <table class="grades">
+	  <table>
 		<tr>
-		  <th>
-			<xsl:text></xsl:text>
-		  </th>
+		  <td>
+		  </td>
 		  <xsl:for-each select="$catname">
-			<th>
+			<th style="width:15%;">
 			  <xsl:value-of select="."/>
 			</th>
 		  </xsl:for-each>
@@ -80,13 +65,13 @@
 				</xsl:variable>
 			  <xsl:choose>
 				<xsl:when test="$catrating&lt;0">
-				  <xsl:text>Poor</xsl:text>
+				  <div>Poor</div>
 				</xsl:when>
 				<xsl:when test="$catrating&gt;0">
-				  <xsl:text>Good</xsl:text>
+				  <div>Good</div>
 				</xsl:when>
 				<xsl:otherwise>
-				  <xsl:text>-</xsl:text>
+				  <div>-</div>
 				</xsl:otherwise>
 			  </xsl:choose>
 			  </td>
@@ -95,24 +80,25 @@
 		</xsl:for-each>
 
 	  </table>
-	</div>
 
-	<div class='comment'>
-	  Comments
-	</div>
-
-	<div class='tinycomment'>
-	Year Coordinator<br />
-	<p class='signature'>Signed</p>
-  </div>
-
-  <div class='tinycomment'>
-	<p class='signature'>Signed</p>
-  </div>
+	<xsl:apply-templates select="comments/comment">
+	  <xsl:sort select="comments/categories/category/value/text()" order="descending" case-order="upper-first" />
+	</xsl:apply-templates>
 
 
 <hr />
 
+</xsl:template>
+
+<xsl:template match="comment">
+<div class="summary">
+  <p class="comment-text">
+	<xsl:value-of select="detail/value/text()" />
+	<xsl:text>&#160;(</xsl:text>
+	<xsl:value-of select="teacher/value/text()" />
+	<xsl:text>)&#160;</xsl:text>
+  </p>
+</div>
 </xsl:template>
 
 </xsl:stylesheet>

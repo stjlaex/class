@@ -30,12 +30,12 @@ three_buttonmenu();
 	  </fieldset>
 
 	  <fieldset class="right">
-		<legend><?php print_string('publicationdateforprinting');?></legend>
+		<legend><?php print_string('collateuntil',$book);?></legend>
 		<?php $required='no'; unset($todate); include('scripts/jsdate-form.php'); ?>
 	  </fieldset>
 
 	 <fieldset class="left" >
-		<legend><?php print_string('limittoonetype');?></legend>
+		<legend><?php print_string('limittoonetype',$book);?></legend>
 <?php
 		$listlabel='category'; $listid='category';
 		$required='no';

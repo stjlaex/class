@@ -1,3 +1,5 @@
+/* CSS Document containing styles specific for pages prepared for printing */
+
 body {
 	page:normal;
   	font-family:Arial, helvetica, sans-serif;
@@ -97,4 +99,25 @@ td label {
 table.small { 
     padding:0;
     border-collapse:collapse;
+	}
+div.summary { 
+	width:90%; 
+    margin:5px 4% 2px 4%;
+	border:solid 1pt #ddd; 
+	float:left;
+    padding:0;
+	}
+div.summary p.comment-text, p.comment-text { 
+	font-size:10pt;
+	font-weight:300;
+    padding:1px 10px; 
+    margin:1px;
+	}
+div.summary p.comment-sig { 
+	padding:0; 
+    margin:0 60px 0 0; 
+    border:0;
+	font-size:10pt;
+	font-weight:600;
+    float:right;
 	}

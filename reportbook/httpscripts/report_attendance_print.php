@@ -26,10 +26,10 @@ if(isset($_POST['enddate'])){$enddate=$_POST['enddate'];}
 			$Student=fetchStudent_short($sid);
 			$Attendance=fetchAttendanceSummary($sid,$startdate,$enddate);
 			$Student['Attendance']=$Attendance;
-			$Student['Attendance']['Paper']='portrait';
-			$Student['Attendance']['Transform']='attendance_summary';
 			$Students['Student'][]=$Student;
 			}
+		$Students['Paper']='portrait';
+		$Students['Transform']='attendance_summary';
 		$returnXML=$Students;
 		$rootName='Students';
 		}

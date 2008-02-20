@@ -11,6 +11,10 @@ $toyear=date('Y');
 
 three_buttonmenu();
 ?>
+  <div id="heading">
+	<label><?php print_string('search',$book);?></label>
+<?php	print_string('attendance',$book);?>
+  </div>
   <div class="content">
 	<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>"> 
 
@@ -28,7 +32,7 @@ three_buttonmenu();
 	  </fieldset>
 
 	  <fieldset class="right">
-		<legend><?php print_string('collateuntil');?></legend>
+		<legend><?php print_string('collateuntil',$book);?></legend>
 <?php 
 		unset($todate);
 		include('scripts/jsdate-form.php'); 

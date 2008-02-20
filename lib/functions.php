@@ -1326,4 +1326,39 @@ function display_date($date=''){
 		}
 	return $displaydate;
 	}
+
+/** Returns two arrays containing the ratingnames and catdefs for all
+ *	categories of a particular type (ordered by their rating) and
+ *	can be optionally restricted by course and section. 
+ */
+function fetch_categorydefs($type,$course_id='%',$secid='%'){
+	/*TODO: Needs to add subject specific ones IN FUTURE!*/
+	$d_categorydef=mysql_query("SELECT * FROM categorydef  
+				WHERE type='$type' AND
+				(section_id LIKE '$secid' OR
+				section_id='%') AND (course_id LIKE '$crid' OR
+				course_id='%') ORDER BY rating");
+   	$catdefs=array();
+	$ratingnames=array();
+	/* Usually catdefs of the same selection use the same ratings BUT
+	 * it does not have to be the case, the returned arreay
+	 * ratingnames is indexed by the ratingname and each set of
+	 * ratings is an array of descriptors indexed by ratingvalue
+	 */
+	while($catdef=mysql_fetch_array($d_categorydef,MYSQL_ASSOC)){
+	   	$catdefs[$catdef['id']]=$catdef;
+	   	if($catdef['rating_name']!='' 
+		   and !array_key_exists($catdef['rating_name'],$ratingnames)){
+				$ratingname=$catdef['rating_name'];
+				$d_rating=mysql_query("SELECT * FROM rating 
+						WHERE name='$ratingname' ORDER BY value");
+				$ratings=array();
+				while($rating=mysql_fetch_array($d_rating,MYSQL_ASSOC)){
+					$ratings[$rating['value']]=$rating['descriptor'];
+					}
+				$ratingnames[$ratingname]=$ratings;
+				}
+	   	}
+	return array($ratingnames,$catdefs);
+	}
 ?>

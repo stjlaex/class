@@ -47,7 +47,6 @@ $extrabuttons['previewselected']=array('name'=>'current',
 								'value'=>'report_attendance_print.php',
 								'onclick'=>'checksidsAction(this)');
 two_buttonmenu($extrabuttons,$book);
-
 ?>
 <div id="viewcontent" class="content">
 	<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>"> 

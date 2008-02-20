@@ -70,8 +70,6 @@ if($_SESSION['worklevel']>-1){
  *	   	All cells are referenced by their (sid,mid) only.
  */
 	$cidcolour=array();
-
-
 	$rowcolour=array('#ffffee', '#ffffcc', '#ffffaa', '#ffff99',
 	'#ffff77', '#ffff55', '#ffff33', '#ffff11', '#ffffdd', '#ffffbb',
 	'#ffff00', '#ffff88', '#ffff66', '#ffff44', '#ffff22');

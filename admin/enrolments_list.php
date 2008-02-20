@@ -86,7 +86,7 @@ if(isset($_POST['enrolstage'])){$enrolstage=$_POST['enrolstage'];}
 	<form name="formtoprocess" id="formtoprocess" method="post"
 	  action="<?php print $host; ?>">
 
-	  <div class="center" id="viewcontent">
+	  <div  class="fullwidth" id="viewcontent">
 		<table class="listmenu" id="sidtable">
 		  <caption>
 			<?php print_string($comtype,$book);?>

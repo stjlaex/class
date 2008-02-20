@@ -279,8 +279,7 @@ function fetchReportCategories($rid,$bid='%'){
 	$ratingnames=array();
 	while($catdef=mysql_fetch_array($d_categorydef,MYSQL_ASSOC)){
 	   	$catdefs[]=$catdef;
-	   	if(!array_key_exists($catdef['rating_name'],
-				$ratingnames)){
+	   	if(!array_key_exists($catdef['rating_name'],$ratingnames)){
 				$ratingname=$catdef['rating_name'];
 				$d_rating=mysql_query("SELECT * FROM rating 
 						WHERE name='$ratingname' ORDER BY value");
@@ -291,7 +290,7 @@ function fetchReportCategories($rid,$bid='%'){
 				$ratingnames[$ratingname]=$ratings;
 				}
 	   	}
-	return array($ratingnames, $catdefs);
+	return array($ratingnames,$catdefs);
 	}
 
 

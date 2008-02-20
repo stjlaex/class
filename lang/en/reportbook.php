@@ -39,6 +39,7 @@ $string['notapplied']='Not applied';
 $string['derivation']='Derivation';
 $string['publishpdf']='Publish to PDF';
 $string['collatesince']='Collate since';
+$string['collateuntil']='Collate until';
 $string['usestrands']='Use strands';
 $string['usesubjectcomponents']='Use components';
 $string['firstcolumnidentifier']='First column: Student ID';
