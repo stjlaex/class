@@ -1,4 +1,4 @@
-Version ClaSS-0.8.40 release (2008/02/20)
+Version ClaSS-0.8.40 release (2008/02/21)
 -----------------------------------------
 
 Renamed the portfolio scripts so that eportfolio is used consistently
@@ -18,8 +18,17 @@ the new attendance summary functions to do the reporting. Added a
 template for printing a detailed attendance report.
 
 Reworked the report_comments scripts to be in-line with checksids and
-improved the table to high-light ups and downs in student progress. A
-new template progress_summary added for printing the comments in full.
+improved the table to high-light ups and downs in student progress. 
+
+New templates for printing from the Report book, progress_summary
+added for detailed reporting of comments, and incidents_summary for
+listing of incidents.
+
+The fetchComments() now takes an end and start date.
+
+New fetchCategorydef() function for returning any set of categorydefs
+based on their type.
+
 
 
 Version ClaSS-0.8.39 release (2008/02/13)

@@ -4,10 +4,10 @@
  *	Finds and lists students identified as having incidents.
  */
 
-$action='report_incidents_print.php';
+$action='report_incidents.php';
 
-$date0=$_POST['date0'];
-if(isset($_POST['date1'])){$date1=$_POST['date1'];}else{$date1=date('Y-m-d');}
+$startdate=$_POST['date0'];
+$enddate=$_POST['date1'];
 if(isset($_POST['bid'])){$bid=$_POST['bid'];}else{$bid='';}
 if(isset($_POST['newyid'])){$yid=$_POST['newyid'];}else{$yid='';}
 if(isset($_POST['newfid'])){$fid=$_POST['newfid'];}else{$fid='';}
@@ -19,18 +19,18 @@ include('scripts/sub_action.php');
 	if($yid!=''){
 		$d_incidents=mysql_query("SELECT * FROM incidents JOIN
 		student ON student.id=incidents.student_id WHERE
-		incidents.entrydate > '$date0' AND student.yeargroup_id LIKE
+		incidents.entrydate > '$startdate' AND student.yeargroup_id LIKE
 		'$yid' ORDER BY student.surname");
 		}
 	elseif($fid!=''){
 		$d_incidents=mysql_query("SELECT * FROM incidents JOIN
 		student ON student.id=incidents.student_id WHERE
-		incidents.entrydate > '$date0' AND student.form_id LIKE
+		incidents.entrydate > '$startdate' AND student.form_id LIKE
 		'$fid' ORDER BY student.surname");
 		}
 	elseif($bid!=''){
 		$d_incidents=mysql_query("SELECT * FROM incidents WHERE entrydate
-				> '$date0' AND subject_id LIKE '$bid'");
+				> '$startdate' AND subject_id LIKE '$bid'");
 		}
 	else{
 		if($rcrid=='%'){
@@ -48,7 +48,7 @@ include('scripts/sub_action.php');
 		$comid=mysql_result($d_community,0);
 		$d_incidents=mysql_query("SELECT * FROM incidents JOIN
 				comidsid ON comidsid.student_id=incidents.student_id
-				WHERE incidents.entrydate > '$date0' AND comidsid.community_id='$comid'");
+				WHERE incidents.entrydate > '$startdate' AND comidsid.community_id='$comid'");
 		}
 
 	if(mysql_num_rows($d_incidents)==0){
@@ -81,12 +81,24 @@ include('scripts/sub_action.php');
 		$summary[$sid]['closeds']=$closeds;
 		}
 
-two_buttonmenu();
+$extrabuttons=array();
+$extrabuttons['previewselected']=array('name'=>'current',
+									   'value'=>'report_incidents_print.php',
+									   'onclick'=>'checksidsAction(this)');
+two_buttonmenu($extrabuttons,$book);
 ?>
 
 <div id="viewcontent" class="content">
+
+	  <div id="xml-checked-action" style="display:none;">
+		<period>
+		  <startdate><?php print $startdate;?></startdate>
+		  <enddate><?php print $enddate;?></enddate>
+		</period>
+	  </div>
+
 <form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>"> 
-	  <table class="listmenu">
+	  <table class="listmenu sidtable">
 		<tr>
 		  <th>
 			<label id="checkall"><?php print_string('checkall');?>
@@ -111,10 +123,7 @@ two_buttonmenu();
 		  <td>
 			<input type='checkbox' name='sids[]' value='<?php print $sid; ?>' />
 		  </td>
-		  <td>
-			<a href="infobook.php?current=incidents_list.php&sid=<?php
-			  print $sid;?>"  target="viewinfobook" onclick="parent.viewBook('infobook');">I</a>
-		  </td>
+		  <td>&nbsp;</td>
 		  <td>
 			<a href="infobook.php?current=incidents_list.php&sid=<?php
 			  print $sid;?>&sids[]=<?php print $sid;?>"  target="viewinfobook"
@@ -140,11 +149,6 @@ two_buttonmenu();
 	  </table>
 	</fieldset>
 
- 	<input type="hidden" name="bid" value="<?php print $bid;?>" />
- 	<input type="hidden" name="newfid" value="<?php print $fid;?>" />
- 	<input type="hidden" name="newyid" value="<?php print $yid;?>" />
- 	<input type="hidden" name="date0" value="<?php print $date0;?>" />
- 	<input type="hidden" name="date1" value="<?php print $date1;?>" />
  	<input type="hidden" name="choice" value="<?php print $choice;?>" />
  	<input type="hidden" name="cancel" value="<?php print $choice;?>" />
  	<input type="hidden" name="current" value="<?php print $action;?>" />

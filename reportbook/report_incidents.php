@@ -4,7 +4,7 @@
 
 $action='report_incidents_list.php';
 $choice='report_incidents.php';
-$tomonth=date('n')-1;
+$tomonth=date('n')-1;//last month default
 $today=date('j');
 $toyear=date('Y');
 $todate=$toyear.'-'.$tomonth.'-'.$today;
@@ -25,10 +25,9 @@ three_buttonmenu();
 	  </fieldset>
 
 	  <fieldset class="right">
-		<legend><?php print_string('publicationdateforprinting');?></legend>
+		<legend><?php print_string('collateuntil',$book);?></legend>
 		<?php $required='no'; unset($todate); include('scripts/jsdate-form.php'); ?>
 	  </fieldset>
-
 
 	  <fieldset class="right" >
 		<legend><?php print_string('limittoonesubject');?></legend>

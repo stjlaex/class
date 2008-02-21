@@ -787,7 +787,8 @@ function fetchIncidents($sid){
 								  'value' => ''.$incident['detail']);
 	   	$Incident['Subject']=array('label' => 'subject', 
 								   'type_db' => 'varchar(10)', 
-								   'value' => ''.$incident['subject_id']);
+								   'value_db' => ''.$incident['subject_id'],
+								   'value' => ''.get_subjectname($incident['subject_id']));
 	   	$Incident['Closed']=array('label' => 'closed', 
 								   'type_db' => 'enum', 
 								   'value' => ''.$incident['closed']);
@@ -809,7 +810,6 @@ function fetchIncidents($sid){
 			$Action=array();
 			$Action['no_db']=$action['entryn'];
 			$acttid=$action['teacher_id'];
-
 			$Action['Teacher']=array('username' => ''.$acttid, 
 									 'label' => 'teacher',
 							  'value' => get_teachername($acttid));
@@ -819,14 +819,14 @@ function fetchIncidents($sid){
 									 'value' => ''.$action['entrydate']);
 			$pairs=explode(';',$action['category']);
 			list($catid, $rank)=split(':',$pairs[0]);
-			//trigger_error(''.$action['category']. ' pairs: '.$pairs[0],E_USER_WARNING);
 			$d_categorydef=mysql_query("SELECT name FROM categorydef
 						WHERE id='$catid'");
 			$Action['Sanction']=array('label' => 'sanction', 
 							'value_db' => ''.$catid,
 							'value' => ''.mysql_result($d_categorydef,0));
-			$Actions['Action'][]=nullCorrect($Action);
+			$Actions['Action'][]=$Action;
 			}
+		if(sizeof($Actions)==0){$Actions='';}
 		$Incident['Actions']=$Actions;
 		$Incidents['Incident'][]=$Incident;
 		}
@@ -834,14 +834,19 @@ function fetchIncidents($sid){
 	return nullCorrect($Incidents);
 	}
 
-function fetchComments($sid,$date=''){
+function fetchComments($sid,$startdate='',$enddate=''){
 	$Comments=array();
 	$subtable=array();
-	/*if no date set choose this academic year*/
+	/*if no startdate set choose this academic year*/
 	$crid='KS3';
-	if($date==''){$date=get_curriculumyear($crid)-2;}
+	if($startdate==''){$startdate=get_curriculumyear($crid)-2;}
+	if($enddate==''){$enddate=date('Y-m-d');}
+	$Comments['Enddate']=array('label' => 'enddate',
+								 'value' => ''.$enddate);
+	$Comments['Startdate']=array('label' => 'startdate',
+								 'value' => ''.$startdate);
 	$d_comments=mysql_query("SELECT * FROM comments WHERE
-			student_id='$sid' AND entrydate > '$date' 
+			student_id='$sid' AND entrydate > '$startdate' AND entrydate < '$enddate'
 			ORDER BY yeargroup_id DESC, entrydate DESC, id DESC, subject_id");
 	while($comment=mysql_fetch_array($d_comments,MYSQL_ASSOC)){
 		$Comment=array();

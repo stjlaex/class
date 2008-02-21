@@ -69,7 +69,7 @@ table {
     margin-left:2%;
     width:96%;
 	} 
-td 	{
+td, span 	{
 	font-weight:600; 
     font-size:10pt;
 	}

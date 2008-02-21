@@ -125,7 +125,9 @@ three_buttonmenu();
 			</td>
 		  </tr>
 <?php
-			 while(list($index,$Action)=each($Incident['Actions']['Action'])){
+			 if(is_array($Incident['Actions']['Action'])){
+				 reset($Incidents['Actions']['Action']);
+				while(list($index,$Action)=each($Incident['Actions']['Action'])){
 ?>
 		  <tr class="hidden" id="<?php print $entryno.'-'.$rown++;?>">
 			<td colspan="5">
@@ -143,6 +145,7 @@ three_buttonmenu();
 			</td>
 		  </tr>
 <?php
+					}
 				 }
 			if($Incident['Closed']['value']=='N'){
 ?>
