@@ -107,10 +107,19 @@ two_buttonmenu($extrabuttons,$book);
 			$noabsent=$noabsent_authorised+$noabsent_unauthorised;
 			$nosession=$noattended+$noabsent;
 			$average=round(($noattended / $nosession)*100);
-			print '<td>'.$average.'% &nbsp;('.$noattended.')</td>';
+			if($average<80){$cssclass=' class="hilite"';}
+			elseif($average<90){$cssclass=' class="midlite"';}
+			elseif($average>99){$cssclass=' class="gomidlite"';}
+			else{$cssclass='';}
+			print '<td '.$cssclass.'>'.$average.'% &nbsp;('.$noattended.')</td>';
 			print '<td>'.$noabsent_authorised.'</td>';
-			print '<td>'.$noabsent_unauthorised.'</td>';
-			print '<td>'.$nolate.'</td>';
+			if(($noabsent_unauthorised/$nosession)>0.05){$cssclass=' class="midlite"';}
+			else{$cssclass='';}
+			print '<td '.$cssclass.'>'.$noabsent_unauthorised.'</td>';
+			if(($nolate/$nosession)>0.16){$cssclass=' class="hilite"';}
+			elseif(($nolate/$nosession)>0.08){$cssclass=' class="midlite"';}
+			else{$cssclass='';}
+			print '<td '.$cssclass.'>'.$nolate.'</td>';
 			}
 ?>
 		</tr>

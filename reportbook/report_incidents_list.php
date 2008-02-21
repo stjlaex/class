@@ -112,14 +112,11 @@ two_buttonmenu($extrabuttons,$book);
 <?php
 	while(list($index,$sid)=each($sids)){
 		$Student=fetchStudent_short($sid);
-?>
-		<tr
-<?php
-		if(sizeof($summary[$sid]['closeds'])>0){$styleclass=' class="hilite"';}
+		if(sizeof($summary[$sid]['closeds'])>1){$styleclass=' class="hilite"';}
+		elseif(sizeof($summary[$sid]['closeds'])>0){$styleclass=' class="midlite"';}
 		else{$styleclass='';}
-	    print $styleclass;
 ?>
->
+		<tr <?php print $styleclass;?>>
 		  <td>
 			<input type='checkbox' name='sids[]' value='<?php print $sid; ?>' />
 		  </td>

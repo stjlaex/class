@@ -765,23 +765,28 @@ function fetchAddress($gidaid=array('address_id'=>'-1','addresstype'=>'')){
 	}
 
 /*******Incidents***/
-function fetchIncidents($sid){
+function fetchIncidents($sid,$startdate='',$enddate=''){
 	$Incidents=array();
 	$Incidents['Incident']=array();
+	/*if no startdate set choose this academic year*/
+	if($startdate==''){$startdate=get_curriculumyear()-2;}
+	if($enddate==''){$enddate=date('Y-m-d');}
 	$d_incidents=mysql_query("SELECT * FROM incidents WHERE
-		student_id='$sid' ORDER BY entrydate DESC");
+		student_id='$sid' AND entrydate >= '$startdate' AND entrydate <= '$enddate'
+			ORDER BY entrydate DESC;");
+	list($ratingnames,$catdefs)=fetch_categorydefs('inc');
 	while($incident=mysql_fetch_array($d_incidents,MYSQL_ASSOC)){
 		$incid=$incident['id'];
 		$Incident=array();
 		$Incident['id_db']=$incid;
 		$pairs=explode(';',$incident['category']);
 		list($catid, $rank)=split(':',$pairs[0]);
-		$d_categorydef=mysql_query("SELECT name FROM categorydef
-						WHERE id='$catid'");
+		if(array_key_exists($catid,$catdefs)){$sanction=$catdefs[$catid]['name'];}
+		else{$sanction='';}
 		$Incident['Sanction']=array('label' => 'sanction', 
 								  'type_db' => 'varchar(30)', 
 								  'value_db' => ''.$catid,
-								  'value' => ''.mysql_result($d_categorydef,0));
+								  'value' => ''.$sanction);
 	   	$Incident['Detail']=array('label' => 'detail', 
 								  'type_db' => 'text', 
 								  'value' => ''.$incident['detail']);
@@ -830,7 +835,6 @@ function fetchIncidents($sid){
 		$Incident['Actions']=$Actions;
 		$Incidents['Incident'][]=$Incident;
 		}
-
 	return nullCorrect($Incidents);
 	}
 
@@ -838,15 +842,14 @@ function fetchComments($sid,$startdate='',$enddate=''){
 	$Comments=array();
 	$subtable=array();
 	/*if no startdate set choose this academic year*/
-	$crid='KS3';
-	if($startdate==''){$startdate=get_curriculumyear($crid)-2;}
+	if($startdate==''){$startdate=get_curriculumyear()-2;}
 	if($enddate==''){$enddate=date('Y-m-d');}
 	$Comments['Enddate']=array('label' => 'enddate',
 								 'value' => ''.$enddate);
 	$Comments['Startdate']=array('label' => 'startdate',
 								 'value' => ''.$startdate);
 	$d_comments=mysql_query("SELECT * FROM comments WHERE
-			student_id='$sid' AND entrydate > '$startdate' AND entrydate < '$enddate'
+			student_id='$sid' AND entrydate>='$startdate' AND entrydate<='$enddate'
 			ORDER BY yeargroup_id DESC, entrydate DESC, id DESC, subject_id");
 	while($comment=mysql_fetch_array($d_comments,MYSQL_ASSOC)){
 		$Comment=array();
@@ -897,8 +900,11 @@ function fetchComments($sid,$startdate='',$enddate=''){
 		$Comments['Comment'][]=$Comment;
 		}
 
+	/*The subtable is needed by the xsl templates for sorting*/
 	$Comments['subtable']['subject']=array();
-	while(list($bid,$name)=each($subtable)){$Comments['subtable']['subject'][]=array('value_db'=>$bid,'value'=>$name);}
+	while(list($bid,$name)=each($subtable)){
+		$Comments['subtable']['subject'][]=array('value_db'=>$bid,'value'=>$name);
+		}
 	return nullCorrect($Comments);
 	}
 

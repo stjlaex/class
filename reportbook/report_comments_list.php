@@ -24,14 +24,15 @@ include('scripts/sub_action.php');
 	if($yid!=''){
 		$d_comments=mysql_query("SELECT * FROM comments JOIN
 		student ON student.id=comments.student_id WHERE
-		comments.entrydate > '$startdate' AND student.yeargroup_id LIKE
-		'$yid' AND comments.subject_id LIKE '$bid'  
+		comments.entrydate >= '$startdate' AND comments.entrydate<='$enddate' 
+		AND student.yeargroup_id LIKE '$yid' AND comments.subject_id LIKE '$bid'  
 		AND comments.category LIKE '$ratvalue' ORDER BY student.surname;");
 		}
 	elseif($fid!=''){
 		$d_comments=mysql_query("SELECT * FROM comments JOIN
 			student ON student.id=comments.student_id WHERE
-			comments.entrydate > '$startdate' AND student.form_id LIKE
+			comments.entrydate >= '$startdate' AND
+			comments.entrydate<='$enddate' AND student.form_id LIKE
 			'$fid' AND comments.subject_id LIKE '$bid' 
 			AND comments.category LIKE '$ratvalue' ORDER BY student.surname;");
 		}
@@ -43,7 +44,6 @@ include('scripts/sub_action.php');
 				cridbid.subject_id='$rbid' AND cohort.stage='$stage' AND cohort.year='$year';");
 			$rcrid=mysql_result($d_course,0);
 			}
-
 		$d_community=mysql_query("SELECT community_id FROM cohidcomid JOIN
 				cohort ON cohidcomid.cohort_id=cohort.id WHERE
 			    cohort.stage='$stage' AND cohort.year='$year' AND
@@ -51,7 +51,8 @@ include('scripts/sub_action.php');
 		$comid=mysql_result($d_community,0);
 		$d_comments=mysql_query("SELECT * FROM comments JOIN
 				comidsid ON comidsid.student_id=comments.student_id
-				WHERE comments.entrydate > '$startdate' AND
+				WHERE comments.entrydate >= '$startdate' AND
+				comments.entrydate<='$enddate' AND
 				comments.subject_id LIKE '$bid' AND comments.category LIKE '$ratvalue' 
 				AND comidsid.community_id='$comid';");
 		}
@@ -77,13 +78,14 @@ include('scripts/sub_action.php');
 			$summary=$summarys[$sid];
 			}
 		$pairs=explode(';',$comment['category']);
-		for($c=0;$c<sizeof($pairs);$c++){
-			list($cat,$value)=split(':',$pairs[$c]);
-			$summary[$cat]['value']+=$value;
+		while(list($pairindex,$pair)=each($pairs)){
+			list($cat,$value)=split(':',$pair);
+			if(isset($summary[$cat]['value'])){$summary[$cat]['value']+=$value;}
+			else{$summary[$cat]['value']=$value;}
 			if(isset($summary[$cat]['count'])){$summary[$cat]['count']++;}
 			else{$summary[$cat]['count']=1;}
+			$summarys[$sid]=$summary;
 			}
-		$summarys[$sid]=$summary;
 		}
 
 $extrabuttons=array();

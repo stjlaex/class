@@ -126,7 +126,7 @@ three_buttonmenu();
 		  </tr>
 <?php
 			 if(is_array($Incident['Actions']['Action'])){
-				 reset($Incidents['Actions']['Action']);
+				 reset($Incident['Actions']['Action']);
 				while(list($index,$Action)=each($Incident['Actions']['Action'])){
 ?>
 		  <tr class="hidden" id="<?php print $entryno.'-'.$rown++;?>">

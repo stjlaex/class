@@ -409,23 +409,26 @@ div.content fieldset.listmenu, div.content fieldset.listmenu div {
 .listmenu tr td table td:hover { 
 	background-color:#eeeeee;
 	}
+/*fade to gray*/
 .listmenu tr.lowlite td, .listmenu td.lowlite, tr.lowlite a { 
     color:#aaaaaa;
 	}
+.listmenu tr.nolite td, .listmenu td.nolite { 
+    background-color:#eeeeee;
+	}
+/*two shades of red*/
 .listmenu tr.hilite td, .listmenu td.hilite, tr.hilite a { 
     background-color:#ff6600;
 	}
 .listmenu tr.midlite td, .listmenu td.midlite { 
     background-color:#ff9966;
 	}
+/*two shades of green*/
 .listmenu tr.golite td, .listmenu td.golite { 
     background-color:#669900;
 	}
 .listmenu tr.gomidlite td, .listmenu td.gomidlite { 
     background-color:#66cc66;
-	}
-.listmenu tr.nolite td, .listmenu td.nolite { 
-    background-color:#eeeeee;
 	}
 /*handy for checkboxes inside a table*/
 .listmenu td div.row, .listmenu td div.row p  { 

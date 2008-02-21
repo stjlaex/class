@@ -1331,7 +1331,7 @@ function display_date($date=''){
  *	categories of a particular type (ordered by their rating) and
  *	can be optionally restricted by course and section. 
  */
-function fetch_categorydefs($type,$course_id='%',$secid='%'){
+function fetch_categorydefs($type,$crid='%',$secid='%'){
 	/*TODO: Needs to add subject specific ones IN FUTURE!*/
 	$d_categorydef=mysql_query("SELECT * FROM categorydef  
 				WHERE type='$type' AND
