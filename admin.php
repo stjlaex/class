@@ -69,11 +69,11 @@ $rtid=$tid;
 					   ,'cohort_matrix.php' => 'cohortmatrix'
 					   ,'update_curriculum.php' => 'updatecurriculum'
 					   ,'year_end.php' => 'yearend'
-					   //,'eportfolio_accounts.php' => 'eportfolios'
+					   ,'eportfolio_accounts.php' => 'eportfolios'
 					   ,'server_test.php' => 'servertest'
 					   /*these are all either very experimental or completely useless!!!!!*/
 					   //,'statementbank.php' => 'statementbank'
-					   //,'demoiser.php' => 'demoiser'
+					   ,'demoiser.php' => 'demoiser'
 					   );
 		selery_stick($choices,$choice,$book);
 ?>

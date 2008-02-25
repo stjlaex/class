@@ -4,9 +4,10 @@
  */
 
 
-/* given a sid and a bid this will return a numerical array which
+/* Given a sid and a bid this will return a numerical array which
  * lists the responsibles (both pastoral and academic) who have been
- * flagged to receive emails */
+ * flagged to receive emails. 
+*/
 function list_sid_responsible_users($sid, $bid){
 
     $gids=array();
@@ -20,10 +21,10 @@ function list_sid_responsible_users($sid, $bid){
 	$gids[]=$group['gid'];
 
 	/*academic groups for course and subject*/
-	if($bid!='' and $bid!='%' and $bid!='General'){
+	if($bid!='' and $bid!='%' and $bid!='General' and $bid!='G'){
 	  	$d_class=mysql_query("SELECT course_id FROM class JOIN cidsid
 		  	ON cidsid.class_id=class.id WHERE
-		  	class.subject_id='$bid' AND cidsid.student_id='$sid'"); 
+		  	class.subject_id='$bid' AND cidsid.student_id='$sid'");
 		$crid=mysql_result($d_class,0);
 	  	$d_group=mysql_query("SELECT gid FROM groups WHERE
 		  	course_id='$crid' AND subject_id='%'");
@@ -40,7 +41,6 @@ function list_sid_responsible_users($sid, $bid){
 		$group=mysql_fetch_array($d_group);
 		$gids[]=$group['gid'];
 		}
-
 	foreach($gids as $key => $gid){
 		$d_users=mysql_query("SELECT * FROM users JOIN perms ON users.uid=perms.uid WHERE
 			perms.gid='$gid' AND perms.e='1'");
@@ -52,10 +52,10 @@ function list_sid_responsible_users($sid, $bid){
 		}
 
 	/*checks for the form tutor*/
-	$d_group=mysql_query("SELECT teacher_id FROM form JOIN student ON
+	$d_form=mysql_query("SELECT teacher_id FROM form JOIN student ON
 		  	student.form_id=form.id WHERE student.id='$sid'"); 
 	$formtid=mysql_result($d_form,0);
-	$user=get_user($tid);
+	$user=get_user($formtid);
 	if(eregi('^[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.([a-zA-Z]{2,4})$', $user['email'])){ 
 		$recipients[]=array('username'=>$user['username'], 'email'=>$user['email']);
 		}
@@ -63,9 +63,9 @@ function list_sid_responsible_users($sid, $bid){
 	return $recipients;
 	}
 
-/*  will return all details of users of interest based on the
+/*  Will return all details of users of interest based on the
  *	teaching staff for the classes identified in the current
- *	selected respons in an array with the uid as the key
+ *	selected respons in an array with the uid as the key.
  */
 function list_responsible_users($tid,$respons,$r=0){
    	$users=array();

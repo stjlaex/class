@@ -112,7 +112,7 @@ function generate_random_name($gender){
 		if(mysql_query("UPDATE $table SET surname='$name[2]',
 			forename='$name[0]', middlenames='$name[1]', title='$title',
 			profession='', email='', companyname='', nationality='', language='',
-			dob='' WHERE id='$id'")){}
+			dob='', epfusername='' WHERE id='$id'")){}
 		else{$error[]=mysql_error();}
 		}
 
@@ -143,7 +143,7 @@ function generate_random_name($gender){
 			ethnicity='', email='', phonenumber='', countryoforigin='',
 			language='EN', religion='', incare='N', enrolnotes='',
 			entrydate='2001-04-01', leavingdate='', nationality='GB', 
-				secondnationality='', medical='N'
+				secondnationality='', medical='N', epfusername=''
 				WHERE student_id='$id'")){}
 		else{$error[]=mysql_error();}
 		}
@@ -225,7 +225,7 @@ function generate_random_name($gender){
 			}
 		mysql_query("UPDATE $table SET username='$nun',
 			forename='P', surname='Prof', email='', nologin='0', logcount='0',
-			passwd='$passwd', ip='' WHERE uid='$id'");
+			passwd='$passwd', ip='', epfusername='$nun' WHERE uid='$id'");
 		}
 
 	$table='reportentry';

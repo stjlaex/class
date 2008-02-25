@@ -1,3 +1,10 @@
+Version ClaSS-0.8.41 release (2008/02/29)
+-----------------------------------------
+
+Bug fix to list_sid_responsibles() - form tutors are now being sent emails.
+
+
+
 Version ClaSS-0.8.40 release (2008/02/21)
 -----------------------------------------
 

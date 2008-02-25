@@ -41,6 +41,7 @@ include('scripts/sub_action.php');
 				'Posted by '.$teachername. "\r\n";
 		$message.="\r\n". $detail. "\r\n";
 		$message.="\r\n". $footer;
+		$fromaddress=$CFG->schoolname;
 		$recipients=list_sid_responsible_users($sid,$bid);
 		if($recipients and $CFG->emailoff!='yes' and $CFG->emailcomments=='yes'){
 			if(sizeof($recipients)>0){
