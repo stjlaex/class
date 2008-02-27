@@ -51,7 +51,7 @@ CREATE TABLE course (
     generate		enum('', 'forms','sets','none') not null default '',
 	naming			varchar(40) not null default '',
 	many			smallint unsigned not null default '4',
-   	section_id		smallint unsigned not null default '0',
+	section_id		smallint not null default 0,
 	endmonth		enum('','1','2','3','4','5','6','7','8','9','10','11','12') not null default '',
 	primary key (id)
 );");
@@ -106,33 +106,33 @@ CREATE TABLE component (
 mysql_query("
 CREATE TABLE  users (
   uid			int(10) unsigned auto_increment,
-  username		varchar(14) NOT NULL default '', 
-  passwd		char(32) binary NOT NULL default '',
-  cookie		char(32) binary NOT NULL default '',
-  session		char(32) binary NOT NULL default '',
-  ip			varchar(15) binary NOT NULL default '', 
-  forename		varchar(50) NOT NULL DEFAULT '',
-  surname		varchar(50) NOT NULL DEFAULT '',
+  username		varchar(14) not null default '', 
+  passwd		char(32) binary not null default '',
+  cookie		char(32) binary not null default '',
+  session		char(32) binary not null default '',
+  ip			varchar(15) binary not null default '', 
+  forename		varchar(50) not null default '',
+  surname		varchar(50) not null default '',
   title			varchar(20) not null default '',
-  email			varchar(200) NOT NULL DEFAULT '',
-  emailuser		varchar(60) NOT NULL DEFAULT '',
-  emailpasswd	char(32) binary NOT NULL default '',
+  email			varchar(200) not null default '',
+  emailuser		varchar(60) not null default '',
+  emailpasswd	char(32) binary not null default '',
   epfusername	varchar(128) not null default '',
-  language		varchar(10) NOT NULL DEFAULT '',
+  language		varchar(10) not null default '',
   firstbookpref varchar(20),
   role			varchar(20),
   senrole		enum('0','1') not null,
   worklevel	   	enum('-1','0', '1', '2') not null default '0',
-  nologin		tinyint(1) NOT NULL default '0',
-  logcount		int(10) unsigned NOT NULL default '0',
+  nologin		tinyint(1) not null default '0',
+  logcount		int(10) unsigned not null default '0',
   logtime		timestamp(14),
-  INDEX			index_name (username),
-  PRIMARY KEY	(uid)
+  index			index_name (username),
+  primary key	(uid)
 )");
 mysql_query("
 CREATE TABLE  history (
   uid			int(10) unsigned,
-  page			varchar(60) NOT NULL default '', 
+  page			varchar(60) not null default '', 
   time			timestamp(14)
 )");
 mysql_query("
@@ -142,26 +142,30 @@ CREATE TABLE groups (
 	course_id		varchar(10) not null default '',
 	yeargroup_id	smallint,
 	name 			varchar(50) not null default '',
-	INDEX			index_crid (course_id),
-	INDEX			index_bid (subject_id),
-	INDEX			index_yid (yeargroup_id),
-  	PRIMARY KEY		(gid)
+    type			enum('a','p','b') not null default 'a',
+	index			index_crid (course_id),
+	index			index_bid (subject_id),
+	index			index_yid (yeargroup_id),
+  	primary key		(gid)
 )");
 mysql_query("
 CREATE TABLE perms (
-  uid 			int(10) NOT NULL default '0',
-  gid 			int(10) NOT NULL default '0',
-  r				set('0','1') NOT NULL default '0',
-  w				set('0','1') NOT NULL default '0',
-  x				set('0','1') NOT NULL default '0',
-  e				set('0','1') NOT NULL default '0',
-  PRIMARY KEY  	(uid, gid)
+  uid 			int(10) not null default '0',
+  gid 			int(10) not null default '0',
+  r				set('0','1') not null default '0',
+  w				set('0','1') not null default '0',
+  x				set('0','1') not null default '0',
+  e				set('0','1') not null default '0',
+  primary key  	(uid, gid)
 )");
 mysql_query("
 CREATE TABLE section (
-	id		smallint unsigned not null auto_increment, 
-	name 	varchar(30) not null default '', 
-	primary key (id)
+	id				smallint unsigned not null auto_increment, 
+	name			varchar(240) not null default '', 
+	sequence	   	smallint unsigned not null default '0',
+	address_id		int unsigned not null default '0',
+	gid 			int(10) NOT NULL default '0',
+	primary key		(id)
 )");
 mysql_query("
 CREATE TABLE community (
@@ -169,7 +173,7 @@ CREATE TABLE community (
 	name		varchar(30) not null default '', 
     type		enum('','academic','family','form','year','tutor','alumni','enquired','applied','accepted','trip','reg','stop','extra','','accomodation') not null default '',
 	year		year not null default '0000',
-	season		enum('','S','W','M','1','2','3','4','5','6','7','8','9','a','b','c') NOT NULL DEFAULT '',
+	season		enum('','S','W','M','1','2','3','4','5','6','7','8','9','a','b','c') not null default '',
 	capacity	smallint unsigned not null default 0,
     detail		varchar(240) not null default '',
 	index		indexcom (type,name),
@@ -191,7 +195,7 @@ CREATE TABLE cohort (
 	course_id	   	varchar(10) not null default '',
 	stage			char(3) not null default '',
 	year			year not null default '0000',
-	season			enum('','S','W','M','1','2','3','4','5','6','7','8','9','a','b','c') NOT NULL DEFAULT 'S',
+	season			enum('','S','W','M','1','2','3','4','5','6','7','8','9','a','b','c') not null default 'S',
 	unique			indexcohort (course_id,stage,year,season),
 	primary key (id)
 );");

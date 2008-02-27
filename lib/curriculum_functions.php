@@ -2,11 +2,10 @@
 /**							lib/curriculum_functions.php
  */
 
-/* returns an array of all posible courses for a single section*/
-function list_courses($secid='%'){
+/* Returns an array of all possible courses*/
+function list_courses(){
 	$courses=array();
-	$d_c=mysql_query("SELECT DISTINCT * FROM course WHERE
-					section_id='%' OR section_id LIKE '$secid' ORDER BY sequence");
+	$d_c=mysql_query("SELECT * FROM course ORDER BY sequence");
 	while($course=mysql_fetch_array($d_c,MYSQL_ASSOC)){
 		$courses[]=$course;
 		}
@@ -86,7 +85,8 @@ function list_course_cohorts($crid,$year='',$season='S'){
 	return $cohorts;
 	}
 
-/** Returns an array listing the cids for all classes associated with
+/**
+ * Returns an array listing the cids for all classes associated with
  * this form where the class is actually populated by just this
  * form's sids
  */
@@ -127,7 +127,8 @@ function list_forms_classes($fid){
 	return $cids;
 	}
 
-/** Returns an array listing the classes associated with
+/** 
+ * Returns an array listing the classes associated with
  * this course and subject
  */
 function list_course_classes($crid='%',$bid='%'){
@@ -373,7 +374,7 @@ function get_teachername($tid){
 	return $teachername;
 	}
 
-/* Returns the subjectname for that bid from the database*/
+/* Returns the subject name for that bid*/
 function get_subjectname($bid){
 	if($bid=='%' or $bid=='G' or $bid=='General'){
 		/*this is a fix that should be fixed in future!*/
@@ -389,7 +390,7 @@ function get_subjectname($bid){
 	return $subjectname;
 	}
 
-/* Returns the subjectname for that bid from the database*/
+/* Returns the course name for that bid*/
 function get_coursename($crid){
 	if($crid=='%' or $crid=='G' or $crid=='General'){
 		/*this is a fix that should be fixed in future!*/
@@ -404,4 +405,17 @@ function get_coursename($crid){
 		}
 	return $coursename;
 	}
+
+/* Returns the section name for that secid*/
+function get_sectionname($secid){
+	if($secid!=''){
+		$d_s=mysql_query("SELECT name FROM section WHERE id='$secid';");
+		$name=mysql_result($d_s,0);
+		}
+	else{
+		$name='';
+		}
+	return $name;
+	}
+
 ?>

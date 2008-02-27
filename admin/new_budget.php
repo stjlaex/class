@@ -18,13 +18,42 @@ $Budget=fetchBudget();
 	<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
 
 	  <fieldset class="center">
-		<div class="center">
+		<div class="left">
 <?php 
-  	$d_group=mysql_query("SELECT gid AS id, name AS name FROM groups 
-						WHERE course_id='%' ORDER BY name"); 
+  	$d_group=mysql_query("SELECT id, name FROM section 
+						ORDER BY sequence"); 
+	$listname='secid';
+	$listlabel='section';
+	$required='yes';
+	include('scripts/set_list_vars.php');
+	list_select_db($d_group,$listoptions,$book);
+	unset($listoptions);
+?>
+		</div>
+
+		<div class="left">
+<?php 
+	list($ratingnames,$catdefs)=fetch_categorydefs('bud');
+	$listname='catid';
+	$listlabel='category';
+	$listeitheror='Gid';
+	$required='eitheror';
+	include('scripts/set_list_vars.php');
+	list_select_list($catdefs,$listoptions,$book);
+	unset($listoptions);
+?>
+		</div>
+
+		<div class="right">
+<?php 
+	/* crid must be % to only grab curriculum subject groups*/
+  	$d_group=mysql_query("SELECT gid AS id, subject.name AS name FROM groups 
+						JOIN subject ON subject_id=subject.id 
+						WHERE groups.course_id='%' ORDER BY groups.name"); 
 	$listname='gid';
 	$listlabel='department';
-	$required='yes';
+	$listeitheror='Catid';
+	$required='eitheror';
 	include('scripts/set_list_vars.php');
 	list_select_db($d_group,$listoptions,$book);
 	unset($listoptions);

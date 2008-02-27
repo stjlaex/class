@@ -4,7 +4,7 @@
  * Must have the select's name already defined in $listname
  * any option can be overridden by setting the value explicity first:
  * multi>1 to post back an array of values (the name is returned a plural)
- * required=yes to add the orange star
+ * required=yes or =eitheror to add the orange star
  * onsidechange=yes only if this is in the bookoptions on the leftside
  * onchange=yes if the form is to be submitted on value change
  * liststyle!='' if you need this element to have a css class
@@ -29,7 +29,8 @@ if(isset($listvaluefield)){$listoptions['valuefield']=$listvaluefield;}else{$lis
 if(isset($listdescriptionfield)){$listoptions['descriptionfield']=$listdescriptionfield;}else{$listoptions['descriptionfield']='name';}
 if(isset($listfilter)){$listoptions['filter']=$listfilter;unset($listfilter);}else{$listoptions['filter']='';}
 /*these can all still exist outside this list scripts so don't unset 'em*/
-if(isset($tab)){$listoptions['tab']=$tab++;}else{$listoptions['tab']='';}
+if(!isset($tab)){$tab=1;}
+$listoptions['tab']=$tab++;
 if(isset($key)){
 	$listoptions['i']=$key;
 	}
@@ -37,6 +38,7 @@ else{
 	if(!isset(${'i'.$listname})){${'i'.$listname}='';}
 	$listoptions['i']=${'i'.$listname}++;
 	}
+if($listoptions['required']=='eitheror'){$listoptions['eitheror']=$listeitheror;unset($listeitheror);}
 if(isset($listid)){$listoptions['id']=ucfirst($listid);unset($listid);}else{$listoptions['id']=ucfirst($listname).$listoptions['i'];}
 $listoptions['selectedvalue']='';
 if(isset(${'sel'.$listname})){$listoptions['selectedvalue']=${'sel'.$listname};}

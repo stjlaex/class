@@ -104,8 +104,7 @@ function list_pastoral_users($ryid,$perms){
 	$w=$perms['w'];
 	$x=$perms['x'];
 	$d_group=mysql_query("SELECT gid FROM groups WHERE
-			course_id='' AND subject_id='' 
-			AND yeargroup_id LIKE '$ryid'");
+			course_id='' AND subject_id='' AND yeargroup_id LIKE '$ryid'");
 	$gid=mysql_result($d_group,0);
 	$d_users=mysql_query("SELECT DISTINCT users.uid,
 			   	username, passwd, forename, surname, email, emailuser,
@@ -497,7 +496,6 @@ function update_staff_perms($uid,$gid,$newperms){
  * @param string $data ?
  * @param string $case ?
  * @return string
- * @todo Finish documenting this function
  */
 function endecrypt ($pwd, $data, $case='en') {
 

@@ -227,7 +227,7 @@ CREATE TABLE transport (
 	name			varchar(30) not null default '', 
     details			varchar(240) not null default '',
 	capacity		smallint unsigned not null default 0,
-	teacher_id		varchar(14) NOT NULL default '',
+	teacher_id		varchar(14) not null default '',
 	primary key  	(id)
 );");
 

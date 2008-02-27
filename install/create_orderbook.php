@@ -21,7 +21,7 @@ CREATE TABLE orderbudget (
 	yearcode	   	char(2) not null default '',
 	name			varchar(160) not null default '',
 	costlimit		decimal(10,2) unsigned not null default '0',
-	section_id		int unsigned not null default '0',
+	section_id		smallint not null default 0,
 	unique			indexbudget (code,yearcode),
 	primary key (id)
 );");

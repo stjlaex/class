@@ -282,7 +282,7 @@ function fetchAttendanceSummary($sid,$startdate,$enddate){
 	$Attendance['Summary']['Late']=array('label' => 'late',
 								 'value' => ''.$no_late);
 	/* For the purpose of official statistics an attendnace code can
-	 *	be either unorthorised absence, authorised absence or in
+	 *	be either an unauthorised absence, authorised absence or in
 	 *	attendnace and the following formula resepcts this for
 	 *	compiling the summary are  */
 	$no_absent=count_attendance($sid,$startdate,$enddate,'%') - $no_late;

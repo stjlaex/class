@@ -1334,8 +1334,7 @@ function display_date($date=''){
 function fetch_categorydefs($type,$crid='%',$secid='%'){
 	/*TODO: Needs to add subject specific ones IN FUTURE!*/
 	$d_categorydef=mysql_query("SELECT * FROM categorydef  
-				WHERE type='$type' AND
-				(section_id LIKE '$secid' OR
+				WHERE type='$type' AND (section_id LIKE '$secid' OR
 				section_id='%') AND (course_id LIKE '$crid' OR
 				course_id='%') ORDER BY rating");
    	$catdefs=array();

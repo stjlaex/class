@@ -133,10 +133,8 @@ function xmlarray_form($Array,$no='',$caption='',$tab=1,$book=''){
 	if($caption!=''){print '<caption>'.get_string($caption,$book).'</caption>';}
 	while(list($key,$val)=each($Array)){
 		/* If the table_db attribute is omitted it indicates this is not */
-		/* a field for entry by the user - this */
-		/* may be becuase it is disabled or */
-		/* because it is dependent on some */
-		/* other value - it will not appear in the table*/
+		/* a field for entry by the user - this  may be because it is disabled or */
+		/* because it is dependent on some other value - it will not appear in the form*/
 		if(isset($val['value']) and is_array($val) and isset($val['table_db'])){
 ?>
 	<tr>
@@ -363,7 +361,9 @@ function list_select_db($d_list,$vars,$book=''){
 	<?php print $vars['style'];?>
 	<?php if($vars['onsidechange']=='yes'){print ' onChange="document.'.$book.'choice.submit();"';}?>
 	<?php if($vars['onchange']=='yes'){print ' onChange="processContent(this);"';}?>
-	<?php if($vars['required']=='yes'){ print ' class="required" ';} ?>
+	<?php if($vars['required']=='yes'){ print ' class="required" ';}
+		elseif($vars['required']=='eitheror'){ 
+			print ' class="requiredor" eitheror="'.$vars['eitheror'].'" ';} ?>
 	>
     <option value=""></option>
 <?php
@@ -404,7 +404,9 @@ function list_select_list($list,$vars,$book=''){
 	<?php print $vars['style'];?>
 	<?php if($vars['onsidechange']=='yes'){print ' onChange="document.'.$book.'choice.submit();"';}?>
 	<?php if($vars['onchange']=='yes'){print ' onChange="processContent(this);"';}?>
-	<?php if($vars['required']=='yes'){ print ' class="required" ';} ?>
+	<?php if($vars['required']=='yes'){ print ' class="required" ';}
+		elseif($vars['required']=='eitheror'){ 
+			print ' class="requiredor" eitheror="'.$vars['eitheror'].'" ';} ?>
 	>
     <option value=""></option>
 <?php
@@ -454,7 +456,9 @@ function list_select_enum($fieldname,$vars,$book=''){
 	<?php print $vars['style'];?>
 	<?php if($vars['onsidechange']=='yes'){print ' onChange="document.'.$book.'choice.submit();"';}?>
 	<?php if($vars['onchange']=='yes'){print ' onChange="processContent(this);"';}?>
-	<?php if($vars['required']=='yes'){ print ' class="required" ';} ?>
+	<?php if($vars['required']=='yes'){ print ' class="required" ';}
+			elseif($vars['required']=='eitheror'){
+				print 'class="requiredor" eitheror="'.$vars['eitheror'].'" ';} ?>
 	>
     <option value=""></option>
 <?php

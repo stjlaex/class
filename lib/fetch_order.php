@@ -153,14 +153,13 @@ function fetchOrder($ordid='-1'){
 		$Action['Category']=array('label' => 'cateogry', 
 								  'value_db' => ''.$action['action'],
 								  'value' => ''.$status);
-		$Actions['Action'][]=nullCorrect($Action);
+		$Actions['Action'][]=$Action;
 		}
 	$Order['Actions']=(array)$Actions;
 	$Order['Status']=array('label' => 'status',
 						   'value' => ''.$status
 						   );
-
-	return nullCorrect($Order);
+	return $Order;
 	}
 
 
@@ -215,6 +214,14 @@ function fetchBudget($budid='-1'){
 	$Budget=array();
 	$Budget['id_db']=$budid;
 	$Budget['gid_db']=$bud['gid'];
+   	$Budget['Section']=array('label' => 'section', 
+							 'inputtype'=> 'required',
+							 //'table_db' => 'orderbudget', 
+							 'field_db' => 'section_id',
+							 'type_db' => 'smallint', 
+							 'value_db' => ''.$bud['section_id'],
+							 'value' => ''.get_sectionname($bud['section_id'])
+							 );
    	$Budget['Code']=array('label' => 'code', 
 						  'inputtype'=> 'required',
 						  'table_db' => 'orderbudget', 
@@ -224,7 +231,7 @@ function fetchBudget($budid='-1'){
 						  );
    	$Budget['Name']=array('label' => 'name', 
 						  'inputtype'=> 'required',
-						  'table_db' => 'orderbudget', 
+						  //'table_db' => 'orderbudget', 
 						  'field_db' => 'name',
 						  'type_db' => 'varchar(160)', 
 						  'value' => ''.$bud['name']
@@ -252,7 +259,7 @@ function fetchBudget($budid='-1'){
 							  'value' => ''.$bud['currency']
 							  );
 	*/
-	return nullCorrect($Budget);
+	return $Budget;
 	}
 
 function fetchSupplier($supid='-1'){
@@ -304,7 +311,7 @@ function fetchSupplier($supid='-1'){
 							   'field_db' => 'phonenumber2',
 							   'type_db' => 'varchar(22)', 
 							   'value' => ''.$sup['phonenumber2']);
-	return nullCorrect($Supplier);
+	return $Supplier;
 	}
 
 function get_budget_projected($budid=-1){
@@ -333,7 +340,7 @@ function get_budget_current($budid=-1){
 				orderorder.id=orderaction.order_id WHERE
 				orderorder.budget_id='$budid' AND orderaction.action='2');");
 		$d_sum=mysql_query("SELECT SUM(totalcost) FROM
-				orderinvoice JOIN inv ON invoice.id=inv.invoice_id;");
+				orderinvoice JOIN inv ON orderinvoice.id=inv.invoice_id;");
 		$sum=mysql_result($d_sum,0);
 		$costremain=$costlimit-$sum;
 		}
@@ -393,7 +400,7 @@ function fetchInvoice($invid='-1'){
 							  'value' => ''.$bud['currency']
 							  );
 	*/
-	return nullCorrect($Invoice);
+	return $Invoice;
 	}
 
 ?>

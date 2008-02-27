@@ -1,7 +1,24 @@
 Version ClaSS-0.8.41 release (2008/02/29)
 -----------------------------------------
 
-Bug fix to list_sid_responsibles() - form tutors are now being sent emails.
+Bug fix to list_sid_responsibles() - form tutors are now being sent emails!
+
+Brought the section table into play to represent large organisational
+sections of a school. A section is really a grouping of yeargroups
+and/or courses. It can have a group for permissions and an address. By
+default the installation creates a "Whole School" section with secid=1
+which you may want to re-name.
+
+The new_budget script now requires a budget to belong to a section.
+
+The categdef table has a new type='bud' for ebabling budgets which are
+not tied to curriculum subjects like 'Stationary' etc.
+
+The groups table has been given a type field to make the different
+sorts of groups explicit. This also allows for groups with functions
+beyond academic and pastoral to be incorporated. So, currently
+a=academic (was implicity crid and bid with yid NULL), p=pastoral (was
+implicity yid) and b=budget (uses nothing else).
 
 
 
