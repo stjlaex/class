@@ -98,15 +98,13 @@ three_buttonmenu();
 		if($user['username']!='administrator'){
 			$uid=$user['uid'];
 			$d_group=mysql_query("SELECT * FROM groups LEFT JOIN perms ON
-			perms.gid=groups.gid WHERE perms.uid='$uid' AND
-			groups.yeargroup_id IS NOT NULL");
+				perms.gid=groups.gid WHERE perms.uid='$uid' AND groups.type='p';");
 			$user['pastoral'][]=array();
 			while($group=mysql_fetch_array($d_group,MYSQL_ASSOC)){
 				if($group['gid']>0){$user['pastoral'][]=$group;}
 				}
 			$d_group=mysql_query("SELECT * FROM groups LEFT JOIN perms ON
-				perms.gid=groups.gid WHERE perms.uid='$uid' AND
-				groups.yeargroup_id IS NULL");
+				perms.gid=groups.gid WHERE perms.uid='$uid' AND groups.type='a'");
 			$user['academic'][]=array();
 			while($group=mysql_fetch_array($d_group,MYSQL_ASSOC)){
 				if($group['gid']>0){$user['academic'][]=$group;}

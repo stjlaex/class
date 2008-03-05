@@ -22,6 +22,7 @@ else{
 	$colspan=6;
 	}
 
+$perms=getBudgetPerm($budid);
 $Budget=fetchBudget($budid);
 
 three_buttonmenu($extrabuttons,$book);
@@ -105,6 +106,7 @@ three_buttonmenu($extrabuttons,$book);
 				 }
 
 			if($status!='closed'){
+				$orderaction=='';
 				if($status=='lodged'){$orderaction='authorise';}
 				elseif($status=='authorised'){$orderaction='place';}
 				elseif($status=='placed'){$orderaction='delivery';}
@@ -112,7 +114,9 @@ three_buttonmenu($extrabuttons,$book);
 					$actionbuttons['close']=array('name'=>'process','value'=>'close');
 					$orderaction='delivery';
 					}
-				$actionbuttons[$orderaction]=array('name'=>'process','value'=>$orderaction);
+				if($orderaction!=''){
+					$actionbuttons[$orderaction]=array('name'=>'process','value'=>$orderaction);
+					}
 ?>
 			  <label>
 				<?php print get_string($orderaction,$book).' '.get_string('note',$book);?>

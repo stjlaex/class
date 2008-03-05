@@ -205,7 +205,10 @@ function printGenericContent(iFrameName){
 	var currentbook=document.getElementById("currentbook").getAttribute("class");
 
 	if(window.frames["view"+currentbook].document.getElementById("viewcontent")){
-		contentToPrint=window.frames["view"+currentbook].document.getElementById("viewcontent").innerHTML;
+		if(window.frames["view"+currentbook].document.getElementById("heading")){
+			contentToPrint=window.frames["view"+currentbook].document.getElementById("heading").innerHTML;
+			}
+		contentToPrint=contentToPrint + window.frames["view"+currentbook].document.getElementById("viewcontent").innerHTML;
 		}
 	else{
 		contentToPrint="<h3>There is no printer friendly content on this page.</h3>";

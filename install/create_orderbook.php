@@ -29,14 +29,10 @@ mysql_query("
 CREATE TABLE ordersupplier (
 	id				int unsigned not null auto_increment, 
 	name			varchar(160) not null default '',
-	street			varchar(160) not null default '',
-	neighbourhood	varchar(160) not null default '',
-	region			varchar(160) not null default '',
-	postcode		varchar(8) not null default '',
-	country			varchar(40) not null default '',
 	phonenumber1	varchar(22) not null default '',
 	phonenumber2	varchar(22) not null default '',
 	phonenumber3	varchar(22) not null default '',
+	address_id		int unsigned not null default '0',
 	primary key (id)
 );");
 mysql_query("

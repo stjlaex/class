@@ -24,7 +24,7 @@ include('scripts/answer_action.php');
 		$owners=(array)list_pastoral_users($yid,$yearperms);
 		while(list($uid,$user)=each($owners)){
 			if($user['role']!='office' and $user['role']!='admin'){
-				$yearusers[$yid][]=$user['username'];
+				$yearusers[$yid][]=strtolower($user['username']);
 				}
 			}
 		$students=listin_community($com);
@@ -53,7 +53,7 @@ include('scripts/answer_action.php');
 	while(list($index,$com)=each($formcoms)){
 		$fid=$com['name'];
 		$d_form=mysql_query("SELECT teacher_id FROM form WHERE id='$fid'");
-		$formusers[]=mysql_result($d_form,0);
+		$formusers[]=strtolower(mysql_result($d_form,0));
 		}
 	reset($formcoms);
 
@@ -73,11 +73,10 @@ include('scripts/answer_action.php');
 			$Newuser['Forename']['value']=$user['forename'];
 			}
 		$Newuser['EmailAddress']['value']=$user['email'];
-		$Newuser['Username']['value']=$user['username'];
+		$Newuser['Username']['value']=strtolower($user['username']);
 		$Newuser['Password']['value']=$user['passwd'];
 		$epfuid=elgg_newUser($Newuser,'staff');
-		if($user['username']=='mrt'){trigger_error('mrt!!!!!',E_USER_WARNING);}
-		$staff[$user['username']]=$epfuid;
+		$staff[$Newuser['Username']['value']]=$epfuid;
 		}
 
 	reset($yearcoms);
@@ -152,7 +151,7 @@ include('scripts/answer_action.php');
 		$com['epfcomid']=$epfcomid;
 		$d_t=mysql_query("SELECT teacher_id FROM tidcid WHERE class_id='$cid';");
 		while($t=mysql_fetch_array($d_t, MYSQL_ASSOC)){
-			elgg_join_community($staff[$t['teacher_id']],$com);
+			elgg_join_community($staff[strtolower($t['teacher_id'])],$com);
 			}
 		$d_student=mysql_query("SELECT b.id FROM cidsid a, student b 
 				WHERE a.class_id='$cid' AND b.id=a.student_id ORDER BY b.surname");

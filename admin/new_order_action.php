@@ -21,7 +21,7 @@ if($sub=='Submit'){
 	reset($Order);
 	while(list($index,$val)=each($Order)){
 		if(isset($val['value']) and is_array($val) and isset($val['table_db'])){
-			trigger_error(''.$val['value'].''.$val['field_db'],E_USER_WARNING);
+			//trigger_error(''.$val['value'].''.$val['field_db'],E_USER_WARNING);
 			$field=$val['field_db'];
 			$inname=$field;
 			$inval=clean_text($_POST[$inname]);

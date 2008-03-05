@@ -78,7 +78,13 @@ two_buttonmenu($extrabuttons,$book);
 		<tr>
 		  <td>
 <?php
-			print '<a href="admin.php?current=orders_list.php&cancel='.$choice.'&choice='.$choice.'&budid='.$budget['id'].'">'.$budget['name'].'</a>';
+	   		 /* Restrict access to w and x perms*/
+			if($budget['w'] or $budget['x']){
+				print '<a  href="admin.php?current=orders_list.php&cancel='.$choice.'&choice='.$choice.'&budid='.$budget['id'].'">'.$budget['name'].'</a>';
+				}
+			else{
+				print $budget['name'];
+				}
 ?>
 		  </td>
 		  <td>

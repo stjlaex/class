@@ -142,7 +142,7 @@ CREATE TABLE groups (
 	course_id		varchar(10) not null default '',
 	yeargroup_id	smallint,
 	name 			varchar(50) not null default '',
-    type			enum('a','p','b') not null default 'a',
+    type			enum('a','p','b','s') not null default 'a',
 	index			index_crid (course_id),
 	index			index_bid (subject_id),
 	index			index_yid (yeargroup_id),

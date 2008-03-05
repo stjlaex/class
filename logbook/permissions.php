@@ -64,7 +64,7 @@ function list_sid_responsible_users($sid, $bid){
 	}
 
 /*  Will return all details of users of interest based on the
- *	teaching staff for the classes identified in the current
+ *	teaching staff for the curriculum area identified in the current
  *	selected respons in an array with the uid as the key.
  */
 function list_responsible_users($tid,$respons,$r=0){
@@ -120,7 +120,39 @@ function list_pastoral_users($ryid,$perms){
 	}
 
 
-/* will return all details of all users*/
+/* 
+ * Will return all users and their perms with access to the given gid.
+ */
+function list_group_users_perms($gid){
+   	$users_perms=array();
+	$d_users=mysql_query("SELECT DISTINCT users.uid, users.username, 
+				perms.r, perms.w, perms.x, perms.e FROM users JOIN perms ON 
+				users.uid=perms.uid WHERE perms.gid='$gid';");
+	while($user=mysql_fetch_array($d_users,MYSQL_ASSOC)){
+		$uid=$user['uid'];
+		$users_perms[$uid]=$user;
+		}
+	return $users_perms;
+	}
+
+/* 
+ * Will return perms for the given gid and uid.
+ */
+function get_group_perms($gid,$uid){
+	$d_p=mysql_query("SELECT r, w, x, e FROM perms WHERE
+								gid='$gid' AND uid='$uid';;");
+	if(mysql_num_rows($d_p)>0){
+		$perms=mysql_fetch_array($d_u,MYSQL_ASSOC);
+		}
+	else{
+		$perms=array('r'=>0,'w'=>0,'x'=>0,'e'=>0,);
+		}
+	return $perms;
+	}
+
+/* 
+ * Will return all details of all users.
+*/
 function list_all_users($nologin='%'){
    	$users=array();
 	$d_users=mysql_query("SELECT uid, username, passwd, forename,
@@ -336,6 +368,24 @@ function getCoursePerm($course,$respons){
 	return $perm;
 	}
 
+/* Return perm for this budid*/	
+function getBudgetPerm($budid){
+	$perm['r']=0;
+	$perm['w']=0;
+	$perm['x']=0;
+	$uid=$_SESSION['uid'];
+  	$d_group=mysql_query("SELECT r,w,x,e FROM perms JOIN budget 
+						ON perms.gid=budget.gid WHERE
+						budget.id='$budid' AND perms.uid='$uid';");
+	if(mysql_num_rows($d_p)>0){
+		$perm=mysql_fetch_array($d_u,MYSQL_ASSOC);
+		}
+	if($_SESSION['role']=='admin'){$perm['r']=1;$perm['w']=1;$perm['x']=1;}
+	return $perm;
+	}
+
+/* Returns arrays of fids and yids ie. pastoral responisbilites for a */
+/* given $respons array.*/
 function list_pastoral_respon($respons){
 	$rfids=array();
 	$ryids=array();
@@ -352,6 +402,7 @@ function list_pastoral_respon($respons){
 	return array('forms'=>$rfids,'years'=>$ryids);
 	}
 
+/**/
 function update_user($user,$update='no',$short='class'){
 	global $CFG;
 	$result='';
@@ -465,6 +516,7 @@ function update_user($user,$update='no',$short='class'){
 	return $result;
 	}
 
+/* Needs a uid and a gid and will update or insert the suplied permissions.*/
 function update_staff_perms($uid,$gid,$newperms){
 	$r=$newperms['r'];
 	$w=$newperms['w'];
@@ -497,60 +549,61 @@ function update_staff_perms($uid,$gid,$newperms){
  * @param string $case ?
  * @return string
  */
-function endecrypt ($pwd, $data, $case='en') {
+function endecrypt($pwd, $data, $case='en'){
 
-    if ($case == 'de') {
-        $data = urldecode($data);
-    }
+    if($case=='de'){
+        $data=urldecode($data);
+		}
 
-    $key[] = '';
-    $box[] = '';
-    $temp_swap = '';
-    $pwd_length = 0;
+    $key[]='';
+    $box[]='';
+    $temp_swap='';
+    $pwd_length=0;
 
-    $pwd_length = strlen($pwd);
+    $pwd_length=strlen($pwd);
 
-    for ($i = 0; $i <= 255; $i++) {
-        $key[$i] = ord(substr($pwd, ($i % $pwd_length), 1));
-        $box[$i] = $i;
-    }
+    for($i=0; $i<=255; $i++) {
+        $key[$i]=ord(substr($pwd,($i % $pwd_length),1));
+        $box[$i]=$i;
+		}
 
-    $x = 0;
+    $x=0;
 
-    for ($i = 0; $i <= 255; $i++) {
-        $x = ($x + $box[$i] + $key[$i]) % 256;
-        $temp_swap = $box[$i];
-        $box[$i] = $box[$x];
-        $box[$x] = $temp_swap;
-    }
+    for($i=0; $i<=255; $i++) {
+        $x=($x + $box[$i] + $key[$i]) % 256;
+        $temp_swap=$box[$i];
+        $box[$i]=$box[$x];
+        $box[$x]=$temp_swap;
+		}
 
-    $temp = '';
-    $k = '';
+    $temp='';
+    $k='';
 
-    $cipherby = '';
-    $cipher = '';
+    $cipherby='';
+    $cipher='';
 
-    $a = 0;
-    $j = 0;
+    $a=0;
+    $j=0;
 
-    for ($i = 0; $i < strlen($data); $i++) {
-        $a = ($a + 1) % 256;
-        $j = ($j + $box[$a]) % 256;
-        $temp = $box[$a];
-        $box[$a] = $box[$j];
-        $box[$j] = $temp;
-        $k = $box[(($box[$a] + $box[$j]) % 256)];
-        $cipherby = ord(substr($data, $i, 1)) ^ $k;
+    for($i=0; $i<strlen($data); $i++) {
+        $a=($a + 1) % 256;
+        $j=($j + $box[$a]) % 256;
+        $temp=$box[$a];
+        $box[$a]=$box[$j];
+        $box[$j]=$temp;
+        $k=$box[(($box[$a] + $box[$j]) % 256)];
+        $cipherby=ord(substr($data, $i, 1)) ^ $k;
         $cipher .= chr($cipherby);
-    }
+		}
 
-    if ($case == 'de') {
-        $cipher = urldecode(urlencode($cipher));
-    } else {
-        $cipher = urlencode($cipher);
-    }
+    if($case=='de') {
+        $cipher=urldecode(urlencode($cipher));
+		} 
+	else{
+        $cipher=urlencode($cipher);
+		}
 
     return $cipher;
-}
+	}
 
 ?>

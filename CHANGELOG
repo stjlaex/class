@@ -11,7 +11,7 @@ which you may want to re-name.
 
 The new_budget script now requires a budget to belong to a section.
 
-The categdef table has a new type='bud' for ebabling budgets which are
+The categorydef table has a new type='bud' for enabling budgets which are
 not tied to curriculum subjects like 'Stationary' etc.
 
 The groups table has been given a type field to make the different
@@ -48,11 +48,15 @@ New templates for printing from the Report book, progress_summary
 added for detailed reporting of comments, and incidents_summary for
 listing of incidents.
 
-The fetchComments() now takes an end and start date.
+The fetchComments() now takes an end and a stagrt date.
 
 New fetchCategorydef() function for returning any set of categorydefs
 based on their type.
 
+Used the $CFG->clientid variable as a per school distinguisher when
+generating the eportfolio accounts. This gets prepended to staff
+usernames, all pastoral communities, and to teaching class
+communities.
 
 
 Version ClaSS-0.8.39 release (2008/02/13)

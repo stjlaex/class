@@ -29,8 +29,9 @@ function get_budgetname($ordid){
 function list_user_budgets($tid,$yearcode='%'){
 	$uid=get_uid($tid);
 	$budgets=array();
-	$d_b=mysql_query("SELECT * FROM orderbudget JOIN perms ON
-					perms.gid=orderbudget.gid WHERE perms.uid='$uid' AND perms.x='1' AND
+	$d_b=mysql_query("SELECT id, code, yearcode, name, costlimit,
+					perms.r AS r, perms.w AS w, perms.x AS x FROM orderbudget JOIN perms ON
+					perms.gid=orderbudget.gid WHERE perms.uid='$uid' AND
 			   		(orderbudget.yearcode='%' OR orderbudget.yearcode LIKE '$yearcode') ORDER
 			   		BY orderbudget.yearcode, orderbudget.name");
 	while($budget=mysql_fetch_array($d_b,MYSQL_ASSOC)){

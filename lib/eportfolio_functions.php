@@ -5,6 +5,7 @@
  *
  */
 
+/*Not really do what it should yet!!!!!!!!!!!!!*/
 function elgg_refresh(){
 	global $CFG;
 	$dbepf='';
@@ -12,17 +13,25 @@ function elgg_refresh(){
 		$dbepf=db_connect($CFG->eportfolio_db);
 		mysql_query("SET NAMES 'utf8'");
 		}
+	if(isset($CFG->clientid) and $CFG->clientid!=''){$school=$CFG->clientid;}
+	else{$school='';}
 
 	$table_users=$CFG->eportfolio_db_prefix.'users';
 	$table_friends=$CFG->eportfolio_db_prefix.'friends';
 	$table_groups=$CFG->eportfolio_db_prefix.'groups';
 	$table_folders=$CFG->eportfolio_db_prefix.'file_folders';
 	$table_members=$CFG->eportfolio_db_prefix.'group_membership';
-	mysql_query("DELETE FROM $table_users WHERE ident!='1'");
-	mysql_query("DELETE FROM $table_groups");
-	mysql_query("DELETE FROM $table_members");
-	mysql_query("DELETE FROM $table_friends");
-	mysql_query("DELETE FROM $table_folders");
+	if($school!=''){
+		$d_users=mysql_query("SELECT * FROM $table_users 
+							WHERE ident!='1' AND username LIKE '$school';");
+		}
+	else{
+		mysql_query("DELETE FROM $table_users WHERE ident!='1';");
+		mysql_query("DELETE FROM $table_groups;");
+		mysql_query("DELETE FROM $table_members;");
+		mysql_query("DELETE FROM $table_friends;");
+		mysql_query("DELETE FROM $table_folders;");
+		}
 	}
 
 function elgg_newUser($Newuser,$role){
@@ -50,11 +59,11 @@ function elgg_newUser($Newuser,$role){
 		$epfusertype='person';
 		$epftemplate_name='Default_Student';
 		$epftemplate=2;
-		//$password=good_strtolower('guest');
+		$password=good_strtolower('guest');
 		/*this takes the first three letters of the surname and day,
 		month, year of dob to be password*/
 		//$password=substr($surname,0,2).$dob[2].$dob[1].$dob[0];
-		$password=good_strtolower($surname[0]). $dob[2].$dob[1].$dob[0];
+		//$password=good_strtolower($surname[0]). $dob[2].$dob[1].$dob[0];
 		$assword=md5($password);
 		$classtable='info';
 		$classfield='student_id';
@@ -87,7 +96,10 @@ function elgg_newUser($Newuser,$role){
 		}
 	elseif($role=='staff'){
 		$email=$Newuser['EmailAddress']['value'];
-		$start='';
+		/* Staff usernames are unique within their own ClaSS but need
+		to maintain that within box by adding the the school clientid.*/
+		if(isset($CFG->clientid)){$start=$CFG->clientid;}
+		else{$start='';}
 		$tail=$Newuser['Username']['value'];
 		$epfusertype='person';
 		$epftemplate_name='Default_Staff';
@@ -102,16 +114,16 @@ function elgg_newUser($Newuser,$role){
 	$epfusername=clean_text($epfusername);
 	//	trigger_error($epfusername.' '.$password,E_USER_WARNING);
 
-	$d_user=mysql_query("SELECT ident FROM $table WHERE username='$epfusername$no'");
+	$d_user=mysql_query("SELECT ident FROM $table WHERE username='$epfusername$no';");
 	while($olduser=mysql_fetch_array($d_user)){
 		$no++;
-		$d_user=mysql_query("SELECT ident FROM $table WHERE username='$epfusername$no'");
+		$d_user=mysql_query("SELECT ident FROM $table WHERE username='$epfusername$no';");
 		}
 
 	mysql_query("INSERT INTO $table (username, password, name, 
 					email, active, user_type,icon,template_id,template_name) VALUES 
 					('$epfusername$no', '$assword', '$name',
-					'$email', '$active',exit'$epfusertype','$epftemplate',
+					'$email', '$active','$epfusertype','$epftemplate',
 					'$epftemplate','$epftemplate_name')");
 	$epfuid=mysql_insert_id();
 	$db=db_connect();
@@ -129,6 +141,8 @@ function elgg_newUser($Newuser,$role){
 function elgg_update_community($community,$communityfresh=array('type'=>'','name'=>''),$epfuidowner=''){
 	global $CFG;
 	$table=$CFG->eportfolio_db_prefix.'users';
+	if(isset($CFG->clientid)){$school=$CFG->clientid;}
+	else{$school='';}
 	$dbepf='';
 	if($CFG->eportfolio_db!=''){
 		$dbepf=db_connect($CFG->eportfolio_db);
@@ -147,7 +161,8 @@ function elgg_update_community($community,$communityfresh=array('type'=>'','name
 		/* Make sure username is still unique across all user types.*/
 		$epfusername=str_replace(' ','',$epfname);
 		$epfusername=str_replace('-','',$epfusername);
-		$epfusername=$type . $epfusername;
+		/*all communities are named according to their school and type*/
+		$epfusername=$school. $type . $epfusername;
 		$d_community=mysql_query("SELECT ident FROM $table WHERE username='$epfusername'");
 		if(mysql_num_rows($d_community)==0){
 			if($type=='class'){
@@ -165,7 +180,8 @@ function elgg_update_community($community,$communityfresh=array('type'=>'','name
 			mysql_query("INSERT INTO $table (username, name, 
 				    active, moderation, owner, user_type,icon,template_id,template_name) 
 					VALUES ('$epfusername', '$epfname',
-					'yes', 'yes', '1', 'community','$epftemplate','$epftemplate','$epftemplate_name')");
+					'yes', 'yes', '1', 'community','$epftemplate', 
+					'$epftemplate','$epftemplate_name')");
 			$comid=mysql_insert_id();
 			}
 		else{
@@ -173,7 +189,8 @@ function elgg_update_community($community,$communityfresh=array('type'=>'','name
 			if($typefresh!='' and $namefresh!=''){
 				/*TODO update all references to epfusername, if
 					allowed by elgg?*/
-				$epfusername=$typefresh . $namefresh;
+			 /*all communities are named according to their school and type*/
+				$epfusername=$school. $typefresh . $namefresh;
 				mysql_query("UPDATE $table SET username='$epfusername'
 						   WHERE ident='$comid'");
 				}
@@ -263,11 +280,13 @@ function elgg_join_group($epfuid,$group){
 		$owner=$group['owner'];
 		$d_elgg=mysql_query("SELECT ident FROM $table_group WHERE
 						name='$name' AND owner='$owner'");
-		//trigger_error($epfuid.' '.$name.' '.$owner,E_USER_WARNING);
-		$epfgroupid=mysql_result($d_elgg,0);
+		if(mysql_num_rows($d_elgg)>0){$epfgroupid=mysql_result($d_elgg,0);}
+		//else{trigger_error($epfuid.' '.$name.' '.$owner,E_USER_WARNING);}
 		}
-	mysql_query("INSERT INTO $table_member SET user_id='$epfuid',
+	if(isset($epfgroupid)){
+		mysql_query("INSERT INTO $table_member SET user_id='$epfuid',
 							group_id='$epfgroupid'");
+		}
 	$db=db_connect();
 	mysql_query("SET NAMES 'utf8'");
 	}
