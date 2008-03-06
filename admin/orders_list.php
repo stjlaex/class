@@ -4,12 +4,15 @@
 
 $action='orders_list_action.php';
 
-
 include('scripts/sub_action.php');
 
-if(isset($_POST['ordernumber'])){
+if(isset($_GET['budgetyear'])){$budgetyear=$_GET['budgetyear'];}
+if(isset($_POST['budgetyear']) and $_POST['budgetyear']!=''){$budgetyear=$_POST['budgetyear'];}
+
+if(isset($_POST['ordernumber']) or isset($_POST['orderstatus'])){
 	$ordernumber=$_POST['ordernumber'];
-	$orders=list_orders($ordernumber);
+	$orderstatus=$_POST['orderstatus'];
+	$orders=list_orders($ordernumber,$orderstatus);
 	$extrabuttons=array();
 	$budid=-1;
 	$colspan=7;
@@ -25,7 +28,7 @@ else{
 $perms=getBudgetPerm($budid);
 $Budget=fetchBudget($budid);
 
-three_buttonmenu($extrabuttons,$book);
+two_buttonmenu($extrabuttons,$book);
 ?>
   <div id="heading">
 	<label><?php print_string('budget',$book);?></label>
@@ -106,7 +109,7 @@ three_buttonmenu($extrabuttons,$book);
 				 }
 
 			if($status!='closed'){
-				$orderaction=='';
+				$orderaction='';
 				if($status=='lodged'){$orderaction='authorise';}
 				elseif($status=='authorised'){$orderaction='place';}
 				elseif($status=='placed'){$orderaction='delivery';}
@@ -141,6 +144,7 @@ three_buttonmenu($extrabuttons,$book);
 	  </table>
 	</div>
 	
+	<input type="hidden" name="budgetyear" value="<?php print $budgetyear;?>" />
 	<input type="hidden" name="budid" value="<?php print $budid;?>" />
 	<input type="hidden" name="current" value="<?php print $action;?>" />
 	<input type="hidden" name="choice" value="<?php print $choice;?>" />

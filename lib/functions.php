@@ -204,10 +204,6 @@ function getEnumArray($field_name){
 	$currency=array('0' => 'euros', 
 					'1' => 'pounds', 
 					);
-	$yearcode=array('0' => '2006/07', 
-					'1' => '2007/08', 
-					'2' => '2008/09', 
-					);
 	$ordertype=array('0' => '0', 
 					'1' => '1', 
 					'2' => '2', 
@@ -575,8 +571,8 @@ function getEnumArray($field_name){
 	$enrolmentsteps=array('EN','AP','AT','ATD','RE','ACP','CA','WL','AC');
 
 	/*for the orderaction table*/
-	$action=array('0' => 'authorised', '1' => 'placed', '2' =>
-				  'delivered', '3' => 'cancelled', '4' => 'closed');
+	$action=array('0' => 'lodged', '1' => 'authorised', '2' => 'placed', '3' =>
+				  'delivered', '4' => 'cancelled', '5' => 'closed');
 
 	/*for the gidsid table*/
 	$priority=array('0' => 'first', '1' => 'second', '2' => 'third', '3' => 'fourth');

@@ -40,7 +40,7 @@ CREATE TABLE orderaction (
 	order_id		int unsigned not null default '0', 
 	entryn			tinyint unsigned not null auto_increment,
 	invoice_id		int unsigned not null default '0', 
-	action			enum('0','1','2','3','4') not null,
+	action			enum('1','2','3','4','5') not null,
 	detail			text not null default '',
 	teacher_id		varchar(14) not null default '',
 	actiondate		date not null,

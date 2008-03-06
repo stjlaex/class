@@ -23,3 +23,5 @@ ALTER TABLE ordersupplier
 	DROP country;
 ALTER TABLE ordersupplier 
 	ADD	address_id int unsigned not null default '0';
+ALTER TABLE orderaction 
+	CHANGE action action enum('1','2','3','4','5') not null;

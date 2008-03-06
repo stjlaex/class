@@ -4,6 +4,8 @@
 
 $action='orders_list.php';
 
+$budgetyear=$_POST['budgetyear'];
+
 if(isset($_POST['recordid'])){
 	$ordid=$_POST['recordid'];
 	$detail=$_POST['detail'.$ordid];
@@ -14,7 +16,8 @@ if(isset($_POST['budid'])){
 	}
 else{$buddid=-1;}
 $entryn=-1;
-$action_post_vars=array('budid','ordid','entryn');
+$action_post_vars=array('budid','ordid','entryn','budgetyear');
+
 include('scripts/sub_action.php');
 
 $todate=date('Y-m-d');

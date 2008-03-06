@@ -3,6 +3,8 @@
  */
 
 $action='suppliers_list.php';
+$budgetyear=$_POST['budgetyear'];
+$action_post_vars=array('budgetyear');
 
 include('scripts/sub_action.php');
 

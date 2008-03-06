@@ -4,6 +4,8 @@
 
 $action='new_budget_action.php';
 
+$budgetyear=$_POST['budgetyear'];
+
 three_buttonmenu();
 
 $Budget=fetchBudget();
@@ -17,11 +19,12 @@ $Budget=fetchBudget();
   <div class="content">
 	<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
 
-	  <fieldset class="center">
+	  <fieldset class="center divgroup">
+		<legend><?php print_string('budgetscope',$book);?></legend>
 		<div class="left">
 <?php 
   	$d_group=mysql_query("SELECT id, name FROM section 
-						ORDER BY sequence"); 
+						ORDER BY sequence;"); 
 	$listname='secid';
 	$listlabel='section';
 	$required='yes';
@@ -49,8 +52,9 @@ $Budget=fetchBudget();
 	/* crid must be % to only grab curriculum subject groups*/
   	$d_group=mysql_query("SELECT gid AS id, subject.name AS name FROM groups 
 						JOIN subject ON subject_id=subject.id 
-						WHERE groups.course_id='%' ORDER BY groups.name"); 
-x	$listname='gid';
+						WHERE groups.course_id='%' ORDER BY
+						groups.name;");
+	$listname='gid';
 	$listlabel='department';
 	$listeitheror='Catid';
 	$required='eitheror';
@@ -65,6 +69,7 @@ x	$listname='gid';
 		  <?php $tab=xmlarray_form($Budget,'','newbudget',$tab,'admin'); ?>
 	  </div>
 
+		<input type="hidden" name="budgetyear" value="<?php print $budgetyear;?>" />
 	    <input type="hidden" name="current" value="<?php print $action;?>">
 		<input type="hidden" name="cancel" value="<?php print $choice;?>">
 		<input type="hidden" name="choice" value="<?php print $choice;?>">

@@ -374,9 +374,9 @@ function getBudgetPerm($budid){
 	$perm['w']=0;
 	$perm['x']=0;
 	$uid=$_SESSION['uid'];
-  	$d_group=mysql_query("SELECT r,w,x,e FROM perms JOIN budget 
-						ON perms.gid=budget.gid WHERE
-						budget.id='$budid' AND perms.uid='$uid';");
+  	$d_p=mysql_query("SELECT r,w,x,e FROM perms JOIN orderbudget 
+						ON perms.gid=orderbudget.gid WHERE
+						orderbudget.id='$budid' AND perms.uid='$uid';");
 	if(mysql_num_rows($d_p)>0){
 		$perm=mysql_fetch_array($d_u,MYSQL_ASSOC);
 		}

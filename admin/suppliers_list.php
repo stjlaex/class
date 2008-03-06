@@ -4,6 +4,7 @@
 
 $action='suppliers_list_action.php';
 
+$budgetyear=$_POST['budgetyear'];
 
 include('scripts/sub_action.php');
 
@@ -43,10 +44,10 @@ two_buttonmenu($extrabuttons,$book);
 		  <tr class="hidden" id="<?php print $entryno.'-'.$rown++;?>">
 			<td colspan="2">
 				<p>
-				<?php print $Supplier['Street']['value'];?>
-				<?php print $Supplier['Neighbourhood']['value'];?>
-				<?php print $Supplier['Town']['value'];?>
-				<?php print $Supplier['Country']['value'];?>
+				  <?php //print $Supplier['Street']['value'];?>
+				  <?php //print $Supplier['Neighbourhood']['value'];?>
+				  <?php //print $Supplier['Town']['value'];?>
+				  <?php //print $Supplier['Country']['value'];?>
 				</p>
 			</td>
 		  </tr>
@@ -57,6 +58,7 @@ two_buttonmenu($extrabuttons,$book);
 	  </table>
 	</div>
 	
+	<input type="hidden" name="budgetyear" value="<?php print $budgetyear;?>" />
 	<input type="hidden" name="current" value="<?php print $action;?>" />
 	<input type="hidden" name="choice" value="<?php print $choice;?>" />
 	<input type="hidden" name="cancel" value="<?php print $choice;?>" />

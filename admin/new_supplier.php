@@ -3,6 +3,7 @@
  */
 
 $action='new_supplier_action.php';
+$budgetyear=$_POST['budgetyear'];
 
 three_buttonmenu();
 
@@ -21,6 +22,7 @@ $Supplier=fetchSupplier();
 		  <?php $tab=xmlarray_form($Supplier,'','newsupplier',$tab,'admin'); ?>
 	  </div>
 
+	    <input type="hidden" name="budgetyear" value="<?php print $budgetyear;?>">
 	    <input type="hidden" name="current" value="<?php print $action;?>">
 		<input type="hidden" name="cancel" value="<?php print $choice;?>">
 		<input type="hidden" name="choice" value="<?php print $choice;?>">

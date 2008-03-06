@@ -26,9 +26,13 @@ function get_budgetname($ordid){
 	return $name;
 	}
 
-function list_user_budgets($tid,$yearcode='%'){
+
+function list_user_budgets($tid,$budgetyear='%'){
 	$uid=get_uid($tid);
 	$budgets=array();
+	if($budgetyear!='%'){
+		$yearcode=get_budgetyearcode($budgetyear);
+		}
 	$d_b=mysql_query("SELECT id, code, yearcode, name, costlimit,
 					perms.r AS r, perms.w AS w, perms.x AS x FROM orderbudget JOIN perms ON
 					perms.gid=orderbudget.gid WHERE perms.uid='$uid' AND
@@ -50,23 +54,39 @@ function list_budget_orders($budid){
 	return $orders;
 	}
 
-function list_orders($ordernumber='%'){
+function list_orders($ordernumber='%',$orderstatus='%'){
 	$orders=array();
-	list($budcode,$yearcode,$ordid)=split('-',$ordernumber);
-	if($budcode==''){$budcode='%';}
-	if($yearcode==''){$yearcode='%';}
-	if($ordid==''){$ordid='%';}
-	$supid='%';
+	if($ordernumber!='%' and $ordernumber!=''){
+		list($budcode,$yearcode,$ordid)=split('-',$ordernumber);
+		}
+	if(!isset($budcode) or $budcode==''){$budcode='%';}
+	if(!isset($yearcode) or $yearcode==''){$yearcode='%';}
+	if(!isset($ordid) or $ordid==''){$ordid='%';}
+	if(!isset($supid) or $supid==''){$supid='%';}
 	$d_order=mysql_query("SELECT orderorder.id FROM orderorder JOIN orderbudget ON 
 				orderbudget.id=orderorder.budget_id 
 				WHERE orderbudget.code LIKE '$budcode' AND 
 				orderbudget.yearcode LIKE '$yearcode' AND 
 				orderorder.id LIKE '$ordid' AND 
 				orderorder.supplier_id LIKE '$supid' 
-				ORDER BY entrydate DESC");
-	//trigger_error($ordernumber.': '.$budcode.' - '.$yearcode.' - '.$ordid,E_USER_WARNING);
+				ORDER BY entrydate DESC;");
 	while($order=mysql_fetch_array($d_order,MYSQL_ASSOC)){
-		$orders[]=$order;
+		if($orderstatus!='%' and $orderstatus!=''){
+			$ordid=$order['id'];
+			$d_a=mysql_query("SELECT action FROM orderaction
+				 WHERE order_id='$ordid' ORDER BY entryn DESC LIMIT 1;");
+			if(mysql_num_rows($d_a)>0){
+				$action=mysql_result($d_a,0);
+				if($action==$orderstatus){$orders[]=$order;}
+				trigger_error($orderstatus.': '.$action,E_USER_WARNING);
+				}
+			else{
+				if($orderstatus==0){$orders[]=$order;}
+				}
+			}
+		else{
+			$orders[]=$order;
+			}
 		}
 	return $orders;
 	}
@@ -223,6 +243,9 @@ function fetchBudget($budid='-1'){
 							 'value_db' => ''.$bud['section_id'],
 							 'value' => ''.get_sectionname($bud['section_id'])
 							 );
+	/* The budget code has to be unique for this yearcode so don't
+	 * just allow updates with first checking!
+	 */
    	$Budget['Code']=array('label' => 'code', 
 						  'inputtype'=> 'required',
 						  'table_db' => 'orderbudget', 
@@ -230,6 +253,7 @@ function fetchBudget($budid='-1'){
 						  'type_db' => 'varchar(8)', 
 						  'value' => ''.$bud['code']
 						  );
+	/* Generated automatically to be meaningful based on the scope of the budget*/
    	$Budget['Name']=array('label' => 'name', 
 						  'inputtype'=> 'required',
 						  //'table_db' => 'orderbudget', 
@@ -237,11 +261,12 @@ function fetchBudget($budid='-1'){
 						  'type_db' => 'varchar(160)', 
 						  'value' => ''.$bud['name']
 						  );
+	/* The yearcode should only be generated calling get_budgetyearcode.*/
    	$Budget['YearCode']=array('label' => 'year', 
 							  'inputtype'=> 'required',
-							  'table_db' => 'orderbudget', 
+							  //'table_db' => 'orderbudget', 
 							  'field_db' => 'yearcode',
-							  'type_db' => 'enum', 
+							  'type_db' => 'char(2)', 
 							  'value' => ''.$bud['yearcode']
 							  );
    	$Budget['Limit']=array('label' => 'limit', 
@@ -275,6 +300,7 @@ function fetchSupplier($supid='-1'){
 							'type_db' => 'varchar(160)', 
 							'value' => ''.$sup['name']
 							);
+	/* TODO: use address table
 	$Supplier['Street']=array('label' => 'street',
 						   'table_db' => 'ordersupplier', 
 						   'field_db' => 'street',
@@ -312,6 +338,7 @@ function fetchSupplier($supid='-1'){
 							   'field_db' => 'phonenumber2',
 							   'type_db' => 'varchar(22)', 
 							   'value' => ''.$sup['phonenumber2']);
+*/
 	return $Supplier;
 	}
 
@@ -404,4 +431,29 @@ function fetchInvoice($invid='-1'){
 	return $Invoice;
 	}
 
+/* Returns the current budgetary year.
+ * Defined as the calendar year that the current budget year ends. 
+ * 2008 is 2007/08 when displayed and understood by the user.
+ * Display can be done using display_curriculumyear()
+ */
+function get_budgetyear(){
+	$endmonth='3';/*TODO: should be in school.php*/
+	$thismonth=date('m');
+	$thisyear=date('Y');
+	if($thismonth>$endmonth){$thisyear++;}
+	return $thisyear;
+	}
+
+/* Where the year is the same principle as curriculum year ie. 2008 is 2007/08*/
+function get_budgetyearcode($budgetyear){
+	$yearcodes=array('2007' => '01', 
+					 '2008' => '02', 
+					 '2009' => '03', 
+					 '2010' => '04', 
+					 '2011' => '05', 
+					 );
+	if(array_key_exists($budgetyear,$yearcodes)){$yearcode=$yearcodes[$budgetyear];}
+	else{$yearcode=-1;}
+	return $yearcode;
+	}
 ?>

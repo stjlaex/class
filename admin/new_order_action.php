@@ -7,7 +7,8 @@ $cancel='orders_list.php';
 $budid=$_POST['budid'];
 $maxmatn=$_POST['matn'];
 $supid=$_POST['supid'];
-$action_post_vars=array('budid');
+$budgetyear=$_POST['budgetyear'];
+$action_post_vars=array('budid','budgetyear');
 
 include('scripts/sub_action.php');
 

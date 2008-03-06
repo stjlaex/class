@@ -1,7 +1,8 @@
-Version ClaSS-0.8.41 release (2008/02/29)
+Version ClaSS-0.8.41 release (2008/03/07)
 -----------------------------------------
 
-Bug fix to list_sid_responsibles() - form tutors are now being sent emails!
+Bug fix to list_sid_responsibles() - form tutors are now being sent
+emails!
 
 Brought the section table into play to represent large organisational
 sections of a school. A section is really a grouping of yeargroups
@@ -11,8 +12,8 @@ which you may want to re-name.
 
 The new_budget script now requires a budget to belong to a section.
 
-The categorydef table has a new type='bud' for enabling budgets which are
-not tied to curriculum subjects like 'Stationary' etc.
+The categorydef table has a new type='bud' for enabling budgets which
+are not tied to curriculum subjects like 'Stationary' etc.
 
 The groups table has been given a type field to make the different
 sorts of groups explicit. This also allows for groups with functions
@@ -20,6 +21,13 @@ beyond academic and pastoral to be incorporated. So, currently
 a=academic (was implicity crid and bid with yid NULL), p=pastoral (was
 implicity yid) and b=budget (uses nothing else).
 
+Used the $CFG->clientid variable as a per school distinguisher when
+generating the eportfolio accounts. This gets prepended to staff
+usernames, all pastoral communities, and to teaching class
+communities.
+
+The order book can now navigate by buget year, and the value is
+maintained between pages. Orders can now be searched by status.
 
 
 Version ClaSS-0.8.40 release (2008/02/21)
@@ -52,11 +60,6 @@ The fetchComments() now takes an end and a stagrt date.
 
 New fetchCategorydef() function for returning any set of categorydefs
 based on their type.
-
-Used the $CFG->clientid variable as a per school distinguisher when
-generating the eportfolio accounts. This gets prepended to staff
-usernames, all pastoral communities, and to teaching class
-communities.
 
 
 Version ClaSS-0.8.39 release (2008/02/13)

@@ -146,6 +146,7 @@ $string['limit']='Limit';
 $string['projectedbalance']='Projected balance';
 $string['currentbalance']='Current balance';
 $string['newbudget']='New budget';
+$string['budgetscope']='Scope of budget';
 $string['newsupplier']='New supplier';
 $string['suppliers']='Suppliers';
 $string['supplier']='Supplier';

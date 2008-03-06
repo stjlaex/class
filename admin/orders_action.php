@@ -3,13 +3,17 @@
  */
 
 $action='orders.php';
+$action_post_vars=array('budgetyear');
 
 include('scripts/sub_action.php');
 
-if($sub=='search'){
-	$action_post_vars=array('ordernumber');
-	if(isset($_POST['ordernumber'])){$ordernumber=$_POST['ordernumber'];}
-	$action='orders_list.php';
+if($sub=='Next'){
+	$budgetyear=$_POST['budgetyear'];
+	$budgetyear++;
+	}
+elseif($sub=='Previous'){
+	$budgetyear=$_POST['budgetyear'];
+	$budgetyear--;
 	}
 
 include('scripts/redirect.php');

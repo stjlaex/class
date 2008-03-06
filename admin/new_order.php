@@ -7,6 +7,7 @@ $action_post_vars=array('budid');
 
 include('scripts/sub_action.php');
 
+$budgetyear=$_POST['budgetyear'];
 $budid=$_POST['budid'];
 $Budget=fetchBudget($budid);
 $Order=fetchOrder();
@@ -69,6 +70,7 @@ three_buttonmenu();
 		</table>
 	  </div>
 
+	    <input type="hidden" name="budgetyear" value="<?php print $budgetyear;?>">
 	    <input type="hidden" name="budid" value="<?php print $budid;?>">
 	    <input type="hidden" name="matn" value="<?php print $matn;?>">
 	    <input type="hidden" name="current" value="<?php print $action;?>">

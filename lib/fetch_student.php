@@ -139,7 +139,8 @@ function fetchStudent($sid='-1'){
 	changed (the type_db for instance facilitates validation).
 
 	$Student['xmltag']=array('label' => 'Display label', 'field_db' =>
-				'ClaSSdb field name', 'type_db'=>'ClaSSdb data-type', 'value' => $student['field_db']);
+				'ClaSSdb field name', 'type_db'=>'ClaSSdb data-type', 
+					'value' => $student['field_db']);
 
 	*/
 
