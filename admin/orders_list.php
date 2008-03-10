@@ -23,20 +23,21 @@ else{
 	$orders=list_budget_orders($budid);
 	$extrabuttons['neworder']=array('name'=>'current','value'=>'new_order.php');
 	$colspan=6;
+	$perms=get_budget_perms($budid);
+	$Budget=fetchBudget($budid);
 	}
 
-$perms=getBudgetPerm($budid);
-$Budget=fetchBudget($budid);
 
 two_buttonmenu($extrabuttons,$book);
+if($budid!=-1){
 ?>
   <div id="heading">
 	<label><?php print_string('budget',$book);?></label>
-<?php
-	print $Budget['Name']['value'].' ';
-?>
+<?php	print $Budget['Name']['value'].' ';?>
   </div>
-
+<?php
+	}
+?>
   <div id="viewcontent" class="content">
 
   <form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host; ?>" >
@@ -62,12 +63,14 @@ two_buttonmenu($extrabuttons,$book);
 			$Order=(array)fetchOrder($ordid);
 			$status=$Order['Status']['value'];
 			$Supplier=(array)$Order['Supplier'];
-			$rown=0;
-			if($status=='closed'){$styleclass='';}
-			elseif($status=='lodged'){$styleclass='class="midlite"';}
-			elseif($status=='authorised'){$styleclass='class="hilite"';}
-			elseif($status=='placed'){$styleclass='class="golite"';}
-			else{$styleclass=' class="nolite"';}
+			if($budid==-1){$perms=get_budget_perms($Order['Budget']['value_db']);}
+			if($perms['r']==1){
+				$rown=0;
+				if($status=='closed'){$styleclass='';}
+				elseif($status=='lodged'){$styleclass='class="midlite"';}
+				elseif($status=='authorised'){$styleclass='class="hilite"';}
+				elseif($status=='placed'){$styleclass='class="golite"';}
+				else{$styleclass=' class="nolite"';}
 ?>
 		<tbody id="<?php print $entryno;?>">
 		  <tr class="rowplus" onClick="clickToReveal(this)" 
@@ -77,57 +80,73 @@ two_buttonmenu($extrabuttons,$book);
 			<td><?php print $Supplier['Name']['value'];?></td>
 			<td><?php print $Order['Reference']['value'];?></td>
 			<td><?php print $Order['Lodged']['value'];?></td>
-<?php  	if($budid==-1){ print '<td>'.$Order['Budget']['value'].'</td>';}?>
+			  <?php if($budid==-1){ print '<td>'.$Order['Budget']['value'].'</td>';}?>
 			<td	<?php print $styleclass;?>>&nbsp 
 			  <?php if($status!='closed'){print_string($status,$book);}?>
 			</td>
 		  </tr>
 		  <tr class="hidden" id="<?php print $entryno.'-'.$rown++;?>">
 			<td colspan="<?php print $colspan;?>">
+				<p>
 <?php
-			 while(list($index,$Material)=each($Order['Materials']['Material'])){
-				 print '<p>'.$Material['Detail']['value'].' - ' 
-				 .$Material['Quantity']['value']. 
-				 ' ('.$Material['Unitcost']['value']. ' '. 
-				 displayEnum($Order['Currency']['value'],$Order['Currency']['field_db']).')</p>';
-				 }
+				 while(list($index,$Material)=each($Order['Materials']['Material'])){
+					 print ''.$Material['Detail']['value'].' - ' 
+					 .$Material['Quantity']['value']. 
+					 ' ('.$Material['Unitcost']['value']. ' '. 
+					 displayEnum($Order['Currency']['value'],$Order['Currency']['field_db']). 
+					 ')<br />';
+					}
+?>
+				</p>
+<?php
+					if($status=='lodged' and $perms['w']==1){
+						$actionbuttons['edit']=array('name'=>'process','value'=>'edit');
+						all_extrabuttons($actionbuttons,
+										 $book,'clickToAction(this)','class="rowaction" ');
+						}
 ?>
 			</td>
 		  </tr>
 		  <tr class="hidden" id="<?php print $entryno.'-'.$rown++;?>">
 			<td colspan="<?php print $colspan;?>">
 <?php
-			 while(list($index,$Action)=each($Order['Actions']['Action'])){
+				while(list($index,$Action)=each($Order['Actions']['Action'])){
 ?>
-<p>
-				<label><?php print_string($Action['Category']['value'],$book);?></label>
-				<?php print ' '.display_date($Action['Date']['value']).' - ';?>
-				<?php print $Action['Teacher']['value']. ' ';?>
-				<?php print $Action['Detail']['value'];?>
-</p>
+				<p>
+				  <label><?php print_string($Action['Category']['value'],$book);?></label>
+				  <?php print ' '.display_date($Action['Date']['value']).' - ';?>
+				  <?php print $Action['Teacher']['value']. ' ';?>
+				  <?php print $Action['Detail']['value'];?>
+				</p>
 <?php
-				 }
+					}
 
-			if($status!='closed'){
-				$orderaction='';
-				if($status=='lodged'){$orderaction='authorise';}
-				elseif($status=='authorised'){$orderaction='place';}
-				elseif($status=='placed'){$orderaction='delivery';}
-				elseif($status=='delivered'){
-					$actionbuttons['close']=array('name'=>'process','value'=>'close');
-					$orderaction='delivery';
-					}
-				if($orderaction!=''){
-					$actionbuttons[$orderaction]=array('name'=>'process','value'=>$orderaction);
-					}
+				if($status!='closed'){
+					$orderaction='';
+					$actionbuttons=array();
+					if($status=='lodged' and $perms['x']==1){
+						$orderaction='authorise';
+						}
+					elseif($status=='authorised' and $perms['w']==1){$orderaction='place';}
+					elseif($status=='placed' and $perms['w']==1){$orderaction='delivery';}
+					elseif($status=='delivered' and $perms['w']==1){
+						$actionbuttons['close']=array('name'=>'process','value'=>'close');
+						$orderaction='delivery';
+						}
+
+					if($orderaction!=''){
+						$actionbuttons[$orderaction]=array('name'=>'process',
+														   'value'=>$orderaction);
 ?>
-			  <label>
-				<?php print get_string($orderaction,$book).' '.get_string('note',$book);?>
-			  </label>
-			  <input style="width:30em;" name="detail<?php print $ordid;?>" value="" />
+				<label>
+				  <?php print get_string($orderaction,$book).' '.get_string('note',$book);?>
+				</label>
+				<input style="width:30em;" name="detail<?php print $ordid;?>" value="" />
 <?php
-				all_extrabuttons($actionbuttons,$book,'clickToAction(this)','class="rowaction" ');
-				}
+						all_extrabuttons($actionbuttons,
+										 $book,'clickToAction(this)','class="rowaction" ');
+						}
+					}
 ?>
 			</td>
 		  </tr>
@@ -138,8 +157,8 @@ two_buttonmenu($extrabuttons,$book);
 		  </div>
 		</tbody>
 <?php
+				}
 			}
-
 ?>
 	  </table>
 	</div>

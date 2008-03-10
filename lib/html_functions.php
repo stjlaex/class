@@ -4,6 +4,13 @@
  * Generic functions for producing html elements.
  */
 
+
+/**
+ * Called by the buttonmenu functions to render the pages action
+ * buttons sitting to the left of whatever generic buttons the
+ * buttonmenu functions put in place. The onclick action will default
+ * to processing the form, set this if they are to behave differently.
+ */
 function all_extrabuttons($extrabuttons,$book='',
 						  $onclick='processContent(this)',$class=''){
 	if(is_array($extrabuttons)){
@@ -28,6 +35,9 @@ function all_extrabuttons($extrabuttons,$book='',
 		}
 	}
 
+/**
+ * 
+ */
 function three_buttonmenu($extrabuttons='',$book=''){
 ?>
 <div class="buttonmenu">
@@ -45,6 +55,9 @@ function three_buttonmenu($extrabuttons='',$book=''){
 <?php
 	}
 
+/**
+ * 
+ */
 function two_buttonmenu($extrabuttons='',$book=''){
 ?>
   <div class="buttonmenu">
@@ -56,10 +69,12 @@ function two_buttonmenu($extrabuttons='',$book=''){
 	<button onClick="processContent(this);" name="sub" 
 	  value="Reset"><?php print_string('reset');?></button>
   </div>
-
 <?php
 	}
 
+/**
+ * 
+ */
 function twoplus_buttonmenu($currentkey,$maxkey,$extrabuttons='',$book=''){
 ?>
   <div class="buttonmenu">
@@ -72,10 +87,12 @@ function twoplus_buttonmenu($currentkey,$maxkey,$extrabuttons='',$book=''){
 	<button onClick="processContent(this);" name="sub" value="Cancel"><?php print_string('cancel');?></button>
 	<button onClick="processContent(this);" name="sub" value="Reset"><?php print_string('reset');?></button>
   </div>
-
 <?php
 	}
 
+/**
+ * 
+ */
 function threeplus_buttonmenu($currentkey,$maxkey,$extrabuttons='',$book=''){
 	if($currentkey==''){$currentkey=1;}//Register only needs this
 ?>
@@ -90,10 +107,12 @@ function threeplus_buttonmenu($currentkey,$maxkey,$extrabuttons='',$book=''){
 	<button onClick="processContent(this);" name="sub" value="Cancel"><?php print_string('cancel');?></button>
 	<button onClick="processContent(this);" name="sub" value="Reset"><?php print_string('reset');?></button>
   </div>
-
 <?php
 	}
 
+/**
+ * 
+ */
 function twoplusprint_buttonmenu($extrabuttons='',$book=''){
 ?>
   <div class="buttonmenu">
@@ -105,10 +124,13 @@ function twoplusprint_buttonmenu($extrabuttons='',$book=''){
 	<button onClick="processContent(this);" name="sub" style="margin-left:1em;" value="Cancel"><?php print_string('cancel');?></button>
 	<button onClick="processContent(this);" name="sub" value="Reset"><?php print_string('reset');?></button>
   </div>
-
 <?php
 	}
 
+/**
+ * Fills in the little buttons which function on a specific record on
+ * a row by row basis, usually as part of a listmenu table.
+ */
 function rowaction_buttonmenu($imagebuttons,$extrabuttons='',$book=''){
 
 	if(is_array($imagebuttons)){
@@ -126,6 +148,9 @@ function rowaction_buttonmenu($imagebuttons,$extrabuttons='',$book=''){
    	all_extrabuttons($extrabuttons,$book,'clickToAction(this)','class="rowaction" ');
 	}
 
+/**
+ * 
+ */
 function xmlarray_form($Array,$no='',$caption='',$tab=1,$book=''){
 ?>
   <table class="listmenu">
@@ -160,6 +185,9 @@ function xmlarray_form($Array,$no='',$caption='',$tab=1,$book=''){
 	}
 
 
+/**
+ * 
+ */
 function xmlarray_divform($Array,$no='',$caption='',$tab=1,$book=''){
 
 	if($caption!=''){print '<caption>'.get_string($caption,$book).'</caption>';}
@@ -267,6 +295,7 @@ function xmlelement_input($val,$no,$tab,$book){
 	return $tab;
 	}
 
+
 /**
  * Prints one cell designed for a listmenu table including the
  * element's label and its formatted value.
@@ -291,6 +320,7 @@ function xmlelement_display($val,$book){
 	print '</td>';
 	}
 
+
 /**
  * Prints one cell designed for a listmenu table including the
  * element's label and its formatted value.
@@ -314,6 +344,10 @@ function xmlattendance_display($Attendance){
 <?php
 	}
 
+
+/**
+ * 
+ */
 function selery_stick($choices,$choice='',$book=''){
 ?>
 		<ul class="selery">
@@ -334,6 +368,8 @@ function selery_stick($choices,$choice='',$book=''){
 		</ul>
 <?php
 	}
+
+
 
 /* Before calling this, include scripts/set_list_vars.php first to define all the options */
 /* set in the $vars array (see in there how to over-ride defaults)*/
@@ -380,9 +416,13 @@ function list_select_db($d_list,$vars,$book=''){
 <?php
 	}
 
-/* As for list_select_db except that the $list is not a mysql result
- resource. It requires an array of 'id' and 'name' pairs to choose
- from, often returned from one of the list_something_things() functions.*/
+
+/**
+ * As for list_select_db except that the $list is not a mysql result
+ * resource. It requires an array of 'id' and 'name' pairs to choose
+ * from, often returned from one of the list_something_things()
+ * functions.
+ */
 function list_select_list($list,$vars,$book=''){
 	$valuefield=$vars['valuefield'];
 	$descriptionfield=$vars['descriptionfield'];
@@ -424,6 +464,9 @@ function list_select_list($list,$vars,$book=''){
 	}
 
 
+/**
+ * 
+ */
 function list_select_enum($fieldname,$vars,$book=''){
 	$vars['selectedvalue']=strtoupper($vars['selectedvalue']);
 	if($vars['filter']!=''){

@@ -101,8 +101,8 @@ two_buttonmenu($extrabuttons,$book);
 		$Attendance=fetchAttendanceSummary($sid,$startdate,$enddate);
 		$noattended=$Attendance['Summary']['Attended']['value'];
 		$nolate=$Attendance['Summary']['Late']['value'];
-		$noabsent_authorised=$Attendance['Summary']['Absentunauthorised']['value'];
-		$noabsent_unauthorised=$Attendance['Summary']['Absentauthorised']['value'];
+		$noabsent_authorised=$Attendance['Summary']['Absentauthorised']['value'];
+		$noabsent_unauthorised=$Attendance['Summary']['Absentunauthorised']['value'];
 		if($noattended>0){
 			$noabsent=$noabsent_authorised+$noabsent_unauthorised;
 			$nosession=$noattended+$noabsent;

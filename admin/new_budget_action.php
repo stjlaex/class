@@ -17,7 +17,6 @@ if($sub=='Submit'){
 		$d_n=mysql_query("SELECT name FROM groups WHERE gid='$gid_a';");
 		$name=mysql_result($d_n,0);
 		$users_perms=(array)list_group_users_perms($gid_a);
-		trigger_error($gid_a.' '.$name,E_USER_WARNING);
 		}
 	else{
 		$users_perms=array();
@@ -31,7 +30,6 @@ if($sub=='Submit'){
 	$section=mysql_fetch_array($d_section,MYSQL_ASSOC);
 
 	$name.=' - '.$section['name'];
-		trigger_error($secid.' '.$name,E_USER_WARNING);
 	$yearcode=get_budgetyearcode($budgetyear);
 	$Budget=fetchBudget();
 
@@ -39,10 +37,16 @@ if($sub=='Submit'){
 	 * permissions are taken from related groups.
 	 */
 	$d_g=mysql_query("INSERT INTO groups SET type='b';");
-	$sec_users_perms=list_group_users_perms($section['gid']);
-	$users_perms=$users_perms + $sec_users_perms;
 	$gid=mysql_insert_id();
 	while(list($uid,$perms)=each($users_perms)){
+		/* In a budget context, x is to authorise orders lodged against a budget and 
+		 * the permission is preserved for users with section x perms only.
+		 */
+		$perms['x']=0;
+		update_staff_perms($uid,$gid,$perms);
+		}
+	$sec_users_perms=list_group_users_perms($section['gid']);
+	while(list($uid,$perms)=each($sec_users_perms)){
 		update_staff_perms($uid,$gid,$perms);
 		}
 
@@ -51,7 +55,7 @@ if($sub=='Submit'){
 	$d_bud=mysql_query("SELECT id FROM orderbudget 
 					WHERE yearcode='$yearcode' AND code='$budgetcode';");
 	if(mysql_num_rows($d_bud)>0){
-			$error[]='This budget code as already been assigned for the year '. $budgetyear;
+		$error[]='This budget code as already been assigned for the year '. $budgetyear;
 		}
 	else{
 		mysql_query("INSERT INTO orderbudget SET gid='$gid', name='$name',

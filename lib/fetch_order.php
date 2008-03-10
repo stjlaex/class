@@ -37,7 +37,7 @@ function list_user_budgets($tid,$budgetyear='%'){
 					perms.r AS r, perms.w AS w, perms.x AS x FROM orderbudget JOIN perms ON
 					perms.gid=orderbudget.gid WHERE perms.uid='$uid' AND
 			   		(orderbudget.yearcode='%' OR orderbudget.yearcode LIKE '$yearcode') ORDER
-			   		BY orderbudget.yearcode, orderbudget.name");
+			   		BY orderbudget.yearcode, orderbudget.section_id, orderbudget.name");
 	while($budget=mysql_fetch_array($d_b,MYSQL_ASSOC)){
 		$budgets[]=$budget;
 		}
@@ -455,5 +455,21 @@ function get_budgetyearcode($budgetyear){
 	if(array_key_exists($budgetyear,$yearcodes)){$yearcode=$yearcodes[$budgetyear];}
 	else{$yearcode=-1;}
 	return $yearcode;
+	}
+
+/* Return perms for the active user for this budid*/	
+function get_budget_perms($budid){
+	$perms['r']=0;
+	$perms['w']=0;
+	$perms['x']=0;
+	$uid=$_SESSION['uid'];
+  	$d_p=mysql_query("SELECT r,w,x,e FROM perms JOIN orderbudget 
+						ON perms.gid=orderbudget.gid WHERE
+						orderbudget.id='$budid' AND perms.uid='$uid';");
+	if(mysql_num_rows($d_p)>0){
+		$perms=mysql_fetch_array($d_p,MYSQL_ASSOC);
+		}
+	if($_SESSION['role']=='admin'){$perms['r']=1;$perms['w']=1;$perms['x']=1;}
+	return $perms;
 	}
 ?>

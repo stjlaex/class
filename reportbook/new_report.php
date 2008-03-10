@@ -5,7 +5,9 @@
 $action='new_report_action.php';
 $choice='new_report.php';
 
-$rcrid=$respons[$r]['course_id'];
+if($r>-1){$rcrid=$respons[$r]['course_id'];}
+else{$rcrid='';}
+
 if($rcrid!=''){
     $d_report=mysql_query("SELECT id FROM report WHERE 
 						course_id='$rcrid' ORDER BY date DESC, title");
@@ -16,7 +18,7 @@ else{
     $d_report=mysql_query("SELECT id FROM report WHERE 
 						course_id='wrapper' ORDER BY date DESC, title");
 	$extrabuttons['newreportbinder']=array('name'=>'current','value'=>'new_report_action.php');
-	$tablecaption=get_string('reportwrappers',$book);
+	$tablecaption=get_string('subjectreportbinders',$book);
 	}
 
 two_buttonmenu($extrabuttons);
@@ -37,7 +39,7 @@ two_buttonmenu($extrabuttons);
 		  <tr>
 			<th></th>
 			<th><?php print get_string('date');?></th>
-			<th><?php print_string('stage');?></th>
+			<?php if($rcrid!=''){ print '<th>'.get_string('stage').'</th>';}?>
 			<th><?php print_string('title');?></th>
 		  </tr>
 		</thead>
@@ -45,11 +47,9 @@ two_buttonmenu($extrabuttons);
     $imagebuttons=array();
 	$imagebuttons['clicktodelete']=array('name'=>'current',
 										 'value'=>'delete_report.php',
-										  'title'=>'delete');
-	$imagebuttons['clicktoedit']=array('name'=>'Edit',
-										 'value'=>'',
-										  'title'=>'edit');
+										 'title'=>'delete');
     $extrabuttons=array();
+	$extrabuttons['edit']=array('name'=>'process','value'=>'edit');
 
 	while($report=mysql_fetch_array($d_report,MYSQL_ASSOC)){
 	    unset($ReportDef);
@@ -58,10 +58,11 @@ two_buttonmenu($extrabuttons);
 		$rown=0;
 ?>
 		<tbody id="<?php print $rid;?>">
-		  <tr class="rowplus" onClick="clickToReveal(this);" id="<?php print $rid.'-'.$rown++;?>">
+		  <tr class="rowplus" onClick="clickToReveal(this);" 
+								id="<?php print $rid.'-'.$rown++;?>">
 			<th>&nbsp</th>
 			<td><?php print $ReportDef['report']['date']; ?></td>
-			<td><?php print $ReportDef['report']['stage']; ?></td>
+			<?php if($rcrid!=''){print '<td>'.$ReportDef['report']['stage'].'</td>';} ?>
 			<td><?php print $ReportDef['report']['title']; ?></td>
 		  </tr>
 		  <tr class="hidden" id="<?php print $rid.'-'.$rown++;?>">
@@ -79,7 +80,7 @@ two_buttonmenu($extrabuttons);
 		else{
 			foreach($ReportDef['reptable']['rep'] as $Rep){
 ?>
-				<value id="<?php print $rep['id_db'];?>">
+				<value id="<?php print $Rep['id_db'];?>">
 				  <?php print $Rep['course_id'].' '.$Rep['stage'].' '.$Rep['name'];?>
 				</value>
 				<br />

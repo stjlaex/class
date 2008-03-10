@@ -94,7 +94,7 @@ function clickToReveal(rowObject){
 	}
 
 
-//only for rowaction buttons NOT for form buttons
+//only for rowaction buttons NOT for buttonmenu form buttons
 function clickToAction(buttonObject){
 	var i=0;
 	//need the id of the div containing the xml-record 

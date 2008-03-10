@@ -29,6 +29,9 @@ communities.
 The order book can now navigate by buget year, and the value is
 maintained between pages. Orders can now be searched by status.
 
+Bugfix to the order of columns in the Report attendance.
+
+
 
 Version ClaSS-0.8.40 release (2008/02/21)
 -----------------------------------------

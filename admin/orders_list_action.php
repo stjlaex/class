@@ -22,21 +22,24 @@ include('scripts/sub_action.php');
 
 $todate=date('Y-m-d');
 
-if($sub=='authorise'){
-	$orderaction=0;
+if($sub=='edit'){
+	$result[]='edit';
 	}
-elseif($sub=='place'){
+elseif($sub=='authorise'){
 	$orderaction=1;
 	}
-elseif($sub=='delivery'){
+elseif($sub=='place'){
 	$orderaction=2;
+	}
+elseif($sub=='delivery'){
+	$orderaction=3;
 	$action='new_invoice.php';
 	}
 elseif($sub=='cancel'){
-	$orderaction=3;
+	$orderaction=4;
 	}
 elseif($sub=='close'){
-	$orderaction=4;
+	$orderaction=5;
 	}
 
 if(isset($orderaction)){

@@ -4,13 +4,23 @@
 
 $action='new_report.php';
 
-$rcrid=$respons[$r]['course_id'];
+/* The rcrid decides wether its a report binder or a subject report*/
+if($r>-1){$rcrid=$respons[$r]['course_id'];}
+else{$rcrid='';}
 include('scripts/sub_action.php');
 
 if($sub!='Submit'){
 	$action='new_report_action.php';
 
-	three_buttonmenu();
+	if(isset($_POST['recordid'])){
+		$rid=$_POST['recordid'];
+		}
+	else{$rid=-1;}
+	$reportdef=fetchReportDefinition($rid);
+
+	//trigger_error($rid.' '.$Report[''],E_USER_WARNING);
+
+three_buttonmenu();
 ?>
   <div class="content">
 	<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
@@ -124,7 +134,7 @@ if($sub!='Submit'){
 		</option>
 <?php 
 		$d_categorydef=mysql_query("SELECT id, name, subject_id FROM
-			categorydef WHERE type='sig' AND (course_id LIKE '$rcird' 
+			categorydef WHERE type='sig' AND (course_id LIKE '$rcrid' 
 			OR course_id='%') ORDER BY rating");
 		while($catdef=mysql_fetch_array($d_categorydef,MYSQL_ASSOC)){
 ?>   				
@@ -150,7 +160,7 @@ if($sub!='Submit'){
 
 		<input type="hidden" name="current" value="<?php print $action;?>" />
 		<input type="hidden" name="choice" value="<?php print $choice; ?>"/>
-		<input type="hidden" name="cancel" value="<?php print ''; ?>"/>
+		<input type="hidden" name="cancel" value="<?php print $choice; ?>"/>
 	</form>
   </div>
 <?php
@@ -223,7 +233,6 @@ elseif($sub=='Submit'){
 							categorydef_id, subject_id) VALUES
 							('$rid', '$wraprid', 'wrapper')");
 			}
-
 
 		}
 

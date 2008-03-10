@@ -368,22 +368,6 @@ function getCoursePerm($course,$respons){
 	return $perm;
 	}
 
-/* Return perm for this budid*/	
-function getBudgetPerm($budid){
-	$perm['r']=0;
-	$perm['w']=0;
-	$perm['x']=0;
-	$uid=$_SESSION['uid'];
-  	$d_p=mysql_query("SELECT r,w,x,e FROM perms JOIN orderbudget 
-						ON perms.gid=orderbudget.gid WHERE
-						orderbudget.id='$budid' AND perms.uid='$uid';");
-	if(mysql_num_rows($d_p)>0){
-		$perm=mysql_fetch_array($d_u,MYSQL_ASSOC);
-		}
-	if($_SESSION['role']=='admin'){$perm['r']=1;$perm['w']=1;$perm['x']=1;}
-	return $perm;
-	}
-
 /* Returns arrays of fids and yids ie. pastoral responisbilites for a */
 /* given $respons array.*/
 function list_pastoral_respon($respons){

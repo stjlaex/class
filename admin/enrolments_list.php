@@ -13,9 +13,9 @@ if(isset($_POST['enrolyear'])){$enrolyear=$_POST['enrolyear'];}
 if(isset($_POST['enrolstage'])){$enrolstage=$_POST['enrolstage'];}
 
 	/* Four possible types of table: current yeargroup for selecting
-	 * leavers, current yeargroup for re-enrolment, one of the
-	 * enrolment groups, or displaying all enrolment groups in one
-	 * go.
+	 * leavers (enrolstage=C), current yeargroup for re-enrolment
+	 * (enrolstage=RE), one of the enrolment groups (enrolstage=E), or
+	 * displaying all enrolment groups in one go.
 	 */
 	if($enrolstage=='C'){
 		$enrolsteps=array('C','P');
@@ -57,10 +57,14 @@ if(isset($_POST['enrolstage'])){$enrolstage=$_POST['enrolstage'];}
 		while(list($index,$pair)=each($pairs)){
 			list($grade['result'], $grade['value'])=split(':',$pair);
 			$grades[]=$grade;
+			$$grade['value']=0;/*used fora running total*/
 			}
 		$eid=$AssDefs[0]['id_db'];
+		$description=display_yeargroupname($yid).' ('.display_curriculumyear($enrolyear-1).')';
 		}
-
+	else{
+		$description=display_yeargroupname($yid).' ('.display_curriculumyear($enrolyear).')';
+		}
 
 	$students=array();
 	reset($coms);
@@ -72,7 +76,6 @@ if(isset($_POST['enrolstage'])){$enrolstage=$_POST['enrolstage'];}
 			}
 		}
 
-	$description=display_yeargroupname($yid).' ('.display_curriculumyear($enrolyear).')';
 	$infobookcurrent='student_view_enrolment.php';
 
 	/*Check user has permission to edit*/
@@ -92,7 +95,7 @@ if(isset($_POST['enrolstage'])){$enrolstage=$_POST['enrolstage'];}
 			<?php print_string($comtype,$book);?>
 		  </caption>
 		  <tr>
-			<th style="width:40%;"><?php print $description;?></th>
+			<th colspan="2" style="width:40%;"><?php print $description;?></th>
 			<th>
 <?php
 		   	$required='no';$multi='1';
@@ -103,7 +106,7 @@ if(isset($_POST['enrolstage'])){$enrolstage=$_POST['enrolstage'];}
 				print_string('current','infobook');
 				}
 			elseif($enrolstage=='RE'){
-				print_string('reenroled','infobook');
+				print_string('reenroling','infobook');
 				}
 		   	else{
 		   		reset($AssDefs);
@@ -117,11 +120,13 @@ if(isset($_POST['enrolstage'])){$enrolstage=$_POST['enrolstage'];}
 			</th>
 		  </tr>
 <?php
+	$rown=1;
 	while(list($index,$student)=each($students)){
 		$sid=$student['id'];
 		$Enrolment=fetchEnrolment($sid);
 ?>
 		  <tr id="sid-<?php print $sid;?>">
+			<td><?php print $rown++;?>&nbsp;</td>
 			<td>
 			  <span title="<?php print display_date($student['dob']). 
 				' <br />'.$Enrolment['EnrolmentNotes']['value'];?>">
@@ -178,6 +183,7 @@ if(isset($_POST['enrolstage'])){$enrolstage=$_POST['enrolstage'];}
 						tabindex="'.$tab++.'" value="'.$grade['value'].'" ';
 					if($value!='' and $value==$grade['value']){
 						print ' checked="checked" ';
+						$$grade['value']++;
 						}
 					print '/></div>';
 					}
@@ -187,10 +193,12 @@ if(isset($_POST['enrolstage'])){$enrolstage=$_POST['enrolstage'];}
 				while(list($index,$AssDef)=each($AssDefs)){
 					$eid=$AssDef['id_db'];
 					$Assessments=(array)fetchAssessments_short($sid,$eid,'G');
-					/*assumes only one score allowed per enrolment
-						assessment per student - no problem unless
-						subject specific assessments are allowed - which
-						bid='G' ensures they are not but could be in future*/
+					/*	Assumes only one score allowed per enrolment
+					 *	assessment per student - no problem unless
+					 *	subject specific assessments are allowed -
+					 *	which bid='G' ensures they are not but could
+					 *	be in future.
+					 */
 					if(sizeof($Assessments)>0){$result=$Assessments[0]['Result']['value'];}
 					else{$result='&nbsp;';}
 					print $result.'</td>';
@@ -212,6 +220,26 @@ if(isset($_POST['enrolstage'])){$enrolstage=$_POST['enrolstage'];}
 				name="sids[]" value="<?php print $sid;?>" />
 			</td>
 		  </tr>
+<?php
+		}
+	if($enrolstage=='RE'){
+?>
+		<tr>
+		  <th colspan="2">
+			<?php print_string('total',$book);?>
+		  </th>
+		  <td>
+<?php
+				reset($grades);
+				while(list($index,$grade)=each($grades)){
+					print '<div class="row"><label>' 
+							.$grade['result'].'</label>';
+					print $$grade['value'];
+					print '</div>';
+					}
+?>
+		  </td>
+		</tr>
 <?php
 		}
 ?>

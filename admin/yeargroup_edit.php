@@ -65,7 +65,7 @@ if(isset($_POST['enrolyear'])){$enrolyear=$_POST['enrolyear'];}
 			<?php print_string('yeargroup');?>
 		  </caption>
 		  <tr>
-			<th colspan="2">
+			<th colspan="3">
 			  <?php print $displayname;?>
 			</th>
 			<td>
@@ -76,6 +76,7 @@ if(isset($_POST['enrolyear'])){$enrolyear=$_POST['enrolyear'];}
 			</td>
 		  </tr>
 <?php
+	$rown=1;
 	while(list($index,$student)=each($oldstudents)){
 		if($_SESSION['role']=='admin' or $_SESSION['role']=='office'
 		   or $_SESSION['role']=='district'){
@@ -83,10 +84,21 @@ if(isset($_POST['enrolyear'])){$enrolyear=$_POST['enrolyear'];}
 			$extra=$Enrolment['EnrolNumber']['value'];
 			}
 		else{$extra='&nbsp;';}
-		print '<tr><td>'.$student['surname']. 
-				', '.$student['forename']. ' ('.$student['form_id'].')</td><td>'.$extra.'</td>';
-		print '<td><input type="checkbox" name="oldsids[]" value="'.$student['id'].'" /></td>';
-		print '</tr>';
+?>
+		  <tr>
+			<td><?php print $rown++;?></td>
+			<td>
+<?php  print $student['surname']. 
+				', '.$student['forename']. ' ('.$student['form_id'].
+												')</td><td>'.$extra;
+?>
+			</td>
+			<td>
+			  <input type="checkbox" name="oldsids[]" 
+							value="<?php print $student['id'];?>" />
+			</td>
+		</tr>
+<?php
 		}
 ?>
 		</table>
