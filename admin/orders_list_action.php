@@ -17,13 +17,14 @@ if(isset($_POST['budid'])){
 else{$buddid=-1;}
 $entryn=-1;
 $action_post_vars=array('budid','ordid','entryn','budgetyear');
-
+ 
 include('scripts/sub_action.php');
 
 $todate=date('Y-m-d');
 
 if($sub=='edit'){
 	$result[]='edit';
+	$action='new_order.php';
 	}
 elseif($sub=='authorise'){
 	$orderaction=1;

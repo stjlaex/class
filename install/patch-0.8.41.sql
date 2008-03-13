@@ -25,3 +25,5 @@ ALTER TABLE ordersupplier
 	ADD	address_id int unsigned not null default '0';
 ALTER TABLE orderaction 
 	CHANGE action action enum('1','2','3','4','5') not null;
+ALTER TABLE ordermaterial 
+	ADD materialtype char(2) not null default '';

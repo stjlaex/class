@@ -114,7 +114,7 @@ function fetchOrder($ordid='-1'){
 	$order=mysql_fetch_array($d_o,MYSQL_ASSOC);
 	$Order=array();
 	$Order['id_db']=$ordid;
-   	$Order['OrderType']=array('label' => 'ordertype',
+	/*   	$Order['OrderType']=array('label' => 'ordertype',
 							  'inputtype'=> 'required',
 							  'table_db' => 'orderorder', 
 							  'field_db' => 'ordertype',
@@ -122,6 +122,14 @@ function fetchOrder($ordid='-1'){
 							  'default_value' => '0',
 							  'value' => ''.$order['ordertype']
 							  );
+	*/
+   	$Order['Date']=array('label' => 'date', 
+						 'inputtype'=> 'required',
+						 'table_db' => 'orderorder', 
+						 'field_db' => 'entrydate',
+						 'type_db' => 'date', 
+						 'value' => ''.$order['entrydate']
+						 );
    	$Order['Currency']=array('label' => 'currency', 
 							 'inputtype'=> 'required',
 							 'table_db' => 'orderorder', 
@@ -130,13 +138,6 @@ function fetchOrder($ordid='-1'){
 							 'default_value' => '0',
 							 'value' => ''.$order['currency']
 							 );
-   	$Order['Date']=array('label' => 'date', 
-						 'inputtype'=> 'required',
-						 'table_db' => 'orderorder', 
-						 'field_db' => 'entrydate',
-						 'type_db' => 'date', 
-						 'value' => ''.$order['entrydate']
-						 );
    	$Order['Lodged']=array('label' => 'lodgedby', 
 						   'field_db' => 'teacher_id',
 						   'type_db' => 'varchar(14)', 
@@ -187,7 +188,8 @@ function fetchOrder($ordid='-1'){
 function fetchMaterials($ordid){
 	$Materials=array();
 	$Materials['Material']=array();
-	$d_m=mysql_query("SELECT entryn, quantity, unitcost, detail, refno
+	$d_m=mysql_query("SELECT entryn, quantity, unitcost, detail,
+							refno, materialtype
 					FROM ordermaterial WHERE order_id='$ordid' ORDER BY entryn;");
 	while($mat=mysql_fetch_array($d_m,MYSQL_ASSOC)){
 		$Material=(array)fetchMaterial($mat);
@@ -199,6 +201,14 @@ function fetchMaterials($ordid){
 function fetchMaterial($mat=array()){
 	$Material=array();
 	$Material['id_db']=$mat['entryn'];
+   	$Material['Type']=array('label' => 'type',
+									//'inputtype'=> 'required',
+									'table_db' => 'ordermaterial', 
+									'field_db' => 'materialtype',
+									'type_db' => 'enum', 
+									'default_value' => '0',
+									'value' => ''.$order['materialtype']
+							  );
 	$Material['Quantity']=array('label' => 'quantity', 
 								//'inputtype'=> 'required',
 								'table_db' => 'ordermaterial', 

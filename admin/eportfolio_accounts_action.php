@@ -134,9 +134,10 @@ include('scripts/answer_action.php');
 		$epfuid=elgg_newUser($Contact,'guardian');
 		$sids=$epf_contact['sids'];
 		while(list($index,$sid)=each($sids)){
-			/*joining a family community involves simply an entry in
-				friends and an access group, a family does not have a community of
-				its own*/
+			/* Joining a family community involves simply an entry in
+			 * friends and an access group, a family does not have a community of
+			 * its own.
+			 */
 			elgg_join_community($epfuid,array('epfcomid'=>$Students[$sid]['epfuid']));
 			elgg_join_group($epfuid,array('epfgroupid'=>$Students[$sid]['epfgroupid'],'name'=>'family','owner'=>$Students[$sid]['epfuid'],'access'=>''));
 			}

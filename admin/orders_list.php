@@ -81,8 +81,8 @@ if($budid!=-1){
 			<td><?php print $Order['Reference']['value'];?></td>
 			<td><?php print $Order['Lodged']['value'];?></td>
 			  <?php if($budid==-1){ print '<td>'.$Order['Budget']['value'].'</td>';}?>
-			<td	<?php print $styleclass;?>>&nbsp 
-			  <?php if($status!='closed'){print_string($status,$book);}?>
+			<td	<?php print $styleclass;?>> 
+			  <?php if($status!='closed'){print_string($status,$book);}?>&nbsp
 			</td>
 		  </tr>
 		  <tr class="hidden" id="<?php print $entryno.'-'.$rown++;?>">

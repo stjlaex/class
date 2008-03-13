@@ -208,6 +208,11 @@ function getEnumArray($field_name){
 					'1' => '1', 
 					'2' => '2', 
 					);
+	$materialtype=array('0' => '', 
+						'1' => 'software', 
+						'2' => 'consumables', 
+						'2' => 'books', 
+						);
 
 	/*codes from CBDS 2007, including deprecated six for compatibility*/
 	/*not always the same as ISO 639-2 is the alpha-3 code for language!*/

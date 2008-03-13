@@ -3,9 +3,14 @@
  *
  * Currently only appropriate to integration with elgg.
  *
+ * The eportfolio_db prefix is set to separate different schools into
+ * separate eportfolio databases. The clientid can also be used as a
+ * school identify where different schools are sharing the same
+ * eportfolio database - some communities will then be inter-school,
+ * primarily for staff, while others for pastoral and teaching groups
+ * will be prefixed by the clientid and remain intra-school only.
  */
 
-/*Not really do what it should yet!!!!!!!!!!!!!*/
 function elgg_refresh(){
 	global $CFG;
 	$dbepf='';
@@ -22,16 +27,29 @@ function elgg_refresh(){
 	$table_folders=$CFG->eportfolio_db_prefix.'file_folders';
 	$table_members=$CFG->eportfolio_db_prefix.'group_membership';
 	if($school!=''){
-		$d_users=mysql_query("SELECT * FROM $table_users 
-							WHERE ident!='1' AND username LIKE '$school';");
+		/*This will list all community users for this school*/
+		$no=0;
+		$d_users=mysql_query("SELECT ident FROM $table_users 
+							WHERE ident!='1' AND username LIKE
+							'$school%' AND user_type='community';");
+		while($oldcom=mysql_fetch_array($d_users)){
+			$no++;
+			$ident=$oldcom['ident'];
+			mysql_query("DELETE FROM $table_users WHERE ident='$ident';");
+			mysql_query("DELETE FROM $table_friends WHERE
+								friend='$ident' OR owner='$ident';");
+			}
+		trigger_error($school.': '.$no,E_USER_WARNING);
 		}
 	else{
-		mysql_query("DELETE FROM $table_users WHERE ident!='1';");
+		mysql_query("DELETE FROM $table_users;");
+		mysql_query("DELETE FROM $table_friends;");
 		mysql_query("DELETE FROM $table_groups;");
 		mysql_query("DELETE FROM $table_members;");
 		mysql_query("DELETE FROM $table_friends;");
 		mysql_query("DELETE FROM $table_folders;");
 		}
+
 	}
 
 function elgg_newUser($Newuser,$role){

@@ -50,6 +50,7 @@ three_buttonmenu();
 	  <div class="center">
 		<table class="listmenu">
 		  <th>&nbsp;</th>
+		  <th><?php print_string($Material['Type']['label'],$book);?></th>
 		  <th style="width:40%;"><?php print_string($Material['Detail']['label'],$book);?></th>
 		  <th><?php print_string($Material['SupplierReference']['label'],$book);?></th>
 		  <th><?php print_string($Material['Quantity']['label'],$book);?></th>
@@ -59,6 +60,7 @@ three_buttonmenu();
 ?>
 		  <tr>
 			<td><?php print $matn;?></td>
+			<td><?php $tab=xmlelement_input($Material['Type'],$matn,$tab,$book);?></td>
 			<td><?php $tab=xmlelement_input($Material['Detail'],$matn,$tab,$book);?></td>
 			<td><?php $tab=xmlelement_input($Material['SupplierReference'],$matn,$tab,$book);?></td>
 			<td><?php $tab=xmlelement_input($Material['Quantity'],$matn,$tab,$book);?></td>
