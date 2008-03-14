@@ -31,6 +31,13 @@ maintained between pages. Orders can now be searched by status.
 
 Bugfix to the order of columns in the Report attendance.
 
+The eportfolio now uses the epfusername during the remote login and
+NOT tid; the two can be different when multiple class installations
+share the same elgg installation. The clientid is appended to the
+start of all tids when creating the eportfolio user account to ensure
+usernames stay unique across schools.
+
+
 
 
 Version ClaSS-0.8.40 release (2008/02/21)

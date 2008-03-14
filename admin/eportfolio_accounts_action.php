@@ -75,7 +75,14 @@ include('scripts/answer_action.php');
 		$Newuser['EmailAddress']['value']=$user['email'];
 		$Newuser['Username']['value']=strtolower($user['username']);
 		$Newuser['Password']['value']=$user['passwd'];
-		$epfuid=elgg_newUser($Newuser,'staff');
+		/* Don't want to create a epf user if they already have an account. */
+		$epfuid=-1;
+		if($user['epfusername']!=''){
+			$epfuid=elgg_get_epfuid($user['epfusername'],'person',true);
+			}
+		if($epfuid==-1){
+			$epfuid=elgg_newUser($Newuser,'staff');
+			}
 		$staff[$Newuser['Username']['value']]=$epfuid;
 		}
 
@@ -107,7 +114,18 @@ include('scripts/answer_action.php');
 
 	reset($Students);
 	while(list($sid,$Student)=each($Students)){
-		$epfuid=elgg_newUser($Student,'student');
+		/* Don't want to create a epf user if they already have an account. */
+		$epfuid=-1;
+		unset($sepfu);
+		$field=fetchStudent_singlefield($sid,'EPFUsername');
+		$Student=array_merge($Student,$field);
+		trigger_error($sid.':'.$Student['EPFUsername']['value'],E_USER_WARNING);
+		if($Student['EPFUsername']['value']!=''){
+			$epfuid=elgg_get_epfuid($Student['EPFUsername']['value'],'person',true);
+			}
+		if($epfuid==-1){
+			$epfuid=elgg_newUser($Student,'student');
+			}
 		$Students[$sid]['epfuid']=$epfuid;
 		$fid=$Student['RegistrationGroup']['value'];
 		if(isset($formepfcomids[$fid])){
@@ -131,7 +149,15 @@ include('scripts/answer_action.php');
 		if($Contact['Title']['value']!=''){
 			$Contact['Title']['value']=get_string(displayEnum($Contact['Title']['value'],'title'),'infobook');
 			}
-		$epfuid=elgg_newUser($Contact,'guardian');
+		/* Don't want to create a epf user if they already have an account. */
+		$epfuid=-1;
+		if($Contact['EPFUsername']['value']!=''){
+			$epfuid=elgg_get_epfuid($Contact['EPFUsername']['value'],'person',true);
+			}
+		if($epfuid==-1){
+			$epfuid=elgg_newUser($Contact,'guardian');
+			}
+
 		$sids=$epf_contact['sids'];
 		while(list($index,$sid)=each($sids)){
 			/* Joining a family community involves simply an entry in

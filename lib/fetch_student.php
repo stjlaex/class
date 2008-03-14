@@ -67,6 +67,7 @@ function fetchStudent_singlefield($sid,$tag){
 	/*this is a ad-hoc function for use by student_list only at the moment*/
 	/*to quickly get at sid fields outside of student*/
 	$fieldtype='';
+	$Student=array();
 	if($tag=='Nationality'){$fieldname='nationality';$fieldtype='enum';}
 	elseif($tag=='EnrolNumber'){$fieldname='formerupn';}
 	elseif($tag=='Language'){$fieldname='language';$fieldtype='enum';}
@@ -657,6 +658,11 @@ function fetchContact($gidsid=array('guardian_id'=>'-1','student_id'=>'-1','prio
 								  'field_db' => 'nationality', 
 								  'type_db' => 'enum', 
 								  'value' => ''.$guardian['nationality']);
+   	$Contact['EPFUsername']=array('label' => 'epfusername', 
+								  // 'table_db' => 'guardian', 
+								  'field_db' => 'epfusername', 
+								  'type_db'=> 'varchar(128)', 
+								  'value' => ''.$guardian['epfusername']);
    	$Contact['Profession']=array('label' => 'profession', 
 								  'table_db' => 'guardian', 
 								  'field_db' => 'profession', 
@@ -1183,9 +1189,12 @@ function fetchMedical($sid='-1'){
 	return $Medical;
 	}
 
-/** Returns the epfusername for that sid either from the database if */
-/* the eportfolio is configured or generates a usable name based on */
-/* the formula but not a unique username suitable for joining the portfolio!.*/
+/**
+ * Returns the epfusername for that sid either from the database if
+ * the eportfolio is configured or generates a usable name based on 
+ * the formula but not a unique username suitable for joining the
+ * portfolio!.
+ */
 function get_epfusername($sid,$Student=array(),$type='student'){
 	$epfusername='';
 	$d_info=mysql_query("SELECT epfusername FROM info WHERE student_id='$sid';");

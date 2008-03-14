@@ -9,17 +9,18 @@ $host='eportfolio.php';
 $book='eportfolio';
 include ('scripts/head_options.php');
 
+$epfusername=strtolower(get_staff_epfusername($tid));
 $ip=$_SERVER['REMOTE_ADDR'];
 $salt=$CFG->eportfolioshare;
 $secret=md5($salt . $ip);
-$token=md5(strtolower($tid) . $secret);
+$token=md5($epfusername . $secret);
 $entrypage='login/index.php';
 $externalparams=array(
-			  'action' => 'login',
-			  'lang' => current_language(),
-			  'password' => $token,
-			  'username' => $tid
-			  );
+					  'action' => 'login',
+					  'lang' => current_language(),
+					  'password' => $token,
+					  'username' => $epfusername
+					  );
 /*construct the redirect string*/
 $externalred=$CFG->eportfoliosite . '/'.$entrypage;
 while(list($param,$value)=each($externalparams)){

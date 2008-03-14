@@ -11,6 +11,16 @@
  * will be prefixed by the clientid and remain intra-school only.
  */
 
+
+/**
+ * The purpose here is to refresh (or rather clear out) all of the
+ * existing 'relationships' between users and communities in the
+ * database ready for them to be re-populated (refreshed) say at the
+ * start of the year. So, it empties completely the friends and
+ * group_membership tables, deletes all community users from the users
+ * table and all of their associated content (blogs, files all get
+ * wiped!). All users' accounts and their content are left intact.
+ */
 function elgg_refresh(){
 	global $CFG;
 	$dbepf='';
@@ -19,37 +29,75 @@ function elgg_refresh(){
 		mysql_query("SET NAMES 'utf8'");
 		}
 	if(isset($CFG->clientid) and $CFG->clientid!=''){$school=$CFG->clientid;}
-	else{$school='';}
+	else{$school='all';}
 
 	$table_users=$CFG->eportfolio_db_prefix.'users';
 	$table_friends=$CFG->eportfolio_db_prefix.'friends';
 	$table_groups=$CFG->eportfolio_db_prefix.'groups';
 	$table_folders=$CFG->eportfolio_db_prefix.'file_folders';
+	$table_files=$CFG->eportfolio_db_prefix.'files';
 	$table_members=$CFG->eportfolio_db_prefix.'group_membership';
-	if($school!=''){
-		/*This will list all community users for this school*/
-		$no=0;
-		$d_users=mysql_query("SELECT ident FROM $table_users 
+	$table_flags=$CFG->eportfolio_db_prefix.'user_flags';
+	$table_pages=$CFG->eportfolio_db_prefix.'pages';
+	$table_profile=$CFG->eportfolio_db_prefix.'profile_data';
+	$table_tags=$CFG->eportfolio_db_prefix.'tags';
+	$table_weblog=$CFG->eportfolio_db_prefix.'weblog';
+	$table_hw=$CFG->eportfolio_db_prefix.'weblog_homework';
+	$table_comments=$CFG->eportfolio_db_prefix.'weblog_comments';
+	$table_watchlist=$CFG->eportfolio_db_prefix.'weblog_watchlist';
+
+	$no=0;
+	/*This will list all community users for this school*/
+	$d_users=mysql_query("SELECT ident,username FROM $table_users 
 							WHERE ident!='1' AND username LIKE
 							'$school%' AND user_type='community';");
-		while($oldcom=mysql_fetch_array($d_users)){
-			$no++;
-			$ident=$oldcom['ident'];
-			mysql_query("DELETE FROM $table_users WHERE ident='$ident';");
-			mysql_query("DELETE FROM $table_friends WHERE
+	while($oldcom=mysql_fetch_array($d_users)){
+		$no++;
+		$ident=$oldcom['ident'];
+		mysql_query("DELETE FROM $table_users WHERE ident='$ident';");
+		mysql_query("DELETE FROM $table_friends WHERE
 								friend='$ident' OR owner='$ident';");
-			}
-		trigger_error($school.': '.$no,E_USER_WARNING);
-		}
-	else{
-		mysql_query("DELETE FROM $table_users;");
-		mysql_query("DELETE FROM $table_friends;");
-		mysql_query("DELETE FROM $table_groups;");
-		mysql_query("DELETE FROM $table_members;");
-		mysql_query("DELETE FROM $table_friends;");
-		mysql_query("DELETE FROM $table_folders;");
+		mysql_query("DELETE FROM $table_folders WHERE owner='$ident';");
+		mysql_query("DELETE FROM $table_files WHERE files_owner='$ident';");
+		mysql_query("DELETE FROM $table_pages WHERE owner='$ident';");
+		mysql_query("DELETE FROM $table_profile WHERE owner='$ident';");
+		mysql_query("DELETE FROM $table_tags WHERE owner='$ident';");
+		mysql_query("DELETE FROM $table_groups WHERE owner='$ident';");
+		mysql_query("DELETE FROM $table_members WHERE user_id='$ident';");
+		mysql_query("DELETE FROM $table_flags WHERE user_id='$ident';");
+		mysql_query("DELETE FROM $table_weblog WHERE weblog='$ident';");
+		mysql_query("DELETE FROM $table_hw JOIN
+					$table_weblog.ident=$table_hw.weblog_post 
+					WHERE $table_weblog.weblog='$ident';");
+		mysql_query("DELETE FROM $table_comments JOIN
+					$table_weblog.ident=$table_comments.post_id 
+					WHERE $table_weblog.weblog='$ident';");
+		mysql_query("DELETE FROM $table_watchlist JOIN
+					$table_weblog.ident=$table_watchlist.weblog_post
+					WHERE $table_weblog.weblog='$ident';");
+		trigger_error($no.': '.$oldcom['username'],E_USER_WARNING);
 		}
 
+	}
+
+
+/**
+ * This blanks all users from the elgg database
+ * TODO: blank out epfusername records in ClaSS too.
+ */
+function elgg_blank(){
+	$blanktables=array('friends','group','');
+	$table_users=$CFG->eportfolio_db_prefix.'users';
+	$table_friends=$CFG->eportfolio_db_prefix.'friends';
+	$table_groups=$CFG->eportfolio_db_prefix.'groups';
+	$table_folders=$CFG->eportfolio_db_prefix.'file_folders';
+	$table_members=$CFG->eportfolio_db_prefix.'group_membership';
+	mysql_query("DELETE FROM $table_users;");
+	mysql_query("DELETE FROM $table_friends;");
+	mysql_query("DELETE FROM $table_groups;");
+	mysql_query("DELETE FROM $table_members;");
+	mysql_query("DELETE FROM $table_friends;");
+	mysql_query("DELETE FROM $table_folders;");
 	}
 
 function elgg_newUser($Newuser,$role){
@@ -328,15 +376,20 @@ function elgg_new_folder($owner,$name,$access){
 	mysql_query("SET NAMES 'utf8'");
 	}
 
-/* Only to be called from other elgg_ functions.*/
-function elgg_get_epfuid($owner,$type){
+/** 
+ * Returns the epfuid - usually called from other elgg_ functions but
+ * set dbc=true if its to be called elsewhere.
+ * The owner is the epfusername and type is the elgg user_type 
+ * currently only recognised as either 'person' or 'community'.
+ */
+function elgg_get_epfuid($owner,$type,$dbc=false){
 	global $CFG;
 	$table=$CFG->eportfolio_db_prefix.'users';
 
-	//	if($CFG->eportfolio_db!='' and $dbepf==''){
-	//	$dbepf=db_connect($CFG->eportfolio_db);
-	//	mysql_query("SET NAMES 'utf8'");
-	//	}
+	if($CFG->eportfolio_db!='' and $dbc==true){
+		$dbepf=db_connect($CFG->eportfolio_db);
+		mysql_query("SET NAMES 'utf8'");
+		}
 
 	$d_u=mysql_query("SELECT ident FROM $table WHERE username='$owner'
 									AND user_type='$type';");
@@ -346,9 +399,11 @@ function elgg_get_epfuid($owner,$type){
 	else{
 		$uid=-1;
 		}
-	//$db=db_connect();
-	//mysql_query("SET NAMES 'utf8'");
 
+	if($dbc==true){
+		$db=db_connect();
+		mysql_query("SET NAMES 'utf8'");
+		}
 	return $uid;
 	}
 

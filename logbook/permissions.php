@@ -79,7 +79,7 @@ function list_responsible_users($tid,$respons,$r=0){
 			$d_users=mysql_query("SELECT DISTINCT uid,
 			   	username, passwd, forename, surname, email, emailuser,
 				emailpasswd, nologin,
-				firstbookpref, role, senrole FROM users JOIN tidcid ON 
+				firstbookpref, role, senrole, epfusername FROM users JOIN tidcid ON 
 				users.username=tidcid.teacher_id WHERE
 				tidcid.class_id='$cid[0]' ORDER BY username");
 		  while($user=mysql_fetch_array($d_users,MYSQL_ASSOC)){
@@ -109,7 +109,7 @@ function list_pastoral_users($ryid,$perms){
 	$d_users=mysql_query("SELECT DISTINCT users.uid,
 			   	username, passwd, forename, surname, email, emailuser,
 				emailpasswd, nologin,
-				firstbookpref, role, senrole FROM users JOIN perms ON 
+				firstbookpref, role, senrole, epfusername FROM users JOIN perms ON 
 				users.uid=perms.uid WHERE perms.gid='$gid' AND perms.r='$r' 
 				AND perms.w='$w' AND perms.x='$x'");
 	while($user=mysql_fetch_array($d_users,MYSQL_ASSOC)){
@@ -157,7 +157,7 @@ function list_all_users($nologin='%'){
    	$users=array();
 	$d_users=mysql_query("SELECT uid, username, passwd, forename,
 				surname, title, email, emailuser, emailpasswd, nologin, firstbookpref,
-				role, worklevel, senrole
+				role, worklevel, senrole, epfusername
 				FROM users WHERE nologin LIKE '$nologin' ORDER BY role, username");
 	while($user=mysql_fetch_array($d_users,MYSQL_ASSOC)){;
 		$uid=$user['uid'];
@@ -178,7 +178,7 @@ function list_teacher_users($crid='',$bid=''){
 			$d_users=mysql_query("SELECT uid, username, passwd, forename,
 				surname, title, email, emailuser, emailpasswd,
 					nologin, firstbookpref, role, worklevel,
-				senrole FROM users WHERE username='$tid'");
+				senrole, epfusername FROM users WHERE username='$tid'");
 			$user=mysql_fetch_array($d_users,MYSQL_ASSOC);
 			$users[$tid]=$user;
 			}
@@ -202,6 +202,12 @@ function get_uid($tid){
 	$d_users=mysql_query("SELECT uid FROM users WHERE username='$tid'");
 	$uid=mysql_result($d_users,0);
 	return $uid;
+	}
+
+function get_staff_epfusername($tid){
+	$d_users=mysql_query("SELECT epfusername FROM users WHERE username='$tid'");
+	$epfu=mysql_result($d_users,0);
+	return $epfu;
 	}
 
 function get_user($tid){
