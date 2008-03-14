@@ -317,7 +317,7 @@ function elgg_update_group($group,$groupfresh=array('owner'=>'','name'=>'','acce
 			}
 		else{
 			$epfgroupid=mysql_result($d_group,0);
-			if($$namefresh!=''){
+			if($namefresh!=''){
 				/*TODO update all references to epfusername, if
 					allowed by elgg?*/
 				mysql_query("UPDATE $table SET name='$namefresh', 

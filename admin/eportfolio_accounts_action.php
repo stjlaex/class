@@ -119,7 +119,7 @@ include('scripts/answer_action.php');
 		unset($sepfu);
 		$field=fetchStudent_singlefield($sid,'EPFUsername');
 		$Student=array_merge($Student,$field);
-		trigger_error($sid.':'.$Student['EPFUsername']['value'],E_USER_WARNING);
+		//trigger_error($sid.':'.$Student['EPFUsername']['value'],E_USER_WARNING);
 		if($Student['EPFUsername']['value']!=''){
 			$epfuid=elgg_get_epfuid($Student['EPFUsername']['value'],'person',true);
 			}
