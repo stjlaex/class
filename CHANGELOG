@@ -1,4 +1,4 @@
-Version ClaSS-0.8.41 release (2008/03/07)
+Version ClaSS-0.8.41 release (2008/03/17)
 -----------------------------------------
 
 Bug fix to list_sid_responsibles() - form tutors are now being sent
@@ -18,24 +18,24 @@ are not tied to curriculum subjects like 'Stationary' etc.
 The groups table has been given a type field to make the different
 sorts of groups explicit. This also allows for groups with functions
 beyond academic and pastoral to be incorporated. So, currently
-a=academic (was implicity crid and bid with yid NULL), p=pastoral (was
-implicity yid) and b=budget (uses nothing else).
+a=academic (was implicitly crid and bid with yid NULL), p=pastoral (was
+implicitly yid) and b=budget (uses nothing else).
 
 Used the $CFG->clientid variable as a per school distinguisher when
 generating the eportfolio accounts. This gets prepended to staff
 usernames, all pastoral communities, and to teaching class
 communities.
 
-The order book can now navigate by buget year, and the value is
+The order book can now navigate by budget year, and the value is
 maintained between pages. Orders can now be searched by status.
 
 Bugfix to the order of columns in the Report attendance.
 
 The eportfolio now uses the epfusername during the remote login and
 NOT tid; the two can be different when multiple class installations
-share the same elgg installation. The clientid is appended to the
-start of all tids when creating the eportfolio user account to ensure
-usernames stay unique across schools.
+share the same elgg installation. The school's clientid is appended to
+the start of all tids when creating the eportfolio user account to
+ensure usernames stay unique across schools.
 
 
 
@@ -53,9 +53,9 @@ The enrolments_matrix can now handle R for students repeating a year.
 An attendance summary is now included in reports, using
 fetchAttendanceSummary() which contains the rules for calculating the
 various statistics. This in turn calls upon the basic
-count_attendnace() to do the db count.
+count_attendance() to do the db count.
 
-The report_attendnace script now accepts a from and to date, and uses
+The report_attendance script now accepts a from and to date, and uses
 the new attendance summary functions to do the reporting. Added a
 template for printing a detailed attendance report.
 
@@ -66,7 +66,7 @@ New templates for printing from the Report book, progress_summary
 added for detailed reporting of comments, and incidents_summary for
 listing of incidents.
 
-The fetchComments() now takes an end and a stagrt date.
+The fetchComments() now takes an end and a start date.
 
 New fetchCategorydef() function for returning any set of categorydefs
 based on their type.
@@ -113,7 +113,7 @@ homework to the class blog.
 Fixed a bug in new_homework which was posting the stage as the
 course_id in the homework table.
 
-Added a total applied colmn to the enrolments table. This still clicks
+Added a total applied column to the enrolments table. This still clicks
 through to community_list but with a special type of allapplied which
 accumulates students of every enrolmentstatus into a single list.
 
@@ -150,7 +150,7 @@ Have added a profile_name field to the assessment table. This is a
 categorydef.name which allows assessments to be grouped in to a
 profile. The name is also the markdef name used by that profile.
 
-Tweaked the commentwriter textarea to better fill the available space.
+Tweaked the comment-writer textarea to better fill the available space.
 
 
 
@@ -159,7 +159,7 @@ Version ClaSS-0.8.35 release (2007/12/14)
 
 The teacher_matrix now has a new editclasses button to allow staff to
 add/change teaching classes on a subject by subject basis - previously
-only possible by the amdinistrator using the class_matrix and done for
+only possible by the administrator using the class_matrix and done for
 a whole course at once. 
 
 Access to the classes table has been moved out to a curriculum
@@ -197,7 +197,7 @@ optional.
 Have reworked the style field in the report table to be
 paper-orientation (portrait or landscape) and this is now passed to
 the js printing function which will orient the pop-up window
-appropriately - the page setup option still needs ot be set manually
+appropriately - the page setup option still needs to be set manually
 to either landscape or portrait.
 
 Bugfix to MarkBook averages and sums to trim whitespace from the

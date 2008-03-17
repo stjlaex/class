@@ -176,9 +176,9 @@ function list_teacher_users($crid='',$bid=''){
 		while($teacher=mysql_fetch_array($d_teacher,MYSQL_ASSOC)){
 			$tid=$teacher['teacher_id'];
 			$d_users=mysql_query("SELECT uid, username, passwd, forename,
-				surname, title, email, emailuser, emailpasswd,
+					surname, title, email, emailuser, emailpasswd,
 					nologin, firstbookpref, role, worklevel,
-				senrole, epfusername FROM users WHERE username='$tid'");
+					senrole, epfusername FROM users WHERE username='$tid'");
 			$user=mysql_fetch_array($d_users,MYSQL_ASSOC);
 			$users[$tid]=$user;
 			}

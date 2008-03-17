@@ -75,7 +75,7 @@ function elgg_refresh(){
 		mysql_query("DELETE FROM $table_watchlist JOIN
 					$table_weblog.ident=$table_watchlist.weblog_post
 					WHERE $table_weblog.weblog='$ident';");
-		trigger_error($no.': '.$oldcom['username'],E_USER_WARNING);
+		//trigger_error($no.': '.$oldcom['username'],E_USER_WARNING);
 		}
 
 	}

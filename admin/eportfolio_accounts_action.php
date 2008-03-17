@@ -1,4 +1,4 @@
-<?php
+a<?php
 /**									eportfolio_accounts_action.php
  */
 
@@ -77,7 +77,7 @@ include('scripts/answer_action.php');
 		$Newuser['Password']['value']=$user['passwd'];
 		/* Don't want to create a epf user if they already have an account. */
 		$epfuid=-1;
-		if($user['epfusername']!=''){
+		if(isset($user['epfusername']) and $user['epfusername']!=''){
 			$epfuid=elgg_get_epfuid($user['epfusername'],'person',true);
 			}
 		if($epfuid==-1){
