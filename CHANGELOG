@@ -6,6 +6,8 @@ allow it to change between years. This is stored in the 'AC' community
 for that enrolyear and yeargroup. Still make sure that the year-end
 scripts carry the new capacity across to the year community.
 
+Existing orders can now be amended, at least until they have been
+authorised.
 
 
 Version ClaSS-0.8.41 release (2008/03/17)

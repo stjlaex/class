@@ -99,6 +99,7 @@ if($budid!=-1){
 ?>
 				</p>
 <?php
+					/* Once an order is authorised it is too late to amend it*/
 					if($status=='lodged' and $perms['w']==1){
 						$actionbuttons['edit']=array('name'=>'process','value'=>'edit');
 						all_extrabuttons($actionbuttons,
@@ -110,7 +111,8 @@ if($budid!=-1){
 		  <tr class="hidden" id="<?php print $entryno.'-'.$rown++;?>">
 			<td colspan="<?php print $colspan;?>">
 <?php
-				while(list($index,$Action)=each($Order['Actions']['Action'])){
+				if(sizeof($Order['Actions'])>0){
+					while(list($index,$Action)=each($Order['Actions']['Action'])){
 ?>
 				<p>
 				  <label><?php print_string($Action['Category']['value'],$book);?></label>
@@ -119,8 +121,8 @@ if($budid!=-1){
 				  <?php print $Action['Detail']['value'];?>
 				</p>
 <?php
+						}
 					}
-
 				if($status!='closed'){
 					$orderaction='';
 					$actionbuttons=array();

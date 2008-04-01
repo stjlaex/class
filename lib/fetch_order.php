@@ -202,13 +202,13 @@ function fetchMaterial($mat=array()){
 	$Material=array();
 	$Material['id_db']=$mat['entryn'];
    	$Material['Type']=array('label' => 'type',
-									//'inputtype'=> 'required',
-									'table_db' => 'ordermaterial', 
-									'field_db' => 'materialtype',
-									'type_db' => 'enum', 
-									'default_value' => '0',
-									'value' => ''.$order['materialtype']
-							  );
+							//'inputtype'=> 'required',
+							'table_db' => 'ordermaterial', 
+							'field_db' => 'materialtype',
+							'type_db' => 'enum', 
+							'default_value' => '0',
+							'value' => ''.$mat['materialtype']
+							);
 	$Material['Quantity']=array('label' => 'quantity', 
 								//'inputtype'=> 'required',
 								'table_db' => 'ordermaterial', 

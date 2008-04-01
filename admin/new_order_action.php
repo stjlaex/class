@@ -4,6 +4,7 @@
 
 $action='orders_list.php';
 $cancel='orders_list.php';
+if(isset($_POST['ordid'])){$ordid=$_POST['ordid'];}else{$ordid=-1;}
 $budid=$_POST['budid'];
 $maxmatn=$_POST['matn'];
 $supid=$_POST['supid'];
@@ -16,9 +17,15 @@ if($sub=='Submit'){
 
 	$yearcode=-1;
 	$Order=fetchOrder();
-	mysql_query("INSERT INTO orderorder SET budget_id='$budid',
+	if($ordid==-1){
+		mysql_query("INSERT INTO orderorder SET budget_id='$budid',
 						supplier_id='$supid', teacher_id='$tid';");
-	$ordid=mysql_insert_id();
+		$ordid=mysql_insert_id();
+		}
+	else{
+		mysql_query("UPDATE orderorder SET budget_id='$budid',
+						supplier_id='$supid', teacher_id='$tid WHERE id='$ordid'';");
+		}
 	reset($Order);
 	while(list($index,$val)=each($Order)){
 		if(isset($val['value']) and is_array($val) and isset($val['table_db'])){
@@ -50,7 +57,7 @@ if($sub=='Submit'){
 				}
 			}
 		}
-	$result[]=get_string('neworderadded',$book);
+	//$result[]=get_string('neworderadded',$book);
 	}
 
 

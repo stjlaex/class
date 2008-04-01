@@ -23,7 +23,7 @@ include('scripts/sub_action.php');
 $todate=date('Y-m-d');
 
 if($sub=='edit'){
-	$result[]='edit';
+	//$result[]='edit '.$ordid;
 	$action='new_order.php';
 	}
 elseif($sub=='authorise'){

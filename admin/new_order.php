@@ -7,11 +7,12 @@ $action_post_vars=array('budid');
 
 include('scripts/sub_action.php');
 
+if(isset($_POST['ordid'])){$ordid=$_POST['ordid'];}else{$ordid=-1;}
 $budgetyear=$_POST['budgetyear'];
 $budid=$_POST['budid'];
 $Budget=fetchBudget($budid);
-$Order=fetchOrder();
-$Material=fetchMaterial();
+$Order=fetchOrder($ordid);
+$Materialblank=fetchMaterial();
 
 three_buttonmenu();
 ?>
@@ -37,6 +38,8 @@ three_buttonmenu();
 		$d_sup=mysql_query("SELECT id, name FROM ordersupplier;");
 		$required='yes';
 		$listlabel='supplier';
+		$selsupid=$Order['Supplier']['id_db'];
+		trigger_error($selsupid,E_USER_WARNING);
 		$listname='supid';
 		include('scripts/set_list_vars.php');
 		list_select_db($d_sup,$listoptions,$book);
@@ -50,13 +53,22 @@ three_buttonmenu();
 	  <div class="center">
 		<table class="listmenu">
 		  <th>&nbsp;</th>
-		  <th><?php print_string($Material['Type']['label'],$book);?></th>
-		  <th style="width:40%;"><?php print_string($Material['Detail']['label'],$book);?></th>
-		  <th><?php print_string($Material['SupplierReference']['label'],$book);?></th>
-		  <th><?php print_string($Material['Quantity']['label'],$book);?></th>
-		  <th><?php print_string($Material['Unitcost']['label'],$book);?></th>
+		  <th><?php print_string($Materialblank['Type']['label'],$book);?></th>
+		  <th style="width:40%;"><?php print_string($Materialblank['Detail']['label'],$book);?></th>
+		  <th><?php print_string($Materialblank['SupplierReference']['label'],$book);?></th>
+		  <th><?php print_string($Materialblank['Quantity']['label'],$book);?></th>
+		  <th><?php print_string($Materialblank['Unitcost']['label'],$book);?></th>
 <?php
-	  for($matn=1;$matn<6;$matn++){
+
+		$materialno=sizeof($Order['Materials']['Material']);
+		if($materialno<8){
+			for($matn=$materialno;$matn<8;$matn++){
+				$Order['Materials']['Material'][]=$Materialblank;
+				}
+			  }
+
+		while(list($index,$Material)=each($Order['Materials']['Material'])){
+			$matn=$index+1;
 ?>
 		  <tr>
 			<td><?php print $matn;?></td>
@@ -67,13 +79,14 @@ three_buttonmenu();
 			<td><?php $tab=xmlelement_input($Material['Unitcost'],$matn,$tab,$book);?></td>
 		  </tr>
 <?php
-		  }
+			}
 ?>
 		</table>
 	  </div>
 
 	    <input type="hidden" name="budgetyear" value="<?php print $budgetyear;?>">
 	    <input type="hidden" name="budid" value="<?php print $budid;?>">
+	    <input type="hidden" name="ordid" value="<?php print $ordid;?>">
 	    <input type="hidden" name="matn" value="<?php print $matn;?>">
 	    <input type="hidden" name="current" value="<?php print $action;?>">
 		<input type="hidden" name="cancel" value="<?php print $choice;?>">
