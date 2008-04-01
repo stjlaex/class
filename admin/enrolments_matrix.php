@@ -1,5 +1,9 @@
 <?php
 /**								  		enrolments_matrix.php
+ *
+ * This produces two tables, first aplications during current year
+ * and then enrolments (and re-enrolments) for the actual roll.
+ *
  */
 
 $choice='enrolments_matrix.php';
@@ -102,8 +106,9 @@ $yeargroup_names=array();
 
 		$newcurrentsids=0;
 		if($enrolyear==$currentyear){
-			/*Now count applicants who have joined the current roll and
-			hence are not counted in one of the applied groups*/
+			/* Now count applicants who have joined the current roll and
+			 * hence are not counted in one of the applied groups
+			 */
 			$d_nosids=mysql_query("SELECT COUNT(student_id) FROM
 						comidsid WHERE community_id='$yearcomid'
 					AND (leavingdate>'$todate' OR 
@@ -227,9 +232,19 @@ $yeargroup_names=array();
 				}
 			elseif($reenrolstep=='newenrolments'){
 				if($enrolyear!=$currentyear){
-					$cell['value']=$enrol_tablerows[$yeargroup['name']]['AC']['value'];
+					$cell['value=0'];
+					/*accepteds plus any transfers from feeders*/
+					reset($CFG->feeders);
+					while(list($index,$feeder)=each($CFG->feeders)){
+						if($feeder!=''){
+							/*TODO: will be a remote call to the other db!*/
+							$cell['value']+=$CFG->feeder;
+							}
+						}
+					$cell['value']+=$enrol_tablerows[$yeargroup['name']]['AC']['value'];
 					}
 				else{
+					/*accepteds plus the new currents for this year*/
 					$cell['value']=$enrol_tablerows[$yeargroup['name']]['C']['value']+$enrol_tablerows[$yeargroup['name']]['AC']['value'];
 					}
 				}
@@ -244,7 +259,6 @@ $yeargroup_names=array();
 					}
 				}
 			elseif($reenrolstep=='projectedroll'){
-					$cell['value']=$rowcells['newenrolments']['value'] + $pre_reenrolcell['value'];
 					$cell['value']=$rowcells['newenrolments']['value'] + $rowcells['reenroling']['repeat'] + $pre_reenrolcell['confirm'];
 				}
 			elseif($reenrolstep=='leaverssince'){
@@ -269,20 +283,38 @@ $yeargroup_names=array();
 				if(mysql_num_rows($d_nosids)>0){$cell['value']=mysql_result($d_nosids,0);}
 				if(isset($tablerows[$yid-1])){
 					$pre_leavercell=$tablerows[$yid-1][$reenrolstep];
-					$cell['display']='<a href="admin.php?current=enrolments_list.php&cancel='.
-							$choice.'&choice='. $choice.'&enrolyear='. 
-							$enrolyear.'&yid='. $pre_leavercell['yid'].
-							'&comid='. $pre_leavercell['comid'].'&enrolstage=RE">' 
-							.$pre_leavercell['value'].'</a>';
-					$cell['display']=$pre_leavercell['value'];
+					/*TODO: allow a shortcut to list just leavers*/
+					//$cell['display']='<a href="admin.php?current=enrolments_list.php&cancel='.
+					//		$choice.'&choice='. $choice.'&enrolyear='. 
+					//		$enrolyear.'&yid='. $pre_leavercell['yid'].
+					//		'&comid='. $pre_leavercell['comid'].'&enrolstage=RE">' 
+					//		.$pre_leavercell['value'].'</a>';
+
 				//$cell['display']='<a href="admin.php?current=enrolments_list.php&cancel='.
 				// $choice.'&choice='. $choice.'&enrolyear='. $enrolyear.'&yid='. $cell['yid'].
 				// '&comid='.$cell['comid'].'&enrolstage=RE">' .$cell['value'].'</a>';
+					$cell['display']=$pre_leavercell['value'];
 					}
 				else{$cell['display']='';}
 				}
 			elseif($reenrolstep=='capacity'){
-				$cell['value']=$yearcommunity['capacity'];
+				if($enrolyear==$currentyear){
+					/* capacity for the current year is in the year community */
+					$cell['value']=$yearcommunity['capacity'];
+					}
+				else{
+					/* to allow it to change year to year it is 
+						stored in the accepted community */
+					$accom=array('id'=>'','type'=>'accepted', 
+					   'name'=>'AC:'.$yid,'year'=>$enrolyear);
+					$accomid=update_community($accom);
+					$accom=get_community($accomid);
+					$cell['value']=$accom['capacity'];
+					$cell['display']='<a href="admin.php?current=community_capacity.php&cancel='.
+							$choice.'&choice='. $choice.'&enrolyear='. 
+							$enrolyear.'&comid='. $accomid.'">' 
+							.$cell['value'].'</a>';
+					}
 				}
 			elseif($reenrolstep=='spaces'){
 				if($enrolyear==$currentyear){

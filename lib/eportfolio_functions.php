@@ -112,16 +112,18 @@ function elgg_newUser($Newuser,$role){
 	$surname=str_replace(' ','',$Newuser['Surname']['value']);
 	$surname=str_replace("'",'',$surname);
 	$surname=str_replace('-','',$surname);
-	$forename=(array)split(' ',$Newuser['Forename']['value']);
     $name=$Newuser['Forename']['value'].' '.$Newuser['Surname']['value'];
 	$active='yes';
+	//setlocale(LC_CTYPE,'en_GB');
 	setlocale(LC_CTYPE,'en_GB');
 
 	if($role=='student'){
 		$email='';
 		//$email=$Newuser['EmailAddress']['value'];
 		$dob=(array)split('-',$Newuser['DOB']['value']);
+		$forename=(array)split(' ',$Newuser['Forename']['value']);
 		$start=iconv('UTF-8', 'ASCII//TRANSLIT', $forename[0]);
+		//$start=html_entity_decode($forename[0],ENT_QUOTES,'UTF-8');
 		$epfusertype='person';
 		$epftemplate_name='Default_Student';
 		$epftemplate=2;
@@ -144,6 +146,7 @@ function elgg_newUser($Newuser,$role){
 		$email='';
 		//$email=$Newuser['EmailAddress']['value'];
 		$start=iconv('UTF-8', 'ASCII//TRANSLIT', $surname);
+		//$start=html_entity_decode($surname,ENT_QUOTES,'UTF-8');
 		$name=$Newuser['Title']['value'].' '.$Newuser['Surname']['value'];
 		$epfusertype='person';
 		$epftemplate_name='Default_Guardian';
@@ -408,22 +411,24 @@ function elgg_get_epfuid($owner,$type,$dbc=false){
 	}
 
 function elgg_new_homework($tid,$cid,$bid,$pid,$title,$body,$dateset){
+	$dbepf='';
 	$access='LOGGED_IN';
 	list($year,$month,$day)=explode('-',$dateset);
 	$posted=mktime(0,0,0,$month,$day,$year);
 	global $CFG;
 	$table=$CFG->eportfolio_db_prefix.'weblog_posts';
-	$dbepf='';
 	if($CFG->eportfolio_db!=''){
 		$dbepf=db_connect($CFG->eportfolio_db);
 		mysql_query("SET NAMES 'utf8'");
 		}
+	if(isset($CFG->clientid)){$school=$CFG->clientid;}
+	else{$school='';}
 
 	$epfcid=str_replace('/','',$cid);
 	$epfcid=str_replace('-','',$epfcid);
-	$epfblogname='class'.$epfcid;
+	$epfblogname=$school. 'class'. $epfcid;
 	$epfuidweblog=elgg_get_epfuid($epfblogname,$type='community');
-	$epfuidowner=elgg_get_epfuid($tid,$type='person');
+	$epfuidowner=elgg_get_epfuid($school. $tid,$type='person');
 
 	if($epfuidowner!='' and $title!='' and $body!=''){
 		mysql_query("INSERT INTO $table SET owner='$epfuidowner',weblog='$epfuidweblog',

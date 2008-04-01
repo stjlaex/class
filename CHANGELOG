@@ -1,3 +1,13 @@
+Version ClaSS-0.8.42 release (2008/04/11)
+-----------------------------------------
+
+In the enrolments_matrix, have now enabled editing the capacity to
+allow it to change between years. This is stored in the 'AC' community
+for that enrolyear and yeargroup. Still make sure that the year-end
+scripts carry the new capacity across to the year community.
+
+
+
 Version ClaSS-0.8.41 release (2008/03/17)
 -----------------------------------------
 

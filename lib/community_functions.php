@@ -141,7 +141,7 @@ function update_community($community,$communityfresh=array('id'=>'','type'=>'','
 			if($tfresh!='' and $nfresh!=''){
 				mysql_query("UPDATE community SET type='$tfresh', 
 									name='$nfresh' WHERE id='$comid'");
-//trigger_error('upcom type:'.$type.' name:'.$name.' >' .$nfresh .mysql_error(),E_USER_WARNING);
+				//trigger_error('upcom type:'.$type.' name:'.$name.' >' .$nfresh .mysql_error(),E_USER_WARNING);
 				}
 			if(isset($communityfresh['detail'])){
 				$dfresh=$communityfresh['detail'];

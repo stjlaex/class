@@ -10,17 +10,17 @@ if(isset($_POST['newname'])){$newname=$_POST['newname'];}
 include('scripts/sub_action.php');
 
 	/*Check user has permission to edit*/
-	$perm=getFormPerm($fid,$respons);
+	$perm=getFormPerm($oldname,$respons);
 	$neededperm='w';
 	include('scripts/perm_action.php');
 
 if($sub=='Submit'){
    	if(mysql_query("UPDATE form SET id='$newname', name='$newname'  WHERE 
-		id='$oldname'")){
+					id='$oldname'")){
 		mysql_query("UPDATE community SET name='$newname' WHERE 
-		name='$oldname' AND type='form'");
+					name='$oldname' AND type='form'");
 		mysql_query("UPDATE student SET form_id='$newname' WHERE 
-		form_id='$oldname'");
+					form_id='$oldname'");
 		}
 	else{
 		$error[]=get_string('aformwiththisnamealreadyexists',$book);

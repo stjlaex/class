@@ -45,7 +45,19 @@ $CFG->sitelang='en';
 $CFG->registration='double';
 /*used by the register - see http://es2.php.net/manual/en/timezones.php*/
 $CFG->timezone='Europe/Madrid';
+/**
+ * An array of feeder schools whose dbs are to be checked for students
+ * transfering here. This affects numbers in the enrolments table and
+ * end of year exchange of student records. The feeder_code needs to
+ * be defined in the Re-enrolmentStatus scheme for each school. Most
+ * sites will leave these blank.
+ */
+$CFG->feeder_code='TDemo';
+$CFG->feeders[0]='';
+$CFG->feeders[1]='';
+$CFG->feeders[2]='';
 /*****
+ *
  *Optional settings to tune the use of emails for notifying staff
  *values set to either 'yes' or 'no'
  */
@@ -66,6 +78,7 @@ $CFG->emailcomments='no';
 /*send out reminders to relevant staff of approaching deadlines*/
 $CFG->emailreminders='no';
 /*****
+ *
  *All of the following are connection details
  *for optional services residing outside of ClaSS
  *Once configured they need to be made accessible to users
