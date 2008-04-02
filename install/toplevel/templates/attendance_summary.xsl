@@ -61,7 +61,7 @@
 		</td>
 	  </tr>
 	  <tr>
-		<td>Unauthroised absences</td>
+		<td>Unauthorised absences</td>
 		<td>
 		<div><xsl:value-of select="attendance/summary/absentunauthorised/value/text()" />&#160;</div>
 		</td>
@@ -82,13 +82,13 @@
 		</th>
 	  </tr>
 	  <tr>
-		<td>Late after registration (Unauthorsied)</td>
+		<td>Late after registration (Unauthorised)</td>
 		<td>
 		<div><xsl:value-of select="attendance/summary/lateunauthorised/value/text()" />&#160;</div>
 		</td>
 	  </tr>
 	  <tr>
-		<td>Late after registration (Authrosied)</td>
+		<td>Late after registration (Authorised)</td>
 		<td>
 		<div><xsl:value-of select="attendance/summary/lateauthorised/value/text()" />&#160;</div>
 		</td>
