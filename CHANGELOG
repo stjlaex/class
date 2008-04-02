@@ -9,6 +9,10 @@ scripts carry the new capacity across to the year community.
 Existing orders can now be amended, at least until they have been
 authorised.
 
+New js function sidtbaleFilter which can hide rows based on them
+having a radio input value being checked. This is put to work in the
+enrolments_list page.
+
 
 Version ClaSS-0.8.41 release (2008/03/17)
 -----------------------------------------

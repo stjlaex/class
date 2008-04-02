@@ -73,7 +73,8 @@ elseif($contactno==-1){
 								AS name FROM guardian ORDER BY surname");
 ?>
   <div id="heading">
-	<form id="headertoprocess" name="headertoprocess" method="post" action="<?php print $host;?>">
+	<form id="headertoprocess" name="headertoprocess" 
+							method="post" action="<?php print $host;?>">
 <?php
 		$listname='pregid';$listlabel='';$liststyle='width:16em;';
 		include('scripts/set_list_vars.php');

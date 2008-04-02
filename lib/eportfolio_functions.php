@@ -412,11 +412,9 @@ function elgg_get_epfuid($owner,$type,$dbc=false){
 
 function elgg_new_homework($tid,$cid,$bid,$pid,$title,$body,$dateset){
 	$dbepf='';
-	$access='LOGGED_IN';
 	list($year,$month,$day)=explode('-',$dateset);
 	$posted=mktime(0,0,0,$month,$day,$year);
 	global $CFG;
-	$table=$CFG->eportfolio_db_prefix.'weblog_posts';
 	if($CFG->eportfolio_db!=''){
 		$dbepf=db_connect($CFG->eportfolio_db);
 		mysql_query("SET NAMES 'utf8'");
@@ -429,11 +427,16 @@ function elgg_new_homework($tid,$cid,$bid,$pid,$title,$body,$dateset){
 	$epfblogname=$school. 'class'. $epfcid;
 	$epfuidweblog=elgg_get_epfuid($epfblogname,$type='community');
 	$epfuidowner=elgg_get_epfuid($school. $tid,$type='person');
+	/*Homework access is restricted to the class its set for.*/
+	$access='community'.$epfuidweblog;
 
 	if($epfuidowner!='' and $title!='' and $body!=''){
+		$table=$CFG->eportfolio_db_prefix.'weblog_posts';
 		mysql_query("INSERT INTO $table SET owner='$epfuidowner',weblog='$epfuidweblog',
 			   	posted='$posted',title='$title',body='$body',access='$access';");
 		$epfuidpost=mysql_insert_id();
+
+
 		$table=$CFG->eportfolio_db_prefix.'tags';
 		if($pid!=''){
 			mysql_query("INSERT INTO $table SET tag='$pid',tagtype='weblog',

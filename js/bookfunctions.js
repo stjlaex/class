@@ -203,6 +203,49 @@ function updatexmlRecord(xmlRecord){
 	}
 
 //------------------------------------------------------- 
+// Hides all the rows in a sidtable which don't have a particularly 
+// input radio box checked.
+
+function sidtableFilter(buttonObject){
+	var formObject=document.formtoprocess;
+	var formElements=formObject.elements;
+	var buttonname=buttonObject.name;
+	var filtername=buttonObject.value;
+	var selectObj=document.getElementById("Filtervalue");
+	var filtervalue='';
+	for(var i=0;i<selectObj.options.length;i++){
+		if(selectObj.options[i].selected){
+			filtervalue=escape(selectObj.options[i].value);
+			}
+		}
+	if(filtervalue!=''){
+		var row=0;
+		for(var c=0; c<formObject.elements.length; c++){
+			var inputObj=formObject.elements[c];
+			if(inputObj.type=="radio" && inputObj.name.substr(0,filtername.length)==filtername 
+							&& inputObj.value==filtervalue){
+				var rowId='sid-'+inputObj.name.substr(filtername.length);
+				if(inputObj.checked){
+					filterrowIndicator(rowId,"")
+					}
+				else{
+					filterrowIndicator(rowId,"hidden")
+					}
+				
+				}
+			}
+		}
+	else{
+		tableObj=document.getElementById("sidtable");
+		var trs=tableObj.getElementsByTagName("tr");
+		for(var c=0;c<trs.length;c++){
+			var rowId=trs[c].id;
+			filterrowIndicator(rowId,"")
+			}
+		}
+	}
+
+//------------------------------------------------------- 
 // Only called by form buttons in place of processContent() 
 // this will pass all the checked sids[] in a sidtable alongwith 
 // whatever parameters are listed in the embedded xml contained 
@@ -508,7 +551,14 @@ function checkrowIndicator(inputObj){
 		}
 	}
 
-
+/*changes the class of the row when filtered by sidtableFilter*/
+function filterrowIndicator(rowId,state){
+	var theRow;
+	if(document.getElementById(rowId)){
+		theRow=document.getElementById(rowId);
+			theRow.setAttribute("class",state);
+		}
+	}
 
 //-------------------------------------------------------
 // adds the images and attributes to required input fields

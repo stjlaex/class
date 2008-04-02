@@ -12,7 +12,8 @@ if(isset($_POST['comid'])){$comid=$_POST['comid'];}
 if(isset($_POST['enrolyear'])){$enrolyear=$_POST['enrolyear'];}
 if(isset($_POST['enrolstage'])){$enrolstage=$_POST['enrolstage'];}
 
-	/* Four possible types of table: current yeargroup for selecting
+	/**
+	 * Four possible types of table: current yeargroup for selecting
 	 * leavers (enrolstage=C), current yeargroup for re-enrolment
 	 * (enrolstage=RE), one of the enrolment groups (enrolstage=E), or
 	 * displaying all enrolment groups in one go.
@@ -85,6 +86,16 @@ if(isset($_POST['enrolstage'])){$enrolstage=$_POST['enrolstage'];}
 
 	three_buttonmenu();
 ?>
+  <div id="heading">
+<?php
+	$listname='filtervalue';$listlabel='';
+	$listdescriptionfield='result';$listvaluefield='value';
+	include('scripts/set_list_vars.php');
+	list_select_list($grades,$listoptions,$book);
+	$button['filterlist']=array('name'=>'filter','value'=>$enrolstage);
+	all_extrabuttons($button,'entrybook','sidtableFilter(this)');
+?>
+  </div>
   <div class="content">
 	<form name="formtoprocess" id="formtoprocess" method="post"
 	  action="<?php print $host; ?>">
