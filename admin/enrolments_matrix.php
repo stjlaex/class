@@ -238,7 +238,7 @@ $yeargroup_names=array();
 					while(list($index,$feeder)=each($CFG->feeders)){
 						if($feeder!=''){
 							/*TODO: will be a remote call to the other db!*/
-							$cell['value']+=$CFG->feeder;
+							$cell['value']+=$feeder[$yid];
 							}
 						}
 					$cell['value']+=$enrol_tablerows[$yeargroup['name']]['AC']['value'];

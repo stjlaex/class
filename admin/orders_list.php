@@ -63,7 +63,13 @@ if($budid!=-1){
 			$Order=(array)fetchOrder($ordid);
 			$status=$Order['Status']['value'];
 			$Supplier=(array)$Order['Supplier'];
-			if($budid==-1){$perms=get_budget_perms($Order['Budget']['value_db']);}
+			/* If budid=-1 its a search result. Only want those with
+			 * permissions to be able to see the entry. Office are allowed to
+			 * see all entries but they see the overall budget status. 
+			 */
+			if($budid==-1){
+				$perms=get_budget_perms($Order['Budget']['value_db']);
+				}
 			if($perms['r']==1){
 				$rown=0;
 				if($status=='closed'){$styleclass='';}

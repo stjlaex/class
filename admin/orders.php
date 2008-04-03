@@ -1,5 +1,11 @@
 <?php 
 /**								  		orders.php
+ *
+ * This is the entry page to the Order book - it lives within Admin
+ * but has its own lib/fetch_orders.php functions and is essentialy a
+ * set of self-contained scripts.
+ *
+ *
  */
 
 $choice='orders.php';
@@ -10,7 +16,7 @@ if(isset($_GET['budgetyear'])){$budgetyear=$_GET['budgetyear'];}
 else{$budgetyear=$currentyear;}
 if(isset($_POST['budgetyear']) and $_POST['budgetyear']!=''){$budgetyear=$_POST['budgetyear'];}
 
-if($_SESSION['role']=='admin'){
+if($_SESSION['role']=='admin' or $_SESSION['role']=='office'){
 	$extrabuttons['newbudget']=array('name'=>'current','value'=>'new_budget.php');
 	$extrabuttons['suppliers']=array('name'=>'current','value'=>'suppliers_list.php');
 	}
@@ -78,7 +84,7 @@ twoplus_buttonmenu($budgetyear,$currentyear+2,$extrabuttons,$book);
 		<input type="hidden" name="cancel" value="<?php print '';?>" />
 	</form>
 
-	<fieldset class="center divgroup">
+	<fieldset class="center divgroup" id="viewcontent">
 	  <legend><?php print get_string('budgets',$book).' - '.display_curriculumyear($budgetyear);?></legend>
 
 	  <table class="listmenu smalltable">
@@ -105,8 +111,15 @@ twoplus_buttonmenu($budgetyear,$currentyear+2,$extrabuttons,$book);
 ?>
 		  </td>
 		  <td>
-<?php
-		print $budget['costlimit'];
+<?php 
+			if($budget['x']){
+				print '<a href="admin.php?current=orders_limit.php&cancel='.
+							$choice.'&choice='. $choice.'&budid='. $budget['id'].'">' 
+							.$budget['costlimit'].'</a>';
+				}
+			else{
+				print $budget['costlimit'];
+				}
 ?>
 		  </td>
 		  <td><?php print get_budget_current($budget['id']);?></td>

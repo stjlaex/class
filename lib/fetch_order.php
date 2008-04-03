@@ -91,7 +91,13 @@ function list_orders($ordernumber='%',$orderstatus='%'){
 	return $orders;
 	}
 
-
+/**
+ * Given and ordid then returns the reference number.
+ * This function defines the formula for generating these order references. It could be
+ * anything. But here the budget code and the yearcode are prepended
+ * to the unique order id. 
+ *
+ */
 function get_order_reference($ordid,$budid=''){
 	if($budid==''){
 		$d_b=mysql_query("SELECT code, yearcode FROM orderbudget JOIN orderorder
@@ -442,7 +448,7 @@ function fetchInvoice($invid='-1'){
 	}
 
 /* Returns the current budgetary year.
- * Defined as the calendar year that the current budget year ends. 
+ * Named after the calendar year that the current budget year ends. 
  * 2008 is 2007/08 when displayed and understood by the user.
  * Display can be done using display_curriculumyear()
  */
@@ -454,20 +460,25 @@ function get_budgetyear(){
 	return $thisyear;
 	}
 
-/* Where the year is the same principle as curriculum year ie. 2008 is 2007/08*/
+/* Where the year works on the same principle as curriculum year ie. 2008 is */
+/* 2007/08. The codes could be amended to whatever is needed.*/
 function get_budgetyearcode($budgetyear){
-	$yearcodes=array('2007' => '01', 
-					 '2008' => '02', 
-					 '2009' => '03', 
-					 '2010' => '04', 
-					 '2011' => '05', 
+	$yearcodes=array('2007' => '07', 
+					 '2008' => '08', 
+					 '2009' => '09', 
+					 '2010' => '10', 
+					 '2011' => '11', 
 					 );
 	if(array_key_exists($budgetyear,$yearcodes)){$yearcode=$yearcodes[$budgetyear];}
 	else{$yearcode=-1;}
 	return $yearcode;
 	}
 
-/* Return perms for the active user for this budid*/	
+/**
+ * Return perms for the active user for given budid.
+ * x is special and needed to authorise and order.
+ * w is needed to edit and lodge and purchase etc.
+ */
 function get_budget_perms($budid){
 	$perms['r']=0;
 	$perms['w']=0;
@@ -479,7 +490,11 @@ function get_budget_perms($budid){
 	if(mysql_num_rows($d_p)>0){
 		$perms=mysql_fetch_array($d_p,MYSQL_ASSOC);
 		}
+	/* This means administrators can do anything and all office staff 
+	 *  can do everything except for authorise an order
+	 */
 	if($_SESSION['role']=='admin'){$perms['r']=1;$perms['w']=1;$perms['x']=1;}
+	if($_SESSION['role']=='office'){$perms['r']=1;$perms['w']=1;$perms['x']=0;}
 	return $perms;
 	}
 ?>

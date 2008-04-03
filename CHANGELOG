@@ -1,12 +1,19 @@
-Version ClaSS-0.8.42 release (2008/04/11)
+Version ClaSS-0.8.43 release (2008/04/11)
 -----------------------------------------
 
-In the enrolments_matrix, have now enabled editing the capacity to
-allow it to change between years. This is stored in the 'AC' community
-for that enrolyear and yeargroup. Still make sure that the year-end
-scripts carry the new capacity across to the year community.
 
-Existing orders can now be amended, at least until they have been
+
+
+Version ClaSS-0.8.42 release (2008/04/03)
+-----------------------------------------
+
+In the enrolments_matrix, have now enabled editing the capacity for a
+yeargroup. And to allow it to change between years, by storing in the
+'AC' community for that enrolyear and yeargroup. Still need to make
+sure that the year-end scripts carry the new capacity across to the
+year community.
+
+Existing orders can now be amended, at least up until they have been
 authorised.
 
 New js function sidtbaleFilter which can hide rows based on them
@@ -52,7 +59,6 @@ NOT tid; the two can be different when multiple class installations
 share the same elgg installation. The school's clientid is appended to
 the start of all tids when creating the eportfolio user account to
 ensure usernames stay unique across schools.
-
 
 
 

@@ -123,15 +123,15 @@ function elgg_newUser($Newuser,$role){
 		$dob=(array)split('-',$Newuser['DOB']['value']);
 		$forename=(array)split(' ',$Newuser['Forename']['value']);
 		$start=iconv('UTF-8', 'ASCII//TRANSLIT', $forename[0]);
-		//$start=html_entity_decode($forename[0],ENT_QUOTES,'UTF-8');
 		$epfusertype='person';
 		$epftemplate_name='Default_Student';
 		$epftemplate=2;
-		$password=good_strtolower('guest');
+		//$password=good_strtolower('guest');
 		/*this takes the first three letters of the surname and day,
 		month, year of dob to be password*/
-		//$password=substr($surname,0,2).$dob[2].$dob[1].$dob[0];
-		//$password=good_strtolower($surname[0]). $dob[2].$dob[1].$dob[0];
+		$passwstart=iconv('UTF-8', 'ASCII//TRANSLIT', $surname);
+		//$password=substr($passwstart,0,2).$dob[2].$dob[1].$dob[0];
+		$password=good_strtolower($passwstart[0]). $dob[2].$dob[1].$dob[0];
 		$assword=md5($password);
 		$classtable='info';
 		$classfield='student_id';
