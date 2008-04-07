@@ -57,9 +57,10 @@ function list_budget_orders($budid){
 function list_orders($ordernumber='%',$orderstatus='%'){
 	$orders=array();
 	if($ordernumber!='%' and $ordernumber!=''){
-		list($budcode,$yearcode,$ordid)=split('-',$ordernumber);
+		list($budcode,$staffcode,$yearcode,$ordid)=split('-',$ordernumber);
 		}
 	if(!isset($budcode) or $budcode==''){$budcode='%';}
+	if(!isset($staffcode) or $staffcode==''){$staffcode='%';}
 	if(!isset($yearcode) or $yearcode==''){$yearcode='%';}
 	if(!isset($ordid) or $ordid==''){$ordid='%';}
 	if(!isset($supid) or $supid==''){$supid='%';}
@@ -67,6 +68,7 @@ function list_orders($ordernumber='%',$orderstatus='%'){
 				orderbudget.id=orderorder.budget_id 
 				WHERE orderbudget.code LIKE '$budcode' AND 
 				orderbudget.yearcode LIKE '$yearcode' AND 
+				orderorder.teacher_id LIKE '$staffcode' AND 
 				orderorder.id LIKE '$ordid' AND 
 				orderorder.supplier_id LIKE '$supid' 
 				ORDER BY entrydate DESC;");
@@ -98,17 +100,14 @@ function list_orders($ordernumber='%',$orderstatus='%'){
  * to the unique order id. 
  *
  */
-function get_order_reference($ordid,$budid=''){
-	if($budid==''){
-		$d_b=mysql_query("SELECT code, yearcode FROM orderbudget JOIN orderorder
+function get_order_reference($ordid){
+	$d_b=mysql_query("SELECT orderbudget.code,
+		orderbudget.yearcode, orderorder.teacher_id FROM orderbudget JOIN orderorder
 					ON orderorder.budget_id=orderbudget.id WHERE orderorder.id='$ordid'");
-		}
-	else{
-		$d_b=mysql_query("SELECT code, yearcode FROM orderbudget WHERE id='$budid'");
-		}
 
 	$ref=mysql_fetch_array($d_b,MYSQL_ASSOC);
-	$reference=$ref['code'].'-'.$ref['yearcode'].'-'.$ordid;
+	/* This gives an order reference of format: budget-teacher-year-id */
+	$reference=strtoupper($ref['code'].'-'.$ref['teacher_id'].'-'.$ref['yearcode'].'-'.$ordid);
 	return $reference;
 	}
 
@@ -120,15 +119,6 @@ function fetchOrder($ordid='-1'){
 	$order=mysql_fetch_array($d_o,MYSQL_ASSOC);
 	$Order=array();
 	$Order['id_db']=$ordid;
-	/*   	$Order['OrderType']=array('label' => 'ordertype',
-							  'inputtype'=> 'required',
-							  'table_db' => 'orderorder', 
-							  'field_db' => 'ordertype',
-							  'type_db' => 'enum', 
-							  'default_value' => '0',
-							  'value' => ''.$order['ordertype']
-							  );
-	*/
    	$Order['Date']=array('label' => 'date', 
 						 'inputtype'=> 'required',
 						 'table_db' => 'orderorder', 
@@ -155,7 +145,7 @@ function fetchOrder($ordid='-1'){
 						   'value' => ''.get_budgetname($order['budget_id'])
 						   );
    	$Order['Reference']=array('label' => 'reference', 
-							  'value' => ''.get_order_reference($ordid,$order['budget_id'])
+							  'value' => ''.get_order_reference($ordid)
 							  );
 	$Order['Supplier']=(array)fetchSupplier($order['supplier_id']);
 	$Order['Materials']=(array)fetchMaterials($ordid);
@@ -304,13 +294,14 @@ function fetchBudget($budid='-1'){
 	return $Budget;
 	}
 
-function fetchSupplier($supid='-1'){
+function fetchSupplier($supid=-1){
+	if($supid==''){$supid=-1;}
 	$d_sup=mysql_query("SELECT * FROM ordersupplier WHERE id='$supid'");
 	$sup=mysql_fetch_array($d_sup,MYSQL_ASSOC);
 	$Supplier=array();
 	$Supplier['id_db']=$supid;
    	$Supplier['Name']=array('label' => 'name', 
-							'inputtype'=> 'required',
+							//'inputtype'=> 'required',
 							'table_db' => 'ordersupplier', 
 							'field_db' => 'name',
 							'type_db' => 'varchar(160)', 

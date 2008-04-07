@@ -12,14 +12,20 @@ include('scripts/sub_action.php');
 if($sub=='Submit'){
 
 	if(isset($_POST['gid']) and $_POST['gid']!=''){
+		/*academic budget*/
 		$gid_a=$_POST['gid'];
 		$catid=0;
 		$d_n=mysql_query("SELECT name FROM groups WHERE gid='$gid_a';");
 		$name=mysql_result($d_n,0);
 		$users_perms=(array)list_group_users_perms($gid_a);
+		$d_n=mysql_query("SELECT subject_id FROM groups WHERE gid='$gid_a';");
+		$bid=mysql_result($d_n,0);
+		$teacher_users=list_teacher_users($crid='%',$bid);
 		}
 	else{
+		/*general budget*/
 		$users_perms=array();
+		$teacher_users=array();
 		$gid_a=0;
 		$catid=$_POST['catid'];
 		$d_n=mysql_query("SELECT name FROM categorydef WHERE id='$catid';");
@@ -36,12 +42,16 @@ if($sub=='Submit'){
 	/* Every budget has its own access group - the intial user
 	 * permissions are taken from related groups.
 	 */
+	/* In a budget context, x is to authorise orders lodged against a budget and 
+	 * the permission is preserved for users with section x perms only.
+	 */
 	$d_g=mysql_query("INSERT INTO groups SET type='b';");
 	$gid=mysql_insert_id();
+	while(list($tid,$user)=each($teacher_users)){
+		$perms=array('r'=>1,'w'=>1,'x'=>0);
+		update_staff_perms($user['uid'],$gid,$perms);
+		}
 	while(list($uid,$perms)=each($users_perms)){
-		/* In a budget context, x is to authorise orders lodged against a budget and 
-		 * the permission is preserved for users with section x perms only.
-		 */
 		$perms['x']=0;
 		update_staff_perms($uid,$gid,$perms);
 		}

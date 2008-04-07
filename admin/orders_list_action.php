@@ -17,17 +17,25 @@ if(isset($_POST['budid'])){
 else{$buddid=-1;}
 $entryn=-1;
 $action_post_vars=array('budid','ordid','entryn','budgetyear');
- 
+
 include('scripts/sub_action.php');
 
 $todate=date('Y-m-d');
 
 if($sub=='edit'){
-	//$result[]='edit '.$ordid;
 	$action='new_order.php';
 	}
 elseif($sub=='authorise'){
-	$orderaction=1;
+	$d_s=mysql_query("SELECT supplier_id FROM orderorder WHERE id='$ordid';");
+	$supid=mysql_result($d_s,0);
+	if($supid==0){
+		/*Check if this is just pettycash we are authorising and if so
+			it simply needs to be closed.*/
+		$orderaction=5;
+		}
+	else{
+		$orderaction=1;
+		}
 	}
 elseif($sub=='place'){
 	$orderaction=2;

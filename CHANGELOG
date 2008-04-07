@@ -22,6 +22,10 @@ budget details (and hence the ability to lodge a new order against a
 budget) won't be listed in their orders.php page unless they have the
 permissions (r=1 or w=1) like any othe ruser.
 
+An order can be flagged as being petty cash which negates the need for
+a supplier and any invoices. Once authorised and it is also closed with
+immediate effect.
+
 
 Version ClaSS-0.8.41 release (2008/03/17)
 -----------------------------------------

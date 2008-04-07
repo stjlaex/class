@@ -36,14 +36,22 @@ three_buttonmenu();
 			<td>
 <?php
 		$d_sup=mysql_query("SELECT id, name FROM ordersupplier;");
-		$required='yes';
 		$listlabel='supplier';
 		$selsupid=$Order['Supplier']['id_db'];
-		trigger_error($selsupid,E_USER_WARNING);
 		$listname='supid';
 		include('scripts/set_list_vars.php');
 		list_select_db($d_sup,$listoptions,$book);
 		unset($listoptions);
+?>
+			</td>
+		  </tr>
+		  <tr>
+			<td>
+<?php
+$checkcaption='Petty cash?';
+$checkname='pettycash';
+if($Order['Supplier']['id_db']==0){$checkchoice='yes';}
+include('scripts/check_yesno.php');
 ?>
 			</td>
 		  </tr>

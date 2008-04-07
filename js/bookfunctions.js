@@ -703,9 +703,10 @@ function validateRequired(fieldObj){
 	}
 
 //-------------------------------------------------------
-// does validation triggered by an event, checks either current 
+// Does validation triggered by an event, checks either current 
 // field or field identified by eitheror attribute for values
-
+// This is not compatible with checkboxes - their value 
+// may get blanked instead of being unchecked!
 function validateRequiredOr(eifieldObj){
 	var result="";
 	var eiLen=eifieldObj.value.length;

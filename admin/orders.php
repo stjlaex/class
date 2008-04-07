@@ -16,12 +16,15 @@ if(isset($_GET['budgetyear'])){$budgetyear=$_GET['budgetyear'];}
 else{$budgetyear=$currentyear;}
 if(isset($_POST['budgetyear']) and $_POST['budgetyear']!=''){$budgetyear=$_POST['budgetyear'];}
 
-if($_SESSION['role']=='admin' or $_SESSION['role']=='office'){
+
+$extrabuttons=array();
+if($_SESSION['role']=='admin' 
+   //or $_SESSION['username']==''
+){
 	$extrabuttons['newbudget']=array('name'=>'current','value'=>'new_budget.php');
-	$extrabuttons['suppliers']=array('name'=>'current','value'=>'suppliers_list.php');
 	}
-else{
-	$extrabuttons=array();
+if($_SESSION['role']=='admin' or $_SESSION['role']=='office'){
+	$extrabuttons['suppliers']=array('name'=>'current','value'=>'suppliers_list.php');
 	}
 twoplus_buttonmenu($budgetyear,$currentyear+2,$extrabuttons,$book);
 ?>

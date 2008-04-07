@@ -8,6 +8,8 @@ if(isset($_POST['ordid'])){$ordid=$_POST['ordid'];}else{$ordid=-1;}
 $budid=$_POST['budid'];
 $maxmatn=$_POST['matn'];
 $supid=$_POST['supid'];
+if($_POST['pettycash0']=='yes'){$supid=0;}
+trigger_error($_POST['pettycash'],E_USER_WARNING);
 $budgetyear=$_POST['budgetyear'];
 $action_post_vars=array('budid','budgetyear');
 
@@ -24,12 +26,11 @@ if($sub=='Submit'){
 		}
 	else{
 		mysql_query("UPDATE orderorder SET budget_id='$budid',
-						supplier_id='$supid', teacher_id='$tid WHERE id='$ordid'';");
+						supplier_id='$supid', teacher_id='$tid' WHERE id='$ordid';");
 		}
 	reset($Order);
 	while(list($index,$val)=each($Order)){
 		if(isset($val['value']) and is_array($val) and isset($val['table_db'])){
-			//trigger_error(''.$val['value'].''.$val['field_db'],E_USER_WARNING);
 			$field=$val['field_db'];
 			$inname=$field;
 			$inval=clean_text($_POST[$inname]);
