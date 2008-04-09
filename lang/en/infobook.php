@@ -3,6 +3,7 @@
  *
  */
 $string['contacts']='Contacts';
+$string['contactfor']='Contact for';
 $string['medical']='Medical';
 $string['infoavailable']='Information available';
 $string['studentdetails']='Details';
@@ -48,6 +49,8 @@ $string['contactdetails']='Contact details';
 $string['contactaddress']='Contact address';
 $string['contactphones']='Contact phones';
 $string['relationship']='Relationship';
+$string['relationships']='Relationships';
+$string['to']='to';
 $string['otherrelative']='Other relative';
 $string['othercontact']='Other contact';
 $string['phonetype']='Type';
@@ -138,6 +141,7 @@ $string['srada']='Sra. Da.';
 $string['miss']='Miss';
 $string['dr']='Dr.';
 $string['enrolmentnotes']='Enrolment notes';
+$string['notes']='Notes';
 $string['nextreviewdate']='Next review';
 $string['ethnicity']='Ethnicity';
 $string['emailtoguardian']='Email this to contacts';

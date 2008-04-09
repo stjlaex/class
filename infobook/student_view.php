@@ -16,12 +16,12 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
   <div id="viewcontent" class="content">
 	<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
 	  <div class="center">
-		<table class="listmenu">
+		<table class="listmenu listinfo">
 		  <caption>
 			<a href="infobook.php?current=student_view_student.php&cancel=student_view.php">
 			<img class="clicktoedit" title="<?php print_string('edit');?>" />
-			</a>
 			<?php print_string('studentdetails',$book); ?>
+			</a>
 		  </caption>
 		  <tr>
 			<td>
@@ -182,19 +182,18 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 			<div class="hidden" id="tinytab-xml-contact-<?php print $relation;?>">
 			  <table class="listmenu">
 				<tr>
-				  <td colspan="3">
+				  <td colspan="2">
 					<label><?php print_string($Contact['Order']['label'],$book);?></label>
 					<?php print_string(displayEnum($Contact['Order']['value'],'priority'),$book);?>
 				  </td>
 				</tr>
 				<tr>
-				  <td>
+				  <td style="width:50%;">
+					<span title="<?php print $Contact['Note']['value'];?>">
 					<a href="infobook.php?current=contact_details.php&cancel=student_view.php&contactno=<?php print $contactno;?>">
 					  <img class="clicktoedit" title="<?php print_string('edit');?>" />
+					  <?php print $Contact['DisplayFullName']['value'];?>
 					</a>
-		<?php print $Contact['Forename']['value'].' '. $Contact['Surname']['value'];?>
-				  </td>
-				  <td>
 				  </td>
 				  <td>
 <?php
@@ -229,10 +228,8 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 				  <td>
 					<a href="infobook.php?current=contact_details.php&cancel=student_view.php&contactno=-1">
 					  <img class="clicktoedit" title="<?php print_string('edit');?>" />
+					  <?php print_string('addnewcontact',$book);?>
 					</a>
-				  </td>
-				  <td>
-					<?php print_string('addnewcontact',$book);?>
 				  </td>
 				</tr>
 			  </table>
@@ -261,8 +258,8 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 		  <legend>
 			<a href="infobook.php?current=exclusions_list.php&cancel=student_view.php">
 			  <img class="clicktoedit" title="<?php print_string('edit');?>" />
+				<?php print_string('exclusions',$book);?>
 			</a>
-			<?php print_string('exclusions',$book);?>
 		  </legend>
 <?php	
 		if(array_key_exists(0,$Student['Exclusions'])){print_string('infoavailable',$book);}
@@ -273,10 +270,11 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 	  <div class="left">
 		<fieldset class="left">
 		  <legend>
-		  <a href="infobook.php?current=student_view_sen.php&cancel=student_view.php">
-			<img class="clicktoedit" title="<?php print_string('edit');?>" />
-		  </a>
-		<?php print_string('sen','seneeds');?></legend>
+			<a href="infobook.php?current=student_view_sen.php&cancel=student_view.php">
+			  <img class="clicktoedit" title="<?php print_string('edit');?>" />
+			  <?php print_string('sen','seneeds');?>
+			</a>
+		  </legend>
 <?php	
 		if($Student['SENFlag']['value']=='Y'){print_string('senprofile','seneeds');}
 		else{print_string('noinfo',$book);}
@@ -287,8 +285,8 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 		  <legend>
 		  <a href="infobook.php?current=student_view_medical.php&cancel=student_view.php">
 			<img class="clicktoedit" title="<?php print_string('edit');?>" />
+		    <?php print_string('medical',$book);?>
 		  </a>
-		  <?php print_string('medical',$book);?>
 		  </legend>	
 <?php	
 		if($Student['MedicalFlag']['value']=='Y'){print_string('infoavailable',$book);}
@@ -303,9 +301,9 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 		<fieldset class="left">
 		  <legend>
 			<a href="infobook.php?current=student_view_boarder.php&cancel=student_view.php">
-			  <img class="clicktoedit" title="<?php print_string('edit');?>" />
+			    <img class="clicktoedit" title="<?php print_string('edit');?>" />
+				<?php print_string('boarder',$book);?>
 			</a>
-		<?php print_string('boarder',$book);?>
 		  </legend>
 <?php 
 			if($Student['Boarder']['value']!='N' and $Student['Boarder']['value']!=''){ 
@@ -318,8 +316,8 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 		<legend>
 		  <a href="infobook.php?current=student_view_enrolment.php&cancel=student_view.php">
 			<img class="clicktoedit" title="<?php print_string('edit');?>" />
+			<?php print_string('enrolstatus',$book);?>
 		  </a>
-		  <?php print_string('enrolstatus',$book);?>
 		</legend>
 		<div>
 <?php 

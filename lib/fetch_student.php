@@ -6,6 +6,9 @@
  */	
 
 
+/**
+ *
+ */
 function fetchStudent_short($sid){
    	$d_student=mysql_query("SELECT * FROM student WHERE id='$sid'");
 	$student=mysql_fetch_array($d_student,MYSQL_ASSOC);
@@ -63,9 +66,12 @@ function fetchStudent_short($sid){
 	}
 
 
+/**
+ *
+ * This is an ad-hoc function for use by student_list only at the moment
+ * to quickly get at sid fields outside of student.
+ */
 function fetchStudent_singlefield($sid,$tag){
-	/*this is a ad-hoc function for use by student_list only at the moment*/
-	/*to quickly get at sid fields outside of student*/
 	$fieldtype='';
 	$Student=array();
 	if($tag=='Nationality'){$fieldname='nationality';$fieldtype='enum';}
@@ -122,28 +128,25 @@ function fetchStudent_singlefield($sid,$tag){
 	return $Student;
 	}
 
-
+/**
+ *	Student is an xml compliant array designed for use with Serialize
+ *	to generate xml from the values in the database. Each value from
+ *	the database is stored in an array element identified by its
+ *	xmltag. Various useful accompanying attributes are also stored. Of
+ *	particular use are Label for displaying the value and _db
+ *	attributes facilitating updates to the database when values are
+ *	changed (the type_db for instance facilitates validation).
+ *
+ *	$Student['xmltag']=array('label' => 'Display label', 'field_db' =>
+ *				'ClaSSdb field name', 'type_db'=>'ClaSSdb data-type', 
+ *					'value' => $student['field_db']);
+ *
+ */
 function fetchStudent($sid='-1'){
    	$d_student=mysql_query("SELECT * FROM student WHERE id='$sid'");
 	$student=mysql_fetch_array($d_student,MYSQL_ASSOC);
    	$d_info=mysql_query("SELECT * FROM info WHERE student_id='$sid'");
 	$info=mysql_fetch_array($d_info,MYSQL_ASSOC);
-
-
-	/**
-	Student is an xml compliant array designed for use with Serialize
-	to generate xml from the values in the database. Each value from
-	the database is stored in an array element identified by its
-	xmltag. Various useful accompanying attributes are also stored. Of
-	particular use are Label for displaying the value and _db
-	attributes facilitating updates to the database when values are
-	changed (the type_db for instance facilitates validation).
-
-	$Student['xmltag']=array('label' => 'Display label', 'field_db' =>
-				'ClaSSdb field name', 'type_db'=>'ClaSSdb data-type', 
-					'value' => $student['field_db']);
-
-	*/
 
 	$Student=array();
 	$Student['id_db']=$sid;
@@ -535,6 +538,9 @@ function fetchStudent($sid='-1'){
 	}
 
 
+/**
+ *
+ */
 function fetchContacts($sid='-1'){
 	$Contacts=array();
 	$d_gidsid=mysql_query("SELECT * FROM gidsid WHERE student_id='$sid' ORDER BY priority");
@@ -545,6 +551,9 @@ function fetchContacts($sid='-1'){
 	}
 
 
+/**
+ *
+ */
 function fetchContacts_emails($sid='-1'){
 	$Contacts=array();
 	$d_gidsid=mysql_query("SELECT * FROM gidsid JOIN guardian ON
@@ -556,6 +565,10 @@ function fetchContacts_emails($sid='-1'){
 	return $Contacts;
 	}
 
+
+/**
+ *
+ */
 function fetchDependents($gid='-1'){
 	$Dependents=array();
 	$d_gidsid=mysql_query("SELECT * FROM gidsid WHERE guardian_id='$gid' ORDER BY priority");
@@ -587,7 +600,8 @@ function fetchDependents($gid='-1'){
 	}
 
 
-/* Receives a gidsid record and returns full Contact for a sid or a
+/**
+ * Receives a gidsid record and returns full Contact for a sid or a
  * blank Contact for gid=-1,sid=-1. Will be none sid specific if sid
  * is not set (which is used by contact search in the InfoBook)
  */
@@ -629,7 +643,8 @@ function fetchContact($gidsid=array('guardian_id'=>'-1','student_id'=>'-1','prio
 							   'field_db' => 'forename',
 							   'type_db' => 'varchar(120)', 
 							   'value' => ''.$guardian['forename']);
-	/*	$Contact['MiddleNames']=array('label' => 'middlenames', 
+	/*TODO: remove this for contacts completely
+	$Contact['MiddleNames']=array('label' => 'middlenames', 
 								  'table_db' => 'guardian', 
 								  'field_db' => 'middlenames', 
 								  'type_db' => 'varchar(30)', 
@@ -645,7 +660,7 @@ function fetchContact($gidsid=array('guardian_id'=>'-1','student_id'=>'-1','prio
 									  'value' =>
 			   					  get_string(displayEnum($Contact['Title']['value'], 'title'),'infobook')
 									  .'  ' . $guardian['forename'] . ' ' 
-									  .$guardian['middlenames']
+									  //.$guardian['middlenames']
 									  . ' ' . $guardian['surname']);
 
 	$Contact['EmailAddress']=array('label' => 'email', 
@@ -673,6 +688,11 @@ function fetchContact($gidsid=array('guardian_id'=>'-1','student_id'=>'-1','prio
 								  'field_db' => 'companyname', 
 								  'type_db' => 'varchar(240)', 
 								  'value' => ''.$guardian['companyname']);
+   	$Contact['Note']=array('label' => 'notes', 
+						   //'table_db' => 'guardian', 
+						   'field_db' => 'note', 
+						   'type_db' => 'text', 
+						   'value' => ''.$guardian['note']);
 
 
 	/*******ContactsAddresses****/
@@ -695,6 +715,9 @@ function fetchContact($gidsid=array('guardian_id'=>'-1','student_id'=>'-1','prio
 	}
 
 
+/**
+ *
+ */
 function fetchPhone($phone=array('id'=>'-1','number'=>'','phonetype'=>'')){
 	$Phone=array();
 	$Phone['id_db']=$phone['id'];
@@ -711,6 +734,9 @@ function fetchPhone($phone=array('id'=>'-1','number'=>'','phonetype'=>'')){
 	return $Phone;
 	}
 
+/**
+ *
+ */
 function fetchAddress($gidaid=array('address_id'=>'-1','addresstype'=>'')){
 	$Address=array();
 	$aid=$gidaid['address_id'];
@@ -771,7 +797,9 @@ function fetchAddress($gidaid=array('address_id'=>'-1','addresstype'=>'')){
 	return $Address;
 	}
 
-/*******Incidents***/
+/**
+ *****Incidents**
+ */
 function fetchIncidents($sid,$startdate='',$enddate=''){
 	$Incidents=array();
 	$Incidents['Incident']=array();
@@ -845,6 +873,10 @@ function fetchIncidents($sid,$startdate='',$enddate=''){
 	return nullCorrect($Incidents);
 	}
 
+
+/**
+ *
+ */
 function fetchComments($sid,$startdate='',$enddate=''){
 	$Comments=array();
 	$subtable=array();
@@ -915,6 +947,9 @@ function fetchComments($sid,$startdate='',$enddate=''){
 	return nullCorrect($Comments);
 	}
 
+/**
+ *
+ */
 function commentDisplay($sid,$date='',$Comments=''){
 	$commentdisplay=array();
 	if($date==''){
@@ -938,8 +973,11 @@ function commentDisplay($sid,$date='',$Comments=''){
 	return $commentdisplay;
 	}
 
-/* Only used for tasks specific to enrolment and not to be part of the */
-/* Student array (at least for now!)*/
+
+/**
+ * Only used for tasks specific to enrolment and not to be part of the
+ * Student array (at least for now!)
+ */
 function fetchEnrolment($sid='-1'){
 	$comid=-1;
    	$d_info=mysql_query("SELECT * FROM info WHERE student_id='$sid'");
@@ -1033,8 +1071,11 @@ function fetchEnrolment($sid='-1'){
 	return $Enrolment;
 	}
 
-/*Returns all residencial Stays where the dpearture date falls after $date*/
-/*by defualt $date='' and only Stays returned are current or future ones.*/
+/**
+ * Returns all residencial Stays where the dpearture date falls after $date
+ * by defualt $date='' and only Stays returned are current or future
+ * ones.
+ */
 function fetchStays($sid,$date=''){
 	if($date==''){$todate=date("Y-m-d");}
 	$Stays=array();
@@ -1048,6 +1089,9 @@ function fetchStays($sid,$date=''){
 	return $Stays;
 	}
 
+/**
+ *
+ */
 function fetchStay($stay=array('id'=>'-1','bookingdate'=>'','invoice'=>'')){
 	$Stay=array();
 	$Stay['id_db']=$stay['id'];
@@ -1132,9 +1176,11 @@ function fetchStay($stay=array('id'=>'-1','bookingdate'=>'','invoice'=>'')){
 	return $Stay;
 	}
 
-/*these are for compatibility with NCYear field as defined by the CBDS */
-/*for state schools in England and Wales - they are needed for */
-/* fetchStudent to work - but can otherwise be ignored*/
+/**
+ * These are for compatibility with NCYear field as defined by the CBDS 
+ * for state schools in England and Wales - they are needed for 
+ * fetchStudent to work - but can otherwise be ignored
+ */
 function fetchNCYear($sid){
 	$d_student=mysql_query("SELECT yeargroup_id FROM student WHERE id='$sid'");
 	$yid=mysql_result($d_student,0);
@@ -1153,7 +1199,9 @@ function getNCYear($yid){
 	}
 
 
-/******* Medical ****/
+/**
+ ***** Medical ***
+ */
 function fetchMedical($sid='-1'){
 	$Medical=array();
 	$Medical['Notes']=array();
@@ -1189,6 +1237,7 @@ function fetchMedical($sid='-1'){
 	return $Medical;
 	}
 
+
 /**
  * Returns the epfusername for that sid either from the database if
  * the eportfolio is configured or generates a usable name based on 
@@ -1208,5 +1257,19 @@ function get_epfusername($sid,$Student=array(),$type='student'){
 		$epfusername=good_strtolower($start. $tail);
 		}
 	return $epfusername;
+	}
+
+/**
+ * Will list contacts sharing the address identified by aid.
+ */
+function list_address_guardians($aid){
+	$guardians=array();
+	$d_gidaid=mysql_query("SELECT * FROM gidaid WHERE address_id='$aid'");
+	while($gidaid=mysql_fetch_array($d_gidaid,MYSQL_ASSOC)){
+		$gid=$gidaid['guardian_id'];
+		$d_guardian=mysql_query("SELECT * FROM guardian WHERE id='$gid'");
+		$guardians[]=mysql_fetch_array($d_guardian,MYSQL_ASSOC);
+		}
+	return $guardians;
 	}
 ?>

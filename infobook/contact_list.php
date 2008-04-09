@@ -77,7 +77,8 @@ two_buttonmenu($extrabuttons,$book);
 					<tr>
 					  <td>
 						<p>
-						  <?php print get_string($relation,$book).':  ';?>
+						  <?php print get_string($relation,$book) 
+							 .' '.get_string('to',$book).' ';?>
 						  <a href="infobook.php?current=student_view.php&cancel=contact_list.php&sid=<?php print $Student['id_db'];?>&sids[]=<?php print $Student['id_db'];?>">
 							<?php print $Student['DisplayFullName']['value']; ?>
 						  </a>

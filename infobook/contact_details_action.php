@@ -54,7 +54,7 @@ if($sub=='Submit'){
 
 	reset($Contact);
 	while(list($key,$val)=each($Contact)){
-		if(isset($val['value']) and is_array($val) and isset($val['field_db'])){
+		if(isset($val['value']) and is_array($val) and isset($val['table_db'])){
 			$field=$val['field_db'];
 			$inname=$field;
 			$inval=clean_text($_POST["$inname"]);
@@ -70,13 +70,20 @@ if($sub=='Submit'){
 			}
 		}
 
+	/* Have to do this seperate because it has no table_db field to
+		keep it out of the main form. */
+	$inval=clean_text($_POST['note']);
+	if($Contact['Note']['value']!=$inval){
+		mysql_query("UPDATE guardian SET note='$inval' WHERE id='$gid'");
+		}
+
 	reset($Phones);
 	while(list($phoneno,$Phone)=each($Phones)){
 		$phoneid=$Phone['id_db'];
 		while(list($key,$val)=each($Phone)){
-			if(isset($val['value']) and is_array($val) and isset($val['field_db'])){	
+			if(isset($val['value']) and is_array($val) and isset($val['table_db'])){	
 				$field=$val['field_db'];
-				$inname=$field.$phoneno;
+				$inname=$field. $phoneno;
 				$inval=clean_text($_POST["$inname"]);
 				if($val['value']!=$inval){
 					if($phoneid=='-1' and $inval!=''){
@@ -95,7 +102,7 @@ if($sub=='Submit'){
 		$aid=$Address['id_db'];
 		reset($Address);
 		while(list($key,$val)=each($Address)){
-			if(isset($val['value']) & is_array($val) and isset($val['field_db'])){
+			if(isset($val['value']) & is_array($val) and isset($val['table_db'])){
 				$field=$val['field_db'];
 				$inname=$field. $addressno;
 				if(isset($_POST[$inname])){$inval=clean_text($_POST[$inname]);}

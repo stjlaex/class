@@ -10,20 +10,21 @@ include('scripts/sub_action.php');
 if(isset($_GET['contactno'])){$contactno=$_GET['contactno'];}else{$contactno=-2;}
 if(isset($_POST['contactno'])){$contactno=$_POST['contactno'];}
 
-	/*Check user has permission to view*/
-	$yid=$Student['YearGroup']['value'];
-	$perm=getYearPerm($yid,$respons);
-	include('scripts/perm_action.php');
+/* Check user has permission to view. */
+$yid=$Student['YearGroup']['value'];
+$perm=getYearPerm($yid,$respons);
+include('scripts/perm_action.php');
 
 if($contactno>-1){
-	/*editing a pre-existing link to a contact*/
+	/* Editing a pre-existing link to a contact*/
 	$Contact=$Student['Contacts'][$contactno];
 	$Phones=$Contact['Phones'];
 	$Addresses=$Contact['Addresses'];
 	$gid=$Contact['id_db'];
+	$Dependents=fetchDependents($gid);
 	}
 elseif($contactno==-1){
-	/*this is a new link to a contact*/
+	/* This is a new link to a contact*/
 	if(isset($_POST['pregid']) and $_POST['pregid']!=''){$gid=$_POST['pregid'];}
 	else{$gid=-1;}
 	$gidsid=array('guardian_id'=>$gid,'student_id'=>-1,'priority'=>'',
@@ -31,9 +32,15 @@ elseif($contactno==-1){
 	$Contact=fetchContact($gidsid);
 	$Phones=$Contact['Phones'];
 	$Addresses=$Contact['Addresses'];
+	$Dependents=fetchDependents($gid);
+	if(sizeof($Dependents)>0){
+		$Contact['Order']['value']=$Dependents[0]['Order']['value'];
+		$Contact['Relationship']['value']=$Dependents[0]['Relationship']['value'];
+		$Contact['ReceivesMailing']['value']=$Dependents[0]['ReceivesMailing']['value'];
+		}
 	}
 else{
-	/*called from the contact_list as the result of a contact search*/
+	/* Called from the contact_list.php as the result of a contact search*/
 	if(isset($_GET['gid'])){$_SESSION['infosearchgid']=$_GET['gid'];}
 	if(isset($_POST['gid'])){$_SESSION['infosearchgid']=$_POST['gid'];}
 	$gid=$_SESSION['infosearchgid'];
@@ -42,6 +49,7 @@ else{
 		$Contact=fetchContact(array('guardian_id'=>$gid));
 		$Phones=$Contact['Phones'];
 		$Addresses=$Contact['Addresses'];
+		$Dependents=fetchDependents($gid);
 		}
 	else{
 		/*returns a blank for new contact*/
@@ -55,7 +63,7 @@ else{
 while(sizeof($Phones)<4){$Phones[]=fetchPhone();}
 $Addresses[]=fetchAddress();
 
-/*TODO: temporarily only one address for display*/
+/* TODO: currently only one address for display.*/
 $Address=$Addresses[0];
 
 $extrabuttons=array();
@@ -63,12 +71,13 @@ if($contactno>-1){
 	$extrabuttons['unlinkcontact']=array('name'=>'sub','value'=>'Unlink');
 ?>
   <div id="heading">
-	<label><?php print_string('student'); ?></label>
+	<label><?php print_string('contactfor',$book); ?></label>
 	<?php print $Student['DisplayFullName']['value'];?>
   </div>
 <?php
 	}
 elseif($contactno==-1){
+	/* The select existing contact box when start with a blank new contact form.*/
 	$d_guardian=mysql_query("SELECT id, CONCAT(surname,', ',forename)
 								AS name FROM guardian ORDER BY surname");
 ?>
@@ -108,50 +117,48 @@ three_buttonmenu($extrabuttons,$book);
 		  <?php $tab=xmlarray_form($Phone,$phoneno,'',$tab,$book); ?>
 		</div>
 <?php
-			}
+		}
 ?>
 
 	  <div class="left">
 <?php
-		/* not implementing more than one address*/
-		//while(list($addressno,$Address)=each($Addresses)){
-		$addressno='0';
+	$addressno='0';/*Only doing one address.*/
+	$tab=xmlarray_form($Address,$addressno,'contactaddress',$tab,$book); 
 ?>
-		  <?php $tab=xmlarray_form($Address,$addressno,'contactaddress',$tab,$book); ?>
 	  </div>
 
-	  <fieldset class="right">
-		<legend><?php print_string('addresssharedwith',$book);?></legend>
+	  <div class="right">
+		  <table class="listmenu listinfo">
+			<caption><?php print_string('relationships',$book);?></caption>
+			<tr>
+			  <td>
+				<?php print $Contact['DisplayFullName']['value']; ?>
+			  </td>
+			</tr>
 <?php
-				/*find other contacts who share this address*/
-				$aid=$Address['id_db'];
-				$d_gidaid=mysql_query("SELECT * FROM gidaid WHERE address_id='$aid'");
-					while($gidaid=mysql_fetch_array($d_gidaid,MYSQL_ASSOC)){
-						$familygid=$gidaid['guardian_id'];
-				   		$d_guardian=mysql_query("SELECT * FROM guardian WHERE id='$familygid'");
-				   		$d_gidsid=mysql_query("SELECT * FROM gidsid WHERE guardian_id='$familygid'");
-						$guardian=mysql_fetch_array($d_guardian,MYSQL_ASSOC);
+		while(list($index,$Dependent)=each($Dependents)){
+			$Student=$Dependent['Student'];
+			$relation=displayEnum($Dependent['Relationship']['value'],'relationship');
 ?>
-		<div class="center">
-			<input type="checkbox" name="ungidaids[]" 
-			  value="<?php print $familygid.':'.$aid; ?>" />
+					<tr>
+					  <td style="padding:5px 2px 2px 6px;">
+						  <?php print get_string($relation,$book) 
+							 .' '.get_string('to',$book).' ';?>
+						  <a href="infobook.php?current=student_view.php&cancel=contact_list.php&sid=<?php print $Student['id_db'];?>&sids[]=<?php print $Student['id_db'];?>">
+							<?php print $Student['DisplayFullName']['value']; ?>
+						  </a>
+					  </td>
+					</tr>
 <?php
-						print $guardian['forename'].' '.$guardian['surname'].'<br /> ';
-						while($gidsid=mysql_fetch_array($d_gidsid,MYSQL_ASSOC)){
-							$siblingsid=$gidsid['student_id'];
-							$d_student=mysql_query("SELECT * FROM
-													student WHERE id='$siblingsid'");
-							$student=mysql_fetch_array($d_student,MYSQL_ASSOC);
-							print displayEnum($gidsid['relationship'],'relationship'). 
-									' of &nbsp;'.$student['forename'].' ' 
-										.$student['surname'].' ';
-							}
+			}
 ?>
-		</div>
-<?php
-					}
-//			}
-?>
+		  </table>
+	  </div>
+	  <fieldset class="right listmenu">
+		<legend>
+		  <?php print_string($Contact['Note']['label'],$book);?>
+		</legend>
+		<?php	$tab=xmlelement_input($Contact['Note'],'',$tab,$book);?>
 	  </fieldset>
 
  	<input type="hidden" name="contactno" value="<?php print $contactno;?>">

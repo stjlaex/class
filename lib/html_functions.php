@@ -213,8 +213,9 @@ function xmlarray_divform($Array,$no='',$caption='',$tab=1,$book=''){
 	}
 
 /**
- * Prints one form element including the
- * element's label and its formatted value.
+ * Prints one form element including  
+ * its formatted value given in the xml element $val.
+ * Use $no if this is a repeat in the same form.
  */
 function xmlelement_input($val,$no,$tab,$book){
 	$pattern='';
@@ -297,8 +298,9 @@ function xmlelement_input($val,$no,$tab,$book){
 
 
 /**
- * Prints one cell designed for a listmenu table including the
- * element's label and its formatted value.
+ * Prints one cell based on the xml element $val, formatted to 
+ * fit a listmenu table including the
+ * element's label and any preset value.
  */
 function xmlelement_display($val,$book){
 	print '<td>';
