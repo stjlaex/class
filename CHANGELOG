@@ -1,4 +1,13 @@
-Version ClaSS-0.8.42 release (2008/04/03)
+Version ClaSS-0.8.43 release (2008/04/14)
+-----------------------------------------
+
+A very crude js function sessionAlive() added to the logBook. It runs
+an xmlhttprequest every 15 minutes to prevent php sessions timing
+out. Only used for office users who want permanent logins and have PCs
+located well away from students.
+
+
+Version ClaSS-0.8.42 release (2008/04/07)
 -----------------------------------------
 
 In the enrolments_matrix, have now enabled editing the capacity for a

@@ -243,3 +243,16 @@ function helpPage(){
 		}
 	}
 
+// Keep the php session alive 
+function sessionAlive(pathtobook){
+	var url=pathtobook + "httpscripts/session_alive.php?uniqueid=1";
+	var xmlHttp = false;
+	requestxmlHttp();
+	function requestxmlHttp(){
+		try { xmlHttp=new XMLHttpRequest(); } 
+		catch (failed) { xmlHttp=false; }
+		if (!xmlHttp) {alert("Error initializing XMLHttpRequest!");}
+		}
+	xmlHttp.open("GET", url, true);
+	xmlHttp.send(null);
+	}

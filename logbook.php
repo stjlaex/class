@@ -41,6 +41,15 @@
 <?php
 	if($fresh!=''){
 		$role=$_SESSION['role'];
+		if($role=='office'){
+			/* This will prevent session timeouts, making an
+			 * xmlhttprequest to the logbook/httpscripts/session_alive.php 
+			 * every 15 minutes. But only for office users.
+			 */
+?>
+		<script>setInterval("parent.sessionAlive(pathtobook);",15*60*1000);</script>
+<?php
+			}
 		if($_SESSION['senrole']=='1'){$books[$role]['seneeds']='SEN';}
 		foreach($books[$role] as $bookhost=>$bookname){
 			/*(re)loading all the ClaSS books*/
