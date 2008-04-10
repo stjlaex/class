@@ -114,7 +114,6 @@ function elgg_newUser($Newuser,$role){
 	$surname=str_replace('-','',$surname);
     $name=$Newuser['Forename']['value'].' '.$Newuser['Surname']['value'];
 	$active='yes';
-	//setlocale(LC_CTYPE,'en_GB');
 	setlocale(LC_CTYPE,'en_GB');
 
 	if($role=='student'){
