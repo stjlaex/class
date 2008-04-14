@@ -48,6 +48,11 @@ $string['yearendwarning']='	<p>The end of year function really should be only ru
 	yeargroup. It will also empty all marks from the MarkBook
 	archiving only those linked to an Assessment. <p/>
 ';
+$string['eportfoliowarning']='<p>The ePortfolios are a seperate
+	database which maybe accessed by staff, students, and parents alike.</p>
+		<p>ClaSS can directly manage the user accounts, access groups and
+	communities in this eporfolio database.<p/>
+';
 $string['endofyearpromotions']='End of year promotions';
 $string['confirmyeargroupstopromote']='Confirm the yeargroups to promote students to';
 $string['endofcoursepromotions']='End of course promotions';

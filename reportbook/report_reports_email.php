@@ -33,19 +33,17 @@ if(sizeof($sids)==0){
 		$Contacts=fetchContacts($sid);
 
 		setlocale(LC_CTYPE,'en_GB');
-		$studentname=iconv('UTF-8', 'ASCII//TRANSLIT',$Student['DisplayFullName']['value']);
+		//$studentname=iconv('UTF-8', 'ASCII//TRANSLIT',$Student['DisplayFullName']['value']);
+		$studentname=utf8_to_ascii($Student['DisplayFullName']['value']);
 
 		$body='Please find attached the term report for '.$studentname.'.';
-		$subject='King\'s Training Report for '.$studentname;
-		$fromaddress='King\'s Training La Moraleja';
+		$subject='Report for '.$studentname;
+		$fromaddress='';
 		$epfusername=get_epfusername($sid,$Student);
 		$filename='Report'.$pubdate.'_'.$epfusername.'_'.$sid.'_'.$wrapper_rid.'.pdf';
 		$attachments=array();
 		$attachments[]=array('filepath'=>$CFG->installpath.'/reports/'.$filename,
 							 'filename'=>$filename);
-		/*		$attachments[]=array('filepath'=>$CFG->installpath.'/pdfreports/smc_newsletter.pdf',
-							 'filename'=>'newsletter.pdf');
-		*/
 
 		while(list($index,$Contact)=each($Contacts)){
 			$mailing=$Contact['ReceivesMailing']['value'];

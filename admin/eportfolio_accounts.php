@@ -3,13 +3,11 @@
  */
 
 $choice='eportfolio_accounts.php';
-$action='eportfolio_accounts_action.php';
+$action='eportfolio_accounts_check.php';
 
 include('scripts/sub_action.php');
 
-
 three_buttonmenu();
-
 ?>
   <div id="heading">
   <?php print get_string('eportfolios',$book).' ';?>
@@ -29,14 +27,6 @@ three_buttonmenu();
 		  <?php include('scripts/check_yesno.php');?>
 		</div>
 	  </fieldset> 
-
-		<table class="listmenu center">
-
-		  <tr>
-
-		  </tr>
-
-		</table>
 
 		<input type="hidden" name="cancel" value="" />
 		<input type="hidden" name="choice" value="<?php print $choice;?>" />

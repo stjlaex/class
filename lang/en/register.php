@@ -24,7 +24,6 @@ $string['travellerabsence']='Traveller absence';
 $string['workexperience']='Work experience';
 $string['otherauthorisedcircumstances']='Other authorised circumstances';
 $string['dualregistrationattendingother']='Dual registration (attending other)';
-$string['noreasonyetprovided']='No reason yet provided';
 $string['lateafterregisterclosed']='Late unauthorised (after register closed)';
 $string['lateafterregisterclosedauthorised']='Late authorised (after register closed)';
 $string['untimetabledsessions']='Untimetabled sessions';

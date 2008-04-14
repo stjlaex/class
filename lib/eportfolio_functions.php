@@ -82,24 +82,50 @@ function elgg_refresh(){
 
 
 /**
- * This blanks all users from the elgg database
- * TODO: blank out epfusername records in ClaSS too.
+ * This blanks all users from the elgg database of a particular type
+ * identified by their default template name.
+ * TODO: blank out epfusername records in ClaSS too?
  */
-function elgg_blank(){
-	$blanktables=array('friends','group','');
+function elgg_blank($usertemplate){
+	global $CFG;
+	$dbepf='';
+	if($CFG->eportfolio_db!=''){
+		$dbepf=db_connect($CFG->eportfolio_db);
+		mysql_query("SET NAMES 'utf8'");
+		}
 	$table_users=$CFG->eportfolio_db_prefix.'users';
-	$table_friends=$CFG->eportfolio_db_prefix.'friends';
-	$table_groups=$CFG->eportfolio_db_prefix.'groups';
-	$table_folders=$CFG->eportfolio_db_prefix.'file_folders';
-	$table_members=$CFG->eportfolio_db_prefix.'group_membership';
-	mysql_query("DELETE FROM $table_users;");
-	mysql_query("DELETE FROM $table_friends;");
-	mysql_query("DELETE FROM $table_groups;");
-	mysql_query("DELETE FROM $table_members;");
-	mysql_query("DELETE FROM $table_friends;");
-	mysql_query("DELETE FROM $table_folders;");
+	$blanktables=array('friends'=>'owner',
+					   'friends'=>'friend',
+					   'groups'=>'owner',
+					   'file_folders'=>'owner',
+					   'files'=>'files_owner',
+					   'group_membership'=>'user_id',
+					   'user_flags'=>'user_id',
+					   'pages'=>'owner',
+					   'profile_data'=>'owner',
+					   'tags'=>'owner',
+					   'weblog'=>'weblog'
+					   //'weblog_homework'=>'owner',
+					   //'weblog_comments'=>'owner',
+					   //'weblog_watchlist'=>'owner',
+					   );
+	while(list($table,$field)=each($blanktables)){
+		$table=$CFG->eportfolio_db_prefix.$table;
+		mysql_query("DELETE FROM $table JOIN $table_users ON
+						$table_users.ident=$table.$field 
+						WHERE template_name='$usertemplate';");
+		}
+
+	mysql_query("DELETE FROM $table_users WHERE template_name='$usertemplate';");
+
+	$db=db_connect();
+	mysql_query("SET NAMES 'utf8'");
 	}
 
+
+/**
+ *
+ */
 function elgg_newUser($Newuser,$role){
 	global $CFG;
 	$table=$CFG->eportfolio_db_prefix.'users';
@@ -116,26 +142,27 @@ function elgg_newUser($Newuser,$role){
 	$active='yes';
 	setlocale(LC_CTYPE,'en_GB');
 
+	$nums='';
+	$code='';
 	if($role=='student'){
 		$email='';
 		//$email=$Newuser['EmailAddress']['value'];
 		$dob=(array)split('-',$Newuser['DOB']['value']);
 		$forename=(array)split(' ',$Newuser['Forename']['value']);
-		$start=iconv('UTF-8', 'ASCII//TRANSLIT', $forename[0]);
+		//$start=iconv('UTF-8', 'ASCII//TRANSLIT', $forename[0]);
+		$start=utf8_to_ascii($forename[0]);
 		$epfusertype='person';
 		$epftemplate_name='Default_Student';
 		$epftemplate=2;
 		//$password=good_strtolower('guest');
 		/*this takes the first three letters of the surname and day,
 		month, year of dob to be password*/
-		$passwstart=iconv('UTF-8', 'ASCII//TRANSLIT', $surname);
-		//$password=substr($passwstart,0,2).$dob[2].$dob[1].$dob[0];
+		//$passwstart=iconv('UTF-8', 'ASCII//TRANSLIT', $surname);
+		$passwstart=utf8_to_ascii($surname);
 		$password=good_strtolower($passwstart[0]). $dob[2].$dob[1].$dob[0];
 		$assword=md5($password);
 		$classtable='info';
 		$classfield='student_id';
-		$nums='';
-		$code='';
 		while(count($nums)<9){$nums[rand(1,9)]=null;}
 		while(strlen($code)<2){$code.=array_rand($nums);}
 		$tail=$code;
@@ -144,8 +171,8 @@ function elgg_newUser($Newuser,$role){
 	elseif($role=='guardian'){
 		$email='';
 		//$email=$Newuser['EmailAddress']['value'];
-		$start=iconv('UTF-8', 'ASCII//TRANSLIT', $surname);
-		//$start=html_entity_decode($surname,ENT_QUOTES,'UTF-8');
+		//$start=iconv('UTF-8', 'ASCII//TRANSLIT', $surname);
+		$start=utf8_to_ascii($surname);
 		$name=$Newuser['Title']['value'].' '.$Newuser['Surname']['value'];
 		$epfusertype='person';
 		$epftemplate_name='Default_Guardian';
@@ -155,10 +182,8 @@ function elgg_newUser($Newuser,$role){
 		$assword=md5($password);
 		$classtable='guardian';
 		$classfield='id';
-		$nums='';
-		$code='';
-		//while(count($nums)<9){$nums[rand(1,9)]=null;}
-		//while(strlen($code)<2){$code.=array_rand($nums);}
+		while(count($nums)<9){$nums[rand(1,9)]=null;}
+		while(strlen($code)<2){$code.=array_rand($nums);}
 		$tail=$code;
 		$no=0;
 		}
@@ -173,20 +198,22 @@ function elgg_newUser($Newuser,$role){
 		$epftemplate_name='Default_Staff';
 		$epftemplate=1;
 		$assword=$Newuser['Password']['value'];
-		$no='';
+		$no='';/*Assume all staff usernames are already unique.*/
 		$classtable='users';
 		$classfield='uid';
 		}
 	$epfusername=good_strtolower($start. $tail);
 	$epfusername=str_replace("'",'',$epfusername);
 	$epfusername=clean_text($epfusername);
-	//	trigger_error($epfusername.' '.$password,E_USER_WARNING);
+
 
 	$d_user=mysql_query("SELECT ident FROM $table WHERE username='$epfusername$no';");
 	while($olduser=mysql_fetch_array($d_user)){
 		$no++;
 		$d_user=mysql_query("SELECT ident FROM $table WHERE username='$epfusername$no';");
 		}
+
+	//trigger_error($epfusername. $no.' '.$password,E_USER_WARNING);
 
 	mysql_query("INSERT INTO $table (username, password, name, 
 					email, active, user_type,icon,template_id,template_name) VALUES 
@@ -204,8 +231,12 @@ function elgg_newUser($Newuser,$role){
 	return $epfuid;
 	}
 
-/* checks for a community and either updates or creates*/
-/* expects an array with at least type and name set*/
+
+/**
+ *
+ * checks for a community and either updates or creates
+ * expects an array with at least type and name set
+ */
 function elgg_update_community($community,$communityfresh=array('type'=>'','name'=>''),$epfuidowner=''){
 	global $CFG;
 	$table=$CFG->eportfolio_db_prefix.'users';
@@ -275,6 +306,9 @@ function elgg_update_community($community,$communityfresh=array('type'=>'','name
 	}
 
 
+/**
+ *
+ */
 function elgg_join_community($epfuid,$community){
 	global $CFG;
 	$table_users=$CFG->eportfolio_db_prefix.'users';
@@ -296,6 +330,10 @@ function elgg_join_community($epfuid,$community){
 	mysql_query("SET NAMES 'utf8'");
 	}
 
+
+/**
+ *
+ */
 function elgg_update_group($group,$groupfresh=array('owner'=>'','name'=>'','access'=>'')){
 	global $CFG;
 	$table=$CFG->eportfolio_db_prefix.'groups';
@@ -305,9 +343,10 @@ function elgg_update_group($group,$groupfresh=array('owner'=>'','name'=>'','acce
 		mysql_query("SET NAMES 'utf8'");
 		}
 
-	$access=$group['access'];
 	$name=$group['name'];
 	$owner=$group['owner'];
+	if(isset($group['access'])){$access=$group['access'];}
+	else{$access='';}
 	$namefresh=$groupfresh['name'];
 	if($owner!='' and $name!=''){
 		$d_group=mysql_query("SELECT ident FROM $table WHERE
@@ -332,6 +371,9 @@ function elgg_update_group($group,$groupfresh=array('owner'=>'','name'=>'','acce
 	return $epfgroupid;
 	}
 
+/**
+ *
+ */
 function elgg_join_group($epfuid,$group){
 	global $CFG;
 	$table_group=$CFG->eportfolio_db_prefix.'groups';
@@ -359,6 +401,9 @@ function elgg_join_group($epfuid,$group){
 	mysql_query("SET NAMES 'utf8'");
 	}
 
+/**
+ *
+ */
 function elgg_new_folder($owner,$name,$access){
 	global $CFG;
 	$table=$CFG->eportfolio_db_prefix.'file_folders';

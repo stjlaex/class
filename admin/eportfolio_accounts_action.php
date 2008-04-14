@@ -6,8 +6,12 @@ $action='eportfolio_accounts.php';
 require_once('lib/eportfolio_functions.php');
 
 include('scripts/sub_action.php');
-include('scripts/answer_action.php');
 
+$contactcheck=$_POST['contactcheck0'];
+$staffcheck=$_POST['staffcheck0'];
+$studentcheck=$_POST['studentcheck0'];
+
+if($studentcheck=='yes'){
 
 	/*get all ClaSS data first*/
 	$yearcoms=(array)list_communities('year');
@@ -16,7 +20,6 @@ include('scripts/answer_action.php');
 	$allteachers=(array)list_teacher_users();
 	$Students=array();
 	$yearusers=array();
-	$epf_contacts=array();
 	while(list($yearindex,$com)=each($yearcoms)){
 		$yid=$com['name'];
 		$yearusers[$yid]=array();
@@ -34,18 +37,6 @@ include('scripts/answer_action.php');
 			$Email=fetchStudent_singlefield($sid,'EmailAddress');
 			$EnrolNumber=fetchStudent_singlefield($sid,'EnrolNumber');
 			$Students[$sid]['EmailAddress']['value']=$Email['EmailAddress']['value'];
-			$Contacts=fetchContacts($sid);
-			while(list($contactindex,$Contact)=each($Contacts)){
-				$mailing=$Contact['ReceivesMailing']['value'];
-				if($mailing=='0' or $mailing=='1' or $mailing=='2'){
-					if(!array_key_exists($Contact['id_db'],$epf_contacts)){
-						$epf_contacts[$Contact['id_db']]['sids']=array();
-						$Contact['firstchild']=$EnrolNumber['EnrolNumber']['value'];
-						$epf_contacts[$Contact['id_db']]['Contact']=$Contact;
-						}
-					$epf_contacts[$Contact['id_db']]['sids'][]=$sid;
-					}
-				}
 			}
 		}
 
@@ -114,12 +105,12 @@ include('scripts/answer_action.php');
 
 	reset($Students);
 	while(list($sid,$Student)=each($Students)){
-		/* Don't want to create a epf user if they already have an account. */
 		$epfuid=-1;
 		unset($sepfu);
 		$field=fetchStudent_singlefield($sid,'EPFUsername');
 		$Student=array_merge($Student,$field);
 		//trigger_error($sid.':'.$Student['EPFUsername']['value'],E_USER_WARNING);
+		/* Don't want to create a epf user if they already have an account. */
 		if($Student['EPFUsername']['value']!=''){
 			$epfuid=elgg_get_epfuid($Student['EPFUsername']['value'],'person',true);
 			}
@@ -127,6 +118,8 @@ include('scripts/answer_action.php');
 			$epfuid=elgg_newUser($Student,'student');
 			}
 		$Students[$sid]['epfuid']=$epfuid;
+
+		/* Join the student to pastoral groups*/
 		$fid=$Student['RegistrationGroup']['value'];
 		if(isset($formepfcomids[$fid])){
 			$com=array('epfcomid'=>$formepfcomids[$fid],'type'=>'form','name'=>'');
@@ -144,30 +137,6 @@ include('scripts/answer_action.php');
 		$Students[$sid]['epfgroupid']=$epfgroupid;
 		}
 
-	while(list($gid,$epf_contact)=each($epf_contacts)){
-		$Contact=$epf_contact['Contact'];
-		if($Contact['Title']['value']!=''){
-			$Contact['Title']['value']=get_string(displayEnum($Contact['Title']['value'],'title'),'infobook');
-			}
-		/* Don't want to create a epf user if they already have an account. */
-		$epfuid=-1;
-		if($Contact['EPFUsername']['value']!=''){
-			$epfuid=elgg_get_epfuid($Contact['EPFUsername']['value'],'person',true);
-			}
-		if($epfuid==-1){
-			$epfuid=elgg_newUser($Contact,'guardian');
-			}
-
-		$sids=$epf_contact['sids'];
-		while(list($index,$sid)=each($sids)){
-			/* Joining a family community involves simply an entry in
-			 * friends and an access group, a family does not have a community of
-			 * its own.
-			 */
-			elgg_join_community($epfuid,array('epfcomid'=>$Students[$sid]['epfuid']));
-			elgg_join_group($epfuid,array('epfgroupid'=>$Students[$sid]['epfgroupid'],'name'=>'family','owner'=>$Students[$sid]['epfuid'],'access'=>''));
-			}
-		}
 
 	/* Now do teaching groups */
 	while(list($index,$class)=each($classes)){
@@ -187,6 +156,68 @@ include('scripts/answer_action.php');
 			if(isset($Students[$sid])){elgg_join_community($Students[$sid]['epfuid'],$com);}
 			}
 		}
+	}
+
+if($contactcheck=='yes'){
+
+	/* Clear out all contacts ready to regenerate them. */
+	elgg_blank('Default_Guardian');
+	mysql_query("UPDATE guardian SET epfusername='';");
+	$yid=8;
+	/* Want all contacts who may recieve any sort of mailing. */
+	$d_c=mysql_query("SELECT DISTINCT guardian_id FROM gidsid JOIN
+						student ON gidsid.student_id=student.id 
+						WHERE student.yeargroup_id LIKE '$yid' AND gidsid.mailing!='0';");
+	while($contact=mysql_fetch_array($d_c,MYSQL_ASSOC)){
+		$epfuid_contact=-1;
+		$gid=$contact['guardian_id'];
+		$Contact=fetchContact(array('guardian_id'=>$gid));
+		$d_i=mysql_query("SELECT info.student_id, formerupn, epfusername FROM info JOIN gidsid ON
+					gidsid.student_id=info.student_id WHERE
+					info.epfusername!='' AND  info.formerupn!='' AND gidsid.mailing!='0' AND
+					gidsid.guardian_id='$gid';");
+		while($info=mysql_fetch_array($d_i,MYSQL_ASSOC)){
+			if($epfuid_contact==-1){
+				/* Need formerupn to use as part of their password. */
+				$Contact['firstchild']=$info['formerupn'];
+				if($Contact['Title']['value']!=''){
+					$Contact['Title']['value']=get_string(displayEnum($Contact['Title']['value'],'title'),'infobook');
+					}
+				/* Don't want to create a new epf user if they already have an account. */
+				if($Contact['EPFUsername']['value']!=''){
+					$epfuid_contact=elgg_get_epfuid($Contact['EPFUsername']['value'],'person',true);
+					}
+				if($epfuid_contact==-1){
+					$epfuid_contact=elgg_newUser($Contact,'guardian');
+					/*need updated epfusername*/
+					$Contact=fetchContact(array('guardian_id'=>$gid));
+					$emailaddress=strtolower($Contact['EmailAddress']['value']);
+					if($CFG->emailoff!='yes' and $emailaddress!=''){
+						$fromaddress=$CFG->schoolname;
+						$subject=get_string('eportfolioemailsubject',$book);
+						$message=get_string('eportfolioguardianemail1',$book);
+						$message.= "\r\n". 'Your username is: ' 
+											.$Contact['EPFUsername']['value']. "\r\n";
+						$message.=get_string('eportfolioguardianemail2',$book);
+						$footer='--'. "\r\n" .get_string('guardianemailfooterdisclaimer');
+						$message.="\r\n". $footer;
+						send_email_to($emailaddress,$fromaddress,$subject,$message);
+						}
+					}
+				}
+			$sid=$info['student_id'];
+			$epfuid_student=elgg_get_epfuid($info['epfusername'],'person',true);
+			/*
+			 * Joining a family community involves simply an entry in
+			 * friends and an access group, a family does not have a community of
+			 * its own.
+			 */
+			$epfgroupid=elgg_update_group(array('owner'=>$epfuid_student,'name'=>'Family'));
+			elgg_join_community($epfuid_contact,array('epfcomid'=>$epfuid_student));
+			elgg_join_group($epfuid_contact,array('epfgroupid'=>$epfgroupid,'name'=>'family','owner'=>$epfuid_student,'access'=>''));
+			}
+		}
+	}
 
 include('scripts/redirect.php');
 ?>

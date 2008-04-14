@@ -1,9 +1,9 @@
 <?php
 /**								update_curriculum.php
  *
- *Update the database tables to match with entries from the curriculum
- *files. It does not (as yet) remove any data fro mthe database even if 
- *it has been removed from the curriculum files.
+ * Update the database tables to match with entries from the curriculum
+ * files. It does not (as yet) remove any data fro mthe database even if 
+ * it has been removed from the curriculum files.
  */
 
 $action='update_curriculum_check.php';

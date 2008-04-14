@@ -148,6 +148,43 @@ $todate=date('Y-m-d');
 	</fieldset>
 
 
+	<fieldset class="center divgroup">
+	  <legend><?php print_string('register','register');?></legend>
+
+	  <table class="listmenu">
+		<tr>
+		  <th><?php print_string('yeargroup',$book);?></th>
+		  <th><?php print_string('registrationsession','register');?></th>
+		  <th><?php print get_string('absences','register'). 
+					' '.get_string('noreasonyetprovided','register');?></th>
+		</tr>
+<?php
+	$d_y=mysql_query("SELECT id, name FROM yeargroup ORDER BY sequence");
+	while($yeargroup=mysql_fetch_array($d_y,MYSQL_ASSOC)){
+		$yid=$yeargroup['id'];
+		$d_e=mysql_query("SELECT COUNT(DISTINCT event_id)
+						FROM attendance JOIN student ON
+						student.id=attendance.student_id WHERE student.yeargroup_id='$yid'
+						AND attendance.logtime>'$date';");
+		$nosess=mysql_result($d_e,0);
+		$d_e=mysql_query("SELECT COUNT(DISTINCT (CONCAT(event_id, student_id)))
+						FROM attendance JOIN student ON
+						student.id=attendance.student_id WHERE student.yeargroup_id='$yid'
+						AND attendance.logtime>'$date' AND
+						attendance.status='a' AND attendance.code='O';");
+		$noabs=mysql_result($d_e,0);
+?>
+		<tr>
+		  <td><?php print $yeargroup['name'];?></td>
+		  <td><?php print $nosess;?></td>
+		  <td><?php print $noabs;?></td>
+		</tr>
+<?php
+		}
+?>
+		</table>
+	</fieldset>
+
 
 	<fieldset class="center divgroup">
 	  <legend><?php print_string('reportstoparents',$book);?></legend>
@@ -297,7 +334,6 @@ $todate=date('Y-m-d');
 		  <th><?php print_string('averageperstudent',$book);?></th>
 		</tr>
 <?php
-
 	$d_y=mysql_query("SELECT id, name FROM yeargroup ORDER BY sequence");
 	while($yeargroup=mysql_fetch_array($d_y,MYSQL_ASSOC)){
 		$yid=$yeargroup['id'];
@@ -327,7 +363,6 @@ $todate=date('Y-m-d');
 ?>
 		</table>
 	</fieldset>
-
 
 
 	<fieldset class="center divgroup">

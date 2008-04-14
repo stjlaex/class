@@ -93,7 +93,7 @@ two_buttonmenu($extrabuttons,$book);
 		  <td>
 			<a href="infobook.php?current=student_view.php&sid=<?php print $sid;?>">
 <?php 
-				print $Student[$displayname]['value']; 
+				print utf8_to_ascii($Student[$displayname]['value']); 
 ?>
 			</a>
 		  </td>

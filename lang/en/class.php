@@ -55,6 +55,7 @@ $string['dateofbirth']='Date of birth';
 $string['next']='Next';
 $string['previous']='Previous';
 $string['student']='Student';
+$string['students']='Students';
 $string['noinfo']='No information';
 $string['nopermissions']='You do not have the permissions to edit this!';
 $string['edit']='Edit';

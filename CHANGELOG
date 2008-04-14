@@ -1,4 +1,10 @@
-Version ClaSS-0.8.43 release (2008/04/10)
+Version ClaSS-0.8.44 release (2008/04/16)
+-----------------------------------------
+
+
+
+
+Version ClaSS-0.8.43 release (2008/04/11)
 -----------------------------------------
 
 A very crude js function sessionAlive() added to the logBook. It runs
@@ -14,7 +20,6 @@ relationship.
 
 Annotated contacts with a pop-up note, just a single new field to
 the guardian table (apply the patch!).
-
 
 
 Version ClaSS-0.8.42 release (2008/04/07)

@@ -69,6 +69,48 @@ function good_strtolower($value){
 	return $value;
 	}
 
+
+/**
+ *	This takes accented international accented characters - have only bothered
+ *	to cover spanish ones in the list - and transliterates them to
+ *	their nearest ascii equivalent, making them safe for email
+ *	addresses and urls. Needed for the eportfolio functions.
+ *  This can be done with properly:
+ *				 iconv('UTF-8', 'ASCII//TRANSLIT', $surname);
+ * But it seems hyper-sensitive to the locales setting on the server
+ * and can't be relied on.
+ *
+ * TODO: complete this list of codes.
+ *
+ */
+function utf8_to_ascii($str){
+	$codes=array(
+				 chr(0x00C8)=>'E',
+				 chr(0x00E8)=>'e',
+				 chr(0x00C9)=>'E',
+				 chr(0x00E9)=>'e',
+				 chr(0x00CD)=>'I',
+				 chr(0x00ED)=>'i',
+				 chr(0x00D1)=>'N',
+				 chr(0x00F1)=>'n',
+				 chr(0x00D3)=>'O',
+				 chr(0x00F3)=>'o',
+				 chr(0x00DA)=>'U',
+				 chr(0x00FA)=>'u',
+				 chr(0x00C1)=>'A',
+				 chr(0x00E1)=>'a',
+				 chr(0x00AA)=>'A',
+				 chr(0x0061)=>'a'
+				 );
+	$str=utf8_decode($str);
+	$str=str_replace(
+					 array_keys($codes),
+					 array_values($codes),
+					 $str
+					 );
+    return $str;
+	}
+
 /*Should only be used when writing a string for use by javascript*/
 function js_addslashes($value){
 	$o='';
