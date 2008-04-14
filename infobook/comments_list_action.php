@@ -67,7 +67,7 @@ include('scripts/sub_action.php');
 						$emailaddress=strtolower($Contact['EmailAddress']['value']);
 						send_email_to($emailaddress,$fromaddress,$subject,$message);
 						$result[]=get_string('emailsentto').' '. 
-						 get_string(displayEnum($Contact['Relationship']['value'],'relationship'),'infobook'). ' '.$Contact['Surname']['value'];
+								get_string(displayEnum($Contact['Relationship']['value'],'relationship'),'infobook'). ' '.$Contact['Surname']['value'];
 						}
 					}
 				}
