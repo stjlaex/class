@@ -7,9 +7,10 @@ require_once('lib/eportfolio_functions.php');
 
 include('scripts/sub_action.php');
 
-$contactcheck=$_POST['contactcheck0'];
 $staffcheck=$_POST['staffcheck0'];
 $studentcheck=$_POST['studentcheck0'];
+$contactcheck=$_POST['contactcheck0'];
+$contactblank=$_POST['contactblank0'];
 
 if($studentcheck=='yes'){
 
@@ -49,11 +50,13 @@ if($studentcheck=='yes'){
 	reset($formcoms);
 
 
-
 	/* Now insert into elgg*/
-	elgg_refresh();
-	$staff=array();
 
+	if($blank=='yes'){
+		elgg_refresh();
+		}
+
+	$staff=array();
 	while(list($index,$user)=each($allteachers)){
 		$Newuser['id_db']=$user['uid'];
 		$Newuser['Surname']['value']=$user['surname'];
@@ -109,7 +112,6 @@ if($studentcheck=='yes'){
 		unset($sepfu);
 		$field=fetchStudent_singlefield($sid,'EPFUsername');
 		$Student=array_merge($Student,$field);
-		//trigger_error($sid.':'.$Student['EPFUsername']['value'],E_USER_WARNING);
 		/* Don't want to create a epf user if they already have an account. */
 		if($Student['EPFUsername']['value']!=''){
 			$epfuid=elgg_get_epfuid($Student['EPFUsername']['value'],'person',true);
@@ -160,11 +162,18 @@ if($studentcheck=='yes'){
 
 if($contactcheck=='yes'){
 
-	/* Clear out all contacts ready to regenerate them. */
-	elgg_blank('Default_Guardian');
-	mysql_query("UPDATE guardian SET epfusername='';");
 	$yid=8;
-	/* Want all contacts who may recieve any sort of mailing. */
+	if($contactblank=='yes'){
+		/* Clear out all contacts ready to regenerate them. 
+		 * Everything to do with each account is lost and a new username
+		 * is generated.
+		 */
+		elgg_blank('Default_Guardian');
+		mysql_query("UPDATE guardian SET epfusername='';");
+		}
+
+	/* Want all contacts who may recieve any sort of mailing to be
+			given an account. */
 	$d_c=mysql_query("SELECT DISTINCT guardian_id FROM gidsid JOIN
 						student ON gidsid.student_id=student.id 
 						WHERE student.yeargroup_id LIKE '$yid' AND gidsid.mailing!='0';");

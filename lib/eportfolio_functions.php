@@ -82,9 +82,10 @@ function elgg_refresh(){
 
 
 /**
- * This blanks all users from the elgg database of a particular type
- * identified by their default template name.
- * TODO: blank out epfusername records in ClaSS too?
+ * This blanks all users from the elgg database of a particular role,
+ * identified by their default template name. NB. This does not blank
+ * their epfusernames in the ClaSS db, this needs to be done seperatly.
+ * 
  */
 function elgg_blank($usertemplate){
 	global $CFG;
@@ -124,7 +125,9 @@ function elgg_blank($usertemplate){
 
 
 /**
- *
+ * Generates a new user account in elgg for hte Newuser xml-array, 
+ * properties are decided by one of three possible roles: 
+ * staff, student or guardian.
  */
 function elgg_newUser($Newuser,$role){
 	global $CFG;
@@ -154,9 +157,8 @@ function elgg_newUser($Newuser,$role){
 		$epfusertype='person';
 		$epftemplate_name='Default_Student';
 		$epftemplate=2;
-		//$password=good_strtolower('guest');
-		/*this takes the first three letters of the surname and day,
-		month, year of dob to be password*/
+		/* This takes the first letter of the surname and day,
+	  	   month, year of dob to be password. */
 		//$passwstart=iconv('UTF-8', 'ASCII//TRANSLIT', $surname);
 		$passwstart=utf8_to_ascii($surname);
 		$password=good_strtolower($passwstart[0]). $dob[2].$dob[1].$dob[0];
@@ -177,7 +179,6 @@ function elgg_newUser($Newuser,$role){
 		$epfusertype='person';
 		$epftemplate_name='Default_Guardian';
 		$epftemplate=3;
-		//$password=good_strtolower('guest');
 		$password=good_strtolower($Newuser['firstchild']);
 		$assword=md5($password);
 		$classtable='guardian';
@@ -190,7 +191,7 @@ function elgg_newUser($Newuser,$role){
 	elseif($role=='staff'){
 		$email=$Newuser['EmailAddress']['value'];
 		/* Staff usernames are unique within their own ClaSS but need
-		to maintain that within box by adding the the school clientid.*/
+			to maintain that within theBox by adding the school's clientid.*/
 		if(isset($CFG->clientid)){$start=$CFG->clientid;}
 		else{$start='';}
 		$tail=$Newuser['Username']['value'];
@@ -198,7 +199,7 @@ function elgg_newUser($Newuser,$role){
 		$epftemplate_name='Default_Staff';
 		$epftemplate=1;
 		$assword=$Newuser['Password']['value'];
-		$no='';/*Assume all staff usernames are already unique.*/
+		$no='';/*Not needed - all staff usernames are already unique.*/
 		$classtable='users';
 		$classfield='uid';
 		}
@@ -207,6 +208,7 @@ function elgg_newUser($Newuser,$role){
 	$epfusername=clean_text($epfusername);
 
 
+	/* Iterate over $no until we get a unique username. */
 	$d_user=mysql_query("SELECT ident FROM $table WHERE username='$epfusername$no';");
 	while($olduser=mysql_fetch_array($d_user)){
 		$no++;
@@ -234,8 +236,8 @@ function elgg_newUser($Newuser,$role){
 
 /**
  *
- * checks for a community and either updates or creates
- * expects an array with at least type and name set
+ * Checks for a community and either updates or creates
+ * expects an array with at least type and name set.
  */
 function elgg_update_community($community,$communityfresh=array('type'=>'','name'=>''),$epfuidowner=''){
 	global $CFG;

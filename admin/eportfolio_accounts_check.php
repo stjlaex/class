@@ -1,5 +1,5 @@
 <?php
-/**								eportfolio_accounts_check.php
+/**		   					eportfolio_accounts_check.php
  *
  */
 
@@ -18,13 +18,20 @@ three_buttonmenu();
 	  <fieldset class="center">
 		<legend><?php print_string('eportfolios',$book); ?></legend> 
 		<?php print_string('eportfoliowarning',$book); ?>
+		<div class="right">
+<?php
+		  $checkcaption=get_string('blankfirst',$book); $checkname='blank'; 
+		  include('scripts/check_yesno.php');
+?>
+		</div>
 	  </fieldset>
 
 	  <fieldset class="center">
 		<legend><?php print_string('staff',$book);?></legend>
 		<p></p>
 		<div class="right">
-		  <?php $checkname='staffcheck'; include('scripts/check_yesno.php');?>
+		  <?php $checkcaption=get_string('update',$book);
+		  $checkname='staffcheck'; include('scripts/check_yesno.php');?>
 		</div>
 	  </fieldset>
 
@@ -32,15 +39,25 @@ three_buttonmenu();
 		<legend><?php print_string('students','infobook');?></legend>
 		<p></p>
 		<div class="right">
-		  <?php $checkname='studentcheck'; include('scripts/check_yesno.php');?>
+		  <?php $checkcaption=get_string('update',$book); 
+			$checkname='studentcheck'; include('scripts/check_yesno.php');?>
 		</div>
 	  </fieldset>
 
 	  <fieldset class="center">
 		<legend><?php print_string('contacts','infobook');?></legend>
 		<p></p>
+		<div class="left">
+<?php 
+		  $checkcaption=get_string('blankaccounts',$book); $checkname='contactblank'; 
+		  include('scripts/check_yesno.php');
+?>
+		</div>
 		<div class="right">
-		  <?php $checkname='contactcheck'; include('scripts/check_yesno.php');?>
+<?php 
+		  $checkcaption=get_string('update',$book); $checkname='contactcheck';
+		  include('scripts/check_yesno.php');
+?>
 		</div>
 	  </fieldset>
 
