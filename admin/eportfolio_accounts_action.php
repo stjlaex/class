@@ -210,7 +210,7 @@ if($contactcheck=='yes'){
 						$message.=get_string('eportfolioguardianemail2',$book);
 						$footer='--'. "\r\n" .get_string('guardianemailfooterdisclaimer');
 						$message.="\r\n". $footer;
-						//send_email_to($emailaddress,$fromaddress,$subject,$message);
+						send_email_to($emailaddress,$fromaddress,$subject,$message);
 						}
 					}
 				}
