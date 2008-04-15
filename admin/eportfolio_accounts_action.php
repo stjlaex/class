@@ -181,32 +181,61 @@ if($contactcheck=='yes'){
 		$epfuid_contact=-1;
 		$gid=$contact['guardian_id'];
 		$Contact=fetchContact(array('guardian_id'=>$gid));
-		$d_i=mysql_query("SELECT info.student_id, formerupn, epfusername FROM info JOIN gidsid ON
+		$d_i=mysql_query("SELECT info.student_id, formerupn,
+					epfusername FROM info JOIN gidsid ON
 					gidsid.student_id=info.student_id WHERE
 					info.epfusername!='' AND  info.formerupn!='' AND gidsid.mailing!='0' AND
-					gidsid.guardian_id='$gid';");
+					gidsid.guardian_id='$gid' ORDER BY info.formerupn ASC;");
 		while($info=mysql_fetch_array($d_i,MYSQL_ASSOC)){
+			$sid=$info['student_id'];
+			$epfuid_student=elgg_get_epfuid($info['epfusername'],'person',true);
 			if($epfuid_contact==-1){
-				/* Need formerupn to use as part of their password. */
-				$Contact['firstchild']=$info['formerupn'];
+				if($yid=='%'){
+					/* Need formerupn to use as part of their password.
+					 * This will be for their youngest child in the school. 
+					 */
+					$firstchild=$info['formerupn'];
+					}
+				else{
+					/* If only doing one yeargroup then only want to
+					 * use the fomerupn of their child in this yeargroup.
+					 */
+					$d_s=mysql_query("SELECT id FROM student
+						JOIN gidsid ON student.id=gidsid.student_id WHERE
+						student.yeargroup_id='$yid' AND gidsid.guardian_id='$gid'
+						ORDER BY dob ASC LIMIT 0,1;");
+					$firstsid=mysql_result($d_s,0);
+					$d_s=mysql_query("SELECT formerupn FROM info 
+								WHERE student_id='$firstsid';");
+					$firstchild=mysql_result($d_s,0);
+					}
+
 				if($Contact['Title']['value']!=''){
 					$Contact['Title']['value']=get_string(displayEnum($Contact['Title']['value'],'title'),'infobook');
 					}
-				/* Don't want to create a new epf user if they already have an account. */
+				/* Don't want to create a new epf user if they already
+					have an account. If you want to force a new
+					account on a one-by-one basis then blank the
+					epfusername in ClaSS for that contact.
+				*/
 				if($Contact['EPFUsername']['value']!=''){
 					$epfuid_contact=elgg_get_epfuid($Contact['EPFUsername']['value'],'person',true);
 					}
 				if($epfuid_contact==-1){
+					$Contact['firstchild']=$firstchild;
 					$epfuid_contact=elgg_newUser($Contact,'guardian');
-					/*need updated epfusername*/
+					/* Grab their new epfusername*/
 					$Contact=fetchContact(array('guardian_id'=>$gid));
 					$emailaddress=strtolower($Contact['EmailAddress']['value']);
 					if($CFG->emailoff!='yes' and $emailaddress!=''){
+						/* Email them the details. */
 						$fromaddress=$CFG->schoolname;
 						$subject=get_string('eportfolioemailsubject',$book);
 						$message=get_string('eportfolioguardianemail1',$book);
-						$message.= "\r\n". 'Your username is: ' 
+						$message.= "\r\n". 'Your user-name is: ' 
 											.$Contact['EPFUsername']['value']. "\r\n";
+						$message.= "\r\n". 'Your password is: ' 
+											.$firstchild. "\r\n";
 						$message.=get_string('eportfolioguardianemail2',$book);
 						$footer='--'. "\r\n" .get_string('guardianemailfooterdisclaimer');
 						$message.="\r\n". $footer;
@@ -214,8 +243,6 @@ if($contactcheck=='yes'){
 						}
 					}
 				}
-			$sid=$info['student_id'];
-			$epfuid_student=elgg_get_epfuid($info['epfusername'],'person',true);
 			/*
 			 * Joining a family community involves simply an entry in
 			 * friends and an access group, a family does not have a community of
