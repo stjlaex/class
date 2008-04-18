@@ -7,6 +7,7 @@ require_once('lib/eportfolio_functions.php');
 
 include('scripts/sub_action.php');
 
+$blank=$_POST['blank0'];
 $staffcheck=$_POST['staffcheck0'];
 $studentcheck=$_POST['studentcheck0'];
 $contactcheck=$_POST['contactcheck0'];
@@ -234,9 +235,14 @@ if($contactcheck=='yes'){
 						$message=get_string('eportfolioguardianemail1',$book);
 						$message.= "\r\n". 'Your user-name is: ' 
 											.$Contact['EPFUsername']['value']. "\r\n";
-						$message.= "\r\n". 'Your password is: ' 
-											.$firstchild. "\r\n";
+						//$message.= "\r\n". 'Your password is: ' 
+						//					.$firstchild. "\r\n";
 						$message.=get_string('eportfolioguardianemail2',$book);
+						/*translation*/
+						$message.=get_string('eportfolioguardianemail3',$book);
+						$message.= "\r\n".'Su nombre de usuario es: '.$Contact['EPFUsername']['value']. "\r\n";
+						$message.=get_string('eportfolioguardianemail4',$book);
+						/*disclaimer*/
 						$footer='--'. "\r\n" .get_string('guardianemailfooterdisclaimer');
 						$message.="\r\n". $footer;
 						send_email_to($emailaddress,$fromaddress,$subject,$message);

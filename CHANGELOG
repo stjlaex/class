@@ -1,4 +1,4 @@
-Version ClaSS-0.8.44 release (2008/04/16)
+Version ClaSS-0.8.44 release (2008/04/18)
 -----------------------------------------
 
 Introduced a utf8_to_ascii function to replace use of iconv for
@@ -6,7 +6,7 @@ transliterating utf8 characters to their ascii equivalents. The iconv
 is better but is too sensitive to server config (at least for now).
 
 Seperated out the contacts in the eportfolio function so they can be
-run (and emailed seperately).
+updated (and emailed logins seperately).
 
 
 Version ClaSS-0.8.43 release (2008/04/11)
