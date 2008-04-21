@@ -4,10 +4,11 @@
  */
 
 
-/* Given a sid and a bid this will return a numerical array which
+/**
+ * Given a sid and a bid this will return a numerical array which
  * lists the responsibles (both pastoral and academic) who have been
  * flagged to receive emails. 
-*/
+ */
 function list_sid_responsible_users($sid, $bid){
 
     $gids=array();
@@ -63,7 +64,8 @@ function list_sid_responsible_users($sid, $bid){
 	return $recipients;
 	}
 
-/*  Will return all details of users of interest based on the
+/**
+ *  Will return all details of users of interest based on the
  *	teaching staff for the curriculum area identified in the current
  *	selected respons in an array with the uid as the key.
  */
@@ -120,7 +122,7 @@ function list_pastoral_users($ryid,$perms){
 	}
 
 
-/* 
+/**
  * Will return all users and their perms with access to the given gid.
  */
 function list_group_users_perms($gid){
@@ -135,7 +137,7 @@ function list_group_users_perms($gid){
 	return $users_perms;
 	}
 
-/* 
+/**
  * Will return perms for the given gid and uid.
  */
 function get_group_perms($gid,$uid){
@@ -150,9 +152,9 @@ function get_group_perms($gid,$uid){
 	return $perms;
 	}
 
-/* 
+/**
  * Will return all details of all users.
-*/
+ */
 function list_all_users($nologin='%'){
    	$users=array();
 	$d_users=mysql_query("SELECT uid, username, passwd, forename,
@@ -166,6 +168,9 @@ function list_all_users($nologin='%'){
 	return $users;
 	}
 
+/**
+ * 
+ */
 function list_teacher_users($crid='',$bid=''){
 	$users=array();
 	if($crid!='' or $bid!=''){
@@ -198,24 +203,36 @@ function list_teacher_users($crid='',$bid=''){
 	return $users;
 	}
 
+/**
+ * 
+ */
 function get_uid($tid){
 	$d_users=mysql_query("SELECT uid FROM users WHERE username='$tid'");
 	$uid=mysql_result($d_users,0);
 	return $uid;
 	}
 
+/**
+ * 
+ */
 function get_staff_epfusername($tid){
 	$d_users=mysql_query("SELECT epfusername FROM users WHERE username='$tid'");
 	$epfu=mysql_result($d_users,0);
 	return $epfu;
 	}
 
+/**
+ * 
+ */
 function get_user($tid){
 	$d_users=mysql_query("SELECT * FROM users WHERE username='$tid'");
 	$user=mysql_fetch_array($d_users,MYSQL_ASSOC);
 	return $user;
 	}
 
+/**
+ * 
+ */
 function checkCurrentRespon($r,$respons,$required='subject'){
 	$error=array();
 	if($r>-1){
@@ -233,6 +250,9 @@ function checkCurrentRespon($r,$respons,$required='subject'){
 	return array($crid,$bid,$error);
 	}
 
+/**
+ * 
+ */
 function getYearPerm($yid,$respons){
 	/*return perm for yeargroup*/	
 	$perm['r']=0;
@@ -254,6 +274,9 @@ function getYearPerm($yid,$respons){
 	return $perm;
 	}
 
+/**
+ * 
+ */
 function getSENPerm($yid,$respons){
 	/*return perm for sen in this yeargroup*/	
 	$perm['r']=0;
@@ -264,6 +287,9 @@ function getSENPerm($yid,$respons){
 	return $perm;
 	}
 
+/**
+ * 
+ */
 function getMedicalPerm($yid,$respons){
 	/*return perm for med in this yeargroup*/	
 	$perm['r']=0;
@@ -274,6 +300,9 @@ function getMedicalPerm($yid,$respons){
 	return $perm;
 	}
 
+/**
+ * 
+ */
 function getFormPerm($fid,$respons){
 	/*return perm for form group*/
 	$perm['r']=0;
@@ -304,6 +333,9 @@ function getFormPerm($fid,$respons){
 	return $perm;
 	}
 
+/**
+ * 
+ */
 function getMarkPerm($mid, $respons){
 	$d_class=mysql_query("SELECT subject_id, course_id FROM class
 		 JOIN midcid ON class.id=midcid.class_id WHERE midcid.mark_id='$mid'");
@@ -329,6 +361,9 @@ function getMarkPerm($mid, $respons){
 	return $perm;
 	}
 
+/**
+ * 
+ */
 function getSubjectPerm($subject, $respons){
 	$perm['r']=0;
 	$perm['w']=0;
@@ -358,6 +393,9 @@ function getSubjectPerm($subject, $respons){
 	return $perm;
 	}
 
+/**
+ * 
+ */
 function getCoursePerm($course,$respons){
 	$perm['r']=0;
 	$perm['w']=0;
@@ -374,8 +412,12 @@ function getCoursePerm($course,$respons){
 	return $perm;
 	}
 
-/* Returns arrays of fids and yids ie. pastoral responisbilites for a */
-/* given $respons array.*/
+/**
+ * 
+ * Returns arrays of fids and yids ie. pastoral responisbilites for a 
+ * given $respons array.
+ *
+ */
 function list_pastoral_respon($respons){
 	$rfids=array();
 	$ryids=array();
@@ -392,7 +434,10 @@ function list_pastoral_respon($respons){
 	return array('forms'=>$rfids,'years'=>$ryids);
 	}
 
-/**/
+
+/**
+ * 
+ */
 function update_user($user,$update='no',$short='class'){
 	global $CFG;
 	$result='';
@@ -506,7 +551,11 @@ function update_user($user,$update='no',$short='class'){
 	return $result;
 	}
 
-/* Needs a uid and a gid and will update or insert the suplied permissions.*/
+/**
+ * 
+ * Needs a uid and a gid and will update or insert the suplied
+ * permissions.
+ */
 function update_staff_perms($uid,$gid,$newperms){
 	$r=$newperms['r'];
 	$w=$newperms['w'];

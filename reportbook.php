@@ -61,14 +61,18 @@ include('scripts/set_book_vars.php');
 <?php
 
 	if($_SESSION['role']=='admin'){
-		$choices=array('new_stats.php' => 'newstatistics'
+		$choices=array(
+					   'manage_homework.php' => 'homework'
+					   ,'new_stats.php' => 'newstatistics'
 					   ,'new_estimate.php' => 'newestimates'
 					   ,'new_assessment.php' => 'newassessments'
 					   ,'new_report.php' => 'subjectreports'
 					   );
 		}
 	else{
-		$choices=array('new_assessment.php' => 'newassessments'
+		$choices=array(
+					   'manage_homework.php' => 'homework'
+					   ,'new_assessment.php' => 'newassessments'
 					   );
 		}
 ?>
