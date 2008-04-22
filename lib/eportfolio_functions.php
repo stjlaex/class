@@ -456,6 +456,47 @@ function elgg_get_epfuid($owner,$type,$dbc=false){
 	return $uid;
 	}
 
+/** 
+ * Returns the full path of the $owner's icon file - if not 
+ * called from other elgg_ functions set dbc=true.
+ * The owner is the epfusername.
+ */
+function elgg_get_fileurl($owner,$filetype,$dbc=false){
+	global $CFG;
+	$userstable=$CFG->eportfolio_db_prefix.'users';
+	$iconstable=$CFG->eportfolio_db_prefix.'icons';
+
+	if($CFG->eportfolio_db!='' and $dbc==true){
+		$dbepf=db_connect($CFG->eportfolio_db);
+		mysql_query("SET NAMES 'utf8'");
+		}
+
+	//$d_u=mysql_query("SELECT filename FROM $iconstable i JOIN
+	//	   		$userstable u ON u.icon=i.ident	WHERE u.username='$owner';");
+	//$filepath=$CFG->eportfolio_dataroot.'/icons/'.$owner[0].'/'.$owner.'/'.$filename;
+
+	if($filetype=='icon'){
+		$d_u=mysql_query("SELECT icon FROM $userstable WHERE username='$owner';");
+		if(mysql_num_rows($d_u)==1){
+			$iconid=mysql_result($d_u,0);
+			$filepath=$CFG->eportfoliosite.'/_icon/user/'.$iconid.'/h/135/w/100';
+			}
+		else{
+			$filename='icon_default.png';
+			$filepath='../images/'.$filename;
+			}
+		}
+
+	if($dbc==true){
+		$db=db_connect();
+		mysql_query("SET NAMES 'utf8'");
+		}
+	return $filepath;
+	}
+
+/**
+ *
+ */
 function elgg_new_homework($tid,$cid,$bid,$pid,$title,$body,$dateset){
 	$dbepf='';
 	list($year,$month,$day)=explode('-',$dateset);
@@ -507,5 +548,6 @@ function elgg_new_homework($tid,$cid,$bid,$pid,$title,$body,$dateset){
 	$db=db_connect();
 	mysql_query("SET NAMES 'utf8'");
 	}
+
 
 ?>

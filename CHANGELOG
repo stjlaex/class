@@ -5,6 +5,13 @@ A page of statistics added as an option under Report > Manage will
 count homeworks for staff and subjects over the past two weeks and the
 whole academic year for comparison.
 
+A new eportfolio function epf_get_fileurl() works out the url to grab
+a file from the eportfolio. Currently only implemented for photo icons
+which are placed on the student_view.php page.
+
+Added the path to the eportfolio's data directory as a $CFG variable
+in school.php.
+
 
 Version ClaSS-0.8.44 release (2008/04/18)
 -----------------------------------------

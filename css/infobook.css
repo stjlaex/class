@@ -38,3 +38,14 @@ div#formstatus-action {
     color:#eee;
     font-weight:600;
 	}
+/* For the student photos*/
+.center div.icon {
+    width:25%;
+    float:right;
+    padding:10% 8% 0 0;
+	}
+.icon img {
+    padding:1em;
+	height:135px;
+	width:100px; 
+	}

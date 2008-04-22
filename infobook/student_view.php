@@ -6,6 +6,11 @@
 
 $action='student_view_action.php';
 
+if($CFG->eportfoliosite!=''){
+	include('lib/eportfolio_functions.php');
+	$icon_filepath=elgg_get_fileurl($Student['EPFUsername']['value'],'icon',true);
+	}
+
 twoplus_buttonmenu($sidskey,sizeof($sids));
 ?>
   <div id="heading">
@@ -15,7 +20,13 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 
   <div id="viewcontent" class="content">
 	<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
+
+
 	  <div class="center">
+		<div class="icon">
+		  <img src="<?php print $icon_filepath;?>" />
+		</div>
+
 		<table class="listmenu listinfo">
 		  <caption>
 			<a href="infobook.php?current=student_view_student.php&cancel=student_view.php">
@@ -28,6 +39,8 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 			  <label><?php print_string($Student['DisplayFullName']['label'],$book); ?></label>
 			  <?php print $Student['DisplayFullName']['value'];?>
 			</td>
+		  </tr>
+		  <tr>
 			<td>
 			  <label><?php print_string($Student['RegistrationGroup']['label'],$book);?></label>
 			  <?php print $Student['RegistrationGroup']['value'];?>
@@ -38,6 +51,8 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 			  <label><?php print_string($Student['DOB']['label'],$book);?></label>
 			  <?php print display_date($Student['DOB']['value']);?>
 			</td>
+		  </tr>
+		  <tr>
 			<td>
 			<label><?php print_string($Student['Gender']['label'],$book);?></label>
 			  <?php print_string(displayEnum($Student['Gender']['value'],$Student['Gender']['field_db']),$book);?>
@@ -48,6 +63,8 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 			  <label><?php print_string($Student['Nationality']['label'],$book);?></label> 
 			  <?php print_string(displayEnum($Student['Nationality']['value'],$Student['Nationality']['field_db']),$book);?>
 			</td>
+		  </tr>
+		  <tr>
 			<td>
 			  <label><?php print_string($Student['EnrolNumber']['label'],$book);?></label> 
 			  <?php if($_SESSION['role']!='support'){print $Student['EnrolNumber']['value'];}?>
@@ -58,6 +75,8 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 			  <label><?php print_string($Student['Language']['label'],$book);?></label>
 			  <?php print_string(displayEnum($Student['Language']['value'],$Student['Language']['field_db']),$book);?>
 			</td>
+		  </tr>
+		  <tr>
 			<td>
 			  <label><?php print_string($Student['EntryDate']['label'],$book);?></label>
 			  <?php print display_date($Student['EntryDate']['value']);?>
@@ -68,8 +87,6 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 			<td>
 			  <label><?php print_string($Student['MobilePhone']['label'],$book);?></label>
 			  <?php print $Student['MobilePhone']['value'];?>
-			</td>
-			<td>&nbsp;
 			</td>
 		  </tr>
 <?php

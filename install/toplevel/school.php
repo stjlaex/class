@@ -91,6 +91,10 @@ $CFG->eportfoliotabname='Portfolio';
 $CFG->eportfolioshare='secret';
 $CFG->eportfolio_db='classelgg';
 $CFG->eportfolio_db_prefix='elgg';
+/* The dataroot shared with the eportfolio which is where uploaded files will go.
+ * This should be outside your wwwroot. Specified relative to your installpath.
+ */
+$CFG->eportfolio_dataroot = $CFG->installpath . '../theboxdata';
 /*optional details of the school's lms site*/
 $CFG->lmssite='';
 $CFG->lmstabname='Moodle';
