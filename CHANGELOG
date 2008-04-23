@@ -9,8 +9,12 @@ A new eportfolio function epf_get_fileurl() works out the url to grab
 a file from the eportfolio. Currently only implemented for photo icons
 which are placed on the student_view.php page.
 
-Added the path to the eportfolio's data directory as a $CFG variable
+The path to the eportfolio's data directory as a $CFG variable
 in school.php.
+
+The Order book now takes account of an order's currency when
+calculating the balance of a budget. The exchange rates are set as a
+$CFG array in school.php.
 
 
 Version ClaSS-0.8.44 release (2008/04/18)
@@ -40,6 +44,10 @@ relationship.
 
 Annotated contacts with a pop-up note, just a single new field to
 the guardian table (apply the patch!).
+
+Added an inactive flag to the ordersupplier table with default '0' being
+active. The orderbudget table has an overbudget_id field to allow for
+subbudgets or budget components. Both still to be implemented.
 
 
 Version ClaSS-0.8.42 release (2008/04/07)

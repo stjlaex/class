@@ -307,6 +307,13 @@ function fetchSupplier($supid=-1){
 							'type_db' => 'varchar(160)', 
 							'value' => ''.$sup['name']
 							);
+   	$Supplier['Inactive']=array('label' => 'inactive', 
+								//'inputtype'=> 'required',
+								'table_db' => 'ordersupplier', 
+								'field_db' => 'inactive',
+								'type_db' => 'enum', 
+								'value' => ''.$sup['inactive']
+								);
 	/* TODO: use address table
 	$Supplier['Street']=array('label' => 'street',
 						   'table_db' => 'ordersupplier', 
@@ -350,14 +357,19 @@ function fetchSupplier($supid=-1){
 	}
 
 function get_budget_projected($budid=-1){
+	global $CFG;
+	$currencyrates=$CFG->currencyrates;
 	$d_bud=mysql_query("SELECT costlimit FROM orderbudget WHERE id='$budid'");
 	if(mysql_num_rows($d_bud)>0){
+		$sum=0;
 		$costlimit=mysql_result($d_bud,0);
-		$d_mat=mysql_query("SELECT SUM(unitcost*quantity) FROM
+		while(list($currency,$rate)=each($currencyrates)){
+			$d_mat=mysql_query("SELECT SUM(unitcost*quantity) FROM
 				ordermaterial JOIN orderorder ON
 				orderorder.id=ordermaterial.order_id WHERE
-				orderorder.budget_id='$budid'");
-		$sum=mysql_result($d_mat,0);
+				orderorder.budget_id='$budid' AND orderorder.currency='$currency';");
+			$sum+=$rate*mysql_result($d_mat,0);
+			}
 		$costremain=$costlimit-$sum;
 		}
 	else{
@@ -367,16 +379,22 @@ function get_budget_projected($budid=-1){
 	}
 
 function get_budget_current($budid=-1){
+	global $CFG;
+	$currencyrates=$CFG->currencyrates;
 	$d_bud=mysql_query("SELECT costlimit FROM orderbudget WHERE id='$budid'");
 	if(mysql_num_rows($d_bud)>0){
+		$sum=0;
 		$costlimit=mysql_result($d_bud,0);
-		mysql_query("CREATE TEMPORARY TABLE inv (SELECT invoice_id FROM
+		while(list($currency,$rate)=each($currencyrates)){
+			mysql_query("CREATE TEMPORARY TABLE inv (SELECT invoice_id FROM
 				orderaction JOIN orderorder ON
 				orderorder.id=orderaction.order_id WHERE
-				orderorder.budget_id='$budid' AND orderaction.action='2');");
-		$d_sum=mysql_query("SELECT SUM(totalcost) FROM
+				orderorder.budget_id='$budid' AND
+				orderorder.currency='$currency' AND orderaction.action='2');");
+			$d_sum=mysql_query("SELECT SUM(totalcost) FROM
 				orderinvoice JOIN inv ON orderinvoice.id=inv.invoice_id;");
-		$sum=mysql_result($d_sum,0);
+			$sum+=$rate*mysql_result($d_sum,0);
+			}
 		$costremain=$costlimit-$sum;
 		}
 	else{

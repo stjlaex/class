@@ -46,6 +46,11 @@ $CFG->registration='double';
 /*used by the register - see http://es2.php.net/manual/en/timezones.php*/
 $CFG->timezone='Europe/Madrid';
 /**
+ * Only needed by the Order book these should match the sequence of the
+ * enum currency array - default is ('0' => 'euros','1' => 'pounds');
+ */
+$CFG->currencyrates=array('0'=>'1','1'=>'1.3');
+/**
  * An array of feeder schools whose dbs are to be checked for students
  * transfering here. This affects numbers in the enrolments table and
  * end of year exchange of student records. The feeder_code needs to

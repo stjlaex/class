@@ -6,11 +6,15 @@
 
 $action='student_view_action.php';
 
-if($CFG->eportfoliosite!=''){
+/* Photos are pulled form the eportfolio. Only accessible currently if */
+/* the user has already been logged in through the eportfolio boo. */
+if($CFG->eportfoliosite!='' AND isset($books['external'][$_SESSION['role']]['eportfolio'])){
 	include('lib/eportfolio_functions.php');
 	$icon_filepath=elgg_get_fileurl($Student['EPFUsername']['value'],'icon',true);
 	}
-
+else{
+	$icon_filepath='';
+	}
 twoplus_buttonmenu($sidskey,sizeof($sids));
 ?>
   <div id="heading">

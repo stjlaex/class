@@ -246,6 +246,9 @@ function getEnumArray($field_name){
 	$currency=array('0' => 'euros', 
 					'1' => 'pounds', 
 					);
+	$inactive=array('0' => 'no', 
+					'1' => 'yes', 
+					);
 	$ordertype=array('0' => '0', 
 					'1' => '1', 
 					'2' => '2', 

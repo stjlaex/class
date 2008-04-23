@@ -35,7 +35,7 @@ three_buttonmenu();
 		  <tr>
 			<td>
 <?php
-		$d_sup=mysql_query("SELECT id, name FROM ordersupplier;");
+		$d_sup=mysql_query("SELECT id, name FROM ordersupplier WHERE inactive='0';");
 		$listlabel='supplier';
 		$selsupid=$Order['Supplier']['id_db'];
 		$listname='supid';

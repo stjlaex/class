@@ -193,6 +193,6 @@ $string['editsubjectclasses']='Edit subject classes';
 $string['editclasses']='Edit classes';
 $string['allapplied']='All applications';
 $string['applicationsreceived']='Applications received';
-$string['']='';
+$string['inactive']='Inactive';
 $string['']='';
 ?>

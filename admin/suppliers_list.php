@@ -36,7 +36,9 @@ two_buttonmenu($extrabuttons,$book);
 			$rown=0;
 ?>
 		<tbody id="<?php print $entryno;?>">
-		  <tr class="rowplus" onClick="clickToReveal(this)" 
+		  <tr class="rowplus 
+			  <?php if($Supplier['Inactive']['value']=='1'){print 'lowlite';}?>" 
+			  onClick="clickToReveal(this)" 
 							id="<?php print $entryno.'-'.$rown++;?>">
 			<th>&nbsp</th>
 			<td><?php print $Supplier['Name']['value'];?></td>

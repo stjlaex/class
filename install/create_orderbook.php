@@ -22,6 +22,7 @@ CREATE TABLE orderbudget (
 	name			varchar(160) not null default '',
 	costlimit		decimal(10,2) unsigned not null default '0',
 	section_id		smallint not null default 0,
+	overbudget_id	int unsigned not null default '0',
 	unique			indexbudget (code,yearcode),
 	primary key (id)
 );");
@@ -33,6 +34,7 @@ CREATE TABLE ordersupplier (
 	phonenumber2	varchar(22) not null default '',
 	phonenumber3	varchar(22) not null default '',
 	address_id		int unsigned not null default '0',
+	inactive		enum('0','1') not null default '0',
 	primary key (id)
 );");
 mysql_query("
