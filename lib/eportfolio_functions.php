@@ -549,5 +549,25 @@ function elgg_new_homework($tid,$cid,$bid,$pid,$title,$body,$dateset){
 	mysql_query("SET NAMES 'utf8'");
 	}
 
+/**
+ * Temporary stuff to upload icon photos.
+ */
+function elgg_student_photo($epfuid,$yid,$dbc=true){
+	global $CFG;
+	$table_users=$CFG->eportfolio_db_prefix.'users';
+	$table_icons=$CFG->eportfolio_db_prefix.'icons';
+	if($CFG->eportfolio_db!='' and $dbc==true){
+		$dbepf=db_connect($CFG->eportfolio_db);
+		mysql_query("SET NAMES 'utf8'");
+		}
+
+	mysql_query("INSERT INTO $table_icons SET owner='$epfuid',
+				filename='year$yid.jpg', description='Year $yid - October 2007';"); 
+	mysql_query("UPDATE $table_users SET icon=LAST_INSERT_ID() WHERE ident='$epfuid';");
+	trigger_error($epfuid.' '.mysql_error(),E_USER_WARNING);
+
+	$db=db_connect();
+	mysql_query("SET NAMES 'utf8'");
+	}
 
 ?>

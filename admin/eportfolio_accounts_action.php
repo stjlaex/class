@@ -261,5 +261,19 @@ if($contactcheck=='yes'){
 		}
 	}
 
+/* Temporary to upload photos. */
+if($photocheck!='no'){
+	$yid=8;
+	$com=array('type'=>'year','name'=>$yid);
+	$students=listin_community($com);
+	while(list($studentindex,$student)=each($students)){
+		$sid=$student['id'];
+		//$Students[$sid]=fetchStudent_short($sid);
+		$Student=fetchStudent_singlefield($sid,'EPFUsername');
+		$epfuid=elgg_get_epfuid($Student['EPFUsername']['value'],'person',true);
+		if($epfuid!='-1'){elgg_student_photo($epfuid,$yid);}
+		}
+	}
+
 include('scripts/redirect.php');
 ?>
