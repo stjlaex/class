@@ -17,7 +17,6 @@ print '<?xml version="1.0" encoding="utf-8"?'.'>';
 <meta name="license" content="GNU General Public License version 2" />
 <link href="css/hoststyle.css" rel="stylesheet" type="text/css" />
 <link href="css/selery.css" rel="stylesheet" type="text/css" />
-<script language="JavaScript" type="text/javascript" src="js/fonter.js"></script>
 <script language="JavaScript" type="text/javascript" src="js/hostfunctions.js"></script>
 </head>
 <body onload="loadLogin('cover');">

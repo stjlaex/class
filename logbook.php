@@ -14,8 +14,6 @@
 		<img src="images/helper.png" alt="<?php print_string('help');?>" /></button>
 	  <button onClick="printGenericContent();"  title="<?php print_string('print');?>">
 		<img src="images/printer.png" alt="<?php print_string('print');?>" /></button>
-	  <button onClick="changeFont();"  title="<?php print_string('fontsize');?>">
-		<img src="images/fonter.png" alt="<?php print_string('fontsize');?>" /></button>
   </div>
   <div style="visibility:hidden;" id="hiddenlogbook">
 	<div id="logbookstripe" class="logbook"></div>
