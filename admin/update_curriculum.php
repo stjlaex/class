@@ -19,7 +19,7 @@ three_buttonmenu();
 	<?php print_string('updatecurriculumwarning',$book); ?>
 	</fieldset>
 
-	<fieldset class="center"> 
+	<fieldset class="center divgroup"> 
 		<legend><?php print_string('confirm',$book);?></legend>
 		<p><?php print_string('confidentwhatyouaredoing',$book);?></p>
 		<div class="right">

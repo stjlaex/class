@@ -9,16 +9,23 @@ A new eportfolio function epf_get_fileurl() works out the url to grab
 a file from the eportfolio. Currently only implemented for photo icons
 which are placed on the student_view.php page.
 
-The path to the eportfolio's data directory as a $CFG variable
+Added the path to the eportfolio's data directory as a $CFG variable
 in school.php.
 
 The Order book now takes account of an order's currency when
 calculating the balance of a budget. The exchange rates are set as a
 $CFG array in school.php.
 
-Removed the fonter javascript and icon form logbook - as it never
-worked well and the native Firefox control is what users should be
-using.
+Removed the fonter javascript and icon from logbook - as it never
+worked well, was rarely used and the native Firefox control is what
+users should learn to use.
+
+Bugfix to the list_teacher_users() function which was not always
+returning the epfusername.
+
+Knocked the mange eportfolio page into meanigful shape. Included an
+option to set a default student photo based on their current
+yeargroup.
 
 
 Version ClaSS-0.8.44 release (2008/04/18)

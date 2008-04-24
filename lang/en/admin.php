@@ -194,5 +194,9 @@ $string['editclasses']='Edit classes';
 $string['allapplied']='All applications';
 $string['applicationsreceived']='Applications received';
 $string['inactive']='Inactive';
-$string['']='';
+$string['blankfirst']='Blank first';
+$string['update']='Update';
+$string['photos']='Photos';
+$string['records']='Records';
+$string['multiplelines']='Records split across multi-lines';
 ?>

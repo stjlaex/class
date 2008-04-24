@@ -125,7 +125,7 @@ function elgg_blank($usertemplate){
 
 
 /**
- * Generates a new user account in elgg for hte Newuser xml-array, 
+ * Generates a new user account in elgg for the Newuser xml-array, 
  * properties are decided by one of three possible roles: 
  * staff, student or guardian.
  */
@@ -236,8 +236,10 @@ function elgg_newUser($Newuser,$role){
 
 /**
  *
- * Checks for a community and either updates or creates
- * expects an array with at least type and name set.
+ * Checks for a community and either updates or creates anew one.
+ * Expects an array with at least type and name set, can optionally
+ * have displayname as well.
+ *
  */
 function elgg_update_community($community,$communityfresh=array('type'=>'','name'=>''),$epfuidowner=''){
 	global $CFG;
@@ -254,13 +256,15 @@ function elgg_update_community($community,$communityfresh=array('type'=>'','name
 	   and $community['type']!='' and $community['name']!=''){
 		$type=$community['type'];
 		$name=$community['name'];
+		/* Be careful when the yid (ie. name for a year com) is negative */
+		if($type=='year' and $name<0){$name='0'.$name;}
 		$typefresh=$communityfresh['type'];
 		$namefresh=$communityfresh['name'];
-		/*The portfolio communities want the real name not the yid etc.*/
-		if(isset($community['displayname'])){$epfname=$community['displayname'];}
-		else{$epfname=$name;}
+		/*Use the displayname if set or fallback to the yid or fid etc.*/
+		if(isset($community['displayname'])){$epffullname=$community['displayname'];}
+		else{$epffullname=$name;}
 		/* Make sure username is still unique across all user types.*/
-		$epfusername=str_replace(' ','',$epfname);
+		$epfusername=str_replace(' ','',$name);
 		$epfusername=str_replace('-','',$epfusername);
 		/*all communities are named according to their school and type*/
 		$epfusername=$school. $type . $epfusername;
@@ -278,10 +282,15 @@ function elgg_update_community($community,$communityfresh=array('type'=>'','name
 				$epftemplate_name='Default_Form';
 				$epftemplate=6;
 				}
+			else{
+				$epftemplate_name='Default_Template';
+				$epftemplate=-1;
+				}
 			mysql_query("INSERT INTO $table (username, name, 
-				    active, moderation, owner, user_type,icon,template_id,template_name) 
-					VALUES ('$epfusername', '$epfname',
-					'yes', 'yes', '1', 'community','$epftemplate', 
+				    active, moderation, owner,
+					user_type,icon,icon_quota, template_id,template_name) 
+					VALUES ('$epfusername', '$epffullname',
+					'yes', 'yes', '1', 'community','$epftemplate','1',
 					'$epftemplate','$epftemplate_name')");
 			$comid=mysql_insert_id();
 			}
@@ -290,10 +299,9 @@ function elgg_update_community($community,$communityfresh=array('type'=>'','name
 			if($typefresh!='' and $namefresh!=''){
 				/*TODO update all references to epfusername, if
 					allowed by elgg?*/
-			 /*all communities are named according to their school and type*/
-				$epfusername=$school. $typefresh . $namefresh;
-				mysql_query("UPDATE $table SET username='$epfusername'
-						   WHERE ident='$comid'");
+				//$epfusername=$school. $typefresh . $namefresh;
+				//mysql_query("UPDATE $table SET name='$epfname'
+				//		   WHERE ident='$comid'");
 				}
 			}
 		}
@@ -562,9 +570,8 @@ function elgg_student_photo($epfuid,$yid,$dbc=true){
 		}
 
 	mysql_query("INSERT INTO $table_icons SET owner='$epfuid',
-				filename='year$yid.jpg', description='Year $yid - October 2007';"); 
+				filename='y$yid.jpg', description='Year $yid - October 2007';"); 
 	mysql_query("UPDATE $table_users SET icon=LAST_INSERT_ID() WHERE ident='$epfuid';");
-	trigger_error($epfuid.' '.mysql_error(),E_USER_WARNING);
 
 	$db=db_connect();
 	mysql_query("SET NAMES 'utf8'");

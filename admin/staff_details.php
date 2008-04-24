@@ -29,7 +29,8 @@ three_buttonmenu();
 		<label for="Staff"><?php print_string('username');?></label>
 		<div>
 		  <select tabindex="<?php print $tab++;?>" 
-			name="newuid" size="20" onChange="processContent(this);">
+			name="newuid" size="1" onChange="processContent(this);">
+			<option value=""></option>
 <?php
    foreach($users as $uid => $user){
 	   if($user['username']!='administrator'){

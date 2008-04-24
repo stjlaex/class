@@ -1,4 +1,4 @@
-a<?php
+<?php
 /**									eportfolio_accounts_action.php
  */
 
@@ -8,10 +8,16 @@ require_once('lib/eportfolio_functions.php');
 include('scripts/sub_action.php');
 
 $blank=$_POST['blank0'];
-$staffcheck=$_POST['staffcheck0'];
+//$staffcheck=$_POST['staffcheck0'];
 $studentcheck=$_POST['studentcheck0'];
 $contactcheck=$_POST['contactcheck0'];
 $contactblank=$_POST['contactblank0'];
+$photocheck=$_POST['photocheck0'];
+
+
+if($blank=='yes'){
+	elgg_refresh();
+	}
 
 if($studentcheck=='yes'){
 
@@ -53,11 +59,10 @@ if($studentcheck=='yes'){
 
 	/* Now insert into elgg*/
 
-	if($blank=='yes'){
-		elgg_refresh();
-		}
-
 	$staff=array();
+	$com=array('epfcomid'=>'','type'=>'staff','name'=>'all','displayname'=>'Staff');
+	$epfcomid=elgg_update_community($com);
+	$com['epfcomid']=$epfcomid;
 	while(list($index,$user)=each($allteachers)){
 		$Newuser['id_db']=$user['uid'];
 		$Newuser['Surname']['value']=$user['surname'];
@@ -70,7 +75,7 @@ if($studentcheck=='yes'){
 		$Newuser['EmailAddress']['value']=$user['email'];
 		$Newuser['Username']['value']=strtolower($user['username']);
 		$Newuser['Password']['value']=$user['passwd'];
-		/* Don't want to create a epf user if they already have an account. */
+		/* Don't want to create an epf user if they already have an account. */
 		$epfuid=-1;
 		if(isset($user['epfusername']) and $user['epfusername']!=''){
 			$epfuid=elgg_get_epfuid($user['epfusername'],'person',true);
@@ -79,6 +84,7 @@ if($studentcheck=='yes'){
 			$epfuid=elgg_newUser($Newuser,'staff');
 			}
 		$staff[$Newuser['Username']['value']]=$epfuid;
+		elgg_join_community($epfuid,$com);
 		}
 
 	reset($yearcoms);
@@ -157,6 +163,27 @@ if($studentcheck=='yes'){
 		while($student=mysql_fetch_array($d_student, MYSQL_ASSOC)){
 			$sid=$student['id'];
 			if(isset($Students[$sid])){elgg_join_community($Students[$sid]['epfuid'],$com);}
+			}
+		}
+	}
+
+/**
+ * Temporary to set default icon photos for all students.
+ * The photos still have to be placed in the elggdata/icons folders by some
+ * other means.
+ */
+if($photocheck=='yes'){
+
+	$yearcoms=(array)list_communities('year');
+	while(list($yearindex,$com)=each($yearcoms)){
+		$yid=$com['name'];
+		$students=listin_community($com);
+		while(list($studentindex,$student)=each($students)){
+			$sid=$student['id'];
+			//$Students[$sid]=fetchStudent_short($sid);
+			$Student=fetchStudent_singlefield($sid,'EPFUsername');
+			$epfuid=elgg_get_epfuid($Student['EPFUsername']['value'],'person',true);
+			if($epfuid!='-1'){elgg_student_photo($epfuid,$yid);}
 			}
 		}
 	}
@@ -261,19 +288,6 @@ if($contactcheck=='yes'){
 		}
 	}
 
-/* Temporary to upload photos. */
-if($photocheck!='no'){
-	$yid=8;
-	$com=array('type'=>'year','name'=>$yid);
-	$students=listin_community($com);
-	while(list($studentindex,$student)=each($students)){
-		$sid=$student['id'];
-		//$Students[$sid]=fetchStudent_short($sid);
-		$Student=fetchStudent_singlefield($sid,'EPFUsername');
-		$epfuid=elgg_get_epfuid($Student['EPFUsername']['value'],'person',true);
-		if($epfuid!='-1'){elgg_student_photo($epfuid,$yid);}
-		}
-	}
 
 include('scripts/redirect.php');
 ?>

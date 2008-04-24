@@ -192,7 +192,8 @@ function list_teacher_users($crid='',$bid=''){
 		/*Otherwise just return all active teaching staff ie. nologin=0*/
 		$d_user=mysql_query("SELECT uid, username, passwd, forename,
 				surname, title, email, emailuser, emailpasswd, 
-				nologin, firstbookpref, role, worklevel FROM users WHERE
+				nologin, firstbookpref, role, worklevel, senrole, 
+				epfusername FROM users WHERE
 				(role='teacher' or role='admin') AND nologin='0' AND
 				username!='administrator' ORDER BY username");
 		while($user=mysql_fetch_array($d_user,MYSQL_ASSOC)){
