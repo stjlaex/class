@@ -186,6 +186,11 @@ if(isset($umns)){
 					onchange="document.umntypechoice.submit();" />
 				<br />
 			<div><?php print_string('filterlist');?></div>
+			<label>&nbsp;P</label>
+				<input  title="<?php print_string('profileassessments',$book);?>" 
+					type="radio" name="umntype" 
+					value="p" <?php if($umntype=='p'){print 'checked';}?>
+					onchange="document.umntypechoice.submit();" />
 			<label><?php print_string('all');?></label>
 				<input  title="<?php print_string('all');?>" type="radio" name="umntype"
 				  value="%" <?php if($umntype=='%'){print 'checked';}?>

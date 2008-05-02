@@ -1,20 +1,21 @@
 <?php	
 /**	   							 fetch_order.php
  *
- */	
+ *
+ *   	$Order['']=array('label' => 'boarder', 
+ *							  'inputtype'=> 'required',
+ *							  'table_db' => 'order', 
+ *							  'field_db' => '',
+ *							  'type_db' => '', 
+ *							  'default_value' => 'N',
+ *							  'value' => ''.$order['']
+ *							  );
+ */
 
-	/*
-   	$Order['']=array('label' => 'boarder', 
-							  'inputtype'=> 'required',
-							  'table_db' => 'order', 
-							  'field_db' => '',
-							  'type_db' => '', 
-							  'default_value' => 'N',
-							  'value' => ''.$order['']
-							  );
-	*/
-
-/* Returns the budgetname for that ordid from the database*/
+/**
+ * Returns the budgetname for that ordid from the database
+ *
+ */
 function get_budgetname($ordid){
 	if($ordid!=' ' and $ordid!=''){
 		$d_b=mysql_query("SELECT name FROM orderbudget WHERE id='$ordid'");
@@ -27,6 +28,35 @@ function get_budgetname($ordid){
 	}
 
 
+/**
+ * Returns an array of users with a given permissions level
+ * for the budid
+ *
+ */
+function list_budget_users($budid,$perms){
+   	$users=array();
+
+	$r=$perms['r'];
+	$w=$perms['w'];
+	$x=$perms['x'];
+	$d_users=mysql_query("SELECT users.uid,
+			   	username, forename, surname, email, emailuser,
+				nologin, role FROM users JOIN perms ON 
+				users.uid=perms.uid WHERE 
+				perms.gid=(SELECT gid FROM orderbudget WHERE id='$budid') 
+				AND perms.r='$r' AND perms.w='$w' AND perms.x='$x' AND
+				username!='administrator' 
+				ORDER BY username;");
+	while($user=mysql_fetch_array($d_users,MYSQL_ASSOC)){
+		$uid=$user['uid'];
+		$users[$uid]=$user;
+		}
+	return $users;
+	}
+
+/**
+ *
+ */
 function list_user_budgets($tid,$budgetyear='%'){
 	$uid=get_uid($tid);
 	$budgets=array();
@@ -44,6 +74,10 @@ function list_user_budgets($tid,$budgetyear='%'){
 	return $budgets;
 	}
 
+
+/**
+ *
+ */
 function list_budget_orders($budid){
 	$orders=array();
 	$d_order=mysql_query("SELECT id FROM orderorder WHERE budget_id='$budid' ORDER
@@ -54,6 +88,10 @@ function list_budget_orders($budid){
 	return $orders;
 	}
 
+
+/**
+ *
+ */
 function list_orders($ordernumber='%',$orderstatus='%'){
 	$orders=array();
 	if($ordernumber!='%' and $ordernumber!=''){
@@ -111,6 +149,10 @@ function get_order_reference($ordid){
 	return $reference;
 	}
 
+
+/**
+ *
+ */
 function fetchOrder($ordid='-1'){
 	$Order=array();
 	$d_o=mysql_query("SELECT budget_id, supplier_id, entrydate,
@@ -181,6 +223,9 @@ function fetchOrder($ordid='-1'){
 	}
 
 
+/**
+ *
+ */
 function fetchMaterials($ordid){
 	$Materials=array();
 	$Materials['Material']=array();
@@ -194,6 +239,10 @@ function fetchMaterials($ordid){
 	return $Materials;
 	}
 
+
+/**
+ *
+ */
 function fetchMaterial($mat=array()){
 	$Material=array();
 	$Material['id_db']=$mat['entryn'];
@@ -235,6 +284,10 @@ function fetchMaterial($mat=array()){
 	return $Material;
 	}
 
+
+/**
+ *
+ */
 function fetchBudget($budid='-1'){
 	$d_bud=mysql_query("SELECT * FROM orderbudget WHERE id='$budid'");
 	$bud=mysql_fetch_array($d_bud,MYSQL_ASSOC);
@@ -294,6 +347,11 @@ function fetchBudget($budid='-1'){
 	return $Budget;
 	}
 
+
+
+/**
+ *
+ */
 function fetchSupplier($supid=-1){
 	if($supid==''){$supid=-1;}
 	$d_sup=mysql_query("SELECT * FROM ordersupplier WHERE id='$supid'");
@@ -356,6 +414,10 @@ function fetchSupplier($supid=-1){
 	return $Supplier;
 	}
 
+
+/**
+ *
+ */
 function get_budget_projected($budid=-1){
 	global $CFG;
 	$currencyrates=$CFG->currencyrates;
@@ -378,6 +440,11 @@ function get_budget_projected($budid=-1){
 	return $costremain;
 	}
 
+
+
+/**
+ *
+ */
 function get_budget_current($budid=-1){
 	global $CFG;
 	$currencyrates=$CFG->currencyrates;
@@ -404,6 +471,10 @@ function get_budget_current($budid=-1){
 	}
 
 
+
+/**
+ *
+ */
 function fetchInvoice($invid='-1'){
 	$d_inv=mysql_query("SELECT * FROM orderinvoice WHERE id='$invid'");
 	$inv=mysql_fetch_array($d_inv,MYSQL_ASSOC);
@@ -456,10 +527,13 @@ function fetchInvoice($invid='-1'){
 	return $Invoice;
 	}
 
-/* Returns the current budgetary year.
+
+/**
+ * Returns the current budgetary year.
  * Named after the calendar year that the current budget year ends. 
  * 2008 is 2007/08 when displayed and understood by the user.
  * Display can be done using display_curriculumyear()
+ *
  */
 function get_budgetyear(){
 	$endmonth='3';/*TODO: should be in school.php*/
@@ -469,8 +543,11 @@ function get_budgetyear(){
 	return $thisyear;
 	}
 
-/* Where the year works on the same principle as curriculum year ie. 2008 is */
-/* 2007/08. The codes could be amended to whatever is needed.*/
+/**
+ * Where the year works on the same principle as curriculum year ie. 2008 is
+ * 2007/08. The codes could be amended to whatever is needed.
+ *
+ */
 function get_budgetyearcode($budgetyear){
 	$yearcodes=array('2007' => '07', 
 					 '2008' => '08', 
@@ -485,8 +562,9 @@ function get_budgetyearcode($budgetyear){
 
 /**
  * Return perms for the active user for given budid.
- * x is special and needed to authorise and order.
+ * x is special and needed to authorise and configure.
  * w is needed to edit and lodge and purchase etc.
+ *
  */
 function get_budget_perms($budid){
 	$perms['r']=0;
@@ -499,11 +577,21 @@ function get_budget_perms($budid){
 	if(mysql_num_rows($d_p)>0){
 		$perms=mysql_fetch_array($d_p,MYSQL_ASSOC);
 		}
-	/* This means administrators can do anything and all office staff 
-	 *  can do everything except for authorise an order
+	/* The following means administrators can do anything and all office staff 
+	 * can do everything except for authorise an order and configure
+	 * the budget
 	 */
 	if($_SESSION['role']=='admin'){$perms['r']=1;$perms['w']=1;$perms['x']=1;}
 	if($_SESSION['role']=='office'){$perms['r']=1;$perms['w']=1;$perms['x']=0;}
 	return $perms;
+	}
+
+/**
+ *
+ */
+function update_budget_perms($uid,$budid,$perms){
+	$d_b=mysql_query("SELECT gid FROM orderbudget WHERE id='$budid'");
+	$gid=mysql_result($d_b,0);
+	update_staff_perms($uid,$gid,$perms);
 	}
 ?>

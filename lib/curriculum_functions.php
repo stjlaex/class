@@ -1,8 +1,12 @@
 <?php
 /**							lib/curriculum_functions.php
+ *
  */
 
-/* Returns an array of all possible courses*/
+/**
+ * Returns an array of all possible courses
+ *
+ */
 function list_courses(){
 	$courses=array();
 	$d_c=mysql_query("SELECT * FROM course ORDER BY sequence");
@@ -12,7 +16,10 @@ function list_courses(){
 	return $courses;
 	}
 
-/* returns an array of all posible yeargroups for a single section*/
+/**
+ * Returns an array of all posible yeargroups for a single section
+ *
+ */
 function list_yeargroups($secid='%'){
 	$yeargroups=array();
 	$d_y=mysql_query("SELECT DISTINCT * FROM yeargroup WHERE
@@ -23,7 +30,24 @@ function list_yeargroups($secid='%'){
 	return $yeargroups;
 	}
 
-/* returns an array of all posible stages for a single course*/
+/**
+ * Returns an array of all posible formgroups, can limited by $yid
+ *
+ */
+function list_formgroups($yid='%'){
+	$forms=array();
+	$d_f=mysql_query("SELECT DISTINCT id, name FROM form WHERE
+					yeargroup_id='%' OR yeargroup_id LIKE '$yid' ORDER BY yeargroup_id, id;");
+	while($form=mysql_fetch_array($d_f,MYSQL_ASSOC)){
+		$forms[]=$form;
+		}
+	return $forms;
+	}
+
+/**
+ * Returns an array of all posible stages for a single course
+ *
+ */
 function list_course_stages($crid=''){
 	$stages=array();
 	if($crid!=''){
@@ -36,11 +60,14 @@ function list_course_stages($crid=''){
 	return $stages;
 	}
 
-/* Returns an array of all subjects for a single course*/
+/**
+ * Returns an array of all subjects for a single course
+ *
+ */
 function list_course_subjects($crid=''){
 	$subjects=array();
 	if($crid!=''){
-		$d_cridbid=mysql_query("SELECT id, name FROM subject
+		$d_cridbid=mysql_query("SELECT DISTINCT id, name FROM subject
 					JOIN cridbid ON cridbid.subject_id=subject.id
 					WHERE cridbid.course_id LIKE '$crid' ORDER BY subject.id");
 		while($subject=mysql_fetch_array($d_cridbid,MYSQL_ASSOC)){
@@ -50,8 +77,11 @@ function list_course_subjects($crid=''){
 	return $subjects;
 	}
 
-/* Returns an array of all components for a single subject. If the subject is */
-/* itself a component then you'll really get strands. */
+/**
+ * Returns an array of all components for a single subject. If the subject is 
+ * itself a component then you'll really get strands. 
+ *
+ */
 function list_subject_components($bid,$crid,$compstatus='%'){
 	if($compstatus=='A'){$compstatus='%';}
 	$components=array();
@@ -68,7 +98,10 @@ function list_subject_components($bid,$crid,$compstatus='%'){
 	return $components;
 	}
 
-/* Returns an array of all cohorts for a single course year*/
+/**
+ * Returns an array of all cohorts for a single course year
+ *
+ */
 function list_course_cohorts($crid,$year='',$season='S'){
 	$cohorts=array();
 	if($year==''){
@@ -89,6 +122,7 @@ function list_course_cohorts($crid,$year='',$season='S'){
  * Returns an array listing the cids for all classes associated with
  * this form where the class is actually populated by just this
  * form's sids
+ *
  */
 function list_forms_classes($fid){
 	$cids=array();
@@ -130,6 +164,7 @@ function list_forms_classes($fid){
 /** 
  * Returns an array listing the classes associated with
  * this course and subject
+ *
  */
 function list_course_classes($crid='%',$bid='%'){
 	$classes=array();
@@ -142,6 +177,10 @@ function list_course_classes($crid='%',$bid='%'){
 	return $classes;
 	}
 
+/**
+ *
+ *
+ */
 function get_subjectclassdef($crid,$bid,$stagename){
 	$d_c=mysql_query("SELECT many, generate, naming FROM classes WHERE
 				subject_id='$bid' AND stage='$stagename' AND course_id='$crid'");
@@ -152,6 +191,10 @@ function get_subjectclassdef($crid,$bid,$stagename){
 	return $classdef;
 	}
 
+/**
+ *
+ *
+ */
 function update_subjectclassdef($classdef){
 	$many=$classdef['many'];
 	$generate=$classdef['generate'];
@@ -191,8 +234,11 @@ function update_subjectclassdef($classdef){
 	}
 
 
-/* Keeping things simple by fixing season and year to a single value
- to sophisticate in the future*/
+/**
+ * Keeping things simple by fixing season and year to a single value
+ * to sophisticate in the future
+ *
+ */
 function populate_subjectclassdef($classdef,$currentseason='S'){
 	$many=$classdef['many'];
 	$generate=$classdef['generate'];
@@ -278,9 +324,12 @@ function populate_subjectclassdef($classdef,$currentseason='S'){
 	}
 
 
-/* Checks for a cohort and creates if it doesn't exist*/
-/* expects an array with at least course_id and stage set*/
-/* returns the cohort_id*/
+/**
+ * Checks for a cohort and creates if it doesn't exist
+ * expects an array with at least course_id and stage set
+ * returns the cohort_id
+ *
+ */
 function update_cohort($cohort){
 	$crid=$cohort['course_id'];
 	$stage=$cohort['stage'];
@@ -305,7 +354,10 @@ function update_cohort($cohort){
 	}
 
 
-/* Lists all sids who are current members of a cohort*/
+/**
+ * Lists all sids who are current members of a cohort
+ *
+ */
 function listin_cohort($cohort){
 	$todate=date("Y-m-d");
 	if($cohort['id']!=''){$cohid=$cohort['id'];}
@@ -329,8 +381,11 @@ function listin_cohort($cohort){
 	}
 
 
-/* Defined as the calendar year that the current academic year ends */
-/* TODO to sophisticate in future to cover definite endmonths for courses*/
+/**
+ * Defined as the calendar year that the current academic year ends 
+ * TODO to sophisticate in future to cover definite endmonths for
+ * courses
+ */
 function get_curriculumyear($crid=''){
 	$d_course=mysql_query("SELECT endmonth FROM course WHERE id='$crid'");
 	if(mysql_num_rows($d_course)>0){$endmonth=mysql_result($d_course,0);}
@@ -342,30 +397,43 @@ function get_curriculumyear($crid=''){
 	return $thisyear;
 	}
 
+/**
+ *
+ */
 function display_curriculumyear($year){
 	$lastyear=$year-1;
 	$dispyear=$lastyear.'/'. substr($year,-2);
 	return $dispyear;
 	}
 
+/**
+ *
+ */
 function get_yeargroupname($yid){
 	$d_y=mysql_query("SELECT name FROM yeargroup WHERE id='$yid'");
 	$yeargroupname=mysql_result($d_y,0);	      
 	return $yeargroupname;
 	}
 
-/* Just a convenient synonym for get_yeargroupname */
+/**
+ * Just a convenient synonym for get_yeargroupname 
+ */
 function display_yeargroupname($yid){
 	$name=get_yeargroupname($yid);
 	return $name;
 	}
 
-/* Just a convenient synonym for get_subjectname */
+/**
+ * Just a convenient synonym for get_subjectname 
+ */
 function display_subjectname($bid){
 	$subjectname=get_subjectname($bid);
 	return $subjectname;
 	}
 
+/**
+ *
+ */
 function get_teachername($tid){
 	$d_teacher=mysql_query("SELECT forename, surname 
 							FROM users WHERE username='$tid'");
@@ -374,7 +442,9 @@ function get_teachername($tid){
 	return $teachername;
 	}
 
-/* Returns the subject name for that bid*/
+/** 
+ * Returns the subject name for that bid
+ */
 function get_subjectname($bid){
 	if($bid=='%' or $bid=='G' or $bid=='General'){
 		/*this is a fix that should be fixed in future!*/
@@ -390,7 +460,9 @@ function get_subjectname($bid){
 	return $subjectname;
 	}
 
-/* Returns the course name for that bid*/
+/**
+ * Returns the course name for that bid
+ */
 function get_coursename($crid){
 	if($crid=='%' or $crid=='G' or $crid=='General'){
 		/*this is a fix that should be fixed in future!*/
@@ -406,7 +478,9 @@ function get_coursename($crid){
 	return $coursename;
 	}
 
-/* Returns the section name for that secid*/
+/**
+ * Returns the section name for that secid
+ */
 function get_sectionname($secid){
 	if($secid!=''){
 		$d_s=mysql_query("SELECT name FROM section WHERE id='$secid';");
@@ -417,5 +491,4 @@ function get_sectionname($secid){
 		}
 	return $name;
 	}
-
 ?>

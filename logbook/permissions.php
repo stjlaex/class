@@ -83,7 +83,7 @@ function list_responsible_users($tid,$respons,$r=0){
 				emailpasswd, nologin,
 				firstbookpref, role, senrole, epfusername FROM users JOIN tidcid ON 
 				users.username=tidcid.teacher_id WHERE
-				tidcid.class_id='$cid[0]' ORDER BY username");
+				tidcid.class_id='$cid[0]' AND users.nologin='0' ORDER BY username");
 		  while($user=mysql_fetch_array($d_users,MYSQL_ASSOC)){
 			$uid=$user['uid'];
 			if(!array_key_exists($uid,$users)){
@@ -95,7 +95,8 @@ function list_responsible_users($tid,$respons,$r=0){
 	return $users;
 	}
 
-/* will return all details of users of interest based on the current
+/**
+ * Will return all details of users of interest based on the current
  * selected yeargroup in an array with the uid as the key
  * a head of year would be 111
  */
@@ -124,6 +125,7 @@ function list_pastoral_users($ryid,$perms){
 
 /**
  * Will return all users and their perms with access to the given gid.
+ *
  */
 function list_group_users_perms($gid){
    	$users_perms=array();
@@ -139,6 +141,8 @@ function list_group_users_perms($gid){
 
 /**
  * Will return perms for the given gid and uid.
+ *
+ *
  */
 function get_group_perms($gid,$uid){
 	$d_p=mysql_query("SELECT r, w, x, e FROM perms WHERE
@@ -160,7 +164,7 @@ function list_all_users($nologin='%'){
 	$d_users=mysql_query("SELECT uid, username, passwd, forename,
 				surname, title, email, emailuser, emailpasswd, nologin, firstbookpref,
 				role, worklevel, senrole, epfusername
-				FROM users WHERE nologin LIKE '$nologin' ORDER BY role, username");
+				FROM users WHERE nologin LIKE '$nologin' ORDER BY username");
 	while($user=mysql_fetch_array($d_users,MYSQL_ASSOC)){;
 		$uid=$user['uid'];
 		$users[$uid]=$user;
@@ -170,6 +174,7 @@ function list_all_users($nologin='%'){
 
 /**
  * 
+ *
  */
 function list_teacher_users($crid='',$bid=''){
 	$users=array();
@@ -223,11 +228,23 @@ function get_staff_epfusername($tid){
 	}
 
 /**
- * 
+ * Returns the full user record or -1 if none found. 
+ * The key field can be either username or uid.
+ *
  */
-function get_user($tid){
-	$d_users=mysql_query("SELECT * FROM users WHERE username='$tid'");
-	$user=mysql_fetch_array($d_users,MYSQL_ASSOC);
+function get_user($id,$fieldname='username'){
+	if($fieldname=='username'){
+		$d_users=mysql_query("SELECT * FROM users WHERE username='$id'");
+		}
+	elseif($fieldname=='uid'){
+		$d_users=mysql_query("SELECT * FROM users WHERE uid='$id'");
+		}
+	if(isset($d_users) and mysql_num_rows($d_users)==1){
+		$user=mysql_fetch_array($d_users,MYSQL_ASSOC);
+		}
+	else{
+		$user=-1;
+		}
 	return $user;
 	}
 
@@ -556,6 +573,7 @@ function update_user($user,$update='no',$short='class'){
  * 
  * Needs a uid and a gid and will update or insert the suplied
  * permissions.
+ *
  */
 function update_staff_perms($uid,$gid,$newperms){
 	$r=$newperms['r'];

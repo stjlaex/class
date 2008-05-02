@@ -1,17 +1,19 @@
 <?php 
 /**								staff_details.php
+ *
  */
 
 $choice='staff_details.php';
 $action='staff_details_action.php';
 
 if(isset($_POST['seluid'])){$seluid=$_POST['seluid'];}
-else{$seluid=$_SESSION['uid'];/*by default display logged in user*/}
+else{$seluid=$_SESSION['uid'];/* By default display logged in user. */}
 
 $users=array();
 $users=list_responsible_users($tid,$respons,$r);
 if($_SESSION['role']=='admin' and sizeof($users)==0){
-	$users=list_all_users();
+	$users=list_all_users('0');
+	$nologin_users=list_all_users('1');
 	}
 elseif(sizeof($users)==0){
 	$user=get_user($tid);
@@ -19,32 +21,84 @@ elseif(sizeof($users)==0){
 	$users[$uid]=$user;
 	}
 
+/*This is the record being edited.*/
+$edituser=get_user($seluid,'uid');
+
 three_buttonmenu();
 ?>
   <div class="content">
 	<form name="formtoprocess" id="formtoprocess" method="post" action="<?php print $host; ?>">
 
-	  <fieldset class="left">
+	  <fieldset class="left divgroup">
 		<legend><?php print_string('selectstafftoedit',$book);?></legend>
-		<label for="Staff"><?php print_string('username');?></label>
-		<div>
+
+		<div class="center">
+		<label><?php print_string('username');?></label>
 		  <select tabindex="<?php print $tab++;?>" 
-			name="newuid" size="1" onChange="processContent(this);">
-			<option value=""></option>
+			name="newuid0" id="Staff" size="1" onChange="processContent(this);">
+			<option value="" selected="selected"></option>
 <?php
+   $sort_array[0]['name']='username';
+   $sort_array[0]['sort']='ASC';
+   $sort_array[0]['case']=TRUE;
+   sortx($users,$sort_array);
+   reset($users);
    foreach($users as $uid => $user){
 	   if($user['username']!='administrator'){
 			print '<option ';
-			if($uid==$seluid){print 'selected="selected"';}
-			print	' value="'.$uid.'">'.$user['username'].'  ('.$user['surname'].')</option>';
+			print	' value="'.$user['uid'].'">'.$user['username'].'  ('.$user['surname'].')</option>';
 			}
 	   }
 ?>
 		  </select>
 		</div>
+
+
+		<div class="center">
+		<label><?php print_string('surname');?></label>
+		  <select tabindex="<?php print $tab++;?>" 
+			name="newuid1" size="1" onChange="processContent(this);">
+			<option value=""></option>
+<?php
+   $sort_array[0]['name']='surname';
+   $sort_array[0]['sort']='ASC';
+   $sort_array[0]['case']=TRUE;
+   sortx($users,$sort_array);
+   reset($users);
+   foreach($users as $uid => $user){
+	   if($user['username']!='administrator'){
+			print '<option ';
+			print	' value="'.$user['uid'].'">'.$user['surname'].'  ('.$user['username'].')</option>';
+			}
+	   }
+?>
+		  </select>
+		</div>
+
+<?php
+	if(isset($nologin_users)){
+?>
+		<br />
+		  <br />
+		<div class="center">
+		<label><?php print get_string('disablelogin',$book).' '.get_string('username');?></label>
+		  <select tabindex="<?php print $tab++;?>" 
+			name="newuid2" size="1" onChange="processContent(this);">
+			<option value=""></option>
+<?php
+		foreach($nologin_users as $uid => $user){
+			print '<option ';
+			print ' value="'.$user['uid'].'">' .$user['username']. 
+							'  ('.$user['surname'].')</option>';
+			}
+?>
+		  </select>
+		</div>
+<?php
+		}
+?>
 	  </fieldset>
 
-<?php $user=$users[$seluid]; ?>
 
 	  <fieldset class="right">
 		<legend><?php print_string('changedetails',$book);?></legend>
@@ -53,25 +107,25 @@ three_buttonmenu();
 		  <label for="ID"><?php print_string('username');?></label>
 		  <input pattern="truealphanumeric" readonly="readonly"  
 				type="text" id="ID" name="username"  
-				maxlength="14" value="<?php print $user['username'];?>" />
+				maxlength="14" value="<?php print $edituser['username'];?>" />
 		</div>
 
 		<div class="center">
 		  <label for="Surname"><?php print_string('surname');?></label>
 		  <input class="required" 
 			type="text" id="Surname" name="surname" maxlength="30"
-		  value="<?php print $user['surname'];?>" tabindex="<?php print $tab++;?>" />  
+		  value="<?php print $edituser['surname'];?>" tabindex="<?php print $tab++;?>" />  
 
 			<label for="Forename"><?php print_string('forename');?></label>
 			<input class="required" 
 			  type="text" id="Forename" name="forename" 
-			  maxlength="30" value="<?php print $user['forename'];?>" 
+			  maxlength="30" value="<?php print $edituser['forename'];?>" 
 			  tabindex="<?php print $tab++;?>" />
 
 <?php
 $listname='title';
 $listlabel='title';
-$seltitle=$user['title'];
+$seltitle=$edituser['title'];
 include('scripts/set_list_vars.php');
 $tab=list_select_enum('title',$listoptions,'infobook');
 unset($listoptions);
@@ -82,13 +136,13 @@ unset($listoptions);
 				type="text" id="Email" name="email" 
 				maxlength="190" style="width:90%;" 
 				tabindex="<?php print $tab++;?>" 
-				value="<?php print $user['email'];?>" />
+				value="<?php print $edituser['email'];?>" />
 
 <?php 
 
 			  /*this is stored encrypted and need to decrypt before
 				posting back the value*/
-				$emailpasswd=endecrypt($CFG->webmailshare,$user['emailpasswd'],'de');
+				$emailpasswd=endecrypt($CFG->webmailshare,$edituser['emailpasswd'],'de');
 
 ?>
 			  <label for="Emailpasswd"><?php print_string('emailpassword',$book);?></label>
@@ -99,7 +153,7 @@ unset($listoptions);
 				value="<?php print $emailpasswd;?>" />
 
 			  <label><?php print_string('firstbookpref',$book);?></label>
-				<?php $selbook=$user['firstbookpref'];?>
+				<?php $selbook=$edituser['firstbookpref'];?>
 				<?php include('scripts/list_books.php'); ?>
 		</div>
 
@@ -116,17 +170,17 @@ if($tid=='administrator' or $_SESSION['role']=='admin'){
 					  '2'=>'verygood','3'=>'teacherspet');
 		foreach($worklevels as $index => $worklevel){
 			print '<option ';
-			if(isset($user['worklevel'])){if($user['worklevel']==$index){print 'selected="selected"';}}
+			if(isset($edituser['worklevel'])){if($edituser['worklevel']==$index){print 'selected="selected"';}}
 			print	' value="'.$index.'">'.get_string($worklevel,$book).'</option>';
 			}
 ?>
 		  </select>
 
-		  <?php $selrole=$user['role']; include('scripts/list_roles.php');?>
+		  <?php $selrole=$edituser['role']; include('scripts/list_roles.php');?>
 
 <?php
 		  unset($key);
-		  $listname='senrole';$selsenrole=$user['senrole'];$listlabel='senrole';
+		  $listname='senrole';$selsenrole=$edituser['senrole'];$listlabel='senrole';
 		  include('scripts/set_list_vars.php');
 		  $list[]=array('id'=>'0','name'=>get_string('no'));
 		  $list[]=array('id'=>'1','name'=>get_string('yes'));
@@ -146,23 +200,24 @@ if($tid=='administrator' or $_SESSION['role']=='admin'){
 		  <label for="Nologin"><?php print_string('disablelogin',$book);?></label>
 		  <input type="checkbox" id="Nologin"  
 				  name="nologin"  tabindex="<?php print $tab++;?>" 
-				  <?php if($user['nologin']=='1'){print 'checked="checked"';}?> value="1"/>
+				  <?php if($edituser['nologin']=='1'){print 'checked="checked"';}?> value="1"/>
 
 		</div>
 <?php
 		}
-else{
+	else{
 ?>
-	  <input type="hidden" name="role" value="<?php print $user['role']; ?>">
-	  <input type="hidden" name="senrole" value="<?php print $user['senrole']; ?>">
-	  <input type="hidden" name="worklevel" value="<?php print $user['worklevel']; ?>">
-	  <input type="hidden" name="nologin" value="<?php print $user['nologin']; ?>">
+	  <input type="hidden" name="role" value="<?php print $edituser['role']; ?>">
+	  <input type="hidden" name="senrole" value="<?php print $edituser['senrole']; ?>">
+	  <input type="hidden" name="worklevel" value="<?php print $edituser['worklevel']; ?>">
+	  <input type="hidden" name="nologin" value="<?php print $edituser['nologin']; ?>">
 <?php
-	}
+		}
 ?>
 
 	  </fieldset>
 
+	  <input type="hidden" name="seluid" value="<?php print $seluid; ?>">
 	  <input type="hidden" name="current" value="<?php print $action; ?>">
 	  <input type="hidden" name="choice" value="<?php print $choice; ?>">
 	  <input type="hidden" name="cancel" value="<?php print ''; ?>">

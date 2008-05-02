@@ -24,24 +24,33 @@
  */
 
 
+
+/**
+ * Generic email header for automatic emails sent by ClaSS.
+ *
+ */
 function emailHeader(){
 	global $CFG;
 	$headers = 'From: ClaSS@'.$CFG->siteaddress ."\r\n" . 
-				'Reply-To: noreply@'.$CFG->siteaddress . "\r\n" .
+				'Reply-To: '.$CFG->emailnoreply . "\r\n" .
 			    'X-Mailer: PHP/' . phpversion();
 	return $headers;
 	}
 
+/**
+ * Needs a file handle and then prepares and writes a single row of csv
+ *
+ */
 function file_putcsv($handle, $row, $fd=',', $quot='"'){
 	$str='';
 	foreach($row as $cell){
-		$cell=str_replace(Array($quot,        "\n"),
-                         Array($quot.$quot,  ''),
+		$cell=str_replace(Array($quot,"\n"),
+                         Array($quot. $quot,''),
                          $cell);
 		if(strchr($cell, $fd)!==FALSE || strchr($cell, $quot)!==FALSE){
            $str.=$quot. $cell. $quot. $fd;
-		   } 
-		else {
+		   }
+		else{
            $str.=$cell. $fd;
 		   }
 		}
@@ -49,6 +58,13 @@ function file_putcsv($handle, $row, $fd=',', $quot='"'){
 	return strlen($str);
 	}
 
+
+/**
+ * This is because the PEAR xml stuff deals with empty strings by
+ * closing a tag < /> like so in stead of <></> like so and the xslt
+ * chokes. So, yhis is called before an array is transformed to xml to
+ * turn all empty strings to a single space to get <> </>.
+ */
 function nullCorrect($array){
 	if(sizeof($array)>0 and is_array($array)){
 		foreach($array as $key => $value){
@@ -63,7 +79,10 @@ function nullCorrect($array){
 	return $array;
 	}
 
-/*For compatibility with utf8*/
+/**
+ * For compatibility with utf8
+ *
+ */
 function good_strtolower($value){
 	$value=mb_strtolower($value, mb_detect_encoding($value));
 	return $value;
@@ -111,7 +130,10 @@ function utf8_to_ascii($str){
     return $str;
 	}
 
-/*Should only be used when writing a string for use by javascript*/
+/**
+ * Should only be used when writing a string for use by javascript
+ *
+ */
 function js_addslashes($value){
 	$o='';
 	$l=strlen($value);
@@ -132,7 +154,10 @@ function js_addslashes($value){
 	return $o;
 	}
 
-/*Attempts to get rid of any nasties before a mysql insert*/
+/**
+ * Attempts to get rid of any nasties before a mysql insert
+ *
+ */
 function clean_text($value){
 	$value=trim($value);
 	$value=stripslashes($value);
@@ -151,7 +176,10 @@ function clean_text($value){
  	}
 
 
-/*Does some simple data validation for input*/
+/**
+ * Does some simple data validation for input
+ *
+ */
 function checkEntry($value, $format='', $field_name=''){
 	$value=trim($value);
 	$value=good_strtolower($value);
@@ -178,7 +206,10 @@ function checkEntry($value, $format='', $field_name=''){
 	return $value;
 	}
 
-/*Validates a value which claims to be compatible with a enum field*/
+/**
+ * Validates a value which claims to be compatible with a enum field
+ *
+ */
 function checkEnum($value, $field_name) {
 	$enumarray=getEnumArray($field_name);
 	if(array_key_exists($value,$enumarray)){
@@ -189,8 +220,11 @@ function checkEnum($value, $field_name) {
 	return $value;
 	}
 
-/*Uses the enum $value for the enum $field_name to look up and return the $description
- call this before displaying the lang string*/
+/** 
+ * Uses the enum $value for the enum $field_name to look up and return the $description
+ * call this before displaying the lang string
+ *
+ */
 function displayEnum($value,$field_name){
 	$value=strtoupper($value);
 	$enumarray=getEnumArray($field_name);
@@ -202,7 +236,14 @@ function displayEnum($value,$field_name){
 	return $description;
 	}
 
-/*Returns the array of valid enum values and their meanings for a field*/
+
+/**
+ * Returns the array of valid enum values and their meanings for a
+ * given field name (which clearly have to be named uniquely in the
+ * db). It will check for the toplevel file schoolarrays.php which can
+ * contain any local customisations.
+ *
+ */
 function getEnumArray($field_name){
 	/*for the student table*/
 	$gender=array('M' => 'male', 'F' => 'female');
@@ -1010,7 +1051,12 @@ function getEnumArray($field_name){
 	return $$field_name;
 	}
 
-/*Sorts an array but is not utf8 friendly*/
+/**
+ * Sorts an array but is not utf8 friendly
+ *  $sort_array[0]['name']='surname';
+ *  $sort_array[0]['sort']='ASC';
+ *  $sort_array[0]['case']=TRUE;
+ */
 function sortx(&$array,$sort=array()){
    $function='';
    while(list($key)=each($sort)){
@@ -1034,8 +1080,11 @@ function sortx(&$array,$sort=array()){
    usort($array,create_function('$a, $b', $function));
    }
 
-/*Lists the contents of a directory on the server, can limit by extension*/
-/*Currently used only for the templates*/
+/**
+ * Lists the contents of a directory on the server, can limit by extension
+ * Currently used only for the templates
+ *
+ */
 function list_directory_files($directory,$extension='*'){
     $results=array();
     $handler=opendir($directory);
@@ -1049,7 +1098,10 @@ function list_directory_files($directory,$extension='*'){
     return $results;
 	}
 
-/*Reads content of csv file into array flines*/
+/**
+ * Reads content of csv file into array flines
+ *
+ */
 function fileRead($file){
 	$flines=array();
    	while($in=fgetcsv($file,1000,',')){
@@ -1062,7 +1114,10 @@ function fileRead($file){
 	return $flines;
 	}
 
-/*Function to open a file*/
+/**
+ * Opens a file ready for writing
+ *
+ */
 function fileOpen($path){
    	$file=fopen($path, 'r');
    	if(!$file){
@@ -1073,6 +1128,10 @@ function fileOpen($path){
 	return $file;
 	}
 
+/**
+ * Taken from moodlelib
+ *
+ */
 function file_mimeinfo($element, $filename) {
     $mimeinfo = array (
         'xxx'  => array ('type'=>'document/unknown', 'icon'=>'unknown.gif'),
@@ -1209,6 +1268,7 @@ function file_mimeinfo($element, $filename) {
 /**
  * Will reduce the $startarray to just those indexes listed in $fields
  * If fields is empty then the whole of $startarray is returned untouched
+ *
  */
 function array_filter_fields($startarray,$fields){
 	if(is_array($fields) and sizeof($fields)>0){
@@ -1361,6 +1421,10 @@ function send_email_to($recipient, $from, $subject, $messagetext, $messagehtml='
 	}
 
 
+/**
+ * Takes a date string, probably from the database, and makes its user friendly.
+ *
+ */
 function display_date($date=''){
 	if($date!='' and $date!='0000-00-00'){
 		list($year,$month,$day)=split('-',$date);
@@ -1373,9 +1437,10 @@ function display_date($date=''){
 	return $displaydate;
 	}
 
-/** Returns two arrays containing the ratingnames and catdefs for all
- *	categories of a particular type (ordered by their rating) and
- *	can be optionally restricted by course and section. 
+/** 
+ * Returns two arrays containing the ratingnames and catdefs for all
+ * categories of a particular type (ordered by their rating) and
+ * can be optionally restricted by course and section. 
  */
 function fetch_categorydefs($type,$crid='%',$secid='%'){
 	/*TODO: Needs to add subject specific ones IN FUTURE!*/

@@ -20,8 +20,8 @@ two_buttonmenu();
 	/*these are the filter vars form the sideoptions*/
 	if($sentype!='' and $newyid!=''){
 		mysql_query("CREATE TEMPORARY TABLE students
-				(SELECT info.student_id FROM info JOIN sentypes
-				ON sentypes.student_id=info.student_id WHERE sentypes.sentype='$sentype'
+				(SELECT info.student_id FROM info JOIN sentype
+				ON sentype.student_id=info.student_id WHERE sentype.sentype='$sentype'
 				AND info.sen='Y' AND info.enrolstatus='C')");
 		$d_info=mysql_query("SELECT student_id FROM students JOIN student
 				ON student.id=students.student_id WHERE
@@ -29,8 +29,8 @@ two_buttonmenu();
 		mysql_query('DROP TABLE students;');
 		}
 	elseif($sentype!=''){
-		$d_info=mysql_query("SELECT info.student_id FROM info JOIN sentypes
-				ON sentypes.student_id=info.student_id WHERE sentypes.sentype='$sentype'
+		$d_info=mysql_query("SELECT info.student_id FROM info JOIN sentype
+				ON sentype.student_id=info.student_id WHERE sentype.sentype='$sentype'
 				AND info.sen='Y' AND info.enrolstatus='C';");
 		}
 	elseif($newyid!=''){

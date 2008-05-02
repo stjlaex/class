@@ -18,16 +18,13 @@ three_buttonmenu($extrabuttons);
 										action="<?php print $host; ?>" >
 
 	<fieldset class="right">
-		  <legend><?php print_string('assignyeartoteacher',$book);?></legend>
-
+		<legend><?php print_string('assignyeartoteacher',$book);?></legend>
 		<div class="center">
 <?php $liststyle='width:95%;'; $required='yes'; include('scripts/list_teacher.php');?>
 		</div>
-
 		<div class="center">
 <?php $liststyle='width:95%;'; $required='yes'; include('scripts/list_year.php');?>
 		</div>
-
 	</fieldset>
 
 	    <input type="hidden" name="current" value="<?php print $action;?>" />

@@ -17,6 +17,24 @@ function openFileExport(){
 	printWindow.document.close();
 	}
 
+function openXMLExport(){
+	printWindow=window.open('','','height=250,width=450,dependent');
+	printWindow.document.open();
+	printWindow.document.writeln("<html>");
+	printWindow.document.writeln("<head>");
+	printWindow.document.writeln("<meta http-equiv='pragma' content='no-cache'/>");
+	printWindow.document.writeln("<meta http-equiv='Expires' content='0'/>");
+	printWindow.document.writeln("</head>");
+	printWindow.document.writeln("<script type='text/javascript'>function actionpage(){document.location='scripts/export_xml.php'}</script>");
+	printWindow.document.writeln("<body onLoad=\"setTimeout('actionpage()', 5000);\">");
+	printWindow.document.writeln("<h3>The XML file will download shortly.<h2>");
+	printWindow.document.writeln("<h4>Save to disk.<h4>");
+	printWindow.document.writeln("<form><input type='button' value='Close This Window' onClick='window.close();' /></form>");
+	printWindow.document.writeln("</body>");
+	printWindow.document.writeln("</html>");
+	printWindow.document.close();
+	}
+
 function xulsave(){
         path = document.location.toString().slice(8).replace(/\//g,"\\");
         netscape.security.PrivilegeManager.enablePrivilege("UniversalXPConnect");

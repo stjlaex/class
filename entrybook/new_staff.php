@@ -1,5 +1,6 @@
 <?php
 /**									new_staff.php
+ *
  */
 
 $choice='new_staff.php';

@@ -4,7 +4,10 @@
 require_once 'XML/Serializer.php';
 require_once 'XML/Unserializer.php';
 
-/*apllied to ensure lowercase for all xml tagnames*/
+/**
+ * Aplied to ensure lowercase for all xml tagnames
+ *
+ */
 function caseCorrect($array){
 	if(is_array($array)){
 		$newarray=array();
@@ -20,42 +23,53 @@ function caseCorrect($array){
 	return $newarray;
 	}
 
-function xmlpreparer($rootName,$xmlentry){
-	/*takes the root name as input*/
-	$xmlentry=nullCorrect($xmlentry);
-	$xmlentry=caseCorrect($xmlentry);
-	$serializer_options=array(
-							  'addDecl' => FALSE,
-							  'encoding' => 'UTF-8',
-							  'indent' => '  ',
-							  'rootName' => "$rootName",
-							  'defaultTagName' => 'undefined',
-							  'mode'           => 'simplexml'
-							  //	'scalarAsAttributes' => TRUE,
-							  //   'attributesArray' => array('field_db', 'label'),
-							  //	'contentNAME' => 'value'
-							  //	"addDoctype" => true,
-							  //	"doctype" => array(
-							  //	'uri' => 'http://pear.php.net/dtd/package-1.0',
-							  //	'id'  => '-//PHP//PEAR/DTD PACKAGE 0.1')
-							  );
-
-	$Serializer=&new XML_Serializer($serializer_options);
+/**
+ *
+ * Takes the root name as input
+ *
+ */
+function xmlpreparer($rootName,$xmlentry,$options=''){
+	if($options==''){
+		$xmlentry=nullCorrect($xmlentry);
+		$xmlentry=caseCorrect($xmlentry);
+		$options=array(
+					   'addDecl' => FALSE,
+					   'encoding' => 'UTF-8',
+					   'indent' => '  ',
+					   'rootName' => "$rootName",
+					   'defaultTagName' => 'undefined',
+					   'mode'           => 'simplexml',
+					   //	'scalarAsAttributes' => TRUE,
+					   //   'attributesArray' => array('field_db', 'label'),
+					   //	'contentNAME' => 'value'
+					   //	'addDoctype' => true
+					   //	'doctype' => array(
+					   //	'uri' => 'http://pear.php.net/dtd/package-1.0',
+					   //	'id'  => '-//PHP//PEAR/DTD PACKAGE 0.1')
+					   );
+		}
+	$Serializer=&new XML_Serializer($options);
 	$status=$Serializer->serialize($xmlentry);
 	if(PEAR::isError($status)){die($status->getMessage());}
 	return $Serializer->getSerializedData();
 	}
 
+/**
+ *
+ *
+ */
 function xmlechoer($rootName,$xmlentry){
 	$xml=xmlpreparer($rootName,$xmlentry);
 	echo $xml;
 	}
 
-/* Combines an $xml string with an xsl file which it reads, writes the */
-/* html output to a file if (output_filename is set) otherwise just */
-/* returns the html*/
-/* Any ouput currently goes to the toplevel directory reports.*/
-/* Still under development!!!!*/
+/**
+ * Combines an $xml string with an xsl file which it reads, writes the 
+ * html output to a file if (output_filename is set) otherwise just 
+ * returns the html
+ * Any ouput currently goes to the toplevel directory reports.
+ * Still under development!!!!
+ */
 function xmlprocessor($xml,$xsl_filename,$output_filename=NULL){
 	global $CFG;
 	$arguments=array(
@@ -82,7 +96,10 @@ function xmlprocessor($xml,$xsl_filename,$output_filename=NULL){
 	return $html;
 	}
 
-/*Reads an xml file and xsl file, writes output to a third file*/
+/**
+ * Reads an xml file and xsl file, writes output to a third file
+ *
+ */
 function xmlfileprocessor($xml_filename,$xsl_filename){
 	global $CFG;
 
@@ -101,6 +118,10 @@ function xmlfileprocessor($xml_filename,$xsl_filename){
 	}
 
 
+/**
+ *
+ *
+ */
 function xmlfilereader($xmlfilename){
 	$xmlentry=nullCorrect($xmlentry);
 	$serializer_options=array(
@@ -119,13 +140,17 @@ function xmlfilereader($xmlfilename){
 	return $data;
 	}
 
+/**
+ *
+ * This overcomes a discrepency in the way XML_Unserializer chooses
+ * to generate the array for fields with no value, one value and many
+ * values. ClaSS requires they should all be treated as for many
+ * values and a numerically indexed array results. Maybe there is an
+ * XML_Unserializer option I'm missing that can solve this?
+ *
+ */
 function xmlarray_indexed_check($inarray,$indexname){
-	/*this overcomes a discrepency in the way XML_Unserializer chooses
-	 *to generate the array for fields with no value, one value and many
-	 *values. ClaSS requires they should all be treated as for many
-	 *values and a numerically indexed array results. Maybe there is an
-	 *XML_Unserializer option I'm missing that can solve this?
-	 */
+
 	$inarray=(array)$inarray;
 	if(is_array($inarray[$indexname])){
 		if(!array_key_exists(0,$inarray[$indexname])){

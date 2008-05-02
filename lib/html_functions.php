@@ -216,6 +216,7 @@ function xmlarray_divform($Array,$no='',$caption='',$tab=1,$book=''){
  * Prints one form element including  
  * its formatted value given in the xml element $val.
  * Use $no if this is a repeat in the same form.
+ *
  */
 function xmlelement_input($val,$no,$tab,$book){
 	$pattern='';
@@ -423,7 +424,8 @@ function list_select_db($d_list,$vars,$book=''){
  * As for list_select_db except that the $list is not a mysql result
  * resource. It requires an array of 'id' and 'name' pairs to choose
  * from, often returned from one of the list_something_things()
- * functions.
+ * functions. Always use the set_list_vars.php script first.
+ *
  */
 function list_select_list($list,$vars,$book=''){
 	$valuefield=$vars['valuefield'];
@@ -435,7 +437,7 @@ function list_select_list($list,$vars,$book=''){
   </label>
 <?php
 		}
-?>  
+?>
 <select id="<?php print $vars['id'];?>" 
 <?php 
 	if($vars['multi']>1){print ' name="'.$vars['name'].$vars['i'].'[]" multiple="multiple" ';}

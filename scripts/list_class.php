@@ -7,7 +7,7 @@
 		$rbid=$respons[$r]['subject_id'];
 		$rcrid=$respons[$r]['course_id'];
 		$d_cids=mysql_query("SELECT id FROM class WHERE
-		subject_id LIKE '$rbid' AND course_id LIKE '$rcrid' ORDER BY id");
+				subject_id LIKE '$rbid' AND course_id LIKE '$rcrid' ORDER BY id");
 		}
 	else{$d_cids=mysql_query("SELECT class_id  FROM tidcid 
 				WHERE teacher_id='$tid' ORDER BY class_id");

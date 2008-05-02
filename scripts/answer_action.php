@@ -1,5 +1,8 @@
 <?php 
 /** 			   					answer_action.php
+ *
+ * For the post result from the check_yesno.php script.
+ *
  */
 
 if($_POST['answer0']!='yes'){

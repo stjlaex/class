@@ -1,5 +1,6 @@
 <?php
 /**								   export_students.php
+ *
  */
 
 $action='student_list.php';
@@ -99,7 +100,7 @@ if(sizeof($sids)==0){
 			file_putcsv($file,$csv);
 			}
 	   	fclose($file);
-		$result[]='exportedtableto file.';
+		$result[]='exportedtofile';
 ?>
 		<script>openFileExport();</script>
 <?php

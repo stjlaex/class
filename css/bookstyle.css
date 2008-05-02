@@ -188,11 +188,18 @@ div.content fieldset {
 div.content fieldset div {
 	background-color:#dde;
 	}
-div.content fieldset.divgroup, div.topform fieldset.divgroup, div.divgroup { 
+div.content fieldset.divgroup, 
+div.topform fieldset.divgroup, div.divgroup,
+fieldset.divgroup div { 
 	background-color:#666666 !important; 
 	color:#ffffee !important;
     border:0 !important;
 	}
+div.divgroup label, fieldset.divgroup label { 
+	background-color:#666666 !important; 
+	color:#ffffee !important;
+	}
+
 
 /*a fixed height div, always at the top of the page before the content*/
 div.topform {

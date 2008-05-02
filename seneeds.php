@@ -18,7 +18,7 @@ if($sid=='' or $current==''){
 elseif($sid!=''){
 	/*working with a single student*/
 	$Student=fetchStudent($sid);
-	$SEN=$Student['SEN'];
+	$SEN=fetchSEN($sid);
 	}
 ?>
   <div id="bookbox" class="seneedscolor">

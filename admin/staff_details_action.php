@@ -5,11 +5,14 @@
 $action='staff_details.php';
 $action_post_vars=array('seluid');
 
-if(isset($_POST['newuid'])){$seluid=$_POST['newuid'];}
+if(isset($_POST['newuid0']) and $_POST['newuid0']!=''){$seluid=$_POST['newuid0'];}
+if(isset($_POST['newuid1']) and $_POST['newuid1']!=''){$seluid=$_POST['newuid1'];}
+if(isset($_POST['newuid2']) and $_POST['newuid2']!=''){$seluid=$_POST['newuid2'];}
 
 include('scripts/sub_action.php');
 
-if($sub=='Submit'){
+if($sub=='Submit' and $_POST['seluid']!=''){
+	$seluid=$_POST['seluid'];
    	$user=array();
    	$user['username']=clean_text($_POST['username']);
    	$user['surname']=clean_text($_POST['surname']);

@@ -1,5 +1,6 @@
 <?php
 /**								list_form.php
+ *
  *	returns $newfid
  */
 	if(!isset($selfid)){$selfid='';}
@@ -7,6 +8,7 @@
 	if(isset($newfid)){$selfid=$newfid;}
 	if(!isset($required)){$required='no';}
 	if(!isset($onsidechange)){$onsidechange='no';}
+	$forms=list_formgroups();
 ?>
   <label for="Form Group"><?php print_string('formgroup');?></label>
   <select type="text" id="Form Group" name="newfid"
@@ -20,8 +22,7 @@
 		<?php if($required=='yes'){ print ' class="required" ';} ?> >
 	<option value=""></option>
 <?php
-        $d_forms=mysql_query("SELECT id, name FROM form ORDER BY yeargroup_id, id");
-        while($form=mysql_fetch_array($d_forms,MYSQL_ASSOC)) {
+        while(list($index,$form)=each($forms)){
 			print '<option value="'.$form['id'].'" ';
 			if($selfid==$form['id']){print ' selected="selected" ';}
 			print ' >'.$form['name'].'</option>';

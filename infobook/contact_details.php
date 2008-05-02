@@ -59,7 +59,7 @@ else{
 
 //trigger_error('contact:'.$contactno.' gid:' . $gid .' sid:'.$sid,E_USER_WARNING);
 
-/*always add a blank record for new entries*/
+/* Allow up to 4 records with blanks for new entries*/
 while(sizeof($Phones)<4){$Phones[]=fetchPhone();}
 $Addresses[]=fetchAddress();
 

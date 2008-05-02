@@ -25,9 +25,9 @@
 <?php 
     for($c=0;$c<(sizeof($respons));$c++){
 		/*only lists the academic responsibilities*/
-		if($respons[$c]['yeargroup_id']==''){
+		if($respons[$c]['type']=='a'){
 			print '<option value="'.$c.'"';
-			if(isset($r)){if($r==$c){print ' selected="selected" ';}}
+			if(isset($r) and $r==$c){print ' selected="selected" ';}
 			print '>'.$respons[$c]['name'].'</option>';
 			}
 		}

@@ -27,13 +27,13 @@ for($i=0;$i<sizeof($cids);$i++){
 	if($i==0){
 		if(mysql_query("CREATE TEMPORARY TABLE $table (SELECT mark.* FROM mark LEFT
 				JOIN midcid ON mark.id=midcid.mark_id WHERE midcid.class_id='$cid'
-				ORDER BY mark.entrydate DESC)")){}
+				ORDER BY mark.entrydate DESC);")){}
 	 		else {print 'Failed!<br />'; $error=mysql_error(); print $error.'<br />';}
 		}
-	else {$lasttable='markselect'.($i-1);
+	else{$lasttable='markselect'.($i-1);
 		if(mysql_query("CREATE TEMPORARY TABLE $table (SELECT $lasttable.* FROM $lasttable LEFT
 				JOIN midcid ON $lasttable.id=midcid.mark_id WHERE midcid.class_id='$cid'
-				ORDER BY $lasttable.entrydate DESC)")){}
+				ORDER BY $lasttable.entrydate DESC);")){}
 	 		else {print 'Failed!<br />'; $error=mysql_error(); print $error.'<br />';}
 		}
 
@@ -43,7 +43,7 @@ for($i=0;$i<sizeof($cids);$i++){
 		(SELECT a.student_id, b.surname, b.forename,
 		b.preferredforename, b.form_id, a.class_id FROM
 		cidsid a, student b WHERE a.class_id='$cid' AND
-		b.id=a.student_id ORDER BY b.surname)")){} else {print
+		b.id=a.student_id ORDER BY b.surname);")){} else {print
 		'Failed!<br />'; $error=mysql_error(); print $error.'<br />';} 
 		}
 	else
@@ -51,16 +51,25 @@ for($i=0;$i<sizeof($cids);$i++){
 		a.student_id, b.surname, b.forename, b.preferredforename, 
 		b.form_id, a.class_id FROM cidsid a,
 		student b WHERE a.class_id='$cid' AND b.id=a.student_id ORDER
-		BY b.surname")){} else {print 'Failed!<br />';
+		BY b.surname;")){} else {print 'Failed!<br />';
 		$error=mysql_error(); print $error.'<br />';} 
 		}
 	}
 
 	/*Fetch information about all marks and store in array $umns (ie. columns)*/	
 	$umns=array();
-	if($umntype=='t'){$filtertype='report';$filterass='yes';
-		$d_marks=mysql_query("SELECT * FROM $table WHERE marktype LIKE
-				'$filtertype' OR assessment LIKE '$filterass';");
+	if($umntype=='t'){
+		$d_marks=mysql_query("SELECT * FROM $table WHERE
+				marktype='report' OR (marktype='score' AND
+				assessment='yes' AND id=ANY(SELECT
+				eidmid.mark_id FROM eidmid JOIN assessment ON
+				assessment.id=eidmid.assessment_id WHERE assessment.profile_name=''));");
+		}
+	elseif($umntype=='p'){
+		$d_marks=mysql_query("SELECT $table.* FROM $table WHERE $table.marktype='score'
+				AND $table.assessment='yes' AND $table.id=ANY(SELECT
+				eidmid.mark_id FROM eidmid JOIN assessment ON
+				assessment.id=eidmid.assessment_id WHERE assessment.profile_name!='');");
 		}
 	else{
 		if($umntype=='%'){$filtertype='%';$filterass='%';}

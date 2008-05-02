@@ -68,11 +68,12 @@ CREATE TABLE senhistory (
 );");
 
 mysql_query("
-CREATE TABLE sentypes (
+CREATE TABLE sentype (
 	student_id		int unsigned not null, 
+	entryn			smallint unsigned not null auto_increment,
 	senranking		enum('1', '2', '3') not null,
-	sentype			char(3) not null default '',
-   	primary key		(student_id, sentype)
+	sentype			char(4) not null default '',
+   	primary key		(student_id, entryn)
 );");
 
 mysql_query("

@@ -1,3 +1,27 @@
+Version ClaSS-0.8.46 release (2008/05/02)
+-----------------------------------------
+
+Added a list_formgroups() function for consistency.
+
+Improved the staff_details page to select by username or surname and
+to seperate out disabled logins to another list. Allowed get_user() to
+take uid or username as key.
+
+The MarkBook column filter now recognises profile assessments distinct
+form tracking and reporting.
+
+Tidied up SEN related things. Including, moving the SEN array out of
+the main fetchStudent call to its own fetchSEN() function. Same as for
+MedicalFlag, the SENFlag is sufficient within Student everywhere
+except in the SEN book. Altered the sentype db table; sentype field is
+now char(4) - fixing a bug; an entryn field added.
+
+Allowed for multiple SENtypes per student.
+
+The access permissions for budgets are now part of the
+orders_limit.php page.
+
+
 Version ClaSS-0.8.45 release (2008/04/25)
 -----------------------------------------
 
