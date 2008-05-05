@@ -29,7 +29,6 @@ elseif($sid!=''){
 ?>
   </div>
 
-
   <div style="visibility:hidden;" id="hiddenbookoptions" class="bookoptions">
 	<form id="medbookchoice" name="medbookchoice" method="post" 
 		action="medbook.php" target="viewmedbook">
@@ -44,7 +43,7 @@ elseif($sid!=''){
 		include('scripts/list_year.php');
 
 		$listname='medtype';
-		$listlabel='medcategory';
+		$listlabel='type';
 		$cattype='med';
 		$onsidechange='yes';
 		include('scripts/set_list_vars.php');

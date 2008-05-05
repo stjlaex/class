@@ -1,4 +1,4 @@
-Version ClaSS-0.8.46 release (2008/05/02)
+Version ClaSS-0.8.46 release (2008/05/05)
 -----------------------------------------
 
 Added a list_formgroups() function for consistency.
@@ -20,6 +20,11 @@ Allowed for multiple SENtypes per student.
 
 The access permissions for budgets are now part of the
 orders_limit.php page.
+
+Included login stats under usage_statistics for parents and students
+accessing the eportfolios.
+
+Bugfix to the get_budget_current() function.
 
 
 Version ClaSS-0.8.45 release (2008/04/25)

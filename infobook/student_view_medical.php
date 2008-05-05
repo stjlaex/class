@@ -38,7 +38,7 @@ else{
 	$Medical=fetchMedical($sid);
 ?>
 		<div class="center">
-		  <p>Further medical information is available on file.</p>
+		  <p><?php print_String('furtherinformationonfile',$book);?></p>
 		</div>
 <?php
 		$Notes=$Medical['Notes'];

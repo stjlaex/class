@@ -37,6 +37,12 @@ three_buttonmenu();
 	  </fieldset>
 
 
+	    <input type="hidden" name="budid" value="<?php print $budid;?>" /> 
+		<input type="hidden" name="choice" value="<?php print $choice;?>" />
+		<input type="hidden" name="current" value="<?php print $action;?>" />
+		<input type="hidden" name="cancel" value="<?php print $cancel;?>" />
+	</form>
+
 	  <table class="center listmenu">
 		<tr>
 		  <th style="width:50%;"><?php print_string('authorise',$book); ?></th>
@@ -66,7 +72,7 @@ three_buttonmenu();
 		  </td>
 		  <td>
 			&nbsp;
-<?php 
+<?php
 		while(list($uid,$user)=each($wusers)){
 			$Responsible=array('id_db'=>$budid.'-'.$uid);
 ?>
@@ -123,10 +129,4 @@ three_buttonmenu();
 
 	  </table>
 
-
-	    <input type="hidden" name="budid" value="<?php print $budid;?>" /> 
-		<input type="hidden" name="choice" value="<?php print $choice;?>" />
-		<input type="hidden" name="current" value="<?php print $action;?>" />
-		<input type="hidden" name="cancel" value="<?php print $cancel;?>" />
-	</form>
   </div>

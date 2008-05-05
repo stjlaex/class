@@ -416,7 +416,8 @@ function fetchSupplier($supid=-1){
 
 
 /**
- *
+ * 
+ * 
  */
 function get_budget_projected($budid=-1){
 	global $CFG;
@@ -443,6 +444,8 @@ function get_budget_projected($budid=-1){
 
 
 /**
+ * Sum all the invoices for orders delivered (action=3) and calculate
+ * the remaining balance.
  *
  */
 function get_budget_current($budid=-1){
@@ -453,13 +456,13 @@ function get_budget_current($budid=-1){
 		$sum=0;
 		$costlimit=mysql_result($d_bud,0);
 		while(list($currency,$rate)=each($currencyrates)){
-			mysql_query("CREATE TEMPORARY TABLE inv (SELECT invoice_id FROM
-				orderaction JOIN orderorder ON
-				orderorder.id=orderaction.order_id WHERE
-				orderorder.budget_id='$budid' AND
-				orderorder.currency='$currency' AND orderaction.action='2');");
 			$d_sum=mysql_query("SELECT SUM(totalcost) FROM
-				orderinvoice JOIN inv ON orderinvoice.id=inv.invoice_id;");
+				orderinvoice JOIN orderaction ON
+				orderinvoice.id=orderaction.invoice_id WHERE
+				orderaction.action='3' AND
+				orderaction.order_id=ANY(SELECT id FROM orderorder
+				WHERE orderorder.budget_id='$budid' AND
+				orderorder.currency='$currency');");
 			$sum+=$rate*mysql_result($d_sum,0);
 			}
 		$costremain=$costlimit-$sum;
@@ -515,15 +518,6 @@ function fetchInvoice($invid='-1'){
 						   'type_db' => 'decimal', 
 						   'value' => ''.$inv['totalcost']
 						   );
-	/*
-   	$Invoice['Currency']=array('label' => 'currency', 
-							  'inputtype'=> 'required',
-							  'table_db' => 'orderinvoice', 
-							  'field_db' => 'currency',
-							  'type_db' => 'enum', 
-							  'value' => ''.$bud['currency']
-							  );
-	*/
 	return $Invoice;
 	}
 
