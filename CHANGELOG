@@ -1,3 +1,13 @@
+Version ClaSS-0.8.47 release (2008/05/12)
+-----------------------------------------
+
+Implemented sub-budgets as a "New budget" call from the
+order_limit.php page, and the costlimits of sub-budgets are tallied by
+the get_balance_ functions. NB. This does not allow for
+sub-sub-budgets!
+
+
+
 Version ClaSS-0.8.46 release (2008/05/05)
 -----------------------------------------
 
@@ -18,7 +28,7 @@ now char(4) - fixing a bug; an entryn field added.
 
 Allowed for multiple SENtypes per student.
 
-The access permissions for budgets are now part of the
+Managment of access permissions for budgets is now part of the
 orders_limit.php page.
 
 Included login stats under usage_statistics for parents and students

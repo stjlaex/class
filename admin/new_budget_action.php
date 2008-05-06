@@ -5,6 +5,8 @@
 $action='orders.php';
 
 $budgetyear=$_POST['budgetyear'];
+if(isset($_POST['budid'])){$overbudid=$_POST['budid'];}
+else{$overbudid=0;}
 $action_post_vars=array('budgetyear');
 
 include('scripts/sub_action.php');
@@ -36,8 +38,16 @@ if($sub=='Submit'){
 	$section=mysql_fetch_array($d_section,MYSQL_ASSOC);
 
 	$name.=' - '.$section['name'];
-	$yearcode=get_budgetyearcode($budgetyear);
+	if($overbudid!=''){
+		/* A subbudget must be for the same budgetyear as its overbudget */
+		$OverBudget=fetchBudget($overbudid);
+		$yearcode=$OverBudget['YearCode']['value'];
+		}
+	else{
+		$yearcode=get_budgetyearcode($budgetyear);
+		}
 	$Budget=fetchBudget();
+
 
 	/* Every budget has its own access group - the intial user
 	 * permissions are taken from related groups.
@@ -65,11 +75,11 @@ if($sub=='Submit'){
 	$d_bud=mysql_query("SELECT id FROM orderbudget 
 					WHERE yearcode='$yearcode' AND code='$budgetcode';");
 	if(mysql_num_rows($d_bud)>0){
-		$error[]='This budget code as already been assigned for the year '. $budgetyear;
+		$error[]='This budget code has already been assigned for the year '. $budgetyear;
 		}
 	else{
 		mysql_query("INSERT INTO orderbudget SET gid='$gid', name='$name',
-						section_id='$secid', yearcode='$yearcode';");
+						section_id='$secid', yearcode='$yearcode', overbudget_id='$overbudid';");
 		$budid=mysql_insert_id();
 		reset($Budget);
 		while(list($index,$val)=each($Budget)){

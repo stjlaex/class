@@ -199,4 +199,8 @@ $string['update']='Update';
 $string['photos']='Photos';
 $string['records']='Records';
 $string['multiplelines']='Records split across multi-lines';
+$string['allow']='Allow';
+$string['']='';
+$string['']='';
+$string['']='';
 ?>

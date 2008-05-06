@@ -1,19 +1,30 @@
 <?php
 /**									new_budget.php
+ *
  */
 
 $action='new_budget_action.php';
 
-$budgetyear=$_POST['budgetyear'];
+if(isset($_GET['budgetyear'])){$budgetyear=$_GET['budgetyear'];}else{$budgetyear='';}
+if(isset($_POST['budgetyear'])){$budgetyear=$_POST['budgetyear'];}
+if(isset($_GET['budid'])){$budid=$_GET['budid'];}else{$budid='';}
+if(isset($_POST['budid'])){$budid=$_POST['budid'];}
 
 three_buttonmenu();
 
 $Budget=fetchBudget();
-
+if($budid!=''){
+	$OverBudget=fetchBudget($budid);
+	}
 ?>
 
   <div id="heading">
-	<label><?php print_string('newbudget',$book);?></label>
+	<label>
+<?php
+	if($budid!=''){print $OverBudget['Name']['value'].' - ';}
+    print_string('newbudget',$book);
+?>
+	</label>
   </div>
 
   <div class="content">
@@ -23,8 +34,10 @@ $Budget=fetchBudget();
 		<legend><?php print_string('budgetscope',$book);?></legend>
 		<div class="left">
 <?php 
-  	$d_group=mysql_query("SELECT id, name FROM section 
-						ORDER BY sequence;"); 
+	if($budid!=''){
+		$selsecid=$OverBudget['Section']['value_db'];
+		}
+  	$d_group=mysql_query("SELECT id, name FROM section ORDER BY sequence;"); 
 	$listname='secid';
 	$listlabel='section';
 	$required='yes';
@@ -34,7 +47,11 @@ $Budget=fetchBudget();
 ?>
 		</div>
 
-		<div class="left">
+	  </fieldset>
+
+	  <fieldset class="center divgroup">
+		<legend><?php print_string('type',$book);?></legend>
+		<div class="center">
 <?php 
 	list($ratingnames,$catdefs)=fetch_categorydefs('bud');
 	$listname='catid';
@@ -47,7 +64,9 @@ $Budget=fetchBudget();
 ?>
 		</div>
 
-		<div class="right">
+		<br />
+
+		<div class="center">
 <?php 
 	/* crid must be % to only grab curriculum subject groups*/
   	$d_group=mysql_query("SELECT gid AS id, subject.name AS name FROM groups 
@@ -65,11 +84,38 @@ $Budget=fetchBudget();
 		</div>
 	  </fieldset>
 
-	  <div class="center">
-		  <?php $tab=xmlarray_form($Budget,'','newbudget',$tab,'admin'); ?>
-	  </div>
+	  <fieldset class="center divgroup">
+		<div class="left">
+		<label for="<?php print $Budget['Limit']['label'];?>">
+		  <?php print_string($Budget['Limit']['label'],$book);?>
+		</label>
+		 <?php $tab=xmlelement_input($Budget['Limit'],'',$tab,$book);?>
+		</div>
+
+		<div class="right">
+		<label for="<?php print $Budget['Code']['label'];?>">
+		  <?php print_string($Budget['Code']['label'],$book);?>
+		</label>
+<?php
+		if($budid!=''){
+			/* Automatically assign a code to sub budgets*/
+			$d_bud=mysql_query("SELECT COUNT(id) FROM orderbudget
+				WHERE overbudget_id='$budid';");
+			$subno=mysql_result($d_bud,0)+1;
+			$Budget['Code']['value']=$OverBudget['Code']['value']. $subno;
+			print '<input  readonly="readonly" name="'. $Budget['Code']['field_db']. 
+					'" value="' .$Budget['Code']['value'].'" >';
+			}
+		else{
+			$tab=xmlelement_input($Budget['Code'],'',$tab,$book);
+			}
+?>
+		</div>
+
+	  </fieldset>
 
 		<input type="hidden" name="budgetyear" value="<?php print $budgetyear;?>" />
+		<input type="hidden" name="budid" value="<?php print $budid;?>" />
 	    <input type="hidden" name="current" value="<?php print $action;?>">
 		<input type="hidden" name="cancel" value="<?php print $choice;?>">
 		<input type="hidden" name="choice" value="<?php print $choice;?>">

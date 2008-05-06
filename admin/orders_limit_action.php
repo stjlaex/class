@@ -7,13 +7,13 @@ $action_post_vars=array('budid');
 
 if(isset($_POST['budid'])){$budid=$_POST['budid'];}
 if(isset($_POST['costlimit'])){$costlimit=$_POST['costlimit'];}
+if(isset($_POST['name'])){$name=clean_text($_POST['name']);}
 
 include('scripts/sub_action.php');
 
 if($sub=='Submit'){
-
-	mysql_query("UPDATE orderbudget SET costlimit='$costlimit' WHERE id='$budid';");
-
+	mysql_query("UPDATE orderbudget SET costlimit='$costlimit',
+					name='$name' WHERE id='$budid';");
 	}
 elseif(isset($_POST['xuid']) and $_POST['xuid']!=''){
 	$uid=$_POST['xuid'];

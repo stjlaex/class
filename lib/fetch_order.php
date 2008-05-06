@@ -67,7 +67,8 @@ function list_user_budgets($tid,$budgetyear='%'){
 					perms.r AS r, perms.w AS w, perms.x AS x FROM orderbudget JOIN perms ON
 					perms.gid=orderbudget.gid WHERE perms.uid='$uid' AND
 			   		(orderbudget.yearcode='%' OR orderbudget.yearcode LIKE '$yearcode') ORDER
-			   		BY orderbudget.yearcode, orderbudget.section_id, orderbudget.name");
+			   		BY orderbudget.yearcode, overbudget_id, 
+						orderbudget.section_id, orderbudget.name");
 	while($budget=mysql_fetch_array($d_b,MYSQL_ASSOC)){
 		$budgets[]=$budget;
 		}
@@ -294,6 +295,7 @@ function fetchBudget($budid='-1'){
 	$Budget=array();
 	$Budget['id_db']=$budid;
 	$Budget['gid_db']=$bud['gid'];
+	$Budget['overbudid_db']=$bud['overbudget_id'];
    	$Budget['Section']=array('label' => 'section', 
 							 'inputtype'=> 'required',
 							 //'table_db' => 'orderbudget', 
@@ -315,7 +317,7 @@ function fetchBudget($budid='-1'){
 	/* Generated automatically to be meaningful based on the scope of the budget*/
    	$Budget['Name']=array('label' => 'name', 
 						  'inputtype'=> 'required',
-						  //'table_db' => 'orderbudget', 
+						  'table_db' => 'orderbudget', 
 						  'field_db' => 'name',
 						  'type_db' => 'varchar(160)', 
 						  'value' => ''.$bud['name']
@@ -329,7 +331,7 @@ function fetchBudget($budid='-1'){
 							  'value' => ''.$bud['yearcode']
 							  );
    	$Budget['Limit']=array('label' => 'limit', 
-						   'inputtype'=> 'required',
+						   //'inputtype'=> 'required',
 						   'table_db' => 'orderbudget', 
 						   'field_db' => 'costlimit',
 						   'type_db' => 'decimal', 
@@ -422,7 +424,7 @@ function fetchSupplier($supid=-1){
 function get_budget_projected($budid=-1){
 	global $CFG;
 	$currencyrates=$CFG->currencyrates;
-	$d_bud=mysql_query("SELECT costlimit FROM orderbudget WHERE id='$budid'");
+	$d_bud=mysql_query("SELECT costlimit FROM orderbudget WHERE id='$budid';");
 	if(mysql_num_rows($d_bud)>0){
 		$sum=0;
 		$costlimit=mysql_result($d_bud,0);
@@ -433,7 +435,13 @@ function get_budget_projected($budid=-1){
 				orderorder.budget_id='$budid' AND orderorder.currency='$currency';");
 			$sum+=$rate*mysql_result($d_mat,0);
 			}
-		$costremain=$costlimit-$sum;
+		/* Iterate over any sub-budgets */
+		$subsum=0;
+		$d_bud=mysql_query("SELECT costlimit FROM orderbudget WHERE overbudget_id='$budid';");
+		while($bud=mysql_fetch_array($d_bud,MYSQL_ASSOC)){
+			$subsum+=$bud['costlimit'];
+			}
+		$costremain=$costlimit-$sum-$subsum;
 		}
 	else{
 		$costremain='';
@@ -465,7 +473,13 @@ function get_budget_current($budid=-1){
 				orderorder.currency='$currency');");
 			$sum+=$rate*mysql_result($d_sum,0);
 			}
-		$costremain=$costlimit-$sum;
+		/* Iterate over any sub-budgets */
+		$subsum=0;
+		$d_bud=mysql_query("SELECT costlimit FROM orderbudget WHERE overbudget_id='$budid';");
+		while($bud=mysql_fetch_array($d_bud,MYSQL_ASSOC)){
+			$subsum+=$bud['costlimit'];
+			}
+		$costremain=$costlimit-$sum-$subsum;
 		}
 	else{
 		$costremain='';

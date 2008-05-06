@@ -16,7 +16,11 @@ $perms=array('r'=>1,'w'=>1,'x'=>0);
 $wusers=(array)list_budget_users($budid,$perms);
 $tab=1;
 
-three_buttonmenu();
+$extrabuttons=array();
+if($Budget['overbudid_db']==0){
+	$extrabuttons['newbudget']=array('name'=>'current','value'=>'new_budget.php');
+	}
+three_buttonmenu($extrabuttons,$book);
 ?>
   <div id="heading">
 	<label><?php print_string('budget',$book); ?></label>
@@ -27,13 +31,22 @@ three_buttonmenu();
 	<form name="formtoprocess" id="formtoprocess" method="post"
 	  action="<?php print $host; ?>">
 
-	  <fieldset class="left">
+	  <fieldset class="left divgroup">
 		<div class="center">
 		  <label for="<?php print $Budget['Limit']['label'];?>">
 			<?php print_string($Budget['Limit']['label'],$book);?>
 		  </label>
 		  <?php $tab=xmlelement_input($Budget['Limit'],'',$tab,'admin');?>
 		</div>
+
+		<div class="center">
+		<label for="<?php print $Budget['Name']['label'];?>">
+		  <?php print_string($Budget['Name']['label'],$book);?>
+		</label>
+		  <?php	$tab=xmlelement_input($Budget['Name'],'',$tab,'admin');?>
+		</div>
+
+
 	  </fieldset>
 
 
@@ -96,7 +109,7 @@ three_buttonmenu();
 		  <td>
 			<div class="center">
 <?php 
-		$listlabel='add';
+		$listlabel='allow';
 		$listname='xuid';
 		$liststyle='width:65%;';
 		$listvaluefield='uid';
@@ -111,7 +124,7 @@ three_buttonmenu();
 		  <td>
 			<div class="center">
 <?php 
-		$listlabel='add';
+		$listlabel='allow';
 		$listname='wuid';
 		$liststyle='width:65%;';
 		$listvaluefield='uid';
