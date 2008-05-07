@@ -1048,6 +1048,7 @@ function getEnumArray($field_name){
 
 	if(file_exists('../schoolarrays.php')){include('../schoolarrays.php');}
 
+	if(!isset($$field_name)){trigger_error('Not in enum: '.$fieldname,E_USER_WARNING);}
 	return $$field_name;
 	}
 

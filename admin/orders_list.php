@@ -145,11 +145,9 @@ if($budid!=-1){
 ?>
 				<p>
 				  <label><?php print_string($Action['Category']['value'],$book);?></label>
-				  <span title="<?php print $Invoice[''][''];?>">
 					<?php print ' '.display_date($Action['Date']['value']).' - ';?>
 					<?php print $Action['Teacher']['value']. ' ';?>
 					<?php print $Action['Detail']['value'];?>
-				  </span>
 				</p>
 <?php
 							}
