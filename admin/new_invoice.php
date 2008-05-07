@@ -12,7 +12,7 @@ three_buttonmenu();
 
 $Invoice=fetchInvoice();
 $Order=fetchOrder($ordid);
-
+$Invoice['Currency']['value']=$Order['Currency']['value'];
 ?>
 
   <div id="heading">
@@ -23,10 +23,16 @@ $Order=fetchOrder($ordid);
   <div class="content">
 	<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
 
-	  <fieldset class="center">
+	  <fieldset class="center divgroup">
 		<div class="center">
-<?php 
-
+<?php
+   	 while(list($index,$Material)=each($Order['Materials']['Material'])){
+	   	print ''.$Material['Detail']['value'].'  &nbsp; (' 
+	 			 .$Material['Quantity']['value']. 
+	  			 ' x '.$Material['Unitcost']['value']. ' '. 
+	   			 displayEnum($Order['Currency']['value'],$Order['Currency']['field_db']). 
+	   			 ')<br />';
+		}
 ?>
 		</div>
 	  </fieldset>

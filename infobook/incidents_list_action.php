@@ -48,7 +48,7 @@ include('scripts/sub_action.php');
 		$fromaddress='ClaSS';
 
 		$recipients=list_sid_responsible_users($sid,$bid);
-		if($recipients and $CFG->emailoff!='yes' and $CFG->emailincidents=='yes'){
+		if($recipients and $CFG->emailoff!='yes' and $yid>6 and $CFG->emailincidents=='yes'){
 			if(sizeof($recipients)>0){
 				foreach($recipients as $index => $recipient){
 					$recipient['email']=strtolower($recipient['email']);

@@ -119,7 +119,6 @@ function list_orders($ordernumber='%',$orderstatus='%'){
 			if(mysql_num_rows($d_a)>0){
 				$action=mysql_result($d_a,0);
 				if($action==$orderstatus){$orders[]=$order;}
-				trigger_error($orderstatus.': '.$action,E_USER_WARNING);
 				}
 			else{
 				if($orderstatus==0){$orders[]=$order;}
@@ -214,9 +213,15 @@ function fetchOrder($ordid='-1'){
 		$Action['Category']=array('label' => 'cateogry', 
 								  'value_db' => ''.$action['action'],
 								  'value' => ''.$status);
+		if($action['invoice_id']!=0){
+			$Action['Invoice']=fetchInvoice($action['invoice_id']);
+			}
 		$Actions['Action'][]=$Action;
 		}
 	$Order['Actions']=(array)$Actions;
+	/* The last action's status establishes the current status of the
+	 * order. 
+	 */
 	$Order['Status']=array('label' => 'status',
 						   'value' => ''.$status
 						   );
@@ -464,13 +469,13 @@ function get_budget_current($budid=-1){
 		$sum=0;
 		$costlimit=mysql_result($d_bud,0);
 		while(list($currency,$rate)=each($currencyrates)){
-			$d_sum=mysql_query("SELECT SUM(totalcost) FROM
+			$d_sum=mysql_query("SELECT SUM(debitcost) FROM
 				orderinvoice JOIN orderaction ON
 				orderinvoice.id=orderaction.invoice_id WHERE
 				orderaction.action='3' AND
 				orderaction.order_id=ANY(SELECT id FROM orderorder
 				WHERE orderorder.budget_id='$budid' AND
-				orderorder.currency='$currency');");
+				orderinvoice.currency='$currency');");
 			$sum+=$rate*mysql_result($d_sum,0);
 			}
 		/* Iterate over any sub-budgets */
@@ -498,40 +503,55 @@ function fetchInvoice($invid='-1'){
 	$Invoice=array();
 	$Invoice['id_db']=$invid;
    	$Invoice['Reference']=array('label' => 'reference', 
-						  'inputtype'=> 'required',
-						  'table_db' => 'orderinvoice', 
-						  'field_db' => 'reference',
-						  'type_db' => 'varchar(40)', 
-						  'value' => ''.$inv['reference']
-						  );
+								'inputtype'=> 'required',
+								'table_db' => 'orderinvoice', 
+								'field_db' => 'reference',
+								'type_db' => 'varchar(40)', 
+								'value' => ''.$inv['reference']
+								);
    	$Invoice['DeliveryCost']=array('label' => 'deliverycost', 
-						   'inputtype'=> 'required',
-						   'table_db' => 'orderinvoice', 
-						   'field_db' => 'deliverycost',
-						   'type_db' => 'decimal', 
-						   'value' => ''.$inv['deliverycost']
-						   );
+								   //'inputtype'=> 'required',
+								   'table_db' => 'orderinvoice', 
+								   'field_db' => 'deliverycost',
+								   'type_db' => 'decimal', 
+								   'value' => ''.$inv['deliverycost']
+								   );
    	$Invoice['TaxCost']=array('label' => 'tax', 
-						   'inputtype'=> 'required',
-						   'table_db' => 'orderinvoice', 
-						   'field_db' => 'taxcost',
-						   'type_db' => 'decimal', 
-						   'value' => ''.$inv['taxcost']
-						   );
+							  //'inputtype'=> 'required',
+							  'table_db' => 'orderinvoice', 
+							  'field_db' => 'taxcost',
+							  'type_db' => 'decimal', 
+							  'value' => ''.$inv['taxcost']
+							  );
    	$Invoice['DiscountCost']=array('label' => 'discount', 
-						   'inputtype'=> 'required',
-						   'table_db' => 'orderinvoice', 
-						   'field_db' => 'discountcost',
-						   'type_db' => 'decimal', 
-						   'value' => ''.$inv['deliverycost']
+								   //'inputtype'=> 'required',
+								   'table_db' => 'orderinvoice', 
+								   'field_db' => 'discountcost',
+								   'type_db' => 'decimal', 
+								   'value' => ''.$inv['deliverycost']
 						   );
    	$Invoice['TotalCost']=array('label' => 'total', 
-						   'inputtype'=> 'required',
-						   'table_db' => 'orderinvoice', 
-						   'field_db' => 'totalcost',
-						   'type_db' => 'decimal', 
-						   'value' => ''.$inv['totalcost']
-						   );
+								//'inputtype'=> 'required',
+								'table_db' => 'orderinvoice', 
+								'field_db' => 'totalcost',
+								'type_db' => 'decimal', 
+								'value' => ''.$inv['totalcost']
+								);
+   	$Invoice['DebitCost']=array('label' => 'totalinvoiced', 
+								'inputtype'=> 'required',
+								'table_db' => 'orderinvoice', 
+								'field_db' => 'debitcost',
+								'type_db' => 'decimal', 
+								'value' => ''.$inv['debitcost']
+								);
+   	$Invoice['Currency']=array('label' => 'currency', 
+							   'inputtype'=> 'required',
+							   'table_db' => 'orderinvoice', 
+							   'field_db' => 'currency',
+							   'type_db' => 'enum', 
+							   'default_value' => '0',
+							   'value' => ''.$inv['currency']
+							   );
 	return $Invoice;
 	}
 

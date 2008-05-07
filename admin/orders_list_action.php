@@ -26,16 +26,15 @@ if($sub=='edit'){
 	$action='new_order.php';
 	}
 elseif($sub=='authorise'){
-	$d_s=mysql_query("SELECT supplier_id FROM orderorder WHERE id='$ordid';");
-	$supid=mysql_result($d_s,0);
-	if($supid==0){
-		/*Check if this is just pettycash we are authorising and if so
-			it simply needs to be closed.*/
-		$orderaction=5;
-		}
-	else{
-		$orderaction=1;
-		}
+	/* Check if this is just pettycash or some other non-supplier
+	 * who we are authorising and if so it simply needs to be closed.
+	 */
+	$d_s=mysql_query("SELECT ordersupplier.specialaction FROM ordersupplier JOIN
+					orderorder ON orderorder.supplier_id=ordersupplier.id 
+					WHERE orderorder.id='$ordid';");
+	$special=mysql_result($d_s,0);
+	if($special==1){$orderaction=5;}
+	else{$orderaction=1;}
 	}
 elseif($sub=='place'){
 	$orderaction=2;
@@ -57,8 +56,8 @@ if(isset($orderaction)){
 		action='$orderaction', teacher_id='$tid'");
 	$entryn=mysql_insert_id();
 
-	$result[]=get_string('order',$book).': '. 
-			get_string(displayEnum($orderaction,'action'),$book);
+	//	$result[]=get_string('order',$book).': '. 
+	//		get_string(displayEnum($orderaction,'action'),$book);
 	}
 
 

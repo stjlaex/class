@@ -95,15 +95,24 @@ if($budid!=-1){
 			<td colspan="<?php print $colspan;?>">
 				<p>
 <?php
+				 $sumcost=0;
 				 while(list($index,$Material)=each($Order['Materials']['Material'])){
-					 print ''.$Material['Detail']['value'].' - ' 
+					 print ''.$Material['Detail']['value'].' &nbsp; (' 
 					 .$Material['Quantity']['value']. 
-					 ' ('.$Material['Unitcost']['value']. ' '. 
+					 ' x '. $Material['Unitcost']['value']. ' '. 
 					 displayEnum($Order['Currency']['value'],$Order['Currency']['field_db']). 
 					 ')<br />';
+					 $sumcost+=$Material['Quantity']['value']*$Material['Unitcost']['value'];
 					}
 ?>
 				</p>
+				<div class="center nolite">
+<?php
+				 print 'Projected total cost = '.$sumcost. 
+				   ' '.displayEnum($Order['Currency']['value'],$Order['Currency']['field_db']);
+?>
+				</div>
+
 <?php
 					/* Once an order is authorised it is too late to amend it*/
 					if($status=='lodged' and $perms['w']==1){
@@ -119,14 +128,31 @@ if($budid!=-1){
 <?php
 				if(sizeof($Order['Actions'])>0){
 					while(list($index,$Action)=each($Order['Actions']['Action'])){
+						if($Action['Category']['value_db']==3){
+							$Invoice=$Action['Invoice'];
+?>
+				<div class="center divgroup">
+				  <span title="<?php print $Invoice['DebitCost']['value']. 
+		   ' '. displayEnum($Invoice['Currency']['value'],$Invoice['Currency']['field_db']);?>">
+					<?php print get_string('invoice','admin').': '.$Invoice['Reference']['value'].' '.display_date($Action['Date']['value']).' - ';?>
+					<?php print $Action['Teacher']['value']. ' ';?>
+					<?php print $Action['Detail']['value'];?>
+				  </span>
+				</div>
+<?php
+							}
+						else{
 ?>
 				<p>
 				  <label><?php print_string($Action['Category']['value'],$book);?></label>
-				  <?php print ' '.display_date($Action['Date']['value']).' - ';?>
-				  <?php print $Action['Teacher']['value']. ' ';?>
-				  <?php print $Action['Detail']['value'];?>
+				  <span title="<?php print $Invoice[''][''];?>">
+					<?php print ' '.display_date($Action['Date']['value']).' - ';?>
+					<?php print $Action['Teacher']['value']. ' ';?>
+					<?php print $Action['Detail']['value'];?>
+				  </span>
 				</p>
 <?php
+							}
 						}
 					}
 				if($status!='closed'){

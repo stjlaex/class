@@ -34,6 +34,7 @@ CREATE TABLE ordersupplier (
 	phonenumber2	varchar(22) not null default '',
 	phonenumber3	varchar(22) not null default '',
 	address_id		int unsigned not null default '0',
+	specialaction	enum('0','1') not null default '0',
 	inactive		enum('0','1') not null default '0',
 	primary key (id)
 );");
@@ -67,6 +68,8 @@ CREATE TABLE orderinvoice (
 	taxcost			decimal(10,2) unsigned not null default '0',
 	discountcost	decimal(10,2) unsigned not null default '0',
 	totalcost		decimal(10,2) unsigned not null default '0',
+	debitcost		decimal(10,2) unsigned not null default '0',
+	currency		enum('0','1','2','3','4') not null,
    	primary key		(id)
 );");
 ?>

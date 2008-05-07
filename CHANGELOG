@@ -1,10 +1,16 @@
-Version ClaSS-0.8.47 release (2008/05/12)
+Version ClaSS-0.8.47 release (2008/05/07)
 -----------------------------------------
 
 Implemented sub-budgets as a "New budget" call from the
 order_limit.php page, and the costlimits of sub-budgets are tallied by
 the get_balance_ functions. NB. This does not allow for
 sub-sub-budgets!
+
+Added a specialaction field to the ordersupplier table to distinguish
+non-suppliers like petty cash who bypass the delivery and invoice
+actions.
+
+The order invoicetable has ben given currency and debit cost fields.
 
 
 

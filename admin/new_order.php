@@ -1,5 +1,6 @@
 <?php
 /**									new_order.php
+ *
  */
 
 $action='new_order_action.php';
@@ -13,6 +14,7 @@ $budid=$_POST['budid'];
 $Budget=fetchBudget($budid);
 $Order=fetchOrder($ordid);
 $Materialblank=fetchMaterial();
+$perms=get_budget_perms($budid);
 
 three_buttonmenu();
 ?>
@@ -35,23 +37,23 @@ three_buttonmenu();
 		  <tr>
 			<td>
 <?php
-		$d_sup=mysql_query("SELECT id, name FROM ordersupplier WHERE inactive='0';");
+		  /* The specialaction=1 is for suppliers who are probably not
+		   * 'suppliers' ie. petty cash or photocopy and which will bypass
+		   * the action tracking for deilvery and invoices. But still
+		   * need to be authorised.
+		   */
+		if($perms['x']==1 or $_SESSION['role']=='office'){$special='%';}
+		else{$special=0;}
+		$d_sup=mysql_query("SELECT id, name FROM ordersupplier WHERE
+						inactive='0' AND specialaction LIKE '$special' ORDER
+						BY specialaction, name;");
 		$listlabel='supplier';
 		$selsupid=$Order['Supplier']['id_db'];
 		$listname='supid';
+		$required='yes';
 		include('scripts/set_list_vars.php');
 		list_select_db($d_sup,$listoptions,$book);
 		unset($listoptions);
-?>
-			</td>
-		  </tr>
-		  <tr>
-			<td>
-<?php
-$checkcaption='Petty cash?';
-$checkname='pettycash';
-if($Order['Supplier']['id_db']==0){$checkchoice='yes';}
-include('scripts/check_yesno.php');
 ?>
 			</td>
 		  </tr>

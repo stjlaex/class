@@ -417,24 +417,24 @@ div.content fieldset.listmenu, div.content fieldset.listmenu div {
 	background-color:#eeeeee;
 	}
 /*fade to gray*/
-.listmenu tr.lowlite td, .listmenu td.lowlite, tr.lowlite a { 
+.listmenu tr.lowlite td, .listmenu td.lowlite, tr.lowlite a, .lowlite { 
     color:#aaaaaa;
 	}
-.listmenu tr.nolite td, .listmenu td.nolite { 
+.listmenu tr.nolite td, .listmenu td.nolite, .nolite { 
     background-color:#eeeeee;
 	}
 /*two shades of red*/
-.listmenu tr.hilite td, .listmenu td.hilite, tr.hilite a { 
+.listmenu tr.hilite td, .listmenu td.hilite, tr.hilite a, .hilite { 
     background-color:#ff6600;
 	}
-.listmenu tr.midlite td, .listmenu td.midlite { 
+.listmenu tr.midlite td, .listmenu td.midlite, .midlite { 
     background-color:#ff9966;
 	}
 /*two shades of green*/
-.listmenu tr.golite td, .listmenu td.golite { 
+.listmenu tr.golite td, .listmenu td.golite, .golite { 
     background-color:#669900;
 	}
-.listmenu tr.gomidlite td, .listmenu td.gomidlite { 
+.listmenu tr.gomidlite td, .listmenu td.gomidlite, .gomidlite { 
     background-color:#66cc66;
 	}
 /*handy for checkboxes inside a table*/
@@ -480,10 +480,13 @@ tr.hidden {
 tr.revealed td { 
 	background-color:#999999;
 	}
+tr.revealed p, tr.revealed div { 
+    margin:0;
+    padding:3px;
+	}
 tr.revealed p { 
 	background-color:#ffffff;
     margin-left:2px;
-    padding:2px;
     width:80%;
 	}
 td.hidden { 

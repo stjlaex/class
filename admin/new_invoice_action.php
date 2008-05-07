@@ -15,15 +15,13 @@ if($sub=='Submit'){
 
 	$yearcode=-1;
 	$Invoice=fetchInvoice();
-	mysql_query("INSERT INTO orderinvoice SET totalcost='';");
+	mysql_query("INSERT INTO orderinvoice SET debitcost='';");
 	$invid=mysql_insert_id();
 	mysql_query("UPDATE orderaction SET invoice_id='$invid' WHERE
 					order_id='$ordid' AND entryn='$entryn';");
-	trigger_error($ordid.' entry:'.$entryn.mysql_error(),E_USER_WARNING);
 	reset($Invoice);
 	while(list($index,$val)=each($Invoice)){
 		if(isset($val['value']) and is_array($val) and isset($val['table_db'])){
-			//trigger_error(''.$val['value'].''.$val['field_db'],E_USER_WARNING);
 			$field=$val['field_db'];
 			$inname=$field;
 			$inval=clean_text($_POST[$inname]);

@@ -8,8 +8,6 @@ if(isset($_POST['ordid'])){$ordid=$_POST['ordid'];}else{$ordid=-1;}
 $budid=$_POST['budid'];
 $maxmatn=$_POST['matn'];
 $supid=$_POST['supid'];
-if($_POST['pettycash0']=='yes'){$supid=0;}
-trigger_error($_POST['pettycash'],E_USER_WARNING);
 $budgetyear=$_POST['budgetyear'];
 $action_post_vars=array('budid','budgetyear');
 
