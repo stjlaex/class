@@ -65,8 +65,7 @@ three_buttonmenu();
 			 <td><input pattern="truealphanumeric"
 				type="password" id="Emailpasswd" name="emailpasswd" 
 				maxlength="32" style="width:20%;" 
-				tabindex="<?php print $tab++;?>" 
-				value="<?php print $user['emailpasswd'];?>" /></td>
+				tabindex="<?php print $tab++;?>" /></td>
 		  </tr>
 
 		</table>

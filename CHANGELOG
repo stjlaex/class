@@ -1,4 +1,4 @@
-Version ClaSS-0.8.47 release (2008/05/07)
+Version ClaSS-0.8.47 release (2008/05/08)
 -----------------------------------------
 
 Implemented sub-budgets as a "New budget" call from the
@@ -10,8 +10,15 @@ Added a specialaction field to the ordersupplier table to distinguish
 non-suppliers like petty cash who bypass the delivery and invoice
 actions.
 
-The order invoicetable has ben given currency and debit cost fields.
+The orderinvoice table has ben given currency and debitcost fields,
+the latter used for charging against the budget exclusively, the other
+cost fields are optionaly and purely for information only.
 
+Bugfix to the new_staff.php page in the EntryBook which was producing
+a fatal error in PHP5.
+
+Bugfix to the install process which was failing to create the
+categorydef table.
 
 
 Version ClaSS-0.8.46 release (2008/05/05)

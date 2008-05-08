@@ -1,4 +1,4 @@
-This is the INSTALL README for ClaSS-0.8 (last updated 2007/08/04)
+This is the INSTALL README for ClaSS-0.8 (last updated 2008/05/08)
 
 For additional help and advice refer to the 
 ClaSS homepage: http://www.laex.org/class/ 
@@ -67,6 +67,17 @@ top-level files.
 
 (1.4) Edit school.php, following the in-line comments, to make it
 relevant to your installation.
+
+(1.5) To optimise local php and apache settings for the class
+directory there is a .htaccess file provided to get you started. You
+will need "AllowOverride all" set in your apache config file for the
+htaccess file to work. However, htaccess files are not themselves
+optimal and if you have full access to your master apache server files
+then its recommended to include the options from the htaccess file
+within a <Directory> section in your main config file and set
+"AllowOverride none". For Apache2 you'll find your config files in
+/et/apache2/site-available. For further guidance:
+http://httpd.apache.org/docs/1.3/howto/htaccess.html
 
 ------------------------------ 
 

@@ -1,0 +1,7 @@
+AddType text/xml xml xsl
+php_flag register_globals 0
+php_value default_charset utf-8
+php_flag display_errors off
+php_value error_reporting 7
+Options -Indexes
+
