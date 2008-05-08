@@ -87,7 +87,7 @@ if($sub=='Submit'){
 				$field=$val['field_db'];
 				$inname=$field;
 				$inval=clean_text($_POST[$inname]);
-				if($val['table_db']=='orderbudget'){
+				if($val['table_db']=='orderbudget' and $field!='name'){
 					mysql_query("UPDATE orderbudget SET $field='$inval' WHERE id='$budid';");
 					}
 				}

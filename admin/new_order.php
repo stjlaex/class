@@ -9,10 +9,16 @@ $action_post_vars=array('budid');
 include('scripts/sub_action.php');
 
 if(isset($_POST['ordid'])){$ordid=$_POST['ordid'];}else{$ordid=-1;}
-$budgetyear=$_POST['budgetyear'];
-$budid=$_POST['budid'];
-$Budget=fetchBudget($budid);
 $Order=fetchOrder($ordid);
+if($ordid==-1){
+	$budid=$_POST['budid'];
+	}
+else{
+	/* Editing an existing order.*/
+	$budid=$Order['Budget']['value_db'];
+	}
+$Budget=fetchBudget($budid);
+$budgetyear=get_budgetyear($Budget['YearCode']['value']);
 $Materialblank=fetchMaterial();
 $perms=get_budget_perms($budid);
 

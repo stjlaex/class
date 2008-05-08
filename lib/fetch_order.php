@@ -249,7 +249,8 @@ function fetchMaterials($ordid){
 /**
  *
  */
-function fetchMaterial($mat=array()){
+function fetchMaterial($mat=array('entryn'=>'','materialtype'=>'','detail'=>'', 
+								  'quantity'=>'','unitcost'=>'','refno'=>'')){
 	$Material=array();
 	$Material['id_db']=$mat['entryn'];
    	$Material['Type']=array('label' => 'type',
@@ -563,26 +564,27 @@ function fetchInvoice($invid='-1'){
  * Display can be done using display_curriculumyear()
  *
  */
-function get_budgetyear(){
-	$endmonth='3';/*TODO: should be in school.php*/
-	$thismonth=date('m');
-	$thisyear=date('Y');
-	if($thismonth>$endmonth){$thisyear++;}
+function get_budgetyear($yearcode=''){
+	if($yearcode==''){
+		$endmonth='3';/*TODO: should be in school.php*/
+		$thismonth=date('m');
+		$thisyear=date('Y');
+		if($thismonth>$endmonth){$thisyear++;}
+		}
+	else{
+		$yearcodes=getEnumArray('budgetyearcode');
+		$thisyear=array_search($yearcode,$yearcodes);
+		}
 	return $thisyear;
 	}
 
 /**
  * Where the year works on the same principle as curriculum year ie. 2008 is
- * 2007/08. The codes could be amended to whatever is needed.
+ * 2007/08. The codes could be amended to be as cryptic as needed.
  *
  */
 function get_budgetyearcode($budgetyear){
-	$yearcodes=array('2007' => '07', 
-					 '2008' => '08', 
-					 '2009' => '09', 
-					 '2010' => '10', 
-					 '2011' => '11', 
-					 );
+	$yearcodes=getEnumArray('budgetyearcode');
 	if(array_key_exists($budgetyear,$yearcodes)){$yearcode=$yearcodes[$budgetyear];}
 	else{$yearcode=-1;}
 	return $yearcode;

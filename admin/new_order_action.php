@@ -23,8 +23,7 @@ if($sub=='Submit'){
 		$ordid=mysql_insert_id();
 		}
 	else{
-		mysql_query("UPDATE orderorder SET budget_id='$budid',
-						supplier_id='$supid', teacher_id='$tid' WHERE id='$ordid';");
+		mysql_query("UPDATE orderorder SET supplier_id='$supid' WHERE id='$ordid';");
 		}
 	reset($Order);
 	while(list($index,$val)=each($Order)){

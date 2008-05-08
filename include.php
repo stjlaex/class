@@ -41,7 +41,8 @@ $books['office']=array(
 					   ,'entrybook' => 'EntryBook'
 					   );
 $books['support']=array(
-						'infobook' => 'InfoBook'
+						'admin' => 'Admin'
+						,'infobook' => 'InfoBook'
 						,'register' => 'Register'
 						);
 $books['sen']=array(

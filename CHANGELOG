@@ -20,6 +20,9 @@ a fatal error in PHP5.
 Bugfix to the install process which was failing to create the
 categorydef table.
 
+Bugfix to maxlength setting in xmlelement_input() for decimal and
+integers.
+
 
 Version ClaSS-0.8.46 release (2008/05/05)
 -----------------------------------------

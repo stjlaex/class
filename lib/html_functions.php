@@ -273,10 +273,10 @@ function xmlelement_input($val,$no,$tab,$book){
 <?php
 		}
 	elseif($val['type_db']=='smallint' or $val['type_db']=='decimal'){
-		if($val['type_db']=='decimal'){$pattern='pattern="decimal"';}
-		else{$pattern='pattern="integer"';}
+		if($val['type_db']=='decimal'){$pattern='pattern="decimal"';$maxlength='20';}
+		else{$pattern='pattern="integer"';$maxlength='4';}
 		$field_type=split('[()]', $val['type_db']);
-		$maxlength=$field_type[1];
+		if(isset($field_type[1])){$maxlength=$field_type[1];}
 ?>
 		<input type="text" id="<?php print $val['label'];?>" 
 			<?php print $pattern;?> 

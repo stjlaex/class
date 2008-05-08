@@ -114,8 +114,8 @@ if($budid!=-1){
 				</div>
 
 <?php
-					/* Once an order is authorised it is too late to amend it*/
-					if($status=='lodged' and $perms['w']==1){
+					/* Once an order is placed it is too late to amend it*/
+					if(($status=='lodged' or $status=='authorised') and $perms['w']==1){
 						$actionbuttons['edit']=array('name'=>'process','value'=>'edit');
 						all_extrabuttons($actionbuttons,
 										 $book,'clickToAction(this)','class="rowaction" ');
