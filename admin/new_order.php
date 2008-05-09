@@ -30,7 +30,7 @@ three_buttonmenu();
 	<?php print $Budget['Name']['value'];?>
   </div>
 
-  <div class="content">
+  <div class="content" id="viewcontent">
 	<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
 
 	  <div class="left">

@@ -1,4 +1,4 @@
-Version ClaSS-0.8.47 release (2008/05/08)
+Version ClaSS-0.8.47 release (2008/05/09)
 -----------------------------------------
 
 Implemented sub-budgets as a "New budget" call from the
@@ -22,6 +22,8 @@ categorydef table.
 
 Bugfix to maxlength setting in xmlelement_input() for decimal and
 integers.
+
+
 
 
 Version ClaSS-0.8.46 release (2008/05/05)
@@ -51,6 +53,13 @@ Included login stats under usage_statistics for parents and students
 accessing the eportfolios.
 
 Bugfix to the get_budget_current() function.
+
+Added the commentwriter icon for class teachers in the ReportBook's
+report_reports_list.php.
+
+Allowed for passing different filetypes to export the script.php.
+
+First version of FET compatible timetable export added to Admin.
 
 
 Version ClaSS-0.8.45 release (2008/04/25)

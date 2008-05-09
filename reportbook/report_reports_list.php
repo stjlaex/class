@@ -183,6 +183,7 @@ two_buttonmenu($extrabuttons,$book);
 			$eids=(array)$reportdefs[$index]['eids'];
 		    if(isset($reportdefs[$index]['report']['course_id'])){
 				$crid=$reportdefs[$index]['report']['course_id'];
+				$addcomment=$reportdefs[$index]['report']['addcomment'];
 				$commentcomp=$reportdefs[$index]['report']['commentcomp'];
 				$compstatus=$reportdefs[$index]['report']['component_status'];
 				}
@@ -190,15 +191,17 @@ two_buttonmenu($extrabuttons,$book);
 			$d_subjectclasses=mysql_query("SELECT DISTINCT subject_id, class_id
 					FROM class JOIN cidsid ON cidsid.class_id=class.id
 					WHERE cidsid.student_id='$sid' AND
-					class.course_id='$crid' ORDER BY subject_id");
+					class.course_id='$crid' ORDER BY subject_id;");
 			while($subject=mysql_fetch_array($d_subjectclasses,MYSQL_ASSOC)){
 			    $bid=$subject['subject_id'];
 				$cid=$subject['class_id'];
 				$d_teacher=mysql_query("SELECT teacher_id FROM tidcid
-						WHERE class_id='$cid'");
+						WHERE class_id='$cid';");
 				$reptids=array();
+				$subjectperm['x']=0;
 				while($teacher=mysql_fetch_array($d_teacher)){
-					$reptids[]=$teacher['teacher_id'];
+					$reptids[]=$teacher['teacher_id'];	
+					if($tid==$teacher['teacher_id']){$subjectperm['x']=1;}
 					}
 
 				$components=array();
@@ -224,8 +227,9 @@ two_buttonmenu($extrabuttons,$book);
 							$scoreno+=sizeof($Assessments);
 							}
 						}
-
-					print '<p style="float:left;padding:0 0.5em;margin:0;" title="';
+?>
+			<p title="
+<?php
 				   	while(list($index, $reptid)=each($reptids)){
 						print $reptid.' ';
 						}
@@ -234,15 +238,35 @@ two_buttonmenu($extrabuttons,$book);
 					if(($reportentryno>0 and
 						$commentcomp=='yes' and ($scoreno>0 or $eidno==0)) or 
 						($commentcomp=='no' and $scoreno>0)){
-						print '" class="vspecial">';}
-					else{print '">';}
+						print '" class="reporttable vspecial">';}
+					else{print '" class="reporttable" >';}
 					if($pid!=' '){print $pid;}else{print $bid;}
-					print '</p>';
+					/* This allows year responsibles 
+							and subject teachers to edit the report comments */
+					if($addcomment=='yes' 
+							and ($subjectperm['x']==1 or $yearperm['w']==1)){
+						if($reportentryno==0){$reportentryno=1;$cssclass='class=""';}
+						else{$cssclass='class="special"';}
+						for($en=0;$en<$reportentryno;$en++){
+							$openId=$rid.'-'.$sid.'-'.$bid.'-'.$pid.'-'.$en;
+?>
+			  <a <?php print $cssclass;?> id="icon<?php print $openId;?>">
+				<img class="clicktoedit" name="Write"  
+				  onClick="clickToWriteComment(<?php print
+				  $sid.','.$rid.',\''.$bid.'\',\''.$pid.'\',\''.$en.'\',\''.$openId.'\'';?>);"
+				  />
+			  </a>
+<?php
+							}
+						}
+?>
+			</p>
+<?php
 			   		}
 				}
 			}
-				print '</td>';
 ?>
+			</td>
 		 </tr>
 <?php
 		}

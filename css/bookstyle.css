@@ -196,7 +196,7 @@ fieldset.divgroup div {
     border:0 !important;
 	}
 div.divgroup label, fieldset.divgroup label { 
-	background-color:#666666 !important; 
+	background-color:#666666; 
 	color:#ffffee !important;
 	}
 
@@ -372,8 +372,8 @@ table.listmenu {
 .right .listmenu caption, .right .listmenu legend {
 	padding-right:5%; margin:0 5% 0 70%;
 	}
-.listmenu td label {
-    color:#666666;
+.listmenu td label, .listmenu th label {
+    color:#666666 !important;
 	}
 .listmenu td {
 	border-top:1px solid;
@@ -381,7 +381,8 @@ table.listmenu {
 	background-color:#ffffee;
     padding-left:1%;
 	}
-div.content fieldset.listmenu, div.content fieldset.listmenu div {
+div.content fieldset.listmenu, div.content fieldset.listmenu div,
+	.listmenu td label,  .listmenu th label {
 	background-color:#ffffee;
 	}
 .listmenu .special {

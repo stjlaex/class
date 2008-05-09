@@ -97,7 +97,8 @@ if($budid!=-1){
 <?php
 				 $sumcost=0;
 				 while(list($index,$Material)=each($Order['Materials']['Material'])){
-					 print ''.$Material['Detail']['value'].' &nbsp; (' 
+					 print $Material['Detail']['value'].' &nbsp; - '
+							 .$Material['SupplierReference']['value'].' &nbsp; (' 
 					 .$Material['Quantity']['value']. 
 					 ' x '. $Material['Unitcost']['value']. ' '. 
 					 displayEnum($Order['Currency']['value'],$Order['Currency']['field_db']). 

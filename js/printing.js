@@ -7,7 +7,7 @@ function openFileExport(){
 	printWindow.document.writeln("<meta http-equiv='pragma' content='no-cache'/>");
 	printWindow.document.writeln("<meta http-equiv='Expires' content='0'/>");
 	printWindow.document.writeln("</head>");
-	printWindow.document.writeln("<script type='text/javascript'>function actionpage(){document.location='scripts/export.php'}</script>");
+	printWindow.document.writeln("<script type='text/javascript'>function actionpage(){document.location='scripts/export.php?ftype=csv'}</script>");
 	printWindow.document.writeln("<body onLoad=\"setTimeout('actionpage()', 5000);\">");
 	printWindow.document.writeln("<h3>The CSV file will download shortly.<h2>");
 	printWindow.document.writeln("<h4>Open using your favourtie Spreadsheet.<h4>");
@@ -25,7 +25,7 @@ function openXMLExport(){
 	printWindow.document.writeln("<meta http-equiv='pragma' content='no-cache'/>");
 	printWindow.document.writeln("<meta http-equiv='Expires' content='0'/>");
 	printWindow.document.writeln("</head>");
-	printWindow.document.writeln("<script type='text/javascript'>function actionpage(){document.location='scripts/export_xml.php'}</script>");
+	printWindow.document.writeln("<script type='text/javascript'>function actionpage(){document.location='scripts/export.php?ftype=fet'}</script>");
 	printWindow.document.writeln("<body onLoad=\"setTimeout('actionpage()', 5000);\">");
 	printWindow.document.writeln("<h3>The XML file will download shortly.<h2>");
 	printWindow.document.writeln("<h4>Save to disk.<h4>");

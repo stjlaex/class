@@ -382,26 +382,26 @@ function getMarkPerm($mid, $respons){
 /**
  * 
  */
-function getSubjectPerm($subject, $respons){
+function getSubjectPerm($bid,$respons){
 	$perm['r']=0;
 	$perm['w']=0;
 	$perm['x']=0;
 	$crids=array();
 	for($c=0;$c<sizeof($respons);$c++){
 		$resp=$respons[$c];
-		if($resp['subject_id']==$subject and $resp['course_id']=='%'){
+		if($resp['subject_id']==$bid and $resp['course_id']=='%'){
 			$perm['r']=$resp['r'];
 			$perm['w']=$resp['w'];
 			$perm['x']=$resp['x'];
 			}
 		elseif($resp['course_id']!='%' and
-			   ($resp['subject_id']=='%' or $resp['subject_id']==$subject)){
+			   ($resp['subject_id']=='%' or $resp['subject_id']==$bid)){
 			$crids[$resp['course_id']]=$resp['course_id'];
 			}
 		}
 
 	$d_crid=mysql_query("SELECT DISTINCT course_id 
-							FROM cridbid WHERE subject_id='$subject'");
+							FROM cridbid WHERE subject_id='$bid'");
 	if(sizeof($crids)>=mysql_num_rows($d_crid)){
 		$perm['r']=1;
 		$perm['w']=1;

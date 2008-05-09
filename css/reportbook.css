@@ -16,3 +16,19 @@ div#bookbox {
 .reportcolor legend, .reportcolor caption {
     border-color:#44aaaa;
 	}
+p.reporttable { 
+    float:left;
+    padding:0 6px 0 4px;
+    margin:0;
+	}
+p.reporttable a { 
+    float:left;
+    padding:2px 4px;
+    margin:0;
+	}
+p.reporttable a.vspecial { 
+    background-color:#ffff99;
+	}
+p.reporttable a.special { 
+    background-color:#ffff99;
+	}

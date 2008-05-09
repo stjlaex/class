@@ -168,7 +168,12 @@ function fetchReportDefinition($rid,$selbid='%'){
 				FROM categorydef JOIN ridcatid ON ridcatid.categorydef_id=categorydef.id 
 				WHERE ridcatid.report_id='$rid' AND
 				ridcatid.subject_id='profile'");
-		$report['profile_name']=mysql_result($d_categorydef,0);
+		if(mysql_num_rows($d_categorydef)>0){
+			$report['profile_name']=mysql_result($d_categorydef,0);
+			}
+		else{
+			$report['profile_name']='';
+			}
 		}
 	else{
 		$report['course_name']='';
@@ -316,7 +321,7 @@ function checkReportEntry($rid,$sid,$bid,$pid){
 	$d_reportentry=mysql_query("SELECT entryn
 					FROM reportentry WHERE report_id='$rid' AND
 					student_id='$sid' AND subject_id='$bid' AND
-					component_id='$pid'");
+					component_id='$pid';");
 	return mysql_numrows($d_reportentry);
 	}
 
