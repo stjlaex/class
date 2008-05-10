@@ -222,7 +222,7 @@ function printGenericContent(iFrameName){
 	}
 
 
-// A print function that handles pages designated as printable
+// A pop-up window with info about ClaSS
 function helpPage(){
 	var helpWindow;
 	var helpContent;

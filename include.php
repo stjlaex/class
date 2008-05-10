@@ -79,7 +79,7 @@ $externalbooks['all']=array(
 $externalbooks['admin']=array(
 							  'webmail' => $CFG->webmailtabname
 							  //,'lms' => $CFG->lmstabname
-							  ,'eportfolio' => $CFG->eportfoliotabname
+							  //,'eportfolio' => $CFG->eportfoliotabname
 							  );
 $externalbooks['office']=array(
 							   'webmail' => $CFG->webmailtabname
@@ -87,7 +87,7 @@ $externalbooks['office']=array(
 							   );
 $externalbooks['medical']=array(
 								'webmail' => $CFG->webmailtabname
-								,'eportfolio' => $CFG->eportfoliotabname
+								//,'eportfolio' => $CFG->eportfoliotabname
 								);
 $externalbooks['sen']=array(
 							'webmail' => $CFG->webmailtabname
@@ -95,7 +95,7 @@ $externalbooks['sen']=array(
 							);
 $externalbooks['district']=array(
 								 'webmail' => $CFG->webmailtabname
-								 ,'eportfolio' => $CFG->eportfoliotabname
+								 //,'eportfolio' => $CFG->eportfoliotabname
 								 );
 $externalbooks['support']=array(
 								'webmail' => $CFG->webmailtabname
@@ -104,7 +104,7 @@ $externalbooks['support']=array(
 $externalbooks['teacher']=array(
 								'webmail' => $CFG->webmailtabname
 								//,'lms' => $CFG->lmstabname
-								,'eportfolio' => $CFG->eportfoliotabname
+								//,'eportfolio' => $CFG->eportfoliotabname
 								);
 $books['external']=$externalbooks;
 ?>

@@ -202,7 +202,7 @@ $string['multiplelines']='Records split across multi-lines';
 $string['allow']='Allow';
 $string['totalinvoiced']='Total invoiced';
 $string['invoice']='Invoice';
-$string['']='';
+$string['timetable']='Timetable';
 $string['']='';
 $string['']='';
 ?>
