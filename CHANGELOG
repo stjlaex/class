@@ -23,7 +23,8 @@ categorydef table.
 Bugfix to maxlength setting in xmlelement_input() for decimal and
 integers.
 
-
+Added a starter .htaccess file as part the toplevel directory
+structure in install. Amended the install README to mention this.
 
 
 Version ClaSS-0.8.46 release (2008/05/05)
@@ -118,7 +119,7 @@ relationship, priority, and mailings to match their pre-existing
 relationship.
 
 Annotated contacts with a pop-up note, just a single new field to
-the guardian table (apply the patch!).
+the guardian table (apply the patch!!!).
 
 Added an inactive flag to the ordersupplier table with default '0' being
 active. The orderbudget table has an overbudget_id field to allow for
