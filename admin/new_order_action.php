@@ -6,7 +6,7 @@ $action='orders_list.php';
 $cancel='orders_list.php';
 if(isset($_POST['ordid'])){$ordid=$_POST['ordid'];}else{$ordid=-1;}
 $budid=$_POST['budid'];
-$maxmatn=$_POST['matn'];
+$maxmatn=$_POST['maxmatn'];
 $supid=$_POST['supid'];
 $budgetyear=$_POST['budgetyear'];
 $action_post_vars=array('budid','budgetyear');
@@ -38,7 +38,7 @@ if($sub=='Submit'){
 		}
 
 	$Material=fetchMaterial();
-	for($matn=1;$matn<$maxmatn;$matn++){
+	for($matn=1;$matn<=$maxmatn;$matn++){
 		if(isset($_POST['detail'.$matn]) and $_POST['detail'.$matn]!=''){
 			reset($Material);
 			mysql_query("INSERT INTO ordermaterial SET order_id='$ordid', entryn='$matn';");

@@ -285,7 +285,7 @@ function fetchMaterial($mat=array('entryn'=>'','materialtype'=>'','detail'=>'',
 							  //'inputtype'=> 'required',
 							  'table_db' => 'ordermaterial', 
 							  'field_db' => 'detail',
-							  'type_db' => 'text', 
+							  'type_db' => 'varchar(600)', 
 							  'value' => ''.$mat['detail']
 							  );
 	return $Material;

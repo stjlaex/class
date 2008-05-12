@@ -40,7 +40,7 @@ function fetchStatementBank($crid,$bid,$pid,$stage,$dbstat=''){
 				$ratingname=$grouping['rating_name'];
 
 				if(!isset($nolevels)){
-					/*this will only use one set of levels and even
+					/*TODO: this will only use one set of levels and even
 					worse that of the first group only*/
 					$d_rating=mysql_query("SELECT descriptor, value FROM
 						rating WHERE name='$ratingname' ORDER BY value
@@ -58,12 +58,7 @@ function fetchStatementBank($crid,$bid,$pid,$stage,$dbstat=''){
 				$d_stat=mysql_query("SELECT * FROM statement JOIN gridstid 
 				ON statement.id=gridstid.statement_id WHERE gridstid.grouping_id='$grid';");
 				while($statement=mysql_fetch_array($d_stat,MYSQL_ASSOC)){
-					$Statement=array();
-					$Statement['Value']=$statement['statement_text'];
-					$Statement['Counter']=$statement['counter'];
-					$Statement['Author']=$statement['author'];
-					$Statement['Ability']=$statement['rating_fraction']*$nolevels;
-					$Statements[]=$Statement;
+					$Statements[]=fetchStatement($statement,$nolevels);
 					}
 				}
 			$StatementBank['Area']["$areaid"]['Statements']=$Statements;
@@ -71,6 +66,15 @@ function fetchStatementBank($crid,$bid,$pid,$stage,$dbstat=''){
 			}
 		}
 	return $StatementBank;
+	}
+
+function fetchStatement($statement,$nolevels){
+	$Statement=array();
+	$Statement['Value']=$statement['statement_text'];
+	$Statement['Counter']=$statement['counter'];
+	$Statement['Author']=$statement['author'];
+	$Statement['Ability']=$statement['rating_fraction']*$nolevels;
+	return $Statement;
 	}
 
 function add_statement($new,$dbstat=''){

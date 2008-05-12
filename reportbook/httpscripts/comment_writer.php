@@ -23,16 +23,18 @@ if(){}
 else{
 */
 
+$StatementBank=array();
 $reportdef=fetchReportDefinition($rid);
 if($reportdef['report']['commentlength']=='0'){$commentlength='';}
 else{$commentlength=' maxlength="'.$reportdef['report']['commentlength'].'"';}
 
 $Student=fetchStudent_short($sid);
 $Report['Comments']=fetchReportEntry($reportdef, $sid, $bid, $pid);
-if(sizeof($Report['Comments']['Comment'])==0 or $entryn==sizeof($Report['Comments']['Comment'])){
+if(!isset($Report['Comments']['Comment'])  or sizeof($Report['Comments']['Comment'])==0 
+   or $entryn==sizeof($Report['Comments']['Comment'])){
 	/*This is a fresh comment so can do a few extra things*/
 	$Comment=array('Text'=>array('value'=>''),
-					   'Teacher'=>array('value'=>'ADD NEW ENTRY'));
+				   'Teacher'=>array('value'=>'ADD NEW ENTRY'));
 	$inmust='yes';
 	if($bid=='summary'){
 		$summaries=(array)$reportdef['summaries'];
@@ -43,37 +45,6 @@ if(sizeof($Report['Comments']['Comment'])==0 or $entryn==sizeof($Report['Comment
 				}
 			}
 		}
-	elseif($reportdef['report']['profile_name']=='FS Steps'){
-		$profile_name=$reportdef['report']['profile_name'];
-		$profilepids=(array)list_subject_components($pid,'FS');
-		$profilepids[]=array('id'=>$pid,'name'=>'');
-		while(list($pidindex,$component)=each($profilepids)){
-			$profilepid=$component['id'];
-			/*this is just a hack to work with the FS profile*/
-			/*TODO properly!*/
-			/*This ensures only Reception statements are used for Reception classes*/
-			if($Student['YearGroup']['value']=='0'){$cutoff_grade=3;}
-			else{$cutoff_grade=0;}
-			$d_eidsid=mysql_query("SELECT 
-				assessment.description, assessment.id FROM eidsid JOIN assessment ON
-				assessment.id=eidsid.assessment_id WHERE
-				eidsid.student_id='$sid' AND eidsid.subject_id='$bid'
-				AND eidsid.component_id='$profilepid' AND
-				assessment.profile_name='$profile_name' AND
-				eidsid.date > '2007-09-01' AND eidsid.value > '$cutoff_grade';");
-			$stats=array();
-			while($eidsid=mysql_fetch_array($d_eidsid,MYSQL_ASSOC)){
-				$topic=$eidsid['description'];
-				$d_mark=mysql_query("SELECT comment
-			    FROM mark JOIN eidmid ON
-				mark.id=eidmid.mark_id WHERE
-				mark.component_id='$profilepid' AND
-				mark.def_name='$profile_name' AND
-				topic='$topic';");
-				$Comment['Text']['value'].=' '.mysql_result($d_mark,0);
-				}
-			}
-		}
 	}
 else{
 	/*Re-editing an existing comment.*/
@@ -81,12 +52,60 @@ else{
 	$inmust=$Comment['id_db'];
 	}
 
+/* Now if this report links to an assessment profile, the statement */
+/* bank gets all of the achieved statements. */
+/* TODO: We only have one working profile!*/
+if($reportdef['report']['profile_name']=='FS Steps'){
+		$profile_name=$reportdef['report']['profile_name'];
+		/* This has to iterate over all strands, here called the profilepids,
+		 * for this component $pid. 
+		 */
+		$profilepids=(array)list_subject_components($pid,'FS');
+		$profilepids[]=array('id'=>$pid,'name'=>'');
+		while(list($pidindex,$component)=each($profilepids)){
+			$profilepid=$component['id'];
+			/* This cutoff grade is just a hack to work with the FS profile*/
+			/*TODO properly!*/
+			/*This ensures only Reception statements are used for Reception classes*/
+			if($Student['YearGroup']['value']=='0'){$cutoff_grade=3;}
+			else{$cutoff_grade=0;}
+			$fromdate='2008-02-15';
+			$d_eidsid=mysql_query("SELECT 
+				assessment.description, assessment.id FROM eidsid JOIN assessment ON
+				assessment.id=eidsid.assessment_id WHERE
+				eidsid.student_id='$sid' AND eidsid.subject_id='$bid'
+				AND eidsid.component_id='$profilepid' AND
+				assessment.profile_name='$profile_name' AND
+				eidsid.date > '$fromdate' AND eidsid.value > '$cutoff_grade';");
+			$stats=array();
+			while($eidsid=mysql_fetch_array($d_eidsid,MYSQL_ASSOC)){
+				$topic=$eidsid['description'];
+				$d_mark=mysql_query("SELECT comment
+					FROM mark JOIN eidmid ON mark.id=eidmid.mark_id WHERE
+					mark.component_id='$profilepid' AND
+					mark.def_name='$profile_name' AND topic='$topic';");
+				$statement=array('statement_text'=>mysql_result($d_mark,0),
+								 'counter'=>0,
+								 'author'=>'ClaSS',
+								 'rating_fraction'=>1);
+				$Statements[]=fetchStatement($statement);
+				//$Comment['Text']['value'].=' '.mysql_result($d_mark,0);
+				}
+			}
+		$StatementBank['Area'][$profilepid]['Statements']=$Statements;
+		$StatementBank['Area'][$profilepid]['Name']='FS Profile: '.$profilepid;
+		$StatementBank['Area'][$profilepid]['Levels']=array();
+		}
+
+/* Now if the connection to the statementbank db is turned on then */
+/* grab a set of statements. */
 $dbstat=connect_statementbank();
 if($dbstat!=''){
 	$stage='';
-	$StatementBank=fetchStatementBank($reportdef['report']['course_id'],$bid,$pid,$stage,$dbstat);
+	$Bank=fetchStatementBank($reportdef['report']['course_id'],$bid,$pid,$stage,$dbstat);
+	$StatementBank=$Bank+$StatementBank;
 	}
-if(isset($StatementBank) and sizeof($StatementBank['Area'])>0){
+if(isset($StatementBank['Area']) and sizeof($StatementBank['Area'])>0){
 	$commentheight=180;
 	}
 else{

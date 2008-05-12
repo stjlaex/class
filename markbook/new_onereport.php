@@ -31,7 +31,7 @@
 		print $viewtable[$row]['forename'].$viewtable[$row]['preferredforename'].' (';
 		print $viewtable[$row]['form_id'].')</td>';
 
-		reset($AssDefs);
+//		reset($AssDefs);
 //		while(list($index,$AssDef)=each($AssDefs)){
 			reset($inasses);
 			while(list($index,$inass)=each($inasses)){

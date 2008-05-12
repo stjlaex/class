@@ -5,7 +5,7 @@
 
 $action='new_order_action.php';
 $action_post_vars=array('budid');
-
+$maxmatn=12;
 include('scripts/sub_action.php');
 
 if(isset($_POST['ordid'])){$ordid=$_POST['ordid'];}else{$ordid=-1;}
@@ -77,8 +77,9 @@ three_buttonmenu();
 <?php
 
 		$materialno=sizeof($Order['Materials']['Material']);
-		if($materialno<8){
-			for($matn=$materialno;$matn<8;$matn++){
+		if($materialno>($maxmatn-2)){$maxmatn=$materialno+12;}
+		if($materialno<$maxmatn){
+			for($matn=$materialno;$matn<$maxmatn;$matn++){
 				$Order['Materials']['Material'][]=$Materialblank;
 				}
 			  }
@@ -103,7 +104,7 @@ three_buttonmenu();
 	    <input type="hidden" name="budgetyear" value="<?php print $budgetyear;?>">
 	    <input type="hidden" name="budid" value="<?php print $budid;?>">
 	    <input type="hidden" name="ordid" value="<?php print $ordid;?>">
-	    <input type="hidden" name="matn" value="<?php print $matn;?>">
+	    <input type="hidden" name="maxmatn" value="<?php print $maxmatn;?>">
 	    <input type="hidden" name="current" value="<?php print $action;?>">
 		<input type="hidden" name="cancel" value="<?php print $choice;?>">
 		<input type="hidden" name="choice" value="<?php print $choice;?>">

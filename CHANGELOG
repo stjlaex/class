@@ -1,3 +1,14 @@
+Version ClaSS-0.8.48 release (2008/05/12)
+-----------------------------------------
+
+Allowed the number of material entries to mutiply as they get filled on
+new_order.php.
+
+In th ecommentwriter the profile statements are now added to the
+statementbank instead of straight into the comment.
+
+
+
 Version ClaSS-0.8.47 release (2008/05/09)
 -----------------------------------------
 
