@@ -21,13 +21,6 @@ print '<?xml version="1.0" encoding="utf-8"?'.'>';
 </head>
 <body onload="loadLogin('cover');">
 
-<div id="sitelogo" class="fixed">
-	<img name="sitelogo" src="images/orangelogo.png"  onclick="loadBook('')"/>
-</div>
-<div id="sitestatus" class="fixed">
-	<img name="sitelogo" src="images/roller.gif"/>
-</div>
-
 <div id="navtabs">
 	<div class="booktabs">
 		<ul>
@@ -37,12 +30,8 @@ print '<?xml version="1.0" encoding="utf-8"?'.'>';
 </div>
 			
 <div id="logbook">
-	<form  id="loginchoice" name="workingas" method="post" action="logbook.php" target="viewlogbook">
-	</form>
 	<form  id="langchoice" name="langpref" method="post" action="logbook.php" target="viewlogbook">
 	</form>
-	<div id="sidebuttons">
-	</div>
 </div>
 
 <iframe id="viewlogbook" name="viewlogbook" class="coverframe" scrolling="no"></iframe>

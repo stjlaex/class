@@ -24,9 +24,21 @@ print '<?xml version="1.0" encoding="utf-8"?'.'>';
 </div>
 
 <div id="branded">
+<?php
+if($CFG->support=='classforschools.com'){
+?>
 	<img onClick="window.open('http://classforschools.com','CfS');"
 		src="../images/cfs-banner-blue.png" style="height:22px"
-		alt="ClaSSforSchools.com" />
+		alt="ClaSSforSchools.com" title="ClaSSforSchools.com support" />
+<?php
+	}
+else{
+?>
+			<img onclick="window.open('http://laex.org/class','ClaSS');"
+				alt="ClaSS" title="ClaSS homepage" src="images/orangelogo.png" />
+<?php
+	}
+?>
 </div>
 
 <div id="schoollogo">

@@ -447,7 +447,7 @@ function get_budget_projected($budid=-1){
 		while($bud=mysql_fetch_array($d_bud,MYSQL_ASSOC)){
 			$subsum+=$bud['costlimit'];
 			}
-		$costremain=$costlimit-$sum-$subsum;
+		$costremain=round($costlimit-$sum-$subsum,2);
 		}
 	else{
 		$costremain='';
@@ -485,7 +485,7 @@ function get_budget_current($budid=-1){
 		while($bud=mysql_fetch_array($d_bud,MYSQL_ASSOC)){
 			$subsum+=$bud['costlimit'];
 			}
-		$costremain=$costlimit-$sum-$subsum;
+		$costremain=round($costlimit-$sum-$subsum,2);
 		}
 	else{
 		$costremain='';

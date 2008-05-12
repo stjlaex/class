@@ -9,15 +9,17 @@
   <div style="visibility:hidden;" id="hiddenloginlabel">
 	<?php print $tid;?>
   </div>
-  <div style="visibility:hidden;" id="hiddensidebuttons">
-	  <button onClick="helpPage();"  title="<?php print_string('help');?>">
-		<img src="images/helper.png" alt="<?php print_string('help');?>" /></button>
-	  <button onClick="printGenericContent();"  title="<?php print_string('print');?>">
-		<img src="images/printer.png" alt="<?php print_string('print');?>" /></button>
-  </div>
   <div style="visibility:hidden;" id="hiddenlogbook">
 	<div id="logbookstripe" class="logbook"></div>
+	<div id="sitelogo">
+			<img onclick="viewBook('aboutbook')"
+			  name="sitelogo" src="images/orangelogo.png" />
+	</div>
+	<div id="sitestatus" class="fixed">
+	  <img name="sitelogo" src="images/roller.gif"/>
+	</div>
 	<div id="loginworking">
+	<form  id="loginchoice" name="workingas" method="post" action="logbook.php" target="viewlogbook">
 	  <select name="new_r" size="1" onChange="document.workingas.submit();">
 		<option value="-1" 
 <?php  if($r==-1){print 'selected="selected" ';} ?>
@@ -33,6 +35,13 @@
 		}
 ?>
 	  </select>
+	</form>
+	</div>
+	<div id="sidebuttons">
+	  <button onClick="loadBook('');"  title="<?php print_string('reload');?>">
+		<img src="images/helper.png" alt="<?php print_string('reload');?>" /></button>
+	  <button onClick="printGenericContent();" title="<?php print_string('print');?>">
+		<img src="images/printer.png" alt="<?php print_string('print');?>" /></button>
 	</div>
   </div>
 
@@ -80,8 +89,8 @@
 		<label id="loginlabel">
 		</label>
 		<li id="logbooktab"><p class="logbook" onclick="logOut();">LogOut</p></li>
-		<li id="aboutbooktab"><p id="currentbook" class="aboutbook"
-			onclick="viewBook(this.getAttribute('class'))">About</p></li>
+		<li id="aboutbooktab" style="display:none;"><p id="currentbook" class="aboutbook">About</p>
+		</li>
 <?php
 		foreach($showtabs as $bookhost=>$bookname){
 ?>

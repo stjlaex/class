@@ -7,6 +7,10 @@ new_order.php.
 In th ecommentwriter the profile statements are now added to the
 statementbank instead of straight into the comment.
 
+A reorganisation of the logbook to incorporate both sidebuttons and
+the sitelogo. The AboutBook tabis now hidden and the sitelogo loads it
+instead. All preparation for 1.0 overhaul.
+
 
 
 Version ClaSS-0.8.47 release (2008/05/09)

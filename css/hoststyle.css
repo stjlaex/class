@@ -39,7 +39,7 @@ div#currentbook {
 div#logbook {
 	position:absolute; left:0%; top:4.4%; width:18%; height:95.15%; 
 	border:0; padding:0;
-	-moz-border-radius:0 0 0 18%;
+	/* -moz-border-radius:0 0 0 18%; */
     background-color:#444444;
 	}
 /***************************************************************************/
@@ -316,23 +316,27 @@ button {
 /***************************************************************************/
 /* the rest of the sidebar - which comes under the logbook*/
 
-/*sitelogo and sitestatus are interchangable div elements in the bottom left*/
-#sitelogo, #sitestatus {
-	position:absolute; left:18px; bottom:10px;
+/*sitethrobber and sitestatus are interchangable div elements*/
+#sitethrobber, #sitestatus {
+	position:absolute; 
+    top:1%; left:7%; width:34%;
+    padding:4px 0 0 0;
+    z-index:100;
 	background-color:#444444;
-    padding:2px;
+    margin:0; border:0;
 	}
-#sitelogo.working, #sitestatus.fixed  {
+#sitethrobber.working, #sitestatus.fixed {
     visibility:hidden;
     z-index:-1000;
 	}
-#sitelogo.fixed, #sitestatus.working {
+#sitethrobber.fixed, #sitestatus.working {
     visibility:visible;
     z-index:500;
 	}
-#sitestatus img { 
-    height:40px;
-    width:40px;
+
+#sitelogo img {
+    width:40%;
+    margin:1% 0 0 1%;
 	}
 
 div#logbookstripe {
@@ -345,7 +349,7 @@ div#logbookstripe {
 	}
 div#loginworking {
 	position:absolute; left:43.5%; top:0%; width:50%;
-    padding:8px 0 0 0;
+    padding:6px 0 0 0;
     z-index:100;
     border-left:3px solid #ffffff;
 	background-color:#eeeeee;
@@ -354,7 +358,7 @@ div#loginworking {
 	}
 div#loginworking select {
     position:relative;
-    margin:0 0 6px 2px;
+    margin:0 0 4px 2px;
 	}
 div#loginlang {
 	position:absolute; left:0%; top:0%; width:65%;
@@ -378,20 +382,20 @@ div#loginlang {
     border-left:3px solid #ffffff;
 	}
 div#sidebuttons {
-	position:absolute; left:1%; width:41%;
-    padding:8px 0 0 0;
+	position:absolute; left:95.5%; top:1%; width:46px;
+    padding: 0;
     z-index:100;
 	background-color:#444444;
     margin:0; border:0;
 	}
 #sidebuttons img { 
 	padding:0; margin:0; border:0;
-	width:20px; height:20px;
+	width:18px; height:18px;
 	}
 #sidebuttons button { 
     float:left;
 	padding:0; margin:0 1px; border:0; 
-	width:22px; height:22px;
+	width:20px; height:20px;
     background-color:#444444;
 	}
 div.hidden {

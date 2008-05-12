@@ -127,7 +127,6 @@ function selerySwitch(servantclass,fieldvalue){
 function loadLogin(page){
 	window.frames["viewlogbook"].location.href="logbook/exit.php";
 	window.frames["viewlogbook"].location.href=page+".php";
-	document.getElementById("sidebuttons").style.zIndex="-100";
 	document.getElementById("viewlogbook").style.zIndex="100";
 	document.getElementById("viewlogbook").focus();
 	}
@@ -136,16 +135,12 @@ function loadLogin(page){
 //  flashscreen is the aboutbook followed after delay by markbook
 function logInSuccess(){
 	document.getElementById("navtabs").innerHTML=viewlogbook.document.getElementById("hiddennavtabs").innerHTML;
-	document.getElementById("loginchoice").innerHTML=viewlogbook.document.getElementById("hiddenlogbook").innerHTML;
-	document.getElementById("sidebuttons").innerHTML=viewlogbook.document.getElementById("hiddensidebuttons").innerHTML;
+	document.getElementById("logbook").innerHTML=viewlogbook.document.getElementById("hiddenlogbook").innerHTML;
 	document.getElementById("loginlabel").innerHTML=viewlogbook.document.getElementById("hiddenloginlabel").innerHTML;
-	document.getElementById("langchoice").innerHTML="";
-	document.getElementById("langchoice").style.zIndex="-100";
 	document.getElementById("viewlogbook").innerHTML="";
 	document.getElementById("viewlogbook").style.zIndex="-100";
 	document.getElementById("logbookoptions").innerHTML="";
 	document.getElementById("logbookoptions").style.zIndex = "-100";
-	document.getElementById("sidebuttons").style.zIndex="10";
 	viewBook("aboutbook");
 	}
 
@@ -188,14 +183,14 @@ function viewBook(newbook){
 	var oldbook=document.getElementById("currentbook").getAttribute("class");
 	document.getElementById(oldbook+"options").style.zIndex = "-100";
 	document.getElementById("view"+oldbook).style.zIndex = "-100";
-	document.getElementById('currentbook').removeAttribute('id');
+	document.getElementById("currentbook").removeAttribute('id');
 	// now bring the new tab and book to the top
 	document.getElementById("view"+newbook).style.zIndex = "50";
 	document.getElementById("view"+newbook).focus();
 	document.getElementById(newbook+"options").style.zIndex = "60";
-	document.getElementById(newbook+"tab").firstChild.setAttribute('id','currentbook');
+	document.getElementById(newbook+"tab").firstChild.setAttribute("id","currentbook");
 	// change the colour of the logbook's stripe to match
-	document.getElementById('logbookstripe').setAttribute("class",newbook);
+	document.getElementById("logbookstripe").setAttribute("class",newbook);
 	}
 
 // A print function that handles pages designated as printable
@@ -218,28 +213,6 @@ function printGenericContent(iFrameName){
 		printWindow.document.write("<html><head><link rel='stylesheet' type='text/css' href='css/printstyle.css' /></head>");	
 		printWindow.document.write("<body><br />"+contentToPrint+"</body></html>");
 		printWindow.document.close();
-		}
-	}
-
-
-// A pop-up window with info about ClaSS
-function helpPage(){
-	var helpWindow;
-	var helpContent;
-	var currentbook=document.getElementById("currentbook").getAttribute("class");	
-	if(window.frames["view"+currentbook].document.getElementById("helpcontent")){
-		helpContent=window.frames["view"+currentbook].document.getElementById("helpcontent").innerHTML;
-		}
-	else{
-		helpContent="<h3>Sorry, there is not yet any help instructions for this page.</h3>";
-		}
-	helpWindow=window.open("","","height=400,width=750,dependent,resizable,menubar,left=170,scrollbars");
-	if(helpWindow!=null){
-		helpWindow.document.write("<html><head><link rel='stylesheet' type='text/css' href='stylesheets/printstyle.css' /></head><body>");	
-		helpWindow.document.write(helpContent);
-		helpWindow.document.writeln("<form><input type='button' value='Close This Window' onClick='window.close();'></form>");
-		helpWindow.document.write("</body></html>");
-		helpWindow.document.close();
 		}
 	}
 

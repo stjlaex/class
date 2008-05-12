@@ -143,7 +143,7 @@ if(sizeof($pids)>0){
 	  </form>
 	  <form id="gradechoice" name="gradechoice"  method="post" 
 		action="markbook.php" target="viewmarkbook">
-		<select id="mids" name="mids[]" size="12" multiple="multiple"  
+		<select id="mids" name="mids[]" size="14" multiple="multiple"  
 		   onChange="changeMarkDisplay(this.form);">
 <?php
 if(isset($umns)){
