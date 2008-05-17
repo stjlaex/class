@@ -7,7 +7,8 @@
 <div class="content">
 
 <fieldset class="center" id="splash">
-<h2><?php print $CFG->version; ?></h2>
+<h2><img src="images/orangelogo.png" /></h2>
+<h4>version <?php print $CFG->version; ?></h4>
 
 <p> 
 <?php print_string('classblurb',$book);?>

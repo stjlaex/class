@@ -17,6 +17,9 @@ a {
     font-weight:600;
 	text-decoration:none;
 	}
+a:hover {
+	text-decoration:underline;
+	}
 input, textarea, select {
 	font-size:small; 
     margin-bottom:10px;
@@ -287,10 +290,6 @@ div.buttonmenu {
     color:#ffeeff;
 	cursor:pointer;
 	}
-.buttonmenu button:hover, .buttonmenu button:focus, 
- #heading button:hover, #heading button:focus {
-	font-weight:900;
-	}
 .buttonmenu button[value="Submit"], .buttonmenu button[value="Enter"] {
 	background-color:#444444; 
 	color:#ff9900;
@@ -326,7 +325,13 @@ button.install {
 	color:#ffffee; 
     font-size:xx-small; 
 	}
-/*the micro-action buttons contianed inside content, usually for xmlHttprequests*/
+.buttonmenu button:hover, .buttonmenu button:focus, 
+ #heading button:hover, #heading button:focus {
+    border-color:#5599cc;
+    background-color:#5599cc;
+    color:#ffffff;
+	}
+/* The micro-action buttons contianed inside content, usually for xmlHttprequests*/
 div.rowaction {
 	padding:0;margin:0;
 	float:right;
@@ -346,7 +351,9 @@ button.rowaction img {
 	background-repeat:no-repeat;	
 	}
 button.rowaction:hover, button.rowaction:focus {
-	font-weight:600;
+    border-color:#5599cc;
+    background-color:#5599cc;
+    color:#ffffff;
 	}
 img.clicktoedit { 
 	background-image:url("../images/editer.png");

@@ -31,9 +31,6 @@ while(list($param,$value)=each($externalparams)){
 ?>
 
   <div style="visibility:hidden;" id="hiddenbookoptions">	
-	<fieldset class="eportfolio">
-	  <legend><?php print_string('options');?></legend>
-	</fieldset>
   </div>
 
   <div id="bookbox" class="eportfoliocolor">

@@ -17,7 +17,7 @@ div#bookbox{
     border-color:#ee9900;
 	}
 
-.aboutcolor h2 {
+.aboutcolor h2, h4 {
 	color:#000000;
     text-align:center;
 	}

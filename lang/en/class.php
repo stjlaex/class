@@ -305,5 +305,8 @@ $string['type']='Type';
 $string['number']='Number';
 $string['section']='Section';
 $string['homework']='Homework';
+$string['reload']='Reload';
+$string['about']='About ClaSS';
+$string['']='';
 $string['']='';
 ?>

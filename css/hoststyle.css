@@ -31,6 +31,11 @@ div#currentbook {
     border:0; padding:0;
 	overflow:hidden;
 	}
+.fullbookframe {
+	position:absolute; left:0%; top:4.4%; width:100%; height:95.1%;
+    border:0; padding:0;
+	overflow:hidden;
+	}
 .coverframe {
 	position:absolute; left:16%; top:0%; width:84%; height:99.4%;
 	margin:1px 0 1px 0; border:0; padding:0;
@@ -317,26 +322,14 @@ button {
 /* the rest of the sidebar - which comes under the logbook*/
 
 /*sitethrobber and sitestatus are interchangable div elements*/
-#sitethrobber, #sitestatus {
-	position:absolute; 
-    top:1%; left:7%; width:34%;
-    padding:4px 0 0 0;
-    z-index:100;
-	background-color:#444444;
-    margin:0; border:0;
-	}
-#sitethrobber.working, #sitestatus.fixed {
+#siteicon.hide, #sitestatus.hide {
     visibility:hidden;
     z-index:-1000;
+    display:none;
 	}
-#sitethrobber.fixed, #sitestatus.working {
+#siteicon.show, #sitestatus.show {
     visibility:visible;
     z-index:500;
-	}
-
-#sitelogo img {
-    width:40%;
-    margin:1% 0 0 1%;
 	}
 
 div#logbookstripe {
@@ -382,20 +375,20 @@ div#loginlang {
     border-left:3px solid #ffffff;
 	}
 div#sidebuttons {
-	position:absolute; left:95.5%; top:1%; width:46px;
-    padding: 0;
+	position:absolute; 
+    top:1%; left:1%; width:40%;
+    padding:0;margin:0; border:0;
     z-index:100;
 	background-color:#444444;
-    margin:0; border:0;
 	}
 #sidebuttons img { 
 	padding:0; margin:0; border:0;
-	width:18px; height:18px;
+	width:20px; height:20px;
 	}
 #sidebuttons button { 
     float:left;
 	padding:0; margin:0 1px; border:0; 
-	width:20px; height:20px;
+	width:22px; height:22px;
     background-color:#444444;
 	}
 div.hidden {

@@ -36,7 +36,7 @@ if($sub=='Submit'){
 				}
 			else{
 				/* Anything else could need midcid, tidcid and cidsid to
-				be updated first and so is not going to be done fomr
+				be updated first and so is not going to be done from
 				here!!! The changes will only take effect at the start of the next
 				curriculum year. */
 				$error[]='These changes will only be made effective for the new academic year.';

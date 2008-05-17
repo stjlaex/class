@@ -203,6 +203,8 @@ $string['allow']='Allow';
 $string['totalinvoiced']='Total invoiced';
 $string['invoice']='Invoice';
 $string['timetable']='Timetable';
+$string['sets']='Sets';
+$string['forms']='Forms';
 $string['']='';
 $string['']='';
 ?>

@@ -81,7 +81,6 @@ $externalred.=$mailbcc;
   </div>
 
   <div id="bookbox" class="webmailcolor">
-
 	<div style="visibility:hidden;" id="webmailsite"	
 	  logout="<?php print $CFG->webmailsite . '/logout.php';?>" >
 	</div>

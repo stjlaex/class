@@ -33,7 +33,7 @@ include('scripts/set_book_vars.php');
 	$choices=array('report_bug.php' => 'reportbug'
 				   ,'request_feature.php' => 'requestfeature'
 				   ,'support.php' => 'contactsupport'
-			   );
+				   );
 
 	selery_stick($choices,$choice,$book);
 ?>

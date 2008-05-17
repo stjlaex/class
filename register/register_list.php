@@ -69,7 +69,20 @@ include('scripts/sub_action.php');
 		}
 
 ?>
-		  <th class="edit"><?php print_string('attendance',$book);?></th>
+		  <th class="edit">
+			<?php print_string('attendance',$book);?>
+<?php
+if($_SESSION['role']=='office' or $_SESSION['role']=='admin'){
+?>
+				<select name="setall" >
+				  <option value="n"></option>
+				  <option value="p" onclick="setAll('p')"><?php print_string('present',$book);?></option>
+				  <option value="a" onclick="setAll('a')"><?php print_string('absent',$book);?></option>
+				</select>
+<?php
+}
+?>
+		  </th>
 		</tr>
 <?php
 	$rown=1;

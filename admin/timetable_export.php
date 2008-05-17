@@ -75,17 +75,70 @@ include('scripts/answer_action.php');
 		$xmllines['Teachers_List']['Teacher']=$Teachers;
 
 		$xmllines['Subjects_List']=array();
+		$courses=list_courses();
 		$subjects=list_course_subjects('%');
 		while(list($index,$subject)=each($subjects)){
 			$Subject=array();
-			$Subject['Name']=$subject['name'];
+			$Subject['Name']=$subject['id'];
 			$Subjects[]=$Subject;
 			}
+
+
+		$xmllines['Activities_List']=array();
+		$Activities=array();
+		$fetid=1;
+		$courses=list_courses();
+		while(list($indexcourse,$course)=each($courses)){
+			$crid=$course['id'];
+			$stages=list_course_stages($crid);
+			$subjects=list_course_subjects($crid);
+			while(list($indexstage,$stage)=each($stages)){
+				$stage=$stage['id'];
+				reset($subjects);
+				while(list($indexsubject,$subject)=each($subjects)){
+					$bid=$subject['id'];
+					$classdef=get_subjectclassdef($crid,$bid,$stage);
+					if($classdef['many']>-1){
+//trigger_error($crid.' '.$bid.' '.$stage. ' '.$classdef['many'],E_USER_WARNING);
+						$total_duration=$classdef['dp']*2+$classdef['sp'];
+						$block=$classdef['block'];
+
+						list($newcids,$groups)=get_classdef_classes($classdef);
+						//$classes=list_course_classes($crid,$bid,$stage);
+						while(list($indexclass,$newcid)=each($newcids)){
+							$Activity=array();
+							$Activity['Subject']=''.$bid;
+							$Activity['Active']='yes';
+							//$Activity['Activity_Tag']='';
+							$Activity['Activity_Group_Id']=''.$block;
+							$Activity['Students']=$groups[$indexclass];
+							$Activity['Teacher']=array();
+							$Activity['Total_Duration']=$total_duration;
+							$teachers=list_class_teachers($newcid);
+							while(list($indexteacher,$teacher)=each($teachers)){
+								$Activity['Teacher'][]=$teacher['id'];
+								}
+							for($c=0;$c<$classdef['sp'];$c++){
+								$Activity['Duration']='1';
+								$Activity['Id']=$fetid++;
+								$Activities[]=$Activity;
+								}
+							for($c=0;$c<$classdef['dp'];$c++){
+								$Activity['Duration']='2';
+								$Activity['Id']=$fetid++;
+								$Activities[]=$Activity;
+								}
+							}
+						}
+					}
+				}
+			}
+
 		$xmllines['Subjects_List']['Subject']=$Subjects;
 
 		$xmllines['Activity_Tags_List']=array();
 
-		$xmllines['Activities_List']=array();
+		$xmllines['Activities_List']['Activity']=$Activities;
 
 		$xmllines['Rooms_List']=array();
 

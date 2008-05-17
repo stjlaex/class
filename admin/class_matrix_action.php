@@ -10,6 +10,7 @@ list($crid,$bid,$error)=checkCurrentRespon($r,$respons,'course');
 if(sizeof($error)>0){include('scripts/results.php');exit;}
 
 if($sub=='Update'){
+
 	$d_subject=mysql_query("SELECT DISTINCT subject_id FROM cridbid
 				WHERE course_id='$crid' ORDER BY subject_id");
 	$d_classes=mysql_query("SELECT DISTINCT stage FROM classes WHERE
@@ -28,10 +29,22 @@ if($sub=='Update'){
 	  		$stage=$stages[$c2];
 			$ing=$bid. $stage.'g';
 			$inm=$bid. $stage.'m';
+			$ins=$bid. $stage.'s';
+			$ind=$bid. $stage.'d';
+			$inblock=$bid. $stage.'block';
 			$classdef=array('crid'=>$crid,'bid'=>$bid,'stage'=>$stage);
 			if(isset($_POST[$ing])){
-				$classdef['many']=$_POST[$inm]; 
-				$classdef['generate']=$_POST[$ing];
+				if($_POST[$ing]=='forms'){
+					$classdef['generate']=$_POST[$ing];
+					$classdef['many']=''; 
+					}
+				else{
+					$classdef['generate']='sets';
+					$classdef['many']=$_POST[$ing]; 
+					}
+				$classdef['sp']=$_POST[$ins];
+				$classdef['dp']=$_POST[$ind];
+				$classdef['block']=$_POST[$inblock];
 				update_subjectclassdef($classdef);
 				}
 			}
@@ -88,6 +101,6 @@ elseif($sub=='Submit'){
 		}
 	}
 
-include('scripts/results.php');
+if(isset($result)){include('scripts/results.php');}
 include('scripts/redirect.php');
 ?>

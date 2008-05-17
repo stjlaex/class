@@ -1,6 +1,6 @@
 <?php
 $ftype=$_GET['ftype'];
-trigger_error($ftype,E_USER_WARNING);
+//trigger_error($ftype,E_USER_WARNING);
 if($ftype=='fet'){$mimetype='xml';}
 else{$mimetype=$ftype;}
 header("Content-type: text/$mimetype");

@@ -10,8 +10,9 @@
     margin-top:10%;
 	}
 .logincolor button:hover, .logincolor button:focus {
-	background-color:#eeeeee;
-    color:#ff9900;
+    border-color:#5599cc;
+    background-color:#5599cc;
+    color:#ffffff;
 	}	
 .logincolor legend, .logincolor caption {
 	background-color:#eeeeee;

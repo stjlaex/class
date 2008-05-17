@@ -99,9 +99,9 @@ function selectRow(rowId){
 		}
 	}
 
-function selectColumn(thObj,multi){
+// get an index of all sids with a table row
+function getSidsArray(){
 
-	// get an index of all sids with a table row
 	var i=0;
 	var sids=new Array();
 	var theRows=document.getElementsByTagName("tr");
@@ -112,6 +112,13 @@ function selectColumn(thObj,multi){
 			i++;
 			}
 		}
+
+	return sids;
+	}
+
+function selectColumn(thObj,multi){
+
+	var sids=getSidsArray();
 
 	if(multi==1){
 		// only allowed one checked column, so un-select all other columns
@@ -144,7 +151,7 @@ function selectColumn(thObj,multi){
 				var tdEditClaSS=tdEditObj.className;
 				removeExtraFields(sids[c],"extra-a");
 				removeExtraFields(sids[c],"extra-p");
-				if(selObj.value=='a'){
+				if(selObj.value=="a"){
 					tdEditClaSS=tdEditClaSS+" extra";
 					addExtraFields(sids[c],cellId,"extra-a");
 					}
@@ -179,9 +186,38 @@ function addExtraFields(sidId,cellId,extraId){
 	editContainer.insertBefore(extraDiv,null);
 	}
 
-
 function removeExtraFields(sidId,extraId){
 	var editContainer=document.getElementById("edit-"+sidId);
 	var extraDiv=document.getElementById(extraId+"-"+sidId);
 	if(extraDiv){document.getElementById("edit-"+sidId).removeChild(extraDiv);}
+	}
+
+
+//-------------------------------------------------------
+// sets all attendance boxes to present
+
+function setAll(state){
+	var sids=getSidsArray();
+
+	for(var c=0;c<sids.length;c++){
+			var editId="edit-"+sids[c];
+			if(document.getElementById(editId)){
+				var tdEditObj=document.getElementById(editId);
+				var selObj=tdEditObj.getElementsByTagName("select")[0];
+				selObj.value=state;
+				var tdEditClaSS=tdEditObj.className;
+				removeExtraFields(sids[c],"extra-a");
+				removeExtraFields(sids[c],"extra-p");
+				if(state=="a"){
+					tdEditClaSS=tdEditClaSS+" extra";
+					addExtraFields(sids[c],null,"extra-a");
+					}
+				else{
+					tdEditClaSS="edit";
+					addExtraFields(sids[c],null,"extra-p");
+					}
+				tdEditObj.className=tdEditClaSS;
+				}
+			i++;
+			}
 	}

@@ -365,14 +365,14 @@ function checksidsAction(buttonObject){
 	}
 
 function progressIndicator(action){
-	var statusObject=parent.document.getElementById("sitelogo");
+	//var statusObject=parent.document.getElementById("sitestatus");
 	if(action=="start"){
-		parent.document.getElementById("sitelogo").setAttribute("class","working");
-		parent.document.getElementById("sitestatus").setAttribute("class","working");
+		parent.document.getElementById("sitestatus").setAttribute("class","show");
+		parent.document.getElementById("siteicon").setAttribute("class","hide");
 		}
 	else{
-		parent.document.getElementById("sitelogo").setAttribute("class","fixed");
-		parent.document.getElementById("sitestatus").setAttribute("class","fixed");
+		parent.document.getElementById("sitestatus").setAttribute("class","hide");
+		parent.document.getElementById("siteicon").setAttribute("class","show");
 		}
 	}
 

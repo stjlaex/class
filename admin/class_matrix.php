@@ -47,16 +47,38 @@ two_buttonmenu($extrabuttons);
    			$classes=mysql_fetch_array($d_classes,MYSQL_ASSOC);
    			$many=$classes['many'];
    			$generate=$classes['generate'];
+   			$sp=$classes['sp'];
+   			$dp=$classes['dp'];
+   			$block=$classes['block'];
 ?>
 		  <td>
-			<input style="width:25%;" type="text" 
-			  name="<?php print $bids[$c2].$stages[$c].'m';?>" value="<?php print $many;?>"/>
-
-			  <select name="<?php print $bids[$c2].$stages[$c].'g';?>">
-				<option value="none" <?php if($generate=="none"){print "selected='selected'";}?>></option>	
-				<option value="sets" <?php if($generate=="sets"){print "selected='selected'";}?>>sets</option>	
-				<option value="forms" <?php if($generate=="forms"){print "selected='selected'";}?>>forms</option>	
+			<select name="<?php print $bids[$c2].$stages[$c].'g';?>">
+			  <option value="none" <?php if($generate=="none"){print "selected='selected'";}?>>
+			  </option>
+			  <option value="forms" 
+				<?php if($generate=="forms"){print 'selected="selected"';}?>
+				>
+				<?php print_string('forms',$book);?>
+			  </option>
+<?php
+		   		for($no=1; $no<10; $no++){
+?>
+			  <option value="<?php print $no;?>" 
+				<?php if($generate=='sets' and $many==$no){print "selected='selected'";}?>
+				>
+				<?php print $no.' '.get_string('sets',$book);?>
+			  </option>
+<?php
+					}
+?>
 			  </select>
+
+			<input style="width:25%;" type="text" maxlength="1" 
+			  name="<?php print $bids[$c2].$stages[$c].'s';?>" value="<?php print $sp;?>"/>
+			<input style="width:25%;" type="text" maxlength="1"
+			  name="<?php print $bids[$c2].$stages[$c].'d';?>" value="<?php print $dp;?>"/>
+			<input style="width:25%;" type="text" maxlength="3"
+			  name="<?php print $bids[$c2].$stages[$c].'block';?>" value="<?php print $block;?>"/>
 		  </td>
 <?php
 	  		}

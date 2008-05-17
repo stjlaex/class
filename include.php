@@ -87,7 +87,7 @@ $externalbooks['office']=array(
 							   );
 $externalbooks['medical']=array(
 								'webmail' => $CFG->webmailtabname
-								//,'eportfolio' => $CFG->eportfoliotabname
+								,'eportfolio' => $CFG->eportfoliotabname
 								);
 $externalbooks['sen']=array(
 							'webmail' => $CFG->webmailtabname
@@ -95,7 +95,7 @@ $externalbooks['sen']=array(
 							);
 $externalbooks['district']=array(
 								 'webmail' => $CFG->webmailtabname
-								 ,'eportfolio' => $CFG->eportfoliotabname
+								 //,'eportfolio' => $CFG->eportfoliotabname
 								 );
 $externalbooks['support']=array(
 								'webmail' => $CFG->webmailtabname

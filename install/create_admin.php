@@ -68,7 +68,10 @@ CREATE TABLE classes (
 		stage			char(3) not null default '',
         generate		enum('', 'forms','sets','none') not null default '',
 		naming			varchar(40) not null default '',
-		many			smallint unsigned default 4,
+		many			smallint unsigned not null default 0,
+		sp				smallint unsigned not null default 0,
+		dp				smallint unsigned not null default 0,
+		block			char(3) not null default '',
 		primary 		key (course_id, subject_id, stage)
 );");
 mysql_query("
