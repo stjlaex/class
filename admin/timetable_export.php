@@ -69,7 +69,7 @@ include('scripts/answer_action.php');
 		$users=list_teacher_users();
 		while(list($index,$user)=each($users)){
 			$Teacher=array();
-			$Teacher['Name']=$user['username'];
+			$Teacher['Name']=strtoupper($user['username']);
 			$Teachers[]=$Teacher;
 			}
 		$xmllines['Teachers_List']['Teacher']=$Teachers;
@@ -86,7 +86,13 @@ include('scripts/answer_action.php');
 
 		$xmllines['Activities_List']=array();
 		$Activities=array();
-		$fetid=1;
+		$Time_Constraints=array();
+		$Time_Constraints['ConstraintBasicCompulsoryTime']['Weight_Percentage']=100;
+		$Space_Constraints=array();
+		$Space_Constraints['ConstraintBasicCompulsorySpace']['Weight_Percentage']=100;
+		$fetaid=1;
+		$fetgid=1;
+		$blocks=array();
 		$courses=list_courses();
 		while(list($indexcourse,$course)=each($courses)){
 			$crid=$course['id'];
@@ -101,35 +107,67 @@ include('scripts/answer_action.php');
 					if($classdef['many']>-1){
 //trigger_error($crid.' '.$bid.' '.$stage. ' '.$classdef['many'],E_USER_WARNING);
 						$total_duration=$classdef['dp']*2+$classdef['sp'];
-						$block=$classdef['block'];
-
+						$blockid=$classdef['block'];
+						if($blockid!='' and !is_array($blocks[$blockid])){
+							$blocks[$blockid]=array();
+							}
 						list($newcids,$groups)=get_classdef_classes($classdef);
 						//$classes=list_course_classes($crid,$bid,$stage);
 						while(list($indexclass,$newcid)=each($newcids)){
+							$actno=0;
+							$actids=array();
 							$Activity=array();
+							$Time_Constraint=array();
 							$Activity['Subject']=''.$bid;
 							$Activity['Active']='yes';
 							//$Activity['Activity_Tag']='';
-							$Activity['Activity_Group_Id']=''.$block;
+							$Activity['Activity_Group_Id']=$fetgid++;
 							$Activity['Students']=$groups[$indexclass];
 							$Activity['Teacher']=array();
 							$Activity['Total_Duration']=$total_duration;
 							$teachers=list_class_teachers($newcid);
 							while(list($indexteacher,$teacher)=each($teachers)){
-								$Activity['Teacher'][]=$teacher['id'];
+								$Activity['Teacher'][]=strtoupper($teacher['id']);
 								}
 							for($c=0;$c<$classdef['sp'];$c++){
 								$Activity['Duration']='1';
-								$Activity['Id']=$fetid++;
+								$actids['Activity_Id'][]=$fetaid;
+								if($blockid!=''){$blocks[$blockid][$actno][]=$fetaid;}
+								$Activity['Id']=$fetaid++;
 								$Activities[]=$Activity;
+								$actno++;
 								}
 							for($c=0;$c<$classdef['dp'];$c++){
 								$Activity['Duration']='2';
-								$Activity['Id']=$fetid++;
+								$actids['Activity_Id'][]=$fetaid;
+								if($blockid!=''){$blocks[$blockid][$actno][]=$fetaid;}
+								$Activity['Id']=$fetaid++;
 								$Activities[]=$Activity;
+								$actno++;
+								}
+							if($actno>1){
+								$Time_Constraint['Weight_Percentage']='95';
+								$Time_Constraint['Consecutive_If_Same_Day']='yes';
+								$Time_Constraint['Number_of_Activities']=$actno;
+								$Time_Constraint=$Time_Constraint+$actids;
+								$Time_Constraint['MinDays']='1';
+								$Time_Constraints['ConstraintMinNDaysBetweenActivities'][]=$Time_Constraint;
 								}
 							}
 						}
+					}
+				}
+			}
+
+		if(sizeof($blocks)>0){
+			while(list($blockid,$block)=each($blocks)){
+				while(list($actno,$fetaids)=each($block)){
+					$actids['Activity_Id']=(array)$fetaids;
+					$Time_Constraint=array();
+					$Time_Constraint['Weight_Percentage']='95';
+					$Time_Constraint['Number_of_Activities']=sizeof($fetaids);
+					$Time_Constraint=$Time_Constraint+$actids;
+					$Time_Constraints['ConstraintActivitiesSameStartingTime'][]=$Time_Constraint;
 					}
 				}
 			}
@@ -140,11 +178,11 @@ include('scripts/answer_action.php');
 
 		$xmllines['Activities_List']['Activity']=$Activities;
 
+		$xmllines['Time_Constraints_List']=$Time_Constraints;
+
+		$xmllines['Space_Constraints_List']=$Space_Constraints;
+
 		$xmllines['Rooms_List']=array();
-
-		$xmllines['Time_Constraints_List']=array();
-
-		$xmllines['Space_Constraints_List']=array();
 
 		/**
 		 *

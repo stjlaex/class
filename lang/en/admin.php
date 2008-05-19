@@ -32,7 +32,7 @@ $string['updatedcurriculum']='Updated the curriculum structure for ';
 $string['newclassstructure']='New class structure generated.';
 $string['cohort']='Cohort';
 $string['endofyear']='End of year';
-$string['confidentwhatyouaredoing']='You really do need to be confident you know what your doing to continue.';
+$string['confidentwhatyouaredoing']='You really do need to be confident you know what you\'re doing to continue.';
 $string['updatecurriculum']='Update curriculum';
 $string['updatecurriculumwarning']='<p>This will reload the curriculum packs for your database. The
 	curriculum packs should have first been configured to match the

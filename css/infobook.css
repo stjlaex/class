@@ -40,9 +40,9 @@ div#formstatus-action {
 	}
 /* For the student photos*/
 .center div.icon {
+	position:absolute;
+    right:5%; top:1%; 
     width:25%;
-    float:right;
-    padding:10% 8% 0 0;
 	}
 .icon img {
     padding:0.5em;
