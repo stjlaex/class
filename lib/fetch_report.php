@@ -76,8 +76,11 @@ function fetchSubjectReports($sid,$reportdefs){
 			  while(list($index,$component)=each($pids)){
 				  $pid=$component['id'];
 				  $componentname=$component['name'];
-				  $componentstatus=$component['status'];
-
+				  if(isset($component['status'])){$componentstatus=$component['status'];}
+				  else{
+					  $compstatus='';
+					  trigger_error('COMPSTATUS '. $component['id'],E_USER_WARNING);
+					}
 				  /* Combine assessment indexes for this component and all of its
 					strands into a single array $assnos.*/
 				  $assnos=array();

@@ -41,11 +41,13 @@ if(isset($_POST['wrapper_rid'])){$wrapper_rid=$_POST['wrapper_rid'];}
 			$sid=$sids[$c];
 			$Student=fetchStudent_short($sid);
 			list($Reports,$transform)=fetchSubjectReports($sid,$reportdefs);
+			$Student['Reports']['Attendance']=fetchAttendanceSummary($sid,'2008-02-15','2008-06-30');
+			/*index 0 will be the wrapper if one is used*/
+			$Reports['CoverTitle']=$reportdefs[0]['report']['title'];
 			$Reports['Coversheet']='yes';
-			$Reports['Transform']=$transform;
+			$Reports['Transform']=$reportdefs[0]['report']['transform'];
 			$Reports['Paper']=$reportdefs[0]['report']['style'];
 			$Student['Reports']=nullCorrect($Reports);
-			$Student['Reports']['Attendance']=fetchAttendanceSummary($sid,'2007-09-01','2008-02-15');
 			$Students['Student'][]=$Student;
 			}
 		$returnXML=$Students;

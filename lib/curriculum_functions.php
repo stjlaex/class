@@ -78,8 +78,9 @@ function list_course_subjects($crid=''){
 	}
 
 /**
- * Returns an array of all components for a single subject. If the subject is 
- * itself a component then you'll really get strands. 
+ * Returns an array of all components (id,name,status) for a single
+ * subject. If the subject is itself a component then you'll really
+ * get strands.
  *
  */
 function list_subject_components($bid,$crid,$compstatus='%'){
@@ -90,7 +91,7 @@ function list_subject_components($bid,$crid,$compstatus='%'){
 						JOIN component ON subject.id=component.id
 						WHERE component.status LIKE '$compstatus' AND 
 						component.course_id='$crid' AND
-						component.subject_id='$bid' ORDER BY subject.name");
+						component.subject_id='$bid' ORDER BY subject.name;");
 		while($component=mysql_fetch_array($d_com,MYSQL_ASSOC)){
 			$components[]=$component;
 			}
@@ -109,7 +110,8 @@ function list_course_cohorts($crid,$year='',$season='S'){
 		$season='S';
 		}
 	$d_coh=mysql_query("SELECT * FROM cohort WHERE
-			   	course_id='$crid' AND year='$year' AND season='$season' ORDER BY stage");
+						course_id='$crid' AND year='$year' AND 
+						season='$season' ORDER BY stage");
 	while($cohort=mysql_fetch_array($d_coh,MYSQL_ASSOC)){
 		$cohorts[]=array('id'=>$cohort['id'],
 						 'stage'=>$cohort['stage'], 'year'=>$cohort['year'], 

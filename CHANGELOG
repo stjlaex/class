@@ -25,6 +25,8 @@ for single and double periods.
 Improved FET-compatible timetable export with full activity, teacher
 and student information.
 
+Added a covertitle to the reports xml.
+
 
 
 Version ClaSS-0.8.47 release (2008/05/09)
