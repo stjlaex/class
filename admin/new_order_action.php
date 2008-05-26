@@ -38,10 +38,14 @@ if($sub=='Submit'){
 		}
 
 	$Material=fetchMaterial();
+	$entryn=0;
+	/* entryn and matn not neccessarily the same if blanks in the form
+	 * and must avoid blanks in entryn */
 	for($matn=1;$matn<=$maxmatn;$matn++){
 		if(isset($_POST['detail'.$matn]) and $_POST['detail'.$matn]!=''){
+			$entryn++;
+			mysql_query("INSERT INTO ordermaterial SET order_id='$ordid', entryn='$entryn';");
 			reset($Material);
-			mysql_query("INSERT INTO ordermaterial SET order_id='$ordid', entryn='$matn';");
 			while(list($index,$val)=each($Material)){
 				if(isset($val['value']) and is_array($val) and isset($val['table_db'])){
 					$field=$val['field_db'];
@@ -49,7 +53,7 @@ if($sub=='Submit'){
 					$inval=clean_text($_POST[$inname]);
 					if($val['table_db']=='ordermaterial'){
 						mysql_query("UPDATE ordermaterial SET $field='$inval'
-								WHERE entryn='$matn' AND order_id='$ordid'");
+								WHERE entryn='$entryn' AND order_id='$ordid'");
 						}
 					}
 				}

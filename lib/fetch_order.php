@@ -166,6 +166,7 @@ function fetchOrder($ordid='-1'){
 						 'table_db' => 'orderorder', 
 						 'field_db' => 'entrydate',
 						 'type_db' => 'date', 
+						 'default_value' => date('Y-m-d'),
 						 'value' => ''.$order['entrydate']
 						 );
    	$Order['Currency']=array('label' => 'currency', 

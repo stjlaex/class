@@ -176,19 +176,20 @@ function list_all_users($nologin='%'){
  * 
  *
  */
-function list_teacher_users($crid='',$bid=''){
+function list_teacher_users($crid='',$bid='',$nologin='0'){
 	$users=array();
 	if($crid!='' or $bid!=''){
 		/*Get ids for the teachers of this subject and store in tids[]*/
 		$d_teacher=mysql_query("SELECT DISTINCT teacher_id FROM tidcid JOIN
 				class ON class.id=tidcid.class_id WHERE class.subject_id LIKE '$bid' 
-				AND class.course_id LIKE '$crid' ORDER BY teacher_id");
+				AND class.course_id LIKE '$crid' ORDER BY teacher_id;");
 		while($teacher=mysql_fetch_array($d_teacher,MYSQL_ASSOC)){
 			$tid=$teacher['teacher_id'];
 			$d_users=mysql_query("SELECT uid, username, passwd, forename,
 					surname, title, email, emailuser, emailpasswd,
 					nologin, firstbookpref, role, worklevel,
-					senrole, epfusername FROM users WHERE username='$tid'");
+					senrole, epfusername FROM users WHERE
+					username='$tid' AND nologin LIKE '$nologin';");
 			$user=mysql_fetch_array($d_users,MYSQL_ASSOC);
 			$users[$tid]=$user;
 			}
@@ -199,7 +200,7 @@ function list_teacher_users($crid='',$bid=''){
 				surname, title, email, emailuser, emailpasswd, 
 				nologin, firstbookpref, role, worklevel, senrole, 
 				epfusername FROM users WHERE
-				(role='teacher' or role='admin') AND nologin='0' AND
+				(role='teacher' or role='admin') AND nologin LIKE '$nologin' AND
 				username!='administrator' ORDER BY username");
 		while($user=mysql_fetch_array($d_user,MYSQL_ASSOC)){
 			$tid=$user['username'];

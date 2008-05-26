@@ -87,11 +87,14 @@ function list_subject_components($bid,$crid,$compstatus='%'){
 	if($compstatus=='A'){$compstatus='%';}
 	$components=array();
 	if($bid!='' and $crid!=''){
-		$d_com=mysql_query("SELECT subject.id, subject.name, component.status FROM subject
+		$d_com=mysql_query("SELECT subject.id, subject.name,
+						component.status, component.sequence FROM subject
 						JOIN component ON subject.id=component.id
-						WHERE component.status LIKE '$compstatus' AND 
+						WHERE component.status LIKE '$compstatus' AND
+						component.status!='U'  AND 
 						component.course_id='$crid' AND
-						component.subject_id='$bid' ORDER BY subject.name;");
+						component.subject_id='$bid' ORDER BY
+						component.sequence, subject.name;");
 		while($component=mysql_fetch_array($d_com,MYSQL_ASSOC)){
 			$components[]=$component;
 			}

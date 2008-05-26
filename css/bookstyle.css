@@ -293,6 +293,13 @@ div.buttonmenu {
 .buttonmenu button[value="Submit"], .buttonmenu button[value="Enter"] {
 	background-color:#444444; 
 	color:#ff9900;
+    font-weight:600; 
+    z-index:4000;
+	}
+.buttonmenu button[value="Submit"]:hover, .buttonmenu button[value="Enter"]:hover {
+	background-color:#ff9900; 
+	color:#ffffff;
+    z-index:1000;
 	}
 .buttonmenu button[value="Cancel"], .buttonmenu button.cancel {
 	background-color:#666666; 
@@ -354,6 +361,20 @@ button.rowaction:hover, button.rowaction:focus {
     border-color:#5599cc;
     background-color:#5599cc;
     color:#ffffff;
+	}
+img.clicktoload { 
+	background-image:url("../images/folder-open.png");
+    padding:1px !important;
+	cursor:pointer;
+    width:16px !important;
+    height:16px !important;
+	}
+img.clicktowrite { 
+	background-image:url("../images/accessories-text-editor.png");
+    padding:1px;
+	cursor:pointer;
+    width:16px !important;
+    height:16px !important;
 	}
 img.clicktoedit { 
 	background-image:url("../images/editer.png");

@@ -112,7 +112,7 @@
 	  <td><?php print_string('teachercomment');?>:</td>
 	  <td><?php print $Comment['Teacher']['value'];?></td>
 	  <td id="icon<?php print $openId;?>" class="">		  
-		<img class="clicktoedit" name="Write"  
+		<img class="clicktowrite" name="Write"  
 		  onClick="clickToWriteComment(<?php print $sid.','.$rid.',\''.$bid.'\',\''.$pid.'\',\''.$entryn.'\',\''.$openId.'\'';?>);" 
 		  title="<?php print_string('clicktowritecomment');?>" />
 	  </td>

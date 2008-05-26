@@ -103,7 +103,8 @@ CREATE TABLE component (
 		 id				varchar(10) not null default '',
 		 course_id		varchar(10) not null default '',
 		 subject_id		varchar(10) not null default '',
-		 status			enum('N','V') not null default 'N',
+		 status			enum('N','V','U') not null default 'N',
+		 sequence	   	smallint unsigned not null default '0',
 		 primary key 	(id, course_id, subject_id)
 );");
 mysql_query("

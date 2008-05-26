@@ -4,3 +4,7 @@ ALTER TABLE classes
 	ADD dp smallint unsigned not null default 0 AFTER sp;
 ALTER TABLE classes 
 	ADD block char(3) not null default '' AFTER dp;
+ALTER TABLE component 
+	ADD sequence smallint unsigned not null default '0' AFTER status;
+ALTER TABLE component 
+	CHANGE status status enum('N','V','U') not null default 'N';

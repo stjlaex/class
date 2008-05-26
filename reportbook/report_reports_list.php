@@ -139,7 +139,7 @@ two_buttonmenu($extrabuttons,$book);
 						$openId=$sid.'summary-'.$summaryid;
 ?>
 			<td id="icon<?php print $openId;?>" <?php if(mysql_num_rows($d_summaryentry)>0){print 'class="vspecial"';}?> >
-			  <img class="clicktoedit" name="Write"  
+			  <img class="clicktowrite" name="Write"  
 				onClick="clickToWriteComment(<?php print $sid.','.$rid.',\'summary\',\''.$summaryid.'\',\'0\',\''.$openId.'\'';?>);" />
 			</td>
 <?php
@@ -152,7 +152,7 @@ two_buttonmenu($extrabuttons,$book);
 						$openId=$sid.'summary-'.$summaryid;
 ?>
 			<td id="icon<?php print $openId;?>" <?php if(mysql_num_rows($d_summaryentry)>0){print 'class="vspecial"';}?> >
-			  <img class="clicktoedit" name="Write"  
+			  <img class="clicktowrite" name="Write"  
 				onClick="clickToWriteComment(<?php print $sid.','.$rid.',\'summary\',\''.$summaryid.'\',\'0\',\''.$openId.'\'';?>);" />
 			</td>
 <?php
@@ -251,7 +251,7 @@ two_buttonmenu($extrabuttons,$book);
 							$openId=$rid.'-'.$sid.'-'.$bid.'-'.$pid.'-'.$en;
 ?>
 			  <a <?php print $cssclass;?> id="icon<?php print $openId;?>">
-				<img class="clicktoedit" name="Write"  
+				<img class="clicktowrite" name="Write"  
 				  onClick="clickToWriteComment(<?php print
 				  $sid.','.$rid.',\''.$bid.'\',\''.$pid.'\',\''.$en.'\',\''.$openId.'\'';?>);"
 				  />

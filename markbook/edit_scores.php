@@ -85,6 +85,7 @@ three_buttonmenu();
 <?php
 		}
 ?>
+		  <th></th>
 		</tr>
 <?php
 	for($c=0;$c<sizeof($viewtable);$c++){
@@ -135,13 +136,21 @@ three_buttonmenu();
 			print '<td><input pattern="decimal" type="text" name="total'.$sid.'" maxlength="8" value="'.$viewtable[$c]["score$mid"]['outoftotal'].'" /></td>';
 			}
 		else{print '<td>&nbsp;</td>';}
-		print '<td';
-		if($_SESSION['worklevel']<0){print ' class="hidden" ';}
-		print '>';
-		print '<input type="text" style="width:80%"';
-		print '	name="comm'.$sid.'" maxlength="98" value="';
-		print $viewtable[$c]["score$mid"]['comment'].'" /></td>';	      
-		print '</tr>';
+?>
+
+			<td <?php if($_SESSION['worklevel']<0){print 'class="hidden"';}?> >
+			  <input type="text" style="width:80%;"
+				name="<?php print 'comm'.$sid;?>" maxlength="98" 
+				value="<?php print $viewtable[$c]["score$mid"]['comment'];?>" />
+			</td>
+			<td id="icon<?php print $sid;?>" class="">
+			  <img class="clicktoload" name="Attachment"
+		 onClick="clickToAttachFile(<?php print $sid.','.$mid.',\''.$cid.'\',\''.$pid.'\'';?>);" 
+		  title="<?php print_string('clicktoattachfile');?>" />
+			  &nbsp;
+			</td>
+		</tr>
+<?php
 		}
 ?>
 	  </table>

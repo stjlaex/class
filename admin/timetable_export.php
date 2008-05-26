@@ -16,20 +16,20 @@ include('scripts/answer_action.php');
 		$xmllines['Institution_Name']=$CFG->schoolname;
 		$xmllines['Comments']='Testing';
 		$xmllines['Hours_List']=array();
-		$xmllines['Hours_List']['Number']='12';
 		$Names=array();
-		$Names[]='08.00';
-		$Names[]='09.00';
-		$Names[]='10.00';
-		$Names[]='11.00';
-		$Names[]='12.00';
-		$Names[]='13.00';
-		$Names[]='14.00';
-		$Names[]='15.00';
-		$Names[]='16.00';
-		$Names[]='17.00';
-		$Names[]='18.00';
-		$Names[]='19.00';
+		//$Names[]='08.00';
+		$Names[]='P1';
+		$Names[]='P2';
+		$Names[]='P3';
+		$Names[]='P4';
+		$Names[]='P5';
+		$Names[]='P6';
+		$Names[]='P7';
+		$Names[]='P8';
+		//$Names[]='17.00';
+		//$Names[]='18.00';
+		//$Names[]='19.00';
+		$xmllines['Hours_List']['Number']=sizeof($Names);
 		$xmllines['Hours_List']['Name']=$Names;
 
 
@@ -40,8 +40,8 @@ include('scripts/answer_action.php');
 		$Names[]='Wednesday';
 		$Names[]='Thursday';
 		$Names[]='Friday';
-		$Names[]='Saturday';
-		$xmllines['Days_List']['Number']='6';
+		//$Names[]='Saturday';
+		$xmllines['Days_List']['Number']=sizeof($Names);
 		$xmllines['Days_List']['Name']=$Names;
 		$xmllines['Students_List']=array();
 		$years=list_yeargroups();
@@ -66,14 +66,14 @@ include('scripts/answer_action.php');
 		$xmllines['Students_List']['Year']=$Years;
 
 		$xmllines['Teachers_List']=array();
-		$users=list_teacher_users();
+		$users=list_teacher_users('','','%');
+		$Teachers=array();
 		while(list($index,$user)=each($users)){
 			$Teacher=array();
 			$Teacher['Name']=strtoupper($user['username']);
 			$Teachers[]=$Teacher;
 			}
-		$xmllines['Teachers_List']['Teacher']=$Teachers;
-
+		$xmllines['Teachers_List']['Teacher']=$Teachers;	
 		$xmllines['Subjects_List']=array();
 		$courses=list_courses();
 		$subjects=list_course_subjects('%');
@@ -123,11 +123,13 @@ include('scripts/answer_action.php');
 							//$Activity['Activity_Tag']='';
 							$Activity['Activity_Group_Id']=$fetgid++;
 							$Activity['Students']=$groups[$indexclass];
-							$Activity['Teacher']=array();
 							$Activity['Total_Duration']=$total_duration;
-							$teachers=list_class_teachers($newcid);
-							while(list($indexteacher,$teacher)=each($teachers)){
-								$Activity['Teacher'][]=strtoupper($teacher['id']);
+							$teachers=(array)list_class_teachers($newcid);
+							if(sizeof($teachers)>0){
+								$Activity['Teacher']=array();
+								while(list($indexteacher,$teacher)=each($teachers)){
+									$Activity['Teacher'][]=strtoupper($teacher['id']);
+									}
 								}
 							for($c=0;$c<$classdef['sp'];$c++){
 								$Activity['Duration']='1';

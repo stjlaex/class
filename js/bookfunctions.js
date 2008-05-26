@@ -51,6 +51,13 @@ function updateComment(commentId,entryn,text){
 		}
 	}
 
+//opens the a window for file attachments
+function clickToAttachFile(sid,cid,bid,pid){
+	var commenturl;
+	commenturl="sid="+sid+"&cid="+cid+"&bid="+bid+"&pid="+pid;
+	openCommentWriter(commenturl);
+	}
+
 //------------------------------------------------------
 //
 function tinyTabs(tabObject){

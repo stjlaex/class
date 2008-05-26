@@ -666,6 +666,8 @@ function getEnumArray($field_name){
 						 );
 	/*NOT an enum array but defines the enrolment matrix*/
 	$enrolmentsteps=array('EN','AP','AT','ATD','RE','ACP','CA','WL','AC');
+	/*NOT an enum array but defines courses who don't do homework*/
+	$nohomeworkcourses=array();
 
 	/*for the orderaction table*/
 	$action=array('0' => 'lodged', '1' => 'authorised', '2' => 'placed', '3' =>

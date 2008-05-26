@@ -77,10 +77,11 @@ function fetchSubjectReports($sid,$reportdefs){
 				  $pid=$component['id'];
 				  $componentname=$component['name'];
 				  if(isset($component['status'])){$componentstatus=$component['status'];}
+				  if(isset($component['sequence'])){$componentseq=$component['sequence'];}
 				  else{
 					  $compstatus='';
 					  trigger_error('COMPSTATUS '. $component['id'],E_USER_WARNING);
-					}
+					  }
 				  /* Combine assessment indexes for this component and all of its
 					strands into a single array $assnos.*/
 				  $assnos=array();
@@ -100,6 +101,7 @@ function fetchSubjectReports($sid,$reportdefs){
 											   'value'=>''.$subject['name']);
 					  $Report['Component']=array('id'=>''.$pid, 
 												 'status'=>''.$componentstatus,
+												 'sequence'=>''.$componentseq,
 												 'value'=>''.$componentname);
 					  $repasses=array();
 					  while(list($index,$assno)=each($assnos)){

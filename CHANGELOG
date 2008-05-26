@@ -16,8 +16,8 @@ period lessons. Reworked classes_matrix.php for this.
 
 Changed the hover css for buttons and links.
 
-The register now has a setAll() function for office and admin uses to
-complete a whole register in one go with one set value.
+The register now has a setAll() function for office and admin users to
+flood a whole register in one go with one set value.
 
 The classes_matrix improved and extended to include lesson information
 for single and double periods.
@@ -27,6 +27,13 @@ and student information.
 
 Added a covertitle to the reports xml.
 
+Bugfix to the new_order_action ot prevent duplicate materials.
+
+Currently benign folder-open added to edit_scores.
+
+The component table has been given a sequence field to allow more
+flexible ordering. And the status field given an extra enum value of "U"
+for "Unused" which means it just goes ignored by everything.
 
 
 Version ClaSS-0.8.47 release (2008/05/09)

@@ -68,6 +68,9 @@ th.hidden {
 img { 
 	display:none;
 	}
+.sidtable img { 
+	display:inline;
+	}
 
 /*handy for checkboxes inside a table*/
 .listmenu td div.row, .listmenu td div.row p  { 

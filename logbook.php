@@ -109,7 +109,7 @@
 		update_user_language(current_language());
 ?>
 		<script>parent.logInSuccess();</script>
-		<script>setTimeout("parent.viewBook('<?php print $firstbookpref; ?>');",5000);</script>
+		<script>setTimeout("parent.viewBook('<?php print $firstbookpref; ?>');",6000);</script>
 <?php
 		}
 ?>

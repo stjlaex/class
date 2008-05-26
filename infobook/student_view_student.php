@@ -18,7 +18,7 @@ three_buttonmenu();
   <div class="content">
 	<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
 
-	  <div class="center">
+	  <div id="viewcontent" class="center">
 		<?php $tab=xmlarray_form($Student,'','studentdetails',$tab,$book);?>	  
 	  </div>
 	    <input type="hidden" name="current" value="<?php print $action;?>">
