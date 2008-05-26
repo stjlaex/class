@@ -282,6 +282,7 @@ div.buttonmenu {
 	overflow:hidden;
 	position:absolute; top:0%; right:10%;
 	background-color:#444444;
+    z-index:4000;
 	}
 .buttonmenu button, #heading button {
 	margin:1px 2px; border:2px; border-style:outset; padding:0;
@@ -294,7 +295,6 @@ div.buttonmenu {
 	background-color:#444444; 
 	color:#ff9900;
     font-weight:600; 
-    z-index:4000;
 	}
 .buttonmenu button[value="Submit"]:hover, .buttonmenu button[value="Enter"]:hover {
 	background-color:#ff9900; 
