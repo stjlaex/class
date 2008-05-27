@@ -47,11 +47,10 @@
 
 /*only used in the coverpage splash*/
 div#branded  {
-	position:absolute; right:5%; top:94%;
+	position:absolute; right:6%; bottom:4%;
 	cursor:pointer;
 	}
 div#schoollogo {
 	position:absolute; right:5%; top:5%;
-    padding:2px;
     z-index:5;
 	}

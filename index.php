@@ -38,7 +38,7 @@ print '<?xml version="1.0" encoding="utf-8"?'.'>';
 <div id="logbookoptions" class="bookoptions"></div>
 
 <div id="aboutbookoptions" class="bookoptions"></div>
-<iframe id="viewaboutbook" name="viewaboutbook" class="fullbookframe"></iframe>
+<iframe id="viewaboutbook" name="viewaboutbook" class="bookframe"></iframe>
 
 <?php
 	/* Use all because it contains all possible books*/

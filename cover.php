@@ -28,13 +28,13 @@ print '<?xml version="1.0" encoding="utf-8"?'.'>';
 if($CFG->support=='classforschools.com'){
 ?>
 	<img onClick="window.open('http://classforschools.com','CfS');"
-		src="../images/cfs-banner-blue.png" style="height:22px"
+		src="../images/cfs-banner-blue.png" style="height:22px;"
 		alt="ClaSSforSchools.com" title="ClaSSforSchools.com support" />
 <?php
 	}
 else{
 ?>
-			<img onclick="window.open('http://laex.org/class','ClaSS');"
+	<img onclick="window.open('http://laex.org/class','ClaSS');"
 				alt="ClaSS" title="ClaSS homepage" src="images/orangelogo.png" />
 <?php
 	}
