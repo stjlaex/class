@@ -35,6 +35,7 @@ The component table has been given a sequence field to allow more
 flexible ordering. And the status field given an extra enum value of "U"
 for "Unused" which means it just goes ignored by everything.
 
+Bugfix to missing attendance on reports.
 
 Version ClaSS-0.8.47 release (2008/05/09)
 -----------------------------------------
