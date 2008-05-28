@@ -17,7 +17,7 @@ three_buttonmenu();
 ?>
   </div>
 
-  <div id="topform" class="topform">
+  <div id="topform" class="topform divgroup">
 	<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
 
 

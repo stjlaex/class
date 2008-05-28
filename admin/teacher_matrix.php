@@ -19,10 +19,10 @@ else{
 	}
 three_buttonmenu($extrabuttons,$book);
 ?>
-  <div class="topform divgroup">
+  <div class="topform">
 	<form id="formtoprocess" name="formtoprocess" method="post"
 	  action="<?php print $host; ?>" >
-	  <fieldset class="left">
+	  <fieldset class="left divgroup">
 		<legend><?php print_string('teacher',$book);?></legend>
 
 		<div class="center">
@@ -58,7 +58,7 @@ three_buttonmenu($extrabuttons,$book);
 
 	  </fieldset>
 
-	  <fieldset class="right">
+	  <fieldset class="right divgroup">
 		<legend><?php print_string('classes',$book);?></legend>
 		<div class="left">
 		  <label for="Unassigned"><?php print_string('unassigned',$book);?></label>

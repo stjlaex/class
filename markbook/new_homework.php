@@ -57,7 +57,7 @@ else{
 	three_buttonmenu($extrabuttons,$book);
 ?>
 
-  <div class="topform">
+  <div class="topform divgroup">
 	<form id="formtoprocess" name="formtoprocess" 
 					method="post" action="<?php print $host;?>">
 	  <div class="left">

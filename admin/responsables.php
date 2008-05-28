@@ -12,7 +12,8 @@ three_buttonmenu();
 	<form id="formtoprocess" name="formtoprocess"  
 		method="post" action="<?php print $host;?>"> 
 
-	  <div class="left">
+	  <fieldset class="left divgroup">
+		<div>
 		<p><?php print_string('chooseeitherresponsibility',$book);?></p>
 		<label for="User">
 		  <?php print_string('username',$book);?>
@@ -44,14 +45,15 @@ three_buttonmenu();
 		<label for="email"><?php print_string('receiveemailalerts',$book);?></label>
 		<input type="checkbox"  tabindex="<?php print $tab++;?>" 
 		  id="email" name="email" value="yes"/>
-	  </div>
+			</div>
+	  </fieldset>
 
 	  <div class="right">
-		<fieldset class="center">
+		<fieldset class="center divgroup">
 		  <legend><?php print_string('pastoralresponsibility',$book);?></legend>
 		  <?php include('scripts/list_year.php');?>
 		</fieldset>
-		<fieldset class="center">
+		<fieldset class="center divgroup">
 		  <legend><?php print_string('academicresponsibility',$book);?></legend>
 		  <div class="left">
 			<label for="Course"><?php print_string('course');?></label>

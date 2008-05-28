@@ -1,10 +1,10 @@
 <?php
-/*								demoiser.php
-
-Update the database tables to match with entries from the curriculum
-files. It does not (as yet) remove any data fro mthe database even if 
-it has been removed from the curriculum files.
-*/
+/**								demoiser.php
+ *
+ * Update the database tables to match with entries from the curriculum
+ * files. It does not (as yet) remove any data fro mthe database even if 
+ * it has been removed from the curriculum files.
+ */
 
 $host='admin.php';
 $current='demoiser.php';
@@ -205,6 +205,8 @@ function generate_random_name($gender){
 			WHERE teacher_id='$username'");
 			mysql_query("UPDATE markdef SET author='$nun'
 			WHERE author='$username'");
+			mysql_query("UPDATE homework SET author='$nun'
+			WHERE author='$username'");
 			}
 		elseif($role=='admin'){
 			if($username!='administrator'){$nun='admin'.$adminindex++;}
@@ -226,7 +228,28 @@ function generate_random_name($gender){
 		mysql_query("UPDATE $table SET username='$nun',
 			forename='P', surname='Prof', email='', nologin='0', logcount='0',
 			passwd='$passwd', ip='', epfusername='$nun' WHERE uid='$id'");
+		mysql_query("UPDATE orderaction SET author='$nun'
+			WHERE author='$username'");
+		mysql_query("UPDATE orderorder SET author='$nun'
+			WHERE author='$username'");
 		}
+
+	$table='orderorder';
+	mysql_query("UPDATE $table SET entrydate='2008-01-01';");
+
+	$table='orderaction';
+	mysql_query("UPDATE $table SET detail='';");
+
+	$table='ordermaterial';
+	mysql_query("UPDATE $table SET unitcost='1.23', detail='some
+	stuff', refno='st';");
+
+	$table='orderbudget';
+	mysql_query("UPDATE $table SET costlimit='600', name='A Budget';");
+
+	$table='orderinvoice';
+	mysql_query("UPDATE $table SET reference='aref1',
+	deliverycost='0', taxcost='0', discountcost='0', totalcost='0', debitcost='0';");
 
 	$table='reportentry';
 	mysql_query("UPDATE $table SET comment='A constructive comment from a subject teacher.'");

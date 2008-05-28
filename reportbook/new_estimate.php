@@ -11,6 +11,8 @@ three_buttonmenu();
 ?>
   <div class="topform">
 	<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
+
+	  <fieldset class="divgroup">
 	  <div class="left"> 
 		<label><?php print_string('populatethisemptyassessmentwithestimatedscores',$book);?></label>
   <?php $required='yes'; $multi='1'; include('scripts/list_assessment.php');?>
@@ -30,6 +32,7 @@ three_buttonmenu();
  	<input type="hidden" name="choice" value="<?php print $current; ?>">
  	<input type="hidden" name="cancel" value="<?php print ''; ?>">
 	</form>
+  </fieldset>
   </div>
 
   <div class="content">

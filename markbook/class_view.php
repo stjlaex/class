@@ -19,7 +19,9 @@ if($_SESSION['worklevel']>-1){
 	  <?php print_string('classwork',$book);?>
 	</button>
 <?php
-	if($cidsno==1){
+	 /*only display HW for a single class only for courses
+					which do do homework*/
+	if($cidsno==1 and !in_array($classes[$cid]['crid'],getEnumArray('nohomeworkcourses'))){
 ?>
 	<button onClick="processContent(this);" name="current" value="new_homework.php">
 	  <?php print_string('homework',$book);?>

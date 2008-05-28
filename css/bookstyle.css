@@ -202,6 +202,10 @@ div.divgroup label, fieldset.divgroup label {
 	background-color:#666666; 
 	color:#ffffee !important;
 	}
+div.divgroup fieldset label, fieldset.divgroup fieldset label { 
+	background-color:#ddddee; 
+	color:#666666 !important;
+	}
 
 
 /*a fixed height div, always at the top of the page before the content*/
@@ -209,10 +213,10 @@ div.topform {
 	overflow:auto;
 	position:relative;
 	top:7%; height:30%; width:90%;
-	border-top:2px solid;
 	padding:1%;
 	margin:0 4% 1% 4%;
-	background-color:#dde;
+/*	border-top:2px solid;*/
+/*	background-color:#dde;*/
 	}
 div.topform+div.content {
 	position:relative; height:56%;
@@ -475,11 +479,13 @@ div.content fieldset.listmenu, div.content fieldset.listmenu div,
 .listmenu td div.row input { 
     margin:0;
 	}
-/*for when your listmenu is not a menu or form*/
-.listinfo tr td, .listinfo td { 
-    background-color:#ffffff;
-    line-height:1.2em;
-    padding-left:12px;
+
+/* Always use in conjunction with listmenu, for when your
+listmenu is not a menu or a form at all but presents some side info in
+that style*/ 
+.listinfo tr td, .listinfo td {
+    line-height:1.1em;
+    padding-left:2em;
 	}
 
 /*extra functionality for a listmenu which lets rows be expanded and collapsed*/

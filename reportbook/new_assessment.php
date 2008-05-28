@@ -10,7 +10,7 @@ include('scripts/course_respon.php');
 $extrabuttons['importfromfile']=array('name'=>'current','value'=>'new_assessment_import.php');
 three_buttonmenu($extrabuttons);
 ?>
-  <div class="topform">
+  <div class="topform divgroup">
 	<form id="formtoprocess" name="formtoprocess" 
 	enctype="multipart/form-data" method="post" action="<?php print $host;?>">
 

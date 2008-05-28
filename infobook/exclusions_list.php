@@ -25,7 +25,7 @@ three_buttonmenu();
 ?>
   </div>
 
-  <div class="topform">
+  <div class="topform divgroup">
 	<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
 	  <div class="left">
 		<label for="Reason"><?php print_string('reason',$book);?></label>

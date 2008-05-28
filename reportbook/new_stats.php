@@ -15,6 +15,7 @@ three_buttonmenu($extrabuttons);
 	<form id="formtoprocess" name="formtoprocess" 
 	  enctype="multipart/form-data" method="post" action="<?php print $host;?>">
 
+	  <fieldset class="divgroup">
 	  <div class="left"> 
 		<label for="Description"><?php print_string('description');?></label>
 		<input class="required" type="text" id="Description"
@@ -34,6 +35,8 @@ three_buttonmenu($extrabuttons);
  	<input type="hidden" name="current" value="<?php print $action; ?>">
  	<input type="hidden" name="choice" value="<?php print $current; ?>">
 	</form>
+	</fieldset>
+
   </div>
 
   <div class="content">
