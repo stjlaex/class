@@ -400,7 +400,13 @@ function fetch_enrolmentAssessmentDefinitions($com='',$stage='E',$enrolyear='000
 	return $AssDefs;
 	}
 
-/* Returns all assdefs of relevance to a cohort */
+/**
+ * Returns all assdefs of relevance to a cohort. It will not fetch 
+ * assessment defs which refer to statistics (resultstatus=S) or which 
+ * are linked to an assessment profile or which are used for
+ * enrolments (stage=RE). TODO: season is currently fixed to S! 
+ *
+ */
 function fetch_cohortAssessmentDefinitions($cohort){
 	$crid=$cohort['course_id'];
 	$stage=$cohort['stage'];
@@ -409,15 +415,14 @@ function fetch_cohortAssessmentDefinitions($cohort){
 	$AssDefs=array();
 	$d_assessment=mysql_query("SELECT id FROM assessment
 			   WHERE (course_id LIKE '$crid' OR course_id='%') AND 
-				(stage LIKE '$stage' OR stage='%') AND
-				year LIKE '$year' 
-				ORDER BY year DESC, stage DESC, creation DESC, element");
+				(stage LIKE '$stage' OR stage='%') AND stage!='RE' AND 
+				year LIKE '$year' AND profile_name='' AND resultstatus!='S' 
+				ORDER BY year DESC, creation DESC, element ASC;");
    	while($ass=mysql_fetch_array($d_assessment, MYSQL_ASSOC)){
 		$AssDefs[]=fetchAssessmentDefinition($ass['id']);
 		}
 	return $AssDefs;
 	}
-
 
 /**/
 function update_derivation($eid,$der){

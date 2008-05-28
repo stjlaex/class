@@ -512,8 +512,13 @@ tr.rowminus {
 tr.hidden { 
 	display:none;
 	}
-tr.revealed td { 
+tr.revealed td, tr.revealed td label { 
 	background-color:#999999;
+	}
+tr.revealed td label { 
+	background-color:#999999;
+	color:#ffffff !important;
+    padding:0 2px;
 	}
 tr.revealed p, tr.revealed div { 
     margin:0;

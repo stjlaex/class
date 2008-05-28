@@ -3,7 +3,10 @@
  *
  * $multi>1 returns eids[] or $multi=1 returns eid (default=10)
  * set $required='no' to make not required (default=yes)
- * first call returns eid, second call returns eid1
+ * first call returns eid, second call returns eid1 etc.
+ *
+ * Lists relevant assessments based on selected academic
+ * responsibility or defaults to pastoral responsibilities.
  */
 
 	$cohorts=array();

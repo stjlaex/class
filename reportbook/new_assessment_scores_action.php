@@ -12,6 +12,7 @@
 
 $action='edit_scores.php';
 $action_post_vars=array('eid');
+$action_post_vars=array('curryear');
 
 include('scripts/sub_action.php');
 

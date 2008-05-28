@@ -5,6 +5,8 @@
 $action='new_assessment_action.php';
 $rcrid=$respons[$r]['course_id'];
 
+$curryear=$_POST['curryear'];
+
 include('scripts/sub_action.php');
 
 /*Check user has permission to configure*/
@@ -25,9 +27,10 @@ three_buttonmenu();
 		  <input type="hidden" name="MAX_FILE_SIZE" value="800000">	
 	  </fieldset>
 
+	  <input type="hidden" name="curryear" value="<?php print $curryear; ?>">
 	  <input type="hidden" name="current" value="<?php print $action; ?>">
-		<input type="hidden" name="choice" value="<?php print $choice; ?>">
-		  <input type="hidden" name="cancel" value="<?php print $choice; ?>">
+	  <input type="hidden" name="choice" value="<?php print $choice; ?>">
+	  <input type="hidden" name="cancel" value="<?php print $choice; ?>">
 	</form>
   </div>
 

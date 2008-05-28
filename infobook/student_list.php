@@ -9,10 +9,14 @@ $choice='student_list.php';
 include('scripts/sub_action.php');
 
 $displayfields=array();
-$displayfields[]='RegistrationGroup';$displayfields[]='Gender';$displayfields[]='DOB';
+$displayfields[]='RegistrationGroup';
+$displayfields[]='Gender';
+$displayfields[]='DOB';
+//$displayfields[]='';
 if(isset($_POST['displayfield'])){$displayfields[0]=$_POST['displayfield'];}
 if(isset($_POST['displayfield1'])){$displayfields[1]=$_POST['displayfield1'];}
 if(isset($_POST['displayfield2'])){$displayfields[2]=$_POST['displayfield2'];}
+if(isset($_POST['displayfield3'])){$displayfields[3]=$_POST['displayfield3'];}
 
 
 $extrabuttons='';

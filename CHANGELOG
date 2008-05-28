@@ -1,4 +1,4 @@
-Version ClaSS-0.8.48 release (2008/05/26)
+Version ClaSS-0.8.48 release (2008/05/28)
 -----------------------------------------
 
 Allowed the number of material entries to mutiply as they get filled on
@@ -38,6 +38,8 @@ for "Unused" which means it just goes ignored by everything.
 Bugfix to missing attendance on reports.
 
 Made the use of divgroup css consistent across all books.
+
+The new_assessment page now filters on the choose of curriculum year.
 
 
 Version ClaSS-0.8.47 release (2008/05/09)

@@ -2,9 +2,12 @@
 /**                    new_assessment_action.php
  */
 
+$action='new_assessment.php';
+
 $rcrid=$respons[$r]['course_id'];
 
-$action='new_assessment.php';
+$curryear=$_POST['curryear'];
+$action_post_vars=array('curryear');
 
 include('scripts/sub_action.php');
 

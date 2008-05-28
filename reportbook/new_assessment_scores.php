@@ -5,6 +5,7 @@
 $action='new_assessment_scores_action.php';
 $choice='new_assessment.php';
 
+$curryear=$_POST['curryear'];
 if(isset($_POST['eid'])){$eid=$_POST['eid'];}
 
 include('scripts/sub_action.php');
@@ -49,6 +50,7 @@ three_buttonmenu();
 	  </fieldset>
 
  	<input type="hidden" name="eid" value="<?php print $eid; ?>">
+ 	<input type="hidden" name="curryear" value="<?php print $curryear; ?>">
  	<input type="hidden" name="cancel" value="<?php print $choice; ?>">
  	<input type="hidden" name="current" value="<?php print $action; ?>">
  	<input type="hidden" name="choice" value="<?php print $choice; ?>">

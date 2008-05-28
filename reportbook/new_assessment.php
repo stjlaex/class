@@ -1,9 +1,14 @@
 <?php
 /**											new_assessment.php
+ *
  */
 
 $action='new_assessment_action.php';
 $choice='new_assessment.php';
+
+$toyear=get_curriculumyear();
+if(isset($_POST['curryear']) and $_POST['curryear']!=''){$curryear=$_POST['curryear'];}
+else{$curryear=$toyear;}
 
 include('scripts/course_respon.php');
 
@@ -71,6 +76,7 @@ three_buttonmenu($extrabuttons);
 	  </div>
 
 	  <input type="text" style="display:none;" id="Id_db" name="id" value="" />
+	  <input type="hidden" name="curryear" value="<?php print $curryear;?>" />
 	  <input type="hidden" name="cancel" value="<?php print '';?>" />
 	  <input type="hidden" name="current" value="<?php print $action;?>" />
 	  <input type="hidden" name="choice" value="<?php print $current;?>" />
@@ -84,7 +90,14 @@ three_buttonmenu($extrabuttons);
 		<thead>
 		  <tr>
 			<th></th>
-			<th><?php print get_string('curriculumyear').' ('.get_string('season').')';?></th>
+			<th>
+<?php 
+		print get_string('curriculumyear').' ';
+		$listname='curryear';
+		$onchange='yes';
+		include('scripts/list_calendar_year.php');
+?>
+			</th>
 			<th><?php print_string('stage');?></th>
 			<th><?php print_string('subject');?></th>
 			<th><?php print_string('status');?></th>
@@ -110,13 +123,10 @@ three_buttonmenu($extrabuttons);
 										 'title'=>'deletecolumns',
 										 'value'=>'delete_assessment_columns.php');
 
-   	$d_assessment=mysql_query("SELECT id FROM assessment
-			   WHERE course_id='$rcrid' AND resultstatus!='S' ORDER
-					BY year DESC, id DESC");
-	while($assessment=mysql_fetch_array($d_assessment,MYSQL_ASSOC)){
-	    unset($AssDef);
-		$eid=$assessment['id'];
-		$AssDef=fetchAssessmentDefinition($eid);
+	$cohort=array('id'=>'','course_id'=>$rcrid,'stage'=>'%','year'=>$curryear);
+	$AssDefs=(array)fetch_cohortAssessmentDefinitions($cohort);
+	while(list($index,$AssDef)=each($AssDefs)){
+		$eid=$AssDef['id_db'];
 		$rown=0;
 		if($AssDef['Derivation']['value'][0]!=' '){$AssDef['ResultStatus']['value']='E';}
 		else{$rowclass='';}
@@ -125,7 +135,7 @@ three_buttonmenu($extrabuttons);
 		  <tr class="rowplus"  
 					onClick="clickToReveal(this)" id="<?php print $eid.'-'.$rown++;?>">
 			<th>&nbsp</th>
-			<td><?php print $AssDef['Year']['value'].'('.$AssDef['Season']['value'].')'; ?></td>
+			<td><?php print display_curriculumyear($AssDef['Year']['value']).' ('.$AssDef['Season']['value'].')'; ?></td>
 			<td><?php print $AssDef['Stage']['value']; ?></td>
 			<td><?php print $AssDef['Subject']['value']; ?></td>
 			<td class="<?php print $AssDef['ResultStatus']['value']; ?>"><?php print $AssDef['ResultStatus']['value']; ?></td>
