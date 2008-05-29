@@ -80,6 +80,7 @@ if($reportdef['report']['profile_name']=='FS Steps'){
 			$stats=array();
 			while($eidsid=mysql_fetch_array($d_eidsid,MYSQL_ASSOC)){
 				$topic=$eidsid['description'];
+				trigger_error($profilepid.' '.$eidsid['id'].' '.$topic,E_USER_WARNING);
 				$d_mark=mysql_query("SELECT comment
 					FROM mark JOIN eidmid ON mark.id=eidmid.mark_id WHERE
 					mark.component_id='$profilepid' AND
@@ -88,8 +89,7 @@ if($reportdef['report']['profile_name']=='FS Steps'){
 								 'counter'=>0,
 								 'author'=>'ClaSS',
 								 'rating_fraction'=>1);
-				$Statements[]=fetchStatement($statement);
-				//$Comment['Text']['value'].=' '.mysql_result($d_mark,0);
+				$Statements[]=fetchStatement($statement,1);
 				}
 			}
 		$StatementBank['Area'][$profilepid]['Statements']=$Statements;
@@ -173,7 +173,7 @@ else{
 		onclick="tinyTabs(this)"><?php print $Area['Name'];?></p></li>
 
 			<div class="hidden" id="tinytab-xml-area-<?php print $Area['Name'];?>">
-				<div style="float:left;width:10%;" class="statementlevels">
+				<div class="statementlevels">
 				<table class="listmenu">
 <?php
 				   print '<tr><td abilityoption="*" onclick="filterbyAbility(this)" class="vspecial">All</td></tr>';
@@ -184,7 +184,7 @@ else{
 ?>
 				</table>
 				</div>
-				<table style="float:left;width:88%;" class="listmenu">
+				<table class="listmenu statements">
 <?php
 				   $Statements=(array)$Area['Statements'];
 				   while(list($index,$Statement)=each($Statements)){

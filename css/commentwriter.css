@@ -14,7 +14,18 @@ div#statementbank {
     top:0%;height:56%;
     left:4%;
 	width:92%;
-    overflow:hidden;
+	overflow:auto;
+	}
+div.statementlevels { 
+    float:left;
+    width:10%;
+    font-size:7pt; 
+	}
+table.statements { 
+    float:right;
+    width:89.5%;
+    margin-right:1px;
+    font-size:9pt; 
 	}
 .commentwritercolor button {
 	background-color:#44aaaa;
@@ -30,7 +41,7 @@ textarea#Comment {
     overflow:scroll;
 	}
 
-/*spell_checker*/
+/* All the rest is for the spell_checker */
 .status { 
 	color:#ff0000;
 	padding-left:150px;
@@ -102,4 +113,3 @@ textarea#Comment {
 	font-size:11pt;
     float:left;
 }
-
