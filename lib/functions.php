@@ -671,7 +671,8 @@ function getEnumArray($field_name){
 
 	/*for the orderaction table*/
 	$action=array('0' => 'lodged', '1' => 'authorised', '2' => 'placed', '3' =>
-				  'delivered', '4' => 'cancelled', '5' => 'closed');
+				  'delivered', '4' => 'cancelled', '5' => 'closed',
+				  '6' => 'process');
 
 	/*for the gidsid table*/
 	$priority=array('0' => 'first', '1' => 'second', '2' => 'third', '3' => 'fourth');

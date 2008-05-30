@@ -613,7 +613,7 @@ function get_budget_perms($budid){
 	 * the budget
 	 */
 	if($_SESSION['role']=='admin'){$perms['r']=1;$perms['w']=1;$perms['x']=1;}
-	if($_SESSION['role']=='office'){$perms['r']=1;$perms['w']=1;$perms['x']=0;}
+	if($_SESSION['role']=='office'){$perms['r']=1;$perms['w']=1;}
 	return $perms;
 	}
 

@@ -39,7 +39,9 @@ Bugfix to missing attendance on reports.
 
 Made the use of divgroup css consistent across all books.
 
-The new_assessment page now filters on the choose of curriculum year.
+The new_assessment page now filters on the choice of curriculum year.
+
+Added an intermediate step 'processing' to the orderactions.
 
 
 Version ClaSS-0.8.47 release (2008/05/09)

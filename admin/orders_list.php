@@ -75,7 +75,7 @@ if($budid!=-1){
 				if($status=='closed'){$styleclass='';}
 				elseif($status=='lodged'){$styleclass='class="midlite"';}
 				elseif($status=='authorised'){$styleclass='class="hilite"';}
-				elseif($status=='placed'){$styleclass='class="golite"';}
+				elseif($status=='placed' or $status=='process'){$styleclass='class="golite"';}
 				else{$styleclass=' class="nolite"';}
 ?>
 		<tbody id="<?php print $entryno;?>">
@@ -116,7 +116,8 @@ if($budid!=-1){
 
 <?php
 					/* Once an order is placed it is too late to amend it*/
-					if(($status=='lodged' or $status=='authorised') and $perms['w']==1){
+					if(($status=='lodged' or $status=='authorised' 
+						or $status=='process') and $perms['w']==1){
 						$actionbuttons['edit']=array('name'=>'process','value'=>'edit');
 						all_extrabuttons($actionbuttons,
 										 $book,'clickToAction(this)','class="rowaction" ');
@@ -135,7 +136,7 @@ if($budid!=-1){
 				<div class="center divgroup">
 				  <span title="<?php print $Invoice['DebitCost']['value']. 
 		   ' '. displayEnum($Invoice['Currency']['value'],$Invoice['Currency']['field_db']);?>">
-					<?php print get_string('invoice','admin').': '.$Invoice['Reference']['value'].' '.display_date($Action['Date']['value']).' - ';?>
+					<?php print get_string('invoice','admin').': '.$Invoice['Reference']['value'].' ('.display_date($Action['Date']['value']).') - ';?>
 					<?php print $Action['Teacher']['value']. ' ';?>
 					<?php print $Action['Detail']['value'];?>
 				  </span>
@@ -154,29 +155,37 @@ if($budid!=-1){
 							}
 						}
 					}
+
+				 /*Now the buttons to progress the order to the next status.*/
 				if($status!='closed'){
-					$orderaction='';
+					$orderactions=array();
 					$actionbuttons=array();
 					if($status=='lodged' and $perms['x']==1){
-						$orderaction='authorise';
+						$orderactions[]='authorise';
 						}
-					elseif($status=='authorised' and $perms['w']==1){$orderaction='place';}
-					elseif($status=='placed' and $perms['w']==1){$orderaction='delivery';}
+					elseif($status=='authorised' and $perms['w']==1){
+						$orderactions[]='process';
+						$orderactions[]='place';
+						}
+					elseif($status=='process' and $perms['w']==1){$orderactions[]='place';}
+					elseif($status=='placed' and $perms['w']==1){$orderactions[]='delivery';}
 					elseif($status=='delivered' and $perms['w']==1){
 						$actionbuttons['close']=array('name'=>'process','value'=>'close');
-						$orderaction='delivery';
+						$orderactions[]='delivery';
 						}
 
-					if($orderaction!=''){
-						$actionbuttons[$orderaction]=array('name'=>'process',
+					if(sizeof($orderactions)>0){
+						while(list($indexoa,$orderaction)=each($orderactions)){
+							$actionbuttons[$orderaction]=array('name'=>'process',
 														   'value'=>$orderaction);
+							}
 ?>
 				<label>
 				  <?php print get_string($orderaction,$book).' '.get_string('note',$book);?>
 				</label>
 				<input style="width:30em;" name="detail<?php print $ordid;?>" value="" />
 <?php
-						all_extrabuttons($actionbuttons,
+						    all_extrabuttons($actionbuttons,
 										 $book,'clickToAction(this)','class="rowaction" ');
 						}
 					}

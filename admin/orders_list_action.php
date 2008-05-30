@@ -49,6 +49,9 @@ elseif($sub=='cancel'){
 elseif($sub=='close'){
 	$orderaction=5;
 	}
+elseif($sub=='process'){
+	$orderaction=6;
+	}
 
 if(isset($orderaction)){
 	mysql_query("INSERT INTO orderaction SET order_id='$ordid',
