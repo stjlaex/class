@@ -8,55 +8,60 @@ function requestxmlHttp(){
 	}
 
 //------------------------------------------------------
+// A bunch of functions which launch a helper window before working with
+// calls to httpscripts to do their work
+
 //opens the comment writer window
 function clickToWriteComment(sid,rid,bid,pid,entryn,openId){
-	var commenturl;
-	commenturl="sid="+sid+"&rid="+rid+"&bid="+bid+"&pid="+pid+"&entryn="+entryn+"&openid="+openId;
-	openCommentWriter(commenturl);
+	var helperurl="reportbook/httpscripts/comment_writer.php";
+	var getvars="sid="+sid+"&rid="+rid+"&bid="+bid+"&pid="+pid+"&entryn="+entryn+"&openid="+openId;
+	openHelperWindow(helperurl,getvars);
 	}
 
-function openCommentWriter(commenturl){
-	writerWindow=window.open('','','height=650,width=650,screenX=50,dependent');
+//opens the a window for file attachments
+function clickToAttachFile(sid,mid,cid,pid,openId){
+	var helperurl="markbook/httpscripts/upload_file.php";
+	var getvars="sid="+sid+"&mid="+mid+"&cid="+cid+"&pid="+pid+"&openid="+openId;
+	openHelperWindow(helperurl,getvars);
+	}
+
+
+function openHelperWindow(helperurl,getvars){
+	writerWindow=window.open("","","height=650,width=650,screenX=50,dependent");
 	writerWindow.document.open();
 	writerWindow.document.writeln("<html>");
 	writerWindow.document.writeln("<head>");
 	writerWindow.document.writeln("<meta http-equiv='pragma' content='no-cache'/>");
 	writerWindow.document.writeln("<meta http-equiv='Expires' content='0'/>");
 	writerWindow.document.writeln("</head>");
-	writerWindow.document.writeln("<script type='text/javascript'>function actionpage(){document.location='reportbook/httpscripts/comment_writer.php?"+commenturl+"';}</script>");
+	writerWindow.document.writeln("<script type=\"text/javascript\">function actionpage(){document.location='"+helperurl+"?"+getvars+"';}</script>");
 	writerWindow.document.writeln("<body onLoad=\"setTimeout('actionpage()', 100);\">");
 	writerWindow.document.writeln("</body>");
 	writerWindow.document.writeln("</html>");
 	writerWindow.document.close();
 	}
 
-function closeCommentWriter(commentId,entryn,text){
-	if(commentId!='-100'){
-		opener.updateComment(commentId,entryn,text);
+function closeHelperWindow(openId,entryn,text){
+	if(openId!="-100"){
+		opener.updateLauncher(openId,entryn,text);
 		}
 	window.close();
 	}
 
-function updateComment(commentId,entryn,text){
+function updateLauncher(openId,entryn,text){
 //	the id should refer to the containing html entity for the icon (probably a td)
 //  and the actual textarea for the text
-	if(document.getElementById('text'+commentId)){
-		document.getElementById('text'+commentId).value=text;
+	if(document.getElementById("text"+openId)){
+		document.getElementById("text"+openId).value=text;
 		}
-	if(document.getElementById('icon'+commentId)){
-		document.getElementById('icon'+commentId).setAttribute("class","vspecial");
+	if(document.getElementById("icon"+openId)){
+		document.getElementById("icon"+openId).setAttribute("class","vspecial");
 		}
-	if(document.getElementById('inmust'+commentId)){
-		document.getElementById('inmust'+commentId).value=entryn;
+	if(document.getElementById("inmust"+openId)){
+		document.getElementById("inmust"+openId).value=entryn;
 		}
 	}
 
-//opens the a window for file attachments
-function clickToAttachFile(sid,cid,bid,pid){
-	var commenturl;
-	commenturl="sid="+sid+"&cid="+cid+"&bid="+bid+"&pid="+pid;
-	openCommentWriter(commenturl);
-	}
 
 //------------------------------------------------------
 //
@@ -64,7 +69,7 @@ function tinyTabs(tabObject){
 	// the id of containing div (eg. area for statementbank)
 	var tabmenuId=tabObject.parentNode.parentNode.parentNode.id;
 	var chosentab=tabObject.getAttribute("class");
-	document.getElementById("current-tinytab").removeAttribute('id');
+	document.getElementById("current-tinytab").removeAttribute("id");
 	document.getElementById("tinytab-"+tabmenuId+"-"+chosentab).firstChild.setAttribute("id","current-tinytab");
 	var targetId="tinytab-display-"+tabmenuId;
 	var sourceId="tinytab-xml-"+tabmenuId+"-"+chosentab;
@@ -106,7 +111,7 @@ function clickToAction(buttonObject){
 	var i=0;
 	//need the id of the div containing the xml-record 
 	var theDivId=buttonObject.parentNode.id;
-	if(theDivId==''){
+	if(theDivId==""){
 		//gets it from the id of the tbody container for this row
 		var theContainerId=buttonObject.parentNode.parentNode.parentNode.id;
 		}
@@ -114,7 +119,7 @@ function clickToAction(buttonObject){
 		//or gets it from the id of the parent div container
 		var theContainerId=theDivId;
 		}
-	var xmlId='xml-'+theContainerId;
+	var xmlId="xml-"+theContainerId;
 	var xmlContainer=document.getElementById(xmlId);
 	var xmlRecord=xmlContainer.childNodes[1];
 	var action=buttonObject.name;
@@ -128,7 +133,7 @@ function clickToAction(buttonObject){
 		}
 	else if(action=="New"){
 		document.formtoprocess.reset();
-		var recordId=xmlRecord.getElementsByTagName('id_db').item(0).firstChild.data;
+		var recordId=xmlRecord.getElementsByTagName("id_db").item(0).firstChild.data;
 		document.getElementById("Id_db").value=recordId;
 		document.getElementById("No_db").value="-1";
 		document.getElementById("Subject").parentNode.setAttribute("class","hidden");
@@ -191,13 +196,13 @@ function confirmAction(title){
 
 function updatexmlRecord(xmlRecord){
 	var exists=false;
-	if(xmlRecord!=''){
-		var recordId=xmlRecord.getElementsByTagName('id_db').item(0).firstChild.data;
-		var exists=xmlRecord.getElementsByTagName('exists').item(0).firstChild.data;
-//		var xmlId='xml-'+recordId;
+	if(xmlRecord!=""){
+		var recordId=xmlRecord.getElementsByTagName("id_db").item(0).firstChild.data;
+		var exists=xmlRecord.getElementsByTagName("exists").item(0).firstChild.data;
+//		var xmlId="xml-"+recordId;
 //		var xmlContainer=document.getElementById(xmlId);
 //	    xmlContainer.firstChild.data=xmlRecord;
-		if(exists!='true'){
+		if(exists!="true"){
 			var tableRecord=document.getElementById(recordId);
 			while(tableRecord.hasChildNodes()){
 				tableRecord.removeChild(tableRecord.childNodes[0]);

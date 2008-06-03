@@ -27,8 +27,7 @@ three_buttonmenu();
 ?>
   <div id="heading">
 <?php 
-	print '<label>'.$umns[$col]['topic'].'</label>';
-	print '<span>'.' - '.$umns[$col]['comment'].'</span>';
+	print '<label>'.$umns[$col]['topic'].': '.$umns[$col]['comment'].'</label>';
 ?>
   </div>
 
@@ -96,7 +95,7 @@ three_buttonmenu();
 		  <td><?php print $tab;?></td>
 		  <td>&nbsp</td>
 		  <td>
-			<a href="infobook.php?current=student_view.php&sid=<?php print $viewtable[$c]['sid'];?>&sids[]=<?php print $viewtable[$c]['sid'];?>"
+			<a href="infobook.php?current=student_view.php&sid=<?php print $sid;?>&sids[]=<?php print $sid;?>"
 			  target="viewinfobook" onclick="parent.viewBook('infobook');">
 			<?php print $viewtable[$c]['surname'];?>,&nbsp;<?php print $viewtable[$c]['forename'].$viewtable[$c]['preferredforename'];?></a>
 		  </td>
@@ -143,11 +142,10 @@ three_buttonmenu();
 				name="<?php print 'comm'.$sid;?>" maxlength="98" 
 				value="<?php print $viewtable[$c]["score$mid"]['comment'];?>" />
 			</td>
-			<td id="icon<?php print $sid;?>" class="">
+			<td id="icon<?php print $sid;?>" class="" style="width:18px;">
 			  <img class="clicktoload" name="Attachment"
-		 onClick="clickToAttachFile(<?php print $sid.','.$mid.',\''.$cid.'\',\''.$pid.'\'';?>);" 
+		 onClick="clickToAttachFile(<?php print $sid.','.$mid.',\''.$viewtable[$c]['class_id'].'\',\''.$pid.'\',\''.$sid.'\'';?>);" 
 		  title="<?php print_string('clicktoattachfile');?>" />
-			  &nbsp;
 			</td>
 		</tr>
 <?php

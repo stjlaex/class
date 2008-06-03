@@ -17,10 +17,10 @@ if($sub=='Cancel'){
 elseif($sub=='Submit'){
 	$openerId=$_POST['openid'];
 	$Student=fetchStudent_short($sid);
-	if(isset($_POST{'bid'})){$bid=$_POST{'bid'};}
-	if(isset($_POST{'pid'})){$pid=$_POST{'pid'};}
-	if(isset($_POST{'incom'})){$incom=clean_text($_POST{'incom'});}
-	if(isset($_POST{'inmust'})){$inmust=$_POST{'inmust'};}
+	if(isset($_POST['bid'])){$bid=$_POST['bid'];}
+	if(isset($_POST['pid'])){$pid=$_POST['pid'];}
+	if(isset($_POST['incom'])){$incom=clean_text($_POST['incom']);}
+	if(isset($_POST['inmust'])){$inmust=$_POST['inmust'];}
 
 	if($inmust=='yes' and $incom!=''){
 		if(mysql_query("INSERT INTO reportentry (comment,
@@ -56,7 +56,7 @@ $comment=js_addslashes($incom);
 <link id="viewstyle" rel="stylesheet" type="text/css" href="../../css/commentwriter.css" />
 <script language="JavaScript" type="text/javascript" src="../../js/bookfunctions.js"></script>
 </head>
-<body onload="closeCommentWriter(<?php print '\''.$openerId.'\',\''.$entryn.'\',\''.$comment.'\'';?>);">
+<body onload="closeHelperWindow(<?php print '\''.$openerId.'\',\''.$entryn.'\',\''.$comment.'\'';?>);">
 	<div id="bookbox">
 
 	  <div id="heading">

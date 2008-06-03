@@ -19,8 +19,9 @@ if($_SESSION['worklevel']>-1){
 	  <?php print_string('classwork',$book);?>
 	</button>
 <?php
-	 /*only display HW for a single class only for courses
-					which do do homework*/
+	 /* Only display HW for a single class and only for courses
+	  *			   which do do homework.
+	  */
 	if($cidsno==1 and !in_array($classes[$cid]['crid'],getEnumArray('nohomeworkcourses'))){
 ?>
 	<button onClick="processContent(this);" name="current" value="new_homework.php">
@@ -79,6 +80,7 @@ if($_SESSION['worklevel']>-1){
 		  <td colspan="5">
 			<table>
 <?php
+	/* cidsno is the size of the cids array being displayed */
 	for($i=0;$i<$cidsno;$i++){ 
 		/*colour students by their teaching class */	
 		$cidcolour[$cids[$i]]=$rowcolour[$i];
@@ -151,8 +153,10 @@ if($_SESSION['worklevel']>-1){
 ?>
 		</tr>
 <?php
-   	/********************************************/
-   	/*	Generate each student's row in the table*/
+   	/*******************************************
+	 *	Generate each student's row in the table, $row is set as the sizeof
+	 *	the viewtable
+	 */
    	include('class_view_table.php');
 
 	for($c2=0;$c2<$row;$c2++){

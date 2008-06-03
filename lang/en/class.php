@@ -14,6 +14,7 @@ $string['password']='Password';
 $string['username']='Username';
 $string['yes']='Yes';
 $string['clicktowritecomment']='Click to write comment';
+$string['clicktoattachfile']='Click to post file';
 $string['details']='Details';
 $string['cancel']='Cancel';
 $string['forename']='Forename';

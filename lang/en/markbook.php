@@ -34,7 +34,7 @@ $string['datedue']='Work due';
 $string['references']='References';
 $string['columnlevelled']='Column levelled';
 $string['profileassessments']='Profile assessments';
-$string['']='';
+$string['newsworthy']='News worthy';
 $string['']='';
 $string['']='';
 ?>

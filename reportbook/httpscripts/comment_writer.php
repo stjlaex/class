@@ -16,13 +16,6 @@ if(isset($_GET['entryn'])){$entryn=$_GET['entryn'];}
 elseif(isset($_POST['entryn'])){$entryn=$_POST['entryn'];}
 if(isset($_GET['openid'])){$openid=$_GET['openid'];}
 
-
-/*
-Needs to be generalized for rid not being a rid!!!!!
-if(){}
-else{
-*/
-
 $StatementBank=array();
 $reportdef=fetchReportDefinition($rid);
 if($reportdef['report']['commentlength']=='0'){$commentlength='';}

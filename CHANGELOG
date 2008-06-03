@@ -1,9 +1,11 @@
 Version ClaSS-0.8.48 release (2008/06/14)
 -----------------------------------------
 
-Added a simple subject report template which shows how to use
+A simple subject report template which illustrates how to include
 attendance data.
 
+Renamed and generalised the js for openCommentWriter to be more widely
+useful as openHelperWindow.
 
 
 Version ClaSS-0.8.48 release (2008/05/30)

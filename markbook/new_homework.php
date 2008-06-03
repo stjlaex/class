@@ -19,9 +19,11 @@ if($hwid>-1){
 else{
 	$HomeworkDef=fetchHomeworkDefinition(-1);
 	}
-
 	$extrabuttons=array();
 
+	/* Can use cid 0 because the homework button only accessible when one
+	 * class is in the marktable. 
+	 */
 	$cid=$cids[0];
 	$d_cridbid=mysql_query("SELECT subject_id, course_id, stage 
 						   		FROM class WHERE id='$cid'");

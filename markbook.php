@@ -169,9 +169,11 @@ if(isset($umns)){
 				value="cw" <?php if($umntype=='cw'){print 'checked';}?>
 				onchange="document.umntypechoice.submit();" />
 <?php
-				/*only display HW for a single class only for courses
-					which do do homework*/
-		if($cidsno==1 and !in_array($classes[$cid]['crid'],getEnumArray('nohomeworkcourses'))){
+				/* Only display HW for a single class and only for courses
+				 *	which do do homework
+				 */
+		if($cidsno==1 and isset($cid) and 
+		   !in_array($classes[$cid]['crid'],getEnumArray('nohomeworkcourses'))){
 ?>
 			<label>&nbsp;HW</label>
 				<input title="<?php print_string('homework',$book);?>" 

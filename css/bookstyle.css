@@ -368,7 +368,7 @@ button.rowaction:hover, button.rowaction:focus {
 	}
 img.clicktoload { 
 	background-image:url("../images/folder-open.png");
-    padding:1px !important;
+    padding:1px;
 	cursor:pointer;
     width:16px !important;
     height:16px !important;
