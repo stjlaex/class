@@ -60,7 +60,8 @@ $books['supply']=array(
 					   'register' => 'Register'
 					   );
 $books['library']=array(
-						'infobook' => 'InfoBook'
+						'admin' => 'Admin'
+						,'infobook' => 'InfoBook'
 						//,'library' => 'Library'
 						);
 $books['teacher']=array(

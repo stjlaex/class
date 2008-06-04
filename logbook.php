@@ -3,6 +3,8 @@
 	$book='logbook';
 	$fresh='';
 	include('scripts/head_options.php');
+	if(isset($_POST['new_r'])){$_SESSION['r']=$_POST['new_r'];$fresh='yes';}
+	if(!isset($_SESSION['r'])){$_SESSION['r']=-1;$fresh='very';}
 ?>
   <div style="visibility:hidden;" id="hiddenbookoptions">	
   </div>
@@ -50,6 +52,41 @@
 <?php
 	if($fresh!=''){
 		$role=$_SESSION['role'];
+		if($_SESSION['senrole']=='1'){$books[$role]['seneeds']='SEN';}
+		}
+
+	if($fresh=='yes'){
+		/* Responsibilities selection has changed 
+		 * (re)loading all the $r dependent ClaSS books.
+		 */
+		foreach($books[$role] as $bookhost=>$bookname){
+			if($bookhost=='markbook' or $bookhost=='reportbook'
+			   or $bookhost=='admin'){
+?>
+				<script>parent.loadBook("<?php print $bookhost; ?>")</script>
+<?php
+				}
+			if($bookhost=='markbook'){
+				/* Clear everything because the user's current
+				 * selection will no longer be avaible. 
+				 */
+				unset($_SESSION['classes']);
+				unset($_SESSION['cids']);
+				unset($_SESSION['cid']);
+				unset($_SESSION['pids']);
+				unset($_SESSION['pid']);
+				unset($_SESSION['umntype']);
+				unset($_SESSION['umnrank']);
+				unset($_SESSION['umns']);
+				unset($_SESSION['viewtable']);
+				}
+		   }
+		}
+	elseif($fresh=='very'){
+		/* This was loaded after a new login so do some extra stuff:
+		 * load the externalbooks, booktabs, update langpref, and raise firstbook
+		 */
+
 		if($role=='office'){
 			/* This will prevent session timeouts, making an
 			 * xmlhttprequest to the logbook/httpscripts/session_alive.php 
@@ -59,17 +96,12 @@
 		<script>setInterval("parent.sessionAlive(pathtobook);",15*60*1000);</script>
 <?php
 			}
-		if($_SESSION['senrole']=='1'){$books[$role]['seneeds']='SEN';}
+
 		foreach($books[$role] as $bookhost=>$bookname){
-			/*(re)loading all the ClaSS books*/
 ?>
-			<script>parent.loadBook("<?php print $bookhost; ?>")</script>
+				<script>parent.loadBook("<?php print $bookhost; ?>")</script>
 <?php
 		   }
-	   }
-	if($fresh=='very'){
-		/*this was loaded after a new login so do some extra stuff:*/
-		/*load the externalbooks, booktabs, update langpref, and raise firstbook*/
 
 		$externalbooks=array();
 		if(isset($books['external'][$role])){$externalbooks[$role]=$books['external'][$role];}

@@ -76,7 +76,7 @@ else{
 		<legend><?php print_string('list',$book);?></legend>
 <?php
 		$choices=array('absence_list.php' => 'absencelists'
-					   //,'late_list.php' => 'lates'
+					   //,'late_list.php' => 'lates' TODO
 					   ,'completion_list.php' => 'completedregisters'
 					   );
 		selery_stick($choices,$choice,$book);

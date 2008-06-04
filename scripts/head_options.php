@@ -15,8 +15,6 @@
 	require_once('logbook/permissions.php');
 	$tid=$_SESSION['username'];
 	$respons=getRespons($tid);
-	if(isset($_POST['new_r'])){$_SESSION['r']=$_POST['new_r'];$fresh='yes';}
-	if(!isset($_SESSION['r'])){$_SESSION['r']=-1;$fresh='very';}
 	$r=$_SESSION['r'];
 	$tab=1;
 	print '<?xml version="1.0" encoding="utf-8"?'.'>';

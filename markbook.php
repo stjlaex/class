@@ -88,7 +88,7 @@ if(isset($_POST['umntype'])){
 	}
 
 /* Now initialise all of the variables from the session data*/
-if(!isset($_SESSION['cids'])){$_SESSION['cids']=array('','');}
+if(!isset($_SESSION['cids'])){$_SESSION['cids']=array();}
 $cids=$_SESSION['cids'];
 $cidsno=sizeof($cids);
 if(!isset($_SESSION['classes'])){$_SESSION['classes']=array();}
@@ -107,7 +107,7 @@ $attdate=date('Y-m-d',mktime(0,0,0,date('m'),date('d'),date('Y')));
 
 <div class="markcolor" id="bookbox">
 <?php
-	if($current!=''){
+	if($current!='' and $cidsno>0){
 		include($book.'/'.$current);
 		}
 ?>

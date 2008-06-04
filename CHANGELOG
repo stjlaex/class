@@ -14,6 +14,10 @@ work in the eportfolio.
 
 Search orders by supplier added.
 
+Improved the logic and hence the speed of the logbook when the respons
+selection has changed, only select books are now reloaded, and
+MarkBook selections emptied.
+
 
 Version ClaSS-0.8.48 release (2008/05/30)
 -----------------------------------------
