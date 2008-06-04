@@ -32,7 +32,7 @@ if($sub=='Submit'){
 			$inname=$field;
 			$inval=clean_text($_POST[$inname]);
 			if($val['table_db']=='orderorder'){
-				mysql_query("UPDATE orderorder SET $field='$inval' WHERE id='$ordid'");
+				mysql_query("UPDATE orderorder SET $field='$inval' WHERE id='$ordid';");
 				}
 			}
 		}

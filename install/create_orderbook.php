@@ -11,6 +11,7 @@ CREATE TABLE orderorder (
 	ordertype	   	enum('0','1','2','3','4','5') not null,
 	currency		enum('0','1','2','3','4') not null,
 	teacher_id		varchar(14) not null default '',
+	detail			text not null default '',
 	primary key (id)
 );");
 mysql_query("

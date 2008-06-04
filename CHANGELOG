@@ -1,4 +1,4 @@
-Version ClaSS-0.8.48 release (2008/06/14)
+Version ClaSS-0.8.48 release (2008/06/05)
 -----------------------------------------
 
 A simple subject report template which illustrates how to include
@@ -6,6 +6,13 @@ attendance data.
 
 Renamed and generalised the js for openCommentWriter to be more widely
 useful as openHelperWindow.
+
+Bugfix to the orders_list page when searching.
+
+File upload added to edit_scores for evidencing attainments by stoing
+work in the eportfolio.
+
+Search orders by supplier added.
 
 
 Version ClaSS-0.8.48 release (2008/05/30)

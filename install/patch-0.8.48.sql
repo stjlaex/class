@@ -10,3 +10,5 @@ ALTER TABLE component
 	CHANGE status status enum('N','V','U') not null default 'N';
 ALTER TABLE orderaction 
 	CHANGE action action enum('1','2','3','4','5','6') not null;
+ALTER TABLE orderorder 
+	ADD detail text not null default '' AFTER teacher_id;

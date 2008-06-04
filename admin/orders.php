@@ -49,6 +49,7 @@ twoplus_buttonmenu($budgetyear,$currentyear+2,$extrabuttons,$book);
 		  <label for="Ordernumber"><?php print_string('ordernumber',$book);?></label>
 		  <input tabindex="<?php print $tab++;?>" 
 			type="text" id="Ordernumber" name="ordernumber" maxlength="30"/>
+
 <?php 
 		$orderstatus='-1';
 		$listlabel='status';
@@ -61,6 +62,14 @@ twoplus_buttonmenu($budgetyear,$currentyear+2,$extrabuttons,$book);
 			<button type="submit" name="sub" value="search">
 			  <?php print_string('search');?>
 			</button>
+<?php 
+		$orderstatus='-1';
+		$listlabel='supplier';
+		$listname='ordersupid';
+		$d_sup=mysql_query("SELECT id, name FROM ordersupplier;");
+		include('scripts/set_list_vars.php');
+		list_select_db($d_sup,$listoptions,$book);
+?>
 		  </div>
 		</div>
 	  </fieldset>

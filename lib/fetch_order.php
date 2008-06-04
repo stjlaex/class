@@ -18,7 +18,7 @@
  */
 function get_budgetname($ordid){
 	if($ordid!=' ' and $ordid!=''){
-		$d_b=mysql_query("SELECT name FROM orderbudget WHERE id='$ordid'");
+		$d_b=mysql_query("SELECT name FROM orderbudget WHERE id='$ordid';");
 		$name=mysql_result($d_b,0);
 		}
 	else{
@@ -93,7 +93,7 @@ function list_budget_orders($budid){
 /**
  *
  */
-function list_orders($ordernumber='%',$orderstatus='%'){
+function list_orders($ordernumber='%',$orderstatus='%',$ordersupid='%'){
 	$orders=array();
 	if($ordernumber!='%' and $ordernumber!=''){
 		list($budcode,$staffcode,$yearcode,$ordid)=split('-',$ordernumber);
@@ -102,14 +102,13 @@ function list_orders($ordernumber='%',$orderstatus='%'){
 	if(!isset($staffcode) or $staffcode==''){$staffcode='%';}
 	if(!isset($yearcode) or $yearcode==''){$yearcode='%';}
 	if(!isset($ordid) or $ordid==''){$ordid='%';}
-	if(!isset($supid) or $supid==''){$supid='%';}
 	$d_order=mysql_query("SELECT orderorder.id FROM orderorder JOIN orderbudget ON 
 				orderbudget.id=orderorder.budget_id 
 				WHERE orderbudget.code LIKE '$budcode' AND 
 				orderbudget.yearcode LIKE '$yearcode' AND 
 				orderorder.teacher_id LIKE '$staffcode' AND 
 				orderorder.id LIKE '$ordid' AND 
-				orderorder.supplier_id LIKE '$supid' 
+				orderorder.supplier_id LIKE '$ordersupid' 
 				ORDER BY entrydate DESC;");
 	while($order=mysql_fetch_array($d_order,MYSQL_ASSOC)){
 		if($orderstatus!='%' and $orderstatus!=''){
@@ -156,7 +155,7 @@ function get_order_reference($ordid){
 function fetchOrder($ordid='-1'){
 	$Order=array();
 	$d_o=mysql_query("SELECT budget_id, supplier_id, entrydate,
-						ordertype, currency, teacher_id 
+						ordertype, currency, teacher_id, detail 
 						FROM orderorder WHERE id='$ordid'");
 	$order=mysql_fetch_array($d_o,MYSQL_ASSOC);
 	$Order=array();
@@ -177,6 +176,12 @@ function fetchOrder($ordid='-1'){
 							 'default_value' => '0',
 							 'value' => ''.$order['currency']
 							 );
+	$Order['Detail']=array('label' => 'note',
+						   'table_db' => 'orderorder', 
+						   'field_db' => 'detail',
+						   'type_db' => 'text', 
+						   'value' => ''.$order['detail']
+						   );
    	$Order['Lodged']=array('label' => 'lodgedby', 
 						   'field_db' => 'teacher_id',
 						   'type_db' => 'varchar(14)', 

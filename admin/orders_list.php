@@ -1,5 +1,12 @@
 <?php
-/**                                  orders_list.php    
+/**                                  orders_list.php   
+ * 
+ * Works in two scenarios. Either called with budid set meaning it is
+ * for a single budget and new orders can placed. Or it is the result
+ * of search and ordernumber and orderstatus will be used to list
+ * relevant orders, budid=-1 is set beacsue this transcends budgets
+ * and no orders can be placed from this page.
+ *
  */
 
 $action='orders_list_action.php';
@@ -10,9 +17,10 @@ if(isset($_GET['budgetyear'])){$budgetyear=$_GET['budgetyear'];}
 if(isset($_POST['budgetyear']) and $_POST['budgetyear']!=''){$budgetyear=$_POST['budgetyear'];}
 
 if(isset($_POST['ordernumber']) or isset($_POST['orderstatus'])){
+	$ordersupid=$_POST['ordersupid'];
 	$ordernumber=$_POST['ordernumber'];
 	$orderstatus=$_POST['orderstatus'];
-	$orders=list_orders($ordernumber,$orderstatus);
+	$orders=list_orders($ordernumber,$orderstatus,$ordersupid);
 	$extrabuttons=array();
 	$budid=-1;
 	$colspan=7;
@@ -29,6 +37,7 @@ else{
 
 
 two_buttonmenu($extrabuttons,$book);
+
 if($budid!=-1){
 ?>
   <div id="heading">
@@ -161,14 +170,23 @@ if($budid!=-1){
 					$orderactions=array();
 					$actionbuttons=array();
 					if($status=='lodged' and $perms['x']==1){
+						$orderactions[]='cancel';
 						$orderactions[]='authorise';
 						}
 					elseif($status=='authorised' and $perms['w']==1){
+						$orderactions[]='cancel';
 						$orderactions[]='process';
 						$orderactions[]='place';
 						}
-					elseif($status=='process' and $perms['w']==1){$orderactions[]='place';}
-					elseif($status=='placed' and $perms['w']==1){$orderactions[]='delivery';}
+					elseif($status=='process' and $perms['w']==1){
+						$orderactions[]='cancel';
+						$orderactions[]='process';
+						$orderactions[]='place';
+						}
+					elseif($status=='placed' and $perms['w']==1){
+						$orderactions[]='cancel';
+						$orderactions[]='delivery';
+						}
 					elseif($status=='delivered' and $perms['w']==1){
 						$actionbuttons['close']=array('name'=>'process','value'=>'close');
 						$orderactions[]='delivery';
@@ -204,7 +222,15 @@ if($budid!=-1){
 ?>
 	  </table>
 	</div>
-	
+<?php
+if($budid==-1){	
+?>
+	<input type="hidden" name="ordernumber" value="<?php print $ordernumber;?>" />
+	<input type="hidden" name="orderstatus" value="<?php print $orderstatus;?>" />
+	<input type="hidden" name="ordersupid" value="<?php print $ordersupid;?>" />
+<?php
+	}
+?>
 	<input type="hidden" name="budgetyear" value="<?php print $budgetyear;?>" />
 	<input type="hidden" name="budid" value="<?php print $budid;?>" />
 	<input type="hidden" name="current" value="<?php print $action;?>" />
