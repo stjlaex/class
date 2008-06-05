@@ -1,4 +1,4 @@
-Version ClaSS-0.8.49 release (2008/06/04)
+Version ClaSS-0.8.49 release (2008/06/05)
 -----------------------------------------
 
 A simple subject report template which illustrates how to include
@@ -9,7 +9,7 @@ useful as openHelperWindow.
 
 Bugfix to the orders_list page when searching.
 
-File upload added to edit_scores for evidencing attainments by stoing
+File upload added to edit_scores for evidencing attainments by storing
 work in the eportfolio.
 
 Search orders by supplier added.
@@ -17,6 +17,11 @@ Search orders by supplier added.
 Improved the logic and hence the speed of the logbook when the respons
 selection has changed, only select books are now reloaded, and
 MarkBook selections emptied.
+
+Bugfix to editing an order, setting the quantity to 0 will now blank
+the whole item.
+
+Export of a transfer file of closed orders for accounts.
 
 
 Version ClaSS-0.8.48 release (2008/05/30)

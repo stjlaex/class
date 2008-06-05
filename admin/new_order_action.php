@@ -40,9 +40,11 @@ if($sub=='Submit'){
 	$Material=fetchMaterial();
 	$entryn=0;
 	/* entryn and matn not neccessarily the same if blanks in the form
-	 * and must avoid blanks in entryn */
+	 * and must avoid blanks in entryn 
+	 */
 	for($matn=1;$matn<=$maxmatn;$matn++){
-		if(isset($_POST['detail'.$matn]) and $_POST['detail'.$matn]!=''){
+		if(isset($_POST['quantity'.$matn]) and
+		   $_POST['quantity'.$matn]!='' and $_POST['quantity'.$matn]!='0'){
 			$entryn++;
 			mysql_query("INSERT INTO ordermaterial SET order_id='$ordid', entryn='$entryn';");
 			reset($Material);
@@ -58,11 +60,15 @@ if($sub=='Submit'){
 					}
 				}
 			}
+		elseif(isset($_POST['quantity'.$matn]) and
+		   $_POST['quantity'.$matn]!='' and $_POST['quantity'.$matn]=='0'){
+			$entryn++;
+			mysql_query("UPDATE ordermaterial SET refno='', detail='',
+						materialtype='', unitcost='', quantity='0' WHERE
+						order_id='$ordid' AND entryn='$entryn';");	
+			}
 		}
-	//$result[]=get_string('neworderadded',$book);
 	}
 
-
-include('scripts/results.php');
 include('scripts/redirect.php');
 ?>

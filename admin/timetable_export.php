@@ -187,7 +187,7 @@ include('scripts/answer_action.php');
 		$xmllines['Rooms_List']=array();
 
 		/**
-		 *
+		 * 
 		 */
 		$options=array(
 					   'addDecl' => true,
@@ -208,7 +208,7 @@ include('scripts/answer_action.php');
 	   	fclose($file);
 		$result[]='exportedtofile';
 ?>
-		<script>openXMLExport();</script>
+		<script>openXMLExport('fet');</script>
 <?php
 		}
 

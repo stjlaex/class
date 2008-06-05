@@ -183,7 +183,7 @@ if($photocheck=='yes'){
 			//$Students[$sid]=fetchStudent_short($sid);
 			$Student=fetchStudent_singlefield($sid,'EPFUsername');
 			$epfuid=elgg_get_epfuid($Student['EPFUsername']['value'],'person',true);
-			if($epfuid!='-1'){elgg_student_photo($epfuid,$yid);}
+			if($epfuid!='-1'){elgg_set_student_photo($epfuid,$yid);}
 			}
 		}
 	}

@@ -25,6 +25,7 @@ if($_SESSION['role']=='admin'
 	}
 if($_SESSION['role']=='admin' or $_SESSION['role']=='office'){
 	$extrabuttons['suppliers']=array('name'=>'current','value'=>'suppliers_list.php');
+	$extrabuttons['export']=array('name'=>'current','value'=>'orders_export.php');
 	}
 twoplus_buttonmenu($budgetyear,$currentyear+2,$extrabuttons,$book);
 ?>
@@ -49,7 +50,16 @@ twoplus_buttonmenu($budgetyear,$currentyear+2,$extrabuttons,$book);
 		  <label for="Ordernumber"><?php print_string('ordernumber',$book);?></label>
 		  <input tabindex="<?php print $tab++;?>" 
 			type="text" id="Ordernumber" name="ordernumber" maxlength="30"/>
+		  </div>
+		  <div class="right">
+			<button type="submit" name="sub" value="search">
+			  <?php print_string('search');?>
+			</button>
+		  </div>
+		</div>
+		<div class="center">
 
+		  <div class="left">
 <?php 
 		$orderstatus='-1';
 		$listlabel='status';
@@ -59,12 +69,10 @@ twoplus_buttonmenu($budgetyear,$currentyear+2,$extrabuttons,$book);
 ?>
 		  </div>
 		  <div class="right">
-			<button type="submit" name="sub" value="search">
-			  <?php print_string('search');?>
-			</button>
 <?php 
 		$orderstatus='-1';
 		$listlabel='supplier';
+		$liststyle='width:8em;';
 		$listname='ordersupid';
 		$d_sup=mysql_query("SELECT id, name FROM ordersupplier;");
 		include('scripts/set_list_vars.php');

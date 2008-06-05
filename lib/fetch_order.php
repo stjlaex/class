@@ -95,6 +95,8 @@ function list_budget_orders($budid){
  */
 function list_orders($ordernumber='%',$orderstatus='%',$ordersupid='%'){
 	$orders=array();
+	if($ordersupid==''){$ordersupid='%';}
+	if($orderstatus==''){$orderstatus='%';}
 	if($ordernumber!='%' and $ordernumber!=''){
 		list($budcode,$staffcode,$yearcode,$ordid)=split('-',$ordernumber);
 		}
@@ -505,7 +507,7 @@ function get_budget_current($budid=-1){
  *
  */
 function fetchInvoice($invid='-1'){
-	$d_inv=mysql_query("SELECT * FROM orderinvoice WHERE id='$invid'");
+	$d_inv=mysql_query("SELECT * FROM orderinvoice WHERE id='$invid';");
 	$inv=mysql_fetch_array($d_inv,MYSQL_ASSOC);
 	$Invoice=array();
 	$Invoice['id_db']=$invid;

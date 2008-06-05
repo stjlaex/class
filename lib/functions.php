@@ -1,5 +1,5 @@
 <?php
-/**			   								functions.php   
+/**			   								lib/functions.php   
  * General purpose ClaSS functions. 
  *
  * Notes on conventions for naming functions:

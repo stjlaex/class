@@ -174,7 +174,6 @@ $string['currency']='Currency';
 $string['authorise']='Authorise';
 $string['authorised']='Authorised';
 $string['note']='Note';
-$string['neworderadded']='New order added';
 $string['place']='Purchase';
 $string['placed']='Purchased';
 $string['delivery']='Delivery';

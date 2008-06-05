@@ -1,5 +1,5 @@
 <?php	
-/**												infobook/fetch_student.php
+/**												lib/fetch_student.php
  *
  *	Retrieves all infobook information about one student using only their sid.
  *	Returns the data in an array $Student and sets it as a session variable.

@@ -558,9 +558,10 @@ function elgg_new_homework($tid,$cid,$bid,$pid,$title,$body,$dateset){
 	}
 
 /**
- * Temporary stuff to upload icon photos.
+ * Temporary stuff to set a student's icon photo to their school year
+ *  photo. The icon file has a standard name of eg. y9.jpg
  */
-function elgg_student_photo($epfuid,$yid,$dbc=true){
+function elgg_set_student_photo($epfuid,$yid,$dbc=true){
 	global $CFG;
 	$table_users=$CFG->eportfolio_db_prefix.'users';
 	$table_icons=$CFG->eportfolio_db_prefix.'icons';
@@ -577,4 +578,67 @@ function elgg_student_photo($epfuid,$yid,$dbc=true){
 	mysql_query("SET NAMES 'utf8'");
 	}
 
+/**
+ * TODO!!!!!
+ */
+function elgg_upload_file($epfusername,$description,$title,$access,$foldername){
+	require_once('lib/file_upload.php');
+
+	$ul_username=user_info('username', $page_owner);
+	$upload_folder=$textlib->substr($ul_username,0,1);
+	$total_quota=get_field_sql('SELECT sum(size) FROM '.$CFG->prefix.'files WHERE files_owner=?',array($page_owner));
+	$max_quota=user_info('file_quota',$page_owner);
+	$maxbytes=$max_quota - $total_quota;
+	// $um=new upload_manager('new_file',false,true,true,$maxbytes,true);
+	$um=new upload_manager('',false,true,true,$maxbytes,true);
+	$reldir= "files/" . $upload_folder . "/" . $ul_username . "/"; 
+	$dir=$CFG->dataroot .$reldir;
+	if($um->process_file_uploads($dir)){
+		foreach($um->files as $file) {
+			if ($file['error'] == 0) {
+				$f=new StdClass;
+				$f->owner=$USER->ident;
+				$f->files_owner=$page_owner;
+				$f->folder= $folderid;
+				$f->originalname=$file['originalname'];
+				$f->title=$title;
+				$f->description=$description;
+				$f->location=$reldir . $file['name'];
+				$f->access=$access;
+				$f->size=$file['size'];
+				$f->time_uploaded=time();
+				$f=plugin_hook("file","create",$f);
+				if(!empty($f)){
+					$file_id=insert_record('files',$f);
+					$f->ident=$file_id;
+					$value=trim(optional_param('new_file_keywords'));
+					insert_tags_from_string ($value, 'file', $file_id, $access, $page_owner);
+					$metadata=optional_param('metadata');
+					if (is_array($metadata)) {
+						foreach($metadata as $name => $value) {
+							$m=new StdClass;
+							$m->name=trim($name);
+							$m->value=trim($value);
+							$m->file_id=$file_id;
+							insert_record('file_metadata',$m);
+							}
+						}
+					plugin_hook("file","publish",$f);
+					$rssresult=run("files:rss:publish", array($page_owner, false));
+					$rssresult=run("profile:rss:publish", array($page_owner, false));
+					$messages[]=__gettext("{$f->originalname} was successfully uploaded.");
+					}
+				}
+			}
+		} 
+	else{
+		$messages[]=$um->get_errors();
+		}
+	
+	$redirect_url=$CFG->wwwroot . $ul_username . "/files/";
+	if ($folderid > -1) {
+		$redirect_url .= $folderid;
+		}
+
+	}
 ?>

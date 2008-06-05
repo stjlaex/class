@@ -17,7 +17,7 @@ function openFileExport(){
 	printWindow.document.close();
 	}
 
-function openXMLExport(){
+function openXMLExport(ftype){
 	printWindow=window.open('','','height=250,width=450,dependent');
 	printWindow.document.open();
 	printWindow.document.writeln("<html>");
@@ -25,7 +25,7 @@ function openXMLExport(){
 	printWindow.document.writeln("<meta http-equiv='pragma' content='no-cache'/>");
 	printWindow.document.writeln("<meta http-equiv='Expires' content='0'/>");
 	printWindow.document.writeln("</head>");
-	printWindow.document.writeln("<script type='text/javascript'>function actionpage(){document.location='scripts/export.php?ftype=fet'}</script>");
+	printWindow.document.writeln("<script type='text/javascript'>function actionpage(){document.location='scripts/export.php?ftype="+ftype+"'}</script>");
 	printWindow.document.writeln("<body onLoad=\"setTimeout('actionpage()', 5000);\">");
 	printWindow.document.writeln("<h3>The XML file will download shortly.<h2>");
 	printWindow.document.writeln("<h4>Save to disk.<h4>");
