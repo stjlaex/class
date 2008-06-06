@@ -299,7 +299,6 @@ function fetchMaterial($mat=array('entryn'=>'','materialtype'=>'','detail'=>'',
 	return $Material;
 	}
 
-
 /**
  *
  */
@@ -362,8 +361,6 @@ function fetchBudget($budid='-1'){
 	*/
 	return $Budget;
 	}
-
-
 
 /**
  *
@@ -442,11 +439,14 @@ function get_budget_projected($budid=-1){
 	if(mysql_num_rows($d_bud)>0){
 		$sum=0;
 		$costlimit=mysql_result($d_bud,0);
+		/* Ignore orders cancelled action=4 */
 		while(list($currency,$rate)=each($currencyrates)){
 			$d_mat=mysql_query("SELECT SUM(unitcost*quantity) FROM
 				ordermaterial JOIN orderorder ON
 				orderorder.id=ordermaterial.order_id WHERE
-				orderorder.budget_id='$budid' AND orderorder.currency='$currency';");
+				orderorder.budget_id='$budid' AND
+				orderorder.currency='$currency' AND (SELECT action
+				FROM orderaction WHERE order_id=;");
 			$sum+=$rate*mysql_result($d_mat,0);
 			}
 		/* Iterate over any sub-budgets */

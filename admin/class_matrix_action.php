@@ -91,7 +91,7 @@ elseif($sub=='Submit'){
 
 	$d_classes=mysql_query("SELECT * FROM classes WHERE
 										course_id='$crid' ORDER BY
-										subject_id, stage");   	
+										subject_id, stage;");   	
 
 	while($classes=mysql_fetch_array($d_classes,MYSQL_ASSOC)){
 		$bid=$classes['subject_id'];

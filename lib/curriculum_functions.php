@@ -367,11 +367,14 @@ function populate_subjectclassdef($classdef,$currentseason='S'){
 	list($newcids,$groups)=get_classdef_classes($classdef,$currentseason);
 
 	foreach($newcids as $newcid){
+		$bid=$classdef['bid'];
+		$crid=$classdef['crid'];
+		$stage=$classdef['stage'];
 		if(mysql_query("INSERT INTO class (id,subject_id,course_id,stage) 
 				VALUES ('$newcid','$bid','$crid','$stage')")){
 			if($classdef['generate']=='forms'){
 				$fid=$groups[$newcid];
-				$d_sids=mysql_query("SELECT id FROM student WHERE form_id='$fid'");
+				$d_sids=mysql_query("SELECT id FROM student WHERE form_id='$fid';");
 				while($sids=mysql_fetch_array($d_sids, MYSQL_ASSOC)){
 					$sid=$sids['id'];
 					mysql_query("INSERT INTO cidsid

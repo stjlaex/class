@@ -83,7 +83,7 @@ while(list($index,$curriculum)=each($curriculums)){
 				VALUES ('$crid','$name','$sequence', 
 				'$course_generate','$course_naming','$course_many','$endmonth')");
 				mysql_query("INSERT INTO groups (subject_id,
-					course_id, name) VALUES ('%', '$crid', '$crid')");
+					course_id, name, type) VALUES ('%', '$crid', '$crid', 'a');");
 				$gid=mysql_insert_id();
 				mysql_query("INSERT INTO perms (uid, gid, r, w, x) 
 					VALUES('$adminuid','$gid', '1', '1', '1')");
@@ -115,7 +115,7 @@ while(list($index,$curriculum)=each($curriculums)){
 					mysql_query("INSERT INTO subject (id, name)
 						VALUES('$bid','$name')");
 					mysql_query("INSERT INTO groups (subject_id,
-					course_id, name) VALUES ('$bid', '%', '$bid')");
+					course_id, name, type) VALUES ('$bid', '%', '$bid', 'a')");
 					$gid=mysql_insert_id();
 					mysql_query("INSERT INTO perms (uid, gid, r, w, x) 
 					VALUES('$adminuid','$gid', '1', '1', '1')");
@@ -318,8 +318,6 @@ while(list($index,$curriculum)=each($curriculums)){
 		}
 
 
-
-
 	if($groupcheck=='yes'){
 	  $Groups=read_curriculum_file('groups.xml',$curriculum);
 
@@ -338,15 +336,17 @@ while(list($index,$curriculum)=each($curriculums)){
 		if(mysql_num_rows($d_yeargroup)==0){
 			mysql_query("INSERT INTO yeargroup (id, name, sequence, section_id)
 							VALUES('$yid','$name','$seq','$secid')");
-			mysql_query("INSERT INTO groups (yeargroup_id,name) VALUES ('$yid', '$name')");
+			mysql_query("INSERT INTO groups (yeargroup_id,name,type) 
+								VALUES ('$yid','$name','p')");
 			$gid=mysql_insert_id();
-			mysql_query("INSERT INTO perms (uid, gid, r, w, x) VALUES('$adminuid','$gid', '1', '1', '1')");
+			mysql_query("INSERT INTO perms (uid, gid, r, w, x) 
+							VALUES('$adminuid','$gid', '1', '1', '1')");
 			}
 		else{
 			mysql_query("UPDATE yeargroup SET name='$name',
 					section_id='$secid', sequence='$seq' WHERE id='$yid'");
 			mysql_query("UPDATE groups SET name='$name' WHERE
-				yeargroup_id='$yid' AND course_id IS NULL AND subject_id IS NULL");
+				yeargroup_id='$yid' AND type='p';");
 			}
 		$comyear=array('id'=>'','name'=>$yid,'type'=>'year','capacity'=>$capacity);
 		update_community($comyear,$comyear);

@@ -1,4 +1,4 @@
-Version ClaSS-0.8.49 release (2008/06/05)
+Version ClaSS-0.8.49 release (2008/06/06)
 -----------------------------------------
 
 A simple subject report template which illustrates how to include
@@ -22,6 +22,11 @@ Bugfix to editing an order, setting the quantity to 0 will now blank
 the whole item.
 
 Export of a transfer file of closed orders for accounts.
+
+Bugfix to update curriculum which now correctly set the type for
+pastoral groups.
+
+Bugfix to generating classes.
 
 
 Version ClaSS-0.8.48 release (2008/05/30)
