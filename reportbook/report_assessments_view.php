@@ -97,7 +97,8 @@ include('scripts/sub_action.php');
 	$c=1;/*$c=0 in viewtable is for column headers*/
 	while(list($index,$student)=each($students)){
 		$sid=$student['id'];
-		$viewtable[$c]['student']=$student;
+		$viewtable[$c]=array();
+		$viewtable[$c]['student']=(array)$student;
 		$viewtable[$c]['out']=array();
 		$c++;
 		}
@@ -131,7 +132,7 @@ include('scripts/sub_action.php');
    	$viewtable[0]=$viewtable[0].'</tr>';
 
 	/* the main loop - working the values for each student row in the table*/
-	for($rowno=0;$rowno<sizeof($viewtable);$rowno++){
+	for($rowno=1;$rowno<sizeof($viewtable);$rowno++){
 		$sid=$viewtable[$rowno]['student']['id'];
 		$Assessments=array();
 		while(list($index,$eid)=each($eids)){

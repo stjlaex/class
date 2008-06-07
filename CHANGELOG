@@ -1,7 +1,7 @@
 Version ClaSS-0.8.49 release (2008/06/06)
 -----------------------------------------
 
-A simple subject report template which illustrates how to include
+Added a simple subject report template which illustrates how to include
 attendance data.
 
 Renamed and generalised the js for openCommentWriter to be more widely
@@ -23,10 +23,12 @@ the whole item.
 
 Export of a transfer file of closed orders for accounts.
 
-Bugfix to update curriculum which now correctly set the type for
+Bugfix to update curriculum which now correctly sets the type for
 pastoral groups.
 
 Bugfix to generating classes.
+
+Fixed fatal php5 compatibility issue with report_assessments_view.
 
 
 Version ClaSS-0.8.48 release (2008/05/30)
@@ -73,6 +75,7 @@ Made the use of divgroup css consistent across all books.
 The new_assessment page now filters on the choice of curriculum year.
 
 Added an intermediate step 'processing' to the orderactions.
+
 
 
 Version ClaSS-0.8.47 release (2008/05/09)
