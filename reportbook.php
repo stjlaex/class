@@ -52,6 +52,7 @@ include('scripts/set_book_vars.php');
 			   ,'report_assessments.php' => 'assessments'
 			   ,'report_attendance.php' => 'attendance'
 			   ,'report_reports.php' => 'subjectreports'
+			   ,'report_results.php' => 'finalresults'
 			   );
 	selery_stick($choices,$choice,$book);
 ?>

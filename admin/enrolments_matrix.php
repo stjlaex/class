@@ -232,13 +232,13 @@ $yeargroup_names=array();
 				}
 			elseif($reenrolstep=='newenrolments'){
 				if($enrolyear!=$currentyear){
-					$cell['value=0'];
+					$cell['value']=0;
 					/*accepteds plus any transfers from feeders*/
 					reset($CFG->feeders);
 					while(list($index,$feeder)=each($CFG->feeders)){
 						if($feeder!=''){
 							/*TODO: will be a remote call to the other db!*/
-							$cell['value']+=$feeder[$yid];
+							if(isset($feeder[$yid])){$cell['value']+=$feeder[$yid];}
 							}
 						}
 					$cell['value']+=$enrol_tablerows[$yeargroup['name']]['AC']['value'];

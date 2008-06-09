@@ -1,4 +1,13 @@
-Version ClaSS-0.8.49 release (2008/06/06)
+Version ClaSS-0.8.50 release (2008/06/10)
+-----------------------------------------
+
+File import of csv mime-type fixed on windows.
+
+Typo causing error in re-enrolment grid fixed.
+
+
+
+Version ClaSS-0.8.49 release (2008/06/07)
 -----------------------------------------
 
 Added a simple subject report template which illustrates how to include
@@ -75,7 +84,6 @@ Made the use of divgroup css consistent across all books.
 The new_assessment page now filters on the choice of curriculum year.
 
 Added an intermediate step 'processing' to the orderactions.
-
 
 
 Version ClaSS-0.8.47 release (2008/05/09)
