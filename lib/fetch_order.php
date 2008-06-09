@@ -441,12 +441,27 @@ function get_budget_projected($budid=-1){
 		$costlimit=mysql_result($d_bud,0);
 		/* Ignore orders cancelled action=4 */
 		while(list($currency,$rate)=each($currencyrates)){
+			/* TODO: exclude cancelations and purchased and use
+			get_current_budget instead
+			$d_sum=mysql_query("SELECT SUM(unitcost*quantity) FROM
+				ordermaterial JOIN orderaction ON
+				ordermaterial.order_id=orderaction.order_id WHERE
+				orderaction.action!='3' AND
+				orderaction.order_id=ANY(SELECT id FROM orderorder
+				WHERE orderorder.budget_id='$budid' AND
+				orderinvoice.currency='$currency');");
 			$d_mat=mysql_query("SELECT SUM(unitcost*quantity) FROM
 				ordermaterial JOIN orderorder ON
 				orderorder.id=ordermaterial.order_id WHERE
 				orderorder.budget_id='$budid' AND
 				orderorder.currency='$currency' AND (SELECT action
 				FROM orderaction WHERE order_id=;");
+			*/
+			$d_mat=mysql_query("SELECT SUM(unitcost*quantity) FROM
+				ordermaterial JOIN orderorder ON
+				orderorder.id=ordermaterial.order_id WHERE
+				orderorder.budget_id='$budid' AND
+				orderorder.currency='$currency';");
 			$sum+=$rate*mysql_result($d_mat,0);
 			}
 		/* Iterate over any sub-budgets */
