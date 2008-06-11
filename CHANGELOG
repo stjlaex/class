@@ -5,6 +5,7 @@ File import of csv mime-type fixed on windows.
 
 Typo causing error in re-enrolment grid fixed.
 
+Added dutch translation file; thanks go to Steve Boucque.
 
 
 Version ClaSS-0.8.49 release (2008/06/07)

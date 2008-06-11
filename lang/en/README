@@ -1,0 +1,12 @@
+ENGLISH
+-------
+
+This is the default language pack for ClaSS. There is a main class.php
+file for language common across all of the books and a further one for
+each book with more specific terms.
+
+If a string is not yet translated for one of the other language packs
+then the English version from here will be used.
+
+ClaSS is always in need of volunteers to maintain existing language
+packs and to add new ones. Please get in touch.

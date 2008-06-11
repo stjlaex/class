@@ -11,6 +11,7 @@ $languages=array(
 				 'en' => 'English',
 				 'es' => 'Espanol',
 				 'fr' => 'Francais',
-				 'it' => 'Italiano'
+				 'it' => 'Italiano',
+				 'nl' => 'Nederlands'
 				 );
 ?>
