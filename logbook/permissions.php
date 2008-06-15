@@ -146,14 +146,34 @@ function list_group_users_perms($gid){
  */
 function get_group_perms($gid,$uid){
 	$d_p=mysql_query("SELECT r, w, x, e FROM perms WHERE
-								gid='$gid' AND uid='$uid';;");
+								gid='$gid' AND uid='$uid';");
 	if(mysql_num_rows($d_p)>0){
 		$perms=mysql_fetch_array($d_u,MYSQL_ASSOC);
 		}
 	else{
-		$perms=array('r'=>0,'w'=>0,'x'=>0,'e'=>0,);
+		$perms=array('r'=>0,'w'=>0,'x'=>0,'e'=>0);
 		}
 	return $perms;
+	}
+
+/**
+ * Singles out a special group of users with admin permissions
+ * $type is b=budget, a=academic, p=pastoral, s=section
+ * The return perm is either true or false.
+ *
+ */
+function get_admin_perm($type,$uid){
+	$d_p=mysql_query("SELECT r FROM perms JOIN groups ON
+		 					perms.gid=groups.gid WHERE
+							perms.uid='$uid' AND groups.type='$type'
+							AND groups.name='admin';");
+	if(mysql_num_rows($d_p)>0){
+		$perm=1;
+		}
+	else{
+		$perm=0;
+		}
+	return $perm;
 	}
 
 /**

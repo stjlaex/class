@@ -51,9 +51,9 @@ if($sub=='Submit'){
 
 	/* Every budget has its own access group - the intial user
 	 * permissions are taken from related groups.
-	 */
-	/* In a budget context, x is to authorise orders lodged against a budget and 
-	 * the permission is preserved for users with section x perms only.
+	 *
+	 * In a budget context, x is to authorise orders lodged against a budget and 
+	 * to configure everything about that budget.
 	 */
 	$d_g=mysql_query("INSERT INTO groups SET type='b';");
 	$gid=mysql_insert_id();

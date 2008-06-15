@@ -54,10 +54,10 @@ if(isset($_POST['cids'])){
 
 	/* Tries to recall a tid's previous choice of pid for this class*/
 	if(!in_array($_SESSION['pid'],$pids)){
-		$etid=$tid;
+		//$etid=$tid;
 		$d_component=mysql_query("SELECT component_id FROM tidcid 
-						WHERE class_id='$cid' AND teacher_id='$tid'");
-		if(mysql_num_rows($d_component)>0){
+						WHERE class_id='$cid' AND teacher_id='$tid';");
+		if(mysql_num_rows($d_component)>0 and in_array(mysql_result($d_component,0),$pids)){
 			$_SESSION['pid']=mysql_result($d_component,0);
 			}
 		else{

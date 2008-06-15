@@ -1,11 +1,19 @@
-Version ClaSS-0.8.50 release (2008/06/10)
+Version ClaSS-0.8.50 release (2008/06/15)
 -----------------------------------------
 
 File import of csv mime-type fixed on windows.
 
 Typo causing error in re-enrolment grid fixed.
 
-Added dutch translation file; thanks go to Steve Boucque.
+Added dutch translation files; thanks go to Steve Boucque.
+
+Bugfix to the handling of components when changing between classes -
+sometimes a pid was selected which didn't exist for the class.
+
+Concept of admin permissions groups added and corresponding logbook
+function get_admin_perm. Allows for super administrator permissions to
+shared out between different users and at the same time restricted to
+areas such as budgets, academic, or pastoral.
 
 
 Version ClaSS-0.8.49 release (2008/06/07)

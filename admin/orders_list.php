@@ -124,9 +124,10 @@ if($budid!=-1){
 				</div>
 
 <?php
-					/* Once an order is placed it is too late to amend it*/
-					if(($status=='lodged' or $status=='authorised' 
-						or $status=='process') and $perms['w']==1){
+					/* Once an order is authorised it is too late to
+					amend unless you have extra priviliges*/
+					if(($status=='lodged' and $perms['r']==1) or (($status=='authorised' 
+						or $status=='process') and $perms['w']==1)){
 						$actionbuttons['edit']=array('name'=>'process','value'=>'edit');
 						all_extrabuttons($actionbuttons,
 										 $book,'clickToAction(this)','class="rowaction" ');
@@ -223,7 +224,7 @@ if($budid!=-1){
 	  </table>
 	</div>
 <?php
-if($budid==-1){	
+if($budid==-1){
 ?>
 	<input type="hidden" name="ordernumber" value="<?php print $ordernumber;?>" />
 	<input type="hidden" name="orderstatus" value="<?php print $orderstatus;?>" />

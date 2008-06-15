@@ -16,14 +16,13 @@ if(isset($_GET['budgetyear'])){$budgetyear=$_GET['budgetyear'];}
 else{$budgetyear=$currentyear;}
 if(isset($_POST['budgetyear']) and $_POST['budgetyear']!=''){$budgetyear=$_POST['budgetyear'];}
 
+$aperm=get_admin_perm('b',get_uid($tid));
 
 $extrabuttons=array();
-if($_SESSION['role']=='admin' 
-   //or $_SESSION['username']==''
-){
+if($_SESSION['role']=='admin' or $aperm==1){
 	$extrabuttons['newbudget']=array('name'=>'current','value'=>'new_budget.php');
 	}
-if($_SESSION['role']=='admin' or $_SESSION['role']=='office'){
+if($_SESSION['role']=='admin' or $aperm==1 or $_SESSION['role']=='office'){
 	$extrabuttons['suppliers']=array('name'=>'current','value'=>'suppliers_list.php');
 	$extrabuttons['export']=array('name'=>'current','value'=>'orders_export.php');
 	}
@@ -121,8 +120,8 @@ twoplus_buttonmenu($budgetyear,$currentyear+2,$extrabuttons,$book);
 		<tr>
 		  <td>
 <?php
-	   		 /* Restrict access to w and x perms*/
-			if($budget['w'] or $budget['x']){
+
+			if($budget['r']){
 				print '<a  href="admin.php?current=orders_list.php&cancel='.$choice.'&choice='.$choice.'&budid='.$budget['id'].'&budgetyear='.$budgetyear.'">'.$budget['name'].'</a>';
 				}
 			else{
@@ -132,6 +131,7 @@ twoplus_buttonmenu($budgetyear,$currentyear+2,$extrabuttons,$book);
 		  </td>
 		  <td>
 <?php 
+			/* Restrict access to budget managers, x perms*/
 			if($budget['x']){
 				print '<a href="admin.php?current=orders_limit.php&cancel='.
 							$choice.'&choice='. $choice.'&budid='. $budget['id'].'">' 

@@ -1,8 +1,8 @@
 <?php	
-/**	   							 fetch_order.php
+/**	   							 lib/fetch_order.php
  *
  *
- *   	$Order['']=array('label' => 'boarder', 
+ *   	$Order['']=array('label' => '', 
  *							  'inputtype'=> 'required',
  *							  'table_db' => 'order', 
  *							  'field_db' => '',
@@ -59,16 +59,27 @@ function list_budget_users($budid,$perms){
  */
 function list_user_budgets($tid,$budgetyear='%'){
 	$uid=get_uid($tid);
+	$aperm=get_admin_perm('b',$uid);
 	$budgets=array();
 	if($budgetyear!='%'){
 		$yearcode=get_budgetyearcode($budgetyear);
 		}
-	$d_b=mysql_query("SELECT id, code, yearcode, name, costlimit,
+	trigger_error($aperm,E_USER_WARNING);
+	if($aperm==1){
+		$d_b=mysql_query("SELECT id, code, yearcode, name, costlimit,
+				    '1' AS r, '1' AS w, '1' AS x FROM orderbudget WHERE
+			   		(orderbudget.yearcode='%' OR orderbudget.yearcode LIKE '$yearcode') ORDER
+			   		BY orderbudget.yearcode, overbudget_id, 
+						orderbudget.section_id, orderbudget.name;");
+		}
+	else{
+		$d_b=mysql_query("SELECT id, code, yearcode, name, costlimit,
 					perms.r AS r, perms.w AS w, perms.x AS x FROM orderbudget JOIN perms ON
 					perms.gid=orderbudget.gid WHERE perms.uid='$uid' AND
 			   		(orderbudget.yearcode='%' OR orderbudget.yearcode LIKE '$yearcode') ORDER
 			   		BY orderbudget.yearcode, overbudget_id, 
 						orderbudget.section_id, orderbudget.name");
+		}
 	while($budget=mysql_fetch_array($d_b,MYSQL_ASSOC)){
 		$budgets[]=$budget;
 		}

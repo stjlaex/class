@@ -20,7 +20,7 @@ $groupcheck=$_POST['groupcheck0'];
 /*reads the array $curriculum listing those required for this school-site*/
 require('../curriculum/include.php');
 
-$d_uid=mysql_query("SELECT uid FROM users WHERE username='administrator'");	
+$d_uid=mysql_query("SELECT uid FROM users WHERE username='administrator';");	
 $adminuid=mysql_result($d_uid,0);
 
 function read_curriculum_file($filename,$curriculum){
