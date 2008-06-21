@@ -2,10 +2,10 @@
 /**							class_view_table.php
  * Generates the array $viewtable and stores as a session variable.
  */
+
 $d_students=mysql_query("SELECT * FROM students ORDER BY surname, forename"); 
 $row=0;
 $viewtable=array();
-
 
 while($student=mysql_fetch_array($d_students, MYSQL_ASSOC)){
 		$sid=$student['student_id']; 
@@ -36,7 +36,6 @@ while($student=mysql_fetch_array($d_students, MYSQL_ASSOC)){
 		$col_mid=$umns[$c]['id'];
 		$score=array();
 
-		//		if($umns[$c]['display']=='yes' or $umns[$c]['assessment']=='yes'){
 			/*The mark can be one of the five kinds - if a score or hw
 			 then one of a further five*/
 			$marktype=$umns[$c]['marktype'];
@@ -69,7 +68,7 @@ while($student=mysql_fetch_array($d_students, MYSQL_ASSOC)){
 			$scoreclass='grade other';
 			$avmids=explode(' ',$midlist[$c]);
 			$d_markdef=mysql_query("SELECT markdef.scoretype FROM markdef
-				JOIN mark ON markdef.name=mark.def_name WHERE mark.id='$avmids[1]'");
+				JOIN mark ON markdef.name=mark.def_name WHERE mark.id='$avmids[1]';");
 			$avtype=mysql_fetch_array($d_markdef,MYSQL_ASSOC);
 			if($avtype['scoretype']=='grade'){
 				$grading_grades=$scoregrades[$c];
@@ -77,7 +76,7 @@ while($student=mysql_fetch_array($d_students, MYSQL_ASSOC)){
 				$gradecount=0;
 				for($c2=0;$c2<sizeof($avmids);$c2++){
 					$d_score=mysql_query("SELECT grade FROM score 
-									WHERE mark_id='$avmids[$c2]' AND student_id='$sid'");
+									WHERE mark_id='$avmids[$c2]' AND student_id='$sid';");
 					$grade=mysql_fetch_array($d_score,MYSQL_ASSOC);
 					if(isset($grade['grade'])){
 						$gradesum=$gradesum+$grade['grade'];
@@ -139,7 +138,7 @@ while($student=mysql_fetch_array($d_students, MYSQL_ASSOC)){
 			$score_total=0;
 			for($c2=0;$c2<sizeof($mids);$c2++){
 				$d_score=mysql_query("SELECT value, outoftotal 
-								FROM score WHERE mark_id='$mids[$c2]' AND student_id='$sid'");
+   						FROM score WHERE mark_id='$mids[$c2]' AND student_id='$sid'");
 				$score=mysql_fetch_array($d_score,MYSQL_ASSOC);
 				if($score['value']){$score_value=$score['value']+$score_value; $yesval=1;}
 				if($score['outoftotal']){
@@ -158,6 +157,23 @@ while($student=mysql_fetch_array($d_students, MYSQL_ASSOC)){
 				}
 			unset($yesval);
 			unset($yestotal);
+			}
+
+		/*********************************************************/
+	   	elseif($marktype=='tally'){
+			/* Mark tallies the number of grades obtained */
+			$scoreclass='grade other';
+			$mids=explode(' ',$midlist[$c]);
+			$score_value=0;
+			for($c2=0;$c2<sizeof($mids);$c2++){
+				$d_score=mysql_query("SELECT value 
+   						FROM score WHERE mark_id='$mids[$c2]' AND student_id='$sid'");
+				$score=mysql_fetch_array($d_score,MYSQL_ASSOC);
+				if($score['value']){$score_value++; $yesval=1;}
+				}
+			if(isset($yesval)){$out=$score_value; $outrank=$score_value;}
+			else{$out='';$outrank=-100;}
+			unset($yesval);
 			}
 
 		/*********************************************************/

@@ -3,6 +3,9 @@
  *
  *	Fetch information about the classes (indexed by i)
  *		- first the teachers
+ *  Each column and all its associated info has an entry in the array
+ *	$umns.
+ *
  */
 
 $bid=array();
@@ -56,7 +59,10 @@ for($i=0;$i<sizeof($cids);$i++){
 		}
 	}
 
-	/*Fetch information about all marks and store in array $umns (ie. columns)*/	
+	/* Fetch information about all marks and store in array $umns (ie. columns)	
+	 * The umntype is used to filter the mark columns and is set in
+	 * the sideoptions. 
+	 */
 	$umns=array();
 	if($umntype=='t'){
 		$d_marks=mysql_query("SELECT * FROM $table WHERE
@@ -64,12 +70,23 @@ for($i=0;$i<sizeof($cids);$i++){
 				assessment='yes' AND id=ANY(SELECT
 				eidmid.mark_id FROM eidmid JOIN assessment ON
 				assessment.id=eidmid.assessment_id WHERE assessment.profile_name=''));");
+		$c=0;
 		}
 	elseif($umntype=='p'){
+		$profile_crid=$classes[$cid]['crid'];
+		$profile_bid=$classes[$cid]['bid'];
+		/* Only allows for one profile in use at once. */
+		/* TODO: Just grab this from categorydef instead?*/
+		$d_profile=mysql_query("SELECT name FROM
+				categorydef WHERE type='pro' AND
+				course_id='$profile_crid' AND subject_id='$profile_bid';");
+		$profile_name=mysql_result($d_profile,0);
+		trigger_error($profile_bid.' '.$profile_name,E_USER_WARNING);
 		$d_marks=mysql_query("SELECT $table.* FROM $table WHERE $table.marktype='score'
 				AND $table.assessment='yes' AND $table.id=ANY(SELECT
 				eidmid.mark_id FROM eidmid JOIN assessment ON
 				assessment.id=eidmid.assessment_id WHERE assessment.profile_name!='');");
+		$c=1;
 		}
 	else{
 		if($umntype=='%'){$filtertype='%';$filterass='%';}
@@ -77,39 +94,36 @@ for($i=0;$i<sizeof($cids);$i++){
 		elseif($umntype=='hw'){$filtertype='hw';$filterass='no';}
 		$d_marks=mysql_query("SELECT * FROM $table WHERE marktype LIKE
 				'$filtertype' AND assessment LIKE '$filterass';");
+		$c=0;
 		}
+
+	/* Store each mark's attributes in arrays for use later in each cell
+	 * TODO: these are stored twice for historical reasons! 
+	 */
 	$c_marks=mysql_num_rows($d_marks); /*number of marks for class*/
-	$c=0;
 	while($mark=mysql_fetch_array($d_marks,MYSQL_ASSOC)){
-		  /*Store all the mark's attributes in arrays for use later in each cell*/	      
 	      $mid[$c]=$mark['id'];
 	      $mark_total[$c]=$mark['total'];
 	      $marktype[$c]=$mark['marktype'];
 		  $midlist[$c]=trim($mark['midlist']);
 	      $lena[$c]=$mark['levelling_name'];
 	
-		  /*this display option is now deprecated and needs to be
-		  removed properly*/
-		  //$display='yes';
 		  /*umn an array of mark properties for this column*/	
-	      $umn=array('id'=>$mark['id'], 'mark_total'=>$mark['total'], 
-					 'marktype' => $mark['marktype'],
-					 'scoretype' => '',
+	      $umn=array('id'=>$mark['id'], 
+					 'mark_total'=>$mark['total'], 
+					 'marktype'=>$mark['marktype'],
+					 'scoretype'=>'',
 					 'midlist'=>trim($mark['midlist']),
 					 'def_name'=>$mark['def_name'], 
-					 //'display'=>$display, 
 					 'topic'=>$mark['topic'], 
 					 'entrydate'=>$mark['entrydate'],
 					 'lena'=>$mark['levelling_name'], 
 					 'comment'=>$mark['comment'],
 					 'assessment'=>$mark['assessment'],
 					 'component'=>$mark['component_id']);
-		 $umns[$c]=$umn;/*each mark in umns is referenced by its column count*/
+		  /*each mark in umns is referenced by its column count*/
+		  $umns[$c]=$umn;
 
-
-		 //		if($display=='yes' or $mark['assessment']=='yes'){
-			/*only need to fetch if the column is displayed - improves speed*/	
-			/*though may still be needed by a report column if an assessment*/
 
 			if($marktype[$c]=='average'){
 				/*no markdef for an average, have to get grading_name from the levelname*/
@@ -136,7 +150,6 @@ for($i=0;$i<sizeof($cids);$i++){
 				$scoregrading[$c]='';
 				$scoregrades[$c]='';   
 				}
-
 			elseif($marktype[$c]=='score' or $marktype[$c]=='hw'){
 				$markdef_name=$mark['def_name'];
 				$d_markdef=mysql_query("SELECT * FROM markdef WHERE name='$markdef_name'");
@@ -152,7 +165,53 @@ for($i=0;$i<sizeof($cids);$i++){
 					}
 				else{$scoregrades[$c]='';}     
 				}
-			//			}
 		$c++;
+		}
+	if($umntype=='p'){
+		$c_marks++;
+		$profile_midlist='';
+		if($pid==''){
+			$profile_pids=$pids;
+			}
+		else{
+			$profile_pids=array();
+			$profile_pids[]=$pid;
+			$strands=list_subject_components($pid,$profile_crid,'V');
+			while(list($sindex,$strand)=each($strands)){
+				if(!in_array($strand['id'],$profile_pids)){
+					$profile_pids[]=$strand['id'];
+					}
+				}
+			}
+		for($iumn=1;$iumn<$c_marks;$iumn++){
+			if(in_array($umns[$iumn]['component'],$profile_pids)){
+				$profile_midlist.=$umns[$iumn]['id'].' ';
+				}
+			}
+		/*TODO: The derivation of the profile results has to be in the
+				db somewhere */
+		if($profile_name=='FS Steps'){$marktype='tally';}
+		else{$marktype='sum';}
+		$profile_midlist=trim($profile_midlist);
+		$scoregrades[0]=$scoregrades[1];
+		$scoregrading[0]=$scoregrading[1];
+		$mid[0]=-1;
+		$mark_total[0]=$mark_total[1];
+		$marktype[0]=$marktype;
+		$lena[0]=$lena[1];
+		$midlist[0]=$profile_midlist;
+		$umns[0]=array('id'=>-1, 
+					   'mark_total'=>'', 
+					   'marktype' => $marktype,
+					   'scoretype' => '',
+					   'midlist'=>$profile_midlist,
+					   'def_name'=>'', 
+					   'topic'=>$profile_name, 
+					   'entrydate'=>date('Y-m-d'),
+					   'lena'=>'', 
+					   'comment'=>'',
+					   'assessment'=>'no',
+					   'component'=>$pid
+					   );
 		}
 ?>

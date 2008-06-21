@@ -25,6 +25,19 @@ if(isset($_POST['breakdown'])){$breakdown=$_POST['breakdown'];}else{$breakdown='
 
 include('scripts/sub_action.php');
 
+$extrabuttons=array();
+/*$extrabuttons['showstatistics']=array('name'=>'stats',
+								'value'=>'',
+								'onclick'=>'stats(grades,gradestats,percents)');
+*/
+$extrabuttons['displaybysubject']=array('name'=>'breakdown',
+						'value'=>'subject'
+						);
+$extrabuttons['displaybyassessment']=array('name'=>'breakdown',
+						'value'=>'assessment'
+						);
+two_buttonmenu($extrabuttons,$book);
+
 	if($fid!=''){
 		$students=listin_community(array('id'=>'','type'=>'form','name'=>$fid));
 		}
@@ -94,6 +107,8 @@ include('scripts/sub_action.php');
 		reset($selbids);
 		}
 
+	$viewtable[0]['out']=array();
+	$viewtable[0]['count']=array();
 	$c=1;/*$c=0 in viewtable is for column headers*/
 	while(list($index,$student)=each($students)){
 		$sid=$student['id'];
@@ -109,27 +124,25 @@ include('scripts/sub_action.php');
 	/* average over the subjects) --- averaging is done over $aids for */
 	/* each column in $hids */
 
-	/*first row of table is column headers - starting with yeargroup*/
-	if($yid!=''){$viewtable[0]='<tr><th>'.get_string('yeargroup').' '.$yid.'</th>';}
-	if($fid!=''){$viewtable[0]='<tr><th>'.get_string('formgroup').' '.$fid.'</th>';}
-	else{$viewtable[0]='<tr><th>'.get_string('cohort').' '.$stage.' '.$year.'</th>';}
-
+	/* First row of table is column headers - starting with yeargroup*/
+	if($yid!=''){$viewtable[0]['cohort']=get_string('yeargroup').' '.$yid;}
+	elseif($fid!=''){$viewtable[0]['cohort']=get_string('formgroup').' '.$fid;}
+	else{$viewtable[0]['cohort']=get_string('cohort').' '.$stage.' '.$year;}
 	if($breakdown=='subject'){
 		$hids=$assbids;
 		$aids=$eids;
 		while(list($c3,$bidpid)=each($assbids)){
-			$viewtable[0]=$viewtable[0].'<th>'.$bidpid.'</th>';
+			$viewtable[0]['out'][]=$bidpid;
+			$viewtable[0]['count'][]=0;
 			}
 		}
 	elseif($breakdown=='assessment'){
 		$hids=$eids;
 		$aids=$assbids;
 		while(list($c3,$eid)=each($hids)){
-			$viewtable[0]=$viewtable[0].'<th>'.$assdefs[$eid]['Description']['value'].'</th>';
+			$viewtable[0]['out'][]=$assdefs[$eid]['Description']['value'];
 			}
 		}
-
-   	$viewtable[0]=$viewtable[0].'</tr>';
 
 	/* the main loop - working the values for each student row in the table*/
 	for($rowno=1;$rowno<sizeof($viewtable);$rowno++){
@@ -148,7 +161,7 @@ include('scripts/sub_action.php');
 				$eid=$Assessment['id_db'];
 				$bid=$Assessment['Subject']['value'];
 				$pid=$Assessment['SubjectComponent']['value'];
-				$asshids[$bid.$pid][]=$assno;
+				$asshids[$bid. $pid][]=$assno;
 				$assaids[$eid][]=$assno;
 				}
 			}
@@ -158,14 +171,17 @@ include('scripts/sub_action.php');
 				$bid=$Assessment['Subject']['value'];
 				$pid=$Assessment['SubjectComponent']['value'];
 				$asshids[$eid][]=$assno;
-				$assaids[$bid.$pid][]=$assno;
+				$assaids[$bid. $pid][]=$assno;
 				}
 			}
 
 		/* each cell averages over all selected assessments for one hid*/
 		reset($hids);
+		$colcount=-1;
 		while(list($c3,$hid)=each($hids)){
-		  if(array_key_exists($hid,$asshids)){/*any assessments for this hid?*/
+			$colcount++;
+		  if(array_key_exists($hid,$asshids)){
+			  /*any assessments for this hid?*/
 			$assnos=$asshids[$hid];/*all of the entries in Assessments for this hid*/
 			$gradesum=0;
 			$gradecount=0;
@@ -184,7 +200,6 @@ include('scripts/sub_action.php');
 					the same marktype - can't do much else until there is the ability
 					to translate between grading schemes*/
 			   		$crid=$Assessment['Course']['value'];
-					//trigger_error('grade scheme:'.$assdefs[$eid]['GradingScheme']['grades'],E_USER_WARNING);
 					if($assdefs[$eid]['GradingScheme']['grades']!=''){
 						$result=$Assessment['Result']['value'];
 						$score=gradeToScore($result,$assdefs[$eid]['GradingScheme']['grades']);
@@ -199,8 +214,8 @@ include('scripts/sub_action.php');
 						}
 					}
 				}
-			  }
-			  else{$assnos=array(); $gradecount=0; $scorecount=0;}
+			}
+		  else{$assnos=array(); $gradecount=0; $scorecount=0;}
 
 		  /*display the assessment average*/
 		  if($gradecount>0){
@@ -208,11 +223,13 @@ include('scripts/sub_action.php');
 					$scoreaverage=round($scoreaverage,1);
 					$score=round($scoreaverage);
 					$grade=scoreToGrade($score,$assdefs[$eid]['GradingScheme']['grades']);
+					$viewtable[0]['count'][$colcount]=1;
 					}
 		  elseif($scorecount>0){
 					$scoreaverage=$gradesum/$scorecount;
 					$scoreaverage=round($scoreaverage,1);
 					$grade=round($scoreaverage);
+					$viewtable[0]['count'][$colcount]=1;
 					}
 		  else{$score='';$scoreaverage='';$grade='';}
 		  if(isset($gradestats[$grade])){$gradestats[$grade]=$gradestats[$grade]+1;/*sum for stats*/}
@@ -226,14 +243,14 @@ include('scripts/sub_action.php');
 		  else{
 			  $viewtable[$rowno]['out'][]=$grade;
 			  }
-		  }
+			}
 
 		/*end of row average needed here*/
 		}
 ?>
-<script>					
+		  <script>
 <?php 
-	/*write the grade statistics for display in the javascripts*/
+	/*write the grade statistics for display in the javascripts
 	ksort($gradestats);
 	$grades=array_keys($gradestats);
 	$sum=0;
@@ -255,14 +272,25 @@ include('scripts/sub_action.php');
 		print '"'.round($percents[$c],1).'"';
 		if($c<$max-1){print ',';}else{print '];';}
 		}
+*/
 ?>
 		  </script>
-		  <div id="viewcontent" class="content">
-			<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>"> 
-			  <div id="assessmentsview">
-				<table class="listmenu" style="border:solid 1px;">
+	  <div id="viewcontent" class="content fullwidth">
+		<form id="formtoprocess" name="formtoprocess" 
+						method="post" action="<?php print $host;?>"> 
+		  <table class="listmenu">
+			<tr>
 <?php
-	print $viewtable[0];/*  display the column headers*/
+		  /*  display the column headers*/
+		  print '<th>'.$viewtable[0]['cohort'].'</th>';
+		  for($c2=0;$c2<sizeof($viewtable[0]['out']);$c2++){
+			  if($viewtable[0]['count'][$c2]>0){
+				  print '<th style="font-weight:300;">'.$viewtable[0]['out'][$c2].'</th>';
+				  }
+			  }
+?>
+			</tr>
+<?php
 	for($rowno=1;$rowno<sizeof($viewtable);$rowno++){
 		$row=$viewtable[$rowno];
 ?>
@@ -273,24 +301,21 @@ include('scripts/sub_action.php');
 					(<?php print $row['student']['form_id']; ?>)
 					</td>
 <?php
-	for($c2=0;$c2<sizeof($row['out']);$c2++){
+		for($c2=0;$c2<sizeof($row['out']);$c2++){
+			  if($viewtable[0]['count'][$c2]>0 and $row['out'][$c2]!=' ()'){
 ?>
 					<td>
-<?php 
-	if($row['out'][$c2]!=' ()'){
-		print $row['out'][$c2]; 
-		}
-?>
+<?php 				print $row['out'][$c2]; ?>
 					</td>
 <?php 
-		}
+				}
+			}
 ?>
 				  </tr>
 <?php	
 		}
 ?>
 				</table>
-			  </div>
 
 <?php if(isset($stage)){?>
 			<input type="hidden" name="stage" value="<?php print $stage;?>" />
@@ -323,17 +348,3 @@ include('scripts/sub_action.php');
 			<input type="hidden" name="cancel" value="<?php print $choice;?>" />
 			</form>
 		  </div>
-<?php
-$extrabuttons=array();
-$extrabuttons['showstatistics']=array('name'=>'stats',
-								'value'=>'',
-								'onclick'=>'stats(grades,gradestats,percents)');
-$extrabuttons['displaybysubject']=array('name'=>'breakdown',
-						'value'=>'subject'
-						);
-$extrabuttons['displaybyassessment']=array('name'=>'breakdown',
-						'value'=>'assessment'
-						);
-two_buttonmenu($extrabuttons,$book);
-
-?>

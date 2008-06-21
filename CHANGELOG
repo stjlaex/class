@@ -1,4 +1,4 @@
-Version ClaSS-0.8.50 release (2008/06/15)
+Version ClaSS-0.8.50 release (2008/06/17)
 -----------------------------------------
 
 File import of csv mime-type fixed on windows.
@@ -14,6 +14,14 @@ Concept of admin permissions groups added and corresponding logbook
 function get_admin_perm. Allows for super administrator permissions to
 shared out between different users and at the same time restricted to
 areas such as budgets, academic, or pastoral.
+
+The report_assessments page now filters out empty columns from the
+display table.
+
+With the profile selected in the MarkBook an automatic column is added
+giving the overall performance, averaging or tallying, the profile's
+assessments for the selected component.
+
 
 
 Version ClaSS-0.8.49 release (2008/06/07)

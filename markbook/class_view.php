@@ -1,5 +1,11 @@
 <?php 
 /** 									class_view.php
+ *
+ * This is the main monster page that wraps other monster pages
+ * (class_view_marks.php for the columns and class_view_table.php for
+ * the rows) and finally produces everything for displaying the markbook
+ * spreadsheet. Its all very old and horrible but it works.
+ *
  */
 
 $choice='class_view.php';
@@ -201,7 +207,6 @@ if($_SESSION['worklevel']>-1){
 		  &nbsp;</td>
 <?php
 		for($c=0;$c<$c_marks;$c++){
-//			if($umns[$c]['display']=='yes'){
 				$col_mid=$umns[$c]['id'];
 				if($viewtable[$c2]['score'.$col_mid]['comment']!=''){
 					print '<td class="'.$viewtable[$c2]['score'.$col_mid]['scoreclass']. '" '. 
@@ -215,7 +220,6 @@ if($_SESSION['worklevel']>-1){
 						' id="'.$viewtable[$c2]['sid'].'-'. $col_mid. '" >';
 					print $viewtable[$c2][$col_mid].'</td>';
 					}
-//				}
 			}
 		print '</tr>';
 	}

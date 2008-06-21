@@ -404,7 +404,9 @@ function fetch_enrolmentAssessmentDefinitions($com='',$stage='E',$enrolyear='000
  * Returns all assdefs of relevance to a cohort. It will not fetch 
  * assessment defs which refer to statistics (resultstatus=S) or which 
  * are linked to an assessment profile or which are used for
- * enrolments (stage=RE). TODO: season is currently fixed to S! 
+ * enrolments (stage=RE). 
+ *
+ * TODO: season is currently fixed to S! 
  *
  */
 function fetch_cohortAssessmentDefinitions($cohort){
@@ -432,7 +434,7 @@ function update_derivation($eid,$der){
 	$assyear=$AssDef['Year']['value'];
 	$assstage=$AssDef['Stage']['value'];
 	if($older!=$der){
-		/*identify the assessments with elements and in store in derivation*/
+		/*identify the assessments with elements and store in derivation*/
 		list($operation,$elements)=parse_derivation($der);
 		/*must specify type=A for all assessments*/
 		mysql_query("DELETE FROM derivation WHERE
