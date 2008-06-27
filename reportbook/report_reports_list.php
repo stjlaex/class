@@ -49,9 +49,9 @@ $extrabuttons['previewselected']=array('name'=>'current',
 								'onclick'=>'checksidsAction(this)');
 if($_SESSION['role']=='admin'){
 	$extrabuttons['publishpdf']=array('name'=>'current',
-								   'value'=>'report_reports_publish.php');
+									  'value'=>'report_reports_publish.php');
 	$extrabuttons['email']=array('name'=>'current',
-								   'value'=>'report_reports_email.php');
+								 'value'=>'report_reports_email.php');
 	}
 
 two_buttonmenu($extrabuttons,$book);

@@ -1,7 +1,9 @@
 <?php
 /**									report_reports_publish.php
- * publishes the selected reports to html files
+ *
+ * Publishes the selected reports to html files
  * and to pdf if the html2ps package is available through $CFG -> html2psscript
+ *
  */
 
 $action='report_reports.php';
@@ -19,29 +21,37 @@ include('scripts/sub_action.php');
 		exit;
 		}
 
+
+	/* Two arrays, one postdata is used by html2ps and inlcudes config
+	 * options, a second publishdata is used for the eportfolio, both incorporate
+	 * an array batch of all of the filenames to be processed 
+	 */
+	$postdata=array();
+	$batchfiles=array();
+	$publishdata=array();
+	$publishdata['foldertype']='report';
+
 	/* Find the definition specific to each report */
 	$reportdefs=array();
-	$wrapper_rid=$rids[0];/* Should be first in rids*/
+	$wrapper_rid=$rids[0];/* Should be first in rids */
 	for($c=0;$c<sizeof($rids);$c++){ 
 		$reportdefs[]=fetchReportDefinition($rids[$c]);
 		}
 	$pubdate=$reportdefs[0]['report']['date'];
 	$paper=$reportdefs[0]['report']['style'];
+	$publishdata['description']='report';
+	$publishdata['title']=$reportdefs[0]['report']['title'].' - '.$pubdate;
 
-	/*doing one student at a time*/
-	$postdata=array();
 	for($c=0;$c<sizeof($sids);$c++){
 		$sid=$sids[$c];
 		$Student=fetchStudent_short($sid);
-
 		list($Reports,$transform)=fetchSubjectReports($sid,$reportdefs);
-		$Reports['Coversheet']='yes';/*no longer used, always yes*/
+		$Reports['Coversheet']='yes';/* No longer used, always yes */
 		$Reports['Paper']=$paper;
 		$Student['Reports']=nullCorrect($Reports);
 
 		/*Finished with the student's reports. Output the result as xml.*/
 		$xsl_filename=$transform.'.xsl';
-
 		$html_header='<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/DTD/loose.dtd">
 <html>
 <head>
@@ -59,40 +69,66 @@ include('scripts/sub_action.php');
 		$html=$html_header. $html_report . $html_footer;
 
 		$epfusername=get_epfusername($sid,$Student);
-		$filename='Report'.$pubdate.'_'.$epfusername.'_'.$sid.'_'.$wrapper_rid.'.html';
-		$postdata['batch['.$c.']']=$filename;
+		$filename='Report'.$pubdate.'_'.$epfusername.'_'.$sid.'_'.$wrapper_rid;
+		$postdata['batch['.$c.']']=$filename.'.html';//html2ps
+		$batchfiles[]=$filename;//html2fpdf
+		$publish_batchfiles[$c]=array('epfusername'=>$epfusername,
+								 'filename'=>$filename.'.pdf');//eportfolio
 
-		$file=fopen($CFG->installpath.'/reports/'.$filename, 'w');
+		$file=fopen($CFG->installpath.'/reports/'.$filename.'.html', 'w');
 		if(!$file){
 			$error[]='Unable to open file for writing!';
 			}
 		else{
-			fputs($file, $html);
+			fputs($file,$html);
 			fclose($file);
 			}
 		}
 
-	if(!isset($error)){
-		$result[]=get_string('publishedtofile',$book);
 
-		/*call the html2ps server for conversion to pdf*/
-		if(isset($CFG->html2psscript) and $CFG->html2psscript!=''){
+		/* Call the html2ps application for conversion to pdf 
+		if(isset($CFG->html2psscript) and $CFG->html2psscript!='' and !isset($error)){
 			$postdata['url']='http://'.$CFG->siteaddress.$CFG->sitepath.'/reports/';
 			$postdata['process_mode']='batch';
 			$postdata['topmargin']='5';
 			$postdata['bottommargin']='0';
-			$postdata['leftmargin']='15';
-			$postdata['rightargin']='0';
+			$postdata['leftmargin']='5';
+			$postdata['rightmargin']='5';
 			$postdata['pixels']='1028';
+			$postdata['scalepoints']='false';
 			if($paper=='landscape'){$postdata['landscape']='true';}
 			$curl=curl_init();
-			curl_setopt($curl, CURLOPT_URL,$CFG->html2psscript);
-			curl_setopt($curl, CURLOPT_POST, 1);
-			curl_setopt($curl, CURLOPT_POSTFIELDS, $postdata);
+			curl_setopt($curl,CURLOPT_URL,$CFG->html2psscript);
+			curl_setopt($curl,CURLOPT_POST, 1);
+			curl_setopt($curl,CURLOPT_POSTFIELDS, $postdata);
 			curl_exec($curl);
 			curl_close($curl);
 			}
+		*/
+
+/* Alternative is using html2fpdf....
+	require_once('lib/html2fpdf/html2fpdf.php');
+	while(list($index,$batchfile)=each($batchfiles)){
+		$htmlfile=$CFG->installpath.'/reports/'.$batchfile.'.html';
+		$pdffile=$CFG->installpath.'/reports/'.$batchfile.'.pdf';
+		$pdf=new HTML2FPDF();
+		$pdf->AddPage();
+		$fp = fopen($htmlfile,'r');
+		$strContent = fread($fp, filesize($htmlfile));
+		fclose($fp);
+		$pdf->WriteHTML($strContent);
+		$pdf->Output($pdffile);
+		trigger_error('PDF: '.$pdffile,E_USER_WARNING);
 		}
+*/
+
+		if(isset($CFG->eportfolio_db) and $CFG->eportfolio_db!='' and !isset($error)){
+			include('lib/eportfolio_functions.php');
+			$publishdata['batchfiles']=$publish_batchfiles;
+			elgg_upload_files($publishdata);
+			$result[]=get_string('publishedtofile',$book);
+			}
+
 
 	include('scripts/results.php');
 	include('scripts/redirect.php');

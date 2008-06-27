@@ -47,13 +47,14 @@ include('scripts/set_book_vars.php');
 	  <fieldset class="reportbook selery">
 		<legend><?php print_string('reporton');?></legend>
 <?php
-	$choices=array('report_comments.php' => 'comments'
-			   ,'report_incidents.php' => 'incidents'
-			   ,'report_assessments.php' => 'assessments'
-			   ,'report_attendance.php' => 'attendance'
-			   ,'report_reports.php' => 'subjectreports'
-			   ,'report_results.php' => 'finalresults'
-			   );
+	$choices=array(
+				   'report_comments.php' => 'comments'
+				   ,'report_incidents.php' => 'incidents'
+				   ,'report_assessments.php' => 'assessments'
+				   ,'report_attendance.php' => 'attendance'
+				   ,'report_reports.php' => 'subjectreports'
+				   //,'report_results.php' => 'finalresults'
+				   );
 	selery_stick($choices,$choice,$book);
 ?>
 	  </fieldset>

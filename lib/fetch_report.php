@@ -77,13 +77,19 @@ function fetchSubjectReports($sid,$reportdefs){
 				  $pid=$component['id'];
 				  $componentname=$component['name'];
 				  if(isset($component['status'])){$componentstatus=$component['status'];}
-				  if(isset($component['sequence'])){$componentseq=$component['sequence'];}
 				  else{
-					  $compstatus='';
-					  trigger_error('COMPSTATUS '. $component['id'],E_USER_WARNING);
+					  $componentstatus='';
+					  }
+				  if(isset($component['sequence'])){
+					  $componentseq=$component['sequence'];
+					  }
+				  else{
+					  /* TODO: combine sequences for bid and pid consistently*/
+					  if($bid=='Mat' or $bid=='Jun'){$componentseq=1;}
+					  else{$componentseq=10;}
 					  }
 				  /* Combine assessment indexes for this component and all of its
-					strands into a single array $assnos.*/
+					strands into a single array $assnos. */
 				  $assnos=array();
 				  $component['strands'][]=array('id'=>$pid);
 				  while(list($index,$strand)=each($component['strands'])){

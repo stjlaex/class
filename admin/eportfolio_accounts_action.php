@@ -168,6 +168,7 @@ if($studentcheck=='yes'){
 	}
 
 /**
+ *
  * Temporary to set default icon photos for all students.
  * The photos still have to be placed in the elggdata/icons folders by some
  * other means.
@@ -180,7 +181,6 @@ if($photocheck=='yes'){
 		$students=listin_community($com);
 		while(list($studentindex,$student)=each($students)){
 			$sid=$student['id'];
-			//$Students[$sid]=fetchStudent_short($sid);
 			$Student=fetchStudent_singlefield($sid,'EPFUsername');
 			$epfuid=elgg_get_epfuid($Student['EPFUsername']['value'],'person',true);
 			if($epfuid!='-1'){elgg_set_student_photo($epfuid,$yid);}
@@ -276,6 +276,7 @@ if($contactcheck=='yes'){
 						}
 					}
 				}
+
 			/*
 			 * Joining a family community involves simply an entry in
 			 * friends and an access group, a family does not have a community of

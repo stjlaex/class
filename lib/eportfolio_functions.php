@@ -75,7 +75,6 @@ function elgg_refresh(){
 		mysql_query("DELETE FROM $table_watchlist JOIN
 					$table_weblog.ident=$table_watchlist.weblog_post
 					WHERE $table_weblog.weblog='$ident';");
-		//trigger_error($no.': '.$oldcom['username'],E_USER_WARNING);
 		}
 
 	}
@@ -215,7 +214,6 @@ function elgg_newUser($Newuser,$role){
 		$d_user=mysql_query("SELECT ident FROM $table WHERE username='$epfusername$no';");
 		}
 
-	//trigger_error($epfusername. $no.' '.$password,E_USER_WARNING);
 
 	mysql_query("INSERT INTO $table (username, password, name, 
 					email, active, user_type,icon,template_id,template_name) VALUES 
@@ -344,11 +342,12 @@ function elgg_join_community($epfuid,$community){
 /**
  *
  */
-function elgg_update_group($group,$groupfresh=array('owner'=>'','name'=>'','access'=>'')){
+function elgg_update_group($group,
+						   $groupfresh=array('owner'=>'','name'=>'','access'=>''),$dbc=true){
 	global $CFG;
 	$table=$CFG->eportfolio_db_prefix.'groups';
-	$dbepf='';
-	if($CFG->eportfolio_db!=''){
+
+	if($CFG->eportfolio_db!='' and $dbc==true){
 		$dbepf=db_connect($CFG->eportfolio_db);
 		mysql_query("SET NAMES 'utf8'");
 		}
@@ -376,8 +375,12 @@ function elgg_update_group($group,$groupfresh=array('owner'=>'','name'=>'','acce
 				}
 			}
 		}
-	$db=db_connect();
-	mysql_query("SET NAMES 'utf8'");
+
+	if($dbc==true){
+		$db=db_connect();
+		mysql_query("SET NAMES 'utf8'");
+		}
+
 	return $epfgroupid;
 	}
 
@@ -388,11 +391,12 @@ function elgg_join_group($epfuid,$group){
 	global $CFG;
 	$table_group=$CFG->eportfolio_db_prefix.'groups';
 	$table_member=$CFG->eportfolio_db_prefix.'group_membership';
-	$dbepf='';
+
 	if($CFG->eportfolio_db!=''){
 		$dbepf=db_connect($CFG->eportfolio_db);
 		mysql_query("SET NAMES 'utf8'");
 		}
+
 	if(!isset($group['epfgroupid'])){$group['epfgroupid']='';}
 	if($group['epfgroupid']!=''){$epfgroupid=$group['epfgroupid'];}
 	else{
@@ -407,37 +411,58 @@ function elgg_join_group($epfuid,$group){
 		mysql_query("INSERT INTO $table_member SET user_id='$epfuid',
 							group_id='$epfgroupid'");
 		}
+
 	$db=db_connect();
 	mysql_query("SET NAMES 'utf8'");
+
 	}
 
 /**
  *
+ * If the folder already exists then just returns the folder_id
+ *
+ * This can only create folder ins the user's root folder because
+ * parent=-1 always
+ *
  */
-function elgg_new_folder($owner,$name,$access){
+function elgg_new_folder($owner,$name,$access,$dbc=true){
 	global $CFG;
 	$table=$CFG->eportfolio_db_prefix.'file_folders';
-	$dbepf='';
-	if($CFG->eportfolio_db!=''){
+
+	if($CFG->eportfolio_db!='' and $dbc==true){
 		$dbepf=db_connect($CFG->eportfolio_db);
 		mysql_query("SET NAMES 'utf8'");
 		}
 
-	if($owner!='' and $name!='' and $access!=''){
-		mysql_query("INSERT INTO $table SET owner='$owner', files_owner='$owner',
-							name='$name', access='$access',
-							parent='-1', handler='class'");
+	$d_folder=mysql_query("SELECT ident FROM $table WHERE
+					owner='$owner' AND name='$name';");
+	if(mysql_num_rows($d_folder)>0){
+		$folder_id=mysql_result($d_folder,0);
+		}
+	elseif($owner!='' and $name!='' and $access!=''){
+		$d_f=mysql_query("INSERT INTO $table SET owner='$owner', files_owner='$owner',
+					 name='$name', access='$access', parent='-1', handler='class';");
+		$folder_id=mysql_insert_id();
+		}
+	else{
+		$folder_id=-1;
 		}
 
-	$db=db_connect();
-	mysql_query("SET NAMES 'utf8'");
+	if($dbc==true){
+		$db=db_connect();
+		mysql_query("SET NAMES 'utf8'");
+		}
+
+	return $folder_id;
 	}
 
 /** 
+ *
  * Returns the epfuid - usually called from other elgg_ functions but
  * set dbc=true if its to be called elsewhere.
  * The owner is the epfusername and type is the elgg user_type 
  * currently only recognised as either 'person' or 'community'.
+ *
  */
 function elgg_get_epfuid($owner,$type,$dbc=false){
 	global $CFG;
@@ -461,6 +486,7 @@ function elgg_get_epfuid($owner,$type,$dbc=false){
 		$db=db_connect();
 		mysql_query("SET NAMES 'utf8'");
 		}
+
 	return $uid;
 	}
 
@@ -506,22 +532,24 @@ function elgg_get_fileurl($owner,$filetype,$dbc=false){
  *
  */
 function elgg_new_homework($tid,$cid,$bid,$pid,$title,$body,$dateset){
-	$dbepf='';
+
 	list($year,$month,$day)=explode('-',$dateset);
 	$posted=mktime(0,0,0,$month,$day,$year);
 	global $CFG;
+
 	if($CFG->eportfolio_db!=''){
 		$dbepf=db_connect($CFG->eportfolio_db);
 		mysql_query("SET NAMES 'utf8'");
 		}
+
 	if(isset($CFG->clientid)){$school=$CFG->clientid;}
 	else{$school='';}
 
 	$epfcid=str_replace('/','',$cid);
 	$epfcid=str_replace('-','',$epfcid);
 	$epfblogname=$school. 'class'. $epfcid;
-	$epfuidweblog=elgg_get_epfuid($epfblogname,$type='community');
-	$epfuidowner=elgg_get_epfuid($school. $tid,$type='person');
+	$epfuidweblog=elgg_get_epfuid($epfblogname,'community');
+	$epfuidowner=elgg_get_epfuid($school. $tid,'person');
 	/*Homework access is restricted to the class its set for.*/
 	$access='community'.$epfuidweblog;
 
@@ -555,16 +583,19 @@ function elgg_new_homework($tid,$cid,$bid,$pid,$title,$body,$dateset){
 
 	$db=db_connect();
 	mysql_query("SET NAMES 'utf8'");
+
 	}
 
 /**
- * Temporary stuff to set a student's icon photo to their school year
+ *  Temporary stuff to set a student's icon photo to their school year
  *  photo. The icon file has a standard name of eg. y9.jpg
+ *
  */
 function elgg_set_student_photo($epfuid,$yid,$dbc=true){
 	global $CFG;
 	$table_users=$CFG->eportfolio_db_prefix.'users';
 	$table_icons=$CFG->eportfolio_db_prefix.'icons';
+
 	if($CFG->eportfolio_db!='' and $dbc==true){
 		$dbepf=db_connect($CFG->eportfolio_db);
 		mysql_query("SET NAMES 'utf8'");
@@ -574,43 +605,86 @@ function elgg_set_student_photo($epfuid,$yid,$dbc=true){
 				filename='y$yid.jpg', description='Year $yid - October 2007';"); 
 	mysql_query("UPDATE $table_users SET icon=LAST_INSERT_ID() WHERE ident='$epfuid';");
 
-	$db=db_connect();
-	mysql_query("SET NAMES 'utf8'");
+	if($dbc==true){
+		$db=db_connect();
+		mysql_query("SET NAMES 'utf8'");
+		}
 	}
 
 /**
- * TODO!!!!!
+ *
+ * We don't want to include these file sizes for the user quota when
+ * they are posted by ClaSS.
+ *
+ * $file=array($name,$description,$title,$foldertype)
+ *
  */
-function elgg_upload_file($epfusername,$description,$title,$access,$foldername){
-	require_once('lib/file_upload.php');
+function elgg_upload_files($filedata,$dbc=true){
+	global $CFG;
+	$table_folders=$CFG->eportfolio_db_prefix.'file_folders';
+	$table_files=$CFG->eportfolio_db_prefix.'files';
+	if($CFG->eportfolio_db!='' and $dbc==true){
+		$dbepf=db_connect($CFG->eportfolio_db);
+		mysql_query("SET NAMES 'utf8'");
+		}
 
-	$ul_username=user_info('username', $page_owner);
-	$upload_folder=$textlib->substr($ul_username,0,1);
-	$total_quota=get_field_sql('SELECT sum(size) FROM '.$CFG->prefix.'files WHERE files_owner=?',array($page_owner));
-	$max_quota=user_info('file_quota',$page_owner);
-	$maxbytes=$max_quota - $total_quota;
-	// $um=new upload_manager('new_file',false,true,true,$maxbytes,true);
-	$um=new upload_manager('',false,true,true,$maxbytes,true);
-	$reldir= "files/" . $upload_folder . "/" . $ul_username . "/"; 
-	$dir=$CFG->dataroot .$reldir;
-	if($um->process_file_uploads($dir)){
-		foreach($um->files as $file) {
-			if ($file['error'] == 0) {
-				$f=new StdClass;
-				$f->owner=$USER->ident;
-				$f->files_owner=$page_owner;
-				$f->folder= $folderid;
-				$f->originalname=$file['originalname'];
-				$f->title=$title;
-				$f->description=$description;
-				$f->location=$reldir . $file['name'];
-				$f->access=$access;
-				$f->size=$file['size'];
-				$f->time_uploaded=time();
-				$f=plugin_hook("file","create",$f);
-				if(!empty($f)){
-					$file_id=insert_record('files',$f);
-					$f->ident=$file_id;
+	//require_once('lib/file_upload.php');
+
+	$file_title=$filedata['title'];
+	$file_description=$filedata['description'];
+	$file_time=time();
+
+	/* Identify the folder to be linked with this file. Note this is a
+	 * virtual flolder in elgg and does not affect the physical directory
+	 * the file is being stored in. 
+	 */
+	if($filedata['foldertype']=='report'){
+		$folder_name='Reports';
+		}
+	elseif($filedata['foldertype']=='work'){
+		$folder_name='Portfolio Work';
+		}
+	else{
+		/* Just defaults to their parent folder. */
+		$folder_name='root';
+		$folder_id=-1;
+		}
+
+	$batchfiles=$filedata['batchfiles'];
+	while(list($index,$batchfile)=each($batchfiles)){
+		$epfusername=$batchfile['epfusername'];
+		$file_name=$batchfile['filename'];
+		$epfuid=elgg_get_epfuid($epfusername,'person');
+
+		/* This is the family access group */
+		$group=array('epfgroupid'=>'','owner'=>$epfuid,'name'=>'Family','access'=>'');
+		$epfgroupid=elgg_update_group($group,array('owner'=>'','name'=>'','access'=>''),false);
+		$file_access='group'.$epfgroupid;
+		if($folder_name!='root'){
+			/* Create the virtual folder if it doesn't exist. */
+			$folder_id=elgg_new_folder($epfuid,$folder_name,'group'.$epfgroupid,false);
+			}
+
+		$dir='files/' . substr($epfusername,0,1) . '/' . $epfusername; 
+		/* Create the physical folder if it doesn't exist. */
+		if(!make_portfolio_directory($dir)){}
+
+		$file_fullpath=$CFG->eportfolio_dataroot . '/' . $dir. '/'. $file_name;
+		$file_location=$dir . '/'. $file_name;
+		$file_originalname=$file_name;
+		$file_originalpath=$CFG->installpath .'/reports/'. $file_name;
+		$d_f=mysql_query("INSERT INTO $table_files 
+		   			 (owner, files_owner, folder, title, originalname,
+						description, location, access, time_uploaded) VALUES 
+		   			 ('1', '$epfuid','$folder_id','$file_title','$file_originalname',
+		   			  '$file_description','$file_location','$file_access','$file_time');");
+  		if(rename($file_originalpath,$file_fullpath)){
+			//chmod($file_fullpath, $CFG->filepermissions);
+			}
+		}
+
+					/*
+					 //$f=plugin_hook("file","create",$f);
 					$value=trim(optional_param('new_file_keywords'));
 					insert_tags_from_string ($value, 'file', $file_id, $access, $page_owner);
 					$metadata=optional_param('metadata');
@@ -623,22 +697,62 @@ function elgg_upload_file($epfusername,$description,$title,$access,$foldername){
 							insert_record('file_metadata',$m);
 							}
 						}
-					plugin_hook("file","publish",$f);
-					$rssresult=run("files:rss:publish", array($page_owner, false));
-					$rssresult=run("profile:rss:publish", array($page_owner, false));
-					$messages[]=__gettext("{$f->originalname} was successfully uploaded.");
-					}
-				}
-			}
-		} 
-	else{
-		$messages[]=$um->get_errors();
-		}
-	
-	$redirect_url=$CFG->wwwroot . $ul_username . "/files/";
-	if ($folderid > -1) {
-		$redirect_url .= $folderid;
-		}
+					*/
 
 	}
+
+
+/**
+ * Create a directory in the eportfolio_dataroot.
+ *
+ * @uses $CFG
+ * @param string $directory  a string of directory names under
+ * $CFG->dataroot eg stuff/assignment/1
+ * param boolean $shownotices If true then notification messages will be printed out on error.
+ * @return string|false Returns full path to directory if successful, false if not
+ *
+ */
+function make_portfolio_directory($directory,$shownotices=false){
+    global $CFG;
+	$CFG->directorypermissions=0755;
+	$CFG->filepermissions=0655;
+    $currdir=$CFG->eportfolio_dataroot;
+    umask(0000);
+	/*
+    if(!file_exists($currdir)){
+        if (! mkdir($currdir, $CFG->directorypermissions)) {
+            if ($shownotices){
+                notify('ERROR: You need to create the directory '. $currdir .' with web server write access');
+            }
+            return false;
+        }
+        if ($handle = fopen($currdir.'/.htaccess', 'w')) {   // For safety
+            @fwrite($handle, "deny from all\r\n");
+            @fclose($handle);
+        }
+    }
+    */
+
+    $dirarray=explode('/', $directory);
+
+    // remove trailing slash, if present
+	$currdir=rtrim($currdir, '/');
+    
+    foreach($dirarray as $dir){
+        $currdir=$currdir .'/'. $dir;
+        if(!file_exists($currdir)){
+            if(!mkdir($currdir,$CFG->directorypermissions)){
+                if($shownotices){
+                    notify('ERROR: Could not find or create a directory ('. $currdir .')');
+					}
+                return false;
+				}
+            //@chmod($currdir, $CFG->directorypermissions);  // Just in case mkdir didn't do it
+			}
+		}
+    
+    return $currdir;
+	}
+
+
 ?>
