@@ -48,19 +48,19 @@ if(isset($CFG->eportfolio_db) and $CFG->eportfolio_db!=''){
 
 			$body="\r\n";
 			$body.='This is an automatic email sent on behalf of King\'s College Madrid.'."\r\n";
-			$body.='You can now find the term report for '.$studentname.' available on the ClaSSic website.'."\r\n";
-			$body.='Please access the report directly using the following link:'."\r\n";
+			$body.='You can now find the term report for '.$studentname.' available on the ClaSSic website. Please access the report directly using the following link:'."\r\n";
 			$body.="\r\n";
 			$body.='http://classforschools.com/classic/'.$epfusername.'/files/'.$epf_folder_id;
 			$body.="\r\n";
-			$body.='Access to the website is protected by a user-name and password, details of which you should have received previously by email.'."\r\n";
+			$body.="\r\n";
+			$body.='Access to the website is protected by a user-name and password, details of which you will have received previously by email.'."\r\n";
 			$body.='--'."\r\n";
 			$body.="\r\n";
 			$body.='Este es un mensaje automatico enviado en nombre de King\'s College Madrid.'."\r\n";
-			$body.='Tiene a su disposición el informe del trimestre '.$studentname.' en el website de ClaSSic'."\r\n";
-			$body.='Puede acceder directamente al informe haciendo click en el siguiente enlace:'."\r\n";
+			$body.='Tiene a su disposición el informe del trimestre '.$studentname.' en el website de ClaSSic. Puede acceder directamente al informe haciendo click en el siguiente enlace:'."\r\n";
 			$body.="\r\n";
 			$body.='http://classforschools.com/classic/'.$epfusername.'/files/'.$epf_folder_id;
+			$body.="\r\n";
 			$body.="\r\n";
 			$body.='El acceso al website está protegido con un nombre de usuario y una contraseña que Ud. debe haber recibido previamente por email.'."\r\n";
 
