@@ -19,7 +19,7 @@ if(isset($_POST['displayfield2'])){$displayfields[2]=$_POST['displayfield2'];}
 if(isset($_POST['displayfield3'])){$displayfields[3]=$_POST['displayfield3'];}
 
 
-$extrabuttons='';
+$extrabuttons=array();
 if($_SESSION['role']=='office' or $_SESSION['role']=='admin'){
 	$displayname='DisplayFullSurname';
 	if(isset($CFG->books['external'][$_SESSION['role']]['webmail'])){
@@ -45,12 +45,15 @@ else{
 two_buttonmenu($extrabuttons,$book);
 ?>
 
-<div id="viewcontent" class="content">
-<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
-<table class="listmenu sidtable">
-	<th colspan="2"><?php print_string('checkall'); ?><input type="checkbox" name="checkall" 
-				value="yes" onChange="checkAll(this);" /></th>
-	<th ><?php print_string('student'); ?></th>
+  <div id="viewcontent" class="content">
+	<form id="formtoprocess" name="formtoprocess" 
+	  method="post" action="<?php print $host;?>">
+	  <table class="listmenu sidtable">
+		<th colspan="2"><?php print_string('checkall'); ?>
+		  <input type="checkbox" name="checkall" 
+				value="yes" onChange="checkAll(this);" />
+		</th>
+		<th ><?php print_string('student'); ?></th>
 <?php
 	if($_SESSION['role']!='support'){
 		while(list($index,$displayfield)=each($displayfields)){

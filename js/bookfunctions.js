@@ -259,7 +259,7 @@ function sidtableFilter(buttonObject){
 
 //------------------------------------------------------- 
 // Only called by form buttons in place of processContent() 
-// this will pass all the checked sids[] in a sidtable alongwith 
+// this will pass all the checked sids[] in a sidtable along-with 
 // whatever parameters are listed in the embedded xml contained 
 // in a div with id=xml-checked-action
 // whatever xml is returned by the httpscript called by the button
@@ -548,7 +548,7 @@ function checkAll(checkAllBox){
 		}
 	}
 
-/*changes the class of the row when checked and unchecked*/
+/* Changes the class of the row when checked and unchecked. */
 function checkrowIndicator(inputObj){
 	var rowId="sid-"+inputObj.value;
 	var theRow;

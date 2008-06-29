@@ -84,7 +84,14 @@ if(isset($_POST['enrolstage'])){$enrolstage=$_POST['enrolstage'];}
 	$neededperm='r';
 	include('scripts/perm_action.php');
 
-	three_buttonmenu();
+	$extrabuttons=array();
+   	$extrabuttons['addresslabels']=array('name'=>'current',
+										 'title'=>'printaddresslabels',
+										 'onclick'=>'checksidsAction(this)',
+										 'pathtoscript'=>$CFG->sitepath.'/'.$CFG->applicationdirectory.'/infobook/',
+									   
+										 'value'=>'contact_labels_print.php');
+	three_buttonmenu($extrabuttons,'infobook');
 ?>
   <div id="heading">
 <?php
@@ -101,12 +108,16 @@ if(isset($_POST['enrolstage'])){$enrolstage=$_POST['enrolstage'];}
 	  action="<?php print $host; ?>">
 
 	  <div  class="fullwidth" id="viewcontent">
-		<table class="listmenu" id="sidtable">
+		<table class="listmenu sidtable" id="sidtable">
 		  <caption>
 			<?php print_string($comtype,$book);?>
 		  </caption>
 		  <tr>
-			<th colspan="2" style="width:40%;"><?php print $description;?></th>
+			<th colpsan="2"><?php print_string('checkall'); ?>
+			  <input type="checkbox" name="checkall" 
+				value="yes" onChange="checkAll(this);" />
+			</th>
+			<th style="width:40%;"><?php print $description;?></th>
 			<th>
 <?php
 		   	$required='no';$multi='1';
@@ -137,7 +148,10 @@ if(isset($_POST['enrolstage'])){$enrolstage=$_POST['enrolstage'];}
 		$Enrolment=fetchEnrolment($sid);
 ?>
 		  <tr id="sid-<?php print $sid;?>">
-			<td><?php print $rown++;?>&nbsp;</td>
+			<td>
+			  <input type="checkbox" name="sids[]" value="<?php print $sid;?>" />
+			  <?php print $rown++;?>
+			</td>
 			<td>
 			  <span title="<?php print display_date($student['dob']). 
 				' <br />'.$Enrolment['EnrolmentNotes']['value'];?>">
