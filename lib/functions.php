@@ -168,7 +168,7 @@ function clean_text($value){
 	/*blanks possible dodgy sql injection attempt*/
 	$search=array('SELECT ','INSERT ','DELETE ','DROP ');
 	$value=str_replace($search,'',$value);
-	$search=array('*','<','>');
+	$search=array(' * ','<','>');
 	$value=str_replace($search,'',$value);
 	//   	$value=eregi_replace('[^-.?,!;()+:[:digit:][:space:][:alpha:]]','', $value);
 	$value=addslashes($value);
@@ -669,7 +669,9 @@ function getEnumArray($field_name){
 	/*NOT an enum array but defines courses who don't do homework*/
 	$nohomeworkcourses=array();
 
-	/*for the orderaction table*/
+	/* For the orderaction table NB. 'lodged' has no entry in the
+	 * orderaction table simply exists in the orderorder table. 
+	 */
 	$action=array('0' => 'lodged', '1' => 'authorised', '2' => 'placed', '3' =>
 				  'delivered', '4' => 'cancelled', '5' => 'closed',
 				  '6' => 'process');

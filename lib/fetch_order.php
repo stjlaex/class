@@ -440,10 +440,46 @@ function fetchSupplier($supid=-1){
 
 
 /**
- * 
+ * This returns a budget's remaining balance calcualted from the
+ * current balance minus the value of all outstanding orders
  * 
  */
 function get_budget_projected($budid=-1){
+	global $CFG;
+	$currencyrates=$CFG->currencyrates;
+	$sum=0;
+	while(list($currency,$rate)=each($currencyrates)){
+		/* Projected values come from the material table entered by users */
+		$d_0=mysql_query("SELECT SUM(unitcost*quantity) FROM
+				ordermaterial JOIN orderorder ON
+				orderorder.id=ordermaterial.order_id WHERE
+				orderorder.budget_id='$budid' AND
+				orderorder.currency='$currency';");
+		/* Want to exclude closed and cancelled orders */
+		$d_3=mysql_query("SELECT SUM(unitcost*quantity) FROM
+				ordermaterial WHERE 
+				ordermaterial.order_id=ANY(SELECT
+				DISTINCT order_id FROM orderaction JOIN orderorder ON
+				orderorder.id=orderaction.order_id  
+				WHERE orderorder.budget_id='$budid' AND 
+				orderorder.currency='$currency' AND
+				(orderaction.action='5' OR orderaction.action='4'));");
+		$value=mysql_result($d_0,0)-mysql_result($d_3,0);
+
+		$sum+=$rate*$value;
+		}
+
+	$current=get_budget_current($budid);
+	$costremain=round($current-$sum,0);
+
+	return $costremain;
+	}
+
+/**
+ * This si no longer used!!!
+ * 
+ */
+function get_budget_projected2($budid=-1){
 	global $CFG;
 	$currencyrates=$CFG->currencyrates;
 	$d_bud=mysql_query("SELECT costlimit FROM orderbudget WHERE id='$budid';");
@@ -452,22 +488,6 @@ function get_budget_projected($budid=-1){
 		$costlimit=mysql_result($d_bud,0);
 		/* Ignore orders cancelled action=4 */
 		while(list($currency,$rate)=each($currencyrates)){
-			/* TODO: exclude cancelations and purchased and use
-			get_current_budget instead
-			$d_sum=mysql_query("SELECT SUM(unitcost*quantity) FROM
-				ordermaterial JOIN orderaction ON
-				ordermaterial.order_id=orderaction.order_id WHERE
-				orderaction.action!='3' AND
-				orderaction.order_id=ANY(SELECT id FROM orderorder
-				WHERE orderorder.budget_id='$budid' AND
-				orderinvoice.currency='$currency');");
-			$d_mat=mysql_query("SELECT SUM(unitcost*quantity) FROM
-				ordermaterial JOIN orderorder ON
-				orderorder.id=ordermaterial.order_id WHERE
-				orderorder.budget_id='$budid' AND
-				orderorder.currency='$currency' AND (SELECT action
-				FROM orderaction WHERE order_id=;");
-			*/
 			$d_mat=mysql_query("SELECT SUM(unitcost*quantity) FROM
 				ordermaterial JOIN orderorder ON
 				orderorder.id=ordermaterial.order_id WHERE
@@ -481,7 +501,7 @@ function get_budget_projected($budid=-1){
 		while($bud=mysql_fetch_array($d_bud,MYSQL_ASSOC)){
 			$subsum+=$bud['costlimit'];
 			}
-		$costremain=round($costlimit-$sum-$subsum,2);
+		$costremain=round($costlimit-$sum-$subsum,0);
 		}
 	else{
 		$costremain='';
@@ -492,26 +512,31 @@ function get_budget_projected($budid=-1){
 
 
 /**
- * Sum all the invoices for orders delivered (action=3) and calculate
- * the remaining balance.
+ * Sum all the invoices (linked to action=3 delivered) for orders
+ * closed (action=5) and calculate the remaining balance. 
  *
  */
 function get_budget_current($budid=-1){
 	global $CFG;
 	$currencyrates=$CFG->currencyrates;
-	$d_bud=mysql_query("SELECT costlimit FROM orderbudget WHERE id='$budid'");
+	$d_bud=mysql_query("SELECT costlimit FROM orderbudget WHERE id='$budid';");
 	if(mysql_num_rows($d_bud)>0){
 		$sum=0;
 		$costlimit=mysql_result($d_bud,0);
 		while(list($currency,$rate)=each($currencyrates)){
-			$d_sum=mysql_query("SELECT SUM(debitcost) FROM
+			$d_closed=mysql_query("SELECT id FROM orderorder
+				JOIN orderaction ON orderaction.order_id=orderorder.id
+				WHERE orderorder.budget_id='$budid' AND
+				orderorder.currency='$currency' AND orderaction.action='5';");
+			while($closed_order=mysql_fetch_array($d_closed,MYSQL_ASSOC)){
+				$closed_ordid=$closed_order['id'];
+				$d_sum=mysql_query("SELECT SUM(debitcost) FROM
 				orderinvoice JOIN orderaction ON
 				orderinvoice.id=orderaction.invoice_id WHERE
 				orderaction.action='3' AND
-				orderaction.order_id=ANY(SELECT id FROM orderorder
-				WHERE orderorder.budget_id='$budid' AND
-				orderinvoice.currency='$currency');");
-			$sum+=$rate*mysql_result($d_sum,0);
+				orderaction.order_id='$closed_ordid';");
+				$sum+=$rate*mysql_result($d_sum,0);
+				}
 			}
 		/* Iterate over any sub-budgets */
 		$subsum=0;
@@ -519,7 +544,7 @@ function get_budget_current($budid=-1){
 		while($bud=mysql_fetch_array($d_bud,MYSQL_ASSOC)){
 			$subsum+=$bud['costlimit'];
 			}
-		$costremain=round($costlimit-$sum-$subsum,2);
+		$costremain=round($costlimit-$sum-$subsum,0);
 		}
 	else{
 		$costremain='';

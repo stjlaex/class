@@ -135,7 +135,7 @@ twoplus_buttonmenu($budgetyear,$currentyear+2,$extrabuttons,$book);
 			if($budget['x']){
 				print '<a href="admin.php?current=orders_limit.php&cancel='.
 							$choice.'&choice='. $choice.'&budid='. $budget['id'].'">' 
-							.$budget['costlimit'].'</a>';
+							.round($budget['costlimit'],0).'</a>';
 				}
 			else{
 				print $budget['costlimit'];
@@ -143,7 +143,8 @@ twoplus_buttonmenu($budgetyear,$currentyear+2,$extrabuttons,$book);
 ?>
 		  </td>
 		  <td><?php print get_budget_current($budget['id']);?></td>
-		  <td><?php print get_budget_projected($budget['id']);?></td>
+		  <td><?php print get_budget_projected($budget['id']);?> : 
+		  <?php print get_budget_projected2($budget['id']);?></td>
 		</tr>
 <?php
 		}

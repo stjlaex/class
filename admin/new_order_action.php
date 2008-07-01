@@ -24,6 +24,7 @@ if($sub=='Submit'){
 		}
 	else{
 		mysql_query("UPDATE orderorder SET supplier_id='$supid' WHERE id='$ordid';");
+		mysql_query("DELETE FROM ordermaterial WHERE order_id='$ordid';");	
 		}
 	reset($Order);
 	while(list($index,$val)=each($Order)){
@@ -39,8 +40,10 @@ if($sub=='Submit'){
 
 	$Material=fetchMaterial();
 	$entryn=0;
-	/* entryn and matn not neccessarily the same if blanks in the form
-	 * and must avoid blanks in entryn 
+	/*
+	 * The index in the db is entryn which is not neccessarily the
+	 * same as matn if entries have been deleted
+	 * and must avoid blanks in entryn
 	 */
 	for($matn=1;$matn<=$maxmatn;$matn++){
 		if(isset($_POST['quantity'.$matn]) and
@@ -60,15 +63,8 @@ if($sub=='Submit'){
 					}
 				}
 			}
-		elseif(isset($_POST['quantity'.$matn]) and
-		   $_POST['quantity'.$matn]!='' and $_POST['quantity'.$matn]=='0'){
-			$entryn++;
-			mysql_query("UPDATE ordermaterial SET refno='', detail='',
-						materialtype='', unitcost='', quantity='0' WHERE
-						order_id='$ordid' AND entryn='$entryn';");	
-			}
 		}
 	}
-
+ 
 include('scripts/redirect.php');
 ?>

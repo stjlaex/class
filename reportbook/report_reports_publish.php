@@ -122,12 +122,12 @@ include('scripts/sub_action.php');
 		}
 */
 
-		if(isset($CFG->eportfolio_db) and $CFG->eportfolio_db!='' and !isset($error)){
-			include('lib/eportfolio_functions.php');
-			$publishdata['batchfiles']=$publish_batchfiles;
-			elgg_upload_files($publishdata);
-			$result[]=get_string('publishedtofile',$book);
-			}
+	if(isset($CFG->eportfolio_db) and $CFG->eportfolio_db!='' and !isset($error)){
+		include('lib/eportfolio_functions.php');
+		$publishdata['batchfiles']=$publish_batchfiles;
+		elgg_upload_files($publishdata);
+		$result[]=get_string('publishedtofile',$book);
+		}
 
 
 	include('scripts/results.php');

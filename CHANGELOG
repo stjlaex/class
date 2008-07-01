@@ -1,4 +1,4 @@
-Version ClaSS-0.8.50 release (2008/06/29)
+Version ClaSS-0.8.50 release (2008/07/01)
 -----------------------------------------
 
 File import of csv mime-type fixed on windows.
@@ -23,6 +23,9 @@ giving the overall performance, averaging or tallying, the profile's
 assessments for the selected component.
 
 Printing address labels added to the enrolments' lists.
+
+Have fixed the logic of the get_budget_projected() balance claculation
+so cancelled orders are excluded.
 
 
 Version ClaSS-0.8.49 release (2008/06/07)
