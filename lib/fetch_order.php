@@ -475,41 +475,6 @@ function get_budget_projected($budid=-1){
 	return $costremain;
 	}
 
-/**
- * This si no longer used!!!
- * 
- */
-function get_budget_projected2($budid=-1){
-	global $CFG;
-	$currencyrates=$CFG->currencyrates;
-	$d_bud=mysql_query("SELECT costlimit FROM orderbudget WHERE id='$budid';");
-	if(mysql_num_rows($d_bud)>0){
-		$sum=0;
-		$costlimit=mysql_result($d_bud,0);
-		/* Ignore orders cancelled action=4 */
-		while(list($currency,$rate)=each($currencyrates)){
-			$d_mat=mysql_query("SELECT SUM(unitcost*quantity) FROM
-				ordermaterial JOIN orderorder ON
-				orderorder.id=ordermaterial.order_id WHERE
-				orderorder.budget_id='$budid' AND
-				orderorder.currency='$currency';");
-			$sum+=$rate*mysql_result($d_mat,0);
-			}
-		/* Iterate over any sub-budgets */
-		$subsum=0;
-		$d_bud=mysql_query("SELECT costlimit FROM orderbudget WHERE overbudget_id='$budid';");
-		while($bud=mysql_fetch_array($d_bud,MYSQL_ASSOC)){
-			$subsum+=$bud['costlimit'];
-			}
-		$costremain=round($costlimit-$sum-$subsum,0);
-		}
-	else{
-		$costremain='';
-		}
-	return $costremain;
-	}
-
-
 
 /**
  * Sum all the invoices (linked to action=3 delivered) for orders

@@ -11,8 +11,8 @@ Bugfix to the handling of components when changing between classes -
 sometimes a pid was selected which didn't exist for the class.
 
 Concept of admin permissions groups added and corresponding logbook
-function get_admin_perm. Allows for super administrator permissions to
-shared out between different users and at the same time restricted to
+function get_admin_perm(). Allows for super-administrator permissions to
+be shared out between different users and at the same time restricted to
 areas such as budgets, academic, or pastoral.
 
 The report_assessments page now filters out empty columns from the

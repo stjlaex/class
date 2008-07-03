@@ -143,8 +143,7 @@ twoplus_buttonmenu($budgetyear,$currentyear+2,$extrabuttons,$book);
 ?>
 		  </td>
 		  <td><?php print get_budget_current($budget['id']);?></td>
-		  <td><?php print get_budget_projected($budget['id']);?> : 
-		  <?php print get_budget_projected2($budget['id']);?></td>
+		  <td><?php print get_budget_projected($budget['id']);?></td>
 		</tr>
 <?php
 		}
