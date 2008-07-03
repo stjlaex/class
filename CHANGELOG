@@ -27,6 +27,8 @@ Printing address labels added to the enrolments' lists.
 Have fixed the logic of the get_budget_projected() balance claculation
 so cancelled orders are excluded.
 
+Cancel is now Back in lang/en!
+
 
 Version ClaSS-0.8.49 release (2008/06/07)
 -----------------------------------------
