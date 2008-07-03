@@ -25,15 +25,17 @@ $Invoice['Currency']['value']=$Order['Currency']['value'];
 
 	  <fieldset class="center divgroup">
 		<div class="center">
+		  <ul>
 <?php
    	 while(list($index,$Material)=each($Order['Materials']['Material'])){
-	   	print ''.$Material['Detail']['value'].'  &nbsp; (' 
+	   	print '<li>'.$Material['Detail']['value'].'  &nbsp; (' 
 	 			 .$Material['Quantity']['value']. 
 	  			 ' x '.$Material['Unitcost']['value']. ' '. 
 	   			 displayEnum($Order['Currency']['value'],$Order['Currency']['field_db']). 
-	   			 ')<br />';
+	   			 ')</li>';
 		}
 ?>
+		  </ul>
 		</div>
 	  </fieldset>
 

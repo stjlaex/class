@@ -17,10 +17,11 @@
 	$respons=getRespons($tid);
 	$r=$_SESSION['r'];
 	$tab=1;
+	$currentlang=current_language();
 	print '<?xml version="1.0" encoding="utf-8"?'.'>';
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="<?php print $currentlang;?>" xml:lang="<?php print $currentlang;?>">
 <head>
 <title>ClaSS</title>
 <meta http-equiv="content-type" content="application/xhtml+xml; charset=utf-8" />
