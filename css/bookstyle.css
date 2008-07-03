@@ -519,14 +519,15 @@ tr.revealed td label {
 	background-color:#999999;
 	color:#ffffff !important;
     padding:0 2px;
+    font-size:x-small;
 	}
-tr.revealed p, tr.revealed div { 
+tr.revealed div {  
     margin:0;
     padding:3px;
 	}
-tr.revealed p { 
+tr.revealed p, tr.revealed ul { 
 	background-color:#ffffff;
-    margin-left:2px;
+    margin:0 0 0 2px;
     width:80%;
 	}
 td.hidden { 

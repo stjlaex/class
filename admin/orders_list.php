@@ -102,20 +102,20 @@ if($budid!=-1){
 		  </tr>
 		  <tr class="hidden" id="<?php print $entryno.'-'.$rown++;?>">
 			<td colspan="<?php print $colspan;?>">
-				<p>
+<ul>
 <?php
 				 $sumcost=0;
 				 while(list($index,$Material)=each($Order['Materials']['Material'])){
-					 print $Material['Detail']['value'].' &nbsp; - '
+					 print '<li>'.$Material['Detail']['value'].' &nbsp; - '
 							 .$Material['SupplierReference']['value'].' &nbsp; (' 
 					 .$Material['Quantity']['value']. 
 					 ' x '. $Material['Unitcost']['value']. ' '. 
 					 displayEnum($Order['Currency']['value'],$Order['Currency']['field_db']). 
-					 ')<br />';
+					 ')</li>';
 					 $sumcost+=$Material['Quantity']['value']*$Material['Unitcost']['value'];
 					}
 ?>
-				</p>
+</ul>
 				<div class="center nolite">
 <?php
 				 print 'Projected total cost = '.$sumcost. 
@@ -171,21 +171,21 @@ if($budid!=-1){
 					$orderactions=array();
 					$actionbuttons=array();
 					if($status=='lodged' and $perms['x']==1){
-						$orderactions[]='cancel';
+						$orderactions[]='cancelled';
 						$orderactions[]='authorise';
 						}
 					elseif($status=='authorised' and $perms['w']==1){
-						$orderactions[]='cancel';
+						$orderactions[]='cancelled';
 						$orderactions[]='process';
 						$orderactions[]='place';
 						}
 					elseif($status=='process' and $perms['w']==1){
-						$orderactions[]='cancel';
+						$orderactions[]='cancelled';
 						$orderactions[]='process';
 						$orderactions[]='place';
 						}
 					elseif($status=='placed' and $perms['w']==1){
-						$orderactions[]='cancel';
+						$orderactions[]='cancelled';
 						$orderactions[]='delivery';
 						}
 					elseif($status=='delivered' and $perms['w']==1){
