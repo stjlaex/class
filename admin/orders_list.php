@@ -171,21 +171,21 @@ if($budid!=-1){
 					$orderactions=array();
 					$actionbuttons=array();
 					if($status=='lodged' and $perms['x']==1){
-						$orderactions[]='cancelled';
+						$orderactions[]='cancel';
 						$orderactions[]='authorise';
 						}
 					elseif($status=='authorised' and $perms['w']==1){
-						$orderactions[]='cancelled';
+						$orderactions[]='cancel';
 						$orderactions[]='process';
 						$orderactions[]='place';
 						}
 					elseif($status=='process' and $perms['w']==1){
-						$orderactions[]='cancelled';
+						$orderactions[]='cancel';
 						$orderactions[]='process';
 						$orderactions[]='place';
 						}
 					elseif($status=='placed' and $perms['w']==1){
-						$orderactions[]='cancelled';
+						$orderactions[]='cancel';
 						$orderactions[]='delivery';
 						}
 					elseif($status=='delivered' and $perms['w']==1){
@@ -194,6 +194,11 @@ if($budid!=-1){
 						}
 
 					if(sizeof($orderactions)>0){
+						if($orderactions[0]=='cancel'){
+							$imagebuttons['clicktodelete']=array('name'=>'process',
+										 'value'=>array_shift($orderactions),
+										 'title'=>'cancelled');
+							}
 						while(list($indexoa,$orderaction)=each($orderactions)){
 							$actionbuttons[$orderaction]=array('name'=>'process',
 														   'value'=>$orderaction);
@@ -204,8 +209,9 @@ if($budid!=-1){
 				</label>
 				<input style="width:30em;" name="detail<?php print $ordid;?>" value="" />
 <?php
-						    all_extrabuttons($actionbuttons,
-										 $book,'clickToAction(this)','class="rowaction" ');
+			rowaction_buttonmenu($imagebuttons,$actionbuttons,$book);
+						//						    all_extrabuttons($actionbuttons,
+						//				 $book,'clickToAction(this)','class="rowaction" ');
 						}
 					}
 ?>

@@ -142,20 +142,28 @@ function clickToAction(buttonObject){
 		document.getElementById("formstatus-action").setAttribute("class","");
 		}
 	else if(action=="process"){
-		var recordId=xmlRecord.childNodes[1].childNodes[0].nodeValue;
-		var formObject=document.formtoprocess;
-		var formElements=formObject.elements;
-		var input1=document.createElement("input");
-		input1.type="hidden";
-		input1.name="recordid";
-		input1.value=recordId;
-		document.formtoprocess.appendChild(input1);
-		var input2=document.createElement("input");
-		input2.type="hidden";
-		input2.name="sub";
-		input2.value=buttonObject.value;
-		document.formtoprocess.appendChild(input2);
-		document.formtoprocess.submit();
+		if(buttonObject.value=="cancel" || buttonObject.value=="delete"){
+			var answer=confirmAction(buttonObject.title);
+			}
+		else{
+			var answer=true;
+			}
+		if(answer){
+			var recordId=xmlRecord.childNodes[1].childNodes[0].nodeValue;
+			var formObject=document.formtoprocess;
+			var formElements=formObject.elements;
+			var input1=document.createElement("input");
+			input1.type="hidden";
+			input1.name="recordid";
+			input1.value=recordId;
+			document.formtoprocess.appendChild(input1);
+			var input2=document.createElement("input");
+			input2.type="hidden";
+			input2.name="sub";
+			input2.value=buttonObject.value;
+			document.formtoprocess.appendChild(input2);
+			document.formtoprocess.submit();
+			}
 		}
 	else if(action=="current"){
 		var recordId=xmlRecord.childNodes[1].childNodes[0].nodeValue;

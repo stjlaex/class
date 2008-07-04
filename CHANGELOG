@@ -32,6 +32,9 @@ Cancel is now Back in lang/en, so you could say Back is back!!!
 Have adopted the favoured W3C method of prescribing the icon file and
 now added classicon.png tothe images directory.
 
+Included an alert for any clicktoaction button which has value cancel
+or delete.
+
 
 Version ClaSS-0.8.49 release (2008/06/07)
 -----------------------------------------
