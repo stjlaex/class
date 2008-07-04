@@ -1,4 +1,4 @@
-Version ClaSS-0.8.50 release (2008/07/01)
+Version ClaSS-0.8.50 release (2008/07/04)
 -----------------------------------------
 
 File import of csv mime-type fixed on windows.
@@ -27,7 +27,10 @@ Printing address labels added to the enrolments' lists.
 Have fixed the logic of the get_budget_projected() balance claculation
 so cancelled orders are excluded.
 
-Cancel is now Back in lang/en!
+Cancel is now Back in lang/en, so you could say Back is back!!!
+
+Have adopted the favoured W3C method of prescribing the icon file and
+now added classicon.png tothe images directory.
 
 
 Version ClaSS-0.8.49 release (2008/06/07)
