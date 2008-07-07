@@ -31,6 +31,30 @@ else{
 	}
 $yeargroups=list_yeargroups();
 $yeargroup_names=array();
+
+$feeder_nos=array();
+if(isset($CFG->feeder_code) and $CFG->feeder_code!=''){
+	$postdata['feeder_code']=$CFG->feeder_code;
+	$postdata['enrolyear']=$enrolyear;
+	$username='class';
+	$ip=$_SERVER['REMOTE_ADDR'];
+	$salt=$CFG->eportfolioshare;
+	$secret=md5($salt . $ip);
+	$token=md5($username . $secret);
+	while(list($index,$feeder)=each($CFG->feeders)){
+		$url=$feeder.'/class/admin/httpscripts/transfer_nos.php?username=' 
+				.$username.'&password='. $CFG->eportfolioshare;
+		$curl=curl_init();
+		curl_setopt($curl,CURLOPT_URL,$url);
+		curl_setopt($curl,CURLOPT_POST,1);
+		curl_setopt($curl,CURLOPT_RETURNTRANSFER,1);
+		curl_setopt($curl,CURLOPT_POSTFIELDS, $postdata);
+		$response=curl_exec($curl);
+		curl_close($curl);
+		trigger_error($response,E_USER_WARNING);
+		$feeder_nos=$response;
+		}
+	}
 ?>
 
   <div id="heading">
@@ -178,30 +202,9 @@ $yeargroup_names=array();
 			$cell['yid']=$yid;
 			$cell['comid']=$comid;
 			if($reenrolstep=='reenroling'){
-				$cell['repeat']=0;
-				$cell['confirm']=0;
-				$d_noc=mysql_query("SELECT COUNT(eidsid.student_id) FROM
-						eidsid JOIN comidsid ON
-					eidsid.student_id=comidsid.student_id WHERE comidsid.community_id='$comid'
-					AND (comidsid.leavingdate>'$todate' OR 
-					comidsid.leavingdate='0000-00-00' OR comidsid.leavingdate IS NULL) 
-					AND (comidsid.joiningdate<='$todate' OR 
-					comidsid.joiningdate='0000-00-00' OR comidsid.joiningdate IS NULL) 
-					AND assessment_id='$reenrol_eid' AND result='C';");
-				if(mysql_num_rows($d_noc)>0){
-					$cell['confirm']=mysql_result($d_noc,0);
-					}
-				$d_nor=mysql_query("SELECT COUNT(eidsid.student_id) FROM
-						eidsid JOIN comidsid ON
-					eidsid.student_id=comidsid.student_id WHERE comidsid.community_id='$comid'
-					AND (comidsid.leavingdate>'$todate' OR 
-					comidsid.leavingdate='0000-00-00' OR comidsid.leavingdate IS NULL) 
-					AND (comidsid.joiningdate<='$todate' OR 
-					comidsid.joiningdate='0000-00-00' OR comidsid.joiningdate IS NULL) 
-					AND assessment_id='$reenrol_eid' AND result='R';");
-				if(mysql_num_rows($d_nor)>0){
-					$cell['repeat']=mysql_result($d_nor,0);
-					}
+				$cell['confirm']=count_reenrol_no($comid,$reenrol_eid,'C');
+				$cell['repeat']=count_reenrol_no($comid,$reenrol_eid,'R');
+
 				if(isset($tablerows[$yid-1])){
 					$pre_reenrolcell=$tablerows[$yid-1][$reenrolstep];
 					}
@@ -217,34 +220,19 @@ $yeargroup_names=array();
 							.$cell['value'].'</a>';
 				}
 			elseif($reenrolstep=='reenroled'){
-				$d_nosids=mysql_query("SELECT COUNT(eidsid.student_id) FROM
-						eidsid JOIN comidsid ON
-					eidsid.student_id=comidsid.student_id WHERE comidsid.community_id='$comid'
-					AND (comidsid.leavingdate>'$todate' OR 
-					comidsid.leavingdate='0000-00-00' OR comidsid.leavingdate IS NULL) 
-					AND (comidsid.joiningdate<='$todate' OR 
-					comidsid.joiningdate='0000-00-00' OR comidsid.joiningdate IS NULL) 
-					AND assessment_id='$reenroled_eid' AND (result='C' OR result='R');");
-				if(mysql_num_rows($d_nosids)>0){
-					$cell['value']=mysql_result($d_nosids,0);
-					}
-				else{$cell['display']='';}
+				$cell['value']=count_reenrol_no($comid,$reenrol_eid,'C','R');
 				}
 			elseif($reenrolstep=='newenrolments'){
 				if($enrolyear!=$currentyear){
 					$cell['value']=0;
-					/*accepteds plus any transfers from feeders*/
-					reset($CFG->feeders);
-					while(list($index,$feeder)=each($CFG->feeders)){
-						if($feeder!=''){
-							/*TODO: will be a remote call to the other db!*/
-							if(isset($feeder[$yid])){$cell['value']+=$feeder[$yid];}
-							}
-						}
+					/* Accepteds plus any transfers from feeders*/
+					if(sizeof($feeder_nos)>0){
+						if(isset($feeder_nos[$yid])){$cell['value']+=$feeder_nos[$yid];}
+						}						
 					$cell['value']+=$enrol_tablerows[$yeargroup['name']]['AC']['value'];
 					}
 				else{
-					/*accepteds plus the new currents for this year*/
+					/* Accepteds plus the new currents for this year*/
 					$cell['value']=$enrol_tablerows[$yeargroup['name']]['C']['value']+$enrol_tablerows[$yeargroup['name']]['AC']['value'];
 					}
 				}
@@ -272,15 +260,7 @@ $yeargroup_names=array();
 							.$cell['value'].'</a>';
 				}
 			elseif($reenrolstep=='leavers'){
-				$d_nosids=mysql_query("SELECT COUNT(eidsid.student_id) FROM
-						eidsid JOIN comidsid ON
-					eidsid.student_id=comidsid.student_id WHERE comidsid.community_id='$comid'
-					AND (comidsid.leavingdate>'$todate' OR 
-					comidsid.leavingdate='0000-00-00' OR comidsid.leavingdate IS NULL) 
-					AND (comidsid.joiningdate<='$todate' OR 
-					comidsid.joiningdate='0000-00-00' OR comidsid.joiningdate IS NULL) 
-					AND assessment_id='$reenrol_eid' AND (result='L' OR result='LL');");
-				if(mysql_num_rows($d_nosids)>0){$cell['value']=mysql_result($d_nosids,0);}
+				$cell['value']=count_reenrol_no($comid,$reenrol_eid,'L','LL');
 				if(isset($tablerows[$yid-1])){
 					$pre_leavercell=$tablerows[$yid-1][$reenrolstep];
 					/*TODO: allow a shortcut to list just leavers*/

@@ -1,3 +1,16 @@
+Version ClaSS-0.8.50 release (2008/07/14)
+-----------------------------------------
+
+Added a field 'code' to the guardian table for use for ID or fiscal
+code.
+
+Allowed for the option of remote authentication in the httpscripts
+when a session does not exist. Aimed at CURLing between ClaSS sites.
+
+The enrolments matrix now makes a remote call to all sites listed in
+$CFG->feeders and asks for a count of transfers.
+
+
 Version ClaSS-0.8.50 release (2008/07/04)
 -----------------------------------------
 

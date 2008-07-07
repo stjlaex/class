@@ -148,6 +148,6 @@ $string['emailtoguardian']='Email this to contacts';
 $string['emailcommentalert']='This comment will be emailed to the parents of this student!';
 $string['epfusername']='ePortfolio Username';
 $string['furtherinformationonfile']='Further information is available on file.';
-$string['']='';
+$string['code']='Code';
 $string['']='';
 ?>

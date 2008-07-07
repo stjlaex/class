@@ -174,6 +174,7 @@ CREATE TABLE guardian (
 	epfusername	varchar(128) not null default '',
 	profession	varchar(120) not null default '',
 	companyname	varchar(240) not null default '',
+	code		varchar(120) not null default '',
 	index index_name (surname(5),forename(5)),
 	index index_forename (forename(5)),
 	primary key (id)

@@ -582,6 +582,11 @@ function fetchContact($gidsid=array('guardian_id'=>'-1','student_id'=>'-1','prio
 								  'field_db' => 'companyname', 
 								  'type_db' => 'varchar(240)', 
 								  'value' => ''.$guardian['companyname']);
+   	$Contact['Code']=array('label' => 'code', 
+						   'table_db' => 'guardian', 
+						   'field_db' => 'code', 
+						   'type_db'=> 'varchar(120)', 
+						   'value' => ''.$guardian['code']);
    	$Contact['Note']=array('label' => 'notes', 
 						   //'table_db' => 'guardian', 
 						   'field_db' => 'note', 
@@ -643,7 +648,7 @@ function fetchAddress($gidaid=array('address_id'=>'-1','addresstype'=>'')){
 	*/
 	$Address['AddressType']=array('label' => 'type', 
 								  //'inputtype'=> 'required',
-								  'table_db' => 'gidaid', 
+								  //'table_db' => 'gidaid', 
 								  'field_db' => 'addresstype',
 								  'type_db' => 'enum', 
 								  //'default_value' => 'H',

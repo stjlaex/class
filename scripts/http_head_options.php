@@ -12,7 +12,23 @@ session_start();
 require_once('../../logbook/authenticate.php');
 if(!isset($_SESSION['uid'])){session_defaults();} 
 $user=new user($db);
-if($_SESSION['uid']==0){exit;}
+if($_SESSION['uid']==0){
+	$username=$_GET['username'];
+	$token=$_GET['password'];
+	$ip=$_SERVER['REMOTE_ADDR'];
+	$salt=$CFG->eportfolioshare;
+  	$secret=md5($salt . $ip);
+	$guess=md5(strtolower($username) . $secret);
+	if($token==$guess){
+		trigger_error('SUCCESS!!! '.$username,E_USER_WARNING);
+		$_SESSION['username']=$username;
+		}
+	else{
+		trigger_error('FAILED!!! '.$username,E_USER_WARNING);
+		session_defaults();
+		exit;
+		}
+	}
 require_once('../../lib/include.php');
 require_once('../../logbook/permissions.php');
 $respons=getRespons($_SESSION['username']);
