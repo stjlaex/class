@@ -1,8 +1,8 @@
-Version ClaSS-0.8.50 release (2008/07/14)
+Version ClaSS-0.8.50 release (2008/07/08)
 -----------------------------------------
 
 Added a field 'code' to the guardian table for use for ID or fiscal
-code.
+codes.
 
 Allowed for the option of remote authentication in the httpscripts
 when a session does not exist. Aimed at CURLing between ClaSS sites.
