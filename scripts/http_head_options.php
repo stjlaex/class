@@ -15,7 +15,7 @@ $user=new user($db);
 if($_SESSION['uid']==0){
 	$username=$_GET['username'];
 	$token=$_GET['password'];
-	$ip=$_SERVER['REMOTE_ADDR'];
+	//$ip=$_SERVER['SERVER_ADDR'];
 	$salt=$CFG->eportfolioshare;
   	$secret=md5($salt . $ip);
 	$guess=md5(strtolower($username) . $secret);

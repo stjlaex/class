@@ -37,14 +37,15 @@ if(isset($CFG->feeder_code) and $CFG->feeder_code!=''){
 	$postdata['feeder_code']=$CFG->feeder_code;
 	$postdata['enrolyear']=$enrolyear;
 	$username='class';
-	$ip=$_SERVER['REMOTE_ADDR'];
+	//$ip=$_SERVER['SERVER_ADDR'];
 	$salt=$CFG->eportfolioshare;
 	$secret=md5($salt . $ip);
-	$token=md5($username . $secret);
+	$token=md5($username . $secret);// This gets passed for authentication 
 	while(list($index,$feeder)=each($CFG->feeders)){
 		$url=$feeder.'/class/admin/httpscripts/transfer_nos.php?username=' 
-				.$username.'&password='. $CFG->eportfolioshare;
+				.$username.'&password='. $token;
 		$curl=curl_init();
+		curl_setopt($curl,CURLOPT_SSL_VERIFYPEER,0);
 		curl_setopt($curl,CURLOPT_URL,$url);
 		curl_setopt($curl,CURLOPT_POST,1);
 		curl_setopt($curl,CURLOPT_RETURNTRANSFER,1);
