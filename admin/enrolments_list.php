@@ -58,7 +58,7 @@ if(isset($_POST['enrolstage'])){$enrolstage=$_POST['enrolstage'];}
 		while(list($index,$pair)=each($pairs)){
 			list($grade['result'], $grade['value'])=split(':',$pair);
 			$grades[]=$grade;
-			$$grade['value']=0;/*used fora running total*/
+			$$grade['value']=0;/*used for a running total*/
 			}
 		$eid=$AssDefs[0]['id_db'];
 		$description=display_yeargroupname($yid).' ('.display_curriculumyear($enrolyear-1).')';

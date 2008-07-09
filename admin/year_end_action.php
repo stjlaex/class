@@ -7,16 +7,18 @@ $action='year_end_action2.php';
 include('scripts/sub_action.php');
 include('scripts/answer_action.php');
 
+	/*This is all to try and cover for the fact that their could be a
+	choice of year groups to move in to. In practise I suspect there
+	will not be.*/
 	$years=array();
 	$yidsyears=array();
-	$d_yeargroup=mysql_query("SELECT id, sequence, section_id, name FROM
-							yeargroup ORDER BY section_id, sequence");
-	while($year=mysql_fetch_array($d_yeargroup,MYSQL_ASSOC)){
-		$years[]=$year;
+	$years=list_yeargroups();
+	while(list($yindex,$year)=each($years)){
 		$yidsyears[$year['id']]=$year;
 		}
-	$yidsyears[1000]['name']='Alumni';
-
+	reset($years);
+	$yidsyears[1000]['name']='Alumni';/* The end point for graduation. */
+	$yidsyears[1000]['sequence']='1000';
 	$seqyears=array();
 	while(list($yid,$year)=each($yidsyears)){
 		$seqyear=$year['sequence'];
@@ -51,6 +53,7 @@ include('scripts/answer_action.php');
 		$cridscourses[$course['id']]=$course;
 		}
 	$cridscourses[1000]['name']='Graduate';
+	$cridscourses[1000]['sequence']=1000;
 
 	$sequences=array();
 	while(list($crid,$course)=each($cridscourses)){

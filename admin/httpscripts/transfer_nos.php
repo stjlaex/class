@@ -14,13 +14,15 @@ if(isset($_POST['feeder_code']) and
    $_POST['feeder_code']!=''){$feeder_code=$_POST['feeder_code'];}
 else{$feeder_code=-1;}
 
-	$reenrol_assdefs=fetch_enrolmentAssessmentDefinitions('',$feeder_code,$enrolyear);
+	$reenrol_assdefs=fetch_enrolmentAssessmentDefinitions('','RE',$enrolyear);
 	if(isset($reenrol_assdefs[0])){
 		$reenrol_eid=$reenrol_assdefs[0]['id_db'];
 		}
 	else{
 		$reenrol_eid=-1;
 		}
+
+trigger_error($feeder_code.' : '.$enrolyear.' : '.$reenrol_eid,E_USER_WARNING);
 
 	$Transfers=array();
 	$Transfers['Transfer']=array();

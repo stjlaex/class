@@ -38,9 +38,11 @@ if(isset($CFG->feeder_code) and $CFG->feeder_code!=''){
 	$postdata['enrolyear']=$enrolyear;
 	$username='class';
 	//$ip=$_SERVER['SERVER_ADDR'];
+	//$ip='';
 	$salt=$CFG->eportfolioshare;
 	$secret=md5($salt . $ip);
 	$token=md5($username . $secret);// This gets passed for authentication 
+	$feeder_nos=array();
 	while(list($index,$feeder)=each($CFG->feeders)){
 		$url=$feeder.'/class/admin/httpscripts/transfer_nos.php?username=' 
 				.$username.'&password='. $token;
@@ -53,7 +55,14 @@ if(isset($CFG->feeder_code) and $CFG->feeder_code!=''){
 		$response=curl_exec($curl);
 		curl_close($curl);
 		trigger_error($response,E_USER_WARNING);
-		$feeder_nos=$response;
+		$Transfers=xmlreader($response);
+		while(list($findex,$Transfer)=each($Transfers['transfer'])){
+			if(!isset($feeder_nos[$Transfer['yeargroup']])){
+				$feeder_nos[$Transfer['yeargroup']]=0;
+				}
+			$feeder_nos[$Transfer['yeargroup']]+=$Transfer['value'];
+			trigger_error($Transfer['yeargroup'].' : '.$Transfer['value'],E_USER_WARNING);
+			}
 		}
 	}
 ?>
@@ -176,6 +185,7 @@ if(isset($CFG->feeder_code) and $CFG->feeder_code!=''){
 <?php
 	$tablerows=array();
 	reset($yeargroups);
+	/* Reenrol */
 	$reenrol_assdefs=fetch_enrolmentAssessmentDefinitions('','RE',$enrolyear);
 	if(isset($reenrol_assdefs[0])){
 		$reenrol_eid=$reenrol_assdefs[0]['id_db'];
@@ -183,6 +193,7 @@ if(isset($CFG->feeder_code) and $CFG->feeder_code!=''){
 	else{
 		$reenrol_eid=-1;
 		}
+	/* Reenroled */
 	$reenroled_assdefs=fetch_enrolmentAssessmentDefinitions('','RE',$enrolyear-1);
 	if(isset($reenrol_assdefs[0])){
 		$reenroled_eid=$reenroled_assdefs[0]['id_db'];
@@ -228,13 +239,14 @@ if(isset($CFG->feeder_code) and $CFG->feeder_code!=''){
 					$cell['value']=0;
 					/* Accepteds plus any transfers from feeders*/
 					if(sizeof($feeder_nos)>0){
-						if(isset($feeder_nos[$yid])){$cell['value']+=$feeder_nos[$yid];}
-						}						
+						if(isset($feeder_nos[$yid-1])){$cell['value']+=$feeder_nos[$yid-1];}
+						}
 					$cell['value']+=$enrol_tablerows[$yeargroup['name']]['AC']['value'];
 					}
 				else{
 					/* Accepteds plus the new currents for this year*/
-					$cell['value']=$enrol_tablerows[$yeargroup['name']]['C']['value']+$enrol_tablerows[$yeargroup['name']]['AC']['value'];
+					$cell['value']=$enrol_tablerows[$yeargroup['name']]['C']['value']
+										+$enrol_tablerows[$yeargroup['name']]['AC']['value'];
 					}
 				}
 			elseif($reenrolstep=='currentroll'){

@@ -123,13 +123,30 @@ function xmlfileprocessor($xml_filename,$xsl_filename){
  *
  */
 function xmlfilereader($xmlfilename){
-	$xmlentry=nullCorrect($xmlentry);
+	//$xmlentry=nullCorrect($xmlentry);
 	$serializer_options=array(
 							  'complexType' => 'array'
 							  );
 
 	$Unserializer=&new XML_Unserializer($serializer_options);
 	$status=$Unserializer->unserialize($xmlfilename,true);
+	if(PEAR::isError($status)){
+		die($status->getMessage());
+		$data=array();
+		}
+	else{
+		$data=$Unserializer->getUnserializedData();
+		}
+	return $data;
+	}
+
+/**
+ * Unserialize some $xml to a php array.
+ *
+ */
+function xmlreader($xml){
+	$Unserializer=&new XML_Unserializer();
+	$status=$Unserializer->unserialize($xml);
 	if(PEAR::isError($status)){
 		die($status->getMessage());
 		$data=array();

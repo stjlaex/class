@@ -23,7 +23,8 @@ function list_courses(){
 function list_yeargroups($secid='%'){
 	$yeargroups=array();
 	$d_y=mysql_query("SELECT DISTINCT * FROM yeargroup WHERE
-					section_id='%' OR section_id LIKE '$secid' ORDER BY sequence");
+					section_id='%' OR section_id LIKE '$secid' 
+					ORDER BY section_id,sequence;");
 	while($y=mysql_fetch_array($d_y,MYSQL_ASSOC)){
 		$yeargroups[]=$y;
 		}
