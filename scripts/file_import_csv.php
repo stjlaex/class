@@ -11,7 +11,7 @@ $fname=$_FILES['importfile']['tmp_name'];
 $fuser=$_FILES['importfile']['name'];
 $ferror=$_FILES['importfile']['error'];
 $ftype=$_FILES['importfile']['type'];
-trigger_error($ftype,E_USER_WARNING);
+
 	if($ferror>0){
 		$error[]='Unable to open remote file.';
 		$action=$choice;

@@ -54,14 +54,13 @@ if(isset($CFG->feeder_code) and $CFG->feeder_code!=''){
 		curl_setopt($curl,CURLOPT_POSTFIELDS, $postdata);
 		$response=curl_exec($curl);
 		curl_close($curl);
-		trigger_error($response,E_USER_WARNING);
+		//trigger_error($response,E_USER_WARNING);
 		$Transfers=xmlreader($response);
 		while(list($findex,$Transfer)=each($Transfers['transfer'])){
 			if(!isset($feeder_nos[$Transfer['yeargroup']])){
 				$feeder_nos[$Transfer['yeargroup']]=0;
 				}
 			$feeder_nos[$Transfer['yeargroup']]+=$Transfer['value'];
-			trigger_error($Transfer['yeargroup'].' : '.$Transfer['value'],E_USER_WARNING);
 			}
 		}
 	}

@@ -1,4 +1,4 @@
-Version ClaSS-0.8.50 release (2008/07/08)
+Version ClaSS-0.8.51 release (2008/07/11)
 -----------------------------------------
 
 Added a field 'code' to the guardian table for use for ID or fiscal
@@ -9,6 +9,8 @@ when a session does not exist. Aimed at CURLing between ClaSS sites.
 
 The enrolments matrix now makes a remote call to all sites listed in
 $CFG->feeders and asks for a count of transfers.
+
+Updated the import_student scripts' habdling of saved file definitions.
 
 
 Version ClaSS-0.8.50 release (2008/07/04)

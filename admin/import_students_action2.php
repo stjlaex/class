@@ -63,12 +63,6 @@ if($sub=='Submit'){
 ?>		<input type='hidden' name='<?php print "field$c"; ?>' value='<?php print $_POST["gid2field$c"]; ?>'>
 		<input type='hidden' name='<?php print "table$c"; ?>' value='gid2'>
 <?php
-			}	
-		elseif($_POST{"gid3field$c"}!=''){
-			print "Guardian Three: ".$_POST["gid3field$c"];
-?>		<input type='hidden' name='<?php print "field$c"; ?>' value='<?php print $_POST["gid3field$c"]; ?>'>
-		<input type='hidden' name='<?php print "table$c"; ?>' value='gid3'>
-<?php
 			}
 ?>
 		  </td>
@@ -79,15 +73,15 @@ if($sub=='Submit'){
 		</table>
 	  </div>
 	  <input type="hidden" name="nofields" value="<?php print $nofields;?>"/>
-		<input type="hidden" name="current" value="<?php print $action;?>"/>
-		  <input type="hidden" name="choice" value="<?php print $choice;?>"/>
-			<input type="hidden" name="cancel" value="<?php print 'import_students_action1.php';?>"/>
+	  <input type="hidden" name="current" value="<?php print $action;?>"/>
+	  <input type="hidden" name="choice" value="<?php print $choice;?>"/>
+	  <input type="hidden" name="cancel" value="<?php print 'import_students_action1.php';?>"/>
 	</form>
   </div>
 <?php
 	}
 elseif($sub=='Load'){
-	$action="import_students_cidef.php";
+	$action="import_students_loadcidef.php";
 
 	three_buttonmenu();
 ?>

@@ -21,7 +21,12 @@ $nofields=$_SESSION['nofields'];
 				$idef[$b]=array($b, '', '', '');
 				}
 	
-/************************Define the fields******************************/	
+/************************Define the fields*******************
+ *
+ * DESCRIBE was a nice quick way of doing this but... 
+ * TODO: These must come from the xml_arrays in future.
+ *
+ */
 //				the possible fields for student data
 		$sidfields=array();
 		$c=0;	
@@ -42,7 +47,8 @@ $nofields=$_SESSION['nofields'];
 				$c++;
 				}
 
-//accomodation stay	
+/* TODO drop this properly form the import
+accomodation stay	
 		$c=0;	
    		$d_acc=mysql_query("DESCRIBE accomodation");
 		$ignore=mysql_fetch_array($d_acc,MYSQL_ASSOC);
@@ -51,6 +57,7 @@ $nofields=$_SESSION['nofields'];
    				array_push($sidfields, $field_name);
 				$c++;
 				}
+*/
 
 //				the possible fields for guardian data
 		$gidfields=array();
@@ -92,7 +99,6 @@ $nofields=$_SESSION['nofields'];
 		  <th>Student</th>
 		  <th>Contact One</th>
 		  <th>Contact Two</th>
-		  <th>Contact Three</th>
 		</tr>
 <?php
 		/*column showing an example imported row*/
@@ -143,18 +149,7 @@ $nofields=$_SESSION['nofields'];
 ?>
 			</select>
 		  </td>
-		  <td>
-			<select name="<?php print 'gid3field'.$c;?>">
-			  <option value="" selected></option>
-<?php
-    for($c2=0; $c2<(sizeof($gidfields)); $c2++){
-		print '<option value="'.$gidfields[$c2].'" '; 
-		if($idef[$c][1]=='gid3' & $idef[$c][2]==$gidfields[$c2]){print 'selected';}
-		print '>'.$gidfields[$c2].'</option>';
-		}
-?>
-			</select>
-		  </td>
+
 		</tr>
 <?php  
 	}

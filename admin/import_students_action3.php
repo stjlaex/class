@@ -15,8 +15,7 @@ $enrolyear=get_curriculumyear();
 $enrolstatus='C';
 
 if($sub=='Save'){
-	$action='import_students_cidef.php';
-
+	$action='import_students_savecidef.php';
 	$idef=array();
 	for($c=0;$c<$nofields;$c++){
 		$table='';
@@ -32,23 +31,7 @@ if($sub=='Save'){
 		array_push($idef,$out);
 		}
 	$_SESSION['idef']=$idef;
-
-	three_buttonmenu();
-?>
-  <div class="content">
-	<fieldset class="center">
-	  <legend><?php print_string('savedefinitionfile',$book);?></legend>
-	  <form  name="formtoprocess" id="formtoprocess" method="post"
-		action="<?php print $host;?>">
-		<label><?php print_string('filename');?></label>
-		<input type="text" class="required" id="importfile" name="importfile"/>	
-		  <input type="hidden" name="current" value="<?php print $action;?>"/>
-		  <input type="hidden" name="choice" value="<?php print $choice;?>"/>
-		  <input type="hidden" name="cancel" value="<?php print $cancel;?>"/>
-	  </form>
-	</fieldset>
-  </div>
-<?php
+	include('scripts/redirect.php');
 	}
 
 /**********************************************************/
@@ -95,7 +78,6 @@ elseif($sub=='Submit'){
 		/*gidfields is a combination of guardian, address and phone tables*/
 		$gid1fields=array();
 		$gid2fields=array();
-		$gid3fields=array();
 		$gidformats=array();
    		$d_table=mysql_query("DESCRIBE guardian");
 		while($table_field=mysql_fetch_array($d_table,MYSQL_ASSOC)){
@@ -103,8 +85,7 @@ elseif($sub=='Submit'){
 			$row=array("$field_key" => -1);
   			$gid1fields=array_merge($row, $gid1fields);
   			$gid2fields=array_merge($row, $gid2fields);
-  			$gid3fields=array_merge($row, $gid3fields);
-			$field_format=$table_field['Type'];
+ 			$field_format=$table_field['Type'];
 			$row=array("$field_key" => "$field_format");
   			$gidformats=array_merge($row, $gidformats);
 			}
@@ -112,7 +93,6 @@ elseif($sub=='Submit'){
 		$row=array('relationship' => -1);
 		$gid1fields=array_merge($row, $gid1fields);
 		$gid2fields=array_merge($row, $gid2fields);
-		$gid3fields=array_merge($row, $gid3fields);
 		$row=array('relationship' => 'enum');
 		$gidformats=array_merge($row, $gidformats);
 
@@ -120,20 +100,17 @@ elseif($sub=='Submit'){
 		$row=array('mailing' => -1);
 		$gid1fields=array_merge($row, $gid1fields);
 		$gid2fields=array_merge($row, $gid2fields);
-		$gid3fields=array_merge($row, $gid3fields);
 		$row=array('mailing' => 'enum');
 		$gidformats=array_merge($row, $gidformats);
 
 		$gid1address=array();
 		$gid2address=array();
-		$gid3address=array();
    		$d_table=mysql_query("DESCRIBE address");
 		while($table_field=mysql_fetch_array($d_table,MYSQL_ASSOC)){
 			$field_key=$table_field['Field'];
 			$row=array("$field_key" => -1);
   			$gid1address=array_merge($row, $gid1address);
   			$gid2address=array_merge($row, $gid2address);
-  			$gid3address=array_merge($row, $gid3address);
 			$field_format=$table_field['Type'];
 			$row=array("$field_key" => "$field_format");
   			$gidformats=array_merge($row, $gidformats);
@@ -141,13 +118,11 @@ elseif($sub=='Submit'){
 
 		$gid1phone=array();
 		$gid2phone=array();
-		$gid3phone=array();
    		$d_table=array('home phone', 'mobile phone', 'work phone', 'fax');
 		while(list($c, $field_key)=each($d_table)){
 			$row=array("$field_key" => -1);
   			$gid1phone=array_merge($row, $gid1phone);
   			$gid2phone=array_merge($row, $gid2phone);
-  			$gid3phone=array_merge($row, $gid3phone);
 			}
 
 	/*match the imported fields with the table fields*/
@@ -174,14 +149,6 @@ elseif($sub=='Submit'){
 				if(array_key_exists("$field",
 					$gid2address)){$gid2address["$field"]=$c; $gid2a="exists";}
 				if(array_key_exists("$field", $gid2phone)){$gid2phone["$field"]=$c; $gid2p="exists";}
-				}
-			if($table=='gid3'){
-				$gid3='exists';
-				if(array_key_exists("$field", $gid3fields)){$gid3fields["$field"]=$c;}
-				if(array_key_exists("$field",
-					$gid3address)){$gid3address["$field"]=$c; $gid3a="exists";}
-				if(array_key_exists("$field",
-					$gid3phone)){$gid3phone["$field"]=$c; $gid3p="exists";}
 				}
 			}
 		}
