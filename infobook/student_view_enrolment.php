@@ -43,7 +43,7 @@ three_buttonmenu();
 		<table class="listmenu">
 		  <tr>
 			<td>
-			  &nbsp
+			  &nbsp;
 			</td>
 			<td>
 <?php 
@@ -60,13 +60,15 @@ three_buttonmenu();
 	  </fieldset>
 
 	  <fieldset class="center listmenu">
+		<legend><?php print_string('assessments',$book);?></legend>
 		<table class="listmenu">
 <?php 
+	$EnrolAssDefs=array();
 	$com=get_community($Enrolment['Community']['id_db']);
-	$AssDefs=fetch_enrolmentAssessmentDefinitions($com);
-	reset($AssDefs);
+	$EnrolAssDefs=fetch_enrolmentAssessmentDefinitions() 
+	 + fetch_enrolmentAssessmentDefinitions($com);
 	$input_elements='';
-	while(list($index,$AssDef)=each($AssDefs)){
+	while(list($index,$AssDef)=each($EnrolAssDefs)){
 		$eid=$AssDef['id_db'];
 		$input_elements.=' <input type="hidden" name="eids[]" value="'.$eid.'" />';
 		$gena=$AssDef['GradingScheme']['value'];
@@ -105,8 +107,22 @@ three_buttonmenu();
 <?php
 			}
 ?>
-
-			  </td>
+			</td>
+			<td>
+<?php 
+		if($index==0 and $CFG->enrol_assess=='yes'){
+			$EnrolNotes=fetchBackgrounds_Entries($sid,'ena');
+			print '<label>'.get_string('notes',$book).'</label>';
+?>
+			  <input type="text" style="display:none;"
+					name="enaid" value="<?php print $EnrolNotes[0]['id_db'];?>" />
+			  <textarea name="enadetail" id="Detail"   
+				tabindex="<?php print $tab++;?>" rows="3" cols="30" 
+				  ><?php print $EnrolNotes[0]['Detail']['value'];?></textarea>
+<?php 
+		  }
+?>
+			</td>
 		  </tr>
 <?php 
 		}

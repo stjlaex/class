@@ -1,3 +1,17 @@
+Version ClaSS-0.8.52 release (2008/08/09)
+-----------------------------------------
+
+Fixed losing the category on the backgrounds.
+
+New config options for enrolment assessments. This allows for a
+general assessment to be edited as part of the enrolment page in the
+InfoBook. The result of the enrolment assessment is shared with staff
+as the first entry in the backgrounds list.
+
+Have moved the Backgrounds out from fetchStudent to a seperate
+fetchBackgrounds function.
+
+
 Version ClaSS-0.8.51 release (2008/07/11)
 -----------------------------------------
 

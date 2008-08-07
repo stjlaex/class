@@ -117,6 +117,7 @@ $string['mistakematchingpasswords']='The passwords don\'t match: please try agai
 $string['emailtostaffisdisabled']='Emails to staff are disabled (you need to edit your school.php file to change this.)';
 $string['eportfolios']='ePortfolios';
 $string['emailpassword']='Webmail password';
+$string['enrolment']='Enrolment';
 $string['enrolments']='Enrolments';
 $string['reenrolments']='Re-enrolments';
 $string['changeyear']='Next year';

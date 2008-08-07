@@ -50,6 +50,9 @@ if($sub=='Submit'){
 			}
 		}
 
+	/* These are the entry assessments, the list $eids is posted from
+	 * the form.
+	 */
 	$todate=date('Y-m-d');
 	while(list($index,$eid)=each($eids)){
 		$AssDef=fetchAssessmentDefinition($eid);
@@ -67,6 +70,21 @@ if($sub=='Submit'){
 		$score=array('result'=>$result,'value'=>$scorevalue,'date'=>$todate);
 		update_assessment_score($eid,$sid,'G','',$score);
 		}
+	if($CFG->enrol_assess=='yes'){
+		$enaid=$_POST['enaid'];
+		$enadetail=$_POST['enadetail'];
+		if($enaid!=''){
+			mysql_query("UPDATE background SET 
+				detail='$enadetail', entrydate='$todate', teacher_id='$tid'
+				WHERE id='$enaid';");
+			}
+		else{
+			mysql_query("INSERT INTO background SET student_id='$sid', type='ena',
+				detail='$enadetail', entrydate='$todate', teacher_id='$tid';");
+			}
+
+		}
+
 	}
 
 	include('scripts/redirect.php');

@@ -1,5 +1,6 @@
 <?php 
 /**    								year_end_action2.php
+ *
  */
 
 $action='';
@@ -7,15 +8,17 @@ $choice='';
 
 include('scripts/sub_action.php');
 
-	/*promote students to chosen pastoral groups*/
+require_once('lib/curl_calls.php');
+
+	/* Promote students to chosen pastoral groups*/
 	$years=array();
 	$c=0;
 	$d_yeargroup=mysql_query("SELECT id, sequence, section_id, name FROM
-							yeargroup ORDER BY sequence ASC");
+							yeargroup ORDER BY sequence ASC;");
 	while($years[]=mysql_fetch_array($d_yeargroup,MYSQL_ASSOC)){
 		$yid=$years[$c]['id'];
 		$d_form=mysql_query("SELECT id FROM form WHERE
-							yeargroup_id='$yid' ORDER BY id DESC");
+							yeargroup_id='$yid' ORDER BY id DESC;");
 		$years[$c]['fids']=array();
 		while($form=mysql_fetch_array($d_form,MYSQL_ASSOC)){
 			$years[$c]['fids'][]=$form['id'];
@@ -59,9 +62,57 @@ include('scripts/sub_action.php');
 
 		mysql_query("UPDATE student SET yeargroup_id='$nextyid' WHERE yeargroup_id='$yid';");
 		$result[]='Promoted year '.$yid.' to '.$nextyid;
-		}
 
-	/*promote students to next stage of course or graduate to chosen next course*/
+		/* Transfers from feeder schools for the new year group*/
+		$postdata=array();
+		$postdata['enrolyear']=get_curriculumyear()+1;
+		$postdata['yid']=$nextyid;
+
+		$Students=array();
+		reset($CFG->feeders);
+		while(list($findex,$feeder)=each($CFG->feeders)){
+			$Transfers=array();
+			$Transfers=feeder_fetch('transfer_students',$feeder,$postdata);
+			/*NOTE the lowercase of the student index, a product of xmlreader*/
+   			if(isset($Transfers['student']) and is_array($Transfers['student'])){
+				$result[]='TRANSFER: '.$nextyid.' ' .sizeof($Transfers['student']);
+				$Students=$Students+$Transfers['student'];
+				}
+			}
+
+		if(is_array($Students) and sizeof($Students)>0){
+			reset($Students);
+			while(list($index,$Student)=each($Students)){
+			/**/
+				$surname=$Student['surname']['value'];
+				trigger_error('TRANSFER '.$nextyid.' : '.$surname,E_USER_WARNING);
+				//$Student['surname']['value']='TRANSFER';
+			/**/
+
+			mysql_query("INSERT INTO student SET surname='';");
+			$sid=mysql_insert_id();
+			mysql_query("INSERT INTO info SET student_id='$sid';");
+			reset($Student);
+			while(list($key,$val)=each($Student)){
+				if(isset($val['value']) and is_array($val) and isset($val['table_db'])){
+					$field=$val['field_db'];
+					$inname=$field;
+					$inval=clean_text($_POST[$inname]);
+					if($val['table_db']=='student'){
+						mysql_query("UPDATE student SET $field='$inval'	WHERE id='$sid';");
+						}
+					elseif($val['table_db']=='info'){
+						mysql_query("UPDATE info SET $field='$inval' WHERE student_id='$sid';");
+						}
+					}
+				}
+			join_community($sid,$communitynext);
+				}
+			}
+		}
+		
+		
+	/* Promote students to next stage of course or graduate to chosen next course. */
 	$courses=array();
 	$c=0;
 	$d_course=mysql_query("SELECT id, sequence, section_id, name FROM
@@ -75,7 +126,7 @@ include('scripts/sub_action.php');
 		/*will fail if the stages have changed between years!!!*/
 		$d_stage=mysql_query("SELECT stage FROM cohort WHERE
 				course_id='$crid' AND year='$yearnow' AND
-				season='$season' AND stage!='END' ORDER BY stage DESC");
+				season='$season' AND stage!='END' ORDER BY stage DESC;");
 		$courses[$c]['stages']=array();
 		while($stage=mysql_fetch_array($d_stage,MYSQL_ASSOC)){
 			$courses[$c]['stages'][]=array('stage'=>$stage['stage'],'newcohid'=>'');

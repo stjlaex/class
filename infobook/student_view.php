@@ -156,7 +156,7 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 ?>
 		  </tr>
 <?php
-	$Backgrounds=(array)$Student['Backgrounds'];
+	$Backgrounds=(array)fetchBackgrounds($sid);
 	while(list($tagname,$Ents)=each($Backgrounds)){
 ?>
 		  <tr>
@@ -338,12 +338,13 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 		<legend>
 		  <a href="infobook.php?current=student_view_enrolment.php&cancel=student_view.php">
 			<img class="clicktoedit" title="<?php print_string('edit');?>" />
-			<?php print_string('enrolstatus',$book);?>
+			<?php print_string('enrolment','admin');?>
 		  </a>
 		</legend>
 		<div>
 <?php 
-		print get_string(displayEnum($Student['EnrolmentStatus']['value'],$Student['EnrolmentStatus']['field_db']),$book);
+		  print '<label>'.get_string('status','admin').'</label> '. 
+				get_string(displayEnum($Student['EnrolmentStatus']['value'],$Student['EnrolmentStatus']['field_db']),$book);
 ?>
 		</div>
 	  </fieldset>

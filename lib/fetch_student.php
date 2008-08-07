@@ -361,70 +361,9 @@ function fetchStudent($sid='-1'){
 	$Student['Exclusions']=$Exclusions;
 
 
+
 	/*******Backgrounds****/
-	$Backgrounds=array();
-	$d_catdef=mysql_query("SELECT name AS tagname, 
-				subtype AS background_type FROM categorydef WHERE 
-				type='ent' ORDER BY rating");
-	while($back=mysql_fetch_array($d_catdef,MYSQL_ASSOC)){
-		$type=$back['background_type'];
-		$tagname=ucfirst($back['tagname']);
-
-		$Entries=array();
-		$d_background=mysql_query("SELECT * FROM background WHERE 
-				student_id='$sid' AND type='$type' ORDER BY yeargroup_id");
-		while($entry=mysql_fetch_array($d_background,MYSQL_ASSOC)){
-			$Entry=array();
-			$Entry['id_db']=$entry['id'];
-			$Entry['Teacher']=array('label' => 'teacher', 
-									'type_db' => 'varchar(14)', 
-									'value' => ''.$entry['teacher_id']);
-			$Categories=array();
-			$Categories=array('label' => 'category', 
-							  'type_db' => 'varchar(100)', 
-							  'value' => ' ');
-			$pairs=explode(';',$entry['category']);
-			for($c3=0; $c3<sizeof($pairs)-1; $c3++){
-				list($catid, $rank)=split(':',$pairs[$c3]);
-				$Category=array();
-				$d_categorydef=mysql_query("SELECT name FROM categorydef
-									WHERE id='$catid'");
-				$catname=mysql_result($d_categorydef,0);
-				$Category=array('label' => 'category', 
-								'type_db'=> 'varchar(30)', 
-								'value_db' => ''.$catid,
-								'value' => ''.$catname);
-				$Category['rating']=array('value' => $rank);
-				$Categories['Category'][]=$Category;
-				}
-			if(!isset($Categories['Category'])){
-				$Category=array('label' => 'category', 
-								'type_db' => 'varchar(30)', 
-								'value_db' => ' ',
-								'value' => ' ');
-				$Categories['Category'][]=$Category;
-				}
-			$Entry['Categories']=$Categories;
-			$Entry['EntryDate']=array('label' => 'date',
-									  'value' => ''.$entry['entrydate']);
-			$Entry['Detail']=array('label' => 'details', 
-								   'type_db'=> 'text', 
-								   'value' => ''.$entry['detail']);
-			$bid=$entry['subject_id'];
-			$subjectname=get_subjectname($bid);
-			$Entry['Subject']=array('label' => 'subject', 
-									'type_db' => 'varchar(15)', 
-									'value_db' => ''.$bid, 
-									'value' => ''.$subjectname);
-			$Entry['YearGroup']=array('label' => 'yeargroup', 
-									  'type_db' => 'smallint', 
-									  'value' => ''.$entry['yeargroup_id']);
-			$Entries[]=$Entry;
-			}
-		$Backgrounds["$tagname"]=$Entries;
-		}
-
-	$Student['Backgrounds']=$Backgrounds;
+	$Student['Backgrounds']=fetchBackgrounds($sid);
 
 	if(file_exists('../schoolarrays.php')){include('../schoolarrays.php');}
 
@@ -771,6 +710,85 @@ function fetchIncidents($sid,$startdate='',$enddate=''){
 	return nullCorrect($Incidents);
 	}
 
+/**
+ * All backgrounds for this sid.
+ *
+ */
+function fetchBackgrounds($sid='-1'){
+	$Backgrounds=array();
+	$d_catdef=mysql_query("SELECT name AS tagname, 
+				subtype AS background_type FROM categorydef WHERE 
+				type='ent' ORDER BY rating");
+	while($back=mysql_fetch_array($d_catdef,MYSQL_ASSOC)){
+		$type=$back['background_type'];
+		$tagname=ucfirst($back['tagname']);
+		$Backgrounds["$tagname"]=fetchBackgrounds_Entries($sid,$type);
+		}
+	return $Backgrounds;
+	}
+
+/**
+ * All of the background entries of one type for this sid.
+ *
+ */
+function fetchBackgrounds_Entries($sid,$type){
+		$Entries=array();
+		$d_background=mysql_query("SELECT * FROM background WHERE 
+				student_id='$sid' AND type='$type' ORDER BY
+				yeargroup_id, entrydate, id;");
+		while($entry=mysql_fetch_array($d_background,MYSQL_ASSOC)){
+			$Entry=array();
+			$Entry['id_db']=$entry['id'];
+			$Entry['Teacher']=array('label' => 'teacher', 
+									'type_db' => 'varchar(14)', 
+									'value' => ''.$entry['teacher_id']);
+			$Categories=array();
+			$Categories=array('label' => 'category', 
+							  'type_db' => 'varchar(100)', 
+							  'value' => ' ');
+			$pairs=explode(';',$entry['category']);
+			for($c3=0; $c3<sizeof($pairs)-1; $c3++){
+				list($catid, $rank)=split(':',$pairs[$c3]);
+				$Category=array();
+				$d_categorydef=mysql_query("SELECT name FROM categorydef
+									WHERE id='$catid'");
+				if(mysql_num_rows($d_categorydef)>0){
+					$catname=mysql_result($d_categorydef,0);
+					}
+				else{$catname='';}
+				$Category=array('label' => 'category', 
+								'type_db'=> 'varchar(30)', 
+								'value_db' => ''.$catid,
+								'value' => ''.$catname);
+				$Category['rating']=array('value' => $rank);
+				$Categories['Category'][]=$Category;
+				}
+			if(!isset($Categories['Category'])){
+				$Category=array('label' => 'category', 
+								'type_db' => 'varchar(30)', 
+								'value_db' => ' ',
+								'value' => ' ');
+				$Categories['Category'][]=$Category;
+				}
+			$Entry['Categories']=$Categories;
+			$Entry['EntryDate']=array('label' => 'date',
+									  'value' => ''.$entry['entrydate']);
+			$Entry['Detail']=array('label' => 'details', 
+								   'type_db'=> 'text', 
+								   'value' => ''.$entry['detail']);
+			$bid=$entry['subject_id'];
+			$subjectname=get_subjectname($bid);
+			$Entry['Subject']=array('label' => 'subject', 
+									'type_db' => 'varchar(15)', 
+									'value_db' => ''.$bid, 
+									'value' => ''.$subjectname);
+			$Entry['YearGroup']=array('label' => 'yeargroup', 
+									  'type_db' => 'smallint', 
+									  'value' => ''.$entry['yeargroup_id']);
+			$Entries[]=$Entry;
+			}
+		return $Entries;
+	}
 
 /**
  *

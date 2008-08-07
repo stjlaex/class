@@ -61,6 +61,15 @@ $CFG->feeder_code='TDemo';
 $CFG->feeders[0]='';
 $CFG->feeders[1]='';
 $CFG->feeders[2]='';
+/**
+ * As part of the enrolment process applicants maybe assessed. Set
+ * this to yes for this to be available (course related enrolment
+ * assessments are always possible this is for a general
+ * assessment). Set the second to the enrolassess grade which will
+ * automaticaly flag the student as SEN or leave blank to be ignored.
+ */
+$CFG->enrol_assess='no';
+$CFG->enrol_assess_sen='';
 /*****
  *
  *Optional settings to tune the use of emails for notifying staff

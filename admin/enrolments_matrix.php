@@ -9,6 +9,8 @@
 $choice='enrolments_matrix.php';
 $action='enrolments_matrix_action.php';
 
+require_once('lib/curl_calls.php');
+
 $currentyear=get_curriculumyear();
 if(isset($_POST['enrolyear']) and $_POST['enrolyear']!=''){$enrolyear=$_POST['enrolyear'];}
 else{$enrolyear=$currentyear;}
@@ -32,30 +34,11 @@ else{
 $yeargroups=list_yeargroups();
 $yeargroup_names=array();
 
-$feeder_nos=array();
-if(isset($CFG->feeder_code) and $CFG->feeder_code!=''){
-	$postdata['feeder_code']=$CFG->feeder_code;
-	$postdata['enrolyear']=$enrolyear;
-	$username='class';
-	//$ip=$_SERVER['SERVER_ADDR'];
-	//$ip='';
-	$salt=$CFG->eportfolioshare;
-	$secret=md5($salt . $ip);
-	$token=md5($username . $secret);// This gets passed for authentication 
+
 	$feeder_nos=array();
-	while(list($index,$feeder)=each($CFG->feeders)){
-		$url=$feeder.'/class/admin/httpscripts/transfer_nos.php?username=' 
-				.$username.'&password='. $token;
-		$curl=curl_init();
-		curl_setopt($curl,CURLOPT_SSL_VERIFYPEER,0);
-		curl_setopt($curl,CURLOPT_URL,$url);
-		curl_setopt($curl,CURLOPT_POST,1);
-		curl_setopt($curl,CURLOPT_RETURNTRANSFER,1);
-		curl_setopt($curl,CURLOPT_POSTFIELDS, $postdata);
-		$response=curl_exec($curl);
-		curl_close($curl);
-		//trigger_error($response,E_USER_WARNING);
-		$Transfers=xmlreader($response);
+	$postdata['enrolyear']=$enrolyear;
+	while(list($findex,$feeder)=each($CFG->feeders)){
+		$Transfers=feeder_fetch('transfer_nos',$feeder,$postdata);
 		while(list($findex,$Transfer)=each($Transfers['transfer'])){
 			if(!isset($feeder_nos[$Transfer['yeargroup']])){
 				$feeder_nos[$Transfer['yeargroup']]=0;
@@ -63,7 +46,7 @@ if(isset($CFG->feeder_code) and $CFG->feeder_code!=''){
 			$feeder_nos[$Transfer['yeargroup']]+=$Transfer['value'];
 			}
 		}
-	}
+
 ?>
 
   <div id="heading">

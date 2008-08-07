@@ -23,7 +23,7 @@ if($sub=='Submit'){
 	$backgroundtype=mysql_result($d_catdef,0);
 
 	if($bid=='' OR $bid=='%'){$bid='General';}
-	$category=$catid[$c].':'.$ratvalue.';';
+	$category=$catid.':'.$ratvalue.';';
 
 	if($id!=''){
 		mysql_query("UPDATE background SET 

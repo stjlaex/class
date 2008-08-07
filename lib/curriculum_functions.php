@@ -453,7 +453,7 @@ function get_curriculumyear($crid=''){
 	$d_course=mysql_query("SELECT endmonth FROM course WHERE id='$crid'");
 	if(mysql_num_rows($d_course)>0){$endmonth=mysql_result($d_course,0);}
 	else{$endmonth='';}
-	if($endmonth==''){$endmonth='7';/*defaults to July*/}
+	if($endmonth==''){$endmonth='8';/*defaults to July*/}
 	$thismonth=date('m');
 	$thisyear=date('Y');
 	if($thismonth>$endmonth){$thisyear++;}
@@ -474,7 +474,12 @@ function display_curriculumyear($year){
  */
 function get_yeargroupname($yid){
 	$d_y=mysql_query("SELECT name FROM yeargroup WHERE id='$yid'");
-	$yeargroupname=mysql_result($d_y,0);	      
+	if(mysql_num_rows($d_y)>0){
+		$yeargroupname=mysql_result($d_y,0);	      
+		}
+	else{
+		$yeargroupname='';
+		}
 	return $yeargroupname;
 	}
 

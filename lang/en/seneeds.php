@@ -33,6 +33,8 @@ $string['notsenstudent']='Not classed as an SEN student';
 $string['changesenstatus']='Change SEN status';
 $string['addsubject']='Add subject';
 $string['nextreviewdate']='Next review';
+$string['shorttermfailing']='Short term failing';
+$string['enrolmentconcern']='Enrolment concern';
 $string['']='';
 $string['']='';
 ?>

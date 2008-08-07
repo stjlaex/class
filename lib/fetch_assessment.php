@@ -433,6 +433,38 @@ function count_reenrol_no($comid,$reenrol_eid,$result1,$result2=''){
 	return $no;
 	}
 
+/**
+ * This needs the appropriate eid obtained from above for RE. Not generally of use
+ * outside the enrolments matrix. Returns the number of students with
+ * their eid set to one of the two possible result states.
+ *
+ */
+function list_reenrol_sids($comid,$reenrol_eid,$result1,$result2=''){
+	$todate=date('Y-m-d');
+	if($result2!=''){
+		$resultstring='(result=\''.$result1.'\' OR result=\''.$result2.'\')';
+		}
+	else{
+		$resultstring='result=\''.$result1.'\'';
+		}
+	$d_noc=mysql_query("SELECT eidsid.student_id AS id FROM
+						eidsid JOIN comidsid ON
+					eidsid.student_id=comidsid.student_id WHERE comidsid.community_id='$comid'
+					AND (comidsid.leavingdate>'$todate' OR 
+					comidsid.leavingdate='0000-00-00' OR comidsid.leavingdate IS NULL) 
+					AND (comidsid.joiningdate<='$todate' OR 
+					comidsid.joiningdate='0000-00-00' OR comidsid.joiningdate IS NULL) 
+					AND assessment_id='$reenrol_eid' AND $resultstring;");
+	$sids=array();
+	if(mysql_num_rows($d_noc)>0){
+		while($student=mysql_fetch_array($d_noc,MYSQL_ASSOC)){
+			$sids[]=$student['id'];
+			}
+		}
+
+	return $sids;
+	}
+
 
 /**
  * Returns all assdefs of relevance to a cohort. It will not fetch 

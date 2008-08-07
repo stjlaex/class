@@ -1,5 +1,5 @@
 <?php
-/**                    httpscripts/transfer_nos.php
+/**                    httpscripts/transfer_students.php
  *
  */
 
@@ -10,9 +10,10 @@ require_once('../../scripts/http_head_options.php');
 $currentyear=get_curriculumyear();
 if(isset($_POST['enrolyear']) and $_POST['enrolyear']!=''){$enrolyear=$_POST['enrolyear'];}
 else{$enrolyear=$currentyear;}
-if(isset($_POST['feeder_code']) and 
-   $_POST['feeder_code']!=''){$feeder_code=$_POST['feeder_code'];}
+if(isset($_POST['feeder_code']) and $_POST['feeder_code']!=''){$feeder_code=$_POST['feeder_code'];}
 else{$feeder_code=-1;}
+if(isset($_POST['yid']) and $_POST['yid']!=''){$yid=$_POST['yid'];}
+else{$yid=-1000;}
 
 	$reenrol_assdefs=fetch_enrolmentAssessmentDefinitions('','RE',$enrolyear);
 	if(isset($reenrol_assdefs[0])){
@@ -22,22 +23,24 @@ else{$feeder_code=-1;}
 		$reenrol_eid=-1;
 		}
 
-//trigger_error($feeder_code.' : '.$enrolyear.' : '.$reenrol_eid,E_USER_WARNING);
 
-	$Transfers=array();
-	$Transfers['Transfer']=array();
-	$yeargroups=list_yeargroups();
-	while(list($yearindex,$yeargroup)=each($yeargroups)){
-		$yid=$yeargroup['id'];
+	$Students=array();
+	$Students['Student']=array();
+
+	$yeargroupname=get_yeargroupname($yid);
+	if($yeargroupname!=''){
 		$yearcom=array('id'=>'','type'=>'year','name'=>$yid);
 		$yearcomid=update_community($yearcom);
-		$no=count_reenrol_no($yearcomid,$reenrol_eid,$feeder_code);
-		$Transfer=array('Yeargroup'=>$yid,'value'=>$no);
-		$Transfers['Transfer'][]=$Transfer;
+		$sids=list_reenrol_sids($yearcomid,$reenrol_eid,$feeder_code);
+		while(list($sindex,$sid)=each($sids)){
+			$Student=fetchStudent($sid);
+			$Students['Student'][]=$Student;
+			}
 		}
 
-$returnXML=$Transfers;
-$rootName='Transfers';
+
+$returnXML=$Students;
+$rootName='Students';
 require_once('../../scripts/http_end_options.php');
 exit;
 ?>

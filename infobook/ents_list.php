@@ -9,6 +9,8 @@ if(isset($_GET['tagname'])){$tagname=$_GET['tagname'];}
 elseif(isset($_POST['tagname'])){$tagname=$_POST['tagname'];}
 if(isset($_GET['bid'])){$bid=$_GET['bid'];}
 
+$Backgrounds=(array)fetchBackgrounds($sid);
+
 three_buttonmenu();
 ?>
   <div id="heading">
@@ -30,7 +32,7 @@ if($tagname=='Background'){
 	  <div class="right" >
 <?php 
 		$cattype='bac'; $required='yes'; $listlabel='source';
-		$listname='category'; include('scripts/list_category.php'); 
+		$listname='catid'; $listid='Category'; include('scripts/list_category.php'); 
 ?>
 	  </div>
 
@@ -79,7 +81,7 @@ else{
 <?php
 	$yid=$Student['YearGroup']['value'];
 	$perm=getYearPerm($yid, $respons);
-	$Entries=$Student['Backgrounds']["$tagname"];
+	$Entries=$Backgrounds["$tagname"];
 	$entryno=0;
 	if(is_array($Entries)){
 	while(list($key,$entry)=each($Entries)){
@@ -91,7 +93,7 @@ else{
 ?>
 		<tbody id="<?php print $entryno;?>">
 		  <tr class="rowplus" onClick="clickToReveal(this)" id="<?php print $entryno.'-'.$rown++;?>">
-			<th>&nbsp</th>
+			<th>&nbsp;</th>
 <?php 
 		   if(isset($entry['YearGroup']['value'])){print '<td>'.$entry['YearGroup']['value'].'</td>';}
 		   else{print'<td></td>';}
@@ -122,13 +124,45 @@ else{
 <?php
 				xmlechoer("$tagname",$entry);
 ?>
-			</div>
-		  </tbody>
+		  </div>
+		</tbody>
 <?php
 				}
 			}
 		}
+	if($tagname=='Background' and $CFG->enrol_assess=='yes'){
+		$entryno++;
+		$rown=0;
+		$EnrolNotes=fetchBackgrounds_Entries($sid,'ena');
+		$EnrolAssDefs=fetch_enrolmentAssessmentDefinitions();
+		$AssDef=$EnrolAssDefs[0];
+		$Assessments=(array)fetchAssessments_short($sid,$AssDef['id_db'],'G');		
+		if(sizeof($Assessments)>0){$result=$Assessments[0]['Result']['value'];}
+		else{$result='';}
 ?>
+		<tbody id="<?php print $entryno;?>">
+		  <tr class="rowplus" onClick="clickToReveal(this)" 
+									id="<?php print $entryno.'-'.$rown++;?>">
+			<th>&nbsp;</th>
+			<td><?php print get_string('enrolment','admin'). 
+			  ' '.get_string('assessment',$book).': '.$result;?></td>
+			<td>&nbsp;</td>
+			<td>&nbsp;</td>
+		  </tr>
+		  <tr class="hidden" id="<?php print $entryno.'-'.$rown++;?>">
+			<td colspan="6">
+			  <p>
+				 <?php print $EnrolNotes[0]['Detail']['value'];?>
+			  </p>
+			</td>
+		  </tr>
+		  <div id="<?php print 'xml-'.$entryno;?>" style="display:none;">
+		  </div>
+		</tbody>
+<?php
+			}
+?>
+
 		<tr>
 		  <td>
 		  </td>

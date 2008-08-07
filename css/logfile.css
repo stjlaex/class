@@ -26,6 +26,13 @@ errorentry[errortype="Notice"] {
 errorentry[errortype="Notice"] datetime {  
 	color:yellow; 
 	}
+errorentry[errortype="Runtime Notice"] {  
+	background-color:#666666; 
+	color:#ffffee; font-size:8pt; 
+	}
+errorentry[errortype="Runtime Notice"] datetime {  
+	color:yellow; 
+	}
 errorentry[errortype="Warning"] {  
 	background-color:#eeeeee; 
 	color:#222211; 
