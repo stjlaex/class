@@ -410,7 +410,7 @@ function join_community($sid,$community){
 	elseif($type=='year'){
 		$studentfield='yeargroup_id';
 		$newyid=$name;
-		$d_student=mysql_query("SELECT yeargroup_id FROM student WHERE id='$sid'");
+		$d_student=mysql_query("SELECT yeargroup_id FROM student WHERE id='$sid';");
 		$oldyid=mysql_result($d_student,0);
 		/*if moving yeargroup then need to leave old form too*/
 		if($newyid!=$oldyid){$oldtypes[]='form';$oldtypes[]=$type;}

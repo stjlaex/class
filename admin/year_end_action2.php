@@ -98,6 +98,7 @@ $enrolyear=$currentyear+1;
 			$students=(array)listin_community(array('id'=>$yearcomid));
 			while(list($sindex,$student)=each($students)){
 				join_community($student['id'],$leavercom);
+				mysql_query("UPDATE info SET leavingdate='$todate' WHERE student_id='$sid';");
 				}
 			}
 		else{
