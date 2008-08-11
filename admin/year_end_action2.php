@@ -84,11 +84,11 @@ $enrolyear=$currentyear+1;
 		*/
 		for($c3=1;$c3<sizeof($pairs);$c3++){
 			list($grade, $value)=split(':',$pairs[$c3]);
-			if(substr($grade,0,3)){$grade=substr($grade,0,3);}
-			$sids=(array)list_reenrol_sids($yearcomid,$reenrol_eid,$grade);
+			if(strlen($grade)>3){$leavergrade=substr($grade,0,3);}
+			else{$leavergrade=$grade;}
 			$sids=array();
+			$sids=(array)list_reenrol_sids($yearcomid,$reenrol_eid,$leavergrade);
 			while(list($sindex,$sid)=each($sids)){
-				trigger_error('LEAVER '.$grade.': '.$yid.' : '.$sid,E_USER_WARNING);
 				join_community($sid,$leavercom);
 				}
 			
