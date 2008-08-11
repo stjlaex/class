@@ -73,23 +73,26 @@ $enrolyear=$currentyear+1;
 
 		mysql_query("UPDATE student SET yeargroup_id='$nextyid' WHERE yeargroup_id='$yid';");
 
-		$reenrol_assdefs=fetch_enrolmentAssessmentDefinitions('','RE',$enrolyear);
+  		$reenrol_assdefs=fetch_enrolmentAssessmentDefinitions('','RE',$enrolyear);
 		$reenrol_eid=$reenrol_assdefs[0]['id_db'];
-		$pairs=explode (';', $reenrol_assdefs[0]['GradingScheme']['grades']);
-		$grades=array();
-		/*The first reenrol grade is for confirmed reenrolment and
-			nothing to do, all students flagged with something else
-			are going to be unenrolled - they could be transfers to
-			other schools or leavers or whatever.*/
+		$pairs=(array)explode (';', $reenrol_assdefs[0]['GradingScheme']['grades']);
+		/* The first reenrol grade is for confirmed reenrolment and
+		the last for repeats so nothing to do for those here, all
+		students flagged with something else are going to be
+		unenrolled - they could be transfers to other schools or
+		leavers or whatever. 
+		*/
 		for($c3=1;$c3<sizeof($pairs);$c3++){
-			list($grade['result'], $grade['value'])=split(':',$pairs[$c3]);
-			$sids=(array)list_reenrol_sids($yearcomid,$reenrol_eid,$grade['result']);
+			list($grade, $value)=split(':',$pairs[$c3]);
+			if(substr($grade,0,3)){$grade=substr($grade,0,3);}
+			$sids=(array)list_reenrol_sids($yearcomid,$reenrol_eid,$grade);
+			$sids=array();
 			while(list($sindex,$sid)=each($sids)){
+				trigger_error('LEAVER '.$grade.': '.$yid.' : '.$sid,E_USER_WARNING);
 				join_community($sid,$leavercom);
 				}
+			
 			}
-
-
 		$result[]='Promoted year '.$yid.' to '.$nextyid;
 
 		if($type=='alumni'){
