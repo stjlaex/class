@@ -453,7 +453,7 @@ function get_curriculumyear($crid=''){
 	$d_course=mysql_query("SELECT endmonth FROM course WHERE id='$crid'");
 	if(mysql_num_rows($d_course)>0){$endmonth=mysql_result($d_course,0);}
 	else{$endmonth='';}
-	if($endmonth==''){$endmonth='8';/*defaults to July*/}
+	if($endmonth==''){$endmonth='8';/*defaults to August*/}
 	$thismonth=date('m');
 	$thisyear=date('Y');
 	if($thismonth>$endmonth){$thisyear++;}

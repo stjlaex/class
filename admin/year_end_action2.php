@@ -117,8 +117,6 @@ $enrolyear=$currentyear+1;
 					$result[]='TRANSFER: '.$yid.' '.sizeof($Transfers['student']);
 					while(list($tindex,$Student)=each($Transfers['student'])){
 						if(isset($Student['surname']) and is_array($Student['surname'])){
-							$surname=$Student['surname']['value'];
-							$Student['surname']['value']='TRANSFER'.$surname;
 							$previousschool='Transfered from '. $feeder. 
 									' (started there '. $Student['entrydate']['value'].') ';
 							$Student['entrydate']['value']=$todate;
