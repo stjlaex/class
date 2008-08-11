@@ -84,7 +84,6 @@ $enrolyear=$currentyear+1;
 		for($c3=1;$c3<sizeof($pairs);$c3++){
 			list($grade['result'], $grade['value'])=split(':',$pairs[$c3]);
 			$sids=(array)list_reenrol_sids($yearcomid,$reenrol_eid,$grade['result']);
-			trigger_error('LEAVERS: '.$grade['result'].' : '.sizeof($sids),E_USER_WARNING);
 			while(list($sindex,$sid)=each($sids)){
 				join_community($sid,$leavercom);
 				}
@@ -106,6 +105,7 @@ $enrolyear=$currentyear+1;
 			/* Ignore graduating years (type=alumni) as no new students joining them! */
 			$postdata=array();
 			$postdata['enrolyear']=$enrolyear;
+			$postdata['currentyear']=$currentyear;
 			$postdata['yid']=$yid;
 			$Students=array();
 			reset($CFG->feeders);
@@ -118,7 +118,6 @@ $enrolyear=$currentyear+1;
 					while(list($tindex,$Student)=each($Transfers['student'])){
 						if(isset($Student['surname']) and is_array($Student['surname'])){
 							$surname=$Student['surname']['value'];
-							trigger_error('TRANSFER '.$nextyid.' : '.$surname,E_USER_WARNING);
 							$Student['surname']['value']='TRANSFER'.$surname;
 							$previousschool='Transfered from '. $feeder. 
 									' (started there '. $Student['entrydate']['value'].') ';
