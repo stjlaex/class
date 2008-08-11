@@ -61,14 +61,36 @@ require_once('lib/curl_calls.php');
 			}
 
 		mysql_query("UPDATE student SET yeargroup_id='$nextyid' WHERE yeargroup_id='$yid';");
+
+			$reenrol_assdefs=fetch_enrolmentAssessmentDefinitions('','RE',$enrolyear);
+			$reenrol_eid=$reenrol_assdefs[0]['id_db'];
+			$pairs=explode (';', $reenrol_assdefs[0]['GradingScheme']['grades']);
+			$grades=array();
+			/*The first reenrol grade is for confirmed reenrolment and
+			nothing to do, all students flagged with something else
+			are going to be unenrolled - they could be transfer to
+			other schools or leavers or whatever.*/
+			$leavercom=array('id'=>'','type'=>'alumni', 
+									 'name'=>'P:'.$yid,'year'=>date('Y'));
+			for($c3=1;$c3<sizeof($pairs);$c3++){
+				list($grade['result'], $grade['value'])=split(':',$pair[$c3]);
+				$sids=(array)list_reenrol_sids($yearcomid,$reenrol_eid,$grade['result']);
+				while(list($sindex,$sid)=each($sids)){
+					$oldcommunities=join_community($sid,$leavercom);
+					}
+				}
+
+
 		$result[]='Promoted year '.$yid.' to '.$nextyid;
 
-		/* Transfers from feeder schools for the new year group */
-		/* Ignore type=alumni */
+		/* Ignore graduating years (type=alumni) as no new students joining them! */
 		if($type!='alumni'){
+			$communitynext=array('type'=>'year','name'=>$nextyid);
+
+			/* First transfers from feeder schools for the new year group. */
 			$postdata=array();
 			$postdata['enrolyear']=get_curriculumyear()+1;
-			$postdata['yid']=$nextyid;
+			$postdata['yid']=$yid;
 			$Students=array();
 			reset($CFG->feeders);
 			while(list($findex,$feeder)=each($CFG->feeders)){
@@ -76,7 +98,7 @@ require_once('lib/curl_calls.php');
 				$Transfers=(array)feeder_fetch('transfer_students',$feeder,$postdata);
 				/*NOTE the lowercase of the student index, a product of xmlreader*/
 				if(isset($Transfers['student']) and is_array($Transfers['student'])){
-					$result[]='TRANSFER: '.$nextyid.' '.sizeof($Transfers['student']);
+					$result[]='TRANSFER: '.$yid.' '.sizeof($Transfers['student']);
 					while(list($tindex,$Student)=each($Transfers['student'])){
 						if(isset($Student['surname']) and is_array($Student['surname'])){
 							$surname=$Student['surname']['value'];
@@ -138,12 +160,25 @@ require_once('lib/curl_calls.php');
 								unset($inval);
 								}
 							}
+						  mysql_query("UPDATE comments 
+										SET teacher_id='' WHERE id='$id';");
 						  }
 						}
-
 					join_community($sid,$communitynext);
 					}
 				}
+
+			/* Now students newly accepted by enrolments. */
+
+
+			$reenrol_assdefs=fetch_enrolmentAssessmentDefinitions('','RE',$enrolyear);
+			$reenrol_eid=$reenrol_assdefs[0]['id_db'];
+			$sids=(array)list_reenrol_sids($yearcomid,$reenrol_eid,'C');
+			while(list($sindex,$sid)=each($sids)){
+				}
+
+
+
 			}
 		}
 

@@ -32,9 +32,18 @@ else{$yid=-1000;}
 
 	$yeargroupname=get_yeargroupname($yid);
 	if($yeargroupname!=''){
-		$yearcom=array('id'=>'','type'=>'year','name'=>$yid);
-		$yearcomid=update_community($yearcom);
-		$sids=(array)list_reenrol_sids($yearcomid,$reenrol_eid,$feeder_code);
+		$sids=array();
+		$coms=array();
+		/* Two possible places to find the transferees depending on
+			wether the school has already reached year_end or not.*/
+		$coms[]=array('id'=>'','type'=>'alumni', 
+									 'name'=>'P:'.$yid,'year'=>date('Y'));
+		$coms[]=array('id'=>'','type'=>'year','name'=>$yid);
+		while(list($cindex,$com)=each($coms)){
+			$comid=update_community($com);
+			$sids=$sids+list_reenrol_sids($comid,$reenrol_eid,$feeder_code);
+			}
+
 		while(list($sindex,$sid)=each($sids)){
 			$Student=array();
 			$Student=(array)fetchStudent($sid);

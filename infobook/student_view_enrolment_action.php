@@ -28,6 +28,7 @@ if($sub=='Submit'){
 			/*crucial to the logic of enrolments*/
 			if($enrolstatus=='EN'){$newtype='enquired';}
 			elseif($enrolstatus=='AC'){$newtype='accepted';}
+			elseif($enrolstatus=='P'){$newtype='alumni';}
 			else{$newtype='applied';}
 			$newcom=array('id'=>'','type'=>$newtype, 
 					  'name'=>$enrolstatus.':'.$enrolyid,'year'=>$enrolyear);
