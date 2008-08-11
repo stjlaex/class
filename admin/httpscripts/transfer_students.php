@@ -26,15 +26,34 @@ else{$yid=-1000;}
 
 	$Students=array();
 	$Students['Student']=array();
+	/* This is a hack to fix a problem with xmlreader -  when only one
+		student its wrong so add this first duff student every time. */
+	$Students['Student'][]=-1;
 
 	$yeargroupname=get_yeargroupname($yid);
 	if($yeargroupname!=''){
 		$yearcom=array('id'=>'','type'=>'year','name'=>$yid);
 		$yearcomid=update_community($yearcom);
-		$sids=list_reenrol_sids($yearcomid,$reenrol_eid,$feeder_code);
+		$sids=(array)list_reenrol_sids($yearcomid,$reenrol_eid,$feeder_code);
 		while(list($sindex,$sid)=each($sids)){
-			$Student=fetchStudent($sid);
+			$Student=array();
+			$Student=(array)fetchStudent($sid);
+			unset($Student['Contacts']);
+			$Student['Comments']=(array)fetchComments($sid,'0000','');
+			/* This is a hack to fix a problem with xmlreader -  when only one
+				entry its wrong so add this first duff record every time. */
+			if(sizeof($Student['Comments']['Comment'])==1){
+				$Student['Comments']['Comment'][]=-1;
+				}
+
+
+			/*TODO: Transfer backgrounds
+			$Student['Backgrounds']=(array)fetchBackgrounds($sid);
+			$Student['Medical']=(array)fetchMedical($sid);
+			*/
+
 			$Students['Student'][]=$Student;
+			//trigger_error('TRANSFER '.$yid. ' : '.$Student['Surname']['value'].' : '.$sid,E_USER_WARNING);
 			}
 		}
 
@@ -44,20 +63,3 @@ $rootName='Students';
 require_once('../../scripts/http_end_options.php');
 exit;
 ?>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

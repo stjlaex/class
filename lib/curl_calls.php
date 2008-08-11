@@ -14,7 +14,7 @@ function feeder_fetch($scriptname,$feeder,$postdata){
 
 	$username='class';
 	//$ip=$_SERVER['SERVER_ADDR'];
-	//$ip='';
+	$ip='';
 	$salt=$CFG->eportfolioshare;
 	$secret=md5($salt . $ip);
 	$token=md5($username . $secret);// This gets passed for authentication 

@@ -44,9 +44,9 @@ require_once('lib/curl_calls.php');
 
 		while(list($index,$fid)=each($years[$c]['fids'])){
 			if($nextpostyid!='1000'){
-				$nextfid=$years[$c+1]['fids'][$index];
+				if(isset($years[$c+1]['fids'][$index])){$nextfid=$years[$c+1]['fids'][$index];}
+				else{$nextfid=$fid.'-'.date('Y').'-'.date('m');}
 				$type='form';
-				if($nextfid==''){$nextfid=$fid.'-'.date('Y').'-'.date('m');}
 				}
 			else{
 				$nextfid=$fid.'-form-'.date('Y').'-'.date('m');
@@ -63,54 +63,90 @@ require_once('lib/curl_calls.php');
 		mysql_query("UPDATE student SET yeargroup_id='$nextyid' WHERE yeargroup_id='$yid';");
 		$result[]='Promoted year '.$yid.' to '.$nextyid;
 
-		/* Transfers from feeder schools for the new year group*/
-		$postdata=array();
-		$postdata['enrolyear']=get_curriculumyear()+1;
-		$postdata['yid']=$nextyid;
-
-		$Students=array();
-		reset($CFG->feeders);
-		while(list($findex,$feeder)=each($CFG->feeders)){
-			$Transfers=array();
-			$Transfers=feeder_fetch('transfer_students',$feeder,$postdata);
-			/*NOTE the lowercase of the student index, a product of xmlreader*/
-   			if(isset($Transfers['student']) and is_array($Transfers['student'])){
-				$result[]='TRANSFER: '.$nextyid.' ' .sizeof($Transfers['student']);
-				$Students=$Students+$Transfers['student'];
-				}
-			}
-
-		if(is_array($Students) and sizeof($Students)>0){
-			reset($Students);
-			while(list($index,$Student)=each($Students)){
-			/**/
-				$surname=$Student['surname']['value'];
-				trigger_error('TRANSFER '.$nextyid.' : '.$surname,E_USER_WARNING);
-				//$Student['surname']['value']='TRANSFER';
-			/**/
-
-			mysql_query("INSERT INTO student SET surname='';");
-			$sid=mysql_insert_id();
-			mysql_query("INSERT INTO info SET student_id='$sid';");
-			reset($Student);
-			while(list($key,$val)=each($Student)){
-				if(isset($val['value']) and is_array($val) and isset($val['table_db'])){
-					$field=$val['field_db'];
-					$inname=$field;
-					$inval=clean_text($_POST[$inname]);
-					if($val['table_db']=='student'){
-						mysql_query("UPDATE student SET $field='$inval'	WHERE id='$sid';");
-						}
-					elseif($val['table_db']=='info'){
-						mysql_query("UPDATE info SET $field='$inval' WHERE student_id='$sid';");
+		/* Transfers from feeder schools for the new year group */
+		/* Ignore type=alumni */
+		if($type!='alumni'){
+			$postdata=array();
+			$postdata['enrolyear']=get_curriculumyear()+1;
+			$postdata['yid']=$nextyid;
+			$Students=array();
+			reset($CFG->feeders);
+			while(list($findex,$feeder)=each($CFG->feeders)){
+				$Transfers=array();
+				$Transfers=(array)feeder_fetch('transfer_students',$feeder,$postdata);
+				/*NOTE the lowercase of the student index, a product of xmlreader*/
+				if(isset($Transfers['student']) and is_array($Transfers['student'])){
+					$result[]='TRANSFER: '.$nextyid.' '.sizeof($Transfers['student']);
+					while(list($tindex,$Student)=each($Transfers['student'])){
+						if(isset($Student['surname']) and is_array($Student['surname'])){
+							$surname=$Student['surname']['value'];
+							trigger_error('TRANSFER '.$nextyid.' : '.$surname,E_USER_WARNING);
+							$Student['surname']['value']='TRANSFER'.$surname;
+							$Students[]=$Student;
+							}
 						}
 					}
 				}
-			join_community($sid,$communitynext);
+
+			if(is_array($Students) and sizeof($Students)>0){
+				while(list($index,$Student)=each($Students)){
+					$Comments=(array)$Student['comments'];unset($Student['comments']);
+					if(!isset($Comments['comment']) 
+					   or !is_array($Comments['comment'])){
+						$Comments['comment']=array();
+						}
+
+					/*TODO: Transfer backgrounds
+					$Backgrounds=$Student['backgrounds'];unset($Student['backgrounds']);
+					*/
+
+					mysql_query("INSERT INTO student SET surname='';");
+					$sid=mysql_insert_id();
+					mysql_query("INSERT INTO info SET student_id='$sid';");
+					while(list($key,$val)=each($Student)){
+						if(isset($val['value']) and is_array($val) and isset($val['field_db'])){
+							$field=$val['field_db'];
+							$inname=$field;
+							$inval=clean_text($val['value']);
+							if(isset($val['table_db']) and $val['table_db']=='student'){
+								mysql_query("UPDATE student SET $field='$inval'	WHERE id='$sid';");
+								}
+							else{
+								mysql_query("UPDATE info SET $field='$inval' WHERE student_id='$sid';");
+								}
+							}
+						}
+
+					while(list($key,$Comment)=each($Comments['comment'])){
+						if(is_array($Comment)){
+						  mysql_query("INSERT INTO comments SET student_id='$sid';");
+						  $id=mysql_insert_id();
+						  while(list($key,$val)=each($Comment)){
+							if(is_array($val) and isset($val['value']) and 
+							   isset($val['field_db'])){
+								$field=$val['field_db'];
+								$inname=$field;
+								if(isset($val['value_db'])){
+									$inval=$val['value_db'];
+									}
+								else{
+									$inval=$val['value'];
+									}
+								$inval=clean_text($inval);
+								mysql_query("UPDATE comments 
+										SET $field='$inval'	WHERE id='$id';");
+								unset($inval);
+								}
+							}
+						  }
+						}
+
+					join_community($sid,$communitynext);
+					}
 				}
 			}
 		}
-		
+
 		
 	/* Promote students to next stage of course or graduate to chosen next course. */
 	$courses=array();
@@ -136,7 +172,9 @@ require_once('lib/curl_calls.php');
 
 	for($c=0;$c<sizeof($courses);$c++){
 		$crid=$courses[$c]['id'];
-		$nextpostcrid=$_POST["$crid"];
+		if(isset($_POST["$crid"])){$nextpostcrid=$_POST["$crid"];}
+		   else{$nextpostcrid='';}
+
 		$season='S';/*currently restricted to a single season value*/
 		$yearnow=get_curriculumyear($crid);
 		$yeargone=$yearnow-1;
@@ -153,6 +191,7 @@ require_once('lib/curl_calls.php');
 						course_id='$nextpostcrid' AND year='$yearnow' AND
 						season='$season' AND stage!='END' ORDER BY stage ASC");
 				$nextcohid=mysql_result($d_cohort,0,0);
+
 				}
 			elseif($nextpostcrid!='1000'){
 				/*just promote to next stage of this course*/
@@ -180,6 +219,7 @@ require_once('lib/curl_calls.php');
 				}
 			}
 		}
+
 
 	mysql_query("DELETE FROM cidsid");
 	mysql_query("DELETE FROM score");

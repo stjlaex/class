@@ -109,6 +109,8 @@ else{
 <?php		   if(isset($entry['Detail']['value'])){
 					print $entry['Detail']['value'];
 					}
+				if(isset($entry['Teacher']['value'])){print
+				'  - '.$entry['Teacher']['value'];}
 ?>
 			  </p>
 			  <button class="rowaction" title="Delete this entry"
@@ -152,7 +154,7 @@ else{
 		  <tr class="hidden" id="<?php print $entryno.'-'.$rown++;?>">
 			<td colspan="6">
 			  <p>
-				 <?php print $EnrolNotes[0]['Detail']['value'];?>
+				 <?php if(isset($EnrolNotes[0])){print $EnrolNotes[0]['Detail']['value'];}?>
 			  </p>
 			</td>
 		  </tr>

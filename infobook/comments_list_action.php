@@ -23,13 +23,13 @@ include('scripts/sub_action.php');
 		mysql_query("UPDATE comments SET student_id='$sid',
 		detail='$detail', entrydate='$entrydate', yeargroup_id='$newyid',
 		subject_id='$bid', category='$category', teacher_id='$tid'
-		WHERE id='$id'");
+		WHERE id='$id';");
 		}
 	else{
 		mysql_query("INSERT INTO comments SET student_id='$sid',
 		detail='$detail', entrydate='$entrydate', yeargroup_id='$newyid',
 		subject_id='$bid', category='$category',
-		teacher_id='$tid'");
+		teacher_id='$tid';");
 		$result[]=get_string('commentrecorded',$book);
 
 		$teachername=get_teachername($tid);

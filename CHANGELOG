@@ -1,4 +1,4 @@
-Version ClaSS-0.8.52 release (2008/08/09)
+Version ClaSS-0.8.52 release (2008/08/11)
 -----------------------------------------
 
 Fixed losing the category on the backgrounds.
@@ -9,7 +9,14 @@ InfoBook. The result of the enrolment assessment is shared with staff
 as the first entry in the backgrounds list.
 
 Have moved the Backgrounds out from fetchStudent to a seperate
-fetchBackgrounds function.
+fetchBackgrounds function. fetchStudent now includes the Medical and
+SEN flags.
+
+The year_end scripts now iterates over all sites listed in
+$CFG->feeders and calls the httpscripts/transfer_students.php which
+responds with the xml for all Students in a yid who are
+transfering. The transfer data per student includes all student
+details plus all comments.
 
 
 Version ClaSS-0.8.51 release (2008/07/11)

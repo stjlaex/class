@@ -58,7 +58,7 @@ if($CFG->debug=='on'){
 
 		// set of errors which are not to be logged
 		// $hide_errors=array(E_NOTICE);
-		 $hide_errors=array();
+		 $hide_errors=array(E_STRICT);
 		if(!in_array($errno, $hide_errors)){
 			error_log($err,3,$CFG->classlog);
 			}

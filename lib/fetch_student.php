@@ -247,9 +247,11 @@ function fetchStudent($sid='-1'){
 								'value' =>''.$info['ethnicity']
 								);
    	$Student['MedicalFlag']=array('label' => 'medicalinformation', 
+								  'field_db' => 'medical', 
 								  'value' => ''.$info['medical']
 								  );
    	$Student['SENFlag']=array('label' => 'seninformation', 
+							  'field_db' => 'sen', 
 							  'value' => ''.$info['sen']
 							  );
    	$Student['Religion']=array('label' => 'religion', 
@@ -360,10 +362,6 @@ function fetchStudent($sid='-1'){
 		}
 	$Student['Exclusions']=$Exclusions;
 
-
-
-	/*******Backgrounds****/
-	$Student['Backgrounds']=fetchBackgrounds($sid);
 
 	if(file_exists('../schoolarrays.php')){include('../schoolarrays.php');}
 
@@ -741,10 +739,12 @@ function fetchBackgrounds_Entries($sid,$type){
 			$Entry['id_db']=$entry['id'];
 			$Entry['Teacher']=array('label' => 'teacher', 
 									'type_db' => 'varchar(14)', 
-									'value' => ''.$entry['teacher_id']);
+									'username' => ''.$entry['teacher_id'], 
+									'value' => ''.get_teachername($entry['teacher_id']));
 			$Categories=array();
 			$Categories=array('label' => 'category', 
 							  'type_db' => 'varchar(100)', 
+							  'value_db' => ''.$entry['category'],
 							  'value' => ' ');
 			$pairs=explode(';',$entry['category']);
 			for($c3=0; $c3<sizeof($pairs)-1; $c3++){
@@ -813,22 +813,25 @@ function fetchComments($sid,$startdate='',$enddate=''){
 		$subjectname=get_subjectname($bid);
 		$subtable[$bid]=$subjectname;
 	   	$Comment['Subject']=array('label' => 'subject',
+								  'field_db' => 'subject_id', 
 								  'value_db' => ''.$bid, 
 								  'value' => ''.$subjectname);
-
 		$tid=$comment['teacher_id'];
 		$Comment['Teacher']=array('label' => 'teacher', 
+								  'field_db' => 'teacher_id', 
 								  'username' => ''.$tid, 
 								  'value' => ''.get_teachername($tid));
 		$Categories=array();
 		$Categories=array('label' => 'category', 
+						  'field_db' => 'category', 
+						  'type_db' => 'varchar(100)', 
+						  'value_db' => ''.$comment['category'],
 						  'value' => ' ');
 		$pairs=explode(';',$comment['category']);
 		for($c3=0;$c3<sizeof($pairs)-1;$c3++){
 			list($catid, $rank)=split(':',$pairs[$c3]);
 			$Category=array();
-			$d_categorydef=mysql_query("SELECT name FROM categorydef
-				WHERE id='$catid'");
+			$d_categorydef=mysql_query("SELECT name FROM categorydef WHERE id='$catid';");
 			$catname=mysql_result($d_categorydef,0);
 			$Category=array('label' => $catname, 
 							'value' => ''.$catid);
@@ -844,9 +847,11 @@ function fetchComments($sid,$startdate='',$enddate=''){
 			}
 		$Comment['Categories']=$Categories;
 	   	$Comment['Detail']=array('label' => 'detail', 
+								 'field_db' => 'detail', 
 								 'type_db' => 'text', 
 								 'value' => ''.$comment['detail']);
 	   	$Comment['EntryDate']=array('label' => 'date', 
+									'field_db' => 'entrydate', 
 									'type_db' => 'date', 
 									'value' => ''.$comment['entrydate']);
 	   	$Comment['YearGroup']=array('label' => 'yeargroup', 
