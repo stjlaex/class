@@ -37,6 +37,7 @@ $yeargroup_names=array();
 
 	$feeder_nos=array();
 	$postdata['enrolyear']=$enrolyear;
+	$postdata['currentyear']=$currentyear;
 	while(list($findex,$feeder)=each($CFG->feeders)){
 		$Transfers=feeder_fetch('transfer_nos',$feeder,$postdata);
 		while(list($findex,$Transfer)=each($Transfers['transfer'])){
