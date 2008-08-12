@@ -91,7 +91,7 @@ while(list($index,$curriculum)=each($curriculums)){
 			else{
 				mysql_query("UPDATE course SET name='$name',
 					sequence='$sequence', generate='$course_generate', naming='$course_naming',
-					many='$course_many', endmonth='$endmonth' WHERE id='$crid'");
+					many='$course_many', endmonth='$endmonth' WHERE id='$crid';");
 				}
 	
 			$Subjects=xmlarray_indexed_check($Course['subjects'],'subject');
@@ -103,29 +103,34 @@ while(list($index,$curriculum)=each($curriculums)){
 				else{$generate=$course_generate;}
 				if(isset($Subject['classes'])){$many=$Subject['classes'];}
 				else{$many=$course_many;}
-				if(is_array($Subject['naming'])){
+				if(isset($Subject['naming']) and is_array($Subject['naming'])){
 					$naming=$Subject['naming']['root'] 
 						.';'.$Subject['naming']['stem'] 
 						.';'.$Subject['naming']['branch'].';'.$Subject['naming']['counter'];
-					if(sizeof($naming)>39){$naming='';}
+					if(strlen($naming)>39){$naming=$course_naming;}
 					}
 				else{$naming=$course_naming;}
-				$d_subject=mysql_query("SELECT name FROM subject WHERE id='$bid'");
+				$d_subject=mysql_query("SELECT name FROM subject WHERE id='$bid';");
 				if(mysql_num_rows($d_subject)==0){
 					mysql_query("INSERT INTO subject (id, name)
-						VALUES('$bid','$name')");
-					mysql_query("INSERT INTO groups (subject_id,
-					course_id, name, type) VALUES ('$bid', '%', '$bid', 'a')");
-					$gid=mysql_insert_id();
-					mysql_query("INSERT INTO perms (uid, gid, r, w, x) 
-					VALUES('$adminuid','$gid', '1', '1', '1')");
+						VALUES ('$bid','$name');");
 					}
 				else{
 					mysql_query("UPDATE subject SET name='$name'
-									WHERE id='$bid'");
+									WHERE id='$bid';");
 					}
 
-				mysql_query("INSERT INTO cridbid SET course_id='$crid', subject_id='$bid'");
+				$d_subject=mysql_query("SELECT gid FROM groups WHERE
+					subject_id='$bid' AND course_id='%' AND type='a';");
+				if(mysql_num_rows($d_subject)==0){
+					mysql_query("INSERT INTO groups (subject_id,
+					course_id, name, type) VALUES ('$bid', '%', '$bid', 'a');");
+					$gid=mysql_insert_id();
+					mysql_query("INSERT INTO perms (uid, gid, r, w, x) 
+					VALUES('$adminuid','$gid', '1', '1', '1');");
+					}
+
+				mysql_query("INSERT INTO cridbid SET course_id='$crid', subject_id='$bid';");
 
 				$Stages=xmlarray_indexed_check($Course['stages'],'stage');
 				while(list($index,$stage)=each($Stages['stage']) and $stage!=''){
@@ -354,10 +359,11 @@ while(list($index,$curriculum)=each($curriculums)){
 		$Formgroups=xmlarray_indexed_check($Group['formgroups'],'form');
 		while(list($index,$Form)=each($Formgroups['form']) and $Form['id']!=''){
 			/*****************Forms************************/
-			$fid=$yid . $Form['id'];
+			//$fid=$yid . $Form['id'];
+			$fid=$Form['id'];
 			$name=$Form['name'];
 			if($name==''){$name=$fid;}
-			$d_form=mysql_query("SELECT name FROM form WHERE id='$fid'");
+			$d_form=mysql_query("SELECT name FROM form WHERE id='$fid';");
 			if(mysql_num_rows($d_form)==0){
 				mysql_query("INSERT INTO form (id, name, yeargroup_id)
 						VALUES('$fid','$name','$yid')");

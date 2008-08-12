@@ -18,6 +18,9 @@ responds with the xml for all Students in a yid who are
 transfering. The transfer data per student includes all student
 details plus all comments.
 
+Made both transfer scripts aware of the current curriculum year to catch
+differences between schools.
+
 
 Version ClaSS-0.8.51 release (2008/07/11)
 -----------------------------------------
