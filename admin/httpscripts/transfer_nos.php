@@ -10,6 +10,8 @@ require_once('../../scripts/http_head_options.php');
 $currentyear=get_curriculumyear();
 if(isset($_POST['enrolyear']) and $_POST['enrolyear']!=''){$enrolyear=$_POST['enrolyear'];}
 else{$enrolyear=$currentyear;}
+if(isset($_POST['currentyear']) and $_POST['currentyear']!=''){$remotecurrentyear=$_POST['currentyear'];}
+else{$remotecurrentyear=$currentyear;}
 if(isset($_POST['feeder_code']) and 
    $_POST['feeder_code']!=''){$feeder_code=$_POST['feeder_code'];}
 else{$feeder_code=-1;}
@@ -22,16 +24,30 @@ else{$feeder_code=-1;}
 		$reenrol_eid=-1;
 		}
 
+		/* Take into account that the two databases may not be in
+		 * sync, in fact very likely if year_end has already run for one and not
+		 * the other. */
+		$yeardif=$currentyear-$remotecurrentyear;
+
 //trigger_error($feeder_code.' : '.$enrolyear.' : '.$reenrol_eid,E_USER_WARNING);
 
 	$Transfers=array();
 	$Transfers['Transfer']=array();
 	$yeargroups=list_yeargroups();
 	while(list($yearindex,$yeargroup)=each($yeargroups)){
+		$no=0;
 		$yid=$yeargroup['id'];
-		$yearcom=array('id'=>'','type'=>'year','name'=>$yid);
-		$yearcomid=update_community($yearcom);
-		$no=count_reenrol_no($yearcomid,$reenrol_eid,$feeder_code);
+		$comyid=$yid+$yeardif;
+		/* Two possible places to find the transferees depending on
+			wether the school has already reached year_end or not.*/
+		$coms=array();
+		$coms[]=array('id'=>'','type'=>'alumni', 
+									 'name'=>'P:'.$yid,'year'=>$enrolyear-1);
+		$coms[]=array('id'=>'','type'=>'year','name'=>$comyid);
+		while(list($cindex,$com)=each($coms)){
+			$comid=update_community($com);
+			$no=$no+count_reenrol_no($comid,$reenrol_eid,$feeder_code);
+			}
 		$Transfer=array('Yeargroup'=>$yid,'value'=>$no);
 		$Transfers['Transfer'][]=$Transfer;
 		}

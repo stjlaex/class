@@ -34,8 +34,6 @@ else{$yid=-1000;}
 
 	$yeargroupname=get_yeargroupname($yid);
 	if($yeargroupname!=''){
-		$sids=array();
-		$coms=array();
 
 		/* Take into account that the two databases may not be in
 		 * sync, in fact very likely if year_end has already run for one and not
@@ -45,9 +43,11 @@ else{$yid=-1000;}
 
 		/* Two possible places to find the transferees depending on
 			wether the school has already reached year_end or not.*/
+		$coms=array();
 		$coms[]=array('id'=>'','type'=>'alumni', 
 									 'name'=>'P:'.$yid,'year'=>$enrolyear-1);
 		$coms[]=array('id'=>'','type'=>'year','name'=>$comyid);
+		$sids=array();
 		while(list($cindex,$com)=each($coms)){
 			$comid=update_community($com);
 			$sids=$sids+list_reenrol_sids($comid,$reenrol_eid,$feeder_code);
