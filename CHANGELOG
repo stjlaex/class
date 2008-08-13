@@ -26,6 +26,11 @@ Bugfix to join_community for when moving between forms.
 Having different endmonths for courses was not yet implemented and have
 removed this fully from get_curriculumyear() until it is.
 
+Critical change to the method used for handling the curriculum
+year. No longer calculated based on the current date but stored as a
+special record in the community table in the db. The year_end function
+up dates this value +1 when called.
+
 
 Version ClaSS-0.8.51 release (2008/07/11)
 -----------------------------------------
