@@ -17,8 +17,8 @@ three_buttonmenu();
 $currentseason='S';
 $currentyear=get_curriculumyear($crid);
 $d_cohort=mysql_query("SELECT id, stage FROM cohort WHERE
-							course_id='$crid' AND year='$currentyear'
-							AND season='$currentseason' AND stage!='END' AND stage!='%'");
+						course_id='$crid' AND year='$currentyear'
+						AND season='$currentseason' AND stage!='END' AND stage!='%';");
 $cohorts=array();
 while($cohort=mysql_fetch_array($d_cohort,MYSQL_ASSOC)){
 	$cohorts[]=$cohort;
@@ -47,7 +47,7 @@ while($cohort=mysql_fetch_array($d_cohort,MYSQL_ASSOC)){
 	while(list($index,$cohort)=each($cohorts)){
 		$cohid=$cohort['id'];
 		$d_cohidcomid=mysql_query("SELECT community_id FROM cohidcomid WHERE
-							cohort_id='$cohid'");
+							cohort_id='$cohid';");
 		$newcomids=array();
 		while($comid=mysql_fetch_array($d_cohidcomid,MYSQL_ASSOC)){
 			$newcomids[]=$comid['community_id'];

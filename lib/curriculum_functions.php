@@ -9,7 +9,7 @@
  */
 function list_courses(){
 	$courses=array();
-	$d_c=mysql_query("SELECT * FROM course ORDER BY sequence");
+	$d_c=mysql_query("SELECT * FROM course ORDER BY sequence;");
 	while($course=mysql_fetch_array($d_c,MYSQL_ASSOC)){
 		$courses[]=$course;
 		}
@@ -24,7 +24,7 @@ function list_yeargroups($secid='%'){
 	$yeargroups=array();
 	$d_y=mysql_query("SELECT DISTINCT * FROM yeargroup WHERE
 					section_id='%' OR section_id LIKE '$secid' 
-					ORDER BY section_id, sequence;");
+					ORDER BY sequence;");
 	while($y=mysql_fetch_array($d_y,MYSQL_ASSOC)){
 		$yeargroups[]=$y;
 		}
@@ -49,11 +49,12 @@ function list_formgroups($yid='%'){
  * Returns an array of all posible stages for a single course
  *
  */
+/* TODO: Will fail if the stages have changed between years!!! */
 function list_course_stages($crid=''){
 	$stages=array();
 	if($crid!=''){
 		$d_stage=mysql_query("SELECT DISTINCT stage FROM cohort WHERE
-			   	course_id='$crid' AND stage!='%' ORDER BY year, stage");
+			   	course_id='$crid' AND stage!='%' ORDER BY year, stage;");
 		while($stage=mysql_fetch_array($d_stage,MYSQL_ASSOC)){
 			$stages[]=array('id'=>$stage['stage'],'name'=>$stage['stage']);
 			}
@@ -115,7 +116,7 @@ function list_course_cohorts($crid,$year='',$season='S'){
 		}
 	$d_coh=mysql_query("SELECT * FROM cohort WHERE
 						course_id='$crid' AND year='$year' AND 
-						season='$season' ORDER BY stage");
+						season='$season' ORDER BY stage;");
 	while($cohort=mysql_fetch_array($d_coh,MYSQL_ASSOC)){
 		$cohorts[]=array('id'=>$cohort['id'],
 						 'stage'=>$cohort['stage'], 'year'=>$cohort['year'], 
@@ -402,7 +403,7 @@ function update_cohort($cohort){
 	if($crid!='' and $stage!=''){
 		$d_cohort=mysql_query("SELECT id FROM cohort WHERE
 				course_id='$crid' AND stage='$stage' AND year='$year'
-				AND season='$season'");
+				AND season='$season';");
 		if(mysql_num_rows($d_cohort)==0){
 			mysql_query("INSERT INTO cohort (course_id,stage,year,season) VALUES
 				('$crid','$stage','$year','$season')");
@@ -445,21 +446,37 @@ function listin_cohort($cohort){
 
 /**
  * Defined as the calendar year that the current academic year ends 
- * TODO: Currently endmonth for a course is not implemented, all
+ * TODO: Currently endmonth and season for a course are not implemented, all
  * courses end at the same time for the whole school, is it too
  * sophisticated or even needed in future to cover different endmonths for
  * courses?
+ *
+ * If this has not been set then the current year +1 will set. You
+ * might want to edit this after ClaSS first runs. TODO: add to install?
  */
 function get_curriculumyear($crid=''){
-	//$d_course=mysql_query("SELECT endmonth FROM course WHERE id='$crid'");
-	//if(mysql_num_rows($d_course)>0){$endmonth=mysql_result($d_course,0);}
-	//else{$endmonth='';}
-	//if($endmonth==''){$endmonth='8';/*defaults to August*/}
-	$endmonth='8';
-	$thismonth=date('m');
-	$thisyear=date('Y');
-	if($thismonth>$endmonth){$thisyear++;}
+	$d_c=mysql_query("SELECT year FROM community WHERE
+						name='curriculum year' AND type='';");
+	if(mysql_num_rows($d_c)>0){$thisyear=mysql_result($d_c,0);}
+	else{
+		$thisyear=date('Y')+1;
+		set_curriculumyear($thisyear);
+		}
 	return $thisyear;
+	}
+
+function set_curriculumyear($year,$crid=''){
+	$d_c=mysql_query("SELECT year FROM community WHERE
+						name='curriculum year' AND type='';");
+	if(mysql_num_rows($d_c)>0){
+		mysql_query("UPDATE community SET year='$year'
+						WHERE name='curriculum year' AND type='';");
+		}
+	else{
+		mysql_query("INSERT INTO community SET
+						name='curriculum year', type='', year='$year';");
+		}
+	return;
 	}
 
 /**

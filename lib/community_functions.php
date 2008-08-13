@@ -145,15 +145,15 @@ function update_community($community,$communityfresh=array('id'=>'','type'=>'','
 				}
 			if(isset($communityfresh['detail'])){
 				$dfresh=$communityfresh['detail'];
-				mysql_query("UPDATE community SET detail='$dfresh' WHERE id='$comid'");
+				mysql_query("UPDATE community SET detail='$dfresh' WHERE id='$comid';");
 				}
 			if(isset($communityfresh['year'])){
 				$yfresh=$communityfresh['year'];
-				mysql_query("UPDATE community SET year='$yfresh' WHERE id='$comid'");
+				mysql_query("UPDATE community SET year='$yfresh' WHERE id='$comid';");
 				}
 			if(isset($communityfresh['capacity'])){
 				$cfresh=$communityfresh['capacity'];
-				mysql_query("UPDATE community SET capacity='$cfresh' WHERE id='$comid'");
+				mysql_query("UPDATE community SET capacity='$cfresh' WHERE id='$comid';");
 				}
 			}
 		}

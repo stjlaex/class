@@ -10,31 +10,31 @@ include('scripts/sub_action.php');
 
 require_once('lib/curl_calls.php');
 
+if(isset($CFG->feeders) and is_array($CFG->feeders)){$feeders=(array)$CFG->feeders;}
+else{$feeders=array();}
+
 $todate=date('Y-m-d');
 $currentyear=get_curriculumyear();
 $enrolyear=$currentyear+1;
 
-	/* Promote students to chosen pastoral groups*/
-	$years=array();
-	$c=0;
-	$d_yeargroup=mysql_query("SELECT id, sequence, section_id, name FROM
-							yeargroup ORDER BY sequence ASC;");
-	while($years[]=mysql_fetch_array($d_yeargroup,MYSQL_ASSOC)){
-		$yid=$years[$c]['id'];
-		$d_form=mysql_query("SELECT id FROM form WHERE
-							yeargroup_id='$yid' ORDER BY id DESC;");
-		$years[$c]['fids']=array();
-		while($form=mysql_fetch_array($d_form,MYSQL_ASSOC)){
-			$years[$c]['fids'][]=$form['id'];
-			}
-		$c++;
+/** 
+ * Two steps: (1) Promote students to next (chosen) pastoral groups; 
+ * (2) Promote students to next stage in course or graduate to
+ * next (chosen) course. Without a group to graduate to they will
+ * moved to alumni status.
+ */
+
+/***** (1) PASTORAL GROUPS *****/
+
+	$yeargroups=(array)list_yeargroups();
+	for($c=0;$c<sizeof($yeargroups);$c++){
+		$yeargroups[$c]['forms']=(array)list_formgroups($yeargroups[$c]['id']);
 		}
 
-	for($c=(sizeof($years)-2);$c>-1;$c--){
-		$yid=$years[$c]['id'];
+	for($c=(sizeof($yeargroups)-1);$c>-1;$c--){
+		$yid=$yeargroups[$c]['id'];
 		$nextpostyid=$_POST[$yid];
 		if($nextpostyid=='1000'){
-			/*TODO: then leavers*/
 			$nextyid=$currentyear;
 			$type='alumni';
 			}
@@ -44,31 +44,33 @@ $enrolyear=$currentyear+1;
 			if($nextyid==''){$nextyid=$currentyear;}
 			}
 
-		/*Rename the year community*/
+		/* Rename the year community. */
 		$community=array('type'=>'year','name'=>$yid);
-		$communitynext=array('type'=>'year','name'=>$nextyid);
+		$communitynext=array('type'=>'year','name'=>$nextyid,'detail'=>'');
 		$yearcomid=update_community($community,$communitynext);
 		$yearcommunity=array('id'=>$yearcomid,'type'=>'year','name'=>$nextyid);
 		$leavercom=array('id'=>'','type'=>'alumni', 
 							 'name'=>'P:'.$yid,'year'=>$currentyear);
-
-
-		while(list($index,$fid)=each($years[$c]['fids'])){
+		while(list($index,$form)=each($yeargroups[$c]['forms'])){
+			$fid=$form['id'];
 			if($nextpostyid!='1000'){
-				if(isset($years[$c+1]['fids'][$index])){$nextfid=$years[$c+1]['fids'][$index];}
-				else{$nextfid=$fid.'-'.date('Y').'-'.date('m');}
+				if(isset($yeargroups[$c+1]['forms'][$index])){
+					$nextfid=$yeargroups[$c+1]['forms'][$index]['id'];
+					}
+				else{
+					$nextfid=$fid.'-'.date('Y').'-'.date('m');
+					}
 				$type='form';
 				}
 			else{
-				$nextfid=$fid.'-form-'.date('Y').'-'.date('m');
+				$nextfid=$fid.'-alumni-'.date('Y').'-'.date('m');
 				$type='alumni';
 				}
+
 			$community=array('type'=>'form','name'=>$fid);
 			$communitynext=array('type'=>$type,'name'=>$nextfid);
 			update_community($community,$communitynext);
-
 			mysql_query("UPDATE student SET form_id='$nextfid' WHERE form_id='$fid';");
-			//$result[]='Promoted form '.$fid.' to '.$nextfid;
 			}
 
 		mysql_query("UPDATE student SET yeargroup_id='$nextyid' WHERE yeargroup_id='$yid';");
@@ -111,8 +113,8 @@ $enrolyear=$currentyear+1;
 			$postdata['currentyear']=$currentyear;
 			$postdata['yid']=$yid;
 			$Students=array();
-			reset($CFG->feeders);
-			while(list($findex,$feeder)=each($CFG->feeders)){
+			reset($feeders);
+			while(list($findex,$feeder)=each($feeders)){
 				$Transfers=array();
 				$Transfers=(array)feeder_fetch('transfer_students',$feeder,$postdata);
 				/*NOTE the lowercase of the student index, a product of xmlreader*/
@@ -212,55 +214,52 @@ $enrolyear=$currentyear+1;
 		join_community($student['id'],$yearcommunity);
 		}
 
-		
-	/* Promote students to next stage of course or graduate to chosen next course. */
-	$courses=array();
-	$c=0;
-	$d_course=mysql_query("SELECT id, sequence, section_id, name FROM
-							course ORDER BY sequence DESC");
-	while($courses[]=mysql_fetch_array($d_course,MYSQL_ASSOC)){
+
+
+
+
+/***** (2) COHORTS AND COURSES*****/
+
+/* Promote students to next stage of the course or graduate to chosen next course. */
+
+	$yeargone=$currentyear;
+	$yearnow=$yeargone+1;
+	set_curriculumyear($yearnow);
+	$result[]='Curriculum year moved forward from '. display_curriculumyear($yeargone).' to '.
+						display_curriculumyear($yearnow);
+
+	$courses=(array)list_courses();
+	for($c=sizeof($courses)-1;$c>-1;$c--){
 		$crid=$courses[$c]['id'];
-		$season='S';/*currently restricted to a single season value*/
-		$yearnow=get_curriculumyear($crid);
-		/*currently sequence of the stages for a course depends solely
+		/* Currently sequence of the stages for a course depends solely
 			upon their alphanumeric order - so best have a numeric ending*/
-		/*will fail if the stages have changed between years!!!*/
-		$d_stage=mysql_query("SELECT stage FROM cohort WHERE
-				course_id='$crid' AND year='$yearnow' AND
-				season='$season' AND stage!='END' ORDER BY stage DESC;");
-		$courses[$c]['stages']=array();
-		while($stage=mysql_fetch_array($d_stage,MYSQL_ASSOC)){
-			$courses[$c]['stages'][]=array('stage'=>$stage['stage'],'newcohid'=>'');
-			}
-		$c++;
+		$courses[$c]['stages']=(array)list_course_stages($crid);
 		}
 
-	for($c=0;$c<sizeof($courses);$c++){
+	for($c=sizeof($courses)-1;$c>-1;$c--){
 		$crid=$courses[$c]['id'];
 		if(isset($_POST["$crid"])){$nextpostcrid=$_POST["$crid"];}
 		   else{$nextpostcrid='';}
 
-		$season='S';/*currently restricted to a single season value*/
-		$yearnow=get_curriculumyear($crid);
-		$yeargone=$yearnow-1;
 		$stages=$courses[$c]['stages'];
-		for($c2=0;$c2<sizeof($stages);$c2++){
-			$stage=$stages[$c2]['stage'];
+		for($c2=sizeof($stages)-1;$c2>-1;$c2--){
+			$stage=$stages[$c2]['id'];
 			$cohort=array('course_id'=>$crid,'stage'=>$stage,'year'=>$yeargone);
 			$cohidgone=update_cohort($cohort);
 			$cohort=array('course_id'=>$crid,'stage'=>$stage,'year'=>$yearnow);
-			$stages[$c2]['cohidnow']=update_cohort($cohort);
-			if($c2==0 and $nextpostcrid!='1000'){
-				/*last stage of course are graduating to next course*/
-				$d_cohort=mysql_query("SELECT id FROM cohort WHERE
-						course_id='$nextpostcrid' AND year='$yearnow' AND
-						season='$season' AND stage!='END' ORDER BY stage ASC");
-				$nextcohid=mysql_result($d_cohort,0,0);
-
+			$cohidnow=update_cohort($cohort);
+			$stages[$c2]['cohidnow']=$cohidnow;
+			if($c2!=(sizeof($stages)-1)){
+				/*just promote to next stage of this course*/
+				$nextcohid=$stages[$c2+1]['cohidnow'];
 				}
 			elseif($nextpostcrid!='1000'){
-				/*just promote to next stage of this course*/
-				$nextcohid=$stages[$c2-1]['cohidnow'];
+				   /* The last stage of the course are graduating to next course
+						identified in nextpostcrid*/
+				$d_cohort=mysql_query("SELECT id FROM cohort WHERE
+						course_id='$nextpostcrid' AND year='$yearnow' AND
+						season='S' AND stage!='END' ORDER BY stage ASC;");
+				$nextcohid=mysql_result($d_cohort,0,0);
 				}
 			else{
 				/*last stage is graduating and leaving*/
@@ -268,15 +267,15 @@ $enrolyear=$currentyear+1;
 				}
 
 
-			/*go through each community of students who were studying
-			this stage and promote them*/
+			/* Go through each community of students who were studying
+				this stage (ie. cohidgone) and promote them to nextcohid. */
 			$d_cohidcomid=mysql_query("SELECT community_id FROM cohidcomid 
-											WHERE cohort_id='$cohidgone'");
+											WHERE cohort_id='$cohidgone';");
 			while($cohidcomid=mysql_fetch_array($d_cohidcomid,MYSQL_ASSOC)){
 				$comid=$cohidcomid['community_id'];
 				if($nextcohid!=''){
 					mysql_query("INSERT INTO cohidcomid SET
-								cohort_id='$nextcohid', community_id='$comid'");
+								cohort_id='$nextcohid', community_id='$comid';");
 					}
 				else{
 					$result[]='Community '.$comid.' graduated to leave.';

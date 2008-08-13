@@ -82,12 +82,12 @@ elseif($sub=='Submit'){
 	$result[]=get_string('newclassstructure',$book);
 
 	mysql_query("DELETE cidsid.* FROM cidsid, class WHERE
-		class.id=cidsid.class_id AND class.course_id='$crid'");
+		class.id=cidsid.class_id AND class.course_id='$crid';");
 	mysql_query("DELETE tidcid.* FROM tidcid, class WHERE 
-		class.id=tidcid.class_id AND class.course_id='$crid'");
+		class.id=tidcid.class_id AND class.course_id='$crid';");
 	mysql_query("DELETE midcid.* FROM midcid, class WHERE 
-		class.id=midcid.class_id AND class.course_id='$crid'");
-	mysql_query("DELETE FROM class WHERE course_id='$crid'");
+		class.id=midcid.class_id AND class.course_id='$crid';");
+	mysql_query("DELETE FROM class WHERE course_id='$crid';");
 
 	$d_classes=mysql_query("SELECT * FROM classes WHERE
 										course_id='$crid' ORDER BY
