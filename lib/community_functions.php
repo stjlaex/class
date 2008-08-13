@@ -400,12 +400,16 @@ function join_community($sid,$community){
 		$studentfield='form_id';
 		$oldtypes[]=$type;
 		$enrolstatus='C';
-		$d_yeargroup=mysql_query("SELECT yeargroup_id FROM form WHERE id='$name';");
-		$newyid=mysql_result($d_yeargroup,0);
-		$d_student=mysql_query("SELECT yeargroup_id FROM student WHERE id='$sid';");
-		$oldyid=mysql_result($d_student,0);
-		/*if new form is in another yeargroup then need to move yeargroup too*/
-		if($newyid!=$oldyid){join_community($sid,array('type'=>'year','name'=>$newyid));}
+		if($name!=''){
+			/* If no new fid given then just remove from form group
+					and leave in the same yeargroup*/
+			$d_yeargroup=mysql_query("SELECT yeargroup_id FROM form WHERE id='$name';");
+			$newyid=mysql_result($d_yeargroup,0);
+			$d_student=mysql_query("SELECT yeargroup_id FROM student WHERE id='$sid';");
+			$oldyid=mysql_result($d_student,0);
+			/*if new form is in another yeargroup then need to move yeargroup too*/
+			if($newyid!=$oldyid){join_community($sid,array('type'=>'year','name'=>$newyid));}
+			}
 		}
 	elseif($type=='year'){
 		$studentfield='yeargroup_id';
@@ -529,7 +533,7 @@ function list_community_cohorts($community){
 	if($community['type']=='form'){
 		/*forms only associate with cohorts through their yeargroup*/
 		$fid=$community['name'];
-		$d_form=mysql_query("SELECT yeargroup_id FROM form WHERE id='$fid'");
+		$d_form=mysql_query("SELECT yeargroup_id FROM form WHERE id='$fid';");
 		if(mysql_num_rows($d_form)>0){$yid=mysql_result($d_form,0);}
 		else{$yid='';}
 		$community=array('id'=>'','type'=>'year','name'=>$yid);
@@ -541,7 +545,7 @@ function list_community_cohorts($community){
 	$cohorts=array();
 	$d_cohort=mysql_query("SELECT * FROM cohort JOIN
 						cohidcomid ON cohidcomid.cohort_id=cohort.id WHERE
-						cohidcomid.community_id='$comid' ORDER BY course_id");
+						cohidcomid.community_id='$comid' ORDER BY course_id;");
    	while($cohort=mysql_fetch_array($d_cohort, MYSQL_ASSOC)){
 		$currentyear=get_curriculumyear($cohort['course_id']);
 		$currentseason='S';

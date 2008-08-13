@@ -12,6 +12,7 @@ else{$newsids=array();}
 if(isset($_POST['oldsids'])){$oldsids=(array)$_POST['oldsids'];}
 else{$oldsids=array();}
 if(isset($_POST['classestoo'])){$classestoo=$_POST['classestoo'];}
+else{$classestoo='no';}
 
 include('scripts/sub_action.php');
 
@@ -22,8 +23,7 @@ include('scripts/sub_action.php');
 
 if($sub=='Submit'){
 
-    $changecids=array();
-	$changecids=list_forms_classes($fid);
+	$changecids=(array)list_forms_classes($fid);
 
 	/*sids to remove*/
    	while(list($index,$sid)=each($oldsids)){
@@ -33,7 +33,7 @@ if($sub=='Submit'){
 			for($c=0;$c<sizeof($changecids);$c++){
 				$cid=$changecids[$c];
 				mysql_query("DELETE FROM cidsid WHERE
-								student_id='$sid' AND class_id='$cid' LIMIT 1");
+								student_id='$sid' AND class_id='$cid' LIMIT 1;");
 				}
 			}
 		}
@@ -50,12 +50,12 @@ if($sub=='Submit'){
 			for($c=0;$c<sizeof($otherchangecids);$c++){
 				$cid=$otherchangecids[$c];
 				mysql_query("DELETE FROM cidsid WHERE
-								student_id='$sid' AND class_id='$cid' LIMIT 1");
+								student_id='$sid' AND class_id='$cid' LIMIT 1;");
 				}
 			for($c=0;$c<sizeof($changecids);$c++){
 				$cid=$changecids[$c];
 				mysql_query("INSERT INTO cidsid
-		   				(student_id, class_id) VALUES ('$sid', '$cid')");
+		   				(student_id, class_id) VALUES ('$sid', '$cid');");
 				}
 			}
 		}

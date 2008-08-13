@@ -133,7 +133,6 @@ function list_course_cohorts($crid,$year='',$season='S'){
 function list_forms_classes($fid){
 	$cids=array();
 	$cohorts=list_community_cohorts(array('id'=>'','type'=>'form','name'=>$fid));
-
    	while(list($index,$cohort)=each($cohorts)){
 		$currentyear=get_curriculumyear($cohort['course_id']);
 		$currentseason='S';
@@ -446,14 +445,17 @@ function listin_cohort($cohort){
 
 /**
  * Defined as the calendar year that the current academic year ends 
- * TODO to sophisticate in future to cover definite endmonths for
- * courses
+ * TODO: Currently endmonth for a course is not implemented, all
+ * courses end at the same time for the whole school, is it too
+ * sophisticated or even needed in future to cover different endmonths for
+ * courses?
  */
 function get_curriculumyear($crid=''){
-	$d_course=mysql_query("SELECT endmonth FROM course WHERE id='$crid'");
-	if(mysql_num_rows($d_course)>0){$endmonth=mysql_result($d_course,0);}
-	else{$endmonth='';}
-	if($endmonth==''){$endmonth='8';/*defaults to August*/}
+	//$d_course=mysql_query("SELECT endmonth FROM course WHERE id='$crid'");
+	//if(mysql_num_rows($d_course)>0){$endmonth=mysql_result($d_course,0);}
+	//else{$endmonth='';}
+	//if($endmonth==''){$endmonth='8';/*defaults to August*/}
+	$endmonth='8';
 	$thismonth=date('m');
 	$thisyear=date('Y');
 	if($thismonth>$endmonth){$thisyear++;}

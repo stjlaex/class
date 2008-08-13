@@ -1,4 +1,4 @@
-Version ClaSS-0.8.52 release (2008/08/11)
+Version ClaSS-0.8.52 release (2008/08/13)
 -----------------------------------------
 
 Fixed losing the category on the backgrounds.
@@ -20,6 +20,11 @@ details plus all comments.
 
 Made both transfer scripts aware of the current curriculum year to catch
 differences between schools.
+
+Bugfix to join_community for when moving between forms.
+
+Having different endmonths for courses was not yet implemented and have
+removed this fully from get_curriculumyear() until it is.
 
 
 Version ClaSS-0.8.51 release (2008/07/11)

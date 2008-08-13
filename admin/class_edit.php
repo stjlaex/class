@@ -90,7 +90,8 @@ three_buttonmenu($extrabuttons);
 				WHERE a.class_id='$newcid' AND b.id=a.student_id ORDER BY b.surname");
 	while($student=mysql_fetch_array($d_student, MYSQL_ASSOC)){
 		print '<tr><td>'.$student['surname']. 
-				', '.$student['forename'].' '.$student['preferredforename'].' ('.$student['form_id'].')</td>';
+				', '. $student['forename'].' '. 
+				$student['preferredforename']. ' ('.$student['form_id'].')</td>';
 		print '<td><input type="checkbox" name="'.$student['student_id'].'" /></td>';
 		print '</tr>';
 		}

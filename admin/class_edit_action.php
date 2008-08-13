@@ -7,17 +7,15 @@ $action_post_vars=array('newtid','newcid');
 
 if(isset($_POST['newcid'])){$newcid=$_POST['newcid'];}
 if(isset($_POST['detail'])){$detail=$_POST['detail'];}
-if(isset($_POST['newtid'])){$newtid=$_POST['newtid'];}
-if(isset($_POST['newsid'])){$newsid=(array)$_POST['newsid'];}
+if(isset($_POST['newtid'])){$newtid=$_POST['newtid'];}else{$newtid='';}
+if(isset($_POST['newsid'])){$newsid=(array)$_POST['newsid'];}else{$newsid=array();}
 
 include('scripts/sub_action.php');
 
 if($sub=='Unassign' and $newtid!=''){
-   	if(mysql_query("DELETE FROM tidcid WHERE 
-		teacher_id='$newtid' AND class_id='$newcid'")){
-   			}
-   	else{$error[]=mysql_error();}
-    $action=$cancel;	
+   	mysql_query("DELETE FROM tidcid WHERE teacher_id='$newtid' AND
+						class_id='$newcid' LIMIT 1;");
+	$action=$cancel;
 	}
 
 elseif($sub=='Submit'){
@@ -27,17 +25,12 @@ elseif($sub=='Submit'){
    	while($student=mysql_fetch_array($d_student, MYSQL_ASSOC)){
 			$sid=$student['student_id'];
 			if(isset($_POST["$sid"])){
-				if(mysql_query("DELETE FROM cidsid WHERE
-					student_id='$sid' AND class_id='$newcid' LIMIT 1")){
-					}
-				else{$error[]=mysql_error();}
+				mysql_query("DELETE FROM cidsid WHERE
+					student_id='$sid' AND class_id='$newcid' LIMIT 1;");
 				}
 			}
    	while(list($index,$sid)=each($newsid)){
-   		if(mysql_query("INSERT INTO cidsid SET student_id='$sid',
-			class_id='$newcid'")){
-			}
-   		else{$error[]='Failed'.$newcid.' '.$sid;}
+   		mysql_query("INSERT INTO cidsid SET student_id='$sid', class_id='$newcid';");
    		}
 
 	if(isset($detail)){
@@ -46,6 +39,5 @@ elseif($sub=='Submit'){
 		}
 	}
 
-include('scripts/results.php');
 include('scripts/redirect.php');
 ?>
