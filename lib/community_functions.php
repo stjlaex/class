@@ -528,7 +528,11 @@ function get_form_yeargroup($fid){
 	return $yid;
 	}
 
-/*Find all current cohorts which a community is associated with*/
+/**
+ * 
+ * Find all current cohorts with which a community is associated.
+ *
+ */
 function list_community_cohorts($community){
 	if($community['type']=='form'){
 		/*forms only associate with cohorts through their yeargroup*/

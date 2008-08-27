@@ -3,6 +3,8 @@ Version ClaSS-0.8.53 release (2008/08/29)
 
 Bugfix to the auto-generating of the budgetcode for sub-budgets.
 
+Renaming a formgroup now renames any associated teaching classes in the
+MarkBook too.
 
 
 Version ClaSS-0.8.52 release (2008/08/13)

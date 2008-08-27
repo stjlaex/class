@@ -76,12 +76,12 @@ if($sub=='Submit'){
 				$inname=$field.$phoneno;
 				$inval=clean_text($_POST["$inname"]);
 				if($val['value']!=$inval){
-					if($phoneid=='-1' and $inval!=''){
-						mysql_query("INSERT INTO phone SET some_id='$gid'");
+					if($phoneid=='-1' and $inval!='' and $inval!=' '){
+						mysql_query("INSERT INTO phone SET some_id='$gid';");
 						$phoneid=mysql_insert_id();
 						}
 					mysql_query("UPDATE phone SET $field='$inval'
-					WHERE some_id='$gid' AND id='$phoneid'");
+							WHERE some_id='$gid' AND id='$phoneid';");
 					}
 				}
 			}

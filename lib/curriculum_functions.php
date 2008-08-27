@@ -141,13 +141,13 @@ function list_forms_classes($fid){
 			$stage=$cohort['stage'];
 			$crid=$cohort['course_id'];
 			$d_classes=mysql_query("SELECT subject_id, naming FROM classes 
-				WHERE stage='$stage' AND course_id='$crid' AND generate='forms'");
+				WHERE stage='$stage' AND course_id='$crid' AND generate='forms';");
 			while($classes=mysql_fetch_array($d_classes, MYSQL_ASSOC)){
 				$bid=$classes['subject_id'];
 				$name=array();
-				if($classes['naming']==''){
+				if($classes['naming']=='' or $classdef['generate']=='forms'){
 					$name['root']=$bid;
-					$name['stem']='-';
+					$name['stem']='';
 					$name['branch']='';
 					}
 				else{
@@ -309,17 +309,17 @@ function get_classdef_classes($classdef,$currentseason='S'){
 			}
 		}
 
-
-	if($classdef['naming']=='' and $classdef['generate']=='forms'){
-			$name['root']=$bid;
-			$name['stem']='-';
-			$name['branch']='';
-			}
+	if($classdef['generate']=='forms'){
+		/* form classes always get this format of naming regardless */
+		$name['root']=$bid;
+		$name['stem']='';
+		$name['branch']='';
+		}
 	elseif($classdef['naming']=='' and $classdef['generate']=='sets'){
-			$name['root']=$bid;
-			$name['stem']=$stage;
-			$name['branch']='/';
-			}
+		$name['root']=$bid;
+		$name['stem']=$stage;
+		$name['branch']='/';
+		}
 	else{
 		list($name['root'],$name['stem'],$name['branch'],$name_counter)=split(';',$classdef['naming'],4);
 		while(list($index,$namecheck)=each($name)){

@@ -15,15 +15,33 @@ include('scripts/sub_action.php');
 	include('scripts/perm_action.php');
 
 if($sub=='Submit'){
-   	if(mysql_query("UPDATE form SET id='$newname', name='$newname'  WHERE 
-					id='$oldname'")){
-		mysql_query("UPDATE community SET name='$newname' WHERE 
-					name='$oldname' AND type='form'");
-		mysql_query("UPDATE student SET form_id='$newname' WHERE 
-					form_id='$oldname'");
+	$d_f=mysql_query("SELECT id FROM form WHERE id='$newname';");
+   	if(mysql_num_rows($d_f)>0){
+		$error[]=get_string('aformwiththisnamealreadyexists',$book);
 		}
 	else{
-		$error[]=get_string('aformwiththisnamealreadyexists',$book);
+		$cids=(array)list_forms_classes($oldname);
+		while(list($index,$oldcid)=each($cids)){
+			$d_c=mysql_query("SELECT subject_id FROM class WHERE id='$oldcid';");
+			if(mysql_num_rows($d_c)>0){
+				$bid=mysql_result($d_c,0);
+				$newcid=$bid.''.''.$newname;
+				mysql_query("UPDATE class
+								SET id='$newcid' WHERE id='$oldcid';");
+				mysql_query("UPDATE cidsid
+								SET class_id='$newcid' WHERE class_id='$oldcid';");
+				mysql_query("UPDATE tidcid
+								SET class_id='$newcid' WHERE class_id='$oldcid';");
+				mysql_query("UPDATE midcid
+								SET class_id='$newcid' WHERE class_id='$oldcid';");
+				}
+			}
+		mysql_query("UPDATE form SET id='$newname', name='$newname'  WHERE 
+					id='$oldname';");
+		mysql_query("UPDATE community SET name='$newname' WHERE 
+					name='$oldname' AND type='form';");
+		mysql_query("UPDATE student SET form_id='$newname' WHERE 
+					form_id='$oldname';");
 		}
 	$action=$cancel;
 	include('scripts/results.php');
