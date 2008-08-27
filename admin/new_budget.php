@@ -15,6 +15,7 @@ three_buttonmenu();
 $Budget=fetchBudget();
 if($budid!=''){
 	$OverBudget=fetchBudget($budid);
+	$yearcode=$OverBudget['YearCode']['value'];
 	}
 ?>
 
@@ -98,11 +99,21 @@ if($budid!=''){
 		</label>
 <?php
 		if($budid!=''){
-			/* Automatically assign a code to sub budgets*/
+			/* Automatically assign a code to sub-budgets */
+			$okay='no';
 			$d_bud=mysql_query("SELECT COUNT(id) FROM orderbudget
 				WHERE overbudget_id='$budid';");
 			$subno=mysql_result($d_bud,0)+1;
-			$Budget['Code']['value']=$OverBudget['Code']['value']. $subno;
+			while($okay=='no'){
+				/*No guarantee these will be kept sequential, budgets could
+					have been deleted, so check everyone. */
+				$budgetcode=$OverBudget['Code']['value']. $subno;
+				$d_bud=mysql_query("SELECT id FROM orderbudget 
+					WHERE yearcode='$yearcode' AND code='$budgetcode';");
+				if(mysql_num_rows($d_bud)>0){$subno++;}
+				else{$okay='yes';}
+				}
+			$Budget['Code']['value']=$budgetcode;
 			print '<input  readonly="readonly" name="'. $Budget['Code']['field_db']. 
 					'" value="' .$Budget['Code']['value'].'" >';
 			}

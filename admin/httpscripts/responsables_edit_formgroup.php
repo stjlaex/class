@@ -11,14 +11,14 @@ if(!isset($xmlid)){print "Failed"; exit;}
 
 	$Responsible=array();
 	$Responsible['id_db']=$fid.'-'.$uid;
-	if($perms['x']==1){
+	if($perms['w']==1){
 		$d_form=mysql_query("SELECT DISTINCT yeargroup_id
-						FROM form WHERE id='$fid'");
+						FROM form WHERE id='$fid';");
 		$yid=mysql_result($d_form,0);
 		$d_groups=mysql_query("SELECT DISTINCT gid
-					FROM groups WHERE yeargroup_id='$yid' AND course_id=''");
+					FROM groups WHERE yeargroup_id='$yid' AND course_id='';");
 		$gid=mysql_result($d_groups,0);
-		mysql_query("UPDATE form SET teacher_id='' WHERE id='$fid'");
+		mysql_query("UPDATE form SET teacher_id='' WHERE id='$fid';");
 		$newperms=array('r'=>0,'w'=>0,'x'=>0,'e'=>0);
 		$result[]=update_staff_perms($uid,$gid,$newperms);
 		$Responsible['exists']='false';

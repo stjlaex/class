@@ -72,7 +72,7 @@ three_buttonmenu();
 		  <td><?php print $nosids;?></td>
 		  <td>
 <?php
-		if($perms['x']==1 and $tid!=''){
+		if($perms['w']==1 and $tid!=''){
 			$uid=get_uid($tid);
 			$Responsible=array('id_db'=>$fid.'-'.$uid);
 ?>

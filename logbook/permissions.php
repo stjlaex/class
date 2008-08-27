@@ -347,7 +347,7 @@ function getFormPerm($fid,$respons){
 	$perm['r']=0;
 	$perm['w']=0;
 	$perm['x']=0;
-	$d_form=mysql_query("SELECT yeargroup_id FROM form WHERE id='$fid'");
+	$d_form=mysql_query("SELECT yeargroup_id FROM form WHERE id='$fid';");
 	$formyid=mysql_result($d_form,0);
 	for($c=0;$c<sizeof($respons);$c++){
 		$resp=$respons[$c];

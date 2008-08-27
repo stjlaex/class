@@ -202,6 +202,7 @@ function list_class_teachers($cid){
 	}
 
 /**
+ *
  * Returns a record form the classes table, Must have crid, bid, and
  * stage set.
  *
@@ -271,6 +272,8 @@ function update_subjectclassdef($classdef){
 
 
 /**
+ * 
+ *
  * Keeping things simple by fixing season and year to a single value
  * to sophisticate in the future
  *
@@ -287,13 +290,13 @@ function get_classdef_classes($classdef,$currentseason='S'){
 	$d_cohidcomid=mysql_query("SELECT cohidcomid.community_id FROM
 			cohidcomid JOIN cohort ON cohidcomid.cohort_id=cohort.id 
 			WHERE cohort.course_id='$crid' AND cohort.year='$currentyear'
-			AND cohort.season='$currentseason' AND cohort.stage='$stage'");
+			AND cohort.season='$currentseason' AND cohort.stage='$stage';");
 	$communities=array();
 	$name=array();
 	$name_counter='';
 	while($cohidcomid=mysql_fetch_array($d_cohidcomid,MYSQL_ASSOC)){
 		$comid=$cohidcomid['community_id'];
-		$d_community=mysql_query("SELECT * FROM community WHERE id='$comid'");
+		$d_community=mysql_query("SELECT * FROM community WHERE id='$comid';");
 		$communities[$comid]=mysql_fetch_array($d_community,MYSQL_ASSOC);
 		/*TODO: this only works for one yid!!!!*/
 		if($communities[$comid]['type']=='year'){
@@ -330,12 +333,11 @@ function get_classdef_classes($classdef,$currentseason='S'){
 
 		/* class_counters will be either a fid or an integer counter */
 	$class_counters=array();
-	if($classdef['generate']=='forms'){
+	if($classdef['generate']=='forms' and isset($fids)){
 		$class_counters=$fids;
 		$groups=$fids;
 		}
-	elseif($classdef['many']>0){
-		
+	elseif($classdef['generate']=='sets' and $classdef['many']>0){
 		$groups=array_fill(0,$classdef['many'],get_yeargroupname($yid));
 		if($name_counter!=''){
 			for($c=0;$c<$classdef['many'];$c++){
@@ -359,22 +361,25 @@ function get_classdef_classes($classdef,$currentseason='S'){
 	}
 
 /**
- * Keeping things simple by fixing season and year to a single value
- * to sophisticate in the future
+ *
+ * Generates the new teaching classes based on the results of
+ * get_classdef_classes for the definition provided by $classdef. Then
+ * populates those classes if they are linked to forms leaves empty if
+ * they are sets.
  *
  */
 function populate_subjectclassdef($classdef,$currentseason='S'){
 
 	list($newcids,$groups)=get_classdef_classes($classdef,$currentseason);
 
-	foreach($newcids as $newcid){
+	while(list($index,$newcid)=each($newcids)){
 		$bid=$classdef['bid'];
 		$crid=$classdef['crid'];
 		$stage=$classdef['stage'];
 		if(mysql_query("INSERT INTO class (id,subject_id,course_id,stage) 
 				VALUES ('$newcid','$bid','$crid','$stage')")){
 			if($classdef['generate']=='forms'){
-				$fid=$groups[$newcid];
+				$fid=$groups[$index];
 				$d_sids=mysql_query("SELECT id FROM student WHERE form_id='$fid';");
 				while($sids=mysql_fetch_array($d_sids, MYSQL_ASSOC)){
 					$sid=$sids['id'];

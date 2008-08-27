@@ -78,9 +78,13 @@ if($sub=='Submit'){
 		$error[]='This budget code has already been assigned for the year '. $budgetyear;
 		}
 	else{
-		mysql_query("INSERT INTO orderbudget SET gid='$gid', name='$name',
-						section_id='$secid', yearcode='$yearcode', overbudget_id='$overbudid';");
+		mysql_query("INSERT INTO orderbudget SET gid='$gid',
+					name='$name', code='$budgetcode',
+					yearcode='$yearcode', section_id='$secid', 
+					overbudget_id='$overbudid';");
 		$budid=mysql_insert_id();
+		trigger_error('BUDGET: '.$budid.' '.mysql_error(),E_USER_WARNING);
+		trigger_error('BUDGET: '.$budgetcode.' '.$yearcode. ' '.$name,E_USER_WARNING);
 		reset($Budget);
 		while(list($index,$val)=each($Budget)){
 			if(isset($val['value']) and is_array($val) and isset($val['table_db'])){
@@ -90,6 +94,7 @@ if($sub=='Submit'){
 				if($val['table_db']=='orderbudget' and $field!='name'){
 					mysql_query("UPDATE orderbudget SET $field='$inval' WHERE id='$budid';");
 					}
+
 				}
 			}
 		$result[]=get_string('newbudgetadded',$book);
