@@ -287,6 +287,9 @@ function getEnumArray($field_name){
 	$currency=array('0' => 'euros', 
 					'1' => 'pounds', 
 					);
+	$credit=array('0' => 'debit', 
+				  '1' => 'credit', 
+				  );
 	$budgetyearcode=array('2007' => '07', 
 						  '2008' => '08', 
 						  '2009' => '09', 

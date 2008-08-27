@@ -498,9 +498,17 @@ function get_budget_current($budid=-1){
 				$d_sum=mysql_query("SELECT SUM(debitcost) FROM
 				orderinvoice JOIN orderaction ON
 				orderinvoice.id=orderaction.invoice_id WHERE
+				orderinvoice.credit='0' AND
 				orderaction.action='3' AND
 				orderaction.order_id='$closed_ordid';");
 				$sum+=$rate*mysql_result($d_sum,0);
+				$d_sum=mysql_query("SELECT SUM(debitcost) FROM
+				orderinvoice JOIN orderaction ON
+				orderinvoice.id=orderaction.invoice_id WHERE
+				orderinvoice.credit='1' AND
+				orderaction.action='3' AND
+				orderaction.order_id='$closed_ordid';");
+				$sum-=$rate*mysql_result($d_sum,0);
 				}
 			}
 		/* Iterate over any sub-budgets */
@@ -577,6 +585,14 @@ function fetchInvoice($invid='-1'){
 							   'default_value' => '0',
 							   'value' => ''.$inv['currency']
 							   );
+   	$Invoice['Credit']=array('label' => 'credit', 
+							 'inputtype'=> 'required',
+							 'table_db' => 'orderinvoice', 
+							 'field_db' => 'credit',
+							 'type_db' => 'enum', 
+							 'default_value' => '0',
+							 'value' => ''.$inv['credit']
+							 );
 	return $Invoice;
 	}
 

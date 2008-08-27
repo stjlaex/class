@@ -144,12 +144,19 @@ if($budid!=-1){
 							$Invoice=$Action['Invoice'];
 ?>
 				<div class="center divgroup">
-				  <span title="<?php print $Invoice['DebitCost']['value']. 
-		   ' '. displayEnum($Invoice['Currency']['value'],$Invoice['Currency']['field_db']);?>">
-					<?php print get_string('invoice','admin').': '.$Invoice['Reference']['value'].' ('.display_date($Action['Date']['value']).') - ';?>
-					<?php print $Action['Teacher']['value']. ' ';?>
-					<?php print $Action['Detail']['value'];?>
-				  </span>
+				  <?php 
+							if($Invoice['Credit']['value']==1){
+								print
+					get_string('creditnote','admin').' '.$Invoice['Reference']['value'];
+								}
+							else{
+								print get_string('invoice','admin').' '.$Invoice['Reference']['value'];
+								}
+							print ': '.$Invoice['DebitCost']['value']. 
+			 ' '. displayEnum($Invoice['Currency']['value'],$Invoice['Currency']['field_db']);?>
+				  <?php print ' ('.display_date($Action['Date']['value']).') - ';?>
+				  <?php print $Action['Teacher']['value']. ' ';?>
+				  <?php print $Action['Detail']['value'];?>
 				</div>
 <?php
 							}

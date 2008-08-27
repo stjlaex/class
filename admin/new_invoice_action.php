@@ -26,7 +26,7 @@ if($sub=='Submit'){
 			$inname=$field;
 			$inval=clean_text($_POST[$inname]);
 			if($val['table_db']=='orderinvoice'){
-				mysql_query("UPDATE orderinvoice SET $field='$inval' WHERE id='$invid'");
+				mysql_query("UPDATE orderinvoice SET $field='$inval' WHERE id='$invid';");
 				}
 			}
 		}

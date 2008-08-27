@@ -6,6 +6,10 @@ Bugfix to the auto-generating of the budgetcode for sub-budgets.
 Renaming a formgroup now renames any associated teaching classes in the
 MarkBook too.
 
+A field added to the orderinvoice table to allow for credit instead of
+debit - affects only the projected balance for a budget.
+
+
 
 Version ClaSS-0.8.52 release (2008/08/13)
 -----------------------------------------
