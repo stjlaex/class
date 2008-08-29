@@ -41,8 +41,14 @@ $CFG->support='laex.org';
 $CFG->contact='stj@laex.org';
 /*default site language*/
 $CFG->sitelang='en';
-/*the choice of 'double' (AM/PM) or 'single' (AM) attendance registration*/
-$CFG->registration='double';
+/**
+ * The choice of 'double' (AM/PM) or 'single' (AM) attendance
+ * registration, assigned per section (the index is the section_id)
+ * where 1 is always whole school and those differing from this need
+ * to be added.
+ */
+$CFG->registration[1]='single';//Whole school
+//$CFG->registration[2]='double';//eg. Infants
 /*used by the register - see http://es2.php.net/manual/en/timezones.php*/
 $CFG->timezone='Europe/Madrid';
 /**

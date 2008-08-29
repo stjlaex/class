@@ -55,8 +55,12 @@ function fetchAttendance($sid='-1'){
 	}
 
 
-/* Returns all attendance records for the $nodays before the day */
-/* specified by $startday (and $startday=0 is today)*/
+/**
+ *
+ * Returns all attendance records for the $nodays before the day
+ * specified by $startday (and $startday=0 is today)
+ *
+ */
 function fetchAttendances($sid,$startday=0,$nodays=7){
 	$Attendances=array();
 	$evetable=array();
@@ -102,7 +106,12 @@ function fetchAttendances($sid,$startday=0,$nodays=7){
 
 function fetchcurrentAttendance($sid,$eveid=''){
 	if($eveid==''){
-		$event=get_event();
+		$d_s=mysql_query("SELECT section_id FROM yeargroup JOIN
+				student ON student.yeargroup_id=yeargroup.id WHERE student.id='$sid';");
+		$secid=mysql_result($d_s,0);
+		if($secid==0){$secid=1;}
+		//trigger_error('SECTION'.$secid,E_USER_WARNING);
+		$event=get_event('','',$secid);
 		$eveid=$event['id'];
 		}
 	$Attendance=array();
@@ -152,13 +161,13 @@ function fetchAttendanceEvent($eveid='-1'){
 
 /* Returns all events which exist in the db inclusive of the period */
 /* from startday to the previous nodays */
-function fetchAttendanceEvents($startday=0,$nodays=7){
+function fetchAttendanceEvents($startday=0,$nodays=7,$period='%'){
 	$AttendanceEvents=array();
 	$evetable=array();
 	$startdate=date('Y-m-d',mktime(0,0,0,date('m'),date('d')+$startday+1,date('Y')));
 	$enddate=date('Y-m-d',mktime(0,0,0,date('m'),date('d')+$startday-$nodays,date('Y')));
 	$d_event=mysql_query("SELECT id, period, date FROM event WHERE date < '$startdate' 
-			AND date > '$enddate'  ORDER BY date, period");
+			AND date > '$enddate' AND period LIKE '$period' ORDER BY date, period");
 	$AttendanceEvents['Event']=array();
 	$index=0;
 	while($event=mysql_fetch_array($d_event,MYSQL_ASSOC)){
@@ -177,18 +186,23 @@ function fetchAttendanceEvents($startday=0,$nodays=7){
 	return nullCorrect($AttendanceEvents);
 	}
 
-/* Returns an event record for the matching date, if no date set then */
-/* the default is to return the current session event.*/
-function get_event($date='',$session=''){
+/**
+ *
+ * Returns an event record for the matching date, if no date set then 
+ * the default is to return the current session event.
+ *
+ */
+function get_event($date='',$session='',$secid=1){
 	global $CFG;
 	if($date==''){
 		$date=date('Y-m-d');
 		}
 	if($session==''){
-		if($CFG->registration=='double'){$session=date('A');}
+		if(isset($CFG->registration[$secid]) 
+		   and $CFG->registration[$secid]=='double'){$session=date('A');}
 		else{$session='AM';}
 		}
-	$d_event=mysql_query("SELECT id FROM event WHERE date='$date' AND period='$session'");
+	$d_event=mysql_query("SELECT id FROM event WHERE date='$date' AND period='$session';");
 	if(mysql_num_rows($d_event)==0){
 		$eveid='0';
 		}
@@ -283,7 +297,7 @@ function fetchAttendanceSummary($sid,$startdate,$enddate){
 								 'value' => ''.$no_late);
 	/* For the purpose of official statistics an attendnace code can
 	 *	be either an unauthorised absence, authorised absence or in
-	 *	attendnace and the following formula resepcts this for
+	 *	attendance and the following formula resepcts this for
 	 *	compiling the summary are  */
 	$no_absent=count_attendance($sid,$startdate,$enddate,'%') - $no_late;
 	$no_notagreed=count_attendance($sid,$startdate,$enddate,'G');

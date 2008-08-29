@@ -10,19 +10,22 @@ $choice='register_list.php';
 include('scripts/sub_action.php');
 
 
+	if(isset($CFG->registration[$secid]) 
+	   and $CFG->registration[$secid]=='double'){$period='%';}
+	else{$period='AM';}
 	$students=(array)listin_community($community);
-	$AttendanceEvents=fetchAttendanceEvents($startday);
+	$AttendanceEvents=fetchAttendanceEvents($startday,7,$period);
 	$evetable=$AttendanceEvents['evetable'];
 	/*make sure an event is selected which is part of the current window*/
 	if(!array_key_exists($checkeveid,$evetable)){
 		if($startday>-7){
-				$checkeveid=0;
-				}
+			$checkeveid=0;
+			}
 		else{
-				end($evetable);
-				$checkeveid=key($evetable);
-				reset($evetable);
-				}
+			end($evetable);
+			$checkeveid=key($evetable);
+			reset($evetable);
+			}
 		}
 	if($checkeveid=='' or $checkeveid=='0'){
 		$seleveid=$currentevent['id'];
@@ -36,23 +39,31 @@ include('scripts/sub_action.php');
 		}
 	else{$seleveid=$checkeveid;}
 
-
-	threeplus_buttonmenu($startday,2);
+	$extrabuttons['summary']=array('name'=>'current',
+								   'pathtoscript'=>$CFG->sitepath.'/'.$CFG->applicationdirectory.'/reportbook/',
+								   'title'=>'printreportsummary',
+								   'value'=>'report_attendance_print.php',
+								   'onclick'=>'checksidsAction(this)'
+								   );
+	threeplus_buttonmenu($startday,2,$extrabuttons);
 ?>
   <div id="heading">
 	<label><?php print_string('formgroup');?></label>
 	<?php print $newfid;?>
   </div>
+
+
   <div id="viewcontent" class="content">
 	  <form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
 		<table class="listmenu sidtable" id="sidtable">
 		<tr>
-		  <th colspan="2">&nbsp</th>
+		  <th colspan="2">&nbsp;</th>
 		  <th><?php print_string('student'); ?></th>
 <?php
 	$events=array();
 	while(list($index,$Event)=each($AttendanceEvents['Event'])){
 		$events[]=$Event['id_db'];
+		$eventperiods[]=$Event['Period']['value'];
 ?>
 		  <th id="event-<?php print $Event['id_db'];?>" 
 			class="<?php if($seleveid==$Event['id_db']){ print 'selected';}?>"  >
@@ -92,29 +103,31 @@ if($_SESSION['role']=='office' or $_SESSION['role']=='admin'){
 		$Attendances=(array)fetchAttendances($sid,$startday);
 		$comment=commentDisplay($sid);
 ?>
-		  <tr id="sid-<?php print $sid;?>">
-			<td><?php print $rown++;?></td>
-			<td>
-			  <a onclick="parent.viewBook('infobook');" target="viewinfobook" 
-				href='infobook.php?current=student_scores.php&sid=<?php print $sid;?>'>T</a> 
+		<tr id="sid-<?php print $sid;?>">
+		  <td>
+			<?php print $rown++;?>
+		  </td>
+		  <td>
+			<input type='checkbox' name='sids[]' value='<?php print $sid; ?>' />
+			<a onclick="parent.viewBook('infobook');" target="viewinfobook" 
+			  href='infobook.php?current=student_scores.php&sid=<?php print $sid;?>'>T</a> 
 			<span <?php print ' title="'.$comment['body'].'"';?>>
 			  <a onclick="parent.viewBook('infobook');" target="viewinfobook"  
 				href='infobook.php?current=comments_list.php&sid=<?php print $sid;?>'
 				<?php print ' class="'.$comment['class'].'" ';?>>C</a> 
 			</span>
-			  <a onclick="parent.viewBook('infobook');" target="viewinfobook"  
-				href='infobook.php?current=incidents_list.php&sid=<?php print $sid;?>'>I</a>
-			</td>
-			<td>
+			<a onclick="parent.viewBook('infobook');" target="viewinfobook"  
+			  href='infobook.php?current=incidents_list.php&sid=<?php print $sid;?>'>I</a>
+		  </td>
+		  <td>
 			<a href="infobook.php?current=student_view.php&sid=<?php print $sid;?>&sids[]=<?php print $sid;?>"
 			  target="viewinfobook" onclick="parent.viewBook('infobook');">
-			<?php print $Student['DisplayFullName']['value']; ?></a>
-			</td>
+			  <?php print $Student['DisplayFullName']['value']; ?></a>
+		  </td>
 <?php
 		reset($events);
-		$attodds=array('forstroke','backstroke');
+		$attodds=array('AM'=>'forstroke','PM'=>'backstroke');
 		while(list($index,$eveid)=each($events)){
-			if($index%2){$odds=1;}else{$odds=0;}
 ?>
 			<td id="cell-<?php print $eveid.'-'.$sid;?>"  
 <?php
@@ -132,7 +145,7 @@ if($_SESSION['role']=='office' or $_SESSION['role']=='admin'){
 							date('H:i',$atttime).' '.$attcomm.'" >';
 					$cell.='<img src="images/ostroke.png" /></span>';
 					}
-				else if($attvalue=='a' and $attcode!=' ' and $attcode!='O'){
+				elseif($attvalue=='a' and $attcode!=' ' and $attcode!='O'){
 					$des=displayEnum($attcode,'absencecode');
 					$des=get_string($des,'register');
 					$cell='title="" ><span title="'.$attcode .': '. $des
@@ -140,7 +153,7 @@ if($_SESSION['role']=='office' or $_SESSION['role']=='admin'){
 					$cell.=' &nbsp '.$attcode.'</span>';
 					}
 				else{
-					$cell='><img src="images/'.$attodds[$odds].'.png" />';
+					$cell='><img src="images/'.$attodds[$eventperiods[$index]].'.png" />';
 					}
 				}
 			else{
@@ -190,7 +203,7 @@ if($_SESSION['role']=='office' or $_SESSION['role']=='admin'){
 
   </div>
 
-  <div class="hidden" id="extra-p">
+  <div class="hidden" id="extra-ppp">
 	<button type="button" name="late" id="late-butt" value="0" 
 	  onclick="parent.seleryGrow(this)"  class="rowaction selery">
 	  <img src="images/null.png" />
@@ -198,9 +211,21 @@ if($_SESSION['role']=='office' or $_SESSION['role']=='admin'){
 	<input type="hidden" id="late" name="late" value="0" />
   </div>
 
+  <div class="hidden" id="extra-p">
+	<select style="width:10em;" name="late" id="late">
+<?php
+	$enum=getEnumArray('latecode');
+	while(list($inval,$description)=each($enum)){	
+		print '<option ';
+		print ' value="'.$inval.'">'.get_string($description,$book).'</option>';
+		}
+?>
+	</select>
+  </div>
+
 
   <div class="hidden" id="extra-a">
-	<select name="code" id="code" style="width:10em;">
+	<select style="width:10em;" name="code" id="code">
 <?php
 	$enum=getEnumArray('absencecode');
 	while(list($inval,$description)=each($enum)){	
@@ -210,4 +235,15 @@ if($_SESSION['role']=='office' or $_SESSION['role']=='admin'){
 ?>
 	</select>
 	<input style="width:10em;" name="comm" id="comm" value="" />
+  </div>
+
+<?php
+	$toyear=get_curriculumyear()-1;//TODO: set a proper start of term date
+	$today=date('Y-m-d');
+?>
+  <div id="xml-checked-action" style="display:none;">
+	<period>
+	  <startdate><?php print $toyear.'-08-01';?></startdate>
+	  <enddate><?php print $today;?></enddate>
+	</period>
   </div>

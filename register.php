@@ -8,11 +8,13 @@ $book='register';
 
 include('scripts/head_options.php');
 include('scripts/set_book_vars.php');
-$session_vars=array('group','newfid','startday','checkeveid');
+$session_vars=array('group','newfid','startday','checkeveid','secid');
 include('scripts/set_book_session_vars.php');
 
 $community=$group;
 if($newfid!=''){
+	$section=get_section($newfid,'form');
+	$secid=$section['id'];
 	$community=array('id'=>'','type'=>'form','name'=>$newfid);
 	}
 
@@ -27,25 +29,30 @@ else{
 	$ryids=$pastorals['years'];
 	if(sizeof($rfids)!=0){
 		$newfid=$rfids[0];
+		$section=get_section($newfid,'form');
+		$secid=$section['id'];
 		$community=array('id'=>'','type'=>'form','name'=>$newfid);
 		}
 	}
 ?>
   <div id="bookbox" class="registercolor">
 <?php
-	$currentevent=get_event();
+    if(!isset($secid)){$secid=1;}
+	$currentevent=get_event('','',$secid);
 
 	if($current!=''){
 		include($book.'/'.$current);
-		$_SESSION['registergroup']=$community;
+		//$_SESSION['registergroup']=$community;
 		}
 	elseif(is_array($community)){
 		$current='register_list.php';
 		include($book.'/'.$current);
 		}
-	else{
+/*	else{
 		//include($book.'/'.$current);
 		}
+*/
+		unset($newfid);
 ?>
   </div>
 
@@ -57,7 +64,7 @@ else{
 		<legend><?php print_string('takeregister',$book);?></legend>
 		<label>
 		  <?php print get_string('currentsession',$book).':';?><br />
-		  <?php print $currentevent['period'].' '.$currentevent['date'];?><br />
+		  <?php print $currentevent['period'].' '.display_date($currentevent['date']);?><br />
 			<?php print date('H:i:s');?>
 		</label>
 		<br />

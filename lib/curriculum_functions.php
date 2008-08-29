@@ -583,4 +583,30 @@ function get_sectionname($secid){
 		}
 	return $name;
 	}
+
+/**
+ *
+ * Returns the section for the given id of a yeargroup or
+ * formgroup.
+ *
+ * Default to secid=1 for whole school as a fail safe.
+ */
+function get_section($id,$type='year'){
+	if($type=='form'){
+		$d_f=mysql_query("SELECT yeargroup_id FROM form WHERE form.id='$id';");
+		$yid=mysql_result($d_f,0);
+		}
+	else{
+		$yid=$id;
+		}
+	$d_s=mysql_query("SELECT section.id, section.name FROM section JOIN
+				yeargroup ON yeargroup.section_id=section.id WHERE yeargroup.id='$yid';");
+	if(mysql_num_rows($d_s)>0){
+		$section=mysql_fetch_array($d_s,MYSQL_ASSOC);
+		}
+	else{
+		$section=array('id'=>1,'name'=>'');
+		}
+	return $section;
+	}
 ?>
