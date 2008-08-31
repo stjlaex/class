@@ -14,7 +14,7 @@ CREATE TABLE attendance (
 		 event_id		int unsigned not null default '0',
 		 student_id		int unsigned not null default '0',
 		 status			enum('a','p') not null default 'a',
-		 code			char(1) not null default '',
+		 code			char(2) not null default '',
 		 late			enum('0','1','2','3','4','5','U') not null default '0',
 		 comment		text,
 	  	 teacher_id		varchar(14) not null default '',	

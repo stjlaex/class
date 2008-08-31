@@ -1,4 +1,4 @@
-Version ClaSS-0.8.53 release (2008/08/29)
+Version ClaSS-0.8.53 release (2008/08/31)
 -----------------------------------------
 
 Bugfix to the auto-generating of the budgetcode for sub-budgets.
@@ -13,6 +13,10 @@ Summary attendnace button added to the Register.
 
 Replaced the green square with a select for lates during registration
 and has associated latecodes.
+
+Now allows for single or double registration dependent upon the
+section of the school as defined in school.php.
+
 
 
 Version ClaSS-0.8.52 release (2008/08/13)
