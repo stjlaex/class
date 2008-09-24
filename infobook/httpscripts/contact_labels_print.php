@@ -27,7 +27,7 @@ if(isset($_POST['sids'])){$sids=(array)$_POST['sids'];}
 					/* Options are:
 					'0' => 'nomailing', '1' => 'allmailing', '2' => 'reportsonly'
 					so currently configured for reports mailing */
-				if(($mailing=='1' or $mailing=='2')){
+				if(($mailing=='1' or $mailing=='2') and sizeof($Contact['Addresses'])>0){
 					unset($Contact['Phones']);
 					$Student['Contacts']['Contact'][]=nullCorrect($Contact);
 					}

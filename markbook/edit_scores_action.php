@@ -45,12 +45,15 @@ if($sub=='Submit'){
 		unset($res);
 		$sid=$viewtable[$c]['sid'];
 		if(isset($_POST["total$sid"])){$intotal=clean_text($_POST["total$sid"]);}else{$intotal='';}
+		/* $$sid are the names of score values posted by the form
+		 * if the value is empty then score will be unset and no entry made
+		 */
 		$inscore=clean_text($_POST[$sid]);
-		$incomm=clean_text($_POST["comm$sid"]);
+		$incomm=clean_text($_POST['comm'.$sid]);
+		if(isset($_POST['extra'.$sid])){$inextra='1';}
+		else{$inextra='0';}/* Only used by hw scores at the moment. */
 		$ingrade='';
-		/*$$sid are the names of score values posted by the form*/
-		/*if the value is empty then score will be unset and no entry made*/
-		if($inscore=='' and $incomm==''){unset($inscore);}
+		if($inscore=='' and $incomm=='' and $inextra=='0'){unset($inscore);}
 		elseif($scoretype=='grade'){
 			$ingrade=$inscore;
 			$res=scoreToGrade($inscore,$grading_grades);
@@ -88,26 +91,26 @@ if($sub=='Submit'){
 					}
 				}
 			}
-		elseif($inscore=='' and $incomm!=''){
+		elseif($inscore=='' and ($incomm!='' or $inextra!='0')){
 			if(mysql_query("INSERT INTO score (value, grade, outoftotal, comment,
-						   	mark_id, student_id) VALUES
+						   	extra, mark_id, student_id) VALUES
 							(NULL, NULL, '$intotal', 
-							'$incomm', '$mid', '$sid')")){}
+							'$incomm', '$inextra', '$mid', '$sid');")){}
 			else{mysql_query("UPDATE score SET grade=NULL, value=NULL, 
-							outoftotal='$intotal', comment='$incomm'
+							outoftotal='$intotal', comment='$incomm', extra='$inextra'
 							WHERE mark_id='$mid' AND
-							student_id='$sid'");}
+							student_id='$sid';");}
 			}
 		else{
 			if(mysql_query("INSERT INTO score (value, grade, outoftotal, comment,
-						   	mark_id, student_id) VALUES
+						   	extra, mark_id, student_id) VALUES
 							('$inscore', '$ingrade', '$intotal', 
-							'$incomm', '$mid', '$sid')")){}
+							'$incomm', '$inextra', '$mid', '$sid');")){}
 			else{
 				mysql_query("UPDATE score SET value='$inscore', grade='$ingrade',
-							outoftotal='$intotal', comment='$incomm' 
+							outoftotal='$intotal', comment='$incomm', extra='$inextra' 
 							WHERE mark_id='$mid' AND
-							student_id='$sid'");}
+							student_id='$sid';");}
 			}
 		}
 	}

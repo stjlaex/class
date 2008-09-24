@@ -38,7 +38,7 @@ else{
 					(component_id LIKE '$pid' OR component_id='%') AND
 					(subject_id LIKE '$bid' OR subject_id='%') AND
 					(stage LIKE '$stage' OR stage='%') AND
-					(course_id LIKE '$crid' OR course_id='%') ORDER BY title");
+					(course_id LIKE '$crid' OR course_id='%') ORDER BY title;");
 ?>
   <div id="heading">
 	<form id="headertoprocess" name="headertoprocess" 
@@ -84,7 +84,7 @@ else{
   		$d_markdef=mysql_query("SELECT name AS id,
 					CONCAT(name,' (',comment,')') AS name FROM markdef WHERE 
 					(subject_id LIKE '$bid' OR subject_id='%') AND
-					(course_id LIKE '$crid' OR course_id='%') ORDER BY subject_id");
+					(course_id LIKE '$crid' OR course_id='%') ORDER BY subject_id;");
 		$required='yes';$liststyle='width:90%;';
 		$listname='defname';$listlabel='thetypeofmark';
 		$seldefname=$HomeworkDef['Markdef']['value'];

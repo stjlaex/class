@@ -15,8 +15,7 @@ $total='';
 $grading_grades='';
 $marktype=$umns[$col]['marktype'];
 if($marktype=='hw'){
-	$d_m=mysql_query("SELECT entrydate, comment FROM
-					mark WHERE id='$mid';");
+	$d_m=mysql_query("SELECT entrydate, comment FROM mark WHERE id='$mid';");
 	$setdate=mysql_result($d_m,0,1);
 	$duedate=mysql_result($d_m,0,0);
 	$setevent=get_event($setdate);
@@ -44,6 +43,9 @@ three_buttonmenu();
 		  </th>
 		  <th style="width:3em;">
 			<p><?php print get_string('datedue',$book).'<br />'. display_date($duedate);?></p>
+		  </th>
+		  <th style="width:3em;">
+			<p><?php print get_string('returnedlate',$book).'<br />';?></p>
 		  </th>
 <?php
 		}
@@ -106,6 +108,14 @@ three_buttonmenu();
 		$due_Attendance=fetchcurrentAttendance($sid,$dueevent['id']);
 		xmlattendance_display($set_Attendance);
 		xmlattendance_display($due_Attendance);
+?>
+		  <td>
+			<input type="checkbox" 
+				   <?php if($viewtable[$c]["score$mid"]['extra']=='1'){
+						 print 'checked="checked" ';} ?> 
+				   name="extra<?php print $sid;?>" />
+		  </td>
+<?php
 		}
 
 	if($scoretype=='grade'){
@@ -139,10 +149,11 @@ three_buttonmenu();
 
 			<td <?php if($_SESSION['worklevel']<0){print 'class="hidden"';}?> >
 			  <input type="text" style="width:80%;"
-				name="<?php print 'comm'.$sid;?>" maxlength="98" 
-				value="<?php print $viewtable[$c]["score$mid"]['comment'];?>" />
+				 name="<?php print 'comm'.$sid;?>" maxlength="98" 
+				value="<?php print $viewtable[$c]["score$mid"]['comment'];?>"  />
 			</td>
-			<td id="icon<?php print $sid;?>" class="" style="width:18px;">
+			<td id="icon<?php print $sid;?>" class=""
+			  style="width:18px;" >
 			  <img class="clicktoload" name="Attachment"
 		 onClick="clickToAttachFile(<?php print $sid.','.$mid.',\''.$viewtable[$c]['class_id'].'\',\''.$pid.'\',\''.$sid.'\'';?>);" 
 		  title="<?php print_string('clicktoattachfile');?>" />

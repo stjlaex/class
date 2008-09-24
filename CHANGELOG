@@ -1,3 +1,15 @@
+Version ClaSS-0.8.54 release (2008/09/31)
+-----------------------------------------
+
+The score table has an extra field called extra for annotating cells
+in the MarkBook. This is only implemented so far for homework, the
+extra field records wether the work was returned late or not.
+
+Fixed a bug which broken printing contact labels when a contact was
+flagged for mail but had no address.
+
+
+
 Version ClaSS-0.8.53 release (2008/08/31)
 -----------------------------------------
 

@@ -901,6 +901,8 @@ function fetchHomeworkDefinition($hwid){
 							 'field_db' => 'refs',
 							 'type_db'=>'text', 
 							 'value' => ''.$hw['refs']);
+	/*TODO: Put this in catdef table somewhere.*/
+	if($hw['def_name']==''){$hw['def_name']='HW Quality';}
    	$Def['Markdef']=array('label' => 'marktype', 
 						  // 'table' => 'homework', 
 						  'field_db' => 'def_name',

@@ -64,12 +64,13 @@ CREATE TABLE homework (
 
 mysql_query("
 CREATE TABLE score (
-       mark_id			int unsigned not null default '0',
-       student_id		int unsigned not null default '0',	 		
-       grade			smallint default null,
-       value		 	float default null,
-       comment		 	text,
-       outoftotal	  	smallint unsigned not null default '0',
+       mark_id		int unsigned not null default '0',
+       student_id	int unsigned not null default '0',	 		
+       grade		smallint default null,
+       value		float default null,
+       comment		text,
+       outoftotal	smallint unsigned not null default '0',
+	   extra	   	enum('0','1','2','3','4') not null default '0',
        primary key	(mark_id, student_id)
 );");
 

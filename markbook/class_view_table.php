@@ -42,7 +42,7 @@ while($student=mysql_fetch_array($d_students, MYSQL_ASSOC)){
 			$scoretype=$umns[$c]['scoretype'];
 			if($marktype=='score' or $marktype=='hw'){
 				$d_score=mysql_query("SELECT * FROM score 
-					WHERE mark_id='$col_mid' AND student_id='$sid'");
+					WHERE mark_id='$col_mid' AND student_id='$sid';");
 				$score=mysql_fetch_array($d_score,MYSQL_ASSOC);				
 				/*score can be one of four types: grade, value, percentage, comment*/
 				$scoreclass='grade';
@@ -224,6 +224,7 @@ while($student=mysql_fetch_array($d_students, MYSQL_ASSOC)){
 			if(!isset($score['value'])){$score['value']='';}
 			if(!isset($score['grade'])){$score['grade']='';}
 			if(!isset($score['comment'])){$score['comment']='';}
+			if(!isset($score['extra'])){$score['extra']='';}
 			$score['scoreclass']=$scoreclass;
 			$studentrow["score$col_mid"]=$score;
 			/*and score values form the database to be used by column_scripts*/

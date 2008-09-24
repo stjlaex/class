@@ -35,6 +35,6 @@ $string['references']='References';
 $string['columnlevelled']='Column levelled';
 $string['profileassessments']='Profile assessments';
 $string['newsworthy']='News worthy';
-$string['']='';
+$string['returnedlate']='Handed in late';
 $string['']='';
 ?>
