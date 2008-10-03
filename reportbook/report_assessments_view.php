@@ -90,20 +90,24 @@ two_buttonmenu($extrabuttons,$book);
 		/*selbids can only be returned when rcrid is set so easier!*/
 		if($selbids[0]=='%'){
 			$selbids=array();
-			$d_cridbid=mysql_query("SELECT DISTINCT subject_id FROM cridbid
-							WHERE course_id='$rcrid' ORDER BY subject_id");
-			while($subject=mysql_fetch_array($d_cridbid,MYSQL_ASSOC)){
-				$selbids[]=$subject['subject_id'];
+			$subjects=list_course_subjects($rcrid);
+			while(list($sindex,$subject)=each($subjects)){
+				$selbids[]=$subject['id'];
 				}
 			}
+
 		while(list($index,$bid)=each($selbids)){
 			$assbids[]=$bid.' ';
-			$d_component=mysql_query("SELECT DISTINCT id FROM component
-				WHERE course_id='$rcrid' AND subject_id='$bid' ORDER BY id");
-			while($pid=mysql_fetch_array($d_component,MYSQL_ASSOC)){
-				$assbids[]=$bid . $pid['id'];
+			$components=list_subject_components($bid,$rcrid);
+			while(list($pindex,$component)=each($components)){
+				$assbids[]=$bid . $component['id'];
+				$strands=list_subject_components($component['id'],$rcrid);
+				while(list($sindex,$strand)=each($strands)){
+					$assbids[]=$bid . $strand['id'];
+					}
 				}
 			}
+
 		reset($selbids);
 		}
 
