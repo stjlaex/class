@@ -668,8 +668,7 @@ function getEnumArray($field_name){
 						 'B' => 'bus', 
 						 'S' => 'schoolbus'
 						 );
-	/*NOT an enum array but defines the enrolment matrix*/
-	$enrolmentsteps=array('EN','AP','AT','ATD','RE','ACP','CA','WL','AC');
+
 	/*NOT an enum array but defines courses who don't do homework*/
 	$nohomeworkcourses=array();
 

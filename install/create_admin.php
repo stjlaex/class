@@ -179,6 +179,7 @@ CREATE TABLE community (
 	year		year not null default '0000',
 	season		enum('','S','W','M','1','2','3','4','5','6','7','8','9','a','b','c') not null default '',
 	capacity	smallint unsigned not null default 0,
+	count		smallint unsigned not null default 0,
     detail		varchar(240) not null default '',
 	index		indexcom (type,name),
 	primary		key (id)

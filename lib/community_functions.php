@@ -298,20 +298,30 @@ function set_community_stay($sid,$community,$startdate,$enddate){
 	return $comid;
 	}
 
-/* Simply does what it says*/
-function countin_community($community,$enddate='',$startdate=''){
-	$todate=date('Y-m-d');
-	if($enddate==''){$enddate=$todate;}
-	if($startdate==''){$startdate=$enddate;}
+/**
+ * Simply does what it says. In very rare occasions (ie. applications) 
+ * the values are not counted but are instead static values stored in 
+ * the community table itself.
+ */
+function countin_community($community,$enddate='',$startdate='',$static=false){
 	if(isset($community['id']) and $community['id']!=''){$comid=$community['id'];}
 	else{$comid=update_community($community);}
-	$d_student=mysql_query("SELECT COUNT(student_id) FROM comidsid
+	if($static){
+		$d_c=mysql_query("SELECT count FROM community WHERE id='$comid';");
+		$nosids=mysql_result($d_c,0);
+		}
+	else{
+		$todate=date('Y-m-d');
+		if($enddate==''){$enddate=$todate;}
+		if($startdate==''){$startdate=$enddate;}
+		$d_student=mysql_query("SELECT COUNT(student_id) FROM comidsid
 							  WHERE community_id='$comid' AND
 				(comidsid.leavingdate>'$enddate' OR 
 				comidsid.leavingdate='0000-00-00' OR comidsid.leavingdate IS NULL) 
 				AND (comidsid.joiningdate<='$startdate' OR 
 				comidsid.joiningdate='0000-00-00' OR comidsid.joiningdate IS NULL)");
-	$nosids=mysql_result($d_student,0);
+		$nosids=mysql_result($d_student,0);
+		}
 	return $nosids;
 	}
 
@@ -558,10 +568,5 @@ function list_community_cohorts($community){
 			}
 		}
 	return $cohorts;
-	}
-
-function list_enrolmentsteps(){
-	$steps=getEnumArray('enrolmentsteps');
-	return $steps;
 	}
 ?>

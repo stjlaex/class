@@ -1,3 +1,11 @@
+Version ClaSS-0.8.55 release (2008/10/03)
+-----------------------------------------
+
+Reworked the enrolments tables. Applications now have a config option
+to have 'live' numbers or 'static' numbers to be updated manually.
+
+
+
 Version ClaSS-0.8.54 release (2008/09/31)
 -----------------------------------------
 
