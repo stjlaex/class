@@ -8,13 +8,6 @@
  */
 
 
-if($CFG->enrol_applications=='yes'){
-	$applications_live=true;
-	}
-else{
-	$applications_live=false;
-	}
-
 $app_tablerows=array();
 $app_cols=array();
 
@@ -25,11 +18,20 @@ $app_cols=array();
 	$appcols_value=array('AT','ATD','RE','CA','WL','ACP','AC');
 
 	while(list($colindex,$enrolstatus)=each($application_steps)){
-			if(in_array($enrolstatus,$appcols_value)){$appcols[$colindex]['display']=displayEnum($enrolstatus,'enrolstatus');}
+			if(in_array($enrolstatus,$appcols_value)){
+				if(!$applications_live){
+					$appcols[$colindex]['display']='<a href="admin.php?current=enrolments_edit.php&cancel='.
+							$choice.'&choice='. $choice.'&enrolyear='.$enrolyear. 
+							'&enrolstatus='.$enrolstatus.'">'.get_string(displayEnum($enrolstatus,'enrolstatus'),$book).'</a>';
+					}
+				else{
+					$appcols[$colindex]['display']=get_string(displayEnum($enrolstatus,'enrolstatus'),$book);
+					}
+				}
 			$appcols[$colindex]['value']=$enrolstatus;
 			}
 	/* Final column for row totals*/
-	$appcols["$colindex+1"]['display']='applicationsreceived';
+	$appcols["$colindex+1"]['display']=get_string('applicationsreceived',$book);
 	$appcols["$colindex+1"]['value']='applicationsreceived';
 
 	reset($yeargroups);
@@ -79,10 +81,7 @@ $app_cols=array();
 				}
 			else{
 				$value+=countin_community($com,'','',true);
-				$display='<a href="admin.php?current=enrolments_edit.php&cancel='.
-						$choice.'&choice='. $choice.'&enrolyear='. $enrolyear.'&yid='. $yid.
-						'&comid='.$com['id'].'">'
-						.$value.'</a>';
+				$display=$value;
 				}
 			$values[$index+1]=$value;
 			$values[0]+=$values[$index+1];

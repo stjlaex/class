@@ -15,7 +15,7 @@
 	$enrol_tablerows=array();
 	$enrol_cols=array();
 	while(list($colindex,$enrolcol)=each($enrolcols_value)){
-			$enrolcols[$colindex]['display']=$enrolcol;
+			$enrolcols[$colindex]['display']=get_string($enrolcol,$book);
 			$enrolcols[$colindex]['value']=$enrolcol;
 			}
 
@@ -76,12 +76,12 @@
 					if(sizeof($feeder_nos)>0){
 						if(isset($feeder_nos[$yid-1])){$cell['value']+=$feeder_nos[$yid-1];}
 						}
-					$cell['value']+=$app_tablerows[$yeargroup['name']]['AC']['value'];
+					$cell['value']+=$app_tablerows[$yid]['AC']['value'];
 					}
 				else{
 					/* Accepteds plus the new currents for this year*/
-					$cell['value']=$app_tablerows[$yeargroup['name']]['C']['value']
-										+$app_tablerows[$yeargroup['name']]['AC']['value'];
+					$cell['value']=$app_tablerows[$yid]['AC']['value'];
+							//$app_tablerows[$yid]['C']['value']				
 					}
 				}
 			elseif($enrolcol=='currentroll'){

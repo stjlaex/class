@@ -18,6 +18,13 @@ else{$enrolyear=$currentyear;}
 $extrabuttons=array();
 twoplus_buttonmenu($enrolyear,$currentyear+3,$extrabuttons,$book);
 
+if($CFG->enrol_applications=='yes'){
+	$applications_live=true;
+	}
+else{
+	$applications_live=false;
+	}
+
 $todate=date('Y-m-d');
 $yearstartdate=$currentyear-1;
 $yeargroups=list_yeargroups();
@@ -81,7 +88,7 @@ while(list($index,$year)=each($yeargroups)){
 			if(isset($col['display'])){
 ?>
 		  <th>
-			<?php print_string($col['display'],$book);?>
+			<?php print $col['display'];?>
 		  </th>
 <?php
 			$total=0;

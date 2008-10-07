@@ -19,10 +19,10 @@ if(isset($_POST['enrolstage'])){$enrolstage=$_POST['enrolstage'];}
 	 * displaying all enrolment groups in one go.
 	 */
 	if($enrolstage=='C'){
-		$enrolsteps=array('C','P');
+		$application_steps=array('C','P');
 		}
 	else{
-		$enrolsteps=list_enrolmentsteps();
+		$application_steps=array('EN','AP','AT','ATD','RE','CA','WL','ACP','AC');
 		}
 	if($comid!=-1){
 		$com=get_community($comid);
@@ -42,7 +42,7 @@ if(isset($_POST['enrolstage'])){$enrolstage=$_POST['enrolstage'];}
 		}
 	else{
 		$comtype='allapplied';
-		while(list($index,$enrolstatus)=each($enrolsteps)){ 
+		while(list($index,$enrolstatus)=each($application_steps)){ 
 			if($enrolstatus=='EN'){$type='enquired';}
 			elseif($enrolstatus=='AC'){$type='accepted';}
 			else{$type='applied';}
@@ -184,8 +184,8 @@ if(isset($_POST['enrolstage'])){$enrolstage=$_POST['enrolstage'];}
 <?php
 				}
 		   	elseif($enrolstage=='C'){
-				reset($enrolsteps);
-				while(list($index,$value)=each($enrolsteps)){
+				reset($application_steps);
+				while(list($index,$value)=each($application_steps)){
 					print '<div class="row"><label>' 
 							.$value.'</label>';
 					print '<input type="radio" name="C'.$sid.'"
@@ -226,10 +226,10 @@ if(isset($_POST['enrolstage'])){$enrolstage=$_POST['enrolstage'];}
 					 */
 					if(sizeof($Assessments)>0){$result=$Assessments[0]['Result']['value'];}
 					else{$result='&nbsp;';}
-					print $result.'</td>';
+					print $result.'</td><td>';
 					}
-				reset($enrolsteps);
-				while(list($index,$value)=each($enrolsteps)){
+				reset($application_steps);
+				while(list($index,$value)=each($application_steps)){
 					print '<div class="row"><label>' 
 							.$value.'</label>';
 					print '<input type="radio" name="E'.$sid.'"

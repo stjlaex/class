@@ -94,6 +94,7 @@ CREATE TABLE incidents (
 	student_id		int unsigned not null, 
 	entrydate		date,
 	yeargroup_id	smallint not null default '0',
+	category		varchar(30) not null default '',
 	detail			text not null default '',
 	closed			enum('N','Y') not null,
 	subject_id		varchar(10) not null default '',
