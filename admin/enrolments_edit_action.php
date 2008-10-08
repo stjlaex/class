@@ -8,14 +8,23 @@ $action_post_vars=array('enrolyear');
 
 if(isset($_POST['values'])){$values=(array)$_POST['values'];}
 if(isset($_POST['comids'])){$comids=(array)$_POST['comids'];}
+if(isset($_POST['enrolstatus'])){$enrolstatus=$_POST['enrolstatus'];}
 
 include('scripts/sub_action.php');
 
 if($sub=='Submit'){
-	while(list($cindex,$comid)=each($comids)){
-		$value=$values[$cindex];
-		mysql_query("UPDATE community SET count='$value' WHERE id='$comid';");
+
+	if($enrolstatus=='capacity'){
+		$field='capacity';
 		}
+	else{
+		$field='count';
+		}
+
+	while(list($cindex,$comid)=each($comids)){
+			$value=$values[$cindex];
+			mysql_query("UPDATE community SET $field='$value' WHERE id='$comid';");
+			}
 	}
 
 include('scripts/redirect.php');

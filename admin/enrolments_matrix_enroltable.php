@@ -5,19 +5,37 @@
 	 */
 
     if($enrolyear==$currentyear){
-		$enrolcols_value=array('reenroled','newenrolments',
-							'currentroll','leaverssince','capacity','spaces');
+		$enrolcols_value=array('reenroled','newenrolments','leaverssince',
+							'currentroll','capacity','spaces');
 		}
 	else{
-		$enrolcols_value=array('reenroling','newenrolments','projectedroll',
-							'budget','leavers','capacity','spaces');
+		$enrolcols_value=array('reenroling','transfersin','newenrolments','leavers',
+							   'transfersout','projectedroll',
+							   'budget','capacity','spaces');
 		}
 	$enrol_tablerows=array();
 	$enrol_cols=array();
 	while(list($colindex,$enrolcol)=each($enrolcols_value)){
-			$enrolcols[$colindex]['display']=get_string($enrolcol,$book);
-			$enrolcols[$colindex]['value']=$enrolcol;
+		if($enrolcol=='capacity' or $enrolcol=='budget'){
+			$enrolcols[$colindex]['class']='static';
+			$enrolcols[$colindex]['display']='<a href="admin.php?current=enrolments_edit.php&cancel='.
+							$choice.'&choice='. $choice.'&enrolyear='.$enrolyear. 
+							'&enrolstatus=capacity">'.get_string($enrolcol,$book).'</a>';
 			}
+		else{
+			$enrolcols[$colindex]['display']=get_string($enrolcol,$book);
+			if($enrolcol=='currentroll' or $enrolcol=='projectedroll'){
+				$enrolcols[$colindex]['class']='other';
+				}
+			elseif($enrolcol=='spaces' or $enrolcol=='reenroled' or $enrolcol=='leavers'){
+				$enrolcols[$colindex]['class']='blank';
+				}
+			else{
+				$enrolcols[$colindex]['class']='live';
+				}
+			}
+		$enrolcols[$colindex]['value']=$enrolcol;
+		}
 
 	/* For reenrolment status */
 	$reenrol_assdefs=fetch_enrolmentAssessmentDefinitions('','RE',$enrolyear);
@@ -29,7 +47,7 @@
 		}
 	/* And last years reenroled */
 	$reenroled_assdefs=fetch_enrolmentAssessmentDefinitions('','RE',$enrolyear-1);
-	if(isset($reenrol_assdefs[0])){
+	if(isset($reenroled_assdefs[0])){
 		$reenroled_eid=$reenroled_assdefs[0]['id_db'];
 		}
 	else{
@@ -67,7 +85,7 @@
 							.$cell['value'].'</a>';
 				}
 			elseif($enrolcol=='reenroled'){
-				$cell['value']=count_reenrol_no($comid,$reenrol_eid,'C','R');
+				$cell['value']=$reenroled_eid.' '.count_reenrol_no($comid,$reenroled_eid,'C','R');
 				}
 			elseif($enrolcol=='newenrolments'){
 				if($enrolyear!=$currentyear){
@@ -80,8 +98,13 @@
 					}
 				else{
 					/* Accepteds plus the new currents for this year*/
-					$cell['value']=$app_tablerows[$yid]['AC']['value'];
-							//$app_tablerows[$yid]['C']['value']				
+					$cell['value']=$app_tablerows[$yid]['AC']['value']
+							+ $app_tablerows[$yid]['C']['value'];
+					/*TODO
+					$cell['display']='<a href="admin.php?current=enrolments_list.php&cancel='.
+						$choice.'&choice='. $choice.'&enrolyear='. $enrolyear.'&yid='. $yid.
+						'&comid=-1">'.$cell['value'].'</a>';
+					*/
 					}
 				}
 			elseif($enrolcol=='currentroll'){
@@ -89,8 +112,7 @@
 				if($enrolyear==$currentyear){
 					$cell['display']='<a href="admin.php?current=enrolments_list.php&cancel='.
 							$choice.'&choice='. $choice.'&enrolyear='. 
-							$enrolyear.'&comname='. $cell['yid'].'&comtype=year'.
-							'&comid='. $cell['comid'].'&enrolstage=C">' 
+							$enrolyear.'.&comid='. $cell['comid'].'&enrolstage=C">' 
 							.$cell['value'].'</a>';
 					}
 				}
@@ -138,15 +160,11 @@
 					$accomid=update_community($accom);
 					$accom=get_community($accomid);
 					$cell['value']=$accom['capacity'];
-					$cell['display']='<a href="admin.php?current=community_capacity.php&cancel='.
-							$choice.'&choice='. $choice.'&enrolyear='. 
-							$enrolyear.'&comid='. $accomid.'">' 
-							.$cell['value'].'</a>';
 					}
 				}
 			elseif($enrolcol=='spaces'){
 				if($enrolyear==$currentyear){
-					$cell['value']=$enrol_tablecells['capacity']['value'] - $enrol_tablecells['currentroll']['value'];
+					$cell['value']=$enrol_tablecells['capacity']['value'] - $enrol_tablecells['currentroll']['value'] - $app_tablerows[$yid]['AC']['value'];
 					}
 				elseif(isset($pre_reenrolcell)){
 					$cell['value']=$enrol_tablecells['capacity']['value'] -	$enrol_tablecells['newenrolments']['value'] - $enrol_tablecells['reenroling']['repeat'] - $pre_reenrolcell['confirm'];

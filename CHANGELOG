@@ -7,6 +7,10 @@ to have 'live' numbers or 'static' numbers to be updated manually.
 Bugfix to the incidents table - fresh installs were missing their
 category field.
 
+Replaced community_capacity scripts with enrolment_edit to allow a
+list of communities to have either capacity or count values
+maintained.
+
 
 
 Version ClaSS-0.8.54 release (2008/09/31)

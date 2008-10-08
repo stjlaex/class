@@ -84,10 +84,12 @@ while(list($index,$year)=each($yeargroups)){
 		  <th><?php print display_curriculumyear($enrolyear);?></th>
 <?php
 		$coltotals=array();
+		$cellclasses=array();
 		while(list($colindex,$col)=each($table['cols'])){
 			if(isset($col['display'])){
+				$cellclasses[]=$col['class'];
 ?>
-		  <th>
+		  <th class="<?php print $col['class'];?>">
 			<?php print $col['display'];?>
 		  </th>
 <?php
@@ -95,6 +97,7 @@ while(list($index,$year)=each($yeargroups)){
 			reset($yeargroups);
 			while(list($yindex,$yeargroup)=each($yeargroups)){
 				$total+=$table['rows'][$yeargroup['id']][$col['value']]['value'];
+				$total+=$table['rows'][$yeargroup['id']][$col['value']]['extravalue'];
 				}
 			$coltotals[$colindex]=$total;
 			}
@@ -104,15 +107,17 @@ while(list($index,$year)=each($yeargroups)){
 
 <?php
 		while(list($rowindex,$tablecells)=each($table['rows'])){
+			$colindex=0;
 ?>
 		<tr>
 		<th><?php print $yeargroup_names[$rowindex];?></th>
 <?php
 			while(list($cellindex,$cell)=each($tablecells)){
 				if(isset($cell['display'])){
-
 ?>
-		  <td><?php print $cell['display'];?></td>
+		  <td class="<?php print $cellclasses[$colindex++];?>">
+			<?php print $cell['display'];?>
+		  </td>
 <?php
 					}
 				}
@@ -122,13 +127,13 @@ while(list($index,$year)=each($yeargroups)){
 			}
 ?>
 		<tr>
-		  <th>
+		  <th class="other">
 			<?php print get_string('total',$book).' '.get_string('numberofstudents',$book);?>
 		  </th>
 <?php
 		while(list($totindex,$total)=each($coltotals)){
 ?>
-		  <td><?php print $total;?></td>
+		  <td class="other"><?php print $total;?></td>
 <?php
 			}
 ?>

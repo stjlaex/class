@@ -16,3 +16,15 @@ div#bookbox {
 .admincolor legend, .admincolor caption {
     border-color:#aa4444;
 	}
+.smalltable th.other, .smalltable td.other {
+	background-color:#ddeeff;
+	}
+.smalltable th.static, .smalltable td.static {
+	background-color:#eeeeee;
+	}
+.smalltable th.live, .smalltable td.live {
+	background-color:#ffffee;
+	}
+.smalltable th.blank, .smalltable td.blank {
+	background-color:#ffffff;
+	}
