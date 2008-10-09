@@ -65,6 +65,6 @@ if($sub=='Submit'){
 			}
 		}
 	}
- 
+
 include('scripts/redirect.php');
 ?>

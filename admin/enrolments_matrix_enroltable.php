@@ -38,20 +38,12 @@
 		}
 
 	/* For reenrolment status */
-	$reenrol_assdefs=fetch_enrolmentAssessmentDefinitions('','RE',$enrolyear);
+	$reenrol_assdefs=(array)fetch_enrolmentAssessmentDefinitions('','RE',$enrolyear);
 	if(isset($reenrol_assdefs[0])){
 		$reenrol_eid=$reenrol_assdefs[0]['id_db'];
 		}
 	else{
 		$reenrol_eid=-1;
-		}
-	/* And last years reenroled */
-	$reenroled_assdefs=fetch_enrolmentAssessmentDefinitions('','RE',$enrolyear-1);
-	if(isset($reenroled_assdefs[0])){
-		$reenroled_eid=$reenroled_assdefs[0]['id_db'];
-		}
-	else{
-		$reenroled_eid=-1;
 		}
 
 	reset($yeargroups);
@@ -85,7 +77,7 @@
 							.$cell['value'].'</a>';
 				}
 			elseif($enrolcol=='reenroled'){
-				$cell['value']=$reenroled_eid.' '.count_reenrol_no($comid,$reenroled_eid,'C','R');
+				$cell['value']=count_reenrol_no($comid,$reenrol_eid,'C','R');
 				}
 			elseif($enrolcol=='newenrolments'){
 				if($enrolyear!=$currentyear){

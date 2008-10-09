@@ -118,7 +118,7 @@ function fetchAssessmentDefinition($eid){
    	$AssDef=array();
   	$AssDef['id_db']=$eid;
    	$d_ass=mysql_query("SELECT * FROM assessment WHERE id='$eid' 
-						ORDER BY creation");
+						ORDER BY creation;");
 	if(mysql_numrows($d_ass)==0){$AssDef['exists']='false';}
 	else{$AssDef['exists']='true';}
 	$ass=mysql_fetch_array($d_ass,MYSQL_ASSOC);
@@ -383,6 +383,7 @@ function fetchAssessments_short($sid,$eid='%',$bid='%',$pid='%'){
 function fetch_enrolmentAssessmentDefinitions($com='',$stage='E',$enrolyear='0000'){
 	$AssDefs=array();
 	$crids=array();
+
 	if($com==''){$crids[]='%';}
 	else{
 		list($enrolstatus,$yid)=split(':',$com['name']);
@@ -392,11 +393,22 @@ function fetch_enrolmentAssessmentDefinitions($com='',$stage='E',$enrolyear='000
 			$crids[]=$cohort['course_id'];
 			}
 		}
+
 	while(list($index,$crid)=each($crids)){
-		$cohort=array('course_id'=>$crid,'stage'=>$stage,'year'=>$enrolyear);
-		$AssDefs=fetch_cohortAssessmentDefinitions($cohort);
-		//trigger_error('chort:'.sizeof($AssDefs).' '.$crid,E_USER_WARNING);
+		//$cohort=array('course_id'=>$crid,'stage'=>$stage,'year'=>$enrolyear);
+		$d_assessment=mysql_query("SELECT id FROM assessment
+			   WHERE (course_id LIKE '$crid' OR course_id='%') AND 
+				stage='$stage' AND year='$enrolyear' AND profile_name='' AND resultstatus!='S' 
+				ORDER BY course_id;");
+		while($ass=mysql_fetch_array($d_assessment, MYSQL_ASSOC)){
+			$AssDefs[]=fetchAssessmentDefinition($ass['id']);
+			}
 		}
+
+	//$AssDefs=fetch_cohortAssessmentDefinitions($cohort);
+	//trigger_error('chort:'.sizeof($AssDefs).' '.$crid,E_USER_WARNING);
+		
+
 	return $AssDefs;
 	}
 
@@ -470,7 +482,7 @@ function list_reenrol_sids($comid,$reenrol_eid,$result1,$result2=''){
  * Returns all assdefs of relevance to a cohort. It will not fetch 
  * assessment defs which refer to statistics (resultstatus=S) or which 
  * are linked to an assessment profile or which are used for
- * enrolments (stage=RE). 
+ * enrolments (stage=RE, stage=E). 
  *
  * TODO: season is currently fixed to S! 
  *
@@ -484,7 +496,8 @@ function fetch_cohortAssessmentDefinitions($cohort){
 	$d_assessment=mysql_query("SELECT id FROM assessment
 			   WHERE (course_id LIKE '$crid' OR course_id='%') AND 
 				(stage LIKE '$stage' OR stage='%') AND 
-				year LIKE '$year' AND profile_name='' AND resultstatus!='S' 
+				year LIKE '$year' AND profile_name='' AND
+				resultstatus!='S' AND  stage!='RE' AND stage!='E' 
 				ORDER BY year DESC, creation DESC, element ASC;");
    	while($ass=mysql_fetch_array($d_assessment, MYSQL_ASSOC)){
 		$AssDefs[]=fetchAssessmentDefinition($ass['id']);

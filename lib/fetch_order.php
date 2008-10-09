@@ -64,7 +64,7 @@ function list_user_budgets($tid,$budgetyear='%'){
 	if($budgetyear!='%'){
 		$yearcode=get_budgetyearcode($budgetyear);
 		}
-	trigger_error($aperm,E_USER_WARNING);
+	//trigger_error($aperm,E_USER_WARNING);
 	if($aperm==1){
 		$d_b=mysql_query("SELECT id, code, yearcode, name, costlimit,
 				    '1' AS r, '1' AS w, '1' AS x FROM orderbudget WHERE
@@ -455,7 +455,7 @@ function get_budget_projected($budid=-1){
 				orderorder.id=ordermaterial.order_id WHERE
 				orderorder.budget_id='$budid' AND
 				orderorder.currency='$currency';");
-		/* Want to exclude closed and cancelled orders */
+		/* Want to exclude closed (5) and cancelled (4) orders */
 		$d_3=mysql_query("SELECT SUM(unitcost*quantity) FROM
 				ordermaterial WHERE 
 				ordermaterial.order_id=ANY(SELECT
@@ -488,27 +488,40 @@ function get_budget_current($budid=-1){
 	if(mysql_num_rows($d_bud)>0){
 		$sum=0;
 		$costlimit=mysql_result($d_bud,0);
+		/* Iterate over each currency in use */
 		while(list($currency,$rate)=each($currencyrates)){
-			$d_closed=mysql_query("SELECT id FROM orderorder
+			$d_closed=mysql_query("SELECT id, supplier_id FROM orderorder
 				JOIN orderaction ON orderaction.order_id=orderorder.id
 				WHERE orderorder.budget_id='$budid' AND
 				orderorder.currency='$currency' AND orderaction.action='5';");
 			while($closed_order=mysql_fetch_array($d_closed,MYSQL_ASSOC)){
 				$closed_ordid=$closed_order['id'];
-				$d_sum=mysql_query("SELECT SUM(debitcost) FROM
-				orderinvoice JOIN orderaction ON
-				orderinvoice.id=orderaction.invoice_id WHERE
-				orderinvoice.credit='0' AND
-				orderaction.action='3' AND
-				orderaction.order_id='$closed_ordid';");
-				$sum+=$rate*mysql_result($d_sum,0);
-				$d_sum=mysql_query("SELECT SUM(debitcost) FROM
-				orderinvoice JOIN orderaction ON
-				orderinvoice.id=orderaction.invoice_id WHERE
-				orderinvoice.credit='1' AND
-				orderaction.action='3' AND
-				orderaction.order_id='$closed_ordid';");
-				$sum-=$rate*mysql_result($d_sum,0);
+				$supid=$closed_order['supplier_id'];
+				$d_special=mysql_query("SELECT specialaction FROM
+									ordersupplier WHERE id='$supid';");
+				$specialaction=mysql_result($d_special,0);
+				if($specialaction==0){
+					/*Add invoices*/
+					$d_sum=mysql_query("SELECT SUM(debitcost) FROM
+						orderinvoice JOIN orderaction ON
+						orderinvoice.id=orderaction.invoice_id WHERE
+						orderinvoice.credit='0' AND orderaction.action='3' AND
+						orderaction.order_id='$closed_ordid';");
+					$sum+=$rate*mysql_result($d_sum,0);
+					/*Subtract credit notes*/
+					$d_sum=mysql_query("SELECT SUM(debitcost) FROM
+						orderinvoice JOIN orderaction ON
+						orderinvoice.id=orderaction.invoice_id WHERE
+						orderinvoice.credit='1' AND orderaction.action='3' AND
+						orderaction.order_id='$closed_ordid';");
+					$sum-=$rate*mysql_result($d_sum,0);
+					}
+				else{
+					/*Add any specials which don't have an invoice*/
+					$d_sum=mysql_query("SELECT SUM(unitcost*quantity) FROM
+						ordermaterial WHERE ordermaterial.order_id='$closed_ordid';");
+					$sum+=$rate*mysql_result($d_sum,0);
+					}
 				}
 			}
 		/* Iterate over any sub-budgets */

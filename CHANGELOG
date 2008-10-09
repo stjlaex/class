@@ -11,6 +11,14 @@ Replaced community_capacity scripts with enrolment_edit to allow a
 list of communities to have either capacity or count values
 maintained.
 
+A bugfix to fetch_enrolmentAssessments.
+
+Opened up the "other groups" search option to all users of the
+InfoBook - this needs have a config option about the types of groups
+to be listed.
+
+A bugfix to calculating current balances for budgets - special action
+orders (ie. petty cash) without an invoice were being overlooked.
 
 
 Version ClaSS-0.8.54 release (2008/09/31)

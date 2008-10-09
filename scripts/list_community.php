@@ -1,9 +1,10 @@
 <?php
 /**										scripts/list_community.php
  *
- * set $type to list communities of that type
- * will default to type=year
- * special $type=admissions to list all communities not on roll
+ * Set the $listtype to list communities of that type
+ * and will default to listtype=yeargroups if not set.
+ * Special $listtype=admissions to list all communities not on roll and
+ * another appropriate to the InfoBook side-bar search.
  */
 
 if(!isset($listname)){$listname='newcomid';}
@@ -32,6 +33,10 @@ include('scripts/set_list_vars.php');
 		$listcomtypes[]='applied';
 		$listcomtypes[]='accepted';
 		$listcomtypes[]='alumni';
+		}
+	elseif($listtype=='infosearch'){
+		$listcomtypes[]='accomodation';
+		$listcomtypes[]='academic';
 		}
 	else{$listcomtypes[]=$listtype;}
 

@@ -14,11 +14,11 @@ $action='search_action.php'
 <?php
 	$onsidechange='yes'; include('scripts/list_year.php');
 	$onsidechange='yes'; include('scripts/list_form.php');
-	if($_SESSION['role']=='office' or $_SESSION['role']=='admin'){
-		$listtype='';
+//if($_SESSION['role']=='office' or $_SESSION['role']=='admin'){
+		$listtype='infosearch';
 		$onsidechange='yes'; 
 		include('scripts/list_community.php');
-		}
+//		}
 ?>
 	</fieldset>
 
