@@ -104,6 +104,10 @@ function fetchAttendances($sid,$startday=0,$nodays=7){
 	return nullCorrect($Attendances);
 	}
 
+
+/**
+ *
+ */
 function fetchcurrentAttendance($sid,$eveid=''){
 	if($eveid==''){
 		$d_s=mysql_query("SELECT section_id FROM yeargroup JOIN
@@ -252,11 +256,11 @@ function list_absentStudents($eveid='',$lates=0){
 		$Student=array();
 		while($attendance=mysql_fetch_array($d_attendance,MYSQL_ASSOC)){
 			/* Logical lates defaults to 0 and flags to filter out those
-				students who are merely late (codes U and L), as these students
+				students who are merely late (codes U, L, UA, UB), as these students
 				will be on site and in classes. They will though still be
 				counted in statistics as absent.*/
-			if($attendance['code']!='U' and $attendance['code']!='L' and
-			   $lates==0){
+			if($attendance['code']!='U' and $attendance['code']!='L' and $attendance['code']!='UB' 
+			   and $attendance['code']!='UA' and $lates==0){
 				$Attendance['id_db']=$eveid;
 				$Attendance['Status']=array('label' => 'attendance',
 											'value' => ''.$attendance['status']);

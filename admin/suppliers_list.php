@@ -27,7 +27,7 @@ two_buttonmenu($extrabuttons,$book);
 		</thead>
 <?php
 		$entryno=0;
-		$d_sup=mysql_query("SELECT id FROM ordersupplier;");
+		$d_sup=mysql_query("SELECT id FROM ordersupplier ORDER BY specialaction, name;");
 		while($supplier=mysql_fetch_array($d_sup)){
 			$supid=$supplier['id'];
 			$Supplier=fetchSupplier($supid);

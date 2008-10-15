@@ -108,11 +108,13 @@ table#editscores {
 	}
 
 /*for the attendance status*/
-td[status="a"] { 
+#marktable td[status="a"], #editscores td[status="a"] { 
+	background-image: none;
     background-color:yellow;
-    font-weight:900;
-    font-size:large;
+    font-weight:100;
+    font-size:x-small;
     color:#000000;
+	text-align:center;
 	}
 td[status="p"] { 
     background-color:#44aa66;

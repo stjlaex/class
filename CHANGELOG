@@ -1,6 +1,10 @@
 Version ClaSS-0.8.56 release (2008/10/20)
 -----------------------------------------
 
+Bugfix to enrolments_list_action when display is for comid=-1.
+
+Bugfix to the absences_list to correctly filter lates.
+
 
 
 Version ClaSS-0.8.55 release (2008/10/10)

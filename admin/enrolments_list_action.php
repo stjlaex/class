@@ -1,5 +1,6 @@
 <?php 
-/**									 enrolments_list_action.php
+/**			       		 enrolments_list_action.php
+ *
  */
 
 $action='enrolments_matrix.php';
@@ -13,7 +14,7 @@ else{$sids=array();}
 
 include('scripts/sub_action.php');
 
-if($sub=='Submit'){
+if($sub=='Submit' and $comid!=-1){
 
 	$com=get_community($comid);
 	$comtype=$com['type'];

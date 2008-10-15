@@ -193,18 +193,18 @@ if($_SESSION['worklevel']>-1){
 		  <td><?php print $viewtable[$c2]['form_id'];?></td>
 		  <td status="<?php print $viewtable[$c2]['attstatus'];?>" 
 <?php 
-		  if($viewtable[$c2]['attcomment']!=' '){
+			if($viewtable[$c2]['attcode']!=' '){
 ?>			
 				title="">
-				<span title="<?php print $viewtable[$c2]['attcode'].':<br />'. 
+				<span title="<?php print 
 				 date('H:i',$viewtable[$c2]['atttime']).' '.$viewtable[$c2]['attcomment'];?>">
-				&nbsp;</span>
+				  <?php print $viewtable[$c2]['attcode'];?>
+				</span>
 <?php 
 				}
-		  else{print '>';}
+			else{print '>&nbsp;';}
 ?>
-
-		  &nbsp;</td>
+		  </td>
 <?php
 		for($c=0;$c<$c_marks;$c++){
 				$col_mid=$umns[$c]['id'];
