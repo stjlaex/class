@@ -1,4 +1,9 @@
-Version ClaSS-0.8.55 release (2008/10/05)
+Version ClaSS-0.8.56 release (2008/10/20)
+-----------------------------------------
+
+
+
+Version ClaSS-0.8.55 release (2008/10/10)
 -----------------------------------------
 
 Reworked the enrolments' tables. Applications now have a config option
