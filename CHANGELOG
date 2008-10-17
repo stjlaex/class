@@ -1,4 +1,4 @@
-Version ClaSS-0.8.56 release (2008/10/15)
+Version ClaSS-0.8.56 release (2008/10/17)
 -----------------------------------------
 
 Bugfix to enrolments_list_action when display is for comid=-1.
@@ -19,6 +19,7 @@ Improved permissions on the SEN pages to allow form tutors and subject
 responsibiles to edit.
 
 Assessments profiles now allow for differences in component status.
+
 
 
 Version ClaSS-0.8.55 release (2008/10/10)
