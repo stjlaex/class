@@ -21,7 +21,9 @@ else{
 
 		/*first do the column headers*/
 		$csv=array();
-		$csv[]='Students';
+		$csv[]='Enrolment No.';
+		$csv[]='Surname';
+		$csv[]='Forename';
 		for($c=0;$c<sizeof($checkmids);$c++){
 			$col_mid=$checkmids[$c];
 			for($col=0;$col<sizeof($umns);$col++){

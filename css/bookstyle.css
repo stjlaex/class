@@ -275,6 +275,10 @@ div#heading {
     font-weight:600;
     max-width:55%;
 	}
+#heading div {
+	padding:0;margin:0;
+	float:left;
+	}
 #heading span {  
     clear:none;
     font-size:xx-small;

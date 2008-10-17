@@ -110,11 +110,7 @@ function fetchAttendances($sid,$startday=0,$nodays=7){
  */
 function fetchcurrentAttendance($sid,$eveid=''){
 	if($eveid==''){
-		$d_s=mysql_query("SELECT section_id FROM yeargroup JOIN
-				student ON student.yeargroup_id=yeargroup.id WHERE student.id='$sid';");
-		$secid=mysql_result($d_s,0);
-		if($secid==0){$secid=1;}
-		//trigger_error('SECTION'.$secid,E_USER_WARNING);
+		$secid=get_student_section($sid);
 		$event=get_event('','',$secid);
 		$eveid=$event['id'];
 		}

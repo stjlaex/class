@@ -194,7 +194,7 @@ function list_all_users($nologin='%'){
 
 /**
  * 
- *
+ * 
  */
 function list_teacher_users($crid='',$bid='',$nologin='0'){
 	$users=array();
@@ -250,7 +250,7 @@ function get_staff_epfusername($tid){
 
 /**
  * Returns the full user record or -1 if none found. 
- * The key field can be either username or uid.
+ * The key field can be either username (set fieldname to distinguish) or uid.
  *
  */
 function get_user($id,$fieldname='username'){

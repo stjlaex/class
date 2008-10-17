@@ -1,10 +1,24 @@
-Version ClaSS-0.8.56 release (2008/10/20)
+Version ClaSS-0.8.56 release (2008/10/15)
 -----------------------------------------
 
 Bugfix to enrolments_list_action when display is for comid=-1.
 
 Bugfix to the absences_list to correctly filter lates.
 
+Bugifx to column headers in MarkBook export.
+
+Added the tutor's name to register_list and a shortcut link to webmail which
+prefills their email address for messaging.
+
+The categorydef script can now filter by secid, and you may want to
+manually edit your catdefs to make use of it.
+
+New function get_student_section returns secid.
+
+Improved permissions on the SEN pages to allow form tutors and subject
+responsibiles to edit.
+
+Assessments profiles now allow for differences in component status.
 
 
 Version ClaSS-0.8.55 release (2008/10/10)

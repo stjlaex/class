@@ -47,7 +47,7 @@ three_buttonmenu();
 		  <th><?php print_string('formtutor',$book);?></th>
 		</tr>
 <?php
-	$d_form=mysql_query("SELECT * FROM form ORDER BY yeargroup_id, id");
+	$d_form=mysql_query("SELECT * FROM form ORDER BY yeargroup_id, id;");
 	while($form=mysql_fetch_array($d_form,MYSQL_ASSOC)){
 		$fid=$form['id'];
 		$yid=$form['yeargroup_id'];

@@ -136,13 +136,14 @@ while($student=mysql_fetch_array($d_students, MYSQL_ASSOC)){
 			$mids=explode(' ',$midlist[$c]);
 			$score_value=0;
 			$score_total=0;
+		//trigger_error('SUM: '.$profile_pidstatus.' '.sizeof($mids),E_USER_WARNING);
 			for($c2=0;$c2<sizeof($mids);$c2++){
 				$d_score=mysql_query("SELECT value, outoftotal 
-   						FROM score WHERE mark_id='$mids[$c2]' AND student_id='$sid'");
+   						FROM score WHERE mark_id='$mids[$c2]' AND student_id='$sid';");
 				$score=mysql_fetch_array($d_score,MYSQL_ASSOC);
-				if($score['value']){$score_value=$score['value']+$score_value; $yesval=1;}
+				if($score['value']){$score_value+=$score['value']; $yesval=1;}
 				if($score['outoftotal']){
-					$score_total=$score['outoftotal']+$score_total; 
+					$score_total+=$score['outoftotal']; 
 					$yestotal=1;
 					}
 				}
@@ -161,13 +162,13 @@ while($student=mysql_fetch_array($d_students, MYSQL_ASSOC)){
 
 		/*********************************************************/
 	   	elseif($marktype=='tally'){
-			/* Mark tallies the number of grades obtained */
+			/* Mark tallies (counts) the number of grades obtained */
 			$scoreclass='grade other';
 			$mids=explode(' ',$midlist[$c]);
 			$score_value=0;
 			for($c2=0;$c2<sizeof($mids);$c2++){
 				$d_score=mysql_query("SELECT value 
-   						FROM score WHERE mark_id='$mids[$c2]' AND student_id='$sid'");
+   						FROM score WHERE mark_id='$mids[$c2]' AND student_id='$sid';");
 				$score=mysql_fetch_array($d_score,MYSQL_ASSOC);
 				if($score['value']){$score_value++; $yesval=1;}
 				}

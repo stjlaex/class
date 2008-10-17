@@ -69,19 +69,22 @@ for($i=0;$i<sizeof($cids);$i++){
 				marktype='report' OR (marktype='score' AND
 				assessment='yes' AND id=ANY(SELECT
 				eidmid.mark_id FROM eidmid JOIN assessment ON
-				assessment.id=eidmid.assessment_id WHERE assessment.profile_name=''));");
+				assessment.id=eidmid.assessment_id WHERE assessment.proile_name=''));");
 		$c=0;
 		}
 	elseif($umntype=='p'){
 		$profile_crid=$classes[$cid]['crid'];
 		$profile_bid=$classes[$cid]['bid'];
-		/* Only allows for one profile in use at once. */
-		/* TODO: Just grab this from categorydef instead?*/
-		$d_profile=mysql_query("SELECT name FROM
+		/* Only allows for one profile in use per crid/bid combination at once. */
+		/* Usng the subtype of categorydef to hold the component
+		 status with values of None, N or V same as for assessments.*/
+		$d_profile=mysql_query("SELECT name, subtype FROM
 				categorydef WHERE type='pro' AND
 				course_id='$profile_crid' AND subject_id='$profile_bid';");
-		$profile_name=mysql_result($d_profile,0);
-		trigger_error($profile_bid.' '.$profile_name,E_USER_WARNING);
+		$profile=mysql_fetch_array($d_profile,MYSQL_ASSOC);
+		$profile_name=$profile['name'];
+		$profile_pidstatus=$profile['subtype'];
+		trigger_error('PROFILE: '.$profile_pidstatus,E_USER_WARNING);
 		$d_marks=mysql_query("SELECT $table.* FROM $table WHERE $table.marktype='score'
 				AND $table.assessment='yes' AND $table.id=ANY(SELECT
 				eidmid.mark_id FROM eidmid JOIN assessment ON
@@ -170,11 +173,18 @@ for($i=0;$i<sizeof($cids);$i++){
 	if($umntype=='p'){
 		$c_marks++;
 		$profile_midlist='';
+		$profile_pids=array();
 		if($pid==''){
-			$profile_pids=$pids;
+		   /* Not filtering for a specific pid so include all. */
+			if(sizeof($pids)>0 and $profile_pidstatus!='None'){
+				$profile_pids=$pids;
+				}
+			else{
+				$profile_pids[]='';
+				}
 			}
 		else{
-			$profile_pids=array();
+			/* Just filter for one pid and its strands*/
 			$profile_pids[]=$pid;
 			$strands=list_subject_components($pid,$profile_crid,'V');
 			while(list($sindex,$strand)=each($strands)){
@@ -183,6 +193,7 @@ for($i=0;$i<sizeof($cids);$i++){
 					}
 				}
 			}
+
 		for($iumn=1;$iumn<$c_marks;$iumn++){
 			if(in_array($umns[$iumn]['component'],$profile_pids)){
 				$profile_midlist.=$umns[$iumn]['id'].' ';

@@ -2,18 +2,28 @@
 /**									sen_view_action.php
  */
 
-/*Have to be careful to check current as this can be called from the */
-/* InfoBook too.*/
+/** 
+ * Have to be careful to check current as this can be called from the
+ * InfoBook too.
+ */
 if($current=='sen_view_action.php'){$action='sen_view.php';}
 
 include('scripts/sub_action.php');
 if(isset($_POST['ncmod'])){$ncmodkey=$_POST['ncmod'];}else{$ncmodkey='';}
+if(isset($_POST['bid'])){$bid=$_POST['bid'];}else{$bid='G';}
 
 $senhid=$SEN['SENhistory']['id_db'];
 
-	/*Check user has permission to edit*/
+	/* Check user has permission to edit */
 	$yid=$Student['YearGroup']['value'];
-	$perm=getSENPerm($yid, $respons);
+	$fid=$Student['RegistrationGroup']['value'];
+	$bperm=getSubjectPerm($bid, $respons);
+	$sperm=getSENPerm($yid, $respons);
+	$fperm=getFormPerm($fid, $respons);
+	$perm=$fperm;
+	if($sperm['w']==1 or $fperm['w']==1 or $bperm['r']==1){
+		$perm['w']=1;
+		}
 	$neededperm='w';
 	include('scripts/perm_action.php');
 
@@ -34,8 +44,7 @@ if($sub=='senstatus'){
 	if($current=='sen_view_action.php'){$action='sen_student_list.php';}
 	}
 elseif($ncmodkey=='-1'){
-	if(isset($_POST['bid'])){
-		$bid=$_POST['bid'];
+	if($bid!='G' and $bid!=''){
 		mysql_query("INSERT INTO sencurriculum SET
 			senhistory_id='$senhid', subject_id='$bid'");
 		}

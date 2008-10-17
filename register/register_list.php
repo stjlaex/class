@@ -13,7 +13,13 @@ include('scripts/sub_action.php');
 	if(isset($CFG->registration[$secid]) 
 	   and $CFG->registration[$secid]=='double'){$period='%';}
 	else{$period='AM';}
+
 	$students=(array)listin_community($community);
+
+	$d_t=mysql_query("SELECT teacher_id FROM form WHERE id='$newfid';");
+	$tutor_tid=mysql_result($d_t,0);
+	$tutor_user=get_user($tutor_tid);
+
 	$AttendanceEvents=fetchAttendanceEvents($startday,7,$period);
 	$evetable=$AttendanceEvents['evetable'];
 	/*make sure an event is selected which is part of the current window*/
@@ -48,8 +54,18 @@ include('scripts/sub_action.php');
 	threeplus_buttonmenu($startday,2,$extrabuttons);
 ?>
   <div id="heading">
-	<label><?php print_string('formgroup');?></label>
-	<?php print $newfid;?>
+	<div>
+	  <label><?php print_string('formgroup');?></label>
+	  <?php print $newfid;?>
+	</div>
+	<div>
+	  <label><?php print_string('formtutor');?></label>
+	  <?php print $tutor_user['title'].' '. $tutor_user['forename'][0].' '. $tutor_user['surname'];?>
+	</div>
+	<div>
+	  <a onclick="parent.viewBook('webmail');" target="viewwebmail" 
+		 href="webmail.php?recipients[]=<?php print $tutor_user['email'];?>">E</a> 
+	</div>
   </div>
 
 

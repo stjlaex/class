@@ -7,6 +7,8 @@ $action='incidents_list_action.php';
 
 if(isset($_GET['bid'])){$bid=$_GET['bid'];}
 
+$secid=get_student_section($sid);
+
 three_buttonmenu();
 ?>
   <div id="heading">
@@ -51,8 +53,11 @@ three_buttonmenu();
 	  </div>
 
 	  <div class="right">
-		<?php $listlabel='sanction'; $listid='sanction'; $cattype='inc';
-		$required='yes'; include('scripts/list_category.php');?>
+<?php 
+		$listlabel='sanction'; 
+		$listid='sanction'; $catsecid=$secid; $cattype='inc';
+		$required='yes'; include('scripts/list_category.php');
+?>
 	  </div>
 
 	  <div class="right">

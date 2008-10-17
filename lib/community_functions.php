@@ -538,6 +538,24 @@ function get_form_yeargroup($fid){
 	return $yid;
 	}
 
+/** 
+ * Returns the section id for the yeargroup to which the 
+ * student belongs, defaults to whole school secid=1 if nothing else available.
+ *
+ */
+function get_student_section($sid){
+	if($sid!=' ' and $sid!=''){
+		$d_s=mysql_query("SELECT section_id FROM yeargroup JOIN
+				student ON student.yeargroup_id=yeargroup.id WHERE student.id='$sid';");
+		$secid=mysql_result($d_s,0);
+		}
+	else{
+		$secid=1;// default to whole school
+		}
+   	//trigger_error('SECTION'.$secid,E_USER_WARNING);
+	return $secid;
+	}
+
 /**
  * 
  * Find all current cohorts with which a community is associated.
@@ -569,4 +587,6 @@ function list_community_cohorts($community){
 		}
 	return $cohorts;
 	}
+
+
 ?>
