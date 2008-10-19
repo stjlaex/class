@@ -56,6 +56,10 @@ function list_budget_users($budid,$perms){
 
 /**
  *
+ * Returns a list of budgets for the current budgetyear to which the
+ * user has access; te perms table is by passed if this is an budget
+ * admin user and all budgets for year are returned.
+ *
  */
 function list_user_budgets($tid,$budgetyear='%'){
 	$uid=get_uid($tid);
@@ -64,7 +68,6 @@ function list_user_budgets($tid,$budgetyear='%'){
 	if($budgetyear!='%'){
 		$yearcode=get_budgetyearcode($budgetyear);
 		}
-	//trigger_error($aperm,E_USER_WARNING);
 	if($aperm==1){
 		$d_b=mysql_query("SELECT id, code, yearcode, name, costlimit,
 				    '1' AS r, '1' AS w, '1' AS x FROM orderbudget WHERE
@@ -74,9 +77,9 @@ function list_user_budgets($tid,$budgetyear='%'){
 		}
 	else{
 		$d_b=mysql_query("SELECT id, code, yearcode, name, costlimit,
-					perms.r AS r, perms.w AS w, perms.x AS x FROM orderbudget JOIN perms ON
-					perms.gid=orderbudget.gid WHERE perms.uid='$uid' AND
-			   		(orderbudget.yearcode='%' OR orderbudget.yearcode LIKE '$yearcode') ORDER
+			  perms.r AS r, perms.w AS w, perms.x AS x FROM orderbudget JOIN perms ON
+			  perms.gid=orderbudget.gid WHERE perms.uid='$uid' AND
+			  (orderbudget.yearcode='%' OR orderbudget.yearcode LIKE '$yearcode') ORDER
 			   		BY orderbudget.yearcode, overbudget_id, 
 						orderbudget.section_id, orderbudget.name");
 		}
@@ -654,6 +657,7 @@ function get_budget_perms($budid){
 	$perms['w']=0;
 	$perms['x']=0;
 	$uid=$_SESSION['uid'];
+	$aperm=get_admin_perm('b',$uid);
   	$d_p=mysql_query("SELECT r,w,x,e FROM perms JOIN orderbudget 
 						ON perms.gid=orderbudget.gid WHERE
 						orderbudget.id='$budid' AND perms.uid='$uid';");
@@ -664,7 +668,7 @@ function get_budget_perms($budid){
 	 * can do everything except for authorise an order and configure
 	 * the budget
 	 */
-	if($_SESSION['role']=='admin'){$perms['r']=1;$perms['w']=1;$perms['x']=1;}
+	if($_SESSION['role']=='admin' or $aperm==1){$perms['r']=1;$perms['w']=1;$perms['x']=1;}
 	if($_SESSION['role']=='office'){$perms['r']=1;$perms['w']=1;}
 	return $perms;
 	}

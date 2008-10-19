@@ -32,10 +32,10 @@
 function emailHeader(){
 	global $CFG;
 	$headers = 'From: ClaSS@'.$CFG->siteaddress ."\r\n" . 
-				'Reply-To: '.$CFG->emailnoreply . "\r\n" .
-			    'X-Mailer: PHP/' . phpversion();
+		'Reply-To: '.$CFG->emailnoreply . "\r\n" .
+		'X-Mailer: PHP/' . phpversion();
 	return $headers;
-	}
+  	}
 
 /**
  * Needs a file handle and then prepares and writes a single row of csv
@@ -45,15 +45,15 @@ function file_putcsv($handle, $row, $fd=',', $quot='"'){
 	$str='';
 	foreach($row as $cell){
 		$cell=str_replace(Array($quot,"\n"),
-                         Array($quot. $quot,''),
-                         $cell);
+						  Array($quot. $quot,''),
+						  $cell);
 		if(strchr($cell, $fd)!==FALSE || strchr($cell, $quot)!==FALSE){
-           $str.=$quot. $cell. $quot. $fd;
-		   }
+			$str.=$quot. $cell. $quot. $fd;
+			}
 		else{
-           $str.=$cell. $fd;
-		   }
-		}
+			$str.=$cell. $fd;
+			}
+	}
 	fputs($handle, substr($str, 0, -1)."\n");
 	return strlen($str);
 	}
@@ -70,14 +70,15 @@ function nullCorrect($array){
 		foreach($array as $key => $value){
 			if(sizeof($value)>0 and is_array($value)){
 				$array[$key]=nullCorrect($value);
-				}
-			elseif($value=='' and $value!='0'){$array[$key]=' ';}
-		  //		  if(!$value){$array[$key]=' ';}
 			}
+			elseif($value=='' and $value!='0'){$array[$key]=' ';}
+			//		  if(!$value){$array[$key]=' ';}
 		}
+	}
 	else{$array=' ';}
 	return $array;
-	}
+}
+
 
 /**
  * For compatibility with utf8

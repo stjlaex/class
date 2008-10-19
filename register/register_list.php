@@ -59,12 +59,17 @@ include('scripts/sub_action.php');
 	  <?php print $newfid;?>
 	</div>
 	<div>
-	  <label><?php print_string('formtutor');?></label>
-	  <?php print $tutor_user['title'].' '. $tutor_user['forename'][0].' '. $tutor_user['surname'];?>
+	  <label><?php print_string('formtutor');?>
+	  </label>
+	  <?php print $tutor_user['forename'][0].' '. $tutor_user['surname'];?>
+	  <a onclick="parent.viewBook('webmail');" target="viewwebmail" 
+		 href="webmail.php?recipients[]=<?php print $tutor_user['email'];?>">
+		<img class="clicktoemail" title="<?php print_string('clicktoemail');?>" />
+	  </a> 
+	  &nbsp;
 	</div>
 	<div>
-	  <a onclick="parent.viewBook('webmail');" target="viewwebmail" 
-		 href="webmail.php?recipients[]=<?php print $tutor_user['email'];?>">E</a> 
+
 	</div>
   </div>
 

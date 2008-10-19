@@ -65,13 +65,13 @@ for($i=0;$i<sizeof($cids);$i++){
 	 */
 	$umns=array();
 	if($umntype=='t'){
-		$d_marks=mysql_query("SELECT * FROM $table WHERE
-				marktype='report' OR (marktype='score' AND
-				assessment='yes' AND id=ANY(SELECT
+		$d_marks=mysql_query("SELECT $table.* FROM $table WHERE
+				$table.marktype='report' OR ($table.marktype='score' AND
+				$table.assessment='yes' AND $table.id=ANY(SELECT
 				eidmid.mark_id FROM eidmid JOIN assessment ON
-				assessment.id=eidmid.assessment_id WHERE assessment.proile_name=''));");
+				assessment.id=eidmid.assessment_id WHERE assessment.profile_name=''));");
 		$c=0;
-		}
+	   	}
 	elseif($umntype=='p'){
 		$profile_crid=$classes[$cid]['crid'];
 		$profile_bid=$classes[$cid]['bid'];
@@ -84,11 +84,11 @@ for($i=0;$i<sizeof($cids);$i++){
 		$profile=mysql_fetch_array($d_profile,MYSQL_ASSOC);
 		$profile_name=$profile['name'];
 		$profile_pidstatus=$profile['subtype'];
-		trigger_error('PROFILE: '.$profile_pidstatus,E_USER_WARNING);
 		$d_marks=mysql_query("SELECT $table.* FROM $table WHERE $table.marktype='score'
 				AND $table.assessment='yes' AND $table.id=ANY(SELECT
 				eidmid.mark_id FROM eidmid JOIN assessment ON
-				assessment.id=eidmid.assessment_id WHERE assessment.profile_name!='');");
+				assessment.id=eidmid.assessment_id 
+				WHERE assessment.profile_name='$profile_name');");
 		$c=1;
 		}
 	else{

@@ -1,21 +1,21 @@
 /**							bookstyle.css
-*
-*		All css common to the books. Principly deals with positioning
-*   and layout. The color schemes are defined on a book by book basis
-*   elsewhere.
-*/
+   *
+   *		All css common to the books. Principly deals with positioning
+   *   and layout. The color schemes are defined on a book by book basis
+   *   elsewhere.
+   */
 body {
-  	font-family:Verdana, Arial, helvetica, sans-serif; 
+    font-family:Verdana, Arial, helvetica, sans-serif; 
     font-weight:500; 
     font-size:medium; 
 	background-color:#444444; color:#ffffff; margin:0; border:0;
 	text-align:left;
 	}
 a {
-	font-size:small; 
+    font-size:small; 
     color:#000000; 
     font-weight:600;
-	text-decoration:none;
+    text-decoration:none;
 	}
 a:hover {
 	text-decoration:underline;
@@ -393,6 +393,15 @@ img.clicktodelete {
 	background-image:url("../images/redcross.png");
     padding:1px;
 	cursor:pointer;
+	}
+img.clicktoemail { 
+	background-image:url("../images/mail-message-new.png");
+    padding:1px;
+	cursor:pointer;
+    width:16px !important;
+    height:16px !important;
+    border:0;
+    position:absolute;
 	}
 
 /*a generic content table, usually for selecting things from a list*/

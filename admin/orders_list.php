@@ -2,8 +2,8 @@
 /**                                  orders_list.php   
  * 
  * Works in two scenarios. Either called with budid set meaning it is
- * for a single budget and new orders can placed. Or it is the result
- * of search and ordernumber and orderstatus will be used to list
+ * for a single budget and new orders can be placed. Or it is the result
+ * of a search and ordernumber and orderstatus will be used to list
  * relevant orders, budid=-1 is set beacsue this transcends budgets
  * and no orders can be placed from this page.
  *
@@ -17,6 +17,7 @@ if(isset($_GET['budgetyear'])){$budgetyear=$_GET['budgetyear'];}
 if(isset($_POST['budgetyear']) and $_POST['budgetyear']!=''){$budgetyear=$_POST['budgetyear'];}
 
 if(isset($_POST['ordernumber']) or isset($_POST['orderstatus'])){
+		/* These are the three search terms */
 	$ordersupid=$_POST['ordersupid'];
 	$ordernumber=$_POST['ordernumber'];
 	$orderstatus=$_POST['orderstatus'];
@@ -173,7 +174,7 @@ if($budid!=-1){
 						}
 					}
 
-				 /*Now the buttons to progress the order to the next status.*/
+				 /* Now the buttons to progress the order to the next status.*/
 				if($status!='closed'){
 					$orderactions=array();
 					$actionbuttons=array();

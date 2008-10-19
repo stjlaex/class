@@ -39,15 +39,22 @@ elseif(isset($_POST['recipients'])){
 	}
 if(isset($recipients)){
 	$action='write';
-	while(list($index,$email)=each($recipients)){
-		if(!isset($joiner)){$joiner='&mail_bcc=';}
-		else{$joiner=',';}
-		$mailbcc.=$joiner. $email;
+	if(sizeof($recipients)==1){
+		$mailto=$recipients[0];
 		}
-	unset($joiner);
+	else{
+		$mailto=$user['email'];
+	   	while(list($index,$email)=each($recipients)){
+		   	if(!isset($joiner)){$joiner='&mail_bcc=';}
+			else{$joiner=',';}
+		    $mailbcc.=$joiner. $email;
+		    }
+		unset($joiner);
+		}
 	}
 else{
 	$action='login';
+	$mailto=$user['email'];
 	}
 
 $lang=current_language();
@@ -57,7 +64,7 @@ $externalparams=array(
 					  'domainnum' => 0,
 					  'token' => $token,
 					  'user' => $emailnames[0],
-					  'mail_to' => $user['email'],
+					  'mail_to' => $mailto,
 					  'passwd' => $emailpasswd
 					  );
 

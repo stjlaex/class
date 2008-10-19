@@ -17,6 +17,7 @@ else{$displaymid=$_POST['displaymid'];}//new mark created by previous script
 /* the session data for components*/
 if(isset($_POST['cids'])){
 	$pids=array();
+	$components=array();
 	$classes=array();
 	if($_SESSION['cids']!=$_POST['cids']){
 		$_SESSION['cids']=$_POST['cids'];
@@ -31,7 +32,6 @@ if(isset($_POST['cids'])){
 		$classes[$cid]=mysql_fetch_array($d_c,MYSQL_ASSOC);
 		/*grab the class's subject components*/
 		$comps=list_subject_components($classes[$cid]['bid'],$classes[$cid]['crid']);
-		$components=array();
 		while(list($index,$component)=each($comps)){
 			if(!in_array($component['id'],$pids)){
 				$components[]=$component;
