@@ -30,31 +30,23 @@ three_buttonmenu();
 	list_select_enum('enrolstatus',$listoptions,$book);
 ?>
 		</div>
-		<div class="right" >
+		<div class="left" >
 <?php
-	$listname='enrolyear';$listlabel='year';$required='yes';
+	$listname='enrolyear';$listlabel='enrolmentyear';$required='yes';
 	$enrolyear=$Enrolment['Year']['value'];
 	include('scripts/list_calendar_year.php');
 ?>
 		</div>
-	  </fieldset>
-
-	  <fieldset class="center listmenu">
-		<table class="listmenu">
-		  <tr>
-			<td>
-			  &nbsp;
-			</td>
-			<td>
+		<div class="right" >
 <?php 
 	$listname='enrolyid';$listlabel='yeargroup';$required='yes';
 	$enrolyid=$Enrolment['YearGroup']['value'];
 	include('scripts/list_year.php');
 ?>
-			</td>
-		  </tr>
-		</table>
+		</div>
+	  </fieldset>
 
+	  <fieldset class="center listmenu">
 <?php 	$tab=xmlarray_form($Enrolment,'','',$tab,'infobook');?>
 
 	  </fieldset>
@@ -97,7 +89,7 @@ three_buttonmenu();
 				print '>'.$level_grade.'</option>';
 				}
 ?>
-				</select>	
+				</select>
 <?php
 			}
 		else{

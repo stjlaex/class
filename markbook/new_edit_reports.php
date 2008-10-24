@@ -21,7 +21,7 @@ else{
 	$edit_comments_off='yes';
 	}
 
-	$reportdef=fetchReportDefinition($rid,$bid);
+	$reportdef=fetch_reportdefinition($rid,$bid);
 	$eids=(array)$reportdef['eids'];
 
 	$subjectname=get_subjectname($bid);

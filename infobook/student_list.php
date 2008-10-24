@@ -81,20 +81,25 @@ two_buttonmenu($extrabuttons,$book);
 		  </td>
 		  <td>
 <?php
-			if($_SESSION['role']!='office' and $_SESSION['role']!='support'){
-				$comment=commentDisplay($sid);
+		if($_SESSION['role']!='office' and $_SESSION['role']!='support'){
+				$comment=comment_display($sid);
 ?>
-			<a href="infobook.php?current=student_scores.php&sid=<?php print $sid;?>">T</a> 
+		<a href="infobook.php?current=student_scores.php&sid=<?php print $sid;?>">T</a> 
 			<span title="<?php print $comment['body'];?>">
-			  <a href="infobook.php?current=comments_list.php&sid=<?php print $sid;?>"
+		<a href="infobook.php?current=comments_list.php&sid=<?php print $sid;?>"
 				class="<?php print $comment['class'];?>">C</a> 
 			</span>
-			<a href="infobook.php?current=incidents_list.php&sid=<?php print $sid;?>">I</a>
-<?php
-				}
-			else{
-				print '&nbsp';
-				}
+		<a href="infobook.php?current=incidents_list.php&sid=<?php print $sid;?>">I</a>
+<?php		if($Student['SENFlag']['value']=='Y'){ ?>
+		<a href="infobook.php?current=student_view_sen.php&sid=<?php print $sid;?>&sids[]=<?php print $sid;?>&bid=G">S</a>
+<?php			}
+		if($Student['MedicalFlag']['value']=='Y'){ ?>
+		<a href="infobook.php?current=student_view_medical.php&sid=<?php print $sid;?>&sids[]=<?php print $sid;?>&bid=G">M</a>
+<?php			}
+			}
+		else{
+			print '&nbsp';
+			}
 ?>
 		  </td>
 		  <td>

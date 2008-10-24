@@ -8,11 +8,16 @@
 
 /**
  *
+ * This short version avoids building the whole student array in
+ * favour of a bare minimum of key fields with the intention of making
+ * it more economical. The resulting Student array can not be used
+ * when processing forms because it lacks field and table values.
+ *
  */
 function fetchStudent_short($sid){
-   	$d_student=mysql_query("SELECT * FROM student WHERE id='$sid'");
+   	$d_student=mysql_query("SELECT * FROM student WHERE id='$sid';");
 	$student=mysql_fetch_array($d_student,MYSQL_ASSOC);
-   	$d_info=mysql_query("SELECT * FROM info WHERE student_id='$sid'");
+   	$d_info=mysql_query("SELECT sen, medical FROM info WHERE student_id='$sid';");
 	$info=mysql_fetch_array($d_info,MYSQL_ASSOC);
 
 	$Student=array();
@@ -52,8 +57,8 @@ function fetchStudent_short($sid){
 		}
 
 	$Student['Gender']=array('label' => 'gender', 
-							 'field_db' => 'gender',
-							 'type_db' => 'enum',
+							 'field_db' => 'gender',//Need these for displayenum
+							 'type_db' => 'enum',//Need these for displayenum
 							 'value' => ''.$student['gender']);
    	$Student['DOB']=array('label' => 'dateofbirth', 
 						  'type_db' => 'date',
@@ -62,6 +67,10 @@ function fetchStudent_short($sid){
 										'value' => ''.$student['form_id']);
    	$Student['YearGroup']=array('label' => 'yeargroup', 
 								'value' => ''.$student['yeargroup_id']);
+   	$Student['SENFlag']=array('label' => 'seninformation', 
+							  'value' => ''.$info['sen']);
+   	$Student['MedicalFlag']=array('label' => 'medicalinformation', 
+								  'value' => ''.$info['medical']);
 	return nullCorrect($Student);
 	}
 
@@ -69,7 +78,11 @@ function fetchStudent_short($sid){
 /**
  *
  * This is an ad-hoc function for use by student_list only at the moment
- * to quickly get at sid fields outside of student.
+ * to quickly get at sid fields outside of the Student array.
+ *
+ * It returns a fragment of Student which can be folded into an
+ * existing Student array with $Student=array_merge($Student,$Studentfield)
+ *
  */
 function fetchStudent_singlefield($sid,$tag){
 	$fieldtype='';
@@ -82,6 +95,8 @@ function fetchStudent_singlefield($sid,$tag){
 	elseif($tag=='EmailAddress'){$fieldname='email';}
 	elseif($tag=='MobilePhone'){$fieldname='phonenumber';}
 	elseif($tag=='EPFUsername'){$fieldname='epfusername';}
+	elseif($tag=='SENFlag'){$fieldname='sen';}
+	elseif($tag=='MedicalFlag'){$fieldname='medical';}
 	elseif(substr_count($tag,'FirstContact')){$contactno=0;}
 	elseif(substr_count($tag,'SecondContact')){$contactno=1;}
 
@@ -117,7 +132,7 @@ function fetchStudent_singlefield($sid,$tag){
 		}
 
 	if(isset($fieldname)){
-		$d_info=mysql_query("SELECT $fieldname FROM info WHERE student_id='$sid'");
+		$d_info=mysql_query("SELECT $fieldname FROM info WHERE student_id='$sid';");
 		$info=mysql_fetch_array($d_info,MYSQL_ASSOC);
 		$Student[$tag]=array('label' => '',
 							 'field_db' => ''.$fieldname,
@@ -292,10 +307,10 @@ function fetchStudent($sid='-1'){
 								  );
    	$Student['EnrolmentStatus']=array('label' => 'enrolstatus', 
 									  //'table_db' => 'info', 
-								  'field_db' => 'enrolstatus', 
-								  'type_db' => 'enum', 
-								  'value' => ''.$info['enrolstatus']
-								  );
+									  'field_db' => 'enrolstatus', 
+									  'type_db' => 'enum', 
+									  'value' => ''.$info['enrolstatus']
+									  );
 	$Student['EntryDate']=array('label' => 'schoolstartdate', 
 								'table_db' => 'info', 
 								'field_db' => 'entrydate', 
@@ -328,9 +343,9 @@ function fetchStudent($sid='-1'){
 									'value' => ''.$info['transportmode']);
    	$Student['EnrolmentNotes']=array('label' => 'enrolmentnotes', 
 									 'table_db' => 'info', 
-									 'field_db' => 'enrolnotes',
+									 'field_db' => 'appnotes',
 									 'type_db' => 'text', 
-									 'value' => ''.$info['enrolnotes']
+									 'value' => ''.$info['appnotes']
 									 );
 
 	/*******Contacts****/
@@ -533,7 +548,8 @@ function fetchContact($gidsid=array('guardian_id'=>'-1','student_id'=>'-1','prio
 
 	/*******ContactsAddresses****/
 	$Addresses=array();
-	$d_gidaid=mysql_query("SELECT * FROM gidaid WHERE guardian_id='$gid' ORDER BY priority");
+	$d_gidaid=mysql_query("SELECT * FROM gidaid WHERE 
+					guardian_id='$gid' ORDER BY priority;");
 	while($gidaid=mysql_fetch_array($d_gidaid,MYSQL_ASSOC)){
 		$Addresses[]=fetchAddress($gidaid);
 		}
@@ -582,7 +598,6 @@ function fetchAddress($gidaid=array('address_id'=>'-1','addresstype'=>'')){
 	 $Address['Order']=array('label' => 'priority', 
 									'table_db' => 'gidaid', 'field_db' => 'priority',
 									'type_db' => 'enum', 'value' => $gidaid['priority']);
-	*/
 	$Address['AddressType']=array('label' => 'type', 
 								  //'inputtype'=> 'required',
 								  //'table_db' => 'gidaid', 
@@ -590,17 +605,6 @@ function fetchAddress($gidaid=array('address_id'=>'-1','addresstype'=>'')){
 								  'type_db' => 'enum', 
 								  //'default_value' => 'H',
 								  'value' => ''.$gidaid['addresstype']);
-	/*Now deprecated...
-	$Address['BuildingName']=array('label' => 'building', 
-								   'table_db' => 'address', 
-								   'field_db' => 'building',
-								   'type_db' => 'varchar(60)', 
-								   'value' => ''.$address['building']);
-	$Address['StreetNo']=array('label' => 'streetno.', 
-							   'table_db' => 'address', 
-							   'field_db' => 'streetno',
-							   'type_db' => 'varchar(10)', 
-							   'value' => ''.$address['streetno']);
 	*/
 	$Address['Street']=array('label' => 'street',
 						   'table_db' => 'address', 
@@ -868,10 +872,13 @@ function fetchComments($sid,$startdate='',$enddate=''){
 	return nullCorrect($Comments);
 	}
 
+
 /**
  *
+ *
+ *
  */
-function commentDisplay($sid,$date='',$Comments=''){
+function comment_display($sid,$date='',$Comments=''){
 	$commentdisplay=array();
 	if($date==''){
 		$date=date('Y-m-d',mktime(0,0,0,date('m'),date('d')-31,date('Y')));
@@ -896,12 +903,14 @@ function commentDisplay($sid,$date='',$Comments=''){
 
 
 /**
- * Only used for tasks specific to enrolment and not to be part of the
- * Student array (at least for now!)
+ *
+ * Only used for tasks specific to application and enrolment and not
+ * to be part of the Student array.
+ *
  */
 function fetchEnrolment($sid='-1'){
 	$comid=-1;
-   	$d_info=mysql_query("SELECT * FROM info WHERE student_id='$sid'");
+   	$d_info=mysql_query("SELECT * FROM info WHERE student_id='$sid';");
 	if(mysql_num_rows($d_info)>0){
 		$info=mysql_fetch_array($d_info,MYSQL_ASSOC);
 		if($info['enrolstatus']=='EN'){
@@ -950,33 +959,47 @@ function fetchEnrolment($sid='-1'){
    	$Enrolment['EnrolmentStatus']=array('label' => 'enrolstatus', 
 										//'table_db' => 'info', 
 										'field_db' => 'enrolstatus', 
-										'type_db'=>'enum', 
+										'type_db' => 'enum', 
 										'value' => ''.$enrolstatus
 										);
-   	$Enrolment['EnrolmentNotes']=array('label' => 'enrolmentnotes', 
-									   'table_db' => 'info', 
-									   'field_db' => 'enrolnotes',
-									   'type_db' => 'text', 
-									   'value' => ''.$info['enrolnotes']
-									   );
+   	$Enrolment['Year']=array('label' => 'enrolmentyear', 
+							 //'table_db' => '', 
+							 'field_db' => 'year', 
+							 'type_db' => 'year', 
+							 'value' => ''.$year
+							 );
    	$Enrolment['YearGroup']=array('label' => 'yeargroup', 
 								  //'table_db' => 'student', 
 								  'field_db' => 'yeargroup_id', 
 								  'type_db' => 'int', 
 								  'value' => ''.$yid
 								  );
-   	$Enrolment['Year']=array('label' => 'year', 
-							 //'table_db' => '', 
-							 'field_db' => 'year', 
-							 'type_db' => 'year', 
-							 'value' => ''.$year
-							 );
-   	$Enrolment['EnrolNumber']=array('label' => 'enrolmentnumber', 
-									'table_db' => 'info', 
-									'field_db' => 'formerupn', 
-									'type_db' =>'varchar(13)', 
-									'value' => ''.$info['formerupn']
-									);
+	$Enrolment['ApplicationDate']=array('label' => 'applicationdate', 
+								  'table_db' => 'info', 
+								  'field_db' => 'appdate', 
+								  'type_db' => 'date', 
+								  'value' => ''.$info['appdate']
+								  );
+   	$Enrolment['ApplicationNotes']=array('label' => 'applicationnotes', 
+									   'table_db' => 'info', 
+									   'field_db' => 'appnotes',
+									   'type_db' => 'text', 
+									   'value' => ''.$info['appnotes']
+									   );
+	/* TODO: enable this for using categorydef
+   	$Enrolment['ApplicationCategory']=array('label' => 'applicationcategory', 
+									   'table_db' => 'info', 
+									   'field_db' => 'appcat',
+									   'type_db' => 'varchar(240)', 
+									   'value' => ''.$info['appcat']
+									   );
+	*/
+	$Enrolment['StaffChild']=array('label' => 'staffchild', 
+								  'table_db' => 'info', 
+								  'field_db' => 'staffchild', 
+								  'type_db' => 'enum', 
+								  'value' => ''.$info['staffchild']
+								  );
 	$Enrolment['EntryDate']=array('label' => 'schoolstartdate', 
 								  'table_db' => 'info', 
 								  'field_db' => 'entrydate', 
@@ -988,6 +1011,12 @@ function fetchEnrolment($sid='-1'){
 									'field_db' => 'leavingdate', 
 									'type_db' =>'date', 
 									'value' => ''.$info['leavingdate']
+									);
+   	$Enrolment['EnrolNumber']=array('label' => 'enrolmentnumber', 
+									'table_db' => 'info', 
+									'field_db' => 'formerupn', 
+									'type_db' =>'varchar(13)', 
+									'value' => ''.$info['formerupn']
 									);
 	return $Enrolment;
 	}
@@ -1298,6 +1327,7 @@ function get_epfusername($sid,$Student=array(),$type='student'){
 		}
 	return $epfusername;
 	}
+
 
 /**
  * Will list contacts sharing the address identified by aid.

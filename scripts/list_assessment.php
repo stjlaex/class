@@ -16,11 +16,19 @@
 			$d_cridbid=mysql_query("SELECT DISTINCT course_id FROM cridbid WHERE
 						subject_id='$rbid' ORDER BY course_id"); 
 			while($course=mysql_fetch_array($d_cridbid,MYSQL_ASSOC)){
-				$cohorts[]=array('id'=>'','course_id'=>$course['course_id'],'stage'=>'%','year'=>'%');
+				$cohorts[]=array('id'=>'',
+								 'course_id'=>$course['course_id'],
+								 'stage'=>'%',
+								 'year'=>'%'
+								 );
 				}
 			}
 		else{
-			$cohorts[]=array('id'=>'','course_id'=>$rcrid,'stage'=>'%','year'=>'%');
+			$cohorts[]=array('id'=>'',
+							 'course_id'=>$rcrid,
+							 'stage'=>'%',
+							 'year'=>'%'
+							 );
 			}
 		}
 	elseif(sizeof($ryids)>0){
@@ -57,7 +65,11 @@
 				if(!array_key_exists($AssDef['id_db'],$eids)){
 					$eids[$AssDef['id_db']]=$AssDef['id_db'];
 ?>
-		<option value="<?php print $AssDef['id_db'];?>">
+		<option 
+<?php
+		if(in_array($AssDef['id_db'], $seleids)){print ' selected="selected" ';}
+?>
+			value="<?php print $AssDef['id_db'];?>">
 				 <?php print 
 					$AssDef['Course']['value']. 
 				 ' ('.$AssDef['Stage']['value'].' '.$AssDef['Year']['value'].') '.

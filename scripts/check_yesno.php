@@ -19,14 +19,14 @@ if(isset($checkalert)){$doublecheck='onClick="alert(\''.$checkalert.'\');"';}els
 	  <td>
 	<label for="yes<?php print $$icheckname; ?>"><?php print_string('yes');?></label>
 	<input type="radio" name="<?php print $checkname;?><?php print $$icheckname; ?>" 
-		  title="yes" id="yes<?php print $$icheckname; ?>" 
+		  title="yes" id="yes<?php print $checkname. $$icheckname; ?>" 
 		  tabindex="<?php print $tab++;?>" <?php print $doublecheck;?>
 		  value="yes" <?php if($checkchoice=='yes'){print 'checked';}?> />
 	  </td>
 	  <td>
 	<label for="no<?php print $$icheckname; ?>"><?php print_string('no');?></label>
 	<input type="radio" name="<?php print $checkname;?><?php print $$icheckname; ?>" 
-		  title="no" id="no<?php print $$icheckname; ?>"
+		  title="no" id="no<?php print $checkname. $$icheckname; ?>"
 		  tabindex="<?php print $tab++;?>" 
 		  value="no" <?php if($checkchoice=='no'){print 'checked';}?> />
 	  </td>

@@ -89,9 +89,10 @@
 					$cell['value']+=$app_tablerows[$yid]['AC']['value'];
 					}
 				else{
-					/* Accepteds plus the new currents for this year*/
-					$cell['value']=$app_tablerows[$yid]['AC']['value']
-							+ $app_tablerows[$yid]['C']['value'];
+					/* The new students who have joined the roll 
+					   since the start of the year*/
+					$cell['value']=$app_tablerows[$yid]['C']['value'];
+
 					/*TODO
 					$cell['display']='<a href="admin.php?current=enrolments_list.php&cancel='.
 						$choice.'&choice='. $choice.'&enrolyear='. $enrolyear.'&yid='. $yid.

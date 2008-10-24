@@ -141,9 +141,9 @@ function generate_random_name($gender){
 		$id=$row['student_id'];
 		if(mysql_query("UPDATE $table SET formerupn='20987',
 			ethnicity='', email='', phonenumber='', countryoforigin='',
-			language='EN', religion='', incare='N', enrolnotes='',
-			entrydate='2001-04-01', leavingdate='', nationality='GB', 
-				secondnationality='', medical='N', epfusername=''
+			language='EN', religion='', incare='N', appnotes='', appdate='',
+			staffchild=N', entrydate='2001-04-01', leavingdate='', nationality='GB', 
+			appcat='', secondnationality='', medical='N', epfusername=''
 				WHERE student_id='$id'")){}
 		else{$error[]=mysql_error();}
 		}

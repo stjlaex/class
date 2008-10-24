@@ -4,8 +4,8 @@
 
 $action='report_incidents_list.php';
 $choice='report_incidents.php';
-$tomonth=date('n')-1;//last month default
-$today=date('j');
+$tomonth=date('n');
+$today=date('j')-7;//last week by default
 $toyear=date('Y');
 $todate=$toyear.'-'.$tomonth.'-'.$today;
 

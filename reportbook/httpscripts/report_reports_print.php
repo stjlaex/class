@@ -31,7 +31,7 @@ if(isset($_POST['wrapper_rid'])){$wrapper_rid=$_POST['wrapper_rid'];}
 		/*find the details, assessments, etc. specific to each report */
 		$reportdefs=array();
 		for($c=0;$c<sizeof($rids);$c++){
-			$reportdefs[]=fetchReportDefinition($rids[$c]);
+			$reportdefs[]=fetch_reportdefinition($rids[$c]);
 			}
 
 		$Students=array();

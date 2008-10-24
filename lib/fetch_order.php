@@ -558,6 +558,14 @@ function fetchInvoice($invid='-1'){
 								'type_db' => 'varchar(40)', 
 								'value' => ''.$inv['reference']
 								);
+   	$Invoice['Date']=array('label' => 'date', 
+						 //'inputtype'=> 'required',
+						 'table_db' => 'orderinvoice', 
+						 'field_db' => 'invoicedate',
+						 'type_db' => 'date', 
+						 'default_value' => date('Y-m-d'),
+						 'value' => ''.$inv['invoicedate']
+						 );
    	$Invoice['DeliveryCost']=array('label' => 'deliverycost', 
 								   //'inputtype'=> 'required',
 								   'table_db' => 'orderinvoice', 

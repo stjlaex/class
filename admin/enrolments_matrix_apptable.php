@@ -54,7 +54,7 @@ $app_cols=array();
 						comidsid WHERE community_id='$yearcomid'
 					AND (leavingdate>'$todate' OR 
 					leavingdate='0000-00-00' OR leavingdate IS NULL) 
-					AND joiningdate<='$todate' AND joiningdate>='$yearstartdate-09-01';");
+					AND joiningdate<='$todate' AND joiningdate>='$yearstartdate';");
 			$newcurrentsids=mysql_result($d_nosids,0);
 			//$values[0]+=$newcurrentsids;
 			}
@@ -64,11 +64,11 @@ $app_cols=array();
 		reset($application_steps);
 		while(list($index,$enrolstatus)=each($application_steps)){
 			$value=0;
-			$extravalue=0;
+			//$extravalue=0;
 			if($enrolstatus=='EN'){$comtype='enquired';}
 			elseif($enrolstatus=='AC'){
 				$comtype='accepted';
-				$extravalue=$newcurrentsids;
+				//$extravalue=$newcurrentsids;
 				}
 			else{$comtype='applied';}
 			$com=array('id'=>'','type'=>$comtype, 
@@ -79,7 +79,7 @@ $app_cols=array();
 			/* 'live' or 'static' values */
 			if($applications_live or $enrolstatus=='AC'){
 				$value=countin_community($com);
-				$displayvalue=$value+$extravalue;
+				$displayvalue=$value; //+$extravalue;
 				$display='<a href="admin.php?current=enrolments_list.php&cancel='.
 						$choice.'&choice='. $choice.'&enrolyear='. $enrolyear.'&yid='. $yid.
 						'&comid='.$com['id'].'">'
@@ -87,7 +87,7 @@ $app_cols=array();
 				}
 			else{
 				$value=countin_community($com,'','',true);
-				$display=$value+$extravalue;
+				$display=$value; //+$extravalue;
 				}
 			$values[$index+1]=$value;
 			$values[0]+=$values[$index+1];
@@ -98,7 +98,7 @@ $app_cols=array();
 				$app_tablecells[$enrolstatus]['display']=$display;
 						}
 			$app_tablecells[$enrolstatus]['value']=$value;
-			$app_tablecells[$enrolstatus]['extravalue']=$extravalue;
+			//$app_tablecells[$enrolstatus]['extravalue']=$extravalue;
 			}
 
 		/*Don't forget applications who have already joined current roll*/

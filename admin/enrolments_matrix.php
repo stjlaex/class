@@ -26,7 +26,8 @@ else{
 	}
 
 $todate=date('Y-m-d');
-$yearstartdate=$currentyear-1;
+$yearstart=$currentyear-1;
+$yearstartdate=$yearstart.'-'.$CFG->enrol_cutoffmonth.'-30';
 $yeargroups=list_yeargroups();
 $yeargroup_names=array();/* The row index for both tables. */
 while(list($index,$year)=each($yeargroups)){
@@ -97,7 +98,7 @@ while(list($index,$year)=each($yeargroups)){
 			reset($yeargroups);
 			while(list($yindex,$yeargroup)=each($yeargroups)){
 				$total+=$table['rows'][$yeargroup['id']][$col['value']]['value'];
-				$total+=$table['rows'][$yeargroup['id']][$col['value']]['extravalue'];
+				//$total+=$table['rows'][$yeargroup['id']][$col['value']]['extravalue'];
 				}
 			$coltotals[$colindex]=$total;
 			}

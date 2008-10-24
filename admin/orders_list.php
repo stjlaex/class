@@ -154,10 +154,12 @@ if($budid!=-1){
 								print get_string('invoice','admin').' '.$Invoice['Reference']['value'];
 								}
 							print ': '.$Invoice['DebitCost']['value']. 
-			 ' '. displayEnum($Invoice['Currency']['value'],$Invoice['Currency']['field_db']);?>
-				  <?php print ' ('.display_date($Action['Date']['value']).') - ';?>
-				  <?php print $Action['Teacher']['value']. ' ';?>
-				  <?php print $Action['Detail']['value'];?>
+							' '. displayEnum($Invoice['Currency']['value'],$Invoice['Currency']['field_db']);
+							print ' '.display_date($Invoice['Date']['value']). 
+							' - '.$Action['Teacher']['value']. 
+							' ('.display_date($Action['Date']['value']).') '.
+							$Action['Detail']['value'];
+?>
 				</div>
 <?php
 							}

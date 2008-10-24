@@ -126,9 +126,10 @@ function list_course_cohorts($crid,$year='',$season='S'){
 	}
 
 /**
+ *
  * Returns an array listing the cids for all classes associated with
  * this form where the class is actually populated by just this
- * form's sids
+ * form's sids (so does not return sets).
  *
  */
 function list_forms_classes($fid){
@@ -197,6 +198,46 @@ function list_class_teachers($cid){
 					tidcid WHERE class_id='$cid';");   
    	while($teacher=mysql_fetch_array($d_t,MYSQL_ASSOC)){
 		$teachers[]=array('id'=>$teacher['teacher_id'],'name'=>$teacher['teacher_id']);
+		}
+	return $teachers;
+	}
+
+/** 
+ * Returns an id-name array listing all classes this sid attends.
+ * The name is a descriotion of the course and subject for each class.
+ *
+ */
+function list_student_classes($sid){
+	if($sid==''){$sid=-1;}
+	$classes=array();
+	$d_c=mysql_query("SELECT DISTINCT class.id, class.course_id, class.subject_id FROM  
+					class JOIN cidsid ON class.id=cidsid.class_id 
+					WHERE cidsid.student_id='$sid';");
+   	while($c=mysql_fetch_array($d_c,MYSQL_ASSOC)){
+		$classes[]=array('id'=>$c['teacher_id'],
+						 'name'=>$c['course_id'].' '.$c['subject_id']
+						 );
+		}
+	return $classes;
+	}
+
+/** 
+ * Returns an array listing all subject teachers of this student.
+ * The array is a partial users record with name and email detials.
+ *
+ */
+function list_student_teachers($sid){
+	if($sid==''){$sid=-1;}
+	$teachers=array();
+	$d_t=mysql_query("SELECT DISTINCT 
+				   	username, forename, surname, title, email FROM  
+					users JOIN tidcid ON users.username=tidcid.teacher_id 
+					WHERE users.nologin!='1' AND
+					tidcid.class_id=ANY(SELECT DISTINCT class_id 
+					FROM cidsid WHERE student_id='$sid');");
+   	while($t=mysql_fetch_array($d_t,MYSQL_ASSOC)){
+		trigger_error($t['username'],E_USER_WARNING);
+		$teachers[]=$t;
 		}
 	return $teachers;
 	}

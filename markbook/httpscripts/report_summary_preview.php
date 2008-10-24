@@ -22,7 +22,7 @@ if(isset($_POST['pid'])){$pid=$_POST['pid'];}
 		/* Find the details, assessments, etc. specific to each report. */
 		$reportdefs=array();
 		$rid=$rids[0];
-		$reportdefs[]=fetchReportDefinition($rid,$bid);
+		$reportdefs[]=fetch_reportdefinition($rid,$bid);
 
 		$Students=array();
 		$Students['Student']=array();

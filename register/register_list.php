@@ -9,16 +9,12 @@ $choice='register_list.php';
 
 include('scripts/sub_action.php');
 
+if(isset($CFG->registration[$secid]) 
+   and $CFG->registration[$secid]=='double'){$period='%';}
+else{$period='AM';}
 
-	if(isset($CFG->registration[$secid]) 
-	   and $CFG->registration[$secid]=='double'){$period='%';}
-	else{$period='AM';}
-
-	$students=(array)listin_community($community);
-
-	$d_t=mysql_query("SELECT teacher_id FROM form WHERE id='$newfid';");
-	$tutor_tid=mysql_result($d_t,0);
-	$tutor_user=get_user($tutor_tid);
+$students=(array)listin_community($community);
+$tutor_user=(array)get_tutor_user($newfid);
 
 	$AttendanceEvents=fetchAttendanceEvents($startday,7,$period);
 	$evetable=$AttendanceEvents['evetable'];
@@ -122,7 +118,7 @@ if($_SESSION['role']=='office' or $_SESSION['role']=='admin'){
 		$sid=$student['id'];
 		$Student=fetchStudent_short($sid);
 		$Attendances=(array)fetchAttendances($sid,$startday);
-		$comment=commentDisplay($sid);
+		$comment=comment_display($sid);
 ?>
 		<tr id="sid-<?php print $sid;?>">
 		  <td>

@@ -11,9 +11,11 @@ if(isset($_GET['contactno'])){$contactno=$_GET['contactno'];}else{$contactno=-2;
 if(isset($_POST['contactno'])){$contactno=$_POST['contactno'];}
 
 /* Check user has permission to view. */
-$yid=$Student['YearGroup']['value'];
-$perm=getYearPerm($yid,$respons);
-include('scripts/perm_action.php');
+if($sid!=''){
+	$yid=$Student['YearGroup']['value'];
+	$perm=getYearPerm($yid,$respons);
+	include('scripts/perm_action.php');
+	}
 
 if($contactno>-1){
 	/* Editing a pre-existing link to a contact*/

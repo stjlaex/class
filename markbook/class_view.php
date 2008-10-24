@@ -186,6 +186,10 @@ if($_SESSION['worklevel']>-1){
 			<a href="infobook.php?current=student_view_sen.php&sid=<?php print $viewtable[$c2]['sid'];?>&sids[]=<?php print $viewtable[$c2]['sid'];?>&bid=<?php print $bid[0];?>"
 			  target="viewinfobook" onclick="parent.viewBook('infobook');">S</a>
 <?php			} ?>
+<?php		if($viewtable[$c2]['medical']=='Y'){ ?>
+			<a href="infobook.php?current=student_view_medical.php&sid=<?php print $viewtable[$c2]['sid'];?>&sids[]=<?php print $viewtable[$c2]['sid'];?>"
+			  target="viewinfobook" onclick="parent.viewBook('infobook');">M</a>
+<?php			} ?>
 		  </td>
 		  <td>
 			<a href="infobook.php?current=student_view.php&sid=<?php print $viewtable[$c2]['sid'];?>&sids[]=<?php print $viewtable[$c2]['sid'];?>"

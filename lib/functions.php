@@ -32,10 +32,10 @@
 function emailHeader(){
 	global $CFG;
 	$headers = 'From: ClaSS@'.$CFG->siteaddress ."\r\n" . 
-		'Reply-To: '.$CFG->emailnoreply . "\r\n" .
+	  'Reply-To: '.$CFG->emailnoreply . "\r\n" .
 		'X-Mailer: PHP/' . phpversion();
 	return $headers;
-  	}
+	}
 
 /**
  * Needs a file handle and then prepares and writes a single row of csv
@@ -53,7 +53,7 @@ function file_putcsv($handle, $row, $fd=',', $quot='"'){
 		else{
 			$str.=$cell. $fd;
 			}
-	}
+		}
 	fputs($handle, substr($str, 0, -1)."\n");
 	return strlen($str);
 	}
@@ -70,14 +70,14 @@ function nullCorrect($array){
 		foreach($array as $key => $value){
 			if(sizeof($value)>0 and is_array($value)){
 				$array[$key]=nullCorrect($value);
-			}
+				}
 			elseif($value=='' and $value!='0'){$array[$key]=' ';}
 			//		  if(!$value){$array[$key]=' ';}
+			}
 		}
-	}
 	else{$array=' ';}
 	return $array;
-}
+	}
 
 
 /**
@@ -270,6 +270,7 @@ function getEnumArray($field_name){
 	$relwo=array('A' => 'attendscollectivewoship', 
 				 'W' => 'withdrawnfromcollectiveworthship');
 	$parttime=array('N' => 'no', 'Y' => 'yes');
+	$staffchild=array('N' => 'no', 'Y' => 'yes');
 	$sen=array('N' => 'no', 'Y' => 'yes');
 	$closed=array('N' => 'open', 'Y' => 'closed');
 	$medical=array('N' => 'no', 'Y' => 'yes');
@@ -1112,6 +1113,7 @@ function list_directory_files($directory,$extension='*'){
 			}
 		}
     closedir($handler);
+	sort($results);
     return $results;
 	}
 

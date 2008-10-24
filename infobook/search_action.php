@@ -66,6 +66,14 @@ else{
 				MATCH (address.country) AGAINST ('$value*' IN BOOLEAN MODE) 
 				OR address.country='$value'");
 			}
+		elseif($table=='student' and $field=='surname'){
+			/*defaults to surname or gender search*/
+				//OR $field LIKE '%$value%' 
+			$d_sids=mysql_query("SELECT id FROM $table WHERE
+				MATCH (surname) AGAINST ('*$value*' IN BOOLEAN MODE) 
+				OR surname LIKE '%$value%' OR surname='$value' 
+				ORDER BY surname, forename");
+			}
 		elseif($table=='student' and $field=='forename'){
 			$d_sids=mysql_query("SELECT id FROM $table WHERE 
 				MATCH (forename,preferredforename) AGAINST ('*$value*' IN BOOLEAN MODE) 
@@ -79,29 +87,34 @@ else{
 				OR info.$field='$value' ORDER BY student.surname, student.forename");
 			}
 		else{
+			/*defaults to gender search*/
 			$d_sids=mysql_query("SELECT id FROM $table WHERE
-				MATCH ($field) AGAINST ('$value*' IN BOOLEAN MODE) 
-				OR $field='$value' ORDER BY surname, forename");
+				$field='$value' ORDER BY surname, forename");
 			}
 		}
+
 	/*old search method for students only using surname and forename*/
 	elseif(isset($surname) and $surname!=''){
 		if(isset($forename) and $forename!=''){
 			$d_sids=mysql_query("SELECT id FROM $table WHERE
-				MATCH (surname) AGAINST ('$surname*' IN BOOLEAN MODE) 
-				AND (MATCH (forename,preferredforename) AGAINST ('$forename*' IN BOOLEAN MODE) 
-				OR forename='$forename' OR preferredforename='$forename')
+				(MATCH (surname) AGAINST ('$surname*' IN BOOLEAN MODE) 
+					OR surname LIKE '%$surname%') 
+					AND (MATCH (forename,preferredforename) 
+					AGAINST ('$forename*' IN BOOLEAN MODE) 
+					OR forename='$forename' OR preferredforename='$forename')
 						ORDER BY surname, forename");
 			}
 		else{
 			$d_sids=mysql_query("SELECT id FROM $table WHERE
 				MATCH (surname) AGAINST ('$surname*' IN BOOLEAN MODE) 
+				OR surname LIKE '%$surname%' 
 				OR surname='$surname' ORDER BY surname, forename");
 			}
 		}
 	elseif(isset($forename) and $forename!=''){
 		$d_sids=mysql_query("SELECT id FROM $table WHERE 
-				MATCH (forename,preferredforename) AGAINST ('*$forename*' IN BOOLEAN MODE) 
+				MATCH (forename,preferredforename) 
+				AGAINST ('*$forename*' IN BOOLEAN MODE) 
 				OR forename='$forename' OR preferredforename='$forename' 
 				ORDER BY surname, forename");
 		}

@@ -40,9 +40,9 @@ div#currentbook {
 	position:absolute; left:16%; top:0%; width:84%; height:99.4%;
 	margin:1px 0 1px 0; border:0; padding:0;
 	overflow:hidden;
-	}
+    }
 div#logbook {
-	position:absolute; left:0%; top:4.4%; width:18%; height:95.15%; 
+    position:absolute; left:0%; top:4.4%; width:18%; height:95.15%; 
 	border:0; padding:0;
 	/* -moz-border-radius:0 0 0 18%; */
 	background-color:#444444;
@@ -183,7 +183,7 @@ div#logbookstripe.reportbook {
 /***************************************************************************/
 /* stuff for the bookoptions in the sidebar*/
 label, legend {
-	text-align:left; font-size:x-small; font-weight:600;
+    text-align:left; font-size:x-small; font-weight:600;
 	}
 select, input, button {
 	margin-bottom:10px;

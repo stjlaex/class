@@ -31,8 +31,9 @@ include('scripts/sub_action.php');
 if($sub=='Submit'){
 
 	if(isset($gid) and $gid!='-1' and $gid!=''){
-		$Contact=fetchContact(array('guardian_id'=>'-1','student_id'=>'-1'));
+		$Contact=fetchContact(array('guardian_id'=>$gid,'student_id'=>'-1'));
 		$Phones=(array)$Contact['Phones'];
+		$Addresses=$Contact['Addresses'];
 		}
 	else{
 		if(isset($sid)){
@@ -42,14 +43,22 @@ if($sub=='Submit'){
 			$Contact=fetchContact(array('guardian_id'=>'-1'));
 			}
 		$Phones=array();
-		mysql_query("INSERT INTO guardian SET surname=''");
+		$Addresses=array();
+		mysql_query("INSERT INTO guardian SET surname='';");
 		$gid=mysql_insert_id();
 		}
 
+	$Addresses[]=fetchAddress();
+	while(sizeof($Phones)<4){$Phones[]=fetchPhone();}
+
+
+
 	if(isset($sid)){
 		mysql_query("INSERT INTO gidsid SET
-				guardian_id='$gid', student_id='$sid'");
+				guardian_id='$gid', student_id='$sid';");
 		}
+
+
 	reset($Contact);
 	while(list($key,$val)=each($Contact)){
 		if(isset($val['value']) and is_array($val) and isset($val['table_db'])){
@@ -66,7 +75,7 @@ if($sub=='Submit'){
 			}
 		}
 
-	while(sizeof($Phones)<4){$Phones[]=fetchPhone();}
+
 	reset($Phones);
 	while(list($phoneno,$Phone)=each($Phones)){
 		$phoneid=$Phone['id_db'];
@@ -76,7 +85,7 @@ if($sub=='Submit'){
 				$inname=$field.$phoneno;
 				$inval=clean_text($_POST["$inname"]);
 				if($val['value']!=$inval){
-					if($phoneid=='-1' and $inval!='' and $inval!=' '){
+					if($phoneid=='-1' and $inval!=''){
 						mysql_query("INSERT INTO phone SET some_id='$gid';");
 						$phoneid=mysql_insert_id();
 						}
@@ -87,32 +96,37 @@ if($sub=='Submit'){
 			}
 		}
 
-	if(isset($_POST['addresstype']) and $_POST['addresstype']!=''){
-		$atype=$_POST['addresstype'];
-		$Address=fetchAddress(array('guardian_id'=>'-1'));
-		mysql_query("INSERT INTO address SET country=''");
-		$aid=mysql_insert_id();
-		mysql_query("INSERT INTO gidaid SET guardian_id='$gid',
-					address_id='$aid', addresstype='$atype'");
+
+	reset($Addresses);
+	while(list($addressno,$Address)=each($Addresses)){
+		$aid=$Address['id_db'];
 		reset($Address);
 		while(list($key,$val)=each($Address)){
 			if(isset($val['value']) and is_array($val) and isset($val['table_db'])){
 				$field=$val['field_db'];
-				$inname=$field;
+				$inname=$field. $addressno;
 				$inval=clean_text($_POST[$inname]);
-				if($val['table_db']=='address'){
-					mysql_query("UPDATE address SET $field='$inval'	WHERE id='$aid'");
+				if($inval!='' and $aid=='-1'){
+					mysql_query("INSERT INTO address SET country='';");
+					$aid=mysql_insert_id();
+					mysql_query("INSERT INTO gidaid SET guardian_id='$gid',
+					address_id='$aid';");
 					}
-				elseif($val['table_db']=='gidaid'){
+				if($val['table_db']=='address' and isset($aid)){
+					mysql_query("UPDATE address SET $field='$inval'	WHERE id='$aid';");
+					}
+				elseif($val['table_db']=='gidaid' and isset($aid)){
 					mysql_query("UPDATE gidaid SET $field='$inval'
-								   WHERE guardian_id='$gid' AND address_id='$aid'");
+	   					   WHERE guardian_id='$gid' AND address_id='$aid';");
 					}
 				}
 			}
 		}
-	}
 
 	$result[]=get_string('newcontactadded',$book);
+
+	}
+
 
 include('scripts/results.php');
 include('scripts/redirect.php');

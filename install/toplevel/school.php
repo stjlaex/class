@@ -69,13 +69,26 @@ $CFG->feeders[1]='';
 $CFG->feeders[2]='';
 /**
  * As part of the enrolment process applicants maybe assessed. Set
- * this to yes for this to be available (course related enrolment
+ * this to yes for this to be availbale (course related enrolment
  * assessments are always possible this is for a general
- * assessment). Set the second to the enrolassess grade which will
- * automaticaly flag the student as SEN or leave blank to be ignored.
+ * assessment). Set the second to the enrolassess grade level which
+ * will indicate to automaticaly flag the student as SEN; blank to be
+ * ignored.
  */
 $CFG->enrol_assess='no';
 $CFG->enrol_assess_sen='';
+/**
+ * Are the numbers for applications being handled live in the database (yes)
+ * or are they static being maintained in the table by hand (no).
+ */
+$CFG->enrol_applications='yes';
+/**
+ * The start of the month (integer 1 to 12) beyond which students
+ * count as new mid-year enrolments as distinct from enrolments who joined in
+ * time for the start of the academic year. Probably just the start of
+ * term if you don't care.
+ */
+$CFG->enrol_cutoffmonth='09';
 /*****
  *
  *Optional settings to tune the use of emails for notifying staff

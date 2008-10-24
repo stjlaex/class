@@ -12,7 +12,7 @@ if(!isset($xmlid)){print "Failed"; exit;}
    	$d_midcid=mysql_query("DELETE FROM mark
 	   	WHERE midlist='$rid' AND marktype='report'");
 
-$returnXML=fetchReportDefinition($rid);
+$returnXML=fetch_reportdefinition($rid);
 $rootName='ReportDefinition';
 require_once('../../scripts/http_end_options.php');
 exit;

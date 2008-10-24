@@ -13,11 +13,13 @@ include('scripts/sub_action.php');
 if($sub=='Submit'){
 
 	if($contactno>-1){
-		/*Check user has permission to edit*/
-		$yid=$Student['YearGroup']['value'];
-		$perm=getYearPerm($yid, $respons);
-		$neededperm='w';
-		include('scripts/perm_action.php');
+		if($sid!=''){
+			/*Check user has permission to edit*/
+			$yid=$Student['YearGroup']['value'];
+			$perm=getYearPerm($yid, $respons);
+			$neededperm='w';
+			include('scripts/perm_action.php');
+			}
 
 		/*editing exisiting contact link*/
 		$action='student_view.php';
@@ -27,14 +29,14 @@ if($sub=='Submit'){
 		}
 	elseif($contactno==-1 and $gid==-1){
 		/*completely fresh contact being linked to*/
-		mysql_query("INSERT INTO guardian SET surname=''");
+		mysql_query("INSERT INTO guardian SET surname='';");
 		$gid=mysql_insert_id();
-		mysql_query("INSERT INTO gidsid SET guardian_id='$gid', student_id='$sid'");
+		mysql_query("INSERT INTO gidsid SET guardian_id='$gid', student_id='$sid';");
 		$Contact=fetchContact();
 		}
 	elseif($gid>=-1 and $sid!=''){
 		/*pre-existing contact being linked to*/
-		mysql_query("INSERT INTO gidsid SET guardian_id='$gid', student_id='$sid'");
+		mysql_query("INSERT INTO gidsid SET guardian_id='$gid', student_id='$sid';");
 		$gidsid=array('guardian_id'=>$gid,'student_id'=>$sid,
 					  'priority'=>'','mailing'=>'','relationship'=>'');
 		$Contact=fetchContact($gidsid);
@@ -111,17 +113,18 @@ if($sub=='Submit'){
 				if($val['value']!=$inval){
 					if($val['table_db']=='address'){
 						if($aid=='-1' and $inval!=''){
-							mysql_query("INSERT INTO address SET region=''");
+							mysql_query("INSERT INTO address SET region='';");
 							$aid=mysql_insert_id();
 							mysql_query("INSERT INTO gidaid SET
-											guardian_id='$gid', address_id='$aid'");
+											guardian_id='$gid', address_id='$aid';");
 							}
-						mysql_query("UPDATE address SET $field='$inval' WHERE id='$aid'");
+						mysql_query("UPDATE address SET $field='$inval' 
+											WHERE id='$aid';");
 						}
 					
 					if($val['table_db']=='gidaid'){
 						mysql_query("UPDATE gidaid SET $field='$inval'
-						WHERE address_id='$aid' AND guardian_id='$gid'");
+						WHERE address_id='$aid' AND guardian_id='$gid';");
 						}
 					}
 				}

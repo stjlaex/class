@@ -190,7 +190,8 @@ function xmlarray_form($Array,$no='',$caption='',$tab=1,$book=''){
 
 
 /**
- * 
+ * Same as the xmlaray_form except it uses divs for formatting instead of a table. 
+ *
  */
 function xmlarray_divform($Array,$no='',$caption='',$tab=1,$book=''){
 
@@ -216,10 +217,30 @@ function xmlarray_divform($Array,$no='',$caption='',$tab=1,$book=''){
 	return $tab;
 	}
 
+
 /**
- * Prints one form element including  
- * its formatted value given in the xml element $val.
- * Use $no if this is a repeat in the same form.
+ *
+ * Prints a single formatted div for inclusion in a form of the
+ * xmlelement supplied as the xmlarray fragment $val.
+ *
+ */
+function xmlelement_div($val,$no='',$tab=1,$position='center',$book=''){
+	if(isset($val['value']) and is_array($val) and isset($val['table_db'])){
+?>
+  <div class="<?php print $position;?>">
+	<label for="<?php print $val['label'];?>">
+	  <?php print_string($val['label'],$book);?>
+	</label>
+	<?php $tab=xmlelement_input($val,$no,$tab,$book);?>
+  </div>
+<?php
+		}
+	return $tab;
+	}
+
+/**
+ * Prints one form element including its formatted value given in the
+ * xml element $val.  Use $no if this is a repeat in the same form.
  *
  */
 function xmlelement_input($val,$no,$tab,$book){
@@ -269,8 +290,7 @@ function xmlelement_input($val,$no,$tab,$book){
 		$maxlength=$field_type[1];
 ?>
 		<input type="text" id="<?php print $val['label'];?>" 
-			<?php print $pattern;?> 
-		  maxlength="<?php print $maxlength; ?>"
+		  <?php print $pattern;?> maxlength="<?php print $maxlength; ?>" 
 		  class="<?php if(isset($val['inputtype'])){print $val['inputtype'];}?>" 
 		  name="<?php print $val['field_db'].$no; ?>" 
 		  tabindex="<?php print $tab++;?>" value="<?php print $setval; ?>" />
@@ -303,9 +323,8 @@ function xmlelement_input($val,$no,$tab,$book){
 
 
 /**
- * Prints one cell based on the xml element $val, formatted to 
- * fit a listmenu table including the
- * element's label and any preset value.
+ * Prints one cell based on the xml element $val, formatted to fit a
+ * listmenu table including the element's label and any preset value.
  */
 function xmlelement_display($val,$book){
 	print '<td>';

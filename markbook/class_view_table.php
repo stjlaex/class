@@ -1,40 +1,46 @@
 <?php
 /**							class_view_table.php
+ *
  * Generates the array $viewtable and stores as a session variable.
+ *
+ *
  */
 
 $d_students=mysql_query("SELECT * FROM students ORDER BY surname, forename"); 
 $row=0;
 $viewtable=array();
 
-while($student=mysql_fetch_array($d_students, MYSQL_ASSOC)){
-		$sid=$student['student_id']; 
-		$d_info= mysql_query("SELECT sen FROM info WHERE student_id='$sid'");
-		$sen=mysql_result($d_info, 0);
-		$comment=commentDisplay($sid);
+	while($student=mysql_fetch_array($d_students, MYSQL_ASSOC)){
+		$sid=$student['student_id'];
+		$SEN_field=fetchStudent_singlefield($sid,'SENFlag');
+		$Medical_field=fetchStudent_singlefield($sid,'MedicalFlag');
+		$comment=comment_display($sid);
 		$Attendance=fetchcurrentAttendance($sid);
 
 		if($student['preferredforename']!=''){
 			$displaypfn='&nbsp;('.$student['preferredforename'].')';
 			}
 		else{$displaypfn='';}
-		$studentrow=array('row'=>$row, 'sen'=>$sen,
-				'commentclass'=>$comment['class'], 
-				'commentbody'=>$comment['body'], 
-				'attstatus'=>$Attendance['Status']['value'], 
-				'attcode'=>$Attendance['Code']['value'], 
-				'attcomment'=>$Attendance['Comment']['value'], 
-				'atttime'=>$Attendance['Logtime']['value'], 
-				'sid'=>$sid,
-				'surname'=>$student['surname'],
-				'forename'=>$student['forename'],
-				'preferredforename'=>$displaypfn,
-				'form_id'=>$student['form_id'],
-				'class_id'=>$student['class_id']);
+		$studentrow=array('row'=>$row, 
+						  'sen'=>$SEN_field['SENFlag']['value'],
+						  'medical'=>$Medical_field['MedicalFlag']['value'],
+						  'commentclass'=>$comment['class'], 
+						  'commentbody'=>$comment['body'], 
+						  'attstatus'=>$Attendance['Status']['value'], 
+						  'attcode'=>$Attendance['Code']['value'], 
+						  'attcomment'=>$Attendance['Comment']['value'], 
+						  'atttime'=>$Attendance['Logtime']['value'], 
+						  'sid'=>$sid,
+						  'surname'=>$student['surname'],
+						  'forename'=>$student['forename'],
+						  'preferredforename'=>$displaypfn,
+						  'form_id'=>$student['form_id'],
+						  'class_id'=>$student['class_id']
+						  );
 
-	for($c=0;$c<$c_marks;$c++) {
-		$col_mid=$umns[$c]['id'];
-		$score=array();
+		for($c=0;$c<$c_marks;$c++) {
+			$col_mid=$umns[$c]['id'];
+			$score=array();
 
 			/*The mark can be one of the five kinds - if a score or hw
 			 then one of a further five*/
@@ -136,7 +142,6 @@ while($student=mysql_fetch_array($d_students, MYSQL_ASSOC)){
 			$mids=explode(' ',$midlist[$c]);
 			$score_value=0;
 			$score_total=0;
-		//trigger_error('SUM: '.$profile_pidstatus.' '.sizeof($mids),E_USER_WARNING);
 			for($c2=0;$c2<sizeof($mids);$c2++){
 				$d_score=mysql_query("SELECT value, outoftotal 
    						FROM score WHERE mark_id='$mids[$c2]' AND student_id='$sid';");

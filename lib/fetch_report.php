@@ -2,6 +2,10 @@
 /**									   	fetch_report.php
  */
 
+
+/**
+ *
+ */
 function fetchSubjectReports($sid,$reportdefs){
 	$Reports=array();
 	$Reports['SummaryAssessments']=array();
@@ -10,7 +14,8 @@ function fetchSubjectReports($sid,$reportdefs){
 	$asseids=array();
 	$asselements=array();
 
-	/* Collate all assessment and report entries by subject for each course report chosen*/
+	/* Collate all assessment and report entries by subject for each
+	   course report chosen*/
 	while(list($repindex,$reportdef)=each($reportdefs)){
 			$rid=$reportdef['rid'];
 
@@ -45,7 +50,7 @@ function fetchSubjectReports($sid,$reportdefs){
 			 included */
 			while(list($index,$eid)=each($reportdef['stateids'])){
 				$GAssessments=(array)fetchAssessments_short($sid,$eid);
-				//trigger_error('GStats: '.$eid.' number '.sizeof($GAssessments),E_USER_WARNING);
+		//trigger_error('GStats: '.$eid.' number '.sizeof($GAssessments),E_USER_WARNING);
 				if(sizeof($GAssessments)>0){
 					$Reports['SummaryAssessments'][]['Assessment']=nullCorrect($GAssessments);
 					/* only take the overall assessments for the statseid
@@ -73,6 +78,7 @@ function fetchSubjectReports($sid,$reportdefs){
 			  $pids=array();
 			  $pids=(array)$subject['pids'];
 			  //if(sizeof($pids)>0){$pids[]=array('id'=>' ','name'=>'');}
+			  reset($pids);
 			  while(list($index,$component)=each($pids)){
 				  $pid=$component['id'];
 				  $componentname=$component['name'];
@@ -84,7 +90,10 @@ function fetchSubjectReports($sid,$reportdefs){
 					  $componentseq=$component['sequence'];
 					  }
 				  else{
-					  /* TODO: combine sequences for bid and pid consistently*/
+					  /* TODO: combine sequences for bid and pid consistently
+					   * but until cridbid has a sequence is it possible or even cridbid 
+					   * is subsumed into component?
+					   */ 
 					  if($bid=='Mat' or $bid=='Jun'){$componentseq=1;}
 					  else{$componentseq=10;}
 					  }
@@ -159,8 +168,213 @@ function fetchSubjectReports($sid,$reportdefs){
 	return array($Reports,$transform);
 	}
 
+
+/**
+ *
+ */
 function fetchReportDefinition($rid,$selbid='%'){
-	/* This is NOT an xml-friendly array and needs to be rewritten.*/
+	$RepDef=array();
+	$RepDef['id_db']=$rid;
+	$d_report=mysql_query("SELECT * FROM report WHERE id='$rid';");
+	if(mysql_numrows($d_report)==0){$RepDef['exists']='false';}
+	else{$RepDef['exists']='true';}
+	$report=mysql_fetch_array($d_report,MYSQL_ASSOC);
+	$crid=$report['course_id'];
+   	$RepDef['Course']=array('label'=>'course',
+							'table_db'=>'report', 
+							'field_db'=>'course_id',
+							'type_db'=>'varchar(10)', 
+							'value'=>''.$report['course_id']);
+   	$RepDef['Stage']=array('label'=>'stage',
+						   'table_db'=>'report', 
+						   'field_db'=>'stage',
+						   'type_db'=>'char(3)', 
+						   'value'=>''.$report['stage']);
+   	$RepDef['Title']=array('label'=>'title',
+						   'inputtype'=> 'required',
+						   'table_db'=>'report', 
+						   'field_db'=>'title',
+						   'type_db'=>'char(60)', 
+						   'value'=>''.$report['title']);
+   	$RepDef['PublishedDate']=array('label'=>'publisheddate', 
+								   'inputtype'=> 'required',
+								   'table_db'=>'report', 
+								   'field_db'=>'date',
+								   'type_db'=>'date', 
+								   'value'=>''.$report['date']);
+   	$RepDef['Deadline']=array('label'=>'deadlineforcompletion', 
+							  'inputtype'=> 'required',
+							  'table_db'=>'report', 
+							  'field_db'=>'deadline',
+							  'type_db'=>'date', 
+							  'value'=>''.$report['deadline']);
+   	$RepDef['ComponentStatus']=array('label'=>'componentstatus', 
+									 'table_db'=>'report', 
+									 'field_db'=>'component_status',
+									 'type_db'=>'enum', 
+									 'value'=>''.$report['component_status']);
+   	$RepDef['CommentsOn']=array('label'=>'allowsubjectcomments', 
+								'table_db'=>'report', 
+								'field_db'=>'addcomment',
+								'type_db'=>'enum', 
+								'value'=>''.$report['addcomment']);
+   	$RepDef['CommentsCompulsory']=array('label'=>'commentsarecompulsory', 
+										'table_db'=>'report', 
+										'field_db'=>'commentcomp',
+										'type_db'=>'enum', 
+										'value'=>''.$report['commentcomp']);
+   	$RepDef['CommentsLength']=array('label'=>'restrictcommentscharacterlength', 
+									'table_db'=>'report', 
+									'field_db'=>'commentlength',
+									'type_db'=>'smallint', 
+									'value'=>''.$report['commentlength']);
+   	$RepDef['CategoriesOn']=array('label'=>'addcategories', 
+								  'table_db'=>'report', 
+								  'field_db'=>'addcategory',
+								  'type_db'=>'enum', 
+								  'value'=>''.$report['addcategory']);
+   	$RepDef['Style']=array('label'=>'pagestyle', 
+							  'table_db'=>'report', 
+							  'field_db'=>'style',
+							  'type_db'=>'varchar(60)', 
+							  'value'=>''.$report['style']);
+   	$RepDef['Template']=array('label'=>'nameoftemplate', 
+							  'table_db'=>'report', 
+							  'field_db'=>'template',
+							  'type_db'=>'varchar(60)', 
+							  'value'=>''.$report['transform']);
+	
+	if($crid!='wrapper'){
+		$report['course_name']=get_coursename($crid);
+		$d_mid=mysql_query("SELECT id FROM mark WHERE midlist='$rid' 
+												AND marktype='report';");
+		$markcount=mysql_numrows($d_mid);
+		$RepDef['MarkCount']=array('label' => 'markcolumns', 
+								   'value' => ''.$markcount);
+		$d_categorydef=mysql_query("SELECT name
+				FROM categorydef JOIN ridcatid ON ridcatid.categorydef_id=categorydef.id 
+				WHERE ridcatid.report_id='$rid' AND
+				ridcatid.subject_id='profile'");
+		if(mysql_num_rows($d_categorydef)>0){
+			$report['profile_name']=mysql_result($d_categorydef,0);
+			}
+		else{
+			$report['profile_name']='';
+			}
+		}
+	else{
+		$report['course_name']='';
+		$d_report=mysql_query("SELECT id,title,stage,course_id FROM
+				report JOIN ridcatid ON ridcatid.categorydef_id=report.id 
+				WHERE ridcatid.report_id='$rid' AND
+				ridcatid.subject_id='wrapper';");
+		$reptable=array();
+		while($rep=mysql_fetch_array($d_report,MYSQL_ASSOC)){
+			$reptable['rep'][]=array('name' => $rep['title'],
+									 'course_id'=>$rep['course_id'],
+									 'stage'=>$rep['stage'],
+									 'id_db' => $rep['id']);
+			}
+		$RepDef['reptable']=nullCorrect($reptable);
+		}
+
+
+	/* Build a reference of relevant bids/pids/strands */
+	$subjects=array();
+	if($selbid=='%'){
+		$subjects=list_course_subjects($crid);
+		}
+	else{
+		$subjectname=get_subjectname($selbid);
+		$subjects[]=array('id'=>$selbid, 
+						'name'=>''.$subjectname);
+		}
+	while(list($index0,$subject)=each($subjects)){
+		$components=(array)list_subject_components($subject['id'],$crid);
+		while(list($index1,$component)=each($components)){
+			$strands=(array)list_subject_components($component['id'],$crid);
+			$components[$index1]['strands']=$strands;
+			}
+		/* Must always be a blank entry to catch the parent subject itself.*/
+		$components[]=array('id'=>' ','name'=>'');
+		$subjects[$index0]['pids']=$components;
+		}
+	$RepDef['bids']=$subjects;
+
+	$d_assessment=mysql_query("SELECT * FROM assessment JOIN
+				rideid ON rideid.assessment_id=assessment.id 
+				WHERE report_id='$rid' ORDER BY rideid.priority, assessment.label");
+	$RepDef['eids']=array();
+	$RepDef['stateids']=array();
+	$asstable=array();
+	$asselements=array();
+	while($ass=mysql_fetch_array($d_assessment,MYSQL_ASSOC)){
+		if($ass['resultstatus']=='S' or $ass['subject_id']=='G'){
+			$RepDef['stateids'][]=$ass['id'];
+			}
+		else{
+			$RepDef['eids'][]=$ass['id'];
+			}
+		if((!in_array($ass['element'],$asselements) or
+				$ass['element']=='') and $ass['subject_id']!='G'){
+			/* This $asstable is only used by the xslt to construct
+				the grade table, it uses the value of element to
+				identify assessments in the xml. Many alternative
+				assessments may share the same spot on the report if
+				they have the same element. Hence an element
+				should be unique, each can only apear once in the report. */
+			/* Assessments which are not subject specific (G for
+				general) belong in summaryassessments. */
+			$asselements[]=$ass['element'];
+			$asstable['ass'][]=array('name' => ''.$ass['description'],
+									 'label' => ''.$ass['label'],
+									 'element' => ''.$ass['element']);
+			}
+		}
+	$RepDef['asstable']=nullCorrect($asstable);
+
+	/* Find any categories for this report. */
+	if($report['addcategory']=='yes'){
+		list($ratingnames, $catdefs)=fetchReportCategories($rid);
+		$RepDef['ratingnames']=$ratingnames;
+		$RepDef['catdefs']=$catdefs;
+		$cattable=array();
+		while(list($index,$cat)=each($catdefs)){
+			$cattable['cat'][]=array('name'=>''.$cat['name']);
+			}
+		while(list($index,$ratings)=each($ratingnames)){
+			while(list($value,$rat)=each($ratings)){
+				$cattable['rat'][]=array('name' => ''.$rat, 'value' => ''.$value);
+				}
+			}
+		$RepDef['cattable']=nullCorrect($cattable);
+		}
+	$RepDef['summaries']=(array)fetchReportSummaries($rid);
+
+	return $RepDef;
+	}
+
+/**
+ * This OLD and NOT an xml-friendly array and is deprecated
+ * for the new version fetchReportDefinition above.
+ *
+ * TODO: update all scripts which call this to use the new XML
+ * compliant version:
+ *
+ //markbook/new_edit_reports.php
+ //markbook/httpscripts/report_summary_preview.php
+ //reportbook/report_reports_publish.php
+ //reportbook/report_reports_email.php
+ //reportbook/report_reports_list.php
+ //reportbook/new_report.php
+ //reportbook/httpscripts/generate_report_columns.php
+ //reportbook/httpscripts/generate_report_columns.php
+ //reportbook/httpscripts/report_reports_print.php
+ //reportbook/httpscripts/delete_report.php
+ //reportbook/httpscripts/delete_report_columns.php
+ //reportbook/httpscripts/comment_writer.php
+ */
+function fetch_reportdefinition($rid,$selbid='%'){
 	$reportdef=array();
 	$reportdef['id_db']=$rid;
 	$reportdef['rid']=$rid;
@@ -173,7 +387,7 @@ function fetchReportDefinition($rid,$selbid='%'){
 		$report['course_name']=get_coursename($crid);
 		$d_mid=mysql_query("SELECT id FROM mark WHERE midlist='$rid' and marktype='report'");
 		$markcount=mysql_numrows($d_mid);
-		$reportdef['MarkCount']=array('label' => 'Markcolumns', 
+		$reportdef['MarkCount']=array('label' => 'markcolumns', 
 									  'value' => ''.$markcount);
 		$d_categorydef=mysql_query("SELECT name
 				FROM categorydef JOIN ridcatid ON ridcatid.categorydef_id=categorydef.id 
@@ -279,12 +493,17 @@ function fetchReportDefinition($rid,$selbid='%'){
 	}
 
 
-function fetchReportCategories($rid,$bid='%'){
-	/*returns two arrays containing the ratingnames and catdefs for all
-		categories for this report*/
 
-	/*Needs to add subject specific ones IN FUTURE!*/
-	$d_categorydef=mysql_query("SELECT * FROM categorydef LEFT
+/**
+ * Returns two arrays containing the ratingnames and catdefs for all
+ * categories for this report
+ *
+ */
+function fetchReportCategories($rid,$bid='%'){
+
+	/* TODO: Needs to add subject specific ones IN FUTURE!*/
+	$d_categorydef=mysql_query("SELECT id, name, type, subtype, rating,  
+				 rating_name, comment FROM categorydef LEFT
 				JOIN ridcatid ON ridcatid.categorydef_id=categorydef.id 
 				WHERE ridcatid.report_id='$rid' AND
 				(ridcatid.subject_id LIKE '$bid' OR
@@ -310,8 +529,12 @@ function fetchReportCategories($rid,$bid='%'){
 	}
 
 
-/* Returns one array containing the catdefs for all summaries for this */
-/* report. */
+
+/**
+ *
+ * Returns one array containing the catdefs for all summaries for this
+ * report.
+ */
 function fetchReportSummaries($rid){
 	$d_categorydef=mysql_query("SELECT categorydef.id,
 				categorydef.name, categorydef.type, categorydef.subtype, categorydef.subject_id,
@@ -328,6 +551,10 @@ function fetchReportSummaries($rid){
 	}
 
 
+
+/**
+ *
+ */
 function checkReportEntry($rid,$sid,$bid,$pid){
 	$d_reportentry=mysql_query("SELECT entryn
 					FROM reportentry WHERE report_id='$rid' AND

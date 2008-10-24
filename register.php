@@ -1,7 +1,7 @@
 <?php 
-/**		   											register.php
- *	This is the hostpage for the register
- */
+ /**		   											register.php
+  *	This is the hostpage for the register
+  */
 
 $host='register.php';
 $book='register';
@@ -11,33 +11,33 @@ include('scripts/set_book_vars.php');
 $session_vars=array('group','newfid','startday','checkeveid','secid');
 include('scripts/set_book_session_vars.php');
 
-$community=$group;
-if($newfid!=''){
+  $community=$group;
+  if($newfid!=''){
 	$section=get_section($newfid,'form');
 	$secid=$section['id'];
 	$community=array('id'=>'','type'=>'form','name'=>$newfid);
-	}
+  }
 
-if(is_array($community)){
+  if(is_array($community)){
 	if($community['type']=='form'){$newfid=$community['name'];}
 	elseif($community['type']=='reg'){$comid=$community['id'];unset($newfid);}
-	}
-else{
+  }
+  else{
 	/*on first load select teachers formgorup by default*/
 	$pastorals=list_pastoral_respon($respons);
 	$rfids=$pastorals['forms'];
 	$ryids=$pastorals['years'];
 	if(sizeof($rfids)!=0){
-		$newfid=$rfids[0];
-		$section=get_section($newfid,'form');
-		$secid=$section['id'];
-		$community=array('id'=>'','type'=>'form','name'=>$newfid);
-		}
+	  $newfid=$rfids[0];
+	  $section=get_section($newfid,'form');
+	  $secid=$section['id'];
+	  $community=array('id'=>'','type'=>'form','name'=>$newfid);
 	}
+  }
 ?>
   <div id="bookbox" class="registercolor">
 <?php
-    if(!isset($secid)){$secid=1;}
+  if(!isset($secid)){$secid=1;}
 	$currentevent=get_event('','',$secid);
 
 	if($current!=''){
@@ -45,9 +45,9 @@ else{
 		//$_SESSION['registergroup']=$community;
 		}
 	elseif(is_array($community)){
-		$current='register_list.php';
-		include($book.'/'.$current);
-		}
+	  $current='register_list.php';
+	  include($book.'/'.$current);
+	}
 /*	else{
 		//include($book.'/'.$current);
 		}
@@ -56,7 +56,7 @@ else{
 ?>
   </div>
 
-  <div style="visibility:hidden;" id="hiddenbookoptions" class="bookoptions">	
+  <div style="visibility:hidden;" id="hiddenbookoptions" class="bookoptions">
 
 	<form id="registerchoice" name="registerchoice" method="post" 
 							action="register.php" target="viewregister">
@@ -89,7 +89,7 @@ else{
 		selery_stick($choices,$choice,$book);
 ?>
 	  </fieldset>
-  </form>
+	</form>
 
   </div>
 <?php

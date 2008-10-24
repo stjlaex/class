@@ -5,6 +5,7 @@
 
 if(!isset($required)){$required='yes';}
 $showtemplates=(array)list_directory_files('../templates','xsl');
+if(!isset($seltemplate)){$seltemplate='';}
 ?>
   <label for="template"><?php print_string('template');?></label>
   <select name="template" id="template" size="1" tabindex="<?php print $tab++;?>" 
@@ -14,7 +15,7 @@ $showtemplates=(array)list_directory_files('../templates','xsl');
 <?php
 	foreach($showtemplates as $key => $templatename){
 		print '<option ';
-		if(isset($seltemplate)){if($seltemplate==$templatename){print 'selected="selected"';}}
+		if($seltemplate==$templatename){print 'selected="selected"';}
 		print	' value="'.$templatename.'">'.$templatename.'</option>';
 		}
 ?>

@@ -29,7 +29,10 @@ CREATE TABLE info (
 	medical			enum('N','Y') not null,
 	incare			enum('N','Y') not null,
 	transportmode	enum('NOT','F', 'C', 'T', 'B', 'S') not null,
-	enrolnotes		text not null default '',
+	staffchild 		enum('N','Y') not null, 
+	appnotes		text not null default '',
+	appcategory		varchar(240) not null default '',
+	appdate			date null,
    	primary key		(student_id)
 );");
 

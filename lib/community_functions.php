@@ -538,6 +538,20 @@ function get_form_yeargroup($fid){
 	return $yid;
 	}
 
+/* reutrns the yeargroup which the form belongs to*/
+function get_tutor_user($fid){
+	if($fid!=' ' and $fid!=''){
+		$d_t=mysql_query("SELECT teacher_id FROM form WHERE id='$fid';");
+		$tid=mysql_result($d_t,0);
+		$user=get_user($tid);
+		}
+	else{
+		$user=array();
+		}
+	return $user;
+	}
+
+
 /** 
  * Returns the section id for the yeargroup to which the 
  * student belongs, defaults to whole school secid=1 if nothing else available.

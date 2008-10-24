@@ -12,6 +12,7 @@ if(isset($_POST['catid'])){$catid=$_POST['catid'];}else{$catid='';}
 if(isset($_POST['ratvalue'])){$ratvalue=$_POST['ratvalue'];}else{$ratvalue='N';}
 if(isset($_POST['newyid'])){$newyid=$_POST['newyid'];}else{$newyid=$Student['YearGroup']['value'];;}
 if(isset($_POST['guardianemail0'])){$guardianemail=$_POST['guardianemail0'];}else{$guardianemail='no';}
+if(isset($_POST['teacheremail0'])){$teacheremail=$_POST['teacheremail0'];}else{$teacheremail='no';}
 
 
 include('scripts/sub_action.php');
@@ -42,16 +43,23 @@ include('scripts/sub_action.php');
 		$message.="\r\n". $detail. "\r\n";
 		$message.="\r\n". $footer;
 		$fromaddress=$CFG->schoolname;
-		$recipients=list_sid_responsible_users($sid,$bid);
+
+		//$recipients=list_sid_responsible_users($sid,$bid);
+
+		if($teacheremail=='yes'){
+			$recipients=list_student_teachers($sid);
+			}
+
 		if($recipients and $CFG->emailoff!='yes' and $CFG->emailcomments=='yes'){
 			if(sizeof($recipients)>0){
 				foreach($recipients as $key => $recipient){
-					$recipient['email']=strtolower($recipient['email']);
-					send_email_to($recipient['email'],$fromaddress,$subject,$message);
+					//$recipient['email']=strtolower($recipient['email']);
+					//					send_email_to($recipient['email'],$fromaddress,$subject,$message);
 					$result[]=get_string('emailsentto').' '.$recipient['username'];
 					}
 				}
 			}
+
 
 		if($guardianemail=='yes'){
 			$Contacts=(array)fetchContacts_emails($sid);

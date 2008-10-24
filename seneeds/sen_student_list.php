@@ -68,7 +68,7 @@ two_buttonmenu();
 	while(list($index,$sid)=each($sids)){
 		$display='yes';
 		$Student=fetchStudent_short($sid);
-		$comment=commentDisplay($sid);
+		$comment=comment_display($sid);
 		$d_senhistory=mysql_query("SELECT id, reviewdate FROM senhistory WHERE 
 				student_id='$sid' ORDER BY reviewdate DESC");
 		$senhistory=mysql_fetch_array($d_senhistory,MYSQL_ASSOC);

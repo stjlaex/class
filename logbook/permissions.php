@@ -5,9 +5,11 @@
 
 
 /**
+ *
  * Given a sid and a bid this will return a numerical array which
  * lists the responsibles (both pastoral and academic) who have been
  * flagged to receive emails. 
+ *
  */
 function list_sid_responsible_users($sid, $bid){
 
@@ -96,6 +98,7 @@ function list_responsible_users($tid,$respons,$r=0){
 	}
 
 /**
+ *
  * Will return all details of users of interest based on the current
  * selected yeargroup in an array with the uid as the key
  * a head of year would be 111
@@ -178,6 +181,7 @@ function get_admin_perm($type,$uid){
 
 /**
  * Will return all details of all users.
+ *
  */
 function list_all_users($nologin='%'){
    	$users=array();
@@ -193,7 +197,9 @@ function list_all_users($nologin='%'){
 	}
 
 /**
- * 
+ * Will return all teachers with active logins of a particular subject
+ * area as defined by crid and bid. If no arguments given then all
+ * teachers are returned.
  * 
  */
 function list_teacher_users($crid='',$bid='',$nologin='0'){

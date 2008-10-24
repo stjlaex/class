@@ -17,7 +17,7 @@ elseif(isset($_POST['entryn'])){$entryn=$_POST['entryn'];}
 if(isset($_GET['openid'])){$openid=$_GET['openid'];}
 
 $StatementBank=array();
-$reportdef=fetchReportDefinition($rid);
+$reportdef=fetch_reportdefinition($rid);
 if($reportdef['report']['commentlength']=='0'){$commentlength='';}
 else{$commentlength=' maxlength="'.$reportdef['report']['commentlength'].'"';}
 

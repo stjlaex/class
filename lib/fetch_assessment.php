@@ -113,16 +113,16 @@ function gradeToScore($grade,$grading_grades){
 	}
 
 /**
+ *
  */
 function fetchAssessmentDefinition($eid){
    	$AssDef=array();
   	$AssDef['id_db']=$eid;
-   	$d_ass=mysql_query("SELECT * FROM assessment WHERE id='$eid' 
-						ORDER BY creation;");
+   	$d_ass=mysql_query("SELECT * FROM assessment WHERE id='$eid';");
 	if(mysql_numrows($d_ass)==0){$AssDef['exists']='false';}
 	else{$AssDef['exists']='true';}
 	$ass=mysql_fetch_array($d_ass,MYSQL_ASSOC);
-	$ass=nullCorrect($ass);
+	//$ass=nullCorrect($ass);
 
 	$d_mid=mysql_query("SELECT mark_id FROM eidmid WHERE assessment_id='$eid'");
 	$markcount=mysql_numrows($d_mid);
@@ -133,83 +133,123 @@ function fetchAssessmentDefinition($eid){
 				   		WHERE assessment_id='$eid' AND student_id!='0'");
 	$archivecount=mysql_numrows($d_eidsid);
 
-   	$AssDef['Course']=array('label' => 'Course','table_db' =>
-					'assessment', 'field_db' => 'course_id',
-					'type_db'=>'varchar(10)', 'value' => ''.$ass['course_id']);
-   	$AssDef['Subject']=array('label' => 'Subject','table_db' =>
-					'assessment', 'field_db' => 'subject_id',
-					'type_db'=>'varchar(10)', 'value' => ''.$ass['subject_id']);
-   	$AssDef['Component']=array('label' => 'Component','table_db' =>
-					'asssessment', 'field_db' => 'component_id',
-					'type_db'=>'varchar(10)', 'value' => ''.$ass['component_id']);
-   	$AssDef['Stage']=array('label' => 'Stage','table_db' => 'assessment', 'field_db' => 'stage',
-					'type_db'=>'char(3)', 'value' => ''.$ass['stage']);
-   	$AssDef['Method']=array('label' => 'Method','table_db' =>
-					'assessment', 'field_db' => 'assessment',
-					'type_db'=>'char(3)', 'value' => ''.$ass['method']);
-	$AssDef['Statistics']=array('label' => 'Statistics','table_db' =>
-								   'assessment', 'field_db' => 'statistics',
-								   'type_db' => '', 
-								   'value'=> ''.$ass['statistics']);
+   	$AssDef['Course']=array('label'=>'Course',
+							'table_db'=>'assessment', 
+							'field_db'=>'course_id',
+							'type_db'=>'varchar(10)', 
+							'value'=>''.$ass['course_id']);
+   	$AssDef['Subject']=array('label'=>'Subject',
+							 'table_db'=>'assessment', 
+							 'field_db'=>'subject_id',
+							 'type_db'=>'varchar(10)', 
+							 'value'=>''.$ass['subject_id']);
+   	$AssDef['Component']=array('label'=>'Component',
+							   'table_db'=>'asssessment', 
+							   'field_db'=>'component_id',
+							   'type_db'=>'varchar(10)', 
+							   'value'=>''.$ass['component_id']);
+   	$AssDef['Stage']=array('label'=>'Stage',
+						   'table_db'=>'assessment', 
+						   'field_db'=>'stage',
+						   'type_db'=>'char(3)', 
+						   'value'=>''.$ass['stage']);
+   	$AssDef['Method']=array('label'=>'Method',
+							'table_db' =>'assessment', 
+							'field_db'=>'assessment',
+							'type_db'=>'char(3)', 
+							'value'=>''.$ass['method']);
+	$AssDef['Statistics']=array('label'=>'Statistics',
+								'table_db'=>'assessment', 
+								'field_db'=>'statistics',
+								'type_db'=>'', 
+								'value'=>''.$ass['statistics']);
 
-	$gena=$ass['grading_name'];
+	$gena=''.$ass['grading_name'];
 	if($gena!='' and $gena!=' '){
 		$d_grading=mysql_query("SELECT grades FROM grading WHERE name='$gena'");
 		$grading_grades=mysql_result($d_grading,0);
 		}
 	else{$grading_grades='';}
-	$AssDef['GradingScheme']=array('label' => 'Grading Scheme','table_db' =>
-								   'assessment', 'field_db' => 'grading_name',
+	$AssDef['GradingScheme']=array('label'=>'Grading Scheme',
+								   'table_db'=>'assessment', 
+								   'field_db'=>'grading_name',
 								   'type_db'=>'varchar(20)', 
-								   'value'=>''.$gena, 'grades' =>$grading_grades);
-   	$AssDef['Element']=array('label' => 'Element','table_db' =>
-					'assessment', 'field_db' => 'element',
-					'type_db'=>'char(3)', 'value' => ''.$ass['element']);
-   	$AssDef['Description']=array('label' => 'Description','table_db'
-					=> 'assessment', 'field_db' => 'description',
-					'type_db'=>'varchar(60)', 'value' => ''.$ass['description']);
-   	$AssDef['PrintLabel']=array('label' => 'Print Label','table_db' =>
-					'assessment', 'field_db' => 'label',
-					'type_db'=>'varchar(12)', 'value' => ''.$ass['label']);
-   	$AssDef['ResultQualifier']=array('label' => 
-					'Result Qualifier','table_db' => 'assessment', 
-					'field_db' => 'resultqualifier',
-					'type_db'=>'char(2)', 'value' => ''.$ass['resultqualifier']);
-   	$AssDef['ResultStatus']=array('label' => 'Result Status','table_db' => 'assessment', 
-					'field_db' => 'resultstatus',
-					'type_db'=>'enum', 'value' => ''.$ass['resultstatus']);
-   	$AssDef['OutOfTotal']=array('label' => 'Out of Total','table_db'
-					=> 'assessment', 'field_db' => 'outoftotal',
-					'type_db'=>'smallint', 'value' => ''.$ass['outoftotal']);
-   	$AssDef['Derivation']=array('label' => 'Derivation','table_db' => 
-					'assessment', 'field_db' => 'derivation',
-					'type_db'=>'varchar(60)', 'value' => ''.$ass['derivation']);
-   	$AssDef['ComponentStatus']=array('label' => 'Component Status', 
-					'table_db' => 'assessment', 'field_db' => 'component_status',
-					'type_db'=>'enum', 'value' => ''.$ass['component_status']);
-   	$AssDef['StrandStatus']=array('label' => 'Strand Status', 
-					'table_db' => 'assessment', 'field_db' => 'strand_status',
-					'type_db'=>'enum', 'value' => ''.$ass['strand_status']);
-   	$AssDef['Year']=array('label' => 'Year', 'table_db' => 'assessment', 'field_db' => 'year',
-					'type_db'=>'year', 'value' => ''.$ass['year']);
-   	$AssDef['Season']=array('label' => 'Season', 'table_db' =>
-					'assessment', 'field_db' => 'season',
-					'type_db'=>'enum', 'value' => ''.$ass['season']);
-   	$AssDef['Deadline']=array('label' => 'Deadlineforentry', 'table_db' =>
-					'assessment', 'field_db' => 'deadline',
-					'type_db'=>'date', 'value' => ''.$ass['deadline']);
-   	$AssDef['Creation']=array('label' => 'Creation', 'table_db' =>
-					'assessment', 'field_db' => 'creation',
-					'type_db'=>'date', 'value' => ''.$ass['creation']);
-   	$AssDef['MarkCount']=array('label' => 'Markcolumns', 'table_db' =>
-					'', 'field_db' => '',
-					'type_db'=>'', 'value' => ''.$markcount);
-   	$AssDef['ScoreCount']=array('label' => 'Markscores', 'table_db' =>
-					'', 'field_db' => '',
-					'type_db'=>'', 'value' => ''.$scorecount);
-   	$AssDef['ArchiveCount']=array('label' => 'Archivescores', 'table_db' =>
-					'', 'field_db' => '',
-					'type_db'=>'', 'value' => ''.$archivecount);
+								   'value'=>''.$gena, 
+								   'grades'=>$grading_grades);
+   	$AssDef['Element']=array('label'=>'Element',
+							 'table_db'=>'assessment', 
+							 'field_db'=>'element',
+							 'type_db'=>'char(3)', 
+							 'value'=>''.$ass['element']);
+   	$AssDef['Description']=array('label'=>'Description', 
+								 'table_db'=>'assessment', 
+								 'field_db'=>'description',
+								 'type_db'=>'varchar(60)', 
+								 'value'=>''.$ass['description']);
+   	$AssDef['PrintLabel']=array('label'=>'Print Label',
+								'table_db'=>'assessment', 
+								'field_db'=>'label',
+								'type_db'=>'varchar(12)', 
+								'value'=>''.$ass['label']);
+   	$AssDef['ResultQualifier']=array('label'=>'Result Qualifier',
+									 'table_db'=>'assessment', 
+									 'field_db'=>'resultqualifier',
+									 'type_db'=>'char(2)', 
+									 'value'=>''.$ass['resultqualifier']);
+   	$AssDef['ResultStatus']=array('label'=>'Result Status',
+								  'table_db'=>'assessment', 
+								  'field_db'=>'resultstatus',
+								  'type_db'=>'enum', 
+								  'value'=>''.$ass['resultstatus']);
+   	$AssDef['OutOfTotal']=array('label'=>'Out of Total',
+								'table_db'=>'assessment', 
+								'field_db'=>'outoftotal',
+								'type_db'=>'smallint', 
+								'value'=>''.$ass['outoftotal']);
+   	$AssDef['Derivation']=array('label'=>'Derivation',
+								'table_db'=>'assessment', 
+								'field_db'=>'derivation',
+								'type_db'=>'varchar(60)', 
+								'value'=>''.$ass['derivation']);
+   	$AssDef['ComponentStatus']=array('label'=>'Component Status', 
+									 'table_db'=>'assessment', 
+									 'field_db'=>'component_status',
+									 'type_db'=>'enum', 
+									 'value'=>''.$ass['component_status']);
+   	$AssDef['StrandStatus']=array('label'=>'Strand Status', 
+								  'table_db'=>'assessment', 
+								  'field_db'=>'strand_status',
+								  'type_db'=>'enum', 
+								  'value'=>''.$ass['strand_status']);
+   	$AssDef['Year']=array('label'=>'Year', 
+						  'table_db'=>'assessment', 
+						  'field_db'=>'year',
+						  'type_db'=>'year', 
+						  'value'=>''.$ass['year']);
+   	$AssDef['Season']=array('label'=>'Season', 
+							'table_db'=>'assessment', 
+							'field_db'=>'season',
+							'type_db'=>'enum', 
+							'value'=>''.$ass['season']);
+   	$AssDef['Deadline']=array('label'=>'Deadlineforentry', 
+							  'table_db'=>'assessment', 
+							  'field_db'=>'deadline',
+							  'type_db'=>'date', 
+							  'value'=>''.$ass['deadline']);
+   	$AssDef['Creation']=array('label'=>'Creation', 
+							  'table_db'=>'assessment', 
+							  'field_db'=>'creation',
+							  'type_db'=>'date', 
+							  'value'=>''.$ass['creation']);
+   	$AssDef['MarkCount']=array('label'=>'Markcolumns', 
+							   'table_db' =>'', 'field_db'=>'',
+							   'type_db'=>'', 'value'=>''.$markcount);
+   	$AssDef['ScoreCount']=array('label'=>'Markscores', 
+								'table_db' =>'', 'field_db'=>'',
+								'type_db'=>'', 'value'=>''.$scorecount);
+   	$AssDef['ArchiveCount']=array('label'=>'Archivescores', 
+								  'table_db' =>'', 'field_db'=>'',
+								  'type_db'=>'', 'value'=>''.$archivecount);
 	return $AssDef;
    	}
 
@@ -228,17 +268,17 @@ function fetchAssessments($sid,$eid='%'){
 	attributes facilitating updates to the database when values are
 	changed (the type_db for instance facilitates validation).
 
-	$Assessment['xmltag']=array('label' => 'Display label','table_db' => '', 'field_db' =>
+	$Assessment['xmltag']=array('label'=>'Display label','table_db'=>'', 'field_db' =>
 				'ClaSSdb field name', 'type_db'=>'ClaSSdb data-type',
-				'value' => from database);
+				'value'=>from database);
 
 	The table from which the values are pulled are generally
 	identifiable by the array in which they are stored (eg. address,
 	student etc.) but table_db is avaiable if needed.
 
 
-   	$Assessment['']=array('label' => '','table_db' => '', 'field_db' => '',
-					'type_db'=>'', 'value' => $['']);
+   	$Assessment['']=array('label'=>'','table_db'=>'', 'field_db'=>'',
+					'type_db'=>'', 'value'=>$['']);
 */
 
    	$d_eidsid=mysql_query("SELECT * FROM eidsid WHERE
@@ -258,81 +298,81 @@ function fetchAssessments($sid,$eid='%'){
 			}
 
 		$Assessment['id_db']=$ass['id'];
-	   	$Assessment['Stage']=array('label' => 'Stage','table_db' =>
-					'assessment', 'field_db' => 'stage',
-					'type_db'=>'char(3)', 'value' => $ass['stage']);
-	   	$Assessment['Course']=array('label' => 'Course','table_db' =>
-					'assessment', 'field_db' => 'course_id',
-					'type_db'=>'varchar(10)', 'value' => $ass['course_id']);
+	   	$Assessment['Stage']=array('label'=>'Stage','table_db' =>
+					'assessment', 'field_db'=>'stage',
+					'type_db'=>'char(3)', 'value'=>$ass['stage']);
+	   	$Assessment['Course']=array('label'=>'Course','table_db' =>
+					'assessment', 'field_db'=>'course_id',
+					'type_db'=>'varchar(10)', 'value'=>$ass['course_id']);
 		if($eidsid['subject_id']=='%'){$subject='';}
 				else{$subject=$eidsid['subject_id'];}
-	   	$Assessment['Subject']=array('label' => 'Subject','table_db'
-					=> 'assessment', 'field_db' => 'subject_id',
-					'type_db'=>'varchar(10)', 'value' => $subject);
+	   	$Assessment['Subject']=array('label'=>'Subject','table_db'
+					=> 'assessment', 'field_db'=>'subject_id',
+					'type_db'=>'varchar(10)', 'value'=>$subject);
 		if($eidsid['component_id']=='%'){$component='';}
 				else{$component=$eidsid['component_id'];}
-	   	$Assessment['SubjectComponent']=array('label' => 'Subject Component','table_db'
-					=> 'mark', 'field_db' => 'component_id',
-					'type_db'=>'varchar(10)', 'value' => $component);
-	   	$Assessment['Method']=array('label' => 'Method','table_db' =>
-					'assessment', 'field_db' => 'method',
-					'type_db'=>'char(3)', 'value' => $ass['method']);
-	   	$Assessment['GradingScheme']=array('label' => 'Grading Scheme','table_db' =>
-					'assessment', 'field_db' => 'grading_name',
-					'type_db'=>'varchar(20)', 'value' => $ass['grading_name']);
+	   	$Assessment['SubjectComponent']=array('label'=>'Subject Component','table_db'
+					=> 'mark', 'field_db'=>'component_id',
+					'type_db'=>'varchar(10)', 'value'=>$component);
+	   	$Assessment['Method']=array('label'=>'Method','table_db' =>
+					'assessment', 'field_db'=>'method',
+					'type_db'=>'char(3)', 'value'=>$ass['method']);
+	   	$Assessment['GradingScheme']=array('label'=>'Grading Scheme','table_db' =>
+					'assessment', 'field_db'=>'grading_name',
+					'type_db'=>'varchar(20)', 'value'=>$ass['grading_name']);
 	   	$Assessment['Element']=array('label' =>
-					'Element','table_db' => 'assessment', 'field_db' => 'element',
-					'type_db'=>'char(3)', 'value' => $ass['element']);
+					'Element','table_db'=>'assessment', 'field_db'=>'element',
+					'type_db'=>'char(3)', 'value'=>$ass['element']);
 	   	$Assessment['Description']=array('label' =>
-					'Description','table_db' => 'assessment', 'field_db' => 'description',
-					'type_db'=>'varchar(60)', 'value' => $ass['description']);
+					'Description','table_db'=>'assessment', 'field_db'=>'description',
+					'type_db'=>'varchar(60)', 'value'=>$ass['description']);
 	   	$Assessment['Year']=array('label' =>
-					'Year', 'type_db' => 'year', 'field_db' => 'year', 'value' => $ass['year']);
+					'Year', 'type_db'=>'year', 'field_db'=>'year', 'value'=>$ass['year']);
 	   	$Assessment['PrintLabel']=array('label' =>
-					'Print Label','table_db' => 'assessment', 'field_db' => 'label',
-					'type_db'=>'varchar(12)', 'value' => $ass['label']);
+					'Print Label','table_db'=>'assessment', 'field_db'=>'label',
+					'type_db'=>'varchar(12)', 'value'=>$ass['label']);
 	   	$Assessment['ResultQualifier']=array('label' =>
-					'Qualifier','table_db' => 'assessment', 'field_db' => 'resultqualifier',
-					'type_db'=>'char(2)', 'value' => $ass['resultqualifier']);
-	   	$Assessment['OutOfTotal']=array('label' => 'Total','table_db'
-					=> 'assessment', 'field_db' => 'outoftotal',
-					'type_db'=>'smallint(5)', 'value' => $ass['outoftotal']);
+					'Qualifier','table_db'=>'assessment', 'field_db'=>'resultqualifier',
+					'type_db'=>'char(2)', 'value'=>$ass['resultqualifier']);
+	   	$Assessment['OutOfTotal']=array('label'=>'Total','table_db'
+					=> 'assessment', 'field_db'=>'outoftotal',
+					'type_db'=>'smallint(5)', 'value'=>$ass['outoftotal']);
 	   	$Assessment['Derivation']=array('label' =>
-					'Derivation','table_db' => 'assessment', 
-					'field_db' => 'derivation', 'type_db'=>'varchar(60)', 
-					'value' => $ass['derivation']);
-	   	$Assessment['Season']=array('label' => 'Season','table_db' =>
-					'assessment', 'field_db' => 'season',
-					'type_db'=>'enum', 'value' => $ass['season']);
-	   	$Assessment['Date']=array('label' => 'Date','table_db' =>
-					'date', 'field_db' => 'eidmid',
-					'type_db'=>'date', 'value' => $eidsid['date']);
-	   	$Assessment['Year']=array('label' => 'Year', 'table_db' =>
-					'assessment', 'field_db' => 'year',
-					'type_db'=>'year', 'value' => $ass['year']);
+					'Derivation','table_db'=>'assessment', 
+					'field_db'=>'derivation', 'type_db'=>'varchar(60)', 
+					'value'=>$ass['derivation']);
+	   	$Assessment['Season']=array('label'=>'Season','table_db' =>
+					'assessment', 'field_db'=>'season',
+					'type_db'=>'enum', 'value'=>$ass['season']);
+	   	$Assessment['Date']=array('label'=>'Date','table_db' =>
+					'date', 'field_db'=>'eidmid',
+					'type_db'=>'date', 'value'=>$eidsid['date']);
+	   	$Assessment['Year']=array('label'=>'Year', 'table_db' =>
+					'assessment', 'field_db'=>'year',
+					'type_db'=>'year', 'value'=>$ass['year']);
 		if($eidsid['resultstatus']!=''){
-		   	$Assessment['ResultStatus']=array('label' => 'Status','table_db'
-					=> 'eidsid', 'field_db' => 'resultstatus',
-					'type_db'=>'enum', 'value' => $eidsid['resultstatus']);
+		   	$Assessment['ResultStatus']=array('label'=>'Status','table_db'
+					=> 'eidsid', 'field_db'=>'resultstatus',
+					'type_db'=>'enum', 'value'=>$eidsid['resultstatus']);
 	   		}
 		else{
-		   	$Assessment['ResultStatus']=array('label' => 'Status','table_db'
-					=> 'assessment', 'field_db' => 'resultstatus',
-					'type_db'=>'enum', 'value' => $ass['resultstatus']);
+		   	$Assessment['ResultStatus']=array('label'=>'Status','table_db'
+					=> 'assessment', 'field_db'=>'resultstatus',
+					'type_db'=>'enum', 'value'=>$ass['resultstatus']);
 			}
-	   	$Assessment['ExamBoard']=array('label' => 'Board','table_db'
-					=> 'eidmid', 'field_db' => 'examboard',
-					'type_db'=>'char(3)', 'value' => $eidsid['examboard']);
+	   	$Assessment['ExamBoard']=array('label'=>'Board','table_db'
+					=> 'eidmid', 'field_db'=>'examboard',
+					'type_db'=>'char(3)', 'value'=>$eidsid['examboard']);
 	   	$Assessment['ExamBoardSyllabusID']=array('label' =>
-					'Syllabus','table_db' => 'eidmid', 
-					'field_db' => 'examsyallabus',
-					'type_db'=>'char(3)', 'value' => $eidsid['examsyllabus']);
-	   	$Assessment['Result']=array('label' => 'Result','table_db'
-					=> 'eidsid', 'field_db' => 'result', 
-					'type_db'=>'', 'value' => $eidsid['result']);
-	   	$Assessment['Value']=array('label' => 'Result value','table_db'
-					=> 'eidsid', 'field_db' => 'value', 
-					'type_db'=>'', 'value' => $eidsid['value']);
+					'Syllabus','table_db'=>'eidmid', 
+					'field_db'=>'examsyallabus',
+					'type_db'=>'char(3)', 'value'=>$eidsid['examsyllabus']);
+	   	$Assessment['Result']=array('label'=>'Result','table_db'
+					=> 'eidsid', 'field_db'=>'result', 
+					'type_db'=>'', 'value'=>$eidsid['result']);
+	   	$Assessment['Value']=array('label'=>'Result value','table_db'
+					=> 'eidsid', 'field_db'=>'value', 
+					'type_db'=>'', 'value'=>$eidsid['value']);
 		$Assessment=nullCorrect($Assessment);
 		$Assessments[]=$Assessment;
 		}
@@ -372,13 +412,16 @@ function fetchAssessments_short($sid,$eid='%',$bid='%',$pid='%'){
 	return $Assessments;
 	}
 
+
 /**
+ *
  * Special assessment definitions for the enrolment process. Will
  * check for assdefs for all cohorts associated with the yeargroup
  * community. If no association between yeargroup and cohort is needed
  * and this is just a one off then leave $com blank. The $stage is
  * either 'E' for assdefs used before being accepted or 'RE' for
  * reenrolment of current students each academic year.
+ *
  */
 function fetch_enrolmentAssessmentDefinitions($com='',$stage='E',$enrolyear='0000'){
 	$AssDefs=array();
@@ -877,55 +920,55 @@ function fetchHomeworkDefinition($hwid){
 	else{$Def['exists']='true';}
 	$hw=mysql_fetch_array($d_hw,MYSQL_ASSOC);
 	//$hw=nullCorrect($hw);
-   	$Def['Course']=array('label' => 'course',
-						 // 'table_db' => 'homework', 
-						 'field_db' => 'course_id',
+   	$Def['Course']=array('label'=>'course',
+						 // 'table_db'=>'homework', 
+						 'field_db'=>'course_id',
 						 'type_db'=>'varchar(10)', 
-						 'value' => ''.$hw['course_id']);
-   	$Def['Subject']=array('label' => 'subject',
-						  // 'table_db' => 'homework', 
-						  'field_db' => 'subject_id',
+						 'value'=>''.$hw['course_id']);
+   	$Def['Subject']=array('label'=>'subject',
+						  // 'table_db'=>'homework', 
+						  'field_db'=>'subject_id',
 						  'type_db'=>'varchar(10)', 
-						  'value' => ''.$hw['subject_id']);
-   	$Def['Component']=array('label' => 'component',
-							// 'table_db' => 'asssessment', 
-							'field_db' => 'component_id',
+						  'value'=>''.$hw['subject_id']);
+   	$Def['Component']=array('label'=>'component',
+							// 'table_db'=>'asssessment', 
+							'field_db'=>'component_id',
 							'type_db'=>'varchar(10)', 
-							'value' => ''.$hw['component_id']);
-   	$Def['Stage']=array('label' => 'stage',
-						// 'table_db' => 'homework', 
-						'field_db' => 'stage',
+							'value'=>''.$hw['component_id']);
+   	$Def['Stage']=array('label'=>'stage',
+						// 'table_db'=>'homework', 
+						'field_db'=>'stage',
 						'type_db'=>'char(3)', 
-						'value' => ''.$hw['stage']);
-   	$Def['Title']=array('label' => 'title',
-						'table_db' => 'homework', 
-						'field_db' => 'title',
+						'value'=>''.$hw['stage']);
+   	$Def['Title']=array('label'=>'title',
+						'table_db'=>'homework', 
+						'field_db'=>'title',
 						'inputtype'=> 'required',
 						'type_db'=>'varchar(120)', 
-						'value' => ''.$hw['title']);
-   	$Def['Description']=array('label' => 'description',
-							  'table_db' => 'homework', 
-							  'field_db' => 'description',
+						'value'=>''.$hw['title']);
+   	$Def['Description']=array('label'=>'description',
+							  'table_db'=>'homework', 
+							  'field_db'=>'description',
 							  'type_db'=>'text', 
 							  'inputtype'=> 'required',
-							  'value' => ''.$hw['description']);
-   	$Def['References']=array('label' => 'references', 
-							 'table_db' => 'homework', 
-							 'field_db' => 'refs',
+							  'value'=>''.$hw['description']);
+   	$Def['References']=array('label'=>'references', 
+							 'table_db'=>'homework', 
+							 'field_db'=>'refs',
 							 'type_db'=>'text', 
-							 'value' => ''.$hw['refs']);
+							 'value'=>''.$hw['refs']);
 	/*TODO: Put this in catdef table somewhere.*/
 	if($hw['def_name']==''){$hw['def_name']='HW Quality';}
-   	$Def['Markdef']=array('label' => 'marktype', 
-						  // 'table' => 'homework', 
-						  'field_db' => 'def_name',
+   	$Def['Markdef']=array('label'=>'marktype', 
+						  // 'table'=>'homework', 
+						  'field_db'=>'def_name',
 						  'type_db'=>'varchar(20)', 
-						  'value' => ''.$hw['def_name']);
-   	$Def['Author']=array('label' => 'author',
-						 // 'table_db' => 'homework', 
-						 'field_db' => 'author',
+						  'value'=>''.$hw['def_name']);
+   	$Def['Author']=array('label'=>'author',
+						 // 'table_db'=>'homework', 
+						 'field_db'=>'author',
 						 'type_db'=>'varchar(14)', 
-						 'value' => ''.$hw['author']);
+						 'value'=>''.$hw['author']);
 	return $Def;
    	}
 ?>

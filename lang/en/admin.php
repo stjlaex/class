@@ -206,6 +206,8 @@ $string['invoice']='Invoice';
 $string['timetable']='Timetable';
 $string['sets']='Sets';
 $string['forms']='Forms';
+$string['credit']='Credit';
+$string['debit']='Debit';
 $string['']='';
 $string['']='';
 ?>

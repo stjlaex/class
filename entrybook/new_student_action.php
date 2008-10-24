@@ -1,5 +1,6 @@
 <?php
 /**			  					new_student_action.php
+ *
  */
 
 $action_post_vars=array('sid');

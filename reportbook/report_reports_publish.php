@@ -35,7 +35,7 @@ include('scripts/sub_action.php');
 	$reportdefs=array();
 	$wrapper_rid=$rids[0];/* Should be first in rids */
 	for($c=0;$c<sizeof($rids);$c++){ 
-		$reportdefs[]=fetchReportDefinition($rids[$c]);
+		$reportdefs[]=fetch_reportdefinition($rids[$c]);
 		}
 	$pubdate=$reportdefs[0]['report']['date'];
 	$paper=$reportdefs[0]['report']['style'];

@@ -68,7 +68,7 @@ two_buttonmenu($extrabuttons,$book);
 	$reports=array();
 	$input_elements='';
 	while(list($index,$rid)=each($rids)){
-		$reportdef=fetchReportDefinition($rid);
+		$reportdef=fetch_reportdefinition($rid);
 		$reportdefs[]=$reportdef;
 			/*this is to feed the rids to the javascript function*/
 ?>

@@ -6,6 +6,8 @@
 
 $action='student_view_action.php';
 
+$tutor_user=get_tutor_user($Student['RegistrationGroup']['value']);
+
 twoplus_buttonmenu($sidskey,sizeof($sids));
 ?>
   <div id="heading">
@@ -41,48 +43,49 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 		  </caption>
 		  <tr>
 			<td>
-			  <label><?php print_string($Student['DisplayFullName']['label'],$book); ?></label>
-			  <?php print $Student['DisplayFullName']['value'];?>
-			</td>
-		  </tr>
-		  <tr>
-			<td>
-			  <label><?php print_string($Student['RegistrationGroup']['label'],$book);?></label>
-			  <?php print $Student['RegistrationGroup']['value'];?>
+			  <label><?php print_string($Student['Surname']['label'],$book); ?></label>
+			  <?php print $Student['Surname']['value'];?>
+			  <br />
+			  <label><?php print_string($Student['Forename']['label'],$book); ?></label>
+			  <?php print $Student['Forename']['value'];?>
 			</td>
 		  </tr>
 		  <tr>
 			<td>
 			  <label><?php print_string($Student['DOB']['label'],$book);?></label>
 			  <?php print display_date($Student['DOB']['value']);?>
+			  <br />
+			  <label><?php print_string($Student['Gender']['label'],$book);?></label>
+			  <?php print_string(displayEnum($Student['Gender']['value'],$Student['Gender']['field_db']),$book);?>
 			</td>
 		  </tr>
 		  <tr>
 			<td>
-			<label><?php print_string($Student['Gender']['label'],$book);?></label>
-			  <?php print_string(displayEnum($Student['Gender']['value'],$Student['Gender']['field_db']),$book);?>
+			  <label><?php print_string($Student['RegistrationGroup']['label'],$book);?></label>
+			  <?php print $Student['RegistrationGroup']['value'];?>
+			  <br />
+			  <label><?php print_string('formtutor');?></label>
+			  <?php print $tutor_user['forename'][0].' '. $tutor_user['surname'];?>
+			  <a onclick="parent.viewBook('webmail');" target="viewwebmail" 
+				 href="webmail.php?recipients[]=<?php print $tutor_user['email'];?>">
+				<img class="clicktoemail" title="<?php print_string('clicktoemail');?>" />
+			  </a> 
 			</td>
 		  </tr>
 		  <tr>
 			<td>
 			  <label><?php print_string($Student['Nationality']['label'],$book);?></label> 
 			  <?php print_string(displayEnum($Student['Nationality']['value'],$Student['Nationality']['field_db']),$book);?>
-			</td>
-		  </tr>
-		  <tr>
-			<td>
-			  <label><?php print_string($Student['EnrolNumber']['label'],$book);?></label> 
-			  <?php if($_SESSION['role']!='support'){print $Student['EnrolNumber']['value'];}?>
-			</td>
-		  </tr>
-		  <tr>
-			<td>
+			  <br />
 			  <label><?php print_string($Student['Language']['label'],$book);?></label>
 			  <?php print_string(displayEnum($Student['Language']['value'],$Student['Language']['field_db']),$book);?>
 			</td>
 		  </tr>
 		  <tr>
 			<td>
+			  <label><?php print_string($Student['EnrolNumber']['label'],$book);?></label> 
+			  <?php if($_SESSION['role']!='support'){print $Student['EnrolNumber']['value'];}?>
+			  <br />
 			  <label><?php print_string($Student['EntryDate']['label'],$book);?></label>
 			  <?php print display_date($Student['EntryDate']['value']);?>
 			</td>
@@ -255,8 +258,7 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 				  </td>
 				</tr>
 			  </table>
-			</div>
-			
+			</div>			
 		  </ul>
 		</div>
 		<div id="tinytab-display-contact" class="tinytab-display">
@@ -343,16 +345,17 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 		</legend>
 		<div>
 <?php 
-		  print '<label>'.get_string('status','admin').'</label> '. 
-				get_string(displayEnum($Student['EnrolmentStatus']['value'],$Student['EnrolmentStatus']['field_db']),$book);
+
+	print '<label>'.get_string('status','admin').'</label> '. 
+		  get_string(displayEnum($Student['EnrolmentStatus']['value'],$Student['EnrolmentStatus']['field_db']),$book);
 ?>
 		</div>
 	  </fieldset>
   </div>
 
 
-  <input type="hidden" name="current" value="<?php print $action;?>">
-	  <input type="hidden" name="cancel" value="<?php print 'student_list.php';?>">
-	  <input type="hidden" name="choice" value="<?php print $choice;?>">
-	</form>
-  </div>
+  <input type="hidden" name="current" value="<?php print $action;?>" />
+  <input type="hidden" name="cancel" value="<?php print 'student_list.php';?>" />
+  <input type="hidden" name="choice" value="<?php print $choice;?>" />
+</form>
+</div>

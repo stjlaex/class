@@ -54,7 +54,7 @@ two_buttonmenu($extrabuttons);
 	while($report=mysql_fetch_array($d_report,MYSQL_ASSOC)){
 	    unset($ReportDef);
 		$rid=$report['id'];
-		$ReportDef=fetchReportDefinition($rid);
+		$ReportDef=fetch_reportdefinition($rid);
 		$rown=0;
 ?>
 		<tbody id="<?php print $rid;?>">

@@ -3,7 +3,7 @@
  *
  */
 
-$action='student_view_enrolment.php';
+$action='student_view.php';
 include('scripts/sub_action.php');
 
 if($sub=='Submit'){

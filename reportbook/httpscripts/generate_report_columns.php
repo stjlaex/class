@@ -7,7 +7,7 @@ require_once('../../scripts/http_head_options.php');
 if(!isset($xmlid)){print 'Failed'; exit;}
 
 $rid=$xmlid;
-$ReportDef=fetchReportDefinition($rid);
+$ReportDef=fetch_reportdefinition($rid);
 $crid=$ReportDef['report']['course_id'];
 $stage=$ReportDef['report']['stage'];
 $compstatus=$ReportDef['report']['component_status'];
@@ -69,7 +69,7 @@ $deadline=$ReportDef['report']['deadline'];
 				}
 			}
 
-$returnXML=fetchReportDefinition($rid);
+$returnXML=fetch_reportdefinition($rid);
 $rootName='ReportDefinition';
 require_once('../../scripts/http_end_options.php');
 exit;

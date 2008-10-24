@@ -1,4 +1,31 @@
-Version ClaSS-0.8.56 release (2008/10/17)
+Version ClaSS-0.8.56 release (2008/10/25)
+-----------------------------------------
+
+Implemented, at last, the edit button for changing properties of
+pre-existing reports.
+
+New curriculum functions to list all classes a student attends and,
+related, all subject teachers of that student.
+
+An email option added to the comments form to email to all subject
+teachers.
+
+A new $CFG variable enrol_cutoffmonth is used by the enrolments table
+for marking end of application period. The Accepted column now
+displays expected start date for each student.
+
+A problem of losing addresses for new contacts fixed in EntryBook
+(caused by addresstype) and fixed phones multiplying out of hand when
+slecting pre-existing contacts.
+
+Added fields to info table to expand range of application data to
+include date, categories and staff child. Renamed enrolnotes to be
+appnotes for consistency (apply the patch!).
+
+Included a date on the invoices.
+
+
+Version ClaSS-0.8.56 release (2008/10/21)
 -----------------------------------------
 
 Bugfix to enrolments_list_action when display is for comid=-1.
@@ -7,13 +34,17 @@ Bugfix to the absences_list to correctly filter lates.
 
 Bugifx to column headers in MarkBook export.
 
-Added the tutor's name to register_list and a shortcut link to webmail which
-prefills their email address for messaging.
+Added the tutor's name and a shortcut clicktoemail link to this is the
+end of the line which should register_list and student_view pages. The
+shortcut links to webmail which prefills their email address for
+messaging.
 
 The categorydef script can now filter by secid, and you may want to
 manually edit your catdefs to make use of it.
 
 New function get_student_section returns secid.
+
+New function get_tutor_user returns user record for form tutor.
 
 Improved permissions on the SEN pages to allow form tutors and subject
 responsibiles to edit.
@@ -21,6 +52,16 @@ responsibiles to edit.
 Assessments profiles now allow for differences in component status.
 
 Bugfix to get component selection working with multiple classes.
+
+Bugfix to fetch_reports missing components.
+
+Improved the order by of marks in the viewtable.
+
+Added SEN and Medical shortcuts to student lists in both Info and
+MarkBook.
+
+Relaxed the InfoBook search so it doesn't miss three character
+surnames (still not sure the MATCH was!).
 
 
 Version ClaSS-0.8.55 release (2008/10/10)

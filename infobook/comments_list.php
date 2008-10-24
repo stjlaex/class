@@ -16,8 +16,8 @@ three_buttonmenu();
   <div id="heading">
 	<label><?php print_string('comments');?></label>
 <?php
-	print $Student['Forename']['value'].' '.$Student['Surname']['value'];
-	print '('.$Student['RegistrationGroup']['value'].')';
+print $Student['Forename']['value'].' '.$Student['Surname']['value'];
+print '('.$Student['RegistrationGroup']['value'].')';
 ?>
   </div>
 
@@ -33,20 +33,40 @@ three_buttonmenu();
 		<?php $required='no'; include('scripts/list_studentsubjects.php');?>
 	  </div>
 	  <div class="right">
-		<?php $listlabel='category'; $listid='category';
-		$required='yes'; include('scripts/list_category.php');?>
+		<?php 
+		$listlabel='category'; $listid='category';
+		$required='yes'; 
+		include('scripts/list_category.php');
+		?>
 	  </div>
 	  <div class="left">
-		<?php $xmldate='Entrydate'; $required='yes'; include('scripts/jsdate-form.php'); ?>
+<?php 
+			$xmldate='Entrydate'; 
+			$required='yes'; 
+			include('scripts/jsdate-form.php'); 
+?>
 	  </div>
 
 	  <div class="left">
 <?php 
-	  if($CFG->emailguardiancomments=='yes'){
-		  $checkname='guardianemail';$checkcaption=get_string('emailtoguardian',$book);
-		  $checkalert=get_string('emailcommentalert',$book);
-		  include('scripts/check_yesno.php'); 
-		  }
+				
+	if($CFG->emailguardiancomments=='yes'){
+		$checkname='guardianemail';$checkcaption=get_string('emailtoguardian',$book);
+		$checkalert=get_string('emailcommentalert',$book);
+		include('scripts/check_yesno.php'); 
+		unset($checkalert);
+		}
+?>
+	  </div>
+
+	  <div class="right">
+<?php 
+	  												 
+	if($CFG->emailcomments=='yes'){
+		$checkname='teacheremail';$checkcaption=get_string('emailtoteachers',$book);
+		//$checkalert=get_string('emailcommentalert',$book);
+		include('scripts/check_yesno.php'); 
+		}
 ?>
 	  </div>
 

@@ -28,7 +28,7 @@ $action='search_action.php'
 	<form id="quicksearch" name="quicksearch" method="post"
 		action="infobook.php" target="viewinfobook">
 <?php
-	if($_SESSION['role']=='office' or $_SESSION['role']=='admin'){
+	   if($_SESSION['role']=='office' or $_SESSION['role']=='admin'){
 ?>
 	  <fieldset class="infobook">
 		<legend><?php print_string('contactsearch',$book);?></legend>

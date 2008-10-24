@@ -18,7 +18,7 @@ if(!isset($xmlid)){print "Failed"; exit;}
    	$d_reportentry=mysql_query("DELETE FROM reportentry WHERE report_id='$rid'");
    	$d_report=mysql_query("DELETE FROM report WHERE id='$rid'");
 
-$returnXML=fetchReportDefinition($rid);
+$returnXML=fetch_reportdefinition($rid);
 $rootName='ReportDefinition';
 require_once('../../scripts/http_end_options.php');
 exit;

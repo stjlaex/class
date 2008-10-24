@@ -6,7 +6,12 @@ $action='new_contact_action.php';
 
 if(isset($_POST['sid']) and $_POST['sid']!=''){
 	$sid=$_POST['sid'];
-	if(isset($_POST['pregid']) and $_POST['pregid']!=''){$gid=$_POST['pregid'];}else{$gid=-1;}
+	if(isset($_POST['pregid']) and $_POST['pregid']!=''){
+		$gid=$_POST['pregid'];
+		}
+	else{
+		$gid=-1;
+		}
 	$Contact=fetchContact(array('guardian_id'=>$gid,'student_id'=>-1));
 	$Phones=(array)$Contact['Phones'];
 	$Addresses=$Contact['Addresses'];
@@ -62,7 +67,7 @@ if(isset($sid)){
 	  </div>
 
 	  <div class="left">
-		  <?php $tab=xmlarray_form($Address,'','contactaddress',$tab,'infobook'); ?>
+		  <?php $tab=xmlarray_form($Address,'0','contactaddress',$tab,'infobook'); ?>
 	  </div>
 <?php
 	reset($Phones);

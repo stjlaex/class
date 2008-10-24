@@ -18,51 +18,51 @@ for($i=0;$i<sizeof($cids);$i++){
 		$teachers[$i]=$teachers[$i].' - '.$tidcid['teacher_id'];
 		}
 	
-	/*	Fetch the subject of the class*/
+	/* Fetch the subject of the class */
 	$d_class=mysql_query("SELECT * FROM class WHERE id='$cid'");
 	$class=mysql_fetch_array($d_class,MYSQL_ASSOC);
 	$bid[$i]=$class['subject_id'];
 
 	
-	/* Fetch marks for classes. Where there is more than one class, any */
-	/*				marks must be shared by all*/
+	/* Fetch marks for classes. Where there is more than one class,
+	 *  any marks must be shared by all
+	 */
 	$table='markselect'.$i;
 	if($i==0){
-		if(mysql_query("CREATE TEMPORARY TABLE $table (SELECT mark.* FROM mark LEFT
+		mysql_query("CREATE TEMPORARY TABLE $table (SELECT mark.* FROM mark LEFT
 				JOIN midcid ON mark.id=midcid.mark_id WHERE midcid.class_id='$cid'
-				ORDER BY mark.entrydate DESC);")){}
-	 		else {print 'Failed!<br />'; $error=mysql_error(); print $error.'<br />';}
+				ORDER BY mark.entrydate DESC, mark.id);");
 		}
 	else{$lasttable='markselect'.($i-1);
-		if(mysql_query("CREATE TEMPORARY TABLE $table (SELECT $lasttable.* FROM $lasttable LEFT
-				JOIN midcid ON $lasttable.id=midcid.mark_id WHERE midcid.class_id='$cid'
-				ORDER BY $lasttable.entrydate DESC);")){}
-	 		else {print 'Failed!<br />'; $error=mysql_error(); print $error.'<br />';}
+		mysql_query("CREATE TEMPORARY TABLE $table 
+				(SELECT $lasttable.* FROM $lasttable
+				LEFT JOIN midcid ON $lasttable.id=midcid.mark_id WHERE
+				midcid.class_id='$cid' ORDER BY $lasttable.entrydate
+				DESC, $lasttable.id );");
 		}
 
-	
 	/* Fetch students for these classes.  */
-	if($i==0){ if(mysql_query("CREATE TEMPORARY TABLE students
+	if($i==0){
+		mysql_query("CREATE TEMPORARY TABLE students
 		(SELECT a.student_id, b.surname, b.forename,
 		b.preferredforename, b.form_id, a.class_id FROM
 		cidsid a, student b WHERE a.class_id='$cid' AND
-		b.id=a.student_id ORDER BY b.surname);")){} else {print
-		'Failed!<br />'; $error=mysql_error(); print $error.'<br />';} 
+		b.id=a.student_id ORDER BY b.surname);"); 
 		}
-	else
-		{if(mysql_query("INSERT INTO students SELECT
+	else{
+		mysql_query("INSERT INTO students SELECT
 		a.student_id, b.surname, b.forename, b.preferredforename, 
 		b.form_id, a.class_id FROM cidsid a,
 		student b WHERE a.class_id='$cid' AND b.id=a.student_id ORDER
-		BY b.surname;")){} else {print 'Failed!<br />';
-		$error=mysql_error(); print $error.'<br />';} 
+		BY b.surname;");
 		}
 	}
 
-	/* Fetch information about all marks and store in array $umns (ie. columns)	
-	 * The umntype is used to filter the mark columns and is set in
-	 * the sideoptions. 
-	 */
+/*
+ * Fetch information about all marks and store in array $umns
+ * (ie. columns) The umntype is used to filter the mark columns and is
+ * set in the sideoptions.
+ */
 	$umns=array();
 	if($umntype=='t'){
 		$d_marks=mysql_query("SELECT $table.* FROM $table WHERE
@@ -199,6 +199,7 @@ for($i=0;$i<sizeof($cids);$i++){
 				$profile_midlist.=$umns[$iumn]['id'].' ';
 				}
 			}
+
 		/*TODO: The derivation of the profile results has to be in the
 				db somewhere */
 		if($profile_name=='FS Steps'){$marktype='tally';}

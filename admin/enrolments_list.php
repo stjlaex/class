@@ -118,6 +118,11 @@ if(isset($_POST['enrolstage'])){$enrolstage=$_POST['enrolstage'];}
 				value="yes" onChange="checkAll(this);" />
 			</th>
 			<th style="width:40%;"><?php print $description;?></th>
+<?php
+		if($current_enrolstatus=='AC'){
+			print '<th>'.get_string('schoolstartdate','infobook').'</th>';
+			}
+?>
 			<th>
 <?php
 		   	$required='no';$multi='1';
@@ -154,7 +159,8 @@ if(isset($_POST['enrolstage'])){$enrolstage=$_POST['enrolstage'];}
 			</td>
 			<td>
 			  <span title="<?php print display_date($student['dob']). 
-				' <br />'.$Enrolment['EnrolmentNotes']['value'];?>">
+				' <br />'.$Enrolment['ApplicationNotes']['value']. ' - '.
+					display_date($Enrolment['ApplicationDate']['value']);?>">
 <?php
 		if($perm['w']==1){
 ?>
@@ -176,6 +182,11 @@ if(isset($_POST['enrolstage'])){$enrolstage=$_POST['enrolstage'];}
 ?>
 			  </span>
 			</td>
+<?php
+		if($current_enrolstatus=='AC'){
+			print '<td>'.display_date($Enrolment['EntryDate']['value']).'</td>';
+			}
+?>
 			<td>
 <?php
 			if($comtype=='allapplied'){
@@ -228,6 +239,7 @@ if(isset($_POST['enrolstage'])){$enrolstage=$_POST['enrolstage'];}
 					else{$result='&nbsp;';}
 					print $result.'</td><td>';
 					}
+
 				reset($application_steps);
 				while(list($index,$value)=each($application_steps)){
 					print '<div class="row"><label>' 
