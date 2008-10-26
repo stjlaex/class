@@ -18,7 +18,7 @@ if($marktype=='hw'){
 	$d_m=mysql_query("SELECT entrydate, comment FROM mark WHERE id='$mid';");
 	$setdate=mysql_result($d_m,0,1);
 	$duedate=mysql_result($d_m,0,0);
-	$setevent=get_event($setdate);
+	$setevent=get_event($setdate,'AM');
 	$dueevent=get_event($duedate);
 	}
 
@@ -109,6 +109,7 @@ three_buttonmenu();
 		xmlattendance_display($set_Attendance);
 		xmlattendance_display($due_Attendance);
 ?>
+
 		  <td>
 			<input type="checkbox" 
 				   <?php if($viewtable[$c]["score$mid"]['extra']=='1'){

@@ -222,8 +222,10 @@ function list_student_classes($sid){
 	}
 
 /** 
- * Returns an array listing all subject teachers of this student.
- * The array is a partial users record with name and email detials.
+ *
+ * Returns an array listing all subject teachers (not trainee
+ * teachers!!!) of this student. The array is a partial users record
+ * with name and email detials.
  *
  */
 function list_student_teachers($sid){

@@ -13,6 +13,7 @@
 
 
 /**
+ *
  * The purpose here is to refresh (or rather clear out) all of the
  * existing 'relationships' between users and communities in the
  * database ready for them to be re-populated (refreshed) say at the
@@ -20,6 +21,7 @@
  * group_membership tables, deletes all community users from the users
  * table and all of their associated content (blogs, files all get
  * wiped!). All users' accounts and their content are left intact.
+ *
  */
 function elgg_refresh(){
 	global $CFG;

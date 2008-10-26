@@ -116,28 +116,29 @@ function fetchcurrentAttendance($sid,$eveid=''){
 		}
 	$Attendance=array();
 	if($eveid!=''){
-		$d_attendance=mysql_query("SELECT attendance.status,
+		$d_a=mysql_query("SELECT attendance.status,
 			attendance.code, attendance.late, attendance.comment, 
 			UNIX_TIMESTAMP(logtime) AS logtime, event.id,
 			event.period, event.date FROM attendance JOIN
 			event ON event.id=attendance.event_id WHERE
-			attendance.student_id='$sid' AND event.id='$eveid'");
-		$attendance=mysql_fetch_array($d_attendance,MYSQL_ASSOC);
-		$Attendance['id_db']=$attendance['id'];
+			attendance.student_id='$sid' AND event.id='$eveid';");
+		$a=mysql_fetch_array($d_a,MYSQL_ASSOC);
+
+		$Attendance['id_db']=$a['id'];
 		$Attendance['Period']=array('label' => 'period',
-								'value' => ''.$attendance['period']);
+								'value' => ''.$a['period']);
 	   	$Attendance['Date']=array('label' => 'date', 
-									'value' => ''.$attendance['date']);
+									'value' => ''.$a['date']);
 	   	$Attendance['Status']=array('label' => 'attendance',
-								  'value' => ''.$attendance['status']);
+								  'value' => ''.$a['status']);
 	   	$Attendance['Code']=array('label' => 'code',
-								  'value' => ''.$attendance['code']);
+								  'value' => ''.$a['code']);
 	   	$Attendance['Late']=array('label' => 'late',
-								  'value' => ''.$attendance['late']);
+								  'value' => ''.$a['late']);
 	   	$Attendance['Comment']=array('label' => 'comment',
-								  'value' => ''.$attendance['comment']);
+								  'value' => ''.$a['comment']);
 	   	$Attendance['Logtime']=array('label' => 'time',
-								  'value' => ''.$attendance['logtime']);
+								  'value' => ''.$a['logtime']);
 		}
 	return nullCorrect($Attendance);
 	}
@@ -202,7 +203,8 @@ function get_event($date='',$session='',$secid=1){
 		   and $CFG->registration[$secid]=='double'){$session=date('A');}
 		else{$session='AM';}
 		}
-	$d_event=mysql_query("SELECT id FROM event WHERE date='$date' AND period='$session';");
+	$d_event=mysql_query("SELECT id FROM event WHERE date='$date' 
+						AND period='$session';");
 	if(mysql_num_rows($d_event)==0){
 		$eveid='0';
 		}

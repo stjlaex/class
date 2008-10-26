@@ -8,10 +8,9 @@ $cancel='student_view.php';
 
 two_buttonmenu();
 
-	/*Check user has permission to view*/
+	/*Anyone who gets to this page can read it but not edit*/
 	$yid=$Student['YearGroup']['value'];
 	$perm=getMedicalPerm($yid,$respons);
-	include('scripts/perm_action.php');
 
 ?>
   <div id="heading">
@@ -25,7 +24,7 @@ two_buttonmenu();
 		<legend><?php print_string('medicalcaption',$book);?></legend>
 
 <?php 
-if($Student['MedicalFlag']['value']=='N'){
+if($Student['MedicalFlag']['value']=='N' and $perm['w']==1){
 ?>
 
 		<p><?php print_string('nomedicalinfo',$book);?></p>

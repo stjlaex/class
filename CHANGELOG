@@ -1,4 +1,4 @@
-Version ClaSS-0.8.56 release (2008/10/25)
+Version ClaSS-0.8.57 release (2008/10/26)
 -----------------------------------------
 
 Implemented, at last, the edit button for changing properties of
@@ -22,7 +22,7 @@ Added fields to info table to expand range of application data to
 include date, categories and staff child. Renamed enrolnotes to be
 appnotes for consistency (apply the patch!).
 
-Included a date on the invoices.
+Included a date field on the invoices.
 
 
 Version ClaSS-0.8.56 release (2008/10/21)
