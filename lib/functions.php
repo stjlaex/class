@@ -677,137 +677,165 @@ function getEnumArray($field_name){
 	/* For the orderaction table NB. 'lodged' has no entry in the
 	 * orderaction table simply exists in the orderorder table. 
 	 */
-	$action=array('0' => 'lodged', '1' => 'authorised', '2' => 'placed', '3' =>
-				  'delivered', '4' => 'cancelled', '5' => 'closed',
-				  '6' => 'process');
+	$action=array('0'=>'lodged', 
+				  '1'=>'authorised', 
+				  '2'=>'placed', 
+				  '3'=>'delivered', 
+				  '4'=>'cancelled', 
+				  '5'=>'closed',
+				  '6'=>'process'
+				  );
 
 	/*for the gidsid table*/
-	$priority=array('0' => 'first', '1' => 'second', '2' => 'third', '3' => 'fourth');
-	$mailing=array('0' => 'nomailing', '1' => 'allmailing', '2' => 'reportsonly');
-	$title=array('0' => '', '1' => 'mr', '2' => 'mrs', '3' => 'srd', '4' => 'srada','5'=>'miss','6'=>'dr');
-	$relationship=array('NOT' => 'informationnotobtained', 'CAR' =>
-						'carer', 'DOC' => 'doctor', 'FAM' => 'otherfamilymember', 'PAM'
-						=> 'mother', 'PAF' => 'father', 'OTH' => 'othercontact', 'STP' =>
-						'stepparent', 'REL' => 'otherrelative', 'SWR' => 'socialworker', 
-						'RLG' => 'religiouscontact', 'AGN' => 'agent', 'HFA' => 'hostfamily');
-	$responsibility=array('N' => 'noparentalresponsibility', 'Y' => 'parentalresponsibility');
+	$priority=array('0'=>'first', 
+					'1'=>'second', 
+					'2'=>'third', 
+					'3'=>'fourth');
+	$mailing=array('0'=>'nomailing', 
+				   '1'=>'allmailing', 
+				   '2'=>'reportsonly');
+	$title=array('0'=>'', 
+				 '1'=>'mr', 
+				 '2'=>'mrs', 
+				 '3'=>'srd', 
+				 '4'=>'srada',
+				 '5'=>'miss',
+				 '6'=>'dr'
+				 );
+	$relationship=array('NOT'=>'informationnotobtained', 
+						'CAR'=>'carer', 
+						'DOC'=>'doctor', 
+						'FAM'=>'otherfamilymember', 
+						'PAM'=>'mother', 
+						'PAF'=>'father', 
+						'OTH'=>'othercontact', 
+						'STP'=>'stepparent', 
+						'REL'=>'otherrelative', 
+						'SWR'=>'socialworker', 
+						'RLG'=>'religiouscontact', 
+						'AGN'=>'agent', 
+						'HFA'=>'hostfamily'
+						);
+	$responsibility=array('N'=>'noparentalresponsibility', 
+						  'Y'=>'parentalresponsibility'
+						  );
 
 	/*for the phone table*/
-	$phonetype=array('H' => 'homephone', 'W' => 'workphone', 
-					 'M' => 'mobilephone', 'F' => 'faxnumber', 'O' => 'otherphone');
+	$phonetype=array('H'=>'homephone', 'W'=>'workphone', 
+					 'M'=>'mobilephone', 'F'=>'faxnumber', 'O'=>'otherphone');
 
 	/*for the gidaid table*/
-	$addresstype=array('H' => 'home', 'W' => 'work', 'V' =>
-					   'holiday', 'O' => 'other');
+	$addresstype=array('H'=>'home', 'W'=>'work', 'V' =>
+					   'holiday', 'O'=>'other');
 
 	/*for the report table*/
-	$componentstatus=array('None' => 'notapplied', 
-					 'N' => 'non-validating', 
-					 'V' => 'validating', 
-					 'A' => 'all');
+	$componentstatus=array('None'=>'notapplied', 
+					 'N'=>'non-validating', 
+					 'V'=>'validating', 
+					 'A'=>'all');
 	$strandstatus=$componentstatus;
 
 	/*for the assessment tables*/
-	$resultstatus=array('I' => 'interim', 'R' => 'result', 'T' =>
-						'target', 'P' => 'provisionalresult', 'E' =>
-						'estimate', 'S' => 'statistics');
+	$resultstatus=array('I'=>'interim', 'R'=>'result', 'T' =>
+						'target', 'P'=>'provisionalresult', 'E' =>
+						'estimate', 'S'=>'statistics');
 
-	$season=array('S' => 'summer', 'W' => 'winter', 'M' =>
-				  'modular/continuous', '1' => 'january', '2' => 'feburary', '3' =>
-				  'march', '4' => 'april', '5' => 'may', '6' => 'june', '7' =>
-				  'july', '8' => 'august', '9' => 'september', 
-				  'a' => 'october', 'b' => 'november', 'c' => 'december');
+	$season=array('S'=>'summer', 'W'=>'winter', 'M' =>
+				  'modular/continuous', '1'=>'january', '2'=>'feburary', '3' =>
+				  'march', '4'=>'april', '5'=>'may', '6'=>'june', '7' =>
+				  'july', '8'=>'august', '9'=>'september', 
+				  'a'=>'october', 'b'=>'november', 'c'=>'december');
 
 	/*for the sen table*/
-	$senprovision=array('N' => 'notonregister', 
+	$senprovision=array('N'=>'notonregister', 
 						'A'=> 'schoolaction',
 						'P'=> 'schoolactionplus', 
 						'S'=> 'statemented');
-	$senranking=array('1' => 'level 1', '2' => 'level 2', '3' => 'level 3');
-	$sentype=array('SPLD' => 'specificlearningdifficulty(dyslexia)', 
-				   'MLD' => 'moderatelearningdifficulty', 
-				   'SLD' => 'severelearningdifficulty', 
-				   'PMLD' => 'profoundandmultiplelearningdifficulty', 
-				   'EBD' => 'emotionalandbehaviouraldifficulty', 
-				   'SCD' => 'speechorcommunicationdifficulty', 
-				   'HI' => 'hearingimpairment', 
-				   'VI' => 'visualimpairment', 
-				   'MSI' => 'multi-sensoryimpairment', 
-				   'PD' => 'physicaldisability', 
-				   'AUT' => 'autism',
-				   'GT' => 'giftedandtalented',
-				   'STF' => 'shorttermfailing',
-				   'ENC' => 'enrolmentconcern',
-				   'OTH' => 'otherdifficulty/disability');
+	$senranking=array('1'=>'level 1', '2'=>'level 2', '3'=>'level 3');
+	$sentype=array('SPLD'=>'specificlearningdifficulty(dyslexia)', 
+				   'MLD'=>'moderatelearningdifficulty', 
+				   'SLD'=>'severelearningdifficulty', 
+				   'PMLD'=>'profoundandmultiplelearningdifficulty', 
+				   'EBD'=>'emotionalandbehaviouraldifficulty', 
+				   'SCD'=>'speechorcommunicationdifficulty', 
+				   'HI'=>'hearingimpairment', 
+				   'VI'=>'visualimpairment', 
+				   'MSI'=>'multi-sensoryimpairment', 
+				   'PD'=>'physicaldisability', 
+				   'AUT'=>'autism',
+				   'GT'=>'giftedandtalented',
+				   'STF'=>'shorttermfailing',
+				   'ENC'=>'enrolmentconcern',
+				   'OTH'=>'otherdifficulty/disability');
 	$sencurriculum=array('A'=>'allsubject',
-						 'M' => 'modifiedcurriculum', 
-						 'D' => 'curriculumdisapplied');
+						 'M'=>'modifiedcurriculum', 
+						 'D'=>'curriculumdisapplied');
 
 	/*for the exclusions table*/
-	$exclusionscategory=array('F' => 'fixed-term', 'P' => 'permanent', 'L' => 'lunchtime');
+	$exclusionscategory=array('F'=>'fixed-term', 'P'=>'permanent', 'L'=>'lunchtime');
 
-	$appeal=array('R' => 'appealrejected', 'S' => 'appealsuccesful');
+	$appeal=array('R'=>'appealrejected', 'S'=>'appealsuccesful');
 
-	$session=array('NA' => 'NA', 'AM' => 'AM', 'PM' => 'PM');
+	$session=array('NA'=>'NA', 'AM'=>'AM', 'PM'=>'PM');
 
 	/*for the community table, does not list special types like
 	yeargroup, formgroup, accomodation, family etc*/
-	$community_type=array('' => '', 
-						  'ACADEMIC' => 'academic', 
-						  'TUTOR' => 'tutorgroup', 
-						  'TRIP' => 'trip', 
-						  'REG' => 'registrationgroup', 
-						  'STOP' => 'travelstop', 
-						  'EXTRA' => 'other'
+	$community_type=array(''=>'', 
+						  'ACADEMIC'=>'academic', 
+						  'TUTOR'=>'tutorgroup', 
+						  'TRIP'=>'trip', 
+						  'REG'=>'registrationgroup', 
+						  'STOP'=>'travelstop', 
+						  'EXTRA'=>'other'
 						  );
 	/*for the list_studentfield script, not an enumarray at all!*/
 	$studentfield=array(
-						'' => '',
-						'Surname' => 'surname', 
-						'Gender' => 'gender', 
-						'YearGroup' => 'yeargroup', 
-						'RegistrationGroup' => 'formgroup', 
-						'DOB' => 'dateofbirth',
-						'Nationality' => 'nationality',
-						'EmailAddress' => 'email',
-						'MobilePhone' => 'mobilephone',
-						'EnrolNumber' => 'enrolmentnumber',
-						'EPFUsername' => 'epfusername',
-						'Language' => 'language',
-						'EntryDate' => 'schoolstartdate',
-						'FirstContact' => 'firstcontact',
-						'FirstContactPhone' => 'firstcontactphone',
-						'FirstContactEmailAddress' => 'firstcontactemailaddress',
-						'SecondContact' => 'secondcontact',
-						'SecondContactPhone' => 'secondcontactphone',
-						'SecondContactEmailAddress' => 'secondcontactemailaddress'
+						''=>'',
+						'Surname'=>'surname', 
+						'Gender'=>'gender', 
+						'YearGroup'=>'yeargroup', 
+						'RegistrationGroup'=>'formgroup', 
+						'DOB'=>'dateofbirth',
+						'Nationality'=>'nationality',
+						'EmailAddress'=>'email',
+						'MobilePhone'=>'mobilephone',
+						'EnrolNumber'=>'enrolmentnumber',
+						'EPFUsername'=>'epfusername',
+						'Language'=>'language',
+						'EntryDate'=>'schoolstartdate',
+						'FirstContact'=>'firstcontact',
+						'FirstContactPhone'=>'firstcontactphone',
+						'FirstContactEmailAddress'=>'firstcontactemailaddress',
+						'SecondContact'=>'secondcontact',
+						'SecondContactPhone'=>'secondcontactphone',
+						'SecondContactEmailAddress'=>'secondcontactemailaddress'
 						);
 	/*for the register*/
 	$absencecode=array(
-						'O' => 'unauthorisedabsence',
-						'I' => 'illness',
-						'M' => 'medicaldentalappointments',
-						'P' => 'approvedsportingactivity',
-						'S' => 'studyleave',
-						'V' => 'educationalvisitortrip',
-						'B' => 'educatedoffsite',
-						'E' => 'excluded',
-						'F' => 'extendedfamilyholidayagreed',
-						'G' => 'familyholidaynotagreeded',
-						'H' => 'familyholidayagreed',
-						'J' => 'interview',
-						'L' => 'lateafterregisterclosedauthorised',
-						'R' => 'religiousobservance',
-						'T' => 'travellerabsence',
-						'W' => 'workexperience',
-						'C' => 'otherauthorisedcircumstances',
-						'D' => 'dualregistrationattendingother',
-						'N' => 'noreasonyetprovided',
-						'U' => 'lateafterregisterclosed',
-						'X' => 'untimetabledsessions',
-						'Y' => 'enforcedclosure',
-						'Z' => 'pupilnotonrole',
-						'#' => 'schoolclosedtopupils'
+						'O'=>'unauthorisedabsence',
+						'I'=>'illness',
+						'M'=>'medicaldentalappointments',
+						'P'=>'approvedsportingactivity',
+						'S'=>'studyleave',
+						'V'=>'educationalvisitortrip',
+						'B'=>'educatedoffsite',
+						'E'=>'excluded',
+						'F'=>'extendedfamilyholidayagreed',
+						'G'=>'familyholidaynotagreeded',
+						'H'=>'familyholidayagreed',
+						'J'=>'interview',
+						'L'=>'lateafterregisterclosedauthorised',
+						'R'=>'religiousobservance',
+						'T'=>'travellerabsence',
+						'W'=>'workexperience',
+						'C'=>'otherauthorisedcircumstances',
+						'D'=>'dualregistrationattendingother',
+						'N'=>'noreasonyetprovided',
+						'U'=>'lateafterregisterclosed',
+						'X'=>'untimetabledsessions',
+						'Y'=>'enforcedclosure',
+						'Z'=>'pupilnotonrole',
+						'#'=>'schoolclosedtopupils'
 						);
 
 	/**
@@ -1153,123 +1181,123 @@ function fileOpen($path){
  */
 function file_mimeinfo($element, $filename) {
     $mimeinfo = array (
-        'xxx'  => array ('type'=>'document/unknown', 'icon'=>'unknown.gif'),
-        '3gp'  => array ('type'=>'video/quicktime', 'icon'=>'video.gif'),
-        'ai'   => array ('type'=>'application/postscript', 'icon'=>'image.gif'),
-        'aif'  => array ('type'=>'audio/x-aiff', 'icon'=>'audio.gif'),
-        'aiff' => array ('type'=>'audio/x-aiff', 'icon'=>'audio.gif'),
-        'aifc' => array ('type'=>'audio/x-aiff', 'icon'=>'audio.gif'),
-        'applescript'  => array ('type'=>'text/plain', 'icon'=>'text.gif'),
-        'asc'  => array ('type'=>'text/plain', 'icon'=>'text.gif'),
-        'asm'  => array ('type'=>'text/plain', 'icon'=>'text.gif'),
-        'au'   => array ('type'=>'audio/au', 'icon'=>'audio.gif'),
-        'avi'  => array ('type'=>'video/x-ms-wm', 'icon'=>'avi.gif'),
-        'bmp'  => array ('type'=>'image/bmp', 'icon'=>'image.gif'),
-        'c'    => array ('type'=>'text/plain', 'icon'=>'text.gif'),
-        'cct'  => array ('type'=>'shockwave/director', 'icon'=>'flash.gif'),
-        'cpp'  => array ('type'=>'text/plain', 'icon'=>'text.gif'),
-        'cs'   => array ('type'=>'application/x-csh', 'icon'=>'text.gif'),
-        'css'  => array ('type'=>'text/css', 'icon'=>'text.gif'),
-        'dv'   => array ('type'=>'video/x-dv', 'icon'=>'video.gif'),
-        'doc'  => array ('type'=>'application/msword', 'icon'=>'word.gif'),
-        'dcr'  => array ('type'=>'application/x-director', 'icon'=>'flash.gif'),
-        'dif'  => array ('type'=>'video/x-dv', 'icon'=>'video.gif'),
-        'dir'  => array ('type'=>'application/x-director', 'icon'=>'flash.gif'),
-        'dxr'  => array ('type'=>'application/x-director', 'icon'=>'flash.gif'),
-        'eps'  => array ('type'=>'application/postscript', 'icon'=>'pdf.gif'),
-        'gif'  => array ('type'=>'image/gif', 'icon'=>'image.gif'),
-        'gtar' => array ('type'=>'application/x-gtar', 'icon'=>'zip.gif'),
-        'gz'   => array ('type'=>'application/g-zip', 'icon'=>'zip.gif'),
-        'gzip' => array ('type'=>'application/g-zip', 'icon'=>'zip.gif'),
-        'h'    => array ('type'=>'text/plain', 'icon'=>'text.gif'),
-        'hpp'  => array ('type'=>'text/plain', 'icon'=>'text.gif'),
-        'hqx'  => array ('type'=>'application/mac-binhex40', 'icon'=>'zip.gif'),
-        'html' => array ('type'=>'text/html', 'icon'=>'html.gif'),
-        'htm'  => array ('type'=>'text/html', 'icon'=>'html.gif'),
-        'java' => array ('type'=>'text/plain', 'icon'=>'text.gif'),
-        'jcb'  => array ('type'=>'text/xml', 'icon'=>'jcb.gif'),
-        'jcl'  => array ('type'=>'text/xml', 'icon'=>'jcl.gif'),
-        'jcw'  => array ('type'=>'text/xml', 'icon'=>'jcw.gif'),
-        'jmt'  => array ('type'=>'text/xml', 'icon'=>'jmt.gif'),
-        'jmx'  => array ('type'=>'text/xml', 'icon'=>'jmx.gif'),
-        'jpe'  => array ('type'=>'image/jpeg', 'icon'=>'image.gif'),
-        'jpeg' => array ('type'=>'image/jpeg', 'icon'=>'image.gif'),
-        'jpg'  => array ('type'=>'image/jpeg', 'icon'=>'image.gif'),
-        'jqz'  => array ('type'=>'text/xml', 'icon'=>'jqz.gif'),
-        'js'   => array ('type'=>'application/x-javascript', 'icon'=>'text.gif'),
+        'xxx' =>array ('type'=>'document/unknown', 'icon'=>'unknown.gif'),
+        '3gp' =>array ('type'=>'video/quicktime', 'icon'=>'video.gif'),
+        'ai'  =>array ('type'=>'application/postscript', 'icon'=>'image.gif'),
+        'aif' =>array ('type'=>'audio/x-aiff', 'icon'=>'audio.gif'),
+        'aiff'=>array ('type'=>'audio/x-aiff', 'icon'=>'audio.gif'),
+        'aifc'=>array ('type'=>'audio/x-aiff', 'icon'=>'audio.gif'),
+        'applescript' =>array ('type'=>'text/plain', 'icon'=>'text.gif'),
+        'asc' =>array ('type'=>'text/plain', 'icon'=>'text.gif'),
+        'asm' =>array ('type'=>'text/plain', 'icon'=>'text.gif'),
+        'au'  =>array ('type'=>'audio/au', 'icon'=>'audio.gif'),
+        'avi' =>array ('type'=>'video/x-ms-wm', 'icon'=>'avi.gif'),
+        'bmp' =>array ('type'=>'image/bmp', 'icon'=>'image.gif'),
+        'c'   =>array ('type'=>'text/plain', 'icon'=>'text.gif'),
+        'cct' =>array ('type'=>'shockwave/director', 'icon'=>'flash.gif'),
+        'cpp' =>array ('type'=>'text/plain', 'icon'=>'text.gif'),
+        'cs'  =>array ('type'=>'application/x-csh', 'icon'=>'text.gif'),
+        'css' =>array ('type'=>'text/css', 'icon'=>'text.gif'),
+        'dv'  =>array ('type'=>'video/x-dv', 'icon'=>'video.gif'),
+        'doc' =>array ('type'=>'application/msword', 'icon'=>'word.gif'),
+        'dcr' =>array ('type'=>'application/x-director', 'icon'=>'flash.gif'),
+        'dif' =>array ('type'=>'video/x-dv', 'icon'=>'video.gif'),
+        'dir' =>array ('type'=>'application/x-director', 'icon'=>'flash.gif'),
+        'dxr' =>array ('type'=>'application/x-director', 'icon'=>'flash.gif'),
+        'eps' =>array ('type'=>'application/postscript', 'icon'=>'pdf.gif'),
+        'gif' =>array ('type'=>'image/gif', 'icon'=>'image.gif'),
+        'gtar'=>array ('type'=>'application/x-gtar', 'icon'=>'zip.gif'),
+        'gz'  =>array ('type'=>'application/g-zip', 'icon'=>'zip.gif'),
+        'gzip'=>array ('type'=>'application/g-zip', 'icon'=>'zip.gif'),
+        'h'   =>array ('type'=>'text/plain', 'icon'=>'text.gif'),
+        'hpp' =>array ('type'=>'text/plain', 'icon'=>'text.gif'),
+        'hqx' =>array ('type'=>'application/mac-binhex40', 'icon'=>'zip.gif'),
+        'html'=>array ('type'=>'text/html', 'icon'=>'html.gif'),
+        'htm' =>array ('type'=>'text/html', 'icon'=>'html.gif'),
+        'java'=>array ('type'=>'text/plain', 'icon'=>'text.gif'),
+        'jcb' =>array ('type'=>'text/xml', 'icon'=>'jcb.gif'),
+        'jcl' =>array ('type'=>'text/xml', 'icon'=>'jcl.gif'),
+        'jcw' =>array ('type'=>'text/xml', 'icon'=>'jcw.gif'),
+        'jmt' =>array ('type'=>'text/xml', 'icon'=>'jmt.gif'),
+        'jmx' =>array ('type'=>'text/xml', 'icon'=>'jmx.gif'),
+        'jpe' =>array ('type'=>'image/jpeg', 'icon'=>'image.gif'),
+        'jpeg'=>array ('type'=>'image/jpeg', 'icon'=>'image.gif'),
+        'jpg' =>array ('type'=>'image/jpeg', 'icon'=>'image.gif'),
+        'jqz' =>array ('type'=>'text/xml', 'icon'=>'jqz.gif'),
+        'js'  =>array ('type'=>'application/x-javascript', 'icon'=>'text.gif'),
         'latex'=> array ('type'=>'application/x-latex', 'icon'=>'text.gif'),
-        'm'    => array ('type'=>'text/plain', 'icon'=>'text.gif'),
-        'mov'  => array ('type'=>'video/quicktime', 'icon'=>'video.gif'),
+        'm'   =>array ('type'=>'text/plain', 'icon'=>'text.gif'),
+        'mov' =>array ('type'=>'video/quicktime', 'icon'=>'video.gif'),
         'movie'=> array ('type'=>'video/x-sgi-movie', 'icon'=>'video.gif'),
-        'm3u'  => array ('type'=>'audio/x-mpegurl', 'icon'=>'audio.gif'),
-        'mp3'  => array ('type'=>'audio/mp3', 'icon'=>'audio.gif'),
-        'mp4'  => array ('type'=>'video/mp4', 'icon'=>'video.gif'),
-        'mpeg' => array ('type'=>'video/mpeg', 'icon'=>'video.gif'),
-        'mpe'  => array ('type'=>'video/mpeg', 'icon'=>'video.gif'),
-        'mpg'  => array ('type'=>'video/mpeg', 'icon'=>'video.gif'),
-        'odt'  => array ('type'=>'application/vnd.oasis.opendocument.text', 'icon'=>'odt.gif'),
-        'ott'  => array ('type'=>'application/vnd.oasis.opendocument.text-template', 'icon'=>'odt.gif'),
-        'oth'  => array ('type'=>'application/vnd.oasis.opendocument.text-web', 'icon'=>'odt.gif'),
-        'odm'  => array ('type'=>'application/vnd.oasis.opendocument.text-master', 'icon'=>'odt.gif'),
-        'odg'  => array ('type'=>'application/vnd.oasis.opendocument.graphics', 'icon'=>'odt.gif'),
-        'otg'  => array ('type'=>'application/vnd.oasis.opendocument.graphics-template', 'icon'=>'odt.gif'),
-        'odp'  => array ('type'=>'application/vnd.oasis.opendocument.presentation', 'icon'=>'odt.gif'),
-        'otp'  => array ('type'=>'application/vnd.oasis.opendocument.presentation-template', 'icon'=>'odt.gif'),
-        'ods'  => array ('type'=>'application/vnd.oasis.opendocument.spreadsheet', 'icon'=>'odt.gif'),
-        'ots'  => array ('type'=>'application/vnd.oasis.opendocument.spreadsheet-template', 'icon'=>'odt.gif'),
-        'odc'  => array ('type'=>'application/vnd.oasis.opendocument.chart', 'icon'=>'odt.gif'),
-        'odf'  => array ('type'=>'application/vnd.oasis.opendocument.formula', 'icon'=>'odt.gif'),
-        'odb'  => array ('type'=>'application/vnd.oasis.opendocument.database', 'icon'=>'odt.gif'),
-        'odi'  => array ('type'=>'application/vnd.oasis.opendocument.image', 'icon'=>'odt.gif'),
-        'pct'  => array ('type'=>'image/pict', 'icon'=>'image.gif'),
-        'pdf'  => array ('type'=>'application/pdf', 'icon'=>'pdf.gif'),
-        'php'  => array ('type'=>'text/plain', 'icon'=>'text.gif'),
-        'pic'  => array ('type'=>'image/pict', 'icon'=>'image.gif'),
-        'pict' => array ('type'=>'image/pict', 'icon'=>'image.gif'),
-        'png'  => array ('type'=>'image/png', 'icon'=>'image.gif'),
-        'pps'  => array ('type'=>'application/vnd.ms-powerpoint', 'icon'=>'powerpoint.gif'),
-        'ppt'  => array ('type'=>'application/vnd.ms-powerpoint', 'icon'=>'powerpoint.gif'),
-        'ps'   => array ('type'=>'application/postscript', 'icon'=>'pdf.gif'),
-        'qt'   => array ('type'=>'video/quicktime', 'icon'=>'video.gif'),
-        'ra'   => array ('type'=>'audio/x-realaudio', 'icon'=>'audio.gif'),
-        'ram'  => array ('type'=>'audio/x-pn-realaudio', 'icon'=>'audio.gif'),
-        'rhb'  => array ('type'=>'text/xml', 'icon'=>'xml.gif'),
-        'rm'   => array ('type'=>'audio/x-pn-realaudio', 'icon'=>'audio.gif'),
-        'rtf'  => array ('type'=>'text/rtf', 'icon'=>'text.gif'),
-        'rtx'  => array ('type'=>'text/richtext', 'icon'=>'text.gif'),
-        'sh'   => array ('type'=>'application/x-sh', 'icon'=>'text.gif'),
-        'sit'  => array ('type'=>'application/x-stuffit', 'icon'=>'zip.gif'),
-        'smi'  => array ('type'=>'application/smil', 'icon'=>'text.gif'),
-        'smil' => array ('type'=>'application/smil', 'icon'=>'text.gif'),
-        'sqt'  => array ('type'=>'text/xml', 'icon'=>'xml.gif'),
-        'swa'  => array ('type'=>'application/x-director', 'icon'=>'flash.gif'),
-        'swf'  => array ('type'=>'application/x-shockwave-flash', 'icon'=>'flash.gif'),
-        'swfl' => array ('type'=>'application/x-shockwave-flash', 'icon'=>'flash.gif'),
-        'sxw'  => array ('type'=>'application/vnd.sun.xml.writer', 'icon'=>'odt.gif'),
-        'stw'  => array ('type'=>'application/vnd.sun.xml.writer.template', 'icon'=>'odt.gif'),
-        'sxc'  => array ('type'=>'application/vnd.sun.xml.calc', 'icon'=>'odt.gif'),
-        'stc'  => array ('type'=>'application/vnd.sun.xml.calc.template', 'icon'=>'odt.gif'),
-        'sxd'  => array ('type'=>'application/vnd.sun.xml.draw', 'icon'=>'odt.gif'),
-        'std'  => array ('type'=>'application/vnd.sun.xml.draw.template', 'icon'=>'odt.gif'),
-        'sxi'  => array ('type'=>'application/vnd.sun.xml.impress', 'icon'=>'odt.gif'),
-        'sti'  => array ('type'=>'application/vnd.sun.xml.impress.template', 'icon'=>'odt.gif'),
-        'sxg'  => array ('type'=>'application/vnd.sun.xml.writer.global', 'icon'=>'odt.gif'),
-        'sxm'  => array ('type'=>'application/vnd.sun.xml.math', 'icon'=>'odt.gif'),
-        'tar'  => array ('type'=>'application/x-tar', 'icon'=>'zip.gif'),
-        'tif'  => array ('type'=>'image/tiff', 'icon'=>'image.gif'),
-        'tiff' => array ('type'=>'image/tiff', 'icon'=>'image.gif'),
-        'tex'  => array ('type'=>'application/x-tex', 'icon'=>'text.gif'),
-        'texi' => array ('type'=>'application/x-texinfo', 'icon'=>'text.gif'),
-        'texinfo'  => array ('type'=>'application/x-texinfo', 'icon'=>'text.gif'),
-        'tsv'  => array ('type'=>'text/tab-separated-values', 'icon'=>'text.gif'),
-        'txt'  => array ('type'=>'text/plain', 'icon'=>'text.gif'),
-        'wav'  => array ('type'=>'audio/wav', 'icon'=>'audio.gif'),
-        'wmv'  => array ('type'=>'video/x-ms-wmv', 'icon'=>'avi.gif'),
-        'asf'  => array ('type'=>'video/x-ms-asf', 'icon'=>'avi.gif'),
-        'xls'  => array ('type'=>'application/vnd.ms-excel', 'icon'=>'excel.gif'),
-        'xml'  => array ('type'=>'application/xml', 'icon'=>'xml.gif'),
-        'xsl'  => array ('type'=>'text/xml', 'icon'=>'xml.gif'),
-        'zip'  => array ('type'=>'application/zip', 'icon'=>'zip.gif')
+        'm3u' =>array ('type'=>'audio/x-mpegurl', 'icon'=>'audio.gif'),
+        'mp3' =>array ('type'=>'audio/mp3', 'icon'=>'audio.gif'),
+        'mp4' =>array ('type'=>'video/mp4', 'icon'=>'video.gif'),
+        'mpeg'=>array ('type'=>'video/mpeg', 'icon'=>'video.gif'),
+        'mpe' =>array ('type'=>'video/mpeg', 'icon'=>'video.gif'),
+        'mpg' =>array ('type'=>'video/mpeg', 'icon'=>'video.gif'),
+        'odt' =>array ('type'=>'application/vnd.oasis.opendocument.text', 'icon'=>'odt.gif'),
+        'ott' =>array ('type'=>'application/vnd.oasis.opendocument.text-template', 'icon'=>'odt.gif'),
+        'oth' =>array ('type'=>'application/vnd.oasis.opendocument.text-web', 'icon'=>'odt.gif'),
+        'odm' =>array ('type'=>'application/vnd.oasis.opendocument.text-master', 'icon'=>'odt.gif'),
+        'odg' =>array ('type'=>'application/vnd.oasis.opendocument.graphics', 'icon'=>'odt.gif'),
+        'otg' =>array ('type'=>'application/vnd.oasis.opendocument.graphics-template', 'icon'=>'odt.gif'),
+        'odp' =>array ('type'=>'application/vnd.oasis.opendocument.presentation', 'icon'=>'odt.gif'),
+        'otp' =>array ('type'=>'application/vnd.oasis.opendocument.presentation-template', 'icon'=>'odt.gif'),
+        'ods' =>array ('type'=>'application/vnd.oasis.opendocument.spreadsheet', 'icon'=>'odt.gif'),
+        'ots' =>array ('type'=>'application/vnd.oasis.opendocument.spreadsheet-template', 'icon'=>'odt.gif'),
+        'odc' =>array ('type'=>'application/vnd.oasis.opendocument.chart', 'icon'=>'odt.gif'),
+        'odf' =>array ('type'=>'application/vnd.oasis.opendocument.formula', 'icon'=>'odt.gif'),
+        'odb' =>array ('type'=>'application/vnd.oasis.opendocument.database', 'icon'=>'odt.gif'),
+        'odi' =>array ('type'=>'application/vnd.oasis.opendocument.image', 'icon'=>'odt.gif'),
+        'pct' =>array ('type'=>'image/pict', 'icon'=>'image.gif'),
+        'pdf' =>array ('type'=>'application/pdf', 'icon'=>'pdf.gif'),
+        'php' =>array ('type'=>'text/plain', 'icon'=>'text.gif'),
+        'pic' =>array ('type'=>'image/pict', 'icon'=>'image.gif'),
+        'pict'=>array ('type'=>'image/pict', 'icon'=>'image.gif'),
+        'png' =>array ('type'=>'image/png', 'icon'=>'image.gif'),
+        'pps' =>array ('type'=>'application/vnd.ms-powerpoint', 'icon'=>'powerpoint.gif'),
+        'ppt' =>array ('type'=>'application/vnd.ms-powerpoint', 'icon'=>'powerpoint.gif'),
+        'ps'  =>array ('type'=>'application/postscript', 'icon'=>'pdf.gif'),
+        'qt'  =>array ('type'=>'video/quicktime', 'icon'=>'video.gif'),
+        'ra'  =>array ('type'=>'audio/x-realaudio', 'icon'=>'audio.gif'),
+        'ram' =>array ('type'=>'audio/x-pn-realaudio', 'icon'=>'audio.gif'),
+        'rhb' =>array ('type'=>'text/xml', 'icon'=>'xml.gif'),
+        'rm'  =>array ('type'=>'audio/x-pn-realaudio', 'icon'=>'audio.gif'),
+        'rtf' =>array ('type'=>'text/rtf', 'icon'=>'text.gif'),
+        'rtx' =>array ('type'=>'text/richtext', 'icon'=>'text.gif'),
+        'sh'  =>array ('type'=>'application/x-sh', 'icon'=>'text.gif'),
+        'sit' =>array ('type'=>'application/x-stuffit', 'icon'=>'zip.gif'),
+        'smi' =>array ('type'=>'application/smil', 'icon'=>'text.gif'),
+        'smil'=>array ('type'=>'application/smil', 'icon'=>'text.gif'),
+        'sqt' =>array ('type'=>'text/xml', 'icon'=>'xml.gif'),
+        'swa' =>array ('type'=>'application/x-director', 'icon'=>'flash.gif'),
+        'swf' =>array ('type'=>'application/x-shockwave-flash', 'icon'=>'flash.gif'),
+        'swfl'=>array ('type'=>'application/x-shockwave-flash', 'icon'=>'flash.gif'),
+        'sxw' =>array ('type'=>'application/vnd.sun.xml.writer', 'icon'=>'odt.gif'),
+        'stw' =>array ('type'=>'application/vnd.sun.xml.writer.template', 'icon'=>'odt.gif'),
+        'sxc' =>array ('type'=>'application/vnd.sun.xml.calc', 'icon'=>'odt.gif'),
+        'stc' =>array ('type'=>'application/vnd.sun.xml.calc.template', 'icon'=>'odt.gif'),
+        'sxd' =>array ('type'=>'application/vnd.sun.xml.draw', 'icon'=>'odt.gif'),
+        'std' =>array ('type'=>'application/vnd.sun.xml.draw.template', 'icon'=>'odt.gif'),
+        'sxi' =>array ('type'=>'application/vnd.sun.xml.impress', 'icon'=>'odt.gif'),
+        'sti' =>array ('type'=>'application/vnd.sun.xml.impress.template', 'icon'=>'odt.gif'),
+        'sxg' =>array ('type'=>'application/vnd.sun.xml.writer.global', 'icon'=>'odt.gif'),
+        'sxm' =>array ('type'=>'application/vnd.sun.xml.math', 'icon'=>'odt.gif'),
+        'tar' =>array ('type'=>'application/x-tar', 'icon'=>'zip.gif'),
+        'tif' =>array ('type'=>'image/tiff', 'icon'=>'image.gif'),
+        'tiff'=>array ('type'=>'image/tiff', 'icon'=>'image.gif'),
+        'tex' =>array ('type'=>'application/x-tex', 'icon'=>'text.gif'),
+        'texi'=>array ('type'=>'application/x-texinfo', 'icon'=>'text.gif'),
+        'texinfo' =>array ('type'=>'application/x-texinfo', 'icon'=>'text.gif'),
+        'tsv' =>array ('type'=>'text/tab-separated-values', 'icon'=>'text.gif'),
+        'txt' =>array ('type'=>'text/plain', 'icon'=>'text.gif'),
+        'wav' =>array ('type'=>'audio/wav', 'icon'=>'audio.gif'),
+        'wmv' =>array ('type'=>'video/x-ms-wmv', 'icon'=>'avi.gif'),
+        'asf' =>array ('type'=>'video/x-ms-asf', 'icon'=>'avi.gif'),
+        'xls' =>array ('type'=>'application/vnd.ms-excel', 'icon'=>'excel.gif'),
+        'xml' =>array ('type'=>'application/xml', 'icon'=>'xml.gif'),
+        'xsl' =>array ('type'=>'text/xml', 'icon'=>'xml.gif'),
+        'zip' =>array ('type'=>'application/zip', 'icon'=>'zip.gif')
     );
 
     if (eregi('\.([a-z0-9]+)$', $filename, $match)) {

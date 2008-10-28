@@ -175,6 +175,7 @@ for($i=0;$i<sizeof($cids);$i++){
 		$profile_midlist='';
 		$profile_pids=array();
 		if($pid==''){
+
 		   /* Not filtering for a specific pid so include all. */
 			if(sizeof($pids)>0 and $profile_pidstatus!='None'){
 				$profile_pids=$pids;
@@ -199,6 +200,7 @@ for($i=0;$i<sizeof($cids);$i++){
 				$profile_midlist.=$umns[$iumn]['id'].' ';
 				}
 			}
+
 
 		/*TODO: The derivation of the profile results has to be in the
 				db somewhere */

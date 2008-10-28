@@ -5,7 +5,7 @@
  *
  * The eportfolio_db prefix is set to separate different schools into
  * separate eportfolio databases. The clientid can also be used as a
- * school identify where different schools are sharing the same
+ * school identifier where different schools are sharing the same
  * eportfolio database - some communities will then be inter-school,
  * primarily for staff, while others for pastoral and teaching groups
  * will be prefixed by the clientid and remain intra-school only.
@@ -56,18 +56,18 @@ function elgg_refresh(){
 	while($oldcom=mysql_fetch_array($d_users)){
 		$no++;
 		$ident=$oldcom['ident'];
-		mysql_query("DELETE FROM $table_users WHERE ident='$ident';");
+				mysql_query("DELETE FROM $table_users WHERE ident='$ident';");
 		mysql_query("DELETE FROM $table_friends WHERE
 								friend='$ident' OR owner='$ident';");
-		mysql_query("DELETE FROM $table_folders WHERE owner='$ident';");
-		mysql_query("DELETE FROM $table_files WHERE files_owner='$ident';");
-		mysql_query("DELETE FROM $table_pages WHERE owner='$ident';");
-		mysql_query("DELETE FROM $table_profile WHERE owner='$ident';");
-		mysql_query("DELETE FROM $table_tags WHERE owner='$ident';");
-		mysql_query("DELETE FROM $table_groups WHERE owner='$ident';");
+			mysql_query("DELETE FROM $table_folders WHERE owner='$ident';");
+			mysql_query("DELETE FROM $table_files WHERE files_owner='$ident';");
+			mysql_query("DELETE FROM $table_pages WHERE owner='$ident';");
+	   		mysql_query("DELETE FROM $table_profile WHERE owner='$ident';");
+			mysql_query("DELETE FROM $table_tags WHERE owner='$ident';");
+	   		mysql_query("DELETE FROM $table_groups WHERE owner='$ident';");
 		mysql_query("DELETE FROM $table_members WHERE user_id='$ident';");
 		mysql_query("DELETE FROM $table_flags WHERE user_id='$ident';");
-		mysql_query("DELETE FROM $table_weblog WHERE weblog='$ident';");
+	 		mysql_query("DELETE FROM $table_weblog WHERE weblog='$ident';");
 		mysql_query("DELETE FROM $table_hw JOIN
 					$table_weblog.ident=$table_hw.weblog_post 
 					WHERE $table_weblog.weblog='$ident';");
@@ -78,14 +78,13 @@ function elgg_refresh(){
 					$table_weblog.ident=$table_watchlist.weblog_post
 					WHERE $table_weblog.weblog='$ident';");
 		}
-
 	}
 
 
 /**
  * This blanks all users from the elgg database of a particular role,
  * identified by their default template name. NB. This does not blank
- * their epfusernames in the ClaSS db, this needs to be done seperatly.
+ * their epfusernames in the ClaSS db, this needs to be done seperately.
  * 
  */
 function elgg_blank($usertemplate){
@@ -97,7 +96,6 @@ function elgg_blank($usertemplate){
 		}
 	$table_users=$CFG->eportfolio_db_prefix.'users';
 	$blanktables=array('friends'=>'owner',
-					   'friends'=>'friend',
 					   'groups'=>'owner',
 					   'file_folders'=>'owner',
 					   'files'=>'files_owner',
@@ -106,10 +104,10 @@ function elgg_blank($usertemplate){
 					   'pages'=>'owner',
 					   'profile_data'=>'owner',
 					   'tags'=>'owner',
-					   'weblog'=>'weblog'
-					   //'weblog_homework'=>'owner',
-					   //'weblog_comments'=>'owner',
-					   //'weblog_watchlist'=>'owner',
+					   'weblog'=>'weblog',
+					   'weblog_homework'=>'owner',
+					   'weblog_comments'=>'owner',
+					   'weblog_watchlist'=>'owner'
 					   );
 	while(list($table,$field)=each($blanktables)){
 		$table=$CFG->eportfolio_db_prefix.$table;
@@ -118,17 +116,22 @@ function elgg_blank($usertemplate){
 						WHERE template_name='$usertemplate';");
 		}
 
+	$table=$CFG->eportfolio_db_prefix.'friends';
+	mysql_query("DELETE FROM $table JOIN $table_users ON
+						$table_users.ident=$table.friend 
+						WHERE template_name='$usertemplate';");
+
 	mysql_query("DELETE FROM $table_users WHERE template_name='$usertemplate';");
 
 	$db=db_connect();
 	mysql_query("SET NAMES 'utf8'");
 	}
 
-
 /**
  * Generates a new user account in elgg for the Newuser xml-array, 
  * properties are decided by one of three possible roles: 
  * staff, student or guardian.
+ *
  */
 function elgg_newUser($Newuser,$role){
 	global $CFG;
@@ -173,9 +176,10 @@ function elgg_newUser($Newuser,$role){
 		}
 	elseif($role=='guardian'){
 		$email='';
-		//$email=$Newuser['EmailAddress']['value'];
+		$email=$Newuser['EmailAddress']['value'];
 		//$start=iconv('UTF-8', 'ASCII//TRANSLIT', $surname);
-		$start=utf8_to_ascii($surname);
+		$surname=utf8_to_ascii($surname);
+		$start=substr($surname,0,6);
 		$name=$Newuser['Title']['value'].' '.$Newuser['Surname']['value'];
 		$epfusertype='person';
 		$epftemplate_name='Default_Guardian';
@@ -213,7 +217,8 @@ function elgg_newUser($Newuser,$role){
 	$d_user=mysql_query("SELECT ident FROM $table WHERE username='$epfusername$no';");
 	while($olduser=mysql_fetch_array($d_user)){
 		$no++;
-		$d_user=mysql_query("SELECT ident FROM $table WHERE username='$epfusername$no';");
+		$d_user=mysql_query("SELECT ident FROM $table WHERE 
+												username='$epfusername$no';");
 		}
 
 
@@ -345,7 +350,7 @@ function elgg_join_community($epfuid,$community){
  *
  */
 function elgg_update_group($group,
-						   $groupfresh=array('owner'=>'','name'=>'','access'=>''),$dbc=true){
+   			   $groupfresh=array('owner'=>'','name'=>'','access'=>''),$dbc=true){
 	global $CFG;
 	$table=$CFG->eportfolio_db_prefix.'groups';
 

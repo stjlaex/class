@@ -1,29 +1,49 @@
 <?php
-/**									eportfolio_accounts_action.php
- *
+/**				   				eportfolio_accounts_action.php
  *
  */
 
-$action='eportfolio_accounts.php';
+//$action='eportfolio_accounts_check.php';
+$cancel='eportfolio_accounts.php';
 require_once('lib/eportfolio_functions.php');
 
 include('scripts/sub_action.php');
 
-$blank=$_POST['blank0'];
-//$staffcheck=$_POST['staffcheck0'];
-$studentcheck=$_POST['studentcheck0'];
+$refresh=$_POST['refresh0'];
+$staffcheck=$_POST['staffcheck0'];
+$studentblank=$_POST['studentblank0'];
+$photocheck=$_POST['photocheck0'];
 $contactcheck=$_POST['contactcheck0'];
 $contactblank=$_POST['contactblank0'];
-$photocheck=$_POST['photocheck0'];
 
-
-if($blank=='yes'){
+if($refresh=='yes'){
 	elgg_refresh();
 	}
 
-if($studentcheck=='yes'){
 
-	/*get all ClaSS data first*/
+if($studentblank=='yes'){
+	/* Clear out all students ready to regenerate them. 
+	 * Everything to do with each account is lost and a new username
+	 * is generated.
+	 */
+	elgg_blank('Default_Student');
+	mysql_query("UPDATE info SET epfusername='';");
+	$result[]='Students\' accounts blanked.';
+	}
+
+if($contactblank=='yes'){
+	/* Clear out all contacts ready to regenerate them. 
+	 * Everything to do with each account is lost and a new username
+	 * is generated.
+	 */
+	elgg_blank('Default_Guardian');
+	mysql_query("UPDATE guardian SET epfusername='';");
+	$result[]='Contacts\' accounts blanked.';
+	}
+
+
+if($staffcheck=='yes'){
+
 	$yearcoms=(array)list_communities('year');
 	$formcoms=(array)list_communities('form');
 	$classes=(array)list_course_classes();
@@ -53,23 +73,25 @@ if($studentcheck=='yes'){
 	$formusers=array();
 	while(list($index,$com)=each($formcoms)){
 		$fid=$com['name'];
-		$d_form=mysql_query("SELECT teacher_id FROM form WHERE id='$fid'");
+		$d_form=mysql_query("SELECT teacher_id FROM form WHERE id='$fid';");
 		$formusers[]=strtolower(mysql_result($d_form,0));
 		}
 	reset($formcoms);
 
 
-	/* Now insert into elgg*/
 
 	$staff=array();
 	$com=array('epfcomid'=>'','type'=>'staff','name'=>'all','displayname'=>'Staff');
 	$epfcomid=elgg_update_community($com);
 	$com['epfcomid']=$epfcomid;
-	while(list($index,$user)=each($allteachers)){
+
+	while(list($aindex,$user)=each($allteachers)){
 		$Newuser['id_db']=$user['uid'];
 		$Newuser['Surname']['value']=$user['surname'];
 		if($user['title']!=''){
-			$Newuser['Forename']['value']=get_string(displayEnum($user['title'],'title'),'infobook');
+			$title=displayEnum($user['title'],'title');
+			$Newuser['Forename']['value']=get_string($title,'infobook');
+			$Newuser['Forename']['value']=$user['forename'];
 			}
 		else{
 			$Newuser['Forename']['value']=$user['forename'];
@@ -78,7 +100,7 @@ if($studentcheck=='yes'){
 		$Newuser['Username']['value']=strtolower($user['username']);
 		$Newuser['Password']['value']=$user['passwd'];
 		/* Don't want to create an epf user if they already have an account. */
-		$epfuid=-1;
+   		$epfuid=-1;
 		if(isset($user['epfusername']) and $user['epfusername']!=''){
 			$epfuid=elgg_get_epfuid($user['epfusername'],'person',true);
 			}
@@ -118,7 +140,6 @@ if($studentcheck=='yes'){
 	reset($Students);
 	while(list($sid,$Student)=each($Students)){
 		$epfuid=-1;
-		unset($sepfu);
 		$field=fetchStudent_singlefield($sid,'EPFUsername');
 		$Student=array_merge($Student,$field);
 		/* Don't want to create a epf user if they already have an account. */
@@ -130,7 +151,7 @@ if($studentcheck=='yes'){
 			}
 		$Students[$sid]['epfuid']=$epfuid;
 
-		/* Join the student to pastoral groups*/
+		/* Join the student to pastoral groups */
 		$fid=$Student['RegistrationGroup']['value'];
 		if(isset($formepfcomids[$fid])){
 			$com=array('epfcomid'=>$formepfcomids[$fid],'type'=>'form','name'=>'');
@@ -167,6 +188,7 @@ if($studentcheck=='yes'){
 			if(isset($Students[$sid])){elgg_join_community($Students[$sid]['epfuid'],$com);}
 			}
 		}
+	$result[]='Community memberships updated.';
 	}
 
 /**
@@ -192,30 +214,24 @@ if($photocheck=='yes'){
 
 if($contactcheck=='yes'){
 
-	$yid=8;
-	if($contactblank=='yes'){
-		/* Clear out all contacts ready to regenerate them. 
-		 * Everything to do with each account is lost and a new username
-		 * is generated.
-		 */
-		elgg_blank('Default_Guardian');
-		mysql_query("UPDATE guardian SET epfusername='';");
-		}
+	/*!!!!!!*/
+	$yid=9;
+	/*!!!!!!*/
 
 	/* Want all contacts who may recieve any sort of mailing to be
 			given an account. */
 	$d_c=mysql_query("SELECT DISTINCT guardian_id FROM gidsid JOIN
-						student ON gidsid.student_id=student.id 
-						WHERE student.yeargroup_id LIKE '$yid' AND gidsid.mailing!='0';");
+   					student ON gidsid.student_id=student.id 
+   					WHERE student.yeargroup_id LIKE '$yid' AND gidsid.mailing!='0';");
 	while($contact=mysql_fetch_array($d_c,MYSQL_ASSOC)){
 		$epfuid_contact=-1;
 		$gid=$contact['guardian_id'];
 		$Contact=fetchContact(array('guardian_id'=>$gid));
 		$d_i=mysql_query("SELECT info.student_id, formerupn,
-					epfusername FROM info JOIN gidsid ON
-					gidsid.student_id=info.student_id WHERE
-					info.epfusername!='' AND  info.formerupn!='' AND gidsid.mailing!='0' AND
-					gidsid.guardian_id='$gid' ORDER BY info.formerupn ASC;");
+   				epfusername FROM info JOIN gidsid ON
+   				gidsid.student_id=info.student_id WHERE
+   				info.epfusername!='' AND  info.formerupn!='' AND gidsid.mailing!='0' AND
+   				gidsid.guardian_id='$gid' ORDER BY info.formerupn ASC;");
 		while($info=mysql_fetch_array($d_i,MYSQL_ASSOC)){
 			$sid=$info['student_id'];
 			$epfuid_student=elgg_get_epfuid($info['epfusername'],'person',true);
@@ -243,6 +259,7 @@ if($contactcheck=='yes'){
 				if($Contact['Title']['value']!=''){
 					$Contact['Title']['value']=get_string(displayEnum($Contact['Title']['value'],'title'),'infobook');
 					}
+
 				/* Don't want to create a new epf user if they already
 					have an account. If you want to force a new
 					account on a one-by-one basis then blank the
@@ -292,5 +309,6 @@ if($contactcheck=='yes'){
 	}
 
 
+include('scripts/results.php');
 include('scripts/redirect.php');
 ?>

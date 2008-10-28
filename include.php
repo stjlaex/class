@@ -33,6 +33,7 @@ $books['admin']=array(
 					  ,'register' => 'Register'
 					  ,'infobook' => 'InfoBook'
 					  ,'medbook' => 'MedBook'
+					  ,'seneeds' => 'SEN'
 					  ,'entrybook' => 'EntryBook'
 					  );
 $books['office']=array(

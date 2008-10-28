@@ -27,21 +27,21 @@ three_buttonmenu();
 		<p>This update
 		  generates new portfolio accounts for any students or staff
 		  who do not yet have one and will also repopulate all of the
-		  community memberships. Blanking first deletes all existing
+		  community memberships. Refreshing first deletes all existing
 		  communities and all of their associated content (blogs,
-		  files, evrything all get wiped!); existing users' accounts
+		  files, everything all get wiped!); existing users' accounts
 		  and their content are left intact.
 		</p>
 		<div class="left">
 <?php
-		  $checkcaption=get_string('blankfirst',$book); $checkname='blank'; 
+		  $checkcaption=get_string('refreshfirst',$book); $checkname='refresh'; 
 		  include('scripts/check_yesno.php');
 ?>
 		</div>
 		<div class="right">
 <?php 
 		$checkcaption=get_string('update',$book); 
-		$checkname='studentcheck'; include('scripts/check_yesno.php');
+		$checkname='staffcheck'; include('scripts/check_yesno.php');
 ?>
 		</div>
 	  </fieldset>
@@ -49,8 +49,14 @@ three_buttonmenu();
 	  <fieldset class="center divgroup">
 		<legend><?php print_string('students','infobook');?></legend>
 		<p>
-		  
+		  Only use this blank option if you want to completely delete all student accounts and associated content before regenerating them. All students will be issued new logins.		  
 		</p>
+		<div class="left">
+<?php 
+		$checkcaption=get_string('blankfirst',$book); 
+		$checkname='studentblank'; include('scripts/check_yesno.php');
+?>
+		</div>
 		<div class="right">
 <?php 
 		$checkcaption=get_string('update',$book).' '.get_string('photos',$book); 
@@ -61,7 +67,9 @@ three_buttonmenu();
 
 	  <fieldset class="center divgroup">
 		<legend><?php print_string('contacts','infobook');?></legend>
-		<p></p>
+		<p>
+		  Only use this blank option if you want to completely delete all contacts before regenerating them. All contacts will be issued new logins.		  
+		</p>
 		<div class="left">
 <?php 
 		  $checkcaption=get_string('blankfirst',$book); $checkname='contactblank'; 
