@@ -182,10 +182,13 @@ if($staffcheck=='yes'){
 			elgg_join_community($staff[strtolower($t['teacher_id'])],$com);
 			}
 		$d_student=mysql_query("SELECT b.id FROM cidsid a, student b 
-				WHERE a.class_id='$cid' AND b.id=a.student_id ORDER BY b.surname");
+				WHERE a.class_id='$cid' AND b.id=a.student_id ORDER BY b.surname;");
 		while($student=mysql_fetch_array($d_student, MYSQL_ASSOC)){
 			$sid=$student['id'];
-			if(isset($Students[$sid])){elgg_join_community($Students[$sid]['epfuid'],$com);}
+			if(isset($Students[$sid])){
+				elgg_join_community($Students[$sid]['epfuid'],$com);
+				elgg_fix_homework($Students[$sid]['epfuid'],$com['epfcomid']);
+				}
 			}
 		}
 	$result[]='Community memberships updated.';
@@ -214,8 +217,8 @@ if($photocheck=='yes'){
 
 if($contactcheck=='yes'){
 
-	/*!!!!!!*/
-	$yid=9;
+	/*TODO: This only updates and emails contacts for a single yeargroup!!!!!!*/
+	$yid=3;
 	/*!!!!!!*/
 
 	/* Want all contacts who may recieve any sort of mailing to be

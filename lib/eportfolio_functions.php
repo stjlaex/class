@@ -349,6 +349,30 @@ function elgg_join_community($epfuid,$community){
 /**
  *
  */
+function elgg_fix_homework($epfuid,$epfcomid){
+	global $CFG;
+	$table_weblog=$CFG->eportfolio_db_prefix.'weblog_posts';
+	$table_homework=$CFG->eportfolio_db_prefix.'weblog_homework';
+	$dbepf='';
+	if($CFG->eportfolio_db!=''){
+		$dbepf=db_connect($CFG->eportfolio_db);
+		mysql_query("SET NAMES 'utf8'");
+		}
+
+	$time=time()-(80*24*60*60);
+	mysql_query("INSERT INTO $table_homework (owner,weblog_post) 
+			SELECT '$epfuid',$table_weblog.ident
+			FROM $table_weblog WHERE $table_weblog.weblog='$epfcomid' 
+			AND $table_weblog.posted>'$time';");
+
+	$db=db_connect();
+	mysql_query("SET NAMES 'utf8'");
+
+	}
+
+/**
+ *
+ */
 function elgg_update_group($group,
    			   $groupfresh=array('owner'=>'','name'=>'','access'=>''),$dbc=true){
 	global $CFG;
