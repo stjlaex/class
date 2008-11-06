@@ -157,8 +157,21 @@ elseif($sub=='Submit'){
 	for($r=0;$r<sizeof($instudents);$r++){
 		$student=$instudents[$r];	
 		/*get the sid for the new student*/
-		mysql_query("INSERT INTO student SET surname='', forename=''");
-		$new_sid=mysql_insert_id();
+
+		$field_no=$infofields['formerupn'];
+		$formerupn=$student[$field_no];
+		$d_s=mysql_query("SELECT student_id FROM info WHERE formerupn='$formerupn';");
+		if(mysql_num_rows($d_s)==0){
+			mysql_query("INSERT INTO student SET surname='', forename='';");
+			$new_sid=mysql_insert_id();
+			$old_sid=-1;
+			}
+		else{
+			$new_sid=mysql_result($d_s,0);
+			$old_sid=$new_sid;
+		trigger_error('!!!!'.$new_sid. ' : '.$formerupn,E_USER_WARNING);
+			}
+
 		reset($sidfields);
 		while(list($field_name, $field_no)=each($sidfields)){
 			if($field_no==-1){$val='';}//value is null
@@ -185,7 +198,9 @@ elseif($sub=='Submit'){
 			}
 
 		reset($infofields);
-		mysql_query("INSERT INTO info SET student_id='$new_sid'");
+		if($old_sid==-1){
+			mysql_query("INSERT INTO info SET student_id='$new_sid';");
+			}
 		while(list($field_name, $field_no)=each($infofields)){
 			if($field_no==-1){$val='';}//value is null
 			else{
@@ -200,7 +215,7 @@ elseif($sub=='Submit'){
 		$Student=fetchStudent_singlefield($new_sid,'Boarder');
 		if($Student['Boarder']['value']!='N' and $Student['Boarder']['value']!=''){
 			reset($accfields);
-			mysql_query("INSERT INTO accomodation SET student_id='$new_sid'");
+			mysql_query("INSERT INTO accomodation SET student_id='$new_sid';");
 			$accid=mysql_insert_id();
 			while(list($field_name, $field_no)=each($accfields)){
 				if($field_no==-1){$val='';}//value is null
@@ -226,10 +241,12 @@ elseif($sub=='Submit'){
 				$surname=$student[${$gfields}['surname']];
 				$forename=$student[${$gfields}['forename']];
 				$middlenames=$student[${$gfields}['middlenames']];
+				$title=$student[${$gfields}['title']];
 
 				/*check if there is already an entry for this guardian*/
 				$d=mysql_query("SELECT id FROM guardian WHERE
-					surname='$surname' AND forename='$forename' AND middlenames='$middlenames'");
+					surname='$surname' AND forename='$forename' 
+					AND middlenames='$middlenames' AND title='$title';");
 				/*this is not fool-proof need to offer user check to*/
 				/*avoid wrong matches*/
 

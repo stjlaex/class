@@ -1,5 +1,17 @@
-Version ClaSS-0.8.58 release (2008/11/02)
+Version ClaSS-0.8.58 release (2008/11/03)
 -----------------------------------------
+
+Made the xslt based functions compatible with PHP5 using a wrapper
+library written by Alexandre Alapetite. These are principally used for
+the publish to pdf button in reports. This depends upon the xsl module
+for PHP5 being loaded (php5-xsl in Debian).
+
+
+Work on import_students to allow using the enrolment number as a way
+to doing multiple imports for existing students and not just new ones.
+
+Added two fields to info table which allow for other personal ids
+(apply the patch!).
 
 
 

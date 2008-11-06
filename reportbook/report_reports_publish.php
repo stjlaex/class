@@ -68,8 +68,8 @@ include('scripts/sub_action.php');
 		$html_report=xmlprocessor($xml,$xsl_filename);
 		$html=$html_header. $html_report . $html_footer;
 
-		$epfusername=get_epfusername($sid,$Student);
-		$filename='Report'.$pubdate.'_'.$epfusername.'_'.$sid.'_'.$wrapper_rid;
+		//$epfusername=get_epfusername($sid,$Student);
+		$filename='Report'.$pubdate.'_'.$sid.'_'.$wrapper_rid;
 		$postdata['batch['.$c.']']=$filename.'.html';//html2ps
 		$batchfiles[]=$filename;//html2fpdf
 		$publish_batchfiles[$c]=array('epfusername'=>$epfusername,
@@ -86,7 +86,6 @@ include('scripts/sub_action.php');
 		}
 
 
-		/* Call the html2ps application for conversion to pdf 
 		if(isset($CFG->html2psscript) and $CFG->html2psscript!='' and !isset($error)){
 			$postdata['url']='http://'.$CFG->siteaddress.$CFG->sitepath.'/reports/';
 			$postdata['process_mode']='batch';
@@ -104,7 +103,6 @@ include('scripts/sub_action.php');
 			curl_exec($curl);
 			curl_close($curl);
 			}
-		*/
 
 /* Alternative is using html2fpdf....
 	require_once('lib/html2fpdf/html2fpdf.php');
@@ -120,7 +118,6 @@ include('scripts/sub_action.php');
 		$pdf->Output($pdffile);
 		trigger_error('PDF: '.$pdffile,E_USER_WARNING);
 		}
-*/
 
 	if(isset($CFG->eportfolio_db) and $CFG->eportfolio_db!='' and !isset($error)){
 		include('lib/eportfolio_functions.php');
@@ -128,6 +125,7 @@ include('scripts/sub_action.php');
 		elgg_upload_files($publishdata);
 		$result[]=get_string('publishedtofile',$book);
 		}
+*/
 
 
 	include('scripts/results.php');

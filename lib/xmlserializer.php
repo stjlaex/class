@@ -3,6 +3,9 @@
 /*include the PEAR XML stuff*/
 require_once 'XML/Serializer.php';
 require_once 'XML/Unserializer.php';
+if((PHP_VERSION>='5')&&extension_loaded('xsl')){
+	require_once('xslt-php4-to-php5.php');
+	}
 
 /**
  * Aplied to ensure lowercase for all xml tagnames
@@ -72,6 +75,7 @@ function xmlechoer($rootName,$xmlentry){
  */
 function xmlprocessor($xml,$xsl_filename,$output_filename=NULL){
 	global $CFG;
+
 	$arguments=array(
 					 '/_xml' => $xml
 					 //,'/_xsl' => $xsl
@@ -93,6 +97,7 @@ function xmlprocessor($xml,$xsl_filename,$output_filename=NULL){
 		}
 
 	xslt_free($xh);
+
 	return $html;
 	}
 

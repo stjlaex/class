@@ -184,7 +184,7 @@ function clean_text($value){
 function checkEntry($value, $format='', $field_name=''){
 	$value=trim($value);
 	$value=good_strtolower($value);
-	$value=ucwords($value);	
+	if($field_name!='email'){$value=ucwords($value);}	
 	$field_type=split('[()]', $format);
 
 	if($field_name=='form_id'){$value=strtoupper($value);}
@@ -710,6 +710,7 @@ function getEnumArray($field_name){
 						'PAF'=>'father', 
 						'OTH'=>'othercontact', 
 						'STP'=>'stepparent', 
+						'GRP'=>'grandparent', 
 						'REL'=>'otherrelative', 
 						'SWR'=>'socialworker', 
 						'RLG'=>'religiouscontact', 

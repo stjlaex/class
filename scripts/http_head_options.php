@@ -20,11 +20,11 @@ if($_SESSION['uid']==0){
   	$secret=md5($salt . $ip);
 	$guess=md5(strtolower($username) . $secret);
 	if($token==$guess){
-		trigger_error('SUCCESS!!! '.$username,E_USER_WARNING);
+		//trigger_error('SUCCESS!!! '.$username,E_USER_WARNING);
 		$_SESSION['username']=$username;
 		}
 	else{
-		trigger_error('FAILED!!! '.$username,E_USER_WARNING);
+		//trigger_error('FAILED!!! '.$username,E_USER_WARNING);
 		session_defaults();
 		exit;
 		}
