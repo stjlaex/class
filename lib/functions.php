@@ -700,7 +700,8 @@ function getEnumArray($field_name){
 				 '3'=>'srd', 
 				 '4'=>'srada',
 				 '5'=>'miss',
-				 '6'=>'dr'
+				 '6'=>'dr',
+				 '7'=>'ms'
 				 );
 	$relationship=array('NOT'=>'informationnotobtained', 
 						'CAR'=>'carer', 
