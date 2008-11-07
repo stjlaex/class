@@ -218,7 +218,7 @@ if($photocheck=='yes'){
 if($contactcheck=='yes'){
 
 	/*TODO: This only updates and emails contacts for a single yeargroup!!!!!!*/
-	$yid=3;
+	$yid=8;
 	/*!!!!!!*/
 
 	/* Want all contacts who may recieve any sort of mailing to be

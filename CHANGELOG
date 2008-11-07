@@ -1,4 +1,4 @@
-Version ClaSS-0.8.58 release (2008/11/03)
+Version ClaSS-0.8.58 release (2008/11/07)
 -----------------------------------------
 
 Made the xslt based functions compatible with PHP5 using a wrapper
@@ -12,6 +12,9 @@ to doing multiple imports for existing students and not just new ones.
 
 Added two fields to info table which allow for other personal ids
 (apply the patch!).
+
+Included guardian priority as part of the import scripts and tied
+phone numbers.
 
 
 

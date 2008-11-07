@@ -72,6 +72,7 @@ accomodation stay
 //				plus the relationship
 		array_push($gidfields, 'relationship');
 		array_push($gidfields, 'mailing');
+		array_push($gidfields, 'priority');
 
 		$c=0;
    		$d_address=mysql_query("DESCRIBE address");

@@ -103,6 +103,13 @@ elseif($sub=='Submit'){
 		$row=array('mailing' => 'enum');
 		$gidformats=array_merge($row, $gidformats);
 
+		/*add in priority from gidsid*/
+		$row=array('priority' => -1);
+		$gid1fields=array_merge($row, $gid1fields);
+		$gid2fields=array_merge($row, $gid2fields);
+		$row=array('priority' => 'enum');
+		$gidformats=array_merge($row, $gidformats);
+
 		$gid1address=array();
 		$gid2address=array();
    		$d_table=mysql_query("DESCRIBE address");
@@ -169,7 +176,6 @@ elseif($sub=='Submit'){
 		else{
 			$new_sid=mysql_result($d_s,0);
 			$old_sid=$new_sid;
-		trigger_error('!!!!'.$new_sid. ' : '.$formerupn,E_USER_WARNING);
 			}
 
 		reset($sidfields);
@@ -261,7 +267,7 @@ elseif($sub=='Submit'){
 
 				/*input to guardian table*/
 				reset(${$gfields});
-				while (list($field_name, $field_no)=each(${$gfields})) {
+				while(list($field_name, $field_no)=each(${$gfields})){
 					if($field_no==-1){$val='';}//value is null
 					else{
 						$val=$student[$field_no];
@@ -270,16 +276,20 @@ elseif($sub=='Submit'){
 						$val=checkEntry($val, $format, $field_name);
 						if($field_name=='relationship'){$relationship=$val;}
 						elseif($field_name=='mailing'){$mailing=$val;}
+						elseif($field_name=='priority'){$priority=$val;}
 						else{mysql_query("UPDATE guardian SET
-									$field_name='$val' WHERE id='$new_gid'");}
+									$field_name='$val' WHERE id='$new_gid';");}
 						}
-					}	
+					}
+
 				if(!isset($relationship)){$relationship='';}
 				if(!isset($mailing)){$mailing='';}
+				if(!isset($priority)){$priority='';}
 				mysql_query("INSERT INTO gidsid SET guardian_id='$new_gid', 
-						student_id='$new_sid',
-						mailing='$mailing', relationship='$relationship'");
-				/*input to address table: the four key items to check*/ 
+						student_id='$new_sid', priority='$priority',
+						mailing='$mailing', relationship='$relationship';");
+
+				/*input to address table: check some meaningful fields are completed*/ 
 				$ok=0;	
 				if(isset(${$gname.'a'})){
 					if(${$gaddress}['region']!=-1){$region=$student[${$gaddress}['region']]; $ok++;}
@@ -292,12 +302,17 @@ elseif($sub=='Submit'){
 					}
 
 				/*if region and street blank then too little info for new entry*/
-				if($ok>1){
-					/*check if there is already an entry for this address*/
+				if($ok>0){
+					mysql_query("INSERT INTO address SET region='';");
+					$new_aid=mysql_insert_id();
+					mysql_query("INSERT INTO gidaid SET 
+										guardian_id='$new_gid', address_id='$new_aid';");
+
+					/*check if there is already an entry for this address
+					TODO: If this is wanted then it should be an option but probably not a good idea at all
 					$d_aid=mysql_query("SELECT id FROM address WHERE
 						street='$street' AND region='$region'");
 					if(mysql_num_rows($d_aid)==0){
-						/*no entry found so make a new one*/
 						mysql_query("INSERT INTO address SET region=''");
 						$new_aid=mysql_insert_id();
 						mysql_query("INSERT INTO gidaid SET 
@@ -308,14 +323,13 @@ elseif($sub=='Submit'){
 						$d_gidaid=mysql_query("SELECT * FROM gidaid
 							WHERE guardian_id='$new_gid' AND address_id='$new_aid'");
 						if(mysql_num_rows($d_gidaid)==0){
-							/*no association exists so make one*/
 							mysql_query("INSERT INTO gidaid SET 
 											guardian_id='$new_gid', address_id='$new_aid'");
 							}
-						}
-	
+					*/
+				
 					reset(${$gaddress});
-					while (list($field_name, $field_no)=each(${$gaddress})) {
+					while(list($field_name, $field_no)=each(${$gaddress})){
 						if($field_no==-1){$val='';}//value is null
 						else{
 							$val=$student[$field_no];
@@ -323,31 +337,32 @@ elseif($sub=='Submit'){
 							if(isset($_POST["preset$field_no"])){$val=$_POST["preset$field_no"];}
 							$val=checkEntry($val, $format, $field_name);
 							mysql_query("UPDATE address SET
-								$field_name='$val' WHERE id='$new_aid'");
+								$field_name='$val' WHERE id='$new_aid';");
 							}
 						}
 					}
 	
 				/*input to phone table*/	
-				if(isset(${$gname.'p'})){	
+				if(isset(${$gname.'p'})){
 					reset(${$gphone});
-					while (list($field_name, $field_no) = each(${$gphone})) {
+					while(list($field_name,$field_no)=each(${$gphone})){
 						if($field_no==-1){$val='';}//value is null
 						else{
 							$val=$student[$field_no];
 							if($field_name=='home phone'){$type='H';}
-							if($field_name=='work phone'){$type='W';}
-							if($field_name=='mobile phone'){$type='M';}
-							if($field_name=='fax'){$type='Fax';}
+							elseif($field_name=='work phone'){$type='W';}
+							elseif($field_name=='mobile phone'){$type='M';}
+							elseif($field_name=='fax'){$type='F';}
+
 							if(isset($_POST["preset$field_no"])){$val=$_POST["preset$field_no"];}
 							$format="varchar(22)";
 							$val=checkEntry($val, $format, $field_name);
 							$d_phone=mysql_query("SELECT * FROM phone
-												WHERE some_id='$new_gid' AND number='$val'");
-							if(mysql_num_rows($d_phone)==0){
+												WHERE some_id='$new_gid' AND number='$val';");
+							if(mysql_num_rows($d_phone)==0 and $val!=''){
 								/*number does not already exist so insert*/ 
 								mysql_query("INSERT INTO phone SET
-								some_id='$new_gid', number='$val',phonetype='$type'");
+										some_id='$new_gid', number='$val',phonetype='$type';");
 								}
 							}
 						}
