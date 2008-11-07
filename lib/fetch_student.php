@@ -97,6 +97,7 @@ function fetchStudent_singlefield($sid,$tag){
 	elseif($tag=='EPFUsername'){$fieldname='epfusername';}
 	elseif($tag=='SENFlag'){$fieldname='sen';}
 	elseif($tag=='MedicalFlag'){$fieldname='medical';}
+   	elseif($tag=='PersonalNumber'){$fieldname='upn';} 
 	elseif(substr_count($tag,'FirstContact')){$contactno=0;}
 	elseif(substr_count($tag,'SecondContact')){$contactno=1;}
 
@@ -294,7 +295,7 @@ function fetchStudent($sid='-1'){
 								   'value' => ''.$info['email']
 								   );
    	$Student['EPFUsername']=array('label' => 'epfusername',
-								   'table_db' => 'info', 
+								  //'table_db' => 'info', 
 								   'field_db' => 'epfusername',
 								   'type_db' => 'varhar(128)', 
 								   'value' => ''.$info['epfusername']
@@ -322,6 +323,12 @@ function fetchStudent($sid='-1'){
 								  'type_db' => 'date', 
 								  'value' => ''.$info['leavingdate']
 								  );
+   	$Student['PersonalNumber']=array('label' => 'personalnumber', 
+									 'table_db' => 'info', 
+									 'field_db' => 'upn', 
+									 'type_db' => 'varchar(13)', 
+									 'value' => ''.$info['upn']
+									 );
    	$Student['Boarder']=array('label' => 'boarder', 
 							  'inputtype'=> 'required',
 							  'table_db' => 'info', 

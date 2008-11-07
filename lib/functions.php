@@ -802,6 +802,7 @@ function getEnumArray($field_name){
 						'EmailAddress'=>'email',
 						'MobilePhone'=>'mobilephone',
 						'EnrolNumber'=>'enrolmentnumber',
+						'PersonalNumber'=>'personalnumber',
 						'EPFUsername'=>'epfusername',
 						'Language'=>'language',
 						'EntryDate'=>'schoolstartdate',

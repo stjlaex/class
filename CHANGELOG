@@ -16,6 +16,7 @@ Added two fields to info table which allow for other personal ids
 Included guardian priority as part of the import scripts and tied
 phone numbers.
 
+EXposed the upn field as PersonalNumber.
 
 
 Version ClaSS-0.8.57 release (2008/10/25)
