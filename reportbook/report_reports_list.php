@@ -47,7 +47,7 @@ $extrabuttons=array();
 $extrabuttons['previewselected']=array('name'=>'current',
 								'value'=>'report_reports_print.php',
 								'onclick'=>'checksidsAction(this)');
-if($_SESSION['role']=='admin'){
+if($_SESSION['role']=='admin' and isset($CFG->eportfolio_dataroot) and $CFG->eportfolio_dataroot!=''){
 	$extrabuttons['publishpdf']=array('name'=>'current',
 									  'value'=>'report_reports_publish.php');
 	$extrabuttons['email']=array('name'=>'current',

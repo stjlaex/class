@@ -588,7 +588,7 @@ function update_user($user,$update='no',$short='class'){
 				  $message=$message ."\r\n".$footer;
 				  $subject=get_string('emailnewloginsubject','admin');
 				  $fromaddress='ClaSS';
-   				  send_email_to($email,$fromaddress,$subject,$message);
+   				  //send_email_to($email,$fromaddress,$subject,$message);
 				  }
 			  }
 		   }

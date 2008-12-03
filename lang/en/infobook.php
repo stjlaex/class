@@ -137,6 +137,7 @@ $string['residencebed']='Residence Bed';
 $string['addresslabels']='Address labels';
 $string['mr']='Mr.';
 $string['mrs']='Mrs.';
+$string['mrs']='Ms.';
 $string['srd']='Sr. D.';
 $string['srada']='Sra. Da.';
 $string['miss']='Miss';
@@ -154,5 +155,6 @@ $string['emailcommentalert']='This comment will be emailed to the parents of thi
 $string['epfusername']='ePortfolio Username';
 $string['furtherinformationonfile']='Further information is available on file.';
 $string['code']='Code';
+$string['foreign']='Foreign';
 $string['']='';
 ?>

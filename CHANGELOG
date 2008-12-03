@@ -1,3 +1,16 @@
+Version ClaSS-0.8.59 release (2008/11/26)
+-----------------------------------------
+
+Made some be-spoke additions to the statistics page.
+
+Changed the way the profile assessments are queried in the mark table
+to allow for profiles with bid=%.
+
+Made use of the rating_name field in categorydef table to define the
+marktype to be used for summary profile columns in the MarkBook.
+
+
+
 Version ClaSS-0.8.58 release (2008/11/07)
 -----------------------------------------
 
@@ -5,7 +18,6 @@ Made the xslt based functions compatible with PHP5 using a wrapper
 library written by Alexandre Alapetite. These are principally used for
 the publish to pdf button in reports. This depends upon the xsl module
 for PHP5 being loaded (php5-xsl in Debian).
-
 
 Work on import_students to allow using the enrolment number as a way
 to doing multiple imports for existing students and not just new ones.
@@ -16,7 +28,7 @@ Added two fields to info table which allow for other personal ids
 Included guardian priority as part of the import scripts and tied
 phone numbers.
 
-EXposed the upn field as PersonalNumber.
+Exposed the upn field as PersonalNumber.
 
 
 Version ClaSS-0.8.57 release (2008/10/25)

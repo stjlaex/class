@@ -218,7 +218,7 @@ if($photocheck=='yes'){
 if($contactcheck=='yes'){
 
 	/*TODO: This only updates and emails contacts for a single yeargroup!!!!!!*/
-	$yid=8;
+	$yid=9;
 	/*!!!!!!*/
 
 	/* Want all contacts who may recieve any sort of mailing to be
@@ -294,7 +294,7 @@ if($contactcheck=='yes'){
 						/*disclaimer*/
 						$footer='--'. "\r\n" .get_string('guardianemailfooterdisclaimer');
 						$message.="\r\n". $footer;
-						send_email_to($emailaddress,$fromaddress,$subject,$message);
+						//send_email_to($emailaddress,$fromaddress,$subject,$message);
 						}
 					}
 				}

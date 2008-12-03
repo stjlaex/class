@@ -2,7 +2,7 @@
 /**						lang/en/admin.php
  *
  */
-$string['formatoffilenewteacher']='Format of file: number, id, surname, forename, email, role';
+$string['formatoffilenewteacher']='Format of file: username, surname, forename, title, email, role';
 $string['chooseeitherresponsibility']='Choose either a pastoral OR <br /> academic responsibility for a user.';
 $string['importstudentfileinstructions']='<p>All student records in the file must contain the same number of fields.</p>';
 $string['loadpreviousdefinition']='Load a previously saved definition.';

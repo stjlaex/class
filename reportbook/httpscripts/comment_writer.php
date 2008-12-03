@@ -60,9 +60,10 @@ if($reportdef['report']['profile_name']=='FS Steps'){
 			/* This cutoff grade is just a hack to work with the FS profile*/
 			/*TODO properly!*/
 			/*This ensures only Reception statements are used for Reception classes*/
+			if($Student['YearGroup']['value']=='-1'){$cutoff_grade=0;}
 			if($Student['YearGroup']['value']=='0'){$cutoff_grade=3;}
-			else{$cutoff_grade=0;}
-			$fromdate='2008-02-15';
+			else{$cutoff_grade=-10;}
+			$fromdate='2008-08-15';
 			$d_eidsid=mysql_query("SELECT 
 				assessment.description, assessment.id FROM eidsid JOIN assessment ON
 				assessment.id=eidsid.assessment_id WHERE
@@ -73,7 +74,7 @@ if($reportdef['report']['profile_name']=='FS Steps'){
 			$stats=array();
 			while($eidsid=mysql_fetch_array($d_eidsid,MYSQL_ASSOC)){
 				$topic=$eidsid['description'];
-				trigger_error($profilepid.' '.$eidsid['id'].' '.$topic,E_USER_WARNING);
+				//trigger_error($profilepid.' '.$profile_name.' '.$topic,E_USER_WARNING);
 				$d_mark=mysql_query("SELECT comment
 					FROM mark JOIN eidmid ON mark.id=eidmid.mark_id WHERE
 					mark.component_id='$profilepid' AND

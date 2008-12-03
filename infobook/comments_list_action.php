@@ -44,7 +44,7 @@ include('scripts/sub_action.php');
 		$message.="\r\n". $footer;
 		$fromaddress=$CFG->schoolname;
 
-		//$recipients=list_sid_responsible_users($sid,$bid);
+		$recipients=list_sid_responsible_users($sid,$bid);
 
 		if($teacheremail=='yes'){
 			$recipients=list_student_teachers($sid);
@@ -53,8 +53,8 @@ include('scripts/sub_action.php');
 		if($recipients and $CFG->emailoff!='yes' and $CFG->emailcomments=='yes'){
 			if(sizeof($recipients)>0){
 				foreach($recipients as $key => $recipient){
-					//$recipient['email']=strtolower($recipient['email']);
-					//					send_email_to($recipient['email'],$fromaddress,$subject,$message);
+					$recipient['email']=strtolower($recipient['email']);
+					send_email_to($recipient['email'],$fromaddress,$subject,$message);
 					$result[]=get_string('emailsentto').' '.$recipient['username'];
 					}
 				}

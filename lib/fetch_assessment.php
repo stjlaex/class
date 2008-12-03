@@ -386,11 +386,11 @@ function fetchAssessments_short($sid,$eid='%',$bid='%',$pid='%'){
 	$Assessments=array();
    	$d_eidsid=mysql_query("SELECT * FROM eidsid WHERE
 				student_id='$sid' AND assessment_id LIKE '$eid' AND
-				subject_id LIKE '$bid' AND component_id LIKE '$pid'");
+				subject_id LIKE '$bid' AND component_id LIKE '$pid';");
   	while($eidsid=mysql_fetch_array($d_eidsid,MYSQL_ASSOC)){
 		$eidsid=nullCorrect($eidsid);
 		$eid=$eidsid['assessment_id'];
-		$d_ass=mysql_query("SELECT * FROM assessment WHERE id='$eid'");
+		$d_ass=mysql_query("SELECT * FROM assessment WHERE id='$eid';");
 		$ass=mysql_fetch_array($d_ass,MYSQL_ASSOC);
 		$ass=nullCorrect($ass);
 		$Assessment['id_db']=$ass['id'];

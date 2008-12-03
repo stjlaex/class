@@ -28,20 +28,20 @@ if(isset($_POST['wrapper_rid'])){$wrapper_rid=$_POST['wrapper_rid'];}
 				}
 			}
 
-		/*find the details, assessments, etc. specific to each report */
+		/* Find the details, assessments, etc. specific to each report */
 		$reportdefs=array();
 		for($c=0;$c<sizeof($rids);$c++){
 			$reportdefs[]=fetch_reportdefinition($rids[$c]);
 			}
 
+		/* Doing one full report per student at a time */
 		$Students=array();
 		$Students['Student']=array();
-		/*doing one student at a time*/
 		for($c=0;$c<sizeof($sids);$c++){
 			$sid=$sids[$c];
 			$Student=fetchStudent_short($sid);
 			list($Reports,$transform)=fetchSubjectReports($sid,$reportdefs);
-			/*index 0 will be the wrapper if one is used*/
+			/* reportdefs index 0 will be the wrapper if one is used */
 			$Reports['CoverTitle']=$reportdefs[0]['report']['title'];
 			$Reports['Coversheet']='yes';
 			$Reports['Transform']=$reportdefs[0]['report']['transform'];

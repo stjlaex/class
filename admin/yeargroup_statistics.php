@@ -33,6 +33,10 @@ two_buttonmenu();
 	$totalfemalesids=0;
 	$capacitytotal=0;
 	$countrys=array();
+	$gender_countrys=array();
+	$birth_years=array();
+	$gender_birth_years=array();
+
 	$d_year=mysql_query("SELECT * FROM yeargroup ORDER BY section_id, id");
 	while($year=mysql_fetch_array($d_year,MYSQL_ASSOC)){
 		$yid=$year['id'];
@@ -53,8 +57,40 @@ two_buttonmenu();
 			if($countrycode=='' or $countrycode==' '){
 				$countrycode='BLANK';
 				}
-			if(!isset($countrys[$countrycode])){$countrys[$countrycode]=1;}
-			else{$countrys[$countrycode]++;}
+
+			if($countrycode=='ES'){$countrytype='home';}
+			else{$countrytype='foreign';}
+
+			$gender=strtoupper($student['gender']);
+			if($gender=='' or $gender==' '){
+				$gender='BLANK';
+				}
+
+			if(!isset($countrys[$countrycode])){
+				$countrys[$countrycode]=0;
+				$gender_countrys[$countrycode]=array('BLANK'=>0,'M'=>0,'F'=>0);
+				}
+			$gender_countrys[$countrycode][$gender]++;
+			$countrys[$countrycode]++;
+
+			$dobs=split('-',$student['dob']);
+			$yob=$dobs[0];
+			if(!isset($birth_years[$countrytype][$yob])){
+				$birth_years[$countrytype][$yob]=0;
+				$gender_birth_years[$countrytype][$yob]=array('BLANK'=>0,'M'=>0,'F'=>0);
+				}
+			$birth_years[$countrytype][$yob]++;
+			$gender_birth_years[$countrytype][$yob][$gender]++;
+			
+			if($yob>2002 and $yob<2006){
+				if(!isset($lcountrys[$countrycode])){
+					$lcountrys[$countrycode]=0;
+					$lgender_countrys[$countrycode]=array('BLANK'=>0,'M'=>0,'F'=>0);
+					}
+				$lgender_countrys[$countrycode][$gender]++;
+				$lcountrys[$countrycode]++;
+				}
+			
 			}
 ?>
 		<tr>
@@ -100,6 +136,12 @@ two_buttonmenu();
 		<tr>
 		  <th><?php print_string('nationality','infobook');?></th>
 		  <th><?php print_string('numberofstudents',$book);?></th>
+		  <th><?php print get_string('male',$book) .'/'. 
+			get_string('female',$book) .' '. get_string('ratio',$book);?>
+		  </th>
+		  <th><?php print get_string('male',$book) .'/'. 
+			get_string('female',$book) .' '. get_string('ratio',$book);?>
+		  </th>
 		</tr>
 <?php
 		asort($countrys,SORT_NUMERIC);
@@ -111,9 +153,49 @@ two_buttonmenu();
 			<?php print_string(displayEnum($countrycode,'nationality'),$book);?>
 			<?php print ' '.$countrycode;?>
 		  </td>
-		  <td><?php print $nosids;?></td>
+		  <td><?php print $nosids;?></td>  
+		  <td><?php print $gender_countrys[$countrycode]['M']. 
+		  ' / '. $gender_countrys[$countrycode]['F'];?></td>
+		  <td><?php print $lgender_countrys[$countrycode]['M']. 
+		  ' / '. $lgender_countrys[$countrycode]['F'];?></td>
 		</tr>
 <?php
+			}
+?>
+	  </table>
+	</div>
+
+<br />
+
+	<div>
+	  <table class="listmenu">
+		<tr>
+		  <th><?php print_string('year','infobook');?></th>
+		  <th><?php print_string('numberofstudents',$book);?></th>
+		  <th><?php print get_string('male',$book) .'/'. 
+			get_string('female',$book) .' '. get_string('ratio',$book);?>
+		  </th>
+		</tr>
+<?php
+		while(list($countrytype,$years)=each($birth_years)){
+			krsort($years,SORT_NUMERIC);
+?>
+		<tr>
+		  <th colspan="3"><?php print_string($countrytype,'infobook');?></th>
+		</tr>
+<?
+			while(list($yob,$nosids)=each($years)){
+?>
+		<tr>
+		  <td>
+			<?php print ' '.$yob;?>
+		  </td>
+		  <td><?php print $nosids;?></td>  
+		  <td><?php print $gender_birth_years[$countrytype][$yob]['M']. 
+		  ' / '. $gender_birth_years[$countrytype][$yob]['F'];?></td>
+		</tr>
+<?php
+				}
 			}
 ?>
 	  </table>

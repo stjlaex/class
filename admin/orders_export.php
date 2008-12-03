@@ -1,5 +1,5 @@
 <?php
-/**								   timetable_export.php
+/**								   orders_export.php
  *
  */
 

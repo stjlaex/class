@@ -77,13 +77,17 @@ for($i=0;$i<sizeof($cids);$i++){
 		$profile_bid=$classes[$cid]['bid'];
 		/* Only allows for one profile in use per crid/bid combination at once. */
 		/* Usng the subtype of categorydef to hold the component
-		 status with values of None, N or V same as for assessments.*/
-		$d_profile=mysql_query("SELECT name, subtype FROM
+		 * status with values of None, N or V same as for assessments.
+		 * Use the rating_name to indicate the type of summary coumn (average,sum or tally). 
+		 * Grades are going to have to be averaged.
+		 */
+		$d_profile=mysql_query("SELECT name, subtype, rating_name FROM
 				categorydef WHERE type='pro' AND
-				course_id='$profile_crid' AND subject_id='$profile_bid';");
+				course_id='$profile_crid' AND (subject_id='$profile_bid' OR subject_id='%');");
 		$profile=mysql_fetch_array($d_profile,MYSQL_ASSOC);
 		$profile_name=$profile['name'];
 		$profile_pidstatus=$profile['subtype'];
+		$profile_marktype=$profile['rating_name'];
 		$d_marks=mysql_query("SELECT $table.* FROM $table WHERE $table.marktype='score'
 				AND $table.assessment='yes' AND $table.id=ANY(SELECT
 				eidmid.mark_id FROM eidmid JOIN assessment ON
@@ -201,11 +205,15 @@ for($i=0;$i<sizeof($cids);$i++){
 				}
 			}
 
+		$marktype=$profile_marktype;
+		if($marktype==''){
+			/* The derivation of the profile summary columns is now in
+			   the catregorydef table this clause is just for backward
+			   compatibility. */
+			if($profile_name=='FS Steps'){$marktype='tally';}
+			else{$marktype='sum';}
+			}
 
-		/*TODO: The derivation of the profile results has to be in the
-				db somewhere */
-		if($profile_name=='FS Steps'){$marktype='tally';}
-		else{$marktype='sum';}
 		$profile_midlist=trim($profile_midlist);
 		$scoregrades[0]=$scoregrades[1];
 		$scoregrading[0]=$scoregrading[1];

@@ -1,5 +1,6 @@
 <?php	
 /**									   	fetch_report.php
+ *
  */
 
 
@@ -15,13 +16,13 @@ function fetchSubjectReports($sid,$reportdefs){
 	$asselements=array();
 
 	/* Collate all assessment and report entries by subject for each
-	   course report chosen*/
+	   course report chosen.*/
 	while(list($repindex,$reportdef)=each($reportdefs)){
 			$rid=$reportdef['rid'];
 
 			/* Provide a look-up array $assbids which references the $Assessments
 			 array by index for every subject and component combination which
-			 has an Assessment for this student*/
+			 has an Assessment for this student. */
 			$assbids=array();
 			while(list($index,$eid)=each($reportdef['eids'])){
 				if(!isset($asseids[$eid])){
@@ -40,6 +41,23 @@ function fetchSubjectReports($sid,$reportdefs){
 				$assbids[$bid][$pid][]=$index;
 				}
  			ksort($assbids);
+
+			/**
+			 *
+			 */
+			if(isset($reportdef['report']['profile_name']) 
+			   and $reportdef['report']['profile_name']!=''){
+				$profile_name=$reportdef['report']['profile_name'];
+				//trigger_error('PROFILE:'.$reportdef['report']['profile_name'],E_USER_WARNING);
+				$d_a=mysql_query("SELECT id FROM assessment WHERE
+									assessment.profile_name='$profile_name';");
+				$profile_asseids=array();
+				while($a=mysql_fetch_array($d_a,MYSQL_ASSOC)){
+					$profile_asseids[]=$a['id'];
+					}
+				if(sizeof($profile_asseids)==0){$profile_name='';}
+				}
+			else{$profile_name='';}
 
 			/* This is for assessments which are really statistics.
 			 They have two components: overall averages (sid=0) for
@@ -121,11 +139,23 @@ function fetchSubjectReports($sid,$reportdefs){
 					  $repasses=array();
 					  while(list($index,$assno)=each($assnos)){
 						  $repasses['Assessment'][]=nullCorrect($Assessments[$assno]);
+  						  }
+
+					  /* An additional section if the report is linked to an assessment profile. */
+					  if($profile_name!=''){
+						  $ProfileAssessments['Assessment']=array();
+						  foreach($profile_asseids as $index=>$eid){
+							  $PAsses=(array)fetchAssessments_short($sid,$eid,$bid,$pid);
+							  $ProfileAssessments['Assessment']=array_merge($ProfileAssessments['Assessment'],$PAsses);
+							  }
+						  $Report['ProfileAssessments']=$ProfileAssessments;
 						  }
+
 					  $Report['Assessments']=nullCorrect($repasses);
 					  $Report['Comments']=nullCorrect($Comments);
 					  $Reports['Report'][]=nullCorrect($Report);
 					  }
+
 				  }
 			  }
 
@@ -251,10 +281,12 @@ function fetchReportDefinition($rid,$selbid='%'){
 		$markcount=mysql_numrows($d_mid);
 		$RepDef['MarkCount']=array('label' => 'markcolumns', 
 								   'value' => ''.$markcount);
+
+		/* This identifies any assessment profiles the report is linked to. */
 		$d_categorydef=mysql_query("SELECT name
 				FROM categorydef JOIN ridcatid ON ridcatid.categorydef_id=categorydef.id 
 				WHERE ridcatid.report_id='$rid' AND
-				ridcatid.subject_id='profile'");
+				ridcatid.subject_id='profile';");
 		if(mysql_num_rows($d_categorydef)>0){
 			$report['profile_name']=mysql_result($d_categorydef,0);
 			}
@@ -389,6 +421,8 @@ function fetch_reportdefinition($rid,$selbid='%'){
 		$markcount=mysql_numrows($d_mid);
 		$reportdef['MarkCount']=array('label' => 'markcolumns', 
 									  'value' => ''.$markcount);
+
+		/* This identifies any assessment profiles the report is linked to. */
 		$d_categorydef=mysql_query("SELECT name
 				FROM categorydef JOIN ridcatid ON ridcatid.categorydef_id=categorydef.id 
 				WHERE ridcatid.report_id='$rid' AND
@@ -534,6 +568,7 @@ function fetchReportCategories($rid,$bid='%'){
  *
  * Returns one array containing the catdefs for all summaries for this
  * report.
+ *
  */
 function fetchReportSummaries($rid){
 	$d_categorydef=mysql_query("SELECT categorydef.id,
@@ -553,6 +588,9 @@ function fetchReportSummaries($rid){
 
 
 /**
+ *	Simply checks to see if any report entries for a bid/pid combination 
+ *  have been made for this sid in this report. The number of report entries 
+ *  are returned.
  *
  */
 function checkReportEntry($rid,$sid,$bid,$pid){
@@ -564,7 +602,8 @@ function checkReportEntry($rid,$sid,$bid,$pid){
 	}
 
 
-/**		Retrieves all report entries for one student in one subject
+/**
+ *		Retrieves all report entries for one student in one subject
  *		All report info is pre-fetched in $reportdef['report'],
  *				$reportdef['catdefs'] and $reportdef['ratingnames']
  */
