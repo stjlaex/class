@@ -74,7 +74,7 @@ $viewtable=array();
 			$scoreclass='grade other';
 			$avmids=explode(' ',$midlist[$c]);
 			$d_markdef=mysql_query("SELECT markdef.scoretype FROM markdef
-				JOIN mark ON markdef.name=mark.def_name WHERE mark.id='$avmids[1]';");
+				JOIN mark ON markdef.name=mark.def_name WHERE mark.id='$avmids[0]';");
 			$avtype=mysql_fetch_array($d_markdef,MYSQL_ASSOC);
 			if($avtype['scoretype']=='grade'){
 				$grading_grades=$scoregrades[$c];
@@ -188,7 +188,7 @@ $viewtable=array();
 			$scoreclass='grade other';
 			/*then mark is the levelled grade of a score*/
 			$d_score=mysql_query("SELECT value, outoftotal FROM 
-					score WHERE mark_id='$midlist[$c]' AND student_id='$sid'");
+					score WHERE mark_id='$midlist[$c]' AND student_id='$sid';");
 			$score=mysql_fetch_array($d_score,MYSQL_ASSOC);
 			list($out,$outrank)=scoreToLevel($score['value'],$score['outoftotal'],$levels[$c]);
 			}

@@ -10,7 +10,6 @@ $curryear=$_POST['curryear'];
 $profid=$_POST['profid'];
 $action_post_vars=array('curryear','profid');
 
-trigger_error($profilename,E_USER_WARNING);
 include('scripts/sub_action.php');
 
 if($sub=='Submit' and $_FILES['importfile']['tmp_name']!=''){
