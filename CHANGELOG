@@ -1,4 +1,4 @@
-Version ClaSS-0.8.59 release (2008/11/26)
+Version ClaSS-0.8.59 release (2008/12/05)
 -----------------------------------------
 
 Made some be-spoke additions to the statistics page.
@@ -9,6 +9,10 @@ to allow for profiles with bid=%.
 Made use of the rating_name field in categorydef table to define the
 marktype to be used for summary profile columns in the MarkBook.
 
+Added a new list script for profiles.
+
+Allowed the new_assessment scripts to manage both profile assessments
+and plain assessments.
 
 
 Version ClaSS-0.8.58 release (2008/11/07)

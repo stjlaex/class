@@ -448,6 +448,7 @@ function fetch_enrolmentAssessmentDefinitions($com='',$stage='E',$enrolyear='000
 			}
 		}
 
+	//TODO: allow enrolment assessments linked to the cohort they are joining?
 	//$AssDefs=fetch_cohortAssessmentDefinitions($cohort);
 	//trigger_error('chort:'.sizeof($AssDefs).' '.$crid,E_USER_WARNING);
 		
@@ -523,14 +524,13 @@ function list_reenrol_sids($comid,$reenrol_eid,$result1,$result2=''){
 
 /**
  * Returns all assdefs of relevance to a cohort. It will not fetch 
- * assessment defs which refer to statistics (resultstatus=S) or which 
- * are linked to an assessment profile or which are used for
- * enrolments (stage=RE, stage=E). 
+ * assessment defs which refer to statistics (resultstatus=S)
+ * or which are used for enrolments (stage=RE, stage=E). 
  *
  * TODO: season is currently fixed to S! 
  *
  */
-function fetch_cohortAssessmentDefinitions($cohort){
+function fetch_cohortAssessmentDefinitions($cohort,$profile_name=''){
 	$crid=$cohort['course_id'];
 	$stage=$cohort['stage'];
 	$year=$cohort['year'];
@@ -539,7 +539,7 @@ function fetch_cohortAssessmentDefinitions($cohort){
 	$d_assessment=mysql_query("SELECT id FROM assessment
 			   WHERE (course_id LIKE '$crid' OR course_id='%') AND 
 				(stage LIKE '$stage' OR stage='%') AND 
-				year LIKE '$year' AND profile_name='' AND
+				year LIKE '$year' AND profile_name='$profile_name' AND
 				resultstatus!='S' AND  stage!='RE' AND stage!='E' 
 				ORDER BY year DESC, creation DESC, element ASC;");
    	while($ass=mysql_fetch_array($d_assessment, MYSQL_ASSOC)){
@@ -971,4 +971,22 @@ function fetchHomeworkDefinition($hwid){
 						 'value'=>''.$hw['author']);
 	return $Def;
    	}
+
+/**
+ * Returns an array of all assessment profiles for a single course.
+ *
+ */
+function list_assessment_profiles($crid,$bid='%'){
+	$profiles=array();
+	if($crid!=''){
+		$d_pro=mysql_query("SELECT id, name, subtype AS component_status, rating_name, course_id,
+						subject_id FROM categorydef WHERE type='pro'
+						AND (subject_id LIKE '$bid' OR subject_id='$bid') AND course_id='$crid' ORDER
+						BY subject_id, name;");
+		while($profile=mysql_fetch_array($d_pro,MYSQL_ASSOC)){
+			$profiles[]=$profile;
+			}
+		}
+	return $profiles;
+	}
 ?>
