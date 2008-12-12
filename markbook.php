@@ -13,12 +13,16 @@ include('scripts/set_book_vars.php');
 if(!isset($_POST['displaymid'])){$displaymid=0;}//means no change to marks displayed
 else{$displaymid=$_POST['displaymid'];}//new mark created by previous script
 
-/* If the classes selection has changed then need to refresh some of */
-/* the session data for components*/
+ /**
+  * If the classes selection has changed then need to refresh some of 
+  * the session data for components and stuff (but don't want ot do 
+  * this for every page load.
+  */
 if(isset($_POST['cids'])){
 	$pids=array();
 	$components=array();
 	$classes=array();
+	$profiles=array();
 	if($_SESSION['cids']!=$_POST['cids']){
 		$_SESSION['cids']=$_POST['cids'];
 		$_SESSION['umnrank']='surname';
@@ -48,9 +52,14 @@ if(isset($_POST['cids'])){
 				}
 			}
 		}
+	$profiles=(array)list_assessment_profiles($classes[$cid]['crid'],$classes[$cid]['bid']);
+
 	$_SESSION['pids']=$pids;
 	$_SESSION['components']=$components;
 	$_SESSION['classes']=$classes;
+	$_SESSION['profiles']=$profiles;
+
+
 
 	/* Tries to recall a tid's previous choice of pid for this class*/
 	if(!in_array($_SESSION['pid'],$pids)){
@@ -80,10 +89,10 @@ if(isset($_POST['pid'])){
 	}
 
 /* If the column-type filter has changed then update*/
-if(isset($_POST['umntype'])){
-	if($_SESSION['umntype']!=$_POST['umntype']){
-	$_SESSION['umntype']=$_POST['umntype'];
-	$umntype=$_SESSION['umntype'];}
+if(isset($_POST['umnfilter'])){
+	if($_SESSION['umnfilter']!=$_POST['umnfilter']){
+	$_SESSION['umnfilter']=$_POST['umnfilter'];
+	$umnfilter=$_SESSION['umnfilter'];}
 	if($displaymid==0){$displaymid=-1;}
 	}
 
@@ -93,13 +102,15 @@ $cids=$_SESSION['cids'];
 $cidsno=sizeof($cids);
 if(!isset($_SESSION['classes'])){$_SESSION['classes']=array();}
 $classes=$_SESSION['classes'];
+if(!isset($_SESSION['profiles'])){$_SESSION['profiles']=array();}
+$profiles=$_SESSION['profiles'];
 if(!isset($_SESSION['pids'])){$_SESSION['pids']=array();$_SESSION['components']=array();}
 $pids=$_SESSION['pids'];$components=$_SESSION['components'];
 if(!isset($_SESSION['pid'])){$_SESSION['pid']='';}
 $pid=$_SESSION['pid'];
-if(!isset($_SESSION['umntype']) or 
-	($cidsno>1 and $_SESSION['umntype']=='hw')){$_SESSION['umntype']='%';}
-$umntype=$_SESSION['umntype'];
+if(!isset($_SESSION['umnfilter']) or 
+	($cidsno>1 and $_SESSION['umnfilter']=='hw')){$_SESSION['umnfilter']='%';}
+$umnfilter=$_SESSION['umnfilter'];
 if(!isset($_SESSION['umnrank'])){$_SESSION['umnrank']='surname';}
 $umnrank=$_SESSION['umnrank'];
 $attdate=date('Y-m-d',mktime(0,0,0,date('m'),date('d'),date('Y')));
@@ -159,15 +170,15 @@ if(isset($umns)){
 		</select>
 	  </form>
 	  <div class="neat">
-		<form id="umntypechoice" name="umntypechoice" method="post" 
+		<form id="umnfilterchoice" name="umnfilterchoice" method="post" 
 		  action="markbook.php" target="viewmarkbook">
 		  <input name="tid" type="hidden" value="<?php print $tid;?>">
 			<input name="current" type="hidden" value="class_view.php">		
 			<label>&nbsp;CW</label>
 			  <input  title="<?php print_string('classwork',$book);?>" 
-				type="radio" name="umntype"
-				value="cw" <?php if($umntype=='cw'){print 'checked';}?>
-				onchange="document.umntypechoice.submit();" />
+				type="radio" name="umnfilter"
+				value="cw" <?php if($umnfilter=='cw'){print 'checked';}?>
+				onchange="document.umnfilterchoice.submit();" />
 <?php
 				/* Only display HW for a single class and only for courses
 				 *	which do do homework
@@ -177,28 +188,38 @@ if(isset($umns)){
 ?>
 			<label>&nbsp;HW</label>
 				<input title="<?php print_string('homework',$book);?>" 
-				  type="radio" name="umntype"
-				  value="hw" <?php if($umntype=='hw'){print 'checked';}?>
-				  onchange="document.umntypechoice.submit();" />
+				  type="radio" name="umnfilter"
+				  value="hw" <?php if($umnfilter=='hw'){print 'checked';}?>
+				  onchange="document.umnfilterchoice.submit();" />
 <?php
 			}
 ?>
 			<label>&nbsp;T</label>
 				<input  title="<?php print_string('formalassessments',$book);?>" 
-					type="radio" name="umntype" 
-					value="t" <?php if($umntype=='t'){print 'checked';}?>
-					onchange="document.umntypechoice.submit();" />
+					type="radio" name="umnfilter" 
+					value="t" <?php if($umnfilter=='t'){print 'checked';}?>
+					onchange="document.umnfilterchoice.submit();" />
 				<br />
 			<div><?php print_string('filterlist');?></div>
-			<label>&nbsp;P</label>
-				<input  title="<?php print_string('profileassessments',$book);?>" 
-					type="radio" name="umntype" 
-					value="p" <?php if($umntype=='p'){print 'checked';}?>
-					onchange="document.umntypechoice.submit();" />
+<?php
+		if(sizeof($profiles)>0){
+			foreach($profiles as $choiceprono => $choiceprofile){
+?>
+				<label>&nbsp;P<?php print $choiceprono;?></label>
+				<input  title="<?php print $choiceprofile['name'];?>" 
+					type="radio" name="umnfilter" 
+					value="<?php print $choiceprono;?>" <?php if($umnfilter==$choiceprono){print 'checked';}?>
+					onchange="document.umnfilterchoice.submit();" />
+<?php
+
+				}
+			}
+?>
+
 			<label><?php print_string('all');?></label>
-				<input  title="<?php print_string('all');?>" type="radio" name="umntype"
-				  value="%" <?php if($umntype=='%'){print 'checked';}?>
-				  onchange="document.umntypechoice.submit();" />
+				<input  title="<?php print_string('all');?>" type="radio" name="umnfilter"
+				  value="%" <?php if($umnfilter=='%'){print 'checked';}?>
+				  onchange="document.umnfilterchoice.submit();" />
 		</form>
 	  </div>
 

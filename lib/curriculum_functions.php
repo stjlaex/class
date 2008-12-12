@@ -62,6 +62,7 @@ function list_course_stages($crid=''){
 	return $stages;
 	}
 
+
 /**
  * Returns an array of all subjects for a single course
  *
@@ -79,24 +80,43 @@ function list_course_subjects($crid=''){
 	return $subjects;
 	}
 
+
 /**
  * Returns an array of all components (id,name,status) for a single
  * subject. If the subject is itself a component then you'll really
- * get strands.
+ * get strands. Note components can be defined for all subjects
+ * (subject_id=%) but strands cannot.
  *
  */
 function list_subject_components($bid,$crid,$compstatus='%'){
 	if($compstatus=='A'){$compstatus='%';}
 	$components=array();
 	if($bid!='' and $crid!=''){
-		$d_com=mysql_query("SELECT subject.id, subject.name,
+		/* Check whether $bid is for a component or a subject. */
+		$d_c=mysql_query("SELECT id FROM component
+						WHERE component.course_id='$crid' AND
+						component.id='$bid';");
+		if(mysql_num_rows($d_c)==0){
+			/* $bid is a subject so listing components */
+			trigger_error($crid. ' : '.$bid. ' '.mysql_error(),E_USER_WARNING);
+			$d_com=mysql_query("SELECT subject.id, subject.name,
 						component.status, component.sequence FROM subject
 						JOIN component ON subject.id=component.id
 						WHERE component.status LIKE '$compstatus' AND
-						component.status!='U'  AND 
-						component.course_id='$crid' AND
-						component.subject_id='$bid' ORDER BY
-						component.sequence, subject.name;");
+						component.status!='U' AND component.course_id='$crid' AND
+						(component.subject_id='$bid' OR component.subject_id='%')  
+						ORDER BY component.sequence, subject.name;");
+			}
+		else{
+			/* $bid is a component so listing strands */
+			$d_com=mysql_query("SELECT subject.id, subject.name,
+						component.status, component.sequence FROM subject
+						JOIN component ON subject.id=component.id
+						WHERE component.status LIKE '$compstatus' AND
+						component.status!='U' AND component.course_id='$crid' AND
+						component.subject_id='$bid'  
+						ORDER BY component.sequence, subject.name;");
+			}
 		while($component=mysql_fetch_array($d_com,MYSQL_ASSOC)){
 			$components[]=$component;
 			}

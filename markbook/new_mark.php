@@ -5,7 +5,7 @@
 
 $action='new_mark_action1.php';
 
-if($umntype!='%'){$umntype='cw';$_SESSION['umntype']=$umntype;}
+if($umnfilter!='%'){$umnfilter='cw';$_SESSION['umnfilter']=$umnfilter;}
 
 	$markdef=array();
 	for($c=0;$c<sizeof($cids);$c++){

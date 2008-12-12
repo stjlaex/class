@@ -975,13 +975,20 @@ function fetchHomeworkDefinition($hwid){
 /**
  * Returns an array of all assessment profiles for a single course.
  *
+ * Only allows for one profile in use per crid/bid combination
+ * at once.  Using the subtype of categorydef to hold the
+ * component status with values of None, N or V same as for
+ * assessments.  Use the rating_name to indicate the type of
+ * summary coumn (average,sum or tally).  Grades are going to
+ * have to be averaged.
+ *
  */
 function list_assessment_profiles($crid,$bid='%'){
 	$profiles=array();
 	if($crid!=''){
 		$d_pro=mysql_query("SELECT id, name, subtype AS component_status, rating_name, course_id,
 						subject_id FROM categorydef WHERE type='pro'
-						AND (subject_id LIKE '$bid' OR subject_id='$bid') AND course_id='$crid' ORDER
+						AND (subject_id LIKE '$bid' OR subject_id='%') AND course_id='$crid' ORDER
 						BY subject_id, name;");
 		while($profile=mysql_fetch_array($d_pro,MYSQL_ASSOC)){
 			$profiles[]=$profile;
@@ -989,4 +996,9 @@ function list_assessment_profiles($crid,$bid='%'){
 		}
 	return $profiles;
 	}
+/*		$d_profile=mysql_query("SELECT name, subtype, rating_name FROM
+				categorydef WHERE type='pro' AND
+				course_id='$profile_crid' AND (subject_id='$profile_bid' OR subject_id='%');");
+		$profile=mysql_fetch_array($d_profile,MYSQL_ASSOC);
+*/
 ?>

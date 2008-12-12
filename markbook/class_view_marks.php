@@ -25,7 +25,7 @@ for($i=0;$i<sizeof($cids);$i++){
 
 	
 	/* Fetch marks for classes. Where there is more than one class,
-	 *  any marks must be shared by all
+	 * any marks must be shared by all
 	 */
 	$table='markselect'.$i;
 	if($i==0){
@@ -63,6 +63,13 @@ for($i=0;$i<sizeof($cids);$i++){
  * (ie. columns) The umntype is used to filter the mark columns and is
  * set in the sideoptions.
  */
+
+	if($umnfilter!='hw' and $umnfilter!='cw' and $umnfilter!='%' and $umnfilter!='t'){
+		$profile=$profiles[$umnfilter];
+		$umntype='p';
+		}
+	else{$umntype=$umnfilter;}
+
 	$umns=array();
 	if($umntype=='t'){
 		$d_marks=mysql_query("SELECT $table.* FROM $table WHERE
@@ -75,19 +82,10 @@ for($i=0;$i<sizeof($cids);$i++){
 	elseif($umntype=='p'){
 		$profile_crid=$classes[$cid]['crid'];
 		$profile_bid=$classes[$cid]['bid'];
-		/* Only allows for one profile in use per crid/bid combination at once. */
-		/* Usng the subtype of categorydef to hold the component
-		 * status with values of None, N or V same as for assessments.
-		 * Use the rating_name to indicate the type of summary coumn (average,sum or tally). 
-		 * Grades are going to have to be averaged.
-		 */
-		$d_profile=mysql_query("SELECT name, subtype, rating_name FROM
-				categorydef WHERE type='pro' AND
-				course_id='$profile_crid' AND (subject_id='$profile_bid' OR subject_id='%');");
-		$profile=mysql_fetch_array($d_profile,MYSQL_ASSOC);
 		$profile_name=$profile['name'];
-		$profile_pidstatus=$profile['subtype'];
+		$profile_pidstatus=$profile['component_status'];
 		$profile_marktype=$profile['rating_name'];
+		trigger_error($profile_name.':'.$profile_crid.':'.':',E_USER_WARNING);
 		$d_marks=mysql_query("SELECT $table.* FROM $table WHERE $table.marktype='score'
 				AND $table.assessment='yes' AND $table.id=ANY(SELECT
 				eidmid.mark_id FROM eidmid JOIN assessment ON
