@@ -9,6 +9,9 @@ Allowed for multiple assessment profiles for the same currriculum
 function in the MarkBook and changing umntype to be defined by
 umnfilter. You now get one P filter button for each profile.
 
+Included omse of the non-standard absence codes into the calculation
+of the attendnace summary attendance summary - without UA and UB were
+being counted as absences.
 
 
 Version ClaSS-0.8.59 release (2008/12/05)
