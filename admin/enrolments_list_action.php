@@ -18,7 +18,7 @@ if($sub=='Submit' and $comid!=-1){
 
 	$com=get_community($comid);
 	$comtype=$com['type'];
-	if($comtype=='year' or $comtype=='alumni'){$yid=$com['name'];}
+	if($comtype=='year'){$yid=$com['name'];}
 	else{list($enrolstatus,$yid)=split(':',$com['name']);}
 
 
@@ -57,11 +57,10 @@ if($sub=='Submit' and $comid!=-1){
 				$in=clean_text($_POST["C$sid"]);
 				if($in=='P'){
 					$newcom=array('id'=>'','type'=>'alumni', 
-								  'name'=>$yid,'year'=>$enrolyear);
+								  'name'=>'P:'.$yid,'year'=>$enrolyear);
 					}
 				elseif($in=='C'){
 					$newcom=array('id'=>'','type'=>'year','name'=>$yid);
-					trigger_error($sid.' '.$yid,E_USER_WARNING);
 					}
 				$oldcommunities=join_community($sid,$newcom);
 				}

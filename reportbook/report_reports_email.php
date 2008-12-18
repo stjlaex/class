@@ -32,6 +32,7 @@ if(isset($CFG->eportfolio_db) and $CFG->eportfolio_db!=''){
 	$doing_epf=true;
 	}
 
+/*TODO!!!!*/
 $doing_epf=false;
 
 	/*doing one student at a time*/
@@ -74,8 +75,7 @@ $doing_epf=false;
 			while(list($index,$Contact)=each($Contacts)){
 				$mailing=$Contact['ReceivesMailing']['value'];
 				if(($mailing=='1' or $mailing=='2') and $Contact['EmailAddress']['value']!=''){
-					//$recipient=$Contact['EmailAddress']['value'];
-					$recipient='stj@laex.org';
+					$recipient=$Contact['EmailAddress']['value'];
 					send_email_to($recipient,$fromaddress,$subject,$body,'',$attachments);
 					$result[]=get_string('reportsemailed').': '.$recipient;
 					}
@@ -83,7 +83,7 @@ $doing_epf=false;
 			}
 		else{
 			$body="\r\n";
-			$body.='This is an automatic email sent on behalf of Saint Michael\'s College.'."\r\n";
+			$body.='This is an automatic email sent on behalf of '. $CFG->schoolname.'.'."\r\n";
 			$body.='Please find the academic report for '.$studentname.' attached.'."\r\n";
 			$body.="\r\n";
 
@@ -97,7 +97,6 @@ $doing_epf=false;
 				$mailing=$Contact['ReceivesMailing']['value'];
 				if(($mailing=='1' or $mailing=='2') and $Contact['EmailAddress']['value']!=''){
 					$recipient=$Contact['EmailAddress']['value'];
-					//$recipient='stj@laex.org';
 					send_email_to($recipient,$fromaddress,$subject,$body,'',$attachments);
 					$result[]=get_string('reportsemailed').': '.$recipient;
 					}

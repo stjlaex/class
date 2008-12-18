@@ -945,11 +945,6 @@ function fetchEnrolment($sid='-1'){
 				/* and so is not really logical to have displayed?*/
 				$year=get_curriculumyear();
 				}
-			elseif($comtype=='alumni'){
-				$yid=$com['name'];
-				$enrolstatus='P';
-				$year=$com['year'];
-				}
 			else{
 				list($enrolstatus,$yid)=split(':',$com['name']);
 				$year=$com['year'];

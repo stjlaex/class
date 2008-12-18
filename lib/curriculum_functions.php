@@ -98,7 +98,7 @@ function list_subject_components($bid,$crid,$compstatus='%'){
 						component.id='$bid';");
 		if(mysql_num_rows($d_c)==0){
 			/* $bid is a subject so listing components */
-			trigger_error($crid. ' : '.$bid. ' '.mysql_error(),E_USER_WARNING);
+			//trigger_error($crid. ' : '.$bid. ' '.mysql_error(),E_USER_WARNING);
 			$d_com=mysql_query("SELECT subject.id, subject.name,
 						component.status, component.sequence FROM subject
 						JOIN component ON subject.id=component.id
@@ -258,7 +258,7 @@ function list_student_teachers($sid){
 					tidcid.class_id=ANY(SELECT DISTINCT class_id 
 					FROM cidsid WHERE student_id='$sid');");
    	while($t=mysql_fetch_array($d_t,MYSQL_ASSOC)){
-		trigger_error($t['username'],E_USER_WARNING);
+		//trigger_error($t['username'],E_USER_WARNING);
 		$teachers[]=$t;
 		}
 	return $teachers;

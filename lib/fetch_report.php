@@ -46,7 +46,7 @@ function fetchSubjectReports($sid,$reportdefs){
 			 *
 			 */
 			if(isset($reportdef['report']['profile_name']) 
-			   and $reportdef['report']['profile_name']!=''){
+			   and $reportdef['report']['profile_name']!='' and $reportdef['report']['profile_name']!=' '){
 				$profile_name=$reportdef['report']['profile_name'];
 				//trigger_error('PROFILE:'.$reportdef['report']['profile_name'],E_USER_WARNING);
 				$d_a=mysql_query("SELECT id FROM assessment WHERE
@@ -142,10 +142,11 @@ function fetchSubjectReports($sid,$reportdefs){
   						  }
 
 					  /* An additional section if the report is linked to an assessment profile. */
-					  if($profile_name!=''){
+					  if($profile_name!='' and $profile_name!=' '){
 						  $ProfileAssessments['Assessment']=array();
 						  foreach($profile_asseids as $index=>$eid){
 							  $PAsses=(array)fetchAssessments_short($sid,$eid,$bid,$pid);
+							  $PAsses=nullCorrect($PAsses);
 							  $ProfileAssessments['Assessment']=array_merge($ProfileAssessments['Assessment'],$PAsses);
 							  }
 						  $Report['ProfileAssessments']=$ProfileAssessments;

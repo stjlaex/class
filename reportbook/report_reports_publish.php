@@ -64,7 +64,7 @@ include('scripts/sub_action.php');
 <body>';
 		$html_footer='</body></html>';
 		$xml=xmlpreparer('student',$Student);
-		$xml='<?xml version="1.0" encoding="utf-8"?'.'><students>'.$xml.'</students>';
+		$xml='<'.'?xml version="1.0" encoding="utf-8"?'.'><students>'.$xml.'</students>';
 		$html_report=xmlprocessor($xml,$xsl_filename);
 		$html=$html_header. $html_report . $html_footer;
 

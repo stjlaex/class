@@ -13,6 +13,7 @@
 							   'transfersout','projectedroll',
 							   'budget','capacity','spaces');
 		}
+
 	$enrol_tablerows=array();
 	$enrol_cols=array();
 	while(list($colindex,$enrolcol)=each($enrolcols_value)){
@@ -105,7 +106,7 @@
 				if($enrolyear==$currentyear){
 					$cell['display']='<a href="admin.php?current=enrolments_list.php&cancel='.
 							$choice.'&choice='. $choice.'&enrolyear='. 
-							$enrolyear.'.&comid='. $cell['comid'].'&enrolstage=C">' 
+							$enrolyear.'&comid='. $cell['comid'].'&enrolstage=C">' 
 							.$cell['value'].'</a>';
 					}
 				}
@@ -113,7 +114,7 @@
 					$cell['value']=$enrol_tablecells['newenrolments']['value'] + $enrol_tablecells['reenroling']['repeat'] + $pre_reenrolcell['confirm'];
 				}
 			elseif($enrolcol=='leaverssince'){
-				$leavercomid=update_community(array('id'=>'','type'=>'alumni','name'=>$yid,'year'=>$currentyear));
+				$leavercomid=update_community(array('id'=>'','type'=>'alumni','name'=>'P:'.$yid,'year'=>$currentyear));
 				$leavercom=get_community($leavercomid);
 				$cell['value']=countin_community($leavercom);
 				$cell['display']='<a href="admin.php?current=enrolments_list.php&cancel='.
@@ -126,7 +127,7 @@
 				$cell['value']=count_reenrol_no($comid,$reenrol_eid,'L','LL');
 				if(isset($enrol_tablerows[$yid-1])){
 					$pre_leavercell=$enrol_tablerows[$yid-1][$enrolcol];
-					/*TODO: allow a shortcut to list just leavers*/
+			 /*TODO: allow a shortcut to list just leavers*/
 					//$cell['display']='<a href="admin.php?current=enrolments_list.php&cancel='.
 					//		$choice.'&choice='. $choice.'&enrolyear='. 
 					//		$enrolyear.'&yid='. $pre_leavercell['yid'].
