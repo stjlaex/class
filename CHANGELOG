@@ -5,6 +5,9 @@ Bugfix for alumni students. Leavers where getting community name='yid'
 and not ='P:yid'. All should now be 'P:yid' with only current students
 having name=yid.
 
+Fixed a possible file vulnerability in the export script.
+
+
 
 Version ClaSS-0.8.60 release (2008/12/15)
 -----------------------------------------
