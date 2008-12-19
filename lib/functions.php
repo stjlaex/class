@@ -767,8 +767,10 @@ function getEnumArray($field_name){
 				   'AUT'=>'autism',
 				   'GT'=>'giftedandtalented',
 				   'STF'=>'shorttermfailing',
+				   'OTH'=>'otherdifficulty/disability',
 				   'ENC'=>'enrolmentconcern',
-				   'OTH'=>'otherdifficulty/disability');
+				   'GNC'=>'generalconcern'
+				   );
 	$sencurriculum=array('A'=>'allsubject',
 						 'M'=>'modifiedcurriculum', 
 						 'D'=>'curriculumdisapplied');

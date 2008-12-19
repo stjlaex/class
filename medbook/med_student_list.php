@@ -17,36 +17,36 @@ if(isset($_POST['displayfield2'])){$displayfields[2]=$_POST['displayfield2'];}
 
 two_buttonmenu();
 
-	/*these are the filter vars form the sideoptions*/
-	if($medtype!='' and $newyid!=''){
-		mysql_query("CREATE TEMPORARY TABLE students
+	$sids=array();
+
+	if($medtype!='' or $newyid!=''){
+		/*these are the filter vars form the sideoptions*/
+		if($medtype!='' and $newyid!=''){
+			mysql_query("CREATE TEMPORARY TABLE students
 				(SELECT info.student_id FROM info JOIN background
 				ON background.student_id=info.student_id WHERE background.type='$medtype'
 				AND info.medical='Y' AND info.enrolstatus='C')");
-		$d_info=mysql_query("SELECT student_id FROM students JOIN student
+			$d_info=mysql_query("SELECT student_id FROM students JOIN student
 				ON student.id=students.student_id WHERE student.yeargroup_id='$newyid';");
-		mysql_query('DROP TABLE students;');
-		}
-	elseif($medtype!=''){
-		trigger_error('medtype='.$medtype,E_USER_WARNING);
-		$d_info=mysql_query("SELECT info.student_id FROM info JOIN background
+			mysql_query('DROP TABLE students;');
+			}
+		elseif($medtype!=''){
+			$d_info=mysql_query("SELECT info.student_id FROM info JOIN background
 				ON background.student_id=info.student_id WHERE background.type='$medtype'
 				AND info.medical='Y' AND info.enrolstatus='C';");
 		}
-	elseif($newyid!=''){
-		$d_info=mysql_query("SELECT info.student_id FROM info JOIN student
+		elseif($newyid!=''){
+			$d_info=mysql_query("SELECT info.student_id FROM info JOIN student
 				ON student.id=info.student_id WHERE student.yeargroup_id='$newyid'
 				AND info.medical='Y' AND info.enrolstatus='C';");
+			}
+		while($info=mysql_fetch_array($d_info,MYSQL_ASSOC)){
+			$sids[]=$info['student_id'];
+			}
 		}
 	else{
-		$d_info=mysql_query("SELECT student_id FROM info 
-					WHERE medical='Y' AND enrolstatus='C';");
 		}
 
-	$sids=array();
-	while($info=mysql_fetch_array($d_info,MYSQL_ASSOC)){
-		$sids[]=$info['student_id'];
-		}
 ?>
 
 <div id="viewcontent" class="content">

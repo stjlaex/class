@@ -17,38 +17,42 @@ if(isset($_POST['displayfield2'])){$displayfields[2]=$_POST['displayfield2'];}
 
 two_buttonmenu();
 
-	/*these are the filter vars form the sideoptions*/
-	if($sentype!='' and $newyid!=''){
-		mysql_query("CREATE TEMPORARY TABLE students
+	$sids=array();
+	if($sentype!='' or $newyid!=''){
+
+		/* These are the filter vars form the sideoptions
+		 */
+		if($sentype!='' and $newyid!=''){
+			mysql_query("CREATE TEMPORARY TABLE tempstudents
 				(SELECT info.student_id FROM info JOIN sentype
 				ON sentype.student_id=info.student_id WHERE sentype.sentype='$sentype'
 				AND info.sen='Y' AND info.enrolstatus='C')");
-		$d_info=mysql_query("SELECT student_id FROM students JOIN student
-				ON student.id=students.student_id WHERE
+			$d_info=mysql_query("SELECT student_id FROM tempstudents JOIN student
+				ON student.id=tempstudents.student_id WHERE
 				student.yeargroup_id='$newyid' ORDER BY student.surname;");
-		mysql_query('DROP TABLE students;');
-		}
-	elseif($sentype!=''){
-		$d_info=mysql_query("SELECT info.student_id FROM info JOIN sentype
+			mysql_query('DROP TABLE tempstudents;');
+			}
+		elseif($sentype!=''){
+			$d_info=mysql_query("SELECT info.student_id FROM info JOIN sentype
 				ON sentype.student_id=info.student_id WHERE sentype.sentype='$sentype'
 				AND info.sen='Y' AND info.enrolstatus='C';");
-		}
-	elseif($newyid!=''){
-		$d_info=mysql_query("SELECT info.student_id FROM info JOIN student
+			}
+		elseif($newyid!=''){
+			$d_info=mysql_query("SELECT info.student_id FROM info JOIN student
 				ON student.id=info.student_id WHERE student.yeargroup_id='$newyid'
 				AND info.sen='Y' AND info.enrolstatus='C' ORDER BY student.surname;");
+			}
+		while($info=mysql_fetch_array($d_info,MYSQL_ASSOC)){
+			$sids[]=$info['student_id'];
+			}
 		}
 	else{
-		$d_info=mysql_query("SELECT student_id FROM info WHERE sen='Y' AND enrolstatus='C';");
-		$d_info=mysql_query("SELECT info.student_id FROM info JOIN student
+		/*		$d_c=mysql_query("SELECT COUNT(info.student_id) FROM info JOIN student
 				ON student.id=info.student_id WHERE 
 				info.sen='Y' AND info.enrolstatus='C' ORDER BY student.surname;");
+		*/
 		}
 
-	$sids=array();
-	while($info=mysql_fetch_array($d_info,MYSQL_ASSOC)){
-		$sids[]=$info['student_id'];
-		}
 ?>
 
 <div id="viewcontent" class="content">

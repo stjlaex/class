@@ -7,6 +7,10 @@ having name=yid.
 
 Fixed a possible file vulnerability in the export script.
 
+Removed the wholo school lists from SEN and MedBook needs a filter
+option before listing sids.
+
+Added a general concern to the sentypes.
 
 
 Version ClaSS-0.8.60 release (2008/12/15)
