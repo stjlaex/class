@@ -54,6 +54,7 @@ if($budid!=''){
 		<legend><?php print_string('type',$book);?></legend>
 		<div class="center">
 <?php 
+		/*
 	list($ratingnames,$catdefs)=fetch_categorydefs('bud');
 	$listname='catid';
 	$listlabel='category';
@@ -62,6 +63,7 @@ if($budid!=''){
 	include('scripts/set_list_vars.php');
 	list_select_list($catdefs,$listoptions,$book);
 	unset($listoptions);
+		*/
 ?>
 		</div>
 
@@ -77,7 +79,7 @@ if($budid!=''){
 	$listname='gid';
 	$listlabel='department';
 	$listeitheror='Catid';
-	$required='eitheror';
+	$required='no';
 	include('scripts/set_list_vars.php');
 	list_select_db($d_group,$listoptions,$book);
 	unset($listoptions);

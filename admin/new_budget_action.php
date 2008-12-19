@@ -29,14 +29,14 @@ if($sub=='Submit'){
 		$users_perms=array();
 		$teacher_users=array();
 		$gid_a=0;
-		$catid=$_POST['catid'];
-		$d_n=mysql_query("SELECT name FROM categorydef WHERE id='$catid';");
-		$name=mysql_result($d_n,0);
+		//$catid=$_POST['catid'];
+		//$d_n=mysql_query("SELECT name FROM categorydef WHERE id='$catid';");
+		//$name=mysql_result($d_n,0);
+		$name='NEW BUDGET';
 		}
 	$secid=$_POST['secid'];
 	$d_section=mysql_query("SELECT name, gid FROM section WHERE id='$secid';");
 	$section=mysql_fetch_array($d_section,MYSQL_ASSOC);
-
 	$name.=' - '.$section['name'];
 	if($overbudid!=''){
 		/* A subbudget must be for the same budgetyear as its overbudget */
