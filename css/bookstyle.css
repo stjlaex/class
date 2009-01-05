@@ -451,16 +451,16 @@ div.content fieldset.listmenu, div.content fieldset.listmenu div,
 	background-color:#ffffff;
 	}
 .listmenu tr:hover {
-	background-color:#fcd39a;
+	background-color:#fcd39a !important;
 	}
 .listmenu tr:hover td { 
-	background-color:#fcd39a;
+	background-color:#fcd39a !important;
 	}
 .listmenu tr:hover th { 
-	background-color:#fcd39a;
+	background-color:#fcd39a !important;
 	}
 .listmenu tr td table td:hover { 
-	background-color:#eeeeee;
+	background-color:#eeeeee !important;
 	}
 /*fade to gray*/
 .listmenu tr.lowlite td, .listmenu td.lowlite, tr.lowlite a, .lowlite { 

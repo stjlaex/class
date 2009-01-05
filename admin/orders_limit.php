@@ -19,6 +19,7 @@ $tab=1;
 $extrabuttons=array();
 if($Budget['overbudid_db']==0){
 	$extrabuttons['newbudget']=array('name'=>'current','value'=>'new_budget.php');
+	$subbudgets=list_subbudgets($budid);
 	}
 three_buttonmenu($extrabuttons,$book);
 ?>
@@ -138,8 +139,45 @@ three_buttonmenu($extrabuttons,$book);
 			</div>
 		  </td>
 		</tr>
+	  </table>
 
+<?php
+	if(sizeof($subbudgets)>0){
+?>
+	  <table class="listmenu smalltable center">
+		<tr>
+		<th><?php print_string('subbudget','admin');?></th>
+		  <th><?php print_string('limit',$book);?></th>
+		  <th><?php print_string('currentbalance',$book);?></th>
+		  <th><?php print_string('projectedbalance',$book);?></th>
+		</tr>
+<?php
+		$rowclass='gomidlite';
+		while(list($subindex,$subbudget)=each($subbudgets)){
+?>
+		<tr class="<?php print $rowclass;?>">
+		  <td>
+<?php
+			print '<a  href="admin.php?current=orders_list.php&cancel='.$choice.'&choice='.$choice.'&budid='.$subbudget['id'].'&budgetyear='.$budgetyear.'">'.$subbudget['name'].'</a>';
+?>
+		  </td>
+		  <td>
+<?php 
+			print '<a href="admin.php?current=orders_limit.php&cancel='.
+							$choice.'&choice='. $choice.'&budid='. $subbudget['id'].'">' 
+							.round($subbudget['costlimit'],0).'</a>';
+?>
+		  </td>
+		  <td><?php print get_budget_current($subbudget['id']);?></td>
+		  <td><?php print get_budget_projected($subbudget['id']);?></td>
+		</tr>
+<?php
+			}
+?>
 
 	  </table>
+<?php
+		}
+?>
 
   </div>

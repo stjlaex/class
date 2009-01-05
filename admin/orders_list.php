@@ -16,12 +16,22 @@ include('scripts/sub_action.php');
 if(isset($_GET['budgetyear'])){$budgetyear=$_GET['budgetyear'];}
 if(isset($_POST['budgetyear']) and $_POST['budgetyear']!=''){$budgetyear=$_POST['budgetyear'];}
 
-if(isset($_POST['ordernumber']) or isset($_POST['orderstatus'])){
+if((isset($_POST['ordernumber']) and $_POST['ordernumber']!='') or 
+   (isset($_POST['orderstatus']) and $_POST['orderstatus']!='') or 
+   (isset($_POST['ordersupid']) and $_POST['ordersupid']!='')){
 		/* These are the three search terms */
 	$ordersupid=$_POST['ordersupid'];
 	$ordernumber=$_POST['ordernumber'];
 	$orderstatus=$_POST['orderstatus'];
-	$orders=list_orders($ordernumber,$orderstatus,$ordersupid);
+	$orders=(array)list_orders($ordernumber,$orderstatus,$ordersupid);
+	$extrabuttons=array();
+	$budid=-1;
+	$colspan=7;
+	}
+elseif(isset($_POST['invoicenumber']) and $_POST['invoicenumber']!=''){
+	$invoicenumber=$_POST['invoicenumber'];
+	$ordid=get_invoice_order($invoicenumber);
+	$orders=(array)list_orders('---'.$ordid,'','');
 	$extrabuttons=array();
 	$budid=-1;
 	$colspan=7;
@@ -103,6 +113,11 @@ if($budid!=-1){
 		  </tr>
 		  <tr class="hidden" id="<?php print $entryno.'-'.$rown++;?>">
 			<td colspan="<?php print $colspan;?>">
+<?php 
+				if($Order['Detail']['value']!=''){
+					print '<div class="center nolite">'.$Order['Detail']['value'].'</div>';
+					}
+?>
 <ul>
 <?php
 				 $sumcost=0;

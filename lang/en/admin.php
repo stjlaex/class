@@ -208,6 +208,7 @@ $string['sets']='Sets';
 $string['forms']='Forms';
 $string['credit']='Credit';
 $string['debit']='Debit';
+$string['subbudget']='Sub-Budget';
 $string['']='';
 $string['']='';
 ?>

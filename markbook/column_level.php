@@ -22,8 +22,8 @@ if(sizeof($checkmids)>1){
 		exit;
 		}
 
-$mid=$checkmids[0];
-$d_mark=mysql_query("SELECT * FROM mark WHERE id='$mid'");
+$mid=clean_text($checkmids[0]);
+$d_mark=mysql_query("SELECT * FROM mark WHERE id='$mid';");
 $mark=mysql_fetch_array($d_mark,MYSQL_ASSOC);
 
 if($mark['marktype']!='score' and $mark['marktype']!='hw'){

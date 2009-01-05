@@ -133,4 +133,6 @@ if($budid!=''){
 		<input type="hidden" name="cancel" value="<?php print $choice;?>">
 		<input type="hidden" name="choice" value="<?php print $choice;?>">
 	</form>
+
+
   </div>

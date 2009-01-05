@@ -4,6 +4,11 @@ Version ClaSS-0.8.62 release (2009/01/05)
 Removed the categorydef for budget types which was just being too
 prescriptive.
 
+Amended the order of budgets on the main orders.php page to list
+subbudgets following directly on from their overbudget.
+
+Implemented the order search based on invoice reference number.
+
 
 
 Version ClaSS-0.8.61 release (2008/12/20)
@@ -15,7 +20,7 @@ having name=yid.
 
 Fixed a possible file vulnerability in the export script.
 
-Removed the wholo school lists from SEN and MedBook needs a filter
+Removed the whole school lists from SEN and MedBook needs a filter
 option before listing sids.
 
 Added a general concern to the sentypes.

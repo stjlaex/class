@@ -115,9 +115,12 @@ twoplus_buttonmenu($budgetyear,$currentyear+2,$extrabuttons,$book);
 		</tr>
 <?php
 		$budgets=list_user_budgets($tid,$budgetyear);
-		while(list($index,$budget)=each($budgets)){
+		while(list($index,$overbudget)=each($budgets)){
+			while(list($subindex,$budget)=each($overbudget['subbudgets'])){
+				if($index==$budget['id']){$rowclass='midlite';}
+				else{$rowclass='gomidlite';}
 ?>
-		<tr>
+		<tr class="<?php print $rowclass;?>">
 		  <td>
 <?php
 
@@ -146,7 +149,8 @@ twoplus_buttonmenu($budgetyear,$currentyear+2,$extrabuttons,$book);
 		  <td><?php print get_budget_projected($budget['id']);?></td>
 		</tr>
 <?php
-		}
+				}
+			}
 ?>
 
 	  </table>

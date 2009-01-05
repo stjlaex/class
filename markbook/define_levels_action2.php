@@ -7,15 +7,15 @@ $action_post_vars=array('checkmid');
 
 include('scripts/sub_action.php');
 
-if(isset($_POST['checkmid'])){$checkmid=$_POST['checkmid'];}
+if(isset($_POST['checkmid'])){$checkmid=clean_text($_POST['checkmid']);}
 
-$gena=$_POST['gena'];
-$lena=$_POST['lena'];
-$comment=$_POST['comment'];
-$levels=$_POST['levels'];
-$grades=$_POST['grades'];
-$crid=$_POST['crid'];
-$bid=$_POST['bid'];
+$gena=clean_text($_POST['gena']);
+$lena=clean_text($_POST['lena']);
+$comment=clean_text($_POST['comment']);
+$levels=clean_text($_POST['levels']);
+$grades=clean_text($_POST['grades']);
+$crid=clean_text($_POST['crid']);
+$bid=clean_text($_POST['bid']);
 
 		$pairs=explode (';', $grades);	
 		list($level_grade, $level)=split(':',$pairs[0]);

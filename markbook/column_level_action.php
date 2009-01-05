@@ -5,9 +5,9 @@
 $action='class_view.php';
 $action_post_vars=array('displaymid','checkmid');
 
-$checkmid=$_POST['checkmid'];
+$checkmid=clean_text($_POST['checkmid']);
 $mid=$checkmid;
-$markdefname=$_POST['markdefname'];
+$markdefname=clean_text($_POST['markdefname']);
 
 include('scripts/sub_action.php');
 

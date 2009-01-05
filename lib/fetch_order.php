@@ -57,7 +57,7 @@ function list_budget_users($budid,$perms){
 /**
  *
  * Returns a list of budgets for the current budgetyear to which the
- * user has access; te perms table is by passed if this is an budget
+ * user has access; the perms table is by passed if this is a budget
  * admin user and all budgets for year are returned.
  *
  */
@@ -69,22 +69,45 @@ function list_user_budgets($tid,$budgetyear='%'){
 		$yearcode=get_budgetyearcode($budgetyear);
 		}
 	if($aperm==1){
-		$d_b=mysql_query("SELECT id, code, yearcode, name, costlimit,
+		$d_b=mysql_query("SELECT id, code, yearcode, name, costlimit, overbudget_id,
 				    '1' AS r, '1' AS w, '1' AS x FROM orderbudget WHERE
 			   		(orderbudget.yearcode='%' OR orderbudget.yearcode LIKE '$yearcode') ORDER
-			   		BY orderbudget.yearcode, overbudget_id, 
+			   		BY orderbudget.yearcode, orderbudget.overbudget_id ASC, 
 						orderbudget.section_id, orderbudget.name;");
 		}
 	else{
-		$d_b=mysql_query("SELECT id, code, yearcode, name, costlimit,
+		$d_b=mysql_query("SELECT id, code, yearcode, name, costlimit, overbudget_id,
 			  perms.r AS r, perms.w AS w, perms.x AS x FROM orderbudget JOIN perms ON
 			  perms.gid=orderbudget.gid WHERE perms.uid='$uid' AND
 			  (orderbudget.yearcode='%' OR orderbudget.yearcode LIKE '$yearcode') ORDER
-			   		BY orderbudget.yearcode, overbudget_id, 
-						orderbudget.section_id, orderbudget.name");
+			   		BY orderbudget.yearcode, orderbudget.overbudget_id ASC, 
+						orderbudget.section_id, orderbudget.name;");
 		}
 	while($budget=mysql_fetch_array($d_b,MYSQL_ASSOC)){
-		$budgets[]=$budget;
+		if($budget['overbudget_id']==0){
+			$budgets[$budget['id']]=array();
+			$budgets[$budget['id']]['subbudgets']=array();
+			$budgets[$budget['id']]['subbudgets'][]=$budget;
+			}
+		else{
+			$budgets[$budget['overbudget_id']]['subbudgets'][]=$budget;
+			}
+		}
+	return $budgets;
+	}
+
+
+/**
+ *
+ * Returns a list of subbudgets for the given budid.
+ *
+ */
+function list_subbudgets($budid){
+	$d_b=mysql_query("SELECT id, code, yearcode, name, costlimit, overbudget_id
+			  FROM orderbudget WHERE overbudget_id='$budid' ORDER
+			   		BY orderbudget.section_id, orderbudget.name;");
+	while($budget=mysql_fetch_array($d_b,MYSQL_ASSOC)){
+		$budgets[$budget['id']]=$budget;
 		}
 	return $budgets;
 	}
@@ -101,6 +124,17 @@ function list_budget_orders($budid){
 		$orders[]=$order;
 		}
 	return $orders;
+	}
+
+/**
+ *
+ */
+function get_invoice_order($invoicenumber){
+	$d_o=mysql_query("SELECT orderaction.order_id FROM orderaction JOIN orderinvoice ON
+				orderaction.invoice_id=orderinvoice.id WHERE
+				orderinvoice.reference='$invoicenumber';");
+	$ordid=mysql_result($d_o,0);
+	return $ordid;
 	}
 
 
@@ -147,7 +181,7 @@ function list_orders($ordernumber='%',$orderstatus='%',$ordersupid='%'){
 	}
 
 /**
- * Given and ordid then returns the reference number.
+ * Given an ordid then returns the reference number.
  * This function defines the formula for generating these order references. It could be
  * anything. But here the budget code and the yearcode are prepended
  * to the unique order id. 
@@ -317,7 +351,7 @@ function fetchMaterial($mat=array('entryn'=>'','materialtype'=>'','detail'=>'',
  *
  */
 function fetchBudget($budid='-1'){
-	$d_bud=mysql_query("SELECT * FROM orderbudget WHERE id='$budid'");
+	$d_bud=mysql_query("SELECT * FROM orderbudget WHERE id='$budid';");
 	$bud=mysql_fetch_array($d_bud,MYSQL_ASSOC);
 	$Budget=array();
 	$Budget['id_db']=$budid;

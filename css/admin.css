@@ -28,3 +28,9 @@ div#bookbox {
 .smalltable th.blank, .smalltable td.blank {
 	background-color:#ffffff;
 	}
+.listmenu tr.midlite td, .listmenu td.midlite, .midlite { 
+    background-color:#ddffee;
+	}
+.listmenu tr.gomidlite td, .listmenu td.gomidlite, .gomidlite { 
+    background-color:#ddeeff;
+	}
