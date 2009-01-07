@@ -5,9 +5,9 @@
 $action='report_attendance_list.php';
 $choice='report_attendance.php';
 
-$tomonth=date('n')-1;
-$today=date('j');
-$toyear=date('Y');
+
+//last four weeks by default
+$todate=date('Y-m-d',mktime(0,0,0,date('m'),date('d')-28,date('Y')));
 
 three_buttonmenu();
 ?>
@@ -26,7 +26,6 @@ three_buttonmenu();
 	  <fieldset class="left">
 		<legend><?php print_string('collatesince',$book);?></legend>
 <?php 
-		$todate=$toyear.'-'.$tomonth.'-'.$today;
 		include('scripts/jsdate-form.php'); 
 ?>
 	  </fieldset>

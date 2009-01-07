@@ -5,10 +5,9 @@
 $action='report_comments_list.php';
 $choice='report_comments.php';
 
-$tomonth=date('n')-1;
-$today=date('j');
-$toyear=date('Y');
-$todate=$toyear.'-'.$tomonth.'-'.$today;
+
+//last two weeks by default
+$todate=date('Y-m-d',mktime(0,0,0,date('m'),date('d')-14,date('Y')));
 
 three_buttonmenu();
 ?>

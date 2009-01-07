@@ -129,12 +129,15 @@ function list_budget_orders($budid){
 /**
  *
  */
-function get_invoice_order($invoicenumber){
-	$d_o=mysql_query("SELECT orderaction.order_id FROM orderaction JOIN orderinvoice ON
+function list_invoice_orders($invoicenumber){
+	$orders=array();
+	$d_o=mysql_query("SELECT DISTINCT orderaction.order_id AS id FROM orderaction JOIN orderinvoice ON
 				orderaction.invoice_id=orderinvoice.id WHERE
-				orderinvoice.reference='$invoicenumber';");
-	$ordid=mysql_result($d_o,0);
-	return $ordid;
+				orderinvoice.reference='$invoicenumber' ORDER BY orderaction.order_id;");
+	while($order=mysql_fetch_array($d_o,MYSQL_ASSOC)){
+		$orders[]=$order;
+		}
+	return $orders;
 	}
 
 

@@ -30,8 +30,8 @@ if((isset($_POST['ordernumber']) and $_POST['ordernumber']!='') or
 	}
 elseif(isset($_POST['invoicenumber']) and $_POST['invoicenumber']!=''){
 	$invoicenumber=$_POST['invoicenumber'];
-	$ordid=get_invoice_order($invoicenumber);
-	$orders=(array)list_orders('---'.$ordid,'','');
+	$orders=(array)list_invoice_orders($invoicenumber);
+	//$orders=(array)list_orders('---'.$ordid,'','');
 	$extrabuttons=array();
 	$budid=-1;
 	$colspan=7;

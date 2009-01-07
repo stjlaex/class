@@ -4,10 +4,9 @@
 
 $action='report_incidents_list.php';
 $choice='report_incidents.php';
-$tomonth=date('n');
-$today=date('j')-7;//last week by default
-$toyear=date('Y');
-$todate=$toyear.'-'.$tomonth.'-'.$today;
+
+//last week by default
+$todate=date('Y-m-d',mktime(0,0,0,date('m'),date('d')-7,date('Y')));
 
 three_buttonmenu();
 ?>
