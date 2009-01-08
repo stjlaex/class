@@ -100,6 +100,7 @@ function fetchStudent_singlefield($sid,$tag){
    	elseif($tag=='PersonalNumber'){$fieldname='upn';} 
 	elseif(substr_count($tag,'FirstContact')){$contactno=0;}
 	elseif(substr_count($tag,'SecondContact')){$contactno=1;}
+	elseif(substr_count($tag,'Medical')){$medtype=substr($tag,-3);}
 
 	if(isset($contactno)){
 		if(substr_count($tag,'Phone')){
@@ -128,8 +129,17 @@ function fetchStudent_singlefield($sid,$tag){
 					$Contacts[$contactno]['Forename']['value']. ' '.$Contacts[$contactno]['Surname']['value'];
 			$Student[$tag]=array('label' => '',
 								 'value' => '');
-			$Student[$tag]['value']=$firstcontact; 
+			$Student[$tag]['value']=''.$firstcontact; 
 			}
+		}
+	elseif(isset($medtype)){
+		/*NOT a part of the xml def for Student but useful here*/
+		$d_b=mysql_query("SELECT detail FROM background WHERE 
+				student_id='$sid' AND type='$medtype';");
+		$medentry=mysql_result($d_b,0);
+		$Student[$tag]=array('label' => '',
+							 'value' => '');
+		$Student[$tag]['value']=''.$medentry; 
 		}
 
 	if(isset($fieldname)){
@@ -1278,7 +1288,7 @@ function fetchMedical($sid='-1'){
 	$Medical['Notes']=array();
 	$Notes['Note']=array();
 	$d_catdef=mysql_query("SELECT name, subtype, rating FROM categorydef WHERE 
-				type='med' ORDER BY rating DESC, name");
+				type='med' ORDER BY rating DESC, name;");
 	while($cat=mysql_fetch_array($d_catdef,MYSQL_ASSOC)){
 		$Note=array();
 		$cattype=$cat['subtype'];

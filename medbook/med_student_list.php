@@ -10,10 +10,26 @@ $choice='med_student_list.php';
 include('scripts/sub_action.php');
 
 $displayfields=array();
-$displayfields[]='RegistrationGroup';$displayfields[]='Gender';$displayfields[]='DOB';
-if(isset($_POST['displayfield'])){$displayfields[0]=$_POST['displayfield'];}
-if(isset($_POST['displayfield1'])){$displayfields[1]=$_POST['displayfield1'];}
-if(isset($_POST['displayfield2'])){$displayfields[2]=$_POST['displayfield2'];}
+$displayfields[]='Gender';
+$displayfields[]='DOB';
+
+if(isset($_POST['colno'])){
+	$displayfields_no=$_POST['colno'];
+	}
+else{
+	$displayfields_no=2;
+	}
+for($dindex=0;$dindex < ($displayfields_no);$dindex++){
+	if(isset($_POST['displayfield'.$dindex])){$displayfields[$dindex]=$_POST['displayfield'.$dindex];}
+	}
+
+if(isset($_POST['extracol']) and $_POST['extracol']=='yes'){
+	$displayfields_no++;
+	$displayfields[]='';
+	}
+
+/* Approximate to saving 40% of table width for fixed columns. */
+$displayfields_width=60/$displayfields_no;
 
 two_buttonmenu();
 
@@ -55,11 +71,20 @@ two_buttonmenu();
 	<th colspan="2"><?php print_string('checkall'); ?><input type="checkbox" name="checkall" 
 				value="yes" onChange="checkAll(this);" /></th>
 	<th><?php print_string('student'); ?></th>
+	<th><?php print_string('formgroup'); ?></th>
 <?php
-	$extra_studentfields=array('NextReviewDate'=>'nextreviewdate');
+
+	$d_catdef=mysql_query("SELECT name, subtype FROM categorydef WHERE 
+				type='med' AND (rating='1' OR rating='0') ORDER BY rating DESC, name;");
+	while($medcat=mysql_fetch_array($d_catdef,MYSQL_ASSOC)){
+		$extra_studentfields['Medical'.$medcat['subtype']]=$medcat['name'];
+		}
+	$extra_studentfields['NextReviewDate']='nextreviewdate';
+
 	while(list($index,$displayfield)=each($displayfields)){
+
 ?>
-		<th><?php include('scripts/list_studentfield.php');?></th>
+		<th style="<?php print $displayfields_width;?>"><?php include('scripts/list_studentfield.php');?></th>
 <?php
 		}
 
@@ -96,6 +121,11 @@ two_buttonmenu();
 			  <?php print $Student['DisplayFullName']['value']; ?>
 			</a>
 		  </td>
+		  <td>
+<?php 
+				print $Student['RegistrationGroup']['value']; 
+?>
+		  </td>
 <?php
 	reset($displayfields);
 	while(list($index,$displayfield)=each($displayfields)){
@@ -114,7 +144,19 @@ two_buttonmenu();
 		}
 	reset($sids);
 ?>
+<tr>
+<th colspan="<?php print $displayfields_no+3;?>">&nbsp;</th>
+<th>
+<?php
+$extrabuttons=array();
+$extrabuttons['addcolumn']=array('title'=>'addcolumn','name'=>'extracol','value'=>'yes');
+all_extrabuttons($extrabuttons,'infobook','processContent(this)')
+?>
+</th>
+</tr>
 	  </table>
+
+	  <input type="hidden" name="colno" value="<?php print $displayfields_no;?>" />
 	  <input type="hidden" name="current" value="<?php print $action;?>" />
 	  <input type="hidden" name="cancel" value="<?php print '';?>" />
 	  <input type="hidden" name="choice" value="<?php print $choice;?>" />

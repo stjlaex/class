@@ -156,5 +156,7 @@ $string['epfusername']='ePortfolio Username';
 $string['furtherinformationonfile']='Further information is available on file.';
 $string['code']='Code';
 $string['foreign']='Foreign';
+$string['addcolumn']='Add column';
+$string['personalnumber']='Personal number';
 $string['']='';
 ?>

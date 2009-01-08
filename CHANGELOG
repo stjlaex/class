@@ -1,4 +1,4 @@
-Version ClaSS-0.8.62 release (2009/01/07)
+Version ClaSS-0.8.62 release (2009/01/08)
 -----------------------------------------
 
 Removed the categorydef for budget types which was just being too
@@ -10,6 +10,10 @@ subbudgets following directly on from their overbudget.
 Implemented the order search based on invoice reference number.
 
 Fix to the default start date in the Report book scripts.
+
+The main student lists in InfoBook, SEN and Medical can now have
+unlimited numbers of columns. Extra display fields now include
+non-privte medical details (ie. allergies and diet).
 
 
 Version ClaSS-0.8.61 release (2008/12/20)

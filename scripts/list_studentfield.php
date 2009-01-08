@@ -7,9 +7,9 @@
 	if(isset($displayfield)){$seldisplayfield=$displayfield;}
 	if(!isset($required)){$required='no';}
 	if(!isset($onchange)){$onchange='yes';}
-	if(!isset($istudentfield)){$istudentfield='';}else{$istudentfield++;}
+	if(!isset($istudentfield)){$istudentfield='0';}else{$istudentfield++;}
 ?>
-	<select id="Displayfield<?php print $istudentfield;?>" 
+<select style="width:90%;" id="Displayfield<?php print $istudentfield;?>" 
 		name="displayfield<?php print $istudentfield;?>"
 	<?php if($onchange=='yes'){print 'onChange="processContent(this);" ';}?> 
 	<?php if($required=='yes'){ print ' class="required" ';} ?>

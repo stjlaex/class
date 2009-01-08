@@ -130,7 +130,7 @@ function twoplusprint_buttonmenu($extrabuttons='',$book=''){
 /**
  * Fills in the little buttons which function on a specific record on
  * a row by row basis, usually as part of a listmenu table. The array
- * imagenuttons contains can contain a stack of buttons to
+ * imagebuttons contains can contain a stack of buttons to
  * generated. Each row in imagebuttons is indexed by its imageclass
  * (which is not really a class as its unique) and attributes of title,
  * name and value.
