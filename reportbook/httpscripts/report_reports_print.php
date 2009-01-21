@@ -47,6 +47,7 @@ if(isset($_POST['wrapper_rid'])){$wrapper_rid=$_POST['wrapper_rid'];}
 			$Reports['Transform']=$reportdefs[0]['report']['transform'];
 			$Reports['Paper']=$reportdefs[0]['report']['style'];
 			$Student['Reports']=nullCorrect($Reports);
+			/* TODO: set a start date */
 			$Student['Reports']['Attendance']=fetchAttendanceSummary($sid,'2008-09-01',$reportdefs[0]['report']['date']);
 			$Students['Student'][]=$Student;
 			}

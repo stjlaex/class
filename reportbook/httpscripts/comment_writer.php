@@ -45,9 +45,10 @@ else{
 	$inmust=$Comment['id_db'];
 	}
 
-/* Now if this report links to an assessment profile, the statement */
-/* bank gets all of the achieved statements. */
-/* TODO: We only have one working profile!*/
+/* Now if this report links to an assessment profile, the statement
+ * bank gets all of the achieved statements.
+ * TODO: We only have one working profile!
+ */
 if($reportdef['report']['profile_name']=='FS Steps'){
 		$profile_name=$reportdef['report']['profile_name'];
 		/* This has to iterate over all strands, here called the profilepids,
@@ -91,8 +92,9 @@ if($reportdef['report']['profile_name']=='FS Steps'){
 		$StatementBank['Area'][$profilepid]['Levels']=array();
 		}
 
-/* Now if the connection to the statementbank db is turned on then */
-/* grab a set of statements. */
+/* Now if the connection to the statementbank db is turned on then
+ * grab a set of statements. 
+ */
 $dbstat=connect_statementbank();
 if($dbstat!=''){
 	$stage='';
