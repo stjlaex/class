@@ -1,3 +1,19 @@
+Version ClaSS-0.8.63 release (2009/01/22)
+-----------------------------------------
+
+Fix for rare erroneous display of a register as complete when current
+event is not set.
+
+Fix to the cilumn filter in the MarkBook, the new multiple profiles
+had introduced a problem when anything other than 'All' was selected.
+
+Fix to the display of mrs for in the title field caused by an error in
+the lang file.
+
+Labelling of the column filter changed to empahsise R for Reports, as
+T for tracking is moving to the P for profile assessments.
+
+
 Version ClaSS-0.8.62 release (2009/01/08)
 -----------------------------------------
 

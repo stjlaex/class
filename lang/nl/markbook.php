@@ -6,7 +6,6 @@ $string['newmark']='Nieuwe punten';
 $string['classwork']='Klaswerk';
 $string['homework']='Huiswerk';
 $string['existinghomework']='Bestaand huiswerk';
-$string['formalassessments']='Opvolging, rapportering en evaluatie';
 $string['dateofmark']='Datum van de punten';
 $string['detailsofmark']='Details van de punten';
 $string['classesthatusethismark']='Klassen die deze quotering  gebruiken';

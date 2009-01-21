@@ -5,7 +5,6 @@ $string['mark']='Mark';
 $string['newmark']='New mark';
 $string['classwork']='Classwork';
 $string['existinghomework']='Existing homework';
-$string['formalassessments']='Tracking, reports and assessments';
 $string['dateofmark']='Date of mark';
 $string['detailsofmark']='Details of mark';
 $string['classesthatusethismark']='Classes that use this mark';

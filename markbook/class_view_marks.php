@@ -65,8 +65,10 @@ for($i=0;$i<sizeof($cids);$i++){
  */
 
 	if($umnfilter!='hw' and $umnfilter!='cw' and $umnfilter!='%' and $umnfilter!='t'){
-		$profile=$profiles[$umnfilter];
+		/* umnfilter will have a value of pN where N is the index of the profile */
+		$profile=$profiles[substr($umnfilter,1)];
 		$umntype='p';
+		//trigger_error($profile['name'].':'.substr($umnfilter,1),E_USER_WARNING);
 		}
 	else{$umntype=$umnfilter;}
 
@@ -85,7 +87,6 @@ for($i=0;$i<sizeof($cids);$i++){
 		$profile_name=$profile['name'];
 		$profile_pidstatus=$profile['component_status'];
 		$profile_marktype=$profile['rating_name'];
-		trigger_error($profile_name.':'.$profile_crid.':'.':',E_USER_WARNING);
 		$d_marks=mysql_query("SELECT $table.* FROM $table WHERE $table.marktype='score'
 				AND $table.assessment='yes' AND $table.id=ANY(SELECT
 				eidmid.mark_id FROM eidmid JOIN assessment ON

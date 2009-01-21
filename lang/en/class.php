@@ -311,6 +311,6 @@ $string['section']='Section';
 $string['homework']='Homework';
 $string['reload']='Reload';
 $string['about']='About ClaSS';
-$string['']='';
+$string['assessmentprofile']='Profile';
 $string['']='';
 ?>

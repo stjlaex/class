@@ -215,22 +215,34 @@ function get_event($date='',$session='',$secid=1){
 	return $event;
 	}
 
-function check_communityAttendance($community,$eveid=''){
+/**
+ *
+ * Returns the number of sids in a community and if eveid is for a
+ * vliad event then the number present and number absent.
+ *
+ */
+function check_communityAttendance($community,$eveid=-1){
 	if($community['id']!=''){$comid=$community['id'];}
 	else{$comid=updateCommunity($community);}
 	$nosids=countin_community($community);
-	$d_att=mysql_query("SELECT COUNT(attendance.student_id) FROM attendance JOIN comidsid
+
+	/* If no register yet taken for current session then $eveid=0 so set sensible defaults*/
+	$nop=0;$noa=0;
+
+	if($eveid>0){
+		$d_att=mysql_query("SELECT COUNT(attendance.student_id) FROM attendance JOIN comidsid
 							 ON comidsid.student_id=attendance.student_id 
 							 WHERE comidsid.community_id='$comid'  
 							 AND (comidsid.leavingdate='0000-00-00' OR comidsid.leavingdate IS NULL) 
 							 AND attendance.event_id='$eveid' AND attendance.status='a'");
-	$noa=mysql_result($d_att,0);
-	$d_att=mysql_query("SELECT COUNT(attendance.student_id) FROM attendance JOIN comidsid
+		$noa=mysql_result($d_att,0);
+		$d_att=mysql_query("SELECT COUNT(attendance.student_id) FROM attendance JOIN comidsid
 							 ON comidsid.student_id=attendance.student_id 
 							 WHERE comidsid.community_id='$comid' 
 							 AND (comidsid.leavingdate='0000-00-00' OR comidsid.leavingdate IS NULL) 
 							 AND attendance.event_id='$eveid' AND attendance.status='p'");
-	$nop=mysql_result($d_att,0);
+		$nop=mysql_result($d_att,0);
+		}
 
 	$results=array($nosids,$nop,$noa);
 	return $results;

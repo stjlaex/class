@@ -75,6 +75,7 @@ if(isset($_POST['cids'])){
 		}
 	}
 
+
 /* If the component selection has changed then update*/
 if(isset($_POST['pid'])){
 	if($_SESSION['pid']!=$_POST['pid']){
@@ -96,6 +97,7 @@ if(isset($_POST['umnfilter'])){
 	if($displaymid==0){$displaymid=-1;}
 	}
 
+
 /* Now initialise all of the variables from the session data*/
 if(!isset($_SESSION['cids'])){$_SESSION['cids']=array();}
 $cids=$_SESSION['cids'];
@@ -111,6 +113,12 @@ $pid=$_SESSION['pid'];
 if(!isset($_SESSION['umnfilter']) or 
 	($cidsno>1 and $_SESSION['umnfilter']=='hw')){$_SESSION['umnfilter']='%';}
 $umnfilter=$_SESSION['umnfilter'];
+if(sizeof($profiles)==0 and substr($umnfilter,0,1)=='p'){
+	/* If a profile was previously selected but no profiles now available... */
+	$umnfilter='%';
+	$_SESSION['umnfilter']=$umnfilter;
+	if($displaymid==0){$displaymid=-1;}
+	}
 if(!isset($_SESSION['umnrank'])){$_SESSION['umnrank']='surname';}
 $umnrank=$_SESSION['umnrank'];
 $attdate=date('Y-m-d',mktime(0,0,0,date('m'),date('d'),date('Y')));
@@ -175,7 +183,7 @@ if(isset($umns)){
 		  <input name="tid" type="hidden" value="<?php print $tid;?>">
 			<input name="current" type="hidden" value="class_view.php">		
 			<label>&nbsp;CW</label>
-			  <input  title="<?php print_string('classwork',$book);?>" 
+			  <input title="<?php print_string('classwork',$book);?>" 
 				type="radio" name="umnfilter"
 				value="cw" <?php if($umnfilter=='cw'){print 'checked';}?>
 				onchange="document.umnfilterchoice.submit();" />
@@ -194,8 +202,8 @@ if(isset($umns)){
 <?php
 			}
 ?>
-			<label>&nbsp;T</label>
-				<input  title="<?php print_string('formalassessments',$book);?>" 
+			<label>&nbsp;R</label>
+				<input title="<?php print get_string('reports',$book).' & '.get_string('assessments',$book);?>" 
 					type="radio" name="umnfilter" 
 					value="t" <?php if($umnfilter=='t'){print 'checked';}?>
 					onchange="document.umnfilterchoice.submit();" />
@@ -205,10 +213,11 @@ if(isset($umns)){
 		if(sizeof($profiles)>0){
 			foreach($profiles as $choiceprono => $choiceprofile){
 ?>
-				<label>&nbsp;P<?php print $choiceprono;?></label>
-				<input  title="<?php print $choiceprofile['name'];?>" 
+				<label>&nbsp;<?php print substr($choiceprofile['name'],0,2);?>P</label>
+				<input title="<?php print $choiceprofile['name'].' '.get_string('assessmentprofile',$book);?>" 
 					type="radio" name="umnfilter" 
-					value="<?php print $choiceprono;?>" <?php if($umnfilter==$choiceprono){print 'checked';}?>
+					value="p<?php print $choiceprono;?>" 
+					<?php if($umnfilter=='p'.$choiceprono){print 'checked';}?>
 					onchange="document.umnfilterchoice.submit();" />
 <?php
 

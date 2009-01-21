@@ -10,6 +10,7 @@ $choice='completion_list.php';
 $registration_coms=list_communities('form');
 $eveid=$currentevent['id'];
 
+
 include('scripts/sub_action.php');
 twoplusprint_buttonmenu();
 ?>
@@ -32,6 +33,8 @@ twoplusprint_buttonmenu();
 		  <th><?php print_string('absent',$book);?></th>
 		</tr>
 <?php
+
+
 	while(list($index,$com)=each($registration_coms)){
 		list($nosids,$nop,$noa)=check_communityAttendance($com,$eveid);
 		if($nosids>0){
