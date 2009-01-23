@@ -62,7 +62,7 @@ function file_putcsv($handle, $row, $fd=',', $quot='"'){
 /**
  * This is because the PEAR xml stuff deals with empty strings by
  * closing a tag < /> like so in stead of <></> like so and the xslt
- * chokes. So, yhis is called before an array is transformed to xml to
+ * chokes. So, this is called before an array is transformed to xml to
  * turn all empty strings to a single space to get <> </>.
  */
 function nullCorrect($array){
@@ -1338,8 +1338,6 @@ function array_filter_fields($startarray,$fields){
  * Taken from moodlelib and adapted for ClaSS
  *
  * @uses $CFG
- * @uses $_SERVER
- * @uses SITEID
  * @param recipient 
  * @param from 
  * @param string $subject plain text subject line of the email

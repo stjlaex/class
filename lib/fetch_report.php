@@ -43,17 +43,21 @@ function fetchSubjectReports($sid,$reportdefs){
  			ksort($assbids);
 
 			/**
-			 *
+			 * List the assessments for any linked profile
 			 */
 			if(isset($reportdef['report']['profile_name']) 
 			   and $reportdef['report']['profile_name']!='' and $reportdef['report']['profile_name']!=' '){
 				$profile_name=$reportdef['report']['profile_name'];
-				//trigger_error('PROFILE:'.$reportdef['report']['profile_name'],E_USER_WARNING);
-				$d_a=mysql_query("SELECT id FROM assessment WHERE
-									assessment.profile_name='$profile_name';");
+				$profile_crid=$reportdef['report']['course_id'];
+				$d_a=mysql_query("SELECT id FROM assessment WHERE course_id='$profile_crid' AND
+									profile_name='$profile_name';");
 				$profile_asseids=array();
 				while($a=mysql_fetch_array($d_a,MYSQL_ASSOC)){
-					$profile_asseids[]=$a['id'];
+					/* Do not include any eid that is linked explicity
+					 * with the report - probably current attainment -
+					 * the profile only deals with the istory
+					 */
+					if(!array_key_exists($a['id'],$asseids)){$profile_asseids[]=$a['id'];}
 					}
 				if(sizeof($profile_asseids)==0){$profile_name='';}
 				}
@@ -146,9 +150,15 @@ function fetchSubjectReports($sid,$reportdefs){
 						  $ProfileAssessments['Assessment']=array();
 						  foreach($profile_asseids as $index=>$eid){
 							  $PAsses=(array)fetchAssessments_short($sid,$eid,$bid,$pid);
-							  $PAsses=nullCorrect($PAsses);
-							  $ProfileAssessments['Assessment']=array_merge($ProfileAssessments['Assessment'],$PAsses);
+							  if(sizeof($PAsses)>0){
+								  $PAsses=nullCorrect($PAsses);
+								  $ProfileAssessments['Assessment']=array_merge($ProfileAssessments['Assessment'],$PAsses);
+								  }
 							  }
+						  if(sizeof($ProfileAssessments['Assessment'])==0){
+							  $ProfileAssessments['Assessment']=nullCorrect($ProfileAssessments['Assessment']);
+							  }
+						  
 						  $Report['ProfileAssessments']=$ProfileAssessments;
 						  }
 

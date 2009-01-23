@@ -183,6 +183,7 @@ function xmlarray_indexed_check($inarray,$indexname){
 		$inarray[$indexname]=array($inarray[$indexname]);
 		}
 	else{$inarray[$indexname]=array();}
+
 	return $inarray;
 	}
 ?>

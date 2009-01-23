@@ -71,7 +71,7 @@ $doing_epf=false;
 			$filename='Report'.$pubdate.'_'.$sid.'_'.$wrapper_rid.'.html';
 			$attachments=array();
 			$attachments[]=array('filepath'=>$CFG->installpath.'/reports/'.$filename,
-							 'filename'=>$filename);
+								 'filename'=>$filename);
 			while(list($index,$Contact)=each($Contacts)){
 				$mailing=$Contact['ReceivesMailing']['value'];
 				if(($mailing=='1' or $mailing=='2') and $Contact['EmailAddress']['value']!=''){

@@ -13,7 +13,12 @@ include('scripts/set_book_vars.php');
 <?php
 	$rfids=array();
 	$ryids=array();
-	if($r>-1){
+	/**
+	 * All scripts except report_reports is sensitive to wether an
+	 * academic responsibility is selected, if it is students can be
+	 * listed by cohort, otherwise by pastoral groups.
+	 */
+	if($r>-1 and $current!='report_reports.php'){
 		$rcrid=$respons[$r]['course_id'];
 	 	$rbid=$respons[$r]['subject_id'];
 		$ryid=$respons[$r]['yeargroup_id'];
