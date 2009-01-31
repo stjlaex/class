@@ -209,6 +209,8 @@ $string['forms']='Forms';
 $string['credit']='Credit';
 $string['debit']='Debit';
 $string['subbudget']='Sub-Budget';
+$string['creditnote']='Credit note';
+$string['reopen']='Reopen';
 $string['']='';
 $string['']='';
 ?>

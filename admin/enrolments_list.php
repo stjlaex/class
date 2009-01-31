@@ -32,12 +32,12 @@ if(isset($_POST['enrolstage'])){$enrolstage=$_POST['enrolstage'];}
 			$yid=$com['name'];
 			$current_enrolstatus='C';
 			}
-		elseif($comtype=='alumni'){
-			$yid=$com['name'];
-			$current_enrolstatus='P';
-			}
+		//		elseif($comtype=='alumni'){
+		//	$yid=$com['name'];
+		//	$current_enrolstatus='P';
+		//	}
 		else{
-			list($current_enrolstatus,$junkyear)=split(':',$com['name']);
+			list($current_enrolstatus,$yid)=split(':',$com['name']);
 			}
 		}
 	else{
@@ -126,11 +126,9 @@ if(isset($_POST['enrolstage'])){$enrolstage=$_POST['enrolstage'];}
 			<th>
 <?php
 		   	$required='no';$multi='1';
-		   	if($comtype=='allapplied'){
+		   	if($comtype=='allapplied' or 
+			   $enrolstatus=='year' or $enrolstatus='alumni'){
 				print_string('enrolstatus','infobook');
-				}
-		   	elseif($enrolstage=='C'){
-				print_string('current','infobook');
 				}
 			elseif($enrolstage=='RE'){
 				print_string('reenroling','infobook');

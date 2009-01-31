@@ -298,10 +298,12 @@ function set_community_stay($sid,$community,$startdate,$enddate){
 	return $comid;
 	}
 
+
 /**
  * Simply does what it says. In very rare occasions (ie. applications) 
  * the values are not counted but are instead static values stored in 
  * the community table itself.
+ *
  */
 function countin_community($community,$enddate='',$startdate='',$static=false){
 	if(isset($community['id']) and $community['id']!=''){$comid=$community['id'];}

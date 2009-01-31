@@ -9,6 +9,12 @@ The use of cohorts for report_reports is confusing because it doesn't
 then include the wrapper and the reports are not thought of as course
 specific anyway. Its been eliminated.
 
+Added a reopen action button for closed orders.
+
+Fixed navigation between enrol years when editing enrolment columns.
+
+Fix to budget values in enrolments' table.
+
 
 Version ClaSS-0.8.63 release (2009/01/22)
 -----------------------------------------

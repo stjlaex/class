@@ -68,10 +68,9 @@ if(isset($orderaction)){
 		detail='$detail', actiondate='$todate', 
 		action='$orderaction', teacher_id='$tid'");
 	$entryn=mysql_insert_id();
-
-
-	//	$result[]=get_string('order',$book).': '. 
-	//		get_string(displayEnum($orderaction,'action'),$book);
+	}
+elseif($sub=='reopen'){
+	mysql_query("DELETE FROM orderaction WHERE order_id='$ordid' AND action='5';");
 	}
 
 

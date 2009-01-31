@@ -406,7 +406,7 @@ function fetchStudent($sid='-1'){
  */
 function fetchContacts($sid='-1'){
 	$Contacts=array();
-	$d_gidsid=mysql_query("SELECT * FROM gidsid WHERE student_id='$sid' ORDER BY priority");
+	$d_gidsid=mysql_query("SELECT * FROM gidsid WHERE student_id='$sid' ORDER BY priority;");
 	while($gidsid=mysql_fetch_array($d_gidsid,MYSQL_ASSOC)){
 		$Contacts[]=fetchContact($gidsid);
 		}
@@ -421,7 +421,7 @@ function fetchContacts_emails($sid='-1'){
 	$Contacts=array();
 	$d_gidsid=mysql_query("SELECT * FROM gidsid JOIN guardian ON
 				guardian.id=gidsid.guardian_id WHERE guardian.email IS
-				NOT NULL AND gidsid.student_id='$sid' AND gidsid.mailing='1'");
+				NOT NULL AND gidsid.student_id='$sid' AND gidsid.mailing='1';");
 	while($gidsid=mysql_fetch_array($d_gidsid,MYSQL_ASSOC)){
 		$Contacts[]=fetchContact($gidsid);
 		}
@@ -434,7 +434,7 @@ function fetchContacts_emails($sid='-1'){
  */
 function fetchDependents($gid='-1'){
 	$Dependents=array();
-	$d_gidsid=mysql_query("SELECT * FROM gidsid WHERE guardian_id='$gid' ORDER BY priority");
+	$d_gidsid=mysql_query("SELECT * FROM gidsid WHERE guardian_id='$gid' ORDER BY priority;");
 	while($gidsid=mysql_fetch_array($d_gidsid,MYSQL_ASSOC)){
 		$Dependent=array();
 		$Dependent['id_db']=$gidsid['student_id'];

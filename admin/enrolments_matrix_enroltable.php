@@ -21,7 +21,7 @@
 			$enrolcols[$colindex]['class']='static';
 			$enrolcols[$colindex]['display']='<a href="admin.php?current=enrolments_edit.php&cancel='.
 							$choice.'&choice='. $choice.'&enrolyear='.$enrolyear. 
-							'&enrolstatus=capacity">'.get_string($enrolcol,$book).'</a>';
+							'&enrolstatus='.$enrolcol.'">'.get_string($enrolcol,$book).'</a>';
 			}
 		else{
 			$enrolcols[$colindex]['display']=get_string($enrolcol,$book);
@@ -155,6 +155,12 @@
 					$accom=get_community($accomid);
 					$cell['value']=$accom['capacity'];
 					}
+				}
+			elseif($enrolcol=='budget'){
+				$budcom=array('id'=>'','type'=>'applied', 
+					   'name'=>$enrolcol.':'.$yid,'year'=>$enrolyear);
+				$budcom['id']=update_community($budcom);
+				$cell['value']=countin_community($budcom,'','',true);
 				}
 			elseif($enrolcol=='spaces'){
 				if($enrolyear==$currentyear){

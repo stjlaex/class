@@ -6,6 +6,7 @@ $action='enrolments_matrix.php';
 $action_post_vars=array('enrolyear');
 
 
+if(isset($_POST['enrolyear'])){$enrolyear=$_POST['enrolyear'];}
 if(isset($_POST['values'])){$values=(array)$_POST['values'];}
 if(isset($_POST['comids'])){$comids=(array)$_POST['comids'];}
 if(isset($_POST['enrolstatus'])){$enrolstatus=$_POST['enrolstatus'];}
@@ -22,9 +23,9 @@ if($sub=='Submit'){
 		}
 
 	while(list($cindex,$comid)=each($comids)){
-			$value=$values[$cindex];
-			mysql_query("UPDATE community SET $field='$value' WHERE id='$comid';");
-			}
+		$value=$values[$cindex];
+		mysql_query("UPDATE community SET $field='$value' WHERE id='$comid';");
+		}
 	}
 
 include('scripts/redirect.php');

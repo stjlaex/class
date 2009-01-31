@@ -29,7 +29,14 @@ three_buttonmenu();
 			<?php print_string('yeargroup',$book); ?>
 		  </th>
 		  <th style="width:50%;">
-			<?php print_string(displayEnum($enrolstatus,'enrolstatus'),$book); ?>
+<?php
+	if($enrolstatus=='budget' or $enrolstatus=='capacity'){ 
+		print_string($enrolstatus,$book);
+		}
+	else{
+		print_string(displayEnum($enrolstatus,'enrolstatus'),$book);
+		}
+?>
 		  </th>
 		</tr>
 		<tr>

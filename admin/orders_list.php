@@ -148,6 +148,7 @@ if($budid!=-1){
 						all_extrabuttons($actionbuttons,
 										 $book,'clickToAction(this)','class="rowaction" ');
 						}
+
 ?>
 			</td>
 		  </tr>
@@ -234,10 +235,13 @@ if($budid!=-1){
 				</label>
 				<input style="width:30em;" name="detail<?php print $ordid;?>" value="" />
 <?php
-			rowaction_buttonmenu($imagebuttons,$actionbuttons,$book);
-						//						    all_extrabuttons($actionbuttons,
-						//				 $book,'clickToAction(this)','class="rowaction" ');
+						rowaction_buttonmenu($imagebuttons,$actionbuttons,$book);
 						}
+					}
+				elseif($perms['x']==1){
+					$actionbuttons['reopen']=array('name'=>'process',
+														   'value'=>'reopen');
+					rowaction_buttonmenu($imagebuttons,$actionbuttons,$book);
 					}
 ?>
 			</td>

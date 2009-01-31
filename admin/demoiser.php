@@ -112,7 +112,7 @@ function generate_random_name($gender){
 		if(mysql_query("UPDATE $table SET surname='$name[2]',
 			forename='$name[0]', middlenames='$name[1]', title='$title',
 			profession='', email='', companyname='', nationality='', language='',
-			dob='', epfusername='' WHERE id='$id'")){}
+			dob='', epfusername='', note='', code='' WHERE id='$id'")){}
 		else{$error[]=mysql_error();}
 		}
 
@@ -139,12 +139,12 @@ function generate_random_name($gender){
 	$trows=tableRead($table);
 	while(list($index,$row)=each($trows)){
 		$id=$row['student_id'];
-		if(mysql_query("UPDATE $table SET formerupn='20987',
+		if(mysql_query("UPDATE $table SET formerupn='20987', otherpn1='', otherpn2='',
 			ethnicity='', email='', phonenumber='', countryoforigin='',
 			language='EN', religion='', incare='N', appnotes='', appdate='',
 			staffchild='N', entrydate='2001-04-01', leavingdate='', nationality='GB', 
-			appcategory='', secondnationality='', medical='N', epfusername=''
-				WHERE student_id='$id'")){}
+			appcategory='', secondnationality='', medical='N', epfusername='', appnotes='', appdate='',
+				staffchild='N' WHERE student_id='$id'")){}
 		else{$error[]=mysql_error();}
 		}
 
