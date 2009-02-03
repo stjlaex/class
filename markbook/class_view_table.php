@@ -73,16 +73,13 @@ $viewtable=array();
 			/*Mark is average of several score values*/
 			$scoreclass='grade other';
 			$avmids=explode(' ',$midlist[$c]);
-			$d_markdef=mysql_query("SELECT markdef.scoretype FROM markdef
-				JOIN mark ON markdef.name=mark.def_name WHERE mark.id='$avmids[0]';");
-			$avtype=mysql_fetch_array($d_markdef,MYSQL_ASSOC);
-			if($avtype['scoretype']=='grade'){
+			if($umns[$c]['scoretype']=='grade'){
 				$grading_grades=$scoregrades[$c];
 				$gradesum=0;
 				$gradecount=0;
 				for($c2=0;$c2<sizeof($avmids);$c2++){
 					$d_score=mysql_query("SELECT grade FROM score 
-									WHERE mark_id='$avmids[$c2]' AND student_id='$sid';");
+		   					WHERE mark_id='$avmids[$c2]' AND student_id='$sid';");
 					$grade=mysql_fetch_array($d_score,MYSQL_ASSOC);
 					if(isset($grade['grade'])){
 						$gradesum=$gradesum+$grade['grade'];
@@ -90,16 +87,15 @@ $viewtable=array();
 						}
 					}
 				if($gradecount>0){
-						$score_grade=$gradesum/$gradecount;
-						$score_grade=round($score_grade);
-						}
-				else{unset($score_grade);}
-				$grade=scoreToGrade($score_grade,$grading_grades);
-				$out=$grade;
-				if(isset($score_grade)){$outrank=$score_grade;}
-				else{$outrank=-100;}
+					$score_grade=$gradesum/$gradecount;
+					$score_grade=round($score_grade);
+					$grade=scoreToGrade($score_grade,$grading_grades);
+					$out=$grade;
+					$outrank=$score_grade;
+					}
+				else{$outrank=-100;$out='';unset($score_grade);}
 			    }
-			elseif($avtype['scoretype']=='percentage'){
+			elseif($umns[$c]['scoretype']=='percentage'){
 				$scoresum=0;
 				$scorecount=0;
 				for($c2=0;$c2<sizeof($avmids);$c2++){

@@ -34,14 +34,6 @@ $displayfields_width=60/$displayfields_no;
 $extrabuttons=array();
 if($_SESSION['role']=='office' or $_SESSION['role']=='admin'){
 	$displayname='DisplayFullSurname';
-	if(isset($CFG->books['external'][$_SESSION['role']]['webmail'])){
-		$extrabuttons['emailstudents']=array('name'=>'current',
-											 'title'=>'emailstudents',
-											 'value'=>'email_students.php');
-		$extrabuttons['emailcontacts']=array('name'=>'current',
-											 'title'=>'emailstudents',
-											 'value'=>'email_contacts.php');
-		}
    	$extrabuttons['addresslabels']=array('name'=>'current',
 										 'title'=>'printaddresslabels',
 										 'onclick'=>'checksidsAction(this)',
@@ -164,12 +156,29 @@ two_buttonmenu($extrabuttons,$book);
 	reset($sids);
 ?>
 <tr>
-<th colspan="<?php print $displayfields_no+3;?>">&nbsp;</th>
+<th colspan="<?php print $displayfields_no+3;?>">&nbsp;
+<?php
+if($_SESSION['role']=='office' or $_SESSION['role']=='admin'){
+	$listname='messageoption';$listlabel='';$liststyle='width:16em;float:left;';
+	include('scripts/set_list_vars.php');
+	$options=array(
+			   array('id'=>'smscontacts','name'=>'SMS Contacts'),
+			   array('id'=>'emailcontacts','name'=>'Email contacts')
+			   //,array('id'=>'smsstudents','name'=>'smsstudents')
+			   //,array('id'=>'emailstudents','name'=>'emailstudents')
+			   );
+	list_select_list($options,$listoptions,$book);
+	$buttons=array();
+	$buttons['message']=array('name'=>'current','title'=>'message','value'=>'email_contacts.php');
+	all_extrabuttons($buttons,'infobook','processContent(this)');
+		}
+?>
+</th>
 <th>
 <?php
-$extrabuttons=array();
-$extrabuttons['addcolumn']=array('title'=>'addcolumn','name'=>'extracol','value'=>'yes');
-all_extrabuttons($extrabuttons,'infobook','processContent(this)')
+	$buttons=array();
+	$buttons['addcolumn']=array('title'=>'addcolumn','name'=>'extracol','value'=>'yes');
+	all_extrabuttons($buttons,'infobook','processContent(this)')
 ?>
 </th>
 </tr>

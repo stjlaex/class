@@ -12,6 +12,8 @@ if(!isset($_SESSION['infosearchgids'])){$_SESSION['infosearchgids']=array();}
 
 if(isset($_GET['gid'])){$_SESSION['infosearchgid']=$_GET['gid'];}
 if(isset($_POST['gid'])){$_SESSION['infosearchgid']=$_POST['gid'];}
+if(isset($_GET['gids'])){$_SESSION['infosearchgids']=$_GET['gids'];}
+if(isset($_POST['gids'])){$_SESSION['infosearchgids']=$_POST['gids'];}
 
 $gids=$_SESSION['infosearchgids'];
 $gid=$_SESSION['infosearchgid'];

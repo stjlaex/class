@@ -158,5 +158,13 @@ $string['code']='Code';
 $string['foreign']='Foreign';
 $string['addcolumn']='Add column';
 $string['personalnumber']='Personal number';
+$string['from']='From';
+$string['to']='To';
+$string['subject']='';
+$string['attachment']='Attachment';
+$string['message']='Message';
+$string['bcc']='BCC';
+$string['']='';
+$string['']='';
 $string['']='';
 ?>

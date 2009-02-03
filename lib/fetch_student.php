@@ -574,7 +574,7 @@ function fetchContact($gidsid=array('guardian_id'=>'-1','student_id'=>'-1','prio
 
 	/*******ContactsPhones****/
 	$Phones=array();
-	$d_phone=mysql_query("SELECT * FROM phone WHERE some_id='$gid' ORDER BY phonetype");
+	$d_phone=mysql_query("SELECT * FROM phone WHERE some_id='$gid' ORDER BY phonetype;");
 	while($phone=mysql_fetch_array($d_phone,MYSQL_ASSOC)){
 		$Phones[]=fetchPhone($phone);
 		}

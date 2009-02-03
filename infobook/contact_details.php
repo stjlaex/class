@@ -81,7 +81,7 @@ if($contactno>-1){
 elseif($contactno==-1){
 	/* The select existing contact box when start with a blank new contact form.*/
 	$d_guardian=mysql_query("SELECT id, CONCAT(surname,', ',forename)
-								AS name FROM guardian ORDER BY surname");
+								AS name FROM guardian ORDER BY surname;");
 ?>
   <div id="heading">
 	<form id="headertoprocess" name="headertoprocess" 

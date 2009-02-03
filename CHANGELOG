@@ -1,4 +1,4 @@
-Version ClaSS-0.8.64 release (2009/01/30)
+Version ClaSS-0.8.64 release (2009/02/03)
 -----------------------------------------
 
 Fix to allow for assessment profiles which have the same name but
@@ -14,6 +14,11 @@ Added a reopen action button for closed orders.
 Fixed navigation between enrol years when editing enrolment columns.
 
 Fix to budget values in enrolments' table.
+
+Improved the logic of averaging columns in the MarkBook. Plus a
+related fix to the special profile column so it doesn't get confused
+by columns which are not part of the running average.
+
 
 
 Version ClaSS-0.8.63 release (2009/01/22)

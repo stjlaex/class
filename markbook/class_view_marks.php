@@ -2,9 +2,8 @@
 /**												class_view_marks.php
  *
  *	Fetch information about the classes (indexed by i)
- *		- first the teachers
- *  Each column and all its associated info has an entry in the array
- *	$umns.
+ *
+ *  Each column and all its associated info has an entry in the array $umns.
  *
  */
 
@@ -68,7 +67,6 @@ for($i=0;$i<sizeof($cids);$i++){
 		/* umnfilter will have a value of pN where N is the index of the profile */
 		$profile=$profiles[substr($umnfilter,1)];
 		$umntype='p';
-		//trigger_error($profile['name'].':'.substr($umnfilter,1),E_USER_WARNING);
 		}
 	else{$umntype=$umnfilter;}
 
@@ -103,7 +101,8 @@ for($i=0;$i<sizeof($cids);$i++){
 		$c=0;
 		}
 
-	/* Store each mark's attributes in arrays for use later in each cell
+	/*
+	 * Store each mark's attributes in arrays for use later in each cell
 	 * TODO: these are stored twice for historical reasons! 
 	 */
 	$c_marks=mysql_num_rows($d_marks); /*number of marks for class*/
@@ -140,6 +139,15 @@ for($i=0;$i<sizeof($cids);$i++){
 					$scoregrades[$c]=mysql_result($d_grading,0);
 					}
 				else{$scoregrades[$c]='';}
+
+				/* Grab the scoretype of the columns we are averaging */
+				$avmids=explode(' ',$mark['midlist']);
+				$lastmid=$avmids[count($avmids)-1];//use the last one
+				$d_markdef=mysql_query("SELECT markdef.scoretype FROM markdef
+				JOIN mark ON markdef.name=mark.def_name WHERE mark.id='$lastmid';");
+				$scoretype[$c]=mysql_result($d_markdef,0);
+				$umn['scoretype']=$scoretype[$c];
+
 				}
 			elseif($marktype[$c]=='level'){
 				/*no markdef for a level, have to get grading_name from the levelname*/
@@ -173,6 +181,12 @@ for($i=0;$i<sizeof($cids);$i++){
 				}
 		$c++;
 		}
+
+	/* Everything is different if we are viewing a profile. A column 0
+	   will be added which is the average for all of the other profile
+	   columns. this does not exist in the markbook and so needs to be
+	   dynamically generated.
+	*/
 	if($umntype=='p'){
 		$c_marks++;
 		$profile_midlist='';
@@ -188,7 +202,7 @@ for($i=0;$i<sizeof($cids);$i++){
 				}
 			}
 		else{
-			/* Just filter for one pid and its strands*/
+			/* Just filter for one pid and its strands. */
 			$profile_pids[]=$pid;
 			$strands=list_subject_components($pid,$profile_crid,'V');
 			while(list($sindex,$strand)=each($strands)){
@@ -198,38 +212,52 @@ for($i=0;$i<sizeof($cids);$i++){
 				}
 			}
 
-		for($iumn=1;$iumn<$c_marks;$iumn++){
+		/* Collect the midlist columns to be averaged. */
+		$first_profile_iumn=0;
+		for($iumn=($c_marks-1);$iumn>0;$iumn--){
 			if(in_array($umns[$iumn]['component'],$profile_pids)){
-				$profile_midlist.=$umns[$iumn]['id'].' ';
+				if($first_profile_iumn==0){
+					$first_profile_iumn=$iumn;
+					}
+				/* Only including if it has the right grading scheme. */
+				if($scoregrading[$iumn]==$scoregrading[$first_profile_iumn]){
+					$profile_midlist.=$umns[$iumn]['id'].' ';
+					}
 				}
 			}
+		$profile_midlist=trim($profile_midlist);
 
 		$marktype=$profile_marktype;
 		if($marktype==''){
-			/* The derivation of the profile summary columns is now in
+			/* TODO: The derivation of the profile summary columns is now in
 			   the catregorydef table this clause is just for backward
-			   compatibility. */
+			   compatibility and should probably be removed? */
 			if($profile_name=='FS Steps'){$marktype='tally';}
 			else{$marktype='sum';}
 			}
 
-		$profile_midlist=trim($profile_midlist);
-		$scoregrades[0]=$scoregrades[1];
-		$scoregrading[0]=$scoregrading[1];
+
+		/* Give the profile column the same properties as the first column in the profile 
+		 * Use the first because the latter ones could special columns for estmated grades 
+		 * and have different properties. 
+		 */
+		$scoregrades[0]=$scoregrades[$first_profile_iumn];
+		$scoregrading[0]=$scoregrading[$first_profile_iumn];
+		$scoretype[0]=$scoretype[$first_profile_iumn];
 		$mid[0]=-1;
-		$mark_total[0]=$mark_total[1];
+		$mark_total[0]=$mark_total[$first_profile_iumn];
 		$marktype[0]=$marktype;
-		$lena[0]=$lena[1];
+		$lena[0]=$lena[$first_profile_iumn];
 		$midlist[0]=$profile_midlist;
 		$umns[0]=array('id'=>-1, 
 					   'mark_total'=>'', 
-					   'marktype' => $marktype,
-					   'scoretype' => '',
+					   'marktype'=>$marktype,
+					   'scoretype'=>$scoretype[$first_profile_iumn],
 					   'midlist'=>$profile_midlist,
 					   'def_name'=>'', 
 					   'topic'=>$profile_name, 
 					   'entrydate'=>date('Y-m-d'),
-					   'lena'=>'', 
+					   'lena'=>'',
 					   'comment'=>'',
 					   'assessment'=>'no',
 					   'component'=>$pid
