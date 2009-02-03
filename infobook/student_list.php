@@ -162,11 +162,11 @@ if($_SESSION['role']=='office' or $_SESSION['role']=='admin'){
 	$listname='messageoption';$listlabel='';$liststyle='width:16em;float:left;';
 	include('scripts/set_list_vars.php');
 	$options=array(
-			   array('id'=>'smscontacts','name'=>'SMS Contacts'),
-			   array('id'=>'emailcontacts','name'=>'Email contacts')
-			   //,array('id'=>'smsstudents','name'=>'smsstudents')
-			   //,array('id'=>'emailstudents','name'=>'emailstudents')
-			   );
+				   //array('id'=>'smscontacts','name'=>'SMS Contacts')
+				   //,array('id'=>'emailcontacts','name'=>'Email contacts')
+				   //,array('id'=>'smsstudents','name'=>'smsstudents')
+				   //,array('id'=>'emailstudents','name'=>'emailstudents')
+				   );
 	list_select_list($options,$listoptions,$book);
 	$buttons=array();
 	$buttons['message']=array('name'=>'current','title'=>'message','value'=>'email_contacts.php');
