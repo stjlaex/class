@@ -24,6 +24,7 @@ $fromaddress=$CFG->schoolname;
 
 if($recipients and sizeof($recipients)>0){
 	$sentno=0;
+	$failno=0;
 	if($CFG->emailoff!='yes' and $messop=='emailcontacts'){
 
 		$footer='--'. "\r\n" . get_string('guardianemailfooterdisclaimer');
@@ -35,10 +36,12 @@ if($recipients and sizeof($recipients)>0){
 			$message.="\r\n".$messagebody;		
 			$message=utf8_to_ascii($message);
 
-			send_email_to($recipient['email'],$fromaddress,$messagesubject,$message);
+			$email_result=send_email_to($recipient['email'],$fromaddress,$messagesubject,$message);
 
 			//trigger_error('TO: '.$recipient['email'].' SUBJECT:'.$messagesubject.' BODY:'.$message,E_USER_WARNING);
-			$sentno++;
+			if($email_result){$sentno++;}
+			else{$failno++;}
+
 			}
 		$result[]=get_string('emailsentto',$book).' '. $sentno.' '.get_string('contacts',$book);
 		}
@@ -46,17 +49,22 @@ if($recipients and sizeof($recipients)>0){
 
 		foreach($recipients as $key => $recipient){
 			
-			$message="\r\n". $recipient['explanation']. "\r\n";
+			$message=$recipient['explanation']. ":";
 			$message.="\r\n".$messagebody;
 			$message=utf8_to_ascii($message);
 
-			//send_email_to($recipient['email'],$fromaddress,$messagesubject,$message);
+			$sms_result=send_sms_to($recipient['mobile'],$message);
 
-			//trigger_error('TO: '.$recipient['mobile'].' SUBJECT:'.$messagesubject.' BODY:'.$message,E_USER_WARNING);
-			$sentno++;
+			//trigger_error('TO: '.$recipient['mobile'].' BODY:'.$message,E_USER_WARNING);
+
+			if($sms_result){$sentno++;}
+			else{$failno++;}
 			}
+
 		$result[]=get_string('smssentto',$book).' '.$sentno.' '.get_string('contacts',$book);
 		}
+
+	if($failno>0){$result[]=get_string('failedtosend',$book).' '.$failno;}
 
 	}
 else{

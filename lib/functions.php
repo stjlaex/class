@@ -1472,6 +1472,34 @@ function send_email_to($recipient, $from, $subject, $messagetext, $messagehtml='
 
 
 /**
+ * Send an SMS
+ *
+ * @param $recipient  --> The mobile phone number or an array of numbers
+ * @param $message --> plain text for the message
+ * @return boolean|string Returns "true" if sms was sent OK
+ *         or "false" if there was any sort of error.
+ */
+function send_sms_to($phone,$message){
+
+    global $CFG;
+
+    include_once('lib/'.$CFG->smslib); 
+	
+	$phone='630578304';
+
+	$result_xml = peticionCURL($phone, $message);
+
+    if($result_xml==-1){
+		return false;
+		}
+	else{
+        return true;
+		}
+
+	}
+
+
+/**
  * Takes a date string, probably from the database, and makes its user friendly.
  *
  */
