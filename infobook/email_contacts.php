@@ -12,14 +12,14 @@ $_SESSION[$book.'recipients']=array();
 include('scripts/sub_action.php');
 
 if(sizeof($sids)==0){
-	$result[]=get_string('youneedtoselectstudents');
+	$result[]=get_string('youneedtoselectstudents',$book);
 	$action='student_list.php';
 	include('scripts/results.php');
 	include('scripts/redirect.php');
 	exit;
 	}
 if($messop==''){
-	$result[]=get_string('selectamessageoption');
+	$result[]=get_string('selectamessageoption',$book);
 	$action='student_list.php';
 	include('scripts/results.php');
 	include('scripts/redirect.php');
@@ -56,20 +56,23 @@ while(list($index,$sid)=each($sids)){
 				}
 			}
 		elseif($messop=='smscontacts' and $Contact['ReceivesMailing']['value']=='1'){
+			$mobile='';
 			$Phones=(array)$Contact['Phones'];
-			foreach($Phones as $index=>$phone){
+			foreach($Phones as $index=>$Phone){
 				if($Phone['PhoneType']['value']=='M'){
-
+					$mobile=$Phone['PhoneNo']['value'];
 					}
 				}
-			if($Contact['EmailAddress']['value']!=''){
+
+			if($mobile!=''){
 				$recipient['name']=$Contact['DisplayFullName']['value'];
 				$recipient['explanation']=get_string(displayEnum($Contact['Relationship']['value'],'relationship'),'infobook'). ' to '. $Student['DisplayFullName']['value'];
-				$recipient['phone']=$mobile;
+				$recipient['mobile']=$mobile;
+				$recipient['email']=strtolower($Contact['EmailAddress']['value']);
 				$recipients[]=$recipient;
 				$sid_recipient_no++;
 				}
-			elseif($Phone['PhoneNo']['value']==''){
+			elseif($mobile==''){
 				$email_blank_gids[]=$Contact['id_db'];
 				}
 
@@ -91,7 +94,7 @@ three_buttonmenu();
 
   <div id="heading">
 	<label><?php print_string('message',$book);?></label>
-	<?php print_string('contacts',$book);?>
+<?php print_string($messop,$book);?>
   </div>
 
   <div id="viewcontent" class="content">
@@ -101,6 +104,9 @@ three_buttonmenu();
 
 	  <div class="center">
 	  </div>
+<?php
+	if($messop=='emailcontacts'){
+?>
 	  <div class="center">
 		<label for="messagebcc"><?php print_string('bcc',$book);?></label>
 		<input type="text" name="messagebcc" id="messagebcc" size="40" 
@@ -117,6 +123,8 @@ three_buttonmenu();
 //		<label for="messageatt"></label>
 //		<input type="file"  name="messageatt" id="messageatt" size="40" value="" />
 //	  </div>
+
+		}
 ?>
 	  <div class="center">
 		<label for="messagebody"><?php print_string('message',$book);?></label>
@@ -132,22 +140,30 @@ three_buttonmenu();
 	</form>
   </div>
 
+<?php
+	if(sizeof($email_blank_sids)==0){$cssstyle='style="color:#666;"';}
+	else{$cssstyle='style="color:#f60;"';}
+?>
 	<fieldset class="right">
-	  <p><a href="infobook.php?current=contact_list.php
+	<div class="center"><a  <?php print $cssstyle;?> href="infobook.php?current=contact_list.php
 <?php 
 foreach($email_blank_gids as $index=>$gid){
 print '&gids[]='.$gid;
 }
-?>">Contacts who will not receive this <br /> message because they have no address: <?php print sizeof($email_blank_gids);?></a></p>
+?>">Contacts who will not receive this <br /> message because they have no address or mobile: <?php print sizeof($email_blank_gids);?></a></div>
 	</fieldset>
+<?php
+	if(sizeof($email_blank_sids)==0){$cssstyle='style="color:#666;"';}
+	else{$cssstyle='style="color:#f60;"';}
+?>
 	<fieldset class="left">
-	  <p><a href="infobook.php?current=student_list.php
+	  <div class="center"><a <?php print $cssstyle;?> href="infobook.php?current=student_list.php
 <?php 
 foreach($email_blank_sids as $index =>$sid){
 print '&sids[]='.$sid;
 }
 ?>
-">Students who have no contacts <br /> flagged to receive this message: <?php print sizeof($email_blank_sids);?></a></p>
+">Students who have no contacts <br /> flagged to receive this message: <?php print sizeof($email_blank_sids);?></a></div>
 	</fieldset>
 
   </div>

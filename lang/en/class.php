@@ -263,6 +263,7 @@ $string['newreportbinder']='New report binder';
 $string['newsubjectreport']='New subject report';
 $string['removesen']='Remove SEN status';
 $string['emailsentto']='Email sent to';
+$string['smssentto']='SMS sent to';
 $string['enrolstatus']='Enrolment status';
 $string['enquired']='Enquired';
 $string['awaitingtesting']='Awaiting testing';
