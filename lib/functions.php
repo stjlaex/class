@@ -1484,8 +1484,6 @@ function send_sms_to($phone,$message){
     global $CFG;
 
     include_once('lib/'.$CFG->smslib); 
-	
-	$phone='630578304';
 
 	$result_xml = peticionCURL($phone, $message);
 
