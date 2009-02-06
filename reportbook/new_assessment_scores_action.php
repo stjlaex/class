@@ -1,7 +1,7 @@
 <?php
 /**							    new_assessment_scores_action.php
  *
- *	This will import a csv file of assessment scores for a whoole
+ *	This will import a csv file of assessment scores for a whole
  *  bunch of students. The student identified either by their ClaSS
  *  db id (sid) or by their enrolment no. The scores must start from
  *	the second column and the first line has column headers which must be
