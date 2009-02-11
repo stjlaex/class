@@ -29,7 +29,7 @@ if(isset($_POST['extracol']) and $_POST['extracol']=='yes'){
 	}
 
 /* Approximate to saving 40% of table width for fixed columns. */
-$displayfields_width=60/$displayfields_no;
+$displayfields_width=60/$displayfields_no.'%';
 
 
 $extrabuttons=array();
@@ -71,7 +71,7 @@ two_buttonmenu($extrabuttons,$book);
 
 		while(list($index,$displayfield)=each($displayfields)){
 ?>
-		<th style="<?php print $displayfields_width;?>">
+		<th style="width:<?php print $displayfields_width;?>;">
 		<?php include('scripts/list_studentfield.php');?>
 	    </th>
 <?php

@@ -1354,4 +1354,23 @@ function list_address_guardians($aid){
 		}
 	return $guardians;
 	}
+
+/**
+ * Returns the approximate age in years and months given dob.
+ *
+ */
+function get_age($dob){
+
+	$dob_bits=explode('-',$dob);
+
+	/* WARNING: stupidly this needs month-day-year !!!!*/
+	$start_date=gregoriantojd($dob_bits[1], $dob_bits[2], $dob_bits[0]);
+	$end_date=gregoriantojd(date('m'), date('d'), date('Y'));
+
+	$days=$end_date - $start_date;
+	$years=$days/365;
+	$months=$years*12-floor($years)*12;
+
+	return floor($years).' / '.floor($months);
+	}
 ?>

@@ -55,6 +55,9 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 			  <label><?php print_string($Student['DOB']['label'],$book);?></label>
 			  <?php print display_date($Student['DOB']['value']);?>
 			  <br />
+			  <label><?php print_string('age',$book);?></label>
+			  <?php print get_age($Student['DOB']['value']);?>
+			  <br />
 			  <label><?php print_string($Student['Gender']['label'],$book);?></label>
 			  <?php print_string(displayEnum($Student['Gender']['value'],$Student['Gender']['field_db']),$book);?>
 			</td>

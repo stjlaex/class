@@ -71,7 +71,7 @@ CREATE TABLE eidsid (
 	component_id	varchar(10) not null default '',
 	date			date not null default '0000-00-00',
 	resultstatus	enum('', 'I', 'P') not null,
-	result			char(3) not null default '',
+	result			varchar(30) not null default '',
     value		 	float not null default '0.0',
 	examboard		char(3) not null default '',
 	examsyllabus	char(6) not null default '',

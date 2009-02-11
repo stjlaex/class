@@ -167,6 +167,6 @@ $string['attachment']='Attachment';
 $string['message']='Message';
 $string['bcc']='BCC';
 $string['selectamessageoption']='Please select a message option.';
-$string['']='';
+$string['age']='Age';
 $string['']='';
 ?>

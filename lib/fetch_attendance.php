@@ -248,6 +248,10 @@ function check_communityAttendance($community,$eveid=-1){
 	return $results;
 	}
 
+
+/**
+ *
+ */
 function list_absentStudents($eveid='',$lates=0){
 	if($eveid==''){
 		$event=get_event();
