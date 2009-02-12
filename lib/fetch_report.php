@@ -378,7 +378,7 @@ function fetchReportDefinition($rid,$selbid='%'){
 
 	/* Find any categories for this report. */
 	if($report['addcategory']=='yes'){
-		list($ratingnames, $catdefs)=fetchReportCategories($rid);
+		list($ratingnames,$catdefs)=get_report_categories($rid);
 		$RepDef['ratingnames']=$ratingnames;
 		$RepDef['catdefs']=$catdefs;
 		$cattable=array();
@@ -518,7 +518,7 @@ function fetch_reportdefinition($rid,$selbid='%'){
 
 	/* Find any categories for this report. */
 	if($reportdef['report']['addcategory']=='yes'){
-		list($ratingnames, $catdefs)=fetchReportCategories($rid);
+		list($ratingnames, $catdefs)=get_report_categories($rid);
 		$reportdef['ratingnames']=$ratingnames;
 		$reportdef['catdefs']=$catdefs;
 		$cattable=array();
@@ -540,21 +540,22 @@ function fetch_reportdefinition($rid,$selbid='%'){
 
 
 /**
+ *
  * Returns two arrays containing the ratingnames and catdefs for all
  * categories for this report
  *
+ *
  */
-function fetchReportCategories($rid,$bid='%'){
-
+function get_report_categories($rid,$bid='%'){
 	/* TODO: Needs to add subject specific ones IN FUTURE!*/
 	$d_categorydef=mysql_query("SELECT id, name, type, subtype, rating,  
 				 rating_name, comment FROM categorydef LEFT
 				JOIN ridcatid ON ridcatid.categorydef_id=categorydef.id 
 				WHERE ridcatid.report_id='$rid' AND
-				(ridcatid.subject_id LIKE '$bid' OR
+				(ridcatid.subject_id='$bid' OR
 				ridcatid.subject_id='%') AND
 				ridcatid.subject_id!='summary' AND
-				ridcatid.subject_id!='wrapper' AND ridcatid.subject_id!='profile'");
+				ridcatid.subject_id!='wrapper' AND ridcatid.subject_id!='profile';");
    	$catdefs=array();
 	$ratingnames=array();
 	while($catdef=mysql_fetch_array($d_categorydef,MYSQL_ASSOC)){
@@ -562,7 +563,7 @@ function fetchReportCategories($rid,$bid='%'){
 	   	if(!array_key_exists($catdef['rating_name'],$ratingnames)){
 				$ratingname=$catdef['rating_name'];
 				$d_rating=mysql_query("SELECT * FROM rating 
-						WHERE name='$ratingname' ORDER BY value");
+						WHERE name='$ratingname' ORDER BY value;");
 				$ratings=array();
 				while($rating=mysql_fetch_array($d_rating,MYSQL_ASSOC)){
 					$ratings[$rating['value']]=$rating['descriptor'];
@@ -570,6 +571,9 @@ function fetchReportCategories($rid,$bid='%'){
 				$ratingnames[$ratingname]=$ratings;
 				}
 	   	}
+
+	trigger_error($bid,E_USER_WARNING);
+
 	return array($ratingnames,$catdefs);
 	}
 

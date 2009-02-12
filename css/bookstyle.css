@@ -394,6 +394,11 @@ img.clicktodelete {
     padding:1px;
 	cursor:pointer;
 	}
+img.clicktoconfigure { 
+	background-image:url("../images/document-properties.png");
+    padding:1px;
+	cursor:pointer;
+	}
 img.clicktoemail { 
 	background-image:url("../images/mail-message-new.png");
     padding:1px;
@@ -502,14 +507,14 @@ that style*/
 	}
 
 /*extra functionality for a listmenu which lets rows be expanded and collapsed*/
-tr.rowplus th {
+tr.rowplus th:first-child {
 	background-image:url("../images/orangeplus.png");
 	background-repeat:no-repeat;
 	background-position:center;
 	cursor:pointer;
 	background-color:#888888;
 	}
-tr.rowminus th {
+tr.rowminus th:first-child {
 	background-image:url("../images/orangeminus.png");
 	background-repeat:no-repeat;
 	background-position:center;
@@ -539,8 +544,9 @@ tr.revealed div {
     padding:3px;
 	}
 tr.revealed p, tr.revealed ul { 
-	background-color:#ffffff;
+	background-color:#eeeeee;
     margin:0 0 0 2px;
+    padding:0 4px;
     width:80%;
 	}
 td.hidden { 

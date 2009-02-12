@@ -156,10 +156,15 @@ if(isset($_POST['enrolstage'])){$enrolstage=$_POST['enrolstage'];}
 			  <?php print $rown++;?>
 			</td>
 			<td>
+<?php
+		/*TODO: add a little turnover corner for notes*/
+		if($Enrolment['ApplicationNotes']['value']!='' and $Enrolment['ApplicationNotes']['value']!=' '){
+?>
 			  <span title="<?php print display_date($student['dob']). 
 				' <br />'.$Enrolment['ApplicationNotes']['value']. ' - '.
 					display_date($Enrolment['ApplicationDate']['value']);?>">
 <?php
+			}
 		if($perm['w']==1){
 ?>
 			  <a href="infobook.php?current=<?php print
@@ -177,8 +182,13 @@ if(isset($_POST['enrolstage'])){$enrolstage=$_POST['enrolstage'];}
 				   ' '.$student['preferredforename']. 
 				   ' ('.$Enrolment['EnrolNumber']['value'].')';
 			}
+
+		if($Enrolment['ApplicationNotes']['value']!='' and $Enrolment['ApplicationNotes']['value']!=' '){
 ?>
 			  </span>
+<?php
+			}
+?>
 			</td>
 <?php
 		if($current_enrolstatus=='AC'){

@@ -128,22 +128,26 @@ function twoplusprint_buttonmenu($extrabuttons='',$book=''){
 	}
 
 /**
+ *
  * Fills in the little buttons which function on a specific record on
  * a row by row basis, usually as part of a listmenu table. The array
- * imagebuttons contains can contain a stack of buttons to
+ * imagebuttons can contain a stack of buttons to be
  * generated. Each row in imagebuttons is indexed by its imageclass
  * (which is not really a class as its unique) and attributes of title,
  * name and value.
+ *
  */
 function rowaction_buttonmenu($imagebuttons,$extrabuttons='',$book=''){
 
 	if(is_array($imagebuttons)){
 		while(list($imageclass,$attributes)=each($imagebuttons)){
+			if(!isset($attributes['onclick'])){$attributes['onclick']='clickToAction(this)';}
 ?>
-  <button class="rowaction" 
-	title="<?php print_string($attributes['title']);?>" 
-	name="<?php print $attributes['name'];?>" 
-	value="<?php print $attributes['value'];?>" onClick="clickToAction(this)">
+  <button class="rowaction" type="button"
+			title="<?php print_string($attributes['title']);?>" 
+				name="<?php print $attributes['name'];?>" 
+				value="<?php print $attributes['value'];?>" 
+				onClick="<?php print $attributes['onclick'];?>">
 	<img class="<?php print($imageclass);?>" />
   </button>
 <?php

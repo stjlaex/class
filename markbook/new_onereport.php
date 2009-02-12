@@ -1,5 +1,10 @@
 <?php
 /**	   	   								new_onereport.php
+ *
+ * Included as part of new_edit_reports when the complete subject
+ * report of a single sid is being edited. Could include teacher
+ * comments and rating categroies and assessments.
+ *
  */
 		$inc=0;
 		$Report=array();
@@ -89,7 +94,7 @@
 			else{
 				$Comment=$Report['Comments']['Comment'][$entryn];
 				$inmust=$Comment['id_db'];
-				if($totalentryn<3){
+				if($totalentryn<1){
 					$rowstate='rowminus';
 					$rowclass='revealed';
 					}
@@ -109,9 +114,9 @@
 	<tr onClick="clickToReveal(this)" class="<?php print $rowstate;?>" 
 					id="<?php print $openId.'-'.$rown++;?>">
 	  <th>&nbsp</th>
-	  <td><?php print_string('teachercomment');?>:</td>
-	  <td><?php print $Comment['Teacher']['value'];?></td>
-	  <td id="icon<?php print $openId;?>" class="">		  
+	  <th><?php print_string('teachercomment');?>:</th>
+	  <td><div class="special"><?php print $Comment['Teacher']['value'];?></div></td>
+	  <td id="icon<?php print $openId;?>" class="" colspan="<?php print $ass_colspan;?>">		  
 		<img class="clicktowrite" name="Write"  
 		  onClick="clickToWriteComment(<?php print $sid.','.$rid.',\''.$bid.'\',\''.$pid.'\',\''.$entryn.'\',\''.$openId.'\'';?>);" 
 		  title="<?php print_string('clicktowritecomment');?>" />
@@ -128,14 +133,14 @@
 			$catname=$catdefs[$c4]['name'];
 			$ratings=$ratingnames[$catdefs[$c4]['rating_name']];
 		   	print '<tr class="'.$rowclass.'" id="'.$openId.'-'.$rown++.'"><th></th>';
-			print '<td>'.$catname.'</td>';
+			print '<td><p>'.$catname.'</p></td>';
 			while(list($value,$descriptor)=each($ratings)){
 			  print '<td><label>'.$descriptor.'</label>';
 			  print '<input type="radio" name="sid'.$sid.':'.$inc.'"
 						tabindex="'.$tab.'" value="'.$value.'" ';
-			  if(($Comment['Categories']['Category'][$c4]['value']!=' ' 
+			  if(isset($Comment['Categories']) and (($Comment['Categories']['Category'][$c4]['value']!=' ' 
 				 and $Comment['Categories']['Category'][$c4]['value']!='') 
-				 or $Comment['Categories']['Category'][$c4]['value']=='0'){
+				 or $Comment['Categories']['Category'][$c4]['value']=='0')){
 					if($Comment['Categories']['Category'][$c4]['value']==$value){
 						print ' checked ';
 						}
@@ -156,14 +161,20 @@
 			print ' tabindex="'.$tab.'" name="sid'.$sid.':'.$inc++.'" id="text'.$openId.'">';
 			print $Comment['Text']['value'];
 			print '</textarea>';
-			if($inmust!='yes'){
-?>
-			  <button class="rowaction" type="button" title="Delete this entry"
-				name="current" value="delete_reportentry.php" onClick="clickToAction(this)">
-				<img class="clicktodelete" />
-			  </button>
-<?php
+			$extrabuttons=array();
+			$imagebuttons=array();
+			if($inmust=='yes' and $reportdef['report']['addcategory']=='yes'){
+				$imagebuttons['clicktoconfigure']=array('name'=>'current',
+														'onclick'=>"clickToConfigureCategories('rep',$rid,'$bid','$pid','0')", 
+														'value'=>'category_editor.php',
+														'title'=>'configureratingcategories');
 				}
+			if($inmust!='yes'){
+				$imagebuttons['clicktodelete']=array('name'=>'current',
+													 'value'=>'delete_reportentry.php',
+													 'title'=>'deletethiscomment');
+				}
+			rowaction_buttonmenu($imagebuttons,$extrabuttons,$book);
 			print '</td></tr>';
 			}
 ?>

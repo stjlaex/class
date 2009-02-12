@@ -11,6 +11,13 @@ function requestxmlHttp(){
 // A bunch of functions which launch a helper window before working with
 // calls to httpscripts to do their work
 
+//opens the category editor window
+function clickToConfigureCategories(type,rid,bid,pid,openId){
+	var helperurl="reportbook/httpscripts/category_editor.php";
+	var getvars="type="+type+"&rid="+rid+"&bid="+bid+"&pid="+pid+"&openid="+openId;
+	openHelperWindow(helperurl,getvars);
+	}
+
 //opens the comment writer window
 function clickToWriteComment(sid,rid,bid,pid,entryn,openId){
 	var helperurl="reportbook/httpscripts/comment_writer.php";

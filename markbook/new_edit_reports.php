@@ -111,6 +111,7 @@ three_buttonmenu($extrabuttons,$book);
 			/* Need to identify the mid (if one exists) that is related to 
 				this assessment for updating scores in the action page.*/
 			$mid=get_assessment_mid($eid,$AssDef['Course']['value'],$bid,$strand['id']);
+			$ass_colspan++;
 ?>
 			<th>
 <?php
@@ -149,7 +150,7 @@ three_buttonmenu($extrabuttons,$book);
 	$inorders=array('rid'=>$rid,'subject'=>$bid,'component'=>$pid,'inasses'=>$inasses);
    	if($reportdef['report']['addcategory']=='yes'){
 		/*the categories and rating details for later use*/
-		list($ratingnames,$catdefs)=fetchReportCategories($rid,$bid);
+		list($ratingnames,$catdefs)=get_report_categories($rid,$bid);
 		$inorders['category']='yes';
 		$inorders['catdefs']=$catdefs;
 		}
