@@ -738,9 +738,13 @@ function getEnumArray($field_name){
 	$strandstatus=$componentstatus;
 
 	/*for the assessment tables*/
-	$resultstatus=array('I'=>'interim', 'R'=>'result', 'T' =>
-						'target', 'P'=>'provisionalresult', 'E' =>
-						'estimate', 'S'=>'statistics');
+	$resultstatus=array(
+						//'I'=>'interim', 
+						'R'=>'result', 
+						'T'=>'target', 
+						//'P'=>'provisionalresult', 
+						'E'=>'estimate', 
+						'S'=>'statistics');
 
 	$season=array('S'=>'summer', 'W'=>'winter', 'M' =>
 				  'modular/continuous', '1'=>'january', '2'=>'feburary', '3' =>

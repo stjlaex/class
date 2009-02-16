@@ -264,9 +264,10 @@ function list_student_teachers($sid){
 	return $teachers;
 	}
 
+
 /**
  *
- * Returns a record form the classes table, Must have crid, bid, and
+ * Returns a record from the classes table, Must have crid, bid, and
  * stage set.
  *
  */

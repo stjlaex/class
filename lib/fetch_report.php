@@ -592,7 +592,7 @@ function fetchReportSummaries($rid){
 				JOIN ridcatid ON ridcatid.categorydef_id=categorydef.id 
 				WHERE ridcatid.report_id='$rid' AND
 				ridcatid.subject_id='summary' ORDER BY
-				categorydef.type, categorydef.rating");
+				categorydef.type, categorydef.rating;");
    	$catdefs=array();
 	while($catdef=mysql_fetch_array($d_categorydef,MYSQL_ASSOC)){
 	   	$catdefs[]=$catdef;

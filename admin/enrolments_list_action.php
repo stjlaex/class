@@ -68,6 +68,7 @@ if($sub=='Submit' and $comid!=-1){
 		elseif($enrolstage=='RE'){
 			if(isset($_POST["RE$sid"])){
 				$in=clean_text($_POST["RE$sid"]);
+				trigger_error($in,E_USER_WARNING);
 				if($grading_grades!='' and $grading_grades!=' '){
 					$result=scoreToGrade($in,$grading_grades);
 					}
@@ -75,7 +76,10 @@ if($sub=='Submit' and $comid!=-1){
 					$result=$in;
 					}
 				}
-			else{$in='';$result='';}
+			else{
+				/*TODO: set a real default value?*/
+				$in='1';$result='P';
+				}
 			$score=array('result'=>$result,'value'=>$in,'date'=>$todate);
 			update_assessment_score($eid,$sid,'G','',$score);
 			}

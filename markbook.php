@@ -32,7 +32,7 @@ if(isset($_POST['cids'])){
 	foreach($_SESSION['cids'] as $index => $cid){
 		/*this is used to describe the class*/
 		$d_c=mysql_query("SELECT detail, subject_id AS bid, course_id
-					AS crid	FROM class WHERE id='$cid';");
+					AS crid, stage	FROM class WHERE id='$cid';");
 		$classes[$cid]=mysql_fetch_array($d_c,MYSQL_ASSOC);
 		/*grab the class's subject components*/
 		$comps=list_subject_components($classes[$cid]['bid'],$classes[$cid]['crid']);

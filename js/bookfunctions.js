@@ -542,16 +542,17 @@ function processHeader(buttonObject){
 	document.headertoprocess.submit();
 	}
 
-//-------------------------------------------------------
-//ticks all checkboxes in a form
-
+/*------------------------------------------------------- 
+* Ticks all checkboxes in a form.  
+* Only ticks if the are not hidden.  
+*/
 function checkAll(checkAllBox){
 	var formObject=checkAllBox.form;
 	for(var c=0; c<formObject.elements.length; c++){
 		if(formObject.elements[c].name=="checkall"){
 			c=c+1;
 			}
-		if(formObject.elements[c].type=="checkbox"){
+		if(formObject.elements[c].type=="checkbox" && getrowIndicator(formObject.elements[c])!="hidden"){
 			if(checkAllBox.checked){
 				formObject.elements[c].checked=true;
 				}
@@ -576,6 +577,21 @@ function checkrowIndicator(inputObj){
 			theRow.setAttribute("class","");
 			}
 		}
+	}
+
+/* Returns the class of the row which could be lowlite, hidden or null. */
+function getrowIndicator(inputObj){
+	var rowId="sid-"+inputObj.value;
+	var theRow;
+	var theRowClass;
+	if(document.getElementById(rowId)){
+		theRow=document.getElementById(rowId);
+		theRowClass=theRow.getAttribute("class");
+		}
+	else{
+		theRowClass=false;
+		}
+	return theRowClass;
 	}
 
 /*changes the class of the row when filtered by sidtableFilter*/

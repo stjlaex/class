@@ -38,7 +38,7 @@ three_buttonmenu($extrabuttons);
 	  <div class="right">
 <?php
  		include('scripts/list_stage.php');
-		include('scripts/list_calendar_year.php');
+
 		include('scripts/list_subjects.php');
 ?>
 		<div class="left">
@@ -63,15 +63,17 @@ three_buttonmenu($extrabuttons);
 	  </div>
 
 	  <div class="right">
-<?php 
-		$required='no';
-		include('scripts/list_gradescheme.php'); 
-		include('scripts/list_method.php'); 
-		include('scripts/list_resultqualifier.php'); 
-?>
-	  </div>
+<?php
+//include('scripts/list_method.php'); 
+//include('scripts/list_resultqualifier.php'); 
 
-	  <div class="left">
+		include('scripts/list_resultstatus.php');
+
+		$required='no';
+		include('scripts/list_gradescheme.php');
+ 
+?>
+
 		<label for="Derivation"><?php print_string('derivation',$book);?></label>
 		<input type="text" id="Derivation" tabindex="<?php print $tab++;?>" 
 				name="derivation" style="width:12em;" maxlength="59" value="" />

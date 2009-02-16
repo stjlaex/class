@@ -21,8 +21,35 @@ else{
 	$edit_comments_off='yes';
 	}
 
+	/* Need the status of the currently selected component
+	*/
+	$class_crid=$classes[$cids[0]]['crid'];
+	$class_stage=$classes[$cids[0]]['stage'];
+	if($pid!=''){
+		$d_comp=mysql_query("SELECT status FROM component
+						WHERE id='$pid' AND course_id='$class_crid' AND
+						subject_id='$bid';");
+		$compstatus=mysql_result($d_comp,0);
+		}
+	else{
+		$compstatus='%';
+		}
+trigger_error($pid.': '.$compstatus,E_USER_WARNING);
 	$reportdef=fetch_reportdefinition($rid,$bid);
 	$eids=(array)$reportdef['eids'];
+	/* The eids from reportdef are all possible ones linked to this report,
+	 *  need to filter out those not appropriate to this class. 
+	 */
+	$AssDefs=array();	
+	while(list($index,$eid)=each($eids)){
+		$AssDef=fetchAssessmentDefinition($eid);
+		if(($AssDef['Stage']['value']=='%' or $AssDef['Stage']['value']==$class_stage) 
+		   and ($AssDef['Subject']['value']=='%' or $AssDef['Subject']['value']==$bid)
+		   and ($AssDef['ComponentStatus']['value']=='A' or $AssDef['ComponentStatus']['value']==$compstatus or $compstatus=='%')
+		   ){
+			$AssDefs[]=$AssDef;
+			}
+		}
 
 	$subjectname=get_subjectname($bid);
 	$teachername=get_teachername($tid);
@@ -85,9 +112,8 @@ three_buttonmenu($extrabuttons,$book);
 	/* Headers for the entry field columns. Iterate over the assessment columns and
 		at the same time store information in $inorders[] for use in the action page. */	
    	$inasses=array();
-	while(list($index,$eid)=each($eids)){
-		$AssDef=fetchAssessmentDefinition($eid);
-		$AssDefs[]=$AssDef;
+	while(list($index,$AssDef)=each($AssDefs)){
+		$eid=$AssDef['id_db'];
 		$grading_grades=$AssDef['GradingScheme']['grades'];
 		$compstatus=$AssDef['ComponentStatus']['value'];
 		$strands=array();

@@ -47,6 +47,7 @@ three_buttonmenu();
 		  <th><?php print_string('formtutor',$book);?></th>
 		</tr>
 <?php
+	$nosidstotal=0;
 	$d_form=mysql_query("SELECT * FROM form ORDER BY yeargroup_id, id;");
 	while($form=mysql_fetch_array($d_form,MYSQL_ASSOC)){
 		$fid=$form['id'];
@@ -57,6 +58,7 @@ three_buttonmenu();
 		$gid=mysql_result($d_groups,0);
 		$perms=getFormPerm($fid, $respons);
 		$nosids=countin_community(array('type'=>'form','name'=>$fid));
+		$nosidstotal=$nosidstotal+$nosids;
 ?>
 		<tr>
 		  <td>
@@ -98,6 +100,13 @@ three_buttonmenu();
 <?php
 		}
 ?>
+		  <tr>
+			<th>
+			  <?php print get_string('total',$book).' '.get_string('numberofstudents',$book);?>
+			</th>
+			<td><?php print $nosidstotal;?></td>
+			<td>&nbsp;</td>
+		  </tr>
 
 	  </table>
 	</div>

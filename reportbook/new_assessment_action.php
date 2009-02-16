@@ -12,7 +12,7 @@ $action_post_vars=array('curryear','profid');
 
 include('scripts/sub_action.php');
 
-if($sub=='Submit' and $_FILES['importfile']['tmp_name']!=''){
+if($sub=='Submit' and isset($_FILES['importfile']) and $_FILES['importfile']['tmp_name']!=''){
 	/*Check user has permission to configure*/
 	$perm=getCoursePerm($rcrid,$respons);
 	$neededperm='x';
@@ -67,19 +67,19 @@ elseif($sub=='Submit'){
 	include('scripts/perm_action.php');
 
 		$eid=$_POST['id'];
+		$year=$curryear;
 		$stage=$_POST['stage'];
-		$year=$_POST['year'];
 		$subject=$_POST['bid'];
 		if(isset($_POST['course'])){$course=$_POST['course'];}else{$course=$rcrid;};
-		$method=$_POST['method'];
+		//$method=$_POST['method'];
 		$pid='';
 		$description=$_POST['description'];
-		$resultq=$_POST['resultq'];
+		//$resultq=$_POST['resultq'];
 		$element=$_POST['element'];
 		$printlabel=$_POST['printlabel'];
 		$resultstatus=$_POST['resultstatus'];
-		$outoftotal=$_POST['outoftotal'];
-		$season=$_POST['season'];
+		//$outoftotal=$_POST['outoftotal'];
+		//$season=$_POST['season'];
 		$derivation=$_POST['derivation'];
 		$componentstatus=$_POST['componentstatus'];
 		$strandstatus=$_POST['strandstatus'];
@@ -88,10 +88,10 @@ elseif($sub=='Submit'){
 		$creation=$_POST['creation'];
 		if($eid==''){
 			mysql_query("INSERT INTO assessment (stage, year, subject_id, method,  
-				element, component_id, description, resultqualifier, course_id,
+				element, component_id, description, resultqualifier, resultstatus, course_id,
 				component_status, strand_status, label, grading_name, creation, deadline) 
 				VALUES ('$stage', '$year', '$subject', '$method', 
-				'$element', '$pid', '$description', '$resultq', '$course','$componentstatus',
+				'$element', '$pid', '$description', '$resultq', '$resultstatus', '$course','$componentstatus',
 				'$strandstatus', '$printlabel', '$gena','$creation','$deadline');");	
 			if($derivation!=''){
 				$eid=mysql_insert_id();
@@ -102,7 +102,7 @@ elseif($sub=='Submit'){
 			mysql_query("UPDATE assessment SET year='$year',
 				stage='$stage', subject_id='$subject', method='$method',
 				component_id='$pid', description='$description', 
-				resultqualifier='$resultq', course_id='$course', 
+				resultqualifier='$resultq', resultstatus='$resultstatus', course_id='$course', 
 				element='$element', component_status='$componentstatus', 
 				strand_status='$strandstatus',label='$printlabel', grading_name='$gena',
 				deadline='$deadline', creation='$creation' WHERE id='$eid';");

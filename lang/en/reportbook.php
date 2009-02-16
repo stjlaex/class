@@ -47,6 +47,9 @@ $string['studentdbid']='ClaSS Database ID';
 $string['importscores']='Import scores';
 $string['nocommentsfound']='No comments found!';
 $string['limittoonetype']='Limit to one type';
+$string['estimate']='Estimate';
+$string['result']='Result';
+$string['target']='Target';
 $string['']='';
 $string['']='';
 ?>

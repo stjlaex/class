@@ -12,6 +12,19 @@ Added a clicktoconfigure imagebutton.
 
 A new helper window added for editing categories.
 
+Changed default year for enrolment table to next curriculum year.
+
+The js checkall function now ifnores hidden rows which have been
+filtered from the list.
+
+Replaced the ResultQualifier and Method fields for Assessments with
+the more useful ResultStatus. They are not removed merely commented
+out for now.
+
+Improved the filering of assessments when editing reports in the
+MarkBook. Should only dipslay those which are defined with the same
+properties as the report column being edited.
+
 
 Version ClaSS-0.8.64 release (2009/02/03)
 -----------------------------------------

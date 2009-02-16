@@ -124,10 +124,10 @@ function fetchAssessmentDefinition($eid){
 	$ass=mysql_fetch_array($d_ass,MYSQL_ASSOC);
 	//$ass=nullCorrect($ass);
 
-	$d_mid=mysql_query("SELECT mark_id FROM eidmid WHERE assessment_id='$eid'");
+	$d_mid=mysql_query("SELECT mark_id FROM eidmid WHERE assessment_id='$eid';");
 	$markcount=mysql_numrows($d_mid);
 	$d_score=mysql_query("SELECT student_id FROM score
-		JOIN eidmid ON eidmid.mark_id=score.mark_id WHERE eidmid.assessment_id='$eid'");
+		JOIN eidmid ON eidmid.mark_id=score.mark_id WHERE eidmid.assessment_id='$eid';");
 	$scorecount=mysql_numrows($d_score);
 	$d_eidsid=mysql_query("SELECT student_id FROM eidsid
 				   		WHERE assessment_id='$eid' AND student_id!='0'");
@@ -153,11 +153,13 @@ function fetchAssessmentDefinition($eid){
 						   'field_db'=>'stage',
 						   'type_db'=>'char(3)', 
 						   'value'=>''.$ass['stage']);
+	/*
    	$AssDef['Method']=array('label'=>'Method',
 							'table_db' =>'assessment', 
 							'field_db'=>'assessment',
 							'type_db'=>'char(3)', 
 							'value'=>''.$ass['method']);
+	*/
 	$AssDef['Statistics']=array('label'=>'Statistics',
 								'table_db'=>'assessment', 
 								'field_db'=>'statistics',
@@ -191,11 +193,13 @@ function fetchAssessmentDefinition($eid){
 								'field_db'=>'label',
 								'type_db'=>'varchar(12)', 
 								'value'=>''.$ass['label']);
+	/*
    	$AssDef['ResultQualifier']=array('label'=>'Result Qualifier',
 									 'table_db'=>'assessment', 
 									 'field_db'=>'resultqualifier',
 									 'type_db'=>'char(2)', 
 									 'value'=>''.$ass['resultqualifier']);
+	*/
    	$AssDef['ResultStatus']=array('label'=>'Result Status',
 								  'table_db'=>'assessment', 
 								  'field_db'=>'resultstatus',
@@ -253,9 +257,14 @@ function fetchAssessmentDefinition($eid){
 	return $AssDef;
    	}
 
-/* Retrieve every assessment score for one sid, either for all */
-/* assessments that this student has scores for or more likely for */
-/* just one assessment specified by eid. */
+
+/**
+ *
+ * Retrieve every assessment score for one sid, either for all 
+ * assessments that this student has scores for or more likely for
+ * just one assessment specified by eid. 
+ *
+ */
 function fetchAssessments($sid,$eid='%'){
 	$Assessments=array();
 
