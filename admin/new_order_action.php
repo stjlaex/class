@@ -58,7 +58,7 @@ if($sub=='Submit'){
 					$inval=clean_text($_POST[$inname]);
 					if($val['table_db']=='ordermaterial'){
 						mysql_query("UPDATE ordermaterial SET $field='$inval'
-								WHERE entryn='$entryn' AND order_id='$ordid'");
+								WHERE entryn='$entryn' AND order_id='$ordid';");
 						}
 					}
 				}

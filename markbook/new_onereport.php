@@ -13,17 +13,18 @@
 		$Report['Subject']=array('id'=>$bid, 'value'=>$subjectname);
 		if($pid!=''){$Report['Component']=array('id'=>$pid, 'value'=>$componentname);}
 ?>
-	<tr id="sid-<?php print $sid;?>">
+	<tr id="sid-<?php print $sid;?>"
 <?php
 		if($edit_comments_off!='yes'){
 ?>
+	style="height:4em;">
 	<th>
 	</th>
 <?php
 			}
 		else{
 ?>
-	<td>
+	><td>
 	  <input type="checkbox" name="sids[]" value="<?php print $sid;?>" />
 		<?php print $tab;?>
 	</td>
@@ -31,10 +32,11 @@
 			}
 ?>
 	<td>
+	<a href="infobook.php?current=student_view.php&sid=<?php print $viewtable[$row]['sid'];?>&sids[]=<?php print $viewtable[$row]['sid'];?>" target="viewinfobook" onclick="parent.viewBook('infobook');"><?php print $viewtable[$row]['surname'];?>,&nbsp;<?php print $viewtable[$row]['forename'].$viewtable[$row]['preferredforename'];?></a>
+	</td>
+
 <?php
-		print $viewtable[$row]['surname'].', ';
-		print $viewtable[$row]['forename'].$viewtable[$row]['preferredforename'].' (';
-		print $viewtable[$row]['form_id'].')</td>';
+
 
 //		reset($AssDefs);
 //		while(list($index,$AssDef)=each($AssDefs)){
@@ -127,35 +129,36 @@
 	</tr>
 <?php
 		if($reportdef['report']['addcategory']=='yes'){
-		  reset($catdefs);
-  		  while(list($c4,$catdef)=each($catdefs)){
-			$catid=$catdefs[$c4]['id'];
-			$catname=$catdefs[$c4]['name'];
-			$ratings=$ratingnames[$catdefs[$c4]['rating_name']];
-		   	print '<tr class="'.$rowclass.'" id="'.$openId.'-'.$rown++.'"><th></th>';
-			print '<td><p>'.$catname.'</p></td>';
-			while(list($value,$descriptor)=each($ratings)){
-			  print '<td><label>'.$descriptor.'</label>';
-			  print '<input type="radio" name="sid'.$sid.':'.$inc.'"
-						tabindex="'.$tab.'" value="'.$value.'" ';
-			  if(isset($Comment['Categories']) and (($Comment['Categories']['Category'][$c4]['value']!=' ' 
-				 and $Comment['Categories']['Category'][$c4]['value']!='') 
-				 or $Comment['Categories']['Category'][$c4]['value']=='0')){
-					if($Comment['Categories']['Category'][$c4]['value']==$value){
-						print ' checked ';
+			$ass_colspan++;
+			reset($catdefs);
+			while(list($c4,$catdef)=each($catdefs)){
+				$catid=$catdefs[$c4]['id'];
+				$catname=$catdefs[$c4]['name'];
+				$ratings=$ratingnames[$catdefs[$c4]['rating_name']];
+				print '<tr class="'.$rowclass.'" id="'.$openId.'-'.$rown++.'"><th></th>';
+				print '<td colspan="'.$ass_colspan.'"><div class="row" style="width:30%;"><p>'.$catname.'</p></div>';
+				while(list($value,$descriptor)=each($ratings)){
+					$checkclass='';
+					if(isset($Comment['Categories']) 
+					   and (($Comment['Categories']['Category'][$c4]['value']!=' ' 
+							 and $Comment['Categories']['Category'][$c4]['value']!='') 
+							or $Comment['Categories']['Category'][$c4]['value']=='0')){
+						if($Comment['Categories']['Category'][$c4]['value']==$value){$checkclass='checked';}
 						}
+					print '<div class="row '.$checkclass.'"><label>'.$descriptor.'</label>';
+					print '<input type="radio" name="sid'.$sid.':'.$inc.'"
+						tabindex="'.$tab.'" value="'.$value.'" '.$checkclass;
+					print ' /></div>';
 					}
-				print '/></td>';
+				$inc++;
+				print '</td></tr>';
 				}
-			$inc++;
-			print '</tr>';
-	   		}
-		  }
+			}
 		if($reportdef['report']['addcomment']=='yes'){
 			if($reportdef['report']['commentlength']=='0'){$commentlength='';}
 		    else{$commentlength=' maxlength="'.$reportdef['report']['commentlength'].'"';}
 			print '<tr class="'.$rowclass.'" id="'.$openId.'-'.$rown++.'" >';
-			print '<th></th><td colspan="5">';
+			print '<th></th><td colspan="'.$ass_colspan.'">';
 			print '<textarea '.$commentlength.' rows="2" cols="80" ';
 			print 'onClick="clickToWriteComment('.$sid.','.$rid.',\''.$bid.'\',\''.$pid.'\',\''.$entryn.'\',\''.$openId.'\');"'; 
 			print ' tabindex="'.$tab.'" name="sid'.$sid.':'.$inc++.'" id="text'.$openId.'">';
@@ -167,7 +170,7 @@
 				$imagebuttons['clicktoconfigure']=array('name'=>'current',
 														'onclick'=>"clickToConfigureCategories('rep',$rid,'$bid','$pid','0')", 
 														'value'=>'category_editor.php',
-														'title'=>'configureratingcategories');
+														'title'=>'configure');
 				}
 			if($inmust!='yes'){
 				$imagebuttons['clicktodelete']=array('name'=>'current',

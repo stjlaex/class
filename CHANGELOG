@@ -1,4 +1,4 @@
-Version ClaSS-0.8.65 release (2009/02/16)
+Version ClaSS-0.8.65 release (2009/02/19)
 -----------------------------------------
 
 Changed the eidsid result field to a varchar(30) to match the ratings -
@@ -24,6 +24,16 @@ out for now.
 Improved the filering of assessments when editing reports in the
 MarkBook. Should only dipslay those which are defined with the same
 properties as the report column being edited.
+
+Introduced subject specific rating categories. To do this
+geT_report_categories has been removed from fetchReportDefinition and
+has now to be called as part fetchReportEntry because it can be
+bid/pid senstive (while RepDef knows only crid/bid).
+
+The editing of one report has been tidied.
+
+New css class to midlite checked radio boxes inside a row div.
+
 
 
 Version ClaSS-0.8.64 release (2009/02/03)

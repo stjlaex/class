@@ -376,9 +376,9 @@ function fetchReportDefinition($rid,$selbid='%'){
 		}
 	$RepDef['asstable']=nullCorrect($asstable);
 
-	/* Find any categories for this report. */
 	if($report['addcategory']=='yes'){
-		list($ratingnames,$catdefs)=get_report_categories($rid);
+		/*
+		list($ratingnames,$catdefs)=get_report_categories($rid,$selbid);
 		$RepDef['ratingnames']=$ratingnames;
 		$RepDef['catdefs']=$catdefs;
 		$cattable=array();
@@ -391,6 +391,7 @@ function fetchReportDefinition($rid,$selbid='%'){
 				}
 			}
 		$RepDef['cattable']=nullCorrect($cattable);
+		*/
 		}
 	$RepDef['summaries']=(array)fetchReportSummaries($rid);
 
@@ -470,7 +471,7 @@ function fetch_reportdefinition($rid,$selbid='%'){
 	else{
 		$subjectname=get_subjectname($selbid);
 		$subjects[]=array('id'=>$selbid, 
-						'name'=>''.$subjectname);
+						  'name'=>''.$subjectname);
 		}
 	while(list($index0,$subject)=each($subjects)){
 		$components=(array)list_subject_components($subject['id'],$crid);
@@ -516,9 +517,10 @@ function fetch_reportdefinition($rid,$selbid='%'){
 		}
 	$reportdef['asstable']=nullCorrect($asstable);
 
-	/* Find any categories for this report. */
 	if($reportdef['report']['addcategory']=='yes'){
-		list($ratingnames, $catdefs)=get_report_categories($rid);
+
+		/*
+		list($ratingnames, $catdefs)=get_report_categories($rid,$selbid);
 		$reportdef['ratingnames']=$ratingnames;
 		$reportdef['catdefs']=$catdefs;
 		$cattable=array();
@@ -531,7 +533,10 @@ function fetch_reportdefinition($rid,$selbid='%'){
 				}
 			}
 		$reportdef['cattable']=nullCorrect($cattable);
+		*/
+
 		}
+
 	$reportdef['summaries']=(array)fetchReportSummaries($rid);
 
 	return $reportdef;
@@ -544,35 +549,36 @@ function fetch_reportdefinition($rid,$selbid='%'){
  * Returns two arrays containing the ratingnames and catdefs for all
  * categories for this report
  *
+ * TODO: make the ratingnames part of the report table? And just
+ * return catdefs from here.
  *
  */
-function get_report_categories($rid,$bid='%'){
-	/* TODO: Needs to add subject specific ones IN FUTURE!*/
+function get_report_categories($rid,$bid='%',$pid=''){
+
+	if($pid!='' and $pid!=' '){$bid=$pid;}
+
 	$d_categorydef=mysql_query("SELECT id, name, type, subtype, rating,  
-				 rating_name, comment FROM categorydef LEFT
+				 rating_name, comment, ridcatid.subject_id AS bid FROM categorydef LEFT
 				JOIN ridcatid ON ridcatid.categorydef_id=categorydef.id 
-				WHERE ridcatid.report_id='$rid' AND
-				(ridcatid.subject_id='$bid' OR
-				ridcatid.subject_id='%') AND
-				ridcatid.subject_id!='summary' AND
-				ridcatid.subject_id!='wrapper' AND ridcatid.subject_id!='profile';");
+				WHERE ridcatid.report_id='$rid' AND (ridcatid.subject_id='$bid' OR
+				ridcatid.subject_id='%') AND ridcatid.subject_id!='summary' AND
+				ridcatid.subject_id!='wrapper' AND ridcatid.subject_id!='profile' 
+				ORDER BY ridcatid.subject_id;");
    	$catdefs=array();
 	$ratingnames=array();
 	while($catdef=mysql_fetch_array($d_categorydef,MYSQL_ASSOC)){
 	   	$catdefs[]=$catdef;
 	   	if(!array_key_exists($catdef['rating_name'],$ratingnames)){
-				$ratingname=$catdef['rating_name'];
-				$d_rating=mysql_query("SELECT * FROM rating 
+			$ratingname=$catdef['rating_name'];
+			$d_rating=mysql_query("SELECT * FROM rating 
 						WHERE name='$ratingname' ORDER BY value;");
-				$ratings=array();
-				while($rating=mysql_fetch_array($d_rating,MYSQL_ASSOC)){
-					$ratings[$rating['value']]=$rating['descriptor'];
-					}
-				$ratingnames[$ratingname]=$ratings;
+			$ratings=array();
+			while($rating=mysql_fetch_array($d_rating,MYSQL_ASSOC)){
+				$ratings[$rating['value']]=$rating['descriptor'];
 				}
+			$ratingnames[$ratingname]=$ratings;
+			}
 	   	}
-
-	trigger_error($bid,E_USER_WARNING);
 
 	return array($ratingnames,$catdefs);
 	}
@@ -618,9 +624,10 @@ function checkReportEntry($rid,$sid,$bid,$pid){
 
 
 /**
+ *
  *		Retrieves all report entries for one student in one subject
- *		All report info is pre-fetched in $reportdef['report'],
- *				$reportdef['catdefs'] and $reportdef['ratingnames']
+ *		All report info is pre-fetched in $reportdef['report'].
+ *
  */
 function fetchReportEntry($reportdef,$sid,$bid,$pid){
 	$Comments=array();
@@ -640,13 +647,14 @@ function fetchReportEntry($reportdef,$sid,$bid,$pid){
 		   $Comment['Text']=nullCorrect(array('value' => ''.$entry['comment']));
 		   }
 	   if($reportdef['report']['addcategory']=='yes' and $bid!='summary'){
-    		$pairs=explode(";",$entry['category']);
-	    	for($c3=0; $c3<sizeof($pairs)-1; $c3++){
+		   list($ratingnames,$catdefs)=get_report_categories($rid,$bid,$pid);
+		   
+		   $pairs=explode(";",$entry['category']);
+		   for($c3=0; $c3<sizeof($pairs)-1; $c3++){
    				list($id, $rank)=split(":",$pairs[$c3]);
 		   		$entry['ratings'][$id]=$rank;
 		   		}
-		    $ratingnames=$reportdef['ratingnames'];
-			$catdefs=$reportdef['catdefs'];
+
 		   	$Categories=array();
 		  	for($c4=0;$c4<sizeof($catdefs);$c4++){
 		   		$Category=array();
@@ -664,6 +672,7 @@ function fetchReportEntry($reportdef,$sid,$bid,$pid){
 		   		}
 		   $Comment['Categories']=nullCorrect($Categories);
 		   }
+
 	   $Comments['Comment'][]=nullCorrect($Comment);
 	   }
 	return $Comments;

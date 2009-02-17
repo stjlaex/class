@@ -251,14 +251,15 @@ elseif($sub=='Submit'){
 		
 		mysql_query("DELETE FROM ridcatid WHERE report_id='$rid';");
 		if($addcategory=='yes'){
-			$d_catdef=mysql_query("SELECT id FROM categorydef WHERE
+			$d_catdef=mysql_query("SELECT id, subject_id FROM categorydef WHERE
 						type='rep' AND (course_id='%' OR course_id
-							LIKE '$crid')");
+							LIKE '$crid');");
 			while($d_catid=mysql_fetch_array($d_catdef,MYSQL_NUM)){
 				$catid=$d_catid[0];
+				$catbid=$d_catid[1];
 				mysql_query("INSERT INTO ridcatid (report_id,
 							categorydef_id, subject_id) VALUES
-							('$rid', '$catid', '%')");
+							('$rid', '$catid', '$catbid')");
 				}
 			}
 		}

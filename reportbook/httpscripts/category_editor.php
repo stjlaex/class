@@ -10,36 +10,74 @@ elseif(isset($_POST['type'])){$type=$_POST['type'];}
 if(isset($_GET['rid'])){$rid=$_GET['rid'];}
 elseif(isset($_POST['rid'])){$rid=$_POST['rid'];}
 if(isset($_GET['bid'])){$bid=$_GET['bid'];}
-elseif(isset($_POST['bid'])){$bid=$_POST['bid'];}
+elseif(isset($_POST['bid'])){$bid=$_POST['bid'];}else{$bid='';}
 if(isset($_GET['pid'])){$pid=$_GET['pid'];}
-elseif(isset($_POST['pid'])){$pid=$_POST['pid'];}
+elseif(isset($_POST['pid'])){$pid=$_POST['pid'];}else{$pid='';}
 if(isset($_GET['openid'])){$openid=$_GET['openid'];}
 
 
 /* The categories and rating details */
 /* TODO: generalise to all catdef types */
 if($type=='rep'){
-	list($ratingnames,$catdefs)=get_report_categories($rid,$bid);
+	list($ratingnames,$catdefs)=get_report_categories($rid,$bid,$pid);
 	}
 else{
 	$catdefs=array();
 	}
 
-$table_ridcatid_rows=array();
+$maxcatn=10;/*allow a max of 10 categories*/
+if($pid==''){$subject=get_subjectname($bid);}
+else{$subject=get_subjectname($pid);}
 
-reset($catdefs);
-while(list($c4,$catdef)=each($catdefs)){
-	$catid=$catdefs[$c4]['id'];
-	$catname=$catdefs[$c4]['name'];
-	$ratings=$ratingnames[$catdefs[$c4]['rating_name']];
-	$row='<tbody id="'.$catid.'-'.$rown++.'"><tr>';
-	$row.='<td><p>'.$catname.'</p></td>';
-	while(list($value,$descriptor)=each($ratings)){
-		$row.='<td><label>'.$descriptor.'</label></td>';
-		}
-	$row.='</tr></tbody>';
-	trigger_error('CATDEF:'.$catid.':'.$row,E_USER_WARNING);
-	$table_ridcatid_rows[$rown]=$row;
+$Categoryblank['id_db']=-1;
+$Categoryblank['Type']=array('label'=>'type',
+							 'table_db'=>'categorydef', 
+							 'field_db'=>'type',
+							 'type_db'=>'char(3)',
+							 'value'=>''
+							 );
+$Categoryblank['Name']=array('label'=>'name',
+							 'table_db'=>'categorydef', 
+							 'field_db'=>'name',
+							 'type_db'=>'varchar(60)',
+							 'value'=>''
+							 );
+$Categoryblank['Subject']=array('label'=>'subject',
+								'table_db'=>'categorydef', 
+								'field_db'=>'subject_id',
+								'type_db'=>'varchar(10)',
+								'value_db'=>'',
+								'value'=>''
+								);
+
+$Categorys=array();
+$Categorys['Category']=array();
+while(list($cindex,$catdef)=each($catdefs)){
+	$Category=array();
+	$Category['id_db']=$catdef['id'];
+	$Category['Type']=array('label'=>'type',
+							'table_db'=>'categorydef', 
+							'field_db'=>'type',
+							'type_db'=>'char(3)',
+							'value'=>$type
+							);
+
+	$Category['Name']=array('label'=>'name',
+							'table_db'=>'categorydef', 
+							'field_db'=>'name',
+							'type_db'=>'varchar(60)',
+							'value'=>$catdef['name']
+							);
+	if($catdef['bid']=='%'){$displaysub='General';}
+	else{$displaysub=$subject;}
+	$Category['Subject']=array('label'=>'subject',
+							   'table_db'=>'categorydef', 
+							   'field_db'=>'subject_id',
+							   'type_db'=>'varchar(10)',
+							   'value_db'=>$catdef['name'],
+							   'value'=>$displaysub);
+
+	$Categorys['Category'][]=$Category;
 	}
 
 
@@ -56,31 +94,52 @@ while(list($c4,$catdef)=each($catdefs)){
 <link rel="stylesheet" type="text/css" href="../../css/bookstyle.css" />
 <link rel="stylesheet" type="text/css" href="../../css/commentwriter.css" />
 <script src="../../js/bookfunctions.js" type="text/javascript"></script>
+<script src="../../js/qtip.js" type="text/javascript"></script>
 </head>
 <body onload="loadRequired();">
 
 	<div id="bookbox">
-	  <?php three_buttonmenu(); ?>
+	<?php three_buttonmenu(); ?>
 
-	  <div id="heading">
-		<label><?php print $bid; ?></label>
-	  </div>
+<div id="heading">
+	<label><?php print $subject; ?></label>
+</div>
 
+	
 	<div class="content">
 	<form id="formtoprocess" name="formtoprocess" method="post" 
-					action="category_editor_action.php">
+		action="category_editor_action.php">
 
-	<div class="center">
-	<table class="listmenu" >
-	<thead><th>Category</th><th></th></thead>
+	  <div class="center">
+		<table class="listmenu">
+		  <th>&nbsp;</th>
+		  <th><?php print_string($Categoryblank['Name']['label'],'report');?></th>
+		  <th><?php print_string($Categoryblank['Subject']['label'],'report');?></th>
 <?php
-	reset($table_ridcatid_rows);
-	while(list($tindex,$row)=each($table_ridcatid_rows)){
-		print $row;
-		}
+
+		$catno=sizeof($Categorys['Category']);
+		if($catno<$maxcatn){
+			for($catn=$catno;$catn<$maxcatn;$catn++){
+				$Categorys['Category'][]=$Categoryblank;
+				}
+			  }
+
+	$tab=$maxcatn*2;
+	while(list($index,$Category)=each($Categorys['Category'])){
+			$catn=$index+1;
+			if($catn==($catno+1)){$tab=1;}/*start tab at first blank*/
 ?>
-	</table>
-	</div>
+		  <tr>
+			<td><?php print $catn;?><input type="hidden" name="catid<?php print $catn;?>" value="<?php print $Category['id_db']; ?>" /></td>
+			<td><?php $tab=xmlelement_input($Category['Name'],$catn,$tab,'report');?></td>
+			<td><?php $tab=xmlelement_input($Category['Subject'],$catn,$tab,'report');?></td>
+		  </tr>
+<?php
+			}
+?>
+		</table>
+	  </div>
+
 
 	<input type="hidden" name="type" value="<?php print $type; ?>"/>
 	<input type="hidden" name="rid" value="<?php print $rid; ?>"/>
@@ -90,6 +149,5 @@ while(list($c4,$catdef)=each($catdefs)){
 	</form>
 	</div>
 
-	</div>
 </body>
 </html>

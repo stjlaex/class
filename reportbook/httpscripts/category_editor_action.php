@@ -4,9 +4,10 @@
 
 require_once('../../scripts/http_head_options.php');
 $sub=$_POST['sub'];
-$bid=$_POST['bid'];
 $rid=$_POST['rid'];
 $type=$_POST['type'];
+if(isset($_POST['bid'])){$bid=$_POST['bid'];}
+if(isset($_POST['pid'])){$pid=$_POST['pid'];}
 
 /*Note: categories are not handled by the commentwriter*/
 
@@ -16,32 +17,46 @@ if($sub=='Cancel'){
 	}
 elseif($sub=='Submit'){
 	$openerId=$_POST['openid'];
-	$Student=fetchStudent_short($sid);
-	if(isset($_POST['bid'])){$bid=$_POST['bid'];}
-	if(isset($_POST['pid'])){$pid=$_POST['pid'];}
-	if(isset($_POST['incom'])){$incom=clean_text($_POST['incom']);}
-	if(isset($_POST['inmust'])){$inmust=$_POST['inmust'];}
-
-	if($inmust=='yes' and $incom!=''){
-		if(mysql_query("INSERT INTO reportentry (comment,
-						teacher_id, report_id, student_id, 
-						subject_id, component_id) VALUES
-						('$incom', '$tid', '$rid', '$sid',
-						'$bid', '$pid')")){
-			$entryn=mysql_insert_id();
-			}
-		else{$error[]=mysql_error();}
+	
+	if($type=='rep'){
+		if($pid!='' and $pid!=' '){$bid=$pid;}
+		$RepDef=fetchReportDefinition($rid);
+		$crid=$RepDef['Course']['value'];
+		list($ratingnames,$catdefs)=get_report_categories($rid,$bid,$pid);
+		$ratingname=$catdefs[0]['rating_name'];
 		}
-	elseif($inmust!='yes'){
-		$entryn=$inmust;
-		if(mysql_query("UPDATE reportentry SET
-						comment='$incom' WHERE report_id='$rid' AND
-						student_id='$sid' AND subject_id='$bid' AND
-						component_id='$pid' AND entryn='$entryn'")){}
-		else{$error[]=mysql_error();}
+	else{
+		$crid='%';
+		$catdefs=array();
+		}
+
+
+	$maxcatn=10;
+	for($matn=1;$matn<=$maxcatn;$matn++){
+		if(isset($_POST['catid'.$matn])){
+			$incatid=$_POST['catid'.$matn];
+			$inname='name'. $matn;
+			$inval=clean_text($_POST[$inname]);
+			if($incatid==-1 and $inval!=''){
+				mysql_query("INSERT INTO categorydef SET name='$inval', type='$type', 
+					rating_name='$ratingname', subject_id='$bid', course_id='$crid';");
+				$catid=mysql_insert_id();
+				mysql_query("INSERT INTO ridcatid SET report_id='$rid', categorydef_id='$catid', 
+					subject_id='$bid';");
+				}
+			elseif($incatid>0 and $inval!=''){
+				mysql_query("UPDATE categorydef SET name='$inval'
+								WHERE id='$incatid';");
+				}
+			elseif($incatid>0 and $inval==''){
+				mysql_query("DELETE FROM ridcatid WHERE categorydef_id='$incatid' 
+					AND report_id='$rid';");
+				}
+			//trigger_error($incatid.': '.$inval,E_USER_WARNING);
+			}
 		}
 	}
-$comment=js_addslashes($incom);
+
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -56,7 +71,7 @@ $comment=js_addslashes($incom);
 <link id="viewstyle" rel="stylesheet" type="text/css" href="../../css/commentwriter.css" />
 <script language="JavaScript" type="text/javascript" src="../../js/bookfunctions.js"></script>
 </head>
-<body onload="closeHelperWindow(<?php print '\''.$openerId.'\',\''.$entryn.'\',\''.$comment.'\'';?>);">
+<body onload="closeHelperWindow(<?php print '\''.$openerId.'\'';?>);">
 	<div id="bookbox">
 
 	  <div id="heading">

@@ -34,12 +34,13 @@ else{
 	else{
 		$compstatus='%';
 		}
-trigger_error($pid.': '.$compstatus,E_USER_WARNING);
+
 	$reportdef=fetch_reportdefinition($rid,$bid);
 	$eids=(array)$reportdef['eids'];
 	/* The eids from reportdef are all possible ones linked to this report,
 	 *  need to filter out those not appropriate to this class. 
 	 */
+	$ass_colspan=0;
 	$AssDefs=array();	
 	while(list($index,$eid)=each($eids)){
 		$AssDef=fetchAssessmentDefinition($eid);
@@ -176,7 +177,7 @@ three_buttonmenu($extrabuttons,$book);
 	$inorders=array('rid'=>$rid,'subject'=>$bid,'component'=>$pid,'inasses'=>$inasses);
    	if($reportdef['report']['addcategory']=='yes'){
 		/*the categories and rating details for later use*/
-		list($ratingnames,$catdefs)=get_report_categories($rid,$bid);
+		list($ratingnames,$catdefs)=get_report_categories($rid,$bid,$pid);
 		$inorders['category']='yes';
 		$inorders['catdefs']=$catdefs;
 		}
