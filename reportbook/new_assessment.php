@@ -149,7 +149,8 @@ three_buttonmenu($extrabuttons);
 	while(list($index,$AssDef)=each($AssDefs)){
 		$eid=$AssDef['id_db'];
 		$rown=0;
-		if($AssDef['Derivation']['value'][0]!=' '){$AssDef['ResultStatus']['value']='E';}
+		if(isset($AssDef['Derivation']['value'][0]) 
+		   and $AssDef['Derivation']['value'][0]!=' '){$AssDef['ResultStatus']['value']='E';}
 		else{$rowclass='';}
 ?>
 		<tbody id="<?php print $eid;?>">
@@ -182,12 +183,12 @@ three_buttonmenu($extrabuttons);
 		  <tr class="hidden" id="<?php print $eid.'-'.$rown++;?>">
 			<td colspan="7">
 <?php
-		if($AssDef['Derivation']['value'][0]==' '){
+		if(isset($AssDef['Derivation']['value'][0]) and $AssDef['Derivation']['value'][0]==' '){
 			$extrabuttons['statistics']=array('name'=>'current',
 											  'title'=>'updatestatistics',
 											  'value'=>'calculate_assessment_statistics.php');
 			}
-		elseif($AssDef['Derivation']['value'][0]=='R'){
+		elseif(isset($AssDef['Derivation']['value'][0]) and $AssDef['Derivation']['value'][0]=='R'){
 			$extrabuttons['rank']=array('name'=>'current',
 										'title'=>'updateranking',
 										'value'=>'calculate_assessment_ranking.php');

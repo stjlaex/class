@@ -6,21 +6,30 @@ require_once('../../scripts/http_head_options.php');
 $sub=$_POST['sub'];
 $sid=$_POST['sid'];
 $rid=$_POST['rid'];
+$inno=$_POST['inno'];/*the number of textareas to expect*/
+$incom='';
 $tid=$_SESSION['username'];
 
 /*Note: categories are not handled by the commentwriter*/
 
+
 if($sub=='Cancel'){
 	$openerId='-100';
-	$incom='';
 	}
 elseif($sub=='Submit'){
 	$openerId=$_POST['openid'];
 	$Student=fetchStudent_short($sid);
 	if(isset($_POST['bid'])){$bid=$_POST['bid'];}
 	if(isset($_POST['pid'])){$pid=$_POST['pid'];}
-	if(isset($_POST['incom'])){$incom=clean_text($_POST['incom']);}
 	if(isset($_POST['inmust'])){$inmust=$_POST['inmust'];}
+
+	for($c=0;$c<$inno;$c++){
+		if(isset($_POST['incom'.$c])){$incom.=clean_text($_POST['incom'.$c]);}
+		/* Separate the subcomments with ::: for splitting 
+		 * but last subcomment should not get a separator
+		 */
+		if($inno>1 and $c<($inno-1)){$incom.=':::';}
+		}
 
 	if($inmust=='yes' and $incom!=''){
 		if(mysql_query("INSERT INTO reportentry (comment,
@@ -30,15 +39,13 @@ elseif($sub=='Submit'){
 						'$bid', '$pid')")){
 			$entryn=mysql_insert_id();
 			}
-		else{$error[]=mysql_error();}
 		}
 	elseif($inmust!='yes'){
 		$entryn=$inmust;
-		if(mysql_query("UPDATE reportentry SET
+		mysql_query("UPDATE reportentry SET
 						comment='$incom' WHERE report_id='$rid' AND
 						student_id='$sid' AND subject_id='$bid' AND
-						component_id='$pid' AND entryn='$entryn'")){}
-		else{$error[]=mysql_error();}
+						component_id='$pid' AND entryn='$entryn'");
 		}
 	}
 $comment=js_addslashes($incom);

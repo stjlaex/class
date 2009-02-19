@@ -21,9 +21,9 @@ elseif($sub=='Submit'){
 	if($type=='rep'){
 		if($pid!='' and $pid!=' '){$bid=$pid;}
 		$RepDef=fetchReportDefinition($rid);
+		//$ratingname=$RepDef['CategoriesRating']['value'];
 		$crid=$RepDef['Course']['value'];
-		list($ratingnames,$catdefs)=get_report_categories($rid,$bid,$pid);
-		$ratingname=$catdefs[0]['rating_name'];
+		$catdefs=get_report_categories($rid,$bid,$pid);
 		}
 	else{
 		$crid='%';
@@ -39,7 +39,7 @@ elseif($sub=='Submit'){
 			$inval=clean_text($_POST[$inname]);
 			if($incatid==-1 and $inval!=''){
 				mysql_query("INSERT INTO categorydef SET name='$inval', type='$type', 
-					rating_name='$ratingname', subject_id='$bid', course_id='$crid';");
+					rating_name='', subject_id='$bid', course_id='$crid';");
 				$catid=mysql_insert_id();
 				mysql_query("INSERT INTO ridcatid SET report_id='$rid', categorydef_id='$catid', 
 					subject_id='$bid';");

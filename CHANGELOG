@@ -26,13 +26,28 @@ MarkBook. Should only dipslay those which are defined with the same
 properties as the report column being edited.
 
 Introduced subject specific rating categories. To do this
-geT_report_categories has been removed from fetchReportDefinition and
+get_report_categories has been removed from fetchReportDefinition and
 has now to be called as part fetchReportEntry because it can be
 bid/pid senstive (while RepDef knows only crid/bid).
+
+The rating_name is now a field in the report table. The rating_name is
+no longer used in categorydef for report categories (it might still be
+used for other types).
 
 The editing of one report has been tidied.
 
 New css class to midlite checked radio boxes inside a row div.
+
+Added the facility to break report comments down into
+subcomments. Uses a new categorydef to define them with catdef
+type=sub. They need to be activiated for a report in ricatid (TODO:
+only manual entry at the moment) and so can be subject specific.
+
+The Comment for a ReportEntry now has value and value_db fields to
+allow for the subcomments. The formatted for print value combines all
+subcomments in one block with labels and linebreaks. The value_db is
+the value for storage, it has no label descriptors, and subcomments
+separated by ::: for splitting.
 
 
 

@@ -20,6 +20,8 @@ $StatementBank=array();
 $reportdef=fetch_reportdefinition($rid);
 if($reportdef['report']['commentlength']=='0'){$commentlength='';}
 else{$commentlength=' maxlength="'.$reportdef['report']['commentlength'].'"';}
+$subcomments=(array)get_report_categories($rid,$bid,$pid,'sub');
+$subcomments_no=sizeof($subcomments);
 
 $Student=fetchStudent_short($sid);
 $Report['Comments']=fetchReportEntry($reportdef, $sid, $bid, $pid);
@@ -29,6 +31,8 @@ if(!isset($Report['Comments']['Comment'])  or sizeof($Report['Comments']['Commen
 	$Comment=array('Text'=>array('value'=>''),
 				   'Teacher'=>array('value'=>'ADD NEW ENTRY'));
 	$inmust='yes';
+
+	/*TODO: get rid of this!!!*/
 	if($bid=='summary'){
 		$summaries=(array)$reportdef['summaries'];
 		/*This will fill out the blank comment with some preset text.*/
@@ -38,14 +42,24 @@ if(!isset($Report['Comments']['Comment'])  or sizeof($Report['Comments']['Commen
 				}
 			}
 		}
+	/**/
+
 	}
 else{
 	/*Re-editing an existing comment.*/
+	$texts=array();
 	$Comment=$Report['Comments']['Comment'][$entryn];
 	$inmust=$Comment['id_db'];
+	if($subcomments_no>0){
+		$texts=split(':::',$Comment['Text']['value_db']);
+		}
+	else{
+		$texts[]=$Comment['Text']['value'];
+		}
 	}
 
-/* Now if this report links to an assessment profile, the statement
+/**
+ * Now if this report links to an assessment profile, the statement
  * bank gets all of the achieved statements.
  * TODO: We only have one working profile!
  */
@@ -75,7 +89,6 @@ if($reportdef['report']['profile_name']=='FS Steps'){
 			$stats=array();
 			while($eidsid=mysql_fetch_array($d_eidsid,MYSQL_ASSOC)){
 				$topic=$eidsid['description'];
-				//trigger_error($profilepid.' '.$profile_name.' '.$topic,E_USER_WARNING);
 				$d_mark=mysql_query("SELECT comment
 					FROM mark JOIN eidmid ON mark.id=eidmid.mark_id WHERE
 					mark.component_id='$profilepid' AND
@@ -130,7 +143,7 @@ else{
 	<div id="bookbox">
 	  <?php three_buttonmenu(); ?>
 
-	  <div id="heading">
+	  <div id="heading" style="font-size:11pt;">
 		<label><?php print_string('student'); ?></label>
 			<?php print $Student['DisplayFullName']['value'];?>
 	  </div>
@@ -138,13 +151,28 @@ else{
 	  <div class="content" style="height:<?php print $commentheight+60;?>px;">
 		<form id="formtoprocess" name="formtoprocess" method="post" 
 									action="comment_writer_action.php">
-		  <div class="center">
-			<textarea title="spellcheck" id="Comment"
-			  style="height:<?php print $commentheight-20;?>px;" 
+
+<?php
+	if($subcomments_no==0){$subcomments[]['name']='Comment';$subcomments_no=1;}
+	$commentheight=($commentheight/$subcomments_no)-25*$subcomments_no;/*in px*/
+	for($c=0;$c<$subcomments_no;$c++){
+			$commentlabel=$subcomments[$c]['name'];
+?>
+		  <div class="center" style="border-top:solid 1px;">
+			<label style="float:right;background-color:#ffe;font-weight:600;padding:2px,6px;">
+			<?php print $commentlabel;?>
+			</label>
+			<textarea title="spellcheck" id="Comment<?php print $c;?>"
+			  style="height:<?php print $commentheight;?>px;" 
 			  accesskey="../../lib/spell_checker/spell_checker.php" 
 			  <?php print $commentlength;?> tabindex="0"  
-				name="incom" ><?php print $Comment['Text']['value'];?></textarea>
+				name="incom<?php print $c;?>" ><?php print $texts[$c];?></textarea>
+
 		  </div>
+<?php
+			}
+?>
+		<input type="hidden" name="inno" value="<?php print $subcomments_no;?>"/>
 		<input type="hidden" name="inmust" value="<?php print $inmust;?>"/>
 		<input type="hidden" name="sid" value="<?php print $sid; ?>"/>
 		<input type="hidden" name="rid" value="<?php print $rid; ?>"/>

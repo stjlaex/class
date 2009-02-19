@@ -205,13 +205,11 @@ if(isset($_POST['enrolstage'])){$enrolstage=$_POST['enrolstage'];}
 		   	elseif($enrolstage=='C'){
 				reset($application_steps);
 				while(list($index,$value)=each($application_steps)){
-					print '<div class="row"><label>' 
-							.$value.'</label>';
-					print '<input type="radio" name="C'.$sid.'"
-						tabindex="'.$tab++.'" value="'.$value.'" ';
-					if($value==$current_enrolstatus){
-						print ' checked="checked" ';
-						}
+					$checkclass='';
+					if($value==$current_enrolstatus){$checkclass='checked';}
+					print '<div class="row '.$checkclass.'"><label>'.$value.'</label>';
+					print '<input type="radio" name="C'.$sid.'" tabindex="'. 
+						$tab++.'" value="'.$value.'" '.$checkclass;
 					print '/></div>';
 					}
 				}
@@ -221,14 +219,15 @@ if(isset($_POST['enrolstage'])){$enrolstage=$_POST['enrolstage'];}
 				else{$value='';}
 				reset($grades);
 				while(list($index,$grade)=each($grades)){
-					print '<div class="row"><label>' 
-							.$grade['result'].'</label>';
-					print '<input type="radio" name="RE'.$sid.'"
-						tabindex="'.$tab++.'" value="'.$grade['value'].'" ';
+					$checkclass='';
 					if($value!='' and $value==$grade['value']){
-						print ' checked="checked" ';
+						$checkclass='checked';
 						$$grade['value']++;
 						}
+					print '<div class="row '.$checkclass.'"><label>' 
+							.$grade['result'].'</label>';
+					print '<input type="radio" name="RE'.$sid.'"
+						tabindex="'.$tab++.'" value="'.$grade['value'].'" '.$checkclass;
 					print '/></div>';
 					}
 				}
@@ -250,13 +249,14 @@ if(isset($_POST['enrolstage'])){$enrolstage=$_POST['enrolstage'];}
 
 				reset($application_steps);
 				while(list($index,$value)=each($application_steps)){
-					print '<div class="row"><label>' 
+					$checkclass='';
+					if($current_enrolstatus!='' and $value==$current_enrolstatus){
+						$checkclass='checked';
+						}
+					print '<div class="row '.$checkclass.'"><label>' 
 							.$value.'</label>';
 					print '<input type="radio" name="E'.$sid.'"
-						tabindex="'.$tab++.'" value="'.$value.'" ';
-					if($current_enrolstatus!='' and $value==$current_enrolstatus){
-						print ' checked="checked" ';
-						}
+						tabindex="'.$tab++.'" value="'.$value.'" '.$checkclass;
 					print '/></div>';
 					}
 				}

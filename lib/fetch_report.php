@@ -274,6 +274,12 @@ function fetchReportDefinition($rid,$selbid='%'){
 								  'field_db'=>'addcategory',
 								  'type_db'=>'enum', 
 								  'value'=>''.$report['addcategory']);
+   	$RepDef['CategoriesRating']=array('label'=>'ratingname', 
+								  'table_db'=>'report', 
+								  'field_db'=>'rating_name',
+								  'type_db'=>'varchar(30)', 
+								  'ratings'=>'', 
+								  'value'=>''.$report['rating_name']);
    	$RepDef['Style']=array('label'=>'pagestyle', 
 							  'table_db'=>'report', 
 							  'field_db'=>'style',
@@ -296,7 +302,7 @@ function fetchReportDefinition($rid,$selbid='%'){
 		/* This identifies any assessment profiles the report is linked to. */
 		$d_categorydef=mysql_query("SELECT name
 				FROM categorydef JOIN ridcatid ON ridcatid.categorydef_id=categorydef.id 
-				WHERE ridcatid.report_id='$rid' AND
+				WHERE ridcatid.report_id='$rid' AND categorydef.type='pro' AND
 				ridcatid.subject_id='profile';");
 		if(mysql_num_rows($d_categorydef)>0){
 			$report['profile_name']=mysql_result($d_categorydef,0);
@@ -377,6 +383,20 @@ function fetchReportDefinition($rid,$selbid='%'){
 	$RepDef['asstable']=nullCorrect($asstable);
 
 	if($report['addcategory']=='yes'){
+		/* ratings is an array of value=>descriptor pairs. 
+		   TODO: make use of the longdescriptor?
+		 */
+	   	if($RepDef['CategoriesRating']['rating_name']!=''){
+			$ratingname=$report['rating_name'];
+			$d_rating=mysql_query("SELECT * FROM rating 
+						WHERE name='$ratingname' ORDER BY value;");
+			$ratings=array();
+			while($rating=mysql_fetch_array($d_rating,MYSQL_ASSOC)){
+				$ratings[$rating['value']]=$rating['descriptor'];
+				}
+			$RepDef['CategoriesRating']['ratings']=$ratings;
+			}
+
 		/*
 		list($ratingnames,$catdefs)=get_report_categories($rid,$selbid);
 		$RepDef['ratingnames']=$ratingnames;
@@ -437,7 +457,7 @@ function fetch_reportdefinition($rid,$selbid='%'){
 		/* This identifies any assessment profiles the report is linked to. */
 		$d_categorydef=mysql_query("SELECT name
 				FROM categorydef JOIN ridcatid ON ridcatid.categorydef_id=categorydef.id 
-				WHERE ridcatid.report_id='$rid' AND
+				WHERE ridcatid.report_id='$rid' AND categorydef.type='pro' AND
 				ridcatid.subject_id='profile'");
 		if(mysql_num_rows($d_categorydef)>0){
 			$report['profile_name']=mysql_result($d_categorydef,0);
@@ -451,7 +471,7 @@ function fetch_reportdefinition($rid,$selbid='%'){
 		$d_report=mysql_query("SELECT id,title,stage,course_id FROM
 				report JOIN ridcatid ON ridcatid.categorydef_id=report.id 
 				WHERE ridcatid.report_id='$rid' AND
-				ridcatid.subject_id='wrapper'");
+				ridcatid.subject_id='wrapper';");
 		$reptable=array();
 		while($rep=mysql_fetch_array($d_report,MYSQL_ASSOC)){
 			$reptable['rep'][]=array('name' => $rep['title'],
@@ -519,6 +539,16 @@ function fetch_reportdefinition($rid,$selbid='%'){
 
 	if($reportdef['report']['addcategory']=='yes'){
 
+		$ratings=array();
+	   	if($reportdef['report']['rating_name']!=''){
+			$ratingname=$reportdef['report']['rating_name'];
+			$d_rating=mysql_query("SELECT * FROM rating 
+						WHERE name='$ratingname' ORDER BY value;");
+			while($rating=mysql_fetch_array($d_rating,MYSQL_ASSOC)){
+				$ratings[$rating['value']]=$rating['descriptor'];
+				}
+			}
+		$reportdef['ratings']=$ratings;
 		/*
 		list($ratingnames, $catdefs)=get_report_categories($rid,$selbid);
 		$reportdef['ratingnames']=$ratingnames;
@@ -546,41 +576,36 @@ function fetch_reportdefinition($rid,$selbid='%'){
 
 /**
  *
- * Returns two arrays containing the ratingnames and catdefs for all
- * categories for this report
- *
- * TODO: make the ratingnames part of the report table? And just
- * return catdefs from here.
+ * Returns an array containing the catdefs for all
+ * categories for this report.
+ * 
+ * The type can be 'cat' (default) or 'sub' if we are looking for
+ * subcomment categories.
  *
  */
-function get_report_categories($rid,$bid='%',$pid=''){
+function get_report_categories($rid,$bid='%',$pid='',$type='cat'){
 
 	if($pid!='' and $pid!=' '){$bid=$pid;}
 
 	$d_categorydef=mysql_query("SELECT id, name, type, subtype, rating,  
 				 rating_name, comment, ridcatid.subject_id AS bid FROM categorydef LEFT
 				JOIN ridcatid ON ridcatid.categorydef_id=categorydef.id 
-				WHERE ridcatid.report_id='$rid' AND (ridcatid.subject_id='$bid' OR
-				ridcatid.subject_id='%') AND ridcatid.subject_id!='summary' AND
-				ridcatid.subject_id!='wrapper' AND ridcatid.subject_id!='profile' 
-				ORDER BY ridcatid.subject_id;");
+				WHERE ridcatid.report_id='$rid' AND categorydef.type='$type'  
+				AND (ridcatid.subject_id='$bid' OR
+				ridcatid.subject_id='%');");
+
+	/*
+	  AND ridcatid.subject_id!='summary' AND
+	  ridcatid.subject_id!='wrapper' AND ridcatid.subject_id!='profile' 
+	  ORDER BY ridcatid.subject_id;
+	*/
+
    	$catdefs=array();
-	$ratingnames=array();
 	while($catdef=mysql_fetch_array($d_categorydef,MYSQL_ASSOC)){
 	   	$catdefs[]=$catdef;
-	   	if(!array_key_exists($catdef['rating_name'],$ratingnames)){
-			$ratingname=$catdef['rating_name'];
-			$d_rating=mysql_query("SELECT * FROM rating 
-						WHERE name='$ratingname' ORDER BY value;");
-			$ratings=array();
-			while($rating=mysql_fetch_array($d_rating,MYSQL_ASSOC)){
-				$ratings[$rating['value']]=$rating['descriptor'];
-				}
-			$ratingnames[$ratingname]=$ratings;
-			}
 	   	}
 
-	return array($ratingnames,$catdefs);
+	return $catdefs;
 	}
 
 
@@ -596,7 +621,7 @@ function fetchReportSummaries($rid){
 				categorydef.name, categorydef.type, categorydef.subtype, categorydef.subject_id,
 				categorydef.rating, categorydef.comment FROM categorydef LEFT
 				JOIN ridcatid ON ridcatid.categorydef_id=categorydef.id 
-				WHERE ridcatid.report_id='$rid' AND
+				WHERE ridcatid.report_id='$rid' AND (categorydef.type='sig' OR categorydef.type='com') AND
 				ridcatid.subject_id='summary' ORDER BY
 				categorydef.type, categorydef.rating;");
    	$catdefs=array();
@@ -630,44 +655,59 @@ function checkReportEntry($rid,$sid,$bid,$pid){
  *
  */
 function fetchReportEntry($reportdef,$sid,$bid,$pid){
+
 	$Comments=array();
 	//$Comments['Comment']=array();
 	$rid=$reportdef['report']['id'];
    	$d_reportentry=mysql_query("SELECT * FROM reportentry WHERE
 		  report_id='$rid' AND student_id='$sid' AND subject_id='$bid'
-		  AND component_id='$pid' ORDER BY entryn");
+		  AND component_id='$pid' ORDER BY entryn;");
+	$subcomments=(array)get_report_categories($rid,$bid,$pid,'sub');
+	$subcomments_no=sizeof($subcomments);
+
 	while($entry=mysql_fetch_array($d_reportentry)){
+
 	   $Comment=array();
 	   $Comment['id_db']=$entry['entryn'];
 	   if($reportdef['report']['addcomment']=='yes' or $bid=='summary'){
 		   $enttid=$entry['teacher_id'];
+		   $comment=$entry['comment'];
 		   $teachername=get_teachername($enttid);
-		   $Comment['Teacher']=nullCorrect(array('id_db' => ''.$enttid, 
-												 'value'=> ''.$teachername));
-		   $Comment['Text']=nullCorrect(array('value' => ''.$entry['comment']));
-		   }
-	   if($reportdef['report']['addcategory']=='yes' and $bid!='summary'){
-		   list($ratingnames,$catdefs)=get_report_categories($rid,$bid,$pid);
-		   
-		   $pairs=explode(";",$entry['category']);
-		   for($c3=0; $c3<sizeof($pairs)-1; $c3++){
-   				list($id, $rank)=split(":",$pairs[$c3]);
-		   		$entry['ratings'][$id]=$rank;
-		   		}
+		   if($subcomments_no>0){
+			   $comments=split(':::',$comment);
+			   for($c=0;$c<$subcomments_no;$c++){
+				   $comment='<label>'.$subcomments[$c]['name'].'</label>< /br>'.$comments[$c].'< /br>';
+				   }
 
-		   	$Categories=array();
-		  	for($c4=0;$c4<sizeof($catdefs);$c4++){
+			   }
+
+		   $Comment['Teacher']=nullCorrect(array('id_db'=>''.$enttid, 
+												 'value'=>''.$teachername));
+		   $Comment['Text']=nullCorrect(array('value'=>''.$comment,'value_db'=>''.$entry['comment']));
+		   }
+
+	   /* These are the check box ratings. */
+	   if($reportdef['report']['addcategory']=='yes' and $bid!='summary'){
+		   $catdefs=get_report_categories($rid,$bid,$pid);
+		   $pairs=explode(';',$entry['category']);
+		   for($c=0;$c<(sizeof($pairs)-1);$c++){
+			   list($catid, $rank)=split(':',$pairs[$c]);
+			   $entry['ratings'][$catid]=$rank;
+			   }
+
+		   $ratings=$reportdef['ratings'];
+		   $Categories=array();
+		   for($c=0;$c<sizeof($catdefs);$c++){
 		   		$Category=array();
-	   			$catid=$catdefs[$c4]['id'];
-   				$catname=$catdefs[$c4]['name'];
-			   	$ratings=$ratingnames[$catdefs[$c4]['rating_name']];
-			  	$Category=array('label' => $catname, 'id_db' => $catid);
+	   			$catid=$catdefs[$c]['id'];
+   				$catname=$catdefs[$c]['name'];
+			  	$Category=array('label'=>$catname,'id_db'=>$catid,'value'=>'');
 				if(isset($entry['ratings'][$catid])){
+					reset($ratings);
 					while(list($value,$descriptor)=each($ratings)){
 				   		if($entry['ratings'][$catid]==$value){$Category['value']=$value;}
 						}
 				   	}
-				else{$Category['value']='';}
 			   	$Categories['Category'][]=nullCorrect($Category);
 		   		}
 		   $Comment['Categories']=nullCorrect($Categories);
@@ -675,6 +715,7 @@ function fetchReportEntry($reportdef,$sid,$bid,$pid){
 
 	   $Comments['Comment'][]=nullCorrect($Comment);
 	   }
+
 	return $Comments;
 	}
 ?>

@@ -43,6 +43,7 @@ if($sub=='Submit' and isset($_FILES['importfile']) and $_FILES['importfile']['tm
 				$gena=$d[13];
 				$create=$d[14];
 				$deadline=$d[15];
+				trigger_error('rest: '.$resultstatus,E_USER_WARNING);
 				mysql_query("INSERT INTO assessment (stage, year, subject_id, method, element,
 					description, label, resultqualifier, outoftotal,
 					resultstatus, component_status, strand_status,

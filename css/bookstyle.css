@@ -497,8 +497,8 @@ div.content fieldset.listmenu, div.content fieldset.listmenu div,
 .listmenu td div.row input { 
     margin:0;
 	}
-.listmenu td div.checked label { 
-    background-color:#ff9966;
+.listmenu td div.checked, div.checked input, div.checked label { 
+    background-color:#ff9966 !important;
 	}
 
 /* Always use in conjunction with listmenu, for when your

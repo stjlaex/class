@@ -130,13 +130,15 @@
 <?php
 		if($reportdef['report']['addcategory']=='yes'){
 			$ass_colspan++;
+			$ratings=$reportdef['ratings'];
 			reset($catdefs);
 			while(list($c4,$catdef)=each($catdefs)){
 				$catid=$catdefs[$c4]['id'];
 				$catname=$catdefs[$c4]['name'];
-				$ratings=$ratingnames[$catdefs[$c4]['rating_name']];
 				print '<tr class="'.$rowclass.'" id="'.$openId.'-'.$rown++.'"><th></th>';
-				print '<td colspan="'.$ass_colspan.'"><div class="row" style="width:30%;"><p>'.$catname.'</p></div>';
+				print '<td colspan="'.$ass_colspan.'"><div class="row" style="width:20%;"><p>'
+					.$catname.'</p></div>';
+				reset($ratings);
 				while(list($value,$descriptor)=each($ratings)){
 					$checkclass='';
 					if(isset($Comment['Categories']) 
@@ -162,7 +164,7 @@
 			print '<textarea '.$commentlength.' rows="2" cols="80" ';
 			print 'onClick="clickToWriteComment('.$sid.','.$rid.',\''.$bid.'\',\''.$pid.'\',\''.$entryn.'\',\''.$openId.'\');"'; 
 			print ' tabindex="'.$tab.'" name="sid'.$sid.':'.$inc++.'" id="text'.$openId.'">';
-			print $Comment['Text']['value'];
+			print $Comment['Text']['value_db'];
 			print '</textarea>';
 			$extrabuttons=array();
 			$imagebuttons=array();
