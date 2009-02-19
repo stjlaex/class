@@ -49,6 +49,8 @@ subcomments in one block with labels and linebreaks. The value_db is
 the value for storage, it has no label descriptors, and subcomments
 separated by ::: for splitting.
 
+The entries in categorydef for report categories now have type=cat
+instead of type=rep.
 
 
 Version ClaSS-0.8.64 release (2009/02/03)

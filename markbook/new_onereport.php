@@ -136,7 +136,7 @@
 				$catid=$catdefs[$c4]['id'];
 				$catname=$catdefs[$c4]['name'];
 				print '<tr class="'.$rowclass.'" id="'.$openId.'-'.$rown++.'"><th></th>';
-				print '<td colspan="'.$ass_colspan.'"><div class="row" style="width:20%;"><p>'
+				print '<td colspan="'.$ass_colspan.'"><div class="row" style="width:26%;"><p>'
 					.$catname.'</p></div>';
 				reset($ratings);
 				while(list($value,$descriptor)=each($ratings)){
@@ -161,7 +161,7 @@
 		    else{$commentlength=' maxlength="'.$reportdef['report']['commentlength'].'"';}
 			print '<tr class="'.$rowclass.'" id="'.$openId.'-'.$rown++.'" >';
 			print '<th></th><td colspan="'.$ass_colspan.'">';
-			print '<textarea '.$commentlength.' rows="2" cols="80" ';
+			print '<textarea '.$commentlength.' rows="2" cols="80" readonly="readonly" ';
 			print 'onClick="clickToWriteComment('.$sid.','.$rid.',\''.$bid.'\',\''.$pid.'\',\''.$entryn.'\',\''.$openId.'\');"'; 
 			print ' tabindex="'.$tab.'" name="sid'.$sid.':'.$inc++.'" id="text'.$openId.'">';
 			print $Comment['Text']['value_db'];
@@ -170,7 +170,7 @@
 			$imagebuttons=array();
 			if($inmust=='yes' and $reportdef['report']['addcategory']=='yes'){
 				$imagebuttons['clicktoconfigure']=array('name'=>'current',
-														'onclick'=>"clickToConfigureCategories('rep',$rid,'$bid','$pid','0')", 
+														'onclick'=>"clickToConfigureCategories('cat',$rid,'$bid','$pid','0')", 
 														'value'=>'category_editor.php',
 														'title'=>'configure');
 				}

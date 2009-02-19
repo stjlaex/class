@@ -18,10 +18,8 @@ if(isset($_GET['openid'])){$openid=$_GET['openid'];}
 
 /* The categories and rating details */
 /* TODO: generalise to all catdef types */
-if($type=='rep'){
+if($type=='cat'){
 	$catdefs=get_report_categories($rid,$bid,$pid);
-	//$RepDef=fetchReportDefiniton($rid);
-	//$ratings=$RepDef['CategoriesRating']['ratings'];
 	}
 else{
 	$catdefs=array();

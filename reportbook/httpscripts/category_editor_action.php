@@ -18,10 +18,9 @@ if($sub=='Cancel'){
 elseif($sub=='Submit'){
 	$openerId=$_POST['openid'];
 	
-	if($type=='rep'){
+	if($type=='cat'){
 		if($pid!='' and $pid!=' '){$bid=$pid;}
 		$RepDef=fetchReportDefinition($rid);
-		//$ratingname=$RepDef['CategoriesRating']['value'];
 		$crid=$RepDef['Course']['value'];
 		$catdefs=get_report_categories($rid,$bid,$pid);
 		}
