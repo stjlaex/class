@@ -1,4 +1,4 @@
-Version ClaSS-0.8.65 release (2009/02/19)
+Version ClaSS-0.8.65 release (2009/02/20)
 -----------------------------------------
 
 Changed the eidsid result field to a varchar(30) to match the ratings -
@@ -51,6 +51,9 @@ separated by ::: for splitting.
 
 The entries in categorydef for report categories now have type=cat
 instead of type=rep.
+
+Transfers in from feeder schools are now counted correctly as part of
+the ernolments table.
 
 
 Version ClaSS-0.8.64 release (2009/02/03)

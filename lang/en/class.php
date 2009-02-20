@@ -315,5 +315,6 @@ $string['about']='About ClaSS';
 $string['assessmentprofile']='Profile';
 $string['configure']='Configure';
 $string['categories']='Categories';
+$string['pending']='Re-enroling Pending';
 $string['']='';
 ?>

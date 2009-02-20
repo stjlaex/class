@@ -9,9 +9,8 @@
 							'currentroll','capacity','spaces');
 		}
 	else{
-		$enrolcols_value=array('reenroling','transfersin','newenrolments','leavers',
-							   'transfersout','projectedroll',
-							   'budget','capacity','spaces');
+		$enrolcols_value=array('reenroling','pending','transfersin','newenrolments','leavers',
+							   'projectedroll','budget','capacity','spaces');
 		}
 
 	$enrol_tablerows=array();
@@ -59,9 +58,12 @@
 			$cell['value']=0;
 			$cell['yid']=$yid;
 			$cell['comid']=$comid;
+
+			/* Each enrol column has its own calculation */
 			if($enrolcol=='reenroling'){
 				$cell['confirm']=count_reenrol_no($comid,$reenrol_eid,'C');
 				$cell['repeat']=count_reenrol_no($comid,$reenrol_eid,'R');
+				$cell['pending']=count_reenrol_no($comid,$reenrol_eid,'P');
 
 				if(isset($enrol_tablerows[$yid-1])){
 					$pre_reenrolcell=$enrol_tablerows[$yid-1][$enrolcol];
@@ -77,16 +79,34 @@
 							'&comid='. $comid.'&enrolstage=RE">' 
 							.$cell['value'].'</a>';
 				}
+			elseif($enrolcol=='pending'){
+
+				if(isset($enrol_tablerows[$yid-1])){
+					$cell['value']=$enrol_tablerows[$yid-1]['reenroling']['pending'];	
+					}
+				else{
+					$cell['value']=0;	
+					}
+				/*
+				$cell['display']='<a href="admin.php?current=enrolments_list.php&cancel='.
+							$choice.'&choice='. $choice.'&enrolyear='. 
+							$enrolyear.'&yid='. $yid.
+							'&comid='. $comid.'&enrolstage=RE">' 
+							.$cell['value'].'</a>';
+				*/
+				}
 			elseif($enrolcol=='reenroled'){
 				$cell['value']=count_reenrol_no($comid,$reenrol_eid,'C','R');
 				}
+			elseif($enrolcol=='transfersin'){
+				$cell['value']=0;
+				/* Accepteds plus any transfers from feeders*/
+				if(sizeof($feeder_nos)>0){
+					if(isset($feeder_nos[$yid-1])){$cell['value']+=$feeder_nos[$yid-1];}
+					}
+				}
 			elseif($enrolcol=='newenrolments'){
 				if($enrolyear!=$currentyear){
-					$cell['value']=0;
-					/* Accepteds plus any transfers from feeders*/
-					if(sizeof($feeder_nos)>0){
-						if(isset($feeder_nos[$yid-1])){$cell['value']+=$feeder_nos[$yid-1];}
-						}
 					$cell['value']+=$app_tablerows[$yid]['AC']['value'];
 					}
 				else{
@@ -111,7 +131,7 @@
 					}
 				}
 			elseif($enrolcol=='projectedroll'){
-					$cell['value']=$enrol_tablecells['newenrolments']['value'] + $enrol_tablecells['reenroling']['repeat'] + $pre_reenrolcell['confirm'];
+					$cell['value']=$enrol_tablecells['newenrolments']['value'] + $enrol_tablecells['transfersin']['value'] + $enrol_tablecells['reenroling']['repeat'] + $enrol_tablecells['pending']['value'] + $pre_reenrolcell['confirm'];
 				}
 			elseif($enrolcol=='leaverssince'){
 				$leavercomid=update_community(array('id'=>'','type'=>'alumni','name'=>'P:'.$yid,'year'=>$currentyear));
@@ -167,11 +187,12 @@
 					$cell['value']=$enrol_tablecells['capacity']['value'] - $enrol_tablecells['currentroll']['value'] - $app_tablerows[$yid]['AC']['value'];
 					}
 				elseif(isset($pre_reenrolcell)){
-					$cell['value']=$enrol_tablecells['capacity']['value'] -	$enrol_tablecells['newenrolments']['value'] - $enrol_tablecells['reenroling']['repeat'] - $pre_reenrolcell['confirm'];
+					$cell['value']=$enrol_tablecells['capacity']['value'] -	$enrol_tablecells['transfersin']['value'] - $enrol_tablecells['newenrolments']['value'] - $enrol_tablecells['pending']['value'] - $enrol_tablecells['reenroling']['repeat'] - $pre_reenrolcell['confirm'];
 					}
 				else{
 					$cell['value']=$enrol_tablecells['capacity']['value'] - $enrol_tablecells['newenrolments']['value'];
 					}
+				/* Don't display negative spaces. */
 				if($cell['value']<0){$cell['value']=0;}
 				}
 			if(!isset($cell['display'])){$cell['display']=$cell['value'];}
