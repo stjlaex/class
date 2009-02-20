@@ -102,7 +102,7 @@ while(list($cindex,$catdef)=each($catdefs)){
 	<?php three_buttonmenu(); ?>
 
 <div id="heading">
-	<label><?php print $subject; ?></label>
+	<label><?php print_string('categories',$book); ?></label>
 </div>
 
 	
@@ -132,7 +132,12 @@ while(list($cindex,$catdef)=each($catdefs)){
 		  <tr>
 			<td><?php print $catn;?><input type="hidden" name="catid<?php print $catn;?>" value="<?php print $Category['id_db']; ?>" /></td>
 			<td><?php $tab=xmlelement_input($Category['Name'],$catn,$tab,'report');?></td>
-			<td><?php $tab=xmlelement_input($Category['Subject'],$catn,$tab,'report');?></td>
+			<td>
+			<?php 
+			if($Category['Subject']['value']!=''){print $Category['Subject']['value'];}
+			else{print $subject;}
+			?>
+			</td>
 		  </tr>
 <?php
 			}

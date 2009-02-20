@@ -118,7 +118,7 @@ if(isset($StatementBank['Area']) and sizeof($StatementBank['Area'])>0){
 	$commentheight=180;
 	}
 else{
-	$commentheight=400;
+	$commentheight=600;
 	}
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
@@ -143,7 +143,7 @@ else{
 	<div id="bookbox">
 	  <?php three_buttonmenu(); ?>
 
-	  <div id="heading" style="font-size:11pt;">
+	  <div id="heading">
 		<label><?php print_string('student'); ?></label>
 			<?php print $Student['DisplayFullName']['value'];?>
 	  </div>
@@ -155,6 +155,7 @@ else{
 <?php
 	if($subcomments_no==0){$subcomments[]['name']='Comment';$subcomments_no=1;}
 	$commentheight=($commentheight/$subcomments_no)-25*$subcomments_no;/*in px*/
+	if($commentheight<90){$commentheight=80;}
 	for($c=0;$c<$subcomments_no;$c++){
 			$commentlabel=$subcomments[$c]['name'];
 ?>

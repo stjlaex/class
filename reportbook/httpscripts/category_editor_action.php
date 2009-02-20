@@ -51,7 +51,6 @@ elseif($sub=='Submit'){
 				mysql_query("DELETE FROM ridcatid WHERE categorydef_id='$incatid' 
 					AND report_id='$rid';");
 				}
-			//trigger_error($incatid.': '.$inval,E_USER_WARNING);
 			}
 		}
 	}

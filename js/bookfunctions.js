@@ -34,7 +34,7 @@ function clickToAttachFile(sid,mid,cid,pid,openId){
 
 
 function openHelperWindow(helperurl,getvars){
-	writerWindow=window.open("","","height=650,width=650,screenX=50,dependent");
+	writerWindow=window.open("","","height=680,width=720,screenX=50,dependent");
 	writerWindow.document.open();
 	writerWindow.document.writeln("<html>");
 	writerWindow.document.writeln("<head>");
