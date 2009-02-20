@@ -102,7 +102,7 @@ while(list($cindex,$catdef)=each($catdefs)){
 	<?php three_buttonmenu(); ?>
 
 <div id="heading">
-	<label><?php print_string('categories',$book); ?></label>
+	<label><?php print get_string('configure',$book).' '.get_string('categories',$book); ?></label>
 </div>
 
 	

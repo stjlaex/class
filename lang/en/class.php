@@ -313,5 +313,7 @@ $string['homework']='Homework';
 $string['reload']='Reload';
 $string['about']='About ClaSS';
 $string['assessmentprofile']='Profile';
+$string['configure']='Configure';
+$string['categories']='Categories';
 $string['']='';
 ?>
