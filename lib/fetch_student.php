@@ -522,7 +522,7 @@ function fetchContact($gidsid=array('guardian_id'=>'-1','student_id'=>'-1','prio
 	$Contact['DisplayFullName']=array('label' => 'fullname',  
 									  'value' =>
 			   					  get_string(displayEnum($Contact['Title']['value'], 'title'),'infobook')
-									  .'  ' . $guardian['forename'] . ' ' 
+									  .' ' . $guardian['forename'] . ' ' 
 									  //.$guardian['middlenames']
 									  . ' ' . $guardian['surname']);
 

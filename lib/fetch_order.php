@@ -666,7 +666,7 @@ function fetchInvoice($invid='-1'){
  */
 function get_budgetyear($yearcode=''){
 	if($yearcode==''){
-		$endmonth='3';/*TODO: should be in school.php*/
+		$endmonth='4';/*TODO: should be in school.php*/
 		$thismonth=date('m');
 		$thisyear=date('Y');
 		if($thismonth>$endmonth){$thisyear++;}

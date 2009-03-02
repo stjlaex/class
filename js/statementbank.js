@@ -4,9 +4,9 @@ var subarea="*";
 var ability="*";
 
 function chooseStatement(statementObject){
-	var comment=document.getElementById("Comment").value;
+	var comment=document.getElementById("Comment0").value;
 	comment=comment+" "+statementObject.innerHTML;
-	document.getElementById("Comment").value=comment;
+	document.getElementById("Comment0").value=comment;
 	}
 
 function filterbySubarea(newsubarea){

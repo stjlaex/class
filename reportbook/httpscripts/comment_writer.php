@@ -156,6 +156,7 @@ else{
 	if($subcomments_no==0){$subcomments[]['name']='Comment';$subcomments_no=1;}
 	$commentheight=($commentheight/$subcomments_no)-25*$subcomments_no;/*in px*/
 	if($commentheight<90){$commentheight=80;}
+	if($commentheight>450){$commentheight=450;}
 	for($c=0;$c<$subcomments_no;$c++){
 			$commentlabel=$subcomments[$c]['name'];
 ?>

@@ -10,10 +10,10 @@ $host='admin.php';
 $current='demoiser.php';
 $choice='demoiser.php';
 
-function tableRead($table,$sort=''){
+function tableRead($table,$sort='',$order='ASC'){
 	$trows=array();
-	if($sort!=''){$d_table=mysql_query("SELECT * FROM $table ORDER BY $sort");}
-	else{$d_table=mysql_query("SELECT * FROM $table");}
+	if($sort!=''){$d_table=mysql_query("SELECT * FROM $table ORDER BY $sort $order;");}
+	else{$d_table=mysql_query("SELECT * FROM $table;");}
    	while($row=mysql_fetch_array($d_table,MYSQL_ASSOC)){
 		$trows[]=$row;
 		}
@@ -59,11 +59,10 @@ function generate_random_name($gender){
 	$trows=tableRead($table);
 	while(list($index, $row)=each($trows)){
 		$id=$row['id'];
-		if(mysql_query("UPDATE $table SET 
+		mysql_query("UPDATE $table SET 
 		street='36 Longstreet', neighbourhood='Housing
 		estate', region='Small town', postcode='SG4 9PQ', country='England'
-					 WHERE id='$id'")){}
-		else{$error[]=mysql_error();}
+					 WHERE id='$id'");
 		}
 
 	$table='background';	
@@ -71,10 +70,8 @@ function generate_random_name($gender){
 	$trows=tableRead($table);
 	while(list($index, $row)=each($trows)){
 		$id=$row['id'];
-		if(mysql_query("UPDATE $table SET detail='A specific piece of
-			background information.', entrydate='2000-01-01'
-					 WHERE id='$id'")){}
-		else{$error[]=mysql_error();}
+		mysql_query("UPDATE $table SET detail='A specific piece of
+			background information.', entrydate='2000-01-01' WHERE id='$id'");
 		}
 
 	$table='comments';
@@ -82,10 +79,9 @@ function generate_random_name($gender){
 	$trows=tableRead($table);
 	while(list($index, $row)=each($trows)){
 		$id=$row['id'];
-		if(mysql_query("UPDATE $table SET detail='A general comment
-			about positive or negative progress.'
-					 WHERE id='$id'")){}
-		else{$error[]=mysql_error();}
+		/*		mysql_query("UPDATE $table SET detail='A general comment
+			about positive or negative progress.' WHERE id='$id'");
+		*/
 		}
 
 	$table='exclusions';
@@ -93,9 +89,8 @@ function generate_random_name($gender){
 	$trows=tableRead($table);
 	while(list($index, $row)=each($trows)){
 		$id=$row['student_id'];
-		if(mysql_query("UPDATE $table SET reason='The reason for the exclusion.',
-					startdate='2000-01-01', enddate='2000-01-02' WHERE student_id='$id'")){}
-		else{$error[]=mysql_error();}
+		mysql_query("UPDATE $table SET reason='The reason for the exclusion.',
+	   		startdate='2000-01-01', enddate='2000-01-02' WHERE student_id='$id'");
 		}
 
 
@@ -109,11 +104,10 @@ function generate_random_name($gender){
 		$rel=mysql_result($d_gidsid,0);
 		if($rel=='PAF'){$gender='M';$title='1';}else{$gender='F';$title='2';}
 		$name=generate_random_name($gender);
-		if(mysql_query("UPDATE $table SET surname='$name[2]',
+		mysql_query("UPDATE $table SET surname='$name[2]',
 			forename='$name[0]', middlenames='$name[1]', title='$title',
 			profession='', email='', companyname='', nationality='', language='',
-			dob='', epfusername='', note='', code='' WHERE id='$id'")){}
-		else{$error[]=mysql_error();}
+			dob='', epfusername='', note='', code='' WHERE id='$id'");
 		}
 
 	$table='history';
@@ -129,9 +123,8 @@ function generate_random_name($gender){
 	$trows=tableRead($table);
 	while(list($index, $row)=each($trows)){
 		$id=$row['id'];
-		if(mysql_query("UPDATE $table SET detail='The nature of the incident.',
-					entrydate='2007-09-21' WHERE id='$id'")){}
-		else{$error[]=mysql_error();}
+		mysql_query("UPDATE $table SET detail='The nature of the incident.',
+					entrydate='2007-09-21' WHERE id='$id'");
 		}
 
 	$table='info';
@@ -139,13 +132,12 @@ function generate_random_name($gender){
 	$trows=tableRead($table);
 	while(list($index,$row)=each($trows)){
 		$id=$row['student_id'];
-		if(mysql_query("UPDATE $table SET formerupn='20987', otherpn1='', otherpn2='',
+		mysql_query("UPDATE $table SET formerupn='20987', otherpn1='', otherpn2='',
 			ethnicity='', email='', phonenumber='', countryoforigin='',
 			language='EN', religion='', incare='N', appnotes='', appdate='',
 			staffchild='N', entrydate='2001-04-01', leavingdate='', nationality='GB', 
 			appcategory='', secondnationality='', medical='N', epfusername='', appnotes='', appdate='',
-				staffchild='N' WHERE student_id='$id'")){}
-		else{$error[]=mysql_error();}
+				staffchild='N' WHERE student_id='$id'");
 		}
 
 	$table='phone';
@@ -153,23 +145,21 @@ function generate_random_name($gender){
 	$trows=tableRead($table);
 	while (list($index, $row) = each($trows)) {
 		$id=$row['id'];
-		if(mysql_query("UPDATE $table SET number='1907893333'
-				WHERE id='$id'")){}
-		else{$error[]=mysql_error();}
+		mysql_query("UPDATE $table SET number='1907893333'
+				WHERE id='$id'");
 		}
 
 	$table='sencurriculum';
 	$trows=array();
-	if(mysql_query("UPDATE $table SET comments='The background.',
-					targets='To improve.', outcome='The result.'")){}
-	else{$error[]=mysql_error();}
+	mysql_query("UPDATE $table SET comments='The background.',
+					targets='To improve.', outcome='The result.'");
 
 	$table='student';
 	$trows=array();
 	$trows=tableRead($table);
 	while(list($index, $row)=each($trows)){
 		$id=$row['id'];
-		if($row['gender']=='M'){$gender='F';}else{$gender='M';};
+		//if($row['gender']=='M'){$gender='F';}else{$gender='M';};
 		$name=generate_random_name($gender);
 		mysql_query("UPDATE $table SET surname='$name[2]',
 				forename='$name[0]', middlenames='$name[1]', dob='1998-04-01'
@@ -177,7 +167,7 @@ function generate_random_name($gender){
 		}
 
 	$table='users';
-	$trows=tableRead($table);
+	$trows=tableRead($table,'logcount','DESC');
 	$profindex=1;
 	$officeindex=1;
 	$adminindex=1;
@@ -255,7 +245,7 @@ function generate_random_name($gender){
 	mysql_query("UPDATE $table SET comment='A constructive comment from a subject teacher.'");
 
 	$table='score';
-	mysql_query("UPDATE $table SET comment=''");
+//mysql_query("UPDATE $table SET comment=''");
 
 	$table='form';
 	$trows=tableRead($table,'yeargroup_id');
@@ -272,14 +262,12 @@ function generate_random_name($gender){
 		elseif($yid=='0'){$nid='REC'.$name[$i];}
 		else{$nid=$yid.''.$name[$i];}
 		if(mysql_query("UPDATE $table SET id='$nid', name='$nid' 
-				WHERE id='$id'")){}
+				WHERE id='$id';")){}
 		else{print '<br />'.$id.' '.$nid. mysql_error();}
-		if(mysql_query("UPDATE student SET form_id='$nid'
-				WHERE form_id='$id'")){}
-		else{print mysql_error();}
-		if(mysql_query("UPDATE community SET name='$nid'
-				WHERE name='$id' AND type='form'")){}
-		else{print mysql_error();}
+		mysql_query("UPDATE student SET form_id='$nid'
+				WHERE form_id='$id'");
+		mysql_query("UPDATE community SET name='$nid'
+				WHERE name='$id' AND type='form'");
 		}
 
 	$table='classes';

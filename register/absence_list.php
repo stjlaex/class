@@ -11,7 +11,20 @@ $students=list_absentStudents();
 //trigger_error('Subject'.$bid,E_USER_WARNING);
 
 include('scripts/sub_action.php');
-two_buttonmenu();
+
+$extrabuttons['message']=array('name'=>'current',
+							   'title'=>'message',
+							   'value'=>'message_absences.php',
+							   'onclick'=>'processContent(this)'
+							   );
+$extrabuttons['summary']=array('name'=>'current',
+							   'pathtoscript'=>$CFG->sitepath.'/'.$CFG->applicationdirectory.'/reportbook/',
+							   'title'=>'printreportsummary',
+							   'value'=>'report_attendance_print.php',
+							   'onclick'=>'checksidsAction(this)'
+							   );
+//threeplus_buttonmenu($startday,2,$extrabuttons);
+two_buttonmenu($extrabuttons);
 ?>
   <div id="heading">
 	<label><?php print_string('absencesthissession','register');?></label>
@@ -20,7 +33,12 @@ two_buttonmenu();
 	  <form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
 		<table class="listmenu sidtable">
 		<tr>
-		  <th colspan="2">&nbsp</th>
+		  <th colspan="2">
+			<label id="checkall">
+			  <?php print_string('checkall');?>
+			  <input type="checkbox" name="checkall" value="yes" onChange="checkAll(this);" />
+			</label>
+		  </th>
 		  <th colspan="2"><?php print_string('student'); ?></th>
 		  <th><?php print_string('attendance',$book);?></th>
 		</tr>
@@ -32,9 +50,13 @@ two_buttonmenu();
 		$Student=fetchStudent_short($sid);
 ?>
 		<tr id="sid-<?php print $sid;?>">
-		  <td><?php print $rown++;?></td>
-		  <td>&nbsp</td>
-		  <td>
+		<td>
+		<?php print $rown++;?>
+		</td>
+		<td>
+		<input type="checkbox" name="sids[]" value="<?php print $sid; ?>" />
+		</td>
+		<td>
 			<a href="infobook.php?current=student_view.php&sid=<?php print $sid;?>&sids[]=<?php print $sid;?>"
 			  target="viewinfobook" onclick="parent.viewBook('infobook');">
 			<?php print $Student['DisplayFullName']['value']; ?></a>
@@ -82,4 +104,15 @@ two_buttonmenu();
 		<input type="hidden" name="cancel" value="<?php print '';?>" />
 	    <input type="hidden" name="choice" value="<?php print $choice;?>" />
 	  </form>
+  </div>
+
+<?php
+	$toyear=get_curriculumyear()-1;//TODO: set a proper start of term date
+	$today=date('Y-m-d');
+?>
+  <div id="xml-checked-action" style="display:none;">
+	<period>
+	  <startdate><?php print $toyear.'-08-01';?></startdate>
+	  <enddate><?php print $today;?></enddate>
+	</period>
   </div>
