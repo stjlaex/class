@@ -891,14 +891,14 @@ function fetchComments($sid,$startdate='',$enddate=''){
 
 
 /**
- *
+ * 
  *
  *
  */
 function comment_display($sid,$date='',$Comments=''){
 	$commentdisplay=array();
 	if($date==''){
-		$date=date('Y-m-d',mktime(0,0,0,date('m'),date('d')-31,date('Y')));
+		$date=date('Y-m-d',mktime(0,0,0,date('m'),date('d')-14,date('Y')));
 		}
 	if($Comments==''){
 		$Comments=fetchComments($sid,$date);

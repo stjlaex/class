@@ -6,7 +6,8 @@
 $action='message_absences_action.php';
 
 if(isset($_POST['sids'])){$sids=(array)$_POST['sids'];}else{$sids=array();}
-$_SESSION[$book.'recipients']=array();
+$_SESSION[$book.'unauthrecipients']=array();
+$_SESSION[$book.'authrecipients']=array();
 
 include('scripts/sub_action.php');
 
@@ -26,33 +27,33 @@ while(list($index,$sid)=each($sids)){
 
 	$Student=fetchStudent_short($sid);
 	$Contacts=(array)fetchContacts($sid);
+	$Attendance=fetchcurrentAttendance($sid);
+	if($Attendance['Code']['value']=='O'){
 
-	$sid_recipient_no=0;
-	while(list($index,$Contact)=each($Contacts)){
-		$recipient=array();
-		/* Only contacts who have an email address and are 
-		 * flagged to receive all mailings 
-		 */
-		if($Contact['ReceivesMailing']['value']=='1'){
-			if($Contact['EmailAddress']['value']!=''){
-
-				$studentname=$Student['DisplayFullName']['value'];
-
-				$recipient['name']=$Contact['DisplayFullName']['value'];
-
-				$recipient['explanation']=get_string(displayEnum($Contact['Relationship']['value'],'relationship'),'infobook'). ' to '. $studentname;
-
-				$recipient['messagebody']='At 10:00AM this morning '.$studentname.' had not registered in school. Please could you contact the school to inform us of the reason the reason for your child\'s absence.'."\r\n";
-				$recipient['messagebody'].="\r\n".'A las 10 de la manana de hoy '.$studentname.' no se ha registrado en el colegio. Podria, por favor, contactar con el colegio e informarnos de los motivos por los que su hijo/a ha estado ausente?'."\r\n";
-
-				$recipient['email']=strtolower($Contact['EmailAddress']['value']);
-
-				$recipients[]=$recipient;
-
-				$sid_recipient_no++;
-				}
-			elseif($Contact['EmailAddress']['value']==''){
-				$email_blank_gids[]=$Contact['id_db'];
+		$sid_recipient_no=0;
+		while(list($index,$Contact)=each($Contacts)){
+			$recipient=array();
+			/* Only contacts who have an email address and are 
+			 * flagged to receive all mailings 
+			 */
+			if($Contact['ReceivesMailing']['value']=='1'){
+				if($Contact['EmailAddress']['value']!=''){
+					
+					$recipient['name']=$Contact['DisplayFullName']['value'];
+					
+					$recipient['relationship']=$Contact['Relationship']['value'];
+					
+					$recipient['studentname']=$Student['DisplayFullName']['value'];
+					
+					$recipient['email']=strtolower($Contact['EmailAddress']['value']);
+					
+					$recipients[]=$recipient;
+					
+					$sid_recipient_no++;
+					}
+				elseif($Contact['EmailAddress']['value']==''){
+					$email_blank_gids[]=$Contact['id_db'];
+					}
 				}
 			}
 		}
@@ -65,7 +66,7 @@ while(list($index,$sid)=each($sids)){
 	}
 
 
-$_SESSION[$book.'recipients']=$recipients;
+$_SESSION[$book.'unauthrecipients']=$recipients;
 
 three_buttonmenu();
 ?>
@@ -82,11 +83,19 @@ three_buttonmenu();
 
 	  <fieldset class="center divgroup"> 
 		<legend><?php print_string('confirm',$book);?></legend>
-		<p><?php print get_string('message','infobook').' '.get_string('contacts','infobook');?>
-		<?php print_string('',$book);?></p>
+		<p><?php print get_string('messagecontactsunauthorisedabsences','register');?>
 
 		<div class="right">
-		  <?php include('scripts/check_yesno.php');?>
+	<?php $checkname='unauth'; include('scripts/check_yesno.php');?>
+		</div>
+	  </fieldset> 
+
+	  <fieldset class="center divgroup"> 
+		<legend><?php print_string('confirm',$book);?></legend>
+		<p><?php print get_string('messagecontactsallabsences','register');?>
+
+		<div class="right">
+		  <?php $checkname='all';include('scripts/check_yesno.php');?>
 		</div>
 	  </fieldset> 
 

@@ -50,6 +50,7 @@ while(list($index,$year)=each($yeargroups)){
 		if($feeder!=''){
 			$Transfers=feeder_fetch('transfer_nos',$feeder,$postdata);
 			while(list($findex,$Transfer)=each($Transfers['transfer'])){
+		trigger_error($findex.' '.$Transfer['yeargroup'].' '.$Transfer['value']);
 				if(!isset($feeder_nos[$Transfer['yeargroup']])){
 					$feeder_nos[$Transfer['yeargroup']]=0;
 					}

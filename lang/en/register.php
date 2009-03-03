@@ -48,6 +48,8 @@ $string['complete']='Complete';
 $string['incomplete']='Incomplete';
 $string['attended']='Attended';
 $string['absences']='Absences';
+$string['messagecontactsunauthorisedabsences']='Message contacts for unauthorised absences only.';
+$string['messagecontactsallabsences']='Message contacts for ALL absences.';
 $string['']='';
 $string['']='';
 ?>

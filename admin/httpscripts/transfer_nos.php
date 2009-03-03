@@ -39,14 +39,14 @@ else{$feeder_code=-1;}
 		$yid=$yeargroup['id'];
 		$comyid=$yid+$yeardif;
 		/* Two possible places to find the transferees depending on
-			wether the school has already reached year_end or not.*/
+			whether the school has already reached year_end or not.*/
 		$coms=array();
 		$coms[]=array('id'=>'','type'=>'alumni', 
 									 'name'=>'P:'.$yid,'year'=>$enrolyear-1);
-		$coms[]=array('id'=>'','type'=>'year','name'=>$comyid);
+		$coms[]=array('id'=>'','type'=>'year','name'=>(string)$comyid);
 		while(list($cindex,$com)=each($coms)){
 			$comid=update_community($com);
-			$no=$no+count_reenrol_no($comid,$reenrol_eid,$feeder_code);
+			$no+=count_reenrol_no($comid,$reenrol_eid,$feeder_code);
 			}
 		$Transfer=array('Yeargroup'=>$yid,'value'=>$no);
 		$Transfers['Transfer'][]=$Transfer;

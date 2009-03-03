@@ -49,6 +49,7 @@
 	reset($yeargroups);
 	while(list($yearindex,$yeargroup)=each($yeargroups)){
 		$yid=$yeargroup['id'];
+		$previous_yid=$yid-1;
 		$enrol_tablecells=array();
 		$comid=$yeargroup_comids[$yid];
 		$yearcommunity=get_community($comid);
@@ -65,8 +66,8 @@
 				$cell['repeat']=count_reenrol_no($comid,$reenrol_eid,'R');
 				$cell['pending']=count_reenrol_no($comid,$reenrol_eid,'P');
 
-				if(isset($enrol_tablerows[$yid-1])){
-					$pre_reenrolcell=$enrol_tablerows[$yid-1][$enrolcol];
+				if(isset($enrol_tablerows[$previous_yid])){
+					$pre_reenrolcell=$enrol_tablerows[$previous_yid][$enrolcol];
 					}
 				else{
 					$pre_reenrolcell=$cell;
@@ -81,8 +82,8 @@
 				}
 			elseif($enrolcol=='pending'){
 
-				if(isset($enrol_tablerows[$yid-1])){
-					$cell['value']=$enrol_tablerows[$yid-1]['reenroling']['pending'];	
+				if(isset($enrol_tablerows[$previous_yid])){
+					$cell['value']=$enrol_tablerows[$previous_yid]['reenroling']['pending'];	
 					}
 				else{
 					$cell['value']=0;	
@@ -102,7 +103,7 @@
 				$cell['value']=0;
 				/* Accepteds plus any transfers from feeders*/
 				if(sizeof($feeder_nos)>0){
-					if(isset($feeder_nos[$yid-1])){$cell['value']+=$feeder_nos[$yid-1];}
+					if(isset($feeder_nos[$previous_yid])){$cell['value']+=$feeder_nos[$previous_yid];}
 					}
 				}
 			elseif($enrolcol=='newenrolments'){
@@ -145,8 +146,8 @@
 				}
 			elseif($enrolcol=='leavers'){
 				$cell['value']=count_reenrol_no($comid,$reenrol_eid,'L','LL');
-				if(isset($enrol_tablerows[$yid-1])){
-					$pre_leavercell=$enrol_tablerows[$yid-1][$enrolcol];
+				if(isset($enrol_tablerows[$previous_yid])){
+					$pre_leavercell=$enrol_tablerows[$previous_yid][$enrolcol];
 			 /*TODO: allow a shortcut to list just leavers*/
 					//$cell['display']='<a href="admin.php?current=enrolments_list.php&cancel='.
 					//		$choice.'&choice='. $choice.'&enrolyear='. 
