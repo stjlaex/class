@@ -52,7 +52,6 @@ if($recipients and sizeof($recipients)>0){
 
 			$email_result=send_email_to($recipient['email'],$fromaddress,$messagesubject,$message);
 
-			trigger_error('TO: '.$recipient['email'].' SUBJECT:'.$messagesubject.' BODY:'.$message,E_USER_WARNING);
 			if($email_result){$sentno++;}
 			else{$failno++;}
 

@@ -164,7 +164,6 @@ $string['from']='From';
 $string['to']='To';
 $string['subject']='';
 $string['attachment']='Attachment';
-$string['message']='Message';
 $string['bcc']='BCC';
 $string['selectamessageoption']='Please select a message option.';
 $string['age']='Age';
