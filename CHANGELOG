@@ -1,10 +1,13 @@
-Version ClaSS-0.8.66 release (2009/02/28)
+Version ClaSS-0.8.66 release (2009/03/05)
 -----------------------------------------
 
 A message button added to the absences list to allow emails to contacts
 to remind them to justify unauthorised absences.
 
 Bugfix to tranfer nos when yid=0.
+
+Included postcodes and professions (from their guardians) as part of the student singlefield
+function.
 
 
 Version ClaSS-0.8.65 release (2009/02/20)

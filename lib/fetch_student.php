@@ -97,28 +97,49 @@ function fetchStudent_singlefield($sid,$tag){
 	elseif($tag=='EPFUsername'){$fieldname='epfusername';}
 	elseif($tag=='SENFlag'){$fieldname='sen';}
 	elseif($tag=='MedicalFlag'){$fieldname='medical';}
-   	elseif($tag=='PersonalNumber'){$fieldname='upn';} 
+   	elseif($tag=='PersonalNumber'){$fieldname='upn';}
 	elseif(substr_count($tag,'FirstContact')){$contactno=0;}
 	elseif(substr_count($tag,'SecondContact')){$contactno=1;}
 	elseif(substr_count($tag,'Medical')){$medtype=substr($tag,-3);}
+   	elseif($tag=='Postcode'){
+		$d_add=mysql_query("SELECT postcode FROM address JOIN gidaid ON gidaid.address_id=address.id
+							WHERE gidaid.guardian_id=ANY(SELECT guardian_id FROM gidsid 
+							wHERE gidsid.student_id='$sid' ORDER BY gidsid.priority ASC);");
+		$Student[$tag]=array('label'=>'',
+							 'value'=>'');
+		while($add=mysql_fetch_array($d_add,MYSQL_ASSOC)){
+			$Student[$tag]['value'].=$add['postcode'].' ';
+			}
+		}
 
 	if(isset($contactno)){
 		if(substr_count($tag,'Phone')){
-			/*NOT a part of the xml def for Student but useful here*/
+			/*
+			 * NOT a part of the xml def for Student but useful here.
+			 * Important taht the contacts are ordered by priority
+			 * because contactno as an index for Contacts loses its
+			 * meaning otherwise.
+			 */
 			$Contacts=(array)fetchContacts($sid);
 			$Phones=(array)$Contacts[$contactno]['Phones'];
-			$Student[$tag]=array('label' => '',
-								 'value' => '');
+			$Student[$tag]=array('label'=>'',
+								 'value'=>'');
 			while(list($phoneno,$Phone)=each($Phones)){
-				$Student[$tag]['value']=$Student[$tag]['value'] . 
-						$Phone['PhoneNo']['value'].' ';				
+				$Student[$tag]['value'].=$Phone['PhoneNo']['value'].' ';				
 				}
 			}
 		elseif(substr_count($tag,'EmailAddress')){
 			/*NOT a part of the xml def for Student but useful here*/
 			$Contacts=(array)fetchContacts($sid);
-			$Student[$tag]=array('label' => '',
-								 'value' => $Contacts[$contactno]['EmailAddress']['value']);
+			$Student[$tag]=array('label'=>'',
+								 'value'=>$Contacts[$contactno]['EmailAddress']['value']);
+			}
+		elseif(substr_count($tag,'Profession')){
+			/*NOT a part of the xml def for Student but useful here*/
+			$Contacts=(array)fetchContacts($sid);
+			$Student[$tag]=array('label'=>'',
+								 'value'=>$Contacts[$contactno]['Profession']['value']. 
+								 ' ('.$Contacts[$contactno]['CompanyName']['value'].')');
 			}
 		else{
 			/*NOT a part of the xml def for Student but useful here*/
@@ -127,8 +148,8 @@ function fetchStudent_singlefield($sid,$tag){
 			$rel=get_string($rel,'infobook');
 			$firstcontact='('.$rel.') '. 
 					$Contacts[$contactno]['Forename']['value']. ' '.$Contacts[$contactno]['Surname']['value'];
-			$Student[$tag]=array('label' => '',
-								 'value' => '');
+			$Student[$tag]=array('label'=>'',
+								 'value'=>'');
 			$Student[$tag]['value']=''.$firstcontact; 
 			}
 		}
@@ -137,18 +158,21 @@ function fetchStudent_singlefield($sid,$tag){
 		$d_b=mysql_query("SELECT detail FROM background WHERE 
 				student_id='$sid' AND type='$medtype';");
 		$medentry=mysql_result($d_b,0);
-		$Student[$tag]=array('label' => '',
-							 'value' => '');
+		$Student[$tag]=array('label'=>'',
+							 'value'=>'');
 		$Student[$tag]['value']=''.$medentry; 
 		}
 
+	/* The easiest of all because they just come from the info table
+	 *   and are part of the full Student def anyway. 
+	 */
 	if(isset($fieldname)){
 		$d_info=mysql_query("SELECT $fieldname FROM info WHERE student_id='$sid';");
 		$info=mysql_fetch_array($d_info,MYSQL_ASSOC);
-		$Student[$tag]=array('label' => '',
-							 'field_db' => ''.$fieldname,
-							 'type_db' => ''.$fieldtype,
-							 'value' => ''.$info[$fieldname]
+		$Student[$tag]=array('label'=>'',
+							 'field_db'=>''.$fieldname,
+							 'type_db'=>''.$fieldtype,
+							 'value'=>''.$info[$fieldname]
 							 );
 		}
 	return $Student;

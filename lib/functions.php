@@ -786,8 +786,9 @@ function getEnumArray($field_name){
 
 	$session=array('NA'=>'NA', 'AM'=>'AM', 'PM'=>'PM');
 
-	/*for the community table, does not list special types like
-	yeargroup, formgroup, accomodation, family etc*/
+	/* For the community table, does not list special types like
+	 * yeargroup, formgroup, accomodation, family etc
+	 */
 	$community_type=array(''=>'', 
 						  'ACADEMIC'=>'academic', 
 						  'TUTOR'=>'tutorgroup', 
@@ -796,7 +797,9 @@ function getEnumArray($field_name){
 						  'STOP'=>'travelstop', 
 						  'EXTRA'=>'other'
 						  );
-	/*for the list_studentfield script, not an enumarray at all!*/
+
+	/* For the list_studentfield script, not an enumarray at all!
+	 */
 	$studentfield=array(
 						''=>'',
 						'Surname'=>'surname', 
@@ -806,18 +809,21 @@ function getEnumArray($field_name){
 						'DOB'=>'dateofbirth',
 						'Nationality'=>'nationality',
 						'EmailAddress'=>'email',
-						'MobilePhone'=>'mobilephone',
 						'EnrolNumber'=>'enrolmentnumber',
-						'PersonalNumber'=>'personalnumber',
-						'EPFUsername'=>'epfusername',
-						'Language'=>'language',
 						'EntryDate'=>'schoolstartdate',
+						'Language'=>'language',
+						'MobilePhone'=>'mobilephone',
+						'PersonalNumber'=>'personalnumber',
+						'Postcode'=>'postcode',
+						'EPFUsername'=>'epfusername',
 						'FirstContact'=>'firstcontact',
 						'FirstContactPhone'=>'firstcontactphone',
 						'FirstContactEmailAddress'=>'firstcontactemailaddress',
 						'SecondContact'=>'secondcontact',
 						'SecondContactPhone'=>'secondcontactphone',
-						'SecondContactEmailAddress'=>'secondcontactemailaddress'
+						'SecondContactEmailAddress'=>'secondcontactemailaddress',
+						'FirstContactProfession'=>'firstcontactprofession',
+						'SecondContactProfession'=>'secondcontactprofession'
 						);
 	/*for the register*/
 	$absencecode=array(

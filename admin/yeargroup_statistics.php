@@ -37,7 +37,7 @@ two_buttonmenu();
 	$birth_years=array();
 	$gender_birth_years=array();
 
-	$d_year=mysql_query("SELECT * FROM yeargroup ORDER BY section_id, id");
+	$d_year=mysql_query("SELECT * FROM yeargroup ORDER BY section_id, id;");
 	while($year=mysql_fetch_array($d_year,MYSQL_ASSOC)){
 		$yid=$year['id'];
 		$d_groups=mysql_query("SELECT gid FROM groups WHERE
@@ -90,7 +90,6 @@ two_buttonmenu();
 				$lgender_countrys[$countrycode][$gender]++;
 				$lcountrys[$countrycode]++;
 				}
-			
 			}
 ?>
 		<tr>
