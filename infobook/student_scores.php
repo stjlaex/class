@@ -65,8 +65,6 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 		$eid=$Assessments[$assnos[0]]['id_db'];
 		$AssDef=(array)fetchAssessmentDefinition($eid);
 		$element=$AssDef['Element']['value'];
-		$resq=$AssDef['ResultQualifier']['value'];
-		$method=$AssDef['Method']['value'];
 		$grading_grades=$AssDef['GradingScheme']['grades'];
 		$crid=$AssDef['Course']['value'];
 

@@ -1,5 +1,6 @@
 <?php
-/**							new_assessment_scores.php
+/**								new_assessment_scores.php
+ *
  */
 
 $action='new_assessment_scores_action.php';
@@ -25,18 +26,18 @@ three_buttonmenu();
 
 <div class="content">
 	<form id="formtoprocess" name="formtoprocess" 
-	  enctype="multipart/form-data" method="post" action="<?php print $host;?>"
+	  enctype="multipart/form-data" method="post" action="<?php print $host;?>">
 
 	  <fieldset class="left">
 		<legend><?php print_string('firstcolumnidentifier',$book);?></legend>
 
 		<label for="enrolno"><?php print_string('enrolmentnumber','infobook');?></label>
-		<input type="radio" name="firstcol" 
+		<input type="radio" name="firstcol" tabindex="<?php print $tab++;?>"
 		  eitheror="sid"  class="requiredor" checked="checked" 
 		  title="" id="enrolno" value="enrolno" />
 		  
 		<label for="sid"><?php print_string('studentdbid',$book);?></label>
-		<input type="radio" name="firstcol" 
+		<input type="radio" name="firstcol" tabindex="<?php print $tab++;?>"
 			eitheror="enrolno"  class="requiredor" 
 			id="sid" title="" value="sid" />
 	  </fieldset>
@@ -45,7 +46,7 @@ three_buttonmenu();
 		<legend><?php print_string('selectfiletoimportfrom');?></legend>
 		<label for="File name"><?php print_string('filename');?></label>
 		<input style="width:20em;" type="file" id="File name" 
-		  class="required" name="importfile" />
+		  tabindex="<?php print $tab++;?>" class="required" name="importfile" />
 		<input type="hidden" name="MAX_FILE_SIZE" value="800000">	
 	  </fieldset>
 

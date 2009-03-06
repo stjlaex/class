@@ -168,10 +168,12 @@ function fetchAssessmentDefinition($eid){
 
 	$gena=''.$ass['grading_name'];
 	if($gena!='' and $gena!=' '){
-		$d_grading=mysql_query("SELECT grades FROM grading WHERE name='$gena'");
+		$d_grading=mysql_query("SELECT grades FROM grading WHERE name='$gena';");
 		$grading_grades=mysql_result($d_grading,0);
 		}
 	else{$grading_grades='';}
+
+
 	$AssDef['GradingScheme']=array('label'=>'Grading Scheme',
 								   'table_db'=>'assessment', 
 								   'field_db'=>'grading_name',

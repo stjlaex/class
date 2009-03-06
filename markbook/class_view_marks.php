@@ -89,7 +89,7 @@ for($i=0;$i<sizeof($cids);$i++){
 				AND $table.assessment='yes' AND $table.id=ANY(SELECT
 				eidmid.mark_id FROM eidmid JOIN assessment ON
 				assessment.id=eidmid.assessment_id 
-				WHERE assessment.profile_name='$profile_name');");
+				WHERE assessment.profile_name='$profile_name' AND assessment.resultstatus='R');");
 		$c=1;
 		}
 	else{
@@ -112,7 +112,7 @@ for($i=0;$i<sizeof($cids);$i++){
 	      $marktype[$c]=$mark['marktype'];
 		  $midlist[$c]=trim($mark['midlist']);
 	      $lena[$c]=$mark['levelling_name'];
-	
+
 		  /*umn an array of mark properties for this column*/	
 	      $umn=array('id'=>$mark['id'], 
 					 'mark_total'=>$mark['total'], 

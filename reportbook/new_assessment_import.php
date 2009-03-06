@@ -23,7 +23,8 @@ three_buttonmenu();
 	  <fieldset class="center">
 		<legend><?php print_string('selectfiletoimportfrom');?></legend>
 		<label for="File name"><?php print_string('filename');?></label>
-		<input style="width:20em;" type="file" id="File name" name="importfile" />
+		<input style="width:20em;" tabindex="<?php print $tab++;?>" 
+			type="file" id="File name" name="importfile" />
 		  <input type="hidden" name="MAX_FILE_SIZE" value="800000">	
 	  </fieldset>
 

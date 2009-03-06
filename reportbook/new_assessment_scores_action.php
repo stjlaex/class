@@ -8,11 +8,11 @@
  *	either the bid or pid for scores in that column. Use a hash as the
  *	first character in a column header or row to ignore it. Scores
  *  which are grades should be in their grade value (not numerical equivalent),
+ *
  */
 
 $action='edit_scores.php';
-$action_post_vars=array('eid');
-$action_post_vars=array('curryear');
+$action_post_vars=array('eid','curryear');
 
 include('scripts/sub_action.php');
 
@@ -22,6 +22,7 @@ include('scripts/sub_action.php');
 	include('scripts/perm_action.php');
 
 $eid=$_POST['eid'];
+$curryear=$_POST['curryear'];
 $firstcol=$_POST['firstcol'];
 
 if($sub=='Submit'){
@@ -40,21 +41,27 @@ if($sub=='Submit'){
    		include('scripts/file_import_csv.php');
 		if(sizeof($inrows>0)){
 			/* The first row is column headers containing the subject
-			ids of scores being imported. */
-	  		$subjectrow=array_shift($inrows);
-			$subjects=array_slice($subjectrow,2);
+			 * ids of scores being imported. 
+			 */
+	  		$subjectrow=array_shift($inrows);/*grabs the first row*/
+			$subjects=array_slice($subjectrow,1);/*offset to ignore uid in first col*/
   			if(sizeof($subjects)>0){
 				while(list($index,$subject)=each($subjects)){
+				trigger_error($index.' : '.$subject,E_USER_WARNING);
 					$bid='';
 					$pid='';
 					$d_sub=mysql_query("SELECT subject_id FROM 
-							cridbid WHERE course_id='$rcrid' AND subject_id='$subject'");
+							cridbid WHERE course_id='$rcrid' AND subject_id='$subject';");
 					if(mysql_num_rows($d_sub)==0){
 						$d_com=mysql_query("SELECT subject_id FROM 
-								component WHERE course_id='$rcrid' AND id='$subject'");
+								component WHERE course_id='$rcrid' AND id='$subject';");
 						if(mysql_num_rows($d_com)!=0){
 							$bid=mysql_result($d_com,0);
 							$pid=$subject;
+							}
+						elseif($subject=='G'){
+							$bid='G';
+							$pid='';
 							}
 						elseif($subject[0]=='#'){
 							$bid=$subject;
@@ -65,11 +72,12 @@ if($sub=='Submit'){
 						$bid=$subject;
 						$pid='';
 						}
+
 					if($bid==''){
 						$errorcol=$index+2;
-							$error[]='Unrecognised subject code '. 
-									$subject. ' in column ' . $errorcol .'!';
-							}
+						$error[]='Unrecognised subject code '. 
+							$subject. ' in column ' . $errorcol .'!';
+						}
 					else{
 						$bids[]=$bid;
 						$pids[]=$pid;
@@ -92,19 +100,18 @@ if($sub=='Submit'){
 			$sid='';
 			if($firstcol=='enrolno' and $row[0]!=''){
 				$d_student=mysql_query("SELECT student_id FROM 
-							info WHERE formerupn='$row[0]'");
+							info WHERE formerupn='$row[0]';");
 				$sid=mysql_result($d_student,0);
 				}
 			elseif($firstcol=='sid'){
 				$sid=$row[0];
 				}
-			//trigger_error(' sid:'.$sid.' Index:'.$index.' '.sizeof($row),E_USER_WARNING);
 			if($sid!=''){
 				$insid++;
 				reset($bids);
 				while(list($col,$bid)=each($bids)){
-					if($bid[0]!='#'){
-						$invalue=$row[$col+2];
+					if(isset($bid[0]) and $bid[0]!='#'){
+						$invalue=$row[$col+1];/*offset to ignore uid in first col*/
 						if($grading_grades!=''){
 							$res=$invalue;
 							$value=gradeToScore($res,$grading_grades);

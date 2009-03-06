@@ -141,7 +141,7 @@ three_buttonmenu($extrabuttons);
 		$profile_name=mysql_result($d_pro,0);
 		}
 	else{
-		$profile_name=='';
+		$profile_name='';
 		}
 
 	$cohort=array('id'=>'','course_id'=>$rcrid,'stage'=>'%','year'=>$curryear);
@@ -172,7 +172,7 @@ three_buttonmenu($extrabuttons);
 				<?php print_string('markbookcolumns',$book);?>
 				<value id="<?php print $eid;?>-Markcount"><?php print
 						 $AssDef['MarkCount']['value'];?></value>.&nbsp
-			<a href="reportbook.php?current=edit_scores.php&cancel=new_assessment.php&eid=<?php print $eid;?>&pid=&bid="><?php print_string('scoresentered',$book);?>				
+			<a href="reportbook.php?current=edit_scores.php&cancel=new_assessment.php&eid=<?php print $eid;?>&curryear=<?php print $curryear;?>&pid=&bid="><?php print_string('scoresentered',$book);?>				
 				<value id="<?php print $eid;?>-Archivecount">
 				  <?php print $AssDef['ArchiveCount']['value'];?></value>
 				(<value id="<?php print $eid;?>-Scorecount"> 

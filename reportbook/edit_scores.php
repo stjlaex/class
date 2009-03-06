@@ -1,7 +1,9 @@
 <?php
-/**                   edit_scores.php
+/**											edit_scores.php
+ *
  *
  * TO DO: handle pids and non-grade scores
+ *
  */
 
 $action='edit_scores_action.php';
@@ -10,9 +12,11 @@ $choice='new_assessment.php';
 if(isset($_GET['eid'])){$eid=$_GET['eid'];}
 elseif(isset($_POST['eid'])){$eid=$_POST['eid'];}
 if(isset($_GET['bid'])){$selbid=$_GET['bid'];}
-elseif(isset($_POST['bid'])){$selbid=$_POST['bid'];}
+elseif(isset($_POST['bid'])){$selbid=$_POST['bid'];}else{$selbid='';}
 if(isset($_GET['pid'])){$selpid=$_GET['pid'];}
 elseif(isset($_POST['pid'])){$selpid=$_POST['pid'];}
+if(isset($_GET['curryear'])){$curryear=$_GET['curryear'];}
+elseif(isset($_POST['curryear'])){$curryear=$_POST['curryear'];}
 
 	$AssDef=fetchAssessmentDefinition($eid);
 	$crid=$AssDef['Course']['value'];
@@ -30,10 +34,10 @@ elseif(isset($_POST['pid'])){$selpid=$_POST['pid'];}
 		}
 
 	$compstatus=$AssDef['ComponentStatus']['value'];
-	$resq=$AssDef['ResultQualifier']['value'];
 	$deadline=$AssDef['Deadline']['value'];
 
 	$grading_grades=$AssDef['GradingScheme']['grades'];
+
 	if($grading_grades!='' and $grading_grades!=' '){
 		$pairs=explode (';',$grading_grades);
 		}
@@ -155,6 +159,7 @@ three_buttonmenu($extrabuttons,$book);
 		</table>
 
 
+	  <input type="hidden" name="curryear" value="<?php print $curryear; ?>"/>
 	  <input type="hidden" name="bid" value="<?php print $selbid; ?>"/>
 	  <input type="hidden" name="pid" value="<?php print $selpid; ?>"/>
 	  <input type="hidden" name="eid" value="<?php print $eid; ?>"/>
