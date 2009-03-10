@@ -17,6 +17,9 @@ $strandstatus=$AssDef['StrandStatus']['value'];
 $description=$AssDef['Description']['value'];
 $stage=$AssDef['Stage']['value'];
 $deadline=$AssDef['Deadline']['value'];
+/* Any estimates or targets or whatever get assessment type = other. */
+if($AssDef['ResultStatus']['value']=='R'){$asstype='yes';}
+else{$asstype='other';}
 
 	/*Check user has permission to configure*/
 	$perm=getCoursePerm($crid,$respons);
@@ -67,7 +70,7 @@ $deadline=$AssDef['Deadline']['value'];
 					  (entrydate, marktype, topic, comment, author,
 						 def_name, assessment, component_id) 
 							VALUES ('$entrydate', 'score', '$description', 
-						 '', 'ClaSS', '$markdef_name', 'yes', '$pid')"))
+						 '', 'ClaSS', '$markdef_name', '$asstype', '$pid')"))
 					{$result[]='Created mark for '.$bid.'-'.$pid;}
 					else{$error[]='Failed on new mark for:'.$bid. $pid.' '.mysql_error();}
 					$mid=mysql_insert_id();

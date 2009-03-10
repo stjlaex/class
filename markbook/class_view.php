@@ -120,9 +120,10 @@ if($_SESSION['worklevel']>-1){
 <?php
 	/*The mark's column header, with a checkbox which provides $mid */	      
 	for($col=0;$col<sizeof($umns);$col++){
-//	  if($umns[$col]['display']=='yes'){
 		if($umns[$col]['marktype']=='score' or $umns[$col]['marktype']=='hw'){
-			  print '<th id="'.$umns[$col]['id'].'"><span title="'.$umns[$col]['comment'].'"><a 
+			if($umns[$col]['assessment']=='other'){$colclass='other';}
+			else{$colclass='';}
+			  print '<th class="'.$colclass.'" id="'.$umns[$col]['id'].'"><span title="'.$umns[$col]['comment'].'"><a 
 				href="markbook.php?current=edit_scores.php&cancel=class_view.php&scoretype='. 
 					  $scoretype[$col].'&grading_name='. 
 					  $scoregrading[$col].'&mid='.$umns[$col]['id'].'&col='.$col.'">' 
@@ -139,7 +140,7 @@ if($_SESSION['worklevel']>-1){
 			  $umns[$col]['marktype']. '</span></th>';
 	      	  }
 		elseif($umns[$col]['marktype']=='compound'){
-			  print '<th id="'.$umns[$col]['id'].'"><span title="'. 
+			  print '<th class="" id="'.$umns[$col]['id'].'"><span title="'. 
 					  $umns[$col]['comment'].'"><a href="markbook.php?current=edit_scores.php&cancel=class_view.php&scoretype='.$scoretype[$col]. 
 					  '&grading_name='.$scoregrading[$col]. 
 					  '&mid='.$umns[$col]['id'].'&col='.$col.'">'.$umns[$col]['topic']. 
@@ -149,14 +150,13 @@ if($_SESSION['worklevel']>-1){
 					name="checkmid[]" value="'.$umns[$col]['id'].'" /></span></th>';
 	      	  }
 		else{
-	      	print '<th class="other" id="'.$umns[$col]['id'].'">'. 
+	      	print '<th class="derived" id="'.$umns[$col]['id'].'">'. 
 					$umns[$col]['topic'].'<p>'. 
 					display_date($umns[$col]['entrydate']).'</p></a><p class="component">'. 
 					$umns[$col]['component'].'</p>'.$umns[$col]['marktype']. 
 					'<input type="checkbox" name="checkmid[]" value="'
 					.$umns[$col]['id'].'" /></th>';
 			}
-//		  }
 		}
 ?>
 		</tr>

@@ -72,6 +72,9 @@ table#marktable {
 	display:none;
 	}
 #marktable th.other, #marktable td.other {
+	background-color:#ddeecc;
+	}
+#marktable th.derived, #marktable td.derived {
 	background-color:#ddeeff;
 	}
 #marktable th.report, #marktable td.report {

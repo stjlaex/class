@@ -64,7 +64,9 @@ for($i=0;$i<sizeof($cids);$i++){
  */
 
 	if($umnfilter!='hw' and $umnfilter!='cw' and $umnfilter!='%' and $umnfilter!='t'){
-		/* umnfilter will have a value of pN where N is the index of the profile */
+		/* If its none of these then its for an assessment profile and 
+		 * umnfilter will have a value of pN where N is the index of the profile 
+		 */
 		$profile=$profiles[substr($umnfilter,1)];
 		$umntype='p';
 		}
@@ -72,6 +74,9 @@ for($i=0;$i<sizeof($cids);$i++){
 
 	$umns=array();
 	if($umntype=='t'){
+		/* t really means r for Reports, both report column and
+		 * assessments which are linked to a report 
+		 */
 		$d_marks=mysql_query("SELECT $table.* FROM $table WHERE
 				$table.marktype='report' OR ($table.marktype='score' AND
 				$table.assessment='yes' AND $table.id=ANY(SELECT
@@ -80,19 +85,21 @@ for($i=0;$i<sizeof($cids);$i++){
 		$c=0;
 	   	}
 	elseif($umntype=='p'){
+		/* p is for assessment Profiles */
 		$profile_crid=$classes[$cid]['crid'];
 		$profile_bid=$classes[$cid]['bid'];
 		$profile_name=$profile['name'];
 		$profile_pidstatus=$profile['component_status'];
 		$profile_marktype=$profile['rating_name'];
 		$d_marks=mysql_query("SELECT $table.* FROM $table WHERE $table.marktype='score'
-				AND $table.assessment='yes' AND $table.id=ANY(SELECT
+				AND $table.assessment!='no' AND $table.id=ANY(SELECT
 				eidmid.mark_id FROM eidmid JOIN assessment ON
 				assessment.id=eidmid.assessment_id 
-				WHERE assessment.profile_name='$profile_name' AND assessment.resultstatus='R');");
+				WHERE assessment.profile_name='$profile_name');");
 		$c=1;
 		}
 	else{
+		/* otherwise its cs for Classwork and hw for Homework*/
 		if($umntype=='%'){$filtertype='%';$filterass='%';}
 		elseif($umntype=='cw'){$filtertype='score';$filterass='no';}
 		elseif($umntype=='hw'){$filtertype='hw';$filterass='no';}
@@ -130,7 +137,7 @@ for($i=0;$i<sizeof($cids);$i++){
 		  $umns[$c]=$umn;
 
 
-			if($marktype[$c]=='average'){
+		  if($marktype[$c]=='average'){
 				/*no markdef for an average, have to get grading_name from the levelname*/
 				$scoregrading[$c]=$lena[$c];
 				if($scoregrading[$c]!=''){
@@ -226,6 +233,7 @@ for($i=0;$i<sizeof($cids);$i++){
 				}
 			}
 		$profile_midlist=trim($profile_midlist);
+		trigger_error($first_profile_iumn. ' '.$profile_midlist,E_USER_WARNING);
 
 		$marktype=$profile_marktype;
 		if($marktype==''){
@@ -238,8 +246,8 @@ for($i=0;$i<sizeof($cids);$i++){
 
 
 		/* Give the profile column the same properties as the first column in the profile 
-		 * Use the first because the latter ones could special columns for estmated grades 
-		 * and have different properties. 
+		 * Use the first because the latter ones could be special columns for estimated grades 
+		 * and have different properties.
 		 */
 		$scoregrades[0]=$scoregrades[$first_profile_iumn];
 		$scoregrading[0]=$scoregrading[$first_profile_iumn];

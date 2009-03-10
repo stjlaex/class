@@ -42,16 +42,19 @@ $viewtable=array();
 			$col_mid=$umns[$c]['id'];
 			$score=array();
 
-			/*The mark can be one of the five kinds - if a score or hw
-			 then one of a further five*/
+			/* The mark can be one of the five kinds - if a score or hw
+			 * then one of a further five.
+			 */
 			$marktype=$umns[$c]['marktype'];
 			$scoretype=$umns[$c]['scoretype'];
+			$asstype=$umns[$c]['assessment'];
+			$scoreclass='grade';/* Will only be overridden by a report. */
 			if($marktype=='score' or $marktype=='hw'){
+				if($asstype=='other'){$scoreclass.=' other';}
 				$d_score=mysql_query("SELECT * FROM score 
 					WHERE mark_id='$col_mid' AND student_id='$sid';");
 				$score=mysql_fetch_array($d_score,MYSQL_ASSOC);				
 				/*score can be one of four types: grade, value, percentage, comment*/
-				$scoreclass='grade';
 				if($scoretype=='grade'){
 					$out=scoreToGrade($score['grade'],$scoregrades[$c]);
 					$outrank=$score['grade'];
@@ -71,7 +74,7 @@ $viewtable=array();
 		  /*********************************************************/
 		  elseif($marktype=='average'){
 			/*Mark is average of several score values*/
-			$scoreclass='grade other';
+			$scoreclass.=' derived';
 			$avmids=explode(' ',$midlist[$c]);
 			if($umns[$c]['scoretype']=='grade'){
 				$grading_grades=$scoregrades[$c];
@@ -134,7 +137,7 @@ $viewtable=array();
 		/*********************************************************/
 	   	elseif($marktype=='sum'){
 			/*Mark is the sum of several score values*/
-			$scoreclass='grade other';
+			$scoreclass.=' derived';
 			$mids=explode(' ',$midlist[$c]);
 			$score_value=0;
 			$score_total=0;
@@ -165,7 +168,7 @@ $viewtable=array();
 		/*********************************************************/
 	   	elseif($marktype=='tally'){
 			/* Mark tallies (counts) the number of grades obtained */
-			$scoreclass='grade other';
+			$scoreclass.=' derived';
 			$mids=explode(' ',$midlist[$c]);
 			$score_value=0;
 			for($c2=0;$c2<sizeof($mids);$c2++){
@@ -181,7 +184,7 @@ $viewtable=array();
 
 		/*********************************************************/
 	   	elseif($marktype=='level'){
-			$scoreclass='grade other';
+			$scoreclass.=' derived';
 			/*then mark is the levelled grade of a score*/
 			$d_score=mysql_query("SELECT value, outoftotal FROM 
 					score WHERE mark_id='$midlist[$c]' AND student_id='$sid';");
