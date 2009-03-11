@@ -400,6 +400,14 @@ img.clicktoconfigure {
     padding:1px;
 	cursor:pointer;
 	}
+img.clicktoprint { 
+	background-image:url("../images/printer.png");
+    padding:0;
+	cursor:pointer;
+    width:20px !important;
+    height:20px !important;
+    border:0;
+	}
 img.clicktoemail { 
 	background-image:url("../images/mail-message-new.png");
     padding:1px;

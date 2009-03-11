@@ -1,4 +1,4 @@
-Version ClaSS-0.8.66 release (2009/03/09)
+Version ClaSS-0.8.66 release (2009/03/12)
 -----------------------------------------
 
 A message button added to the absences list to allow emails to contacts
@@ -16,6 +16,17 @@ columns as assessments, it also has an 'other' value to group special
 assessments (like estimates and targets together). Apply patch the
 patch!
 
+Have moved materialtype for orders to be a categorydef with
+type=mat. Patch includes a few defaults.
+
+The clickToAction js for rowaction buttons now allows for
+action=print. It then calls the regular openPrintReport so needs an xslt
+transform.
+
+A clicktoprint image class for css added.
+
+The orders_list makes use of the new clicktoprint button calling xslt
+order_form.xslt.
 
 
 Version ClaSS-0.8.65 release (2009/02/20)

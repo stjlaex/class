@@ -57,7 +57,7 @@ CREATE TABLE ordermaterial (
 	quantity		smallint unsigned not null default '0',
 	unitcost		decimal(10,2) unsigned not null default '0',
 	detail			text not null default '',
-	materialtype	char(2) not null default '',
+	materialtype	int unsigned not null default '0',
    	primary key		(order_id,entryn)
 );");
 mysql_query("

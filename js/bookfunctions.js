@@ -172,19 +172,33 @@ function clickToAction(buttonObject){
 			document.formtoprocess.submit();
 			}
 		}
-	else if(action=="current"){
+	else if(action=="current" || action=="print"){
 		var recordId=xmlRecord.childNodes[1].childNodes[0].nodeValue;
 		var script=buttonObject.value;
 		var url=pathtobook + "httpscripts/" + script + "?uniqueid=" + escape(recordId);
-		var answer=confirmAction(buttonObject.title);
+		if(action!="print"){
+			var answer=confirmAction(buttonObject.title);
+			}
+		else{
+			var answer=true;
+			}
 		if(answer){
 			xmlHttp.open("GET", url, true);
 			xmlHttp.onreadystatechange=function () {
 					if(xmlHttp.readyState==4){
 						if(xmlHttp.status==200){
 							xmlRecord=xmlHttp.responseXML;
-							//function to actually process the returned xml
-							updatexmlRecord(xmlRecord);
+							if(action=="current"){
+								//function to actually process the returned xml
+								updatexmlRecord(xmlRecord);
+								}
+							else if(action=="print"){
+								xsltransform=xmlRecord.getElementsByTagName("transform")[0].firstChild.nodeValue;
+								paper=xmlRecord.getElementsByTagName("paper")[0].firstChild.nodeValue;
+								if(xsltransform!=""){
+									openPrintReport("",xsltransform,xmlRecord,paper);
+									}
+								}
 							}
 						else if(xmlHttp.status==404){alert ("Requested URL is not found.");}
         				else if(xmlHttp.status==403){alert("Access denied.");} 

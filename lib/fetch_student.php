@@ -699,9 +699,9 @@ function fetchIncidents($sid,$startdate='',$enddate=''){
 		if(array_key_exists($catid,$catdefs)){$sanction=$catdefs[$catid]['name'];}
 		else{$sanction='';}
 		$Incident['Sanction']=array('label' => 'sanction', 
-								  'type_db' => 'varchar(30)', 
-								  'value_db' => ''.$catid,
-								  'value' => ''.$sanction);
+									'type_db' => 'varchar(30)', 
+									'value_db' => ''.$catid,
+									'value' => ''.$sanction);
 	   	$Incident['Detail']=array('label' => 'detail', 
 								  'type_db' => 'text', 
 								  'value' => ''.$incident['detail']);
@@ -735,15 +735,15 @@ function fetchIncidents($sid,$startdate='',$enddate=''){
 							  'value' => get_teachername($acttid));
 			$Action['Comment']=array('value' => ''.$action['comment']);
 			$Action['EntryDate']=array('label' => 'date', 
-									 'type_db' => 'date', 
-									 'value' => ''.$action['entrydate']);
+									   'type_db' => 'date', 
+									   'value' => ''.$action['entrydate']);
 			$pairs=explode(';',$action['category']);
 			list($catid, $rank)=split(':',$pairs[0]);
 			$d_categorydef=mysql_query("SELECT name FROM categorydef
 						WHERE id='$catid'");
 			$Action['Sanction']=array('label' => 'sanction', 
-							'value_db' => ''.$catid,
-							'value' => ''.mysql_result($d_categorydef,0));
+									  'value_db' => ''.$catid,
+									  'value' => ''.mysql_result($d_categorydef,0));
 			$Actions['Action'][]=$Action;
 			}
 		if(sizeof($Actions)==0){$Actions='';}

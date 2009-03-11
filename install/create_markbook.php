@@ -18,7 +18,7 @@ mysql_query("CREATE TABLE mark (
 	midlist			text, 
 	levelling_name	varchar(20) not null default '', 
 	total			smallint unsigned not null default '0', 
-	assessment		enum('no','yes') not null, 
+	assessment		enum('no','yes','other') not null, 
 	author			varchar(14) not null default '', 
 	component_id	varchar(10) not null default '', 
 	primary key		(id) 

@@ -208,7 +208,7 @@ function get_order_reference($ordid){
 function fetchOrder($ordid='-1'){
 	$Order=array();
 	$d_o=mysql_query("SELECT budget_id, supplier_id, entrydate,
-						ordertype, currency, teacher_id, detail 
+						currency, teacher_id, detail 
 						FROM orderorder WHERE id='$ordid'");
 	$order=mysql_fetch_array($d_o,MYSQL_ASSOC);
 	$Order=array();
@@ -295,10 +295,10 @@ function fetchMaterials($ordid){
 	$Materials=array();
 	$Materials['Material']=array();
 	$d_m=mysql_query("SELECT entryn, quantity, unitcost, detail,
-							refno, materialtype
-					FROM ordermaterial WHERE order_id='$ordid' ORDER BY entryn;");
+			   refno, materialtype FROM ordermaterial WHERE order_id='$ordid' ORDER BY entryn;");
+	list($ratingnames,$catdefs)=fetch_categorydefs('mat');
 	while($mat=mysql_fetch_array($d_m,MYSQL_ASSOC)){
-		$Material=(array)fetchMaterial($mat);
+		$Material=(array)fetchMaterial($mat,$catdefs);
 		$Materials['Material'][]=$Material;
 		}
 	return $Materials;
@@ -309,15 +309,21 @@ function fetchMaterials($ordid){
  *
  */
 function fetchMaterial($mat=array('entryn'=>'','materialtype'=>'','detail'=>'', 
-								  'quantity'=>'','unitcost'=>'','refno'=>'')){
+								  'quantity'=>'','unitcost'=>'','refno'=>''),$catdefs=array()){
+
+	if(sizeof($catdefs)==0){list($ratingnames,$catdefs)=fetch_categorydefs('mat');}
+	if(array_key_exists($mat['materialtype'],$catdefs)){$materialtype_name=$catdefs[$catid]['name'];}
+	else{$materialtype_name='';}
 	$Material=array();
 	$Material['id_db']=$mat['entryn'];
    	$Material['Type']=array('label' => 'type',
 							//'inputtype'=> 'required',	
+							'table_db' => 'ordermaterial', 
 							'field_db' => 'materialtype',
-							'type_db' => 'enum', 
-							'default_value' => '0',
-							'value' => ''.$mat['materialtype']
+							'type_db' => 'char(2)', 
+							'default_value' => '',
+							'value_db' => ''.$mat['materialtype'],
+							'value' => ''.$materialtype_name
 							);
 	$Material['Quantity']=array('label' => 'quantity', 
 								//'inputtype'=> 'required',

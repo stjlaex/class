@@ -79,6 +79,7 @@ if($budid!=-1){
 <?php
 		while(list($entryno,$order)=each($orders)){
 			$actionbuttons=array();
+			$imagebuttons=array();
 			$ordid=$order['id'];
 			$Order=(array)fetchOrder($ordid);
 			$status=$Order['Status']['value'];
@@ -157,7 +158,7 @@ if($budid!=-1){
 <?php
 				if(sizeof($Order['Actions'])>0){
 					while(list($index,$Action)=each($Order['Actions']['Action'])){
-						if($Action['Category']['value_db']==3){
+						if($Action['Category']['value_db']==3 and isset($Action['Invoice'])){
 							$Invoice=$Action['Invoice'];
 ?>
 				<div class="center divgroup">
@@ -222,13 +223,23 @@ if($budid!=-1){
 					if(sizeof($orderactions)>0){
 						if($orderactions[0]=='cancel'){
 							$imagebuttons['clicktodelete']=array('name'=>'process',
-										 'value'=>array_shift($orderactions),
-										 'title'=>'cancelled');
+																 'value'=>array_shift($orderactions),
+																 'title'=>'cancelled');
 							}
 						while(list($indexoa,$orderaction)=each($orderactions)){
 							$actionbuttons[$orderaction]=array('name'=>'process',
 														   'value'=>$orderaction);
 							}
+						$imagebuttons['clicktoprint']=array('name'=>'print',
+															'value'=>'order_print.php',
+															'title'=>'print');
+						/*$extrabuttons['summary']=array('name'=>'current',
+							   'pathtoscript'=>$CFG->sitepath.'/'.$CFG->applicationdirectory.'/reportbook/',
+							   'title'=>'printreportsummary',
+							   'value'=>'report_attendance_print.php',
+							   'onclick'=>'checksidsAction(this)'
+							   );
+						*/
 ?>
 				<label>
 				  <?php print get_string($orderaction,$book).' '.get_string('note',$book);?>

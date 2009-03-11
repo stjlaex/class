@@ -301,15 +301,7 @@ function getEnumArray($field_name){
 	$inactive=array('0' => 'no', 
 					'1' => 'yes', 
 					);
-	$ordertype=array('0' => '0', 
-					'1' => '1', 
-					'2' => '2', 
-					);
-	$materialtype=array('0' => '', 
-						'1' => 'software', 
-						'2' => 'consumables', 
-						'2' => 'books', 
-						);
+
 
 	/*codes from CBDS 2007, including deprecated six for compatibility*/
 	/*not always the same as ISO 639-2 is the alpha-3 code for language!*/
@@ -1524,16 +1516,18 @@ function display_date($date=''){
 	}
 
 /** 
+ *
  * Returns two arrays containing the ratingnames and catdefs for all
  * categories of a particular type (ordered by their rating) and
  * can be optionally restricted by course and section. 
+ *
  */
 function fetch_categorydefs($type,$crid='%',$secid='%'){
 	/*TODO: Needs to add subject specific ones IN FUTURE!*/
 	$d_categorydef=mysql_query("SELECT * FROM categorydef  
 				WHERE type='$type' AND (section_id LIKE '$secid' OR
 				section_id='%') AND (course_id LIKE '$crid' OR
-				course_id='%') ORDER BY rating");
+				course_id='%') ORDER BY rating;");
    	$catdefs=array();
 	$ratingnames=array();
 	/* Usually catdefs of the same selection use the same ratings BUT
@@ -1547,7 +1541,7 @@ function fetch_categorydefs($type,$crid='%',$secid='%'){
 		   and !array_key_exists($catdef['rating_name'],$ratingnames)){
 				$ratingname=$catdef['rating_name'];
 				$d_rating=mysql_query("SELECT * FROM rating 
-						WHERE name='$ratingname' ORDER BY value");
+						WHERE name='$ratingname' ORDER BY value;");
 				$ratings=array();
 				while($rating=mysql_fetch_array($d_rating,MYSQL_ASSOC)){
 					$ratings[$rating['value']]=$rating['descriptor'];

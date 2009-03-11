@@ -89,7 +89,16 @@ three_buttonmenu();
 ?>
 		  <tr>
 			<td><?php print $matn;?></td>
-			<td><?php $tab=xmlelement_input($Material['Type'],$matn,$tab,$book);?></td>
+			<td>
+<?php 
+			//$tab=xmlelement_input($Material['Type'],$matn,$tab,$book);
+			$listlabel='';
+			$listid='materialtype'.$matn; $listname='materialtype'.$matn; 
+			${'sel'.$listname}=$Material['Type']['value_db']; $cattype='mat';
+			include('scripts/list_category.php');
+			unset(${'sel'.$listname});
+?>
+			</td>
 			<td><?php $tab=xmlelement_input($Material['Detail'],$matn,$tab,$book);?></td>
 			<td><?php $tab=xmlelement_input($Material['SupplierReference'],$matn,$tab,$book);?></td>
 			<td><?php $tab=xmlelement_input($Material['Quantity'],$matn,$tab,$book);?></td>

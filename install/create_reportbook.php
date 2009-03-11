@@ -16,6 +16,7 @@ CREATE TABLE report (
 		addcategory	enum('no','yes') not null default 'no', 
 		style		varchar(60) not null default '',
 		transform	varchar(60) not null default '',
+		rating_name varchar(30) not null default ''
 		primary key (id)
 );");
 
