@@ -190,7 +190,7 @@ function fetchSubjectReports($sid,$reportdefs){
 						$Reports['asstable']['ass'][]=$ass;
 						}
 					}
-				}				
+				}		
 
 			/* When combining reports, for now this only works if each
 			 has the same properties. Otherwise it will be the properties
@@ -540,13 +540,17 @@ function fetch_reportdefinition($rid,$selbid='%'){
 	if($reportdef['report']['addcategory']=='yes'){
 
 		$ratings=array();
+		$cattable=array();
 	   	if($reportdef['report']['rating_name']!=''){
 			$ratingname=$reportdef['report']['rating_name'];
 			$d_rating=mysql_query("SELECT * FROM rating 
 						WHERE name='$ratingname' ORDER BY value;");
 			while($rating=mysql_fetch_array($d_rating,MYSQL_ASSOC)){
 				$ratings[$rating['value']]=$rating['descriptor'];
+				$cattable['rat'][]=array('name' => ''.$rating['descriptor'],
+										 'value' => ''.$rating['value']);
 				}
+			$reportdef['cattable']=nullCorrect($cattable);
 			}
 		$reportdef['ratings']=$ratings;
 		/*
@@ -671,19 +675,23 @@ function fetchReportEntry($reportdef,$sid,$bid,$pid){
 	   $Comment['id_db']=$entry['entryn'];
 	   if($reportdef['report']['addcomment']=='yes' or $bid=='summary'){
 		   $enttid=$entry['teacher_id'];
-		   $comment=$entry['comment'];
 		   $teachername=get_teachername($enttid);
 		   if($subcomments_no>0){
-			   $comments=split(':::',$comment);
+			   $comment_html='';
+			   $comments=split(':::',$entry['comment']);
 			   for($c=0;$c<$subcomments_no;$c++){
-				   $comment='<label>'.$subcomments[$c]['name'].'</label>< /br>'.$comments[$c].'< /br>';
+				   $comment_html.=' '.$subcomments[$c]['name']. 
+					   '  '.$comments[$c].'  ';
 				   }
-
+			   }
+		   else{
+			   $comment_html=$entry['comment'];
 			   }
 
 		   $Comment['Teacher']=nullCorrect(array('id_db'=>''.$enttid, 
 												 'value'=>''.$teachername));
-		   $Comment['Text']=nullCorrect(array('value'=>''.$comment,'value_db'=>''.$entry['comment']));
+		   $Comment['Text']=nullCorrect(array('value'=>''.$comment_html,
+											  'value_db'=>''.$entry['comment']));
 		   }
 
 	   /* These are the check box ratings. */

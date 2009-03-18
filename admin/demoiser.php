@@ -245,7 +245,7 @@ function generate_random_name($gender){
 	mysql_query("UPDATE $table SET comment='A constructive comment from a subject teacher.'");
 
 	$table='score';
-//mysql_query("UPDATE $table SET comment=''");
+	mysql_query("UPDATE $table SET comment=''");
 
 	$table='form';
 	$trows=tableRead($table,'yeargroup_id');

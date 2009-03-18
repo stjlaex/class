@@ -31,7 +31,7 @@ include('scripts/sub_action.php');
 $rids=array();
 if(isset($wrapper_rid)){
 	$d_rid=mysql_query("SELECT categorydef_id AS report_id FROM ridcatid WHERE
-				 report_id='$wrapper_rid' AND subject_id='wrapper' ORDER BY categorydef_id");
+				 report_id='$wrapper_rid' AND subject_id='wrapper' ORDER BY categorydef_id;");
 	$rids[]=$wrapper_rid;//add to the start of the rids
 	while($rid=mysql_fetch_array($d_rid,MYSQL_ASSOC)){
 		$rids[]=$rid['report_id'];
@@ -97,13 +97,13 @@ two_buttonmenu($extrabuttons,$book);
 					$summaryid=$summary['subtype'];
 					if($summary['type']=='com'){
 						if($formperm['x']==1 and $summaryid=='form'){
-							print '<th>'.get_string('formtutor').'</th>';
+							print '<th>'.$summary['name'].'</th>';
 							}
 						elseif($yearperm['x']==1 and $summaryid=='year'){
-							print '<th>'.get_string('yearhead').'</th>';
+							print '<th>'.$summary['name'].'</th>';
 							}
 						elseif($yearperm['x']==1 and $summaryid=='section'){
-							print '<th>'.get_string('sectionhead').'</th>';
+							print '<th>'.$summary['name'].'</th>';
 							}
 						}
 					}
@@ -244,7 +244,7 @@ two_buttonmenu($extrabuttons,$book);
 					/* This allows year responsibles 
 							and subject teachers to edit the report comments */
 					if($addcomment=='yes' 
-							and ($subjectperm['x']==1 or $yearperm['w']==1)){
+							and ($subjectperm['x']==1 or $yearperm['x']==1 or $formperm['x']==1)){
 						if($reportentryno==0){$reportentryno=1;$cssclass='class=""';}
 						else{$cssclass='class="special"';}
 						for($en=0;$en<$reportentryno;$en++){
