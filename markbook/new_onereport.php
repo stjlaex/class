@@ -87,7 +87,7 @@
 		$totalentryn=sizeof($Report['Comments']['Comment']);
 		for($entryn=0;$entryn<=$totalentryn;$entryn++){
 			if($entryn==$totalentryn){
-				$Comment=array('Text'=>array('value'=>''),
+				$Comment=array('Text'=>array('value'=>'','value_db'=>''),
 				'Teacher'=>array('value'=>'ADD NEW ENTRY'));
 				$inmust='yes';
 				$rowstate='rowminus';
@@ -132,21 +132,43 @@
 			$ass_colspan++;
 			$ratings=$reportdef['ratings'];
 			reset($catdefs);
-			while(list($c4,$catdef)=each($catdefs)){
-				$catid=$catdefs[$c4]['id'];
-				$catname=$catdefs[$c4]['name'];
+			unset($Categories);
+			if(isset($Comment['Categories'])){$Categories=$Comment['Categories'];}
+			else{$Categories['Category']=array();} 
+			while(list($catindex,$catdef)=each($catdefs)){
+				$catid=$catdefs[$catindex]['id'];
+				$catname=$catdefs[$catindex]['name'];
 				print '<tr class="'.$rowclass.'" id="'.$openId.'-'.$rown++.'"><th></th>';
 				print '<td colspan="'.$ass_colspan.'"><div class="row" style="width:26%;"><p>'
 					.$catname.'</p></div>';
 				reset($ratings);
+
+				/* Find any previously recorded value for this catid,
+				   make a first guess that they will have been
+				   recorded in the same order as the cats are
+				   defined. But any blanks or changes will have
+				   scuppered this.
+				 */
+				$setcat_value=-1000;
+				if(isset($Categories['Category'][$catindex]['id_db']) 
+				   and $Categories['Category'][$catindex]['id_db']==$catid){
+					$setcat_value=$Categories['Category'][$catindex]['value'];
+					}
+				else{
+					foreach($Categories['Category'] as $Category){
+						if($Category['id_db']==$catid){
+							$setcat_value=$Category['value'];
+							}
+						}
+					}
+				if(($setcat_value==' ' or $setcat_value=='') and $setcat_value!='0'){
+					$setcat_value=-1000;
+					}
+
 				while(list($value,$descriptor)=each($ratings)){
 					$checkclass='';
-					if(isset($Comment['Categories']) 
-					   and (($Comment['Categories']['Category'][$c4]['value']!=' ' 
-							 and $Comment['Categories']['Category'][$c4]['value']!='') 
-							or $Comment['Categories']['Category'][$c4]['value']=='0')){
-						if($Comment['Categories']['Category'][$c4]['value']==$value){$checkclass='checked';}
-						}
+					if($setcat_value==$value){$checkclass='checked';}
+
 					print '<div class="row '.$checkclass.'"><label>'.$descriptor.'</label>';
 					print '<input type="radio" name="sid'.$sid.':'.$inc.'"
 						tabindex="'.$tab.'" value="'.$value.'" '.$checkclass;

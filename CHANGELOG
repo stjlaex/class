@@ -1,9 +1,13 @@
+
 Version ClaSS-0.8.67 release (2009/03/27)
 -----------------------------------------
 
 Reinstating cattable as part of the reportdefs to maintain backward
-compatibility fo rnow.
+compatibility for now.
 
+Update your report templates! The comment value now contains an
+embedded div. It has to have copy-of and not value-of used in the xslt
+to display.
 
 
 Version ClaSS-0.8.66 release (2009/03/12)

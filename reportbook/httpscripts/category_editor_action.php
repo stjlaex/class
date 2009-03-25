@@ -30,7 +30,7 @@ elseif($sub=='Submit'){
 		}
 
 
-	$maxcatn=10;
+	$maxcatn=20;
 	for($matn=1;$matn<=$maxcatn;$matn++){
 		if(isset($_POST['catid'.$matn])){
 			$incatid=$_POST['catid'.$matn];

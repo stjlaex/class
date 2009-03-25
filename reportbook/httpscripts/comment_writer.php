@@ -28,21 +28,21 @@ $Report['Comments']=fetchReportEntry($reportdef, $sid, $bid, $pid);
 if(!isset($Report['Comments']['Comment'])  or sizeof($Report['Comments']['Comment'])==0 
    or $entryn==sizeof($Report['Comments']['Comment'])){
 	/*This is a fresh comment so can do a few extra things*/
-	$Comment=array('Text'=>array('value'=>''),
+	$Comment=array('Text'=>array('value'=>'','value_db'=>''),
 				   'Teacher'=>array('value'=>'ADD NEW ENTRY'));
 	$inmust='yes';
 
-	/*TODO: get rid of this!!!*/
+	/* TODO: get rid of this!!!
+	 * This will fill out the blank comment with some preset text.
 	if($bid=='summary'){
 		$summaries=(array)$reportdef['summaries'];
-		/*This will fill out the blank comment with some preset text.*/
 		while(list($index,$summary)=each($summaries)){
 			if($summary['subtype']==$pid){
 				$Comment['Text']['value']=$summary['comment'];
 				}
 			}
 		}
-	/**/
+	*/
 
 	}
 else{
@@ -54,7 +54,7 @@ else{
 		$texts=split(':::',$Comment['Text']['value_db']);
 		}
 	else{
-		$texts[]=$Comment['Text']['value'];
+		$texts[]=$Comment['Text']['value_db'];
 		}
 	}
 

@@ -589,6 +589,7 @@ function fetch_reportdefinition($rid,$selbid='%'){
  */
 function get_report_categories($rid,$bid='%',$pid='',$type='cat'){
 
+	/* There is no component_id field in ridcatid, if pid is set then it uses subject_id */
 	if($pid!='' and $pid!=' '){$bid=$pid;}
 
 	$d_categorydef=mysql_query("SELECT id, name, type, subtype, rating,  
@@ -676,21 +677,27 @@ function fetchReportEntry($reportdef,$sid,$bid,$pid){
 	   if($reportdef['report']['addcomment']=='yes' or $bid=='summary'){
 		   $enttid=$entry['teacher_id'];
 		   $teachername=get_teachername($enttid);
+		   unset($comment_html);
 		   if($subcomments_no>0){
-			   $comment_html='';
+			   /* Each subcomment gets embedded as a html fragment in the xml 
+				* for display in xslt using copy-of.
+				*/
+			   $comment_html=array();
 			   $comments=split(':::',$entry['comment']);
 			   for($c=0;$c<$subcomments_no;$c++){
-				   $comment_html.=' '.$subcomments[$c]['name']. 
-					   '  '.$comments[$c].'  ';
+				   $comment_div=array();
+				   $comment_div['label']=''.$subcomments[$c]['name'];
+				   $comment_div['p']=''.$comments[$c];
+				   $comment_html['div'][]=$comment_div;
 				   }
 			   }
 		   else{
-			   $comment_html=$entry['comment'];
+			   $comment_html['div'][]=$entry['comment'];
 			   }
 
 		   $Comment['Teacher']=nullCorrect(array('id_db'=>''.$enttid, 
 												 'value'=>''.$teachername));
-		   $Comment['Text']=nullCorrect(array('value'=>''.$comment_html,
+		   $Comment['Text']=nullCorrect(array('value'=>$comment_html,
 											  'value_db'=>''.$entry['comment']));
 		   }
 
@@ -716,7 +723,10 @@ function fetchReportEntry($reportdef,$sid,$bid,$pid){
 				   		if($entry['ratings'][$catid]==$value){$Category['value']=$value;}
 						}
 				   	}
-			   	$Categories['Category'][]=nullCorrect($Category);
+				/* Only pass catgories which have had a value set. */
+			   	if($Category['value']!='' or $Category['value']=='0'){
+					$Categories['Category'][]=nullCorrect($Category);
+					}
 		   		}
 		   $Comment['Categories']=nullCorrect($Categories);
 		   }
