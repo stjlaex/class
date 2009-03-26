@@ -106,6 +106,7 @@
 					}
 				}
 		  $rown=0;
+/*TODO: the xmlid must have the real entryn not the index!!!!*/
 		  $en=$entryn+1;
 		  $openId=$rid.'-'.$sid.'-'.$bid.'-'.$pid.'-'.$en;
 		  $Comment['id_db']=$openId;
@@ -150,16 +151,18 @@
 				   scuppered this.
 				 */
 				$setcat_value=-1000;
-				if(isset($Categories['Category'][$catindex]['id_db']) 
+
+				
+				if(isset($Categories['Category'][$catindex]) 
 				   and $Categories['Category'][$catindex]['id_db']==$catid){
 					$setcat_value=$Categories['Category'][$catindex]['value'];
 					}
-				else{
-					foreach($Categories['Category'] as $Category){
-						if($Category['id_db']==$catid){
-							$setcat_value=$Category['value'];
+	   			else{
+						foreach($Categories['Category'] as $Category){
+							if($Category['id_db']==$catid){
+								$setcat_value=$Category['value'];
+								}
 							}
-						}
 					}
 				if(($setcat_value==' ' or $setcat_value=='') and $setcat_value!='0'){
 					$setcat_value=-1000;
@@ -184,6 +187,7 @@
 			print '<tr class="'.$rowclass.'" id="'.$openId.'-'.$rown++.'" >';
 			print '<th></th><td colspan="'.$ass_colspan.'">';
 			print '<textarea '.$commentlength.' rows="2" cols="80" readonly="readonly" ';
+/*TODO: the xmlid must have the real entryn not the index!!!!*/
 			print 'onClick="clickToWriteComment('.$sid.','.$rid.',\''.$bid.'\',\''.$pid.'\',\''.$entryn.'\',\''.$openId.'\');"'; 
 			print ' tabindex="'.$tab.'" name="sid'.$sid.':'.$inc++.'" id="text'.$openId.'">';
 			print $Comment['Text']['value_db'];

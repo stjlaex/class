@@ -124,7 +124,7 @@ two_buttonmenu($extrabuttons,$book);
 
 
 	/* the displayed table will either show columns for subject (and */
-	/* average over the assesmments) or show columns for assessments (and */
+	/* average over the assessments) or show columns for assessments (and */
 	/* average over the subjects) --- averaging is done over $aids for */
 	/* each column in $hids */
 
@@ -249,7 +249,7 @@ two_buttonmenu($extrabuttons,$book);
 			  }
 			}
 
-		/*end of row average needed here*/
+		/*TODO: end of row average needed here*/
 		}
 ?>
 		  <script>

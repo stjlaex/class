@@ -9,6 +9,9 @@ Update your report templates! The comment value now contains an
 embedded div. It has to have copy-of and not value-of used in the xslt
 to display.
 
+A part fix to the deletion of report entries. Need entryn to be entryn
+and not the array index.
+
 
 Version ClaSS-0.8.66 release (2009/03/12)
 -----------------------------------------

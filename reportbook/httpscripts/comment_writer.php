@@ -48,6 +48,7 @@ if(!isset($Report['Comments']['Comment'])  or sizeof($Report['Comments']['Commen
 else{
 	/*Re-editing an existing comment.*/
 	$texts=array();
+/*TODO: the xmlid must have the real entryn not the index!!!!*/
 	$Comment=$Report['Comments']['Comment'][$entryn];
 	$inmust=$Comment['id_db'];
 	if($subcomments_no>0){
