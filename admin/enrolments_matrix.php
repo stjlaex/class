@@ -50,7 +50,7 @@ while(list($index,$year)=each($yeargroups)){
 		if($feeder!=''){
 			$Transfers=feeder_fetch('transfer_nos',$feeder,$postdata);
 			while(list($findex,$Transfer)=each($Transfers['transfer'])){
-		trigger_error($findex.' '.$Transfer['yeargroup'].' '.$Transfer['value']);
+				//trigger_error($findex.' '.$Transfer['yeargroup'].' '.$Transfer['value']);
 				if(!isset($feeder_nos[$Transfer['yeargroup']])){
 					$feeder_nos[$Transfer['yeargroup']]=0;
 					}
@@ -82,7 +82,8 @@ while(list($index,$year)=each($yeargroups)){
 	while(list($tindex,$table)=each($tables)){
 ?>
 	  <table class="listmenu center smalltable">
-		<caption><?php print_string($table['caption'],$book);?></caption>
+		<caption><?php print get_string($table['caption'],$book). 
+		' - '.$CFG->schoolname.'  ('.display_date($todate).')';?></caption>
 		<tr>
 		  <th><?php print display_curriculumyear($enrolyear);?></th>
 <?php

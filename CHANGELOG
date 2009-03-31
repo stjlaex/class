@@ -1,5 +1,4 @@
-
-Version ClaSS-0.8.67 release (2009/03/27)
+Version ClaSS-0.8.67 release (2009/03/31)
 -----------------------------------------
 
 Reinstating cattable as part of the reportdefs to maintain backward
@@ -11,6 +10,19 @@ to display.
 
 A part fix to the deletion of report entries. Need entryn to be entryn
 and not the array index.
+
+Fix to the list of allowed users on budgets - it was broken for older
+perms wich used w=0.
+
+Changed the budget column for enrolments to be a budgetroll (its
+really a fixed estimate however its called).
+
+New optional $CFG setting of budget_endmonth for the rollover,
+defaults to May if not set.
+
+Changed the selection of profile assessments bundled with a subject
+report so that only those younger than the report are included.
+
 
 
 Version ClaSS-0.8.66 release (2009/03/12)

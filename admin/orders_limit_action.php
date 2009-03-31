@@ -3,11 +3,12 @@
  */
 
 $action='orders_limit.php';
-$action_post_vars=array('budid');
+$action_post_vars=array('budid','budgetyear');
 
 if(isset($_POST['budid'])){$budid=$_POST['budid'];}
 if(isset($_POST['costlimit'])){$costlimit=$_POST['costlimit'];}
 if(isset($_POST['name'])){$name=clean_text($_POST['name']);}
+if(isset($_POST['budgetyear'])){$budgetyear=$_POST['budgetyear'];}
 
 include('scripts/sub_action.php');
 

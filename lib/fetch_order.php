@@ -193,7 +193,7 @@ function list_orders($ordernumber='%',$orderstatus='%',$ordersupid='%'){
 function get_order_reference($ordid){
 	$d_b=mysql_query("SELECT orderbudget.code,
 		orderbudget.yearcode, orderorder.teacher_id FROM orderbudget JOIN orderorder
-					ON orderorder.budget_id=orderbudget.id WHERE orderorder.id='$ordid'");
+					ON orderorder.budget_id=orderbudget.id WHERE orderorder.id='$ordid';");
 
 	$ref=mysql_fetch_array($d_b,MYSQL_ASSOC);
 	/* This gives an order reference of format: budget-teacher-year-id */
@@ -209,7 +209,7 @@ function fetchOrder($ordid='-1'){
 	$Order=array();
 	$d_o=mysql_query("SELECT budget_id, supplier_id, entrydate,
 						currency, teacher_id, detail 
-						FROM orderorder WHERE id='$ordid'");
+						FROM orderorder WHERE id='$ordid';");
 	$order=mysql_fetch_array($d_o,MYSQL_ASSOC);
 	$Order=array();
 	$Order['id_db']=$ordid;
@@ -672,7 +672,8 @@ function fetchInvoice($invid='-1'){
  */
 function get_budgetyear($yearcode=''){
 	if($yearcode==''){
-		$endmonth='4';/*TODO: should be in school.php*/
+		if(isset($CFG->budget_endmonth)){$endmonth=$CFG->budget_endmonth;}
+		else{$endmonth='5';}
 		$thismonth=date('m');
 		$thisyear=date('Y');
 		if($thismonth>$endmonth){$thisyear++;}

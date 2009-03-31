@@ -10,22 +10,30 @@
 		}
 	else{
 		$enrolcols_value=array('reenroling','pending','transfersin','newenrolments','leavers',
-							   'projectedroll','budget','capacity','spaces');
+							   'projectedroll','budgetroll','capacity','spaces');
 		}
 
 	$enrol_tablerows=array();
 	$enrol_cols=array();
 	while(list($colindex,$enrolcol)=each($enrolcols_value)){
-		if($enrolcol=='capacity' or $enrolcol=='budget'){
+		if($enrolcol=='capacity' or $enrolcol=='budgetroll'){
 			$enrolcols[$colindex]['class']='static';
 			$enrolcols[$colindex]['display']='<a href="admin.php?current=enrolments_edit.php&cancel='.
 							$choice.'&choice='. $choice.'&enrolyear='.$enrolyear. 
-							'&enrolstatus='.$enrolcol.'">'.get_string($enrolcol,$book).'</a>';
+				'&enrolstatus='.$enrolcol.'">'.get_string($enrolcol,$book).'</a>';
+			if($enrolcol=='budgetroll'){
+				$disyear=$enrolyear-1;
+				$enrolcols[$colindex]['display'].='<br />('. 
+					display_date($disyear. '-'.$CFG->enrol_cutoffmonth.'-30').')';
+				}
 			}
 		else{
 			$enrolcols[$colindex]['display']=get_string($enrolcol,$book);
 			if($enrolcol=='currentroll' or $enrolcol=='projectedroll'){
 				$enrolcols[$colindex]['class']='other';
+				if($enrolcol=='projectedroll'){
+					$enrolcols[$colindex]['display'].='<br />('. display_date($todate).')';
+				}
 				}
 			elseif($enrolcol=='spaces' or $enrolcol=='reenroled' or $enrolcol=='leavers'){
 				$enrolcols[$colindex]['class']='blank';
@@ -177,7 +185,7 @@
 					$cell['value']=$accom['capacity'];
 					}
 				}
-			elseif($enrolcol=='budget'){
+			elseif($enrolcol=='budgetroll'){
 				$budcom=array('id'=>'','type'=>'applied', 
 					   'name'=>$enrolcol.':'.$yid,'year'=>$enrolyear);
 				$budcom['id']=update_community($budcom);

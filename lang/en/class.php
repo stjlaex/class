@@ -291,6 +291,7 @@ $string['newenrolments']='New enrolments';
 $string['capacity']='Capacity';
 $string['currentroll']='Current roll';
 $string['projectedroll']='Projected roll';
+$string['budgetroll']='Projected roll';
 $string['accomodation']='Accomodation';
 $string['academic']='Curriculum';
 $string['overall']='Overall';

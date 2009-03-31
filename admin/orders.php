@@ -137,7 +137,7 @@ twoplus_buttonmenu($budgetyear,$currentyear+2,$extrabuttons,$book);
 			/* Restrict access to budget managers, x perms*/
 			if($budget['x']){
 				print '<a href="admin.php?current=orders_limit.php&cancel='.
-							$choice.'&choice='. $choice.'&budid='. $budget['id'].'">' 
+							$choice.'&choice='. $choice.'&budid='. $budget['id'].'&budgetyear='.$budgetyear.'">' 
 							.round($budget['costlimit'],0).'</a>';
 				}
 			else{

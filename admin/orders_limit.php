@@ -7,6 +7,8 @@ $action='orders_limit_action.php';
 
 if(isset($_GET['budid'])){$budid=$_GET['budid'];}else{$budid='';}
 if(isset($_POST['budid'])){$budid=$_POST['budid'];}
+if(isset($_GET['budgetyear'])){$budgetyear=$_GET['budgetyear'];}else{$budgetyear='';}
+if(isset($_POST['budgetyear'])){$budgetyear=$_POST['budgetyear'];}
 
 $Budget=fetchBudget($budid);
 $users=list_all_users('0');
@@ -14,6 +16,8 @@ $perms=array('r'=>1,'w'=>1,'x'=>1);
 $xusers=(array)list_budget_users($budid,$perms);
 $perms=array('r'=>1,'w'=>1,'x'=>0);
 $wusers=(array)list_budget_users($budid,$perms);
+$perms=array('r'=>1,'w'=>0,'x'=>0);/* workaround for old permissions */
+$wusers=array_merge($wusers,list_budget_users($budid,$perms));
 $tab=1;
 
 $extrabuttons=array();
@@ -51,6 +55,7 @@ three_buttonmenu($extrabuttons,$book);
 	  </fieldset>
 
 
+		<input type="hidden" name="budgetyear" value="<?php print $budgetyear;?>" />
 	    <input type="hidden" name="budid" value="<?php print $budid;?>" /> 
 		<input type="hidden" name="choice" value="<?php print $choice;?>" />
 		<input type="hidden" name="current" value="<?php print $action;?>" />

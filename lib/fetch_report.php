@@ -49,13 +49,19 @@ function fetchSubjectReports($sid,$reportdefs){
 			   and $reportdef['report']['profile_name']!='' and $reportdef['report']['profile_name']!=' '){
 				$profile_name=$reportdef['report']['profile_name'];
 				$profile_crid=$reportdef['report']['course_id'];
+				$profile_enddate=$reportdef['report']['date'];
+				/* Include only those that are results and that were recorded prior 
+				 * to this report (otherwise the report is going to change and it 
+				 * should be fixed at the publication data). 
+				 */
 				$d_a=mysql_query("SELECT id FROM assessment WHERE course_id='$profile_crid' AND
-									profile_name='$profile_name';");
+					   profile_name='$profile_name' AND resultstatus='R' AND deadline<='$profile_enddate';");
+
 				$profile_asseids=array();
 				while($a=mysql_fetch_array($d_a,MYSQL_ASSOC)){
 					/* Do not include any eid that is linked explicity
 					 * with the report - probably current attainment -
-					 * the profile only deals with the istory
+					 * the profile only deals with the history
 					 */
 					if(!array_key_exists($a['id'],$asseids)){$profile_asseids[]=$a['id'];}
 					}
@@ -158,7 +164,6 @@ function fetchSubjectReports($sid,$reportdefs){
 						  if(sizeof($ProfileAssessments['Assessment'])==0){
 							  $ProfileAssessments['Assessment']=nullCorrect($ProfileAssessments['Assessment']);
 							  }
-						  
 						  $Report['ProfileAssessments']=$ProfileAssessments;
 						  }
 
