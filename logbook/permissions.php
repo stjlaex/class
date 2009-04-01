@@ -161,7 +161,8 @@ function get_group_perms($gid,$uid){
 
 /**
  * Singles out a special group of users with admin permissions
- * $type is b=budget, a=academic, p=pastoral, s=section
+ * $type is b=budget, a=academic, p=pastoral, s=section, u=users.
+ *
  * The return perm is either true or false.
  *
  */

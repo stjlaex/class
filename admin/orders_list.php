@@ -4,7 +4,7 @@
  * Works in two scenarios. Either called with budid set meaning it is
  * for a single budget and new orders can be placed. Or it is the result
  * of a search and ordernumber and orderstatus will be used to list
- * relevant orders, budid=-1 is set beacsue this transcends budgets
+ * relevant orders, budid=-1 is set because this transcends budgets
  * and no orders can be placed from this page.
  *
  */
@@ -102,14 +102,14 @@ if($budid!=-1){
 		<tbody id="<?php print $entryno;?>">
 		  <tr class="rowplus" onClick="clickToReveal(this)" 
 							id="<?php print $entryno.'-'.$rown++;?>">
-			<th>&nbsp</th>
+			<th>&nbsp;</th>
 			<td><?php print display_date($Order['Date']['value']);?></td>
 			<td><?php print $Supplier['Name']['value'];?></td>
 			<td><?php print $Order['Reference']['value'];?></td>
 			<td><?php print $Order['Lodged']['value'];?></td>
 			  <?php if($budid==-1){ print '<td>'.$Order['Budget']['value'].'</td>';}?>
 			<td	<?php print $styleclass;?>> 
-			  <?php if($status!='closed'){print_string($status,$book);}?>&nbsp
+			   <?php if($status!='closed'){print_string($status,$book);}?> &nbsp;
 			</td>
 		  </tr>
 		  <tr class="hidden" id="<?php print $entryno.'-'.$rown++;?>">

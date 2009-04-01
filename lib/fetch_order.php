@@ -425,10 +425,13 @@ function fetchSupplier($supid=-1){
 	if($supid==''){$supid=-1;}
 	$d_sup=mysql_query("SELECT * FROM ordersupplier WHERE id='$supid';");
 	$sup=mysql_fetch_array($d_sup,MYSQL_ASSOC);
+	$aid=$sup['address_id'];
+	if($aid==0){$aid=-1;}
+
 	$Supplier=array();
 	$Supplier['id_db']=$supid;
    	$Supplier['Name']=array('label' => 'name', 
-							//'inputtype'=> 'required',
+							'inputtype'=> 'required',
 							'table_db' => 'ordersupplier', 
 							'field_db' => 'name',
 							'type_db' => 'varchar(160)', 
@@ -441,45 +444,10 @@ function fetchSupplier($supid=-1){
 								'type_db' => 'enum', 
 								'value' => ''.$sup['inactive']
 								);
-	/* TODO: use address table
-	$Supplier['Street']=array('label' => 'street',
-						   'table_db' => 'ordersupplier', 
-						   'field_db' => 'street',
-						   'type_db' => 'varchar(160)', 
-						   'value' => ''.$sup['street']);
-	$Supplier['Neighbourhood']=array('label' => 'neighbourhood',
-									'table_db' => 'ordersupplier', 
-									'field_db' => 'neighbourhood',
-									'type_db' => 'varchar(160)', 
-									'value' => ''.$sup['neighbourhood']);
-	$Supplier['Town']=array('label' => 'town/city', 
-						   'table_db' => 'ordersupplier', 
-						   'field_db' => 'region',
-						   'type_db' => 'varchar(160)', 
-						   'value' => ''.$sup['region']);
-	$Supplier['Country']=array('label' => 'country', 
-							 'table_db' => 'ordersupplier', 
-							 'field_db' => 'country',
-							 'type_db' => 'enum',
-							  'value_display' => 
-							get_string(displayEnum($sup['country'], 'country'),'infobook'), 
-							 'value' => ''.$sup['country']);
-	$Supplier['Postcode']=array('label' => 'postcode',
-							   'table_db' => 'ordersupplier', 
-							   'field_db' => 'postcode',
-							   'type_db' => 'varchar(8)', 
-							   'value' => ''.$sup['postcode']);
-	$Supplier['Phonenumber']=array('label' => 'phonenumber',
-							   'table_db' => 'ordersupplier', 
-							   'field_db' => 'phonenumber1',
-							   'type_db' => 'varchar(22)', 
-							   'value' => ''.$sup['phonenumber1']);
-	$Supplier['Faxnumber']=array('label' => 'faxnumber',
-							   'table_db' => 'ordersupplier', 
-							   'field_db' => 'phonenumber2',
-							   'type_db' => 'varchar(22)', 
-							   'value' => ''.$sup['phonenumber2']);
-*/
+
+	$Supplier['Address']=fetchAddress(array('address_id'=>$aid,'addresstype'=>''));
+
+
 	return $Supplier;
 	}
 

@@ -38,10 +38,10 @@ $rtid=$tid;
 	if($_SESSION['role']=='admin' or $_SESSION['role']=='teacher' 
 	   or $_SESSION['role']=='office'){
 		$choices['teacher_matrix.php']='subjectclasses';
+		$choices['staff_details.php']='staffdetails';
 		}
 	if($_SESSION['role']=='admin' or $_SESSION['role']=='teacher'){
 		$choices['responsables.php']='responsibilities';
-		$choices['staff_details.php']='staffdetails';
 		}
 	$choices['orders.php']='orders';
 	if($_SESSION['role']=='admin' or $_SESSION['role']=='teacher'

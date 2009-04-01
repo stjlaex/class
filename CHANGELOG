@@ -1,4 +1,4 @@
-Version ClaSS-0.8.67 release (2009/03/31)
+Version ClaSS-0.8.67 release (2009/04/03)
 -----------------------------------------
 
 Reinstating cattable as part of the reportdefs to maintain backward
@@ -23,6 +23,12 @@ defaults to May if not set.
 Changed the selection of profile assessments bundled with a subject
 report so that only those younger than the report are included.
 
+Added a type=u to groups for superadmin access to staff details.
+
+Suppliers no have addresses and new_suppliers now handles existing
+suppliers and their address.
+
+Included a template for printing orders.
 
 
 Version ClaSS-0.8.66 release (2009/03/12)

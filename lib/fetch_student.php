@@ -632,7 +632,7 @@ function fetchPhone($phone=array('id'=>'-1','number'=>'','phonetype'=>'')){
 function fetchAddress($gidaid=array('address_id'=>'-1','addresstype'=>'')){
 	$Address=array();
 	$aid=$gidaid['address_id'];
-	$d_address=mysql_query("SELECT * FROM address WHERE id='$aid'");
+	$d_address=mysql_query("SELECT * FROM address WHERE id='$aid';");
 	$address=mysql_fetch_array($d_address,MYSQL_ASSOC);
 	$Address['id_db']=$aid;
 	/*Only makes sense if multiple addresses are implemented

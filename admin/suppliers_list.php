@@ -36,20 +36,26 @@ two_buttonmenu($extrabuttons,$book);
 			$rown=0;
 ?>
 		<tbody id="<?php print $entryno;?>">
-		  <tr class="rowplus 
-			  <?php if($Supplier['Inactive']['value']=='1'){print 'lowlite';}?>" 
-			  onClick="clickToReveal(this)" 
-							id="<?php print $entryno.'-'.$rown++;?>">
+		  <tr class="rowplus <?php if($Supplier['Inactive']['value']=='1'){print 'lowlite';} ?>" 
+			  onClick="clickToReveal(this)" id="<?php print $entryno.'-'.$rown++; ?>">
 			<th>&nbsp</th>
-			<td><?php print $Supplier['Name']['value'];?></td>
+			<td>
+			  <a href="admin.php?current=new_supplier.php&cancel=suppliers_list.php&supid=<?php print $supid;?>&budgetyear=<?php print $budgetyear;?>">
+			  <?php 
+			  print $Supplier['Name']['value'];
+			  ?>
+					</a>
+			</td>
 		  </tr>
 		  <tr class="hidden" id="<?php print $entryno.'-'.$rown++;?>">
 			<td colspan="2">
 				<p>
-				  <?php //print $Supplier['Street']['value'];?>
-				  <?php //print $Supplier['Neighbourhood']['value'];?>
-				  <?php //print $Supplier['Town']['value'];?>
-				  <?php //print $Supplier['Country']['value'];?>
+<?php 
+			  print $Supplier['Address']['Street']['value'].', '. 
+				  $Supplier['Address']['Neighbourhood']['value'].', '.
+				  $Supplier['Address']['Town']['value'].', '. $Supplier['Address']['Country']['value'] 
+				  .'. '. $Supplier['Address']['Postcode']['value'];
+?>
 				</p>
 			</td>
 		  </tr>

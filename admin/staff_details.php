@@ -11,14 +11,15 @@ else{$seluid=$_SESSION['uid'];/* By default display logged in user. */}
 
 $users=array();
 $users=list_responsible_users($tid,$respons,$r);
-if($_SESSION['role']=='admin' and sizeof($users)==0){
+$aperm=get_admin_perm('u',$_SESSION['uid']);
+if(($_SESSION['role']=='admin' or $aperm==1) and sizeof($users)==0){
 	$users=list_all_users('0');
 	$nologin_users=list_all_users('1');
 	}
 elseif(sizeof($users)==0){
-	$user=get_user($tid);
-	$uid=$user['uid'];
-	$users[$uid]=$user;
+	$currentuser=get_user($tid);
+	$uid=$currentuser['uid'];
+	$users[$uid]=$currentuser;
 	}
 
 /*This is the record being edited.*/
@@ -158,7 +159,7 @@ unset($listoptions);
 		</div>
 
 <?php
-if($tid=='administrator' or $_SESSION['role']=='admin'){
+if($_SESSION['role']=='admin' or $aperm==1){
 ?>
 		<div class="center">
 		  <label for="Work level"><?php print_string('workexperiencelevel',$book);?></label>
