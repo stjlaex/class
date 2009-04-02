@@ -25,8 +25,17 @@
 	<h1 style="font-size:11pt;width:100%;background-color:#eee;">
 	  <xsl:value-of select="supplier/name/value/text()" />&#160;
 	</h1>
-
-	<xsl:apply-templates select="supplier/address" />
+	<div class="left">
+	  <label>Telephone: </label>
+	  <xsl:value-of select="supplier/phone/value/text()" />&#160;
+	</div>
+	<div class="right">
+	  <label>Fax: </label>
+	  <xsl:value-of select="supplier/fax/value/text()" />&#160;
+	</div>
+	<div class="left">
+	  <xsl:apply-templates select="supplier/address" />
+	</div>
 
   </div>
 

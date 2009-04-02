@@ -34,6 +34,7 @@ CREATE TABLE ordersupplier (
 	phonenumber1	varchar(22) not null default '',
 	phonenumber2	varchar(22) not null default '',
 	phonenumber3	varchar(22) not null default '',
+	email			varchar(240) not null default '',
 	address_id		int unsigned not null default '0',
 	specialaction	enum('0','1') not null default '0',
 	inactive		enum('0','1') not null default '0',

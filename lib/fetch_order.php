@@ -444,6 +444,27 @@ function fetchSupplier($supid=-1){
 								'type_db' => 'enum', 
 								'value' => ''.$sup['inactive']
 								);
+   	$Supplier['Email']=array('label' => 'email', 
+							 //'inputtype'=> 'required',
+							 'table_db' => 'ordersupplier', 
+							 'field_db' => 'email',
+							 'type_db' => 'varchar(240)', 
+							 'value' => ''.$sup['email']
+							 );
+   	$Supplier['Phone']=array('label' => 'phone', 
+							 //'inputtype'=> 'required',
+							 'table_db' => 'ordersupplier', 
+							 'field_db' => 'phonenumber1',
+							 'type_db' => 'varchar(22)', 
+							 'value' => ''.$sup['phonenumber1']
+							 );
+   	$Supplier['Fax']=array('label' => 'fax', 
+						   //'inputtype'=> 'required',
+						   'table_db' => 'ordersupplier', 
+						   'field_db' => 'phonenumber2',
+						   'type_db' => 'varchar(22)', 
+						   'value' => ''.$sup['phonenumber2']
+						   );
 
 	$Supplier['Address']=fetchAddress(array('address_id'=>$aid,'addresstype'=>''));
 
