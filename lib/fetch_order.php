@@ -451,14 +451,14 @@ function fetchSupplier($supid=-1){
 							 'type_db' => 'varchar(240)', 
 							 'value' => ''.$sup['email']
 							 );
-   	$Supplier['Phone']=array('label' => 'phone', 
+   	$Supplier['Phone']=array('label' => 'phonenumber', 
 							 //'inputtype'=> 'required',
 							 'table_db' => 'ordersupplier', 
 							 'field_db' => 'phonenumber1',
 							 'type_db' => 'varchar(22)', 
 							 'value' => ''.$sup['phonenumber1']
 							 );
-   	$Supplier['Fax']=array('label' => 'fax', 
+   	$Supplier['Fax']=array('label' => 'faxnumber', 
 						   //'inputtype'=> 'required',
 						   'table_db' => 'ordersupplier', 
 						   'field_db' => 'phonenumber2',
