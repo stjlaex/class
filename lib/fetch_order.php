@@ -312,7 +312,9 @@ function fetchMaterial($mat=array('entryn'=>'','materialtype'=>'','detail'=>'',
 								  'quantity'=>'','unitcost'=>'','refno'=>''),$catdefs=array()){
 
 	if(sizeof($catdefs)==0){list($ratingnames,$catdefs)=fetch_categorydefs('mat');}
-	if(array_key_exists($mat['materialtype'],$catdefs)){$materialtype_name=$catdefs[$catid]['name'];}
+	if(array_key_exists($mat['materialtype'],$catdefs)){
+		$materialtype_name=$catdefs[$mat['materialtype']]['name'];
+		}
 	else{$materialtype_name='';}
 	$Material=array();
 	$Material['id_db']=$mat['entryn'];
