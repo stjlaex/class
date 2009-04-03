@@ -685,7 +685,7 @@ function fetchReportEntry($reportdef,$sid,$bid,$pid){
 		   unset($comment_html);
 		   if($subcomments_no>0){
 			   /* Each subcomment gets embedded as a html fragment in the xml 
-				* for display in xslt using copy-of.
+				* for display in xslt using copy-of (and not select!).
 				*/
 			   $comment_html=array();
 			   $comments=split(':::',$entry['comment']);
@@ -695,6 +695,11 @@ function fetchReportEntry($reportdef,$sid,$bid,$pid){
 				   $comment_div['p']=''.$comments[$c];
 				   $comment_html['div'][]=$comment_div;
 				   }
+
+			   }
+		   elseif($reportdef['report']['date']<'2009-04-11'){
+			   /* For backward compatibility with old xslt templates. */
+			   $comment_html=$entry['comment'];
 			   }
 		   else{
 			   $comment_html['div'][]=$entry['comment'];

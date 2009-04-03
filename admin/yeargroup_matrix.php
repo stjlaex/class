@@ -55,7 +55,7 @@ three_buttonmenu($extrabuttons);
 		$d_groups=mysql_query("SELECT gid FROM groups WHERE
 				yeargroup_id='$yid' AND course_id=''");
 		$gid=mysql_result($d_groups,0);
-		$perms=getYearPerm($yid, $respons);
+		$perms=getYearPerm($yid,$respons);
 		$comid=update_community(array('type'=>'year','name'=>$yid));
 		$com=get_community($comid);
 		$nosids=countin_community($com);
@@ -88,7 +88,7 @@ three_buttonmenu($extrabuttons);
 		$users=(array)list_pastoral_users($yid,$yearperms);
 		while(list($uid,$user)=each($users)){
 			$Responsible=array('id_db'=>$yid.'-'.$uid);
-			if($user['role']!='office' and $user['role']!='admin'){
+			if($user['role']!='office' and $user['username']!='administrator'){
 				if($perms['x']==1){
 ?>
 			<div  id="<?php print $yid.'-'.$uid;?>" class="rowaction" >

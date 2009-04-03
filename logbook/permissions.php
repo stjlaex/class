@@ -110,7 +110,7 @@ function list_pastoral_users($ryid,$perms){
 	$w=$perms['w'];
 	$x=$perms['x'];
 	$d_group=mysql_query("SELECT gid FROM groups WHERE
-			course_id='' AND subject_id='' AND yeargroup_id LIKE '$ryid'");
+			course_id='' AND subject_id='' AND yeargroup_id LIKE '$ryid' AND type='p';");
 	$gid=mysql_result($d_group,0);
 	$d_users=mysql_query("SELECT DISTINCT users.uid,
 			   	username, passwd, forename, surname, email, emailuser,
@@ -599,7 +599,7 @@ function update_user($user,$update='no',$short='class'){
 
 /**
  * 
- * Needs a uid and a gid and will update or insert the suplied
+ * Needs a uid and a gid and will update or insert the supplied
  * permissions.
  *
  */
@@ -623,6 +623,7 @@ function update_staff_perms($uid,$gid,$newperms){
 				$result=get_string('updatedresponsibilities','admin');
 				}
 		}
+
 	return $result;
 	}
 

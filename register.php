@@ -1,6 +1,8 @@
 <?php 
  /**		   											register.php
-  *	This is the hostpage for the register
+  *
+  *	This is the hostpage for the register.
+  *
   */
 
 $host='register.php';
@@ -23,7 +25,7 @@ include('scripts/set_book_session_vars.php');
 	elseif($community['type']=='reg'){$comid=$community['id'];unset($newfid);}
   }
   else{
-	/*on first load select teachers formgorup by default*/
+	/*on first load select teachers formgroup by default*/
 	$pastorals=list_pastoral_respon($respons);
 	$rfids=$pastorals['forms'];
 	$ryids=$pastorals['years'];

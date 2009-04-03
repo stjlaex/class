@@ -10,7 +10,7 @@ $choice='register_list.php';
 include('scripts/sub_action.php');
 
 if(isset($CFG->registration[$secid]) 
-   and $CFG->registration[$secid]=='double'){$period='%';}
+   and $CFG->registration[$secid]!='single'){$period='%';}
 else{$period='AM';}
 
 $students=(array)listin_community($community);

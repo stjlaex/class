@@ -200,7 +200,10 @@ function get_event($date='',$session='',$secid=1){
 		}
 	if($session==''){
 		if(isset($CFG->registration[$secid]) 
-		   and $CFG->registration[$secid]=='double'){$session=date('A');}
+		   and $CFG->registration[$secid]!='single' 
+		   and $CFG->registration[$secid]>date('H:i')){
+			$session='PM';
+			}
 		else{$session='AM';}
 		}
 	$d_event=mysql_query("SELECT id FROM event WHERE date='$date' 
