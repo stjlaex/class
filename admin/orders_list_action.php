@@ -24,13 +24,20 @@ else{
 
 
 $entryn=-1;
-$action_post_vars=array('budid','ordid','entryn','budgetyear',
+$action_post_vars=array('budid','ordid','entryn','budgetyear','startno',
 						'ordernumber','orderstatus','ordersupid');
 
 
 include('scripts/sub_action.php');
 
 $todate=date('Y-m-d');
+
+if(isset($_POST['nextrow']) and $_POST['nextrow']=='plus'){
+	$startno=$_POST['startno']+$_POST['nextrowstep'];
+	}
+elseif(isset($_POST['nextrow']) and $_POST['nextrow']=='minus'){
+	$startno=$_POST['startno']-$_POST['nextrowstep'];
+	}
 
 if($sub=='edit'){
 	$action='new_order.php';

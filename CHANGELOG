@@ -124,6 +124,9 @@ instead of type=rep.
 Transfers in from feeder schools are now counted correctly as part of
 the ernolments table.
 
+The orders list now limits display to 15 rows and has previous/next
+buttons.
+
 
 Version ClaSS-0.8.64 release (2009/02/03)
 -----------------------------------------

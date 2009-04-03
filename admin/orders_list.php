@@ -49,14 +49,14 @@ else{
 
 two_buttonmenu($extrabuttons,$book);
 
-if($budid!=-1){
+	if($budid!=-1){
 ?>
   <div id="heading">
 	<label><?php print_string('budget',$book);?></label>
 <?php	print $Budget['Name']['value'].' ';?>
   </div>
 <?php
-	}
+		}
 ?>
   <div id="viewcontent" class="content">
 
@@ -72,12 +72,24 @@ if($budid!=-1){
 			<th><?php print_string('supplier',$book);?></th>
 			<th><?php print_string('ordernumber',$book);?></th>
 			<th><?php print_string('lodged',$book);?></th>
-<?php  	if($budid==-1){ print '<th>'.get_string('budget',$book).'</th>';}?>
+<?php
+  	if($budid==-1){ print '<th>'.get_string('budget',$book).'</th>';}
+?>
 			<th>&nbsp;</th>
 		  </tr>
 		</thead>
 <?php
-		while(list($entryno,$order)=each($orders)){
+
+	if(isset($_POST['startno'])){$startno=$_POST['startno'];}
+	else{$startno=0;}
+	$totalno=sizeof($orders);
+	$nextrowstep=15;
+	if($startno>$totalno){$startno=$totalno-$nextrowstep;}
+	if($startno<0){$startno=0;}
+		$endno=$startno+$nextrowstep;
+		if($endno>$totalno){$endno=$totalno;}
+		for($entryno=$startno;$entryno<$endno;$entryno++){
+			$order=$orders[$entryno];
 			$actionbuttons=array();
 			$imagebuttons=array();
 			$ordid=$order['id'];
@@ -267,17 +279,37 @@ if($budid!=-1){
 				}
 			}
 ?>
+		<tr>
+		<th colspan="4">&nbsp;</th>
+		<th colspan="2">
+<?php 
+			$dstartno=$startno+1;
+			print 'Show '. $dstartno.' - '.$endno.' of '.$totalno;
+			$buttons=array();
+			if($startno>0){
+				$buttons['<']=array('title'=>'previous','name'=>'nextrow','value'=>'minus');
+				}
+			if($endno<$totalno){
+				$buttons['>']=array('title'=>'next','name'=>'nextrow','value'=>'plus');
+				}
+			all_extrabuttons($buttons,'admin','processContent(this)')
+?>
+		</th>
+		</tr>
 	  </table>
 	</div>
 <?php
-if($budid==-1){
+	if($budid==-1){
 ?>
 	<input type="hidden" name="ordernumber" value="<?php print $ordernumber;?>" />
 	<input type="hidden" name="orderstatus" value="<?php print $orderstatus;?>" />
 	<input type="hidden" name="ordersupid" value="<?php print $ordersupid;?>" />
 <?php
-	}
+		}
 ?>
+
+	<input type="hidden" name="startno" value="<?php print $startno;?>" />
+	<input type="hidden" name="nextrowstep" value="<?php print $nextrowstep;?>" />
 	<input type="hidden" name="budgetyear" value="<?php print $budgetyear;?>" />
 	<input type="hidden" name="budid" value="<?php print $budid;?>" />
 	<input type="hidden" name="current" value="<?php print $action;?>" />
