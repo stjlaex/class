@@ -35,7 +35,7 @@
 	  </form>
 	</div>
 
-	<div id="sidebuttons">
+	<div id="sidebuttons" class="sidebuttons">
 	  <button onclick="viewBook('aboutbook');" title="<?php print_string('about');?>">
 		<img src="images/help-browser.png" /></button>
 	  <button id="sitestatus" class="hide" >

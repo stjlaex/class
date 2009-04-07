@@ -199,13 +199,23 @@ function get_event($date='',$session='',$secid=1){
 		$date=date('Y-m-d');
 		}
 	if($session==''){
-		if(isset($CFG->registration[$secid]) 
-		   and $CFG->registration[$secid]!='single' 
-		   and $CFG->registration[$secid]>date('H:i')){
-			$session='PM';
+		$session='AM';
+
+		/* secid=1 is wholeschool, use this if no others configured */
+		if(!is_array($CFG->registration)){$reg='single';}
+		elseif(!isset($CFG->registration[$secid])){$reg=$CFG->registration[1];}
+		else{$reg=$CFG->registration[$secid];}
+
+		/* if double registration is configured then the reg array
+		   should be set to the turnover time for the registers to PM
+		   (and set in 24 hour clock)
+		*/
+		if($reg!='single' and $reg!=''){
+			$time=split(':',$reg);
+			if(date('H')>$time[0] or (date('H')==$time[0] and date('i')>=$time[1])){$session='PM';}
 			}
-		else{$session='AM';}
 		}
+
 	$d_event=mysql_query("SELECT id FROM event WHERE date='$date' 
 						AND period='$session';");
 	if(mysql_num_rows($d_event)==0){

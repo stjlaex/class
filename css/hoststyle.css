@@ -383,15 +383,17 @@ div#sidebuttons {
     z-index:100;
 	background-color:#444444;
 	}
-#sidebuttons img { 
+div#sidebuttons button {
+	background-color:#444444;
+	}
+.sidebuttons img { 
 	padding:0; margin:0; border:0;
 	width:20px; height:20px;
 	}
-#sidebuttons button { 
+.sidebuttons button { 
     float:left;
 	padding:0; margin:0 1px; border:0; 
 	width:22px; height:22px;
-    background-color:#444444;
 	}
 div.hidden {
 	display:none;

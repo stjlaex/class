@@ -178,9 +178,22 @@ function clickToAction(buttonObject){
 		var url=pathtobook + "httpscripts/" + script + "?uniqueid=" + escape(recordId);
 		if(action!="print"){
 			var answer=confirmAction(buttonObject.title);
+			var params="";
 			}
 		else{
 			var answer=true;
+			var params="";
+			// this is for passing a list of sids grabbed from the tr ids of a sidtable
+			// only used at the moment by report_profile_print
+			if(document.getElementById("marktable")){
+				var sidrows=document.getElementById("marktable").getElementsByTagName("tr");
+				for(var c=0; c<sidrows.length; c++){
+					if(sidrows[c].id!=""){
+						params=params+"&sids[]=" + escape(sidrows[c].attributes["id"].value);
+						}
+					}
+				}
+			url=url + params;
 			}
 		if(answer){
 			xmlHttp.open("GET", url, true);

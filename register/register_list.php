@@ -16,7 +16,7 @@ else{$period='AM';}
 $students=(array)listin_community($community);
 $tutor_user=(array)get_tutor_user($newfid);
 
-	$AttendanceEvents=fetchAttendanceEvents($startday,7,$period);
+	$AttendanceEvents=fetchAttendanceEvents($startday,10,$period);
 	$evetable=$AttendanceEvents['evetable'];
 	/*make sure an event is selected which is part of the current window*/
 	if(!array_key_exists($checkeveid,$evetable)){
@@ -29,15 +29,20 @@ $tutor_user=(array)get_tutor_user($newfid);
 			reset($evetable);
 			}
 		}
+
+	/* If the currentevent is not yet in the db event table then must
+	 * add a blank to get started.
+	 */
+	if($currentevent['id']==0 and $startday==''){
+		$Event=fetchAttendanceEvent();
+		$Event['id_db']=0;
+		$Event['Date']['value']=$currentevent['date'];
+		$Event['Period']['value']=$currentevent['period'];
+		$AttendanceEvents['Event'][]=$Event;
+		}
+
 	if($checkeveid=='' or $checkeveid=='0'){
 		$seleveid=$currentevent['id'];
-		if($currentevent['id']==0 and $startday==''){
-			$Event=fetchAttendanceEvent();
-			$Event['id_db']=0;
-			$Event['Date']['value']=$currentevent['date'];
-			$Event['Period']['value']=$currentevent['period'];
-			$AttendanceEvents['Event'][]=$Event;
-			}
 		}
 	else{$seleveid=$checkeveid;}
 

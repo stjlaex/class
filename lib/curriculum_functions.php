@@ -491,7 +491,7 @@ function update_cohort($cohort){
  *
  */
 function listin_cohort($cohort){
-	$todate=date("Y-m-d");
+	$todate=date('Y-m-d');
 	if($cohort['id']!=''){$cohid=$cohort['id'];}
 	else{$cohid=update_cohort($cohort);}
 	mysql_query("CREATE TEMPORARY TABLE cohortstudent (SELECT DISTINCT student_id FROM comidsid 

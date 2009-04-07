@@ -1,3 +1,18 @@
+Version ClaSS-0.8.67 release (2009/04/08)
+-----------------------------------------
+
+Fix to a problem with the new register turnover time.
+
+Assessment profiles can now be linked with an xsl transform, stored in
+the comment field of categorydef.
+
+If a profile transform is set and its slected as the filter option in
+the MarkBook then an extra side option is displayed for printing.
+
+A new http script in the MarkBook report_profile_print for printing
+assessment profiles.
+
+
 Version ClaSS-0.8.67 release (2009/04/03)
 -----------------------------------------
 

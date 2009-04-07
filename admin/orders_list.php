@@ -245,13 +245,6 @@ two_buttonmenu($extrabuttons,$book);
 						$imagebuttons['clicktoprint']=array('name'=>'print',
 															'value'=>'order_print.php',
 															'title'=>'print');
-						/*$extrabuttons['summary']=array('name'=>'current',
-							   'pathtoscript'=>$CFG->sitepath.'/'.$CFG->applicationdirectory.'/reportbook/',
-							   'title'=>'printreportsummary',
-							   'value'=>'report_attendance_print.php',
-							   'onclick'=>'checksidsAction(this)'
-							   );
-						*/
 ?>
 				<label>
 				  <?php print get_string($orderaction,$book).' '.get_string('note',$book);?>

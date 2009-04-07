@@ -984,6 +984,24 @@ function fetchHomeworkDefinition($hwid){
    	}
 
 /**
+ *
+ *
+ */
+function get_assessment_profile($profid){
+	if($profid!=''){
+		$d_pro=mysql_query("SELECT id, name, subtype AS component_status, rating_name, course_id,
+						subject_id, comment AS transform 
+						FROM categorydef WHERE type='pro' AND id='$profid';");
+		$profile=mysql_fetch_array($d_pro,MYSQL_ASSOC);
+		}
+	else{
+		$profile['id']=-1;
+		}
+
+	return $profile;
+	}
+
+/**
  * Returns an array of all assessment profiles for a single course.
  *
  * Only allows for one profile in use per crid/bid combination
@@ -998,7 +1016,7 @@ function list_assessment_profiles($crid,$bid='%'){
 	$profiles=array();
 	if($crid!=''){
 		$d_pro=mysql_query("SELECT id, name, subtype AS component_status, rating_name, course_id,
-						subject_id FROM categorydef WHERE type='pro'
+						subject_id, comment AS transform FROM categorydef WHERE type='pro'
 						AND (subject_id LIKE '$bid' OR subject_id='%') AND course_id='$crid' ORDER
 						BY subject_id, name;");
 		while($profile=mysql_fetch_array($d_pro,MYSQL_ASSOC)){

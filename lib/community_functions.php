@@ -206,9 +206,13 @@ function listin_union_communities($community1,$community2){
 	return array('scab'=>$scabstudents,'union'=>$unionstudents);
 	}
 
-/* Lists all sids who are current members of a commmunity*/
-/* With $stardate set all students who joined after that date*/
-/* and with $enddate set lists all student members in that period*/
+
+/**
+ *
+ * Lists all sids who are current members of a commmunity
+ * With $stardate set all students who joined after that date
+ * and with $enddate set lists all student members in that period
+ */
 function listin_community($community,$enddate='',$startdate=''){
 	$todate=date("Y-m-d");
 	if($enddate==''){$enddate=$todate;}

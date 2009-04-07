@@ -217,20 +217,38 @@ if(isset($umns)){
 				<input title="<?php print $choiceprofile['name'].' '.get_string('assessmentprofile',$book);?>" 
 					type="radio" name="umnfilter" 
 					value="p<?php print $choiceprono;?>" 
-					<?php if($umnfilter=='p'.$choiceprono){print 'checked';}?>
+					<?php if($umnfilter=='p'.$choiceprono){print 'checked';$currentprofile=$choiceprofile;}?>
 					onchange="document.umnfilterchoice.submit();" />
 <?php
-
 				}
 			}
 ?>
-
 			<label><?php print_string('all');?></label>
 				<input  title="<?php print_string('all');?>" type="radio" name="umnfilter"
 				  value="%" <?php if($umnfilter=='%'){print 'checked';}?>
 				  onchange="document.umnfilterchoice.submit();" />
 		</form>
 	  </div>
+
+<br />
+<?php
+		if(isset($currentprofile) and $currentprofile['transform']!=''){
+?>
+	  <div id="<?php print $currentprofile['id'];?>" class="neat sidebuttons">
+		<button name="print" onclick="window.frames['viewmarkbook'].clickToAction(this);" 
+			value="report_profile_print.php">
+			<img alt="Print" src="images/printer.png"/>
+		</button>
+			<label style="font-weight:600;">&nbsp;<?php print $currentprofile['name'];?></label>
+			<div id="<?php print 'xml-'.$currentprofile['id'];?>" style="display:none;">
+			<?php					  xmlechoer('Profile',$currentprofile);?>
+		  </div>
+	  </div>
+<?php
+
+			}
+?>
+
 
 	</fieldset>
   </div>
