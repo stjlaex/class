@@ -33,7 +33,7 @@
 			Session:
 		  </label>
 		  <xsl:value-of select="../attendanceevent/date/value/text()" />&#160;
-		  <xsl:value-of select="../attendanceevent/period/value/text()" />&#160;
+		  <xsl:value-of select="../attendanceevent/session/value/text()" />&#160;
 		</td>
 	  </tr>
 	</table>

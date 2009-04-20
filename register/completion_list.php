@@ -47,7 +47,7 @@ twoplusprint_buttonmenu();
 		  </td>
 		  <td>
 			<a onclick="parent.viewBook('register');" target="viewregister"  
-			  href='register.php?current=register_list.php&cancel=completion_list.php&newfid=<?php print $com['name'];?>'><?php print $com['displayname'];?></a>
+			  href='register.php?current=register_list.php&cancel=completion_list.php&newfid=<?php print $com['name'];?>&startday='><?php print $com['displayname'];?></a>
 		  </td>
 		  <td class="<?php print $cssclass;?>">
 			<?php print_string($status,$book);?>
@@ -66,7 +66,7 @@ twoplusprint_buttonmenu();
 		</table>
 
 		<input type="hidden" name="date" value="<?php print $currentevent['date'];?>" />
-		<input type="hidden" name="period" value="<?php print $currentevent['period'];?>" />
+		<input type="hidden" name="session" value="<?php print $currentevent['session'];?>" />
 		<input type="hidden" name="current" value="<?php print $action;?>" />
 		<input type="hidden" name="cancel" value="<?php print '';?>" />
 	    <input type="hidden" name="choice" value="<?php print $choice;?>" />

@@ -10,41 +10,91 @@ $choice='register_list.php';
 include('scripts/sub_action.php');
 
 if(isset($CFG->registration[$secid]) 
-   and $CFG->registration[$secid]!='single'){$period='%';}
-else{$period='AM';}
+   and $CFG->registration[$secid]!='single'){$session='%';}
+else{$session='AM';}
 
-$students=(array)listin_community($community);
-$tutor_user=(array)get_tutor_user($newfid);
+/**/
 
-	$AttendanceEvents=fetchAttendanceEvents($startday,10,$period);
-	$evetable=$AttendanceEvents['evetable'];
-	/*make sure an event is selected which is part of the current window*/
-	if(!array_key_exists($checkeveid,$evetable)){
+$testperiods=array();
+$testperiods[1]['AM']=array('1'=>'','2'=>'','3'=>'');
+$testperiods[1]['PM']=array('1'=>'','2'=>'');
+
+/**/
+
+	if($community['type']=='class'){
+		$students=(array)listin_class($community['name'],true);
+		$AttendanceEvents=fetchAttendanceEvents($startday,1,$session);
+
+		/* If the currentevent is not yet in the db event table then must
+		 * add a blank to get started.
+		 */
+		$Event=fetchAttendanceEvent();
+		if($currentevent['id']==0 and $startday==''){
+			$Event['id_db']=0;
+			$Event['Date']['value']=$currentevent['date'];
+			$Event['Session']['value']=$currentevent['session'];
+			$Event['Period']['value']=$currentevent['period'];
+			$AttendanceEvents['Event'][]=$Event;
+			}
+
+		$perindex=$AttendanceEvents['perindex'];
+		$classperiods=$testperiods[1][$currentevent['session']];
+		while(list($classperiod,$periodtime)=each($classperiods)){
+			if(!array_key_exists($classperiod,$perindex)){
+				/* This must be negative to indicate a class period!!! 
+				 * Its 0 for a fresh session and a positive value would be 
+				 * an existing event id.
+				 */
+				$Event['id_db']=-$classperiod;
+				$Event['Date']['value']=$currentevent['date'];
+				$Event['Session']['value']=$session;
+				$Event['Period']['value']=$classperiod;
+				$AttendanceEvents['Event'][]=$Event;
+				}
+			}
+		}
+	else{
+		$students=(array)listin_community($community);
+		$tutor_user=(array)get_tutor_user($newfid);
+		$AttendanceEvents=fetchAttendanceEvents($startday,$nodays,$session);
+
+		/* If the currentevent is not yet in the db event table then must
+		 * add a blank to get started.
+		 */
+		if($currentevent['id']==0 and $startday==''){
+			$Event=fetchAttendanceEvent();
+			$Event['id_db']=0;
+			$Event['Date']['value']=$currentevent['date'];
+			$Event['Session']['value']=$currentevent['session'];
+			$Event['Period']['value']=$currentevent['period'];
+			$AttendanceEvents['Event'][]=$Event;
+			}
+		}
+
+
+	/* 
+	 *  Make sure an event is selected which is part of the current window
+	 */
+	$eveindex=$AttendanceEvents['eveindex'];
+	if(!array_key_exists($checkeveid,$eveindex)){
 		if($startday>-7){
 			$checkeveid=0;
 			}
 		else{
-			end($evetable);
-			$checkeveid=key($evetable);
-			reset($evetable);
+			end($eveindex);
+			$checkeveid=key($eveindex);
+			reset($eveindex);
 			}
 		}
 
-	/* If the currentevent is not yet in the db event table then must
-	 * add a blank to get started.
+	/* If no event column has yet been checked by the user then select the column for 
+	 * the current event.
 	 */
-	if($currentevent['id']==0 and $startday==''){
-		$Event=fetchAttendanceEvent();
-		$Event['id_db']=0;
-		$Event['Date']['value']=$currentevent['date'];
-		$Event['Period']['value']=$currentevent['period'];
-		$AttendanceEvents['Event'][]=$Event;
-		}
-
 	if($checkeveid=='' or $checkeveid=='0'){
 		$seleveid=$currentevent['id'];
 		}
 	else{$seleveid=$checkeveid;}
+
 
 	$extrabuttons['summary']=array('name'=>'current',
 								   'pathtoscript'=>$CFG->sitepath.'/'.$CFG->applicationdirectory.'/reportbook/',
@@ -53,6 +103,9 @@ $tutor_user=(array)get_tutor_user($newfid);
 								   'onclick'=>'checksidsAction(this)'
 								   );
 	threeplus_buttonmenu($startday,2,$extrabuttons);
+
+
+if($community['type']!='class'){
 ?>
   <div id="heading">
 	<div>
@@ -70,9 +123,11 @@ $tutor_user=(array)get_tutor_user($newfid);
 	  &nbsp;
 	</div>
 	<div>
-
 	</div>
   </div>
+<?php
+	}
+?>
 
 
   <div id="viewcontent" class="content">
@@ -85,16 +140,22 @@ $tutor_user=(array)get_tutor_user($newfid);
 	$events=array();
 	while(list($index,$Event)=each($AttendanceEvents['Event'])){
 		$events[]=$Event['id_db'];
-		$eventperiods[]=$Event['Period']['value'];
+		$eventsessions[]=$Event['Session']['value'];
 ?>
 		  <th id="event-<?php print $Event['id_db'];?>" 
 			class="<?php if($seleveid==$Event['id_db']){ print 'selected';}?>"  >
 <?php 
-		  $t=strtotime($Event['Date']['value']);
-		  print date('D',$t) .'<br />';
-		  print date('j S',$t) .'<br />';
-		  print date('M',$t) .'<br />';
-		  print $Event['Period']['value'];
+		if($Event['Period']['value']=='0'){
+			$t=strtotime($Event['Date']['value']);
+			print date('D',$t) .'<br />';
+			print date('j S',$t) .'<br />';
+			print date('M',$t) .'<br />';
+			print $Event['Session']['value'];
+			}
+		else{
+			print 'Period <br />';
+			print $Event['Period']['value'].'<br />';
+			}
 ?>
 				<input type="radio" name="checkeveid" value="<?php print $Event['id_db'];?>" />
 		  </th>
@@ -122,7 +183,7 @@ if($_SESSION['role']=='office' or $_SESSION['role']=='admin'){
 	while(list($index,$student)=each($students)){
 		$sid=$student['id'];
 		$Student=fetchStudent_short($sid);
-		$Attendances=(array)fetchAttendances($sid,$startday);
+		$Attendances=(array)fetchAttendances($sid,$startday,$nodays);
 		$comment=comment_display($sid);
 ?>
 		<tr id="sid-<?php print $sid;?>">
@@ -155,8 +216,8 @@ if($_SESSION['role']=='office' or $_SESSION['role']=='admin'){
 <?php
 			$cell='';
 			$des='';
-			if(array_key_exists($eveid,$Attendances['evetable'])){
-				$Attendance=$Attendances['Attendance'][$Attendances['evetable'][$eveid]];
+			if(array_key_exists($eveid,$Attendances['eveindex'])){
+				$Attendance=$Attendances['Attendance'][$Attendances['eveindex'][$eveid]];
 				$attvalue=$Attendance['Status']['value'];
 				$attcode=$Attendance['Code']['value'];
 				$attlate=$Attendance['Late']['value'];
@@ -175,7 +236,7 @@ if($_SESSION['role']=='office' or $_SESSION['role']=='admin'){
 					$cell.=' &nbsp '.$attcode.'</span>';
 					}
 				else{
-					$cell='><img src="images/'.$attodds[$eventperiods[$index]].'.png" />';
+					$cell='><img src="images/'.$attodds[$eventsessions[$index]].'.png" />';
 					}
 				}
 			else{
@@ -217,7 +278,7 @@ if($_SESSION['role']=='office' or $_SESSION['role']=='admin'){
 		</table>
 
 		<input type="hidden" name="date" value="<?php print $currentevent['date'];?>" />
-		<input type="hidden" name="period" value="<?php print $currentevent['period'];?>" />
+		<input type="hidden" name="session" value="<?php print $currentevent['session'];?>" />
 		<input type="hidden" name="current" value="<?php print $action;?>" />
 		<input type="hidden" name="cancel" value="<?php print '';?>" />
 	    <input type="hidden" name="choice" value="<?php print $choice;?>" />
@@ -264,8 +325,8 @@ if($_SESSION['role']=='office' or $_SESSION['role']=='admin'){
 	$today=date('Y-m-d');
 ?>
   <div id="xml-checked-action" style="display:none;">
-	<period>
+	<session>
 	  <startdate><?php print $toyear.'-08-01';?></startdate>
 	  <enddate><?php print $today;?></enddate>
-	</period>
+	</session>
   </div>

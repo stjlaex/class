@@ -73,6 +73,7 @@
 				$cell['confirm']=count_reenrol_no($comid,$reenrol_eid,'C');
 				$cell['repeat']=count_reenrol_no($comid,$reenrol_eid,'R');
 				$cell['pending']=count_reenrol_no($comid,$reenrol_eid,'P');
+				$cell['leavers']=count_reenrol_no($comid,$reenrol_eid,'L','LL');
 
 				if(isset($enrol_tablerows[$previous_yid])){
 					$pre_reenrolcell=$enrol_tablerows[$previous_yid][$enrolcol];
@@ -89,20 +90,12 @@
 							.$cell['value'].'</a>';
 				}
 			elseif($enrolcol=='pending'){
-
 				if(isset($enrol_tablerows[$previous_yid])){
 					$cell['value']=$enrol_tablerows[$previous_yid]['reenroling']['pending'];	
 					}
 				else{
-					$cell['value']=0;	
+					$cell['value']=0;
 					}
-				/*
-				$cell['display']='<a href="admin.php?current=enrolments_list.php&cancel='.
-							$choice.'&choice='. $choice.'&enrolyear='. 
-							$enrolyear.'&yid='. $yid.
-							'&comid='. $comid.'&enrolstage=RE">' 
-							.$cell['value'].'</a>';
-				*/
 				}
 			elseif($enrolcol=='reenroled'){
 				$cell['value']=count_reenrol_no($comid,$reenrol_eid,'C','R');
@@ -122,8 +115,7 @@
 					/* The new students who have joined the roll 
 					   since the start of the year*/
 					$cell['value']=$app_tablerows[$yid]['C']['value'];
-
-					/*TODO
+					/*TODO: list new students including transfers from other schools
 					$cell['display']='<a href="admin.php?current=enrolments_list.php&cancel='.
 						$choice.'&choice='. $choice.'&enrolyear='. $enrolyear.'&yid='. $yid.
 						'&comid=-1">'.$cell['value'].'</a>';
@@ -153,22 +145,12 @@
 							.$cell['value'].'</a>';
 				}
 			elseif($enrolcol=='leavers'){
-				$cell['value']=count_reenrol_no($comid,$reenrol_eid,'L','LL');
 				if(isset($enrol_tablerows[$previous_yid])){
-					$pre_leavercell=$enrol_tablerows[$previous_yid][$enrolcol];
-			 /*TODO: allow a shortcut to list just leavers*/
-					//$cell['display']='<a href="admin.php?current=enrolments_list.php&cancel='.
-					//		$choice.'&choice='. $choice.'&enrolyear='. 
-					//		$enrolyear.'&yid='. $pre_leavercell['yid'].
-					//		'&comid='. $pre_leavercell['comid'].'&enrolstage=RE">' 
-					//		.$pre_leavercell['value'].'</a>';
-
-				//$cell['display']='<a href="admin.php?current=enrolments_list.php&cancel='.
-				// $choice.'&choice='. $choice.'&enrolyear='. $enrolyear.'&yid='. $cell['yid'].
-				// '&comid='.$cell['comid'].'&enrolstage=RE">' .$cell['value'].'</a>';
-					$cell['display']=$pre_leavercell['value'];
+					$cell['value']=$enrol_tablerows[$previous_yid]['reenroling']['leavers'];	
 					}
-				else{$cell['display']='';}
+				else{
+					$cell['value']=0;
+					}
 				}
 			elseif($enrolcol=='capacity'){
 				if($enrolyear==$currentyear){

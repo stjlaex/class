@@ -106,9 +106,13 @@ function get_community($comid=''){
 	return $community;
 	}
 
-/* This is the uber community function*/
-/* checks for a community and either updates or creates*/
-/* expects an array with at least type and name set*/
+/**
+ *
+ * This is the uber community function, it first checks if a community
+ * exists and either updates or creates. It expects an array with at
+ * least type and name set.
+ *
+ */
 function update_community($community,$communityfresh=array('id'=>'','type'=>'','name'=>'')){
 	$comid='';
 	$type=$community['type'];
@@ -214,11 +218,12 @@ function listin_union_communities($community1,$community2){
  * and with $enddate set lists all student members in that period
  */
 function listin_community($community,$enddate='',$startdate=''){
-	$todate=date("Y-m-d");
+	$todate=date('Y-m-d');
 	if($enddate==''){$enddate=$todate;}
 	if($startdate==''){$startdate=$enddate;}
 	if(isset($community['id']) and $community['id']!=''){$comid=$community['id'];}
 	else{$comid=update_community($community);}
+
 	$d_student=mysql_query("SELECT id, surname,
 				forename, preferredforename, form_id, gender, dob FROM student 
 				JOIN comidsid ON comidsid.student_id=student.id
@@ -228,6 +233,7 @@ function listin_community($community,$enddate='',$startdate=''){
 				AND (comidsid.joiningdate<='$startdate' OR 
 				comidsid.joiningdate='0000-00-00' OR
 				comidsid.joiningdate IS NULL) ORDER BY surname, forename");
+
 	$students=array();
 	while($student=mysql_fetch_array($d_student, MYSQL_ASSOC)){
 		if($student['id']!=''){$students[]=$student;}

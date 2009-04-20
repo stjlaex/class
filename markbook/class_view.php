@@ -85,7 +85,7 @@ if($_SESSION['worklevel']>-1){
 	'#ffff77', '#ffff55', '#ffff33', '#ffff11', '#ffffdd', '#ffffbb',
 	'#ffff00', '#ffff88', '#ffff66', '#ffff44', '#ffff22');
 ?>
-		  <td colspan="5">
+<td style="background-color:#fff;" colspan="5">
 			<table>
 <?php
 	/* cidsno is the size of the cids array being displayed */
@@ -96,12 +96,18 @@ if($_SESSION['worklevel']>-1){
 			print '<tr bgcolor="'.$rowcolour[$i].'">';
 			if($_SESSION['worklevel']>-1){
 ?>
-			  <td colspan="5">
+				<td colspan="4">
 				<span title="<?php print $classes[$cid]['detail'];?>">&nbsp;&nbsp;<a
 				  href="admin.php?current=class_edit.php&newcid=<?php print $cids[$i];?>" 
 				  target="viewadmin" onclick="parent.viewBook('admin');">
-				  <?php print $cids[$i].$teachers[$i];?></a></span>
-			  </td>
+				  <?php print $cids[$i].$teachers[$i];?></a>
+				 </span>
+				 </td>
+				 <td status="p">
+				 <a style="color:#fff;"
+				 href="register.php?current=register_list.php&newfid=&newcid=<?php print $cids[$i];?>&nodays=1&startday=" 
+				 target="viewregister" onclick="parent.viewBook('register');">R</a>
+				 </td>
 			</tr>
 <?php
 				}

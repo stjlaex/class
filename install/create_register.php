@@ -1,10 +1,10 @@
 <?php
 mysql_query("
 CREATE TABLE event (
-		id				int unsigned not null auto_increment,
-		date			date not null default '0000-00-00',
-		period			enum('AM','PM') not null default 'AM',
-		unique			indexcom (date,period),
+		id			int unsigned not null auto_increment,
+		date		date not null default '0000-00-00',
+		period		enum('AM','PM','1','2','3','4','5','6','7','8','9','10','11','12','13','14') not null default 'AM',
+		unique		indexcom (date,period),
 		primary key (id)
 ) type=myisam;
 ");

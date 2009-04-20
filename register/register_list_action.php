@@ -19,14 +19,25 @@ elseif($sub=='Next'){
 	}
 elseif($sub=='Submit'){
 
+
+	$date=$_POST['date'];
+	$session=$_POST['session'];
+	if($checkeveid<0){
+		/* This is for an event which is a teaching period. */
+		$period=abs($checkeveid);
+		$checkeveid=0;
+		}
+	else{
+		$period=0;
+		}
+
+	//trigger_error($checkeveid.':: '.$date.' : '.$session.' : '.$period,E_USER_WARNING);
+
 	if($checkeveid==0){
-		$date=$_POST['date'];
-		$period=$_POST['period'];
-		$d_event=mysql_query("SELECT id FROM event
-				WHERE date='$date' AND period='$period'");
+		$d_event=mysql_query("SELECT id FROM event WHERE date='$date' AND session='$session' 
+										AND period='$period';");
 		if(mysql_num_rows($d_event)==0){
-			mysql_query("INSERT INTO event (date,period) 
-					VALUES ('$date','$period');");
+			mysql_query("INSERT INTO event (date,session,period) VALUES ('$date','$session','$period');");
 			$eveid=mysql_insert_id();
 			}
 		else{
@@ -36,7 +47,14 @@ elseif($sub=='Submit'){
 		}
 	else{$eveid=$checkeveid;}
 
-	$students=(array)listin_community($community);
+	trigger_error($checkeveid.':: '.$date.' : '.$session.' : '.$period,E_USER_WARNING);
+
+	if($community['type']=='class'){
+		$students=(array)listin_class($community['name'],true);
+		}
+	else{
+		$students=(array)listin_community($community);
+		}
 	while(list($index,$student)=each($students)){
 		$instatus='';
 		$sid=$student['id'];

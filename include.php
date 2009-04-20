@@ -53,6 +53,7 @@ $books['sen']=array(
 					);
 $books['medical']=array(
 						'infobook' => 'InfoBook'
+						,'register' => 'Register'
 						,'medbook' => 'MedBook'
 						);
 $books['district']=array(

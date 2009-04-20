@@ -99,7 +99,7 @@ two_buttonmenu($extrabuttons);
 		</table>
 
 		<input type="hidden" name="date" value="<?php print $currentevent['date'];?>" />
-		<input type="hidden" name="period" value="<?php print $currentevent['period'];?>" />
+		<input type="hidden" name="session" value="<?php print $currentevent['session'];?>" />
 		<input type="hidden" name="current" value="<?php print $action;?>" />
 		<input type="hidden" name="cancel" value="<?php print '';?>" />
 	    <input type="hidden" name="choice" value="<?php print $choice;?>" />
@@ -111,8 +111,8 @@ two_buttonmenu($extrabuttons);
 	$today=date('Y-m-d');
 ?>
   <div id="xml-checked-action" style="display:none;">
-	<period>
+	<session>
 	  <startdate><?php print $toyear.'-08-01';?></startdate>
 	  <enddate><?php print $today;?></enddate>
-	</period>
+	</session>
   </div>

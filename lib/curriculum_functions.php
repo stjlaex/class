@@ -673,4 +673,31 @@ function get_section($id,$type='year'){
 		}
 	return $section;
 	}
+
+/**
+ *
+ */
+function listin_class($cid,$strict=false){
+
+	/* If strict=true then students not on enrol will be filtered out, or at least those 
+	   not in a yeargroup and therefore not in a form group for registration either! */
+	if($strict){
+		$d_student=mysql_query("SELECT a.student_id AS id, b.surname,
+				b.middlenames, b.preferredforename,
+				b.forename, b.yeargroup_id, b.form_id FROM cidsid a, student b 
+				WHERE a.class_id='$cid' AND b.id=a.student_id AND b.yeargroup_id!='' ORDER BY b.surname;");
+		}
+	else{
+		$d_student=mysql_query("SELECT a.student_id AS id, b.surname,
+				b.middlenames, b.preferredforename,
+				b.forename, b.yeargroup_id, b.form_id FROM cidsid a, student b 
+				WHERE a.class_id='$cid' AND b.id=a.student_id ORDER BY b.surname;");
+		}
+	$students=array();
+	while($student=mysql_fetch_array($d_student, MYSQL_ASSOC)){
+		if($student['id']!=''){$students[]=$student;}
+		}
+	return $students;
+
+	}
 ?>

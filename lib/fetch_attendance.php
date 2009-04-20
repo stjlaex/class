@@ -3,54 +3,64 @@
  *
  */	
 
-/* Returns a blank attendance record (even for sid!=-1!)*/
+/**
+ *
+ * Returns a blank attendance record (even for sid!=-1!)
+ *
+ */
 function fetchAttendance($sid='-1'){
 	$Attendance=array();
 	$Attendance['id_db']=$attendance['id'];
-	$Attendance['Date']=array('label' => 'date', 
+	$Attendance['Date']=array('label'=>'date', 
 							  'inputtype'=> 'required',
-							  'table_db' => 'event', 
-							  'field_db' => 'date',
-							  'type_db' => 'date', 
-							  'value' => ''.$attendance['date']);
-	$Attendance['Period']=array('label' => 'period',
-							  'inputtype' => 'required',
-							  'table_db' => 'event', 
-							  'field_db' => 'period',
-							  'type_db' => 'enum', 
-								'value' => ''.$attendance['period']);
-	$Attendance['Status']=array('label' => 'attendance',
+							  'table_db'=>'event', 
+							  'field_db'=>'date',
+							  'type_db'=>'date', 
+							  'value'=>''.$attendance['date']);
+	$Attendance['Session']=array('label'=>'session',
+								 'inputtype'=>'required',
+								 'table_db'=>'event', 
+								 'field_db'=>'session',
+								 'type_db'=>'enum', 
+								 'value'=>''.$attendance['session']);
+	$Attendance['Period']=array('label'=>'period',
+								//'inputtype'=>'required',
+								'table_db'=>'event', 
+								'field_db'=>'period',
+								'type_db'=>'enum', 
+								'value'=>''.$attendance['period']);
+	$Attendance['Status']=array('label'=>'attendance',
+								'inputtype'=> 'required',
+								'table_db'=>'attendance', 
+								'field_db'=>'status',
+								'type_db'=>'enum', 
+								'value'=>''.$attendance['status']);
+	$Attendance['Code']=array('label'=>'code',
 							  'inputtype'=> 'required',
-							  'table_db' => 'attendance', 
-							  'field_db' => 'status',
-							  'type_db' => 'enum', 
-							  'value' => ''.$attendance['status']);
-	$Attendance['Code']=array('label' => 'code',
-							  'inputtype'=> 'required',
-							  'table_db' => 'attendance', 
-							  'field_db' => 'code',
-							  'type_db' => 'enum', 
-							  'value' => ''.$attendance['code']);
-	$Attendance['Late']=array('label' => 'late',
-							  'table_db' => 'attendance', 
-							  'field_db' => 'code',
-							  'type_db' => 'enum', 
-							  'value' => ''.$attendance['late']);
-	$Attendance['Comment']=array('label' => 'comment',
-							  'table_db' => 'attendance', 
-							  'field_db' => 'comment',
-							  'type_db' => 'text', 
-							  'value' => ''.$attendance['comment']);
-	$Attendance['Logtime']=array('label' => 'time',
-							  'table_db' => 'attendance', 
-							  'field_db' => 'logtime',
-							  'type_db' => 'text', 
-							  'value' => ''.$attendance['logtime']);
-	$Attendance['Teacher']=array('label' => 'teacher',
-							  'table_db' => 'attendance', 
-							  'field_db' => 'teacher_id',
-							  'type_db' => 'varchar(14)', 
-							  'value' => ''.$attendance['teacer_id']);
+							  'table_db'=>'attendance', 
+							  'field_db'=>'code',
+							  'type_db'=>'enum', 
+							  'value'=>''.$attendance['code']);
+	$Attendance['Late']=array('label'=>'late',
+							  'table_db'=>'attendance', 
+							  'field_db'=>'code',
+							  'type_db'=>'enum', 
+							  'value'=>''.$attendance['late']);
+	$Attendance['Comment']=array('label'=>'comment',
+								 'table_db'=>'attendance', 
+								 'field_db'=>'comment',
+								 'type_db'=>'text', 
+								 'value'=>''.$attendance['comment']);
+	$Attendance['Logtime']=array('label'=>'time',
+								 'table_db'=>'attendance', 
+								 'field_db'=>'logtime',
+								 'type_db'=>'text', 
+								 'value'=>''.$attendance['logtime']);
+	$Attendance['Teacher']=array('label'=>'teacher',
+								 'table_db'=>'attendance', 
+								 'field_db'=>'teacher_id',
+								 'type_db'=>'varchar(14)', 
+								 'value'=>''.$attendance['teacer_id']);
 	return $Attendance;
 	}
 
@@ -60,47 +70,68 @@ function fetchAttendance($sid='-1'){
  * Returns all attendance records for the $nodays before the day
  * specified by $startday (and $startday=0 is today)
  *
+ * The returned Attendances array includes $Attendances['eveindex']
+ * where the eveindex is an array to provide a lookup index to the
+ * Attendances based on the eveid
+ *
  */
 function fetchAttendances($sid,$startday=0,$nodays=7){
 	$Attendances=array();
-	$evetable=array();
-	/*defaults to choose this past week*/
-	$startdate=date('Y-m-d',mktime(0,0,0,date('m'),date('d')+$startday+1,date('Y')));
-	$enddate=date('Y-m-d',mktime(0,0,0,date('m'),date('d')+$startday-$nodays,date('Y')));
+	$eveindex=array();
+	$startdate=date('Y-m-d',mktime(0,0,0,date('m'),date('d')+$startday,date('Y')));
 
-	$d_attendance=mysql_query("SELECT attendance.status,
+	/* If nodays is 1 then interested in all events for this day
+	 * otherwise we are looking for events (limited to AM/PM sessions)
+	 * for the time window
+	 */
+	if($nodays==1){
+		$d_a=mysql_query("SELECT attendance.status,
 			attendance.code, attendance.late, attendance.comment, 
 			UNIX_TIMESTAMP(attendance.logtime) AS logtime, event.id,
-			event.period, event.date FROM attendance JOIN
+			event.session, event.period, event.date FROM attendance JOIN
 			event ON event.id=attendance.event_id WHERE
-			attendance.student_id='$sid' AND event.date < '$startdate' 
-			AND event.date > '$enddate' 
-			ORDER BY event.date, event.period");
-	$index=0;
-	$Attendances['Attendance']=array();
-	while($attendance=mysql_fetch_array($d_attendance,MYSQL_ASSOC)){
-		$Attendance=array();
-		$Attendance['id_db']=$attendance['id'];
-	   	$Attendance['Period']=array('label' => 'period',
-								  'value' => ''.$attendance['period']);
-	   	$Attendance['Date']=array('label' => 'date', 
-									'type_db'=>'date', 
-									'value' => ''.$attendance['date']);
-	   	$Attendance['Status']=array('label' => 'attendance',
-								  'value' => ''.$attendance['status']);
-	   	$Attendance['Code']=array('label' => 'code',
-								  'value' => ''.$attendance['code']);
-	   	$Attendance['Late']=array('label' => 'late',
-								  'value' => ''.$attendance['late']);
-	   	$Attendance['Comment']=array('label' => 'comment',
-								  'value' => ''.$attendance['comment']);
-	   	$Attendance['Logtime']=array('label' => 'time',
-								  'value' => ''.$attendance['logtime']);
-		$Attendances['Attendance'][]=$Attendance;
-		$evetable[$attendance['id']]=$index++;
+			attendance.student_id='$sid' AND event.date='$startdate' 
+			ORDER BY event.date, event.session, event.period;");
+		}
+	else{
+		$enddate=date('Y-m-d',mktime(0,0,0,date('m'),date('d')+$startday-$nodays,date('Y')));
+		$d_a=mysql_query("SELECT attendance.status,
+			attendance.code, attendance.late, attendance.comment, 
+			UNIX_TIMESTAMP(attendance.logtime) AS logtime, event.id,
+			event.session, event.period, event.date FROM attendance JOIN
+			event ON event.id=attendance.event_id WHERE
+			attendance.student_id='$sid' AND event.date <= '$startdate' 
+			AND event.date >= '$enddate' AND event.period='0'
+			ORDER BY event.date, event.session;");
 		}
 
-	$Attendances['evetable']=$evetable;
+	$index=0;
+	$Attendances['Attendance']=array();
+	while($a=mysql_fetch_array($d_a,MYSQL_ASSOC)){
+		$Attendance=array();
+		$Attendance['id_db']=$a['id'];
+	   	$Attendance['Date']=array('label'=>'date', 
+								  'type_db'=>'date', 
+								  'value'=>''.$a['date']);
+	   	$Attendance['Session']=array('label'=>'session',
+									 'value'=>''.$a['session']);
+	   	$Attendance['Period']=array('label'=>'period',
+									 'value'=>''.$a['period']);
+	   	$Attendance['Status']=array('label'=>'attendance',
+									'value'=>''.$a['status']);
+	   	$Attendance['Code']=array('label'=>'code',
+								  'value'=>''.$a['code']);
+	   	$Attendance['Late']=array('label'=>'late',
+								  'value'=>''.$a['late']);
+	   	$Attendance['Comment']=array('label'=>'comment',
+									 'value'=>''.$a['comment']);
+	   	$Attendance['Logtime']=array('label'=>'time',
+									 'value'=>''.$a['logtime']);
+		$Attendances['Attendance'][]=$Attendance;
+		$eveindex[$a['id']]=$index++;
+		}
+
+	$Attendances['eveindex']=$eveindex;
 	return nullCorrect($Attendances);
 	}
 
@@ -111,7 +142,7 @@ function fetchAttendances($sid,$startday=0,$nodays=7){
 function fetchcurrentAttendance($sid,$eveid=''){
 	if($eveid==''){
 		$secid=get_student_section($sid);
-		$event=get_event('','',$secid);
+		$event=get_currentevent($secid);
 		$eveid=$event['id'];
 		}
 	$Attendance=array();
@@ -119,72 +150,127 @@ function fetchcurrentAttendance($sid,$eveid=''){
 		$d_a=mysql_query("SELECT attendance.status,
 			attendance.code, attendance.late, attendance.comment, 
 			UNIX_TIMESTAMP(logtime) AS logtime, event.id,
-			event.period, event.date FROM attendance JOIN
+			event.session, event.period, event.date FROM attendance JOIN
 			event ON event.id=attendance.event_id WHERE
 			attendance.student_id='$sid' AND event.id='$eveid';");
 		$a=mysql_fetch_array($d_a,MYSQL_ASSOC);
 
 		$Attendance['id_db']=$a['id'];
-		$Attendance['Period']=array('label' => 'period',
-								'value' => ''.$a['period']);
-	   	$Attendance['Date']=array('label' => 'date', 
-									'value' => ''.$a['date']);
-	   	$Attendance['Status']=array('label' => 'attendance',
-								  'value' => ''.$a['status']);
-	   	$Attendance['Code']=array('label' => 'code',
-								  'value' => ''.$a['code']);
-	   	$Attendance['Late']=array('label' => 'late',
-								  'value' => ''.$a['late']);
-	   	$Attendance['Comment']=array('label' => 'comment',
-								  'value' => ''.$a['comment']);
-	   	$Attendance['Logtime']=array('label' => 'time',
-								  'value' => ''.$a['logtime']);
+	   	$Attendance['Date']=array('label'=>'date', 
+									'value'=>''.$a['date']);
+		$Attendance['Session']=array('label'=>'session',
+								'value'=>''.$a['session']);
+	   	$Attendance['Period']=array('label'=>'period',
+									 'value'=>''.$a['period']);
+	   	$Attendance['Status']=array('label'=>'attendance',
+								  'value'=>''.$a['status']);
+	   	$Attendance['Code']=array('label'=>'code',
+								  'value'=>''.$a['code']);
+	   	$Attendance['Late']=array('label'=>'late',
+								  'value'=>''.$a['late']);
+	   	$Attendance['Comment']=array('label'=>'comment',
+								  'value'=>''.$a['comment']);
+	   	$Attendance['Logtime']=array('label'=>'time',
+								  'value'=>''.$a['logtime']);
 		}
 	return nullCorrect($Attendance);
 	}
 
-/* Given an event_id it returns the xml_array for the event.*/
-/* An event does not neccessarily have to be an attendance event and */
-/* this is therefore not really exclusive to attendnace but... */
+
+
+/**
+ * Given an event_id it returns the xml_array for the event.
+ * An event does not neccessarily have to be an attendance event and
+ * this is therefore not really exclusive to attendnace but... 
+ */
 function fetchAttendanceEvent($eveid='-1'){
 	$Event=array();
-	$d_event=mysql_query("SELECT period, date FROM event WHERE id='$eveid'");
+	$d_event=mysql_query("SELECT session, period, date FROM event WHERE id='$eveid'");
 	$event=mysql_fetch_array($d_event,MYSQL_ASSOC);
 
 	$Event=array();
 	$Event['id_db']=$eveid;
-	$Event['Period']=array('label' => 'period',
-						   'value' => ''.$event['period']);
-	$Event['Date']=array('label' => 'date', 
-						 'value' => ''.$event['date']);
+	$Event['Date']=array('label'=>'date', 
+						 'value'=>''.$event['date']);
+	$Event['Session']=array('label'=>'session',
+						   'value'=>''.$event['session']);
+	$Event['Period']=array('label'=>'period',
+						   'value'=>''.$event['period']);
 	return nullCorrect($Event);
 	}
 
-/* Returns all events which exist in the db inclusive of the period */
-/* from startday to the previous nodays */
-function fetchAttendanceEvents($startday=0,$nodays=7,$period='%'){
+
+
+/**
+ *
+ * Returns all events which exist in the db inclusive of the session 
+ * from startday to the previous nodays 
+ *
+ */
+function fetchAttendanceEvents($startday=0,$nodays=7,$session='%'){
 	$AttendanceEvents=array();
-	$evetable=array();
-	$startdate=date('Y-m-d',mktime(0,0,0,date('m'),date('d')+$startday+1,date('Y')));
-	$enddate=date('Y-m-d',mktime(0,0,0,date('m'),date('d')+$startday-$nodays,date('Y')));
-	$d_event=mysql_query("SELECT id, period, date FROM event WHERE date < '$startdate' 
-			AND date > '$enddate' AND period LIKE '$period' ORDER BY date, period");
+	$startdate=date('Y-m-d',mktime(0,0,0,date('m'),date('d')+$startday,date('Y')));
+
+	if($nodays==1){
+		$d_event=mysql_query("SELECT id, session, period, date FROM event WHERE date='$startdate' 
+			AND session LIKE '$session'	ORDER BY date, session, period;");
+		}
+	else{
+		$enddate=date('Y-m-d',mktime(0,0,0,date('m'),date('d')+$startday-$nodays,date('Y')));
+		$d_event=mysql_query("SELECT id, session, period, date FROM event WHERE date <= '$startdate' 
+			AND date > '$enddate' AND session LIKE '$session' AND event.period='0' ORDER BY date, session;");
+		}
+
 	$AttendanceEvents['Event']=array();
 	$index=0;
+	$eveindex=array();
+	$perindex=array();
 	while($event=mysql_fetch_array($d_event,MYSQL_ASSOC)){
 		$Event=array();
 		$Event['id_db']=$event['id'];
-	   	$Event['Period']=array('label' => 'period',
-							   'value' => ''.$event['period']);
-	   	$Event['Date']=array('label' => 'date', 
+	   	$Event['Date']=array('label'=>'date', 
 							 'type_db'=>'date', 
-							 'value' => ''.$event['date']);
+							 'value'=>''.$event['date']);
+	   	$Event['Session']=array('label'=>'session',
+							   'value'=>''.$event['session']);
+	   	$Event['Period']=array('label'=>'period',
+							   'value'=>''.$event['period']);
 		$AttendanceEvents['Event'][]=$Event;
-		$evetable[$event['id']]=$index++;
+		$eveindex[$event['id']]=$index;
+		$perindex[$event['period']]=$index;//only needed when nodays=1
+		$index++;
 		}
-	$AttendanceEvents['evetable']=$evetable;
+	$AttendanceEvents['eveindex']=$eveindex;
+	$AttendanceEvents['perindex']=$perindex;
 
 	return nullCorrect($AttendanceEvents);
+	}
+
+
+
+function get_currentevent($secid=1){
+	global $CFG;
+
+	$date=date('Y-m-d');
+	$session='AM';
+
+	/* secid=1 is wholeschool, use this if no others configured */
+	if(!is_array($CFG->registration)){$reg='single';}
+	elseif(!isset($CFG->registration[$secid])){$reg=$CFG->registration[1];}
+	else{$reg=$CFG->registration[$secid];}
+
+	/* If double registration is configured then the reg array
+	   should be set to the turnover time for the registers to PM
+	   (and set in 24 hour clock)
+	*/
+	if($reg!='single' and $reg!=''){
+		$time=split(':',$reg);
+		if(date('H')>$time[0] or (date('H')==$time[0] and date('i')>=$time[1])){$session='PM';}
+		}
+
+	$event=get_event($date,$session);
+
+	return $event;
 	}
 
 /**
@@ -193,45 +279,33 @@ function fetchAttendanceEvents($startday=0,$nodays=7,$period='%'){
  * the default is to return the current session event.
  *
  */
-function get_event($date='',$session='',$secid=1){
-	global $CFG;
+function get_event($date='',$session='',$period='0'){
+
 	if($date==''){
 		$date=date('Y-m-d');
 		}
 	if($session==''){
 		$session='AM';
-
-		/* secid=1 is wholeschool, use this if no others configured */
-		if(!is_array($CFG->registration)){$reg='single';}
-		elseif(!isset($CFG->registration[$secid])){$reg=$CFG->registration[1];}
-		else{$reg=$CFG->registration[$secid];}
-
-		/* if double registration is configured then the reg array
-		   should be set to the turnover time for the registers to PM
-		   (and set in 24 hour clock)
-		*/
-		if($reg!='single' and $reg!=''){
-			$time=split(':',$reg);
-			if(date('H')>$time[0] or (date('H')==$time[0] and date('i')>=$time[1])){$session='PM';}
-			}
 		}
 
 	$d_event=mysql_query("SELECT id FROM event WHERE date='$date' 
-						AND period='$session';");
+						AND session='$session' AND period='$period';");
 	if(mysql_num_rows($d_event)==0){
 		$eveid='0';
 		}
 	else{
 		$eveid=mysql_result($d_event,0);
 		}
-	$event=array('id'=>$eveid,'date'=>$date,'period'=>$session);
+	//trigger_error($eveid. ' '.$period,E_USER_WARNING);
+
+	$event=array('id'=>$eveid,'date'=>$date,'session'=>$session,'period'=>$period);
 	return $event;
 	}
 
 /**
  *
  * Returns the number of sids in a community and if eveid is for a
- * vliad event then the number present and number absent.
+ * valid event then the number present and number absent.
  *
  */
 function check_communityAttendance($community,$eveid=-1){
@@ -267,7 +341,7 @@ function check_communityAttendance($community,$eveid=-1){
  */
 function list_absentStudents($eveid='',$lates=0){
 	if($eveid==''){
-		$event=get_event();
+		$event=get_currentevent();
 		$eveid=$event['id'];
 		}
 	$Students['Student']=array();
@@ -289,16 +363,16 @@ function list_absentStudents($eveid='',$lates=0){
 			if($attendance['code']!='U' and $attendance['code']!='L' and $attendance['code']!='UB' 
 			   and $attendance['code']!='UA' and $lates==0){
 				$Attendance['id_db']=$eveid;
-				$Attendance['Status']=array('label' => 'attendance',
-											'value' => ''.$attendance['status']);
-				$Attendance['Code']=array('label' => 'code',
-										  'value' => ''.$attendance['code']);
-				$Attendance['Late']=array('label' => 'late',
-										  'value' => ''.$attendance['late']);
-				$Attendance['Comment']=array('label' => 'comment',
-										 'value' => ''.$attendance['comment']);
-				$Attendance['Logtime']=array('label' => 'time',
-										 'value' => ''.$attendance['logtime']);
+				$Attendance['Status']=array('label'=>'attendance',
+											'value'=>''.$attendance['status']);
+				$Attendance['Code']=array('label'=>'code',
+										  'value'=>''.$attendance['code']);
+				$Attendance['Late']=array('label'=>'late',
+										  'value'=>''.$attendance['late']);
+				$Attendance['Comment']=array('label'=>'comment',
+										 'value'=>''.$attendance['comment']);
+				$Attendance['Logtime']=array('label'=>'time',
+										 'value'=>''.$attendance['logtime']);
 				$Student['id_db']=$attendance['sid'];
 				$Student['Attendance']=$Attendance;
 				$Students['Student'][]=$Student;
@@ -331,10 +405,10 @@ function fetchAttendanceSummary($sid,$startdate,$enddate){
 	$no_late_unauthorised=count_attendance($sid,$startdate,$enddate,'U');
 	$no_late=$no_late_authorised+$no_late_unauthorised;
 	$no_attended=$no_present+$no_late;
-	$Attendance['Summary']['Attended']=array('label' => 'attended',
-											 'value' => ''.$no_attended);
-	$Attendance['Summary']['Late']=array('label' => 'late',
-										 'value' => ''.$no_late);
+	$Attendance['Summary']['Attended']=array('label'=>'attended',
+											 'value'=>''.$no_attended);
+	$Attendance['Summary']['Late']=array('label'=>'late',
+										 'value'=>''.$no_late);
 	/** 
 	 * For the purpose of official statistics an attendnace code can
 	 * be either an unauthorised absence, authorised absence or in
@@ -351,20 +425,20 @@ function fetchAttendanceSummary($sid,$startdate,$enddate){
 	$no_unauthorised_absent=$no_notagreed+$no_noreason+$no_notexplained;
 	$no_authorised_absent=$no_absent-$no_unauthorised_absent;
 
-	$Attendance['Summary']['Absentauthorised']=array('label' => 'authorisedabsent',
-													 'value' => ''.$no_authorised_absent);
-	$Attendance['Summary']['Absentunauthorised']=array('label' => 'unauthorisedabsent',
-													   'value' => ''.$no_unauthorised_absent);
-	$Attendance['Summary']['Lateunauthorised']=array('label' => 'lateunauthrosied',
-													 'value' => ''.$no_late_unauthorised);
-	$Attendance['Summary']['Lateauthorised']=array('label' => 'lateauthorised',
-												   'value' => ''.$no_late_authorised);
-	$Attendance['Summary']['Notexplained']=array('label' => 'unexplained',
-												 'value' => ''.$no_notexplained);
-	$Attendance['Summary']['Enddate']=array('label' => 'enddate',
-											'value' => ''.$enddate);
-	$Attendance['Summary']['Startdate']=array('label' => 'startdate',
-											  'value' => ''.$startdate);
+	$Attendance['Summary']['Absentauthorised']=array('label'=>'authorisedabsent',
+													 'value'=>''.$no_authorised_absent);
+	$Attendance['Summary']['Absentunauthorised']=array('label'=>'unauthorisedabsent',
+													   'value'=>''.$no_unauthorised_absent);
+	$Attendance['Summary']['Lateunauthorised']=array('label'=>'lateunauthrosied',
+													 'value'=>''.$no_late_unauthorised);
+	$Attendance['Summary']['Lateauthorised']=array('label'=>'lateauthorised',
+												   'value'=>''.$no_late_authorised);
+	$Attendance['Summary']['Notexplained']=array('label'=>'unexplained',
+												 'value'=>''.$no_notexplained);
+	$Attendance['Summary']['Enddate']=array('label'=>'enddate',
+											'value'=>''.$enddate);
+	$Attendance['Summary']['Startdate']=array('label'=>'startdate',
+											  'value'=>''.$startdate);
 	return $Attendance;
 	}
 
@@ -388,7 +462,7 @@ function count_attendance($sid,$startdate,$enddate,$code=''){
 			attendance.status='$status' AND attendance.code LIKE '$code' 
 			AND attendance.code!='X' AND attendance.code!='Y' AND attendance.code!='Z'  
 			AND attendance.code!='#' 
-			AND event.date > '$startdate' AND event.date < '$enddate';");
+			AND event.date >= '$startdate' AND event.date <= '$enddate' AND period='0';");
 	$noatts=mysql_result($d_attendance,0);
 
 	return $noatts;

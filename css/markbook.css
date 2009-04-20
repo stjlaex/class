@@ -122,6 +122,12 @@ table#editscores {
 td[status="p"] { 
     background-color:#44aa66;
 	}
+td[status=" "] { 
+    background-color:#777;
+	}
+td[status="p"], td[status="a"], td[status=" "]  { 
+	width:1em !important;
+	}
 
 .component { 
 	color:#6666ff;

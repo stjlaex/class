@@ -1,4 +1,22 @@
-Version ClaSS-0.8.67 release (2009/04/08)
+Version ClaSS-0.8.69 release (2009/04/20)
+-----------------------------------------
+
+A new clickthru from the MarkBook table to the Register for
+attendance. The register amended so that it can take newcid as well as
+newfid for listing students.
+
+A listin_class function returns the students for a given cid, part of the
+curriculum functions.
+
+A small fix to the enrolment table which corrects the leavers total.
+
+An upgrade of the Register to facilitate registration in teaching
+groups. This adds a field to the event table for teaching period.
+
+
+
+
+Version ClaSS-0.8.68 release (2009/04/08)
 -----------------------------------------
 
 Fix to a problem with the new register turnover time.
