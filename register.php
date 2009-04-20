@@ -3,6 +3,8 @@
   *
   *	This is the hostpage for the register.
   *
+  * The group of students being registered could either be identified
+  * by newfid or newcid - pastoral or academic.
   */
 
 $host='register.php';
@@ -13,21 +15,22 @@ include('scripts/set_book_vars.php');
 $session_vars=array('newfid','newcid','startday','checkeveid','secid','nodays');
 include('scripts/set_book_session_vars.php');
 
-//$community=$group;
+$nodays=8;
   if($newfid!=''){
-	$section=get_section($newfid,'form');
-	$secid=$section['id'];
-	$community=array('id'=>'','type'=>'form','name'=>$newfid);
-	$nodays=8;
-	}
+	  $section=get_section($newfid,'form');
+	  $secid=$section['id'];
+	  $community=array('id'=>'','type'=>'form','name'=>$newfid);
+	  $newcid='';
+	  }
   elseif($newcid!=''){
-	$secid=-1;
-	$community=array('id'=>'','type'=>'class','name'=>$newcid);
-	}
+	  $secid=1;//TODO: identify the secid for the class
+	  $community=array('id'=>'','type'=>'class','name'=>$newcid);
+	  $newfid='';
+	  }
 
-  if(is_array($community)){
+  if(isset($community) and is_array($community)){
 	if($community['type']=='form'){$newfid=$community['name'];}
-	elseif($community['type']=='reg' or $community['type']=='class'){$comid=$community['id'];unset($newfid);}
+	elseif($community['type']=='reg' or $community['type']=='class'){$comid=$community['id'];}
 	}
   else{
 	/* On first load select the teacher's form group by default. */
@@ -51,11 +54,10 @@ include('scripts/set_book_session_vars.php');
 	if($current!=''){
 		include($book.'/'.$current);
 		}
-	elseif(is_array($community)){
+	elseif(isset($community) and is_array($community)){
 		$current='register_list.php';
 		include($book.'/'.$current);
 		}
-//		unset($newfid);
 ?>
   </div>
 
@@ -65,7 +67,7 @@ include('scripts/set_book_session_vars.php');
 		<legend><?php print get_string('currentsession',$book);?></legend>
 		<div style="background-color:#666655;font-size:x-small;padding:2px;">
 		 <a style="color:#fff;"
-			href="register.php?current=register_list.php&newfid=<?php print $newfid;?>&newcid=<?php print $newcid;?>&nodays=<?php print $nodays;?>&startday=" 
+			href="register.php?current=register_list.php&newfid=<?php print $newfid;?>&newcid=<?php print $newcid;?>&nodays=<?php print $nodays;?>&checkeveid=0&startday=" 
 			target="viewregister" onclick="parent.viewBook('register');">
 <?php 
 			print ''.display_date($currentevent['date']).'<br />';
@@ -78,7 +80,7 @@ include('scripts/set_book_session_vars.php');
 		<br />
 		<br />
 <?php
-if($community['type']=='class'){
+if(isset($community['type']) and $community['type']=='class'){
 ?>
 	<form id="registerchoice" name="registerchoice" method="post" 
 							action="register.php" target="viewregister">

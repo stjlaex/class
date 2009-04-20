@@ -7,18 +7,19 @@
 $action='register_list_action.php';
 $choice='register_list.php';
 
+
 include('scripts/sub_action.php');
 
 if(isset($CFG->registration[$secid]) 
    and $CFG->registration[$secid]!='single'){$session='%';}
 else{$session='AM';}
 
+
+
 /**/
-
 $testperiods=array();
-$testperiods[1]['AM']=array('1'=>'','2'=>'','3'=>'');
-$testperiods[1]['PM']=array('1'=>'','2'=>'');
-
+//$testperiods[1]['AM']=array('1'=>'','2'=>'','3'=>'','4'=>'');
+//$testperiods[1]['PM']=array('5'=>'','6'=>'','7'=>'');
 /**/
 
 	if($community['type']=='class'){
@@ -38,7 +39,7 @@ $testperiods[1]['PM']=array('1'=>'','2'=>'');
 			}
 
 		$perindex=$AttendanceEvents['perindex'];
-		$classperiods=$testperiods[1][$currentevent['session']];
+		$classperiods=$testperiods[$secid][$currentevent['session']];
 		while(list($classperiod,$periodtime)=each($classperiods)){
 			if(!array_key_exists($classperiod,$perindex)){
 				/* This must be negative to indicate a class period!!! 
@@ -86,6 +87,7 @@ $testperiods[1]['PM']=array('1'=>'','2'=>'');
 			reset($eveindex);
 			}
 		}
+
 
 	/* If no event column has yet been checked by the user then select the column for 
 	 * the current event.
