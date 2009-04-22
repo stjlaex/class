@@ -38,8 +38,8 @@ three_buttonmenu();
 		<div class="left">
 <?php 
 			$selstage=$RepDef['Stage']['value'];
-			include('scripts/list_stage.php')
-;?>
+			include('scripts/list_stage.php');
+?>
 		</div>
 
 		<div class="right">
@@ -70,12 +70,8 @@ three_buttonmenu();
 	  </fieldset>
 
 	  <fieldset class="right">
-		<legend><?php print_string('commentsandratingboxes',$book);?></legend>
-<?php 
-			$checkchoice=$RepDef['CategoriesOn']['value'];
-			$checkcaption=get_string('addcategories',$book);
-			$checkname='addcategory'; include('scripts/check_yesno.php');
-
+		<legend><?php print_string('comments',$book);?></legend>
+<?php
 			$checkchoice=$RepDef['CommentsOn']['value'];
 			$checkcaption=get_string('allowsubjectcomments',$book);
 			$checkname='reptype'; include('scripts/check_yesno.php');
@@ -83,8 +79,28 @@ three_buttonmenu();
 			$checkchoice=$RepDef['CommentsCompulsory']['value'];
 			$checkcaption=get_string('commentsarecompulsory',$book);
 			$checkname='commentcomp'; include('scripts/check_yesno.php');
+?>
+			<div class="left">
+			<label><?php print_string($RepDef['CommentsLength']['label'],$book);?></label>
+			</div>
+			<div class="right">
+			<input type="text" value="<?php print $RepDef['CommentsLength']['value'];?>"
+			tabindex="<?php print $tab++;?>" style="width:4em;" pattern="integer" maxlength="4" />
 
-			$tab=xmlelement_div($RepDef['CommentsLength'],'',$tab,'center','reportbook');
+<?php
+			//			$tab=xmlelement_div($RepDef['CommentsLength'],'',$tab,'center','reportbook');
+?>
+			</div>
+	  </fieldset>
+	  <fieldset class="right">
+		<legend><?php print_string('ratingboxes',$book);?></legend>
+<?php
+			$checkchoice=$RepDef['CategoriesOn']['value'];
+			$checkcaption=get_string('addcategories',$book);
+			$checkname='addcategory'; include('scripts/check_yesno.php');
+
+			$selratingname=$RepDef['CategoriesRating']['value'];
+			include('scripts/list_rating_name.php');
 ?>
 	  </fieldset>
 
@@ -139,11 +155,9 @@ three_buttonmenu();
 		while($catdef=mysql_fetch_array($d_categorydef,MYSQL_ASSOC)){
 ?>
 		<option 
-<?php
-		if(in_array($catdef['id'], $selcatids)){print ' selected="selected" ';}
-?>
+			<?php if(in_array($catdef['id'], $selcatids)){print ' selected="selected" ';}?>
 			value="<?php print $catdef['id'];?>">
-			<?php print $catdef['name'];?>
+				<?php print $catdef['name'];?>
 		</option>
 <?php
 		   	}
@@ -232,28 +246,26 @@ elseif($sub=='Submit'){
 		$stage=$_POST['stage'];
 		$reptype=$_POST['reptype0'];
 		$addcategory=$_POST['addcategory0'];
+		if(isset($_POST['ratingname'])){$ratingname=$_POST['ratingname'];}
 		$commentcomp=$_POST['commentcomp0'];
 		if(isset($_POST['commentlength'])){$commentlength=$_POST['commentlength'];}
 		else{$commentlength='0';}
 		mysql_query("UPDATE report SET component_status='$compstatus',
 				addcomment='$reptype', commentlength='$commentlength', 
 				commentcomp='$commentcomp', stage='$stage', 
-				addcategory='$addcategory' WHERE id='$rid';");
-
+				addcategory='$addcategory', rating_name='$ratingname' WHERE id='$rid';");
 
 		/*entry in rideid to link new report with chosen assessments*/
 		mysql_query("DELETE FROM rideid WHERE report_id='$rid';");
 		$eids=(array)$_POST['eids'];
-		foreach($eids as $eid){ 
-			mysql_query("INSERT INTO rideid 
-		     (report_id, assessment_id) VALUES ('$rid', '$eid')");
+		foreach($eids as $eid){
+			mysql_query("INSERT INTO rideid (report_id, assessment_id) VALUES ('$rid','$eid')");
 			}
-		
+
 		mysql_query("DELETE FROM ridcatid WHERE report_id='$rid';");
 		if($addcategory=='yes'){
 			$d_catdef=mysql_query("SELECT id, subject_id FROM categorydef WHERE
-						type='rep' AND (course_id='%' OR course_id
-							LIKE '$crid');");
+						type='cat' AND (course_id='%' OR course_id='$crid');");
 			while($d_catid=mysql_fetch_array($d_catdef,MYSQL_NUM)){
 				$catid=$d_catid[0];
 				$catbid=$d_catid[1];

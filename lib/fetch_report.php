@@ -280,16 +280,16 @@ function fetchReportDefinition($rid,$selbid='%'){
 								  'type_db'=>'enum', 
 								  'value'=>''.$report['addcategory']);
    	$RepDef['CategoriesRating']=array('label'=>'ratingname', 
-								  'table_db'=>'report', 
-								  'field_db'=>'rating_name',
-								  'type_db'=>'varchar(30)', 
-								  'ratings'=>'', 
-								  'value'=>''.$report['rating_name']);
+									  'table_db'=>'report', 
+									  'field_db'=>'rating_name',
+									  'type_db'=>'varchar(30)', 
+									  'ratings'=>'', 
+									  'value'=>''.$report['rating_name']);
    	$RepDef['Style']=array('label'=>'pagestyle', 
-							  'table_db'=>'report', 
-							  'field_db'=>'style',
-							  'type_db'=>'varchar(60)', 
-							  'value'=>''.$report['style']);
+						   'table_db'=>'report', 
+						   'field_db'=>'style',
+						   'type_db'=>'varchar(60)', 
+						   'value'=>''.$report['style']);
    	$RepDef['Template']=array('label'=>'nameoftemplate', 
 							  'table_db'=>'report', 
 							  'field_db'=>'template',
@@ -370,7 +370,7 @@ function fetchReportDefinition($rid,$selbid='%'){
 			$RepDef['eids'][]=$ass['id'];
 			}
 		if((!in_array($ass['element'],$asselements) or
-				$ass['element']=='') and $ass['subject_id']!='G'){
+					$ass['element']=='') and $ass['subject_id']!='G'){
 			/* This $asstable is only used by the xslt to construct
 				the grade table, it uses the value of element to
 				identify assessments in the xml. Many alternative
@@ -391,8 +391,8 @@ function fetchReportDefinition($rid,$selbid='%'){
 		/* ratings is an array of value=>descriptor pairs. 
 		   TODO: make use of the longdescriptor?
 		 */
-	   	if($RepDef['CategoriesRating']['rating_name']!=''){
-			$ratingname=$report['rating_name'];
+	   	if($RepDef['CategoriesRating']['value']!=''){
+			$ratingname=$RepDef['CategoriesRating']['value'];
 			$d_rating=mysql_query("SELECT * FROM rating 
 						WHERE name='$ratingname' ORDER BY value;");
 			$ratings=array();

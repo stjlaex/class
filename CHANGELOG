@@ -20,6 +20,10 @@ sessions. Uses $nodays variable to display periods when $nodays=1.
 Still TODO is configure the periods per sessoin and be able to
 autoselect based on time.
 
+Added ratingname selection to new_report and fixed the
+new_report_action so it generates ridcatid entries correctly under the
+new scheme.
+
 
 Version ClaSS-0.8.68 release (2009/04/08)
 -----------------------------------------
