@@ -131,6 +131,7 @@ function fetchAttendances($sid,$startday=0,$nodays=7){
 		$eveindex[$a['id']]=$index++;
 		}
 
+
 	$Attendances['eveindex']=$eveindex;
 	return nullCorrect($Attendances);
 	}
@@ -271,6 +272,44 @@ function get_currentevent($secid=1){
 	$event=get_event($date,$session);
 
 	return $event;
+	}
+
+
+/**
+ *
+ */
+function get_class_periods($currentevent,$secid=1){
+	global $CFG;
+
+	$testperiods=array();
+	/*
+	$testperiods[1]['AM']=array('1'=>'9:35','2'=>'10:20','3'=>'11:25','4'=>'12:10','5'=>'','6'=>'','7'=>'');
+	$testperiods[1]['PM']=array();
+	$testperiods[2]['AM']=array('1'=>'9:35','2'=>'10:20','3'=>'11:25','4'=>'12:10');
+	$testperiods[2]['PM']=array('5'=>'','6'=>'','7'=>'');
+	*/
+	if(isset($testperiods[$secid])){$classperiods=(array)$testperiods[$secid][$currentevent['session']];}
+	else{$classperiods=(array)$testperiods[1][$currentevent['session']];}
+
+
+	/* secid=1 is wholeschool, use this if no others configured
+	 * if(!is_array($CFG->registration)){$reg='single';}
+	 * elseif(!isset($CFG->registration[$secid])){$reg=$CFG->registration[1];}
+	 * else{$reg=$CFG->registration[$secid];}
+	 */
+
+	/* If double registration is configured then the reg array
+	 * should be set to the turnover time for the registers to PM
+	 * (and set in 24 hour clock)
+
+
+	$date=date('Y-m-d');
+	$time=split(':',$reg);
+	if(date('H')>$time[0] or (date('H')==$time[0] and date('i')>=$time[1])){$session='PM';}
+
+	 */
+
+	return $classperiods;
 	}
 
 /**

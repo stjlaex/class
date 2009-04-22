@@ -47,7 +47,7 @@ twoplusprint_buttonmenu();
 		  </td>
 		  <td>
 			<a onclick="parent.viewBook('register');" target="viewregister"  
-			  href='register.php?current=register_list.php&cancel=completion_list.php&newfid=<?php print $com['name'];?>&checkeveid=0&startday='><?php print $com['displayname'];?></a>
+			  href='register.php?current=register_list.php&cancel=completion_list.php&newfid=<?php print $com['name'];?>&checkeveid=0&startday=&nodays=8'><?php print $com['displayname'];?></a>
 		  </td>
 		  <td class="<?php print $cssclass;?>">
 			<?php print_string($status,$book);?>

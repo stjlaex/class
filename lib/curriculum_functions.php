@@ -145,6 +145,35 @@ function list_course_cohorts($crid,$year='',$season='S'){
 	return $cohorts;
 	}
 
+
+
+/**
+ *
+ * Returns an array of all sections that this class could be
+ * associated with. Its approximate because there is no guarantee of
+ * the enrolment status of the students.
+ *
+ * If its not linked directly to a yeargroup or form then can't
+ * identify its section, just return wholeschool (secid=1).
+ *
+ */
+function get_class_section($cid){
+	$d_s=mysql_query("SELECT DISTINCT section_id FROM yeargroup WHERE
+					id=ANY(SELECT yeargroup_id FROM student
+					JOIN cidsid ON cidsid.student_id=student.id WHERE
+					cidsid.class_id='$cid' AND yeargroup_id IS NOT NULL);");
+	/* Could check for more than one section but will have to assume
+	   anyway that all sections associated with this class share the
+	   same timetable structure.
+	 */
+  	$secid=mysql_result($d_s,0,0);
+
+	if($secid=='' or $secid<1){$secid=1;}
+	return $secid;
+	}
+
+
+
 /**
  *
  * Returns an array listing the cids for all classes associated with

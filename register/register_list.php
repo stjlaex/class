@@ -15,13 +15,6 @@ if(isset($CFG->registration[$secid])
 else{$session='AM';}
 
 
-
-/**/
-$testperiods=array();
-//$testperiods[1]['AM']=array('1'=>'','2'=>'','3'=>'','4'=>'');
-//$testperiods[1]['PM']=array('5'=>'','6'=>'','7'=>'');
-/**/
-
 	if($community['type']=='class'){
 		$students=(array)listin_class($community['name'],true);
 		$AttendanceEvents=fetchAttendanceEvents($startday,1,$session);
@@ -39,7 +32,8 @@ $testperiods=array();
 			}
 
 		$perindex=$AttendanceEvents['perindex'];
-		$classperiods=$testperiods[$secid][$currentevent['session']];
+
+		$classperiods=get_class_periods($currentevent,$secid);
 		while(list($classperiod,$periodtime)=each($classperiods)){
 			if(!array_key_exists($classperiod,$perindex)){
 				/* This must be negative to indicate a class period!!! 

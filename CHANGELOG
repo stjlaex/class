@@ -1,4 +1,4 @@
-Version ClaSS-0.8.69 release (2009/04/20)
+Version ClaSS-0.8.69 release (2009/04/22)
 -----------------------------------------
 
 A new clickthru from the MarkBook table to the Register for
@@ -13,7 +13,12 @@ A small fix to the enrolment table which corrects the leavers total.
 An upgrade of the Register to facilitate registration in teaching
 groups. This adds a field to the event table for teaching period.
 
+Added get_class_section to curiculum functions.
 
+Trial version of class periods for registration outside of AM/PM
+sessions. Uses $nodays variable to display periods when $nodays=1.
+Still TODO is configure the periods per sessoin and be able to
+autoselect based on time.
 
 
 Version ClaSS-0.8.68 release (2009/04/08)

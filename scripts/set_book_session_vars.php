@@ -17,6 +17,6 @@ while(list($index,$varname)=each($session_vars)){
 		$_SESSION[$session_varname]=$_GET[$varname];
 		}
 	$$varname=$_SESSION[$session_varname];
-	//if($book=='entrybook'){trigger_error($varname.': '.$$varname,E_USER_WARNING);}
+	//if($book=='register'){trigger_error($varname.': '.$$varname,E_USER_WARNING);}
 	}
 ?>

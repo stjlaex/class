@@ -47,7 +47,6 @@ elseif($sub=='Submit'){
 		}
 	else{$eveid=$checkeveid;}
 
-	trigger_error($checkeveid.':: '.$date.' : '.$session.' : '.$period,E_USER_WARNING);
 
 	if($community['type']=='class'){
 		$students=(array)listin_class($community['name'],true);
