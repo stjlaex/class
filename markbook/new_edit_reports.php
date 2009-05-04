@@ -27,8 +27,7 @@ else{
 	$class_stage=$classes[$cids[0]]['stage'];
 	if($pid!=''){
 		$d_comp=mysql_query("SELECT status FROM component
-						WHERE id='$pid' AND course_id='$class_crid' AND
-						subject_id='$bid';");
+		   		WHERE id='$pid' AND course_id='$class_crid' AND subject_id='$bid';");
 		$compstatus=mysql_result($d_comp,0);
 		}
 	else{
@@ -37,17 +36,17 @@ else{
 
 	$reportdef=fetch_reportdefinition($rid,$bid);
 	$eids=(array)$reportdef['eids'];
-	/* The eids from reportdef are all possible ones linked to this report,
-	 *  need to filter out those not appropriate to this class. 
+	/* The eids from reportdef are all the assessments which may
+	 *  possibly be linked to this report entry. Need to filter out
+	 *  those not relevant to the current bid/pid combination we are
+	 *  dealing with.
 	 */
 	$ass_colspan=0;
-	$AssDefs=array();	
+	$AssDefs=array();//	Contains the relevant assessments only.
 	while(list($index,$eid)=each($eids)){
 		$AssDef=fetchAssessmentDefinition($eid);
 		if(($AssDef['Stage']['value']=='%' or $AssDef['Stage']['value']==$class_stage) 
-		   and ($AssDef['Subject']['value']=='%' or $AssDef['Subject']['value']==$bid)
-		   and ($AssDef['ComponentStatus']['value']=='A' or $AssDef['ComponentStatus']['value']==$compstatus or $compstatus=='%')
-		   ){
+		   and ($AssDef['Subject']['value']=='%' or $AssDef['Subject']['value']==$bid)){
 			$AssDefs[]=$AssDef;
 			}
 		}
@@ -116,20 +115,23 @@ three_buttonmenu($extrabuttons,$book);
 	while(list($index,$AssDef)=each($AssDefs)){
 		$eid=$AssDef['id_db'];
 		$grading_grades=$AssDef['GradingScheme']['grades'];
-		$compstatus=$AssDef['ComponentStatus']['value'];
+		$ass_compstatus=$AssDef['ComponentStatus']['value'];
 		$strands=array();
 		if($pid!=''){
 			/* If this column is for a component then include any strands*/
-			$strandstatus=$AssDef['StrandStatus']['value'];
-			$strands=(array)list_subject_components($pid,$AssDef['Course']['value'],$strandstatus);
-			if(sizeof($strands)==0 and $compstatus!='None'){
-				$strands[]=array('id'=>$pid);
+			$ass_strandstatus=$AssDef['StrandStatus']['value'];
+			$strands=(array)list_subject_components($pid,$AssDef['Course']['value'],$ass_strandstatus);
+			if(sizeof($strands)==0){
+				if(($ass_compstatus=='A' or $ass_compstatus==$compstatus 
+					  or $compstatus=='%' or ($ass_compstatus=='AV' and ($compstatus='V' or $compstatus='O')))){
+					$strands[]=array('id'=>$pid);
+					}
 				}
 			}
 		else{
 			/* If this column is for a subject then include any
 				components - but the strands won't be there*/
-			$strands=(array)list_subject_components($bid,$AssDef['Course']['value'],$compstatus);
+			$strands=(array)list_subject_components($bid,$AssDef['Course']['value'],$ass_compstatus);
 			if(sizeof($strands)==0){
 				$strands[]=array('id'=>$pid);
 				}

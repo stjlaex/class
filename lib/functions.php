@@ -719,14 +719,16 @@ function getEnumArray($field_name){
 					 'M'=>'mobilephone', 'F'=>'faxnumber', 'O'=>'otherphone');
 
 	/*for the gidaid table*/
-	$addresstype=array('H'=>'home', 'W'=>'work', 'V' =>
-					   'holiday', 'O'=>'other');
+	$addresstype=array('H'=>'home', 'W'=>'work', 
+					   'V'=>'holiday', 'O'=>'other');
 
 	/*for the report table*/
 	$componentstatus=array('None'=>'notapplied', 
-					 'N'=>'non-validating', 
-					 'V'=>'validating', 
-					 'A'=>'all');
+						   'N'=>'non-validating', 
+						   'V'=>'validating', 
+						   'O'=>'othervalidating', 
+						   'AV'=>'allvalidating', 
+						   'A'=>'all');
 	$strandstatus=$componentstatus;
 
 	/*for the assessment tables*/
@@ -740,8 +742,8 @@ function getEnumArray($field_name){
 
 	$season=array('S'=>'summer', 'W'=>'winter', 'M' =>
 				  'modular/continuous', '1'=>'january', '2'=>'feburary', '3' =>
-				  'march', '4'=>'april', '5'=>'may', '6'=>'june', '7' =>
-				  'july', '8'=>'august', '9'=>'september', 
+				  'march', '4'=>'april', '5'=>'may', '6'=>'june', 
+				  '7'=>'july', '8'=>'august', '9'=>'september', 
 				  'a'=>'october', 'b'=>'november', 'c'=>'december');
 
 	/*for the sen table*/

@@ -66,11 +66,9 @@ else{$asstype='other';}
 				  if(sizeof($strands)==0){$strands[0]['id']=$component['id'];}
 				  while(list($index,$strand)=each($strands)){
 					$pid=$strand['id'];
-					if(mysql_query("INSERT INTO mark 
-					  (entrydate, marktype, topic, comment, author,
-						 def_name, assessment, component_id) 
-							VALUES ('$entrydate', 'score', '$description', 
-						 '', 'ClaSS', '$markdef_name', '$asstype', '$pid')"))
+					if(mysql_query("INSERT INTO mark (entrydate, marktype, topic, comment, author,
+						 def_name, assessment, component_id) VALUES ('$entrydate', 'score', '$description', 
+						 '', 'ClaSS', '$markdef_name', '$asstype', '$pid');"))
 					{$result[]='Created mark for '.$bid.'-'.$pid;}
 					else{$error[]='Failed on new mark for:'.$bid. $pid.' '.mysql_error();}
 					$mid=mysql_insert_id();

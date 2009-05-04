@@ -81,12 +81,12 @@
 <?php
 	if($reportdef['report']['addcomment']=='yes' or 
 						$reportdef['report']['addcategory']=='yes'){ 
-
+		$teacherdone=false;
  		$Report['Comments']=fetchReportEntry($reportdef,$sid,$bid,$pid);
 		if(!isset($Report['Comments']['Comment'])){$Report['Comments']['Comment']=array();}
 		$totalentryn=sizeof($Report['Comments']['Comment']);
 		for($entryn=0;$entryn<=$totalentryn;$entryn++){
-			if($entryn==$totalentryn){
+			if($entryn==$totalentryn and !$teacherdone){
 				$Comment=array('Text'=>array('value'=>'','value_db'=>''),
 				'Teacher'=>array('value'=>'ADD NEW ENTRY'));
 				$inmust='yes';
@@ -94,9 +94,10 @@
 				$rowclass='revealed';
 				}
 			else{
+				if($tid==$Report['Comments']['Comment'][$entryn]['Teacher']['id_db']){$teacherdone=true;}
 				$Comment=$Report['Comments']['Comment'][$entryn];
 				$inmust=$Comment['id_db'];
-				if($totalentryn<1){
+				if($totalentryn<1 or $tid==$Report['Comments']['Comment'][$entryn]['Teacher']['id_db']){
 					$rowstate='rowminus';
 					$rowclass='revealed';
 					}
@@ -111,7 +112,7 @@
 		  $openId=$rid.'-'.$sid.'-'.$bid.'-'.$pid.'-'.$en;
 		  $Comment['id_db']=$openId;
 		
-		  if($edit_comments_off!='yes'){
+		  if($edit_comments_off!='yes' and (!$teacherdone and $entryn==$totalentryn or $entryn<$totalentryn)){
 ?>
   <tbody id="<?php print $openId;?>">
 	<tr onClick="clickToReveal(this)" class="<?php print $rowstate;?>" 

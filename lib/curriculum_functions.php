@@ -72,7 +72,7 @@ function list_course_subjects($crid=''){
 	if($crid!=''){
 		$d_cridbid=mysql_query("SELECT DISTINCT id, name FROM subject
 					JOIN cridbid ON cridbid.subject_id=subject.id
-					WHERE cridbid.course_id LIKE '$crid' ORDER BY subject.id");
+					WHERE cridbid.course_id LIKE '$crid' ORDER BY subject.id;");
 		while($subject=mysql_fetch_array($d_cridbid,MYSQL_ASSOC)){
 			$subjects[]=$subject;
 			}
@@ -88,22 +88,20 @@ function list_course_subjects($crid=''){
  * (subject_id=%) but strands cannot.
  *
  */
-function list_subject_components($bid,$crid,$compstatus='%'){
-	if($compstatus=='A'){$compstatus='%';}
-	$components=array();
+function list_subject_components($bid,$crid,$compstatus='A'){
+	if($compstatus=='A'){$compmatch="(component.status LIKE '%' AND component.status!='U')";}
+	elseif($compstatus=='AV'){$compmatch="(component.status='V' OR component.status='O')";}
+	else{$compmatch="(component.status LIKE '$compstatus' AND component.status!='U')";}
 	if($bid!='' and $crid!=''){
 		/* Check whether $bid is for a component or a subject. */
-		$d_c=mysql_query("SELECT id FROM component
-						WHERE component.course_id='$crid' AND
-						component.id='$bid';");
+		$d_c=mysql_query("SELECT id FROM component WHERE component.course_id='$crid' 
+						AND component.id='$bid';");
 		if(mysql_num_rows($d_c)==0){
 			/* $bid is a subject so listing components */
-			//trigger_error($crid. ' : '.$bid. ' '.mysql_error(),E_USER_WARNING);
 			$d_com=mysql_query("SELECT subject.id, subject.name,
 						component.status, component.sequence FROM subject
 						JOIN component ON subject.id=component.id
-						WHERE component.status LIKE '$compstatus' AND
-						component.status!='U' AND component.course_id='$crid' AND
+						WHERE $compmatch AND component.course_id='$crid' AND
 						(component.subject_id='$bid' OR component.subject_id='%')  
 						ORDER BY component.sequence, subject.name;");
 			}
@@ -112,11 +110,11 @@ function list_subject_components($bid,$crid,$compstatus='%'){
 			$d_com=mysql_query("SELECT subject.id, subject.name,
 						component.status, component.sequence FROM subject
 						JOIN component ON subject.id=component.id
-						WHERE component.status LIKE '$compstatus' AND
-						component.status!='U' AND component.course_id='$crid' AND
+						WHERE $compmatch AND component.course_id='$crid' AND
 						component.subject_id='$bid'  
 						ORDER BY component.sequence, subject.name;");
 			}
+		$components=array();
 		while($component=mysql_fetch_array($d_com,MYSQL_ASSOC)){
 			$components[]=$component;
 			}

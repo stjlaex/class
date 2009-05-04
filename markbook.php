@@ -34,14 +34,14 @@ if(isset($_POST['cids'])){
 		$d_c=mysql_query("SELECT detail, subject_id AS bid, course_id
 					AS crid, stage	FROM class WHERE id='$cid';");
 		$classes[$cid]=mysql_fetch_array($d_c,MYSQL_ASSOC);
-		/*grab the class's subject components*/
+		/* Grab the class's subject components, will only only exlcude those which are status=U (unused) */
 		$comps=list_subject_components($classes[$cid]['bid'],$classes[$cid]['crid']);
 		while(list($index,$component)=each($comps)){
 			if(!in_array($component['id'],$pids)){
 				$components[]=$component;
 				$pids[]=$component['id'];
-				/*and the subject component's components ie. strands*/
-				$strands=list_subject_components($component['id'],$classes[$cid]['crid'],'V');
+				/* Grab the subject component's components ie. strands. Restrict to AV (for all validating) */
+				$strands=list_subject_components($component['id'],$classes[$cid]['crid'],'AV');
 				while(list($index,$strand)=each($strands)){
 					if(!in_array($strand['id'],$pids)){
 						$strand['name']='&nbsp;&nbsp;'.$strand['name'];
