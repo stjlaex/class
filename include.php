@@ -49,6 +49,7 @@ $books['support']=array(
 						);
 $books['sen']=array(
 					'infobook' => 'InfoBook'
+					,'register' => 'Register'
 					,'seneeds' => 'SEN'
 					);
 $books['medical']=array(

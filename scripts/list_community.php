@@ -29,10 +29,10 @@ include('scripts/set_list_vars.php');
 			}
 		}
 	elseif($listtype=='admissions'){
-		$listcomtypes[]='enquired';
-		$listcomtypes[]='applied';
+		//$listcomtypes[]='enquired';
+		//$listcomtypes[]='applied';
 		$listcomtypes[]='accepted';
-		$listcomtypes[]='alumni';
+		//$listcomtypes[]='alumni';
 		}
 	elseif($listtype=='infosearch'){
 		$listcomtypes[]='accomodation';
@@ -40,12 +40,18 @@ include('scripts/set_list_vars.php');
 		}
 	else{$listcomtypes[]=$listtype;}
 
-
+	/*The current active year for new enrolments.*/
+	$enrolyear=get_curriculumyear()+1;
 	$listcomids=array();
 	while(list($index,$listtype)=each($listcomtypes)){
-		$listcoms=array();
 		$display=get_string($listtype);
-   		$listcoms=(array)list_communities($listtype);
+
+		if($listtype=='applied' or $listtype=='enquired' or $listtype=='accepted'){
+			$listcoms=(array)list_communities($listtype,$enrolyear);
+			}
+		else{
+			$listcoms=(array)list_communities($listtype);
+			}
 		while(list($index,$listcom)=each($listcoms)){
 			$listcomids[$listcom['id']]=$listcom;
 			/*a fix to display something meaningful until detail is used*/
@@ -53,8 +59,7 @@ include('scripts/set_list_vars.php');
 				$listcomids[$listcom['id']]['name']=$listcomids[$listcom['id']]['detail'];
 				}
 			elseif($listtype=='applied' or $listtype=='enquired' or $listtype=='accepted'){
-				$listcomids[$listcom['id']]['name']=$display . 
-												' - '.$listcomids[$listcom['id']]['name'].
+				$listcomids[$listcom['id']]['name']=$listcomids[$listcom['id']]['name'].
 												' '.$listcomids[$listcom['id']]['year'];
 				}
 			else{

@@ -30,7 +30,7 @@ $rtid=$tid;
 				   ,'yeargroup_matrix.php' => 'yeargroups'
 				   ,'community_group.php' => 'communitygroups'
 				   );
-	if($_SESSION['role']=='admin' or $_SESSION['role']=='office' 
+	if($_SESSION['role']=='admin' or $_SESSION['role']=='office'  
 	   or $_SESSION['role']=='district'){
 		$choices['enrolments_matrix.php']='enrolments';
 		//$choices['accomodation_matrix.php']='accomodation';

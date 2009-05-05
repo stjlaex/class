@@ -5,10 +5,13 @@ Migrated from subversion to git.
 
 Expanded the classification of compnents/strands to have an 'Other
 Validating' category. Assessments can now be applied to one of O or V,
-they can also use AV (all validating) for both O and V.
+they can also use AV (all validating) for both.
 
 The onereport page will now check for an earlier comment completed by
 that teacher and not allow additional entries.
+
+Implement the config option enrol_assess_sen to automatically flag new
+enrolments as SEN when they have a specific assessment value given.
 
 
 Version ClaSS-0.8.69 release (2009/04/22)

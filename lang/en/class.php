@@ -318,6 +318,7 @@ $string['configure']='Configure';
 $string['categories']='Categories';
 $string['pending']='Re-enroling Pending';
 $string['message']='Message';
+$string['enrolments']='Enrolments';
 $string['<']='<';
 $string['>']='>';
 ?>

@@ -2,8 +2,11 @@
 /**							lib/community_functions.php
  */
 
-/* Return an array of communitites of one particular type*/
-/* ignores differences in year by default*/
+/**
+ * Return an array of communitites of one particular type
+ * ignores differences in year by default
+ *
+ */
 function list_communities($type='',$year=''){
 	if($type!='' and $year==''){
 		if($type=='year'){

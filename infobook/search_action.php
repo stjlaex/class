@@ -17,6 +17,10 @@ elseif(isset($_POST['newcomid']) and $_POST['newcomid']!=''){
 	//$com=array('id'=>$_POST['newcomid'],'type'=>'','name'=>'');
 	$com=get_community($_POST['newcomid']);
 	}
+elseif(isset($_POST['newcomid1']) and $_POST['newcomid1']!=''){
+	//$com=array('id'=>$_POST['newcomid1'],'type'=>'','name'=>'');
+	$com=get_community($_POST['newcomid1']);
+	}
 
 if(isset($com)){
 	$table='student';

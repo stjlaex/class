@@ -81,8 +81,7 @@ elseif($sub=='Submit'){
 				if(mysql_query("INSERT INTO sentype SET
 						student_id='$sid', entryn='$entryn',$field='$inval';")){}
 				else{mysql_query("UPDATE $table SET $field='$inval'
-								WHERE student_id='$sid' 
-								AND entryn='$entryn';");}
+								WHERE student_id='$sid' AND entryn='$entryn';");}
 				}
 		}
 

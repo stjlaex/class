@@ -96,7 +96,7 @@ $app_cols=array();
 					displayed in the matrix but always set the value for totals*/
 			if(in_array($enrolstatus,$appcols_value)){
 				$app_tablecells[$enrolstatus]['display']=$display;
-						}
+				}
 			$app_tablecells[$enrolstatus]['value']=$value;
 			//$app_tablecells[$enrolstatus]['extravalue']=$extravalue;
 			}

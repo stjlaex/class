@@ -10,6 +10,7 @@ if($sub=='Submit'){
 	/*Check user has permission to edit*/
 	$yid=$Student['YearGroup']['value'];
 	$perm=getYearPerm($yid, $respons);
+	if($perm['r']!=1){$perm=getSENPerm($yid,$respons);}
 	//$neededperm='w';
 	include('scripts/perm_action.php');
 
@@ -46,7 +47,8 @@ if($sub=='Submit'){
 			$inval=clean_text($_POST[$inname]);
 			if($val['table_db']=='info'){
 				mysql_query("UPDATE info SET
-							$field='$inval' WHERE student_id='$sid'");
+							$field='$inval' WHERE student_id='$sid';");
+				$Enrolment["$index"]['value']=$inval;
 				}
 			}
 		}
@@ -58,9 +60,10 @@ if($sub=='Submit'){
 	while(list($index,$eid)=each($eids)){
 		$AssDef=fetchAssessmentDefinition($eid);
 		$grading_grades=$AssDef['GradingScheme']['grades'];
+		/* $$eid are the names of score values posted by the form
+		 * if the value is empty then score will be unset and no entry made
+		 */
 		$scorevalue=clean_text($_POST[$eid]);
-		/*$$eid are the names of score values posted by the form*/
-		/*if the value is empty then score will be unset and no entry made*/
 		if($scorevalue==''){$result='';}
 		elseif($grading_grades!='' and $grading_grades!=' '){
 			$result=scoreToGrade($scorevalue,$grading_grades);
@@ -70,6 +73,18 @@ if($sub=='Submit'){
 			}
 		$score=array('result'=>$result,'value'=>$scorevalue,'date'=>$todate);
 		update_assessment_score($eid,$sid,'G','',$score);
+		/* Option to automatically flag student as SEN */
+		trigger_error('SEN:'.$result.':'.$scorevalue,E_USER_WARNING);
+		if($CFG->enrol_assess_sen!='' and $CFG->enrol_assess_sen==$result){
+			mysql_query("UPDATE info SET sen='Y' WHERE student_id='$sid';");
+			$todate=$Enrolment['EntryDate']['value'];
+			mysql_query("INSERT INTO senhistory SET startdate='$todate', student_id='$sid';");
+			$senhid=mysql_insert_id();
+			mysql_query("INSERT INTO sencurriculum SET
+					senhistory_id='$senhid', subject_id='General'");
+			mysql_query("INSERT INTO sentype SET
+						student_id='$sid',sentype='ENC',senranking='1';");
+			}
 		}
 	if($CFG->enrol_assess=='yes'){
 		$enaid=$_POST['enaid'];
@@ -83,9 +98,7 @@ if($sub=='Submit'){
 			mysql_query("INSERT INTO background SET student_id='$sid', type='ena',
 				detail='$enadetail', entrydate='$todate', teacher_id='$tid';");
 			}
-
 		}
-
 	}
 
 	include('scripts/redirect.php');

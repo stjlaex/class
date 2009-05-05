@@ -10,6 +10,7 @@ three_buttonmenu();
 	/*Check user has permission to view*/
 	$yid=$Student['YearGroup']['value'];
 	$perm=getYearPerm($yid,$respons);
+	if($perm['r']!=1){$perm=getSENPerm($yid,$respons);}
 	include('scripts/perm_action.php');
 
 ?>
