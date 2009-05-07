@@ -19,4 +19,6 @@ ClaSS, how you can contribute <br />  to improving ClaSS and to discover how Cla
 $string['gplintro']='This software is copyright (c) 2002 - 2008
 S. T. Johnson.<br /> This program is free software; you can
 redistribute it <br /> and/or modify it under the terms of the ...<br />';
+$string['documentation']='Documentation';
+$string['usermanual']='User manual';
 ?>
