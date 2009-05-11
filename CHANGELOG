@@ -13,7 +13,9 @@ that teacher and not allow additional entries.
 Implement the config option enrol_assess_sen to automatically flag new
 enrolments as SEN when they have a specific assessment value given.
 
-Added ldap library.
+Added empty ldap library.
+
+Fix for using the budget_endmonth CFG value in get_budgetyear().
 
 
 

@@ -79,9 +79,8 @@ function generate_random_name($gender){
 	$trows=tableRead($table);
 	while(list($index, $row)=each($trows)){
 		$id=$row['id'];
-		/*		mysql_query("UPDATE $table SET detail='A general comment
+		mysql_query("UPDATE $table SET detail='A general comment
 			about positive or negative progress.' WHERE id='$id'");
-		*/
 		}
 
 	$table='exclusions';

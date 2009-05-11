@@ -481,7 +481,9 @@ function fetchSupplier($supid=-1){
  * 
  */
 function get_budget_projected($budid=-1){
+
 	global $CFG;
+
 	$currencyrates=$CFG->currencyrates;
 	$sum=0;
 	while(list($currency,$rate)=each($currencyrates)){
@@ -518,7 +520,9 @@ function get_budget_projected($budid=-1){
  *
  */
 function get_budget_current($budid=-1){
+
 	global $CFG;
+
 	$currencyrates=$CFG->currencyrates;
 	$d_bud=mysql_query("SELECT costlimit FROM orderbudget WHERE id='$budid';");
 	if(mysql_num_rows($d_bud)>0){
@@ -662,6 +666,9 @@ function fetchInvoice($invid='-1'){
  *
  */
 function get_budgetyear($yearcode=''){
+
+	global $CFG;
+
 	if($yearcode==''){
 		if(isset($CFG->budget_endmonth)){$endmonth=$CFG->budget_endmonth;}
 		else{$endmonth='5';}
@@ -714,6 +721,7 @@ function get_budget_perms($budid){
 	if($_SESSION['role']=='office'){$perms['r']=1;$perms['w']=1;}
 	return $perms;
 	}
+
 
 /**
  *
