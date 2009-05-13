@@ -10,6 +10,8 @@ include('scripts/head_options.php');
 include('scripts/set_book_vars.php');
 include('lib/fetch_order.php');
 
+//trigger_error('YOUR MESSAGE',E_USER_WARNING);
+
 $rtid=$tid;
 ?>
   <div id="bookbox" class="admincolor">
