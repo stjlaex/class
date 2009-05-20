@@ -29,8 +29,8 @@ div#bookbox {
 	background-color:#ffffff;
 	}
 .listmenu tr.midlite td, .listmenu td.midlite, .midlite { 
-    background-color:#ddffee;
+    background-color:#eeee99;
 	}
-.listmenu tr.gomidlite td, .listmenu td.gomidlite, .gomidlite { 
-    background-color:#ddeeff;
+.listmenu tr.gomidlite td, .listmenu td.gomidlite, .gomidlite {
+    background-color:#99cccc;
 	}

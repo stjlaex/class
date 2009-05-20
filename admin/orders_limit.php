@@ -157,10 +157,9 @@ three_buttonmenu($extrabuttons,$book);
 		  <th><?php print_string('projectedbalance',$book);?></th>
 		</tr>
 <?php
-		$rowclass='gomidlite';
 		while(list($subindex,$subbudget)=each($subbudgets)){
 ?>
-		<tr class="<?php print $rowclass;?>">
+		<tr>
 		  <td>
 <?php
 			print '<a  href="admin.php?current=orders_list.php&cancel='.$choice.'&choice='.$choice.'&budid='.$subbudget['id'].'&budgetyear='.$budgetyear.'">'.$subbudget['name'].'</a>';

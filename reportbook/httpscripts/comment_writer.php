@@ -79,6 +79,7 @@ if($reportdef['report']['profile_name']=='FS Steps'){
 			if($Student['YearGroup']['value']=='-1'){$cutoff_grade=0;}
 			if($Student['YearGroup']['value']=='0'){$cutoff_grade=3;}
 			else{$cutoff_grade=-10;}
+			/* This fromdate is just a hack needs to check for previous report maybe?*/
 			$fromdate='2008-08-15';
 			$d_eidsid=mysql_query("SELECT 
 				assessment.description, assessment.id FROM eidsid JOIN assessment ON
@@ -169,7 +170,7 @@ else{
 			  style="height:<?php print $commentheight;?>px;" 
 			  accesskey="../../lib/spell_checker/spell_checker.php" 
 			  <?php print $commentlength;?> tabindex="0"  
-				name="incom<?php print $c;?>" ><?php print $texts[$c];?></textarea>
+			  name="incom<?php print $c;?>" ><?php if(isset($texts[$c])){print $texts[$c];};?></textarea>
 
 		  </div>
 <?php

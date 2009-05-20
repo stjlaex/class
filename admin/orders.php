@@ -117,8 +117,12 @@ twoplus_buttonmenu($budgetyear,$currentyear+2,$extrabuttons,$book);
 		$budgets=list_user_budgets($tid,$budgetyear);
 		while(list($index,$overbudget)=each($budgets)){
 			while(list($subindex,$budget)=each($overbudget['subbudgets'])){
-				if($index==$budget['id']){$rowclass='midlite';}
-				else{$rowclass='gomidlite';}
+				if($index==$budget['id']){
+					$rowclass='gomidlite';
+					}
+				else{
+					$rowclass='';
+					}
 ?>
 		<tr class="<?php print $rowclass;?>">
 		  <td>

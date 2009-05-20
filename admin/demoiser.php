@@ -200,7 +200,7 @@ function generate_random_name($gender){
 		elseif($role=='admin'){
 			if($username!='administrator'){$nun='admin'.$adminindex++;}
 			else{$nun=$username;}
-			$passwd=md5('demoadmin');
+			$passwd=md5('guest');
 			}
 		elseif($role=='office'){
 			$nun='office'.$officeindex++;

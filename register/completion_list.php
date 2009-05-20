@@ -40,6 +40,9 @@ twoplusprint_buttonmenu();
 		if($nosids>0){
 			if(($nop+$noa)==$nosids and $nosids!=0){$status='complete';$cssclass='';}
 			else{$status='incomplete';$cssclass='vspecial';}
+			$totalnop+=$nop;
+			$totalnoa+=$noa;
+			$totalnosids+=$nosids;
 ?>
 		<tr>
 		  <td>
@@ -63,6 +66,22 @@ twoplusprint_buttonmenu();
 			}
 		}
 ?>
+		<tr>
+<td>Total:
+		  </td>
+<td>
+&nbsp;
+		  </td>
+		  <td>
+			<?php print $totalnosids;?>
+		  </td>
+		  <td>
+			<?php print $totalnop;?>
+		  </td>
+		  <td>
+			<?php print $totalnoa;?>
+		  </td>
+		</tr>
 		</table>
 
 		<input type="hidden" name="date" value="<?php print $currentevent['date'];?>" />

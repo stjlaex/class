@@ -172,7 +172,7 @@ if($_SESSION['role']=='office' or $_SESSION['role']=='admin'){
 	$buttons=array();
 	$buttons['message']=array('name'=>'current','title'=>'message','value'=>'email_contacts.php');
 	all_extrabuttons($buttons,'infobook','processContent(this)');
-		}
+	}
 ?>
 </th>
 <th>
