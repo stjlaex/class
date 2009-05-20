@@ -214,8 +214,11 @@ function generate_random_name($gender){
 		elseif($role=='medical'){
 			$nun='medical'.$medicalindex++;
 			}
+		
+		$zsurname = 'Prof '.$nun;
+		
 		mysql_query("UPDATE $table SET username='$nun',
-			forename='P', surname='Prof', email='', nologin='0', logcount='0',
+			forename='P', surname='$zsurname', email='', nologin='0', logcount='0',
 			passwd='$passwd', ip='', epfusername='$nun' WHERE uid='$id'");
 		mysql_query("UPDATE orderaction SET author='$nun'
 			WHERE author='$username'");
