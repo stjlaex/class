@@ -15,7 +15,9 @@ require_once('../classdev/logbook/permissions.php');
 require_once('../classdev/lib/fetch_student.php');
 
 /* Connect to LDAP server */
-$ds = ldap_connect("localhost");
+//$ds = ldap_connect("localhost");
+$ds = ldap_connect($CFG->ldapserver);
+echo "---> $ds: ".$ds."<br />";
 
 /* Make sure of right LDAP version is being used */
 ldap_set_option($ds, LDAP_OPT_PROTOCOL_VERSION, 3);
@@ -23,9 +25,14 @@ ldap_set_option($ds, LDAP_OPT_PROTOCOL_VERSION, 3);
 if ($ds) {
 	/* Bind to LDAP DB */
 	$userrdn="cn=" . $CFG->ldapuser . ",dc=example,dc=com";
-  $bind_result = ldap_bind($ds, $userrdn, $CFG->ldappasswd);
+	echo '---> $userrdn: '.$userrdn.'<br />';
+	
+	
+    $bind_result = ldap_bind($ds, $userrdn, $CFG->ldappasswd);
+	echo '---> $bind_result: '.$bind_result.'<br />';
 	
 	$info = array();
+	$row=array();
 	
 	if ($bind_result) {
 
@@ -41,6 +48,7 @@ if ($ds) {
 	    /* Search for entry in LDAP */
 			$username=$row['username'];
 	    $sr=ldap_search($ds, 'dc=example,dc=com', "uid=$username");
+	    //echo "$username".'<br />';
 
 	    if (ldap_count_entries($ds, $sr) > 0) {
 				/* When the entry exists, LDAP db is updated with values coming from ClaSS */
@@ -54,10 +62,17 @@ if ($ds) {
 		    $info['sn'] 					= $row['surname'];
 		    $info['mail'] 				= $row['email'];
 		    $info['objectclass'] 	= 'inetOrgPerson';
+		    
 
 				//echo '<pre>';
 				//print_r($info);
 				//echo '</pre>';
+	    	//if ($username=='admin1') {
+		    //	echo ">>> $username".'<br />';
+				//	echo '<pre>';
+				//	print_r($row);
+				//	echo '</pre>';
+	    	//}
 
 		    /* add data to ldap directory */
 		    $distinguishedName = 'uid='.$username . ',ou=people,dc=example,dc=com';
@@ -69,6 +84,7 @@ if ($ds) {
 
 	    } else {
 				/* OK, the entry does not exist in LDAP so insert it into LDAP DB	 */
+				$info = array();
 
 		    /* prepare data -in LDIF format- for LDAP insertion into DB */
 		    $info['uid'] 					= $row['username'];
@@ -78,9 +94,22 @@ if ($ds) {
 		    $info['sn'] 					= $row['surname'];
 		    $info['mail'] 				= $row['email'];
 		    $info['objectclass'] 	= 'inetOrgPerson';
+		    
 
+				//echo '<pre>';
+				//print_r($info);
+				//echo '</pre>';
+	    	if ($username=='Prof1' or $username=='library1') {
+		    	echo ">>> $username".'<br />';
+					echo '<pre>';
+					print_r($row);
+					echo '</pre>';
+	    	}
+
+				
 		    /* add data to ldap directory */
 		    $distinguishedName = 'uid='.$username . ',ou=people,dc=example,dc=com';
+		    echo "$distinguishedName".'<br />';
 		    $r = ldap_add($ds, $distinguishedName, $info);
 		    if (!$r) {
 		    	trigger_error('Unable to insert entry into LDAP DB: '.$distinguishedName, E_USER_WARNING);
@@ -145,7 +174,7 @@ if ($ds) {
 		    $info['sn'] 					= $Students[$sid]['Surname']['value'];
 		    $info['mail'] 				= $Students[$sid]['EmailAddress']['value'];
 		    $info['objectclass'] 	= 'inetOrgPerson';
-
+		    
 				//echo '<pre>';
 				//print_r($info);
 				//echo '</pre>';
@@ -163,7 +192,7 @@ if ($ds) {
 					$info=array();
 			    /* prepare data -in LDIF format- for LDAP insertion into DB */
 			    $info['uid'] 					= $username;
-			    //$info['userPassword'] = md5('abc123');
+			    /* $info['userPassword'] = md5('abc123'); */
 			    $info['userPassword'] = 'abc123';
 			    $info['cn'] 					= $Students[$sid]['Forename']['value'] . ' ' . $Students[$sid]['Surname']['value'];
 			    $info['givenName']		= $Students[$sid]['Forename']['value'];
@@ -173,7 +202,6 @@ if ($ds) {
 
 			    /* add data to ldap directory */
 			    $distinguishedName = "uid=$username" . ',ou=people,dc=example,dc=com';
-			    
 			    $r = ldap_add($ds, $distinguishedName, $info);
 			    if (!$r) {
 			    	trigger_error('Unable to insert entry into LDAP DB: '.$distinguishedName, E_USER_WARNING);
