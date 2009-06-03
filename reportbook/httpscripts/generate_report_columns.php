@@ -34,18 +34,11 @@ $deadline=$ReportDef['report']['deadline'];
 		/* Generate a report column for each subject*/
    	   	while(list($index,$subject)=each($subjects)){
 			$bid=$subject['id'];
-			$pids=array();
-   			if($compstatus=='A'){$compstatus='%';}
-   			$d_component=mysql_query("SELECT DISTINCT id FROM component
-					WHERE course_id='$crid' AND subject_id='$bid'
-						AND status LIKE '$compstatus'");
-   			while($pid=mysql_fetch_array($d_component,MYSQL_NUM)){
-				$pids[]=$pid[0];
-				}
- 			mysql_free_result($d_component);
+			$components=(array)list_subject_components($bid,$crid,$compstatus);
+			if(sizeof($components)==0){$components[0]['id']='';}
+			while(list($index,$component)=each($components)){
+				$pid=$component['id'];
 
-			if(sizeof($pids)==0){$pids[0]='';}
-		   	while(list($index,$pid)=each($pids)){
 				/* NB. If there is no component for this subject or components are not
 					requested then $pid is blank. */
 				/* The rid is stored in the midlist field for each mark*/

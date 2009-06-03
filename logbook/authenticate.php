@@ -14,11 +14,12 @@ function session_defaults(){
 
 /**
  *
+ *
  */
 function getRespons($username,$type='%'){
 	$groups=array();
-	$d_users=mysql_query("SELECT uid FROM users WHERE username='$username'");
-	$uid=mysql_result($d_users,0);	
+	$d_users=mysql_query("SELECT uid FROM users WHERE username='$username';");
+	$uid=mysql_result($d_users,0);
 	$d_groups=mysql_query("SELECT groups.*, perms.r, perms.w, perms.x
 							FROM groups LEFT JOIN perms ON
                             groups.gid=perms.gid WHERE
@@ -33,7 +34,7 @@ function getRespons($username,$type='%'){
 		$c++;
 		}
 	$d_form=mysql_query("SELECT id, yeargroup_id FROM form WHERE
-						  teacher_id='$username' ORDER BY yeargroup_id DESC");
+						  teacher_id='$username' ORDER BY yeargroup_id DESC;");
     while($form=mysql_fetch_array($d_form, MYSQL_ASSOC)){
 		$groups[$c]=array('name'=>'Form','form_id'=>$form['id'],'r'=>'1','w'=>'1','x'=>'1',
 						  'course_id'=>'','subject_id'=>'',

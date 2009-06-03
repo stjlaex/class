@@ -3,6 +3,7 @@
  */
 
 require_once('../../scripts/http_head_options.php');
+require_once($CFG->dirroot.'/lib/statementbank.php');
 
 if(isset($_GET['sid'])){$sid=$_GET['sid'];}
 elseif(isset($_POST['sid'])){$sid=$_POST['sid'];}
