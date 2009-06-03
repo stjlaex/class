@@ -4,6 +4,8 @@
 
 $action='statementbank.php';
 
+require_once($CFG->dirroot.'/lib/statementbank.php');
+
 include('scripts/sub_action.php');
 
 if($sub=='Submit'){

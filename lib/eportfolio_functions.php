@@ -241,7 +241,7 @@ function elgg_newUser($Newuser,$role){
 
 /**
  *
- * Checks for a community and either updates or creates anew one.
+ * Checks for a community and either updates or creates a new one.
  * Expects an array with at least type and name set, can optionally
  * have displayname as well.
  *
@@ -452,7 +452,7 @@ function elgg_join_group($epfuid,$group){
  *
  * If the folder already exists then just returns the folder_id
  *
- * This can only create folder ins the user's root folder because
+ * This can only create folders in the user's root folder because
  * parent=-1 always
  *
  */

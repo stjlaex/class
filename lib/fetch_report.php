@@ -512,7 +512,7 @@ function fetch_reportdefinition($rid,$selbid='%'){
 
 	$d_assessment=mysql_query("SELECT * FROM assessment JOIN
 				rideid ON rideid.assessment_id=assessment.id 
-				WHERE report_id='$rid' ORDER BY rideid.priority, assessment.label");
+				WHERE report_id='$rid' ORDER BY rideid.priority, assessment.label;");
 	$reportdef['eids']=array();
 	$reportdef['stateids']=array();
 	$asstable=array();
@@ -547,17 +547,30 @@ function fetch_reportdefinition($rid,$selbid='%'){
 		$ratings=array();
 		$cattable=array();
 	   	if($reportdef['report']['rating_name']!=''){
-			$ratingname=$reportdef['report']['rating_name'];
-			$d_rating=mysql_query("SELECT * FROM rating 
-						WHERE name='$ratingname' ORDER BY value;");
-			while($rating=mysql_fetch_array($d_rating,MYSQL_ASSOC)){
-				$ratings[$rating['value']]=$rating['descriptor'];
-				$cattable['rat'][]=array('name' => ''.$rating['descriptor'],
-										 'value' => ''.$rating['value']);
+			$pairs=explode(';',$reportdef['report']['rating_name']);
+
+			/* 
+			 *  Just in case: for backward compatibility with existing reports. 
+			 */
+			if(!is_array($pairs) or (is_array($pairs) and sizeof($pairs)==1)){
+				$pairs=array('0'=>'%:'.$reportdef['report']['rating_name']);
+				}
+
+			trigger_error('RATING PAIRS'.$pairs[0],E_USER_WARNING);
+			$cattable=array();
+			for($c=0;$c<sizeof($pairs);$c++){
+				list($ratingbid, $ratingname)=split(':',$pairs[$c]);
+				$d_rating=mysql_query("SELECT * FROM rating WHERE name='$ratingname' ORDER BY value;");
+				while($rating=mysql_fetch_array($d_rating,MYSQL_ASSOC)){
+					$ratings[$rating['value']]=$rating['descriptor'];
+					$cattable['rat'][]=array('name'=>''.$rating['descriptor'],
+											 'value'=>''.$rating['value']);
+					}
 				}
 			$reportdef['cattable']=nullCorrect($cattable);
 			}
 		$reportdef['ratings']=$ratings;
+
 		/*
 		list($ratingnames, $catdefs)=get_report_categories($rid,$selbid);
 		$reportdef['ratingnames']=$ratingnames;
@@ -601,8 +614,7 @@ function get_report_categories($rid,$bid='%',$pid='',$type='cat'){
 				 rating_name, comment, ridcatid.subject_id AS bid FROM categorydef LEFT
 				JOIN ridcatid ON ridcatid.categorydef_id=categorydef.id 
 				WHERE ridcatid.report_id='$rid' AND categorydef.type='$type'  
-				AND (ridcatid.subject_id='$bid' OR
-				ridcatid.subject_id='%');");
+				AND (ridcatid.subject_id='$bid' OR ridcatid.subject_id='%');");
 
 	/*
 	  AND ridcatid.subject_id!='summary' AND

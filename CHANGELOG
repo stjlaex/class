@@ -1,8 +1,9 @@
 Version ClaSS-0.9.1 release (2009/06/01)
 -----------------------------------------
 
+Fixed generate_report_columns to use compstatus correctly.
 
-
+Moved the statementbank library out of lib/include.
 
 
 Version ClaSS-0.9.0 release (2009/05/06)
