@@ -1,5 +1,6 @@
 <?php 
 /**								  		ldap_test.php
+ *
  * This is a two steps process for inserting:
  * 1) Teachers
  * 2) Students

@@ -5,6 +5,12 @@ Fixed generate_report_columns to use compstatus correctly.
 
 Moved the statementbank library out of lib/include.
 
+Test version of ldap connection script added.
+
+Fix to displaying column averages in MarkBook.
+
+File upload from MarkBook to eportfolio now working.
+
 
 Version ClaSS-0.9.0 release (2009/05/06)
 -----------------------------------------

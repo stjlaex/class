@@ -703,7 +703,12 @@ function elgg_upload_files($filedata,$dbc=true){
 		$file_fullpath=$CFG->eportfolio_dataroot . '/' . $dir. '/'. $file_name;
 		$file_location=$dir . '/'. $file_name;
 		$file_originalname=$file_name;
-		$file_originalpath=$CFG->installpath .'/reports/'. $file_name;
+		if($filedata['foldertype']=='report'){
+			$file_originalpath=$CFG->installpath .'/reports/'. $file_name;
+			}
+		else{
+			$file_originalpath=$batchfile['tmpname'];
+			}
 		$d_f=mysql_query("INSERT INTO $table_files 
 		   			 (owner, files_owner, folder, title, originalname,
 						description, location, access, time_uploaded) VALUES 

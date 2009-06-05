@@ -12,6 +12,8 @@ $action_post_vars=array('rids');
 if(isset($_POST['sids'])){$sids=(array) $_POST['sids'];}else{$sids=array();}
 if(isset($_POST['rids'])){$rids=(array) $_POST['rids'];}else{$rids=array();}
 
+if(isset($_POST['wrapper_rid'])){$wrapper_rid=$_POST['wrapper_rid'];}else{$wrapper_rid=$rids[0];}
+
 include('scripts/sub_action.php');
 
 	if(sizeof($sids)==0){
@@ -21,6 +23,16 @@ include('scripts/sub_action.php');
 		exit;
 		}
 
+if($wrapper_rid!=''){
+	$d_rid=mysql_query("SELECT categorydef_id AS report_id FROM ridcatid WHERE
+				 report_id='$wrapper_rid' AND subject_id='wrapper' ORDER BY categorydef_id");
+	$rids=array();
+	$rids[]=$wrapper_rid;
+	while($rid=mysql_fetch_array($d_rid,MYSQL_ASSOC)){
+		$rids[]=$rid['report_id'];
+		}
+trigger_error('wrapper:'.$wrapper_rid,E_USER_WARNING);
+	}
 
 	/* Two arrays, one postdata is used by html2ps and inlcudes config
 	 * options, a second publishdata is used for the eportfolio, both incorporate
@@ -33,22 +45,32 @@ include('scripts/sub_action.php');
 
 	/* Find the definition specific to each report */
 	$reportdefs=array();
-	$wrapper_rid=$rids[0];/* Should be first in rids */
 	for($c=0;$c<sizeof($rids);$c++){ 
 		$reportdefs[]=fetch_reportdefinition($rids[$c]);
 		}
+
 	$pubdate=$reportdefs[0]['report']['date'];
 	$paper=$reportdefs[0]['report']['style'];
 	$publishdata['description']='report';
 	$publishdata['title']=$reportdefs[0]['report']['title'].' - '.$pubdate;
+	$transform=$reportdefs[0]['report']['transform'];
+trigger_error('wrapper:'.$wrapper_rid.' '.$transform,E_USER_WARNING);
 
 	for($c=0;$c<sizeof($sids);$c++){
 		$sid=$sids[$c];
 		$Student=fetchStudent_short($sid);
-		list($Reports,$transform)=fetchSubjectReports($sid,$reportdefs);
+		list($Reports,$t)=fetchSubjectReports($sid,$reportdefs);
 		$Reports['Coversheet']='yes';/* No longer used, always yes */
 		$Reports['Paper']=$paper;
+
+		/* reportdefs index 0 will be the wrapper if one is used */
+		$Reports['CoverTitle']=$reportdefs[0]['report']['title'];
+		$Reports['Coversheet']='yes';
+		$Reports['Transform']=$transform;
+		$Reports['Paper']=$paper;
 		$Student['Reports']=nullCorrect($Reports);
+		/* TODO: set a start date */
+		//$Student['Reports']['Attendance']=fetchAttendanceSummary($sid,'2008-09-01',$reportdefs[0]['report']['date']);
 
 		/*Finished with the student's reports. Output the result as xml.*/
 		$xsl_filename=$transform.'.xsl';
@@ -68,12 +90,12 @@ include('scripts/sub_action.php');
 		$html_report=xmlprocessor($xml,$xsl_filename);
 		$html=$html_header. $html_report . $html_footer;
 
-		//$epfusername=get_epfusername($sid,$Student);
 		$filename='Report'.$pubdate.'_'.$sid.'_'.$wrapper_rid;
 		$postdata['batch['.$c.']']=$filename.'.html';//html2ps
 		$batchfiles[]=$filename;//html2fpdf
+		$epfusername=get_epfusername($sid,$Student);
 		$publish_batchfiles[$c]=array('epfusername'=>$epfusername,
-								 'filename'=>$filename.'.pdf');//eportfolio
+									  'filename'=>$filename.'.pdf');//eportfolio
 
 		$file=fopen($CFG->installpath.'/reports/'.$filename.'.html', 'w');
 		if(!$file){
@@ -119,13 +141,13 @@ include('scripts/sub_action.php');
 		trigger_error('PDF: '.$pdffile,E_USER_WARNING);
 		}
 
+*/
 	if(isset($CFG->eportfolio_db) and $CFG->eportfolio_db!='' and !isset($error)){
-		include('lib/eportfolio_functions.php');
+		require_once('lib/eportfolio_functions.php');
 		$publishdata['batchfiles']=$publish_batchfiles;
 		elgg_upload_files($publishdata);
 		$result[]=get_string('publishedtofile',$book);
 		}
-*/
 
 
 	include('scripts/results.php');

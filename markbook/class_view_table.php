@@ -160,7 +160,7 @@ $viewtable=array();
 				if(isset($yesval)){$out=$score_value; $outrank=$score_value;}
 				else{$out='';$outrank=-100;}
 				}
-			$out=$score_value;
+			//$out=$score_value; WHY WAS IT HERE?
 			unset($yesval);
 			unset($yestotal);
 			}

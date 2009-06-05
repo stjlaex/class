@@ -110,6 +110,13 @@ $CFG->emailguardianincidents='no';
 $CFG->emailcomments='no';
 /*send out reminders to relevant staff of approaching deadlines*/
 $CFG->emailreminders='no';
+/**
+ *
+ * Optional LDAP connection details.
+ */
+$CFG->ldapserver='';
+$CFG->ldapuser='';
+$CFG->ldappasswd='';
 /*****
  *
  *All of the following are connection details
