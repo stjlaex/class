@@ -743,7 +743,8 @@ function fetchReportEntry($reportdef,$sid,$bid,$pid){
 				   }
 
 			   }
-		   elseif($reportdef['report']['date']<'2009-08-11'){
+		   //		   elseif($reportdef['report']['date']<'2009-08-11'){
+		   elseif($reportdef['report']['date']<'2009-04-01'){
 			   /* For backward compatibility with old xslt templates. */
 			   $comment_html=$entry['comment'];
 			   }
