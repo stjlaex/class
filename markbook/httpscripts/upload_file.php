@@ -5,7 +5,7 @@
 $book='markbook';
 $tab=1;
 /* $inmust forces an insert of the submissions as a new entry
- * TODO: would be to allow updates for existing files ie. $inmust=1 or 
+ * TODO: would be to allow updates for existing files.
  */
 $inmust='yes';
 

@@ -1,8 +1,11 @@
 <?php
 /**                    httpscripts/upload_file_action.php
+ *
  */
 
 require_once('../../scripts/http_head_options.php');
+require_once('../../lib/eportfolio_functions.php');
+
 $sub=$_POST['sub'];
 $sid=$_POST['sid'];
 $tid=$_SESSION['username'];
@@ -11,17 +14,34 @@ if($sub=='Cancel'){
 	$openerId='-100';
 	$incom='';
 	}
-elseif($sub=='Submit'){
+elseif($sub=='Submit' and isset($_FILES['importfile']) and $_FILES['importfile']['tmp_name']!=''){
+	$publishdata=array();
+	$entryn='';
 	$openerId=$_POST['openid'];
 	$Student=fetchStudent_short($sid);
+	$filename=$_FILES['importfile']['name'];
+	$tmpname=$_FILES['importfile']['tmp_name'];
+	if(isset($_POST['inmust'])){$inmust=$_POST['inmust'];}
 	if(isset($_POST['mid'])){$bid=$_POST['mid'];}
 	if(isset($_POST['cid'])){$cid=$_POST['cid'];}
 	if(isset($_POST['pid'])){$pid=$_POST['pid'];}
-	if(isset($_POST['comment'])){$comment=clean_text($_POST['comment']);}else{$comment='';}
+	if(isset($_POST['title'])){$publishdata['title']=clean_text($_POST['title']);}else{$publishdata['title']='';}
+	if(isset($_POST['comment'])){$publishdata['description']=clean_text($_POST['comment']);}else{$publishdata['description']='';}
 	if(isset($_POST['news'])){$news=$_POST['news'];}else{$news='no';}
 
-	if($inmust=='yes' and $incom!=''){
+	$epfusername=get_epfusername($sid,$Student);
+
+	$publishdata['foldertype']='work';
+	$publishdata['batchfiles'][]=array('epfusername'=>$epfusername,
+									   'filename'=>$filename,
+									   'tmpname'=>$tmpname);
+
+	if($inmust=='yes'){
 		/*Create a new entry*/
+		trigger_error($sid.' : '.$epfusername. ' : '.$filename,E_USER_WARNING);
+
+		elgg_upload_files($publishdata);
+
 		}
 	elseif($inmust!='yes'){
 		/* TODO: Update an existing file*/
@@ -40,7 +60,7 @@ elseif($sub=='Submit'){
 <title>ClaSS Comment Writer</title>
 <meta http-equiv="content-type" content="application/xhtml+xml; charset=utf-8" />
 <meta http-equiv="Content-Script-Type" content="text/JavaScript" />
-<meta name="copyright" content="Copyright 2002-2006 S T Johnson.  All trademarks acknowledged. All rights reserved" />
+<meta name="copyright" content="Copyright 2002-2009 S T Johnson.  All trademarks acknowledged. All rights reserved" />
 <meta name="version" content='<?php print "$CFG->version"; ?>' />
 <meta name="licence" content="GNU General Public License version 2" />
 <link id="viewstyle" rel="stylesheet" type="text/css" href="../../css/bookstyle.css" />

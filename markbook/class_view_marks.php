@@ -154,7 +154,7 @@ for($i=0;$i<sizeof($cids);$i++){
 				JOIN mark ON markdef.name=mark.def_name WHERE mark.id='$lastmid';");
 				$scoretype[$c]=mysql_result($d_markdef,0);
 				$umn['scoretype']=$scoretype[$c];
-
+				$umns[$c]['scoretype']=$scoretype[$c];
 				}
 			elseif($marktype[$c]=='level'){
 				/*no markdef for a level, have to get grading_name from the levelname*/
@@ -186,7 +186,8 @@ for($i=0;$i<sizeof($cids);$i++){
 					}
 				else{$scoregrades[$c]='';}     
 				}
-		$c++;
+
+			$c++;
 		}
 
 	/* Everything is different if we are viewing a profile. A column 0
