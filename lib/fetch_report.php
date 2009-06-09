@@ -396,6 +396,7 @@ function fetchReportDefinition($rid,$selbid='%'){
 			$d_rating=mysql_query("SELECT * FROM rating 
 						WHERE name='$ratingname' ORDER BY value;");
 			$ratings=array();
+			/*TODO: bring up to date for bid specific ratings identified using ratingname */
 			while($rating=mysql_fetch_array($d_rating,MYSQL_ASSOC)){
 				$ratings[$rating['value']]=$rating['descriptor'];
 				}
@@ -544,9 +545,10 @@ function fetch_reportdefinition($rid,$selbid='%'){
 
 	if($reportdef['report']['addcategory']=='yes'){
 
-		$ratings=array();
+		$reportdef['ratings']=array();
 		$cattable=array();
 	   	if($reportdef['report']['rating_name']!=''){
+			$reportdef['cattable']=array();
 			$pairs=explode(';',$reportdef['report']['rating_name']);
 
 			/* 
@@ -556,20 +558,24 @@ function fetch_reportdefinition($rid,$selbid='%'){
 				$pairs=array('0'=>'%:'.$reportdef['report']['rating_name']);
 				}
 
-			trigger_error('RATING PAIRS'.$pairs[0],E_USER_WARNING);
-			$cattable=array();
 			for($c=0;$c<sizeof($pairs);$c++){
+				$ratings=array();
+				$cattable=array();
 				list($ratingbid, $ratingname)=split(':',$pairs[$c]);
-				$d_rating=mysql_query("SELECT * FROM rating WHERE name='$ratingname' ORDER BY value;");
-				while($rating=mysql_fetch_array($d_rating,MYSQL_ASSOC)){
-					$ratings[$rating['value']]=$rating['descriptor'];
-					$cattable['rat'][]=array('name'=>''.$rating['descriptor'],
-											 'value'=>''.$rating['value']);
+				/* Only need to do each rating name once. */
+				if(!isset($reportdef['ratings'][$ratingname])){
+					$cattable['ratingname']=$ratingname;
+					$d_rating=mysql_query("SELECT * FROM rating WHERE name='$ratingname' ORDER BY value;");
+					while($rating=mysql_fetch_array($d_rating,MYSQL_ASSOC)){
+						$ratings[$rating['value']]=$rating['descriptor'];
+						$cattable['rat'][]=array('name'=>''.$rating['descriptor'],
+												 'value'=>''.$rating['value']);
+						}
+					$reportdef['cattable'][]=nullCorrect($cattable);
+					$reportdef['ratings'][$ratingname]=$ratings;
 					}
 				}
-			$reportdef['cattable']=nullCorrect($cattable);
 			}
-		$reportdef['ratings']=$ratings;
 
 		/*
 		list($ratingnames, $catdefs)=get_report_categories($rid,$selbid);
@@ -628,6 +634,34 @@ function get_report_categories($rid,$bid='%',$pid='',$type='cat'){
 	   	}
 
 	return $catdefs;
+	}
+
+
+/**
+ *
+ * Returns the appropriate ratingname for a bid from the given reportdef
+ * 
+ *
+ */
+function get_report_ratingname($reportdef,$bid='%'){
+	$linkedname='';
+	$pairs=explode(';',$reportdef['report']['rating_name']);
+	/* 
+	 *  Just in case: for backward compatibility with existing reports. 
+	 */
+	if(!is_array($pairs) or (is_array($pairs) and sizeof($pairs)==1)){
+		$pairs=array('0'=>'%:'.$reportdef['report']['rating_name']);
+		}
+	/*
+	 * Identify the ratingname which applies to this subject.
+	 */
+	for($c=0;$c<sizeof($pairs);$c++){
+		list($ratingbid, $ratingname)=split(':',$pairs[$c]);
+		if(($ratingbid=='%' and !isset($Categories['ratingname'])) or ($ratingbid==$bid)){
+			$linkedname=$ratingname;
+			}
+		}
+	return $linkedname;
 	}
 
 
@@ -709,7 +743,7 @@ function fetchReportEntry($reportdef,$sid,$bid,$pid){
 				   }
 
 			   }
-		   elseif($reportdef['report']['date']<'2009-04-11'){
+		   elseif($reportdef['report']['date']<'2009-08-11'){
 			   /* For backward compatibility with old xslt templates. */
 			   $comment_html=$entry['comment'];
 			   }
@@ -732,8 +766,11 @@ function fetchReportEntry($reportdef,$sid,$bid,$pid){
 			   $entry['ratings'][$catid]=$rank;
 			   }
 
-		   $ratings=$reportdef['ratings'];
 		   $Categories=array();
+
+		   $Categories['ratingname']=get_report_ratingname($reportdef,$bid);
+		   $ratings=$reportdef['ratings'][$Categories['ratingname']];
+		   
 		   for($c=0;$c<sizeof($catdefs);$c++){
 		   		$Category=array();
 	   			$catid=$catdefs[$c]['id'];

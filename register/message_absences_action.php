@@ -43,10 +43,10 @@ if($recipients and sizeof($recipients)>0){
 
 		foreach($recipients as $key => $recipient){
 
-			$message="\r\n". get_string(displayEnum($recipient['relationship'],'relationship'),'infobook'). ' to '. $recipient['studentname']. "\r\n";
+			$message="\r\n".'Dear Parent of '. $recipient['studentname']. "\r\n";
 			$message.="\r\n". 'At 10:00AM this morning '. $recipient['studentname']. ' had not registered in school. Please could you contact the school to inform us of the reason for your child\'s absence.'."\r\n";
 			$message.="\r\n".'A las 10 de la manana de hoy '. $recipient['studentname']. ' no se ha registrado en el colegio. Podria, por favor, contactar con el colegio e informarnos de los motivos por los que su hijo/a ha estado ausente?'."\r\n";
-			$message.="\r\n". $footer;
+			$message.='Thank you.'. "\r\n". $footer;
 
 			$message=utf8_to_ascii($message);
 
