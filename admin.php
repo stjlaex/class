@@ -77,7 +77,7 @@ $rtid=$tid;
 					   /*these are all either very experimental or completely useless!!!!!*/
 					   //,'statementbank.php' => 'statementbank'
 					   //,'demoiser.php' => 'demoiser'
-					   //,'ldap_test.php' => 'ldap'
+					   ,'ldap_test.php' => 'ldap'
 					   //,'db_export.php' => 'db'
 					   );
 		selery_stick($choices,$choice,$book);
