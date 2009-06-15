@@ -1,4 +1,4 @@
-Version ClaSS-0.9.1 release (2009/06/01)
+Version ClaSS-0.9.1 release (2009/06/10)
 -----------------------------------------
 
 Fixed generate_report_columns to use compstatus correctly.
@@ -10,6 +10,12 @@ Test version of ldap connection script added.
 Fix to displaying column averages in MarkBook.
 
 File upload from MarkBook to eportfolio now working.
+
+Working version of ldap connectivity.
+
+Multiple ratingnames allowed for as part of a report definition,
+allows variaiton in the category ratings used between subjects in the
+same course.
 
 
 Version ClaSS-0.9.0 release (2009/05/06)

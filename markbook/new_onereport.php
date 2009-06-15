@@ -132,11 +132,16 @@
 <?php
 		if($reportdef['report']['addcategory']=='yes'){
 			$ass_colspan++;
-			$ratings=$reportdef['ratings'];
+
 			reset($catdefs);
 			unset($Categories);
 			if(isset($Comment['Categories'])){$Categories=$Comment['Categories'];}
-			else{$Categories['Category']=array();} 
+			else{
+				$Categories['Category']=array();
+				$Categories['ratingname']=get_report_ratingname($reportdef,$bid);
+				}
+			$ratings=$reportdef['ratings'][$Categories['ratingname']];
+
 			while(list($catindex,$catdef)=each($catdefs)){
 				$catid=$catdefs[$catindex]['id'];
 				$catname=$catdefs[$catindex]['name'];
