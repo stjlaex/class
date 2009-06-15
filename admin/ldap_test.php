@@ -54,17 +54,15 @@ if ($ds) {
 				$info = ldap_first_entry($ds, $sr);				
 				$attrs = ldap_get_attributes($ds, $info);
 
-				if ($row['username']=='Prof9') { echo '(1): '.$row['username'].'<br />';}
-				
 		    /* prepare data -in LDIF format- for LDAP insertion into DB */
 				$info = array();
-		    $info['uid'] 					= $row['username'];
-		    $info['userPassword'] = $row['passwd'];
-		    $info['cn'] 					= $row['forename'] . ' ' . $row['surname'];
-		    $info['givenName'] 		= $row['forename'];
-		    $info['sn'] 					= $row['surname'];
-		    $info['mail'] 				= $row['email'];
-		    $info['objectclass'] 	= 'inetOrgPerson';
+		    $info['uid'] = $row['username'];
+		    $info['userPassword'] = '{MD5}' . base64_encode(pack('H*',$row['passwd']));
+		    $info['cn'] = $row['forename'] . ' ' . $row['surname'];
+		    $info['givenName'] = $row['forename'];
+		    $info['sn'] = $row['surname'];
+		    $info['mail'] = $row['email'];
+		    $info['objectclass'] = 'inetOrgPerson';
 		    
 		    if ($attrs['employeeType'][0]<>$row['role']) {
 		    	/* change the LDAP entry to other superior RDN */
@@ -106,7 +104,7 @@ if ($ds) {
 
 		    /* prepare data -in LDIF format- for LDAP insertion into DB */
 		    $info['uid'] 					= $row['username'];
-		    $info['userPassword'] = $row['passwd'];
+		    $info['userPassword'] = '{MD5}' . base64_encode(pack('H*',$row['passwd']));
 		    $info['cn'] 					= $row['forename'] . ' ' . $row['surname'];
 		    $info['givenName'] 		= $row['forename'];
 		    $info['sn'] 					= $row['surname'];
@@ -167,8 +165,7 @@ if ($ds) {
 		    /* prepare data -in LDIF format- for LDAP field replacement */
 				$info=array();
 		    $info['uid'] 					= $username;
-		    //$info['userPassword'] = md5('abc123');
-		    $info['userPassword'] = 'abc123';
+		    $info['userPassword'] = '{MD5}' . base64_encode(pack('H*',md5('abc123')));
 		    $info['cn'] 					= $Students[$sid]['Forename']['value'] . ' ' . $Students[$sid]['Surname']['value'];
 		    $info['givenName']		= $Students[$sid]['Forename']['value'];
 		    $info['sn'] 					= $Students[$sid]['Surname']['value'];
@@ -187,8 +184,7 @@ if ($ds) {
 					$info=array();
 			    /* prepare data -in LDIF format- for LDAP insertion into DB */
 			    $info['uid'] 					= $username;
-			    /* $info['userPassword'] = md5('abc123'); */
-			    $info['userPassword'] = 'abc123';
+			    $info['userPassword'] = '{MD5}' . base64_encode(pack('H*',md5('abc123')));
 			    $info['cn'] 					= $Students[$sid]['Forename']['value'] . ' ' . $Students[$sid]['Surname']['value'];
 			    $info['givenName']		= $Students[$sid]['Forename']['value'];
 			    $info['sn'] 					= $Students[$sid]['Surname']['value'];
