@@ -11,9 +11,9 @@
 $choice='ldap_test.php';
 $action='ldap_test_action.php';
 
-require_once('../school.php');
-require_once('../classdev/logbook/permissions.php');
-require_once('../classdev/lib/fetch_student.php');
+require_once('../../school.php');
+require_once('../logbook/permissions.php');
+require_once('../lib/fetch_student.php');
 
 /* Connect to LDAP server */
 $ds = ldap_connect($CFG->ldapserver);
@@ -23,13 +23,14 @@ ldap_set_option($ds, LDAP_OPT_PROTOCOL_VERSION, 3);
 
 if ($ds) {
 	/* Bind to LDAP DB */
-	$userrdn="cn=" . $CFG->ldapuser . ",dc=example,dc=com";
-	
-  $bind_result = ldap_bind($ds, $userrdn, $CFG->ldappasswd);
-	
+	//$userrdn="cn=" . $CFG->ldapuser . ",dc=example,dc=com";
+	$userrdn='cn='.$CFG->ldapuser.',dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
+
+	$bind_result = ldap_bind($ds, $userrdn, $CFG->ldappasswd);
+
 	$info = array();
 	$row=array();
-	
+
 	if ($bind_result) {
 
 /**
@@ -41,15 +42,15 @@ if ($ds) {
 		/* process result */
 		foreach($users as $uid => $row) {
 
-			$info = array();
+		  $info = array();
 
-	    /* Search for entry in LDAP */
-			$username=$row['username'];
-			$classrole=$row['role'];
-	    $sr=ldap_search($ds, 'ou=people,dc=example,dc=com', "uid=$username", $info);
-
+		  /* Search for entry in LDAP */
+		  $username=$row['username'];
+		  $classrole=$row['role'];
+		  //$sr=ldap_search($ds, 'ou=people,dc=example,dc=com', "uid=$username", $info);
+		  $sr=ldap_search($ds, 'ou=people'.',dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2, "uid=$username", $info);
 			
-	    if (ldap_count_entries($ds, $sr) > 0) {
+		  if (ldap_count_entries($ds, $sr) > 0) {
 				/* When the entry exists, LDAP db is updated with values coming from ClaSS */
 				$info = ldap_first_entry($ds, $sr);				
 				$attrs = ldap_get_attributes($ds, $info);
@@ -68,59 +69,53 @@ if ($ds) {
 		    	/* change the LDAP entry to other superior RDN */
 		    	
 			    /* Read Entry again using detailed RDN, the old one */
-			    $distinguishedName = 'uid='.$username.',ou='.$attrs['employeeType'][0].',ou=people,dc=example,dc=com';
-
-
+			    //$distinguishedName = 'uid='.$username.',ou='.$attrs['employeeType'][0].',ou=people,dc=example,dc=com';
+			    $distinguishedName = 'uid='.$username.',ou='.$attrs['employeeType'][0].',ou=people'.',dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
 			    $sr=ldap_search($ds, $distinguishedName, "uid=$username");
 			    /* change type: modify */
 			    if ($sr) {
-			    	
-				    $info['employeeType'] 	= $row['role'];
-						$info['ou']							= $row['role'];
-						
+				    $info['employeeType'] = $row['role'];
+						$info['ou'] = $row['role'];
 			    	$mod=ldap_modify ( $ds, $distinguishedName , $info );
-
 			    	$full_old_dn= $distinguishedName;
 						$new_rdn= 'uid='.$username;
-						$new_superior='ou='.$info['employeeType'].',ou=people,dc=example,dc=com';
-						
-						
+						//$new_superior='ou='.$info['employeeType'].',ou=people,dc=example,dc=com';
+						$new_superior='ou='.$info['employeeType'].',ou=people'.',dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
 						$ldren=ldap_rename( $ds, $full_old_dn, $new_rdn, $new_superior, TRUE);					
 			    }
 		    } else {
-		    
-			    /* modify ldap entry */
-			    $distinguishedName = 'uid='.$username.',ou='.$info['employeeType'].',ou=people,dc=example,dc=com';
-			    $r = ldap_modify($ds, $distinguishedName, $info);
-			    if (!$r) {
-			    	trigger_error('Unable to modify entry in LDAP DB: '.$distinguishedName, E_USER_WARNING);
-			    }
-		    
+				  /* modify ldap entry */
+				  //$distinguishedName = 'uid='.$username.',ou='.$info['employeeType'].',ou=people,dc=example,dc=com';
+				  //$distinguishedName = 'uid='.$username.',ou='.$row['role'].',ou=people,dc=example,dc=com';
+					$distinguishedName = 'uid='.$username.',ou='.$row['role'].',ou=people'.',dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
+					//echo "\n".$distinguishedName."\n";
+				  $r = ldap_modify($ds, $distinguishedName, $info);
+				  if (!$r) {
+				  	trigger_error('Unable to modify entry in LDAP DB: '.$distinguishedName, E_USER_WARNING);
+				  }
 		    }
-
-	    } else {
+		  } else {
 				/* OK, the entry does not exist in LDAP so insert it into LDAP DB	 */
 				$info = array();
-
 		    /* prepare data -in LDIF format- for LDAP insertion into DB */
-		    $info['uid'] 					= $row['username'];
+		    $info['uid'] = $row['username'];
 		    $info['userPassword'] = '{MD5}' . base64_encode(pack('H*',$row['passwd']));
-		    $info['cn'] 					= $row['forename'] . ' ' . $row['surname'];
-		    $info['givenName'] 		= $row['forename'];
-		    $info['sn'] 					= $row['surname'];
-		    $info['mail'] 				= $row['email'];
-		    $info['objectclass'] 	= 'inetOrgPerson';
-		    $info['ou']						= $row['role'];
-		    $info['employeeType']	= $row['role'];
-		    
+		    $info['cn'] = $row['forename'] . ' ' . $row['surname'];
+		    $info['givenName'] = $row['forename'];
+		    $info['sn'] = $row['surname'];
+		    $info['mail'] = $row['email'];
+		    $info['objectclass'] = 'inetOrgPerson';
+		    $info['ou']	= $row['role'];
+		    $info['employeeType'] = $row['role'];
 
 		    /* add data to ldap directory */
-		    $distinguishedName = 'uid='.$username.',ou='.$info['employeeType'].',ou=people,dc=example,dc=com';
+		    //$distinguishedName = 'uid='.$username.',ou='.$info['employeeType'].',ou=people,dc=example,dc=com';
+		    $distinguishedName = 'uid='.$username.',ou='.$info['employeeType'].',ou=people'.',dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
 		    $r = ldap_add($ds, $distinguishedName, $info);
 		    if (!$r) {
-		    	trigger_error('Unable to insert entry into LDAP DB: '.$distinguishedName, E_USER_WARNING);
+				  trigger_error('Unable to insert entry into LDAP DB: '.$distinguishedName, E_USER_WARNING);
 		    }
-	    } 
+		  } 
 		}
 
 /**
@@ -170,6 +165,7 @@ if ($ds) {
 		    $info['givenName']		= $Students[$sid]['Forename']['value'];
 		    $info['sn'] 					= $Students[$sid]['Surname']['value'];
 		    $info['mail'] 				= $Students[$sid]['EmailAddress']['value'];
+				$info['ou']						= 'Students'; 
 		    $info['objectclass'] 	= 'inetOrgPerson';
 		    
 		    /* add data to ldap directory */
@@ -189,6 +185,7 @@ if ($ds) {
 			    $info['givenName']		= $Students[$sid]['Forename']['value'];
 			    $info['sn'] 					= $Students[$sid]['Surname']['value'];
 			    $info['mail'] 				= $Students[$sid]['EmailAddress']['value'];
+					$info['ou']						= 'Students'; 
 			    $info['objectclass'] 	= 'inetOrgPerson';
 
 			    /* add data to ldap directory */
@@ -208,4 +205,10 @@ if ($ds) {
 } else {
   trigger_error('Unable to connect to LDAP server. Nothing has been done.', E_USER_WARNING);
 } 
+
+/* 
+ * End options 
+ */
+echo (date("j F Y, H:i:s") . " - LDAP cron - ClaSS to LDAP - eop\n");
+
 ?>
