@@ -38,6 +38,23 @@ if($sub=='Submit' and $_POST['seluid']!=''){
 	else{
 		$result[]=update_user($user,'yes');
 		}
+
+	$aperm=get_admin_perm('u',$_SESSION['uid']);
+	if($_SESSION['role']=='admin' or $aperm==1){
+
+		$agroups=(array)list_admin_groups();
+		foreach($agroups as $type=>$agroup){
+			$agid=$agroup['gid'];
+			if(isset($_POST["a$agid"]) and $_POST["a$agid"]==1){
+				$newperms=array('r'=>1,'w'=>1,'x'=>1);
+				}
+			else{
+				$newperms=array('r'=>0,'w'=>0,'x'=>0);
+				}
+			update_staff_perms($seluid,$agid,$newperms);
+			}
+		}
+
 	include('scripts/results.php');
    	}
 

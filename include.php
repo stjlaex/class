@@ -19,7 +19,8 @@ $books['all']=array(
 					  ,'medbook' => 'MedBook'
 					  //,'library' => 'Library'
 				 );
-/** User roles (office, teacher etc.) can have books added or removed
+/** 
+ * User roles (office, teacher etc.) can have books added or removed
  * to restrict and customise access. Care though is  needed to not
  * break inter-book shortcuts ie. MarkBook always needs access to 
  * Infobook and Admin. The order of the array decides the displayed 

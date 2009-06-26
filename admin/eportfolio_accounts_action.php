@@ -178,7 +178,7 @@ if($staffcheck=='yes'){
 		$epfcomid=elgg_update_community($com);
 		$com['epfcomid']=$epfcomid;
 		$d_t=mysql_query("SELECT teacher_id FROM tidcid WHERE class_id='$cid';");
-		while($t=mysql_fetch_array($d_t, MYSQL_ASSOC)){
+		while($t=mysql_fetch_array($d_t,MYSQL_ASSOC)){
 			elgg_join_community($staff[strtolower($t['teacher_id'])],$com);
 			}
 		$d_student=mysql_query("SELECT b.id FROM cidsid a, student b 
@@ -218,7 +218,7 @@ if($photocheck=='yes'){
 if($contactcheck=='yes'){
 
 	/*TODO: This only updates and emails contacts for a single yeargroup!!!!!!*/
-	$yid=9;
+	$yid=1;
 	/*!!!!!!*/
 
 	/* Want all contacts who may recieve any sort of mailing to be

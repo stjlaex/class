@@ -502,7 +502,13 @@ function fetch_reportdefinition($rid,$selbid='%'){
 	while(list($index0,$subject)=each($subjects)){
 		$components=(array)list_subject_components($subject['id'],$crid);
 		while(list($index1,$component)=each($components)){
-			$strands=(array)list_subject_components($component['id'],$crid);
+			/* Just in case to avoid a nasty recursion if component and subject have the same id */
+	   		if($component['id']!=$subject['id']){
+				$strands=(array)list_subject_components($component['id'],$crid);
+				}
+			else{
+				$strands=array();
+				}
 			$components[$index1]['strands']=$strands;
 			}
 		/* Must always be a blank entry to catch the parent subject itself.*/
@@ -743,8 +749,8 @@ function fetchReportEntry($reportdef,$sid,$bid,$pid){
 				   }
 
 			   }
-		   //		   elseif($reportdef['report']['date']<'2009-08-11'){
-		   elseif($reportdef['report']['date']<'2009-04-01'){
+		   //  elseif($reportdef['report']['date']<'2009-08-11'){
+					  elseif($reportdef['report']['date']<'2009-04-01'){
 			   /* For backward compatibility with old xslt templates. */
 			   $comment_html=$entry['comment'];
 			   }

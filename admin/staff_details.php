@@ -188,6 +188,26 @@ if($_SESSION['role']=='admin' or $aperm==1){
 		  list_select_list($list,$listoptions);
 ?>
 
+		</div>
+<?php
+		}
+	else{
+?>
+	  <input type="hidden" name="role" value="<?php print $edituser['role']; ?>">
+	  <input type="hidden" name="senrole" value="<?php print $edituser['senrole']; ?>">
+	  <input type="hidden" name="worklevel" value="<?php print $edituser['worklevel']; ?>">
+	  <input type="hidden" name="nologin" value="<?php print $edituser['nologin']; ?>">
+<?php
+		}
+?>
+	  </fieldset>
+<?php
+	if($_SESSION['role']=='admin'  or $aperm==1){
+?>
+	  <fieldset class="left">
+		<legend><?php print_string('password',$book);?></legend>
+		<div class="center">
+
 		  <label for="Number1"><?php print_string('newstaffpin',$book);?></label>
 		  <input pattern="integer" tabindex="<?php print $tab++;?>" 
 			  type="password" id="Number1" name="pin1" pattern="integer" 
@@ -204,19 +224,33 @@ if($_SESSION['role']=='admin' or $aperm==1){
 				  <?php if($edituser['nologin']=='1'){print 'checked="checked"';}?> value="1"/>
 
 		</div>
+	  </fieldset>
 <?php
 		}
-	else{
-?>
-	  <input type="hidden" name="role" value="<?php print $edituser['role']; ?>">
-	  <input type="hidden" name="senrole" value="<?php print $edituser['senrole']; ?>">
-	  <input type="hidden" name="worklevel" value="<?php print $edituser['worklevel']; ?>">
-	  <input type="hidden" name="nologin" value="<?php print $edituser['nologin']; ?>">
-<?php
-		}
+
+	if($_SESSION['role']=='admin' and $edituser['role']!='admin'){
 ?>
 
+	  <fieldset class="left">
+		<legend><?php print_string('specialadminpermissions',$book);?></legend>
+		<div class="center">
+<?php
+		$agroups=(array)list_admin_groups();
+		foreach($agroups as $type=>$agroup){
+			$editaperm=get_admin_perm($type,$seluid);
+?>
+		  <label for="<?php print $agroup['name'];?>"><?php print_string($agroup['name'],$book);?></label>
+		  <input type="checkbox" id="a<?php print $agroup['gid'];?>"  
+				  name="a<?php print $agroup['gid'];?>"  tabindex="<?php print $tab++;?>" 
+				  <?php if($editaperm){print 'checked="checked"';}?> value="1"/>
+<?php
+			}
+?>
+		</div>
 	  </fieldset>
+<?php
+		}
+?>
 
 	  <input type="hidden" name="seluid" value="<?php print $seluid; ?>">
 	  <input type="hidden" name="current" value="<?php print $action; ?>">

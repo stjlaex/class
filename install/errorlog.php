@@ -69,7 +69,7 @@ function tail_xml($file,$tail_size){
 		  </div>
 		  <hr style="width:80%;"/>
 		  <div id="classerrors" class="fullwidth" style="height:80%;">
-			  <?php echo tail_xml($CFG->classlog,'200');?>
+			  <?php echo tail_xml($CFG->classlog,'300');?>
 		  </div>
 		</div>
 	  </div>

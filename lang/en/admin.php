@@ -210,6 +210,6 @@ $string['debit']='Debit';
 $string['subbudget']='Sub-Budget';
 $string['creditnote']='Credit note';
 $string['reopen']='Reopen';
-$string['']='';
+$string['specialadminpermissions']='Special access permissions';
 $string['']='';
 ?>

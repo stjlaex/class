@@ -154,18 +154,17 @@ function elgg_newUser($Newuser,$role){
 	if($role=='student'){
 		$email='';
 		//$email=$Newuser['EmailAddress']['value'];
-		$dob=(array)split('-',$Newuser['DOB']['value']);
 		$forename=(array)split(' ',$Newuser['Forename']['value']);
 		//$start=iconv('UTF-8', 'ASCII//TRANSLIT', $forename[0]);
 		$start=utf8_to_ascii($forename[0]);
 		$epfusertype='person';
 		$epftemplate_name='Default_Student';
 		$epftemplate=2;
-		/* This takes the first letter of the surname and day,
-	  	   month, year of dob to be password. */
+		/* This takes the first letter of the surname and year of birth to be password. */
 		//$passwstart=iconv('UTF-8', 'ASCII//TRANSLIT', $surname);
+		$dob=(array)split('-',$Newuser['DOB']['value']);
 		$passwstart=utf8_to_ascii($surname);
-		$password=good_strtolower($passwstart[0]). $dob[2].$dob[1].$dob[0];
+		$password=good_strtolower($passwstart[0]).$dob[0];
 		$assword=md5($password);
 		$classtable='info';
 		$classfield='student_id';
@@ -373,8 +372,7 @@ function elgg_fix_homework($epfuid,$epfcomid){
 /**
  *
  */
-function elgg_update_group($group,
-   			   $groupfresh=array('owner'=>'','name'=>'','access'=>''),$dbc=true){
+function elgg_update_group($group,$groupfresh=array('owner'=>'','name'=>'','access'=>''),$dbc=true){
 	global $CFG;
 	$table=$CFG->eportfolio_db_prefix.'groups';
 
@@ -390,7 +388,7 @@ function elgg_update_group($group,
 	$namefresh=$groupfresh['name'];
 	if($owner!='' and $name!=''){
 		$d_group=mysql_query("SELECT ident FROM $table WHERE
-				owner='$owner' AND name='$name'");
+				owner='$owner' AND name='$name';");
 		if(mysql_num_rows($d_group)==0){
 			mysql_query("INSERT INTO $table (owner, name, access) 
 					VALUES ('$owner', '$name','$access');");
@@ -402,7 +400,7 @@ function elgg_update_group($group,
 				/*TODO update all references to epfusername, if
 					allowed by elgg?*/
 				mysql_query("UPDATE $table SET name='$namefresh', 
-						   WHERE ident='$epfgroupid'");
+						   WHERE ident='$epfgroupid';");
 				}
 			}
 		}
@@ -644,10 +642,16 @@ function elgg_set_student_photo($epfuid,$yid,$dbc=true){
 
 /**
  *
- * We don't want to include these file sizes for the user quota when
- * they are posted by ClaSS.
+ * Uploads files to a student's epf file space.  The file properties
+ * are given by $file=array($name,$description,$title,$foldertype,$batchfiles)
  *
- * $file=array($name,$description,$title,$foldertype)
+ * Will upload as many files as batchfiles identifies with epfusername
+ * and filename, all with the same porperties defined by file.
+ *
+ * $foldertype is report or work or null for the root folder.
+ *
+ * NB. We don't want to include these file sizes for the user quota when
+ * they are posted by ClaSS.
  *
  */
 function elgg_upload_files($filedata,$dbc=true){
@@ -698,7 +702,9 @@ function elgg_upload_files($filedata,$dbc=true){
 
 		$dir='files/' . substr($epfusername,0,1) . '/' . $epfusername; 
 		/* Create the physical folder if it doesn't exist. */
-		if(!make_portfolio_directory($dir)){}
+		if(!make_portfolio_directory($dir)){
+			trigger_error('Could not create eportfolio directory: '.$dir,E_USER_WARNING);
+			}
 
 		$file_fullpath=$CFG->eportfolio_dataroot . '/' . $dir. '/'. $file_name;
 		$file_location=$dir . '/'. $file_name;
@@ -709,31 +715,27 @@ function elgg_upload_files($filedata,$dbc=true){
 		else{
 			$file_originalpath=$batchfile['tmpname'];
 			}
-		$d_f=mysql_query("INSERT INTO $table_files 
+		$d_f=mysql_query("SELECT ident FROM $table_files WHERE originalname='$file_originalname' 
+								AND files_owner='$epfuid';");
+		if(mysql_num_rows($d_f)==0){
+			$d_f=mysql_query("INSERT INTO $table_files 
 		   			 (owner, files_owner, folder, title, originalname,
 						description, location, access, time_uploaded) VALUES 
 		   			 ('1', '$epfuid','$folder_id','$file_title','$file_originalname',
 		   			  '$file_description','$file_location','$file_access','$file_time');");
-  		if(rename($file_originalpath,$file_fullpath)){
-			//chmod($file_fullpath, $CFG->filepermissions);
 			}
-		}
+		else{
+			$file_ident=mysql_result($d_f,0);
+			$d_f=mysql_query("UPDATE $table_files SET (originalname='$file_originalname') 
+		   				WHERE ident='$file_ident';");
+			}
 
-					/*
-					 //$f=plugin_hook("file","create",$f);
-					$value=trim(optional_param('new_file_keywords'));
-					insert_tags_from_string ($value, 'file', $file_id, $access, $page_owner);
-					$metadata=optional_param('metadata');
-					if (is_array($metadata)) {
-						foreach($metadata as $name => $value) {
-							$m=new StdClass;
-							$m->name=trim($name);
-							$m->value=trim($value);
-							$m->file_id=$file_id;
-							insert_record('file_metadata',$m);
-							}
-						}
-					*/
+  		if(rename($file_originalpath,$file_fullpath)){
+			// chmod($file_fullpath, $CFG->filepermissions);
+			}
+		else{trigger_error('Could not move file to eportfolio: '.$file_fullpath,E_USER_WARNING);}
+
+		}
 
 	}
 
@@ -786,7 +788,7 @@ function make_portfolio_directory($directory,$shownotices=false){
             //@chmod($currdir, $CFG->directorypermissions);  // Just in case mkdir didn't do it
 			}
 		}
-    
+
     return $currdir;
 	}
 

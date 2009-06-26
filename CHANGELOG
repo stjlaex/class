@@ -1,4 +1,4 @@
-Version ClaSS-0.9.1 release (2009/06/10)
+Version ClaSS-0.9.1 release (2009/06/26)
 -----------------------------------------
 
 Fixed generate_report_columns to use compstatus correctly.
@@ -16,6 +16,15 @@ Working version of ldap connectivity.
 Multiple ratingnames allowed for as part of a report definition,
 allows variaiton in the category ratings used between subjects in the
 same course.
+
+Fixed a rare recursion problem in fetch_reportdefintion which arises
+only when a component has the same id as its parent subject.
+
+Made a contacts epfusername visible as part of the contact_details
+page.
+
+Allowed administrators to edit the superadmin permissions of 
+users on the staff_details page.
 
 
 Version ClaSS-0.9.0 release (2009/05/06)

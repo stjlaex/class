@@ -9,7 +9,7 @@ if(!isset($required)){$required='yes';}
 ?>
   <label for="Role"><?php print_string('role');?></label>
   <select name="role" id="Role" size="1" tabindex="<?php print $tab++;?>" 
-  <?php if($required=='yes'){ print ' class="required" ';} ?>
+	<?php if($required=='yes'){ print ' class="required" ';} ?>
 	>
    	<option value=""></option>
 <?php
