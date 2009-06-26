@@ -121,6 +121,13 @@ three_buttonmenu($extrabuttons,$book);
 <?php
 		}
 ?>
+	  <fieldset class="right listmenu">
+		<legend>
+		  <?php print_string($Contact['EPFUsername']['label'],$book);?>
+		</legend>
+		<input type="text" readonly="readonly" value="<?php print  $Contact['EPFUsername']['value'];?>" />
+	  </fieldset>
+
 
 	  <div class="left">
 <?php

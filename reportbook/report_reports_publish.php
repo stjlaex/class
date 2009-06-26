@@ -25,13 +25,13 @@ include('scripts/sub_action.php');
 
 if($wrapper_rid!=''){
 	$d_rid=mysql_query("SELECT categorydef_id AS report_id FROM ridcatid WHERE
-				 report_id='$wrapper_rid' AND subject_id='wrapper' ORDER BY categorydef_id");
+				 report_id='$wrapper_rid' AND subject_id='wrapper' ORDER BY categorydef_id;");
 	$rids=array();
 	$rids[]=$wrapper_rid;
 	while($rid=mysql_fetch_array($d_rid,MYSQL_ASSOC)){
 		$rids[]=$rid['report_id'];
 		}
-trigger_error('wrapper:'.$wrapper_rid,E_USER_WARNING);
+	//trigger_error('wrapper:'.$wrapper_rid,E_USER_WARNING);
 	}
 
 	/* Two arrays, one postdata is used by html2ps and inlcudes config
@@ -54,6 +54,7 @@ trigger_error('wrapper:'.$wrapper_rid,E_USER_WARNING);
 	$publishdata['description']='report';
 	$publishdata['title']=$reportdefs[0]['report']['title'].' - '.$pubdate;
 	$transform=$reportdefs[0]['report']['transform'];
+
 trigger_error('wrapper:'.$wrapper_rid.' '.$transform,E_USER_WARNING);
 
 	for($c=0;$c<sizeof($sids);$c++){
@@ -70,7 +71,7 @@ trigger_error('wrapper:'.$wrapper_rid.' '.$transform,E_USER_WARNING);
 		$Reports['Paper']=$paper;
 		$Student['Reports']=nullCorrect($Reports);
 		/* TODO: set a start date */
-		//$Student['Reports']['Attendance']=fetchAttendanceSummary($sid,'2008-09-01',$reportdefs[0]['report']['date']);
+		$Student['Reports']['Attendance']=fetchAttendanceSummary($sid,'2008-09-01',$reportdefs[0]['report']['date']);
 
 		/*Finished with the student's reports. Output the result as xml.*/
 		$xsl_filename=$transform.'.xsl';
@@ -115,7 +116,7 @@ trigger_error('wrapper:'.$wrapper_rid.' '.$transform,E_USER_WARNING);
 			$postdata['bottommargin']='0';
 			$postdata['leftmargin']='5';
 			$postdata['rightmargin']='5';
-			$postdata['pixels']='1028';
+			$postdata['pixels']='850';
 			$postdata['scalepoints']='false';
 			if($paper=='landscape'){$postdata['landscape']='true';}
 			$curl=curl_init();
@@ -145,7 +146,7 @@ trigger_error('wrapper:'.$wrapper_rid.' '.$transform,E_USER_WARNING);
 	if(isset($CFG->eportfolio_db) and $CFG->eportfolio_db!='' and !isset($error)){
 		require_once('lib/eportfolio_functions.php');
 		$publishdata['batchfiles']=$publish_batchfiles;
-		elgg_upload_files($publishdata);
+		//elgg_upload_files($publishdata);
 		$result[]=get_string('publishedtofile',$book);
 		}
 

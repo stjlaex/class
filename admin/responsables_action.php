@@ -23,10 +23,10 @@ if($email=='yes'){$newperms['e']=1;}else{$newperms['e']=0;}
 $result=array();
 
 if($yid!=''){
-	$perm=getYearPerm($yid, $respons);
+	$perm=getYearPerm($yid,$respons);
 	if($perm['x']==1){
 		$d_group=mysql_query("SELECT gid FROM groups WHERE
-				yeargroup_id='$yid' AND (course_id IS NULL OR course_id='')");
+				yeargroup_id='$yid' AND (course_id IS NULL OR course_id='');");
 		/*if no group exists create one*/
 		if(mysql_num_rows($d_group)==0){
 				mysql_query("SELECT name FROM yeargroup WHERE id='$yid'");

@@ -294,6 +294,7 @@ $string['projectedroll']='Projected roll';
 $string['budgetroll']='Projected roll';
 $string['accomodation']='Accomodation';
 $string['academic']='Curriculum';
+$string['pastoral']='Pastoral';
 $string['overall']='Overall';
 $string['weeks']='Weeks';
 $string['closed']='Closed';

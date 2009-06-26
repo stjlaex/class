@@ -167,10 +167,8 @@ function get_group_perms($gid,$uid){
  *
  */
 function get_admin_perm($type,$uid){
-	$d_p=mysql_query("SELECT r FROM perms JOIN groups ON
-		 					perms.gid=groups.gid WHERE
-							perms.uid='$uid' AND groups.type='$type'
-							AND groups.name='admin';");
+	$d_p=mysql_query("SELECT r FROM perms JOIN groups ON perms.gid=groups.gid WHERE
+					  perms.uid='$uid' AND groups.type='$type' AND groups.name='admin';");
 	if(mysql_num_rows($d_p)>0){
 		$perm=1;
 		}
@@ -178,6 +176,42 @@ function get_admin_perm($type,$uid){
 		$perm=0;
 		}
 	return $perm;
+	}
+
+/**
+ *
+ * Returns array of special groups with admin permissions identified
+ * by group.name='admin'.
+ *
+ * If they haven't already been created in the db table then calling
+ * this function will take care of that too.
+ *
+ */
+function list_admin_groups(){
+	$groups=array('a'=>array('name'=>'academic'),
+				  'p'=>array('name'=>'pastoral'),
+				  'u'=>array('name'=>'users'),
+				  'b'=>array('name'=>'budgets')
+				  );
+	$d_g=mysql_query("SELECT gid,type FROM groups WHERE name='admin';");
+	if(mysql_num_rows($d_g)==sizeof($groups)){
+		while($group=mysql_fetch_array($d_g,MYSQL_ASSOC)){
+			$groups[$group['type']]['gid']=$group['gid'];
+			}
+		}
+	else{
+		/* Check each individual group and create if it doesn't exist. */
+		foreach($groups as $type=>$name){
+			$d_g=mysql_query("SELECT gid,type FROM groups WHERE name='admin' AND type='$type';");
+			if(mysql_num_rows($d_g)==0){
+				mysql_query("INSERT INTO groups (name,type) VALUES ('admin','$type');");
+				trigger_error('INSERT for: '.$type,E_USER_WARNING);
+				}
+			}
+		$groups=list_admin_groups();
+		}
+
+	return $groups;
 	}
 
 /**

@@ -10,7 +10,6 @@ include('scripts/head_options.php');
 include('scripts/set_book_vars.php');
 include('lib/fetch_order.php');
 
-//trigger_error('YOUR MESSAGE',E_USER_WARNING);
 
 $rtid=$tid;
 ?>
@@ -77,7 +76,6 @@ $rtid=$tid;
 					   /*these are all either very experimental or completely useless!!!!!*/
 					   //,'statementbank.php' => 'statementbank'
 					   //,'demoiser.php' => 'demoiser'
-					   //,'ldap_test.php' => 'ldap'
 					   //,'db_export.php' => 'db'
 					   );
 		selery_stick($choices,$choice,$book);
