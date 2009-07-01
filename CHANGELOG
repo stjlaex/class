@@ -1,4 +1,4 @@
-Version ClaSS-0.9.1 release (2009/06/26)
+Version ClaSS-0.9.1 release (2009/06/30)
 -----------------------------------------
 
 Fixed generate_report_columns to use compstatus correctly.
@@ -25,6 +25,10 @@ page.
 
 Allowed administrators to edit the superadmin permissions of 
 users on the staff_details page.
+
+Changed the year end routine so that class membership is preserved for
+promotions to the next stage of the same course.
+
 
 
 Version ClaSS-0.9.0 release (2009/05/06)

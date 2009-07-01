@@ -55,7 +55,7 @@ if($wrapper_rid!=''){
 	$publishdata['title']=$reportdefs[0]['report']['title'].' - '.$pubdate;
 	$transform=$reportdefs[0]['report']['transform'];
 
-trigger_error('wrapper:'.$wrapper_rid.' '.$transform,E_USER_WARNING);
+	//trigger_error('wrapper:'.$wrapper_rid.' '.$transform,E_USER_WARNING);
 
 	for($c=0;$c<sizeof($sids);$c++){
 		$sid=$sids[$c];

@@ -21,7 +21,7 @@ $enrolyear=$currentyear+1;
  * Two steps: (1) Promote students to next (chosen) pastoral groups; 
  * (2) Promote students to next stage in course or graduate to
  * next (chosen) course. Without a group to graduate to they will
- * moved to alumni status.
+ * be moved to alumni status.
  */
 
 /***** (1) PASTORAL GROUPS *****/
@@ -75,33 +75,39 @@ $enrolyear=$currentyear+1;
 
 		mysql_query("UPDATE student SET yeargroup_id='$nextyid' WHERE yeargroup_id='$yid';");
 
-  		$reenrol_assdefs=fetch_enrolmentAssessmentDefinitions('','RE',$enrolyear);
-		$reenrol_eid=$reenrol_assdefs[0]['id_db'];
-		$pairs=(array)explode (';', $reenrol_assdefs[0]['GradingScheme']['grades']);
-		/* The first reenrol grade is for confirmed reenrolment and
-		the last for repeats so nothing to do for those here, all
-		students flagged with something else are going to be
-		unenrolled - they could be transfers to other schools or
-		leavers or whatever. 
-		*/
-		for($c3=1;$c3<sizeof($pairs);$c3++){
-			list($grade, $value)=split(':',$pairs[$c3]);
-			if(strlen($grade)>3){$leavergrade=substr($grade,0,3);}
-			else{$leavergrade=$grade;}
-			$sids=array();
-			$sids=(array)list_reenrol_sids($yearcomid,$reenrol_eid,$leavergrade);
-			while(list($sindex,$sid)=each($sids)){
-				join_community($sid,$leavercom);
+  		$reenrol_assdefs=(array)fetch_enrolmentAssessmentDefinitions('','RE',$enrolyear);
+		if(sizeof($reenrol_assdefs)>0){
+			$reenrol_eid=$reenrol_assdefs[0]['id_db'];
+			$pairs=(array)explode (';', $reenrol_assdefs[0]['GradingScheme']['grades']);
+			/* The first reenrol grade is for confirmed reenrolment and
+			   the last for repeats so nothing to do for those here, all
+			   students flagged with something else are going to be
+			   unenrolled - they could be transfers to other schools or
+			   leavers or whatever. 
+			*/
+			for($c3=1;$c3<sizeof($pairs);$c3++){
+				list($grade, $value)=split(':',$pairs[$c3]);
+				if(strlen($grade)>3){$leavergrade=substr($grade,0,3);}
+				else{$leavergrade=$grade;}
+				$sids=array();
+				$sids=(array)list_reenrol_sids($yearcomid,$reenrol_eid,$leavergrade);
+				while(list($sindex,$sid)=each($sids)){
+					join_community($sid,$leavercom);
+					}
 				}
-			
 			}
+		else{
+			/* TODO: if no reenrol defined */
+			}
+
 		$result[]='Promoted year '.$yid.' to '.$nextyid;
 
 		if($type=='alumni'){
 			/* Now join the alumni community proper*/
 			$students=(array)listin_community(array('id'=>$yearcomid));
 			while(list($sindex,$student)=each($students)){
-				join_community($student['id'],$leavercom);
+				$sid=$student['id'];
+				join_community($sid,$leavercom);
 				mysql_query("UPDATE info SET leavingdate='$todate' WHERE student_id='$sid';");
 				}
 			}
@@ -239,7 +245,7 @@ $enrolyear=$currentyear+1;
 	for($c=sizeof($courses)-1;$c>-1;$c--){
 		$crid=$courses[$c]['id'];
 		if(isset($_POST["$crid"])){$nextpostcrid=$_POST["$crid"];}
-		   else{$nextpostcrid='';}
+		else{$nextpostcrid='';}
 
 		$stages=$courses[$c]['stages'];
 		for($c2=sizeof($stages)-1;$c2>-1;$c2--){
@@ -249,13 +255,19 @@ $enrolyear=$currentyear+1;
 			$cohort=array('course_id'=>$crid,'stage'=>$stage,'year'=>$yearnow);
 			$cohidnow=update_cohort($cohort);
 			$stages[$c2]['cohidnow']=$cohidnow;
+			$nextstage='';
 			if($c2!=(sizeof($stages)-1)){
-				/*just promote to next stage of this course*/
+				/* 
+				 *  Promote to next stage of this course.... 
+				 *       ....you could say the stage is set :-)
+				 */
 				$nextcohid=$stages[$c2+1]['cohidnow'];
+				$nextstage=$stages[$c2+1]['id'];
 				}
 			elseif($nextpostcrid!='1000'){
-				   /* The last stage of the course are graduating to next course
-						identified in nextpostcrid*/
+				/* The last stage of the course are graduating to next course
+				 *	   identified in nextpostcrid. 
+				 */
 				$d_cohort=mysql_query("SELECT id FROM cohort WHERE
 						course_id='$nextpostcrid' AND year='$yearnow' AND
 						season='S' AND stage!='END' ORDER BY stage ASC;");
@@ -281,17 +293,54 @@ $enrolyear=$currentyear+1;
 					$result[]='Community '.$comid.' graduated to leave.';
 					}
 				}
+
+			/*
+			 * Move subject classes forward to the next stage
+			 * preserving as much as possible. Where set numbers
+			 * differ between stages this merge any extras into the
+			 * last set found. Note who teaches what (tidcid) is not
+			 * moved forward.
+			 */
+			if($nextstage!=''){
+				$subjects=list_course_subjects($crid);
+				while(list($sindex,$subject)=each($subjects)){
+					$classes=(array)list_course_classes($crid,$subject['id'],$stage);
+					$nextclasses=(array)list_course_classes($crid,$subject['id'],$nextstage);
+					$noclass=sizeof($classes);
+					$nextcid='';
+					for($c4=0;$c4<$noclass;$c4++){
+						$cid=$classes[$c4]['id'];
+						if(isset($nextclasses[$c4])){$nextcid=$nextclasses[$c4]['id'];}
+						if($nextcid!=''){
+							mysql_query("UPDATE cidsid SET class_id='$nextcid' WHERE class_id='$cid';");
+							}
+						else{
+							mysql_query("DELETE FROM cidsid WHERE class_id='$cid';");
+							}
+						}					
+					}
+				}
+			else{
+				/* All classes for the first stage of the course will
+				 * always need to be assigned manually. 
+				 */
+				mysql_query("DELETE FROM cidsid USING cidsid INNER JOIN class 
+									WHERE cidsid.class_id=class.id 
+									 AND class.course_id='$crid' AND class.stage='$stage';");
+				}
+
+
 			}
 		}
-
-
-	mysql_query("DELETE FROM cidsid");
-	mysql_query("DELETE FROM score");
-	mysql_query("DELETE FROM mark");
-	mysql_query("DELETE FROM midcid");
-	mysql_query("DELETE FROM eidmid");
-	mysql_query("DELETE FROM history");
-	mysql_query("UPDATE users SET logcount='0'");
+		
+	/* Empty out the MarkBook of all collumns ready for a fresh start. */
+	mysql_query("DELETE FROM score;");
+	mysql_query("DELETE FROM midcid;");
+	mysql_query("DELETE FROM mark;");
+	mysql_query("DELETE FROM eidmid;");
+	/* And freshen up the users' history. */
+	mysql_query("DELETE FROM history;");
+	mysql_query("UPDATE users SET logcount='0';");
 
 	include('scripts/results.php');
 	include('scripts/redirect.php');
