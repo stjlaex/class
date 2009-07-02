@@ -332,7 +332,73 @@ $enrolyear=$currentyear+1;
 
 			}
 		}
-		
+
+	/* Carried forward the assessment and reporting structure for the new
+	 * academic year.
+	 */
+
+	$d_a=mysql_query("SELECT * FROM assessment WHERE year='$yeargone';");
+	while($ass=mysql_fetch_array($d_a,MYSQL_NUM)){
+		$dates=(array)split('-',$ass[19]);
+		$dates[0]=$dates[0]+1;
+		$creation=$dates[0].'-'.$dates[1].'-'.$dates[2];
+		$dates=(array)split('-',$ass[20]);
+		$dates[0]=$dates[0]+1;
+		$deadline=$dates[0].'-'.$dates[1].'-'.$dates[2];
+		$d_newa=mysql_query("INSERT INTO assessment (subject_id,component_id,stage,method,element,description,
+				label,resultqualifier,resultstatus,outoftotal,derivation,statistics,
+				grading_name,course_id,component_status,strand_status,year,season,creation,deadline,profile_name)
+				VALUES ('$ass[1]','$ass[2]','$ass[3]','$ass[4]',
+				'$ass[5]','$ass[6]','$ass[7]','$ass[8]','$ass[9]','$ass[10]','$ass[11]','$ass[12]',
+				'$ass[13]','$ass[14]','$ass[15]','$ass[16]','$yearnow','$ass[18]',
+				'$creation','$deadline','$ass[21]');");
+		$newassrefs[$ass[0]]=mysql_insert_id();
+		}
+
+
+	/* Go for any reports in the past twelve months. */
+	$enddate=$yeargone-1;
+	$enddate=$enddate.'-'.date('m').'-'.date('d');
+
+	$d_r=mysql_query("SELECT * FROM report WHERE date > '$enddate';");
+	while($rep=mysql_fetch_array($d_r,MYSQL_NUM)){
+		$dates=(array)split('-',$rep[2]);
+		$dates[0]=$dates[0]+1;
+		$date=$dates[0].'-'.$dates[1].'-'.$dates[2];
+		$dates=(array)split('-',$rep[3]);
+		$dates[0]=$dates[0]+1;
+		$deadline=$dates[0].'-'.$dates[1].'-'.$dates[2];
+		$d_newa=mysql_query("INSERT INTO report (title,date,deadline,comment,course_id,stage,
+				component_status,addcomment,commentlength,commentcomp,addcategory,style,transform,rating_name)
+				VALUES ('$rep[1]','$date','$deadline','$rep[4]',
+				'$rep[5]','$rep[6]','$rep[7]','$rep[8]','$rep[9]','$rep[10]','$rep[11]','$rep[12]',
+				'$rep[13]','$rep[14]');");
+
+		$newrid=mysql_insert_id();
+		$newrids[$rep[0]]=$newrid;
+		mysql_query("INSERT INTO ridcatid (report_id,categorydef_id,subject_id) 
+					SELECT '$newrid',categorydef_id,subject_id 
+					FROM ridcatid WHERE report_id='$rep[0]';");
+		$d_e=mysql_query("SELECT assessment_id FROM rideid WHERE report_id='$rep[0]';");
+		while($rideid=mysql_fetch_array($d_e,MYSQL_NUM)){
+			if(isset($newassrefs[$rideid[0]])){$neweid=$newassrefs[$rideid[0]];}
+			else{$neweid=$rideid[0];}
+			mysql_query("INSERT INTO rideid (report_id,assessment_id) VALUES ('$newrid','$neweid');");
+			}
+		}
+
+	/* Go through all the new wrappers and update their references. */
+	while(list($nindex,$wraprid)=each($newrids)){
+		$d_r=mysql_query("SELECT categorydef_id FROM ridcatid WHERE report_id='$wraprid' AND subject_id='wrapper';");
+		while($rep=mysql_fetch_array($d_r,MYSQL_NUM)){
+			if(isset($newrids[$rep[0]])){$newrid=$newrids[$rep[0]];}
+			else{$newrid=$rep[0];}
+			mysql_query("UPDATE ridcatid SET categorydef_id='$newrid' 
+				WHERE report_id='$wraprid' AND subject_id='wrapper' AND categorydef_id='$rep[0]';");
+			trigger_error('WRAPPER:'.$rep[0].' '.mysql_error(),E_USER_WARNING);
+			}
+		}
+
 	/* Empty out the MarkBook of all collumns ready for a fresh start. */
 	mysql_query("DELETE FROM score;");
 	mysql_query("DELETE FROM midcid;");

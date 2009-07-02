@@ -29,6 +29,9 @@ users on the staff_details page.
 Changed the year end routine so that class membership is preserved for
 promotions to the next stage of the same course.
 
+The assessment and reporting structure is also carried over to the new
+academic year as part of year end.
+
 
 
 Version ClaSS-0.9.0 release (2009/05/06)
