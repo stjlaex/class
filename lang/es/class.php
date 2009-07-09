@@ -1,22 +1,25 @@
 <?php
 /**						lang/es/class.php
  */
+include('countries.php');
 $string['locale']='es_ES';
 $string['shortlocale']='es';
 $string['language']='Lengua';
 $string['thislanguage']='Espa&ntilde;ol';
 $string['classesandmarks']='Clases y Marcas';
-$string['classarea']='ClaSS &Aacute;rea restricta';
+$string['classarea']='ClaSS &Aacute;rea restringida';
 $string['enter']='Entrar';
 $string['no']='No';
 $string['password']='Contrase&ntilde;a';
 $string['username']='Nombre de usuario';
 $string['yes']='S&iacute;';
 $string['clicktowritecomment']='Pincha para escribir un comentario';
+$string['clicktoattachfile']='Pincha para adjuntar un archivo';
+$string['clicktoemail']='Pincha para escribir un correo';
 $string['details']='Detalles';
 $string['cancel']='Cancelar';
 $string['forename']='Nombre';
-$string['formgroup']='Tutoria';
+$string['formgroup']='Tutor&iacute;a';
 $string['general']='General';
 $string['helpandsupport']='Ayuda y asistencia';
 $string['help']='Ayuda';
@@ -35,8 +38,9 @@ $string['reporton']='Informar sobre';
 $string['reset']='Reiniciar';
 $string['search']='Buscar';
 $string['studentsearch']='B&uacute;squeda de estudiantes';
+$string['studentgroups']='Grupos de estudiantes';
 $string['submit']='Enviar';
-$string['summary']='Sumario';
+$string['summary']='Resumen';
 $string['surname']='Apellidos';
 $string['thanks']='¡Gracias!';
 $string['yeargroup']='Curso';
@@ -44,12 +48,14 @@ $string['checkall']='Seleccionar todos';
 $string['tracking']='Seguimiento';
 $string['comments']='Comentarios';
 $string['incidents']='Incidentes';
+$string['sanction']='Sanción';
 $string['name']='Nombre';
 $string['gender']='Sexo';
 $string['dateofbirth']='Fecha de nacimiento';
 $string['next']='Siguiente';
 $string['previous']='Anterior';
 $string['student']='Estudiante';
+$string['students']='Estudiantes';
 $string['noinfo']='No hay informaci&oacute;n';
 $string['nopermissions']='¡No tiene los permisos necesarios para editar esta p&aacute;gina!';
 $string['edit']='Editar';
@@ -60,9 +66,9 @@ $string['concerns']='Preocupaciones';
 $string['entry']='Entrada';
 $string['entries']='Entradas';
 $string['details']='Detalles';
-$string['middlenames']='Middle names';
+$string['middlenames']='Segundo nombre';
 $string['preferredforename']='Apodo';
-$string['formersurname']='Former surname';
+$string['formersurname']='Anteriores Apellidos';
 $string['year']='A&ntilde;o';
 $string['category']='Categor&iacute;a';
 $string['fails']='Suspensos';
@@ -70,8 +76,10 @@ $string['priority']='Prioridad';
 $string['youneedtoselectstudents']='Necesita seleccionar uno o mas estudiantes de la lista.';
 $string['printwindowwillopen']='Una p&aacute;gina para imprimir abrir&aacute; en unos momentos.';
 $string['printselected']='Imprimir seleccionado';
+$string['previewselected']='Visualizar seleccionado';
 $string['subjectreports']='Informes de materias';
 $string['subject']='Materia';
+$string['subjectspecific']='Específico de la materia';
 $string['detail']='Detalle';
 $string['assessments']='Evaluaciones';
 $string['newstatistics']='Nuevas estad&iacute;sticas';
@@ -82,7 +90,7 @@ $string['collateforstudentsfrom']='Compaginar para estudiantes de';
 $string['choosetoinclude']='Seleccionar para incluir';
 $string['reports']='Informes';
 $string['limitbysubject']='Limitar por materia';
-$string['coversheets']='Cover sheets';
+$string['coversheets']='Cubiertas';
 $string['reportonstudentsfrom']='Informar sobre estudiantes de';
 $string['limittoonesubject']='Limitar a una materia';
 $string['collatecommentssince']='Compaginar comentarios desde';
@@ -96,14 +104,14 @@ $string['teachers']='Profesores';
 $string['unassigned']='No asignado';
 $string['classes']='Clases';
 $string['assigned']='Asignado';
-$string['classesalreadyassigned']='Clases ya asignados';
+$string['classesalreadyassigned']='Clases ya asignadas';
 $string['description']='Descripcion';
 $string['estimates']='Estimaciones';
 $string['importfromfile']='Importar de archivo';
 $string['populatethisemptyassessmentwithestimatedscores']='Poblar esta evaluacion vac&iacute;o con marcas estimadas';
 $string['statistics']='Estad&iacute;sticas';
 $string['usethisregressionlinestatistics']='Usar estas estad&iacute;sticas de l&iacute;nea de regresi&oacute;n';
-$string['usethesebaselinescores']='Use these baseline scores';
+$string['usethesebaselinescores']='Utilizar estas puntuaciones como referencia';
 $string['estimates']='Estimaciones';
 $string['description']='Descripci&oacute;n';
 $string['stage']='Etapa';
@@ -120,8 +128,8 @@ $string['properties']='Propiedades';
 $string['writtencomments']='Comentarios escritos';
 $string['allowsubjectcomments']='Permitir comentarios de materia';
 $string['restrictcommentscharacterlength']='Restringir n&uacute;mero de car&aacute;cteres de largo para comentarios.';
-$string['commentsarecompulsory']='Comentarios son obligatorias';
-$string['formgroups']='Tutorias';
+$string['commentsarecompulsory']='Comentarios son obligatorios';
+$string['formgroups']='Tutorías';
 $string['logcounter']='Contador del registro';
 $string['classesmatrix']='Matrix de clases';
 $string['curriculummatrix']='Matrix de curriculum';
@@ -129,20 +137,24 @@ $string['newstudents']='Estudiantes nuevos';
 $string['newteachers']='Profesores nuevos';
 $string['updatecurriculum']='Actualizar curriculum';
 $string['yearend']='Final del a&ntilde;o';
+$string['curriculumyear']='Año del curriculum';
 $string['servertest']='Prueba de servidor';
 $string['ldaptest']='Prueba de LDAP';
 $string['demoiser']='Demoiser';
+$string['unassignedformgroups']='Grupos de clases sin asignar';
 $string['current']='Actual';
 $string['remove']='Quitar';
 $string['reflectthesechangesinsubjectclasses']='Reflejar estos cambios en clases de materia';
 $string['unassignclass']='Desasignar clase';
+$string['studentsnotinaform']='Estudiantes no asignados a una clase';
+$string['studentsalreadyinaform']='Estudiantes ya asignados a una clase';
 $string['selectstafftoedit']='Seleccionar personal para editar';
 $string['changedetails']='Cambiar detalles';
 $string['email']='Correo electr&oacute;nica';
 $string['newpassword']='Contrase&ntilde;a nueva';
 $string['retypenewpassword']='Teclee de nuevo la contrase&ntilde;a';
 $string['disablelogin']='Deshabilitar login';
-$string['permissions']='Permisiones';
+$string['permissions']='Permisos';
 $string['receiveemailalerts']='Recibir alertas por Email';
 $string['pastoralresponsibility']='Responsabilidad no-acad&eacute;mica';
 $string['academicresponsibility']='Responsabilidad acad&eacute;mica';
@@ -178,15 +190,147 @@ $string['season']='temporada';
 $string['generateclasses']='Generar Clases';
 $string['optionalcomment']='Descripci&oacute;n (opcional)';
 $string['changeyeargroup']='Cambiar de curso';
-$string['role']='Role';
+$string['role']='Rol';
 $string['emailfooterdisclaimer']='		
 		Este mensaje es confidencial. Ha sido generado autom&aacute;ticamente por ClaSS
 		debido a un cambio de detalles enviado al sistema por un administrador. Lo ha
-		recibido porque su direcci&oacute;n de correo electronico est&aacute; asociado con el
-		nombre de usuario arriba. Por favor comuniceselo a su administrador
+		recibido porque su direcci&oacute;n de correo electr&oacute;nico est&aacute; asociado al
+		nombre de usuario arriba. Por favor comun&iacute;queselo a su administrador
 		ClaSS si cree que ha recibido este e-mail por error. Por favor elimine
 		este mensaje de su sistema una vez haya sido solucionado el tema. 
 		Cualquier uso no autorizado o difusi&oacute;n de este mensaje en su totalidad
 		o en parte esta estr&iacute;camente prohibido.';
 $string['passwords']='Contrase&ntilde;as';
-?>
+$string['senrole']='Coordinador de necesidades especiales';
+$string['pastoralemailfooterdisclaimer']='		
+		Este mensaje es confidencial. Usted lo ha recibido por estar
+        registrado como responsable de los intereses académicos y no 
+        académicos de este estudiante. Por favor, advierta al administrador 
+        de ClaSS si Usted considera que ha recibido el mensaje por error. 
+        Por favor borre este mensaje de su sistema una vez que haya tomado 
+        la correspondiente decisión. Cualquier uso o difusión de este mensaje, 
+        ya sea parcial o total, está estrictamente prohibido.';
+$string['guardianemailfooterdisclaimer']='		
+        Este mensaje es confidencial habiendo sido generado 
+        automáticamente por el sistema de gestión de información del
+        colegio. Por favor, no responda a este correo. Usted lo ha recibido 
+        por estar registrado como responsable de este estudiante. El
+        mensaje es para su propia información, no requiriendo ninguna
+        acción por su parte. Si considerase que debe tratar este asunto,
+        entonces, diríjase  por favor al profesor que ha enviado la
+        información. Ellos pueden ser localizados utilizando el teléfono
+        del colegio o la dirección de correo electrónico. 
+        Por favor, advierta al colegio de haber recibido este mail por 
+        error. Cualquier uso o difusión de este mensaje, ya sea parcial 
+        o total, está estrictamente prohibido.';
+$string['statementbank']='Depósito de mensajes';
+$string['subjectcomponent']='Componente de materia';
+$string['allcomponents']='Todos los componentes';
+$string['teachercomment']='Comentario del profesor';
+$string['none']='Ninguno';
+$string['default']='Valor por defecto';
+$string['youneedtobetheauthor']='Ha de ser el autor para cambiarlo.';
+$string['allstages']='Todas las etapas';
+$string['selectfiletoimportfrom']='Seleccione el fichero a importar';
+$string['fullname']='Studiante';
+$string['formtutor']='Tutor de la clase';
+$string['yearhead']='Coordinador del curso';
+$string['sectionhead']='Jefe de sección';
+$string['template']='Plantilla';
+$string['current']='Actual';
+$string['newstudent']='Nuevo estudiante';
+$string['newcontact']='Nuevo contacto';
+$string['contact']='Contacto';
+$string['cohortmatrix']='Matriz de clase';
+$string['cohort']='Clase';
+$string['communities']='Comunidades';
+$string['readytocontinue']='Continuar?';
+$string['confirm']='Confirmar acción.';
+$string['gradingscheme']='Esquema de calificación';
+$string['noactiontaken']='Ninguna acción ha sido realizada!';
+$string['male']='Masculino';
+$string['female']='Femenino';
+$string['addnew']='Intrucir nuevo';
+$string['addto']='Añadir a';
+$string['staff']='Personal';
+$string['admin']='Administrador';
+$string['office']='Oficina';
+$string['support']='Asistencia';
+$string['district']='Supervicor de distrito';
+$string['library']='Biblioteca';
+$string['medical']='Médico';
+$string['sen']='Necesidades especiales';
+$string['all']='Todos';
+$string['unassignteacher']='Profesor no asignado';
+$string['renamegroup']='Renombrar grupo';
+$string['yeargroups']='Grupos del curso';
+$string['createnewgroup']='Añadir nueva comunidad';
+$string['savedefinition']='Guardar definición';
+$string['loaddefinition']='Cargar definición';
+$string['start']='Iniciar';
+$string['end']='Final';
+$string['previous']='Previo';
+$string['newreportbinder']='Nuevo encuadernador de informe';
+$string['newsubjectreport']='Nuevo informe sobre la materia';
+$string['removesen']='Borrar estado de NES';
+$string['emailsentto']='Correo enviado a';
+$string['smssentto']='SMS enviado a';
+$string['enrolstatus']='Estado de la inscripción';
+$string['enquired']='Preguntado';
+$string['awaitingtesting']='Esperando prueba';
+$string['testingdelayed']='Esperando prueba (retrasado)';
+$string['acceptedpending']='Pago pendiente aceptado';
+$string['rejected']='Rechazado';
+$string['cancelled']='Cancelado';
+$string['waitinglist']='Lista de espera';
+$string['applied']='Aplicado';
+$string['accepted']='Aceptado (y pagado)';
+$string['alumni']='Antiguos alumnos';
+$string['guestpupil']='Alumno invitado';
+$string['currentsubsidary(dualregistration)']='Current subsidary (dual reg.)';
+$string['currentmain(dualregistration)']='Current main (dual reg.)';
+$string['academicyear']='Curso académico';
+$string['applications']='Aplicaciones';
+$string['spaces']='Espacios';
+$string['leavers']='Salientes';
+$string['transfersin']='Traspasos entrantes';
+$string['transfersout']='Traspasos salientes';
+$string['leaverssince']='Salientes de este curso';
+$string['reenroled']='Reinscrito el año anterior';
+$string['reenroling']='Reinscripción';
+$string['newenrolments']='Nuevas inscripciones';
+$string['capacity']='Capacidad';
+$string['currentroll']='Lista actual';
+$string['projectedroll']='Lista proyectada';
+$string['budgetroll']='Lista prevista';
+$string['accomodation']='Alojamiento';
+$string['academic']='Curriculum';
+$string['pastoral']='No académico';
+$string['overall']='global';
+$string['weeks']='Semanas';
+$string['closed']='Cerrado';
+$string['open']='Abierto';
+$string['attendance']='Asistencia';
+$string['filterlist']='Filtro';
+$string['street']='Dirección línea 1';
+$string['neighbourhood']='Dirección línea 2';
+$string['town/city']='Dirección línea 3';
+$string['country']='País';
+$string['postcode']='Código postal';
+$string['phonenumber']='Numero de teléfono';
+$string['faxnumber']='Número de fax';
+$string['type']='Tipo';
+$string['number']='Número';
+$string['section']='Sección';
+$string['homework']='Trabajo de casa';
+$string['reload']='Recargar';
+$string['about']='Acerca de ClaSS';
+$string['assessmentprofile']='Perfil';
+$string['configure']='Configurar';
+$string['categories']='Categorías';
+$string['pending']='Reinscripción Pendiente';
+$string['message']='Mensaje';
+$string['enrolments']='Inscripciones';
+$string['<']='<';
+$string['>']='>';
+?>?>

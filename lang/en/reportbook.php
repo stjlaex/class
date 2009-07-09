@@ -53,6 +53,4 @@ $string['limittoonetype']='Limit to one type';
 $string['estimate']='Estimate';
 $string['result']='Result';
 $string['target']='Target';
-$string['']='';
-$string['']='';
 ?>

@@ -9,7 +9,7 @@
  */ 
 $result=array();
 $error=array();
-
+$starttime=time();
 echo (date("j F Y, H:i:s") . " ClaSS to LDAP enrolment. \n");
 
 require_once('/var/www/devclass/dbh_connect.php');
@@ -42,29 +42,25 @@ if ($ds) {
 	/* Bind to LDAP DB */
 	$userrdn='cn='.$CFG->ldapuser.',dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
 	$bind_result = ldap_bind($ds, $userrdn, $CFG->ldappasswd);
-
 	if ($bind_result) {
 
 		/**
 		 *	Step 1: Process all courses with memberUid from ClaSS
 		 *	
 		 */
-		$entries=0;
+		$entries=0.0;
 		$courses=list_courses();
 		foreach ($courses as $courseval) {
 			$info = array();
 			$info['gidnumber']			='54321';
 			$info['objectclass'][0]	='posixGroup';
 			$info['objectclass'][1]	='top';
-			
 			/* prepare to get the course subject */
 			$subjects=list_course_subjects($courseval['id']);
 			foreach($subjects as $subjectval) {
-
 				/* prepare to get course name */
 				$cohorts=list_course_cohorts($courseval['id']);
 				foreach ($cohorts as $cohortval) {
-					
 					/* format cn with course subject/name/stage */
 					if ($cohortval['stage']!='%') { 
 						if (strlen($cohortval['stage'])>0) {
@@ -72,10 +68,8 @@ if ($ds) {
 							$coursev=str_replace(',',' ',$courseval['name']);						
 							$cohortv=str_replace(',',' ',$cohortval['stage']);						
 							$info['cn']=$subjectv.' '.$coursev.' '.$cohortv;
-
 							/* format RDN */
 							$coursedn='cn='.$info['cn'].',ou=StdEnrol'.',ou='.$CFG->clientid.',dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
-
 							/* prepare to get the lot: student-memberUid */
 							$cohortstudents=listin_cohort($cohortval['id']);
 							$idx=0;
@@ -85,7 +79,6 @@ if ($ds) {
 								$members[$idx]=get_epfusername($cohortstudentval['id']);
 								$idx++;
 							}
-
 							/* remove duplicates and assign members */
 							if (_empty($members)==false) {
 							  sort($members,SORT_STRING);
@@ -108,6 +101,7 @@ if ($ds) {
 							  if (!$del_res) {
 								echo 'could not delete entry: '.$coursedn."\n";
 								echo $entries.' entries have been processed'."\n";
+								print_r($info);
 								die;
 							  }
 							} else {
@@ -119,9 +113,15 @@ if ($ds) {
 							if ($add_res==false) {
 							  echo 'Unable to insert entry into LDAP DB: ' .$coursedn. "\n";
 							  echo $entries.' entries have been processed'."\n";
+							  print_r($info);
 							  die;
 							}
+							/* entry counter */
+							if (fmod($entries,50.0)==0.0) {
+							  //echo '/'.$entries;
+							  echo '.';
 							$entries++;
+							}
 						}
 					}
 				}
@@ -139,7 +139,16 @@ if ($ds) {
 /* 
  * End options 
  */
+
+/* Calculate script execution time */
+$endtime=time();
 echo ("\n".date("j F Y, H:i:s") . " ClaSS to LDAP enrolment - eop\n");
+$dateDiff=$endtime-$starttime;
+$fullDays = floor($dateDiff/(60*60*24));
+$fullHours = floor( ($dateDiff-($fullDays*60*60*24)) / (60*60) );
+$fullMinutes = floor( ($dateDiff-($fullDays*60*60*24)-($fullHours*60*60)) / 60);
+$fullSeconds =  ( ($dateDiff-($fullDays*60*60*24)-($fullHours*60*60)-($fullMinutes*60)));
+echo 'Elapsed time: '.$fullDays.' days '.$fullHours. ' hours '.$fullMinutes.' minutes '.$fullSeconds.' seconds.'."\n";
 
 /** 
  * check if an array is empty 
@@ -147,7 +156,7 @@ echo ("\n".date("j F Y, H:i:s") . " ClaSS to LDAP enrolment - eop\n");
  */
 function _empty() {
 	foreach(func_get_args() as $args) {
-	  if( !is_numeric($args) ) {
+	    if( !is_numeric($args) ) {
 	    if( is_array($args) ) { // Is array?
 	      if( count($args, 1) < 1 ) return true;
 	    }

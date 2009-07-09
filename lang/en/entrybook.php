@@ -10,5 +10,4 @@ $string['staffpin']='Staff PIN';
 $string['contactfor']='Contact for';
 $string['linkcontact']='Select existing contact';
 $string['existingcontacts']='Exisitng contacts';
-$string['']='';
 ?>
