@@ -48,7 +48,7 @@ $string['checkall']='Seleccionar todos';
 $string['tracking']='Seguimiento';
 $string['comments']='Comentarios';
 $string['incidents']='Incidentes';
-$string['sanction']='Sanción';
+$string['sanction']='Sanci&oacute;n';
 $string['name']='Nombre';
 $string['gender']='Sexo';
 $string['dateofbirth']='Fecha de nacimiento';
@@ -79,7 +79,7 @@ $string['printselected']='Imprimir seleccionado';
 $string['previewselected']='Visualizar seleccionado';
 $string['subjectreports']='Informes de materias';
 $string['subject']='Materia';
-$string['subjectspecific']='Específico de la materia';
+$string['subjectspecific']='Espec&iacute;fico de la materia';
 $string['detail']='Detalle';
 $string['assessments']='Evaluaciones';
 $string['newstatistics']='Nuevas estad&iacute;sticas';
@@ -129,7 +129,7 @@ $string['writtencomments']='Comentarios escritos';
 $string['allowsubjectcomments']='Permitir comentarios de materia';
 $string['restrictcommentscharacterlength']='Restringir n&uacute;mero de car&aacute;cteres de largo para comentarios.';
 $string['commentsarecompulsory']='Comentarios son obligatorios';
-$string['formgroups']='Tutorías';
+$string['formgroups']='Tutor&iacute;as';
 $string['logcounter']='Contador del registro';
 $string['classesmatrix']='Matrix de clases';
 $string['curriculummatrix']='Matrix de curriculum';
@@ -137,7 +137,7 @@ $string['newstudents']='Estudiantes nuevos';
 $string['newteachers']='Profesores nuevos';
 $string['updatecurriculum']='Actualizar curriculum';
 $string['yearend']='Final del a&ntilde;o';
-$string['curriculumyear']='Año del curriculum';
+$string['curriculumyear']='A&ntilde;o del curriculum';
 $string['servertest']='Prueba de servidor';
 $string['ldaptest']='Prueba de LDAP';
 $string['demoiser']='Demoiser';
@@ -204,26 +204,26 @@ $string['passwords']='Contrase&ntilde;as';
 $string['senrole']='Coordinador de necesidades especiales';
 $string['pastoralemailfooterdisclaimer']='		
 		Este mensaje es confidencial. Usted lo ha recibido por estar
-        registrado como responsable de los intereses académicos y no 
-        académicos de este estudiante. Por favor, advierta al administrador 
+        registrado como responsable de los intereses acad&eacute;micos y no 
+        acad&eacute;micos de este estudiante. Por favor, advierta al administrador 
         de ClaSS si Usted considera que ha recibido el mensaje por error. 
         Por favor borre este mensaje de su sistema una vez que haya tomado 
-        la correspondiente decisión. Cualquier uso o difusión de este mensaje, 
-        ya sea parcial o total, está estrictamente prohibido.';
+        la correspondiente decisi&oacute;n. Cualquier uso o difusi&oacute;n de este mensaje, 
+        ya sea parcial o total, est&aacute; estrictamente prohibido.';
 $string['guardianemailfooterdisclaimer']='		
         Este mensaje es confidencial habiendo sido generado 
-        automáticamente por el sistema de gestión de información del
+        autom&aacute;ticamente por el sistema de gesti&oacute;n de informaci&oacute;n del
         colegio. Por favor, no responda a este correo. Usted lo ha recibido 
         por estar registrado como responsable de este estudiante. El
-        mensaje es para su propia información, no requiriendo ninguna
-        acción por su parte. Si considerase que debe tratar este asunto,
-        entonces, diríjase  por favor al profesor que ha enviado la
-        información. Ellos pueden ser localizados utilizando el teléfono
-        del colegio o la dirección de correo electrónico. 
+        mensaje es para su propia informaci&oacute;n, no requiriendo ninguna
+        acci&oacute;n por su parte. Si considerase que debe tratar este asunto,
+        entonces, dir&iacute;jase  por favor al profesor que ha enviado la
+        informaci&oacute;n. Ellos pueden ser localizados utilizando el tel&eacute;fono
+        del colegio o la direcci&oacute;n de correo electr&oacute;nico. 
         Por favor, advierta al colegio de haber recibido este mail por 
-        error. Cualquier uso o difusión de este mensaje, ya sea parcial 
-        o total, está estrictamente prohibido.';
-$string['statementbank']='Depósito de mensajes';
+        error. Cualquier uso o difusi&oacute;n de este mensaje, ya sea parcial 
+        o total, est&aacute; estrictamente prohibido.';
+$string['statementbank']='Dep&oacute;sito de mensajes';
 $string['subjectcomponent']='Componente de materia';
 $string['allcomponents']='Todos los componentes';
 $string['teachercomment']='Comentario del profesor';
@@ -235,7 +235,7 @@ $string['selectfiletoimportfrom']='Seleccione el fichero a importar';
 $string['fullname']='Studiante';
 $string['formtutor']='Tutor de la clase';
 $string['yearhead']='Coordinador del curso';
-$string['sectionhead']='Jefe de sección';
+$string['sectionhead']='Jefe de secci&oacute;n';
 $string['template']='Plantilla';
 $string['current']='Actual';
 $string['newstudent']='Nuevo estudiante';
@@ -245,28 +245,28 @@ $string['cohortmatrix']='Matriz de clase';
 $string['cohort']='Clase';
 $string['communities']='Comunidades';
 $string['readytocontinue']='Continuar?';
-$string['confirm']='Confirmar acción.';
-$string['gradingscheme']='Esquema de calificación';
-$string['noactiontaken']='Ninguna acción ha sido realizada!';
+$string['confirm']='Confirmar acci&oacute;n.';
+$string['gradingscheme']='Esquema de calificaci&oacute;n';
+$string['noactiontaken']='Ninguna acci&oacute;n ha sido realizada!';
 $string['male']='Masculino';
 $string['female']='Femenino';
 $string['addnew']='Intrucir nuevo';
-$string['addto']='Añadir a';
+$string['addto']='A&ntilde;adir a';
 $string['staff']='Personal';
 $string['admin']='Administrador';
 $string['office']='Oficina';
 $string['support']='Asistencia';
 $string['district']='Supervicor de distrito';
 $string['library']='Biblioteca';
-$string['medical']='Médico';
+$string['medical']='M&eacute;dico';
 $string['sen']='Necesidades especiales';
 $string['all']='Todos';
 $string['unassignteacher']='Profesor no asignado';
 $string['renamegroup']='Renombrar grupo';
 $string['yeargroups']='Grupos del curso';
-$string['createnewgroup']='Añadir nueva comunidad';
-$string['savedefinition']='Guardar definición';
-$string['loaddefinition']='Cargar definición';
+$string['createnewgroup']='A&ntilde;adir nueva comunidad';
+$string['savedefinition']='Guardar definici&oacute;n';
+$string['loaddefinition']='Cargar definici&oacute;n';
 $string['start']='Iniciar';
 $string['end']='Final';
 $string['previous']='Previo';
@@ -275,7 +275,7 @@ $string['newsubjectreport']='Nuevo informe sobre la materia';
 $string['removesen']='Borrar estado de NES';
 $string['emailsentto']='Correo enviado a';
 $string['smssentto']='SMS enviado a';
-$string['enrolstatus']='Estado de la inscripción';
+$string['enrolstatus']='Estado de la inscripci&oacute;n';
 $string['enquired']='Preguntado';
 $string['awaitingtesting']='Esperando prueba';
 $string['testingdelayed']='Esperando prueba (retrasado)';
@@ -289,15 +289,15 @@ $string['alumni']='Antiguos alumnos';
 $string['guestpupil']='Alumno invitado';
 $string['currentsubsidary(dualregistration)']='Current subsidary (dual reg.)';
 $string['currentmain(dualregistration)']='Current main (dual reg.)';
-$string['academicyear']='Curso académico';
+$string['academicyear']='Curso acad&eacute;mico';
 $string['applications']='Aplicaciones';
 $string['spaces']='Espacios';
 $string['leavers']='Salientes';
 $string['transfersin']='Traspasos entrantes';
 $string['transfersout']='Traspasos salientes';
 $string['leaverssince']='Salientes de este curso';
-$string['reenroled']='Reinscrito el año anterior';
-$string['reenroling']='Reinscripción';
+$string['reenroled']='Reinscrito el a&ntilde;o anterior';
+$string['reenroling']='Reinscripci&oacute;n';
 $string['newenrolments']='Nuevas inscripciones';
 $string['capacity']='Capacidad';
 $string['currentroll']='Lista actual';
@@ -305,30 +305,30 @@ $string['projectedroll']='Lista proyectada';
 $string['budgetroll']='Lista prevista';
 $string['accomodation']='Alojamiento';
 $string['academic']='Curriculum';
-$string['pastoral']='No académico';
+$string['pastoral']='No acad&eacute;mico';
 $string['overall']='global';
 $string['weeks']='Semanas';
 $string['closed']='Cerrado';
 $string['open']='Abierto';
 $string['attendance']='Asistencia';
 $string['filterlist']='Filtro';
-$string['street']='Dirección línea 1';
-$string['neighbourhood']='Dirección línea 2';
-$string['town/city']='Dirección línea 3';
-$string['country']='País';
-$string['postcode']='Código postal';
-$string['phonenumber']='Numero de teléfono';
-$string['faxnumber']='Número de fax';
+$string['street']='Direcci&oacute;n l&iacute;nea 1';
+$string['neighbourhood']='Direcci&oacute;n l&iacute;nea 2';
+$string['town/city']='Direcci&oacute;n l&iacute;nea 3';
+$string['country']='Pa&iacute;s';
+$string['postcode']='C&oacute;digo postal';
+$string['phonenumber']='Numero de tel&eacute;fono';
+$string['faxnumber']='N&uacute;mero de fax';
 $string['type']='Tipo';
-$string['number']='Número';
-$string['section']='Sección';
+$string['number']='N&uacute;mero';
+$string['section']='Secci&oacute;n';
 $string['homework']='Trabajo de casa';
 $string['reload']='Recargar';
 $string['about']='Acerca de ClaSS';
 $string['assessmentprofile']='Perfil';
 $string['configure']='Configurar';
-$string['categories']='Categorías';
-$string['pending']='Reinscripción Pendiente';
+$string['categories']='Categor&iacute;as';
+$string['pending']='Reinscripci&oacute;n Pendiente';
 $string['message']='Mensaje';
 $string['enrolments']='Inscripciones';
 $string['<']='<';
