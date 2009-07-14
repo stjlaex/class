@@ -333,4 +333,4 @@ $string['message']='Mensaje';
 $string['enrolments']='Inscripciones';
 $string['<']='<';
 $string['>']='>';
-?>?>
+?>
