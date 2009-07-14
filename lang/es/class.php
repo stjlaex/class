@@ -30,7 +30,7 @@ $string['siteisdown']='<p>La p&aacute;gina temporalmente no est&aacute;disponibl
 $string['loginaside']='La p&aacute;gina de demostraci&oacute;n tiene un set completo de datos para demostrar sus posibilidades.
 Entre como profesor con la clave de acesso de \'ProfXX\' y contrase&ntilde;a \'guest\', donde XX es cualquier n&uacute;mero de 1 a 60. Una
 buena opci&oacute;n con bastantes datos para ver es Prof31.<br /> <hr /> (¡Si &eacute;ste es su propia instalaci&oacute;n deber&iacute;a cambiar &eecute;ste texto en las opciones de acceso!)';
-$string['manage']='Manejar';
+$string['manage']='Gestionar';
 $string['myclasses']='Mis clases';
 $string['options']='Opciones';
 $string['print']='Imprimir';
