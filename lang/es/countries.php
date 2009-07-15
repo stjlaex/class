@@ -245,13 +245,13 @@ $string['zimbabwe']='Zimbabue; Rep&uacute;blica de';
 
 	/*codes from CBDS 2007, the deprecated first six are for compatibility*/
 	/*not always the same as ISO 639-2 is the alpha-3 code for language!*/
-$string['english']='English'; 
-$string['believedtobeenglish']='Believed to be english'; 
-$string['believedtobeotherthanenglish']='Believed to be other than english';
-$string['otherlanguage']='Other Language';
-$string['refused']='Refused';
-$string['spanish']='Spanish';
-$string['chinese']='Chinese';
+$string['english']='Ingl&eacute;s'; 
+$string['believedtobeenglish']='Se cree que es Ingl&eacute;s'; 
+$string['believedtobeotherthanenglish']='Se cree que no es Ingl&eacute;s';
+$string['otherlanguage']='Otra Lengua';
+$string['refused']='Rechazado';
+$string['spanish']='Espa&ntilde;ol';
+$string['chinese']='Chino';
 /*
 $string['']='Acholi';
 $string['']='Adangme';
@@ -566,5 +566,5 @@ $string['']='Yoruba';
 $string['']='Zande';
 $string['']='Zulu';
 */
-$string['classificationpending']='Classification Pending';
+$string['classificationpending']='Clasificaci&oacute;n Pendiente';
 ?>
