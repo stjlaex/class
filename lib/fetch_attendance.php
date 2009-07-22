@@ -481,11 +481,14 @@ function fetchAttendanceSummary($sid,$startdate,$enddate){
 	return $Attendance;
 	}
 
-/* This will count all present marks unless a code is specified when */
-/* it will count absence marks with that code. Set code=% will cunt */
-/* all absence marks excluding those which can be counted for a */
-/* student (ie. school closed #, not on roll Z, enforced closure Y and */
-/* non-compulsory age X) */
+/**
+ * This will count all present marks unless a code is specified when 
+ * it will count absence marks with that code. Set code=% will count
+ * all absence marks excluding those which can be counted for a 
+ * student (ie. school closed #, not on roll Z, enforced closure Y and
+ * non-compulsory age X).
+ *
+ */
 function count_attendance($sid,$startdate,$enddate,$code=''){
 
 	if($code==''){
@@ -505,5 +508,50 @@ function count_attendance($sid,$startdate,$enddate,$code=''){
 	$noatts=mysql_result($d_attendance,0);
 
 	return $noatts;
+	}
+
+
+/**
+ *
+ * TODO: Only counting AM at the moment!!!!
+ *
+ */
+function count_overall_attendance($startdate,$enddate,$code=''){
+	if($code==''){
+		$status='p';
+		$code='%';
+		}
+	else{
+		$status='a';
+		}
+	$d_attendance=mysql_query("SELECT COUNT(attendance.status) FROM attendance JOIN
+			event ON event.id=attendance.event_id WHERE
+			attendance.status='$status' AND attendance.code LIKE '$code' 
+			AND attendance.code!='X' AND attendance.code!='Y' AND attendance.code!='Z'  
+			AND attendance.code!='#' 
+			AND event.date >= '$startdate' AND event.date <= '$enddate' AND period='0' AND session='AM';");
+	$noatts=mysql_result($d_attendance,0);
+
+	return $noatts;
+	}
+/**
+ *
+ */
+function list_events($startdate,$enddate,$session='',$period='0'){
+
+	if($session==''){
+		$session='AM';
+		}
+	$events=array();
+	$d_event=mysql_query("SELECT id,date,session,period FROM event WHERE 
+						session LIKE '$session' AND period LIKE '$period' 
+						AND date >= '$startdate' AND date <= '$enddate';");
+	if(mysql_num_rows($d_event)>0){
+		while($e=mysql_fetch_array($d_event,MYSQL_ASSOC)){
+			$events[]=array('id'=>$e['id'],'date'=>$e['date'],'session'=>$e['session'],'period'=>$e['period']);
+			}
+		}
+
+	return $events;
 	}
 ?>

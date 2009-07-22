@@ -1,30 +1,16 @@
 #! /usr/bin/php -q
 <?php
-/* ldap_sync_users.php
+/**
+ *												 ldap_sync_users.php
  *
  */
  
 /*
  * head options: 
  */ 
-$result=array();
-$error=array();
-$starttime=time();
+
 echo (date("j F Y, H:i:s") . " - ClaSS to LDAP User Synchronization. \n");
 
-require_once('/var/www/devclass/dbh_connect.php');
-require_once('/var/www/devclass/school.php');
-require_once('/var/www/devclass/classdev/classdata.php');
-require_once('/var/www/devclass/classdev/lib/include.php');
-require_once('/var/www/devclass/classdev/logbook/permissions.php');
-require_once('/var/www/devclass/classdev/lib/fetch_student.php');
-
-$db=db_connect();
-if (!$db) {
-  echo(date("j F Y, H:i:s") . " Couldn't connect to server. eop. \n");
-  die;
-}
-mysql_query("SET NAMES 'utf8'");
 
 /* 
  * Core tasks: 

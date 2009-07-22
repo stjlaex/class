@@ -1,4 +1,4 @@
-Version ClaSS-0.9.1 release (2009/07/14)
+Version ClaSS-0.9.1 release (2009/07/24)
 -----------------------------------------
 
 Fixed generate_report_columns to use compstatus correctly.
@@ -34,6 +34,7 @@ academic year as part of year end.
 
 The spanish translation has been brought up-to-date.
 
+Added a summary statistics page to REgister for wholeschool attendnace.
 
 
 Version ClaSS-0.9.0 release (2009/05/06)
