@@ -534,6 +534,23 @@ function count_overall_attendance($startdate,$enddate,$code=''){
 
 	return $noatts;
 	}
+
+/**
+ *
+ * TODO: Only counting AM at the moment!!!!
+ *
+ */
+function count_overall_late($startdate,$enddate){
+	$d_attendance=mysql_query("SELECT COUNT(attendance.status) FROM attendance JOIN
+			event ON event.id=attendance.event_id WHERE
+			attendance.status='a' AND  
+			(attendance.code='U' OR attendance.code='UA' OR attendance.code='UB')
+			AND event.date >= '$startdate' AND event.date <= '$enddate' AND period='0' AND session='AM';");
+	$noatts=mysql_result($d_attendance,0);
+
+	return $noatts;
+	}
+
 /**
  *
  */

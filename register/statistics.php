@@ -14,7 +14,9 @@ include('scripts/sub_action.php');
 two_buttonmenu($extrabuttons);
 ?>
   <div id="heading">
-	<label><?php print_string('absences','register');?></label>
+	<label>
+<?php print $CFG->schoolname.':  '.get_string('attendance','register').' '.get_string('statistics','register');?>
+	</label>
   </div>
   <div id="viewcontent" class="content">
 	  <form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
@@ -22,6 +24,7 @@ two_buttonmenu($extrabuttons);
 		<tr>
 		  <th>Month</th>
 		  <th><?php print_string('present',$book);?></th>
+		  <th><?php print_string('late',$book);?></th>
 		  <th><?php print_string('absent',$book);?></th>
 		  <th>No. of days</th>
 		  <th>Average daily attendance</th>
@@ -38,22 +41,26 @@ two_buttonmenu($extrabuttons);
 		$daysno=sizeof($events);
 		$p=count_overall_attendance($sdate,$edate);
 		$a=count_overall_attendance($sdate,$edate,'%');
+		$late=count_overall_late($sdate,$edate);
 ?>
 		<tr>
 		<th>
 			<?php print $month; ?>
 		</th>
 		<td>
-			<?php print $p; ?>
+			<?php print $p+$late; ?>
 		</td>
 		<td>
-			<?php print $a; ?>
+			<?php print $late; ?>
 		</td>
 		<td>
-		<?php print $daysno; ?>
+			<?php print $a-$late; ?>
 		</td>
 		<td>
-		<?php print round($p/$daysno); ?>
+			<?php print $daysno; ?>
+		</td>
+		<td>
+		<?php print round(($p+$late)/$daysno); ?>
 		</td>
 		</tr>
 <?php
