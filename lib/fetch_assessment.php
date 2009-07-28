@@ -34,6 +34,9 @@ function sigfigs($number,$sigfigs,$dec='.',$noround=false) {
 	}
 
 
+/**
+ *
+ */
 function scoreToLevel($score,$scoretotal='',$levels){
 	/*	Returns formated $percent, and floating point $cent*/
 	list($out,$percent,$cent)=scoreToPercent($score,$scoretotal);
@@ -47,6 +50,9 @@ function scoreToLevel($score,$scoretotal='',$levels){
 	return array($grade,$cent);
 	}
 
+/**
+ *
+ */
 function scoreToPercent($score,$scoretotal='100'){
 	/*	Returns formated $percent, and floating point $cent
 			and the full works in $display
@@ -66,6 +72,10 @@ function scoreToPercent($score,$scoretotal='100'){
 	return array($display,$percent,$cent);
 	}
 
+
+/**
+ *
+ */
 function scoreToGrade($score,$grading_grades){
 	/*
 	Looks up the grade equivalent of the numerical score.
@@ -95,7 +105,9 @@ function scoreToGrade($score,$grading_grades){
 	return $grade;
 	}
 
-
+/**
+ *
+ */
 function gradeToScore($grade,$grading_grades){
 	/*
 	Looks up the numerical equivalent of a grade. 
@@ -392,6 +404,9 @@ function fetchAssessments($sid,$eid='%'){
 	}
 
 
+/**
+ *
+ */
 function fetchAssessments_short($sid,$eid='%',$bid='%',$pid='%'){
 	if($pid==' '){$pid='%';}
 	$Assessments=array();
@@ -618,7 +633,9 @@ function update_derivation($eid,$der){
 		}
 	}
 
-/**/
+/**
+ *
+ */
 function compute_assessment_ranking($AssDef,$steps,$cohorts){
 	$todate=date('Y-m-d');
 	$eid=$AssDef['id_db'];
@@ -697,8 +714,10 @@ function compute_assessment_ranking($AssDef,$steps,$cohorts){
 		}
 	}
 
-/* each step has an operator and an array of operandids (eids pointed 
-/* to by element) which may hold a value for that operand */
+/** 
+ * each step has an operator and an array of operandids (eids pointed 
+ * to by element) which may hold a value for that operand 
+ */
 function derive_accumulator_steps($der,$resultid){
 	list($operation,$elements)=parse_derivation($der);
 	$steps=array();
@@ -737,10 +756,12 @@ function derive_accumulator_steps($der,$resultid){
 	}
 
 
-/* takes the string $der which is the derivation field of an */
-/* assessment and returns the operation (the characters before the */
-/* first open bracket) and the elements as an array which are the colon seperated */
-/* contents of the brackets*/
+/**
+ * takes the string $der which is the derivation field of an 
+ * assessment and returns the operation (the characters before the 
+ * first open bracket) and the elements as an array which are the colon seperated 
+ * contents of the brackets
+ */
 function parse_derivation($der){
 	$open=strpos($der,'(');
 	$operation=substr($der,0,$open);
@@ -751,7 +772,9 @@ function parse_derivation($der){
 	return array($operation,$elements);
 	}
 
-/**/
+/**
+ *
+ */
 function derive_student_score($sid,$AssDef,$steps=''){
 	/*both resultid and operandid are eids, simply being careful in naming */
 								/*to avoid confusion! */
@@ -789,12 +812,14 @@ function derive_student_score($sid,$AssDef,$steps=''){
 		}
 	}
 
-/* Used to iterate over the $steps for a derivation for one $sid, */
-/* every bid-pid combination for this $AssDef is covered and the */
-/* results return in $accumulators, passing an already active */
-/* $accumulator allows for iterating across many $sids and is the */
-/* method used for overall statistics (ie. averages) for an assessment. */
-/* Should only be called for derivations of type=M,A or S but not R */
+/** 
+ * Used to iterate over the $steps for a derivation for one $sid, 
+ * every bid-pid combination for this $AssDef is covered and the 
+ * results return in $accumulators, passing an already active 
+ * $accumulator allows for iterating across many $sids and is the 
+ * method used for overall statistics (ie. averages) for an assessment.
+ * Should only be called for derivations of type=M,A or S but not R 
+ */
 function compute_accumulators($sid,$AssDef,$steps,$accumulators=''){
 	if($accumulators==''){$accumulators=array();}
 	/*the general accumulator is reset for each fresh call*/
@@ -833,9 +858,11 @@ function compute_accumulators($sid,$AssDef,$steps,$accumulators=''){
 	return $accumulators;
 	}
 
-/* Should always be used when writing to the eidisd table. The $score */
-/* being recorded is an array with both result and value set, with 
-/* optionally a date. */
+/**
+ * Should always be used when writing to the eidisd table. The $score 
+ * being recorded is an array with both result and value set, with 
+ * optionally a date. 
+ */
 function update_assessment_score($eid,$sid,$bid,$pid,$score){
 	$res=$score['result'];
 	$val=$score['value'];
@@ -878,8 +905,10 @@ function update_assessment_score($eid,$sid,$bid,$pid,$score){
 		}
 	}
 
-/* Should always be used when writing to the score table. The $score */
-/* being recorded is an array with both result and value.*/
+/**
+ * Should always be used when writing to the score table. The $score
+ * being recorded is an array with both result and value.
+ */
 function update_mark_score($mid,$sid,$score){
 	if($mid!=-1 and $mid!=''){
 		$res=$score['result'];
@@ -899,9 +928,11 @@ function update_mark_score($mid,$sid,$score){
 		}
 	}
 
-/* This tries to find the mid (if one exists otherwise -1) associated */
-/* with an assessment for a distinct $crid/$bid/$pid combination. And */
-/* its not easy and only hopefully unique! WARNING!*/
+/**
+ * This tries to find the mid (if one exists otherwise -1) associated 
+ * with an assessment for a distinct $crid/$bid/$pid combination. And 
+ * its not easy and only hopefully unique! WARNING!
+ */
 function get_assessment_mid($eid,$crid,$bid,$pid=''){
 	if(mysql_query("CREATE TEMPORARY TABLE assmids (SELECT DISTINCT mark_id FROM eidmid 
 				JOIN mark ON mark.id=eidmid.mark_id WHERE mark.assessment='yes' AND
@@ -922,6 +953,8 @@ function get_assessment_mid($eid,$crid,$bid,$pid=''){
 	}
 
 /**
+ *
+ *
  */
 function fetchHomeworkDefinition($hwid){
    	$Def=array();
