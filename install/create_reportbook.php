@@ -139,4 +139,15 @@ CREATE TABLE derivation (
 	element			char(3) not null default '',
 	primary key 	(resultid, operandid, type)
 );");
+
+mysql_query("
+CREATE TABLE report_event (
+	report_id		int unsigned not null default '0',
+	student_id		int unsigned not null default '0',
+	date			date not null default '0000-00-00',
+	success			enum('0', '1') not null,
+	time			timestamp(14),
+	primary key 	(report_id,student_id)
+);");
+
 ?>

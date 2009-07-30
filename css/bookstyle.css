@@ -683,7 +683,7 @@ div#qTip {
 	-moz-border-radius-bottomright: 10px;
 	-moz-border-radius-topleft: 0;
 	-moz-border-radius-topright: 10px;
-	-moz-opacity: .80;
+	opacity: .80;
 	}
 
 /*only used on the enrolments page*/

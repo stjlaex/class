@@ -32,7 +32,9 @@ mysql_query("SET NAMES 'utf8';");
 
 include($fullpath.'/admin/httpscripts/ldap_sync_users.php');
 
+include($fullpath.'/reportbook/httpscripts/eportfolio_reports_publish.php');
 
-trigger_error('CRON RUN SUCCESS!!! '.$starttime,E_USER_WARNING);
+
+trigger_error('CRON RUN '.$starttime,E_USER_WARNING);
 
 ?>
