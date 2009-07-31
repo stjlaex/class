@@ -16,16 +16,31 @@ $current='cron.php';
 $currentpath=getcwd();
 require_once($currentpath.'/devclass/school.php');
 require_once($CFG->installpath.'/'.$CFG->applicationdirectory.'/scripts/cron_head_options.php');
-/*
- * The following scripts will be run
+
+
+/**
+ * Run every time.
  */
 
-
-$cmd='/usr/bin/php '.$fullpath.'/admin/httpscripts/ldap_sync_users.php --path='.$CFG->installpath;
-exec("$cmd > /dev/null &");
+//$cmd='/usr/bin/php '.$fullpath.'/infobook/httpscripts/message_event_cron.php --path='.$CFG->installpath;
+//exec("$cmd > /dev/null &");
 
 $cmd='/usr/bin/php '.$fullpath.'/reportbook/httpscripts/eportfolio_reports_publish.php --path='.$CFG->installpath;
 exec("$cmd > /dev/null &");
+
+/**
+ * Run nightly only.
+ */
+$latehour=date('H',$starttime);
+if($latehour>0 and $latehour<6){
+
+	//$cmd='/usr/bin/php '.$fullpath.'/admin/httpscripts/eportfolio_sync_cron.php --path='.$CFG->installpath;
+	//exec("$cmd > /dev/null &");
+
+	$cmd='/usr/bin/php '.$fullpath.'/admin/httpscripts/ldap_sync_users.php --path='.$CFG->installpath;
+	exec("$cmd > /dev/null &");
+
+	}
 
 require_once($CFG->installpath.'/'.$CFG->applicationdirectory.'/scripts/cron_end_options.php');
 
