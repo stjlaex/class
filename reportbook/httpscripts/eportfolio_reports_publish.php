@@ -1,9 +1,30 @@
+#! /usr/bin/php -q
 <?php
 /**
  *			   					httpscripts/eportfolio_reports_publish.php
  *
  */
+
 $book='reportbook';
+$current='eportfolio_reports_publish.php';
+
+/* The path is passed as a command line argument. */
+function arguments($argv) {
+    $ARGS = array();
+    foreach ($argv as $arg) {
+		if (ereg('--([^=]+)=(.*)',$arg,$reg)) {
+			$ARGS[$reg[1]] = $reg[2];
+			} 
+		elseif(ereg('-([a-zA-Z0-9])',$arg,$reg)) {
+            $ARGS[$reg[1]] = 'true';
+			}
+		}
+	return $ARGS;
+	}
+$ARGS=arguments($_SERVER['argv']);
+require_once($ARGS['path'].'/school.php');
+require_once($CFG->installpath.'/'.$CFG->applicationdirectory.'/scripts/cron_head_options.php');
+/**/
 
 if(isset($CFG->eportfolio_db) and $CFG->eportfolio_db!=''){
 	require_once($fullpath.'/lib/eportfolio_functions.php');
@@ -13,10 +34,16 @@ if(isset($CFG->html2psscript) and $CFG->html2psscript!=''){
 	}
 else{$error[]='html2ps not configured!';$repfail=true;}
 
+/**
+ * To ensure we don't get a race condition the report_event is touched
+ * to update the timestamp and each cron will limit the reports it
+ * processes by the age of the event and only process a batch of five at a time.
+ */
+$agelimit=10;//in minutes
 $d_e=mysql_query("SELECT report_id, student_id FROM report_event 
-					WHERE success='0' AND time + interval 10 minute < now() LIMIT 5;");
+					WHERE success='0' AND time + interval $agelimit minute < now() LIMIT 5;");
 $d_u=mysql_query("UPDATE report_event  SET success='0' 
-					WHERE success='0' AND time + interval 10 minute < now() LIMIT 5;");
+					WHERE success='0' AND time + interval $agelimit minute < now() LIMIT 5;");
 while($ridsid=mysql_fetch_array($d_e,MYSQL_ASSOC)){
 	$wrapper_rid=$ridsid['report_id'];
 	$sid=$ridsid['student_id'];
@@ -88,5 +115,8 @@ while($ridsid=mysql_fetch_array($d_e,MYSQL_ASSOC)){
 		}
 
 	}
+
+
+require_once($CFG->installpath.'/'.$CFG->applicationdirectory.'/scripts/cron_end_options.php');
 
 ?>

@@ -5,16 +5,26 @@
  *
  */
  
-/*
- * head options: 
- */ 
+$book='admin';
+$current='ldap_sync_users.php';
 
-echo (date("j F Y, H:i:s") . " - ClaSS to LDAP User Synchronization. \n");
-
-
-/* 
- * Core tasks: 
- */
+/* The path is passed as a command line argument. */
+function arguments($argv) {
+    $ARGS = array();
+    foreach ($argv as $arg) {
+		if (ereg('--([^=]+)=(.*)',$arg,$reg)) {
+			$ARGS[$reg[1]] = $reg[2];
+			} 
+		elseif(ereg('-([a-zA-Z0-9])',$arg,$reg)) {
+            $ARGS[$reg[1]] = 'true';
+			}
+		}
+	return $ARGS;
+	}
+$ARGS=arguments($_SERVER['argv']);
+require_once($ARGS['path'].'/school.php');
+require_once($CFG->installpath.'/'.$CFG->applicationdirectory.'/scripts/cron_head_options.php');
+/**/
 
 /* Connect to LDAP server */
 $ds = ldap_connect($CFG->ldapserver);
@@ -204,66 +214,9 @@ if ($ds) {
   }
 } else {
   trigger_error('Unable to connect to LDAP server. Nothing has been done.', E_USER_WARNING);
-} 
-/* 
- * End options 
- */
-$endtime=time();
-echo (date("j F Y, H:i:s") . " - ClaSS to LDAP User Synchronization. - eop\n");
-/*
-$dateDiff=$endtime-$starttime;
-$fullDays = floor($dateDiff/(60*60*24));
-$fullHours = floor( ($dateDiff-($fullDays*60*60*24)) / (60*60) );
-$fullMinutes = floor( ($dateDiff-($fullDays*60*60*24)-($fullHours*60*60)) / 60);
-$fullSeconds =  ( ($dateDiff-($fullDays*60*60*24)-($fullHours*60*60)-($fullMinutes*60)));
-echo 'Elapsed time: '.$fullDays.' days '.$fullHours. ' hours '.$fullMinutes.' minutes '.$fullSeconds.' seconds.'."\n";
-*/
-
-$et='';
-$et=elapsedtime($starttime,$endtime);
-
-echo 'Elapsed time '.$et."\n";
-
-
-  /** This function calculates the time difference
-   * between two moments in a sequence.
-   * The function is suitable for processes that take
-   * between a few seconds and a few days.
-   * @input: 
-   * first moment. Format: seconds time()
-   * second moment. Format: seconds time()
-   * @output:
-   * a string with format: 999...d-99h-99m-99s
-   *
-   * Examples: 
-   * 40s.
-   * 4m-58s.
-   * 2d-3h-8s.
-   */
-function elapsedtime($starttm,$endttm) {
-  $time=$endttm-$starttm;
-  //$time=11425;
-  $fullMinutes=floor($time/60);
-  $pseg=$time-$fullMinutes*60;
-  $fullHours=floor($fullMinutes/60);
-  $pmin=$fullMinutes-$fullHours*60;
-  $fullDays=floor($fullHours/24);
-  $phours=$fullHours-$fullDays*24;
-  
-  $rtime='';
-  if ($pseg!=0) {
-    $rtime=$pseg.'s.';
-  }
-  if ($pmin!=0) {
-    $rtime=$pmin.'m-'.$rtime;
-  }
-  if ($phours!=0) {
-    $rtime=$phours.'h-'.$rtime;
-  }
-  if ($fullDays!=0) {
-    $rtime=$fullDays.'d-'.$rtime;
-  }
-  return $rtime;
 }
+
+
+require_once($CFG->installpath.'/'.$CFG->applicationdirectory.'/scripts/cron_end_options.php');
 
 ?>

@@ -8,33 +8,25 @@
  *
  *         30 *  * * *	www-data	/usr/bin/php fullpath/scripts/cron.php
  *
- * and make sure you have the fullpath correct for your install.
+ * Make sure you have the fullpath correct for your install.
+ *
  */
 
-$result=array();
-$error=array();
-$starttime=time();
-
-$result=array();
-$error=array();
-
-
+$current='cron.php';
 $currentpath=getcwd();
 require_once($currentpath.'/devclass/school.php');
-$fullpath=$CFG->installpath.'/'.$CFG->applicationdirectory;
-
-require_once($CFG->installpath.'/dbh_connect.php');
-require_once($fullpath.'/classdata.php');
-require_once($fullpath.'/lib/include.php');
-require_once($fullpath.'/logbook/permissions.php');
-$db=db_connect();
-mysql_query("SET NAMES 'utf8';");
-
-include($fullpath.'/admin/httpscripts/ldap_sync_users.php');
-
-include($fullpath.'/reportbook/httpscripts/eportfolio_reports_publish.php');
+require_once($CFG->installpath.'/'.$CFG->applicationdirectory.'/scripts/cron_head_options.php');
+/*
+ * The following scripts will be run
+ */
 
 
-trigger_error('CRON RUN '.$starttime,E_USER_WARNING);
+$cmd='/usr/bin/php '.$fullpath.'/admin/httpscripts/ldap_sync_users.php --path='.$CFG->installpath;
+exec("$cmd > /dev/null &");
+
+$cmd='/usr/bin/php '.$fullpath.'/reportbook/httpscripts/eportfolio_reports_publish.php --path='.$CFG->installpath;
+exec("$cmd > /dev/null &");
+
+require_once($CFG->installpath.'/'.$CFG->applicationdirectory.'/scripts/cron_end_options.php');
 
 ?>

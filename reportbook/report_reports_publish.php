@@ -1,5 +1,6 @@
 <?php
-/**									report_reports_publish.php
+/**
+ *									report_reports_publish.php
  *
  * Publishes the selected reports to html files
  * and then schedules a cron event for pdf conversion 
@@ -96,7 +97,8 @@ include('scripts/sub_action.php');
 			}
 		}
 
+$result[]=get_string('scheduledforpublication',$book);
 
-	include('scripts/results.php');
-	include('scripts/redirect.php');
+include('scripts/results.php');
+include('scripts/redirect.php');
 ?>
