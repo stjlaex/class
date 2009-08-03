@@ -28,6 +28,7 @@ require_once($CFG->installpath.'/'.$CFG->applicationdirectory.'/scripts/cron_hea
 $cmd='/usr/bin/php '.$fullpath.'/reportbook/httpscripts/eportfolio_reports_publish.php --path='.$CFG->installpath;
 exec("$cmd > /dev/null &");
 
+
 /**
  * Run nightly only.
  */
