@@ -125,6 +125,7 @@ $enrolyear=$currentyear+1;
 				$Transfers=(array)feeder_fetch('transfer_students',$feeder,$postdata);
 				/* NOTE the lowercase of the student index, is a product of xmlreader. */
 				if(isset($Transfers['student']) and is_array($Transfers['student'])){
+					trigger_error('TRANSFER: '.$yid.' '.sizeof($Transfers['student']),E_USER_WARNING);
 					$result[]='TRANSFER: '.$yid.' '.sizeof($Transfers['student']);
 					while(list($tindex,$Student)=each($Transfers['student'])){
 						if(isset($Student['surname']) and is_array($Student['surname'])){
@@ -145,14 +146,15 @@ $enrolyear=$currentyear+1;
 					if(!isset($Comments['comment']) or !is_array($Comments['comment'])){
 						$Comments['comment']=array();
 						}
-					$Contacts=(array)$Student['contacts'];unset($Student['contacts']);
-					if(!isset($Contacts['contact']) or !is_array($Contacts['contact'])){
-						$Contacts['contact']=array();
+					/*TODO: Backgrounds
+					$Backgrounds=(array)$Student['backgrounds'];unset($Student['backgrounds']);
+					if(!isset($Backgrounds['background']) or !is_array($Backgrounds['background'])){
+						$Backgrounds['background']=array();
 						}
-					elseif(!isset($Contacts[0])){$temp=$Contacts;$Contacts=array();$Contacts[]=$temp;}
-					/*TODO: Transfer backgrounds
-					$Backgrounds=$Student['backgrounds'];unset($Student['backgrounds']);
+					elseif(!isset($Backgrounds['background'][0])){$temp=$Backgrounds['background'];$Backgrounds['background']=array();$Backgrounds['background'][]=$temp;}
 					*/
+					$Contacts=(array)$Student['contacts'];unset($Student['contacts']);
+					if(!isset($Contacts[0])){$temp=$Contacts;$Contacts=array();$Contacts[]=$temp;unset($temp);}
 
 					mysql_query("INSERT INTO student SET surname='';");
 					$sid=mysql_insert_id();
@@ -190,6 +192,19 @@ $enrolyear=$currentyear+1;
 								unset($inval);
 								}
 							}
+
+						  $fixcat='';
+						  $Category=$Comment['categories']['category'];
+						  $catname=$Category['label'];
+						  $rank=$Category['rating']['value'];
+						  $d_cat=mysql_query("SELECT id FROM categorydef 
+														WHERE name='$catname' AND type='con';");
+						  if(mysql_num_rows($d_cat)>0){
+							  $fixcatid=mysql_result($d_cat,0);
+							  $fixcat=$fixcatid.':'.$rank.';';
+							  }
+
+						  mysql_query("UPDATE comments SET category='$fixcat' WHERE id='$id';");
 						  mysql_query("UPDATE comments SET teacher_id='' WHERE id='$id';");
 						  }
 						}
@@ -197,10 +212,12 @@ $enrolyear=$currentyear+1;
 					/* Do the contacts */
 					while(list($cindex,$Contact)=each($Contacts)){
 						if(isset($Contact['id_db']) and $Contact['id_db']!=-1){
+							/*TODO: check for duplicate contacts */
 							mysql_query("INSERT INTO guardian SET surname='';");
 							$gid=mysql_insert_id();
 							mysql_query("INSERT INTO gidsid SET guardian_id='$gid', student_id='$sid';");
-							trigger_error('NEW contact:'.$gid.'-'.$sid,E_USER_WARNING);
+
+							/*All to get around problem with xmlreader!*/
 							$Phones=(array)$Contact['phones'];
 							if(!isset($Phones[0])){$temp=$Phones;$Phones=array();$Phones[]=$temp;}
 							$Addresses=$Contact['addresses'];
@@ -226,7 +243,8 @@ $enrolyear=$currentyear+1;
 								}
 							
 							while(list($phoneno,$Phone)=each($Phones)){
-								$phoneid=-1;//Don't want the id_db from previous school
+								//Don't want the id_db from previous school
+								$phoneid=-1;
 								while(list($key,$val)=each($Phone)){
 									if(isset($val['value']) and is_array($val) and isset($val['field_db'])){	
 										$field=$val['field_db'];
@@ -247,8 +265,8 @@ $enrolyear=$currentyear+1;
 								}
 
 							while(list($addressno,$Address)=each($Addresses)){
-								$aid=-1;//Don't want the id_db from previous school
-								reset($Address);
+								//Don't want the id_db from previous school
+								$aid=-1;
 								while(list($key,$val)=each($Address)){
 									if(isset($val['value']) and is_array($val) and isset($val['table_db'])){
 										$field=$val['field_db'];

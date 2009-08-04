@@ -874,7 +874,7 @@ function fetchComments($sid,$startdate='',$enddate=''){
 						  'value' => ' ');
 		$pairs=explode(';',$comment['category']);
 		for($c3=0;$c3<sizeof($pairs)-1;$c3++){
-			list($catid, $rank)=split(':',$pairs[$c3]);
+			list($catid,$rank)=split(':',$pairs[$c3]);
 			$Category=array();
 			$d_categorydef=mysql_query("SELECT name FROM categorydef WHERE id='$catid';");
 			$catname=mysql_result($d_categorydef,0);

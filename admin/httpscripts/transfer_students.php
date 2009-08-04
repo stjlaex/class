@@ -14,7 +14,7 @@ if(isset($_POST['currentyear']) and $_POST['currentyear']!=''){$remotecurrentyea
 else{$remotecurrentyear=$currentyear;}
 if(isset($_POST['feeder_code']) and $_POST['feeder_code']!=''){$feeder_code=$_POST['feeder_code'];}
 else{$feeder_code=-1;}
-if(isset($_POST['yid']) and $_POST['yid']!=''){$yid=$_POST['yid'];}
+if(isset($_POST['yid'])){$yid=(int)$_POST['yid'];}
 else{$yid=-1000;}
 
 	$reenrol_assdefs=fetch_enrolmentAssessmentDefinitions('','RE',$enrolyear);
@@ -49,7 +49,7 @@ else{$yid=-1000;}
 		$coms=array();
 		$coms[]=array('id'=>'','type'=>'alumni', 
 									 'name'=>'P:'.$yid,'year'=>$enrolyear-1);
-		$coms[]=array('id'=>'','type'=>'year','name'=>$comyid);
+		$coms[]=array('id'=>'','type'=>'year','name'=>"$comyid");
 		$sids=array();
 		while(list($cindex,$com)=each($coms)){
 			$comid=update_community($com);
@@ -75,7 +75,6 @@ else{$yid=-1000;}
 			*/
 
 			$Students['Student'][]=$Student;
-			//trigger_error('TRANSFER '.$yid. ' : '.$Student['Surname']['value'].' : '.$sid,E_USER_WARNING);
 			}
 		}
 

@@ -588,9 +588,9 @@ function display_curriculumyear($year){
  *
  */
 function get_yeargroupname($yid){
-	$d_y=mysql_query("SELECT name FROM yeargroup WHERE id='$yid'");
+	$d_y=mysql_query("SELECT name FROM yeargroup WHERE id='$yid';");
 	if(mysql_num_rows($d_y)>0){
-		$yeargroupname=mysql_result($d_y,0);	      
+		$yeargroupname=mysql_result($d_y,0);
 		}
 	else{
 		$yeargroupname='';
