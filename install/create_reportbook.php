@@ -2,22 +2,22 @@
 
 mysql_query("
 CREATE TABLE report (
-		id			int  unsigned not null auto_increment,
-		title		varchar(60) not null default '',
-		date		date not null default '0000-00-00',
-		deadline	date not null default '0000-00-00',
-		comment		text,
-	 	course_id	varchar(10) not null default '',
-		stage		char(3) not null default '',
+		id				int  unsigned not null auto_increment,
+		title			varchar(60) not null default '',
+		date			date not null default '0000-00-00',
+		deadline		date not null default '0000-00-00',
+		comment			text,
+	 	course_id		varchar(10) not null default '',
+		stage			char(3) not null default '',
 		component_status enum('None','N','V','A') not null default 'None',
-		addcomment	enum('no','yes') not null default 'no', 
-		commentlength smallint(6) unsigned not null default '0',
-		commentcomp	enum('no','yes') not null default 'no', 
-		addcategory	enum('no','yes') not null default 'no', 
-		style		varchar(60) not null default '',
-		transform	varchar(60) not null default '',
-		rating_name text not null default ''
-		primary key (id)
+		addcomment		enum('no','yes') not null default 'no', 
+		commentlength	smallint(6) unsigned not null default '0',
+		commentcomp		enum('no','yes') not null default 'no', 
+		addcategory		enum('no','yes') not null default 'no', 
+		style			varchar(60) not null default '',
+		transform		varchar(60) not null default '',
+		rating_name		text not null default '',
+		primary key		(id)
 );");
 
 mysql_query("
