@@ -100,7 +100,7 @@ $enrolyear=$currentyear+1;
 			/* TODO: if no reenrol defined */
 			}
 
-		$result[]='Promoted year '.$yid.' to '.$nextyid;
+		//$result[]='Promoted year '.$yid.' to '.$nextyid;
 
 		if($type=='alumni'){
 			/* Now join the alumni community proper*/
@@ -123,8 +123,9 @@ $enrolyear=$currentyear+1;
 			while(list($findex,$feeder)=each($feeders)){
 				$Transfers=array();
 				$Transfers=(array)feeder_fetch('transfer_students',$feeder,$postdata);
-				/*NOTE the lowercase of the student index, a product of xmlreader*/
+				/* NOTE the lowercase of the student index, is a product of xmlreader. */
 				if(isset($Transfers['student']) and is_array($Transfers['student'])){
+					trigger_error('TRANSFER: '.$yid.' '.sizeof($Transfers['student']),E_USER_WARNING);
 					$result[]='TRANSFER: '.$yid.' '.sizeof($Transfers['student']);
 					while(list($tindex,$Student)=each($Transfers['student'])){
 						if(isset($Student['surname']) and is_array($Student['surname'])){
@@ -142,14 +143,18 @@ $enrolyear=$currentyear+1;
 			if(is_array($Students) and sizeof($Students)>0){
 				while(list($index,$Student)=each($Students)){
 					$Comments=(array)$Student['comments'];unset($Student['comments']);
-					if(!isset($Comments['comment']) 
-					   or !is_array($Comments['comment'])){
+					if(!isset($Comments['comment']) or !is_array($Comments['comment'])){
 						$Comments['comment']=array();
 						}
-
-					/*TODO: Transfer backgrounds
-					$Backgrounds=$Student['backgrounds'];unset($Student['backgrounds']);
+					/*TODO: Backgrounds
+					$Backgrounds=(array)$Student['backgrounds'];unset($Student['backgrounds']);
+					if(!isset($Backgrounds['background']) or !is_array($Backgrounds['background'])){
+						$Backgrounds['background']=array();
+						}
+					elseif(!isset($Backgrounds['background'][0])){$temp=$Backgrounds['background'];$Backgrounds['background']=array();$Backgrounds['background'][]=$temp;}
 					*/
+					$Contacts=(array)$Student['contacts'];unset($Student['contacts']);
+					if(!isset($Contacts[0])){$temp=$Contacts;$Contacts=array();$Contacts[]=$temp;unset($temp);}
 
 					mysql_query("INSERT INTO student SET surname='';");
 					$sid=mysql_insert_id();
@@ -157,7 +162,6 @@ $enrolyear=$currentyear+1;
 					while(list($key,$val)=each($Student)){
 						if(isset($val['value']) and is_array($val) and isset($val['field_db'])){
 							$field=$val['field_db'];
-							$inname=$field;
 							$inval=clean_text($val['value']);
 							if(isset($val['table_db']) and $val['table_db']=='student'){
 								mysql_query("UPDATE student SET $field='$inval'	WHERE id='$sid';");
@@ -168,6 +172,7 @@ $enrolyear=$currentyear+1;
 							}
 						}
 
+					/* Transfer teacher comments*/
 					while(list($key,$Comment)=each($Comments['comment'])){
 						if(is_array($Comment)){
 						  mysql_query("INSERT INTO comments SET student_id='$sid';");
@@ -176,7 +181,6 @@ $enrolyear=$currentyear+1;
 							if(is_array($val) and isset($val['value']) and 
 							   isset($val['field_db'])){
 								$field=$val['field_db'];
-								$inname=$field;
 								if(isset($val['value_db'])){
 									$inval=$val['value_db'];
 									}
@@ -184,18 +188,119 @@ $enrolyear=$currentyear+1;
 									$inval=$val['value'];
 									}
 								$inval=clean_text($inval);
-								mysql_query("UPDATE comments 
-										SET $field='$inval'	WHERE id='$id';");
+								mysql_query("UPDATE comments SET $field='$inval' WHERE id='$id';");
 								unset($inval);
 								}
 							}
-						  mysql_query("UPDATE comments 
-										SET teacher_id='' WHERE id='$id';");
+
+						  $fixcat='';
+						  $Category=$Comment['categories']['category'];
+						  $catname=$Category['label'];
+						  $rank=$Category['rating']['value'];
+						  $d_cat=mysql_query("SELECT id FROM categorydef 
+														WHERE name='$catname' AND type='con';");
+						  if(mysql_num_rows($d_cat)>0){
+							  $fixcatid=mysql_result($d_cat,0);
+							  $fixcat=$fixcatid.':'.$rank.';';
+							  }
+
+						  mysql_query("UPDATE comments SET category='$fixcat' WHERE id='$id';");
+						  mysql_query("UPDATE comments SET teacher_id='' WHERE id='$id';");
 						  }
 						}
+
+					/* Do the contacts */
+					while(list($cindex,$Contact)=each($Contacts)){
+						if(isset($Contact['id_db']) and $Contact['id_db']!=-1){
+							/*TODO: check for duplicate contacts */
+							mysql_query("INSERT INTO guardian SET surname='';");
+							$gid=mysql_insert_id();
+							mysql_query("INSERT INTO gidsid SET guardian_id='$gid', student_id='$sid';");
+
+							/*All to get around problem with xmlreader!*/
+							$Phones=(array)$Contact['phones'];
+							if(!isset($Phones[0])){$temp=$Phones;$Phones=array();$Phones[]=$temp;}
+							$Addresses=$Contact['addresses'];
+							if(!isset($Addresses[0])){$temp=$Addresses;$Addresses=array();$Addresses[]=$temp;}
+
+							while(list($key,$val)=each($Contact)){
+								if(isset($val['value']) and is_array($val) and isset($val['table_db'])){
+									$field=$val['field_db'];
+									if(isset($val['value_db'])){
+										$inval=$val['value_db'];
+										}
+									else{
+										$inval=$val['value'];
+										}
+									if($val['table_db']=='guardian'){
+										mysql_query("UPDATE guardian SET $field='$inval' WHERE id='$gid'");
+										}
+									elseif($val['table_db']=='gidsid'){
+										mysql_query("UPDATE gidsid SET $field='$inval'
+											WHERE guardian_id='$gid' AND student_id='$sid'");
+										}
+									}
+								}
+							
+							while(list($phoneno,$Phone)=each($Phones)){
+								//Don't want the id_db from previous school
+								$phoneid=-1;
+								while(list($key,$val)=each($Phone)){
+									if(isset($val['value']) and is_array($val) and isset($val['field_db'])){	
+										$field=$val['field_db'];
+										if(isset($val['value_db'])){
+											$inval=$val['value_db'];
+											}
+										else{
+											$inval=$val['value'];
+											}
+										if($phoneid=='-1' and $inval!=''){
+											mysql_query("INSERT INTO phone SET some_id='$gid';");
+											$phoneid=mysql_insert_id();
+											}
+										mysql_query("UPDATE phone SET $field='$inval'
+												WHERE some_id='$gid' AND id='$phoneid';");
+										}
+									}
+								}
+
+							while(list($addressno,$Address)=each($Addresses)){
+								//Don't want the id_db from previous school
+								$aid=-1;
+								while(list($key,$val)=each($Address)){
+									if(isset($val['value']) and is_array($val) and isset($val['table_db'])){
+										$field=$val['field_db'];
+										if(isset($val['value_db'])){
+											$inval=$val['value_db'];
+											}
+										else{
+											$inval=$val['value'];
+											}
+										if($inval!='' and $aid=='-1'){
+											mysql_query("INSERT INTO address SET country='';");
+											$aid=mysql_insert_id();
+											mysql_query("INSERT INTO gidaid SET guardian_id='$gid', address_id='$aid';");
+											}
+										if($val['table_db']=='address' and isset($aid)){
+											mysql_query("UPDATE address SET $field='$inval'	WHERE id='$aid';");
+											}
+										elseif($val['table_db']=='gidaid' and isset($aid)){
+											mysql_query("UPDATE gidaid SET $field='$inval'
+													WHERE guardian_id='$gid' AND address_id='$aid';");
+											}
+										}
+									}
+								}
+							}
+						/*End of Contacts*/
+						}
+
 					join_community($sid,$yearcommunity);
 					}
 				}
+
+
+
 
 			/* Now students newly accepted by enrolments. */
 			$acceptedcom=array('id'=>'','type'=>'accepted', 
@@ -395,7 +500,6 @@ $enrolyear=$currentyear+1;
 			else{$newrid=$rep[0];}
 			mysql_query("UPDATE ridcatid SET categorydef_id='$newrid' 
 				WHERE report_id='$wraprid' AND subject_id='wrapper' AND categorydef_id='$rep[0]';");
-			trigger_error('WRAPPER:'.$rep[0].' '.mysql_error(),E_USER_WARNING);
 			}
 		}
 

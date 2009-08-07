@@ -1,4 +1,4 @@
-Version ClaSS-0.9.1 release (2009/07/14)
+Version ClaSS-0.9.1 release (2009/07/31)
 -----------------------------------------
 
 Fixed generate_report_columns to use compstatus correctly.
@@ -33,6 +33,18 @@ The assessment and reporting structure is also carried over to the new
 academic year as part of year end.
 
 The spanish translation has been brought up-to-date.
+
+Added a summary statistics page to Register for wholeschool attendnace.
+
+A master cron script added to be used for running synchronisation with
+ldap and eportfolios, and for publishing reports.
+
+New tables report_event and message_event added to the db for
+scheduling stuff for cron actions.
+
+The report_reports_publish script has been split in two: (1) generates
+the html files and schedules in report_events; (2) is run by the cron
+for pdf conversion and upload to the eportfolio.
 
 
 Version ClaSS-0.9.0 release (2009/05/06)

@@ -102,6 +102,7 @@ if($nodays==''){$nodays=8;}
 		$choices=array('absence_list.php' => 'absencelists'
 					   //,'late_list.php' => 'lates' TODO
 					   ,'completion_list.php' => 'completedregisters'
+					   ,'statistics.php' => 'statistics'
 					   );
 		selery_stick($choices,$choice,$book);
 ?>

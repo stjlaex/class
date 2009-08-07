@@ -7,25 +7,7 @@
 /*
  * head options: 
  */ 
-$result=array();
-$error=array();
-$starttime=time();
 echo (date("j F Y, H:i:s") . " ClaSS to LDAP enrolment. \n");
-
-require_once('/var/www/devclass/dbh_connect.php');
-require_once('/var/www/devclass/school.php');
-require_once('/var/www/devclass/classdev/classdata.php');
-require_once('/var/www/devclass/classdev/lib/include.php');
-require_once('/var/www/devclass/classdev/logbook/permissions.php');
-require_once('/var/www/devclass/classdev/lib/fetch_student.php');
-require_once('/var/www/devclass/classdev/lib/curriculum_functions.php');
-
-$db=db_connect();
-if (!$db) {
-  echo(date("j F Y, H:i:s") . " Couldn't connect to server. eop. \n");
-  die;
-}
-mysql_query("SET NAMES 'utf8'");
 
 
 /* 
@@ -138,16 +120,6 @@ if ($ds) {
 	die;
 }
 
-/* 
- * End options 
- */
-
-/* Calculate script execution time */
-$endtime=time();
-$et=elapsedtime($starttime,$endtime);
-echo 'Elapsed time '.$et."\n";
-
-
 /** 
  * check if an array is empty 
  *
@@ -165,45 +137,6 @@ function _empty() {
 	return false;
 }
 
-  /** This function calculates the time difference
-   * between two moments in a temporary sequence.
-   * The function is suitable for processes that take
-   * between a few seconds and a few days.
-   * @input: 
-   * first moment. Format: seconds time()
-   * second moment. Format: seconds time()
-   * @output:
-   * a string with format: 999...d-99h-99m-99s
-   *
-   * Examples: 
-   * 40s.
-   * 4m.58s.
-   * 2d.3h.8s.
-   */
-function elapsedtime($starttm,$endttm) {
-  $time=$endttm-$starttm;
-  $fullMinutes=floor($time/60);
-  $pseg=$time-$fullMinutes*60;
-  $fullHours=floor($fullMinutes/60);
-  $pmin=$fullMinutes-$fullHours*60;
-  $fullDays=floor($fullHours/24);
-  $phours=$fullHours-$fullDays*24;
-  
-  $rtime='';
-  if ($pseg!=0) {
-    $rtime=$pseg.'s.';
-  }
-  if ($pmin!=0) {
-    $rtime=$pmin.'m.'.$rtime;
-  }
-  if ($phours!=0) {
-    $rtime=$phours.'h.'.$rtime;
-  }
-  if ($fullDays!=0) {
-    $rtime=$fullDays.'d.'.$rtime;
-  }
-  return $rtime;
-}
-
-
+<<<<<<< HEAD:admin/httpscripts/ldap_user_enrol.php
+>>>>>>> 647f9cc71546b206a8d283af275ca31b86e984a7:admin/httpscripts/ldap_user_enrol.php
 ?>

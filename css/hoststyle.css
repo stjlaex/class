@@ -140,8 +140,8 @@ height:3em;
 	background-color:#444444;
 	border:1px solid ivory;
 	border-left:0;
-	-moz-border-radius:20% 0 0 0;
-    padding:4px 12px 30px 14px;
+	-moz-border-radius:15% 0 0 0;
+    padding:4px 12px 25px 14px;
 	background-image:url("");
     }
 /*give current book coloured stripe to the logbook*/

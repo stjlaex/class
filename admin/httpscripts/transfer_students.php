@@ -14,7 +14,7 @@ if(isset($_POST['currentyear']) and $_POST['currentyear']!=''){$remotecurrentyea
 else{$remotecurrentyear=$currentyear;}
 if(isset($_POST['feeder_code']) and $_POST['feeder_code']!=''){$feeder_code=$_POST['feeder_code'];}
 else{$feeder_code=-1;}
-if(isset($_POST['yid']) and $_POST['yid']!=''){$yid=$_POST['yid'];}
+if(isset($_POST['yid'])){$yid=(int)$_POST['yid'];}
 else{$yid=-1000;}
 
 	$reenrol_assdefs=fetch_enrolmentAssessmentDefinitions('','RE',$enrolyear);
@@ -29,7 +29,8 @@ else{$yid=-1000;}
 	$Students=array();
 	$Students['Student']=array();
 	/* This is a hack to fix a problem with xmlreader -  when only one
-		student its wrong so add this first duff student every time. */
+	 * student its wrong so add this first duff student every time. 
+	 */
 	$Students['Student'][]=-1;
 
 	$yeargroupname=get_yeargroupname($yid);
@@ -37,16 +38,18 @@ else{$yid=-1000;}
 
 		/* Take into account that the two databases may not be in
 		 * sync, in fact very likely if year_end has already run for one and not
-		 * the other. */
+		 * the other. 
+		 */
 		$yeardif=$currentyear-$remotecurrentyear;
 		$comyid=$yid+$yeardif;
 
 		/* Two possible places to find the transferees depending on
-			wether the school has already reached year_end or not.*/
+		 *	whether the school has already reached year_end or not.
+		 */
 		$coms=array();
 		$coms[]=array('id'=>'','type'=>'alumni', 
 									 'name'=>'P:'.$yid,'year'=>$enrolyear-1);
-		$coms[]=array('id'=>'','type'=>'year','name'=>$comyid);
+		$coms[]=array('id'=>'','type'=>'year','name'=>"$comyid");
 		$sids=array();
 		while(list($cindex,$com)=each($coms)){
 			$comid=update_community($com);
@@ -56,10 +59,11 @@ else{$yid=-1000;}
 		while(list($sindex,$sid)=each($sids)){
 			$Student=array();
 			$Student=(array)fetchStudent($sid);
-			unset($Student['Contacts']);
+			$Student['Contacts'];
 			$Student['Comments']=(array)fetchComments($sid,'0000','');
 			/* This is a hack to fix a problem with xmlreader -  when only one
-				entry its wrong so add this first duff record every time. */
+			 * entry its wrong so add this first duff record every time. 
+			 */
 			if(sizeof($Student['Comments']['Comment'])==1){
 				$Student['Comments']['Comment'][]=-1;
 				}
@@ -71,7 +75,6 @@ else{$yid=-1000;}
 			*/
 
 			$Students['Student'][]=$Student;
-			//trigger_error('TRANSFER '.$yid. ' : '.$Student['Surname']['value'].' : '.$sid,E_USER_WARNING);
 			}
 		}
 

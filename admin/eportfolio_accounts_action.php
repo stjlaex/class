@@ -3,7 +3,7 @@
  *
  */
 
-//$action='eportfolio_accounts_check.php';
+$choice='';
 $cancel='eportfolio_accounts.php';
 require_once('lib/eportfolio_functions.php');
 
@@ -213,16 +213,18 @@ if($photocheck=='yes'){
 			if($epfuid!='-1'){elgg_set_student_photo($epfuid,$yid);}
 			}
 		}
+
 	}
 
 if($contactcheck=='yes'){
 
 	/*TODO: This only updates and emails contacts for a single yeargroup!!!!!!*/
-	$yid=1;
+	$yid='%';
 	/*!!!!!!*/
 
 	/* Want all contacts who may recieve any sort of mailing to be
-			given an account. */
+	 *		given an account. 
+	 */
 	$d_c=mysql_query("SELECT DISTINCT guardian_id FROM gidsid JOIN
    					student ON gidsid.student_id=student.id 
    					WHERE student.yeargroup_id LIKE '$yid' AND gidsid.mailing!='0';");
@@ -264,10 +266,10 @@ if($contactcheck=='yes'){
 					}
 
 				/* Don't want to create a new epf user if they already
-					have an account. If you want to force a new
-					account on a one-by-one basis then blank the
-					epfusername in ClaSS for that contact.
-				*/
+				 * have an account. If you want to force a new
+				 * account on a one-by-one basis then blank the
+				 * epfusername in ClaSS for that contact.
+				 */
 				if($Contact['EPFUsername']['value']!=''){
 					$epfuid_contact=elgg_get_epfuid($Contact['EPFUsername']['value'],'person',true);
 					}
@@ -284,6 +286,7 @@ if($contactcheck=='yes'){
 						$message=get_string('eportfolioguardianemail1',$book);
 						$message.= "\r\n". 'Your user-name is: ' 
 											.$Contact['EPFUsername']['value']. "\r\n";
+						// NOT sending out passwords!
 						//$message.= "\r\n". 'Your password is: ' 
 						//					.$firstchild. "\r\n";
 						$message.=get_string('eportfolioguardianemail2',$book);
