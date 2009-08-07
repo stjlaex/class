@@ -217,8 +217,5 @@ if ($ds) {
 }
 
 
-<<<<<<< HEAD:admin/httpscripts/ldap_sync_users.php
 require_once($CFG->installpath.'/'.$CFG->applicationdirectory.'/scripts/cron_end_options.php');
->>>>>>> 647f9cc71546b206a8d283af275ca31b86e984a7:admin/httpscripts/ldap_sync_users.php
-
 ?>

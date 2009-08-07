@@ -137,6 +137,4 @@ function _empty() {
 	return false;
 }
 
-<<<<<<< HEAD:admin/httpscripts/ldap_user_enrol.php
->>>>>>> 647f9cc71546b206a8d283af275ca31b86e984a7:admin/httpscripts/ldap_user_enrol.php
 ?>
