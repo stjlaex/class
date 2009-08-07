@@ -16,4 +16,3 @@ $string['gplintro']='&Eacute;ste software est&aacute; bajo copyright (c) 2002 - 
 S. T. Johnson.<br /> &Eacute;ste programa es software gratuito; puede redistribuirlo <br /> y/o modificarlo bajo los t&eacute;rminos de ...<br />';
 $string['documentation']='Documentaci&oacute;n';
 $string['usermanual']='Manual de usuario';
-?>

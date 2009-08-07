@@ -207,4 +207,5 @@ $string['subbudget']='Sub-Presupuesto';
 $string['creditnote']='Nota de Cr&eacute;dito';
 $string['reopen']='Reabierto';
 $string['specialadminpermissions']='Permisos de acceso especiales';
-?>
+$string['']='';
+?>

@@ -23,7 +23,6 @@ $string['giftedandtalented']='Superdotado';
 $string['otherdifficulty/disability']='Otra dificultad/discapacidad';
 $string['strengths']='Fortalezas';
 $string['weaknesses']='Debilidades';
-$string['strategies']='Estrategias';
 $string['ranking']='Clasificaci&oacute;n';
 $string['startdate']='Inicio';
 $string['allsubject']='Todas las materias';
@@ -37,4 +36,5 @@ $string['shorttermfailing']='Dificultades a corto plazo';
 $string['enrolmentconcern']='Problema detectado en el proceso de admisi&oacute;n';
 $string['']='';
 $string['']='';
-?>
+$string['strategies']='';
+?>

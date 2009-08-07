@@ -177,12 +177,11 @@ function _empty() {
    *
    * Examples: 
    * 40s.
-   * 4m-58s.
-   * 2d-3h-8s.
+   * 4m.58s.
+   * 2d.3h.8s.
    */
 function elapsedtime($starttm,$endttm) {
   $time=$endttm-$starttm;
-  //$time=11425;
   $fullMinutes=floor($time/60);
   $pseg=$time-$fullMinutes*60;
   $fullHours=floor($fullMinutes/60);
@@ -195,13 +194,13 @@ function elapsedtime($starttm,$endttm) {
     $rtime=$pseg.'s.';
   }
   if ($pmin!=0) {
-    $rtime=$pmin.'m-'.$rtime;
+    $rtime=$pmin.'m.'.$rtime;
   }
   if ($phours!=0) {
-    $rtime=$phours.'h-'.$rtime;
+    $rtime=$phours.'h.'.$rtime;
   }
   if ($fullDays!=0) {
-    $rtime=$fullDays.'d-'.$rtime;
+    $rtime=$fullDays.'d.'.$rtime;
   }
   return $rtime;
 }
