@@ -1,3 +1,18 @@
+Version ClaSS-0.9.1 release (2009/09/01)
+-----------------------------------------
+
+Fix to the list_admin_groups so deprecated groups don't get in the
+way.
+
+A chart icon added which accompanies a new js clicktoAction() option
+for action=chart. This works similar to print but calls
+openChartReport() and pops-up a window for graphical reports.
+
+The Raphael js library added for rendering charts.
+
+The edit_scores now has the ability to handle assessments with strands.
+
+
 Version ClaSS-0.9.1 release (2009/07/31)
 -----------------------------------------
 

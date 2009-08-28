@@ -73,7 +73,7 @@ twoplus_buttonmenu($budgetyear,$currentyear+2,$extrabuttons,$book);
 		$listlabel='supplier';
 		$liststyle='width:8em;';
 		$listname='ordersupid';
-		$d_sup=mysql_query("SELECT id, name FROM ordersupplier;");
+		$d_sup=mysql_query("SELECT id, name FROM ordersupplier ORDER BY name;");
 		include('scripts/set_list_vars.php');
 		list_select_db($d_sup,$listoptions,$book);
 ?>

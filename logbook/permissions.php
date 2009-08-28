@@ -194,9 +194,9 @@ function list_admin_groups(){
 				  'b'=>array('name'=>'budgets')
 				  );
 	$d_g=mysql_query("SELECT gid,type FROM groups WHERE name='admin';");
-	if(mysql_num_rows($d_g)==sizeof($groups)){
+	if(mysql_num_rows($d_g)>=sizeof($groups)){
 		while($group=mysql_fetch_array($d_g,MYSQL_ASSOC)){
-			$groups[$group['type']]['gid']=$group['gid'];
+			if(array_key_exists($group['type'],$groups)){$groups[$group['type']]['gid']=$group['gid'];}
 			}
 		}
 	else{
@@ -205,7 +205,7 @@ function list_admin_groups(){
 			$d_g=mysql_query("SELECT gid,type FROM groups WHERE name='admin' AND type='$type';");
 			if(mysql_num_rows($d_g)==0){
 				mysql_query("INSERT INTO groups (name,type) VALUES ('admin','$type');");
-				trigger_error('INSERT for: '.$type,E_USER_WARNING);
+				//trigger_error('INSERT for: '.$type,E_USER_WARNING);
 				}
 			}
 		$groups=list_admin_groups();

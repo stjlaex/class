@@ -113,7 +113,12 @@ function clickToReveal(rowObject){
 	}
 
 
-//only for rowaction buttons NOT for buttonmenu form buttons
+//Only for rowaction or sideoption buttons NOT for buttonmenu form buttons.
+//The type of action is specified as the button's name attribute and
+//possible action values are Edit, New, process, print, chart and current.
+//With current it will always ask for confirmation before making a xmlhttprequest 
+//and it applies returned xml to update the current page wihtout a reload.
+//The print and chart actions are for pop-up report windows and don't affect any changes.
 function clickToAction(buttonObject){
 	var i=0;
 	//need the id of the div containing the xml-record 
@@ -172,11 +177,11 @@ function clickToAction(buttonObject){
 			document.formtoprocess.submit();
 			}
 		}
-	else if(action=="current" || action=="print"){
+	else if(action=="current" || action=="print" || action=="chart"){
 		var recordId=xmlRecord.childNodes[1].childNodes[0].nodeValue;
 		var script=buttonObject.value;
 		var url=pathtobook + "httpscripts/" + script + "?uniqueid=" + escape(recordId);
-		if(action!="print"){
+		if(action!="print" && action!="chart"){
 			var answer=confirmAction(buttonObject.title);
 			var params="";
 			}
@@ -205,11 +210,14 @@ function clickToAction(buttonObject){
 								//function to actually process the returned xml
 								updatexmlRecord(xmlRecord);
 								}
-							else if(action=="print"){
+							else if(action=="print" || action=="chart"){
 								xsltransform=xmlRecord.getElementsByTagName("transform")[0].firstChild.nodeValue;
 								paper=xmlRecord.getElementsByTagName("paper")[0].firstChild.nodeValue;
-								if(xsltransform!=""){
+								if(xsltransform!="" && action=="print"){
 									openPrintReport("",xsltransform,xmlRecord,paper);
+									}
+								else if(xsltransform!="" && action=="chart"){
+									openChartReport("",xsltransform,xmlRecord,paper);
 									}
 								}
 							}

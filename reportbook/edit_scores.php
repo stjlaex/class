@@ -2,7 +2,7 @@
 /**											edit_scores.php
  *
  *
- * TO DO: handle pids and non-grade scores
+ * TO DO: handle non-grade scores
  *
  */
 
@@ -71,9 +71,9 @@ three_buttonmenu($extrabuttons,$book);
 	  <form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
 		<table class="listmenu sidtable" id="sidtable">
 		<tr>
-		  <th colspan="1">&nbsp</th>
+		  <th style="width:5%;">&nbsp</th>
 		  <th><?php print_string('student'); ?></th>
-		  <th class="edit">
+		  <th class="edit"  style="width:40%;">
 <?php
 	if($selbid==''){
 		$selbid=$subjects[0]['id'];
@@ -86,7 +86,7 @@ three_buttonmenu($extrabuttons,$book);
 	include('scripts/set_list_vars.php');
 	list_select_list($subjects,$listoptions,$book);
 
-	$components=list_subject_components($selbid,$crid,$compstatus);
+	$components=(array)list_subject_components($selbid,$crid,$compstatus);
 	if(sizeof($components)>0){
 		if($selpid==''){
 			$selpid=$components[0]['id'];
@@ -98,6 +98,8 @@ three_buttonmenu($extrabuttons,$book);
 		$listname='newpid';$listlabel='subjectcomponent';$onchange='yes';$multi=1;
 		include('scripts/set_list_vars.php');
 		list_select_list($components,$listoptions,$book);
+		$strands=(array)list_subject_components($selpid,$crid,$compstatus);
+		$strandno=sizeof($strands);
 		}
 	else{
 		$selpid='';
@@ -111,7 +113,22 @@ three_buttonmenu($extrabuttons,$book);
 	while(list($index,$student)=each($students)){
 		$sid=$student['id'];
 		$Student=fetchStudent_short($sid);
-		$Assessments=(array)fetchAssessments_short($sid,$eid,$selbid,$selpid);
+		$values=array();
+		$labels=array();
+		if($strandno>0){
+			foreach($strands as $sindex => $strand){
+				$Assessments=(array)fetchAssessments_short($sid,$eid,$selbid,$strand['id']);
+				if(sizeof($Assessments)>0){$values[]=$Assessments[0]['Value']['value'];}
+				else{$values[]='';}
+				$labels[]=$strand['id'];
+				}
+			}
+		else{
+			$Assessments=(array)fetchAssessments_short($sid,$eid,$selbid,$selpid);
+			if(sizeof($Assessments)>0){$values[]=$Assessments[0]['Value']['value'];}
+			else{$values[]='';}
+			$labels[]='';
+			}
 ?>
 		  <tr id="sid-<?php print $sid;?>">
 			<td><?php print $rown++;?></td>
@@ -123,30 +140,34 @@ three_buttonmenu($extrabuttons,$book);
 		  <td id="edit-<?php print $sid;?>" class="edit">
 
 <?php 
-		if(sizeof($Assessments)>0){$value=$Assessments[0]['Value']['value'];}
-		else{$value='';}
-		if($grading_grades!='' and $grading_grades!=' '){
+		foreach($values as $vindex => $value){
+			print '<div class="row"><label>'.$labels[$vindex].'</label>';
+			if($grading_grades!='' and $grading_grades!=' '){
 ?>
-		  <select tabindex='<?php print $tab++;?>' name='<?php print $sid;?>'>
+		  <select tabindex='<?php print $tab++;?>' name='<?php print $sid.$vindex;?>'>
 <?php 
-		print '<option value="" ';
-		if($value==''){print 'selected';}	
-		print ' ></option>';
-
-		for($c3=0; $c3<sizeof($pairs); $c3++){
-			list($level_grade, $level)=split(':',$pairs[$c3]);
-			print '<option value="'.$level.'" ';
-			if($value==$level){print 'selected';}	
-			print '>'.$level_grade.'</option>';
-			}
+			print '<option value="" ';
+			if($value==''){print 'selected';}	
+			print ' ></option>';
+			
+			for($c3=0; $c3<sizeof($pairs); $c3++){
+				list($level_grade, $level)=split(':',$pairs[$c3]);
+				print '<option value="'.$level.'" ';
+				if($value==$level){print 'selected';}	
+				print '>'.$level_grade.'</option>';
+				}
 ?>
-		  </select>
+			</select>
 <?php
-			}
-		else{
+				}
+			else{
 ?>
-				<input tabindex="<?php print $tab++;?>" 
-				  name="<?php print $sid;?>" value="<?php print $value;?>"/>
+			<input tabindex="<?php print $tab++;?>" 
+				name="<?php print $sid.$vindex;?>" value="<?php print $value;?>"/>
+<?php
+				}
+?>
+			</div>
 <?php
 			}
 ?>
@@ -154,6 +175,7 @@ three_buttonmenu($extrabuttons,$book);
 		  </td>
 <?php
 		}
+
 ?>
 		</tr>
 		</table>

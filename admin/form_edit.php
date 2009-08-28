@@ -1,6 +1,10 @@
 <?php 
 /**											   form_edit.php
+ *
+ * Manage the list of students belonging to a form.
+ *
  */
+
 $action='form_edit_action.php';
 $cancel='formgroup_matrix.php';
 $choice='formgroup_matrix.php';
@@ -15,11 +19,9 @@ if(isset($_POST['newtid'])){$newtid=$_POST['newtid'];}
 	$neededperm='r';
 	include('scripts/perm_action.php');
 
-	$d_form=mysql_query("SELECT * FROM form WHERE id='$fid'");
-	$form=mysql_fetch_array($d_form, MYSQL_ASSOC);
+	$form=get_form($fid);
 	$yid=$form['yeargroup_id'];
-	$d_year=mysql_query("SELECT name FROM yeargroup WHERE id='$yid'");
-	$year=mysql_result($d_year,0);
+	$year=get_yeargroupname($yid);
 
 	$extrabuttons['renamegroup']=array('name'=>'current','value'=>'form_edit_rename.php');
 	three_buttonmenu($extrabuttons);
@@ -28,41 +30,41 @@ if(isset($_POST['newtid'])){$newtid=$_POST['newtid'];}
 	<form name="formtoprocess" id="formtoprocess" method="post"
 	  action="<?php print $host; ?>">
 
-	  <div style="width:33%;float:left;"  id="viewcontent">
-		<table class="listmenu">
-		  <caption>
-			<?php print_string('current');?> 
-			<?php print $year;?>
-			<?php print_string('formgroup');?>
-		  </caption>
+		<div style="width:33%;float:left;"  id="viewcontent">
+		<table class="listmenu" id="sidtable">
+		<caption>
+		<?php print_string('current');?> 
+		<?php print $year;?>
+		<?php print_string('formgroup');?>
+		</caption>
 		  <tr>
-			<th colspan="2">
+			<th colspan="3">
 			  <?php print $fid.'/'.$newtid; ?>
 			</th>
 			<td>
 			  <?php print_string('remove');?><br />
-			<input type="checkbox" name="checkall" 
-				value="yes" onChange="checkAll(this);" />
-			<?php print_string('checkall'); ?>
+			  <input type="checkbox" name="checkall" value="yes" onChange="checkAll(this);" />
+		<?php print_string('checkall'); ?>
 			</td>
 		  </tr>
 <?php
-	$d_student=mysql_query("SELECT id, surname,
-				forename, form_id, yeargroup_id FROM student  
-				WHERE form_id='$fid' ORDER BY surname");
-	while($student=mysql_fetch_array($d_student, MYSQL_ASSOC)){
-			$sid=$student['id'];
-			if($_SESSION['role']=='admin' or $_SESSION['role']=='office'){
-				$Enrolment=fetchEnrolment($sid);
-				$extra=$Enrolment['EnrolNumber']['value'];
-				}
-			else{$extra='&nbsp;';}
-
-		    print '<tr><td>'.$student['surname']. ', '.$student['forename']. 
-					' ('.$student['form_id'].')</td><td>'.$extra.'</td>';
-		    print '<td><input type="checkbox" name="oldsids[]" value="'.$sid.'" /></td>';
-		    print '</tr>';
+	$community=array('id'=>'','type'=>'form','name'=>$fid);
+	$students=(array)listin_community($community);
+	$rown=1;
+	while(list($index,$student)=each($students)){
+		$sid=$student['id'];
+		if($_SESSION['role']=='admin' or $_SESSION['role']=='office'){
+			$Enrolment=fetchEnrolment($sid);
+			$extra=$Enrolment['EnrolNumber']['value'];
 			}
+		else{$extra='&nbsp;';}
+		
+		print '<tr id="sid-'.$sid.'">';
+		print '<td>'.$rown++.'</td>';
+		print '<td>'.$student['surname']. ', '.$student['forename'].'</td><td>'.$extra.'</td>';
+		print '<td><input type="checkbox" name="oldsids[]" value="'.$sid.'" /></td>';
+		print '</tr>';
+		}
 ?>
 		</table>
 	  </div>

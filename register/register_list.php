@@ -49,6 +49,7 @@ else{$session='AM';}
 			}
 		}
 	else{
+		$community=array('id'=>'','type'=>'form','name'=>$newfid);
 		$students=(array)listin_community($community);
 		$tutor_user=(array)get_tutor_user($newfid);
 		$AttendanceEvents=fetchAttendanceEvents($startday,$nodays,$session);

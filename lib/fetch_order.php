@@ -425,7 +425,7 @@ function fetchBudget($budid='-1'){
  */
 function fetchSupplier($supid=-1){
 	if($supid==''){$supid=-1;}
-	$d_sup=mysql_query("SELECT * FROM ordersupplier WHERE id='$supid';");
+	$d_sup=mysql_query("SELECT * FROM ordersupplier WHERE id='$supid' ORDER BY name;");
 	$sup=mysql_fetch_array($d_sup,MYSQL_ASSOC);
 	$aid=$sup['address_id'];
 	if($aid==0){$aid=-1;}

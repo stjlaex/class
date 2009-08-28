@@ -677,6 +677,22 @@ function get_sectionname($secid){
 
 /**
  *
+ * Returns a form's record for a given $fid
+ *
+ */
+function get_form($fid){
+	$d_f=mysql_query("SELECT * FROM form WHERE id='$fid';");
+	if(mysql_num_rows($d_f)>0){
+		$form=mysql_fetch_array($d_f,MYSQL_ASSOC);
+		}
+	else{
+		$form=array();
+		}
+	return $form;
+	}
+
+/**
+ *
  * Returns the section for the given id of a yeargroup or
  * formgroup.
  *

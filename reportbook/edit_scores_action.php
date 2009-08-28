@@ -22,11 +22,29 @@ if($sub=='Submit'){
 
 
 	$AssDef=fetchAssessmentDefinition($eid);
+	$crid=$AssDef['Course']['value'];
+	$compstatus=$AssDef['ComponentStatus']['value'];
 	$grading_grades=$AssDef['GradingScheme']['grades'];
 	$crid=$AssDef['Course']['value'];
 	$stage=$AssDef['Stage']['value'];
 	$year=$AssDef['Year']['value'];
-	$mid=get_assessment_mid($eid,$crid,$bid,$pid);
+
+	$strands=(array)list_subject_components($pid,$crid,$compstatus);
+	$strandno=sizeof($strands);
+	$labels=array();
+	$mids=array();
+	if($strandno>0){
+		foreach($strands as $sindex => $strand){
+			$labels[]=$strand['id'];
+			$mids[]=get_assessment_mid($eid,$crid,$bid,$strand['id']);
+			}
+		}
+	else{
+		$labels[]=$pid;
+		$mids[]=get_assessment_mid($eid,$crid,$bid,$pid);
+		}
+
+
 	$students=array();
 	if($stage!='%'){
 		$cohorts[]=array('id'=>'','course_id'=>$crid,'stage'=>$stage,'year'=>$year);
@@ -40,21 +58,23 @@ if($sub=='Submit'){
 
 	for($c=0;$c<sizeof($students);$c++){
 		$sid=$students[$c]['id'];
-		$scorevalue=clean_text($_POST[$sid]);
-		/*$$sid are the names of score values posted by the form*/
-		/*if the value is empty then score will be unset and no entry made*/
-		if($scorevalue==''){$result='';$scoretype='';}
-		elseif($grading_grades!='' and $grading_grades!=' '){
-			$result=scoreToGrade($scorevalue,$grading_grades);
-			$scoretype='grade';
+		foreach($labels as $lindex => $label){
+			$scorevalue=clean_text($_POST[$sid.$lindex]);
+			/*$$sid are the names of score values posted by the form*/
+			/*if the value is empty then score will be unset and no entry made*/
+			if($scorevalue==''){$result='';$scoretype='';}
+			elseif($grading_grades!='' and $grading_grades!=' '){
+				$result=scoreToGrade($scorevalue,$grading_grades);
+				$scoretype='grade';
+				}
+			else{
+				$result=$scorevalue;
+				$scoretype='value';
+				}
+			$score=array('type'=>$scoretype,'result'=>$result,'value'=>$scorevalue,'date'=>$todate);
+			update_assessment_score($eid,$sid,$bid,$label,$score);
+			update_mark_score($mids[$lindex],$sid,$score);
 			}
-		else{
-			$result=$scorevalue;
-			$scoretype='value';
-			}
-		$score=array('type'=>$scoretype,'result'=>$result,'value'=>$scorevalue,'date'=>$todate);
-		update_assessment_score($eid,$sid,$bid,$pid,$score);
-		update_mark_score($mid,$sid,$score);
 		}
 	}
 

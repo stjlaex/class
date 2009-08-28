@@ -235,9 +235,10 @@ if(isset($umns)){
 		if(isset($currentprofile) and $currentprofile['transform']!=''){
 ?>
 	  <div id="<?php print $currentprofile['id'];?>" class="neat sidebuttons">
-		<button name="print" onclick="window.frames['viewmarkbook'].clickToAction(this);" 
+		<button name="chart" onclick="window.frames['viewmarkbook'].clickToAction(this);" 
+			style="background-color:#666;"
 			value="report_profile_print.php">
-			<img alt="Print" src="images/printer.png"/>
+			<img alt="Chart" src="images/charter.png"/>
 		</button>
 			<label style="font-weight:600;">&nbsp;<?php print $currentprofile['name'];?></label>
 			<div id="<?php print 'xml-'.$currentprofile['id'];?>" style="display:none;">
