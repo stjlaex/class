@@ -93,17 +93,6 @@ $inmust='yes';
 
 	<div id="viewcontent" class="content">
 
-	  	<div class="divgroup center">
-			<div class="left">
-			<label><?php print_string('house'); ?></label>
-			<?php print $Merits['Total']['House']['value']; ?>
-			</div>
-			<div class="right">
-			<label><?php print_string('total'); ?></label>
-			<?php print $Merits['Total']['Sum']['value']; ?>
-			</div>
-	   	</div>
-
 	  <table class="listmenu center">
 		<caption><?php print_string('recentmerits',$book);?></caption>
 		<thead>
@@ -166,8 +155,22 @@ $inmust='yes';
 		}
 ?>
 	  </table>
-	</div>
 
+	  	<fieldset class="listmenu left">
+			<div class="left">
+			<label><?php print_string('house'); ?></label>
+			<?php print $Merits['Total']['House']['value']; ?>
+			</div>
+	   	</fieldset>
+
+	  	<fieldset class="listmenu right">
+			<div class="right">
+			<label><?php print get_string('total').' '.get_string('points',$book); ?></label>
+			<?php print $Merits['Total']['Sum']['value']; ?>
+			</div>
+	   	</fieldset>
+
+	</div>
 
 	</div>
 </body>

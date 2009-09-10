@@ -11,10 +11,11 @@
 
 	$cohorts=array();
 	$cohids=array();
+	if(!isset($seleids)){$seleids=array();}
 	if($r>-1){
 		if($rcrid=='%'){
 			$d_cridbid=mysql_query("SELECT DISTINCT course_id FROM cridbid WHERE
-						subject_id='$rbid' ORDER BY course_id"); 
+						subject_id='$rbid' ORDER BY course_id;"); 
 			while($course=mysql_fetch_array($d_cridbid,MYSQL_ASSOC)){
 				$cohorts[]=array('id'=>'',
 								 'course_id'=>$course['course_id'],
@@ -70,10 +71,10 @@
 		if(in_array($AssDef['id_db'], $seleids)){print ' selected="selected" ';}
 ?>
 			value="<?php print $AssDef['id_db'];?>">
-				 <?php print 
+				<?php print 
 					$AssDef['Course']['value']. 
-				 ' ('.$AssDef['Stage']['value'].' '.$AssDef['Year']['value'].') '.
-					$AssDef['Description']['value'];?>
+				 ' '.$AssDef['Stage']['value'].' ('.
+					display_date($AssDef['Deadline']['value']).') '.$AssDef['Description']['value'];?>
 		</option>
 <?php
 					}

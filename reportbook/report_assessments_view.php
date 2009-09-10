@@ -26,10 +26,6 @@ if(isset($_POST['breakdown'])){$breakdown=$_POST['breakdown'];}else{$breakdown='
 include('scripts/sub_action.php');
 
 $extrabuttons=array();
-/*$extrabuttons['showstatistics']=array('name'=>'stats',
-								'value'=>'',
-								'onclick'=>'stats(grades,gradestats,percents)');
-*/
 $extrabuttons['displaybysubject']=array('name'=>'breakdown',
 						'value'=>'subject'
 						);
