@@ -53,7 +53,7 @@ two_buttonmenu($extrabuttons,$book);
   <div id="viewcontent" class="content">
 	<form id="formtoprocess" name="formtoprocess" 
 	  method="post" action="<?php print $host;?>">
-	  <table class="listmenu sidtable">
+	  <table class="listmenu sidtable" id="sidtable">
 		<th colspan="2"><?php print_string('checkall'); ?>
 		  <input type="checkbox" name="checkall" 
 				value="yes" onChange="checkAll(this);" />
@@ -117,12 +117,13 @@ two_buttonmenu($extrabuttons,$book);
 			}
 ?>
 		  </td>
-		  <td>
+		  <td class="student">
 			<a href="infobook.php?current=student_view.php&sid=<?php print $sid;?>">
 <?php 
 				print $Student[$displayname]['value']; 
 ?>
 			</a>
+			<div id="edit-<?php print $sid;?>"></div>
 		  </td>
 		  <td>
 <?php 
@@ -191,3 +192,11 @@ if($_SESSION['role']=='office' or $_SESSION['role']=='admin'){
 	  <input type="hidden" name="choice" value="<?php print $choice;?>" />
 	</form>
   </div>
+
+  <div class="hidden" id="extra-merit">
+		<div style="float:right;" title="<?php print_string('merits','infobook');?>" 
+			name="current" value="merit_adder.php" onclick="clickToAddMerit('','','extra-merit')" >
+		<img class="clicktoaddmerit" />
+		</div>
+  </div>
+

@@ -44,7 +44,8 @@ include('scripts/set_list_vars.php');
 	$enrolyear=get_curriculumyear()+1;
 	$listcomids=array();
 	while(list($index,$listtype)=each($listcomtypes)){
-		$display=get_string($listtype);
+		if(sizeof($listcomtypes)>1){$display=get_string($listtype).' - ';}
+		else{$display='';}
 
 		if($listtype=='applied' or $listtype=='enquired' or $listtype=='accepted'){
 			$listcoms=(array)list_communities($listtype,$enrolyear);
@@ -63,8 +64,7 @@ include('scripts/set_list_vars.php');
 												' '.$listcomids[$listcom['id']]['year'];
 				}
 			else{
-				$listcomids[$listcom['id']]['name']=$display . 
-						' - '.$listcomids[$listcom['id']]['name'];
+				$listcomids[$listcom['id']]['name']=$display . $listcomids[$listcom['id']]['name'];
 				}
 			}
 		}

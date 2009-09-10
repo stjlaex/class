@@ -7,7 +7,13 @@
 $action='completion_list_action.php';
 $choice='completion_list.php';
 
-$registration_coms=list_communities('form');
+if(!isset($CFG->registrationtype) or $CFG->registrationtype=='form'){
+	$registration_coms=list_communities('form');
+	}
+else{
+	$registration_coms=list_communities('reg');
+	}
+
 $eveid=$currentevent['id'];
 
 
@@ -38,6 +44,12 @@ twoplusprint_buttonmenu();
 	while(list($index,$com)=each($registration_coms)){
 		list($nosids,$nop,$noa)=check_communityAttendance($com,$eveid);
 		if($nosids>0){
+			if(!isset($CFG->registrationtype) or $CFG->registrationtype=='form'){
+				$getparam='newfid='.$com['name'];
+				}
+			else{
+				$getparam='newcomid='.$com['id'];
+				}
 			if(($nop+$noa)==$nosids and $nosids!=0){$status='complete';$cssclass='';}
 			else{$status='incomplete';$cssclass='vspecial';}
 			$totalnop+=$nop;
@@ -50,7 +62,7 @@ twoplusprint_buttonmenu();
 		  </td>
 		  <td>
 			<a onclick="parent.viewBook('register');" target="viewregister"  
-			  href='register.php?current=register_list.php&cancel=completion_list.php&newfid=<?php print $com['name'];?>&checkeveid=0&startday=&nodays=8'><?php print $com['displayname'];?></a>
+			  href='register.php?current=register_list.php&cancel=completion_list.php&<?php print $getparam;?>&checkeveid=0&startday=&nodays=8'><?php print $com['displayname'];?></a>
 		  </td>
 		  <td class="<?php print $cssclass;?>">
 			<?php print_string($status,$book);?>

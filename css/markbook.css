@@ -27,66 +27,66 @@ div#bookbox{
     border-top:0; border-bottom:0;
 	}
 
-table#marktable {
+table.marktable {
 	border:0; padding:0; margin:0;
 	color:black;
 	background-color:#444444;
     width:99%;
 	}
-#marktable input {
+.marktable input {
 	text-align:center;
 	}
-#marktable input[type="checkbox"] {
+.marktable input[type="checkbox"] {
 	width:2em;
 	}
-#marktable td {
+.marktable td {
 	border-top:1px solid #cccccc; 
     border-bottom:1px solid #cccccc;
 	text-align:left;
 	}
-#marktable td.grade {
+.marktable td.grade {
 	text-align:center; 
 	border-left:1px solid #cccccc; 
 	border-right:1px solid #cccccc;
 	display:none;
 	}
-#marktable td.grade span { 
+.marktable td.grade span { 
     height:100%; 
     width:100%;
 	}
-#marktable td[title] {
+.marktable td[title] {
 	background-image: url("../images/purplecorner.png");
 	background-repeat: no-repeat;
 	}
-#marktable td.report{
+.marktable td.report{
 	text-align:center; 
 	border-left:1px solid #cccccc; 
 	border-right:1px solid #cccccc;
 	display:none;
 	}
-#marktable th {
+.marktable th {
 	border-left:2px solid #999999;
 	border-right:2px solid #999999;
 	background-color:#ffffff;
 	text-align:center;
 	display:none;
 	}
-#marktable th.other, #marktable td.other {
+.marktable th.other, .marktable td.other {
 	background-color:#ddeecc;
 	}
-#marktable th.derived, #marktable td.derived {
+.marktable th.derived, .marktable td.derived {
 	background-color:#ddeeff;
 	}
-#marktable th.report, #marktable td.report {
+.marktable th.report, .marktable td.report {
 	background-color:#eeeeee;
 	}
-#marktable tr:hover { 
+.marktable tr:hover { 
 	background-color:#fcd39a;
 	}
-#marktable tr:hover td { 
+.marktable tr:hover td { 
 	background-color:#fcd39a;
 	}
-#marktable input[type="checkbox"] {
+.marktable input[type="checkbox"] {
 	clear:none; float:none; 
 	margin:0 0 0.2em 0.4em; padding:0px;
 	}
@@ -111,7 +111,7 @@ table#editscores {
 	}
 
 /*for the attendance status*/
-#marktable td[status="a"], #editscores td[status="a"] { 
+.marktable td[status="a"], #editscores td[status="a"] { 
 	background-image: none;
     background-color:yellow;
     font-weight:100;

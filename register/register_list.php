@@ -15,6 +15,7 @@ if(isset($CFG->registration[$secid])
 else{$session='AM';}
 
 
+
 	if($community['type']=='class'){
 		$students=(array)listin_class($community['name'],true);
 		$AttendanceEvents=fetchAttendanceEvents($startday,1,$session);
@@ -49,9 +50,9 @@ else{$session='AM';}
 			}
 		}
 	else{
-		$community=array('id'=>'','type'=>'form','name'=>$newfid);
+		//$community=array('id'=>'','type'=>'form','name'=>$newfid);
 		$students=(array)listin_community($community);
-		$tutor_user=(array)get_tutor_user($newfid);
+		if($community['type']=='form'){$tutor_user=(array)get_tutor_user($newfid);}
 		$AttendanceEvents=fetchAttendanceEvents($startday,$nodays,$session);
 
 		/* If the currentevent is not yet in the db event table then must
@@ -109,6 +110,9 @@ if($community['type']!='class'){
 	  <label><?php print_string('formgroup');?></label>
 	  <?php print $newfid;?>
 	</div>
+<?php
+	if(isset($tutor_user)){
+?>
 	<div>
 	  <label><?php print_string('formtutor');?>
 	  </label>
@@ -119,6 +123,9 @@ if($community['type']!='class'){
 	  </a> 
 	  &nbsp;
 	</div>
+<?php
+		}
+?>
 	<div>
 	</div>
   </div>

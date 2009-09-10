@@ -4,7 +4,8 @@
   *	This is the hostpage for the register.
   *
   * The group of students being registered could either be identified
-  * by newfid or newcid - pastoral or academic.
+  * by newfid or newcid or newcomid - pastoral or academic or specific registration group.
+  *
   */
 
 $host='register.php';
@@ -12,7 +13,7 @@ $book='register';
 
 include('scripts/head_options.php');
 include('scripts/set_book_vars.php');
-$session_vars=array('newfid','newcid','startday','checkeveid','secid','nodays');
+$session_vars=array('newfid','newcid','newcomid','startday','checkeveid','secid','nodays');
 include('scripts/set_book_session_vars.php');
 
 if($nodays==''){$nodays=8;}
@@ -21,12 +22,17 @@ if($nodays==''){$nodays=8;}
 	  $section=get_section($newfid,'form');
 	  $secid=$section['id'];
 	  $community=array('id'=>'','type'=>'form','name'=>$newfid);
-	  $newcid='';
+	  $newcid='';$newcomid='';
 	  }
   elseif($newcid!=''){
 	  $secid=get_class_section($newcid);
 	  $community=array('id'=>'','type'=>'class','name'=>$newcid);
-	  $newfid='';
+	  $newfid='';$newcomid='';
+	  }
+  elseif($newcomid!=''){
+	  $secid=get_class_section('7Y');
+	  $community=array('id'=>$newcomid,'type'=>'reg','name'=>'');
+	  $newfid='';$newcid='';
 	  }
 
   if(isset($community) and is_array($community)){
@@ -68,7 +74,7 @@ if($nodays==''){$nodays=8;}
 		<legend><?php print get_string('currentsession',$book);?></legend>
 		<div style="background-color:#666655;font-size:x-small;padding:2px;">
 		 <a style="color:#fff;"
-			href="register.php?current=register_list.php&newfid=<?php print $newfid;?>&newcid=<?php print $newcid;?>&nodays=<?php print $nodays;?>&checkeveid=0&startday=" 
+			href="register.php?current=register_list.php&newfid=<?php print $newfid;?>&newcid=<?php print $newcid;?>&newcomid=<?php print $newcomid;?>&nodays=<?php print $nodays;?>&checkeveid=0&startday=" 
 			target="viewregister" onclick="parent.viewBook('register');">
 <?php 
 			print ''.display_date($currentevent['date']).'<br />';
@@ -81,15 +87,26 @@ if($nodays==''){$nodays=8;}
 		<br />
 		<br />
 
-	<form id="registerchoice" name="registerchoice" method="post" 
-							action="register.php" target="viewregister">
 	  <fieldset class="register">
 		<legend><?php print_string('takeregister',$book);?></legend>
-<?php		$onsidechange='yes'; include('scripts/list_form.php');?>
+
+		<form id="registerchoice" name="registerchoice" method="post" 
+							action="register.php" target="viewregister">
+<?php
+				if(!isset($CFG->registrationtype) or $CFG->registrationtype=='form'){
+					$onsidechange='yes'; 
+					include('scripts/list_form.php');
+					}
+				else{
+					$onsidechange='yes'; $listtype='reg';  $listlabel=''; 
+					include('scripts/list_community.php');
+					}
+?>
+		<input type="hidden" name="newcid" value="" />
+		<input type="hidden" name="current" value="register_list.php" />
+		<input type="hidden" name="nodays" value="8" />
+		</form>
 	  </fieldset>
-	  <input type="hidden" name="current" value="register_list.php" />
-	  <input type="hidden" name="nodays" value="8" />
-	</form>
 
 	<br />
 	<br />

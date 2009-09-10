@@ -47,6 +47,7 @@ $CFG->sitelang='en';
  * where 1 is always whole school and those differing from this need
  * to be added.
  */
+$CFG->registrationtype='form';//form or other
 $CFG->registration[1]='single';//Whole school
 //$CFG->registration[2]='double';//eg. Infants
 /*used by the register - see http://es2.php.net/manual/en/timezones.php*/
@@ -117,6 +118,7 @@ $CFG->emailreminders='no';
 $CFG->ldapserver='';
 $CFG->ldapuser='';
 $CFG->ldappasswd='';
+$CFG->clientid='';
 /*****
  *
  *All of the following are connection details

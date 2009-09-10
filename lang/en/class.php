@@ -322,4 +322,6 @@ $string['message']='Message';
 $string['enrolments']='Enrolments';
 $string['<']='<';
 $string['>']='>';
+$string['house']='House';
+$string['']='';
 ?>

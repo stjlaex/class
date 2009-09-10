@@ -12,6 +12,8 @@ if(isset($_POST['newname'])){$newname=$_POST['newname'];}
 include('scripts/sub_action.php');
 
 if($sub=='Submit'){
+trigger_error($newcomtype.':'.$newname,E_USER_WARNING);
+
 	$community=array('id'=>'','type'=>$newcomtype,'name'=>$newname);
 	if($newcomid!=''){
 		$communityfresh=$community;

@@ -44,10 +44,10 @@ input[type="checkbox"], label#checkall, button, .formimages {
 	visibility:hidden;
 	display:none;
 	}
-#marktable td.grade, #marktable td.report {
+.marktable td.grade, .marktable td.report {
 	display:none;
 	}
-#marktable th {
+.marktable th {
 	display:none;
 	}
 tr.hidden { 

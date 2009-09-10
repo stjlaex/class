@@ -169,5 +169,8 @@ $string['attachment']='Attachment';
 $string['bcc']='BCC';
 $string['selectamessageoption']='Please select a message option.';
 $string['age']='Age';
+$string['merits']='Merits';
+$string['activity']='Activity';
+$string['points']='Points';
 $string['']='';
 ?>

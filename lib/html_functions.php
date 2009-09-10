@@ -142,9 +142,11 @@ function rowaction_buttonmenu($imagebuttons,$extrabuttons='',$book=''){
 	if(is_array($imagebuttons)){
 		while(list($imageclass,$attributes)=each($imagebuttons)){
 			if(!isset($attributes['onclick'])){$attributes['onclick']='clickToAction(this)';}
+			if(!isset($attributes['id'])){$buttonid='';}else{$buttonid=' id="'.$attributes['id'].'" ';}
 ?>
-  <button class="rowaction" type="button"
+  <button class="rowaction imagebutton" type="button"
 			title="<?php print_string($attributes['title']);?>" 
+				<?php print $buttonid;?>
 				name="<?php print $attributes['name'];?>" 
 				value="<?php print $attributes['value'];?>" 
 				onClick="<?php print $attributes['onclick'];?>">
@@ -484,6 +486,13 @@ function list_select_list($list,$vars,$book=''){
     <option value=""></option>
 <?php
 	while(list($index,$item)=each($list)){
+		if(!is_array($item)){
+			/* If not passed id/name pairs then try to correct by using index/value */
+			$temp=$item;
+			$item=array();
+			$item[$valuefield]=$index;
+			$item[$descriptionfield]=$temp;
+			}
 		print '<option ';
 		if($vars['multi']==1){
 			if($vars['selectedvalue']==$item[$valuefield]){print  ' selected="selected"';}
@@ -499,12 +508,13 @@ function list_select_list($list,$vars,$book=''){
 
 /**
  * 
+ *
  */
 function list_select_enum($fieldname,$vars,$book=''){
 	$vars['selectedvalue']=strtoupper($vars['selectedvalue']);
 	if($vars['filter']!=''){
 		$table=$vars['filter'];
-		$d_t=mysql_query("SELECT DISTINCT $fieldname FROM $table ORDER BY $fieldname");
+		$d_t=mysql_query("SELECT DISTINCT $fieldname FROM $table ORDER BY $fieldname;");
 		$enum=array();
 		while($field=mysql_fetch_array($d_t,MYSQL_ASSOC)){
 			$enum[$field[$fieldname]]=displayEnum($field[$fieldname],$fieldname);

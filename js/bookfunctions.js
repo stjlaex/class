@@ -32,6 +32,13 @@ function clickToAttachFile(sid,mid,cid,pid,openId){
 	openHelperWindow(helperurl,getvars);
 	}
 
+//opens the merit window
+function clickToAddMerit(bid,pid,openId){
+	var sidId=currentsidrow;
+	var helperurl="infobook/httpscripts/merit_adder.php";
+	var getvars="sid="+sidId+"&bid="+bid+"&pid="+pid+"&openid="+openId+'-'+sidId;
+	openHelperWindow(helperurl,getvars);
+	}
 
 function openHelperWindow(helperurl,getvars){
 	writerWindow=window.open("","","height=680,width=720,screenX=50,dependent");
@@ -189,12 +196,14 @@ function clickToAction(buttonObject){
 			var answer=true;
 			var params="";
 			// this is for passing a list of sids grabbed from the tr ids of a sidtable
-			// only used at the moment by report_profile_print
-			if(document.getElementById("marktable")){
-				var sidrows=document.getElementById("marktable").getElementsByTagName("tr");
+			// used for example by report_profile_print
+			if(document.getElementById("sidtable")){
+				var sidrows=document.getElementById("sidtable").getElementsByTagName("tr");
 				for(var c=0; c<sidrows.length; c++){
 					if(sidrows[c].id!=""){
-						params=params+"&sids[]=" + escape(sidrows[c].attributes["id"].value);
+						var rowId=escape(sidrows[c].attributes["id"].value);
+						var sidId=rowId.substring(4,rowId.length);//strip off "sid-" part
+						params=params+"&sids[]=" + sidId;
 						}
 					}
 				}
@@ -265,7 +274,7 @@ function updatexmlRecord(xmlRecord){
 	}
 
 //------------------------------------------------------- 
-// Hides all the rows in a sidtable which don't have a particularly 
+// Hides all the rows in a sidtable which don't have a particular 
 // input radio box checked.
 
 function sidtableFilter(buttonObject){

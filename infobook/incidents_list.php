@@ -55,7 +55,7 @@ three_buttonmenu();
 	  <div class="right">
 <?php 
 		$listlabel='sanction'; 
-		$listid='sanction'; $catsecid=$secid; $cattype='inc';
+		$listid='sanction';$catsecid=$secid;$cattype='inc';
 		$required='yes'; include('scripts/list_category.php');
 ?>
 	  </div>

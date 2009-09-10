@@ -305,13 +305,13 @@ function fetchAssessments($sid,$eid='%'){
 */
 
    	$d_eidsid=mysql_query("SELECT * FROM eidsid WHERE
-				student_id='$sid' AND assessment_id LIKE '$eid'");
+				student_id='$sid' AND assessment_id LIKE '$eid';");
 	$asses=array();
   	while($eidsid=mysql_fetch_array($d_eidsid,MYSQL_ASSOC)){
 		$eidsid=nullCorrect($eidsid);
 		$eid=$eidsid['assessment_id'];
 		if(!isset($asses[$eid])){
-			$d_ass=mysql_query("SELECT * FROM assessment WHERE id='$eid'");
+			$d_ass=mysql_query("SELECT * FROM assessment WHERE id='$eid';");
 			$ass=mysql_fetch_array($d_ass,MYSQL_ASSOC);
 			$ass=nullCorrect($ass);
 			$asses[$eid]=$ass;
@@ -477,7 +477,6 @@ function fetch_enrolmentAssessmentDefinitions($com='',$stage='E',$enrolyear='000
 	//TODO: allow enrolment assessments linked to the cohort they are joining?
 	//$AssDefs=fetch_cohortAssessmentDefinitions($cohort);
 	//trigger_error('chort:'.sizeof($AssDefs).' '.$crid,E_USER_WARNING);
-		
 
 	return $AssDefs;
 	}

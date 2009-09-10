@@ -12,7 +12,7 @@ var marks = new Array();
 function updateMarkDisplay(state){
 	var theBook = window.frames["viewmarkbook"].document;
 	var selMarks = document.getElementById('mids');
-	if(!theBook.getElementById("marktable")){
+	if(!theBook.getElementById("sidtable")){
 		//marks not displayed
 		selMarks.style.display="none";
 		return;
@@ -71,7 +71,9 @@ function markDisplay(){
 	var sids = new Array();
 	for(var c=0; c < theRows.length; c++){
 		if(theRows[c].attributes.getNamedItem("id")){
-			sids[i] = theRows[c].attributes.getNamedItem("id").value;
+			var rowId=escape(theRows[c].attributes["id"].value);
+			sids[i] = rowId.substring(4,rowId.length);
+			//sids[i] = theRows[c].attributes.getNamedItem("id").value;
 			i++;
 			}
 		}

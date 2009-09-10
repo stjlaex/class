@@ -2,6 +2,9 @@
 // but lots needs to be lifted out to make sidtable of general utility 
 // --- in progress
 
+// used to identify the sid of the current row under the mouse in a sidtable
+var currentsidrow=-1;
+
 function sidtableInit(){
 	// sets up the sidtable and should be called by loadRequired
 	// if there is a table with id=sidtable
@@ -30,15 +33,26 @@ function sidtableInit(){
 	var tds=document.getElementsByTagName("td");
 	for(var i=0;i<tds.length;i++){
 		var tdObj=tds[i];
-		if(tdObj.className=="edit" | tdObj.className=="edit extra"){
+		if(tdObj.className=="student"){
+			tdObj.onmouseover=function(){decorateStudent(this)};
+			}
+		else if(tdObj.className=="edit" | tdObj.className=="edit extra"){
 			var selObj=tdObj.getElementsByTagName("select")[0];
 			selObj.onfocus=function(){checkAttendance(this)};
 			selObj.onblur=function(){processAttendance(this)};
-			//selObj.addEventListener("focus",checkAttendance(this),false);
-			//selObj.addEventListener("blur",processAttendance(this),false);
 			}
 		}
 
+	}
+
+function decorateStudent(tdObj){
+	var rowId=tdObj.parentNode.id;
+	var sidId=rowId.substring(4,rowId.length);//strip off "sid-" part
+	if(sidId!=currentsidrow){
+		setTimeout("addExtraFields("+sidId+",null,'extra-merit')",100);
+		setTimeout("removeExtraFields("+currentsidrow+",'extra-merit')",100);
+		currentsidrow=sidId;
+		}
 	}
 
 function checkAttendance(selObj){
@@ -187,6 +201,7 @@ function addExtraFields(sidId,cellId,extraId){
 	}
 
 function removeExtraFields(sidId,extraId){
+	//alert(sidId);
 	var editContainer=document.getElementById("edit-"+sidId);
 	var extraDiv=document.getElementById(extraId+"-"+sidId);
 	if(extraDiv){document.getElementById("edit-"+sidId).removeChild(extraDiv);}

@@ -785,6 +785,7 @@ function getEnumArray($field_name){
 	 */
 	$community_type=array(''=>'', 
 						  'ACADEMIC'=>'academic', 
+						  'HOUSE'=>'house', 
 						  'TUTOR'=>'tutorgroup', 
 						  'TRIP'=>'trip', 
 						  'REG'=>'registrationgroup', 
@@ -1102,7 +1103,7 @@ function getEnumArray($field_name){
 
 	if(file_exists('../schoolarrays.php')){include('../schoolarrays.php');}
 
-	if(!isset($$field_name)){trigger_error('Not in enum: '.$fieldname,E_USER_WARNING);}
+	if(!isset($$field_name)){trigger_error('Not in enum: '.$field_name,E_USER_WARNING);}
 	return $$field_name;
 	}
 
@@ -1533,7 +1534,7 @@ function fetch_categorydefs($type,$crid='%',$secid='%'){
    	$catdefs=array();
 	$ratingnames=array();
 	/* Usually catdefs of the same selection use the same ratings BUT
-	 * it does not have to be the case, the returned arreay
+	 * it does not have to be the case, the returned array
 	 * ratingnames is indexed by the ratingname and each set of
 	 * ratings is an array of descriptors indexed by ratingvalue
 	 */

@@ -678,7 +678,8 @@ function fetchAddress($gidaid=array('address_id'=>'-1','addresstype'=>'')){
 	}
 
 /**
- *****Incidents**
+ * Incidents
+ *
  */
 function fetchIncidents($sid,$startdate='',$enddate=''){
 	$Incidents=array();
@@ -845,7 +846,7 @@ function fetchComments($sid,$startdate='',$enddate=''){
 	if($startdate==''){$startdate=get_curriculumyear()-2;}
 	if($enddate==''){$enddate=date('Y-m-d');}
 	$Comments['Enddate']=array('label' => 'enddate',
-								 'value' => ''.$enddate);
+							   'value' => ''.$enddate);
 	$Comments['Startdate']=array('label' => 'startdate',
 								 'value' => ''.$startdate);
 	$d_comments=mysql_query("SELECT * FROM comments WHERE
@@ -1340,6 +1341,104 @@ function fetchMedical($sid='-1'){
 		}
 	$Medical['Notes']=$Notes;
 	return $Medical;
+	}
+
+
+
+/**
+ *
+ *
+ */
+function fetchMerits($sid,$limit=-1,$bid='%',$pid='%',$year='0000'){
+	if($bid==' ' or $bid==''){$bid='%';}
+	if($pid==' ' or $pid==''){$pid='%';}
+
+	$housecommunity=array('id'=>'','type'=>'house','name'=>'');
+	$coms=(array)list_member_communities($sid,$yearcommunity);
+	while(list($index,$com)=each($coms)){
+		$house=$com['name'];
+		}
+
+	$Merits=array();
+	$Total=array();
+
+   	$d_m=mysql_query("SELECT COUNT(id) FROM merits WHERE student_id='$sid' AND year='$year' AND value='-1';");
+	$negno=mysql_result($d_m,0);
+   	$d_m=mysql_query("SELECT COUNT(id) FROM merits WHERE student_id='$sid' AND year='$year' AND value>'0';");
+	$posno=mysql_result($d_m,0);
+   	$d_m=mysql_query("SELECT SUM(value) FROM merits WHERE student_id='$sid' AND year='$year';");
+	$sum=mysql_result($d_m,0);
+	$Total['House']=array('value'=>''.$house);
+	$Total['Negative']=array('value'=>''.$negno);
+	$Total['Positive']=array('value'=>''.$posno);
+	$Total['Sum']=array('value'=>''.$sum);
+	$Merits['Total']=$Total;
+
+   	$d_m=mysql_query("SELECT * FROM merits WHERE student_id='$sid' AND year='$year' AND
+				subject_id LIKE '$bid' AND component_id LIKE '$pid' ORDER BY date DESC LIMIT $limit;");
+  	while($m=mysql_fetch_array($d_m,MYSQL_ASSOC)){
+		$Merits['Merit'][]=fetchMerit($m);
+		}
+
+	return $Merits;
+	}
+
+/**
+ *
+ */
+function fetchMerit($m=array('id'=>-1,'subject_id'=>'','component_id'=>'','result'=>'','value'=>'','activity'=>'','detail'=>'','date'=>'','teacher_id'=>'')){
+	$Merit=array();
+	$Merit['id_db']=$m['id'];
+	if($m['subject_id']=='%'){$subject='';}
+	else{$subject=$m['subject_id'];}
+	if($m['component_id']=='%'){$component='';}
+	else{$component=$m['component_id'];}
+	$Merit['Subject']=array('label'=>'',
+							//'table_db'=>'merits',
+						   'field_db'=>'subject_id',
+						   'type_db'=>'',
+						   'value'=>''.$subject);
+	$Merit['Component']=array('label'=>'', 
+							  //'table_db'=>'merits', 
+							  'field_db'=>'component_id',
+							  'type_db'=>'',
+							  'value'=>''.$component);
+	list($ratingnames,$catdefs)=fetch_categorydefs('mer');
+	if(array_key_exists($m['activity'],$catdefs)){$activity=$catdefs[$m['activity']]['name'];}
+	else{$activity='';}
+	$Merit['Activity']=array('label'=>'activity', 
+							 'table_db'=>'merits', 
+							 'field_db'=>'activity',
+							 'type_db'=>'enum',
+							 'value_db' => ''.$m['activity'],
+							 'value'=>''.$activity);
+	$Merit['Points']=array('label'=>'points', 
+						   'table_db'=>'merits', 
+						   'field_db'=>'result',
+						   'type_db'=>'varchar(30)',
+						   'value_db' =>''.$m['value'],
+						   'value'=>''.$m['result']);
+	$Merit['Detail']=array('label'=>'detail', 
+						   'table_db'=>'detail', 
+						   'field_db'=>'detail',
+						   'type_db'=>'text',
+						   'value'=>''.$m['detail']);
+	$Merit['Year']=array('label'=>'year', 
+						 'field_db'=>'year',
+						 'type_db'=>'year',
+						 'value'=>''.$m['year']);
+	$Merit['Teacher']=array('username'=>''.$m['teacher_id'],
+							'label'=>'teacher',
+							'field_db'=>'teacher', 
+							'type_db'=>'varchar(14)', 
+							'value'=>''.get_teachername($m['teacher_id']));
+	$Merit['Date']=array('label'=>'date', 
+						 //'table_db'=>'merits', 
+						 'field_db'=>'date', 
+						 'type_db'=>'date', 
+						 'value'=>''.$m['date']);
+						 $Merit=nullCorrect($Merit);
+	return $Merit;
 	}
 
 

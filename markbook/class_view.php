@@ -73,7 +73,7 @@ if($_SESSION['worklevel']>-1){
 	<form id="formtoprocess" name="formtoprocess" 
 	  method="post" action="markbook.php">
 
-	  <table class="sidtable" id="marktable">
+	  <table class="sidtable marktable" id="sidtable">
 		<tr>
 <?php 
 /**
@@ -176,7 +176,7 @@ if($_SESSION['worklevel']>-1){
 	for($c2=0;$c2<$row;$c2++){
 		$c4=$c2+1;
 ?>
-		<tr id="<?php print $viewtable[$c2]['sid'];?>" 
+		<tr id="sid-<?php print $viewtable[$c2]['sid'];?>" 
 		  bgcolor="<?php print $cidcolour[$viewtable[$c2]['class_id']];?>" >
 		  <td><?php print $c4;?></td>
 		  <td>
@@ -197,10 +197,11 @@ if($_SESSION['worklevel']>-1){
 			  target="viewinfobook" onclick="parent.viewBook('infobook');">M</a>
 <?php			} ?>
 		  </td>
-		  <td>
+		  <td class="student">
 			<a href="infobook.php?current=student_view.php&sid=<?php print $viewtable[$c2]['sid'];?>&sids[]=<?php print $viewtable[$c2]['sid'];?>"
 			  target="viewinfobook" onclick="parent.viewBook('infobook');">
 			<?php print $viewtable[$c2]['surname'];?>,&nbsp;<?php print $viewtable[$c2]['forename'].$viewtable[$c2]['preferredforename'];?></a>
+			<div id="edit-<?php print $viewtable[$c2]['sid'];?>"></div>
 		  </td>
 		  <td><?php print $viewtable[$c2]['form_id'];?></td>
 		  <td status="<?php print $viewtable[$c2]['attstatus'];?>" 
@@ -244,4 +245,12 @@ if($_SESSION['worklevel']>-1){
 	<input type="hidden" name="mid" value="" />
 	<input type="hidden" name="bid" value="<?php print $bid[0]; ?>" />
 	</form>
+  </div>
+
+  <div class="hidden" id="extra-merit">
+		<div style="float:right;" title="<?php print_string('merits','infobook');?>" 
+			name="current" value="merit_adder.php" 
+			onclick="clickToAddMerit('<?php print $bid[0];?>','<?php print $pid;?>','extra-merit')" >
+		<img class="clicktoaddmerit" />
+		</div>
   </div>

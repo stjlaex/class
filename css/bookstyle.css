@@ -365,11 +365,15 @@ button.rowaction img {
 	float:left;
 	width:12px; height:12px; border-style:none;	
 	background-repeat:no-repeat;	
+	opacity:1;
 	}
 button.rowaction:hover, button.rowaction:focus {
     border-color:#5599cc;
     background-color:#5599cc;
     color:#ffffff;
+	}
+button.imagebutton {
+	border:0 !important;
 	}
 img.clicktoload { 
 	background-image:url("../images/folder-open.png");
@@ -397,6 +401,11 @@ img.clicktodelete {
 	}
 img.clicktoconfigure { 
 	background-image:url("../images/document-properties.png");
+    padding:1px;
+	cursor:pointer;
+	}
+img.clicktoaddmerit { 
+	background-image:url("../images/goldstar.png");
     padding:1px;
 	cursor:pointer;
 	}

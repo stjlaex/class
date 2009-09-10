@@ -1,3 +1,19 @@
+Version ClaSS-0.9.3 release (2009/09/14)
+-----------------------------------------
+
+New merit system including db table and a helper window for
+merit_adder.php in the InfoBook.
+
+Extra config option to define the registration group type: either form
+(the default) or other. With registrationtype='other' then student
+communities of type=reg replace form groups in all areas.
+
+Slight change to javascript functions to make use of sidtable uniform
+across the books and to relegate marktabe to a css class.
+
+New community type of 'house' allowed.
+
+
 Version ClaSS-0.9.2 release (2009/09/01)
 -----------------------------------------
 
@@ -13,7 +29,6 @@ The Raphael js library added for rendering charts.
 The edit_scores now has the ability to handle assessments with strands.
 
 Tidied the edit_form page in Admin.
-
 
 
 Version ClaSS-0.9.1 release (2009/07/31)
