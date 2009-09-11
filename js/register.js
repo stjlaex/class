@@ -179,9 +179,12 @@ function selectColumn(thObj,multi){
 			}
 	}
 
+/*
+* Will grab a hidden div identified by extraDiv (id="add-extraDiv") and 
+* place a copy in the sidtable for a particular sid.
+* The exact location it is added to is identified by the containerId (id="containerId-sid")
+*/
 function addExtraFields(sidId,cellId,extraId,containerId){
-//	alert(extraId);
-//	var editContainer=document.getElementById("edit-"+sidId);
 	if(containerId==''){containerId=extraId;}
 	var editContainer=document.getElementById(containerId+"-"+sidId);
 	var extraDiv=document.getElementById("add-"+extraId).cloneNode(true);
@@ -205,12 +208,8 @@ function addExtraFields(sidId,cellId,extraId,containerId){
 
 function removeExtraFields(sidId,extraId,containerId){
 	if(containerId==''){containerId=extraId;}
-	//alert(extraId);
-	//alert(sidId);
-	//var editContainer=document.getElementById("edit-"+sidId);
 	var editContainer=document.getElementById(containerId+"-"+sidId);
 	var extraDiv=document.getElementById("add-"+extraId+"-"+sidId);
-//	if(extraDiv){document.getElementById("edit-"+sidId).removeChild(extraDiv);}
 	if(extraDiv){document.getElementById(containerId+"-"+sidId).removeChild(extraDiv);}
 	}
 
