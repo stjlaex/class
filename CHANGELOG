@@ -1,15 +1,18 @@
 Version ClaSS-0.9.3 release (2009/09/14)
 -----------------------------------------
 
-New merit system including db table and a helper window for
+New merit system including new db table. Extra helper window for
 merit_adder.php in the InfoBook.
 
 Extra config option to define the registration group type: either form
-(the default) or other. With registrationtype='other' then student
-communities of type=reg replace form groups in all areas.
+(the default) or an other community type (eg. 'reg' for registration
+group, 'academic' for academic groups').
 
 Slight change to javascript functions to make use of sidtable uniform
 across the books and to relegate marktabe to a css class.
+
+New decorate option instigate by sidTable init to add onhover content
+to each student cell in the table.
 
 New community type of 'house' allowed.
 

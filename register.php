@@ -31,13 +31,13 @@ if($nodays==''){$nodays=8;}
 	  }
   elseif($newcomid!=''){
 	  $secid=get_class_section('7Y');
-	  $community=array('id'=>$newcomid,'type'=>'reg','name'=>'');
+	  $community=array('id'=>$newcomid,'type'=>$CFG->registrationtype,'name'=>'');
 	  $newfid='';$newcid='';
 	  }
 
   if(isset($community) and is_array($community)){
 	  if($community['type']=='form'){$newfid=$community['name'];}
-	  elseif($community['type']=='reg' or $community['type']=='class'){$comid=$community['id'];}
+	  elseif($community['type']==$CFG->registrationtype or $community['type']=='class'){$comid=$community['id'];}
 	  }
   else{
 	  /* On first load select the teacher's form group by default. */
@@ -98,7 +98,7 @@ if($nodays==''){$nodays=8;}
 					include('scripts/list_form.php');
 					}
 				else{
-					$onsidechange='yes'; $listtype='reg';  $listlabel=''; 
+					$onsidechange='yes'; $listtype=$CFG->registrationtype; $listlabel=''; 
 					include('scripts/list_community.php');
 					}
 ?>

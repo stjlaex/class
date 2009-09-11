@@ -47,10 +47,10 @@ $CFG->sitelang='en';
  * where 1 is always whole school and those differing from this need
  * to be added.
  */
-$CFG->registrationtype='form';//form or other
+$CFG->registrationtype='form';//the default community type (eg. form or reg)
 $CFG->registration[1]='single';//Whole school
-//$CFG->registration[2]='double';//eg. Infants
-/*used by the register - see http://es2.php.net/manual/en/timezones.php*/
+//$CFG->registration[2]='double';//where the index is the section id.
+/* Time-zone used by the register - see http://es2.php.net/manual/en/timezones.php*/
 $CFG->timezone='Europe/Madrid';
 /**
  * Only needed by the Order book these should match the sequence of the
