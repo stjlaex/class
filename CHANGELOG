@@ -9,9 +9,10 @@ Extra config option to define the registration group type: either form
 group, 'academic' for academic groups').
 
 Slight change to javascript functions to make use of sidtable uniform
-across the books and to relegate marktabe to a css class.
+across the books and to relegate marktabe to a css class. The
+add/remove extrafields functions also generalised.
 
-New decorate option instigate by sidTable init to add onhover content
+New decorate option instigated by sidTable init to add onhover content
 to each student cell in the table.
 
 New community type of 'house' allowed.

@@ -49,8 +49,8 @@ function decorateStudent(tdObj){
 	var rowId=tdObj.parentNode.id;
 	var sidId=rowId.substring(4,rowId.length);//strip off "sid-" part
 	if(sidId!=currentsidrow){
-		setTimeout("addExtraFields("+sidId+",null,'extra-merit')",100);
-		setTimeout("removeExtraFields("+currentsidrow+",'extra-merit')",100);
+		setTimeout("addExtraFields("+sidId+",null,'merit','')",100);
+		setTimeout("removeExtraFields("+currentsidrow+",'merit','')",100);
 		currentsidrow=sidId;
 		}
 	}
@@ -67,17 +67,17 @@ function processAttendance(selObj){
 	var editId=selObj.parentNode.id;
 	var sidId=editId.substring(5,editId.length);//strip off "edit-" part
 	if(selObj.value=="a"){
-		removeExtraFields(sidId,"extra-p");
+		removeExtraFields(sidId,"extra-p","edit");
 		selObj.parentNode.className=selObj.parentNode.className+" extra";
 		if(!document.getElementById("code-"+sidId)){
-			addExtraFields(sidId,null,"extra-a");
+			addExtraFields(sidId,null,"extra-a","edit");
 			}
 		}
 	else{
 		if(selObj.value=="n"){selObj.value="p";}
-		removeExtraFields(sidId,"extra-a");
+		removeExtraFields(sidId,"extra-a","edit");
 		if(!document.getElementById("late-"+sidId)){
-			addExtraFields(sidId,null,"extra-p");
+			addExtraFields(sidId,null,"extra-p","edit");
 			}
 		}
 	}
@@ -163,15 +163,15 @@ function selectColumn(thObj,multi){
 				var selObj=tdEditObj.getElementsByTagName("select")[0];
 				selObj.value=cellObj.attributes.getNamedItem("status").value;
 				var tdEditClaSS=tdEditObj.className;
-				removeExtraFields(sids[c],"extra-a");
-				removeExtraFields(sids[c],"extra-p");
+				removeExtraFields(sids[c],"extra-a","edit");
+				removeExtraFields(sids[c],"extra-p","edit");
 				if(selObj.value=="a"){
 					tdEditClaSS=tdEditClaSS+" extra";
-					addExtraFields(sids[c],cellId,"extra-a");
+					addExtraFields(sids[c],cellId,"extra-a","edit");
 					}
 				else{
 					tdEditClaSS="edit";
-					if(selObj.value=="p"){addExtraFields(sids[c],cellId,"extra-p")}
+					if(selObj.value=="p"){addExtraFields(sids[c],cellId,"extra-p","edit")}
 					}
 				tdEditObj.className=tdEditClaSS;
 				}
@@ -179,11 +179,14 @@ function selectColumn(thObj,multi){
 			}
 	}
 
-function addExtraFields(sidId,cellId,extraId){
-	var editContainer=document.getElementById("edit-"+sidId);
-	var extraDiv=document.getElementById(extraId).cloneNode(true);
+function addExtraFields(sidId,cellId,extraId,containerId){
+//	alert(extraId);
+//	var editContainer=document.getElementById("edit-"+sidId);
+	if(containerId==''){containerId=extraId;}
+	var editContainer=document.getElementById(containerId+"-"+sidId);
+	var extraDiv=document.getElementById("add-"+extraId).cloneNode(true);
 	extraDiv.removeAttribute("class");
-	extraDiv.id=extraId+"-"+sidId;
+	extraDiv.id="add-"+extraId+"-"+sidId;
 	var newElements=extraDiv.childNodes;
 	var cellObj=document.getElementById(cellId);
 	for(var i=0;i<newElements.length;i++){
@@ -200,11 +203,15 @@ function addExtraFields(sidId,cellId,extraId){
 	editContainer.insertBefore(extraDiv,null);
 	}
 
-function removeExtraFields(sidId,extraId){
+function removeExtraFields(sidId,extraId,containerId){
+	if(containerId==''){containerId=extraId;}
+	//alert(extraId);
 	//alert(sidId);
-	var editContainer=document.getElementById("edit-"+sidId);
-	var extraDiv=document.getElementById(extraId+"-"+sidId);
-	if(extraDiv){document.getElementById("edit-"+sidId).removeChild(extraDiv);}
+	//var editContainer=document.getElementById("edit-"+sidId);
+	var editContainer=document.getElementById(containerId+"-"+sidId);
+	var extraDiv=document.getElementById("add-"+extraId+"-"+sidId);
+//	if(extraDiv){document.getElementById("edit-"+sidId).removeChild(extraDiv);}
+	if(extraDiv){document.getElementById(containerId+"-"+sidId).removeChild(extraDiv);}
 	}
 
 
@@ -221,15 +228,15 @@ function setAll(state){
 				var selObj=tdEditObj.getElementsByTagName("select")[0];
 				selObj.value=state;
 				var tdEditClaSS=tdEditObj.className;
-				removeExtraFields(sids[c],"extra-a");
-				removeExtraFields(sids[c],"extra-p");
+				removeExtraFields(sids[c],"extra-a","edit");
+				removeExtraFields(sids[c],"extra-p","edit");
 				if(state=="a"){
 					tdEditClaSS=tdEditClaSS+" extra";
-					addExtraFields(sids[c],null,"extra-a");
+					addExtraFields(sids[c],null,"extra-a","edit");
 					}
 				else{
 					tdEditClaSS="edit";
-					addExtraFields(sids[c],null,"extra-p");
+					addExtraFields(sids[c],null,"extra-p","edit");
 					}
 				tdEditObj.className=tdEditClaSS;
 				}

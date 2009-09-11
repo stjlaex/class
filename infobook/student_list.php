@@ -123,7 +123,7 @@ two_buttonmenu($extrabuttons,$book);
 				print $Student[$displayname]['value']; 
 ?>
 			</a>
-			<div id="edit-<?php print $sid;?>"></div>
+			<div id="merit-<?php print $sid;?>"></div>
 		  </td>
 		  <td>
 <?php 
@@ -193,9 +193,9 @@ if($_SESSION['role']=='office' or $_SESSION['role']=='admin'){
 	</form>
   </div>
 
-  <div class="hidden" id="extra-merit">
+  <div class="hidden" id="add-merit">
 		<div style="float:right;" title="<?php print_string('merits','infobook');?>" 
-			name="current" value="merit_adder.php" onclick="clickToAddMerit('','','extra-merit')" >
+			name="current" value="merit_adder.php" onclick="clickToAddMerit('','','merit')" >
 		<img class="clicktoaddmerit" />
 		</div>
   </div>

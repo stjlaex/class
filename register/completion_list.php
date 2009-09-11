@@ -11,7 +11,7 @@ if(!isset($CFG->registrationtype) or $CFG->registrationtype=='form'){
 	$registration_coms=list_communities('form');
 	}
 else{
-	$registration_coms=list_communities('reg');
+	$registration_coms=list_communities($CFG->registrationtype);
 	}
 
 $eveid=$currentevent['id'];

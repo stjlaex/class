@@ -193,9 +193,13 @@ if($_SESSION['role']=='office' or $_SESSION['role']=='admin'){
 		<tr id="sid-<?php print $sid;?>">
 		  <td>
 			<?php print $rown++;?>
+			<input type="checkbox" name="sids[]" value="<?php print $sid; ?>" />
 		  </td>
 		  <td>
-			<input type='checkbox' name='sids[]' value='<?php print $sid; ?>' />
+<?php
+		if($_SESSION['role']!='office' and $_SESSION['role']!='support'){
+				$comment=comment_display($sid);
+?>
 			<a onclick="parent.viewBook('infobook');" target="viewinfobook" 
 			  href='infobook.php?current=student_scores.php&sid=<?php print $sid;?>'>T</a> 
 			<span <?php print ' title="'.$comment['body'].'"';?>>
@@ -205,11 +209,18 @@ if($_SESSION['role']=='office' or $_SESSION['role']=='admin'){
 			</span>
 			<a onclick="parent.viewBook('infobook');" target="viewinfobook"  
 			  href='infobook.php?current=incidents_list.php&sid=<?php print $sid;?>'>I</a>
+<?php			
+			}
+		else{
+			print '&nbsp';
+			}
+?>
 		  </td>
-		  <td>
+		  <td class="student">
 			<a href="infobook.php?current=student_view.php&sid=<?php print $sid;?>&sids[]=<?php print $sid;?>"
 			  target="viewinfobook" onclick="parent.viewBook('infobook');">
 			  <?php print $Student['DisplayFullName']['value']; ?></a>
+			<div id="merit-<?php print $sid;?>"></div>
 		  </td>
 <?php
 		reset($events);
@@ -290,7 +301,7 @@ if($_SESSION['role']=='office' or $_SESSION['role']=='admin'){
 
   </div>
 
-  <div class="hidden" id="extra-ppp">
+  <div class="hidden" id="add-extra-ppp">
 	<button type="button" name="late" id="late-butt" value="0" 
 	  onclick="parent.seleryGrow(this)"  class="rowaction selery">
 	  <img src="images/null.png" />
@@ -298,7 +309,7 @@ if($_SESSION['role']=='office' or $_SESSION['role']=='admin'){
 	<input type="hidden" id="late" name="late" value="0" />
   </div>
 
-  <div class="hidden" id="extra-p">
+  <div class="hidden" id="add-extra-p">
 	<select style="width:10em;" name="late" id="late">
 <?php
 	$enum=getEnumArray('latecode');
@@ -311,7 +322,7 @@ if($_SESSION['role']=='office' or $_SESSION['role']=='admin'){
   </div>
 
 
-  <div class="hidden" id="extra-a">
+  <div class="hidden" id="add-extra-a">
 	<select style="width:10em;" name="code" id="code">
 <?php
 	$enum=getEnumArray('absencecode');
@@ -333,4 +344,11 @@ if($_SESSION['role']=='office' or $_SESSION['role']=='admin'){
 	  <startdate><?php print $toyear.'-08-01';?></startdate>
 	  <enddate><?php print $today;?></enddate>
 	</session>
+  </div>
+
+  <div class="hidden" id="add-merit">
+		<div style="float:right;" title="<?php print_string('merits','infobook');?>" 
+			name="current" value="merit_adder.php" onclick="clickToAddMerit('','','merit')" >
+		<img class="clicktoaddmerit" />
+		</div>
   </div>

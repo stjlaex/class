@@ -201,7 +201,7 @@ if($_SESSION['worklevel']>-1){
 			<a href="infobook.php?current=student_view.php&sid=<?php print $viewtable[$c2]['sid'];?>&sids[]=<?php print $viewtable[$c2]['sid'];?>"
 			  target="viewinfobook" onclick="parent.viewBook('infobook');">
 			<?php print $viewtable[$c2]['surname'];?>,&nbsp;<?php print $viewtable[$c2]['forename'].$viewtable[$c2]['preferredforename'];?></a>
-			<div id="edit-<?php print $viewtable[$c2]['sid'];?>"></div>
+			<div id="merit-<?php print $viewtable[$c2]['sid'];?>"></div>
 		  </td>
 		  <td><?php print $viewtable[$c2]['form_id'];?></td>
 		  <td status="<?php print $viewtable[$c2]['attstatus'];?>" 
@@ -247,10 +247,10 @@ if($_SESSION['worklevel']>-1){
 	</form>
   </div>
 
-  <div class="hidden" id="extra-merit">
+  <div class="hidden" id="add-merit">
 		<div style="float:right;" title="<?php print_string('merits','infobook');?>" 
 			name="current" value="merit_adder.php" 
-			onclick="clickToAddMerit('<?php print $bid[0];?>','<?php print $pid;?>','extra-merit')" >
+			onclick="clickToAddMerit('<?php print $bid[0];?>','<?php print $pid;?>','merit')" >
 		<img class="clicktoaddmerit" />
 		</div>
   </div>
