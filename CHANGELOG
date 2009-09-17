@@ -1,3 +1,19 @@
+Version ClaSS-0.9.4 release (2009/09/16)
+-----------------------------------------
+
+The report db table now has academic year as a field (the upgrade
+patch will fill this based on the date of the report).
+
+A fix to emailing comments when subject teachers' option was checked.
+
+The list_responsible_users will now check for boarder status and
+include teachers who have perms for the residence group.
+
+New config option can exclude/include the guardians of boarders form
+receiving comment and incident emails (must be 'yes' for previous
+functionality to be maintained).
+
+
 Version ClaSS-0.9.3 release (2009/09/14)
 -----------------------------------------
 

@@ -29,8 +29,7 @@ include('scripts/sub_action.php');
 	elseif($incid=='' and $actionno==''){
 		mysql_query("INSERT INTO incidents SET student_id='$sid',
 			detail='$detail', entrydate='$entrydate', yeargroup_id='$newyid',
-			subject_id='$bid', category='$category',
-							teacher_id='$tid'");
+			subject_id='$bid', category='$category', teacher_id='$tid'");
 		$incid=mysql_insert_id();
 		$result[]=get_string('incidentrecorded',$book);
 		$teachername=get_teachername($tid);
@@ -58,23 +57,29 @@ include('scripts/sub_action.php');
 				}
 			}
 
-		$Contacts=(array)fetchContacts_emails($sid);
-		$footer='--'. "\r\n" .get_string('guardianemailfooterdisclaimer');
-		$message=$subject."\r\n". 'Subject: ' .display_subjectname($bid)."\r\n". 
-				'Posted by '.$teachername. "\r\n";
-		$message.="\r\n". $detail. "\r\n";
-		$message.="\r\n". $footer;
-		$fromaddress=$CFG->schoolname;
 
-		if($Contacts and $CFG->emailoff!='yes' and $yid>6 
-						and $CFG->emailguardianincidents=='yes'){
-			if(sizeof($Contacts)>0){
-				foreach($Contacts as $index => $Contact){
-					$emailaddress=strtolower($Contact['EmailAddress']['value']);
-					send_email_to($emailaddress,$fromaddress,$subject,$message);
-					$result[]=get_string('emailsentto').' '. 
-			get_string(displayEnum($Contact['Relationship']['value'],'relationship'),'infobook').
+
+		$Student=fetchStudent_singlefield($sid,'Boarder');
+		if($CFG->emailguardianincidents=='yes' and ($Student['Boarder']['value']=='N' 
+													or $CFG->emailboarders=='yes')){
+			$Contacts=(array)fetchContacts_emails($sid);
+			$footer='--'. "\r\n" .get_string('guardianemailfooterdisclaimer');
+			$message=$subject."\r\n". 'Subject: ' .display_subjectname($bid)."\r\n". 
+				'Posted by '.$teachername. "\r\n";
+			$message.="\r\n". $detail. "\r\n";
+			$message.="\r\n". $footer;
+			$fromaddress=$CFG->schoolname;
+
+			/*TODO: this is a hack to stop incidents to parents of primary children*/
+			if($Contacts and $CFG->emailoff!='yes' and $yid>6){
+				if(sizeof($Contacts)>0){
+					foreach($Contacts as $index => $Contact){
+						$emailaddress=strtolower($Contact['EmailAddress']['value']);
+						send_email_to($emailaddress,$fromaddress,$subject,$message);
+						$result[]=get_string('emailsentto').' '. 
+							get_string(displayEnum($Contact['Relationship']['value'],'relationship'),'infobook').
 							' '.$Contact['Surname']['value'];
+						}
 					}
 				}
 			}

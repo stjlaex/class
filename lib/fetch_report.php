@@ -249,11 +249,17 @@ function fetchReportDefinition($rid,$selbid='%'){
 								   'type_db'=>'date', 
 								   'value'=>''.$report['date']);
    	$RepDef['Deadline']=array('label'=>'deadlineforcompletion', 
-							  'inputtype'=> 'required',
+							  'inputtype'=>'required',
 							  'table_db'=>'report', 
 							  'field_db'=>'deadline',
 							  'type_db'=>'date', 
 							  'value'=>''.$report['deadline']);
+   	$RepDef['Year']=array('label'=>'Year', 
+							  'inputtype'=>'required',
+							  'table_db'=>'report', 
+							  'field_db'=>'year',
+							  'type_db'=>'year', 
+							  'value'=>''.$report['year']);
    	$RepDef['ComponentStatus']=array('label'=>'componentstatus', 
 									 'table_db'=>'report', 
 									 'field_db'=>'component_status',

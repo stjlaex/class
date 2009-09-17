@@ -19,7 +19,7 @@ function list_sid_responsible_users($sid, $bid){
 	/*first find pastoral group*/
   	$d_group=mysql_query("SELECT gid FROM groups JOIN student
 	  	ON student.yeargroup_id=groups.yeargroup_id WHERE
-	  	student.id='$sid' AND groups.course_id=''"); 
+	  	student.id='$sid' AND groups.course_id='';"); 
 	$group=mysql_fetch_array($d_group);
 	$gids[]=$group['gid'];
 
@@ -46,7 +46,7 @@ function list_sid_responsible_users($sid, $bid){
 		}
 	foreach($gids as $key => $gid){
 		$d_users=mysql_query("SELECT * FROM users JOIN perms ON users.uid=perms.uid WHERE
-			perms.gid='$gid' AND perms.e='1'");
+			perms.gid='$gid' AND perms.e='1';");
 		while($user=mysql_fetch_array($d_users)){
 			if(eregi('^[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.([a-zA-Z]{2,4})$', $user['email'])){ 
 				$recipients[]=array('username'=>$user['username'], 'email'=>$user['email']);
@@ -61,6 +61,19 @@ function list_sid_responsible_users($sid, $bid){
 	$user=get_user($formtid);
 	if(eregi('^[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.([a-zA-Z]{2,4})$', $user['email'])){ 
 		$recipients[]=array('username'=>$user['username'], 'email'=>$user['email']);
+		}
+
+	/*checks for boarders*/
+	$Student=fetchStudent_singlefield($sid,'Boarder');
+	if($Student['Boarder']['value']!='N'){
+		$d_u=mysql_query("SELECT uid FROM perms JOIN groups ON perms.gid=groups.gid WHERE
+					  groups.type='p' AND groups.name='residence';");
+		while($u=mysql_fetch_array($d_u)){
+			$user=get_user($u['uid'],'uid');
+			if(eregi('^[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.([a-zA-Z]{2,4})$', $user['email'])){ 
+				$recipients[]=array('username'=>$user['username'], 'email'=>$user['email']);
+				}
+			}
 		}
 
 	return $recipients;
@@ -205,7 +218,6 @@ function list_admin_groups(){
 			$d_g=mysql_query("SELECT gid,type FROM groups WHERE name='admin' AND type='$type';");
 			if(mysql_num_rows($d_g)==0){
 				mysql_query("INSERT INTO groups (name,type) VALUES ('admin','$type');");
-				//trigger_error('INSERT for: '.$type,E_USER_WARNING);
 				}
 			}
 		$groups=list_admin_groups();

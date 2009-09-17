@@ -1,5 +1,6 @@
 <?php
 /**									comments_list_action.php
+ *
  */
 
 $action='comments_list.php';
@@ -44,24 +45,29 @@ include('scripts/sub_action.php');
 		$message.="\r\n". $footer;
 		$fromaddress=$CFG->schoolname;
 
-		$recipients=list_sid_responsible_users($sid,$bid);
-
+		$precips=(array)list_sid_responsible_users($sid,$bid);
+		$arecips=array();
 		if($teacheremail=='yes'){
-			$recipients=list_student_teachers($sid);
+			$arecip=(array)list_student_teachers($sid);
 			}
+		$recipients=array_merge($precips, $arecips);
 
 		if($recipients and $CFG->emailoff!='yes' and $CFG->emailcomments=='yes'){
 			if(sizeof($recipients)>0){
+				$dones=array();
 				foreach($recipients as $key => $recipient){
-					$recipient['email']=strtolower($recipient['email']);
-					send_email_to($recipient['email'],$fromaddress,$subject,$message);
-					$result[]=get_string('emailsentto').' '.$recipient['username'];
+					if(!array_key_exists($recipient['username'],$dones)){
+						$recipient['email']=strtolower($recipient['email']);
+						send_email_to($recipient['email'],$fromaddress,$subject,$message);
+						$result[]=get_string('emailsentto').' '.$recipient['username'];
+						$done[$recipient['username']]=$recipient['username'];
+						}
 					}
 				}
 			}
 
-
-		if($guardianemail=='yes'){
+		$Student=fetchStudent_singlefield($sid,'Boarder');
+		if($guardianemail=='yes' and ($Student['Boarder']['value']=='N' or $CFG->emailboarders=='yes')){
 			$Contacts=(array)fetchContacts_emails($sid);
 			$footer='--'. "\r\n" .get_string('guardianemailfooterdisclaimer');
 			$message=$subject."\r\n". 'Subject: ' .display_subjectname($bid)."\r\n". 
@@ -75,7 +81,8 @@ include('scripts/sub_action.php');
 						$emailaddress=strtolower($Contact['EmailAddress']['value']);
 						send_email_to($emailaddress,$fromaddress,$subject,$message);
 						$result[]=get_string('emailsentto').' '. 
-								get_string(displayEnum($Contact['Relationship']['value'],'relationship'),'infobook'). ' '.$Contact['Surname']['value'];
+							get_string(displayEnum($Contact['Relationship']['value'],'relationship'),'infobook'). 
+							' '.$Contact['Surname']['value'];
 						}
 					}
 				}

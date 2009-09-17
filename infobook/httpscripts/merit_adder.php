@@ -72,7 +72,7 @@ $inmust='yes';
 	  <div class="right">
 <?php 
 		$listlabel='points'; $required='yes'; $listname='points';
-		$ratings=$ratingnames['meritpoints'];
+		$ratings=$ratingnames['meritpoints']; asort($ratings);
 //$d_rating=mysql_query("SELECT descriptor AS name, value AS id FROM rating WHERE
 //	        name='$rating_name' ORDER BY value;");
 		include('../../scripts/set_list_vars.php');

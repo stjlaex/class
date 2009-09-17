@@ -327,7 +327,9 @@ $string['']='Fang';
 $string['']='Fijian';
 $string['']='Finnish';
 $string['']='Fon';
-$string['']='French';
+*/
+$string['french']='French';
+/*
 $string['']='Fula/Fulfulde-Pulaar';
 $string['']='Ga';
 $string['']='Gaelic/Irish';
@@ -358,7 +360,9 @@ $string['']='Ijo (Any)';
 $string['']='Ilokano';
 $string['']='Itsekiri';
 $string['']='Icelandic';
-$string['']='Italian';
+*/
+$string['italian']='Italian';
+/*
 $string['']='Italian (Any Other)';
 $string['']='Italian (Napoletan)';
 $string['']='Italian (Sicilian)';
@@ -445,7 +449,9 @@ $string['']='Ndebele';
 $string['']='Ndebele (South Africa)';
 $string['']='Ndebele (Zimbabwe)';
 $string['']='Nepali';
-$string['']='Norwegian';
+*/
+$string['norwegian']='Norwegian';
+/*
 $string['']='Nuer/Naadh';
 $string['']='Nupe';
 $string['']='Newari';

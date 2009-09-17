@@ -17,6 +17,7 @@ CREATE TABLE report (
 		style			varchar(60) not null default '',
 		transform		varchar(60) not null default '',
 		rating_name		text not null default '',
+		year			year not null default '0000',
 		primary key		(id)
 );");
 

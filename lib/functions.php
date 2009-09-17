@@ -305,17 +305,18 @@ function getEnumArray($field_name){
 
 	/*codes from CBDS 2007, including deprecated six for compatibility*/
 	/*not always the same as ISO 639-2 is the alpha-3 code for language!*/
-	$language=array('ENG' => 'english', 
-					'ENB' => 'believedtobeenglish', 
-					'OTB' => 'believedtobeotherthanenglish',
-					'FRN' => 'french',
-					'ITA' => 'italian',
-					'SPA' => 'spanish',
-					'CZE' => 'czech',
-					'CHI' => 'chinese',
-					//'OTH' => 'other', 
-					'OTL' => 'otherlanguage',
-					'NOT' => 'informationnotobtained'
+	$language=array('ENG'=>'english', 
+					'ENB'=>'believedtobeenglish', 
+					'OTB'=>'believedtobeotherthanenglish',
+					'FRN'=>'french',
+					'ITA'=>'italian',
+					'NOR'=>'norwegian',
+					'SPA'=>'spanish',
+					//'CZE'=>'czech',
+					'CHI'=>'chinese',
+					//'OTH'=>'other', 
+					'OTL'=>'otherlanguage',
+					'NOT'=>'informationnotobtained'
 /*
 					'REF'=>'refused',
 					'ACL'=>'Acholi',
@@ -508,7 +509,6 @@ function getEnumArray($field_name){
 					'NDBS'=>'Ndebele (South Africa)',
 					'NDBZ'=>'Ndebele (Zimbabwe)',
 					'NEP'=>'Nepali',
-					'NOR'=>'Norwegian',
 					'NUE'=>'Nuer/Naadh',
 					'NUP'=>'Nupe',
 					'NWA'=>'Newari',
@@ -631,7 +631,7 @@ function getEnumArray($field_name){
 					'ZZZ'=>'classificationpending'
 */
 					);
-	$ethnicity=array('' => ''
+	$ethnicity=array(''=>''
 					 );
 	$languagetype=array('F' => 'firstlanguage', 
 						'M' => 'multiplefirstlanguage',
