@@ -9,7 +9,7 @@
  */
 
 $choice='class_view.php';
-
+$cutoffdate=date('Y-m-d',mktime(0,0,0,date('m')-1,date('d'),date('Y')));
 /*Fetches all the info needed for this view*/
 include('class_view_marks.php');
 
@@ -129,13 +129,20 @@ if($_SESSION['worklevel']>-1){
 		if($umns[$col]['marktype']=='score' or $umns[$col]['marktype']=='hw'){
 			if($umns[$col]['assessment']=='other'){$colclass='other';}
 			else{$colclass='';}
-			  print '<th class="'.$colclass.'" id="'.$umns[$col]['id'].'"><span title="'.$umns[$col]['comment'].'"><a 
+			if($umns[$col]['entrydate']<$cutoffdate and $umns[$col]['assessment']!='no'){
+				print '<th class="'.$colclass.'" id="'.$umns[$col]['id'].'"><span title="'.$umns[$col]['comment'].'">' 
+					  .$umns[$col]['topic'].'<p>'.display_date($umns[$col]['entrydate']).'</p>
+	      <p class="component">'.$umns[$col]['component'].'</p>'.$umns[$col]['marktype'].'<input type="checkbox" name="checkmid[]" value="'.$umns[$col]['id'].'" /></span></th>';
+				}
+			else{
+				print '<th class="'.$colclass.'" id="'.$umns[$col]['id'].'"><span title="'.$umns[$col]['comment'].'"><a 
 				href="markbook.php?current=edit_scores.php&cancel=class_view.php&scoretype='. 
 					  $scoretype[$col].'&grading_name='. 
 					  $scoregrading[$col].'&mid='.$umns[$col]['id'].'&col='.$col.'">' 
 					  .$umns[$col]['topic'].'<p>'.display_date($umns[$col]['entrydate']).'</p></a>
 	      <p class="component">'.$umns[$col]['component'].'</p>'.$umns[$col]['marktype'].'<input type="checkbox" name="checkmid[]" value="'.$umns[$col]['id'].'" /></span></th>';
-	      	  }
+				}
+			}
 		elseif($umns[$col]['marktype']=='report'){
 			  print '<th class="report" id="'.$umns[$col]['id'].'"><span title="'.$umns[$col]['comment'].'"><a 
 	      href="markbook.php?current=new_edit_reports.php&cancel=class_view.php&midlist='.$umns[$col]['midlist']. 

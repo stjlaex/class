@@ -46,15 +46,20 @@ function list_formgroups($yid='%'){
 	}
 
 /**
- * Returns an array of all posible stages for a single course
+ * Returns an array of all posible stages for a single course. If no
+ * year given then it will stages for the current course
+ * structure. There is no explicit sequence defined for stages, it is
+ * implicit in their naming scheme and so stage's should be named
+ * logically.
+ *
  *
  */
-/* TODO: Will fail if the stages have changed between years!!! */
-function list_course_stages($crid=''){
+function list_course_stages($crid='',$year=''){
+	if($year==''){$year=get_curriculumyear($crid);}
 	$stages=array();
 	if($crid!=''){
 		$d_stage=mysql_query("SELECT DISTINCT stage FROM cohort WHERE
-			   	course_id='$crid' AND stage!='%' ORDER BY year, stage;");
+			   	course_id='$crid' AND stage!='%' AND year='$year' ORDER BY stage ASC;");
 		while($stage=mysql_fetch_array($d_stage,MYSQL_ASSOC)){
 			$stages[]=array('id'=>$stage['stage'],'name'=>$stage['stage']);
 			}
@@ -89,6 +94,7 @@ function list_course_subjects($crid=''){
  *
  */
 function list_subject_components($bid,$crid,$compstatus='A'){
+	$components=array();
 	if($compstatus=='A'){$compmatch="(component.status LIKE '%' AND component.status!='U')";}
 	elseif($compstatus=='AV'){$compmatch="(component.status='V' OR component.status='O')";}
 	else{$compmatch="(component.status LIKE '$compstatus' AND component.status!='U')";}
@@ -114,11 +120,11 @@ function list_subject_components($bid,$crid,$compstatus='A'){
 						component.subject_id='$bid'  
 						ORDER BY component.sequence, subject.name;");
 			}
-		$components=array();
 		while($component=mysql_fetch_array($d_com,MYSQL_ASSOC)){
 			$components[]=$component;
 			}
 		}
+
 	return $components;
 	}
 
@@ -514,11 +520,12 @@ function update_cohort($cohort){
 
 
 /**
- * Lists all sids who are current members of a cohort
+ * Lists all sids who are current members of a cohort, or optionally
+ * if todate is set then the membership on that date.
  *
  */
-function listin_cohort($cohort){
-	$todate=date('Y-m-d');
+function listin_cohort($cohort,$todate=''){
+	if($todate==''){$todate=date('Y-m-d');}
 	if($cohort['id']!=''){$cohid=$cohort['id'];}
 	else{$cohid=update_cohort($cohort);}
 	mysql_query("CREATE TEMPORARY TABLE cohortstudent (SELECT DISTINCT student_id FROM comidsid 
@@ -526,12 +533,12 @@ function listin_cohort($cohort){
 				WHERE cohidcomid.cohort_id='$cohid' AND
 				(comidsid.joiningdate<='$todate' OR comidsid.joiningdate IS NULL)
 				AND (comidsid.leavingdate>'$todate' OR 
-				comidsid.leavingdate='0000-00-00' OR comidsid.leavingdate IS NULL))");
+				comidsid.leavingdate='0000-00-00' OR comidsid.leavingdate IS NULL));");
 	$d_cohortstudent=mysql_query("SELECT b.id, b.surname,
 				b.forename, b.middlenames, b.preferredforename, 
 				b.form_id FROM cohortstudent a,
-				student b WHERE b.id=a.student_id ORDER BY b.surname");
-	mysql_query("DROP TABLE cohortstudent");
+				student b WHERE b.id=a.student_id ORDER BY b.surname;");
+	mysql_query("DROP TABLE cohortstudent;");
 	$students=array();
    	while($student=mysql_fetch_array($d_cohortstudent,MYSQL_ASSOC)){
 		$students[]=$student;

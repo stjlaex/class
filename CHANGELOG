@@ -1,3 +1,17 @@
+Version ClaSS-0.9.5 release (2009/09/28)
+-----------------------------------------
+
+Removed the deprecated section_id field from course table and replaced
+with nextcourse_id; the relationship is between sections and groups of
+students while courses can be delivered in any section.
+
+Tidied new_assessments to maintain state properly.
+
+Assessments from previous curriculum years can now be applied to the
+MarkBook accounting for the progression of students to the next stage
+or next course correctly.
+
+
 Version ClaSS-0.9.4 release (2009/09/16)
 -----------------------------------------
 

@@ -9,6 +9,8 @@ $rcrid=$respons[$r]['course_id'];
 $curryear=$_POST['curryear'];
 $profid=$_POST['profid'];
 $action_post_vars=array('curryear','profid');
+$profile=get_assessment_profile($profid);
+$profile_name=$profile['name'];
 
 include('scripts/sub_action.php');
 
@@ -47,11 +49,11 @@ if($sub=='Submit' and isset($_FILES['importfile']) and $_FILES['importfile']['tm
 				mysql_query("INSERT INTO assessment (stage, year, subject_id, method, element,
 					description, label, resultqualifier, outoftotal,
 					resultstatus, component_status, strand_status,
-					course_id, grading_name, creation, deadline) VALUES
+					course_id, grading_name, creation, deadline, profile_name) VALUES
 					('$stage', '$year', '$subject', '$method',
 					'$element', '$description', '$label', '$resultq',
 					'$outoftotal', '$resultstatus', '$componentstatus', 
-					'$strandstatus', '$rcrid', '$gena', '$create', '$deadline');");
+					'$strandstatus', '$rcrid', '$gena', '$create', '$deadline', '$profile_name');");
 				if($derivation!=''){
 					$eid=mysql_insert_id();
 					update_derivation($eid,$derivation);
@@ -90,10 +92,10 @@ elseif($sub=='Submit'){
 		if($eid==''){
 			mysql_query("INSERT INTO assessment (stage, year, subject_id, method,  
 				element, component_id, description, resultqualifier, resultstatus, course_id,
-				component_status, strand_status, label, grading_name, creation, deadline) 
+				component_status, strand_status, label, grading_name, creation, deadline, profile_name) 
 				VALUES ('$stage', '$year', '$subject', '$method', 
 				'$element', '$pid', '$description', '$resultq', '$resultstatus', '$course','$componentstatus',
-				'$strandstatus', '$printlabel', '$gena','$creation','$deadline');");	
+				'$strandstatus', '$printlabel', '$gena','$creation','$deadline','$profile_name');");	
 			if($derivation!=''){
 				$eid=mysql_insert_id();
 				update_derivation($eid,$derivation);
@@ -106,7 +108,7 @@ elseif($sub=='Submit'){
 				resultqualifier='$resultq', resultstatus='$resultstatus', course_id='$course', 
 				element='$element', component_status='$componentstatus', 
 				strand_status='$strandstatus',label='$printlabel', grading_name='$gena',
-				deadline='$deadline', creation='$creation' WHERE id='$eid';");
+				deadline='$deadline', creation='$creation', profile_name='$profile_name' WHERE id='$eid';");
 			update_derivation($eid,$derivation);
 			}
 		}

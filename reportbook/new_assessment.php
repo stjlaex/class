@@ -120,7 +120,6 @@ three_buttonmenu($extrabuttons);
 <?php
 
 	$imagebuttons=array();
-	$extrabuttons=array();
 	/*the rowaction buttons used within each assessments table row*/
 	$imagebuttons['clicktodelete']=array('name'=>'current',
 										 'value'=>'delete_assessment.php',
@@ -128,24 +127,10 @@ three_buttonmenu($extrabuttons);
 	$imagebuttons['clicktoedit']=array('name'=>'Edit',
 									   'value'=>'',
 									   'title'=>'edit');
-	$extrabuttons['generatecolumns']=array('name'=>'current',
-										   'title'=>'generatecolumns',
-										   'value'=>'generate_assessment_columns.php');
-	$extrabuttons['deletecolumns']=array('name'=>'current',
-										 'title'=>'deletecolumns',
-										 'value'=>'delete_assessment_columns.php');
 
-	if($profid!=''){
-		$d_pro=mysql_query("SELECT name FROM categorydef WHERE 
-								type='pro' AND id='$profid';");
-		$profile_name=mysql_result($d_pro,0);
-		}
-	else{
-		$profile_name='';
-		}
-
+	$profile=get_assessment_profile($profid);
 	$cohort=array('id'=>'','course_id'=>$rcrid,'stage'=>'%','year'=>$curryear);
-	$AssDefs=(array)fetch_cohortAssessmentDefinitions($cohort,$profile_name);
+	$AssDefs=(array)fetch_cohortAssessmentDefinitions($cohort,$profile['name']);
 	while(list($index,$AssDef)=each($AssDefs)){
 		$eid=$AssDef['id_db'];
 		$rown=0;
@@ -172,7 +157,7 @@ three_buttonmenu($extrabuttons);
 				<?php print_string('markbookcolumns',$book);?>
 				<value id="<?php print $eid;?>-Markcount"><?php print
 						 $AssDef['MarkCount']['value'];?></value>.&nbsp
-			<a href="reportbook.php?current=edit_scores.php&cancel=new_assessment.php&eid=<?php print $eid;?>&curryear=<?php print $curryear;?>&pid=&bid="><?php print_string('scoresentered',$book);?>				
+			<a href="reportbook.php?current=edit_scores.php&cancel=new_assessment.php&eid=<?php print $eid;?>&curryear=<?php print $curryear;?>&profid=<?php print $profid;?>&pid=&bid="><?php print_string('scoresentered',$book);?>				
 				<value id="<?php print $eid;?>-Archivecount">
 				  <?php print $AssDef['ArchiveCount']['value'];?></value>
 				(<value id="<?php print $eid;?>-Scorecount"> 
@@ -183,6 +168,13 @@ three_buttonmenu($extrabuttons);
 		  <tr class="hidden" id="<?php print $eid.'-'.$rown++;?>">
 			<td colspan="7">
 <?php
+		$extrabuttons=array();
+		$extrabuttons['generatecolumns']=array('name'=>'current',
+											   'title'=>'generatecolumns',
+											   'value'=>'generate_assessment_columns.php');
+		$extrabuttons['deletecolumns']=array('name'=>'current',
+											 'title'=>'deletecolumns',
+											 'value'=>'delete_assessment_columns.php');
 		if(isset($AssDef['Derivation']['value'][0]) and $AssDef['Derivation']['value'][0]==' '){
 			$extrabuttons['statistics']=array('name'=>'current',
 											  'title'=>'updatestatistics',
@@ -193,14 +185,13 @@ three_buttonmenu($extrabuttons);
 										'title'=>'updateranking',
 										'value'=>'calculate_assessment_ranking.php');
 			}
+
 		/*Check user has permission to configure*/
 		$perm=getCoursePerm($rcrid,$respons);
 		$neededperm='x';
 		if($perm["$neededperm"]==1){
 			rowaction_buttonmenu($imagebuttons,$extrabuttons,$book);
 			}
-		unset($extrabuttons['statistics']);
-		unset($extrabuttons['rank']);
 ?>
 			</td>
 		  </tr>

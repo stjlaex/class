@@ -18,7 +18,7 @@ $currentseason='S';
 $currentyear=get_curriculumyear($crid);
 $d_cohort=mysql_query("SELECT id, stage FROM cohort WHERE
 						course_id='$crid' AND year='$currentyear'
-						AND season='$currentseason' AND stage!='END' AND stage!='%';");
+						AND season='$currentseason' AND stage!='%';");
 $cohorts=array();
 while($cohort=mysql_fetch_array($d_cohort,MYSQL_ASSOC)){
 	$cohorts[]=$cohort;

@@ -1,5 +1,6 @@
 <?php 
 /** 			   					year_end_action.php
+ *
  */
 
 $action='year_end_action2.php';
@@ -7,9 +8,10 @@ $action='year_end_action2.php';
 include('scripts/sub_action.php');
 include('scripts/answer_action.php');
 
-	/*This is all to try and cover for the fact that their could be a
-	choice of year groups to move in to. In practise I suspect there
-	will not be.*/
+	/* This is all to try and cover for the fact that their could be a
+	 * choice of year groups to move in to. In practise I suspect there
+	 * will not be.
+	 */
 	$years=array();
 	$yidsyears=array();
 	$years=list_yeargroups();
@@ -43,13 +45,10 @@ include('scripts/answer_action.php');
 		}
 
 
-	/**/
-	$courses=array();
+	/* For students at the last stage, find the next course to move on to. */
 	$cridscourses=array();
-	$d_course=mysql_query("SELECT id, sequence, section_id, name FROM
-							course ORDER BY section_id, sequence");
-	while($course=mysql_fetch_array($d_course,MYSQL_ASSOC)){
-		$courses[]=$course;
+	$courses=(array)list_courses();
+	foreach($courses as $course){
 		$cridscourses[$course['id']]=$course;
 		}
 	$cridscourses[1000]['name']='Graduate';
@@ -89,22 +88,22 @@ three_buttonmenu();
 		  <p><?php print_string('confirmyeargroupstopromote',$book);?></p>
 <?php
      while(list($yid,$year)=each($yidsyears)){
-	   if($year['nextyid']){
-		   $seqyear=$year['sequence'];
+		 if($year['nextyid']){
+			 $seqyear=$year['sequence'];
 ?>
 		  <label for="<?php print $year['name'];?>"><?php print $year['name'];?></label>
 		  <select id="<?php print $year['name'];?>" name="<?php print $yid;?>">
 <?php
-    	while(list($index,$newyid)=each($year['nextyid'])){
-			print '<option ';
-			if(($yid==$newyid)){print 'selected="selected"';}
-			print	' value="'.$newyid.'"> '.$yidsyears[$newyid]['name'].'</option>';
-			}
+			 while(list($index,$newyid)=each($year['nextyid'])){
+				 print '<option ';
+				 if(($yid==$newyid)){print 'selected="selected"';}
+				 print	' value="'.$newyid.'"> '.$yidsyears[$newyid]['name'].'</option>';
+				 }
 ?>
 		  </select>
 <?php
-		}
-	 }
+			 }
+		 }
 ?>
 	  </fieldset>
 

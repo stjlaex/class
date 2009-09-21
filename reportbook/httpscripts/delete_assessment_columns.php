@@ -12,8 +12,7 @@ if(!isset($xmlid)){print "Failed"; exit;}
 	/*Check user has permission to configure*/
 	$perm=getCoursePerm($crid,$respons);
 	$neededperm='x';
-	if($perm["$neededperm"]==1){
-
+	if($perm["$neededperm"]==1 and $AssDef['MarkCount']['value']>0){
 		$d_midcid=mysql_query("DELETE mark, eidmid FROM mark JOIN eidmid ON
 	   	eidmid.mark_id=mark.id WHERE eidmid.assessment_id='$eid'");
 		$d_midcid=mysql_query("DELETE midcid, eidmid FROM midcid JOIN eidmid ON
@@ -22,9 +21,6 @@ if(!isset($xmlid)){print "Failed"; exit;}
 	   	eidmid.mark_id=score.mark_id WHERE eidmid.assessment_id='$eid'");
 		$d_eidmid=mysql_query("DELETE FROM eidmid WHERE assessment_id='$eid'");
 		$result[]="Deleted mark columns.";
-		}
-	else{
-		$error[]=get_string('nopermissions');
 		}
 
 $returnXML=fetchAssessmentDefinition($eid);

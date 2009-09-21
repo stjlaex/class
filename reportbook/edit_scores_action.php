@@ -4,11 +4,13 @@
  */
 
 $action='edit_scores.php';
-$action_post_vars=array('eid','bid','pid');
+$action_post_vars=array('eid','bid','pid','curryear','profid');
 
 $eid=$_POST['eid'];
 $bid=$_POST['bid'];
 $pid=$_POST['pid'];
+$curryear=$_POST['curryear'];
+$profid=$_POST['profid'];
 $todate=date('Y-m-d');
 
 

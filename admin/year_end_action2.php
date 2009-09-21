@@ -371,11 +371,11 @@ $enrolyear=$currentyear+1;
 				}
 			elseif($nextpostcrid!='1000'){
 				/* The last stage of the course are graduating to next course
-				 *	   identified in nextpostcrid. 
+				 *	   identified in nextpostcrid so grab the first stage only. 
 				 */
 				$d_cohort=mysql_query("SELECT id FROM cohort WHERE
 						course_id='$nextpostcrid' AND year='$yearnow' AND
-						season='S' AND stage!='END' ORDER BY stage ASC;");
+						season='S' ORDER BY stage ASC;");
 				$nextcohid=mysql_result($d_cohort,0,0);
 				}
 			else{

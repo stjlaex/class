@@ -17,6 +17,8 @@ if(isset($_GET['pid'])){$selpid=$_GET['pid'];}
 elseif(isset($_POST['pid'])){$selpid=$_POST['pid'];}
 if(isset($_GET['curryear'])){$curryear=$_GET['curryear'];}
 elseif(isset($_POST['curryear'])){$curryear=$_POST['curryear'];}
+if(isset($_GET['profid'])){$profid=$_GET['profid'];}
+elseif(isset($_POST['profid']) and $_POST['profid']!=''){$profid=$_POST['profid'];}else{$profid='';}
 
 	$AssDef=fetchAssessmentDefinition($eid);
 	$crid=$AssDef['Course']['value'];
@@ -86,6 +88,7 @@ three_buttonmenu($extrabuttons,$book);
 	include('scripts/set_list_vars.php');
 	list_select_list($subjects,$listoptions,$book);
 
+	$strandno=0;
 	$components=(array)list_subject_components($selbid,$crid,$compstatus);
 	if(sizeof($components)>0){
 		if($selpid==''){
@@ -182,6 +185,7 @@ three_buttonmenu($extrabuttons,$book);
 
 
 	  <input type="hidden" name="curryear" value="<?php print $curryear; ?>"/>
+	  <input type="hidden" name="profid" value="<?php print $profid;?>" />
 	  <input type="hidden" name="bid" value="<?php print $selbid; ?>"/>
 	  <input type="hidden" name="pid" value="<?php print $selpid; ?>"/>
 	  <input type="hidden" name="eid" value="<?php print $eid; ?>"/>

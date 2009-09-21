@@ -27,11 +27,11 @@ include('scripts/sub_action.php');
 
 $extrabuttons=array();
 $extrabuttons['displaybysubject']=array('name'=>'breakdown',
-						'value'=>'subject'
-						);
+										'value'=>'subject'
+										);
 $extrabuttons['displaybyassessment']=array('name'=>'breakdown',
-						'value'=>'assessment'
-						);
+										   'value'=>'assessment'
+										   );
 two_buttonmenu($extrabuttons,$book);
 
 	if($fid!=''){
@@ -49,7 +49,11 @@ two_buttonmenu($extrabuttons,$book);
 			$rcrid=mysql_result($d_course,0);
 			}
 
-		$students=listin_cohort(array('id'=>'','course_id'=>$rcrid,'year'=>$year,'stage'=>$stage));
+		/*TODO: this just guesses a date in the middle of the academic year! */
+		$todate=$year-1;
+		$todate=$todate.'-12-31';
+		trigger_error($todate,E_USER_WARNING);
+		$students=listin_cohort(array('id'=>'','course_id'=>$rcrid,'year'=>$year,'stage'=>$stage),$todate);
 		}
 
 	$viewtable=array();/*The array used to store the information to display*/
@@ -74,9 +78,9 @@ two_buttonmenu($extrabuttons,$book);
 			while($subject=mysql_fetch_array($d_cridbid,MYSQL_ASSOC)){
 				$bid=$subject['subject_id'];
 				$assbids[$bid]=$bid.' ';
-				$d_component=mysql_query("SELECT DISTINCT id FROM component
-						WHERE course_id='$asscrid' AND subject_id='$bid' ORDER BY id");
-				while($comp=mysql_fetch_array($d_component,MYSQL_ASSOC)){
+				$compstatus='%';
+				$comps=list_subject_components($bid,$asscrid,$compstatus);
+				foreach($comps as $comp){
 					$assbids[$bid.$comp['id']]=$bid . $comp['id'];
 					}
 				}
@@ -92,13 +96,14 @@ two_buttonmenu($extrabuttons,$book);
 				}
 			}
 
-		while(list($index,$bid)=each($selbids)){
+		while(list($bindex,$bid)=each($selbids)){
 			$assbids[]=$bid.' ';
-			$components=list_subject_components($bid,$rcrid);
-			while(list($pindex,$component)=each($components)){
+			$compstatus='%';
+			$comps=list_subject_components($bid,$rcrid,$compstatus);
+			foreach($comps as $component){
 				$assbids[]=$bid . $component['id'];
-				$strands=list_subject_components($component['id'],$rcrid);
-				while(list($sindex,$strand)=each($strands)){
+				$strands=list_subject_components($component['id'],$rcrid,$compstatus);
+				foreach($strands as $strand){
 					$assbids[]=$bid . $strand['id'];
 					}
 				}
@@ -139,7 +144,7 @@ two_buttonmenu($extrabuttons,$book);
 	elseif($breakdown=='assessment'){
 		$hids=$eids;
 		$aids=$assbids;
-		while(list($c3,$eid)=each($hids)){
+		while(list($c4,$eid)=each($hids)){
 			$viewtable[0]['out'][]=$assdefs[$eid]['Description']['value'];
 			}
 		}
@@ -161,7 +166,7 @@ two_buttonmenu($extrabuttons,$book);
 				$eid=$Assessment['id_db'];
 				$bid=$Assessment['Subject']['value'];
 				$pid=$Assessment['SubjectComponent']['value'];
-				$asshids[$bid. $pid][]=$assno;
+				$asshids[$bid . $pid][]=$assno;
 				$assaids[$eid][]=$assno;
 				}
 			}
@@ -178,7 +183,7 @@ two_buttonmenu($extrabuttons,$book);
 		/* each cell averages over all selected assessments for one hid*/
 		reset($hids);
 		$colcount=-1;
-		while(list($c3,$hid)=each($hids)){
+		while(list($c33,$hid)=each($hids)){
 			$colcount++;
 		  if(array_key_exists($hid,$asshids)){
 			  /*any assessments for this hid?*/
@@ -282,7 +287,7 @@ two_buttonmenu($extrabuttons,$book);
 			<tr>
 <?php
 		  /*  display the column headers*/
-		  print '<th>'.$viewtable[0]['cohort'].'</th>';
+		  print '<th colspan="2">'.$viewtable[0]['cohort'].'</th>';
 		  for($c2=0;$c2<sizeof($viewtable[0]['out']);$c2++){
 			  if($viewtable[0]['count'][$c2]>0){
 				  print '<th style="font-weight:300;">'.$viewtable[0]['out'][$c2].'</th>';
@@ -295,6 +300,7 @@ two_buttonmenu($extrabuttons,$book);
 		$row=$viewtable[$rowno];
 ?>
 				  <tr>
+					<td><?php print $rowno;?></td>
 					<td>
 					<?php print $row['student']['surname']; ?>,
 					<?php print $row['student']['forename']; ?>

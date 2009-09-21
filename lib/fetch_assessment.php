@@ -180,8 +180,9 @@ function fetchAssessmentDefinition($eid){
 
 	$gena=''.$ass['grading_name'];
 	if($gena!='' and $gena!=' '){
-		$d_grading=mysql_query("SELECT grades FROM grading WHERE name='$gena';");
-		$grading_grades=mysql_result($d_grading,0);
+		$d_g=mysql_query("SELECT grades FROM grading WHERE name='$gena';");
+		if(mysql_num_rows($d_g)>0){$grading_grades=mysql_result($d_g,0);}
+		else{$grading_grades='';}
 		}
 	else{$grading_grades='';}
 
@@ -191,7 +192,7 @@ function fetchAssessmentDefinition($eid){
 								   'field_db'=>'grading_name',
 								   'type_db'=>'varchar(20)', 
 								   'value'=>''.$gena, 
-								   'grades'=>$grading_grades);
+								   'grades'=>''.$grading_grades);
    	$AssDef['Element']=array('label'=>'Element',
 							 'table_db'=>'assessment', 
 							 'field_db'=>'element',
@@ -336,7 +337,7 @@ function fetchAssessments($sid,$eid='%'){
 				else{$component=$eidsid['component_id'];}
 	   	$Assessment['SubjectComponent']=array('label'=>'Subject Component','table_db'
 					=> 'mark', 'field_db'=>'component_id',
-					'type_db'=>'varchar(10)', 'value'=>$component);
+					'type_db'=>'varchar(10)', 'value'=>''.$component);
 	   	$Assessment['Method']=array('label'=>'Method','table_db' =>
 					'assessment', 'field_db'=>'method',
 					'type_db'=>'char(3)', 'value'=>$ass['method']);
@@ -1016,20 +1017,18 @@ function fetchHomeworkDefinition($hwid){
    	}
 
 /**
- *
+ * Returns a profile definition given a profile's id.
  *
  */
 function get_assessment_profile($profid){
 	if($profid!=''){
 		$d_pro=mysql_query("SELECT id, name, subtype AS component_status, rating_name, course_id,
-						subject_id, comment AS transform 
-						FROM categorydef WHERE type='pro' AND id='$profid';");
+				   	subject_id, comment AS transform FROM categorydef WHERE type='pro' AND id='$profid';");
 		$profile=mysql_fetch_array($d_pro,MYSQL_ASSOC);
 		}
 	else{
-		$profile['id']=-1;
+		$profile=array('id'=>-1,'name'=>'');
 		}
-
 	return $profile;
 	}
 
