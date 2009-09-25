@@ -5,11 +5,17 @@ Removed the deprecated section_id field from course table and replaced
 with nextcourse_id; the relationship is between sections and groups of
 students while courses can be delivered in any section.
 
-Tidied new_assessments to maintain state properly.
+Tidied the new_assessments scripts to maintain state properly.
 
 Assessments from previous curriculum years can now be applied to the
 MarkBook accounting for the progression of students to the next stage
 or next course correctly.
+
+Fix to yeargroup matrix, creating a new perms group was failing.
+
+Linked the stats to a profile with a new field in the db table and
+added four fields for threshold or boundary values to the statvalues
+table.
 
 
 Version ClaSS-0.9.4 release (2009/09/16)

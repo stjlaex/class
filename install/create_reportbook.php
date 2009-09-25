@@ -119,6 +119,10 @@ CREATE TABLE statvalues (
 	error			float not null default '0',
 	sd				float not null default '0',
 	weight			float not null default '0',
+    value1		 	float not null default '0.0',
+    value2		 	float not null default '0.0',
+    value3		 	float not null default '0.0',
+    value4		 	float not null default '0.0',
 	primary key 	(stats_id, subject_id, component_id)
 );");
 
@@ -129,6 +133,8 @@ CREATE TABLE stats (
 	course_id		varchar(10) not null default '%',
 	assone_id		int unsigned not null default '0',
 	asstwo_id		int unsigned not null default '0',
+	date			date not null default '0000-00-00',
+	profile_name	varchar(60) not null default '',
 	primary key 	(id)
 );");
 

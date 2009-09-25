@@ -256,7 +256,6 @@ function fetchStudent($sid='-1'){
 						  'type_db' => 'date', 
 						  'value' => ''.$student['dob']
 						  );
-
    	$Student['RegistrationGroup']=array('label' => 'formgroup', 
 										'value' => ''.$student['form_id']
 										);
