@@ -112,6 +112,7 @@ CREATE TABLE ridcatid (
 mysql_query("
 CREATE TABLE statvalues (
 	stats_id		int unsigned not null auto_increment,
+    stage		 	char(3) not null default '',
 	subject_id		varchar(10) not null default '%',
 	component_id	varchar(10) not null default '',
 	m				float not null default '0',
@@ -123,7 +124,8 @@ CREATE TABLE statvalues (
     value2		 	float not null default '0.0',
     value3		 	float not null default '0.0',
     value4		 	float not null default '0.0',
-	primary key 	(stats_id, subject_id, component_id)
+	date			date not null default '0000-00-00',
+	primary key 	(stats_id, stage, subject_id, component_id)
 );");
 
 mysql_query("
@@ -133,7 +135,6 @@ CREATE TABLE stats (
 	course_id		varchar(10) not null default '%',
 	assone_id		int unsigned not null default '0',
 	asstwo_id		int unsigned not null default '0',
-	date			date not null default '0000-00-00',
 	profile_name	varchar(60) not null default '',
 	primary key 	(id)
 );");

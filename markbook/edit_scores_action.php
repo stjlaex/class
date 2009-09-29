@@ -16,7 +16,7 @@ include('scripts/sub_action.php');
 
 if($sub=='Submit'){
 
-	if($umns[$col]['assessment']=='yes'){
+	if($umns[$col]['assessment']!='no'){
 		$todate=date('Y').'-'.date('n').'-'.date('j');
 		/*if associated with an assessment then find which*/
 		$d_assessment=mysql_query("SELECT id, subject_id, component_id FROM assessment JOIN

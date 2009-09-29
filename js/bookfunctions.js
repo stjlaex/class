@@ -207,6 +207,15 @@ function clickToAction(buttonObject){
 						}
 					}
 				}
+			for(var i=0; i < xmlRecord.childNodes.length; i++){
+				var xmlfieldid=xmlRecord.childNodes[i];
+				if(xmlfieldid.tagName){
+					var paramname=makeParam(xmlfieldid.tagName);
+					if(xmlfieldid.firstChild){var xmlvalue=xmlfieldid.firstChild.data;}
+					else{var xmlvalue="";}
+					params=params + "&" + paramname + "=" + escape(xmlvalue);
+					}
+				}
 			url=url + params;
 			}
 		if(answer){
@@ -350,6 +359,7 @@ function checksidsAction(buttonObject){
 		var xmlId="xml-"+theContainerId;
 		var xmlContainer=document.getElementById(xmlId);
 		var xmlRecord=xmlContainer.childNodes[1];
+
         for(var i=0; i < xmlRecord.childNodes.length; i++){
 			var xmlfieldid=xmlRecord.childNodes[i];
 			if(xmlfieldid.tagName){
@@ -370,6 +380,7 @@ function checksidsAction(buttonObject){
 					}
 		    	}
 			}
+
 		}
 
 

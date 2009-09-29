@@ -242,7 +242,12 @@ if(isset($umns)){
 		</button>
 			<label style="font-weight:600;">&nbsp;<?php print $currentprofile['name'];?></label>
 			<div id="<?php print 'xml-'.$currentprofile['id'];?>" style="display:none;">
-			<?php					  xmlechoer('Profile',$currentprofile);?>
+<?php 
+			$currentprofile['bid']=$bid[0];
+			$currentprofile['pid']=$pid;
+			$currentprofile['stage']=$classes[$cid]['stage'];
+			xmlechoer('Profile',$currentprofile);
+?>
 		  </div>
 	  </div>
 <?php

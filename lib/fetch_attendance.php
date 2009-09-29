@@ -559,6 +559,8 @@ function list_events($startdate,$enddate,$session='',$period='0'){
 	if($session==''){
 		$session='AM';
 		}
+
+	trigger_error('SESS!! '.$session,E_USER_WARNING);
 	$events=array();
 	$d_event=mysql_query("SELECT id,date,session,period FROM event WHERE 
 						session LIKE '$session' AND period LIKE '$period' 

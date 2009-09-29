@@ -10,7 +10,12 @@ if(!isset($xmlid)){print 'Failed'; exit;}
 
 if(isset($_GET['sids'])){$sids=(array)$_GET['sids'];}else{$sids=array();}
 if(isset($_POST['sids'])){$sids=(array)$_POST['sids'];}
-
+if(isset($_GET['bid'])){$bid=$_GET['bid'];}else{$bid='%';}
+if(isset($_POST['bid'])){$bid=$_POST['bid'];}
+if(isset($_GET['pid'])){$pid=$_GET['pid'];}else{$pid='%';}
+if(isset($_POST['pid'])){$pid=$_POST['pid'];}
+if(isset($_GET['stage'])){$stage=$_GET['stage'];}else{$stage='%';}
+if(isset($_POST['stage'])){$stage=$_POST['stage'];}
 
 if(sizeof($sids)==0){
 	$result[]=get_string('youneedtoselectstudents');
@@ -20,21 +25,38 @@ if(sizeof($sids)==0){
 else{
 
 	$profile=get_assessment_profile($xmlid);
-	$curryear=get_curriculumyear($profile['course_id']);
-	$cohort=array('id'=>'','course_id'=>$profile['course_id'],'stage'=>'R','year'=>$curryear);
-	$AssDefs=(array)fetch_cohortAssessmentDefinitions($cohort,$profile['name']);
-	//$students=(array)listin_cohort($cohort);
+	$crid=$profile['course_id'];
+	$profilename=$profile['name'];
+	$curryear=get_curriculumyear($crid);
+	$cohort=array('id'=>'','course_id'=>$crid,'stage'=>$stage,'year'=>$curryear);
+	$AssDefs=(array)fetch_cohortAssessmentDefinitions($cohort,$profilename);
+
+	/* Bands */
+  	$d_stats=mysql_query("SELECT DISTINCT * FROM statvalues JOIN stats ON stats.id=statvalues.stats_id 
+				WHERE stats.course_id='$crid' AND stats.profile_name='$profilename' 
+				AND statvalues.stage='$stage' AND statvalues.subject_id='$bid' 
+				AND (statvalues.component_id LIKE '$pid' OR statvalues.component_id='%');");
+	$bands=array();
+	while($stat=mysql_fetch_array($d_stats,MYSQL_ASSOC)){
+		$bands[$stat['date']]=$stat;
+		}
+	arsort($bands);
+
 
 	$Students=array();
 
 	$asstable=array();
 	for($ec=0;$ec<sizeof($AssDefs);$ec++){
+		$assdate=$AssDefs[$ec]['Deadline']['value'];
+		foreach($bands as $date=>$band){
+			if($assdate<$date){$bdate=$date;}
+			}
 		$asstable['ass'][]=array('label'=>''.$AssDefs[$ec]['PrintLabel']['value'],
-								 'date'=>''.display_date($AssDefs[$ec]['Deadline']['value']),
+								 'date'=>''.display_date($assdate),
 								 'id_db'=>''.$AssDefs[$ec]['id_db'],
-								 'bands'=>array(array('name'=>'C','value'=>'5'),
-												array('name'=>'B','value'=>'6'),
-												array('name'=>'A','value'=>'8')
+								 'bands'=>array(array('name'=>'C','value'=>$bands[$bdate]['value3']),
+												array('name'=>'B','value'=>$bands[$bdate]['value2']),
+												array('name'=>'A','value'=>$bands[$bdate]['value1'])
 												)
 								 );
 		}
@@ -60,7 +82,7 @@ else{
 		$Student=fetchStudent_short($sid);
 		
 		for($ec=0;$ec<sizeof($AssDefs);$ec++){
-			$Assessments['Assessment']=array_merge($Assessments['Assessment'],fetchAssessments_short($sid,$AssDefs[$ec]['id_db']));
+			$Assessments['Assessment']=array_merge($Assessments['Assessment'],fetchAssessments_short($sid,$AssDefs[$ec]['id_db'],$bid,$pid));
 			}
 
 		$Student['Assessments']=$Assessments;
@@ -69,6 +91,10 @@ else{
 
 	$Students['Paper']='landscape';
 	$Students['Transform']=$profile['transform'];
+	$Students['Subject']['value_db']=$bid;
+	$Students['Subject']['value']=get_subjectname($bid);
+	$Students['Component']['value_db']=$pid;
+	$Students['Component']['value']=get_subjectname($pid);
 	$returnXML=$Students;
 	$rootName='Students';
 	}

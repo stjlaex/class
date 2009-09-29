@@ -17,6 +17,12 @@ Linked the stats to a profile with a new field in the db table and
 added four fields for threshold or boundary values to the statvalues
 table.
 
+Fix to edit_scores which was not counting target assessments as
+assessments and thus not posting to eidsid.
+
+Expanded to the stats tables to allow for progression bands linked to
+profiles.
+
 
 Version ClaSS-0.9.4 release (2009/09/16)
 -----------------------------------------

@@ -33,7 +33,7 @@ if($nodays==''){$nodays=8;}
 	  //TODO: no relation between sections and other community groups
 	  //$secid=get_class_section('7Y');
 	  $community=array('id'=>$newcomid,'type'=>$CFG->registrationtype,'name'=>'');
-	  $newfid='';$newcid='';
+	  $newfid='';$newcid='';$secid='1';
 	  }
 
   if(isset($community) and is_array($community)){
