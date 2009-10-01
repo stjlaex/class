@@ -2,14 +2,14 @@
 /**									school.php 
  *
  * The default settings in this file are intended as illustrative
- *examples and you will need to check each option and edit
- *appropriately for your local installation of ClaSS.
+ * examples and you will need to check each option and edit
+ * appropriately for your local installation of ClaSS.
 
  * This file is not overwritten during an upgrade. If you are upgrading
- *your installation of ClaSS then do check the CHANGELOG for any
- *changes to this file, very occassionally there will be new $CFG
- *options which you will need to take from the distributed version
- *class/install/school.php and add to your local version.
+ * your installation of ClaSS then do check the CHANGELOG for any
+ * changes to this file, very occassionally there will be new $CFG
+ * options which you will need to take from the distributed version
+ * class/install/school.php and add to your local version.
  *
  * NB. The convention is to NOT add trailling slashes to any of the path variables
  *
@@ -45,11 +45,11 @@ $CFG->sitelang='en';
  * The choice of 'double' (AM/PM) or 'single' (AM) attendance
  * registration, assigned per section (the index is the section_id)
  * where 1 is always whole school and those differing from this need
- * to be added.
+ * to be added with the changeover time.
  */
 $CFG->registrationtype='form';//the default community type (eg. form or reg)
 $CFG->registration[1]='single';//Whole school
-//$CFG->registration[2]='double';//where the index is the section id.
+//$CFG->registration[2]='13:00';//where the index is the section id.
 /* Time-zone used by the register - see http://es2.php.net/manual/en/timezones.php*/
 $CFG->timezone='Europe/Madrid';
 /**
@@ -92,8 +92,8 @@ $CFG->enrol_applications='yes';
 $CFG->enrol_cutoffmonth='09';
 /*****
  *
- *Optional settings to tune the use of emails for notifying staff
- *values set to either 'yes' or 'no'
+ * Optional settings to tune the use of emails for notifying staff
+ * values set to either 'yes' or 'no'
  */
 /*setting to yes will mean all emailing is prevented*/
 $CFG->emailoff='no';
@@ -118,17 +118,19 @@ $CFG->emailreminders='no';
  *
  * Optional LDAP connection details.
  */
+$CFG->ldapdc1='example';
+$CFG->ldapdc2='com';
 $CFG->ldapserver='';
 $CFG->ldapuser='';
 $CFG->ldappasswd='';
 $CFG->clientid='';
 /*****
  *
- *All of the following are connection details
- *for optional services residing outside of ClaSS
- *Once configured they need to be made accessible to users
- *by uncommenting the relevant entry in include.php
- *A seperate book tab is then added to frame each.
+ * All of the following are connection details
+ * for optional services residing outside of ClaSS
+ * Once configured they need to be made accessible to users
+ * by uncommenting the relevant entry in include.php
+ * A seperate book tab is then added to frame each.
  */
 /*optional details of the school's eportfolio site*/
 $CFG->eportfoliosite='';

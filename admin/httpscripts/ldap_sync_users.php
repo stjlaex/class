@@ -35,15 +35,15 @@ if(isset($CFG->ldapserver) and $CFG->ldapserver!=''){
 	ldap_set_option($ds, LDAP_OPT_PROTOCOL_VERSION, 3);
 	}
 
-if ($ds) {
+if($ds){
 	/* Bind to LDAP DB */
 	$userrdn='cn='.$CFG->ldapuser.',dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
 	$bind_result = ldap_bind($ds, $userrdn, $CFG->ldappasswd);
-	
+
 	$info = array();
 	$row=array();
 
-	if ($bind_result) {
+	if($bind_result){
 
 		/**
 		 *	STEP 1: Process all users (teachers) from ClaSS
