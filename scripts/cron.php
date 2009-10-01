@@ -44,12 +44,12 @@ require_once($CFG->installpath.'/'.$CFG->applicationdirectory.'/scripts/cron_hea
 //exec("$cmd > /dev/null &");
 
 
-
 /**
  * Run nightly only (late night)
  */
 $latehour=date('H',$starttime);
 if($latehour>=23 and $latehour<5){
+
 
 	$cmd='/usr/bin/php '.$CFG->installpath.'/'.$CFG->applicationdirectory.'/admin/httpscripts/ldap_sync_users.php --path='.$CFG->installpath;
 	exec("$cmd > /dev/null &");

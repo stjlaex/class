@@ -8,13 +8,13 @@ $book='admin';
 $current='ldap_sync_users.php';
 
 /* The path is passed as a command line argument. */
-function arguments($argv) {
-    $ARGS = array();
-    foreach ($argv as $arg) {
-		if (ereg('--([^=]+)=(.*)',$arg,$reg)) {
+function arguments($argv){
+    $ARGS=array();
+    foreach($argv as $arg){
+		if (ereg('--([^=]+)=(.*)',$arg,$reg)){
 			$ARGS[$reg[1]] = $reg[2];
 			} 
-		elseif(ereg('-([a-zA-Z0-9])',$arg,$reg)) {
+		elseif(ereg('-([a-zA-Z0-9])',$arg,$reg)){
             $ARGS[$reg[1]] = 'true';
 			}
 		}
@@ -42,6 +42,7 @@ if($ds){
 
 	$info = array();
 	$row=array();
+	$firstpass=$CFG->clientid.'1234';
 
 	if($bind_result){
 
@@ -179,19 +180,18 @@ if($ds){
 					$sr=ldap_search($ds,'ou=student'.',ou=people'.',dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2,"uid=$username");
 					}
 
-				$entry=array();
-				$info=array();
 				if (ldap_count_entries($ds, $sr) > 0) {
 					/* When the entry exists, LDAP db is updated with values coming from ClaSS */
+					/*
 					$entry = ldap_first_entry($ds, $sr);
 					$attrs = ldap_get_attributes($ds, $entry);
-					for ($i=0; $i < $attrs['count']; $i++) {
+					  for ($i=0; $i < $attrs['count']; $i++) {
 						$values = ldap_get_values($ds, $entry, $attrs[$i]);
 						}
+					*/
 					/* prepare data -in LDIF format- for LDAP field replacement */
 					$info=array();
 					$info['uid']= $username;
-					$info['userPassword']= '{MD5}' . base64_encode(pack('H*',md5('abc123')));
 					$info['cn']= $Students[$sid]['Forename']['value'] . ' ' . $Students[$sid]['Surname']['value'];
 					$info['givenName']= $Students[$sid]['Forename']['value'];
 					$info['sn']= $Students[$sid]['Surname']['value'];
@@ -207,10 +207,10 @@ if($ds){
 					} 
 				else {
 					/* OK, the entry does not exist in LDAP so insert it into LDAP DB */
-					$info=array();
 					/* prepare data -in LDIF format- for LDAP insertion into DB */
+					$info=array();
 					$info['uid']= $username;
-					$info['userPassword']= '{MD5}' . base64_encode(pack('H*',md5('abc123')));
+					$info['userPassword']= '{MD5}' . base64_encode(pack('H*',md5($firstpass)));
 					$info['cn']	= $Students[$sid]['Forename']['value'] . ' ' . $Students[$sid]['Surname']['value'];
 					$info['givenName']= $Students[$sid]['Forename']['value'];
 					$info['sn']= $Students[$sid]['Surname']['value'];
