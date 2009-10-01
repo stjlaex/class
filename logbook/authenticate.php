@@ -28,16 +28,17 @@ function getRespons($username,$type='%'){
 							DESC, groups.yeargroup_id");
 	$c=0;
     while($group=mysql_fetch_array($d_groups, MYSQL_ASSOC)){
-		$groups[$c]=$group; 
+		$groups[$c]=$group;
 		if($groups[$c]['name']==''){
-				$groups[$c]['name']=$groups[$c]['course_id'].$groups[$c]['subject_id'];}
+			$groups[$c]['name']=$groups[$c]['course_id'].$groups[$c]['subject_id'];
+			}
 		$c++;
 		}
 	$d_form=mysql_query("SELECT id, yeargroup_id FROM form WHERE
 						  teacher_id='$username' ORDER BY yeargroup_id DESC;");
     while($form=mysql_fetch_array($d_form, MYSQL_ASSOC)){
 		$groups[$c]=array('name'=>'Form','form_id'=>$form['id'],'r'=>'1','w'=>'1','x'=>'1',
-						  'course_id'=>'','subject_id'=>'',
+						  'course_id'=>'','subject_id'=>'','type'=>'p',
 						  'yeargroup_id'=>$form['yeargroup_id']);
 		$c++;
 		}

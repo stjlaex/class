@@ -801,6 +801,7 @@ function getEnumArray($field_name){
 						'Gender'=>'gender', 
 						'YearGroup'=>'yeargroup', 
 						'RegistrationGroup'=>'formgroup', 
+						'House'=>'house', 
 						'DOB'=>'dateofbirth',
 						'Nationality'=>'nationality',
 						'EmailAddress'=>'email',

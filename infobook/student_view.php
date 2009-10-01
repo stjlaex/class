@@ -7,6 +7,7 @@
 $action='student_view_action.php';
 
 $tutor_user=get_tutor_user($Student['RegistrationGroup']['value']);
+$house=get_student_house($sid);
 
 twoplus_buttonmenu($sidskey,sizeof($sids));
 ?>
@@ -103,6 +104,16 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 <?php
 			  }
 ?>
+<?php if($house!=''){ ?>
+		  <tr>
+			<td>
+			  <label><?php print_string('house',$book);?></label>
+			  <?php print $house;?>
+			</td>
+		  </tr>
+<?php
+			  }
+?>
 
 		</table>
 	  </div>
@@ -167,8 +178,7 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 ?>
 		  <tr>
 			<th>
-			  <a
-	  href="infobook.php?current=ents_list.php&cancel=student_view.php&tagname=<?php print $tagname;?>"><?php print_string(strtolower($tagname),$book); ?>
+			  <a href="infobook.php?current=ents_list.php&cancel=student_view.php&tagname=<?php print $tagname;?>"><?php print_string(strtolower($tagname),$book); ?>
 			  </a>
 			</th>
 <?php

@@ -3,8 +3,7 @@
 /**
  *												 ldap_sync_users.php
  *
- */
- 
+ */ 
 $book='admin';
 $current='ldap_sync_users.php';
 
@@ -22,17 +21,19 @@ function arguments($argv) {
 	return $ARGS;
 	}
 $ARGS=arguments($_SERVER['argv']);
-
 require_once($ARGS['path'].'/school.php');
-
 require_once($CFG->installpath.'/'.$CFG->applicationdirectory.'/scripts/cron_head_options.php');
-/**/
 
-/* Connect to LDAP server */
-$ds = ldap_connect($CFG->ldapserver);
 
-/* Make sure of right LDAP version is being used */
-ldap_set_option($ds, LDAP_OPT_PROTOCOL_VERSION, 3);
+$ds=false;
+
+if(isset($CFG->ldapserver) and $CFG->ldapserver!=''){
+	/* Connect to LDAP server */
+	$ds = ldap_connect($CFG->ldapserver);
+
+	/* Make sure of right LDAP version is being used */
+	ldap_set_option($ds, LDAP_OPT_PROTOCOL_VERSION, 3);
+	}
 
 if ($ds) {
   /* Bind to LDAP DB */

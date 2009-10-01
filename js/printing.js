@@ -114,15 +114,15 @@ function openChartReport(contentId, xsltName, xml, paper){
 		printWindow.document.writeln("<link rel='stylesheet' type='text/css' href='../templates/"+xsltName+".css' media='all' title='ReportBook Output' />");	
 		printWindow.document.writeln("<link rel='stylesheet' type='text/xsl' href='../templates/"+xsltName+".xsl' media='all' title='ReportBook Output' />");	
 		printWindow.document.writeln("<script language='JavaScript' type='text/javascript' src='js/printing.js'></script>");
-//raffa
 		printWindow.document.writeln("<script language='JavaScript' type='text/javascript' src='js/raphael.js' charset='utf-8'></script>");
-		printWindow.document.writeln("<script language='JavaScript' type='text/javascript' src='js/dots.js' charset='utf-8'></script>");
-//raffa
+
+		printWindow.document.writeln("<script language='JavaScript' type='text/javascript' src='../templates/"+xsltName+".js' charset='utf-8'></script>");
+
 		printWindow.document.writeln("<meta http-equiv='pragma' content='no-cache'/>");
 		printWindow.document.writeln("<meta http-equiv='Expires' content='0'/>");
 		printWindow.document.writeln("</head>");
 
-		printWindow.document.writeln("<body onLoad=\"processXML('xmlStudent','xmlStudent','"+xsltName+"','../templates/');graph();\">");
+		printWindow.document.writeln("<body onLoad=\"processXML('xmlStudent','xmlStudent','"+xsltName+"','../templates/');"+xsltName+"();\">");
 		printWindow.document.writeln("<div id='xmlStudent'>"+content+"</div>");
 		printWindow.document.writeln("</body>");
 

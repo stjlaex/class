@@ -23,24 +23,18 @@ function arguments($argv) {
 $ARGS=arguments($_SERVER['argv']);
 require_once($ARGS['path'].'/school.php');
 require_once($CFG->installpath.'/'.$CFG->applicationdirectory.'/scripts/cron_head_options.php');
-/**/
 
-/*
- * head options: 
- */ 
 
-echo (date("j F Y, H:i:s") . " ClaSS to LDAP enrolment. \n");
-trigger_error(date("j F Y, H:i:s") . ' ClaSS to LDAP enrolment', E_USER_WARNING);
+$ds=false;
 
-/* 
- * Core tasks: 
- */
+if(isset($CFG->ldapserver) and $CFG->ldapserver!=''){
+	/* Connect to LDAP server */
+	$ds = ldap_connect($CFG->ldapserver);
 
-/* Connect to LDAP server */
-$ds = ldap_connect($CFG->ldapserver);
+	/* Make sure of right LDAP version is being used */
+	ldap_set_option($ds, LDAP_OPT_PROTOCOL_VERSION, 3);
+	}
 
-/* Make sure of right LDAP version is being used */
-ldap_set_option($ds, LDAP_OPT_PROTOCOL_VERSION, 3);
 
 if ($ds) {
 	/* Bind to LDAP DB */
@@ -67,7 +61,7 @@ if ($ds) {
 		$courses=list_courses();
 		foreach ($courses as $course) {
 			$info = array();
-			$info['gidnumber']			='54321';
+			$info['gidnumber'] ='54321';
 			$info['objectclass'][0]	='posixGroup';
 			$info['objectclass'][1]	='top';
 			/* prepare to get the course subject */

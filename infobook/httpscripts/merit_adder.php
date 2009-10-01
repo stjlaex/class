@@ -15,6 +15,7 @@ if(isset($_GET['openid'])){$openid=$_GET['openid'];}
 $curryear=get_curriculumyear();
 
 $Student=fetchStudent_short($sid);
+$house=get_student_house($sid);
 $Merits=fetchMerits($sid,6,$bid,$pid,$curryear);
 $BlankMerit=fetchMerit();
 $book='infobook';
@@ -73,8 +74,6 @@ $inmust='yes';
 <?php 
 		$listlabel='points'; $required='yes'; $listname='points';
 		$ratings=$ratingnames['meritpoints']; asort($ratings);
-//$d_rating=mysql_query("SELECT descriptor AS name, value AS id FROM rating WHERE
-//	        name='$rating_name' ORDER BY value;");
 		include('../../scripts/set_list_vars.php');
 		list_select_list($ratings,$listoptions,$book);
 ?>
@@ -104,7 +103,6 @@ $inmust='yes';
 		</thead>
 <?php
 	if(array_key_exists('Merit',$Merits) and is_array($Merits['Merit'])){
-		//reset($Student['Comments']['Comment']);
 		while(list($key,$entry)=each($Merits['Merit'])){
 			if(is_array($entry)){
 				$rown=0;
@@ -159,7 +157,7 @@ $inmust='yes';
 	  	<fieldset class="listmenu left">
 			<div class="left">
 			<label><?php print_string('house'); ?></label>
-			<?php print $Merits['Total']['House']['value']; ?>
+			<?php print $house; ?>
 			</div>
 	   	</fieldset>
 

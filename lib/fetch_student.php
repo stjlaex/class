@@ -111,6 +111,10 @@ function fetchStudent_singlefield($sid,$tag){
 			$Student[$tag]['value'].=$add['postcode'].' ';
 			}
 		}
+   	elseif($tag=='House'){
+		$Student[$tag]=array('label'=>'',
+							 'value'=>''.get_student_house($sid));
+		}
 
 	if(isset($contactno)){
 		if(substr_count($tag,'Phone')){
@@ -1352,11 +1356,6 @@ function fetchMerits($sid,$limit=-1,$bid='%',$pid='%',$year='0000'){
 	if($bid==' ' or $bid==''){$bid='%';}
 	if($pid==' ' or $pid==''){$pid='%';}
 
-	$housecommunity=array('id'=>'','type'=>'house','name'=>'');
-	$coms=(array)list_member_communities($sid,$yearcommunity);
-	while(list($index,$com)=each($coms)){
-		$house=$com['name'];
-		}
 
 	$Merits=array();
 	$Total=array();
@@ -1367,7 +1366,7 @@ function fetchMerits($sid,$limit=-1,$bid='%',$pid='%',$year='0000'){
 	$posno=mysql_result($d_m,0);
    	$d_m=mysql_query("SELECT SUM(value) FROM merits WHERE student_id='$sid' AND year='$year';");
 	$sum=mysql_result($d_m,0);
-	$Total['House']=array('value'=>''.$house);
+	//$Total['House']=array('value'=>''.$house);
 	$Total['Negative']=array('value'=>''.$negno);
 	$Total['Positive']=array('value'=>''.$posno);
 	$Total['Sum']=array('value'=>''.$sum);
@@ -1385,7 +1384,7 @@ function fetchMerits($sid,$limit=-1,$bid='%',$pid='%',$year='0000'){
 /**
  *
  */
-function fetchMerit($m=array('id'=>-1,'subject_id'=>'','component_id'=>'','result'=>'','value'=>'','activity'=>'','detail'=>'','date'=>'','teacher_id'=>'')){
+function fetchMerit($m=array('id'=>-1,'subject_id'=>'','component_id'=>'','result'=>'','value'=>'','activity'=>'','detail'=>'','year'=>'','date'=>'','teacher_id'=>'')){
 	$Merit=array();
 	$Merit['id_db']=$m['id'];
 	if($m['subject_id']=='%'){$subject='';}
@@ -1440,6 +1439,22 @@ function fetchMerit($m=array('id'=>-1,'subject_id'=>'','component_id'=>'','resul
 	return $Merit;
 	}
 
+/**
+ * Optional for schools with house systems.
+ *
+ * For a given sid returns the name of the house to which they belong
+ * (and they can only be in one house).
+ *
+ */
+function get_student_house($sid){
+	$house='';
+	$housecommunity=array('id'=>'','type'=>'house','name'=>'');
+	$coms=(array)list_member_communities($sid,$housecommunity);
+	while(list($index,$com)=each($coms)){
+		$house=$com['name'];
+		}
+	return $house;
+	}
 
 /**
  *

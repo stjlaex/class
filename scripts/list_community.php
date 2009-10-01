@@ -37,6 +37,7 @@ include('scripts/set_list_vars.php');
 	elseif($listtype=='infosearch'){
 		$listcomtypes[]='accomodation';
 		$listcomtypes[]='academic';
+		$listcomtypes[]='house';
 		}
 	else{$listcomtypes[]=$listtype;}
 
