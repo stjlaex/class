@@ -750,4 +750,20 @@ function listin_class($cid,$strict=false){
 	return $students;
 
 	}
+
+/**
+ *
+ */
+function listin_subject_classes($bid,$crid,$stage){
+	$d_student=mysql_query("SELECT student_id AS id FROM cidsid 
+							JOIN class ON class.id=cidsid.class_id
+							WHERE class.subject_id='$bid'
+							AND class.course_id='$crid' AND class.stage='$stage';");
+	$students=array();
+	while($student=mysql_fetch_array($d_student, MYSQL_ASSOC)){
+		if($student['id']!=''){$students[]=$student;}
+		}
+	return $students;
+	}
+
 ?>

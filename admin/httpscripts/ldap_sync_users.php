@@ -22,7 +22,9 @@ function arguments($argv) {
 	return $ARGS;
 	}
 $ARGS=arguments($_SERVER['argv']);
+
 require_once($ARGS['path'].'/school.php');
+
 require_once($CFG->installpath.'/'.$CFG->applicationdirectory.'/scripts/cron_head_options.php');
 /**/
 
@@ -55,7 +57,24 @@ if ($ds) {
 	  $info = array();
 
 	  /* Search for entry in LDAP */
-	  $username=$row['username'];
+////
+	  //$username=$row['username'];
+		$username=$CFG->clientid.$row['username'];
+////
+		$atpos=strpos($row['email'], '@');
+		$emailfirstpart=substr($row['email'],0,$atpos);
+		$atpos=strpos($emailfirstpart, '.');
+		if ($atpos!=0) {
+			$emailfirstpartwop=substr($row['email'],0,$atpos);
+			$remainder=substr($emailfirstpart,$atpos+1);
+			$emailfirstpartwop=$emailfirstpartwop.$remainder;
+		} else {
+			$emailfirstpartwop=$emailfirstpart;
+		}
+		$cn= $emailfirstpartwop;
+////
+	  
+	  
 	  $classrole=$row['role'];
 	  $sr=ldap_search($ds, 'ou=people'.',dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2, "uid=$username", $info);
 			
@@ -66,9 +85,9 @@ if ($ds) {
 
 		/* prepare data -in LDIF format- for LDAP insertion into DB */
 		$info = array();
-		$info['uid'] = $row['username'];
+		$info['uid'] = $username;
 		$info['userPassword'] = '{MD5}' . base64_encode(pack('H*',$row['passwd']));
-		$info['cn'] = $row['forename'] . ' ' . $row['surname'];
+		$info['cn'] = $cn;
 		$info['givenName'] = $row['forename'];
 		$info['sn'] = $row['surname'];
 		$info['mail'] = $row['email'];
@@ -102,9 +121,9 @@ if ($ds) {
 		/* OK, the entry does not exist in LDAP so insert it into LDAP DB	 */
 		$info = array();
 		/* prepare data -in LDIF format- for LDAP insertion into DB */
-		$info['uid'] = $row['username'];
+		$info['uid'] = $username;
 		$info['userPassword'] = '{MD5}' . base64_encode(pack('H*',$row['passwd']));
-		$info['cn'] = $row['forename'] . ' ' . $row['surname'];
+		$info['cn'] = $cn;
 		$info['givenName'] = $row['forename'];
 		$info['sn'] = $row['surname'];
 		$info['mail'] = $row['email'];
@@ -119,15 +138,10 @@ if ($ds) {
 		}
 	  }
 	  /* entry counter */
-	  if (fmod($entries,50.0)==0.0) {
-		//echo '/'.$entries;
-		if ($entries>=50) {
-		  echo '.';
-		}
-	  }
 	  $entries++;
 	}
-  	echo "\n".'Step 1: '.$entries.' User entries have been processed'."\n";
+	trigger_error('Step 1: '.$entries.' User entries have been processed', E_USER_WARNING);
+
 	
 
 	/**
@@ -152,7 +166,7 @@ if ($ds) {
 		/* Search for entry in LDAP */
 		//$username=$Students[$sid]['EPFUsername']['value'];
 		$username=get_epfusername($student['id']);
-		$sr=ldap_search($ds, 'ou=students'.',ou=people'.',dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2, "uid=$username");
+		$sr=ldap_search($ds, 'ou=student'.',ou=people'.',dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2, "uid=$username");
 
 		$entry=array();
 		$info=array();
@@ -174,7 +188,7 @@ if ($ds) {
 		  $info['ou']	= 'Students'; 
 		  $info['objectclass']= 'inetOrgPerson';
 		  /* add data to ldap directory */
-		  $distinguishedName = "uid=$username" . ',ou=students'.',ou=people'.',dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
+		  $distinguishedName = "uid=$username" . ',ou=student'.',ou=people'.',dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
 		  $r = ldap_modify($ds, $distinguishedName, $info);
 		  if (!$r) {
 			trigger_error('Unable to modify LDAP DB entry', E_USER_WARNING);
@@ -192,30 +206,26 @@ if ($ds) {
 		  $info['ou']	= 'Students'; 
 		  $info['objectclass']= 'inetOrgPerson';
 		  /* add data to ldap directory */
-		  $distinguishedName = "uid=$username" . ',ou=students'.',ou=people'.',dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
+		  $distinguishedName = "uid=$username" . ',ou=student'.',ou=people'.',dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
 		  $r = ldap_add($ds, $distinguishedName, $info);
 		  if (!$r) {
 			trigger_error('Unable to insert entry into LDAP DB: '.$distinguishedName, E_USER_WARNING);
 		  }
 		}
 		/* entry counter */
-		if (fmod($entries,50.0)==0.0) {
-		  //echo '/'.$entries;
-		  echo '.';
-		}
 		$entries++;
 	  }
 	}
 	ldap_close($ds);
 	echo "\n".'Step 2: '.$entries.' Student entries have been processed'."\n";
+	trigger_error('Step 2: '.$entries.' Student entries have been processed', E_USER_WARNING);
   } else {
 	trigger_error('Unable to bind to LDAP server. Nothing has been done.', E_USER_WARNING);
-	echo '---> eop. $bind_result: '.$bind_result.'<br />';
   }
 } else {
   trigger_error('Unable to connect to LDAP server. Nothing has been done.', E_USER_WARNING);
 }
 
-
 require_once($CFG->installpath.'/'.$CFG->applicationdirectory.'/scripts/cron_end_options.php');
+
 ?>

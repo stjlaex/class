@@ -1,4 +1,4 @@
-Version ClaSS-0.9.5 release (2009/09/28)
+Version ClaSS-0.9.5 release (2009/10/01)
 -----------------------------------------
 
 Removed the deprecated section_id field from course table and replaced
@@ -22,6 +22,10 @@ assessments and thus not posting to eidsid.
 
 Expanded to the stats tables to allow for progression bands linked to
 profiles.
+
+Working LDAP scripts for user, student and course enrolments. Designed
+for integration with Moodle and Mahara, and no doubt suitable for
+other systems too.
 
 
 Version ClaSS-0.9.4 release (2009/09/16)

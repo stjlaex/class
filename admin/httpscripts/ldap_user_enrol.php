@@ -1,14 +1,36 @@
 #! /usr/bin/php -q
 <?php
-/* ldap_user_enrol.php
+/* 
+ *                                                       ldap_user_enrol.php
  * 
  */
- 
+$book='admin';
+$current='ldap_user_enrol.php';
+
+/* The path is passed as a command line argument. */
+function arguments($argv) {
+    $ARGS = array();
+    foreach ($argv as $arg) {
+		if (ereg('--([^=]+)=(.*)',$arg,$reg)) {
+			$ARGS[$reg[1]] = $reg[2];
+			} 
+		elseif(ereg('-([a-zA-Z0-9])',$arg,$reg)) {
+            $ARGS[$reg[1]] = 'true';
+			}
+		}
+	return $ARGS;
+	}
+$ARGS=arguments($_SERVER['argv']);
+require_once($ARGS['path'].'/school.php');
+require_once($CFG->installpath.'/'.$CFG->applicationdirectory.'/scripts/cron_head_options.php');
+/**/
+
 /*
  * head options: 
  */ 
-echo (date("j F Y, H:i:s") . " ClaSS to LDAP enrolment. \n");
 
+echo (date("j F Y, H:i:s") . " ClaSS to LDAP enrolment. \n");
+trigger_error(date("j F Y, H:i:s") . ' ClaSS to LDAP enrolment', E_USER_WARNING);
 
 /* 
  * Core tasks: 
@@ -24,101 +46,146 @@ if ($ds) {
 	/* Bind to LDAP DB */
 	$userrdn='cn='.$CFG->ldapuser.',dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
 	$bind_result = ldap_bind($ds, $userrdn, $CFG->ldappasswd);
+	
+	//trigger_error(' * $bind_result='.$bind_result, E_USER_WARNING);
+	
 	if ($bind_result) {
 
 		/**
-		 *	Step 1: Process all courses with memberUid from ClaSS
+		 *	Step: Teacher Enrolment Process
+		 *	
+		 */
+		trigger_error(' *** Step: TchEnrol *** ', E_USER_WARNING);
+		require_once('ldap_user_enrol_step_te.php');
+
+
+		/**
+		 *	Step: Student Enrolment Process
 		 *	
 		 */
 		$entries=0.0;
 		$courses=list_courses();
-		foreach ($courses as $courseval) {
+		foreach ($courses as $course) {
 			$info = array();
 			$info['gidnumber']			='54321';
 			$info['objectclass'][0]	='posixGroup';
 			$info['objectclass'][1]	='top';
 			/* prepare to get the course subject */
-			$subjects=list_course_subjects($courseval['id']);
-			foreach($subjects as $subjectval) {
+			$subjects=list_course_subjects($course['id']);
+			foreach($subjects as $subject) {
 				/* prepare to get course name */
-				$cohorts=list_course_cohorts($courseval['id']);
-				foreach ($cohorts as $cohortval) {
+				$cohorts=list_course_cohorts($course['id']);
+				foreach ($cohorts as $cohort) {
 					/* format cn with course subject/name/stage */
-					if ($cohortval['stage']!='%') { 
-						if (strlen($cohortval['stage'])>0) {
-							$subjectv=str_replace(',',' ',$subjectval['name']);						
-							$coursev=str_replace(',',' ',$courseval['name']);						
-							$cohortv=str_replace(',',' ',$cohortval['stage']);						
-							$info['cn']=$subjectv.' '.$coursev.' '.$cohortv;
-							/* format RDN */
-							$coursedn='cn='.$info['cn'].',ou=StdEnrol'.',ou='.$CFG->clientid.',dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
-							/* prepare to get the lot: student-memberUid */
-							$cohortstudents=listin_cohort($cohortval['id']);
-							$idx=0;
-							$members=array();
-							foreach ($cohortstudents as $cohortstudentval) {
-								/* assign epfusername*/
-								$members[$idx]=get_epfusername($cohortstudentval['id']);
-								$idx++;
-							}
-							/* remove duplicates and assign members */
-							if (_empty($members)==false) {
-							  sort($members,SORT_STRING);
-							  $info['memberUid'][0]=$members[0];
-							  $nx=0;
-							  for($mx=1; $mx<$idx; $mx++) {
-								if ($members[$mx]!=$info['memberUid'][$nx]) {
-								  $nx++;
-								  $info['memberUid'][$nx]=$members[$mx];
-								}
-							  }
-							}
+					if ($cohort['stage']!='%') { 
+						if (strlen($cohort['stage'])>0) {
+							$subjectv=str_replace(',',' ',$subject['name']);						
+							$coursev=str_replace(',',' ',$course['name']);						
+							$cohortv=str_replace(',',' ',$cohort['stage']);	
+												
+							$subjectv=str_replace('-',' ',$subjectv);						
+							$coursev=str_replace('-',' ',$coursev);						
+							$cohortv=str_replace('-',' ',$cohortv);						
+
+							$info['cn']=$subjectv.'- '.$coursev.' '.$cohortv;
 							
-							/* lookup entry in the LDAP db */
+							/* if this course does not exist in the LDAP Teacher Enrolment section, ignore it*/
+							$coursedn='cn='.$info['cn'].',ou=TchEnrol'.',ou='.$CFG->clientid.',dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
+							
+							/* lookup course-with-Teacher entry in the LDAP db */
 							$cn='cn='.$info['cn'];
 							$sr=ldap_search($ds, $coursedn, $cn);
+							trigger_error(' *** $sr         : '.$sr.' | ', E_USER_WARNING);
+							if (($ldaperrno!=0) & ($ldaperrno!=32)) {
+							    trigger_error(' * ldap_errno  : '.$ldaperrno, E_USER_WARNING);
+							    trigger_error(' * ldap_err2str: '.ldap_err2str($ldaperrno), E_USER_WARNING);
+							    trigger_error(' * $sr         : '.$sr.' | ', E_USER_WARNING);
+							}
+							$ldaperrno=ldap_errno($ds);
 							if (ldap_count_entries($ds, $sr) > 0) {
-							  // entry exists, delete it
-							  $del_res=ldap_delete($ds,$coursedn);
-							  if (!$del_res) {
-								echo 'could not delete entry: '.$coursedn."\n";
-								echo $entries.' entries have been processed'."\n";
-								print_r($info);
-								die;
-							  }
-							} else {
-								//echo '* entry does no exist *'."\n";
-							}
+								/* OK, entry exists, go on with Student Enrolment*/
+								
+								/* format RDN */
+								$coursedn='cn='.$info['cn'].',ou=StdEnrol'.',ou='.$CFG->clientid.',dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
 
-							$add_res=ldap_add($ds, $coursedn, $info);
+								/* prepare to get the lot: student-memberUid */
+								$students=listin_subject_classes($subject['id'],$course['id'],$cohort['stage']);
+								$idx=0;
+								$members=array();
 
-							if ($add_res==false) {
-							  echo 'Unable to insert entry into LDAP DB: ' .$coursedn. "\n";
-							  echo $entries.' entries have been processed'."\n";
-							  print_r($info);
-							  die;
+								foreach ($students as $student) {
+									/* assign epfusername*/
+									$members[$idx]=get_epfusername($student['id']);
+									$idx++;
+								}
+								
+								/* remove duplicates and assign members */
+								if (_empty($members)==false) {
+								  sort($members,SORT_STRING);
+								  $info['memberUid'][0]=$members[0];
+								  $nx=0;
+								  for($mx=1; $mx<$idx; $mx++) {
+									if ($members[$mx]!=$info['memberUid'][$nx]) {
+									  $nx++;
+									  $info['memberUid'][$nx]=$members[$mx];
+									} 
+								  } 
+								}
+								 
+								/* lookup entry in the LDAP db */
+								$cn='cn='.$info['cn'];
+							    trigger_error(' *** coursedn: '.$coursedn.' | ', E_USER_WARNING);
+							    trigger_error(' *** cn: '.$cn.' | ', E_USER_WARNING);
+								
+								$sr=ldap_search($ds, $coursedn, $cn);
+								$ldaperrno=ldap_errno($ds);
+								if (($ldaperrno!=0) & ($ldaperrno!=32)) {
+								    trigger_error(' *** ldap_errno  : '.$ldaperrno, E_USER_WARNING);
+								    trigger_error(' *** ldap_err2str: '.ldap_err2str($ldaperrno), E_USER_WARNING);
+								    trigger_error(' *** $sr         : '.$sr.' | ', E_USER_WARNING);
+							    }
+							    
+								if (ldap_count_entries($ds, $sr) > 0) {
+								  // entry exists, delete it
+								  $del_res=ldap_delete($ds,$coursedn);
+								  if (!$del_res) {
+								    trigger_error(' *** could not delete entry: '.$coursedn, E_USER_WARNING);
+								  } 
+								} else {
+									//echo '* entry does no exist *'."\n";
+								} 
+								$add_res=ldap_add($ds, $coursedn, $info);
+
+								if ($add_res==false) {
+								  trigger_error(' *** Unable to insert entry into LDAP DB: ' .$coursedn, E_USER_WARNING);
+								} 
+								
+								/* entry counter */
+								$entries++;
 							}
-							/* entry counter */
-							if (fmod($entries,50.0)==0.0) {
-							  if ($entries>=50){
-							  //echo '/'.$entries;
-								echo '.';
-							  }
-							$entries++;
-							}
-						}
-					}
-				}
-			}
-		}
+						} 
+					} 
+				} 
+			} 
+		} 
+		trigger_error(' * '.$entries.' entries have been processed', E_USER_WARNING);
+
 	} else {
-		echo 'could not bind to the server'."\n";
+		trigger_error('could not bind to the server', E_USER_WARNING);
 		die;
-	}
+	} 
 } else {
-	echo 'could not connect to the server'."\n";
+	trigger_error('Unable to connect to LDAP server', E_USER_WARNING);
 	die;
-}
+} 
+
+
+/*
+ * end options: 
+ */ 
+
+require_once($CFG->installpath.'/'.$CFG->applicationdirectory.'/scripts/cron_end_options.php');
+
 
 /** 
  * check if an array is empty 
