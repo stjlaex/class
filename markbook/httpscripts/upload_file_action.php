@@ -29,10 +29,10 @@ elseif($sub=='Submit' and isset($_FILES['importfile']) and $_FILES['importfile']
 	if(isset($_POST['comment'])){$publishdata['description']=clean_text($_POST['comment']);}else{$publishdata['description']='';}
 	if(isset($_POST['news'])){$news=$_POST['news'];}else{$news='no';}
 
-	$epfusername=get_epfusername($sid,$Student);
+	$EPFUsername=fetchStudent_singlefield($sid,'EPFUsername');
 
 	$publishdata['foldertype']='work';
-	$publishdata['batchfiles'][]=array('epfusername'=>$epfusername,
+	$publishdata['batchfiles'][]=array('epfusername'=>$EPFUsername['value'],
 									   'filename'=>$filename,
 									   'tmpname'=>$tmpname);
 

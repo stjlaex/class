@@ -619,4 +619,64 @@ function list_community_cohorts($community){
 	}
 
 
+/**
+ *
+ * Generates a new epfusername for the given Newuser xml-array.
+ *
+ * The format are decided by one of three possible roles: 
+ * staff, student or guardian.
+ *
+ *
+ */
+function generate_epfusername($Newuser=array(),$role='student'){
+	global $CFG;
+	setlocale(LC_CTYPE,'en_GB');
+	$epfusername='';
+
+	$nums='';
+	$code='';
+	if($role=='student'){
+		/* Only use the first part of the name. */
+		$forename=(array)split(' ',$Newuser['Forename']['value']);
+		//$start=iconv('UTF-8', 'ASCII//TRANSLIT', $forename[0]);
+		$start=utf8_to_ascii($forename[0]);
+		$classtable='info';
+		$classfield='student_id';
+		while(count($nums)<9){$nums[rand(1,9)]=null;}
+		while(strlen($code)<3){$code.=array_rand($nums);}
+		$tail=$code;
+		}
+	elseif($role=='guardian'){
+		//$surname=iconv('UTF-8', 'ASCII//TRANSLIT', $surname);
+		$surname=utf8_to_ascii($surname);
+		$surname=str_replace(" ",'',$surname);
+		$surname=str_replace("'",'',$surname);
+		$surname=str_replace('-','',$surname);
+		$start=substr($surname,0,6);
+		$classtable='guardian';
+		$classfield='id';
+		while(count($nums)<9){$nums[rand(1,9)]=null;}
+		while(strlen($code)<3){$code.=array_rand($nums);}
+		$tail=$code;
+		}
+	elseif($role=='staff'){
+		/* Staff usernames are unique within their own ClaSS but need
+		 * to maintain that witin the epf by adding the school's clientid.
+		 */
+		if(isset($CFG->clientid)){$start=$CFG->clientid;}
+		else{$start='';}
+		$tail=$Newuser['Username']['value'];
+		$classtable='users';
+		$classfield='uid';
+		}
+
+	$epfusername=good_strtolower($start. $tail);
+	$epfusername=str_replace("'",'',$epfusername);
+	$epfusername=clean_text($epfusername);
+
+	mysql_query("UPDATE $classtable SET epfusername='$epfusername' WHERE $classfield='$classid';");
+
+	return $epfusername;
+	}
+
 ?>

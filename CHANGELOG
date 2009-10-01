@@ -27,6 +27,9 @@ Working LDAP scripts for user, student and course enrolments. Designed
 for integration with Moodle and Mahara, and no doubt suitable for
 other systems too.
 
+Replaced get_epfusername with generate_epfusername for use by ldap.
+
+
 
 Version ClaSS-0.9.4 release (2009/09/16)
 -----------------------------------------
@@ -1376,7 +1379,6 @@ staff_details.php page.
 
 The logic of the enrolment action pages has been improved to allow
 students to move straight to the current roll.
-
 
 
 Version ClaSS-0.8.28 release (2007/09/12)

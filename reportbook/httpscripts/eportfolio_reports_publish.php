@@ -105,8 +105,8 @@ while($ridsid=mysql_fetch_array($d_e,MYSQL_ASSOC)){
 */
 
 	if(!isset($repfail)){
-		$epfusername=get_epfusername($sid);
-		$publish_batch[]=array('epfusername'=>$epfusername,'filename'=>$filename.'.pdf');
+		$EPFUsername=fetchStudent_singlefield($sid,'EPFUsername');
+		$publish_batch[]=array('epfusername'=>$EPFUsername['value'],'filename'=>$filename.'.pdf');
 		$publishdata['batchfiles']=$publish_batch;
 		//elgg_upload_files($publishdata);
 		/* Mark the event table as succesful. */

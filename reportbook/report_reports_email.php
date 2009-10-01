@@ -45,7 +45,9 @@ $doing_epf=false;
 		$Contacts=fetchContacts($sid);
 
 		if($doing_epf){
-			$epfusername=get_epfusername($sid,$Student);
+
+			$EPFUsername=fetchStudent_singlefield($sid,'EPFUsername');
+			$epfusername=$EPFUsername['value'];
 			$epfuid=elgg_get_epfuid($epfusername,'person',true);
 			$epf_folder_id=elgg_new_folder($epfuid,'Reports','',true);
 			$body="\r\n";
