@@ -52,9 +52,6 @@ three_buttonmenu($extrabuttons);
 	$yeargroups=list_yeargroups();
 	while(list($index,$year)=each($yeargroups)){
 		$yid=$year['id'];
-		$d_groups=mysql_query("SELECT gid FROM groups WHERE
-				yeargroup_id='$yid' AND course_id=''");
-		$gid=mysql_result($d_groups,0);
 		$perms=getYearPerm($yid,$respons);
 		$comid=update_community(array('type'=>'year','name'=>$yid));
 		$com=get_community($comid);

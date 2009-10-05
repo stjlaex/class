@@ -122,18 +122,23 @@ function list_pastoral_users($ryid,$perms){
 	$r=$perms['r'];
 	$w=$perms['w'];
 	$x=$perms['x'];
-	$d_group=mysql_query("SELECT gid FROM groups WHERE
+	$d_g=mysql_query("SELECT gid FROM groups WHERE
 			course_id='' AND subject_id='' AND yeargroup_id LIKE '$ryid' AND type='p';");
-	$gid=mysql_result($d_group,0);
-	$d_users=mysql_query("SELECT DISTINCT users.uid,
+	if(mysql_num_rows($d_g)==0){
+		mysql_query("INSERT INTO groups (name,type) VALUES ('$ryid','p');");
+		}
+	else{
+		$gid=mysql_result($d_g,0);
+		$d_users=mysql_query("SELECT DISTINCT users.uid,
 			   	username, passwd, forename, surname, email, emailuser,
 				emailpasswd, nologin,
 				firstbookpref, role, senrole, epfusername FROM users JOIN perms ON 
 				users.uid=perms.uid WHERE perms.gid='$gid' AND perms.r='$r' 
 				AND perms.w='$w' AND perms.x='$x'");
-	while($user=mysql_fetch_array($d_users,MYSQL_ASSOC)){
-		$uid=$user['uid'];
-		$users[$uid]=$user;
+		while($user=mysql_fetch_array($d_users,MYSQL_ASSOC)){
+			$uid=$user['uid'];
+			$users[$uid]=$user;
+			}
 		}
 	return $users;
 	}

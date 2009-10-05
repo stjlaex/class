@@ -6,6 +6,8 @@ $action='new_assessment_action.php';
 $rcrid=$respons[$r]['course_id'];
 
 $curryear=$_POST['curryear'];
+if(isset($_POST['profid']) and $_POST['profid']!=''){$profid=$_POST['profid'];}
+else{$profid='';}
 
 include('scripts/sub_action.php');
 
@@ -30,6 +32,7 @@ three_buttonmenu();
 
 	  <input type="hidden" name="curryear" value="<?php print $curryear; ?>">
 	  <input type="hidden" name="current" value="<?php print $action; ?>">
+	  <input type="hidden" name="profid" value="<?php print $profid;?>" />
 	  <input type="hidden" name="choice" value="<?php print $choice; ?>">
 	  <input type="hidden" name="cancel" value="<?php print $choice; ?>">
 	</form>

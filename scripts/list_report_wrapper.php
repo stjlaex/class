@@ -3,23 +3,25 @@
  *
  */
 
+	$todate=date('Y-m-d');
+	$startdate=date('Y-m-d',mktime(0,0,0,date('m')+1,date('d'),date('Y')));
+
 	if(sizeof($ryids)==1){
 		$selyid=$ryids[0];
 		$d_report=mysql_query("SELECT id, title, date FROM report
-			    WHERE course_id='wrapper' ORDER BY date DESC, title");
+			    WHERE course_id='wrapper' AND date<'$startdate' ORDER BY date DESC, title;");
 		/*This needs to moved to use cohorts!!!*/
 		}
 	elseif(sizeof($rfids)==1){
 		$selfid=$rfids[0];
 		$d_report=mysql_query("SELECT id, title, date FROM report
-			    WHERE course_id='wrapper' ORDER BY date DESC, title");
+			    WHERE course_id='wrapper' AND date<'$startdate' ORDER BY date DESC, title;");
 		/*This needs to moved to use cohorts!!!*/
 		}
 	else{
 		$d_report=mysql_query("SELECT id, title, date FROM report
-			    WHERE course_id='wrapper' ORDER BY date DESC, title");
+			    WHERE course_id='wrapper' AND date<'$startdate' ORDER BY date DESC, title;");
 		}
-	$todate=date('Y-m-d');
 	$reports=array();
    	while($report=mysql_fetch_array($d_report,MYSQL_ASSOC)){
 		$reports[$report['id']]=$report;

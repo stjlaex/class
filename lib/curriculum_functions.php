@@ -572,13 +572,12 @@ function set_curriculumyear($year,$crid=''){
 	$d_c=mysql_query("SELECT year FROM community WHERE
 						name='curriculum year' AND type='';");
 	if(mysql_num_rows($d_c)>0){
-		mysql_query("UPDATE community SET year='$year'
+		mysql_query("DELETE FROM community 
 						WHERE name='curriculum year' AND type='';");
 		}
-	else{
-		mysql_query("INSERT INTO community SET
+
+	mysql_query("INSERT INTO community SET
 						name='curriculum year', type='', year='$year';");
-		}
 	return;
 	}
 

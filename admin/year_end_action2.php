@@ -344,7 +344,7 @@ $enrolyear=$currentyear+1;
 		$crid=$courses[$c]['id'];
 		/* Currently sequence of the stages for a course depends solely
 			upon their alphanumeric order - so best have a numeric ending*/
-		$courses[$c]['stages']=(array)list_course_stages($crid);
+		$courses[$c]['stages']=(array)list_course_stages($crid,$yeargone);
 		}
 
 	for($c=sizeof($courses)-1;$c>-1;$c--){

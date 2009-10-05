@@ -13,7 +13,7 @@ include('scripts/answer_action.php');
 	 * will not be.
 	 */
 	$years=array();
-	$yidsyears=array();
+	$yidsyears=array();/* An array to hold the years indexed by yid. */
 	$years=list_yeargroups();
 	while(list($yindex,$year)=each($years)){
 		$yidsyears[$year['id']]=$year;
@@ -32,13 +32,21 @@ include('scripts/answer_action.php');
 		$yid=$years[$c]['id'];
 		$seqyear=$years[$c]['sequence'];
 		$yidsyears[$yid]['nextyid']=array();
+		/* Find where this yeargroup is moving to. If only one option
+		 * then easy but if more than one yeargroup has the same
+		 * sequence number then there is a choice.
+		 */
 		if(sizeof($seqyears[$seqyear+1])==1){
 			$yidsyears[$yid]['nextyid'][]=$seqyears[$seqyear+1][0];
 			$yidsyears[$yid]['nextyid'][]=1000;
 			}
 		else{
 			for($c2=0;$c2<sizeof($seqyears[$seqyear+1]);$c2++){
-				$yidsyears[$yid]['nextyid'][]=$seqyears[$seqyear+1][$c2];
+				$tempyid=$seqyears[$seqyear+1][$c2];
+				/* Give preference to yeargroups witin the same section. */
+				if($yidsyears[$yid]['section_id']==$yidsyears[$tempyid]['section_id']){
+					$yidsyears[$yid]['nextyid'][]=$seqyears[$seqyear+1][$c2];
+					}
 				}
 			$yidsyears[$yid]['nextyid'][]=1000;
 			}
@@ -88,7 +96,7 @@ three_buttonmenu();
 		  <p><?php print_string('confirmyeargroupstopromote',$book);?></p>
 <?php
      while(list($yid,$year)=each($yidsyears)){
-		 if($year['nextyid']){
+		 if(isset($year['nextyid'])){
 			 $seqyear=$year['sequence'];
 ?>
 		  <label for="<?php print $year['name'];?>"><?php print $year['name'];?></label>
@@ -112,7 +120,7 @@ three_buttonmenu();
 		  <p><?php print_string('confirmcoursestopromote',$book);?></p>
 <?php
      while(list($crid,$course)=each($cridscourses)){
-		 if($course['nextcrid']){
+		 if(isset($course['nextcrid'])){
 			 $sequence=$course['sequence'];
 ?>
 		  <label for="<?php print $course['name'];?>"><?php print $course['name'];?></label>

@@ -1,3 +1,13 @@
+Version ClaSS-0.9.6 release (2009/10/05)
+-----------------------------------------
+
+Improved the year end script to take account of sections when
+promoting yeargroups.
+
+The permissions groups for yeargroups are now created automatically if
+not already present.
+
+
 Version ClaSS-0.9.5 release (2009/10/01)
 -----------------------------------------
 
@@ -28,7 +38,6 @@ for integration with Moodle and Mahara, and no doubt suitable for
 other systems too.
 
 Replaced get_epfusername with generate_epfusername for use by ldap.
-
 
 
 Version ClaSS-0.9.4 release (2009/09/16)
