@@ -24,6 +24,9 @@ if(sizeof($sids)==0){
 	}
 else{
 
+	$bid='%';$pid='%';
+
+
 	$profile=get_assessment_profile($xmlid);
 	$crid=$profile['course_id'];
 	$profilename=$profile['name'];
@@ -63,6 +66,7 @@ else{
 
 	$Students['asstable']=$asstable;
 
+	/* TODO: this assumes all are using same gradescheme */
 	$restable=array();
 	$grading_grades=$AssDefs[1]['GradingScheme']['grades'];
 	$pairs=explode(';', $grading_grades);
@@ -73,19 +77,18 @@ else{
 		}
 	$Students['restable']=$restable;
 	
-	
 	$Students['Student']=array();
 	for($sc=0;$sc<sizeof($sids);$sc++){
 		$Assessments['Assessment']=array();
 		//$sid=$students[$sc]['id'];
 		$sid=$sids[$sc];
 		$Student=fetchStudent_short($sid);
-		
+
 		for($ec=0;$ec<sizeof($AssDefs);$ec++){
 			$Assessments['Assessment']=array_merge($Assessments['Assessment'],fetchAssessments_short($sid,$AssDefs[$ec]['id_db'],$bid,$pid));
 			}
 
-		$Student['Assessments']=$Assessments;
+		$Student['Assessments']=xmlarray_indexed_check($Assessments,'Assessment');
 		$Students['Student'][]=$Student;
 		}
 

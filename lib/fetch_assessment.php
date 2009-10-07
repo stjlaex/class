@@ -567,7 +567,7 @@ function fetch_cohortAssessmentDefinitions($cohort,$profile_name=''){
 				(stage LIKE '$stage' OR stage='%') AND 
 				year LIKE '$year' AND profile_name='$profile_name' AND
 				resultstatus!='S' AND  stage!='RE' AND stage!='E' 
-				ORDER BY year DESC, creation DESC, element ASC;");
+				ORDER BY year DESC, deadline DESC, element ASC;");
    	while($ass=mysql_fetch_array($d_assessment, MYSQL_ASSOC)){
 		$AssDefs[]=fetchAssessmentDefinition($ass['id']);
 		}

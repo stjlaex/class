@@ -175,14 +175,19 @@ function xmlarray_indexed_check($inarray,$indexname){
 
 	$inarray=(array)$inarray;
 	if(is_array($inarray[$indexname])){
+		trigger_error(''.sizeof($inarray[$indexname]),E_USER_WARNING);
 		if(!array_key_exists(0,$inarray[$indexname])){
-			$inarray[$indexname]=array($inarray[$indexname]);
+			//$inarray[$indexname]=array($inarray[$indexname]);
+			$inarray[$indexname][0]='';
 			}
 		}
 	elseif($inarray[$indexname]!=''){
-		$inarray[$indexname]=array($inarray[$indexname]);
+		$inarray[$indexname]=(array)$inarray[$indexname];
 		}
-	else{$inarray[$indexname]=array();}
+	else{
+		$inarray[$indexname]=array();
+		$inarray[$indexname][0]='';
+		}
 
 	return $inarray;
 	}

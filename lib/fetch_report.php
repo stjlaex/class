@@ -195,7 +195,7 @@ function fetchSubjectReports($sid,$reportdefs){
 						$Reports['asstable']['ass'][]=$ass;
 						}
 					}
-				}		
+				}
 
 			/* When combining reports, for now this only works if each
 			 has the same properties. Otherwise it will be the properties

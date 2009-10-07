@@ -1,4 +1,4 @@
-Version ClaSS-0.9.6 release (2009/10/05)
+Version ClaSS-0.9.6 release (2009/10/10)
 -----------------------------------------
 
 Improved the year end script to take account of sections when
@@ -6,6 +6,8 @@ promoting yeargroups.
 
 The permissions groups for yeargroups are now created automatically if
 not already present.
+
+Fixed the xml indexed check function.
 
 
 Version ClaSS-0.9.5 release (2009/10/01)
