@@ -15,6 +15,9 @@ different.
 
 Display the tutor name nicely on form_edit table.
 
+Small fix to generate_assessment_columns only affects past assessments
+when limited to one stage.
+
 
 Version ClaSS-0.9.5 release (2009/10/01)
 -----------------------------------------

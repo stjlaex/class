@@ -31,6 +31,7 @@ $cohorts=array();
 /* Is this assessment for the current year of from a previous year? */
 if($AssDef['Year']['value']!=$yearnow){
 	$yeardiff=$yearnow-$AssDef['Year']['value'];
+	$stagegones=array();
 	$stages=list_course_stages($crid);
 	$cridscourses=array();
 	$courses=(array)list_courses();
@@ -38,15 +39,17 @@ if($AssDef['Year']['value']!=$yearnow){
 		$cridscourses[$course['id']]=$course;
 		}
 	$nextcrid=$cridscourses[$crid]['nextcourse_id'];
-	if($stage=='%'){$stagegones=$stages;}
-	else{$stagegones=array('id'=>$stage,'name'=>$stage);}
+	if($stage=='%'){$stagegones=(array)$stages;}
+	else{$stagegones[]=array('id'=>$stage,'name'=>$stage);}
 	$sc=0;
 	foreach($stagegones as $stagegone){
 		$stagediff=$sc+$yeardiff;
 		if($stagediff<(sizeof($stages))){
 			$cohorts[]=array('course_id'=>$crid,'stage'=>$stages[$stagediff]['id'],'year'=>$yearnow);
+			trigger_error($yeardiff.' stagediff:'.$stagediff.' stagesid'.$stages[$stagediff]['id'].' ',E_USER_WARNING);
 			}
 		elseif($nextcrid!='' and $nextcrid!='1000'){
+			/* This will identify the first stage of the next course. */
 			$nextstages=list_course_stages($nextcrid);
 			$cohorts[]=array('course_id'=>$nextcrid,'stage'=>$nextstages[0]['id'],'year'=>$yearnow);
 			}
