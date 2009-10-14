@@ -59,12 +59,12 @@ function elgg_refresh(){
 				mysql_query("DELETE FROM $table_users WHERE ident='$ident';");
 		mysql_query("DELETE FROM $table_friends WHERE
 								friend='$ident' OR owner='$ident';");
-			mysql_query("DELETE FROM $table_folders WHERE owner='$ident';");
-			mysql_query("DELETE FROM $table_files WHERE files_owner='$ident';");
-			mysql_query("DELETE FROM $table_pages WHERE owner='$ident';");
-	   		mysql_query("DELETE FROM $table_profile WHERE owner='$ident';");
-			mysql_query("DELETE FROM $table_tags WHERE owner='$ident';");
-	   		mysql_query("DELETE FROM $table_groups WHERE owner='$ident';");
+		mysql_query("DELETE FROM $table_folders WHERE owner='$ident';");
+		mysql_query("DELETE FROM $table_files WHERE files_owner='$ident';");
+		mysql_query("DELETE FROM $table_pages WHERE owner='$ident';");
+		mysql_query("DELETE FROM $table_profile WHERE owner='$ident';");
+		mysql_query("DELETE FROM $table_tags WHERE owner='$ident';");
+		mysql_query("DELETE FROM $table_groups WHERE owner='$ident';");
 		mysql_query("DELETE FROM $table_members WHERE user_id='$ident';");
 		mysql_query("DELETE FROM $table_flags WHERE user_id='$ident';");
 	 		mysql_query("DELETE FROM $table_weblog WHERE weblog='$ident';");

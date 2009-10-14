@@ -10,9 +10,7 @@ $cancel='formgroup_matrix.php';
 $choice='formgroup_matrix.php';
 
 if(isset($_GET['newfid'])){$fid=$_GET['newfid'];}
-if(isset($_GET['newtid'])){$newtid=$_GET['newtid'];}else{$newtid='';}
 if(isset($_POST['fid'])){$fid=$_POST['fid'];}
-if(isset($_POST['newtid'])){$newtid=$_POST['newtid'];}
 
 	/*Check user has permission to edit*/
 	$perm=getFormPerm($fid,$respons);
@@ -20,6 +18,7 @@ if(isset($_POST['newtid'])){$newtid=$_POST['newtid'];}
 	include('scripts/perm_action.php');
 
 	$form=get_form($fid);
+	$tutor_user=(array)get_tutor_user($fid);
 	$yid=$form['yeargroup_id'];
 	$year=get_yeargroupname($yid);
 
@@ -30,16 +29,20 @@ if(isset($_POST['newtid'])){$newtid=$_POST['newtid'];}
 	<form name="formtoprocess" id="formtoprocess" method="post"
 	  action="<?php print $host; ?>">
 
-		<div style="width:33%;float:left;"  id="viewcontent">
+		<div style="width:33%;float:left;" id="viewcontent">
 		<table class="listmenu" id="sidtable">
 		<caption>
-		<?php print_string('current');?> 
 		<?php print $year;?>
 		<?php print_string('formgroup');?>
 		</caption>
 		  <tr>
 			<th colspan="3">
-			  <?php print $fid.'/'.$newtid; ?>
+		<?php print $fid.' &nbsp;&nbsp;';?>
+		<?php print $tutor_user['forename'][0].' '. $tutor_user['surname'];?>
+		<a onclick="parent.viewBook('webmail');" target="viewwebmail" 
+			href="webmail.php?recipients[]=<?php print $tutor_user['email'];?>">
+			<img class="clicktoemail" title="<?php print_string('clicktoemail');?>" />
+		</a>
 			</th>
 			<td>
 			  <?php print_string('remove');?><br />
@@ -120,7 +123,6 @@ if(isset($_POST['newtid'])){$newtid=$_POST['newtid'];}
 	  </div>
 	<input type="hidden" name="fid" value="<?php print $fid;?>" /> 
 	<input type="hidden" name="name" value="<?php print $fid;?>" /> 
-	<input type="hidden" name="newtid" value="<?php print $newtid;?>" />
 	<input type="hidden" name="choice" value="<?php print $choice;?>" />
 	<input type="hidden" name="current" value="<?php print $action;?>" />
 	<input type="hidden" name="cancel" value="<?php print $cancel;?>" />

@@ -1,4 +1,4 @@
-Version ClaSS-0.9.6 release (2009/10/10)
+Version ClaSS-0.9.6 release (2009/10/14)
 -----------------------------------------
 
 Improved the year end script to take account of sections when
@@ -8,6 +8,12 @@ The permissions groups for yeargroups are now created automatically if
 not already present.
 
 Fixed the xml indexed check function.
+
+As a preliminary to saved views for the InfoBook, added a savedview
+var to the student_list pages. Made the default view for year and form
+different.
+
+Display the tutor name nicely on form_edit table.
 
 
 Version ClaSS-0.9.5 release (2009/10/01)

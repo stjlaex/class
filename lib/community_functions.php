@@ -542,7 +542,10 @@ function leave_community($sid,$community){
 	}
 
 
-/* reutrns the yeargroup which the form belongs to*/
+/**
+ * Reutrns the yeargroup to which the form belongs.
+ *
+ */
 function get_form_yeargroup($fid){
 	if($fid!=' ' and $fid!=''){
 		$d_subject=mysql_query("SELECT yeargroup_id FROM form WHERE id='$fid'");
@@ -554,7 +557,10 @@ function get_form_yeargroup($fid){
 	return $yid;
 	}
 
-/* reutrns the yeargroup which the form belongs to*/
+/**
+ * Reutrns the form tutor for hte given fid
+ *
+ */
 function get_tutor_user($fid){
 	if($fid!=' ' and $fid!=''){
 		$d_t=mysql_query("SELECT teacher_id FROM form WHERE id='$fid';");

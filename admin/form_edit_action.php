@@ -3,10 +3,9 @@
  */
 
 $action='form_edit.php';
-$action_post_vars=array('newtid','fid');
+$action_post_vars=array('fid');
 
 if(isset($_POST['fid'])){$fid=$_POST['fid'];}
-if(isset($_POST['newtid'])){$newtid=$_POST['newtid'];}
 if(isset($_POST['newsids'])){$newsids=(array)$_POST['newsids'];}
 else{$newsids=array();}
 if(isset($_POST['oldsids'])){$oldsids=(array)$_POST['oldsids'];}

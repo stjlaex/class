@@ -8,17 +8,33 @@ $action='student_list.php';
 $choice='student_list.php';
 
 include('scripts/sub_action.php');
+if(isset($_POST['savedview'])){$savedview=$_POST['savedview'];}else{$savedview='';}
+if(isset($_POST['colno'])){$displayfields_no=$_POST['colno'];}
 
 $displayfields=array();
-$displayfields[]='Gender';
-$displayfields[]='DOB';
 
-if(isset($_POST['colno'])){
-	$displayfields_no=$_POST['colno'];
+if($savedview=='form'){
+	$displayfields[]='Gender';
+	$displayfields[]='DOB';
+	$displayfields[]='Nationality';
+	$displayfields_no=3;
+	}
+elseif($savedview=='year'){
+	$displayfields[]='RegistrationGroup';
+	$displayfields[]='Gender';
+	$displayfields[]='DOB';
+	$displayfields_no=3;
 	}
 else{
+	/*TODO*/
+	}
+
+if(!isset($displayfields_no)){
+	$displayfields[]='RegistrationGroup';
+	$displayfields[]='DOB';
 	$displayfields_no=2;
 	}
+
 for($dindex=0;$dindex < ($displayfields_no);$dindex++){
 	if(isset($_POST['displayfield'.$dindex])){$displayfields[$dindex]=$_POST['displayfield'.$dindex];}
 	}
@@ -26,6 +42,7 @@ for($dindex=0;$dindex < ($displayfields_no);$dindex++){
 if(isset($_POST['extracol']) and $_POST['extracol']=='yes'){
 	$displayfields_no++;
 	$displayfields[]='';
+	$savedview='';
 	}
 
 /* Approximate to saving 40% of table width for fixed columns. */
@@ -58,9 +75,31 @@ two_buttonmenu($extrabuttons,$book);
 		  <input type="checkbox" name="checkall" 
 				value="yes" onChange="checkAll(this);" />
 		</th>
-		<th><?php print_string('student'); ?></th>
-		<th><?php print_string('formgroup'); ?></th>
+
+
 <?php
+	if($savedview=='form'){
+		$Student=fetchStudent_short($sids[0]);
+		$fid=$Student['RegistrationGroup']['value'];
+		$tutor_user=(array)get_tutor_user($fid);
+?>
+		<th>
+		<label><?php print_string('formgroup'); ?></label>
+		<?php print $fid.' &nbsp;&nbsp;';?>
+		<?php print $tutor_user['forename'][0].' '. $tutor_user['surname'];?>
+		<a onclick="parent.viewBook('webmail');" target="viewwebmail" 
+			href="webmail.php?recipients[]=<?php print $tutor_user['email'];?>">
+			<img class="clicktoemail" title="<?php print_string('clicktoemail');?>" />
+		</a>
+		</th>
+<?php
+		}
+	else{
+?>
+		<th><?php print_string('student'); ?></th>
+<?php
+		}
+
 	if($_SESSION['role']!='support'){
 
 		$d_catdef=mysql_query("SELECT name, subtype FROM categorydef WHERE 
@@ -125,11 +164,6 @@ two_buttonmenu($extrabuttons,$book);
 			</a>
 			<div id="merit-<?php print $sid;?>"></div>
 		  </td>
-		  <td>
-<?php 
-				print $Student['RegistrationGroup']['value']; 
-?>
-		  </td>
 <?php
 	reset($displayfields);
 	while(list($index,$displayfield)=each($displayfields)){
@@ -158,7 +192,7 @@ two_buttonmenu($extrabuttons,$book);
 	reset($sids);
 ?>
 <tr>
-<th colspan="<?php print $displayfields_no+3;?>">&nbsp;
+<th colspan="<?php print $displayfields_no+2;?>">&nbsp;
 <?php
 if($_SESSION['role']=='office' or $_SESSION['role']=='admin'){
 	$listname='messageoption';$listlabel='';$liststyle='width:16em;float:left;';
@@ -186,6 +220,7 @@ if($_SESSION['role']=='office' or $_SESSION['role']=='admin'){
 </tr>
 	  </table>
 
+	  <input type="hidden" name="savedview" value="<?php print $savedview;?>" />
 	  <input type="hidden" name="colno" value="<?php print $displayfields_no;?>" />
 	  <input type="hidden" name="current" value="<?php print $action;?>" />
 	  <input type="hidden" name="cancel" value="<?php print '';?>" />
