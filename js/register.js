@@ -215,27 +215,45 @@ function removeExtraFields(sidId,extraId,containerId){
 
 
 //-------------------------------------------------------
-// sets all attendance boxes to present
-
-function setAll(state){
+// sets all attendance boxes to a preset value of either a or p, if set is a 
+// numerical event_id then all values are preset with the existing value from
+// that column
+function setAll(set){
 	var sids=getSidsArray();
-
 	for(var c=0;c<sids.length;c++){
 			var editId="edit-"+sids[c];
 			if(document.getElementById(editId)){
 				var tdEditObj=document.getElementById(editId);
 				var selObj=tdEditObj.getElementsByTagName("select")[0];
-				selObj.value=state;
 				var tdEditClaSS=tdEditObj.className;
 				removeExtraFields(sids[c],"extra-a","edit");
 				removeExtraFields(sids[c],"extra-p","edit");
-				if(state=="a"){
-					tdEditClaSS=tdEditClaSS+" extra";
-					addExtraFields(sids[c],null,"extra-a","edit");
+
+				if(set!="p" & set!="a"){
+					//var colId="event-"+eveId;
+					var cellId="cell-"+set+'-'+sids[c];
+					var cellObj=document.getElementById(cellId);
+					if(cellId!=null){
+						status=cellObj.attributes.getNamedItem("status").value;
+						}
+					else{
+						status="a";
+						}
 					}
 				else{
+					status=set;
+					cellId=null;
+					}
+
+				if(status=="a"){
+					tdEditClaSS=tdEditClaSS+" extra";
+					addExtraFields(sids[c],cellId,"extra-a","edit");
+					selObj.value=status;
+					}
+				else if(status=="p"){
 					tdEditClaSS="edit";
-					addExtraFields(sids[c],null,"extra-p","edit");
+					addExtraFields(sids[c],cellId,"extra-p","edit");
+					selObj.value=status;
 					}
 				tdEditObj.className=tdEditClaSS;
 				}

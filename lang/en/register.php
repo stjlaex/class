@@ -51,5 +51,6 @@ $string['absences']='Absences';
 $string['messagecontactsunauthorisedabsences']='Message contacts for unauthorised absences only.';
 $string['messagecontactsallabsences']='Message contacts for ALL absences.';
 $string['period']='Period';
+$string['last']='Last';
 $string['']='';
 ?>

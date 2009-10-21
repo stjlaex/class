@@ -34,6 +34,7 @@ elseif($sub=='Submit'){
 	//trigger_error($checkeveid.':: '.$date.' : '.$session.' : '.$period,E_USER_WARNING);
 
 	if($checkeveid==0){
+		/* This event was not in the db when first displayed. */
 		$d_event=mysql_query("SELECT id FROM event WHERE date='$date' AND session='$session' 
 										AND period='$period';");
 		if(mysql_num_rows($d_event)==0){

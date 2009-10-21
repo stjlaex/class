@@ -1,3 +1,12 @@
+Version ClaSS-0.9.6 release (2009/10/22)
+-----------------------------------------
+
+Reworked the Register's setAll js function to allow it to preset
+values grabbed from the 'last' entered event.
+
+Fixed applying different numbers of periods between sections.
+
+
 Version ClaSS-0.9.6 release (2009/10/14)
 -----------------------------------------
 

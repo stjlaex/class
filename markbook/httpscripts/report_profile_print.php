@@ -24,7 +24,7 @@ if(sizeof($sids)==0){
 	}
 else{
 
-	$bid='%';$pid='%';
+	//$bid='%';$pid='%';
 
 
 	$profile=get_assessment_profile($xmlid);

@@ -15,7 +15,6 @@ if(isset($CFG->registration[$secid])
 else{$session='AM';}
 
 
-
 	if($community['type']=='class'){
 		$students=(array)listin_class($community['name'],true);
 		$AttendanceEvents=fetchAttendanceEvents($startday,1,$session);
@@ -89,7 +88,9 @@ else{$session='AM';}
 	 * the current event.
 	 */
 	if($checkeveid=='' or $checkeveid=='0'){
+
 		$seleveid=$currentevent['id'];
+
 		}
 	else{$seleveid=$checkeveid;}
 
@@ -141,39 +142,48 @@ if($community['type']!='class'){
 		  <th colspan="2">&nbsp;</th>
 		  <th><?php print_string('student'); ?></th>
 <?php
+	/* This events array will determine which events are displayed */
 	$events=array();
 	while(list($index,$Event)=each($AttendanceEvents['Event'])){
-		$events[]=$Event['id_db'];
-		$eventsessions[]=$Event['Session']['value'];
+		/* Chekcing that only periods relevant to the current section are included. */
+		if($Event['Period']['value']=='0' or array_key_exists($Event['Period']['value'],$classperiods)){
+			$events[]=$Event['id_db'];
+			$eventsessions[]=$Event['Session']['value'];
 ?>
 		  <th id="event-<?php print $Event['id_db'];?>" 
 			class="<?php if($seleveid==$Event['id_db']){ print 'selected';}?>"  >
 <?php 
-		if($Event['Period']['value']=='0'){
-			$t=strtotime($Event['Date']['value']);
-			print date('D',$t) .'<br />';
-			print date('j S',$t) .'<br />';
-			print date('M',$t) .'<br />';
-			print $Event['Session']['value'];
-			}
-		else{
-			print 'Period <br />';
-			print $Event['Period']['value'].'<br />';
-			}
+			if($Event['Period']['value']=='0'){
+				$t=strtotime($Event['Date']['value']);
+				print date('D',$t) .'<br />';
+				print date('j S',$t) .'<br />';
+				print date('M',$t) .'<br />';
+				print $Event['Session']['value'];
+				if($Event['id_db']>0){
+					$lasteveid=$Event['id_db'];
+					}
+				}
+			else{
+				print 'Period <br />';
+				print $Event['Period']['value'].'<br />';	
+				}
 ?>
-				<input type="radio" name="checkeveid" value="<?php print $Event['id_db'];?>" />
-		  </th>
+			<input type="radio" name="checkeveid" value="<?php print $Event['id_db'];?>" />
+			</th>
 <?php
+			}
 		}
 
 ?>
 		  <th class="edit">
-			<?php print_string('attendance',$book);?>
 <?php
-if($_SESSION['role']=='office' or $_SESSION['role']=='admin'){
+if($nodays==1 or $_SESSION['role']=='office' or $_SESSION['role']=='admin'){
 ?>
+<?php print_string('checkall',$book);?>
+
 				<select name="setall" >
 				  <option value="n"></option>
+				  <option value="l" onclick="setAll('<?php print $lasteveid;?>')"><?php print_string('last',$book);?></option>
 				  <option value="p" onclick="setAll('p')"><?php print_string('present',$book);?></option>
 				  <option value="a" onclick="setAll('a')"><?php print_string('absent',$book);?></option>
 				</select>
