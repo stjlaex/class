@@ -110,7 +110,8 @@ three_buttonmenu($extrabuttons,$book);
 			</th>
 <?php
 	/* Headers for the entry field columns. Iterate over the assessment columns and
-		at the same time store information in $inorders[] for use in the action page. */	
+	 * at the same time store information in $inorders[] for use in the action page. 
+	 */
    	$inasses=array();
 	while(list($index,$AssDef)=each($AssDefs)){
 		$eid=$AssDef['id_db'];
@@ -121,6 +122,7 @@ three_buttonmenu($extrabuttons,$book);
 			/* If this column is for a component then include any strands*/
 			$ass_strandstatus=$AssDef['StrandStatus']['value'];
 			$strands=(array)list_subject_components($pid,$AssDef['Course']['value'],$ass_strandstatus);
+			trigger_error($ass_strandstatus.' : '.sizeof($strands),E_USER_WARNING);
 			if(sizeof($strands)==0){
 				if(($ass_compstatus=='A' or $ass_compstatus==$compstatus 
 					  or $compstatus=='%' or ($ass_compstatus=='AV' and ($compstatus='V' or $compstatus='O')))){
@@ -138,7 +140,8 @@ three_buttonmenu($extrabuttons,$book);
 			}
 		while(list($index,$strand)=each($strands)){
 			/* Need to identify the mid (if one exists) that is related to 
-				this assessment for updating scores in the action page.*/
+			 * this assessment for updating scores in the action page.
+			 */
 			$mid=get_assessment_mid($eid,$AssDef['Course']['value'],$bid,$strand['id']);
 			$ass_colspan++;
 ?>

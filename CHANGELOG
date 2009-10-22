@@ -1,10 +1,13 @@
-Version ClaSS-0.9.6 release (2009/10/22)
+Version ClaSS-0.9.7 release (2009/10/22)
 -----------------------------------------
 
 Reworked the Register's setAll js function to allow it to preset
 values grabbed from the 'last' entered event.
 
 Fixed applying different numbers of periods between sections.
+
+Small tweak to report_reports_list to filter the subject coments by
+stage as well as course (avoids duplicates under rare circumstances).
 
 
 Version ClaSS-0.9.6 release (2009/10/14)

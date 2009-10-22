@@ -177,6 +177,7 @@ two_buttonmenu($extrabuttons,$book);
 			}
 
 				print '<td>';
+
 		/* Going to check each subject class for completed assessments
 		and reportentrys and list in the table highlighting those that
 		met this reports required elements for completion. */
@@ -185,6 +186,7 @@ two_buttonmenu($extrabuttons,$book);
 			$eids=(array)$reportdefs[$index]['eids'];
 		    if(isset($reportdefs[$index]['report']['course_id'])){
 				$crid=$reportdefs[$index]['report']['course_id'];
+				$reportstage=$reportdefs[$index]['report']['stage'];
 				$addcomment=$reportdefs[$index]['report']['addcomment'];
 				$commentcomp=$reportdefs[$index]['report']['commentcomp'];
 				$compstatus=$reportdefs[$index]['report']['component_status'];
@@ -192,8 +194,9 @@ two_buttonmenu($extrabuttons,$book);
 
 			$d_subjectclasses=mysql_query("SELECT DISTINCT subject_id, class_id
 					FROM class JOIN cidsid ON cidsid.class_id=class.id
-					WHERE cidsid.student_id='$sid' AND
-					class.course_id='$crid' ORDER BY subject_id;");
+					WHERE cidsid.student_id='$sid' AND class.course_id='$crid' 
+					AND (class.stage='$reportstage' OR class.stage LIKE '$reportstage') 
+					ORDER BY subject_id;");
 			while($subject=mysql_fetch_array($d_subjectclasses,MYSQL_ASSOC)){
 			    $bid=$subject['subject_id'];
 				$cid=$subject['class_id'];
