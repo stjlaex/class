@@ -105,10 +105,10 @@ while($ridsid=mysql_fetch_array($d_e,MYSQL_ASSOC)){
 */
 
 	if(!isset($repfail)){
-		$EPFUsername=fetchStudent_singlefield($sid,'EPFUsername');
-		$publish_batch[]=array('epfusername'=>$EPFUsername['value'],'filename'=>$filename.'.pdf');
+		$S=fetchStudent_singlefield($sid,'EPFUsername');
+		$publish_batch[]=array('epfusername'=>$S['EPFUsername']['value'],'filename'=>$filename.'.pdf');
 		$publishdata['batchfiles']=$publish_batch;
-		//elgg_upload_files($publishdata);
+		elgg_upload_files($publishdata,true);
 		/* Mark the event table as succesful. */
 		mysql_query("UPDATE report_event SET success='1' 
 						WHERE report_id='$wrapper_rid' AND student_id='$sid';");

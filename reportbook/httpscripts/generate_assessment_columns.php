@@ -39,14 +39,23 @@ if($AssDef['Year']['value']!=$yearnow){
 		$cridscourses[$course['id']]=$course;
 		}
 	$nextcrid=$cridscourses[$crid]['nextcourse_id'];
-	if($stage=='%'){$stagegones=(array)$stages;}
-	else{$stagegones[]=array('id'=>$stage,'name'=>$stage);}
-	$sc=0;
+	if($stage=='%'){
+		$stagegones=(array)$stages;
+		$sc=0;
+		}
+	else{
+		$stagegones[]=array('id'=>$stage,'name'=>$stage);
+		$c=0;
+		foreach($stages as $stagegone){
+			if($stagegone['id']==$stage){$sc=$c;}
+			$c++;
+			}
+		unset($c);
+		}
 	foreach($stagegones as $stagegone){
 		$stagediff=$sc+$yeardiff;
 		if($stagediff<(sizeof($stages))){
 			$cohorts[]=array('course_id'=>$crid,'stage'=>$stages[$stagediff]['id'],'year'=>$yearnow);
-			trigger_error($yeardiff.' stagediff:'.$stagediff.' stagesid'.$stages[$stagediff]['id'].' ',E_USER_WARNING);
 			}
 		elseif($nextcrid!='' and $nextcrid!='1000'){
 			/* This will identify the first stage of the next course. */

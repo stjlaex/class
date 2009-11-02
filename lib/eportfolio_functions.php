@@ -731,11 +731,18 @@ function elgg_upload_files($filedata,$dbc=true){
 			}
 
   		if(rename($file_originalpath,$file_fullpath)){
+			trigger_error('Uploaded file to: '.$dir,E_USER_WARNING);
 			// chmod($file_fullpath, $CFG->filepermissions);
 			}
 		else{trigger_error('Could not move file to eportfolio: '.$file_fullpath,E_USER_WARNING);}
 
 		}
+
+	if($dbc==true){
+		$db=db_connect();
+		mysql_query("SET NAMES 'utf8'");
+		}
+
 
 	}
 

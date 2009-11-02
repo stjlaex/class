@@ -170,7 +170,7 @@ if($ds){
 				if($username==''){
 					$fresh=false;
 					while(!($fresh)){
-						$username=generate_epfusername($Student,$type='student');
+						$username=generate_epfusername($Students[$sid],$type='student');
 						$sr=ldap_search($ds,'ou=student'.',ou=people'.',dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2,"uid=$username");
 						if(ldap_count_entries($ds, $sr)>0){$fresh=false;}
 						else{$fresh=true;}

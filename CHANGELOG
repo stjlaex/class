@@ -1,3 +1,11 @@
+Version ClaSS-0.9.8 release (2009/11/09)
+-----------------------------------------
+
+Fixed a typo in the ldap_sync_users which was affecting student uids.
+
+Moodle course enrolments now pulled together into one script ldap_enrol_users.
+
+
 Version ClaSS-0.9.7 release (2009/10/22)
 -----------------------------------------
 
