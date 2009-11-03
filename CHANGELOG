@@ -7,6 +7,7 @@ Moodle course enrolments now pulled together into one script ldap_enrol_users.
 
 Fixed the logic of generating columns for sngle stage assessments.
 
+Implemented the nologin field for ldap_sync_users to delete a record.
 
 
 Version ClaSS-0.9.7 release (2009/10/22)

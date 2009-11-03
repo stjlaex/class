@@ -50,7 +50,7 @@ if($ds){
 		 *	STEP 1: Process all users (teachers) from ClaSS
 		 *	
 		 */
-		$users = list_all_users('0');
+		$users = list_all_users();
 		
 		/* process result */
 		$entries=0.0;
@@ -63,22 +63,33 @@ if($ds){
 			//$username=$row['username'];
 			$username=$CFG->clientid.$row['username'];
 			$atpos=strpos($row['email'], '@');
-			$emailfirstpart=substr($row['email'],0,$atpos);
-			$atpos=strpos($emailfirstpart, '.');
-			if ($atpos!=0) {
-				$emailfirstpartwop=substr($row['email'],0,$atpos);
-				$remainder=substr($emailfirstpart,$atpos+1);
-				$emailfirstpartwop=$emailfirstpartwop.$remainder;
-				} 
-			else {
-				$emailfirstpartwop=$emailfirstpart;
+			if($row['email']=='' or $row['email']==' ' or $atpos==false or $atpos==0){
+				$cn=-1;
 				}
-			$cn= $emailfirstpartwop;
-	  
+			else{
+				$emailfirstpart=substr($row['email'],0,$atpos);
+				$atpos=strpos($emailfirstpart, '.');
+				if($atpos!=0) {
+					      $emailfirstpartwop=substr($row['email'],0,$atpos);
+					      $remainder=substr($emailfirstpart,$atpos+1);
+					      $emailfirstpartwop=$emailfirstpartwop.$remainder;
+					      } 
+				else {
+					      $emailfirstpartwop=$emailfirstpart;
+					      }
+				$cn= $emailfirstpartwop;
+				}
+
 			$classrole=$row['role'];
 			$sr=ldap_search($ds, 'ou=people'.',dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2, "uid=$username", $info);
 			
 			if (ldap_count_entries($ds, $sr) > 0) {
+			   if($row['nologin']=='1'){
+			   	$distinguishedName = 'uid='.$username.',ou='.$row['role'].',ou=people'.',dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
+				ldap_delete($ds, $distinguishedName);
+				trigger_error('Deleted nologin user LDAP: '.$distinguishedName, E_USER_WARNING);
+				}
+			   else{
 				/* When the entry exists, LDAP db is updated with values coming from ClaSS */
 				$info = ldap_first_entry($ds, $sr);				
 				$attrs = ldap_get_attributes($ds, $info);
@@ -118,8 +129,9 @@ if($ds){
 						trigger_error('Unable to modify entry in LDAP DB: '.$distinguishedName, E_USER_WARNING);
 						}
 					}
-				} 
-			else {
+				   }    
+				}
+			elseif($cn!=-1 and $row['nologin']=='0') {
 				/* OK, the entry does not exist in LDAP so insert it into LDAP DB	 */
 				$info = array();
 				/* prepare data -in LDIF format- for LDAP insertion into DB */
@@ -136,7 +148,7 @@ if($ds){
 				$distinguishedName = 'uid='.$username.',ou='.$info['employeeType'].',ou=people'.',dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
 				$r = ldap_add($ds, $distinguishedName, $info);
 				if (!$r) {
-					trigger_error('Unable to insert entry into LDAP DB: '.$distinguishedName, E_USER_WARNING);
+					trigger_error('Unable to insert entry into LDAP DB: '.$distinguishedName. ' with cn: '.$cn, E_USER_WARNING);
 					}
 				}
 			/* entry counter */
@@ -150,7 +162,8 @@ if($ds){
 		 * STEP 2: Process all Students from ClaSS DB
 		 *
 		 */
-		$yearcoms=(array)list_communities('year');
+		//$yearcoms=(array)list_communities('year');
+		$yearcoms=array();
 		$Students=array();
 		$entries=0.0;
 		while(list($yearindex,$com)=each($yearcoms)){

@@ -629,7 +629,7 @@ function list_community_cohorts($community){
  *
  * Generates a new epfusername for the given Newuser xml-array.
  *
- * The format are decided by one of three possible roles: 
+ * The epfusername format is decided by one of three possible roles: 
  * staff, student or guardian.
  *
  *
@@ -638,6 +638,7 @@ function generate_epfusername($Newuser=array(),$role='student'){
 	global $CFG;
 	setlocale(LC_CTYPE,'en_GB');
 	$epfusername='';
+	$classid=$Newuser['id_db'];
 
 	$nums='';
 	$code='';
