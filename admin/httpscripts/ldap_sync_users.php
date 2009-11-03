@@ -162,8 +162,8 @@ if($ds){
 		 * STEP 2: Process all Students from ClaSS DB
 		 *
 		 */
-		//$yearcoms=(array)list_communities('year');
-		$yearcoms=array();
+		$yearcoms=(array)list_communities('year');
+		//$yearcoms=array();
 		$Students=array();
 		$entries=0.0;
 		while(list($yearindex,$com)=each($yearcoms)){
