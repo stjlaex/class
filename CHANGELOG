@@ -1,4 +1,4 @@
-Version ClaSS-0.9.8 release (2009/11/04)
+Version ClaSS-0.9.8 release (2009/11/07)
 -----------------------------------------
 
 Fixed a typo in the ldap_sync_users which was affecting student uids.
@@ -8,6 +8,12 @@ Moodle course enrolments now pulled together into one script ldap_enrol_users.
 Fixed the logic of generating columns for sngle stage assessments.
 
 Implemented the nologin field for ldap_sync_users to delete a record.
+
+Small fix to list_pastoral_groups which prevents a user's own formgroup
+being hidden by other responsibilities.
+
+Fixed a typo that had broken the email all class teachers option for
+comments.
 
 
 Version ClaSS-0.9.7 release (2009/10/22)

@@ -1367,11 +1367,6 @@ function send_email_to($recipient, $from, $subject, $messagetext, $messagehtml='
     if($CFG->emailoff=='yes'){
         return 'emailstop';
 		}
-	/*    if (over_bounce_threshold($user)) {
-        error_log("User $user->id (".fullname($user).") is over bounce threshold! Not sending.");
-        return false;
-    }
-	*/
 
     $mail = new phpmailer;
     $mail->Version = $CFG->version;
@@ -1385,7 +1380,7 @@ function send_email_to($recipient, $from, $subject, $messagetext, $messagehtml='
     if($CFG->smtphosts=='qmail'){
         $mail->IsQmail();                              // use Qmail system
 		} 
-	else if (empty($CFG->smtphosts)){
+	elseif(empty($CFG->smtphosts)){
         $mail->IsMail();                               // use PHP mail() = sendmail
 		} 
 	else{

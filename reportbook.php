@@ -14,7 +14,7 @@ include('scripts/set_book_vars.php');
 	$rfids=array();
 	$ryids=array();
 	/**
-	 * All scripts except report_reports is sensitive to wether an
+	 * All scripts except report_reports is sensitive to whether an
 	 * academic responsibility is selected, if it is students can be
 	 * listed by cohort, otherwise by pastoral groups.
 	 */

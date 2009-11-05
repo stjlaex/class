@@ -15,7 +15,7 @@ if(sizeof($ryids)>0){
 		 style="width:20em;" <?php if($required=='yes'){ print ' class="requiredor" ';} ?> >
     <option value=""></option>
 <?php
-		$rfids=array();
+		if(!isset($rfids)){$rfids=array();}
     	while(list($index,$yid)=each($ryids)){
 			$d_yeargroup=mysql_query("SELECT name FROM yeargroup
 									WHERE id='$yid'");

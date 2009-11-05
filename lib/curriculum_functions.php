@@ -284,14 +284,13 @@ function list_student_classes($sid){
 function list_student_teachers($sid){
 	if($sid==''){$sid=-1;}
 	$teachers=array();
-	$d_t=mysql_query("SELECT DISTINCT 
-				   	username, forename, surname, title, email FROM  
+	$d_t=mysql_query("SELECT DISTINCT username, forename, surname, title, email FROM  
 					users JOIN tidcid ON users.username=tidcid.teacher_id 
 					WHERE users.nologin!='1' AND
 					tidcid.class_id=ANY(SELECT DISTINCT class_id 
 					FROM cidsid WHERE student_id='$sid');");
    	while($t=mysql_fetch_array($d_t,MYSQL_ASSOC)){
-		//trigger_error($t['username'],E_USER_WARNING);
+		//trigger_error('Teachers: '.$t['username'],E_USER_WARNING);
 		$teachers[]=$t;
 		}
 	return $teachers;

@@ -48,7 +48,7 @@ include('scripts/sub_action.php');
 		$precips=(array)list_sid_responsible_users($sid,$bid);
 		$arecips=array();
 		if($teacheremail=='yes'){
-			$arecip=(array)list_student_teachers($sid);
+			$arecips=(array)list_student_teachers($sid);
 			}
 		$recipients=array_merge($precips, $arecips);
 
@@ -60,7 +60,8 @@ include('scripts/sub_action.php');
 						$recipient['email']=strtolower($recipient['email']);
 						send_email_to($recipient['email'],$fromaddress,$subject,$message);
 						$result[]=get_string('emailsentto').' '.$recipient['username'];
-						$done[$recipient['username']]=$recipient['username'];
+						trigger_error('Email sent to: '.$recipient['username'],E_USER_WARNING);
+						$dones[$recipient['username']]=$recipient['username'];
 						}
 					}
 				}
