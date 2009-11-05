@@ -15,14 +15,30 @@ function fetchSubjectReports($sid,$reportdefs){
 	$asseids=array();
 	$asselements=array();
 
-	/* Collate all assessment and report entries by subject for each
-	   course report chosen.*/
-	while(list($repindex,$reportdef)=each($reportdefs)){
-			$rid=$reportdef['rid'];
+	/* Take care first to only apply reports for which this sid is a
+	 * member of the relevant cohort.
+	 */
+	foreach($reportdefs as $reportdef){
+		if($reportdef['report']['course_id']!='wrapper' and $reportdef['report']['stage']!='%'){
+			$report_cohort=array('id'=>'',
+								 'course_id'=>$reportdef['report']['course_id'],
+								 'year'=>$reportdef['report']['year'],
+								 'stage'=>$reportdef['report']['stage']);
+			$status=check_student_cohort($sid,$report_cohort,$todate='');
+			if($status){$relevant_reportdefs[]=$reportdef;}
+			}
+		else{$relevant_reportdefs[]=$reportdef;}
+		}
 
+	/* Collate all assessment and report entries by subject for each
+	 * course report chosen.
+	 */
+	foreach($relevant_reportdefs as $reportdef){
+		$rid=$reportdef['rid'];
 			/* Provide a look-up array $assbids which references the $Assessments
-			 array by index for every subject and component combination which
-			 has an Assessment for this student. */
+			 * array by index for every subject and component combination which
+			 * has an Assessment for this student. 
+			 */
 			$assbids=array();
 			while(list($index,$eid)=each($reportdef['eids'])){
 				if(!isset($asseids[$eid])){
@@ -70,19 +86,21 @@ function fetchSubjectReports($sid,$reportdefs){
 			else{$profile_name='';}
 
 			/* This is for assessments which are really statistics.
-			 They have two components: overall averages (sid=0) for
-			 every bid-pid possible which are independent of the sid,
-			 and the sid specific cross-curricular average. They must
-			 not be used to generate indexes for assbids otherwise a
-			 reportentry for ALL conceivable bid-pid combinations is
-			 included */
+			 * They have two components: overall averages (sid=0) for
+			 * every bid-pid possible which are independent of the sid,
+			 * and the sid specific cross-curricular average. They must
+			 * not be used to generate indexes for assbids otherwise a
+			 * reportentry for ALL conceivable bid-pid combinations is
+			 * included 
+			 */
 			while(list($index,$eid)=each($reportdef['stateids'])){
 				$GAssessments=(array)fetchAssessments_short($sid,$eid);
 		//trigger_error('GStats: '.$eid.' number '.sizeof($GAssessments),E_USER_WARNING);
 				if(sizeof($GAssessments)>0){
 					$Reports['SummaryAssessments'][]['Assessment']=nullCorrect($GAssessments);
-					/* only take the overall assessments for the statseid
-						which is relevant to this sid */
+					/* Only take the overall assessments for the statseid
+					 * which is relevant to this sid 
+					 */
 					$StatsAssessments=(array)fetchAssessments_short(0,$eid);
 					while(list($index,$Assessment)=each($StatsAssessments)){
 						$bid=$Assessment['Subject']['value'];
@@ -98,9 +116,10 @@ function fetchSubjectReports($sid,$reportdefs){
 				}
 
 			/* Now loop through all possible subjects and generate a
-			 Report for each which has at least one assessment or a
-			 reportentry - any subjects which have neither will not
-			 have a Report*/
+			 * Report for each which has at least one assessment or a
+			 * reportentry - any subjects which have neither will not
+			 * have a Report
+			 */
 			while(list($index,$subject)=each($reportdef['bids'])){
 			  $bid=$subject['id'];
 			  $pids=array();
@@ -126,7 +145,8 @@ function fetchSubjectReports($sid,$reportdefs){
 					  else{$componentseq=10;}
 					  }
 				  /* Combine assessment indexes for this component and all of its
-					strands into a single array $assnos. */
+				   * strands into a single array $assnos. 
+				   */
 				  $assnos=array();
 				  $component['strands'][]=array('id'=>$pid);
 				  while(list($index,$strand)=each($component['strands'])){
@@ -173,7 +193,7 @@ function fetchSubjectReports($sid,$reportdefs){
 					  }
 
 				  }
-			  }
+				}
 
 			while(list($index,$repsummary)=each($reportdef['summaries'])){
 				$summaryid=$repsummary['subtype'];
@@ -187,7 +207,7 @@ function fetchSubjectReports($sid,$reportdefs){
 				}
 
 			/* Add assessments to the asstable, to display using xslt
-			in the report. Each element appears only once.*/
+			   in the report. Each element appears only once.*/
 			if(is_array($reportdef['asstable']['ass'])){
 				while(list($index,$ass)=each($reportdef['asstable']['ass'])){
 					if(!in_array($ass['element'],$asselements)){
@@ -205,7 +225,7 @@ function fetchSubjectReports($sid,$reportdefs){
 		   	$Reports['publishdate']=date('jS M Y',strtotime($reportdef['report']['date']));
 		   	$transform=$reportdef['report']['transform'];
 		   	$style=$reportdef['report']['style'];
-			}
+		}
 
 	if(sizeof($Reports['SummaryAssessments'])==0){
 		$Reports['SummaryAssessments']=nullCorrect($Reports['SummaryAssessments']);

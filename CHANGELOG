@@ -15,6 +15,11 @@ being hidden by other responsibilities.
 Fixed a typo that had broken the email all class teachers option for
 comments.
 
+The fetch subject reports function can now filter out reportdefs which
+do not apply to the student's cohorts. This avoids mutiple reports
+where the scope of the report is smaller than the scope of the
+assessments it is linked to.
+
 
 Version ClaSS-0.9.7 release (2009/10/22)
 -----------------------------------------

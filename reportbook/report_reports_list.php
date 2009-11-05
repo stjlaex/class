@@ -179,8 +179,9 @@ two_buttonmenu($extrabuttons,$book);
 				print '<td>';
 
 		/* Going to check each subject class for completed assessments
-		and reportentrys and list in the table highlighting those that
-		met this reports required elements for completion. */
+		 * and reportentrys and list in the table highlighting those that
+		 * met this reports required elements for completion. 
+		 */
 		reset($rids);
 		while(list($index,$rid)=each($rids)){
 			$eids=(array)$reportdefs[$index]['eids'];

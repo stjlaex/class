@@ -547,6 +547,26 @@ function listin_cohort($cohort,$todate=''){
 
 
 /**
+ * Checks whether a sid is a memeber of a cohort and returns true or false.
+ *
+ */
+function check_student_cohort($sid,$cohort,$todate=''){
+	$status=false;
+	if($todate==''){$todate=date('Y-m-d');}
+	if($cohort['id']!=''){$cohid=$cohort['id'];}
+	else{$cohid=update_cohort($cohort);}
+	$d_c=mysql_query("SELECT DISTINCT student_id FROM comidsid 
+				JOIN cohidcomid ON comidsid.community_id=cohidcomid.community_id
+				WHERE comidsid.student_id='$sid' AND cohidcomid.cohort_id='$cohid' AND
+				(comidsid.joiningdate<='$todate' OR comidsid.joiningdate IS NULL)
+				AND (comidsid.leavingdate>'$todate' OR 
+				comidsid.leavingdate='0000-00-00' OR comidsid.leavingdate IS NULL);");
+	if(mysql_num_rows($d_c)>0){$status=true;}
+	return $status;
+	}
+
+
+/**
  * Defined as the calendar year that the current academic year ends 
  * TODO: Currently endmonth and season for a course are not implemented, all
  * courses end at the same time for the whole school, is it too

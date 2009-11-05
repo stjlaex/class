@@ -228,7 +228,9 @@ if($_SESSION['role']=='admin' or $aperm==1){
 <?php
 		}
 
-	if($_SESSION['role']=='admin' and $edituser['role']!='admin'){
+	if($_SESSION['role']=='admin' 
+	   //and $edituser['role']!='admin'
+	   ){
 ?>
 
 	  <fieldset class="left">
