@@ -20,6 +20,9 @@ do not apply to the student's cohorts. This avoids mutiple reports
 where the scope of the report is smaller than the scope of the
 assessments it is linked to.
 
+Detect duplicate contacts on student data import using their email
+address.
+
 
 Version ClaSS-0.9.7 release (2009/10/22)
 -----------------------------------------

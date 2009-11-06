@@ -162,7 +162,7 @@ elseif($sub=='Submit'){
 
 	/*******************cycle through imported rows****************************/
 	for($r=0;$r<sizeof($instudents);$r++){
-		$student=$instudents[$r];	
+		$student=$instudents[$r];
 		/*get the sid for the new student*/
 
 		$field_no=$infofields['formerupn'];
@@ -248,11 +248,21 @@ elseif($sub=='Submit'){
 				$forename=$student[${$gfields}['forename']];
 				$middlenames=$student[${$gfields}['middlenames']];
 				$title=$student[${$gfields}['title']];
+				if(isset($student[${$gfields}['email']])){$email=$student[${$gfields}['email']];}
 
-				/*check if there is already an entry for this guardian*/
-				$d=mysql_query("SELECT id FROM guardian WHERE
+				/* Check if there is already an entry for this
+				 * guardian and prefer to use email as an identifier
+				 * because this is much more likely unique - if it changes though!
+				 */
+				if(isset($email)){
+					$d=mysql_query("SELECT id FROM guardian WHERE surname='$surname' AND email='$email';");
+					}
+				else{
+					$d=mysql_query("SELECT id FROM guardian WHERE
 					surname='$surname' AND forename='$forename' 
 					AND middlenames='$middlenames' AND title='$title';");
+					}
+
 				/*this is not fool-proof need to offer user check to*/
 				/*avoid wrong matches*/
 
