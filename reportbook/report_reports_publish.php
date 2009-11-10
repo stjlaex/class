@@ -59,8 +59,9 @@ include('scripts/sub_action.php');
 		$Reports['Transform']=$transform;
 		$Reports['Paper']=$paper;
 		$Student['Reports']=nullCorrect($Reports);
-		/* TODO: set a start date */
-		$Student['Reports']['Attendance']=fetchAttendanceSummary($sid,'2008-09-01',$reportdefs[0]['report']['date']);
+		$reportyear=$reportdefs[0]['report']['year']-1;
+		$startdate=$reportyear.'-08-15';//Does the whole academic year
+		$Student['Reports']['Attendance']=fetchAttendanceSummary($sid,$startdate,$reportdefs[0]['report']['date']);
 
 		/*Finished with the student's reports. Output the result as xml.*/
 		$xsl_filename=$transform.'.xsl';
@@ -92,8 +93,10 @@ include('scripts/sub_action.php');
 			fputs($file,$html);
 			fclose($file);
 			/* Log to the event table for publication. */
-			mysql_query("INSERT INTO report_event SET report_id='$wrapper_rid', 
-							student_id='$sid',date='$pubdate',success='0';");
+			if(mysql_query("INSERT INTO report_event SET report_id='$wrapper_rid', 
+							student_id='$sid',date='$pubdate',success='0';")){}
+			else{mysql_query("UPDATE report_event SET success='0' 
+					WHERE report_id='$wrapper_rid' AND student_id='$sid';";}
 			}
 		}
 
