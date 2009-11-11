@@ -43,9 +43,9 @@ require_once($CFG->installpath.'/'.$CFG->applicationdirectory.'/scripts/cron_hea
 //$cmd='/usr/bin/php '.$anypath.'/infobook/httpscripts/message_event_cron.php --path='.$CFG->installpath;
 //exec("$cmd > /dev/null &");
 
-//$cmd='/usr/bin/php '.$CFG->installpath.'/'.$CFG->applicationdirectory.'/reportbook/httpscripts/eportfolio_reports_publish.php --path='.$CFG->installpath;
-//exec("$cmd > /dev/null &");
 
+//	$cmd='/usr/bin/php '.$CFG->installpath.'/'.$CFG->applicationdirectory.'/admin/httpscripts/ldap_sync_users.php --path='.$CFG->installpath;
+//	exec("$cmd > /dev/null &");
 
 /**
  * Run nightly only (late night)
@@ -57,7 +57,8 @@ if($latehour>=23 and $latehour<5){
 	//$cmd='/usr/bin/php '.$CFG->installpath.'/'.$CFG->applicationdirectory.'/admin/httpscripts/ldap_sync_users.php --path='.$CFG->installpath;
 	//exec("$cmd > /dev/null &");
 
-	//$cmd='/usr/bin/php '.$CFG->installpath.'/'.$CFG->applicationdirectory.'/admin/httpscripts/eportfolio_sync_cron.php --path='.$CFG->installpath;
+
+	//$cmd='/usr/bin/php '.$CFG->installpath.'/'.$CFG->applicationdirectory.'/reportbook/httpscripts/eportfolio_reports_publish.php --path='.$CFG->installpath;
 	//exec("$cmd > /dev/null &");
 
 	}
@@ -69,10 +70,10 @@ $latehour=date('H',$starttime);
 if($latehour>=5 and $latehour<7){
 
 
-	//$cmd='/usr/bin/php '.$CFG->installpath.'/'.$CFG->applicationdirectory.'/admin/httpscripts/ldap_enrol_users.php --path='.$CFG->installpath;
+	//$cmd='/usr/bin/php '.$CFG->installpath.'/'.$CFG->applicationdirectory.'/admin/httpscripts/eportfolio_sync_users.php --path='.$CFG->installpath;
 	//exec("$cmd > /dev/null &");
 
-	//$cmd='/usr/bin/php '.$CFG->installpath.'/'.$CFG->applicationdirectory.'/reportbook/httpscripts/eportfolio_reports_publish.php --path='.$CFG->installpath;
+	//$cmd='/usr/bin/php '.$CFG->installpath.'/'.$CFG->applicationdirectory.'/admin/httpscripts/ldap_enrol_users.php --path='.$CFG->installpath;
 	//exec("$cmd > /dev/null &");
 
 	}

@@ -17,33 +17,40 @@ $contactcheck=$_POST['contactcheck0'];
 $contactblank=$_POST['contactblank0'];
 
 if($refresh=='yes'){
+	/* This empties content and relationships but leaves accounts as
+	 *  they are.
+	 */
 	elgg_refresh();
 	}
 
 
 if($studentblank=='yes'){
 	/* Clear out all students ready to regenerate them. 
-	 * Everything to do with each account is lost and a new username
-	 * is generated.
+	 * Everything to do with each account is lost.
 	 */
 	elgg_blank('Default_Student');
-	mysql_query("UPDATE info SET epfusername='';");
+	//mysql_query("UPDATE info SET epfusername='';");
 	$result[]='Students\' accounts blanked.';
 	}
 
 if($contactblank=='yes'){
 	/* Clear out all contacts ready to regenerate them. 
-	 * Everything to do with each account is lost and a new username
-	 * is generated.
+	 * Everything to do with each account is lost.
 	 */
 	elgg_blank('Default_Guardian');
-	mysql_query("UPDATE guardian SET epfusername='';");
+	//mysql_query("UPDATE guardian SET epfusername='';");
 	$result[]='Contacts\' accounts blanked.';
 	}
 
 
 if($staffcheck=='yes'){
-
+	/* Updates the epf db with all students and staff who have an
+	 * epfusername in the class db (and hence ldap) but who are not
+	 * yet present in the eportfolio. Updates the membership of all
+	 * communities.
+	 *
+	 * TODO: convert ot a cron script!
+	 */
 	$yearcoms=(array)list_communities('year');
 	$formcoms=(array)list_communities('form');
 	$classes=(array)list_course_classes();
@@ -79,6 +86,9 @@ if($staffcheck=='yes'){
 	reset($formcoms);
 
 
+	/**
+	 * Do all staff and communities for yeargroups and formgroups.
+	 */
 
 	$staff=array();
 	$com=array('epfcomid'=>'','type'=>'staff','name'=>'all','displayname'=>'Staff');
@@ -86,29 +96,18 @@ if($staffcheck=='yes'){
 	$com['epfcomid']=$epfcomid;
 
 	while(list($aindex,$user)=each($allteachers)){
-		$Newuser['id_db']=$user['uid'];
-		$Newuser['Surname']['value']=$user['surname'];
-		if($user['title']!=''){
-			$title=displayEnum($user['title'],'title');
-			$Newuser['Forename']['value']=get_string($title,'infobook');
-			$Newuser['Forename']['value']=$user['forename'];
-			}
-		else{
-			$Newuser['Forename']['value']=$user['forename'];
-			}
-		$Newuser['EmailAddress']['value']=$user['email'];
-		$Newuser['Username']['value']=strtolower($user['username']);
-		$Newuser['Password']['value']=$user['passwd'];
-		/* Don't want to create an epf user if they already have an account. */
+		$Newuser=array()fetchUser($user);
+		/* Ignore anyone who has not yet got an epfusername (handled by ldap). */
    		$epfuid=-1;
 		if(isset($user['epfusername']) and $user['epfusername']!=''){
 			$epfuid=elgg_get_epfuid($user['epfusername'],'person',true);
-			}
-		if($epfuid==-1){
-			$epfuid=elgg_newUser($Newuser,'staff');
+			if($epfuid==-1){
+				/* This is a new epfusername so add to the elgg db. */
+				$epfuid=elgg_newUser($Newuser,'staff');
+				}
+			elgg_join_community($epfuid,$com);
 			}
 		$staff[$Newuser['Username']['value']]=$epfuid;
-		elgg_join_community($epfuid,$com);
 		}
 
 	reset($yearcoms);
@@ -119,10 +118,12 @@ if($staffcheck=='yes'){
 		$yearepfcomids[$yid]=$epfcomid;
 		$comowners=$yearusers[$yid];
 		while(list($index,$tid)=each($comowners)){
-			$epfuid=$staff[$tid];
-			elgg_join_community($epfuid,$com);
+			if($staff[$tid]!=-1){
+				$epfuid=$staff[$tid];
+				elgg_join_community($epfuid,$com);
+				}
 			}
-		/*Only one can be the owner and this makes it the last in the list.*/
+		/* Only one can be the owner and this makes it the last in the list. */
 		elgg_update_community($com,$com,$epfuid);
 		}
 
@@ -131,44 +132,52 @@ if($staffcheck=='yes'){
 		$fid=$com['name'];
 		$tid=$formusers[$formindex];
 		$epfuid=$staff[$tid];
-		$epfcomid=elgg_update_community($com,$com,$epfuid);
-		$com['epfcomid']=$epfcomid;
-		$formepfcomids[$fid]=$epfcomid;
-		elgg_join_community($epfuid,$com);
+		if($epfuid!=-1){
+			$epfcomid=elgg_update_community($com,$com,$epfuid);
+			$com['epfcomid']=$epfcomid;
+			$formepfcomids[$fid]=$epfcomid;
+			elgg_join_community($epfuid,$com);
+			}
 		}
 
+	/**
+	 * Now do all students.
+	 */
 	reset($Students);
 	while(list($sid,$Student)=each($Students)){
-		$epfuid=-1;
 		$field=fetchStudent_singlefield($sid,'EPFUsername');
 		$Student=array_merge($Student,$field);
-		/* Don't want to create a epf user if they already have an account. */
+		/* Ignore if they don't yet have an epfusername (handled by ldap). */
+		$epfuid=-1;
 		if($Student['EPFUsername']['value']!=''){
 			$epfuid=elgg_get_epfuid($Student['EPFUsername']['value'],'person',true);
+			if($epfuid==-1){
+				/* New epfusername so add to elgg db.*/
+				$epfuid=elgg_newUser($Student,'student');
+				}
+			$Students[$sid]['epfuid']=$epfuid;
 			}
-		if($epfuid==-1){
-			$epfuid=elgg_newUser($Student,'student');
-			}
-		$Students[$sid]['epfuid']=$epfuid;
 
-		/* Join the student to pastoral groups */
-		$fid=$Student['RegistrationGroup']['value'];
-		if(isset($formepfcomids[$fid])){
-			$com=array('epfcomid'=>$formepfcomids[$fid],'type'=>'form','name'=>'');
-			elgg_join_community($epfuid,$com);
-			}
-		$yid=$Student['YearGroup']['value'];
-		if(isset($yearepfcomids[$yid])){
-			$com=array('epfcomid'=>$yearepfcomids[$yid],'type'=>'year','name'=>'');
-			elgg_join_community($epfuid,$com);
-			}
-		$group=array('epfgroupid'=>'','owner'=>$epfuid,'name'=>'Family','access'=>'');
-		$epfgroupid=elgg_update_group($group);
-		elgg_new_folder($epfuid,'Reports','group'.$epfgroupid);
-		elgg_new_folder($epfuid,'Portfolio Work','group'.$epfgroupid);
-		$Students[$sid]['epfgroupid']=$epfgroupid;
+		/* Ignore if something went wrong or they don't yet have an epfusername (handled by ldap). */
+		if($epfuid!=-1){
+			/* Join the student to pastoral groups */
+			$fid=$Student['RegistrationGroup']['value'];
+			if(isset($formepfcomids[$fid])){
+				$com=array('epfcomid'=>$formepfcomids[$fid],'type'=>'form','name'=>'');
+				elgg_join_community($epfuid,$com);
+				}
+			$yid=$Student['YearGroup']['value'];
+			if(isset($yearepfcomids[$yid])){
+				$com=array('epfcomid'=>$yearepfcomids[$yid],'type'=>'year','name'=>'');
+				elgg_join_community($epfuid,$com);
+				}
+			$group=array('epfgroupid'=>'','owner'=>$epfuid,'name'=>'Family','access'=>'');
+			$epfgroupid=elgg_update_group($group);
+			elgg_new_folder($epfuid,'Reports','group'.$epfgroupid);
+			elgg_new_folder($epfuid,'Portfolio Work','group'.$epfgroupid);
+			$Students[$sid]['epfgroupid']=$epfgroupid;
+			}		
 		}
-
 
 	/* Now do teaching groups */
 	while(list($index,$class)=each($classes)){
@@ -191,6 +200,7 @@ if($staffcheck=='yes'){
 				}
 			}
 		}
+
 	$result[]='Community memberships updated.';
 	}
 
@@ -210,7 +220,7 @@ if($photocheck=='yes'){
 			$sid=$student['id'];
 			$Student=fetchStudent_singlefield($sid,'EPFUsername');
 			$epfuid=elgg_get_epfuid($Student['EPFUsername']['value'],'person',true);
-			if($epfuid!='-1'){elgg_set_student_photo($epfuid,$yid);}
+			if($epfuid!=-1){elgg_set_student_photo($epfuid,$yid);}
 			}
 		}
 
@@ -218,12 +228,12 @@ if($photocheck=='yes'){
 
 if($contactcheck=='yes'){
 
-	/*TODO: This only updates and emails contacts for a single yeargroup!!!!!!*/
+	/*TODO: Allow option of updates and email contacts for a single yeargroup!!!!!!*/
 	$yid='%';
 	/*!!!!!!*/
 
 	/* Want all contacts who may recieve any sort of mailing to be
-	 *		given an account. 
+	 * given an account.
 	 */
 	$d_c=mysql_query("SELECT DISTINCT guardian_id FROM gidsid JOIN
    					student ON gidsid.student_id=student.id 
@@ -240,64 +250,40 @@ if($contactcheck=='yes'){
 		while($info=mysql_fetch_array($d_i,MYSQL_ASSOC)){
 			$sid=$info['student_id'];
 			$epfuid_student=elgg_get_epfuid($info['epfusername'],'person',true);
+
 			if($epfuid_contact==-1){
-				if($yid=='%'){
-					/* Need formerupn to use as part of their password.
-					 * This will be for their youngest child in the school. 
+				/* The first time round for this contact. */
+				if($Contact['EPFUsername']['value']!=''){
+					/* Bit of extra work to prepare the initial password
+					 * for creating a new account. 
 					 */
-					$firstchild=$info['formerupn'];
-					}
-				else{
-					/* If only doing one yeargroup then only want to
-					 * use the fomerupn of their child in this yeargroup.
-					 */
-					$d_s=mysql_query("SELECT id FROM student
+					if($yid=='%'){
+						/* Need formerupn to use as part of their password.
+						 * This will be for their youngest child in the school. 
+						 */
+						$firstchild=$info['formerupn'];
+						}
+					else{
+						/* If only doing one yeargroup then only want to
+						 * use the fomerupn of their child in this yeargroup.
+						 */
+						$d_s=mysql_query("SELECT id FROM student
 						JOIN gidsid ON student.id=gidsid.student_id WHERE
 						student.yeargroup_id='$yid' AND gidsid.guardian_id='$gid'
 						ORDER BY dob ASC LIMIT 0,1;");
-					$firstsid=mysql_result($d_s,0);
-					$d_s=mysql_query("SELECT formerupn FROM info 
+						$firstsid=mysql_result($d_s,0);
+						$d_s=mysql_query("SELECT formerupn FROM info 
 								WHERE student_id='$firstsid';");
-					$firstchild=mysql_result($d_s,0);
-					}
-
-				if($Contact['Title']['value']!=''){
-					$Contact['Title']['value']=get_string(displayEnum($Contact['Title']['value'],'title'),'infobook');
-					}
-
-				/* Don't want to create a new epf user if they already
-				 * have an account. If you want to force a new
-				 * account on a one-by-one basis then blank the
-				 * epfusername in ClaSS for that contact.
-				 */
-				if($Contact['EPFUsername']['value']!=''){
+						$firstchild=mysql_result($d_s,0);
+						}
+					if($Contact['Title']['value']!=''){
+						$Contact['Title']['value']=get_string(displayEnum($Contact['Title']['value'],'title'),'infobook');
+						}
 					$epfuid_contact=elgg_get_epfuid($Contact['EPFUsername']['value'],'person',true);
-					}
-				if($epfuid_contact==-1){
 					$Contact['firstchild']=$firstchild;
-					$epfuid_contact=elgg_newUser($Contact,'guardian');
-					/* Grab their new epfusername*/
-					$Contact=fetchContact(array('guardian_id'=>$gid));
-					$emailaddress=strtolower($Contact['EmailAddress']['value']);
-					if($CFG->emailoff!='yes' and $emailaddress!=''){
-						/* Email them the details. */
-						$fromaddress=$CFG->schoolname;
-						$subject=get_string('eportfolioemailsubject',$book);
-						$message=get_string('eportfolioguardianemail1',$book);
-						$message.= "\r\n". 'Your user-name is: ' 
-											.$Contact['EPFUsername']['value']. "\r\n";
-						// NOT sending out passwords!
-						//$message.= "\r\n". 'Your password is: ' 
-						//					.$firstchild. "\r\n";
-						$message.=get_string('eportfolioguardianemail2',$book);
-						/*translation*/
-						$message.=get_string('eportfolioguardianemail3',$book);
-						$message.= "\r\n".'Su nombre de usuario es: '.$Contact['EPFUsername']['value']. "\r\n";
-						$message.=get_string('eportfolioguardianemail4',$book);
-						/*disclaimer*/
-						$footer='--'. "\r\n" .get_string('guardianemailfooterdisclaimer');
-						$message.="\r\n". $footer;
-						//send_email_to($emailaddress,$fromaddress,$subject,$message);
+					if($epfuid_contact==-1){
+						/* New account to be created in elgg. */
+						$epfuid_contact=elgg_newUser($Contact,'guardian');
 						}
 					}
 				}
@@ -307,9 +293,11 @@ if($contactcheck=='yes'){
 			 * friends and an access group, a family does not have a community of
 			 * its own.
 			 */
-			$epfgroupid=elgg_update_group(array('owner'=>$epfuid_student,'name'=>'Family'));
-			elgg_join_community($epfuid_contact,array('epfcomid'=>$epfuid_student));
-			elgg_join_group($epfuid_contact,array('epfgroupid'=>$epfgroupid,'name'=>'family','owner'=>$epfuid_student,'access'=>''));
+			if($epfuid_contact!=-1 and $epfuid_student!=-1){
+				$epfgroupid=elgg_update_group(array('owner'=>$epfuid_student,'name'=>'Family'));
+				elgg_join_community($epfuid_contact,array('epfcomid'=>$epfuid_student));
+				elgg_join_group($epfuid_contact,array('epfgroupid'=>$epfgroupid,'name'=>'family','owner'=>$epfuid_student,'access'=>''));
+				}
 			}
 		}
 	}
@@ -317,4 +305,32 @@ if($contactcheck=='yes'){
 
 include('scripts/results.php');
 include('scripts/redirect.php');
+
+						/* TODO: Make optional to grab their new epfusername and
+						 * send them an and email with the details. 
+						 */
+						/*
+						  $Contact=fetchContact(array('guardian_id'=>$gid));
+						  $emailaddress=strtolower($Contact['EmailAddress']['value']);
+						  if($CFG->emailoff!='yes' and $emailaddress!=''){
+						  $fromaddress=$CFG->schoolname;
+						  $subject=get_string('eportfolioemailsubject',$book);
+						  $message=get_string('eportfolioguardianemail1',$book);
+						  $message.= "\r\n". 'Your user-name is: ' 
+						  .$Contact['EPFUsername']['value']. "\r\n";
+						  
+						// NOT sending out passwords!!!!!!!!!!!!!
+						//$message.= "\r\n". 'Your password is: ' 
+						//					.$firstchild. "\r\n";
+						$message.=get_string('eportfolioguardianemail2',$book);
+						$message.=get_string('eportfolioguardianemail3',$book);
+						$message.= "\r\n".'Su nombre de usuario es: '.$Contact['EPFUsername']['value']. "\r\n";
+						$message.=get_string('eportfolioguardianemail4',$book);
+						$footer='--'. "\r\n" .get_string('guardianemailfooterdisclaimer');
+						$message.="\r\n". $footer;
+						
+						// NOT sending anything!!!!!!!!!!!!!!!!!
+						//send_email_to($emailaddress,$fromaddress,$subject,$message);
+						}
+						*/
 ?>

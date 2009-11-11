@@ -632,6 +632,9 @@ function list_community_cohorts($community){
  * The epfusername format is decided by one of three possible roles: 
  * staff, student or guardian.
  *
+ * This on its own does not guarantee a unique epfusername (which it
+ * must be!) but instead relies on the calling function to ensure
+ * uniqueness (probably thorugh an ldap query).
  *
  */
 function generate_epfusername($Newuser=array(),$role='student'){
@@ -643,27 +646,28 @@ function generate_epfusername($Newuser=array(),$role='student'){
 	$nums='';
 	$code='';
 	if($role=='student'){
-		/* Only use the first part of the name. */
+		/* Only use the first part of the forename. */
 		$forename=(array)split(' ',$Newuser['Forename']['value']);
 		//$start=iconv('UTF-8', 'ASCII//TRANSLIT', $forename[0]);
 		$start=utf8_to_ascii($forename[0]);
 		$classtable='info';
 		$classfield='student_id';
 		while(count($nums)<9){$nums[rand(1,9)]=null;}
-		while(strlen($code)<3){$code.=array_rand($nums);}
+		while(strlen($code)<4){$code.=array_rand($nums);}
 		$tail=$code;
 		}
 	elseif($role=='guardian'){
+		/* Only use the first part of the surname. */
 		//$surname=iconv('UTF-8', 'ASCII//TRANSLIT', $surname);
-		$surname=utf8_to_ascii($surname);
-		$surname=str_replace(" ",'',$surname);
-		$surname=str_replace("'",'',$surname);
-		$surname=str_replace('-','',$surname);
+		$surname=utf8_to_ascii($Newuser['Surname']['value']);
+		$surname=str_replace(' ','',$Newuser['Surname']['value']);
+		$surname=str_replace("'",'',$Newuser['Surname']['value']);
+		$surname=str_replace('-','',$Newuser['Surname']['value']);
 		$start=substr($surname,0,6);
 		$classtable='guardian';
 		$classfield='id';
 		while(count($nums)<9){$nums[rand(1,9)]=null;}
-		while(strlen($code)<3){$code.=array_rand($nums);}
+		while(strlen($code)<4){$code.=array_rand($nums);}
 		$tail=$code;
 		}
 	elseif($role=='staff'){
@@ -679,6 +683,7 @@ function generate_epfusername($Newuser=array(),$role='student'){
 
 	$epfusername=good_strtolower($start. $tail);
 	$epfusername=str_replace("'",'',$epfusername);
+	$epfusername=str_replace(' ','',$epfusername);
 	$epfusername=clean_text($epfusername);
 
 	mysql_query("UPDATE $classtable SET epfusername='$epfusername' WHERE $classfield='$classid';");

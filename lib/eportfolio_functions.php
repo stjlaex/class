@@ -82,6 +82,7 @@ function elgg_refresh(){
 
 
 /**
+ *
  * This blanks all users from the elgg database of a particular role,
  * identified by their default template name. NB. This does not blank
  * their epfusernames in the ClaSS db, this needs to be done seperately.
@@ -142,98 +143,64 @@ function elgg_newUser($Newuser,$role){
 		mysql_query("SET NAMES 'utf8'");
 		}
 	/*only use first part of a name*/
-	$surname=str_replace(' ','',$Newuser['Surname']['value']);
-	$surname=str_replace("'",'',$surname);
-	$surname=str_replace('-','',$surname);
     $name=$Newuser['Forename']['value'].' '.$Newuser['Surname']['value'];
 	$active='yes';
 	setlocale(LC_CTYPE,'en_GB');
 
-	$nums='';
-	$code='';
+	$epfusername=$Newuser['EPFUsername']['value'];
+	$surname=str_replace(' ','',$Newuser['Surname']['value']);
+	$surname=str_replace("'",'',$surname);
+	$surname=str_replace('-','',$surname);
+
 	if($role=='student'){
-		$email='';
-		//$email=$Newuser['EmailAddress']['value'];
-		$forename=(array)split(' ',$Newuser['Forename']['value']);
-		//$start=iconv('UTF-8', 'ASCII//TRANSLIT', $forename[0]);
-		$start=utf8_to_ascii($forename[0]);
+		$email=$Newuser['EmailAddress']['value'];
 		$epfusertype='person';
 		$epftemplate_name='Default_Student';
 		$epftemplate=2;
-		/* This takes the first letter of the surname and year of birth to be password. */
-		//$passwstart=iconv('UTF-8', 'ASCII//TRANSLIT', $surname);
 		$dob=(array)split('-',$Newuser['DOB']['value']);
 		$passwstart=utf8_to_ascii($surname);
 		$password=good_strtolower($passwstart[0]).$dob[0];
 		$assword=md5($password);
-		$classtable='info';
-		$classfield='student_id';
-		while(count($nums)<9){$nums[rand(1,9)]=null;}
-		while(strlen($code)<2){$code.=array_rand($nums);}
-		$tail=$code;
-		$no=0;
 		}
 	elseif($role=='guardian'){
-		$email='';
 		$email=$Newuser['EmailAddress']['value'];
-		//$start=iconv('UTF-8', 'ASCII//TRANSLIT', $surname);
-		$surname=utf8_to_ascii($surname);
-		$start=substr($surname,0,6);
 		$name=$Newuser['Title']['value'].' '.$Newuser['Surname']['value'];
 		$epfusertype='person';
 		$epftemplate_name='Default_Guardian';
 		$epftemplate=3;
 		$password=good_strtolower($Newuser['firstchild']);
 		$assword=md5($password);
-		$classtable='guardian';
-		$classfield='id';
-		while(count($nums)<9){$nums[rand(1,9)]=null;}
-		while(strlen($code)<2){$code.=array_rand($nums);}
-		$tail=$code;
-		$no=0;
 		}
 	elseif($role=='staff'){
 		$email=$Newuser['EmailAddress']['value'];
 		/* Staff usernames are unique within their own ClaSS but need
 			to maintain that within theBox by adding the school's clientid.*/
-		if(isset($CFG->clientid)){$start=$CFG->clientid;}
-		else{$start='';}
-		$tail=$Newuser['Username']['value'];
+		if(isset($CFG->clientid)){$epfusername=$CFG->clientid. $epfusername;}
 		$epfusertype='person';
 		$epftemplate_name='Default_Staff';
 		$epftemplate=1;
 		$assword=$Newuser['Password']['value'];
-		$no='';/*Not needed - all staff usernames are already unique.*/
-		$classtable='users';
-		$classfield='uid';
 		}
-	$epfusername=good_strtolower($start. $tail);
-	$epfusername=str_replace("'",'',$epfusername);
-	$epfusername=clean_text($epfusername);
 
 
-	/* Iterate over $no until we get a unique username. */
+	/* Doublecheck its a unique username and reject if not. */
 	$d_user=mysql_query("SELECT ident FROM $table WHERE username='$epfusername$no';");
-	while($olduser=mysql_fetch_array($d_user)){
-		$no++;
-		$d_user=mysql_query("SELECT ident FROM $table WHERE 
-												username='$epfusername$no';");
+	if(mysql_num_rows($d_user)>0){
+		$epfuid=-1;
+		trigger_error('EPFUsername duplicate: '.$epfusername.' already exists.',E_USER_WARNING);
 		}
-
-
-	mysql_query("INSERT INTO $table (username, password, name, 
+	else{
+		mysql_query("INSERT INTO $table (username, password, name, 
 					email, active, user_type,icon,template_id,template_name) VALUES 
 					('$epfusername$no', '$assword', '$name',
 					'$email', '$active','$epfusertype','$epftemplate',
 					'$epftemplate','$epftemplate_name')");
-	$epfuid=mysql_insert_id();
+		$epfuid=mysql_insert_id();
+		}
+
 	$db=db_connect();
 	mysql_query("SET NAMES 'utf8'");
-	if(isset($Newuser['id_db'])){
-		$classid=$Newuser['id_db'];
-		mysql_query("UPDATE $classtable SET epfusername='$epfusername$no'
-					WHERE $classfield='$classid';");
-		}
+
 	return $epfuid;
 	}
 

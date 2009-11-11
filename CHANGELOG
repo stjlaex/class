@@ -1,6 +1,14 @@
 Version ClaSS-0.9.9 release (2009/11/13)
 -----------------------------------------
 
+The epfusername is now under sole control of the
+generate_epfusername() function which is itself called from the
+ldap_sync_users.php script. Uniqueness is now ensured within the wider scope
+of the ldap directory.
+
+Included parents asa part of the ldap.
+
+Simplified the eportfolio_accounts script - though it is still transitional.
 
 
 Version ClaSS-0.9.8 release (2009/11/07)

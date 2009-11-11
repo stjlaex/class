@@ -744,4 +744,26 @@ function endecrypt($pwd, $data, $case='en'){
     return $cipher;
 	}
 
+/**
+ * Takes a user record and returns an xml array for it.
+ *
+ */
+function fetchUser($user){
+	$User=array();
+	$User['id_db']=$user['uid'];
+	$User['Surname']['value']=$user['surname'];
+	if($user['title']!=''){
+		$title=displayEnum($user['title'],'title');
+		$User['Forename']['value']=get_string($title,'infobook');
+		$User['Forename']['value']=$user['forename'];
+		}
+	else{
+		$User['Forename']['value']=$user['forename'];
+		}
+	$User['EmailAddress']['value']=$user['email'];
+	$User['Username']['value']=strtolower($user['username']);
+	$User['Password']['value']=$user['passwd'];
+
+	return $User;
+	}
 ?>
