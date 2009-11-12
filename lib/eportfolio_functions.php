@@ -129,77 +129,79 @@ function elgg_blank($usertemplate){
 	}
 
 /**
- * Generates a new user account in elgg for the Newuser xml-array, 
- * properties are decided by one of three possible roles: 
- * staff, student or guardian.
+ * Generates a new user account in elgg for the User xml-array.
+ * Properties are decided by one of three possible roles: staff,
+ * student or guardian. Returns the new epfuid for the User or -1 if
+ * it fails.
  *
  */
-function elgg_newUser($Newuser,$role){
+function elgg_newUser($User,$role){
+
+	$epfuid=-1;
 	global $CFG;
+
 	$table=$CFG->eportfolio_db_prefix.'users';
 	$dbepf='';
 	if($CFG->eportfolio_db!=''){
 		$dbepf=db_connect($CFG->eportfolio_db);
 		mysql_query("SET NAMES 'utf8'");
 		}
-	/*only use first part of a name*/
-    $name=$Newuser['Forename']['value'].' '.$Newuser['Surname']['value'];
+
+	/* Only use first part of a name. */
+    $name=$User['Forename']['value'].' '.$User['Surname']['value'];
 	$active='yes';
 	setlocale(LC_CTYPE,'en_GB');
 
-	$epfusername=$Newuser['EPFUsername']['value'];
-	$surname=str_replace(' ','',$Newuser['Surname']['value']);
+	$epfusername=$User['EPFUsername']['value'];
+	$surname=str_replace(' ','',$User['Surname']['value']);
 	$surname=str_replace("'",'',$surname);
 	$surname=str_replace('-','',$surname);
 
 	if($role=='student'){
-		$email=$Newuser['EmailAddress']['value'];
+		$email=$User['EmailAddress']['value'];
 		$epfusertype='person';
 		$epftemplate_name='Default_Student';
 		$epftemplate=2;
-		$dob=(array)split('-',$Newuser['DOB']['value']);
+		$dob=(array)split('-',$User['DOB']['value']);
 		$passwstart=utf8_to_ascii($surname);
 		$password=good_strtolower($passwstart[0]).$dob[0];
 		$assword=md5($password);
 		}
 	elseif($role=='guardian'){
-		$email=$Newuser['EmailAddress']['value'];
-		$name=$Newuser['Title']['value'].' '.$Newuser['Surname']['value'];
+		$email=$User['EmailAddress']['value'];
+		$name=$User['Title']['value'].' '.$User['Surname']['value'];
 		$epfusertype='person';
 		$epftemplate_name='Default_Guardian';
 		$epftemplate=3;
-		$password=good_strtolower($Newuser['firstchild']);
+		$password=good_strtolower($User['firstchild']);
 		$assword=md5($password);
 		}
 	elseif($role=='staff'){
-		$email=$Newuser['EmailAddress']['value'];
-		/* Staff usernames are unique within their own ClaSS but need
-			to maintain that within theBox by adding the school's clientid.*/
-		if(isset($CFG->clientid)){$epfusername=$CFG->clientid. $epfusername;}
+		$email=$User['EmailAddress']['value'];
 		$epfusertype='person';
 		$epftemplate_name='Default_Staff';
 		$epftemplate=1;
-		$assword=$Newuser['Password']['value'];
+		$assword=$User['Password']['value'];
 		}
 
-
-	/* Doublecheck its a unique username and reject if not. */
-	$d_user=mysql_query("SELECT ident FROM $table WHERE username='$epfusername$no';");
-	if(mysql_num_rows($d_user)>0){
-		$epfuid=-1;
-		trigger_error('EPFUsername duplicate: '.$epfusername.' already exists.',E_USER_WARNING);
-		}
-	else{
-		mysql_query("INSERT INTO $table (username, password, name, 
+	if(isset($dbepf)){
+		/* Doublecheck its a unique username and reject if not. */
+		$d_user=mysql_query("SELECT ident FROM $table WHERE username='$epfusername';");
+		if(mysql_num_rows($d_user)>0){
+			trigger_error('EPFUsername duplicate: '.$epfusername.' already exists.',E_USER_WARNING);
+			}
+		else{
+			mysql_query("INSERT INTO $table (username, password, name, 
 					email, active, user_type,icon,template_id,template_name) VALUES 
-					('$epfusername$no', '$assword', '$name',
+					('$epfusername', '$assword', '$name',
 					'$email', '$active','$epfusertype','$epftemplate',
 					'$epftemplate','$epftemplate_name')");
-		$epfuid=mysql_insert_id();
-		}
+			$epfuid=mysql_insert_id();
+			}
 
-	$db=db_connect();
-	mysql_query("SET NAMES 'utf8'");
+		$db=db_connect();
+		mysql_query("SET NAMES 'utf8'");
+		}
 
 	return $epfuid;
 	}
@@ -283,6 +285,7 @@ function elgg_update_community($community,$communityfresh=array('type'=>'','name
 
 	$db=db_connect();
 	mysql_query("SET NAMES 'utf8'");
+
 	return $comid;
 	}
 
