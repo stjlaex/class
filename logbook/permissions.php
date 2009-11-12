@@ -762,6 +762,7 @@ function fetchUser($user){
 		}
 	$User['EmailAddress']['value']=$user['email'];
 	$User['Username']['value']=strtolower($user['username']);
+	$User['EPFUsername']['value']=$user['epfusername'];
 	$User['Password']['value']=$user['passwd'];
 
 	return $User;

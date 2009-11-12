@@ -29,7 +29,6 @@ if($studentblank=='yes'){
 	 * Everything to do with each account is lost.
 	 */
 	elgg_blank('Default_Student');
-	//mysql_query("UPDATE info SET epfusername='';");
 	$result[]='Students\' accounts blanked.';
 	}
 
@@ -38,7 +37,6 @@ if($contactblank=='yes'){
 	 * Everything to do with each account is lost.
 	 */
 	elgg_blank('Default_Guardian');
-	//mysql_query("UPDATE guardian SET epfusername='';");
 	$result[]='Contacts\' accounts blanked.';
 	}
 
@@ -96,7 +94,7 @@ if($staffcheck=='yes'){
 	$com['epfcomid']=$epfcomid;
 
 	while(list($aindex,$user)=each($allteachers)){
-		$Newuser=array()fetchUser($user);
+		$Newuser=(array)fetchUser($user);
 		/* Ignore anyone who has not yet got an epfusername (handled by ldap). */
    		$epfuid=-1;
 		if(isset($user['epfusername']) and $user['epfusername']!=''){

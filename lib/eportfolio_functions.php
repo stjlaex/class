@@ -141,7 +141,6 @@ function elgg_newUser($User,$role){
 	global $CFG;
 
 	$table=$CFG->eportfolio_db_prefix.'users';
-	$dbepf='';
 	if($CFG->eportfolio_db!=''){
 		$dbepf=db_connect($CFG->eportfolio_db);
 		mysql_query("SET NAMES 'utf8'");
@@ -195,7 +194,7 @@ function elgg_newUser($User,$role){
 					email, active, user_type,icon,template_id,template_name) VALUES 
 					('$epfusername', '$assword', '$name',
 					'$email', '$active','$epfusertype','$epftemplate',
-					'$epftemplate','$epftemplate_name')");
+					'$epftemplate','$epftemplate_name');");
 			$epfuid=mysql_insert_id();
 			}
 

@@ -676,7 +676,7 @@ function generate_epfusername($User=array(),$role='student'){
 		}
 	elseif($role=='staff'){
 		/* Staff usernames are unique within their own ClaSS but need
-		 * to maintain that witin the epf by adding the school's clientid.
+		 * to maintain that within the epf by adding the school's clientid.
 		 */
 		if(isset($CFG->clientid)){$start=$CFG->clientid;}
 		else{$start='';}

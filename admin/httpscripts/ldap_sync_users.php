@@ -57,7 +57,7 @@ if($ds){
 		$entries=0.0;
 		foreach($users as $uid => $row) {
 			$info=array();
-			$Newuser=(array)fetchUser($user);
+			$Newuser=(array)fetchUser($row);
 			$epfusername=generate_epfusername($Newuser,$type='staff');
 			/*The cn for a user takes the first part of their email address (removing any dots).*/
 			$atpos=strpos($row['email'], '@');
