@@ -149,9 +149,8 @@ if($ds){
 			/* entry counter */
 			$entries++;
 			}
-		trigger_error('Step 1: '.$entries.' User entries have been processed', E_USER_WARNING);
+		trigger_error('Step 1: '.$entries.' User entries have been processed', E_USER_NOTICE);
 
-	
 
 		/**
 		 * STEP 2: Process all Students from ClaSS DB
@@ -230,7 +229,7 @@ if($ds){
 				$entries++;
 				}
 			}
-		trigger_error('Step 2: '.$entries.' Student entries have been processed', E_USER_WARNING);
+		trigger_error('Step 2: '.$entries.' Student entries have been processed', E_USER_NOTICE);
 
 
 		/**
@@ -298,16 +297,15 @@ if($ds){
 			$entries++;
 			}
 		
-		trigger_error('Step 3: '.$entries.' Contact entries have been processed', E_USER_WARNING);
+		trigger_error('Step 3: '.$entries.' Contact entries have been processed', E_USER_NOTICE);
 		ldap_close($ds);
 		}
- 
-	else {
+	else{
 		trigger_error('Unable to bind to LDAP server. Nothing has been done.', E_USER_WARNING);
 		}
 
 	}
-else {
+else{
 	trigger_error('Unable to connect to LDAP server. Nothing has been done.', E_USER_WARNING);
 	}
 

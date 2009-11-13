@@ -388,12 +388,10 @@ if ($ds) {
 
 
 	} else {
-		trigger_error('could not bind to the server', E_USER_WARNING);
-		die;
+		trigger_error('could not bind to the server', E_USER_ERROR);
 	} 
 } else {
-	trigger_error('Unable to connect to LDAP server', E_USER_WARNING);
-	die;
+	trigger_error('Unable to connect to LDAP server', E_USER_ERROR);
 } 
 
 

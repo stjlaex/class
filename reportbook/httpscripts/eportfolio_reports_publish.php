@@ -29,10 +29,10 @@ require_once($CFG->installpath.'/'.$CFG->applicationdirectory.'/scripts/cron_hea
 if(isset($CFG->eportfolio_db) and $CFG->eportfolio_db!=''){
 	require_once($fullpath.'/lib/eportfolio_functions.php');
 	}
-else{trigger_error('eportfolio not configured!',E_USER_WARNING);die();}
+else{trigger_error('eportfolio not configured!',E_USER_ERROR);}
 if(isset($CFG->html2psscript) and $CFG->html2psscript!=''){
 	}
-else{trigger_error('html2ps not configured!',E_USER_WARNING);die();}
+else{trigger_error('html2ps not configured!',E_USER_ERROR);}
 
 /**
  * To ensure we don't get a race condition the report_event is touched
