@@ -331,7 +331,8 @@ if ($ds) {
 
 								foreach ($students as $student) {
 									/* assign epfusername*/
-									$members[$idx]=get_epfusername($student['id']);
+									$S=fetchStudent_singlefield($student['id'],'EPFUsername');
+									$members[$idx]=fetchSt($S['EPFUsername']['value']);
 									$idx++;
 								}
 								

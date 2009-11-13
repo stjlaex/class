@@ -270,7 +270,7 @@ if($ds){
 			$info=array();
 			$info['uid']=$epfusername;
 			$info['cn']=$Contacts[$gid]['Forename']['value'] . ' ' . $Contacts[$gid]['Surname']['value'];
-			//$info['givenName']= $Contacts[$gid]['Forename']['value'];
+			//$info['givenName']= $Contacts[$gid]['Forename']['value'];//Often blank for contacts so remove
 			$info['sn']=$Contacts[$gid]['Surname']['value'];
 			$info['mail']=$Contacts[$gid]['EmailAddress']['value'];
 			$info['ou']='contact'; 
