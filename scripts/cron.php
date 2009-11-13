@@ -10,7 +10,7 @@
  *
  * Where <install-path> is the same assigned to $CFG->installpath, in the script school.php
  * 
- * Make sure you have the fullpath correct for your install.
+ * Make sure you have <fullpath> (which includes the application directory) correct for your install.
  *
  */
 
@@ -35,17 +35,15 @@ $ARGS=arguments($_SERVER['argv']);
 require_once($ARGS['path'].'/school.php');
 require_once($CFG->installpath.'/'.$CFG->applicationdirectory.'/scripts/cron_head_options.php');
 
+$fullpath=$CFG->installpath.'/'.$CFG->applicationdirectory;
 
 /**
  * Run every time.
  */
 
-//$cmd='/usr/bin/php '.$anypath.'/infobook/httpscripts/message_event_cron.php --path='.$CFG->installpath;
-//exec("$cmd > /dev/null &");
+$cmd='/usr/bin/php '.$fullpath.'/infobook/httpscripts/message_event_cron.php --path='.$CFG->installpath;
+exec("$cmd > /dev/null &");
 
-
-//	$cmd='/usr/bin/php '.$CFG->installpath.'/'.$CFG->applicationdirectory.'/admin/httpscripts/ldap_sync_users.php --path='.$CFG->installpath;
-//	exec("$cmd > /dev/null &");
 
 /**
  * Run nightly only (late night)
@@ -54,12 +52,11 @@ $latehour=date('H',$starttime);
 if($latehour>=23 and $latehour<5){
 
 
-	//$cmd='/usr/bin/php '.$CFG->installpath.'/'.$CFG->applicationdirectory.'/admin/httpscripts/ldap_sync_users.php --path='.$CFG->installpath;
-	//exec("$cmd > /dev/null &");
+	$cmd='/usr/bin/php '.$fullpath.'/admin/httpscripts/ldap_sync_users.php --path='.$CFG->installpath;
+	exec("$cmd > /dev/null &");
 
-
-	//$cmd='/usr/bin/php '.$CFG->installpath.'/'.$CFG->applicationdirectory.'/reportbook/httpscripts/eportfolio_reports_publish.php --path='.$CFG->installpath;
-	//exec("$cmd > /dev/null &");
+	$cmd='/usr/bin/php '.$fullpath.'/reportbook/httpscripts/eportfolio_reports_publish.php --path='.$CFG->installpath;
+	exec("$cmd > /dev/null &");
 
 	}
 

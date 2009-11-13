@@ -619,12 +619,16 @@ function elgg_set_student_photo($epfuid,$yid,$dbc=true){
  *
  * $foldertype is report or work or null for the root folder.
  *
+ * @return true|false Returns true on success
+ *
  * NB. We don't want to include these file sizes for the user quota when
  * they are posted by ClaSS.
  *
  */
 function elgg_upload_files($filedata,$dbc=true){
 	global $CFG;
+	$success=false;
+
 	$table_folders=$CFG->eportfolio_db_prefix.'file_folders';
 	$table_files=$CFG->eportfolio_db_prefix.'files';
 	if($CFG->eportfolio_db!='' and $dbc==true){
@@ -674,37 +678,38 @@ function elgg_upload_files($filedata,$dbc=true){
 		if(!make_portfolio_directory($dir)){
 			trigger_error('Could not create eportfolio directory: '.$dir,E_USER_WARNING);
 			}
-
-		$file_fullpath=$CFG->eportfolio_dataroot . '/' . $dir. '/'. $file_name;
-		$file_location=$dir . '/'. $file_name;
-		$file_originalname=$file_name;
-		if($filedata['foldertype']=='report'){
-			$file_originalpath=$CFG->installpath .'/reports/'. $file_name;
-			}
 		else{
-			$file_originalpath=$batchfile['tmpname'];
-			}
-		$d_f=mysql_query("SELECT ident FROM $table_files WHERE originalname='$file_originalname' 
+			$file_fullpath=$CFG->eportfolio_dataroot . '/' . $dir. '/'. $file_name;
+			$file_location=$dir . '/'. $file_name;
+			$file_originalname=$file_name;
+			if($filedata['foldertype']=='report'){
+				$file_originalpath=$CFG->installpath .'/reports/'. $file_name;
+				}
+			else{
+				$file_originalpath=$batchfile['tmpname'];
+				}
+			$d_f=mysql_query("SELECT ident FROM $table_files WHERE originalname='$file_originalname' 
 								AND files_owner='$epfuid';");
-		if(mysql_num_rows($d_f)==0){
-			$d_f=mysql_query("INSERT INTO $table_files 
+			if(mysql_num_rows($d_f)==0){
+				$d_f=mysql_query("INSERT INTO $table_files 
 		   			 (owner, files_owner, folder, title, originalname,
 						description, location, access, time_uploaded) VALUES 
 		   			 ('1', '$epfuid','$folder_id','$file_title','$file_originalname',
 		   			  '$file_description','$file_location','$file_access','$file_time');");
-			}
-		else{
-			$file_ident=mysql_result($d_f,0);
-			$d_f=mysql_query("UPDATE $table_files SET (originalname='$file_originalname') 
+				}
+			else{
+				$file_ident=mysql_result($d_f,0);
+				$d_f=mysql_query("UPDATE $table_files SET (originalname='$file_originalname') 
 		   				WHERE ident='$file_ident';");
-			}
+				}
 
-  		if(rename($file_originalpath,$file_fullpath)){
-			trigger_error('Uploaded file to: '.$dir,E_USER_WARNING);
-			// chmod($file_fullpath, $CFG->filepermissions);
+			if(rename($file_originalpath,$file_fullpath)){
+				trigger_error('Uploaded file to: '.$dir,E_USER_WARNING);
+				// chmod($file_fullpath, $CFG->filepermissions);
+				$success=true;
+				}
+			else{trigger_error('Could not move file to eportfolio: '.$file_fullpath,E_USER_WARNING);}
 			}
-		else{trigger_error('Could not move file to eportfolio: '.$file_fullpath,E_USER_WARNING);}
-
 		}
 
 	if($dbc==true){
@@ -712,7 +717,7 @@ function elgg_upload_files($filedata,$dbc=true){
 		mysql_query("SET NAMES 'utf8'");
 		}
 
-
+	return $success;
 	}
 
 
@@ -732,24 +737,10 @@ function make_portfolio_directory($directory,$shownotices=false){
 	$CFG->filepermissions=0655;
     $currdir=$CFG->eportfolio_dataroot;
     umask(0000);
-	/*
-    if(!file_exists($currdir)){
-        if (! mkdir($currdir, $CFG->directorypermissions)) {
-            if ($shownotices){
-                notify('ERROR: You need to create the directory '. $currdir .' with web server write access');
-            }
-            return false;
-        }
-        if ($handle = fopen($currdir.'/.htaccess', 'w')) {   // For safety
-            @fwrite($handle, "deny from all\r\n");
-            @fclose($handle);
-        }
-    }
-    */
 
     $dirarray=explode('/', $directory);
 
-    // remove trailing slash, if present
+    /* Remove any trailing slash */
 	$currdir=rtrim($currdir, '/');
     
     foreach($dirarray as $dir){
@@ -757,7 +748,7 @@ function make_portfolio_directory($directory,$shownotices=false){
         if(!file_exists($currdir)){
             if(!mkdir($currdir,$CFG->directorypermissions)){
                 if($shownotices){
-                    notify('ERROR: Could not find or create a directory ('. $currdir .')');
+                    trigger_error('ERROR: Could not find or create a directory ('. $currdir .')',E_USER_WARNING);
 					}
                 return false;
 				}

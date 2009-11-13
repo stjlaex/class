@@ -67,11 +67,13 @@ function xmlechoer($rootName,$xmlentry){
 	}
 
 /**
+ *
  * Combines an $xml string with an xsl file which it reads, writes the 
  * html output to a file if (output_filename is set) otherwise just 
  * returns the html
  * Any ouput currently goes to the toplevel directory reports.
  * Still under development!!!!
+ *
  */
 function xmlprocessor($xml,$xsl_filename,$output_filename=NULL){
 	global $CFG;

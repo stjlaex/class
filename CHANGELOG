@@ -6,9 +6,9 @@ generate_epfusername() function which is itself called from the
 ldap_sync_users.php script. Uniqueness is now ensured within the wider scope
 of the ldap directory.
 
-Included parents asa part of the ldap.
+Included parents as part of the ldap.
 
-Simplified the eportfolio_accounts script - though it is still transitional.
+Simplified the eportfolio_accounts script - though it is still transitional!
 
 
 Version ClaSS-0.9.8 release (2009/11/07)
@@ -18,7 +18,7 @@ Fixed a typo in the ldap_sync_users which was affecting student uids.
 
 Moodle course enrolments now pulled together into one script ldap_enrol_users.
 
-Fixed the logic of generating columns for sngle stage assessments.
+Fixed the logic of generating columns for single stage assessments.
 
 Implemented the nologin field for ldap_sync_users to delete a record.
 

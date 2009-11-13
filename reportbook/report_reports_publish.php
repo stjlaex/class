@@ -42,6 +42,7 @@ include('scripts/sub_action.php');
 		$reportdefs[]=fetch_reportdefinition($rids[$c]);
 		}
 
+	/* reportdefs index 0 will be the wrapper if one is used */
 	$pubdate=$reportdefs[0]['report']['date'];
 	$paper=$reportdefs[0]['report']['style'];
 	$transform=$reportdefs[0]['report']['transform'];
@@ -53,7 +54,6 @@ include('scripts/sub_action.php');
 		$Reports['Coversheet']='yes';/* No longer used, always yes */
 		$Reports['Paper']=$paper;
 
-		/* reportdefs index 0 will be the wrapper if one is used */
 		$Reports['CoverTitle']=$reportdefs[0]['report']['title'];
 		$Reports['Coversheet']='yes';
 		$Reports['Transform']=$transform;
@@ -61,7 +61,7 @@ include('scripts/sub_action.php');
 		$Student['Reports']=nullCorrect($Reports);
 		$reportyear=$reportdefs[0]['report']['year']-1;
 		$startdate=$reportyear.'-08-15';//Does the whole academic year
-		$Student['Reports']['Attendance']=fetchAttendanceSummary($sid,$startdate,$reportdefs[0]['report']['date']);
+		$Student['Reports']['Attendance']=fetchAttendanceSummary($sid,$startdate,$pubdate);
 
 		/*Finished with the student's reports. Output the result as xml.*/
 		$xsl_filename=$transform.'.xsl';
@@ -79,28 +79,36 @@ include('scripts/sub_action.php');
 		$xml=xmlpreparer('student',$Student);
 		$xml='<'.'?xml version="1.0" encoding="utf-8"?'.'><students>'.$xml.'</students>';
 		$html_report=xmlprocessor($xml,$xsl_filename);
-		$html=$html_header. $html_report . $html_footer;
+		if(!empty($html_report)){
+			$html=$html_header. $html_report . $html_footer;
 
-		/**
-		 * Write the html to as a file in the reports folder.
-		 */
-		$filename='Report'.$pubdate.'_'.$sid.'_'.$wrapper_rid;
-		$file=fopen($CFG->installpath.'/reports/'.$filename.'.html', 'w');
-		if(!$file){
-			$error[]='Unable to open file for writing!';
+			/**
+			 * Write the html to as a file in the reports folder.
+			 */
+			$filename='Report'.$pubdate.'_'.$sid.'_'.$wrapper_rid;
+			$file=fopen($CFG->installpath.'/reports/'.$filename.'.html', 'w');
+			if(!$file){
+				$error[]='Unable to open file for writing!';
+				}
+			else{
+				fputs($file,$html);
+				fclose($file);
+				/* Log to the event table for publication. */
+				if(mysql_query("INSERT INTO report_event SET report_id='$wrapper_rid', 
+							student_id='$sid',date='$pubdate',success='0';")){}
+				else{mysql_query("UPDATE report_event SET success='0' 
+					WHERE report_id='$wrapper_rid' AND student_id='$sid';");}
+				}
 			}
 		else{
-			fputs($file,$html);
-			fclose($file);
-			/* Log to the event table for publication. */
-			if(mysql_query("INSERT INTO report_event SET report_id='$wrapper_rid', 
-							student_id='$sid',date='$pubdate',success='0';")){}
-			else{mysql_query("UPDATE report_event SET success='0' 
-					WHERE report_id='$wrapper_rid' AND student_id='$sid';";}
+			trigger_error('Report publication failed for: '.$sid. ' '.$Student['Surname']['value'],E_USER_WARNING);
+			$error[]='Report publication failed for: '.$sid.' '.$Student['Surname']['value'];
 			}
 		}
 
-$result[]=get_string('scheduledforpublication',$book);
+if(!isset($error)){
+	$result[]=get_string('scheduledforpublication',$book);
+	}
 
 include('scripts/results.php');
 include('scripts/redirect.php');
