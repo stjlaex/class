@@ -1341,7 +1341,9 @@ function array_filter_fields($startarray,$fields){
 /**
  * Send an email (with attachments)
  *
- * Taken from moodlelib and adapted for ClaSS
+ * Taken from moodlelib and adapted for ClaSS.
+ *
+ * Requires either libphpmailer or the PEAR mail queue package to be configured.
  *
  * @uses $CFG
  * @param recipient 
@@ -1359,116 +1361,131 @@ function send_email_to($recipient, $from, $subject, $messagetext, $messagehtml='
 
     global $CFG;
 
-    include_once($CFG->phpmailerpath.'/class.phpmailer.php'); 
+	if($CFG->phpmailerpath){
+		/*********libphpmailer*****************/
+		include_once($CFG->phpmailerpath.'/class.phpmailer.php'); 
 
-    if(empty($recipient)){
-        return false;
+
+
+		if(empty($recipient)){
+			return false;
+			}
+		if($CFG->emailoff=='yes'){
+			return 'emailstop';
 		}
-    if($CFG->emailoff=='yes'){
-        return 'emailstop';
-		}
+		
+		$mail = new phpmailer;
+		$mail->Version = $CFG->version;
+		//$mail->PluginDir = $CFG->libdir .'/libphp-phpmailer/';// plugin directory (eg smtp plugin)
 
-    $mail = new phpmailer;
-    $mail->Version = $CFG->version;
-    //$mail->PluginDir = $CFG->libdir .'/libphp-phpmailer/';// plugin directory (eg smtp plugin)
-
-	/*    if(current_language()!='en'){
-        $mail->CharSet = get_string('thischarset');
-		}
-	*/
-
-    if($CFG->smtphosts=='qmail'){
-        $mail->IsQmail();                              // use Qmail system
-		} 
-	elseif(empty($CFG->smtphosts)){
-        $mail->IsMail();                               // use PHP mail() = sendmail
-		} 
-	else{
-        $mail->IsSMTP();                               // use SMTP directly
-        if($CFG->debug=='on'){
+		/*    if(current_language()!='en'){
+			  $mail->CharSet = get_string('thischarset');
+			  }
+		*/
+		
+		if($CFG->smtphosts=='qmail'){
+			$mail->IsQmail();                              // use Qmail system
+			} 
+		elseif(empty($CFG->smtphosts)){
+			$mail->IsMail();                               // use PHP mail() = sendmail
+			} 
+		else{
+			$mail->IsSMTP();                               // use SMTP directly
+			if($CFG->debug=='on'){
             echo '<pre>' . "\n";
             $mail->SMTPDebug = true;
-			}
-        $mail->Host=$CFG->smtphosts;         // specify main and backup servers
-        if($CFG->smtpuser){                  // Use SMTP authentication
-            $mail->SMTPAuth = true;
-            $mail->Username = $CFG->smtpuser;
-            $mail->Password = $CFG->smtppasswd;
-			}
-		}
-
-
-    // for handling bounces
-    if(!empty($CFG->emailhandlebounces)){
-        $mail->Sender = $CFG->emailhandlebounces;
-		}
-    else{
-        $mail->Sender='';
-		}
-
-    if(is_string($from)){
-        $mail->From     = $CFG->emailnoreply;
-        $mail->FromName = $from;
-		}
-	else{
-        $mail->From     = $CFG->emailnoreply;
-        $mail->FromName = 'ClaSS';
-        if(empty($replyto)){
-            $mail->AddReplyTo($CFG->emailnoreply,'ClaSS');
-			}
-		}
-
-    if(!empty($replyto)){
-        $mail->AddReplyTo($replyto,$replytoname);
-		}
-
-    $mail->Subject = substr(stripslashes($subject), 0, 900);
-    $mail->AddAddress($recipient,'');
-    $mail->WordWrap = 79;                              // set word wrap
-
-	/*
-    if(!empty($from->customheaders)){                 // Add custom headers
-        if(is_array($from->customheaders)){
-            foreach ($from->customheaders as $customheader) {
-                $mail->AddCustomHeader($customheader);
-            }
-        } else {
-            $mail->AddCustomHeader($from->customheaders);
-        }
-    }
-    if (!empty($from->priority)) {
-        $mail->Priority = $from->priority;
-    }
-	*/
-
-    if($messagehtml){
-        $mail->IsHTML(true);
-        $mail->Encoding='quoted-printable';// Encoding to use
-        $mail->Body=$messagehtml;
-        $mail->AltBody="\n$messagetext\n";
-		}
-	else{
-        $mail->IsHTML(false);
-        $mail->Body="\n$messagetext\n";
-		}
-
-    if(is_array($attachments)){
-		while(list($index,$attachment)=each($attachments)){
-			if(is_file($attachment['filepath'])){ 
-				$mimetype=file_mimeinfo('type', $attachment['filename']);
-				$mail->AddAttachment($attachment['filepath'], $attachment['filename'], 'base64', $mimetype);
+				}
+			$mail->Host=$CFG->smtphosts;         // specify main and backup servers
+			if($CFG->smtpuser){                  // Use SMTP authentication
+				$mail->SMTPAuth = true;
+				$mail->Username = $CFG->smtpuser;
+				$mail->Password = $CFG->smtppasswd;
 				}
 			}
-		}
 
-    if($mail->Send()){
-		return true;
+
+		// for handling bounces
+		if(!empty($CFG->emailhandlebounces)){
+			$mail->Sender = $CFG->emailhandlebounces;
+			}
+		else{
+			$mail->Sender='';
+			}
+
+		if(is_string($from)){
+			$mail->From     = $CFG->emailnoreply;
+			$mail->FromName = $from;
+			}
+		else{
+			$mail->From     = $CFG->emailnoreply;
+			$mail->FromName = 'ClaSS';
+			if(empty($replyto)){
+				$mail->AddReplyTo($CFG->emailnoreply,'ClaSS');
+				}
+			}
+		
+		if(!empty($replyto)){
+			$mail->AddReplyTo($replyto,$replytoname);
+			}
+		
+		$mail->Subject = substr(stripslashes($subject), 0, 900);
+		$mail->AddAddress($recipient,'');
+		$mail->WordWrap = 79;                              // set word wrap
+		
+		/*
+		  if(!empty($from->customheaders)){                 // Add custom headers
+		  if(is_array($from->customheaders)){
+		  foreach ($from->customheaders as $customheader) {
+		  $mail->AddCustomHeader($customheader);
+		  }
+		  } else {
+		  $mail->AddCustomHeader($from->customheaders);
+        }
+		}
+		if (!empty($from->priority)) {
+        $mail->Priority = $from->priority;
+		}
+		*/
+
+		if($messagehtml){
+			$mail->IsHTML(true);
+			$mail->Encoding='quoted-printable';// Encoding to use
+			$mail->Body=$messagehtml;
+			$mail->AltBody="\n$messagetext\n";
+			}
+		else{
+			$mail->IsHTML(false);
+			$mail->Body="\n$messagetext\n";
+			}
+
+		if(is_array($attachments)){
+			while(list($index,$attachment)=each($attachments)){
+				if(is_file($attachment['filepath'])){ 
+					$mimetype=file_mimeinfo('type', $attachment['filename']);
+					$mail->AddAttachment($attachment['filepath'], $attachment['filename'], 'base64', $mimetype);
+					}
+				}
+			}
+
+		if($mail->Send()){
+			return true;
+			}
+		else{
+			//mtrace('ERROR: '. $mail->ErrorInfo);
+			//add_to_log(SITEID, 'library', 'mailer', $FULLME, 'ERROR: '. $mail->ErrorInfo);
+			return false;
+			}
+
 		}
 	else{
-        //mtrace('ERROR: '. $mail->ErrorInfo);
-        //add_to_log(SITEID, 'library', 'mailer', $FULLME, 'ERROR: '. $mail->ErrorInfo);
-        return false;
+		/*****PEAR queue mail************/
+
+
+
+
+		/*******************************/
 		}
+
 	}
 
 

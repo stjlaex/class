@@ -1,4 +1,4 @@
-Version ClaSS-0.9.9 release (2009/11/13)
+Version ClaSS-0.9.9 release (2009/11/16)
 -----------------------------------------
 
 The epfusername is now under sole control of the
@@ -9,6 +9,8 @@ of the ldap directory.
 Included parents as part of the ldap.
 
 Simplified the eportfolio_accounts script - though it is still transitional!
+
+
 
 
 Version ClaSS-0.9.8 release (2009/11/07)
