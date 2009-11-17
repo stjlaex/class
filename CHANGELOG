@@ -10,7 +10,10 @@ Included parents as part of the ldap.
 
 Simplified the eportfolio_accounts script - though it is still transitional!
 
+Adopting the PEAR Mail_Queue library: this has taken over the
+message_event table in the db (apply the patch to update it!).
 
+The message_event cron script now runs the mail queue every time cron runs.
 
 
 Version ClaSS-0.9.8 release (2009/11/07)

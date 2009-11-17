@@ -24,9 +24,28 @@ function arguments($argv) {
 $ARGS=arguments($_SERVER['argv']);
 require_once($ARGS['path'].'/school.php');
 require_once($CFG->installpath.'/'.$CFG->applicationdirectory.'/scripts/cron_head_options.php');
-/**/
 
+/* The PEAR library */
+require_once 'Mail/Queue.php';
 
+$db_options['type']='db';
+$db_options['db']=$db;
+$db_options['mail_table']='message_event';  
+
+$mail_options['driver']='smtp';
+$mail_options['host']=$CFG->smtphosts;
+$mail_options['port']=25;
+$mail_options['auth']=true;
+$mail_options['username']=$CFG->smtpuser;
+$mail_options['password']=$CFG->smtppasswd;
+
+$queue=& new Mail_Queue($db_options, $mail_options);
+$max_amount=50;
+$max_send_attempts=10;
+/* Reference:  
+ * http://pear.php.net/package/Mail_Queue/docs/latest/Mail_Queue/Mail_Queue.html#methodsendMailsInQueue  
+ */
+$queue->sendMailsInQueue($max_amount, MAILQUEUE_START, $max_send_attempts);  
 
 
 

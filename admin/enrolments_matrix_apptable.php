@@ -11,11 +11,11 @@
 $app_tablerows=array();
 $app_cols=array();
 
-	/* The table's column headers are the application steps which are
-	 * realy select enrolstatus codes*/
-	$application_steps=array('EN','AP','AT','ATD','RE','CA','WL','ACP','AC');
-	/* Only display a subset but all values are still totalled in final column*/
-	$appcols_value=array('AT','ATD','RE','CA','WL','ACP','AC');
+/* The table's column headers are the application steps which are
+ * realy select enrolstatus codes*/
+$application_steps=array('EN','AP','AT','ATD','RE','CA','WL','ACP','AC');
+/* Only display a subset but all values are still totalled in final column*/
+$appcols_value=array('AT','ATD','RE','CA','WL','ACP','AC','EN');
 
 	while(list($colindex,$enrolstatus)=each($application_steps)){
 			if(in_array($enrolstatus,$appcols_value)){
@@ -42,7 +42,7 @@ $app_cols=array();
 	while(list($yindex,$year)=each($yeargroups)){
 		$app_tablecells=array();
 		$yid=$year['id'];
-		
+
 		/* First count applicants who have joined the current roll and
 		 * hence are not counted in one of the applied groups -
 		 * still want the number as part of the matrix for totals
@@ -90,7 +90,7 @@ $app_cols=array();
 				$display=$value; //+$extravalue;
 				}
 			$values[$index+1]=$value;
-			$values[0]+=$values[$index+1];
+			if($enrolstatus!='EN'){$values[0]+=$values[$index+1];}
 
 			/* Only set the display value if the column is being
 					displayed in the matrix but always set the value for totals*/

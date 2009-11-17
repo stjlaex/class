@@ -251,6 +251,26 @@ CREATE TABLE transportstop (
 
 mysql_query("
 CREATE TABLE message_event (
+  id bigint(20) NOT NULL default '0',
+  create_time datetime NOT NULL default '0000-00-00 00:00:00',
+  time_to_send datetime NOT NULL default '0000-00-00 00:00:00',
+  sent_time datetime default NULL,
+  id_user bigint(20) NOT NULL default '0',
+  ip varchar(20) NOT NULL default 'unknown',
+  sender varchar(50) NOT NULL default '',
+  recipient text NOT NULL,
+  headers text NOT NULL,
+  body longtext NOT NULL,
+  try_sent tinyint(4) NOT NULL default '0',
+  delete_after_send tinyint(1) NOT NULL default '1',
+  PRIMARY KEY  (id),
+  KEY id (id),
+  KEY time_to_send (time_to_send),
+  KEY id_user (id_user)
+);");
+/*
+mysql_query("
+CREATE TABLE message_event (
 	id				int unsigned not null auto_increment,
 	personid		int unsigned not null default '0',
 	persontype 		enum('','u','s','g') not null default '',
@@ -264,7 +284,7 @@ CREATE TABLE message_event (
 	index 			index_person (personid,persontype),
 	primary key 	(id)
 );");
-
+*/
 mysql_query("
 CREATE TABLE merits (
 	id				int unsigned not null auto_increment, 
