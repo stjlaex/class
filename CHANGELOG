@@ -15,6 +15,8 @@ message_event table in the db (apply the patch to update it!).
 
 The message_event cron script now runs the mail queue every time cron runs.
 
+Now displays siblings on the student_view page.
+
 
 Version ClaSS-0.9.8 release (2009/11/07)
 -----------------------------------------

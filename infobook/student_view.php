@@ -8,6 +8,7 @@ $action='student_view_action.php';
 
 $tutor_user=get_tutor_user($Student['RegistrationGroup']['value']);
 $house=get_student_house($sid);
+$Siblings=array();
 
 twoplus_buttonmenu($sidskey,sizeof($sids));
 ?>
@@ -211,6 +212,16 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 			if($Contact['id_db']!=' '){
 				$gid=$Contact['id_db'];
 				$relation=displayEnum($Contact['Relationship']['value'],'relationship');
+
+				$Dependents=fetchDependents($gid);
+				if(sizeof($Dependents)>0){
+					foreach($Dependents as $depindex=>$Sib){
+						$r=$Sib['Relationship']['value'];
+						/* Check relationship to only list true siblings. */
+						if($Sib['id_db']!=$sid and 
+						   ($r=='PAF' or $r=='PAM' or $r=='STP')){$Siblings[$Sib['id_db']]=$Sib;}
+						}
+					}
 ?>
 			<li id="<?php print 'tinytab-contact-'.$relation;?>"><p 
 					 <?php if($n==0){ print ' id="current-tinytab" ';}?>
@@ -277,6 +288,8 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 		<div id="tinytab-display-contact" class="tinytab-display">
 		</div>
 	  </div>
+
+
 
 <?php
 		if($_SESSION['role']!='support'){
@@ -365,6 +378,34 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 		</div>
 	  </fieldset>
   </div>
+
+
+	  <div class="right">
+		  <table class="listmenu listinfo">
+			<caption><?php print_string('siblings',$book);?></caption>
+			<tr>
+			  <td>
+			  </td>
+			</tr>
+<?php
+		while(list($index,$Dependent)=each($Siblings)){
+			$Sibling=$Dependent['Student'];
+			//$relation=displayEnum($Dependent['Relationship']['value'],'relationship');
+?>
+					<tr>
+					  <td style="padding:5px 2px 2px 6px;">
+						  <a href="infobook.php?current=student_view.php&cancel=contact_list.php&sid=<?php print $Sibling['id_db'];?>&sids[]=<?php print $Sibling['id_db'];?>">
+							<?php print $Sibling['DisplayFullName']['value']; ?>
+						  </a>
+					  </td>
+					</tr>
+<?php
+			}
+?>
+		  </table>
+</div>
+	  </div>
+
 
 
   <input type="hidden" name="current" value="<?php print $action;?>" />

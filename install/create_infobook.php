@@ -264,7 +264,6 @@ CREATE TABLE message_event (
   try_sent tinyint(4) NOT NULL default '0',
   delete_after_send tinyint(1) NOT NULL default '1',
   PRIMARY KEY  (id),
-  KEY id (id),
   KEY time_to_send (time_to_send),
   KEY id_user (id_user)
 );");

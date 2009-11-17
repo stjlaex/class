@@ -173,5 +173,6 @@ $string['merits']='Merits';
 $string['activity']='Activity';
 $string['points']='Points';
 $string['recentmerits']='Recent merits';
+$string['siblings']='Siblings';
 $string['']='';
 ?>
