@@ -58,7 +58,7 @@ include('scripts/sub_action.php');
 				foreach($recipients as $key => $recipient){
 					if(!array_key_exists($recipient['username'],$dones)){
 						$recipient['email']=strtolower($recipient['email']);
-						send_email_to($recipient['email'],$fromaddress,$subject,$message);
+						send_email_to($recipient['email'],$fromaddress,$subject,$message,'','',true,'','',$db);
 						$result[]=get_string('emailsentto').' '.$recipient['username'];
 						trigger_error('Email sent to: '.$recipient['username'],E_USER_WARNING);
 						$dones[$recipient['username']]=$recipient['username'];

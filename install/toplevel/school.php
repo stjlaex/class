@@ -42,14 +42,16 @@ $CFG->contact='stj@laex.org';
 /*default site language*/
 $CFG->sitelang='en';
 /**
- * The choice of 'double' (AM/PM) or 'single' (AM) attendance
+ * The choice of double (AM/PM) or 'single' (AM) attendance
  * registration, assigned per section (the index is the section_id)
  * where 1 is always whole school and those differing from this need
- * to be added with the changeover time.
+ * to be added. Wither set to single or to the turnover time for the
+ * PM session.
  */
 $CFG->registrationtype='form';//the default community type (eg. form or reg)
 $CFG->registration[1]='single';//Whole school
 //$CFG->registration[2]='13:00';//where the index is the section id.
+//$CFG->regperiods[1]['AM']=array('1'=>'8:45','2'=>'9:30','3'=>'10:30','4'=>'11:15','5'=>'12:00');
 /* Time-zone used by the register - see http://es2.php.net/manual/en/timezones.php*/
 $CFG->timezone='Europe/Madrid';
 /**
@@ -99,7 +101,10 @@ $CFG->enrol_cutoffmonth='09';
 $CFG->emailoff='no';
 $CFG->emailnoreply='';
 $CFG->emailhandlebounces='';
-/*path to where you've installed the phpmailer library*/
+/* Choose either pearmail of phpmail (and for the latter specify path
+ * to where you've installed the phpmailer library).
+ */
+$CFG->emailsys='phpmail';
 $CFG->phpmailerpath='/usr/share/php/libphp-phpmailer';//this works for Debian
 /*only needed if using an external mail server, something other than local sendmail*/
 $CFG->smtphosts='';

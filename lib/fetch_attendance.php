@@ -281,19 +281,19 @@ function get_currentevent($secid=1){
 function get_class_periods($currentevent,$secid=1){
 	global $CFG;
 
-	$testperiods[1]['PM']=array();
-	$testperiods[2]['PM']=array();
-	/*
-	$testperiods[1]['AM']=array('1'=>'8:45','2'=>'9:30','3'=>'10:30','4'=>'11:15','5'=>'12:00','6'=>'13:45','7'=>'14:30');
-	$testperiods[2]['AM']=array('2'=>'9:30','3'=>'10:45','4'=>'11:30','5'=>'13:10','6'=>'14:15');
-	*/
-
-	if(isset($testperiods[$secid])){
-		$classperiods=(array)$testperiods[$secid][$currentevent['session']];
-		$testperiods=array();
+	if(!isset($CFG->regperiods)){
+		$periods[1]['AM']=array();
+		$periods[1]['PM']=array();
 		}
 	else{
-		$classperiods=(array)$testperiods[1][$currentevent['session']];
+		$periods=$CFG->regperiods;
+		}
+
+	if(isset($periods[$secid])){
+		$classperiods=(array)$periods[$secid][$currentevent['session']];
+		}
+	else{
+		$classperiods=(array)$periods[1][$currentevent['session']];
 		}
 
 

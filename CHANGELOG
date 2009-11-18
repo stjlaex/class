@@ -1,3 +1,16 @@
+Version ClaSS-0.9.10 release (2009/11/18)
+-----------------------------------------
+
+New config option to choose between libphpmailer or PEAR Mail.
+
+The message_event cron script now runs the mail queue every time cron runs.
+
+Now displays siblings on the student_view page.
+
+New config option to declare registration periods for teaching
+classes.
+
+
 Version ClaSS-0.9.9 release (2009/11/16)
 -----------------------------------------
 
@@ -12,10 +25,6 @@ Simplified the eportfolio_accounts script - though it is still transitional!
 
 Adopting the PEAR Mail_Queue library: this has taken over the
 message_event table in the db (apply the patch to update it!).
-
-The message_event cron script now runs the mail queue every time cron runs.
-
-Now displays siblings on the student_view page.
 
 
 Version ClaSS-0.9.8 release (2009/11/07)

@@ -43,9 +43,6 @@ $queue=& new Mail_Queue($db_options, $mail_options);
 $send_limit=50;
 $queue_offset=0;
 $send_attempts=10;
-/* Reference:  
- * http://pear.php.net/package/Mail_Queue/docs/latest/Mail_Queue/Mail_Queue.html#methodsendMailsInQueue  
- */
 $queue->sendMailsInQueue($send_limit, $queue_offset, $send_attempts);
 
 require_once($CFG->installpath.'/'.$CFG->applicationdirectory.'/scripts/cron_end_options.php');
