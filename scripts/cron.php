@@ -41,19 +41,18 @@ $fullpath=$CFG->installpath.'/'.$CFG->applicationdirectory;
  * Run every time.
  */
 
-$cmd='/usr/bin/php '.$fullpath.'/infobook/httpscripts/message_event_cron.php --path='.$CFG->installpath;
-exec("$cmd > /dev/null &");
 
+if(isset($CFG->emailsys) and $CFG->emailsys=='pearmail'){
+	$cmd='/usr/bin/php '.$fullpath.'/infobook/httpscripts/message_event_cron.php --path='.$CFG->installpath;
+	exec("$cmd > /dev/null &");
+	}
 
 /**
- * Run nightly only (late night)
+ * Run nightly only
  */
 $latehour=date('H',$starttime);
+$latemin=date('i',$starttime);
 if($latehour>=23 and $latehour<5){
-
-
-	$cmd='/usr/bin/php '.$fullpath.'/admin/httpscripts/ldap_sync_users.php --path='.$CFG->installpath;
-	exec("$cmd > /dev/null &");
 
 	$cmd='/usr/bin/php '.$fullpath.'/reportbook/httpscripts/eportfolio_reports_publish.php --path='.$CFG->installpath;
 	exec("$cmd > /dev/null &");
@@ -61,11 +60,15 @@ if($latehour>=23 and $latehour<5){
 	}
 
 /**
- * Run nightly only (early morning)
+ * Run once only (early morning)
  */
-$latehour=date('H',$starttime);
-if($latehour>=5 and $latehour<7){
+if($latehour==5 and $latemin==30){
 
+	$cmd='/usr/bin/php '.$fullpath.'/admin/httpscripts/ldap_sync_users.php --path='.$CFG->installpath;
+	exec("$cmd > /dev/null &");
+
+	}
+if($latehour==6 and $latemin==30){
 
 	//$cmd='/usr/bin/php '.$CFG->installpath.'/'.$CFG->applicationdirectory.'/admin/httpscripts/eportfolio_sync_users.php --path='.$CFG->installpath;
 	//exec("$cmd > /dev/null &");
