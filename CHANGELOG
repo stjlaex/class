@@ -1,4 +1,4 @@
-Version ClaSS-0.9.10 release (2009/11/18)
+Version ClaSS-0.9.10 release (2009/11/19)
 -----------------------------------------
 
 New config option to choose between libphpmailer or PEAR Mail.
@@ -9,6 +9,8 @@ Now displays siblings on the student_view page.
 
 New config option to declare registration periods for teaching
 classes.
+
+Tidied code for ldap_enrol.
 
 
 Version ClaSS-0.9.9 release (2009/11/16)
