@@ -24,8 +24,6 @@ if(sizeof($sids)==0){
 	}
 else{
 
-	//$bid='%';$pid='%';
-
 
 	$profile=get_assessment_profile($xmlid);
 	$crid=$profile['course_id'];
@@ -33,6 +31,12 @@ else{
 	$curryear=get_curriculumyear($crid);
 	$cohort=array('id'=>'','course_id'=>$crid,'stage'=>$stage,'year'=>$curryear);
 	$AssDefs=(array)fetch_cohortAssessmentDefinitions($cohort,$profilename);
+
+	/* TODO: make this a property of the profile */
+	if($profile['transform']!='tracking_grid'){
+		$bid='%';
+		$pid='%';
+		}
 
 	/* Bands */
   	$d_stats=mysql_query("SELECT DISTINCT * FROM statvalues JOIN stats ON stats.id=statvalues.stats_id 
@@ -43,6 +47,7 @@ else{
 	while($stat=mysql_fetch_array($d_stats,MYSQL_ASSOC)){
 		$bands[$stat['date']]=$stat;
 		}
+	/* Put them in descending date order. */
 	arsort($bands);
 
 
@@ -54,6 +59,8 @@ else{
 		foreach($bands as $date=>$band){
 			if($assdate<$date){$bdate=$date;}
 			}
+		/* If the assessment is out of range then set to the last band. */
+		if(!isset($bdate)){$bdate=$date;}
 		$asstable['ass'][]=array('label'=>''.$AssDefs[$ec]['PrintLabel']['value'],
 								 'date'=>''.display_date($assdate),
 								 'id_db'=>''.$AssDefs[$ec]['id_db'],
@@ -92,6 +99,7 @@ else{
 		$Students['Student'][]=$Student;
 		}
 
+	$Students['Date']=date('Y-m-d');
 	$Students['Paper']='landscape';
 	$Students['Transform']=$profile['transform'];
 	$Students['Subject']['value_db']=$bid;

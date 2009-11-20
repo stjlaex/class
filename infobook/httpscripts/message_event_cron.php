@@ -28,19 +28,22 @@ require_once($CFG->installpath.'/'.$CFG->applicationdirectory.'/scripts/cron_hea
 /* The PEAR library */
 require_once 'Mail/Queue.php';
 
+$db_options=array();
 $db_options['type']='db';
-$db_options['db']=$db;
+$db_options['dsn']=db_connect(false);
 $db_options['mail_table']='message_event';  
 
+$mail_options=array();
 $mail_options['driver']='smtp';
 $mail_options['host']=$CFG->smtphosts;
 $mail_options['port']=25;
+$mail_options['localhost']='localhost';
 $mail_options['auth']=true;
 $mail_options['username']=$CFG->smtpuser;
 $mail_options['password']=$CFG->smtppasswd;
 
 $queue=& new Mail_Queue($db_options, $mail_options);
-$send_limit=50;
+$send_limit=20;
 $queue_offset=0;
 $send_attempts=10;
 $queue->sendMailsInQueue($send_limit, $queue_offset, $send_attempts);

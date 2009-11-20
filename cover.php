@@ -25,17 +25,17 @@ print '<?xml version="1.0" encoding="utf-8"?'.'>';
 
 <div id="branded">
 <?php
-if($CFG->support=='classforschools.com'){
+if($CFG->support!='' and $CFG->support!='laex.org'){
 ?>
-	<img onClick="window.open('http://classforschools.com','CfS');"
-		src="../images/cfs-banner-blue.png" style="height:22px;"
-		alt="ClaSSforSchools.com" title="ClaSSforSchools.com support" />
+	<img onClick="window.open('http://<?php print $CFG->support;?>','support');"
+		src="../images/bannerlogo.png" 
+		alt="<?php print $CFG->support;?>" title="<?php print $CFG->support;?> support" />
 <?php
 	}
 else{
 ?>
-	<img onclick="window.open('http://laex.org/class','ClaSS');"
-				alt="ClaSS" title="ClaSS homepage" src="images/orangelogo.png" />
+	<img onclick="window.open('http://laex.org/class','support');"
+				alt="ClaSS" title="ClaSS Homepage" src="images/orangelogo.png" />
 <?php
 	}
 ?>

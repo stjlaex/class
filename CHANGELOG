@@ -1,4 +1,4 @@
-Version ClaSS-0.9.10 release (2009/11/19)
+Version ClaSS-0.9.10 release (2009/11/20)
 -----------------------------------------
 
 New config option to choose between libphpmailer or PEAR Mail.
@@ -11,6 +11,8 @@ New config option to declare registration periods for teaching
 classes.
 
 Tidied code for ldap_enrol.
+
+Moved the absence email message out to the language array.
 
 
 Version ClaSS-0.9.9 release (2009/11/16)

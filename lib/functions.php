@@ -1,5 +1,3 @@
-
-
 <?php
 /**			   								lib/functions.php   
  * General purpose ClaSS functions. 
@@ -1363,32 +1361,20 @@ function send_email_to($recipient, $from, $subject, $messagetext, $messagehtml='
 
     global $CFG;
 	$success=false;
+	if(empty($recipient)){
+		return false;
+		}
+	if($CFG->emailoff=='yes'){
+		return 'emailstop';
+		}
+	$subject=substr(stripslashes($subject), 0, 900);
 
 	if(!isset($CFG->emailsys) or $CFG->emailsys=='phpmail'){
 
 		include_once($CFG->phpmailerpath.'/class.phpmailer.php'); 
-		
-		if(empty($recipient)){
-			return false;
-			}
-		if($CFG->emailoff=='yes'){
-			return 'emailstop';
-			}
-		/*    if (over_bounce_threshold($user)) {
-			  error_log("User $user->id (".fullname($user).") is over bounce threshold! Not sending.");
-			  return false;
-			  }
-		*/
-		
+
 		$mail = new phpmailer;
 		$mail->Version = $CFG->version;
-		//$mail->PluginDir = $CFG->libdir .'/libphp-phpmailer/';// plugin directory (eg smtp plugin)
-		
-		/*    if(current_language()!='en'){
-			  $mail->CharSet = get_string('thischarset');
-			  }
-		*/
-
 		$mail->IsSMTP();
 		if($CFG->debug=='on'){
 			echo '<pre>' . "\n";
@@ -1409,7 +1395,6 @@ function send_email_to($recipient, $from, $subject, $messagetext, $messagehtml='
 		else{
 			$mail->Sender='';
 			}
-		
 		if(is_string($from)){
 			$mail->From     = $CFG->emailnoreply;
 			$mail->FromName = $from;
@@ -1417,16 +1402,16 @@ function send_email_to($recipient, $from, $subject, $messagetext, $messagehtml='
 		else{
 			$mail->From     = $CFG->emailnoreply;
 			$mail->FromName = 'ClaSS';
-        if(empty($replyto)){
-			$mail->AddReplyTo($CFG->emailnoreply,'ClaSS');
-			}
+			if(empty($replyto)){
+				$mail->AddReplyTo($CFG->emailnoreply,'ClaSS');
+				}
 			}
 		
 		if(!empty($replyto)){
 			$mail->AddReplyTo($replyto,$replytoname);
 			}
 		
-		$mail->Subject = substr(stripslashes($subject), 0, 900);
+		$mail->Subject = $subject;
 		$mail->AddAddress($recipient,'');
 		$mail->WordWrap = 79;
 		/*
@@ -1475,17 +1460,14 @@ function send_email_to($recipient, $from, $subject, $messagetext, $messagehtml='
 	elseif(isset($CFG->emailsys) and $CFG->emailsys=='pearmail'){
 	
 		/* PEAR MAIL: under this system, every mail is queued 
-	   	* for the cronjob to send it at a later stage
-	   	* 
-	   	*/
+		 * for the cronjob to send it at a later stage
+		 * 
+		 */
 	   	require_once "Mail/Queue.php";
 		require_once 'Mail/mime.php';
 
-		$dbc=db_connect();
-
 		$db_options['type']='db';
-		$db_options['phptype']='mysql';
-		$db_options['db']=$dbc;
+		$db_options['dsn']=db_connect(false);
 		$db_options['mail_table']='message_event';
 
 		$mail_options['driver']='smtp';
@@ -1495,32 +1477,41 @@ function send_email_to($recipient, $from, $subject, $messagetext, $messagehtml='
 		$mail_options['username']=$CFG->smtpuser;
 		$mail_options['password']=$CFG->smtppasswd;
 
-		$mail_queue =& new Mail_Queue($db_options, $mail_options);
+		$mail_queue=& new Mail_Queue($db_options, $mail_options);
+
+		if(is_string($from)){
+			$from_name=$from;
+			$from= $CFG->emailnoreply;
+			}
+		else{
+			$from_name='ClaSS';
+			$from=$CFG->emailnoreply;
+			}
 
 		/* message header */
 		$hdrs = array( 'From'    => $from,
-		    'To'      => $recipient,
-		    'Subject' => $subject  );
+					   'To'      => $recipient,
+					   'Subject' => $subject  );
 
 		/* we use Mail_mime() to construct a valid mail */
 		$mime =& new Mail_mime();
 		$mime->setTXTBody($messagetext);
-
+		/*
 		if(is_array($attachments)){
 			while(list($index,$attachment)=each($attachments)){
 				if(is_file($attachment['filepath'])){ 
-					$fl=$attachment['filepath'].$attachment['filename'];
-					$mime->addAttachment($fl, 'text/plain',$attachment['filename']);		
+					//$mimetype=file_mimeinfo('type', $attachment['filename']);
+					$mime->addAttachment($attachment['filepath'],'text/plain',$attachment['filename']);		
+					}
 				}
 			}
-		}
+		*/
 		/* next sentence has to be written after 'setTXTBody' and 'addAttachment' */
 		$body = $mime->get();
 		$hdrs = $mime->headers($hdrs);
 
 		/* Put message into queue */
 		$mail_queue->put($from, $recipient, $hdrs, $body,0,false);
-		trigger_error('PEAR db:'.$dbc,E_USER_WARNING);
 		if(PEAR::isError($mail_queue->container->db)){ 
 			trigger_error('PEAR:'.ERROR,E_USER_WARNING);
 			}

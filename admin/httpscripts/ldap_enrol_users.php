@@ -143,7 +143,7 @@ foreach($tpc as $tpcitem){
 		/* OK, get next item. Is there any other teacher? */				
 		
 		} 
-	else {	
+	else{	
 		/* remove commas */						
 		$subjectv=str_replace(',',' ',$tpcitem['subject_name']);						
 		$coursev=str_replace(',',' ',$tpcitem['course_name']);						
@@ -166,22 +166,16 @@ foreach($tpc as $tpcitem){
 			/* lookup entry in the LDAP db */
 			$cn='cn='.$info['cn'];
 			$sr=ldap_search($ds, $coursedn, $cn);
-			$ldaperrno=ldap_errno($ds);
-			if(($ldaperrno!=0) & ($ldaperrno!=32)){
-				trigger_error(' *** ldap_errno  : '.$ldaperrno, E_USER_WARNING);
-				trigger_error(' *** ldap_err2str: '.ldap_err2str($ldaperrno), E_USER_WARNING);
-				trigger_error(' *** $sr         : '.$sr.' | ', E_USER_WARNING);
-				}
 			if(ldap_count_entries($ds, $sr) > 0){
 				/* entry exists, delete it */
 				$del_res=ldap_delete($ds,$coursedn);
 				if(!$del_res){
-					trigger_error(' *** could not delete entry: '.$coursedn, E_USER_WARNING);
-							}
+					trigger_error('Could not delete entry: '.$coursedn, E_USER_WARNING);
+					}
 				}
 			$add_res=ldap_add($ds, $coursedn, $info);
 			if($add_res==false){
-				trigger_error(' *** Unable to insert entry into LDAP DB: ' .$coursedn, E_USER_WARNING);
+				trigger_error('Unable to insert entry into LDAP DB: ' .$coursedn, E_USER_WARNING);
 				}
 			$entries++;
 			
@@ -204,7 +198,7 @@ foreach($tpc as $tpcitem){
 			$info['memberUid'][0]=$CFG->clientid.$tpcitem['teacher_id'];
 			$nx++;
 			/* OK, get next item in multi-dimensional array. Is there any other teacher? */				
-			}				
+			}		
 		}
 	$tpcx++;
 	}
@@ -215,23 +209,16 @@ if($there_is_a_group==true){
 	/* lookup entry in the LDAP db */
 	$cn='cn='.$info['cn'];
 	$sr=ldap_search($ds, $coursedn, $cn);
-	$ldaperrno=ldap_errno($ds);
-	if(($ldaperrno!=0) & ($ldaperrno!=32)){
-		trigger_error(' *** ldap_errno  : '.$ldaperrno, E_USER_WARNING);
-		trigger_error(' *** ldap_err2str: '.ldap_err2str($ldaperrno), E_USER_WARNING);
-		trigger_error(' *** $sr         : '.$sr.' | ', E_USER_WARNING);
-		}
-	
 	if(ldap_count_entries($ds, $sr) > 0){
 		// entry exists, delete it
 		$del_res=ldap_delete($ds,$coursedn);
 		if(!$del_res){
-			trigger_error(' *** could not delete entry: '.$coursedn, E_USER_WARNING);
+			trigger_error('Could not delete entry: '.$coursedn, E_USER_WARNING);
 			} 
 		}
 	$add_res=ldap_add($ds, $coursedn, $info);
 	if($add_res==false){
-		trigger_error(' *** Unable to insert entry into LDAP DB: ' .$coursedn, E_USER_WARNING);
+		trigger_error('Unable to insert entry into LDAP DB: ' .$coursedn, E_USER_WARNING);
 		}
 	$entries++;
 	}
@@ -244,10 +231,6 @@ if($there_is_a_group==true){
 $entries=0;
 $courses=list_courses();
 foreach($courses as $course){
-	$info=array();
-	$info['gidnumber']='54321';
-	$info['objectclass'][0]	='posixGroup';
-	$info['objectclass'][1]	='top';
 	/* prepare to get the course subject */
 	$subjects=list_course_subjects($course['id']);
 	foreach($subjects as $subject){
@@ -259,34 +242,36 @@ foreach($courses as $course){
 				if(strlen($cohort['stage'])>0){
 					$subjectv=str_replace(',',' ',$subject['name']);						
 					$coursev=str_replace(',',' ',$course['name']);						
-					$cohortv=str_replace(',',' ',$cohort['stage']);	
+					$stagev=str_replace(',',' ',$cohort['stage']);	
 												
 					$subjectv=str_replace('-',' ',$subjectv);						
 					$coursev=str_replace('-',' ',$coursev);						
-					$cohortv=str_replace('-',' ',$cohortv);						
-					
-					$info['cn']=$subjectv.'- '.$coursev.' '.$cohortv;
-							
+					$stagev=str_replace('-',' ',$stagev);				
+
+					$info=array();
+					$info['gidnumber']='54321';
+					$info['objectclass'][0]	='posixGroup';
+					$info['objectclass'][1]	='top';
+					$info['cn']=$subjectv.'- '.$coursev.' '.$stagev;
+
 					/* if this course does not exist in the LDAP Teacher Enrolment section, ignore it*/
-					$coursedn='cn='.$info['cn'].',ou=TchEnrol'.',ou='. 
-						$CFG->clientid.',dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
-							
+					$coursedn='cn='.$info['cn'].',ou=TchEnrol'.',ou='.$CFG->clientid.',dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
+
 					/* lookup course-with-Teacher entry in the LDAP db */
 					$cn='cn='.$info['cn'];
 					$sr=ldap_search($ds, $coursedn, $cn);
 					//trigger_error(' *** $sr         : '.$sr.' | ', E_USER_WARNING);
+					$ldaperrno=ldap_errno($ds);
 					if(($ldaperrno!=0) & ($ldaperrno!=32)){
 						trigger_error(' * ldap_errno  : '.$ldaperrno, E_USER_WARNING);
 						trigger_error(' * ldap_err2str: '.ldap_err2str($ldaperrno), E_USER_WARNING);
 						trigger_error(' * $sr         : '.$sr.' | ', E_USER_WARNING);
 						}
-					$ldaperrno=ldap_errno($ds);
 					if(ldap_count_entries($ds, $sr) > 0){
 						/* OK, entry exists, go on with Student Enrolment*/
 						
 						/* format RDN */
-						$coursedn='cn='.$info['cn'].',ou=StdEnrol'.',ou='. 
-							$CFG->clientid.',dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
+						$coursedn='cn='.$info['cn'].',ou=StdEnrol'.',ou='.$CFG->clientid.',dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
 						
 						/* prepare to get the lot: student-memberUid */
 						$students=listin_subject_classes($subject['id'],$course['id'],$cohort['stage']);
@@ -296,8 +281,10 @@ foreach($courses as $course){
 						foreach($students as $student){
 							/* assign epfusername*/
 							$S=fetchStudent_singlefield($student['id'],'EPFUsername');
-							$members[$idx]=$S['EPFUsername']['value'];
-							$idx++;
+							if($S['EPFUsername']['value']!=''){
+							  $members[$idx]=$S['EPFUsername']['value'];
+							  $idx++;
+							  }
 							}
 								
 						/* remove duplicates and assign members */
@@ -315,17 +302,8 @@ foreach($courses as $course){
 								 
 						/* lookup entry in the LDAP db */
 						$cn='cn='.$info['cn'];
-						//trigger_error(' *** coursedn: '.$coursedn.' | ', E_USER_WARNING);
-						//trigger_error(' *** cn: '.$cn.' | ', E_USER_WARNING);
 						
 						$sr=ldap_search($ds, $coursedn, $cn);
-						$ldaperrno=ldap_errno($ds);
-						if(($ldaperrno!=0) & ($ldaperrno!=32)){
-							trigger_error(' *** ldap_errno  : '.$ldaperrno, E_USER_WARNING);
-							trigger_error(' *** ldap_err2str: '.ldap_err2str($ldaperrno), E_USER_WARNING);
-							trigger_error(' *** $sr         : '.$sr.' | ', E_USER_WARNING);
-							}
-							    
 						if(ldap_count_entries($ds, $sr) > 0){
 							// entry exists, delete it
 							$del_res=ldap_delete($ds,$coursedn);
@@ -333,10 +311,10 @@ foreach($courses as $course){
 								trigger_error('Could not delete entry: '.$coursedn, E_USER_WARNING);
 								}
 							}
-						$add_res=ldap_add($ds, $coursedn, $info);
-						
+
+						$add_res=ldap_add($ds, $coursedn, $info);						
 						if($add_res==false){
-							trigger_error('Unable to insert entry into LDAP DB: ' .$coursedn, E_USER_WARNING);
+							trigger_error('Unable to insert entry into LDAP DB: ' .$coursedn.' : ', E_USER_WARNING);
 							}
 						$entries++;
 						}

@@ -7,7 +7,7 @@ function connect_statementbank(){
 	global $CFG;
 	$dbstat='';
 	if($CFG->statementbank_db!=''){
-		$dbstat=db_connect($CFG->statementbank_db);
+		$dbstat=db_connect(true,$CFG->statementbank_db);
 		}
 	return $dbstat;
 	}

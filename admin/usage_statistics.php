@@ -404,7 +404,7 @@ $todate=date('Y-m-d');
 
 	$dbepf='';
 	if($CFG->eportfolio_db!=''){
-		$dbepf=db_connect($CFG->eportfolio_db);
+		$dbepf=db_connect(true,$CFG->eportfolio_db);
 		mysql_query("SET NAMES 'utf8'");
 		}
 	if($dbepf!=''){

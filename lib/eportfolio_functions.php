@@ -27,7 +27,7 @@ function elgg_refresh(){
 	global $CFG;
 	$dbepf='';
 	if($CFG->eportfolio_db!=''){
-		$dbepf=db_connect($CFG->eportfolio_db);
+		$dbepf=db_connect(true,$CFG->eportfolio_db);
 		mysql_query("SET NAMES 'utf8'");
 		}
 	if(isset($CFG->clientid) and $CFG->clientid!=''){$school=$CFG->clientid;}
@@ -92,7 +92,7 @@ function elgg_blank($usertemplate){
 	global $CFG;
 	$dbepf='';
 	if($CFG->eportfolio_db!=''){
-		$dbepf=db_connect($CFG->eportfolio_db);
+		$dbepf=db_connect(true,$CFG->eportfolio_db);
 		mysql_query("SET NAMES 'utf8'");
 		}
 	$table_users=$CFG->eportfolio_db_prefix.'users';
@@ -142,7 +142,7 @@ function elgg_newUser($User,$role){
 
 	$table=$CFG->eportfolio_db_prefix.'users';
 	if($CFG->eportfolio_db!=''){
-		$dbepf=db_connect($CFG->eportfolio_db);
+		$dbepf=db_connect(true,$CFG->eportfolio_db);
 		mysql_query("SET NAMES 'utf8'");
 		}
 
@@ -220,7 +220,7 @@ function elgg_update_community($community,$communityfresh=array('type'=>'','name
 	else{$school='';}
 	$dbepf='';
 	if($CFG->eportfolio_db!=''){
-		$dbepf=db_connect($CFG->eportfolio_db);
+		$dbepf=db_connect(true,$CFG->eportfolio_db);
 		mysql_query("SET NAMES 'utf8'");
 		}
 
@@ -298,7 +298,7 @@ function elgg_join_community($epfuid,$community){
 	$table_friends=$CFG->eportfolio_db_prefix.'friends';
 	$dbepf='';
 	if($CFG->eportfolio_db!=''){
-		$dbepf=db_connect($CFG->eportfolio_db);
+		$dbepf=db_connect(true,$CFG->eportfolio_db);
 		mysql_query("SET NAMES 'utf8'");
 		}
 
@@ -323,7 +323,7 @@ function elgg_fix_homework($epfuid,$epfcomid){
 	$table_homework=$CFG->eportfolio_db_prefix.'weblog_homework';
 	$dbepf='';
 	if($CFG->eportfolio_db!=''){
-		$dbepf=db_connect($CFG->eportfolio_db);
+		$dbepf=db_connect(true,$CFG->eportfolio_db);
 		mysql_query("SET NAMES 'utf8'");
 		}
 
@@ -346,7 +346,7 @@ function elgg_update_group($group,$groupfresh=array('owner'=>'','name'=>'','acce
 	$table=$CFG->eportfolio_db_prefix.'groups';
 
 	if($CFG->eportfolio_db!='' and $dbc==true){
-		$dbepf=db_connect($CFG->eportfolio_db);
+		$dbepf=db_connect(true,$CFG->eportfolio_db);
 		mysql_query("SET NAMES 'utf8'");
 		}
 
@@ -391,7 +391,7 @@ function elgg_join_group($epfuid,$group){
 	$table_member=$CFG->eportfolio_db_prefix.'group_membership';
 
 	if($CFG->eportfolio_db!=''){
-		$dbepf=db_connect($CFG->eportfolio_db);
+		$dbepf=db_connect(true,$CFG->eportfolio_db);
 		mysql_query("SET NAMES 'utf8'");
 		}
 
@@ -428,7 +428,7 @@ function elgg_new_folder($owner,$name,$access,$dbc=true){
 	$table=$CFG->eportfolio_db_prefix.'file_folders';
 
 	if($CFG->eportfolio_db!='' and $dbc==true){
-		$dbepf=db_connect($CFG->eportfolio_db);
+		$dbepf=db_connect(true,$CFG->eportfolio_db);
 		mysql_query("SET NAMES 'utf8'");
 		}
 
@@ -467,7 +467,7 @@ function elgg_get_epfuid($owner,$type,$dbc=false){
 	$table=$CFG->eportfolio_db_prefix.'users';
 
 	if($CFG->eportfolio_db!='' and $dbc==true){
-		$dbepf=db_connect($CFG->eportfolio_db);
+		$dbepf=db_connect(true,$CFG->eportfolio_db);
 		mysql_query("SET NAMES 'utf8'");
 		}
 
@@ -499,7 +499,7 @@ function elgg_get_fileurl($owner,$filetype,$dbc=false){
 	$iconstable=$CFG->eportfolio_db_prefix.'icons';
 
 	if($CFG->eportfolio_db!='' and $dbc==true){
-		$dbepf=db_connect($CFG->eportfolio_db);
+		$dbepf=db_connect(true,$CFG->eportfolio_db);
 		mysql_query("SET NAMES 'utf8'");
 		}
 
@@ -536,7 +536,7 @@ function elgg_new_homework($tid,$cid,$bid,$pid,$title,$body,$dateset){
 	global $CFG;
 
 	if($CFG->eportfolio_db!=''){
-		$dbepf=db_connect($CFG->eportfolio_db);
+		$dbepf=db_connect(true,$CFG->eportfolio_db);
 		mysql_query("SET NAMES 'utf8'");
 		}
 
@@ -595,7 +595,7 @@ function elgg_set_student_photo($epfuid,$yid,$dbc=true){
 	$table_icons=$CFG->eportfolio_db_prefix.'icons';
 
 	if($CFG->eportfolio_db!='' and $dbc==true){
-		$dbepf=db_connect($CFG->eportfolio_db);
+		$dbepf=db_connect(true,$CFG->eportfolio_db);
 		mysql_query("SET NAMES 'utf8'");
 		}
 
@@ -632,7 +632,7 @@ function elgg_upload_files($filedata,$dbc=true){
 	$table_folders=$CFG->eportfolio_db_prefix.'file_folders';
 	$table_files=$CFG->eportfolio_db_prefix.'files';
 	if($CFG->eportfolio_db!='' and $dbc==true){
-		$dbepf=db_connect($CFG->eportfolio_db);
+		$dbepf=db_connect(true,$CFG->eportfolio_db);
 		mysql_query("SET NAMES 'utf8'");
 		}
 

@@ -52,5 +52,6 @@ $string['messagecontactsunauthorisedabsences']='Message contacts for unauthorise
 $string['messagecontactsallabsences']='Message contacts for ALL absences.';
 $string['period']='Period';
 $string['last']='Last';
+$string['absencemessage']="\r\n".'Dear Parent,'."\r\n"."\r\n". 'At 10:00AM this morning '."\$a".' had not registered in school. Please could you contact the school to inform us of the reason for your child\'s absence.'."\r\n"."\r\n".'Thank you.'."\r\n";
 $string['']='';
 ?>
