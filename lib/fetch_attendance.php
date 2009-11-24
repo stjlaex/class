@@ -382,6 +382,11 @@ function check_communityAttendance($community,$eveid=-1){
 
 /**
  *
+ * Returns an xml-array Student array which is empty except for their
+ * Attendance for a single event. The sids included will be only those
+ * who are strictly not in school (that is absent but not late). Set
+ * lates=1 to include all absent students (including those lates).
+ * 
  */
 function list_absentStudents($eveid='',$lates=0){
 	if($eveid==''){
@@ -401,9 +406,10 @@ function list_absentStudents($eveid='',$lates=0){
 		$Student=array();
 		while($attendance=mysql_fetch_array($d_attendance,MYSQL_ASSOC)){
 			/* Logical lates defaults to 0 and flags to filter out those
-				students who are merely late (codes U, L, UA, UB), as these students
-				will be on site and in classes. They will though still be
-				counted in statistics as absent.*/
+			 * students who are merely late (codes U, L, UA, UB), as these students
+			 * will be on site and in classes. They will though still be
+			 * counted in statistics as absent.
+			 */
 			if($attendance['code']!='U' and $attendance['code']!='L' and $attendance['code']!='UB' 
 			   and $attendance['code']!='UA' and $lates==0){
 				$Attendance['id_db']=$eveid;
@@ -428,9 +434,11 @@ function list_absentStudents($eveid='',$lates=0){
 
 
 /**
+ *
  * Produces an xml-array called Summary with label,value pairs containg 
  * number of lates, attended, authorised absences and unauthorised absences.
  * Need to add count for approved educational activity codes.
+ *
  */
 function fetchAttendanceSummary($sid,$startdate,$enddate){
 	$Attendance['Summary']=array();

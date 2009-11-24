@@ -101,7 +101,7 @@ two_buttonmenu($extrabuttons,$book);
 		}
 
 	if($_SESSION['role']!='support'){
-
+		/* Consider support staff to be not priviliged to access. */
 		$d_catdef=mysql_query("SELECT name, subtype FROM categorydef WHERE 
 				type='med' AND rating='1' ORDER BY name;");
 		while($medcat=mysql_fetch_array($d_catdef,MYSQL_ASSOC)){
@@ -135,7 +135,8 @@ two_buttonmenu($extrabuttons,$book);
 		  </td>
 		  <td>
 <?php
-		if($_SESSION['role']!='office' and $_SESSION['role']!='support'){
+		if($_SESSION['role']!='support'){
+			/* Consider support staff to be not priviliged to access. */
 				$comment=comment_display($sid);
 ?>
 		<a href="infobook.php?current=student_scores.php&sid=<?php print $sid;?>">T</a> 

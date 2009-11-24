@@ -207,7 +207,8 @@ if($nodays==1 or $_SESSION['role']=='office' or $_SESSION['role']=='admin'){
 		  </td>
 		  <td>
 <?php
-		if($_SESSION['role']!='office' and $_SESSION['role']!='support'){
+		if($_SESSION['role']!='support'){
+			/* Consider support staff to be not priviliged to access. */
 				$comment=comment_display($sid);
 ?>
 			<a onclick="parent.viewBook('infobook');" target="viewinfobook" 

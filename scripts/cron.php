@@ -52,7 +52,7 @@ if(isset($CFG->emailsys) and $CFG->emailsys=='pearmail'){
  */
 $latehour=date('H',$starttime);
 $latemin=date('i',$starttime);
-if($latehour>=23 and $latehour<5){
+if($latehour>0 and $latehour<6){
 
 	$cmd='/usr/bin/php '.$fullpath.'/reportbook/httpscripts/eportfolio_reports_publish.php --path='.$CFG->installpath;
 	exec("$cmd > /dev/null &");
@@ -62,13 +62,13 @@ if($latehour>=23 and $latehour<5){
 /**
  * Run once only (early morning)
  */
-if($latehour==5 and $latemin==30){
+if($latehour==6 and $latemin==05){
 
 	$cmd='/usr/bin/php '.$fullpath.'/admin/httpscripts/ldap_sync_users.php --path='.$CFG->installpath;
 	exec("$cmd > /dev/null &");
 
 	}
-if($latehour==6 and $latemin==30){
+if($latehour==6 and $latemin==35){
 
 	//$cmd='/usr/bin/php '.$CFG->installpath.'/'.$CFG->applicationdirectory.'/admin/httpscripts/eportfolio_sync_users.php --path='.$CFG->installpath;
 	//exec("$cmd > /dev/null &");

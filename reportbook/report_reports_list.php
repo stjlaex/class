@@ -90,7 +90,7 @@ two_buttonmenu($extrabuttons,$book);
 				<input type="checkbox" name="checkall" value="yes" onChange="checkAll(this);" />
 			  </label>
 			</th>
-			<th><?php print_string('student');?></th>
+			<th colspan="2"><?php print_string('student');?></th>
 <?php
 		reset($rids);
 		while(list($index,$rid)=each($rids)){
@@ -99,13 +99,13 @@ two_buttonmenu($extrabuttons,$book);
 					$summaryid=$summary['subtype'];
 					if($summary['type']=='com'){
 						if($formperm['x']==1 and $summaryid=='form'){
-							print '<th>'.$summary['name'].'</th>';
+							print '<th style="width:4%;">'.$summary['name'].'</th>';
 							}
 						elseif($yearperm['x']==1 and $summaryid=='year'){
-							print '<th>'.$summary['name'].'</th>';
+							print '<th style="width:4%;">'.$summary['name'].'</th>';
 							}
 						elseif($yearperm['x']==1 and $summaryid=='section'){
-							print '<th>'.$summary['name'].'</th>';
+							print '<th style="width:4%;">'.$summary['name'].'</th>';
 							}
 						}
 					}
@@ -115,15 +115,34 @@ two_buttonmenu($extrabuttons,$book);
 			<th><?php print_string('completedsubjectreports',$book);?></th>
 		  </tr>
 <?php
+	$rown=1;
 	while(list($index,$student)=each($students)){
 		$sid=$student['id'];
+		$comment=comment_display($sid);
 ?>
-		  <tr>
+		<tr id="sid-<?php print $sid;?>">
 			<td>
-			  <input type="checkbox" name="sids[]" value="<?php print $sid; ?>" />
+			<input type="checkbox" name="sids[]" value="<?php print $sid; ?>" />
+			<?php print $rown++;?>
 			</td>
 			<td>
+
+			<a onclick="parent.viewBook('infobook');" target="viewinfobook" 
+			  href='infobook.php?current=student_scores.php&sid=<?php print $sid;?>'>T</a> 
+			<span <?php print ' title="'.$comment['body'].'"';?>>
+			  <a onclick="parent.viewBook('infobook');" target="viewinfobook"  
+				href='infobook.php?current=comments_list.php&sid=<?php print $sid;?>'
+				<?php print ' class="'.$comment['class'].'" ';?>>C</a> 
+			</span>
+			<a onclick="parent.viewBook('infobook');" target="viewinfobook"  
+			  href='infobook.php?current=incidents_list.php&sid=<?php print $sid;?>'>I</a>
+
+		  </td>
+		  <td class="student">
+			<a onclick="parent.viewBook('infobook');" target="viewinfobook" 
+			  href="infobook.php?current=student_view.php&sid=<?php print $sid;?>">
 				   <?php print $student['surname']; ?>, <?php print $student['forename']; ?>
+			</a>
 					  (<?php print $student['form_id']; ?>)
 			</td>
 <?php

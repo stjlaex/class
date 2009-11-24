@@ -68,7 +68,9 @@ $comment=js_addslashes($incom);
 
 	  <div id="heading">
 			  <label><?php print_string('student'); ?></label>
-			<?php print $Student['DisplayFullName']['value'];?>
+<?php 
+if(isset($Student)){print $Student['DisplayFullName']['value'];}
+?>
 	  </div>
 
 	  <div id="viewcontent" class="content">
