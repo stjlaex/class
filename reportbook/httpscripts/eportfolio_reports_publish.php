@@ -108,6 +108,8 @@ else{trigger_error('html2ps not configured!',E_USER_ERROR);}
 						WHERE report_id='$wrapper_rid' AND student_id='$sid';");
 				}
 			else{
+				mysql_query("UPDATE report_event SET success='0' 
+						WHERE report_id='$wrapper_rid' AND student_id='$sid';");
 				$success=false;
 				}
 			}
