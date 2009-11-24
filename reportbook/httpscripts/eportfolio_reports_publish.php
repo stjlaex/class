@@ -104,17 +104,17 @@ else{trigger_error('html2ps not configured!',E_USER_ERROR);}
 			$publishdata['batchfiles']=$publish_batch;
 			if(elgg_upload_files($publishdata,true)){
 				/* Mark the event table as succesful. */
-				mysql_query("UPDATE report_event SET success='1' 
+				mysql_query("UPDATE report_event SET success='1', time=NOW()
 						WHERE report_id='$wrapper_rid' AND student_id='$sid';");
 				}
 			else{
-				mysql_query("UPDATE report_event SET success='0' 
-						WHERE report_id='$wrapper_rid' AND student_id='$sid';");
 				$success=false;
 				}
 			}
 
 		if(!$success){
+			mysql_query("UPDATE report_event SET success='0', time=NOW() 
+						WHERE report_id='$wrapper_rid' AND student_id='$sid';");
 			trigger_error('PDF report publication failed for: '.$filename,E_USER_WARNING);
 			}
 
