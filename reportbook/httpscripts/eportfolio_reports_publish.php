@@ -37,9 +37,12 @@ else{trigger_error('html2ps not configured!',E_USER_ERROR);}
 /**
  * To ensure we don't get a race condition the report_event is touched
  * to update the timestamp and each cron will limit the reports it
- * processes by the age of the event and only process a batch of five at a time.
+ * processes by the age of the event and only process a batch of ten at a time.
+ *
+ * The age limit also prevents the queue beng swamped will retries of any failures.
+ *
  */
-	$agelimit=15;//in minutes
+	$agelimit=30;//in minutes
 	$d_e=mysql_query("SELECT report_id, student_id FROM report_event 
 					WHERE success='0' AND time + interval $agelimit minute < now() LIMIT 10;");
 	$d_u=mysql_query("UPDATE report_event  SET success='0' 

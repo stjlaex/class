@@ -323,5 +323,6 @@ $string['enrolments']='Enrolments';
 $string['<']='<';
 $string['>']='>';
 $string['house']='House';
+$string['merits']='Merits';
 $string['']='';
 ?>

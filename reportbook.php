@@ -56,6 +56,7 @@ include('scripts/set_book_vars.php');
 				   'report_comments.php' => 'comments'
 				   ,'report_incidents.php' => 'incidents'
 				   ,'report_assessments.php' => 'assessments'
+				   ,'report_merits.php' => 'merits'
 				   ,'report_attendance.php' => 'attendance'
 				   ,'report_reports.php' => 'subjectreports'
 				   //,'report_results.php' => 'finalresults'
