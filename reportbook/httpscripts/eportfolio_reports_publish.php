@@ -95,7 +95,6 @@ else{trigger_error('html2ps not configured!',E_USER_ERROR);}
    fclose($fp);
    $pdf->WriteHTML($strContent);
    $pdf->Output($pdffile);
-   trigger_error('PDF: '.$pdffile,E_USER_WARNING);
    } 
 */
 
@@ -109,7 +108,7 @@ else{trigger_error('html2ps not configured!',E_USER_ERROR);}
 						WHERE report_id='$wrapper_rid' AND student_id='$sid';");
 				}
 			else{
-				$success=fail;
+				$success=false;
 				}
 			}
 

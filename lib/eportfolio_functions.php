@@ -704,7 +704,7 @@ function elgg_upload_files($filedata,$dbc=true){
 				}
 
 			if(rename($file_originalpath,$file_fullpath)){
-				trigger_error('Uploaded file to: '.$dir,E_USER_WARNING);
+				trigger_error('Uploaded file to: '.$dir,E_USER_NOTICE);
 				// chmod($file_fullpath, $CFG->filepermissions);
 				$success=true;
 				}

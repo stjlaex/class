@@ -1,4 +1,4 @@
-Version ClaSS-0.9.10 release (2009/11/20)
+Version ClaSS-0.9.10 release (2009/11/24)
 -----------------------------------------
 
 New config option to choose between libphpmailer or PEAR Mail.
