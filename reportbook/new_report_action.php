@@ -1,5 +1,7 @@
 <?php
 /**                    new_report_action.php
+ *
+ *
  */
 
 $action='new_report.php';
@@ -8,6 +10,9 @@ $action='new_report.php';
 if($r>-1){$rcrid=$respons[$r]['course_id'];}
 else{$rcrid='';}
 include('scripts/sub_action.php');
+
+/* Can only create a new report for the current curriculum year... */
+$curryear=get_curriculumyear();
 
 if($sub!='Submit'){
 	$action='new_report_action.php';
@@ -18,6 +23,8 @@ if($sub!='Submit'){
 	else{$oldrid=-1;}
 	$RepDef=fetchReportDefinition($oldrid);
 
+	/* ...but can edit reports from previous years.*/
+	$curryear=$RepDef['Year']['value'];
 
 three_buttonmenu();
 ?>
@@ -65,6 +72,7 @@ three_buttonmenu();
 				$seleids[]=$eid;
 				}
 			$required='no';
+			$selprofid='%';
 			include('scripts/list_assessment.php');
 ?>
 	  </fieldset>
@@ -103,6 +111,20 @@ three_buttonmenu();
 			include('scripts/list_rating_name.php');
 ?>
 	  </fieldset>
+
+
+
+	  <fieldset class="left">
+		<legend><?php print get_string('assessmentprofile',$book).' '.get_string('link',$book);?></legend>
+<?php 
+		$listname='profid';
+		$onchange='yes';
+		$required='no';
+		$profid=$RepDef['ProfileLink']['id_db'];
+		include('scripts/list_assessment_profile.php');
+?>
+	  </fieldset>
+
 
 <?php
    		}
@@ -222,7 +244,7 @@ elseif($sub=='Submit'){
 	else{$crid=$rcrid;}	
 	$oldrid=$_POST['oldrid'];//-1 if this is a new report
 	if($oldrid==-1){
-		mysql_query("INSERT INTO report (course_id) VALUES ('$crid');");
+		mysql_query("INSERT INTO report (course_id, year) VALUES ('$crid','$curryear');");
 		$rid=mysql_insert_id();
 		}
 	else{
@@ -236,12 +258,12 @@ elseif($sub=='Submit'){
 	$transform=$_POST['template'];
 	if(isset($_POST['style'])){$style=$_POST['style'];}else{$style='portrait';}
 
-	mysql_query("UPDATE report SET title='$title', 
-				date='$date', deadline='$deadline',  
+	mysql_query("UPDATE report SET title='$title',date='$date', deadline='$deadline',  
 				style='$style', transform='$transform' WHERE id='$rid';");
 
 	if($crid!='wrapper'){
 		/*** This is a subject report ****/
+
 		$compstatus=$_POST['componentstatus'];
 		$stage=$_POST['stage'];
 		$reptype=$_POST['reptype0'];
@@ -250,16 +272,18 @@ elseif($sub=='Submit'){
 		$commentcomp=$_POST['commentcomp0'];
 		if(isset($_POST['commentlength'])){$commentlength=$_POST['commentlength'];}
 		else{$commentlength='0';}
+		if(isset($_POST['profid'])){$profid=$_POST['profid'];}
+
 		mysql_query("UPDATE report SET component_status='$compstatus',
 				addcomment='$reptype', commentlength='$commentlength', 
 				commentcomp='$commentcomp', stage='$stage', 
 				addcategory='$addcategory', rating_name='$ratingname' WHERE id='$rid';");
 
-		/*entry in rideid to link new report with chosen assessments*/
+		/* Entry in rideid to link new report with chosen assessments. */
 		mysql_query("DELETE FROM rideid WHERE report_id='$rid';");
 		$eids=(array)$_POST['eids'];
 		foreach($eids as $eid){
-			mysql_query("INSERT INTO rideid (report_id, assessment_id) VALUES ('$rid','$eid')");
+			mysql_query("INSERT INTO rideid (report_id, assessment_id) VALUES ('$rid','$eid');");
 			}
 
 		mysql_query("DELETE FROM ridcatid WHERE report_id='$rid';");
@@ -270,16 +294,18 @@ elseif($sub=='Submit'){
 				$catid=$d_catid[0];
 				$catbid=$d_catid[1];
 				mysql_query("INSERT INTO ridcatid (report_id,
-							categorydef_id, subject_id) VALUES
-							('$rid', '$catid', '$catbid')");
+					   categorydef_id, subject_id) VALUES ('$rid', '$catid', '$catbid')");
 				}
+			}
+		if(isset($profid) and $profid!=''){
+			mysql_query("INSERT INTO ridcatid (report_id,categorydef_id,subject_id)
+							 VALUES ('$rid', '$profid', 'profile');");
 			}
 		}
 	else{
-		/*** This is a wrapper for subject reports ***/
+		/*** This is a wrapper for subject reports. ***/
 
-		/* Summary matter goes into ridcatid with subject_id='summary' 
-		 */
+		/* Summary matter goes into ridcatid with subject_id='summary'. */
 		mysql_query("DELETE FROM ridcatid WHERE report_id='$rid' 
 						AND subject_id='summary';");
 		$catdefids=(array)$_POST['catdefids'];

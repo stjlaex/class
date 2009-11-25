@@ -1,5 +1,12 @@
 <?php
 /**											new_report.php
+ *
+ *
+ * Allows the editing or creation of both report wrapper definitions
+ * and report definitions (depending on wether a responsibility course
+ * is selected).
+ *
+ *
  */
 
 $action='new_report_action.php';
@@ -93,9 +100,9 @@ two_buttonmenu($extrabuttons);
 <?php
 		if($rcrid!=''){
 			$extrabuttons['generatecolumns']=array('name'=>'current',
-											   'value'=>'generate_report_columns.php');
+												   'value'=>'generate_report_columns.php');
 			$extrabuttons['deletecolumns']=array('name'=>'current',
-											 'value'=>'delete_report_columns.php');
+												 'value'=>'delete_report_columns.php');
 			}
 		rowaction_buttonmenu($imagebuttons,$extrabuttons,$book);
 ?>

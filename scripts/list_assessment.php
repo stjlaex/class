@@ -12,6 +12,8 @@
 	$cohorts=array();
 	$cohids=array();
 	if(!isset($seleids)){$seleids=array();}
+	if(!isset($curryear)){$curryear='%';}
+	if(!isset($selprofid)){$selprofid='';}
 	if($r>-1){
 		if($rcrid=='%'){
 			$d_cridbid=mysql_query("SELECT DISTINCT course_id FROM cridbid WHERE
@@ -20,7 +22,7 @@
 				$cohorts[]=array('id'=>'',
 								 'course_id'=>$course['course_id'],
 								 'stage'=>'%',
-								 'year'=>'%'
+								 'year'=>$curryear
 								 );
 				}
 			}
@@ -28,7 +30,7 @@
 			$cohorts[]=array('id'=>'',
 							 'course_id'=>$rcrid,
 							 'stage'=>'%',
-							 'year'=>'%'
+							 'year'=>$curryear
 							 );
 			}
 		}
@@ -61,7 +63,7 @@
 		$eids=array();
    		while(list($index,$cohort)=each($cohorts)){
 			$AssDefs=array();
-			$AssDefs=(array)fetch_cohortAssessmentDefinitions($cohort);
+			$AssDefs=(array)fetch_cohortAssessmentDefinitions($cohort,$selprofid);
 			while(list($index,$AssDef)=each($AssDefs)){
 				if(!array_key_exists($AssDef['id_db'],$eids)){
 					$eids[$AssDef['id_db']]=$AssDef['id_db'];
@@ -89,4 +91,5 @@ unset($multi);
 unset($cohorts);
 unset($eids);
 unset($AssDefs);
+unset($selprofid);
 ?>

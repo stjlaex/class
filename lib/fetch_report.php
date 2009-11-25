@@ -275,11 +275,11 @@ function fetchReportDefinition($rid,$selbid='%'){
 							  'type_db'=>'date', 
 							  'value'=>''.$report['deadline']);
    	$RepDef['Year']=array('label'=>'Year', 
-							  'inputtype'=>'required',
-							  'table_db'=>'report', 
-							  'field_db'=>'year',
-							  'type_db'=>'year', 
-							  'value'=>''.$report['year']);
+						  'inputtype'=>'required',
+						  'table_db'=>'report', 
+						  'field_db'=>'year',
+						  'type_db'=>'year', 
+						  'value'=>''.$report['year']);
    	$RepDef['ComponentStatus']=array('label'=>'componentstatus', 
 									 'table_db'=>'report', 
 									 'field_db'=>'component_status',
@@ -331,15 +331,13 @@ function fetchReportDefinition($rid,$selbid='%'){
 								   'value' => ''.$markcount);
 
 		/* This identifies any assessment profiles the report is linked to. */
-		$d_categorydef=mysql_query("SELECT name
+		$d_catdef=mysql_query("SELECT id,name
 				FROM categorydef JOIN ridcatid ON ridcatid.categorydef_id=categorydef.id 
 				WHERE ridcatid.report_id='$rid' AND categorydef.type='pro' AND
 				ridcatid.subject_id='profile';");
-		if(mysql_num_rows($d_categorydef)>0){
-			$report['profile_name']=mysql_result($d_categorydef,0);
-			}
-		else{
-			$report['profile_name']='';
+		if(mysql_num_rows($d_catdef)>0){
+			$profile=mysql_fetch_array($d_catdef,MYSQL_ASSOC);
+			$RepDef['ProfileLink']=array('id_db'=>''.$profile['id'],'name'=>''.$profile['name']);
 			}
 		}
 	else{

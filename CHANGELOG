@@ -20,6 +20,11 @@ New option under Report for merits, similar to that for comments.
 
 Printing merit certificates.
 
+The new_report script new filters assessments for the year of the
+report (and doesn't miss out reports linked to profiles). It also now
+allows a report to be linked to an assessment profile with an entry in
+the ridcatid db table with subject_id=profile.
+
 
 Version ClaSS-0.9.9 release (2009/11/16)
 -----------------------------------------

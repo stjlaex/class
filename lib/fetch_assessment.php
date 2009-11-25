@@ -565,7 +565,7 @@ function fetch_cohortAssessmentDefinitions($cohort,$profile_name=''){
 	$d_assessment=mysql_query("SELECT id FROM assessment
 			   WHERE (course_id LIKE '$crid' OR course_id='%') AND 
 				(stage LIKE '$stage' OR stage='%') AND 
-				year LIKE '$year' AND profile_name='$profile_name' AND
+				year LIKE '$year' AND profile_name LIKE '$profile_name' AND
 				resultstatus!='S' AND  stage!='RE' AND stage!='E' 
 				ORDER BY year DESC, deadline DESC, element ASC;");
    	while($ass=mysql_fetch_array($d_assessment, MYSQL_ASSOC)){
