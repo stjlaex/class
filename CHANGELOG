@@ -25,6 +25,12 @@ report (and doesn't miss out reports linked to profiles). It also now
 allows a report to be linked to an assessment profile with an entry in
 the ridcatid db table with subject_id=profile.
 
+Fix to new report, it was blanking the curryear when creating new reports.
+
+Added some padding to the span when hovering over empty mark cells so
+the pop-up comment is easier to activate.
+
+
 
 Version ClaSS-0.9.9 release (2009/11/16)
 -----------------------------------------

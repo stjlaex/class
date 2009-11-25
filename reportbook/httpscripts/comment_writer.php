@@ -81,7 +81,8 @@ if($reportdef['report']['profile_name']=='FS Steps'){
 			if($Student['YearGroup']['value']=='0'){$cutoff_grade=3;}
 			else{$cutoff_grade=-10;}
 			/* This fromdate is just a hack needs to check for previous report maybe?*/
-			$fromdate='2008-08-15';
+			$reportyear=$reportdef['report']['year']-1;
+			$fromdate=$reportyear.'-08-15';//Does the whole academic year
 			$d_eidsid=mysql_query("SELECT 
 				assessment.description, assessment.id FROM eidsid JOIN assessment ON
 				assessment.id=eidsid.assessment_id WHERE
@@ -168,7 +169,7 @@ else{
 			<?php print $commentlabel;?>
 			</label>
 			<textarea title="spellcheck" id="Comment<?php print $c;?>"
-			  style="height:<?php print $commentheight;?>px;" 
+			  style="height:<?php print $commentheight-20;?>px;"  
 			  accesskey="../../lib/spell_checker/spell_checker.php" 
 			  <?php print $commentlength;?> tabindex="0"  
 			  name="incom<?php print $c;?>" ><?php if(isset($texts[$c])){print $texts[$c];};?></textarea>

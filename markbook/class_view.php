@@ -228,17 +228,24 @@ if($_SESSION['worklevel']>-1){
 <?php
 		for($c=0;$c<$c_marks;$c++){
 				$col_mid=$umns[$c]['id'];
-				if($viewtable[$c2]['score'.$col_mid]['comment']!=''){
+				if($viewtable[$c2]['score'.$col_mid]['comment']==''){
+					print '<td class="'.$viewtable[$c2]['score'.$col_mid]['scoreclass']. '" '. 
+						' id="'.$viewtable[$c2]['sid'].'-'. $col_mid. '" >';
+					print $viewtable[$c2][$col_mid].'</td>';
+					}
+				elseif($viewtable[$c2][$col_mid]!=''){
 					print '<td class="'.$viewtable[$c2]['score'.$col_mid]['scoreclass']. '" '. 
 						' id="'.$viewtable[$c2]['sid'].'-'. $col_mid.
 							'" title="" >';
 					print '<span title="'.$viewtable[$c2]['score'.$col_mid]['comment'].'" >';
-					print $viewtable[$c2][$col_mid].'&nbsp</span></td>';
+					print '&nbsp;'.$viewtable[$c2][$col_mid].'&nbsp;</span></td>';
 					}
 				else{
 					print '<td class="'.$viewtable[$c2]['score'.$col_mid]['scoreclass']. '" '. 
-						' id="'.$viewtable[$c2]['sid'].'-'. $col_mid. '" >';
-					print $viewtable[$c2][$col_mid].'</td>';
+						' id="'.$viewtable[$c2]['sid'].'-'. $col_mid.
+							'" title="" >';
+					print '<span style="padding:0 2em;" title="'.$viewtable[$c2]['score'.$col_mid]['comment'].'" >';
+					print '&nbsp;</span></td>';
 					}
 			}
 		print '</tr>';

@@ -24,7 +24,7 @@ if($sub!='Submit'){
 	$RepDef=fetchReportDefinition($oldrid);
 
 	/* ...but can edit reports from previous years.*/
-	$curryear=$RepDef['Year']['value'];
+	if($oldrid!=-1){$curryear=$RepDef['Year']['value'];}
 
 three_buttonmenu();
 ?>
@@ -69,6 +69,9 @@ three_buttonmenu();
 <?php 
 			$seleids=array();
 			while(list($assindex,$eid)=each($RepDef['eids'])){
+				$seleids[]=$eid;
+				}
+			while(list($assindex,$eid)=each($RepDef['stateids'])){
 				$seleids[]=$eid;
 				}
 			$required='no';
@@ -118,9 +121,9 @@ three_buttonmenu();
 		<legend><?php print get_string('assessmentprofile',$book).' '.get_string('link',$book);?></legend>
 <?php 
 		$listname='profid';
-		$onchange='yes';
+		$onchange='no';
 		$required='no';
-		$profid=$RepDef['ProfileLink']['id_db'];
+		if(isset($RepDef['ProfileLink'])){$profid=$RepDef['ProfileLink']['id_db'];}
 		include('scripts/list_assessment_profile.php');
 ?>
 	  </fieldset>
