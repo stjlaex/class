@@ -1,4 +1,4 @@
-Version ClaSS-0.9.10 release (2009/11/24)
+Version ClaSS-0.9.10 release (2009/11/25)
 -----------------------------------------
 
 New config option to choose between libphpmailer or PEAR Mail.
@@ -17,6 +17,8 @@ Moved the absence email message out to the language array.
 Added clickthrus to InfoBook from report_reports.
 
 New option under Report for merits, similar to that for comments.
+
+Printing merit certificates.
 
 
 Version ClaSS-0.9.9 release (2009/11/16)

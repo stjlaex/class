@@ -21,14 +21,15 @@ if(isset($_POST['newfid'])){$fid=$_POST['newfid'];}else{$fid='';}
 list($ratingnames,$catdefs)=fetch_categorydefs('mer');
 $curryear=get_curriculumyear();
 
+
 include('scripts/sub_action.php');
 
 	if($yid!=''){
 		$d_m=mysql_query("SELECT * FROM merits JOIN
-		student ON student.id=merits.student_id WHERE
-		merits.date >= '$startdate' AND merits.date<='$enddate' 
-		AND student.yeargroup_id LIKE '$yid' AND merits.subject_id LIKE '$bid'  
-		AND merits.activity LIKE '$activity' AND year='$curryear' ORDER BY student.surname ;");
+			student ON student.id=merits.student_id WHERE
+			merits.date>='$startdate' AND merits.date<='$enddate' 
+			AND student.yeargroup_id LIKE '$yid' AND merits.subject_id LIKE '$bid'  
+			AND merits.activity LIKE '$activity' AND merits.year='$curryear' ORDER BY student.surname ;");
 		}
 	elseif($fid!=''){
 		$d_m=mysql_query("SELECT * FROM merits JOIN
@@ -36,7 +37,7 @@ include('scripts/sub_action.php');
 			merits.date >= '$startdate' AND
 			merits.date<='$enddate' AND student.form_id LIKE
 			'$fid' AND merits.subject_id LIKE '$bid' 
-			AND merits.activity LIKE '$activity' AND year='$curryear' ORDER BY student.surname;");
+			AND merits.activity LIKE '$activity' AND merits.year='$curryear' ORDER BY student.surname;");
 		}
 	else{
 		if($rcrid=='%'){
@@ -56,7 +57,7 @@ include('scripts/sub_action.php');
 				WHERE merits.date >= '$startdate' AND
 				merits.date<='$enddate' AND
 				merits.subject_id LIKE '$bid' AND merits.activity LIKE '$activity' 
-				AND year='$curryear' AND comidsid.community_id='$comid';");
+				AND merits.year='$curryear' AND comidsid.community_id='$comid';");
 		}
 
 	if(mysql_num_rows($d_m)==0){
@@ -72,7 +73,6 @@ include('scripts/sub_action.php');
 	$range=0;
 	while($merit=mysql_fetch_array($d_m,MYSQL_ASSOC)){
 		$sid=$merit['student_id'];
-		if($merit['subject_id']=='%'){$merit['subject_id']='G';}
 		if(!in_array($sid,$sids)){
 			$sids[]=$sid;
 			$summary=array('sid'=>$sid);
@@ -91,12 +91,12 @@ include('scripts/sub_action.php');
 		if($summary['total']>$range){$range=$summary['total'];}
 		$summarys[$sid]=$summary;
 		}
-		$sort_array[0]['name']="total";
-		$sort_array[0]['sort']='DESC';
-		$sort_array[0]['case']=FALSE;
-		sortx($summarys, $sort_array);
-$range=$range*0.2;
-trigger_error($range,E_USER_WARNING);
+
+$sort_array[0]['name']="total";
+$sort_array[0]['sort']='DESC';
+$sort_array[0]['case']=FALSE;
+sortx($summarys, $sort_array);
+$range=$range*0.4;
 
 $extrabuttons=array();
 $extrabuttons['previewselected']=array('name'=>'current',
@@ -145,7 +145,7 @@ two_buttonmenu($extrabuttons,$book);
 		$sid=$summary['sid'];
 		$Student=fetchStudent_short($sid);
 		$house=get_student_house($sid);
-		$Merits=fetchMerits($sid,6,$bid,'%',$curryear);
+		$Merits=fetchMerits($sid,1,$bid,'%',$curryear);
 ?>
 		<tr>
 		  <td>
