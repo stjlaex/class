@@ -30,6 +30,9 @@ Fix to new report, it was blanking the curryear when creating new reports.
 Added some padding to the span when hovering over empty mark cells so
 the pop-up comment is easier to activate.
 
+Implemented file attachments for the email messaging trhough
+InfoBook. Works with both libphpmailer and PEAR:Mail. Restricts the
+files to PDF only!
 
 
 Version ClaSS-0.9.9 release (2009/11/16)

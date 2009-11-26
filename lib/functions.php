@@ -1496,16 +1496,15 @@ function send_email_to($recipient, $from, $subject, $messagetext, $messagehtml='
 		/* we use Mail_mime() to construct a valid mail */
 		$mime =& new Mail_mime();
 		$mime->setTXTBody($messagetext);
-		/*
+
 		if(is_array($attachments)){
 			while(list($index,$attachment)=each($attachments)){
 				if(is_file($attachment['filepath'])){ 
-					//$mimetype=file_mimeinfo('type', $attachment['filename']);
-					$mime->addAttachment($attachment['filepath'],'text/plain',$attachment['filename']);		
+					$mime->addAttachment($attachment['filepath']);		
 					}
 				}
 			}
-		*/
+
 		/* next sentence has to be written after 'setTXTBody' and 'addAttachment' */
 		$body = $mime->get();
 		$hdrs = $mime->headers($hdrs);

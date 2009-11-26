@@ -14,7 +14,20 @@ if(isset($_POST['messageoption'])){$messop=$_POST['messageoption'];}else{$messop
 if(isset($_SESSION[$book.'recipients'])){$recipients=$_SESSION[$book.'recipients'];}
 else{$recipients=array();}
 
-//TODO: file attacments
+// Get the uploaded file information
+if(isset($_FILES['messageattach'])){
+	$file_name=basename($_FILES['messageattach']['name']);
+	$file_type=substr($file_name,strrpos($file_name, '.')+1);
+	$file_size=$_FILES['messageattach']['size']/1024;
+	if($file_type!='pdf'){
+		/* Only allow pdf attachments. */
+		$error[]='Only PDF files are permitted for attachments.';
+		}
+	if($file_size>800){
+		/* Limit to 800KB. */
+		$error[]='The size of the file attachment is '.$file_size.'KB, it should be less than 500KB.';
+		}
+	}
 
 include('scripts/sub_action.php');
 
@@ -22,13 +35,28 @@ include('scripts/sub_action.php');
 $fromaddress=$CFG->schoolname;
 
 
-if($recipients and sizeof($recipients)>0){
+if($recipients and sizeof($recipients)>0 and !isset($error)){
 	$sentno=0;
 	$failno=0;
 	if($CFG->emailoff!='yes' and $messop=='emailcontacts'){
 
 		$footer='--'. "\r\n" . get_string('guardianemailfooterdisclaimer');
 		$messagebody.="\r\n". $footer;
+		$attachments=array();
+		if(isset($file_name)){
+			//copy the temp. uploaded file to uploads folder
+			$upload_path='/tmp/';
+			$upload_file=$upload_path. $file_name;
+			$tmp_path=$_FILES['messageattach']['tmp_name'];
+			if(is_uploaded_file($tmp_path)){
+				if(!copy($tmp_path,$upload_file)){
+					$error[]='Failed to upload file attachment!';
+					}
+				else{
+					$attachments[]=array('filepath'=>$upload_file,'filename'=>$file_name);
+					}
+				}
+			}
 
 		foreach($recipients as $key => $recipient){
 			
@@ -36,7 +64,7 @@ if($recipients and sizeof($recipients)>0){
 			$message.="\r\n".$messagebody;		
 			$message=utf8_to_ascii($message);
 
-			$email_result=send_email_to($recipient['email'],$fromaddress,$messagesubject,$message);
+			$email_result=send_email_to($recipient['email'],$fromaddress,$messagesubject,$message,'',$attachments);
 
 			//trigger_error('TO: '.$recipient['email'].' SUBJECT:'.$messagesubject.' BODY:'.$message,E_USER_WARNING);
 			if($email_result){$sentno++;}
@@ -67,7 +95,7 @@ if($recipients and sizeof($recipients)>0){
 	if($failno>0){$result[]=get_string('failedtosend',$book).' '.$failno;}
 
 	}
-else{
+elseif(!isset($error)){
 	$result[]=get_string('nocontacts',$book);
 	}
 

@@ -99,9 +99,10 @@ three_buttonmenu();
 
   <div id="viewcontent" class="content">
 
-  <div class="divgroup center">
-	<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
+	<form enctype="multipart/form-data" id="formtoprocess" 
+			name="formtoprocess" method="post" action="<?php print $host;?>">
 
+	<div class="divgroup center">
 	  <div class="center">
 	  </div>
 <?php
@@ -113,17 +114,16 @@ three_buttonmenu();
 			value="<?php print $from_user['email'];?>" />
 	  </div>
 	  <div class="center">
+		<label for="messageatt"><?php print_string('attachment',$book);?></label>
+		<input type="file"  name="messageattach" id="messageattach" value="" />
+	  </div>
+	  <div class="center">
 		<label for="subject"><?php print_string('subject',$book);?></label>
 		<input class="required" tabindex="<?php print $tab++;?>"  type="text" name="messagesubject" 
 			   id="messagesubject" value="" maxlength="100"/>
 	  </div>
-<?php
-// TODO: file attacments
-//	  <div class="center">
-//		<label for="messageatt"></label>
-//		<input type="file"  name="messageatt" id="messageatt" size="40" value="" />
-//	  </div>
 
+<?php
 		}
 ?>
 	  <div class="center">
@@ -133,37 +133,35 @@ three_buttonmenu();
 	  </div>
 
 
+
+
 	  <input type="hidden" name="messageoption" value="<?php print $messop;?>" />
 	  <input type="hidden" name="current" value="<?php print $action;?>" />
 	  <input type="hidden" name="cancel" value="<?php print 'student_list.php';?>" />
 	  <input type="hidden" name="choice" value="<?php print $choice;?>" />
-	</form>
-  </div>
+	</div>
 
-<?php
-	if(sizeof($email_blank_sids)==0){$cssstyle='style="color:#666;"';}
-	else{$cssstyle='style="color:#f60;"';}
-?>
-	<fieldset class="right">
-	<div class="center"><a  <?php print $cssstyle;?> href="infobook.php?current=contact_list.php
-<?php 
-foreach($email_blank_gids as $index=>$gid){
-print '&gids[]='.$gid;
-}
-?>">Contacts who will not receive this <br /> message because they have no address or mobile: <?php print sizeof($email_blank_gids);?></a></div>
-	</fieldset>
+	</form>
+
+	<div class="center">
 <?php
 	if(sizeof($email_blank_sids)==0){$cssstyle='style="color:#666;"';}
 	else{$cssstyle='style="color:#f60;"';}
 ?>
 	<fieldset class="left">
 	  <div class="center"><a <?php print $cssstyle;?> href="infobook.php?current=student_list.php
-<?php 
-foreach($email_blank_sids as $index =>$sid){
-print '&sids[]='.$sid;
-}
-?>
-">Students who have no contacts <br /> flagged to receive this message: <?php print sizeof($email_blank_sids);?></a></div>
+<?php foreach($email_blank_sids as $index =>$sid){print '&sids[]='.$sid;}?>">Students who have no contacts <br /> flagged to receive this message: <?php print sizeof($email_blank_sids);?></a>
+	</div>
 	</fieldset>
+<?php
+	if(sizeof($email_blank_gids)==0){$cssstyle='style="color:#666;"';}
+	else{$cssstyle='style="color:#f60;"';}
+?>
+	<fieldset class="right">
+	<div class="center"><a  <?php print $cssstyle;?> href="infobook.php?current=contact_list.php
+<?php foreach($email_blank_gids as $index=>$gid){print '&gids[]='.$gid;}?>">Contacts who should receive this message <br /> but will not because they have no address or mobile: <?php print sizeof($email_blank_gids);?></a>
+	</div>
+	</fieldset>
+	</div>
 
   </div>
