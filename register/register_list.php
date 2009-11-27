@@ -220,6 +220,15 @@ if($nodays==1 or $_SESSION['role']=='office' or $_SESSION['role']=='admin'){
 			</span>
 			<a onclick="parent.viewBook('infobook');" target="viewinfobook"  
 			  href='infobook.php?current=incidents_list.php&sid=<?php print $sid;?>'>I</a>
+<?php		if($Student['SENFlag']['value']=='Y'){ ?>
+			<a href="infobook.php?current=student_view_sen.php&sid=<?php print $sid;?>&sids[]=<?php print $sid;?>"
+			  target="viewinfobook" onclick="parent.viewBook('infobook');">S</a>
+<?php			} ?>
+<?php		if($Student['MedicalFlag']['value']=='Y'){ ?>
+			<a href="infobook.php?current=student_view_medical.php&sid=<?php print $sid;?>&sids[]=<?php print $sid;?>"
+			  target="viewinfobook" onclick="parent.viewBook('infobook');">M</a>
+<?php			} ?>
+
 <?php			
 			}
 		else{

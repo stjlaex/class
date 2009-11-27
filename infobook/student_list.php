@@ -52,6 +52,9 @@ $displayfields_width=60/$displayfields_no.'%';
 $extrabuttons=array();
 if($_SESSION['role']=='office' or $_SESSION['role']=='admin'){
 	$displayname='DisplayFullSurname';
+	$extrabuttons['message']=array('name'=>'current',
+								   'title'=>'message',
+								   'value'=>'email_contacts.php');
    	$extrabuttons['addresslabels']=array('name'=>'current',
 										 'title'=>'printaddresslabels',
 										 'onclick'=>'checksidsAction(this)',
@@ -194,22 +197,6 @@ two_buttonmenu($extrabuttons,$book);
 ?>
 <tr>
 <th colspan="<?php print $displayfields_no+2;?>">&nbsp;
-<?php
-if($_SESSION['role']=='office' or $_SESSION['role']=='admin'){
-	$listname='messageoption';$listlabel='';$liststyle='width:16em;float:left;';
-	include('scripts/set_list_vars.php');
-	$options=array(
-				   array('id'=>'smscontacts','name'=>get_string('smscontacts',$book))
-				   ,array('id'=>'emailcontacts','name'=>get_string('emailcontacts',$book))
-				   //,array('id'=>'smsstudents','name'=>get_string('smsstudents',$book))
-				   //,array('id'=>'emailstudents','name'=>get_string('emailstudents',$book))
-				   );
-	list_select_list($options,$listoptions,$book);
-	$buttons=array();
-	$buttons['message']=array('name'=>'current','title'=>'message','value'=>'email_contacts.php');
-	all_extrabuttons($buttons,'infobook','processContent(this)');
-	}
-?>
 </th>
 <th>
 <?php

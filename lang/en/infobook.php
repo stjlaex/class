@@ -138,7 +138,8 @@ $string['stay']='Residencial stay';
 $string['roomcategory']='Room category';
 $string['residencebuilding']='Residence buidling';
 $string['residencebed']='Residence Bed';
-$string['addresslabels']='Address labels';
+$string['addresslabels']='Labels';
+$string['printaddresslabels']='Print address labels';
 $string['mr']='Mr.';
 $string['mrs']='Mrs.';
 $string['ms']='Ms.';
@@ -173,5 +174,7 @@ $string['activity']='Activity';
 $string['points']='Points';
 $string['recentmerits']='Recent merits';
 $string['siblings']='Siblings';
+$string['families']='Families';
+$string['sendto']='Send to';
 $string['']='';
 ?>

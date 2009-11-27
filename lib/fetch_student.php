@@ -35,24 +35,25 @@ function fetchStudent_short($sid){
 
 	if($student['preferredforename']!=''){$displaypfn='('.$student['preferredforename'].') ';}
 	else{$displaypfn='';}
+	if($student['middlenames']!=''){$displayspace=' ';}
 	if($student['middlenamelast']=='Y'){
 		$Student['DisplayFullName']=array('label' => 'fullname',  
 										  'value' => $displaypfn. 
 										  $student['forename'] . ' ' . $student['surname']
-										  .' '. $student['middlenames']);
+										  . $displayspace . $student['middlenames']);
 		$Student['DisplayFullSurname']=array('label' => 'fullname',  
 											 'value' => $student['surname'] . 
-											 ' '. $student['middlenames'] .', '.  
+											 $displayspace. $student['middlenames'] .', '.  
 											 $student['forename'] .' '. $displaypfn);
 		}
 	else{
 		$Student['DisplayFullName']=array('label' => 'fullname',  
 										  'value' => $displaypfn . 
-										  $student['forename'] . ' ' .$student['middlenames']
+										  $student['forename'] . $displayspace .$student['middlenames']
 										  . ' ' .$student['surname']);
 		$Student['DisplayFullSurname']=array('label' => 'fullname',  
 										  'value' => $student['surname'] .', '. 
-										  $student['forename'] . ' ' .$student['middlenames']
+										  $student['forename'] . $displayspace .$student['middlenames']
 										  . ' ' .$displaypfn);
 		}
 
@@ -234,16 +235,17 @@ function fetchStudent($sid='-1'){
 
 	if($student['preferredforename']!=''){$displaypfn='('.$student['preferredforename'].') ';}
 	else{$displaypfn='';}
+	if($student['middlenames']!=''){$displayspace=' ';}
 	if($student['middlenamelast']=='Y'){
 		$Student['DisplayFullName']=array('label' => 'fullname',  
 										  'value' => $displaypfn . 
 										  $student['forename'] . ' ' .$student['surname']
-										  . ' ' .$student['middlenames']);
+										  . $displayspace .$student['middlenames']);
 		}
 	else{
 		$Student['DisplayFullName']=array('label' => 'fullname',  
 										  'value' => $displaypfn . 
-										  $student['forename'] . ' ' .$student['middlenames']
+										  $student['forename'] . $displayspace .$student['middlenames']
 										  . ' ' . $student['surname']);
 		}
 

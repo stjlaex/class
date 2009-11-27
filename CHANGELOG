@@ -16,6 +16,8 @@ Moved the absence email message out to the language array.
 
 Added clickthrus to InfoBook from report_reports.
 
+Added SEN and Medical flags to the register_list.
+
 New option under Report for merits, similar to that for comments.
 
 Printing merit certificates.
@@ -30,9 +32,13 @@ Fix to new report, it was blanking the curryear when creating new reports.
 Added some padding to the span when hovering over empty mark cells so
 the pop-up comment is easier to activate.
 
-Implemented file attachments for the email messaging trhough
+Expanded the options available for messaging from the InfoBook to
+include sending to students, contacts or family groups.
+
+Implemented file attachments for the email messaging through
 InfoBook. Works with both libphpmailer and PEAR:Mail. Restricts the
 files to PDF only!
+
 
 
 Version ClaSS-0.9.9 release (2009/11/16)

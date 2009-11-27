@@ -6,8 +6,9 @@
 $action='student_list.php';
 
 $messagebody=clean_text($_POST['messagebody']);
-if(isset($_POST['messagesubject'])){$messagesubject=clean_text($_POST['messagesubject']);}else{$messagesubject='';}
+if(isset($_POST['messageto'])){$messto=$_POST['messageto'];}
 if(isset($_POST['messagebcc'])){$messagebcc=clean_text($_POST['messagebcc']);}else{$messagebcc='';}
+if(isset($_POST['messagesubject'])){$messagesubject=clean_text($_POST['messagesubject']);}else{$messagesubject='';}
 if(isset($_POST['recipients'])){$recipients=(array)$_POST['recipients'];}else{$recipients=array();}
 if(isset($_POST['messageoption'])){$messop=$_POST['messageoption'];}else{$messop='';}
 
@@ -15,7 +16,7 @@ if(isset($_SESSION[$book.'recipients'])){$recipients=$_SESSION[$book.'recipients
 else{$recipients=array();}
 
 // Get the uploaded file information
-if(isset($_FILES['messageattach'])){
+if(isset($_FILES['messageattach']) and $_FILES['messageattach']['name']!=''){
 	$file_name=basename($_FILES['messageattach']['name']);
 	$file_type=substr($file_name,strrpos($file_name, '.')+1);
 	$file_size=$_FILES['messageattach']['size']/1024;
@@ -23,9 +24,9 @@ if(isset($_FILES['messageattach'])){
 		/* Only allow pdf attachments. */
 		$error[]='Only PDF files are permitted for attachments.';
 		}
-	if($file_size>800){
-		/* Limit to 800KB. */
-		$error[]='The size of the file attachment is '.$file_size.'KB, it should be less than 500KB.';
+	if($file_size>150){
+		/* Limit to 150KB. */
+		$error[]='The size of the file attachment is '.$file_size.'KB, it should be less than 150KB.';
 		}
 	}
 
@@ -38,7 +39,7 @@ $fromaddress=$CFG->schoolname;
 if($recipients and sizeof($recipients)>0 and !isset($error)){
 	$sentno=0;
 	$failno=0;
-	if($CFG->emailoff!='yes' and $messop=='emailcontacts'){
+	if($CFG->emailoff!='yes' and $messop=='email'){
 
 		$footer='--'. "\r\n" . get_string('guardianemailfooterdisclaimer');
 		$messagebody.="\r\n". $footer;
@@ -73,7 +74,7 @@ if($recipients and sizeof($recipients)>0 and !isset($error)){
 			}
 		$result[]=get_string('emailsentto',$book).' '. $sentno.' '.get_string('contacts',$book);
 		}
-	elseif(isset($CFG->smsoff) and $CFG->smsoff=='no' and $messop=='smscontacts'){
+	elseif(isset($CFG->smsoff) and $CFG->smsoff=='no' and $messop=='sms'){
 
 		foreach($recipients as $key => $recipient){
 			
