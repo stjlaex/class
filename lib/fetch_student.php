@@ -35,7 +35,7 @@ function fetchStudent_short($sid){
 
 	if($student['preferredforename']!=''){$displaypfn='('.$student['preferredforename'].') ';}
 	else{$displaypfn='';}
-	if($student['middlenames']!=''){$displayspace=' ';}
+	if($student['middlenames']!=''){$displayspace=' ';}else{$displayspace='';}
 	if($student['middlenamelast']=='Y'){
 		$Student['DisplayFullName']=array('label' => 'fullname',  
 										  'value' => $displaypfn. 
@@ -235,7 +235,7 @@ function fetchStudent($sid='-1'){
 
 	if($student['preferredforename']!=''){$displaypfn='('.$student['preferredforename'].') ';}
 	else{$displaypfn='';}
-	if($student['middlenames']!=''){$displayspace=' ';}
+	if($student['middlenames']!=''){$displayspace=' ';}else{$displayspace='';}
 	if($student['middlenamelast']=='Y'){
 		$Student['DisplayFullName']=array('label' => 'fullname',  
 										  'value' => $displaypfn . 

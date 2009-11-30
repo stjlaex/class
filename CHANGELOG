@@ -1,4 +1,4 @@
-Version ClaSS-0.9.10 release (2009/11/25)
+Version ClaSS-0.9.10 release (2009/11/30)
 -----------------------------------------
 
 New config option to choose between libphpmailer or PEAR Mail.
@@ -37,8 +37,10 @@ include sending to students, contacts or family groups.
 
 Implemented file attachments for the email messaging through
 InfoBook. Works with both libphpmailer and PEAR:Mail. Restricts the
-files to PDF only!
+files to PDF only.
 
+The InfoBook message and label buttons now allow for selection of
+students by school section or a choice of yeargroups.
 
 
 Version ClaSS-0.9.9 release (2009/11/16)
@@ -55,6 +57,7 @@ Simplified the eportfolio_accounts script - though it is still transitional!
 
 Adopting the PEAR Mail_Queue library: this has taken over the
 message_event table in the db (apply the patch to update it!).
+
 
 
 Version ClaSS-0.9.8 release (2009/11/07)
@@ -81,6 +84,7 @@ assessments it is linked to.
 
 Detect duplicate contacts on student data import using their email
 address.
+
 
 
 Version ClaSS-0.9.7 release (2009/10/22)

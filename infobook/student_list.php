@@ -54,7 +54,7 @@ if($_SESSION['role']=='office' or $_SESSION['role']=='admin'){
 	$displayname='DisplayFullSurname';
 	$extrabuttons['message']=array('name'=>'current',
 								   'title'=>'message',
-								   'value'=>'email_contacts.php');
+								   'value'=>'message.php');
    	$extrabuttons['addresslabels']=array('name'=>'current',
 										 'title'=>'printaddresslabels',
 										 'onclick'=>'checksidsAction(this)',

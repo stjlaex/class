@@ -43,7 +43,7 @@ $mail_options['username']=$CFG->smtpuser;
 $mail_options['password']=$CFG->smtppasswd;
 
 $queue=& new Mail_Queue($db_options, $mail_options);
-$send_limit=20;
+$send_limit=50;
 $queue_offset=0;
 $send_attempts=10;
 $queue->sendMailsInQueue($send_limit, $queue_offset, $send_attempts);

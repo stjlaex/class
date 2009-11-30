@@ -21,8 +21,7 @@ $string['firstlanguage']='First language';
 $string['email']='Email';
 $string['emailstudents']='Email Students';
 $string['emailcontacts']='Email Contacts';
-$string['smscontacts']='SMS Contacts';
-$string['smsstudents']='SMS Students';
+$string['sms']='SMS Text';
 $string['enrolmentnumber']='Enrolment number';
 $string['enrolmentyear']='Year of enrolment';
 $string['enrolmentnotes']='Enrolment notes';
@@ -176,5 +175,7 @@ $string['recentmerits']='Recent merits';
 $string['siblings']='Siblings';
 $string['families']='Families';
 $string['sendto']='Send to';
+$string['emailsentto']='Email queued to send to';
+$string['smssentto']='SMS queued to send to';
 $string['']='';
 ?>

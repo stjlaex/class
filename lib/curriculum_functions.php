@@ -17,6 +17,20 @@ function list_courses(){
 	}
 
 /**
+ * Returns an array of the school's sections.
+ * First record id=1 is always special (the wholeschool) and is excluded.
+ *
+ */
+function list_sections(){
+	$sections=array();
+	$d_s=mysql_query("SELECT * FROM section WHERE id>'1' ORDER BY sequence;");
+	while($section=mysql_fetch_array($d_s,MYSQL_ASSOC)){
+		$sections[]=$section;
+		}
+	return $sections;
+	}
+
+/**
  * Returns an array of all posible yeargroups for a single section
  *
  */
