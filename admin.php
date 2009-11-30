@@ -12,6 +12,7 @@ include('lib/fetch_order.php');
 
 
 $rtid=$tid;
+$section_perm=get_admin_perm('s',get_uid($tid));
 ?>
   <div id="bookbox" class="admincolor">
 <?php	
@@ -32,7 +33,7 @@ $rtid=$tid;
 				   ,'community_group.php' => 'communitygroups'
 				   );
 	if($_SESSION['role']=='admin' or $_SESSION['role']=='office'  
-	   or $_SESSION['role']=='district'){
+	   or $_SESSION['role']=='district' or $section_perm==1){
 		$choices['enrolments_matrix.php']='enrolments';
 		//$choices['accomodation_matrix.php']='accomodation';
 		}

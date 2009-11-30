@@ -42,6 +42,8 @@ files to PDF only.
 The InfoBook message and label buttons now allow for selection of
 students by school section or a choice of yeargroups.
 
+Opened up enrolments to anyone with section admin perms.
+
 
 Version ClaSS-0.9.9 release (2009/11/16)
 -----------------------------------------
