@@ -1,6 +1,6 @@
 <?php
 /**
- *							enrolments_matrix_apptable.php
+ *											enrolments_matrix_apptable.php
  *
  *	This is the applications table - it can be 'live' numbers counted
  *  from the database or 'static' keyed values - configured in school.php
@@ -9,34 +9,40 @@
 
 
 $app_tablerows=array();
-$app_cols=array();
+$appcols=array();
 
-/* The table's column headers are the application steps which are
- * realy select enrolstatus codes*/
+/* The order here will define the order of the columns in the table. */
 $application_steps=array('EN','AP','AT','ATD','RE','CA','WL','ACP','AC');
-/* Only display a subset but all values are still totalled in final column*/
+/* The table's column headers are the application steps which are
+ * really enrolstatus codes. Only display the subset specified here
+ * but all values (specified above) are still totalled in final column
+ * with the exception of Enquired which is a special case.
+ */
 $appcols_value=array('AT','ATD','RE','CA','WL','ACP','AC','EN');
 
-	while(list($colindex,$enrolstatus)=each($application_steps)){
-			if(in_array($enrolstatus,$appcols_value)){
-				if(!$applications_live and $enrolstatus!='AC'){
-					$appcols[$colindex]['class']='static';
-					$appcols[$colindex]['display']='<a href="admin.php?current=enrolments_edit.php&cancel='.
-							$choice.'&choice='. $choice.'&enrolyear='.$enrolyear. 
-							'&enrolstatus='.$enrolstatus.'">'.get_string(displayEnum($enrolstatus,'enrolstatus'),$book).'</a>';
-					}
-				else{
-					$appcols[$colindex]['class']='live';
-					$appcols[$colindex]['display']=get_string(displayEnum($enrolstatus,'enrolstatus'),$book);
-					}
+
+	while(list($aindex,$enrolstatus)=each($application_steps)){
+		if(in_array($enrolstatus,$appcols_value)){
+			if((!$applications_live and $enrolstatus!='AC') or $enrolstatus=='EN'){
+				$appcols[$enrolstatus]['class']='static';
+				$appcols[$enrolstatus]['display']='<a href="admin.php?current=enrolments_edit.php&cancel='.
+					$choice.'&choice='. $choice.'&enrolyear='.$enrolyear. 
+			   		'&enrolstatus='.$enrolstatus.'">'.get_string(displayEnum($enrolstatus,'enrolstatus'),$book).'</a>';
 				}
-			$appcols[$colindex]['value']=$enrolstatus;
+			else{
+				$appcols[$enrolstatus]['class']='live';
+				$appcols[$enrolstatus]['display']=get_string(displayEnum($enrolstatus,'enrolstatus'),$book);
+				}
 			}
+		$appcols[$enrolstatus]['value']=$enrolstatus;
+		}
+
 	/* Final column for row totals*/
-	$totalindex=$colindex++;
-	$appcols[$totalindex]['class']='other';
-	$appcols[$totalindex]['display']=get_string('applicationsreceived',$book);
-	$appcols[$totalindex]['value']='applicationsreceived';
+	$appcols['TOTAL']['class']='other';
+	$appcols['TOTAL']['display']=get_string('applicationsreceived',$book);
+	$appcols['TOTAL']['value']='applicationsreceived';
+
+/**/
 
 	reset($yeargroups);
 	while(list($yindex,$year)=each($yeargroups)){
@@ -77,7 +83,7 @@ $appcols_value=array('AT','ATD','RE','CA','WL','ACP','AC','EN');
 			$com['id']=$comid;
 
 			/* 'live' or 'static' values */
-			if($applications_live or $enrolstatus=='AC'){
+			if(($applications_live or $enrolstatus=='AC') and $enrolstatus!='EN'){
 				$value=countin_community($com);
 				$displayvalue=$value; //+$extravalue;
 				$display='<a href="admin.php?current=enrolments_list.php&cancel='.
@@ -90,6 +96,7 @@ $appcols_value=array('AT','ATD','RE','CA','WL','ACP','AC','EN');
 				$display=$value; //+$extravalue;
 				}
 			$values[$index+1]=$value;
+			/* Don't count enquires as full applications. */
 			if($enrolstatus!='EN'){$values[0]+=$values[$index+1];}
 
 			/* Only set the display value if the column is being
@@ -101,7 +108,7 @@ $appcols_value=array('AT','ATD','RE','CA','WL','ACP','AC','EN');
 			//$app_tablecells[$enrolstatus]['extravalue']=$extravalue;
 			}
 
-		/*Don't forget applications who have already joined current roll*/
+		/* Don't forget applications who have already joined current roll. */
 		$app_tablecells['C']['value']=$newcurrentsids;
 		$app_tablecells['applicationsreceived']['value']=$values[0]+$newcurrentsids;
 

@@ -77,11 +77,19 @@ for($i=0;$i<sizeof($cids);$i++){
 		/* t really means r for Reports, both report column and
 		 * assessments which are linked to a report 
 		 */
+		/*
 		$d_marks=mysql_query("SELECT $table.* FROM $table WHERE
 				$table.marktype='report' OR ($table.marktype='score' AND
 				$table.assessment='yes' AND $table.id=ANY(SELECT
 				eidmid.mark_id FROM eidmid JOIN assessment ON
 				assessment.id=eidmid.assessment_id WHERE assessment.profile_name=''));");
+		*/
+		$d_marks=mysql_query("SELECT $table.* FROM $table WHERE
+				$table.marktype='report' OR ($table.marktype='score' AND
+				$table.assessment='yes' AND $table.id=ANY(SELECT
+				eidmid.mark_id FROM eidmid JOIN assessment ON
+				assessment.id=eidmid.assessment_id));");
+
 		$c=0;
 	   	}
 	elseif($umntype=='p'){

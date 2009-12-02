@@ -22,7 +22,7 @@ three_buttonmenu();
 	  <div class="left">
 	  <table class="listmenu">
 		<tr>
-		  <th><?php print_string('sections',$book);?></th>
+		  <th><?php print_string('section',$book);?></th>
 		</tr>
 <?php
 	$sections=list_sections();

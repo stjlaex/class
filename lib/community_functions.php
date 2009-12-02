@@ -331,16 +331,21 @@ function countin_community($community,$enddate='',$startdate='',$static=false){
 		if($enddate==''){$enddate=$todate;}
 		if($startdate==''){$startdate=$enddate;}
 		$d_student=mysql_query("SELECT COUNT(student_id) FROM comidsid
-							  WHERE community_id='$comid' AND
-				(comidsid.leavingdate>'$enddate' OR 
+				 WHERE community_id='$comid' AND (comidsid.leavingdate>'$enddate' OR 
 				comidsid.leavingdate='0000-00-00' OR comidsid.leavingdate IS NULL) 
 				AND (comidsid.joiningdate<='$startdate' OR 
-				comidsid.joiningdate='0000-00-00' OR comidsid.joiningdate IS NULL)");
+				comidsid.joiningdate='0000-00-00' OR comidsid.joiningdate IS NULL);");
 		$nosids=mysql_result($d_student,0);
 		}
 	return $nosids;
 	}
 
+
+/**
+ *
+ * Another count function but this time returning a number for one gender.
+ *
+ */
 function countin_community_gender($community,$gender='M',$enddate='',$startdate=''){
 	$todate=date('Y-m-d');
 	if($enddate==''){$enddate=$todate;}
@@ -360,7 +365,11 @@ function countin_community_gender($community,$gender='M',$enddate='',$startdate=
 
 
 
-/* Returns all communities to which a student is currently enrolled*/
+/**
+ *
+ * Returns all communities to which a student is currently enrolled
+ *
+ */
 function list_member_communities($sid,$community){
 	$todate=date("Y-m-d");
 	$type=$community['type'];
@@ -406,10 +415,15 @@ function list_member_communities($sid,$community){
 	return $communities;
 	}
 
-/* Add a sid to a community, type must be set, if name is blank then */
-/* you are actually leaving any communities of that type. Will also */
-/* leave any communitites which conflict with the one being joined. Always */
-/* returns an array of oldcommunities left*/
+
+/**
+ *
+ * Add a sid to a community, type must be set, if name is blank then
+ * you are actually leaving any communities of that type. Will also
+ * leave any communitites which conflict with the one being joined. Always
+ * returns an array of oldcommunities left.
+ *
+ */
 function join_community($sid,$community){
 	$todate=date('Y-m-d');
 	$type=$community['type'];
@@ -523,9 +537,14 @@ function join_community($sid,$community){
 	return $leftcommunities;
 	}
 
-/* Mark a sid as having left a commmunity*/
-/* Does not delete the record only sets leavingdate to today*/
-/* Should only really be called to do the work from within join_community*/
+
+/**
+ *
+ * Mark a sid as having left a commmunity
+ * Does not delete the record only sets leavingdate to today
+ * Should only really be called to do the work from within join_community
+ *
+ */
 function leave_community($sid,$community){
 	$todate=date('Y-m-d');
 	$type=$community['type'];

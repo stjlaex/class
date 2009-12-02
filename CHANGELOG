@@ -1,3 +1,17 @@
+Version ClaSS-0.9.11 release (2009/12/04)
+-----------------------------------------
+
+Made the enquired enrolment status a permanently fixed value in the
+application table (and its not counted in the application total).
+
+Removed the spell checker library (it was superceded long ago by
+Firefox's in-built spell checker.)
+
+The column filter for reports now grabs all linked assessments.
+
+
+
+
 Version ClaSS-0.9.10 release (2009/11/30)
 -----------------------------------------
 
@@ -22,7 +36,7 @@ New option under Report for merits, similar to that for comments.
 
 Printing merit certificates.
 
-The new_report script new filters assessments for the year of the
+The new_report script now filters assessments for the year of the
 report (and doesn't miss out reports linked to profiles). It also now
 allows a report to be linked to an assessment profile with an entry in
 the ridcatid db table with subject_id=profile.
@@ -43,6 +57,7 @@ The InfoBook message and label buttons now allow for selection of
 students by school section or a choice of yeargroups.
 
 Opened up enrolments to anyone with section admin perms.
+
 
 
 Version ClaSS-0.9.9 release (2009/11/16)

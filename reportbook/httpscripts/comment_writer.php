@@ -136,13 +136,11 @@ else{
 <meta name="licence" content="GNU General Public License version 2" />
 <link rel="stylesheet" type="text/css" href="../../css/bookstyle.css" />
 <link rel="stylesheet" type="text/css" href="../../css/commentwriter.css" />
-<script src="../../lib/spell_checker/cpaint/cpaint2.inc.js" type="text/javascript"></script>
-<script src="../../lib/spell_checker/js/spell_checker.js" type="text/javascript"></script>
 <script src="../../js/bookfunctions.js" type="text/javascript"></script>
 <script src="../../js/qtip.js" type="text/javascript"></script>
 <script src="../../js/statementbank.js" type="text/javascript"></script>
 </head>
-<body onload="setupSpellCheckers(); loadRequired();">
+<body onload="loadRequired();">
 
 	<div id="bookbox">
 	  <?php three_buttonmenu(); ?>
@@ -168,9 +166,8 @@ else{
 			<label style="float:right;background-color:#ffe;font-weight:600;padding:2px,6px;">
 			<?php print $commentlabel;?>
 			</label>
-			<textarea title="spellcheck" id="Comment<?php print $c;?>"
+			<textarea id="Comment<?php print $c;?>"
 			  style="height:<?php print $commentheight-20;?>px;"  
-			  accesskey="../../lib/spell_checker/spell_checker.php" 
 			  <?php print $commentlength;?> tabindex="0"  
 			  name="incom<?php print $c;?>" ><?php if(isset($texts[$c])){print $texts[$c];};?></textarea>
 
