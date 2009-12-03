@@ -156,7 +156,7 @@ two_buttonmenu($extrabuttons,$book);
 		<?php print $house;?>
 		  </td>
 		  <td class="student">
-			<a href="infobook.php?current=merits_list.php&sid=<?php
+			<a href="infobook.php?current=student_view.php&sid=<?php
 			  print $sid;?>&sids[]=<?php print $sid;?>"  target="viewinfobook"
 			  onclick="parent.viewBook('infobook');"> 
 			  <?php print $Student['DisplayFullSurname']['value'] .' ('.$Student['RegistrationGroup']['value'].')'; ?>

@@ -118,7 +118,7 @@ three_buttonmenu();
 
 
 	  <fieldset class="left">
-		<legend><?php print get_string('assessmentprofile',$book).' '.get_string('link',$book);?></legend>
+		<legend><?php print_string('assessmentprofile',$book);?></legend>
 <?php 
 		$listname='profid';
 		$onchange='no';

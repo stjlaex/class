@@ -38,7 +38,7 @@ if($current!='student_list.php' and $sid!=''){
 ?>
   </div>
 <?php
-  //unset($yid);
 include('infobook/search.php');
+
 include('scripts/end_options.php');
 ?>

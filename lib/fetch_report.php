@@ -63,6 +63,7 @@ function fetchSubjectReports($sid,$reportdefs){
 			 */
 			if(isset($reportdef['report']['profile_name']) 
 			   and $reportdef['report']['profile_name']!='' and $reportdef['report']['profile_name']!=' '){
+				$curryear=$reportdef['report']['year'];
 				$profile_name=$reportdef['report']['profile_name'];
 				$profile_crid=$reportdef['report']['course_id'];
 				$profile_enddate=$reportdef['report']['date'];
@@ -71,7 +72,8 @@ function fetchSubjectReports($sid,$reportdefs){
 				 * should be fixed at the publication data). 
 				 */
 				$d_a=mysql_query("SELECT id FROM assessment WHERE course_id='$profile_crid' AND
-					   profile_name='$profile_name' AND resultstatus='R' AND deadline<='$profile_enddate';");
+					   profile_name='$profile_name' AND resultstatus='R' AND deadline<='$profile_enddate' 
+						AND year='$curryear';");
 
 				$profile_asseids=array();
 				while($a=mysql_fetch_array($d_a,MYSQL_ASSOC)){

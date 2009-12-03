@@ -95,6 +95,7 @@ if($_SESSION['role']=='office' or $_SESSION['role']=='admin' or $_SESSION['role'
 				<?php print_string('reset');?>
 			</button>
 	  </fieldset>
+
 <?php
 		}
 	  else{
@@ -155,6 +156,17 @@ if($_SESSION['role']=='office' or $_SESSION['role']=='admin' or $_SESSION['role'
 		list_select_enum('nationality',$listoptions,$book);
 ?>
 		</div>
+	<div>
+	<fieldset class="infobook">
+	  <form id="groupchoice" name="groupchoice"  method="post" 
+		action="infobook.php" target="viewinfobook">
+			<button type="submit" name="submit">
+				<?php print_string('groups');?>
+			</button>
+		<input type="hidden" name="current" value="group_search.php"/>
+	  </form>
+   	</fieldset>
+	</div>
 
   </div>
 

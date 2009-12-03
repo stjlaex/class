@@ -4,15 +4,8 @@
  *
  */
 
-$action=$choice;
-$action_post_vars=array('groupsearch');
-/* Lets the choice page know these sids came from group search. */
-$groupsearch='yes';
-
 if(isset($_POST['secids'])){$secids=(array)$_POST['secids'];}
 if(isset($_POST['yids'])){$yids=(array)$_POST['yids'];}else{$yids=array();}
-
-include('scripts/sub_action.php');
 
 if(isset($secids)){
 	$yids=array();
@@ -38,6 +31,4 @@ while(list($index,$student)=each($students)){
 
 $_SESSION['infosids']=$sids;
 $_SESSION['infosearchgids']=array();
-include('scripts/redirect.php');	
-
 ?>

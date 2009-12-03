@@ -144,10 +144,12 @@ if($community['type']!='class'){
 <?php
 	/* This events array will determine which events are displayed */
 	$events=array();
+	$tallys=array();
 	while(list($index,$Event)=each($AttendanceEvents['Event'])){
 		/* Chekcing that only periods relevant to the current section are included. */
 		if($Event['Period']['value']=='0' or array_key_exists($Event['Period']['value'],$classperiods)){
 			$events[]=$Event['id_db'];
+			$tallys[$Event['id_db']]=0;
 			$eventsessions[]=$Event['Session']['value'];
 ?>
 		  <th id="event-<?php print $Event['id_db'];?>" 
@@ -202,8 +204,8 @@ if($nodays==1 or $_SESSION['role']=='office' or $_SESSION['role']=='admin'){
 ?>
 		<tr id="sid-<?php print $sid;?>">
 		  <td>
-			<?php print $rown++;?>
 			<input type="checkbox" name="sids[]" value="<?php print $sid; ?>" />
+			<?php print $rown++;?>
 		  </td>
 		  <td>
 <?php
@@ -243,9 +245,8 @@ if($nodays==1 or $_SESSION['role']=='office' or $_SESSION['role']=='admin'){
 			<div id="merit-<?php print $sid;?>"></div>
 		  </td>
 <?php
-		reset($events);
 		$attodds=array('AM'=>'forstroke','PM'=>'backstroke');
-		while(list($index,$eveid)=each($events)){
+		foreach($events as $index=>$eveid){
 ?>
 			<td id="cell-<?php print $eveid.'-'.$sid;?>"  
 <?php
@@ -269,8 +270,10 @@ if($nodays==1 or $_SESSION['role']=='office' or $_SESSION['role']=='admin'){
 					$cell='title="" ><span title="'.$attcode .': '. $des
 							.'<br />'.date('H:i',$atttime).' '.$attcomm.'" >';
 					$cell.=' &nbsp '.$attcode.'</span>';
+					if($attcode=='U' or $attcode=='L' or $attcode=='UB' or $attcode=='UA'){$tallys[$eveid]++;}
 					}
 				else{
+					$tallys[$eveid]++;
 					$cell='><img src="images/'.$attodds[$eventsessions[$index]].'.png" />';
 					}
 				}
@@ -309,6 +312,17 @@ if($nodays==1 or $_SESSION['role']=='office' or $_SESSION['role']=='admin'){
    		   }
 		}
 ?>
+		</tr>
+		<tr>
+	<th colspan="3"><?php print get_string('inschool',$book);?></th>
+<?php
+		foreach($events as $index=>$eveid){
+?>
+		  <th>&nbsp;<?php print $tallys[$eveid];?></th>
+<?php
+			}
+?>
+		  <th class="edit"></th>
 		</tr>
 		</table>
 

@@ -55,10 +55,15 @@ if($_SESSION['role']=='office' or $_SESSION['role']=='admin'){
 	$extrabuttons['message']=array('name'=>'current',
 								   'title'=>'message',
 								   'value'=>'message.php');
+	/*
    	$extrabuttons['addresslabels']=array('name'=>'current',
 										 'title'=>'printaddresslabels',
 										 'onclick'=>'checksidsAction(this)',
 										 'value'=>'contact_labels_print.php');
+	*/
+   	$extrabuttons['addresslabels']=array('name'=>'current',
+										 'title'=>'printaddresslabels',
+										 'value'=>'print_labels.php');
    	$extrabuttons['exportstudentrecords']=array('name'=>'current',
 												'title'=>'exportstudentrecords',
 												'value'=>'export_students.php');

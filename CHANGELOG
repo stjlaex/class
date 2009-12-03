@@ -9,7 +9,12 @@ Firefox's in-built spell checker.)
 
 The column filter for reports now grabs all linked assessments.
 
+The register list now has tallies for students in school.
 
+The list_class script now filters out any unassigned (and therefore
+unused) classes from the MarkBook side options.
+
+New address label printing implemented.
 
 
 Version ClaSS-0.9.10 release (2009/11/30)

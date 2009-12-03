@@ -1,13 +1,15 @@
 <?php 
-/**												scripts/list_class.php	
- * lists a teacher's classes
+/**												scripts/list_class.php
+ *	
+ * Lists a teacher's classes
+ * Only used by the side options in MarkBook
  */
 	if(!isset($r)){$r=-1;}
 	if($r>-1){
 		$rbid=$respons[$r]['subject_id'];
 		$rcrid=$respons[$r]['course_id'];
-		$d_cids=mysql_query("SELECT id FROM class WHERE
-				subject_id LIKE '$rbid' AND course_id LIKE '$rcrid' ORDER BY id");
+		$d_cids=mysql_query("SELECT DISTINCT id FROM class JOIN tidcid ON tidcid.class_id=class.id WHERE
+				subject_id LIKE '$rbid' AND course_id LIKE '$rcrid' ORDER BY id;");
 		}
 	else{$d_cids=mysql_query("SELECT class_id  FROM tidcid 
 				WHERE teacher_id='$tid' ORDER BY class_id");

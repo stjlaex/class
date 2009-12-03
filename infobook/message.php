@@ -7,7 +7,10 @@ $action='message_action.php';
 $choice='message.php';
 
 /* Normally handled by the host page but this has to work differently depending on the sequence. */
-if((isset($_POST['groupsearch']) and $_POST['groupsearch']=='yes') or isset($_POST['messageto'])  or isset($_POST['messageop'])){
+if(isset($_POST['groupsearch']) and $_POST['groupsearch']=='yes'){
+	include('group_search_action.php');
+	}
+elseif(isset($_POST['messageto'])  or isset($_POST['messageop'])){
 	$sids=(array)$_SESSION['infosids'];
 	}
 elseif(isset($_POST['sids'])){
@@ -26,7 +29,6 @@ $_SESSION[$book.'recipients']=array();
 include('scripts/sub_action.php');
 
 if(sizeof($sids)==0){
-	/* Redirect to select sids by group. */
 	if(isset($_POST['groupsearch']) and $_POST['groupsearch']=='yes'){
 		$result[]='Please choose a group of students.';
 		include('scripts/results.php');
@@ -35,17 +37,15 @@ if(sizeof($sids)==0){
 	include('scripts/redirect.php');
 	exit;
 	}
-else{
-
-	$from_user=get_user($tid);
-
-	$recipients=array();
-	$email_blank_sids=array();
-	$email_blank_gids=array();
 
 
+$from_user=get_user($tid);
+$recipients=array();
+$email_blank_sids=array();
+$email_blank_gids=array();
 
-	if($messageto=='student'){
+
+if($messageto=='student'){
 
 		while(list($index,$sid)=each($sids)){
 			$Student=fetchStudent_short($sid);		
@@ -301,7 +301,3 @@ three_buttonmenu();
 
 	</div>
   </div>
-
-<?php
-	}
-?>

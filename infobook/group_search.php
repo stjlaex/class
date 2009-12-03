@@ -1,19 +1,41 @@
 <?php 
 /**										group_search.php
  *
+ * Using the value of $choice to direct the group_search results back
+ * to where this was called from.
  *
  */
 
-$action='group_search_action.php';
+//$action='group_search_action.php';
 
-three_buttonmenu();
+$extrabuttons=array();
+$extrabuttons['message']=array('name'=>'current',
+							   'title'=>'message',
+							   'value'=>'message.php');
+$extrabuttons['addresslabels']=array('name'=>'current',
+									 'title'=>'printaddresslabels',
+									 'value'=>'print_labels.php');
+$extrabuttons['exportstudentrecords']=array('name'=>'current',
+											'title'=>'exportstudentrecords',
+											'value'=>'export_students.php');
+two_buttonmenu($extrabuttons,$book);
 ?>
 
-  <div id="heading">
-	<label><?php print_string('search',$book);?></label>
-  </div>
-
   <div id="viewcontent" class="content">
+
+<?php
+	if($choice=='message.php' or $choice=='print_labels.php' ){
+?>
+<div class="divgroup center">
+  <div class="center">
+<p>		<?php print_string('youneedtoselectstudents');?></p>
+
+<p>		<?php print_string('orselectfromthegroups');?></p>
+  </div>
+</div>
+<?php
+		}
+?>
 
 	<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
 

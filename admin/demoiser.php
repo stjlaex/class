@@ -71,7 +71,7 @@ function generate_random_name($gender){
 	while(list($index, $row)=each($trows)){
 		$id=$row['id'];
 		mysql_query("UPDATE $table SET detail='A specific piece of
-			background information.', entrydate='2000-01-01' WHERE id='$id'");
+			background information.', entrydate='2000-01-01', teacher_id='' WHERE id='$id'");
 		}
 
 	$table='comments';
@@ -80,7 +80,7 @@ function generate_random_name($gender){
 	while(list($index, $row)=each($trows)){
 		$id=$row['id'];
 		mysql_query("UPDATE $table SET detail='A general comment
-			about positive or negative progress.' WHERE id='$id'");
+			about positive or negative progress.', teacher_id='' WHERE id='$id'");
 		}
 
 	$table='exclusions';
@@ -247,7 +247,7 @@ function generate_random_name($gender){
 	mysql_query("UPDATE $table SET comment='A constructive comment from a subject teacher.'");
 
 	$table='score';
-	mysql_query("UPDATE $table SET comment=''");
+	mysql_query("UPDATE $table SET comment='';");
 
 	$table='form';
 	$trows=tableRead($table,'yeargroup_id');
@@ -298,6 +298,11 @@ function generate_random_name($gender){
 				}
 			}
 		}
+
+$d_class=mysql_query("TRUNCATE TABLE message_event;");
+$d_class=mysql_query("TRUNCATE TABLE message_event_seq;");
+$d_class=mysql_query("TRUNCATE TABLE report_event;");
+
 $result[]='You\'ve been demoised!';
 include('scripts/results.php');
 ?>
