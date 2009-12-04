@@ -266,9 +266,6 @@ button {
     background-color:#5599cc;
     color:#ffffff;
 	}
-.bookoptions input { 
-    width:98%;
-	}
 .bookoptions input[type="radio"] {
 	width:1em;
 	}

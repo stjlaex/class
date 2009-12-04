@@ -56,18 +56,20 @@ while(list($sindex,$sid)=each($sids)){
 						$Recipient['DisplayFullName']=$Contact['DisplayFullName'];
 						$Recipient['explanation']=$Student['DisplayFullName'];
 						$Recipients['Recipient'][]=$Recipient;
+						$sid_recipient_no++;
 						}
-					elseif($messageto=='student'){
+					elseif($messageto=='student' and !isset($recipient_index[$sid])){
+						$recipient_index[$sid]=$sid;
 						$Recipient['DisplayFullName']=$Student['DisplayFullName'];
-						//$Recipient['explanation']=$Student['DisplayFullName'];
 						$Recipients['Recipient'][]=$Recipient;
+						$sid_recipient_no++;
 						}
 					elseif($messageto=='family' and !isset($recipient_index[$Contact['id_db']])){
 						$recipient_index[$Contact['id_db']]=$Contact['id_db'];
 						$Recipient['DisplayFullName']=$Contact['DisplayFullName'];
 						$Recipients['Recipient'][]=$Recipient;
+						$sid_recipient_no++;
 						}
-					$sid_recipient_no++;
 					}
 				else{
 					$blank_gids[]=$Contact['id_db'];

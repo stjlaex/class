@@ -6,11 +6,12 @@
 $action='search_action.php'
 ?>	
   <div style="visibility:hidden;" id="hiddenbookoptions" class="bookoptions">	
-	<form id="infobookchoice" name="infobookchoice" method="post"
-		action="infobook.php" target="viewinfobook">
+
 
 	<fieldset class="infobook">
 		<legend><?php print_string('studentgroups');?></legend>
+		<form id="infobookchoice" name="infobookchoice" method="post"
+			action="infobook.php" target="viewinfobook">
 <?php
 	$onsidechange='yes'; include('scripts/list_year.php');
 	$onsidechange='yes'; include('scripts/list_form.php');
@@ -26,18 +27,38 @@ if($_SESSION['role']=='office' or $_SESSION['role']=='admin' or $_SESSION['role'
 		include('scripts/list_community.php');
 		}
 ?>
+		<input type="hidden" name="current" value="<?php print $action;?>"/>
+		</form>
+
+<?php
+	   if($_SESSION['role']=='office' or $_SESSION['role']=='admin'){
+?>
+		<div>
+		  <form id="groupchoice" name="groupchoice"  method="post" 
+			action="infobook.php" target="viewinfobook">
+			<button type="submit" name="submit">
+			<?php print get_string('custom',$book).' '.get_string('groups');?>
+			</button>
+			<input type="hidden" name="current" value="group_search.php"/>
+		</form>
+		</div>
+<?php
+		}
+?>
+
 	</fieldset>
 
-	  <input type="hidden" name="current" value="<?php print $action;?>"/>
-	</form>
+	<div style="margin-top:20px;">
+	</div>
 
-	<form id="quicksearch" name="quicksearch" method="post"
-		action="infobook.php" target="viewinfobook">
+   	<form id="quicksearch" name="quicksearch" method="post"
+				action="infobook.php" target="viewinfobook">
 <?php
 	   if($_SESSION['role']=='office' or $_SESSION['role']=='admin'){
 ?>
 	  <fieldset class="infobook">
 		<legend><?php print_string('contactsearch',$book);?></legend>
+
 		<select class="switcher" type="text" id="contact" 
 		  onChange="selerySwitch('contact',this.value)"  
 		  tabindex="<?php print $tab++;?>" name="gfield" size="1">
@@ -66,7 +87,6 @@ if($_SESSION['role']=='office' or $_SESSION['role']=='admin' or $_SESSION['role'
 
 		<div id="switchcontact">
 		</div>
-
 	  </fieldset>
 
 	  <fieldset class="infobook">
@@ -95,7 +115,6 @@ if($_SESSION['role']=='office' or $_SESSION['role']=='admin' or $_SESSION['role'
 				<?php print_string('reset');?>
 			</button>
 	  </fieldset>
-
 <?php
 		}
 	  else{
@@ -119,11 +138,10 @@ if($_SESSION['role']=='office' or $_SESSION['role']=='admin' or $_SESSION['role'
 <?php
 		}
 ?>
-
 	  <input type="hidden" name="current" value="<?php print $action;?>"/>
-	</form>
+   	</form>
 
-		<div id="switchcontactsurname" class="hidden">
+   	<div id="switchcontactsurname" class="hidden">
 		  <input tabindex="<?php print $tab++;?>" 
 			type="text" id="Contactsurname" name="contactsurname" value="" maxlength="30"/>
 		</div>
@@ -156,18 +174,6 @@ if($_SESSION['role']=='office' or $_SESSION['role']=='admin' or $_SESSION['role'
 		list_select_enum('nationality',$listoptions,$book);
 ?>
 		</div>
-	<div>
-	<fieldset class="infobook">
-	  <form id="groupchoice" name="groupchoice"  method="post" 
-		action="infobook.php" target="viewinfobook">
-			<button type="submit" name="submit">
-				<?php print_string('groups');?>
-			</button>
-		<input type="hidden" name="current" value="group_search.php"/>
-	  </form>
-   	</fieldset>
-	</div>
-
   </div>
 
 

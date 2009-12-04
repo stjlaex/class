@@ -322,5 +322,6 @@ $string['<']='<';
 $string['>']='>';
 $string['house']='House';
 $string['merits']='Merits';
+$string['groups']='Groups';
 $string['']='';
 ?>
