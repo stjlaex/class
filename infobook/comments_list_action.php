@@ -20,6 +20,7 @@ include('scripts/sub_action.php');
 
 	if($bid=='%'){$bid='G';}
 	$category=$catid.':'.$ratvalue.';';
+	$yid=$Student['YearGroup']['value'];
 
 	if($id!=''){
 		mysql_query("UPDATE comments SET student_id='$sid',
@@ -60,7 +61,7 @@ include('scripts/sub_action.php');
 						$recipient['email']=strtolower($recipient['email']);
 						send_email_to($recipient['email'],$fromaddress,$subject,$message,'','',true,'','',$db);
 						$result[]=get_string('emailsentto').' '.$recipient['username'];
-						trigger_error('Email sent to: '.$recipient['username'],E_USER_WARNING);
+						//trigger_error('Email sent to: '.$recipient['username'],E_USER_WARNING);
 						$dones[$recipient['username']]=$recipient['username'];
 						}
 					}

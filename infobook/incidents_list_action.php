@@ -71,7 +71,7 @@ include('scripts/sub_action.php');
 			$fromaddress=$CFG->schoolname;
 
 			/*TODO: this is a hack to stop incidents to parents of primary children*/
-			if($Contacts and $CFG->emailoff!='yes' and $yid>6){
+			if($Contacts and $CFG->emailoff!='yes' and $CFG->emailguardianincidents=='yes' and $yid>6){
 				if(sizeof($Contacts)>0){
 					foreach($Contacts as $index => $Contact){
 						$emailaddress=strtolower($Contact['EmailAddress']['value']);

@@ -287,19 +287,20 @@ function getEnumArray($field_name){
 
 	/*for the orderbudget table*/
 	$currency=array('0' => 'euros', 
-					'1' => 'pounds', 
+					'1' => 'pounds' 
 					);
 	$credit=array('0' => 'debit', 
-				  '1' => 'credit', 
+				  '1' => 'credit' 
 				  );
 	$budgetyearcode=array('2007' => '07', 
 						  '2008' => '08', 
 						  '2009' => '09', 
 						  '2010' => '10', 
 						  '2011' => '11', 
+						  '2012' => '12' 
 						  );
 	$inactive=array('0' => 'no', 
-					'1' => 'yes', 
+					'1' => 'yes'
 					);
 
 
