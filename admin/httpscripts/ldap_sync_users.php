@@ -67,11 +67,11 @@ if($ds){
 			else{
 				$emailfirstpart=substr($row['email'],0,$atpos);
 				$atpos=strpos($emailfirstpart, '.');
-				if($atpos!=0) {
+				if($atpos!=0){
 					$emailfirstpartwop=substr($row['email'],0,$atpos);
 					$remainder=substr($emailfirstpart,$atpos+1);
 					$emailfirstpartwop=$emailfirstpartwop.$remainder;
-					} 
+					}
 				else{
 					$emailfirstpartwop=$emailfirstpart;
 					}

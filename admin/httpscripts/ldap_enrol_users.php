@@ -173,12 +173,18 @@ foreach($tpc as $tpcitem){
 					trigger_error('Could not delete entry: '.$coursedn, E_USER_WARNING);
 					}
 				}
-			$add_res=ldap_add($ds, $coursedn, $info);
-			if($add_res==false){
-				trigger_error('Unable to insert entry into LDAP DB: ' .$coursedn, E_USER_WARNING);
+
+            /* When this course has no teacher assigned
+             * do not insert it into ldap db
+             */
+            if(len(trim($info['memberUid'][0])>0)){
+                $add_res=ldap_add($ds, $coursedn, $info);
+                if($add_res==false){
+                    trigger_error('Unable to insert entry into LDAP DB: ' .$coursedn, E_USER_WARNING);
+					}
+                $entries++;
 				}
-			$entries++;
-			
+
 			/* initialize variables */
 			$nx=0;
 			/* create a new group (subject/course/stage)*/
@@ -202,7 +208,7 @@ foreach($tpc as $tpcitem){
 		}
 	$tpcx++;
 	}
-/* insert the latest group into ldap db*/
+/* insert the latest group into ldap db */
 if($there_is_a_group==true){
 	/* it's true, write the group */ 
 	
@@ -216,11 +222,17 @@ if($there_is_a_group==true){
 			trigger_error('Could not delete entry: '.$coursedn, E_USER_WARNING);
 			} 
 		}
-	$add_res=ldap_add($ds, $coursedn, $info);
-	if($add_res==false){
-		trigger_error('Unable to insert entry into LDAP DB: ' .$coursedn, E_USER_WARNING);
+
+    /* When this course has no teacher assigned
+     * do not insert it into ldap db
+     */
+    if(len(trim($info['memberUid'][0])>0)){
+        $add_res=ldap_add($ds, $coursedn, $info);
+        if($add_res==false){
+				trigger_error('Unable to insert entry into LDAP DB: ' .$coursedn, E_USER_WARNING);
+				}
+        $entries++;
 		}
-	$entries++;
 	}
 
 
@@ -269,7 +281,6 @@ foreach($courses as $course){
 						}
 					if(ldap_count_entries($ds, $sr) > 0){
 						/* OK, entry exists, go on with Student Enrolment*/
-						
 						/* format RDN */
 						$coursedn='cn='.$info['cn'].',ou=StdEnrol'.',ou='.$CFG->clientid.',dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
 						
@@ -312,17 +323,31 @@ foreach($courses as $course){
 								}
 							}
 
-						$add_res=ldap_add($ds, $coursedn, $info);						
-						if($add_res==false){
-							trigger_error('Unable to insert entry into LDAP DB: ' .$coursedn.' : ', E_USER_WARNING);
+                        /* When this course has no student assigned
+                         * do not insert into ldap db and
+                         * remove the same course from LDAP Teacher Assignment section
+                         */
+                        if(len(trim($info['memberUid'][0])>0)){
+                            $add_res=ldap_add($ds, $coursedn, $info);
+                            if($add_res==false){
+                                trigger_error('Unable to insert entry into LDAP DB: ' .$coursedn.' : ', E_USER_WARNING);
+								}
+                            $entries++;
 							}
-						$entries++;
+						else{
+                            /* remove the same course from LDAP Teacher Assignment section*/
+                            $coursedn='cn='.$info['cn'].',ou=TchEnrol'.',ou='.$CFG->clientid.',dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
+                            $del_res=ldap_delete($ds,$coursedn);
+                            if(!$del_res){
+                                trigger_error('Could not delete entry: '.$coursedn, E_USER_WARNING);
+								}
+							}
 						}
 					} 
 				} 
 			} 
 		} 
-	} 
+	}
 
 trigger_error(' * '.$entries.' entries have been processed', E_USER_WARNING);
 

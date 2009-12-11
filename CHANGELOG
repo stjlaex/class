@@ -1,3 +1,10 @@
+Version ClaSS-0.9.12 release (2009/12/11)
+-----------------------------------------
+
+Improvement to the ldap_enrol_users to work arond problems Moodle
+course enrolments.
+
+
 Version ClaSS-0.9.11 release (2009/12/04)
 -----------------------------------------
 
