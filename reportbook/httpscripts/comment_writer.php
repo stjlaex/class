@@ -21,8 +21,18 @@ $StatementBank=array();
 $reportdef=fetch_reportdefinition($rid);
 if($reportdef['report']['commentlength']=='0'){$commentlength='';}
 else{$commentlength=' maxlength="'.$reportdef['report']['commentlength'].'"';}
-$subcomments=(array)get_report_categories($rid,$bid,$pid,'sub');
-$subcomments_no=sizeof($subcomments);
+
+/* This allows a comment to be split into sub-sections and each gets
+ *  its own entry box. A special type of fixed sub-comment is not for
+ *  editing so is filtered out here.
+ */
+$subs=(array)get_report_categories($rid,$bid,$pid,'sub');
+$subcomments_no=0;
+$subcomments=array();
+foreach($subs as $sindex => $sub){
+	if($sub['subtype']=='pro'){$subcomments_fix=1;}
+	else{$subcomments_no++;$subcomments[]=$sub;}
+	}
 
 $Student=fetchStudent_short($sid);
 $Report['Comments']=fetchReportEntry($reportdef, $sid, $bid, $pid);
@@ -32,19 +42,6 @@ if(!isset($Report['Comments']['Comment'])  or sizeof($Report['Comments']['Commen
 	$Comment=array('Text'=>array('value'=>'','value_db'=>''),
 				   'Teacher'=>array('value'=>'ADD NEW ENTRY'));
 	$inmust='yes';
-
-	/* TODO: get rid of this!!!
-	 * This will fill out the blank comment with some preset text.
-	if($bid=='summary'){
-		$summaries=(array)$reportdef['summaries'];
-		while(list($index,$summary)=each($summaries)){
-			if($summary['subtype']==$pid){
-				$Comment['Text']['value']=$summary['comment'];
-				}
-			}
-		}
-	*/
-
 	}
 else{
 	/*Re-editing an existing comment.*/
@@ -65,48 +62,15 @@ else{
  * bank gets all of the achieved statements.
  * TODO: We only have one working profile!
  */
-if($reportdef['report']['profile_name']=='FS Steps'){
+if($reportdef['report']['profile_name']!='' and isset($subcomments_fix)){
 		$profile_name=$reportdef['report']['profile_name'];
-		/* This has to iterate over all strands, here called the profilepids,
-		 * for this component $pid. 
-		 */
-		$profilepids=(array)list_subject_components($pid,'FS');
-		$profilepids[]=array('id'=>$pid,'name'=>'');
-		while(list($pidindex,$component)=each($profilepids)){
-			$profilepid=$component['id'];
-			/* This cutoff grade is just a hack to work with the FS profile*/
-			/*TODO properly!*/
-			/*This ensures only Reception statements are used for Reception classes*/
-			if($Student['YearGroup']['value']=='-1'){$cutoff_grade=0;}
-			if($Student['YearGroup']['value']=='0'){$cutoff_grade=3;}
-			else{$cutoff_grade=-10;}
-			/* This fromdate is just a hack needs to check for previous report maybe?*/
-			$reportyear=$reportdef['report']['year']-1;
-			$fromdate=$reportyear.'-08-15';//Does the whole academic year
-			$d_eidsid=mysql_query("SELECT 
-				assessment.description, assessment.id FROM eidsid JOIN assessment ON
-				assessment.id=eidsid.assessment_id WHERE
-				eidsid.student_id='$sid' AND eidsid.subject_id='$bid'
-				AND eidsid.component_id='$profilepid' AND
-				assessment.profile_name='$profile_name' AND
-				eidsid.date > '$fromdate' AND eidsid.value > '$cutoff_grade';");
-			$stats=array();
-			while($eidsid=mysql_fetch_array($d_eidsid,MYSQL_ASSOC)){
-				$topic=$eidsid['description'];
-				$d_mark=mysql_query("SELECT comment
-					FROM mark JOIN eidmid ON mark.id=eidmid.mark_id WHERE
-					mark.component_id='$profilepid' AND
-					mark.def_name='$profile_name' AND topic='$topic';");
-				$statement=array('statement_text'=>mysql_result($d_mark,0),
-								 'counter'=>0,
-								 'author'=>'ClaSS',
-								 'rating_fraction'=>1);
-				$Statements[]=fetchStatement($statement,1);
-				}
-			}
-		$StatementBank['Area'][$profilepid]['Statements']=$Statements;
-		$StatementBank['Area'][$profilepid]['Name']='FS Profile: '.$profilepid;
-		$StatementBank['Area'][$profilepid]['Levels']=array();
+		/* This fromdate is just a hack needs to check for previous report maybe?*/
+		$reportyear=$reportdef['report']['year']-1;
+		$fromdate=$reportyear.'-08-15';//Does the whole academic year
+		$Statements=(array)fetchProfileStatements($profile_name,$bid,$pid,$sid,$fromdate);
+		$StatementBank['Area'][$pid]['Statements']=$Statements;
+		$StatementBank['Area'][$pid]['Name']='FS Profile: '.$pid;
+		$StatementBank['Area'][$pid]['Levels']=array();
 		}
 
 /* Now if the connection to the statementbank db is turned on then

@@ -750,8 +750,16 @@ function fetchReportEntry($reportdef,$sid,$bid,$pid){
    	$d_reportentry=mysql_query("SELECT * FROM reportentry WHERE
 		  report_id='$rid' AND student_id='$sid' AND subject_id='$bid'
 		  AND component_id='$pid' ORDER BY entryn;");
-	$subcomments=(array)get_report_categories($rid,$bid,$pid,'sub');
-	$subcomments_no=sizeof($subcomments);
+	/* A special type of fixed sub-comment is not for editing so is
+	 * filtered out here.
+	 */
+	$subs=(array)get_report_categories($rid,$bid,$pid,'sub');
+	$subcomments_no=0;
+	$subcomments=array();
+	foreach($subs as $sindex => $sub){
+		if($sub['subtype']=='pro'){$subcomments_fix=1;}
+		else{$subcomments_no++;$subcomments[]=$sub;}
+		}
 
 	while($entry=mysql_fetch_array($d_reportentry)){
 
@@ -776,13 +784,26 @@ function fetchReportEntry($reportdef,$sid,$bid,$pid){
 
 			   }
 		   //  elseif($reportdef['report']['date']<'2009-08-11'){
-					  elseif($reportdef['report']['date']<'2009-04-01'){
+		   elseif($reportdef['report']['date']<'2009-04-01'){
 			   /* For backward compatibility with old xslt templates. */
 			   $comment_html=$entry['comment'];
 			   }
 		   else{
 			   $comment_html['div'][]=$entry['comment'];
 			   }
+
+		   if(isset($subcomments_fix)){
+			   $reportyear=$reportdef['report']['year']-1;
+			   $fromdate=$reportyear.'-08-15';//Does the whole academic year
+			   $Statements=(array)fetchProfileStatements($reportdef['report']['profile_name'],$bid,$pid,$sid,$fromdate);
+			   $comment_div=array();	
+			   for($c=0;$c<sizeof($Statements);$c++){
+				   $comment_list['li'][]=''.$Statements[$c]['Value'];
+				   }
+			   $comment_div['ul'][]=$comment_list;
+			   $comment_html['div'][]=$comment_div;
+			   }
+
 
 		   $Comment['Teacher']=nullCorrect(array('id_db'=>''.$enttid, 
 												 'value'=>''.$teachername));
@@ -828,4 +849,65 @@ function fetchReportEntry($reportdef,$sid,$bid,$pid){
 
 	return $Comments;
 	}
+
+
+/**
+ *
+ *
+ */
+function fetchProfileStatements($profile_name,$bid,$pid,$sid,$fromdate){
+	$Student=fetchStudent_short($sid);
+	$Statements=array();
+	/* This has to iterate over all strands, here called the profilepids,
+	 * for this component $pid. 
+	 */
+	$profilepids=(array)list_subject_components($pid,'FS');
+	$profilepids[]=array('id'=>$pid,'name'=>'');
+
+		while(list($pidindex,$component)=each($profilepids)){
+			$profilepid=$component['id'];
+			/* This cutoff grade is just a hack to work with the FS profile*/
+			/*TODO properly!*/
+			/*This ensures only Reception statements are used for Reception classes*/
+			if($Student['YearGroup']['value']=='-1'){$cutoff_grade=0;}
+			if($Student['YearGroup']['value']=='0'){$cutoff_grade=3;}
+			else{$cutoff_grade=-10;}
+			$d_eidsid=mysql_query("SELECT 
+				assessment.description, assessment.id FROM eidsid JOIN assessment ON
+				assessment.id=eidsid.assessment_id WHERE
+				eidsid.student_id='$sid' AND eidsid.subject_id='$bid'
+				AND eidsid.component_id='$profilepid' AND
+				assessment.profile_name='$profile_name' AND
+				eidsid.date > '$fromdate' AND eidsid.value > '$cutoff_grade';");
+			$stats=array();
+			while($eidsid=mysql_fetch_array($d_eidsid,MYSQL_ASSOC)){
+				$topic=$eidsid['description'];
+				$d_mark=mysql_query("SELECT comment
+					FROM mark JOIN eidmid ON mark.id=eidmid.mark_id WHERE
+					mark.component_id='$profilepid' AND
+					mark.def_name='$profile_name' AND topic='$topic';");
+				$statement=array('statement_text'=>mysql_result($d_mark,0),
+								 'counter'=>0,
+								 'author'=>'ClaSS',
+								 'rating_fraction'=>1);
+				$Statements[]=fetchStatement($statement,1);
+				}
+			}
+
+		return $Statements;
+	}
+
+/**
+ * 
+ *
+ */
+function fetchStatement($statement,$nolevels){
+	$Statement=array();
+	$Statement['Value']=$statement['statement_text'];
+	$Statement['Counter']=$statement['counter'];
+	$Statement['Author']=$statement['author'];
+	$Statement['Ability']=$statement['rating_fraction']*$nolevels;
+	return $Statement;
+	}
+
 ?>

@@ -1,8 +1,15 @@
-Version ClaSS-0.9.12 release (2009/12/11)
+Version ClaSS-0.9.12 release (2009/12/15)
 -----------------------------------------
 
 Improvement to the ldap_enrol_users to work arond problems Moodle
 course enrolments.
+
+Both the comment writer and fetchReportEntry now call upon a new
+fetchProfileStatements function. These are for a special class of
+sub-comment defined in catdef (type=sub,subtype=pro) which is
+populated with fixed statements from a linked assessment profile.
+
+Refactored the teacher enrolment in ldap_enrol_users.
 
 
 Version ClaSS-0.9.11 release (2009/12/04)

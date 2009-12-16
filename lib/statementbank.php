@@ -68,14 +68,6 @@ function fetchStatementBank($crid,$bid,$pid,$stage,$dbstat=''){
 	return $StatementBank;
 	}
 
-function fetchStatement($statement,$nolevels){
-	$Statement=array();
-	$Statement['Value']=$statement['statement_text'];
-	$Statement['Counter']=$statement['counter'];
-	$Statement['Author']=$statement['author'];
-	$Statement['Ability']=$statement['rating_fraction']*$nolevels;
-	return $Statement;
-	}
 
 function add_statement($new,$dbstat=''){
 	/*currently the bid can not be set to a wildcard and perhaps it*/
