@@ -820,7 +820,9 @@ function getEnumArray($field_name){
 						'SecondContactPhone'=>'secondcontactphone',
 						'SecondContactEmailAddress'=>'secondcontactemailaddress',
 						'FirstContactProfession'=>'firstcontactprofession',
-						'SecondContactProfession'=>'secondcontactprofession'
+						'SecondContactProfession'=>'secondcontactprofession',
+                        'FirstContactEPFUsername'=>'firstcontactepfu',
+                        'SecondContactEPFUsername'=>'secondcontactepfu'
 						);
 	/*for the register*/
 	$absencecode=array(

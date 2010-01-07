@@ -139,6 +139,12 @@ function fetchStudent_singlefield($sid,$tag){
 			$Student[$tag]=array('label'=>'',
 								 'value'=>$Contacts[$contactno]['EmailAddress']['value']);
 			}
+		elseif(substr_count($tag,'EPFUsername')){
+			/*NOT a part of the xml def for Student but useful here*/
+			$Contacts=(array)fetchContacts($sid);
+			$Student[$tag]=array('label'=>'',
+								 'value'=>$Contacts[$contactno]['EPFUsername']['value']);
+			}
 		elseif(substr_count($tag,'Profession')){
 			/*NOT a part of the xml def for Student but useful here*/
 			$Contacts=(array)fetchContacts($sid);

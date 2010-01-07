@@ -671,7 +671,7 @@ function generate_epfusername($User=array(),$role='student'){
 	if($role=='student'){
 		/* Only use the first part of the forename. */
 		$forename=(array)split(' ',$User['Forename']['value']);
-		//$start=iconv('UTF-8', 'ASCII//TRANSLIT', $forename[0]);
+		$start=iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $forename[0]);
 		$start=utf8_to_ascii($forename[0]);
 		$classtable='info';
 		$classfield='student_id';
@@ -684,9 +684,9 @@ function generate_epfusername($User=array(),$role='student'){
 		$surname=$User['Surname']['value'];
 		$surname=iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $surname);
 		$surname=utf8_to_ascii($surname);
-		$surname=str_replace(' ','',$User['Surname']['value']);
-		$surname=str_replace("'",'',$User['Surname']['value']);
-		$surname=str_replace('-','',$User['Surname']['value']);
+		$surname=str_replace(' ','',$surname);
+		$surname=str_replace("'",'',$surname);
+		$surname=str_replace('-','',$surname);
 		$start=substr($surname,0,6);
 		$classtable='guardian';
 		$classfield='id';
