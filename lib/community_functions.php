@@ -681,8 +681,9 @@ function generate_epfusername($User=array(),$role='student'){
 		}
 	elseif($role=='guardian'){
 		/* Only use the first part of the surname. */
-		//$surname=iconv('UTF-8', 'ASCII//TRANSLIT', $surname);
-		$surname=utf8_to_ascii($User['Surname']['value']);
+		$surname=$User['Surname']['value'];
+		$surname=iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $surname);
+		$surname=utf8_to_ascii($surname);
 		$surname=str_replace(' ','',$User['Surname']['value']);
 		$surname=str_replace("'",'',$User['Surname']['value']);
 		$surname=str_replace('-','',$User['Surname']['value']);

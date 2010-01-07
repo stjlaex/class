@@ -58,7 +58,10 @@ if($ds){
 		foreach($users as $uid => $row) {
 			$info=array();
 			$Newuser=(array)fetchUser($row);
-			$epfusername=generate_epfusername($Newuser,$type='staff');
+			$epfusername=$Newuser['EPFUsername']['value'];
+			if($epfusername=='' or $epfusername==' '){
+				  $epfusername=generate_epfusername($Newuser,$type='staff');
+				}
 			/*The cn for a user takes the first part of their email address (removing any dots).*/
 			$atpos=strpos($row['email'], '@');
 			if($row['email']=='' or $row['email']==' ' or $atpos==false or $atpos==0){
@@ -67,11 +70,11 @@ if($ds){
 			else{
 				$emailfirstpart=substr($row['email'],0,$atpos);
 				$atpos=strpos($emailfirstpart, '.');
-				if($atpos!=0){
+				if($atpos!=0) {
 					$emailfirstpartwop=substr($row['email'],0,$atpos);
 					$remainder=substr($emailfirstpart,$atpos+1);
 					$emailfirstpartwop=$emailfirstpartwop.$remainder;
-					}
+					} 
 				else{
 					$emailfirstpartwop=$emailfirstpart;
 					}
@@ -248,61 +251,64 @@ if($ds){
 		while($contact=mysql_fetch_array($d_c,MYSQL_ASSOC)){
 			$gid=$contact['guardian_id'];
 			$Contacts[$gid]=fetchContact(array('guardian_id'=>$gid));
-			
-			/* Search for entry in LDAP */
-			$epfusername=$Contacts[$gid]['EPFUsername']['value'];
-			if($epfusername==''){
-				/* Treat as a completely new entry. */
-				$fresh=false;
-				while(!($fresh)){
-					$epfusername=generate_epfusername($Contacts[$gid],$type='guardian');//TODO: change type to contact too
+			if($Contacts[$gid]['Surname']['value']!='' and $Contacts[$gid]['Surname']['value']!=' '){
+				/* Search for entry in LDAP */
+				$epfusername=$Contacts[$gid]['EPFUsername']['value'];
+				if($epfusername==''){
+					/* Treat as a completely new entry. */
+					$fresh=false;
+					while(!($fresh)){
+						$epfusername=generate_epfusername($Contacts[$gid],$type='guardian');//TODO: change type to contact too
+						$sr=ldap_search($ds,'ou=contact'.',ou=people'.',dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2,"uid=$epfusername");
+						if(ldap_count_entries($ds, $sr)>0){$fresh=false;}
+						else{$fresh=true;}
+						}
+					}
+				else{
+					/* Should already be in LDAP. */
 					$sr=ldap_search($ds,'ou=contact'.',ou=people'.',dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2,"uid=$epfusername");
-					if(ldap_count_entries($ds, $sr)>0){$fresh=false;}
-					else{$fresh=true;}
 					}
-				}
-			else{
-				/* Should already be in LDAP. */
-				$sr=ldap_search($ds,'ou=contact'.',ou=people'.',dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2,"uid=$epfusername");
-				}
-
-			/* Prepare data -in LDIF format- for LDAP field replacement */
-			$info=array();
-			$info['uid']=$epfusername;
-			$info['cn']=$Contacts[$gid]['Forename']['value'] . ' ' . $Contacts[$gid]['Surname']['value'];
-			//$info['givenName']= $Contacts[$gid]['Forename']['value'];//Often blank for contacts so remove
-			$info['sn']=$Contacts[$gid]['Surname']['value'];
-			$info['mail']=$Contacts[$gid]['EmailAddress']['value'];
-			$info['ou']='contact'; 
-			$info['objectclass']='inetOrgPerson';
-			$distinguishedName="uid=$epfusername".',ou=contact'.',ou=people'.',dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
-			/* When the entry exists, LDAP db is updated with values coming from ClaSS */
-			if(ldap_count_entries($ds, $sr)>0){
-				/* modify the data in ldap directory */
-				$r=ldap_modify($ds, $distinguishedName, $info);
-				if(!$r){
-					trigger_error('Unable to modify LDAP DB entry', E_USER_WARNING);
+				
+				/* Prepare data -in LDIF format- for LDAP field replacement */
+				$info=array();
+				$info['uid']=$epfusername;
+				$info['cn']=$Contacts[$gid]['Forename']['value'] . ' ' . $Contacts[$gid]['Surname']['value'];
+				//$info['givenName']= $Contacts[$gid]['Forename']['value'];//Often blank for contacts so remove
+				$info['sn']=$Contacts[$gid]['Surname']['value'];
+				$info['mail']=$Contacts[$gid]['EmailAddress']['value'];
+				$info['ou']='contact'; 
+				$info['objectclass']='inetOrgPerson';
+				$distinguishedName="uid=$epfusername".',ou=contact'.',ou=people'.',dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
+				/* When the entry exists, LDAP db is updated with values coming from ClaSS */
+				if(ldap_count_entries($ds, $sr)>0){
+					/* modify the data in ldap directory */
+					$r=ldap_modify($ds, $distinguishedName, $info);
+					if(!$r){
+						trigger_error('Unable to modify LDAP DB entry', E_USER_WARNING);
+						}
 					}
-				}
-			else{
-				/* OK, the entry does not exist in LDAP so insert it into LDAP DB */
-				$info['userPassword']='{MD5}' . base64_encode(pack('H*',md5($firstpass)));
-				/* add data to ldap directory */
-				$r=ldap_add($ds, $distinguishedName, $info);
-				if(!$r){
-					trigger_error('Unable to insert entry into LDAP DB: '.$distinguishedName, E_USER_WARNING);
+				else{
+					/* OK, the entry does not exist in LDAP so insert it into LDAP DB */
+					$info['userPassword']='{MD5}' . base64_encode(pack('H*',md5($firstpass)));
+					/* add data to ldap directory */
+					$r=ldap_add($ds, $distinguishedName, $info);
+					if(!$r){
+						trigger_error('Unable to insert entry into LDAP DB: '.$distinguishedName, E_USER_WARNING);
+						}
 					}
+				/* entry counter */
+				$entries++;
 				}
-			/* entry counter */
-			$entries++;
 			}
-		
+
 		trigger_error('Step 3: '.$entries.' Contact entries have been processed', E_USER_NOTICE);
+
 		ldap_close($ds);
 		}
 	else{
 		trigger_error('Unable to bind to LDAP server. Nothing has been done.', E_USER_WARNING);
 		}
+
 
 	}
 else{

@@ -1,7 +1,7 @@
 Version ClaSS-0.9.12 release (2009/12/15)
 -----------------------------------------
 
-Improvement to the ldap_enrol_users to work arond problems Moodle
+Improvement to the ldap_enrol_users to work around problems with Moodle
 course enrolments.
 
 Both the comment writer and fetchReportEntry now call upon a new

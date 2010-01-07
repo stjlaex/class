@@ -72,7 +72,7 @@ else{trigger_error('html2ps not configured!',E_USER_ERROR);}
 		$postdata['batch[0]']=$filename.'.html';
 		$postdata['url']='http://'.$CFG->siteaddress.$CFG->sitepath.'/reports/';
 		$postdata['process_mode']='batch';
-		$postdata['topmargin']='5';
+		$postdata['topmargin']='10';
 		$postdata['bottommargin']='0';
 		$postdata['leftmargin']='5';
 		$postdata['rightmargin']='5';

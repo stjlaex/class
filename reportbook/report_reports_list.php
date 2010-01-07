@@ -54,6 +54,8 @@ if($_SESSION['role']=='admin' and isset($CFG->eportfolio_dataroot) and $CFG->epo
 	$extrabuttons['email']=array('name'=>'current',
 								 'value'=>'report_reports_email.php');
 	*/
+	$extrabuttons['email']=array('name'=>'current',
+								 'value'=>'report_reports_message.php');
 	}
 
 two_buttonmenu($extrabuttons,$book);

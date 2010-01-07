@@ -62,7 +62,7 @@ if($latehour>0 and $latehour<6){
 /**
  * Run once only (early morning)
  */
-if($latehour==6 and $latemin==05){
+if($latehour==6 and $latemin<05){
 
 	$cmd='/usr/bin/php '.$fullpath.'/admin/httpscripts/ldap_sync_users.php --path='.$CFG->installpath;
 	exec("$cmd > /dev/null &");

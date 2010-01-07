@@ -43,9 +43,9 @@ $mail_options['username']=$CFG->smtpuser;
 $mail_options['password']=$CFG->smtppasswd;
 
 $queue=& new Mail_Queue($db_options, $mail_options);
-$send_limit=50;
+$send_limit=40;
 $queue_offset=0;
-$send_attempts=10;
+$send_attempts=5;
 $queue->sendMailsInQueue($send_limit, $queue_offset, $send_attempts);
 
 require_once($CFG->installpath.'/'.$CFG->applicationdirectory.'/scripts/cron_end_options.php');
