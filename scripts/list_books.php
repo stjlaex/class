@@ -8,6 +8,7 @@ $books=$CFG->books;
 
 if(!isset($required)){$required='yes';}
 if(!isset($user['role'])){$role=$_SESSION['role'];}else{$role=$user['role'];}
+if(isset($edituser['role'])){$role=$edituser['role'];}
 ?>
 
   <label for="book"><?php print_string('book');?></label>
