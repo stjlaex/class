@@ -177,6 +177,6 @@ $string['families']='Families';
 $string['sendto']='Send to';
 $string['emailsentto']='Email queued to send to';
 $string['smssentto']='SMS queued to send to';
-$string['custom']='Cusotm';
+$string['custom']='Custom';
 $string['']='';
 ?>
