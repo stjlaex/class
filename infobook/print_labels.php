@@ -70,10 +70,15 @@ while(list($sindex,$sid)=each($sids)){
 						$Recipients['Recipient'][]=$Recipient;
 						$sid_recipient_no++;
 						}
+					elseif(isset($recipient_index[$sid]) or isset($recipient_index[$Contact['id_db']])){
+						$sid_recipient_no++;
+						}
 					}
-				else{
+				elseif($sid_recipient_no==0 and $cindex==sizeof($Contacts)){
+					/* Only essential for one contact with a postal address. */
 					$blank_gids[]=$Contact['id_db'];
 					}
+
 				}
 			}
 

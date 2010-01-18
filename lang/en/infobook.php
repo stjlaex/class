@@ -178,5 +178,5 @@ $string['sendto']='Send to';
 $string['emailsentto']='Email queued to send to';
 $string['smssentto']='SMS queued to send to';
 $string['custom']='Custom';
-$string['']='';
+$string['selectfromthegroups']='Select one or more groups from the options below.';
 ?>

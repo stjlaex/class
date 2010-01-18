@@ -28,9 +28,7 @@ two_buttonmenu($extrabuttons,$book);
 ?>
 <div class="divgroup center">
   <div class="center">
-<p>		<?php print_string('youneedtoselectstudents');?></p>
-
-<p>		<?php print_string('orselectfromthegroups');?></p>
+<p>		<?php print_string('selectfromthegroups',$book);?></p>
   </div>
 </div>
 <?php
