@@ -7,6 +7,8 @@ Small improvement to identifying missing recipients for address labels.
 
 Fix to removing budget reponsibilities.
 
+Improved the column filter's 'reports' option in the MarkBook.
+
 
 Version ClaSS-0.9.12 release (2009/12/15)
 -----------------------------------------

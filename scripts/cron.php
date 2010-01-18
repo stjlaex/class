@@ -68,13 +68,13 @@ if($latehour==6 and $latemin<05){
 	exec("$cmd > /dev/null &");
 
 	}
-if($latehour==6 and $latemin==35){
+if($latehour==7 and $latemin<05){
 
 	//$cmd='/usr/bin/php '.$CFG->installpath.'/'.$CFG->applicationdirectory.'/admin/httpscripts/eportfolio_sync_users.php --path='.$CFG->installpath;
 	//exec("$cmd > /dev/null &");
 
-	//$cmd='/usr/bin/php '.$CFG->installpath.'/'.$CFG->applicationdirectory.'/admin/httpscripts/ldap_enrol_users.php --path='.$CFG->installpath;
-	//exec("$cmd > /dev/null &");
+	$cmd='/usr/bin/php '.$CFG->installpath.'/'.$CFG->applicationdirectory.'/admin/httpscripts/ldap_enrol_users.php --path='.$CFG->installpath;
+	exec("$cmd > /dev/null &");
 
 	}
 
