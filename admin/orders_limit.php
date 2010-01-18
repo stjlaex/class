@@ -17,7 +17,7 @@ $xusers=(array)list_budget_users($budid,$perms);
 $perms=array('r'=>1,'w'=>1,'x'=>0);
 $wusers=(array)list_budget_users($budid,$perms);
 $perms=array('r'=>1,'w'=>0,'x'=>0);/* workaround for old permissions */
-$wusers=array_merge($wusers,list_budget_users($budid,$perms));
+$wusers=$wusers+list_budget_users($budid,$perms);
 $tab=1;
 
 $extrabuttons=array();
