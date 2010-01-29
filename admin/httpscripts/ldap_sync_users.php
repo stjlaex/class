@@ -60,7 +60,7 @@ if($ds){
 			$Newuser=(array)fetchUser($row);
 			$epfusername=$Newuser['EPFUsername']['value'];
 			if($epfusername=='' or $epfusername==' '){
-				  $epfusername=generate_epfusername($Newuser,$type='staff');
+				$epfusername=generate_epfusername($Newuser,$type='staff');
 				}
 			/*The cn for a user takes the first part of their email address (removing any dots).*/
 			$atpos=strpos($row['email'], '@');

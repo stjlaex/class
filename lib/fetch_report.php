@@ -872,9 +872,8 @@ function fetchProfileStatements($profile_name,$bid,$pid,$sid,$fromdate){
 			if($Student['YearGroup']['value']=='-1'){$cutoff_grade=0;}
 			if($Student['YearGroup']['value']=='0'){$cutoff_grade=3;}
 			else{$cutoff_grade=-10;}
-			$d_eidsid=mysql_query("SELECT 
-				assessment.description, assessment.id FROM eidsid JOIN assessment ON
-				assessment.id=eidsid.assessment_id WHERE
+			$d_eidsid=mysql_query("SELECT assessment.description, assessment.id FROM eidsid 
+				JOIN assessment ON assessment.id=eidsid.assessment_id WHERE
 				eidsid.student_id='$sid' AND eidsid.subject_id='$bid'
 				AND eidsid.component_id='$profilepid' AND
 				assessment.profile_name='$profile_name' AND

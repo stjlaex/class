@@ -133,6 +133,7 @@ function clickToAction(buttonObject){
 	if(theDivId==""){
 		//gets it from the id of the tbody container for this row
 		var theContainerId=buttonObject.parentNode.parentNode.parentNode.id;
+	alert(theContainerId);
 		}
 	else{
 		//or gets it from the id of the parent div container
@@ -247,11 +248,39 @@ function clickToAction(buttonObject){
 					else{
 						progressIndicator("start");
 						}
-					}
+				}
 			xmlHttp.send(null);
 			}
 		}
 	}
+
+
+//Pop-up report window for one student in a sidtable.
+function clickToPresentSid(script,xsltransform){
+	var sidId=currentsidrow;
+	var helperurl="markbook/httpscripts/" + script;
+	var getvars="&sid="+sidId;
+	var url=helperurl + "?uniqueid=" + sidId + getvars;
+	var paper="portrait";
+	xmlHttp.open("GET", url, true);
+	xmlHttp.onreadystatechange=function () {
+		if(xmlHttp.readyState==4){
+			if(xmlHttp.status==200){
+				xmlRecord=xmlHttp.responseXML;
+				openPrintReport("",xsltransform,xmlRecord,paper);
+				}
+			else if(xmlHttp.status==404){alert ("Requested URL is not found.");}
+			else if(xmlHttp.status==403){alert("Access denied.");}
+			else {alert("status is " + xmlHttp.status);}
+			progressIndicator("stop");
+			}
+		else{
+			progressIndicator("start");
+			}
+		}
+	xmlHttp.send(null);
+	}
+
 
 function confirmAction(title){
 	var message="You have requested the following action:\n\n";

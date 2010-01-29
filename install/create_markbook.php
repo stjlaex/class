@@ -13,7 +13,7 @@ mysql_query("CREATE TABLE mark (
 	marktype		enum('score', 'sum', 'average', 'level', 
 							'dif', 'compound', 'report', 'hw') not null, 
 	topic			varchar(60) not null default '', 
-	comment			varchar(100) not null default '', 
+	comment			text not null default '', 
 	def_name		varchar(20) not null default '', 
 	midlist			text, 
 	levelling_name	varchar(20) not null default '', 

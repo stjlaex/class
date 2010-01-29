@@ -672,7 +672,7 @@ function generate_epfusername($User=array(),$role='student'){
 		/* Only use the first part of the forename. */
 		$forename=(array)split(' ',$User['Forename']['value']);
 		$start=iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $forename[0]);
-		$start=utf8_to_ascii($forename[0]);
+		$start=utf8_to_ascii($start);
 		$classtable='info';
 		$classfield='student_id';
 		while(count($nums)<9){$nums[rand(1,9)]=null;}
@@ -682,12 +682,12 @@ function generate_epfusername($User=array(),$role='student'){
 	elseif($role=='guardian'){
 		/* Only use the first part of the surname. */
 		$surname=$User['Surname']['value'];
-		$surname=iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $surname);
-		$surname=utf8_to_ascii($surname);
-		$surname=str_replace(' ','',$surname);
-		$surname=str_replace("'",'',$surname);
-		$surname=str_replace('-','',$surname);
-		$start=substr($surname,0,6);
+		$start=iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $surname);
+		$start=utf8_to_ascii($start);
+		$start=str_replace(' ','',$start);
+		$start=str_replace("'",'',$start);
+		$start=str_replace('-','',$start);
+		$start=substr($start,0,6);
 		$classtable='guardian';
 		$classfield='id';
 		while(count($nums)<9){$nums[rand(1,9)]=null;}

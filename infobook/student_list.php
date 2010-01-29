@@ -147,8 +147,6 @@ two_buttonmenu($extrabuttons,$book);
 			/* Consider support staff to be not priviliged to access. */
 				$comment=comment_display($sid);
 ?>
-		<a href="infobook.php?current=student_scores.php&sid=<?php print $sid;?>">T</a> 
-			<span title="<?php print $comment['body'];?>">
 		<a href="infobook.php?current=comments_list.php&sid=<?php print $sid;?>"
 				class="<?php print $comment['class'];?>">C</a> 
 			</span>
@@ -222,6 +220,11 @@ two_buttonmenu($extrabuttons,$book);
   </div>
 
   <div class="hidden" id="add-merit">
+		<div style="float:right;" title="<?php print_string('tracking','markbook');?>" 
+			name="current" value="student_grades_print.php" 
+			onclick="clickToPresentSid('student_grades_print','tracking_student')" >
+		<img class="clicktochart" />
+		</div>
 		<div style="float:right;" title="<?php print_string('merits','infobook');?>" 
 			name="current" value="merit_adder.php" onclick="clickToAddMerit('','','merit')" >
 		<img class="clicktoaddmerit" />

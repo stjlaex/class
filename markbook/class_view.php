@@ -187,9 +187,7 @@ if($_SESSION['worklevel']>-1){
 		  bgcolor="<?php print $cidcolour[$viewtable[$c2]['class_id']];?>" >
 		  <td><?php print $c4;?></td>
 		  <td>
-			<a href="infobook.php?current=student_scores.php&sid=<?php print $viewtable[$c2]['sid'];?>&sids[]=<?php print $viewtable[$c2]['sid'];?>"
-			  target="viewinfobook" onclick="parent.viewBook('infobook');">T</a>
-			<a href="infobook.php?current=comments_list.php&bid=<?php print $bid[0];?>&sid=<?php print $viewtable[$c2]['sid'];?>&sids[]=<?php print $viewtable[$c2]['sid'];?>"
+			<a name="chart" href="infobook.php?current=comments_list.php&bid=<?php print $bid[0];?>&sid=<?php print $viewtable[$c2]['sid'];?>&sids[]=<?php print $viewtable[$c2]['sid'];?>"
 			  target="viewinfobook" onclick="parent.viewBook('infobook');" 
 			  class="<?php print $viewtable[$c2]['commentclass'];?>"
 			  ><span title="<?php print $viewtable[$c2]['commentbody'];?>">C</span></a>
@@ -262,6 +260,11 @@ if($_SESSION['worklevel']>-1){
   </div>
 
   <div class="hidden" id="add-merit">
+		<div style="float:right;" title="<?php print_string('tracking','markbook');?>" 
+			name="current" value="student_grades_print.php" 
+			onclick="clickToPresentSid('student_grades_print','tracking_student')" >
+		<img class="clicktochart" />
+		</div>
 		<div style="float:right;" title="<?php print_string('merits','infobook');?>" 
 			name="current" value="merit_adder.php" 
 			onclick="clickToAddMerit('<?php print $bid[0];?>','<?php print $pid;?>','merit')" >

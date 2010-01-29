@@ -18,7 +18,7 @@ if(isset($_POST['sid']) and $_POST['sid']!=''){
 	$Student=fetchStudent_short($sid);
 	$extrabuttons=array();
 	$d_guardian=mysql_query("SELECT id, CONCAT(surname,', ',forename)
-								AS name FROM guardian ORDER BY surname");
+								AS name FROM guardian ORDER BY surname;");
 	}
 else{
 	$choice='new_contact.php';
@@ -41,7 +41,7 @@ if(isset($sid)){
 ?>
   <div id="heading">
 	<form id="headertoprocess" name="headertoprocess" method="post" action="<?php print $host;?>">
-	<label><?php print_string('existingcontacts','entrybook'); ?></label>
+	<label><?php print $Student['DisplayFullName']['value'];?></label>
 <?php
 		$listname='pregid';$listlabel='';$liststyle='width:12em;';
 		include('scripts/set_list_vars.php');
