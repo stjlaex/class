@@ -1,4 +1,4 @@
-Version ClaSS-0.9.13 release (2010/1/29)
+Version ClaSS-0.9.13 release (2010/2/02)
 -----------------------------------------
 
 Tiny fix to the first book preference selection under staff_details.
@@ -14,6 +14,10 @@ Simply added student name to EntryBook header.
 Replaced the 'T' for Tracking shortcut with an extra sidtable row
 element. This calls student_grades_print which returns one student's
 full assessment history.
+
+Adapted the new contact_labels_print script to work with the
+Admin enrolments page.
+
 
 
 Version ClaSS-0.9.12 release (2009/12/15)

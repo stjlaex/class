@@ -78,7 +78,6 @@ while(list($sindex,$sid)=each($sids)){
 					/* Only essential for one contact with a postal address. */
 					$blank_gids[]=$Contact['id_db'];
 					}
-
 				}
 			}
 

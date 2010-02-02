@@ -89,7 +89,6 @@ if(isset($_POST['enrolstage'])){$enrolstage=$_POST['enrolstage'];}
 										 'title'=>'printaddresslabels',
 										 'onclick'=>'checksidsAction(this)',
 										 'pathtoscript'=>$CFG->sitepath.'/'.$CFG->applicationdirectory.'/infobook/',
-									   
 										 'value'=>'contact_labels_print.php');
 	three_buttonmenu($extrabuttons,'infobook');
 ?>
