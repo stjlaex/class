@@ -799,7 +799,7 @@ function fetchReportEntry($reportdef,$sid,$bid,$pid){
 			   $comment_div=array();
 			   /* Restrict to a reasonable number - the last six */
 			   if(sizeof($Statements)>0){
-				   for($c=sizeof($Statements);($c>sizeof($Statements)-6 and $c>0);$c--){
+				   for($c=sizeof($Statements)-1;($c>(sizeof($Statements)-6) and $c>0);$c--){
 					   $comment_list['li'][]=''.$Statements[$c]['Value'];
 					   }
 				   $comment_div['ul'][]=$comment_list;
