@@ -796,8 +796,9 @@ function fetchReportEntry($reportdef,$sid,$bid,$pid){
 			   $reportyear=$reportdef['report']['year']-1;
 			   $fromdate=$reportyear.'-08-15';//Does the whole academic year
 			   $Statements=(array)fetchProfileStatements($reportdef['report']['profile_name'],$bid,$pid,$sid,$fromdate);
-			   $comment_div=array();	
-			   for($c=0;$c<sizeof($Statements);$c++){
+			   $comment_div=array();
+			   /* Restrict to a reasonable number - the last six */
+			   for($c=sizeof($Statements);($c>sizeof($Statements)-6 and $c>0);$c--){
 				   $comment_list['li'][]=''.$Statements[$c]['Value'];
 				   }
 			   $comment_div['ul'][]=$comment_list;
