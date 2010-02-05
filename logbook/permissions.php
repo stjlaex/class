@@ -518,16 +518,28 @@ function getCoursePerm($course,$respons){
 function list_pastoral_respon($respons){
 	$rfids=array();
 	$ryids=array();
-	for($c=0;$c<sizeof($respons);$c++){
-		$resp=$respons[$c];
-		if($resp['name']=='Form'){
-			if($resp['form_id']!=''){$rfids[]=$resp['form_id'];}
-			}
-		elseif($resp['yeargroup_id']!=''){
-			/*academic respons must have null yeargroup_id for this to work!*/
-			$ryids[]=$resp['yeargroup_id'];
+	$aperm=get_admin_perm('p',$_SESSION['uid']);
+	if($aperm==1){
+		$d_groups=mysql_query("SELECT * FROM groups 
+                            WHERE type='p' AND yeargroup_id IS NOT NULL ORDER BY yeargroup_id;");
+		while($group=mysql_fetch_array($d_groups, MYSQL_ASSOC)){
+			$ryids[]=$group['yeargroup_id'];
 			}
 		}
+	else{
+		
+		for($c=0;$c<sizeof($respons);$c++){
+			$resp=$respons[$c];
+			if($resp['name']=='Form'){
+				if($resp['form_id']!=''){$rfids[]=$resp['form_id'];}
+				}
+			elseif($resp['yeargroup_id']!=''){
+			/*academic respons must have null yeargroup_id for this to work!*/
+				$ryids[]=$resp['yeargroup_id'];
+				}
+			}
+		}
+
 	return array('forms'=>$rfids,'years'=>$ryids);
 	}
 

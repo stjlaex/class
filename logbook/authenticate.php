@@ -21,11 +21,10 @@ function getRespons($username,$type='%'){
 	$d_users=mysql_query("SELECT uid FROM users WHERE username='$username';");
 	$uid=mysql_result($d_users,0);
 	$d_groups=mysql_query("SELECT groups.*, perms.r, perms.w, perms.x
-							FROM groups LEFT JOIN perms ON
-                            groups.gid=perms.gid WHERE
-							perms.uid='$uid' AND groups.type LIKE
-							'$type' ORDER BY groups.course_id
-							DESC, groups.yeargroup_id");
+					   FROM groups LEFT JOIN perms ON groups.gid=perms.gid WHERE
+					   perms.uid='$uid' AND groups.type LIKE
+					   '$type' AND groups.name!='admin' ORDER BY groups.course_id
+					   DESC, groups.yeargroup_id;");
 	$c=0;
     while($group=mysql_fetch_array($d_groups, MYSQL_ASSOC)){
 		$groups[$c]=$group;

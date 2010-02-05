@@ -17,8 +17,7 @@ if(sizeof($ryids)>0){
 <?php
 		if(!isset($rfids)){$rfids=array();}
     	while(list($index,$yid)=each($ryids)){
-			$d_yeargroup=mysql_query("SELECT name FROM yeargroup
-									WHERE id='$yid'");
+			$d_yeargroup=mysql_query("SELECT name FROM yeargroup WHERE id='$yid';");
 			if(mysql_num_rows($d_yeargroup)>0){
 				$yeargroup=mysql_result($d_yeargroup,0);
 				print '<option ';
@@ -49,8 +48,7 @@ if(sizeof($rfids)>0){
 	<option value=""></option>
 <?php
         while(list($index,$fid)=each($rfids)){
-			$d_group=mysql_query("SELECT name FROM form
-									WHERE id='$fid'");
+			$d_group=mysql_query("SELECT name FROM form WHERE id='$fid';");
 			$formgroup=mysql_result($d_group,0);
 			print '<option value="'.$fid.'" ';
 			if($selfid==$fid){print ' selected="selected" ';}

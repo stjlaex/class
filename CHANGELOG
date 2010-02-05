@@ -18,6 +18,8 @@ full assessment history.
 Adapted the new contact_labels_print script to work with the
 Admin enrolments page.
 
+Applied the pastoral admin group to work for list_pastoralgroups.
+
 
 
 Version ClaSS-0.9.12 release (2009/12/15)
