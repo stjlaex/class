@@ -38,29 +38,26 @@ else{
 		$pid='%';
 		}
 
-	/* Bands */
+	/* Bands in ascending date order. */
   	$d_stats=mysql_query("SELECT DISTINCT * FROM statvalues JOIN stats ON stats.id=statvalues.stats_id 
 				WHERE stats.course_id='$crid' AND stats.profile_name='$profilename' 
-				AND statvalues.stage='$stage' AND statvalues.subject_id='$bid' 
-				AND (statvalues.component_id LIKE '$pid' OR statvalues.component_id='%');");
+				AND statvalues.stage='$stage' AND (statvalues.subject_id LIKE '$bid' OR statvalues.subject_id='%')
+				AND (statvalues.component_id LIKE '$pid' OR statvalues.component_id='%') ORDER BY statvalues.date ASC;");
 	$bands=array();
 	while($stat=mysql_fetch_array($d_stats,MYSQL_ASSOC)){
 		$bands[$stat['date']]=$stat;
 		}
-	/* Put them in descending date order. */
-	arsort($bands);
-
 
 	$Students=array();
 
 	$asstable=array();
 	for($ec=0;$ec<sizeof($AssDefs);$ec++){
+		unset($bdate);
 		$assdate=$AssDefs[$ec]['Deadline']['value'];
 		foreach($bands as $date=>$band){
-			if($assdate<$date){$bdate=$date;}
+			if($assdate>$date or !isset($bdate)){$bdate=$date;}
 			}
 		/* If the assessment is out of range then set to the last band. */
-		if(!isset($bdate)){$bdate=$date;}
 		$asstable['ass'][]=array('label'=>''.$AssDefs[$ec]['PrintLabel']['value'],
 								 'date'=>''.display_date($assdate),
 								 'id_db'=>''.$AssDefs[$ec]['id_db'],

@@ -133,7 +133,7 @@ function clickToAction(buttonObject){
 	if(theDivId==""){
 		//gets it from the id of the tbody container for this row
 		var theContainerId=buttonObject.parentNode.parentNode.parentNode.id;
-	alert(theContainerId);
+	//alert(theContainerId);
 		}
 	else{
 		//or gets it from the id of the parent div container
