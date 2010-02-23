@@ -455,8 +455,9 @@ function fetchAttendanceSummary($sid,$startdate,$enddate){
 	$no_late_authorised+=count_attendance($sid,$startdate,$enddate,'UA');
 	$no_late_authorised+=count_attendance($sid,$startdate,$enddate,'UB');
 	$no_late_unauthorised=count_attendance($sid,$startdate,$enddate,'U');
+	$no_visit=count_attendance($sid,$startdate,$enddate,'V');
 	$no_late=$no_late_authorised+$no_late_unauthorised;
-	$no_attended=$no_present+$no_late;
+	$no_attended=$no_present+$no_late+$no_visit;
 	$Attendance['Summary']['Attended']=array('label'=>'attended',
 											 'value'=>''.$no_attended);
 	$Attendance['Summary']['Late']=array('label'=>'late',
@@ -467,7 +468,7 @@ function fetchAttendanceSummary($sid,$startdate,$enddate){
 	 * attendance and the following formula resepcts this for
 	 * compiling the summary are  
 	 */
-	$no_absent=count_attendance($sid,$startdate,$enddate,'%') - $no_late;
+	$no_absent=count_attendance($sid,$startdate,$enddate,'%') - $no_late - $no_visit;
 	$no_notagreed=count_attendance($sid,$startdate,$enddate,'G');
 	$no_notexplained=count_attendance($sid,$startdate,$enddate,'O');
 	$no_noreason=count_attendance($sid,$startdate,$enddate,'N');
