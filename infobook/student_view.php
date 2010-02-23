@@ -22,18 +22,17 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 
 
 	  <div class="center">
+		<?php print get_student_photo($Student['EPFUsername']['value']); ?>
 <?php
-/* Photos are pulled form the eportfolio. Only accessible currently if */
-/* the user has already been logged in through the eportfolio boo. */
+/*  OLD!!!!!!!!!!!!!!!!!!!!!!!
 	if($CFG->eportfoliosite!='' AND isset($books['external'][$_SESSION['role']]['eportfolio'])){
 		include('lib/eportfolio_functions.php');
 		$icon_filepath=elgg_get_fileurl($Student['EPFUsername']['value'],'icon',true);
-?>
 		<div class="icon">
 		  <img src="<?php print $icon_filepath;?>" />
 		</div>
-<?php
 		}
+*/
 ?>
 
 		<table class="listmenu listinfo">
