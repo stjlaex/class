@@ -5,7 +5,8 @@
  */
 
 
-/** The only required variable is: $epfun (eportfolio name, get student photo) or userid (get_user_photo)
+/** 
+ * The only required variable is: $epfun (eportfolio name, get student photo) or userid (get_user_photo)
  *
  * The following three variables work all together. Or all of them have blank values, or haven't.
  * 		$ldap_host: ldaphost:port
@@ -82,7 +83,7 @@ function get_student_photo_small($epfun, $s_photo_size, $s_ldap_host=null, $s_ld
 
 			$percent=array(0.35,0.25);
 
-			if(!getimagesize($filename)){
+			if(strpos($filename,'blank')){
 				// when errors a blank image is shown
 				$filename=$CFG->installpath.$CFG->applicationdirectory.'/images/blank_profile.jpeg';
 				$uid='blank';
