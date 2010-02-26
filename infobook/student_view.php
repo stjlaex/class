@@ -22,7 +22,11 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 
 
 	  <div class="center">
-		<?php print get_student_photo($Student['EPFUsername']['value']); ?>
+		<?php
+		$photo=get_student_photo($Student['EPFUsername']['value']);
+		//$photo=get_student_photo_small($Student['EPFUsername']['value'],2); 
+		print '<div class="icon"><img src="http://'.$photo.'" /></div>'; 
+		?>
 <?php
 /*  OLD!!!!!!!!!!!!!!!!!!!!!!!
 	if($CFG->eportfoliosite!='' AND isset($books['external'][$_SESSION['role']]['eportfolio'])){

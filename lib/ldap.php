@@ -2,6 +2,31 @@
 /**
  *											ldap.php
  *
+ */
+
+
+/** The only required variable is: $epfun (eportfolio name, get student photo) or userid (get_user_photo)
+ *
+ * The following three variables work all together. Or all of them have blank values, or haven't.
+ * 		$ldap_host: ldaphost:port
+ * 		$ldap_rdn: ldap user authority
+ * 		$ldap_pass: ldap password authority
+ * 
+ * $base_tree_node: default: 'ou=student,ou=people,dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2; 
+ *                        or 'ou=people,dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
+ * $object_class: default: inetOrgPerson
+ */
+function get_student_photo($epfun, $s_ldap_host=null, $s_ldap_rdn=null, $s_ldap_pass=null, $s_base_tree_node=null, $s_object_class=null){
+	global $CFG;
+	$sid=$epfun;
+	if(!$s_base_tree_node){
+		$s_base_tree_node='ou=student,ou=people,dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
+		}
+	return get_photo($sid, $s_ldap_host, $s_ldap_rdn, $s_ldap_pass,$s_base_tree_node, $s_object_class);
+	}
+
+
+/**
  * The only required variable is: $epfun (eportfolio name, get student photo) or userid (get_user_photo)
  *
  * The following three variables work all together. Or all of them have blank values, or haven't.
@@ -13,16 +38,6 @@
  *                        or 'ou=people,dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
  * $object_class: default: inetOrgPerson
  */
-
-function get_student_photo($epfun, $s_ldap_host=null, $s_ldap_rdn=null, $s_ldap_pass=null, $s_base_tree_node=null, $s_object_class=null){
-	global $CFG;
-	$sid=$epfun;
-	if(!$s_base_tree_node){
-		$s_base_tree_node='ou=student,ou=people,dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
-		}
-	return get_photo($sid, $s_ldap_host, $s_ldap_rdn, $s_ldap_pass,$s_base_tree_node, $s_object_class);
-	}
-
 function get_user_photo($userid, $u_ldap_host=null, $u_ldap_rdn=null, $u_ldap_pass=null, $u_base_tree_node=null, $u_object_class=null){
 	global $CFG;
 	$uid=$CFG->clientid.$userid;
@@ -32,10 +47,87 @@ function get_user_photo($userid, $u_ldap_host=null, $u_ldap_rdn=null, $u_ldap_pa
 	return get_photo($uid, $u_ldap_host, $u_ldap_rdn, $u_ldap_pass, $u_base_tree_node, $u_object_class);
 	}
 
+
+
+/**
+ * The only required variables are: 
+ *		$epfun (eportfolio name, get student photo) or userid (get_user_photo)
+ *		$s_photo_size: 2 or 3
+ *			2 means: 35.0%, 
+ *			3 menas: 25.0%		
+ *			these percentages have been harcoded inside the function
+ *
+ * The following three variables work all together. Or all of them have blank values, or haven't.
+ * 		$ldap_host: ldaphost:port
+ * 		$ldap_rdn: ldap user authority
+ * 		$ldap_pass: ldap password authority
+ * 
+ * $base_tree_node: default: 'ou=student,ou=people,dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2; 
+ *                        or 'ou=people,dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
+ * $object_class: default: inetOrgPerson
+ */
+function get_student_photo_small($epfun, $s_photo_size, $s_ldap_host=null, $s_ldap_rdn=null, $s_ldap_pass=null, $s_base_tree_node=null, $s_object_class=null){
+	global $CFG;
+	$uid=$epfun;
+	if($s_photo_size==2 or $s_photo_size==3){
+		$cached_thumb=$CFG->installpath.'/images/tmp/'.$uid.'_f'. $s_photo_size .'.jpeg';
+		if(!file_exists($cached_thumb)){
+			$cached_photo=$CFG->installpath.'/images/tmp/'.$uid.'.jpeg';
+			if(file_exists($cached_photo)){
+				$filename=$cached_photo;
+				} 
+			else{
+				$filename=get_photo($uid, $s_ldap_host, $s_ldap_rdn, $s_ldap_pass,$s_base_tree_node, $s_object_class);
+				}
+
+			$percent=array(0.35,0.25);
+
+			if(!getimagesize($filename)){
+				// when errors a blank image is shown
+				$filename=$CFG->installpath.$CFG->applicationdirectory.'/images/blank_profile.jpeg';
+				$uid='blank';
+				}
+			
+			list($width, $height) = getimagesize($filename);
+			for($i=0; $i<2; $i++) {
+				$new_width = $width * $percent[$i];
+				$new_height = $height * $percent[$i];
+				$thumb = imagecreatetruecolor($new_width, $new_height);
+				$source = imagecreatefromjpeg($filename);
+				imagecopyresized($thumb, $source, 0, 0, 0, 0, $new_width, $new_height, $width, $height);
+				$n=$i+2;
+				$outfile=$CFG->installpath.'/images/tmp/' . $uid .'_f'. $n .'.jpeg';
+				if(file_exists($outfile)){
+					unlink($outfile);
+					}
+				imagejpeg($thumb,$outfile);
+				}
+			}
+		$cached_photo=$CFG->siteaddress.$CFG->sitepath.'/images/tmp/'.$uid.'_f'. $s_photo_size .'.jpeg';
+		return $cached_photo;
+		}
+	}
+
+
+
+/**
+ * The only required variable is: $uid 
+ *
+ * The following three variables work all together. Or all of them have blank values, or haven't.
+ * 		$ldap_host: ldaphost:port
+ * 		$ldap_rdn: ldap user authority
+ * 		$ldap_pass: ldap password authority
+ * 
+ * $base_tree_node: default: 'ou=student,ou=people,dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2; 
+ *                        or 'ou=people,dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
+ * $object_class: default: inetOrgPerson
+ */
 function get_photo($uid, $ldap_host=null, $ldap_rdn=null, $ldap_pass=null, $base_tree_node=null, $object_class=null){
 	
     global $CFG;
     
+	$error=false;
+	    
     if(is_null($ldap_host)){
         $ldap_host=$CFG->ldapserver;
         $ldap_rdn ='cn='.$CFG->ldapuser.',dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
@@ -64,6 +156,7 @@ function get_photo($uid, $ldap_host=null, $ldap_rdn=null, $ldap_pass=null, $base
 			$error=true;
 			}
 		}
+		
     if(is_null($base_tree_node)){
         $base_tree_node='ou=people,dc=example,dc=com';
 		}
@@ -74,30 +167,35 @@ function get_photo($uid, $ldap_host=null, $ldap_rdn=null, $ldap_pass=null, $base
         $search_filter= '( & (objectClass='.$object_class.') (uid='.$uid.') )';
 		}
     $search_result=ldap_search( $ldap_connection, $base_tree_node, $search_filter, array( 'jpegPhoto' ));
+
     if($search_result){
         $entry=ldap_first_entry( $ldap_connection, $search_result );
+
         if(!$entry){
 			trigger_error($uid.' not found! ', E_USER_WARNING);
 			$error=true;
-			}
-        $attrs=ldap_get_attributes($ldap_connection, $entry);
-        if($attrs['count']>0){
-            $jpeg_data=ldap_get_values_len( $ldap_connection, $entry, "jpegPhoto");
-            $outfile=$CFG->installpath.'/images/tmp/'.$uid.'.jpeg';
-            $handle=fopen($outfile, 'wb');
-       		fwrite($handle,$jpeg_data[0]);
-            fclose($handle);
-            $photo=$CFG->siteaddress.$CFG->sitepath.'/images/tmp/'.$uid.'.jpeg';
 			} 
 		else{
-            $photo=$CFG->siteaddress.$CFG->installpath.'/images/blank.jpeg';
+		    $attrs=ldap_get_attributes($ldap_connection, $entry);
+
+		    if($attrs['count']>0){
+		        $jpeg_data=ldap_get_values_len( $ldap_connection, $entry, "jpegPhoto");
+		        $outfile=$CFG->installpath.'/images/tmp/'.$uid.'.jpeg';
+		        $handle=fopen($outfile, 'wb');
+		   		fwrite($handle,$jpeg_data[0]);
+		        fclose($handle);
+		        $photo=$CFG->siteaddress.$CFG->sitepath.'/images/tmp/'.$uid.'.jpeg';
+				}  
+			else{
+		        $photo=$CFG->siteaddress.$CFG->sitepath.'/'.$CFG->applicationdirectory.'/images/blank_profile.jpeg';
+				}
 			}
 		}
 	
 	if($error){
-		$photo=$CFG->siteaddress.$CFG->installpath.'/images/blank.jpeg';
+		$photo=$CFG->siteaddress.$CFG->sitepath.'/'.$CFG->applicationdirectory.'/images/blank_profile.jpeg';
 		}
-	$uid_image='<div class="icon"><img src="http://'.$photo.'" /></div>';
+	$uid_image=$photo;
 	return $uid_image;
 	}
 ?>

@@ -8,6 +8,8 @@ Correction to how education visists are counted in calculating absences.
 New ldap functions for storing photos (both staff and student) and
 cached locally in a images/tmp folder.
 
+Added a default blank profile photo.
+
 
 Version ClaSS-0.9.13 release (2010/2/02)
 -----------------------------------------
