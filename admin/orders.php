@@ -115,6 +115,14 @@ twoplus_buttonmenu($budgetyear,$currentyear+2,$extrabuttons,$book);
 		</tr>
 <?php
 		$budgets=list_user_budgets($tid,$budgetyear);
+	/**
+	 * Checking if this is a new budget year no previously accessed -
+	 * replicate the existing budget structure if it is.
+	 */
+	if(sizeof($budgets)==0 and $budgetyear>$currentyear and $aperm==1){
+		include('new_budget_year.php');
+		}
+
 		while(list($index,$overbudget)=each($budgets)){
 			while(list($subindex,$budget)=each($overbudget['subbudgets'])){
 				if($index==$budget['id']){
