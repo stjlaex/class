@@ -1,8 +1,15 @@
-Version ClaSS-0.9.15 release (2010/3/04)
+Version ClaSS-0.9.15 release (2010/3/20)
 -----------------------------------------
 
 The next budget year now auto-populates with new budgets by
 replicating the existing structure.
+
+New ldap functions to modify and delete student profile photos.
+
+Major change to how the print and chart windows work. The xml and xslt
+is now processed in the parent window and the window is launched
+contianing the xhtml result. This resolves a compatibility issue with
+Firefox 3.6.
 
 
 Version ClaSS-0.9.14 release (2010/2/26)

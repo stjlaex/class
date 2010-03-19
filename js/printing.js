@@ -52,115 +52,75 @@ function xulsave(){
       }
 
 
-// A function taylored to process xml and an xsl-template in a new window for printing
-// Either the xml for printing is contained within a hidden div of the parent 
-// with id=contentId or the xml is fed directly to the function in the xml parameter
-function openPrintReport(contentId, xsltName, xml, paper){
+function openChartReport(xml, xsltName, paper){
 	var content="";
 	if(xml!=""){
 		content=serializeXML(xml);
 		}
-	else if(document.getElementById(contentId)){
-		content=document.getElementById(contentId).innerHTML;
+
+	if(paper=="landscape"){
+		printWindow=window.open('','','height=600,width=900,dependent,resizable,menubar,screenX=50,scrollbars');
+		}
+	else{
+		printWindow=window.open('','','height=800,width=750,dependent,resizable,menubar,screenX=50,scrollbars');
 		}
 
-	if(content!=""){
-		if(paper=="landscape"){
-			printWindow=window.open('','','height=600,width=900,dependent,resizable,menubar,screenX=50,scrollbars');
-			}
-		else{
-			printWindow=window.open('','','height=800,width=750,dependent,resizable,menubar,screenX=50,scrollbars');
-			}
-		printWindow.document.open();
-		printWindow.document.writeln("<html>");
-
-		printWindow.document.writeln("<head>");
-		printWindow.document.writeln("<link rel='stylesheet' type='text/css' href='../templates/"+xsltName+".css' media='all' title='ReportBook Output' />");	
-		printWindow.document.writeln("<link rel='stylesheet' type='text/xsl' href='../templates/"+xsltName+".xsl' media='all' title='ReportBook Output' />");	
-		printWindow.document.writeln("<script language='JavaScript' type='text/javascript' src='js/printing.js'></script>");
-		printWindow.document.writeln("<meta http-equiv='pragma' content='no-cache'/>");
-		printWindow.document.writeln("<meta http-equiv='Expires' content='0'/>");
-		printWindow.document.writeln("</head>");
-
-		printWindow.document.writeln("<body onLoad=\"processXML('xmlStudent','xmlStudent','"+xsltName+"','../templates/');\">");
-		printWindow.document.writeln("<div id='xmlStudent'>"+content+"</div>");
-		printWindow.document.writeln("</body>");
-
-		printWindow.document.writeln("</html>");
-		printWindow.document.close();
-		}
+	printWindow.document.open("text/html");
+	printWindow.document.writeln("<html xmlns='http://www.w3.org/1999/xhtml'>");
+	printWindow.document.writeln("<head>");
+	printWindow.document.writeln("<link rel='stylesheet' type='text/css' href='../templates/"+xsltName+".css' media='all' title='ReportBook Output' />");
+	printWindow.document.writeln("<script language='JavaScript' type='text/javascript' src='js/raphael.js' charset='utf-8'></script>");
+	printWindow.document.writeln("<script language='JavaScript' type='text/javascript' src='../templates/"+xsltName+".js' charset='utf-8'></script>");
+	printWindow.document.writeln("<meta http-equiv='pragma' content='no-cache'/>");
+	printWindow.document.writeln("<meta http-equiv='Expires' content='0'/>");
+	printWindow.document.writeln("</head>");
+	printWindow.document.writeln("<body onLoad=\""+xsltName+"();\">");
+	printWindow.document.writeln("<div id='xmlStudent'>");
+	printWindow.document.writeln(content);
+	printWindow.document.writeln("</div>");
+	printWindow.document.writeln("</body>");
+	printWindow.document.writeln("</html>");
+	printWindow.document.close();
 	}
 
-function openChartReport(contentId, xsltName, xml, paper){
+/* Receives the result of an xsl transformation as xml and opens a
+separate preview window to display.xsltName defines the css sheet to
+apply and paper is either ladnscape or portrait.*/
+function openPrintReport(xml, xsltName, paper){
 	var content="";
+
 	if(xml!=""){
 		content=serializeXML(xml);
 		}
-	else if(document.getElementById(contentId)){
-		content=document.getElementById(contentId).innerHTML;
+
+	if(paper=="landscape"){
+		printWindow=window.open('','','height=600,width=900,dependent,resizable,menubar,screenX=50,scrollbars');
+		}
+	else{
+		printWindow=window.open('','','height=800,width=750,dependent,resizable,menubar,screenX=50,scrollbars');
 		}
 
-	if(content!=""){
-		if(paper=="landscape"){
-			printWindow=window.open('','','height=600,width=900,dependent,resizable,menubar,screenX=50,scrollbars');
-			}
-		else{
-			printWindow=window.open('','','height=800,width=750,dependent,resizable,menubar,screenX=50,scrollbars');
-			}
-		printWindow.document.open();
-		printWindow.document.writeln("<html>");
-
-		printWindow.document.writeln("<head>");
-		printWindow.document.writeln("<link rel='stylesheet' type='text/css' href='../templates/"+xsltName+".css' media='all' title='ReportBook Output' />");	
-		printWindow.document.writeln("<link rel='stylesheet' type='text/xsl' href='../templates/"+xsltName+".xsl' media='all' title='ReportBook Output' />");	
-		printWindow.document.writeln("<script language='JavaScript' type='text/javascript' src='js/printing.js'></script>");
-		printWindow.document.writeln("<script language='JavaScript' type='text/javascript' src='js/raphael.js' charset='utf-8'></script>");
-
-		printWindow.document.writeln("<script language='JavaScript' type='text/javascript' src='../templates/"+xsltName+".js' charset='utf-8'></script>");
-
-		printWindow.document.writeln("<meta http-equiv='pragma' content='no-cache'/>");
-		printWindow.document.writeln("<meta http-equiv='Expires' content='0'/>");
-		printWindow.document.writeln("</head>");
-
-		printWindow.document.writeln("<body onLoad=\"processXML('xmlStudent','xmlStudent','"+xsltName+"','../templates/');"+xsltName+"();\">");
-		printWindow.document.writeln("<div id='xmlStudent'>"+content+"</div>");
-		printWindow.document.writeln("</body>");
-
-		printWindow.document.writeln("</html>");
-		printWindow.document.close();
-		}
+	printWindow.document.open("text/html");
+	printWindow.document.writeln("<html xmlns='http://www.w3.org/1999/xhtml'>");
+	printWindow.document.writeln("<head>");
+	printWindow.document.writeln("<link rel='stylesheet' type='text/css' href='../templates/"+xsltName+".css' media='all' title='ReportBook Output' />");	
+	printWindow.document.writeln("<meta http-equiv='pragma' content='no-cache'/>");
+	printWindow.document.writeln("<meta http-equiv='Expires' content='0'/>");
+	printWindow.document.writeln("</head>");
+	printWindow.document.writeln("<body>");
+	printWindow.document.writeln("<div id='xmlStudent'>");
+	printWindow.document.writeln(content);
+	printWindow.document.writeln("</div>");
+	printWindow.document.writeln("</body>");
+	printWindow.document.writeln("</html>");
+	printWindow.document.close();
+		
 	}
 
-function processXML(targetId, sourceId, xsltName, xsltPath){ 
-	var xslRef;
-	var xsltProcessor=new XSLTProcessor();
-	var myDOM;
-	if(document.getElementById(sourceId)){
 
- 		var xmlRef=document.implementation.createDocument("", "", null);
-  		var myNode=document.getElementById(sourceId);
-  		var clonedNode=xmlRef.importNode(myNode, true);
-
-  		xmlRef.appendChild(clonedNode);
-
-  		var myXMLHTTPRequest=new XMLHttpRequest();
-  		myXMLHTTPRequest.open("GET", xsltPath+xsltName+".xsl", false);
-  		myXMLHTTPRequest.send(null);
-
-		xslRef=myXMLHTTPRequest.responseXML;
-  		xsltProcessor.importStylesheet(xslRef);
-		var fragment=xsltProcessor.transformToFragment(xmlRef, document);
-
-		document.getElementById(targetId).innerHTML="";
-
-		myDOM=fragment;
-		document.getElementById(targetId).appendChild(fragment);
-		}
-	else{}
-	}
 
 // turns xml into a single string
-function serializeXML (xmlDocument) {
+function serializeXML(xmlDocument){
   var xmlSerializer;
   try {
     xmlSerializer=new XMLSerializer();

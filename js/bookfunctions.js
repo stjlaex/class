@@ -232,11 +232,14 @@ function clickToAction(buttonObject){
 							else if(action=="print" || action=="chart"){
 								xsltransform=xmlRecord.getElementsByTagName("transform")[0].firstChild.nodeValue;
 								paper=xmlRecord.getElementsByTagName("paper")[0].firstChild.nodeValue;
-								if(xsltransform!="" && action=="print"){
-									openPrintReport("",xsltransform,xmlRecord,paper);
-									}
-								else if(xsltransform!="" && action=="chart"){
-									openChartReport("",xsltransform,xmlRecord,paper);
+								if(xsltransform!=""){
+									var xmlResult=processXML(xmlRecord,xsltransform,"../templates/");
+									if(action=="print"){
+										openPrintReport(xmlResult,xsltransform,paper);
+										}
+									else if(action=="chart"){
+										openChartReport(xmlResult,xsltransform,paper);
+										}
 									}
 								}
 							}
@@ -267,7 +270,8 @@ function clickToPresentSid(script,xsltransform){
 		if(xmlHttp.readyState==4){
 			if(xmlHttp.status==200){
 				xmlRecord=xmlHttp.responseXML;
-				openPrintReport("",xsltransform,xmlRecord,paper);
+				var xmlResult=processXML(xmlRecord,xsltransform,"../templates/");
+				openPrintReport(xmlResult,xsltransform,paper);
 				}
 			else if(xmlHttp.status==404){alert ("Requested URL is not found.");}
 			else if(xmlHttp.status==403){alert("Access denied.");}
@@ -460,7 +464,8 @@ function checksidsAction(buttonObject){
 						}
 					//function to actually process the returned xml	
 					if(xsltransform!=""){
-						openPrintReport("",xsltransform,xmlReport,paper);
+						var xmlResult=processXML(xmlReport,xsltransform,"../templates/");
+						openPrintReport(xmlResult,xsltransform,paper);
 						}
 					}
 				else if(xmlHttp.status==404){alert ("Requested URL is not found.");}
@@ -474,6 +479,22 @@ function checksidsAction(buttonObject){
 			}
 	xmlHttp.send(null);
 	}
+
+
+/* Fetches the names xsl transformation sheet and uses it to process the xmlsource.*/
+function processXML(xmlsource, xsltName, xsltPath){ 
+	var xslsheet;
+	var xProcessor=new XSLTProcessor();
+  	var myXMLHTTPRequest=new XMLHttpRequest();
+  	myXMLHTTPRequest.open("GET", xsltPath+xsltName+".xsl", false);
+  	myXMLHTTPRequest.send(null);
+	xslsheet=myXMLHTTPRequest.responseXML;
+  	xProcessor.importStylesheet(xslsheet);
+	var xmlResult=xProcessor.transformToDocument(xmlsource);
+	//alert(serializeXML(xmlResult));
+	return xmlResult;
+	}
+
 
 function progressIndicator(action){
 	//var statusObject=parent.document.getElementById("sitestatus");
