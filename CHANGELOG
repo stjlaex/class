@@ -11,6 +11,13 @@ is now processed in the parent window and the window is launched
 contianing the xhtml result. This resolves a compatibility issue with
 Firefox 3.6.
 
+Moved most of the eportfolio account management over to a cron script
+which scynchronises student and contact accounts with the ClaSS
+database.
+
+Added a cron line option parameter to run a named script.
+
+
 
 Version ClaSS-0.9.14 release (2010/2/26)
 -----------------------------------------
