@@ -1,4 +1,4 @@
-Version ClaSS-0.9.15 release (2010/3/20)
+Version ClaSS-0.9.15 release (2010/3/21)
 -----------------------------------------
 
 The next budget year now auto-populates with new budgets by
@@ -16,6 +16,8 @@ which scynchronises student and contact accounts with the ClaSS
 database.
 
 Added a cron line option parameter to run a named script.
+
+Fixed typo in fetchCommunity function.
 
 
 

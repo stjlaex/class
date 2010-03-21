@@ -59,7 +59,7 @@ function list_communities($type='',$year=''){
 
 /* Returns the xml Community identified by its comid*/
 function fetchCommunity($comid=''){
-  	$d_com=mysql_query("SELECT name, type, year, cpacpity, 
+  	$d_com=mysql_query("SELECT name, type, year, capacity, 
 					detail FROM community WHERE id='$comid'");
 	$com=mysql_fetch_array($d_com,MYSQL_ASSOC);
 	$Community=array();

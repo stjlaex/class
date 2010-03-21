@@ -41,6 +41,8 @@ if(sizeof($sids)==0){
 $Recipients=array();
 $Recipients['Recipient']=array();
 $recipient_index=array();
+$blank_sids=array();
+$blank_gids=array();
 
 while(list($sindex,$sid)=each($sids)){
 		$Student=fetchStudent_short($sid);
