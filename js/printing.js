@@ -75,9 +75,7 @@ function openChartReport(xml, xsltName, paper){
 	printWindow.document.writeln("<meta http-equiv='Expires' content='0'/>");
 	printWindow.document.writeln("</head>");
 	printWindow.document.writeln("<body onLoad=\""+xsltName+"();\">");
-	printWindow.document.writeln("<div id='xmlStudent'>");
 	printWindow.document.writeln(content);
-	printWindow.document.writeln("</div>");
 	printWindow.document.writeln("</body>");
 	printWindow.document.writeln("</html>");
 	printWindow.document.close();
@@ -108,9 +106,7 @@ function openPrintReport(xml, xsltName, paper){
 	printWindow.document.writeln("<meta http-equiv='Expires' content='0'/>");
 	printWindow.document.writeln("</head>");
 	printWindow.document.writeln("<body>");
-	printWindow.document.writeln("<div id='xmlStudent'>");
 	printWindow.document.writeln(content);
-	printWindow.document.writeln("</div>");
 	printWindow.document.writeln("</body>");
 	printWindow.document.writeln("</html>");
 	printWindow.document.close();
