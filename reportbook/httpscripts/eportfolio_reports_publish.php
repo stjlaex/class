@@ -106,6 +106,7 @@ else{trigger_error('html2ps not configured!',E_USER_ERROR);}
 			$publish_batch[]=array('epfusername'=>$S['EPFUsername']['value'],'filename'=>$filename.'.pdf');
 			$publishdata['batchfiles']=$publish_batch;
 			if(elgg_upload_files($publishdata,true)){
+			//if(true){
 				/* Mark the event table as succesful. */
 				mysql_query("UPDATE report_event SET success='1', time=NOW()
 						WHERE report_id='$wrapper_rid' AND student_id='$sid';");

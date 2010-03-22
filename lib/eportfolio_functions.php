@@ -207,6 +207,53 @@ function elgg_newUser($User,$role){
 
 
 /**
+ * Generates a new user account in elgg for the User xml-array.
+ * Properties are decided by one of three possible roles: staff,
+ * student or guardian. Returns the new epfuid for the User or -1 if
+ * it fails.
+ *
+ */
+function elgg_updateUser($epfuid,$User,$role='guardian'){
+
+	global $CFG;
+
+	$table=$CFG->eportfolio_db_prefix.'users';
+	if($CFG->eportfolio_db!=''){
+		$dbepf=db_connect(true,$CFG->eportfolio_db);
+		mysql_query("SET NAMES 'utf8'");
+		}
+
+	$active='yes';
+	setlocale(LC_CTYPE,'en_GB');
+
+	$epfusername=$User['EPFUsername']['value'];
+
+	if($role=='student'){
+		$email=$User['EmailAddress']['value'];
+		}
+	elseif($role=='guardian'){
+		$email=$User['EmailAddress']['value'];
+		$name=$User['Title']['value'].' '.$User['Surname']['value'];
+		}
+	elseif($role=='staff'){
+		$email=$User['EmailAddress']['value'];
+		}
+
+	if(isset($dbepf)){
+		mysql_query("UPDATE $table SET email='$email', name='$name'
+					WHERE ident='$epfuid' AND username='$epfusername';");
+
+		$db=db_connect();
+		mysql_query("SET NAMES 'utf8'");
+		}
+
+	return $epfuid;
+	}
+
+
+
+
+/**
  *
  * Checks for a community and either updates or creates a new one.
  * Expects an array with at least type and name set, can optionally

@@ -4,7 +4,7 @@
  */
 
 	$todate=date('Y-m-d');
-	$startdate=date('Y-m-d',mktime(0,0,0,date('m')+1,date('d'),date('Y')));
+	$startdate=date('Y-m-d',mktime(0,0,0,date('m'),date('d')+42,date('Y')));
 
 	if(sizeof($ryids)==1){
 		$selyid=$ryids[0];

@@ -1,3 +1,12 @@
+Version ClaSS-0.9.16 release (2010/3/30)
+-----------------------------------------
+
+Added an eportoflio updateUser function.
+
+Improved the cron so that when option is set it only calls the specified script.
+
+
+
 Version ClaSS-0.9.15 release (2010/3/21)
 -----------------------------------------
 

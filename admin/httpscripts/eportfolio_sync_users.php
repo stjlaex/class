@@ -213,9 +213,11 @@ require_once($CFG->installpath.'/'.$CFG->applicationdirectory.'/lib/eportfolio_f
 		while($info=mysql_fetch_array($d_i,MYSQL_ASSOC)){
 			$sid=$info['student_id'];
 			$epfuid_student=elgg_get_epfuid($info['epfusername'],'person',true);
-
 			if($epfuid_contact==-1){
-				/* The first time round for this contact. */
+				/* The first time round for this contact. If a
+				 * epfusername has not yet been issued (done by ldap_sync_users) then nothing
+				 * can be done and ignore.
+				 */
 				if($Contact['EPFUsername']['value']!=''){
 					/* Bit of extra work to prepare the initial password
 					 * for creating a new account. 
@@ -244,7 +246,11 @@ require_once($CFG->installpath.'/'.$CFG->applicationdirectory.'/lib/eportfolio_f
 						}
 					$epfuid_contact=elgg_get_epfuid($Contact['EPFUsername']['value'],'person',true);
 					$Contact['firstchild']=$firstchild;
-					if($epfuid_contact==-1){
+					if($epfuid_contact>0){
+						/* Will only update name and email. */
+						elgg_updateUser($epfuid_contact,$Contact,'guardian');
+						}
+					elseif($epfuid_contact==-1){
 						/* New account to be created in elgg. */
 						$epfuid_contact=elgg_newUser($Contact,'guardian');
 						}

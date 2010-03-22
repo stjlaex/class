@@ -41,36 +41,39 @@ $fullpath=$CFG->installpath.'/'.$CFG->applicationdirectory;
  * Run every time.
  */
 
-if(isset($CFG->emailsys) and $CFG->emailsys=='pearmail'){
-	/* Run the mail queue */
-	$cmd='/usr/bin/php '.$fullpath.'/infobook/httpscripts/message_event_cron.php --path='.$CFG->installpath;
-	exec("$cmd > /dev/null &");
-	}
+if(!isset($ARGS['option'])){
 
-/**
- * Run nightly only
- */
-$latehour=date('H',$starttime);
-if($latehour>0 and $latehour<6){
-	/* Generate PDFs of reports queued for publication */
-	$cmd='/usr/bin/php '.$fullpath.'/reportbook/httpscripts/eportfolio_reports_publish.php --path='.$CFG->installpath;
-	exec("$cmd > /dev/null &");
+	if(isset($CFG->emailsys) and $CFG->emailsys=='pearmail'){
+		/* Run the mail queue */
+		$cmd='/usr/bin/php '.$fullpath.'/infobook/httpscripts/message_event_cron.php --path='.$CFG->installpath;
+		exec("$cmd > /dev/null &");
+		}
+	
+	/**
+	 * Run nightly only
+	 */
+	$latehour=date('H',$starttime);
+	if($latehour>0 and $latehour<6){
+		/* Generate PDFs of reports queued for publication */
+		$cmd='/usr/bin/php '.$fullpath.'/reportbook/httpscripts/eportfolio_reports_publish.php --path='.$CFG->installpath;
+		exec("$cmd > /dev/null &");
+		}
 	}
 
 /**
  * Run once only when specified directly from the cron line --option parameter
  */
-if($ARGS['option']=='ldapsync'){
+elseif($ARGS['option']=='ldapsync'){
 	/* Synchronise students, staff and contacts with LDAP */
 	$cmd='/usr/bin/php '.$fullpath.'/admin/httpscripts/ldap_sync_users.php --path='.$CFG->installpath;
 	exec("$cmd > /dev/null &");
 	}
-if($ARGS['option']=='epfsync'){
+elseif($ARGS['option']=='epfsync'){
 	/* Update accounts for contacts in the ClaSSIC database */
 	$cmd='/usr/bin/php '.$CFG->installpath.'/'.$CFG->applicationdirectory.'/admin/httpscripts/eportfolio_sync_users.php --path='.$CFG->installpath;
 	exec("$cmd > /dev/null &");
 	}
-if($ARGS['option']=='ldapenrol'){
+elseif($ARGS['option']=='ldapenrol'){
 	/* Synchronise courses and enrolments in ldap for use by Moodle */
 	$cmd='/usr/bin/php '.$CFG->installpath.'/'.$CFG->applicationdirectory.'/admin/httpscripts/ldap_enrol_users.php --path='.$CFG->installpath;
 	exec("$cmd > /dev/null &");
