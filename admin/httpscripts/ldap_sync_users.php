@@ -70,7 +70,7 @@ if($ds){
 			else{
 				$emailfirstpart=substr($row['email'],0,$atpos);
 				$atpos=strpos($emailfirstpart, '.');
-				if($atpos!=0) {
+				if($atpos!=0){
 					$emailfirstpartwop=substr($row['email'],0,$atpos);
 					$remainder=substr($emailfirstpart,$atpos+1);
 					$emailfirstpartwop=$emailfirstpartwop.$remainder;
@@ -78,7 +78,7 @@ if($ds){
 				else{
 					$emailfirstpartwop=$emailfirstpart;
 					}
-				$cn= $emailfirstpartwop;
+				$cn=$emailfirstpartwop;
 				}
 			$classrole=$row['role'];
 			$sr=ldap_search($ds, 'ou=people'.',dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2, "uid=$epfusername", $info);
@@ -160,7 +160,7 @@ if($ds){
 		 *
 		 */
 		$yearcoms=(array)list_communities('year');
-		//$yearcoms=array();
+		$yearcoms=array();
 		$Students=array();
 		$entries=0.0;
 		while(list($yearindex,$com)=each($yearcoms)){
@@ -198,7 +198,8 @@ if($ds){
 				$info['cn']=$Students[$sid]['Forename']['value'] . ' ' . $Students[$sid]['Surname']['value'];
 				$info['givenName']=$Students[$sid]['Forename']['value'];
 				$info['sn']=$Students[$sid]['Surname']['value'];
-				$info['mail']=$Students[$sid]['EmailAddress']['value'];
+				if($Students[$sid]['EmailAddress']['value']==''){$info['mail']=$epfusername;}
+				else{$info['mail']=$Students[$sid]['EmailAddress']['value'];}
 				$info['ou']='student'; 
 				$info['objectclass']= 'inetOrgPerson';
 				$distinguishedName="uid=$epfusername".',ou=student'.',ou=people'.',dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
@@ -242,19 +243,20 @@ if($ds){
 		 * Want all contacts who may recieve any sort of mailing to be
 		 * given an account.
 		 */
+
 		$Contacts=array();
 		$entries=0;
-		$yid='%';
 		$d_c=mysql_query("SELECT DISTINCT guardian_id FROM gidsid JOIN
    					student ON gidsid.student_id=student.id 
-   					WHERE student.yeargroup_id LIKE '$yid' AND gidsid.mailing!='0';");
+   					WHERE gidsid.mailing!='0';");
 		while($contact=mysql_fetch_array($d_c,MYSQL_ASSOC)){
 			$gid=$contact['guardian_id'];
 			$Contacts[$gid]=fetchContact(array('guardian_id'=>$gid));
+			
 			if($Contacts[$gid]['Surname']['value']!='' and $Contacts[$gid]['Surname']['value']!=' '){
 				/* Search for entry in LDAP */
 				$epfusername=$Contacts[$gid]['EPFUsername']['value'];
-				if($epfusername==''){
+				if($epfusername=='' or $epfusername==' '){
 					/* Treat as a completely new entry. */
 					$fresh=false;
 					while(!($fresh)){
@@ -268,19 +270,25 @@ if($ds){
 					/* Should already be in LDAP. */
 					$sr=ldap_search($ds,'ou=contact'.',ou=people'.',dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2,"uid=$epfusername");
 					}
-				
+
 				/* Prepare data -in LDIF format- for LDAP field replacement */
 				$info=array();
 				$info['uid']=$epfusername;
 				$info['cn']=$Contacts[$gid]['Forename']['value'] . ' ' . $Contacts[$gid]['Surname']['value'];
 				//$info['givenName']= $Contacts[$gid]['Forename']['value'];//Often blank for contacts so remove
 				$info['sn']=$Contacts[$gid]['Surname']['value'];
-				$info['mail']=$Contacts[$gid]['EmailAddress']['value'];
+				if($Contacts[$gid]['EmailAddress']['value']=='' or $Contacts[$gid]['EmailAddress']['value']==' '){
+					$info['mail']=$epfusername;
+					}
+				else{$info['mail']=$Contacts[$gid]['EmailAddress']['value'];}
 				$info['ou']='contact'; 
 				$info['objectclass']='inetOrgPerson';
 				$distinguishedName="uid=$epfusername".',ou=contact'.',ou=people'.',dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
 				/* When the entry exists, LDAP db is updated with values coming from ClaSS */
 				if(ldap_count_entries($ds, $sr)>0){
+
+					trigger_error($counter.' MODIFY '.$gid.' '.$Contacts[$gid]['EPFUsername']['value'], E_USER_WARNING);
+				
 					/* modify the data in ldap directory */
 					$r=ldap_modify($ds, $distinguishedName, $info);
 					if(!$r){
@@ -308,7 +316,6 @@ if($ds){
 	else{
 		trigger_error('Unable to bind to LDAP server. Nothing has been done.', E_USER_WARNING);
 		}
-
 
 	}
 else{

@@ -1381,7 +1381,7 @@ function fetchMerits($sid,$limit=-1,$bid='%',$pid='%',$year='0000'){
 	$Merits['Total']=$Total;
 
    	$d_m=mysql_query("SELECT * FROM merits WHERE student_id='$sid' AND year='$year' AND
-				subject_id LIKE '$bid' AND component_id LIKE '$pid' ORDER BY date DESC LIMIT $limit;");
+				subject_id LIKE '$bid' AND component_id LIKE '$pid' AND result!='Commendation' ORDER BY date DESC LIMIT $limit;");
   	while($m=mysql_fetch_array($d_m,MYSQL_ASSOC)){
 		$Merits['Merit'][]=fetchMerit($m);
 		}
