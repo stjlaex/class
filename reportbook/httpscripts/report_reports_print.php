@@ -50,6 +50,7 @@ if(isset($_POST['wrapper_rid'])){$wrapper_rid=$_POST['wrapper_rid'];}
 			$reportyear=$reportdefs[0]['report']['year']-1;
 			$startdate=$reportyear.'-08-15';//Does the whole academic year
 			$Student['Reports']['Attendance']=fetchAttendanceSummary($sid,$startdate,$reportdefs[0]['report']['date']);
+			$Student['Reports']['Merits']['Total']=fetchMeritsTotal($sid,$reportdefs[0]['report']['year']);
 			$Students['Student'][]=$Student;
 			}
 		$returnXML=$Students;

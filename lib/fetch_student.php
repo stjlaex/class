@@ -1354,7 +1354,25 @@ function fetchMedical($sid='-1'){
 	return $Medical;
 	}
 
+/**
+ *
+ *
+ */
+function fetchMeritsTotal($sid,$year){
+	$Total=array();
 
+   	$d_m=mysql_query("SELECT COUNT(id) FROM merits WHERE student_id='$sid' AND year='$year' AND value='-1';");
+	$negno=mysql_result($d_m,0);
+   	$d_m=mysql_query("SELECT COUNT(id) FROM merits WHERE student_id='$sid' AND year='$year' AND value>'0';");
+	$posno=mysql_result($d_m,0);
+   	$d_m=mysql_query("SELECT SUM(value) FROM merits WHERE student_id='$sid' AND year='$year';");
+	$sum=mysql_result($d_m,0);
+
+	$Total['Negative']=array('value'=>''.$negno);
+	$Total['Positive']=array('value'=>''.$posno);
+	$Total['Sum']=array('value'=>''.$sum);
+	return $Total;
+	}
 
 /**
  *
@@ -1364,20 +1382,8 @@ function fetchMerits($sid,$limit=-1,$bid='%',$pid='%',$year='0000'){
 	if($bid==' ' or $bid==''){$bid='%';}
 	if($pid==' ' or $pid==''){$pid='%';}
 
-
 	$Merits=array();
-	$Total=array();
-
-   	$d_m=mysql_query("SELECT COUNT(id) FROM merits WHERE student_id='$sid' AND year='$year' AND value='-1';");
-	$negno=mysql_result($d_m,0);
-   	$d_m=mysql_query("SELECT COUNT(id) FROM merits WHERE student_id='$sid' AND year='$year' AND value>'0';");
-	$posno=mysql_result($d_m,0);
-   	$d_m=mysql_query("SELECT SUM(value) FROM merits WHERE student_id='$sid' AND year='$year';");
-	$sum=mysql_result($d_m,0);
-	//$Total['House']=array('value'=>''.$house);
-	$Total['Negative']=array('value'=>''.$negno);
-	$Total['Positive']=array('value'=>''.$posno);
-	$Total['Sum']=array('value'=>''.$sum);
+	$Total=fetchMeritsTotal($sid,$year);
 	$Merits['Total']=$Total;
 
    	$d_m=mysql_query("SELECT * FROM merits WHERE student_id='$sid' AND year='$year' AND
