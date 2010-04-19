@@ -31,7 +31,7 @@ print '<?xml version="1.0" encoding="utf-8"?'.'>';
 </div>
 			
 <div id="logbook">
-	<form  id="langchoice" name="langpref" method="post" action="logbook.php" target="viewlogbook">
+	<form id="langchoice" name="langpref" method="post" action="logbook.php" target="viewlogbook">
 	</form>
 </div>
 

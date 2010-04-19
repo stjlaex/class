@@ -14,7 +14,7 @@ include('lib/fetch_order.php');
 $rtid=$tid;
 $section_perm=get_admin_perm('s',get_uid($tid));
 ?>
-  <div id="bookbox" class="admincolor">
+<div id="bookbox" class="admincolor">
 <?php	
 	if($current!=''){
 		include($book.'/'.$current);

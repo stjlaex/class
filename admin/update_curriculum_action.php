@@ -36,7 +36,7 @@ function read_curriculum_file($filename,$curriculum){
 if($coursecheck=='yes'){
 	mysql_query("DELETE FROM cridbid");
 	mysql_query("DELETE FROM classes");
-	mysql_query("DELETE FROM component");
+  	mysql_query("DELETE FROM component");
 	}
 if($groupcheck=='yes'){
 	mysql_query("DELETE FROM form");
