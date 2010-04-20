@@ -13,7 +13,7 @@ $action_post_vars=array('budid','budgetyear');
 
 include('scripts/sub_action.php');
 
-if($sub=='Submit'){
+if($sub=='Submit' and $supid>0){
 
 	$yearcode=-1;
 	$Order=fetchOrder();
@@ -44,10 +44,12 @@ if($sub=='Submit'){
 	 * The index in the db is entryn which is not neccessarily the
 	 * same as matn if entries have been deleted
 	 * and must avoid blanks in entryn
+	 * Only accept entries where both unitcost and quantity are not zero.
 	 */
 	for($matn=1;$matn<=$maxmatn;$matn++){
-		if(isset($_POST['quantity'.$matn]) and
-		   $_POST['quantity'.$matn]!='' and $_POST['quantity'.$matn]!='0'){
+		if(isset($_POST['quantity'.$matn]) and isset($_POST['unitcost'.$matn]) and
+		   $_POST['quantity'.$matn]!='' and $_POST['unitcost'.$matn]!='' 
+		   and $_POST['quantity'.$matn]!='0' and $_POST['unitcost'.$matn]!='0'){
 			$entryn++;
 			mysql_query("INSERT INTO ordermaterial SET order_id='$ordid', entryn='$entryn';");
 			reset($Material);

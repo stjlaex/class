@@ -21,6 +21,7 @@ $Budget=fetchBudget($budid);
 $budgetyear=get_budgetyear($Budget['YearCode']['value']);
 $Materialblank=fetchMaterial();
 $perms=get_budget_perms($budid);
+$balance=get_budget_projected($budid);
 
 three_buttonmenu();
 ?>
@@ -33,6 +34,26 @@ three_buttonmenu();
   <div class="content" id="viewcontent">
 	<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
 
+	  <fieldset class="right">
+		<div class="right">
+			<label><?php print get_string('projectedbalance','admin').': ';?></label>
+			<?php print $balance. ' '.' '.displayEnum(0,'currency');?>
+		</div>
+	  </fieldset>
+<?php
+if($balance<20){
+?>
+	<fieldset class="center">
+	<div class="center">
+	<p class="warn">
+	<?php print_string('balancetoolow',$book);?>
+	</p>
+	</div>
+	</fieldset>
+<?php
+	}
+else{
+?>
 	  <div class="left">
 		<?php $tab=xmlarray_form($Order,'','neworder',$tab,$book); ?>
 	  </div>
@@ -65,6 +86,7 @@ three_buttonmenu();
 		  </tr>
 		</table>
 	  </div>
+
 
 	  <div class="center">
 		<table class="listmenu">
@@ -110,6 +132,9 @@ three_buttonmenu();
 		</table>
 	  </div>
 
+<?php
+	}
+?>
 	    <input type="hidden" name="budgetyear" value="<?php print $budgetyear;?>">
 	    <input type="hidden" name="budid" value="<?php print $budid;?>">
 	    <input type="hidden" name="ordid" value="<?php print $ordid;?>">

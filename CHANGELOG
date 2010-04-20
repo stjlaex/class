@@ -1,6 +1,9 @@
 Version ClaSS-0.9.17 release (2010/4/18)
 -----------------------------------------
 
+Used projected balance near to zero to prevent new orders being placed.
+
+No longer allow material items on order with unitcost value of zero.
 
 
 Version ClaSS-0.9.16 release (2010/3/30)

@@ -44,6 +44,7 @@ else{
 	$colspan=6;
 	$perms=get_budget_perms($budid);
 	$Budget=fetchBudget($budid);
+	$balance=get_budget_projected($budid);
 	}
 
 
@@ -59,6 +60,22 @@ two_buttonmenu($extrabuttons,$book);
 		}
 ?>
   <div id="viewcontent" class="content">
+
+
+<?php
+		if(isset($balance)){
+?>
+	  <fieldset class="right">
+		<div class="right">
+			<label><?php print get_string('projectedbalance','admin').': ';?></label>
+<?php print $balance. ' '.displayEnum(0,'currency');?>
+		</div>
+	  </fieldset>
+<?php
+			}
+?>
+
+
 
   <form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host; ?>" >
 

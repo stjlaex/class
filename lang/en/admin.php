@@ -150,6 +150,7 @@ $string['order']='Order';
 $string['limit']='Limit';
 $string['projectedbalance']='Projected balance';
 $string['currentbalance']='Current balance';
+$string['balancetoolow']='The projected balance is too low to accept another order.';
 $string['newbudget']='New budget';
 $string['budgetscope']='Scope of budget';
 $string['newsupplier']='New supplier';
