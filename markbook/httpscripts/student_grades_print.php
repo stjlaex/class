@@ -17,6 +17,18 @@ if($sid==-1){
 	$rootName='Error';
 	}
 else{
+	$asstable=array();
+	/*
+	$d_assessment=mysql_query("SELECT * FROM assessment JOIN
+				rideid ON rideid.assessment_id=assessment.id 
+				WHERE report_id='$rid' ORDER BY rideid.priority, assessment.label;");
+	while($ass=mysql_fetch_array($d_assessment,MYSQL_ASSOC)){
+		$asstable['ass'][]=array('name' => ''.$ass['description'],
+								 'label' => ''.$ass['label'],
+								 'date' => ''.$ass['date'],
+								 'element' => ''.$ass['element']);
+		}
+	*/
 
 	/*
 	$crid='GCSE';
@@ -29,9 +41,22 @@ else{
 	*/
 	$Students=array();	
 	$Students['Student']=array();
-	//$Assessments['Assessment']=array();
 	$Student=fetchStudent_short($sid);
 	$Assessments['Assessment']=(array)fetchAssessments_short($sid);
+	$asseids=array();
+	foreach($Assessments['Assessment'] as $index => $Assessment){
+		$eid=$Assessment['id_db'];
+		if(!in_array($eid,$asseids)){
+				$asseids[]=$eid;
+				$d_assessment=mysql_query("SELECT * FROM assessment WHERE id='$eid';");
+				$ass=mysql_fetch_array($d_assessment,MYSQL_ASSOC);
+				$asstable['ass'][]=array('id_db' => ''.$eid,
+										 'name' => ''.$ass['description'],
+										 'label' => ''.$ass['label'],
+										 'date' => ''.$ass['deadline'],
+										 'element' => ''.$ass['element']);
+				}
+			}
 	/*
 	for($ec=0;$ec<sizeof($AssDefs);$ec++){
 		$Assessments['Assessment']=array_merge($Assessments['Assessment'],fetchAssessments_short($sid,$AssDefs[$ec]['id_db'],$bid,$pid));
@@ -39,6 +64,7 @@ else{
 	*/
 	$Student['Assessments']=xmlarray_indexed_check($Assessments,'Assessment');
 	$Students['Student'][]=$Student;
+	$Students['asstable']=(array)nullCorrect($asstable);
 
 	$Students['Date']=date('Y-m-d');
 	$Students['Paper']='landscape';
