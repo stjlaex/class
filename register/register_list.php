@@ -161,7 +161,7 @@ if($community['type']!='class'){
 				print date('j S',$t) .'<br />';
 				print date('M',$t) .'<br />';
 				print $Event['Session']['value'];
-				if($Event['id_db']>0){
+				if($Event['id_db']>0 and $index!=(sizeof($AttendanceEvents['Event'])-1)){
 					$lasteveid=$Event['id_db'];
 					}
 				}

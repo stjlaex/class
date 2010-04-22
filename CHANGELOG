@@ -10,6 +10,8 @@ Included an asstable for labelling the student tracking sheet.
 Finally included day-by-day codes to the attendance summary, doing
 both AM and PM. Plus localised list of absence codes.
 
+Fix to the 'last' autofill option on the register.
+
 
 Version ClaSS-0.9.16 release (2010/3/30)
 -----------------------------------------
