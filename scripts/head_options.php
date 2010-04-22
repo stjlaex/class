@@ -30,15 +30,15 @@
 <meta name="version" content='<?php print "$CFG->version"; ?>' />
 <meta name="licence" content="GNU General Public License version 2" />
 <style type="text/css">@import url(lib/jscalendar/skins/aqua/theme.css);</style>
-<link rel="stylesheet" type="text/css" href="css/bookstyle.css?version=913" />
+<link rel="stylesheet" type="text/css" href="css/bookstyle.css" />
 <link rel="stylesheet" type="text/css" href="css/selery.css" />
 <link rel="stylesheet" type="text/css" href="css/<?php print $book; ?>.css" />
 <script language="JavaScript" type="text/javascript">
 var pathtobook = "<?php print $CFG->sitepath.'/'.$CFG->applicationdirectory.'/'.$book.'/';?>";
 </script>
-<script language="JavaScript" type="text/javascript" src="js/printing.js?version=915"></script>
+<script language="JavaScript" type="text/javascript" src="js/printing.js?version=917"></script>
 <script language="JavaScript" type="text/javascript" src="js/qtip.js"></script>
-<script language="JavaScript" type="text/javascript" src="js/bookfunctions.js?version=915"></script> 
+<script language="JavaScript" type="text/javascript" src="js/bookfunctions.js?version=917"></script> 
 <script language="JavaScript" type="text/javascript" src="js/register.js"></script>
 <script language="JavaScript" type="text/javascript" src="lib/jscalendar/calendar.js"></script>
 <script language="JavaScript" type="text/javascript" src="lib/jscalendar/lang/calendar-<?php  print_string('shortlocale');?>.js"></script>

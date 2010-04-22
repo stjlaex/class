@@ -246,6 +246,7 @@ function displayEnum($value,$field_name){
  *
  */
 function getEnumArray($field_name){
+	global $CFG;
 	/*for the student table*/
 	$gender=array('M' => 'male', 'F' => 'female');
 
@@ -1105,7 +1106,9 @@ function getEnumArray($field_name){
 	$secondnationality=$nationality;
 	$country=$nationality;
 
-	if(file_exists('../schoolarrays.php')){include('../schoolarrays.php');}
+	$fullpath=$CFG->installpath;
+	trigger_error($fullpath,E_USER_WARNING);
+	if(file_exists($fullpath.'/schoolarrays.php')){include($fullpath.'/schoolarrays.php');}
 
 	if(!isset($$field_name)){trigger_error('Not in enum: '.$field_name,E_USER_WARNING);}
 	return $$field_name;

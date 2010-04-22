@@ -11,18 +11,15 @@ if(isset($_POST['startdate'])){$startdate=$_POST['startdate'];}
 if(isset($_GET['enddate'])){$enddate=$_GET['enddate'];}else{$enddate='';}
 if(isset($_POST['enddate'])){$enddate=$_POST['enddate'];}
 
+/** Taken from PHP manual and > PHP5? */
 function dateDiff($startdate,$enddate){
-	// Parse dates for conversion
 	$startArry = date_parse($startdate);
 	$endArry = date_parse($enddate);
-	
-	// Convert dates to Julian Days
 	$start_date = gregoriantojd($startArry["month"], $startArry["day"], $startArry["year"]);
 	$end_date = gregoriantojd($endArry["month"], $endArry["day"], $endArry["year"]);
-	
-	// Return difference
 	return round(($end_date - $start_date), 0);
 	}
+/***/
 
 	if(sizeof($sids)==0){
 		$result[]=get_string('youneedtoselectstudents');
@@ -31,8 +28,8 @@ function dateDiff($startdate,$enddate){
 		}
 	else{
 
-		$nodays=dateDiff($startdate,$enddate);
-		$startday=dateDiff(date('Y-m-d'),$enddate);
+		$nodays=dateDiff($startdate,$enddate);//number of days for the period
+		$startday=dateDiff(date('Y-m-d'),$enddate);//number days relative to today, -ve for the past
 
 		$Students=array();
 		$Students['Student']=array();
@@ -40,60 +37,72 @@ function dateDiff($startdate,$enddate){
 		for($c=0;$c<sizeof($sids);$c++){
 			$sid=$sids[$c];
 			$Student=fetchStudent_short($sid);
-			$Attendance=fetchAttendanceSummary($sid,$startdate,$enddate);
+			$AttendanceSummary=fetchAttendanceSummary($sid,$startdate,$enddate);
 
 			$table_html=array();
 			$rows=array();
 			$row=array();
 			$row['th'][]='Week Beginning';
-			$row['th'][]=date('D',mktime(0,0,0,date('m'),date('d')-$startday-$nodays,date('Y')));
-			$row['th'][]=date('D',mktime(0,0,0,date('m'),date('d')-$startday-$nodays+1,date('Y')));
-			$row['th'][]=date('D',mktime(0,0,0,date('m'),date('d')-$startday-$nodays+2,date('Y')));
-			$row['th'][]=date('D',mktime(0,0,0,date('m'),date('d')-$startday-$nodays+3,date('Y')));
-			$row['th'][]=date('D',mktime(0,0,0,date('m'),date('d')-$startday-$nodays+4,date('Y')));
-			$row['th'][]=date('D',mktime(0,0,0,date('m'),date('d')-$startday-$nodays+5,date('Y')));
-			$row['th'][]=date('D',mktime(0,0,0,date('m'),date('d')-$startday-$nodays+6,date('Y')));
+			$row['th'][]=date('D',mktime(0,0,0,date('m'),date('d')+$startday-$nodays-7-6,date('Y')));
+			$row['th'][]=date('D',mktime(0,0,0,date('m'),date('d')+$startday-$nodays-7-5,date('Y')));
+			$row['th'][]=date('D',mktime(0,0,0,date('m'),date('d')+$startday-$nodays-7-4,date('Y')));
+			$row['th'][]=date('D',mktime(0,0,0,date('m'),date('d')+$startday-$nodays-7-3,date('Y')));
+			$row['th'][]=date('D',mktime(0,0,0,date('m'),date('d')+$startday-$nodays-7-2,date('Y')));
+			$row['th'][]=date('D',mktime(0,0,0,date('m'),date('d')+$startday-$nodays-7-1,date('Y')));
+			$row['th'][]=date('D',mktime(0,0,0,date('m'),date('d')+$startday-$nodays-7,date('Y')));
 
 			$rows['tr'][]=$row;
+			//for($countday=0;$countday<=$nodays;$countday++){
+			for($countday=$nodays-7;$countday>-7;$countday=$countday-7){
+				$atday=$startday-$countday-6;//number of days in the past for the current event
+				$atdate=date('Y-m-d',mktime(0,0,0,date('m'),date('d')+$atday,date('Y')));
+				$row=array();
+				$row['th'][]=$atdate;
 
-			for($countday=$nodays;$countday>0;$countday--){
-				$atdate=date('Y-m-d',mktime(0,0,0,date('m'),date('d')-$startday-$countday,date('Y')));
+				for($weekday=6;$weekday>-1;$weekday--){
+					$atday=$startday-$countday-$weekday;
+					$atdate=date('Y-m-d',mktime(0,0,0,date('m'),date('d')+$atday,date('Y')));
+					$d=date('D',mktime(0,0,0,date('m'),date('d')+$atday,date('Y')));
+					$Attendances=fetchAttendances($sid,$atday,1);
+					$content='';
+					foreach($Attendances['Attendance'] as $aindex => $Attendance){
+						if($Attendance['Status']['value']=='p' and $Attendance['Session']['value']=='AM'){
+							$content.='/';
+							}
+						elseif($Attendance['Status']['value']=='p' and $Attendance['Session']['value']=='PM'){
+							$content.="\\";
+							}
+						elseif($Attendance['Status']['value']=='a'){
+							$content.=$Attendance['Code']['value'];
+							}
+						}
+					if($content==''){$content='#';}
 
-				if($weekday==0){
-					$row=array();
-					$row['th'][]=$atdate;
-					}
-				$day=$startday-$countday;
-				$Attendances=fetchAttendances($sid,$day,1);
-				if($Attendances['Attendance'][0]['Status']['value']=='p'){
-					$content='/';
-					}
-				elseif($Attendances['Attendance'][0]['Status']['value']=='a'){
-					$content=$Attendances['Attendance'][0]['Code']['value'];
-					}
-				else{
-					$content='#';
+					$row['td'][]=$content;
 					}
 
-				$row['td'][]=$content;
-
-				if($weekday==6 or $countday==1){
-					$rows['tr'][]=$row;
-					$weekday=0;
-					}
-				else{$weekday++;}
+				$rows['tr'][]=$row;
 				}
-
 
 
 			$table_html['table'][]=$rows;
 			$Student['AttendanceTable']=$table_html;
 
 
-			$Student['Attendance']=$Attendance;
+			$Student['Attendance']=$AttendanceSummary;
 			$Students['Student'][]=$Student;
 			}
 
+		$Codes=array();
+		$Codes['Code']=array();
+		$enum=getEnumArray('absencecode');
+		while(list($inval,$description)=each($enum)){	
+			$Codes['Code'][]=array('value'=>''.$inval,
+						   'description'=>''.get_string($description,'register')
+						   );
+			}
+
+		$Students['AbsenceCodes']=$Codes;
 		$Students['Paper']='portrait';
 		$Students['Transform']='attendance_summary';
 		$returnXML=$Students;
