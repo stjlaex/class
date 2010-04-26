@@ -458,26 +458,28 @@ function fetchAttendanceSummary($sid,$startdate,$enddate){
 	$no_visit=count_attendance($sid,$startdate,$enddate,'V');
 	$no_late=$no_late_authorised+$no_late_unauthorised;
 	$no_attended=$no_present+$no_late+$no_visit;
-	$Attendance['Summary']['Attended']=array('label'=>'attended',
-											 'value'=>''.$no_attended);
-	$Attendance['Summary']['Late']=array('label'=>'late',
-										 'value'=>''.$no_late);
+
 	/** 
 	 * For the purpose of official statistics an attendnace code can
 	 * be either an unauthorised absence, authorised absence or in
 	 * attendance and the following formula resepcts this for
-	 * compiling the summary are  
+	 * compiling the summary
 	 */
 	$no_absent=count_attendance($sid,$startdate,$enddate,'%') - $no_late - $no_visit;
 	$no_notagreed=count_attendance($sid,$startdate,$enddate,'G');
 	$no_notexplained=count_attendance($sid,$startdate,$enddate,'O');
 	$no_noreason=count_attendance($sid,$startdate,$enddate,'N');
+	$no_late_register=count_late($sid,$startdate,$enddate);
 	//$no_ill=count_attendance($sid,$startdate,$endate,'I');
 	//$no_medical=count_attendance($sid,$startdate,$endate,'M');
 
 	$no_unauthorised_absent=$no_notagreed+$no_noreason+$no_notexplained;
 	$no_authorised_absent=$no_absent-$no_unauthorised_absent;
 
+	$Attendance['Summary']['Attended']=array('label'=>'attended',
+											 'value'=>''.$no_attended);
+	$Attendance['Summary']['Late']=array('label'=>'late',
+										 'value'=>''.$no_late);
 	$Attendance['Summary']['Absentauthorised']=array('label'=>'authorisedabsent',
 													 'value'=>''.$no_authorised_absent);
 	$Attendance['Summary']['Absentunauthorised']=array('label'=>'unauthorisedabsent',
@@ -486,6 +488,8 @@ function fetchAttendanceSummary($sid,$startdate,$enddate){
 													 'value'=>''.$no_late_unauthorised);
 	$Attendance['Summary']['Lateauthorised']=array('label'=>'lateauthorised',
 												   'value'=>''.$no_late_authorised);
+	$Attendance['Summary']['Latetoregister']=array('label'=>'lateauthorised',
+												   'value'=>''.$no_late_register);
 	$Attendance['Summary']['Notexplained']=array('label'=>'unexplained',
 												 'value'=>''.$no_notexplained);
 	$Attendance['Summary']['Enddate']=array('label'=>'enddate',
@@ -494,6 +498,8 @@ function fetchAttendanceSummary($sid,$startdate,$enddate){
 											  'value'=>''.$startdate);
 	return $Attendance;
 	}
+
+
 
 /**
  * This will count all present marks unless a code is specified when 
@@ -519,6 +525,26 @@ function count_attendance($sid,$startdate,$enddate,$code=''){
 			AND attendance.code!='X' AND attendance.code!='Y' AND attendance.code!='Z'  
 			AND attendance.code!='#' 
 			AND event.date >= '$startdate' AND event.date <= '$enddate' AND period='0';");
+	$noatts=mysql_result($d_attendance,0);
+
+	return $noatts;
+	}
+
+
+
+/**
+ * This will count all present marks which have flagged with a
+ * late, that is lates before registration closed.
+ *
+ */
+function count_late($sid,$startdate,$enddate){
+
+	$status='p';
+	$code='';
+	$d_attendance=mysql_query("SELECT COUNT(attendance.status) FROM attendance JOIN
+			event ON event.id=attendance.event_id WHERE
+			attendance.student_id='$sid' AND attendance.status='$status'  AND attendance.late='1' 
+			AND event.date >= '$startdate' AND event.date <= '$enddate' AND event.period='0';");
 	$noatts=mysql_result($d_attendance,0);
 
 	return $noatts;

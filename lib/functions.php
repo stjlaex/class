@@ -1107,12 +1107,13 @@ function getEnumArray($field_name){
 	$country=$nationality;
 
 	$fullpath=$CFG->installpath;
-	trigger_error($fullpath,E_USER_WARNING);
 	if(file_exists($fullpath.'/schoolarrays.php')){include($fullpath.'/schoolarrays.php');}
 
 	if(!isset($$field_name)){trigger_error('Not in enum: '.$field_name,E_USER_WARNING);}
 	return $$field_name;
 	}
+
+
 
 /**
  * Sorts an array but is not utf8 friendly
