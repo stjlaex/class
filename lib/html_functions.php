@@ -110,22 +110,6 @@ function threeplus_buttonmenu($currentkey,$maxkey,$extrabuttons='',$book=''){
 <?php
 	}
 
-/**
- * 
- */
-function twoplusprint_buttonmenu($extrabuttons='',$book=''){
-?>
-  <div class="buttonmenu">
-<?php
-		 all_extrabuttons($extrabuttons,$book);
-?>
-	<button onClick="processContent(this);" name="sub" 
-		value="Print"><?php print_string('printselected');?></button>
-	<button onClick="processContent(this);" name="sub" style="margin-left:1em;" value="Cancel"><?php print_string('cancel');?></button>
-	<button onClick="processContent(this);" name="sub" value="Reset"><?php print_string('reset');?></button>
-  </div>
-<?php
-	}
 
 /**
  *

@@ -4,7 +4,6 @@
  *   	Lists all completed registers for currentevent.
  */
 
-$action='completion_list_action.php';
 $choice='completion_list.php';
 
 if(!isset($CFG->registrationtype) or $CFG->registrationtype=='form'){
@@ -18,7 +17,13 @@ $eveid=$currentevent['id'];
 
 
 include('scripts/sub_action.php');
-twoplusprint_buttonmenu();
+
+$extrabuttons=array();
+$extrabuttons['previewselected']=array('name'=>'current',
+									   'pathtoscript'=>$CFG->sitepath.'/'.$CFG->applicationdirectory.'/register/',
+									   'value'=>'register_print.php',
+									   'onclick'=>'checksidsAction(this)');
+two_buttonmenu($extrabuttons);
 ?>
   <div id="heading">
 	<label><?php print_string('registersthissession',$book);?></label>
@@ -55,10 +60,12 @@ twoplusprint_buttonmenu();
 			$totalnop+=$nop;
 			$totalnoa+=$noa;
 			$totalnosids+=$nosids;
+
+			/* Called sids for convenience of js but the checkbox is really comids */
 ?>
 		<tr>
 		  <td>
-			<input type="checkbox" name="comids[]" value="<?php print $com['id']; ?>" />
+			<input type="checkbox" name="sids[]" value="<?php print $com['id']; ?>" />
 		  </td>
 		  <td>
 			<a onclick="parent.viewBook('register');" target="viewregister"  
@@ -96,9 +103,16 @@ twoplusprint_buttonmenu();
 		</tr>
 		</table>
 
+		<div id="xml-checked-action" style="display:none;">
+		  <params>
+			<sids><?php print $sid;?></sids>
+			<selectname>wrapper_rid</selectname>
+		  </params>
+		</div>
+
+
 		<input type="hidden" name="date" value="<?php print $currentevent['date'];?>" />
 		<input type="hidden" name="session" value="<?php print $currentevent['session'];?>" />
-		<input type="hidden" name="current" value="<?php print $action;?>" />
 		<input type="hidden" name="cancel" value="<?php print '';?>" />
 	    <input type="hidden" name="choice" value="<?php print $choice;?>" />
 	  </form>

@@ -82,7 +82,7 @@ function openChartReport(xml, xsltName, paper){
 	}
 
 /* Receives the result of an xsl transformation as xml and opens a
-separate preview window to display.xsltName defines the css sheet to
+separate preview window to display. xsltName defines the css sheet to
 apply and paper is either ladnscape or portrait.*/
 function openPrintReport(xml, xsltName, paper){
 	var content="";
@@ -110,7 +110,7 @@ function openPrintReport(xml, xsltName, paper){
 	printWindow.document.writeln("</body>");
 	printWindow.document.writeln("</html>");
 	printWindow.document.close();
-		
+
 	}
 
 

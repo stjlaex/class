@@ -614,7 +614,7 @@ function get_student_section($sid){
 /**
  * 
  * Find all current cohorts with which a community is associated.
- *
+ * Only returns cohorts for this academic year.
  */
 function list_community_cohorts($community){
 	if($community['type']=='form'){

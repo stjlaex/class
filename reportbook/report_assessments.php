@@ -2,8 +2,13 @@
 /**												report_assessments.php
  */
 
-$action='report_assessments_view.php';
+$action='report_assessments_action.php';
 $choice='report_assessments.php';
+
+if(isset($_GET['selfid'])){$selfid=$_GET['selfid'];}else{$selfid='';}
+if(isset($_POST['selfid'])){$selfid=$_POST['selfid'];}
+if(isset($_GET['selyid'])){$selyid=$_GET['selyid'];}else{$selyid='';}
+if(isset($_POST['selyid'])){$selyid=$_POST['selyid'];}
 
 three_buttonmenu();
 ?>
@@ -13,28 +18,57 @@ three_buttonmenu();
 
 	  <fieldset class="center">
 		<legend><?php print_string('collateforstudentsfrom',$book);?></legend>
-		  <?php $required='yes'; include('scripts/'.$listgroup);?>
+		<?php $onchange='yes'; $required='no';include('scripts/'.$listgroup);?>
 	  </fieldset>
 <?php
 	  if($r>-1){
-?>
 
-	  <fieldset class="center">
+/*	  <fieldset class="center">
 		<legend><?php print_string('limitbysubject',$book);?></legend>
 		<div class="left" >
-		<?php $multi='4'; include('scripts/list_subjects.php');?>
+		  <?php $multi='4'; include('scripts/list_subjects.php');?>
 		</div>
 	  </fieldset>
-<?php
+*/
 	  }
 ?>
 
 	  <fieldset class="center">
-		<legend><?php print_string('choosetoinclude',$book);?></legend>
+		<legend><?php print_string('assessmentprofile',$book);?></legend>
 		<div class="center" >
-		  <?php include('scripts/list_assessment.php');?>
+<?php
+		if($selfid!=''){
+			$cohorts=list_community_cohorts(array('id'=>'','type'=>'form','name'=>$selfid));
+			}
+		elseif($selyid!=''){
+			$cohorts=list_community_cohorts(array('id'=>'','type'=>'year','name'=>$selyid));
+			}
+		if(isset($cohorts)){
+			$rcrid=$cohorts[0]['course_id'];
+			//trigger_error('COHORT '.sizeof($cohorts).' :'.$rcrid,E_USER_WARNING);
+			include('scripts/list_assessment_profile.php');
+			}
+?>
 		</div>
 	  </fieldset>
+
+
+	  <fieldset class="center">
+		<legend><?php print_string('choosetoinclude',$book);?></legend>
+		<div class="center" >
+<?php
+			/*
+		$ryids=array('0'=>$selyid);
+		$rfids=array('0'=>$selfid);
+		include('scripts/list_assessment.php');
+			*/
+?>
+		</div>
+	  </fieldset>
+
+
+	  <input type="hidden" name="selfid" value="<?php print $selfid;?>" />
+	  <input type="hidden" name="selyid" value="<?php print $selyid;?>" />
 	  <input type="hidden" name="cancel" value="<?php print '';?>" />
 	  <input type="hidden" name="current" value="<?php print $action;?>" />
 	  <input type="hidden" name="choice" value="<?php print $choice;?>" />

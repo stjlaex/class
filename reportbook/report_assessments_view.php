@@ -52,12 +52,10 @@ two_buttonmenu($extrabuttons,$book);
 		/*TODO: this just guesses a date in the middle of the academic year! */
 		$todate=$year-1;
 		$todate=$todate.'-12-31';
-		trigger_error($todate,E_USER_WARNING);
 		$students=listin_cohort(array('id'=>'','course_id'=>$rcrid,'year'=>$year,'stage'=>$stage),$todate);
 		}
 
 	$viewtable=array();/*The array used to store the information to display*/
-	$sids=array();
 	$gradestats=array();
 	$assdefs=array();
 	$assbids=array();/*index all the bids these asses may relate to*/
