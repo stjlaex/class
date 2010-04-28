@@ -370,7 +370,7 @@ function sidtableFilter(buttonObject){
 function checksidsAction(buttonObject){
 	var formObject=document.formtoprocess;
 	var formElements=formObject.elements;
-	var buttonname=buttonObject.name;
+	var action=buttonObject.name;
 	var script=buttonObject.value;
 	var params="";
 	var xsltransform="";
@@ -381,8 +381,8 @@ function checksidsAction(buttonObject){
 	if(buttonObject.getAttribute("pathtoscript")){
 		pathtoscript=buttonObject.getAttribute("pathtoscript");
 		}
-	// Need the id of the div containing the params to work with
-	// this defaults to checked-action but can be overridden
+	// Need the id of the div containing the params to work with.
+	// This defaults to checked-action but can be overridden.
 	var theContainerId="checked-action";
 	if(buttonObject.getAttribute("xmlcontainerid")){
 		theContainerId=buttonObject.getAttribute("xmlcontainerid");
@@ -402,7 +402,8 @@ function checksidsAction(buttonObject){
 				if(paramname=="transform"){
 					//the transform is used by the js and not passed as a param
 					var xsltransform=escape(xmlvalue);
-					var paper="portrait";
+					if(action=="chart"){var paper="landscape";}
+					else{var paper="portrait";}
 					}
 				else if(paramname=="selectname"){
 					//used by the js and not passed as a param
@@ -465,7 +466,12 @@ function checksidsAction(buttonObject){
 					//function to actually process the returned xml	
 					if(xsltransform!=""){
 						var xmlResult=processXML(xmlReport,xsltransform,"../templates/");
-						openPrintReport(xmlResult,xsltransform,paper);
+						if(action=="chart"){
+							openCharttReport(xmlResult,xsltransform,paper);
+							}
+						else{
+							openPrintReport(xmlResult,xsltransform,paper);
+							}
 						}
 					}
 				else if(xmlHttp.status==404){alert ("Requested URL is not found.");}

@@ -9,6 +9,8 @@ if(isset($_GET['selfid'])){$selfid=$_GET['selfid'];}else{$selfid='';}
 if(isset($_POST['selfid'])){$selfid=$_POST['selfid'];}
 if(isset($_GET['selyid'])){$selyid=$_GET['selyid'];}else{$selyid='';}
 if(isset($_POST['selyid'])){$selyid=$_POST['selyid'];}
+if(isset($_POST['profid'])){$profid=$_POST['profid'];}else{$profid='';}
+if(isset($_POST['gender'])){$gender=$_POST['gender'];}else{$gender='';}
 
 three_buttonmenu();
 ?>
@@ -30,6 +32,7 @@ three_buttonmenu();
 		</div>
 	  </fieldset>
 */
+
 	  }
 ?>
 
@@ -43,9 +46,12 @@ three_buttonmenu();
 		elseif($selyid!=''){
 			$cohorts=list_community_cohorts(array('id'=>'','type'=>'year','name'=>$selyid));
 			}
+
 		if(isset($cohorts)){
-			$rcrid=$cohorts[0]['course_id'];
-			//trigger_error('COHORT '.sizeof($cohorts).' :'.$rcrid,E_USER_WARNING);
+			$rcrid=$cohorts[0]['course_id'];$onchange='';$required='yes';
+			}
+
+		if($r>1 or isset($cohorts)){
 			include('scripts/list_assessment_profile.php');
 			}
 ?>
@@ -62,7 +68,11 @@ three_buttonmenu();
 		$rfids=array('0'=>$selfid);
 		include('scripts/list_assessment.php');
 			*/
+	$listname='gender';$listlabel='gender';$required='no';
+	include('scripts/set_list_vars.php');
+	list_select_enum('gender',$listoptions,$book);
 ?>
+
 		</div>
 	  </fieldset>
 

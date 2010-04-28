@@ -13,12 +13,14 @@
  *	raw scores added.
  */
 
-$action='report_assessments_view.php';
+$action='report_assessments.php';
 
 if(isset($_POST['year'])){$year=$_POST['year'];}
 if(isset($_POST['stage'])){$stage=$_POST['stage'];}
-if(isset($_POST['newyid'])){$yid=$_POST['newyid'];}else{$yid='';}
-if(isset($_POST['newfid'])){$fid=$_POST['newfid'];}else{$fid='';}
+if(isset($_POST['selyid'])){$yid=$_POST['selyid'];}else{$yid='';}
+if(isset($_POST['selfid'])){$fid=$_POST['selfid'];}else{$fid='';}
+if(isset($_POST['gender'])){$gender=$_POST['gender'];}else{$gender='';}
+if(isset($_POST['profid'])){$profid=$_POST['profid'];}
 if(isset($_POST['bids'])){$selbids=(array)$_POST['bids'];}
 if(isset($_POST['eids'])){$eids=(array)$_POST['eids'];}else{$eids=array();}
 if(isset($_POST['breakdown'])){$breakdown=$_POST['breakdown'];}else{$breakdown='subject';}
@@ -26,13 +28,22 @@ if(isset($_POST['breakdown'])){$breakdown=$_POST['breakdown'];}else{$breakdown='
 include('scripts/sub_action.php');
 
 $extrabuttons=array();
+$extrabuttons['previewselected']=array('name'=>'print',
+									   'pathtoscript'=>$CFG->sitepath.'/'.$CFG->applicationdirectory.'/markbook/',
+									   'value'=>'report_profile_print.php',
+									   'onclick'=>'checksidsAction(this)');
+/*
 $extrabuttons['displaybysubject']=array('name'=>'breakdown',
 										'value'=>'subject'
 										);
 $extrabuttons['displaybyassessment']=array('name'=>'breakdown',
 										   'value'=>'assessment'
 										   );
+*/
 two_buttonmenu($extrabuttons,$book);
+
+$profile=get_assessment_profile($profid);
+$students=array();
 
 	if($fid!=''){
 		$students=listin_community(array('id'=>'','type'=>'form','name'=>$fid));
@@ -55,11 +66,16 @@ two_buttonmenu($extrabuttons,$book);
 		$students=listin_cohort(array('id'=>'','course_id'=>$rcrid,'year'=>$year,'stage'=>$stage),$todate);
 		}
 
+
+
 	$viewtable=array();/*The array used to store the information to display*/
 	$gradestats=array();
 	$assdefs=array();
 	$assbids=array();/*index all the bids these asses may relate to*/
 	$asscrids=array();/*index all the crids these asses may relate to*/
+
+
+/****************/
 	while(list($index,$eid)=each($eids)){
 		$AssDef=fetchAssessmentDefinition($eid);
 		$assdefs[$eid]=$AssDef;
@@ -110,15 +126,20 @@ two_buttonmenu($extrabuttons,$book);
 		reset($selbids);
 		}
 
+/****************/
+
 	$viewtable[0]['out']=array();
 	$viewtable[0]['count']=array();
 	$c=1;/*$c=0 in viewtable is for column headers*/
 	while(list($index,$student)=each($students)){
-		$sid=$student['id'];
-		$viewtable[$c]=array();
-		$viewtable[$c]['student']=(array)$student;
-		$viewtable[$c]['out']=array();
-		$c++;
+		/* TODO: improve and extend the filter methods... */
+		if($gender=='' or $gender==$student['gender']){
+			$sid=$student['id'];
+			$viewtable[$c]=array();
+			$viewtable[$c]['student']=(array)$student;
+			$viewtable[$c]['out']=array();
+			$c++;
+			}
 		}
 
 
@@ -251,41 +272,19 @@ two_buttonmenu($extrabuttons,$book);
 		/*TODO: end of row average needed here*/
 		}
 ?>
-		  <script>
-<?php 
-	/*write the grade statistics for display in the javascripts
-	ksort($gradestats);
-	$grades=array_keys($gradestats);
-	$sum=0;
-	$percents=array();
-	print 'var gradestats = [';
-	for ($c=0, $max=sizeof($grades);$c<$max;$c++){ 
-		print '"'.$gradestats[$grades[$c]].'"';
-		if($c<$max-1){print ',';}else{print '];';}
-		if($c>0){$sum=$sum+$gradestats[$grades[$c]];}
-		}
-	print ' var grades = [';
-	for($c=0,$max=sizeof($grades);$c<$max;$c++){ 
-		print '"'.$grades[$c].'"';
-		if($c<$max-1){print ',';}else{print '];';}
-		$percents[$c]=100*$gradestats[$grades[$c]]/$sum;
-		}
-	print ' var percents = [';
-	for($c=0,$max=sizeof($grades);$c<$max;$c++){ 
-		print '"'.round($percents[$c],1).'"';
-		if($c<$max-1){print ',';}else{print '];';}
-		}
-*/
-?>
-		  </script>
+
 	  <div id="viewcontent" class="content fullwidth">
-		<form id="formtoprocess" name="formtoprocess" 
-						method="post" action="<?php print $host;?>"> 
-		  <table class="listmenu">
+		<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>"> 
+		<table class="listmenu sidtable" id="sidtable">
 			<tr>
+		<th colspan="1"><?php print_string('checkall'); ?>
+		  <input type="checkbox" name="checkall" 
+				value="yes" onChange="checkAll(this);" />
+		</th>
+
 <?php
 		  /*  display the column headers*/
-		  print '<th colspan="2">'.$viewtable[0]['cohort'].'</th>';
+		  print '<th colspan="1">'.$viewtable[0]['cohort'].'</th>';
 		  for($c2=0;$c2<sizeof($viewtable[0]['out']);$c2++){
 			  if($viewtable[0]['count'][$c2]>0){
 				  print '<th style="font-weight:300;">'.$viewtable[0]['out'][$c2].'</th>';
@@ -296,9 +295,14 @@ two_buttonmenu($extrabuttons,$book);
 <?php
 	for($rowno=1;$rowno<sizeof($viewtable);$rowno++){
 		$row=$viewtable[$rowno];
+		$sid=$row['student']['id'];
 ?>
 				  <tr>
-					<td><?php print $rowno;?></td>
+		<tr id="sid-<?php print $sid;?>">
+		  <td>
+			<input type="checkbox" name="sids[]" value="<?php print $sid;?>" />
+			<?php print $rowno;?>
+		  </td>
 					<td>
 					<?php print $row['student']['surname']; ?>,
 					<?php print $row['student']['forename']; ?>
@@ -328,10 +332,10 @@ two_buttonmenu($extrabuttons,$book);
 			<input type="hidden" name="year" value="<?php print $year;?>" />
 <?php	} ?>
 <?php if(isset($yid)){?>
-			<input type="hidden" name="newyid" value="<?php print $yid;?>" />
+			<input type="hidden" name="selyid" value="<?php print $yid;?>" />
 <?php	} ?>
 <?php if(isset($fid)){?>
-			<input type="hidden" name="newfid" value="<?php print $fid;?>" />
+			<input type="hidden" name="selfid" value="<?php print $fid;?>" />
 <?php	} ?>
 <?php 
 	if(isset($selbids)){
@@ -352,3 +356,13 @@ two_buttonmenu($extrabuttons,$book);
 			<input type="hidden" name="cancel" value="<?php print $choice;?>" />
 			</form>
 		  </div>
+
+		<div id="xml-checked-action" style="display:none;">
+<?php 
+		$profile['bid']='EY';
+$profile['pid']='';
+//$profile['stage']=$stage;
+$profile['stage']='R';
+		xmlechoer('Profile',$profile);
+?>
+		</div>

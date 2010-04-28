@@ -6,8 +6,9 @@
 
 require_once('../../scripts/http_head_options.php');
 
-if(!isset($xmlid)){print 'Failed'; exit;}
 
+if(isset($_GET['id'])){$xmlid=$_GET['id'];}
+if(isset($_POST['id'])){$xmlid=$_POST['id'];}
 if(isset($_GET['sids'])){$sids=(array)$_GET['sids'];}else{$sids=array();}
 if(isset($_POST['sids'])){$sids=(array)$_POST['sids'];}
 if(isset($_GET['bid'])){$bid=$_GET['bid'];}else{$bid='%';}
