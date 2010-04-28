@@ -19,22 +19,27 @@ else{
 	$currentevent=get_currentevent($secid);
 
 	$Students=array();
+	$Students['Community'];
 
   	$AttendanceEvent=fetchAttendanceEvent($currentevent['id']);
  	$Students['AttendanceEvent']=$AttendanceEvent;
 
 	while(list($index,$comid)=each($sids)){
-		trigger_error($comid,E_USER_WARNING);
-		$Community=fetchCommunity($comid);
-		$Community['Student']=array();
-		$students=(array)listin_community(array('id'=>$comid));
-		while(list($index,$student)=each($students)){
-			$Student=fetchStudent_short($student['id']);
-			$Student['Attendances']['Attendnace'][]=fetchcurrentAttendance($student['id']);
-			$Community['Student'][]=$Student;
+		//trigger_error($comid,E_USER_WARNING);
+		if($comid!=''){
+			$Community=(array)fetchCommunity($comid);
+			$Community['Student']=array();
+			$students=(array)listin_community(array('id'=>$comid));
+			while(list($index,$student)=each($students)){
+				$Student=fetchStudent_short($student['id']);
+				$Student['Attendances']['Attendnace'][]=fetchcurrentAttendance($student['id']);
+				$Community['Student'][]=$Student;
+				}
+			$Students['Community'][]=$Community;
 			}
-		$Students['Community']=$Community;
 		}
+	$Students['Transform']='register';
+	$Students['Paper']='portait';
 
 	$returnXML=$Students;
 	$rootName='Students';
