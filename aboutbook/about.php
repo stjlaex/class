@@ -16,11 +16,14 @@
 
 <p>
 <?php print_string('formoreinformation',$book);?>
-<img onClick="window.open('http://classforschools.com/support','ClaSS Information Services');"
-alt="ClaSS Information Services" src="images/classis_transparent_120x100.png" />
 </p>
 
 <hr width="80%">
+
+<p>
+<img onClick="window.open('http://classforschools.com/support','ClaSS Information Services');"
+alt="ClaSS Information Services" src="images/classis_transparent_120x100.png" />
+</p>
 
 <p>
 <?php print_string('gplintro',$book);?>

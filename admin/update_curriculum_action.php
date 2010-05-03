@@ -34,9 +34,9 @@ function read_curriculum_file($filename,$curriculum){
 
 
 if($coursecheck=='yes'){
-	mysql_query("DELETE FROM cridbid");
-	mysql_query("DELETE FROM classes");
-  	mysql_query("DELETE FROM component");
+	//mysql_query("DELETE FROM cridbid");
+	//mysql_query("DELETE FROM classes");
+  	//mysql_query("DELETE FROM component");
 	}
 if($groupcheck=='yes'){
 	mysql_query("DELETE FROM form");
@@ -95,6 +95,7 @@ while(list($index,$curriculum)=each($curriculums)){
 				}
 	
 			$Subjects=xmlarray_indexed_check($Course['subjects'],'subject');
+			//$Subjects=$Course['subjects'];
 			while(list($index,$Subject)=each($Subjects['subject']) and $Subject['id']!=''){
 				/****Subjects*****/
 				$bid=$Subject['id'];
@@ -112,12 +113,10 @@ while(list($index,$curriculum)=each($curriculums)){
 				else{$naming=$course_naming;}
 				$d_subject=mysql_query("SELECT name FROM subject WHERE id='$bid';");
 				if(mysql_num_rows($d_subject)==0){
-					mysql_query("INSERT INTO subject (id, name)
-						VALUES ('$bid','$name');");
+					mysql_query("INSERT INTO subject (id, name) VALUES ('$bid','$name');");
 					}
 				else{
-					mysql_query("UPDATE subject SET name='$name'
-									WHERE id='$bid';");
+					mysql_query("UPDATE subject SET name='$name' WHERE id='$bid';");
 					}
 
 				$d_subject=mysql_query("SELECT gid FROM groups WHERE
@@ -142,13 +141,12 @@ while(list($index,$curriculum)=each($curriculums)){
 					}
 
 				$Components=xmlarray_indexed_check($Subject['components'],'component');
-				while(list($index,$Component)=each($Components['component'])
-																and $Component['id']!=''){
+				while(list($index,$Component)=each($Components['component']) and $Component['id']!=''){
 					/****Components****/
 					$pid=$Component['id'];
 					$status=$Component['status'];
 					$name=$Component['name'];
-					$d_subject=mysql_query("SELECT name FROM subject WHERE id='$bid'");
+					$d_subject=mysql_query("SELECT name FROM subject WHERE id='$pid'");
 					if(mysql_num_rows($d_subject)==0){
 						mysql_query("INSERT INTO subject (id, name)
 								VALUES('$pid','$name')");

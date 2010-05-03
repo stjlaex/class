@@ -5,6 +5,16 @@ Updated the liscense to be the Affero GPL version 3.
 
 Included logos on the about page for AGPL and ClaSSIS.
 
+Fix to the xml_array_indexed function which only affected update
+curriculum.
+
+Opened access to enrolment_view for form tutors.
+
+Fix to update_curriculum when inserting new subject components.
+
+The report_attendnace list now counts "late to register" and
+"unauthorised lates" for the late columnd.
+
 
 Version ClaSS-0.9.18 release (2010/4/30)
 -----------------------------------------

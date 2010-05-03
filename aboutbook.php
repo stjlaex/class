@@ -52,6 +52,22 @@ include('scripts/set_book_vars.php');
 	selery_stick($choices,$choice,$book);
 ?>
 </a>
+<a href="http://laex.org/class" target="_blank">
+<?php
+	$choices=array('homepage.php' => 'homepage'
+				   );
+
+	selery_stick($choices,$choice,$book);
+?>
+</a>
+<a href="http://classforschools.com/support" target="_blank">
+<?php
+	$choices=array('classis.php' => 'classis'
+				   );
+
+	selery_stick($choices,$choice,$book);
+?>
+</a>
 	  </fieldset>
 
 	</form>

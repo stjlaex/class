@@ -177,10 +177,11 @@ function xmlarray_indexed_check($inarray,$indexname){
 
 	$inarray=(array)$inarray;
 	if(is_array($inarray[$indexname])){
-		//trigger_error(''.sizeof($inarray[$indexname]),E_USER_WARNING);
-		if(!array_key_exists(0,$inarray[$indexname])){
-			//$inarray[$indexname]=array($inarray[$indexname]);
-			$inarray[$indexname][0]='';
+		$keys=array_keys($inarray[$indexname]);
+		//if(!array_key_exists(0,$inarray[$indexname])){
+		if(!is_numeric($keys[0])){
+			$inarray[$indexname]=array($inarray[$indexname]);
+			//$inarray[$indexname][0]='';
 			}
 		}
 	elseif($inarray[$indexname]!=''){
