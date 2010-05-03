@@ -650,7 +650,7 @@ function fetchInvoice($invid='-1'){
 							 'inputtype'=> 'required',
 							 'table_db' => 'orderinvoice', 
 							 'field_db' => 'credit',
-							 'type_db' => 'enum', 
+							 'type_db' => 'enum',
 							 'default_value' => '0',
 							 'value' => ''.$inv['credit']
 							 );
