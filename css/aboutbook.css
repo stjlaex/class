@@ -29,3 +29,6 @@ div#bookbox{
     margin-top:4.5%;
     background-color:#ffffee;
 	}
+img:hover {
+	cursor:pointer;
+	}

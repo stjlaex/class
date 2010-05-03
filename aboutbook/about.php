@@ -7,8 +7,8 @@
 <div class="content">
 
 <fieldset class="center" id="splash">
-<h2><img src="images/orangelogo.png" /></h2>
-<h4>version <?php print $CFG->version; ?></h4>
+
+<h4><img src="images/orangelogo.png" onClick="window.open('http://www.laex.org/class/index.html','ClaSS Homepage');"/> &nbsp;&nbsp;&nbsp;version <?php print $CFG->version; ?></h4>
 
 <p> 
 <?php print_string('classblurb',$book);?>
@@ -16,18 +16,16 @@
 
 <p>
 <?php print_string('formoreinformation',$book);?>
-<button onClick="window.open('http://www.laex.org/class/index.html','ClaSS Homepage');">
-ClaSS Homepage
-</button>
+<img onClick="window.open('http://classforschools.com/support','ClaSS Information Services');"
+alt="ClaSS Information Services" src="images/classis_transparent_120x100.png" />
 </p>
 
 <hr width="80%">
 
 <p>
 <?php print_string('gplintro',$book);?>
-<button onClick="window.open('http://www.gnu.org/licenses/gpl.html','GPL License');">
-GNU General Public License Version 2, June 1991
-</button>
+<img onClick="window.open('http://www.gnu.org/licenses/agpl.html','AGPL License');" src="images/agplv3-88x31.png"
+alt="GNU Affero General Public License version 3 or (at your option) any later version" />
 </p>
 </fieldset>
 </div>

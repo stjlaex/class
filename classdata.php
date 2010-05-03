@@ -2,7 +2,7 @@
 require_once('include.php');
 $CFG->books=$books;
 $CFG->roles=$roles;
-$CFG->version='0.9.18';
+$CFG->version='0.9.19';
 $CFG->dirroot=$CFG->installpath.'/'.$CFG->applicationdirectory;
 global $CFG;
 $session='ClaSS'.$CFG->shortname;

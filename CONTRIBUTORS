@@ -1,0 +1,28 @@
+This is a list of credits and thanks for people that have contributed
+to ClaSS. It is sorted roughly by date and formatted to allow easy
+grepping and beautification by scripts. The fields are: name (N),
+email (E), web-address (W), description (D).
+
+----------
+
+N: Stuart Thomas Johnson
+E: stj@laex.org
+D: Initiator, architect and lead developer.
+
+N: Julian Lea 
+D: User-interafce desgin and Javascript and CSS leading up to the 0.4 release.
+
+N: Markus Dahinden
+D: Contributed the German translation.
+
+N: David Matthews
+D: Contributed the first version of the Spanish translation.
+
+N: Steven Boucque
+D: Contributed the Dutch translation.
+
+N: Marcie Lambert
+D: Maintains the French translation and contributes to documentation.
+
+N: Zacarias Rosado
+D: Developed the LDAP libraries and Moodle integration. Maitains the Spanish translation.

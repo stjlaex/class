@@ -1,4 +1,32 @@
 <?php
+/**
+ *
+ * ClaSS is the ClaSS Student System, a complete student 
+ * tracking, reporting, and information management system for schools.
+ *
+ * Copyright (C) 2002-2009 by S T Johnson.
+ * Copyright (C) 2010 by ClaSS Information Services S.L.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/agpl.html>.
+ *
+ * @package    class
+ * @subpackage core
+ * @author     ClaSS Information Services S.L.
+ * @license    http://www.gnu.org/licenses/agpl.html GNU AGPL
+ * @copyright  (C) 2010 ClaSS Information Services S.L.  http://classforschools.com
+ *
+ */
 require_once('../school.php');
 require_once('classdata.php');
 require_once('lib/include.php');
@@ -14,8 +42,9 @@ print '<?xml version="1.0" encoding="utf-8"?'.'>';
 <meta http-equiv="content-type" content="application/xhtml+xml; charset=utf-8" />
 <meta http-equiv="Content-Script-Type" content="text/JavaScript" />
 <meta name="copyright" content="Copyright 2002-2009 Stuart Thomas Johnson. All trademarks acknowledged. All rights reserved." />
+<meta name="copyright" content="Copyright 2010 ClaSS Information Services S.L. All trademarks acknowledged. All rights reserved." />
 <meta name="version" content="<?php print $CFG->version; ?>" />
-<meta name="license" content="GNU General Public License version 2" />
+<meta name="license" content="GNU Affero General Public License version 3" />
 <link href="css/hoststyle.css" rel="stylesheet" type="text/css" />
 <link href="css/selery.css" rel="stylesheet" type="text/css" />
 <script language="JavaScript" type="text/javascript" src="js/hostfunctions.js"></script>
