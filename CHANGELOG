@@ -8,8 +8,11 @@ Removed the html function twoplus_print.
 Changed the Register completion list to use a httpscript called
 register_print.
 
-Working in progress on the transition of Report assessments page to use of
+Work in progress on the transition of Report assessments page to use of
 assessment profiles.
+
+Changed the class view column filter so it doesn't miss predicted
+columns with filter set to reports.
 
 
 Version ClaSS-0.9.17 release (2010/4/20)
