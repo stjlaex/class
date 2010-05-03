@@ -79,7 +79,7 @@ for($i=0;$i<sizeof($cids);$i++){
 		 */
 		$d_marks=mysql_query("SELECT $table.* FROM $table WHERE
 				$table.marktype='report' OR ($table.marktype='score' AND
-				$table.assessment='yes' AND $table.id=ANY(SELECT
+				$table.assessment!='no' AND $table.id=ANY(SELECT
 				eidmid.mark_id FROM eidmid JOIN rideid ON
 				rideid.assessment_id=eidmid.assessment_id));");
 		/*
