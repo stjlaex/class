@@ -359,9 +359,12 @@ $students=array();
 
 		<div id="xml-checked-action" style="display:none;">
 <?php 
-		$profile['bid']='EY';
-$profile['pid']='';
+$profile['bid']='';
+if($profile['crid']=='FS'){
+	$profile['bid']='EY';
+	}
 //$profile['stage']=$stage;
+$profile['pid']='';
 $profile['stage']='R';
 		xmlechoer('Profile',$profile);
 ?>
