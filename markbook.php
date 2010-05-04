@@ -246,7 +246,7 @@ if(isset($umns)){
 			$currentprofile['bid']=$bid[0];
 			$currentprofile['pid']=$pid;
 			$currentprofile['stage']=$classes[$cid]['stage'];
-			$currentprofile['classes'];
+			$currentprofile['classes']='';
 			foreach($cids as $cindex => $cid){
 				$currentprofile['classes'].=$cid.' ';
 				}
