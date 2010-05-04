@@ -169,29 +169,21 @@ $viewtable=array();
 	   	elseif($marktype=='dif'){
 			/*Mark is the difference of two score values*/
 			$scoreclass.=' derived';
-			$mids=explode(' ',$midlist[$c]);
+			$profilemids=(array)explode(' ',$midlist[$c]);
 			$score_value=0;
 			$score_total=0;
 			$d_score=mysql_query("SELECT value, outoftotal 
-   						FROM score WHERE mark_id='$mids[0]' AND student_id='$sid';");
+   						FROM score WHERE mark_id='$profilemids[0]' AND student_id='$sid';");
 			$firstscore=mysql_fetch_array($d_score,MYSQL_ASSOC);
-
-			for($lastmid=sizeof($mids)-1;!isset($lastscore['value']);$lastmid--){
+			for($lastmid=sizeof($profilemids)-1;$lastmid>0;$lastmid--){
 				$d_score=mysql_query("SELECT value, outoftotal 
-   						FROM score WHERE mark_id='$mids[$lastmid]' AND student_id='$sid';");
+   						FROM score WHERE mark_id='$profilemids[$lastmid]' AND student_id='$sid';");
 				$lastscore=mysql_fetch_array($d_score,MYSQL_ASSOC);
+				if(isset($lastscore['value'])){$lastmid=-1;}
 				}
-
-			if($firstscore['value']){$score_value=$lastscore['value']-$firstscore['value']; $yesval=1;}
-			if(isset($yestotal)){
-				/*mark's were percentage scores*/
-				list($dislpay,$out,$outrank)=scoreToPercent($score_value,$score_total);
-				}
-			else{
-				/*otherwise mark's were raw scores*/
-				if(isset($yesval)){$out=$score_value; $outrank=$score_value;}
-				else{$out='';$outrank=-100;}
-				}
+			if($firstscore['value'] and $lastscore['value']){$score_value=$lastscore['value']-$firstscore['value']; $yesval=1;}
+			if(isset($yesval)){$out=$score_value; $outrank=$score_value;}
+			else{$out='';$outrank=-100;}
 			unset($yesval);
 			unset($yestotal);
 			unset($firstscore);
