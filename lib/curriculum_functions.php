@@ -113,30 +113,42 @@ function list_subject_components($bid,$crid,$compstatus='A'){
 	elseif($compstatus=='AV'){$compmatch="(component.status='V' OR component.status='O')";}
 	else{$compmatch="(component.status LIKE '$compstatus' AND component.status!='U')";}
 	if($bid!='' and $crid!=''){
-		/* Check whether $bid is for a component or a subject. */
-		$d_c=mysql_query("SELECT id FROM component WHERE component.course_id='$crid' 
+		if($bid!='%'){
+			/* Check whether $bid is for a component or a subject. */
+			$d_c=mysql_query("SELECT id FROM component WHERE component.course_id='$crid' 
 						AND component.id='$bid';");
-		if(mysql_num_rows($d_c)==0){
-			/* $bid is a subject so listing components */
-			$d_com=mysql_query("SELECT subject.id, subject.name,
+			if(mysql_num_rows($d_c)==0){
+				/* $bid is a subject so listing components */
+				$d_com=mysql_query("SELECT subject.id, subject.name,
 						component.status, component.sequence FROM subject
 						JOIN component ON subject.id=component.id
 						WHERE $compmatch AND component.course_id='$crid' AND
 						(component.subject_id='$bid' OR component.subject_id='%')  
 						ORDER BY component.sequence, subject.name;");
-			}
-		else{
-			/* $bid is a component so listing strands */
-			$d_com=mysql_query("SELECT subject.id, subject.name,
+				}
+			else{
+				/* $bid is a component so listing strands */
+				$d_com=mysql_query("SELECT subject.id, subject.name,
 						component.status, component.sequence FROM subject
 						JOIN component ON subject.id=component.id
 						WHERE $compmatch AND component.course_id='$crid' AND
 						component.subject_id='$bid'  
-						ORDER BY component.sequence, subject.name;");
+						ORDER BY component.status, component.sequence, subject.name;");
+				}
 			}
+		else{
+			/* Just list all regardless of subject_id*/
+			$d_com=mysql_query("SELECT subject.id, subject.name,
+						component.status, component.sequence FROM subject
+						JOIN component ON subject.id=component.id
+						WHERE $compmatch AND component.course_id='$crid'
+						ORDER BY component.status, component.sequence, subject.name;");
+			}
+
 		while($component=mysql_fetch_array($d_com,MYSQL_ASSOC)){
 			$components[]=$component;
 			}
+
 		}
 
 	return $components;

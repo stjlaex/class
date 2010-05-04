@@ -17,6 +17,8 @@ if(isset($_GET['pid'])){$pid=$_GET['pid'];}else{$pid='%';}
 if(isset($_POST['pid'])){$pid=$_POST['pid'];}
 if(isset($_GET['stage'])){$stage=$_GET['stage'];}else{$stage='%';}
 if(isset($_POST['stage'])){$stage=$_POST['stage'];}
+if(isset($_GET['classes'])){$classes=$_GET['classes'];}else{$classes='';}
+if(isset($_POST['classes'])){$classes=$_POST['classes'];}
 
 if(sizeof($sids)==0){
 	$result[]=get_string('youneedtoselectstudents');
@@ -104,6 +106,12 @@ else{
 	$Students['Subject']['value']=get_subjectname($bid);
 	$Students['Component']['value_db']=$pid;
 	$Students['Component']['value']=get_subjectname($pid);
+	if($classes!=''){
+		$Students['Description']['value']=$classes;
+		}
+	else{
+		$Students['Description']['value']=$stage;
+		}
 	$returnXML=$Students;
 	$rootName='Students';
 	}

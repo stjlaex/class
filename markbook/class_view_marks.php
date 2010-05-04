@@ -162,39 +162,48 @@ for($i=0;$i<sizeof($cids);$i++){
 				$scoretype[$c]=mysql_result($d_markdef,0);
 				$umn['scoretype']=$scoretype[$c];
 				$umns[$c]['scoretype']=$scoretype[$c];
+				$umns[$c]['displayclass']='derived';
 				}
-			elseif($marktype[$c]=='level'){
-				/*no markdef for a level, have to get grading_name from the levelname*/
-				$scoregrading[$c]=$lena[$c];
-				if($lena[$c]!=''){
-					$d_levelling=mysql_query("SELECT levels FROM
+		  elseif($marktype[$c]=='sum'){
+			  $umns[$c]['displayclass']='derived';
+			  }
+		  elseif($marktype[$c]=='level'){
+			  /*no markdef for a level, have to get grading_name from the levelname*/
+			  $scoregrading[$c]=$lena[$c];
+			  if($lena[$c]!=''){
+				  $d_levelling=mysql_query("SELECT levels FROM
 									levelling WHERE name='$lena[$c]'");
-					$levels[$c]=mysql_result($d_levelling,0);
-					}
-				else{$levels[$c]='';}
+				  $levels[$c]=mysql_result($d_levelling,0);
+				  }
+			  else{$levels[$c]='';}
+			  $umns[$c]['displayclass']='derived';
 				}
-			elseif($marktype[$c]=='compound' or $marktype[$c]=='report'){
-				/*no markdef for a compound or report*/
-				$scoregrading[$c]='';
-				$scoregrades[$c]='';   
+		  elseif($marktype[$c]=='compound' or $marktype[$c]=='report'){
+			  /*no markdef for a compound or report*/
+			  $scoregrading[$c]='';
+			  $scoregrades[$c]='';   
+			  $umns[$c]['displayclass']='report';
 				}
-			elseif($marktype[$c]=='score' or $marktype[$c]=='hw'){
-				$markdef_name=$mark['def_name'];
-				$d_markdef=mysql_query("SELECT * FROM markdef WHERE name='$markdef_name'");
-				$markdef=mysql_fetch_array($d_markdef,MYSQL_ASSOC);	      
-				$scoretype[$c]=$markdef['scoretype'];
-				$umns[$c]['scoretype']=$markdef['scoretype'];
-				$scoregrading[$c]=$markdef['grading_name'];
-				if($scoregrading[$c]!=''){
-					$grading_name=$scoregrading[$c];
+		  elseif($marktype[$c]=='score' or $marktype[$c]=='hw'){
+			  $markdef_name=$mark['def_name'];
+			  $d_markdef=mysql_query("SELECT * FROM markdef WHERE name='$markdef_name'");
+			  $markdef=mysql_fetch_array($d_markdef,MYSQL_ASSOC);	      
+			  $scoretype[$c]=$markdef['scoretype'];
+			  $umns[$c]['scoretype']=$markdef['scoretype'];
+			  $scoregrading[$c]=$markdef['grading_name'];
+			  if($scoregrading[$c]!=''){
+				  $grading_name=$scoregrading[$c];
 					$d_grading=mysql_query("SELECT grades FROM grading 
 											WHERE name='$grading_name'");
 					$scoregrades[$c]=mysql_result($d_grading,0);
-					}
-				else{$scoregrades[$c]='';}     
-				}
-
-			$c++;
+				  }
+			  else{$scoregrades[$c]='';}
+			  if($umns[$c]['assessment']=='other'){$umns[$c]['displayclass']='other';}
+			  elseif($umns[$c]['assessment']=='yes'){$umns[$c]['displayclass']='other';}
+			  else{$umns[$c]['displayclass']='';}
+			  }
+		  
+		  $c++;
 		}
 
 	/* Everything is different if we are viewing a profile. A column 0
@@ -207,7 +216,6 @@ for($i=0;$i<sizeof($cids);$i++){
 		$profile_midlist='';
 		$profile_pids=array();
 		if($pid==''){
-
 		   /* Not filtering for a specific pid so include all. */
 			if(sizeof($pids)>0 and $profile_pidstatus!='None'){
 				$profile_pids=$pids;
@@ -276,7 +284,8 @@ for($i=0;$i<sizeof($cids);$i++){
 					   'lena'=>'',
 					   'comment'=>'',
 					   'assessment'=>'no',
-					   'component'=>$pid
+					   'component'=>$pid,
+					   'displayclass'=>'derived'
 					   );
 		}
 ?>

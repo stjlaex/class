@@ -1,7 +1,7 @@
-Version ClaSS-0.9.19 release (2010/5/03)
+Version ClaSS-0.9.19 release (2010/5/06)
 -----------------------------------------
 
-Updated the liscense to be the Affero GPL version 3. 
+Updated the liscense to be the GNU AGPL version 3. 
 
 Included logos on the about page for AGPL and ClaSSIS.
 
@@ -12,8 +12,23 @@ Opened access to enrolment_view for form tutors.
 
 Fix to update_curriculum when inserting new subject components.
 
-The report_attendnace list now counts "late to register" and
+The report_attendance list now counts "late to register" and
 "unauthorised lates" for the late columnd.
+
+Improved the new_assessment page to allow assessments to be moved
+between profiles.
+
+Added help pop-ups to the component and strand status select lists.
+
+Reworked the colclass in the MarkBook table to also colour the
+columns' selection in the side options.
+
+Included a description line for the profile printing which lists
+included classes.
+
+The mark table now understands a column type of "dif" to take the
+difference between most recent and first scores in a
+midlist. Currently only available to assessment profiles.
 
 
 Version ClaSS-0.9.18 release (2010/4/30)

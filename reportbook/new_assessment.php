@@ -33,21 +33,28 @@ three_buttonmenu($extrabuttons);
 		<label for="Printlabel"><?php print_string('printlabel',$book);?></label>
 		<input class="required" type="text" id="Printlabel" tabindex="<?php print $tab++;?>" 
 				name="printlabel"  style="width:8em;" maxlength="59" value="" />
+<?php
+		include('scripts/list_resultstatus.php');
+?>
 	  </div>
 
 	  <div class="right">
 <?php
+		$selstage='%';
  		include('scripts/list_stage.php');
 
+		$selbid='%';
 		include('scripts/list_subjects.php');
 ?>
 		<div class="left">
 <?php
+			$selcomponentstatus='None';
 		include('scripts/list_componentstatus.php');
 ?>
 		</div>
 		<div class="right">
 <?php
+			$selstrandstatus='None';
 		include('scripts/list_strandstatus.php');
 ?>
 		</div>
@@ -66,18 +73,21 @@ three_buttonmenu($extrabuttons);
 <?php
 //include('scripts/list_method.php'); 
 //include('scripts/list_resultqualifier.php'); 
-
-		include('scripts/list_resultstatus.php');
-
 		$required='no';
 		include('scripts/list_gradescheme.php');
- 
 ?>
 
 		<label for="Derivation"><?php print_string('derivation',$book);?></label>
 		<input type="text" id="Derivation" tabindex="<?php print $tab++;?>" 
 				name="derivation" style="width:12em;" maxlength="59" value="" />
+<?php 
+		$listname='newprofid';
+		$selnewprofid=$profid;
+		$required='no';
+		include('scripts/list_assessment_profile.php');
+?>
 	  </div>
+
 
 	  <input type="text" style="display:none;" id="Id_db" name="id" value="" />
 	  <input type="hidden" name="profid" value="<?php print $profid;?>" />
@@ -95,7 +105,7 @@ three_buttonmenu($extrabuttons);
 		<thead>
 		  <tr>
 			<th></th>
-			<th>
+			<th colspan="2">
 			  <div class="left">
 <?php 
 		$listname='curryear';
@@ -143,6 +153,7 @@ three_buttonmenu($extrabuttons);
 					onClick="clickToReveal(this)" id="<?php print $eid.'-'.$rown++;?>">
 			<th>&nbsp</th>
 			<td><?php print $AssDef['Description']['value']; ?></td>
+					<td style="font-style:italic;"><?php print display_date($AssDef['Deadline']['value']); ?></td>
 			<td><?php print $AssDef['Stage']['value']; ?></td>
 			<td><?php print $AssDef['Subject']['value']; ?></td>
 			<td class="<?php print $AssDef['ResultStatus']['value']; ?>"><?php print $AssDef['ResultStatus']['value']; ?></td>
@@ -153,10 +164,10 @@ three_buttonmenu($extrabuttons);
 			  <p>
 				<?php print_string('statistics',$book);?>
 				<value id="<?php print $eid;?>-Statistics"><?php print
-						 $AssDef['Statistics']['value'];?></value>.&nbsp
+					$AssDef['Statistics']['value'];?></value>.&nbsp;
 				<?php print_string('markbookcolumns',$book);?>
 				<value id="<?php print $eid;?>-Markcount"><?php print
-						 $AssDef['MarkCount']['value'];?></value>.&nbsp
+						 $AssDef['MarkCount']['value'];?></value>.&nbsp;
 			<a href="reportbook.php?current=edit_scores.php&cancel=new_assessment.php&eid=<?php print $eid;?>&curryear=<?php print $curryear;?>&profid=<?php print $profid;?>&pid=&bid="><?php print_string('scoresentered',$book);?>				
 				<value id="<?php print $eid;?>-Archivecount">
 				  <?php print $AssDef['ArchiveCount']['value'];?></value>
@@ -175,7 +186,7 @@ three_buttonmenu($extrabuttons);
 		$extrabuttons['deletecolumns']=array('name'=>'current',
 											 'title'=>'deletecolumns',
 											 'value'=>'delete_assessment_columns.php');
-		if(isset($AssDef['Derivation']['value'][0]) and $AssDef['Derivation']['value'][0]==' '){
+		if(!isset($AssDef['Derivation']['value'][0]) or (isset($AssDef['Derivation']['value'][0]) and ($AssDef['Derivation']['value'][0]==' ' or $AssDef['Derivation']['value'][0]==''))){
 			$extrabuttons['statistics']=array('name'=>'current',
 											  'title'=>'updatestatistics',
 											  'value'=>'calculate_assessment_statistics.php');

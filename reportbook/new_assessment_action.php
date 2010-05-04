@@ -89,7 +89,16 @@ elseif($sub=='Submit'){
 		if(isset($_POST['gena'])){$gena=$_POST['gena'];}else{$gena='';};
 		$deadline=$_POST['deadline'];
 		$creation=$_POST['creation'];
+
+		/* Check if the assessment is being assigned to a different profile.*/
+		if(isset($_POST['newprofid'])){$newprofid=$_POST['newprofid'];}else{$newprofid=$profid;}
+		if($newprofid!=$profid){
+			$newprofile=get_assessment_profile($newprofid);
+			$profile_name=$newprofile['name'];
+			}
+
 		if($eid==''){
+			/* A brand new assessment entered. */
 			mysql_query("INSERT INTO assessment (stage, year, subject_id, method,  
 				element, component_id, description, resultqualifier, resultstatus, course_id,
 				component_status, strand_status, label, grading_name, creation, deadline, profile_name) 
@@ -102,6 +111,7 @@ elseif($sub=='Submit'){
 				}
 			}
 		elseif($eid!=''){
+			/* Editing an existing assessment. */
 			mysql_query("UPDATE assessment SET year='$year',
 				stage='$stage', subject_id='$subject', method='$method',
 				component_id='$pid', description='$description', 

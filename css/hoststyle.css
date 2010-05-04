@@ -396,3 +396,18 @@ div.hidden {
 	display:none;
 	border:0; margin:0; padding:0;
 	}
+.marktable th.other, .marktable td.other {
+	background-color:#ddeecc;
+	}
+.marktable th.derived, .marktable td.derived {
+	background-color:#ddeeff;
+	}
+select option.report {
+	background-color:#eeeeee;
+	}
+select option.derived {
+	background-color:#ddeeff;
+	}
+select option.other {
+	background-color:#ddeecc;
+	}

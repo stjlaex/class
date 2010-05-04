@@ -77,7 +77,7 @@ table.marktable {
 .marktable th.derived, .marktable td.derived {
 	background-color:#ddeeff;
 	}
-.marktable th.report, .marktable td.report {
+.marktable th.report, .marktable td.report, select option.report {
 	background-color:#eeeeee;
 	}
 .marktable tr:hover { 

@@ -168,7 +168,7 @@ if(sizeof($pids)>0){
 if(isset($umns)){
    	for($col=0;$col<sizeof($umns);$col++){
 	   	if($umns[$col]['component']==$pid or $pid==''){
-			print '<option value="'.$umns[$col]['id'].'" id="sel-'.$umns[$col]['id'].'">';
+			print '<option class="'.$umns[$col]['displayclass'].'" value="'.$umns[$col]['id'].'" id="sel-'.$umns[$col]['id'].'">';
 			if($umns[$col]['component']!=''){print $umns[$col]['component'].': ';}
 			print $umns[$col]['topic'].' ('.$umns[$col]['entrydate'].')</option>';
 			}
@@ -246,6 +246,10 @@ if(isset($umns)){
 			$currentprofile['bid']=$bid[0];
 			$currentprofile['pid']=$pid;
 			$currentprofile['stage']=$classes[$cid]['stage'];
+			$currentprofile['classes'];
+			foreach($cids as $cindex => $cid){
+				$currentprofile['classes'].=$cid.' ';
+				}
 			xmlechoer('Profile',$currentprofile);
 ?>
 		  </div>

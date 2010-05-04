@@ -127,15 +127,13 @@ if($_SESSION['worklevel']>-1){
 	/*The mark's column header, with a checkbox which provides $mid */	      
 	for($col=0;$col<sizeof($umns);$col++){
 		if($umns[$col]['marktype']=='score' or $umns[$col]['marktype']=='hw'){
-			if($umns[$col]['assessment']=='other'){$colclass='other';}
-			else{$colclass='';}
 			if($umns[$col]['entrydate']<$cutoffdate and $umns[$col]['assessment']!='no'){
-				print '<th class="'.$colclass.'" id="'.$umns[$col]['id'].'"><span title="'.$umns[$col]['comment'].'">' 
+				print '<th class="'.$umns[$col]['displayclass'].'" id="'.$umns[$col]['id'].'"><span title="'.$umns[$col]['comment'].'">' 
 					  .$umns[$col]['topic'].'<p>'.display_date($umns[$col]['entrydate']).'</p>
 	      <p class="component">'.$umns[$col]['component'].'</p>'.$umns[$col]['marktype'].'<input type="checkbox" name="checkmid[]" value="'.$umns[$col]['id'].'" /></span></th>';
 				}
 			else{
-				print '<th class="'.$colclass.'" id="'.$umns[$col]['id'].'"><span title="'.$umns[$col]['comment'].'"><a 
+				print '<th class="'.$umns[$col]['displayclass'].'" id="'.$umns[$col]['id'].'"><span title="'.$umns[$col]['comment'].'"><a 
 				href="markbook.php?current=edit_scores.php&cancel=class_view.php&scoretype='. 
 					  $scoretype[$col].'&grading_name='. 
 					  $scoregrading[$col].'&mid='.$umns[$col]['id'].'&col='.$col.'">' 
@@ -144,7 +142,7 @@ if($_SESSION['worklevel']>-1){
 				}
 			}
 		elseif($umns[$col]['marktype']=='report'){
-			  print '<th class="report" id="'.$umns[$col]['id'].'"><span title="'.$umns[$col]['comment'].'"><a 
+			  print '<th class="'.$umns[$col]['displayclass'].'" id="'.$umns[$col]['id'].'"><span title="'.$umns[$col]['comment'].'"><a 
 	      href="markbook.php?current=new_edit_reports.php&cancel=class_view.php&midlist='.$umns[$col]['midlist']. 
 					  '&title='.$umns[$col]['topic'].'&mid='.$umns[$col]['id'].'&pid='. 
 					  $umns[$col]['component'].'&col='. $col.'&bid='.$bid[0].'">' 
@@ -153,7 +151,7 @@ if($_SESSION['worklevel']>-1){
 			  $umns[$col]['marktype']. '</span></th>';
 	      	  }
 		elseif($umns[$col]['marktype']=='compound'){
-			  print '<th class="" id="'.$umns[$col]['id'].'"><span title="'. 
+			  print '<th class="'.$umns[$col]['displayclass'].'" id="'.$umns[$col]['id'].'"><span title="'. 
 					  $umns[$col]['comment'].'"><a href="markbook.php?current=edit_scores.php&cancel=class_view.php&scoretype='.$scoretype[$col]. 
 					  '&grading_name='.$scoregrading[$col]. 
 					  '&mid='.$umns[$col]['id'].'&col='.$col.'">'.$umns[$col]['topic']. 
@@ -163,7 +161,7 @@ if($_SESSION['worklevel']>-1){
 					name="checkmid[]" value="'.$umns[$col]['id'].'" /></span></th>';
 	      	  }
 		else{
-	      	print '<th class="derived" id="'.$umns[$col]['id'].'">'. 
+	      	print '<th class="'.$umns[$col]['displayclass'].'" id="'.$umns[$col]['id'].'">'. 
 					$umns[$col]['topic'].'<p>'. 
 					display_date($umns[$col]['entrydate']).'</p></a><p class="component">'. 
 					$umns[$col]['component'].'</p>'.$umns[$col]['marktype']. 

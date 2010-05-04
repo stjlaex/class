@@ -431,6 +431,15 @@ img.clicktoemail {
     border:0;
     position:absolute;
 	}
+img.clicktohelp { 
+	background-image:url("../images/help-browser.png");
+    padding:1px;
+	cursor:pointer;
+    width:22px !important;
+    height:22px !important;
+    border:0;
+    position:absolute;
+	}
 
 /*a generic content table, usually for selecting things from a list*/
 table.listmenu {

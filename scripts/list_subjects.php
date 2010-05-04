@@ -32,6 +32,7 @@
 	if(!isset($required)){$required='yes';}
 	if(!isset($multi)){$multi='1';}
 	if(!isset($bid)){$current_bid='nowt';}else{$current_bid=$bid;}
+	if(isset($selbid)){$current_bid=$selbid;}
 ?>
 <label for="Subject"><?php print_string('subject');?></label>
 <select  style="width:14em;" tabindex="<?php print $tab++;?>"

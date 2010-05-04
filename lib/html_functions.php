@@ -534,7 +534,7 @@ function list_select_enum($fieldname,$vars,$book=''){
 <?php
 			 while(list($inval,$description)=each($enum)){	
 				 print '<option ';
-				 if($vars['selectedvalue']==$inval){print ' selected="selected"';}
+				 if($vars['selectedvalue']==strtoupper($inval)){print ' selected="selected"';}
 				 print ' value="'.$inval.'">'.get_string($description,$book).'</option>';
 				 }
 ?>

@@ -11,4 +11,16 @@ include('scripts/set_list_vars.php');
 list_select_enum('strandstatus',$listoptions,'reportbook');
 unset($listoptions);
 
+$comps=list_subject_components('%',$rcrid,'A');
+$moreinfo='Determine which strands will be assessed separately: ';
+foreach($comps as $index => $comp){
+	$strands=list_subject_components($comp['id'],$rcrid,'A');
+	foreach($strands as $index => $strand){
+		$moreinfo.=$strand['status'].'.'.$strand['name'].' ';
+		}
+	}
 ?>
+		<div style="float:left;" title="<?php print $moreinfo;?>" 
+			name="help" value="" onclick="" >
+		<img class="clicktohelp" />
+		</div>
