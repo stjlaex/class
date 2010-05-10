@@ -556,12 +556,20 @@ function list_reenrol_sids($comid,$reenrol_eid,$result1,$result2=''){
  * TODO: season is currently fixed to S! 
  *
  */
-function fetch_cohortAssessmentDefinitions($cohort,$profile_name=''){
+function fetch_cohortAssessmentDefinitions($cohort,$profid=''){
 	$crid=$cohort['course_id'];
 	$stage=$cohort['stage'];
 	$year=$cohort['year'];
 	$season='S';
 	$AssDefs=array();
+	if($profid!='' and $profid!='%'){
+		$profile=get_assessment_profile($profid);
+		$profile_name=$profile['name'];
+		}
+	else{
+		$profile_name=$profid;
+		}
+
 	$d_assessment=mysql_query("SELECT id FROM assessment
 			   WHERE (course_id LIKE '$crid' OR course_id='%') AND 
 				(stage LIKE '$stage' OR stage='%') AND 
@@ -574,7 +582,10 @@ function fetch_cohortAssessmentDefinitions($cohort,$profile_name=''){
 	return $AssDefs;
 	}
 
-/**/
+
+/**
+ *
+ */
 function update_derivation($eid,$der){
 	$AssDef=fetchAssessmentDefinition($eid);
 	$older=$AssDef['Derivation']['value'];

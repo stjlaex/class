@@ -1,4 +1,4 @@
-Version ClaSS-0.9.19 release (2010/5/06)
+Version ClaSS-0.9.19 release (2010/5/09)
 -----------------------------------------
 
 Updated the liscense to be the GNU AGPL version 3. 
@@ -29,6 +29,10 @@ included classes.
 The mark table now understands a column type of "dif" to take the
 difference between most recent and first scores in a
 midlist. Currently only available to assessment profiles.
+
+Changed fetch_cohortAssessmentDefs() to more logically use profile id
+instead of profile name.
+
 
 
 Version ClaSS-0.9.18 release (2010/4/30)

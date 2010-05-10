@@ -33,7 +33,7 @@ else{
 	$profilename=$profile['name'];
 	$curryear=get_curriculumyear($crid);
 	$cohort=array('id'=>'','course_id'=>$crid,'stage'=>$stage,'year'=>$curryear);
-	$AssDefs=(array)fetch_cohortAssessmentDefinitions($cohort,$profilename);
+	$AssDefs=(array)fetch_cohortAssessmentDefinitions($cohort,$profile['id']);
 
 	/* TODO: make this a property of the profile */
 	if($profile['transform']!='tracking_grid'){

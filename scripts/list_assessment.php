@@ -15,6 +15,7 @@
 	if(!isset($curryear)){$curryear='%';}
 	if(!isset($selprofid)){$selprofid='';}
 	if($r>-1){
+		/* use the academic responsibility */
 		if($rcrid=='%'){
 			$d_cridbid=mysql_query("SELECT DISTINCT course_id FROM cridbid WHERE
 						subject_id='$rbid' ORDER BY course_id;"); 
@@ -34,6 +35,7 @@
 							 );
 			}
 		}
+	/* no academic repsonsiiblity set so use a selected pastoral group */
 	elseif(sizeof($ryids)>0){
 		reset($ryids);
    		while(list($index,$ryid)=each($ryids)){

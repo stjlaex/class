@@ -3,6 +3,7 @@
  *
  */
 
+//if(!isset($required)){$required='yes';}
 $required='yes';
 
 if($r>-1){

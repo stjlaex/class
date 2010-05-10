@@ -9,8 +9,19 @@ if(isset($_GET['selfid'])){$selfid=$_GET['selfid'];}else{$selfid='';}
 if(isset($_POST['selfid'])){$selfid=$_POST['selfid'];}
 if(isset($_GET['selyid'])){$selyid=$_GET['selyid'];}else{$selyid='';}
 if(isset($_POST['selyid'])){$selyid=$_POST['selyid'];}
-if(isset($_POST['profid'])){$profid=$_POST['profid'];}else{$profid='';}
+if(isset($_POST['profid'])){$profid=$_POST['profid'];}else{$profid='%';}
 if(isset($_POST['gender'])){$gender=$_POST['gender'];}else{$gender='';}
+
+if($selfid!=''){
+	$cohorts=list_community_cohorts(array('id'=>'','type'=>'form','name'=>$selfid));
+	}
+elseif($selyid!=''){
+	$cohorts=list_community_cohorts(array('id'=>'','type'=>'year','name'=>$selyid));
+	}
+if(isset($cohorts)){
+	$rcrid=$cohorts[0]['course_id'];$onchange='';$required='yes';
+	}
+
 
 three_buttonmenu();
 ?>
@@ -20,10 +31,10 @@ three_buttonmenu();
 
 	  <fieldset class="center">
 		<legend><?php print_string('collateforstudentsfrom',$book);?></legend>
-		<?php $onchange='yes'; $required='no';include('scripts/'.$listgroup);?>
+		<?php $onchange='yes'; $required='no'; include('scripts/'.$listgroup);?>
 	  </fieldset>
 <?php
-	  if($r>-1){
+		if($r>-1 or isset($cohorts)){
 
 /*	  <fieldset class="center">
 		<legend><?php print_string('limitbysubject',$book);?></legend>
@@ -32,29 +43,12 @@ three_buttonmenu();
 		</div>
 	  </fieldset>
 */
-
-	  }
 ?>
 
 	  <fieldset class="center">
 		<legend><?php print_string('assessmentprofile',$book);?></legend>
-		<div class="center" >
-<?php
-		if($selfid!=''){
-			$cohorts=list_community_cohorts(array('id'=>'','type'=>'form','name'=>$selfid));
-			}
-		elseif($selyid!=''){
-			$cohorts=list_community_cohorts(array('id'=>'','type'=>'year','name'=>$selyid));
-			}
-
-		if(isset($cohorts)){
-			$rcrid=$cohorts[0]['course_id'];$onchange='';$required='yes';
-			}
-
-		if($r>1 or isset($cohorts)){
-			include('scripts/list_assessment_profile.php');
-			}
-?>
+		<div class="center">
+		<?php $onchange='yes';include('scripts/list_assessment_profile.php');?>
 		</div>
 	  </fieldset>
 
@@ -63,11 +57,6 @@ three_buttonmenu();
 		<legend><?php print_string('choosetoinclude',$book);?></legend>
 		<div class="center" >
 <?php
-			/*
-		$ryids=array('0'=>$selyid);
-		$rfids=array('0'=>$selfid);
-		include('scripts/list_assessment.php');
-			*/
 	$listname='gender';$listlabel='gender';$required='no';
 	include('scripts/set_list_vars.php');
 	list_select_enum('gender',$listoptions,$book);
@@ -76,6 +65,24 @@ three_buttonmenu();
 		</div>
 	  </fieldset>
 
+	  <fieldset class="center">
+		<legend><?php print_string('assessments',$book);?></legend>
+		<div class="center" >
+<?php
+	if($selyid!=''){$ryids=array('0'=>$selyid);$rfids=array();}
+	elseif($selfid!=''){$rfids=array('0'=>$selfid);$ryids=array();}
+	if($profid==''){$selprofid='%';}
+	else{$selprofid=$profid;}
+	$required='no';
+	include('scripts/list_assessment.php');
+?>
+		</div>
+	  </fieldset>
+
+
+<?php
+		}
+?>
 
 	  <input type="hidden" name="selfid" value="<?php print $selfid;?>" />
 	  <input type="hidden" name="selyid" value="<?php print $selyid;?>" />

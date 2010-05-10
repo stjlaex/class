@@ -138,9 +138,8 @@ three_buttonmenu($extrabuttons);
 									   'value'=>'',
 									   'title'=>'edit');
 
-	$profile=get_assessment_profile($profid);
 	$cohort=array('id'=>'','course_id'=>$rcrid,'stage'=>'%','year'=>$curryear);
-	$AssDefs=(array)fetch_cohortAssessmentDefinitions($cohort,$profile['name']);
+	$AssDefs=(array)fetch_cohortAssessmentDefinitions($cohort,$profid);
 	while(list($index,$AssDef)=each($AssDefs)){
 		$eid=$AssDef['id_db'];
 		$rown=0;
