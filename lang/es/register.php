@@ -50,6 +50,14 @@ $string['attended']='Presentado';
 $string['absences']='Ausencias';
 $string['messagecontactsunauthorisedabsences']='Contactos para mandar mensajes s&oacute;lo sobre ausencias no autorizadas.';
 $string['messagecontactsallabsences']='Contactos para mandar mensajes sobre TODO tipo de ausencias.';
-$string['period']='Periodo';
+$string['period']='Per&iacute;odo';
+$string['last']='&Uacute;ltimo';
+$string['absencemessage']='Estmado Padre/Madre,
+
+A las 10:00 de esta ma&ntilde;ana, a$ a&uacute;n no se hab&iacute;a registrado en el colegio. Por favor, contacte con el colegio para informar del motivo de su ausencia.
+
+Gracias.
+';
+$string['inschool']='Presente en el colegio';
 $string['']='';
 ?>

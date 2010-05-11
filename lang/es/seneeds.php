@@ -34,7 +34,6 @@ $string['addsubject']='A&ntilde;adir materia';
 $string['nextreviewdate']='Pr&oacute;xima revisi&oacute;n';
 $string['shorttermfailing']='Dificultades a corto plazo';
 $string['enrolmentconcern']='Problema detectado en el proceso de admisi&oacute;n';
+$string['strategies']='Estrategias';
 $string['']='';
-$string['']='';
-$string['strategies']='';
-?>
+?>

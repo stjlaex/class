@@ -207,5 +207,7 @@ $string['subbudget']='Sub-Presupuesto';
 $string['creditnote']='Nota de Cr&eacute;dito';
 $string['reopen']='Reabierto';
 $string['specialadminpermissions']='Permisos de acceso especiales';
+$string['balancetoolow']='El saldo previsto es mucho menor para aceptar otro pedido.';
+$string['blank']='Vacio';
 $string['']='';
-?>
+?>

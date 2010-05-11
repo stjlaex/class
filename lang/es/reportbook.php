@@ -52,5 +52,9 @@ $string['limittoonetype']='Limitado a un s&oacute;lo tipo';
 $string['estimate']='Estimaci&oacute;n';
 $string['result']='Resultado';
 $string['target']='Objetivo';
+$string['published']='Publicado';
+$string['scheduledforpublication']='Programado para publicar';
 $string['']='';
-$string['']='';?>
+$string['']='';
+$string['']=''
+;?>
