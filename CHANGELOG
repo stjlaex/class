@@ -3,6 +3,8 @@ Version ClaSS-0.9.20 release (2010/5/14)
 
 Update to the spanish language pack.
 
+Fix to the comment pop-ups which had lost their span element.
+
 
 Version ClaSS-0.9.19 release (2010/5/09)
 -----------------------------------------

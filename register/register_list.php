@@ -213,6 +213,7 @@ if($nodays==1 or $_SESSION['role']=='office' or $_SESSION['role']=='admin'){
 			/* Consider support staff to be not priviliged to access. */
 				$comment=comment_display($sid);
 ?>
+			<span title="<?php print $comment['body'];?>">
 			  <a onclick="parent.viewBook('infobook');" target="viewinfobook"  
 				href='infobook.php?current=comments_list.php&sid=<?php print $sid;?>'
 				<?php print ' class="'.$comment['class'].'" ';?>>C</a> 

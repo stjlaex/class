@@ -113,8 +113,6 @@ two_buttonmenu();
 			<?php print $index+1;?>
 		  </td>
 		  <td>
-			<a onclick="parent.viewBook('infobook');" target="viewinfobook" 
-			  href="infobook.php?current=student_scores.php&sid=<?php print $sid;?>">T</a> 
 			<span title="<?php print $comment['body'];?>">
 			<a onclick="parent.viewBook('infobook');" target="viewinfobook"  
 			  href="infobook.php?current=comments_list.php&sid=<?php print $sid;?>"

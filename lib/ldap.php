@@ -19,11 +19,10 @@
  */
 function get_student_photo($epfun, $s_ldap_host=null, $s_ldap_rdn=null, $s_ldap_pass=null, $s_base_tree_node=null, $s_object_class=null){
 	global $CFG;
-	$sid=$epfun;
 	if(!$s_base_tree_node){
 		$s_base_tree_node='ou=student,ou=people,dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
 		}
-	return get_photo($sid, $s_ldap_host, $s_ldap_rdn, $s_ldap_pass,$s_base_tree_node, $s_object_class);
+	return get_photo($epfun, $s_ldap_host, $s_ldap_rdn, $s_ldap_pass,$s_base_tree_node, $s_object_class);
 	}
 
 
@@ -122,8 +121,6 @@ function get_photo($uid, $ldap_host=null, $ldap_rdn=null, $ldap_pass=null, $base
 				$attrs=ldap_get_attributes($ldap_connection, $entry);
 
 				if($attrs['jpegPhoto']['count']>0){
-					//echo $attrs['jpegPhoto']['count'];
-					//if ($attrs['count']>0){
 				    $jpeg_data=ldap_get_values_len( $ldap_connection, $entry, "jpegPhoto");
 				    $outfile=$CFG->installpath.'/images/tmp/'.$uid.'.jpeg';
 				    $handle=fopen($outfile, 'wb');

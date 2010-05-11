@@ -147,6 +147,7 @@ two_buttonmenu($extrabuttons,$book);
 			/* Consider support staff to be not priviliged to access. */
 				$comment=comment_display($sid);
 ?>
+			<span title="<?php print $comment['body'];?>">
 		<a href="infobook.php?current=comments_list.php&sid=<?php print $sid;?>"
 				class="<?php print $comment['class'];?>">C</a> 
 			</span>
