@@ -16,6 +16,7 @@ $ftype=clean_text($_GET['ftype']);
 if($ftype=='csv'){$mimetype='csv';$filepath='/tmp/class_export.csv';}
 elseif($ftype=='xml'){$mimetype='xml';$filepath='/tmp/class_export.xml';}
 elseif($ftype=='fet'){$mimetype='xml';$filepath='/tmp/class_export.fet';}
+elseif($ftype=='xls'){$mimetype='application/ms-excel';$filepath='/tmp/class_export.xls';}
 else{exit;}
 if(!file_exists($filepath)){exit;}
 header("Content-type: text/$mimetype");

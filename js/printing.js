@@ -1,5 +1,5 @@
 
-function openFileExport(){
+function openFileExport(ftype){
 	printWindow=window.open('','','height=250,width=450,dependent');
 	printWindow.document.open();
 	printWindow.document.writeln("<html>");
@@ -7,10 +7,10 @@ function openFileExport(){
 	printWindow.document.writeln("<meta http-equiv='pragma' content='no-cache'/>");
 	printWindow.document.writeln("<meta http-equiv='Expires' content='0'/>");
 	printWindow.document.writeln("</head>");
-	printWindow.document.writeln("<script type='text/javascript'>function actionpage(){document.location='scripts/export.php?ftype=csv'}</script>");
+	printWindow.document.writeln("<script type='text/javascript'>function actionpage(){document.location='scripts/export.php?ftype="+ftype+"'}</script>");
 	printWindow.document.writeln("<body onLoad=\"setTimeout('actionpage()', 5000);\">");
-	printWindow.document.writeln("<h3>The CSV file will download shortly.<h2>");
-	printWindow.document.writeln("<h4>Open using your favourtie Spreadsheet.<h4>");
++	printWindow.document.writeln("<h3>The file will download shortly.<h2>");
++	printWindow.document.writeln("<h4>Open using your favourite Spreadsheet.<h4>");
 	printWindow.document.writeln("<form><input type='button' value='Close This Window' onClick='window.close();' /></form>");
 	printWindow.document.writeln("</body>");
 	printWindow.document.writeln("</html>");

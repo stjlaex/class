@@ -102,7 +102,7 @@ if(sizeof($sids)==0){
 	   	fclose($file);
 		$result[]='exportedtofile';
 ?>
-		<script>openFileExport();</script>
+		<script>openFileExport('csv');</script>
 <?php
 		}
 

@@ -1,9 +1,13 @@
-Version ClaSS-0.9.20 release (2010/5/14)
+Version ClaSS-0.9.20 release (2010/5/12)
 -----------------------------------------
 
 Update to the spanish language pack.
 
 Fix to the comment pop-ups which had lost their span element.
+
+Changed the export of the marktable to use excel instead of csv for
+its fileformat. Requires additional PEAR package
+Spreadsheet_Excel_Writer.
 
 
 Version ClaSS-0.9.19 release (2010/5/09)

@@ -36,7 +36,7 @@
 <script language="JavaScript" type="text/javascript">
 var pathtobook = "<?php print $CFG->sitepath.'/'.$CFG->applicationdirectory.'/'.$book.'/';?>";
 </script>
-<script language="JavaScript" type="text/javascript" src="js/printing.js?version=917"></script>
+<script language="JavaScript" type="text/javascript" src="js/printing.js?version=920"></script>
 <script language="JavaScript" type="text/javascript" src="js/qtip.js"></script>
 <script language="JavaScript" type="text/javascript" src="js/bookfunctions.js?version=918"></script> 
 <script language="JavaScript" type="text/javascript" src="js/register.js"></script>

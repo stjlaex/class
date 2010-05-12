@@ -28,7 +28,7 @@ include('scripts/sub_action.php');
 		fclose($file);
 		$result[]='Saving definition file.';
 ?>
-		<script>openFileExport();</script>
+		<script>openFileExport('csv');</script>
 <?php
 		}
 
