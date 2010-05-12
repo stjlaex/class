@@ -21,7 +21,7 @@ if(!isset($xmlid)){print "Failed"; exit;}
 		}
 	else{
 		$newperms=array('r'=>0,'w'=>0,'x'=>0);
-		$result[]=update_staff_perms($uid,$gid,$newperms);
+		update_staff_perms($uid,$gid,$newperms);
 		$Responsible['exists']='false';
 		}
 $returnXML=$Responsible;

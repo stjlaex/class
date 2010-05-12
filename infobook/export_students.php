@@ -70,7 +70,7 @@ if(sizeof($sids)==0){
 				$csv[]=$Contact['id_db'];
 				while(list($tagname,$field)=each($Contact)){
 					if(is_array($field) and isset($field['value'])){
-						if($field['type_db']=='enum'){
+						if(isset($field['type_db']) and $field['type_db']=='enum'){
 							if($field['value']!='NOT'){
 								$csv[]=displayEnum($field['value'],$field['field_db']);
 								}
