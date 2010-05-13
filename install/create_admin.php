@@ -215,7 +215,7 @@ CREATE TABLE cohidcomid (
 mysql_query("
 CREATE TABLE categorydef (
 	id				int unsigned not null auto_increment, 
-	name			varchar(60) not null default '',
+	name			varchar(240) not null default '',
 	type			char(3) not null default '',
 	subtype			varchar(20) not null default '',
 	rating			enum('-12', '-11', '-10', '-9', '-8', '-7',

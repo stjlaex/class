@@ -1,0 +1,1 @@
+ALTER TABLE categorydef CHANGE name name varchar(240) not null default '';

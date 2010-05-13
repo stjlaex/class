@@ -65,7 +65,7 @@ while(list($cindex,$catdef)=each($catdefs)){
 	$Category['Name']=array('label'=>'name',
 							'table_db'=>'categorydef', 
 							'field_db'=>'name',
-							'type_db'=>'varchar(60)',
+							'type_db'=>'varchar(240)',
 							'value'=>$catdef['name']
 							);
 	if($catdef['bid']=='%'){$displaysub='General';}
