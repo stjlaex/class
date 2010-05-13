@@ -8,6 +8,7 @@ $rid=$_POST['rid'];
 $type=$_POST['type'];
 if(isset($_POST['bid'])){$bid=$_POST['bid'];}
 if(isset($_POST['pid'])){$pid=$_POST['pid'];}
+if(isset($_POST['stage'])){$stage=$_POST['stage'];}
 
 /*Note: categories are not handled by the commentwriter*/
 
@@ -20,6 +21,7 @@ elseif($sub=='Submit'){
 	
 	if($type=='cat'){
 		if($pid!='' and $pid!=' '){$bid=$pid;}
+		if(!isset($stage)){$stage='%';}
 		$RepDef=fetchReportDefinition($rid);
 		$crid=$RepDef['Course']['value'];
 		$catdefs=get_report_categories($rid,$bid,$pid);
@@ -38,7 +40,7 @@ elseif($sub=='Submit'){
 			$inval=clean_text($_POST[$inname]);
 			if($incatid==-1 and $inval!=''){
 				mysql_query("INSERT INTO categorydef SET name='$inval', type='$type', 
-					rating_name='', subject_id='$bid', course_id='$crid';");
+					rating_name='', subject_id='$bid', course_id='$crid', stage='$stage';");
 				$catid=mysql_insert_id();
 				mysql_query("INSERT INTO ridcatid SET report_id='$rid', categorydef_id='$catid', 
 					subject_id='$bid';");

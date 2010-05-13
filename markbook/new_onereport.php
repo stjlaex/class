@@ -202,7 +202,7 @@
 			$imagebuttons=array();
 			if($inmust=='yes' and $reportdef['report']['addcategory']=='yes'){
 				$imagebuttons['clicktoconfigure']=array('name'=>'current',
-														'onclick'=>"clickToConfigureCategories('cat',$rid,'$bid','$pid','0')", 
+														'onclick'=>"clickToConfigureCategories('cat',$rid,'$bid','$pid','$class_stage','0')", 
 														'value'=>'category_editor.php',
 														'title'=>'configure');
 				}

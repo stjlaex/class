@@ -13,13 +13,15 @@ if(isset($_GET['bid'])){$bid=$_GET['bid'];}
 elseif(isset($_POST['bid'])){$bid=$_POST['bid'];}else{$bid='';}
 if(isset($_GET['pid'])){$pid=$_GET['pid'];}
 elseif(isset($_POST['pid'])){$pid=$_POST['pid'];}else{$pid='';}
+if(isset($_GET['stage'])){$stage=$_GET['stage'];}
+elseif(isset($_POST['stage'])){$stage=$_POST['stage'];}else{$stage='';}
 if(isset($_GET['openid'])){$openid=$_GET['openid'];}
 
 
 /* The categories and rating details */
 /* TODO: generalise to all catdef types */
 if($type=='cat'){
-	$catdefs=get_report_categories($rid,$bid,$pid);
+	$catdefs=get_report_categories($rid,$bid,$pid,'cat',$stage);
 	}
 else{
 	$catdefs=array();

@@ -12,9 +12,9 @@ function requestxmlHttp(){
 // calls to httpscripts to do their work
 
 //opens the category editor window
-function clickToConfigureCategories(type,rid,bid,pid,openId){
+function clickToConfigureCategories(type,rid,bid,pid,stage,openId){
 	var helperurl="reportbook/httpscripts/category_editor.php";
-	var getvars="type="+type+"&rid="+rid+"&bid="+bid+"&pid="+pid+"&openid="+openId;
+	var getvars="type="+type+"&rid="+rid+"&bid="+bid+"&pid="+pid+"&stage="+stage+"&openid="+openId;
 	openHelperWindow(helperurl,getvars);
 	}
 
