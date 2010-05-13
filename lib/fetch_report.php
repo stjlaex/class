@@ -643,7 +643,7 @@ function fetch_reportdefinition($rid,$selbid='%'){
  * subcomment categories.
  *
  */
-function get_report_categories($rid,$bid='%',$pid='',$type='cat'){
+function get_report_categories($rid,$bid='%',$pid='',$type='cat',$stage='%'){
 
 	/* There is no component_id field in ridcatid, if pid is set then it uses subject_id */
 	if($pid!='' and $pid!=' '){$bid=$pid;}
@@ -651,7 +651,9 @@ function get_report_categories($rid,$bid='%',$pid='',$type='cat'){
 	$d_categorydef=mysql_query("SELECT id, name, type, subtype, rating,  
 				 rating_name, comment, ridcatid.subject_id AS bid FROM categorydef LEFT
 				JOIN ridcatid ON ridcatid.categorydef_id=categorydef.id 
-				WHERE ridcatid.report_id='$rid' AND categorydef.type='$type'  
+				WHERE ridcatid.report_id='$rid' AND categorydef.type='$type' 
+				AND (categorydef.stage='' OR categorydef.stage='%' 
+					OR categorydef.stage LIKE '$stage') 
 				AND (ridcatid.subject_id='$bid' OR ridcatid.subject_id='%');");
 
 	/*
