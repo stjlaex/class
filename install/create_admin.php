@@ -226,6 +226,7 @@ CREATE TABLE categorydef (
 	comment			text not null default '',
 	subject_id		varchar(10) not null default '',
 	course_id		varchar(10) not null default '',
+	stage			char(3) not null default '',
 	section_id		smallint not null default 0,
    	primary key		(id)
 );");

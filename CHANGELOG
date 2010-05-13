@@ -12,6 +12,8 @@ Spreadsheet_Excel_Writer.
 Extended the length of categorydef name field to be varchar 240 (apply
 the aptch!).
 
+Added stage as a field to the categorydef table.
+
 
 Version ClaSS-0.9.19 release (2010/5/09)
 -----------------------------------------
