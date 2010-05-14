@@ -148,6 +148,7 @@ while(list($cindex,$catdef)=each($catdefs)){
 	  </div>
 
 
+	<input type="hidden" name="stage" value="<?php print $stage; ?>"/>
 	<input type="hidden" name="type" value="<?php print $type; ?>"/>
 	<input type="hidden" name="rid" value="<?php print $rid; ?>"/>
 	<input type="hidden" name="bid" value="<?php print $bid; ?>"/>
