@@ -10,7 +10,7 @@ its fileformat. Requires additional PEAR package
 Spreadsheet_Excel_Writer.
 
 Extended the length of categorydef name field to be varchar 240 (apply
-the aptch!).
+the patch!).
 
 Added stage as a field to the categorydef table and amended
 get_report_categories to make use of it. Now possible to have
