@@ -19,6 +19,10 @@ if(isset($_GET['stage'])){$stage=$_GET['stage'];}else{$stage='%';}
 if(isset($_POST['stage'])){$stage=$_POST['stage'];}
 if(isset($_GET['classes'])){$classes=$_GET['classes'];}else{$classes='';}
 if(isset($_POST['classes'])){$classes=$_POST['classes'];}
+if(isset($_GET['eids'])){$eids=(array)$_GET['eids'];}else{$eids=array();}
+if(isset($_POST['eids'])){$eids=(array)$_POST['eids'];}
+if(isset($_GET['template'])){$template=$_GET['template'];}else{$template='';}
+if(isset($_POST['template'])){$template=$_POST['template'];}
 
 if(sizeof($sids)==0){
 	$result[]=get_string('youneedtoselectstudents');
@@ -33,7 +37,19 @@ else{
 	$profilename=$profile['name'];
 	$curryear=get_curriculumyear($crid);
 	$cohort=array('id'=>'','course_id'=>$crid,'stage'=>$stage,'year'=>$curryear);
-	$AssDefs=(array)fetch_cohortAssessmentDefinitions($cohort,$profile['id']);
+	/* Allows for alternative to the profile's default template */
+	if($template!=''){$profile['transform']=$template;}
+	/* Allows a subset of the profile's assessments to be included */
+	if(sizeof($eids)>0){
+		$AssDefs=array();
+		foreach($eids as $eindex => $eid){
+			$AssDefs[]=fetchAssessmentDefinition($eid);
+			}
+		}
+	else{
+		$AssDefs=(array)fetch_cohortAssessmentDefinitions($cohort,$profile['id']);
+		}
+
 
 	/* TODO: make this a property of the profile */
 	if($profile['transform']!='tracking_grid'){

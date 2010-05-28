@@ -46,14 +46,6 @@ three_buttonmenu();
 ?>
 
 	  <fieldset class="center">
-		<legend><?php print_string('assessmentprofile',$book);?></legend>
-		<div class="center">
-		<?php $onchange='yes';include('scripts/list_assessment_profile.php');?>
-		</div>
-	  </fieldset>
-
-
-	  <fieldset class="center">
 		<legend><?php print_string('choosetoinclude',$book);?></legend>
 		<div class="center" >
 <?php
@@ -64,6 +56,28 @@ three_buttonmenu();
 
 		</div>
 	  </fieldset>
+
+	  <fieldset class="left">
+		<legend><?php print_string('assessmentprofile',$book);?></legend>
+		<div class="center">
+		<?php $onchange='yes';$required='no';include('scripts/list_assessment_profile.php');?>
+		</div>
+	  </fieldset>
+	  <fieldset class="right">
+		<legend><?php print_string('template',$book);?></legend>
+		<div class="center">
+<?php $onchange='yes';$required='no';
+   	$d_catdef=mysql_query("SELECT DISTINCT comment AS id, comment AS name FROM categorydef WHERE
+								  type='pro' AND comment!='' ORDER BY course_id;");
+	$listname='template';$onchange='no';
+	include('scripts/set_list_vars.php');
+	list_select_db($d_catdef,$listoptions,$book);
+	unset($listoptions);
+?>
+		</div>
+	  </fieldset>
+
+
 
 	  <fieldset class="center">
 		<legend><?php print_string('assessments',$book);?></legend>

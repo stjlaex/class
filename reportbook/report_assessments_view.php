@@ -21,6 +21,7 @@ if(isset($_POST['selyid'])){$yid=$_POST['selyid'];}else{$yid='';}
 if(isset($_POST['selfid'])){$fid=$_POST['selfid'];}else{$fid='';}
 if(isset($_POST['gender'])){$gender=$_POST['gender'];}else{$gender='';}
 if(isset($_POST['profid'])){$profid=$_POST['profid'];}
+if(isset($_POST['template'])){$template=$_POST['template'];}
 if(isset($_POST['bids'])){$selbids=(array)$_POST['bids'];}
 if(isset($_POST['eids'])){$eids=(array)$_POST['eids'];}else{$eids=array();}
 if(isset($_POST['breakdown'])){$breakdown=$_POST['breakdown'];}else{$breakdown='subject';}
@@ -32,6 +33,7 @@ $extrabuttons['previewselected']=array('name'=>'print',
 									   'pathtoscript'=>$CFG->sitepath.'/'.$CFG->applicationdirectory.'/markbook/',
 									   'value'=>'report_profile_print.php',
 									   'onclick'=>'checksidsAction(this)');
+
 /*
 $extrabuttons['displaybysubject']=array('name'=>'breakdown',
 										'value'=>'subject'
@@ -80,6 +82,7 @@ $students=array();
 		$AssDef=fetchAssessmentDefinition($eid);
 		$assdefs[$eid]=$AssDef;
 		$asscrids[$AssDef['Course']['value']]=$AssDef['Course']['value'];
+		//trigger_error($eid,E_USER_WARNING);
 		}
 	reset($eids);
 
@@ -360,12 +363,16 @@ $students=array();
 		<div id="xml-checked-action" style="display:none;">
 <?php 
 $profile['bid']='';
+$profile['eids']=(array)$eids;
 if($profile['crid']=='FS'){
 	$profile['bid']='EY';
+	}
+if($template!=''){
+	$profile['template']=$template;
 	}
 //$profile['stage']=$stage;
 $profile['pid']='';
 $profile['stage']='R';
-		xmlechoer('Profile',$profile);
+xmlechoer('Profile',$profile);
 ?>
 		</div>
