@@ -144,8 +144,10 @@ function fetchSubjectReports($sid,$reportdefs){
 					   * but until cridbid has a sequence is it possible or even cridbid 
 					   * is subsumed into component?
 					   */ 
-					  if($bid=='Mat' or $bid=='Jun'){$componentseq=1;}
-					  else{$componentseq=10;}
+					  if($bid=='Eng' or $bid=='Jun'){$subjectseq=1;}
+					  elseif($bid=='Mat'){$subjectseq=2;}
+					  elseif($bid=='Sci'){$subjectseq=3;}
+					  else{$subjectseq=10;}
 					  }
 				  /* Combine assessment indexes for this component and all of its
 				   * strands into a single array $assnos.
@@ -159,7 +161,7 @@ function fetchSubjectReports($sid,$reportdefs){
 						  }
 					  }
 				  foreach($component['strands'] as $strand){
-					  trigger_error($bid.' '.$pid.' : '.$strand['id'],E_USER_WARNING);
+					  //trigger_error($bid.' '.$pid.' : '.$strand['id'],E_USER_WARNING);
 					  if(isset($assbids[$bid][$strand['id']])){
 						  $assnos=array_merge($assnos,$assbids[$bid][$strand['id']]);
 						  }
@@ -174,6 +176,7 @@ function fetchSubjectReports($sid,$reportdefs){
 						  $Report['Course']=array('id'=>''.$reportdef['report']['course_id'], 
 												  'value'=>''.$reportdef['report']['course_name']);
 						  $Report['Subject']=array('id'=>''.$bid, 
+												   'sequence'=>''.$subjectseq,
 												   'value'=>''.$subject['name']);
 						  $Report['Component']=array('id'=>''.$pid, 
 													 'status'=>''.$componentstatus,
