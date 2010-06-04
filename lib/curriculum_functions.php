@@ -1,10 +1,18 @@
 <?php
 /**							lib/curriculum_functions.php
  *
+ *	@package	ClaSS
+ *	@author		stj@laex.org
+ *	@copyright	S T Johnson 2004-2008
+ *	@version	
+ *	@since				
+ *
  */
 
 /**
  * Returns an array of all possible courses
+ *
+ *	@return array courses
  *
  */
 function list_courses(){
@@ -20,6 +28,7 @@ function list_courses(){
  * Returns an array of the school's sections.
  * First record id=1 is always special (the wholeschool) and is excluded.
  *
+ *	@return array sections
  */
 function list_sections(){
 	$sections=array();
@@ -32,6 +41,9 @@ function list_sections(){
 
 /**
  * Returns an array of all posible yeargroups for a single section
+ *
+ *	@param string $secid
+ *	@return array
  *
  */
 function list_yeargroups($secid='%'){
@@ -48,6 +60,8 @@ function list_yeargroups($secid='%'){
 /**
  * Returns an array of all posible formgroups, can limited by $yid
  *
+ *	@param string $yid
+ *	@return array
  */
 function list_formgroups($yid='%'){
 	$forms=array();
@@ -66,6 +80,9 @@ function list_formgroups($yid='%'){
  * implicit in their naming scheme and so stage's should be named
  * logically.
  *
+ *	@param string $crid
+ *	@param string $year
+ *	@return array
  *
  */
 function list_course_stages($crid='',$year=''){
@@ -85,6 +102,8 @@ function list_course_stages($crid='',$year=''){
 /**
  * Returns an array of all subjects for a single course
  *
+ *	@param string $crid
+ *	@return array
  */
 function list_course_subjects($crid=''){
 	$subjects=array();
@@ -106,6 +125,10 @@ function list_course_subjects($crid=''){
  * get strands. Note components can be defined for all subjects
  * (subject_id=%) but strands cannot.
  *
+ *	@param string $bid
+ *	@param string $crid
+ *	@param string $compstatus
+ *	@return array
  */
 function list_subject_components($bid,$crid,$compstatus='A'){
 	$components=array();
@@ -157,6 +180,10 @@ function list_subject_components($bid,$crid,$compstatus='A'){
 /**
  * Returns an array of all cohorts for a single course year
  *
+ *	@param string $crid
+ *	@param string $year
+ *	@param string $season
+ *	@return array
  */
 function list_course_cohorts($crid,$year='',$season='S'){
 	$cohorts=array();
@@ -186,6 +213,8 @@ function list_course_cohorts($crid,$year='',$season='S'){
  * If its not linked directly to a yeargroup or form then can't
  * identify its section, just return wholeschool (secid=1).
  *
+ *	@param string $cid
+ *	@return array
  */
 function get_class_section($cid){
 	$d_s=mysql_query("SELECT DISTINCT section_id FROM yeargroup WHERE
@@ -210,6 +239,8 @@ function get_class_section($cid){
  * this form where the class is actually populated by just this
  * form's sids (so does not return sets).
  *
+ *	@param string $fid
+ *	@return array
  */
 function list_forms_classes($fid){
 	$cids=array();
@@ -251,6 +282,10 @@ function list_forms_classes($fid){
  * Returns an array listing the classes associated with
  * this course and subject
  *
+ *	@param string $crid
+ *	@param string $bid
+ *	@param string $stage
+ *	@return array
  */
 function list_course_classes($crid='%',$bid='%',$stage='%'){
 	$classes=array();
@@ -269,6 +304,8 @@ function list_course_classes($crid='%',$bid='%',$stage='%'){
  * Returns an id-name array listing the teachers of a class identified 
  * by its cid
  * 
+ *	@param string $cid
+ *	@return array
  *
  */
 function list_class_teachers($cid){
@@ -285,6 +322,8 @@ function list_class_teachers($cid){
  * Returns an id-name array listing all classes this sid attends.
  * The name is a descriotion of the course and subject for each class.
  *
+ *	@param string $sid
+ *	@return array
  */
 function list_student_classes($sid){
 	if($sid==''){$sid=-1;}
@@ -306,6 +345,8 @@ function list_student_classes($sid){
  * teachers!!!) of this student. The array is a partial users record
  * with name and email detials.
  *
+ *	@param string $sid
+ *	@return array
  */
 function list_student_teachers($sid){
 	if($sid==''){$sid=-1;}
@@ -328,6 +369,10 @@ function list_student_teachers($sid){
  * Returns a record from the classes table, Must have crid, bid, and
  * stage set.
  *
+ *	@param string $crid
+ *	@param string $bid
+ *	@param string $stage
+ *	@return array
  */
 function get_subjectclassdef($crid,$bid,$stage){
 	$d_c=mysql_query("SELECT many, generate, naming, sp, dp, block FROM classes WHERE
@@ -349,6 +394,8 @@ function get_subjectclassdef($crid,$bid,$stage){
  * Updates the classes table with a record identified by crid/bid/stage
  * naming is optional, many=0 will delete the record
  *
+ *	@param string $classdef
+ *	@return array
  */
 function update_subjectclassdef($classdef){
 	$many=$classdef['many'];
@@ -394,11 +441,13 @@ function update_subjectclassdef($classdef){
 
 
 /**
- * 
  *
  * Keeping things simple by fixing season and year to a single value
  * to sophisticate in the future
  *
+ *	@param string $classdef
+ *	@param string $currentseason
+ *	@return array
  */
 function get_classdef_classes($classdef,$currentseason='S'){
 	$newcids=array();
@@ -489,6 +538,9 @@ function get_classdef_classes($classdef,$currentseason='S'){
  * populates those classes if they are linked to forms leaves empty if
  * they are sets.
  *
+ *	@param string $classdef
+ *	@param string $currentseason
+ *	@return null
  */
 function populate_subjectclassdef($classdef,$currentseason='S'){
 
@@ -519,6 +571,8 @@ function populate_subjectclassdef($classdef,$currentseason='S'){
  * expects an array with at least course_id and stage set
  * returns the cohort_id
  *
+ *	@param array $cohort
+ *	@return string
  */
 function update_cohort($cohort){
 	$crid=$cohort['course_id'];
@@ -548,6 +602,9 @@ function update_cohort($cohort){
  * Lists all sids who are current members of a cohort, or optionally
  * if todate is set then the membership on that date.
  *
+ *	@param array $cohort
+ *	@param date $todate
+ *	@return array
  */
 function listin_cohort($cohort,$todate=''){
 	if($todate==''){$todate=date('Y-m-d');}
@@ -575,6 +632,10 @@ function listin_cohort($cohort,$todate=''){
 /**
  * Checks whether a sid is a memeber of a cohort and returns true or false.
  *
+ *	@param string $sid
+ *	@param array $cohort
+ *	@param date $todate
+ *	@return array
  */
 function check_student_cohort($sid,$cohort,$todate=''){
 	$status=false;
@@ -601,6 +662,9 @@ function check_student_cohort($sid,$cohort,$todate=''){
  *
  * If this has not been set then the current year +1 will set. You
  * might want to edit this after ClaSS first runs. TODO: add to install?
+ *
+ *	@param string $crid TODO
+ *	@return date
  */
 function get_curriculumyear($crid=''){
 	$d_c=mysql_query("SELECT year FROM community WHERE
@@ -613,6 +677,13 @@ function get_curriculumyear($crid=''){
 	return $thisyear;
 	}
 
+/**
+ *
+ *
+ *	@param integer $year
+ *	@param string $crid 
+ *	@return null
+ */
 function set_curriculumyear($year,$crid=''){
 	$d_c=mysql_query("SELECT year FROM community WHERE
 						name='curriculum year' AND type='';");
@@ -628,6 +699,8 @@ function set_curriculumyear($year,$crid=''){
 
 /**
  *
+ *	@param integer $year
+ *	@return string
  */
 function display_curriculumyear($year){
 	$lastyear=$year-1;
@@ -637,6 +710,8 @@ function display_curriculumyear($year){
 
 /**
  *
+ *	@param integer $yid
+ *	@return string
  */
 function get_yeargroupname($yid){
 	$d_y=mysql_query("SELECT name FROM yeargroup WHERE id='$yid';");
@@ -651,6 +726,9 @@ function get_yeargroupname($yid){
 
 /**
  * Just a convenient synonym for get_yeargroupname 
+ *
+ *	@param integer $yid
+ *	@return string
  */
 function display_yeargroupname($yid){
 	$name=get_yeargroupname($yid);
@@ -659,6 +737,9 @@ function display_yeargroupname($yid){
 
 /**
  * Just a convenient synonym for get_subjectname 
+ *
+ *	@param integer $bid
+ *	@return string
  */
 function display_subjectname($bid){
 	$subjectname=get_subjectname($bid);
@@ -667,6 +748,8 @@ function display_subjectname($bid){
 
 /**
  *
+ *	@param string $tid
+ *	@return array
  */
 function get_teachername($tid){
 	$d_teacher=mysql_query("SELECT forename, surname 
@@ -678,6 +761,9 @@ function get_teachername($tid){
 
 /** 
  * Returns the subject name for that bid
+ *
+ *	@param string $bid
+ *	@return string
  */
 function get_subjectname($bid){
 	if($bid=='%' or $bid=='G' or $bid=='General'){
@@ -696,6 +782,9 @@ function get_subjectname($bid){
 
 /**
  * Returns the course name for that bid
+ *
+ *	@param string $crid
+ *	@return string
  */
 function get_coursename($crid){
 	if($crid=='%' or $crid=='G' or $crid=='General'){
@@ -714,6 +803,9 @@ function get_coursename($crid){
 
 /**
  * Returns the section name for that secid
+ *
+ *	@param integer $secid
+ *	@return string
  */
 function get_sectionname($secid){
 	if($secid!=''){
@@ -730,6 +822,8 @@ function get_sectionname($secid){
  *
  * Returns a form's record for a given $fid
  *
+ *	@param string $fid
+ *	@return array
  */
 function get_form($fid){
 	$d_f=mysql_query("SELECT * FROM form WHERE id='$fid';");
@@ -748,6 +842,10 @@ function get_form($fid){
  * formgroup.
  *
  * Default to secid=1 for whole school as a fail safe.
+ *
+ *	@param string $id
+ *	@param string $type
+ *	@return array
  */
 function get_section($id,$type='year'){
 	if($type=='form'){
@@ -770,6 +868,9 @@ function get_section($id,$type='year'){
 
 /**
  *
+ *	@param string $cid
+ *	@param boolean $strict
+ *	@return array
  */
 function listin_class($cid,$strict=false){
 
@@ -797,6 +898,10 @@ function listin_class($cid,$strict=false){
 
 /**
  *
+ *	@param string $bid
+ *	@param string $crid
+ *	@param string $stage
+ *	@return array
  */
 function listin_subject_classes($bid,$crid,$stage){
 	$d_student=mysql_query("SELECT student_id AS id FROM cidsid 

@@ -1,8 +1,19 @@
 <?php
 /**							statementbank.php
  *
+ *
+ *	@package	ClaSS
+ *	@author		stj@laex.org
+ *	@copyright	S T Johnson 2004-2008
+ *	@version
+ *	@since
  */
 
+/**
+ *
+ * @global array $CFG
+ * @return string 
+ */
 function connect_statementbank(){
 	global $CFG;
 	$dbstat='';
@@ -12,6 +23,15 @@ function connect_statementbank(){
 	return $dbstat;
 	}
 
+/**
+ *
+ * @param string $crid
+ * @param string $bid
+ * @param string $pid
+ * @param string $stage
+ * @param string $dbstat
+ * @return array
+ */
 function fetchStatementBank($crid,$bid,$pid,$stage,$dbstat=''){
 	$StatementBank=array();
 	if($dbstat==''){$dbstat=connect_statementbank();}
@@ -69,6 +89,12 @@ function fetchStatementBank($crid,$bid,$pid,$stage,$dbstat=''){
 	}
 
 
+/**
+ *
+ * @param array $new
+ * @param string $dbstat
+ * @return string 
+ */
 function add_statement($new,$dbstat=''){
 	/*currently the bid can not be set to a wildcard and perhaps it*/
 	/*should not be allowed this value either?*/
@@ -116,7 +142,12 @@ function add_statement($new,$dbstat=''){
 		}
 	return $result;
 	}
-
+/**
+ *
+ * @param array $Statement
+ * @param array $Student
+ * @return array
+ */
 function personaliseStatement($Statement,$Student){
 	$text=$Statement['Value'];
 	if($Student['Gender']['value']=='M'){

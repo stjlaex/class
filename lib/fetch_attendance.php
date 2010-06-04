@@ -1,12 +1,19 @@
 <?php	
 /**	   							 fetch_attendance.php
  *
+ *	@package	ClaSS
+ *	@author		stj@laex.org
+ *	@copyright	S T Johnson 2004-2008
+ *	@version	
+ *	@since		
  */	
 
 /**
  *
  * Returns a blank attendance record (even for sid!=-1!)
- *
+ * 
+ * @param integer $sid
+ * @return array
  */
 function fetchAttendance($sid='-1'){
 	$Attendance=array();
@@ -74,6 +81,10 @@ function fetchAttendance($sid='-1'){
  * where the eveindex is an array to provide a lookup index to the
  * Attendances based on the eveid
  *
+ * @param integer sid
+ * @param integer $startday
+ * @param integer $nodays
+ * @return array
  */
 function fetchAttendances($sid,$startday=0,$nodays=7){
 	$Attendances=array();
@@ -139,6 +150,10 @@ function fetchAttendances($sid,$startday=0,$nodays=7){
 
 /**
  *
+ *
+ * @param integer sid
+ * @param integer $eveid
+ * @return array
  */
 function fetchcurrentAttendance($sid,$eveid=''){
 	if($eveid==''){
@@ -183,6 +198,9 @@ function fetchcurrentAttendance($sid,$eveid=''){
  * Given an event_id it returns the xml_array for the event.
  * An event does not neccessarily have to be an attendance event and
  * this is therefore not really exclusive to attendnace but... 
+ *
+ * @param integer $eveid
+ * @return array
  */
 function fetchAttendanceEvent($eveid='-1'){
 	$Event=array();
@@ -207,6 +225,10 @@ function fetchAttendanceEvent($eveid='-1'){
  * Returns all events which exist in the db inclusive of the session 
  * from startday to the previous nodays 
  *
+ * @param integer $startday
+ * @param integer $nodays
+ * @param string $nodays
+ * @return array
  */
 function fetchAttendanceEvents($startday=0,$nodays=7,$session='%'){
 	$AttendanceEvents=array();
@@ -249,6 +271,12 @@ function fetchAttendanceEvents($startday=0,$nodays=7,$session='%'){
 
 
 
+/**
+ *
+ *
+ * @param integer $secid
+ * @return array
+ */
 function get_currentevent($secid=1){
 	global $CFG;
 
@@ -277,6 +305,9 @@ function get_currentevent($secid=1){
 
 /**
  *
+ *
+ * @param array $currentevent
+ * @return array
  */
 function get_class_periods($currentevent,$secid=1){
 	global $CFG;
@@ -322,6 +353,10 @@ function get_class_periods($currentevent,$secid=1){
  * Returns an event record for the matching date, if no date set then 
  * the default is to return the current session event.
  *
+ * @param date $date
+ * @param string $session
+ * @param string $period
+ * @return array
  */
 function get_event($date='',$session='',$period='0'){
 
@@ -351,6 +386,9 @@ function get_event($date='',$session='',$period='0'){
  * Returns the number of sids in a community and if eveid is for a
  * valid event then the number present and number absent.
  *
+ * @param array $community
+ * @param integer $session
+ * @return array
  */
 function check_communityAttendance($community,$eveid=-1){
 	if($community['id']!=''){$comid=$community['id'];}
@@ -387,6 +425,9 @@ function check_communityAttendance($community,$eveid=-1){
  * who are strictly not in school (that is absent but not late). Set
  * lates=1 to include all absent students (including those lates).
  * 
+ * @param integer $eveid
+ * @param integer $lates
+ * @return array
  */
 function list_absentStudents($eveid='',$lates=0){
 	if($eveid==''){
@@ -439,6 +480,10 @@ function list_absentStudents($eveid='',$lates=0){
  * number of lates, attended, authorised absences and unauthorised absences.
  * Need to add count for approved educational activity codes.
  *
+ * @param integer $sid
+ * @param date $startdate
+ * @param date $enddate
+ * @return array
  */
 function fetchAttendanceSummary($sid,$startdate,$enddate){
 	$Attendance['Summary']=array();
@@ -508,6 +553,11 @@ function fetchAttendanceSummary($sid,$startdate,$enddate){
  * student (ie. school closed #, not on roll Z, enforced closure Y and
  * non-compulsory age X).
  *
+ * @param integer $sid
+ * @param date $startdate
+ * @param date $enddate
+ * @param string $code
+ * @return array
  */
 function count_attendance($sid,$startdate,$enddate,$code=''){
 
@@ -536,6 +586,10 @@ function count_attendance($sid,$startdate,$enddate,$code=''){
  * This will count all present marks which have flagged with a
  * late, that is lates before registration closed.
  *
+ * @param integer $sid
+ * @param date $startdate
+ * @param date $enddate
+ * @return array
  */
 function count_late($sid,$startdate,$enddate){
 
@@ -593,6 +647,12 @@ function count_overall_late($startdate,$enddate){
 
 /**
  *
+ *
+ * @param date $startdate
+ * @param date $enddate
+ * @param string $session
+ * @param string $period
+ * @return array
  */
 function list_events($startdate,$enddate,$session='',$period='0'){
 

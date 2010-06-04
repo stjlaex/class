@@ -1,4 +1,13 @@
 <?php
+/**
+ *  xmlserializer.php
+ *
+ *	@package	ClaSS
+ *	@author		stj@laex.org
+ *	@copyright	S T Johnson 2004-2008
+ *	@version	
+ *	@since				
+ */
 
 /*include the PEAR XML stuff*/
 require_once 'XML/Serializer.php';
@@ -10,7 +19,9 @@ if((PHP_VERSION>='5')&&extension_loaded('xsl')){
 /**
  * Aplied to ensure lowercase for all xml tagnames
  *
- */
+ * @param array $array
+ * @return array
+ */        
 function caseCorrect($array){
 	if(is_array($array)){
 		$newarray=array();
@@ -27,9 +38,12 @@ function caseCorrect($array){
 	}
 
 /**
- *
  * Takes the root name as input
  *
+ * @param string $rootName
+ * @param string $xmlentry
+ * @param array $options
+ * @return string
  */
 function xmlpreparer($rootName,$xmlentry,$options=''){
 	if($options==''){
@@ -59,7 +73,8 @@ function xmlpreparer($rootName,$xmlentry,$options=''){
 
 /**
  *
- *
+ * @param string $rootName
+ * @param string $xmlentry
  */
 function xmlechoer($rootName,$xmlentry){
 	$xml=xmlpreparer($rootName,$xmlentry);
@@ -67,13 +82,17 @@ function xmlechoer($rootName,$xmlentry){
 	}
 
 /**
- *
- * Combines an $xml string with an xsl file which it reads, writes the 
- * html output to a file if (output_filename is set) otherwise just 
+ * Combines an $xml string with an xsl file which it reads, writes the
+ * html output to a file if (output_filename is set) otherwise just
  * returns the html
  * Any ouput currently goes to the toplevel directory reports.
  * Still under development!!!!
  *
+ * @global string $CFG
+ * @param string $xml
+ * @param string $xsl_filename
+ * @param string $output_filename
+ * @return string
  */
 function xmlprocessor($xml,$xsl_filename,$output_filename=NULL){
 	global $CFG;
@@ -106,6 +125,10 @@ function xmlprocessor($xml,$xsl_filename,$output_filename=NULL){
 /**
  * Reads an xml file and xsl file, writes output to a third file
  *
+ * @global string $CFG
+ * @param string $xml_filename
+ * @param string $xsl_filename
+ * @return null
  */
 function xmlfileprocessor($xml_filename,$xsl_filename){
 	global $CFG;
@@ -127,7 +150,8 @@ function xmlfileprocessor($xml_filename,$xsl_filename){
 
 /**
  *
- *
+ * @param string $xmlfilename
+ * @return string
  */
 function xmlfilereader($xmlfilename){
 	//$xmlentry=nullCorrect($xmlentry);
@@ -150,6 +174,8 @@ function xmlfilereader($xmlfilename){
 /**
  * Unserialize some $xml to a php array.
  *
+ * @param string $xml
+ * @return string
  */
 function xmlreader($xml){
 	$Unserializer=&new XML_Unserializer();
@@ -165,13 +191,15 @@ function xmlreader($xml){
 	}
 
 /**
- *
- * This overcomes a discrepency in the way XML_Unserializer chooses
+ * This overcomes a discrepancy in the way XML_Unserializer chooses
  * to generate the array for fields with no value, one value and many
  * values. ClaSS requires they should all be treated as for many
  * values and a numerically indexed array results. Maybe there is an
  * XML_Unserializer option I'm missing that can solve this?
  *
+ * @param array $inarray
+ * @param string $indexname
+ * @return array
  */
 function xmlarray_indexed_check($inarray,$indexname){
 
