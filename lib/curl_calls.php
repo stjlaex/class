@@ -1,8 +1,20 @@
 <?php
 /**
  *					curl_calls.php
+ *
+ *	@package	ClaSS
+ *	@author		stj@laex.org
+ *	@copyright	S T Johnson 2004-2008
+ *	@version	
+ *	@since		
  */
 
+/**
+ *	@param string $scriptname
+ *	@param string $feeder
+ *	@param array $postdata
+ *	@return string
+ */
 function feeder_fetch($scriptname,$feeder,$postdata){
 	global $CFG;
 	if(isset($CFG->feeder_code) and $CFG->feeder_code!=''){

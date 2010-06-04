@@ -21,6 +21,12 @@
  * (8) If unspecified the subject of a listin or countin style
  *     functions will be sids, anything else should be identified as
  *     a clause in the function name
+ *
+ *	@package	ClaSS
+ *	@author		stj@laex.org
+ *	@copyright	S T Johnson 2004-2008
+ *	@version	
+ *	@since				
  */
 
 
@@ -28,6 +34,7 @@
 /**
  * Generic email header for automatic emails sent by ClaSS.
  *
+ *	@return string
  */
 function emailHeader(){
 	global $CFG;
@@ -40,6 +47,11 @@ function emailHeader(){
 /**
  * Needs a file handle and then prepares and writes a single row of csv
  *
+ *	@param stream[$handle] 
+ *  @param array[$row]
+ *	@param string[$fd]
+ *	@param string[$quot]
+ *	@return integer 
  */
 function file_putcsv($handle, $row, $fd=',', $quot='"'){
 	$str='';
@@ -64,6 +76,9 @@ function file_putcsv($handle, $row, $fd=',', $quot='"'){
  * closing a tag < /> like so in stead of <></> like so and the xslt
  * chokes. So, this is called before an array is transformed to xml to
  * turn all empty strings to a single space to get <> </>.
+ *
+ *	@param array[$array] 
+ *	@return array modified value
  */
 function nullCorrect($array){
 	if(sizeof($array)>0 and is_array($array)){
@@ -83,6 +98,9 @@ function nullCorrect($array){
 /**
  * For compatibility with utf8
  *
+ *	@param string[$value] a string to be made lowercase
+ *	@return string new alfabetic string to lowercase
+ *
  */
 function good_strtolower($value){
 	$value=mb_strtolower($value, mb_detect_encoding($value));
@@ -101,6 +119,9 @@ function good_strtolower($value){
  * and can't be relied on.
  *
  * TODO: complete this list of codes.
+ *
+ *	@param string[$str] input as UTF-8 encoded string
+ *	@return string output as ASCII encoded string
  *
  */
 function utf8_to_ascii($str){
@@ -134,6 +155,8 @@ function utf8_to_ascii($str){
 /**
  * Should only be used when writing a string for use by javascript
  *
+ *	@param string[$value] string to be evaluated
+ *	@return string 
  */
 function js_addslashes($value){
 	$o='';
@@ -158,6 +181,8 @@ function js_addslashes($value){
 /**
  * Attempts to get rid of any nasties before a mysql insert
  *
+ *	@param string[$value]
+ *	@return string a clean value
  */
 function clean_text($value){
 	$value=trim($value);
@@ -179,6 +204,11 @@ function clean_text($value){
 
 /**
  * Does some simple data validation for input
+ *
+ *	@param string[$value] input value to be evaluated
+ *	@param string[$format]
+ *	@param string[$field_name]
+ *	@return string checked value
  *
  */
 function checkEntry($value, $format='', $field_name=''){
@@ -210,6 +240,10 @@ function checkEntry($value, $format='', $field_name=''){
 /**
  * Validates a value which claims to be compatible with a enum field
  *
+ *	@param string[$value]
+ *	@param string[$field_name]
+ *	@return string returns the same value if it is compatible with a enum field
+ *
  */
 function checkEnum($value, $field_name) {
 	$enumarray=getEnumArray($field_name);
@@ -224,6 +258,10 @@ function checkEnum($value, $field_name) {
 /** 
  * Uses the enum $value for the enum $field_name to look up and return the $description
  * call this before displaying the lang string
+ *
+ *	@param string[$value] 
+ *	@param string[$field_name]
+ *	@return string
  *
  */
 function displayEnum($value,$field_name){
@@ -244,6 +282,8 @@ function displayEnum($value,$field_name){
  * db). It will check for the toplevel file schoolarrays.php which can
  * contain any local customisations.
  *
+ *	@param string[$field_name]
+ *	@return array with valid values
  */
 function getEnumArray($field_name){
 	global $CFG;
@@ -1120,6 +1160,10 @@ function getEnumArray($field_name){
  *  $sort_array[0]['name']='surname';
  *  $sort_array[0]['sort']='ASC';
  *  $sort_array[0]['case']=TRUE;
+ *	
+ *	@param array[$array]
+ *	@param array[$sort]
+ *	@return array sorted array
  */
 function sortx(&$array,$sort=array()){
    $function='';
@@ -1148,6 +1192,10 @@ function sortx(&$array,$sort=array()){
  * Lists the contents of a directory on the server, can limit by extension
  * Currently used only for the templates
  *
+ *	@param string[$directory] 
+ *	@param string[$extension]
+ *	@return array directory content
+ *
  */
 function list_directory_files($directory,$extension='*'){
     $results=array();
@@ -1166,6 +1214,9 @@ function list_directory_files($directory,$extension='*'){
 /**
  * Reads content of csv file into array flines
  *
+ *	@param $string[$file] file name
+ *	@return array each line content
+ *
  */
 function fileRead($file){
 	$flines=array();
@@ -1182,6 +1233,9 @@ function fileRead($file){
 /**
  * Opens a file ready for writing
  *
+ *	@param string[$path] file name
+ *	@return string[$file] file opened
+ *
  */
 function fileOpen($path){
    	$file=fopen($path, 'r');
@@ -1195,6 +1249,8 @@ function fileOpen($path){
 
 /**
  * Taken from moodlelib
+ *	@param string[$element]
+ *	@return string
  *
  */
 function file_mimeinfo($element, $filename) {
@@ -1334,6 +1390,9 @@ function file_mimeinfo($element, $filename) {
  * Will reduce the $startarray to just those indexes listed in $fields
  * If fields is empty then the whole of $startarray is returned untouched
  *
+ *	@param array[$startarray] initial array
+ *	@param array[$fields] array with elements to select
+ *	@return array resultant values
  */
 function array_filter_fields($startarray,$fields){
 	if(is_array($fields) and sizeof($fields)>0){
@@ -1576,7 +1635,12 @@ function display_date($date=''){
  *
  * Returns two arrays containing the ratingnames and catdefs for all
  * categories of a particular type (ordered by their rating) and
- * can be optionally restricted by course and section. 
+ * can be optionally restricted by course and section.
+ *
+ *	@param strng[type]
+ *	@param strig[$crid]
+ *	@param strig[$secid] 
+ *	@return array two arrays: rating names & category definitions
  *
  */
 function fetch_categorydefs($type,$crid='%',$secid='%'){
@@ -1614,16 +1678,16 @@ function fetch_categorydefs($type,$crid='%',$secid='%'){
  * between two moments in a sequence.
  * The function is suitable for processes that take
  * between a few seconds and a few days.
- * @input: 
- * first moment. Format: seconds time()
- * second moment. Format: seconds time()
- * @output:
- * a string with format: 999...d-99h-99m-99s
  *
  * Examples: 
  * 40s.
  * 4m-58s.
  * 2d-3h-8s.
+ *
+ * @param integer[$starttm] 	first moment in sequence. Format: seconds time()
+ * @param integer[$endtm]		second moment. Format: seconds time()
+ * @return string a string with format: 999...d-99h-99m-99s
+ *
  */
 function elapsedtime($starttm,$endttm) {
 	$time=$endttm-$starttm;

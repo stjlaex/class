@@ -2,6 +2,12 @@
 /**
  *											ldap.php
  *
+ *
+ *	@package	ClaSS
+ *	@author		stj@laex.org
+ *	@copyright	S T Johnson 2004-2008
+ *	@version
+ *	@since
  */
 
 
@@ -16,6 +22,14 @@
  * $base_tree_node: default: 'ou=student,ou=people,dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2; 
  *                        or 'ou=people,dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
  * $object_class: default: inetOrgPerson
+ *
+ * @param string $epfun ePortfolio user name
+ * @param string $s_ldap_host host:port
+ * @param string $s_ldap_rdn ldap user authority
+ * @param string $s_ldap_pass ldap user authority
+ * @param string $s_base_tree_node base node for searching people
+ * @param string $s_object_class 
+ * @return resource
  */
 function get_student_photo($epfun, $s_ldap_host=null, $s_ldap_rdn=null, $s_ldap_pass=null, $s_base_tree_node=null, $s_object_class=null){
 	global $CFG;
@@ -37,6 +51,14 @@ function get_student_photo($epfun, $s_ldap_host=null, $s_ldap_rdn=null, $s_ldap_
  * $base_tree_node: default: 'ou=student,ou=people,dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2; 
  *                        or 'ou=people,dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
  * $object_class: default: inetOrgPerson
+ *
+ * @param string $userid user name
+ * @param string $u_ldap_host host:port
+ * @param string $u_ldap_rdn ldap user authority
+ * @param string $u_ldap_pass ldap user authority
+ * @param string $u_base_tree_node base node for searching people
+ * @param string $u_object_class 
+ * @return resource
  */
 function get_user_photo($userid, $u_ldap_host=null, $u_ldap_rdn=null, $u_ldap_pass=null, $u_base_tree_node=null, $u_object_class=null){
 	global $CFG;
@@ -58,6 +80,14 @@ function get_user_photo($userid, $u_ldap_host=null, $u_ldap_rdn=null, $u_ldap_pa
  * $base_tree_node: default: 'ou=student,ou=people,dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
  *                        or 'ou=people,dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
  * $object_class: default: inetOrgPerson
+ *
+ * @param string $uid user id
+ * @param string $ldap_host host:port
+ * @param string $ldap_rdn ldap user authority
+ * @param string $ldap_pass ldap user authority
+ * @param string $base_tree_node base node for searching people
+ * @param string $object_class 
+ * @return resource
  */
 function get_photo($uid, $ldap_host=null, $ldap_rdn=null, $ldap_pass=null, $base_tree_node=null, $object_class=null){
 
@@ -160,8 +190,18 @@ function get_photo($uid, $ldap_host=null, $ldap_rdn=null, $ldap_pass=null, $base
  * $base_tree_node: default: 'ou=student,ou=people,dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2; 
  *                        or 'ou=people,dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
  * $object_class: default: inetOrgPerson
+ *
+ * @param string $epfun ePortfolio user name
+ * @param string $s_photo_size 
+ * @param string $s_ldap_host host:port
+ * @param string $s_ldap_rdn ldap user authority
+ * @param string $s_ldap_pass ldap user authority
+ * @param string $s_base_tree_node base node for searching people
+ * @param string $s_object_class 
+ * @return resource
  */
 function get_student_photo_small($epfun, $s_photo_size, $s_ldap_host=null, $s_ldap_rdn=null, $s_ldap_pass=null, $s_base_tree_node=null, $s_object_class=null){
+
 	global $CFG;
 	$uid=$epfun;
 	
@@ -233,6 +273,14 @@ function get_student_photo_small($epfun, $s_photo_size, $s_ldap_host=null, $s_ld
  * $base_tree_node: default: 'ou=student,ou=people,dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2; 
  *                        or 'ou=people,dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
  * $object_class: default: inetOrgPerson
+ *
+ * @param string $epfun ePortfolio user name
+ * @param string $s_ldap_host host:port
+ * @param string $s_ldap_rdn ldap user authority
+ * @param string $s_ldap_pass ldap user authority
+ * @param string $s_base_tree_node base node for searching people
+ * @param string $s_object_class 
+ * @return resource
  */
 function get_photo_small2($user_type, $epfun, $s_photo_size, $s_ldap_host=null, $s_ldap_rdn=null, $s_ldap_pass=null, $s_base_tree_node=null, $s_object_class=null){
 	global $CFG;
@@ -306,6 +354,15 @@ function get_photo_small2($user_type, $epfun, $s_photo_size, $s_ldap_host=null, 
  *
  * $base_tree_node: default: 'ou=student,ou=people,dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
  * $object_class: default: inetOrgPerson
+ *
+ * @param string $uid user id
+ * @param string $photo absolute path to the photo
+ * @param string $s_ldap_host host:port
+ * @param string $s_ldap_rdn ldap user authority
+ * @param string $s_ldap_pass ldap user authority
+ * @param string $s_base_tree_node base node for searching people
+ * @param string $s_object_class 
+ * @return resource
  */
 function set_photo($uid, $photo, $ldap_host=null, $lda_rdn=null, $ldap_pass=null, $base_tree_node=null, $object_class=null){
 
@@ -461,6 +518,15 @@ function set_photo($uid, $photo, $ldap_host=null, $lda_rdn=null, $ldap_pass=null
  *
  * $base_tree_node: default: 'ou=student,ou=people,dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
  * $object_class: default: inetOrgPerson
+ *
+ * @param string  $epfun ePortfolio user name
+ * @param integer $photo_to_delete 
+ * @param string  $s_ldap_host host:port
+ * @param string  $s_ldap_rdn ldap user authority
+ * @param string  $s_ldap_pass ldap user authority
+ * @param string  $s_base_tree_node base node for searching people
+ * @param string  $s_object_class 
+ * @return resource
  */
 function delete_photo($uid, $photo_to_delete, $ldap_host=null, $lda_rdn=null, $ldap_pass=null, $base_tree_node=null, $object_class=null){
  

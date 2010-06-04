@@ -1,11 +1,19 @@
 <?php
 /**							lib/community_functions.php
+ *	@package	ClaSS
+ *	@author		stj@laex.org
+ *	@copyright	S T Johnson 2004-2008
+ *	@version	
+ *	@since		
  */
 
 /**
  * Return an array of communitites of one particular type
  * ignores differences in year by default
  *
+ *	@param string $type type of community
+ *	@param string $year 
+ *	@return array all students in a community
  */
 function list_communities($type='',$year=''){
 	if($type!='' and $year==''){
@@ -57,7 +65,12 @@ function list_communities($type='',$year=''){
 	return $communities;
 	}
 
-/* Returns the xml Community identified by its comid*/
+/**
+ * Returns the xml Community identified by its comid
+ *
+ *	@param string $comid
+ *	@return array 
+ */
 function fetchCommunity($comid=''){
   	$d_com=mysql_query("SELECT name, type, year, capacity, 
 					detail FROM community WHERE id='$comid'");
@@ -81,7 +94,13 @@ function fetchCommunity($comid=''){
 	return $Community;
 	}
 
-/* Returns a community array identified by its comid*/
+/**
+ * Returns a community array identified by its comid
+ *
+ *	@param string $comid
+ *	@return array 
+ *
+ */
 function get_community($comid=''){
 	$community=array();
   	$d_com=mysql_query("SELECT name, type, year, capacity, detail 
@@ -114,6 +133,10 @@ function get_community($comid=''){
  * This is the uber community function, it first checks if a community
  * exists and either updates or creates. It expects an array with at
  * least type and name set.
+ *
+ *	@param array $community
+ *	@param array $communityfresh
+ *	@return string $comid.
  *
  */
 function update_community($community,$communityfresh=array('id'=>'','type'=>'','name'=>'')){
@@ -168,7 +191,14 @@ function update_community($community,$communityfresh=array('id'=>'','type'=>'','
 	}
 
 
-/* Lists all sids who are current members of a commmunity*/
+/* 
+ * Lists all sids who are current members of a commmunity
+ *
+ *	@param array $community1
+ *	@param array $community2
+ *	@return array 
+ *
+ */
 function listin_union_communities($community1,$community2){
 	$todate=date("Y-m-d");
 	if(isset($community1['id']) and $community1['id']!=''){$comid1=$community1['id'];}
@@ -220,6 +250,10 @@ function listin_union_communities($community1,$community2){
  * With $stardate set all students who joined after that date
  * and with $enddate set lists all student members in that period.
  *
+ *	@param array $community
+ *	@param date $enddate
+ *	@param date $startdate
+ *	return array
  */
 function listin_community($community,$enddate='',$startdate=''){
 	$todate=date('Y-m-d');
@@ -245,8 +279,14 @@ function listin_community($community,$enddate='',$startdate=''){
 	return $students;
 	}
 
-/* Joins $sid to the appropriate accomodation community based on a residencial stay */
-/* identified by $accid*/
+/** 
+ * Joins $sid to the appropriate accomodation community based on a residencial stay
+ * identified by $accid
+ *
+ *	@param string $sid
+ *	@param string $accid 	
+ *
+ */
 function set_accomodation($sid,$accid=''){
 	$Student=fetchStudent_short($sid);
 	$field=fetchStudent_singlefield($sid,'Boarder');
@@ -291,9 +331,17 @@ function set_accomodation($sid,$accid=''){
 		*/
 	}
 
-/* Joins up a student to a commmunity for a set period*/
-/* Can be used instead of join_community but*/
-/* NOT to be used for enrolment communities, yeargroups, or forms!*/
+/** 
+ * Joins up a student to a commmunity for a set period
+ * Can be used instead of join_community but
+ * NOT to be used for enrolment communities, yeargroups, or forms!
+ *
+ *	@param integer $sid student
+ *	@param array $community 
+ *	@param date $startdate
+ *	@param date $enddate
+ *	@return string
+ */
 function set_community_stay($sid,$community,$startdate,$enddate){
 	if(isset($community['id']) and $community['id']!=''){$comid=$community['id'];}
 	else{$comid=update_community($community);}
@@ -318,6 +366,11 @@ function set_community_stay($sid,$community,$startdate,$enddate){
  * the values are not counted but are instead static values stored in 
  * the community table itself.
  *
+ *	@param array $community 
+ *	@param date $startdate
+ *	@param date $enddate
+ *	@param date $static
+ *	@return integer
  */
 function countin_community($community,$enddate='',$startdate='',$static=false){
 	if(isset($community['id']) and $community['id']!=''){$comid=$community['id'];}
@@ -342,8 +395,13 @@ function countin_community($community,$enddate='',$startdate='',$static=false){
 
 
 /**
- *
  * Another count function but this time returning a number for one gender.
+ *
+ *	@param array $community 
+ *	@param date $startdate
+ *	@param date $enddate
+ *	@param string $gender
+ *	@return integer
  *
  */
 function countin_community_gender($community,$gender='M',$enddate='',$startdate=''){
@@ -369,6 +427,9 @@ function countin_community_gender($community,$gender='M',$enddate='',$startdate=
  *
  * Returns all communities to which a student is currently enrolled
  *
+ *	@param integer $sid
+ *	@param array $community 
+ *	@return array
  */
 function list_member_communities($sid,$community){
 	$todate=date("Y-m-d");
@@ -422,6 +483,10 @@ function list_member_communities($sid,$community){
  * you are actually leaving any communities of that type. Will also
  * leave any communitites which conflict with the one being joined. Always
  * returns an array of oldcommunities left.
+ *
+ *	@param integer $sid
+ *	@param array $community
+ *	@return array
  *
  */
 function join_community($sid,$community){
@@ -544,6 +609,9 @@ function join_community($sid,$community){
  * Does not delete the record only sets leavingdate to today
  * Should only really be called to do the work from within join_community
  *
+ *	@param integer $sid
+ *	@param array $community
+ *	@return null
  */
 function leave_community($sid,$community){
 	$todate=date('Y-m-d');
@@ -562,8 +630,10 @@ function leave_community($sid,$community){
 
 
 /**
- * Reutrns the yeargroup to which the form belongs.
+ * Returns the yeargroup to which the form belongs.
  *
+ *	@param integer $fid
+ *	@return integer
  */
 function get_form_yeargroup($fid){
 	if($fid!=' ' and $fid!=''){
@@ -579,6 +649,8 @@ function get_form_yeargroup($fid){
 /**
  * Reutrns the form tutor for hte given fid
  *
+ *	@param integer $fid
+ *	@return string
  */
 function get_tutor_user($fid){
 	if($fid!=' ' and $fid!=''){
@@ -597,6 +669,8 @@ function get_tutor_user($fid){
  * Returns the section id for the yeargroup to which the 
  * student belongs, defaults to whole school secid=1 if nothing else available.
  *
+ *	@param integer $sid
+ *	@return integer
  */
 function get_student_section($sid){
 	if($sid!=' ' and $sid!=''){
@@ -615,6 +689,10 @@ function get_student_section($sid){
  * 
  * Find all current cohorts with which a community is associated.
  * Only returns cohorts for this academic year.
+ *
+ *	@param array $community
+ *	@return array
+ *
  */
 function list_community_cohorts($community){
 	if($community['type']=='form'){
@@ -660,6 +738,9 @@ function list_community_cohorts($community){
  * must be!) but instead relies on the calling function to ensure
  * uniqueness (probably through an ldap query).
  *
+ *	@param array $User
+ *	@param string role	
+ *	@return string
  */
 function generate_epfusername($User=array(),$role='student'){
 	global $CFG;

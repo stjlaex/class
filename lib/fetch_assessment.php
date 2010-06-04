@@ -1,10 +1,26 @@
 <?php	
+
 /**											fetch_assessment.php
+ *
+ *	@package	ClaSS
+ *	@author		stj@laex.org
+ *	@copyright	S T Johnson 2004-2008
+ *	@version	
+ *	@since		
+ */
+
+
+/**	
  *
  *	Retrieves all assessment information about one student using only their sid.
  *	Returns the data in an array $Assessments.
+ *
+ *	@param string $num
+ *	@param integer $sigfigs
+ *	@param string $dec
+ *	@param boolean $noround
+ *	@return
  */
-
 function sigfigs($number,$sigfigs,$dec='.',$noround=false) {
     if(!$noround){
         $sigfigs++;
@@ -36,6 +52,11 @@ function sigfigs($number,$sigfigs,$dec='.',$noround=false) {
 
 /**
  *
+ *
+ *	@param float $score
+ *	@param string $scoretotal
+ *	@param integer $levels
+ *	@return array
  */
 function scoreToLevel($score,$scoretotal='',$levels){
 	/*	Returns formated $percent, and floating point $cent*/
@@ -52,6 +73,10 @@ function scoreToLevel($score,$scoretotal='',$levels){
 
 /**
  *
+ *
+ *	@param float $score
+ *	@param string $scoretotal
+ *	@return array
  */
 function scoreToPercent($score,$scoretotal='100'){
 	/*	Returns formated $percent, and floating point $cent
@@ -74,7 +99,14 @@ function scoreToPercent($score,$scoretotal='100'){
 
 
 /**
+ *	Looks up the grade equivalent of the numerical score.
+ *  If $score is empty then an empty $grade string is returned.	
+ *  The numerical equivalents for the grades (levels in the grading
+ *	scheme) must have integer values.
  *
+ *	@param float $score
+ *	@param array $grading_grades
+ *	@return string
  */
 function scoreToGrade($score,$grading_grades){
 	/*
@@ -106,7 +138,12 @@ function scoreToGrade($score,$grading_grades){
 	}
 
 /**
+ * 	Looks up the numerical equivalent of a grade. 
+ *	If the grade is an empty string then empty score is returned. 
  *
+ *	@param float $score
+ *	@param array $grading_grades
+ *	@return string
  */
 function gradeToScore($grade,$grading_grades){
 	/*
@@ -126,6 +163,8 @@ function gradeToScore($grade,$grading_grades){
 
 /**
  *
+ *	@param integer $eid
+ *	@return array
  */
 function fetchAssessmentDefinition($eid){
    	$AssDef=array();
@@ -279,6 +318,9 @@ function fetchAssessmentDefinition($eid){
  * assessments that this student has scores for or more likely for
  * just one assessment specified by eid. 
  *
+ *	@param integer $sid
+ *	@param string $eid
+ *	@return array
  */
 function fetchAssessments($sid,$eid='%'){
 	$Assessments=array();
@@ -407,6 +449,12 @@ function fetchAssessments($sid,$eid='%'){
 
 /**
  *
+ *
+ *	@param integer $sid
+ *	@param string $eid
+ *	@param string $bid
+ *	@param string $pid
+ *	@return array
  */
 function fetchAssessments_short($sid,$eid='%',$bid='%',$pid='%'){
 	if($pid==' '){$pid='%';}
@@ -450,6 +498,10 @@ function fetchAssessments_short($sid,$eid='%',$bid='%',$pid='%'){
  * either 'E' for assdefs used before being accepted or 'RE' for
  * reenrolment of current students each academic year.
  *
+ * @param array $com
+ * @param string $stage
+ * @param string $enrolyear
+ * @return array
  */
 function fetch_enrolmentAssessmentDefinitions($com='',$stage='E',$enrolyear='0000'){
 	$AssDefs=array();
@@ -488,6 +540,11 @@ function fetch_enrolmentAssessmentDefinitions($com='',$stage='E',$enrolyear='000
  * outside the enrolments matrix. Returns the number of students with
  * their eid set to one of the two possible result states.
  *
+ * @param integer $comid
+ * @param string $reenrol_eid
+ * @param string $result1
+ * @param string $result2
+ * @return integer
  */
 function count_reenrol_no($comid,$reenrol_eid,$result1,$result2=''){
 	$todate=date('Y-m-d');
@@ -521,6 +578,11 @@ function count_reenrol_no($comid,$reenrol_eid,$result1,$result2=''){
  * outside the enrolments matrix. Returns the number of students with
  * their eid set to one of the two possible result states.
  *
+ * @param integer $comid
+ * @param string $reenrol_eid
+ * @param string $result1
+ * @param string $result2
+ * @return integer
  */
 function list_reenrol_sids($comid,$reenrol_eid,$result1,$result2=''){
 	$todate=date('Y-m-d');
@@ -556,6 +618,9 @@ function list_reenrol_sids($comid,$reenrol_eid,$result1,$result2=''){
  *
  * TODO: season is currently fixed to S! 
  *
+ * @param array $cohort
+ * @param string $profid
+ * @return array
  */
 function fetch_cohortAssessmentDefinitions($cohort,$profid=''){
 	$crid=$cohort['course_id'];
@@ -729,6 +794,10 @@ function compute_assessment_ranking($AssDef,$steps,$cohorts){
 /** 
  * each step has an operator and an array of operandids (eids pointed 
  * to by element) which may hold a value for that operand 
+ *
+ * @param string $der
+ * @param integer $resultid
+ * @return array
  */
 function derive_accumulator_steps($der,$resultid){
 	list($operation,$elements)=parse_derivation($der);
@@ -773,6 +842,9 @@ function derive_accumulator_steps($der,$resultid){
  * assessment and returns the operation (the characters before the 
  * first open bracket) and the elements as an array which are the colon seperated 
  * contents of the brackets
+ *
+ * @param string $der
+ * @return array
  */
 function parse_derivation($der){
 	$open=strpos($der,'(');
@@ -830,7 +902,13 @@ function derive_student_score($sid,$AssDef,$steps=''){
  * results return in $accumulators, passing an already active 
  * $accumulator allows for iterating across many $sids and is the 
  * method used for overall statistics (ie. averages) for an assessment.
- * Should only be called for derivations of type=M,A or S but not R 
+ * Should only be called for derivations of type=M,A or S but not R
+ *
+ * @param integer $sid
+ * @param array $AssDef
+ * @param array $steps
+ * @param array $accumulators
+ * 
  */
 function compute_accumulators($sid,$AssDef,$steps,$accumulators=''){
 	if($accumulators==''){$accumulators=array();}
@@ -944,6 +1022,12 @@ function update_mark_score($mid,$sid,$score){
  * This tries to find the mid (if one exists otherwise -1) associated 
  * with an assessment for a distinct $crid/$bid/$pid combination. And 
  * its not easy and only hopefully unique! WARNING!
+ *
+ * @param integer $eid
+ * @param string $crid
+ * @param string $bid
+ * @param string $pid
+ * @return array
  */
 function get_assessment_mid($eid,$crid,$bid,$pid=''){
 	if(mysql_query("CREATE TEMPORARY TABLE assmids (SELECT DISTINCT mark_id FROM eidmid 
@@ -966,7 +1050,8 @@ function get_assessment_mid($eid,$crid,$bid,$pid=''){
 
 /**
  *
- *
+ * @param integer $hwid
+ * @returjn array
  */
 function fetchHomeworkDefinition($hwid){
    	$Def=array();
@@ -1031,6 +1116,8 @@ function fetchHomeworkDefinition($hwid){
 /**
  * Returns a profile definition given a profile's id.
  *
+ * @param integer $profid
+ * @return array
  */
 function get_assessment_profile($profid){
 	if($profid!=''){
@@ -1041,7 +1128,7 @@ function get_assessment_profile($profid){
 	else{
 		$profile=array('id'=>-1,'name'=>'');
 		}
-	return $profile;
+	return $profile; 
 	}
 
 /**
@@ -1054,6 +1141,10 @@ function get_assessment_profile($profid){
  * summary coumn (average,sum or tally).  Grades are going to
  * have to be averaged.
  *
+ *
+ * @param string $crid
+ * @param string $bid
+ * @return array
  */
 function list_assessment_profiles($crid,$bid='%'){
 	$profiles=array();

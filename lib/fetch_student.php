@@ -3,6 +3,12 @@
  *
  *	Retrieves all infobook information about one student using only their sid.
  *	Returns the data in an array $Student and sets it as a session variable.
+ *	
+ *	@package	ClaSS
+ *	@author		stj@laex.org
+ *	@copyright	S T Johnson 2004-2008
+ *	@version	
+ *	@since		
  */	
 
 
@@ -13,6 +19,8 @@
  * it more economical. The resulting Student array can not be used
  * when processing forms because it lacks field and table values.
  *
+ * @params integer $sid
+ * @return array
  */
 function fetchStudent_short($sid){
    	$d_student=mysql_query("SELECT * FROM student WHERE id='$sid';");
@@ -84,6 +92,9 @@ function fetchStudent_short($sid){
  * It returns a fragment of Student which can be folded into an
  * existing Student array with $Student=array_merge($Student,$Studentfield)
  *
+ * @params integer $sid
+ * @params string $tag
+ * @return array
  */
 function fetchStudent_singlefield($sid,$tag){
 	$fieldtype='';
@@ -202,6 +213,9 @@ function fetchStudent_singlefield($sid,$tag){
  *				'ClaSSdb field name', 'type_db'=>'ClaSSdb data-type', 
  *					'value' => $student['field_db']);
  *
+ *
+ * @params integer $sid
+ * @return array
  */
 function fetchStudent($sid='-1'){
    	$d_student=mysql_query("SELECT * FROM student WHERE id='$sid'");
@@ -438,6 +452,9 @@ function fetchStudent($sid='-1'){
 
 /**
  *
+ *
+ * @params integer $sid
+ * @return array
  */
 function fetchContacts($sid='-1'){
 	$Contacts=array();
@@ -451,6 +468,9 @@ function fetchContacts($sid='-1'){
 
 /**
  *
+ *
+ * @params integer $sid
+ * @return array
  */
 function fetchContacts_emails($sid='-1'){
 	$Contacts=array();
@@ -466,6 +486,9 @@ function fetchContacts_emails($sid='-1'){
 
 /**
  *
+ *
+ * @params integer $gid
+ * @return array
  */
 function fetchDependents($gid='-1'){
 	$Dependents=array();
@@ -502,6 +525,9 @@ function fetchDependents($gid='-1'){
  * Receives a gidsid record and returns full Contact for a sid or a
  * blank Contact for gid=-1,sid=-1. Will be none sid specific if sid
  * is not set (which is used by contact search in the InfoBook)
+ *
+ * @params array $gidsid
+ * @return array
  */
 function fetchContact($gidsid=array('guardian_id'=>'-1','student_id'=>'-1','priority'=>'','mailing'=>'','relationship'=>'')){
 	$gid=$gidsid['guardian_id'];
@@ -620,6 +646,9 @@ function fetchContact($gidsid=array('guardian_id'=>'-1','student_id'=>'-1','prio
 
 /**
  *
+ *
+ * @params array $phone
+ * @return array
  */
 function fetchPhone($phone=array('id'=>'-1','number'=>'','phonetype'=>'')){
 	$Phone=array();
@@ -639,6 +668,9 @@ function fetchPhone($phone=array('id'=>'-1','number'=>'','phonetype'=>'')){
 
 /**
  *
+ *
+ * @params array $gidaid
+ * @return array
  */
 function fetchAddress($gidaid=array('address_id'=>'-1','addresstype'=>'')){
 	$Address=array();
@@ -691,6 +723,11 @@ function fetchAddress($gidaid=array('address_id'=>'-1','addresstype'=>'')){
 /**
  * Incidents
  *
+ *
+ * @params integer $sid
+ * @params date $startdate
+ * @params date $enddate
+ * @return array
  */
 function fetchIncidents($sid,$startdate='',$enddate=''){
 	$Incidents=array();
@@ -768,6 +805,9 @@ function fetchIncidents($sid,$startdate='',$enddate=''){
 /**
  * All backgrounds for this sid.
  *
+ *
+ * @params integer $sid
+ * @return array
  */
 function fetchBackgrounds($sid='-1'){
 	$Backgrounds=array();
@@ -785,6 +825,10 @@ function fetchBackgrounds($sid='-1'){
 /**
  * All of the background entries of one type for this sid.
  *
+ *
+ * @params integer $sid
+ * @params string $type
+ * @return array
  */
 function fetchBackgrounds_Entries($sid,$type){
 		$Entries=array();
@@ -849,6 +893,11 @@ function fetchBackgrounds_Entries($sid,$type){
 
 /**
  *
+ *
+ * @params integer $sid
+ * @params date $startdate
+ * @params date $enddate
+ * @return array
  */
 function fetchComments($sid,$startdate='',$enddate=''){
 	$Comments=array();
@@ -930,6 +979,11 @@ function fetchComments($sid,$startdate='',$enddate=''){
  * 
  *
  *
+ *
+ * @params integer $sid
+ * @params date $date
+ * @params array $Comments
+ * @return array
  */
 function comment_display($sid,$date='',$Comments=''){
 	$commentdisplay=array();
@@ -960,6 +1014,9 @@ function comment_display($sid,$date='',$Comments=''){
  * Only used for tasks specific to application and enrolment and not
  * to be part of the Student array.
  *
+ *
+ * @params integer $sid
+ * @return array
  */
 function fetchEnrolment($sid='-1'){
 	$comid=-1;
@@ -1073,6 +1130,10 @@ function fetchEnrolment($sid='-1'){
  * Returns all residencial Stays where the dpearture date falls after $date
  * by defualt $date='' and only Stays returned are current or future
  * ones.
+ *
+ * @params integer $sid
+ * @params date $date
+ * @return array
  */
 function fetchStays($sid,$date=''){
 	if($date==''){$todate=date("Y-m-d");}
@@ -1089,6 +1150,9 @@ function fetchStays($sid,$date=''){
 
 /**
  *
+ *
+ * @params array $stay
+ * @return array
  */
 function fetchStay($stay=array('id'=>'-1','bookingdate'=>'','invoice'=>'')){
 	$Stay=array();
@@ -1178,6 +1242,9 @@ function fetchStay($stay=array('id'=>'-1','bookingdate'=>'','invoice'=>'')){
  * These are for compatibility with NCYear field as defined by the CBDS 
  * for state schools in England and Wales - they are needed for 
  * fetchStudent to work - but can otherwise be ignored
+ *
+ * @params string $sid
+ * @return string
  */
 function fetchNCYear($sid){
 	$d_student=mysql_query("SELECT yeargroup_id FROM student WHERE id='$sid'");
@@ -1186,6 +1253,11 @@ function fetchNCYear($sid){
 	return $ncyear;
 	}
 
+/**
+ *
+ * @params string $yid
+ * @return string
+ */
 function getNCYear($yid){
 	$ncyears=array(''=>'','N' => 'Nursery', 'R' => 'Reception', '1' => '1',
 	'2' => '2', '3' => '3', '4' => '4', '5' => '5', '6' => '6', '7' =>
@@ -1202,6 +1274,9 @@ function getNCYear($yid){
  *
  * TODO: only working for one senhistory per student but could be
  * ramped up for more
+ *
+ * @param string $sid
+ * @return array
  */
 function fetchSEN($sid='-1'){
 	$SEN=array();
@@ -1298,6 +1373,9 @@ function fetchSEN($sid='-1'){
 
 /**
  *
+ *
+ * @param array $sentype
+ * @return array
  */
 function fetchSENtype($sentype=array('student_id'=>'-1','senranking'=>'','sentype'=>'')){
 	$SENtype=array();
@@ -1318,6 +1396,9 @@ function fetchSENtype($sentype=array('student_id'=>'-1','senranking'=>'','sentyp
 /**
  * Medical
  *
+ *
+ * @param string $sid
+ * @return array
  */
 function fetchMedical($sid='-1'){
 	$Medical=array();
@@ -1357,6 +1438,9 @@ function fetchMedical($sid='-1'){
 /**
  *
  *
+ * @param string $sid
+ * @param integer $year
+ * @return array
  */
 function fetchMeritsTotal($sid,$year){
 	$Total=array();
@@ -1377,6 +1461,13 @@ function fetchMeritsTotal($sid,$year){
 /**
  *
  *
+ *
+ * @param string $sid
+ * @param integer $limit
+ * @param string $bid
+ * @param string $pid
+ * @param integer $year
+ * @return array
  */
 function fetchMerits($sid,$limit=-1,$bid='%',$pid='%',$year='0000'){
 	if($bid==' ' or $bid==''){$bid='%';}
@@ -1397,6 +1488,8 @@ function fetchMerits($sid,$limit=-1,$bid='%',$pid='%',$year='0000'){
 
 /**
  *
+ * @param array $m
+ * @return array
  */
 function fetchMerit($m=array('id'=>-1,'subject_id'=>'','component_id'=>'','result'=>'','value'=>'','activity'=>'','detail'=>'','year'=>'','date'=>'','teacher_id'=>'')){
 	$Merit=array();
@@ -1459,6 +1552,8 @@ function fetchMerit($m=array('id'=>-1,'subject_id'=>'','component_id'=>'','resul
  * For a given sid returns the name of the house to which they belong
  * (and they can only be in one house).
  *
+ * @param string $sid
+ * @return string
  */
 function get_student_house($sid){
 	$house='';
@@ -1472,6 +1567,9 @@ function get_student_house($sid){
 
 /**
  * Will list contacts sharing the address identified by aid.
+ *
+ * @param integer $sid
+ * @return array
  */
 function list_address_guardians($aid){
 	$guardians=array();
@@ -1487,6 +1585,8 @@ function list_address_guardians($aid){
 /**
  * Returns the approximate age in years and months given dob.
  *
+ * @param date $dob
+ * @return string
  */
 function get_age($dob){
 

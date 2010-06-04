@@ -7,6 +7,12 @@
  *
  * Example to force a call would be:
  *    trigger_error('my message',E_USER_WARNING);
+ *
+ *	@package	ClaSS
+ *	@author		stj@laex.org
+ *	@copyright	S T Johnson 2004-2008
+ *	@version
+ *	@since
  */
 
 if($CFG->debug=='on'){

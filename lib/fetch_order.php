@@ -1,6 +1,11 @@
 <?php	
 /**	   							 lib/fetch_order.php
  *
+ *	@package	ClaSS
+ *	@author		stj@laex.org
+ *	@copyright	S T Johnson 2004-2008
+ *	@version	
+ *	@since		
  *
  *   	$Order['']=array('label' => '', 
  *							  'inputtype'=> 'required',
@@ -15,6 +20,8 @@
 /**
  * Returns the budgetname for that ordid from the database
  *
+ * @param integer $ordid
+ * @return string
  */
 function get_budgetname($ordid){
 	if($ordid!=' ' and $ordid!=''){
@@ -31,6 +38,10 @@ function get_budgetname($ordid){
 /**
  * Returns an array of users with a given permissions level
  * for the budid
+ *
+ * @param integer $budid
+ * @param array $perms
+ * @return array
  *
  */
 function list_budget_users($budid,$perms){
@@ -60,6 +71,9 @@ function list_budget_users($budid,$perms){
  * user has access; the perms table is by passed if this is a budget
  * admin user and all budgets for year are returned.
  *
+ * @param integer $tid
+ * @param integer $budgetyear
+ * @return array
  */
 function list_user_budgets($tid,$budgetyear='%'){
 	$uid=get_uid($tid);
@@ -101,6 +115,8 @@ function list_user_budgets($tid,$budgetyear='%'){
  *
  * Returns a list of subbudgets for the given budid.
  *
+ * @param integer $budid
+ * @return array
  */
 function list_subbudgets($budid){
 	$d_b=mysql_query("SELECT id, code, yearcode, name, costlimit, overbudget_id
@@ -115,6 +131,8 @@ function list_subbudgets($budid){
 
 /**
  *
+ * @param integer $budid
+ * @return array
  */
 function list_budget_orders($budid){
 	$orders=array();
@@ -128,6 +146,8 @@ function list_budget_orders($budid){
 
 /**
  *
+ * @param integer $invoicenumber
+ * @return array
  */
 function list_invoice_orders($invoicenumber){
 	$orders=array();
@@ -143,6 +163,10 @@ function list_invoice_orders($invoicenumber){
 
 /**
  *
+ * @param integer $ordernumber
+ * @param integer $orderstatus
+ * @param integer $ordersupid
+ * @return array
  */
 function list_orders($ordernumber='%',$orderstatus='%',$ordersupid='%'){
 	$orders=array();
@@ -189,6 +213,8 @@ function list_orders($ordernumber='%',$orderstatus='%',$ordersupid='%'){
  * anything. But here the budget code and the yearcode are prepended
  * to the unique order id. 
  *
+ * @param integer $ordid
+ * @return string
  */
 function get_order_reference($ordid){
 	$d_b=mysql_query("SELECT orderbudget.code,
@@ -204,6 +230,8 @@ function get_order_reference($ordid){
 
 /**
  *
+ * @param integer $ordid
+ * @return array
  */
 function fetchOrder($ordid='-1'){
 	$Order=array();
@@ -290,6 +318,8 @@ function fetchOrder($ordid='-1'){
 
 /**
  *
+ * @param integer $ordid
+ * @return array
  */
 function fetchMaterials($ordid){
 	$Materials=array();
@@ -307,6 +337,8 @@ function fetchMaterials($ordid){
 
 /**
  *
+ * @param array $mat
+ * @return array
  */
 function fetchMaterial($mat=array('entryn'=>'','materialtype'=>'','detail'=>'', 
 								  'quantity'=>'','unitcost'=>'','refno'=>''),$catdefs=array()){
@@ -359,6 +391,8 @@ function fetchMaterial($mat=array('entryn'=>'','materialtype'=>'','detail'=>'',
 
 /**
  *
+ * @param integer $budid
+ * @return array
  */
 function fetchBudget($budid='-1'){
 	$d_bud=mysql_query("SELECT * FROM orderbudget WHERE id='$budid';");
@@ -422,6 +456,8 @@ function fetchBudget($budid='-1'){
 
 /**
  *
+ * @param integer $budid
+ * @return array
  */
 function fetchSupplier($supid=-1){
 	if($supid==''){$supid=-1;}
@@ -479,6 +515,8 @@ function fetchSupplier($supid=-1){
  * This returns a budget's remaining balance calcualted from the
  * current balance minus the value of all outstanding orders
  * 
+ * @param integer $budid
+ * @return float
  */
 function get_budget_projected($budid=-1){
 
@@ -518,6 +556,8 @@ function get_budget_projected($budid=-1){
  * Sum all the invoices (linked to action=3 delivered) for orders
  * closed (action=5) and calculate the remaining balance. 
  *
+ * @param integer $budid
+ * @return float
  */
 function get_budget_current($budid=-1){
 
@@ -582,6 +622,8 @@ function get_budget_current($budid=-1){
 
 /**
  *
+ * @param integer $invid
+ * @return array
  */
 function fetchInvoice($invid='-1'){
 	$d_inv=mysql_query("SELECT * FROM orderinvoice WHERE id='$invid';");
@@ -664,6 +706,8 @@ function fetchInvoice($invid='-1'){
  * 2008 is 2007/08 when displayed and understood by the user.
  * Display can be done using display_curriculumyear()
  *
+ * @param string $yearcode
+ * @return string
  */
 function get_budgetyear($yearcode=''){
 
@@ -687,6 +731,8 @@ function get_budgetyear($yearcode=''){
  * Where the year works on the same principle as curriculum year ie. 2008 is
  * 2007/08. The codes could be amended to be as cryptic as needed.
  *
+ * @param string $budgetyear
+ * @return string
  */
 function get_budgetyearcode($budgetyear){
 	$yearcodes=getEnumArray('budgetyearcode');
@@ -700,6 +746,8 @@ function get_budgetyearcode($budgetyear){
  * x is special and needed to authorise and configure.
  * w is needed to edit and lodge and purchase etc.
  *
+ * @param integer $budid
+ * @return array
  */
 function get_budget_perms($budid){
 	$perms['r']=0;
