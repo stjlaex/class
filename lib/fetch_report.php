@@ -102,7 +102,7 @@ function fetchSubjectReports($sid,$reportdefs){
 			 */
 			while(list($index,$eid)=each($reportdef['stateids'])){
 				$GAssessments=(array)fetchAssessments_short($sid,$eid);
-		//trigger_error('GStats: '.$eid.' number '.sizeof($GAssessments),E_USER_WARNING);
+				//trigger_error('GStats: '.$eid.' number '.sizeof($GAssessments),E_USER_WARNING);
 				if(sizeof($GAssessments)>0){
 					$Reports['SummaryAssessments'][]['Assessment']=nullCorrect($GAssessments);
 					/* Only take the overall assessments for the statseid
@@ -132,8 +132,9 @@ function fetchSubjectReports($sid,$reportdefs){
 			  $pids=array();
 			  $pids=(array)$subject['pids'];
 			  //if(sizeof($pids)>0){$pids[]=array('id'=>' ','name'=>'');}
-			  reset($pids);
-			  while(list($index,$component)=each($pids)){
+
+
+			  foreach($pids as $pindex=>$component){
 				  $pid=$component['id'];
 				  $componentname=$component['name'];
 				  if(isset($component['status'])){$componentstatus=$component['status'];}
@@ -152,54 +153,67 @@ function fetchSubjectReports($sid,$reportdefs){
 					  else{$componentseq=10;}
 					  }
 				  /* Combine assessment indexes for this component and all of its
-				   * strands into a single array $assnos. 
+				   * strands into a single array $assnos.
 				   */
 				  $assnos=array();
-				  $component['strands'][]=array('id'=>$pid);
-				  while(list($index,$strand)=each($component['strands'])){
+				  //$component['strands'][]=array('id'=>$pid);
+				  if($componentstatus==''){
+					  //this is the parent subject so wrap them all together
+					  foreach($pids as $asscomponent){
+						  $component['strands'][]=$asscomponent;
+						  }
+					  }
+				  foreach($component['strands'] as $strand){
+					  trigger_error($bid.' '.$pid.' : '.$strand['id'],E_USER_WARNING);
 					  if(isset($assbids[$bid][$strand['id']])){
 						  $assnos=array_merge($assnos,$assbids[$bid][$strand['id']]);
 						  }
 					  }
 
-				  $Comments=fetchReportEntry($reportdef,$sid,$bid,$pid);
-				  if(sizeof($Comments)>0 or sizeof($assnos)>0){
-					  $Report=array();
-					  $Report['Course']=array('id'=>''.$reportdef['report']['course_id'], 
-											  'value'=>''.$reportdef['report']['course_name']);
-					  $Report['Subject']=array('id'=>''.$bid, 
-											   'value'=>''.$subject['name']);
-					  $Report['Component']=array('id'=>''.$pid, 
-												 'status'=>''.$componentstatus,
-												 'sequence'=>''.$componentseq,
-												 'value'=>''.$componentname);
-					  $repasses=array();
-					  while(list($index,$assno)=each($assnos)){
-						  $repasses['Assessment'][]=nullCorrect($Assessments[$assno]);
-  						  }
+				  /***NEW***/
+				  if($componentstatus=='' or $componentstatus==$reportdef['report']['component_status']){
+					  $Comments=fetchReportEntry($reportdef,$sid,$bid,$pid);
 
-					  /* An additional section if the report is linked to an assessment profile. */
-					  if($profile_name!='' and $profile_name!=' '){
-						  $ProfileAssessments['Assessment']=array();
-						  foreach($profile_asseids as $index=>$eid){
-							  $PAsses=(array)fetchAssessments_short($sid,$eid,$bid,$pid);
-							  if(sizeof($PAsses)>0){
-								  $PAsses=nullCorrect($PAsses);
-								  $ProfileAssessments['Assessment']=array_merge($ProfileAssessments['Assessment'],$PAsses);
+					  if(sizeof($Comments)>0 or sizeof($assnos)>0){
+						  $Report=array();
+						  $Report['Course']=array('id'=>''.$reportdef['report']['course_id'], 
+												  'value'=>''.$reportdef['report']['course_name']);
+						  $Report['Subject']=array('id'=>''.$bid, 
+												   'value'=>''.$subject['name']);
+						  $Report['Component']=array('id'=>''.$pid, 
+													 'status'=>''.$componentstatus,
+													 'sequence'=>''.$componentseq,
+													 'value'=>''.$componentname);
+
+						  $repasses=array();
+						  foreach($assnos as $assno){
+							  $repasses['Assessment'][]=nullCorrect($Assessments[$assno]);
+							  }
+						  
+						  /* An additional section if the report is linked to an assessment profile. */
+						  if($profile_name!='' and $profile_name!=' '){
+							  $ProfileAssessments['Assessment']=array();
+							  foreach($profile_asseids as $profindex=>$eid){
+								  $PAsses=(array)fetchAssessments_short($sid,$eid,$bid,$pid);
+								  if(sizeof($PAsses)>0){
+									  $PAsses=nullCorrect($PAsses);
+									  $ProfileAssessments['Assessment']=array_merge($ProfileAssessments['Assessment'],$PAsses);
+									  }
 								  }
+							  if(sizeof($ProfileAssessments['Assessment'])==0){
+								  $ProfileAssessments['Assessment']=nullCorrect($ProfileAssessments['Assessment']);
+								  }
+							  $Report['ProfileAssessments']=$ProfileAssessments;
 							  }
-						  if(sizeof($ProfileAssessments['Assessment'])==0){
-							  $ProfileAssessments['Assessment']=nullCorrect($ProfileAssessments['Assessment']);
-							  }
-						  $Report['ProfileAssessments']=$ProfileAssessments;
+						  
+						  $Report['Assessments']=nullCorrect($repasses);
+						  $Report['Comments']=nullCorrect($Comments);
+						  $Reports['Report'][]=nullCorrect($Report);
 						  }
 
-					  $Report['Assessments']=nullCorrect($repasses);
-					  $Report['Comments']=nullCorrect($Comments);
-					  $Reports['Report'][]=nullCorrect($Report);
 					  }
-
 				  }
+				
 				}
 
 			while(list($index,$repsummary)=each($reportdef['summaries'])){
@@ -802,13 +816,16 @@ function fetchReportEntry($reportdef,$sid,$bid,$pid){
 			   }
 
 		   if(isset($subcomments_fix)){
-			   $reportyear=$reportdef['report']['year']-1;
-			   $fromdate=$reportyear.'-08-15';//Does the whole academic year
+			   /* This fromdate is just a hack needs to check for previous report maybe?*/
+			   //$reportyear=$reportdef['report']['year']-1;
+			   //$fromdate=$reportyear.'-08-15';//Does the whole academic year
+			   $reportyear=$reportdef['report']['year'];
+			   $fromdate=$reportyear.'-02-1';
 			   $Statements=(array)fetchProfileStatements($reportdef['report']['profile_name'],$bid,$pid,$sid,$fromdate);
 			   $comment_div=array();
 			   /* Restrict to a reasonable number - the last six */
 			   if(sizeof($Statements)>0){
-				   for($c=sizeof($Statements)-1;($c>(sizeof($Statements)-6) and $c>0);$c--){
+				   for($c=sizeof($Statements)-1;($c>(sizeof($Statements)-6) and $c>-1);$c--){
 					   $comment_list['li'][]=''.$Statements[$c]['Value'];
 					   }
 				   $comment_div['ul'][]=$comment_list;
@@ -903,6 +920,7 @@ function fetchProfileStatements($profile_name,$bid,$pid,$sid,$fromdate){
 								 'rating_fraction'=>1);
 				$Statements[]=fetchStatement($statement,1);
 				}
+			//trigger_error($Student['YearGroup']['value'].' : '.$cutoff_grade.' : '.sizeof($Statements),E_USER_WARNING);
 			}
 
 		return $Statements;

@@ -717,6 +717,7 @@ function list_community_cohorts($community){
 		if($cohort['year']==$currentyear and $cohort['season']==$currentseason){
 			$cohorts[]=$cohort;
 			}
+		//$cohorts[]=$cohort;
 		}
 	return $cohorts;
 	}
