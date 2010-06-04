@@ -35,6 +35,7 @@ function fetchSubjectReports($sid,$reportdefs){
 	 */
 	foreach($relevant_reportdefs as $reportdef){
 		$rid=$reportdef['rid'];
+		$repdef_compstatus=$reportdef['report']['component_status'];
 			/* Provide a look-up array $assbids which references the $Assessments
 			 * array by index for every subject and component combination which
 			 * has an Assessment for this student. 
@@ -131,44 +132,53 @@ function fetchSubjectReports($sid,$reportdefs){
 
 			  foreach($pids as $pindex=>$component){
 				  $pid=$component['id'];
+				  //$component['strands'][]=array('id'=>$pid);//self referential!!!
 				  $componentname=$component['name'];
-				  if(isset($component['status'])){$componentstatus=$component['status'];}
+				  if(isset($component['status']) and $component['status']!=''){
+					  $componentstatus=$component['status'];
+					  $compmatch=check_component_status($componentstatus,$repdef_compstatus);
+					  }
 				  else{
+					  $compmatch=false;
 					  $componentstatus='';
 					  }
 				  if(isset($component['sequence'])){
 					  $componentseq=$component['sequence'];
 					  }
 				  else{
-					  /* TODO: combine sequences for bid and pid consistently
-					   * but until cridbid has a sequence is it possible or even cridbid 
-					   * is subsumed into component?
-					   */ 
-					  if($bid=='Eng' or $bid=='Jun'){$subjectseq=1;}
-					  elseif($bid=='Mat'){$subjectseq=2;}
-					  elseif($bid=='Sci'){$subjectseq=3;}
-					  else{$subjectseq=10;}
+					  $componentseq='';
 					  }
+				  /* TODO: combine sequences for bid and pid consistently
+				   * but until cridbid has a sequence is it possible or even cridbid 
+				   * is subsumed into component?
+				   */ 
+				  if($bid=='Eng' or $bid=='Jun'){$subjectseq=1;}
+				  elseif($bid=='Mat'){$subjectseq=2;}
+				  elseif($bid=='Sci'){$subjectseq=3;}
+				  else{$subjectseq=10;}
 				  /* Combine assessment indexes for this component and all of its
 				   * strands into a single array $assnos.
 				   */
 				  $assnos=array();
-				  //$component['strands'][]=array('id'=>$pid);
 				  if($componentstatus==''){
 					  //this is the parent subject so wrap them all together
 					  foreach($pids as $asscomponent){
 						  $component['strands'][]=$asscomponent;
 						  }
 					  }
-				  foreach($component['strands'] as $strand){
-					  //trigger_error($bid.' '.$pid.' : '.$strand['id'],E_USER_WARNING);
-					  if(isset($assbids[$bid][$strand['id']])){
-						  $assnos=array_merge($assnos,$assbids[$bid][$strand['id']]);
+				  if($compmatch==true or ($componentstatus=='' and $repdef_compstatus=='None')){
+					  //trigger_error($bid.' : '.$pid.' : '.$componentstatus. ' : '.$compmatch ,E_USER_WARNING);
+					  foreach($component['strands'] as $strand){
+						  //trigger_error($bid.' '.$pid.' : '.$strand['id'],E_USER_WARNING);
+						  if(isset($assbids[$bid][$strand['id']])){
+							  $assnos=array_merge($assnos,$assbids[$bid][$strand['id']]);
+							  }
 						  }
 					  }
 
-				  /***NEW***/
-				  if($componentstatus=='' or $componentstatus==$reportdef['report']['component_status']){
+				  /***NEW: to limit the components by their status***/
+				  if($compmatch==true or $componentstatus==''){
+
 					  $Comments=fetchReportEntry($reportdef,$sid,$bid,$pid);
 
 					  if(sizeof($Comments)>0 or sizeof($assnos)>0){
@@ -299,6 +309,11 @@ function fetchReportDefinition($rid,$selbid='%'){
 						  'field_db'=>'year',
 						  'type_db'=>'year', 
 						  'value'=>''.$report['year']);
+   	$RepDef['SubjectStatus']=array('label'=>'subjectstatus', 
+									 'table_db'=>'report', 
+									 'field_db'=>'subject_status',
+									 'type_db'=>'enum', 
+									 'value'=>''.$report['subject_status']);
    	$RepDef['ComponentStatus']=array('label'=>'componentstatus', 
 									 'table_db'=>'report', 
 									 'field_db'=>'component_status',
@@ -821,11 +836,16 @@ function fetchReportEntry($reportdef,$sid,$bid,$pid){
 			   $fromdate=$reportyear.'-02-1';
 			   $Statements=(array)fetchProfileStatements($reportdef['report']['profile_name'],$bid,$pid,$sid,$fromdate);
 			   $comment_div=array();
-			   /* Restrict to a reasonable number - the last six */
 			   if(sizeof($Statements)>0){
+			   /* Restrict to a reasonable number - the last six
 				   for($c=sizeof($Statements)-1;($c>(sizeof($Statements)-6) and $c>-1);$c--){
 					   $comment_list['li'][]=''.$Statements[$c]['Value'];
 					   }
+			   */
+				   for($c=sizeof($Statements)-1;($c>(sizeof($Statements)) and $c>-1);$c--){
+					   $comment_list['li'][]=''.$Statements[$c]['Value'];
+					   }
+
 				   $comment_div['ul'][]=$comment_list;
 				   $comment_html['div'][]=$comment_div;
 				   }

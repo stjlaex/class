@@ -100,13 +100,6 @@ function list_course_subjects($crid=''){
 	}
 
 
-/**
- * Returns an array of all components (id,name,status) for a single
- * subject. If the subject is itself a component then you'll really
- * get strands. Note components can be defined for all subjects
- * (subject_id=%) but strands cannot.
- *
- */
 function list_subject_components($bid,$crid,$compstatus='A'){
 	$components=array();
 	if($compstatus=='A'){$compmatch="(component.status LIKE '%' AND component.status!='U')";}
@@ -153,6 +146,7 @@ function list_subject_components($bid,$crid,$compstatus='A'){
 
 	return $components;
 	}
+
 
 /**
  * Returns an array of all cohorts for a single course year
@@ -810,4 +804,18 @@ function listin_subject_classes($bid,$crid,$stage){
 	return $students;
 	}
 
+/**
+ * Simply check if the status for a component (or strand or subject) is covered by the
+ * the filter.
+ *
+ */
+function check_component_status($status,$filter){
+	$result=false;
+	if($status=='N' or $status=='O' or $status=='V' or $status=='U'){
+		if($filter=='A' and $status!='U'){$result=true;}
+		elseif($filter=='AV' and ($status=='O' or $status=='V') and $status!='U'){$result=true;}
+		elseif($filter==$status){$result=true;}
+		}
+	return $result;
+	}
 ?>

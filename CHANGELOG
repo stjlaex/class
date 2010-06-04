@@ -1,10 +1,12 @@
-Version ClaSS-0.9.20 release (2010/5/28)
+Version ClaSS-0.9.21 release (2010/6/10)
 -----------------------------------------
 
 A small change to the subject sequence for fetchReports.
 
+Added a subject_status field to the report table (apply the patch!).
 
-Version ClaSS-0.9.21 release (2010/5/12)
+
+Version ClaSS-0.9.20 release (2010/5/12)
 -----------------------------------------
 
 Update to the spanish language pack.

@@ -10,6 +10,7 @@ $rid=$xmlid;
 $ReportDef=fetch_reportdefinition($rid);
 $crid=$ReportDef['report']['course_id'];
 $stage=$ReportDef['report']['stage'];
+$substatus=$ReportDef['report']['subject_status'];
 $compstatus=$ReportDef['report']['component_status'];
 $title=$ReportDef['report']['title'];
 $date=$ReportDef['report']['date'];
@@ -28,8 +29,10 @@ $deadline=$ReportDef['report']['deadline'];
 			}
 		*/
 
-		/* Make a list of subjects that will need distinct new marks*/
-		$subjects=list_course_subjects($crid);
+	/* Make a list of subjects that will need distinct new marks*/
+	$subjects=array();
+	if($substatus!='A'){$subjects[]=array('id'=>'%');}/*special when bid is general*/
+	else{$subjects=list_course_subjects($crid);}
 
 		/* Generate a report column for each subject*/
    	   	while(list($index,$subject)=each($subjects)){

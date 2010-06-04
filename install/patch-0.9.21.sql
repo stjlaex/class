@@ -1,0 +1,1 @@
+ALTER TABLE report ADD subject_status enum('None','N','V','O','AV','A') not null default 'A' AFTER stage;
