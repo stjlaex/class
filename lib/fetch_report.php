@@ -134,10 +134,9 @@ function fetchSubjectReports($sid,$reportdefs){
 			  $pids=(array)$subject['pids'];
 			  //if(sizeof($pids)>0){$pids[]=array('id'=>' ','name'=>'');}
 
-
+			  /* Note one of these pids will be a blank so we do the parent bid. */
 			  foreach($pids as $pindex=>$component){
 				  $pid=$component['id'];
-				  //$component['strands'][]=array('id'=>$pid);//self referential!!!
 				  $componentname=$component['name'];
 				  if(isset($component['status']) and $component['status']!=''){
 					  $componentstatus=$component['status'];
@@ -157,7 +156,7 @@ function fetchSubjectReports($sid,$reportdefs){
 				   * but until cridbid has a sequence is it possible or even cridbid 
 				   * is subsumed into component?
 				   */ 
-				  if($bid=='Eng' or $bid=='Jun'){$subjectseq=1;}
+				  if($bid=='Eng' or $bid=='Jun' or $bid=='Inf'){$subjectseq=1;}
 				  elseif($bid=='Mat'){$subjectseq=2;}
 				  elseif($bid=='Sci'){$subjectseq=3;}
 				  else{$subjectseq=10;}
@@ -173,6 +172,14 @@ function fetchSubjectReports($sid,$reportdefs){
 					  }
 				  if($compmatch==true or ($componentstatus=='' and $repdef_compstatus=='None')){
 					  //trigger_error($bid.' : '.$pid.' : '.$componentstatus. ' : '.$compmatch ,E_USER_WARNING);
+					  if(sizeof($component['strands'])==0){
+						  /* A bit self referential. If there are no
+						   * strands for this pid then we still need
+						   * to get everything for this pid on its
+						   * own. !!!
+						   */
+						  $component['strands'][]=array('id'=>$pid);
+						  }
 					  foreach($component['strands'] as $strand){
 						  //trigger_error($bid.' '.$pid.' : '.$strand['id'],E_USER_WARNING);
 						  if(isset($assbids[$bid][$strand['id']])){
