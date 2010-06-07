@@ -170,8 +170,9 @@ function fetchSubjectReports($sid,$reportdefs){
 						  $component['strands'][]=$asscomponent;
 						  }
 					  }
-				  if($compmatch==true or ($componentstatus=='' and $repdef_compstatus=='None')){
-					  //trigger_error($bid.' : '.$pid.' : '.$componentstatus. ' : '.$compmatch ,E_USER_WARNING);
+				  //				  if($compmatch==true or ($componentstatus=='' and $repdef_compstatus=='None')){
+				  if($compmatch==true or ($componentstatus=='' and $repdef_compstatus=='None') or ($componentstatus=='' and sizeof($pids)==0)){
+					  trigger_error($bid.' : '.$pid.' : '.$componentstatus. ' : '.$compmatch ,E_USER_WARNING);
 					  if(sizeof($component['strands'])==0){
 						  /* A bit self referential. If there are no
 						   * strands for this pid then we still need

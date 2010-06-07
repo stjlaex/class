@@ -41,7 +41,12 @@ three_buttonmenu();
 		</div>
 	  </fieldset>
 <?php
-if($balance<20){
+/**
+ * Only allow a new order or an order to be amended if the balance is
+ * above zero. Allow an exception for those who can authorise the
+ * budget.
+ */
+if($balance<20 and $perms['x']!=1){
 ?>
 	<fieldset class="center">
 	<div class="center">

@@ -36,6 +36,7 @@ two_buttonmenu();
 	$gender_countrys=array();
 	$birth_years=array();
 	$gender_birth_years=array();
+	$postcodes=array();
 
 	$d_year=mysql_query("SELECT * FROM yeargroup ORDER BY section_id, id;");
 	while($year=mysql_fetch_array($d_year,MYSQL_ASSOC)){
@@ -57,7 +58,6 @@ two_buttonmenu();
 			if($countrycode=='' or $countrycode==' '){
 				$countrycode='BLANK';
 				}
-
 			if($countrycode=='ES'){$countrytype='home';}
 			else{$countrytype='foreign';}
 
@@ -72,6 +72,24 @@ two_buttonmenu();
 				}
 			$gender_countrys[$countrycode][$gender]++;
 			$countrys[$countrycode]++;
+
+			/* Do postcodes */
+			$Student=fetchStudent_singlefield($student['id'],'Postcode');
+			$poststring=$Student['Postcode']['value'];
+
+			$student_pcodes=split(' ',$poststring);
+			foreach($student_pcodes as $pcode){
+				$pos=stripos($pcode,'28');
+				if($pos === false){
+					}
+				else{
+					$postcode=substr($pcode,$pos,5);
+					if(!isset($postcodes[$postcode])){
+						$postcodes[$postcode]=0;
+						}
+					$postcodes[$postcode]++;
+					}
+				}
 
 			$dobs=split('-',$student['dob']);
 			$yob=$dobs[0];
@@ -163,6 +181,29 @@ two_buttonmenu();
 ?>
 	  </table>
 	</div>
+
+<br />
+
+		<div>
+			<table class="listmenu">
+				<tr>
+					<th><?php print 'Postcodes'; ?></th>
+					<th><?php print_string('numberofstudents',$book);?></th>
+				</tr>
+<?php
+			asort($postcodes,SORT_NUMERIC);
+			$postcodes=array_reverse($postcodes,true);
+			while(list($postcode,$nosids)=each($postcodes)) {
+?>
+					<tr>
+						<td><?php print ' '.$postcode; ?></td>
+						<td><?php print $nosids; ?></td>
+					</tr>
+				<?php
+				}
+				?>
+			</table>
+		</div>
 
 <br />
 
