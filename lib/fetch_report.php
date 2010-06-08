@@ -170,8 +170,9 @@ function fetchSubjectReports($sid,$reportdefs){
 						  $component['strands'][]=$asscomponent;
 						  }
 					  }
-				  //				  if($compmatch==true or ($componentstatus=='' and $repdef_compstatus=='None')){
-				  if($compmatch==true or ($componentstatus=='' and $repdef_compstatus=='None') or ($componentstatus=='' and sizeof($pids)==0)){
+				  //if($compmatch==true or ($componentstatus=='' and $repdef_compstatus=='None')){
+					  if($compmatch==true or ($componentstatus=='' and $repdef_compstatus=='None') 
+					  or ($componentstatus=='' and sizeof($pids)==0)){
 					  trigger_error($bid.' : '.$pid.' : '.$componentstatus. ' : '.$compmatch ,E_USER_WARNING);
 					  if(sizeof($component['strands'])==0){
 						  /* A bit self referential. If there are no
@@ -855,7 +856,7 @@ function fetchReportEntry($reportdef,$sid,$bid,$pid){
 					   $comment_list['li'][]=''.$Statements[$c]['Value'];
 					   }
 			   */
-				   for($c=sizeof($Statements)-1;($c>(sizeof($Statements)) and $c>-1);$c--){
+				   for($c=sizeof($Statements)-1;$c>-1;$c--){
 					   $comment_list['li'][]=''.$Statements[$c]['Value'];
 					   }
 
