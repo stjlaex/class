@@ -99,7 +99,11 @@ two_buttonmenu();
 				}
 			$birth_years[$countrytype][$yob]++;
 			$gender_birth_years[$countrytype][$yob][$gender]++;
-			
+
+			/**
+			 * Limited sub-group based on year of birth.
+			 *
+			 */
 			if($yob>2002 and $yob<2006){
 				if(!isset($lcountrys[$countrycode])){
 					$lcountrys[$countrycode]=0;
@@ -156,7 +160,7 @@ two_buttonmenu();
 		  <th><?php print get_string('male',$book) .'/'. 
 			get_string('female',$book) .' '. get_string('ratio',$book);?>
 		  </th>
-		  <th><?php print get_string('male',$book) .'/'. 
+		  <th>2002 - 2006 <?php print get_string('male',$book) .'/'. 
 			get_string('female',$book) .' '. get_string('ratio',$book);?>
 		  </th>
 		</tr>
