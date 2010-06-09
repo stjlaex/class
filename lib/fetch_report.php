@@ -889,7 +889,7 @@ function fetchReportEntry($reportdef,$sid,$bid,$pid){
 		   }
 
 	   /* These are the check box ratings. */
-	   if($reportdef['report']['addcategory']=='yes' and $bid!='summary'){
+	   if($reportdef['report']['addcategory']=='yes'){
 		   $catdefs=get_report_categories($rid,$bid,$pid);
 		   $pairs=explode(';',$entry['category']);
 		   for($c=0;$c<(sizeof($pairs)-1);$c++){
