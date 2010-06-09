@@ -98,6 +98,7 @@ function fetchStudent_short($sid){
  */
 function fetchStudent_singlefield($sid,$tag){
 	$fieldtype='';
+	$separator='';
 	$Student=array();
 	if($tag=='Nationality'){$fieldname='nationality';$fieldtype='enum';}
 	elseif($tag=='EnrolNumber'){$fieldname='formerupn';}
@@ -114,13 +115,14 @@ function fetchStudent_singlefield($sid,$tag){
 	elseif(substr_count($tag,'SecondContact')){$contactno=1;}
 	elseif(substr_count($tag,'Medical')){$medtype=substr($tag,-3);}
    	elseif($tag=='Postcode'){
-		$d_add=mysql_query("SELECT postcode FROM address JOIN gidaid ON gidaid.address_id=address.id
-							WHERE gidaid.guardian_id=ANY(SELECT guardian_id FROM gidsid 
+		$d_add=mysql_query("SELECT DISTINCT postcode FROM address JOIN gidaid ON gidaid.address_id=address.id
+							WHERE address.postcode!='' AND gidaid.guardian_id=ANY(SELECT guardian_id FROM gidsid 
 							wHERE gidsid.student_id='$sid' ORDER BY gidsid.priority ASC);");
 		$Student[$tag]=array('label'=>'',
 							 'value'=>'');
 		while($add=mysql_fetch_array($d_add,MYSQL_ASSOC)){
-			$Student[$tag]['value'].=$add['postcode'].' ';
+			$Student[$tag]['value'].=$separator . $add['postcode'];
+			$separator=' : ';
 			}
 		}
    	elseif($tag=='House'){
@@ -141,7 +143,8 @@ function fetchStudent_singlefield($sid,$tag){
 			$Student[$tag]=array('label'=>'',
 								 'value'=>'');
 			while(list($phoneno,$Phone)=each($Phones)){
-				$Student[$tag]['value'].=$Phone['PhoneNo']['value'].' ';				
+				$Student[$tag]['value'].=$separator . $Phone['PhoneNo']['value'].' ';				
+				$separator=' : ';
 				}
 			}
 		elseif(substr_count($tag,'EmailAddress')){

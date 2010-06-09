@@ -163,7 +163,7 @@ two_buttonmenu($extrabuttons,$book);
 ?>
 			<td id="icon<?php print $openId;?>" <?php if(mysql_num_rows($d_summaryentry)>0){print 'class="vspecial"';}?> >
 			  <img class="clicktowrite" name="Write"  
-				onClick="clickToWriteComment(<?php print $sid.','.$rid.',\'summary\',\''.$summaryid.'\',\'0\',\''.$openId.'\'';?>);" />
+				onClick="clickToWriteCommentNew(<?php print $sid.','.$rid.',\'summary\',\''.$summaryid.'\',\'0\',\''.$openId.'\'';?>);" />
 			</td>
 <?php
 						}
@@ -176,7 +176,7 @@ two_buttonmenu($extrabuttons,$book);
 ?>
 			<td id="icon<?php print $openId;?>" <?php if(mysql_num_rows($d_summaryentry)>0){print 'class="vspecial"';}?> >
 			  <img class="clicktowrite" name="Write"  
-				onClick="clickToWriteComment(<?php print $sid.','.$rid.',\'summary\',\''.$summaryid.'\',\'0\',\''.$openId.'\'';?>);" />
+				onClick="clickToWriteCommentNew(<?php print $sid.','.$rid.',\'summary\',\''.$summaryid.'\',\'0\',\''.$openId.'\'';?>);" />
 			</td>
 <?php
 						}
@@ -189,7 +189,7 @@ two_buttonmenu($extrabuttons,$book);
 ?>
 			<td id="icon<?php print $openId;?>" <?php if(mysql_num_rows($d_summaryentry)>0){print 'class="vspecial"';}?> >
 			  <img class="clicktowrite" name="Write"  
-				onClick="clickToWriteComment(<?php print $sid.','.$rid.',\'summary\',\''.$summaryid.'\',\'0\',\''.$openId.'\'';?>);" />
+				onClick="clickToWriteCommentNew(<?php print $sid.','.$rid.',\'summary\',\''.$summaryid.'\',\'0\',\''.$openId.'\'';?>);" />
 			</td>
 <?php
 						}

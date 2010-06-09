@@ -54,5 +54,8 @@ $string['period']='Period';
 $string['last']='Last';
 $string['absencemessage']="\r\n".'Dear Parent,'."\r\n"."\r\n". 'At 10:00AM this morning '."\$a".' had not registered in school. Please could you contact the school to inform us of the reason for your child\'s absence.'."\r\n"."\r\n".'Thank you.'."\r\n";
 $string['inschool']='Present in school';
+$string['month']='Month';
+$string['numberofdays']='School days';
+$string['dailyaverage']='Daily average';
 $string['']='';
 ?>

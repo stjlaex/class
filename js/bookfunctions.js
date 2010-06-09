@@ -24,6 +24,12 @@ function clickToWriteComment(sid,rid,bid,pid,entryn,openId){
 	var getvars="sid="+sid+"&rid="+rid+"&bid="+bid+"&pid="+pid+"&entryn="+entryn+"&openid="+openId;
 	openHelperWindow(helperurl,getvars);
 	}
+//opens the comment writer window
+function clickToWriteCommentNew(sid,rid,bid,pid,entryn,openId){
+	var helperurl="reportbook/httpscripts/newcomment_writer.php";
+	var getvars="sid="+sid+"&rid="+rid+"&bid="+bid+"&pid="+pid+"&entryn="+entryn+"&openid="+openId;
+	openHelperWindow(helperurl,getvars);
+	}
 
 //opens the a window for file attachments
 function clickToAttachFile(sid,mid,cid,pid,openId){

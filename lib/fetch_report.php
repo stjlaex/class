@@ -40,7 +40,6 @@ function fetchSubjectReports($sid,$reportdefs){
 	 */
 	foreach($relevant_reportdefs as $reportdef){
 		$rid=$reportdef['rid'];
-		$repdef_compstatus=$reportdef['report']['component_status'];
 			/* Provide a look-up array $assbids which references the $Assessments
 			 * array by index for every subject and component combination which
 			 * has an Assessment for this student. 
@@ -133,65 +132,61 @@ function fetchSubjectReports($sid,$reportdefs){
 			  $pids=array();
 			  $pids=(array)$subject['pids'];
 			  //if(sizeof($pids)>0){$pids[]=array('id'=>' ','name'=>'');}
+			  /* TODO: combine sequences for bid and pid consistently
+			   * but until cridbid has a sequence is it possible or even cridbid 
+			   * is subsumed into component?
+			   */ 
+			  if($bid=='Eng' or $bid=='Jun' or $bid=='Inf'){$subjectseq=1;}
+			  elseif($bid=='Mat'){$subjectseq=2;}
+			  elseif($bid=='Sci'){$subjectseq=3;}
+			  else{$subjectseq=10;}
 
 			  /* Note one of these pids will be a blank so we do the parent bid. */
 			  foreach($pids as $pindex=>$component){
 				  $pid=$component['id'];
 				  $componentname=$component['name'];
+				  /*
 				  if(isset($component['status']) and $component['status']!=''){
 					  $componentstatus=$component['status'];
-					  $compmatch=check_component_status($componentstatus,$repdef_compstatus);
+					  $compmatch=true;
 					  }
 				  else{
 					  $compmatch=false;
 					  $componentstatus='';
 					  }
+				  */
 				  if(isset($component['sequence'])){
 					  $componentseq=$component['sequence'];
 					  }
 				  else{
 					  $componentseq='';
 					  }
-				  /* TODO: combine sequences for bid and pid consistently
-				   * but until cridbid has a sequence is it possible or even cridbid 
-				   * is subsumed into component?
-				   */ 
-				  if($bid=='Eng' or $bid=='Jun' or $bid=='Inf'){$subjectseq=1;}
-				  elseif($bid=='Mat'){$subjectseq=2;}
-				  elseif($bid=='Sci'){$subjectseq=3;}
-				  else{$subjectseq=10;}
 				  /* Combine assessment indexes for this component and all of its
 				   * strands into a single array $assnos.
 				   */
 				  $assnos=array();
-				  if($componentstatus==''){
-					  //this is the parent subject so wrap them all together
-					  foreach($pids as $asscomponent){
-						  $component['strands'][]=$asscomponent;
-						  }
+				  /*
+				  foreach($pids as $asscomponent){
+					  $component['strands'][]=$asscomponent;
 					  }
-				  //if($compmatch==true or ($componentstatus=='' and $repdef_compstatus=='None')){
-					  if($compmatch==true or ($componentstatus=='' and $repdef_compstatus=='None') 
-					  or ($componentstatus=='' and sizeof($pids)==0)){
-					  trigger_error($bid.' : '.$pid.' : '.$componentstatus. ' : '.$compmatch ,E_USER_WARNING);
-					  if(sizeof($component['strands'])==0){
-						  /* A bit self referential. If there are no
-						   * strands for this pid then we still need
-						   * to get everything for this pid on its
-						   * own. !!!
-						   */
-						  $component['strands'][]=array('id'=>$pid);
-						  }
-					  foreach($component['strands'] as $strand){
-						  //trigger_error($bid.' '.$pid.' : '.$strand['id'],E_USER_WARNING);
-						  if(isset($assbids[$bid][$strand['id']])){
-							  $assnos=array_merge($assnos,$assbids[$bid][$strand['id']]);
-							  }
+				  */
+				  if(sizeof($component['strands'])==0){
+					  /* A bit self referential. If there are no
+					   * strands for this pid then we still need
+					   * to get everything for this pid on its
+					   * own. !!!
+					   */
+					  $component['strands'][]=array('id'=>$pid);
+					  }
+				  foreach($component['strands'] as $strand){
+					  trigger_error($bid.' '.$pid.' : '.$strand['id'],E_USER_WARNING);
+					  if(isset($assbids[$bid][$strand['id']])){
+						  $assnos=array_merge($assnos,$assbids[$bid][$strand['id']]);
 						  }
 					  }
 
 				  /***NEW: to limit the components by their status***/
-				  if($compmatch==true or $componentstatus==''){
+				  if(true){
 
 					  $Comments=fetchReportEntry($reportdef,$sid,$bid,$pid);
 
@@ -416,14 +411,27 @@ function fetchReportDefinition($rid,$selbid='%'){
 						'name'=>''.$subjectname);
 		}
 	while(list($index0,$subject)=each($subjects)){
-		$components=(array)list_subject_components($subject['id'],$crid);
-		while(list($index1,$component)=each($components)){
-			$strands=(array)list_subject_components($component['id'],$crid);
-			$components[$index1]['strands']=$strands;
+		$report_components=array();
+		$all_components=(array)list_subject_components($subject['id'],$crid);
+		while(list($index1,$component)=each($all_components)){
+			if(check_component_status($component['status'],$reptable['component_status'])){
+				/* To avoid a nasty recursion if component and subject have the same id */
+				if($component['id']!=$subject['id']){
+					$strands=(array)list_subject_components($component['id'],$crid);
+					}
+				else{
+					$strands=array();
+					}
+				$strands=(array)list_subject_components($component['id'],$crid);
+				$component['strands']=$strands;
+				$report_components[]=$component;
+				}
 			}
 		/* Must always be a blank entry to catch the parent subject itself.*/
-		$components[]=array('id'=>' ','name'=>'');
-		$subjects[$index0]['pids']=$components;
+		if(sizeof($report_components)==0){
+			$report_components[]=array('id'=>' ','name'=>'','strands'=>$all_components);
+			}
+		$subjects[$index0]['pids']=$report_components;
 		}
 	$RepDef['bids']=$subjects;
 
@@ -572,20 +580,28 @@ function fetch_reportdefinition($rid,$selbid='%'){
 						  'name'=>''.$subjectname);
 		}
 	while(list($index0,$subject)=each($subjects)){
-		$components=(array)list_subject_components($subject['id'],$crid);
-		while(list($index1,$component)=each($components)){
-			/* Just in case to avoid a nasty recursion if component and subject have the same id */
-	   		if($component['id']!=$subject['id']){
+		$report_components=array();
+		$all_components=(array)list_subject_components($subject['id'],$crid);
+		while(list($index1,$component)=each($all_components)){
+			if(check_component_status($component['status'],$report['component_status'])){
+			/* To avoid a nasty recursion if component and subject have the same id */
+				if($component['id']!=$subject['id']){
+					$strands=(array)list_subject_components($component['id'],$crid);
+					}
+				else{
+					$strands=array();
+					}
 				$strands=(array)list_subject_components($component['id'],$crid);
+				$component['strands']=$strands;
+				$report_components[]=$component;
 				}
-			else{
-				$strands=array();
-				}
-			$components[$index1]['strands']=$strands;
+
 			}
-		/* Must always be a blank entry to catch the parent subject itself.*/
-		$components[]=array('id'=>' ','name'=>'');
-		$subjects[$index0]['pids']=$components;
+		/* Must be a blank entry to catch the parent subject itself.*/
+		if(sizeof($report_components)==0){
+			$report_components[]=array('id'=>' ','name'=>'','strands'=>$all_components);
+			}
+		$subjects[$index0]['pids']=$report_components;
 		}
 	$reportdef['bids']=$subjects;
 

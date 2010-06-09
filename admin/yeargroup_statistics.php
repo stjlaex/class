@@ -73,13 +73,14 @@ two_buttonmenu();
 			$gender_countrys[$countrycode][$gender]++;
 			$countrys[$countrycode]++;
 
-			/* Do postcodes */
+			/* Do postcodes. Use localcode to restrict to those within the local area. */
 			$Student=fetchStudent_singlefield($student['id'],'Postcode');
 			$poststring=$Student['Postcode']['value'];
-
-			$student_pcodes=split(' ',$poststring);
+			if(isset($CFG->localpostcode)){$localcode=$CFG->localpostcode;}
+			else{$localcode='2';}
+			$student_pcodes=split(' : ',$poststring);
 			foreach($student_pcodes as $pcode){
-				$pos=stripos($pcode,'28');
+				$pos=stripos($pcode,$localcode);
 				if($pos === false){
 					}
 				else{

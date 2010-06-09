@@ -9,6 +9,12 @@ Change to allow orders to be placed by perms=x even when the balance is zero.
 
 Included some crude postcode analysis to the statistics page in admin.
 
+New day-by-day break down of the attendnace statistics.
+
+Experimenting with new comment writer which does categories and
+comments. Only applied to summary comments so far.
+
+
 
 Version ClaSS-0.9.20 release (2010/5/12)
 -----------------------------------------

@@ -132,6 +132,8 @@
 <?php
 		if($reportdef['report']['addcategory']=='yes'){
 			$ass_colspan++;
+			$catdefs=get_report_categories($rid,$bid,$pid,'cat',$class_stage);
+			$ratings=$reportdef['ratings'];
 
 			reset($catdefs);
 			unset($Categories);
