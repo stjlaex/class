@@ -521,16 +521,20 @@ div.content fieldset.listmenu, div.content fieldset.listmenu div,
     background-color:#66cc66;
 	}
 /*handy for checkboxes inside a table*/
-.listmenu td div.row, .listmenu td div.row p  { 
+.listmenu td div.row, .listmenu td div.row p, .listmenu td.row div, .listmenu td.row div p { 
     float:left;
-    padding:0 1.5em 0 0.5em;
+    padding:0 4px 0 2px;
     margin:0;
 	}
-.listmenu td div.row input { 
+.listmenu td div.row input, .listmenu td.row div input { 
     margin:0;
+    border:2px solid #ff9900;
 	}
 .listmenu td div.checked, div.checked input, div.checked label { 
     background-color:#ff9966 !important;
+	}
+.listmenu td.boundary div { 
+    border:1px solid #eeeeee;
 	}
 
 /* Always use in conjunction with listmenu, for when your

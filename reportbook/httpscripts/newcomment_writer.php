@@ -77,6 +77,7 @@ if($reportdef['report']['profile_name']!='' and isset($subcomments_fix)){
 		}
 
 if($reportdef['report']['addcategory']=='yes'){
+	trigger_error($rid.$bid.$pid.'cat',E_USER_WARNING);
 	$catdefs=get_report_categories($rid,$bid,$pid,'cat');
 	$ratings=$reportdef['ratings'];
 	$ratingname=get_report_ratingname($reportdef,$bid);
@@ -143,9 +144,7 @@ if($reportdef['report']['addcategory']=='yes'){
 			while(list($catindex,$catdef)=each($catdefs)){
 				$catid=$catdefs[$catindex]['id'];
 				$catname=$catdefs[$catindex]['name'];
-				print '<tr class="revealed">';
-				print '<td><div class="row" style="width:26%;"><p>'
-					.$catname.'</p></div>';
+				print '<tr class="revealed"><td class="row"><div style="width:25%;"><p>'.$catname.'</p></div></td></tr>';
 
 				/* Find any previously recorded value for this catid,
 				   make a first guess that they will have been
@@ -169,11 +168,13 @@ if($reportdef['report']['addcategory']=='yes'){
 					$setcat_value=-1000;
 					}
 
+				print '<tr class="revealed"><td class="boundary row">';
+				$divwidth=round(90/sizeof($ratings));
 				foreach($ratings as $value=>$descriptor){
 					$checkclass='';
 					if($setcat_value==$value){$checkclass='checked';}
 
-					print '<div class="row '.$checkclass.'"><label>'.$descriptor.'</label>';
+					print '<div class="'.$checkclass.'" style="width:'.$divwidth.'%;"><label>'.$descriptor.'</label>';
 					print '<input type="radio" name="incat'.$catid.'"
 						tabindex="'.$tabindex++.'" value="'.$value.'" '.$checkclass;
 					print ' /></div>';
