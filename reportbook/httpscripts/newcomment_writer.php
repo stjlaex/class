@@ -175,7 +175,7 @@ if($reportdef['report']['addcategory']=='yes'){
 					if($setcat_value==$value){$checkclass='checked';}
 
 					print '<div class="'.$checkclass.'" style="width:'.$divwidth.'%;"><label>'.$descriptor.'</label>';
-					print '<input type="radio" name="incat'.$catid.'"
+					print '<input onclick="checkRadioIndicator(this)" type="radio" name="incat'.$catid.'"
 						tabindex="'.$tabindex++.'" value="'.$value.'" '.$checkclass;
 					print ' /></div>';
 					}

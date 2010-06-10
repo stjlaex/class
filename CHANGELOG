@@ -17,6 +17,8 @@ comments. Only applied to summary comments so far as newcomment_writer.
 Added category option to editing report wrappers. Fixed bug with
 wrapper form for slection boxes.
 
+Simple js function to highlight suroudning div of checked radio box.
+
 
 Version ClaSS-0.9.20 release (2010/5/12)
 -----------------------------------------

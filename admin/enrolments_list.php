@@ -121,24 +121,22 @@ if(isset($_POST['enrolstage'])){$enrolstage=$_POST['enrolstage'];}
 		if($current_enrolstatus=='AC'){
 			print '<th>'.get_string('schoolstartdate','infobook').'</th>';
 			}
-?>
-			<th>
-<?php
-		   	$required='no';$multi='1';
+
+		$required='no';$multi='1';
 		   	if($comtype=='allapplied' or 
 			   $enrolstatus=='year' or $enrolstatus='alumni'){
-				print_string('enrolstatus','infobook');
+				print '<th colspan="2">'.get_string('enrolstatus','infobook').'</th>';
 				}
 			elseif($enrolstage=='RE'){
-				print_string('reenroling','infobook');
+				print '<th colspan="2">'.get_string('reenroling','infobook').'</th>';
 				}
 		   	else{
 		   		reset($AssDefs);
 		   		while(list($index,$AssDef)=each($AssDefs)){
-		   			print get_coursename($AssDef['Course']['value']).'<br />'. 
-		   					$AssDef['Description']['value'].'</th><th>';
+		   			print '<th>'.get_coursename($AssDef['Course']['value']).'<br />'. 
+		   					$AssDef['Description']['value'].'</th>';
 		   			}
-				print_string('enrolstatus','infobook');
+				print '<th>'.get_string('enrolstatus','infobook').'</th>';
 		   		}
 ?>
 			</th>
@@ -194,7 +192,7 @@ if(isset($_POST['enrolstage'])){$enrolstage=$_POST['enrolstage'];}
 			print '<td>'.display_date($Enrolment['EntryDate']['value']).'</td>';
 			}
 ?>
-			<td>
+			<td class="row">
 <?php
 			if($comtype=='allapplied'){
 ?>
@@ -206,7 +204,7 @@ if(isset($_POST['enrolstage'])){$enrolstage=$_POST['enrolstage'];}
 				while(list($index,$value)=each($application_steps)){
 					$checkclass='';
 					if($value==$current_enrolstatus){$checkclass='checked';}
-					print '<div class="row '.$checkclass.'"><label>'.$value.'</label>';
+					print '<div class="'.$checkclass.'"><label>'.$value.'</label>';
 					print '<input type="radio" name="C'.$sid.'" tabindex="'. 
 						$tab++.'" value="'.$value.'" '.$checkclass;
 					print '/></div>';
@@ -223,7 +221,7 @@ if(isset($_POST['enrolstage'])){$enrolstage=$_POST['enrolstage'];}
 						$checkclass='checked';
 						$$grade['value']++;
 						}
-					print '<div class="row '.$checkclass.'"><label>' 
+					print '<div class="'.$checkclass.'"><label>' 
 							.$grade['result'].'</label>';
 					print '<input type="radio" name="RE'.$sid.'"
 						tabindex="'.$tab++.'" value="'.$grade['value'].'" '.$checkclass;
@@ -243,7 +241,7 @@ if(isset($_POST['enrolstage'])){$enrolstage=$_POST['enrolstage'];}
 					 */
 					if(sizeof($Assessments)>0){$result=$Assessments[0]['Result']['value'];}
 					else{$result='&nbsp;';}
-					print $result.'</td><td>';
+					print $result.'</td><td class="row">';
 					}
 
 				reset($application_steps);
@@ -252,7 +250,7 @@ if(isset($_POST['enrolstage'])){$enrolstage=$_POST['enrolstage'];}
 					if($current_enrolstatus!='' and $value==$current_enrolstatus){
 						$checkclass='checked';
 						}
-					print '<div class="row '.$checkclass.'"><label>' 
+					print '<div class="'.$checkclass.'"><label>' 
 							.$value.'</label>';
 					print '<input type="radio" name="E'.$sid.'"
 						tabindex="'.$tab++.'" value="'.$value.'" '.$checkclass;
@@ -272,11 +270,11 @@ if(isset($_POST['enrolstage'])){$enrolstage=$_POST['enrolstage'];}
 		  <th colspan="2">
 			<?php print_string('total',$book);?>
 		  </th>
-		  <td>
+		  <td class="row">
 <?php
 				reset($grades);
 				while(list($index,$grade)=each($grades)){
-					print '<div class="row"><label>' 
+					print '<div class=""><label>' 
 							.$grade['result'].'</label>';
 					print $$grade['value'];
 					print '</div>';

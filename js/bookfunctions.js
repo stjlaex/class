@@ -365,6 +365,24 @@ function sidtableFilter(buttonObject){
 	}
 
 //------------------------------------------------------- 
+// Highlights the checked radio input and unhighlights any others with 
+// the same name
+
+function checkRadioIndicator(inputObj){
+	var inputname=inputObj.name;
+	var inputval=inputObj.value;
+	var radioObjs=document.getElementsByName(inputname);
+	for(var c=0;c<radioObjs.length;c++){
+		if(radioObjs[c].value==inputval){
+			radioObjs[c].parentNode.setAttribute("class","checked");
+			}
+		else{
+			radioObjs[c].parentNode.setAttribute("class","");
+			}
+		}
+	}
+
+//------------------------------------------------------- 
 // Only called by form buttons in place of processContent() 
 // this will pass all the checked sids[] in a sidtable along-with 
 // whatever parameters are listed in the embedded xml contained 
@@ -756,6 +774,9 @@ function loadRequired(){
 			// add event handlers to the checkbox input elements
 			if(elementObject.getAttribute("type")=="checkbox" && elementObject.name=="sids[]"){
 				elementObject.onchange=function(){checkrowIndicator(this)};
+				}
+			if(elementObject.getAttribute("type")=="radio"){
+				elementObject.onclick=function(){checkRadioIndicator(this)};
 				}
 			if(elementObject.getAttribute("tabindex")=="1" && firstFocus=="-1"){
 				firstFocus=c;
