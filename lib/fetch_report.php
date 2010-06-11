@@ -145,16 +145,12 @@ function fetchSubjectReports($sid,$reportdefs){
 			  foreach($pids as $pindex=>$component){
 				  $pid=$component['id'];
 				  $componentname=$component['name'];
-				  /*
 				  if(isset($component['status']) and $component['status']!=''){
 					  $componentstatus=$component['status'];
-					  $compmatch=true;
 					  }
 				  else{
-					  $compmatch=false;
 					  $componentstatus='';
 					  }
-				  */
 				  if(isset($component['sequence'])){
 					  $componentseq=$component['sequence'];
 					  }
@@ -165,72 +161,53 @@ function fetchSubjectReports($sid,$reportdefs){
 				   * strands into a single array $assnos.
 				   */
 				  $assnos=array();
-				  /*
-				  foreach($pids as $asscomponent){
-					  $component['strands'][]=$asscomponent;
-					  }
-				  */
-				  if(sizeof($component['strands'])==0){
-					  /* A bit self referential. If there are no
-					   * strands for this pid then we still need
-					   * to get everything for this pid on its
-					   * own. !!!
-					   */
-					  $component['strands'][]=array('id'=>$pid);
-					  }
 				  foreach($component['strands'] as $strand){
-					  trigger_error($bid.' '.$pid.' : '.$strand['id'],E_USER_WARNING);
+					  trigger_error($bid.' : '.$pid.' : '.$strand['id'],E_USER_WARNING);
 					  if(isset($assbids[$bid][$strand['id']])){
 						  $assnos=array_merge($assnos,$assbids[$bid][$strand['id']]);
 						  }
 					  }
 
-				  /***NEW: to limit the components by their status***/
-				  if(true){
+				  $Comments=fetchReportEntry($reportdef,$sid,$bid,$pid);
 
-					  $Comments=fetchReportEntry($reportdef,$sid,$bid,$pid);
-
-					  if(sizeof($Comments)>0 or sizeof($assnos)>0){
-						  $Report=array();
-						  $Report['Course']=array('id'=>''.$reportdef['report']['course_id'], 
-												  'value'=>''.$reportdef['report']['course_name']);
-						  $Report['Subject']=array('id'=>''.$bid, 
-												   'sequence'=>''.$subjectseq,
-												   'value'=>''.$subject['name']);
-						  $Report['Component']=array('id'=>''.$pid, 
-													 'status'=>''.$componentstatus,
-													 'sequence'=>''.$componentseq,
-													 'value'=>''.$componentname);
-
-						  $repasses=array();
-						  foreach($assnos as $assno){
-							  $repasses['Assessment'][]=nullCorrect($Assessments[$assno]);
-							  }
-						  
-						  /* An additional section if the report is linked to an assessment profile. */
-						  if($profile_name!='' and $profile_name!=' '){
-							  $ProfileAssessments['Assessment']=array();
-							  foreach($profile_asseids as $profindex=>$eid){
-								  $PAsses=(array)fetchAssessments_short($sid,$eid,$bid,$pid);
-								  if(sizeof($PAsses)>0){
-									  $PAsses=nullCorrect($PAsses);
-									  $ProfileAssessments['Assessment']=array_merge($ProfileAssessments['Assessment'],$PAsses);
-									  }
-								  }
-							  if(sizeof($ProfileAssessments['Assessment'])==0){
-								  $ProfileAssessments['Assessment']=nullCorrect($ProfileAssessments['Assessment']);
-								  }
-							  $Report['ProfileAssessments']=$ProfileAssessments;
-							  }
-						  
-						  $Report['Assessments']=nullCorrect($repasses);
-						  $Report['Comments']=nullCorrect($Comments);
-						  $Reports['Report'][]=nullCorrect($Report);
+				  if(sizeof($Comments)>0 or sizeof($assnos)>0){
+					  $Report=array();
+					  $Report['Course']=array('id'=>''.$reportdef['report']['course_id'], 
+											  'value'=>''.$reportdef['report']['course_name']);
+					  $Report['Subject']=array('id'=>''.$bid, 
+											   'sequence'=>''.$subjectseq,
+											   'value'=>''.$subject['name']);
+					  $Report['Component']=array('id'=>''.$pid, 
+												 'status'=>''.$componentstatus,
+												 'sequence'=>''.$componentseq,
+												 'value'=>''.$componentname);
+					  
+					  $repasses=array();
+					  foreach($assnos as $assno){
+						  $repasses['Assessment'][]=nullCorrect($Assessments[$assno]);
 						  }
-
+						  
+					  /* An additional section if the report is linked to an assessment profile. */
+					  if($profile_name!='' and $profile_name!=' '){
+						  $ProfileAssessments['Assessment']=array();
+						  foreach($profile_asseids as $profindex=>$eid){
+							  $PAsses=(array)fetchAssessments_short($sid,$eid,$bid,$pid);
+							  if(sizeof($PAsses)>0){
+								  $PAsses=nullCorrect($PAsses);
+								  $ProfileAssessments['Assessment']=array_merge($ProfileAssessments['Assessment'],$PAsses);
+								  }
+							  }
+						  if(sizeof($ProfileAssessments['Assessment'])==0){
+							  $ProfileAssessments['Assessment']=nullCorrect($ProfileAssessments['Assessment']);
+							  }
+						  $Report['ProfileAssessments']=$ProfileAssessments;
+						  }
+					  
+					  $Report['Assessments']=nullCorrect($repasses);
+					  $Report['Comments']=nullCorrect($Comments);
+					  $Reports['Report'][]=nullCorrect($Report);
 					  }
 				  }
-				
 				}
 
 			while(list($index,$repsummary)=each($reportdef['summaries'])){
@@ -419,20 +396,19 @@ function fetchReportDefinition($rid,$selbid='%'){
 				if($component['id']!=$subject['id']){
 					$strands=(array)list_subject_components($component['id'],$crid);
 					}
-				else{
-					$strands=array();
-					}
-				$strands=(array)list_subject_components($component['id'],$crid);
+				$strands[]=array('id'=>$component['id'],'name'=>'');
 				$component['strands']=$strands;
 				$report_components[]=$component;
 				}
 			}
 		/* Must always be a blank entry to catch the parent subject itself.*/
 		if(sizeof($report_components)==0){
-			$report_components[]=array('id'=>' ','name'=>'','strands'=>$all_components);
+			//$report_components[]=array('id'=>' ','name'=>'','strands'=>$all_components);
+			$report_components[]=array('id'=>' ','name'=>'','strands'=>array('0'=>array('id'=>' ','name'=>'')));
 			}
 		$subjects[$index0]['pids']=$report_components;
 		}
+
 	$RepDef['bids']=$subjects;
 
 	$d_assessment=mysql_query("SELECT * FROM assessment JOIN
@@ -584,25 +560,32 @@ function fetch_reportdefinition($rid,$selbid='%'){
 		$all_components=(array)list_subject_components($subject['id'],$crid);
 		while(list($index1,$component)=each($all_components)){
 			if(check_component_status($component['status'],$report['component_status'])){
-			/* To avoid a nasty recursion if component and subject have the same id */
+				$strands=array();
+				/* To avoid a nasty recursion if component and subject have the same id */
 				if($component['id']!=$subject['id']){
 					$strands=(array)list_subject_components($component['id'],$crid);
 					}
-				else{
-					$strands=array();
-					}
-				$strands=(array)list_subject_components($component['id'],$crid);
+				//if(sizeof($strands)==0){
+				//$strands=array('0'=>array('id'=>$component['id'],'name'=>''));
+				//}
+				$strands[]=array('id'=>$component['id'],'name'=>'');
 				$component['strands']=$strands;
 				$report_components[]=$component;
 				}
-
 			}
-		/* Must be a blank entry to catch the parent subject itself.*/
+
+		/* A bit self referential. If there are no
+		 * strands for this pid then we still need to
+		 * get everything for this pid on its own. !!!
+		 * Must be a blank entry to catch the parent subject itself.
+		 */
 		if(sizeof($report_components)==0){
-			$report_components[]=array('id'=>' ','name'=>'','strands'=>$all_components);
+			//$report_components[]=array('id'=>' ','name'=>'','strands'=>$all_components);
+			$report_components[]=array('id'=>' ','name'=>'','strands'=>array('0'=>array('id'=>' ','name'=>'')));
 			}
 		$subjects[$index0]['pids']=$report_components;
 		}
+
 	$reportdef['bids']=$subjects;
 
 	$d_assessment=mysql_query("SELECT * FROM assessment JOIN

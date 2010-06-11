@@ -98,7 +98,7 @@ function get_photo($uid, $ldap_host=null, $ldap_rdn=null, $ldap_pass=null, $base
 	$cached_photo=$CFG->installpath.'/images/tmp/'.$uid.'.jpeg';
 	if(file_exists($cached_photo)){
 		$photo=$CFG->siteaddress.$CFG->sitepath.'/images/tmp/'.$uid.'.jpeg';
-		} 
+		}
 	else{
 		if(is_null($ldap_host)){
 		    $ldap_host=$CFG->ldapserver;
