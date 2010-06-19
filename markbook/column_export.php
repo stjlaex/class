@@ -60,8 +60,8 @@ else{
 		for($c2=0;$c2<sizeof($viewtable);$c2++){
 			$csv=array();
 			$csv[]=$viewtable[$c2]['sid'];
-			$csv[]=$viewtable[$c2]['surname'];
-			$csv[]=$viewtable[$c2]['forename'];
+			$csv[]=iconv('UTF-8','ISO-8859-1',$viewtable[$c2]['surname']);
+			$csv[]=iconv('UTF-8','ISO-8859-1',$viewtable[$c2]['forename']);
 			for($c=0;$c<sizeof($checkmids);$c++){
     			$col_mid=$checkmids[$c];
 				$csv[]=$viewtable[$c2]["$col_mid"];
