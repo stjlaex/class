@@ -7,6 +7,7 @@
  */
 
 $languages=array(
+				 'cn' => 'Chinese',
 				 'de' => 'Deutsch',
 				 'en' => 'English',
 				 'es' => 'Espanol',

@@ -76,7 +76,7 @@ $section_perm=get_admin_perm('s',get_uid($tid));
 					   ,'server_test.php' => 'servertest'
 					   /*these are all either very experimental or completely useless!!!!!*/
 					   //,'statementbank.php' => 'statementbank'
-					   //,'demoiser.php' => 'demoiser'
+					   ,'demoiser.php' => 'demoiser'
 					   //,'db_export.php' => 'db'
 					   //,'ztest.php' => 'My test (z)'
 					   

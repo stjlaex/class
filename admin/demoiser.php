@@ -92,23 +92,6 @@ function generate_random_name($gender){
 	   		startdate='2000-01-01', enddate='2000-01-02' WHERE student_id='$id'");
 		}
 
-
-	$table='guardian';
-	$trows=array();
-	$trows=tableRead($table);
-	while (list($index, $row) = each($trows)) {
-		$id=$row['id'];
-		$d_gidsid=mysql_query("SELECT relationship FROM gidsid 
-				WHERE guardian_id='$id'");
-		$rel=mysql_result($d_gidsid,0);
-		if($rel=='PAF'){$gender='M';$title='1';}else{$gender='F';$title='2';}
-		$name=generate_random_name($gender);
-		mysql_query("UPDATE $table SET surname='$name[2]',
-			forename='$name[0]', middlenames='$name[1]', title='$title',
-			profession='', email='', companyname='', nationality='', language='',
-			dob='', epfusername='', note='', code='' WHERE id='$id'");
-		}
-
 	$table='history';
 	$trows=tableClear($table);
 
@@ -158,12 +141,32 @@ function generate_random_name($gender){
 	$trows=tableRead($table);
 	while(list($index, $row)=each($trows)){
 		$id=$row['id'];
-		//if($row['gender']=='M'){$gender='F';}else{$gender='M';};
-		$name=generate_random_name($gender);
+		$name=generate_random_name($row['gender']);
 		mysql_query("UPDATE $table SET surname='$name[2]',
 				forename='$name[0]', middlenames='$name[1]', dob='1998-04-01'
 				WHERE id='$id'");
 		}
+
+
+	$table='guardian';
+	$trows=array();
+	$trows=tableRead($table);
+	while (list($index, $row) = each($trows)) {
+		$id=$row['id'];
+		$d_gidsid=mysql_query("SELECT relationship FROM gidsid 
+				WHERE guardian_id='$id'");
+		$rel=mysql_result($d_gidsid,0);
+		$d_sid=mysql_query("SELECT surname FROM student JOIN gidsid
+				ON gidsid.student_id=student.id WHERE gidsid.guardian_id='$id';");
+		$surname=mysql_result($d_sid,0);
+		if($rel=='PAF'){$gender='M';$title='1';}else{$gender='F';$title='2';}
+		$name=generate_random_name($gender);
+		mysql_query("UPDATE $table SET surname='$surname',
+			forename='$name[0]', middlenames='$name[1]', title='$title',
+			profession='', email='', companyname='', nationality='', language='',
+			dob='', epfusername='', note='', code='' WHERE id='$id'");
+		}
+
 
 	$table='users';
 	$trows=tableRead($table,'logcount','DESC');
@@ -244,7 +247,7 @@ function generate_random_name($gender){
 	deliverycost='0', taxcost='0', discountcost='0', totalcost='0', debitcost='0';");
 
 	$table='reportentry';
-	mysql_query("UPDATE $table SET comment='A constructive comment from a subject teacher.'");
+	mysql_query("UPDATE $table SET comment='A constructive comment from a subject teacher which is for reporting to parents. A constructive comment from a subject teacher which is for reporting to parents. A constructive comment from a subject teacher which is for reporting to parents. A constructive comment from a subject teacher which is for reporting to parents. A constructive comment from a subject teacher which is for reporting to parents. A constructive comment from a subject teacher which is for reporting to parents. A constructive comment from a subject teacher which is for reporting to parents.'");
 
 	$table='score';
 	mysql_query("UPDATE $table SET comment='';");
