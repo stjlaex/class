@@ -255,10 +255,11 @@ if($ds){
 			if($Contacts[$gid]['Surname']['value']!='' and $Contacts[$gid]['Surname']['value']!=' '){
 				$epfusername=$Contacts[$gid]['EPFUsername']['value'];
 				/* Check for any unpleasant mess from utf8 problems. */
-				$pos=strpos('?',$epfusername);
+				$pos=strpos($epfusername,'?)';
 				if($pos!==false){
-					trigger_error('DELETE '.$epfusername,E_USER_WARNING);
-					//ldap_delete($ds,'ou=contact'.',ou=people'.',dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2,"uid=$epfusername");
+					$distinguishedName='uid='.$epfusername.',ou=contact,ou=people'.',dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
+					ldap_delete($ds, $distinguishedName);
+					trigger_error('Deleted nologin user LDAP: '.$distinguishedName, E_USER_WARNING);
 					$epfusername='';
 					}
 				if($epfusername=='' or $epfusername==' '){
@@ -294,7 +295,7 @@ if($ds){
 					$info['mail']=$epfusername;
 					}
 				else{$info['mail']=$Contacts[$gid]['EmailAddress']['value'];}
-				$mail=$info['email'];
+				$mail=$info['mail'];
 				$info['uid']=$epfusername;
 				$info['cn']=$Contacts[$gid]['Forename']['value'] . ' ' . $Contacts[$gid]['Surname']['value'];
 				//$info['givenName']= $Contacts[$gid]['Forename']['value'];//Often blank for contacts so remove
