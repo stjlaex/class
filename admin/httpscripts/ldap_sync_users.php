@@ -255,7 +255,7 @@ if($ds){
 			if($Contacts[$gid]['Surname']['value']!='' and $Contacts[$gid]['Surname']['value']!=' '){
 				$epfusername=$Contacts[$gid]['EPFUsername']['value'];
 				/* Check for any unpleasant mess from utf8 problems. */
-				$pos=strpos($epfusername,'?)';
+				$pos=strpos($epfusername,'?');
 				if($pos!==false){
 					$distinguishedName='uid='.$epfusername.',ou=contact,ou=people'.',dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
 					ldap_delete($ds, $distinguishedName);
@@ -272,6 +272,7 @@ if($ds){
 						if(ldap_count_entries($ds, $sr)>0){
 							$entries=ldap_get_entries($ds, $sr);
 							$epfusername=$entries[0]['uid'][0];
+							mysql_query("UPDATE guardian SET epfusername='$epfusername' WHERE id='$gid';");
 							//trigger_error($mail.' MATCH '.$entries[0]['uid'][0], E_USER_WARNING);
 							$fresh=true;
 							}
@@ -295,7 +296,6 @@ if($ds){
 					$info['mail']=$epfusername;
 					}
 				else{$info['mail']=$Contacts[$gid]['EmailAddress']['value'];}
-				$mail=$info['mail'];
 				$info['uid']=$epfusername;
 				$info['cn']=$Contacts[$gid]['Forename']['value'] . ' ' . $Contacts[$gid]['Surname']['value'];
 				//$info['givenName']= $Contacts[$gid]['Forename']['value'];//Often blank for contacts so remove

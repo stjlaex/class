@@ -8,6 +8,7 @@ $choice='message.php';
 
 /* Normally handled by the host page but this has to work differently depending on the sequence. */
 if(isset($_POST['groupsearch']) and $_POST['groupsearch']=='yes'){
+	$nolist='yes';
 	include('group_search_action.php');
 	}
 elseif(isset($_POST['messageto'])  or isset($_POST['messageop'])){

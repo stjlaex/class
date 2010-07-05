@@ -42,7 +42,7 @@ else{trigger_error('html2ps not configured!',E_USER_ERROR);}
  * The age limit also prevents the queue beng swamped will retries of any failures.
  *
  */
-	$agelimit=30;//in minutes
+	$agelimit=10;//in minutes
 	$d_e=mysql_query("SELECT report_id, student_id FROM report_event 
 					WHERE success='0' AND time + interval $agelimit minute < now() LIMIT 10;");
 	$d_u=mysql_query("UPDATE report_event  SET success='0' 
