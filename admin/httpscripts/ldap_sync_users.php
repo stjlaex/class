@@ -259,7 +259,7 @@ if($ds){
 				if($pos!==false){
 					$distinguishedName='uid='.$epfusername.',ou=contact,ou=people'.',dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
 					ldap_delete($ds, $distinguishedName);
-					trigger_error('Deleted nologin user LDAP: '.$distinguishedName, E_USER_WARNING);
+					trigger_error('Deleted: '.$distinguishedName, E_USER_WARNING);
 					$epfusername='';
 					}
 				if($epfusername=='' or $epfusername==' '){

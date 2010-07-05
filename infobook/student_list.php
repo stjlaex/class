@@ -72,6 +72,10 @@ else{
 	$displayname='DisplayFullName';
 	}
 
+$extrabuttons['exportstudentrecords']=array('name'=>'current',
+											'title'=>'exportstudentrecords',
+											'value'=>'export_students.php');
+
 two_buttonmenu($extrabuttons,$book);
 ?>
 

@@ -216,6 +216,8 @@ CREATE TABLE address (
 	region			varchar(160) not null default '',
 	postcode		varchar(8) not null default '',
 	country			varchar(40) not null default '',
+	lat				decimal(10,6) not null,
+	lng				decimal(10,6) not null,
 	index			index_address (region(5)),
 	primary key (id)
 );");
