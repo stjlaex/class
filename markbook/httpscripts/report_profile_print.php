@@ -30,24 +30,30 @@ if(sizeof($sids)==0){
 	$rootName='Error';
 	}
 else{
-
-
-	$profile=get_assessment_profile($xmlid);
-	$crid=$profile['course_id'];
-	$profilename=$profile['name'];
-	$curryear=get_curriculumyear($crid);
-	$cohort=array('id'=>'','course_id'=>$crid,'stage'=>$stage,'year'=>$curryear);
-	/* Allows for alternative to the profile's default template */
-	if($template!=''){$profile['transform']=$template;}
-	/* Allows a subset of the profile's assessments to be included */
-	if(sizeof($eids)>0){
-		$AssDefs=array();
-		foreach($eids as $eindex => $eid){
-			$AssDefs[]=fetchAssessmentDefinition($eid);
+	if($xmlid==-1){
+		while(list($index,$eid)=each($eids)){
+			$AssDef=fetchAssessmentDefinition($eid);
+			$AssDefs[]=$AssDef;
 			}
 		}
 	else{
-		$AssDefs=(array)fetch_cohortAssessmentDefinitions($cohort,$profile['id']);
+		$profile=get_assessment_profile($xmlid);
+		$crid=$profile['course_id'];
+		$profilename=$profile['name'];
+		$curryear=get_curriculumyear($crid);
+		$cohort=array('id'=>'','course_id'=>$crid,'stage'=>$stage,'year'=>$curryear);
+		/* Allows for alternative to the profile's default template */
+		if($template!=''){$profile['transform']=$template;}
+		/* Allows a subset of the profile's assessments to be included */
+		if(sizeof($eids)>0){
+			$AssDefs=array();
+			foreach($eids as $eindex => $eid){
+				$AssDefs[]=fetchAssessmentDefinition($eid);
+				}
+			}
+		else{
+			$AssDefs=(array)fetch_cohortAssessmentDefinitions($cohort,$profile['id']);
+			}
 		}
 
 

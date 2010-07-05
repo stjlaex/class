@@ -109,11 +109,11 @@ function good_strtolower($value){
 
 
 /**
- *	This takes accented international accented characters - have only bothered
+ *	This takes international accented characters - have only bothered
  *	to cover spanish ones in the list - and transliterates them to
  *	their nearest ascii equivalent, making them safe for email
  *	addresses and urls. Needed for the eportfolio functions.
- *  This can be done with properly:
+ *  This can be done properly with:
  *				 iconv('UTF-8', 'ASCII//TRANSLIT', $surname);
  * But it seems hyper-sensitive to the locales setting on the server
  * and can't be relied on.

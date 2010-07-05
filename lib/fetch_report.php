@@ -162,7 +162,7 @@ function fetchSubjectReports($sid,$reportdefs){
 				   */
 				  $assnos=array();
 				  foreach($component['strands'] as $strand){
-					  trigger_error($bid.' : '.$pid.' : '.$strand['id'],E_USER_WARNING);
+					  //trigger_error($bid.' : '.$pid.' : '.$strand['id'],E_USER_WARNING);
 					  if(isset($assbids[$bid][$strand['id']])){
 						  $assnos=array_merge($assnos,$assbids[$bid][$strand['id']]);
 						  }

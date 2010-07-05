@@ -6,7 +6,7 @@
  *
  */
 
-//$action='group_search_action.php';
+$action='group_search_action.php';
 
 $extrabuttons=array();
 $extrabuttons['message']=array('name'=>'current',
@@ -18,7 +18,7 @@ $extrabuttons['addresslabels']=array('name'=>'current',
 $extrabuttons['exportstudentrecords']=array('name'=>'current',
 											'title'=>'exportstudentrecords',
 											'value'=>'export_students.php');
-two_buttonmenu($extrabuttons,$book);
+three_buttonmenu($extrabuttons,$book);
 ?>
 
   <div id="viewcontent" class="content">
@@ -53,6 +53,7 @@ two_buttonmenu($extrabuttons,$book);
 	  </table>
 	</div>
 
+
 	<div class="right">
 	  <table class="listmenu">
 		<tr>
@@ -66,6 +67,25 @@ two_buttonmenu($extrabuttons,$book);
 ?>
 	  </table>
 	</div>
+
+	  <div class="left">
+	  <table class="listmenu">
+		<tr>
+		  <th><?php print_string('enrolstatus',$book);?></th>
+		</tr>
+<?php
+	$application_steps=array('EN','AP','AT','ATD','RE','CA','WL','ACP','AC');
+	while(list($index,$enrolstatus)=each($application_steps)){
+		print '<tr><td><input type="radio" name="enrolstatus" value="'.$enrolstatus.'">'.get_string(displayEnum($enrolstatus,'enrolstatus'),$book).'</input></td></tr>';
+		}
+?>
+	  </table>
+	</div>
+
+
+
+
+
 
 	  <input type="hidden" name="groupsearch" value="yes" />
 	  <input type="hidden" name="current" value="<?php print $action;?>" />

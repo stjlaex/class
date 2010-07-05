@@ -54,8 +54,8 @@ if($ds){
 		$users=list_all_users();
 		
 		/* process result */
-		$entries=0.0;
-		foreach($users as $uid => $row) {
+		$countno=0;
+		foreach($users as $uid => $row){
 			$info=array();
 			$Newuser=(array)fetchUser($row);
 			$epfusername=$Newuser['EPFUsername']['value'];
@@ -90,7 +90,7 @@ if($ds){
 					}
 				else{
 					/* When the entry exists, LDAP db is updated with values coming from ClaSS */
-					$info=ldap_first_entry($ds, $sr);				
+					$info=ldap_first_entry($ds, $sr);
 					$attrs=ldap_get_attributes($ds, $info);
 
 					/* Prepare data -in LDIF format- for LDAP insertion into DB */
@@ -116,7 +116,7 @@ if($ds){
 							$full_old_dn= $distinguishedName;
 							$new_rdn= 'uid='.$epfusername;
 							$new_superior='ou='.$info['employeeType'].',ou=people'.',dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
-							$ldren=ldap_rename( $ds, $full_old_dn, $new_rdn, $new_superior, TRUE);					
+							$ldren=ldap_rename($ds, $full_old_dn, $new_rdn, $new_superior, TRUE);					
 							}
 						} 
 					else{
@@ -150,9 +150,9 @@ if($ds){
 					}
 				}
 			/* entry counter */
-			$entries++;
+			$countno++;
 			}
-		trigger_error('Step 1: '.$entries.' User entries have been processed', E_USER_NOTICE);
+		trigger_error('Step 1: '.$countno.' User entries have been processed', E_USER_NOTICE);
 
 
 		/**
@@ -160,9 +160,9 @@ if($ds){
 		 *
 		 */
 		$yearcoms=(array)list_communities('year');
-		$yearcoms=array();
+		//$yearcoms=array();
 		$Students=array();
-		$entries=0.0;
+		$countno=0;
 		while(list($yearindex,$com)=each($yearcoms)){
 			$yid=$com['name'];
 			$students=listin_community($com);
@@ -230,10 +230,10 @@ if($ds){
 						}
 					}
 				/* entry counter */
-				$entries++;
+				$countno++;
 				}
 			}
-		trigger_error('Step 2: '.$entries.' Student entries have been processed', E_USER_NOTICE);
+		trigger_error('Step 2: '.$countno.' Student entries have been processed', E_USER_NOTICE);
 
 
 		/**
@@ -245,20 +245,39 @@ if($ds){
 		 */
 
 		$Contacts=array();
-		$entries=0;
+		$countno=0;
 		$d_c=mysql_query("SELECT DISTINCT guardian_id FROM gidsid JOIN
    					student ON gidsid.student_id=student.id 
    					WHERE gidsid.mailing!='0';");
 		while($contact=mysql_fetch_array($d_c,MYSQL_ASSOC)){
 			$gid=$contact['guardian_id'];
 			$Contacts[$gid]=fetchContact(array('guardian_id'=>$gid));
-			
 			if($Contacts[$gid]['Surname']['value']!='' and $Contacts[$gid]['Surname']['value']!=' '){
-				/* Search for entry in LDAP */
 				$epfusername=$Contacts[$gid]['EPFUsername']['value'];
+				/* Check for any unpleasant mess from utf8 problems. */
+				$pos=strpos($epfusername,'?');
+				if($pos!==false){
+					$distinguishedName='uid='.$epfusername.',ou=contact,ou=people'.',dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
+					ldap_delete($ds, $distinguishedName);
+					trigger_error('Deleted: '.$distinguishedName, E_USER_WARNING);
+					$epfusername='';
+					}
 				if($epfusername=='' or $epfusername==' '){
 					/* Treat as a completely new entry. */
 					$fresh=false;
+					/* First check by email for this person in LDAP already.*/
+					$mail=$Contacts[$gid]['EmailAddress']['value'];
+					if($mail!='' and $mail!=' '){
+						$sr=ldap_search($ds,'ou=contact'.',ou=people'.',dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2,"mail=$mail",array('uid','mail'));
+						if(ldap_count_entries($ds, $sr)>0){
+							$entries=ldap_get_entries($ds, $sr);
+							$epfusername=$entries[0]['uid'][0];
+							mysql_query("UPDATE guardian SET epfusername='$epfusername' WHERE id='$gid';");
+							//trigger_error($mail.' MATCH '.$entries[0]['uid'][0], E_USER_WARNING);
+							$fresh=true;
+							}
+						}
+
 					while(!($fresh)){
 						$epfusername=generate_epfusername($Contacts[$gid],$type='guardian');//TODO: change type to contact too
 						$sr=ldap_search($ds,'ou=contact'.',ou=people'.',dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2,"uid=$epfusername");
@@ -267,27 +286,27 @@ if($ds){
 						}
 					}
 				else{
-					/* Should already be in LDAP. */
+					/* Should already be in LDAP so search for entry in LDAP */
 					$sr=ldap_search($ds,'ou=contact'.',ou=people'.',dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2,"uid=$epfusername");
 					}
 
 				/* Prepare data -in LDIF format- for LDAP field replacement */
 				$info=array();
-				$info['uid']=$epfusername;
-				$info['cn']=$Contacts[$gid]['Forename']['value'] . ' ' . $Contacts[$gid]['Surname']['value'];
-				//$info['givenName']= $Contacts[$gid]['Forename']['value'];//Often blank for contacts so remove
-				$info['sn']=$Contacts[$gid]['Surname']['value'];
 				if($Contacts[$gid]['EmailAddress']['value']=='' or $Contacts[$gid]['EmailAddress']['value']==' '){
 					$info['mail']=$epfusername;
 					}
 				else{$info['mail']=$Contacts[$gid]['EmailAddress']['value'];}
-				$info['ou']='contact'; 
+				$info['uid']=$epfusername;
+				$info['cn']=$Contacts[$gid]['Forename']['value'] . ' ' . $Contacts[$gid]['Surname']['value'];
+				//$info['givenName']= $Contacts[$gid]['Forename']['value'];//Often blank for contacts so remove
+				$info['sn']=$Contacts[$gid]['Surname']['value'];
+				$info['ou']='contact';
 				$info['objectclass']='inetOrgPerson';
 				$distinguishedName="uid=$epfusername".',ou=contact'.',ou=people'.',dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
 				/* When the entry exists, LDAP db is updated with values coming from ClaSS */
 				if(ldap_count_entries($ds, $sr)>0){
 
-					trigger_error($counter.' MODIFY '.$gid.' '.$Contacts[$gid]['EPFUsername']['value'], E_USER_WARNING);
+					//trigger_error($countno.' MODIFY '.$gid.' '.$Contacts[$gid]['EPFUsername']['value'], E_USER_WARNING);
 				
 					/* modify the data in ldap directory */
 					$r=ldap_modify($ds, $distinguishedName, $info);
@@ -305,11 +324,11 @@ if($ds){
 						}
 					}
 				/* entry counter */
-				$entries++;
+				$countno++;
 				}
 			}
 
-		trigger_error('Step 3: '.$entries.' Contact entries have been processed', E_USER_NOTICE);
+		trigger_error('Step 3: '.$countno.' Contact entries have been processed', E_USER_NOTICE);
 
 		ldap_close($ds);
 		}

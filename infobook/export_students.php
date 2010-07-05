@@ -7,6 +7,12 @@ $action='student_list.php';
 
 if(isset($_POST['sids'])){$sids=(array)$_POST['sids'];}else{$sids=array();}
 
+$displayfields=array();
+for($dindex=0; $dindex < ($_POST['colno']); $dindex++){
+	if(isset($_POST['displayfield'.$dindex])){$displayfields[$dindex]=$_POST['displayfield'.$dindex];}
+}
+require_once 'Spreadsheet/Excel/Writer.php';
+
 include('scripts/sub_action.php');
 
 if(sizeof($sids)==0){
@@ -16,93 +22,77 @@ if(sizeof($sids)==0){
 		exit;
 		}
 
-  	$file=fopen('/tmp/class_export.csv', 'w');
+
+
+  	$file='/tmp/class_export.xls';
+	$workbook = new Spreadsheet_Excel_Writer($file);
+	$format_hdr_bold =& $workbook->addFormat(array('Size' => 11,
+		                                  'Align' => 'center',
+		                                  'Color' => 'white',
+		                                  'Pattern' => 1,
+		                                  'Bold' => 1,
+		                                  'FgColor' => 'gray'));
+	$format_line_bold =& $workbook->addFormat(array('Size' => 10,
+		                                  'Align' => 'center',
+		                                  'Bold' => 1
+		                                  ));
+	$format_line_normal =& $workbook->addFormat(array('Size' => 10,
+		                                  'Align' => 'center',
+		                                  'Bold' => 0
+		                                  ));
+	$worksheet =& $workbook->addWorksheet('Export_Students');
+  	
+  	
 	if(!$file){
 		$error[]='unabletoopenfileforwriting';
 		}
 	else{
-
-		/*first do the column headers*/
-		$csv=array();
-		$Student=fetchStudent();
-		$Contact=fetchContact();
-		$Address_blank=fetchAddress();
-
-		$csv[]='student_id_db';
-		while(list($tagname,$field)=each($Student)){
-			if(is_array($field) and isset($field['value'])){$csv[]=$field['label'];}
+		$worksheet->write(0, 0, 'Enrolment No.', $format_hdr_bold);
+		$worksheet->write(0, 1, 'Surname', $format_hdr_bold);
+		$worksheet->write(0, 2, 'Forename', $format_hdr_bold);
+		for($colno=0;$colno<$_POST['colno'];$colno++){
+			$dspfld='displayfield'.$colno;
+			$worksheet->write(0, $colno+3, $_POST[$dspfld], $format_hdr_bold);
 			}
-		for($c=0;$c<4;$c++){
-			reset($Contact);
-			reset($Address_blank);
-			$csv[]='';
-			$csv[]='contact_id_db';
-			while(list($tagname,$field)=each($Contact)){
-				if(is_array($field) and isset($field['value'])){$csv[]=$field['label'];}
-				}
-			while(list($tagname,$field)=each($Address_blank)){
-				if(is_array($field) and isset($field['value'])){$csv[]=$field['label'];}
-				}
-			}
-
-		file_putcsv($file,$csv);
 
 		/*cycle through the student rows*/
+		$rown=1;
 		while(list($index,$sid)=each($sids)){
-			$csv=array();
-			$Student=fetchStudent($sid);
-			$Contacts=$Student['Contacts'];
+			$Student=fetchStudent_short($sid);
+			$worksheet->write($rown, 0, $sid, $format_line_bold);
+			$worksheet->write($rown, 1, iconv('UTF-8','ISO-8859-1',$Student['Surname']['value']), $format_line_bold);
+			$worksheet->write($rown, 2, iconv('UTF-8','ISO-8859-1',$Student['Forename']['value']), $format_line_bold);
 
-			$csv[]=$sid;
-			while(list($tagname,$field)=each($Student)){
-				if(is_array($field) and isset($field['value'])){
-					if($field['type_db']=='enum'){
-						if($field['value']!='NOT'){
-							$csv[]=displayEnum($field['value'],$field['field_db']);
-							}
-						else{$csv[]='';}
-						}
-					else{$csv[]=$field['value'];}
+			$col=3;
+			reset($displayfields);
+			while(list($index,$displayfield)=each($displayfields)){
+				if(!array_key_exists($displayfield,$Student)){
+					$field=fetchStudent_singlefield($sid,$displayfield);
+					$Student=array_merge($Student,$field);
 					}
-				}
-			while(list($index,$Contact)=each($Contacts)){
-				$csv[]='';
-				$csv[]=$Contact['id_db'];
-				while(list($tagname,$field)=each($Contact)){
-					if(is_array($field) and isset($field['value'])){
-						if(isset($field['type_db']) and $field['type_db']=='enum'){
-							if($field['value']!='NOT'){
-								$csv[]=displayEnum($field['value'],$field['field_db']);
-								}
-							else{$csv[]='';}
-							}
-						else{$csv[]=$field['value'];}
-						}
+				if(isset($Student[$displayfield]['type_db'])  
+				   and $Student[$displayfield]['type_db']=='enum'){
+					$displayout=displayEnum($Student[$displayfield]['value'],$Student[$displayfield]['field_db']);
+					$displayout=get_string($displayout,$book);
 					}
-				if(is_array($Contact['Addresses']) & sizeof($Contact['Addresses'][0])>1){
-					$Address=$Contact['Addresses'][0];
+				elseif(isset($Student[$displayfield]['type_db'])  
+					   and $Student[$displayfield]['type_db']=='date'){
+					$displayout=display_date($Student[$displayfield]['value']);
 					}
 				else{
-					$Address=$Address_blank;
-					}		
-				while(list($tagname,$field)=each($Address)){
-					if(is_array($field) and isset($field['value'])){
-						if($field['type_db']=='enum'){
-							if($field['value']!='NOT'){
-								$csv[]=displayEnum($field['value'],$field['field_db']);
-								}
-							else{$csv[]='';}
-							}
-						else{$csv[]=$field['value'];}
-						}
+					$displayout=$Student[$displayfield]['value'];
 					}
+				$worksheet->write($rown, $col, $displayout, $format_line_normal);
+				$col++;
 				}
-			file_putcsv($file,$csv);
+			$rown++;
 			}
-	   	fclose($file);
+
+		/*send the workbook with the spreadsheet and close it*/ 
+		$workbook->close();
 		$result[]='exportedtofile';
 ?>
-		<script>openFileExport('csv');</script>
+		<script>openFileExport('xls');</script>
 <?php
 		}
 

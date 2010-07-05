@@ -53,7 +53,7 @@ if(!isset($ARGS['option'])){
 	 * Run nightly only
 	 */
 	$latehour=date('H',$starttime);
-	if($latehour>0 and $latehour<6){
+	if($latehour>0 and $latehour<19){
 		/* Generate PDFs of reports queued for publication */
 		$cmd='/usr/bin/php '.$fullpath.'/reportbook/httpscripts/eportfolio_reports_publish.php --path='.$CFG->installpath;
 		exec("$cmd > /dev/null &");

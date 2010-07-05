@@ -1,3 +1,14 @@
+Version ClaSS-0.9.22 release (2010/7/05)
+-----------------------------------------
+
+Made enrolment status an option on the group_search page.
+
+New export from InfoBook which takes displayed columns and writes
+straight to xls format.
+
+Added latitude and longitude fields to address table (apply the patch!!).
+
+
 Version ClaSS-0.9.21 release (2010/6/10)
 -----------------------------------------
 
@@ -18,6 +29,10 @@ Added category option to editing report wrappers. Fixed bug with
 wrapper form for slection boxes.
 
 Simple js function to highlight suroudning div of checked radio box.
+
+Improved ldap_sync_users so it first checks ldap for existing entry
+with matching email address before generating epfusername.
+
 
 
 Version ClaSS-0.9.20 release (2010/5/12)

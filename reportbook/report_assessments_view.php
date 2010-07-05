@@ -362,14 +362,19 @@ $students=array();
 
 		<div id="xml-checked-action" style="display:none;">
 <?php 
-$profile['bid']='';
+$profile['name']='blank';
+$profile['course_id']='';
+$profile['subject_id']='%';
+$profile['component_status']='All';
+$profile['rating_name']='average';
+$profile['bid']='%';
 $profile['eids']=(array)$eids;
 if($profile['crid']=='FS'){
-	$profile['bid']='EY';
+        $profile['bid']='EY';
 	}
 if($template!=''){
-	$profile['template']=$template;
-	}
+        $profile['transform']=$template;
+        }
 //$profile['stage']=$stage;
 $profile['pid']='';
 $profile['stage']='R';
