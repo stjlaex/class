@@ -68,6 +68,11 @@ elseif($ARGS['option']=='ldapsync'){
 	$cmd='/usr/bin/php '.$fullpath.'/admin/httpscripts/ldap_sync_users.php --path='.$CFG->installpath;
 	exec("$cmd > /dev/null &");
 	}
+elseif($ARGS['option']=='dbsync'){
+	/* Synchronise students, staff and contacts with LDAP */
+	$cmd='/usr/bin/php '.$fullpath.'/admin/httpscripts/db_sync_users.php --path='.$CFG->installpath;
+	exec("$cmd > /dev/null &");
+	}
 elseif($ARGS['option']=='epfsync'){
 	/* Update accounts for contacts in the ClaSSIC database */
 	$cmd='/usr/bin/php '.$CFG->installpath.'/'.$CFG->applicationdirectory.'/admin/httpscripts/eportfolio_sync_users.php --path='.$CFG->installpath;
