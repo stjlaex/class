@@ -8,6 +8,12 @@ straight to xls format.
 
 Added latitude and longitude fields to address table (apply the patch!!).
 
+A new cron script which works as an alternative to ldap for generating
+epfusernames.
+
+Fixed order_action when enacting a delivery; the cancel does not now
+cause a blank invoice.
+
 
 Version ClaSS-0.9.21 release (2010/6/10)
 -----------------------------------------

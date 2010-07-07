@@ -6,7 +6,6 @@ $action='new_invoice_action.php';
 
 $ordid=$_POST['ordid'];
 $budid=$_POST['budid'];
-$entryn=$_POST['entryn'];
 
 three_buttonmenu();
 
@@ -44,7 +43,6 @@ $Invoice['Currency']['value']=$Order['Currency']['value'];
 	  </div>
 
 		<input type="hidden" name="ordid" value="<?php print $ordid;?>" />
-		<input type="hidden" name="entryn" value="<?php print $entryn;?>" />
 		<input type="hidden" name="budid" value="<?php print $budid;?>" />
 		<input type="hidden" name="current" value="<?php print $action;?>">
 		<input type="hidden" name="cancel" value="<?php print $choice;?>">
