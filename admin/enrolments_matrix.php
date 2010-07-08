@@ -14,7 +14,7 @@ require_once('lib/curl_calls.php');
 /* Default to displaying enrolment for next curriculum year. */
 $currentyear=get_curriculumyear();
 if(isset($_POST['enrolyear']) and $_POST['enrolyear']!=''){$enrolyear=$_POST['enrolyear'];}
-else{$enrolyear=$currentyear;}
+else{$enrolyear=$currentyear+1;}
 
 $extrabuttons=array();
 twoplus_buttonmenu($enrolyear,$currentyear+3,$extrabuttons,$book);
