@@ -70,10 +70,10 @@ elseif($sub=='process'){
 	$orderaction=6;
 	}
 
-if(isset($orderaction)){
+if(isset($orderaction) and $orderaction!=3){
 	mysql_query("INSERT INTO orderaction SET order_id='$ordid',
 		detail='$detail', actiondate='$todate', 
-		action='$orderaction', teacher_id='$tid'");
+		action='$orderaction', teacher_id='$tid';");
 	$entryn=mysql_insert_id();
 	}
 elseif($sub=='reopen'){
@@ -81,6 +81,5 @@ elseif($sub=='reopen'){
 	}
 
 
-//include('scripts/results.php');
 include('scripts/redirect.php');
 ?>
