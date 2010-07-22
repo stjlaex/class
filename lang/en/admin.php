@@ -212,5 +212,6 @@ $string['subbudget']='Sub-Budget';
 $string['creditnote']='Credit note';
 $string['reopen']='Reopen';
 $string['specialadminpermissions']='Special access permissions';
+$string['transport']='Transport';
 $string['']='';
 ?>

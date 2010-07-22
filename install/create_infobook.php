@@ -233,25 +233,6 @@ CREATE TABLE phone (
 );");
 
 mysql_query("
-CREATE TABLE transport (
-	id				smallint unsigned auto_increment, 
-	name			varchar(30) not null default '', 
-    details			varchar(240) not null default '',
-	capacity		smallint unsigned not null default 0,
-	teacher_id		varchar(14) not null default '',
-	primary key  	(id)
-);");
-
-mysql_query("
-CREATE TABLE transportstop (
-	id				smallint unsigned auto_increment, 
-	transport_id	smallint not null default 0, 
-	name			varchar(30) not null default '', 
-    details			varchar(240) not null default '',
-	primary key  	(id)
-);");
-
-mysql_query("
 CREATE TABLE message_event (
   id bigint(20) NOT NULL default '0',
   create_time datetime NOT NULL default '0000-00-00 00:00:00',
@@ -269,23 +250,7 @@ CREATE TABLE message_event (
   KEY time_to_send (time_to_send),
   KEY id_user (id_user)
 );");
-/*
-mysql_query("
-CREATE TABLE message_event (
-	id				int unsigned not null auto_increment,
-	personid		int unsigned not null default '0',
-	persontype 		enum('','u','s','g') not null default '',
-	email			varchar(240) not null default '',
-	phonenumber		varchar(22) not null default '',
-	messagesubject 	text not null default '',
-	messagebody 	text not null default '',
-	date			date not null default '0000-00-00',
-	success			enum('0', '1') not null default '0',
-	time			timestamp(14),
-	index 			index_person (personid,persontype),
-	primary key 	(id)
-);");
-*/
+
 mysql_query("
 CREATE TABLE merits (
 	id				int unsigned not null auto_increment, 

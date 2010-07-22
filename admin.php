@@ -9,6 +9,7 @@ $book='admin';
 include('scripts/head_options.php');
 include('scripts/set_book_vars.php');
 include('lib/fetch_order.php');
+include('lib/fetch_transport.php');
 
 
 $rtid=$tid;
@@ -34,6 +35,7 @@ $section_perm=get_admin_perm('s',get_uid($tid));
 				   );
 	if($_SESSION['role']=='admin' or $_SESSION['role']=='office'  
 	   or $_SESSION['role']=='district' or $section_perm==1){
+		$choices['transport.php']='transport';
 		$choices['enrolments_matrix.php']='enrolments';
 		//$choices['accomodation_matrix.php']='accomodation';
 		}

@@ -1407,7 +1407,7 @@ function array_filter_fields($startarray,$fields){
 /**
  * Send an email (with attachments)
  *
- * Originally from moodlelib but and altered for ClaSS. Now works only
+ * Originally from moodlelib and altered for ClaSS. Now works only
  * with PEAR Mail of libphpmailer (the former is recommended for among
  * other things its queing of messages). Set $CFG -> emailsys to specify.
  *
