@@ -5,6 +5,15 @@ New installation script for the transport book tables.
 
 Start on adding transport scripts to admin.
 
+Removed configure access to budgets for administrators (use special
+admin permissions instead).
+
+Added tiny_mce package under lib. Included an init to onload js
+function for textareas with class="htmleditorarea".
+
+Changed the message script to use tiny_mce when emailing.
+
+Improved send_email_to function so it can handle html for pearmail.
 
 
 Version ClaSS-0.9.22 release (2010/7/05)

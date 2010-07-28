@@ -249,9 +249,8 @@ three_buttonmenu();
 	  <div class="center">
 		<label for="messagebody"><?php print_string('message',$book);?></label>
 		<textarea  tabindex="<?php print $tab++;?>" name="messagebody" 
-		cols="78" rows="12" class="required" id="messagebody"></textarea>
+		cols="78" rows="12" class="<?php if($messageop=='sms'){print 'required';}else{print 'htmleditorarea';}?>" id="messagebody"></textarea>
 	  </div>
-
 
 
 

@@ -194,7 +194,8 @@ function clean_text($value){
 	/*blanks possible dodgy sql injection attempt*/
 	$search=array('SELECT ','INSERT ','DELETE ','DROP ');
 	$value=str_replace($search,'',$value);
-	$search=array(' * ','<','>');
+	//$search=array(' * ','<','>');
+	$search=array(' * ');
 	$value=str_replace($search,'',$value);
 	//   	$value=eregi_replace('[^-.?,!;()+:[:digit:][:space:][:alpha:]]','', $value);
 	$value=addslashes($value);
@@ -1529,7 +1530,7 @@ function send_email_to($recipient, $from, $subject, $messagetext, $messagehtml='
 		 * for the cronjob to send it at a later stage
 		 * 
 		 */
-	   	require_once "Mail/Queue.php";
+		require_once "Mail/Queue.php";
 		require_once 'Mail/mime.php';
 
 		$db_options['type']='db';
@@ -1561,7 +1562,12 @@ function send_email_to($recipient, $from, $subject, $messagetext, $messagehtml='
 
 		/* we use Mail_mime() to construct a valid mail */
 		$mime =& new Mail_mime();
-		$mime->setTXTBody($messagetext);
+		if($messagehtml!=''){
+			$mime->setHTMLBody($messagehtml);
+			}
+		else{
+			$mime->setTXTBody($messagetext);
+			}
 
 		if(is_array($attachments)){
 			while(list($index,$attachment)=each($attachments)){
@@ -1571,7 +1577,7 @@ function send_email_to($recipient, $from, $subject, $messagetext, $messagehtml='
 				}
 			}
 
-		/* next sentence has to be written after 'setTXTBody' and 'addAttachment' */
+		/* next sentence has to be written after everything else */
 		$body = $mime->get();
 		$hdrs = $mime->headers($hdrs);
 

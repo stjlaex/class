@@ -770,6 +770,20 @@ function loadRequired(){
 				parent.selerySwitch(switcherId,elementObject.value);
 				elementObject.setAttribute("onChange","selerySwitch('"+switcherId+"',this.value)");
 				}
+			else if(elementObject.className=="htmleditorarea"){
+				/*prepares textareas with tinyMCE */
+				  tinyMCE.init({
+					mode : "textareas",
+					theme : "advanced",
+					theme_advanced_buttons1 : "bold,italic,underline,separator,justifyleft,justifycenter,justifyright,justifyfull,separator,bullist,numlist,undo,redo", 
+					theme_advanced_buttons2 : "",
+					theme_advanced_buttons3 : "",
+					theme_advanced_toolbar_location : "top",
+					theme_advanced_toolbar_align : "left",
+					theme_advanced_statusbar_location : "bottom",
+					plugins : 'inlinepopups'
+					});
+				  }
 
 			// add event handlers to the checkbox input elements
 			if(elementObject.getAttribute("type")=="checkbox" && elementObject.name=="sids[]"){
@@ -815,7 +829,6 @@ function loadRequired(){
 	if(document.getElementById("sidtable")){
 		sidtableInit();
 		}
-
 
 	/*give focus to the tab=1 form element if this is a form*/
 	/*should always be last!*/

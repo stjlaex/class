@@ -765,7 +765,7 @@ function get_budget_perms($budid){
 	 * can do everything except for authorise an order and configure
 	 * the budget
 	 */
-	if($_SESSION['role']=='admin' or $aperm==1){$perms['r']=1;$perms['w']=1;$perms['x']=1;}
+	if($_SESSION['role']=='admin' or $aperm==1){$perms['r']=1;$perms['w']=1;}
 	if($_SESSION['role']=='office'){$perms['r']=1;$perms['w']=1;}
 	return $perms;
 	}

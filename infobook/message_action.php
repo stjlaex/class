@@ -74,7 +74,7 @@ if($sub=='Submit' and $recipients and sizeof($recipients)>0 and !isset($error)){
 			$message.="\r\n".$messagebody;		
 			$message=utf8_to_ascii($message);
 
-			$email_result=send_email_to($recipient['email'],$fromaddress,$messagesubject,$message,'',$attachments);
+			$email_result=send_email_to($recipient['email'],$fromaddress,$messagesubject,'',$message,$attachments);
 
 			if($email_result){$sentno++;}
 			else{$failno++;}
