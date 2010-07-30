@@ -1,8 +1,8 @@
 ALTER TABLE address ADD lat DECIMAL(10,6) not null AFTER country;
 ALTER TABLE address ADD lng DECIMAL(10,6) not null AFTER lat;
 ALTER TABLE community CHANGE type type enum('','academic','family','form','year','tutor','alumni','enquired','applied','accepted','trip','reg','transport','extra','house','accomodation') not null default '';
-DROP TABLE trasnport;
-DROP TABLE trasnport_stop;
+DROP TABLE transport;
+DROP TABLE transportstop;
 
 CREATE TABLE transport_bus (
 	id				smallint unsigned auto_increment,

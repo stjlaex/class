@@ -788,6 +788,9 @@ function getEnumArray($field_name){
 				  'march', '4'=>'april', '5'=>'may', '6'=>'june', 
 				  '7'=>'july', '8'=>'august', '9'=>'september', 
 				  'a'=>'october', 'b'=>'november', 'c'=>'december');
+	$dayofweek=array('1'=>'monday', '2'=>'tuesday', '3' =>
+				  'wednesday', '4'=>'thursday', '5'=>'friday', '6'=>'saturday', 
+				  '7'=>'sunday');
 
 	/*for the sen table*/
 	$senprovision=array('N'=>'notonregister', 

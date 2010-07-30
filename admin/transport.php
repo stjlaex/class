@@ -1,5 +1,5 @@
 <?php 
-/**								  		transport.php
+/**									transport.php
  *
  * This is the entry page to the Order book - it lives within Admin
  * but has its own lib/fetch_orders.php functions and is essentialy a
@@ -32,16 +32,16 @@ two_buttonmenu($extrabuttons,$book);
 	</form>
 
 	<fieldset class="center divgroup" id="viewcontent">
-	  <legend><?php print get_string('buses',$book);?></legend>
+	  <legend><?php print_string('transport',$book);?></legend>
 
 <?php
 		$busnames=list_busnames();
 
 		foreach($busnames as $index => $busname){
 ?>
-	<div class="left">
+	<div style="float:left;width:24%;margin:2px;">
 	  <table class="listmenu smalltable">
-		<tr class="<?php print $rowclass;?>" >
+		<tr>
 		  <td>
 <?php
 				print '<a  href="admin.php?current=transport_list.php&cancel='.$choice.'&choice='.$choice.'&busname='.$busname['name'].'">'.$busname['name'].'</a>';
@@ -55,6 +55,34 @@ two_buttonmenu($extrabuttons,$book);
 <?php
 			}
 ?>
-
 	</fieldset>
+
+
+	<fieldset class="center divgroup" id="viewcontent">
+	  <legend><?php print get_string('formgroups',$book);?></legend>
+
+<?php
+		$forms=list_formgroups();
+
+		foreach($forms as $index => $form){
+?>
+	<div style="float:left;width:24%;margin:2px;">
+	  <table class="listmenu smalltable">
+		<tr>
+		  <td>
+<?php
+				print '<a  href="admin.php?current=transport_list.php&cancel='.$choice.'&choice='.$choice.'&fid='.$form['id'].'">'.$form['name'].'</a>';
+?>
+		  </td>
+		  <td></td>
+		  <td></td>
+		</tr>
+	  </table>
+	</div>
+<?php
+			}
+?>
+	</fieldset>
+
+
   </div>
