@@ -192,7 +192,7 @@ function update_community($community,$communityfresh=array('id'=>'','type'=>'','
 
 
 /* 
- * Lists all sids who are current members of a commmunity
+ * Lists all sids who are current members of both commmunities
  *
  *	@param array $community1
  *	@param array $community2
@@ -426,6 +426,7 @@ function countin_community_gender($community,$gender='M',$enddate='',$startdate=
 /**
  *
  * Returns all communities to which a student is currently enrolled
+ * Filter for community id, name or type optional
  *
  *	@param integer $sid
  *	@param array $community 

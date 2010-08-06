@@ -295,19 +295,22 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 			<?php print_string('subjectreports'); ?>
 		  </a>
 		</fieldset>
-		
-		<fieldset class="right">
-		  <legend>
-			<a href="infobook.php?current=exclusions_list.php&cancel=student_view.php">
-			  <img class="clicktoedit" title="<?php print_string('edit');?>" />
-				<?php print_string('exclusions',$book);?>
-			</a>
-		  </legend>
-<?php	
-		if(array_key_exists(0,$Student['Exclusions'])){print_string('infoavailable',$book);}
-		else{print_string('noinfo',$book);}
+
+	  <fieldset class="right">
+		<legend>
+		  <a href="infobook.php?current=student_view_enrolment.php&cancel=student_view.php">
+			<img class="clicktoedit" title="<?php print_string('edit');?>" />
+			<?php print_string('enrolment','admin');?>
+		  </a>
+		</legend>
+		<div>
+<?php 
+
+	print '<label>'.get_string('status','admin').'</label> '. 
+		  get_string(displayEnum($Student['EnrolmentStatus']['value'],$Student['EnrolmentStatus']['field_db']),$book);
 ?>
-		</fieldset>
+		</div>
+	  </fieldset>
 	  </div>
 	  <div class="left">
 		<fieldset class="left">
@@ -354,21 +357,31 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 ?>
 		</fieldset>
 
-	  <fieldset class="right">
-		<legend>
-		  <a href="infobook.php?current=student_view_enrolment.php&cancel=student_view.php">
-			<img class="clicktoedit" title="<?php print_string('edit');?>" />
-			<?php print_string('enrolment','admin');?>
-		  </a>
-		</legend>
-		<div>
-<?php 
-
-	print '<label>'.get_string('status','admin').'</label> '. 
-		  get_string(displayEnum($Student['EnrolmentStatus']['value'],$Student['EnrolmentStatus']['field_db']),$book);
+		
+		<fieldset class="right">
+		  <legend>
+			<a href="infobook.php?current=student_transport.php&cancel=student_view.php">
+			  <img class="clicktoedit" title="<?php print_string('edit');?>" />
+				<?php print_string('transport','admin');?>
+			</a>
+		  </legend>
+		  <div>&nbsp;</div>
+		</fieldset>
+<?php
+/*		<fieldset class="right">
+//		  <legend>
+//			<a href="infobook.php?current=exclusions_list.php&cancel=student_view.php">
+//			  <img class="clicktoedit" title="<?php print_string('edit');?>" />
+//				<?php print_string('exclusions',$book);?>
+//			</a>
+//		  </legend>
+//	
+//		if(array_key_exists(0,$Student['Exclusions'])){print_string('infoavailable',$book);}
+//		else{print_string('noinfo',$book);}
+//
+//		</fieldset>
+*/
 ?>
-		</div>
-	  </fieldset>
   </div>
 
 

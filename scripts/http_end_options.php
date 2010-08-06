@@ -5,6 +5,12 @@
 	while(list($index,$out)=each($error)){
 		error_log($out,0,$CFG->serverlog);
 		}
- 	header('Content-Type: text/xml'); 
-	xmlechoer("$rootName",$returnXML);
+	if(isset($returnXML)){
+		header('Content-Type: text/xml'); 
+		xmlechoer("$rootName",$returnXML);
+		}
+	else{
+		header('Content-Type: text/plain'); 
+		echo $returnText;
+		}
 ?>

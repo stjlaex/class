@@ -440,6 +440,9 @@ img.clicktohelp {
     border:0;
     position:absolute;
 	}
+.clicktoaction div { 
+	cursor:pointer;
+	}
 
 /*a generic content table, usually for selecting things from a list*/
 table.listmenu {

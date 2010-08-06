@@ -89,7 +89,8 @@ if($_SESSION['role']=='office' or $_SESSION['role']=='admin' or $_SESSION['role'
 		</div>
 	  </fieldset>
 
-	  <fieldset class="infobook">
+	  <fieldset class="infobo
+ok">
 		<legend><?php print_string('studentsearch');?></legend>
 		<select class="switcher" type="text" id="student" 
 		  onChange="selerySwitch('student',this.value)" 
@@ -141,11 +142,11 @@ if($_SESSION['role']=='office' or $_SESSION['role']=='admin' or $_SESSION['role'
 	  <input type="hidden" name="current" value="<?php print $action;?>"/>
    	</form>
 
-   	<div id="switchcontactsurname" class="hidden">
+		<div id="switchcontactsurname" class="hidden">
 		  <input tabindex="<?php print $tab++;?>" 
 			type="text" id="Contactsurname" name="contactsurname" value="" maxlength="30"/>
 		</div>
-		<div id="switchcontactcountry" style="visibility:hidden;" class="hidden">
+		<div id="switchcontactcountry" class="hidden">
 <?php 
 	    $listname='contactcountry';$listlabel='';$listfilter='address';
 		include('scripts/set_list_vars.php');
@@ -175,5 +176,4 @@ if($_SESSION['role']=='office' or $_SESSION['role']=='admin' or $_SESSION['role'
 ?>
 		</div>
   </div>
-
 

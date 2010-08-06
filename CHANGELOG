@@ -3,7 +3,9 @@ Version ClaSS-0.9.23 release (2010/8/05)
 
 New installation script for the transport book tables.
 
-Start on adding transport scripts to admin.
+Start on adding transport scripts to Admin.
+
+New student_transport link in InfoBook.
 
 Removed configure access to budgets for administrators (use special
 admin permissions instead).
@@ -14,6 +16,8 @@ function for textareas with class="htmleditorarea".
 Changed the message script to use tiny_mce when emailing.
 
 Improved send_email_to function so it can handle html for pearmail.
+
+Improved js loadRequired function so it better handles clas names.
 
 
 Version ClaSS-0.9.22 release (2010/7/05)

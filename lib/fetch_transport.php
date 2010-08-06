@@ -1,65 +1,104 @@
 <?php	
-/**	   							 lib/fetch_order.php
+/**								 lib/fetch_transport.php
  *
  *	@package	ClaSS
  *	@author		stj@laex.org
- *	@copyright	S T Johnson 2004-2008
+ *	@copyright	S T Johnson 2004-2010
  *	@version	
  *	@since		
  *
- *   	$Order['']=array('label' => '', 
- *							  'inputtype'=> 'required',
- *							  'table_db' => 'order', 
- *							  'field_db' => '',
- *							  'type_db' => '', 
- *							  'default_value' => 'N',
- *							  'value' => ''.$order['']
- *							  );
  */
 
+
 /**
- * Returns the budgetname for that ordid from the database
+ * Returns the busname for that busid from the database
  *
- * @param integer $ordid
+ * @param integer $busid
  * @return string
  */
-function get_busname($ordid){
-	if($ordid!=' ' and $ordid!=''){
-		$d_b=mysql_query("SELECT name FROM orderbudget WHERE id='$ordid';");
-		$name=mysql_result($d_b,0);
+function get_bus($busid){
+	$bus=array();
+	if($busid!=' ' and $busid!=''){
+		$d_b=mysql_query("SELECT name, route_id, direction, day, departuretime, teacher_id, detail FROM transport_bus WHERE id='$busid';");
+		$bus=mysql_fetch_array($d_b,MYSQL_ASSOC);
+		//$name=mysql_result($d_b,0);
 		}
 	else{
-		$name='BLANK';
 		}
-	return $name;
+	return $bus;
 	}
 
 
 /**
+ * Returns the full details of a jounrey and its associated bus for that journeyid
  *
- * @param integer $budid
+ * @param integer $journeyid
+ * @return array
+ */
+function get_journey($journeyid){
+	$journey=array();
+	if($journeyid!=' ' and $journeyid!=''){
+		$d_j=mysql_query("SELECT j.id, j.bus_id, j.stop_id, b.name AS busname, b.direction AS direction, 
+							b.route_id AS routeid FROM transport_journey AS j 
+							JOIN transport_bus AS b ON j.bus_id=b.id WHERE j.id='$journeyid';");
+		$journey=mysql_fetch_array($d_j,MYSQL_ASSOC);
+		//trigger_error($journeyid,E_USER_WARNING);
+		}
+	else{
+		}
+	return $journey;
+	}
+
+
+/**
+ * Returns a list of buses
+ *
+ * @param string $direction
+ * @param string $day
+ * @param string $name
  * @return array
  *
  */
-function list_buses($direction='%',$day='%'){
+function list_buses($direction='%',$day='%',$name='%'){
 	$buses=array();
-	$d_b=mysql_query("SELECT * FROM transport_bus WHERE direction IS LIKE '$direction' AND day IS LIKE '$day' 
-			ORDER BY name DESC");
+	$d_b=mysql_query("SELECT * FROM transport_bus WHERE direction LIKE '$direction' AND (day LIKE '$day' OR day='%') 
+							AND name LIKE '$name' ORDER BY name ASC;");
 	while($bus=mysql_fetch_array($d_b,MYSQL_ASSOC)){
-		$buses[]=$bus;
+		$buses[$bus['id']]=$bus;
 		}
+
 	return $buses;
 	}
 
+
 /**
+ * Returns a list of stops for the given busid
  *
- * @param integer $budid
+ * @param integer $busid
+ * @return array
+ *
+ */
+function list_bus_stops($busid){
+	$stops=array();
+	$d_s=mysql_query("SELECT * FROM transport_stop AS s JOIN transport_rtidstid AS rs ON rs.stop_id=s.id 
+						WHERE rs.route_id=(SELECT route_id FROM transport_bus WHERE transport_bus.id='$busid') ORDER BY rs.sequence ASC;");
+	while($stop=mysql_fetch_array($d_s,MYSQL_ASSOC)){
+		$stops[$stop['id']]=$stop;
+		}
+	return $stops;
+	}
+
+
+/**
+ * Returns a list of unique busnames
+ *
+ * 
  * @return array
  *
  */
 function list_busnames(){
 	$buses=array();
-	$d_b=mysql_query("SELECT DISTINCT name FROM transport_bus ORDER BY name DESC");
+	$d_b=mysql_query("SELECT DISTINCT name FROM transport_bus ORDER BY name ASC;");
 	while($bus=mysql_fetch_array($d_b,MYSQL_ASSOC)){
 		$buses[]=$bus;
 		}
@@ -69,117 +108,199 @@ function list_busnames(){
 
 /**
  *
- * @param integer $ordid
- * @return array
-function fetchMaterials($ordid){
-	$Materials=array();
-	$Materials['Material']=array();
-	$d_m=mysql_query("SELECT entryn, quantity, unitcost, detail,
-			   refno, materialtype FROM ordermaterial WHERE order_id='$ordid' ORDER BY entryn;");
-	list($ratingnames,$catdefs)=fetch_categorydefs('mat');
-	while($mat=mysql_fetch_array($d_m,MYSQL_ASSOC)){
-		$Material=(array)fetchMaterial($mat,$catdefs);
-		$Materials['Material'][]=$Material;
-		}
-	return $Materials;
-	}
- */
-
-
-
-
-
-/**
- *
- * @param integer $invid
+ * 
  * @return array
  */
-function fetchBus($invid='-1'){
-	$d_inv=mysql_query("SELECT * FROM orderinvoice WHERE id='$invid';");
-	$inv=mysql_fetch_array($d_inv,MYSQL_ASSOC);
-	$Invoice=array();
-	$Invoice['id_db']=$invid;
-   	$Invoice['Reference']=array('label' => 'reference', 
-								'inputtype'=> 'required',
-								'table_db' => 'orderinvoice', 
-								'field_db' => 'reference',
-								'type_db' => 'varchar(40)', 
-								'value' => ''.$inv['reference']
-								);
-   	$Invoice['Date']=array('label' => 'date', 
+function fetchBus($busid='-1'){
+	$d_b=mysql_query("SELECT * FROM transport_bus WHERE id='$busid';");
+	$b=mysql_fetch_array($d_b,MYSQL_ASSOC);
+	$Bus=array();
+	$Bus['id_db']=$busid;
+	$Bus['Name']=array('label' => 'name', 
+					   'inputtype'=> 'required',
+					   'table_db' => 'transport_bus', 
+					   'field_db' => 'name',
+					   'type_db' => 'varchar(30)', 
+					   'value' => ''.$b['name']
+					   );
+	$Bus['Detail']=array('label' => 'detail', 
 						 //'inputtype'=> 'required',
-						 'table_db' => 'orderinvoice', 
-						 'field_db' => 'invoicedate',
-						 'type_db' => 'date', 
-						 'default_value' => date('Y-m-d'),
-						 'value' => ''.$inv['invoicedate']
-						 );
-   	$Invoice['DeliveryCost']=array('label' => 'deliverycost', 
-								   //'inputtype'=> 'required',
-								   'table_db' => 'orderinvoice', 
-								   'field_db' => 'deliverycost',
-								   'type_db' => 'decimal', 
-								   'value' => ''.$inv['deliverycost']
-								   );
-   	$Invoice['TaxCost']=array('label' => 'tax', 
-							  //'inputtype'=> 'required',
-							  'table_db' => 'orderinvoice', 
-							  'field_db' => 'taxcost',
-							  'type_db' => 'decimal', 
-							  'value' => ''.$inv['taxcost']
-							  );
-   	$Invoice['DiscountCost']=array('label' => 'discount', 
-								   //'inputtype'=> 'required',
-								   'table_db' => 'orderinvoice', 
-								   'field_db' => 'discountcost',
-								   'type_db' => 'decimal', 
-								   'value' => ''.$inv['deliverycost']
-						   );
-   	$Invoice['TotalCost']=array('label' => 'total', 
-								//'inputtype'=> 'required',
-								'table_db' => 'orderinvoice', 
-								'field_db' => 'totalcost',
-								'type_db' => 'decimal', 
-								'value' => ''.$inv['totalcost']
-								);
-   	$Invoice['DebitCost']=array('label' => 'totalinvoiced', 
-								'inputtype'=> 'required',
-								'table_db' => 'orderinvoice', 
-								'field_db' => 'debitcost',
-								'type_db' => 'decimal', 
-								'value' => ''.$inv['debitcost']
-								);
-   	$Invoice['Currency']=array('label' => 'currency', 
-							   'inputtype'=> 'required',
-							   'table_db' => 'orderinvoice', 
-							   'field_db' => 'currency',
-							   'type_db' => 'enum', 
-							   'default_value' => '0',
-							   'value' => ''.$inv['currency']
-							   );
-   	$Invoice['Credit']=array('label' => 'credit', 
-							 'inputtype'=> 'required',
-							 'table_db' => 'orderinvoice', 
-							 'field_db' => 'credit',
-							 'type_db' => 'enum',
-							 'default_value' => '0',
-							 'value' => ''.$inv['credit']
-							 );
-	return $Invoice;
+					   'table_db' => 'transport_bus', 
+					   'field_db' => 'detail',
+					   'type_db' => 'text', 
+					   'value' => ''.$b['detail']
+					   );
+	$Bus['Direction']=array('label' => 'direction', 
+					   'inputtype'=> 'required',
+					   'table_db' => 'transport_bus', 
+					   'field_db' => 'direction',
+					   'type_db' => 'enum', 
+					   'value' => ''.$b['direction']
+					   );
+	$Bus['Day']=array('label' => 'day', 
+					   'inputtype'=> 'required',
+					   'table_db' => 'transport_bus', 
+					   'field_db' => 'day',
+					   'type_db' => 'enum', 
+					   'value' => ''.$b['day']
+					   );
+	$Bus['Time']=array('label' => 'dparturetime', 
+					   //'inputtype'=> 'required',
+					   'table_db' => 'transport_bus', 
+					   'field_db' => 'departuretime',
+					   'type_db' => 'time', 
+					   'value' => ''.$b['departuretime']
+					   );
+	$Bus['Monitor']=array('label' => 'monitor', 
+						  //'inputtype'=> 'required',
+					   'table_db' => 'transport_bus', 
+					   'field_db' => 'teacher_id',
+					   'type_db' => 'varchar(14)', 
+					   'value' => ''.$b['teacher_id']
+					   );
+	return $Bus;
 	}
 
 
 /**
- * Where the year works on the same principle as curriculum year ie. 2008 is
- * 2007/08. The codes could be amended to be as cryptic as needed.
+ * Returns all journey bookings for a sid on a given date
  *
- * @param string $budgetyear
- * @return string
-function get_budgetyearcode($budgetyear){
-	$yearcodes=getEnumArray('budgetyearcode');
-	if(array_key_exists($budgetyear,$yearcodes)){$yearcode=$yearcodes[$budgetyear];}
-	else{$yearcode=-1;}
-	return $yearcode;
-	}
+ * @param integer $sid
+ * @param date $date
+ * @param enum $day
+ * @param enum $direction
+ * @return array
+ *
  */
+function list_student_journey_bookings($sid,$date,$day='%',$direction='%'){
+	$bookings=array();
+
+	/* The most recent (specific) date takes precedence so only use the first two returned */
+	$d_b=mysql_query("SELECT b.id, b.journey_id, b.direction, j.bus_id, j.stop_id, b.startdate, b.enddate, b.day, b.comment 
+						FROM transport_journey AS j JOIN transport_booking AS b ON b.journey_id=j.id 
+						WHERE b.student_id='$sid' AND b.direction LIKE '$direction' AND b.startdate<='$date' 
+						AND (b.enddate>='$date' OR b.enddate='0000-00-00') AND (b.day LIKE '$day' OR b.day='%') 
+						ORDER BY b.startdate DESC, b.day ASC;");
+	while($b=mysql_fetch_array($d_b,MYSQL_ASSOC)){
+		$bookings[]=$b;
+		}
+
+	return $bookings;
+	}
+
+/**
+ * Return a booking
+ * 
+ * @param integer $bookingid
+ * @return array
+ *
+ */
+function get_journey_booking($bookid){
+	$booking=array();
+
+	/* The most recent (specific) date takes precedence so only use the first two returned */
+	$d_b=mysql_query("SELECT b.id, b.journey_id, b.direction, j.bus_id, j.stop_id, b.startdate, b.enddate, b.day, b.comment 
+						FROM transport_booking AS b JOIN transport_journey AS j ON b.journey_id=j.id 
+						WHERE b.id='$bookid';");
+	$booking=mysql_fetch_array($d_b,MYSQL_ASSOC);
+
+	return $booking;
+	}
+
+
+/**
+ *
+ * @param array $booking
+ * @return
+ *
+ */
+function add_journey_booking($sid,$busid,$stopid,$date,$dayrepeat='once',$comment=''){
+
+	$day=date('N',strtotime($date));
+	$newend=date('Y-m-d',strtotime($date.' -1 day'));
+	if($dayrepeat=='once'){$day=$day;$startdate=$date;$enddate=$date;}
+	elseif($dayrepeat=='weekly'){$day=$day;$startdate=$date;$enddate='0000-00-00';}
+	elseif($dayrepeat=='every'){$day='%';$startdate=$date;$enddate='0000-00-00';}
+	$bus=get_bus($busid);
+	$direction=$bus['direction'];
+
+	/* Probably to be moved to adding new bus */
+	$d_j=mysql_query("SELECT id FROM transport_journey WHERE bus_id='$busid' AND stop_id='$stopid';");
+	if(mysql_num_rows($d_j)>0){
+		$jid=mysql_result($d_j,0);
+		}
+	else{
+		$d_j=mysql_query("INSERT INTO transport_journey (bus_id,stop_id) VALUES ('$busid','$stopid');");
+		$jid=mysql_insert_id();
+		}
+	/***/
+
+
+	$d_b=mysql_query("SELECT id, startdate, enddate, day FROM transport_booking 
+						WHERE student_id='$sid' AND direction='$direction' 
+						AND ((startdate<='$startdate' AND (enddate>='$startdate' or enddate='0000-00-00'))
+						OR (startdate>='$startdate' AND (startdate<='$enddate' OR $enddate='0000-00-00')));");
+	while($oldb=mysql_fetch_array($d_b,MYSQL_ASSOC)){
+		$oldbookid=$oldb['id'];
+		trigger_error($oldb['id'].' : '.$oldb['startdate'].' : '.$oldb['enddate'].mysql_error(),E_USER_WARNING);
+		if($dayrepeat=='once'){
+			if($oldb['startdate']==$oldb['enddate'] and $oldb['day']==$day){
+				/*delete old*/
+				delete_journey_booking($sid,$oldbookid);
+				}
+			}
+		elseif($dayrepeat=='weekly'){
+			if($oldb['enddate']=='0000-00-00' and $oldb['day']=='%'){
+				/*do nothing*/
+				}
+			elseif($oldb['enddate']=='0000-00-00' and $oldb['day']!='%'){
+				/*update old enddate, del com*/
+				mysql_query("UPDATE transport_booking SET enddate='$newend' WHERE id='$oldbookid';");
+				trigger_error('UPDATE'.mysql_error(),E_USER_WARNING);
+				}
+			}
+		elseif($dayrepeat=='every'){
+			if($oldb['enddate']=='0000-00-00'){
+				/*update old enddate, del com*/
+				mysql_query("UPDATE transport_booking SET enddate='$newend' WHERE id='$oldbookid';");
+				trigger_error('UPDATE'.mysql_error(),E_USER_WARNING);
+				}
+			}
+		}
+
+	mysql_query("INSERT INTO transport_booking (student_id,journey_id,direction,day,startdate,enddate,comment) 
+					 VALUES ('$sid','$jid','$direction','$day','$startdate','$enddate','$comment');");
+	//trigger_error($busid.' : '.$stopid.' '.mysql_error(),E_USER_WARNING);
+
+	/* add to the transport community for that bus */
+	$bus=get_bus($busid);
+	$com=array('id'=>'','type'=>'transport','name'=>$bus['name']);
+	$oldcommunities=set_community_stay($sid,$com,$startdate,$enddate);
+
+	return;
+	}
+
+/**
+ *
+ * @param integer sid
+ * @param integer bookid
+ * @return
+ *
+ */
+function delete_journey_booking($sid,$bookid){
+
+
+
+	/*delete old*/
+	mysql_query("DELETE FROM transport_booking WHERE student_id='$sid' AND id='$bookid' LIMIT 1;");
+
+
+	/* add to the transport community for that bus
+	$bus=get_bus($busid);
+	$com=array('id'=>'','type'=>'transport','name'=>$bus['name']);
+	$oldcommunities=set_community_stay($sid,$com,$startdate,$enddate);
+	*/
+
+	return;
+	}
 ?>

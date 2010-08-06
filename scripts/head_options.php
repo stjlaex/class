@@ -26,9 +26,9 @@
 <title>ClaSS</title>
 <meta http-equiv="content-type" content="application/xhtml+xml; charset=utf-8" />
 <meta http-equiv="Content-Script-Type" content="text/JavaScript" />
-<meta name="copyright" content="Copyright 2002-2009 Stuart Thomas Johnson.  All trademarks acknowledged. All rights reserved" />
+<meta name="copyright" content="Copyright 2002-2010 Stuart Thomas Johnson.  All trademarks acknowledged. All rights reserved" />
 <meta name="version" content='<?php print "$CFG->version"; ?>' />
-<meta name="licence" content="GNU General Public License version 2" />
+<meta name="licence" content="GNU Affero General Public License version 3" />
 <style type="text/css">@import url(lib/jscalendar/skins/aqua/theme.css);</style>
 <link rel="stylesheet" type="text/css" href="css/bookstyle.css?version=921" />
 <link rel="stylesheet" type="text/css" href="css/selery.css" />

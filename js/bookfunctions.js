@@ -46,6 +46,50 @@ function clickToAddMerit(bid,pid,openId){
 	openHelperWindow(helperurl,getvars);
 	}
 
+/* Opens the transport edit window */
+function clickToEditTransport(sid,date,bookingid,openId){
+	var helperurl="admin/httpscripts/transport_editor.php";
+	var getvars="sid="+sid+"&date="+date+"&bookingid="+bookingid+"&openid="+openId;
+	openHelperWindow(helperurl,getvars);
+	}
+
+function closeTransportHelper(sid,date,openId){
+	if(openId!="-100"){
+		opener.updateTransportDisplay(sid,date,openId);
+		}
+	window.close();
+	}
+
+function updateTransportDisplay(sid,date,openId){
+	var container='sid-'+sid;
+	var script='transport_display.php';
+	var url=pathtobook + "httpscripts/" + script + "?uniqueid=" + escape(openId) +"&sid=" + sid + "&date=" + date;
+	if(document.getElementById(container)){
+
+		xmlHttp.open("GET", url, true);
+		xmlHttp.onreadystatechange=function () {
+			if(xmlHttp.readyState==4){
+				if(xmlHttp.status==200){
+					var html=xmlHttp.responseText;
+					document.getElementById(container).innerHTML="";
+					document.getElementById(container).innerHTML=html;
+					}
+				else if(xmlHttp.status==404){alert ("Requested URL is not found.");}
+        		else if(xmlHttp.status==403){alert("Access denied.");} 
+				else {alert("status is " + xmlHttp.status);}
+				progressIndicator("stop");
+				}
+			else{
+				progressIndicator("start");
+				}
+			}
+		xmlHttp.send(null);
+
+		}
+	}
+/*****/
+
+
 function openHelperWindow(helperurl,getvars){
 	writerWindow=window.open("","","height=680,width=720,screenX=50,dependent");
 	writerWindow.document.open();
@@ -61,6 +105,7 @@ function openHelperWindow(helperurl,getvars){
 	writerWindow.document.close();
 	}
 
+/* For text editor only */
 function closeHelperWindow(openId,entryn,text){
 	if(openId!="-100"){
 		opener.updateLauncher(openId,entryn,text);
@@ -511,7 +556,7 @@ function checksidsAction(buttonObject){
 	}
 
 
-/* Fetches the names xsl transformation sheet and uses it to process the xmlsource.*/
+/* Fetches the named xsl transformation sheet and uses it to process the xmlsource.*/
 function processXML(xmlsource, xsltName, xsltPath){ 
 	var xslsheet;
 	var xProcessor=new XSLTProcessor();
@@ -752,25 +797,25 @@ function loadRequired(){
 		formObject=document.forms[i];
 		for(c=0;c<formObject.elements.length;c++){
 			elementObject=formObject.elements[c];
-			if(elementObject.className=="required"){
+			if(elementObject.className.indexOf("required")!=-1){
 				elementObject.setAttribute("onChange","validateRequired(this)");
 				imageRequired=document.createElement("img");
 				imageRequired.className="required";
 				elementObject.parentNode.insertBefore(imageRequired, elementObject);
 				}
-			else if(elementObject.className=="requiredor"){
+			if(elementObject.className.indexOf("eitheror")!=-1){
 				elementObject.setAttribute('onChange','validateRequiredOr(this)');
 				imageRequired=document.createElement("img");
 				imageRequired.className="required";
 				elementObject.parentNode.insertBefore(imageRequired, elementObject);
 				}
-			else if(elementObject.className=="switcher"){
+			if(elementObject.className.indexOf("switcher")!=-1){
 				switcherId=elementObject.getAttribute("id");
-				//alert(switcherId,elementObject.value);
 				parent.selerySwitch(switcherId,elementObject.value);
 				elementObject.setAttribute("onChange","selerySwitch('"+switcherId+"',this.value)");
+				//alert(switcherId,elementObject.value);
 				}
-			else if(elementObject.className=="htmleditorarea"){
+			if(elementObject.className.indexOf("htmleditorarea")!=-1){
 				/*prepares textareas with tinyMCE */
 				  tinyMCE.init({
 					mode : "textareas",
@@ -864,7 +909,7 @@ function validateForm(formObj){
  	var errorMessage="";
  	for(var i=0; i<formObj.elements.length; i++){
 		var fieldClass=formObj.elements[i].className;
-		if(fieldClass=="requiredor"){
+		if(fieldClass.indexOf("eitheror")!=-1){
 			message=validateRequiredOr(formObj.elements[i]);
 			}
 		else{

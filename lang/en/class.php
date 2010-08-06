@@ -324,5 +324,12 @@ $string['house']='House';
 $string['merits']='Merits';
 $string['groups']='Groups';
 $string['form']=$string['formgroup'];
+$string['monday']='Monday';
+$string['tuesday']='Tuesday';
+$string['wednesday']='Wednesday';
+$string['thursday']='Thursday';
+$string['friday']='Friday';
+$string['saturday']='Saturday';
+$string['sunday']='Sunday';
 $string['']='';
 ?>

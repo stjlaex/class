@@ -14,7 +14,7 @@ CREATE TABLE transport_bus (
 	detail			text not null default '',
 	route_id		smallint unsigned not null default 0,
 	direction		enum('I','O') not null,
-	day				enum('1','2','3','4','5','6','7','X') not null default 'X',
+	day				enum('1','2','3','4','5','6','7','%') not null default '%',
 	departuretime	time,
 	teacher_id		varchar(14) not null default '',
 	primary key		(id)
@@ -48,14 +48,18 @@ CREATE TABLE transport_stop (
 );");
 
 mysql_query("
-CREATE TABLE transport_attendance (
+CREATE TABLE transport_booking (
+	id				int unsigned not null auto_increment,
 	student_id		int unsigned not null default '0',
 	journey_id		int unsigned not null default '0',
+	direction		enum('I','O') not null,
+	day				enum('1','2','3','4','5','6','7','%') not null default '%',
 	status			enum('a','p') not null default 'p',
 	startdate		date not null default '0000-00-00',
 	enddate			date not null default '0000-00-00',
 	comment			text,
-	primary key		(student_id,journey_id)
+	index			indexsidjid (student_id,journey_id),
+	primary key		(id)
 );");
 
 /**

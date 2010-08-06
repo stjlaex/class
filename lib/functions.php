@@ -835,7 +835,7 @@ function getEnumArray($field_name){
 						  'TUTOR'=>'tutorgroup', 
 						  'TRIP'=>'trip', 
 						  'REG'=>'registrationgroup', 
-						  'STOP'=>'travelstop', 
+						  'TRANSPORT'=>'transport', 
 						  'EXTRA'=>'other'
 						  );
 
