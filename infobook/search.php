@@ -89,8 +89,7 @@ if($_SESSION['role']=='office' or $_SESSION['role']=='admin' or $_SESSION['role'
 		</div>
 	  </fieldset>
 
-	  <fieldset class="infobo
-ok">
+	  <fieldset class="infobook">
 		<legend><?php print_string('studentsearch');?></legend>
 		<select class="switcher" type="text" id="student" 
 		  onChange="selerySwitch('student',this.value)" 

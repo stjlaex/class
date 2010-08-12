@@ -219,6 +219,7 @@ function fetchStudent_singlefield($sid,$tag){
  *
  * @params integer $sid
  * @return array
+ *
  */
 function fetchStudent($sid='-1'){
    	$d_student=mysql_query("SELECT * FROM student WHERE id='$sid'");
@@ -842,11 +843,13 @@ function fetchBackgrounds_Entries($sid,$type){
 			$Entry=array();
 			$Entry['id_db']=$entry['id'];
 			$Entry['Teacher']=array('label' => 'teacher', 
+									'field_db' => 'teacher_id', 
 									'type_db' => 'varchar(14)', 
 									'username' => ''.$entry['teacher_id'], 
 									'value' => ''.get_teachername($entry['teacher_id']));
 			$Categories=array();
 			$Categories=array('label' => 'category', 
+							  'field_db' => 'category', 
 							  'type_db' => 'varchar(100)', 
 							  'value_db' => ''.$entry['category'],
 							  'value' => ' ');
@@ -876,17 +879,22 @@ function fetchBackgrounds_Entries($sid,$type){
 				}
 			$Entry['Categories']=$Categories;
 			$Entry['EntryDate']=array('label' => 'date',
+									  'field_db' => 'entrydate', 
+									  'type_db' => 'date', 
 									  'value' => ''.$entry['entrydate']);
 			$Entry['Detail']=array('label' => 'details', 
+								   'field_db' => 'detail', 
 								   'type_db'=> 'text', 
 								   'value' => ''.$entry['detail']);
 			$bid=$entry['subject_id'];
 			$subjectname=get_subjectname($bid);
 			$Entry['Subject']=array('label' => 'subject', 
+									'field_db' => 'subject_id', 
 									'type_db' => 'varchar(15)', 
 									'value_db' => ''.$bid, 
 									'value' => ''.$subjectname);
 			$Entry['YearGroup']=array('label' => 'yeargroup', 
+									  'field_db' => 'yeargroup_id', 
 									  'type_db' => 'smallint', 
 									  'value' => ''.$entry['yeargroup_id']);
 			$Entries[]=$Entry;
@@ -964,6 +972,7 @@ function fetchComments($sid,$startdate='',$enddate=''){
 									'type_db' => 'date', 
 									'value' => ''.$comment['entrydate']);
 	   	$Comment['YearGroup']=array('label' => 'yeargroup', 
+									'field_db' => 'yeargroup_id', 
 									'type_db' => 'smallint', 
 									'value' => ''.$comment['yeargroup_id']);
 		$Comments['Comment'][]=$Comment;
@@ -1423,9 +1432,11 @@ function fetchMedical($sid='-1'){
 										'value_db' => ''.$cattype,
 										'value' => ''.$cat['rating']);
 		$Note['Signature']=array('label' => 'signature', 
+								 'field_db'=> 'teacher_id', 
 								  'type_db' => 'varchar(14)', 
 								  'value' => ''.$entry['teacher_id']);
 		$Note['LastReviewDate']=array('label' => 'lastreviewdate',
+									  'field_db'=> 'entrydate', 
 									   'type_db' => 'date', 
 									   'value' => ''.$entry['entrydate']);
 		$Note['Detail']=array('label' => 'details', 
@@ -1604,5 +1615,274 @@ function get_age($dob){
 	$months=$years*12-floor($years)*12;
 
 	return floor($years).' / '.floor($months);
+	}
+
+/**
+ *
+ * Only used by the year end roll over to process transfers from feeder schools.
+ * TODO: Its messy. Could do with re-writing.
+ * 
+ */
+function import_student($Student){
+
+	$Comments=(array)$Student['comments'];unset($Student['comments']);
+	if(!isset($Comments['comment']) or !is_array($Comments['comment'])){
+		$Comments['comment']=array();
+		}
+
+	$Backgrounds=(array)$Student['backgrounds'];unset($Student['backgrounds']);
+	if(!isset($Backgrounds['background']) or !is_array($Backgrounds['background'])){
+		$Backgrounds['background']=array();
+		}
+
+	$MedNotes=(array)$Student['medical']['notes'];unset($Student['medical']);
+	if(!isset($MedNotes['note']) or !is_array($MedNotes['note'])){
+		$MedNotes['note']=array();
+		}
+
+	$Contacts=(array)$Student['contacts'];unset($Student['contacts']);
+	if(!isset($Contacts[0])){$temp=$Contacts;$Contacts=array();$Contacts[]=$temp;unset($temp);}
+
+	mysql_query("INSERT INTO student SET surname='';");
+	$sid=mysql_insert_id();
+	mysql_query("INSERT INTO info SET student_id='$sid';");
+	while(list($key,$val)=each($Student)){
+		if(isset($val['value']) and is_array($val) and isset($val['field_db'])){
+			$field=$val['field_db'];
+			$inval=clean_text($val['value']);
+			if(isset($val['table_db']) and $val['table_db']=='student'){
+				mysql_query("UPDATE student SET $field='$inval'	WHERE id='$sid';");
+				}
+			else{
+				mysql_query("UPDATE info SET $field='$inval' WHERE student_id='$sid';");
+				}
+			}
+		}
+
+	/* Transfer teacher comments*/
+	if(!isset($Comments['comment'][0]) and isset($Comments['coment']['id_db'])){$temp=$Comments['comment'];$Comments['comment']=array();$Comments['comment'][]=$temp;}
+	foreach($Comments['comment'] as $Comment){
+		if(is_array($Comment)){
+			mysql_query("INSERT INTO comments SET student_id='$sid';");
+			$id=mysql_insert_id();
+			while(list($key,$val)=each($Comment)){
+				if(is_array($val) and isset($val['value']) and isset($val['field_db'])){
+					$field=$val['field_db'];
+					if(isset($val['value_db'])){
+						$inval=$val['value_db'];
+						}
+					else{
+						$inval=$val['value'];
+						}
+					$inval=clean_text($inval);
+					mysql_query("UPDATE comments SET $field='$inval' WHERE id='$id';");
+					unset($inval);
+					}
+				}
+			$fixcat='';
+			$Category=$Comment['categories']['category'];
+			$catname=$Category['label'];
+			$rank=$Category['rating']['value'];
+			$d_cat=mysql_query("SELECT id FROM categorydef WHERE name='$catname' AND type='con';");
+			if(mysql_num_rows($d_cat)>0){
+				$fixcatid=mysql_result($d_cat,0);
+				$fixcat=$fixcatid.':'.$rank.';';
+				}
+			mysql_query("UPDATE comments SET category='$fixcat' WHERE id='$id';");
+			mysql_query("UPDATE comments SET teacher_id='' WHERE id='$id';");
+			}
+		}
+
+	/* Transfer background entries */
+	foreach($Backgrounds as $tagname => $Ents){
+		if(is_array($Ents)){
+			$d_cat=mysql_query("SELECT subtype FROM categorydef WHERE name='$tagname' AND type='ent';");
+			if(mysql_num_rows($d_cat)>0){
+				$entcat=mysql_result($d_cat,0);
+				}
+			else{$entcat='bac';}
+
+			if(!isset($Ents[0]) and isset($Ents['id_db'])){$temp=$Ents;$Ents=array();$Ents[]=$temp;}
+			foreach($Ents as $Ent){
+				if(is_array($Ent)){
+					mysql_query("INSERT INTO background SET student_id='$sid', type='$entcat';");
+					$id=mysql_insert_id();
+					while(list($entkey,$val)=each($Ent)){
+						if(is_array($val) and isset($val['value']) and isset($val['field_db'])){
+							$field=$val['field_db'];
+							if(isset($val['value_db'])){
+								$inval=$val['value_db'];
+								}
+							else{
+								$inval=$val['value'];
+								}
+							$inval=clean_text($inval);
+							mysql_query("UPDATE background SET $field='$inval' WHERE id='$id';");
+							unset($inval);
+							}
+						}
+					$fixcat='';
+					$Category=$Ent['categories']['category'];
+					$catname=$Category['label'];
+					$rank=$Category['rating']['value'];
+					$d_cat=mysql_query("SELECT id FROM categorydef WHERE name='$catname' AND type='con';");
+					if(mysql_num_rows($d_cat)>0){
+						$fixcatid=mysql_result($d_cat,0);
+						$fixcat=$fixcatid.':'.$rank.';';
+						}
+					mysql_query("UPDATE background SET category='$fixcat' WHERE id='$id';");
+					mysql_query("UPDATE background SET teacher_id='' WHERE id='$id';");
+					}
+				}
+			}
+		}
+
+
+	/* Transfer medical entries */
+	if(!isset($MedNotes['note'][0]) and isset($MedNotes['note']['id_db'])){$temp=$MedNotes['note'];$MedNotes['note']=array();$MedNotes['note'][]=$temp;}
+	foreach($MedNotes['note'] as $Note){
+		if(is_array($Note) and isset($Note['id_db']) and $Note['id_db']>0){
+			$cat=$Note['medicalcategory']['value'];
+			$d_cat=mysql_query("SELECT subtype FROM categorydef WHERE name='$cat' AND type='med';");
+			if(mysql_num_rows($d_cat)>0){
+				$medcat=mysql_result($d_cat,0);
+				}
+			else{$medcat=-1;}
+
+
+			if($medcat!=-1){
+				trigger_error('MED: '.$cat.' : '.$medcat.' :' .$sid,E_USER_WARNING);
+				mysql_query("INSERT INTO background SET student_id='$sid', type='$medcat';");
+				$id=mysql_insert_id();
+				while(list($key,$val)=each($Ent)){
+					if(is_array($val) and isset($val['value']) and isset($val['field_db'])){
+						$field=$val['field_db'];
+						if(isset($val['value_db'])){
+							$inval=$val['value_db'];
+							}
+						else{
+							$inval=$val['value'];
+							}
+						$inval=clean_text($inval);
+						mysql_query("UPDATE background SET $field='$inval' WHERE id='$id';");
+						unset($inval);
+						}
+					}
+				mysql_query("UPDATE background SET teacher_id='' WHERE id='$id';");
+				}
+			}
+		}
+
+	/* Do the contacts */
+	foreach($Contacts as $Contact){
+		if(isset($Contact['id_db']) and $Contact['id_db']!=-1){
+			$epfu=$Contact['epfusername']['value'];
+			if($epfu!='' and $epfu!=' '){
+				/* Check for existing contact. */
+				$d=mysql_query("SELECT id FROM guardian WHERE epfusername='$epfu';");
+				if(mysql_num_rows($d)>0){
+					$gid=mysql_result($d,0);
+					$fresh='no';
+					trigger_error('EPFU Contact: '.$sid.' :' .$gid,E_USER_WARNING);
+					}
+				else{
+					/* Make sure the epfu goes into new record. */
+					$Contact['epfusername']['table_db']='guardian';
+					}
+				}
+
+			if(!isset($gid)){
+				mysql_query("INSERT INTO guardian SET surname='';");
+				$gid=mysql_insert_id();
+				$fresh='yes';
+				}
+
+			/* Link student and guardian. */
+			mysql_query("INSERT INTO gidsid SET guardian_id='$gid', student_id='$sid';");
+	
+			while(list($key,$val)=each($Contact)){
+				if(isset($val['value']) and is_array($val) and isset($val['field_db'])){
+					$field=$val['field_db'];
+					if(isset($val['value_db'])){
+						$inval=$val['value_db'];
+						}
+					else{
+						$inval=$val['value'];
+						}
+					if($val['table_db']=='guardian' and $fresh=='yes'){
+						mysql_query("UPDATE guardian SET $field='$inval' WHERE id='$gid'");
+						}
+					elseif($val['table_db']=='gidsid'){
+						mysql_query("UPDATE gidsid SET $field='$inval'
+											WHERE guardian_id='$gid' AND student_id='$sid'");
+						}
+					}
+				}
+	
+			/* Only import new details if the contact does not already exist. */
+			if($fresh=='yes'){
+				/*All to get around problem with xmlreader!*/
+				$Phones=(array)$Contact['phones'];
+				if(!isset($Phones[0])){$temp=$Phones;$Phones=array();$Phones[]=$temp;}
+				while(list($phoneno,$Phone)=each($Phones)){
+					//Don't want the id_db from previous school
+					$phoneid=-1;
+					while(list($key,$val)=each($Phone)){
+						if(isset($val['value']) and is_array($val) and isset($val['field_db'])){	
+							$field=$val['field_db'];
+							if(isset($val['value_db'])){
+								$inval=$val['value_db'];
+								}
+							else{
+								$inval=$val['value'];
+								}
+							if($phoneid=='-1' and $inval!=''){
+								mysql_query("INSERT INTO phone SET some_id='$gid';");
+								$phoneid=mysql_insert_id();
+								}
+							mysql_query("UPDATE phone SET $field='$inval'
+												WHERE some_id='$gid' AND id='$phoneid';");
+							}
+						}
+					}
+
+				$Addresses=$Contact['addresses'];
+				if(!isset($Addresses[0])){$temp=$Addresses;$Addresses=array();$Addresses[]=$temp;}				
+				while(list($addressno,$Address)=each($Addresses)){
+					//Don't want the id_db from previous school
+					$aid=-1;
+					if(is_array($Address)){
+						while(list($key,$val)=each($Address)){
+							if(isset($val['value']) and is_array($val) and isset($val['field_db'])){
+								$field=$val['field_db'];
+								if(isset($val['value_db'])){
+									$inval=$val['value_db'];
+									}
+								else{
+									$inval=$val['value'];
+									}
+								if($inval!='' and $aid=='-1'){
+									mysql_query("INSERT INTO address SET country='';");
+									$aid=mysql_insert_id();
+									mysql_query("INSERT INTO gidaid SET guardian_id='$gid', address_id='$aid';");
+									}
+								if($val['table_db']=='address' and isset($aid)){
+									mysql_query("UPDATE address SET $field='$inval'	WHERE id='$aid';");
+									}
+								elseif($val['table_db']=='gidaid' and isset($aid)){
+									mysql_query("UPDATE gidaid SET $field='$inval'
+													WHERE guardian_id='$gid' AND address_id='$aid';");
+									}
+								}
+							}
+						}
+					}
+				}
+			unset($gid);
+			}
+		/*End of Contacts*/
+		}
+
+	return $sid;
 	}
 ?>

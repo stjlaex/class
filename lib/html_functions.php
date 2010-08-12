@@ -154,6 +154,9 @@ function xmlarray_form($Array,$no='',$caption='',$tab=1,$book=''){
 		/* If the table_db attribute is omitted it indicates this is not */
 		/* a field for entry by the user - this  may be because it is disabled or */
 		/* because it is dependent on some other value - it will not appear in the form*/
+		if(isset($val['inputtype']) and $val['inputtype']=='fixed'){
+			unset($val['table_db']);
+			}
 		if(isset($val['value']) and is_array($val) and isset($val['table_db'])){
 ?>
 	<tr>
@@ -192,6 +195,9 @@ function xmlarray_divform($Array,$no='',$caption='',$tab=1,$book=''){
 		/* may be because it is disabled or */
 		/* because it is dependent on some */
 		/* other value - it will not appear in the table*/
+		if(isset($val['inputtype']) and $val['inputtype']=='fixed'){
+			unset($val['table_db']);
+			}
 		if(isset($val['value']) and is_array($val) and isset($val['table_db'])){
 ?>
   <div class="center">
@@ -215,6 +221,9 @@ function xmlarray_divform($Array,$no='',$caption='',$tab=1,$book=''){
  *
  */
 function xmlelement_div($val,$no='',$tab=1,$position='center',$book=''){
+	if(isset($val['inputtype']) and $val['inputtype']=='fixed'){
+		unset($val['table_db']);
+		}
 	if(isset($val['value']) and is_array($val) and isset($val['table_db'])){
 ?>
   <div class="<?php print $position;?>">

@@ -1,4 +1,4 @@
-Version ClaSS-0.9.23 release (2010/8/05)
+Version ClaSS-0.9.23 release (2010/8/16)
 -----------------------------------------
 
 New installation script for the transport book tables.
@@ -17,7 +17,11 @@ Changed the message script to use tiny_mce when emailing.
 
 Improved send_email_to function so it can handle html for pearmail.
 
-Improved js loadRequired function so it better handles clas names.
+Improved js loadRequired function so it better handles class names.
+
+Added Backgrounds and Medical to the student transfer script.
+
+A few tweaks to the orders for usability.
 
 
 Version ClaSS-0.9.22 release (2010/7/05)

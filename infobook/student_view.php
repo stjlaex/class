@@ -136,13 +136,12 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 	$date='';
 	$Comments=(array)fetchComments($sid,$date,'');
 	$Student['Comments']=$Comments;
-	$no=sizeof($Comments);
 	if(array_key_exists('Comment',$Comments)){
-		print '<td>'.$no.'</td>';
+		//$no=sizeof($Comments['Comment']);
+		print '<td></td>';
 		$Comment=$Comments['Comment'][0];
 		print '<td>'.display_date($Comment['EntryDate']['value']).'</td>';
-		$out=substr($Comment['Detail']['value'],0,30).'...';
-		print '<td>'.$out.'</td>';
+		print '<td>'.substr($Comment['Detail']['value'],0,40).'...'.'</td>';
 		}
 ?>
 		  </tr>

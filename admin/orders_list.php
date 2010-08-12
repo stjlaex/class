@@ -109,6 +109,9 @@ two_buttonmenu($extrabuttons,$book);
 			$order=$orders[$entryno];
 			$actionbuttons=array();
 			$imagebuttons=array();
+			$imagebuttons['clicktoprint']=array('name'=>'print',
+												'value'=>'order_print.php',
+												'title'=>'print');
 			$ordid=$order['id'];
 			$Order=(array)fetchOrder($ordid);
 			$status=$Order['Status']['value'];
@@ -193,8 +196,7 @@ two_buttonmenu($extrabuttons,$book);
 				<div class="center divgroup">
 				  <?php 
 							if($Invoice['Credit']['value']==1){
-								print
-					get_string('creditnote','admin').' '.$Invoice['Reference']['value'];
+								print get_string('creditnote','admin').' '.$Invoice['Reference']['value'];
 								}
 							else{
 								print get_string('invoice','admin').' '.$Invoice['Reference']['value'];
@@ -223,9 +225,9 @@ two_buttonmenu($extrabuttons,$book);
 					}
 
 				 /* Now the buttons to progress the order to the next status.*/
-				if($status!='closed'){
+				$actionbuttons=array();
+  				if($status!='closed'){
 					$orderactions=array();
-					$actionbuttons=array();
 					if($status=='lodged' and $perms['x']==1){
 						$orderactions[]='cancel';
 						$orderactions[]='authorise';
@@ -243,6 +245,7 @@ two_buttonmenu($extrabuttons,$book);
 					elseif($status=='placed' and $perms['w']==1){
 						$orderactions[]='cancel';
 						$orderactions[]='delivery';
+						$orderactions[]='place';
 						}
 					elseif($status=='delivered' and $perms['w']==1){
 						$actionbuttons['close']=array('name'=>'process','value'=>'close');
@@ -259,9 +262,6 @@ two_buttonmenu($extrabuttons,$book);
 							$actionbuttons[$orderaction]=array('name'=>'process',
 														   'value'=>$orderaction);
 							}
-						$imagebuttons['clicktoprint']=array('name'=>'print',
-															'value'=>'order_print.php',
-															'title'=>'print');
 ?>
 				<label>
 				  <?php print get_string($orderaction,$book).' '.get_string('note',$book);?>
@@ -273,7 +273,7 @@ two_buttonmenu($extrabuttons,$book);
 					}
 				elseif($perms['x']==1){
 					$actionbuttons['reopen']=array('name'=>'process',
-														   'value'=>'reopen');
+												   'value'=>'reopen');
 					rowaction_buttonmenu($imagebuttons,$actionbuttons,$book);
 					}
 ?>

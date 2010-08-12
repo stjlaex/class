@@ -597,7 +597,11 @@ function join_community($sid,$community){
 			}
 		}
 	if(isset($enrolstatus)){
-		mysql_query("UPDATE info SET enrolstatus='$enrolstatus' WHERE student_id='$sid'");
+		mysql_query("UPDATE info SET enrolstatus='$enrolstatus' WHERE student_id='$sid';");
+		if($enrolstatus=='P'){
+			/* Record the school leaving date. */
+			mysql_query("UPDATE info SET leavingdate='$todate' WHERE student_id='$sid';");
+			}
 		}
 
 	return $leftcommunities;

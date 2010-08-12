@@ -8,6 +8,7 @@ $budgetyear=$_POST['budgetyear'];
 if(isset($_POST['ordernumber'])){$ordernumber=$_POST['ordernumber'];}
 if(isset($_POST['orderstatus'])){$orderstatus=$_POST['orderstatus'];}
 if(isset($_POST['ordersupid'])){$ordersupid=$_POST['ordersupid'];}
+if(isset($_POST['startno'])){$startno=$_POST['startno'];}
 
 if(isset($_POST['recordid'])){
 	$ordid=$_POST['recordid'];
@@ -27,16 +28,15 @@ $entryn=-1;
 $action_post_vars=array('budid','ordid','entryn','budgetyear','startno',
 						'ordernumber','orderstatus','ordersupid');
 
-
 include('scripts/sub_action.php');
 
 $todate=date('Y-m-d');
 
 if(isset($_POST['nextrow']) and $_POST['nextrow']=='plus'){
-	$startno=$_POST['startno']+$_POST['nextrowstep'];
+	$startno=$startno+$_POST['nextrowstep'];
 	}
 elseif(isset($_POST['nextrow']) and $_POST['nextrow']=='minus'){
-	$startno=$_POST['startno']-$_POST['nextrowstep'];
+	$startno=$startno-$_POST['nextrowstep'];
 	}
 
 if($sub=='edit'){

@@ -69,10 +69,8 @@ else{$yid=-1000;}
 				}
 
 
-			/*TODO: Transfer backgrounds
 			$Student['Backgrounds']=(array)fetchBackgrounds($sid);
 			$Student['Medical']=(array)fetchMedical($sid);
-			*/
 
 			$Students['Student'][]=$Student;
 			}
