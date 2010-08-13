@@ -466,8 +466,13 @@ function elgg_join_group($epfuid,$group){
  *
  * If the folder already exists then just returns the folder_id
  *
+ * If folder doesn't exist and the @access is set then creates new
+ * folder and returns its folder_id.
+ *
  * This can only create folders in the user's root folder because
- * parent=-1 always
+ * parent=-1 always.
+ *
+ *
  *
  */
 function elgg_new_folder($owner,$name,$access,$dbc=true){
@@ -479,8 +484,7 @@ function elgg_new_folder($owner,$name,$access,$dbc=true){
 		mysql_query("SET NAMES 'utf8'");
 		}
 
-	$d_folder=mysql_query("SELECT ident FROM $table WHERE
-					owner='$owner' AND name='$name';");
+	$d_folder=mysql_query("SELECT ident FROM $table WHERE owner='$owner' AND name='$name';");
 	if(mysql_num_rows($d_folder)>0){
 		$folder_id=mysql_result($d_folder,0);
 		}
@@ -536,14 +540,23 @@ function elgg_get_epfuid($owner,$type,$dbc=false){
 	}
 
 /** 
- * Returns the full path of the $owner's icon file - if not 
- * called from other elgg_ functions set dbc=true.
+ *
+ * Returns an array of file urls and descriptions for the given $filetype and $owner.
+ * If not called from other elgg_ functions set dbc=true.
  * The owner is the epfusername.
+ *
+ * @params string $epfusername of the owner
+ * @params string $filetype
+ * @params logical $dbc
+ * @return array $files
  */
-function elgg_get_fileurl($owner,$filetype,$dbc=false){
+function elgg_list_files($epfun,$filetype,$dbc=false){
 	global $CFG;
-	$userstable=$CFG->eportfolio_db_prefix.'users';
-	$iconstable=$CFG->eportfolio_db_prefix.'icons';
+	$table_users=$CFG->eportfolio_db_prefix.'users';
+	$table_icons=$CFG->eportfolio_db_prefix.'icons';
+	$table_folders=$CFG->eportfolio_db_prefix.'file_folders';
+	$table_files=$CFG->eportfolio_db_prefix.'files';
+	$files=array();
 
 	if($CFG->eportfolio_db!='' and $dbc==true){
 		$dbepf=db_connect(true,$CFG->eportfolio_db);
@@ -554,23 +567,50 @@ function elgg_get_fileurl($owner,$filetype,$dbc=false){
 	//	   		$userstable u ON u.icon=i.ident	WHERE u.username='$owner';");
 	//$filepath=$CFG->eportfolio_dataroot.'/icons/'.$owner[0].'/'.$owner.'/'.$filename;
 
+	$epfuid=elgg_get_epfuid($epfun,'person');
+
 	if($filetype=='icon'){
+		/* TODO: make all icons (ie.photos), with exception of current
+		 *		 icon, part of normal file structure??? 
+		 */
+		/*
 		$d_u=mysql_query("SELECT icon FROM $userstable WHERE username='$owner';");
 		if(mysql_num_rows($d_u)==1){
 			$iconid=mysql_result($d_u,0);
-			$filepath=$CFG->eportfoliosite.'/_icon/user/'.$iconid.'/h/135/w/100';
+			$fileurl=$CFG->eportfoliosite.'/_icon/user/'.$iconid.'/h/135/w/100';
 			}
-		else{
-			$filename='icon_default.png';
-			$filepath='../images/'.$filename;
-			}
+		*/
+		}
+	elseif($filetype=='work'){
+		$folder_name='Portfolio Work';
+		}
+	elseif($filetype=='report'){
+		$folder_name='Reports';
+		}
+	else{
+		/* Just defaults to their parent folder. */
+		$folder_name='root';
+		$folder_id=-1;
+		}
+
+	if($folder_name!='root'){
+		$folder_id=elgg_new_folder($epfuid,$folder_name,'',false);
+		}
+
+	$d_f=mysql_query("SELECT ident, title, description, location, originalname FROM $table_files 
+						WHERE files_owner='$epfuid' AND folder='$folder_id' ORDER BY time_uploaded DESC;");
+	while($file=mysql_fetch_array($d_f,MYSQL_ASSOC)){
+		$file['path']=$CFG->eportfolio_dataroot.'/'.$files['location'];
+		$file['url']=$CFG->eportfoliosite.'/'.$epfun.'/files/'.$folder_id.'/'.$file['ident'].'/'.$file['originalname'];
+		$files[]=$file;
 		}
 
 	if($dbc==true){
 		$db=db_connect();
 		mysql_query("SET NAMES 'utf8'");
 		}
-	return $filepath;
+
+	return $files;
 	}
 
 /**
@@ -805,6 +845,4 @@ function make_portfolio_directory($directory,$shownotices=false){
 
     return $currdir;
 	}
-
-
 ?>

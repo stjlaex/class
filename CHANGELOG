@@ -1,3 +1,11 @@
+Version ClaSS-0.9.24 release (2010/8/26)
+-----------------------------------------
+
+Changed the epf fileurl function to be epf_list_files.
+
+Made use of epf_list_files for the InfoBook's student_reports page.
+
+
 Version ClaSS-0.9.23 release (2010/8/16)
 -----------------------------------------
 

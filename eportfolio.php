@@ -3,6 +3,7 @@
  *
  *	This is the hostpage for the eportfolio
  *  It currently works only with a customised install of Elgg
+ *
  */
 
 $host='eportfolio.php';
