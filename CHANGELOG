@@ -5,6 +5,10 @@ Changed the epf fileurl function to be epf_list_files.
 
 Made use of epf_list_files for the InfoBook's student_reports page.
 
+Fixed list_assessment_profiles to use multiple courses.
+
+Student lists for buses using transport_print.
+
 
 Version ClaSS-0.9.23 release (2010/8/16)
 -----------------------------------------

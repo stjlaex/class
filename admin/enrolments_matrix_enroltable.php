@@ -4,13 +4,13 @@
 	 *  The column headers are defined in enrolcols
 	 */
 
-    if($enrolyear==$currentyear){
-		$enrolcols_value=array('reenroled','newenrolments','leaverssince',
-							'currentroll','capacity','spaces');
-		}
-	else{
+    if($enrolyear>$currentyear){
 		$enrolcols_value=array('reenroling','pending','transfersin','newenrolments','leavers',
 							   'projectedroll','budgetroll','capacity','spaces');
+		}
+	else{
+		$enrolcols_value=array('reenroled','newenrolments','leaverssince',
+							'currentroll','capacity','spaces');
 		}
 
 	$enrol_tablerows=array();

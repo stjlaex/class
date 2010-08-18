@@ -16,14 +16,20 @@
  * @param integer $busid
  * @return string
  */
-function get_bus($busid){
+function get_bus($busid,$name='',$direction='',$day=''){
 	$bus=array();
-	if($busid!=' ' and $busid!=''){
-		$d_b=mysql_query("SELECT name, route_id, direction, day, departuretime, teacher_id, detail FROM transport_bus WHERE id='$busid';");
+	if($name!='' and $direction!='' and $day!=''){
+		trigger_error($name.' '.$day,E_USER_WARNING);
+		$d_b=mysql_query("SELECT id, name, route_id, direction, day, departuretime, teacher_id, detail 
+							FROM transport_bus WHERE name='$name' AND direction='$direction' 
+							AND (day='$day' OR day='%');");
+		$bus=mysql_fetch_array($d_b,MYSQL_ASSOC);
+		}
+	elseif($busid!=' ' and $busid!='' and $busid!=-1){
+		$d_b=mysql_query("SELECT id, name, route_id, direction, day, departuretime, teacher_id, detail 
+							FROM transport_bus WHERE id='$busid';");
 		$bus=mysql_fetch_array($d_b,MYSQL_ASSOC);
 		//$name=mysql_result($d_b,0);
-		}
-	else{
 		}
 	return $bus;
 	}
@@ -81,7 +87,8 @@ function list_buses($direction='%',$day='%',$name='%'){
 function list_bus_stops($busid){
 	$stops=array();
 	$d_s=mysql_query("SELECT * FROM transport_stop AS s JOIN transport_rtidstid AS rs ON rs.stop_id=s.id 
-						WHERE rs.route_id=(SELECT route_id FROM transport_bus WHERE transport_bus.id='$busid') ORDER BY rs.sequence ASC;");
+						WHERE rs.route_id=(SELECT route_id FROM transport_bus WHERE transport_bus.id='$busid') 
+						ORDER BY rs.sequence ASC;");
 	while($stop=mysql_fetch_array($d_s,MYSQL_ASSOC)){
 		$stops[$stop['id']]=$stop;
 		}

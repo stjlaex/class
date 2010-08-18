@@ -17,7 +17,7 @@ if(isset($_POST['enrolyear']) and $_POST['enrolyear']!=''){$enrolyear=$_POST['en
 else{$enrolyear=$currentyear+1;}
 
 $extrabuttons=array();
-twoplus_buttonmenu($enrolyear,$currentyear+3,$extrabuttons,$book);
+twoplus_buttonmenu($enrolyear,$currentyear+3,$extrabuttons,$book,$currentyear);
 
 if($CFG->enrol_applications=='yes'){
 	$applications_live=true;

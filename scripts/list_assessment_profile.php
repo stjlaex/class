@@ -9,7 +9,7 @@ if(!isset($required)){$required='yes';}
 if(!isset($listname)){$listname='profid';}
 if(!isset($listlabel)){$listlabel='assessmentprofile';}
 if(!isset($profid)){$selprofid='';}else{$selprofid=$profid;}
-$profiles=(array)list_assessment_profiles($rcrid);
+if(!isset($profiles)){$profiles=(array)list_assessment_profiles($rcrid);}
 include('scripts/set_list_vars.php');
 list_select_list($profiles,$listoptions,$book);
 unset($listoptions);

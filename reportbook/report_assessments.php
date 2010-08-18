@@ -19,7 +19,7 @@ elseif($selyid!=''){
 	$cohorts=list_community_cohorts(array('id'=>'','type'=>'year','name'=>$selyid));
 	}
 if(isset($cohorts)){
-	$rcrid=$cohorts[0]['course_id'];$onchange='';$required='yes';
+	$rcrid=$cohorts[1]['course_id'];$onchange='';$required='yes';
 	}
 
 
@@ -60,7 +60,14 @@ three_buttonmenu();
 	  <fieldset class="left">
 		<legend><?php print_string('assessmentprofile',$book);?></legend>
 		<div class="center">
-		<?php $onchange='yes';$required='no';include('scripts/list_assessment_profile.php');?>
+<?php 
+	$profiles=array();
+	foreach($cohorts as $cohort){
+		$profiles=array_merge($profiles,list_assessment_profiles($cohort['course_id']));
+		}
+	$onchange='yes';$required='no';
+	include('scripts/list_assessment_profile.php');
+?>
 		</div>
 	  </fieldset>
 	  <fieldset class="right">

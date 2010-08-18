@@ -75,13 +75,13 @@ function two_buttonmenu($extrabuttons='',$book=''){
 /**
  * 
  */
-function twoplus_buttonmenu($currentkey,$maxkey,$extrabuttons='',$book=''){
+function twoplus_buttonmenu($currentkey,$maxkey,$extrabuttons='',$book='',$minkey=0){
 ?>
   <div class="buttonmenu">
 <?php
 		 all_extrabuttons($extrabuttons,$book);
 ?>
-  	<button onClick="processContent(this);" <?php if($currentkey==0){print 'disabled="disabled"
+  	<button onClick="processContent(this);" <?php if($currentkey==$minkey){print 'disabled="disabled"
 	style="visibility:hidden;"';} ?> name="sub" value="Previous"><?php print_string('previous',$book);?></button>
 	<button onClick="processContent(this);" <?php if($currentkey==($maxkey-1)){print 'disabled="disabled" style="visibility:hidden;"';} ?> name="sub" value="Next"><?php print_string('next',$book);?></button>
 	<button onClick="processContent(this);" name="sub" value="Cancel"><?php print_string('cancel');?></button>

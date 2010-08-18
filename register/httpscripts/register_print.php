@@ -32,7 +32,7 @@ else{
 			$students=(array)listin_community(array('id'=>$comid));
 			while(list($index,$student)=each($students)){
 				$Student=fetchStudent_short($student['id']);
-				$Student['Attendances']['Attendnace'][]=fetchcurrentAttendance($student['id']);
+				$Student['Attendances']['Attendance'][]=fetchcurrentAttendance($student['id']);
 				$Community['Student'][]=$Student;
 				}
 			$Students['Community'][]=$Community;

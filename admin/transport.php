@@ -1,8 +1,8 @@
 <?php 
 /**									transport.php
  *
- * This is the entry page to the Order book - it lives within Admin
- * but has its own lib/fetch_orders.php functions and is essentialy a
+ * This is the entry page to the Transport book - it lives within Admin
+ * but has its own lib/fetch_transport.php functions and is essentialy a
  * set of self-contained scripts.
  *
  *
@@ -22,14 +22,17 @@ if($_SESSION['role']=='admin' or $aperm==1 or $_SESSION['role']=='office'){
 	//$extrabuttons['export']=array('name'=>'current','value'=>'transport_export.php');
 	}
 
-two_buttonmenu($extrabuttons,$book);
+$extrabuttons['previewselected']=array('name'=>'current',
+									   'pathtoscript'=>$CFG->sitepath.'/'.$CFG->applicationdirectory.'/admin/',
+									   'value'=>'transport_print.php',
+									   'onclick'=>'checksidsAction(this)');
+two_buttonmenu($extrabuttons);
 ?>
   <div class="content">
 	<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host; ?>" >
 		<input type="hidden" name="current" value="<?php print $action;?>" />
 		<input type="hidden" name="choice" value="<?php print $choice;?>" />
 		<input type="hidden" name="cancel" value="<?php print '';?>" />
-	</form>
 
 	<fieldset class="center divgroup" id="viewcontent">
 	  <legend><?php print_string('transport',$book);?></legend>
@@ -37,11 +40,14 @@ two_buttonmenu($extrabuttons,$book);
 <?php
 		$busnames=list_busnames();
 
-		foreach($busnames as $index => $busname){
+		foreach($busnames as $busname){
 ?>
 	<div style="float:left;width:24%;margin:2px;">
 	  <table class="listmenu smalltable">
 		<tr>
+		  <td>
+			<input type="checkbox" name="sids[]" value="<?php print $busname['name']; ?>" />
+		  </td>
 		  <td>
 <?php
 				print '<a  href="admin.php?current=transport_list.php&cancel='.$choice.'&choice='.$choice.'&busname='.$busname['name'].'">'.$busname['name'].'</a>';
@@ -56,6 +62,7 @@ two_buttonmenu($extrabuttons,$book);
 			}
 ?>
 	</fieldset>
+	</form>
 
 
 	<fieldset class="center divgroup" id="viewcontent">

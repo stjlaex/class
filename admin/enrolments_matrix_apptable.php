@@ -54,7 +54,9 @@ $appcols_value=array('AT','ATD','RE','CA','WL','ACP','AC','EN');
 		 * still want the number as part of the matrix for totals
 		 */
 		$newcurrentsids=0;
-		if($enrolyear==$currentyear){
+		if($enrolyear>$currentyear){
+			}
+		else{
 			$yearcomid=$yeargroup_comids[$yid];
 			$d_nosids=mysql_query("SELECT COUNT(student_id) FROM
 						comidsid WHERE community_id='$yearcomid'

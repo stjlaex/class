@@ -489,7 +489,7 @@ function get_classdef_classes($classdef,$currentseason='S'){
 		}
 	elseif($classdef['naming']=='' and $classdef['generate']=='sets'){
 		$name['root']=$bid;
-		$name['stem']=$stage;
+		$name['stem']=$yid;
 		$name['branch']='/';
 		}
 	else{

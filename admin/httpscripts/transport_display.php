@@ -1,10 +1,11 @@
 <?php
-/**                    httpscripts/transport_editor_action.php
+/**                    httpscripts/transport_display.php
  *
  */
 
 require_once('../../scripts/http_head_options.php');
 include('../../lib/fetch_transport.php');
+
 $sid=$_GET['sid'];
 if(isset($_GET['date'])){$date=$_GET['date'];}
 
