@@ -22,17 +22,11 @@ three_buttonmenu();
 	  <fieldset class="center listmenu">
 		<div class="left">
 <?php 
-	$Enrolment=fetchEnrolment($sid);
-	$enrolstatus=$Enrolment['EnrolmentStatus']['value'];
-	$listname='enrolstatus';$listlabel='enrolstatus';$required='yes';
-	include('scripts/set_list_vars.php');
-	list_select_enum('enrolstatus',$listoptions,$book);
 ?>
 		</div>
 	  </fieldset>
 
 	  <fieldset class="center listmenu">
-<?php 	$tab=xmlarray_form($Enrolment,'','',$tab,'infobook');?>
 	  </fieldset>
 
 

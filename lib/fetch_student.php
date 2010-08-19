@@ -101,6 +101,10 @@ function fetchStudent_singlefield($sid,$tag){
 	$separator='';
 	$Student=array();
 	if($tag=='Nationality'){$fieldname='nationality';$fieldtype='enum';}
+	elseif($tag=='SecondNationality'){$fieldname='secondnationality';$fieldtype='enum';}
+	elseif($tag=='Birthplace'){$fieldname='birthplace';}
+	elseif($tag=='CountryOfOrigin'){$fieldname='countryoforigin';$fieldtype='enum';}
+	elseif($tag=='Language'){$fieldname='language';$fieldtype='enum';}
 	elseif($tag=='EnrolNumber'){$fieldname='formerupn';}
 	elseif($tag=='Language'){$fieldname='language';$fieldtype='enum';}
 	elseif($tag=='Boarder'){$fieldname='boarder';$fieldtype='enum';}
@@ -134,7 +138,7 @@ function fetchStudent_singlefield($sid,$tag){
 		if(substr_count($tag,'Phone')){
 			/*
 			 * NOT a part of the xml def for Student but useful here.
-			 * Important taht the contacts are ordered by priority
+			 * Important that the contacts are ordered by priority
 			 * because contactno as an index for Contacts loses its
 			 * meaning otherwise.
 			 */
@@ -145,6 +149,21 @@ function fetchStudent_singlefield($sid,$tag){
 			while(list($phoneno,$Phone)=each($Phones)){
 				$Student[$tag]['value'].=$separator . $Phone['PhoneNo']['value'].' ';				
 				$separator=' : ';
+				}
+			}
+		elseif(substr_count($tag,'PostalAddress')){
+			/*
+			 * NOT a part of the xml def for Student but useful here.
+			 */
+			$d_add=mysql_query("SELECT street, neighbourhood, region, postcode, country FROM address
+							JOIN gidaid ON gidaid.address_id=address.id WHERE 
+							gidaid.guardian_id=ANY(SELECT guardian_id FROM gidsid WHERE gidsid.student_id='$sid'
+							AND gidsid.mailing='1' AND gidsid.priority='$contactno');");
+			$Student[$tag]=array('label'=>'',
+								 'value'=>'');
+			if(mysql_num_rows($d_add)>0){
+				$add=mysql_fetch_array($d_add,MYSQL_ASSOC);
+				$Student[$tag]['value'].=$add['street'].', '. $add['neighbourhood'].', '. $add['region'].'. '. $add['country']. '-'. $add['postcode'];
 				}
 			}
 		elseif(substr_count($tag,'EmailAddress')){

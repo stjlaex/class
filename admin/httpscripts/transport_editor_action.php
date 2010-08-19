@@ -24,10 +24,14 @@ else{
 
 
 	if($sub=='Submit'){
+
 		add_journey_booking($sid,$busid,$stopid,$date,$dayrepeat,$comment);
+
 		}
 	elseif($sub=='Delete'){
+
 		delete_journey_booking($sid,$oldbookid);
+
 		}
 
 	}

@@ -38,6 +38,7 @@ include('scripts/set_list_vars.php');
 		$listcomtypes[]='accomodation';
 		$listcomtypes[]='academic';
 		$listcomtypes[]='house';
+		$listcomtypes[]='transport';
 		}
 	else{$listcomtypes[]=$listtype;}
 

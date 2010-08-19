@@ -331,5 +331,10 @@ $string['thursday']='Thursday';
 $string['friday']='Friday';
 $string['saturday']='Saturday';
 $string['sunday']='Sunday';
-$string['']='';
+$string['allergies']='Allergies';
+$string['special diet']='Special diet';
+$string['medical problems']='Medical problems';
+$string['regular medication']='Regular medication';
+$string['persistent problems']='Persistant problems';
+$string['transport']='Transport';
 ?>

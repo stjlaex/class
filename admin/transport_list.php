@@ -78,7 +78,7 @@ two_buttonmenu($extrabuttons,$book);
 			$bookings=(array)list_student_journey_bookings($sid,$dates[$day],$day);
 			$divin='';$divout='';
 			$openId=$sid.'-'.$day;
-			foreach($bookings as $bindex => $booking){
+			foreach($bookings as $booking){
 				if($buses[$booking['bus_id']]['direction']=='I'){$divname='divin';$divclass='midlite';}
 				else{$divname='divout';$divclass='gomidlite';}
 				if($$divname==''){

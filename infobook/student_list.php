@@ -117,7 +117,7 @@ two_buttonmenu($extrabuttons,$book);
 		$d_catdef=mysql_query("SELECT name, subtype FROM categorydef WHERE 
 				type='med' AND rating='1' ORDER BY name;");
 		while($medcat=mysql_fetch_array($d_catdef,MYSQL_ASSOC)){
-			$extra_studentfields['Medical'.$medcat['subtype']]=$medcat['name'];
+			$extra_studentfields['Medical'.$medcat['subtype']]=strtolower($medcat['name']);
 			}
 
 		while(list($index,$displayfield)=each($displayfields)){

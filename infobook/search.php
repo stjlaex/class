@@ -17,7 +17,7 @@ $action='search_action.php'
 	$onsidechange='yes'; include('scripts/list_form.php');
 
 	$listtype='infosearch';
-	$onsidechange='yes'; 
+	$onsidechange='yes';
 	include('scripts/list_community.php');
 
 if($_SESSION['role']=='office' or $_SESSION['role']=='admin' or $_SESSION['role']=='sen'){

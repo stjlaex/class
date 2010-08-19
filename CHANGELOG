@@ -9,6 +9,10 @@ Fixed list_assessment_profiles to use multiple courses.
 
 Student lists for buses using transport_print.
 
+Added contact address to student extra display fields.
+
+Transport groups now part Info search.
+
 
 Version ClaSS-0.9.23 release (2010/8/16)
 -----------------------------------------

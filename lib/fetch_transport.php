@@ -223,25 +223,16 @@ function get_journey_booking($bookid){
  */
 function add_journey_booking($sid,$busid,$stopid,$date,$dayrepeat='once',$comment=''){
 
+	$busids=array();
 	$day=date('N',strtotime($date));
 	$newend=date('Y-m-d',strtotime($date.' -1 day'));
+
 	if($dayrepeat=='once'){$day=$day;$startdate=$date;$enddate=$date;}
 	elseif($dayrepeat=='weekly'){$day=$day;$startdate=$date;$enddate='0000-00-00';}
 	elseif($dayrepeat=='every'){$day='%';$startdate=$date;$enddate='0000-00-00';}
 	$bus=get_bus($busid);
 	$direction=$bus['direction'];
-
-	/* Probably to be moved to adding new bus */
-	$d_j=mysql_query("SELECT id FROM transport_journey WHERE bus_id='$busid' AND stop_id='$stopid';");
-	if(mysql_num_rows($d_j)>0){
-		$jid=mysql_result($d_j,0);
-		}
-	else{
-		$d_j=mysql_query("INSERT INTO transport_journey (bus_id,stop_id) VALUES ('$busid','$stopid');");
-		$jid=mysql_insert_id();
-		}
-	/***/
-
+	$busname=$bus['name'];
 
 	$d_b=mysql_query("SELECT id, startdate, enddate, day FROM transport_booking 
 						WHERE student_id='$sid' AND direction='$direction' 
@@ -263,29 +254,46 @@ function add_journey_booking($sid,$busid,$stopid,$date,$dayrepeat='once',$commen
 			elseif($oldb['enddate']=='0000-00-00' and $oldb['day']!='%'){
 				/*update old enddate, del com*/
 				mysql_query("UPDATE transport_booking SET enddate='$newend' WHERE id='$oldbookid';");
-				trigger_error('UPDATE'.mysql_error(),E_USER_WARNING);
+				//trigger_error('UPDATE'.mysql_error(),E_USER_WARNING);
 				}
 			}
 		elseif($dayrepeat=='every'){
 			if($oldb['enddate']=='0000-00-00'){
 				/*update old enddate, del com*/
 				mysql_query("UPDATE transport_booking SET enddate='$newend' WHERE id='$oldbookid';");
-				trigger_error('UPDATE'.mysql_error(),E_USER_WARNING);
+				//trigger_error('UPDATE'.mysql_error(),E_USER_WARNING);
 				}
 			}
 		}
 
-	mysql_query("INSERT INTO transport_booking (student_id,journey_id,direction,day,startdate,enddate,comment) 
-					 VALUES ('$sid','$jid','$direction','$day','$startdate','$enddate','$comment');");
-	//trigger_error($busid.' : '.$stopid.' '.mysql_error(),E_USER_WARNING);
+	$buses=array();
+	if($dayrepeat=='every' and $bus['day']!='%'){$buses=(array)list_buses($direction,'%',$busname);}
+	else{$buses[$busid]=$bus;$busday=$day;}
+
+	foreach($buses as $busid => $bus){
+		if(!isset($busday)){$bookday=$bus['day'];}
+		else{$bookday=$busday;}
+		/* Probably to be moved to adding new bus */
+		$d_j=mysql_query("SELECT id FROM transport_journey WHERE bus_id='$busid' AND stop_id='$stopid';");
+		if(mysql_num_rows($d_j)>0){
+			$jid=mysql_result($d_j,0);
+			}
+		else{
+			$d_j=mysql_query("INSERT INTO transport_journey (bus_id,stop_id) VALUES ('$busid','$stopid');");
+			$jid=mysql_insert_id();
+			}
+		mysql_query("INSERT INTO transport_booking (student_id,journey_id,direction,day,startdate,enddate,comment) 
+					 VALUES ('$sid','$jid','$direction','$bookday','$startdate','$enddate','$comment');");
+		//trigger_error($busid.' : '.$stopid.' '.mysql_error(),E_USER_WARNING);
+		}
 
 	/* add to the transport community for that bus */
-	$bus=get_bus($busid);
-	$com=array('id'=>'','type'=>'transport','name'=>$bus['name']);
+	$com=array('id'=>'','type'=>'transport','name'=>$busname);
 	$oldcommunities=set_community_stay($sid,$com,$startdate,$enddate);
 
 	return;
 	}
+
 
 /**
  *
@@ -297,10 +305,15 @@ function add_journey_booking($sid,$busid,$stopid,$date,$dayrepeat='once',$commen
 function delete_journey_booking($sid,$bookid){
 
 
+	$d_b=mysql_query("SELECT id, name FROM transport_bus JOIN transport_journey ON
+					transport_journey.bus_id=transport_bus.id WHERE 
+					transport_journey.id=(SELECT journey_id FROM transport_booking WHERE id='$bookid');");
+	$busname=mysql_result($d_b,0);
 
-	/*delete old*/
+
 	mysql_query("DELETE FROM transport_booking WHERE student_id='$sid' AND id='$bookid' LIMIT 1;");
 
+	/*TODO: check for other bookings for this busname and update transport community appropriately */
 
 	/* add to the transport community for that bus
 	$bus=get_bus($busid);

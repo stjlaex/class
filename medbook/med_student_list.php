@@ -77,7 +77,7 @@ two_buttonmenu();
 	$d_catdef=mysql_query("SELECT name, subtype FROM categorydef WHERE 
 				type='med' AND (rating='1' OR rating='0') ORDER BY rating DESC, name;");
 	while($medcat=mysql_fetch_array($d_catdef,MYSQL_ASSOC)){
-		$extra_studentfields['Medical'.$medcat['subtype']]=$medcat['name'];
+		$extra_studentfields['Medical'.$medcat['subtype']]=strtolower($medcat['name']);
 		}
 	$extra_studentfields['NextReviewDate']='nextreviewdate';
 

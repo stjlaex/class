@@ -1,7 +1,7 @@
 <?php 
 /**						list_year.php
  *
- * TODO: raname as list_yeargroup
+ * TODO: rename as list_yeargroup
  */
 
 if(!isset($listname)){$listname='newyid';}

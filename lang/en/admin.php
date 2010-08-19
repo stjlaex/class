@@ -212,6 +212,11 @@ $string['subbudget']='Sub-Budget';
 $string['creditnote']='Credit note';
 $string['reopen']='Reopen';
 $string['specialadminpermissions']='Special access permissions';
-$string['transport']='Transport';
+$string['repeat']='Repeat';
+$string['everyday']='Everyday';
+$string['todayonly']='Today only';
+$string['bus']='Bus';
+$string['stop']='Stop';
+$string['applyto']='Apply to';
 $string['']='';
 ?>

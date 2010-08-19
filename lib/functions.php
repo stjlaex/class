@@ -850,6 +850,10 @@ function getEnumArray($field_name){
 						'House'=>'house', 
 						'DOB'=>'dateofbirth',
 						'Nationality'=>'nationality',
+						'SecondNationality'=>'secondnationality',
+						'Birthplace'=>'placeofbirth',
+						'CountryOfOrigin'=>'countryoforigin',
+						'Language'=>'firstlanguage',
 						'EmailAddress'=>'email',
 						'EnrolNumber'=>'enrolmentnumber',
 						'EntryDate'=>'schoolstartdate',
@@ -861,12 +865,14 @@ function getEnumArray($field_name){
 						'FirstContact'=>'firstcontact',
 						'FirstContactPhone'=>'firstcontactphone',
 						'FirstContactEmailAddress'=>'firstcontactemailaddress',
+						'FirstContactPostalAddress'=>'firstcontactaddress',
+						'FirstContactProfession'=>'firstcontactprofession',
+                        'FirstContactEPFUsername'=>'firstcontactepfu',
 						'SecondContact'=>'secondcontact',
 						'SecondContactPhone'=>'secondcontactphone',
 						'SecondContactEmailAddress'=>'secondcontactemailaddress',
-						'FirstContactProfession'=>'firstcontactprofession',
+						'SecondContactPostalAddress'=>'secondcontactaddress',
 						'SecondContactProfession'=>'secondcontactprofession',
-                        'FirstContactEPFUsername'=>'firstcontactepfu',
                         'SecondContactEPFUsername'=>'secondcontactepfu'
 						);
 	/*for the register*/

@@ -85,11 +85,12 @@ if(isset($_POST['enrolstage'])){$enrolstage=$_POST['enrolstage'];}
 	include('scripts/perm_action.php');
 
 	$extrabuttons=array();
-   	$extrabuttons['addresslabels']=array('name'=>'current',
+/*   	$extrabuttons['addresslabels']=array('name'=>'current',
 										 'title'=>'printaddresslabels',
 										 'onclick'=>'checksidsAction(this)',
 										 'pathtoscript'=>$CFG->sitepath.'/'.$CFG->applicationdirectory.'/infobook/',
 										 'value'=>'contact_labels_print.php');
+*/
 	three_buttonmenu($extrabuttons,'infobook');
 ?>
   <div id="heading">
