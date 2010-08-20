@@ -14,8 +14,8 @@ include('scripts/set_list_vars.php');
 		$stages=array();
 		$stages[]=array('id'=>'%','name'=>get_string('allstages','reportbook'));
 		if($rcrid=='%'){
-			$d_cridbid=mysql_query("SELECT DISTINCT course_id FROM cridbid WHERE
-						subject_id='$rbid' ORDER BY course_id"); 
+			$d_cridbid=mysql_query("SELECT DISTINCT course_id FROM component WHERE
+						subject_id='$rbid' AND id='' ORDER BY course_id;"); 
 			while($course=mysql_fetch_array($d_cridbid,MYSQL_ASSOC)){
 				$extrastages=array();
 				$extrastages=(array)list_course_stages($course['course_id']);

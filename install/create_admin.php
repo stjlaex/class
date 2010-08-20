@@ -56,12 +56,6 @@ CREATE TABLE course (
 	primary key (id)
 );");
 mysql_query("
-CREATE TABLE cridbid (
-		course_id		varchar(10) not null default '',
-	    subject_id		varchar(10) not null default '',
-		primary 		key (course_id, subject_id)
-);");
-mysql_query("
 CREATE TABLE classes (
 		course_id		varchar(10) not null default '',
 	    subject_id		varchar(10) not null default '',
@@ -105,6 +99,7 @@ CREATE TABLE component (
 		 subject_id		varchar(10) not null default '',
 		 status			enum('N','V','U') not null default 'N',
 		 sequence	   	smallint unsigned not null default '0',
+		 weight			smallint unsigned not null default '1',
 		 primary key 	(id, course_id, subject_id)
 );");
 mysql_query("

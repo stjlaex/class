@@ -24,11 +24,10 @@ if($sub=='Submit'){
 
 	$entrydate=date('Y')."-".date('n')."-".date('j');
 
-   	$d_cridbid=mysql_query("SELECT subject_id FROM cridbid
-				WHERE course_id='$rcrid' ORDER BY subject_id");
-	$bids=array();
-	while($cridbid=mysql_fetch_array($d_cridbid,MYSQL_ASSOC)){
-		$coursebids[]=$cridbid['subject_id'];
+	$coursebids=array();
+	$subjects=list_course_subjects($rcrid);
+	foreach($subjects as $subject){
+		$coursebids[]=$subject['subject_id'];
 		}
 
    	$d_statvalues=mysql_query("SELECT * FROM statvalues WHERE stats_id='$statid'");

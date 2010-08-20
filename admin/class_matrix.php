@@ -10,14 +10,8 @@ $choice='class_matrix.php';
 list($crid,$bid,$error)=checkCurrentRespon($r,$respons,'course');
 if(sizeof($error)>0){include('scripts/results.php');exit;}
 
-	$d_classes=mysql_query("SELECT DISTINCT stage FROM classes WHERE
-							course_id='$crid'");
-	$d_subject=mysql_query("SELECT DISTINCT subject_id FROM cridbid 
-				WHERE course_id='$crid' ORDER BY subject_id");
-	$bids=array();
-   	while($subject=mysql_fetch_array($d_subject,MYSQL_ASSOC)){
-   		$bids[]=$subject['subject_id'];
-		}
+$stages=(array)list_course_stages($crid);
+$subjects=(array)list_course_subjects($crid);
 
 $extrabuttons['generateclasses']=array('name'=>'sub','value'=>'Generate');
 $extrabuttons['savechanges']=array('name'=>'sub','value'=>'Update');
@@ -29,21 +23,21 @@ two_buttonmenu($extrabuttons);
 		<tr>
 		  <th></th>
 <?php
-	$stages=array();
-	while($stage=mysql_fetch_array($d_classes,MYSQL_ASSOC)){
-   		$stages[]=$stage['stage'];
-  		print '<th>'.$stage['stage'].'</th>';
+	foreach($stages as $stage){
+  		print '<th>'.$stage['name'].'</th>';
 		}
 ?>
 		</tr>
 <?php
-	for($c2=0; $c2<sizeof($bids); $c2++){
+	for($c2=0; $c2<sizeof($subjects); $c2++){
+		$bid=$subjects[$c2]['id'];
    		print '<tr id="'.$c2.'" >';
-   		print '<th>'.$crid.':'.$bids[$c2].'</th>';
+   		print '<th>'.$crid.':'.$bid.'</th>';
 	
-   		for($c=0; $c<sizeof($stages); $c++){	
+   		for($c=0; $c<sizeof($stages); $c++){
+			$stage=$stages[$c]['id'];	
    			$d_classes=mysql_query("SELECT * FROM classes WHERE
-				subject_id='$bids[$c2]' AND stage='$stages[$c]' AND course_id='$crid'");
+				subject_id='$bid' AND stage='$stage' AND course_id='$crid'");
    			$classes=mysql_fetch_array($d_classes,MYSQL_ASSOC);
    			$many=$classes['many'];
    			$generate=$classes['generate'];
@@ -52,7 +46,7 @@ two_buttonmenu($extrabuttons);
    			$block=$classes['block'];
 ?>
 		  <td>
-			<select name="<?php print $bids[$c2].$stages[$c].'g';?>">
+			<select name="<?php print $bid.$stage.'g';?>">
 			  <option value="none" <?php if($generate=="none"){print "selected='selected'";}?>>
 			  </option>
 			  <option value="forms" 
@@ -74,11 +68,11 @@ two_buttonmenu($extrabuttons);
 			  </select>
 
 			<input style="width:25%;" type="text" maxlength="1" 
-			  name="<?php print $bids[$c2].$stages[$c].'s';?>" value="<?php print $sp;?>"/>
+			  name="<?php print $bid.$stage.'s';?>" value="<?php print $sp;?>"/>
 			<input style="width:25%;" type="text" maxlength="1"
-			  name="<?php print $bids[$c2].$stages[$c].'d';?>" value="<?php print $dp;?>"/>
+			  name="<?php print $bid.$stage.'d';?>" value="<?php print $dp;?>"/>
 			<input style="width:25%;" type="text" maxlength="3"
-			  name="<?php print $bids[$c2].$stages[$c].'block';?>" value="<?php print $block;?>"/>
+			  name="<?php print $bid.$stage.'block';?>" value="<?php print $block;?>"/>
 		  </td>
 <?php
 	  		}

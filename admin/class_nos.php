@@ -16,34 +16,30 @@ two_buttonmenu($extrabuttons);
 	while(list($index,$course)=each($courses)){
 		$crid=$course['id'];
 		$stages=(array)list_course_stages($crid);
-		$d_subject=mysql_query("SELECT DISTINCT subject_id FROM cridbid 
-							WHERE course_id='$crid' ORDER BY subject_id");
-		$bids=array();
-		while($subject=mysql_fetch_array($d_subject,MYSQL_ASSOC)){
-			$bids[]=$subject['subject_id'];
-			}
+		$subjects=(array)list_course_subjects($crid);
 ?>
 
 	  <table class="listmenu">
 		<tr>
 		  <th>&nbsp</th>
 <?php
-	while(list($index,$stage)=each($stages)){
+	foreach($stages as $stage){
   		print '<th>'.$stage['name'].'</th>';
 		}
 ?>
 		</tr>
 <?php
-	for($c2=0; $c2<sizeof($bids); $c2++){
+	for($c2=0; $c2<sizeof($subjects); $c2++){
+		$bid=$subjects[$c2]['id'];
    		print '<tr id="'.$c2.'" >';
-   		print '<th>'.$crid.':'.$bids[$c2].'</th>';
+   		print '<th>'.$crid.': '.$subjects[$c2]['name'].'</th>';
 	
    		for($c=0; $c<sizeof($stages); $c++){
 			$stageid=$stages[$c]['id'];
    			$d_classes=mysql_query("SELECT many,generate FROM classes WHERE
-				subject_id='$bids[$c2]' AND stage='$stageid' AND course_id='$crid'");
+				subject_id='$bid' AND stage='$stageid' AND course_id='$crid'");
    			$d_class=mysql_query("SELECT id FROM class WHERE
-				subject_id='$bids[$c2]' AND stage='$stageid' AND course_id='$crid'");
+				subject_id='$bid' AND stage='$stageid' AND course_id='$crid'");
    			$classes=mysql_fetch_array($d_classes,MYSQL_ASSOC);
    			$many=$classes['many'];
    			$generate=$classes['generate'];

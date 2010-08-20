@@ -17,8 +17,8 @@
 	if($r>-1){
 		/* use the academic responsibility */
 		if($rcrid=='%'){
-			$d_cridbid=mysql_query("SELECT DISTINCT course_id FROM cridbid WHERE
-						subject_id='$rbid' ORDER BY course_id;"); 
+			$d_cridbid=mysql_query("SELECT DISTINCT course_id FROM component WHERE
+						subject_id='$rbid' AND id='' ORDER BY course_id;"); 
 			while($course=mysql_fetch_array($d_cridbid,MYSQL_ASSOC)){
 				$cohorts[]=array('id'=>'',
 								 'course_id'=>$course['course_id'],

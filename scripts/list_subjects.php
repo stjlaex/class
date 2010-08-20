@@ -7,26 +7,16 @@
  	if($r>-1){
 		$rbid=$respons[$r]['subject_id'];
 		$rcrid=$respons[$r]['course_id'];
-		$ryid=$respons[$r]['yeargroup_id'];
-		if($rbid=='%' AND $rcrid!=''){
-			$d_subject=mysql_query("SELECT DISTINCT subject_id FROM cridbid
-				WHERE course_id LIKE '$rcrid' ORDER BY subject_id");
-			}
-		elseif($rbid!='%' AND $rcrid=='%'){
-			$d_subject=mysql_query("SELECT DISTINCT subject_id FROM cridbid
-				WHERE subject_id LIKE '$rbid' ORDER BY subject_id");
+		if($rbid!='%'){
+			$subjects[]=array('id'=>$rbid,'name'=>get_subjectname($rbid));
 			}
 		else{
-			$d_subject=mysql_query("SELECT DISTINCT subject_id FROM
-				cridbid WHERE subject_id LIKE '$rbid' AND course_id
-				LIKE '$rcrid' ORDER BY subject_id");
+			$subjects=list_course_subjects($rcrid);
 			}
 		}
 	else{
 		/* otherwise choose subjects based on classes taught */
-		$d_subject=mysql_query("SELECT DISTINCT subject_id FROM
-				class JOIN tidcid ON class.id=tidcid.class_id WHERE
-				tidcid.teacher_id='$tid'");
+		$subjects=list_teacher_subjects($tid);
 		}
 
 	if(!isset($required)){$required='yes';}
@@ -45,10 +35,10 @@
   	<option value="%" 
 		<?php if($current_bid=='%'){print 'selected="selected"';}?> ><?php print_string('all');?></option>
 <?php
-	while($subject=mysql_fetch_array($d_subject,MYSQL_ASSOC)){
+	foreach($subjects as $subject){
 		print '<option ';
-		if($current_bid==$subject['subject_id']){print 'selected="selected"';}
-		print ' value="'.$subject['subject_id'].'">'.$subject['subject_id'].'</option>';
+		if($current_bid==$subject['id']){print 'selected="selected"';}
+		print ' value="'.$subject['id'].'">'.$subject['name'].'</option>';
 		}
 ?>
   	<option value="G" 

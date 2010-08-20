@@ -26,8 +26,8 @@ include('scripts/sub_action.php');
 		if($rcrid=='%'){
 			/*User has a subject not a course responsibility selected*/
 			$d_course=mysql_query("SELECT DISTINCT cohort.course_id FROM
-				cohort JOIN cridbid ON cridbid.course_id=cohort.course_id WHERE
-				cridbid.subject_id='$rbid' AND cohort.stage='$stage' AND cohort.year='$year'");
+				cohort JOIN component ON component.course_id=cohort.course_id WHERE
+				component.subject_id='$rbid' AND component.id='' AND cohort.stage='$stage' AND cohort.year='$year'");
 			$rcrid=mysql_result($d_course,0);
 			}
 

@@ -15,9 +15,15 @@
  *	@return array courses
  *
  */
-function list_courses(){
+function list_courses($bid=''){
 	$courses=array();
-	$d_c=mysql_query("SELECT * FROM course ORDER BY sequence;");
+	if($bid=='%' or $bid==''){
+		$d_c=mysql_query("SELECT * FROM course ORDER BY sequence;");
+		}
+	else{
+		$d_crid=mysql_query("SELECT DISTINCT course_id FROM component 
+							WHERE id='' AND subject_id='$bid' ORDER BY sequence;");
+		}
 	while($course=mysql_fetch_array($d_c,MYSQL_ASSOC)){
 		$courses[]=$course;
 		}
@@ -100,7 +106,7 @@ function list_course_stages($crid='',$year=''){
 
 
 /**
- * Returns an array of all subjects for a single course
+ * Returns an array of id,name pairs of every subject in the given course
  *
  *	@param string $crid
  *	@return array
@@ -108,10 +114,29 @@ function list_course_stages($crid='',$year=''){
 function list_course_subjects($crid=''){
 	$subjects=array();
 	if($crid!=''){
-		$d_cridbid=mysql_query("SELECT DISTINCT id, name FROM subject
-					JOIN cridbid ON cridbid.subject_id=subject.id
-					WHERE cridbid.course_id LIKE '$crid' ORDER BY subject.id;");
+		$d_cridbid=mysql_query("SELECT DISTINCT subject.id, subject.name FROM subject
+					JOIN component ON component.subject_id=subject.id
+					WHERE component.course_id LIKE '$crid' AND component.id='' ORDER BY subject.id;");
 		while($subject=mysql_fetch_array($d_cridbid,MYSQL_ASSOC)){
+			$subjects[]=$subject;
+			}
+		}
+	return $subjects;
+	}
+
+/**
+ * Returns an array of id,name pairs of every subject taught by a teacher
+ *
+ *	@param string $tid
+ *	@return array
+ */
+function list_teacher_subjects($tid=''){
+	$subjects=array();
+	if($tid!=''){
+		$d_s=mysql_query("SELECT id, name FROM subject WHERE id=ANY(SELECT DISTINCT subject_id FROM
+				class JOIN tidcid ON class.id=tidcid.class_id WHERE
+				tidcid.teacher_id='$tid');");
+		while($subject=mysql_fetch_array($d_s,MYSQL_ASSOC)){
 			$subjects[]=$subject;
 			}
 		}

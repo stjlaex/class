@@ -34,7 +34,6 @@ function read_curriculum_file($filename,$curriculum){
 
 
 if($coursecheck=='yes'){
-	//mysql_query("DELETE FROM cridbid");
 	//mysql_query("DELETE FROM classes");
   	//mysql_query("DELETE FROM component");
 	}
@@ -129,7 +128,7 @@ while(list($index,$curriculum)=each($curriculums)){
 					VALUES('$adminuid','$gid', '1', '1', '1');");
 					}
 
-				mysql_query("INSERT INTO cridbid SET course_id='$crid', subject_id='$bid';");
+				mysql_query("INSERT INTO component SET id='', course_id='$crid', subject_id='$bid';");
 
 				$Stages=xmlarray_indexed_check($Course['stages'],'stage');
 				while(list($index,$stage)=each($Stages['stage']) and $stage!=''){

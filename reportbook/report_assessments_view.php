@@ -57,8 +57,8 @@ $students=array();
 		if($rcrid=='%'){
 			/*User has a subject not a course responsibility selected*/
 			$d_course=mysql_query("SELECT DISTINCT cohort.course_id FROM
-				cohort JOIN cridbid ON cridbid.course_id=cohort.course_id WHERE
-				cridbid.subject_id='$rbid' AND cohort.stage='$stage' AND cohort.year='$year'");
+				cohort JOIN component ON component.course_id=cohort.course_id WHERE
+				component.subject_id='$rbid' AND component.id='' AND cohort.stage='$stage' AND cohort.year='$year'");
 			$rcrid=mysql_result($d_course,0);
 			}
 
@@ -89,11 +89,10 @@ $students=array();
 	if(!isset($selbids)){
 		/*all subjects selected so fetch bids for each crid*/
 		/*the assessments may be across multiple crids to make even harder!*/
-		while(list($index,$asscrid)=each($asscrids)){
-			$d_cridbid=mysql_query("SELECT DISTINCT subject_id FROM cridbid
-							WHERE course_id='$asscrid' ORDER BY subject_id");
-			while($subject=mysql_fetch_array($d_cridbid,MYSQL_ASSOC)){
-				$bid=$subject['subject_id'];
+		foreach($asscrids as $asscrid){
+			$subjects=(array)list_course_subjects($asscrid);
+			foreach($subjects as $subject){
+				$bid=$subject['id'];
 				$assbids[$bid]=$bid.' ';
 				$compstatus='%';
 				$comps=list_subject_components($bid,$asscrid,$compstatus);
@@ -108,7 +107,7 @@ $students=array();
 		if($selbids[0]=='%'){
 			$selbids=array();
 			$subjects=list_course_subjects($rcrid);
-			while(list($sindex,$subject)=each($subjects)){
+			foreach($subjects as $subject){
 				$selbids[]=$subject['id'];
 				}
 			}

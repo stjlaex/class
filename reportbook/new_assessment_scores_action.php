@@ -47,11 +47,12 @@ if($sub=='Submit'){
 			$subjects=array_slice($subjectrow,1);/*offset to ignore uid in first col*/
   			if(sizeof($subjects)>0){
 				while(list($index,$subject)=each($subjects)){
-				trigger_error($index.' : '.$subject,E_USER_WARNING);
+					//trigger_error($index.' : '.$subject,E_USER_WARNING);
 					$bid='';
 					$pid='';
+					/* Check if this subject code exists for this course or if its in fact a component. */
 					$d_sub=mysql_query("SELECT subject_id FROM 
-							cridbid WHERE course_id='$rcrid' AND subject_id='$subject';");
+							component WHERE course_id='$rcrid' AND subject_id='$subject' AND id='';");
 					if(mysql_num_rows($d_sub)==0){
 						$d_com=mysql_query("SELECT subject_id FROM 
 								component WHERE course_id='$rcrid' AND id='$subject';");

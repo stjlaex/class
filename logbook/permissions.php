@@ -479,9 +479,8 @@ function getSubjectPerm($bid,$respons){
 			}
 		}
 
-	$d_crid=mysql_query("SELECT DISTINCT course_id 
-							FROM cridbid WHERE subject_id='$bid'");
-	if(sizeof($crids)>=mysql_num_rows($d_crid)){
+	$courses=list_courses($bid);
+	if(sizeof($crids)>=sizeof($courses) or $_SESSION['role']=='admin'){
 		$perm['r']=1;
 		$perm['w']=1;
 		$perm['x']=1;

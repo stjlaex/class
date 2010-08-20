@@ -730,9 +730,8 @@ function compute_assessment_ranking($AssDef,$steps,$cohorts){
 
 	//only working for a unique element to assessment relation!!!
 	$operandid=$steps[0]['operandids'][0];
-	$d_sub=mysql_query("SELECT DISTINCT subject_id AS id FROM cridbid
-				WHERE course_id='$crid'");
-	while($subject=mysql_fetch_array($d_sub,MYSQL_ASSOC)){
+	$subjects=list_course_subjects($crid);
+	foreach($subjects as $subject){
 		$rankbid=$subject['id'];
 		$d_comp=mysql_query("SELECT component.id AS id FROM
 					subject JOIN component ON component.id=subject.id WHERE 

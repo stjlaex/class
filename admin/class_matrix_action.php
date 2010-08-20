@@ -11,22 +11,13 @@ if(sizeof($error)>0){include('scripts/results.php');exit;}
 
 if($sub=='Update'){
 
-	$d_subject=mysql_query("SELECT DISTINCT subject_id FROM cridbid
-				WHERE course_id='$crid' ORDER BY subject_id");
-	$d_classes=mysql_query("SELECT DISTINCT stage FROM classes WHERE
-							course_id='$crid'");
-	$bids=array();
-   	while($subject=mysql_fetch_array($d_subject,MYSQL_ASSOC)){
-   		$bids[]=$subject['subject_id'];
-		}
-	$stages=array();
-	while($stage=mysql_fetch_array($d_classes,MYSQL_ASSOC)){
-   		$stages[]=$stage['stage'];
-		}
-	for($c=0;$c<sizeof($bids);$c++){
-  		$bid=$bids[$c];
+	$subjects=(array)list_course_subjects($crid);
+	$stages=(array)list_course_stages($crid);
+
+	for($c=0;$c<sizeof($subjects);$c++){
+  		$bid=$subjects[$c]['id'];
 		for($c2=0;$c2<sizeof($stages);$c2++){
-	  		$stage=$stages[$c2];
+	  		$stage=$stages[$c2]['id'];
 			$ing=$bid. $stage.'g';
 			$inm=$bid. $stage.'m';
 			$ins=$bid. $stage.'s';
