@@ -37,7 +37,7 @@ if(isset($_POST['enrolstage'])){$enrolstage=$_POST['enrolstage'];}
 		//	$current_enrolstatus='P';
 		//	}
 		else{
-			list($current_enrolstatus,$yid)=split(':',$com['name']);
+			list($current_enrolstatus,$yid)=explode(':',$com['name']);
 			}
 		}
 	else{
@@ -56,7 +56,7 @@ if(isset($_POST['enrolstage'])){$enrolstage=$_POST['enrolstage'];}
 		$pairs=explode (';', $AssDefs[0]['GradingScheme']['grades']);
 		$grades=array();
 		while(list($index,$pair)=each($pairs)){
-			list($grade['result'], $grade['value'])=split(':',$pair);
+			list($grade['result'], $grade['value'])=explode(':',$pair);
 			$grades[]=$grade;
 			$$grade['value']=0;/*used for a running total*/
 			}

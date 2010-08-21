@@ -79,7 +79,7 @@ include('scripts/sub_action.php');
 			}
 		$pairs=explode(';',$comment['category']);
 		while(list($pairindex,$pair)=each($pairs)){
-			list($cat,$value)=split(':',$pair);
+			list($cat,$value)=explode(':',$pair);
 			if(isset($summary[$cat]['value'])){$summary[$cat]['value']+=$value;}
 			else{$summary[$cat]['value']=$value;}
 			if(isset($summary[$cat]['count'])){$summary[$cat]['count']++;}

@@ -6,7 +6,7 @@ require_once('../../scripts/http_head_options.php');
 
 if(!isset($xmlid)){print "Failed"; exit;}
 
-	list($crid,$bid,$uid)=split('-',$xmlid);
+	list($crid,$bid,$uid)=explode('-',$xmlid);
 	$Responsible=array();
 	$Responsible['id_db']=$crid.'-'.$bid.'-'.$uid;
 	$d_groups=mysql_query("SELECT gid FROM groups WHERE

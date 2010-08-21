@@ -173,7 +173,7 @@ function list_orders($ordernumber='%',$orderstatus='%',$ordersupid='%'){
 	if($ordersupid==''){$ordersupid='%';}
 	if($orderstatus==''){$orderstatus='%';}
 	if($ordernumber!='%' and $ordernumber!=''){
-		list($budcode,$staffcode,$yearcode,$ordid)=split('-',$ordernumber);
+		list($budcode,$staffcode,$yearcode,$ordid)=explode('-',$ordernumber);
 		}
 	if(!isset($budcode) or $budcode==''){$budcode='%';}
 	if(!isset($staffcode) or $staffcode==''){$staffcode='%';}

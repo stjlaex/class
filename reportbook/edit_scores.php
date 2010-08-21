@@ -154,7 +154,7 @@ three_buttonmenu($extrabuttons,$book);
 			print ' ></option>';
 			
 			for($c3=0; $c3<sizeof($pairs); $c3++){
-				list($level_grade, $level)=split(':',$pairs[$c3]);
+				list($level_grade, $level)=explode(':',$pairs[$c3]);
 				print '<option value="'.$level.'" ';
 				if($value==$level){print 'selected';}	
 				print '>'.$level_grade.'</option>';

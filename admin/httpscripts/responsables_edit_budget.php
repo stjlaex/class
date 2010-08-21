@@ -7,7 +7,7 @@ require_once('../../scripts/http_head_options.php');
 if(!isset($xmlid)){print "Failed"; exit;}
 include('../../lib/fetch_order.php');
 
-	list($budid,$uid)=split('-',$xmlid);
+	list($budid,$uid)=explode('-',$xmlid);
 	$perms=get_budget_perms($budid);
 	$Responsible=array();
 	$Responsible['id_db']=$budid.'-'.$uid;

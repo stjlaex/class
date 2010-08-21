@@ -78,7 +78,7 @@ two_buttonmenu();
 			$poststring=$Student['Postcode']['value'];
 			if(isset($CFG->localpostcode)){$localcode=$CFG->localpostcode;}
 			else{$localcode='2';}
-			$student_pcodes=split(' : ',$poststring);
+			$student_pcodes=explode(' : ',$poststring);
 			foreach($student_pcodes as $pcode){
 				$pos=stripos($pcode,$localcode);
 				if($pos === false){
@@ -92,7 +92,7 @@ two_buttonmenu();
 					}
 				}
 
-			$dobs=split('-',$student['dob']);
+			$dobs=explode('-',$student['dob']);
 			$yob=$dobs[0];
 			if(!isset($birth_years[$countrytype][$yob])){
 				$birth_years[$countrytype][$yob]=0;

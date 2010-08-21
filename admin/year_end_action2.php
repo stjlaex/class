@@ -99,7 +99,7 @@ if(sizeof($reenrol_assdefs)>0){
 			 * being for repeats (R).
 			 */
 			for($c3=2;$c3<sizeof($pairs);$c3++){
-				list($grade, $value)=split(':',$pairs[$c3]);
+				list($grade, $value)=explode(':',$pairs[$c3]);
 				if(strlen($grade)>3){$leavergrade=substr($grade,0,3);}
 				else{$leavergrade=$grade;}
 				$sids=array();
@@ -307,10 +307,10 @@ if(sizeof($reenrol_assdefs)>0){
 
 	$d_a=mysql_query("SELECT * FROM assessment WHERE year='$yeargone';");
 	while($ass=mysql_fetch_array($d_a,MYSQL_NUM)){
-		$dates=(array)split('-',$ass[19]);
+		$dates=(array)explode('-',$ass[19]);
 		$dates[0]=$dates[0]+1;
 		$creation=$dates[0].'-'.$dates[1].'-'.$dates[2];
-		$dates=(array)split('-',$ass[20]);
+		$dates=(array)explode('-',$ass[20]);
 		$dates[0]=$dates[0]+1;
 		$deadline=$dates[0].'-'.$dates[1].'-'.$dates[2];
 		$d_newa=mysql_query("INSERT INTO assessment (subject_id,component_id,stage,method,element,description,
@@ -330,10 +330,10 @@ if(sizeof($reenrol_assdefs)>0){
 
 	$d_r=mysql_query("SELECT * FROM report WHERE date > '$enddate';");
 	while($rep=mysql_fetch_array($d_r,MYSQL_NUM)){
-		$dates=(array)split('-',$rep[2]);
+		$dates=(array)explode('-',$rep[2]);
 		$dates[0]=$dates[0]+1;
 		$date=$dates[0].'-'.$dates[1].'-'.$dates[2];
-		$dates=(array)split('-',$rep[3]);
+		$dates=(array)explode('-',$rep[3]);
 		$dates[0]=$dates[0]+1;
 		$deadline=$dates[0].'-'.$dates[1].'-'.$dates[2];
 		$d_newa=mysql_query("INSERT INTO report (title,date,deadline,comment,course_id,stage,

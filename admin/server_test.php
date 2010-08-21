@@ -10,7 +10,7 @@ function list_system_locales(){
     system('locale -a');
     $str = ob_get_contents();
     ob_end_clean();
-    return split("\\n", trim($str));
+    return explode("\\n", trim($str));
 	}
 
 $locales = list_system_locales();

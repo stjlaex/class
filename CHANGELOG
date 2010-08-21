@@ -19,6 +19,8 @@ seqeunce to course subjects. Have also added weight field.
 Transition all old scripts still using cribid to use curriculum
 functions.
 
+Replaced deprecated php function split with explode.
+
 
 Version ClaSS-0.9.23 release (2010/8/16)
 -----------------------------------------

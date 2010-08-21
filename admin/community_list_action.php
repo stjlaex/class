@@ -21,7 +21,7 @@ if($sub=='Submit'){
 	if($comtype=='applied' or $comtype=='enquired' or 
 	   $comtype=='accepted'){
 		$enrolyear=$com['year'];
-		list($enrolstatus,$yid)=split(':',$com['name']);
+		list($enrolstatus,$yid)=explode(':',$com['name']);
 
 		/*Check user has permission to edit*/
 		$perm=getYearPerm($yid,$respons);

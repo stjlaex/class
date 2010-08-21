@@ -19,7 +19,7 @@ if($sub=='Submit' and $comid!=-1){
 	$com=get_community($comid);
 	$comtype=$com['type'];
 	if($comtype=='year'){$yid=$com['name'];}
-	else{list($enrolstatus,$yid)=split(':',$com['name']);}
+	else{list($enrolstatus,$yid)=explode(':',$com['name']);}
 
 
 	/*Check user has permission to edit*/

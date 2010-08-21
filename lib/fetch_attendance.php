@@ -293,7 +293,7 @@ function get_currentevent($secid=1){
 	   (and set in 24 hour clock)
 	*/
 	if($reg!='single' and $reg!=''){
-		$time=split(':',$reg);
+		$time=explode(':',$reg);
 		if(date('H')>$time[0] or (date('H')==$time[0] and date('i')>=$time[1])){$session='PM';}
 		}
 
@@ -340,7 +340,7 @@ function get_class_periods($currentevent,$secid=1){
 
 
 	$date=date('Y-m-d');
-	$time=split(':',$reg);
+	$time=explode(':',$reg);
 	if(date('H')>$time[0] or (date('H')==$time[0] and date('i')>=$time[1])){$session='PM';}
 
 	 */

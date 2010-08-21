@@ -50,7 +50,7 @@ else{
 	$Comment=$Report['Comments']['Comment'][$entryn];
 	$inmust=$Comment['id_db'];
 	if($subcomments_no>0){
-		$texts=split(':::',$Comment['Text']['value_db']);
+		$texts=explode(':::',$Comment['Text']['value_db']);
 		}
 	else{
 		$texts[]=$Comment['Text']['value_db'];

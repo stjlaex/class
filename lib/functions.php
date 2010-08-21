@@ -1636,7 +1636,7 @@ function send_sms_to($phone,$message){
  */
 function display_date($date=''){
 	if($date!='' and $date!='0000-00-00'){
-		list($year,$month,$day)=split('-',$date);
+		list($year,$month,$day)=explode('-',$date);
 		$time=mktime(0,0,0,$month,$day,$year);
 		$displaydate=date('jS M Y',$time);
 		}

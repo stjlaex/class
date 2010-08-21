@@ -543,7 +543,7 @@ function join_community($sid,$community){
 		$enrolstatus='P';
 		}
 	elseif($type=='accepted' or $type=='applied' or $type=='enquired'){
-		list($enrolstatus,$yid)=split(':',$name);
+		list($enrolstatus,$yid)=explode(':',$name);
 		/*may be joining from previous point in application procedure*/
 		$oldtypes[]='accepted';
 		$oldtypes[]='applied';
@@ -757,7 +757,7 @@ function generate_epfusername($User=array(),$role='student'){
 	$code='';
 	if($role=='student'){
 		/* Only use the first part of the forename. */
-		$forename=(array)split(' ',$User['Forename']['value']);
+		$forename=(array)explode(' ',$User['Forename']['value']);
 		$start=iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $forename[0]);
 		$start=utf8_to_ascii($start);
 		$classtable='info';

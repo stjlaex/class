@@ -161,7 +161,7 @@ function elgg_newUser($User,$role){
 		$epfusertype='person';
 		$epftemplate_name='Default_Student';
 		$epftemplate=2;
-		$dob=(array)split('-',$User['DOB']['value']);
+		$dob=(array)explode('-',$User['DOB']['value']);
 		$passwstart=utf8_to_ascii($surname);
 		$password=good_strtolower($passwstart[0]).$dob[0];
 		$assword=md5($password);

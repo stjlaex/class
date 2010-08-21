@@ -152,7 +152,7 @@ three_buttonmenu($extrabuttons);
 			print '<tr><th colspan="2">'.get_string($comtype).'</th></tr>';
 
 			while(list($index,$community)=each($communities)){
-				list($enrolstatus,$enrolyear)=split(':',$community['name']);
+				list($enrolstatus,$enrolyear)=explode(':',$community['name']);
 				$description=get_string(displayEnum($enrolstatus,'enrolstatus'),$book).' '.$enrolyear;
 				$nosids=countin_community($community);
 				print '<tr><td>';

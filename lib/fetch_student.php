@@ -767,7 +767,7 @@ function fetchIncidents($sid,$startdate='',$enddate=''){
 		$Incident=array();
 		$Incident['id_db']=$incid;
 		$pairs=explode(';',$incident['category']);
-		list($catid, $rank)=split(':',$pairs[0]);
+		list($catid, $rank)=explode(':',$pairs[0]);
 		if(array_key_exists($catid,$catdefs)){$sanction=$catdefs[$catid]['name'];}
 		else{$sanction='';}
 		$Incident['Sanction']=array('label' => 'sanction', 
@@ -810,7 +810,7 @@ function fetchIncidents($sid,$startdate='',$enddate=''){
 									   'type_db' => 'date', 
 									   'value' => ''.$action['entrydate']);
 			$pairs=explode(';',$action['category']);
-			list($catid, $rank)=split(':',$pairs[0]);
+			list($catid, $rank)=explode(':',$pairs[0]);
 			$d_categorydef=mysql_query("SELECT name FROM categorydef
 						WHERE id='$catid'");
 			$Action['Sanction']=array('label' => 'sanction', 
@@ -874,7 +874,7 @@ function fetchBackgrounds_Entries($sid,$type){
 							  'value' => ' ');
 			$pairs=explode(';',$entry['category']);
 			for($c3=0; $c3<sizeof($pairs)-1; $c3++){
-				list($catid, $rank)=split(':',$pairs[$c3]);
+				list($catid, $rank)=explode(':',$pairs[$c3]);
 				$Category=array();
 				$d_categorydef=mysql_query("SELECT name FROM categorydef
 									WHERE id='$catid'");
@@ -965,7 +965,7 @@ function fetchComments($sid,$startdate='',$enddate=''){
 						  'value' => ' ');
 		$pairs=explode(';',$comment['category']);
 		for($c3=0;$c3<sizeof($pairs)-1;$c3++){
-			list($catid,$rank)=split(':',$pairs[$c3]);
+			list($catid,$rank)=explode(':',$pairs[$c3]);
 			$Category=array();
 			$d_categorydef=mysql_query("SELECT name FROM categorydef WHERE id='$catid';");
 			$catname=mysql_result($d_categorydef,0);
@@ -1080,7 +1080,7 @@ function fetchEnrolment($sid='-1'){
 				$year=get_curriculumyear();
 				}
 			else{
-				list($enrolstatus,$yid)=split(':',$com['name']);
+				list($enrolstatus,$yid)=explode(':',$com['name']);
 				$year=$com['year'];
 				}
 			$comid=$com['id'];

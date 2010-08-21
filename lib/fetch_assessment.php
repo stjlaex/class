@@ -64,7 +64,7 @@ function scoreToLevel($score,$scoretotal='',$levels){
 	if($cent==-100){$cent=$score;}
 	$pairs=explode(';',$levels);
 	for($c=0;$c<sizeof($pairs);$c++){
-		list($level_grade, $level)=split(":",$pairs[$c]);
+		list($level_grade, $level)=explode(":",$pairs[$c]);
 		if($cent>=$level){$grade=$level_grade;}
 		}
 	if(!isset($grade)){$grade='';$cent=-100;}
@@ -120,7 +120,7 @@ function scoreToGrade($score,$grading_grades){
 	    $score=round($score);
 		$high=sizeof($pairs);
 		for($c=0;$c<sizeof($pairs);$c++){
-			list($levelgrade,$level)=split(':',$pairs[$c]);
+			list($levelgrade,$level)=explode(':',$pairs[$c]);
 			if($score>=$level){
 				$lowgrade=$levelgrade;
 				$lowlevel=$level;
@@ -129,7 +129,7 @@ function scoreToGrade($score,$grading_grades){
 			}
 		$grade=$lowgrade;
 		if($high<$c){
-			list($highgrade, $highlevel)=split(':',$pairs[$high]);
+			list($highgrade, $highlevel)=explode(':',$pairs[$high]);
    			if(($highlevel-$score)<=($score-$lowlevel)){$grade=$highgrade;}
 			}
 		}
@@ -154,7 +154,7 @@ function gradeToScore($grade,$grading_grades){
 	$pairs=explode (';', $grading_grades);
 	if($grade!=''){
 		for($c=0; $c<sizeof($pairs); $c++){
-			list($levelgrade, $level)=split(':',$pairs[$c]);
+			list($levelgrade, $level)=explode(':',$pairs[$c]);
 			if($grade==$levelgrade){$score=$level;}	
 			}
 		}
@@ -509,7 +509,7 @@ function fetch_enrolmentAssessmentDefinitions($com='',$stage='E',$enrolyear='000
 
 	if($com==''){$crids[]='%';}
 	else{
-		list($enrolstatus,$yid)=split(':',$com['name']);
+		list($enrolstatus,$yid)=explode(':',$com['name']);
 		$yearcommunity=array('id'=>'','type'=>'year','name'=>$yid);
 		$cohorts=list_community_cohorts($yearcommunity);
 		while(list($index,$cohort)=each($cohorts)){

@@ -638,7 +638,7 @@ function fetch_reportdefinition($rid,$selbid='%'){
 			for($c=0;$c<sizeof($pairs);$c++){
 				$ratings=array();
 				$cattable=array();
-				list($ratingbid, $ratingname)=split(':',$pairs[$c]);
+				list($ratingbid, $ratingname)=explode(':',$pairs[$c]);
 				/* Only need to do each rating name once. */
 				if(!isset($reportdef['ratings'][$ratingname])){
 					$cattable['ratingname']=$ratingname;
@@ -735,7 +735,7 @@ function get_report_ratingname($reportdef,$bid='%'){
 	 * Identify the ratingname which applies to this subject.
 	 */
 	for($c=0;$c<sizeof($pairs);$c++){
-		list($ratingbid, $ratingname)=split(':',$pairs[$c]);
+		list($ratingbid, $ratingname)=explode(':',$pairs[$c]);
 		if(($ratingbid=='%' and !isset($Categories['ratingname'])) or ($ratingbid==$bid)){
 			$linkedname=$ratingname;
 			}
@@ -821,7 +821,7 @@ function fetchReportEntry($reportdef,$sid,$bid,$pid){
 				* for display in xslt using copy-of (and not select!).
 				*/
 			   $comment_html=array();
-			   $comments=split(':::',$entry['comment']);
+			   $comments=explode(':::',$entry['comment']);
 			   for($c=0;$c<$subcomments_no;$c++){
 			     /* If a subcomment is empty then don't display in the html page. */
 				if($comments[$c]!=' ' and $comments[$c]!=''){
@@ -876,7 +876,7 @@ function fetchReportEntry($reportdef,$sid,$bid,$pid){
 		   $catdefs=get_report_categories($rid,$bid,$pid);
 		   $pairs=explode(';',$entry['category']);
 		   for($c=0;$c<(sizeof($pairs)-1);$c++){
-			   list($catid, $rank)=split(':',$pairs[$c]);
+			   list($catid, $rank)=explode(':',$pairs[$c]);
 			   $entry['ratings'][$catid]=$rank;
 			   }
 

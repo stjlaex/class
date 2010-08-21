@@ -100,7 +100,7 @@ else{
 	$grading_grades=$AssDefs[1]['GradingScheme']['grades'];
 	$pairs=explode(';', $grading_grades);
 	for($c=0;$c<sizeof($pairs);$c++){
-		list($levelgrade,$level)=split(':',$pairs[$c]);
+		list($levelgrade,$level)=explode(':',$pairs[$c]);
 		$restable['res'][]=array('label'=>''.$levelgrade,
 								 'value'=>''.$level);
 		}

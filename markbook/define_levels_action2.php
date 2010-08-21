@@ -17,15 +17,15 @@ $grades=clean_text($_POST['grades']);
 $crid=clean_text($_POST['crid']);
 $bid=clean_text($_POST['bid']);
 
-		$pairs=explode (';', $grades);	
-		list($level_grade, $level)=split(':',$pairs[0]);
+		$pairs=explode(';', $grades);	
+		list($level_grade, $level)=explode(':',$pairs[0]);
 		/*the first boundary must be equal to zero!*/
 		$levellist=$level_grade.':0';
 		$previous=0;
 
 		for($c3=1; $c3<sizeof($levels); $c3++){
 		    if ($levels[$c3]>$previous){
-				list($level_grade, $level)=split(':',$pairs[$c3]);
+				list($level_grade, $level)=explode(':',$pairs[$c3]);
 				$levellist=$levellist.';'.$level_grade.':'.$levels[$c3];
 				$previous=$levels[$c3];
 				}

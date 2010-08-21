@@ -6,7 +6,7 @@ require_once('../../scripts/http_head_options.php');
 
 if(!isset($xmlid)){print "Failed"; exit;}
 
-	list($rid,$sid,$bid,$pid,$entn)=split('-',$xmlid);
+	list($rid,$sid,$bid,$pid,$entn)=explode('-',$xmlid);
 $comn=$entn-1;/*TODO: the xmlid must have the real entryn not the index!!!!*/
 	$reportdef=fetch_reportdefinition($rid);
 	$Report['Comments']=fetchReportEntry($reportdef, $sid, $bid, $pid);

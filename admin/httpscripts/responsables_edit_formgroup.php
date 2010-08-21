@@ -6,7 +6,7 @@ require_once('../../scripts/http_head_options.php');
 
 if(!isset($xmlid)){print "Failed"; exit;}
 
-	list($fid,$uid)=split('-',$xmlid);
+	list($fid,$uid)=explode('-',$xmlid);
 	$perms=getFormPerm($fid, $respons);
 
 	$Responsible=array();
