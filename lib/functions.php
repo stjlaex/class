@@ -81,7 +81,7 @@ function file_putcsv($handle, $row, $fd=',', $quot='"'){
  *	@return array modified value
  */
 function nullCorrect($array){
-	if(sizeof($array)>0 and is_array($array)){
+   	if(sizeof($array)>0 and is_array($array)){
 		foreach($array as $key => $value){
 			if(sizeof($value)>0 and is_array($value)){
 				$array[$key]=nullCorrect($value);

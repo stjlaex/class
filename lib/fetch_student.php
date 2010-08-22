@@ -170,13 +170,13 @@ function fetchStudent_singlefield($sid,$tag){
 			/*NOT a part of the xml def for Student but useful here*/
 			$Contacts=(array)fetchContacts($sid);
 			$Student[$tag]=array('label'=>'',
-								 'value'=>$Contacts[$contactno]['EmailAddress']['value']);
+								 'value'=>''.$Contacts[$contactno]['EmailAddress']['value']);
 			}
 		elseif(substr_count($tag,'EPFUsername')){
 			/*NOT a part of the xml def for Student but useful here*/
 			$Contacts=(array)fetchContacts($sid);
 			$Student[$tag]=array('label'=>'',
-								 'value'=>$Contacts[$contactno]['EPFUsername']['value']);
+								 'value'=>''.$Contacts[$contactno]['EPFUsername']['value']);
 			}
 		elseif(substr_count($tag,'Profession')){
 			/*NOT a part of the xml def for Student but useful here*/
@@ -310,10 +310,12 @@ function fetchStudent($sid='-1'){
 										);
    	$Student['YearGroup']=array('label' => 'yeargroup',   
 								'value' => ''.$student['yeargroup_id']);
+	/*
 	$Student['NCyearActual']=array('label' => 'ncyear',  
 								   'id_db' => ''.$student['yeargroup_id'], 
 								   'value' => ''.getNCyear($student['yeargroup_id'])
 								   );
+	*/
    	$Student['Nationality']=array('label' => 'nationality', 
 								  'table_db' => 'info', 
 								  'field_db' => 'nationality', 
@@ -732,8 +734,7 @@ function fetchAddress($gidaid=array('address_id'=>'-1','addresstype'=>'')){
 							 'table_db' => 'address', 
 							 'field_db' => 'country',
 							 'type_db' => 'enum',
-							  'value_display' => 
-							get_string(displayEnum($address['country'], 'country'),'infobook'), 
+							 'value_display' => ''.get_string(displayEnum($address['country'], 'country'),'infobook'), 
 							 'value' => ''.$address['country']);
 	$Address['Postcode']=array('label' => 'postcode',
 							   'table_db' => 'address', 

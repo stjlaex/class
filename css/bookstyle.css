@@ -30,6 +30,7 @@ input, textarea, select {
     padding:2px;
     margin:2px;
     width:auto;
+    background-color:#ffffff;
 	}
 input:focus, textarea:focus, select:focus {
 	border-color:#ff9900;

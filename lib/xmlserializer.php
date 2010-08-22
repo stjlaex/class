@@ -65,7 +65,7 @@ function xmlpreparer($rootName,$xmlentry,$options=''){
 					   //	'id'  => '-//PHP//PEAR/DTD PACKAGE 0.1')
 					   );
 		}
-	$Serializer=&new XML_Serializer($options);
+	$Serializer=new XML_Serializer($options);
 	$status=$Serializer->serialize($xmlentry);
 	if(PEAR::isError($status)){die($status->getMessage());}
 	return $Serializer->getSerializedData();
@@ -159,7 +159,7 @@ function xmlfilereader($xmlfilename){
 							  'complexType' => 'array'
 							  );
 
-	$Unserializer=&new XML_Unserializer($serializer_options);
+	$Unserializer=new XML_Unserializer($serializer_options);
 	$status=$Unserializer->unserialize($xmlfilename,true);
 	if(PEAR::isError($status)){
 		die($status->getMessage());
@@ -178,7 +178,7 @@ function xmlfilereader($xmlfilename){
  * @return string
  */
 function xmlreader($xml){
-	$Unserializer=&new XML_Unserializer();
+	$Unserializer=new XML_Unserializer();
 	$status=$Unserializer->unserialize($xml);
 	if(PEAR::isError($status)){
 		die($status->getMessage());

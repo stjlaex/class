@@ -5,27 +5,26 @@
  */
 
 $ids=array();	
-$action_post_vars=array('savedview','colno');
-if(isset($_POST['savedview'])){$savedview=$_POST['savedview'];}
+$action_post_vars=array('savedview');
+if(isset($_SESSION['savedview'])){$savedview=$_SESSION['savedview'];}
+else{$savedview='';}
 
 /*posts from the student group search*/
 if(isset($_POST['newyid']) and $_POST['newyid']!=''){
 	$com=array('id'=>'','type'=>'year','name'=>$_POST['newyid']);
-	if(!isset($savedview)){$savedview='year';}
+	$savedview='year';
 	}
 elseif(isset($_POST['newfid']) and $_POST['newfid']!=''){
 	$com=array('id'=>'','type'=>'form','name'=>$_POST['newfid']);
-	if(!isset($savedview)){$savedview='form';}
+	$savedview='form';
 	}
 elseif(isset($_POST['newcomid']) and $_POST['newcomid']!=''){
 	//$com=array('id'=>$_POST['newcomid'],'type'=>'','name'=>'');
 	$com=get_community($_POST['newcomid']);
-	if(!isset($savedview)){$savedview='';}
 	}
 elseif(isset($_POST['newcomid1']) and $_POST['newcomid1']!=''){
 	//$com=array('id'=>$_POST['newcomid1'],'type'=>'','name'=>'');
 	$com=get_community($_POST['newcomid1']);
-	if(!isset($savedview)){$savedview='';}
 	}
 
 if(isset($com)){

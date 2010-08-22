@@ -242,9 +242,8 @@ $string['southafrica']='South Africa';
 $string['zambia']='Zambia';
 $string['zaire']='Zaire';
 $string['zimbabwe']='Zimbabwe';
-
-	/*codes from CBDS 2007, the deprecated first six are for compatibility*/
-	/*not always the same as ISO 639-2 is the alpha-3 code for language!*/
+/*codes from CBDS 2007, the deprecated first six are for compatibility*/
+/*not always the same as ISO 639-2 is the alpha-3 code for language!*/
 $string['english']='English'; 
 $string['believedtobeenglish']='Believed to be english'; 
 $string['believedtobeotherthanenglish']='Believed to be other than english';
@@ -335,7 +334,9 @@ $string['']='Ga';
 $string['']='Gaelic/Irish';
 $string['']='Gaelic (Scotland)';
 $string['']='Georgian';
-$string['']='German';
+*/
+$string['german']='German';
+/*
 $string['']='Gogo/Chigogo';
 $string['']='Kikuyu/Gikuyu';
 $string['']='Galician/Galego';
@@ -573,4 +574,5 @@ $string['']='Zande';
 $string['']='Zulu';
 */
 $string['classificationpending']='Classification Pending';
+$string['']='';
 ?>

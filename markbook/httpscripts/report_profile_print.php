@@ -107,16 +107,13 @@ else{
 	$Students['restable']=$restable;
 	
 	$Students['Student']=array();
-	for($sc=0;$sc<sizeof($sids);$sc++){
+	trigger_error('SIZE: '.sizeof($sids),E_USER_WARNING);
+	foreach($sids as $sid){
+		$Student=(array)fetchStudent_short($sid);
 		$Assessments['Assessment']=array();
-		//$sid=$students[$sc]['id'];
-		$sid=$sids[$sc];
-		$Student=fetchStudent_short($sid);
-
-		for($ec=0;$ec<sizeof($AssDefs);$ec++){
-			$Assessments['Assessment']=array_merge($Assessments['Assessment'],fetchAssessments_short($sid,$AssDefs[$ec]['id_db'],$bid,$pid));
+		foreach($AssDefs as $AssDef){
+			$Assessments['Assessment']=array_merge($Assessments['Assessment'],fetchAssessments_short($sid,$AssDef['id_db'],$bid,$pid));
 			}
-
 		$Student['Assessments']=xmlarray_indexed_check($Assessments,'Assessment');
 		$Students['Student'][]=$Student;
 		}

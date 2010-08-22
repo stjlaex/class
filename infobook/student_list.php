@@ -8,7 +8,9 @@ $action='student_list.php';
 $choice='student_list.php';
 
 include('scripts/sub_action.php');
-if(isset($_POST['savedview'])){$savedview=$_POST['savedview'];}else{$savedview='';}
+if(isset($_POST['savedview'])){$savedview=$_POST['savedview'];$_SESSION['savedview']=$savedview;}
+elseif(isset($_SESSION['savedview'])){$savedview=$_SESSION['savedview'];}
+else{$savedview='';}
 if(isset($_POST['colno'])){$displayfields_no=$_POST['colno'];}
 
 $displayfields=array();
@@ -25,8 +27,11 @@ elseif($savedview=='year'){
 	$displayfields[]='DOB';
 	$displayfields_no=3;
 	}
-else{
-	/*TODO*/
+elseif($savedview!=''){
+	$d_c=mysql_query("SELECT comment FROM categorydef WHERE name='$savedview' AND type='col';");
+	$taglist=mysql_result($d_c,0);
+	$displayfields=(array)explode(':::',$taglist);
+	$displayfields_no=sizeof($displayfields);
 	}
 
 if(!isset($displayfields_no)){
@@ -192,8 +197,11 @@ two_buttonmenu($extrabuttons,$book);
 			and $Student[$displayfield]['type_db']=='date'){
 			$displayout=display_date($Student[$displayfield]['value']);
 			}
-		else{
+		elseif($displayfield!=''){
 			$displayout=$Student[$displayfield]['value'];
+			}
+		else{
+			$displayout='';
 			}
 		print '<td>'.$displayout.'</td>';
 		}
@@ -203,20 +211,45 @@ two_buttonmenu($extrabuttons,$book);
 		}
 	reset($sids);
 ?>
-<tr>
-<th colspan="<?php print $displayfields_no+2;?>">&nbsp;
-</th>
-<th>
+		<tr>
+		  <th colspan="<?php print $displayfields_no+2;?>">
+		  <div class="rowaction">
+<?php
+	$d_c=mysql_query("SELECT DISTINCT name AS id, name AS name FROM categorydef WHERE type='col' ORDER BY name;");
+	$listname='savedview';$listlabel='';$liststyle='width:16em;';
+	include('scripts/set_list_vars.php');
+	list_select_db($d_c,$listoptions,$book);
+?>
+		  </div>
+		  <div class="rowaction">
+<?php
+	$buttons=array();
+	$buttons['selectview']=array('name'=>'sub','value'=>'select');
+	all_extrabuttons($buttons,'infobook','processContent(this)')
+?>
+		  </div>
+		  <div class="rowaction">
+<?php
+	$buttons=array();
+	if($savedview==''){
+		$buttons['saveview']=array('title'=>'saveview','name'=>'current','value'=>'column_save.php');
+		}
+	all_extrabuttons($buttons,'infobook','processContent(this)')
+?>
+		  </div>
+		</th>
+		<th>
+		  <div class="rowaction">
 <?php
 	$buttons=array();
 	$buttons['addcolumn']=array('title'=>'addcolumn','name'=>'extracol','value'=>'yes');
 	all_extrabuttons($buttons,'infobook','processContent(this)')
 ?>
-</th>
-</tr>
-	  </table>
+		  </div>
+		</th>
+	  </tr>
+	</table>
 
-	  <input type="hidden" name="savedview" value="<?php print $savedview;?>" />
 	  <input type="hidden" name="colno" value="<?php print $displayfields_no;?>" />
 	  <input type="hidden" name="current" value="<?php print $action;?>" />
 	  <input type="hidden" name="cancel" value="<?php print '';?>" />

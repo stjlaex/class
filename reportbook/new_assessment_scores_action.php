@@ -44,7 +44,7 @@ if($sub=='Submit'){
 			 * ids of scores being imported. 
 			 */
 	  		$subjectrow=array_shift($inrows);/*grabs the first row*/
-			$subjects=array_slice($subjectrow,1);/*offset to ignore uid in first col*/
+			$subjects=array_slice($subjectrow,2);/*offset to ignore uid and student name in first two columns*/
   			if(sizeof($subjects)>0){
 				while(list($index,$subject)=each($subjects)){
 					//trigger_error($index.' : '.$subject,E_USER_WARNING);
@@ -100,8 +100,7 @@ if($sub=='Submit'){
 		while(list($index,$row)=each($inrows)){
 			$sid='';
 			if($firstcol=='enrolno' and $row[0]!=''){
-				$d_student=mysql_query("SELECT student_id FROM 
-							info WHERE formerupn='$row[0]';");
+				$d_student=mysql_query("SELECT student_id FROM info WHERE formerupn='$row[0]';");
 				$sid=mysql_result($d_student,0);
 				}
 			elseif($firstcol=='sid'){
@@ -109,10 +108,9 @@ if($sub=='Submit'){
 				}
 			if($sid!=''){
 				$insid++;
-				reset($bids);
-				while(list($col,$bid)=each($bids)){
+				foreach($bids as $col => $bid){
 					if(isset($bid[0]) and $bid[0]!='#'){
-						$invalue=$row[$col+1];/*offset to ignore uid in first col*/
+						$invalue=$row[$col+2];/*offset to ignore first two columns*/
 						if($grading_grades!=''){
 							$res=$invalue;
 							$value=gradeToScore($res,$grading_grades);

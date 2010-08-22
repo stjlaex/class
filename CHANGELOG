@@ -21,6 +21,10 @@ functions.
 
 Replaced deprecated php function split with explode.
 
+Saved views in the InfoBook student_list. Uses a new categorydef
+type='col' to store the tagnames on display.
+
+
 
 Version ClaSS-0.9.23 release (2010/8/16)
 -----------------------------------------

@@ -191,16 +191,14 @@ function addExtraFields(sidId,cellId,extraId,containerId){
 	extraDiv.removeAttribute("class");
 	extraDiv.id="add-"+extraId+"-"+sidId;
 	var newElements=extraDiv.childNodes;
-	var cellObj=document.getElementById(cellId);
+	if(cellId!=null){var cellObj=document.getElementById(cellId);}
 	for(var i=0;i<newElements.length;i++){
 		var genName=newElements[i].name;
 		var genId=newElements[i].id;
 		if(genName){
 			newElements[i].name=genName+"-"+sidId;
 			newElements[i].id=genId+"-"+sidId;
-			if(cellId!=null){
-				newElements[i].value=cellObj.attributes.getNamedItem(genName).value;
-				}
+			if(cellId!=null){newElements[i].value=cellObj.attributes.getNamedItem(genName).value;}
 			}
 		}
 	editContainer.insertBefore(extraDiv,null);
