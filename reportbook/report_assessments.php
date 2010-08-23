@@ -36,7 +36,7 @@ three_buttonmenu();
 
 
 <?php
-		if($r>-1 or isset($cohorts)){
+		if($r>-1){
 ?>
 	  <fieldset class="center">
 		<legend><?php print_string('limitbysubject',$book);?></legend>
@@ -50,6 +50,10 @@ three_buttonmenu();
 		</div>
 	  </fieldset>
 
+<?php
+			}
+		if($r>-1 or isset($cohorts)){
+?>
 
 	  <fieldset class="center">
 		<legend><?php print_string('choosetoinclude',$book);?></legend>

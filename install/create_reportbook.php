@@ -76,6 +76,7 @@ CREATE TABLE eidsid (
 	resultstatus	enum('', 'I', 'P') not null,
 	result			varchar(30) not null default '',
     value		 	float not null default '0.0',
+	weight			smallint unsigned not null default '1' BEFORE examboard,
 	examboard		char(3) not null default '',
 	examsyllabus	char(6) not null default '',
 	index			index_result(student_id),

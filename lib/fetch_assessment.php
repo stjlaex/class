@@ -440,6 +440,9 @@ function fetchAssessments($sid,$eid='%'){
 					=> 'eidsid', 'field_db'=>'value', 
 					'type_db'=>'', 'value'=>$eidsid['value']);
 		$Assessment=nullCorrect($Assessment);
+		if($eidsid['weight']=='2'){
+			$Assessments[]=$Assessment;
+	   		}
 		$Assessments[]=$Assessment;
 		}
 
@@ -483,6 +486,9 @@ function fetchAssessments_short($sid,$eid='%',$bid='%',$pid='%'){
 		$Assessment['Result']=nullCorrect($Assessment['Result']);
 	   	$Assessment['Value']=array('value' =>''.$eidsid['value']);
 		$Assessment=nullCorrect($Assessment);
+		if($eidsid['weight']=='2'){
+			$Assessments[]=$Assessment;
+	   		}
 		$Assessments[]=$Assessment;
 		}
 	return $Assessments;

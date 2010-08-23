@@ -107,7 +107,6 @@ else{
 	$Students['restable']=$restable;
 	
 	$Students['Student']=array();
-	trigger_error('SIZE: '.sizeof($sids),E_USER_WARNING);
 	foreach($sids as $sid){
 		$Student=(array)fetchStudent_short($sid);
 		$Assessments['Assessment']=array();

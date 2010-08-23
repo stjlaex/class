@@ -14,7 +14,7 @@ Added contact address to student extra display fields.
 Transport groups now part Info search.
 
 Removed table cridbid in favour of using component. Allows adding
-seqeunce to course subjects. Have also added weight field.
+seqeunce to course subjects and also added weighting.
 
 Transition all old scripts still using cribid to use curriculum
 functions.
@@ -24,6 +24,8 @@ Replaced deprecated php function split with explode.
 Saved views in the InfoBook student_list. Uses a new categorydef
 type='col' to store the tagnames on display.
 
+Added a weight field to eidsid which is only currently reflected in
+Assessments as weight=2 for double valued subjects.
 
 
 Version ClaSS-0.9.23 release (2010/8/16)

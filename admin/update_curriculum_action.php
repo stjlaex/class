@@ -34,8 +34,8 @@ function read_curriculum_file($filename,$curriculum){
 
 
 if($coursecheck=='yes'){
-	//mysql_query("DELETE FROM classes");
-  	//mysql_query("DELETE FROM component");
+	mysql_query("DELETE FROM classes");
+  	mysql_query("DELETE FROM component");
 	}
 if($groupcheck=='yes'){
 	mysql_query("DELETE FROM form");
@@ -321,7 +321,7 @@ while(list($index,$curriculum)=each($curriculums)){
 
 
 	if($groupcheck=='yes'){
-	  $Groups=read_curriculum_file('groups.xml',$curriculum);
+		$Groups=read_curriculum_file('groups.xml',$curriculum);
 
 	  $YearGroups=xmlarray_indexed_check($Groups['yeargroups'],'yeargroup');
 	  while(list($index,$Group)=each($YearGroups['yeargroup']) and $Group['id']!=''){

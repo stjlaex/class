@@ -36,7 +36,7 @@ function get_bus($busid,$name='',$direction='',$day=''){
 
 
 /**
- * Returns the full details of a jounrey and its associated bus for that journeyid
+ * Returns the full details of a journey and its associated bus for that journeyid
  *
  * @param integer $journeyid
  * @return array
