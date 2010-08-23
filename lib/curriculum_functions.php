@@ -315,7 +315,7 @@ function list_forms_classes($fid){
  */
 function list_course_classes($crid='%',$bid='%',$stage='%'){
 	$classes=array();
-	$d_c=mysql_query("SELECT id, detail, subject_id, stage FROM  
+	$d_c=mysql_query("SELECT id, id AS name, detail, subject_id, stage FROM  
 					class WHERE course_id LIKE '$crid' AND
 					subject_id LIKE '$bid' AND stage LIKE '$stage' 
 					ORDER BY course_id, id");   

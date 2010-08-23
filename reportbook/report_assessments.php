@@ -33,17 +33,23 @@ three_buttonmenu();
 		<legend><?php print_string('collateforstudentsfrom',$book);?></legend>
 		<?php $onchange='yes'; $required='no'; include('scripts/'.$listgroup);?>
 	  </fieldset>
+
+
 <?php
 		if($r>-1 or isset($cohorts)){
-
-/*	  <fieldset class="center">
+?>
+	  <fieldset class="center">
 		<legend><?php print_string('limitbysubject',$book);?></legend>
 		<div class="left" >
-		  <?php $multi='4'; include('scripts/list_subjects.php');?>
+<?php
+			$classes=(array)list_course_classes($rcrid);
+			$listname='cid';$listlabel='class';$required='no';
+			include('scripts/set_list_vars.php');
+			list_select_list($classes,$listoptions,$book);
+?>
 		</div>
 	  </fieldset>
-*/
-?>
+
 
 	  <fieldset class="center">
 		<legend><?php print_string('choosetoinclude',$book);?></legend>
@@ -53,7 +59,6 @@ three_buttonmenu();
 	include('scripts/set_list_vars.php');
 	list_select_enum('gender',$listoptions,$book);
 ?>
-
 		</div>
 	  </fieldset>
 
@@ -73,7 +78,8 @@ three_buttonmenu();
 	  <fieldset class="right">
 		<legend><?php print_string('template',$book);?></legend>
 		<div class="center">
-<?php $onchange='yes';$required='no';
+<?php
+	$onchange='yes';$required='no';
    	$d_catdef=mysql_query("SELECT DISTINCT comment AS id, comment AS name FROM categorydef WHERE
 								  type='pro' AND comment!='' ORDER BY course_id;");
 	$listname='template';$onchange='no';

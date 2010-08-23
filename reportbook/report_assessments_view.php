@@ -19,6 +19,7 @@ if(isset($_POST['year'])){$year=$_POST['year'];}
 if(isset($_POST['stage'])){$stage=$_POST['stage'];}
 if(isset($_POST['selyid'])){$yid=$_POST['selyid'];}else{$yid='';}
 if(isset($_POST['selfid'])){$fid=$_POST['selfid'];}else{$fid='';}
+if(isset($_POST['cid'])){$cid=$_POST['cid'];}else{$cid='';}
 if(isset($_POST['gender'])){$gender=$_POST['gender'];}else{$gender='';}
 if(isset($_POST['profid'])){$profid=$_POST['profid'];}
 if(isset($_POST['template'])){$template=$_POST['template'];}
@@ -52,6 +53,9 @@ $students=array();
 		}
 	elseif($yid!=''){
 		$students=listin_community(array('id'=>'','type'=>'year','name'=>$yid));
+		}
+	elseif($cid!=''){
+		$students=listin_class($cid);
 		}
 	else{
 		if($rcrid=='%'){
