@@ -167,8 +167,8 @@ elseif($sub=='Submit'){
 
 		$field_no=$infofields['formerupn'];
 		$formerupn=$student[$field_no];
-		$d_s=mysql_query("SELECT student_id FROM info WHERE formerupn='$formerupn';");
-		if(mysql_num_rows($d_s)==0){
+		$d_s=mysql_query("SELECT student_id FROM info WHERE formerupn='$formerupn' AND formerupn!='';");
+		if(mysql_num_rows($d_s)==0 or $formerupn=='' or $formerupn==' ' or mysql_num_rows($d_s)>1){
 			mysql_query("INSERT INTO student SET surname='', forename='';");
 			$new_sid=mysql_insert_id();
 			$old_sid=-1;
@@ -254,11 +254,11 @@ elseif($sub=='Submit'){
 				 * guardian and prefer to use email as an identifier
 				 * because this is much more likely unique - if it changes though!
 				 */
-				if(isset($email)){
-					$d=mysql_query("SELECT id FROM guardian WHERE surname='$surname' AND email='$email';");
+				if(isset($email) and $email!=''){
+					$d_g=mysql_query("SELECT id FROM guardian WHERE surname='$surname' AND email='$email';");
 					}
-				else{
-					$d=mysql_query("SELECT id FROM guardian WHERE
+				elseif($surname!='' and $forename!=''){
+					$d_g=mysql_query("SELECT id FROM guardian WHERE
 					surname='$surname' AND forename='$forename' 
 					AND middlenames='$middlenames' AND title='$title';");
 					}
@@ -266,14 +266,15 @@ elseif($sub=='Submit'){
 				/*this is not fool-proof need to offer user check to*/
 				/*avoid wrong matches*/
 
-				if(mysql_num_rows($d)==0){
+				if(!isset($d_g) or mysql_num_rows($d_g)==0){
 					mysql_query("INSERT INTO guardian SET 
 									surname='$surname', forename='$forename'");
 					$new_gid=mysql_insert_id();
 					}
 				else{
-					$new_gid=mysql_result($d,0);
+					$new_gid=mysql_result($d_g,0);
 					}
+				if(isset($d_g)){unset($d_g);}
 
 				/*input to guardian table*/
 				reset(${$gfields});
