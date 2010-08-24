@@ -1147,7 +1147,8 @@ function getEnumArray($field_name){
 					   'YT'=>'mayotte',
 					   'ZM'=>'zambia',
 					   'ZR'=>'zaire',
-					   'ZW'=>'zimbabwe'
+					   'ZW'=>'zimbabwe',
+					   'XX' => 'informationnotobtained'
 					   );
 
 	//$profession=array(''=>'');
