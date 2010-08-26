@@ -1,4 +1,9 @@
-Version ClaSS-0.9.24 release (2010/8/26)
+Version ClaSS-0.9.25 release (2010/8/30)
+-----------------------------------------
+
+
+
+Version ClaSS-0.9.24 release (2010/8/25)
 -----------------------------------------
 
 Changed the epf fileurl function to be epf_list_files.

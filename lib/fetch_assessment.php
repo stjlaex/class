@@ -146,12 +146,8 @@ function scoreToGrade($score,$grading_grades){
  *	@return string
  */
 function gradeToScore($grade,$grading_grades){
-	/*
-	Looks up the numerical equivalent of a grade. 
-	If the grade is an empty string then empty score is returned. 
-	*/
     $score='';
-	$pairs=explode (';', $grading_grades);
+	$pairs=explode(';', $grading_grades);
 	if($grade!=''){
 		for($c=0; $c<sizeof($pairs); $c++){
 			list($levelgrade, $level)=explode(':',$pairs[$c]);

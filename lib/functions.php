@@ -355,13 +355,13 @@ function getEnumArray($field_name){
 					'ITA'=>'italian',
 					'NOR'=>'norwegian',
 					'SPA'=>'spanish',
-					//'CZE'=>'czech',
+					'CZE'=>'czech',
 					'CHI'=>'chinese',
 					//'OTH'=>'other', 
+					//'REF'=>'refused',
 					'OTL'=>'otherlanguage',
 					'NOT'=>'informationnotobtained'
 /*
-					'REF'=>'refused',
 					'ACL'=>'Acholi',
 					'ADA'=>'Adangme',
 					'AFA'=>'Afar-Saho',
@@ -1148,7 +1148,8 @@ function getEnumArray($field_name){
 					   'ZM'=>'zambia',
 					   'ZR'=>'zaire',
 					   'ZW'=>'zimbabwe',
-					   'XX' => 'informationnotobtained'
+					   'XX' => 'informationnotobtained',
+					   'ZZ' => 'classificationpending'
 					   );
 
 	//$profession=array(''=>'');

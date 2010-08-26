@@ -5,7 +5,7 @@
 $choice='yeargroup_matrix.php';
 $action='yeargroup_matrix_action.php';
 
-if($_SESSION['role']=='admin' or $_SESSION['role']=='office'){
+if($_SESSION['role']=='admin' or $_SESSION['role']=='office' or $_SESSION['role']=='district'){
 	$extrabuttons['statistics']=array('name'=>'current','value'=>'yeargroup_statistics.php');
 	}
 else{

@@ -112,7 +112,7 @@ if($sub=='Submit'){
 					if(isset($bid[0]) and $bid[0]!='#'){
 						$invalue=$row[$col+2];/*offset to ignore first two columns*/
 						if($grading_grades!=''){
-							$res=$invalue;
+							$res=trim($invalue);
 							$value=gradeToScore($res,$grading_grades);
 							}
 						else{
