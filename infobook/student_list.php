@@ -14,6 +14,7 @@ else{$savedview='';}
 if(isset($_POST['colno'])){$displayfields_no=$_POST['colno'];}
 
 $displayfields=array();
+$extra_studentfields=array();
 
 if($savedview=='form'){
 	$displayfields[]='Gender';
@@ -53,6 +54,12 @@ if(isset($_POST['extracol']) and $_POST['extracol']=='yes'){
 /* Approximate to saving 40% of table width for fixed columns. */
 $displayfields_width=60/$displayfields_no.'%';
 
+$EnrolAssDefs=(array)fetch_enrolmentAssessmentDefinitions();
+if(sizeof($EnrolAssDefs)>0){
+	foreach($EnrolAssDefs as $AssDef){
+		$extra_studentfields['Assessment'.$AssDef['id_db']]=$AssDef['Description']['value'];
+		}
+	}
 
 $extrabuttons=array();
 if($_SESSION['role']=='office' or $_SESSION['role']=='admin'){

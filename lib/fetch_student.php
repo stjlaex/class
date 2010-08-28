@@ -118,6 +118,7 @@ function fetchStudent_singlefield($sid,$tag){
 	elseif(substr_count($tag,'FirstContact')){$contactno=0;}
 	elseif(substr_count($tag,'SecondContact')){$contactno=1;}
 	elseif(substr_count($tag,'Medical')){$medtype=substr($tag,-3);}
+	elseif(substr_count($tag,'Assessment')){$eid=substr($tag,10);}
    	elseif($tag=='Postcode'){
 		$d_add=mysql_query("SELECT DISTINCT postcode FROM address JOIN gidaid ON gidaid.address_id=address.id
 							WHERE address.postcode!='' AND gidaid.guardian_id=ANY(SELECT guardian_id FROM gidsid 
@@ -205,6 +206,15 @@ function fetchStudent_singlefield($sid,$tag){
 		$Student[$tag]=array('label'=>'',
 							 'value'=>'');
 		$Student[$tag]['value']=''.$medentry; 
+		}
+	elseif(isset($eid)){
+		/*NOT a part of the xml def for Student but useful here*/
+		$Assessments=(array)fetchAssessments_short($sid,$eid,'G');		
+		if(sizeof($Assessments)>0){$value=$Assessments[0]['Result']['value'];}
+		else{$value='';}
+		$Student[$tag]=array('label'=>'',
+							 'value'=>'');
+		$Student[$tag]['value']=''.$value; 
 		}
 
 	/* The easiest of all because they just come from the info table

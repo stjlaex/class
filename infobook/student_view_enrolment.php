@@ -64,7 +64,7 @@ three_buttonmenu();
 		$eid=$AssDef['id_db'];
 		$input_elements.=' <input type="hidden" name="eids[]" value="'.$eid.'" />';
 		$gena=$AssDef['GradingScheme']['value'];
-		$Assessments=(array)fetchAssessments_short($sid,$eid,'G');		
+		$Assessments=(array)fetchAssessments_short($sid,$eid,'G');
 		if(sizeof($Assessments)>0){$value=$Assessments[0]['Value']['value'];}
 		else{$value='';}
 ?>
