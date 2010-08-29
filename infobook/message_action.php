@@ -37,7 +37,7 @@ if($sub=='Submit' and isset($_FILES['messageattach']) and $_FILES['messageattach
 		}
 	if($file_size>500){
 		/* Limit to 500KB. */
-		$error[]='The size of the file attachment is '.$file_size.'KB, it should be less than 250KB.';
+		$error[]='The size of the file attachment is '.$file_size.'KB, it should be less than 500KB.';
 		}
 	}
 

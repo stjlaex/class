@@ -17,6 +17,11 @@ two_buttonmenu($extrabuttons);
 
 $report_files=(array)elgg_list_files($Student['EPFUsername']['value'],'report',true);
 ?>
+
+<?php
+include('scripts/epf_access.php');
+?>
+
   <div id="heading">
 	<label><?php print_string('subjectreports'); ?></label>
 	<?php print $Student['DisplayFullName']['value'];?>
@@ -56,3 +61,4 @@ $report_files=(array)elgg_list_files($Student['EPFUsername']['value'],'report',t
 	  </form>
 	</fieldset>
   </div>
+

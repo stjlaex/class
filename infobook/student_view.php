@@ -417,3 +417,9 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
   <input type="hidden" name="choice" value="<?php print $choice;?>" />
 </form>
 </div>
+<div style="visibility:hidden;">
+  <iframe id="externalbook" name="externalbook" class="externalbookframe">
+  </iframe>
+  <script>frames["externalbook"].location.href="<?php print $CFG->eportfoliosite . '/login/logout.php';?>";</script>
+</div>
+

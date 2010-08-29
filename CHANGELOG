@@ -6,6 +6,10 @@ Included spellcheck for tinyMCE.
 Enrolment assessments now part of the studentfields for listing in
 InfoBook.
 
+Make login to eportfolio in hidden iframe suitable for access to
+student report archive.
+
+
 
 Version ClaSS-0.9.24 release (2010/8/25)
 -----------------------------------------

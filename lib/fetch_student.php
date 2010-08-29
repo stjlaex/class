@@ -1813,7 +1813,7 @@ function import_student($Student){
 				if(mysql_num_rows($d)>0){
 					$gid=mysql_result($d,0);
 					$fresh='no';
-					trigger_error('EPFU Contact: '.$sid.' :' .$gid,E_USER_WARNING);
+					//trigger_error('EPFU Contact: '.$sid.' :' .$gid,E_USER_WARNING);
 					}
 				else{
 					/* Make sure the epfu goes into new record. */
