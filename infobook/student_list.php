@@ -264,15 +264,6 @@ two_buttonmenu($extrabuttons,$book);
 	</form>
   </div>
 
-  <div class="hidden" id="add-merit">
-		<div style="float:right;" title="<?php print_string('tracking','markbook');?>" 
-			name="current" value="student_grades_print.php" 
-			onclick="clickToPresentSid('student_grades_print','tracking_student')" >
-		<img class="clicktochart" />
-		</div>
-		<div style="float:right;" title="<?php print_string('merits','infobook');?>" 
-			name="current" value="merit_adder.php" onclick="clickToAddMerit('','','merit')" >
-		<img class="clicktoaddmerit" />
-		</div>
-  </div>
-
+<?php
+include('scripts/studentlist_extra.php');
+?> 
