@@ -221,8 +221,9 @@ function get_journey_booking($bookid){
  * @return
  *
  */
-function add_journey_booking($sid,$busid,$stopid,$date,$dayrepeat='once',$comment=''){
+function add_journey_booking($sid,$busid,$stopid,$date='',$dayrepeat='once',$comment=''){
 
+	if($date==''){$date=date('Y-m-d');}
 	$busids=array();
 	$day=date('N',strtotime($date));
 	$newend=date('Y-m-d',strtotime($date.' -1 day'));

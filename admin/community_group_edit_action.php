@@ -17,16 +17,33 @@ include('scripts/sub_action.php');
 
 if($sub=='Submit'){
 
-	/*sids to remove*/
-	$currentcommunity=array('type'=>$newcomtype,'id'=>$comid);
-   	while(list($index,$sid)=each($oldsids)){
-		$oldcommunities=leave_community($sid,$currentcommunity);
+	if($newcomtype=='TRANSPORT'){
+		$currentcommunity=get_community($comid);
+		$buses=(array)list_buses('%','%',$currentcommunity['name']);
+
+		foreach($newsids as $sid){
+			foreach($buses as $bus){
+				add_journey_booking($sid,$bus['id'],0,'','every');
+				}
+			}
+
+		//$oldcommunities=set_community_stay($sid,$currentcommunity,$startdate,$enddate);
+		//delete_journey_booking($sid,$bookid);
+		}
+	else{
+
+		$currentcommunity=array('type'=>$newcomtype,'id'=>$comid);
+
+		/*sids to remove*/
+		while(list($index,$sid)=each($oldsids)){
+			$oldcommunities=leave_community($sid,$currentcommunity);
+			}
+		/*sids to add*/
+		while(list($index,$sid)=each($newsids)){
+			$oldcommunities=join_community($sid,$currentcommunity);
+			}
 		}
 
-	/*sids to add*/
-   	while(list($index,$sid)=each($newsids)){
-		$oldcommunities=join_community($sid,$currentcommunity);
-		}
 	}
 
 include('scripts/redirect.php');

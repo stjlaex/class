@@ -18,7 +18,7 @@ $Student=fetchStudent_short($sid);
 
 if($bookid>0){
 	$booking=get_journey_booking($bookid);
-	trigger_error($booking['id'].' : '.$booking['bus_id'].' ',E_USER_WARNING);
+	//trigger_error($booking['id'].' : '.$booking['bus_id'].' ',E_USER_WARNING);
 	$journey=get_journey($booking['journey_id']);
 	$direction=$journey['direction'];
 	$stopid=$journey['stop_id'];
@@ -139,8 +139,10 @@ three_buttonmenu($extrabuttons,$book);
 				print '<div id="switchBus'.$busid.'"  class="hidden">';
 				$listlabel='stop'; $required='yes'; $listid='stopid'.$busid; $listname=$listid; $$listid=$stopid;
 				$stops=list_bus_stops($busid);
-				include('../../scripts/set_list_vars.php');
-				list_select_list($stops,$listoptions,$book);
+				if(sizeof($stops)!=0){
+					list_select_list($stops,$listoptions,$book);
+					include('../../scripts/set_list_vars.php');
+					}
 				print '</div>';
 				}
 ?>

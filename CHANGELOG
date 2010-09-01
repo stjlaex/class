@@ -13,6 +13,8 @@ Moved the studentlist table row extra div out to an include.
 
 Targets tick added but no targets entry yet.
 
+The community edit page can now set transport bookings.
+
 
 Version ClaSS-0.9.24 release (2010/8/25)
 -----------------------------------------
