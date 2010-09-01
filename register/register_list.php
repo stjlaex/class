@@ -378,3 +378,6 @@ if($nodays==1 or $_SESSION['role']=='office' or $_SESSION['role']=='admin'){
 	</session>
   </div>
 
+<?php
+include('scripts/studentlist_extra.php');
+?> 

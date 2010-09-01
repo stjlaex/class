@@ -71,7 +71,7 @@ else{
 			$Students['Transport'][]=$Transport;
 			}
 		}
-	$Students['Transform']='transport';
+	$Students['Transform']='transport_list';
 	$Students['Paper']='portait';
 
 	$returnXML=$Students;

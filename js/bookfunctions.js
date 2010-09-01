@@ -309,7 +309,9 @@ function clickToAction(buttonObject){
 	}
 
 
-//Pop-up report window for one student in a sidtable.
+/* Pop-up report window for one student in a sidtable.
+* Currently fixed to http scripts in the MarkBook
+*/
 function clickToPresentSid(script,xsltransform){
 	var sidId=currentsidrow;
 	var helperurl="markbook/httpscripts/" + script;

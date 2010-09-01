@@ -410,6 +410,11 @@ img.clicktoaddmerit {
     padding:1px;
 	cursor:pointer;
 	}
+img.clicktotarget { 
+	background-image:url("../images/greentick.png");
+    padding:1px;
+	cursor:pointer;
+	}
 img.clicktochart { 
 	background-image:url("../images/charter.png");
     padding:1px;

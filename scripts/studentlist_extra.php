@@ -8,4 +8,8 @@
 			name="current" value="merit_adder.php" onclick="clickToAddMerit('','','merit')" >
 		<img class="clicktoaddmerit" />
 		</div>
+		<div style="float:right;" title="<?php print_string('targets','infobook');?>" 
+			name="current" value="student_targets_print.php" onclick="clickToPresentSid('student_targets_print','student_targets_print')" >
+		<img class="clicktotarget" />
+		</div>
   </div>
