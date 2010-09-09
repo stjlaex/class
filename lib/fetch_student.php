@@ -869,17 +869,6 @@ function fetchBackgrounds_Entries($sid,$type){
 		$d_background=mysql_query("SELECT * FROM background WHERE 
 				student_id='$sid' AND type='$type' ORDER BY
 				yeargroup_id, entrydate, id;");
-		if($type=='tar'){
-			$d_c=mysql_query("SELECT name FROM categorydef WHERE 
-				type='tar' ORDER BY rating;");
-			$subcomments_no=0;
-			$subcomments=array();
-			while($sub=mysql_fetch_array($d_c,MYSQL_ASSOC)){
-				$subcomments_no++;
-				$subcomments[]=$sub;
-				}
-			}
-
 
 		while($entry=mysql_fetch_array($d_background,MYSQL_ASSOC)){
 			$Entry=array();
@@ -925,25 +914,7 @@ function fetchBackgrounds_Entries($sid,$type){
 									  'type_db' => 'date', 
 									  'value' => ''.$entry['entrydate']);
 			unset($comment_html);
-			if($subcomments_no>0){
-				/* Each subcomment gets embedded as a html fragment in the xml 
-				 * for display in xslt using copy-of (and not select!).
-				 */
-				$comment_html=array();
-				$comments=explode(':::',$entry['comment']);
-				for($c=0;$c<$subcomments_no;$c++){
-					/* If a subcomment is empty then don't display in the html page. */
-					if($comments[$c]!=' ' and $comments[$c]!=''){
-						$comment_div=array();
-						$comment_div['label']=''.$subcomments[$c]['name'];
-						$comment_div['p']=''.$comments[$c];
-						$comment_html['div'][]=$comment_div;
-						}
-					}
-				}
-			else{
-				$comment_html['div'][]=$entry['comment'];
-				}
+			$comment_html['div'][]=$entry['comment'];
 
 			$Entry['Detail']=array('label' => 'details', 
 								   'field_db' => 'detail', 
@@ -965,6 +936,53 @@ function fetchBackgrounds_Entries($sid,$type){
 			}
 		return $Entries;
 	}
+
+
+function fetchTargets($sid){
+	$Targets=array();
+	$Targets['Target']=array();
+
+	$d_catdef=mysql_query("SELECT name, subtype, rating FROM categorydef WHERE 
+				type='tar' ORDER BY rating DESC, name;");
+	while($cat=mysql_fetch_array($d_catdef,MYSQL_ASSOC)){
+		$cattype=$cat['subtype'];
+		$d_background=mysql_query("SELECT * FROM background WHERE 
+				student_id='$sid' AND type='$cattype' ORDER BY yeargroup_id, entrydate, id;");
+		$entry=mysql_fetch_array($d_background,MYSQL_ASSOC);
+
+			$Entry=array();
+			$Entry['id_db']=$entry['id'];
+			$Entry['Teacher']=array('label' => 'teacher', 
+									'field_db' => 'teacher_id', 
+									'type_db' => 'varchar(14)', 
+									'username' => ''.$entry['teacher_id'], 
+									'value' => ''.get_teachername($entry['teacher_id']));
+			$Entry['Category']=array('label' => 'category', 
+									 'value_db' => ''.$cattype,
+									 'value' => ''.$cat['name']);
+			$Entry['EntryDate']=array('label' => 'date',
+									  'field_db' => 'entrydate', 
+									  'type_db' => 'date', 
+									  'value' => ''.$entry['entrydate']);
+			unset($comment_html);
+			$comment_html['div'][]=$entry['detail'];
+
+			$Entry['Detail']=array('label' => 'details', 
+								   'field_db' => 'detail', 
+								   'type_db'=> 'text', 
+								   'value'=> $comment_html,
+								   'value_db' => ''.$entry['detail']);
+			$Entry['YearGroup']=array('label' => 'yeargroup', 
+									  'field_db' => 'yeargroup_id', 
+									  'type_db' => 'smallint', 
+									  'value' => ''.$entry['yeargroup_id']);
+			$Targets['Target'][]=$Entry;
+
+		}
+
+	return $Targets;
+	}
+
 
 
 /**

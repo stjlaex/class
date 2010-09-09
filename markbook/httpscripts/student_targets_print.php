@@ -33,11 +33,13 @@ else{
 	$Students=array();	
 	$Students['Student']=array();
 	$Student=fetchStudent_short($sid);
-
-	$Student['Targets']['Target'][]=array('title'=>array('value'=>'Target One - Academic'),'detail'=>array('value'=>''),'status'=>array('value'=>'active'));
+	$Targets=(array)fetchTargets($sid);
+	$Student['Targets']=$Targets;
+	/*
+	$Student['Targets']['Target'][]=array('title'=>array('value'=>'Target One - Academic'),'detail'=>array('value'=>$Targets['Target'][1]['value_db']),'status'=>array('value'=>'active'));
 	$Student['Targets']['Target'][]=array('title'=>array('value'=>'Target Two – Academic / Extra-curricular'),'detail'=>array('value'=>''),'status'=>array('value'=>'active'));
 	$Student['Targets']['Target'][]=array('title'=>array('value'=>'Target Three – Extra-curricular / pastoral'),'detail'=>array('value'=>''),'status'=>array('value'=>'active'));
-
+	*/
 
 	$Students['Student'][]=$Student;
 	$Students['Date']=date('Y-m-d');
