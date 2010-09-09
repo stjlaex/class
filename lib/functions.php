@@ -357,11 +357,8 @@ function getEnumArray($field_name){
 					'SPA'=>'spanish',
 					'CZE'=>'czech',
 					'CHI'=>'chinese',
-					//'OTH'=>'other', 
-					//'REF'=>'refused',
 					'OTL'=>'otherlanguage',
-					'NOT'=>'informationnotobtained'
-/*
+					'NOT'=>'informationnotobtained',
 					'ACL'=>'Acholi',
 					'ADA'=>'Adangme',
 					'AFA'=>'Afar-Saho',
@@ -672,7 +669,6 @@ function getEnumArray($field_name){
 					'ZND'=>'Zande',
 					'ZUL'=>'Zulu',
 					'ZZZ'=>'classificationpending'
-*/
 					);
 	$ethnicity=array(''=>''
 					 );
@@ -788,9 +784,14 @@ function getEnumArray($field_name){
 				  'march', '4'=>'april', '5'=>'may', '6'=>'june', 
 				  '7'=>'july', '8'=>'august', '9'=>'september', 
 				  'a'=>'october', 'b'=>'november', 'c'=>'december');
-	$dayofweek=array('1'=>'monday', '2'=>'tuesday', '3' =>
-				  'wednesday', '4'=>'thursday', '5'=>'friday', '6'=>'saturday', 
-				  '7'=>'sunday');
+	$dayofweek=array('1'=>'monday' 
+					 ,'2'=>'tuesday'
+					 ,'3'=>'wednesday' 
+					 ,'4'=>'thursday'
+					 ,'5'=>'friday' 
+					 //,'6'=>'saturday'
+					 //,'7'=>'sunday'
+					 );
 
 	/*for the sen table*/
 	$senprovision=array('N'=>'notonregister', 

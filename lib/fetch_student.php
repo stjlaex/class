@@ -869,6 +869,18 @@ function fetchBackgrounds_Entries($sid,$type){
 		$d_background=mysql_query("SELECT * FROM background WHERE 
 				student_id='$sid' AND type='$type' ORDER BY
 				yeargroup_id, entrydate, id;");
+		if($type=='tar'){
+			$d_c=mysql_query("SELECT name FROM categorydef WHERE 
+				type='tar' ORDER BY rating;");
+			$subcomments_no=0;
+			$subcomments=array();
+			while($sub=mysql_fetch_array($d_c,MYSQL_ASSOC)){
+				$subcomments_no++;
+				$subcomments[]=$sub;
+				}
+			}
+
+
 		while($entry=mysql_fetch_array($d_background,MYSQL_ASSOC)){
 			$Entry=array();
 			$Entry['id_db']=$entry['id'];
@@ -912,10 +924,32 @@ function fetchBackgrounds_Entries($sid,$type){
 									  'field_db' => 'entrydate', 
 									  'type_db' => 'date', 
 									  'value' => ''.$entry['entrydate']);
+			unset($comment_html);
+			if($subcomments_no>0){
+				/* Each subcomment gets embedded as a html fragment in the xml 
+				 * for display in xslt using copy-of (and not select!).
+				 */
+				$comment_html=array();
+				$comments=explode(':::',$entry['comment']);
+				for($c=0;$c<$subcomments_no;$c++){
+					/* If a subcomment is empty then don't display in the html page. */
+					if($comments[$c]!=' ' and $comments[$c]!=''){
+						$comment_div=array();
+						$comment_div['label']=''.$subcomments[$c]['name'];
+						$comment_div['p']=''.$comments[$c];
+						$comment_html['div'][]=$comment_div;
+						}
+					}
+				}
+			else{
+				$comment_html['div'][]=$entry['comment'];
+				}
+
 			$Entry['Detail']=array('label' => 'details', 
 								   'field_db' => 'detail', 
 								   'type_db'=> 'text', 
-								   'value' => ''.$entry['detail']);
+								   'value'=> ''.$comment_html,
+								   'value_db' => ''.$entry['detail']);
 			$bid=$entry['subject_id'];
 			$subjectname=get_subjectname($bid);
 			$Entry['Subject']=array('label' => 'subject', 
@@ -931,6 +965,7 @@ function fetchBackgrounds_Entries($sid,$type){
 			}
 		return $Entries;
 	}
+
 
 /**
  *

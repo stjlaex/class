@@ -22,11 +22,24 @@ three_buttonmenu();
 	<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
 	  <div class="left">
 		<label for="Detail"><?php print_string('details',$book);?></label>
-		<textarea name="detail" id="Detail"   
-		  tabindex="<?php print $tab++;?>"
+<?php
+if($tagname=='Targets'){
+
+			print '<textarea '.$commentlength.' rows="2" cols="80" readonly="readonly" ';
+			print 'onClick="clickToWriteComment('.$sid.',-1,\'targets\',\'\',\'\',\'\');"'; 
+			print ' tabindex="'.$tab.'" name="detail" id="Detail">';
+			print '</textarea></div>';
+
+
+	}
+else{
+?>
+
+		<textarea name="detail" id="Detail" tabindex="<?php print $tab++;?>"
 		  class="required" rows="5" cols="30"></textarea>
 	  </div>
 <?php
+   }
 if($tagname=='Background'){
 ?>
 	  <div class="right" >
@@ -106,11 +119,14 @@ else{
 		  <tr class="hidden" id="<?php print $entryno.'-'.$rown++;?>">
 			<td colspan="6">
 			  <p>
-<?php		   if(isset($entry['Detail']['value'])){
+<?php
+		   if(isset($entry['Detail']['value_db'])){
+					print $entry['Detail']['value_db'];
+					}
+		   elseif(isset($entry['Detail']['value'])){
 					print $entry['Detail']['value'];
 					}
-				if(isset($entry['Teacher']['value'])){print
-				'  - '.$entry['Teacher']['value'];}
+		   if(isset($entry['Teacher']['value'])){print '  - '.$entry['Teacher']['value'];}
 ?>
 			  </p>
 			  <button class="rowaction" title="Delete this entry"

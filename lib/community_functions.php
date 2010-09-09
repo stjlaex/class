@@ -413,7 +413,7 @@ function countin_community_gender($community,$gender='M',$enddate='',$startdate=
 	$d_student=mysql_query("SELECT COUNT(student_id) FROM comidsid
 				JOIN student ON student.id=comidsid.student_id	
 				WHERE comidsid.community_id='$comid' AND student.gender='$gender'
-				AND (comidsid.leavingdate>'$enddate' OR 
+				AND (comidsid.leavingdate>='$enddate' OR 
 				comidsid.leavingdate='0000-00-00' OR comidsid.leavingdate IS NULL) 
 				AND (comidsid.joiningdate<='$startdate' OR 
 				comidsid.joiningdate='0000-00-00' OR comidsid.joiningdate IS NULL)");

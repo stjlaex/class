@@ -18,22 +18,35 @@ elseif(isset($_POST['entryn'])){$entryn=$_POST['entryn'];}
 if(isset($_GET['openid'])){$openid=$_GET['openid'];}
 
 $StatementBank=array();
-$reportdef=fetch_reportdefinition($rid);
-$tabindex=0;
-if($reportdef['report']['commentlength']=='0'){$commentlength='';}
-else{$commentlength=' maxlength="'.$reportdef['report']['commentlength'].'"';}
-
-/* This allows a comment to be split into sub-sections and each gets
- *  its own entry box. A special type of fixed sub-comment is not for
- *  editing so is filtered out here.
- */
-$subs=(array)get_report_categories($rid,$bid,$pid,'sub');
-$subcomments_no=0;
-$subcomments=array();
-foreach($subs as $sindex => $sub){
-	if($sub['subtype']=='pro'){$subcomments_fix=1;}
-	else{$subcomments_no++;$subcomments[]=$sub;}
+if($rid!=-1){
+	$reportdef=fetch_reportdefinition($rid);
+	if($reportdef['report']['commentlength']=='0'){$commentlength='';}
+	else{$commentlength=' maxlength="'.$reportdef['report']['commentlength'].'"';}
+	$subs=(array)get_report_categories($rid,$bid,$pid,'sub');
+	/* This allows a comment to be split into sub-sections and each gets
+	 *  its own entry box. A special type of fixed sub-comment is not for
+	 *  editing so is filtered out here.
+	 */
+	$subcomments_no=0;
+	$subcomments=array();
+	foreach($subs as $sindex => $sub){
+		if($sub['subtype']=='pro'){$subcomments_fix=1;}
+		else{$subcomments_no++;$subcomments[]=$sub;}
+		}
 	}
+elseif($bid=='targets'){
+	$d_c=mysql_query("SELECT name FROM categorydef WHERE 
+				type='tar' ORDER BY rating;");
+	$subcomments_no=0;
+	$subcomments=array();
+	while($sub=mysql_fetch_array($d_c,MYSQL_ASSOC)){
+		$subcomments_no++;
+		$subcomments[]=$sub;
+		}
+	}
+
+$tabindex=0;
+
 
 $Student=fetchStudent_short($sid);
 $Report['Comments']=fetchReportEntry($reportdef, $sid, $bid, $pid);
@@ -113,6 +126,7 @@ else{
 <script src="../../js/bookfunctions.js" type="text/javascript"></script>
 <script src="../../js/qtip.js" type="text/javascript"></script>
 <script src="../../js/statementbank.js" type="text/javascript"></script>
+<script language="JavaScript" type="text/javascript" src="../../lib/tiny_mce/tiny_mce.js"></script>
 </head>
 <body onload="loadRequired();">
 
@@ -200,7 +214,7 @@ if($reportdef['report']['addcategory']=='yes'){
 			<label style="float:right;background-color:#ffe;font-weight:600;padding:2px,6px;">
 			<?php print $commentlabel;?>
 			</label>
-			<textarea id="Comment<?php print $c;?>"
+			<textarea id="Comment<?php print $c;?>" class="htmleditorarea"
 			  style="height:<?php print $commentheight-20;?>px;"  
 			  <?php print $commentlength;?> tabindex="<?php print $tabindex++;?>"  
 			  name="incom<?php print $c;?>" ><?php if(isset($texts[$c])){print $texts[$c];};?></textarea>

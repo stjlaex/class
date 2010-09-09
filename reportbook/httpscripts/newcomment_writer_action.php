@@ -1,5 +1,5 @@
 <?php
-/**                    httpscripts/comment_writer_action.php
+/**                    httpscripts/newcomment_writer_action.php
  */
 
 require_once('../../scripts/http_head_options.php');
@@ -25,7 +25,10 @@ elseif($sub=='Submit'){
 	if(isset($_POST['addcategory'])){$addcategory=$_POST['addcategory'];}
 
 	for($c=0;$c<$inno;$c++){
-		if(isset($_POST['incom'.$c])){$incom.=clean_text($_POST['incom'.$c]);}
+		if(isset($_POST['incom'.$c])){
+			//$incom.=clean_text($_POST['incom'.$c]);
+			$incom.=$_POST['incom'.$c];
+			}
 		/* Separate the subcomments with ::: for splitting 
 		 * but last subcomment should not get a separator
 		 */
@@ -71,7 +74,8 @@ elseif($sub=='Submit'){
 	/* Need to feed the comment back to the textarea in the MarkBook
 	 * TODO: remove this once it all goes through the commentwriter icons
 	 */
-$comment=js_addslashes($incom);
+//$comment=js_addslashes($incom);
+$comment=$incom;
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">

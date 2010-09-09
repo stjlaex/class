@@ -21,7 +21,7 @@ if($sub=='Submit'){
 	$d_catdef=mysql_query("SELECT subtype FROM categorydef WHERE 
 				type='ent' AND name='$tagname'");
 	$backgroundtype=mysql_result($d_catdef,0);
-
+	trigger_error($detail,E_USER_WARNING);
 	if($bid=='' OR $bid=='%'){$bid='General';}
 	$category=$catid.':'.$ratvalue.';';
 

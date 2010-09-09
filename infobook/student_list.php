@@ -8,7 +8,7 @@ $action='student_list.php';
 $choice='student_list.php';
 
 include('scripts/sub_action.php');
-if(isset($_POST['savedview'])){$savedview=$_POST['savedview'];$_SESSION['savedview']=$savedview;}
+if(isset($_POST['selsavedview'])){$savedview=$_POST['selsavedview'];$_SESSION['savedview']=$savedview;}
 elseif(isset($_SESSION['savedview'])){$savedview=$_SESSION['savedview'];}
 else{$savedview='';}
 if(isset($_POST['colno'])){$displayfields_no=$_POST['colno'];}
@@ -223,7 +223,7 @@ two_buttonmenu($extrabuttons,$book);
 		  <div class="rowaction">
 <?php
 	$d_c=mysql_query("SELECT DISTINCT name AS id, name AS name FROM categorydef WHERE type='col' ORDER BY name;");
-	$listname='savedview';$listlabel='';$liststyle='width:16em;';
+	$listname='selsavedview';$selsavedview=$savedview;$listlabel='';$liststyle='width:16em;';
 	include('scripts/set_list_vars.php');
 	list_select_db($d_c,$listoptions,$book);
 ?>

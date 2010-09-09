@@ -41,7 +41,7 @@ else{
 		<div class="center">
 		  <label for="Newname"><?php print_string('newgroupname',$book);?></label>
 			<input type="text" id="Newname" name="newname"
-						tabindex="<?php print $tab++;?>" maxlength="10"
+						tabindex="<?php print $tab++;?>" maxlength="30"
 							class="required" value="" />
 		</div>
 

@@ -164,6 +164,12 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 		}
 ?>
 		  </tr>
+		  <tr>
+			<th>
+			  <a href="infobook.php?current=targets_list.php&cancel=student_view.php"><?php print_string('targets',$book); ?>
+			  </a>
+			</th>
+		  </tr>
 <?php
 	$Backgrounds=(array)fetchBackgrounds($sid);
 	while(list($tagname,$Ents)=each($Backgrounds)){

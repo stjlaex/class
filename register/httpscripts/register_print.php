@@ -38,7 +38,7 @@ else{
 			$Students['Community'][]=$Community;
 			}
 		}
-	$Students['Transform']='register';
+	$Students['Transform']='register_print';
 	$Students['Paper']='portait';
 
 	$returnXML=$Students;

@@ -24,14 +24,17 @@ elseif($sub=='Submit'){
 	if(isset($_POST['inmust'])){$inmust=$_POST['inmust'];}
 
 	for($c=0;$c<$inno;$c++){
-		if(isset($_POST['incom'.$c])){$incom.=clean_text($_POST['incom'.$c]);}
+		if(isset($_POST['incom'.$c])){
+			$incom.=clean_text($_POST['incom'.$c]);
+			}
 		/* Separate the subcomments with ::: for splitting 
 		 * but last subcomment should not get a separator
 		 */
 		if($inno>1 and $c<($inno-1)){$incom.=':::';}
 		}
-
-	if($inmust=='yes' and $incom!=''){
+	
+	if($rid!=-1){
+		if($inmust=='yes' and $incom!=''){
 		if(mysql_query("INSERT INTO reportentry (comment,
 						teacher_id, report_id, student_id, 
 						subject_id, component_id) VALUES
@@ -40,12 +43,13 @@ elseif($sub=='Submit'){
 			$entryn=mysql_insert_id();
 			}
 		}
-	elseif($inmust!='yes'){
+		elseif($inmust!='yes'){
 		$entryn=$inmust;
 		mysql_query("UPDATE reportentry SET
 						comment='$incom' WHERE report_id='$rid' AND
 						student_id='$sid' AND subject_id='$bid' AND
 						component_id='$pid' AND entryn='$entryn'");
+		}
 		}
 	}
 $comment=js_addslashes($incom);

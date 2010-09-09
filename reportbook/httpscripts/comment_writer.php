@@ -18,21 +18,33 @@ elseif(isset($_POST['entryn'])){$entryn=$_POST['entryn'];}
 if(isset($_GET['openid'])){$openid=$_GET['openid'];}
 
 $StatementBank=array();
-$reportdef=fetch_reportdefinition($rid);
-if($reportdef['report']['commentlength']=='0'){$commentlength='';}
-else{$commentlength=' maxlength="'.$reportdef['report']['commentlength'].'"';}
-
-/* This allows a comment to be split into sub-sections and each gets
- *  its own entry box. A special type of fixed sub-comment is not for
- *  editing so is filtered out here.
- */
-$subs=(array)get_report_categories($rid,$bid,$pid,'sub');
-$subcomments_no=0;
-$subcomments=array();
-foreach($subs as $sindex => $sub){
-	if($sub['subtype']=='pro'){$subcomments_fix=1;}
-	else{$subcomments_no++;$subcomments[]=$sub;}
+if($rid!=-1){
+	$reportdef=fetch_reportdefinition($rid);
+	if($reportdef['report']['commentlength']=='0'){$commentlength='';}
+	else{$commentlength=' maxlength="'.$reportdef['report']['commentlength'].'"';}
+	$subs=(array)get_report_categories($rid,$bid,$pid,'sub');
+	/* This allows a comment to be split into sub-sections and each gets
+	 *  its own entry box. A special type of fixed sub-comment is not for
+	 *  editing so is filtered out here.
+	 */
+	$subcomments_no=0;
+	$subcomments=array();
+	foreach($subs as $sindex => $sub){
+		if($sub['subtype']=='pro'){$subcomments_fix=1;}
+		else{$subcomments_no++;$subcomments[]=$sub;}
+		}
 	}
+elseif($bid=='targets'){
+	$d_c=mysql_query("SELECT name FROM categorydef WHERE 
+				type='tar' ORDER BY rating;");
+	$subcomments_no=0;
+	$subcomments=array();
+	while($sub=mysql_fetch_array($d_c,MYSQL_ASSOC)){
+		$subcomments_no++;
+		$subcomments[]=$sub;
+		}
+	}
+
 
 $Student=fetchStudent_short($sid);
 $Report['Comments']=fetchReportEntry($reportdef, $sid, $bid, $pid);
