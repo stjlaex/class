@@ -833,7 +833,7 @@ function getEnumArray($field_name){
 	$community_type=array(''=>'', 
 						  'ACADEMIC'=>'academic', 
 						  'HOUSE'=>'house', 
-						  'TUTOR'=>'tutorgroup', 
+						  'TUTOR'=>'club', 
 						  'TRIP'=>'trip', 
 						  'REG'=>'registrationgroup', 
 						  'TRANSPORT'=>'transport', 

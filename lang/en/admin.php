@@ -88,6 +88,7 @@ $string['createnewgroup']='Create new group';
 $string['registrationgroup']='Registration';
 $string['tutorgroup']='Study group';
 $string['trip']='Excursion';
+$string['club']='Club';
 $string['travelstop']='Bus stop';
 $string['other']='Other';
 $string['community']='Community';
