@@ -8,14 +8,14 @@ $action='student_list.php';
 $choice='student_list.php';
 
 include('scripts/sub_action.php');
-if(isset($_POST['selsavedview'])){$savedview=$_POST['selsavedview'];$_SESSION['savedview']=$savedview;}
+if($sub=='select' and isset($_POST['selsavedview'])){$savedview=$_POST['selsavedview'];$_SESSION['savedview']=$savedview;}
 elseif(isset($_SESSION['savedview'])){$savedview=$_SESSION['savedview'];}
 else{$savedview='';}
 if(isset($_POST['colno'])){$displayfields_no=$_POST['colno'];}
-
 $displayfields=array();
 $extra_studentfields=array();
 
+trigger_error($sub.' : '.$savedview,E_USER_WARNING);
 if($savedview=='form'){
 	$displayfields[]='Gender';
 	$displayfields[]='DOB';
@@ -28,7 +28,7 @@ elseif($savedview=='year'){
 	$displayfields[]='DOB';
 	$displayfields_no=3;
 	}
-elseif($savedview!=''){
+elseif($savedview!='' and $sub=='select'){
 	$d_c=mysql_query("SELECT comment FROM categorydef WHERE name='$savedview' AND type='col';");
 	$taglist=mysql_result($d_c,0);
 	$displayfields=(array)explode(':::',$taglist);
@@ -41,8 +41,11 @@ if(!isset($displayfields_no)){
 	$displayfields_no=2;
 	}
 
-for($dindex=0;$dindex < ($displayfields_no);$dindex++){
-	if(isset($_POST['displayfield'.$dindex])){$displayfields[$dindex]=$_POST['displayfield'.$dindex];}
+if($savedview=='' or $sub!='select'){
+	for($dindex=0;$dindex < ($displayfields_no);$dindex++){
+		if(isset($_POST['displayfield'.$dindex])){$displayfields[$dindex]=$_POST['displayfield'.$dindex];}
+		}
+	$savedview='';
 	}
 
 if(isset($_POST['extracol']) and $_POST['extracol']=='yes'){

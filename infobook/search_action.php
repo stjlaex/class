@@ -5,18 +5,18 @@
  */
 
 $ids=array();	
-$action_post_vars=array('savedview');
-if(isset($_SESSION['savedview'])){$savedview=$_SESSION['savedview'];}
-else{$savedview='';}
+$action_post_vars=array('selsavedview');
+//if(isset($_SESSION['savedview'])){$savedview=$_SESSION['savedview'];}
+//else{$savedview='';}
 
 /*posts from the student group search*/
 if(isset($_POST['newyid']) and $_POST['newyid']!=''){
 	$com=array('id'=>'','type'=>'year','name'=>$_POST['newyid']);
-	$savedview='year';
+	$selsavedview='year';
 	}
 elseif(isset($_POST['newfid']) and $_POST['newfid']!=''){
 	$com=array('id'=>'','type'=>'form','name'=>$_POST['newfid']);
-	$savedview='form';
+	$selsavedview='form';
 	}
 elseif(isset($_POST['newcomid']) and $_POST['newcomid']!=''){
 	//$com=array('id'=>$_POST['newcomid'],'type'=>'','name'=>'');
