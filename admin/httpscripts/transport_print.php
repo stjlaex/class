@@ -40,9 +40,21 @@ else{
 			$Transport['Day']=array('value'=>get_string(displayEnum($today,'dayofweek'),$book));
 			$Transport['Date']=array('value'=>display_date($todate));
 			$Transport['Student']=array();
+			$community=array('id'=>'','name'=>'','type'=>'tutor');
+
 			while(list($index,$student)=each($students)){
 				$sid=$student['id'];
 				$Student=(array)fetchStudent_short($sid);
+
+				/* TODO: After school clubs */
+				$communities=(array)list_member_communities($sid,$community);
+				foreach($communities as $club){
+					$pos=strpos($club['detail'],"A$today");
+					if($pos>0){
+						$Student['Club']['value']=$club['name'];
+						}
+					}
+
 				$Student['Attendance']=fetchcurrentAttendance($sid);
 				$Student['Journey']=array();
 				$field=fetchStudent_singlefield($sid,'FirstContactPhone');

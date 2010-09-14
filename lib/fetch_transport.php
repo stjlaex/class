@@ -321,7 +321,7 @@ function delete_journey_booking($sid,$bookid){
 						AND (b.startdate>='$todate' OR b.enddate='0000-00-00') 
 						AND j.bus_id=ANY(SELECT id FROM transport_bus WHERE name='$busname');");
 	if(mysql_num_rows($d_b)==0){
-		trigger_error('DELETE!!!!!!!!!!!!!!!' ,E_USER_WARNING);
+		//trigger_error('DELETE!!!!!!!!!!!!!!!' ,E_USER_WARNING);
 		//$bus=get_bus($busid);
 		$com=array('id'=>'','type'=>'transport','name'=>$busname);
 		$oldcommunities=set_community_stay($sid,$com,$startdate,$startdate);
