@@ -173,6 +173,11 @@ function elgg_newUser($User,$role){
 		$epftemplate_name='Default_Guardian';
 		$epftemplate=3;
 		$password=good_strtolower($User['firstchild']);
+		$len=strlen($password);
+		while($len<5){
+			$password='0'.$password;
+			$len=strlen($password);
+			}
 		$assword=md5($password);
 		}
 	elseif($role=='staff'){

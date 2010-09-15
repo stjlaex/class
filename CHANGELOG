@@ -1,4 +1,4 @@
-Version ClaSS-0.9.25 release (2010/9/11)
+Version ClaSS-0.9.25 release (2010/9/14)
 -----------------------------------------
 
 Included spellcheck for tinyMCE.
@@ -20,6 +20,8 @@ A fix to delete_transport so it sets the community stay correctly.
 Basic Targets working including fetchTargets function.
 
 Fix to saved views.
+
+Added clubs to the list_community search.
 
 
 Version ClaSS-0.9.24 release (2010/8/25)
