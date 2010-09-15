@@ -338,5 +338,6 @@ $string['regular medication']='Regular medication';
 $string['persistent problems']='Persistant problems';
 $string['transport']='Transport';
 $string['targets']='Targets';
+$string['tutor']='Club';
 $string['']='';
 ?>

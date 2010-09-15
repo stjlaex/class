@@ -69,7 +69,7 @@ elseif($ARGS['option']=='ldapsync'){
 	exec("$cmd > /dev/null &");
 	}
 elseif($ARGS['option']=='dbsync'){
-	/* Synchronise students, staff and contacts with LDAP */
+	/* Generate local students, staff and contacts epfusernames (only when NOT using ldap!) */
 	$cmd='/usr/bin/php '.$fullpath.'/admin/httpscripts/db_sync_users.php --path='.$CFG->installpath;
 	exec("$cmd > /dev/null &");
 	}
@@ -81,6 +81,11 @@ elseif($ARGS['option']=='epfsync'){
 elseif($ARGS['option']=='ldapenrol'){
 	/* Synchronise courses and enrolments in ldap for use by Moodle */
 	$cmd='/usr/bin/php '.$CFG->installpath.'/'.$CFG->applicationdirectory.'/admin/httpscripts/ldap_enrol_users.php --path='.$CFG->installpath;
+	exec("$cmd > /dev/null &");
+	}
+elseif($ARGS['option']=='hwsync'){
+	/* Update accounts for contacts in the ClaSSIC database */
+	$cmd='/usr/bin/php '.$CFG->installpath.'/'.$CFG->applicationdirectory.'/admin/httpscripts/epf_sync_homework.php --path='.$CFG->installpath;
 	exec("$cmd > /dev/null &");
 	}
 

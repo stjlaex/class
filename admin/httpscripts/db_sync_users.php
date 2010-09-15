@@ -114,12 +114,21 @@ require_once($CFG->installpath.'/'.$CFG->applicationdirectory.'/scripts/cron_hea
 			if($Contacts[$gid]['Surname']['value']!='' and $Contacts[$gid]['Surname']['value']!=' '){
 				/* Search for entry in LDAP */
 				$epfusername=$Contacts[$gid]['EPFUsername']['value'];
+				$email=$Contacts[$gid]['EmailAddress']['value'];
 				if($epfusername=='' or $epfusername==' '){
 					/* Treat as a completely new entry. */
 					$fresh=false;
+					/* Check for duplicate email addresses first 
+					$sr=mysql_query("SELECT epfusername FROM guardian WHERE email='$email' 
+											AND id!='$gid' AND epfusername!='' AND email!='';");
+					if(mysql_num_rows($sr)>1){
+						$epfusername=mysql_result($sr,0);
+						$fresh=true;
+						}
+					*/
 					while(!($fresh)){
 						$epfusername=generate_epfusername($Contacts[$gid],$type='guardian');
-						$sr=mysql_query("SELECT * FROM guardian WHERE epfusername='$epfusername';");
+						$sr=mysql_query("SELECT id FROM guardian WHERE epfusername='$epfusername';");
 						if(mysql_num_rows($sr)>1){$fresh=false;}
 						else{$fresh=true;}
 						}

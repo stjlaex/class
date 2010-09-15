@@ -50,7 +50,7 @@ else{
 				$communities=(array)list_member_communities($sid,$community);
 				foreach($communities as $club){
 					$pos=strpos($club['detail'],"A$today");
-					if($pos>0){
+					if($pos!==false){
 						$Student['Club']['value']=$club['name'];
 						}
 					}
