@@ -21,10 +21,12 @@ elseif(isset($_POST['newfid']) and $_POST['newfid']!=''){
 elseif(isset($_POST['newcomid']) and $_POST['newcomid']!=''){
 	//$com=array('id'=>$_POST['newcomid'],'type'=>'','name'=>'');
 	$com=get_community($_POST['newcomid']);
+	$selsavedview='';
 	}
 elseif(isset($_POST['newcomid1']) and $_POST['newcomid1']!=''){
 	//$com=array('id'=>$_POST['newcomid1'],'type'=>'','name'=>'');
 	$com=get_community($_POST['newcomid1']);
+	$selsavedview='';
 	}
 
 if(isset($com)){
@@ -36,9 +38,14 @@ if(isset($com)){
 		$students=(array)listin_community($com,$enddate,$startdate);
 		/*to remove!*/
 		}
+	elseif($com['type']=='tutor'){
+		$students=(array)listin_community($com);
+		$selsavedview='club';
+		}
 	else{
 		$students=(array)listin_community($com);
 		}
+
 	$rows=sizeof($students);
 	while(list($index,$student)=each($students)){
 		$ids[]=$student['id'];

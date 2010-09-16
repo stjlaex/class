@@ -21,7 +21,10 @@ Basic Targets working including fetchTargets function.
 
 Fix to saved views.
 
-Added clubs to the list_community search.
+Added clubs to the list_community search and both transport and clubs
+to the single field array.
+
+Option to use dob as epf password.
 
 
 Version ClaSS-0.9.24 release (2010/8/25)

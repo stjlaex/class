@@ -172,7 +172,7 @@ function elgg_newUser($User,$role){
 		$epfusertype='person';
 		$epftemplate_name='Default_Guardian';
 		$epftemplate=3;
-		$password=good_strtolower($User['firstchild']);
+		$password=$User['firstchild'];
 		$len=strlen($password);
 		while($len<5){
 			$password='0'.$password;
