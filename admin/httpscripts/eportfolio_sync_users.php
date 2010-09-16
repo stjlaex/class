@@ -230,7 +230,7 @@ require_once($CFG->installpath.'/'.$CFG->applicationdirectory.'/lib/eportfolio_f
 											JOIN gidsid ON student.id=gidsid.student_id WHERE
 											student.yeargroup_id='$yid' AND gidsid.guardian_id='$gid'
 											ORDER BY dob ASC LIMIT 0,1;");
-						$firsid=mysql_result($d_s,0);
+						$firstsid=mysql_result($d_s,0);
 						}
 					else{
 						$firstsid=$sid;
