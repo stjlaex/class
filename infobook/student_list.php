@@ -8,14 +8,18 @@ $action='student_list.php';
 $choice='student_list.php';
 
 include('scripts/sub_action.php');
-if($sub=='select' or isset($_POST['selsavedview'])){$savedview=$_POST['selsavedview'];$_SESSION['savedview']=$savedview;}
+if($sub=='select' or isset($_POST['selsavedview'])){$savedview=$_POST['selsavedview'];}
 elseif(isset($_SESSION['savedview'])){$savedview=$_SESSION['savedview'];}
 else{$savedview='';}
 if(isset($_POST['colno'])){$displayfields_no=$_POST['colno'];}
+if(isset($_POST['title'])){$title=$_POST['title'];}else{$title=$_SESSION['infolisttitle'];}
+$_SESSION['savedview']=$savedview;
+$_SESSION['infolisttitle']=$title;
+
 $displayfields=array();
 $extra_studentfields=array();
 
-trigger_error($sub.' : '.$savedview,E_USER_WARNING);
+//trigger_error($sub.' : '.$savedview,E_USER_WARNING);
 if($savedview=='form'){
 	$displayfields[]='Gender';
 	$displayfields[]='DOB';
@@ -35,6 +39,12 @@ elseif($savedview=='club'){
 	$displayfields[]='RegistrationGroup';
 	$displayfields[]='Gender';
 	$displayfields[]='Transport';
+	$displayfields_no=3;
+	}
+elseif($savedview=='transport'){
+	$displayfields[]='RegistrationGroup';
+	$displayfields[]='Gender';
+	$displayfields[]='Club';
 	$displayfields_no=3;
 	}
 elseif($savedview!='' and $sub=='select'){
@@ -125,6 +135,11 @@ two_buttonmenu($extrabuttons,$book);
 			<img class="clicktoemail" title="<?php print_string('clicktoemail');?>" />
 		</a>
 		</th>
+<?php
+		}
+	elseif(isset($title) and $title!=''){
+?>
+		<th><label><?php print $title; ?></label></th>
 <?php
 		}
 	else{

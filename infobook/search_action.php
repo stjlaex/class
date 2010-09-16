@@ -5,7 +5,8 @@
  */
 
 $ids=array();	
-$action_post_vars=array('selsavedview');
+$action_post_vars=array('selsavedview','title');
+$title='';
 //if(isset($_SESSION['savedview'])){$savedview=$_SESSION['savedview'];}
 //else{$savedview='';}
 
@@ -22,6 +23,7 @@ elseif(isset($_POST['newcomid']) and $_POST['newcomid']!=''){
 	//$com=array('id'=>$_POST['newcomid'],'type'=>'','name'=>'');
 	$com=get_community($_POST['newcomid']);
 	$selsavedview='';
+	$title='<label>'.get_string($com['type']).'</label>'.$com['name'];
 	}
 elseif(isset($_POST['newcomid1']) and $_POST['newcomid1']!=''){
 	//$com=array('id'=>$_POST['newcomid1'],'type'=>'','name'=>'');
@@ -41,6 +43,10 @@ if(isset($com)){
 	elseif($com['type']=='tutor'){
 		$students=(array)listin_community($com);
 		$selsavedview='club';
+		}
+	elseif($com['type']=='transport'){
+		$students=(array)listin_community($com);
+		$selsavedview='transport';
 		}
 	else{
 		$students=(array)listin_community($com);

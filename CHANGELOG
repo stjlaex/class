@@ -22,7 +22,7 @@ Basic Targets working including fetchTargets function.
 Fix to saved views.
 
 Added clubs to the list_community search and both transport and clubs
-to the single field array.
+to the single field array. The studnet lists are now titled.
 
 Option to use dob as epf password.
 

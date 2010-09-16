@@ -339,5 +339,6 @@ $string['persistent problems']='Persistant problems';
 $string['transport']='Transport';
 $string['targets']='Targets';
 $string['tutor']='Club';
+$string['club']='Clubs';
 $string['']='';
 ?>
