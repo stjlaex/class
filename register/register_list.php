@@ -235,6 +235,9 @@ if($nodays==1 or $_SESSION['role']=='office' or $_SESSION['role']=='admin'){
 			print '&nbsp';
 			}
 ?>
+<div class="right">
+&nbsp;
+</div>
 		  </td>
 		  <td class="student">
 			<a href="infobook.php?current=student_view.php&sid=<?php print $sid;?>&sids[]=<?php print $sid;?>"

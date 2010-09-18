@@ -63,7 +63,7 @@ function closeTransportHelper(sid,date,openId){
 function updateTransportDisplay(sid,date,openId){
 	var container='sid-'+sid;
 	var script='transport_display.php';
-	var url=pathtobook + "httpscripts/" + script + "?uniqueid=" + escape(openId) +"&sid=" + sid + "&date=" + date;
+	var url="admin/httpscripts/" + script + "?uniqueid=" + escape(openId) +"&sid=" + sid + "&date=" + date;
 	if(document.getElementById(container)){
 
 		xmlHttp.open("GET", url, true);
