@@ -134,6 +134,14 @@ function fetchStudent_singlefield($sid,$tag){
 		$Student[$tag]=array('label'=>'',
 							 'value'=>''.get_student_house($sid));
 		}
+   	elseif($tag=='Transport'){
+		$Student[$tag]=array('label'=>'',
+							 'value'=>''.get_student_transport($sid));
+		}
+   	elseif($tag=='Club'){
+		$Student[$tag]=array('label'=>'',
+							 'value'=>''.get_student_club($sid));
+		}
 
 	if(isset($contactno)){
 		if(substr_count($tag,'Phone')){
@@ -1643,6 +1651,7 @@ function fetchMerit($m=array('id'=>-1,'subject_id'=>'','component_id'=>'','resul
 	return $Merit;
 	}
 
+
 /**
  * Optional for schools with house systems.
  *
@@ -1661,6 +1670,39 @@ function get_student_house($sid){
 		}
 	return $house;
 	}
+
+/**
+ * @param string $sid
+ * @return string
+ */
+function get_student_transport($sid){
+	$transport='';
+	$tcom=array('id'=>'','type'=>'transport','name'=>'');
+	$coms=(array)list_member_communities($sid,$tcom);
+	while(list($index,$com)=each($coms)){
+		$transport.=$com['name'].' ';
+		}
+	return $transport;
+	}
+
+
+
+/**
+ *
+ * @param string $sid
+ * @return string
+ */
+function get_student_club($sid){
+	$club='';
+	$ccom=array('id'=>'','type'=>'tutor','name'=>'');
+	$coms=(array)list_member_communities($sid,$ccom);
+	while(list($index,$com)=each($coms)){
+		$club.=$com['name'].' ';
+		}
+	return $club;
+	}
+
+
 
 /**
  * Will list contacts sharing the address identified by aid.

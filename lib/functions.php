@@ -862,6 +862,8 @@ function getEnumArray($field_name){
 						'MobilePhone'=>'mobilephone',
 						'PersonalNumber'=>'personalnumber',
 						'Postcode'=>'postcode',
+						'Transport'=>'transport',
+						'Club'=>'club',
 						'EPFUsername'=>'epfusername',
 						'FirstContact'=>'firstcontact',
 						'FirstContactPhone'=>'firstcontactphone',

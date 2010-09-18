@@ -123,6 +123,8 @@ require_once($CFG->installpath.'/'.$CFG->applicationdirectory.'/lib/eportfolio_f
 			}
 		}
 
+
+
 	/**
 	 * Now do all students.
 	 */
@@ -191,7 +193,7 @@ require_once($CFG->installpath.'/'.$CFG->applicationdirectory.'/lib/eportfolio_f
  *
  */
 
-	/*TODO: Allow option of updates and email contacts for a single yeargroup!!!!!!*/
+	/*TODO: Allow option of updates for a single yeargroup!!!!!!*/
 	$yid='%';
 	/*!!!!!!*/
 
@@ -219,28 +221,32 @@ require_once($CFG->installpath.'/'.$CFG->applicationdirectory.'/lib/eportfolio_f
 				 * can be done and ignore.
 				 */
 				if($Contact['EPFUsername']['value']!=''){
-					/* Bit of extra work to prepare the initial password
-					 * for creating a new account. 
-					 */
-					if($yid=='%'){
-						/* Need formerupn to use as part of their password.
-						 * This will be for their youngest child in the school. 
-						 */
-						$firstchild=$info['formerupn'];
-						}
-					else{
-						/* If only doing one yeargroup then only want to
-						 * use the fomerupn of their child in this yeargroup.
+					if($yid!='%'){
+						/* Bit of extra work to prepare the initial password
+						 * for creating a new account. If only doing one yeargroup then only 
+						 * want to use the fomerupn of their child in this yeargroup.
 						 */
 						$d_s=mysql_query("SELECT id FROM student
-						JOIN gidsid ON student.id=gidsid.student_id WHERE
-						student.yeargroup_id='$yid' AND gidsid.guardian_id='$gid'
-						ORDER BY dob ASC LIMIT 0,1;");
+											JOIN gidsid ON student.id=gidsid.student_id WHERE
+											student.yeargroup_id='$yid' AND gidsid.guardian_id='$gid'
+											ORDER BY dob ASC LIMIT 0,1;");
 						$firstsid=mysql_result($d_s,0);
-						$d_s=mysql_query("SELECT formerupn FROM info 
-								WHERE student_id='$firstsid';");
-						$firstchild=mysql_result($d_s,0);
 						}
+					else{
+						$firstsid=$sid;
+						}
+
+					if(isset($CFG->eportfolio_access) and $CFG->eportfolio_access=='dob'){
+						$d_s=mysql_query("SELECT dob FROM student WHERE id='$firstsid';");
+						$dob=(array)explode('-',mysql_result($d_s,0));
+						$firstchild=$dob[2].$dob[1].$dob[0];
+						}
+					else{
+						$d_s=mysql_query("SELECT formerupn FROM info WHERE student_id='$firstsid';");
+						$firstchild=good_strtolower(mysql_result($d_s,0));
+						}
+
+
 					if($Contact['Title']['value']!=''){
 						$Contact['Title']['value']=get_string(displayEnum($Contact['Title']['value'],'title'),'infobook');
 						}

@@ -39,6 +39,7 @@ include('scripts/set_list_vars.php');
 		$listcomtypes[]='academic';
 		$listcomtypes[]='house';
 		$listcomtypes[]='transport';
+		$listcomtypes[]='tutor';
 		}
 	else{$listcomtypes[]=$listtype;}
 
@@ -58,7 +59,7 @@ include('scripts/set_list_vars.php');
 		while(list($index,$listcom)=each($listcoms)){
 			$listcomids[$listcom['id']]=$listcom;
 			/*a fix to display something meaningful until detail is used*/
-			if($listcomids[$listcom['id']]['detail']!=''){
+			if($listcomids[$listcom['id']]['detail']!='' and $listcomids[$listcom['id']]['type']!='tutor'){
 				$listcomids[$listcom['id']]['name']=$listcomids[$listcom['id']]['detail'];
 				}
 			elseif($listtype=='applied' or $listtype=='enquired' or $listtype=='accepted'){
