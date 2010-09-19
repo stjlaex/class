@@ -139,8 +139,7 @@ if($community['type']!='class'){
 	  <form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
 		<table class="listmenu sidtable" id="sidtable">
 		<tr>
-		  <th colspan="2">&nbsp;</th>
-		  <th><?php print_string('student'); ?></th>
+		  <th colspan="3">&nbsp;</th>
 <?php
 	/* This events array will determine which events are displayed */
 	$events=array();
@@ -235,8 +234,10 @@ if($nodays==1 or $_SESSION['role']=='office' or $_SESSION['role']=='admin'){
 			print '&nbsp';
 			}
 ?>
-<div class="right">
-&nbsp;
+<div style="font-size:7pt;color:#909090;float:right;width:30px;">
+<?php
+		print get_student_transport($sid);
+?>
 </div>
 		  </td>
 		  <td class="student">

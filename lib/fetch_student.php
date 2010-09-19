@@ -1671,6 +1671,7 @@ function get_student_house($sid){
 	return $house;
 	}
 
+
 /**
  * @param string $sid
  * @return string
@@ -1684,7 +1685,6 @@ function get_student_transport($sid){
 		}
 	return $transport;
 	}
-
 
 
 /**
