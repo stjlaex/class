@@ -71,7 +71,7 @@ two_buttonmenu($extrabuttons,$book);
 		$sid=$student['id'];
 		print '<tr id="sid-'.$sid.'">';
 		print '<td>'.'<input type="checkbox" name="sids[]" value="'.$sid.'" />'.$rown++.'</td>';
-		print '<td colspan="2" class="student"><a target="viewinfobook" onclick="parent.viewBook(\'infobook\');" href="infobook.php?current=student_view.php&sid='.$sid.'">'.$student['surname'].', '. $student['forename'].'</a></td>';
+		print '<td colspan="2" class="student"><a target="viewinfobook" onclick="parent.viewBook(\'infobook\');" href="infobook.php?current=student_transport.php&sid='.$sid.'">'.$student['surname'].', '. $student['forename'].'</a></td>';
 		print '<td>'.$student['form_id'].'</td>';
 		foreach($days as $day=>$dayname){
 			$bookings=array();
@@ -84,7 +84,7 @@ two_buttonmenu($extrabuttons,$book);
 				if($$divname==''){
 					$divaction='onClick="clickToEditTransport('.$sid.',\''.$dates[$day].'\',\''.$booking['id'].'\',\''.$openId.'\');"';
 					if($booking['comment']!=''){$$divname='<span title="'.$booking['comment'].'">';}
-					$$divname.='<div '.$divaction.' class="'.$divclass.'">'.$buses[$booking['bus_id']]['name'].' : '.$booking['stop_id'].'</div>';
+					$$divname.='<div '.$divaction.' class="'.$divclass.'">'.$buses[$booking['bus_id']]['name'].'</div>';
 					if($booking['comment']!=''){$$divname.='</span>';}
 					}
 				}

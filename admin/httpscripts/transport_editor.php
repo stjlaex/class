@@ -23,8 +23,8 @@ if($bookid>0){
 	$direction=$journey['direction'];
 	$stopid=$journey['stop_id'];
 	}
-elseif($bookid==-1){$direction='I';$journey=array();$booking=array();}
-elseif($bookid==-2){$direction='O';$journey=array();$booking=array();}
+elseif($bookid==-1){$direction='I';$journey=array();$booking=array();$stopid=-1;}
+elseif($bookid==-2){$direction='O';$journey=array();$booking=array();$stopid=-1;}
 
 
 $book='admin';
@@ -134,14 +134,17 @@ three_buttonmenu($extrabuttons,$book);
 
   </div>
 <?php
-/* These will be switched in an out depending on selected bus */
-			foreach($buses as $busid => $bus){
+			/* These will be switched in an out depending on selected bus */
+			foreach($buses as $bus){
+				$busid=$bus['id'];
 				print '<div id="switchBus'.$busid.'"  class="hidden">';
-				$listlabel='stop'; $required='yes'; $listid='stopid'.$busid; $listname=$listid; $$listid=$stopid;
+				$listlabel='stop'; $required='yes'; 
+				$listid='stopid'.$busid; 
+				$listname=$listid; $$listid=$stopid;
 				$stops=list_bus_stops($busid);
 				if(sizeof($stops)!=0){
-					list_select_list($stops,$listoptions,$book);
 					include('../../scripts/set_list_vars.php');
+					list_select_list($stops,$listoptions,$book);
 					}
 				print '</div>';
 				}

@@ -23,7 +23,7 @@ $Student=fetchStudent_short($sid);
 
 	$html='';
    	$html.='<td>'.'<input type="checkbox" name="sids[]" value="'.$sid.'" />'.$rown++.'</td>';
-   	$html.='<td colspan="2" class="student"><a target="viewinfobook" onclick="parent.viewBook(\'infobook\');" href="infobook.php?current=student_view.php&sid='.$sid.'">'.$Student['Surname']['value'].', '. $Student['Forename']['value'].'</a></td>';
+   	$html.='<td colspan="2" class="student"><a target="viewinfobook" onclick="parent.viewBook(\'infobook\');" href="infobook.php?current=student_transport.php&sid='.$sid.'">'.$Student['Surname']['value'].', '. $Student['Forename']['value'].'</a></td>';
    	$html.='<td>'.$Student['RegistrationGroup']['value'].'</td>';
 	foreach($days as $day=>$dayname){
 		$bookings=array();
@@ -36,7 +36,7 @@ $Student=fetchStudent_short($sid);
 			if($$divname==''){
 				$divaction='onClick="clickToEditTransport('.$sid.',\''.$dates[$day].'\',\''.$booking['id'].'\',\''.$openId.'\');"';
 				if($booking['comment']!=''){$$divname='<span title="'.$booking['comment'].'">';}
-				$$divname.='<div '.$divaction.' class="'.$divclass.'">'.$buses[$booking['bus_id']]['name'].' : '.$booking['stop_id'].'</div>';
+				$$divname.='<div '.$divaction.' class="'.$divclass.'">'.$buses[$booking['bus_id']]['name'].'</div>';
 				if($booking['comment']!=''){$$divname.='</span>';}
 				}
 			}

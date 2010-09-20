@@ -67,7 +67,8 @@ function get_journey($journeyid){
  */
 function list_buses($direction='%',$day='%',$name='%'){
 	$buses=array();
-	$d_b=mysql_query("SELECT * FROM transport_bus WHERE direction LIKE '$direction' AND (day LIKE '$day' OR day='%') 
+	$d_b=mysql_query("SELECT id,name,detail,route_id,direction,day,departuretime 
+						FROM transport_bus WHERE direction LIKE '$direction' AND (day LIKE '$day' OR day='%') 
 							AND name LIKE '$name' ORDER BY name ASC;");
 	while($bus=mysql_fetch_array($d_b,MYSQL_ASSOC)){
 		$buses[$bus['id']]=$bus;

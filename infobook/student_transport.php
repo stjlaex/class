@@ -56,12 +56,14 @@ three_buttonmenu();
 			$divin='';$divout='';
 			$openId=$sid.'-'.$day;
 			foreach($bookings as $booking){
-				if($buses[$booking['bus_id']]['direction']=='I'){$divname='divin';$divclass='midlite';}
+				$bus=get_bus($booking['bus_id']);
+				$stops=list_bus_stops($booking['bus_id']);
+				if($bus['direction']=='I'){$divname='divin';$divclass='midlite';}
 				else{$divname='divout';$divclass='gomidlite';}
 				if($$divname==''){
 					$divaction='onClick="clickToEditTransport('.$sid.',\''.$dates[$day].'\',\''.$booking['id'].'\',\''.$openId.'\');"';
 					if($booking['comment']!=''){$$divname='<span title="'.$booking['comment'].'">';}
-					$$divname.='<div '.$divaction.' class="'.$divclass.'">'.$buses[$booking['bus_id']]['name'].' : '.$booking['stop_id'].'</div>';
+					$$divname.='<div '.$divaction.' class="'.$divclass.'">'.$bus['name'].' <br /><div style="font-size:7pt;color:#909090;">'.$stops[$booking['stop_id']]['name'].'</div></div>';
 					if($booking['comment']!=''){$$divname.='</span>';}
 					}
 				}
