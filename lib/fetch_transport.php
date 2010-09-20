@@ -19,7 +19,7 @@
 function get_bus($busid,$name='',$direction='',$day=''){
 	$bus=array();
 	if($name!='' and $direction!='' and $day!=''){
-		trigger_error($name.' '.$day,E_USER_WARNING);
+		//trigger_error($name.' '.$day,E_USER_WARNING);
 		$d_b=mysql_query("SELECT id, name, route_id, direction, day, departuretime, teacher_id, detail 
 							FROM transport_bus WHERE name='$name' AND direction='$direction' 
 							AND (day='$day' OR day='%');");

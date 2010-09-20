@@ -21,11 +21,26 @@ else{
 	if(isset($_POST['bookid'])){$oldbookid=$_POST['bookid'];}
 	if(isset($_POST['dayrepeat'])){$dayrepeat=$_POST['dayrepeat'];}
 	if(isset($_POST['comment'])){$comment=$_POST['comment'];}else{$comment='';}
+	if(isset($_POST['answer0'])){$answer=$_POST['answer0'];}else{$answer='';}
 
 
 	if($sub=='Submit'){
 
 		add_journey_booking($sid,$busid,$stopid,$date,$dayrepeat,$comment);
+
+		if($answer=='yes'){
+			/* Now try to set the return journery - if there is an obvious equivalent bus! */
+			$day=date('N',strtotime($date));
+			$bus=get_bus($busid);
+			if($bus['direction']=='I'){$direction='O';}
+			else{$direction='I';}
+			$buses=(array)list_buses($direction,$day,$bus['name']);
+			if(sizeof($buses)==1){
+				foreach($buses as $bus){
+					add_journey_booking($sid,$bus['id'],$stopid,$date,$dayrepeat,$comment);
+					}
+				}
+			}
 
 		}
 	elseif($sub=='Delete'){

@@ -109,7 +109,7 @@ three_buttonmenu($extrabuttons,$book);
 			  </div>
 			  <div>
 				<label><?php print_string('everyday','admin'); ?></label>
-				<input type="radio" tabindex="<?php print $tab++;?>" value="every" name="dayrepeat" />
+				<input type="radio" tabindex="<?php print $tab++;?>" checked="checked" value="every" name="dayrepeat" />
 			  </div>
 			</div>
 		  </fieldset>
@@ -124,6 +124,14 @@ three_buttonmenu($extrabuttons,$book);
 				tabindex="<?php print $tab++;?>" rows="3" cols="30" 
 				  ><?php print $booking['comment'];?></textarea>
 		  </fieldset>
+
+
+	  <fieldset class="center divgroup"> 
+		<p>Set both AM/PM journies the same.</p>
+		<div class="right">
+			<?php $checkcaption=''; include('../../scripts/check_yesno.php');?>
+		</div>
+	  </fieldset> 
 
 		<input type="hidden" name="sid" value="<?php print $sid; ?>"/>
 	    <input type="hidden" name="date" value="<?php print $date; ?>"/>
