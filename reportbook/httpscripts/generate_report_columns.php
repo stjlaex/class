@@ -31,8 +31,8 @@ $deadline=$ReportDef['report']['deadline'];
 
 	/* Make a list of subjects that will need distinct new marks*/
 	$subjects=array();
-	if($substatus!='A'){$subjects[]=array('id'=>'%');}/*special when bid is general*/
-	else{$subjects=list_course_subjects($crid);}
+	if($substatus=='G' or $substatus=='%'){$subjects[]=array('id'=>'%');}/*special when bid is general*/
+	else{$subjects=list_course_subjects($crid,$substatus);}
 
 		/* Generate a report column for each subject*/
    	   	while(list($index,$subject)=each($subjects)){

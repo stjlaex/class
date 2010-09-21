@@ -111,14 +111,18 @@ function list_course_stages($crid='',$year=''){
  *	@param string $crid
  *	@return array
  */
-function list_course_subjects($crid=''){
+function list_course_subjects($crid='',$substatus='A'){
 	$subjects=array();
+	if($substatus=='A'){$compmatch="(component.status LIKE '%' AND component.status!='U')";}
+	elseif($substatus=='AV'){$compmatch="(component.status='V' OR component.status='O')";}
+	else{$compmatch="(component.status LIKE '$substatus' AND component.status!='U')";}
 	if($crid!=''){
 		$d_cridbid=mysql_query("SELECT DISTINCT subject.id, subject.name FROM subject
 					JOIN component ON component.subject_id=subject.id
-					WHERE component.course_id LIKE '$crid' AND component.id='' ORDER BY subject.id;");
+					WHERE component.course_id LIKE '$crid' AND component.id='' AND $compmatch ORDER BY subject.id;");
 		while($subject=mysql_fetch_array($d_cridbid,MYSQL_ASSOC)){
 			$subjects[]=$subject;
+			trigger_error($subject['name'],E_USER_WARNING);
 			}
 		}
 	return $subjects;

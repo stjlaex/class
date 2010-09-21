@@ -26,7 +26,6 @@ three_buttonmenu();
 		  class="required" rows="5" cols="30"></textarea>
 	  </div>
 <?php
-   }
 if($tagname=='Background'){
 ?>
 	  <div class="right" >

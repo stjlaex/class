@@ -9,6 +9,12 @@ Added option for automatic setting of return journey.
 Made the default SEN MedBook lists display all flagged students if not
 too many. Total count added to sidebar.
 
+New config option to make boarders optional.
+
+Implemented subject status for report columns.
+
+Fixed typo in student backgrounds.
+
 
 Version ClaSS-0.9.25 release (2010/9/11)
 -----------------------------------------

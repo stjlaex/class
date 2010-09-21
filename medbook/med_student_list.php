@@ -58,7 +58,7 @@ two_buttonmenu();
 			}
 		}
 	else{
-		if($_SESSION['seneedscount']>0 and $_SESSION['seneedscount']<40){
+		if($_SESSION['medbookcount']>0 and $_SESSION['medbookcount']<50){
 			$d_info=mysql_query("SELECT info.student_id FROM info JOIN student
 				ON student.id=info.student_id WHERE 
 				info.medical='Y' AND info.enrolstatus='C' ORDER BY student.surname;");
@@ -66,6 +66,7 @@ two_buttonmenu();
 		else{
 			}
 		}
+
 	while($info=mysql_fetch_array($d_info,MYSQL_ASSOC)){
 		$sids[]=$info['student_id'];
 		}

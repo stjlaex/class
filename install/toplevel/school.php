@@ -92,6 +92,10 @@ $CFG->enrol_applications='yes';
  * term if you don't care.
  */
 $CFG->enrol_cutoffmonth='09';
+/**
+ * Does the school have boarders.
+ */
+$CFG->enrol_boarders='no';
 /*****
  *
  * Optional settings to tune the use of emails for notifying staff

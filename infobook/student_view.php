@@ -346,9 +346,10 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 	  </div>
 <?php
 		}
+	if(isset($CFG->enrol_boarders) and $CFG->enrol_boarders=='yes'){
 ?>
 	  <div class="left">
-		<fieldset class="left">
+		<fieldset class="right">
 		  <legend>
 			<a href="infobook.php?current=student_view_boarder.php&cancel=student_view.php">
 			    <img class="clicktoedit" title="<?php print_string('edit');?>" />
@@ -361,9 +362,11 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 			else{print_string('noinfo',$book);}
 ?>
 		</fieldset>
-
+<?php
+		}
+?>
 		
-		<fieldset class="right">
+		<fieldset class="left">
 		  <legend>
 			<a href="infobook.php?current=student_transport.php&cancel=student_view.php">
 			  <img class="clicktoedit" title="<?php print_string('edit');?>" />

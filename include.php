@@ -82,6 +82,7 @@ $externalbooks['all']=array(
 							,'lms' => $CFG->lmstabname
 							,'eportfolio' => $CFG->eportfoliotabname
 							);
+if(isset($CFG->webmailsite) and $CFG->webmailsite!=''){
 $externalbooks['admin']=array(
 							  'webmail' => $CFG->webmailtabname
 							  //,'lms' => $CFG->lmstabname
@@ -112,5 +113,7 @@ $externalbooks['teacher']=array(
 								//,'lms' => $CFG->lmstabname
 								//,'eportfolio' => $CFG->eportfoliotabname
 								);
+	}
 $books['external']=$externalbooks;
+
 ?>

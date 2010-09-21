@@ -732,7 +732,8 @@ function getEnumArray($field_name){
 				 '4'=>'srada',
 				 '5'=>'miss',
 				 '6'=>'dr',
-				 '7'=>'ms'
+				 '7'=>'ms',
+				 '8'=>'major'
 				 );
 	$relationship=array('NOT'=>'informationnotobtained', 
 						'CAR'=>'carer', 
@@ -743,9 +744,12 @@ function getEnumArray($field_name){
 						'OTH'=>'othercontact', 
 						'STP'=>'stepparent', 
 						'GRP'=>'grandparent', 
+						'GRM'=>'grandmother', 
+						'GRF'=>'grandfather', 
 						'REL'=>'otherrelative', 
 						'SWR'=>'socialworker', 
 						'RLG'=>'religiouscontact', 
+						'FAF'=>'familyfriend', 
 						'AGN'=>'agent', 
 						'HFA'=>'hostfamily'
 						);

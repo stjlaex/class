@@ -61,7 +61,7 @@ two_buttonmenu();
 			}
 		}
 	else{
-		if($_SESSION['seneedscount']>0 and $_SESSION['seneedscount']<40){
+		if($_SESSION['seneedscount']>0 and $_SESSION['seneedscount']<50){
 			$d_info=mysql_query("SELECT info.student_id FROM info JOIN student
 				ON student.id=info.student_id WHERE 
 				info.sen='Y' AND info.enrolstatus='C' ORDER BY student.surname;");
