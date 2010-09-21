@@ -59,16 +59,21 @@ two_buttonmenu();
 				ON student.id=info.student_id WHERE student.yeargroup_id='$newyid'
 				AND info.sen='Y' AND info.enrolstatus='C' ORDER BY student.surname;");
 			}
-		while($info=mysql_fetch_array($d_info,MYSQL_ASSOC)){
-			$sids[]=$info['student_id'];
-			}
 		}
 	else{
-		/*		$d_c=mysql_query("SELECT COUNT(info.student_id) FROM info JOIN student
+		if($_SESSION['seneedscount']>0 and $_SESSION['seneedscount']<40){
+			$d_info=mysql_query("SELECT info.student_id FROM info JOIN student
 				ON student.id=info.student_id WHERE 
 				info.sen='Y' AND info.enrolstatus='C' ORDER BY student.surname;");
-		*/
+			}
+		else{
+			}
 		}
+
+	while($info=mysql_fetch_array($d_info,MYSQL_ASSOC)){
+		$sids[]=$info['student_id'];
+		}
+
 
 ?>
 

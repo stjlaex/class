@@ -1,10 +1,13 @@
-Version ClaSS-0.9.26 release (2010/9/18)
+Version ClaSS-0.9.26 release (2010/9/21)
 -----------------------------------------
 
 Transport editing added to the InfoBook. Also transport displayed in the
 Register.
 
 Added option for automatic setting of return journey.
+
+Made the default SEN MedBook lists display all flagged students if not
+too many. Total count added to sidebar.
 
 
 Version ClaSS-0.9.25 release (2010/9/11)

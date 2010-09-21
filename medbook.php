@@ -14,6 +14,12 @@ include('scripts/set_book_session_vars.php');
 if($sid=='' or $current==''){
 	$current='med_student_list.php';
 	$_SESSION['medbooksid']='';
+	if(!isset($_SESSION['medbookcount'])){
+		$d_c=mysql_query("SELECT COUNT(info.student_id) FROM info JOIN student
+				ON student.id=info.student_id WHERE 
+				info.medical='Y' AND info.enrolstatus='C' ORDER BY student.surname;");
+		$_SESSION['medbookcount']=mysql_result($d_c,0);
+		}
 	}
 elseif($sid!=''){
 	/*working with a single student*/
@@ -55,6 +61,10 @@ elseif($sid!=''){
 <?php
 		  }
 ?>
+	  <fieldset class="seneeds">
+		<legend><?php print_string('total',$book);?></legend>
+<?php print 'Medical Flags: '.$_SESSION['medbookcount']; ?>
+	  </fieldset>
 	</form>
   </div>
 <?php
