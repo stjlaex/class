@@ -122,7 +122,7 @@
 	  <td><div class="special"><?php print $Comment['Teacher']['value'];?></div></td>
 	  <td id="icon<?php print $openId;?>" class="" colspan="<?php print $ass_colspan;?>">		  
 		<img class="clicktowrite" name="Write"  
-		  onClick="clickToWriteComment(<?php print $sid.','.$rid.',\''.$bid.'\',\''.$pid.'\',\''.$entryn.'\',\''.$openId.'\'';?>);" 
+		  onClick="clickToWriteCommentNew(<?php print $sid.','.$rid.',\''.$bid.'\',\''.$pid.'\',\''.$entryn.'\',\''.$openId.'\'';?>);" 
 		  title="<?php print_string('clicktowritecomment');?>" />
 	  </td>
 	  <input type="hidden" id="inmust<?php print $openId;?>" 
@@ -194,9 +194,9 @@
 		    else{$commentlength=' maxlength="'.$reportdef['report']['commentlength'].'"';}
 			print '<tr class="'.$rowclass.'" id="'.$openId.'-'.$rown++.'" >';
 			print '<th></th><td colspan="'.$ass_colspan.'">';
-			print '<textarea '.$commentlength.' rows="2" cols="80" readonly="readonly" ';
+			print '<textarea '.$commentlength.' rows="1" cols="80" readonly="readonly" style="display:none;"';
 /*TODO: the xmlid must have the real entryn not the index!!!!*/
-			print 'onClick="clickToWriteComment('.$sid.','.$rid.',\''.$bid.'\',\''.$pid.'\',\''.$entryn.'\',\''.$openId.'\');"'; 
+			print 'onClick="clickToWriteCommentNew('.$sid.','.$rid.',\''.$bid.'\',\''.$pid.'\',\''.$entryn.'\',\''.$openId.'\');"'; 
 			print ' tabindex="'.$tab.'" name="sid'.$sid.':'.$inc++.'" id="text'.$openId.'">';
 			print $Comment['Text']['value_db'];
 			print '</textarea>';

@@ -33,6 +33,7 @@ elseif($sub=='Submit'){
 		 * but last subcomment should not get a separator
 		 */
 		if($inno>1 and $c<($inno-1)){$incom.=':::';}
+		$comment='   ';
 		}
 
 	/* Now do the category radio boxes */
@@ -71,11 +72,6 @@ elseif($sub=='Submit'){
 		}
 	}
 
-	/* Need to feed the comment back to the textarea in the MarkBook
-	 * TODO: remove this once it all goes through the commentwriter icons
-	 */
-//$comment=js_addslashes($incom);
-$comment=$incom;
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">

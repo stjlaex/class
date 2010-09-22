@@ -344,11 +344,11 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 ?>
 		</fieldset>
 	  </div>
+	  <div class="left">
 <?php
 		}
 	if(isset($CFG->enrol_boarders) and $CFG->enrol_boarders=='yes'){
 ?>
-	  <div class="left">
 		<fieldset class="right">
 		  <legend>
 			<a href="infobook.php?current=student_view_boarder.php&cancel=student_view.php">

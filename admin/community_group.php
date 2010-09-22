@@ -7,6 +7,7 @@ $action='community_group_action.php';
 
 if(isset($_POST['newcomtype'])){$newcomtype=$_POST['newcomtype'];}else{$newcomtype='ACADEMIC';}
 
+$extrabuttons['edit']=array('name'=>'current','value'=>'community_group_rename.php');
 $extrabuttons['createnewgroup']=array('name'=>'current','value'=>'community_group_rename.php');
 three_buttonmenu($extrabuttons);
 ?>
@@ -26,7 +27,7 @@ three_buttonmenu($extrabuttons);
 	<div class="left">
 	  <table class="listmenu">
 		<tr>
-		  <th><?php print_string('communitytype',$book);?></th>
+		  <th colspan="2">&nbsp;</th>
 		  <th><?php print_string('numberofstudents',$book);?></th>
 		</tr>
 <?php
@@ -36,19 +37,24 @@ three_buttonmenu($extrabuttons);
 	while(list($index,$com)=each($communities)){
 		$nosids=countin_community($com);
 		$nosidstotal=$nosidstotal+$nosids;
-	   	print '<tr><td>';
+?>	   	
+		<tr>
+		<td>
+		<input type="checkbox" name="comids[]" value="<?php print $com['id'];?>" />
+			</td>
+		<td>
+<?php
 	   		print '<a href="admin.php?current=community_group_edit.php&cancel='.$choice.'&choice='.$choice.'&newcomtype='.$newcomtype.'&comid='.$com['id'].'">'.$com['name'].'</a>';
 		print '</td>';
-	   	print '<td>'.$nosids.'</td><td>';
-		print '</td></tr>';
+	   	print '<td>'.$nosids.'</td>';
+		print '</tr>';
 		}
 ?>
 		  <tr>
-			<th>
+			<th colspan="2">
 			  <?php print get_string('total',$book).' '.get_string('numberofstudents',$book);?>
 			</th>
 			<td><?php print $nosidstotal;?></td>
-			<td>&nbsp;</td>
 		  </tr>
 	  </table>
 	</div>
