@@ -58,11 +58,18 @@ $appcols_value=array('AT','ATD','RE','CA','WL','ACP','AC','EN');
 			}
 		else{
 			$yearcomid=$yeargroup_comids[$yid];
+			/* Student whose applications have been accepted....
 			$d_nosids=mysql_query("SELECT COUNT(student_id) FROM
 						comidsid WHERE community_id='$yearcomid'
 					AND (leavingdate>'$todate' OR 
 					leavingdate='0000-00-00' OR leavingdate IS NULL) 
 					AND joiningdate<='$todate' AND joiningdate>='$yearstartdate';");
+			*/
+			/* Students who joined the school regardless of when accepted*/
+			$d_nosids=mysql_query("SELECT COUNT(c.student_id) FROM
+						comidsid AS c JOIN info AS i ON c.student_id=i.student_id WHERE c.community_id='$yearcomid'
+					AND i.entrydate>'$yearstartdate';");
+
 			$newcurrentsids=mysql_result($d_nosids,0);
 			//$values[0]+=$newcurrentsids;
 			}

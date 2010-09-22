@@ -28,7 +28,8 @@ else{
 
 $todate=date('Y-m-d');
 $yearstart=$currentyear-1;
-$yearstartdate=$yearstart.'-'.$CFG->enrol_cutoffmonth.'-30';
+$yearstartdate=$yearstart.'-08-20';
+$yearenddate=$yearstart.'-07-01';
 $yeargroups=list_yeargroups();
 $yeargroup_names=array();/* The row index for both tables. */
 while(list($index,$year)=each($yeargroups)){
