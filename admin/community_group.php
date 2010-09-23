@@ -5,8 +5,11 @@
 $choice='community_group.php';
 $action='community_group_action.php';
 
-if(isset($_POST['newcomtype'])){$newcomtype=$_POST['newcomtype'];}else{$newcomtype='ACADEMIC';}
+if(isset($_POST['newcomtype'])){$newcomtype=$_POST['newcomtype'];}
+elseif($_SESSION['role']=='teacher'){$newcomtype='ACADEMIC';}
+else{$newcomtype='TUTOR';}
 
+$extrabuttons['export']=array('name'=>'current','value'=>'community_group_export.php');
 $extrabuttons['createnewgroup']=array('name'=>'current','value'=>'community_group_rename.php');
 three_buttonmenu($extrabuttons);
 ?>
@@ -26,7 +29,10 @@ three_buttonmenu($extrabuttons);
 	<div class="left">
 	  <table class="listmenu">
 		<tr>
-		  <th colspan="2">&nbsp;</th>
+		<th colspan="2"><?php print_string('checkall'); ?>
+		  <input type="checkbox" name="checkall" 
+				value="yes" onChange="checkAll(this);" />
+		</th>
 		  <th><?php print_string('numberofstudents',$book);?></th>
 		</tr>
 <?php
