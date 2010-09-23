@@ -219,5 +219,10 @@ $string['todayonly']='Today only';
 $string['bus']='Bus';
 $string['stop']='Stop';
 $string['applyto']='Apply to';
+$string['fee']='Fee';
+$string['sessions']='Sessions';
+$string['afterschool']='After School';
+$string['lunchtime']='Lunch time';
+$string['sessions']='Sessions';
 $string['']='';
 ?>

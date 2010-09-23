@@ -21,7 +21,8 @@ if(isset($_POST['newcomtype'])){$newcomtype=$_POST['newcomtype'];}
 	$oldstudents=listin_community($currentcommunity);
 	$newstudents=listin_union_communities($currentcommunity,$newcommunity);
 
-	three_buttonmenu();
+$extrabuttons['edit']=array('name'=>'current','value'=>'community_group_rename.php');
+three_buttonmenu($extrabuttons);
 ?>
   <div class="content">
 	<form name="formtoprocess" id="formtoprocess" method="post"

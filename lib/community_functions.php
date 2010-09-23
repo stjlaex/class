@@ -103,16 +103,12 @@ function fetchCommunity($comid=''){
  */
 function get_community($comid=''){
 	$community=array();
-  	$d_com=mysql_query("SELECT name, type, year, capacity, detail 
+  	$d_com=mysql_query("SELECT name, type, year, capacity, detail, charge, chargetype, sessions 
 					FROM community WHERE id='$comid'");
 	if(mysql_num_rows($d_com)>0){
 		$com=mysql_fetch_array($d_com,MYSQL_ASSOC);
+		$community=$com;
 		$community['id']=$comid;
-		$community['type']=$com['type'];
-		$community['name']=$com['name'];
-		$community['year']=$com['year'];
-		$community['capacity']=$com['capacity'];
-		$community['detail']=$com['detail'];
 		if($community['detail']==''){$community['displayname']=$community['name'];}
 		else{$community['displayname']=$community['detail'];}
 		}
@@ -171,7 +167,7 @@ function update_community($community,$communityfresh=array('id'=>'','type'=>'','
 			if($tfresh!='' and $nfresh!=''){
 				mysql_query("UPDATE community SET type='$tfresh', 
 									name='$nfresh' WHERE id='$comid'");
-//trigger_error('upcom type:'.$type.' name:'.$name.' >' .$nfresh .mysql_error(),E_USER_WARNING);
+				//trigger_error('upcom type:'.$type.' name:'.$name.' >' .$nfresh .mysql_error(),E_USER_WARNING);
 				}
 			if(isset($communityfresh['detail'])){
 				$dfresh=$communityfresh['detail'];
@@ -184,6 +180,14 @@ function update_community($community,$communityfresh=array('id'=>'','type'=>'','
 			if(isset($communityfresh['capacity'])){
 				$cfresh=$communityfresh['capacity'];
 				mysql_query("UPDATE community SET capacity='$cfresh' WHERE id='$comid';");
+				}
+			if(isset($communityfresh['sessions'])){
+				$cfresh=$communityfresh['sessions'];
+				mysql_query("UPDATE community SET sessions='$cfresh' WHERE id='$comid';");
+				}
+			if(isset($communityfresh['charge'])){
+				$cfresh=$communityfresh['charge'];
+				mysql_query("UPDATE community SET charge='$cfresh' WHERE id='$comid';");
 				}
 			}
 		}

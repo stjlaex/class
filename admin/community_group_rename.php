@@ -3,9 +3,9 @@
  */
 
 $action='community_group_rename.php';
-$action_post_vars=array('newcomtype','newcomid');
+$action_post_vars=array('newcomtype','newcomid','comid');
 
-if(isset($_POST['comids'])){$comids=(array)$_POST['comids'];}
+if(isset($_POST['comid'])){$comid=$_POST['comid'];}
 if(isset($_POST['newcomid'])){$newcomid=$_POST['newcomid'];}else{$newcomid='';}
 if(isset($_POST['newcomtype'])){$newcomtype=$_POST['newcomtype'];}
 if(isset($_POST['newname'])){$newname=$_POST['newname'];}
@@ -14,21 +14,33 @@ if(isset($_POST['newname'])){$newname=$_POST['newname'];}
 include('scripts/sub_action.php');
 
 if($sub=='Submit'){
-	trigger_error($newcomtype.':'.$newname,E_USER_WARNING);
 
 	$community=array('id'=>'','type'=>$newcomtype,'name'=>$newname);
-	if($newcomid!=''){
+	$communityfresh=array();
+
+	if($comid!=''){
+		/* Editing an existing group */
 		$communityfresh=$community;
-		$community=array('id'=>$newcomid);
+		$community=(array)get_community($comid);
+		if(isset($_POST['charge'])){$communityfresh['charge']=$_POST['charge'];}
+		if(isset($_POST['sessions'])){
+			$sessions=$_POST['sessions'];
+			foreach($sessions as $sess){
+				if(isset($communityfresh['sessions'])){$sep=':';}
+				else{$sep='';}
+				$communityfresh['sessions'].=$sep . 'A'.$sess;
+				}
+			}
 		}
-	else{$communityfresh=array();}
-	$newcomid=update_community($community,$communityfresh);
+
+	$comid=update_community($community,$communityfresh);
 	$action=$cancel;
 	include('scripts/redirect.php');
 	exit;
+
 	}
 else{
-	if(isset($comids)){$com=get_community($comids[0]);}
+	if(isset($comid)){$com=get_community($comid);}
 	three_buttonmenu();
 ?>
 
@@ -46,16 +58,13 @@ else{
 	  </fieldset>
 
 <?php
-
 				  if($newcomtype=='TUTOR'){
 					  $days=getEnumArray('dayofweek');
-					  //$sessions=explode($com['detail'],':');
-
 ?>
 	  <fieldset class="center">
 		<div class="center">
-		  <label for="Cost"><?php print_string('cost',$book);?></label>
-			<input  name="cost" value="<?php print $com['cost'];?>" >
+		  <label for="Charge"><?php print_string('fee',$book);?></label>
+			<input  name="charge" value="<?php print $com['charge'];?>" >
 		</div>
 	  </fieldset>
 
@@ -64,12 +73,13 @@ else{
 		<div class="center">
 <?php
 					  foreach($days as $day => $dayname){
+						  $pos=strpos($com['sessions'],"A$day");
 ?>
 						  <div>
-						  <?php print $dayname;?>
+						  <?php print_string($dayname);?>
 
 						  <input type="checkbox" name="sessions[]" value="<?php print $day;?>" 
-<?php if(strpos($com['detail'],"A$day")){print 'checked="checked"';}?>/>
+<?php if($pos!==false){print 'checked="checked"';}?>/>
 
 						  </div>
 <?php
@@ -84,7 +94,9 @@ else{
 
 
 
+	<input type="hidden" name="comid" value="<?php print $comid;?>" />
 	<input type="hidden" name="newcomtype" value="<?php print $newcomtype;?>" />
+	<input type="hidden" name="newcomid" value="<?php print $newcomid;?>" />
 	<input type="hidden" name="choice" value="<?php print $choice;?>" />
 	<input type="hidden" name="current" value="<?php print $action;?>" />
 	<input type="hidden" name="cancel" value="<?php print $choice;?>" />

@@ -1,8 +1,11 @@
 Version ClaSS-0.9.27 release (2010/10/1)
 -----------------------------------------
 
-Working on new comment writer.
+Working on change to new comment writer.
 
+Added fields to community table (apply the patch!) for extra curricular activities.
+
+Editing of other groups in Admin including sessions and fee for clubs.
 
 
 Version ClaSS-0.9.26 release (2010/9/21)

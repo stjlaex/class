@@ -7,7 +7,6 @@ $action='community_group_action.php';
 
 if(isset($_POST['newcomtype'])){$newcomtype=$_POST['newcomtype'];}else{$newcomtype='ACADEMIC';}
 
-$extrabuttons['edit']=array('name'=>'current','value'=>'community_group_rename.php');
 $extrabuttons['createnewgroup']=array('name'=>'current','value'=>'community_group_rename.php');
 three_buttonmenu($extrabuttons);
 ?>

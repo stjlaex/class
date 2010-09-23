@@ -176,6 +176,11 @@ CREATE TABLE community (
 	capacity	smallint unsigned not null default 0,
 	count		smallint unsigned not null default 0,
     detail		varchar(240) not null default '',
+	charge		decimal(10,2) unsigned not null default '0',
+	chargetype	enum('0','1','2'),
+	sessions	varchar(240) not null default '',
+	startdate	date not null,
+	enddate		date not null,
 	index		indexcom (type,name),
 	primary		key (id)
 );");
