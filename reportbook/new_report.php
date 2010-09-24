@@ -11,19 +11,20 @@
 
 $action='new_report_action.php';
 $choice='new_report.php';
+$toyear=get_curriculumyear();
 
 if($r>-1){$rcrid=$respons[$r]['course_id'];}
 else{$rcrid='';}
 
 if($rcrid!=''){
     $d_report=mysql_query("SELECT id FROM report WHERE 
-						course_id='$rcrid' ORDER BY date DESC, title");
+						course_id='$rcrid' AND year='$toyear' ORDER BY date DESC, title");
 	$extrabuttons['newsubjectreport']=array('name'=>'current','value'=>'new_report_action.php');
 	$tablecaption=get_string('subjectreports');
 	}
 else{
     $d_report=mysql_query("SELECT id FROM report WHERE 
-						course_id='wrapper' ORDER BY date DESC, title");
+						course_id='wrapper' AND year='$toyear' ORDER BY date DESC, title");
 	$extrabuttons['newreportbinder']=array('name'=>'current','value'=>'new_report_action.php');
 	$tablecaption=get_string('subjectreportbinders',$book);
 	}
