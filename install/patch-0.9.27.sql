@@ -9,3 +9,5 @@ ALTER TABLE community
 ALTER TABLE community
 	  ADD enddate date not null AFTER startdate;
 UPDATE community SET sessions=detail WHERE type='tutor';
+ALTER TABLE comments
+	  ADD guardians enum('0','1') not null default'0' AFTER teacher_id;

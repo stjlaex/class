@@ -33,6 +33,8 @@ include('scripts/sub_action.php');
 		detail='$detail', entrydate='$entrydate', yeargroup_id='$newyid',
 		subject_id='$bid', category='$category',
 		teacher_id='$tid';");
+		$id=mysql_insert_id();
+
 		$result[]=get_string('commentrecorded',$book);
 
 		$teachername=get_teachername($tid);
@@ -79,6 +81,7 @@ include('scripts/sub_action.php');
 			$fromaddress=$CFG->schoolname;
 			if($Contacts and $CFG->emailoff!='yes' and $CFG->emailguardiancomments=='yes'){
 				if(sizeof($Contacts)>0){
+					mysql_query("UPDATE comments SET guardians='1' WHERE id='$id';");
 					foreach($Contacts as $index => $Contact){
 						$emailaddress=strtolower($Contact['EmailAddress']['value']);
 						send_email_to($emailaddress,$fromaddress,$subject,$message);

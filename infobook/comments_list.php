@@ -128,11 +128,16 @@ print '('.$Student['RegistrationGroup']['value'].')';
 		  <tr class="hidden" id="<?php print $entryno.'-'.$rown++;?>">
 			<td colspan="6">
 			  <p>
-<?php		   if(isset($entry['Detail']['value'])){
-					print $entry['Detail']['value'];
-					}
-				if(isset($entry['Teacher']['value'])){print
-				'  - '.$entry['Teacher']['value'];}
+<?php
+		   if(isset($entry['Shared']['value']) and $entry['Shared']['value']=='1'){
+			   print '<label>'.get_string('sharedwithguardians',$book).': </label>';
+			   }
+		   if(isset($entry['Detail']['value'])){
+			   print $entry['Detail']['value'];
+			   }
+		   if(isset($entry['Teacher']['value'])){
+			   print '  - '.$entry['Teacher']['value'];
+			   }
 ?>
 			  </p>
 			  <button class="rowaction" title="Delete this comment"

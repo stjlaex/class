@@ -190,5 +190,6 @@ $string['custom']='Custom';
 $string['selectfromthegroups']='Select one or more groups from the options below.';
 $string['saveview']='Save view';
 $string['selectview']='Select view';
+$string['sharedwithguardians']='Shared';
 $string['']='';
 ?>

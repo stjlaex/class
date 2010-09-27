@@ -49,7 +49,7 @@ function list_sid_responsible_users($sid, $bid){
 			perms.gid='$gid' AND perms.e='1';");
 		while($user=mysql_fetch_array($d_users)){
 			if(eregi('^[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.([a-zA-Z]{2,4})$', $user['email'])){ 
-				$recipients[]=array('username'=>$user['username'], 'email'=>$user['email']);
+				$recipients[$user['uid']]=array('username'=>$user['username'], 'email'=>$user['email']);
 				}
 			}
 		}
@@ -60,7 +60,7 @@ function list_sid_responsible_users($sid, $bid){
 	$formtid=mysql_result($d_form,0);
 	$user=get_user($formtid);
 	if(eregi('^[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.([a-zA-Z]{2,4})$', $user['email'])){ 
-		$recipients[]=array('username'=>$user['username'], 'email'=>$user['email']);
+		$recipients[$user['uid']]=array('username'=>$user['username'], 'email'=>$user['email']);
 		}
 
 	/*checks for boarders*/
@@ -71,7 +71,20 @@ function list_sid_responsible_users($sid, $bid){
 		while($u=mysql_fetch_array($d_u)){
 			$user=get_user($u['uid'],'uid');
 			if(eregi('^[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.([a-zA-Z]{2,4})$', $user['email'])){ 
-				$recipients[]=array('username'=>$user['username'], 'email'=>$user['email']);
+				$recipients[$user['uid']]=array('username'=>$user['username'], 'email'=>$user['email']);
+				}
+			}
+		}
+
+
+	/*checks for special needs*/
+	$Student=fetchStudent_singlefield($sid,'SENFlag');
+	if($Student['SENFlag']['value']!='N'){
+		$d_u=mysql_query("SELECT uid FROM users WHERE role='sen' OR senrole='1';");
+		while($u=mysql_fetch_array($d_u)){
+			$user=get_user($u['uid'],'uid');
+			if(eregi('^[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.([a-zA-Z]{2,4})$', $user['email'])){ 
+				$recipients[$user['uid']]=array('username'=>$user['username'], 'email'=>$user['email']);
 				}
 			}
 		}

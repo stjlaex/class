@@ -129,7 +129,8 @@ CREATE TABLE comments (
 	category		varchar(100) not null default '',
 	detail			text not null default '',
 	subject_id		varchar(10) not null default '',
-	teacher_id		varchar(14) not null default '',	
+	teacher_id		varchar(14) not null default '',
+	guardians		enum('0','1') not null default'0',
 	index			index_student (student_id),
    	primary key		(id)
 );");

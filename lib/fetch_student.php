@@ -946,12 +946,18 @@ function fetchBackgrounds_Entries($sid,$type){
 	}
 
 
-function fetchTargets($sid){
+/**
+ * Returns all targets for a given $sid. Limited to their current section by default.
+ *
+ */
+function fetchTargets($sid,$secid=''){
 	$Targets=array();
 	$Targets['Target']=array();
 
+	if($secid==''){$secid=get_student_section($sid);}
+
 	$d_catdef=mysql_query("SELECT name, subtype, rating FROM categorydef WHERE 
-				type='tar' ORDER BY rating DESC, name;");
+				type='tar' AND section_id LIKE '$secid' ORDER BY rating DESC, name;");
 	while($cat=mysql_fetch_array($d_catdef,MYSQL_ASSOC)){
 		$cattype=$cat['subtype'];
 		$d_background=mysql_query("SELECT * FROM background WHERE 
@@ -1066,6 +1072,10 @@ function fetchComments($sid,$startdate='',$enddate=''){
 									'field_db' => 'yeargroup_id', 
 									'type_db' => 'smallint', 
 									'value' => ''.$comment['yeargroup_id']);
+	   	$Comment['Shared']=array('label' => 'shared', 
+									'field_db' => 'guardians', 
+									'type_db' => 'enum', 
+									'value' => ''.$comment['guardians']);
 		$Comments['Comment'][]=$Comment;
 		}
 
