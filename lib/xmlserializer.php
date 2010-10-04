@@ -178,14 +178,22 @@ function xmlfilereader($xmlfilename){
  * @return string
  */
 function xmlreader($xml){
-	$Unserializer=new XML_Unserializer();
-	$status=$Unserializer->unserialize($xml);
-	if(PEAR::isError($status)){
-		die($status->getMessage());
-		$data=array();
+	$check=strpos($xml,'<');
+	if($check===false){
+		/* At least make sure this could be xml and if not just return the plain text */
+		$data=$xml;
 		}
 	else{
-		$data=$Unserializer->getUnserializedData();
+		$Unserializer=new XML_Unserializer();
+		$status=$Unserializer->unserialize($xml);
+		if(PEAR::isError($status)){
+			//die($status->getMessage());
+			//$data=array();
+			$data='';
+			}
+		else{
+			$data=$Unserializer->getUnserializedData();
+			}
 		}
 	return $data;
 	}

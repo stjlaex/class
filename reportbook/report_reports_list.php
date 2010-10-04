@@ -279,7 +279,7 @@ two_buttonmenu($extrabuttons,$book);
 ?>
 			  <a <?php print $cssclass;?> id="icon<?php print $openId;?>">
 				<img class="clicktowrite" name="Write"  
-				  onClick="clickToWriteComment(<?php print
+				  onClick="clickToWriteCommentNew(<?php print
 				  $sid.','.$rid.',\''.$bid.'\',\''.$pid.'\',\''.$en.'\',\''.$openId.'\'';?>);"
 				  />
 			  </a>

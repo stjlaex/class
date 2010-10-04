@@ -122,7 +122,7 @@ function list_course_subjects($crid='',$substatus='A'){
 					WHERE component.course_id LIKE '$crid' AND component.id='' AND $compmatch ORDER BY subject.id;");
 		while($subject=mysql_fetch_array($d_cridbid,MYSQL_ASSOC)){
 			$subjects[]=$subject;
-			trigger_error($subject['name'],E_USER_WARNING);
+			//trigger_error($subject['name'],E_USER_WARNING);
 			}
 		}
 	return $subjects;

@@ -1,4 +1,4 @@
-Version ClaSS-0.9.27 release (2010/10/1)
+Version ClaSS-0.9.27 release (2010/10/4)
 -----------------------------------------
 
 Working on change to new comment writer.
@@ -14,6 +14,9 @@ Emails to responsibles now include special needs.
 Targets are differentiated by section.
 
 Comments flagged in db when shared with guardians.
+
+Moved all report comments over to tinyMCE and use xmlreader to process comments.
+
 
 
 Version ClaSS-0.9.26 release (2010/9/21)

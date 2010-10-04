@@ -1,7 +1,13 @@
 #! /usr/bin/php -q
 <?php
 /**								epf_sync_homework.php
+ *
+ * Instead of insert homework live into the epf db when its written in the MarkBook.
+ * This allows a cron script to run and update homeworks periodically.
+ *
+ * TODO: currently just does all homeworks and it needs a since date to be useful. 
  */
+
 $book='admin';
 $current='epf_sync_homework.php';
 

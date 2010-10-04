@@ -838,7 +838,8 @@ function fetchReportEntry($reportdef,$sid,$bid,$pid){
 			   $comment_html=$entry['comment'];
 			   }
 		   else{
-			   $comment_html['div'][]=$entry['comment'];
+			   $comment_html['div'][]=xmlreader($entry['comment']);
+			   //$comment_html['div'][]=$entry['comment'];
 			   }
 
 		   if(isset($subcomments_fix)){
