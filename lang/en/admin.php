@@ -195,6 +195,7 @@ $string['editsubjectclasses']='Edit subject classes';
 $string['editclasses']='Edit classes';
 $string['allapplied']='All applications';
 $string['applicationsreceived']='Total applications received';
+$string['applicationsprevious']='Applications last year';
 $string['inactive']='Inactive';
 $string['blank']='Blank';
 $string['update']='Update';

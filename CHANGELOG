@@ -19,6 +19,8 @@ Moved all report comments over to tinyMCE and use xmlreader to process comments 
 
 Switched on the past plugin for tinyMCE.
 
+Included last year comparison to applications table.
+
 
 Version ClaSS-0.9.26 release (2010/9/21)
 -----------------------------------------

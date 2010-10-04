@@ -27,6 +27,9 @@ else{
 	}
 
 $todate=date('Y-m-d');
+$lastenrolyear=$enrolyear-1;
+if(date('m')>8){$yeardiff=-2;}else{$yeardiff=-1;}
+$lastenroldate=date('Y-m-d',mktime(0,0,0,date('m'),date('d'),$lastenrolyear+$yeardiff));
 $yearstart=$currentyear-1;
 $yearstartdate=$yearstart.'-08-20';
 $yearenddate=$yearstart.'-07-01';

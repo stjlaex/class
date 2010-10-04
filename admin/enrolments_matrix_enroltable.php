@@ -6,7 +6,7 @@
 
     if($enrolyear>$currentyear){
 		$enrolcols_value=array('reenroling','pending','transfersin','newenrolments','leavers',
-							   'projectedroll','budgetroll','capacity','spaces');
+							   'projectedroll','targetroll','budgetroll','capacity','spaces');
 		}
 	else{
 		$enrolcols_value=array('reenroled','newenrolments','leaverssince',
@@ -15,13 +15,13 @@
 
 	$enrol_tablerows=array();
 	$enrol_cols=array();
-	while(list($colindex,$enrolcol)=each($enrolcols_value)){
-		if($enrolcol=='capacity' or $enrolcol=='budgetroll'){
+	foreach($enrolcols_value as $colindex => $enrolcol){
+		if($enrolcol=='capacity' or $enrolcol=='budgetroll' or $enrolcol=='targetroll'){
 			$enrolcols[$colindex]['class']='static';
 			$enrolcols[$colindex]['display']='<a href="admin.php?current=enrolments_edit.php&cancel='.
 							$choice.'&choice='. $choice.'&enrolyear='.$enrolyear. 
 				'&enrolstatus='.$enrolcol.'">'.get_string($enrolcol,$book).'</a>';
-			if($enrolcol=='budgetroll'){
+			if($enrolcol=='targetroll'){
 				$disyear=$enrolyear-1;
 				$enrolcols[$colindex]['display'].='<br />('. 
 					display_date($disyear. '-'.$CFG->enrol_cutoffmonth.'-30').')';
@@ -61,8 +61,7 @@
 		$enrol_tablecells=array();
 		$comid=$yeargroup_comids[$yid];
 		$yearcommunity=get_community($comid);
-		reset($enrolcols_value);
-		while(list($colindex,$enrolcol)=each($enrolcols_value)){
+		foreach($enrolcols_value as $colindex => $enrolcol){
 			$cell=array();
 			$cell['value']=0;
 			$cell['yid']=$yid;
@@ -167,7 +166,7 @@
 					$cell['value']=$accom['capacity'];
 					}
 				}
-			elseif($enrolcol=='budgetroll'){
+			elseif($enrolcol=='budgetroll' or $enrolcol=='targetroll'){
 				$budcom=array('id'=>'','type'=>'applied', 
 					   'name'=>$enrolcol.':'.$yid,'year'=>$enrolyear);
 				$budcom['id']=update_community($budcom);

@@ -10,18 +10,25 @@
 
 $app_tablerows=array();
 $appcols=array();
+/* First column for row totals*/
+$appcols['LASTTOTAL']['class']='static';
+$appcols['LASTTOTAL']['display']=get_string('applicationsprevious',$book);
+$appcols['LASTTOTAL']['value']='applicationsprevious';
+$appcols['TOTAL']['class']='other';
+$appcols['TOTAL']['display']=get_string('applicationsreceived',$book);
+$appcols['TOTAL']['value']='applicationsreceived';
 
 /* The order here will define the order of the columns in the table. */
-$application_steps=array('EN','AP','AT','ATD','RE','CA','WL','ACP','AC');
+$application_steps=array('EN','AP','ATD','AT','RE','CA','ACP','AC','WL');
 /* The table's column headers are the application steps which are
  * really enrolstatus codes. Only display the subset specified here
  * but all values (specified above) are still totalled in final column
  * with the exception of Enquired which is a special case.
  */
-$appcols_value=array('AT','ATD','RE','CA','WL','ACP','AC','EN');
+$appcols_value=array('EN','AT','RE','CA','ACP','AC','WL');
 
 
-	while(list($aindex,$enrolstatus)=each($application_steps)){
+	foreach($application_steps as $enrolstatus){
 		if(in_array($enrolstatus,$appcols_value)){
 			if((!$applications_live and $enrolstatus!='AC') or $enrolstatus=='EN'){
 				$appcols[$enrolstatus]['class']='static';
@@ -37,16 +44,14 @@ $appcols_value=array('AT','ATD','RE','CA','WL','ACP','AC','EN');
 		$appcols[$enrolstatus]['value']=$enrolstatus;
 		}
 
-	/* Final column for row totals*/
-	$appcols['TOTAL']['class']='other';
-	$appcols['TOTAL']['display']=get_string('applicationsreceived',$book);
-	$appcols['TOTAL']['value']='applicationsreceived';
 
 /**/
 
 	reset($yeargroups);
 	while(list($yindex,$year)=each($yeargroups)){
 		$app_tablecells=array();
+		$app_tablecells['applicationsprevious']=array();
+		$app_tablecells['applicationsreceived']=array();
 		$yid=$year['id'];
 
 		/* First count applicants who have joined the current roll and
@@ -79,13 +84,17 @@ $appcols_value=array('AT','ATD','RE','CA','WL','ACP','AC','EN');
 		reset($application_steps);
 		while(list($index,$enrolstatus)=each($application_steps)){
 			$value=0;
-			//$extravalue=0;
+			$extravalue=0;
 			if($enrolstatus=='EN'){$comtype='enquired';}
 			elseif($enrolstatus=='AC'){
 				$comtype='accepted';
 				//$extravalue=$newcurrentsids;
 				}
 			else{$comtype='applied';}
+			if($enrolstatus=='AT'){
+				$extravalue=$app_tablecells['ATD']['value'];
+				/*This is a deprecated code - just here for backward compatibility*/
+				}
 			$com=array('id'=>'','type'=>$comtype, 
 					   'name'=>$enrolstatus.':'.$yid,'year'=>$enrolyear);
 			$comid=update_community($com);
@@ -94,7 +103,7 @@ $appcols_value=array('AT','ATD','RE','CA','WL','ACP','AC','EN');
 			/* 'live' or 'static' values */
 			if(($applications_live or $enrolstatus=='AC') and $enrolstatus!='EN'){
 				$value=countin_community($com);
-				$displayvalue=$value; //+$extravalue;
+				$displayvalue=$value+$extravalue;
 				$display='<a href="admin.php?current=enrolments_list.php&cancel='.
 						$choice.'&choice='. $choice.'&enrolyear='. $enrolyear.'&yid='. $yid.
 						'&comid='.$com['id'].'">'
@@ -102,7 +111,7 @@ $appcols_value=array('AT','ATD','RE','CA','WL','ACP','AC','EN');
 				}
 			else{
 				$value=countin_community($com,'','',true);
-				$display=$value; //+$extravalue;
+				$display=$value+$extravalue;
 				}
 			$values[$index+1]=$value;
 			/* Don't count enquires as full applications. */
@@ -117,13 +126,22 @@ $appcols_value=array('AT','ATD','RE','CA','WL','ACP','AC','EN');
 			//$app_tablecells[$enrolstatus]['extravalue']=$extravalue;
 			}
 
+		/* Total applications from last year for comparison*/
+		$d_s=mysql_query("SELECT COUNT(DISTINCT student_id) FROM comidsid 
+				 JOIN community AS c ON c.id=comidsid.community_id WHERE 
+				 c.name LIKE '%:$yid' AND c.year='$lastenrolyear' AND c.type='applied' AND comidsid.joiningdate<'$lastenroldate';");
+		$app_tablecells['applicationsprevious']['value']=mysql_result($d_s,0);
+		$app_tablecells['applicationsprevious']['display']=$app_tablecells['applicationsprevious']['value'];
+
 		/* Don't forget applications who have already joined current roll. */
 		$app_tablecells['C']['value']=$newcurrentsids;
 		$app_tablecells['applicationsreceived']['value']=$values[0]+$newcurrentsids;
-
-		$app_tablecells['applicationsreceived']['display']='<a href="admin.php?current=enrolments_list.php&cancel='.
-		$choice.'&choice='. $choice.'&enrolyear='. 
-		$enrolyear.'&yid='. $yid.'&comid=-1">' .$app_tablecells['applicationsreceived']['value'].'</a>';
+		$app_tablecells['applicationsreceived']['display']='<a href="admin.php?current=enrolments_list.php&cancel='. 
+			$choice.'&choice='. $choice.'&enrolyear='. 
+			$enrolyear.'&yid='. $yid.'&comid=-1">' .$app_tablecells['applicationsreceived']['value'].'</a>';
 		$app_tablerows[$yid]=$app_tablecells;
 		}
+
+array_slice($app_cols,1);
+array_slice($app_tablerows,1);
 ?>
