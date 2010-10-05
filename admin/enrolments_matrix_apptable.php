@@ -17,6 +17,9 @@ $appcols['LASTTOTAL']['value']='applicationsprevious';
 $appcols['TOTAL']['class']='other';
 $appcols['TOTAL']['display']=get_string('applicationsreceived',$book);
 $appcols['TOTAL']['value']='applicationsreceived';
+$appcols['LASTEN']['class']='static';
+$appcols['LASTEN']['display']=get_string('enquiriesprevious',$book);
+$appcols['LASTEN']['value']='enquiriesprevious';
 
 /* The order here will define the order of the columns in the table. */
 $application_steps=array('EN','AP','ATD','AT','RE','CA','ACP','AC','WL');
@@ -52,6 +55,7 @@ $appcols_value=array('EN','AT','RE','CA','ACP','AC','WL');
 		$app_tablecells=array();
 		$app_tablecells['applicationsprevious']=array();
 		$app_tablecells['applicationsreceived']=array();
+		$app_tablecells['enquiriesprevious']=array();
 		$yid=$year['id'];
 
 		/* First count applicants who have joined the current roll and
@@ -129,7 +133,8 @@ $appcols_value=array('EN','AT','RE','CA','ACP','AC','WL');
 		/* Total applications from last year for comparison*/
 		$d_s=mysql_query("SELECT COUNT(DISTINCT student_id) FROM comidsid 
 				 JOIN community AS c ON c.id=comidsid.community_id WHERE 
-				 c.name LIKE '%:$yid' AND c.year='$lastenrolyear' AND c.type='applied' AND comidsid.joiningdate<'$lastenroldate';");
+				 c.name LIKE '%:$yid' AND c.year='$lastenrolyear' 
+				AND (c.type='applied' OR c.type='accepted') AND comidsid.joiningdate<'$lastenroldate';");
 		$app_tablecells['applicationsprevious']['value']=mysql_result($d_s,0);
 		$app_tablecells['applicationsprevious']['display']=$app_tablecells['applicationsprevious']['value'];
 
@@ -139,9 +144,18 @@ $appcols_value=array('EN','AT','RE','CA','ACP','AC','WL');
 		$app_tablecells['applicationsreceived']['display']='<a href="admin.php?current=enrolments_list.php&cancel='. 
 			$choice.'&choice='. $choice.'&enrolyear='. 
 			$enrolyear.'&yid='. $yid.'&comid=-1">' .$app_tablecells['applicationsreceived']['value'].'</a>';
+
+		/* Total applications from last year for comparison */
+	  		$d_s=mysql_query("SELECT SUM(count) FROM community AS c WHERE 
+				 c.name LIKE 'EN:$yid' AND c.year='$lastenrolyear' 
+				 AND c.type='enquired';");
+		$app_tablecells['enquiriesprevious']['value']=mysql_result($d_s,0);
+		$app_tablecells['enquiriesprevious']['display']=$app_tablecells['enquiriesprevious']['value'];
+
+
 		$app_tablerows[$yid]=$app_tablecells;
 		}
 
-array_slice($app_cols,1);
-array_slice($app_tablerows,1);
+//array_slice($app_cols,1);
+//array_slice($app_tablerows,1);
 ?>
