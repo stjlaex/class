@@ -184,8 +184,9 @@ function xmlreader($xml){
 		$data=$xml;
 		}
 	else{
+		$nicexml=clean_text($xml);
 		$Unserializer=new XML_Unserializer();
-		$status=$Unserializer->unserialize($xml);
+		$status=$Unserializer->unserialize($nicexml);
 		if(PEAR::isError($status)){
 			//die($status->getMessage());
 			//$data=array();

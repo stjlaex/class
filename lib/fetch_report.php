@@ -838,8 +838,12 @@ function fetchReportEntry($reportdef,$sid,$bid,$pid){
 			   $comment_html=$entry['comment'];
 			   }
 		   else{
-			   $comment_html['div'][]=xmlreader($entry['comment']);
-			   //$comment_html['div'][]=$entry['comment'];
+			   if($rid=='214' or $rid=='215' or $rid=='216'){
+				   $comment_html['div'][]=clean_text($entry['comment']);
+				   }
+			   else{
+				   $comment_html['div'][]=xmlreader($entry['comment']);
+				   }
 			   }
 
 		   if(isset($subcomments_fix)){

@@ -186,19 +186,23 @@ function js_addslashes($value){
  */
 function clean_text($value){
 	$value=trim($value);
-	$value=stripslashes($value);
+	//$value=stripslashes($value);
+
 	/*replaces all MS Word smart quotes, EM dashes and EN dashes*/
-	$search=array(chr(145),chr(146),chr(147),chr(148),chr(150),chr(151));
-	$replace=array("'","'",'"','"','-','-');
-	$value=str_replace($search,$replace,$value);
+	//$search=array(chr(145),chr(146),chr(147),chr(148),chr(150),chr(151));
+	//$replace=array("'","'",'"','"','-','-');
+	//$value=str_replace($search,$replace,$value);
+
 	/*blanks possible dodgy sql injection attempt*/
 	$search=array('SELECT ','INSERT ','DELETE ','DROP ');
 	$value=str_replace($search,'',$value);
+
 	//$search=array(' * ','<','>');
-	$search=array(' * ');
+	$search=array('&nbsp;','<p></p>');
 	$value=str_replace($search,'',$value);
 	//   	$value=eregi_replace('[^-.?,!;()+:[:digit:][:space:][:alpha:]]','', $value);
-	$value=addslashes($value);
+	//$value=addslashes($value);
+
 	return $value;
  	}
 
