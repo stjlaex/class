@@ -1,3 +1,10 @@
+Version ClaSS-0.9.28 release (2010/10/14)
+-----------------------------------------
+
+Transitioning from XML_Unserializer to PHP5 functions for simplexml. Affects xmlreader function at the moment.
+
+
+
 Version ClaSS-0.9.27 release (2010/10/4)
 -----------------------------------------
 

@@ -114,7 +114,7 @@ else{
 <meta name="licence" content="GNU General Public License version 2" />
 <link rel="stylesheet" type="text/css" href="../../css/bookstyle.css" />
 <link rel="stylesheet" type="text/css" href="../../css/commentwriter.css" />
-<script src="../../js/bookfunctions.js?version=927" type="text/javascript"></script>
+<script src="../../js/bookfunctions.js?version=928" type="text/javascript"></script>
 <script src="../../js/qtip.js" type="text/javascript"></script>
 <script src="../../js/statementbank.js" type="text/javascript"></script>
 </head>

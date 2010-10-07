@@ -4,10 +4,11 @@
  *
  *	@package	ClaSS
  *	@author		stj@laex.org
- *	@copyright	S T Johnson 2004-2008
+ *	@copyright	S T Johnson 2004-2010
  *	@version	
  *	@since				
  */
+
 
 /*include the PEAR XML stuff*/
 require_once 'XML/Serializer.php';
@@ -177,14 +178,21 @@ function xmlfilereader($xmlfilename){
  * @param string $xml
  * @return string
  */
-function xmlreader($xml){
-	$check=strpos($xml,'<');
+function xmlreader($string){
+
+	$check=strpos($string,'<');
 	if($check===false){
 		/* At least make sure this could be xml and if not just return the plain text */
-		$data=$xml;
+		$data=$string;
 		}
 	else{
-		$nicexml=clean_text($xml);
+		/* Have to the div tags because the first level tag is always dropped by simplexml for some reason. */
+		$xmlstring='<div>'.$string.'</div>';
+		$data=xmlstringToArray($xmlstring);
+		}
+	/*
+	else{
+		$nicexml=clean_text($xmlstring);
 		$Unserializer=new XML_Unserializer();
 		$status=$Unserializer->unserialize($nicexml);
 		if(PEAR::isError($status)){
@@ -196,8 +204,31 @@ function xmlreader($xml){
 			$data=$Unserializer->getUnserializedData();
 			}
 		}
+	*/
+
 	return $data;
 	}
+
+
+function xmlstringToArray($xml){
+	$nicexml=clean_text($xml);
+    $array=simplexml_load_string($nicexml);
+    $newArray=objectToArray($array);
+	return $newArray;
+	}
+
+function objectToArray($object){
+	if(!is_object( $object ) && !is_array( $object )){
+		return $object;
+		}
+
+	if(is_object($object) ){
+		$object = get_object_vars($object);
+		}
+	return array_map('objectToArray', $object );
+	}
+
+
 
 /**
  * This overcomes a discrepancy in the way XML_Unserializer chooses
