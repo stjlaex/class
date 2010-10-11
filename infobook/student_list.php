@@ -130,10 +130,7 @@ two_buttonmenu($extrabuttons,$book);
 		<label><?php print_string('formgroup'); ?></label>
 		<?php print $fid.' &nbsp;&nbsp;';?>
 		<?php print $tutor_user['forename'][0].' '. $tutor_user['surname'];?>
-		<a onclick="parent.viewBook('webmail');" target="viewwebmail" 
-			href="webmail.php?recipients[]=<?php print $tutor_user['email'];?>">
-			<img class="clicktoemail" title="<?php print_string('clicktoemail');?>" />
-		</a>
+		<?php emaillink_display($tutor_user['email']);?>
 		</th>
 <?php
 		}
@@ -207,7 +204,7 @@ two_buttonmenu($extrabuttons,$book);
 		  <td class="student">
 			<a href="infobook.php?current=student_view.php&sid=<?php print $sid;?>">
 <?php 
-				print $Student[$displayname]['value']; 
+		print $Student[$displayname]['value']; 
 ?>
 			</a>
 			<div id="merit-<?php print $sid;?>"></div>

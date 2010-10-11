@@ -350,7 +350,7 @@ function list_class_teachers($cid){
 
 /** 
  * Returns an id-name array listing all classes this sid attends.
- * The name is a descriotion of the course and subject for each class.
+ * The name is a description of the course and subject for each class.
  *
  *	@param string $sid
  *	@return array
@@ -368,6 +368,31 @@ function list_student_classes($sid){
 		}
 	return $classes;
 	}
+
+
+/** 
+ * Returns an array of crids for all courses this sid is subscribed to.
+ *
+ *	@param string $sid
+ *	@return array
+ */
+function list_student_courses($sid,$todate=''){
+	if($sid==''){$sid=-1;}
+	if($todate==''){$todate=date('Y-m-d');$year=get_curriculumyear();}
+	$crids=array();
+	$d_c=mysql_query("SELECT DISTINCT course_id FROM cohort 
+				WHERE cohort.year='$year' AND cohort.id=ANY(SELECT DISTINCT 
+				cohort_id FROM cohidcomid JOIN comidsid ON comidsid.community_id=cohidcomid.community_id
+				WHERE comidsid.student_id='$sid' AND
+				(comidsid.joiningdate<='$todate' OR comidsid.joiningdate IS NULL)
+				AND (comidsid.leavingdate>'$todate' OR 
+				comidsid.leavingdate='0000-00-00' OR comidsid.leavingdate IS NULL));");
+   	while($c=mysql_fetch_array($d_c,MYSQL_ASSOC)){
+		$crids[]=$c['course_id'];
+		}
+	return $crids;
+	}
+
 
 /** 
  *
@@ -387,7 +412,6 @@ function list_student_teachers($sid){
 					tidcid.class_id=ANY(SELECT DISTINCT class_id 
 					FROM cidsid WHERE student_id='$sid');");
    	while($t=mysql_fetch_array($d_t,MYSQL_ASSOC)){
-		//trigger_error('Teachers: '.$t['username'],E_USER_WARNING);
 		$teachers[]=$t;
 		}
 	return $teachers;

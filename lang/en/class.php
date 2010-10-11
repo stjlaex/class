@@ -16,6 +16,7 @@ $string['yes']='Yes';
 $string['clicktowritecomment']='Click to write comment';
 $string['clicktoattachfile']='Click to post file';
 $string['clicktoemail']='Click to email';
+$string['clicktoconfigure']='Click to configure';
 $string['details']='Details';
 $string['cancel']='Back';
 $string['forename']='Forename';

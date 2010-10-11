@@ -195,6 +195,7 @@ function elgg_newUser($User,$role){
 			trigger_error('EPFUsername duplicate: '.$epfusername.' already exists.',E_USER_WARNING);
 			}
 		else{
+			$name=str_replace("'",'',$name);
 			mysql_query("INSERT INTO $table (username, password, name, 
 					email, active, user_type,icon,template_id,template_name) VALUES 
 					('$epfusername', '$assword', '$name',

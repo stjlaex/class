@@ -9,6 +9,8 @@ $action='student_view_action.php';
 $tutor_user=get_tutor_user($Student['RegistrationGroup']['value']);
 $house=get_student_house($sid);
 $Siblings=array();
+$field=fetchStudent_singlefield($sid,'Course');
+$Student=array_merge($Student,$field);
 
 twoplus_buttonmenu($sidskey,sizeof($sids));
 ?>
@@ -63,10 +65,10 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 			  <br />
 			  <label><?php print_string('formtutor');?></label>
 			  <?php print $tutor_user['forename'][0].' '. $tutor_user['surname'];?>
-			  <a onclick="parent.viewBook('webmail');" target="viewwebmail" 
-				 href="webmail.php?recipients[]=<?php print $tutor_user['email'];?>">
-				<img class="clicktoemail" title="<?php print_string('clicktoemail');?>" />
-			  </a> 
+			  <?php emaillink_display($tutor_user['email']);?>
+			  <br />
+			  <label><?php print_string($Student['Course']['label'],$book);?></label>
+			  <?php print $Student['Course']['value'];?>
 			</td>
 		  </tr>
 		  <tr>
@@ -240,6 +242,7 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 					  <img class="clicktoedit" title="<?php print_string('edit');?>" />
 					  <?php print $Contact['DisplayFullName']['value'];?>
 					</a>
+					<?php emaillink_display($Contact['EmailAddress']['value']);?>
 				  </td>
 				  <td>
 <?php

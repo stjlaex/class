@@ -118,10 +118,7 @@ if($community['type']!='class'){
 	  <label><?php print_string('formtutor');?>
 	  </label>
 	  <?php print $tutor_user['forename'][0].' '. $tutor_user['surname'];?>
-	  <a onclick="parent.viewBook('webmail');" target="viewwebmail" 
-		 href="webmail.php?recipients[]=<?php print $tutor_user['email'];?>">
-		<img class="clicktoemail" title="<?php print_string('clicktoemail');?>" />
-	  </a> 
+		<?php emaillink_display($tutor_user['email']);?>
 	  &nbsp;
 	</div>
 <?php
@@ -236,7 +233,7 @@ if($nodays==1 or $_SESSION['role']=='office' or $_SESSION['role']=='admin'){
 ?>
 <div style="font-size:7pt;color:#909090;float:right;width:30px;">
 <?php
-		print get_student_transport($sid);
+		print display_student_transport($sid);
 ?>
 </div>
 		  </td>

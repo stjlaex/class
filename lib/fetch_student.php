@@ -142,6 +142,19 @@ function fetchStudent_singlefield($sid,$tag){
 		$Student[$tag]=array('label'=>'',
 							 'value'=>''.get_student_club($sid));
 		}
+   	elseif($tag=='Age'){
+		$d_s=mysql_query("SELECT dob FROM student WHERE id='$sid';");
+		$dob=mysql_result($d_s,0);
+		$Student[$tag]=array('label'=>'',
+							 'value'=>''.get_age($dob));
+		}
+   	elseif($tag=='Course'){
+		$courses='';
+		$crids=list_student_courses($sid);
+		foreach($crids as $crid){$courses.=' '.$crid;}
+		$Student[$tag]=array('label'=>'course',
+							 'value'=>''.$courses);
+		}
 
 	if(isset($contactno)){
 		if(substr_count($tag,'Phone')){
@@ -1765,14 +1778,18 @@ function get_age($dob){
 
 	$dob_bits=explode('-',$dob);
 
-	/* WARNING: stupidly this needs month-day-year !!!!*/
-	$start_date=gregoriantojd($dob_bits[1], $dob_bits[2], $dob_bits[0]);
-	$end_date=gregoriantojd(date('m'), date('d'), date('Y'));
+	if($dob_bits[0]>0){
+		/* WARNING: stupidly this needs month-day-year !!!!*/
+		$start_date=gregoriantojd($dob_bits[1], $dob_bits[2], $dob_bits[0]);
+		$end_date=gregoriantojd(date('m'), date('d'), date('Y'));
 
-	$days=$end_date - $start_date;
-	$years=$days/365;
-	$months=$years*12-floor($years)*12;
-
+		$days=$end_date - $start_date;
+		$years=$days/365;
+		$months=$years*12-floor($years)*12;
+		}
+	else{
+		$years=0;$months=0;
+		}
 	return floor($years).' / '.floor($months);
 	}
 

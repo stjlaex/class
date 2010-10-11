@@ -371,6 +371,33 @@ function xmlattendance_display($Attendance){
 
 
 /**
+ *
+ *
+ */
+function emaillink_display($email){
+	global $CFG;
+	if($email!='' and $email!=' '){
+		if(isset($CFG->webmailsite) and $CFG->webmailsite!=''){
+?>
+		<a onclick="parent.viewBook('webmail');" target="viewwebmail" 
+			href="webmail.php?recipients[]=<?php print $email;?>">
+			<img class="clicktoemail" title="<?php print_string('clicktoemail');?>" />
+		</a>
+<?php
+			}
+		else{
+?>
+			<a href="mailto:<?php print $email;?>">
+			<img class="clicktoemail" title="<?php print_string('clicktoemail');?>" />
+			</a>
+			<?php
+			}
+		}
+	}
+
+
+
+/**
  * 
  */
 function selery_stick($choices,$choice='',$book=''){

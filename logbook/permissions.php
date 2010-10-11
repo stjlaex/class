@@ -40,13 +40,13 @@ function list_sid_responsible_users($sid, $bid){
 		$gids[]=$group['gid'];
 
 	  	$d_group=mysql_query("SELECT gid FROM groups WHERE
-		  	course_id='$crid' AND subject_id='$bid'"); 
+								course_id='$crid' AND subject_id='$bid'"); 
 		$group=mysql_fetch_array($d_group);
 		$gids[]=$group['gid'];
 		}
 	foreach($gids as $key => $gid){
 		$d_users=mysql_query("SELECT * FROM users JOIN perms ON users.uid=perms.uid WHERE
-			perms.gid='$gid' AND perms.e='1';");
+			perms.gid='$gid' AND perms.e='1' AND users.nologin='0';");
 		while($user=mysql_fetch_array($d_users)){
 			if(eregi('^[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.([a-zA-Z]{2,4})$', $user['email'])){ 
 				$recipients[$user['uid']]=array('username'=>$user['username'], 'email'=>$user['email']);
@@ -80,7 +80,7 @@ function list_sid_responsible_users($sid, $bid){
 	/*checks for special needs*/
 	$Student=fetchStudent_singlefield($sid,'SENFlag');
 	if($Student['SENFlag']['value']!='N'){
-		$d_u=mysql_query("SELECT uid FROM users WHERE role='sen' OR senrole='1';");
+		$d_u=mysql_query("SELECT uid FROM users WHERE (role='sen' OR senrole='1') AND users.nologin='0';");
 		while($u=mysql_fetch_array($d_u)){
 			$user=get_user($u['uid'],'uid');
 			if(eregi('^[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.([a-zA-Z]{2,4})$', $user['email'])){ 

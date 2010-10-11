@@ -130,6 +130,8 @@ function utf8_to_ascii($str){
 				 chr(0x00E8)=>'e',
 				 chr(0x00C9)=>'E',
 				 chr(0x00E9)=>'e',
+				 chr(0x00CA)=>'E',
+				 chr(0x00EA)=>'e',
 				 chr(0x00CD)=>'I',
 				 chr(0x00ED)=>'i',
 				 chr(0x00D1)=>'N',
@@ -140,8 +142,9 @@ function utf8_to_ascii($str){
 				 chr(0x00FA)=>'u',
 				 chr(0x00C1)=>'A',
 				 chr(0x00E1)=>'a',
-				 chr(0x00AA)=>'A',
-				 chr(0x0061)=>'a'
+				 chr(0x00C7)=>'C',
+				 chr(0x00E7)=>'c',
+				 chr(0x0060)=>''
 				 );
 	$str=utf8_decode($str);
 	$str=str_replace(
@@ -151,6 +154,8 @@ function utf8_to_ascii($str){
 					 );
     return $str;
 	}
+
+
 
 /**
  * Should only be used when writing a string for use by javascript
@@ -857,8 +862,10 @@ function getEnumArray($field_name){
 						'Gender'=>'gender', 
 						'YearGroup'=>'yeargroup', 
 						'RegistrationGroup'=>'formgroup', 
+						'Course'=>'course', 
 						'House'=>'house', 
 						'DOB'=>'dateofbirth',
+						'Age'=>'age',
 						'Nationality'=>'nationality',
 						'SecondNationality'=>'secondnationality',
 						'Birthplace'=>'placeofbirth',

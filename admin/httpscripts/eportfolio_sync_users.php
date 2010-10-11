@@ -236,6 +236,7 @@ require_once($CFG->installpath.'/'.$CFG->applicationdirectory.'/lib/eportfolio_f
 						$firstsid=$sid;
 						}
 
+					/* Choice of two methods for setting the password. */
 					if(isset($CFG->eportfolio_access) and $CFG->eportfolio_access=='dob'){
 						$d_s=mysql_query("SELECT dob FROM student WHERE id='$firstsid';");
 						$dob=(array)explode('-',mysql_result($d_s,0));

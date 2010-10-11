@@ -1,4 +1,4 @@
-Version ClaSS-0.9.28 release (2010/10/14)
+Version ClaSS-0.9.28 release (2010/10/12)
 -----------------------------------------
 
 Transitioning from XML_Unserializer to PHP5 functions for
@@ -6,6 +6,11 @@ simplexml. Affects xmlreader function at the moment.
 
 Assessment columns from previous years can now carry over to courses
 even when the curriculum structure is not identical.
+
+Display emaillink function to handle clicktoemail and improved with
+mailto if WebMail not configured.
+
+Age and Course added to fetchstudent singlefield function.
 
 
 
