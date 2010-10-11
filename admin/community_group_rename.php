@@ -31,6 +31,9 @@ if($sub=='Submit'){
 				$communityfresh['sessions'].=$sep . 'A'.$sess;
 				}
 			}
+		else{
+			$communityfresh['sessions']='';
+			}
 		}
 
 	$comid=update_community($community,$communityfresh);

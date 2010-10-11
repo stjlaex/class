@@ -46,7 +46,7 @@ function list_sid_responsible_users($sid, $bid){
 		}
 	foreach($gids as $key => $gid){
 		$d_users=mysql_query("SELECT * FROM users JOIN perms ON users.uid=perms.uid WHERE
-			perms.gid='$gid' AND perms.e='1' AND users.nologin='0';");
+			perms.gid='$gid' AND perms.e='1' AND users.nologin!='1';");
 		while($user=mysql_fetch_array($d_users)){
 			if(eregi('^[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.([a-zA-Z]{2,4})$', $user['email'])){ 
 				$recipients[$user['uid']]=array('username'=>$user['username'], 'email'=>$user['email']);
@@ -80,7 +80,7 @@ function list_sid_responsible_users($sid, $bid){
 	/*checks for special needs*/
 	$Student=fetchStudent_singlefield($sid,'SENFlag');
 	if($Student['SENFlag']['value']!='N'){
-		$d_u=mysql_query("SELECT uid FROM users WHERE (role='sen' OR senrole='1') AND users.nologin='0';");
+		$d_u=mysql_query("SELECT uid FROM users WHERE role='sen' AND users.nologin!='1';");
 		while($u=mysql_fetch_array($d_u)){
 			$user=get_user($u['uid'],'uid');
 			if(eregi('^[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.([a-zA-Z]{2,4})$', $user['email'])){ 
@@ -111,7 +111,7 @@ function list_responsible_users($tid,$respons,$r=0){
 				emailpasswd, nologin,
 				firstbookpref, role, senrole, epfusername FROM users JOIN tidcid ON 
 				users.username=tidcid.teacher_id WHERE
-				tidcid.class_id='$cid[0]' AND users.nologin='0' ORDER BY username");
+				tidcid.class_id='$cid[0]' AND users.nologin!='1' ORDER BY username");
 		  while($user=mysql_fetch_array($d_users,MYSQL_ASSOC)){
 			$uid=$user['uid'];
 			if(!array_key_exists($uid,$users)){
