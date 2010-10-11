@@ -330,7 +330,7 @@ function delete_journey_booking($sid,$bookid){
 
 	/*TODO: check for other bookings for this busname and update transport community appropriately */
 
-	trigger_error($sid.' '.$busname.' '.$startdate.' ' .$enddate,E_USER_WARNING);
+	//trigger_error($sid.' '.$busname.' '.$startdate.' ' .$enddate,E_USER_WARNING);
 	return;
 	}
 ?>

@@ -115,7 +115,7 @@ else{
 			}
 		}
 
-	/*old search method for students only using surname and forename*/
+	/*old search method using surname and forename*/
 	elseif(isset($surname) and $surname!=''){
 		if(isset($forename) and $forename!=''){
 			$d_sids=mysql_query("SELECT id FROM $table WHERE

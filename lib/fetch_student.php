@@ -136,7 +136,7 @@ function fetchStudent_singlefield($sid,$tag){
 		}
    	elseif($tag=='Transport'){
 		$Student[$tag]=array('label'=>'',
-							 'value'=>''.get_student_transport($sid));
+							 'value'=>''.display_student_transport($sid));
 		}
    	elseif($tag=='Club'){
 		$Student[$tag]=array('label'=>'',
@@ -1683,16 +1683,40 @@ function get_student_house($sid){
 
 
 /**
+ * Returns AM and PM transport for a given date
+ *
  * @param string $sid
  * @return string
  */
-function get_student_transport($sid){
+function display_student_transport($sid,$todate=''){
+	global $CFG;
+	require_once($CFG->dirroot.'/lib/fetch_transport.php');
 	$transport='';
+	/*
 	$tcom=array('id'=>'','type'=>'transport','name'=>'');
 	$coms=(array)list_member_communities($sid,$tcom);
 	while(list($index,$com)=each($coms)){
 		$transport.=$com['name'].' ';
 		}
+	*/
+	if($todate==''){
+		$todate=date('Y-m-d');
+		$today=date('N');
+		}
+
+	$bookings=(array)list_student_journey_bookings($sid,$todate,$today);
+	$divin='';$divout='';
+	foreach($bookings as $booking){
+		$bus=get_bus($booking['bus_id']);
+		//$stops=list_bus_stops($booking['bus_id']);
+		if($bus['direction']=='I'){$divname='divin';$divclass='AM';}
+		else{$divname='divout';$divclass='PM';}
+		if($$divname==''){
+			$$divname.='<div>'.$bus['name'].' ('.$divclass.')'.'</div>';
+			}
+		}
+
+	$transport=$divin. ' '. $divout;
 	return $transport;
 	}
 

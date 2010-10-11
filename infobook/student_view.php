@@ -364,6 +364,8 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 		</fieldset>
 <?php
 		}
+
+		$transport=display_student_transport($sid);
 ?>
 		
 		<fieldset class="left">
@@ -373,7 +375,7 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 				<?php print_string('transport','admin');?>
 			</a>
 		  </legend>
-		  <div>&nbsp;</div>
+		<div><?php print $transport;?></div>
 		</fieldset>
 <?php
 /*		<fieldset class="right">

@@ -28,7 +28,13 @@ $yearnow=get_curriculumyear($crid);
  */
 $cohorts=array();
 
-/* Is this assessment for the current year of from a previous year? */
+/**
+ * Is this assessment for the current year or from a previous year?
+ * If for a previous year then we need to find where the students are
+ * now: (1) the next stage in the same course; (2) the first stage of
+ * the following course it appropriate.
+ *
+ */
 if($AssDef['Year']['value']!=$yearnow){
 	$yeardiff=$yearnow-$AssDef['Year']['value'];
 	$stagegones=array();
@@ -66,6 +72,7 @@ if($AssDef['Year']['value']!=$yearnow){
 		}
 	}
 else{
+	/* Assessment is for current year so not much to do */
 	$cohorts[]=array('course_id'=>$crid,'stage'=>$stage,'year'=>$yearnow);
 	}
 
@@ -112,50 +119,90 @@ if($perm["$neededperm"]=1 and $AssDef['MarkCount']['value']==0){
 			if(sizeof($strands)==0){$strands[0]['id']=$component['id'];}
 			while(list($index,$strand)=each($strands)){
 				$pid=$strand['id'];
-				mysql_query("INSERT INTO mark (entrydate, marktype, topic, comment, author,
-						 def_name, assessment, component_id) VALUES ('$entrydate', 'score', '$description', 
-						 '', 'ClaSS', '$markdef_name', '$asstype', '$pid');");
-				$mid=mysql_insert_id();
-
-				/* Make entry in eidmid for this new mark. */
-				mysql_query("INSERT INTO eidmid (assessment_id,mark_id) VALUES ('$eid', '$mid');");
 
 				if($bid==' ' or $bid=='G'){$bid='%';}
 				$cidno=0;
 				foreach($cohorts as $cohort){
 					$cridnow=$cohort['course_id'];
 					$stagenow=$cohort['stage'];
-					$d_class=mysql_query("SELECT id FROM class WHERE
-						course_id='$cridnow' AND subject_id LIKE '$bid' AND stage LIKE '$stagenow';");
-					/* Make entries in midcid for the new mark */
-					while($d_cid=mysql_fetch_array($d_class,MYSQL_NUM)){
-						$cid=$d_cid[0];
-						mysql_query("INSERT INTO midcid (mark_id,class_id) VALUES ('$mid', '$cid');");
-						$cidno++;
-						}
-					}
-
-				if($cidno>0){
-					$d_eidsids=mysql_query("SELECT student_id,result, value FROM eidsid WHERE
-				   		subject_id LIKE '$bid' AND component_id='$pid' AND assessment_id='$eid';");
-					$sids=array();
-					while($eidsid=mysql_fetch_array($d_eidsids,MYSQL_ASSOC)){
-						$sids[$eidsid['student_id']]=$eidsid;
-						}
-					while(list($sid,$score)=each($sids)){
-						$out=$score['result'];
-						$value=$score['value'];
-						if($markdef['scoretype']=='grade'){
-							$score=gradeToScore($out,$grading_grades);		
+					$bidnow='';
+					$pidnow='';
+					if($cridnow!=$crid){
+						/* If carrying forward to another course need
+						   to accomodate hanges in currilucum
+						   structure ie. hunt for equivalent subject/component/strand combination */
+						$d_s=mysql_query("SELECT DISTINCT subject_id FROM component 
+					WHERE course_id='$cridnow' AND id='$pid' AND subject_id='$bid' AND status!='U';");
+						if(mysql_num_rows($d_s)>0){$bidnow=$bid;$pidnow=$pid;}
+						else{
+							if($pid!=''){
+								$d_s=mysql_query("SELECT DISTINCT subject_id FROM component 
+					WHERE course_id='$cridnow' AND id='' AND subject_id='$pid' AND status!='U';");
+								if(mysql_num_rows($d_s)>0){$bidnow=$pid;$pidnow='';}
+								else{
+									if($pid!=''){
+										$d_s=mysql_query("SELECT DISTINCT subject_id FROM component 
+					WHERE course_id='$cridnow' AND id='$pid' AND status!='U';");
+										if(mysql_num_rows($d_s)>0){$bidnow=mysql_result($d_s,0);$pidnow=$pid;}
+										if($bidnow!=''){
+											$d_s=mysql_query("SELECT DISTINCT subject_id FROM component 
+					WHERE course_id='$cridnow' AND id='$bidnow' AND status!='U';");
+											if(mysql_num_rows($d_s)>0){$bidnow=mysql_result($d_s,0);$pidnow=$pid;}
+											}		
+										}
+									}
+								}
 							}
-						else{$score='';}
-						mysql_query("INSERT INTO score (student_id,
-							mark_id, grade, value) VALUES ('$sid','$mid', '$score', '$value');");
 						}
-					mysql_free_result($d_eidsids);
-					mysql_free_result($d_class);
-					}
+					else{
+						$bidnow=$bid;
+						$pidnow=$pid;
+						}
 
+					/* Can only carry forward to next course if their is a correpsonding subject */
+					if($bidnow!=''){
+						//trigger_error($stage.' '.$crid.': '.$bid.' : '.$pid,E_USER_WARNING);
+	
+						mysql_query("INSERT INTO mark (entrydate, marktype, topic, comment, author,
+						 def_name, assessment, component_id) VALUES ('$entrydate', 'score', '$description', 
+						 '', 'ClaSS', '$markdef_name', '$asstype', '$pidnow');");
+						$mid=mysql_insert_id();
+
+						/* Make entry in eidmid for this new mark. */
+						mysql_query("INSERT INTO eidmid (assessment_id,mark_id) VALUES ('$eid', '$mid');");
+
+						$d_class=mysql_query("SELECT id FROM class WHERE
+						course_id='$cridnow' AND subject_id LIKE '$bidnow' AND stage LIKE '$stagenow';");
+						/* Make entries in midcid for the new mark */
+						while($d_cid=mysql_fetch_array($d_class,MYSQL_NUM)){
+							$cid=$d_cid[0];
+							mysql_query("INSERT INTO midcid (mark_id,class_id) VALUES ('$mid', '$cid');");
+							$cidno++;
+							}
+						mysql_free_result($d_class);
+						//trigger_error($stagenow.' '.$cridnow.': '.$bidnow.' : '.$pidnow. ' '.$cidno,E_USER_WARNING);
+						}
+
+					if($cidno>0){
+						$d_eidsids=mysql_query("SELECT student_id,result, value FROM eidsid WHERE
+				   		subject_id LIKE '$bid' AND component_id='$pid' AND assessment_id='$eid';");
+						$sids=array();
+						while($eidsid=mysql_fetch_array($d_eidsids,MYSQL_ASSOC)){
+							$sids[$eidsid['student_id']]=$eidsid;
+							}
+						while(list($sid,$score)=each($sids)){
+							$out=$score['result'];
+							$value=$score['value'];
+							if($markdef['scoretype']=='grade'){
+								$score=gradeToScore($out,$grading_grades);		
+								}
+							else{$score='';}
+							mysql_query("INSERT INTO score (student_id,
+							mark_id, grade, value) VALUES ('$sid','$mid', '$score', '$value');");
+							}
+						mysql_free_result($d_eidsids);
+						}
+					}
 				}
 			}
 		}

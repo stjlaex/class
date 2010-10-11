@@ -67,7 +67,7 @@ if($_SESSION['role']=='office' or $_SESSION['role']=='admin' or $_SESSION['role'
 		/*only used for the infobook search options, not an enumarray at all!*/
 		$contactfield=array(
 							'country' => 'country',
-							'surname' => 'name'
+							'surname' => 'surname'
 							);
 		$studentfield=array(
 							'surname' => 'surname', 
