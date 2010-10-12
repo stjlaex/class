@@ -12,6 +12,7 @@ mailto if WebMail not configured.
 
 Age and Course added to fetchstudent singlefield function.
 
+Fixes and improvements to printing the transport list.
 
 
 Version ClaSS-0.9.27 release (2010/10/4)
