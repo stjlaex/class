@@ -138,9 +138,10 @@ $students=array();
 	$viewtable[0]['count']=array();
 	$c=1;/*$c=0 in viewtable is for column headers*/
 	while(list($index,$student)=each($students)){
+		$sid=$student['id'];
+		$Student=(array)fetchStudent_short($sid);
 		/* TODO: improve and extend the filter methods... */
-		if($gender=='' or $gender==$student['gender']){
-			$sid=$student['id'];
+		if($gender=='' or $gender==$Student['Gender']['value']){
 			$viewtable[$c]=array();
 			$viewtable[$c]['student']=(array)$student;
 			$viewtable[$c]['out']=array();

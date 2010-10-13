@@ -1,4 +1,4 @@
-Version ClaSS-0.9.28 release (2010/10/12)
+Version ClaSS-0.9.28 release (2010/10/13)
 -----------------------------------------
 
 Transitioning from XML_Unserializer to PHP5 functions for
@@ -13,6 +13,10 @@ mailto if WebMail not configured.
 Age and Course added to fetchstudent singlefield function.
 
 Fixes and improvements to printing the transport list.
+
+Added second nationality / dual citezenship figure to statistics page.
+
+Fixed filter by gender for report assessments when using cohorts.
 
 
 Version ClaSS-0.9.27 release (2010/10/4)

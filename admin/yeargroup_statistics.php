@@ -53,8 +53,10 @@ two_buttonmenu();
 		$nofemalesids=countin_community_gender($com,'F');
 		$totalsids=$totalsids+$nosids;
 		while(list($index,$student)=each($students)){
-			$Student=fetchStudent_singlefield($student['id'],'Nationality');
+			$Student=(array)fetchStudent_singlefield($student['id'],'Nationality');
 			$countrycode=strtoupper($Student['Nationality']['value']);
+			$Student=(array)fetchStudent_singlefield($student['id'],'SecondNationality');
+			$secondcountrycode=strtoupper($Student['SecondNationality']['value']);
 			if($countrycode=='' or $countrycode==' '){
 				$countrycode='BLANK';
 				}
@@ -66,12 +68,15 @@ two_buttonmenu();
 				$gender='BLANK';
 				}
 
+			/* First nationality */
 			if(!isset($countrys[$countrycode])){
 				$countrys[$countrycode]=0;
 				$gender_countrys[$countrycode]=array('BLANK'=>0,'M'=>0,'F'=>0);
+				$second_countrys[$countrycode]=0;
 				}
 			$gender_countrys[$countrycode][$gender]++;
 			$countrys[$countrycode]++;
+			if($secondcountrycode!='' and $secondcountrycode!=' '){trigger_error('2ND: '.$secondcountrycode,E_USER_WARNING);$second_countrys[$countrycode]++;}
 
 			/* Do postcodes. Use localcode to restrict to those within the local area. */
 			$Student=fetchStudent_singlefield($student['id'],'Postcode');
@@ -157,7 +162,7 @@ two_buttonmenu();
 	  <table class="listmenu">
 		<tr>
 		  <th><?php print_string('nationality','infobook');?></th>
-		  <th><?php print_string('numberofstudents',$book);?></th>
+		  <th colspan="2"><?php print_string('numberofstudents',$book);?></th>
 		  <th><?php print get_string('male',$book) .'/'. 
 			get_string('female',$book) .' '. get_string('ratio',$book);?>
 		  </th>
@@ -176,6 +181,7 @@ two_buttonmenu();
 			<?php print ' '.$countrycode;?>
 		  </td>
 		  <td><?php print $nosids;?></td>  
+			<td><?php if($second_countrys[$countrycode]>0){print '('.$second_countrys[$countrycode].')';}?></td>  
 		  <td><?php print $gender_countrys[$countrycode]['M']. 
 		  ' / '. $gender_countrys[$countrycode]['F'];?></td>
 		  <td><?php print $lgender_countrys[$countrycode]['M']. 
