@@ -41,10 +41,24 @@ else{
 		$crid=$profile['course_id'];
 		$profilename=$profile['name'];
 		$curryear=get_curriculumyear($crid);
+
+		/*TODO*/
+		$prevyear=$curryear-1;
+		$allstages=list_course_stages($crid);
+		foreach($allstages as $sin => $allstage){
+			if($allstage['name']==$stage){$stageno=$sin-1;}
+			}
+		if($stageno>-1){$prevstage=$allstages[$stageno]['name'];}
+		else{$prevstage='';}
+		//trigger_error('PREV: '.$prevstage,E_USER_WARNING);
+		/**/
+
 		$cohort=array('id'=>'','course_id'=>$crid,'stage'=>$stage,'year'=>$curryear);
+		$prevcohort=array('id'=>'','course_id'=>$crid,'stage'=>$prevstage,'year'=>$prevyear);
 		/* Allows for alternative to the profile's default template */
 		if($template!=''){$profile['transform']=$template;}
 		/* Allows a subset of the profile's assessments to be included */
+
 		if(sizeof($eids)>0){
 			$AssDefs=array();
 			foreach($eids as $eindex => $eid){
@@ -62,11 +76,18 @@ else{
 		$bid='%';
 		$pid='%';
 		}
+	else{
+		//trigger_error('PREV: '.$prevstage,E_USER_WARNING);
+		//trigger_error(sizeof($AssDefs),E_USER_WARNING);
+		$PrevAssDefs=(array)fetch_cohortAssessmentDefinitions($prevcohort,$profile['id']);
+		$all_AssDefs=(array)array_merge_recursive($AssDefs + $PrevAssDefs);
+		//trigger_error(sizeof($all_AssDefs),E_USER_WARNING);
+		}
 
 	/* Bands in ascending date order. */
   	$d_stats=mysql_query("SELECT DISTINCT * FROM statvalues JOIN stats ON stats.id=statvalues.stats_id 
 				WHERE stats.course_id='$crid' AND stats.profile_name='$profilename' 
-				AND statvalues.stage='$stage' AND (statvalues.subject_id LIKE '$bid' OR statvalues.subject_id='%')
+				AND (statvalues.stage='$stage' OR statvalues.stage='$prevstage') AND (statvalues.subject_id LIKE '$bid' OR statvalues.subject_id='%')
 				AND (statvalues.component_id LIKE '$pid' OR statvalues.component_id='%') ORDER BY statvalues.date ASC;");
 	$bands=array();
 	while($stat=mysql_fetch_array($d_stats,MYSQL_ASSOC)){
