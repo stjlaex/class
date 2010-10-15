@@ -197,6 +197,7 @@ $string['allapplied']='All applications';
 $string['applicationsreceived']='Applications this year';
 $string['applicationsprevious']='Applications last year';
 $string['enquiriesprevious']='Enquiries last year';
+$string['enquiries']='Enquiries this year';
 $string['inactive']='Inactive';
 $string['blank']='Blank';
 $string['update']='Update';
