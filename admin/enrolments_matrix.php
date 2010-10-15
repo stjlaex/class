@@ -19,17 +19,13 @@ else{$enrolyear=$currentyear+1;}
 $extrabuttons=array();
 twoplus_buttonmenu($enrolyear,$currentyear+3,$extrabuttons,$book,$currentyear);
 
-if($CFG->enrol_applications=='yes'){
-	$applications_live=true;
-	}
-else{
-	$applications_live=false;
-	}
 
 $todate=date('Y-m-d');
 $lastenrolyear=$enrolyear-1;
 if(date('m')>8){$yeardiff=-2;}else{$yeardiff=-1;}
 $lastenroldate=date('Y-m-d',mktime(0,0,0,date('m'),date('d'),$lastenrolyear+$yeardiff));
+trigger_error('!!!!!!!!!!!!!!!! '.$lastenrolyear.':'.$lastenroldate,E_USER_WARNING);
+//$lastenroldate=$todate;
 $yearstart=$currentyear-1;
 $yearstartdate=$yearstart.'-08-20';
 $yearenddate=$yearstart.'-07-01';
