@@ -11,30 +11,14 @@
 $app_tablerows=array();
 $appcols=array();
 
-if($CFG->enrol_applications=='yes' or $enrolyear>$currentyear){
-	$applications_live=true;
-	}
-else{
-	$applications_live=false;
-	}
 
-/* First column for row totals*/
 if($enrolyear>$currentyear){
-	$appcols['LASTEN']['class']='static';
-	$appcols['LASTEN']['display']=get_string('enquiriesprevious',$book);
-	$appcols['LASTEN']['value']='enquiriesprevious';
-	}
 	$appcols['EN']['class']='blank';
 	$appcols['EN']['display']='<a href="admin.php?current=enrolments_edit.php&cancel='.
 		$choice.'&choice='. $choice.'&enrolyear='.$enrolyear. 
 		'&enrolstatus=EN">'.get_string('enquiries',$book).'</a>';
 	$appcols['EN']['value']='enquiries';
-	$appcols['LASTTOTAL']['class']='static';
-	//$appcols['LASTTOTAL']['display']=get_string('applicationsprevious',$book);
-	$appcols['LASTTOTAL']['display']='<a href="admin.php?current=enrolments_edit.php&cancel='.
-		$choice.'&choice='. $choice.'&enrolyear='.$enrolyear. 
-		'&enrolstatus=lasttotal">'.get_string('applicationsprevious',$book).'</a>';
-	$appcols['LASTTOTAL']['value']='applicationsprevious';
+	}
 $appcols['TOTAL']['class']='other';
 $appcols['TOTAL']['display']=get_string('applicationsreceived',$book);
 $appcols['TOTAL']['value']='applicationsreceived';
@@ -46,7 +30,7 @@ $application_steps=array('AP','ATD','AT','RE','CA','ACP','AC','WL');
  * but all values (specified above) are still totalled in final column
  * with the exception of Enquired which is a special case.
  */
-$appcols_value=array('AT','RE','CA','ACP','AC','WL');
+$appcols_value=array('AP','AT','RE','CA','ACP','AC','WL');
 
 
 	foreach($application_steps as $enrolstatus){
@@ -66,16 +50,13 @@ $appcols_value=array('AT','RE','CA','ACP','AC','WL');
 		}
 
 
-/**/
 
 	reset($yeargroups);
 	while(list($yindex,$year)=each($yeargroups)){
 		$app_tablecells=array();
 		if($enrolyear>$currentyear){
-			$app_tablecells['enquiriesprevious']=array();
-			}
 			$app_tablecells['enquiries']=array();
-			$app_tablecells['applicationsprevious']=array();
+			}
 		$app_tablecells['applicationsreceived']=array();
 		$yid=$year['id'];
 
@@ -88,16 +69,15 @@ $appcols_value=array('AT','RE','CA','ACP','AC','WL');
 			}
 		else{
 			$yearcomid=$yeargroup_comids[$yid];
-			/* Student whose applications have been accepted....
+			/* Student whose applications have been accepted since the start of the year*/
 			$d_nosids=mysql_query("SELECT COUNT(student_id) FROM
 						comidsid WHERE community_id='$yearcomid'
 					AND (leavingdate>'$todate' OR 
 					leavingdate='0000-00-00' OR leavingdate IS NULL) 
 					AND joiningdate<='$todate' AND joiningdate>='$yearstartdate';");
-			*/
-			/* Students who joined the school regardless of when accepted*/
+			/* Students who joined the current roll regardless of when accepted*/
 			$d_nosids=mysql_query("SELECT COUNT(c.student_id) FROM
-						comidsid AS c JOIN info AS i ON c.student_id=i.student_id WHERE c.community_id='$yearcomid'
+					comidsid AS c JOIN info AS i ON c.student_id=i.student_id WHERE c.community_id='$yearcomid'
 					AND i.entrydate>'$yearstartdate';");
 			$newcurrentsids=mysql_result($d_nosids,0);
 			//$values[0]+=$newcurrentsids;
@@ -147,59 +127,30 @@ $appcols_value=array('AT','RE','CA','ACP','AC','WL');
 				$app_tablecells[$enrolstatus]['display']=$display;
 				}
 			$app_tablecells[$enrolstatus]['value']=$value;
+			$app_tablecells[$enrolstatus]['name']=$enrolstatus.':'.$yid;
 			//$app_tablecells[$enrolstatus]['extravalue']=$extravalue;
 			}
 
 		/* Don't forget applications who have already joined current
 		   roll have to be counted as applications received. */
 		$app_tablecells['C']['value']=$newcurrentsids;
-		$app_tablecells['applicationsreceived']['value']=$values[0]+$newcurrentsids;
+		$app_tablecells['applicationsreceived']['value']=$values[0];
+		$app_tablecells['applicationsreceived']['name']='TOTAL:'.$yid;
 		$app_tablecells['applicationsreceived']['display']='<a href="admin.php?current=enrolments_list.php&cancel='. 
 			$choice.'&choice='. $choice.'&enrolyear='. 
 			$enrolyear.'&yid='. $yid.'&comid=-1">' .$app_tablecells['applicationsreceived']['value'].'</a>';
 
 
 		if($enrolyear>$currentyear){
-			/* Total enquiries from last year for comparison */
-	  		$d_s=mysql_query("SELECT SUM(count) FROM community AS c WHERE 
-				 c.name LIKE 'EN:$yid' AND c.year='$lastenrolyear' AND c.type='enquired';");
-			$app_tablecells['enquiriesprevious']['value']=mysql_result($d_s,0);
-			$app_tablecells['enquiriesprevious']['display']=$app_tablecells['enquiriesprevious']['value'];
-			}
-
-	  		$d_s=mysql_query("SELECT SUM(count) FROM community AS c WHERE 
-				 c.name LIKE 'lasttotal:$yid' AND c.year='$enrolyear' 
-				 AND c.type='applied';");
-			/* Total applications from last year for comparison BUT was doesn't work for static values!?
-				$lastyearcomid=$yeargroup_comids[$yid+1];
-				$d_nosids=mysql_query("SELECT COUNT(student_id) FROM
-						comidsid WHERE community_id='$yearcomid'
-					AND (leavingdate>'$todate' OR 
-					leavingdate='0000-00-00' OR leavingdate IS NULL) 
-					AND joiningdate<='$todate' AND joiningdate>='$yearstartdate';");
-				$d_nosids=mysql_query("SELECT COUNT(c.student_id) FROM
-		   			comidsid AS c JOIN info AS i ON c.student_id=i.student_id WHERE c.community_id='$lastyearcomid'
-					AND i.entrydate>'$lastenroldate' AND i.entrydate<'$yearenddate';");
-					$lastnewcurrentsids=mysql_result($d_nosids,0);
-				$d_s=mysql_query("SELECT COUNT(DISTINCT student_id) FROM comidsid 
-				 JOIN community AS c ON c.id=comidsid.community_id WHERE 
-				 c.name LIKE '%:$yid' AND c.year='$lastenrolyear' 
-				AND (c.type='applied' OR c.type='accepted') 
-				AND (comidsid.leavingdate>'$lastenroldate' OR comidsid.leavingdate='0000-00-00' OR comidsid.leavingdate IS NULL);");
-			*/
-			$app_tablecells['applicationsprevious']['value']=0+mysql_result($d_s,0);
-			$app_tablecells['applicationsprevious']['display']=$app_tablecells['applicationsprevious']['value'];
-
-			
-			/* Total enquries from current year*/
-	  		$d_s=mysql_query("SELECT SUM(count) FROM community AS c WHERE 
+			/* Total enquries for current year */
+			$d_s=mysql_query("SELECT SUM(count) FROM community AS c WHERE 
 				 c.name LIKE 'EN:$yid' AND c.year='$enrolyear' AND c.type='enquired';");
 			$app_tablecells['enquiries']['value']=mysql_result($d_s,0);
+			$app_tablecells['enquiries']['name']='EN:'.$yid;
 			$app_tablecells['enquiries']['display']=$app_tablecells['enquiries']['value'];
+			}
 
 		$app_tablerows[$yid]=$app_tablecells;
 		}
 
-//array_slice($app_cols,1);
-//array_slice($app_tablerows,1);
 ?>

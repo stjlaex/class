@@ -33,7 +33,7 @@
 				$enrolcols[$colindex]['class']='other';
 				if($enrolcol=='projectedroll'){
 					$enrolcols[$colindex]['display'].='<br />('. display_date($todate).')';
-				}
+					}
 				}
 			elseif($enrolcol=='spaces' or $enrolcol=='reenroled' or $enrolcol=='leavers'){
 				$enrolcols[$colindex]['class']='blank';
@@ -66,6 +66,7 @@
 			$cell['value']=0;
 			$cell['yid']=$yid;
 			$cell['comid']=$comid;
+			$cell['name']=$enrolcol.':'.$yid;
 
 			/* Each enrol column has its own calculation */
 			if($enrolcol=='reenroling'){

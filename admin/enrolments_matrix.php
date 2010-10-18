@@ -17,21 +17,36 @@ if(isset($_POST['enrolyear']) and $_POST['enrolyear']!=''){$enrolyear=$_POST['en
 else{$enrolyear=$currentyear+1;}
 
 $extrabuttons=array();
+$extrabuttons['print']=array('name'=>'current',
+									   'pathtoscript'=>$CFG->sitepath.'/'.$CFG->applicationdirectory.'/admin/',
+									   'value'=>'admissions_print.php',
+									   'onclick'=>'checksidsAction(this)');
 twoplus_buttonmenu($enrolyear,$currentyear+3,$extrabuttons,$book,$currentyear);
 
 
 $todate=date('Y-m-d');
-$lastenrolyear=$enrolyear-1;
-if(date('m')>8){$yeardiff=-2;}else{$yeardiff=-1;}
-$lastenroldate=date('Y-m-d',mktime(0,0,0,date('m'),date('d'),$lastenrolyear+$yeardiff));
-trigger_error('!!!!!!!!!!!!!!!! '.$lastenrolyear.':'.$lastenroldate,E_USER_WARNING);
-//$lastenroldate=$todate;
+$applications_live=true;
+
 $yearstart=$currentyear-1;
 $yearstartdate=$yearstart.'-08-20';
 $yearenddate=$yearstart.'-07-01';
+$d_a=mysql_query("SELECT MAX(date) FROM admission_stats WHERE year='$enrolyear';");
+if(mysql_result($d_a,0)>0){
+	$update=mysql_result($d_a,0);
+	$todates=explode('-',$todate);
+	$updates=explode('-',$update);
+	$diff=mktime(0,0,0,$todates[1],$todates[2],$todates[0]) - mktime(0,0,0,$updates[1],$updates[2],$updates[0]);
+	$dayno=round($diff/(60*60*24));/* How days since last update */
+	if($dayno>7){$save_stats=true;}
+	else{$save_stats=false;}
+	}
+else{
+	$save_stats=true;
+	}
+
 $yeargroups=list_yeargroups();
 $yeargroup_names=array();/* The row index for both tables. */
-while(list($index,$year)=each($yeargroups)){
+foreach($yeargroups as $year){
 	$yid=$year['id'];
 	$yearcom=array('id'=>'','type'=>'year','name'=>$yid);
 	$yeargroup_names[$yid]=$year['name'];
@@ -50,7 +65,6 @@ while(list($index,$year)=each($yeargroups)){
 		if($feeder!=''){
 			$Transfers=feeder_fetch('transfer_nos',$feeder,$postdata);
 			while(list($findex,$Transfer)=each($Transfers['transfer'])){
-				//trigger_error($findex.' '.$Transfer['yeargroup'].' '.$Transfer['value']);
 				if(!isset($feeder_nos[$Transfer['yeargroup']])){
 					$feeder_nos[$Transfer['yeargroup']]=0;
 					}
@@ -58,7 +72,6 @@ while(list($index,$year)=each($yeargroups)){
 				}
 			}
 		}
-
 ?>
 
   <div id="heading">
@@ -72,14 +85,14 @@ while(list($index,$year)=each($yeargroups)){
 
 <?php
 
-  include('enrolments_matrix_apptable.php');
+	include('enrolments_matrix_apptable.php');
 
-  include('enrolments_matrix_enroltable.php');
+	include('enrolments_matrix_enroltable.php');
 
 	$tables=array();
 	$tables[]=array('caption'=>'applications','rows'=>$app_tablerows,'cols'=>$appcols);
 	$tables[]=array('caption'=>'enrolments','rows'=>$enrol_tablerows,'cols'=>$enrolcols);
-	while(list($tindex,$table)=each($tables)){
+	foreach($tables as $table){
 ?>
 	  <table class="listmenu center smalltable">
 		<caption><?php print get_string($table['caption'],$book). 
@@ -97,15 +110,19 @@ while(list($index,$year)=each($yeargroups)){
 			<?php print $col['display'];?>
 		  </th>
 <?php
-			$total=0;
-			reset($yeargroups);
-			while(list($yindex,$yeargroup)=each($yeargroups)){
-				$total+=$table['rows'][$yeargroup['id']][$col['value']]['value'];
-				//$total+=$table['rows'][$yeargroup['id']][$col['value']]['extravalue'];
+				$total=0;
+				foreach($yeargroups as $yeargroup){
+					$cellvalue=$table['rows'][$yeargroup['id']][$col['value']]['value'];
+					$total+=$cellvalue;
+					//$total+=$table['rows'][$yeargroup['id']][$col['value']]['extravalue'];
+					if($save_stats and isset($table['rows'][$yeargroup['id']][$col['value']]['name'])){
+						$cellname=$table['rows'][$yeargroup['id']][$col['value']]['name'];
+						mysql_query("INSERT admission_stats SET date='$todate', name='$cellname', year='$enrolyear', count='$cellvalue';");
+						}
+					}
+				$coltotals[$colindex]=$total;
 				}
-			$coltotals[$colindex]=$total;
 			}
-		  }
 ?>
 		</tr>
 
