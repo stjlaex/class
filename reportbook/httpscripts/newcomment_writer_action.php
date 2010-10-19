@@ -10,9 +10,6 @@ $inno=$_POST['inno'];/*the number of textareas to expect*/
 $incom='';
 $tid=$_SESSION['username'];
 
-/*Note: categories are not handled by the commentwriter*/
-
-
 if($sub=='Cancel'){
 	$openerId='-100';
 	}
@@ -23,6 +20,9 @@ elseif($sub=='Submit'){
 	if(isset($_POST['pid'])){$pid=$_POST['pid'];}
 	if(isset($_POST['inmust'])){$inmust=$_POST['inmust'];}
 	if(isset($_POST['addcategory'])){$addcategory=$_POST['addcategory'];}
+/*TODO: categories are not yet handled by the commentwriter*/
+$addcategory=='no';
+
 
 	for($c=0;$c<$inno;$c++){
 		if(isset($_POST['incom'.$c])){

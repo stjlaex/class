@@ -510,24 +510,28 @@ div.content fieldset.listmenu, div.content fieldset.listmenu div,
 	}
 /*fade to gray*/
 .listmenu tr.lowlite td, .listmenu td.lowlite, tr.lowlite a, .lowlite { 
-    color:#aaaaaa;
+    color:#aaaaaa !important;
 	}
 .listmenu tr.nolite td, .listmenu td.nolite, .nolite { 
-    background-color:#eeeeee;
+    background-color:#eeeeee !important;
 	}
 /*two shades of red*/
 .listmenu tr.hilite td, .listmenu td.hilite, tr.hilite a, .hilite { 
-    background-color:#ff6600;
+    background-color:#ff6600 !important;
 	}
 .listmenu tr.midlite td, .listmenu td.midlite, .midlite { 
-    background-color:#ff9966;
+    background-color:#ff9966 !important;
+	}
+/*yellow*/
+.listmenu tr.pauselite td, .listmenu td.pauselite, .pauselite { 
+    background-color:#eeee00 !important;
 	}
 /*two shades of green*/
 .listmenu tr.golite td, .listmenu td.golite, .golite { 
-    background-color:#669900;
+    background-color:#669900 !important;
 	}
 .listmenu tr.gomidlite td, .listmenu td.gomidlite, .gomidlite { 
-    background-color:#66cc66;
+    background-color:#66cc66 !important;
 	}
 /*handy for checkboxes inside a table*/
 .listmenu td div.row, .listmenu td div.row p, .listmenu td.row div, .listmenu td.row div p { 
@@ -544,6 +548,7 @@ div.content fieldset.listmenu, div.content fieldset.listmenu div,
 	}
 .listmenu td.boundary div { 
     border:1px solid #eeeeee;
+	width:20%;
 	}
 
 /* Always use in conjunction with listmenu, for when your

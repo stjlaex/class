@@ -421,7 +421,11 @@ function checkRadioIndicator(inputObj){
 	var radioObjs=document.getElementsByName(inputname);
 	for(var c=0;c<radioObjs.length;c++){
 		if(radioObjs[c].value==inputval){
-			radioObjs[c].parentNode.setAttribute("class","checked");
+			if(inputval=="-1"){var class="hilite";}
+			else if(inputval=="0"){var class="pauselite";}
+			else if(inputval=="1"){var class="golite";}
+			else{class="checked";}
+			radioObjs[c].parentNode.setAttribute("class",class);
 			}
 		else{
 			radioObjs[c].parentNode.setAttribute("class","");

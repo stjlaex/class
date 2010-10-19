@@ -5,7 +5,9 @@ Simplified admissions' tables and removed the static values option.
 
 Addded a reporting script for printing admissions reports.
 
+Until they work, removed categories from comment writer.
 
+Extra css to colour traffic light categories in MarkBook.
 
 
 Version ClaSS-0.9.28 release (2010/10/13)

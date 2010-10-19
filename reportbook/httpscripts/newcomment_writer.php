@@ -89,8 +89,10 @@ if($reportdef['report']['profile_name']!='' and isset($subcomments_fix)){
 		$StatementBank['Area'][$pid]['Levels']=array();
 		}
 
+/*TODO: categories are not yet handled by the comment writer*/
+$reportdef['report']['addcategory']='no';
 if($reportdef['report']['addcategory']=='yes'){
-	trigger_error($rid.$bid.$pid.'cat',E_USER_WARNING);
+	//trigger_error($rid.$bid.$pid.'cat',E_USER_WARNING);
 	$catdefs=get_report_categories($rid,$bid,$pid,'cat');
 	$ratings=$reportdef['ratings'];
 	$ratingname=get_report_ratingname($reportdef,$bid);
@@ -146,7 +148,7 @@ else{
 if($reportdef['report']['addcategory']=='yes'){
 ?>
 		  <div class="center" style="border-top:solid 1px;">
-			<table class="listmenu">
+			<table class="listmenu hidden">
 <?php
 			if(isset($Comment['Categories'])){$Categories=$Comment['Categories'];}
 			else{
@@ -158,7 +160,7 @@ if($reportdef['report']['addcategory']=='yes'){
 			while(list($catindex,$catdef)=each($catdefs)){
 				$catid=$catdefs[$catindex]['id'];
 				$catname=$catdefs[$catindex]['name'];
-				print '<tr class="revealed"><td class="row"><div style="width:25%;"><p>'.$catname.'</p></div></td></tr>';
+				print '<tr class="revealed"><td class="row"><div style="width:100%;"><p>'.$catname.'</p></div></td></tr>';
 
 				/* Find any previously recorded value for this catid,
 				   make a first guess that they will have been

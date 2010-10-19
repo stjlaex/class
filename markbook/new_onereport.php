@@ -119,9 +119,9 @@
 					id="<?php print $openId.'-'.$rown++;?>">
 	  <th>&nbsp</th>
 	  <th><?php print_string('teachercomment');?>:</th>
-	  <td><div class="special"><?php print $Comment['Teacher']['value'];?></div></td>
-	  <td id="icon<?php print $openId;?>" class="" colspan="<?php print $ass_colspan;?>">		  
-		<img class="clicktowrite" name="Write"  
+	  <td></td>
+	  <td id="icon<?php print $openId;?>" class="" colspan="<?php print $ass_colspan;?>">
+	  <div class="special"><?php print $Comment['Teacher']['value'];?></div><img class="clicktowrite" name="Write"  
 		  onClick="clickToWriteCommentNew(<?php print $sid.','.$rid.',\''.$bid.'\',\''.$pid.'\',\''.$entryn.'\',\''.$openId.'\'';?>);" 
 		  title="<?php print_string('clicktowritecomment');?>" />
 	  </td>
@@ -148,9 +148,10 @@
 				$catid=$catdefs[$catindex]['id'];
 				$catname=$catdefs[$catindex]['name'];
 				print '<tr class="'.$rowclass.'" id="'.$openId.'-'.$rown++.'"><th></th>';
-				print '<td colspan="'.$ass_colspan.'"><div class="row" style="width:26%;"><p>'
-					.$catname.'</p></div>';
+				print '<td colspan="'.$ass_colspan.'"><div class="row" style="width:100%;"><p style="background-color:#fff;">'
+					.$catname.'</p></div></td></tr>';
 				reset($ratings);
+				print '<tr class="'.$rowclass.'" id="'.$openId.'-'.$rown++.'"><th></th><td colspan="'.$ass_colspan.'" class="boundary row">';
 
 				/* Find any previously recorded value for this catid,
 				   make a first guess that they will have been
@@ -178,9 +179,14 @@
 
 				while(list($value,$descriptor)=each($ratings)){
 					$checkclass='';
-					if($setcat_value==$value){$checkclass='checked';}
-
-					print '<div class="row '.$checkclass.'"><label>'.$descriptor.'</label>';
+					if($setcat_value==$value){
+						$checkclass='checked';
+						}
+					if($descriptor=='red'){$trafficlite='class="hilite"';}
+					elseif($descriptor=='green'){$trafficlite='class="golite"';}
+					elseif($descriptor=='yellow'){$trafficlite='class="pauselite"';}
+					else{$trafficlite='';}
+					print '<div class="row '.$checkclass.'"><label '.$trafficlite.'">'.$descriptor.'</label>';
 					print '<input type="radio" name="sid'.$sid.':'.$inc.'"
 						tabindex="'.$tab.'" value="'.$value.'" '.$checkclass;
 					print ' /></div>';
