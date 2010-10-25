@@ -130,6 +130,14 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 		  </tr>
 		  <tr>
 			<th>
+			  <a href="infobook.php?current=student_attendance.php&cancel=student_view.php&sid=<?php print $sid;?>">
+				<?php print_string('attendance'); ?>
+			  </a> 
+			</th>
+			<td colspan="3">&nbsp;</td>
+		  </tr>
+		  <tr>
+			<th>
 			  <a href="infobook.php?current=comments_list.php&cancel=student_view.php">
 				<?php print_string('comments'); ?>
 			  </a>
@@ -139,11 +147,13 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 	$Comments=(array)fetchComments($sid,$date,'');
 	$Student['Comments']=$Comments;
 	if(array_key_exists('Comment',$Comments)){
-		//$no=sizeof($Comments['Comment']);
 		print '<td></td>';
 		$Comment=$Comments['Comment'][0];
 		print '<td>'.display_date($Comment['EntryDate']['value']).'</td>';
 		print '<td>'.substr($Comment['Detail']['value'],0,40).'...'.'</td>';
+		}	
+	else{
+		print '<td colspan="3">&nbsp;</td>';
 		}
 ?>
 		  </tr>
@@ -156,13 +166,14 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 <?php
 	$Incidents=(array)fetchIncidents($sid);
 	$Student['Incidents']=$Incidents;
-	$no=sizeof($Incidents);
 	if(array_key_exists(0,$Incidents['Incident'])){
-		print '<td>'.$no.'</td>';
 		$Incident=$Incidents['Incident'][0];
 		print '<td>'.display_date($Incident['EntryDate']['value']).'</td>';
 		$out=substr($Incident['Detail']['value'],0,40).'...';
-		print '<td>'.$out.'</td>';
+		print '<td colspan="2">'.$out.'</td>';
+		}
+	else{
+		print '<td colspan="3">&nbsp;</td>';
 		}
 ?>
 		  </tr>
@@ -171,6 +182,7 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 			  <a href="infobook.php?current=targets_list.php&cancel=student_view.php"><?php print_string('targets',$book); ?>
 			  </a>
 			</th>
+			<td colspan="3">&nbsp;</td>
 		  </tr>
 <?php
 	$Backgrounds=(array)fetchBackgrounds($sid);
@@ -182,13 +194,14 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 			  </a>
 			</th>
 <?php
-		$no=sizeof($Ents);
 		if(array_key_exists(0,$Ents)){
-			print '<td>'.$no.'</td>';
 			$Ent=$Ents[0];
 			print '<td>'.display_date($Ent['EntryDate']['value']).'</td>';
 			$out=substr($Ent['Detail']['value'],0,30).'...';
-			print '<td>'.$out.'</td>';
+			print '<td colspan="2">'.$out.'</td>';
+			}
+		else{
+			print '<td colspan="3">&nbsp;</td>';
 			}
 ?>
 		  </tr>
@@ -222,12 +235,12 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 						}
 					}
 ?>
-			<li id="<?php print 'tinytab-contact-'.$relation;?>"><p 
+			<li id="<?php print 'tinytab-contact-'.$relation. $contactno;?>"><p 
 					 <?php if($n==0){ print ' id="current-tinytab" ';}?>
-				class="<?php print $relation;?>"
+				class="<?php print $relation. $contactno;?>"
 				onclick="tinyTabs(this)"><?php print_string($relation,$book);?></p></li>
 
-			<div class="hidden" id="tinytab-xml-contact-<?php print $relation;?>">
+			<div class="hidden" id="tinytab-xml-contact-<?php print $relation. $contactno;?>">
 			  <table class="listmenu">
 				<tr>
 				  <td colspan="2">

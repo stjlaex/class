@@ -580,4 +580,27 @@ function list_select_enum($fieldname,$vars,$book=''){
 	</select>
 <?php
 	}
+
+
+/**
+ *  construct the redirect string
+ */
+function url_construct($params,$entrypage,$fullurl=false){
+
+	global $CFG;
+
+	if($fullurl){$url='http://'.$CFG->siteaddress.$CFG->sitepath.'/'.$CFG->applicationdirectory.'/';}
+	else{$url='';}
+
+	$fullurl=$url. $entrypage;
+
+	foreach($params as $param => $value){
+		if(!isset($joiner)){$joiner='?';}
+		else{$joiner='&';}
+		$fullurl=$fullurl . $joiner . $param . '=' . $value;
+		}
+
+	return $fullurl;
+	}
+
 ?>

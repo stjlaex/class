@@ -9,6 +9,12 @@ Until they work, removed categories from comment writer.
 
 Extra css to colour traffic light categories in MarkBook.
 
+Apply the patch! Fix to grandparents in guardian relationship.
+
+Added a private field to guardian table.
+
+Attendnace reports are linked to from the student profile page.
+
 
 Version ClaSS-0.9.28 release (2010/10/13)
 -----------------------------------------

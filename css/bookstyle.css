@@ -543,7 +543,7 @@ div.content fieldset.listmenu, div.content fieldset.listmenu div,
     margin:0;
     border:2px solid #ff9900;
 	}
-.listmenu td div.checked, div.checked input, div.checked label { 
+.listmenu td div.checked, div.checked input, div.checked label, .checked { 
     background-color:#ff9966 !important;
 	}
 .listmenu td.boundary div { 
@@ -655,6 +655,10 @@ table.sidtable {
     padding:0;
     text-align:left;
 	}
+.sidtable td:first-child + td a  { 
+    color:#444;
+	font-weight:300;
+	}
 /***********tinytabs*******/
 div.tinytabs {
     font-size:x-small;
@@ -685,13 +689,20 @@ div.tinytab-display {
     }
 
 /*some general colors used across all books*/
+.neutral {
+	background-color:#ffffff; 
+	color:#000000 !important;
+	font-weight:600 !important;
+	}
 .negative {
 	background-color:#ffffff; 
-	color:red;
+	color:red !important;
+	font-weight:600 !important;
 	}
 .positive {
 	background-color:#ffffff; 
-	color:green;
+	color:green !important;
+	font-weight:600 !important;
 	}
 p.warn {
 	color:#000000; border: 2px solid #ff9900; background-color:#eeeeee;

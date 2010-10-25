@@ -678,6 +678,12 @@ function fetchContact($gidsid=array('guardian_id'=>'-1','student_id'=>'-1','prio
 						   'field_db' => 'note', 
 						   'type_db' => 'text', 
 						   'value' => ''.$guardian['note']);
+	$Contact['Private']=array('label' => 'private', 
+							'table_db' => 'guardian', 
+							'field_db' => 'private', 
+							'type_db' => 'enum', 
+							'default_value' => 'N',
+							'value' => ''.$guardian['private']);
 
 
 	/*******ContactsAddresses****/
@@ -1114,23 +1120,30 @@ function fetchComments($sid,$startdate='',$enddate=''){
 function comment_display($sid,$date='',$Comments=''){
 	$commentdisplay=array();
 	if($date==''){
-		$date=date('Y-m-d',mktime(0,0,0,date('m'),date('d')-14,date('Y')));
+		/* Search the last ten days. */
+		$date=date('Y-m-d',mktime(0,0,0,date('m'),date('d')-10,date('Y')));
 		}
 	if($Comments==''){
 		$Comments=fetchComments($sid,$date);
 		}
-	//	if(is_array($Comments['Comment'])){
 	if(array_key_exists('Comment',$Comments)){
-			if($Comments['Comment'][0]['Categories']['Category'][0]['rating']['value']==-1){
-				$commentdisplay['class']='negative';
-				}
-			else{$commentdisplay['class']='positive';}
-			$header=$Comments['Comment'][0]['Subject']['value']. 
-								' ('.$Comments['Comment'][0]['EntryDate']['value'].')';
-			$commentdisplay['body']=$header.'<br />'.$Comments['Comment'][0]['Detail']['value'];
+		$freshdate=explode('-',$Comments['Comment'][0]['EntryDate']['value']);
+		$diff=mktime(0,0,0,date('m'),date('d'),date('Y')) - mktime(0,0,0,$freshdate[1],$freshdate[2],$freshdate[0]);
+		if(round($diff/(60*60*24))<2){$commentdisplay['class']='checked';}	
+		else{$commentdisplay['class']='';}
+		if($Comments['Comment'][0]['Categories']['Category'][0]['rating']['value']==-1){
+			$commentdisplay['class'].=' negative';
 			}
-		else{$commentdisplay['class']='';$commentdisplay['body']='';}
-
+		elseif($Comments['Comment'][0]['Categories']['Category'][0]['rating']['value']==1){
+			$commentdisplay['class'].=' positive';
+			}
+		else{$commentdisplay['class'].=' neutral';}
+		$header=$Comments['Comment'][0]['Subject']['value']. 
+			' ('.$Comments['Comment'][0]['EntryDate']['value'].')';
+		$commentdisplay['body']=$header.'<br />'.$Comments['Comment'][0]['Detail']['value'];
+		}
+	else{$commentdisplay['class']='';$commentdisplay['body']='';}
+	
 	return $commentdisplay;
 	}
 

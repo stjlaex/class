@@ -327,6 +327,7 @@ function getEnumArray($field_name){
 	$closed=array('N' => 'open', 'Y' => 'closed');
 	$medical=array('N' => 'no', 'Y' => 'yes');
 	$incare=array('N' => 'no', 'Y' => 'yes');
+	$private=array('N' => 'no', 'Y' => 'yes');
 	$roomcategory=array('' => '', 'GL' => 'groupleader');
 	$building=array('' => '');
 	$bed=array('' => '');
@@ -753,7 +754,6 @@ function getEnumArray($field_name){
 						'PAF'=>'father', 
 						'OTH'=>'othercontact', 
 						'STP'=>'stepparent', 
-						'GRP'=>'grandparent', 
 						'GRM'=>'grandmother', 
 						'GRF'=>'grandfather', 
 						'REL'=>'otherrelative', 

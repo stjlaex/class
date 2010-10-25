@@ -183,6 +183,7 @@ CREATE TABLE guardian (
 	companyname	varchar(240) not null default '',
 	note		text not null default '',
 	code		varchar(120) not null default '',
+	private		enum('N','Y') not null,
 	index index_name (surname(5),forename(5)),
 	index index_forename (forename(5)),
 	primary key (id)
@@ -195,7 +196,7 @@ CREATE TABLE gidsid (
 		 priority		enum('0','1','2','3','4') not null,
 		 mailing		enum('0','1','2','3','4') not null,
 		 relationship	enum('NOT','CAR','DOC','FAM','OTH', 
-				'PAM','PAF','STP','REL','SWR','HFA','AGN') not null,
+				'PAM','PAF','STP','REL','SWR','HFA','AGN','GRM','GRF') not null,
 		 responsibility	enum('N','Y') not null,
 		 primary key 	(guardian_id, student_id)
 );");

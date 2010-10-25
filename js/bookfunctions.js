@@ -338,6 +338,32 @@ function clickToPresentSid(script,xsltransform){
 	xmlHttp.send(null);
 	}
 
+/* 
+* More general pop-up report window.
+*/
+function clickToPresent(book,script,xsltransform){
+	var url=book + "/httpscripts/" + script;
+	var paper="portrait";
+	xmlHttp.open("GET", url, true);
+	xmlHttp.onreadystatechange=function () {
+		if(xmlHttp.readyState==4){
+			if(xmlHttp.status==200){
+				xmlRecord=xmlHttp.responseXML;
+				var xmlResult=processXML(xmlRecord,xsltransform,"../templates/");
+				openPrintReport(xmlResult,xsltransform,paper);
+				}
+			else if(xmlHttp.status==404){alert ("Requested URL is not found.");}
+			else if(xmlHttp.status==403){alert("Access denied.");}
+			else {alert("status is " + xmlHttp.status);}
+			progressIndicator("stop");
+			}
+		else{
+			progressIndicator("start");
+			}
+		}
+	xmlHttp.send(null);
+	}
+
 
 function confirmAction(title){
 	var message="You have requested the following action:\n\n";

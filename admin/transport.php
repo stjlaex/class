@@ -36,6 +36,10 @@ two_buttonmenu($extrabuttons);
 
 	<fieldset class="center divgroup" id="viewcontent">
 	  <legend><?php print_string('transport',$book);?></legend>
+		<div colspan="2"><?php print_string('checkall'); ?>
+		  <input type="checkbox" name="checkall" 
+				value="yes" onChange="checkAll(this);" />
+		</div>
 
 <?php
 		$busnames=list_busnames();
@@ -53,7 +57,6 @@ two_buttonmenu($extrabuttons);
 				print '<a  href="admin.php?current=transport_list.php&cancel='.$choice.'&choice='.$choice.'&busname='.$busname['name'].'">'.$busname['name'].'</a>';
 ?>
 		  </td>
-		  <td></td>
 		  <td></td>
 		</tr>
 	  </table>

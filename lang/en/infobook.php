@@ -51,7 +51,7 @@ $string['stepparent']='Step parent';
 $string['grandparent']='Grandparent';
 $string['grandfather']='Grandfather';
 $string['grandmother']='Grandmother';
-$string['familyfirend']='Family friend';
+$string['familyfriend']='Family friend';
 $string['contactdetails']='Contact details';
 $string['contactaddress']='Contact address';
 $string['contactphones']='Contact phones';
@@ -191,5 +191,6 @@ $string['selectfromthegroups']='Select one or more groups from the options below
 $string['saveview']='Save view';
 $string['selectview']='Select view';
 $string['sharedwithguardians']='Shared';
+$string['private']='Private';
 $string['']='';
 ?>
