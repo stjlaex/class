@@ -202,7 +202,6 @@ function clean_text($value){
 	$value=str_replace($search,'',$value);
 
 	/*causes problems with xmlreader function*/
-	$value=str_replace('&nbsp;'," ",$value);
 	$value=str_replace('<p> </p>',"",$value);
 	$value=trim($value);
 
