@@ -44,7 +44,7 @@ table.marktable {
     border-bottom:1px solid #cccccc;
 	text-align:left;
 	}
-.marktable td.grade {
+.marktable td.grade, .marktable td.derived, .marktable td.other {
 	text-align:center; 
 	border-left:1px solid #cccccc; 
 	border-right:1px solid #cccccc;
@@ -58,15 +58,13 @@ table.marktable {
 	background-image: url("../images/purplecorner.png");
 	background-repeat: no-repeat;
 	}
-.marktable td.report{
+.marktable td.report {
 	text-align:center; 
-	border-left:1px solid #cccccc; 
-	border-right:1px solid #cccccc;
 	display:none;
 	}
 .marktable th {
-	border-left:2px solid #999999;
-	border-right:2px solid #999999;
+	border-left:1px solid #999999;
+	border-right:1px solid #999999;
 	background-color:#ffffff;
 	text-align:center;
 	display:none;

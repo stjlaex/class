@@ -218,7 +218,7 @@ $viewtable=array();
 			}
 
 		/*********************************************************/
-	   	elseif($marktype=='compound'){
+	   	elseif($marktype=='oldcompound'){
 			/*Mark is a compound column*/
 			$mids=explode(' ',$midlist[$c]);
 			$yesval=0;
@@ -233,11 +233,20 @@ $viewtable=array();
 			}
 
 		/*********************************************************/
+	   	elseif($marktype=='compound'){
+			/*Mark is a compound column*/
+			$scoreclass='derived';
+			$rep=checkReportEntryCat($umns[$c]['midlist'],$sid,$bid[0],$umns[$c]['component']);
+			$out='<a href="markbook.php?current=new_edit_reports.php&cancel=class_view.php&midlist='.$umns[$c]['midlist'].'&title='.$umns[$c]['topic'].'&pid='.$umns[$c]['component'].'&sid='.$sid.'&bid='.$bid[0].'">'.$rep['total'].'</a>';
+			$outrank=$rep['total'];
+			}
+
+		/*********************************************************/
 	   	elseif($marktype=='report'){
-			$scoreclass='report';
 			/*Mark is a compound report column*/
 			$reportentryn=checkReportEntry($umns[$c]['midlist'],$sid,$bid[0],$umns[$c]['component']);
-			$out='<a href="markbook.php?current=new_edit_reports.php&cancel=class_view.php&midlist='.$umns[$c]['midlist'].'&title='.$umns[$c]['topic'].'&pid='.$umns[$c]['component'].'&sid='.$sid.'&bid='.$bid[0].'">R '.$reportentryn.'</a>';
+			$out='<a href="markbook.php?current=new_edit_reports.php&cancel=class_view.php&midlist='.$umns[$c]['midlist'].'&title='.$umns[$c]['topic'].'&pid='.$umns[$c]['component'].'&sid='.$sid.'&bid='.$bid[0].'">R'.$reportentryn.'</a>';
+			if($reportentryn>0){$scoreclass='report vspecial';}else{$scoreclass='report';};
 			$outrank=-100;
 			}
 

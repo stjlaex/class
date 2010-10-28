@@ -153,12 +153,10 @@ if($_SESSION['worklevel']>-1){
 	      	  }
 		elseif($umns[$col]['marktype']=='compound'){
 			  print '<th class="'.$umns[$col]['displayclass'].'" id="'.$umns[$col]['id'].'"><span title="'. 
-					  $umns[$col]['comment'].'"><a href="markbook.php?current=edit_scores.php&cancel=class_view.php&scoretype='.$scoretype[$col]. 
-					  '&grading_name='.$scoregrading[$col]. 
-					  '&mid='.$umns[$col]['id'].'&col='.$col.'">'.$umns[$col]['topic']. 
+					  $umns[$col]['comment'].'">'.$umns[$col]['topic']. 
 					  '<p>'.display_date($umns[$col]['entrydate']). 
-					  '</p></a><p class="component">'.$umns[$col]['component'].'</p>' 
-					  .$umns[$col]['marktype'].'<input type="checkbox" 
+					  '</p><p class="component">'.$umns[$col]['component'].'</p>' 
+					  .'<input type="checkbox" 
 					name="checkmid[]" value="'.$umns[$col]['id'].'" /></span></th>';
 	      	  }
 		else{

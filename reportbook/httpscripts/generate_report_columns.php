@@ -15,6 +15,12 @@ $compstatus=$ReportDef['report']['component_status'];
 $title=$ReportDef['report']['title'];
 $date=$ReportDef['report']['date'];
 $deadline=$ReportDef['report']['deadline'];
+if($ReportDef['report']['addcomment']=='no' and $ReportDef['report']['addcategory']=='yes'){
+	$marktype='compound';
+	}
+else{
+	$marktype='report';
+	}
 
 		/*EXPERIMENTAL! and no longer required.*/
 		/* First generate the associated assessment columns for this report
@@ -48,7 +54,7 @@ $deadline=$ReportDef['report']['deadline'];
 				mysql_query("INSERT INTO mark 
 				(entrydate, marktype, topic, comment, author,
 				 def_name, assessment, midlist, component_id) 
-					VALUES ('$date', 'report', '$title', 
+					VALUES ('$date', '$marktype', '$title', 
 				 'complete by $deadline', 'ClaSS', '', 'no', '$rid', '$pid')");
 				$mid=mysql_insert_id();
 

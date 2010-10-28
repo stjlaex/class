@@ -1,4 +1,4 @@
-Version ClaSS-0.9.29 release (2010/10/18)
+Version ClaSS-0.9.29 release (2010/10/26)
 -----------------------------------------
 
 Simplified admissions' tables and removed the static values option.
@@ -16,6 +16,12 @@ Added a private field to guardian table.
 Attendnace reports are linked to from the student profile page.
 
 Use html_entity_decode to avoid problems when preparing comments for xml.
+
+Added targets reports (same as attendance) through the print report script.
+
+Implemented 'compound' columns which are reports with just categories
+not comments. The edit report script changed to make sense of
+this. The mark table displays a numerical value for the categories checked.
 
 
 Version ClaSS-0.9.28 release (2010/10/13)

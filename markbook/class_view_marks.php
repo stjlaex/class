@@ -78,7 +78,8 @@ for($i=0;$i<sizeof($cids);$i++){
 		 * assessments which are linked to a report 
 		 */
 		$d_marks=mysql_query("SELECT $table.* FROM $table WHERE
-				$table.marktype='report' OR ($table.marktype='score' AND
+				$table.marktype='report' OR $table.marktype='compound' OR
+				($table.marktype='score' AND
 				$table.assessment!='no' AND $table.id=ANY(SELECT
 				eidmid.mark_id FROM eidmid JOIN rideid ON
 				rideid.assessment_id=eidmid.assessment_id));");
@@ -171,18 +172,23 @@ for($i=0;$i<sizeof($cids);$i++){
 			  /*no markdef for a level, have to get grading_name from the levelname*/
 			  $scoregrading[$c]=$lena[$c];
 			  if($lena[$c]!=''){
-				  $d_levelling=mysql_query("SELECT levels FROM
-									levelling WHERE name='$lena[$c]'");
+				  $d_levelling=mysql_query("SELECT levels FROM levelling WHERE name='$lena[$c]'");
 				  $levels[$c]=mysql_result($d_levelling,0);
 				  }
 			  else{$levels[$c]='';}
 			  $umns[$c]['displayclass']='derived';
 				}
-		  elseif($marktype[$c]=='compound' or $marktype[$c]=='report'){
+		  elseif($marktype[$c]=='report'){
 			  /*no markdef for a compound or report*/
 			  $scoregrading[$c]='';
 			  $scoregrades[$c]='';   
 			  $umns[$c]['displayclass']='report';
+				}
+		  elseif($marktype[$c]=='compound'){
+			  /*no markdef for a compound or report*/
+			  $scoregrading[$c]='';
+			  $scoregrades[$c]='';   
+			  $umns[$c]['displayclass']='derived';
 				}
 		  elseif($marktype[$c]=='score' or $marktype[$c]=='hw'){
 			  $markdef_name=$mark['def_name'];

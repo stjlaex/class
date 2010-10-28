@@ -86,7 +86,21 @@
 		if(!isset($Report['Comments']['Comment'])){$Report['Comments']['Comment']=array();}
 		$totalentryn=sizeof($Report['Comments']['Comment']);
 		for($entryn=0;$entryn<=$totalentryn;$entryn++){
-			if($entryn==$totalentryn and !$teacherdone){
+			if($reportdef['report']['addcomment']=='no' and !$teacherdone){
+				if($totalentryn<1){
+					$inmust='yes';
+					$Comment=array('Text'=>array('value'=>'','value_db'=>''),
+								   'Teacher'=>array('value'=>''));
+					}
+				else{
+					$Comment=$Report['Comments']['Comment'][$entryn];
+					$inmust=$Comment['id_db'];
+					}
+				$rowstate='rowminus';
+				$rowclass='revealed';
+				$teacherdone=true;
+				}
+			elseif($entryn==$totalentryn and !$teacherdone){
 				$Comment=array('Text'=>array('value'=>'','value_db'=>''),
 				'Teacher'=>array('value'=>'ADD NEW ENTRY'));
 				$inmust='yes';
@@ -111,13 +125,16 @@
 		  $en=$entryn+1;
 		  $openId=$rid.'-'.$sid.'-'.$bid.'-'.$pid.'-'.$en;
 		  $Comment['id_db']=$openId;
-		
-		  if($edit_comments_off!='yes' and (!$teacherdone and $entryn==$totalentryn or $entryn<$totalentryn)){
+
+		  if($edit_comments_off!='yes' and ((!$teacherdone and $entryn==$totalentryn) or ($entryn<$totalentryn) or $totalentryn<1)){
 ?>
   <tbody id="<?php print $openId;?>">
 	<tr onClick="clickToReveal(this)" class="<?php print $rowstate;?>" 
 					id="<?php print $openId.'-'.$rown++;?>">
 	  <th>&nbsp</th>
+<?php
+		if($reportdef['report']['addcomment']=='yes'){
+?>
 	  <th><?php print_string('teachercomment');?>:</th>
 	  <td></td>
 	  <td id="icon<?php print $openId;?>" class="" colspan="<?php print $ass_colspan;?>">
@@ -125,6 +142,9 @@
 		  onClick="clickToWriteCommentNew(<?php print $sid.','.$rid.',\''.$bid.'\',\''.$pid.'\',\''.$entryn.'\',\''.$openId.'\'';?>);" 
 		  title="<?php print_string('clicktowritecomment');?>" />
 	  </td>
+<?php
+			  }
+?>
 	  <input type="hidden" id="inmust<?php print $openId;?>" 
 		name="inmust<?php print $sid.':'.$inc++;?>" 
 		value="<?php print $inmust;?>" />
@@ -134,7 +154,6 @@
 			$ass_colspan++;
 			$catdefs=get_report_categories($rid,$bid,$pid,'cat',$class_stage);
 			$ratings=$reportdef['ratings'];
-
 			reset($catdefs);
 			unset($Categories);
 			if(isset($Comment['Categories'])){$Categories=$Comment['Categories'];}
@@ -167,11 +186,11 @@
 					$setcat_value=$Categories['Category'][$catindex]['value'];
 					}
 	   			else{
-						foreach($Categories['Category'] as $Category){
-							if($Category['id_db']==$catid){
-								$setcat_value=$Category['value'];
-								}
+					foreach($Categories['Category'] as $Category){
+						if($Category['id_db']==$catid){
+							$setcat_value=$Category['value'];
 							}
+						}
 					}
 				if(($setcat_value==' ' or $setcat_value=='') and $setcat_value!='0'){
 					$setcat_value=-1000;
@@ -179,8 +198,13 @@
 
 				while(list($value,$descriptor)=each($ratings)){
 					$checkclass='';
+					$checked='';
 					if($setcat_value==$value){
 						$checkclass='checked';
+						$checked='checked';
+						if($value=='1'){$checkclass=' golite';}
+						elseif($value=='0'){$checkclass=' pauselite';}
+						elseif($value=='-1'){$checkclass='hilite';}
 						}
 					if($descriptor=='red'){$trafficlite='class="hilite"';}
 					elseif($descriptor=='green'){$trafficlite='class="golite"';}
@@ -188,14 +212,14 @@
 					else{$trafficlite='';}
 					print '<div class="row '.$checkclass.'"><label '.$trafficlite.'">'.$descriptor.'</label>';
 					print '<input type="radio" name="sid'.$sid.':'.$inc.'"
-						tabindex="'.$tab.'" value="'.$value.'" '.$checkclass;
+						tabindex="'.$tab.'" value="'.$value.'" '.$checked;
 					print ' /></div>';
 					}
 				$inc++;
 				print '</td></tr>';
 				}
 			}
-		if($reportdef['report']['addcomment']=='yes'){
+		if($reportdef['report']['addcomment']=='yes' or $reportdef['report']['addcategory']=='yes'){
 			if($reportdef['report']['commentlength']=='0'){$commentlength='';}
 		    else{$commentlength=' maxlength="'.$reportdef['report']['commentlength'].'"';}
 			print '<tr class="'.$rowclass.'" id="'.$openId.'-'.$rown++.'" >';
@@ -214,7 +238,7 @@
 														'value'=>'category_editor.php',
 														'title'=>'configure');
 				}
-			if($inmust!='yes'){
+			if($inmust!='yes' and $reportdef['report']['addcomment']=='yes'){
 				$imagebuttons['clicktodelete']=array('name'=>'current',
 													 'value'=>'delete_reportentry.php',
 													 'title'=>'deletethiscomment');

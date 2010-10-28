@@ -479,8 +479,8 @@ div.content fieldset.listmenu, div.content fieldset.listmenu div,
 .listmenu .special {
 	font-weight:600; font-style:italic;
 	}
-.listmenu .vspecial {
-    background-color:#ffff99;
+.listmenu .vspecial, .vspecial {
+    background-color:#ffff99 !important;
 	font-weight:600; font-style:italic;
 	}
 .listmenu th {

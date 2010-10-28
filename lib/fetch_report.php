@@ -783,6 +783,29 @@ function checkReportEntry($rid,$sid,$bid,$pid){
 	}
 
 
+
+function checkReportEntryCat($rid,$sid,$bid,$pid){
+	$d_r=mysql_query("SELECT category
+					FROM reportentry WHERE report_id='$rid' AND
+					student_id='$sid' AND subject_id='$bid' AND
+					component_id='$pid';");
+	$rep=array();
+	$rep['count']=0;
+	$rep['total']=0;
+	while($entry=mysql_fetch_array($d_r)){
+		$rep['count']++;
+		$pairs=explode(';',$entry['category']);
+		for($c=0;$c<(sizeof($pairs)-1);$c++){
+			list($catid, $rank)=explode(':',$pairs[$c]);
+			$rep['total']+=$rank;
+			}
+		}
+
+	return $rep;
+	}
+
+
+
 /**
  *
  *		Retrieves all report entries for one student in one subject

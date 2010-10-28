@@ -183,14 +183,14 @@ function xmlreader($string){
 	$check=strpos($string,'<');
 	if($check===false){
 		/* At least make sure this could be xml and if not just return the plain text */
-		$data=$string;
+		$xml=$string;
 		}
 	else{
 		/* Have to the div tags because the first level tag is always dropped by simplexml for some reason. */
 		$xmlstring='<div>'.html_entity_decode($string,ENT_QUOTES,"UTF-8").'</div>';
-		$data=xmlstringToArray($xmlstring);
+		$xml=xmlstringToArray($xmlstring);
 		}
-	/*
+	/* This was the old PEAR library method...
 	else{
 		$nicexml=clean_text($xmlstring);
 		$Unserializer=new XML_Unserializer();
@@ -206,7 +206,7 @@ function xmlreader($string){
 		}
 	*/
 
-	return $data;
+	return $xml;
 	}
 
 
