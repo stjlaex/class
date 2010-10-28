@@ -46,28 +46,33 @@ else{
 			$components=(array)list_subject_components($bid,$crid,$compstatus);
 			if(sizeof($components)==0){$components[0]['id']='';}
 			while(list($index,$component)=each($components)){
-				$pid=$component['id'];
+				if($marktype=='compound'){$strands=(array)list_subject_components($component['id'],$crid,$compstatus);}else{$strands=array();}
+				if(sizeof($strands)==0){$strands[0]['id']=$component['id'];}
+				while(list($index,$strand)=each($strands)){
 
-				/* NB. If there is no component for this subject or components are not
-					requested then $pid is blank. */
-				/* The rid is stored in the midlist field for each mark*/
-				mysql_query("INSERT INTO mark 
+					$pid=$strand['id'];
+					
+					/* NB. If there is no component for this subject or components are not
+					   requested then $pid is blank. */
+					/* The rid is stored in the midlist field for each mark*/
+					mysql_query("INSERT INTO mark 
 				(entrydate, marktype, topic, comment, author,
 				 def_name, assessment, midlist, component_id) 
 					VALUES ('$date', '$marktype', '$title', 
 				 'complete by $deadline', 'ClaSS', '', 'no', '$rid', '$pid')");
-				$mid=mysql_insert_id();
-
-				/*entry in midcid for new mark and classes with crid and bid*/
-				$d_class=mysql_query("SELECT id FROM class WHERE
+					$mid=mysql_insert_id();
+				
+					/*entry in midcid for new mark and classes with crid and bid*/
+					$d_class=mysql_query("SELECT id FROM class WHERE
 						course_id LIKE '$crid' AND subject_id LIKE
 						'$bid' AND stage LIKE '$stage' ORDER BY subject_id");
-				while($d_cid=mysql_fetch_array($d_class,MYSQL_NUM)){
+					while($d_cid=mysql_fetch_array($d_class,MYSQL_NUM)){
 						$cid=$d_cid[0];
 						mysql_query("INSERT INTO midcid (mark_id,
 							class_id) VALUES ('$mid', '$cid')");
 						}
-				mysql_free_result($d_class);
+					mysql_free_result($d_class);
+					}
 				}
 			}
 

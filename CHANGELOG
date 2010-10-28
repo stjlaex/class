@@ -23,6 +23,9 @@ Implemented 'compound' columns which are reports with just categories
 not comments. The edit report script changed to make sense of
 this. The mark table displays a numerical value for the categories checked.
 
+Generate report columns now check for strands and uses component
+status to do so it its for a compound report.
+
 
 Version ClaSS-0.9.28 release (2010/10/13)
 -----------------------------------------

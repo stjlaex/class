@@ -8,7 +8,7 @@ if(!isset($xmlid)){print "Failed"; exit;}
 
 	$rid=$xmlid;
    	$d_midcid=mysql_query("DELETE midcid, mark FROM midcid JOIN mark ON
-	   	mark.id=midcid.mark_id WHERE mark.midlist='$rid' AND mark.marktype='report'");
+	   	mark.id=midcid.mark_id WHERE mark.midlist='$rid' AND (mark.marktype='report' OR mark.marktype='compound')");
    	$d_midcid=mysql_query("DELETE FROM mark
 	   	WHERE midlist='$rid' AND marktype='report'");
 
