@@ -78,7 +78,7 @@ for($i=0;$i<sizeof($cids);$i++){
 		 * assessments which are linked to a report 
 		 */
 		$d_marks=mysql_query("SELECT $table.* FROM $table WHERE
-				$table.marktype='report' OR $table.marktype='compound' OR
+				$table.marktype='report' OR
 				($table.marktype='score' AND
 				$table.assessment!='no' AND $table.id=ANY(SELECT
 				eidmid.mark_id FROM eidmid JOIN rideid ON
@@ -93,17 +93,23 @@ for($i=0;$i<sizeof($cids);$i++){
 		$c=0;
 	   	}
 	elseif($umntype=='p'){
-		/* p is for assessment Profiles */
+		/* p is for assessment Profiles and need to find columns
+		 * linked to this profile either through ridcatid for
+		 * compounds or eidmid for assessment scores
+		 */
+		$profid=$profile['id'];
 		$profile_crid=$classes[$cid]['crid'];
 		$profile_bid=$classes[$cid]['bid'];
 		$profile_name=$profile['name'];
 		$profile_pidstatus=$profile['component_status'];
 		$profile_marktype=$profile['rating_name'];
-		$d_marks=mysql_query("SELECT $table.* FROM $table WHERE $table.marktype='score'
+		$d_marks=mysql_query("SELECT $table.* FROM $table WHERE ($table.marktype='score'
 				AND $table.assessment!='no' AND $table.id=ANY(SELECT
 				eidmid.mark_id FROM eidmid JOIN assessment ON
 				assessment.id=eidmid.assessment_id 
-				WHERE assessment.profile_name='$profile_name');");
+				WHERE assessment.profile_name='$profile_name')) OR ($table.marktype='compound'
+				AND $table.midlist=ANY(SELECT report_id FROM ridcatid
+				WHERE ridcatid.subject_id='profile' AND ridcatid.categorydef_id='$profid'));");
 		$c=1;
 		}
 	else{

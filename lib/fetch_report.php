@@ -331,7 +331,7 @@ function fetchReportDefinition($rid,$selbid='%'){
 									  'type_db'=>'varchar(30)', 
 									  'ratings'=>'', 
 									  'value'=>''.$report['rating_name']);
-   	$RepDef['Style']=array('label'=>'pagestyle', 
+   	$RepDef['Style']=array('label'=>'paperstyle', 
 						   'table_db'=>'report', 
 						   'field_db'=>'style',
 						   'type_db'=>'varchar(60)', 
@@ -345,7 +345,7 @@ function fetchReportDefinition($rid,$selbid='%'){
 	if($crid!='wrapper'){
 		$report['course_name']=get_coursename($crid);
 		$d_mid=mysql_query("SELECT id FROM mark WHERE midlist='$rid' 
-												AND marktype='report';");
+												AND (marktype='report' OR marktype='compound');");
 		$markcount=mysql_numrows($d_mid);
 		$RepDef['MarkCount']=array('label' => 'markcolumns', 
 								   'value' => ''.$markcount);
@@ -511,7 +511,7 @@ function fetch_reportdefinition($rid,$selbid='%'){
 	$crid=$report['course_id'];
 	if($crid!='wrapper'){
 		$report['course_name']=get_coursename($crid);
-		$d_mid=mysql_query("SELECT id FROM mark WHERE midlist='$rid' and marktype='report'");
+		$d_mid=mysql_query("SELECT id FROM mark WHERE midlist='$rid' AND (marktype='report' OR marktype='compound');");
 		$markcount=mysql_numrows($d_mid);
 		$reportdef['MarkCount']=array('label' => 'markcolumns', 
 									  'value' => ''.$markcount);

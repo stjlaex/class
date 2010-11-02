@@ -235,17 +235,32 @@ three_buttonmenu();
 
 
 <?php
-   		}
+			}
+	if($rcrid==''){
+		/* Only wrappers are to be printed and need a style and template. */
 ?>
-
-
-	  <fieldset class="center">
+	  <fieldset class="left">
 		<legend><?php print_string('nameoftemplate',$book);?></legend>
+		<div class="left">
 		<?php 
 		$seltemplate=$RepDef['Template']['value']; 
 		include('scripts/list_template.php');
 		?>
+		</div>
+		<div class="left">
+		  <?php 
+		unset($key);
+		if($RepDef['Style']['value']!=''){$selpaperstyle=$RepDef['Style']['value'];}
+		else{$selpaperstyle='portrait';}
+		$listname='paperstyle';$listlabel='paperstyle';$required='yes';
+		include('scripts/set_list_vars.php');
+		list_select_enum('paperstyle',$listoptions,$book);
+		?>
+		</div>
 	  </fieldset>
+<?php
+			}
+?>
 
 
 		<input type="hidden" name="oldrid" value="<?php print $oldrid;?>" />
@@ -276,13 +291,13 @@ elseif($sub=='Submit'){
 	$title=$_POST['title'];
 	$date=$_POST['date'];
 	$deadline=$_POST['deadline'];
-	$transform=$_POST['template'];
-	if(isset($_POST['style'])){$style=$_POST['style'];}else{$style='portrait';}
+	if(isset($_POST['template'])){$transform=$_POST['template'];}else{$transform='';}
+	if(isset($_POST['paperstyle'])){$paperstyle=$_POST['paperstyle'];}else{$paperstyle='portrait';}
 	if(isset($_POST['addcategory0'])){$addcategory=$_POST['addcategory0'];}
 	if(isset($_POST['ratingname'])){$ratingname=$_POST['ratingname'];}
 
 	mysql_query("UPDATE report SET title='$title',date='$date', deadline='$deadline',  
-				style='$style', transform='$transform',
+				style='$paperstyle', transform='$transform',
 				addcategory='$addcategory', rating_name='$ratingname'  WHERE id='$rid';");
 
 	if($crid!='wrapper'){

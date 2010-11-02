@@ -316,6 +316,8 @@ function getEnumArray($field_name){
 					'OT' => 'otherreligion', 
 					'SI' => 'sikh'
 					);
+	$paperstyle=array('portrait' => 'portrait', 
+				  'landscape' => 'landscape');
 	$reledu=array('A' => 'attendsreligiouseducation', 
 				  'W' => 'withdrawnfromreligiouseducation');
 	$relwo=array('A' => 'attendscollectivewoship', 

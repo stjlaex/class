@@ -27,7 +27,7 @@ else{
 	$catdefs=array();
 	}
 
-$maxcatn=20;/*allow a max of 10 categories*/
+$maxcatn=30;/*allow a max of 30 categories*/
 if($pid==''){$subject=get_subjectname($bid);}
 else{$subject=get_subjectname($pid);}
 
