@@ -35,9 +35,9 @@ if($sub=='Submit' and isset($_FILES['messageattach']) and $_FILES['messageattach
 		/* Only allow pdf attachments. */
 		$error[]='Only PDF files are permitted for attachments.';
 		}
-	if($file_size>500){
+	if($file_size>600){
 		/* Limit to 500KB. */
-		$error[]='The size of the file attachment is '.$file_size.'KB, it should be less than 500KB.';
+		$error[]='The size of the file attachment is '.$file_size.'KB, it should be less than 600KB.';
 		}
 	}
 

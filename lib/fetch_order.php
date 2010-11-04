@@ -520,9 +520,8 @@ function fetchSupplier($supid=-1){
  */
 function get_budget_projected($budid=-1){
 
-	global $CFG;
+	$currencyrates=get_budget_currencyrates($budid);
 
-	$currencyrates=$CFG->currencyrates;
 	$sum=0;
 	while(list($currency,$rate)=each($currencyrates)){
 		/* Projected values come from the material table entered by users */
@@ -563,7 +562,8 @@ function get_budget_current($budid=-1){
 
 	global $CFG;
 
-	$currencyrates=$CFG->currencyrates;
+	$currencyrates=get_budget_currencyrates($budid);
+
 	$d_bud=mysql_query("SELECT costlimit FROM orderbudget WHERE id='$budid';");
 	if(mysql_num_rows($d_bud)>0){
 		$sum=0;
@@ -778,5 +778,27 @@ function update_budget_perms($uid,$budid,$perms){
 	$d_b=mysql_query("SELECT gid FROM orderbudget WHERE id='$budid'");
 	$gid=mysql_result($d_b,0);
 	update_staff_perms($uid,$gid,$perms);
+	}
+
+/**
+ *
+ * The enum currency array for exchange rates. This defaults to
+ * currency '0' is 'euros' and '1' is 'pounds'.  An exchange rate
+ * needs to be set in categorydef (currently manually in the db!) for
+ * Pounds to Euros once for each budget year code.
+ * name=description, type=exc, subtype=1, rating_name=yearcode, comment=rate
+ *
+ */
+function get_budget_currencyrates($budid){
+
+	$rates=array();
+	$rates[0]=1;
+	$d_b=mysql_query("SELECT subtype AS currency, comment AS rate FROM categorydef 
+						JOIN orderbudget ON orderbudget.yearcode=categorydef.rating_name 
+						WHERE orderbudget.id='$budid' AND categorydef.type='exc';");
+	while($b=mysql_fetch_array($d_b,MYSQL_ASSOC)){
+		$rates[$b['currency']]=$b['rate'];
+		}
+	return $rates; 
 	}
 ?>

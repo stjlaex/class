@@ -10,6 +10,8 @@ Implemented 'compound' columns which are reports with just categories
 not comments. The edit report script changed to make sense of
 this. The mark table displays a numerical value for the categories checked.
 
+The currency exchange rate for orders is now set in categorydef (and is removed
+from school.php) to allow year on year changes.
 
 
 Version ClaSS-0.9.29 release (2010/10/30)

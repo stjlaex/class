@@ -204,14 +204,14 @@ two_buttonmenu($extrabuttons,$book);
 		 * met this reports required elements for completion. 
 		 */
 		reset($rids);
-		while(list($index,$rid)=each($rids)){
-			$eids=(array)$reportdefs[$index]['eids'];
-		    if(isset($reportdefs[$index]['report']['course_id'])){
-				$crid=$reportdefs[$index]['report']['course_id'];
-				$reportstage=$reportdefs[$index]['report']['stage'];
-				$addcomment=$reportdefs[$index]['report']['addcomment'];
-				$commentcomp=$reportdefs[$index]['report']['commentcomp'];
-				$compstatus=$reportdefs[$index]['report']['component_status'];
+		while(list($rindex,$rid)=each($rids)){
+			$eids=(array)$reportdefs[$rindex]['eids'];
+		    if(isset($reportdefs[$rindex]['report']['course_id'])){
+				$crid=$reportdefs[$rindex]['report']['course_id'];
+				$reportstage=$reportdefs[$rindex]['report']['stage'];
+				$addcomment=$reportdefs[$rindex]['report']['addcomment'];
+				$commentcomp=$reportdefs[$rindex]['report']['commentcomp'];
+				$compstatus=$reportdefs[$rindex]['report']['component_status'];
 				}
 
 			$d_subjectclasses=mysql_query("SELECT DISTINCT subject_id, class_id
@@ -222,8 +222,7 @@ two_buttonmenu($extrabuttons,$book);
 			while($subject=mysql_fetch_array($d_subjectclasses,MYSQL_ASSOC)){
 			    $bid=$subject['subject_id'];
 				$cid=$subject['class_id'];
-				$d_teacher=mysql_query("SELECT teacher_id FROM tidcid
-						WHERE class_id='$cid';");
+				$d_teacher=mysql_query("SELECT teacher_id FROM tidcid WHERE class_id='$cid';");
 				$reptids=array();
 				$subjectperm['x']=0;
 				while($teacher=mysql_fetch_array($d_teacher)){
@@ -240,6 +239,7 @@ two_buttonmenu($extrabuttons,$book);
 				reset($components);
 			   	while(list($compindex,$component)=each($components)){
 					$pid=$component['id'];
+
 					$strands=(array)list_subject_components($pid,$crid);
 
 					reset($eids);
@@ -257,7 +257,7 @@ two_buttonmenu($extrabuttons,$book);
 ?>
 			<p title="
 <?php
-				   	while(list($index, $reptid)=each($reptids)){
+				   	while(list($tindex, $reptid)=each($reptids)){
 						print $reptid.' ';
 						}
 					reset($reptids);
