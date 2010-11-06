@@ -6,11 +6,18 @@
 require_once('../../scripts/http_head_options.php');
 require_once('../../lib/fetch_transport.php');
 
+/*NB. The busnames are pulled by checksidsAction hence they really are called sids!*/
 if(isset($_GET['sids'])){$busnames=(array)$_GET['sids'];}else{$busnames=array();}
 if(isset($_POST['sids'])){$busnames=(array)$_POST['sids'];}
+if((isset($_POST['date0']) and $_POST['date0']!='')){$printdate=$_POST['date0'];}else{$printdate=date('Y-m-d');}
+if((isset($_GET['date0']) and $_GET['date0']!='')){$printdate=$_GET['date0'];}
 
-$todate=date('Y-m-d');
-$today=date('N');
+$today=date('N',strtotime($printdate));
+/* calculate difference in days from now for past attendance */
+$d=explode('-',$printdate);
+$diff=mktime(0,0,0,date('m'),date('d'),date('Y'))-mktime(0,0,0,$d[1],$d[2],$d[0]);
+$attday=-round($diff/(60*60*24));
+
 $buses=list_buses();
 
 if(sizeof($busnames)==0){
@@ -38,11 +45,11 @@ else{
 			$Transport=array();
 			$Transport['Name']=array('value'=>$busname);
 			$Transport['Day']=array('value'=>get_string(displayEnum($today,'dayofweek'),$book));
-			$Transport['Date']=array('value'=>display_date($todate));
+			$Transport['Date']=array('value'=>display_date($printdate));
 			$Transport['Student']=array();
 			$community=array('id'=>'','name'=>'','type'=>'tutor');
 
-			while(list($index,$student)=each($students)){
+			foreach($students as $student){
 				$sid=$student['id'];
 				$Student=(array)fetchStudent_short($sid);
 
@@ -55,15 +62,14 @@ else{
 						}
 					}
 
-				$Student['Attendances']=(array)fetchAttendances($sid,0,1);
-				//$Student['Attendance']=fetchcurrentAttendance($sid);
+				$Student['Attendances']=(array)fetchAttendances($sid,$attday,1);
 				$Student['Journey']=array();
 				$field=fetchStudent_singlefield($sid,'FirstContactPhone');
 				$Student=array_merge($Student,$field);
 				$field=fetchStudent_singlefield($sid,'SecondContactPhone');
 				$Student=array_merge($Student,$field);
 				$bookings=array();
-				$bookings=(array)list_student_journey_bookings($sid,$todate,$today);
+				$bookings=(array)list_student_journey_bookings($sid,$printdate,$today);
 				$jout=false;$jin=false;
 				foreach($bookings as $booking){
 					if($booking['direction']=='I' and $jin==false){

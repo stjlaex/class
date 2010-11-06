@@ -13,8 +13,10 @@ if((isset($_POST['busname']) and $_POST['busname']!='')){$busname=$_POST['busnam
 if((isset($_GET['busname']) and $_GET['busname']!='')){$busname=$_GET['busname'];}
 if((isset($_POST['fid']) and $_POST['fid']!='')){$fid=$_POST['fid'];}else{$fid='';}
 if((isset($_GET['fid']) and $_GET['fid']!='')){$fid=$_GET['fid'];}
-$todate=date('Y-m-d');
-$today=date('N');
+if((isset($_POST['date0']) and $_POST['date0']!='')){$todate=$_POST['date0'];}else{$todate=date('Y-m-d');}
+if((isset($_GET['date0']) and $_GET['date0']!='')){$todate=$_GET['date0'];}
+
+$today=date('N',strtotime($todate));
 
 if($busname!=''){
 	$com=array('id'=>'','type'=>'transport','name'=>$busname);
@@ -27,7 +29,6 @@ elseif($fid!=''){
 else{
 	$students=array();
 	}
-//$Bus=fetchBus();
 
 two_buttonmenu($extrabuttons,$book);
 
@@ -67,11 +68,11 @@ two_buttonmenu($extrabuttons,$book);
 		</thead>
 <?php
 	$rown=1;
-	while(list($index,$student)=each($students)){
+	foreach($students as $student){
 		$sid=$student['id'];
 		print '<tr id="sid-'.$sid.'">';
-		print '<td>'.'<input type="checkbox" name="sids[]" value="'.$sid.'" />'.$rown++.'</td>';
-		print '<td colspan="2" class="student"><a target="viewinfobook" onclick="parent.viewBook(\'infobook\');" href="infobook.php?current=student_transport.php&sid='.$sid.'">'.$student['surname'].', '. $student['forename'].'</a></td>';
+		print '<td>'.'<input type="checkbox" name="sids[]" value="'.$sid.'" />'.$rown++.'</td><td></td>';
+		print '<td class="student"><a target="viewinfobook" onclick="parent.viewBook(\'infobook\');" href="infobook.php?current=student_transport.php&sid='.$sid.'">'.$student['surname'].', '. $student['forename'].'</a></td>';
 		print '<td>'.$student['form_id'].'</td>';
 		foreach($days as $day=>$dayname){
 			$bookings=array();

@@ -1541,12 +1541,13 @@ function send_email_to($recipient, $from, $subject, $messagetext, $messagehtml='
 		if(is_array($attachments)){
 			while(list($index,$attachment)=each($attachments)){
 				if(is_file($attachment['filepath'])){ 
-					$mimetype=file_mimeinfo('type', $attachment['filename']);
+					//					$mimetype=file_mimeinfo('type', $attachment['filename']);
+					/* Only pdfs allowed. */
+		  			$mimetype='application/pdf';
 					$mail->AddAttachment($attachment['filepath'], $attachment['filename'], 'base64', $mimetype);
 					}
 				}
 			}
-
 		if($mail->Send()){
 			$success=true;
 			}
@@ -1603,7 +1604,8 @@ function send_email_to($recipient, $from, $subject, $messagetext, $messagehtml='
 		if(is_array($attachments)){
 			while(list($index,$attachment)=each($attachments)){
 				if(is_file($attachment['filepath'])){ 
-					$mime->addAttachment($attachment['filepath']);		
+		  			$mimetype='application/pdf';
+					$mime->addAttachment($attachment['filepath'],$mimetype,$attachment['filename']);
 					}
 				}
 			}

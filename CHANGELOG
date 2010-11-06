@@ -13,6 +13,15 @@ this. The mark table displays a numerical value for the categories checked.
 The currency exchange rate for orders is now set in categorydef (and is removed
 from school.php) to allow year on year changes.
 
+The delete_transport_booking function can now update as well as delete
+given an end date.
+
+The checksidsaction js can now grab the vlaue of any form element
+named by selectname (not just a select value).
+
+The transport print option accepts a date and sp is no longer limited
+to the current day.
+
 
 Version ClaSS-0.9.29 release (2010/10/30)
 -----------------------------------------

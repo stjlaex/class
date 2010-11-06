@@ -552,6 +552,10 @@ function checksidsAction(buttonObject){
 					}
 				}
 			}
+		else if(formObject.elements[c].name==selectname){
+				var selectObj=formObject.elements[c];
+				params=params + "&" + selectname + "=" + escape(selectObj.value);
+			}
 		}
 
 	var url=pathtoscript + "httpscripts/" + script + "?" +params;

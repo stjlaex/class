@@ -36,11 +36,13 @@ two_buttonmenu($extrabuttons);
 
 	<fieldset class="center divgroup" id="viewcontent">
 	  <legend><?php print_string('transport',$book);?></legend>
-		<div colspan="2"><?php print_string('checkall'); ?>
-		  <input type="checkbox" name="checkall" 
-				value="yes" onChange="checkAll(this);" />
+		<div>
+		  <?php print_string('checkall'); ?>
+		  <input type="checkbox" name="checkall" value="yes" onChange="checkAll(this);" />
+		  <div style="float:right;">
+			<?php $required='no'; include('scripts/jsdate-form.php');?>
+		  </div>
 		</div>
-
 <?php
 		$busnames=list_busnames();
 
@@ -65,7 +67,12 @@ two_buttonmenu($extrabuttons);
 			}
 ?>
 	</fieldset>
-	</form>
+	<div id="xml-checked-action" style="display:none;">
+	  <params>
+		<selectname>date0</selectname>
+	  </params>
+	</div>
+  </form>
 
 
 	<fieldset class="center divgroup" id="viewcontent">
@@ -96,3 +103,4 @@ two_buttonmenu($extrabuttons);
 
 
   </div>
+

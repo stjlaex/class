@@ -19,7 +19,6 @@
 function get_bus($busid,$name='',$direction='',$day=''){
 	$bus=array();
 	if($name!='' and $direction!='' and $day!=''){
-		//trigger_error($name.' '.$day,E_USER_WARNING);
 		$d_b=mysql_query("SELECT id, name, route_id, direction, day, departuretime, teacher_id, detail 
 							FROM transport_bus WHERE name='$name' AND direction='$direction' 
 							AND (day='$day' OR day='%');");
@@ -48,12 +47,12 @@ function get_journey($journeyid){
 							b.route_id AS routeid FROM transport_journey AS j 
 							JOIN transport_bus AS b ON j.bus_id=b.id WHERE j.id='$journeyid';");
 		$journey=mysql_fetch_array($d_j,MYSQL_ASSOC);
-		//trigger_error($journeyid,E_USER_WARNING);
 		}
 	else{
 		}
 	return $journey;
 	}
+
 
 
 /**
@@ -114,6 +113,7 @@ function list_busnames(){
 	}
 
 
+
 /**
  *
  * 
@@ -170,6 +170,8 @@ function fetchBus($busid='-1'){
 	}
 
 
+
+
 /**
  * Returns all journey bookings for a sid on a given date
  *
@@ -196,6 +198,8 @@ function list_student_journey_bookings($sid,$date,$day='%',$direction='%'){
 	return $bookings;
 	}
 
+
+
 /**
  * Return a booking
  * 
@@ -216,6 +220,7 @@ function get_journey_booking($bookid){
 	}
 
 
+
 /**
  *
  * @param array $booking
@@ -227,7 +232,7 @@ function add_journey_booking($sid,$busid,$stopid,$date='',$dayrepeat='once',$com
 	if($date==''){$date=date('Y-m-d');}
 	$busids=array();
 	$day=date('N',strtotime($date));
-	$newend=date('Y-m-d',strtotime($date.' -1 day'));
+	$newenddate=date('Y-m-d',strtotime($date.' -1 day'));
 
 	if($dayrepeat=='once'){$day=$day;$startdate=$date;$enddate=date('Y-m-d',strtotime($date.' +1 day'));}
 	elseif($dayrepeat=='weekly'){$day=$day;$startdate=$date;$enddate='0000-00-00';}
@@ -236,13 +241,14 @@ function add_journey_booking($sid,$busid,$stopid,$date='',$dayrepeat='once',$com
 	$direction=$bus['direction'];
 	$busname=$bus['name'];
 
+	/* Find existing bookings which conflict with the new one and delete. */
 	$d_b=mysql_query("SELECT id, startdate, enddate, day FROM transport_booking 
 						WHERE student_id='$sid' AND direction='$direction' 
 						AND ((startdate<='$startdate' AND (enddate>='$startdate' or enddate='0000-00-00'))
 						OR (startdate>='$startdate' AND (startdate<='$enddate' OR $enddate='0000-00-00')));");
 	while($oldb=mysql_fetch_array($d_b,MYSQL_ASSOC)){
 		$oldbookid=$oldb['id'];
-		trigger_error($oldb['id'].' : '.$oldb['startdate'].' : '.$oldb['enddate'].mysql_error(),E_USER_WARNING);
+		//trigger_error($oldb['id'].' : '.$oldb['startdate'].' : '.$oldb['enddate'].mysql_error(),E_USER_WARNING);
 		if($dayrepeat=='once'){
 			if($oldb['startdate']==$oldb['enddate'] and $oldb['day']==$day){
 				/*delete old*/
@@ -255,13 +261,12 @@ function add_journey_booking($sid,$busid,$stopid,$date='',$dayrepeat='once',$com
 				}
 			elseif($oldb['enddate']=='0000-00-00' and $oldb['day']!='%'){
 				/*update old enddate, del com*/
-				mysql_query("UPDATE transport_booking SET enddate='$newend' WHERE id='$oldbookid';");
+				delete_journey_booking($sid,$oldbookid,$newenddate);
 				}
 			}
 		elseif($dayrepeat=='every'){
 			if($oldb['enddate']=='0000-00-00'){
-				/*update old enddate, del com*/
-				mysql_query("UPDATE transport_booking SET enddate='$newend' WHERE id='$oldbookid';");
+				delete_journey_booking($sid,$oldbookid,$newenddate);
 				}
 			}
 		}
@@ -284,7 +289,6 @@ function add_journey_booking($sid,$busid,$stopid,$date='',$dayrepeat='once',$com
 			}
 		mysql_query("INSERT INTO transport_booking (student_id,journey_id,direction,day,startdate,enddate,comment) 
 					 VALUES ('$sid','$jid','$direction','$bookday','$startdate','$enddate','$comment');");
-		//trigger_error($busid.' : '.$stopid.' '.mysql_error(),E_USER_WARNING);
 		}
 
 	/* add to the transport community for that bus */
@@ -295,15 +299,18 @@ function add_journey_booking($sid,$busid,$stopid,$date='',$dayrepeat='once',$com
 	}
 
 
+
 /**
+ *
+ * Will both delete the booking specified by @bookid and amend community memberships to match.
+ * With an endate given the booking won't be deleted but merely set to end at that date.
  *
  * @param integer sid
  * @param integer bookid
- * @return
+ * @param date newenddate
  *
  */
-function delete_journey_booking($sid,$bookid){
-
+function delete_journey_booking($sid,$bookid,$newenddate=''){
 
 	$d_j=mysql_query("SELECT journey_id, startdate, enddate FROM transport_booking WHERE transport_booking.id='$bookid';");
 	$journeyid=mysql_result($d_j,0,0);
@@ -315,22 +322,23 @@ function delete_journey_booking($sid,$bookid){
 				   j.bus_id=b.id WHERE j.id='$journeyid';");
 	$busname=mysql_result($d_b,0);
 
-	mysql_query("DELETE FROM transport_booking WHERE student_id='$sid' AND id='$bookid' LIMIT 1;");
+	if($newenddate==''){
+		mysql_query("DELETE FROM transport_booking WHERE student_id='$sid' AND id='$bookid' LIMIT 1;");
+		}
+	else{
+		mysql_query("UPDATE transport_booking SET enddate='$newenddate' WHERE id='$bookid';");
+		}
 
 	$d_b=mysql_query("SELECT b.id FROM transport_booking AS b JOIN transport_journey AS j ON b.journey_id=j.id 
-						WHERE b.student_id='$sid'  
-						AND (b.startdate>='$todate' OR b.enddate='0000-00-00') 
+						WHERE b.student_id='$sid' AND (b.startdate>='$todate' OR b.enddate='0000-00-00') 
 						AND j.bus_id=ANY(SELECT id FROM transport_bus WHERE name='$busname');");
 	if(mysql_num_rows($d_b)==0){
-		//trigger_error('DELETE!!!!!!!!!!!!!!!' ,E_USER_WARNING);
-		//$bus=get_bus($busid);
 		$com=array('id'=>'','type'=>'transport','name'=>$busname);
 		$oldcommunities=set_community_stay($sid,$com,$startdate,$startdate);
 		}
 
 	/*TODO: check for other bookings for this busname and update transport community appropriately */
 
-	//trigger_error($sid.' '.$busname.' '.$startdate.' ' .$enddate,E_USER_WARNING);
 	return;
 	}
 ?>
