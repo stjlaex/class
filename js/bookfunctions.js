@@ -459,15 +459,19 @@ function checkRadioIndicator(inputObj){
 		}
 	}
 
-//------------------------------------------------------- 
-// Only called by form buttons in place of processContent() 
-// this will pass all the checked sids[] in a sidtable along-with 
-// whatever parameters are listed in the embedded xml contained 
-// in a div with id=xml-checked-action
-// whatever xml is returned by the httpscript called by the button
-// is transformed using the xsl transformation named in transform 
-// (which must be listed along-with the other params in the embedded xml)
 
+/**
+ *
+ * Only called by form buttons in place of processContent() 
+ * this will pass all the checked boxes along-with selected form variables.
+ * The names of checkname, selectname and transform are passed as parameters 
+ * listed in an embedded xml div with id="xml-checked-action". 
+ * The names of the checkboxes defaults to sids but can be set by checkname.
+ * 
+ * Whatever xml is returned by the httpscript called by the button
+ * is transformed using the xsl transformation named in transform. 
+ *
+ */
 function checksidsAction(buttonObject){
 	var formObject=document.formtoprocess;
 	var formElements=formObject.elements;
@@ -475,6 +479,8 @@ function checksidsAction(buttonObject){
 	var script=buttonObject.value;
 	var params="";
 	var xsltransform="";
+	var checkname="sids[]";
+
 	// Need the path for the script being called - this is set 
 	// by default to the path of the current book but can be overridden
 	// if the buttonObject has this attribute set.
@@ -510,6 +516,10 @@ function checksidsAction(buttonObject){
 					//used by the js and not passed as a param
 					var selectname=escape(xmlvalue);
 					}
+				else if(paramname=="checkname"){
+					//used by the js and not passed as a param
+					checkname=escape(xmlvalue)+"[]";
+					}
 				else{
 					params=params + "&" + paramname + "=" + escape(xmlvalue);
 					}
@@ -526,7 +536,7 @@ function checksidsAction(buttonObject){
 		if(formObject.elements[c].name=="checkall"){
 			c=c+1;
 			}
-		if(formObject.elements[c].type=="checkbox" && formObject.elements[c].name=="sids[]"){
+		if(formObject.elements[c].type=="checkbox" && formObject.elements[c].name==checkname){
 			if(formObject.elements[c].checked){
 				sids[sidno++]=formObject.elements[c].value;
 				params=params+"&sids[]=" + escape(formObject.elements[c].value);

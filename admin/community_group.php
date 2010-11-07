@@ -9,6 +9,10 @@ if(isset($_POST['newcomtype'])){$newcomtype=$_POST['newcomtype'];}
 elseif($_SESSION['role']=='teacher'){$newcomtype='ACADEMIC';}
 else{$newcomtype='TUTOR';}
 
+$extrabuttons['previewselected']=array('name'=>'current',
+									   'pathtoscript'=>$CFG->sitepath.'/'.$CFG->applicationdirectory.'/admin/',
+									   'value'=>'group_print.php',
+									   'onclick'=>'checksidsAction(this)');
 $extrabuttons['export']=array('name'=>'current','value'=>'community_group_export.php');
 $extrabuttons['createnewgroup']=array('name'=>'current','value'=>'community_group_rename.php');
 three_buttonmenu($extrabuttons);
@@ -39,7 +43,7 @@ three_buttonmenu($extrabuttons);
 
 	$nosidstotal=0;
 	$communities=list_communities($newcomtype);
-	while(list($index,$com)=each($communities)){
+	foreach($communities as $com){
 		$nosids=countin_community($com);
 		$nosidstotal=$nosidstotal+$nosids;
 ?>	   	
@@ -69,4 +73,11 @@ three_buttonmenu($extrabuttons);
 	  <input type="hidden" name="choice" value="<?php print $choice;?>" />
 	  <input type="hidden" name="cancel" value="<?php print '';?>" />
 	</form>
+  </div>
+  <div id="xml-checked-action" style="display:none;">
+	<params>
+	  <checkname>comids</checkname>
+	  <selectname>newcomtype</selectname>
+	  <transform>group_list</transform>
+	</params>
   </div>
