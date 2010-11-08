@@ -349,6 +349,31 @@ function list_class_teachers($cid){
 	}
 
 /** 
+ * Returns an id-name array listing all curriculum areas (subject and components) this sid studies.
+ *
+ *	@param string $sid
+ *	@return array
+ */
+function list_student_subjects($sid){
+	if($sid==''){$sid=-1;}
+	$classes=array();
+   	$d_c=mysql_query("SELECT DISTINCT course_id AS crid, subject_id AS bid FROM
+				class JOIN cidsid ON class.id=cidsid.class_id WHERE
+				cidsid.student_id='$sid'");
+
+   	while($c=mysql_fetch_array($d_c,MYSQL_ASSOC)){
+		$subs[]=array('id'=>$c['bid'],'name'=>get_subjectname($c['bid']));
+		$coms=list_subject_components($c['bid'],$c['crid'],'A');
+		foreach($coms as $com){
+			$subs[]=array('id'=>$com['id'],'name'=>$com['name']);
+			}
+		}
+
+	return $subs;
+	}
+
+
+/** 
  * Returns an id-name array listing all classes this sid attends.
  * The name is a description of the course and subject for each class.
  *

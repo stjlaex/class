@@ -1,4 +1,4 @@
-Version ClaSS-0.9.30 release (2010/11/07)
+Version ClaSS-0.9.30 release (2010/11/08)
 -----------------------------------------
 
 Added pagestyle to the new_report form.
@@ -24,6 +24,8 @@ The transport print option accepts a date and sp is no longer limited
 to the current day.
 
 The other groups page given a print option.
+
+Removed list_studentsubjects script in favour of an equivalent curriculum function.
 
 
 Version ClaSS-0.9.29 release (2010/10/30)

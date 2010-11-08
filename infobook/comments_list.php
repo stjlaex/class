@@ -30,7 +30,13 @@ print '('.$Student['RegistrationGroup']['value'].')';
 	  </div>
 	  <div class="right">
 		<label for="Subject"><?php print_string('subjectspecificoptional',$book);?></label>
-		<?php $required='no'; include('scripts/list_studentsubjects.php');?>
+<?php 
+		$required='no'; $listname='bid'; $listid='subject';$listlabel='';
+		$subjects=list_student_subjects($sid);
+		include('scripts/set_list_vars.php');
+		list_select_list($subjects,$listoptions,$book);
+		unset($listoptions);
+?>
 	  </div>
 	  <div class="right">
 		<?php 
