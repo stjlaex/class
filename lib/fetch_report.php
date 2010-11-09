@@ -127,19 +127,11 @@ function fetchSubjectReports($sid,$reportdefs){
 			 * reportentry - any subjects which have neither will not
 			 * have a Report
 			 */
-			while(list($index,$subject)=each($reportdef['bids'])){
+			foreach($reportdef['bids'] as $subject){
 			  $bid=$subject['id'];
 			  $pids=array();
 			  $pids=(array)$subject['pids'];
 			  //if(sizeof($pids)>0){$pids[]=array('id'=>' ','name'=>'');}
-			  /* TODO: combine sequences for bid and pid consistently
-			   * but until cridbid has a sequence is it possible or even cridbid 
-			   * is subsumed into component?
-			   */ 
-			  if($bid=='Eng' or $bid=='Jun' or $bid=='Inf'){$subjectseq=1;}
-			  elseif($bid=='Mat'){$subjectseq=2;}
-			  elseif($bid=='Sci'){$subjectseq=3;}
-			  else{$subjectseq=10;}
 
 			  /* Note one of these pids will be a blank so we do the parent bid. */
 			  foreach($pids as $pindex=>$component){
@@ -175,7 +167,7 @@ function fetchSubjectReports($sid,$reportdefs){
 					  $Report['Course']=array('id'=>''.$reportdef['report']['course_id'], 
 											  'value'=>''.$reportdef['report']['course_name']);
 					  $Report['Subject']=array('id'=>''.$bid, 
-											   'sequence'=>''.$subjectseq,
+											   'sequence'=>''.$subject['sequence'],
 											   'value'=>''.$subject['name']);
 					  $Report['Component']=array('id'=>''.$pid, 
 												 'status'=>''.$componentstatus,
@@ -553,7 +545,8 @@ function fetch_reportdefinition($rid,$selbid='%'){
 	else{
 		$subjectname=get_subjectname($selbid);
 		$subjects[]=array('id'=>$selbid, 
-						  'name'=>''.$subjectname);
+						  'name'=>''.$subjectname,
+						  'sequence'=>'10');
 		}
 	while(list($index0,$subject)=each($subjects)){
 		$report_components=array();

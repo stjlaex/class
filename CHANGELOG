@@ -1,4 +1,4 @@
-Version ClaSS-0.9.30 release (2010/11/08)
+Version ClaSS-0.9.30 release (2010/11/09)
 -----------------------------------------
 
 Added pagestyle to the new_report form.
@@ -26,6 +26,8 @@ to the current day.
 The other groups page given a print option.
 
 Removed list_studentsubjects script in favour of an equivalent curriculum function.
+
+Exposed both sequence and status as part of list_course_subjects.
 
 
 Version ClaSS-0.9.29 release (2010/10/30)

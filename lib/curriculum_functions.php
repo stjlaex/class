@@ -117,12 +117,11 @@ function list_course_subjects($crid='',$substatus='A'){
 	elseif($substatus=='AV'){$compmatch="(component.status='V' OR component.status='O')";}
 	else{$compmatch="(component.status LIKE '$substatus' AND component.status!='U')";}
 	if($crid!=''){
-		$d_cridbid=mysql_query("SELECT DISTINCT subject.id, subject.name FROM subject
+		$d_c=mysql_query("SELECT DISTINCT subject.id, subject.name, component.sequence, component.status FROM subject
 					JOIN component ON component.subject_id=subject.id
 					WHERE component.course_id LIKE '$crid' AND component.id='' AND $compmatch ORDER BY subject.id;");
-		while($subject=mysql_fetch_array($d_cridbid,MYSQL_ASSOC)){
+		while($subject=mysql_fetch_array($d_c,MYSQL_ASSOC)){
 			$subjects[]=$subject;
-			//trigger_error($subject['name'],E_USER_WARNING);
 			}
 		}
 	return $subjects;
@@ -196,11 +195,9 @@ function list_subject_components($bid,$crid,$compstatus='A'){
 						WHERE $compmatch AND component.course_id='$crid'
 						ORDER BY component.status, component.sequence, subject.name;");
 			}
-
 		while($component=mysql_fetch_array($d_com,MYSQL_ASSOC)){
 			$components[]=$component;
 			}
-
 		}
 
 	return $components;
