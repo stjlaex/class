@@ -23,6 +23,10 @@ if(isset($_GET['eids'])){$eids=(array)$_GET['eids'];}else{$eids=array();}
 if(isset($_POST['eids'])){$eids=(array)$_POST['eids'];}
 if(isset($_GET['template'])){$template=$_GET['template'];}else{$template='';}
 if(isset($_POST['template'])){$template=$_POST['template'];}
+if(isset($_GET['year'])){$curryear=$_GET['year'];}else{$curryear='';}
+if(isset($_POST['year'])){$curryear=$_POST['year'];}
+if(isset($_GET['name'])){$profilename=$_GET['name'];}
+if(isset($_POST['name'])){$profilename=$_POST['name'];}
 
 if(sizeof($sids)==0){
 	$result[]=get_string('youneedtoselectstudents');
@@ -40,7 +44,7 @@ else{
 		$profile=get_assessment_profile($xmlid);
 		$crid=$profile['course_id'];
 		$profilename=$profile['name'];
-		$curryear=get_curriculumyear($crid);
+		if($curryear==''){$curryear=get_curriculumyear($crid);}
 
 		/*TODO*/
 		$prevyear=$curryear-1;
@@ -86,9 +90,11 @@ else{
 
 	/* Bands in ascending date order. */
   	$d_stats=mysql_query("SELECT DISTINCT * FROM statvalues JOIN stats ON stats.id=statvalues.stats_id 
-				WHERE stats.course_id='$crid' AND stats.profile_name='$profilename' 
-				AND (statvalues.stage='$stage' OR statvalues.stage='$prevstage') AND (statvalues.subject_id LIKE '$bid' OR statvalues.subject_id='%')
-				AND (statvalues.component_id LIKE '$pid' OR statvalues.component_id='%') ORDER BY statvalues.date ASC;");
+				WHERE stats.course_id='$crid' AND stats.profile_name='$profilename' AND stats.year='$curryear' 
+				AND (statvalues.stage='$stage' OR statvalues.stage='$prevstage') 
+				AND (statvalues.subject_id LIKE '$bid' OR statvalues.subject_id='%')
+				AND (statvalues.component_id LIKE '$pid' OR statvalues.component_id='%') 
+				ORDER BY statvalues.stage, statvalues.date ASC;");
 	$bands=array();
 	while($stat=mysql_fetch_array($d_stats,MYSQL_ASSOC)){
 		$bands[$stat['date']]=$stat;
@@ -102,6 +108,7 @@ else{
 		$assdate=$AssDefs[$ec]['Deadline']['value'];
 		foreach($bands as $date=>$band){
 			if($assdate>$date or !isset($bdate)){$bdate=$date;}
+			trigger_error($profilename.':'.$assdate.': '.$date. ' -------> '. $bdate,E_USER_WARNING);
 			}
 		/* If the assessment is out of range then set to the last band. */
 		$asstable['ass'][]=array('label'=>''.$AssDefs[$ec]['PrintLabel']['value'],

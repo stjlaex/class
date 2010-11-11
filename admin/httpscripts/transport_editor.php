@@ -58,6 +58,7 @@ function selerySwitch(servantclass,fieldvalue){
 	<div id="bookbox" class="admincolor">
 	<?php 
 $extrabuttons=array();
+$extrabuttons['absent']=array('name'=>'sub','value'=>'Absent');
 $extrabuttons['delete']=array('name'=>'sub','value'=>'Delete');
 three_buttonmenu($extrabuttons,$book);
  ?>
@@ -131,7 +132,7 @@ three_buttonmenu($extrabuttons,$book);
 		<div class="right">
 			<?php $checkcaption=''; include('../../scripts/check_yesno.php');?>
 		</div>
-	  </fieldset> 
+	  </fieldset>
 
 		<input type="hidden" name="sid" value="<?php print $sid; ?>"/>
 	    <input type="hidden" name="date" value="<?php print $date; ?>"/>

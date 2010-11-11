@@ -204,7 +204,9 @@ input:focus, select:focus {
     z-index:10000;
 	}
 button {
-	width:100%; font-weight:600;
+	width:100%; 
+	font-weight:600;
+	font-size:small;
 	cursor:pointer;
 	}
 .bookoptions {

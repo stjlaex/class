@@ -29,6 +29,12 @@ Removed list_studentsubjects script in favour of an equivalent curriculum functi
 
 Exposed both sequence and status as part of list_course_subjects.
 
+Fixed the report assessments to use profiles even with rcrid and to
+pass curriculum year correctly.
+
+Added an "absent" button to transport editor for cancelling single
+rides.
+
 
 Version ClaSS-0.9.29 release (2010/10/30)
 -----------------------------------------

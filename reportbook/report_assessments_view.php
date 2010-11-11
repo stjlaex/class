@@ -45,7 +45,6 @@ $extrabuttons['displaybyassessment']=array('name'=>'breakdown',
 */
 two_buttonmenu($extrabuttons,$book);
 
-$profile=get_assessment_profile($profid);
 $students=array();
 
 	if($fid!=''){
@@ -81,14 +80,13 @@ $students=array();
 	$asscrids=array();/*index all the crids these asses may relate to*/
 
 
-/****************/
-	while(list($index,$eid)=each($eids)){
+	/****************/
+	foreach($eids as $eid){
 		$AssDef=fetchAssessmentDefinition($eid);
 		$assdefs[$eid]=$AssDef;
 		$asscrids[$AssDef['Course']['value']]=$AssDef['Course']['value'];
-		//trigger_error($eid,E_USER_WARNING);
 		}
-	reset($eids);
+
 
 	if(!isset($selbids)){
 		/*all subjects selected so fetch bids for each crid*/
@@ -366,22 +364,27 @@ $students=array();
 
 		<div id="xml-checked-action" style="display:none;">
 <?php 
+
+if(isset($profid)){$profile=get_assessment_profile($profid);}
+else{
 $profile['name']='blank';
 $profile['course_id']='';
 $profile['subject_id']='%';
 $profile['component_status']='All';
 $profile['rating_name']='average';
 $profile['bid']='%';
+}
 $profile['eids']=(array)$eids;
+$profile['year']=$year;
 if($profile['crid']=='FS'){
         $profile['bid']='EY';
 	}
 if($template!=''){
         $profile['transform']=$template;
         }
-//$profile['stage']=$stage;
+$profile['stage']=$stage;
 $profile['pid']='';
-$profile['stage']='R';
+//$profile['stage']='R';
 xmlechoer('Profile',$profile);
 ?>
 		</div>

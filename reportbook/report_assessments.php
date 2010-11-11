@@ -71,8 +71,13 @@ three_buttonmenu();
 		<div class="center">
 <?php 
 	$profiles=array();
-	foreach($cohorts as $cohort){
-		$profiles=array_merge($profiles,list_assessment_profiles($cohort['course_id']));
+	if(isset($cohorts)){
+		foreach($cohorts as $cohort){
+			$profiles=array_merge($profiles,list_assessment_profiles($cohort['course_id']));
+			}
+		}
+	else{
+		$profiles=(array)list_assessment_profiles($rcrid);
 		}
 	$onchange='yes';$required='no';
 	include('scripts/list_assessment_profile.php');

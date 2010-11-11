@@ -227,5 +227,5 @@ $string['sessions']='Sessions';
 $string['afterschool']='After School';
 $string['lunchtime']='Lunch time';
 $string['sessions']='Sessions';
-$string['']='';
+$string['absent']='Absent';
 ?>

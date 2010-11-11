@@ -44,9 +44,16 @@ else{
 
 		}
 	elseif($sub=='Delete'){
-
 		delete_journey_booking($sid,$oldbookid);
-
+		}
+	elseif($sub=='Absent'){
+		$bus=get_bus($busid);
+		if($bus['direction']=='I'){
+			add_journey_booking($sid,1001,'',$date,'once','');
+			}
+		else{
+			add_journey_booking($sid,1002,'',$date,'once','');
+			}
 		}
 
 	}

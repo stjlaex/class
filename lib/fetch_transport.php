@@ -105,7 +105,7 @@ function list_bus_stops($busid){
  */
 function list_busnames(){
 	$buses=array();
-	$d_b=mysql_query("SELECT DISTINCT name FROM transport_bus ORDER BY name ASC;");
+	$d_b=mysql_query("SELECT DISTINCT name FROM transport_bus WHERE route_id!='0' ORDER BY name ASC;");
 	while($bus=mysql_fetch_array($d_b,MYSQL_ASSOC)){
 		$buses[]=$bus;
 		}
@@ -237,6 +237,7 @@ function add_journey_booking($sid,$busid,$stopid,$date='',$dayrepeat='once',$com
 	if($dayrepeat=='once'){$day=$day;$startdate=$date;$enddate=date('Y-m-d',strtotime($date.' +1 day'));}
 	elseif($dayrepeat=='weekly'){$day=$day;$startdate=$date;$enddate='0000-00-00';}
 	elseif($dayrepeat=='every'){$day='%';$startdate=$date;$enddate='0000-00-00';}
+
 	$bus=get_bus($busid);
 	$direction=$bus['direction'];
 	$busname=$bus['name'];
