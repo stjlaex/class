@@ -1,4 +1,4 @@
-Version ClaSS-0.9.30 release (2010/11/09)
+Version ClaSS-0.9.30 release (2010/11/12)
 -----------------------------------------
 
 Added pagestyle to the new_report form.
@@ -20,10 +20,11 @@ The checksidsaction js can now grab the vlaue of any form element
 named by selectname (not just a select value) and checkboxes don't
 have to be named sids either.
 
-The transport print option accepts a date and sp is no longer limited
+The transport print option accepts a date and is no longer limited
 to the current day.
 
-The other groups page given a print option.
+Both other groups and form groups in Admin given a print option. TODO:
+fix the button submits in the table!
 
 Removed list_studentsubjects script in favour of an equivalent curriculum function.
 
@@ -34,6 +35,8 @@ pass curriculum year correctly.
 
 Added an "absent" button to transport editor for cancelling single
 rides.
+
+Separate transport lists for AM, PM and just amendments.
 
 
 Version ClaSS-0.9.29 release (2010/10/30)

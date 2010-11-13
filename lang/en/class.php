@@ -342,5 +342,9 @@ $string['transport']='Transport';
 $string['targets']='Targets';
 $string['tutor']='Club';
 $string['club']='Clubs';
+$string['lists']='Lists';
+$string['changes']='Changes';
+$string['morning']='Morning';
+$string['afternoon']='Afternoon';
 $string['']='';
 ?>

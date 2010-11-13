@@ -296,7 +296,9 @@ function clickToAction(buttonObject){
 							}
 						else if(xmlHttp.status==404){alert ("Requested URL is not found.");}
         				else if(xmlHttp.status==403){alert("Access denied.");} 
-						else {alert("status is " + xmlHttp.status);}
+						else {
+							//alert("status is " + xmlHttp.status);
+							}
 						progressIndicator("stop");
 						}
 					else{
@@ -512,6 +514,10 @@ function checksidsAction(buttonObject){
 					if(action=="chart"){var paper="landscape";}
 					else{var paper="portrait";}
 					}
+				else if(paramname=="paper"){
+					//the transform is used by the js and not passed as a param
+					var paper=escape(xmlvalue);
+					}
 				else if(paramname=="selectname"){
 					//used by the js and not passed as a param
 					var selectname=escape(xmlvalue);
@@ -529,7 +535,9 @@ function checksidsAction(buttonObject){
 		}
 
 
-	//now grab all the checked input sids
+	/* now grab all the checked input boxes with name=checkname plus
+	 *  any form elements identified with name=selectname
+	*/
 	var sids=new Array();
 	var sidno=0;
 	for(var c=0; c<formObject.elements.length; c++){
@@ -544,27 +552,33 @@ function checksidsAction(buttonObject){
 				formObject.elements[c].checked=false;
 				}
 			}
-		else if(formObject.elements[c].name==selectname && 
-						formObject.elements[c].type=="select-one"){
-			var selectObj=formObject.elements[c];
-			for(var i=0; i < selectObj.options.length; i++){
-				if(selectObj.options[i].selected){
-					params=params + "&" + selectname + "=" + escape(selectObj.options[i].value);
-					}
-				}
-			}
-		else if(formObject.elements[c].name==selectname && 
-						formObject.elements[c].type=="select-multiple"){
-			var selectObj=formObject.elements[c];
-			for(var i=0; i < selectObj.options.length; i++){
-				if(selectObj.options[i].selected){
-					params=params + "&" + selectname + "[]=" + escape(selectObj.options[i].value);
-					}
-				}
-			}
 		else if(formObject.elements[c].name==selectname){
+			if(formObject.elements[c].type=="select-one"){
+				var selectObj=formObject.elements[c];
+				for(var i=0; i < selectObj.options.length; i++){
+					if(selectObj.options[i].selected){
+						params=params + "&" + selectname + "=" + escape(selectObj.options[i].value);
+						}
+					}
+				}
+			else if(formObject.elements[c].type=="select-multiple"){
+				var selectObj=formObject.elements[c];
+				for(var i=0; i < selectObj.options.length; i++){
+					if(selectObj.options[i].selected){
+						params=params + "&" + selectname + "[]=" + escape(selectObj.options[i].value);
+						}
+					}
+				}
+			else if(formObject.elements[c].type=="radio"){
+				if(formObject.elements[c].checked==true){
+					var selectObj=formObject.elements[c];
+					params=params + "&" + selectname + "=" + escape(selectObj.value);
+					}
+				}
+			else{
 				var selectObj=formObject.elements[c];
 				params=params + "&" + selectname + "=" + escape(selectObj.value);
+				}
 			}
 		}
 
@@ -575,6 +589,7 @@ function checksidsAction(buttonObject){
 				if(xmlHttp.status==200){
 					var xmlReport=xmlHttp.responseXML;
 					if(xsltransform==""){
+						/* only if its been set in some non-standard way (should be one of the params!) */
 						xsltransform=xmlReport.getElementsByTagName("transform")[0].firstChild.nodeValue;
 						paper=xmlReport.getElementsByTagName("paper")[0].firstChild.nodeValue;
 						}
@@ -582,7 +597,7 @@ function checksidsAction(buttonObject){
 					if(xsltransform!=""){
 						var xmlResult=processXML(xmlReport,xsltransform,"../templates/");
 						if(action=="chart"){
-							openCharttReport(xmlResult,xsltransform,paper);
+							openChartReport(xmlResult,xsltransform,paper);
 							}
 						else{
 							openPrintReport(xmlResult,xsltransform,paper);

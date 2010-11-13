@@ -6,13 +6,15 @@
 require_once('../../scripts/http_head_options.php');
 require_once('../../lib/fetch_transport.php');
 
-/*NB. The busnames are pulled by checksidsAction hence they really are called sids!*/
+/*NB. The busnames are pulled by checksidsAction hence they honestly really are called sids!*/
 if(isset($_GET['sids'])){$busnames=(array)$_GET['sids'];}else{$busnames=array();}
 if(isset($_POST['sids'])){$busnames=(array)$_POST['sids'];}
 if((isset($_POST['date0']) and $_POST['date0']!='')){$printdate=$_POST['date0'];}else{$printdate=date('Y-m-d');}
 if((isset($_GET['date0']) and $_GET['date0']!='')){$printdate=$_GET['date0'];}
+if((isset($_POST['length']) and $_POST['length']!='')){$length=$_POST['length'];}else{$length='full';}
+if((isset($_GET['length']) and $_GET['length']!='')){$length=$_GET['length'];}
 
-$today=date('N',strtotime($printdate));
+$day=date('N',strtotime($printdate));
 /* calculate difference in days from now for past attendance */
 $d=explode('-',$printdate);
 $diff=mktime(0,0,0,date('m'),date('d'),date('Y'))-mktime(0,0,0,$d[1],$d[2],$d[0]);
@@ -31,20 +33,18 @@ else{
 	$Students['Transport']=array();
 
 	foreach($busnames as $busname){
-		//trigger_error($busname,E_USER_WARNING);
 		if($busname!=''){
-
-			$busin=(array)get_bus('',$busname,'I',$today);
+			$busin=(array)get_bus('',$busname,'I',$day);
 			$buses[$busin['id']]['stops']=list_bus_stops($busin['id']);
-			$busout=(array)get_bus('',$busname,'O',$today);
+			$busout=(array)get_bus('',$busname,'O',$day);
 			$buses[$busout['id']]['stops']=list_bus_stops($busout['id']);
 
 			$com=array('id'=>'','type'=>'transport','name'=>$busname);
-			$students=(array)listin_community($com);
+			$students=(array)listin_community($com,$printdate);
 			//$Transport=(array)fetchCommunity($comid);
 			$Transport=array();
 			$Transport['Name']=array('value'=>$busname);
-			$Transport['Day']=array('value'=>get_string(displayEnum($today,'dayofweek'),$book));
+			$Transport['Day']=array('value'=>get_string(displayEnum($day,'dayofweek'),$book));
 			$Transport['Date']=array('value'=>display_date($printdate));
 			$Transport['Student']=array();
 			$community=array('id'=>'','name'=>'','type'=>'tutor');
@@ -56,7 +56,7 @@ else{
 				/* TODO: After school clubs */
 				$communities=(array)list_member_communities($sid,$community);
 				foreach($communities as $club){
-					$pos=strpos($club['sessions'],"A$today");
+					$pos=strpos($club['sessions'],"A$day");
 					if($pos!==false){
 						$Student['Club']['value']=$club['name'];
 						}
@@ -68,41 +68,25 @@ else{
 				$Student=array_merge($Student,$field);
 				$field=fetchStudent_singlefield($sid,'SecondContactPhone');
 				$Student=array_merge($Student,$field);
-				$bookings=array();
-				$bookings=(array)list_student_journey_bookings($sid,$printdate,$today);
+				$bookings=(array)list_student_journey_bookings($sid,$printdate,$day);
 				$jout=false;$jin=false;
 				foreach($bookings as $booking){
-					if($booking['direction']=='I' and $jin==false){
-						$jin=true;
-						if($booking['bus_id']==$busin['id']){
-							$Journey=array();
-							$Journey['Direction']=$buses[$booking['bus_id']]['direction'];
-							$Journey['Comment']['value']=$booking['comment'];
-							$Journey['Bus']=array('id_db'=>$booking['bus_id'],
-												  'value'=>$buses[$booking['bus_id']]['name']
-												  );
-							$Journey['Stop']=array('id_db'=>$booking['stop_id'],
-												   'sequence'=>$buses[$booking['bus_id']]['stops'][$booking['stop_id']]['sequence'],
-												   'value'=>$buses[$booking['bus_id']]['stops'][$booking['stop_id']]['name']
-												   );
-							$Student['Journey'][]=$Journey;
-							}
-						}
-					elseif($booking['direction']=='O' and $jout==false){
-						$jout=true;
-						if($booking['bus_id']==$busout['id']){
-							$Journey=array();
-							$Journey['Direction']=$buses[$booking['bus_id']]['direction'];
-							$Journey['Comment']['value']=$booking['comment'];
-							$Journey['Bus']=array('id_db'=>$booking['bus_id'],
-												  'value'=>$buses[$booking['bus_id']]['name']
-												  );
-							$Journey['Stop']=array('id_db'=>$booking['stop_id'],
-												   'sequence'=>$buses[$booking['bus_id']]['stops'][$booking['stop_id']]['sequence'],
-												   'value'=>$buses[$booking['bus_id']]['stops'][$booking['stop_id']]['name']
-												   );
-							$Student['Journey'][]=$Journey;
-							}
+					if($booking['direction']=='I'){$jname='jin';$busid=$busin['id'];}
+					elseif($booking['direction']=='O'){$jname='jout';$busid=$busout['id'];}
+					//if(!$$jname and $booking['bus_id']==$busid){
+					if(!$$jname){
+						$$jname=true;
+						$Journey=array();
+						$Journey['Direction']=$buses[$booking['bus_id']]['direction'];
+						$Journey['Comment']['value']=$booking['comment'];
+						$Journey['Bus']=array('id_db'=>$booking['bus_id'],
+											  'value'=>$buses[$booking['bus_id']]['name']
+											  );
+						$Journey['Stop']=array('id_db'=>$booking['stop_id'],
+											   'sequence'=>$buses[$booking['bus_id']]['stops'][$booking['stop_id']]['sequence'],
+											   'value'=>$buses[$booking['bus_id']]['stops'][$booking['stop_id']]['name']
+											   );
+						$Student['Journey'][]=$Journey;
 						}
 					}
 				$Transport['Student'][]=$Student;
@@ -110,8 +94,7 @@ else{
 			$Students['Transport'][]=$Transport;
 			}
 		}
-	$Students['Transform']='transport_list_out';
-	$Students['Paper']='portait';
+
 
 	$returnXML=$Students;
 	$rootName='Students';

@@ -34,8 +34,7 @@ three_buttonmenu($extrabuttons);
 	  <table class="listmenu">
 		<tr>
 		<th colspan="2"><?php print_string('checkall'); ?>
-		  <input type="checkbox" name="checkall" 
-				value="yes" onChange="checkAll(this);" />
+		  <input type="checkbox" name="checkall" value="yes" onChange="checkAll(this);" />
 		</th>
 		  <th><?php print_string('numberofstudents',$book);?></th>
 		</tr>

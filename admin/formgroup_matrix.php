@@ -5,7 +5,11 @@
 $choice='formgroup_matrix.php';
 $action='formgroup_matrix_action.php';
 
-three_buttonmenu();
+$extrabuttons['lists']=array('name'=>'current',
+							 'pathtoscript'=>$CFG->sitepath.'/'.$CFG->applicationdirectory.'/admin/',
+							 'value'=>'group_print.php',
+							 'onclick'=>'checksidsAction(this)');
+three_buttonmenu($extrabuttons);
 ?>
   <div class="content">
 	  <form id="formtoprocess" name="formtoprocess" method="post"
@@ -34,15 +38,13 @@ three_buttonmenu();
 		  </select>
 		</div>
 	  </fieldset>
-	  <input type="hidden" name="current" value="<?php print $action;?>" />
-	  <input type="hidden" name="choice" value="<?php print $choice;?>" />
-      <input type="hidden" name="cancel" value="<?php print '';?>" />
-	</form>
 
 	<div class="left"  id="viewcontent">
 	  <table class="listmenu">
 		<tr>
-		  <th><?php print_string('formgroup');?></th>
+		  <th colspan="2"><?php print_string('checkall'); ?>
+		  <input type="checkbox" name="checkall" value="yes" onChange="checkAll(this);" />
+		  </th>
 		  <th><?php print_string('numberofstudents',$book);?></th>
 		  <th><?php print_string('formtutor',$book);?></th>
 		</tr>
@@ -53,14 +55,18 @@ three_buttonmenu();
 		$fid=$form['id'];
 		$yid=$form['yeargroup_id'];
 		$tid=$form['teacher_id'];
-		$d_groups=mysql_query("SELECT gid FROM groups WHERE
-				yeargroup_id='$yid' AND course_id=''");
+		$community=array('type'=>'form','name'=>$fid);
+		$comid=update_community($community);
+		$d_groups=mysql_query("SELECT gid FROM groups WHERE yeargroup_id='$yid' AND course_id='';");
 		$gid=mysql_result($d_groups,0);
 		$perms=getFormPerm($fid, $respons);
-		$nosids=countin_community(array('type'=>'form','name'=>$fid));
+		$nosids=countin_community($community);
 		$nosidstotal=$nosidstotal+$nosids;
 ?>
 		<tr>
+		  <td>
+			<input type="checkbox" name="comids[]" value="<?php print $comid;?>" />
+		  </td>
 		  <td>
 <?php
 		if($perms['r']==1){
@@ -101,7 +107,7 @@ three_buttonmenu();
 		}
 ?>
 		  <tr>
-			<th>
+			<th colspan="2">
 			  <?php print get_string('total',$book).' '.get_string('numberofstudents',$book);?>
 			</th>
 			<td><?php print $nosidstotal;?></td>
@@ -110,4 +116,17 @@ three_buttonmenu();
 
 	  </table>
 	</div>
+	  <input type="hidden" name="current" value="<?php print $action;?>" />
+	  <input type="hidden" name="choice" value="<?php print $choice;?>" />
+      <input type="hidden" name="cancel" value="<?php print '';?>" />
+	</form>
   </div>
+  <div id="xml-checked-action" style="display:none;">
+	<params>
+	  <checkname>comids</checkname>
+	  <selectname>newcomtype</selectname>
+	  <transform>group_list</transform>
+	  <paper>portrait</paper>
+	</params>
+  </div>
+

@@ -193,6 +193,7 @@ function list_student_journey_bookings($sid,$date,$day='%',$direction='%'){
 						ORDER BY b.startdate DESC, b.day ASC;");
 	while($b=mysql_fetch_array($d_b,MYSQL_ASSOC)){
 		$bookings[]=$b;
+		if($sid==1309){trigger_error('1309:  '.$b['startdate'],E_USER_WARNING);}
 		}
 
 	return $bookings;

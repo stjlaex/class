@@ -228,4 +228,5 @@ $string['afterschool']='After School';
 $string['lunchtime']='Lunch time';
 $string['sessions']='Sessions';
 $string['absent']='Absent';
+$string['']='';
 ?>

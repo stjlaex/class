@@ -22,9 +22,20 @@ if($_SESSION['role']=='admin' or $aperm==1 or $_SESSION['role']=='office'){
 	//$extrabuttons['export']=array('name'=>'current','value'=>'transport_export.php');
 	}
 
-$extrabuttons['previewselected']=array('name'=>'current',
+$extrabuttons['morning']=array('name'=>'current',
+							   'pathtoscript'=>$CFG->sitepath.'/'.$CFG->applicationdirectory.'/admin/',
+							   'value'=>'transport_print.php',
+							   'xmlcontainerid'=>'listin',
+							   'onclick'=>'checksidsAction(this)');
+$extrabuttons['afternoon']=array('name'=>'current',
+								 'pathtoscript'=>$CFG->sitepath.'/'.$CFG->applicationdirectory.'/admin/',
+								 'value'=>'transport_print.php',
+								 'xmlcontainerid'=>'listout',
+								 'onclick'=>'checksidsAction(this)');
+$extrabuttons['changes']=array('name'=>'current',
 									   'pathtoscript'=>$CFG->sitepath.'/'.$CFG->applicationdirectory.'/admin/',
 									   'value'=>'transport_print.php',
+									   'xmlcontainerid'=>'changes',
 									   'onclick'=>'checksidsAction(this)');
 two_buttonmenu($extrabuttons);
 ?>
@@ -52,7 +63,7 @@ two_buttonmenu($extrabuttons);
 	  <table class="listmenu smalltable">
 		<tr>
 		  <td>
-			<input type="checkbox" name="sids[]" value="<?php print $busname['name']; ?>" />
+			<input type="checkbox" name="busnames[]" value="<?php print $busname['name']; ?>" />
 		  </td>
 		  <td>
 <?php
@@ -67,9 +78,31 @@ two_buttonmenu($extrabuttons);
 			}
 ?>
 	</fieldset>
-	<div id="xml-checked-action" style="display:none;">
+	<div id="xml-listin" style="display:none;">
 	  <params>
+		<checkname>busnames</checkname>
 		<selectname>date0</selectname>
+		<length>full</length>
+		<transform>transport_list_in</transform>
+		<paper>landscape</paper>
+	  </params>
+	</div>
+	<div id="xml-listout" style="display:none;">
+	  <params>
+		<checkname>busnames</checkname>
+		<selectname>date0</selectname>
+		<length>full</length>
+		<transform>transport_list_out</transform>
+		<paper>landscape</paper>
+	  </params>
+	</div>
+	<div id="xml-changes" style="display:none;">
+	  <params>
+		<checkname>busnames</checkname>
+		<selectname>date0</selectname>
+		<length>short</length>
+		<transform>transport_list_changes</transform>
+		<paper>landscape</paper>
 	  </params>
 	</div>
   </form>

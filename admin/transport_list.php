@@ -8,7 +8,6 @@ $action='transport_list_action.php';
 
 include('scripts/sub_action.php');
 
-$extrabuttons=array();
 if((isset($_POST['busname']) and $_POST['busname']!='')){$busname=$_POST['busname'];}else{$busname='';}
 if((isset($_GET['busname']) and $_GET['busname']!='')){$busname=$_GET['busname'];}
 if((isset($_POST['fid']) and $_POST['fid']!='')){$fid=$_POST['fid'];}else{$fid='';}
@@ -30,6 +29,22 @@ else{
 	$students=array();
 	}
 
+$extrabuttons=array();
+$extrabuttons['morning']=array('name'=>'current',
+							   'pathtoscript'=>$CFG->sitepath.'/'.$CFG->applicationdirectory.'/admin/',
+							   'value'=>'transport_print.php',
+							   'xmlcontainerid'=>'listin',
+							   'onclick'=>'checksidsAction(this)');
+$extrabuttons['afternoon']=array('name'=>'current',
+								 'pathtoscript'=>$CFG->sitepath.'/'.$CFG->applicationdirectory.'/admin/',
+								 'value'=>'transport_print.php',
+								 'xmlcontainerid'=>'listout',
+								 'onclick'=>'checksidsAction(this)');
+$extrabuttons['changes']=array('name'=>'current',
+							   'pathtoscript'=>$CFG->sitepath.'/'.$CFG->applicationdirectory.'/admin/',
+							   'value'=>'transport_print.php',
+							   'xmlcontainerid'=>'changes',
+							   'onclick'=>'checksidsAction(this)');
 two_buttonmenu($extrabuttons,$book);
 
 	if($busname!=-1){
@@ -61,7 +76,8 @@ two_buttonmenu($extrabuttons,$book);
 		$dates[$day]=$date;
 		if($todate==$date){$colclass='style="background-color:#cfcfcf;"';}
 		else{$colclass='';}
-		print '<th '.$colclass.'>'.get_string($dayname,$book).'<br />'.$date.'</th>';
+		print '<th '.$colclass.'>'.get_string($dayname,$book).'<br />'.$date;
+		print '<input type="radio" name="date0" value="'.$date.'" /></th>';
 		}
 ?>
 		  </tr>
@@ -75,7 +91,6 @@ two_buttonmenu($extrabuttons,$book);
 		print '<td class="student"><a target="viewinfobook" onclick="parent.viewBook(\'infobook\');" href="infobook.php?current=student_transport.php&sid='.$sid.'">'.$student['surname'].', '. $student['forename'].'</a></td>';
 		print '<td>'.$student['form_id'].'</td>';
 		foreach($days as $day=>$dayname){
-			$bookings=array();
 			$bookings=(array)list_student_journey_bookings($sid,$dates[$day],$day);
 			$divin='';$divout='';
 			$openId=$sid.'-'.$day;
@@ -109,4 +124,30 @@ two_buttonmenu($extrabuttons,$book);
   </form>
 
   </div>
-
+	<div id="xml-listin" style="display:none;">
+	  <params>
+		<selectname>date0</selectname>
+		<sids><?php print $busname;?></sids>
+		<length>full</length>
+		<transform>transport_list_in</transform>
+		<paper>landscape</paper>
+	  </params>
+	</div>
+	<div id="xml-listout" style="display:none;">
+	  <params>
+		<selectname>date0</selectname>
+		<sids><?php print $busname;?></sids>
+		<length>full</length>
+		<transform>transport_list_out</transform>
+		<paper>landscape</paper>
+	  </params>
+	</div>
+	<div id="xml-changes" style="display:none;">
+	  <params>
+		<selectname>date0</selectname>
+		<sids><?php print $busname;?></sids>
+		<length>short</length>
+		<transform>transport_list_changes</transform>
+		<paper>landscape</paper>
+	  </params>
+	</div>
