@@ -38,6 +38,10 @@ rides.
 
 Separate transport lists for AM, PM and just amendments.
 
+Made fetchSubjectReports use crid strictly with regard to identifying assessments.
+
+Added the possibility of residence staff to write summary report comments.
+
 
 Version ClaSS-0.9.29 release (2010/10/30)
 -----------------------------------------

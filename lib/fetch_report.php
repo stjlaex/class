@@ -40,28 +40,30 @@ function fetchSubjectReports($sid,$reportdefs){
 	 */
 	foreach($relevant_reportdefs as $reportdef){
 		$rid=$reportdef['rid'];
-			/* Provide a look-up array $assbids which references the $Assessments
-			 * array by index for every subject and component combination which
-			 * has an Assessment for this student. 
-			 */
-			$assbids=array();
-			while(list($index,$eid)=each($reportdef['eids'])){
-				if(!isset($asseids[$eid])){
-					/*only need to fetch for each eid once*/
-					$asseids[$eid]=(array)fetchAssessments_short($sid,$eid);
-					}
-				if(sizeof($asseids[$eid])>0){
-					$Assessments=array_merge($Assessments,$asseids[$eid]);
-					reset($Assessments);
-					}
+		/* Provide a look-up array $assbids which references the $Assessments
+		 * array by index for every subject and component combination which
+		 * has an Assessment for this student. 
+		 */
+		$assbids=array();
+		while(list($index,$eid)=each($reportdef['eids'])){
+			if(!isset($asseids[$eid])){
+				/*only need to fetch for each eid once*/
+				$asseids[$eid]=(array)fetchAssessments_short($sid,$eid);
 				}
-			while(list($index,$Assessment)=each($Assessments)){
-				$bid=$Assessment['Subject']['value'];
+			if(sizeof($asseids[$eid])>0){
+				$Assessments=array_merge($Assessments,$asseids[$eid]);
+				reset($Assessments);
+				}
+			}
+		while(list($index,$Assessment)=each($Assessments)){
+			if($Assessment['Course']['value']==$reportdef['report']['course_id']){
+				$bid=$Assessment['Course']['value'].$Assessment['Subject']['value'];
 				$pid=$Assessment['SubjectComponent']['value'];
 				if($pid==''){$pid=' ';}/*nullCorrect as usual!*/
 				$assbids[$bid][$pid][]=$index;
 				}
- 			ksort($assbids);
+			}
+		ksort($assbids);
 
 			/**
 			 * List the assessments for any linked profile
@@ -110,7 +112,7 @@ function fetchSubjectReports($sid,$reportdefs){
 					 */
 					$StatsAssessments=(array)fetchAssessments_short(0,$eid);
 					while(list($index,$Assessment)=each($StatsAssessments)){
-						$bid=$Assessment['Subject']['value'];
+						$bid=$Assessment['Course']['value'].$Assessment['Subject']['value'];
 						$pid=$Assessment['SubjectComponent']['value'];
 						if($pid==''){$pid=' ';}/*nullCorrect as usual!*/
 						if(isset($assbids[$bid][$pid])){
@@ -155,8 +157,8 @@ function fetchSubjectReports($sid,$reportdefs){
 				  $assnos=array();
 				  foreach($component['strands'] as $strand){
 					  //trigger_error($bid.' : '.$pid.' : '.$strand['id'],E_USER_WARNING);
-					  if(isset($assbids[$bid][$strand['id']])){
-						  $assnos=array_merge($assnos,$assbids[$bid][$strand['id']]);
+					  if(isset($assbids[$reportdef['report']['course_id'].$bid][$strand['id']])){
+						  $assnos=array_merge($assnos,$assbids[$reportdef['report']['course_id'].$bid][$strand['id']]);
 						  }
 					  }
 

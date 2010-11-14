@@ -660,7 +660,7 @@ function fillxmlTable(recordId, xmlRecord){
 	        var xmlvalue=xmlRecord.nodeValue;
 			xmltag=makeLabel(xmltag);
 			fieldId=recordId+"-"+xmltag;
-			if(document.getElementById(fieldId)){
+			if(document.getElementById(fieldId) && document.getElementById(fieldId).firstChild){
 				document.getElementById(fieldId).firstChild.data=xmlvalue;
 				}
 			}

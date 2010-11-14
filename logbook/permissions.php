@@ -410,6 +410,26 @@ function getMedicalPerm($yid,$respons){
 	return $perm;
 	}
 
+
+/**
+ * 
+ */
+function getResidencePerm($respons){
+	$perm['r']=0;
+	$perm['w']=0;
+	$perm['x']=0;
+	for($c=0;$c<sizeof($respons);$c++){
+		$resp=$respons[$c];
+		if($resp['name']=='residence'){
+			$perm['r']=$resp['r'];
+			$perm['w']=$resp['w'];
+			$perm['x']=$resp['x'];
+			}
+		}
+	if($_SESSION['role']=='admin'){$perm['r']=1; $perm['w']=1; $perm['x']=1;}
+	return $perm;
+	}
+
 /**
  * 
  */
@@ -442,6 +462,7 @@ function getFormPerm($fid,$respons){
 	elseif($_SESSION['role']=='district'){$perm['r']=1; $perm['w']=0; $perm['x']=0;}
 	return $perm;
 	}
+
 
 /**
  * 
@@ -531,9 +552,9 @@ function list_pastoral_respon($respons){
 	$rfids=array();
 	$ryids=array();
 	$aperm=get_admin_perm('p',$_SESSION['uid']);
-	if($aperm==1){
-		$d_groups=mysql_query("SELECT * FROM groups 
-                            WHERE type='p' AND yeargroup_id IS NOT NULL ORDER BY yeargroup_id;");
+	$resperm=getResidencePerm($respons);
+	if($aperm==1 or $resperm['x']==1){
+		$d_groups=mysql_query("SELECT * FROM groups WHERE type='p' AND yeargroup_id IS NOT NULL ORDER BY yeargroup_id;");
 		while($group=mysql_fetch_array($d_groups, MYSQL_ASSOC)){
 			$ryids[]=$group['yeargroup_id'];
 			}

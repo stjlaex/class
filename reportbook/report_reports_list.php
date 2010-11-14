@@ -28,6 +28,8 @@ include('scripts/sub_action.php');
 		$students=listin_cohort(array('id'=>'','course_id'=>$rcrid,'year'=>$year,'stage'=>$stage));
 		}
 
+	$resperm=getResidencePerm($respons);
+
 $rids=array();
 if(isset($wrapper_rid)){
 	$d_rid=mysql_query("SELECT categorydef_id AS report_id FROM ridcatid WHERE
@@ -107,6 +109,9 @@ two_buttonmenu($extrabuttons,$book);
 							print '<th style="width:4%;">'.$summary['name'].'</th>';
 							}
 						elseif($yearperm['x']==1 and $summaryid=='section'){
+							print '<th style="width:4%;">'.$summary['name'].'</th>';
+							}
+						elseif($resperm['x']==1 and $summaryid=='residence'){
 							print '<th style="width:4%;">'.$summary['name'].'</th>';
 							}
 						}
@@ -192,6 +197,25 @@ two_buttonmenu($extrabuttons,$book);
 				onClick="clickToWriteCommentNew(<?php print $sid.','.$rid.',\'summary\',\''.$summaryid.'\',\'0\',\''.$openId.'\'';?>);" />
 			</td>
 <?php
+						}
+					elseif($resperm['x']==1 and $summaryid=='residence'){
+						$boader=(array)fetchStudent_singlefield($sid,'Boarder');
+						if($boader['Boarder']['value']!='' and $boader['Boarder']['value']!='N'){
+							$d_summaryentry=mysql_query("SELECT teacher_id
+												FROM reportentry WHERE report_id='$rid' AND
+												student_id='$sid' AND subject_id='summary' AND
+												component_id='$summaryid' AND entryn='1';");
+							$openId=$sid.'summary-'.$summaryid;
+?>
+			<td id="icon<?php print $openId;?>" <?php if(mysql_num_rows($d_summaryentry)>0){print 'class="vspecial"';}?> >
+			  <img class="clicktowrite" name="Write"  
+				onClick="clickToWriteCommentNew(<?php print $sid.','.$rid.',\'summary\',\''.$summaryid.'\',\'0\',\''.$openId.'\'';?>);" />
+			</td>
+<?php
+						}
+					else{
+						print '<td></td>';
+						}
 						}
 					}
 				}
