@@ -155,16 +155,25 @@ function fetchSubjectReports($sid,$reportdefs){
 				   * strands into a single array $assnos.
 				   */
 				  $assnos=array();
+				  $Comments=array();
+				  $Comments['Comment']=array();
 				  foreach($component['strands'] as $strand){
 					  //trigger_error($bid.' : '.$pid.' : '.$strand['id'],E_USER_WARNING);
 					  if(isset($assbids[$reportdef['report']['course_id'].$bid][$strand['id']])){
 						  $assnos=array_merge($assnos,$assbids[$reportdef['report']['course_id'].$bid][$strand['id']]);
 						  }
+
+					  $Coms=(array)fetchReportEntry($reportdef,$sid,$bid,$strand['id']);
+					  if(isset($Coms['Comment']) and sizeof($Coms['Comment'])>0){array_push($Comments['Comment'],$Coms['Comment']);}
 					  }
 
-				  $Comments=fetchReportEntry($reportdef,$sid,$bid,$pid);
+				  //$Comments=fetchReportEntry($reportdef,$sid,$bid,$pid);
+				  /*
+				  $Coms=(array)fetchReportEntry($reportdef,$sid,$bid,$pid);
+				  if(sizeof($Coms)>0){array_push($Comments['Comment'],$Coms['Comment']);}
+				  */  
 
-				  if(sizeof($Comments)>0 or sizeof($assnos)>0){
+				  if(sizeof($Comments['Comment'])>0 or sizeof($assnos)>0){
 					  $Report=array();
 					  $Report['Course']=array('id'=>''.$reportdef['report']['course_id'], 
 											  'value'=>''.$reportdef['report']['course_name']);
@@ -641,6 +650,7 @@ function fetch_reportdefinition($rid,$selbid='%'){
 					while($rating=mysql_fetch_array($d_rating,MYSQL_ASSOC)){
 						$ratings[$rating['value']]=$rating['descriptor'];
 						$cattable['rat'][]=array('name'=>''.$rating['descriptor'],
+												 'descriptor'=>''.$rating['longdescriptor'],
 												 'value'=>''.$rating['value']);
 						}
 					$reportdef['cattable'][]=nullCorrect($cattable);
@@ -830,9 +840,9 @@ function fetchReportEntry($reportdef,$sid,$bid,$pid){
 
 	   $Comment=array();
 	   $Comment['id_db']=$entry['entryn'];
+	   $Comment['subject']=$bid;
+	   $Comment['component']=$pid;
 	   if($reportdef['report']['addcomment']=='yes' or $bid=='summary'){
-		   $enttid=$entry['teacher_id'];
-		   $teachername=get_teachername($enttid);
 		   unset($comment_html);
 		   if($subcomments_no>0){
 			   /* Each subcomment gets embedded as a html fragment in the xml 
@@ -883,8 +893,6 @@ function fetchReportEntry($reportdef,$sid,$bid,$pid){
 			   }
 
 
-		   $Comment['Teacher']=nullCorrect(array('id_db'=>''.$enttid, 
-												 'value'=>''.$teachername));
 		   $Comment['Text']=nullCorrect(array('value'=>$comment_html,
 											  'value_db'=>''.$entry['comment']));
 		   }
@@ -921,6 +929,11 @@ function fetchReportEntry($reportdef,$sid,$bid,$pid){
 		   		}
 		   $Comment['Categories']=nullCorrect($Categories);
 		   }
+
+	   $enttid=$entry['teacher_id'];
+	   $teachername=get_teachername($enttid);
+	   $Comment['Teacher']=nullCorrect(array('id_db'=>''.$enttid, 
+											 'value'=>''.$teachername));
 
 	   $Comments['Comment'][]=nullCorrect($Comment);
 	   }

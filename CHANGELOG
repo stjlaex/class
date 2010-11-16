@@ -42,6 +42,9 @@ Made fetchSubjectReports use crid strictly with regard to identifying assessment
 
 Added the possibility of residence staff to write summary report comments.
 
+Change to fetch_report to allow comments within strands (needed for
+the new category only report entries).
+
 
 Version ClaSS-0.9.29 release (2010/10/30)
 -----------------------------------------
