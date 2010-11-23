@@ -38,16 +38,17 @@ elseif($sub=='Submit'){
 			$incatid=$_POST['catid'.$matn];
 			$inname='name'. $matn;
 			$inval=clean_text($_POST[$inname]);
+			if(isset($_POST['stage'.$matn])){$instage=$_POST['stage'.$matn];}
+			else{$instage=$stage;}
 			if($incatid==-1 and $inval!=''){
 				mysql_query("INSERT INTO categorydef SET name='$inval', type='$type', 
-					rating_name='', subject_id='$bid', course_id='$crid', stage='$stage';");
+					rating_name='', subject_id='$bid', course_id='$crid', stage='$instage';");
 				$catid=mysql_insert_id();
 				mysql_query("INSERT INTO ridcatid SET report_id='$rid', categorydef_id='$catid', 
 					subject_id='$bid';");
 				}
 			elseif($incatid>0 and $inval!=''){
-				mysql_query("UPDATE categorydef SET name='$inval'
-								WHERE id='$incatid';");
+				mysql_query("UPDATE categorydef SET name='$inval', stage='$instage' WHERE id='$incatid';");
 				}
 			elseif($incatid>0 and $inval==''){
 				mysql_query("DELETE FROM ridcatid WHERE categorydef_id='$incatid' 

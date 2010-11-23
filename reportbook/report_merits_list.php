@@ -30,6 +30,8 @@ include('scripts/sub_action.php');
 			merits.date>='$startdate' AND merits.date<='$enddate' 
 			AND student.yeargroup_id LIKE '$yid' AND merits.subject_id LIKE '$bid'  
 			AND merits.activity LIKE '$activity' AND merits.year='$curryear' ORDER BY student.surname ;");
+
+
 		}
 	elseif($fid!=''){
 		$d_m=mysql_query("SELECT * FROM merits JOIN
@@ -113,6 +115,7 @@ two_buttonmenu($extrabuttons,$book);
 		  <enddate><?php print $enddate;?></enddate>
 		</period>
 	  </div>
+
 
 	  <table class="listmenu sidtable">
 		<tr id="sid-<?php print $sid;?>">

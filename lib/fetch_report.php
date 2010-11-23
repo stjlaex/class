@@ -11,6 +11,16 @@
 
 /**
  *
+ * Builds an array of all subject reports for a sid as defined by the array of
+ * report definitions. The returned array is ready for transforming.
+ *
+ * Calls on FetchAssessments and fetchReportEntry for each
+ * bid/pid/strand to get the individual entries.
+ *
+ * @params integer $sid
+ * @params array $reportdefs
+ * @return array
+ *
  */
 function fetchSubjectReports($sid,$reportdefs){
 	$Reports=array();
@@ -127,7 +137,7 @@ function fetchSubjectReports($sid,$reportdefs){
 			/* Now loop through all possible subjects and generate a
 			 * Report for each which has at least one assessment or a
 			 * reportentry - any subjects which have neither will not
-			 * have a Report
+			 * have an entry in the Report array.
 			 */
 			foreach($reportdef['bids'] as $subject){
 			  $bid=$subject['id'];
@@ -151,8 +161,10 @@ function fetchSubjectReports($sid,$reportdefs){
 				  else{
 					  $componentseq='';
 					  }
+
 				  /* Combine assessment indexes for this component and all of its
 				   * strands into a single array $assnos.
+				   * 
 				   */
 				  $assnos=array();
 				  $Comments=array();
@@ -168,10 +180,6 @@ function fetchSubjectReports($sid,$reportdefs){
 					  }
 
 				  //$Comments=fetchReportEntry($reportdef,$sid,$bid,$pid);
-				  /*
-				  $Coms=(array)fetchReportEntry($reportdef,$sid,$bid,$pid);
-				  if(sizeof($Coms)>0){array_push($Comments['Comment'],$Coms['Comment']);}
-				  */  
 
 				  if(sizeof($Comments['Comment'])>0 or sizeof($assnos)>0){
 					  $Report=array();
@@ -249,7 +257,7 @@ function fetchSubjectReports($sid,$reportdefs){
 		$Reports['SummaryAssessments']=nullCorrect($Reports['SummaryAssessments']);
 		}
 
-	return array($Reports,$transform);
+	return $Reports;
 	}
 
 
@@ -699,7 +707,7 @@ function get_report_categories($rid,$bid='%',$pid='',$type='cat',$stage='%'){
 	if($pid!='' and $pid!=' '){$bid=$pid;}
 
 	$d_categorydef=mysql_query("SELECT id, name, type, subtype, rating,  
-				 rating_name, comment, ridcatid.subject_id AS bid FROM categorydef LEFT
+				 rating_name, comment, ridcatid.subject_id AS bid, stage FROM categorydef LEFT
 				JOIN ridcatid ON ridcatid.categorydef_id=categorydef.id 
 				WHERE ridcatid.report_id='$rid' AND categorydef.type='$type' 
 				AND (categorydef.stage='' OR categorydef.stage='%' 
@@ -945,6 +953,7 @@ function fetchReportEntry($reportdef,$sid,$bid,$pid){
 /**
  *
  *
+ *
  */
 function fetchProfileStatements($profile_name,$bid,$pid,$sid,$fromdate){
 	$Student=fetchStudent_short($sid);
@@ -955,7 +964,7 @@ function fetchProfileStatements($profile_name,$bid,$pid,$sid,$fromdate){
 	$profilepids=(array)list_subject_components($pid,'FS');
 	$profilepids[]=array('id'=>$pid,'name'=>'');
 
-		while(list($pidindex,$component)=each($profilepids)){
+	while(list($pidindex,$component)=each($profilepids)){
 			$profilepid=$component['id'];
 			/* This cutoff grade is just a hack to work with the FS profile*/
 			/*TODO properly!*/
@@ -982,10 +991,9 @@ function fetchProfileStatements($profile_name,$bid,$pid,$sid,$fromdate){
 								 'rating_fraction'=>1);
 				$Statements[]=fetchStatement($statement,1);
 				}
-			//trigger_error($Student['YearGroup']['value'].' : '.$cutoff_grade.' : '.sizeof($Statements),E_USER_WARNING);
 			}
 
-		return $Statements;
+	return $Statements;
 	}
 
 /**

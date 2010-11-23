@@ -27,6 +27,17 @@ else{
 	$catdefs=array();
 	}
 
+if($rid!=''){
+	$istage=1;
+	$d_r=mysql_query("SELECT course_id, stage FROM report WHERE id='$rid';");
+	$report=mysql_fetch_array($d_r,MYSQL_ASSOC);
+	$stages=array();
+	$stages[]=array('id'=>'%','name'=>get_string('allstages','reportbook'));
+	$extrastages=(array)list_course_stages($report['course_id']);
+	$stages=array_merge($stages,$extrastages);
+	//$stage=$report['stage'];//Make the default
+	}
+
 $maxcatn=30;/*allow a max of 30 categories*/
 if($pid==''){$subject=get_subjectname($bid);}
 else{$subject=get_subjectname($pid);}
@@ -51,6 +62,13 @@ $Categoryblank['Subject']=array('label'=>'subject',
 								'value_db'=>'',
 								'value'=>''
 								);
+$Categoryblank['Stage']=array('label'=>'stage',
+							  'table_db'=>'categorydef', 
+							  'field_db'=>'stage',
+							  'type_db'=>'char(3)',
+							  'value_db'=>'',
+							  'value'=>''
+							  );
 
 $Categorys=array();
 $Categorys['Category']=array();
@@ -76,8 +94,16 @@ while(list($cindex,$catdef)=each($catdefs)){
 							   'table_db'=>'categorydef', 
 							   'field_db'=>'subject_id',
 							   'type_db'=>'varchar(10)',
-							   'value_db'=>$catdef['name'],
+							   'value_db'=>$catdef['subject_id'],
 							   'value'=>$displaysub);
+	if($catdef['stage']=='%'){$displaystage='All';}
+	else{$displaystage=$catdef['stage'];}
+	$Category['Stage']=array('label'=>'stage',
+							 'table_db'=>'categorydef', 
+							 'field_db'=>'stage',
+							 'type_db'=>'char(3)',
+							 'value_db'=>$catdef['stage'],
+							 'value'=>$displaystage);
 
 	$Categorys['Category'][]=$Category;
 	}
@@ -117,6 +143,7 @@ while(list($cindex,$catdef)=each($catdefs)){
 		  <th>&nbsp;</th>
 		  <th><?php print_string($Categoryblank['Name']['label'],'report');?></th>
 		  <th><?php print_string($Categoryblank['Subject']['label'],'report');?></th>
+		  <th><?php print_string($Categoryblank['Stage']['label'],'report');?></th>
 <?php
 
 		$catno=sizeof($Categorys['Category']);
@@ -135,10 +162,21 @@ while(list($cindex,$catdef)=each($catdefs)){
 			<td><?php print $catn;?><input type="hidden" name="catid<?php print $catn;?>" value="<?php print $Category['id_db']; ?>" /></td>
 			<td><?php $tab=xmlelement_input($Category['Name'],$catn,$tab,'report');?></td>
 			<td>
-			<?php 
+<?php 
 			if($Category['Subject']['value']!=''){print $Category['Subject']['value'];}
 			else{print $subject;}
-			?>
+?>
+			</td>
+			<td>
+<?php
+			if(!isset($listname)){$listname='stage';}
+			if(!isset($listlabel)){$listlabel='stage';}
+			if($Category['Stage']['value_db']!=''){$newstage=$Category['Stage']['value_db'];}
+			else{$newstage=$stage;}
+			include('../../scripts/set_list_vars.php');
+			list_select_list($stages,$listoptions,$book);
+			unset($listopions);
+?>
 			</td>
 		  </tr>
 <?php

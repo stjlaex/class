@@ -39,8 +39,8 @@ if(isset($_POST['wrapper_rid'])){$wrapper_rid=$_POST['wrapper_rid'];}
 		$Students['Student']=array();
 		for($c=0;$c<sizeof($sids);$c++){
 			$sid=$sids[$c];
-			$Student=fetchStudent_short($sid);
-			list($Reports,$transform)=fetchSubjectReports($sid,$reportdefs);
+			$Student=(array)fetchStudent_short($sid);
+			$Reports=(array)fetchSubjectReports($sid,$reportdefs);
 			/* reportdefs index 0 will be the wrapper if one is used */
 			$Reports['CoverTitle']=$reportdefs[0]['report']['title'];
 			$Reports['Coversheet']='yes';

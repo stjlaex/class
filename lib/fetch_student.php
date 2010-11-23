@@ -1576,6 +1576,30 @@ function fetchMedical($sid='-1'){
 	return $Medical;
 	}
 
+
+/**
+ *
+ *
+ * @param string $sid
+ * @param integer $year
+ * @return array
+ */
+function fetchHouseMeritsTotal($house,$year=''){
+	$Total=array();
+	if($year==''){$year=get_curriculumyear();}
+	$d_c=mysql_query("SELECT id FROM community WHERE name='$house' AND type='house';");
+	$comid=mysql_result($d_c,0);
+   	$d_m=mysql_query("SELECT SUM(value) FROM merits JOIN comidsid ON comidsid.student_id=merits.student_id WHERE merits.year='$year' AND comidsid.community_id='$comid';");
+	$sum=mysql_result($d_m,0);
+
+	//$Total['Negative']=array('value'=>''.$negno);
+	//$Total['Positive']=array('value'=>''.$posno);
+
+	$Total['Sum']=array('value'=>''.$sum);
+	return $Total;
+	}
+
+
 /**
  *
  *

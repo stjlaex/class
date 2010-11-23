@@ -49,8 +49,8 @@ include('scripts/sub_action.php');
 
 	for($c=0;$c<sizeof($sids);$c++){
 		$sid=$sids[$c];
-		$Student=fetchStudent_short($sid);
-		list($Reports,$t)=fetchSubjectReports($sid,$reportdefs);
+		$Student=(array)fetchStudent_short($sid);
+		$Reports=(array)fetchSubjectReports($sid,$reportdefs);
 		$Reports['Coversheet']='yes';/* No longer used, always yes */
 		$Reports['Paper']=$paper;
 

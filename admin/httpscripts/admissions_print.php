@@ -138,7 +138,6 @@ $enrolres_cols=array('reenroled'=>'reenroled'
 				  );
 $enrolresnext_cols=array('reenroling'=>'reenroling'
 					  ,'pending'=>'pending'
-					  ,'transfersin'=>'transfersin'
 					  ,'newenrolments'=>'newenrolments'
 					  ,'leavers'=>'leavers'
 					  ,'projectedroll'=>'projectedroll'
@@ -148,8 +147,8 @@ $enrolresnext_cols=array('reenroling'=>'reenroling'
 					  ,'spaces'=>'spaces'
 					  );
 
-$tables=array('appnext'=>$appnext_cols,'enrolnext'=>$enrolnext_cols,'appcurrent'=>$app_cols,'enrolcurrent'=>$enrol_cols);
-//$tables=array('enrolresnext'=>$enrolresnext_cols,'enrolrescurrent'=>$enrolres_cols);
+//$tables=array('appnext'=>$appnext_cols,'enrolnext'=>$enrolnext_cols,'appcurrent'=>$app_cols,'enrolcurrent'=>$enrol_cols);
+$tables=array('enrolresnext'=>$enrolresnext_cols,'enrolrescurrent'=>$enrolres_cols);
 $Stats['tables']=array();
 $Stats['tables']['table']=array();
 foreach($tables as $tablename=>$table_cols){
@@ -168,8 +167,8 @@ foreach($tables as $tablename=>$table_cols){
 	}
 
 $Stats['DateStamp']=display_date($todate);
-//$Stats['Transform']='admission_tables_boarding';
-$Stats['Transform']='admission_tables';
+$Stats['Transform']='admission_tables_boarding';
+//$Stats['Transform']='admission_tables';
 $Stats['Paper']='landscape';
 
 $returnXML=$Stats;

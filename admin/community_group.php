@@ -9,6 +9,7 @@ if(isset($_POST['newcomtype'])){$newcomtype=$_POST['newcomtype'];}
 elseif($_SESSION['role']=='teacher'){$newcomtype='ACADEMIC';}
 else{$newcomtype='TUTOR';}
 
+
 $extrabuttons['previewselected']=array('name'=>'current',
 									   'pathtoscript'=>$CFG->sitepath.'/'.$CFG->applicationdirectory.'/admin/',
 									   'value'=>'group_print.php',
@@ -36,15 +37,22 @@ three_buttonmenu($extrabuttons);
 		<th colspan="2"><?php print_string('checkall'); ?>
 		  <input type="checkbox" name="checkall" value="yes" onChange="checkAll(this);" />
 		</th>
-		  <th><?php print_string('numberofstudents',$book);?></th>
+		<th><?php print_string('numberofstudents',$book);?></th>
+<?php
+		if($newcomtype=='HOUSE'){
+			print '<th>House points</th>';
+			}
+?>
 		</tr>
 <?php
-
 	$nosidstotal=0;
 	$communities=list_communities($newcomtype);
 	foreach($communities as $com){
 		$nosids=countin_community($com);
 		$nosidstotal=$nosidstotal+$nosids;
+		
+		if($newcomtype=='HOUSE'){unset($HouseTotal);$HouseTotal=fetchHouseMeritsTotal($com['name']);}
+
 ?>	   	
 		<tr>
 		<td>
@@ -55,6 +63,9 @@ three_buttonmenu($extrabuttons);
 	   		print '<a href="admin.php?current=community_group_edit.php&cancel='.$choice.'&choice='.$choice.'&newcomtype='.$newcomtype.'&comid='.$com['id'].'">'.$com['name'].'</a>';
 		print '</td>';
 	   	print '<td>'.$nosids.'</td>';
+		if($newcomtype=='HOUSE'){
+			print '<td>'.$HouseTotal['Sum']['value'].'</td>';
+			}
 		print '</tr>';
 		}
 ?>
