@@ -73,7 +73,9 @@ else{
 				foreach($bookings as $booking){
 					if($booking['direction']=='I'){$jname='jin';$busid=$busin['id'];}
 					elseif($booking['direction']=='O'){$jname='jout';$busid=$busout['id'];}
-					//if(!$$jname and $booking['bus_id']==$busid){
+					/* 
+					 * The first booking for a direction takes precedence.
+					 */
 					if(!$$jname){
 						$$jname=true;
 						$Journey=array();
@@ -87,6 +89,22 @@ else{
 											   'value'=>$buses[$booking['bus_id']]['stops'][$booking['stop_id']]['name']
 											   );
 						$Student['Journey'][]=$Journey;
+						}
+					else{
+						/* 
+						 * More than one booking would indicate this is not their regular booking.
+						 */
+						trigger_error($sid. ' : ' .$buses[$booking['bus_id']]['name'],E_USER_WARNING);
+						$Journey=array();
+						$Journey['Direction']=$buses[$booking['bus_id']]['direction'];
+						$Journey['Bus']=array('id_db'=>$booking['bus_id'],
+											  'value'=>$buses[$booking['bus_id']]['name']
+											  );
+						$Journey['Stop']=array('id_db'=>$booking['stop_id'],
+											   'sequence'=>$buses[$booking['bus_id']]['stops'][$booking['stop_id']]['sequence'],
+											   'value'=>$buses[$booking['bus_id']]['stops'][$booking['stop_id']]['name']
+											   );
+						$Student['OtherJourney'][]=$Journey;
 						}
 					}
 				$Transport['Student'][]=$Student;

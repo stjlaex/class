@@ -6,6 +6,8 @@ Added changing the stage field to the category_editor.
 A House points total can now be calculated (fetchHousePointsTotal) and
 displayed on the other groups page.
 
+The bus changes now identify a change from a regular bus.
+
 
 Version ClaSS-0.9.30 release (2010/11/12)
 -----------------------------------------

@@ -198,11 +198,14 @@ function clean_text($value){
 	$value=str_replace($search,$replace,$value);
 
 	/*blanks possible dodgy sql injection attempt*/
-	$search=array('SELECT ','INSERT ','DELETE ','DROP ');
+	$search=array('SELECT ','INSERT ','DELETE ','DROP ','&nbsp;');
 	$value=str_replace($search,'',$value);
 
 	/*causes problems with xmlreader function*/
-	$value=str_replace('<p> </p>',"",$value);
+	$search=array('<p></p>','&nbsp;','<p> </p>','<p>&nbsp;</p>');
+	$value=str_replace($search,'',$value);
+
+	$value=str_replace('&ndash;','-',$value);
 	$value=trim($value);
 
 	//$value=eregi_replace('[^-.?,!;()+:[:digit:][:space:][:alpha:]]','', $value);

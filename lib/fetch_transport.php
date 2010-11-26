@@ -190,10 +190,10 @@ function list_student_journey_bookings($sid,$date,$day='%',$direction='%'){
 						FROM transport_journey AS j JOIN transport_booking AS b ON b.journey_id=j.id 
 						WHERE b.student_id='$sid' AND b.direction LIKE '$direction' AND b.startdate<='$date' 
 						AND (b.enddate>='$date' OR b.enddate='0000-00-00') AND (b.day LIKE '$day' OR b.day='%') 
-						ORDER BY b.startdate DESC, b.day ASC;");
+						ORDER BY b.startdate DESC, b.enddate DESC, b.day ASC;");
 	while($b=mysql_fetch_array($d_b,MYSQL_ASSOC)){
 		$bookings[]=$b;
-		if($sid==1309){trigger_error('1309:  '.$b['startdate'],E_USER_WARNING);}
+		if($sid==201){trigger_error('943:  '.$b['startdate'].' '.$b['enddate'],E_USER_WARNING);}
 		}
 
 	return $bookings;

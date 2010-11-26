@@ -62,6 +62,8 @@ include('scripts/sub_action.php');
 		$reportyear=$reportdefs[0]['report']['year']-1;
 		$startdate=$reportyear.'-08-15';//Does the whole academic year
 		$Student['Reports']['Attendance']=fetchAttendanceSummary($sid,$startdate,$pubdate);
+		$Student['Reports']['Merits']['Total']=fetchMeritsTotal($sid,$reportdefs[0]['report']['year']);
+		$Student['Reports']['Targets']=fetchTargets($sid);
 
 		/*Finished with the student's reports. Output the result as xml.*/
 		$xsl_filename=$transform.'.xsl';
