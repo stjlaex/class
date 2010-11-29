@@ -186,7 +186,8 @@ function xmlreader($string){
 		$xml=$string;
 		}
 	else{
-		/* Have to the div tags because the first level tag is always dropped by simplexml for some reason. */
+		/* Need the div tags because the first level tag is always dropped by simplexml for some reason. */
+		$string=clean_text($string);
 		$xmlstring='<div>'.html_entity_decode($string,ENT_QUOTES,"UTF-8").'</div>';
 		$xml=xmlstringToArray($xmlstring);
 		}
@@ -211,8 +212,7 @@ function xmlreader($string){
 
 
 function xmlstringToArray($xml){
-	$nicexml=clean_text($xml);
-    $array=simplexml_load_string($nicexml);
+    $array=simplexml_load_string($xml);
     $newArray=objectToArray($array);
 	return $newArray;
 	}

@@ -35,7 +35,8 @@ $appcols_value=array('AP','AT','RE','CA','ACP','AC','WL');
 
 	foreach($application_steps as $enrolstatus){
 		if(in_array($enrolstatus,$appcols_value)){
-			if((!$applications_live and $enrolstatus!='AC') or $enrolstatus=='EN'){
+			if($enrolstatus=='EN'){
+				/* Treated as static keyed values */
 				$appcols[$enrolstatus]['class']='static';
 				$appcols[$enrolstatus]['display']='<a href="admin.php?current=enrolments_edit.php&cancel='.
 					$choice.'&choice='. $choice.'&enrolyear='.$enrolyear. 
@@ -51,8 +52,7 @@ $appcols_value=array('AP','AT','RE','CA','ACP','AC','WL');
 
 
 
-	reset($yeargroups);
-	while(list($yindex,$year)=each($yeargroups)){
+	foreach($yeargroups as $year){
 		$app_tablecells=array();
 		if($enrolyear>$currentyear){
 			$app_tablecells['enquiries']=array();
@@ -105,7 +105,7 @@ $appcols_value=array('AP','AT','RE','CA','ACP','AC','WL');
 			$com['id']=$comid;
 
 			/* 'live' or 'static' values */
-			if(($applications_live or $enrolstatus=='AC') and $enrolstatus!='EN'){
+			if($enrolstatus!='EN'){
 				$value=countin_community($com);
 				$displayvalue=$value+$extravalue;
 				$display='<a href="admin.php?current=enrolments_list.php&cancel='.

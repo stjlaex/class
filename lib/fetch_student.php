@@ -106,6 +106,7 @@ function fetchStudent_singlefield($sid,$tag){
 	elseif($tag=='CountryOfOrigin'){$fieldname='countryoforigin';$fieldtype='enum';}
 	elseif($tag=='Language'){$fieldname='language';$fieldtype='enum';}
 	elseif($tag=='EnrolNumber'){$fieldname='formerupn';}
+	elseif($tag=='EnrolmentNotes'){$fieldname='appnotes';}
 	elseif($tag=='Language'){$fieldname='language';$fieldtype='enum';}
 	elseif($tag=='Boarder'){$fieldname='boarder';$fieldtype='enum';}
 	elseif($tag=='EntryDate'){$fieldname='entrydate';}
@@ -206,6 +207,18 @@ function fetchStudent_singlefield($sid,$tag){
 			$Student[$tag]=array('label'=>'',
 								 'value'=>$Contacts[$contactno]['Profession']['value']. 
 								 ' ('.$Contacts[$contactno]['CompanyName']['value'].')');
+			}
+		elseif(substr_count($tag,'Note')){
+			/*NOT a part of the xml def for Student but useful here*/
+			$Contacts=(array)fetchContacts($sid);
+			$Student[$tag]=array('label'=>'',
+								 'value'=>$Contacts[$contactno]['Note']['value']);
+			}
+		elseif(substr_count($tag,'Private')){
+			/*NOT a part of the xml def for Student but useful here*/
+			$Contacts=(array)fetchContacts($sid);
+			$Student[$tag]=array('label'=>'',
+								 'value'=>$Contacts[$contactno]['Private']['value']);
 			}
 		else{
 			/*NOT a part of the xml def for Student but useful here*/
@@ -1376,6 +1389,7 @@ function fetchStay($stay=array('id'=>'-1','bookingdate'=>'','invoice'=>'')){
 							);
 	return $Stay;
 	}
+
 
 /**
  * These are for compatibility with NCYear field as defined by the CBDS 

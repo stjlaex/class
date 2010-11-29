@@ -76,11 +76,6 @@ $CFG->feeders[2]='';
 $CFG->enrol_assess='no';
 $CFG->enrol_assess_sen='';
 /**
- * Are the numbers for applications being handled live in the database (yes)
- * or are they static being maintained in the table by hand (no).
- */
-$CFG->enrol_applications='yes';
-/**
  * The start of the month (integer 1 to 12) beyond which students
  * count as new mid-year enrolments as distinct from enrolments who joined in
  * time for the start of the academic year. Probably just the start of

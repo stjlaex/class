@@ -25,7 +25,6 @@ twoplus_buttonmenu($enrolyear,$currentyear+3,$extrabuttons,$book,$currentyear);
 
 
 $todate=date('Y-m-d');
-$applications_live=true;
 
 $yearstart=$currentyear-1;
 $yearstartdate=$yearstart.'-08-20';
@@ -51,6 +50,13 @@ foreach($yeargroups as $year){
 	$yearcom=array('id'=>'','type'=>'year','name'=>$yid);
 	$yeargroup_names[$yid]=$year['name'];
 	$yeargroup_comids[$yid]=update_community($yearcom);
+	}
+/* Does the school have boarders? */
+$accoms=list_communities('accomodation');
+if(sizeof($accoms)>0){
+	$yeargroup_names['B']='Residence';
+	$yeargroup_comids['B']='B';
+	$yeargroups[]=array('id'=>'B');
 	}
 
 /**

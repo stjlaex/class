@@ -54,13 +54,14 @@
 		$reenrol_eid=-1;
 		}
 
-	reset($yeargroups);
-	while(list($yearindex,$yeargroup)=each($yeargroups)){
+	foreach($yeargroups as $yeargroup){
 		$yid=$yeargroup['id'];
 		$previous_yid=$yid-1;
 		$enrol_tablecells=array();
 		$comid=$yeargroup_comids[$yid];
+
 		$yearcommunity=get_community($comid);
+
 		foreach($enrolcols_value as $colindex => $enrolcol){
 			$cell=array();
 			$cell['value']=0;

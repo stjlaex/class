@@ -199,15 +199,15 @@ function clean_text($value){
 
 	/*blanks possible dodgy sql injection attempt*/
 	$search=array('SELECT ','INSERT ','DELETE ','DROP ','&nbsp;');
-	$value=str_replace($search,'',$value);
+	$replace=array(' ',' ',' ',' ',' ');
+	$value=str_replace($search,$replace,$value);
 
 	/*causes problems with xmlreader function*/
-	$search=array('<p></p>','&nbsp;','<p> </p>','<p>&nbsp;</p>');
-	$value=str_replace($search,'',$value);
+	$search=array('<p></p>','&nbsp;','<p> </p>','<p>&nbsp;</p>','&ndash;','test');
+	$replace=array('',' ','','','-','what');
+	$value=str_replace($search,$replace,$value);
 
-	$value=str_replace('&ndash;','-',$value);
 	$value=trim($value);
-
 	//$value=eregi_replace('[^-.?,!;()+:[:digit:][:space:][:alpha:]]','', $value);
 	//$value=addslashes($value);
 
@@ -877,6 +877,7 @@ function getEnumArray($field_name){
 						'Language'=>'firstlanguage',
 						'EmailAddress'=>'email',
 						'EnrolNumber'=>'enrolmentnumber',
+						'EnrolmentNotes'=>'enrolmentnotes',
 						'EntryDate'=>'schoolstartdate',
 						'Language'=>'language',
 						'MobilePhone'=>'mobilephone',
@@ -891,12 +892,16 @@ function getEnumArray($field_name){
 						'FirstContactPostalAddress'=>'firstcontactaddress',
 						'FirstContactProfession'=>'firstcontactprofession',
                         'FirstContactEPFUsername'=>'firstcontactepfu',
+                        'FirstContactNote'=>'firstcontactnote',
+                        'FirstContactPrivate'=>'firstcontactprivate',
 						'SecondContact'=>'secondcontact',
 						'SecondContactPhone'=>'secondcontactphone',
 						'SecondContactEmailAddress'=>'secondcontactemailaddress',
 						'SecondContactPostalAddress'=>'secondcontactaddress',
 						'SecondContactProfession'=>'secondcontactprofession',
-                        'SecondContactEPFUsername'=>'secondcontactepfu'
+                        'SecondContactEPFUsername'=>'secondcontactepfu',
+                        'SecondContactNote'=>'secondcontactnote',
+                        'SecondContactPrivate'=>'secondcontactprivate'
 						);
 	/*for the register*/
 	$absencecode=array(

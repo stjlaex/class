@@ -18,6 +18,12 @@ $yearstart=$currentyear-1;
 $yearstartdate=$yearstart.'-08-20';
 $yearenddate=$yearstart.'-07-01';
 $yeargroups=list_yeargroups();
+
+$accoms=list_communities('accomodation');
+if(sizeof($accoms)>0){
+	$yeargroups[]=array('id'=>'B','name'=>'Residence');
+	}
+
 $d_a=mysql_query("SELECT MAX(date) FROM admission_stats WHERE year='$enrolyear' AND date<='$todate';");
 if(mysql_result($d_a,0)>0){
 	$currentdate=mysql_result($d_a,0);/* Date of most recent stats in the db */
@@ -59,7 +65,7 @@ foreach($doing as $todo){
 		$yid=$group['id'];
 		$Group=array();
 		$Group['id']=$yid;
-		$Group['name']=get_yeargroupname($yid);
+		$Group['name']=$group['name'];
 		$Group['Number']=array();
 		$d_s=mysql_query("SELECT name, count FROM admission_stats WHERE 
 							name LIKE '%:$yid' AND year='$year' AND date='$date' ORDER BY name;");
@@ -126,29 +132,7 @@ $enrolnext_cols=array('reenroling'=>'reenroling'
 					  ,'spaces'=>'spaces'
 					  );
 
-/* Boarders */
-
-$enrolres_cols=array('reenroled'=>'reenroled'
-				  ,'newenrolments'=>'newenrolments'
-				  ,'leaverssince'=>'leaverssince'
-				  ,'currentroll'=>'currentroll'
-				  ,'budgetroll'=>'budgetroll'
-				  ,'capacity'=>'capacity'
-				  ,'spaces'=>'spaces'
-				  );
-$enrolresnext_cols=array('reenroling'=>'reenroling'
-					  ,'pending'=>'pending'
-					  ,'newenrolments'=>'newenrolments'
-					  ,'leavers'=>'leavers'
-					  ,'projectedroll'=>'projectedroll'
-					  ,'targetroll'=>'targetroll'
-					  ,'budgetroll'=>'budgetroll'
-					  ,'capacity'=>'capacity'
-					  ,'spaces'=>'spaces'
-					  );
-
-//$tables=array('appnext'=>$appnext_cols,'enrolnext'=>$enrolnext_cols,'appcurrent'=>$app_cols,'enrolcurrent'=>$enrol_cols);
-$tables=array('enrolresnext'=>$enrolresnext_cols,'enrolrescurrent'=>$enrolres_cols);
+$tables=array('appnext'=>$appnext_cols,'enrolnext'=>$enrolnext_cols,'appcurrent'=>$app_cols,'enrolcurrent'=>$enrol_cols);
 $Stats['tables']=array();
 $Stats['tables']['table']=array();
 foreach($tables as $tablename=>$table_cols){
@@ -167,8 +151,7 @@ foreach($tables as $tablename=>$table_cols){
 	}
 
 $Stats['DateStamp']=display_date($todate);
-$Stats['Transform']='admission_tables_boarding';
-//$Stats['Transform']='admission_tables';
+$Stats['Transform']='admission_tables';
 $Stats['Paper']='landscape';
 
 $returnXML=$Stats;

@@ -54,7 +54,7 @@ function list_sections(){
  */
 function list_yeargroups($secid='%'){
 	$yeargroups=array();
-	$d_y=mysql_query("SELECT DISTINCT * FROM yeargroup WHERE
+	$d_y=mysql_query("SELECT DISTINCT id, name, sequence, section_id FROM yeargroup WHERE
 					section_id='%' OR section_id LIKE '$secid' 
 					ORDER BY sequence;");
 	while($y=mysql_fetch_array($d_y,MYSQL_ASSOC)){
