@@ -203,8 +203,8 @@ function clean_text($value){
 	$value=str_replace($search,$replace,$value);
 
 	/*causes problems with xmlreader function*/
-	$search=array('<p></p>','&nbsp;','<p> </p>','<p>&nbsp;</p>','&ndash;','test');
-	$replace=array('',' ','','','-','what');
+	$search=array('<p></p>','&nbsp;','<p> </p>','<p>&nbsp;</p>','&ndash;');
+	$replace=array('',' ','','','-');
 	$value=str_replace($search,$replace,$value);
 
 	$value=trim($value);
