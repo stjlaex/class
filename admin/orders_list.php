@@ -64,7 +64,19 @@ two_buttonmenu($extrabuttons,$book);
 
 <?php
 		if(isset($balance)){
+			if($balance<(0.05*$Budget['Limit']['value']) or $balance<20){
 ?>
+	<fieldset class="left">
+	<div class="center">
+	<p class="warn">
+	<?php print_string('balancetoolow',$book);?>
+	</p>
+	</div>
+	</fieldset>
+<?php
+				}
+?>
+
 	  <fieldset class="right">
 		<div class="right">
 			<label><?php print get_string('projectedbalance','admin').': ';?></label>

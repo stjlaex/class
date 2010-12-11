@@ -75,34 +75,31 @@ function fetchSubjectReports($sid,$reportdefs){
 			}
 		ksort($assbids);
 
-			/**
-			 * List the assessments for any linked profile
-			 */
-			if(isset($reportdef['report']['profile_name']) 
-			   and $reportdef['report']['profile_name']!='' and $reportdef['report']['profile_name']!=' '){
+		/**
+		 * List the assessments for any linked profile
+		 */
+		if(isset($reportdef['report']['profile_names']) and sizeof($reportdef['report']['profile_names'])>0){
 				$curryear=$reportdef['report']['year'];
-				$profile_name=$reportdef['report']['profile_name'];
 				$profile_crid=$reportdef['report']['course_id'];
 				$profile_enddate=$reportdef['report']['date'];
-				/* Include only those that are results and that were recorded prior 
-				 * to this report (otherwise the report is going to change and it 
-				 * should be fixed at the publication data). 
-				 */
-				$d_a=mysql_query("SELECT id FROM assessment WHERE course_id='$profile_crid' AND
+				$profile_asseids=array();
+				foreach($reportdef['report']['profile_names'] as $profile_name){
+					/* Include only those that are results and that were recorded prior 
+					 * to this report (otherwise the report is going to change and it 
+					 * should be fixed at the publication data). 
+					 */
+					$d_a=mysql_query("SELECT id FROM assessment WHERE course_id='$profile_crid' AND
 					   profile_name='$profile_name' AND resultstatus='R' AND deadline<='$profile_enddate' 
 						AND year='$curryear';");
-
-				$profile_asseids=array();
-				while($a=mysql_fetch_array($d_a,MYSQL_ASSOC)){
-					/* Do not include any eid that is linked explicity
-					 * with the report - probably current attainment -
-					 * the profile only deals with the history
-					 */
-					if(!array_key_exists($a['id'],$asseids)){$profile_asseids[]=$a['id'];}
+					while($a=mysql_fetch_array($d_a,MYSQL_ASSOC)){
+						/* Do not include any eid that is linked explicity
+						 * with the report - probably current attainment -
+						 * the profile only deals with the history
+						 */
+						if(!array_key_exists($a['id'],$asseids)){$profile_asseids[]=$a['id'];}
+						}
 					}
-				if(sizeof($profile_asseids)==0){$profile_name='';}
 				}
-			else{$profile_name='';}
 
 			/* This is for assessments which are really statistics.
 			 * They have two components: overall averages (sid=0) for
@@ -199,7 +196,7 @@ function fetchSubjectReports($sid,$reportdefs){
 						  }
 						  
 					  /* An additional section if the report is linked to an assessment profile. */
-					  if($profile_name!='' and $profile_name!=' '){
+					  if(isset($reportdef['report']['profile_names']) and sizeof($reportdef['report']['profile_names'])>0){
 						  $ProfileAssessments['Assessment']=array();
 						  foreach($profile_asseids as $profindex=>$eid){
 							  $PAsses=(array)fetchAssessments_short($sid,$eid,$bid,$pid);
@@ -367,8 +364,12 @@ function fetchReportDefinition($rid,$selbid='%'){
 				WHERE ridcatid.report_id='$rid' AND categorydef.type='pro' AND
 				ridcatid.subject_id='profile';");
 		if(mysql_num_rows($d_catdef)>0){
-			$profile=mysql_fetch_array($d_catdef,MYSQL_ASSOC);
-			$RepDef['ProfileLink']=array('id_db'=>''.$profile['id'],'name'=>''.$profile['name']);
+			$RepDef['ProfileLinks']=array();
+			$ProfileLinks=array();
+			while($profile=mysql_fetch_array($d_catdef,MYSQL_ASSOC)){
+				$ProfileLinks[]=array('id_db'=>''.$profile['id'],'name'=>''.$profile['name']);
+				}
+			$RepDef['ProfileLinks']=$ProfileLinks;
 			}
 		}
 	else{
@@ -532,11 +533,9 @@ function fetch_reportdefinition($rid,$selbid='%'){
 				FROM categorydef JOIN ridcatid ON ridcatid.categorydef_id=categorydef.id 
 				WHERE ridcatid.report_id='$rid' AND categorydef.type='pro' AND
 				ridcatid.subject_id='profile'");
-		if(mysql_num_rows($d_categorydef)>0){
-			$report['profile_name']=mysql_result($d_categorydef,0);
-			}
-		else{
-			$report['profile_name']='';
+		$report['profile_names']=array();
+		while($catdef=mysql_fetch_array($d_categorydef,MYSQL_ASSOC)){
+			$report['profile_names'][]=$catdef['name'];
 			}
 		}
 	else{
@@ -878,28 +877,23 @@ function fetchReportEntry($reportdef,$sid,$bid,$pid){
 			   }
 
 		   if(isset($subcomments_fix)){
-			   /* This fromdate is just a hack needs to check for previous report maybe?*/
+			   /* TODO: This fromdate is just a hack needs to check for previous report maybe?*/
 			   //$reportyear=$reportdef['report']['year']-1;
 			   //$fromdate=$reportyear.'-08-15';//Does the whole academic year
 			   $reportyear=$reportdef['report']['year'];
 			   $fromdate=$reportyear.'-02-1';
-			   $Statements=(array)fetchProfileStatements($reportdef['report']['profile_name'],$bid,$pid,$sid,$fromdate);
 			   $comment_div=array();
-			   if(sizeof($Statements)>0){
-			   /* Restrict to a reasonable number - the last six
-				   for($c=sizeof($Statements)-1;($c>(sizeof($Statements)-6) and $c>-1);$c--){
-					   $comment_list['li'][]=''.$Statements[$c]['Value'];
+			   foreach($reportdef['report']['profile_names'] as $profile_name){
+				   $Statements=(array)fetchProfileStatements($profile_name,$bid,$pid,$sid,$fromdate);
+				   if(sizeof($Statements)>0){
+					   for($c=sizeof($Statements)-1;$c>-1;$c--){
+						   $comment_list['li'][]=''.$Statements[$c]['Value'];
+						   }
 					   }
-			   */
-				   for($c=sizeof($Statements)-1;$c>-1;$c--){
-					   $comment_list['li'][]=''.$Statements[$c]['Value'];
-					   }
-
-				   $comment_div['ul'][]=$comment_list;
-				   $comment_html['div'][]=$comment_div;
 				   }
+			   $comment_div['ul'][]=$comment_list;
+			   $comment_html['div'][]=$comment_div;
 			   }
-
 
 		   $Comment['Text']=nullCorrect(array('value'=>$comment_html,
 											  'value_db'=>''.$entry['comment']));

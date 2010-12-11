@@ -46,9 +46,9 @@ three_buttonmenu();
  * above zero. Allow an exception for those who can authorise the
  * budget.
  */
-if($balance<20 and $perms['x']!=1){
+if($balance<(0.05*$Budget['Limit']['value']) or $balance<20){
 ?>
-	<fieldset class="center">
+	<fieldset class="left">
 	<div class="center">
 	<p class="warn">
 	<?php print_string('balancetoolow',$book);?>
@@ -56,6 +56,9 @@ if($balance<20 and $perms['x']!=1){
 	</div>
 	</fieldset>
 <?php
+	}
+
+if($locked and $perms['x']!=1){
 	}
 else{
 ?>

@@ -104,7 +104,6 @@ $app_cols=array(
 				);
 $appnext_cols=array('enquiries'=>'EN'
 				,'applications'=>'TOTAL'
-				,displayEnum('AP','enrolstatus')=>'AP'
 				,displayEnum('AT','enrolstatus')=>'AT'
 				,displayEnum('CA','enrolstatus')=>'CA'
 				,displayEnum('RE','enrolstatus')=>'RE'

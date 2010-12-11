@@ -1,4 +1,4 @@
-Version ClaSS-0.9.30 release (2010/11/30)
+Version ClaSS-0.9.31 release (2010/12/10)
 -----------------------------------------
 
 Added changing the stage field to the category_editor.
@@ -11,6 +11,10 @@ The bus changes now identify a change from a regular bus.
 Extra contact fields added to single_field array.
 
 Removed enrol_applications from school.php. All applications are now live.
+
+Improved highlighting budgets over balance.
+
+Allow for multiple profiles linked ot one report.
 
 
 Version ClaSS-0.9.30 release (2010/11/12)

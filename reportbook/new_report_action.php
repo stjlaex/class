@@ -228,7 +228,13 @@ three_buttonmenu();
 		$listname='profid';
 		$onchange='no';
 		$required='no';
-		if(isset($RepDef['ProfileLink'])){$profid=$RepDef['ProfileLink']['id_db'];}
+		$multi=4;
+		$profids=array();
+		if(isset($RepDef['ProfileLinks']) and sizeof($RepDef['ProfileLinks']>0)){
+			foreach($RepDef['ProfileLinks'] as $ProfileLink){
+				$profids[]=$ProfileLink['id_db'];
+				}
+			}
 		include('scripts/list_assessment_profile.php');
 ?>
 	  </fieldset>
@@ -309,7 +315,7 @@ elseif($sub=='Submit'){
 		$commentcomp=$_POST['commentcomp0'];
 		if(isset($_POST['commentlength'])){$commentlength=$_POST['commentlength'];}
 		else{$commentlength='0';}
-		if(isset($_POST['profid'])){$profid=$_POST['profid'];}
+		if(isset($_POST['profids'])){$profids=(array)$_POST['profids'];}
 
 		mysql_query("UPDATE report SET component_status='$compstatus',
 				addcomment='$reptype', commentlength='$commentlength', 
@@ -337,9 +343,11 @@ elseif($sub=='Submit'){
 			}
 
 		mysql_query("DELETE FROM ridcatid WHERE report_id='$rid' AND subject_id='profile';");
-		if(isset($profid) and $profid!=''){
-			mysql_query("INSERT INTO ridcatid (report_id,categorydef_id,subject_id)
+		if(isset($profids) and sizeof($profids)>0){
+			foreach($profids as $profid){
+				mysql_query("INSERT INTO ridcatid (report_id,categorydef_id,subject_id)
 							 VALUES ('$rid', '$profid', 'profile');");
+				}
 			}
 		}
 	else{
