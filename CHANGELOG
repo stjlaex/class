@@ -1,3 +1,11 @@
+Version ClaSS-0.9.32 release (2010/12/14)
+-----------------------------------------
+
+Changed the rating field in categorydef and rating tables from enum to
+smallint (patch!!!).
+
+
+
 Version ClaSS-0.9.31 release (2010/12/10)
 -----------------------------------------
 
@@ -15,6 +23,7 @@ Removed enrol_applications from school.php. All applications are now live.
 Improved highlighting budgets over balance.
 
 Allow for multiple profiles linked ot one report.
+
 
 
 Version ClaSS-0.9.30 release (2010/11/12)

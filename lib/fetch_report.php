@@ -39,7 +39,7 @@ function fetchSubjectReports($sid,$reportdefs){
 								 'course_id'=>$reportdef['report']['course_id'],
 								 'year'=>$reportdef['report']['year'],
 								 'stage'=>$reportdef['report']['stage']);
-			$status=check_student_cohort($sid,$report_cohort,$todate='');
+			$status=check_student_cohort($sid,$report_cohort,$reportdef['report']['date']);
 			if($status){$relevant_reportdefs[]=$reportdef;}
 			}
 		else{$relevant_reportdefs[]=$reportdef;}

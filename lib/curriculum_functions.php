@@ -706,7 +706,7 @@ function listin_cohort($cohort,$todate=''){
 
 
 /**
- * Checks whether a sid is a memeber of a cohort and returns true or false.
+ * Checks whether a sid is a member of a cohort and returns true or false.
  *
  *	@param string $sid
  *	@param array $cohort

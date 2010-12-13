@@ -218,10 +218,7 @@ CREATE TABLE categorydef (
 	name			varchar(240) not null default '',
 	type			char(3) not null default '',
 	subtype			varchar(20) not null default '',
-	rating			enum('-12', '-11', '-10', '-9', '-8', '-7',
-							'-6', '-5', '-4', '-3', '-2', '-1', 
-							'0', '1', '2', '3', '4', '5', '6',
-							'7', '8', '9', '10', '11', '12') not null default 0,
+	rating			smallint not null default 0,
 	rating_name		varchar(30) not null default '',
 	comment			text not null default '',
 	subject_id		varchar(10) not null default '',
@@ -236,10 +233,7 @@ CREATE TABLE rating (
 	name			varchar(30) not null default '',
 	descriptor		varchar(30) not null default '',
 	longdescriptor	varchar(250) not null default '',
-	value			enum('-12', '-11', '-10', '-9', '-8', '-7',
-							'-6', '-5', '-4', '-3', '-2', '-1', 
-							'0', '1', '2', '3', '4', '5', '6',
-							'7', '8', '9', '10', '11', '12') not null default 0,
+	value			smallint not null default 0,
    	primary key		(name, value)
 );");
 
