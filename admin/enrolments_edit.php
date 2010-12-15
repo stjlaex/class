@@ -42,6 +42,13 @@ three_buttonmenu();
 		<tr>
 <?php 
 	$yeargroups=list_yeargroups();
+	/* Does the school have boarders? */
+	if(isset($CFG->boarders) and $CFG->boarders=='yes'){
+		$yeargroup_names['B']='Residence';
+		$yeargroup_comids['B']='B';
+		$yeargroups[]=array('id'=>'B');
+		}
+
 	while(list($yindex,$year)=each($yeargroups)){
 		$yid=$year['id'];
 		if($enrolstatus=='capacity'){

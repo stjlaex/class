@@ -52,8 +52,7 @@ foreach($yeargroups as $year){
 	$yeargroup_comids[$yid]=update_community($yearcom);
 	}
 /* Does the school have boarders? */
-$accoms=list_communities('accomodation');
-if(sizeof($accoms)>0){
+if(isset($CFG->enrol_boarders) and $CFG->enrol_boarders=='yes'){
 	$yeargroup_names['B']='Residence';
 	$yeargroup_comids['B']='B';
 	$yeargroups[]=array('id'=>'B');

@@ -1,8 +1,12 @@
-Version ClaSS-0.9.32 release (2010/12/14)
+Version ClaSS-0.9.32 release (2010/12/16)
 -----------------------------------------
 
 Changed the rating field in categorydef and rating tables from enum to
 smallint (patch!!!).
+
+Converted xmlfilereader function to use simplexml.
+
+RegistrationTutor added as a field to the Student array.
 
 
 

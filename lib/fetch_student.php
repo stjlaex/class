@@ -74,6 +74,11 @@ function fetchStudent_short($sid){
 						  'value' => ''.$student['dob']);
    	$Student['RegistrationGroup']=array('label' => 'formgroup',  
 										'value' => ''.$student['form_id']);
+	$tutor_user=get_tutor_user($Student['RegistrationGroup']['value']);
+   	$Student['RegistrationTutor']=array('label' => 'formtutor', 
+										'email' => ''.$tutor_user['email'],
+										'value' => ''.$tutor_user['forename'][0].' '. $tutor_user['surname']
+										);
    	$Student['YearGroup']=array('label' => 'yeargroup', 
 								'value' => ''.$student['yeargroup_id']);
    	$Student['SENFlag']=array('label' => 'seninformation', 
@@ -351,6 +356,11 @@ function fetchStudent($sid='-1'){
 						  );
    	$Student['RegistrationGroup']=array('label' => 'formgroup', 
 										'value' => ''.$student['form_id']
+										);
+	$tutor_user=get_tutor_user($Student['RegistrationGroup']['value']);
+   	$Student['RegistrationTutor']=array('label' => 'formtutor', 
+										'email' => ''.$tutor_user['email'],
+										'value' => ''.$tutor_user['forename'][0].' '. $tutor_user['surname']
 										);
    	$Student['YearGroup']=array('label' => 'yeargroup',   
 								'value' => ''.$student['yeargroup_id']);

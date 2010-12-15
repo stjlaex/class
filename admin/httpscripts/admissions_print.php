@@ -19,8 +19,8 @@ $yearstartdate=$yearstart.'-08-20';
 $yearenddate=$yearstart.'-07-01';
 $yeargroups=list_yeargroups();
 
-$accoms=list_communities('accomodation');
-if(sizeof($accoms)>0){
+/* Does the school have boarders? */
+if(isset($CFG->enrol_boarders) and $CFG->enrol_boarders=='yes'){
 	$yeargroups[]=array('id'=>'B','name'=>'Residence');
 	}
 
@@ -43,7 +43,7 @@ $d_a=mysql_query("SELECT MAX(date) FROM admission_stats WHERE year='$beforelaste
 if(mysql_result($d_a,0)>0){
 	$beforelastcurrentdate=mysql_result($d_a,0);/* Date of most recent stats in the db */
 	}
-			
+
 $Stats=array();
 $Stats['Stat']=array();
 $Stats['School']['value']=$CFG->schoolname;

@@ -6,7 +6,7 @@
 
 $action='student_view_action.php';
 
-$tutor_user=get_tutor_user($Student['RegistrationGroup']['value']);
+
 $house=get_student_house($sid);
 $Siblings=array();
 $field=fetchStudent_singlefield($sid,'Course');
@@ -64,8 +64,8 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 			  <?php print $Student['RegistrationGroup']['value'];?>
 			  <br />
 			  <label><?php print_string('formtutor');?></label>
-			  <?php print $tutor_user['forename'][0].' '. $tutor_user['surname'];?>
-			  <?php emaillink_display($tutor_user['email']);?>
+			  <?php print $Student['RegistrationTutor']['value'];?>
+			  <?php emaillink_display($Student['RegistrationTutor']['email']);?>
 			  <br />
 			  <label><?php print_string($Student['Course']['label'],$book);?></label>
 			  <?php print $Student['Course']['value'];?>

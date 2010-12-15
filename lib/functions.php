@@ -198,7 +198,7 @@ function clean_text($value){
 	$value=str_replace($search,$replace,$value);
 
 	/*blanks possible dodgy sql injection attempt*/
-	$search=array('SELECT ','INSERT ','DELETE ','DROP ','&nbsp;');
+	$search=array('SELECT ','INSERT ','DELETE ','DROP ');
 	$replace=array(' ',' ',' ',' ',' ');
 	$value=str_replace($search,$replace,$value);
 

@@ -121,6 +121,8 @@ $appcols_value=array('AP','AT','RE','CA','ACP','AC','WL');
 			/* Don't count enquiries as full applications. */
 			if($enrolstatus!='EN'){$values[0]+=$values[$index+1];}
 
+
+
 			/* Only set the display value if the column is being
 					displayed in the matrix but always set the value for totals*/
 			if(in_array($enrolstatus,$appcols_value)){
@@ -145,7 +147,12 @@ $appcols_value=array('AP','AT','RE','CA','ACP','AC','WL');
 			/* Total enquries for current year */
 			$d_s=mysql_query("SELECT SUM(count) FROM community AS c WHERE 
 				 c.name LIKE 'EN:$yid' AND c.year='$enrolyear' AND c.type='enquired';");
-			$app_tablecells['enquiries']['value']=mysql_result($d_s,0);
+			if(mysql_result($d_s,0)){
+				$app_tablecells['enquiries']['value']=mysql_result($d_s,0);
+				}
+			else{
+				$app_tablecells['enquiries']['value']=0;
+				}
 			$app_tablecells['enquiries']['name']='EN:'.$yid;
 			$app_tablecells['enquiries']['display']=$app_tablecells['enquiries']['value'];
 			}

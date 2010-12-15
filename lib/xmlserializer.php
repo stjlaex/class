@@ -138,11 +138,11 @@ function xmlfileprocessor($xml_filename,$xsl_filename){
 	$filebase='file://'.$CFG->installpath . '/templates/';
 	xslt_set_base($xh,$filebase);
 	xslt_process($xh
-						 ,$xml_filename 
-						 ,$xsl_filename 
-						 ,'output2.html'
-						 ,$arguments
-						 );
+				 ,$xml_filename 
+				 ,$xsl_filename 
+				 ,'output2.html'
+				 ,$arguments
+				 );
 	trigger_error('XSLT processing error: '. xslt_error($xh), E_USER_WARNING);
 	xslt_free($xh);
 	return;
@@ -150,27 +150,24 @@ function xmlfileprocessor($xml_filename,$xsl_filename){
 
 
 /**
+ * Uses simplexml to load xml file and converts to a standard xml
+ * array. Returns empty array on failure.
+ *
  *
  * @param string $xmlfilename
- * @return string
+ * @return array
  */
 function xmlfilereader($xmlfilename){
-	//$xmlentry=nullCorrect($xmlentry);
-	$serializer_options=array(
-							  'complexType' => 'array'
-							  );
 
-	$Unserializer=new XML_Unserializer($serializer_options);
-	$status=$Unserializer->unserialize($xmlfilename,true);
-	if(PEAR::isError($status)){
-		die($status->getMessage());
-		$data=array();
+	if(file_exists($xmlfilename)){
+		$array=simplexml_load_file($xmlfilename);
+		$xmlArray=objectToArray($array);
 		}
-	else{
-		$data=$Unserializer->getUnserializedData();
-		}
-	return $data;
+	else{$xmlArray=array();}
+
+	return $xmlArray;
 	}
+
 
 /**
  * Unserialize some $xml to a php array.
@@ -242,7 +239,6 @@ function objectToArray($object){
  * @return array
  */
 function xmlarray_indexed_check($inarray,$indexname){
-
 	$inarray=(array)$inarray;
 	if(is_array($inarray[$indexname])){
 		$keys=array_keys($inarray[$indexname]);

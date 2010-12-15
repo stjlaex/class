@@ -23,6 +23,7 @@ require('../curriculum/include.php');
 $d_uid=mysql_query("SELECT uid FROM users WHERE username='administrator';");	
 $adminuid=mysql_result($d_uid,0);
 
+
 function read_curriculum_file($filename,$curriculum){
 	$path='../curriculum/'.$curriculum.'/'.$filename;
 	if(file_exists($path)){
@@ -70,7 +71,8 @@ while(list($index,$curriculum)=each($curriculums)){
 			if(is_array($Course['naming'])){
 				$course_naming=$Course['naming']['root'] 
 					.';'.$Course['naming']['stem'] 
-					.';'.$Course['naming']['branch'].';'.$Course['naming']['counter'];
+					.';'.$Course['naming']['branch'].';';
+					//$Course['naming']['counter'];
 				if(sizeof($course_naming)>39){$course_naming='';}
 				}
 			else{$course_naming='';}
@@ -106,7 +108,8 @@ while(list($index,$curriculum)=each($curriculums)){
 				if(isset($Subject['naming']) and is_array($Subject['naming'])){
 					$naming=$Subject['naming']['root'] 
 						.';'.$Subject['naming']['stem'] 
-						.';'.$Subject['naming']['branch'].';'.$Subject['naming']['counter'];
+						.';'.$Subject['naming']['branch'].';';
+					//.$Subject['naming']['counter'];
 					if(strlen($naming)>39){$naming=$course_naming;}
 					}
 				else{$naming=$course_naming;}
