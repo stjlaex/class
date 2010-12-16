@@ -76,14 +76,16 @@ else{
  * bank gets all of the achieved statements.
  * TODO: We only have one working profile!
  */
-if($reportdef['report']['profile_name']!='' and isset($subcomments_fix)){
+if($reportdef['report']['profile_names'][0]!='' and isset($subcomments_fix)){
 		$profile_name=$reportdef['report']['profile_name'];
 		/* This fromdate is just a hack needs to check for previous report maybe?*/
-		//$reportyear=$reportdef['report']['year']-1;
-		//$fromdate=$reportyear.'-08-15';//Does the whole academic year
-		$reportyear=$reportdef['report']['year'];
-		$fromdate=$reportyear.'-02-1';
-		$Statements=(array)fetchProfileStatements($profile_name,$bid,$pid,$sid,$fromdate);
+		$reportyear=$reportdef['report']['year']-1;
+		$fromdate=$reportyear.'-08-15';//Does the whole academic year
+		//$reportyear=$reportdef['report']['year'];
+		//$fromdate=$reportyear.'-02-1';
+		foreach($reportdef['report']['profile_names'] as $profile_name){
+			$Statements=(array)fetchProfileStatements($profile_name,$bid,$pid,$sid,$fromdate);
+			}
 		$StatementBank['Area'][$pid]['Statements']=$Statements;
 		$StatementBank['Area'][$pid]['Name']='FS Profile: '.$pid;
 		$StatementBank['Area'][$pid]['Levels']=array();
@@ -139,8 +141,8 @@ else{
 		<label><?php print_string('student'); ?></label>
 			<?php print $Student['DisplayFullName']['value'];?>
 	  </div>
-
-		<div class="content">
+	  
+	  <div style="left:1%;top:7%;position:relative;overflow:hidden;">
 		<form id="formtoprocess" name="formtoprocess" method="post" 
 									action="newcomment_writer_action.php">
 
@@ -212,10 +214,11 @@ if($reportdef['report']['addcategory']=='yes'){
 	for($c=0;$c<$subcomments_no;$c++){
 			$commentlabel=$subcomments[$c]['name'];
 ?>
+
 		  <div class="center" style="border-top:solid 1px;">
-			<label style="float:right;background-color:#ffe;font-weight:600;padding:2px,6px;">
-			<?php print $commentlabel;?>
-			</label>
+			<label style="left:right;background-color:#ffe;font-weight:600;padding:2px,6px;">
+			  <?php print $commentlabel;?>
+			</label><br />
 			<textarea id="Comment<?php print $c;?>" class="htmleditorarea"
 			  style="height:<?php print $commentheight-20;?>px;"  
 			  <?php print $commentlength;?> tabindex="<?php print $tabindex++;?>"  
@@ -236,6 +239,7 @@ if($reportdef['report']['addcategory']=='yes'){
 		</form>
 		</div>
 <?php
+
 		if(isset($StatementBank['Area']) and sizeof($StatementBank['Area'])>0){ 
    //			if($commentheight<300){
 ?>

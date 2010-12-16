@@ -4,9 +4,11 @@ var subarea="*";
 var ability="*";
 
 function chooseStatement(statementObject){
-	var comment=document.getElementById("Comment0").value;
-	comment=comment+" "+statementObject.innerHTML;
-	document.getElementById("Comment0").value=comment;
+	var ifr=document.getElementById("Comment0_ifr").contentDocument;
+	var newPara = document.createElement("p");
+	var newTxt = document.createTextNode(statementObject.innerHTML);
+	newPara.appendChild(newTxt);
+	ifr.body.appendChild(newPara);
 	}
 
 function filterbySubarea(newsubarea){

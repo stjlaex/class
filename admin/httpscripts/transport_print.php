@@ -70,12 +70,14 @@ else{
 				$Student=array_merge($Student,$field);
 				$bookings=(array)list_student_journey_bookings($sid,$printdate,$day);
 				$jout=false;$jin=false;
+				$onbus=false;
 				foreach($bookings as $booking){
 					if($booking['direction']=='I'){$jname='jin';$busid=$busin['id'];}
 					elseif($booking['direction']=='O'){$jname='jout';$busid=$busout['id'];}
 					/* 
 					 * The first booking for a direction takes precedence.
 					 */
+					if($busid==$booking['bus_id']){$onbus=true;}
 					if(!$$jname){
 						$$jname=true;
 						$Journey=array();
@@ -94,7 +96,7 @@ else{
 						/* 
 						 * More than one booking would indicate this is not their regular booking.
 						 */
-						trigger_error($sid. ' : ' .$buses[$booking['bus_id']]['name'],E_USER_WARNING);
+						//trigger_error($sid. ' : ' .$buses[$booking['bus_id']]['name'],E_USER_WARNING);
 						$Journey=array();
 						$Journey['Direction']=$buses[$booking['bus_id']]['direction'];
 						$Journey['Bus']=array('id_db'=>$booking['bus_id'],
@@ -107,7 +109,10 @@ else{
 						$Student['OtherJourney'][]=$Journey;
 						}
 					}
-				$Transport['Student'][]=$Student;
+				/* Only include the student in the list if they have a journey of some sort for this day. */
+				if($onbus and ($jin or $jout)){
+					$Transport['Student'][]=$Student;
+					}
 				}
 			$Students['Transport'][]=$Transport;
 			}

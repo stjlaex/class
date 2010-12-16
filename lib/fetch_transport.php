@@ -184,6 +184,7 @@ function fetchBus($busid='-1'){
  */
 function list_student_journey_bookings($sid,$date,$day='%',$direction='%'){
 	$bookings=array();
+	if($sid==1181){trigger_error($day. ' : '.$sid,E_USER_WARNING);}
 
 	/* The most recent (specific) date takes precedence so only use the first two returned */
 	$d_b=mysql_query("SELECT b.id, b.journey_id, b.direction, j.bus_id, j.stop_id, b.startdate, b.enddate, b.day, b.comment 
@@ -193,7 +194,7 @@ function list_student_journey_bookings($sid,$date,$day='%',$direction='%'){
 						ORDER BY b.startdate DESC, b.enddate DESC, b.day ASC;");
 	while($b=mysql_fetch_array($d_b,MYSQL_ASSOC)){
 		$bookings[]=$b;
-		if($sid==201){trigger_error('943:  '.$b['startdate'].' '.$b['enddate'],E_USER_WARNING);}
+		if($sid==1181){trigger_error($sid.' : '.$b['bus_id'].' : '.$b['startdate'].' '.$b['enddate'],E_USER_WARNING);}
 		}
 
 	return $bookings;

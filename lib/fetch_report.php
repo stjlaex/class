@@ -878,10 +878,10 @@ function fetchReportEntry($reportdef,$sid,$bid,$pid){
 
 		   if(isset($subcomments_fix)){
 			   /* TODO: This fromdate is just a hack needs to check for previous report maybe?*/
-			   //$reportyear=$reportdef['report']['year']-1;
-			   //$fromdate=$reportyear.'-08-15';//Does the whole academic year
+			   $reportyear=$reportdef['report']['year']-1;
+			   $fromdate=$reportyear.'-08-15';//Does the whole academic year
 			   $reportyear=$reportdef['report']['year'];
-			   $fromdate=$reportyear.'-02-1';
+			   //$fromdate=$reportyear.'-02-14';
 			   $comment_div=array();
 			   foreach($reportdef['report']['profile_names'] as $profile_name){
 				   $Statements=(array)fetchProfileStatements($profile_name,$bid,$pid,$sid,$fromdate);

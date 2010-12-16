@@ -8,6 +8,8 @@ Converted xmlfilereader function to use simplexml.
 
 RegistrationTutor added as a field to the Student array.
 
+The statementbank js made compatible with TinyMCE.
+
 
 
 Version ClaSS-0.9.31 release (2010/12/10)
