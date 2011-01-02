@@ -1,4 +1,4 @@
-Version ClaSS-0.9.32 release (2010/12/16)
+Version ClaSS-0.9.32 release (2010/12/22)
 -----------------------------------------
 
 Changed the rating field in categorydef and rating tables from enum to
@@ -10,6 +10,10 @@ RegistrationTutor added as a field to the Student array.
 
 The statementbank js made compatible with TinyMCE.
 
+Added leavers last year column to Enrolments table.
+
+Comment writer limits use of TinyMCE to a single instance (as it fails
+with subcomments for unknown reason).
 
 
 Version ClaSS-0.9.31 release (2010/12/10)

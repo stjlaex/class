@@ -9,7 +9,7 @@
 							   'projectedroll','targetroll','budgetroll','capacity','spaces');
 		}
 	else{
-		$enrolcols_value=array('reenroled','newenrolments','leaverssince',
+		$enrolcols_value=array('reenroled','newenrolments','leaverssince','leaversprevious',
 							'currentroll','capacity','spaces');
 		}
 
@@ -35,7 +35,7 @@
 					$enrolcols[$colindex]['display'].='<br />('. display_date($todate).')';
 					}
 				}
-			elseif($enrolcol=='spaces' or $enrolcol=='reenroled' or $enrolcol=='leavers'){
+			elseif($enrolcol=='spaces' or $enrolcol=='reenroled' or $enrolcol=='leavers' or $enrolcol=='leaversprevious'){
 				$enrolcols[$colindex]['class']='blank';
 				}
 			else{
@@ -99,7 +99,13 @@
 					}
 				}
 			elseif($enrolcol=='reenroled'){
-				$cell['value']=count_reenrol_no($comid,$reenrol_eid,'C','R');
+				$cell['value']=count_reenrol_no($comid,$reenrol_eid,'R','C');
+				}
+			elseif($enrolcol=='leaversprevious'){
+				$leavercomid=update_community(array('id'=>'','type'=>'alumni','name'=>'P:'.$yid,'year'=>$yearstart));
+				$leavercom=get_community($leavercomid);
+				//$cell['value']=count_reenrol_no($leavercomid,$reenrol_eid,'LL','L');
+				$cell['value']=countin_community($leavercom);
 				}
 			elseif($enrolcol=='transfersin'){
 				$cell['value']=0;
@@ -144,6 +150,7 @@
 							$enrolyear.'&comname='. $cell['yid'].'&comtype=alumni'.
 							'&comid='. $leavercomid.'&enrolstage=C">' 
 							.$cell['value'].'</a>';
+
 				}
 			elseif($enrolcol=='leavers'){
 				if(isset($enrol_tablerows[$previous_yid])){

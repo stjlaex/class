@@ -373,7 +373,7 @@ function set_community_stay($sid,$community,$startdate,$enddate){
  *	@param array $community 
  *	@param date $startdate
  *	@param date $enddate
- *	@param date $static
+ *	@param logical $static
  *	@return integer
  */
 function countin_community($community,$enddate='',$startdate='',$static=false){

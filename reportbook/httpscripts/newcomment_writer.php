@@ -127,7 +127,7 @@ else{
 <meta name="licence" content="GNU General Public License version 2" />
 <link rel="stylesheet" type="text/css" href="../../css/bookstyle.css" />
 <link rel="stylesheet" type="text/css" href="../../css/commentwriter.css" />
-<script src="../../js/bookfunctions.js" type="text/javascript"></script>
+<script src="../../js/bookfunctions.js?version=932" type="text/javascript"></script>
 <script src="../../js/qtip.js" type="text/javascript"></script>
 <script src="../../js/statementbank.js" type="text/javascript"></script>
 <script language="JavaScript" type="text/javascript" src="../../lib/tiny_mce/tiny_mce.js"></script>
@@ -207,11 +207,12 @@ if($reportdef['report']['addcategory']=='yes'){
 	}
 ?>
 <?php
-	if($subcomments_no==0){$subcomments[]['name']='Comment';$subcomments_no=1;}
+if($subcomments_no==0){$subcomments[]['name']='Comment';$subcomments_no=1;}
 	$commentheight=($commentheight/$subcomments_no)-25*$subcomments_no;/*in px*/
 	if($commentheight<90){$commentheight=80;}
 	if($commentheight>450){$commentheight=450;}
 	for($c=0;$c<$subcomments_no;$c++){
+		if($c==0){$htmleditor='htmleditorarea';}else{$htmleditor='texteditor';}
 			$commentlabel=$subcomments[$c]['name'];
 ?>
 
@@ -219,7 +220,7 @@ if($reportdef['report']['addcategory']=='yes'){
 			<label style="left:right;background-color:#ffe;font-weight:600;padding:2px,6px;">
 			  <?php print $commentlabel;?>
 			</label><br />
-			<textarea id="Comment<?php print $c;?>" class="htmleditorarea"
+			<textarea id="incom<?php print $c;?>" class="<?php print $htmleditor;?>"
 			  style="height:<?php print $commentheight-20;?>px;"  
 			  <?php print $commentlength;?> tabindex="<?php print $tabindex++;?>"  
 			  name="incom<?php print $c;?>" ><?php if(isset($texts[$c])){print $texts[$c];};?></textarea>

@@ -4,7 +4,7 @@ var subarea="*";
 var ability="*";
 
 function chooseStatement(statementObject){
-	var ifr=document.getElementById("Comment0_ifr").contentDocument;
+	var ifr=document.getElementById("incom0_ifr").contentDocument;
 	var newPara = document.createElement("p");
 	var newTxt = document.createTextNode(statementObject.innerHTML);
 	newPara.appendChild(newTxt);

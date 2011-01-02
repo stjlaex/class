@@ -879,7 +879,9 @@ function loadRequired(){
 			if(elementObject.className.indexOf("htmleditorarea")!=-1){
 				/*prepares textareas with tinyMCE */
 				  tinyMCE.init({
-					mode : "textareas",
+					mode : "specific_textareas",
+					editor_selector : "htmleditorarea",
+					editor_deselector : "texteditor",
 					theme : "advanced",
 					  theme_advanced_buttons1 : "bold,italic,underline,separator,justifyleft,justifycenter,justifyright,justifyfull,separator,bullist,numlist,undo,redo,spellchecker,pastetext,pasteword,selectall,code", 
 					  theme_advanced_buttons2 : "",
@@ -887,9 +889,9 @@ function loadRequired(){
 					theme_advanced_toolbar_location : "top",
 					theme_advanced_toolbar_align : "left",
 					theme_advanced_statusbar_location : "bottom",
-					  plugins : 'inlinepopups,spellchecker,paste',
-					  paste_auto_cleanup_on_paste : true,
-					  paste_retain_style_properties : ''
+					plugins : 'inlinepopups,spellchecker,paste',
+					paste_auto_cleanup_on_paste : true,
+					paste_retain_style_properties : ''
 					});
 				  }
 
