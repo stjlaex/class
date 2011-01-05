@@ -225,6 +225,7 @@ CREATE TABLE categorydef (
 	course_id		varchar(10) not null default '',
 	stage			char(3) not null default '',
 	section_id		smallint not null default 0,
+	othertype		varchar(20) not null default '',
    	primary key		(id)
 );");
 

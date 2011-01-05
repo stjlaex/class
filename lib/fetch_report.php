@@ -916,6 +916,7 @@ function fetchReportEntry($reportdef,$sid,$bid,$pid){
 		   for($c=0;$c<sizeof($catdefs);$c++){
 		   		$Category=array();
 	   			$catid=$catdefs[$c]['id'];
+				/* TODO: Use subtype and comment and rating to decorate extra info. */
    				$catname=$catdefs[$c]['name'];
 			  	$Category=array('label'=>$catname,'id_db'=>$catid,'value'=>'');
 				if(isset($entry['ratings'][$catid])){
