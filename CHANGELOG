@@ -15,6 +15,9 @@ Added leavers last year column to Enrolments table.
 Comment writer limits use of TinyMCE to a single instance (as it fails
 with subcomments for unknown reason).
 
+Added personalisation of catdef statements using the same function as
+the statementbank.
+
 
 
 Version ClaSS-0.9.31 release (2010/12/10)

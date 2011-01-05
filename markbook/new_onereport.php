@@ -152,7 +152,8 @@
 <?php
 		if($reportdef['report']['addcategory']=='yes'){
 			$ass_colspan++;
-			$catdefs=get_report_categories($rid,$bid,$pid,'cat',$class_stage);
+			//fetched by parent script new_edit_reports
+			//$catdefs=get_report_categories($rid,$bid,$pid,'cat',$class_stage);
 			$ratings=$reportdef['ratings'];
 			reset($catdefs);
 			unset($Categories);
@@ -163,12 +164,16 @@
 				}
 			$ratings=$reportdef['ratings'][$Categories['ratingname']];
 
-			while(list($catindex,$catdef)=each($catdefs)){
+			$Student=fetchStudent_short($sid);
+			foreach($catdefs as $catindex=> $catdef){
 				$catid=$catdefs[$catindex]['id'];
-				$catname=$catdefs[$catindex]['name'];
+				$Statement=array('Value'=>$catdefs[$catindex]['name']);
+				$Statement=personaliseStatement($Statement,$Student);
+				if($catdefs[$catindex]['subtype']!=''){$statementlabel='<label>'.get_subjectname($catdefs[$catindex]['subtype']).'</label>';}
+				else{$statementlabel='';}
 				print '<tr class="'.$rowclass.'" id="'.$openId.'-'.$rown++.'"><th></th>';
-				print '<td colspan="'.$ass_colspan.'"><div class="row" style="width:100%;"><p style="background-color:#fff;">'
-					.$catname.'</p></div></td></tr>';
+				print '<td colspan="'.$ass_colspan.'"><div class="row" style="width:100%;"><p class="bigger">'
+					.$statementlabel. $Statement['Value'].'</p></div></td></tr>';
 				reset($ratings);
 				print '<tr class="'.$rowclass.'" id="'.$openId.'-'.$rown++.'"><th></th><td colspan="'.$ass_colspan.'" class="boundary row">';
 

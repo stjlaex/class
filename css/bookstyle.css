@@ -550,6 +550,16 @@ div.content fieldset.listmenu, div.content fieldset.listmenu div,
     border:1px solid #eeeeee;
 	width:20%;
 	}
+.listmenu td div.row p.bigger {
+    padding:2px 4px;
+	font-size:medium;
+	background-color:#fff !important;
+}
+.listmenu td div.row p.bigger label {
+	color:#444 !important;
+	background-color:#eee;
+	font-weight:600 !important;
+}
 
 /* Always use in conjunction with listmenu, for when your
 listmenu is not a menu or a form at all but presents some side info in

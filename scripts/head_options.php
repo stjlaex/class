@@ -30,7 +30,7 @@
 <meta name="version" content='<?php print "$CFG->version"; ?>' />
 <meta name="licence" content="GNU Affero General Public License version 3" />
 <style type="text/css">@import url(lib/jscalendar/skins/aqua/theme.css);</style>
-<link rel="stylesheet" type="text/css" href="css/bookstyle.css?version=930" />
+<link rel="stylesheet" type="text/css" href="css/bookstyle.css?version=932" />
 <link rel="stylesheet" type="text/css" href="css/selery.css" />
 <link rel="stylesheet" type="text/css" href="css/<?php print $book; ?>.css" />
 <script language="JavaScript" type="text/javascript">

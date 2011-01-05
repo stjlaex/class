@@ -1004,4 +1004,33 @@ function fetchStatement($statement,$nolevels){
 	return $Statement;
 	}
 
+
+/**
+ *
+ * @param array $Statement
+ * @param array $Student
+ * @return array
+ */
+function personaliseStatement($Statement,$Student){
+	$text=$Statement['Value'];
+	if($Student['Gender']['value']=='M'){
+		$possessive='his';
+		$pronoun='he';
+		$objectpronoun='him';
+		}
+	else{
+		$possessive='her';
+		$pronoun='she';
+		$objectpronoun='her';
+		}
+	if($Student['PreferredForename']['value']!=' '){$forename=$Student['PreferredForename']['value'];}
+	else{$forename=$Student['Forename']['value'];}
+   	$text=str_replace('~',$possessive,$text);
+	$text=str_replace('^',$pronoun,$text);
+	$text=str_replace('*',$objectpronoun,$text);
+	$text=ucfirst($text);
+	$text=str_replace('#',$forename,$text);
+	$Statement['Value']=$text;
+	return $Statement;
+	}
 ?>

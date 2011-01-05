@@ -39,7 +39,7 @@ CREATE TABLE yeargroup (
 mysql_query("
 CREATE TABLE subject (
 		id				varchar(10) not null default '',
-		name			varchar(40) not null default '',
+		name			varchar(120) not null default '',
 		primary key (id)
 
 );");
