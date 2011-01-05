@@ -90,7 +90,7 @@ else{
 
 	/* Bands in ascending date order. */
   	$d_stats=mysql_query("SELECT DISTINCT * FROM statvalues JOIN stats ON stats.id=statvalues.stats_id 
-				WHERE stats.course_id='$crid' AND stats.profile_name='$profilename' AND stats.year='$curryear' 
+				WHERE stats.course_id='$crid' AND stats.profile_name='$profilename'
 				AND (statvalues.stage='$stage' OR statvalues.stage='$prevstage') 
 				AND (statvalues.subject_id LIKE '$bid' OR statvalues.subject_id='%')
 				AND (statvalues.component_id LIKE '$pid' OR statvalues.component_id='%') 
@@ -108,7 +108,7 @@ else{
 		$assdate=$AssDefs[$ec]['Deadline']['value'];
 		foreach($bands as $date=>$band){
 			if($assdate>$date or !isset($bdate)){$bdate=$date;}
-			trigger_error($profilename.':'.$assdate.': '.$date. ' -------> '. $bdate,E_USER_WARNING);
+			//trigger_error($profilename.':'.$assdate.': '.$date. ' -------> '. $bdate,E_USER_WARNING);
 			}
 		/* If the assessment is out of range then set to the last band. */
 		$asstable['ass'][]=array('label'=>''.$AssDefs[$ec]['PrintLabel']['value'],

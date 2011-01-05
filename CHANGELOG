@@ -18,6 +18,8 @@ with subcomments for unknown reason).
 Added personalisation of catdef statements using the same function as
 the statementbank.
 
+Fix to the bands date in report_report_profile: should a year field be
+added to the stats table?
 
 
 Version ClaSS-0.9.31 release (2010/12/10)
