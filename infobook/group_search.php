@@ -74,7 +74,7 @@ three_buttonmenu($extrabuttons,$book);
 		  <th><?php print_string('enrolstatus',$book);?></th>
 		</tr>
 <?php
-	$application_steps=array('EN','AP','AT','ATD','RE','CA','WL','ACP','AC');
+	$application_steps=array('EN','AP','AT','RE','CA','WL','ACP','AC');
 	while(list($index,$enrolstatus)=each($application_steps)){
 		print '<tr><td><input type="radio" name="enrolstatus" value="'.$enrolstatus.'">'.get_string(displayEnum($enrolstatus,'enrolstatus'),$book).'</input></td></tr>';
 		}
@@ -84,6 +84,37 @@ three_buttonmenu($extrabuttons,$book);
 
 
 
+	  <div class="center">
+	  <table class="listmenu">
+		<tr>
+		<th colspan="2"><?php print_string('enrolments',$book);?></th>
+		</tr>
+
+<tr>
+<?php
+		print '<td><input type="radio" name="enroldate" value="start">'.get_string('schoolstartdate',$book).'</input></td>';
+		print '<td><input type="radio" name="enroldate" value="leave">'.get_string('schoolleavingdate',$book).'</input></td>';
+?>
+</tr>
+		<tr>
+<?php
+$Enrolment['EntryDate1']=array('label' => 'after', 
+								  'table_db' => 'info', 
+								  'field_db' => 'enroldate1', 
+								  'type_db' =>'date', 
+								  'value' => ''
+								  );
+$Enrolment['EntryDate2']=array('label' => 'before', 
+								  'table_db' => 'info', 
+								  'field_db' => 'enroldate2', 
+								  'type_db' =>'date', 
+								  'value' => ''
+								  );
+$tab=xmlarray_form($Enrolment,'','',$tab,$book);
+?>
+		</tr>
+	  </table>
+	</div>
 
 
 

@@ -21,6 +21,9 @@ the statementbank.
 Fix to the bands date in report_report_profile: should a year field be
 added to the stats table?
 
+Added leaving and start date seach option the Custom Groups page in Info.
+
+
 
 Version ClaSS-0.9.31 release (2010/12/10)
 -----------------------------------------

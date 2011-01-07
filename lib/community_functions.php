@@ -283,6 +283,43 @@ function listin_community($community,$enddate='',$startdate=''){
 	return $students;
 	}
 
+
+/**
+ *
+ * Lists all sids who newly joined current a commmunity.
+ * With $stardate set all students who joined after that date
+ * and with $enddate set lists all student members in that period.
+ *
+ *	@param array $community
+ *	@param date $enddate
+ *	@param date $startdate
+ *	return array
+ */
+function listin_community_new($community,$startdate='',$enddate=''){
+	$todate=date('Y-m-d');
+	if($enddate==''){$enddate=$todate;}
+	if($startdate==''){$startdate=$enddate;}
+	if(isset($community['id']) and $community['id']!=''){$comid=$community['id'];}
+	else{$comid=update_community($community);}
+	/* 
+					AND (leavingdate>'$todate' OR 
+					leavingdate='0000-00-00' OR leavingdate IS NULL) 
+	*/
+	$d_student=mysql_query("SELECT id, surname,
+				forename, preferredforename, form_id, gender, dob FROM student 
+				JOIN comidsid ON comidsid.student_id=student.id
+				WHERE comidsid.community_id='$comid' 
+				AND comidsid.joiningdate>='$startdate' AND comidsid.joiningdate<='$enddate' 
+				ORDER BY surname, forename;");
+
+	$students=array();
+	while($student=mysql_fetch_array($d_student, MYSQL_ASSOC)){
+		if($student['id']!=''){$students[]=$student;}
+		}
+	return $students;
+	}
+
+
 /** 
  * Joins $sid to the appropriate accomodation community based on a residencial stay
  * identified by $accid
