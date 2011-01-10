@@ -50,7 +50,7 @@ if($CFG->sitestatus=='down'){
 else{
 ?>
 
-<form name="formtoprocess" id="formtoprocess" method="post" action="logbook/login_action.php">
+<form name="formtoprocess" id="formtoprocess" novalidate method="post" action="logbook/login_action.php">
 <fieldset id="loginbox">
 		 <legend><?php print_string('classarea');?></legend>
 

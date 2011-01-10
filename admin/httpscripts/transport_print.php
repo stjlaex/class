@@ -82,6 +82,7 @@ else{
 						$$jname=true;
 						$Journey=array();
 						$Journey['Direction']=$buses[$booking['bus_id']]['direction'];
+						$Journey['Day']=$booking['day'];
 						$Journey['Comment']['value']=$booking['comment'];
 						$Journey['Bus']=array('id_db'=>$booking['bus_id'],
 											  'value'=>$buses[$booking['bus_id']]['name']
