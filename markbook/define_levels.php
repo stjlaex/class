@@ -15,7 +15,7 @@ while($new=mysql_fetch_array($d_grading,MYSQL_ASSOC)){
 ?>
 
   <div class="content">
-	<form name="formtoprocess" id="formtoprocess" method="post" action="<?php print $host;?>"> 
+	<form name="formtoprocess" id="formtoprocess" novalidate method="post" action="<?php print $host;?>"> 
 
 	  <fieldset class="lefttop">
 		<legend>Choose the Grade Scheme to Use</legend>

@@ -23,7 +23,7 @@ $comment=$_POST['comment'];
 three_buttonmenu();
 ?>
 <div class="content">
-<form name="formtoprocess" id="formtoprocess" method="post" action="<?php print $host;?>"> 
+<form name="formtoprocess" id="formtoprocess" novalidate method="post" action="<?php print $host;?>"> 
 <table class="listmenu">
 <caption><?php print_string('definelevelboundaries',$book);?> <?php print $lena;?></caption>
 	<tr>

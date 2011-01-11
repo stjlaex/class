@@ -78,7 +78,7 @@ else{$mid=$checkmids[0];}
 three_buttonmenu();
 ?>
 	  <div class="content">
-		<form id="formtoprocess" name="formtoprocess"  
+		<form id="formtoprocess" name="formtoprocess" novalidate   
 		  method="post" action="<?php print $host;?>"> 
 
 		  <fieldset class="center">

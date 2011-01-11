@@ -12,7 +12,7 @@ three_buttonmenu();
 ?>
 
   <div class="content">
-	<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
+	<form id="formtoprocess" name="formtoprocess" novalidate method="post" action="<?php print $host;?>">
 
 	  <div class="center">
 		<table class="listmenu">

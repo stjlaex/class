@@ -8,7 +8,7 @@ $choice='define_mark.php';
 three_buttonmenu();
 ?>
   <div class="content">
-	<form name="formtoprocess" id="formtoprocess" method='post' action='<?php print $host;?>'> 
+	<form name="formtoprocess" id="formtoprocess" novalidate method='post' action='<?php print $host;?>'> 
 	  <fieldset class="left">
 		<legend><?php print_string('thetypeofmark',$book);?></legend>
 		<table>

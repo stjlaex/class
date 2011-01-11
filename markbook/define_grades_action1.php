@@ -14,7 +14,7 @@ $crid=$_POST['crid'];
 $comment=$_POST['comment'];
 ?>
 <div class="content">
-<form name="formtoprocess" id="formtoprocess" method="post" action="<?php print $host; ?>" > 
+<form name="formtoprocess" id="formtoprocess" novalidate method="post" action="<?php print $host; ?>" > 
 
 <fieldset class="leftcentertopmiddlebottom">
 <legend>Assign Weighting of Grades</legend>

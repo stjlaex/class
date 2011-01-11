@@ -42,7 +42,7 @@ if(sizeof($checkmids)>1){
 three_buttonmenu();
 ?>
   <div class="content">
-	<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
+	<form id="formtoprocess" name="formtoprocess" novalidate method="post" action="<?php print $host;?>">
 	  <fieldset class="left">
 		<legend><?php print_string('classesthatusethismark',$book);?></legend>
 <?php

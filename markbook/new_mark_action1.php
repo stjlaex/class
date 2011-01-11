@@ -36,7 +36,7 @@ three_buttonmenu();
 			<?php print_string('classwork',$book);?>
   </div>
   <div class="content">
-	<form name="formtoprocess" id="formtoprocess" method="post"
+	<form name="formtoprocess" id="formtoprocess" novalidate method="post"
 		action="<?php print $host; ?>" > 
 
 	  <fieldset class="left">

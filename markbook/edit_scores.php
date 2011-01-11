@@ -31,7 +31,7 @@ three_buttonmenu();
   </div>
 
   <div  id="viewcontent" class="content">
-	<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>"> 
+	<form id="formtoprocess" name="formtoprocess" novalidate method="post" action="<?php print $host;?>"> 
 	  <table class="listmenu sidtable" id="editscores">
 		<tr>
 		  <th colspan="4"></th>

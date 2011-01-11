@@ -28,7 +28,7 @@ $edituser=get_user($seluid,'uid');
 three_buttonmenu();
 ?>
   <div class="content">
-	<form name="formtoprocess" id="formtoprocess" method="post" action="<?php print $host; ?>">
+	<form name="formtoprocess" id="formtoprocess" method="post" novalidate action="<?php print $host; ?>">
 
 	  <fieldset class="left divgroup">
 		<legend><?php print_string('selectstafftoedit',$book);?></legend>

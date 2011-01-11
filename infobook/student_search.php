@@ -5,7 +5,7 @@
 	$action="search_action1.php";
 	$host="infobook.php";
 ?>
-<form method="post" action="<?php print $host ?>" name="studentsearch" id="studentsearch">
+<form method="post" novalidate action="<?php print $host ?>" name="studentsearch" id="studentsearch">
 
 <fieldset class="leftcentertop"><legend>Name of Student</legend>
 <br />

@@ -18,7 +18,7 @@ three_buttonmenu();
   <div id="heading">New mark definition '<?php print $name; ?>'</div>
 
   <div class="content">
-	<form name="formtoprocess" id="formtoprocess" method="post" action="<?php print $host;?>"> 
+	<form name="formtoprocess" id="formtoprocess" novalidate method="post" action="<?php print $host;?>"> 
 	  <fieldset class="center">
 		<legend>Details for New Mark-Type</legend>
 <?php

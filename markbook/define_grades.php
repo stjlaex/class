@@ -8,7 +8,7 @@ $action="define_grades_action1.php";
 $choice="class_view.php";
 ?>
 <div class="content">
-<form name="formtoprocess" id="formtoprocess" method="post" action="<?php print $host; ?>" > 
+<form name="formtoprocess" id="formtoprocess" novalidate method="post" action="<?php print $host; ?>" > 
 
 <fieldset class="lefttop">
 <legend>Define a New Grade Scheme</legend>
