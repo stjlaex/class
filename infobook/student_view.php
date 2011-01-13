@@ -393,7 +393,18 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 		  </legend>
 		<div><?php print $transport;?></div>
 		</fieldset>
+
+		<fieldset class="right">
+		  <legend>
+			<a href="infobook.php?current=student_transport.php&cancel=student_view.php">
+			  <img class="clicktoedit" title="<?php print_string('edit');?>" />
+				<?php print_string('club','admin');?>
+			</a>
+		  </legend>
+		<div><?php print get_student_club($sid);?></div>
+		</fieldset>
 <?php
+
 /*		<fieldset class="right">
 //		  <legend>
 //			<a href="infobook.php?current=exclusions_list.php&cancel=student_view.php">

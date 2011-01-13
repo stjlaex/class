@@ -29,6 +29,9 @@ three_buttonmenu();
 			<th colspan="4"> </th>
 
 <?php
+	/*TODO: set feetypes as a schoolarray */		
+	$feetypes=array('O','C');
+
 	$buses=list_buses();
 	$days=getEnumArray('dayofweek');
 	$todate=date('Y-m-d');
@@ -82,10 +85,58 @@ three_buttonmenu();
 	  <fieldset class="center listmenu">
 		<div>
 		  <table>
-			<tr>
+	<tr>
+		<thead>
+		  <th colspan="4">Current clubs</th>
+		</thead>
+	</tr>			
 <?php
+
+	$coms=list_member_communities($sid,array('id'=>'','name'=>'','type'=>'tutor'));
+	$excoms=list_member_communities($sid,array('id'=>'','name'=>'','type'=>'tutor'),false);
+	foreach($coms as $com){
+		if($com['special']==''){$fee='C';}else{$fee=$com['special'];}
+		print '<tr><td><a target="viewadmin" onclick="parent.viewBook(\'admin\');" href="admin.php?current=community_group_edit.php&cancel=community_group.php&choice=community_group.php&newcomtype='.$com['type'].'&comid='.$com['id'].'">'.$com['name'] .'</a></td><td>'.$com['joiningdate'].'</td><td>'.$com['leavingdate'].'</td>';
+
+		print '<td class="row">';
+		foreach($feetypes as $index => $value){
+			$checkclass='';
+			if($fee!='' and $value==$fee){
+				$checkclass='checked';
+				}
+			print '<div class="'.$checkclass.'"><label>' 
+				.$value.'</label>';
+			print '<input type="radio" name="'.$com['id'].'fee'.$sid.'"
+						tabindex="'.$tab++.'" value="'.$value.'" '.$checkclass;
+			print '/></div>';
+			}
+		print '</td></tr>';
+		}
 ?>
-			</tr>
+	<tr>
+		<thead>
+		  <th colspan="4">Previous clubs</th>
+		</thead>
+	</tr>
+<?php
+	foreach($excoms as $com){
+		print '<tr class="lolite"><td>'.$com['name'] .'</td><td>'.$com['joiningdate'].'</td><td>'.$com['leavingdate'].'</td>';
+		print '<td class="row">';
+		foreach($feetypes as $index => $value){
+			$checkclass='';
+			if($fee!='' and $value==$fee){
+				$checkclass='checked';
+				}
+			print '<div class="'.$checkclass.'"><label>' 
+				.$value.'</label>';
+			print '<input type="radio" name="'.$com['id'].'fee'.$sid.'"
+						tabindex="'.$tab++.'" value="'.$value.'" '.$checkclass;
+			print '/></div>';
+			}
+		print '</td></tr>';
+		}
+?>
+			
 		  </table>
 		</div>
 	  </fieldset>

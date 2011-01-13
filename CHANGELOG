@@ -1,4 +1,4 @@
-Version ClaSS-0.9.32 release (2011/01/05)
+Version ClaSS-0.9.32 release (2011/01/14)
 -----------------------------------------
 
 Changed the rating field in categorydef and rating tables from enum to
@@ -24,6 +24,17 @@ added to the stats table?
 Added leaving and start date seach option the Custom Groups page in Info.
 
 Added the booking day to a transport's xml for checking one off journeys.
+
+To avoid conflicts with HTML 5 form validation, novalidate added as
+attribute to forms using pattern.
+
+The comidsid table has a new field special. Use dpends on comtype and
+is implemented now only for clubs.
+
+The clubs have been added to student_view and student_transport
+pages. The feetype has been added for billing clubs.
+
+Layout improved of the community_group_edit page.
 
 
 

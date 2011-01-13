@@ -32,8 +32,8 @@ if(isset($secids)){
 
 /* Then search the community groups for each yid. */
 if(isset($enroldate)){
-	if(isset($_POST['enroldate1'])){$startdate=$_POST['enroldate1'];}else{$startdate='0000-00-00';}
-	if(isset($_POST['enroldate2'])){$enddate=$_POST['enroldate2'];}else{$enddate='0000-00-00';}
+	if(isset($_POST['enroldate1'])){$startdate=$_POST['enroldate1'];}else{$startdate='';}
+	if(isset($_POST['enroldate2'])){$enddate=$_POST['enroldate2'];}else{$enddate='';}
 	$currentyear=get_curriculumyear();
 
 	$students=array();
@@ -45,7 +45,7 @@ if(isset($enroldate)){
 		/* all students who joined the community after startdate and before enddate*/
 		$yearstudents=(array)listin_community_new($com,$startdate,$enddate);
 		$students=array_merge($students,$yearstudents);
-		}	
+		}
 	}
 else{
 	$students=array();

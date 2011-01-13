@@ -12,9 +12,17 @@ if($sub=='Submit'){
 	$perm=getYearPerm($yid, $respons);
 	include('scripts/perm_action.php');
 
-	if(isset($_POST['enrolyid'])){$enrolyid=$_POST['enrolyid'];}else{$enrolyid='';}
+	$coms=list_member_communities($sid,array('id'=>'','name'=>'','type'=>'tutor'));
+	$coms=array_merge($coms,list_member_communities($sid,array('id'=>'','name'=>'','type'=>'tutor'),false));
+	foreach($coms as $com){
+		$comid=$com['id'];
+		if(isset($_POST[$comid.'fee'.$sid]) and $_POST[$comid.'fee'.$sid]!=$com['special']){
+			$fee=$_POST[$comid.'fee'.$sid];
+			mysql_query("UPDATE comidsid SET special='$fee' WHERE community_id='$comid' AND student_id='$sid';");
+			}
+		}
 
-	$Enrolment=fetchEnrolment($sid);
+
 	}
 
 	include('scripts/redirect.php');

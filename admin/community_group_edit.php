@@ -20,32 +20,32 @@ if(isset($_POST['newcomtype'])){$newcomtype=$_POST['newcomtype'];}
 
 	$oldstudents=listin_community($currentcommunity);
 	$newstudents=listin_union_communities($currentcommunity,$newcommunity);
+	$description=displayEnum($newcomtype,'community_type');
 
 $extrabuttons['edit']=array('name'=>'current','value'=>'community_group_rename.php');
 three_buttonmenu($extrabuttons);
 ?>
-  <div class="content">
-	<form name="formtoprocess" id="formtoprocess" method="post"
-	  action="<?php print $host; ?>">
-
+  <div id="heading">
+	<label><?php print_string($description,$book);?></label><?php print $comname;?>
+  </div>
+ <div class="content">
+	<form name="formtoprocess" id="formtoprocess" method="post" action="<?php print $host; ?>">
 	  <div style="width:33%;float:left;"  id="viewcontent" >
 		<table class="listmenu">
-		  <caption>
-			<?php
-			$description=displayEnum($newcomtype,'community_type');
-			print_string($description,$book);
-			?>
-		  </caption>
+		  <caption><?php print_string($description,$book);?></caption>
 		  <tr>
-		  <th><?php print $comname;?></th>
+			<th colspan="3"><?php print $comname;?></th>
 			<th><?php print_string('remove');?></th>
 		  </tr>
 <?php
-	while(list($sid,$student)=each($oldstudents)){
-		print '<tr><td>'.$student['surname']. 
-				', '.$student['forename']. 
-				' '.$student['preferredforename']. ' ('.$student['form_id'].')</td>';
-		print '<td><input type="checkbox" name="oldsids[]" value="'.$student['id'].'" /></td>';
+	$no=1;
+	foreach($oldstudents as $student){
+		$sid=$student['id'];
+		$Student=(array)fetchStudent_short($sid);
+		print '<tr><td>'.$no++.'</td>';
+		print '<td class="student"><a target="viewinfobook" onclick="parent.viewBook(\'infobook\');" href="infobook.php?current=student_transport.php&sid='.$sid.'">'. $Student['DisplayFullSurname']['value'].'</a></td>';
+		print '<td>'.$student['form_id'].'</td>';
+		print '<td><input type="checkbox" name="oldsids[]" value="'.$sid.'" /></td>';
 		print '</tr>';
 		}
 ?>

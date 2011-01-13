@@ -267,7 +267,7 @@ function listin_community($community,$enddate='',$startdate=''){
 	else{$comid=update_community($community);}
 
 	$d_student=mysql_query("SELECT id, surname,
-				forename, preferredforename, form_id, gender, dob FROM student 
+				forename, preferredforename, form_id, gender, dob, comidsid.special AS special FROM student 
 				JOIN comidsid ON comidsid.student_id=student.id
 				WHERE comidsid.community_id='$comid' AND
 				(comidsid.leavingdate>'$enddate' OR 
@@ -286,9 +286,9 @@ function listin_community($community,$enddate='',$startdate=''){
 
 /**
  *
- * Lists all sids who newly joined current a commmunity.
- * With $stardate set all students who joined after that date
- * and with $enddate set lists all student members in that period.
+ * Lists all sids who newly joined a commmunity, not just current members.
+ * With $stardate set all students who joined after that date.
+ * With $enddate set lists all student members who joined between the two dates.
  *
  *	@param array $community
  *	@param date $enddate
@@ -306,7 +306,7 @@ function listin_community_new($community,$startdate='',$enddate=''){
 					leavingdate='0000-00-00' OR leavingdate IS NULL) 
 	*/
 	$d_student=mysql_query("SELECT id, surname,
-				forename, preferredforename, form_id, gender, dob FROM student 
+				forename, preferredforename, form_id, gender, dob, comidsid.special AS special FROM student 
 				JOIN comidsid ON comidsid.student_id=student.id
 				WHERE comidsid.community_id='$comid' 
 				AND comidsid.joiningdate>='$startdate' AND comidsid.joiningdate<='$enddate' 
@@ -466,14 +466,17 @@ function countin_community_gender($community,$gender='M',$enddate='',$startdate=
 
 /**
  *
- * Returns all communities to which a student is currently enrolled
- * Filter for community id, name or type optional
+ * Returns all communities to which a student is currently enrolled.
+ * Filter for community id, name or type optional.
+ * With $stardate set all communities joined after that date
+ * and with $enddate set lists communitiess in that period.
  *
  *	@param integer $sid
  *	@param array $community 
+
  *	@return array
  */
-function list_member_communities($sid,$community){
+function list_member_communities($sid,$community,$current=true){
 	$todate=date("Y-m-d");
 	$type=$community['type'];
 	$name=$community['name'];
@@ -496,12 +499,20 @@ function list_member_communities($sid,$community){
 				comidsid.leavingdate='0000-00-00' OR comidsid.leavingdate IS NULL)");
 		}
 	elseif($type!=''){
-		$d_community=mysql_query("SELECT * FROM community JOIN
+		if($current){
+			$d_community=mysql_query("SELECT * FROM community JOIN
 				comidsid ON community.id=comidsid.community_id
 				WHERE community.type='$type' AND comidsid.student_id='$sid' AND
    				(comidsid.joiningdate<='$todate' OR comidsid.joiningdate IS NULL)
 				AND (comidsid.leavingdate>'$todate' OR 
 				comidsid.leavingdate IS NULL OR comidsid.leavingdate='0000-00-00')");
+			}
+		else{
+			$d_community=mysql_query("SELECT * FROM community JOIN
+				comidsid ON community.id=comidsid.community_id
+				WHERE community.type='$type' AND comidsid.student_id='$sid' AND
+   				(comidsid.joiningdate<=comidsid.leavingdate AND comidsid.leavingdate!='0000-00-00' AND comidsid.leavingdate<'$todate');");
+			}
 		}
 	else{
 		$d_community=mysql_query("SELECT * FROM community JOIN
