@@ -141,7 +141,7 @@ if($community['type']!='class'){
 	/* This events array will determine which events are displayed */
 	$events=array();
 	$tallys=array();
-	while(list($index,$Event)=each($AttendanceEvents['Event'])){
+	foreach($AttendanceEvents['Event'] as $Event){
 		/* Chekcing that only periods relevant to the current section are included. */
 		if($Event['Period']['value']=='0' or array_key_exists($Event['Period']['value'],$classperiods)){
 			$events[]=$Event['id_db'];
@@ -165,8 +165,14 @@ if($community['type']!='class'){
 				print 'Period <br />';
 				print $Event['Period']['value'].'<br />';	
 				}
+
+if($_SESSION['worklevel']>-1 or $seleveid==$Event['id_db']){
+
 ?>
 			<input type="radio" name="checkeveid" value="<?php print $Event['id_db'];?>" />
+<?php
+}
+?>
 			</th>
 <?php
 			}

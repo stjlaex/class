@@ -11,12 +11,12 @@ function sidtableInit(){
 
 	// add event handlers to the th elements
 	var ths=document.getElementsByTagName("th");
-	for(var i=2;i<ths.length;i++){
+	for(var i=1;i<ths.length;i++){
 		var thObj=ths[i];
 		if(thObj.id){
 			if(thObj.className=="selected"){var colId=thObj.id;}
-			thObj.onclick=function(){selectColumn(this,1)};
-			thObj.onfocus=function(){selectColumn(this,1)};
+			thObj.onclick=function(){selectColumn(this,1);};
+			thObj.onfocus=function(){selectColumn(this,1);};
 			//thObj.addEventListener("click",selectColumn(this,1),false);
 			//thObj.addEventListener("focus",selectColumn(this,1),false);
 			}
@@ -130,6 +130,7 @@ function getSidsArray(){
 	return sids;
 	}
 
+
 function selectColumn(thObj,multi){
 
 	var sids=getSidsArray();
@@ -137,21 +138,21 @@ function selectColumn(thObj,multi){
 	if(multi==1){
 		// only allowed one checked column, so un-select all other columns
 		var theCols=document.getElementsByTagName("th");
-		for(var c=2;c<(theCols.length-1);c++){
+		for(var c=1;c<(theCols.length-1);c++){
 			if(theCols[c].className=="selected"){
 				theCols[c].getElementsByTagName("input")[0].removeAttribute("checked");
 				var colId=theCols[c].getElementsByTagName("input")[0].value;
 				theCols[c].removeAttribute("class");
-				for(var c=0; c < sids.length; c++){
-					var cellId="cell-"+colId+'-'+sids[c];
+				for(var d=0; d < sids.length; d++){
+					var cellId="cell-"+colId+'-'+sids[d];
 					document.getElementById(cellId).className="";
 					}
 				}
 			}
 		}
 
-	thObj.className="selected";
 	thObj.getElementsByTagName("input")[0].setAttribute("checked","checked");
+	thObj.className="selected";
 	var colId=thObj.getElementsByTagName("input")[0].value;
 	for(var c=0;c<sids.length;c++){
 			var cellId="cell-"+colId+"-"+sids[c];

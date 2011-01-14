@@ -36,6 +36,11 @@ pages. The feetype has been added for billing clubs.
 
 Layout improved of the community_group_edit page.
 
+Have locked all but the current attendance event for users with
+worklevel below 0.
+
+Fix to the selectColumn js function which missed the first column in
+the table.
 
 
 Version ClaSS-0.9.31 release (2010/12/10)

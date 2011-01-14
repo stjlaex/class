@@ -459,6 +459,7 @@ function checkRadioIndicator(inputObj){
 			radioObjs[c].parentNode.setAttribute("class","");
 			}
 		}
+
 	}
 
 
@@ -899,7 +900,7 @@ function loadRequired(){
 			if(elementObject.getAttribute("type")=="checkbox" && elementObject.name=="sids[]"){
 				elementObject.onchange=function(){checkrowIndicator(this)};
 				}
-			if(elementObject.getAttribute("type")=="radio"){
+			if(elementObject.getAttribute("type")=="radio" && elementObject.parentNode.tagName!="TH"){
 				elementObject.onclick=function(){checkRadioIndicator(this)};
 				}
 			if(elementObject.getAttribute("tabindex")=="1" && firstFocus=="-1"){
