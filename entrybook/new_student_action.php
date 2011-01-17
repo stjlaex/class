@@ -38,6 +38,11 @@ if($sub=='Submit'){
 			}
 		}
 
+	/* Automatically set the date of application. */
+	$todate=date('Y-m-d');
+	mysql_query("UPDATE info SET appdate='$todate' WHERE student_id='$sid';");
+
+
 	/*Figure out the community they need to join*/
 	if($enrolstatus=='C' or $enrolstatus=='G'){
 		/*joining the current roll directly is special*/

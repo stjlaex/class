@@ -191,7 +191,7 @@ CREATE TABLE comidsid (
 	student_id		int unsigned not null default '0',
 	joiningdate		date null,
 	leavingdate 	date null,
-	special			char(1) not null default '',
+	special			char(2) not null default '',
 	primary key 	(community_id, student_id)
 );");
 

@@ -346,5 +346,7 @@ $string['lists']='Lists';
 $string['changes']='Changes';
 $string['morning']='Morning';
 $string['afternoon']='Afternoon';
+$string['after']='After';
+$string['before']='Before';
 $string['']='';
 ?>

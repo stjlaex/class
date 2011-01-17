@@ -15,7 +15,13 @@ if(isset($enrolstatus)){
 	$enrolyear=get_curriculumyear()+1;
 	if($enrolstatus=='EN'){$listtype='enquired';}
 	elseif($enrolstatus=='AC'){$listtype='accepted';}
+	elseif($enrolstatus=='C' or $enrolstatus=='P' or $enrolstatus=='L'){
+		$listtype='year';
+		$AssDefs=fetch_enrolmentAssessmentDefinitions('','RE',$enrolyear);
+		$reenrol_eid=$AssDefs[0]['id_db'];
+		}
 	else{$listtype='applied';}
+
 	}
 	
 /* First list the yeargroups to search in yids*/
@@ -30,13 +36,14 @@ if(isset($secids)){
 	}
 
 
+$students=array();
+
 /* Then search the community groups for each yid. */
 if(isset($enroldate)){
 	if(isset($_POST['enroldate1'])){$startdate=$_POST['enroldate1'];}else{$startdate='';}
 	if(isset($_POST['enroldate2'])){$enddate=$_POST['enroldate2'];}else{$enddate='';}
 	$currentyear=get_curriculumyear();
 
-	$students=array();
 	if($enroldate=='leave'){$comtype='alumni';$comname='P:';$comyear=$currentyear;}
 	else{$comtype='year';$comname='';$comyear='0000';}
 	foreach($yids as $index => $yid){
@@ -48,7 +55,6 @@ if(isset($enroldate)){
 		}
 	}
 else{
-	$students=array();
 	foreach($yids as $index => $yid){
 		if($listtype!='year'){
 			$com=array('id'=>'','type'=>$listtype, 
@@ -63,9 +69,19 @@ else{
 	}
 
 
+/* The list of sids which form the search result. */
 $sids=array();
-while(list($index,$student)=each($students)){
-	$sids[]=$student['id'];	
+foreach($students as $student){
+	$sid=$student['id'];
+	if(isset($reenrol_eid)){
+		$Assessments=(array)fetchAssessments_short($sid,$reenrol_eid,'G');
+		if(sizeof($Assessments)>0 and $Assessments[0]['Result']['value']==$enrolstatus){
+			$sids[]=$sid;
+			}
+		}
+	else{
+		$sids[]=$sid;
+		}
 	}
 
 

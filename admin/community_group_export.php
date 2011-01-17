@@ -61,7 +61,6 @@ $todate=date('Y-m-d');
 			if(isset($_POST['enroldate1'])){$startdate=$_POST['enroldate1'];}else{$startdate='2011-01-01';}
 			if(isset($_POST['enroldate2'])){$enddate=$_POST['enroldate2'];}else{$enddate='';}
 			$students=(array)listin_community_new($com,$startdate,$enddate);
-
 			//$students=(array)listin_community($com);
 
 			/*cycle through the student rows*/
@@ -70,14 +69,14 @@ $todate=date('Y-m-d');
 				$Student=fetchStudent_short($sid);
 				$field=fetchStudent_singlefield($sid,'EnrolNumber');
 				$Student=array_merge($Student,$field);
-				if($student['special']==''){$fee='C';}else{$fee=$student['special'];};
+				if($student['special']=='' or $student['special']=='10'){$hours=1;}else{$hours=$student['special']/10;};
 				$worksheet->write($rown, 0, $Student['EnrolNumber']['value'], $format_line_normal);
 				$worksheet->write($rown, 1, iconv('UTF-8','ISO-8859-1',$Student['Surname']['value']), $format_line_bold);
 				$worksheet->write($rown, 2, iconv('UTF-8','ISO-8859-1',$Student['Forename']['value']), $format_line_normal);
-				$worksheet->write($rown, 3, $fee, $format_line_normal);
+				$worksheet->write($rown, 3, 'c', $format_line_normal);
 				$worksheet->write($rown, 4, $com['name'], $format_line_normal);
 				$worksheet->write($rown, 5, $com['charge'], $format_line_normal);
-				$worksheet->write($rown, 6, '1', $format_line_normal);
+				$worksheet->write($rown, 6, $hours, $format_line_normal);
 				$worksheet->write($rown, 7, $todate, $format_line_normal);
 				/* TODO: calculate the term correctly!!!! */
 				$worksheet->write($rown, 8, '2', $format_line_normal);

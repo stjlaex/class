@@ -29,9 +29,6 @@ three_buttonmenu();
 			<th colspan="4"> </th>
 
 <?php
-	/*TODO: set feetypes as a schoolarray */		
-	$feetypes=array('O','C');
-
 	$buses=list_buses();
 	$days=getEnumArray('dayofweek');
 	$todate=date('Y-m-d');
@@ -91,24 +88,24 @@ three_buttonmenu();
 		</thead>
 	</tr>			
 <?php
+	$feetypes=array('0'=>'0','5'=>'0.5','10'=>'1.0');
 
 	$coms=list_member_communities($sid,array('id'=>'','name'=>'','type'=>'tutor'));
 	$excoms=list_member_communities($sid,array('id'=>'','name'=>'','type'=>'tutor'),false);
 	foreach($coms as $com){
-		if($com['special']==''){$fee='C';}else{$fee=$com['special'];}
+		if($com['special']==''){$fee='10';}else{$fee=$com['special'];}
 		print '<tr><td><a target="viewadmin" onclick="parent.viewBook(\'admin\');" href="admin.php?current=community_group_edit.php&cancel=community_group.php&choice=community_group.php&newcomtype='.$com['type'].'&comid='.$com['id'].'">'.$com['name'] .'</a></td><td>'.$com['joiningdate'].'</td><td>'.$com['leavingdate'].'</td>';
 
 		print '<td class="row">';
-		foreach($feetypes as $index => $value){
+		foreach($feetypes as $value => $label){
 			$checkclass='';
 			if($fee!='' and $value==$fee){
 				$checkclass='checked';
 				}
-			print '<div class="'.$checkclass.'"><label>' 
-				.$value.'</label>';
+			print '<div class="'.$checkclass.'">';
 			print '<input type="radio" name="'.$com['id'].'fee'.$sid.'"
 						tabindex="'.$tab++.'" value="'.$value.'" '.$checkclass;
-			print '/></div>';
+			print '>'.$label.'</input></div>';
 			}
 		print '</td></tr>';
 		}
@@ -122,16 +119,15 @@ three_buttonmenu();
 	foreach($excoms as $com){
 		print '<tr class="lolite"><td>'.$com['name'] .'</td><td>'.$com['joiningdate'].'</td><td>'.$com['leavingdate'].'</td>';
 		print '<td class="row">';
-		foreach($feetypes as $index => $value){
+		foreach($feetypes as $value => $label){
 			$checkclass='';
 			if($fee!='' and $value==$fee){
 				$checkclass='checked';
 				}
-			print '<div class="'.$checkclass.'"><label>' 
-				.$value.'</label>';
+			print '<div class="'.$checkclass.'">';
 			print '<input type="radio" name="'.$com['id'].'fee'.$sid.'"
 						tabindex="'.$tab++.'" value="'.$value.'" '.$checkclass;
-			print '/></div>';
+			print '>'.$label.'</input></div>';
 			}
 		print '</td></tr>';
 		}
