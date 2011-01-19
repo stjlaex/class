@@ -46,6 +46,9 @@ Set the date of first application in EntryBook.
 
 Added search by reenrolment status in group_search.
 
+Fix to the editing of community groups so the sessions and charge are
+registered first time for a new group.
+
 
 
 Version ClaSS-0.9.31 release (2010/12/10)

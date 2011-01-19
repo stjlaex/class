@@ -36,7 +36,7 @@ if(mysql_result($d_a,0)>0){
 	$updates=explode('-',$update);
 	$diff=mktime(0,0,0,$todates[1],$todates[2],$todates[0]) - mktime(0,0,0,$updates[1],$updates[2],$updates[0]);
 	$dayno=round($diff/(60*60*24));/* How days since last update */
-	if($dayno>7){$save_stats=true;}
+	if($dayno>6){$save_stats=true;}
 	else{$save_stats=false;}
 	}
 else{

@@ -14,26 +14,37 @@ if(isset($_POST['newname'])){$newname=$_POST['newname'];}
 include('scripts/sub_action.php');
 
 if($sub=='Submit'){
+	trigger_error('SUBMIT!!!!!',E_USER_WARNING);
 
-	$community=array('id'=>'','type'=>$newcomtype,'name'=>$newname);
-	$communityfresh=array();
 
-	if($comid!=''){
-		/* Editing an existing group */
-		$communityfresh=$community;
+	if(isset($comid) and $comid!=''){
+		/* Existing group is being edited. */
 		$community=(array)get_community($comid);
-		if(isset($_POST['charge'])){$communityfresh['charge']=$_POST['charge'];}
-		if(isset($_POST['sessions'])){
-			$sessions=$_POST['sessions'];
-			foreach($sessions as $sess){
-				if(isset($communityfresh['sessions'])){$sep=':';}
-				else{$sep='';}
-				$communityfresh['sessions'].=$sep . 'A'.$sess;
-				}
+		$communityfresh=(array)$community;
+		$communityfresh['name']=$newname;
+		}
+	else{
+		/* New group is being created. */
+		$community=array('id'=>'','type'=>$newcomtype,'name'=>$newname);
+		$comid=update_community($community);
+		$community=(array)get_community($comid);
+		$communityfresh=(array)$community;
+		}
+
+
+	/* Only two fields, charge and sessions, can be edited apart from the name. */
+	if(isset($_POST['charge'])){$communityfresh['charge']=$_POST['charge'];}
+	if(isset($_POST['sessions'])){
+		$sessions=$_POST['sessions'];
+		unset($communityfresh['sessions']);
+		foreach($sessions as $sess){
+			if(isset($communityfresh['sessions'])){$sep=':';}
+			else{$sep='';$communityfresh['sessions']='';}
+			$communityfresh['sessions'].=$sep . 'A'.$sess;
 			}
-		else{
-			$communityfresh['sessions']='';
-			}
+		}
+	else{
+		$communityfresh['sessions']='';
 		}
 
 	$comid=update_community($community,$communityfresh);
@@ -43,6 +54,8 @@ if($sub=='Submit'){
 
 	}
 else{
+
+
 	if(isset($comid)){$com=get_community($comid);}
 	three_buttonmenu();
 ?>
