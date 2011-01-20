@@ -262,13 +262,13 @@ function add_journey_booking($sid,$busid,$stopid,$date='',$dayrepeat='once',$com
 			if($oldb['enddate']=='0000-00-00' and $oldb['day']=='%'){
 				/*do nothing*/
 				}
-			elseif($oldb['enddate']=='0000-00-00' and $oldb['day']!='%'){
+			elseif($oldb['enddate']=='0000-00-00' and $oldb['day']==$day){
 				/*update old enddate, del com*/
 				delete_journey_booking($sid,$oldbookid,$newenddate);
 				}
 			}
 		elseif($dayrepeat=='every'){
-			if($oldb['enddate']=='0000-00-00'){
+			if($oldb['enddate']=='0000-00-00' and $oldb['day']=='%'){
 				delete_journey_booking($sid,$oldbookid,$newenddate);
 				}
 			}

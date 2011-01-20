@@ -568,42 +568,42 @@ function get_budget_current($budid=-1){
 	if(mysql_num_rows($d_bud)>0){
 		$sum=0;
 		$costlimit=mysql_result($d_bud,0);
-		/* Iterate over each currency in use */
-		while(list($currency,$rate)=each($currencyrates)){
-			$d_closed=mysql_query("SELECT id, supplier_id FROM orderorder
+		$d_closed=mysql_query("SELECT id, supplier_id, currency FROM orderorder
 				JOIN orderaction ON orderaction.order_id=orderorder.id
-				WHERE orderorder.budget_id='$budid' AND
-				orderorder.currency='$currency' AND orderaction.action='5';");
-			while($closed_order=mysql_fetch_array($d_closed,MYSQL_ASSOC)){
-				$closed_ordid=$closed_order['id'];
-				$supid=$closed_order['supplier_id'];
-				$d_special=mysql_query("SELECT specialaction FROM
-									ordersupplier WHERE id='$supid';");
-				$specialaction=mysql_result($d_special,0);
-				if($specialaction==0){
+				WHERE orderorder.budget_id='$budid' AND orderaction.action='5';");
+		while($closed_order=mysql_fetch_array($d_closed,MYSQL_ASSOC)){
+			$closed_ordid=$closed_order['id'];
+			$supid=$closed_order['supplier_id'];
+			$d_special=mysql_query("SELECT specialaction FROM ordersupplier WHERE id='$supid';");
+			$specialaction=mysql_result($d_special,0);
+			if($specialaction==0){
+				/* Iterate over each currency in use */
+				foreach($currencyrates as $currency => $rate){
 					/*Add invoices*/
 					$d_sum=mysql_query("SELECT SUM(debitcost) FROM
 						orderinvoice JOIN orderaction ON
 						orderinvoice.id=orderaction.invoice_id WHERE
 						orderinvoice.credit='0' AND orderaction.action='3' AND
-						orderaction.order_id='$closed_ordid';");
+						orderaction.order_id='$closed_ordid' AND orderinvoice.currency='$currency';");
 					$sum+=$rate*mysql_result($d_sum,0);
 					/*Subtract credit notes*/
 					$d_sum=mysql_query("SELECT SUM(debitcost) FROM
 						orderinvoice JOIN orderaction ON
 						orderinvoice.id=orderaction.invoice_id WHERE
 						orderinvoice.credit='1' AND orderaction.action='3' AND
-						orderaction.order_id='$closed_ordid';");
+						orderaction.order_id='$closed_ordid' AND orderinvoice.currency='$currency';");
 					$sum-=$rate*mysql_result($d_sum,0);
 					}
-				else{
-					/*Add any specials which don't have an invoice*/
-					$d_sum=mysql_query("SELECT SUM(unitcost*quantity) FROM
+				}
+			else{
+				/*Add any specials which don't have an invoice*/
+				$curr=$closed_order['currency'];
+				$d_sum=mysql_query("SELECT SUM(unitcost*quantity) FROM
 						ordermaterial WHERE ordermaterial.order_id='$closed_ordid';");
-					$sum+=$rate*mysql_result($d_sum,0);
-					}
+				$sum+=$currencyrates[$curr]*mysql_result($d_sum,0);
 				}
 			}
+		
 		/* Iterate over any sub-budgets */
 		$subsum=0;
 		$d_bud=mysql_query("SELECT costlimit FROM orderbudget WHERE overbudget_id='$budid';");
@@ -798,6 +798,7 @@ function get_budget_currencyrates($budid){
 						WHERE orderbudget.id='$budid' AND categorydef.type='exc';");
 	while($b=mysql_fetch_array($d_b,MYSQL_ASSOC)){
 		$rates[$b['currency']]=$b['rate'];
+		//trigger_error('RATE:::: '.$b['currency'].' '.$b['rate']);
 		}
 	return $rates; 
 	}
