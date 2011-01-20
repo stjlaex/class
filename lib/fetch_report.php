@@ -65,12 +65,12 @@ function fetchSubjectReports($sid,$reportdefs){
 				reset($Assessments);
 				}
 			}
-		while(list($index,$Assessment)=each($Assessments)){
+		foreach($Assessments as $assindex => $Assessment){
 			if($Assessment['Course']['value']==$reportdef['report']['course_id']){
 				$bid=$Assessment['Course']['value'].$Assessment['Subject']['value'];
 				$pid=$Assessment['SubjectComponent']['value'];
 				if($pid==''){$pid=' ';}/*nullCorrect as usual!*/
-				$assbids[$bid][$pid][]=$index;
+				$assbids[$bid][$pid][]=$assindex;
 				}
 			}
 		ksort($assbids);
@@ -166,12 +166,29 @@ function fetchSubjectReports($sid,$reportdefs){
 				  $assnos=array();
 				  $Comments=array();
 				  $Comments['Comment']=array();
-				  foreach($component['strands'] as $strand){
-					  //trigger_error($bid.' : '.$pid.' : '.$strand['id'],E_USER_WARNING);
+				  $strandsno=sizeof($component['strands']);
+				  foreach($component['strands'] as $sindex => $strand){
+					  /*
 					  if(isset($assbids[$reportdef['report']['course_id'].$bid][$strand['id']])){
 						  $assnos=array_merge($assnos,$assbids[$reportdef['report']['course_id'].$bid][$strand['id']]);
 						  }
+					  */
 
+					  if(isset($assbids[$reportdef['report']['course_id'].$bid])){
+						  /* This is to collect all possible assessments regardless of their strand/component status */
+						  if($strandsno==1 and $strand['id']==' '){
+							  foreach($assbids[$reportdef['report']['course_id'].$bid] as $extra_strandid => $extra_assbids){
+								  trigger_error($strandsno.' ALL '.$bid.' : '.$pid.' : '.$strand['id'].' => '.$extra_strandid,E_USER_WARNING);
+								  $assnos=array_merge($assnos,$assbids[$reportdef['report']['course_id'].$bid][$extra_strandid]);
+								  }
+							  }
+						  /* This is to collect assessments with an exact match to this strand/component */
+						  elseif(isset($assbids[$reportdef['report']['course_id'].$bid][$strand['id']])){
+							  trigger_error($strandsno.' SINGLE '.$bid.' : '.$pid.' : '.$strand['id'],E_USER_WARNING);
+							  $assnos=array_merge($assnos,$assbids[$reportdef['report']['course_id'].$bid][$strand['id']]);
+							  }
+						  }
+					  
 					  $Coms=(array)fetchReportEntry($reportdef,$sid,$bid,$strand['id']);
 					  if(isset($Coms['Comment']) and sizeof($Coms['Comment'])>0){array_push($Comments['Comment'],$Coms['Comment']);}
 					  }

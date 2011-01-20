@@ -60,8 +60,8 @@ $todate=date('Y-m-d');
 			/* TODO: add these form values to community_group */ 
 			if(isset($_POST['enroldate1'])){$startdate=$_POST['enroldate1'];}else{$startdate='2011-01-01';}
 			if(isset($_POST['enroldate2'])){$enddate=$_POST['enroldate2'];}else{$enddate='';}
-			$students=(array)listin_community_new($com,$startdate,$enddate);
-			//$students=(array)listin_community($com);
+			//$students=(array)listin_community_new($com,$startdate,$enddate);
+			$students=(array)listin_community($com);
 
 			/*cycle through the student rows*/
 			foreach($students as $student){
