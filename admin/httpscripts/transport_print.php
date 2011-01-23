@@ -32,29 +32,40 @@ else{
 	$Students=array();
 	$Students['Transport']=array();
 
-	foreach($busnames as $busname){
-		if($busname!=''){
+	foreach($busnames as $typebusname){
+		list($type,$busname)=explode('-',$typebusname);
+		if($busname!='' and $type=='b'){
 			$busin=(array)get_bus('',$busname,'I',$day);
 			$buses[$busin['id']]['stops']=list_bus_stops($busin['id']);
 			$busout=(array)get_bus('',$busname,'O',$day);
 			$buses[$busout['id']]['stops']=list_bus_stops($busout['id']);
+			$students=(array)list_bus_journey_students($busname,$printdate,0);
+			}
+		elseif($busname!='' and $type=='f'){
+			$com=array('id'=>'','type'=>'form','name'=>$busname);
+			$students=(array)listin_community($com);
+			$busin='';$busout='';
+			}
 
-			$com=array('id'=>'','type'=>'transport','name'=>$busname);
-			$students=(array)listin_community($com,$printdate);
-			//$Transport=(array)fetchCommunity($comid);
+		if(sizeof($students)>0){
 			$Transport=array();
 			$Transport['Name']=array('value'=>$busname);
-			$Transport['Day']=array('value'=>get_string(displayEnum($day,'dayofweek'),$book));
+			$Transport['Type']=array('value'=>$type);
+			$Transport['Day']=array('value'=>get_string(displayEnum($day,'dayofweek'),'admin'));
 			$Transport['Date']=array('value'=>display_date($printdate));
+
+
 			$Transport['Student']=array();
-			$community=array('id'=>'','name'=>'','type'=>'tutor');
+
+
+			$clubcommunity=array('id'=>'','name'=>'','type'=>'tutor');
 
 			foreach($students as $student){
 				$sid=$student['id'];
 				$Student=(array)fetchStudent_short($sid);
 
 				/* TODO: After school clubs */
-				$communities=(array)list_member_communities($sid,$community);
+				$communities=(array)list_member_communities($sid,$clubcommunity);
 				foreach($communities as $club){
 					$pos=strpos($club['sessions'],"A$day");
 					if($pos!==false){
@@ -71,9 +82,10 @@ else{
 				$bookings=(array)list_student_journey_bookings($sid,$printdate,$day);
 				$jout=false;$jin=false;
 				$onbus=false;
+				$busid='';
 				foreach($bookings as $booking){
-					if($booking['direction']=='I'){$jname='jin';$busid=$busin['id'];}
-					elseif($booking['direction']=='O'){$jname='jout';$busid=$busout['id'];}
+					if($booking['direction']=='I'){$jname='jin';if($busin!=''){$busid=$busin['id'];}}
+					elseif($booking['direction']=='O'){$jname='jout';if($busout!=''){$busid=$busout['id'];}}
 					/* 
 					 * The first booking for a direction takes precedence.
 					 */
@@ -87,6 +99,11 @@ else{
 						$Journey['Bus']=array('id_db'=>$booking['bus_id'],
 											  'value'=>$buses[$booking['bus_id']]['name']
 											  );
+
+						if(!isset($buses[$booking['bus_id']]['stops'])){
+							$buses[$booking['bus_id']]['stops']=(array)list_bus_stops($booking['bus_id']);
+							}
+
 						$Journey['Stop']=array('id_db'=>$booking['stop_id'],
 											   'sequence'=>$buses[$booking['bus_id']]['stops'][$booking['stop_id']]['sequence'],
 											   'value'=>$buses[$booking['bus_id']]['stops'][$booking['stop_id']]['name']
@@ -111,7 +128,8 @@ else{
 						}
 					}
 				/* Only include the student in the list if they have a journey of some sort for this day. */
-				if($onbus and ($jin or $jout)){
+				/* If the list is for a form then include all */
+				if(($onbus or $type=='f') and ($jin or $jout)){
 					$Transport['Student'][]=$Student;
 					}
 				}

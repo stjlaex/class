@@ -482,7 +482,8 @@ function checksidsAction(buttonObject){
 	var script=buttonObject.value;
 	var params="";
 	var xsltransform="";
-	var checkname="sids[]";
+	var checkname1="sids[]";
+	var checkname2="sids[]";
 
 	// Need the path for the script being called - this is set 
 	// by default to the path of the current book but can be overridden
@@ -523,9 +524,13 @@ function checksidsAction(buttonObject){
 					//used by the js and not passed as a param
 					var selectname=escape(xmlvalue);
 					}
-				else if(paramname=="checkname"){
+				else if(paramname=="checkname" && checkname1=="sids[]"){
 					//used by the js and not passed as a param
-					checkname=escape(xmlvalue)+"[]";
+					checkname1=escape(xmlvalue)+"[]";
+					}
+				else if(paramname=="checkname" && checkname1!="sids[]"){
+					//used by the js and not passed as a param
+					checkname2=escape(xmlvalue)+"[]";
 					}
 				else{
 					params=params + "&" + paramname + "=" + escape(xmlvalue);
@@ -545,7 +550,7 @@ function checksidsAction(buttonObject){
 		if(formObject.elements[c].name=="checkall"){
 			c=c+1;
 			}
-		if(formObject.elements[c].type=="checkbox" && formObject.elements[c].name==checkname){
+		if(formObject.elements[c].type=="checkbox" && (formObject.elements[c].name==checkname1 || formObject.elements[c].name==checkname2)){
 			if(formObject.elements[c].checked){
 				sids[sidno++]=formObject.elements[c].value;
 				params=params+"&sids[]=" + escape(formObject.elements[c].value);
@@ -784,17 +789,20 @@ function processHeader(buttonObject){
 	document.headertoprocess.submit();
 	}
 
+
 /*------------------------------------------------------- 
 * Ticks all checkboxes in a form.  
 * Only ticks if the are not hidden.  
+* Optional parameter to limit to checkboxes of the same name.
 */
-function checkAll(checkAllBox){
+function checkAll(checkAllBox,checkname){
 	var formObject=checkAllBox.form;
+	if(!checkname) {var checkname='';}
 	for(var c=0; c<formObject.elements.length; c++){
 		if(formObject.elements[c].name=="checkall"){
 			c=c+1;
 			}
-		if(formObject.elements[c].type=="checkbox" && getrowIndicator(formObject.elements[c])!="hidden"){
+		if(formObject.elements[c].type=="checkbox" && getrowIndicator(formObject.elements[c])!="hidden" && (checkname=="" || formObject.elements[c].name==checkname)){
 			if(checkAllBox.checked){
 				formObject.elements[c].checked=true;
 				}

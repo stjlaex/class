@@ -52,6 +52,12 @@ registered first time for a new group.
 Fix to calculating current blance of orders. Now correctly registers
 invoices with a currency different to that of the original order.
 
+Improved checkAll js function to limit to checkboxes of specified name.
+
+Removed the use of comidsid for trasnport. New function
+list_bus_journey_students replaces it.
+
+The tranport page can now print lists by form group.
 
 
 

@@ -49,7 +49,7 @@ two_buttonmenu($extrabuttons);
 	  <legend><?php print_string('transport',$book);?></legend>
 		<div>
 		  <?php print_string('checkall'); ?>
-		  <input type="checkbox" name="checkall" value="yes" onChange="checkAll(this);" />
+		  <input type="checkbox" name="checkall" value="yes" onChange="checkAll(this,'busnames[]');" />
 		  <div style="float:right;">
 			<?php $required='no'; include('scripts/jsdate-form.php');?>
 		  </div>
@@ -63,7 +63,7 @@ two_buttonmenu($extrabuttons);
 	  <table class="listmenu smalltable">
 		<tr>
 		  <td>
-			<input type="checkbox" name="busnames[]" value="<?php print $busname['name']; ?>" />
+			<input type="checkbox" name="busnames[]" value="b-<?php print $busname['name']; ?>" />
 		  </td>
 		  <td>
 <?php
@@ -78,39 +78,13 @@ two_buttonmenu($extrabuttons);
 			}
 ?>
 	</fieldset>
-	<div id="xml-listin" style="display:none;">
-	  <params>
-		<checkname>busnames</checkname>
-		<selectname>date0</selectname>
-		<length>full</length>
-		<transform>transport_list_in</transform>
-		<paper>landscape</paper>
-	  </params>
-	</div>
-	<div id="xml-listout" style="display:none;">
-	  <params>
-		<checkname>busnames</checkname>
-		<selectname>date0</selectname>
-		<length>full</length>
-		<transform>transport_list_out</transform>
-		<paper>landscape</paper>
-	  </params>
-	</div>
-	<div id="xml-changes" style="display:none;">
-	  <params>
-		<checkname>busnames</checkname>
-		<selectname>date0</selectname>
-		<length>short</length>
-		<transform>transport_list_changes</transform>
-		<paper>landscape</paper>
-	  </params>
-	</div>
-  </form>
-
 
 	<fieldset class="center divgroup" id="viewcontent">
 	  <legend><?php print get_string('formgroups',$book);?></legend>
-
+		<div>
+		  <?php print_string('checkall'); ?>
+		  <input type="checkbox" name="checkall" value="yes" onChange="checkAll(this,'formnames[]');" />
+		</div>
 <?php
 		$forms=list_formgroups();
 
@@ -119,6 +93,9 @@ two_buttonmenu($extrabuttons);
 	<div style="float:left;width:24%;margin:2px;">
 	  <table class="listmenu smalltable">
 		<tr>
+		  <td>
+			<input type="checkbox" name="formnames[]" value="f-<?php print $form['id']; ?>" />
+		  </td>
 		  <td>
 <?php
 				print '<a  href="admin.php?current=transport_list.php&cancel='.$choice.'&choice='.$choice.'&fid='.$form['id'].'">'.$form['name'].'</a>';
@@ -133,6 +110,39 @@ two_buttonmenu($extrabuttons);
 			}
 ?>
 	</fieldset>
+
+	<div id="xml-listin" style="display:none;">
+	  <params>
+		<checkname>busnames</checkname>
+		<checkname>formnames</checkname>
+		<selectname>date0</selectname>
+		<length>full</length>
+		<transform>transport_list_in</transform>
+		<paper>landscape</paper>
+	  </params>
+	</div>
+	<div id="xml-listout" style="display:none;">
+	  <params>
+		<checkname>busnames</checkname>
+		<checkname>formnames</checkname>
+		<selectname>date0</selectname>
+		<length>full</length>
+		<transform>transport_list_out</transform>
+		<paper>landscape</paper>
+	  </params>
+	</div>
+	<div id="xml-changes" style="display:none;">
+	  <params>
+		<checkname>busnames</checkname>
+		<checkname>formnames</checkname>
+		<selectname>date0</selectname>
+		<length>short</length>
+		<transform>transport_list_changes</transform>
+		<paper>landscape</paper>
+	  </params>
+	</div>
+  </form>
+
 
 
   </div>

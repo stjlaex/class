@@ -18,10 +18,12 @@ if((isset($_GET['date0']) and $_GET['date0']!='')){$todate=$_GET['date0'];}
 $today=date('N',strtotime($todate));
 
 if($busname!=''){
+	$listtype='b';
 	$com=array('id'=>'','type'=>'transport','name'=>$busname);
-	$students=(array)listin_community($com);
+	$students=(array)list_bus_journey_students($busname,$todate,5);
 	}
 elseif($fid!=''){
+	$listtype='f';
 	$com=array('id'=>'','type'=>'form','name'=>$fid);
 	$students=(array)listin_community($com);
 	}
@@ -127,7 +129,7 @@ two_buttonmenu($extrabuttons,$book);
 	<div id="xml-listin" style="display:none;">
 	  <params>
 		<selectname>date0</selectname>
-		<sids><?php print $busname;?></sids>
+		<sids><?php print $listtype.'-'.$busname;?></sids>
 		<length>full</length>
 		<transform>transport_list_in</transform>
 		<paper>landscape</paper>
@@ -136,7 +138,7 @@ two_buttonmenu($extrabuttons,$book);
 	<div id="xml-listout" style="display:none;">
 	  <params>
 		<selectname>date0</selectname>
-		<sids><?php print $busname;?></sids>
+		<sids><?php print $listtype.'-'.$busname;?></sids>
 		<length>full</length>
 		<transform>transport_list_out</transform>
 		<paper>landscape</paper>
@@ -145,7 +147,7 @@ two_buttonmenu($extrabuttons,$book);
 	<div id="xml-changes" style="display:none;">
 	  <params>
 		<selectname>date0</selectname>
-		<sids><?php print $busname;?></sids>
+		<sids><?php print $listtype.'-'.$busname;?></sids>
 		<length>short</length>
 		<transform>transport_list_changes</transform>
 		<paper>landscape</paper>

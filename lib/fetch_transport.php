@@ -184,7 +184,6 @@ function fetchBus($busid='-1'){
  */
 function list_student_journey_bookings($sid,$date,$day='%',$direction='%'){
 	$bookings=array();
-	if($sid==1181){trigger_error($day. ' : '.$sid,E_USER_WARNING);}
 
 	/* The most recent (specific) date takes precedence so only use the first two returned */
 	$d_b=mysql_query("SELECT b.id, b.journey_id, b.direction, j.bus_id, j.stop_id, b.startdate, b.enddate, b.day, b.comment 
@@ -198,6 +197,41 @@ function list_student_journey_bookings($sid,$date,$day='%',$direction='%'){
 		}
 
 	return $bookings;
+	}
+
+
+
+
+/**
+ * Returns all journey bookings for a sid on a given date
+ *
+ * @param integer $sid
+ * @param date $date
+ * @param enum $dayb
+ * @param enum $direction
+ * @return array
+ *
+ */
+function list_bus_journey_students($busname,$date='',$dayno=1){
+
+	if($date==''){$date=date('Y-m-d');}
+	list($y,$m,$d)=explode('-',$date);
+	$date1=date('Y-m-d',mktime(0, 0, 0, $m, $d-$dayno, $y));
+	$date2=date('Y-m-d',mktime(0, 0, 0, $m, $d+$dayno, $y));
+
+	$d_student=mysql_query("SELECT DISTINCT student.id, surname,
+				forename, preferredforename, form_id, gender, dob FROM student 
+				JOIN transport_booking AS b ON b.student_id=student.id 
+   				WHERE NOT((b.enddate<'$date1' AND b.enddate!='0000-00-00') 
+						OR (b.startdate>'$date2' AND b.startdate!='0000-00-00')) 
+				AND b.journey_id=ANY(SELECT transport_journey.id FROM transport_journey JOIN transport_bus ON transport_bus.id=transport_journey.bus_id WHERE transport_bus.name='$busname')
+				ORDER BY surname, forename;");
+
+	$students=array();
+	while($student=mysql_fetch_array($d_student, MYSQL_ASSOC)){
+		if($student['id']!=''){$students[]=$student;}
+		}
+	return $students;
 	}
 
 
@@ -253,17 +287,14 @@ function add_journey_booking($sid,$busid,$stopid,$date='',$dayrepeat='once',$com
 		$oldbookid=$oldb['id'];
 		//trigger_error($oldb['id'].' : '.$oldb['startdate'].' : '.$oldb['enddate'].mysql_error(),E_USER_WARNING);
 		if($dayrepeat=='once'){
-			if($oldb['startdate']==$oldb['enddate'] and $oldb['day']==$day){
+			if($oldb['startdate']==$startdate and $oldb['enddate']==$enddate and $oldb['day']==$day){
 				/*delete old*/
 				delete_journey_booking($sid,$oldbookid);
 				}
 			}
 		elseif($dayrepeat=='weekly'){
-			if($oldb['enddate']=='0000-00-00' and $oldb['day']=='%'){
-				/*do nothing*/
-				}
-			elseif($oldb['enddate']=='0000-00-00' and $oldb['day']==$day){
-				/*update old enddate, del com*/
+			if($oldb['enddate']=='0000-00-00' and $oldb['day']==$day){
+				/*update old enddate */
 				delete_journey_booking($sid,$oldbookid,$newenddate);
 				}
 			}
@@ -294,9 +325,6 @@ function add_journey_booking($sid,$busid,$stopid,$date='',$dayrepeat='once',$com
 					 VALUES ('$sid','$jid','$direction','$bookday','$startdate','$enddate','$comment');");
 		}
 
-	/* add to the transport community for that bus */
-	$com=array('id'=>'','type'=>'transport','name'=>$busname);
-	$oldcommunities=set_community_stay($sid,$com,$startdate,$enddate);
 
 	return;
 	}
@@ -305,7 +333,7 @@ function add_journey_booking($sid,$busid,$stopid,$date='',$dayrepeat='once',$com
 
 /**
  *
- * Will both delete the booking specified by @bookid and amend community memberships to match.
+ * Will delete the booking specified by @bookid.
  * With an endate given the booking won't be deleted but merely set to end at that date.
  *
  * @param integer sid
@@ -331,16 +359,6 @@ function delete_journey_booking($sid,$bookid,$newenddate=''){
 	else{
 		mysql_query("UPDATE transport_booking SET enddate='$newenddate' WHERE id='$bookid';");
 		}
-
-	$d_b=mysql_query("SELECT b.id FROM transport_booking AS b JOIN transport_journey AS j ON b.journey_id=j.id 
-						WHERE b.student_id='$sid' AND (b.startdate>='$todate' OR b.enddate='0000-00-00') 
-						AND j.bus_id=ANY(SELECT id FROM transport_bus WHERE name='$busname');");
-	if(mysql_num_rows($d_b)==0){
-		$com=array('id'=>'','type'=>'transport','name'=>$busname);
-		$oldcommunities=set_community_stay($sid,$com,$startdate,$startdate);
-		}
-
-	/*TODO: check for other bookings for this busname and update transport community appropriately */
 
 	return;
 	}
