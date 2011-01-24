@@ -1165,4 +1165,17 @@ function list_assessment_profiles($crid,$bid='%'){
 				course_id='$profile_crid' AND (subject_id='$profile_bid' OR subject_id='%');");
 		$profile=mysql_fetch_array($d_profile,MYSQL_ASSOC);
 */
+
+
+/**
+ *
+ *
+ */
+function get_ratings($ratingname){
+	$d_rating=mysql_query("SELECT * FROM rating WHERE name='$ratingname' ORDER BY value;");
+	$ratings=array();
+	while($rating=mysql_fetch_array($d_rating,MYSQL_ASSOC)){
+		$ratings[$rating['value']]=$rating['descriptor'];
+		}
+	}
 ?>

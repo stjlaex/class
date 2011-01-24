@@ -550,6 +550,9 @@ div.content fieldset.listmenu, div.content fieldset.listmenu div,
     border:1px solid #eeeeee;
 	width:20%;
 	}
+.listmenu td.boundary { 
+	background-color:#fff;
+	}
 .listmenu td div.row p.bigger {
     padding:2px 4px;
 	font-size:medium;

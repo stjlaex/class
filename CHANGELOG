@@ -59,6 +59,8 @@ list_bus_journey_students replaces it.
 
 The tranport page can now print lists by form group.
 
+Added display of rating value to new_onereport.
+
 
 
 Version ClaSS-0.9.31 release (2010/12/10)
