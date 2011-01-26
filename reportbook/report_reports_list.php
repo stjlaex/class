@@ -89,7 +89,7 @@ two_buttonmenu($extrabuttons,$book);
 		</reportids>
 	  </div>
 	  <div class="fullwidth">
-		<table class="listmenu">
+		<table class="listmenu sidtable" id="sidtable">
 		  <tr>
 			<th>
 			  <label id="checkall">
@@ -136,9 +136,6 @@ two_buttonmenu($extrabuttons,$book);
 			<?php print $rown++;?>
 			</td>
 			<td>
-
-			<a onclick="parent.viewBook('infobook');" target="viewinfobook" 
-			  href='infobook.php?current=student_scores.php&sid=<?php print $sid;?>'>T</a> 
 			<span <?php print ' title="'.$comment['body'].'"';?>>
 			  <a onclick="parent.viewBook('infobook');" target="viewinfobook"  
 				href='infobook.php?current=comments_list.php&sid=<?php print $sid;?>'
@@ -146,14 +143,13 @@ two_buttonmenu($extrabuttons,$book);
 			</span>
 			<a onclick="parent.viewBook('infobook');" target="viewinfobook"  
 			  href='infobook.php?current=incidents_list.php&sid=<?php print $sid;?>'>I</a>
-
 		  </td>
 		  <td class="student">
 			<a onclick="parent.viewBook('infobook');" target="viewinfobook" 
 			  href="infobook.php?current=student_view.php&sid=<?php print $sid;?>">
 				   <?php print $student['surname']; ?>, <?php print $student['forename']; ?>
 			</a>
-					  (<?php print $student['form_id']; ?>)
+			<div id="merit-<?php print $sid;?>"></div>
 			</td>
 <?php
 		reset($rids);
@@ -333,3 +329,6 @@ two_buttonmenu($extrabuttons,$book);
  	<input type="hidden" name="current" value="<?php print $action;?>" />
 	</form>
   </div>
+<?php
+include('scripts/studentlist_extra.php');
+?>

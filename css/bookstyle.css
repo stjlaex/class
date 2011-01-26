@@ -437,6 +437,13 @@ img.clicktoemail {
     border:0;
     position:absolute;
 	}
+img.clicktotransport { 
+	background-image:url("../images/bus.png");
+    padding:1px;
+    width:16px !important;
+    height:16px !important;
+    border:0;
+	}
 img.clicktohelp { 
 	background-image:url("../images/help-browser.png");
     padding:1px;
@@ -449,7 +456,6 @@ img.clicktohelp {
 .clicktoaction div { 
 	cursor:pointer;
 	}
-
 /*a generic content table, usually for selecting things from a list*/
 table.listmenu {
 	border-top:0;

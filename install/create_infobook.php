@@ -90,6 +90,7 @@ CREATE TABLE sencurriculum (
 	comments		text not null default '',
 	targets			text not null default '',
 	outcome			text not null default '',
+	extra			text not null default '',
    	primary key		(senhistory_id, subject_id)
 );");
 

@@ -832,6 +832,7 @@ function getEnumArray($field_name){
 				   'STF'=>'shorttermfailing',
 				   'OTH'=>'otherdifficulty/disability',
 				   'ENC'=>'enrolmentconcern',
+				   'ATD'=>'attentiondifficulties',
 				   'GNC'=>'generalconcern'
 				   );
 	$sencurriculum=array('A'=>'allsubject',

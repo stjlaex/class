@@ -125,6 +125,21 @@ if(!isset($selbid)){$selbid='G';}
 				  ><?php print $Subject['Strategies']['value']; ?></textarea>
 				  </td>
 				</tr>
+				<tr>
+				  <td>
+				  <label for="Targets">
+				  <?php print_string($Subject['Targets']['label'],$book); ?> 
+				  </label>
+				  </td>
+				</tr>
+				<tr>
+				  <td>
+				  <textarea id="Targets" 
+				  wrap="on" rows="5" tabindex="<?php print $tab++;?>"
+				  name="<?php print $Subject['Targets']['field_db'].$key;?>" 
+				  ><?php print $Subject['Targets']['value']; ?></textarea>
+				  </td>
+				</tr>
 			  </table>
 			</div>
 <?php

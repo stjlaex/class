@@ -1517,6 +1517,11 @@ function fetchSEN($sid='-1'){
 										 'field_db' => 'outcome', 
 										 'type_db' => 'text', 
 										 'value' => ''.$sencurriculum['outcome']);
+		   	$Subject['Targets']=array('label' => 'targets',
+										 'table_db' => 'sencurriculum', 
+										 'field_db' => 'extra', 
+										 'type_db' => 'text', 
+										 'value' => ''.$sencurriculum['extra']);
 		   	$Curriculum[]=$Subject;
 			}
 		$SEN['NCmodifications']=$Curriculum;

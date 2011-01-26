@@ -239,7 +239,8 @@ if($nodays==1 or $_SESSION['role']=='office' or $_SESSION['role']=='admin'){
 ?>
 <div style="font-size:7pt;color:#909090;float:right;width:30px;">
 <?php
-		print display_student_transport($sid);
+	   		$t=display_student_transport($sid);
+			if($t!=' '){print '<span title="'.$t.'"><img class="clicktotransport" /></span>';}
 ?>
 </div>
 		  </td>

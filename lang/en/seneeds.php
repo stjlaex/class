@@ -35,6 +35,7 @@ $string['addsubject']='Add subject';
 $string['nextreviewdate']='Next review';
 $string['shorttermfailing']='Short term failing';
 $string['enrolmentconcern']='Enrolment concern';
-$string['']='';
+$string['attentiondifficulties']='Attention difficulties';
+$string['generalconcern']='General Concern';
 $string['']='';
 ?>
