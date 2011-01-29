@@ -1,1 +1,1 @@
-ALTER TABLE ADD extra text not null default '' AFTER outcome;
+ALTER TABLE sencurriculum ADD extra text not null default '' AFTER outcome;

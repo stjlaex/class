@@ -875,14 +875,11 @@ function fetchReportEntry($reportdef,$sid,$bid,$pid){
 			   $comment_html=array();
 			   $comments=explode(':::',$entry['comment']);
 			   for($c=0;$c<$subcomments_no;$c++){
-			     /* If a subcomment is empty then don't display in the html page. */
-				if($comments[$c]!=' ' and $comments[$c]!=''){
-				  $comment_div=array();
-				  $comment_div['label']=''.$subcomments[$c]['name'];
-				  $comment_div['p']=''.$comments[$c];
-				  $comment_html['div'][]=$comment_div;
-				  }
-				}
+				   /* If a subcomment is empty then don't display in the html page. */
+				   if($comments[$c]!=' ' and $comments[$c]!=''){
+					   $comment_html['div'][]=xmlreader('<label>'.$subcomments[$c]['name'].'</label>'.'<div>'.$comments[$c].'</div>');
+					   }
+				   }
 			   }
 		   //  elseif($reportdef['report']['date']<'2009-08-11'){
 		   elseif($reportdef['report']['date']<'2009-04-01'){

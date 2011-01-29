@@ -1506,6 +1506,10 @@ function send_email_to($recipient, $from, $subject, $messagetext, $messagehtml='
 			$mail->From     = $CFG->emailnoreply;
 			$mail->FromName = $from;
 			}
+		elseif(is_array($from)){
+			$mail->FromName=$from['name'];
+			$$mail->From=$from['email'];
+			}
 		else{
 			$mail->From     = $CFG->emailnoreply;
 			$mail->FromName = 'ClaSS';
@@ -1589,7 +1593,11 @@ function send_email_to($recipient, $from, $subject, $messagetext, $messagehtml='
 
 		if(is_string($from)){
 			$from_name=$from;
-			$from= $CFG->emailnoreply;
+			$from=$CFG->emailnoreply;
+			}
+		elseif(is_array($from)){
+			$from_name=$from['name'];
+			$from=$from['email'];
 			}
 		else{
 			$from_name='ClaSS';
@@ -1763,4 +1771,16 @@ function elapsedtime($starttm,$endttm) {
 	return $rtime;
 	}
 
+/**
+ *
+ */
+function check_email_valid($email){
+	if(preg_match('/^[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.([a-zA-Z]{2,4})$/i', $email)){ 
+		$valid=true;
+		}
+	else{
+		$valid=false;
+		}
+	return $valid;
+	}
 ?>

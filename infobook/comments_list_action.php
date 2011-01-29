@@ -25,19 +25,20 @@ include('scripts/sub_action.php');
 	if($id!=''){
 		mysql_query("UPDATE comments SET student_id='$sid',
 		detail='$detail', entrydate='$entrydate', yeargroup_id='$newyid',
-		subject_id='$bid', category='$category', teacher_id='$tid'
-		WHERE id='$id';");
+		subject_id='$bid', category='$category', teacher_id='$tid' WHERE id='$id';");
 		}
 	else{
 		mysql_query("INSERT INTO comments SET student_id='$sid',
 		detail='$detail', entrydate='$entrydate', yeargroup_id='$newyid',
-		subject_id='$bid', category='$category',
-		teacher_id='$tid';");
+		subject_id='$bid', category='$category', teacher_id='$tid';");
 		$id=mysql_insert_id();
 
 		$result[]=get_string('commentrecorded',$book);
 
 		$teachername=get_teachername($tid);
+		$teacher=get_user($tid,'username');
+		if($teacher['email']!='' and $teacher['email']!=' '){$teacheremail=$teacher['email'];}
+
 		$footer='--'. "\r\n" . get_string('pastoralemailfooterdisclaimer');
 		$subject='Comment for '.$Student['Forename']['value']
 				.' '.$Student['Surname']['value'].' ('. 
@@ -45,9 +46,13 @@ include('scripts/sub_action.php');
 		$message=$subject."\r\n".'Subject: '. display_subjectname($bid)."\r\n". 
 				'Posted by '.$teachername. "\r\n";
 		$message.="\r\n". $detail. "\r\n";
+		if($guardianemail=='yes' and ($Student['Boarder']['value']=='N' or $CFG->emailboarders=='yes')){
+			$message.="\r\n Note: this message has been shared with parents.";
+			}
 		$message.="\r\n". $footer;
 		$fromaddress=$CFG->schoolname;
 
+		/* Make lists of academic and pastoral teacher recipients for the email */
 		$precips=(array)list_sid_responsible_users($sid,$bid);
 		$arecips=array();
 		if($teacheremail=='yes'){
@@ -61,7 +66,8 @@ include('scripts/sub_action.php');
 				foreach($recipients as $key => $recipient){
 					if(!array_key_exists($recipient['username'],$dones)){
 						$recipient['email']=strtolower($recipient['email']);
-						send_email_to($recipient['email'],$fromaddress,$subject,$message,'','',true,'','',$db);
+						$from['name']=$teachername;$from['email']=$teacheremail;
+						send_email_to($recipient['email'],$from,$subject,$message,'','',true,'','',$db);
 						$result[]=get_string('emailsentto').' '.$recipient['username'];
 						//trigger_error('Email sent to: '.$recipient['username'],E_USER_WARNING);
 						$dones[$recipient['username']]=$recipient['username'];
@@ -92,6 +98,7 @@ include('scripts/sub_action.php');
 					}
 				}
 			}
+
 		}
 
 include('scripts/results.php');	

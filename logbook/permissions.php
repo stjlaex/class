@@ -48,7 +48,8 @@ function list_sid_responsible_users($sid, $bid){
 		$d_users=mysql_query("SELECT * FROM users JOIN perms ON users.uid=perms.uid WHERE
 			perms.gid='$gid' AND perms.e='1' AND users.nologin!='1';");
 		while($user=mysql_fetch_array($d_users)){
-			if(eregi('^[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.([a-zA-Z]{2,4})$', $user['email'])){ 
+			//			if(eregi('^[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.([a-zA-Z]{2,4})$', $user['email'])){ 
+			if(check_email_valid($user['email'])){ 
 				$recipients[$user['uid']]=array('username'=>$user['username'], 'email'=>$user['email']);
 				}
 			}
@@ -59,7 +60,7 @@ function list_sid_responsible_users($sid, $bid){
 		  	student.form_id=form.id WHERE student.id='$sid'"); 
 	$formtid=mysql_result($d_form,0);
 	$user=get_user($formtid);
-	if(eregi('^[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.([a-zA-Z]{2,4})$', $user['email'])){ 
+	if(preg_match('/^[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.([a-zA-Z]{2,4})$/i', $user['email'])){ 
 		$recipients[$user['uid']]=array('username'=>$user['username'], 'email'=>$user['email']);
 		}
 
@@ -70,7 +71,7 @@ function list_sid_responsible_users($sid, $bid){
 					  groups.type='p' AND groups.name='residence';");
 		while($u=mysql_fetch_array($d_u)){
 			$user=get_user($u['uid'],'uid');
-			if(eregi('^[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.([a-zA-Z]{2,4})$', $user['email'])){ 
+			if(check_email_valid($user['email'])){ 
 				$recipients[$user['uid']]=array('username'=>$user['username'], 'email'=>$user['email']);
 				}
 			}
@@ -83,7 +84,7 @@ function list_sid_responsible_users($sid, $bid){
 		$d_u=mysql_query("SELECT uid FROM users WHERE role='sen' AND users.nologin!='1';");
 		while($u=mysql_fetch_array($d_u)){
 			$user=get_user($u['uid'],'uid');
-			if(eregi('^[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.([a-zA-Z]{2,4})$', $user['email'])){ 
+			if(check_email_valid($user['email'])){ 
 				$recipients[$user['uid']]=array('username'=>$user['username'], 'email'=>$user['email']);
 				}
 			}
@@ -612,7 +613,7 @@ function update_user($user,$update='no',$short='class'){
 		else{$firstbookpref='infobook';}
 		}
     if(isset($user['email'])){
-	   if(eregi('^[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.([a-zA-Z]{2,4})$', $user['email'])){ 
+		if(check_email_valid($user['email'])){ 
 			$user['email']=strtolower($user['email']);
 			$email=$user['email'];
 			if(isset($user['emailuser'])){$emailuser=$user['emailuser'];}
@@ -676,7 +677,7 @@ function update_user($user,$update='no',$short='class'){
 		  $d_user=mysql_query("UPDATE users SET
 					passwd='$assword' WHERE username='$username'");
 		  if($CFG->emailoff=='no' and $user['userno']!=''){
-			  if(eregi('^[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.([a-zA-Z]{2,4})$', $email)){
+			  if(check_email_valid($user['email'])){ 
 				  //$headers=emailHeader();
 				  $footer='--'. "\r\n" .get_string('emailfooterdisclaimer');
 				  $message=get_string('emailnewloginuserno','admin')."\r\n";
@@ -685,6 +686,7 @@ function update_user($user,$update='no',$short='class'){
 				  $message=$message ."\r\n".$footer;
 				  $subject=get_string('emailnewloginsubject','admin');
 				  $fromaddress='ClaSS';
+				  /* TODO: decide if update_user needs to send email. */
    				  //send_email_to($email,$fromaddress,$subject,$message);
 				  }
 			  }
