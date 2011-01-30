@@ -8,6 +8,8 @@ $sub=$_POST['sub'];
 $sid=$_POST['sid'];
 $tid=$_SESSION['username'];
 
+$Student=fetchStudent_short($sid);
+
 if($sub=='Cancel'){
 	$openerId='-100';
 	}
@@ -40,18 +42,37 @@ elseif($sub=='Submit'){
 
 
 	if($inmust=='yes' and $pointsvalue!=''){
-		mysql_query("INSERT INTO merits (
-						teacher_id, student_id, date, year, activity, value, result, detail,
-						subject_id, component_id) VALUES
-						('$tid', '$sid', '$todate', '$curryear', '$activity','$pointsvalue','$pointsresult','$detail',
-						'$bid', '$pid');");
+		mysql_query("INSERT INTO merits (teacher_id, student_id, date, year, activity, value, result, detail,
+						subject_id, component_id) 
+						VALUES ('$tid', '$sid', '$todate', '$curryear', '$activity','$pointsvalue',
+									'$pointsresult','$detail','$bid', '$pid');");
+
+
+		if($CFG->emailcomments=='yes'){
+			/* Message to relevant teaching staff. */
+			list($ratingnames,$catdefs)=fetch_categorydefs('mer');
+
+			$footer='--'. "\r\n" . get_string('pastoralemailfooterdisclaimer');
+			$messagesubject='Merit for '.$Student['Forename']['value']
+				.' '.$Student['Surname']['value'].' ('. 
+					$Student['RegistrationGroup']['value'].')'; 
+			$message=$messagesubject."\r\n".'For: '. $catdefs[$activity]['name'] ."\r\n";
+			$message.="\r\n". $detail. "\r\n";
+			$message.="\r\n". $footer;
+			$result=(array)message_student_teachers($sid,'',$bid,$messagesubject,$message,'p');
+			}
+
+
 		}
 	elseif($inmust!='yes'){
+
+		/*TODO: allow editing of existing merits. */
+
 		$merid=$inmust;
-		mysql_query("UPDATE merits SET
-						comment='$incom' WHERE report_id='$rid' AND
+		mysql_query("UPDATE merits SET comment='$incom' WHERE report_id='$rid' AND
 						student_id='$sid' AND subject_id='$bid' AND
 						component_id='$pid' AND entryn='$entryn';");
+
 		}
 	}
 ?>

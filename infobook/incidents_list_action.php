@@ -4,7 +4,6 @@
 
 $action='incidents_list.php';
 
-$yid=$Student['NCyearActual']['id_db'];
 $incid=$_POST['id_db'];
 $actionno=$_POST['no_db'];
 $detail=clean_text($_POST['detail']);
@@ -13,13 +12,18 @@ $closed=$_POST['closed'];
 if(isset($_POST['bid'])){$bid=$_POST['bid'];}else{$bid='G';}
 if(isset($_POST['catid'])){$catid=$_POST['catid'];}else{$catid='';}
 if(isset($_POST['ratvalue'])){$ratvalue=$_POST['ratvalue'];}else{$ratvalue='';}
-if(isset($_POST['newyid'])){$newyid=$_POST['newyid'];}else{$newyid=$yid;}
+if(isset($_POST['newyid'])){$newyid=$_POST['newyid'];}else{$newyid=$Student['YearGroup']['value'];}
 
 include('scripts/sub_action.php');
 
 
 	if($bid=='%'){$bid='G';}
+	list($ratingnames,$catdefs)=fetch_categorydefs('inc');
+	if(array_key_exists($catid,$catdefs)){$sanction=$catdefs[$catid]['name'];}
+	else{$sanction='';}
 	$category=$catid . ':' . $ratvalue . ';';
+	$teachername=get_teachername($tid);
+
 	if($incid!='' and $actionno==''){
 		mysql_query("UPDATE incidents SET student_id='$sid',
 		detail='$detail', entrydate='$entrydate', yeargroup_id='$newyid',
@@ -31,34 +35,27 @@ include('scripts/sub_action.php');
 			detail='$detail', entrydate='$entrydate', yeargroup_id='$newyid',
 			subject_id='$bid', category='$category', teacher_id='$tid'");
 		$incid=mysql_insert_id();
-		$result[]=get_string('incidentrecorded',$book);
-		$teachername=get_teachername($tid);
+
 
 		$footer='--'. "\r\n" . get_string('pastoralemailfooterdisclaimer');
 		$subject='Incident Report for '.$Student['Forename']['value']
 				.' '.$Student['Surname']['value'].' ('. 
 					$Student['RegistrationGroup']['value'].')';
-		if($closed=='Y'){$status='Closed';}else{$status='Open';} 
+		if($closed=='Y'){$status='Closed';}else{$status='Open';}
 		$message=$subject."\r\n". 'Status: '.$status."\r\n". 
 				'Subject: '.display_subjectname($bid)."\r\n". 
 				'Posted by '.$teachername. "\r\n";
+		$message.=get_string('sanction','infobook').': '.$sanction;
 		$message.="\r\n". $detail. "\r\n";
 		$message.="\r\n". $footer;
-		$fromaddress='ClaSS';
 
-		$recipients=list_sid_responsible_users($sid,$bid);
-		if($recipients and $CFG->emailoff!='yes' and $CFG->emailincidents=='yes'){
-			if(sizeof($recipients)>0){
-				foreach($recipients as $index => $recipient){
-					$recipient['email']=strtolower($recipient['email']);
-					send_email_to($recipient['email'],$fromaddress,$subject,$message);
-					$result[]=get_string('emailsentto').' '.$recipient['username'];
-					}
-				}
+		/* Message to relevant pastoral teaching staff. */
+		if($CFG->emailincidents=='yes'){
+			$result=(array)message_student_teachers($sid,$tid,$bid,$subject,$message,'p');
+			trigger_error($closed.' NOT CLOSED?',E_USER_WARNING);
 			}
 
-
-
+		/* Optionaly send message to parents. */
 		$Student=fetchStudent_singlefield($sid,'Boarder');
 		if($CFG->emailguardianincidents=='yes' and ($Student['Boarder']['value']=='N' 
 													or $CFG->emailboarders=='yes')){
@@ -88,18 +85,37 @@ include('scripts/sub_action.php');
 
 	elseif($actionno==-1){
 		mysql_query("INSERT INTO incidenthistory SET incident_id='$incid',
-		comment='$detail', entrydate='$entrydate', 
-		category='$category', teacher_id='$tid'");
+						comment='$detail', entrydate='$entrydate', category='$category', teacher_id='$tid'");
 		}
 	elseif($actionno!=''){
-		mysql_query("UPDATE incidenthistory SET
-		comment='$detail', entrydate='$entrydate', 
-		category='$category', teacher_id='$tid' WHERE
-		incident_id='$incid' AND entryn='$actionno'");
+		mysql_query("UPDATE incidenthistory SET comment='$detail', entrydate='$entrydate', 
+						category='$category', teacher_id='$tid' WHERE incident_id='$incid' AND entryn='$actionno'");
 		}
 
 	if($closed!=''){
 		mysql_query("UPDATE incidents SET closed='$closed' WHERE id='$incid'");
+
+		if($closed=='Y'){
+			/* Message original poster of incident of closure. */
+			$d_i=mysql_query("SELECT teacher_id FROM incidents WHERE id='$incid';"); 
+			$othertid=mysql_result($d_i,0);
+			$teachers=array();
+			$teachers[]=get_user($othertid);
+
+			$footer='--'. "\r\n" . get_string('pastoralemailfooterdisclaimer');
+			$subject='CLOSED: Incident for '.$Student['Forename']['value']
+				.' '.$Student['Surname']['value'].' ('. 
+				$Student['RegistrationGroup']['value'].')';
+			$message=$subject."\r\n". 'Status: CLOSED '."\r\n". 
+				'Subject: '.display_subjectname($bid)."\r\n". 
+				'Posted by '.$teachername. "\r\n";
+			$message.=get_string('sanction','infobook').': '.$sanction;
+			$message.="\r\n". $detail. "\r\n";
+			$message.="\r\n". $footer;
+
+			$result=(array)message_student_teachers($sid,$tid,$bid,$subject,$message,$teachers);
+			}
+
 		}
 
 include('scripts/results.php');

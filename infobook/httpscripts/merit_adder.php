@@ -55,8 +55,7 @@ $inmust='yes';
 
 	  <div class="left">
 		<label for="Detail"><?php print_string('details',$book);?></label>
-		<textarea name="detail"   tabindex="<?php print $tab++;?>" 
-		  id="Detail" rows="4" cols="35"></textarea>
+		<textarea name="detail"   tabindex="<?php print $tab++;?>" id="Detail" rows="4" cols="35"></textarea>
 	  </div>
 
 

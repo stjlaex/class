@@ -442,6 +442,72 @@ function list_student_teachers($sid){
 
 /**
  *
+ * Send a message about a student to the relevant teaching staff.
+ *
+ *
+ * @uses $CFG
+ * @param sid    the student message is about
+ * @param tid    the teacher sending message 
+ * @param string $messagesubject plain text subject line of the email
+ * @param string $messagetext plain text version of the message
+ * @param string $teachergroup single character either %, a or p
+ */
+function message_student_teachers($sid, $tid, $bid, $messagesubject, $messagetext, $teachergroup='%'){
+
+	global $CFG;
+	$result=array();
+
+	if(is_array($teachergroup)){
+		foreach($teachergroup as $teacher){
+			if(isset($teacher['email'])){
+				$recipients[]=$teacher;
+				}
+			}
+		}
+	else{
+		/* Make lists of academic and pastoral teacher recipients for the email */
+		$precips=array();
+		$arecips=array();
+		if($teachergroup=='%' or $teachergroup=='p'){
+			$precips=(array)list_sid_responsible_users($sid,$bid);
+			}
+		if($teachergroup=='%' or $teachergroup=='a'){
+			$arecips=(array)list_student_teachers($sid);
+			}
+		$recipients=array_merge($precips, $arecips);
+		}
+	
+	/* Decide on the addressee of the message. If possible use teacher's own email address. */
+	$teachername=get_teachername($tid);
+	$teacher=get_user($tid,'username');
+	if($teacher['email']!='' and $teacher['email']!=' '){
+		$from['name']=$teachername;$from['email']=$teacher['email'];
+		}
+	else{
+		$from['name']='ClaSS';$from['email']=$CFG->emailnoreply;;
+		}
+
+	if($recipients and $CFG->emailoff!='yes' and $CFG->emailcomments=='yes'){
+		if(sizeof($recipients)>0){
+			$dones=array();/* Try not to send duplicates. */
+			foreach($recipients as $recipient){
+				if(!array_key_exists($recipient['username'],$dones)){
+					$recipient['email']=strtolower($recipient['email']);
+					send_email_to($recipient['email'],$from,$messagesubject,$messagetext);
+					$result[]=get_string('emailsentto','infobook').' '.$recipient['username'];
+					$dones[$recipient['username']]=$recipient['username'];
+					}
+				}
+			}
+		}
+
+	return $result;
+	}
+
+
+
+/**
+ *
  * Returns a record from the classes table, Must have crid, bid, and
  * stage set.
  *
