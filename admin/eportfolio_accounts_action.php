@@ -65,35 +65,6 @@ if($photocheck=='yes'){
  */
 
 
-
 include('scripts/results.php');
 include('scripts/redirect.php');
-
-						/* TODO: Make optional to grab their new epfusername and
-						 * send them an and email with the details. 
-						 */
-						/*
-						  $Contact=fetchContact(array('guardian_id'=>$gid));
-						  $emailaddress=strtolower($Contact['EmailAddress']['value']);
-						  if($CFG->emailoff!='yes' and $emailaddress!=''){
-						  $fromaddress=$CFG->schoolname;
-						  $subject=get_string('eportfolioemailsubject',$book);
-						  $message=get_string('eportfolioguardianemail1',$book);
-						  $message.= "\r\n". 'Your user-name is: ' 
-						  .$Contact['EPFUsername']['value']. "\r\n";
-						  
-						// NOT sending out passwords!!!!!!!!!!!!!
-						//$message.= "\r\n". 'Your password is: ' 
-						//					.$firstchild. "\r\n";
-						$message.=get_string('eportfolioguardianemail2',$book);
-						$message.=get_string('eportfolioguardianemail3',$book);
-						$message.= "\r\n".'Su nombre de usuario es: '.$Contact['EPFUsername']['value']. "\r\n";
-						$message.=get_string('eportfolioguardianemail4',$book);
-						$footer='--'. "\r\n" .get_string('guardianemailfooterdisclaimer');
-						$message.="\r\n". $footer;
-						
-						// NOT sending anything!!!!!!!!!!!!!!!!!
-						//send_email_to($emailaddress,$fromaddress,$subject,$message);
-						}
-						*/
 ?>

@@ -115,5 +115,4 @@ $externalbooks['teacher']=array(
 								);
 	}
 $books['external']=$externalbooks;
-
 ?>

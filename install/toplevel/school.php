@@ -137,6 +137,7 @@ $CFG->eportfoliotabname='Portfolio';
 $CFG->eportfolioshare='secret';
 $CFG->eportfolio_db='classelgg';
 $CFG->eportfolio_db_prefix='elgg';
+$CFG->eportfolio_access='enrol';
 /* The dataroot shared with the eportfolio which is where uploaded files will go.
  * This should be outside your wwwroot. Specified relative to your installpath.
  */

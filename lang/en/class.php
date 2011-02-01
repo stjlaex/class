@@ -212,6 +212,33 @@ $string['guardianemailfooterdisclaimer']='
 		you believe you have received this email by mistake. Any
 		unauthorized use or dissemination of this message in whole or
 		in part is strictly prohibited.';
+$string['epfreportemail1']='Dear Parent,
+
+You now have access to your child\'s latest homework and academic
+reports through the web-site ClaSSic. The link to access ClaSSic can
+be found on the front page of the official school website.
+
+Access to ClaSSic is protected by a user-name and password. These
+are personal to you and we ask that you do not share them with
+anyone.
+';
+$string['epfreportemail2dob']='
+Your password is the date of birth of your child typed as a continuous
+number without spaces or hyphens. The order must be day month year.
+For example the 9th of March 1998 would be 09031998. If you have more
+than one child at the school then it is possible your password will be
+the date of birth for one of your other children.
+
+Should you need any further help then please refer to the information
+on the ClaSSic website.
+';
+$string['epfreportemail2no']='
+Your password is the matriculation number of your child and can be
+found on any invoices or bills from the school. If you have more than
+one child at the school then your password maybe the matriculation
+number for either the eldest or youngest child. If you need any
+further help then please refer to the information on ClaSSic.
+';
 $string['passwords']='Passwords';
 $string['statementbank']='Statement bank';
 $string['subjectcomponent']='Subject component';

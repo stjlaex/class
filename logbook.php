@@ -52,7 +52,7 @@
 <?php
 	if($fresh!=''){
 		$role=$_SESSION['role'];
-		if($_SESSION['senrole']=='1'){$books[$role]['seneeds']='SEN';}
+		if($_SESSION['senrole']=='1'){$books[$role]['seneeds']='Support';}
 		}
 
 	if($fresh=='yes'){
