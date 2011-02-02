@@ -74,7 +74,7 @@ if(sizeof($rids)!=0){
 			if(($mailing=='1' or $mailing=='2') and $Contact['EmailAddress']['value']!='' 
 			   and $Contact['EPFUsername']['value']!=''){
 				$recipient=$Contact['EmailAddress']['value'];
-				$recipient='stj@laex.org';
+				//$recipient='stj@laex.org';
 				$message=get_string('epfreportemail1');
 				$message.= "\r\n". 'Your username is: ' .$Contact['EPFUsername']['value']. "\r\n";
 				//$message.= "\r\n". 'Your password is: ' .$password. "\r\n";
