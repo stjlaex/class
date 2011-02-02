@@ -216,7 +216,8 @@ $string['epfreportemail1']='Dear Parent,
 
 You now have access to your child\'s latest homework and academic
 reports through the web-site ClaSSic. The link to access ClaSSic can
-be found on the front page of the official school website.
+be found on the front page of the official school website under the
+area for Parents.
 
 Access to ClaSSic is protected by a user-name and password. These
 are personal to you and we ask that you do not share them with
@@ -227,7 +228,8 @@ Your password is the date of birth of your child typed as a continuous
 number without spaces or hyphens. The order must be day month year.
 For example the 9th of March 1998 would be 09031998. If you have more
 than one child at the school then it is possible your password will be
-the date of birth for one of your other children.
+the date of birth for one of your other children, so please do try
+them all.
 
 Should you need any further help then please refer to the information
 on the ClaSSic website.
