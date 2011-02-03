@@ -109,6 +109,8 @@ $CFG->emailincidents='yes';
 $CFG->emailguardianincidents='no';
 $CFG->emailcomments='no';
 $CFG->emailguardiancomments='no';
+$CFG->emailmerits='no';
+$CFG->emailguardianmerits='no';
 /*will exclude guardians of boarders from all emails unless set to 'yes'*/
 $CFG->emailboarders='no';
 /*send out reminders to relevant staff of approaching deadlines*/

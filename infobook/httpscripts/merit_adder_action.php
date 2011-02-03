@@ -48,7 +48,7 @@ elseif($sub=='Submit'){
 									'$pointsresult','$detail','$bid', '$pid');");
 
 
-		if($CFG->emailcomments=='yes'){
+		if(isset($CFG->emailmerits) and $CFG->emailmerits=='yes'){
 			/* Message to relevant teaching staff. */
 			list($ratingnames,$catdefs)=fetch_categorydefs('mer');
 

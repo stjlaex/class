@@ -19,6 +19,8 @@ address.
 Pulled out email to teachers as its own function and used across
 comments, incidents and merits.
 
+New CFG option for emailing merits.
+
 Added a generic message from Report for parent access details to their
 epfortolio.
 
