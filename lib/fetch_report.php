@@ -897,10 +897,12 @@ function fetchReportEntry($reportdef,$sid,$bid,$pid){
 			   $reportyear=$reportdef['report']['year'];
 			   //$fromdate=$reportyear.'-02-14';
 			   $comment_div=array();
+			   $Student=fetchStudent_short($sid);
 			   foreach($reportdef['report']['profile_names'] as $profile_name){
 				   $Statements=(array)fetchProfileStatements($profile_name,$bid,$pid,$sid,$fromdate);
 				   if(sizeof($Statements)>0){
 					   for($c=sizeof($Statements)-1;$c>-1;$c--){
+						   $Statement=personaliseStatement($Statements[$c],$Student);
 						   $comment_list['li'][]=''.$Statements[$c]['Value'];
 						   }
 					   }
@@ -935,12 +937,15 @@ function fetchReportEntry($reportdef,$sid,$bid,$pid){
 			  	$Category=array('label'=>$catname,'id_db'=>$catid,'value'=>'');
 				if(isset($entry['ratings'][$catid])){
 					reset($ratings);
-					while(list($value,$descriptor)=each($ratings)){
+					foreach($ratings as $value => $descriptor){
 				   		if($entry['ratings'][$catid]==$value){$Category['value']=$value;}
 						}
 				   	}
 				/* Only pass catgories which have had a value set. */
 			   	if($Category['value']!='' or $Category['value']=='0'){
+					$Statement=array('Value'=>$Category['label']);
+					$Statement=personaliseStatement($Statement,$Student);
+					$Category['label']=$Statement['Value'];
 					$Categories['Category'][]=nullCorrect($Category);
 					}
 		   		}
