@@ -65,7 +65,7 @@ if($sub=='Submit' and $recipients and sizeof($recipients)>0 and !isset($error)){
 			}
 
 		/* For the BCC */
-		$extrarecipient=array('email'=>$messagebcc,'explanantion'=>'');
+		$extrarecipient=array('email'=>$messagebcc,'explanation'=>'');
 		$recipients[]=$extrarecipient;
 
 		foreach($recipients as $key => $recipient){

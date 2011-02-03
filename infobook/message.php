@@ -84,8 +84,11 @@ if($messageto=='student'){
 		}
 	elseif($messageto=='contacts' or $messageto=='family'){
 		
+		$formtutors=array();
 		while(list($index,$sid)=each($sids)){
 			$Student=fetchStudent_short($sid);
+			$formtutors[$Student['RegistrationTutor']['email']]=array('email'=>$Student['RegistrationTutor']['email'],
+								  'explanation'=>$CFG->schoolname.' message to parents of '.$Student['RegistrationGroup']['value']);
 			$Contacts=(array)fetchContacts($sid);
 			$sid_recipient_no=0;
 			while(list($index,$Contact)=each($Contacts)){
@@ -146,6 +149,11 @@ if($messageto=='student'){
 			}
 
 		}
+
+foreach($formtutors as $tutor){
+	$recipients[]=$tutor;
+	}
+
 
 $_SESSION[$book.'recipients']=$recipients;
 

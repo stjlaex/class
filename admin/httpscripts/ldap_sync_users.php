@@ -198,9 +198,7 @@ if($ds){
 				$info['cn']=$Students[$sid]['Forename']['value'] . ' ' . $Students[$sid]['Surname']['value'];
 				$info['givenName']=$Students[$sid]['Forename']['value'];
 				$info['sn']=$Students[$sid]['Surname']['value'];
-				if($Students[$sid]['EmailAddress']['value']==''){$info['mail']=$epfusername;}
-				else{$info['mail']=$Students[$sid]['EmailAddress']['value'];}
-				$info['ou']='student'; 
+				$info['ou']='student';
 				$info['objectclass']= 'inetOrgPerson';
 				$distinguishedName="uid=$epfusername".',ou=student'.',ou=people'.',dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
 
@@ -221,6 +219,8 @@ if($ds){
 					}
 				else{
 					/* OK, the entry does not exist in LDAP so insert it into LDAP DB */
+					if($Students[$sid]['EmailAddress']['value']==''){$info['mail']=$epfusername;}
+					else{$info['mail']=$Students[$sid]['EmailAddress']['value'];}
 					$info['userPassword']= '{MD5}' . base64_encode(pack('H*',md5($firstpass)));
 					/* add data to ldap directory */
 					$distinguishedName="uid=$epfusername" . ',ou=student'.',ou=people'.',dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
