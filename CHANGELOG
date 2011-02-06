@@ -26,6 +26,8 @@ epfortolio.
 
 Included form tutors as a bcc on messages to parents.
 
+Tweaked generate_epfusername to cope better with corrupt names.
+
 
 
 Version ClaSS-0.9.32 release (2011/01/17)

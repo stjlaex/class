@@ -844,6 +844,7 @@ function checkReportEntryCat($rid,$sid,$bid,$pid){
 function fetchReportEntry($reportdef,$sid,$bid,$pid){
 
 	$Comments=array();
+	$Student=fetchStudent_short($sid);
 	//$Comments['Comment']=array();
 	$rid=$reportdef['report']['id'];
    	$d_reportentry=mysql_query("SELECT * FROM reportentry WHERE
@@ -897,13 +898,12 @@ function fetchReportEntry($reportdef,$sid,$bid,$pid){
 			   $reportyear=$reportdef['report']['year'];
 			   //$fromdate=$reportyear.'-02-14';
 			   $comment_div=array();
-			   $Student=fetchStudent_short($sid);
 			   foreach($reportdef['report']['profile_names'] as $profile_name){
 				   $Statements=(array)fetchProfileStatements($profile_name,$bid,$pid,$sid,$fromdate);
 				   if(sizeof($Statements)>0){
 					   for($c=sizeof($Statements)-1;$c>-1;$c--){
 						   $Statement=personaliseStatement($Statements[$c],$Student);
-						   $comment_list['li'][]=''.$Statements[$c]['Value'];
+						   $comment_list['li'][]=''.$Statement['Value'];
 						   }
 					   }
 				   }

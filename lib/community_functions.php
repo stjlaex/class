@@ -826,6 +826,7 @@ function generate_epfusername($User=array(),$role='student'){
 		$start=str_replace(' ','',$start);
 		$start=str_replace("'",'',$start);
 		$start=str_replace('-','',$start);
+		$start=str_replace('?','',$start);
 		$start=substr($start,0,6);
 		$classtable='guardian';
 		$classfield='id';
@@ -845,6 +846,7 @@ function generate_epfusername($User=array(),$role='student'){
 		}
 
 	$epfusername=good_strtolower($start. $tail);
+	$start=str_replace('-','',$epfusername);
 	$epfusername=str_replace("'",'',$epfusername);
 	$epfusername=str_replace(' ','',$epfusername);
 	$epfusername=clean_text($epfusername);
