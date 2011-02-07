@@ -16,7 +16,7 @@ $books['all']=array(
 					  ,'infobook' => 'InfoBook'
 					  ,'entrybook' => 'EntryBook'
 					  ,'seneeds' => 'Support'
-					  ,'medbook' => 'MedBook'
+					  ,'medbook' => 'Medical'
 					  //,'library' => 'Library'
 				 );
 /** 
@@ -33,8 +33,6 @@ $books['admin']=array(
 					  ,'markbook' => 'MarkBook'
 					  ,'register' => 'Register'
 					  ,'infobook' => 'InfoBook'
-					  ,'medbook' => 'MedBook'
-					  ,'seneeds' => 'Support'
 					  ,'entrybook' => 'EntryBook'
 					  );
 $books['office']=array(
@@ -56,7 +54,7 @@ $books['sen']=array(
 $books['medical']=array(
 						'infobook' => 'InfoBook'
 						,'register' => 'Register'
-						,'medbook' => 'MedBook'
+						,'medbook' => 'Medical'
 						);
 $books['district']=array(
 						'admin' => 'Admin'

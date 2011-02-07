@@ -53,6 +53,7 @@
 	if($fresh!=''){
 		$role=$_SESSION['role'];
 		if($_SESSION['senrole']=='1'){$books[$role]['seneeds']='Support';}
+		if($_SESSION['medrole']=='1'){$books[$role]['medbook']='Medical';}
 		}
 
 	if($fresh=='yes'){

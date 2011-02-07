@@ -83,6 +83,7 @@ class User{
 	$_SESSION['firstbookpref']=$values->firstbookpref;
 	$_SESSION['role']=$values->role;
 	$_SESSION['senrole']=$values->senrole;
+	$_SESSION['medrole']=$values->medrole;
 	$_SESSION['worklevel']=$values->worklevel;
 	$_SESSION['logged']=true;
 	if($remember){

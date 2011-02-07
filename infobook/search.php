@@ -66,8 +66,9 @@ if($_SESSION['role']=='office' or $_SESSION['role']=='admin' or $_SESSION['role'
 		$selgfield='surname';
 		/*only used for the infobook search options, not an enumarray at all!*/
 		$contactfield=array(
+							'surname' => 'surname',
 							'country' => 'country',
-							'surname' => 'surname'
+							'private' => 'private'
 							);
 		$studentfield=array(
 							'surname' => 'surname', 
@@ -75,6 +76,9 @@ if($_SESSION['role']=='office' or $_SESSION['role']=='admin' or $_SESSION['role'
 							'nationality' => 'nationality',
 							'gender' => 'gender'
 							);
+		if($CFG->enrol_boarders=='yes'){
+			$studentfield['boarder']='boarder';
+			}
 		/***/
 		$enum=$contactfield;
 		while(list($val,$description)=each($enum)){	
@@ -152,6 +156,13 @@ if($_SESSION['role']=='office' or $_SESSION['role']=='admin' or $_SESSION['role'
 		list_select_enum('country',$listoptions,$book);
 ?>
 		</div>
+		<div id="switchcontactprivate" class="hidden">
+<?php 
+	    $listname='contactprivate';$listlabel='';$listfilter='guardian';;
+		include('scripts/set_list_vars.php');
+		list_select_enum('private',$listoptions,$book);
+?>
+		</div>
 		<div id="switchstudentsurname" class="hidden">
 		  <input tabindex="<?php print $tab++;?>" 
 			type="text" name="studentsurname" value="" maxlength="30"/>
@@ -174,5 +185,18 @@ if($_SESSION['role']=='office' or $_SESSION['role']=='admin' or $_SESSION['role'
 		list_select_enum('nationality',$listoptions,$book);
 ?>
 		</div>
+<?php
+	if($CFG->enrol_boarders=='yes'){
+?>
+		<div id="switchstudentboarder"  class="hidden">
+<?php
+		$listname='studentboarder';$listlabel='';$listfilter='info';
+		include('scripts/set_list_vars.php');
+		list_select_enum('boarder',$listoptions,$book);
+?>
+		</div>
+<?php
+		}
+?>
   </div>
 

@@ -1,3 +1,17 @@
+Version ClaSS-0.9.34 release (2011/02/10)
+-----------------------------------------
+
+Added boarder and private as InfoBook search options.
+
+Flag for medical access added to users table. Apply the patch! 
+
+Field for exchange rate added to orderinvoce table.
+
+Support and Medical tabs removed for admin users unless specifically
+flagged medrole or senrole.
+
+
+
 Version ClaSS-0.9.33 release (2011/01/30)
 -----------------------------------------
 

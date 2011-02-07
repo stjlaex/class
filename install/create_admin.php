@@ -121,6 +121,7 @@ CREATE TABLE  users (
   firstbookpref varchar(20),
   role			varchar(20),
   senrole		enum('0','1') not null,
+  medrole		enum('0','1') not null,
   worklevel	   	enum('-1','0', '1', '2') not null default '0',
   nologin		tinyint(1) not null default '0',
   logcount		int(10) unsigned not null default '0',

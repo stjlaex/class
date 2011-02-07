@@ -22,6 +22,7 @@ if($sub=='Submit' and $_POST['seluid']!=''){
    	$user['emailpasswd']=($_POST['emailpasswd']);
    	$user['role']=$_POST['role'];
    	$user['senrole']=$_POST['senrole'];
+   	$user['medrole']=$_POST['medrole'];
    	$user['firstbookpref']=clean_text($_POST['book']);
    	$user['worklevel']=$_POST['worklevel'];
    	if(isset($_POST['nologin'])){$user['nologin']=$_POST['nologin'];}

@@ -579,19 +579,35 @@ function get_budget_current($budid=-1){
 			if($specialaction==0){
 				/* Iterate over each currency in use */
 				foreach($currencyrates as $currency => $rate){
-					/*Add invoices*/
+					/* Add invoices: have to cover both where an
+					 *  exchange rate set on the invoice and use the
+					 *  system exchange rate where it is blank.
+					*/
+					$d_sum=mysql_query("SELECT SUM(debitcost*exchange) FROM
+						orderinvoice JOIN orderaction ON
+						orderinvoice.id=orderaction.invoice_id WHERE
+						orderinvoice.credit='0' AND orderaction.action='3' AND
+						orderaction.order_id='$closed_ordid' AND orderinvoice.currency='$currency' AND orderinvoice.exchange>'0';");
+					$sum+=mysql_result($d_sum,0);
 					$d_sum=mysql_query("SELECT SUM(debitcost) FROM
 						orderinvoice JOIN orderaction ON
 						orderinvoice.id=orderaction.invoice_id WHERE
 						orderinvoice.credit='0' AND orderaction.action='3' AND
-						orderaction.order_id='$closed_ordid' AND orderinvoice.currency='$currency';");
+						orderaction.order_id='$closed_ordid' AND orderinvoice.currency='$currency' AND orderinvoice.exchange='0';");
 					$sum+=$rate*mysql_result($d_sum,0);
 					/*Subtract credit notes*/
+					$d_sum=mysql_query("SELECT SUM(debitcost*exchange) FROM
+						orderinvoice JOIN orderaction ON
+						orderinvoice.id=orderaction.invoice_id WHERE
+						orderinvoice.credit='1' AND orderaction.action='3' AND
+						orderaction.order_id='$closed_ordid' AND orderinvoice.currency='$currency' AND orderinvoice.exchange>'0';");
+					$sum-=mysql_result($d_sum,0);
+					if(mysql_result($d_sum,0)>0){trigger_error('INVOICE:  '.mysql_result($d_sum,0),E_USER_WARNING);}
 					$d_sum=mysql_query("SELECT SUM(debitcost) FROM
 						orderinvoice JOIN orderaction ON
 						orderinvoice.id=orderaction.invoice_id WHERE
 						orderinvoice.credit='1' AND orderaction.action='3' AND
-						orderaction.order_id='$closed_ordid' AND orderinvoice.currency='$currency';");
+						orderaction.order_id='$closed_ordid' AND orderinvoice.currency='$currency' AND orderinvoice.exchange='0';");
 					$sum-=$rate*mysql_result($d_sum,0);
 					}
 				}

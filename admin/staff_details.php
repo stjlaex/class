@@ -186,6 +186,12 @@ if($_SESSION['role']=='admin' or $aperm==1){
 		  $list[]=array('id'=>'0','name'=>get_string('no'));
 		  $list[]=array('id'=>'1','name'=>get_string('yes'));
 		  list_select_list($list,$listoptions);
+
+		  unset($key);
+		  $listname='medrole';$selmedrole=$edituser['medrole'];$listlabel='medrole';$required='yes';
+		  include('scripts/set_list_vars.php');
+		  list_select_list($list,$listoptions);
+
 ?>
 
 		</div>
@@ -195,6 +201,7 @@ if($_SESSION['role']=='admin' or $aperm==1){
 ?>
 	  <input type="hidden" name="role" value="<?php print $edituser['role']; ?>">
 	  <input type="hidden" name="senrole" value="<?php print $edituser['senrole']; ?>">
+	  <input type="hidden" name="medrole" value="<?php print $edituser['medrole']; ?>">
 	  <input type="hidden" name="worklevel" value="<?php print $edituser['worklevel']; ?>">
 	  <input type="hidden" name="nologin" value="<?php print $edituser['nologin']; ?>">
 <?php

@@ -108,9 +108,8 @@ function list_responsible_users($tid,$respons,$r=0){
 		subject_id LIKE '$rbid' AND course_id LIKE '$rcrid' ORDER BY id");
 		while($cid=mysql_fetch_row($d_cids)){
 			$d_users=mysql_query("SELECT DISTINCT uid,
-			   	username, passwd, forename, surname, email, emailuser,
-				emailpasswd, nologin,
-				firstbookpref, role, senrole, epfusername FROM users JOIN tidcid ON 
+			   	username, passwd, forename, surname, email, emailuser, emailpasswd, nologin,
+				firstbookpref, role, senrole, medrole, epfusername FROM users JOIN tidcid ON 
 				users.username=tidcid.teacher_id WHERE
 				tidcid.class_id='$cid[0]' AND users.nologin!='1' ORDER BY username");
 		  while($user=mysql_fetch_array($d_users,MYSQL_ASSOC)){
@@ -146,7 +145,7 @@ function list_pastoral_users($ryid,$perms){
 		$d_users=mysql_query("SELECT DISTINCT users.uid,
 			   	username, passwd, forename, surname, email, emailuser,
 				emailpasswd, nologin,
-				firstbookpref, role, senrole, epfusername FROM users JOIN perms ON 
+				firstbookpref, role, senrole, medrole, epfusername FROM users JOIN perms ON 
 				users.uid=perms.uid WHERE perms.gid='$gid' AND perms.r='$r' 
 				AND perms.w='$w' AND perms.x='$x'");
 		while($user=mysql_fetch_array($d_users,MYSQL_ASSOC)){
@@ -253,7 +252,7 @@ function list_all_users($nologin='%'){
    	$users=array();
 	$d_users=mysql_query("SELECT uid, username, passwd, forename,
 				surname, title, email, emailuser, emailpasswd, nologin, firstbookpref,
-				role, worklevel, senrole, epfusername
+				role, worklevel, senrole, medrole, epfusername
 				FROM users WHERE nologin LIKE '$nologin' ORDER BY username");
 	while($user=mysql_fetch_array($d_users,MYSQL_ASSOC)){;
 		$uid=$user['uid'];
@@ -280,7 +279,7 @@ function list_teacher_users($crid='',$bid='',$nologin='0'){
 			$d_users=mysql_query("SELECT uid, username, passwd, forename,
 					surname, title, email, emailuser, emailpasswd,
 					nologin, firstbookpref, role, worklevel,
-					senrole, epfusername FROM users WHERE
+					senrole, medrole, epfusername FROM users WHERE
 					username='$tid' AND nologin LIKE '$nologin';");
 			$user=mysql_fetch_array($d_users,MYSQL_ASSOC);
 			$users[$tid]=$user;
@@ -291,7 +290,7 @@ function list_teacher_users($crid='',$bid='',$nologin='0'){
 		$d_user=mysql_query("SELECT uid, username, passwd, forename,
 				surname, title, email, emailuser, emailpasswd, 
 				nologin, firstbookpref, role, worklevel, senrole, 
-				epfusername FROM users WHERE
+				medrole, epfusername FROM users WHERE
 				(role='teacher' or role='admin') AND nologin LIKE '$nologin' AND
 				username!='administrator' ORDER BY username");
 		while($user=mysql_fetch_array($d_user,MYSQL_ASSOC)){
@@ -407,7 +406,7 @@ function getMedicalPerm($yid,$respons){
 	$perm['w']=0;
 	$perm['x']=0;
 	$perm=getYearPerm($yid,$respons);
-	if($_SESSION['role']=='medical'){$perm['r']=1;$perm['w']=1;}
+	if($_SESSION['role']=='medical' or $_SESSION['medrole']=='1'){$perm['r']=1;$perm['w']=1;}
 	return $perm;
 	}
 
@@ -634,6 +633,7 @@ function update_user($user,$update='no',$short='class'){
 		}
     if(isset($user['nologin'])){$nologin=$user['nologin'];}else{$nologin='0';}
     if(isset($user['senrole'])){$senrole=$user['senrole'];}else{$senrole='0';}
+    if(isset($user['medrole'])){$medrole=$user['medrole'];}else{$medrole='0';}
 
  	/*All users get a passwd based on the shortkeyword (set in $CFG) and a
    	/*userno, this formula should be personalised to meet your needs.*/
@@ -656,7 +656,7 @@ function update_user($user,$update='no',$short='class'){
 			mysql_query("UPDATE users SET
 				  surname='$surname', forename='$forename', title='$title',
 							email='$email', emailuser='$emailuser', emailpasswd='$emailpasswd', 
-					role='$role', senrole='$senrole', worklevel='$worklevel', nologin='$nologin',
+					role='$role', senrole='$senrole', medrole='$medrole', worklevel='$worklevel', nologin='$nologin',
 					firstbookpref='$firstbookpref' WHERE username='$username'");
 			$result=$result.'Updated details for user '.$username;
 			}
@@ -665,11 +665,11 @@ function update_user($user,$update='no',$short='class'){
 		mysql_query("INSERT INTO users (username, passwd, forename,
 							surname, title,
 					email, emailuser, emailpasswd, role, nologin, worklevel,
-							senrole, firstbookpref) 
+							senrole, medrole, firstbookpref) 
 					VALUES ('$username', '$assword', '$forename',
 					 '$surname', '$title', '$email', '$emailuser', 
 						'$emailpasswd', '$role', '$nologin', '$worklevel',
-					   '$senrole', '$firstbookpref')");
+					   '$senrole', '$medrole', '$firstbookpref')");
 		$result=$result.'Username '.$username.' added.';
 		}
 
