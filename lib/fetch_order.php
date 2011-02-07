@@ -602,7 +602,6 @@ function get_budget_current($budid=-1){
 						orderinvoice.credit='1' AND orderaction.action='3' AND
 						orderaction.order_id='$closed_ordid' AND orderinvoice.currency='$currency' AND orderinvoice.exchange>'0';");
 					$sum-=mysql_result($d_sum,0);
-					if(mysql_result($d_sum,0)>0){trigger_error('INVOICE:  '.mysql_result($d_sum,0),E_USER_WARNING);}
 					$d_sum=mysql_query("SELECT SUM(debitcost) FROM
 						orderinvoice JOIN orderaction ON
 						orderinvoice.id=orderaction.invoice_id WHERE
