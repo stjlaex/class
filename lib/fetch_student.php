@@ -123,6 +123,7 @@ function fetchStudent_singlefield($sid,$tag){
    	elseif($tag=='PersonalNumber'){$fieldname='upn';}
 	elseif(substr_count($tag,'FirstContact')){$contactno=0;}
 	elseif(substr_count($tag,'SecondContact')){$contactno=1;}
+	elseif(substr_count($tag,'ThirdContact')){$contactno=2;}
 	elseif(substr_count($tag,'Medical')){$medtype=substr($tag,-3);}
 	elseif(substr_count($tag,'Assessment')){$eid=substr($tag,10);}
    	elseif($tag=='Postcode'){
@@ -886,6 +887,9 @@ function fetchIncidents($sid,$startdate='',$enddate=''){
 	return nullCorrect($Incidents);
 	}
 
+
+
+
 /**
  * All backgrounds for this sid.
  *
@@ -906,6 +910,9 @@ function fetchBackgrounds($sid='-1'){
 	return $Backgrounds;
 	}
 
+
+
+
 /**
  * All of the background entries of one type for this sid.
  *
@@ -917,8 +924,7 @@ function fetchBackgrounds($sid='-1'){
 function fetchBackgrounds_Entries($sid,$type){
 		$Entries=array();
 		$d_background=mysql_query("SELECT * FROM background WHERE 
-				student_id='$sid' AND type='$type' ORDER BY
-				yeargroup_id, entrydate, id;");
+				student_id='$sid' AND type='$type' ORDER BY yeargroup_id, entrydate, id;");
 
 		while($entry=mysql_fetch_array($d_background,MYSQL_ASSOC)){
 			$Entry=array();
@@ -938,8 +944,7 @@ function fetchBackgrounds_Entries($sid,$type){
 			for($c3=0; $c3<sizeof($pairs)-1; $c3++){
 				list($catid, $rank)=explode(':',$pairs[$c3]);
 				$Category=array();
-				$d_categorydef=mysql_query("SELECT name FROM categorydef
-									WHERE id='$catid'");
+				$d_categorydef=mysql_query("SELECT name FROM categorydef WHERE id='$catid'");
 				if(mysql_num_rows($d_categorydef)>0){
 					$catname=mysql_result($d_categorydef,0);
 					}
@@ -964,7 +969,7 @@ function fetchBackgrounds_Entries($sid,$type){
 									  'type_db' => 'date', 
 									  'value' => ''.$entry['entrydate']);
 			unset($comment_html);
-			$comment_html['div'][]=$entry['comment'];
+			$comment_html['div'][]=$entry['detail'];
 
 			$Entry['Detail']=array('label' => 'details', 
 								   'field_db' => 'detail', 
@@ -1261,6 +1266,12 @@ function fetchEnrolment($sid='-1'){
 									   'value' => ''.$info['appcat']
 									   );
 	*/
+	$Enrolment['Siblings']=array('label' => 'siblings', 
+								  'table_db' => 'info', 
+								  'field_db' => 'siblings', 
+								  'type_db' => 'enum', 
+								  'value' => ''.$info['siblings']
+								  );
 	$Enrolment['StaffChild']=array('label' => 'staffchild', 
 								  'table_db' => 'info', 
 								  'field_db' => 'staffchild', 

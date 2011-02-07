@@ -35,6 +35,7 @@ CREATE TABLE info (
 	appnotes		text not null default '',
 	appcategory		varchar(240) not null default '',
 	appdate			date null,
+	siblings		enum('N','Y') not null,
    	primary key		(student_id)
 );");
 

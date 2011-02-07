@@ -8,12 +8,15 @@ $action='new_student_action.php';
 three_buttonmenu();
 
 $Student=fetchStudent();
+$Enrolment=fetchEnrolment(-1);
+$Student[]=$Enrolment['Siblings'];
+$Student[]=$Enrolment['StaffChild'];
 
 $Inputs=array();
 //$studentfields=array('Forename','Surname','Gender','DOB','Boarder');
+/* Use studentfields to limit entry for the subset of fields listed. */
 $studentfields=array();
 $Inputs[]=array_filter_fields($Student,$studentfields);
-
 ?>
 
   <div class="content">

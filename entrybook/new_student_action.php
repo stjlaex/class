@@ -19,6 +19,9 @@ include('scripts/sub_action.php');
 if($sub=='Submit'){
 
 	$Student=fetchStudent();
+	$Enrolment=fetchEnrolment(-1);
+	$Student[]=$Enrolment['Siblings'];
+	$Student[]=$Enrolment['StaffChild'];
 	mysql_query("INSERT INTO student SET surname=''");
 	$sid=mysql_insert_id();
 	mysql_query("INSERT INTO info SET student_id='$sid'");

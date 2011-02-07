@@ -10,6 +10,12 @@ Field for exchange rate added to orderinvoce table.
 Support and Medical tabs removed for admin users unless specifically
 flagged medrole or senrole.
 
+Added third contact to the student single field options.
+
+Fixed display of enrolment notes.
+
+Added siblings flag to the info table and made part of student enrolment data.
+
 
 
 Version ClaSS-0.9.33 release (2011/01/30)

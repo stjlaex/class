@@ -327,6 +327,7 @@ function getEnumArray($field_name){
 				 'W' => 'withdrawnfromcollectiveworthship');
 	$parttime=array('N' => 'no', 'Y' => 'yes');
 	$staffchild=array('N' => 'no', 'Y' => 'yes');
+	$siblings=array('N' => 'no', 'Y' => 'yes');
 	$sen=array('N' => 'no', 'Y' => 'yes');
 	$closed=array('N' => 'open', 'Y' => 'closed');
 	$medical=array('N' => 'no', 'Y' => 'yes');
@@ -895,6 +896,7 @@ function getEnumArray($field_name){
                         'FirstContactEPFUsername'=>'firstcontactepfu',
                         'FirstContactNote'=>'firstcontactnote',
                         'FirstContactPrivate'=>'firstcontactprivate',
+                        'FirstContactTitle'=>'firstcontacttitle',
 						'SecondContact'=>'secondcontact',
 						'SecondContactPhone'=>'secondcontactphone',
 						'SecondContactEmailAddress'=>'secondcontactemailaddress',
@@ -902,7 +904,15 @@ function getEnumArray($field_name){
 						'SecondContactProfession'=>'secondcontactprofession',
                         'SecondContactEPFUsername'=>'secondcontactepfu',
                         'SecondContactNote'=>'secondcontactnote',
-                        'SecondContactPrivate'=>'secondcontactprivate'
+                        'SecondContactPrivate'=>'secondcontactprivate',
+						'ThirdContact'=>'thirdcontact',
+						'ThirdContactPhone'=>'thirdcontactphone',
+						'ThirdContactEmailAddress'=>'thirdcontactemailaddress',
+						'ThirdContactPostalAddress'=>'thirdcontactaddress',
+						'ThirdContactProfession'=>'thirdcontactprofession',
+                        'ThirdContactEPFUsername'=>'thirdcontactepfu',
+                        'ThirdContactNote'=>'thirdcontactnote',
+                        'ThirdContactPrivate'=>'thirdcontactprivate'
 						);
 	/*for the register*/
 	$absencecode=array(

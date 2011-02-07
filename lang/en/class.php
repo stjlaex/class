@@ -316,6 +316,7 @@ $string['transfersout']='Transfers out';
 $string['leaverssince']='Leavers this year';
 $string['reenroled']='Re-enroled last year';
 $string['reenroling']='Re-enroling';
+$string['notreenroling']='Not Re-enroling';
 $string['newenrolments']='New enrolments';
 $string['capacity']='Capacity';
 $string['currentroll']='Current roll';

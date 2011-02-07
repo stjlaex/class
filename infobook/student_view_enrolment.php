@@ -103,14 +103,14 @@ three_buttonmenu();
 			<td>
 <?php 
 		if($index==0 and $CFG->enrol_assess=='yes'){
-			$EnrolNotes=fetchBackgrounds_Entries($sid,'ena');
+			$EnrolNotes=(array)fetchBackgrounds_Entries($sid,'ena');
 			print '<label>'.get_string('notes',$book).'</label>';
 ?>
 			  <input type="text" style="display:none;"
 					name="enaid" value="<?php print $EnrolNotes[0]['id_db'];?>" />
 			  <textarea name="enadetail" id="Detail"   
 				tabindex="<?php print $tab++;?>" rows="3" cols="30" 
-				  ><?php print $EnrolNotes[0]['Detail']['value'];?></textarea>
+				  ><?php print $EnrolNotes[0]['Detail']['value_db'];?></textarea>
 <?php 
 		  }
 ?>
