@@ -21,7 +21,7 @@ $yeargroups=list_yeargroups();
 
 /* Does the school have boarders? */
 if(isset($CFG->enrol_boarders) and $CFG->enrol_boarders=='yes'){
-	$yeargroups[]=array('id'=>'B','name'=>'Residence');
+	$yeargroups[]=array('id'=>'boarder','name'=>'Residence','type'=>'subtotal');
 	}
 
 $d_a=mysql_query("SELECT MAX(date) FROM admission_stats WHERE year='$enrolyear' AND date<='$todate';");
@@ -66,6 +66,7 @@ foreach($doing as $todo){
 		$Group=array();
 		$Group['id']=$yid;
 		$Group['name']=$group['name'];
+		if(isset($group['type'])){$Group['type']=$group['type'];}else{$Group['type']='year';}
 		$Group['Number']=array();
 		$d_s=mysql_query("SELECT name, count FROM admission_stats WHERE 
 							name LIKE '%:$yid' AND year='$year' AND date='$date' ORDER BY name;");

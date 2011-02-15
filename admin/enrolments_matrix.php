@@ -42,7 +42,6 @@ if(mysql_result($d_a,0)>0){
 else{
 	$save_stats=true;
 	}
-$save_stats=true;
 
 $yeargroups=list_yeargroups();
 $yeargroup_names=array();/* The row index for both tables. */
