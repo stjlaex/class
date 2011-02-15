@@ -42,9 +42,9 @@ function feeder_fetch($scriptname,$feeder,$postdata){
 	curl_close($curl);
 
 	//trigger_error($url,E_USER_WARNING);
-	//trigger_error($response,E_USER_WARNING);
+	trigger_error($response,E_USER_WARNING);
 	
-	if($response!=''){$Response=xmlreader($response);}
+	if($response!=''){$Response=xmlstringToArray($response);}
 	else{$Response=array();}
 
 	return $Response;

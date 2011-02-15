@@ -17,6 +17,9 @@ if(isset($_POST['enrolyear']) and $_POST['enrolyear']!=''){$enrolyear=$_POST['en
 else{$enrolyear=$currentyear+1;}
 
 $extrabuttons=array();
+$extrabuttons['statistics']=array('name'=>'current',
+								  'value'=>'yeargroup_statistics.php'
+								  );
 $extrabuttons['report']=array('name'=>'current',
 							  'pathtoscript'=>$CFG->sitepath.'/'.$CFG->applicationdirectory.'/admin/',
 							  'value'=>'admissions_print.php',
@@ -60,13 +63,14 @@ foreach($yeargroups as $year){
 	$feeder_nos=array();
 	$postdata['enrolyear']=$enrolyear;
 	$postdata['currentyear']=$currentyear;
-	while(list($findex,$feeder)=each($CFG->feeders)){
+	foreach($CFG->feeders as $feeder){
 		if($feeder!=''){
-			$Transfers=feeder_fetch('transfer_nos',$feeder,$postdata);
-			while(list($findex,$Transfer)=each($Transfers['transfer'])){
+			$Transfers=(array)feeder_fetch('transfer_nos',$feeder,$postdata);
+			foreach($Transfers['transfer'] as $Transfer){
 				if(!isset($feeder_nos[$Transfer['yeargroup']])){
 					$feeder_nos[$Transfer['yeargroup']]=0;
 					}
+				trigger_error($Transfer['yeargroup'].' '.$Transfer['value'],E_USER_WARNING);
 				$feeder_nos[$Transfer['yeargroup']]+=$Transfer['value'];
 				}
 			}
