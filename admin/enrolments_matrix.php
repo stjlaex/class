@@ -17,10 +17,10 @@ if(isset($_POST['enrolyear']) and $_POST['enrolyear']!=''){$enrolyear=$_POST['en
 else{$enrolyear=$currentyear+1;}
 
 $extrabuttons=array();
-$extrabuttons['print']=array('name'=>'current',
-									   'pathtoscript'=>$CFG->sitepath.'/'.$CFG->applicationdirectory.'/admin/',
-									   'value'=>'admissions_print.php',
-									   'onclick'=>'checksidsAction(this)');
+$extrabuttons['report']=array('name'=>'current',
+							  'pathtoscript'=>$CFG->sitepath.'/'.$CFG->applicationdirectory.'/admin/',
+							  'value'=>'admissions_print.php',
+							  'onclick'=>'checksidsAction(this)');
 twoplus_buttonmenu($enrolyear,$currentyear+3,$extrabuttons,$book,$currentyear);
 
 
@@ -42,6 +42,7 @@ if(mysql_result($d_a,0)>0){
 else{
 	$save_stats=true;
 	}
+$save_stats=true;
 
 $yeargroups=list_yeargroups();
 $yeargroup_names=array();/* The row index for both tables. */
@@ -50,12 +51,6 @@ foreach($yeargroups as $year){
 	$yearcom=array('id'=>'','type'=>'year','name'=>$yid);
 	$yeargroup_names[$yid]=$year['name'];
 	$yeargroup_comids[$yid]=update_community($yearcom);
-	}
-/* Does the school have boarders? */
-if(isset($CFG->enrol_boarders) and $CFG->enrol_boarders=='yes'){
-	$yeargroup_names['B']='Residence';
-	$yeargroup_comids['B']='B';
-	$yeargroups[]=array('id'=>'B');
 	}
 
 /**
@@ -106,8 +101,19 @@ if(isset($CFG->enrol_boarders) and $CFG->enrol_boarders=='yes'){
 		  <th><?php print display_curriculumyear($enrolyear);?></th>
 <?php
 		$coltotals=array();
+		$totals=array();
+		$totals['class']='other';
+		$totals['values']=array();
+		$totals['label']='numberofstudents';
+		/* Does the school have boarders? Add a row of sub-totals. */
+		if(isset($CFG->enrol_boarders) and $CFG->enrol_boarders=='yes'){
+			$boarder_totals=array();
+			$boarder_totals['values']=array();
+			$boarder_totals['class']='live';
+			$boarder_totals['label']='boarders';
+			}
 		$cellclasses=array();
-		while(list($colindex,$col)=each($table['cols'])){
+		foreach($table['cols'] as $colindex => $col){
 			if(isset($col['display'])){
 				$cellclasses[]=$col['class'];
 ?>
@@ -116,29 +122,43 @@ if(isset($CFG->enrol_boarders) and $CFG->enrol_boarders=='yes'){
 		  </th>
 <?php
 				$total=0;
+				$total_boarder=0;
+				/* Calculate the totals for each column. */
 				foreach($yeargroups as $yeargroup){
 					$cellvalue=$table['rows'][$yeargroup['id']][$col['value']]['value'];
 					$total+=$cellvalue;
+					if(isset($table['rows'][$yeargroup['id']][$col['value']]['value_boarder'])){
+						$total_boarder+=$table['rows'][$yeargroup['id']][$col['value']]['value_boarder'];
+						}
 					//$total+=$table['rows'][$yeargroup['id']][$col['value']]['extravalue'];
 					if($save_stats and isset($table['rows'][$yeargroup['id']][$col['value']]['name'])){
 						$cellname=$table['rows'][$yeargroup['id']][$col['value']]['name'];
 						mysql_query("INSERT admission_stats SET date='$todate', name='$cellname', year='$enrolyear', count='$cellvalue';");
 						}
 					}
-				$coltotals[$colindex]=$total;
+				$totals['values'][$colindex]=$total;
+				$boarder_totals['values'][$colindex]=$total_boarder;
+				if(isset($CFG->enrol_boarders) and $CFG->enrol_boarders=='yes' and $save_stats){
+					$cellname=$table['rows'][1][$col['value']]['name_boarder'];
+					mysql_query("INSERT admission_stats SET date='$todate', name='$cellname', year='$enrolyear', count='$total_boarder';");
+					}
 				}
+			}
+
+		$coltotals[]=$totals;
+		if(isset($CFG->enrol_boarders) and $CFG->enrol_boarders=='yes'){
+			$coltotals[]=$boarder_totals;
 			}
 ?>
 		</tr>
-
 <?php
-		while(list($rowindex,$tablecells)=each($table['rows'])){
+		foreach($table['rows'] as $rowindex => $tablecells){
 			$colindex=0;
 ?>
 		<tr>
 		<th><?php print $yeargroup_names[$rowindex];?></th>
 <?php
-			while(list($cellindex,$cell)=each($tablecells)){
+			foreach($tablecells as $cell){
 				if(isset($cell['display'])){
 ?>
 		  <td class="<?php print $cellclasses[$colindex++];?>">
@@ -151,19 +171,24 @@ if(isset($CFG->enrol_boarders) and $CFG->enrol_boarders=='yes'){
 		</tr>
 <?php
 			}
+		foreach($coltotals as $totals){
 ?>
 		<tr>
-		  <th class="other">
-			<?php print get_string('total',$book).' '.get_string('numberofstudents',$book);?>
+		  <th class="<?php print $totals['class'];?>">
+			<?php print get_string('total',$book).' '.get_string($totals['label'],$book);?>
 		  </th>
 <?php
-		while(list($totindex,$total)=each($coltotals)){
+			foreach($totals['values'] as $total){
 ?>
-		  <td class="other"><?php print $total;?></td>
+				<td class="<?php print $totals['class'];?>"><?php print $total;?></td>
+<?php
+				}
+?>
+		</tr>
+
 <?php
 			}
 ?>
-		</tr>
 	  </table>
 <?php
 		}

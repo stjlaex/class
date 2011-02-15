@@ -177,12 +177,12 @@
 						if(mysql_num_rows($d_g)>0){$grading_grades=mysql_result($d_g,0);}
 						else{$grading_grades='';}
 						}
-					$statementrating='<span style="color:#44f;">'.scoreToGrade($catdefs[$catindex]['rating'],$grading_grades).'</span>';
+					$statementrating='<span style="color:#44f;">'.scoreToGrade($catdefs[$catindex]['rating'],$grading_grades).'</span><br />';
 					}
 				else{
 					$statementrating='';
 					}
-				if($catdefs[$catindex]['subtype']!=''){$statementlabel=$statementrating.' '.'<label>'.get_subjectname($catdefs[$catindex]['subtype']).'</label>';}
+				if($catdefs[$catindex]['subtype']!=''){$statementlabel=$statementrating.' '.'<label>'.get_subjectname($catdefs[$catindex]['subtype']).'</label><br />';}
 				else{$statementlabel='';}
 				print '<tr class="'.$rowclass.'" id="'.$openId.'-'.$rown++.'"><th></th>';
 				print '<td colspan="'.$ass_colspan.'"><div class="row" style="width:100%;"><p class="bigger">'
@@ -198,7 +198,6 @@
 				 */
 				$setcat_value=-1000;
 
-				
 				if(isset($Categories['Category'][$catindex]) 
 				   and $Categories['Category'][$catindex]['id_db']==$catid){
 					$setcat_value=$Categories['Category'][$catindex]['value'];
@@ -213,7 +212,6 @@
 				if(($setcat_value==' ' or $setcat_value=='') and $setcat_value!='0'){
 					$setcat_value=-1000;
 					}
-
 				while(list($value,$descriptor)=each($ratings)){
 					$checkclass='';
 					$checked='';
@@ -237,6 +235,7 @@
 				print '</td></tr>';
 				}
 			}
+
 		if($reportdef['report']['addcomment']=='yes' or $reportdef['report']['addcategory']=='yes'){
 			if($reportdef['report']['commentlength']=='0'){$commentlength='';}
 		    else{$commentlength=' maxlength="'.$reportdef['report']['commentlength'].'"';}

@@ -14,9 +14,11 @@ if(!isset($seltemplate)){$seltemplate='';}
    	<option value=""></option>
 <?php
 	foreach($showtemplates as $key => $templatename){
-		print '<option ';
-		if($seltemplate==$templatename){print 'selected="selected"';}
-		print	' value="'.$templatename.'">'.$templatename.'</option>';
+		if((isset($listfilter) and strpos($templatename,$listfilter)!==false) or !isset($listfilter)){
+			print '<option ';
+			if($seltemplate==$templatename){print 'selected="selected"';}
+			print	' value="'.$templatename.'">'.$templatename.'</option>';
+			}
 		}
 ?>
   </select>

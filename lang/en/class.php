@@ -379,5 +379,6 @@ $string['morning']='Morning';
 $string['afternoon']='Afternoon';
 $string['after']='After';
 $string['before']='Before';
-$string['']='';
+$string['boarder']='Boarder';
+$string['boarders']='Boarders';
 ?>

@@ -462,6 +462,23 @@ function countin_community_gender($community,$gender='M',$enddate='',$startdate=
 	return $nosids;
 	}
 
+function countin_community_extra($community,$field,$value,$enddate='',$startdate=''){
+	$todate=date('Y-m-d');
+	if($enddate==''){$enddate=$todate;}
+	if($startdate==''){$startdate=$enddate;}
+	if(isset($community['id']) and $community['id']!=''){$comid=$community['id'];}
+	else{$comid=update_community($community);}
+	$d_student=mysql_query("SELECT COUNT(comidsid.student_id) FROM comidsid
+				JOIN info ON info.student_id=comidsid.student_id	
+				WHERE comidsid.community_id='$comid' AND info.$field='$value'
+				AND (comidsid.leavingdate>='$enddate' OR 
+				comidsid.leavingdate='0000-00-00' OR comidsid.leavingdate IS NULL) 
+				AND (comidsid.joiningdate<='$startdate' OR 
+				comidsid.joiningdate='0000-00-00' OR comidsid.joiningdate IS NULL)");
+	$nosids=mysql_result($d_student,0);
+	return $nosids;
+	}
+
 
 
 /**

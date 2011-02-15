@@ -478,8 +478,7 @@ function fetchReportDefinition($rid,$selbid='%'){
 		 */
 	   	if($RepDef['CategoriesRating']['value']!=''){
 			$ratingname=$RepDef['CategoriesRating']['value'];
-			$d_rating=mysql_query("SELECT * FROM rating 
-						WHERE name='$ratingname' ORDER BY value;");
+			$d_rating=mysql_query("SELECT * FROM rating WHERE name='$ratingname' ORDER BY value;");
 			$ratings=array();
 			/*TODO: bring up to date for bid specific ratings identified using ratingname */
 			while($rating=mysql_fetch_array($d_rating,MYSQL_ASSOC)){
@@ -753,12 +752,21 @@ function get_report_categories($rid,$bid='%',$pid='',$type='cat',$stage='%'){
  */
 function get_report_ratingname($reportdef,$bid='%'){
 	$linkedname='';
-	$pairs=explode(';',$reportdef['report']['rating_name']);
+	if(!isset($reportdef['report']['rating_name'])){
+		$rid=$reportdef['report']['id'];
+		$d_r=mysql_query("SELECT rating_name FROM report WHERE id='$rid';");
+		$ratingname_field=mysql_result($d_r,0);
+		}
+	else{
+		$ratingname_field=$reportdef['report']['rating_name'];
+		}
+	$pairs=explode(';',$ratingname_field);
+
 	/* 
 	 *  Just in case: for backward compatibility with existing reports. 
 	 */
 	if(!is_array($pairs) or (is_array($pairs) and sizeof($pairs)==1)){
-		$pairs=array('0'=>'%:'.$reportdef['report']['rating_name']);
+		$pairs=array('0'=>'%:'.$ratingname_field);
 		}
 	/*
 	 * Identify the ratingname which applies to this subject.
@@ -769,6 +777,7 @@ function get_report_ratingname($reportdef,$bid='%'){
 			$linkedname=$ratingname;
 			}
 		}
+
 	return $linkedname;
 	}
 
@@ -825,8 +834,8 @@ function checkReportEntryCat($rid,$sid,$bid,$pid){
 		$rep['count']++;
 		$pairs=explode(';',$entry['category']);
 		for($c=0;$c<(sizeof($pairs)-1);$c++){
-			list($catid, $rank)=explode(':',$pairs[$c]);
-			$rep['total']+=$rank;
+			$thiscat=explode(':',$pairs[$c]);
+			$rep['total']+=$thiscat[1];
 			}
 		}
 
@@ -862,7 +871,6 @@ function fetchReportEntry($reportdef,$sid,$bid,$pid){
 		}
 
 	while($entry=mysql_fetch_array($d_reportentry)){
-
 	   $Comment=array();
 	   $Comment['id_db']=$entry['entryn'];
 	   $Comment['subject']=$bid;
@@ -917,39 +925,11 @@ function fetchReportEntry($reportdef,$sid,$bid,$pid){
 
 	   /* These are the check box ratings. */
 	   if($reportdef['report']['addcategory']=='yes'){
+		   $ratingname=get_report_ratingname($reportdef,$bid);
 		   $catdefs=get_report_categories($rid,$bid,$pid);
-		   $pairs=explode(';',$entry['category']);
-		   for($c=0;$c<(sizeof($pairs)-1);$c++){
-			   list($catid, $rank)=explode(':',$pairs[$c]);
-			   $entry['ratings'][$catid]=$rank;
-			   }
+		   $Categories=(array)fetchCategories($Student,$entry['category'],$catdefs,$ratingname);
 
-		   $Categories=array();
-
-		   $Categories['ratingname']=get_report_ratingname($reportdef,$bid);
-		   $ratings=$reportdef['ratings'][$Categories['ratingname']];
-		   
-		   for($c=0;$c<sizeof($catdefs);$c++){
-		   		$Category=array();
-	   			$catid=$catdefs[$c]['id'];
-				/* TODO: Use subtype and comment and rating to decorate extra info. */
-   				$catname=$catdefs[$c]['name'];
-			  	$Category=array('label'=>$catname,'id_db'=>$catid,'value'=>'');
-				if(isset($entry['ratings'][$catid])){
-					reset($ratings);
-					foreach($ratings as $value => $descriptor){
-				   		if($entry['ratings'][$catid]==$value){$Category['value']=$value;}
-						}
-				   	}
-				/* Only pass catgories which have had a value set. */
-			   	if($Category['value']!='' or $Category['value']=='0'){
-					$Statement=array('Value'=>$Category['label']);
-					$Statement=personaliseStatement($Statement,$Student);
-					$Category['label']=$Statement['Value'];
-					$Categories['Category'][]=nullCorrect($Category);
-					}
-		   		}
-		   $Comment['Categories']=nullCorrect($Categories);
+		   $Comment['Categories']=$Categories;
 		   }
 
 	   $enttid=$entry['teacher_id'];
@@ -975,9 +955,12 @@ function fetchProfileStatements($profile_name,$bid,$pid,$sid,$fromdate){
 	/* This has to iterate over all strands, here called the profilepids,
 	 * for this component $pid. 
 	 */
+
+  if($profile_name=='FS Steps'){
+
+	  /* OLD and to be replaced.... */
 	$profilepids=(array)list_subject_components($pid,'FS');
 	$profilepids[]=array('id'=>$pid,'name'=>'');
-
 	while(list($pidindex,$component)=each($profilepids)){
 			$profilepid=$component['id'];
 			/* This cutoff grade is just a hack to work with the FS profile*/
@@ -995,10 +978,8 @@ function fetchProfileStatements($profile_name,$bid,$pid,$sid,$fromdate){
 			$stats=array();
 			while($eidsid=mysql_fetch_array($d_eidsid,MYSQL_ASSOC)){
 				$topic=$eidsid['description'];
-				$d_mark=mysql_query("SELECT comment
-					FROM mark JOIN eidmid ON mark.id=eidmid.mark_id WHERE
-					mark.component_id='$profilepid' AND
-					mark.def_name='$profile_name' AND topic='$topic';");
+				$d_mark=mysql_query("SELECT comment FROM mark JOIN eidmid ON mark.id=eidmid.mark_id 
+							WHERE mark.component_id='$profilepid' AND mark.def_name='$profile_name' AND topic='$topic';");
 				$statement=array('statement_text'=>mysql_result($d_mark,0),
 								 'counter'=>0,
 								 'author'=>'ClaSS',
@@ -1006,9 +987,42 @@ function fetchProfileStatements($profile_name,$bid,$pid,$sid,$fromdate){
 				$Statements[]=fetchStatement($statement,1);
 				}
 			}
+	  }
+  else{
+
+	  $profilepids=(array)list_subject_components($pid,'KS2');
+	  $profilepids[]=array('id'=>$pid,'name'=>'');
+	  foreach($profilepids as $component){
+		  $profilepid=$component['id'];
+		  $d_cat=mysql_query("SELECT report_id, category FROM reportentry WHERE 
+								 subject_id='$bid' AND component_id='$profilepid' AND student_id='$sid' 
+								 AND report_id=ANY(SELECT DISTINCT report_id FROM ridcatid 
+											JOIN categorydef ON categorydef.id=ridcatid.categorydef_id 
+											WHERE ridcatid.subject_id='profile' AND categorydef.name='$profile_name');");
+		  $stats=array();
+		  $ratings=array();
+		  while($cat=mysql_fetch_array($d_cat,MYSQL_ASSOC)){
+			  $catdefs=(array)get_report_categories($cat['report_id'],$bid,$profilepid);
+			  $reportdef['report']['id']=$cat['report_id'];
+			  $ratingname=get_report_ratingname($reportdef,$bid);
+			  $Categories=(array)fetchCategories($Student,$cat['category'],$catdefs,$ratingname);
+			  foreach($Categories['Category'] as $Category){
+				  $statement=array('statement_text'=>$Category['label'],
+								   'counter'=>0,
+								   'author'=>'ClaSS',
+								   'rating_fraction'=>1);
+				  $Statements[]=fetchStatement($statement,1);
+				  }
+			  }
+		  }
+
+	  }
 
 	return $Statements;
 	}
+
+
+
 
 /**
  * 
@@ -1052,4 +1066,44 @@ function personaliseStatement($Statement,$Student){
 	$Statement['Value']=$text;
 	return $Statement;
 	}
+
+
+
+
+/**
+ *
+ *
+ */
+function fetchCategories($Student,$category_field,$catdefs,$ratingname){
+
+	$entry=array();
+	$pairs=explode(';',$category_field);
+	for($c=0;$c<(sizeof($pairs)-1);$c++){
+		$thiscat=explode(':',$pairs[$c]);
+		$entry['ratings'][$thiscat[0]]=$thiscat[1];
+		}
+
+	$Categories=array();	
+	$Categories['ratingname']=$ratingname;
+	
+	foreach($catdefs as $catdef){
+		$Category=array();
+		$catid=$catdef['id'];
+		/* TODO: Use subtype and comment and rating to decorate extra info. */
+		$Category=array('label'=>''.$catdef['name'],'id_db'=>''.$catid,'value'=>'');
+
+		/* Only pass catgories which have had a value set. */
+		/* TODO: Apply other filters for date and value */
+		if(isset($entry['ratings'][$catid])){
+			$Category['value']=$entry['ratings'][$catid];
+			$Statement=array('Value'=>''.$Category['label']);
+			$Statement=personaliseStatement($Statement,$Student);
+			$Category['label']=''.$Statement['Value'];
+			$Categories['Category'][]=$Category;
+			}
+		}
+
+	return $Categories;
+	}
+
 ?>

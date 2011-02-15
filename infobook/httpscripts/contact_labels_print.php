@@ -13,9 +13,12 @@ if(isset($_POST['sids'])){$sids=(array)$_POST['sids'];unset($_SESSION[$book.'rec
 elseif(isset($_GET['sids'])){$sids=(array)$_GET['sids'];unset($_SESSION[$book.'recipients']);}
 elseif(isset($_SESSION[$book.'recipients'])){$recipients=$_SESSION[$book.'recipients'];}
 //elseif(isset($_POST['recipients'])){$recipients=(array)$_POST['recipients'];}else{$recipients=array();}
+if(isset($_POST['template'])){$template=$_POST['template'];}
+elseif(isset($_GET['template'])){$template=$_GET['template'];}
+else{$template='address_labels';}
 
 
-$Students['transform']='address_labels';
+$Students['transform']=$template;
 $Students['paper']='portrait';
 
 if(isset($recipients) and sizeof($recipients)>0){

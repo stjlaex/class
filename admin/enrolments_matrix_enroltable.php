@@ -54,13 +54,17 @@
 		$reenrol_eid=-1;
 		}
 
-	foreach($yeargroups as $yeargroup){
+	foreach($yeargroups as $yidindex => $yeargroup){
 		$yid=$yeargroup['id'];
 		$previous_yid=$yid-1;
 		$enrol_tablecells=array();
 		$comid=$yeargroup_comids[$yid];
-
-		$yearcommunity=get_community($comid);
+		if($comid!==''){
+			$yearcommunity=get_community($comid);
+			}
+		else{
+			$comid=-1000;
+			}
 
 		foreach($enrolcols_value as $colindex => $enrolcol){
 			$cell=array();
@@ -68,6 +72,8 @@
 			$cell['yid']=$yid;
 			$cell['comid']=$comid;
 			$cell['name']=$enrolcol.':'.$yid;
+			$cell['name_boarder']=$enrolcol.':boarder';
+
 
 			/* Each enrol column has its own calculation */
 			if($enrolcol=='reenroling'){
@@ -75,6 +81,16 @@
 				$cell['repeat']=count_reenrol_no($comid,$reenrol_eid,'R');
 				$cell['pending']=count_reenrol_no($comid,$reenrol_eid,'P');
 				$cell['leavers']=count_reenrol_no($comid,$reenrol_eid,'L','LL');
+
+				if(isset($CFG->enrol_boarders) and $CFG->enrol_boarders=='yes' and $yidindex==1){
+					$rescoms=(array)list_communities('accomodation');
+					foreach($rescoms as $rescom){
+						$cell['confirm_boarder']+=count_reenrol_no($rescom['id'],$reenrol_eid,'C');
+						$cell['repeat_boarder']+=count_reenrol_no($rescom['id'],$reenrol_eid,'R');
+						$cell['pending_boarder']+=count_reenrol_no($rescom['id'],$reenrol_eid,'P');
+						$cell['leavers_boarder']+=count_reenrol_no($rescom['id'],$reenrol_eid,'L','LL');
+						}
+					}
 
 				if(isset($enrol_tablerows[$previous_yid])){
 					$pre_reenrolcell=$enrol_tablerows[$previous_yid][$enrolcol];
@@ -84,6 +100,9 @@
 					$pre_reenrolcell['confirm']=0;
 					}
 				$cell['value']=$pre_reenrolcell['confirm']+$cell['repeat'];	
+				if(isset($CFG->enrol_boarders) and $CFG->enrol_boarders=='yes'){
+					$cell['value_boarder']=$pre_reenrolcell['confirm_boarder']+$cell['repeat_boarder'];	
+					}
 				$cell['display']='<a href="admin.php?current=enrolments_list.php&cancel='.
 							$choice.'&choice='. $choice.'&enrolyear='. 
 							$enrolyear.'&yid='. $yid.
@@ -93,6 +112,9 @@
 			elseif($enrolcol=='pending'){
 				if(isset($enrol_tablerows[$previous_yid])){
 					$cell['value']=$enrol_tablerows[$previous_yid]['reenroling']['pending'];	
+					if(isset($CFG->enrol_boarders) and $CFG->enrol_boarders=='yes'){
+						$cell['value_boarder']=$enrol_tablerows[$previous_yid]['reenroling']['pending_boarder'];	
+						}
 					}
 				else{
 					$cell['value']=0;
@@ -117,11 +139,13 @@
 			elseif($enrolcol=='newenrolments'){
 				if($enrolyear!=$currentyear){
 					$cell['value']+=$app_tablerows[$yid]['AC']['value'];
+					$cell['value_boarder']+=$app_tablerows[$yid]['AC']['value_boarder'];
 					}
 				else{
 					/* The new students who have joined the roll 
 					   since the start of the year*/
 					$cell['value']=$app_tablerows[$yid]['C']['value'];
+					$cell['value_boarder']=$app_tablerows[$yid]['C']['value_boarder'];
 					/*TODO: list new students including transfers from other schools
 					$cell['display']='<a href="admin.php?current=enrolments_list.php&cancel='.
 						$choice.'&choice='. $choice.'&enrolyear='. $enrolyear.'&yid='. $yid.
@@ -131,6 +155,11 @@
 				}
 			elseif($enrolcol=='currentroll'){
 				$cell['value']=countin_community($yearcommunity);
+				$cell['value_boarder']=0;
+				if($cell['value']>0){
+					$cell['value_boarder']=countin_community_extra($yearcommunity,'boarder','B');
+					}
+
 				if($enrolyear==$currentyear){
 					$cell['display']='<a href="admin.php?current=enrolments_list.php&cancel='.
 							$choice.'&choice='. $choice.'&enrolyear='. 
@@ -139,7 +168,8 @@
 					}
 				}
 			elseif($enrolcol=='projectedroll'){
-					$cell['value']=$enrol_tablecells['newenrolments']['value'] + $enrol_tablecells['transfersin']['value'] + $enrol_tablecells['reenroling']['repeat'] + $enrol_tablecells['pending']['value'] + $pre_reenrolcell['confirm'];
+				$cell['value']=$enrol_tablecells['newenrolments']['value'] + $enrol_tablecells['transfersin']['value'] + $enrol_tablecells['reenroling']['repeat'] + $enrol_tablecells['pending']['value'] + $pre_reenrolcell['confirm'];
+				$cell['value_boarder']=$enrol_tablecells['newenrolments']['value_boarder'] + $enrol_tablecells['reenroling_boarder']['repeat'] + $enrol_tablecells['pending']['value_boarder'] + $pre_reenrolcell['confirm_boarder'];
 				}
 			elseif($enrolcol=='leaverssince'){
 				$leavercomid=update_community(array('id'=>'','type'=>'alumni','name'=>'P:'.$yid,'year'=>$currentyear));
@@ -155,9 +185,11 @@
 			elseif($enrolcol=='leavers'){
 				if(isset($enrol_tablerows[$previous_yid])){
 					$cell['value']=$enrol_tablerows[$previous_yid]['reenroling']['leavers'];	
+					$cell['value_boarder']=$enrol_tablerows[$previous_yid]['reenroling']['leavers_boarder'];	
 					}
 				else{
 					$cell['value']=0;
+					$cell['value_boarder']=0;
 					}
 				}
 			elseif($enrolcol=='capacity'){
@@ -194,9 +226,11 @@
 				/* Don't display negative spaces. */
 				if($cell['value']<0){$cell['value']=0;}
 				}
+
 			if(!isset($cell['display'])){$cell['display']=$cell['value'];}
 			$enrol_tablecells[$enrolcol]=$cell;
 			}
+
 	    $enrol_tablerows[$yid]=$enrol_tablecells;
 		}
 ?>

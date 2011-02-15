@@ -94,10 +94,12 @@ $_SESSION[$book.'recipients']=$Recipients;
 
 $extrabuttons=array();
 $extrabuttons['addresslabels']=array('name'=>'current',
-									   'pathtoscript'=>$CFG->sitepath.'/'.$CFG->applicationdirectory.'/infobook/',
-									   'value'=>'contact_labels_print.php',
-									   'onclick'=>'checksidsAction(this)');
-two_buttonmenu($extrabuttons,$book);
+									 'pathtoscript'=>$CFG->sitepath.'/'.$CFG->applicationdirectory.'/infobook/',
+									 'value'=>'contact_labels_print.php',
+									 'xmlcontainerid'=>'labels',
+									 'onclick'=>'checksidsAction(this)');
+
+three_buttonmenu($extrabuttons,$book);
 ?>
 
   <div id="heading">
@@ -142,9 +144,15 @@ two_buttonmenu($extrabuttons,$book);
 	<form id="formtoprocess" 
 			name="formtoprocess" method="post" action="<?php print $host;?>">
 
-	   <div class="divgroup center">
-			<div class="center">
-			</div>
+	<div class="divgroup center">
+	  <div class="center">
+		<div class="left">
+<?php 		
+			$listfilter='address'; 
+			include('scripts/list_template.php')
+;?>
+		</div>
+	  </div>
 
 	  <input type="hidden" name="groupsearch" value="no" />
 	  <input type="hidden" name="messageto" value="<?php print $messageto;?>" />
@@ -193,3 +201,9 @@ two_buttonmenu($extrabuttons,$book);
 
 	</div>
   </div>
+
+	<div id="xml-labels" style="display:none;">
+	  <params>
+		<selectname>template</selectname>
+	  </params>
+	</div>

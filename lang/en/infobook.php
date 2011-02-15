@@ -26,7 +26,6 @@ $string['enrolmentnumber']='Enrolment number';
 $string['enrolmentyear']='Year of enrolment';
 $string['enrolmentnotes']='Enrolment notes';
 $string['schoolleavingdate']='School leaving date';
-$string['boarder']='Boarder';
 $string['parttime']='Part-time';
 $string['modeoftransport']='Mode of transport';
 $string['transportroute']='Transport route';

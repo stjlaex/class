@@ -57,7 +57,7 @@ if($sub=='Submit'){
 				while(list($catn,$catdef)=each($catdefs)){
 					if(isset($_POST["sid$sid:$c2"])){
 					    $in=$_POST["sid$sid:$c2"];
-						$incategory=$incategory . $catdef['id'].':'.$in.';';
+						$incategory=$incategory . $catdef['id'].':'.$in.':'.$todate.';';
 						}
 					$c2++;
 					}
@@ -72,11 +72,8 @@ if($sub=='Submit'){
 				else{$incom='';}
 				}
 			if($inmust=='yes' and $incategory!=''){
-						mysql_query("INSERT INTO reportentry (
-						category, teacher_id, report_id, student_id, 
-						subject_id, component_id) VALUES
-						('$incategory', '$tid', '$rid', '$sid',
-						'$inbid', '$inpid')");
+						mysql_query("INSERT INTO reportentry (category, teacher_id, report_id, student_id, subject_id, component_id) 
+							VALUES ('$incategory', '$tid', '$rid', '$sid', '$inbid', '$inpid')");
 						}
 			elseif($inmust!='yes' and $incategory!=''){
    						$entryn=$inmust;

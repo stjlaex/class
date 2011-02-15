@@ -35,8 +35,7 @@ if($rid!=-1){
 		}
 	}
 elseif($bid=='targets'){
-	$d_c=mysql_query("SELECT name FROM categorydef WHERE 
-				type='tar' ORDER BY rating;");
+	$d_c=mysql_query("SELECT name FROM categorydef WHERE type='tar' ORDER BY rating;");
 	$subcomments_no=0;
 	$subcomments=array();
 	while($sub=mysql_fetch_array($d_c,MYSQL_ASSOC)){
@@ -77,7 +76,7 @@ else{
  * TODO: We only have one working profile!
  */
 if($reportdef['report']['profile_names'][0]!='' and isset($subcomments_fix)){
-		$profile_name=$reportdef['report']['profile_name'];
+		$profile_name=$reportdef['report']['profile_names'][0];
 		/* This fromdate is just a hack needs to check for previous report maybe?*/
 		$reportyear=$reportdef['report']['year']-1;
 		$fromdate=$reportyear.'-08-15';//Does the whole academic year
@@ -87,7 +86,7 @@ if($reportdef['report']['profile_names'][0]!='' and isset($subcomments_fix)){
 			$Statements=(array)fetchProfileStatements($profile_name,$bid,$pid,$sid,$fromdate);
 			}
 		$StatementBank['Area'][$pid]['Statements']=$Statements;
-		$StatementBank['Area'][$pid]['Name']='FS Profile: '.$pid;
+		$StatementBank['Area'][$pid]['Name']='Profile: '.$pid;
 		$StatementBank['Area'][$pid]['Levels']=array();
 		}
 

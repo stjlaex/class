@@ -1,3 +1,20 @@
+Version ClaSS-0.9.35 release (2011/02/11)
+-----------------------------------------
+
+Fixed typo in installation script for eidsid.
+
+Added the transport module to install as default.
+
+Included boarder numbers as part of the enrolment matrix.
+
+Extended the reportentry category field to be unlimited in length and
+now includes date with each edit.
+
+Extra search fields, boarder and private, for InfoBook.
+
+Added a choice of templates for address labels.
+
+
 Version ClaSS-0.9.34 release (2011/02/7)
 -----------------------------------------
 

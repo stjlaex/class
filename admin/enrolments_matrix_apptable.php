@@ -27,12 +27,13 @@ $appcols['TOTAL']['value']='applicationsreceived';
 $application_steps=array('AP','ATD','AT','RE','CA','ACP','AC','WL');
 /* The table's column headers are the application steps which are
  * really enrolstatus codes. Only display the subset specified here
- * but all values (specified above) are still totalled in final column
- * with the exception of Enquired which is a special case.
+ * but all values (specified above) are still totalled in final column.
+ * The exception is Enquired which is done outside this.
  */
 $appcols_value=array('AP','AT','RE','CA','ACP','AC','WL');
 
 
+	/* The cols array defines the column headers and display class. */
 	foreach($application_steps as $enrolstatus){
 		if(in_array($enrolstatus,$appcols_value)){
 			if($enrolstatus=='EN'){
@@ -51,7 +52,7 @@ $appcols_value=array('AP','AT','RE','CA','ACP','AC','WL');
 		}
 
 
-
+	/* A tablecells array for each row holds the computed values and is stored in tablerows array indexed by the yid. */
 	foreach($yeargroups as $year){
 		$app_tablecells=array();
 		if($enrolyear>$currentyear){
@@ -104,22 +105,30 @@ $appcols_value=array('AP','AT','RE','CA','ACP','AC','WL');
 			$comid=update_community($com);
 			$com['id']=$comid;
 
-			/* 'live' or 'static' values */
+			/* Two possibilities: 'live' or 'static' values. Only enquiries are static (ie. keyed) */
+			$value_boarder=0;
 			if($enrolstatus!='EN'){
 				$value=countin_community($com);
+				if($value>0){
+					$value_boarder=countin_community_extra($com,'boarder','B');
+					}
 				$displayvalue=$value+$extravalue;
 				$display='<a href="admin.php?current=enrolments_list.php&cancel='.
 						$choice.'&choice='. $choice.'&enrolyear='. $enrolyear.'&yid='. $yid.
-						'&comid='.$com['id'].'">'
-						.$displayvalue.'</a>';
+						'&comid='.$com['id'].'">'.$displayvalue.'</a>';
 				}
 			else{
 				$value=countin_community($com,'','',true);
 				$display=$value+$extravalue;
 				}
 			$values[$index+1]=$value;
-			/* Don't count enquiries as full applications. */
-			if($enrolstatus!='EN'){$values[0]+=$values[$index+1];}
+
+			/* Don't count enquiries as full applications so don't add to row total. */
+			if($enrolstatus!='EN'){
+				$values[0]+=$values[$index+1];
+				$values['B']+=$value_boarder;
+				//trigger_error($index.' : '.$value.' : '.$value_boarder,E_USER_WARNING);
+				}
 
 
 
@@ -128,19 +137,23 @@ $appcols_value=array('AP','AT','RE','CA','ACP','AC','WL');
 			if(in_array($enrolstatus,$appcols_value)){
 				$app_tablecells[$enrolstatus]['display']=$display;
 				}
+
 			$app_tablecells[$enrolstatus]['value']=$value;
 			$app_tablecells[$enrolstatus]['name']=$enrolstatus.':'.$yid;
-			//$app_tablecells[$enrolstatus]['extravalue']=$extravalue;
+			$app_tablecells[$enrolstatus]['value_boarder']=$value_boarder;
+			$app_tablecells[$enrolstatus]['name_boarder']=$enrolstatus.':boarder';
 			}
 
 		/* Don't forget applications who have already joined current
 		   roll have to be counted as applications received. */
 		$app_tablecells['C']['value']=$newcurrentsids;
 		$app_tablecells['applicationsreceived']['value']=$values[0];
+		$app_tablecells['applicationsreceived']['value_boarder']=$values['B'];
 		$app_tablecells['applicationsreceived']['name']='TOTAL:'.$yid;
-		$app_tablecells['applicationsreceived']['display']='<a href="admin.php?current=enrolments_list.php&cancel='. 
-			$choice.'&choice='. $choice.'&enrolyear='. 
-			$enrolyear.'&yid='. $yid.'&comid=-1">' .$app_tablecells['applicationsreceived']['value'].'</a>';
+		$app_tablecells['applicationsreceived']['name_boarder']='TOTAL:boarder';
+		$app_tablecells['applicationsreceived']['display']='<a href="admin.php?current=enrolments_list.php&cancel=' 
+							   . $choice.'&choice='. $choice.'&enrolyear='
+							   . $enrolyear.'&yid='. $yid.'&comid=-1">' .$app_tablecells['applicationsreceived']['value'].'</a>';
 
 
 		if($enrolyear>$currentyear){

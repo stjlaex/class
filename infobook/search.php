@@ -76,7 +76,7 @@ if($_SESSION['role']=='office' or $_SESSION['role']=='admin' or $_SESSION['role'
 							'nationality' => 'nationality',
 							'gender' => 'gender'
 							);
-		if($CFG->enrol_boarders=='yes'){
+		if(isset($CFG->enrol_boarders) and $CFG->enrol_boarders=='yes'){
 			$studentfield['boarder']='boarder';
 			}
 		/***/

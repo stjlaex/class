@@ -128,6 +128,9 @@ $schooldb=$_POST['school'];
 	if(file_exists('create_orderbook.php')){
 		include('create_orderbook.php');
 		}
+	if(file_exists('create_transport.php')){
+		include('create_transport.php');
+		}
 
 	/* Write the database access file to the toplevel directory*/	
 	$file=fopen ('../../dbh_connect.php', 'w');	
