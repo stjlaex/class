@@ -39,6 +39,7 @@ two_buttonmenu();
 	$postcodes=array();
 
 	$yeargroups=list_yeargroups();
+	$sections=list_sections();
 	foreach($yeargroups as $year){
 		$yid=$year['id'];
 		$d_groups=mysql_query("SELECT gid FROM groups WHERE
@@ -92,7 +93,6 @@ two_buttonmenu();
 					$postcode=substr($pcode,$pos,5);
 					if(!isset($postcodes[$postcode])){
 						$postcodes[$postcode]=0;
-						$app_postcodes[$postcode]=array('EN'=>0,'AP'=>0,'AT'=>0,'RE'=>0,'CA'=>0,'WL'=>0,'ACP'=>0,'AC'=>0);
 						}
 					$postcodes[$postcode]++;
 					}
@@ -197,10 +197,13 @@ two_buttonmenu();
 				<tr>
 					<th><?php print 'Postcodes'; ?></th>
 					<th><?php print_string('currentroll',$book);?></th>
-					<th><?php print_string('enquired',$book);?></th>
-					<th><?php print_string('applied',$book);?></th>
-					<th><?php print_string('cancelled',$book);?></th>
-					<th><?php print_string('waitinglist',$book);?></th>
+<?php
+				foreach($sections as $section){
+?>
+					<th><?php print $section['name'].' '.get_string('applied',$book);?></th>
+<?php
+					}
+?>
 				</tr>
 <?php
 
@@ -212,6 +215,8 @@ two_buttonmenu();
 	  elseif($enrolstatus=='AC'){$comtype='accepted';}
 	  else{$comtype='applied';}
       foreach($yeargroups as $year){
+		  if($year['id']==1 or $year['id']==2){$year['section_id']=3;}
+		$secid=$year['section_id'];
 		$comid=update_community(array('id'=>'','type'=>$comtype,'name'=>$enrolstatus.':'.$year['id'],'year'=>$enrolyear));
 		$com=get_community($comid);
 		$students=listin_community($com);
@@ -231,9 +236,9 @@ two_buttonmenu();
 					$postcode=substr($pcode,$pos,5);
 					if(!isset($postcodes[$postcode])){
 						$postcodes[$postcode]=0;
-						$app_postcodes[$postcode]=array('EN'=>0,'AP'=>0,'AT'=>0,'RE'=>0,'CA'=>0,'WL'=>0,'ACP'=>0,'AC'=>0);
+						$app_postcodes[$secid][$postcode]=array('EN'=>0,'AP'=>0,'AT'=>0,'RE'=>0,'CA'=>0,'WL'=>0,'ACP'=>0,'AC'=>0);
 						}
-					$app_postcodes[$postcode][$enrolstatus]++;
+					$app_postcodes[$secid][$postcode][$enrolstatus]++;
 					}
 				}
 			}
@@ -241,19 +246,37 @@ two_buttonmenu();
 		}
 			asort($postcodes,SORT_NUMERIC);
 			$postcodes=array_reverse($postcodes,true);
-			while(list($postcode,$nosids)=each($postcodes)) {
+			$totals=array();
+			while(list($postcode,$nosids)=each($postcodes)){
 ?>
 					<tr>
 						<td><?php print ' '.$postcode; ?></td>
-						<td><?php print $nosids; ?></td>
-						<td><?php print $app_postcodes[$postcode]['EN']; ?></td>
-						<td><?php print $app_postcodes[$postcode]['AP']+$app_postcodes[$postcode]['AC']+$app_postcodes[$postcode]['ACP']+$app_postcodes[$postcode]['AT']+$app_postcodes[$postcode]['RE']; ?></td>
-						<td><?php print $app_postcodes[$postcode]['CA']; ?></td>
-						<td><?php print $app_postcodes[$postcode]['WL']; ?></td>
-					</tr>
-				<?php
+				<td><?php print $nosids; $totals['W']+=$nosids;?></td>
+<?php
+				foreach($sections as $section){
+					$sec_postcodes=$app_postcodes[$section['id']];
+?>
+					<td><?php
+					  $noappsids=$sec_postcodes[$postcode]['AP']+$sec_postcodes[$postcode]['AC']+$sec_postcodes[$postcode]['ACP']+$sec_postcodes[$postcode]['AT']+$sec_postcodes[$postcode]['RE']+$sec_postcodes[$postcode]['CA']+$sec_postcodes[$postcode]['WL']; 
+					  print $noappsids;
+					  $totals[$section['id']]+=$noappsids;
+?>
+</td>
+<?php
 				}
-				?>
+?>
+					</tr>
+	<?php
+				}
+?>
+<tr><th>Totals</th>
+<?php
+foreach($totals as $total){
+	print '<th>'.$total.'</th>';
+	}
+?>
+</tr>
+
 			</table>
 		</div>
 
