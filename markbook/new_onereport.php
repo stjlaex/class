@@ -177,12 +177,12 @@
 						if(mysql_num_rows($d_g)>0){$grading_grades=mysql_result($d_g,0);}
 						else{$grading_grades='';}
 						}
-					$statementrating='<span style="color:#44f;">'.scoreToGrade($catdefs[$catindex]['rating'],$grading_grades).'</span><br />';
+					$statementrating='<span style="color:#44f;float:right;">'.scoreToGrade($catdefs[$catindex]['rating'],$grading_grades).'</span>';
 					}
 				else{
 					$statementrating='';
 					}
-				if($catdefs[$catindex]['subtype']!=''){$statementlabel=$statementrating.' '.'<label>'.get_subjectname($catdefs[$catindex]['subtype']).'</label><br />';}
+				if($catdefs[$catindex]['subtype']!=''){$statementlabel=$statementrating.' '.'<label style="float:right;">'.get_subjectname($catdefs[$catindex]['subtype']).'</label><br />';}
 				else{$statementlabel='';}
 				print '<tr class="'.$rowclass.'" id="'.$openId.'-'.$rown++.'"><th></th>';
 				print '<td colspan="'.$ass_colspan.'"><div class="row" style="width:100%;"><p class="bigger">'
@@ -197,20 +197,24 @@
 				   scuppered this.
 				 */
 				$setcat_value=-1000;
+				$setcat_date='';
 
 				if(isset($Categories['Category'][$catindex]) 
 				   and $Categories['Category'][$catindex]['id_db']==$catid){
 					$setcat_value=$Categories['Category'][$catindex]['value'];
+					$setcat_date=$Categories['Category'][$catindex]['date'];
 					}
 	   			else{
 					foreach($Categories['Category'] as $Category){
 						if($Category['id_db']==$catid){
 							$setcat_value=$Category['value'];
+							$setcat_date=$Category['date'];
 							}
 						}
 					}
 				if(($setcat_value==' ' or $setcat_value=='') and $setcat_value!='0'){
 					$setcat_value=-1000;
+					$setcat_date='';
 					}
 				while(list($value,$descriptor)=each($ratings)){
 					$checkclass='';
@@ -231,6 +235,10 @@
 						tabindex="'.$tab.'" value="'.$value.'" '.$checked;
 					print ' /></div>';
 					}
+				if($setcat_date!=' ' and $setcat_date!=''){
+					print '<span style="float:right;color:#aaa;">'.display_date($setcat_date).'</span>';
+					}
+
 				$inc++;
 				print '</td></tr>';
 				}

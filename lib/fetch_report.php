@@ -178,13 +178,13 @@ function fetchSubjectReports($sid,$reportdefs){
 						  /* This is to collect all possible assessments regardless of their strand/component status */
 						  if($strandsno==1 and $strand['id']==' '){
 							  foreach($assbids[$reportdef['report']['course_id'].$bid] as $extra_strandid => $extra_assbids){
-								  trigger_error($strandsno.' ALL '.$bid.' : '.$pid.' : '.$strand['id'].' => '.$extra_strandid,E_USER_WARNING);
+								  //trigger_error($strandsno.' ALL '.$bid.' : '.$pid.' : '.$strand['id'].' => '.$extra_strandid,E_USER_WARNING);
 								  $assnos=array_merge($assnos,$assbids[$reportdef['report']['course_id'].$bid][$extra_strandid]);
 								  }
 							  }
 						  /* This is to collect assessments with an exact match to this strand/component */
 						  elseif(isset($assbids[$reportdef['report']['course_id'].$bid][$strand['id']])){
-							  trigger_error($strandsno.' SINGLE '.$bid.' : '.$pid.' : '.$strand['id'],E_USER_WARNING);
+							  //trigger_error($strandsno.' SINGLE '.$bid.' : '.$pid.' : '.$strand['id'],E_USER_WARNING);
 							  $assnos=array_merge($assnos,$assbids[$reportdef['report']['course_id'].$bid][$strand['id']]);
 							  }
 						  }
@@ -956,19 +956,20 @@ function fetchProfileStatements($profile_name,$bid,$pid,$sid,$fromdate){
 	 * for this component $pid. 
 	 */
 
-  if($profile_name=='FS Steps'){
+	if(!isset($cutoff_grade)){$cutoff_grade=-100;}
 
-	  /* OLD and to be replaced.... */
-	$profilepids=(array)list_subject_components($pid,'FS');
-	$profilepids[]=array('id'=>$pid,'name'=>'');
-	while(list($pidindex,$component)=each($profilepids)){
+	if($profile_name=='FS Steps'){
+
+		/* OLD and to be replaced.... */
+		$profilepids=(array)list_subject_components($pid,'FS');
+		$profilepids[]=array('id'=>$pid,'name'=>'');
+		while(list($pidindex,$component)=each($profilepids)){
 			$profilepid=$component['id'];
 			/* This cutoff grade is just a hack to work with the FS profile*/
 			/*TODO properly!*/
 			/*This ensures only Reception statements are used for Reception classes*/
 			if($Student['YearGroup']['value']=='-1'){$cutoff_grade=0;}
 			if($Student['YearGroup']['value']=='0'){$cutoff_grade=3;}
-			else{$cutoff_grade=-10;}
 			$d_eidsid=mysql_query("SELECT assessment.description, assessment.id FROM eidsid 
 				JOIN assessment ON assessment.id=eidsid.assessment_id WHERE
 				eidsid.student_id='$sid' AND eidsid.subject_id='$bid'
@@ -1007,11 +1008,14 @@ function fetchProfileStatements($profile_name,$bid,$pid,$sid,$fromdate){
 			  $ratingname=get_report_ratingname($reportdef,$bid);
 			  $Categories=(array)fetchCategories($Student,$cat['category'],$catdefs,$ratingname);
 			  foreach($Categories['Category'] as $Category){
-				  $statement=array('statement_text'=>$Category['label'],
+				 $cutoff_grade=1;
+				 if($Category['value']>=$cutoff_grade){
+					  $statement=array('statement_text'=>$Category['label'],
 								   'counter'=>0,
 								   'author'=>'ClaSS',
 								   'rating_fraction'=>1);
-				  $Statements[]=fetchStatement($statement,1);
+					  $Statements[]=fetchStatement($statement,1);
+				  	  }
 				  }
 			  }
 		  }
@@ -1081,21 +1085,23 @@ function fetchCategories($Student,$category_field,$catdefs,$ratingname){
 	for($c=0;$c<(sizeof($pairs)-1);$c++){
 		$thiscat=explode(':',$pairs[$c]);
 		$entry['ratings'][$thiscat[0]]=$thiscat[1];
+		$entry['dates'][$thiscat[0]]=$thiscat[2];
 		}
 
-	$Categories=array();	
+	$Categories=array();
 	$Categories['ratingname']=$ratingname;
-	
+
 	foreach($catdefs as $catdef){
 		$Category=array();
 		$catid=$catdef['id'];
 		/* TODO: Use subtype and comment and rating to decorate extra info. */
-		$Category=array('label'=>''.$catdef['name'],'id_db'=>''.$catid,'value'=>'');
+		$Category=array('label'=>''.$catdef['name'],'id_db'=>''.$catid,'value'=>'','date'=>'');
 
 		/* Only pass catgories which have had a value set. */
 		/* TODO: Apply other filters for date and value */
 		if(isset($entry['ratings'][$catid])){
 			$Category['value']=$entry['ratings'][$catid];
+			$Category['date']=$entry['dates'][$catid];
 			$Statement=array('Value'=>''.$Category['label']);
 			$Statement=personaliseStatement($Statement,$Student);
 			$Category['label']=''.$Statement['Value'];
