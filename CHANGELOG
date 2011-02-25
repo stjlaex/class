@@ -16,6 +16,7 @@ Added a choice of templates for address labels.
 
 Added postcode breakdown for applications and included stats button on enrolments.
 
+Working on fetchCategories to handle filter options for profile statements.
 
 
 Version ClaSS-0.9.34 release (2011/02/7)

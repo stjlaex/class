@@ -949,14 +949,17 @@ function fetchReportEntry($reportdef,$sid,$bid,$pid){
  *
  *
  */
-function fetchProfileStatements($profile_name,$bid,$pid,$sid,$fromdate){
+function fetchProfileStatements($profile_name,$bid,$pid,$sid,$cutoff_date){
 	$Student=fetchStudent_short($sid);
 	$Statements=array();
 	/* This has to iterate over all strands, here called the profilepids,
 	 * for this component $pid. 
 	 */
 
-	if(!isset($cutoff_grade)){$cutoff_grade=-100;}
+	if(!isset($cutoff_rating)){$cutoff_rating=-100;}
+	if(!isset($cutoff_level)){$cutoff_level=-100;}
+	if(!isset($cutoff_date)){$cutoff_date='0000-00-00';}
+	if(!isset($cutoff_statno)){$cutoff_date=1000;}
 
 	if($profile_name=='FS Steps'){
 
@@ -965,17 +968,17 @@ function fetchProfileStatements($profile_name,$bid,$pid,$sid,$fromdate){
 		$profilepids[]=array('id'=>$pid,'name'=>'');
 		while(list($pidindex,$component)=each($profilepids)){
 			$profilepid=$component['id'];
-			/* This cutoff grade is just a hack to work with the FS profile*/
+			/* This cutoff rating is just a hack to work with the FS profile*/
 			/*TODO properly!*/
 			/*This ensures only Reception statements are used for Reception classes*/
-			if($Student['YearGroup']['value']=='-1'){$cutoff_grade=0;}
-			if($Student['YearGroup']['value']=='0'){$cutoff_grade=3;}
+			if($Student['YearGroup']['value']=='-1'){$cutoff_rating=0;}
+			if($Student['YearGroup']['value']=='0'){$cutoff_rating=3;}
 			$d_eidsid=mysql_query("SELECT assessment.description, assessment.id FROM eidsid 
 				JOIN assessment ON assessment.id=eidsid.assessment_id WHERE
 				eidsid.student_id='$sid' AND eidsid.subject_id='$bid'
 				AND eidsid.component_id='$profilepid' AND
 				assessment.profile_name='$profile_name' AND
-				eidsid.date > '$fromdate' AND eidsid.value > '$cutoff_grade';");
+				eidsid.date > '$cutoff_date' AND eidsid.value > '$cutoff_rating';");
 			$stats=array();
 			while($eidsid=mysql_fetch_array($d_eidsid,MYSQL_ASSOC)){
 				$topic=$eidsid['description'];
@@ -991,6 +994,12 @@ function fetchProfileStatements($profile_name,$bid,$pid,$sid,$fromdate){
 	  }
   else{
 
+	if($profile_name=='APP Framework'){
+		/*TODO: have to pass these values for each report. */
+		/*Only displaying 4c and above which are secure. */
+		$cutoff_rating=1;$cutoff_level=10;$statno_cutoff=6;
+		}
+
 	  $profilepids=(array)list_subject_components($pid,'KS2');
 	  $profilepids[]=array('id'=>$pid,'name'=>'');
 	  foreach($profilepids as $component){
@@ -998,8 +1007,8 @@ function fetchProfileStatements($profile_name,$bid,$pid,$sid,$fromdate){
 		  $d_cat=mysql_query("SELECT report_id, category FROM reportentry WHERE 
 								 subject_id='$bid' AND component_id='$profilepid' AND student_id='$sid' 
 								 AND report_id=ANY(SELECT DISTINCT report_id FROM ridcatid 
-											JOIN categorydef ON categorydef.id=ridcatid.categorydef_id 
-											WHERE ridcatid.subject_id='profile' AND categorydef.name='$profile_name');");
+   										JOIN categorydef ON categorydef.id=ridcatid.categorydef_id 
+   										WHERE ridcatid.subject_id='profile' AND categorydef.name='$profile_name');");
 		  $stats=array();
 		  $ratings=array();
 		  while($cat=mysql_fetch_array($d_cat,MYSQL_ASSOC)){
@@ -1007,15 +1016,19 @@ function fetchProfileStatements($profile_name,$bid,$pid,$sid,$fromdate){
 			  $reportdef['report']['id']=$cat['report_id'];
 			  $ratingname=get_report_ratingname($reportdef,$bid);
 			  $Categories=(array)fetchCategories($Student,$cat['category'],$catdefs,$ratingname);
-			  foreach($Categories['Category'] as $Category){
-				 $cutoff_grade=1;
-				 if($Category['value']>=$cutoff_grade){
-					  $statement=array('statement_text'=>$Category['label'],
-								   'counter'=>0,
-								   'author'=>'ClaSS',
-								   'rating_fraction'=>1);
-					  $Statements[]=fetchStatement($statement,1);
-				  	  }
+			  if(isset($Categories['Category'])){
+				  $statno=0;
+				  foreach($Categories['Category'] as $Category){
+					  if($Category['value']>=$cutoff_rating and $Category['level']>=$cutoff_level 
+						 and ($Category['date']=='' or $Category['date']>=$cutoff_date) and $statno<$statno_cutoff){
+						  $statno++;
+						  $statement=array('statement_text'=>$Category['label'],
+										   'counter'=>0,
+										   'author'=>'ClaSS',
+										   'rating_fraction'=>1);
+						  $Statements[]=fetchStatement($statement,1);
+						  }
+					  }
 				  }
 			  }
 		  }
@@ -1095,13 +1108,13 @@ function fetchCategories($Student,$category_field,$catdefs,$ratingname){
 		$Category=array();
 		$catid=$catdef['id'];
 		/* TODO: Use subtype and comment and rating to decorate extra info. */
-		$Category=array('label'=>''.$catdef['name'],'id_db'=>''.$catid,'value'=>'','date'=>'');
+		$Category=array('label'=>''.$catdef['name'],'id_db'=>''.$catid,'value'=>'','date'=>'','level'=>''.$catdef['rating']);
 
 		/* Only pass catgories which have had a value set. */
 		/* TODO: Apply other filters for date and value */
 		if(isset($entry['ratings'][$catid])){
-			$Category['value']=$entry['ratings'][$catid];
-			$Category['date']=$entry['dates'][$catid];
+			$Category['value']=''.$entry['ratings'][$catid];
+			$Category['date']=''.$entry['dates'][$catid];
 			$Statement=array('Value'=>''.$Category['label']);
 			$Statement=personaliseStatement($Statement,$Student);
 			$Category['label']=''.$Statement['Value'];
