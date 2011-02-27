@@ -89,7 +89,7 @@ else{
 				MATCH (address.country) AGAINST ('$value*' IN BOOLEAN MODE) 
 				OR address.country='$value'");
 			}
-		elseif($table=='student' and $field=='surname'){
+		elseif(($table=='student' or $table=='guardian') and $field=='surname'){
 			/*defaults to surname or gender search*/
 				//OR $field LIKE '%$value%' 
 			$d_sids=mysql_query("SELECT id FROM $table WHERE

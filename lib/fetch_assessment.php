@@ -949,10 +949,14 @@ function compute_accumulators($sid,$AssDef,$steps,$accumulators=''){
 	return $accumulators;
 	}
 
+
+
 /**
+ *
  * Should always be used when writing to the eidisd table. The $score 
  * being recorded is an array with both result and value set, with 
  * optionally a date. 
+ *
  */
 function update_assessment_score($eid,$sid,$bid,$pid,$score){
 	$res=$score['result'];
@@ -996,6 +1000,8 @@ function update_assessment_score($eid,$sid,$bid,$pid,$score){
 		}
 	}
 
+
+
 /**
  * Should always be used when writing to the score table. The $score
  * being recorded is an array with both result and value.
@@ -1018,6 +1024,40 @@ function update_mark_score($mid,$sid,$score){
 			}
 		}
 	}
+
+
+
+/**
+ *
+ *
+ *
+ */
+function update_profile_score($rid,$sid,$bid,$pid,$cat,$catdefs,$rating_name){
+
+	$Student=fetchStudent_short($sid);
+	$score=array('result'=>'5','value'=>0);
+	$cutoff_rating='1';
+
+	$d_a=mysql_query("SELECT DISTINCT assessment_id FROM rideid WHERE report_id='$rid';");
+	$eid=mysql_result($d_a,0);
+
+
+	$statno=0;
+	$Categories=(array)fetchCategories($Student,$cat,$catdefs,$rating_name);
+	if(isset($Categories['Category'])){
+		foreach($Categories['Category'] as $Category){
+			if($Category['value']>=$cutoff_rating){
+				$score['value']++;
+				}
+			$statno++;
+			}
+		}
+	$catno=sizeof($catdefs);
+	if($statno>0){$score['result']=round(100*($score['value']/$catno));}
+	update_assessment_score($eid,$sid,$bid,$pid,$score);
+
+	}
+
 
 /**
  * This tries to find the mid (if one exists otherwise -1) associated 

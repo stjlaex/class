@@ -237,8 +237,8 @@ $viewtable=array();
 			/*Mark is a compound column*/
 			$scoreclass='derived';
 			$rep=checkReportEntryCat($umns[$c]['midlist'],$sid,$bid[0],$umns[$c]['component']);
-			$out='<a href="markbook.php?current=new_edit_reports.php&cancel=class_view.php&midlist='.$umns[$c]['midlist'].'&title='.$umns[$c]['topic'].'&pid='.$umns[$c]['component'].'&sid='.$sid.'&bid='.$bid[0].'">'.$rep['total'].'</a>';
-			$outrank=$rep['total'];
+			$out='<div class="'.$rep['class'].'"><a href="markbook.php?current=new_edit_reports.php&cancel=class_view.php&midlist='.$umns[$c]['midlist'].'&title='.$umns[$c]['topic'].'&pid='.$umns[$c]['component'].'&sid='.$sid.'&bid='.$bid[0].'">'.$rep['result'].'</a></div>';
+			$outrank=$rep['value'];
 			}
 
 		/*********************************************************/

@@ -187,6 +187,7 @@ three_buttonmenu($extrabuttons,$book);
 		$ratings=$reportdef['ratings'];
 		$inorders['category']='yes';
 		$inorders['catdefs']=$catdefs;
+		$inorders['rating_name']=$reportdef['report']['rating_name'];
 		}
 	else{
 		$inorders['category']='no';

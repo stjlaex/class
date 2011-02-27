@@ -115,6 +115,8 @@ function fetchStudent_singlefield($sid,$tag){
 	elseif($tag=='Language'){$fieldname='language';$fieldtype='enum';}
 	elseif($tag=='Boarder'){$fieldname='boarder';$fieldtype='enum';}
 	elseif($tag=='EntryDate'){$fieldname='entrydate';}
+	elseif($tag=='Siblings'){$fieldname='siblings';}
+	elseif($tag=='StaffChild'){$fieldname='staffchild';}
 	elseif($tag=='EmailAddress'){$fieldname='email';}
 	elseif($tag=='MobilePhone'){$fieldname='phonenumber';}
 	elseif($tag=='EPFUsername'){$fieldname='epfusername';}

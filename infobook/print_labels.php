@@ -145,9 +145,12 @@ three_buttonmenu($extrabuttons,$book);
 			name="formtoprocess" method="post" action="<?php print $host;?>">
 
 	<div class="divgroup center">
+
 	  <div class="center">
+		<br />
 		<div class="left">
 <?php 		
+			$seltemplate='address_labels3x7';
 			$listfilter='address'; 
 			include('scripts/list_template.php')
 ;?>

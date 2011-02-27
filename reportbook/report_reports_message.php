@@ -76,6 +76,8 @@ if(sizeof($rids)!=0){
 				$recipient=$Contact['EmailAddress']['value'];
 				//$recipient='stj@laex.org';
 				$message=get_string('epfreportemail1');
+				$message.= "\r\n".$CFG->eportfoliosite ."\r\n";
+				$message.=get_string('epfreportemail1bis');
 				$message.= "\r\n". 'Your username is: ' .$Contact['EPFUsername']['value']. "\r\n";
 				//$message.= "\r\n". 'Your password is: ' .$password. "\r\n";
 				if(isset($CFG->eportfolio_access) and $CFG->eportfolio_access=='dob'){$message.=get_string('epfreportemail2dob');}

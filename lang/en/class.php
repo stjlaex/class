@@ -218,11 +218,10 @@ $string['epfreportemail1']='Dear Parent,
 You now have access to your child\'s latest homework and academic
 reports through the web-site ClaSSic. The link to access ClaSSic can
 be found on the front page of the official school website under the
-area for Parents.
-
-Access to ClaSSic is protected by a user-name and password. These
-are personal to you and we ask that you do not share them with
-anyone.
+area for Parents or directly from:';
+$string['epfreportemail1bis']='
+Access to ClaSSic is protected by a user-name and password. These are
+personal to you and we ask that you do not share them with anyone.
 ';
 $string['epfreportemail2dob']='
 Your password is the date of birth of your child typed as a continuous

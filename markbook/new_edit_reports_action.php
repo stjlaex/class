@@ -13,6 +13,7 @@ $inbid=$inorders['subject'];
 $inpid=$inorders['component'];
 $rid=$inorders['rid'];
 if(isset($inorders['catdefs'])){$catdefs=$inorders['catdefs'];}
+if(isset($inorders['rating_name'])){$rating_name=$inorders['rating_name'];}
 $todate=date('Y').'-'.date('n').'-'.date('j');
 
 include('scripts/sub_action.php');
@@ -53,14 +54,14 @@ if($sub=='Submit'){
 			$inmust=$_POST["inmust$sid:$c2"];
 			$c2++;
 	   		if($inorders['category']=='yes'){
-				reset($catdefs);
-				while(list($catn,$catdef)=each($catdefs)){
+				foreach($catdefs as $catdef){
 					if(isset($_POST["sid$sid:$c2"])){
 					    $in=$_POST["sid$sid:$c2"];
 						$incategory=$incategory . $catdef['id'].':'.$in.':'.$todate.';';
 						}
 					$c2++;
 					}
+				update_profile_score($rid,$sid,$inbid,$inpid,$incategory,$catdefs,$rating_name);
 				}
 
 			/*this assumes that the comment comes after all the category entries!!!*/

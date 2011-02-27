@@ -74,6 +74,7 @@ two_buttonmenu($extrabuttons,$book);
 		while(list($index,$Dependent)=each($Dependents)){
 			$Student=$Dependent['Student'];
 			$relation=displayEnum($Dependent['Relationship']['value'],'relationship');
+			$mailing=displayEnum($Dependent['ReceivesMailing']['value'],'mailing');
 ?>
 				  <table>
 					<tr>
@@ -84,6 +85,7 @@ two_buttonmenu($extrabuttons,$book);
 						  <a href="infobook.php?current=student_view.php&cancel=contact_list.php&sid=<?php print $Student['id_db'];?>&sids[]=<?php print $Student['id_db'];?>">
 							<?php print $Student['DisplayFullName']['value']; ?>
 						  </a>
+						<span style="float:right;"><?php print get_string('receivesmailing',$book).': '.get_string($mailing,$book);?></span>
 						</p>
 					  </td>
 					</tr>

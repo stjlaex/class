@@ -880,6 +880,8 @@ function getEnumArray($field_name){
 						'EmailAddress'=>'email',
 						'EnrolNumber'=>'enrolmentnumber',
 						'EnrolmentNotes'=>'enrolmentnotes',
+						'Siblings'=>'siblings',
+						'StaffChild'=>'staffchild',
 						'EntryDate'=>'schoolstartdate',
 						'Language'=>'language',
 						'MobilePhone'=>'mobilephone',

@@ -807,39 +807,47 @@ function fetchReportSummaries($rid){
 
 
 /**
+ *
  *	Simply checks to see if any report entries for a bid/pid combination 
  *  have been made for this sid in this report. The number of report entries 
  *  are returned.
  *
  */
 function checkReportEntry($rid,$sid,$bid,$pid){
-	$d_reportentry=mysql_query("SELECT entryn
-					FROM reportentry WHERE report_id='$rid' AND
-					student_id='$sid' AND subject_id='$bid' AND
-					component_id='$pid';");
+	$d_reportentry=mysql_query("SELECT entryn FROM reportentry WHERE report_id='$rid' AND
+					student_id='$sid' AND subject_id='$bid' AND component_id='$pid';");
 	return mysql_numrows($d_reportentry);
 	}
 
 
 
+/**
+ *
+ *	Simply checks to see if any report entries for a bid/pid combination 
+ *  have been made for this sid in this report. The number of report entries 
+ *  are returned.
+ *
+ */
 function checkReportEntryCat($rid,$sid,$bid,$pid){
-	$d_r=mysql_query("SELECT category
-					FROM reportentry WHERE report_id='$rid' AND
-					student_id='$sid' AND subject_id='$bid' AND
-					component_id='$pid';");
-	$rep=array();
-	$rep['count']=0;
-	$rep['total']=0;
-	while($entry=mysql_fetch_array($d_r)){
-		$rep['count']++;
-		$pairs=explode(';',$entry['category']);
-		for($c=0;$c<(sizeof($pairs)-1);$c++){
-			$thiscat=explode(':',$pairs[$c]);
-			$rep['total']+=$thiscat[1];
-			}
+	$d_a=mysql_query("SELECT result, value, weight FROM eidsid 
+				JOIN rideid ON rideid.assessment_id=eidsid.assessment_id WHERE rideid.report_id='$rid'
+				AND eidsid.student_id='$sid' AND eidsid.subject_id='$bid' AND eidsid.component_id='$pid';");
+
+	if(mysql_num_rows($d_a)==0){
+		$ass['result']=0;
+		$ass['value']=0;
+		$ass['weight']=0;
+		$ass['class']='';
+		}
+	else{
+		$ass=mysql_fetch_array($d_a);
+		if($ass['result']>90){$ass['class']='golite';}
+		elseif($ass['result']>60){$ass['class']='gomidlite';}
+		elseif($ass['result']>30){$ass['class']='pauselite';}
+		else{$ass['class']='nolite';}
 		}
 
-	return $rep;
+	return $ass;
 	}
 
 
@@ -928,7 +936,6 @@ function fetchReportEntry($reportdef,$sid,$bid,$pid){
 		   $ratingname=get_report_ratingname($reportdef,$bid);
 		   $catdefs=get_report_categories($rid,$bid,$pid);
 		   $Categories=(array)fetchCategories($Student,$entry['category'],$catdefs,$ratingname);
-
 		   $Comment['Categories']=$Categories;
 		   }
 
