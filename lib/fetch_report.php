@@ -966,7 +966,7 @@ function fetchProfileStatements($profile_name,$bid,$pid,$sid,$cutoff_date){
 	if(!isset($cutoff_rating)){$cutoff_rating=-100;}
 	if(!isset($cutoff_level)){$cutoff_level=-100;}
 	if(!isset($cutoff_date)){$cutoff_date='0000-00-00';}
-	if(!isset($cutoff_statno)){$cutoff_date=1000;}
+	if(!isset($cutoff_statno)){$cutoff_statno=1000;}
 
 	if($profile_name=='FS Steps'){
 
@@ -1004,11 +1004,12 @@ function fetchProfileStatements($profile_name,$bid,$pid,$sid,$cutoff_date){
 	if($profile_name=='APP Framework'){
 		/*TODO: have to pass these values for each report. */
 		/*Only displaying 4c and above which are secure. */
-		$cutoff_rating=1;$cutoff_level=10;$statno_cutoff=6;
+		$cutoff_rating=1;$cutoff_level=10;$cutoff_statno=6;
 		}
 
 	  $profilepids=(array)list_subject_components($pid,'KS2');
 	  $profilepids[]=array('id'=>$pid,'name'=>'');
+	  $statno=0;
 	  foreach($profilepids as $component){
 		  $profilepid=$component['id'];
 		  $d_cat=mysql_query("SELECT report_id, category FROM reportentry WHERE 
@@ -1024,10 +1025,9 @@ function fetchProfileStatements($profile_name,$bid,$pid,$sid,$cutoff_date){
 			  $ratingname=get_report_ratingname($reportdef,$bid);
 			  $Categories=(array)fetchCategories($Student,$cat['category'],$catdefs,$ratingname);
 			  if(isset($Categories['Category'])){
-				  $statno=0;
 				  foreach($Categories['Category'] as $Category){
 					  if($Category['value']>=$cutoff_rating and $Category['level']>=$cutoff_level 
-						 and ($Category['date']=='' or $Category['date']>=$cutoff_date) and $statno<$statno_cutoff){
+						 and ($Category['date']=='' or $Category['date']>=$cutoff_date) and $statno<$cutoff_statno){
 						  $statno++;
 						  $statement=array('statement_text'=>$Category['label'],
 										   'counter'=>0,

@@ -228,13 +228,24 @@ function fetchStudent_singlefield($sid,$tag){
 			$Student[$tag]=array('label'=>'',
 								 'value'=>$Contacts[$contactno]['Private']['value']);
 			}
-		else{
+		elseif(substr_count($tag,'Title')){
+			/*NOT a part of the xml def for Student but useful here*/
+			$Contacts=(array)fetchContacts($sid);
+			$Student[$tag]=array('label'=>'',
+								 'value'=>get_string(displayEnum($Contacts[$contactno]['Title']['value'], 'title'),'infobook'));
+			}
+		elseif(substr_count($tag,'Relationship')){
 			/*NOT a part of the xml def for Student but useful here*/
 			$Contacts=(array)fetchContacts($sid);
 			$rel=displayEnum($Contacts[$contactno]['Relationship']['value'], 'relationship'); 
-			$rel=get_string($rel,'infobook');
-			$firstcontact='('.$rel.') '. 
-					$Contacts[$contactno]['Forename']['value']. ' '.$Contacts[$contactno]['Surname']['value'];
+			$mail=displayEnum($Contacts[$contactno]['ReceivesMailing']['value'], 'mailing'); 
+			$Student[$tag]=array('label'=>'',
+								 'value'=>''.get_string($rel,'infobook'). ' ('.get_string($mail,'infobook').')');
+			}
+		else{
+			/*NOT a part of the xml def for Student but useful here*/
+			$Contacts=(array)fetchContacts($sid);
+			$firstcontact= $Contacts[$contactno]['Forename']['value']. ' '.$Contacts[$contactno]['Surname']['value'];
 			$Student[$tag]=array('label'=>'',
 								 'value'=>'');
 			$Student[$tag]['value']=''.$firstcontact; 
