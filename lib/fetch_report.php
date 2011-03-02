@@ -834,16 +834,29 @@ function checkReportEntryCat($rid,$sid,$bid,$pid){
 				AND eidsid.student_id='$sid' AND eidsid.subject_id='$bid' AND eidsid.component_id='$pid';");
 
 	if(mysql_num_rows($d_a)==0){
-		$ass['result']=0;
-		$ass['value']=0;
-		$ass['weight']=0;
-		$ass['class']='';
+		/* For any old profiles not linked to an assessment then just display their tally. */
+		$d_r=mysql_query("SELECT category FROM reportentry WHERE report_id='$rid' AND 
+							student_id='$sid' AND subject_id='$bid' AND component_id='$pid';");
+		$rep=array();
+		$tot=0;
+		while($entry=mysql_fetch_array($d_r)){
+			$rep['count']++;
+			$pairs=explode(';',$entry['category']);
+			for($c=0;$c<(sizeof($pairs)-1);$c++){
+				$thiscat=explode(':',$pairs[$c]);
+				$tot+=$thiscat[1];
+				}
+			 }
+		$ass['result']=$tot;
+		$ass['value']=$tot;
+		$ass['weight']=1;
+		$ass['class']='nolite';
 		}
 	else{
 		$ass=mysql_fetch_array($d_a);
-		if($ass['result']>90){$ass['class']='golite';}
-		elseif($ass['result']>60){$ass['class']='gomidlite';}
-		elseif($ass['result']>30){$ass['class']='pauselite';}
+		if($ass['result']>85){$ass['class']='golite';}
+		elseif($ass['result']>55){$ass['class']='gomidlite';}
+		elseif($ass['result']>25){$ass['class']='pauselite';}
 		else{$ass['class']='nolite';}
 		}
 

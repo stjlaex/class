@@ -54,10 +54,18 @@ if($sub=='Submit'){
 			$inmust=$_POST["inmust$sid:$c2"];
 			$c2++;
 	   		if($inorders['category']=='yes'){
+				/* Read previous entry for the categories and check which have changed. */
 				foreach($catdefs as $catdef){
+					$catid=$catdef['id'];
 					if(isset($_POST["sid$sid:$c2"])){
 					    $in=$_POST["sid$sid:$c2"];
-						$incategory=$incategory . $catdef['id'].':'.$in.':'.$todate.';';
+						if(isset($_POST["cat$sid:$catid"]) and $in==$_POST["cat$sid:$catid"]){
+							$setdate=$_POST["dat$sid:$catid"];
+							}
+						else{
+							$setdate=$todate;
+							}
+						$incategory=$incategory . $catid.':'.$in.':'.$setdate.';';
 						}
 					$c2++;
 					}

@@ -28,6 +28,10 @@ skill statements in a profile.
 Added contact title, relationship and receives mailings as extra
 fields for InfoBook lists.
 
+Fixed editing targets on Support IEP.
+
+Only update date if value changes for category field.
+
 
 
 Version ClaSS-0.9.34 release (2011/02/7)

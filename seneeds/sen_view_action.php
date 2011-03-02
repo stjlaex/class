@@ -118,6 +118,15 @@ elseif($sub=='Submit'){
 			mysql_query("UPDATE $table SET $field='$inval'
 									WHERE senhistory_id='$senhid' AND subject_id='$bid'");
 			}
+
+		$field=$Subject['Targets']['field_db'];
+		$inname=$field. $key;
+		$inval=clean_text($_POST[$inname]);
+		if($Subject['Targets']['value']!=$inval){
+			mysql_query("UPDATE $table SET $field='$inval'
+									WHERE senhistory_id='$senhid' AND subject_id='$bid'");
+			}
+
 		}
 
 	}

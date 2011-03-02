@@ -231,12 +231,14 @@
 					elseif($descriptor=='yellow'){$trafficlite='class="pauselite"';}
 					else{$trafficlite='';}
 					print '<div class="row '.$checkclass.'"><label '.$trafficlite.'">'.$descriptor.'</label>';
-					print '<input type="radio" name="sid'.$sid.':'.$inc.'"
-						tabindex="'.$tab.'" value="'.$value.'" '.$checked;
+					print '<input type="radio" name="sid'.$sid.':'.$inc. '" tabindex="'.$tab.'" value="'.$value.'" '.$checked;
 					print ' /></div>';
 					}
+
 				if($setcat_date!=' ' and $setcat_date!=''){
 					print '<span style="float:right;color:#aaa;">'.display_date($setcat_date).'</span>';
+					print '<input type="hidden" name="cat'.$sid.':'.$catid.'" value="'.$setcat_value.'"/>';
+					print '<input type="hidden" name="dat'.$sid.':'.$catid.'" value="'.$setcat_date.'"/>';
 					}
 
 				$inc++;
