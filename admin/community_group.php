@@ -10,10 +10,16 @@ elseif($_SESSION['role']=='teacher'){$newcomtype='ACADEMIC';}
 else{$newcomtype='TUTOR';}
 
 
-$extrabuttons['previewselected']=array('name'=>'current',
-									   'pathtoscript'=>$CFG->sitepath.'/'.$CFG->applicationdirectory.'/admin/',
-									   'value'=>'group_print.php',
-									   'onclick'=>'checksidsAction(this)');
+$extrabuttons['form']=array('name'=>'current',
+							'pathtoscript'=>$CFG->sitepath.'/'.$CFG->applicationdirectory.'/admin/',
+							'value'=>'group_print.php',
+							'xmlcontainerid'=>'forms',
+							'onclick'=>'checksidsAction(this)');
+$extrabuttons['groups']=array('name'=>'current',
+							  'pathtoscript'=>$CFG->sitepath.'/'.$CFG->applicationdirectory.'/admin/',
+							  'value'=>'group_print.php',
+							  'xmlcontainerid'=>'groups',
+							  'onclick'=>'checksidsAction(this)');
 $extrabuttons['export']=array('name'=>'current','value'=>'community_group_export.php');
 $extrabuttons['createnewgroup']=array('name'=>'current','value'=>'community_group_rename.php');
 three_buttonmenu($extrabuttons);
@@ -84,10 +90,17 @@ three_buttonmenu($extrabuttons);
 	  <input type="hidden" name="cancel" value="<?php print '';?>" />
 	</form>
   </div>
-  <div id="xml-checked-action" style="display:none;">
+  <div id="xml-groups" style="display:none;">
 	<params>
 	  <checkname>comids</checkname>
 	  <selectname>newcomtype</selectname>
 	  <transform>group_list</transform>
+	</params>
+  </div>
+  <div id="xml-forms" style="display:none;">
+	<params>
+	  <checkname>comids</checkname>
+	  <selectname>newcomtype</selectname>
+	  <transform>group_list_forms</transform>
 	</params>
   </div>
