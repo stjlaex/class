@@ -898,6 +898,7 @@ function getEnumArray($field_name){
 						'FirstContactProfession'=>'firstcontactprofession',
                         'FirstContactEPFUsername'=>'firstcontactepfu',
                         'FirstContactNote'=>'firstcontactnote',
+                        'FirstContactCode'=>'firstcontactcode',
                         'FirstContactPrivate'=>'firstcontactprivate',
                         'FirstContactTitle'=>'firstcontacttitle',
 						'SecondContact'=>'secondcontact',
@@ -908,6 +909,7 @@ function getEnumArray($field_name){
 						'SecondContactProfession'=>'secondcontactprofession',
                         'SecondContactEPFUsername'=>'secondcontactepfu',
                         'SecondContactNote'=>'secondcontactnote',
+                        'SecondContactCode'=>'secondcontactcode',
                         'SecondContactTitle'=>'secondcontacttitle',
                         'SecondContactPrivate'=>'secondcontactprivate',
 						'ThirdContact'=>'thirdcontact',
@@ -919,6 +921,7 @@ function getEnumArray($field_name){
                         'ThirdContactEPFUsername'=>'thirdcontactepfu',
                         'ThirdContactTitle'=>'thirdcontacttitle',
                         'ThirdContactNote'=>'thirdcontactnote',
+                        'ThirdContactCode'=>'thirdcontactcode',
                         'ThirdContactPrivate'=>'thirdcontactprivate'
 						);
 	/*for the register*/

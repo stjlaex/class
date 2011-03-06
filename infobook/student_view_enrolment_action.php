@@ -17,6 +17,7 @@ if($sub=='Submit'){
 	if(isset($_POST['enrolstatus'])){$enrolstatus=$_POST['enrolstatus'];}
 	if(isset($_POST['enrolyear'])){$enrolyear=$_POST['enrolyear'];}else{$enrolyear='';}
 	if(isset($_POST['enrolyid'])){$enrolyid=$_POST['enrolyid'];}else{$enrolyid='';}
+	if(isset($_POST['leavingdate'])){$leavingdate=$_POST['leavingdate'];}else{$leavingdate='';}
 	if(isset($_POST['eids'])){$eids=$_POST['eids'];}else{$eids=array();}
 
 	$Enrolment=fetchEnrolment($sid);
@@ -38,6 +39,16 @@ if($sub=='Submit'){
 				}
 			$oldcommunities=join_community($sid,$newcom);
 			}
+
+
+	/* TODO: set the leaving date using join_community BUT need to
+	   remove enrolstatus from info table to achieve this.
+	if($leavingdate!=$Enrolment['LeavingDate']['value']){
+		$newcom=array('id'=>'','type'=>'P', 
+					  'name'=>'P:'.$enrolyid,'year'=>$enrolyear);
+		$oldcommunities=join_community($sid,$newcom);
+		}
+	*/
 
 	reset($Enrolment);
 	while(list($index,$val)=each($Enrolment)){
