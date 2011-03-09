@@ -12,7 +12,7 @@ if(sizeof($error)>0){include('scripts/results.php');exit;}
 
 three_buttonmenu();
 
-$maxclassno=10;
+$maxclassno=20;
 $manys=array();
 for($c=0;$c<$maxclassno;$c++){
 	$manys[]=array('id'=>$c,'name'=>$c);

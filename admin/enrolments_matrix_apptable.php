@@ -30,8 +30,13 @@ $application_steps=array('AP','ATD','AT','RE','CA','ACP','AC','WL');
  * but all values (specified above) are still totalled in final column.
  * The exception is Enquired which is done outside this.
  */
-$appcols_value=array('AP','AT','RE','CA','ACP','AC','WL');
 
+if($enrolyear==$currentyear){
+	$appcols_value=array('AP','AT','RE','CA','ACP','AC','WL');
+	}
+else{
+	$appcols_value=array('AP','AT','RE','CA','ACP','AC','WL');
+	}
 
 	/* The cols array defines the column headers and display class. */
 	foreach($application_steps as $enrolstatus){
@@ -52,6 +57,14 @@ $appcols_value=array('AP','AT','RE','CA','ACP','AC','WL');
 		}
 
 
+if($enrolyear==$currentyear){
+	$appcols['newnewenrolments']['class']='blank';
+	$appcols['newnewenrolments']['display']=get_string('newenrolments',$book).' '.get_string('thisyear',$book);
+	$appcols['newnewenrolments']['value']='newnewenrolments';
+	}
+
+
+
 	/* A tablecells array for each row holds the computed values and is stored in tablerows array indexed by the yid. */
 	foreach($yeargroups as $year){
 		$app_tablecells=array();
@@ -66,22 +79,26 @@ $appcols_value=array('AP','AT','RE','CA','ACP','AC','WL');
 		 * still want the number as part of the matrix for totals
 		 */
 		$newcurrentsids=0;
-		if($enrolyear>$currentyear){
-			}
-		else{
+		$newnewcurrentsids=0;
+		if($enrolyear==$currentyear){
 			$yearcomid=$yeargroup_comids[$yid];
 			/* Student whose applications have been accepted since the start of the year*/
 			$d_nosids=mysql_query("SELECT COUNT(student_id) FROM
 						comidsid WHERE community_id='$yearcomid'
-					AND (leavingdate>'$todate' OR 
-					leavingdate='0000-00-00' OR leavingdate IS NULL) 
+					AND (leavingdate>'$todate' OR leavingdate='0000-00-00' OR leavingdate IS NULL)
 					AND joiningdate<='$todate' AND joiningdate>='$yearstartdate';");
+			$newnewcurrentsids=mysql_result($d_nosids,0);
 			/* Students who joined the current roll regardless of when accepted*/
+			/*
 			$d_nosids=mysql_query("SELECT COUNT(c.student_id) FROM
 					comidsid AS c JOIN info AS i ON c.student_id=i.student_id WHERE c.community_id='$yearcomid'
 					AND i.entrydate>'$yearstartdate';");
+			*/
+			$d_nosids=mysql_query("SELECT COUNT(student_id) FROM
+						comidsid WHERE community_id='$yearcomid'
+					AND (leavingdate>'$todate' OR leavingdate='0000-00-00' OR leavingdate IS NULL)
+					AND joiningdate<'$yearstartdate' AND joiningdate>='$yearenddate';");
 			$newcurrentsids=mysql_result($d_nosids,0);
-			//$values[0]+=$newcurrentsids;
 			}
 
 		$values=array();//holds values for this row
@@ -146,8 +163,10 @@ $appcols_value=array('AP','AT','RE','CA','ACP','AC','WL');
 
 		/* Don't forget applications who have already joined current
 		   roll have to be counted as applications received. */
-		$app_tablecells['C']['value']=$newcurrentsids;
-		$app_tablecells['applicationsreceived']['value']=$values[0];
+		$app_tablecells['C']['value']=$newcurrentsids+$newnewcurrentsids;
+		$app_tablecells['newnewenrolments']['value']=$newnewcurrentsids;
+		$app_tablecells['newnewenrolments']['display']=$newnewcurrentsids;
+		$app_tablecells['applicationsreceived']['value']=$values[0]+$newnewcurrentsids;
 		$app_tablecells['applicationsreceived']['value_boarder']=$values['B'];
 		$app_tablecells['applicationsreceived']['name']='TOTAL:'.$yid;
 		$app_tablecells['applicationsreceived']['name_boarder']='TOTAL:boarder';

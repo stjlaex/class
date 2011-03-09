@@ -34,12 +34,31 @@ include('scripts/epf_access.php');
 	  </legend>
 	  <table class="listmenu center">
 <?php
+	foreach($report_files as $report){
+?>
+	<div style="float:left;width:24%;margin:2px;">
+	  <table class="listmenu smalltable">
+		<tr>
+		  <td>
+			<h4><?php print $report['title'];?></h4>
+		  </td>
+		  <td>
+			<button style="float:right;" title="<?php print_string('print');?>" 			 
+			onclick="clickToPresent('reportbook','<?php print $report['url'];?>','attendance_summary')" >
+			<img src="images/printer.png" /></button>
+	  </td>
+		</tr>
+	  </table>
+	</div>
+<?php
+		}
+	/*
 	foreach($report_files as $file){
 		print '<tr><td><a href="'.$file['url'].'" target="_blank">'.$file['title'].'</a></td></tr>';
 		print '<tr><td></td></tr>';
 		}
+	*/
 ?>
-	  </table>
 	</fieldset>
 
 	<fieldset class="center">
