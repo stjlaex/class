@@ -9,8 +9,11 @@
 							   'projectedroll','targetroll','budgetroll','capacity','spaces');
 		}
 	else{
-		$enrolcols_value=array('reenroled','newenrolments','leaverssince','leaversprevious',
-							'currentroll','capacity','spaces');
+		/*		$enrolcols_value=array('reenroled','newenrolments','leaverssince',
+							'currentroll','budgetroll','capacity','spaces');
+		*/
+		$enrolcols_value=array('reenroled','newenrolments','leaverssince',
+							'currentroll','budgetroll','leaversprevious','capacity','spaces');
 		}
 
 	$enrol_tablerows=array();

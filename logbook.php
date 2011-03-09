@@ -88,10 +88,12 @@
 		 * load the externalbooks, booktabs, update langpref, and raise firstbook
 		 */
 
-		if($role=='office'){
+		$firstbookpref=$_SESSION['firstbookpref'];
+
+		if($role=='office' or $role=='medical' or $role=='admin' or $role=='library'){
 			/* This will prevent session timeouts, making an
 			 * xmlhttprequest to the logbook/httpscripts/session_alive.php 
-			 * every 15 minutes. But only for office users.
+			 * every 15 minutes. But only for select roles.
 			 */
 ?>
 		<script>setInterval("parent.sessionAlive(pathtobook);",15*60*1000);</script>
@@ -116,7 +118,9 @@
 
 		$showtabs=$books[$role]+$externalbooks[$role];
 ?>
-			<script>parent.loadBook("aboutbook")</script>
+
+		<script>parent.loadBook("aboutbook")</script>
+		<script>tabtimer=setTimeout("parent.viewBook('<?php print $firstbookpref; ?>');",1000);</script>
 
   <div style="visibility:hidden;" id="hiddennavtabs">
 	<div class="booktabs">
@@ -130,7 +134,7 @@
 		foreach($showtabs as $bookhost=>$bookname){
 ?>
 		<li id="<?php print $bookhost.'tab';?>"><p class="<?php print $bookhost;?>"
-		onclick="viewBook(this.getAttribute('class'))"><?php print $bookname;?></p></li>
+		onclick="viewBook(this.getAttribute('class'));"><?php print $bookname;?></p></li>
 <?php
 			}
 ?>
@@ -138,11 +142,9 @@
 	</div>
   </div>
 <?php
-		$firstbookpref=$_SESSION['firstbookpref'];
 		update_user_language(current_language());
 ?>
 		<script>parent.logInSuccess();</script>
-		<script>setTimeout("parent.viewBook('<?php print $firstbookpref; ?>');",6000);</script>
 <?php
 		}
 ?>

@@ -13,6 +13,7 @@ elseif(isset($_SESSION['savedview'])){$savedview=$_SESSION['savedview'];}
 else{$savedview='';}
 if(isset($_POST['colno'])){$displayfields_no=$_POST['colno'];}
 if(isset($_POST['title'])){$title=$_POST['title'];}else{$title=$_SESSION['infolisttitle'];}
+if(isset($_POST['umnfilter'])){$umnfilter=$_POST['umnfilter'];}else{$umnfilter='%';}
 $_SESSION['savedview']=$savedview;
 $_SESSION['infolisttitle']=$title;
 
@@ -168,10 +169,18 @@ two_buttonmenu($extrabuttons,$book);
 		}
 
 	$rown=1;
-	while(list($index,$sid)=each($sids)){
+	foreach($sids as $sid){
 		$Student=fetchStudent_short($sid);
-		if($Student['YearGroup']['value']==' '){$enrolclass=' class="lowlite"';}
-		else{$enrolclass='';}
+		$field=fetchStudent_singlefield($sid,'EnrolmentStatus');
+		$Student=array_merge($Student,$field);
+
+		if($umnfilter=='%' or $Student['EnrolmentStatus']['value']==$umnfilter){
+
+		if($Student['EnrolmentStatus']['value']=='C'){$enrolclass='';}
+		elseif($Student['EnrolmentStatus']['value']=='P'){$enrolclass=' class="lowlite"';}
+		elseif($Student['EnrolmentStatus']['value']=='AC' or $Student['EnrolmentStatus']['value']=='ACP'){$enrolclass=' class="gomidlite"';}
+		elseif($Student['EnrolmentStatus']['value']=='CA' or $Student['EnrolmentStatus']['value']=='RE'){$enrolclass=' class="nolite lowlite"';}
+		else{$enrolclass=' class="pauselite"';}
 ?>
 		<tr id="sid-<?php print $sid;?>" <?php print $enrolclass;?>>
 		  <td>
@@ -236,11 +245,35 @@ two_buttonmenu($extrabuttons,$book);
 ?>
 		</tr>
 <?php
+			}
 		}
-	reset($sids);
 ?>
 		<tr>
-		  <th colspan="<?php print $displayfields_no+2;?>">
+		  <th colspan="3">
+		  <div class="rowaction">
+			<label>&nbsp;All</label>
+		  <input title="<?php print_string('filter',$book);?>" 
+				  type="radio" name="umnfilter"
+				  value="%" <?php if($umnfilter=='%'){print 'checked';}?>
+				  onchange="processContent(this);" />
+				</div>
+
+		  <div class="rowaction">
+			<label>&nbsp;Current</label>
+		  <input title="<?php print_string('filter',$book);?>" 
+				  type="radio" name="umnfilter"
+				  value="C" <?php if($umnfilter=='C'){print 'checked';}?>
+				  onchange="processContent(this);" />
+		  </div>
+		  <div class="rowaction">
+			<label>&nbsp;Previous</label>
+		  <input title="<?php print_string('filter',$book);?>" 
+				  type="radio" name="umnfilter"
+				  value="P" <?php if($umnfilter=='P'){print 'checked';}?>
+				  onchange="processContent(this);" />
+				</div>
+		</th>
+		  <th colspan="<?php print $displayfields_no-1;?>">
 		  <div class="rowaction">
 <?php
 	$d_c=mysql_query("SELECT DISTINCT name AS id, name AS name FROM categorydef WHERE type='col' ORDER BY name;");

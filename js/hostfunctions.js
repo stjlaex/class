@@ -231,3 +231,4 @@ function sessionAlive(pathtobook){
 	xmlHttp.open("GET", url, true);
 	xmlHttp.send(null);
 	}
+

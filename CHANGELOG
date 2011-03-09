@@ -1,9 +1,14 @@
-Version ClaSS-0.9.36 release (2011/03/7)
+Version ClaSS-0.9.36 release (2011/03/10)
 -----------------------------------------
 
 New template for listing other group memberships organised by form.
 
 Code added as extra field for contacts.
+
+Added filter to InfoBook student list for Previous or Current
+students. Plus colour row highlights for enrolment status.
+
+Fix to the Register's last event selector.
 
 
 

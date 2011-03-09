@@ -141,7 +141,7 @@ if($community['type']!='class'){
 	/* This events array will determine which events are displayed */
 	$events=array();
 	$tallys=array();
-	foreach($AttendanceEvents['Event'] as $Event){
+	foreach($AttendanceEvents['Event'] as $index=>$Event){
 		/* Chekcing that only periods relevant to the current section are included. */
 		if($Event['Period']['value']=='0' or array_key_exists($Event['Period']['value'],$classperiods)){
 			$events[]=$Event['id_db'];
