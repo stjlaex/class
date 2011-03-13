@@ -240,11 +240,10 @@ function generate_random_name($gender){
 	stuff', refno='st';");
 
 	$table='orderbudget';
-	mysql_query("UPDATE $table SET costlimit='600', name='A Budget';");
+	mysql_query("UPDATE $table SET costlimit='600', name='Another Budget';");
 
 	$table='orderinvoice';
-	mysql_query("UPDATE $table SET reference='aref1',
-	deliverycost='0', taxcost='0', discountcost='0', totalcost='0', debitcost='0';");
+	mysql_query("UPDATE $table SET reference='aref1', deliverycost='0', taxcost='0', discountcost='0', totalcost='0', debitcost='0';");
 
 	$table='reportentry';
 	mysql_query("UPDATE $table SET comment='A constructive comment from a subject teacher which is for reporting to parents. A constructive comment from a subject teacher which is for reporting to parents. A constructive comment from a subject teacher which is for reporting to parents. A constructive comment from a subject teacher which is for reporting to parents. A constructive comment from a subject teacher which is for reporting to parents. A constructive comment from a subject teacher which is for reporting to parents. A constructive comment from a subject teacher which is for reporting to parents.'");

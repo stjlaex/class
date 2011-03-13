@@ -462,6 +462,12 @@ function countin_community_gender($community,$gender='M',$enddate='',$startdate=
 	return $nosids;
 	}
 
+
+
+/**
+ *
+ *
+ */
 function countin_community_extra($community,$field,$value,$enddate='',$startdate=''){
 	$todate=date('Y-m-d');
 	if($enddate==''){$enddate=$todate;}
@@ -479,6 +485,44 @@ function countin_community_extra($community,$field,$value,$enddate='',$startdate
 	return $nosids;
 	}
 
+
+
+/**
+ *
+ * Lists all sids who are current members of a commmunity but with the
+ * extra restirction linked to the info table. NB. only returns sids
+ * not a true student array.
+ *
+ * With $stardate set all students who joined after that date
+ * and with $enddate set lists all student members in that period.
+ *
+ *	@param array $community
+ *	@param string $extra
+ *	@param date $enddate
+ *	@param date $startdate
+ *	return array
+ *
+ */
+function listin_community_extra($community,$extra,$enddate='',$startdate=''){
+	$todate=date('Y-m-d');
+
+	if($enddate==''){$enddate=$todate;}
+	if($startdate==''){$startdate=$enddate;}
+	if(isset($community['id']) and $community['id']!=''){$comid=$community['id'];}
+	else{$comid=update_community($community);}
+	$d_student=mysql_query("SELECT comidsid.student_id AS id FROM comidsid
+				JOIN info ON info.student_id=comidsid.student_id	
+				WHERE comidsid.community_id='$comid' AND $extra
+				AND (comidsid.leavingdate>='$enddate' OR 
+				comidsid.leavingdate='0000-00-00' OR comidsid.leavingdate IS NULL) 
+				AND (comidsid.joiningdate<='$startdate' OR 
+				comidsid.joiningdate='0000-00-00' OR comidsid.joiningdate IS NULL)");
+	$students=array();
+	while($student=mysql_fetch_array($d_student, MYSQL_ASSOC)){
+		if($student['id']!=''){$students[]=$student;}
+		}
+	return $students;
+	}
 
 
 /**

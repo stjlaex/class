@@ -1017,7 +1017,7 @@ function fetchProfileStatements($profile_name,$bid,$pid,$sid,$cutoff_date){
 	if($profile_name=='APP Framework'){
 		/*TODO: have to pass these values for each report. */
 		/*Only displaying 4c and above which are secure. */
-		$cutoff_rating=1;$cutoff_level=10;$cutoff_statno=6;
+		$cutoff_rating=1;$cutoff_level=1;$cutoff_statno=6;
 		}
 
 	  $profilepids=(array)list_subject_components($pid,'KS2');

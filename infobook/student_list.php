@@ -251,7 +251,7 @@ two_buttonmenu($extrabuttons,$book);
 		<tr>
 		  <th colspan="3">
 		  <div class="rowaction">
-			<label>&nbsp;All</label>
+			<label><?php print_string('all',$book);?></label>
 		  <input title="<?php print_string('filter',$book);?>" 
 				  type="radio" name="umnfilter"
 				  value="%" <?php if($umnfilter=='%'){print 'checked';}?>
@@ -259,14 +259,14 @@ two_buttonmenu($extrabuttons,$book);
 				</div>
 
 		  <div class="rowaction">
-			<label>&nbsp;Current</label>
+			<label><?php print_string('current',$book);?></label>
 		  <input title="<?php print_string('filter',$book);?>" 
 				  type="radio" name="umnfilter"
 				  value="C" <?php if($umnfilter=='C'){print 'checked';}?>
 				  onchange="processContent(this);" />
 		  </div>
 		  <div class="rowaction">
-			<label>&nbsp;Previous</label>
+			<label><?php print_string('previous',$book);?></label>
 		  <input title="<?php print_string('filter',$book);?>" 
 				  type="radio" name="umnfilter"
 				  value="P" <?php if($umnfilter=='P'){print 'checked';}?>

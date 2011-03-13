@@ -15,11 +15,15 @@ elseif(isset($_SESSION[$book.'recipients'])){$recipients=$_SESSION[$book.'recipi
 //elseif(isset($_POST['recipients'])){$recipients=(array)$_POST['recipients'];}else{$recipients=array();}
 if(isset($_POST['template'])){$template=$_POST['template'];}
 elseif(isset($_GET['template'])){$template=$_GET['template'];}
-else{$template='address_labels';}
-
+else{$template='address_labels2x7';}
+if(isset($_POST['explanation'])){$explanation=$_POST['explanation'];}
+elseif(isset($_GET['explanation'])){$explanation=$_GET['explanation'];}
+else{$explanation='blank';}
 
 $Students['transform']=$template;
 $Students['paper']='portrait';
+$Students['homecountry']=strtoupper($CFG->sitecountry);
+$Students['explanation']=$explanation;
 
 if(isset($recipients) and sizeof($recipients)>0){
 	$Students['recipients']=$recipients;
@@ -29,18 +33,26 @@ if(isset($recipients) and sizeof($recipients)>0){
 elseif(isset($sids) and sizeof($sids)>0){
 	$Recipients=array();
 	$Recipients['Recipient']=array();
-	while(list($sindex,$sid)=each($sids)){
+	foreach($sids as $sid){
 		$Student=fetchStudent_short($sid);
 		$Contacts=(array)fetchContacts($sid);
 		$sid_recipient_no=0;
-		while(list($cindex,$Contact)=each($Contacts)){
+		foreach($Contacts as $Contact){
 			$Recipient=array();
 			if($Contact['ReceivesMailing']['value']=='1' and $sid_recipient_no==0){
 				/* Only contacts who are flagged to receive all mailings */
 				if(sizeof($Contact['Addresses'])>0){
 					$Recipient['Address']=$Contact['Addresses'];
 					$Recipient['DisplayFullName']=$Contact['DisplayFullName'];
-					$Recipient['explanation']=$Student['DisplayFullName'];
+
+					if($explanation=='studentname'){
+						$Recipient['explanation']=$Student['DisplayFullName'];
+						}
+					elseif($explanation=='enrolmentno'){
+						$Recipient['explanation']=$Student['EnrolmentNumber'];
+						}
+					else{$Recipient['explanation']='';}
+
 					$Recipients['Recipient'][]=$Recipient;
 					$sid_recipient_no++;
 					}

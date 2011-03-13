@@ -10,6 +10,7 @@ $choice='print_labels.php';
 if(isset($_POST['messageto'])){$messageto=$_POST['messageto'];}else{$messageto='contacts';}
 $_SESSION[$book.'recipients']=array();
 
+
 include('scripts/sub_action.php');
 
 /* Normally handled by the host page but this has to work differently depending on the sequence. */
@@ -60,18 +61,21 @@ while(list($sindex,$sid)=each($sids)){
 						$Recipient['explanation']=$Student['DisplayFullName'];
 						$Recipients['Recipient'][]=$Recipient;
 						$sid_recipient_no++;
+						$explanation='studentname';
 						}
 					elseif($messageto=='student' and !isset($recipient_index[$sid])){
 						$recipient_index[$sid]=$sid;
 						$Recipient['DisplayFullName']=$Student['DisplayFullName'];
 						$Recipients['Recipient'][]=$Recipient;
 						$sid_recipient_no++;
+						$explanation='blank';
 						}
 					elseif($messageto=='family' and !isset($recipient_index[$Contact['id_db']])){
 						$recipient_index[$Contact['id_db']]=$Contact['id_db'];
 						$Recipient['DisplayFullName']=$Contact['DisplayFullName'];
 						$Recipients['Recipient'][]=$Recipient;
 						$sid_recipient_no++;
+						$explanation='blank';
 						}
 					elseif(isset($recipient_index[$sid]) or isset($recipient_index[$Contact['id_db']])){
 						$sid_recipient_no++;
@@ -99,7 +103,7 @@ $extrabuttons['addresslabels']=array('name'=>'current',
 									 'xmlcontainerid'=>'labels',
 									 'onclick'=>'checksidsAction(this)');
 
-three_buttonmenu($extrabuttons,$book);
+two_buttonmenu($extrabuttons,$book);
 ?>
 
   <div id="heading">
@@ -145,16 +149,42 @@ three_buttonmenu($extrabuttons,$book);
 			name="formtoprocess" method="post" action="<?php print $host;?>">
 
 	<div class="divgroup center">
-
 	  <div class="center">
 		<br />
 		<div class="left">
 <?php 		
 			$seltemplate='address_labels3x7';
-			$listfilter='address'; 
-			include('scripts/list_template.php')
-;?>
+			$listfilter='labels'; 
+			include('scripts/list_template.php');
+?>
 		</div>
+		<div class="right">
+<!--
+		  <div class="row left">
+			<label for="contacts"><?php print_string('enrolmentnumber',$book);?></label>
+			<input type="radio" name="explanation"
+				   title="" id="enrolmentno" tabindex="<?php print $tab++;?>" 
+			value="enrolmentno" <?php if($explanation=='enrolmentno'){print 'checked';}?> />
+		  </div>
+-->
+
+		  <div class="row left">
+				<label for="students"><?php print get_string('student',$book).' '.get_string('name',$book);?></label>
+			<input type="radio" name="explanation"
+				   title="" id="studentname" tabindex="<?php print $tab++;?>" 
+			value="studentname" <?php if($explanation=='studentname'){print 'checked';}?> />
+		  </div>
+
+		  <div class="row left">
+				<label for="blank"><?php print_string('none','infobook');?></label>
+			<input type="radio" name="explanation"
+				   title="" id="blank" tabindex="<?php print $tab++;?>" 
+			value="blank" <?php if($explanation=='blank'){print 'checked';}?> />
+		  </div>
+		</div>
+	  </div>
+
+
 	  </div>
 
 	  <input type="hidden" name="groupsearch" value="no" />
@@ -162,7 +192,6 @@ three_buttonmenu($extrabuttons,$book);
 	  <input type="hidden" name="current" value="<?php print $action;?>" />
 	  <input type="hidden" name="cancel" value="<?php print $cancel;?>" />
 	  <input type="hidden" name="choice" value="<?php print $choice;?>" />
-	</div>
 
 	</form>
 
@@ -208,5 +237,6 @@ three_buttonmenu($extrabuttons,$book);
 	<div id="xml-labels" style="display:none;">
 	  <params>
 		<selectname>template</selectname>
+		<selectname>explanation</selectname>
 	  </params>
 	</div>

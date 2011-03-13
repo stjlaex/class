@@ -533,7 +533,7 @@ function fetchAttendanceSummary($sid,$startdate,$enddate){
 													 'value'=>''.$no_late_unauthorised);
 	$Attendance['Summary']['Lateauthorised']=array('label'=>'lateauthorised',
 												   'value'=>''.$no_late_authorised);
-	$Attendance['Summary']['Latetoregister']=array('label'=>'lateauthorised',
+	$Attendance['Summary']['Latetoregister']=array('label'=>'latetoregister',
 												   'value'=>''.$no_late_register);
 	$Attendance['Summary']['Notexplained']=array('label'=>'unexplained',
 												 'value'=>''.$no_notexplained);

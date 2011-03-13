@@ -484,6 +484,8 @@ function checksidsAction(buttonObject){
 	var xsltransform="";
 	var checkname1="sids[]";
 	var checkname2="sids[]";
+	var selectnames=new Array();
+	var selno=0;
 
 	// Need the path for the script being called - this is set 
 	// by default to the path of the current book but can be overridden
@@ -522,7 +524,7 @@ function checksidsAction(buttonObject){
 					}
 				else if(paramname=="selectname"){
 					//used by the js and not passed as a param
-					var selectname=escape(xmlvalue);
+					selectnames[selno++]=escape(xmlvalue);
 					}
 				else if(paramname=="checkname" && checkname1=="sids[]"){
 					//used by the js and not passed as a param
@@ -541,8 +543,8 @@ function checksidsAction(buttonObject){
 		}
 
 
-	/* now grab all the checked input boxes with name=checkname plus
-	 *  any form elements identified with name=selectname
+	/* Now grab all the checked input boxes with name=checkname plus
+	 * any form elements identified with name=selectname
 	*/
 	var sids=new Array();
 	var sidno=0;
@@ -558,32 +560,37 @@ function checksidsAction(buttonObject){
 				formObject.elements[c].checked=false;
 				}
 			}
-		else if(formObject.elements[c].name==selectname){
-			if(formObject.elements[c].type=="select-one"){
-				var selectObj=formObject.elements[c];
-				for(var i=0; i < selectObj.options.length; i++){
-					if(selectObj.options[i].selected){
-						params=params + "&" + selectname + "=" + escape(selectObj.options[i].value);
+		else {
+			for(var sc=0; sc<selno; sc++){
+				if(formObject.elements[c].name==selectnames[sc]){
+
+					if(formObject.elements[c].type=="select-one"){
+						var selectObj=formObject.elements[c];
+						for(var i=0; i < selectObj.options.length; i++){
+							if(selectObj.options[i].selected){
+								params=params + "&" + selectnames[sc] + "=" + escape(selectObj.options[i].value);
+								}
+							}
+						}
+					else if(formObject.elements[c].type=="select-multiple"){
+						var selectObj=formObject.elements[c];
+						for(var i=0; i < selectObj.options.length; i++){
+							if(selectObj.options[i].selected){
+								params=params + "&" + selectnames[sc] + "[]=" + escape(selectObj.options[i].value);
+								}
+							}
+						}
+					else if(formObject.elements[c].type=="radio"){
+						if(formObject.elements[c].checked==true){
+							var selectObj=formObject.elements[c];
+							params=params + "&" + selectnames[sc] + "=" + escape(selectObj.value);
+							}
+						}
+					else{
+						var selectObj=formObject.elements[c];
+						params=params + "&" + selectnames[sc] + "=" + escape(selectObj.value);
 						}
 					}
-				}
-			else if(formObject.elements[c].type=="select-multiple"){
-				var selectObj=formObject.elements[c];
-				for(var i=0; i < selectObj.options.length; i++){
-					if(selectObj.options[i].selected){
-						params=params + "&" + selectname + "[]=" + escape(selectObj.options[i].value);
-						}
-					}
-				}
-			else if(formObject.elements[c].type=="radio"){
-				if(formObject.elements[c].checked==true){
-					var selectObj=formObject.elements[c];
-					params=params + "&" + selectname + "=" + escape(selectObj.value);
-					}
-				}
-			else{
-				var selectObj=formObject.elements[c];
-				params=params + "&" + selectname + "=" + escape(selectObj.value);
 				}
 			}
 		}

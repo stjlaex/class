@@ -169,19 +169,22 @@
 				$catid=$catdefs[$catindex]['id'];
 				$Statement=array('Value'=>$catdefs[$catindex]['name']);
 				$Statement=personaliseStatement($Statement,$Student);
+
 				if($catdefs[$catindex]['rating']!=''){
-					if(!isset($grading_grades)){
+					if(!isset($cat_grading_grades)){
 						/*TODO: Only works with a single uniform grade scheme. */
 						$gena=$catdefs[$catindex]['rating_name'];
 						$d_g=mysql_query("SELECT grades FROM grading WHERE name='$gena';");
-						if(mysql_num_rows($d_g)>0){$grading_grades=mysql_result($d_g,0);}
-						else{$grading_grades='';}
+						if(mysql_num_rows($d_g)>0){$cat_grading_grades=mysql_result($d_g,0);}
+						else{$cat_grading_grades='';}
 						}
-					$statementrating='<span style="color:#44f;float:right;">'.scoreToGrade($catdefs[$catindex]['rating'],$grading_grades).'</span>';
+					$statementrating='<span style="color:#44f;float:right;">'.scoreToGrade($catdefs[$catindex]['rating'],$cat_grading_grades).'</span>';
 					}
 				else{
 					$statementrating='';
 					}
+
+
 				if($catdefs[$catindex]['subtype']!=''){$statementlabel=$statementrating.' '.'<label style="float:right;">'.get_subjectname($catdefs[$catindex]['subtype']).'</label><br />';}
 				else{$statementlabel='';}
 				print '<tr class="'.$rowclass.'" id="'.$openId.'-'.$rown++.'"><th></th>';

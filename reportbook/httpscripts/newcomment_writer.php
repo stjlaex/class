@@ -75,7 +75,7 @@ else{
  * bank gets all of the achieved statements.
  * TODO: We only have one working profile!
  */
-if($reportdef['report']['profile_names'][0]!='' and isset($subcomments_fix)){
+if($reportdef['report']['profile_names'][0]!='' and !isset($subcomments_fix)){
 		$profile_name=$reportdef['report']['profile_names'][0];
 		/* This fromdate is just a hack needs to check for previous report maybe?*/
 		$reportyear=$reportdef['report']['year']-1;

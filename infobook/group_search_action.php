@@ -35,6 +35,14 @@ if(isset($secids)){
 		}
 	}
 
+/* Default to the whole school if no sections etc selected. */
+if(sizeof($yids)==0){
+	$yeargroups=list_yeargroups();
+	foreach($yeargroups as $index => $yeargroup){
+		$yids[]=$yeargroup['id'];
+		}
+	}
+
 
 $students=array();
 
@@ -43,16 +51,40 @@ if(isset($enroldate)){
 	if(isset($_POST['enroldate1'])){$startdate=$_POST['enroldate1'];}else{$startdate='';}
 	if(isset($_POST['enroldate2'])){$enddate=$_POST['enroldate2'];}else{$enddate='';}
 	$currentyear=get_curriculumyear();
+	$todate=date("Y-m-d");
 
-	if($enroldate=='leave'){$comtype='alumni';$comname='P:';$comyear=$currentyear;}
-	else{$comtype='year';$comname='';$comyear='0000';}
+	$comtype='year';$comname='';$comyear='0000';
+	if($enroldate=='leave'){
+		/* Leaving in the future and only searching across accepted applications*/
+		if($startdate!='' and $startdate<$todate){$comtype='alumni';$comname='P:';$comyear=$currentyear;}
+		elseif($startdate>=$todate){$extra="$startdate<=info.leavingdate AND info.leavingdate!='0000-00-00'";}
+		elseif($enddate>=$todate){$extra="$enddate<=info.leavingdate AND info.leavingdate!='0000-00-00'";}
+		}
+	elseif($enroldate=='start'){
+		/* Joining in the future and only searching across accepted applications*/
+		$comtype='accepted';$comname='AC:';$comyear=$currentyear;
+		if($startdate!='' and $startdate>=$todate){$extra="$startdate<=info.entrydate AND info.entrydate!='0000-00-00'";}
+		elseif($enddate!='' and $enddate>=$todate){$extra="$enddate<=info.entrydate AND info.entrydate!='0000-00-00'";}
+		}
+
 	foreach($yids as $index => $yid){
+
 		$comid=update_community(array('id'=>'','type'=>$comtype,'name'=>$comname.$yid,'year'=>$comyear));
 		$com=get_community($comid);
+
 		/* all students who joined the community after startdate and before enddate*/
-		$yearstudents=(array)listin_community_new($com,$startdate,$enddate);
+		if(!$extra){
+			$yearstudents=(array)listin_community_new($com,$startdate,$enddate);
+			}
+		else{
+			$yearstudents=(array)listin_community_extra($com,$extra);
+			}
+
 		$students=array_merge($students,$yearstudents);
+
 		}
+
+
 	}
 else{
 	foreach($yids as $index => $yid){
