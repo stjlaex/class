@@ -115,11 +115,11 @@ function generate_random_name($gender){
 	while(list($index,$row)=each($trows)){
 		$id=$row['student_id'];
 		mysql_query("UPDATE $table SET formerupn='20987', otherpn1='', otherpn2='',
-			ethnicity='', email='', phonenumber='', countryoforigin='',
+			ethnicity='', email='', phonenumber='', countryoforigin='', birthplace='',
 			language='EN', religion='', incare='N', appnotes='', appdate='',
 			staffchild='N', entrydate='2001-04-01', leavingdate='', nationality='GB', 
-			appcategory='', secondnationality='', medical='N', epfusername='', appnotes='', appdate='',
-				staffchild='N' WHERE student_id='$id'");
+			appcategory='', secondnationality='', medical='N', epfusername='', 
+			appnotes='', appdate='', siblings='N', incare='N' WHERE student_id='$id'");
 		}
 
 	$table='phone';
@@ -244,6 +244,14 @@ function generate_random_name($gender){
 
 	$table='orderinvoice';
 	mysql_query("UPDATE $table SET reference='aref1', deliverycost='0', taxcost='0', discountcost='0', totalcost='0', debitcost='0';");
+
+	$table='transport_stop';
+	mysql_query("UPDATE $table SET name=id, detail='Bus Stop', lat='0', lng='0';");
+
+
+	$table='transport_booking';
+	mysql_query("UPDATE $table SET comment='';");
+
 
 	$table='reportentry';
 	mysql_query("UPDATE $table SET comment='A constructive comment from a subject teacher which is for reporting to parents. A constructive comment from a subject teacher which is for reporting to parents. A constructive comment from a subject teacher which is for reporting to parents. A constructive comment from a subject teacher which is for reporting to parents. A constructive comment from a subject teacher which is for reporting to parents. A constructive comment from a subject teacher which is for reporting to parents. A constructive comment from a subject teacher which is for reporting to parents.'");

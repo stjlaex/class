@@ -710,7 +710,7 @@ function fetch_reportdefinition($rid,$selbid='%'){
 /**
  *
  * Returns an array containing the catdefs for all
- * categories for this report.
+ * categories for this report. Plus all categories for any profile linked to this report.
  * 
  * The type can be 'cat' (default) or 'sub' if we are looking for
  * subcomment categories.
@@ -721,6 +721,7 @@ function get_report_categories($rid,$bid='%',$pid='',$type='cat',$stage='%'){
 	/* There is no component_id field in ridcatid, if pid is set then it uses subject_id */
 	if($pid!='' and $pid!=' '){$bid=$pid;}
 
+	/* These are statements linked directly to this report through ridcatid. */
 	$d_categorydef=mysql_query("SELECT id, name, type, subtype, rating,  
 				 rating_name, comment, ridcatid.subject_id AS bid, stage FROM categorydef LEFT
 				JOIN ridcatid ON ridcatid.categorydef_id=categorydef.id 
@@ -728,17 +729,28 @@ function get_report_categories($rid,$bid='%',$pid='',$type='cat',$stage='%'){
 				AND (categorydef.stage='' OR categorydef.stage='%' 
 					OR categorydef.stage LIKE '$stage') 
 				AND (ridcatid.subject_id='$bid' OR ridcatid.subject_id='%');");
-
-	/*
-	  AND ridcatid.subject_id!='summary' AND
-	  ridcatid.subject_id!='wrapper' AND ridcatid.subject_id!='profile' 
-	  ORDER BY ridcatid.subject_id;
-	*/
-
    	$catdefs=array();
 	while($catdef=mysql_fetch_array($d_categorydef,MYSQL_ASSOC)){
 	   	$catdefs[]=$catdef;
 	   	}
+
+
+	/* These will be statements linked to a profile: needs the
+	 * otherype set to title of the report which is also the name of
+	 * the linked assessment.
+	 */
+	$d_r=mysql_query("SELECT title FROM report WHERE id='$rid'");
+	$area=mysql_result($d_r,0);
+	$d_c=mysql_query("SELECT id, name, type, subtype, rating,  
+				 rating_name, comment, subject_id AS bid, stage FROM categorydef 
+				WHERE categorydef.othertype='$area' AND categorydef.type='$type' 
+				AND (categorydef.stage='' OR categorydef.stage='%' 
+					OR categorydef.stage LIKE '$stage') 
+				AND (categorydef.subject_id='$bid' OR categorydef.subject_id='%');");
+	while($catdef=mysql_fetch_array($d_c,MYSQL_ASSOC)){
+	   	$catdefs[]=$catdef;
+	   	}
+
 
 	return $catdefs;
 	}

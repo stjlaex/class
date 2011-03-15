@@ -4,7 +4,7 @@
 
 $action='formgroup_matrix.php';
 
-if($_POST['newtid']!=''){$newtid=$_POST['newtid'];}
+if($_POST['newtid']!=''){$newtid=$_POST['newtid'];}else{$newtid='';}
 if(isset($_POST['newfid'])){$newfid=$_POST['newfid'];}else{$newfid='';}
 
 include('scripts/sub_action.php');

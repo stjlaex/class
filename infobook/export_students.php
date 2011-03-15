@@ -58,8 +58,11 @@ if(sizeof($sids)==0){
 		/*cycle through the student rows*/
 		$rown=1;
 		while(list($index,$sid)=each($sids)){
-			$Student=fetchStudent_short($sid);
-			$worksheet->write($rown, 0, $sid, $format_line_bold);
+			$Student=(array)fetchStudent_short($sid);
+			$EnrolNumber=(array)fetchStudent_singlefield($sid,'EnrolNumber');
+
+			//$worksheet->write($rown, 0, $sid, $format_line_bold);
+			$worksheet->write($rown, 0, $EnrolNumber['EnrolNumber']['value'], $format_line_bold);
 			$worksheet->write($rown, 1, iconv('UTF-8','ISO-8859-1',$Student['Surname']['value']), $format_line_bold);
 			$worksheet->write($rown, 2, iconv('UTF-8','ISO-8859-1',$Student['Forename']['value']), $format_line_bold);
 

@@ -8,7 +8,6 @@ if(!isset($xmlid)){print "Failed"; exit;}
 
 	list($fid,$uid)=explode('-',$xmlid);
 	$perms=getFormPerm($fid, $respons);
-
 	$Responsible=array();
 	$Responsible['id_db']=$fid.'-'.$uid;
 	if($perms['w']==1){

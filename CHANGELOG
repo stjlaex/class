@@ -1,4 +1,4 @@
-Version ClaSS-0.9.36 release (2011/03/13)
+Version ClaSS-0.9.36 release (2011/03/15)
 -----------------------------------------
 
 New template for listing other group memberships organised by form.
@@ -13,8 +13,16 @@ Fix to the Register's last event selector.
 Improved the js funtion checksidaction to allow for any number of
 selectname optional parameters being passed.
 
-Added a explanation option to the address labels and correctly pass
+Added an explanation option to the address labels and correctly pass
 the sitecountry value instead of it being hard set in the xsl templates.
+
+Export from InfoBook fixed to use EnrolNumber instead instead of sid.
+
+Fix to formgroup_matrix - use button with type=button not to submit form!
+
+Re-configured profile statements to not use ridcatid and
+get_report_categories changed to match. Use the othertype=report.title
+find so that they can span courses.
 
 
 

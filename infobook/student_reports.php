@@ -32,7 +32,6 @@ include('scripts/epf_access.php');
 	  <legend>
 			<?php print get_string('published','reportbook'). ' '.get_string('reports',$book);?>
 	  </legend>
-	  <table class="listmenu center">
 <?php
 	foreach($report_files as $report){
 ?>
@@ -46,7 +45,7 @@ include('scripts/epf_access.php');
 			<button style="float:right;" title="<?php print_string('print');?>" 			 
 			onclick="clickToPresent('reportbook','<?php print $report['url'];?>','attendance_summary')" >
 			<img src="images/printer.png" /></button>
-	  </td>
+		  </td>
 		</tr>
 	  </table>
 	</div>

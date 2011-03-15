@@ -85,7 +85,7 @@ three_buttonmenu($extrabuttons);
 			$Responsible=array('id_db'=>$fid.'-'.$uid);
 ?>
 			<div  id="<?php print $fid.'-'.$uid;?>" class="rowaction" >
-			  <button title="Remove this responsibility"
+			  <button type="button" title="Remove this responsibility"
 				name="current"
 				value="responsables_edit_formgroup.php" 
 				onClick="clickToAction(this)">
@@ -116,11 +116,13 @@ three_buttonmenu($extrabuttons);
 
 	  </table>
 	</div>
+
 	  <input type="hidden" name="current" value="<?php print $action;?>" />
 	  <input type="hidden" name="choice" value="<?php print $choice;?>" />
       <input type="hidden" name="cancel" value="<?php print '';?>" />
 	</form>
   </div>
+
   <div id="xml-checked-action" style="display:none;">
 	<params>
 	  <checkname>comids</checkname>

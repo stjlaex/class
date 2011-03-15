@@ -89,7 +89,7 @@ three_buttonmenu($extrabuttons);
 				if($perms['x']==1){
 ?>
 			<div  id="<?php print $yid.'-'.$uid;?>" class="rowaction" >
-			  <button title="Remove this responsibility"
+			  <button type="button" title="Remove this responsibility"
 				name="current" 
 				value="responsables_edit_yeargroup.php" 
 				onClick="clickToAction(this)">
