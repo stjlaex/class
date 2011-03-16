@@ -4,6 +4,8 @@
  */
 
 $action='student_transport_action.php';
+$newcomtype='TUTOR';
+$communities=list_communities($newcomtype);
 
 require_once('lib/fetch_transport.php');
 
@@ -22,6 +24,7 @@ three_buttonmenu();
 	<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
 
 	  <fieldset class="center listmenu">
+		<legend><?php print get_string('transport',$book);?></legend>
 		<div class="center">
 		<table>
 		<thead>
@@ -46,7 +49,7 @@ three_buttonmenu();
 		  </tr>
 		</thead>
 <?php
-		print '<tr id="sid-'.$sid.'">';
+	print '<tr id="sid-'.$sid.'">';
    	print '<td>'.'<input type="checkbox" name="sids[]" value="'.$sid.'" />'.$rown++.'</td>';
    	print '<td colspan="2" class="student"><a target="viewinfobook" onclick="parent.viewBook(\'infobook\');" href="infobook.php?current=student_view.php&sid='.$sid.'">'.$Student['Surname']['value'].', '. $Student['Forename']['value'].'</a></td>';
    	print '<td>'.$Student['RegistrationGroup']['value'].'</td>';
@@ -80,21 +83,26 @@ three_buttonmenu();
 	  </fieldset>
 
 	  <fieldset class="center listmenu">
+		<legend><?php print get_string('current',$book).' '.get_string('club',$book);?></legend>
 		<div>
 		  <table>
-	<tr>
-		<thead>
-		  <th colspan="4">Current clubs</th>
-		</thead>
-	</tr>			
+			<tr>
+			  <thead>
+				<th style="width:40%;"></th>
+				<th style="width:20%;"><?php print_string('start',$book);?></th>
+				<th style="width:20%;"><?php print_string('end',$book);?></th>
+				<th style="width:20%;"><?php //print_string('fee',$book);?></th>
+			  </thead>
+			</tr>			
 <?php
+
 	$feetypes=array('0'=>'0','5'=>'0.5','10'=>'1.0');
 
 	$coms=list_member_communities($sid,array('id'=>'','name'=>'','type'=>'tutor'));
 	$excoms=list_member_communities($sid,array('id'=>'','name'=>'','type'=>'tutor'),false);
 	foreach($coms as $com){
 		if($com['special']==''){$fee='10';}else{$fee=$com['special'];}
-		print '<tr><td><a target="viewadmin" onclick="parent.viewBook(\'admin\');" href="admin.php?current=community_group_edit.php&cancel=community_group.php&choice=community_group.php&newcomtype='.$com['type'].'&comid='.$com['id'].'">'.$com['name'] .'</a></td><td>'.$com['joiningdate'].'</td><td>'.$com['leavingdate'].'</td>';
+		print '<tr><td style="width:40%;"><a target="viewadmin" onclick="parent.viewBook(\'admin\');" href="admin.php?current=community_group_edit.php&cancel=community_group.php&choice=community_group.php&newcomtype='.$com['type'].'&comid='.$com['id'].'">'.$com['name'] .'</a></td><td>'.$com['joiningdate'].'</td><td>&nbsp;'.$com['leavingdate'].'</td>';
 
 		print '<td class="row">';
 		foreach($feetypes as $value => $label){
@@ -110,14 +118,51 @@ three_buttonmenu();
 		print '</td></tr>';
 		}
 ?>
-	<tr>
-		<thead>
-		  <th colspan="4">Previous clubs</th>
-		</thead>
-	</tr>
+<tr>
+<td>
+<br />
+<?php
+			$listname='newcomid';$listlabel='new';$required='no';
+			include('scripts/set_list_vars.php');
+			list_select_list($communities,$listoptions,$book);
+?>
+</td>
+	<td class="rowaction">
+				<?php 
+				$required='no'; //include('scripts/jsdate-form.php');
+				?>
+	</td>
+<td>
+</td>
+<td>
+<br />
+<?php
+	$buttons=array();
+	$buttons['new']=array('title'=>'new','name'=>'sub','value'=>$newcomtype);
+	all_extrabuttons($buttons,'infobook','processContent(this)')
+?>
+</td>
+</tr>
+		  </table>
+		</div>
+	  </fieldset>
+
+
+	  <fieldset class="center listmenu">
+		<legend><?php print get_string('previous',$book).' '.get_string('club',$book);?></legend>
+		<div>
+		  <table>
+			<tr>
+			  <thead>
+				<th style="width:40%;"></th>
+				<th style="width:20%;"></th>
+				<th style="width:20%;"></th>
+				<th style="width:20%;"></th>
+			  </thead>
+			</tr>
 <?php
 	foreach($excoms as $com){
-		print '<tr class="lolite"><td>'.$com['name'] .'</td><td>'.$com['joiningdate'].'</td><td>'.$com['leavingdate'].'</td>';
+		print '<tr class="lowlite"><td>'.$com['name'] .'</td><td>'.$com['joiningdate'].'</td><td>'.$com['leavingdate'].'</td>';
 		print '<td class="row">';
 		foreach($feetypes as $value => $label){
 			$checkclass='';

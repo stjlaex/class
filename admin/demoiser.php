@@ -221,12 +221,12 @@ function generate_random_name($gender){
 		$zsurname = 'Prof '.$nun;
 		
 		mysql_query("UPDATE $table SET username='$nun',
-			forename='P', surname='$zsurname', email='', nologin='0', logcount='0',
+			forename='P', surname='$zsurname', email='', emailuser='', nologin='0', logcount='0',
 			passwd='$passwd', ip='', epfusername='$nun' WHERE uid='$id'");
-		mysql_query("UPDATE orderaction SET author='$nun'
-			WHERE author='$username'");
-		mysql_query("UPDATE orderorder SET author='$nun'
-			WHERE author='$username'");
+		mysql_query("UPDATE orderaction SET teacher_id='$nun'
+			WHERE teacher_id='$username'");
+		mysql_query("UPDATE orderorder SET teacher_id='$nun'
+			WHERE teacher_id='$username'");
 		}
 
 	$table='orderorder';
@@ -297,14 +297,15 @@ function generate_random_name($gender){
 				$cid=$row['id'];
 				$ncid=$bid . $stage . $name[$i];
 				$i++;
-				mysql_query("UPDATE class SET id='$ncid'
-				WHERE id='$cid'");
-				mysql_query("UPDATE tidcid SET class_id='$ncid'
-				WHERE class_id='$cid'");
-				mysql_query("UPDATE midcid SET class_id='$ncid'
-				WHERE class_id='$cid'");
-				mysql_query("UPDATE cidsid SET class_id='$ncid'
-				WHERE class_id='$cid'");
+
+				$d_c=mysql_query("UPDATE class SET id='$ncid' WHERE id='$cid'");
+				if(mysql_error()!=''){
+					$ncid=$bid . $stage . $name[$i] .$i;
+					$d_c=mysql_query("UPDATE class SET id='$ncid' WHERE id='$cid'");
+					}
+				mysql_query("UPDATE tidcid SET class_id='$ncid' WHERE class_id='$cid'");
+				mysql_query("UPDATE midcid SET class_id='$ncid' WHERE class_id='$cid'");
+				mysql_query("UPDATE cidsid SET class_id='$ncid' WHERE class_id='$cid'");
 				}
 			}
 		}

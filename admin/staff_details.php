@@ -132,26 +132,6 @@ $tab=list_select_enum('title',$listoptions,'infobook');
 unset($listoptions);
 ?>
 
-			  <label for="Email"><?php print_string('email');?></label>
-			  <input pattern="email"
-				type="text" id="Email" name="email" 
-				maxlength="190" style="width:90%;" 
-				tabindex="<?php print $tab++;?>" 
-				value="<?php print $edituser['email'];?>" />
-
-<?php 
-
-			  /*this is stored encrypted and need to decrypt before
-				posting back the value*/
-				$emailpasswd=endecrypt($CFG->webmailshare,$edituser['emailpasswd'],'de');
-
-?>
-			  <label for="Emailpasswd"><?php print_string('emailpassword',$book);?></label>
-			  <input pattern="truealphanumeric"
-				type="password" id="Emailpasswd" name="emailpasswd" 
-				maxlength="32" style="width:20%;" 
-				tabindex="<?php print $tab++;?>" 
-				value="<?php print $emailpasswd;?>" />
 
 			  <label><?php print_string('firstbookpref',$book);?></label>
 				<?php $selbook=$edituser['firstbookpref'];?>
@@ -207,7 +187,42 @@ if($_SESSION['role']=='admin' or $aperm==1){
 <?php
 		}
 ?>
+
+
 	  </fieldset>
+
+	  <fieldset class="left">
+		<legend><?php print_string('email',$book);?></legend>
+
+		<div class="center">
+
+			  <label for="Email"><?php print_string('email');?></label>
+			  <input pattern="email" type="text" id="Email" name="email" 
+				maxlength="190" style="width:90%;" tabindex="<?php print $tab++;?>" 
+				value="<?php print $edituser['email'];?>" />
+
+<?php 
+			  /*this is stored encrypted and need to decrypt before
+				posting back the value*/
+				$emailpasswd=endecrypt($CFG->webmailshare,$edituser['emailpasswd'],'de');
+?>
+			  <label for="Emailpasswd"><?php print_string('emailpassword',$book);?></label>
+			  <input pattern="truealphanumeric" type="password" id="Emailpasswd" name="emailpasswd" 
+				maxlength="32" style="width:20%;" tabindex="<?php print $tab++;?>" 
+				value="<?php print $emailpasswd;?>" />
+
+
+			  <label for="Emailuser"><?php print get_string('email',$book).' '.get_string('username',$book);?></label>
+			  <input pattern="alphanumeric" type="text" id="Emailuser" name="emailuser" 
+				maxlength="60" style="width:20%;" tabindex="<?php print $tab++;?>" 
+				value="<?php print $edituser['emailuser'];?>" />
+		</div>
+
+	  </fieldset>
+
+
+
+
 <?php
 	if($_SESSION['role']=='admin'  or $aperm==1){
 ?>

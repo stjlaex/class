@@ -1,4 +1,4 @@
-Version ClaSS-0.9.36 release (2011/03/15)
+Version ClaSS-0.9.36 release (2011/03/16)
 -----------------------------------------
 
 New template for listing other group memberships organised by form.
@@ -24,6 +24,9 @@ Re-configured profile statements to not use ridcatid and
 get_report_categories changed to match. Use the othertype=report.title
 find so that they can span courses.
 
+Exposed the emailuser field (for Webmail) on the staff_details page.
+
+Add students to clubs through the InfoBook student page.
 
 
 Version ClaSS-0.9.35 release (2011/02/28)

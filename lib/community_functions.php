@@ -373,6 +373,7 @@ function set_accomodation($sid,$accid=''){
 	}
 
 /** 
+ *
  * Joins up a student to a commmunity for a set period
  * Can be used instead of join_community but
  * NOT to be used for enrolment communities, yeargroups, or forms!

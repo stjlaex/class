@@ -18,8 +18,9 @@ if($sub=='Submit' and $_POST['seluid']!=''){
    	$user['surname']=clean_text($_POST['surname']);
    	$user['forename']=clean_text($_POST['forename']);
    	$user['title']=$_POST['title'];
-   	$user['email']=($_POST['email']);
-   	$user['emailpasswd']=($_POST['emailpasswd']);
+   	$user['email']=$_POST['email'];
+   	$user['emailpasswd']=$_POST['emailpasswd'];
+   	$user['emailuser']=$_POST['emailuser'];
    	$user['role']=$_POST['role'];
    	$user['senrole']=$_POST['senrole'];
    	$user['medrole']=$_POST['medrole'];
