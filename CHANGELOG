@@ -1,4 +1,4 @@
-Version ClaSS-0.9.36 release (2011/03/16)
+Version ClaSS-0.9.36 release (2011/03/18)
 -----------------------------------------
 
 New template for listing other group memberships organised by form.
@@ -20,13 +20,16 @@ Export from InfoBook fixed to use EnrolNumber instead instead of sid.
 
 Fix to formgroup_matrix - use button with type=button not to submit form!
 
-Re-configured profile statements to not use ridcatid and
-get_report_categories changed to match. Use the othertype=report.title
-find so that they can span courses.
+Re-configured profile statements to not use ridcatid and instead use
+categorydef.othertype=report.title; changed get_report_categories
+to match. This allows profile statements to span courses.
 
 Exposed the emailuser field (for Webmail) on the staff_details page.
 
 Add students to clubs through the InfoBook student page.
+
+Fix to new report to to not use ridcatid for profile statements.
+
 
 
 Version ClaSS-0.9.35 release (2011/02/28)

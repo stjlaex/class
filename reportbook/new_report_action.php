@@ -329,16 +329,18 @@ elseif($sub=='Submit'){
 			mysql_query("INSERT INTO rideid (report_id, assessment_id) VALUES ('$rid','$eid');");
 			}
 
-		/* The categories stored in ridcatid with subject_id set to bid or %. */
+		/* The categories stored in ridcatid with subject_id set to
+		   bid or % and othertype blank. Only used alongwith a written
+		   subject comment. Otherwise the categories will be from a
+		   profile and do not need ridcatid. */
 		mysql_query("DELETE FROM ridcatid WHERE report_id='$rid' AND subject_id!='profile' AND subject_id!='summary' AND subject_id!='wrapper';");
-		if($addcategory=='yes'){
+		if($addcategory=='yes' and $reptype=='yes'){
 			$d_catdef=mysql_query("SELECT id, subject_id FROM categorydef WHERE
-						type='cat' AND (course_id='%' OR course_id='$crid');");
+						type='cat' AND (course_id='%' OR course_id='$crid') AND othertype='';");
 			while($d_catid=mysql_fetch_array($d_catdef,MYSQL_NUM)){
 				$catid=$d_catid[0];
 				$catbid=$d_catid[1];
-				mysql_query("INSERT INTO ridcatid (report_id,
-					   categorydef_id, subject_id) VALUES ('$rid', '$catid', '$catbid')");
+				mysql_query("INSERT INTO ridcatid (report_id, categorydef_id, subject_id) VALUES ('$rid', '$catid', '$catbid');");
 				}
 			}
 

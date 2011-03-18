@@ -394,6 +394,7 @@ function getSENPerm($yid,$respons){
 	$perm['x']=0;
 	$perm=getYearPerm($yid,$respons);
 	if($_SESSION['senrole']=='1' or $_SESSION['role']=='sen'){$perm['r']=1;$perm['w']=1;}
+	if($_SESSION['role']=='admin'){$perm['r']=1; $perm['w']=1; $perm['x']=1;}
 	return $perm;
 	}
 

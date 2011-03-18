@@ -21,7 +21,7 @@ $senhid=$SEN['SENhistory']['id_db'];
 	$sperm=getSENPerm($yid, $respons);
 	$fperm=getFormPerm($fid, $respons);
 	$perm=$fperm;
-	if($sperm['w']==1 or $fperm['w']==1 or $bperm['r']==1){
+	if($sperm['w']==1 or $fperm['w']==1 or $bperm['w']==1){
 		$perm['w']=1;
 		}
 	$neededperm='w';

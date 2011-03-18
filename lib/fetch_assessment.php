@@ -11,15 +11,15 @@
 
 
 /**	
+ *  Prepares a number for display based number of significant figures
+ *  and optional rounding.
  *
- *	Retrieves all assessment information about one student using only their sid.
- *	Returns the data in an array $Assessments.
- *
- *	@param string $num
+ *	@param string $number
  *	@param integer $sigfigs
  *	@param string $dec
  *	@param boolean $noround
- *	@return
+ *	@return string
+ *
  */
 function sigfigs($number,$sigfigs,$dec='.',$noround=false) {
     if(!$noround){
@@ -70,6 +70,7 @@ function scoreToLevel($score,$scoretotal='',$levels){
 	if(!isset($grade)){$grade='';$cent=-100;}
 	return array($grade,$cent);
 	}
+
 
 /**
  *
@@ -1029,17 +1030,36 @@ function update_mark_score($mid,$sid,$score){
 
 /**
  *
+ * Used to calculate a numerical score based on the profile statements
+ * checked.  The result is stored in an assessment linked to the
+ * profile for this purpose only. The link depends on the assessment
+ * being named the same as the profile report and indeed as the
+ * othertype value for the statements.
  *
+ * The cut_off rating is used to only count those statements above
+ * that value, hard-set hewre to 1 to only count level status=achieved.
  *
+ * @param integer $rid
+ * @param integer $sid
+ * @param string $bid
+ * @param string $pid
+ * @param string $cat
+ * @param string $catdefs
+ * @param string $rating_name
+ *
+ * @return boolean
  */
 function update_profile_score($rid,$sid,$bid,$pid,$cat,$catdefs,$rating_name){
 
 	$Student=fetchStudent_short($sid);
-	$score=array('result'=>'5','value'=>0);
+	$score=array('result'=>'','value'=>0);
 	$cutoff_rating='1';
 
-	$d_a=mysql_query("SELECT DISTINCT assessment_id FROM rideid WHERE report_id='$rid';");
-	$eid=mysql_result($d_a,0);
+	$d_a=mysql_query("SELECT assessment.id FROM assessment JOIN report  
+				ON (report.title=assessment.description AND report.course_id=assessment.course_id) 
+				WHERE report.id='$rid';");
+	if(mysql_num_rows($d_a)>0){$eid=mysql_result($d_a,0);}
+	else{$eid=-1;}
 
 
 	$statno=0;
@@ -1052,11 +1072,20 @@ function update_profile_score($rid,$sid,$bid,$pid,$cat,$catdefs,$rating_name){
 			$statno++;
 			}
 		}
-	$catno=sizeof($catdefs);
-	if($statno>0){$score['result']=round(100*($score['value']/$catno));}
-	update_assessment_score($eid,$sid,$bid,$pid,$score);
 
+	$catno=sizeof($catdefs);
+	if($statno>0 and $eid>-1){
+		$score['result']=round(100*($score['value']/$catno));
+		update_assessment_score($eid,$sid,$bid,$pid,$score);
+		$result=true;
+		}
+	else{
+		$result=false;
+		}
+
+	return $result;
 	}
+
 
 
 /**
@@ -1086,8 +1115,10 @@ function get_assessment_mid($eid,$crid,$bid,$pid=''){
 	else{$mid=-1;}
 	mysql_query("DROP TABLE assmids;");
 	mysql_query("DROP TABLE classmids;");
+
 	return $mid;
 	}
+
 
 /**
  *
