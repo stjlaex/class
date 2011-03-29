@@ -543,6 +543,9 @@ function fetch_enrolmentAssessmentDefinitions($com='',$stage='E',$enrolyear='000
  * outside the enrolments matrix. Returns the number of students with
  * their eid set to one of the two possible result states.
  *
+ * With no result string it willreturn for sids without any result recorded.
+ *
+ *
  * @param integer $comid
  * @param string $reenrol_eid
  * @param string $result1
@@ -554,10 +557,12 @@ function count_reenrol_no($comid,$reenrol_eid,$result1,$result2=''){
 	if($result2!=''){
 		$resultstring='(result=\''.$result1.'\' OR result=\''.$result2.'\')';
 		}
-	else{
+	elseif($result1!=''){
 		$resultstring='result=\''.$result1.'\'';
 		}
-	$d_noc=mysql_query("SELECT COUNT(eidsid.student_id) FROM
+
+	if(isset($resultstring)){
+		$d_noc=mysql_query("SELECT COUNT(eidsid.student_id) FROM
 						eidsid JOIN comidsid ON
 					eidsid.student_id=comidsid.student_id WHERE comidsid.community_id='$comid'
 					AND (comidsid.leavingdate>'$todate' OR 
@@ -565,6 +570,17 @@ function count_reenrol_no($comid,$reenrol_eid,$result1,$result2=''){
 					AND (comidsid.joiningdate<='$todate' OR 
 					comidsid.joiningdate='0000-00-00' OR comidsid.joiningdate IS NULL) 
 					AND assessment_id='$reenrol_eid' AND $resultstring;");
+		}
+	else{
+		$d_noc=mysql_query("SELECT COUNT(student_id) FROM comidsid WHERE comidsid.community_id='$comid'
+					AND (comidsid.leavingdate>'$todate' OR 
+					comidsid.leavingdate='0000-00-00' OR comidsid.leavingdate IS NULL) 
+					AND (comidsid.joiningdate<='$todate' OR 
+					comidsid.joiningdate='0000-00-00' OR comidsid.joiningdate IS NULL)
+					AND NOT EXISTS(SELECT student_id FROM eidsid WHERE eidsid.assessment_id='$reenrol_eid' 
+					AND eidsid.student_id=comidsid.student_id); 
+					");
+		}
 
 	if(mysql_num_rows($d_noc)>0){
 		$no=mysql_result($d_noc,0);

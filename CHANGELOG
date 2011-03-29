@@ -5,7 +5,7 @@ New template for listing other group memberships organised by form.
 
 Code added as extra field for contacts.
 
-Added filter to InfoBook student list for Previous or Current
+Added filter to InfoBook student list for Previous, Applied or Current
 students. Plus colour row highlights for enrolment status.
 
 Fix to the Register's last event selector.
@@ -29,6 +29,12 @@ Exposed the emailuser field (for Webmail) on the staff_details page.
 Add students to clubs through the InfoBook student page.
 
 Fix to new report to to not use ridcatid for profile statements.
+
+Added tinyMCE to subareas in the comment writer. Increased font-size for tinyMCE.
+
+Added gs_sorter javascript and applied to the sidtable in InfoBook.
+
+Extended the range of columns available on the enrolments table.
 
 
 

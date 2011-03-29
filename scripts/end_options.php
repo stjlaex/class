@@ -17,6 +17,7 @@ if($current!=''){
         <script>parent.updateMarkDisplay(<?php print $displaymid;?>);</script>
 <?php
 		}
+
 	$uid=$_SESSION['uid'];
 	mysql_query("INSERT INTO history SET uid='$uid', page='$current'");
 	}

@@ -42,7 +42,6 @@ function sidtableInit(){
 			selObj.onblur=function(){processAttendance(this)};
 			}
 		}
-
 	}
 
 function decorateStudent(tdObj){

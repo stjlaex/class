@@ -8,6 +8,8 @@ require_once('../../scripts/http_head_options.php');
 $book='admin';
 //if(isset($_GET['sids'])){}else{}
 //if(isset($_POST['sids'])){}
+if(isset($_GET['format'])){$format=$_GET['format'];}
+if(isset($_POST['format'])){$format=$_POST['format'];}
 
 $todate=date('Y-m-d');
 $currentyear=get_curriculumyear();
@@ -16,7 +18,7 @@ $lastenrolyear=$enrolyear-1;
 $beforelastenrolyear=$enrolyear-2;
 $yearstart=$currentyear-1;
 $yearstartdate=$yearstart.'-08-20';
-$yearenddate=$yearstart.'-07-01';
+$yearenddate=$yearstart.'-07-20';
 $yeargroups=list_yeargroups();
 
 /* Does the school have boarders? */
@@ -94,7 +96,9 @@ foreach($doing as $todo){
 	$Stats['Stat'][]=$Stat;
 	}
 
-$app_cols=array(
+
+if($format=='short'){
+	$app_cols=array(
 				'applications'=>'TOTAL'
 				,displayEnum('AT','enrolstatus')=>'AT'
 				,displayEnum('CA','enrolstatus')=>'CA'
@@ -103,7 +107,7 @@ $app_cols=array(
 				,displayEnum('AC','enrolstatus')=>'AC'
 				,displayEnum('WL','enrolstatus')=>'WL'
 				);
-$appnext_cols=array('enquiries'=>'EN'
+	$appnext_cols=array('enquiries'=>'EN'
 				,'applications'=>'TOTAL'
 				,displayEnum('AT','enrolstatus')=>'AT'
 				,displayEnum('CA','enrolstatus')=>'CA'
@@ -112,15 +116,15 @@ $appnext_cols=array('enquiries'=>'EN'
 				,displayEnum('AC','enrolstatus')=>'AC'
 				,displayEnum('WL','enrolstatus')=>'WL'
 				);
-$enrol_cols=array('reenroled'=>'reenroled'
-				  ,'newenrolments'=>'newenrolments'
+	$enrol_cols=array('reenroled'=>'reenroled'
+				  ,'newnewenrolments'=>'newnewenrolments'
 				  ,'leaverssince'=>'leaverssince'
 				  ,'currentroll'=>'currentroll'
 				  ,'budgetroll'=>'budgetroll'
 				  ,'capacity'=>'capacity'
 				  ,'spaces'=>'spaces'
 				  );
-$enrolnext_cols=array('reenroling'=>'reenroling'
+	$enrolnext_cols=array('reenroling'=>'reenroling'
 					  ,'pending'=>'pending'
 					  ,'notreenroling'=>'leavers'
 					  ,'transfersin'=>'transfersin'
@@ -131,6 +135,53 @@ $enrolnext_cols=array('reenroling'=>'reenroling'
 					  ,'capacity'=>'capacity'
 					  ,'spaces'=>'spaces'
 					  );
+	}
+else{
+	$app_cols=array(
+				'applications'=>'TOTAL'
+				,displayEnum('AT','enrolstatus')=>'AT'
+				,displayEnum('CA','enrolstatus')=>'CA'
+				,displayEnum('RE','enrolstatus')=>'RE'
+				,displayEnum('ACP','enrolstatus')=>'ACP'
+				,displayEnum('AC','enrolstatus')=>'AC'
+				,displayEnum('WL','enrolstatus')=>'WL'
+				,'newnewenrolments'=>'newnewenrolments'
+				);
+	$appnext_cols=array('enquiries'=>'EN'
+				,'applications'=>'TOTAL'
+				,displayEnum('AT','enrolstatus')=>'AT'
+				,displayEnum('CA','enrolstatus')=>'CA'
+				,displayEnum('RE','enrolstatus')=>'RE'
+				,displayEnum('ACP','enrolstatus')=>'ACP'
+				,displayEnum('AC','enrolstatus')=>'AC'
+				,displayEnum('WL','enrolstatus')=>'WL'
+				);
+	$enrol_cols=array('reenroled'=>'reenroled'
+				  ,'newenrolmentsprevious'=>'newenrolmentsprevious'
+				  ,'newnewenrolments'=>'newnewenrolments'
+				  ,'leaverssince'=>'leaverssince'
+				  ,'notinvoiced'=>'notinvoiced'
+				  ,'currentroll'=>'currentroll'
+				  ,'budgetroll'=>'budgetroll'
+				  ,'leaverstotal'=>'leaverstotal'
+				  ,'capacity'=>'capacity'
+				  ,'spaces'=>'spaces'
+				  );
+	$enrolnext_cols=array('reenroling'=>'reenroling'
+					  ,'transfersin'=>'transfersin'
+					  ,'transfersout'=>'transfersout'
+					  ,'newenrolments'=>'newenrolments'
+					  ,'projectedroll'=>'projectedroll'
+					  ,'budgetroll'=>'budgetroll'
+					  ,'targetroll'=>'targetroll'
+					  ,'notreenroling'=>'leavers'
+					  ,'capacity'=>'capacity'
+					  ,'pending'=>'pending'
+					  ,'spaces'=>'spaces'
+					  );
+	}
+
+
 
 $tables=array('appnext'=>$appnext_cols,'enrolnext'=>$enrolnext_cols,'appcurrent'=>$app_cols,'enrolcurrent'=>$enrol_cols);
 $Stats['tables']=array();

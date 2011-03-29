@@ -17,21 +17,27 @@ if(isset($_POST['enrolyear']) and $_POST['enrolyear']!=''){$enrolyear=$_POST['en
 else{$enrolyear=$currentyear+1;}
 
 $extrabuttons=array();
-$extrabuttons['statistics']=array('name'=>'current',
-								  'value'=>'yeargroup_statistics.php'
-								  );
+$extrabuttons['summary']=array('name'=>'current',
+							  'pathtoscript'=>$CFG->sitepath.'/'.$CFG->applicationdirectory.'/admin/',
+							  'value'=>'admissions_print.php',
+							   'xmlcontainerid'=>'short',
+							  'onclick'=>'checksidsAction(this)');
 $extrabuttons['report']=array('name'=>'current',
 							  'pathtoscript'=>$CFG->sitepath.'/'.$CFG->applicationdirectory.'/admin/',
 							  'value'=>'admissions_print.php',
 							  'onclick'=>'checksidsAction(this)');
+$extrabuttons['statistics']=array('name'=>'current',
+								  'value'=>'yeargroup_statistics.php'
+								  );
 twoplus_buttonmenu($enrolyear,$currentyear+3,$extrabuttons,$book,$currentyear);
 
 
 $todate=date('Y-m-d');
 
 $yearstart=$currentyear-1;
+$yearstartprevious=$yearstart-1;
 $yearstartdate=$yearstart.'-08-20';
-$yearenddate=$yearstart.'-07-01';
+$yearenddate=$yearstart.'-07-20';
 $d_a=mysql_query("SELECT MAX(date) FROM admission_stats WHERE year='$enrolyear';");
 if(mysql_result($d_a,0)>0){
 	$update=mysql_result($d_a,0);
@@ -139,6 +145,7 @@ foreach($yeargroups as $year){
 						mysql_query("INSERT admission_stats SET date='$todate', name='$cellname', year='$enrolyear', count='$cellvalue';");
 						}
 					}
+
 				$totals['values'][$colindex]=$total;
 				$boarder_totals['values'][$colindex]=$total_boarder;
 				if(isset($CFG->enrol_boarders) and $CFG->enrol_boarders=='yes' and $save_stats){
@@ -161,7 +168,7 @@ foreach($yeargroups as $year){
 		<tr>
 		<th><?php print $yeargroup_names[$rowindex];?></th>
 <?php
-			foreach($tablecells as $cell){
+			foreach($tablecells as $cellindex => $cell){
 				if(isset($cell['display'])){
 ?>
 		  <td class="<?php print $cellclasses[$colindex++];?>">
@@ -204,3 +211,8 @@ foreach($yeargroups as $year){
 	</form>
 
   </div>
+	<div id="xml-short" style="display:none;">
+	  <params>
+		<format>short</format>
+	  </params>
+	</div>

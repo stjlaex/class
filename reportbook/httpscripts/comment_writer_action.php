@@ -12,7 +12,6 @@ $tid=$_SESSION['username'];
 
 /*Note: categories are not handled by the commentwriter*/
 
-			trigger_error('INNO: '.$inno,E_USER_WARNING);
 
 if($sub=='Cancel'){
 	$openerId='-100';
@@ -27,31 +26,28 @@ elseif($sub=='Submit'){
 	for($c=0;$c<$inno;$c++){
 		if(isset($_POST['incom'.$c])){
 			$incom.=clean_text($_POST['incom'.$c]);
-			trigger_error($c.' '.$incom,E_USER_WARNING);
 			}
 		/* Separate the subcomments with ::: for splitting 
 		 * but last subcomment should not get a separator
 		 */
 		if($inno>1 and $c<($inno-1)){$incom.=':::';}
 		}
-	
+
+
 	if($rid!=-1){
 		if($inmust=='yes' and $incom!=''){
-		if(mysql_query("INSERT INTO reportentry (comment,
-						teacher_id, report_id, student_id, 
-						subject_id, component_id) VALUES
-						('$incom', '$tid', '$rid', '$sid',
-						'$bid', '$pid')")){
+		if(mysql_query("INSERT INTO reportentry (comment, teacher_id, report_id, student_id, 
+				   subject_id, component_id) VALUES ('$incom', '$tid', '$rid', '$sid','$bid', '$pid')")){
 			$entryn=mysql_insert_id();
 			}
 		}
 		elseif($inmust!='yes'){
-		$entryn=$inmust;
-		mysql_query("UPDATE reportentry SET
+			$entryn=$inmust;
+			mysql_query("UPDATE reportentry SET
 						comment='$incom' WHERE report_id='$rid' AND
 						student_id='$sid' AND subject_id='$bid' AND
 						component_id='$pid' AND entryn='$entryn'");
-		}
+			}
 		}
 	}
 $comment=js_addslashes($incom);

@@ -4,13 +4,15 @@
 
 $action='enrolments_list_action.php';
 
-if(isset($_GET['comid'])){$comid=$_GET['comid'];}
+if(isset($_GET['comid'])){$comid=$_GET['comid'];}else{$comid=-1;}
 if(isset($_GET['enrolyear'])){$enrolyear=$_GET['enrolyear'];}
 if(isset($_GET['yid'])){$yid=$_GET['yid'];}
 if(isset($_GET['enrolstage'])){$enrolstage=$_GET['enrolstage'];}else{$enrolstage='E';}
+if(isset($_GET['startdate'])){$startdate=$_GET['startdate'];}
 if(isset($_POST['comid'])){$comid=$_POST['comid'];}
 if(isset($_POST['enrolyear'])){$enrolyear=$_POST['enrolyear'];}
 if(isset($_POST['enrolstage'])){$enrolstage=$_POST['enrolstage'];}
+if(isset($_POST['startdate'])){$startdate=$_POST['startdate'];}
 
 	/**
 	 * Four possible types of table: current yeargroup for selecting
@@ -18,12 +20,13 @@ if(isset($_POST['enrolstage'])){$enrolstage=$_POST['enrolstage'];}
 	 * (enrolstage=RE), one of the enrolment groups (enrolstage=E), or
 	 * displaying all enrolment groups in one go.
 	 */
-	if($enrolstage=='C'){
+	if($enrolstage=='C' or $enrolstage=='P'){
 		$application_steps=array('C','P');
 		}
 	else{
 		$application_steps=array('EN','AP','AT','ATD','RE','CA','WL','ACP','AC');
 		}
+
 	if($comid!=-1){
 		$com=get_community($comid);
 		$coms[]=$com;
@@ -40,9 +43,16 @@ if(isset($_POST['enrolstage'])){$enrolstage=$_POST['enrolstage'];}
 			list($current_enrolstatus,$yid)=explode(':',$com['name']);
 			}
 		}
+	elseif($enrolstage=='C' and isset($yid)){
+		$comid=update_community(array('id'=>'','name'=>$yid,'type'=>'year'));
+		$com=(array)get_community($comid);
+		$coms[]=$com;
+		$comtype='year';
+		$current_enrolstatus='C';
+		}
 	else{
 		$comtype='allapplied';
-		while(list($index,$enrolstatus)=each($application_steps)){ 
+		foreach($application_steps as $enrolstatus){ 
 			if($enrolstatus=='EN'){$type='enquired';}
 			elseif($enrolstatus=='AC'){$type='accepted';}
 			else{$type='applied';}
@@ -55,7 +65,7 @@ if(isset($_POST['enrolstage'])){$enrolstage=$_POST['enrolstage'];}
 		$AssDefs=fetch_enrolmentAssessmentDefinitions('','RE',$enrolyear);
 		$pairs=explode (';', $AssDefs[0]['GradingScheme']['grades']);
 		$grades=array();
-		while(list($index,$pair)=each($pairs)){
+		foreach($pairs as $pair){
 			list($grade['result'], $grade['value'])=explode(':',$pair);
 			$grades[]=$grade;
 			$$grade['value']=0;/*used for a running total*/
@@ -68,9 +78,14 @@ if(isset($_POST['enrolstage'])){$enrolstage=$_POST['enrolstage'];}
 		}
 
 	$students=array();
-	reset($coms);
-	while(list($index,$com)=each($coms)){
-		$comstudents=listin_community($com);
+	foreach($coms as $com){
+		if(isset($startdate)){
+			$comstudents=(array)listin_community_new($com,$startdate);
+			trigger_error('LISTING!!!  '.$startdate,E_USER_WARNING);
+			}
+		else{
+			$comstudents=listin_community($com);
+			}
 		$students=array_merge($students,$comstudents);
 		if($enrolstage=='E'){
 			$AssDefs=fetch_enrolmentAssessmentDefinitions($com);
@@ -118,33 +133,31 @@ if(isset($_POST['enrolstage'])){$enrolstage=$_POST['enrolstage'];}
 				value="yes" onChange="checkAll(this);" />
 			</th>
 			<th style="width:40%;"><?php print $description;?></th>
+			<th><?php print_string('schoolstartdate','infobook');?></th>
 <?php
-		if($current_enrolstatus=='AC'){
-			print '<th>'.get_string('schoolstartdate','infobook').'</th>';
-			}
 
 		$required='no';$multi='1';
-		   	if($comtype=='allapplied' or 
+		$colspan=2+sizeof($AssDefs);
+		if($comtype=='allapplied' or 
 			   $enrolstatus=='year' or $enrolstatus='alumni'){
-				print '<th colspan="2">'.get_string('enrolstatus','infobook').'</th>';
-				}
-			elseif($enrolstage=='RE'){
-				print '<th colspan="2">'.get_string('reenroling','infobook').'</th>';
-				}
-		   	else{
-		   		reset($AssDefs);
-		   		while(list($index,$AssDef)=each($AssDefs)){
-		   			print '<th>'.get_coursename($AssDef['Course']['value']).'<br />'. 
+				print '<th colspan="'.$colspan.'">'.get_string('enrolstatus','infobook').'</th>';
+			}
+		elseif($enrolstage=='RE'){
+			print '<th colspan="'.$colspan.'">'.get_string('reenroling','infobook').'</th>';
+			}
+		else{
+			foreach($AssDefs as $AssDef){
+				print '<th>'.get_coursename($AssDef['Course']['value']).'<br />'. 
 		   					$AssDef['Description']['value'].'</th>';
-		   			}
-				print '<th>'.get_string('enrolstatus','infobook').'</th>';
-		   		}
+				}
+			print '<th>'.get_string('enrolstatus','infobook').'</th>';
+			}
 ?>
 			</th>
 		  </tr>
 <?php
 	$rown=1;
-	while(list($index,$student)=each($students)){
+	foreach($students as $student){
 		$sid=$student['id'];
 		$Enrolment=fetchEnrolment($sid);
 ?>
@@ -189,9 +202,7 @@ if(isset($_POST['enrolstage'])){$enrolstage=$_POST['enrolstage'];}
 ?>
 			</td>
 <?php
-		if($current_enrolstatus=='AC'){
 			print '<td>'.display_date($Enrolment['EntryDate']['value']).'</td>';
-			}
 ?>
 			<td class="row">
 <?php
@@ -201,8 +212,7 @@ if(isset($_POST['enrolstage'])){$enrolstage=$_POST['enrolstage'];}
 <?php
 				}
 		   	elseif($enrolstage=='C'){
-				reset($application_steps);
-				while(list($index,$value)=each($application_steps)){
+				foreach($application_steps as $value){
 					$checkclass='';
 					if($value==$current_enrolstatus){$checkclass='checked';}
 					print '<div class="'.$checkclass.'"><label>'.$value.'</label>';
@@ -215,8 +225,7 @@ if(isset($_POST['enrolstage'])){$enrolstage=$_POST['enrolstage'];}
 				$Assessments=(array)fetchAssessments_short($sid,$eid,'G');
 				if(sizeof($Assessments)>0){$value=$Assessments[0]['Value']['value'];}
 				else{$value='';}
-				reset($grades);
-				while(list($index,$grade)=each($grades)){
+				foreach($grades as $grade){
 					$checkclass='';
 					if($value!='' and $value==$grade['value']){
 						$checkclass='checked';
@@ -230,8 +239,7 @@ if(isset($_POST['enrolstage'])){$enrolstage=$_POST['enrolstage'];}
 					}
 				}
 			else{
-				reset($AssDefs);
-				while(list($index,$AssDef)=each($AssDefs)){
+				foreach($AssDefs as $AssDef){
 					$eid=$AssDef['id_db'];
 					$Assessments=(array)fetchAssessments_short($sid,$eid,'G');
 					/*	Assumes only one score allowed per enrolment
@@ -244,9 +252,7 @@ if(isset($_POST['enrolstage'])){$enrolstage=$_POST['enrolstage'];}
 					else{$result='&nbsp;';}
 					print $result.'</td><td class="row">';
 					}
-
-				reset($application_steps);
-				while(list($index,$value)=each($application_steps)){
+				foreach($application_steps as $value){
 					$checkclass='';
 					if($current_enrolstatus!='' and $value==$current_enrolstatus){
 						$checkclass='checked';
@@ -273,8 +279,7 @@ if(isset($_POST['enrolstage'])){$enrolstage=$_POST['enrolstage'];}
 		  </th>
 		  <td class="row">
 <?php
-				reset($grades);
-				while(list($index,$grade)=each($grades)){
+				foreach($grades as $grade){
 					print '<div class=""><label>' 
 							.$grade['result'].'</label>';
 					print $$grade['value'];

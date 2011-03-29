@@ -373,6 +373,11 @@ button.rowaction:hover, button.rowaction:focus {
     background-color:#5599cc;
     color:#ffffff;
 	}
+.rowaction input.underrow {
+	height:18px;
+	font-size:8pt;
+	padding:0;
+}
 button.imagebutton {
 	border:0 !important;
 	}

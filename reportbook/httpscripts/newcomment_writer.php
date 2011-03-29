@@ -71,11 +71,11 @@ else{
 	}
 
 /**
- * Now if this report links to an assessment profile, the statement
- * bank gets all of the achieved statements.
- * TODO: We only have one working profile!
+ * Now if this report links to an assessment profile with statements
+ * then the bank gets all of the achieved statements.
+ * TODO: Lots! We only have one working profile!
  */
-if($reportdef['report']['profile_names'][0]!='' and !isset($subcomments_fix)){
+if($reportdef['report']['profile_names'][0]!='' and isset($subcomments_fix)){
 		$profile_name=$reportdef['report']['profile_names'][0];
 		/* This fromdate is just a hack needs to check for previous report maybe?*/
 		$reportyear=$reportdef['report']['year']-1;
@@ -85,9 +85,12 @@ if($reportdef['report']['profile_names'][0]!='' and !isset($subcomments_fix)){
 		foreach($reportdef['report']['profile_names'] as $profile_name){
 			$Statements=(array)fetchProfileStatements($profile_name,$bid,$pid,$sid,$fromdate);
 			}
-		$StatementBank['Area'][$pid]['Statements']=$Statements;
-		$StatementBank['Area'][$pid]['Name']='Profile: '.$pid;
-		$StatementBank['Area'][$pid]['Levels']=array();
+
+		if(sizeof($Statements)>0){
+			$StatementBank['Area'][$pid]['Statements']=$Statements;
+			$StatementBank['Area'][$pid]['Name']='Profile: '.$pid;
+			$StatementBank['Area'][$pid]['Levels']=array();
+			}
 		}
 
 /*TODO: categories are not yet handled by the comment writer*/
@@ -211,8 +214,9 @@ if($subcomments_no==0){$subcomments[]['name']='Comment';$subcomments_no=1;}
 	if($commentheight<90){$commentheight=80;}
 	if($commentheight>450){$commentheight=450;}
 	for($c=0;$c<$subcomments_no;$c++){
-		if($c==0){$htmleditor='htmleditorarea';}else{$htmleditor='texteditor';}
-			$commentlabel=$subcomments[$c]['name'];
+		if($c==0){$htmleditor='htmleditorarea';}
+		else{$htmleditor='subeditorarea';}
+		$commentlabel=$subcomments[$c]['name'];
 ?>
 
 		  <div class="center" style="border-top:solid 1px;">

@@ -44,5 +44,12 @@ var pathtobook = "<?php print $CFG->sitepath.'/'.$CFG->applicationdirectory.'/'.
 <script language="JavaScript" type="text/javascript" src="lib/jscalendar/calendar.js"></script>
 <script language="JavaScript" type="text/javascript" src="lib/jscalendar/lang/calendar-<?php  print_string('shortlocale');?>.js"></script>
 <script language="JavaScript" type="text/javascript" src="lib/jscalendar/calendar-setup.js"></script>
+<?php 
+if($book=='infobook'){
+?>
+<script language="JavaScript" type="text/javascript" src="js/gs_sortable.js"></script>
+<?php 
+	}
+?>
 </head>
 <body onload="loadRequired();">

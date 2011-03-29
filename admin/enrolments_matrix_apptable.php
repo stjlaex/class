@@ -59,7 +59,7 @@ else{
 
 if($enrolyear==$currentyear){
 	$appcols['newnewenrolments']['class']='blank';
-	$appcols['newnewenrolments']['display']=get_string('newenrolments',$book).' '.get_string('thisyear',$book);
+	$appcols['newnewenrolments']['display']=get_string('newnewenrolments',$book);
 	$appcols['newnewenrolments']['value']='newnewenrolments';
 	}
 
@@ -88,16 +88,21 @@ if($enrolyear==$currentyear){
 					AND (leavingdate>'$todate' OR leavingdate='0000-00-00' OR leavingdate IS NULL)
 					AND joiningdate<='$todate' AND joiningdate>='$yearstartdate';");
 			$newnewcurrentsids=mysql_result($d_nosids,0);
+
+			trigger_error('countin - '.$yearcomid. ' :' .$yearstartdate.' : '.$todate,E_USER_WARNING);
+
 			/* Students who joined the current roll regardless of when accepted*/
+
 			/*
 			$d_nosids=mysql_query("SELECT COUNT(c.student_id) FROM
 					comidsid AS c JOIN info AS i ON c.student_id=i.student_id WHERE c.community_id='$yearcomid'
 					AND i.entrydate>'$yearstartdate';");
 			*/
+
 			$d_nosids=mysql_query("SELECT COUNT(student_id) FROM
 						comidsid WHERE community_id='$yearcomid'
 					AND (leavingdate>'$todate' OR leavingdate='0000-00-00' OR leavingdate IS NULL)
-					AND joiningdate<'$yearstartdate' AND joiningdate>='$yearenddate';");
+					AND joiningdate<='$yearstartdate' AND joiningdate>='$yearenddate';");
 			$newcurrentsids=mysql_result($d_nosids,0);
 			}
 
@@ -163,9 +168,14 @@ if($enrolyear==$currentyear){
 
 		/* Don't forget applications who have already joined current
 		   roll have to be counted as applications received. */
-		$app_tablecells['C']['value']=$newcurrentsids+$newnewcurrentsids;
+		$app_tablecells['C']['value']=$newcurrentsids;
 		$app_tablecells['newnewenrolments']['value']=$newnewcurrentsids;
-		$app_tablecells['newnewenrolments']['display']=$newnewcurrentsids;
+		if($enrolyear==$currentyear){
+			$app_tablecells['newnewenrolments']['display']='<a href="admin.php?current=enrolments_list.php&cancel='.
+							$choice.'&choice='. $choice.'&enrolyear='. 
+							$enrolyear.'&yid='. $yid. '&startdate='.$yearstartdate.'&enrolstage=C">' 
+							.$newnewcurrentsids.'</a>';
+			}
 		$app_tablecells['applicationsreceived']['value']=$values[0]+$newnewcurrentsids;
 		$app_tablecells['applicationsreceived']['value_boarder']=$values['B'];
 		$app_tablecells['applicationsreceived']['name']='TOTAL:'.$yid;

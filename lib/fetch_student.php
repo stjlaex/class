@@ -472,6 +472,7 @@ function fetchStudent($sid='-1'){
 									  'value' => ''.$info['enrolstatus']
 									  );
 	$Student['EntryDate']=array('label' => 'schoolstartdate', 
+								'inputtype'=> 'required',
 								'table_db' => 'info', 
 								'field_db' => 'entrydate', 
 								'type_db' => 'date', 
@@ -1299,6 +1300,7 @@ function fetchEnrolment($sid='-1'){
 								  'value' => ''.$info['staffchild']
 								  );
 	$Enrolment['EntryDate']=array('label' => 'schoolstartdate', 
+								  'inputtype'=> 'required',
 								  'table_db' => 'info', 
 								  'field_db' => 'entrydate', 
 								  'type_db' =>'date', 
@@ -1840,8 +1842,8 @@ function get_student_club($sid){
 	$club='';
 	$ccom=array('id'=>'','type'=>'tutor','name'=>'');
 	$coms=(array)list_member_communities($sid,$ccom);
-	while(list($index,$com)=each($coms)){
-		$club.=$com['name'].' ';
+	foreach($coms as $com){
+		$club.=$com['name'].'<br />';
 		}
 	return $club;
 	}

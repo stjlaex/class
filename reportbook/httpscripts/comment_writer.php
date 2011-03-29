@@ -144,7 +144,7 @@ else{
 			<label style="float:right;background-color:#ffe;font-weight:600;padding:2px,6px;">
 			<?php print $commentlabel;?>
 			</label>
-			<textarea id="Comment<?php print $c;?>"
+			<textarea id="Comment<?php print $c;?>" 
 			  style="height:<?php print $commentheight-20;?>px;"  
 			  <?php print $commentlength;?> tabindex="0"  
 			  name="incom<?php print $c;?>" ><?php if(isset($texts[$c])){print $texts[$c];};?></textarea>

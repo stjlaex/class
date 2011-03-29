@@ -184,13 +184,15 @@ function js_addslashes($value){
 	}
 
 /**
- * Attempts to get rid of any nasties before a mysql insert
+ *  Attempts to get rid of any nasties before a mysql insert
  *
  *	@param string[$value]
  *	@return string a clean value
  */
 function clean_text($value){
-	//$value=stripslashes($value);
+
+	//if(get_magic_quotes_gpc()){$value=stripslashes($value);}
+	//else{trigger_error('NO MAGIC!!',E_USER_WARNING);}
 
 	/*replaces all MS Word smart quotes, EM dashes and EN dashes*/
 	$search=array(chr(145),chr(146),chr(147),chr(148),chr(150),chr(151));
@@ -209,7 +211,8 @@ function clean_text($value){
 
 	$value=trim($value);
 	//$value=eregi_replace('[^-.?,!;()+:[:digit:][:space:][:alpha:]]','', $value);
-	//$value=addslashes($value);
+
+	if(!get_magic_quotes_gpc()){$value=mysql_real_escape_string($value);}
 
 	return $value;
  	}
@@ -865,6 +868,7 @@ function getEnumArray($field_name){
 	$studentfield=array(
 						''=>'',
 						'Surname'=>'surname', 
+						'Forename'=>'forename', 
 						'Gender'=>'gender', 
 						'YearGroup'=>'yeargroup', 
 						'RegistrationGroup'=>'formgroup', 
@@ -880,6 +884,7 @@ function getEnumArray($field_name){
 						'EmailAddress'=>'email',
 						'EnrolNumber'=>'enrolmentnumber',
 						'EnrolmentNotes'=>'enrolmentnotes',
+						'EnrolmentStatus'=>'enrolstatus',
 						'Siblings'=>'siblings',
 						'StaffChild'=>'staffchild',
 						'EntryDate'=>'schoolstartdate',
