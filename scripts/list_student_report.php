@@ -23,15 +23,22 @@
 		}
 		*/
 
-	/* Reports with comments but no assessments */
+	/* Reports with subject comments (with or without assessments) */
 	$d_report=mysql_query("SELECT id, title, date, year FROM report JOIN ridcatid ON ridcatid.report_id=report.id  
 			    WHERE ridcatid.categorydef_id=ANY(SELECT DISTINCT report_id FROM reportentry WHERE student_id='$sid') 
-				AND ridcatid.subject_id='wrapper' ORDER BY year DESC, date DESC, title;");
+				AND ridcatid.subject_id='wrapper' ORDER BY year DESC, date DESC;");
+	while($report=mysql_fetch_array($d_report,MYSQL_ASSOC)){
+			$reportwrappers[$report['id']]=$report;
+			}
+	/* Reports with summary comments */
+	$d_report=mysql_query("SELECT id, title, date, year FROM report   
+			    WHERE id=ANY(SELECT DISTINCT report_id FROM reportentry WHERE student_id='$sid') 
+				AND course_id='wrapper' ORDER BY year DESC, date DESC;");
 	while($report=mysql_fetch_array($d_report,MYSQL_ASSOC)){
 			$reportwrappers[$report['id']]=$report;
 			}
 
-	krsort($reportwrappers);
+//krsort($reportwrappers);
 ?>
 
 <div class="center"> 

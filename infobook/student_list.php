@@ -114,17 +114,17 @@ two_buttonmenu($extrabuttons,$book);
 	  <table class="listmenu sidtable" id="sidtable">
 		<thead>
 		  <tr>
-		  <th colspan="1" style="width:1em;;">
+		  <th rowspan="2" colspan="1" style="width:1em;">
 			<input type="checkbox" name="checkall"  value="yes" onChange="checkAll(this);" />
 		  </th>
-		  <th style="border:0;text-align:left;">
+		  <th rowspan="2" style="border:0;text-align:left;">
 			<?php print_string('checkall'); ?>
 		  </th>
 
 <?php
 	if(isset($tutor_user)){
 ?>
-		<th>
+		<th rowspan="2">
 		<label><?php print_string('formgroup'); ?></label>
 		<?php print $fid.' &nbsp;&nbsp;';?>
 		<?php print $tutor_user['forename'][0].' '. $tutor_user['surname'];?>
@@ -134,12 +134,14 @@ two_buttonmenu($extrabuttons,$book);
 		}
 	elseif(isset($title) and $title!=''){
 ?>
-		<th><label><?php print $title; ?></label></th>
+		<th rowspan="2"><label><?php print $title; ?></label></th>
 <?php
 		}
 	else{
 ?>
-		<th><?php print_string('student'); ?></th>
+		<th rowspan="2">
+		  <?php print_string('student'); ?>
+		</th>
 <?php
 		}
 
@@ -156,13 +158,8 @@ two_buttonmenu($extrabuttons,$book);
 			$sort_types.=",'s'";
 ?>
 		<th style="width:<?php print $displayfields_width;?>;">
-		<?php include('scripts/list_studentfield.php');?>
-		<div class="rowaction">
-		  <input class="underrow" type='button' name='action' value='^' onClick='tsDraw("<?php print $sortno;?>A", "sidtable");'>
-		  <input class="underrow"  type='button' name='action' value='-' onClick='tsDraw("<?php print $sortno;?>D", "sidtable");'>
-		  <input class="underrow"  type='button' name='action' value='v' onClick='tsDraw("<?php print $sortno;?>U", "sidtable");'>
-		</div>
-	    </th>
+<?php include('scripts/list_studentfield.php');?>
+		</th>
 <?php
 			}
 		}
@@ -172,6 +169,25 @@ two_buttonmenu($extrabuttons,$book);
 <?php
 		}
 ?>
+		</tr>
+		<tr>
+<?php
+
+		foreach($displayfields as $dno => $displayfield){
+			$sortno=$dno+3;
+			$sort_types.=",'s'";
+?>
+	  <th>
+		<div class="rowaction">
+		  <input class="underrow" type='button' name='action' value='v' onClick='tsDraw("<?php print $sortno;?>A", "sidtable");' />
+		  <input class="underrow"  type='button' name='action' value='-' onClick='tsDraw("<?php print $sortno;?>U", "sidtable");' />
+		  <input class="underrow"  type='button' name='action' value='^' onClick='tsDraw("<?php print $sortno;?>D", "sidtable");' />
+		</div>
+	  </th>
+<?php
+}
+?>
+
 		</tr>
 	</thead>
 	<tbody>

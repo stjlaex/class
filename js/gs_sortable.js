@@ -107,10 +107,10 @@ function tsInit()
 //			node.tsort_col_id = i;
 //			node.tsort_table_id = table_id;
 //			node.onclick = tsDraw;
-			node.innerHTML = "<a href='' onClick=\"tsDraw(" + i + ",'" +
-				table_id + "'); return false\">" + node.innerHTML +
-				'</a><b><span id="TS_' + i + '_' + table_id + '"></span></b>';
-			node.style.cursor = "pointer";
+//			node.innerHTML = "<a href='' onClick=\"tsDraw(" + i + ",'" +
+//				table_id + "'); return false\">" + node.innerHTML +
+//				'</a><b><span id="TS_' + i + '_' + table_id + '"></span></b>';
+//			node.style.cursor = "pointer";
 		}
 	}
 

@@ -9,17 +9,15 @@
 	if(!isset($onchange)){$onchange='yes';}
 	if(!isset($istudentfield)){$istudentfield='0';}else{$istudentfield++;}
 ?>
-<select style="width:90%;" id="Displayfield<?php print $istudentfield;?>" 
-		name="displayfield<?php print $istudentfield;?>"
+<select id="Displayfield<?php print $istudentfield;?>" name="displayfield<?php print $istudentfield;?>"
 	<?php if($onchange=='yes'){print 'onChange="processContent(this);" ';}?> 
 	<?php if($required=='yes'){ print ' class="required" ';} ?>
-	tabindex="<?php print $tab++;?>"  size="1" >
+	tabindex="<?php print $tab++;?>">
 <?php
 	$displayfield_array=getEnumArray('studentfield');
 	if(isset($extra_studentfields)){$displayfield_array+=$extra_studentfields;}
 	while(list($val,$description)=each($displayfield_array)){
 		print '<option ';
-		print ' tabindex="'.$tab++.'" '; 
 		if(($seldisplayfield==$val)){print 'selected="selected"';}
 		print	' value="'.$val.'">'.get_string($description,'infobook').'</option>';
 		}

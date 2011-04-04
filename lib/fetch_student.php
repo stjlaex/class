@@ -116,6 +116,7 @@ function fetchStudent_singlefield($sid,$tag){
 	elseif($tag=='Language'){$fieldname='language';$fieldtype='enum';}
 	elseif($tag=='Boarder'){$fieldname='boarder';$fieldtype='enum';}
 	elseif($tag=='EntryDate'){$fieldname='entrydate';}
+	elseif($tag=='LeavingDate'){$fieldname='leavingdate';}
 	elseif($tag=='Siblings'){$fieldname='siblings';}
 	elseif($tag=='StaffChild'){$fieldname='staffchild';}
 	elseif($tag=='EmailAddress'){$fieldname='email';}
@@ -187,15 +188,21 @@ function fetchStudent_singlefield($sid,$tag){
 			/*
 			 * NOT a part of the xml def for Student but useful here.
 			 */
-			$d_add=mysql_query("SELECT street, neighbourhood, region, postcode, country FROM address
+			$d_add=mysql_query("SELECT DISTINCT id, street, neighbourhood, region, postcode, country FROM address
 							JOIN gidaid ON gidaid.address_id=address.id WHERE 
 							gidaid.guardian_id=ANY(SELECT guardian_id FROM gidsid WHERE gidsid.student_id='$sid'
 							AND gidsid.mailing='1' AND gidsid.priority='$contactno');");
 			$Student[$tag]=array('label'=>'',
 								 'value'=>'');
 			if(mysql_num_rows($d_add)>0){
-				$add=mysql_fetch_array($d_add,MYSQL_ASSOC);
-				$Student[$tag]['value'].=$add['street'].', '. $add['neighbourhood'].', '. $add['region'].'. '. $add['country']. '-'. $add['postcode'];
+				$noa=0;
+				while($add=mysql_fetch_array($d_add,MYSQL_ASSOC)){
+					if(trim($add['street'])!=''){
+						$noa++;
+						if($noa>1){$Student[$tag]['value'].='<br />';}
+						$Student[$tag]['value'].=$add['street'].', '. $add['neighbourhood'].', '. $add['region'].' '. $add['country']. ' '. $add['postcode'];
+						}
+					}
 				}
 			}
 		elseif(substr_count($tag,'EmailAddress')){

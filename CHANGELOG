@@ -1,3 +1,14 @@
+Version ClaSS-0.9.37 release (2011/04/04)
+-----------------------------------------
+
+Longstanding bug fixed in selecting header fields in the student list.
+
+Changed student_list_reports to check for summary and subject comments
+(reports without either will not be listed).
+
+School leaving date add to student single fields.
+
+
 Version ClaSS-0.9.36 release (2011/03/18)
 -----------------------------------------
 

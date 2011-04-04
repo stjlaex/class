@@ -71,7 +71,7 @@ $addcategory=='no';
 	elseif($inmust!='yes'){
 		$entryn=$inmust;
 		mysql_query("UPDATE reportentry SET
-						comment='$incom', category='$incat' WHERE report_id='$rid' AND
+						comment='$incom' WHERE report_id='$rid' AND
 						student_id='$sid' AND subject_id='$bid' AND
 						component_id='$pid' AND entryn='$entryn';");
 		}

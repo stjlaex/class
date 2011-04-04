@@ -205,8 +205,8 @@ function clean_text($value){
 	$value=str_replace($search,$replace,$value);
 
 	/*causes problems with xmlreader function*/
-	$search=array('<p></p>','&nbsp;','<p> </p>','<p>&nbsp;</p>','&ndash;','<strong>','</strong>','&amp;','<em>','</em>');
-	$replace=array('',' ','','','-','','',' and ','','');
+	$search=array('<p></p>','&nbsp;','<p> </p>','<p>&nbsp;</p>','&ndash;','<strong>','</strong>','&amp;','<em>','</em>','<pre>','</pre>');
+	$replace=array('',' ','','','-','','',' and ','','','','');
 	$value=str_replace($search,$replace,$value);
 
 	$value=trim($value);
@@ -888,6 +888,7 @@ function getEnumArray($field_name){
 						'Siblings'=>'siblings',
 						'StaffChild'=>'staffchild',
 						'EntryDate'=>'schoolstartdate',
+						'LeavingDate'=>'schoolleavingdate',
 						'Language'=>'language',
 						'MobilePhone'=>'mobilephone',
 						'PersonalNumber'=>'personalnumber',
