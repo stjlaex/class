@@ -160,10 +160,10 @@ else{
 				  ,'newenrolmentsprevious'=>'newenrolmentsprevious'
 				  ,'newnewenrolments'=>'newnewenrolments'
 				  ,'leaverssince'=>'leaverssince'
-				  ,'notinvoiced'=>'notinvoiced'
 				  ,'currentroll'=>'currentroll'
 				  ,'budgetroll'=>'budgetroll'
 				  ,'leaverstotal'=>'leaverstotal'
+				  ,'notinvoiced'=>'notinvoiced'
 				  ,'capacity'=>'capacity'
 				  ,'spaces'=>'spaces'
 				  );

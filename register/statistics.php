@@ -20,14 +20,16 @@ two_buttonmenu($extrabuttons);
   </div>
   <div id="viewcontent" class="content">
 	  <form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
-		<table class="listmenu sidtable">
+		<table class="listmenu smalltable center">
 		<tr>
 		  <th><a name="Month"><?php print_string('month',$book);?></a></th>
 		  <th><?php print_string('present',$book);?></th>
 		  <th><?php print_string('late',$book);?></th>
 		  <th><?php print_string('absent',$book);?></th>
+		  <th><?php print_string('educationalvisitortrip',$book);?></th>
 		  <th><?php print_string('numberofdays',$book);?></th>
-		  <th><?php print_string('dailyaverage',$book);?></th>
+		  <th><?php print get_string('dailyaverage',$book).'<br />'.get_string('attendance',$book);?></th>
+		  <th><?php print get_string('dailyaverage',$book).'<br />'.get_string('absent',$book);?></th>
 		</tr>
 <?php
 	$rown=1;
@@ -40,6 +42,7 @@ two_buttonmenu($extrabuttons);
 		$daysno=sizeof($events);
 		$p=count_overall_attendance($sdate,$edate);
 		$a=count_overall_attendance($sdate,$edate,'%');
+		$v=count_overall_attendance($sdate,$edate,'V');
 		$late=count_overall_late($sdate,$edate);
 		?>
 		<tr>
@@ -56,10 +59,16 @@ two_buttonmenu($extrabuttons);
 			<?php print $a-$late; ?>
 		</td>
 		<td>
+			<?php print $v; ?>
+		</td>
+		<td>
 			<?php print $daysno; ?>
 		</td>
 		<td>
 		<?php print round(($p+$late)/$daysno); ?>
+		</td>
+		<td>
+		<?php print round(($a-$late-$v)/$daysno); ?>
 		</td>
 		</tr>
 <?php

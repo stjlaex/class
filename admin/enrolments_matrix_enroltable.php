@@ -5,19 +5,19 @@
 	 */
 
     if($enrolyear>$currentyear){
-		$enrolcols_value=array('reenroling','transfersin','transfersout','newenrolments',
-							   'projectedroll','budgetroll','targetroll','leavers','capacity','pending','spaces');
-		$enrolcols_display=array('reenroling','transfersin','transfersout','newenrolments',
-							   'projectedroll','budgetroll','targetroll','leavers','capacity','pending','spaces');
+		$enrolcols_value=array('reenroling','pending','transfersin','transfersout','newenrolments',
+							   'projectedroll','budgetroll','targetroll','leavers','capacity','spaces');
+		$enrolcols_display=array('reenroling','pending','transfersin','transfersout','newenrolments',
+							   'projectedroll','budgetroll','targetroll','leavers','capacity','spaces');
 		}
 	else{
 		/*		$enrolcols_value=array('reenroled','newenrolments','leaverssince',,'leaversprevious',
 							'currentroll','budgetroll','capacity','spaces');
 		*/
-		$enrolcols_value=array('reenroled','newenrolmentsprevious','newnewenrolments','leaverssince','notinvoiced',
-							'currentroll','budgetroll','leaverstotal','capacity','spaces');
-		$enrolcols_display=array('reenroled','newenrolmentsprevious','newnewenrolments','leaverssince','notinvoiced',
-							'currentroll','budgetroll','leaverstotal','capacity','spaces');
+		$enrolcols_value=array('reenroled','newenrolmentsprevious','newnewenrolments','leaverssince',
+							'currentroll','budgetroll','leaverstotal','notinvoiced','capacity','spaces');
+		$enrolcols_display=array('reenroled','newenrolmentsprevious','newnewenrolments','leaverssince',
+							'currentroll','budgetroll','leaverstotal','notinvoiced','capacity','spaces');
 		}
 
 	$enrol_tablerows=array();
@@ -167,8 +167,6 @@
 					$no=0;
 					}
 				$cell['value']+=$no;
-
-
 				}
 			elseif($enrolcol=='leaversprevious'){
 				/* Students who left beofre the start of the new academic year. */
@@ -178,11 +176,19 @@
 				//$cell['value']=count_reenrol_no($leavercomid,$reenrol_eid,'LL','L');
 				}
 			elseif($enrolcol=='leaverstotal'){
-				/* Total number of students who have left since the start of the last year (including during current year). */
+				/* Total number of students who did not re-enrol from last year 
+				 * plus any who have left since ie.during the current year. 
+				 */
 				$leavercomid=update_community(array('id'=>'','type'=>'alumni','name'=>'P:'.$yid,'year'=>$yearstart));
 				$leavercom=get_community($leavercomid);
-				$cell['value']=countin_community($leavercom)+$enrol_tablecells['leaverssince']['value'];
-				//$cell['value']=count_reenrol_no($leavercomid,$reenrol_eid,'LL','L');
+				//$cell['leaverslast']=countin_community($leavercom);
+				$cell['leaverslast']=count_reenrol_no($leavercomid,$reenrol_eid,'LL','L');
+				if(isset($enrol_tablerows[$previous_yid]['leaverstotal']['leaverslast'])){
+					$cell['value']=$enrol_tablerows[$previous_yid]['leaverstotal']['leaverslast']+$enrol_tablecells['leaverssince']['value'];
+					}
+				else{
+					$cell['value']=0;
+					}
 				}
 			elseif($enrolcol=='transfersin'){
 				$cell['value']=0;
@@ -205,17 +211,6 @@
 				if(isset($CFG->enrol_boarders) and $CFG->enrol_boarders=='yes'){
 					$cell['value_boarder']+=$app_tablerows[$yid]['AC']['value_boarder'];
 					}
-				}
-			elseif($enrolcol=='newenrolmentsprevious'){
-				$cell['value']=$app_tablerows[$yid]['C']['value'];
-				if(isset($CFG->enrol_boarders) and $CFG->enrol_boarders=='yes'){
-					$cell['value_boarder']=$app_tablerows[$yid]['C']['value_boarder'];
-					}
-				/*TODO: list new students including transfers from other schools
-				  $cell['display']='<a href="admin.php?current=enrolments_list.php&cancel='.
-				  $choice.'&choice='. $choice.'&enrolyear='. $enrolyear.'&yid='. $yid.
-				  '&comid=-1">'.$cell['value'].'</a>';
-				*/
 				}
 			elseif($enrolcol=='currentroll'){
 				$cell['value']=countin_community($yearcommunity);
@@ -249,7 +244,9 @@
 							$enrolyear.'&comname='. $cell['yid'].'&comtype=alumni'.
 							'&comid='. $leavercomid.'&enrolstage=C">' 
 							.$cell['value'].'</a>';
-
+				/* Assume any leavers where also reenroled last year before leaving an add to that total. */
+				$enrol_tablecells['reenroled']['value']+=$cell['value'];
+				$enrol_tablecells['reenroled']['display']=$enrol_tablecells['reenroled']['value'];
 				}
 			elseif($enrolcol=='leavers'){
 				if(isset($enrol_tablerows[$previous_yid])){
@@ -303,6 +300,12 @@
 
 			if(!isset($cell['display']) and in_array($enrolcol,$enrolcols_display)){$cell['display']=$cell['value'];}
 			$enrol_tablecells[$enrolcol]=$cell;
+			}
+
+		if($enrolyear<=$currentyear){
+			/* This should be a quick estimate of the new enrolments last year. */
+			$enrol_tablecells['newenrolmentsprevious']['value']=$enrol_tablecells['currentroll']['value'] - $enrol_tablecells['reenroled']['value'] - $enrol_tablecells['newnewenrolments']['value'] + $enrol_tablecells['leaverssince']['value'];
+			$enrol_tablecells['newenrolmentsprevious']['display']=$enrol_tablecells['newenrolmentsprevious']['value'];
 			}
 
 	    $enrol_tablerows[$yid]=$enrol_tablecells;

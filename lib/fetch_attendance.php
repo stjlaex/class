@@ -589,7 +589,7 @@ function count_attendance($sid,$startdate,$enddate,$code=''){
  * @param integer $sid
  * @param date $startdate
  * @param date $enddate
- * @return array
+ * @return integer
  */
 function count_late($sid,$startdate,$enddate){
 
@@ -607,6 +607,16 @@ function count_late($sid,$startdate,$enddate){
 
 /**
  *
+ * Count no of attendnace entries recorded for the whole schol between two given dates.
+ * If no absence code is given then will counting status=present entries only.
+ * If a code given then coutning status=absent entries.
+ * Disgards all entries which are not part of the school record (X, Y, Z and #).
+ *
+ * @param date $startdate
+ * @param date $enddate
+ * @param string $code
+ * @return integer
+ *
  * TODO: Only counting AM at the moment!!!!
  *
  */
@@ -618,6 +628,7 @@ function count_overall_attendance($startdate,$enddate,$code=''){
 	else{
 		$status='a';
 		}
+
 	$d_attendance=mysql_query("SELECT COUNT(attendance.status) FROM attendance JOIN
 			event ON event.id=attendance.event_id WHERE
 			attendance.status='$status' AND attendance.code LIKE '$code' 

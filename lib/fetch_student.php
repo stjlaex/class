@@ -469,7 +469,7 @@ function fetchStudent($sid='-1'){
    	$Student['EnrolNumber']=array('label' => 'enrolmentnumber', 
 								  'table_db' => 'info', 
 								  'field_db' => 'formerupn', 
-								  'type_db' => 'varchar(13)', 
+								  'type_db' => 'char(20)', 
 								  'value' => ''.$info['formerupn']
 								  );
    	$Student['EnrolmentStatus']=array('label' => 'enrolstatus', 
@@ -493,7 +493,7 @@ function fetchStudent($sid='-1'){
    	$Student['PersonalNumber']=array('label' => 'personalnumber', 
 									 'table_db' => 'info', 
 									 'field_db' => 'upn', 
-									 'type_db' => 'varchar(13)', 
+									 'type_db' => 'char(20)', 
 									 'value' => ''.$info['upn']
 									 );
    	$Student['Boarder']=array('label' => 'boarder', 
@@ -754,6 +754,8 @@ function fetchContact($gidsid=array('guardian_id'=>'-1','student_id'=>'-1','prio
 		$Phones[]=fetchPhone($phone);
 		}
 	$Contact['Phones']=$Phones;
+
+	if(file_exists('../schoolarrays.php')){include('../schoolarrays.php');}
 
 	return $Contact;
 	}
@@ -1322,7 +1324,7 @@ function fetchEnrolment($sid='-1'){
    	$Enrolment['EnrolNumber']=array('label' => 'enrolmentnumber', 
 									'table_db' => 'info', 
 									'field_db' => 'formerupn', 
-									'type_db' =>'varchar(13)', 
+									'type_db' =>'char(20)', 
 									'value' => ''.$info['formerupn']
 									);
 	return $Enrolment;

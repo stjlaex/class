@@ -5,10 +5,10 @@
 mysql_query("
 CREATE TABLE info (
 	student_id		int unsigned not null default 0, 
-	upn				char(13) not null default '',
-	formerupn		char(13) not null default '',
-	otherpn1		char(13) not null default '',
-	otherpn2		char(13) not null default '',
+	upn				char(20) not null default '',
+	formerupn		char(20) not null default '',
+	otherpn1		varchar(40) not null default '',
+	otherpn2		varchar(40) not null default '',
 	enrolstatus		enum('EN','AP','AT','ATD','ACP','AC','RE','CA','WL','C','P', 'G','S','M') not null default 'C',
 	entrydate		date null,
 	leavingdate 	date null,
