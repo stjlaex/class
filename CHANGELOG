@@ -1,4 +1,4 @@
-Version ClaSS-0.9.37 release (2011/04/06)
+Version ClaSS-0.9.37 release (2011/04/07)
 -----------------------------------------
 
 Longstanding bug fixed in selecting header fields in the student list.
@@ -12,6 +12,10 @@ Added count of trips to the attendance statistics.
 
 Increased the student tbale field lengths for upn, formerupn, and
 otherpn. Apply the patch!
+
+New CFG setting called studentlist_order changes default ordering of
+students to be changed from surname to instead forename or preferred
+forename.
 
 
 Version ClaSS-0.9.36 release (2011/03/18)

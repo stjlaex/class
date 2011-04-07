@@ -1810,5 +1810,26 @@ function check_email_valid($email){
 	return $valid;
 	}
 
+/** 
+ * Checks the CFG setting for studentlist_order and returns matching
+ * mysql fields for ordering result set. Allowed CFG options:
+ *    surname
+ *    forename
+ *    preferred
+ *
+ * @return string a string suitable for mysql ORDER BY clause
+ *
+ */
+function get_studentlist_order(){
 
+	global $CFG;
+
+	$orderby='surname, forename';
+	if(isset($CFG->studentlist_order)){
+		if($CFG->studentlist_order=='forename'){$orderby='forename, surname';}
+		elseif($CFG->studentlist_order=='preferred'){$orderby='preferredforename, surname';}
+		}
+
+	return $orderby;
+	}
 ?>

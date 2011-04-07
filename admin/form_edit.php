@@ -64,7 +64,7 @@ if(isset($_POST['fid'])){$fid=$_POST['fid'];}
 		
 		print '<tr id="sid-'.$sid.'">';
 		print '<td>'.$rown++.'</td>';
-		print '<td>'.$student['surname']. ', '.$student['forename'].'</td><td>'.$extra.'</td>';
+		print '<td>'.$student['surname']. ', '.$student['forename'].' '.$student['preferredforename'].'</td><td>'.$extra.'</td>';
 		print '<td><input type="checkbox" name="oldsids[]" value="'.$sid.'" /></td>';
 		print '</tr>';
 		}
@@ -92,13 +92,13 @@ if(isset($_POST['fid'])){$fid=$_POST['fid'];}
 		  <label><?php print_string('studentsnotinaform',$book);?></label>
 		  <select name="newsids[]" size="24" multiple="multiple" style="width:98%;">
 <?php
-   	$d_student=mysql_query("SELECT id, surname, forename, form_id FROM
+   	$d_student=mysql_query("SELECT id, surname, forename, preferredforename, form_id FROM
 			student WHERE yeargroup_id LIKE '$yid' AND (form_id='' OR
 				form_id IS NULL) ORDER BY surname");
 	while($student=mysql_fetch_array($d_student,MYSQL_ASSOC)) {
 			print '<option ';
 			print  ' value="'.$student['id'].'">'.$student['surname'].', 
-				'.$student['forename'].' ('.$student['form_id'].')</option>';
+				'.$student['forename'].' '.$student['preferredforename'].' ('.$student['form_id'].')</option>';
 			}
 ?>
 		  </select>
@@ -109,12 +109,12 @@ if(isset($_POST['fid'])){$fid=$_POST['fid'];}
 		  <select name="newsids[]" size="24" multiple="multiple" style="width:98%;">	
 <?php
   	$d_student=mysql_query("SELECT id, forename,
-					surname, form_id FROM student WHERE
+					surname, preferredforename, form_id FROM student WHERE
 					yeargroup_id LIKE '$yid' AND form_id!='' ORDER BY surname"); 
 	while($student=mysql_fetch_array($d_student,MYSQL_ASSOC)){
 			print '<option ';
 			print	' value="'.$student['id'].'">'.$student['surname']. 
-					', '.$student['forename'].' ('.$student['form_id'].')</option>';
+					', '.$student['forename'].' '.$student['preferredforename'].' ('.$student['form_id'].')</option>';
 			}
 ?>		
 		  </select>

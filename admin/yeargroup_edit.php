@@ -89,7 +89,7 @@ if(isset($_POST['enrolyear'])){$enrolyear=$_POST['enrolyear'];}
 			<td><?php print $rown++;?></td>
 			<td>
 <?php  print $student['surname']. 
-				', '.$student['forename']. ' ('.$student['form_id'].
+				', '.$student['forename'].' '.$student['middlenames'].' '.$student['preferredforename'].' ('.$student['form_id'].
 												')</td><td>'.$extra;
 ?>
 			</td>
@@ -131,7 +131,7 @@ if(isset($_POST['enrolyear'])){$enrolyear=$_POST['enrolyear'];}
 		print '<option ';
 		print	'value="'.$student['student_id'].'">'. 
 		$student['surname'].', '.$student['forename'].' '. 
-		$student['middlenames'].' ('.$student['form_id'].')</option>';
+		$student['middlenames'].' '.$student['preferredforename'].' ('.$student['form_id'].')</option>';
 		}
 ?>
 		  </select>

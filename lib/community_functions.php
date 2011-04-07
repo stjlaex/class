@@ -265,16 +265,17 @@ function listin_community($community,$enddate='',$startdate=''){
 	if($startdate==''){$startdate=$enddate;}
 	if(isset($community['id']) and $community['id']!=''){$comid=$community['id'];}
 	else{$comid=update_community($community);}
+	$orderby=get_studentlist_order();
 
 	$d_student=mysql_query("SELECT id, surname,
-				forename, preferredforename, form_id, gender, dob, comidsid.special AS special FROM student 
+				forename, middlenames, preferredforename, form_id, gender, dob, comidsid.special AS special FROM student 
 				JOIN comidsid ON comidsid.student_id=student.id
 				WHERE comidsid.community_id='$comid' AND
 				(comidsid.leavingdate>'$enddate' OR 
 				comidsid.leavingdate='0000-00-00' OR comidsid.leavingdate IS NULL) 
 				AND (comidsid.joiningdate<='$startdate' OR 
 				comidsid.joiningdate='0000-00-00' OR
-				comidsid.joiningdate IS NULL) ORDER BY surname, forename");
+				comidsid.joiningdate IS NULL) ORDER BY $orderby;");
 
 	$students=array();
 	while($student=mysql_fetch_array($d_student, MYSQL_ASSOC)){

@@ -6,7 +6,8 @@
  *
  */
 
-$d_students=mysql_query("SELECT * FROM students ORDER BY surname, forename"); 
+$orderby=get_studentlist_order();
+$d_students=mysql_query("SELECT * FROM students ORDER BY $orderby"); 
 $row=0;
 $viewtable=array();
 

@@ -34,7 +34,7 @@ elseif(isset($_POST['newcomid1']) and $_POST['newcomid1']!=''){
 if(isset($com)){
 	$table='student';
 	if($com['type']=='accomodation'){
-		/*temporary hack!*/
+		/*TODO: temporary hack!*/
 		$startdate='2000-01-01';
 		$enddate='2015-01-01';
 		$students=(array)listin_community($com,$enddate,$startdate);
