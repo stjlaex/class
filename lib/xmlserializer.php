@@ -184,7 +184,7 @@ function xmlreader($string){
 		}
 	else{
 		/* Need the div tags because the first level tag is always dropped by simplexml for some reason. */
-		//$string=clean_text($string);
+		$string=clean_text($string,false);
 		$xmlstring='<div>'.html_entity_decode($string,ENT_QUOTES,"UTF-8").'</div>';
 		$xml=xmlstringToArray($xmlstring);
 		}

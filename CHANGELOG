@@ -1,3 +1,10 @@
+Version ClaSS-0.9.37 release (2011/04/14)
+-----------------------------------------
+
+Experimental change to xmlreader and clean_text to handle old reports
+that need cleaning.
+
+
 Version ClaSS-0.9.37 release (2011/04/07)
 -----------------------------------------
 

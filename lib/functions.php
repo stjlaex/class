@@ -189,7 +189,7 @@ function js_addslashes($value){
  *	@param string[$value]
  *	@return string a clean value
  */
-function clean_text($value){
+function clean_text($value,$in=true){
 
 	//if(get_magic_quotes_gpc()){$value=stripslashes($value);}
 	//else{trigger_error('NO MAGIC!!',E_USER_WARNING);}
@@ -212,7 +212,7 @@ function clean_text($value){
 	$value=trim($value);
 	//$value=eregi_replace('[^-.?,!;()+:[:digit:][:space:][:alpha:]]','', $value);
 
-	if(!get_magic_quotes_gpc()){$value=mysql_real_escape_string($value);}
+	if(!get_magic_quotes_gpc() and $in){$value=mysql_real_escape_string($value);}
 
 	return $value;
  	}
