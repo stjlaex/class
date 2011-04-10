@@ -55,7 +55,7 @@ $CFG->registration[1]='single';//Whole school
 /* Time-zone used by the register - see http://es2.php.net/manual/en/timezones.php*/
 $CFG->timezone='Europe/Madrid';
 /*defualt sort order sor most student lists*/
-$CFG->studentlist_order='preferred';
+$CFG->studentlist_order='surname';
 /**
  * An array of feeder schools whose dbs are to be checked for students
  * transfering here. This affects numbers in the enrolments table and
@@ -139,8 +139,8 @@ $CFG->clientid='';
 $CFG->eportfoliosite='';
 $CFG->eportfoliotabname='Portfolio';
 $CFG->eportfolioshare='secret';
-$CFG->eportfolio_db='classelgg';
-$CFG->eportfolio_db_prefix='elgg';
+$CFG->eportfolio_db='';
+$CFG->eportfolio_db_prefix='';
 $CFG->eportfolio_access='enrol';
 /* The dataroot shared with the eportfolio which is where uploaded files will go.
  * This should be outside your wwwroot. Specified relative to your installpath.
@@ -150,9 +150,9 @@ $CFG->eportfolio_dataroot = $CFG->installpath . '../theboxdata';
 $CFG->lmssite='';
 $CFG->lmstabname='Moodle';
 $CFG->lmsshare='secret';
-$CFG->lms_db='classmoodle';
+$CFG->lms_db='';
 /*optional details of the school's webmail*/
-$CFG->webmailsite='http://webmail.demo.org';
+$CFG->webmailsite='';
 $CFG->webmailtabname='WebMail';
 $CFG->webmailshare='secret';
 $CFG->webmail_db='';/*probably not needed!*/

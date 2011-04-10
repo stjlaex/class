@@ -1,10 +1,13 @@
-Version ClaSS-0.9.37 release (2011/04/14)
+Version ClaSS-0.9.37 release (2011/04/10)
 -----------------------------------------
 
 Experimental change to xmlreader and clean_text to handle old reports
 that need cleaning.
 
 Typo fixed in create-orderbook.
+
+Added ClaSS Id to student export sheet.
+
 
 
 Version ClaSS-0.9.37 release (2011/04/07)

@@ -47,9 +47,10 @@ if(sizeof($sids)==0){
 		$error[]='unabletoopenfileforwriting';
 		}
 	else{
-		$worksheet->write(0, 0, 'Enrolment No.', $format_hdr_bold);
-		$worksheet->write(0, 1, 'Surname', $format_hdr_bold);
-		$worksheet->write(0, 2, 'Forename', $format_hdr_bold);
+		$worksheet->write(0, 0, 'ClaSS Id.', $format_hdr_bold);
+		$worksheet->write(0, 1, 'Enrolment No.', $format_hdr_bold);
+		$worksheet->write(0, 2, 'Surname', $format_hdr_bold);
+		$worksheet->write(0, 3, 'Forename', $format_hdr_bold);
 		for($colno=0;$colno<$_POST['colno'];$colno++){
 			$dspfld='displayfield'.$colno;
 			$worksheet->write(0, $colno+3, $_POST[$dspfld], $format_hdr_bold);
@@ -61,10 +62,10 @@ if(sizeof($sids)==0){
 			$Student=(array)fetchStudent_short($sid);
 			$EnrolNumber=(array)fetchStudent_singlefield($sid,'EnrolNumber');
 
-			//$worksheet->write($rown, 0, $sid, $format_line_bold);
-			$worksheet->write($rown, 0, $EnrolNumber['EnrolNumber']['value'], $format_line_bold);
-			$worksheet->write($rown, 1, iconv('UTF-8','ISO-8859-1',$Student['Surname']['value']), $format_line_bold);
-			$worksheet->write($rown, 2, iconv('UTF-8','ISO-8859-1',$Student['Forename']['value']), $format_line_bold);
+			$worksheet->write($rown, 0, $sid, $format_line_bold);
+			$worksheet->write($rown, 1, $EnrolNumber['EnrolNumber']['value'], $format_line_bold);
+			$worksheet->write($rown, 2, iconv('UTF-8','ISO-8859-1',$Student['Surname']['value']), $format_line_bold);
+			$worksheet->write($rown, 3, iconv('UTF-8','ISO-8859-1',$Student['Forename']['value']), $format_line_bold);
 
 			$col=3;
 			reset($displayfields);
