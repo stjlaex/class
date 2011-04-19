@@ -33,7 +33,6 @@ else{
 			AND student_id='$sid' AND year='$curryear';");
 		$merit_count=mysql_result($d_m,0);
 
-
 		$Student=fetchStudent_short($sid);
 		
 		$house=get_student_house($sid);

@@ -36,7 +36,7 @@ $todate=date('Y-m-d');
 
 $yearstart=$currentyear-1;
 $yearstartprevious=$yearstart-1;
-$yearstartdate=$yearstart.'-08-20';
+$yearstartdate=$yearstart.'-08-15';
 $yearenddate=$yearstart.'-07-20';
 $d_a=mysql_query("SELECT MAX(date) FROM admission_stats WHERE year='$enrolyear';");
 if(mysql_result($d_a,0)>0){

@@ -98,6 +98,9 @@ foreach($doing as $todo){
 
 
 if($format=='short'){
+
+	$Stats['Transform']='admission_tables';
+
 	$app_cols=array(
 				'applications'=>'TOTAL'
 				,displayEnum('AT','enrolstatus')=>'AT'
@@ -137,6 +140,9 @@ if($format=='short'){
 					  );
 	}
 else{
+
+	$Stats['Transform']='admission_tables_long';
+
 	$app_cols=array(
 				'applications'=>'TOTAL'
 				,displayEnum('AT','enrolstatus')=>'AT'
@@ -158,6 +164,7 @@ else{
 				);
 	$enrol_cols=array('reenroled'=>'reenroled'
 				  ,'newenrolmentsprevious'=>'newenrolmentsprevious'
+				  ,'transfersprevious'=>'transfersprevious'
 				  ,'newnewenrolments'=>'newnewenrolments'
 				  ,'leaverssince'=>'leaverssince'
 				  ,'currentroll'=>'currentroll'
@@ -169,11 +176,11 @@ else{
 				  );
 	$enrolnext_cols=array('reenroling'=>'reenroling'
 					  ,'transfersin'=>'transfersin'
-					  ,'transfersout'=>'transfersout'
 					  ,'newenrolments'=>'newenrolments'
 					  ,'projectedroll'=>'projectedroll'
 					  ,'budgetroll'=>'budgetroll'
 					  ,'targetroll'=>'targetroll'
+					  ,'transfersout'=>'transfersout'
 					  ,'notreenroling'=>'leavers'
 					  ,'capacity'=>'capacity'
 					  ,'pending'=>'pending'
@@ -202,7 +209,6 @@ foreach($tables as $tablename=>$table_cols){
 	}
 
 $Stats['DateStamp']=display_date($todate);
-$Stats['Transform']='admission_tables';
 $Stats['Paper']='landscape';
 
 $returnXML=$Stats;

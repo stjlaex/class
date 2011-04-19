@@ -1,4 +1,13 @@
-Version ClaSS-0.9.37 release (2011/04/10)
+Version ClaSS-0.9.39 release (2011/04/18)
+-----------------------------------------
+
+Tiny fix to printing merits so it ignore commendations.
+
+
+
+
+
+Version ClaSS-0.9.38 release (2011/04/10)
 -----------------------------------------
 
 Experimental change to xmlreader and clean_text to handle old reports

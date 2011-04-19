@@ -312,6 +312,7 @@ $string['spaces']='Spaces';
 $string['leavers']='Leavers';
 $string['transfersin']='Transfers in';
 $string['transfersout']='Transfers out';
+$string['transfersprevious']='Transfers last year';
 $string['leaverssince']='Leavers this year';
 $string['leaversprevious']='Leavers last year';
 $string['leaverstotal']='Total leavers';

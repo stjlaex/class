@@ -29,9 +29,7 @@ include('scripts/sub_action.php');
 			student ON student.id=merits.student_id WHERE
 			merits.date>='$startdate' AND merits.date<='$enddate' 
 			AND student.yeargroup_id LIKE '$yid' AND merits.subject_id LIKE '$bid'  
-			AND merits.activity LIKE '$activity' AND merits.year='$curryear' ORDER BY student.surname ;");
-
-
+			AND merits.activity LIKE '$activity' AND merits.year='$curryear' ORDER BY student.surname;");
 		}
 	elseif($fid!=''){
 		$d_m=mysql_query("SELECT * FROM merits JOIN
@@ -74,6 +72,7 @@ include('scripts/sub_action.php');
 	$sids=array();
 	$range=0;
 	while($merit=mysql_fetch_array($d_m,MYSQL_ASSOC)){
+		$summary=array();
 		$sid=$merit['student_id'];
 		if(!in_array($sid,$sids)){
 			$sids[]=$sid;
