@@ -76,7 +76,7 @@ three_buttonmenu($extrabuttons,$book);
 <?php
 	$application_steps=array('EN','AP','AT','RE','CA','WL','ACP','AC');
 	foreach($application_steps as $enrolstatus){
-		print '<tr><td><input type="radio" name="enrolstatus" value="'.$enrolstatus.'">'.get_string(displayEnum($enrolstatus,'enrolstatus'),$book).'</input></td></tr>';
+		print '<tr><td><input type="checkbox" name="enrolstatuses[]" value="'.$enrolstatus.'">'.get_string(displayEnum($enrolstatus,'enrolstatus'),$book).'</input></td></tr>';
 		}
 ?>
 	  </table>
@@ -90,8 +90,9 @@ three_buttonmenu($extrabuttons,$book);
 <?php
 	$application_steps=array('C'=>'reenroling','P'=>'pending','L'=>'leavers');
 	foreach($application_steps as $value => $enrolstatus){
-		print '<tr><td><input type="radio" name="enrolstatus" value="'.$value.'">'.get_string($enrolstatus,$book).'</input></td></tr>';
+		print '<tr><td><input type="radio" name="enrolstatuses[]" value="'.$value.'">'.get_string($enrolstatus,$book).'</input></td></tr>';
 		}
+	print '<tr><td><input type="radio" name="enrolstatuses[]" value="uncheck" checked="yes">'.get_string('uncheck',$book).'</input></td></tr>';
 ?>
 	  </table>
 	</div>
@@ -99,12 +100,14 @@ three_buttonmenu($extrabuttons,$book);
 	<div class="center">
 	  <table class="listmenu">
 		<tr>
-		<th colspan="2"><?php print_string('enrolments',$book);?></th>
+		<th colspan="3"><?php print_string('enrolments',$book);?></th>
 		</tr>
 		<tr>
 <?php
 		print '<td><input type="radio" name="enroldate" value="start">'.get_string('schoolstartdate',$book).'</input></td>';
 		print '<td><input type="radio" name="enroldate" value="leave">'.get_string('schoolleavingdate',$book).'</input></td>';
+		print '<td><input type="radio" name="enroldate" value="uncheck" checked="yes">'.get_string('uncheck',$book).'</input></td>';
+
 ?>
 		</tr>
 		<tr>

@@ -1037,7 +1037,8 @@ function update_mark_score($mid,$sid,$score){
 					 mark_id, student_id) VALUES
 					('$val',  '$mid', '$sid')")){}
 			else{mysql_query("UPDATE score SET
-					$field='$val' WHERE mark_id='$mid' AND student_id='$sid'");}
+					$field='$val' WHERE mark_id='$mid' AND student_id='$sid';");}
+
 			}
 		}
 	}
@@ -1117,7 +1118,7 @@ function update_profile_score($rid,$sid,$bid,$pid,$cat,$catdefs,$rating_name){
  */
 function get_assessment_mid($eid,$crid,$bid,$pid=''){
 	if(mysql_query("CREATE TEMPORARY TABLE assmids (SELECT DISTINCT mark_id FROM eidmid 
-				JOIN mark ON mark.id=eidmid.mark_id WHERE mark.assessment='yes' AND
+				JOIN mark ON mark.id=eidmid.mark_id WHERE (mark.assessment='yes' OR mark.assessment='other') AND
 				mark.component_id='$pid' AND eidmid.assessment_id='$eid');")){}
 	else{print 'Failed!<br />'; $error=mysql_error(); print $error.'<br />';}
 	if(mysql_query("CREATE TEMPORARY TABLE classmids (SELECT

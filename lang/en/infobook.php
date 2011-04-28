@@ -25,6 +25,7 @@ $string['sms']='SMS Text';
 $string['enrolmentnumber']='Enrolment number';
 $string['enrolmentyear']='Year of enrolment';
 $string['enrolmentnotes']='Enrolment notes';
+$string['enrolyeargroup']='Prospective Year Group';
 $string['schoolleavingdate']='School leaving date';
 $string['parttime']='Part-time';
 $string['modeoftransport']='Mode of transport';

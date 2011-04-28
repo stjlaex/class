@@ -159,6 +159,11 @@ function fetchStudent_singlefield($sid,$tag){
 		$Student[$tag]=array('label'=>'',
 							 'value'=>''.get_age($dob));
 		}
+	elseif($tag=='EnrolmentYearGroup'){
+		$Enrolment=fetchEnrolment($sid);
+		$Student[$tag]=array('label'=>'course',
+							 'value'=>''.$Enrolment['YearGroup']['value']);
+		}
    	elseif($tag=='Course'){
 		$courses='';
 		$crids=list_student_courses($sid);

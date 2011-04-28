@@ -48,6 +48,7 @@ $string['surname']='Surname';
 $string['thanks']='Thanks!';
 $string['yeargroup']='Year group';
 $string['checkall']='Check all';
+$string['uncheck']='Not selected';
 $string['tracking']='Tracking';
 $string['comments']='Comments';
 $string['incidents']='Incidents';

@@ -78,7 +78,10 @@ if(isset($_POST['extracol']) and $_POST['extracol']=='yes'){
 /* Approximate to saving 40% of table width for fixed columns. */
 $displayfields_width=60/$displayfields_no.'%';
 
-$EnrolAssDefs=(array)fetch_enrolmentAssessmentDefinitions();
+/* Include any general assessments plus their re-enrolment status for next year. */
+$enrolyear=get_curriculumyear()+1;
+$ReenrolAssDefs=fetch_enrolmentAssessmentDefinitions('','RE',$enrolyear);
+$EnrolAssDefs=array_merge(fetch_enrolmentAssessmentDefinitions(),$ReenrolAssDefs); 
 if(sizeof($EnrolAssDefs)>0){
 	foreach($EnrolAssDefs as $AssDef){
 		$extra_studentfields['Assessment'.$AssDef['id_db']]=$AssDef['Description']['value'];

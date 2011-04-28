@@ -168,6 +168,11 @@ elseif($sub=='Submit'){
 		$field_no=$infofields['formerupn'];
 		$formerupn=$student[$field_no];
 		$d_s=mysql_query("SELECT student_id FROM info WHERE formerupn='$formerupn' AND formerupn!='';");
+		/**
+		 * TODO: allow option to use of the class id for identifying sids during import
+		 */
+		//$d_s=mysql_query("SELECT id FROM student WHERE id='$formerupn' AND id!='';");
+
 		if(mysql_num_rows($d_s)==0 or $formerupn=='' or $formerupn==' ' or mysql_num_rows($d_s)>1){
 			mysql_query("INSERT INTO student SET surname='', forename='';");
 			$new_sid=mysql_insert_id();

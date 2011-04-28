@@ -448,11 +448,11 @@ function checkRadioIndicator(inputObj){
 	var inputval=inputObj.value;
 	var radioObjs=document.getElementsByName(inputname);
 	for(var c=0;c<radioObjs.length;c++){
-		if(radioObjs[c].value==inputval){
+		if(radioObjs[c].value==inputval && inputval!="uncheck"){
 			if(inputval=="-1"){var class="hilite";}
 			else if(inputval=="0"){var class="pauselite";}
 			else if(inputval=="1"){var class="golite";}
-			else{class="checked";}
+			else {class="checked";}
 			radioObjs[c].parentNode.setAttribute("class",class);
 			}
 		else{

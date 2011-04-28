@@ -885,6 +885,7 @@ function getEnumArray($field_name){
 						'EnrolNumber'=>'enrolmentnumber',
 						'EnrolmentNotes'=>'enrolmentnotes',
 						'EnrolmentStatus'=>'enrolstatus',
+						'EnrolmentYearGroup'=>'enrolyeargroup',
 						'Siblings'=>'siblings',
 						'StaffChild'=>'staffchild',
 						'EntryDate'=>'schoolstartdate',

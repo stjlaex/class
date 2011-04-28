@@ -6,24 +6,29 @@
 
 if(isset($_POST['secids'])){$secids=(array)$_POST['secids'];}
 if(isset($_POST['yids'])){$yids=(array)$_POST['yids'];}else{$yids=array();}
-if(isset($_POST['listtype'])){$listtype=$_POST['listtype'];}else{$listtype='year';}
-if(isset($_POST['enrolstatus'])){$enrolstatus=$_POST['enrolstatus'];}
-if(isset($_POST['enroldate'])){$enroldate=$_POST['enroldate'];}
+//if(isset($_POST['listtypes'])){$listtypes=$_POST['listtypes'];}else{$listtypes[]='year';}
+if(isset($_POST['enrolstatuses']) and $_POST['enrolstatuses'][0]!='uncheck'){$enrolstatuses=(array)$_POST['enrolstatuses'];}
+if(isset($_POST['enroldate']) and $_POST['enroldate']!='uncheck'){$enroldate=$_POST['enroldate'];}
 
+$listtypes=array();
 
-if(isset($enrolstatus)){
+if(isset($enrolstatuses)){
 	$enrolyear=get_curriculumyear()+1;
-	if($enrolstatus=='EN'){$listtype='enquired';}
-	elseif($enrolstatus=='AC'){$listtype='accepted';}
-	elseif($enrolstatus=='C' or $enrolstatus=='P' or $enrolstatus=='L'){
-		$listtype='year';
-		$AssDefs=fetch_enrolmentAssessmentDefinitions('','RE',$enrolyear);
-		$reenrol_eid=$AssDefs[0]['id_db'];
+	foreach($enrolstatuses as $enrolstatus){
+		if($enrolstatus=='EN'){$listtypes[]='enquired';}
+		elseif($enrolstatus=='AC'){$listtypes[]='accepted';}
+		elseif($enrolstatus=='C' or $enrolstatus=='P' or $enrolstatus=='L'){
+			$listtypes[]='year';
+			$AssDefs=(array)fetch_enrolmentAssessmentDefinitions('','RE',$enrolyear);
+			$reenrol_eid=$AssDefs[0]['id_db'];
+			}
+		else{$listtypes[]='applied';}
 		}
-	else{$listtype='applied';}
-
 	}
-	
+else{
+	$listtypes[]='year';
+	}
+
 /* First list the yeargroups to search in yids*/
 if(isset($secids)){
 	$yids=array();
@@ -87,16 +92,20 @@ if(isset($enroldate)){
 
 	}
 else{
-	foreach($yids as $index => $yid){
-		if($listtype!='year'){
-			$com=array('id'=>'','type'=>$listtype, 
-					   'name'=>$enrolstatus.':'.$yid,'year'=>$enrolyear);
+	foreach($yids as $yid){
+		foreach($listtypes as $index => $listtype){
+			trigger_error($yid.' : '.$enrolstatuses[$index],E_USER_WARNING);
+			if($listtype!='year'){
+				$com=array('id'=>'','type'=>$listtype, 
+						   'name'=>$enrolstatuses[$index].':'.$yid,'year'=>$enrolyear);
+				}
+			else{
+				$com=array('id'=>'','type'=>$listtype,'name'=>$yid);
+				}
+			$yearstudents=(array)listin_community($com);
+			
+			$students=array_merge($students,$yearstudents);
 			}
-		else{
-			$com=array('id'=>'','type'=>$listtype,'name'=>$yid);
-			}
-		$yearstudents=(array)listin_community($com);
-		$students=array_merge($students,$yearstudents);
 		}
 	}
 

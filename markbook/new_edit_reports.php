@@ -114,7 +114,7 @@ three_buttonmenu($extrabuttons,$book);
 	 * at the same time store information in $inorders[] for use in the action page. 
 	 */
    	$inasses=array();
-	while(list($index,$AssDef)=each($AssDefs)){
+	foreach($AssDefs as $AssDef){
 		$eid=$AssDef['id_db'];
 		$grading_grades=$AssDef['GradingScheme']['grades'];
 		$ass_compstatus=$AssDef['ComponentStatus']['value'];
@@ -139,7 +139,7 @@ three_buttonmenu($extrabuttons,$book);
 				$strands[]=array('id'=>$pid);
 				}
 			}
-		while(list($index,$strand)=each($strands)){
+		foreach($strands as $strand){
 			/* Need to identify the mid (if one exists) that is related to 
 			 * this assessment for updating scores in the action page.
 			 */
