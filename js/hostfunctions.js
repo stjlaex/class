@@ -128,7 +128,9 @@ function selerySwitch(servantclass,fieldvalue){
 //  displays the cover or login page respectively
 function loadLogin(page){
 	window.frames["viewlogbook"].location.href="logbook/exit.php";
-	window.frames["viewlogbook"].location.href=page+".php";
+	//alert(page);
+	setTimeout(window.frames["viewlogbook"].location.href=page+".php",100);
+	//window.frames["viewlogbook"].location.href=page+".php";
 	document.getElementById("viewlogbook").style.zIndex="100";
 	document.getElementById("viewlogbook").focus();
 	}

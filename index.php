@@ -30,6 +30,11 @@
 require_once('../school.php');
 require_once('classdata.php');
 require_once('lib/include.php');
+/* Just if last logout wasn't clean. */
+$past=time()-7200;
+foreach($_COOKIE as $key=>$value){setcookie( $key, $value, $past, '/' );}
+session_unset();
+session_destroy();
 $books=$CFG->books;
 $currentlang=current_language();
 print '<?xml version="1.0" encoding="utf-8"?'.'>';

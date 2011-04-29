@@ -138,7 +138,7 @@ three_buttonmenu();
 <br />
 <?php
 	$buttons=array();
-	$buttons['new']=array('title'=>'new','name'=>'sub','value'=>$newcomtype);
+	$buttons['new']=array('title'=>'new','name'=>'new','value'=>$newcomtype);
 	all_extrabuttons($buttons,'infobook','processContent(this)')
 ?>
 </td>

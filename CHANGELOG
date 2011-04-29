@@ -11,6 +11,10 @@ Improved custom groups search to allow multiple enrolstatuses.
 
 The js for checkRadioIndicator now recognises an uncheck option.
 
+Fixed long standing issue deleting cookies for not cleanly logged sessions.
+
+Fixed feetypes in student clubs.
+
 
 Version ClaSS-0.9.38 release (2011/04/10)
 -----------------------------------------
