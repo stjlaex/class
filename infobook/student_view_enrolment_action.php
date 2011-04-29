@@ -85,7 +85,7 @@ if($sub=='Submit'){
 		$score=array('result'=>$result,'value'=>$scorevalue,'date'=>$todate);
 		update_assessment_score($eid,$sid,'G','',$score);
 		/* Option to automatically flag student as SEN */
-		trigger_error('SEN:'.$result.':'.$scorevalue,E_USER_WARNING);
+		//trigger_error('SEN:'.$result.':'.$scorevalue,E_USER_WARNING);
 		if($CFG->enrol_assess_sen!='' and $CFG->enrol_assess_sen==$result){
 			mysql_query("UPDATE info SET sen='Y' WHERE student_id='$sid';");
 			$todate=$Enrolment['EntryDate']['value'];

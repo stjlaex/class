@@ -21,19 +21,18 @@ if($sub=='Submit'){
 		if(isset($_POST[$comid.'fee'.$sid]) and $_POST[$comid.'fee'.$sid]!=$com['special']){
 			$fee=$_POST[$comid.'fee'.$sid];
 			mysql_query("UPDATE comidsid SET special='$fee' WHERE community_id='$comid' AND student_id='$sid';");
-
 			}
 		}
 	}
 
 
 if($newcomid!=''){
-	$newcomtype=$sub;
+	//$newcomtype=$_POST['new'];
 	$enddate='0000-00-00';
 	$startdate=date('Y-m-d');
 	/*TODO: allowing setting of joining and leaving dates for clubs. */
 	//if(isset($_POST['date0'])){$startdate=$_POST['date0'];}else{$startdate=date('Y-m-d');}
-	$com=array('type'=>$newcomtype,'id'=>$newcomid);
+	$com=array('id'=>$newcomid);
 	set_community_stay($sid,$com,$startdate,$enddate);
 	}
 
