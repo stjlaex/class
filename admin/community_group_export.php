@@ -56,12 +56,14 @@ $todate=date('Y-m-d');
 		$rown=1;
 		foreach($comids as $comid){
 			$com=(array)get_community($comid);
-			/* all students who joined the community after startdate and before enddate*/
+			/* All students who are current members and who joined the
+			 * community before startdate and left after enddate.
+			 */
 			/* TODO: add these form values to community_group */ 
-			if(isset($_POST['enroldate1'])){$startdate=$_POST['enroldate1'];}else{$startdate='2011-01-01';}
-			if(isset($_POST['enroldate2'])){$enddate=$_POST['enroldate2'];}else{$enddate='';}
+			if(isset($_POST['date0'])){$startdate=$_POST['date0'];}else{$startdate='';}
+			if(isset($_POST['date1'])){$enddate=$_POST['date1'];}else{$enddate='';}
 			//$students=(array)listin_community_new($com,$startdate,$enddate);
-			$students=(array)listin_community($com);
+			$students=(array)listin_community($com,$startdate,$enddate);
 
 			/*cycle through the student rows*/
 			foreach($students as $student){

@@ -193,7 +193,7 @@ function list_student_journey_bookings($sid,$date,$day='%',$direction='%'){
 						ORDER BY b.startdate DESC, b.enddate DESC, b.day ASC;");
 	while($b=mysql_fetch_array($d_b,MYSQL_ASSOC)){
 		$bookings[]=$b;
-		if($sid==617){trigger_error($sid.' : '.$b['bus_id'].' : '.$b['startdate'].' '.$b['enddate'],E_USER_WARNING);}
+		//if($sid==617){trigger_error($sid.' : '.$b['bus_id'].' : '.$b['startdate'].' '.$b['enddate'],E_USER_WARNING);}
 		}
 
 	return $bookings;
@@ -237,7 +237,8 @@ function list_bus_journey_students($busname,$date='',$dayno=1){
 
 
 /**
- * Return a booking
+ *
+ * Returns a single booking and its associated journey for a given booking_id. 
  * 
  * @param integer $bookingid
  * @return array

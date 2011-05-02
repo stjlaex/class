@@ -150,10 +150,13 @@ function fetchAttendances($sid,$startday=0,$nodays=7){
 
 /**
  *
+ * Returns a single attendance record for a single sid for the event
+ * identified by eveid or the current event if none specified.
  *
  * @param integer sid
  * @param integer $eveid
  * @return array
+ *
  */
 function fetchcurrentAttendance($sid,$eveid=''){
 	if($eveid==''){
@@ -195,6 +198,55 @@ function fetchcurrentAttendance($sid,$eveid=''){
 
 
 /**
+ *
+ *
+ * @param integer sid
+ * @param integer $eveid
+ * @return array
+ *
+ */
+function fetchbookedAttendance($sid,$eveid=''){
+	if($eveid==''){
+		$secid=get_student_section($sid);
+		$event=get_currentevent($secid);
+		$eveid=$event['id'];
+		}
+	$Attendance=array();
+
+	$bookings=(array)list_student_attendance_bookings($sid,$date,$day='%');
+
+	if($eveid!=''){
+
+		$a=mysql_fetch_array($d_a,MYSQL_ASSOC);
+		if(mysql_num_rows($a)>0){
+			$Attendance['id_db']=$a['id'];
+			$Attendance['Date']=array('label'=>'date', 
+									  'value'=>''.$a['date']);
+			$Attendance['Session']=array('label'=>'session',
+										 'value'=>''.$a['session']);
+			$Attendance['Period']=array('label'=>'period',
+										'value'=>''.$a['period']);
+			$Attendance['Status']=array('label'=>'attendance',
+										'value'=>''.$a['status']);
+			$Attendance['Code']=array('label'=>'code',
+									  'value'=>''.$a['code']);
+			$Attendance['Late']=array('label'=>'late',
+									  'value'=>''.$a['late']);
+			$Attendance['Comment']=array('label'=>'comment',
+										 'value'=>''.$a['comment']);
+			$Attendance['Logtime']=array('label'=>'time',
+										 'value'=>''.$a['logtime']);
+			}
+		else{
+			$Attendance['id_db']=-1;
+			}
+		}
+	return nullCorrect($Attendance);
+	}
+
+
+/**
+ *
  * Given an event_id it returns the xml_array for the event.
  * An event does not neccessarily have to be an attendance event and
  * this is therefore not really exclusive to attendnace but... 
@@ -684,4 +736,35 @@ function list_events($startdate,$enddate,$session='',$period='0'){
 
 	return $events;
 	}
+
+
+/**
+ *
+ * Returns all attendance bookings for a sid on a given date
+ *
+ * @param integer $sid
+ * @param date $date
+ * @param enum $dayb
+ * @return array
+ *
+ */
+function list_student_attendance_bookings($sid,$date,$day='%'){
+	$bookings=array();
+
+	/* The most recent (specific) date takes precedence so only use the first two returned */
+	$d_b=mysql_query("SELECT b.id, b.journey_id, b.direction, b.startdate, b.enddate, b.day, b.comment 
+						FROM attendance_booking AS b 
+						WHERE b.student_id='$sid' AND b.startdate<='$date' 
+						AND (b.enddate>='$date' OR b.enddate='0000-00-00') AND (b.day LIKE '$day' OR b.day='%') 
+						ORDER BY b.startdate DESC, b.enddate DESC, b.day ASC;");
+	while($b=mysql_fetch_array($d_b,MYSQL_ASSOC)){
+		$bookings[]=$b;
+		//if($sid==617){trigger_error($sid.' : '.$b['bus_id'].' : '.$b['startdate'].' '.$b['enddate'],E_USER_WARNING);}
+		}
+
+	return $bookings;
+	}
+
+
+
 ?>

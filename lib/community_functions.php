@@ -250,9 +250,10 @@ function listin_union_communities($community1,$community2){
 
 /**
  *
- * Lists all sids who are current members of a commmunity.
- * With $stardate set all students who joined after that date
- * and with $enddate set lists all student members in that period.
+ * Lists all sids who are current members of a commmunity.  With
+ * $stardate set all students who joined before that date and with
+ * $enddate set lists all sids who were members for that whole period
+ * ie. joined before startdate and left after enddate.
  *
  *	@param array $community
  *	@param date $enddate

@@ -130,7 +130,7 @@ while(list($cindex,$catdef)=each($catdefs)){
 	<?php three_buttonmenu(); ?>
 
 <div id="heading">
-	<label><?php print get_string('configure',$book).' '.get_string('categories',$book); ?></label>
+	<label><?php print get_string('configure','reportbook').' '.get_string('categories','reportbook'); ?></label>
 </div>
 
 	
@@ -141,9 +141,9 @@ while(list($cindex,$catdef)=each($catdefs)){
 	  <div class="center">
 		<table class="listmenu">
 		  <th>&nbsp;</th>
-		  <th><?php print_string($Categoryblank['Name']['label'],'report');?></th>
-		  <th><?php print_string($Categoryblank['Subject']['label'],'report');?></th>
-		  <th><?php print_string($Categoryblank['Stage']['label'],'report');?></th>
+		  <th><?php print_string($Categoryblank['Name']['label'],'reportbook');?></th>
+		  <th><?php print_string($Categoryblank['Subject']['label'],'reportbook');?></th>
+		  <th><?php print_string($Categoryblank['Stage']['label'],'reportbook');?></th>
 <?php
 
 		$catno=sizeof($Categorys['Category']);
@@ -160,7 +160,7 @@ while(list($cindex,$catdef)=each($catdefs)){
 ?>
 		  <tr>
 			<td><?php print $catn;?><input type="hidden" name="catid<?php print $catn;?>" value="<?php print $Category['id_db']; ?>" /></td>
-			<td><?php $tab=xmlelement_input($Category['Name'],$catn,$tab,'report');?></td>
+			<td><?php $tab=xmlelement_input($Category['Name'],$catn,$tab,'reportbook');?></td>
 			<td>
 <?php 
 			if($Category['Subject']['value']!=''){print $Category['Subject']['value'];}
@@ -174,7 +174,7 @@ while(list($cindex,$catdef)=each($catdefs)){
 			if($Category['Stage']['value_db']!=''){$newstage=$Category['Stage']['value_db'];}
 			else{$newstage=$stage;}
 			include('../../scripts/set_list_vars.php');
-			list_select_list($stages,$listoptions,$book);
+			list_select_list($stages,$listoptions,'reportbook');
 			unset($listopions);
 ?>
 			</td>

@@ -11,6 +11,10 @@ if(isset($_GET['sids'])){$comids=(array)$_GET['sids'];}else{$comids=array();}
 if(isset($_POST['sids'])){$comids=(array)$_POST['sids'];}
 if(isset($_GET['newcomtype'])){$newcomtype=$_GET['newcomtype'];}else{$newcomtype='';}
 if(isset($_POST['newcomtype'])){$newcomtype=$_POST['newcomtype'];}
+if(isset($_GET['date0'])){$startdate=$_GET['date0'];}else{$startdate='';}
+if(isset($_POST['date0'])){$startdate=$_POST['date0'];}
+if(isset($_GET['date1'])){$enddate=$_GET['date1'];}else{$enddate='';}
+if(isset($_POST['date1'])){$enddate=$_POST['date1'];}
 
 $printdate=date('Y-m-d');
 $today=date('N',strtotime($printdate));
@@ -34,7 +38,8 @@ else{
 		if($comid!=''){
 
 			$com=get_community($comid);
-			$students=(array)listin_community($com);
+			$students=(array)listin_community($com,$startdate,$enddate);
+			//$students=(array)listin_community($com);
 			$Group=array();
 			$Group['Name']=array('value'=>$com['name']);
 			$Group['Day']=array('value'=>get_string(displayEnum($today,'dayofweek'),$book));

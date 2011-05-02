@@ -22,7 +22,7 @@ $extrabuttons['groups']=array('name'=>'current',
 							  'onclick'=>'checksidsAction(this)');
 $extrabuttons['export']=array('name'=>'current','value'=>'community_group_export.php');
 $extrabuttons['createnewgroup']=array('name'=>'current','value'=>'community_group_rename.php');
-three_buttonmenu($extrabuttons);
+two_buttonmenu($extrabuttons);
 ?>
   <div class="content">
 	  <form id="formtoprocess" name="formtoprocess" method="post"
@@ -85,6 +85,25 @@ three_buttonmenu($extrabuttons);
 	</div>
 
 
+	<fieldset class="right">
+		<div style="float:left;">
+		  <label><?php print_string('start',$book);?></label>
+		  <div style="float:left;">
+			<?php $required='no'; include('scripts/jsdate-form.php');?>
+		  </div>
+		</div>
+<br />
+		<div style="float:left;">
+		  <label><?php print_string('end',$book);?></label>
+		  <div style="float:left;">
+			<?php $required='no'; include('scripts/jsdate-form.php');?>
+		  </div>
+		</div>
+	</fieldset>
+
+
+
+
 	  <input type="hidden" name="current" value="<?php print $action;?>" />
 	  <input type="hidden" name="choice" value="<?php print $choice;?>" />
 	  <input type="hidden" name="cancel" value="<?php print '';?>" />
@@ -94,6 +113,8 @@ three_buttonmenu($extrabuttons);
 	<params>
 	  <checkname>comids</checkname>
 	  <selectname>newcomtype</selectname>
+	  <selectname>date0</selectname>
+	  <selectname>date1</selectname>
 	  <transform>group_list</transform>
 	</params>
   </div>
@@ -101,6 +122,8 @@ three_buttonmenu($extrabuttons);
 	<params>
 	  <checkname>comids</checkname>
 	  <selectname>newcomtype</selectname>
+	  <selectname>date0</selectname>
+	  <selectname>date1</selectname>
 	  <transform>group_list_forms</transform>
 	</params>
   </div>

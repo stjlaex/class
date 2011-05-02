@@ -166,22 +166,21 @@ if($community['type']!='class'){
 				print $Event['Period']['value'].'<br />';	
 				}
 
-if($_SESSION['worklevel']>-1 or $seleveid==$Event['id_db']){
+			if($_SESSION['worklevel']>-1 or $seleveid==$Event['id_db']){
 
 ?>
 			<input type="radio" name="checkeveid" value="<?php print $Event['id_db'];?>" />
 <?php
-}
+				}
 ?>
 			</th>
 <?php
 			}
 		}
-
 ?>
 		  <th class="edit">
 <?php
-if($nodays==1 or $_SESSION['role']=='office' or $_SESSION['role']=='admin'){
+	if($nodays==1 or $_SESSION['role']=='office' or $_SESSION['role']=='admin'){
 ?>
 <?php print_string('checkall',$book);?>
 
@@ -192,13 +191,13 @@ if($nodays==1 or $_SESSION['role']=='office' or $_SESSION['role']=='admin'){
 				  <option value="a" onclick="setAll('a')"><?php print_string('absent',$book);?></option>
 				</select>
 <?php
-}
+		}
 ?>
 		  </th>
 		</tr>
 <?php
 	$rown=1;
-	while(list($index,$student)=each($students)){
+	while(list($sindex,$student)=each($students)){
 		$sid=$student['id'];
 		$Student=fetchStudent_short($sid);
 		$Attendances=(array)fetchAttendances($sid,$startday,$nodays);
@@ -258,8 +257,15 @@ if($nodays==1 or $_SESSION['role']=='office' or $_SESSION['role']=='admin'){
 <?php
 			$cell='';
 			$des='';
+			unset($Attendance);
 			if(array_key_exists($eveid,$Attendances['eveindex'])){
 				$Attendance=$Attendances['Attendance'][$Attendances['eveindex'][$eveid]];
+				}
+			else{
+				$BookedAttendance=fetchbookedAttendance($sid);
+				if($BookedAttendance['id_db']!=-1){$Attendance=$BookedAttendance;}
+				}
+			if(isset($Attendance)){
 				$attvalue=$Attendance['Status']['value'];
 				$attcode=$Attendance['Code']['value'];
 				$attlate=$Attendance['Late']['value'];
