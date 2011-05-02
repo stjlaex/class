@@ -270,17 +270,18 @@ if($community['type']!='class'){
 				$attcode=$Attendance['Code']['value'];
 				$attlate=$Attendance['Late']['value'];
 				$attcomm=$Attendance['Comment']['value'];
-				$atttime=$Attendance['Logtime']['value'];
+				if($Attendance['Logtime']['value']!=''){$atttime=date('H:i',$Attendance['Logtime']['value']);}
+				else{$atttime='';}
 				if($attvalue=='a' and ($attcode==' ' or $attcode=='O')){
 					$cell='title="" ><span title="? : <br />'. 
-							date('H:i',$atttime).' '.$attcomm.'" >';
+							$atttime.' '.$attcomm.'" >';
 					$cell.='<img src="images/ostroke.png" /></span>';
 					}
 				elseif($attvalue=='a' and $attcode!=' ' and $attcode!='O'){
 					$des=displayEnum($attcode,'absencecode');
 					$des=get_string($des,'register');
 					$cell='title="" ><span title="'.$attcode .': '. $des
-							.'<br />'.date('H:i',$atttime).' '.$attcomm.'" >';
+							.'<br />'.$atttime.' '.$attcomm.'" >';
 					$cell.=' &nbsp '.$attcode.'</span>';
 					if($attcode=='U' or $attcode=='L' or $attcode=='UB' or $attcode=='UA'){$tallys[$eveid]++;}
 					}

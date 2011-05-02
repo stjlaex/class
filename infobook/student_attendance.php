@@ -49,6 +49,69 @@ $reports[]=array('title'=>'Previous academic year','url'=>$url);
   </div>
   <div class="content">
 
+
+
+	  <fieldset class="center listmenu">
+		<legend><?php print get_string('absent','register');?></legend>
+		<div class="center">
+		<table>
+		<thead>
+		  <tr>
+			<th colspan="4"> </th>
+
+<?php
+	$days=getEnumArray('dayofweek');
+	$todate=date('Y-m-d');
+	$today=date('N');
+	$dates=array();
+	foreach($days as $day => $dayname){
+		$daydiff=$day-$today;
+		$date=date('Y-m-d',strtotime($daydiff.' day'));
+		$dates[$day]=$date;
+		if($todate==$date){$colclass='style="background-color:#cfcfcf;"';}
+		else{$colclass='';}
+		print '<th '.$colclass.'>'.get_string($dayname,$book).'<br />'.$date.'</th>';
+		}
+?>
+		  </tr>
+		</thead>
+<?php
+	print '<tr id="sid-'.$sid.'">';
+   	print '<td>'.'<input type="checkbox" name="sids[]" value="'.$sid.'" />'.$rown++.'</td>';
+   	print '<td colspan="2" class="student"><a target="viewinfobook" onclick="parent.viewBook(\'infobook\');" href="infobook.php?current=student_view.php&sid='.$sid.'">'.$Student['Surname']['value'].', '. $Student['Forename']['value'].'</a></td>';
+   	print '<td>'.$Student['RegistrationGroup']['value'].'</td>';
+		foreach($days as $day=>$dayname){
+			$bookings=array();
+			$ambookings=(array)list_student_attendance_bookings($sid,$dates[$day],$day,'AM');
+			$pmbookings=(array)list_student_attendance_bookings($sid,$dates[$day],$day,'PM');
+			$bookings=array_merge($ambookings,$pmbookings);
+			$divam='';$divpm='';
+			$openId=$sid.'-'.$day;
+			foreach($bookings as $b){
+				if($b['session']=='AM'){$divname='divam';$divclass='pauselite';}
+				else{$divname='divpm';$divclass='pauselite';}
+				if($$divname==''){
+					$divaction='onClick="clickToEditAttendance('.$sid.',\''.$dates[$day].'\',\''.$b['id'].'\',\''.$openId.'\');"';
+					if($b['comment']!=''){$$divname='<span title="'.$b['comment'].'">';}
+					$$divname.='<div '.$divaction.' class="'.$divclass.' center" style="text-align:center;font-weight:600;">'.$b['code'].'</div>';
+					if($b['comment']!=''){$$divname.='</span>';}
+					}
+				}
+
+			if($divam==''){$divam='<div onClick="clickToEditAttendance('.$sid.',\''.$dates[$day].'\',\'-1\',\''.$openId.'\');" class="lowlite">'.'ADD'.'</div>';}
+			if($divpm==''){$divpm='<div onClick="clickToEditAttendance('.$sid.',\''.$dates[$day].'\',\'-2\',\''.$openId.'\');" class="lowlite">'.'ADD'.'</div>';}
+			print '<td class="clicktoaction">'.$divam . $divpm.'</td>';
+			}
+		print '</tr>';
+?>
+		</table>
+		</div>
+	  </fieldset>
+
+
+
+
+
 	<fieldset class="center divgroup">
 	  <legend>
 			<?php print get_string('attendance','reportbook'). ' '.get_string('reports',$book);?>
@@ -59,18 +122,14 @@ $reports[]=array('title'=>'Previous academic year','url'=>$url);
 	<div style="float:left;width:24%;margin:2px;">
 	  <table class="listmenu smalltable">
 		<tr>
-		  <td><h4>
-<?php
-print $report['title'];
-?>
-</h4>
+		  <td>
+			<h4> <?php print $report['title'];?></h4>
 		  </td>
 		  <td>
-		<button style="float:right;" title="<?php print_string('print');?>" 			 
+			<button style="float:right;" title="<?php print_string('print');?>" 			 
 			onclick="clickToPresent('reportbook','<?php print $report['url'];?>','attendance_summary')" >
-			<img src="images/printer.png" />
-		</button>
-	  </td>
+			<img src="images/printer.png" /></button>
+		  </td>
 		</tr>
 	  </table>
 	</div>

@@ -197,52 +197,6 @@ function fetchcurrentAttendance($sid,$eveid=''){
 
 
 
-/**
- *
- *
- * @param integer sid
- * @param integer $eveid
- * @return array
- *
- */
-function fetchbookedAttendance($sid,$eveid=''){
-	if($eveid==''){
-		$secid=get_student_section($sid);
-		$event=get_currentevent($secid);
-		$eveid=$event['id'];
-		}
-	$Attendance=array();
-
-	$bookings=(array)list_student_attendance_bookings($sid,$date,$day='%');
-
-	if($eveid!=''){
-
-		$a=mysql_fetch_array($d_a,MYSQL_ASSOC);
-		if(mysql_num_rows($a)>0){
-			$Attendance['id_db']=$a['id'];
-			$Attendance['Date']=array('label'=>'date', 
-									  'value'=>''.$a['date']);
-			$Attendance['Session']=array('label'=>'session',
-										 'value'=>''.$a['session']);
-			$Attendance['Period']=array('label'=>'period',
-										'value'=>''.$a['period']);
-			$Attendance['Status']=array('label'=>'attendance',
-										'value'=>''.$a['status']);
-			$Attendance['Code']=array('label'=>'code',
-									  'value'=>''.$a['code']);
-			$Attendance['Late']=array('label'=>'late',
-									  'value'=>''.$a['late']);
-			$Attendance['Comment']=array('label'=>'comment',
-										 'value'=>''.$a['comment']);
-			$Attendance['Logtime']=array('label'=>'time',
-										 'value'=>''.$a['logtime']);
-			}
-		else{
-			$Attendance['id_db']=-1;
-			}
-		}
-	return nullCorrect($Attendance);
-	}
 
 
 /**
@@ -748,23 +702,163 @@ function list_events($startdate,$enddate,$session='',$period='0'){
  * @return array
  *
  */
-function list_student_attendance_bookings($sid,$date,$day='%'){
+function list_student_attendance_bookings($sid,$date,$day='%',$attsession='%'){
 	$bookings=array();
 
 	/* The most recent (specific) date takes precedence so only use the first two returned */
-	$d_b=mysql_query("SELECT b.id, b.journey_id, b.direction, b.startdate, b.enddate, b.day, b.comment 
-						FROM attendance_booking AS b 
-						WHERE b.student_id='$sid' AND b.startdate<='$date' 
-						AND (b.enddate>='$date' OR b.enddate='0000-00-00') AND (b.day LIKE '$day' OR b.day='%') 
-						ORDER BY b.startdate DESC, b.enddate DESC, b.day ASC;");
+	$d_b=mysql_query("SELECT id, community_id, session, status, code, startdate, enddate, day, comment 
+						FROM attendance_booking  
+						WHERE student_id='$sid' AND session LIKE '$attsession' AND startdate<='$date' 
+						AND (enddate>='$date' OR enddate='0000-00-00') AND (day LIKE '$day' OR day='%') 
+						ORDER BY startdate DESC, enddate DESC, day ASC;");
 	while($b=mysql_fetch_array($d_b,MYSQL_ASSOC)){
 		$bookings[]=$b;
-		//if($sid==617){trigger_error($sid.' : '.$b['bus_id'].' : '.$b['startdate'].' '.$b['enddate'],E_USER_WARNING);}
 		}
 
 	return $bookings;
 	}
 
 
+
+/**
+ *
+ * Returns a single booking for a given booking_id. 
+ * 
+ * @param integer $bookingid
+ * @return array
+ *
+ */
+function get_attendance_booking($bookid){
+	$booking=array();
+
+	$d_b=mysql_query("SELECT id, code, session, status, startdate, enddate, day, comment 
+						FROM attendance_booking WHERE id='$bookid';");
+	$booking=mysql_fetch_array($d_b,MYSQL_ASSOC);
+
+	return $booking;
+	}
+
+/**
+ *
+ * @param array $booking
+ * @return
+ *
+ */
+function add_attendance_booking($sid,$date='',$attsession,$code,$dayrepeat='once',$comment=''){
+
+	if($date==''){$date=date('Y-m-d');}
+	$day=date('N',strtotime($date));
+	$newenddate=date('Y-m-d',strtotime($date.' -1 day'));
+
+	if($dayrepeat=='once'){$day=$day;$startdate=$date;$enddate=date('Y-m-d',strtotime($date.' +1 day'));}
+	elseif($dayrepeat=='weekly'){$day=$day;$startdate=$date;$enddate='0000-00-00';}
+	elseif($dayrepeat=='every'){$day='%';$startdate=$date;$enddate='0000-00-00';}
+
+
+	/* Find existing bookings which conflict with the new one and delete. */
+	$d_b=mysql_query("SELECT id, startdate, enddate, day FROM attendance_booking 
+						WHERE student_id='$sid' AND session='$attsession' 
+						AND ((startdate<='$startdate' AND (enddate>='$startdate' or enddate='0000-00-00'))
+						OR (startdate>='$startdate' AND (startdate<='$enddate' OR $enddate='0000-00-00')));");
+	while($oldb=mysql_fetch_array($d_b,MYSQL_ASSOC)){
+		$oldbookid=$oldb['id'];
+		if($dayrepeat=='once'){
+			if($oldb['startdate']==$startdate and $oldb['enddate']==$enddate and $oldb['day']==$day){
+				/*delete old*/
+				delete_attendance_booking($sid,$oldbookid);
+				}
+			}
+		elseif($dayrepeat=='weekly'){
+			if($oldb['enddate']=='0000-00-00' and $oldb['day']==$day){
+				/*update old enddate */
+				delete_attendance_booking($sid,$oldbookid,$newenddate);
+				}
+			}
+		elseif($dayrepeat=='every'){
+			if($oldb['enddate']=='0000-00-00' and $oldb['day']=='%'){
+				delete_attendance_booking($sid,$oldbookid,$newenddate);
+				}
+			}
+		}
+
+
+	mysql_query("INSERT INTO attendance_booking (student_id,status,session,code,day,startdate,enddate,comment) 
+					 VALUES ('$sid','a','$attsession','$code','$day','$startdate','$enddate','$comment');");
+
+
+	return;
+	}
+
+
+
+/**
+ *
+ * Will delete the booking specified by @bookid.
+ * With an endate given the booking won't be deleted but merely set to end at that date.
+ *
+ * @param integer sid
+ * @param integer bookid
+ * @param date newenddate
+ *
+ */
+function delete_attendance_booking($sid,$bookid,$newenddate=''){
+
+	if($newenddate==''){
+		mysql_query("DELETE FROM attendance_booking WHERE student_id='$sid' AND id='$bookid' LIMIT 1;");
+		}
+	else{
+		mysql_query("UPDATE attendance_booking SET enddate='$newenddate' WHERE id='$bookid';");
+		}
+
+	return;
+	}
+
+/**
+ *
+ *
+ * @param integer sid
+ * @param integer $eveid
+ * @return array
+ *
+ */
+function fetchbookedAttendance($sid,$eveid=''){
+	if($eveid==''){
+		$secid=get_student_section($sid);
+		$event=get_currentevent($secid);
+		$eveid=$event['id'];
+		}
+	$Attendance=array();
+
+	$bookings=(array)list_student_attendance_bookings($sid,$event['date'],$day='%',$event['session']);
+
+	if($eveid!=''){
+
+		/* The bookings must be sorted so that the first is always the highest priority. */
+		if(sizeof($bookings)>0){
+			$a=(array)$bookings[0];
+			$Attendance['id_db']=$a['id'];
+			$Attendance['Date']=array('label'=>'date', 
+									  'value'=>''.$event['date']);
+			$Attendance['Session']=array('label'=>'session',
+										 'value'=>''.$a['session']);
+			$Attendance['Period']=array('label'=>'period',
+										'value'=>'');
+			$Attendance['Status']=array('label'=>'attendance',
+										'value'=>''.$a['status']);
+			$Attendance['Code']=array('label'=>'code',
+									  'value'=>''.$a['code']);
+			$Attendance['Late']=array('label'=>'late',
+									  'value'=>'');
+			$Attendance['Comment']=array('label'=>'comment',
+										 'value'=>''.$a['comment']);
+			$Attendance['Logtime']=array('label'=>'time',
+										 'value'=>'');
+			}
+		else{
+			$Attendance['id_db']=-1;
+			}
+		}
+	return $Attendance;
+	}
 
 ?>

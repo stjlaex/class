@@ -4,8 +4,10 @@ Version ClaSS-0.9.40 release (2011/05/02)
 Start and end dates added to the community_group page to allow
 listing/exporting of group members in the defined date window.
 
-New db table for attendance_booking. Apply the patch.
+New db table for attendance_booking. Apply the patch!
 
+New set of attendance scripts to allow advance schedule of absences
+based on the same method as transport booking.
 
 
 

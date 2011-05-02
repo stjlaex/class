@@ -57,5 +57,7 @@ $string['inschool']='Present in school';
 $string['month']='Month';
 $string['numberofdays']='School days';
 $string['dailyaverage']='Daily average';
+$string['reason']='Reason';
+$string['']='';
 $string['']='';
 ?>

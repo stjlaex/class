@@ -53,19 +53,37 @@ function clickToEditTransport(sid,date,bookingid,openId){
 	openHelperWindow(helperurl,getvars);
 	}
 
-function closeTransportHelper(sid,date,openId){
+/* Opens the attendance booking edit window */
+function clickToEditAttendance(sid,date,bookingid,openId){
+	var helperurl="register/httpscripts/attendance_editor.php";
+	var getvars="sid="+sid+"&date="+date+"&bookingid="+bookingid+"&openid="+openId;
+	openHelperWindow(helperurl,getvars);
+	}
+
+/**/
+function closeAttendanceHelper(sid,date,openId){
 	if(openId!="-100"){
-		opener.updateTransportDisplay(sid,date,openId);
+		var container='sid-'+sid;
+		var script='attendance_display.php';
+		var url="register/httpscripts/" + script + "?uniqueid=" + escape(openId) +"&sid=" + sid + "&date=" + date;
+		opener.updateDisplay(container,url);
 		}
 	window.close();
 	}
 
-function updateTransportDisplay(sid,date,openId){
-	var container='sid-'+sid;
-	var script='transport_display.php';
-	var url="admin/httpscripts/" + script + "?uniqueid=" + escape(openId) +"&sid=" + sid + "&date=" + date;
-	if(document.getElementById(container)){
+function closeTransportHelper(sid,date,openId){
+	if(openId!="-100"){
+		var container='sid-'+sid;
+		var script='transport_display.php';
+		var url="admin/httpscripts/" + script + "?uniqueid=" + escape(openId) +"&sid=" + sid + "&date=" + date;
+		opener.updateDisplay(container,url);
+		}
+	window.close();
+	}
 
+function updateDisplay(container,url){
+
+	if(document.getElementById(container)){
 		xmlHttp.open("GET", url, true);
 		xmlHttp.onreadystatechange=function () {
 			if(xmlHttp.readyState==4){
@@ -84,8 +102,8 @@ function updateTransportDisplay(sid,date,openId){
 				}
 			}
 		xmlHttp.send(null);
-
 		}
+
 	}
 /*****/
 
