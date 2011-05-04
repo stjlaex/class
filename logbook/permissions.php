@@ -590,6 +590,14 @@ function update_user($user,$update='no',$short='class'){
 	$forename=$user['forename'];
 	$title=$user['title'];
 	$role=$user['role'];
+	$homephone=$user['homephone'];
+	$mobilephone=$user['mobilephone'];
+	$street=$user['street'];
+	$region=$user['region'];
+	$postcode=$user['postcode'];
+	$personalcode=$user['personalcode'];
+	$dob=$user['dob'];
+	$contractdate=$user['contractdate'];
 	if(isset($user['worklevel'])){
 		$worklevel=$user['worklevel'];
 		}
@@ -656,21 +664,24 @@ function update_user($user,$update='no',$short='class'){
 		  else{
 			mysql_query("UPDATE users SET
 				  surname='$surname', forename='$forename', title='$title',
-							email='$email', emailuser='$emailuser', emailpasswd='$emailpasswd', 
+					email='$email', emailuser='$emailuser', emailpasswd='$emailpasswd', 
 					role='$role', senrole='$senrole', medrole='$medrole', worklevel='$worklevel', nologin='$nologin',
-					firstbookpref='$firstbookpref' WHERE username='$username'");
+					firstbookpref='$firstbookpref' homephone='$homephone, mobilephone='$mobilephone', street='$street',
+					region='$region', postcode='$postcode', personalcode='$personalcode', dob='$dob', 
+					contractdate='$contractdate' WHERE username='$username';");
 			$result=$result.'Updated details for user '.$username;
 			}
 		}
 	else{
 		mysql_query("INSERT INTO users (username, passwd, forename,
-							surname, title,
-					email, emailuser, emailpasswd, role, nologin, worklevel,
-							senrole, medrole, firstbookpref) 
+					surname, title, email, emailuser, emailpasswd, role, nologin, worklevel,
+					senrole, medrole, firstbookpref, homephone, mobilephone, 
+					street, region, postcode, personalcode, dob, contractdate) 
 					VALUES ('$username', '$assword', '$forename',
 					 '$surname', '$title', '$email', '$emailuser', 
 						'$emailpasswd', '$role', '$nologin', '$worklevel',
-					   '$senrole', '$medrole', '$firstbookpref')");
+					   '$senrole', '$medrole', '$firstbookpref', '$homephone', '$mobilephone', '$street', '$region',
+						'$postcode', '$personalcode', '$dob', '$contractdate')");
 		$result=$result.'Username '.$username.' added.';
 		}
 
