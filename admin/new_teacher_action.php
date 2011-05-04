@@ -20,6 +20,13 @@ if($sub=='Submit'){
 			$user['title']=$d[3];
 			$user['email']=$d[4];
 			$user['role']=$d[5];
+			$user['personalcode']=$d[6];
+			$user['street']=$d[7];
+			$user['postcode']=$d[8];
+			$user['homephone']=$d[9];
+			$user['mobilephone']=$d[10];
+			$user['dob']=$d[11];
+			$user['contractdate']=$d[12];
 			$result[]=update_user($user,'no',$CFG->shortkeyword);
 			}
 	}

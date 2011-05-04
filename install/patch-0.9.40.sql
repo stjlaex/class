@@ -12,3 +12,11 @@ CREATE TABLE attendance_booking (
 	index			indexsidcomid (student_id,community_id),
 	primary key		(id)
 );
+ALTER TABLE users ADD homephone varchar(22) not null default '' AFTER nologin;
+ALTER TABLE users ADD mobilephone	varchar(22) not null default '' AFTER homephone;
+ALTER TABLE users ADD street		varchar(160) not null default '' AFTER mobilephone;
+ALTER TABLE users ADD region		varchar(160) not null default '' AFTER street;
+ALTER TABLE users ADD postcode		varchar(8) not null default '' AFTER region;
+ALTER TABLE users ADD personalcode	varchar(120) not null default '' AFTER postcode;
+ALTER TABLE users ADD dob			date not null default '0000-00-00' AFTER personalcode;
+ALTER TABLE users ADD contractdate  date not null default '0000-00-00' AFTER dob;
