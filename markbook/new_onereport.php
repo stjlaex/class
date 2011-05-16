@@ -136,7 +136,6 @@
 		if($reportdef['report']['addcomment']=='yes'){
 ?>
 	  <th><?php print_string('teachercomment');?>:</th>
-	  <td></td>
 	  <td id="icon<?php print $openId;?>" class="" colspan="<?php print $ass_colspan;?>">
 	  <div class="special"><?php print $Comment['Teacher']['value'];?></div><img class="clicktowrite" name="Write"  
 		  onClick="clickToWriteCommentNew(<?php print $sid.','.$rid.',\''.$bid.'\',\''.$pid.'\',\''.$entryn.'\',\''.$openId.'\'';?>);" 
@@ -184,14 +183,14 @@
 					$statementrating='';
 					}
 
-
+				$extra_colspan=$ass_colspan+1;
 				if($catdefs[$catindex]['subtype']!=''){$statementlabel=$statementrating.' '.'<label style="float:right;">'.get_subjectname($catdefs[$catindex]['subtype']).'</label><br />';}
 				else{$statementlabel='';}
-				print '<tr class="'.$rowclass.'" id="'.$openId.'-'.$rown++.'"><th></th>';
-				print '<td colspan="'.$ass_colspan.'"><div class="row" style="width:100%;"><p class="bigger">'
+				print '<tr class="'.$rowclass.'" id="'.$openId.'-'.$rown++.'"><td></td>';
+				print '<td colspan="'.$extra_colspan.'"><div class="row" style="width:100%;"><p class="bigger">'
 					.$statementlabel. $Statement['Value'].'</p></div></td></tr>';
 				reset($ratings);
-				print '<tr class="'.$rowclass.'" id="'.$openId.'-'.$rown++.'"><th></th><td colspan="'.$ass_colspan.'" class="boundary row">';
+				print '<tr class="'.$rowclass.'" id="'.$openId.'-'.$rown++.'"><th></th><td colspan="'.$extra_colspan.'" class="boundary row">';
 
 				/* Find any previously recorded value for this catid,
 				   make a first guess that they will have been
@@ -253,7 +252,7 @@
 			if($reportdef['report']['commentlength']=='0'){$commentlength='';}
 		    else{$commentlength=' maxlength="'.$reportdef['report']['commentlength'].'"';}
 			print '<tr class="'.$rowclass.'" id="'.$openId.'-'.$rown++.'" >';
-			print '<th></th><td colspan="'.$ass_colspan.'">';
+			print '<td></td><td colspan="'.$extra_colspan.'">';
 			print '<textarea '.$commentlength.' rows="1" cols="80" readonly="readonly" style="display:none;"';
 /*TODO: the xmlid must have the real entryn not the index!!!!*/
 			print 'onClick="clickToWriteCommentNew('.$sid.','.$rid.',\''.$bid.'\',\''.$pid.'\',\''.$entryn.'\',\''.$openId.'\');"'; 

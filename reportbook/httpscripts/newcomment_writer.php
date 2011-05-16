@@ -20,8 +20,8 @@ if(isset($_GET['openid'])){$openid=$_GET['openid'];}
 $StatementBank=array();
 if($rid!=-1){
 	$reportdef=fetch_reportdefinition($rid);
-	if($reportdef['report']['commentlength']=='0'){$commentlength='';}
-	else{$commentlength=' maxlength="'.$reportdef['report']['commentlength'].'"';}
+	if($reportdef['report']['commentlength']=='0'){$commentlength='';$maxtextlen=0;}
+	else{$commentlength=' maxlength="'.$reportdef['report']['commentlength'].'"';$maxtextlen=$reportdef['report']['commentlength'];}
 	$subs=(array)get_report_categories($rid,$bid,$pid,'sub');
 	/* This allows a comment to be split into sub-sections and each gets
 	 *  its own entry box. A special type of fixed sub-comment is not for
@@ -204,10 +204,10 @@ if($reportdef['report']['addcategory']=='yes'){
 ?>
 			</table>
 		</div>
-		<div style="height:<?php print $commentheight;?>px;">
 <?php
 	}
 ?>
+
 <?php
 if($subcomments_no==0){$subcomments[]['name']='Comment';$subcomments_no=1;}
 	$commentheight=($commentheight/$subcomments_no)-25*$subcomments_no;/*in px*/
@@ -220,18 +220,21 @@ if($subcomments_no==0){$subcomments[]['name']='Comment';$subcomments_no=1;}
 ?>
 
 		  <div class="center" style="border-top:solid 1px;">
-			<label style="left:right;background-color:#ffe;font-weight:600;padding:2px,6px;">
+			<label style="float:left;background-color:#ffe;font-weight:600;padding:2px 6px;">
 			  <?php print $commentlabel;?>
-			</label><br />
+			</label>
+    		  <input id="textlen" name="textlen" size="3" type="input" readonly="readonly" tabindex="10000"  style="float:right;padding:0px 2px;margin:0 28px 0 0;"/>
+			<br />
 			<textarea id="incom<?php print $c;?>" class="<?php print $htmleditor;?>"
 			  style="height:<?php print $commentheight-20;?>px;"  
-			  <?php print $commentlength;?> tabindex="<?php print $tabindex++;?>"  
+			  tabindex="<?php print $tabindex++;?>"  
 			  name="incom<?php print $c;?>" ><?php if(isset($texts[$c])){print $texts[$c];};?></textarea>
-
 		  </div>
 <?php
 			}
 ?>
+
+		<input id="maxtextlen" name="maxtextlen" type="hidden" value="<?php print $maxtextlen;?>"/>
 		<input type="hidden" name="inno" value="<?php print $subcomments_no;?>"/>
 		<input type="hidden" name="inmust" value="<?php print $inmust;?>"/>
 		<input type="hidden" name="addcategory" value="<?php print $reportdef['report']['addcategory'];?>"/>

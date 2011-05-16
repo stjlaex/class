@@ -143,7 +143,7 @@ function generate_random_name($gender){
 		$id=$row['id'];
 		$name=generate_random_name($row['gender']);
 		mysql_query("UPDATE $table SET surname='$name[2]',
-				forename='$name[0]', middlenames='$name[1]', dob='1998-04-01'
+				forename='$name[0]', middlenames='$name[1]', preferredforename='', formersurname='', dob='1998-04-01'
 				WHERE id='$id'");
 		}
 
@@ -254,7 +254,7 @@ function generate_random_name($gender){
 
 
 	$table='reportentry';
-	mysql_query("UPDATE $table SET comment='A constructive comment from a subject teacher which is for reporting to parents. A constructive comment from a subject teacher which is for reporting to parents. A constructive comment from a subject teacher which is for reporting to parents. A constructive comment from a subject teacher which is for reporting to parents. A constructive comment from a subject teacher which is for reporting to parents. A constructive comment from a subject teacher which is for reporting to parents. A constructive comment from a subject teacher which is for reporting to parents.'");
+	mysql_query("UPDATE $table SET comment='<p>A constructive comment from a subject teacher which is for reporting to parents. A constructive comment from a subject teacher which is for reporting to parents. A constructive comment from a subject teacher which is for reporting to parents. A constructive comment from a subject teacher which is for reporting to parents. A constructive comment from a subject teacher which is for reporting to parents. A constructive comment from a subject teacher which is for reporting to parents. A constructive comment from a subject teacher which is for reporting to parents.</p>'");
 
 	$table='score';
 	mysql_query("UPDATE $table SET comment='';");

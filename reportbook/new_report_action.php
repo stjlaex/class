@@ -98,7 +98,7 @@ three_buttonmenu();
 			<label><?php print_string($RepDef['CommentsLength']['label'],$book);?></label>
 			</div>
 			<div class="right">
-			<input type="text" value="<?php print $RepDef['CommentsLength']['value'];?>"
+			<input type="text" name="commentlength" value="<?php print $RepDef['CommentsLength']['value'];?>"
 			tabindex="<?php print $tab++;?>" style="width:4em;" pattern="integer" maxlength="4" />
 
 <?php

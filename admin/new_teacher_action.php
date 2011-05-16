@@ -27,6 +27,7 @@ if($sub=='Submit'){
 			$user['mobilephone']=$d[10];
 			$user['dob']=$d[11];
 			$user['contractdate']=$d[12];
+			$user['userno']=$d[13];
 			$result[]=update_user($user,'no',$CFG->shortkeyword);
 			}
 	}

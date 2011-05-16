@@ -827,9 +827,11 @@ function fetchbookedAttendance($sid,$eveid=''){
 		$event=get_currentevent($secid);
 		$eveid=$event['id'];
 		}
+	$day=date('N',strtotime($event['date']));
+
 	$Attendance=array();
 
-	$bookings=(array)list_student_attendance_bookings($sid,$event['date'],$day='%',$event['session']);
+	$bookings=(array)list_student_attendance_bookings($sid,$event['date'],$day,$event['session']);
 
 	if($eveid!=''){
 

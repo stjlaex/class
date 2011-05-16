@@ -39,7 +39,7 @@ $ftype=$_FILES['importfile']['type'];
 			if(!isset($multiline)){$multiline=1;}
 			$nofields='';
 			while(!feof($file)){
-				$in=(array)fgetcsv($file,999,',');
+				$in=(array)fgetcsv($file,999,';','"');
 				/*(filename, maxrowsize,delimeter,enclosure)*/
 
 				/*if first item a # then ignore whole row*/

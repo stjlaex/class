@@ -33,6 +33,7 @@ table.statements {
 .commentwritercolor legend, .commentwritercolor caption {
     border-color:#44aaaa;
 	}
+
 textarea#Comment {
     width:98%; 
   	font-weight:300; 
@@ -40,7 +41,6 @@ textarea#Comment {
 	text-align:left;
     overflow:scroll;
 	}
-
 /* All the rest is for the spell_checker */
 .status { 
 	color:#ff0000;

@@ -1,4 +1,4 @@
-Version ClaSS-0.9.40 release (2011/05/05)
+Version ClaSS-0.9.40 release (2011/05/16)
 -----------------------------------------
 
 Start and end dates added to the community_group page to allow
@@ -10,6 +10,16 @@ New set of attendance scripts to allow advance schedule of absences
 based on the same method as transport booking.
 
 Added a set of extra fields to the users table. Enabled in new staff import.
+
+Changed file_import_csv options to use semi-colon and NOT commas
+becauses this seems to be the default exported from spreadsheets these
+days.
+
+Added at maximum character warning to the comment writer. Fixed
+upating the character limit in new report.
+
+Fixed the booked attendnace which was not distinguishing between days
+when retrieving.
 
 
 Version ClaSS-0.9.39 release (2011/04/28)

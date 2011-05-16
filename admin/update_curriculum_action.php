@@ -359,8 +359,8 @@ while(list($index,$curriculum)=each($curriculums)){
 		$Formgroups=xmlarray_indexed_check($Group['formgroups'],'form');
 		while(list($index,$Form)=each($Formgroups['form']) and $Form['id']!=''){
 			/*****************Forms************************/
-			//$fid=$yid . $Form['id'];
-			$fid=$Form['id'];
+			$fid=$yid . $Form['id'];
+			//$fid=$Form['id'];
 			$name=$Form['name'];
 			if($name==''){$name=$fid;}
 			$d_form=mysql_query("SELECT name FROM form WHERE id='$fid';");

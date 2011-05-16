@@ -925,7 +925,33 @@ function loadRequired(){
 					theme_advanced_statusbar_location : "bottom",
 					plugins : 'inlinepopups,spellchecker,paste',
 					paste_auto_cleanup_on_paste : true,
-					paste_retain_style_properties : ''
+				    paste_retain_style_properties : '',
+
+	                setup : function (ed){
+                  	  ed.onKeyDown.add(
+                  	  function (ed, evt){
+                      	  var char_counter=document.formtoprocess.maxtextlen.value;
+						  var count=tinyMCE.activeEditor.getContent().replace(/<[^>]+>/g, '').length;
+                      	  if(char_counter==0){
+                    		document.formtoprocess.textlen.value = count;
+							}
+						  else{
+                    		document.formtoprocess.textlen.value = char_counter - count;
+							}
+                      	  if(document.formtoprocess.textlen.value<=0){
+                      	    }
+						  else{
+                        	  char_overflow_flag="0";
+							}
+                      	  if(document.formtoprocess.textlen.value<=0){
+                        	  if(char_overflow_flag=="0") {
+                          	      alert("Comment should not be longer than " + char_counter + " characters");
+                            	  char_overflow_flag="1";
+                          	  }
+                      	  }
+                  	    });
+					  }
+
 					});
 
 				  tinyMCE.init({

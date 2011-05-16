@@ -80,7 +80,6 @@ $section_perm=get_admin_perm('s',get_uid($tid));
 					   //,'demoiser.php' => 'demoiser'
 					   //,'db_export.php' => 'db'
 					   //,'ztest.php' => 'My test (z)'
-					   
 					   );
 		selery_stick($choices,$choice,$book);
 ?>
