@@ -187,7 +187,7 @@
 					$cell['value']=$enrol_tablerows[$previous_yid]['leaverstotal']['leaverslast']+$enrol_tablecells['leaverssince']['value'];
 					}
 				else{
-					$cell['value']=0;
+					$cell['value']=$enrol_tablecells['leaverssince']['value'];
 					}
 				}
 			elseif($enrolcol=='transfersin'){

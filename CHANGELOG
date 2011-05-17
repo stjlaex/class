@@ -21,6 +21,8 @@ upating the character limit in new report.
 Fixed the booked attendnace which was not distinguishing between days
 when retrieving.
 
+Added column to admissions report for next year's total projected leavers.
+
 
 Version ClaSS-0.9.39 release (2011/04/28)
 -----------------------------------------

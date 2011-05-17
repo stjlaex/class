@@ -182,6 +182,7 @@ else{
 					  ,'targetroll'=>'targetroll'
 					  ,'transfersout'=>'transfersout'
 					  ,'notreenroling'=>'leavers'
+					  ,'projectedleavers'=>'projectedleavers'
 					  ,'capacity'=>'capacity'
 					  ,'pending'=>'pending'
 					  ,'spaces'=>'spaces'

@@ -200,6 +200,7 @@ $string['enquiriesprevious']='Enquiries last year';
 $string['enquiries']='Enquiries';
 $string['notinvoiced']='Not yet invoiced';
 $string['leaversprevious']='Leavers last year';
+$string['projectedleavers']='Projected leavers next year';
 $string['inactive']='Inactive';
 $string['blank']='Blank';
 $string['update']='Update';
