@@ -1,4 +1,4 @@
-Version ClaSS-0.9.40 release (2011/05/16)
+Version ClaSS-0.9.40 release (2011/05/23)
 -----------------------------------------
 
 Start and end dates added to the community_group page to allow
@@ -18,10 +18,13 @@ days.
 Added at maximum character warning to the comment writer. Fixed
 upating the character limit in new report.
 
-Fixed the booked attendnace which was not distinguishing between days
+Fixed the booked attendance which was not distinguishing between days
 when retrieving.
 
 Added column to admissions report for next year's total projected leavers.
+
+Fixed update user and removed admin groups from responsables.
+
 
 
 Version ClaSS-0.9.39 release (2011/04/28)

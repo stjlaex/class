@@ -100,13 +100,13 @@ three_buttonmenu();
 		if($user['username']!='administrator'){
 			$uid=$user['uid'];
 			$d_group=mysql_query("SELECT * FROM groups LEFT JOIN perms ON
-				perms.gid=groups.gid WHERE perms.uid='$uid' AND groups.type='p';");
+				perms.gid=groups.gid WHERE perms.uid='$uid' AND groups.type='p' AND groups.name!='admin';");
 			$user['pastoral'][]=array();
 			while($group=mysql_fetch_array($d_group,MYSQL_ASSOC)){
 				if($group['gid']>0){$user['pastoral'][]=$group;}
 				}
 			$d_group=mysql_query("SELECT * FROM groups LEFT JOIN perms ON
-				perms.gid=groups.gid WHERE perms.uid='$uid' AND groups.type='a'");
+				perms.gid=groups.gid WHERE perms.uid='$uid' AND groups.type='a' AND groups.name!='admin';");
 			$user['academic'][]=array();
 			while($group=mysql_fetch_array($d_group,MYSQL_ASSOC)){
 				if($group['gid']>0){$user['academic'][]=$group;}
@@ -135,7 +135,7 @@ three_buttonmenu();
 		</td>
 		<td>
 <?php
-			foreach($user['pastoral'] as $index=>$group){
+			foreach($user['pastoral'] as $group){
 				if(isset($group['gid']) and $group['gid']>0){
 					$gid=$group['gid'];
 					$yid=$group['yeargroup_id'];
@@ -166,7 +166,7 @@ three_buttonmenu();
 		<td>
 <?php
 		if(sizeof($user['pastoral'])>0){
-			foreach($user['academic'] as $index=>$group){
+			foreach($user['academic'] as $group){
 				if(isset($group['gid']) and $group['gid']>0){
 					$gid=$group['gid'];
 					$crid=$group['course_id'];

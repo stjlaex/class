@@ -666,7 +666,7 @@ function update_user($user,$update='no',$short='class'){
 				  surname='$surname', forename='$forename', title='$title',
 					email='$email', emailuser='$emailuser', emailpasswd='$emailpasswd', 
 					role='$role', senrole='$senrole', medrole='$medrole', worklevel='$worklevel', nologin='$nologin',
-					firstbookpref='$firstbookpref' homephone='$homephone, mobilephone='$mobilephone', street='$street',
+					firstbookpref='$firstbookpref', homephone='$homephone', mobilephone='$mobilephone', street='$street',
 					region='$region', postcode='$postcode', personalcode='$personalcode', dob='$dob', 
 					contractdate='$contractdate' WHERE username='$username';");
 			$result=$result.'Updated details for user '.$username;
