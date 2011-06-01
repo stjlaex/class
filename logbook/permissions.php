@@ -592,9 +592,7 @@ function update_user($user,$update='no',$short='class'){
 	$role=$user['role'];
 	$homephone=$user['homephone'];
 	$mobilephone=$user['mobilephone'];
-	$street=$user['street'];
-	$region=$user['region'];
-	$postcode=$user['postcode'];
+	$address_id=$user['address_id'];
 	$personalcode=$user['personalcode'];
 	$dob=$user['dob'];
 	$contractdate=$user['contractdate'];
@@ -666,8 +664,8 @@ function update_user($user,$update='no',$short='class'){
 				  surname='$surname', forename='$forename', title='$title',
 					email='$email', emailuser='$emailuser', emailpasswd='$emailpasswd', 
 					role='$role', senrole='$senrole', medrole='$medrole', worklevel='$worklevel', nologin='$nologin',
-					firstbookpref='$firstbookpref', homephone='$homephone', mobilephone='$mobilephone', street='$street',
-					region='$region', postcode='$postcode', personalcode='$personalcode', dob='$dob', 
+					firstbookpref='$firstbookpref', homephone='$homephone', mobilephone='$mobilephone', 
+					address_id='$address_id', personalcode='$personalcode', dob='$dob', 
 					contractdate='$contractdate' WHERE username='$username';");
 			$result=$result.'Updated details for user '.$username;
 			}
@@ -676,12 +674,12 @@ function update_user($user,$update='no',$short='class'){
 		mysql_query("INSERT INTO users (username, passwd, forename,
 					surname, title, email, emailuser, emailpasswd, role, nologin, worklevel,
 					senrole, medrole, firstbookpref, homephone, mobilephone, 
-					street, region, postcode, personalcode, dob, contractdate) 
+					address_id, personalcode, dob, contractdate) 
 					VALUES ('$username', '$assword', '$forename',
 					 '$surname', '$title', '$email', '$emailuser', 
 						'$emailpasswd', '$role', '$nologin', '$worklevel',
-					   '$senrole', '$medrole', '$firstbookpref', '$homephone', '$mobilephone', '$street', '$region',
-						'$postcode', '$personalcode', '$dob', '$contractdate')");
+					   '$senrole', '$medrole', '$firstbookpref', '$homephone', '$mobilephone', 
+						'$address_id', '$personalcode', '$dob', '$contractdate')");
 		$result=$result.'Username '.$username.' added.';
 		}
 

@@ -22,8 +22,12 @@ elseif(sizeof($users)==0){
 	$users[$uid]=$currentuser;
 	}
 
+
 /*This is the record being edited.*/
 $edituser=get_user($seluid,'uid');
+if($edituser['address_id']>0){$addid=$edituser['address_id'];}
+else{$addid=-1;}
+$Address=fetchAddress(array('address_id'=>$addid,'addresstype'=>''));
 
 three_buttonmenu();
 ?>
@@ -102,7 +106,7 @@ three_buttonmenu();
 
 
 	  <fieldset class="right">
-		<legend><?php print_string('changedetails',$book);?></legend>
+		<legend><?php print_string('details',$book);?></legend>
 
 		<div class="center">
 		  <label for="ID"><?php print_string('username');?></label>
@@ -131,6 +135,12 @@ include('scripts/set_list_vars.php');
 $tab=list_select_enum('title',$listoptions,'infobook');
 unset($listoptions);
 ?>
+
+				<label for="personalcode"><?php print_string('personalnumber','infobook');?></label>
+				<input type="text" id="" name="personalcode" 
+				maxlength="120" tabindex="<?php print $tab++;?>" 
+				value="<?php print $edituser['personalcode'];?>" />
+
 
 
 			  <label><?php print_string('firstbookpref',$book);?></label>
@@ -188,8 +198,10 @@ if($_SESSION['role']=='admin' or $aperm==1){
 		}
 ?>
 
-
 	  </fieldset>
+
+
+
 
 	  <fieldset class="left">
 		<legend><?php print_string('email',$book);?></legend>
@@ -223,6 +235,29 @@ if($_SESSION['role']=='admin' or $aperm==1){
 
 
 
+
+	  <fieldset class="right">
+		<legend><?php print_string('phonenumber','infobook');?></legend>
+
+		<div class="center">
+
+			  <label for="homephone"><?php print_string('homephone','infobook');?></label>
+			  <input type="text" id="homephone" name="homephone" 
+				maxlength="22" tabindex="<?php print $tab++;?>" 
+				value="<?php print $edituser['homephone'];?>" />
+
+				<label for="mobilephone"><?php print_string('mobilephone','infobook');?></label>
+				<input type="text" id="mobilephone" name="mobilephone" 
+				maxlength="22" tabindex="<?php print $tab++;?>" 
+				value="<?php print $edituser['mobilephone'];?>" />
+
+		</div>
+
+
+	  </fieldset>
+
+
+
 <?php
 	if($_SESSION['role']=='admin'  or $aperm==1){
 ?>
@@ -250,6 +285,7 @@ if($_SESSION['role']=='admin' or $aperm==1){
 <?php
 		}
 
+
 	if($_SESSION['role']=='admin' 
 	   //and $edituser['role']!='admin'
 	   ){
@@ -274,8 +310,26 @@ if($_SESSION['role']=='admin' or $aperm==1){
 	  </fieldset>
 <?php
 		}
+
 ?>
 
+
+	  <div class="right">
+<?php
+	$addressno='0';/*Only doing one address.*/
+	$tab=xmlarray_form($Address,$addressno,'contactaddress',$tab,'infobook'); 
+?>
+	  </div>
+<?php
+
+if(isset($addid)){
+?>
+	  <input type="hidden" name="addid" value="<?php print $addid; ?>">
+<?php
+}
+?>
+
+	  <input type="hidden" name="seluid" value="<?php print $seluid; ?>">
 	  <input type="hidden" name="seluid" value="<?php print $seluid; ?>">
 	  <input type="hidden" name="current" value="<?php print $action; ?>">
 	  <input type="hidden" name="choice" value="<?php print $choice; ?>">

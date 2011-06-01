@@ -56,6 +56,12 @@ if($balance<(0.05*$Budget['Limit']['value']) or $balance<20){
 	</div>
 	</fieldset>
 <?php
+
+/**
+* TODO: locked to be set always or as an option per budget?
+*/
+
+	//$locked=true;
 	}
 
 if($locked and $perms['x']!=1){

@@ -1135,18 +1135,19 @@ function validateRequiredOr(eifieldObj){
 
 function validateResult(fieldObj){
 	var result="";
-	var fieldValue=fieldObj.value;
+
+	if(fieldObj.value){
+		var fieldValue=trim(fieldObj.value);
+		}
+	else{
+		var fieldValue=fieldObj.value;
+		}
 	var fieldClass=fieldObj.className;
 	if(fieldObj.id){var fieldLabel=getLabel(fieldObj.id);}
 	else{var fieldLabel='';}
 	var patternName=fieldObj.getAttribute("pattern");
 	var fieldTitle=fieldObj.getAttribute("title");
 	var maxLength=fieldObj.getAttribute("maxlength");
-	if(fieldTitle=="spellcheck" && currObj.spellingResultsDiv!=null){
-//		setCurrentObject(currObj); 
-//		resumeEditing();
-		result="You need to 'Resume Editing' before you SUBMIT!";
-		}
 	if(fieldClass=="required" && fieldValue.length==0){
 		result="Please complete "+fieldLabel+".";  
 		}
@@ -1203,3 +1204,15 @@ function capsCheck(e){
 		alert('WARNING:\n\nCaps Lock is enabled on the keyboard\n\nPlease turn it off. Your login is case sensitive.');
 		}
 	}
+
+
+/*-------------------------------------------------------
+* Removing leading and trailing spaces
+*/
+
+function trim(s){
+	s=s.replace(/^\s\s*/, '').replace(/\s\s*$/, '');
+	return s;
+	}
+
+

@@ -1,4 +1,4 @@
-Version ClaSS-0.9.40 release (2011/05/23)
+Version ClaSS-0.9.40 release (2011/05/31)
 -----------------------------------------
 
 Start and end dates added to the community_group page to allow
@@ -24,6 +24,16 @@ when retrieving.
 Added column to admissions report for next year's total projected leavers.
 
 Fixed update user and removed admin groups from responsables.
+
+Fix to listing leavers so that late leavers (LL) are not missed.
+
+Added a postal address to staff details.
+
+Fix to the search by school startdate.
+
+Improved the js so it trims whitespace before validating form input.
+
+Further work on listing of profile statements so they order by most recent.
 
 
 

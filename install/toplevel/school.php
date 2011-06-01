@@ -85,6 +85,11 @@ $CFG->enrol_assess_sen='';
  */
 $CFG->enrol_cutoffmonth='09';
 /**
+ * The end of the month (integer 1 to 12) after which the budget year for orders
+ * rolls forward.
+ */
+$CFG->budget_endmonth='05';
+/**
  * Does the school have boarders.
  */
 $CFG->enrol_boarders='no';

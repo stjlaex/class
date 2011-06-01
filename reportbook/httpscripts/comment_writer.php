@@ -78,9 +78,9 @@ if($reportdef['report']['profile_name']!='' and isset($subcomments_fix)){
 		$profile_name=$reportdef['report']['profile_name'];
 		/* This fromdate is just a hack needs to check for previous report maybe?*/
 		//$reportyear=$reportdef['report']['year']-1;
-		$fromdate=$reportyear.'-08-15';//Does the whole academic year
+		//$fromdate=$reportyear.'-08-15';//Does the whole academic year
 		$reportyear=$reportdef['report']['year'];
-		//$fromdate=$reportyear.'-02-14';
+		$fromdate=$reportyear.'-02-14';
 		$Statements=(array)fetchProfileStatements($profile_name,$bid,$pid,$sid,$fromdate);
 		$StatementBank['Area'][$pid]['Statements']=$Statements;
 		$StatementBank['Area'][$pid]['Name']='FS Profile: '.$pid;

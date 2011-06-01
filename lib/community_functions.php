@@ -304,6 +304,7 @@ function listin_community_new($community,$startdate='',$enddate=''){
 	if(isset($community['id']) and $community['id']!=''){$comid=$community['id'];}
 	else{$comid=update_community($community);}
 	/* 
+	   TODO: this would be needed if current members who newly joined was also needed?
 					AND (leavingdate>'$todate' OR leavingdate='0000-00-00' OR leavingdate IS NULL)
 					AND joiningdate<='$todate' AND joiningdate>='$yearstartdate';");
 	*/

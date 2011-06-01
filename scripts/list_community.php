@@ -40,6 +40,7 @@ include('scripts/set_list_vars.php');
 		$listcomtypes[]='house';
 		$listcomtypes[]='transport';
 		$listcomtypes[]='tutor';
+		$listcomtypes[]='trip';
 		}
 	else{$listcomtypes[]=$listtype;}
 

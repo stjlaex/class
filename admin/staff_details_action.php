@@ -25,6 +25,9 @@ if($sub=='Submit' and $_POST['seluid']!=''){
    	$user['senrole']=$_POST['senrole'];
    	$user['medrole']=$_POST['medrole'];
    	$user['firstbookpref']=clean_text($_POST['book']);
+   	$user['homephone']=clean_text($_POST['homephone']);
+   	$user['mobilephone']=clean_text($_POST['mobilephone']);
+   	$user['personalcode']=clean_text($_POST['personalcode']);
    	$user['worklevel']=$_POST['worklevel'];
    	if(isset($_POST['nologin'])){$user['nologin']=$_POST['nologin'];}
 	else{$user['nologin']='0';}
@@ -56,6 +59,32 @@ if($sub=='Submit' and $_POST['seluid']!=''){
 			update_staff_perms($seluid,$agid,$newperms);
 			}
 		}
+
+
+	if(isset($_POST['addid']) and $_POST['addid']!=''){
+		$addid=$_POST['addid'];
+		$addressno='0';/*Only doing one address.*/
+		$Address=fetchAddress(array('address_id'=>$addid,'addresstype'=>''));
+		foreach($Address as $key => $val){
+			if(isset($val['value']) & is_array($val) and isset($val['table_db'])){
+				$field=$val['field_db'];
+				$inname=$field. $addressno;
+				if(isset($_POST[$inname])){$inval=clean_text($_POST[$inname]);}
+				else{$inval='';}
+				if($val['value']!=$inval){
+					if($val['table_db']=='address'){
+						if($addid=='-1' and $inval!=''){
+							mysql_query("INSERT INTO address SET region='';");
+							$addid=mysql_insert_id();
+							mysql_query("UPDATE users SET address_id='$addid' WHERE uid='$seluid';");
+							}
+						mysql_query("UPDATE address SET $field='$inval' WHERE id='$addid';");
+						}
+					}
+				}
+			}
+		}
+
 
 	include('scripts/results.php');
    	}

@@ -62,14 +62,28 @@ if(isset($enroldate)){
 	if($enroldate=='leave'){
 		/* Leaving in the future and only searching across accepted applications*/
 		if($startdate!='' and $startdate<$todate){$comtype='alumni';$comname='P:';$comyear=$currentyear;}
-		elseif($startdate>=$todate){$extra="$startdate<=info.leavingdate AND info.leavingdate!='0000-00-00'";}
-		elseif($enddate>=$todate){$extra="$enddate<=info.leavingdate AND info.leavingdate!='0000-00-00'";}
+		elseif($startdate>=$todate){$extra="'$startdate'<=info.leavingdate AND info.leavingdate!='0000-00-00'";}
+		elseif($enddate>=$todate){$extra="'$enddate'<=info.leavingdate AND info.leavingdate!='0000-00-00'";}
 		}
 	elseif($enroldate=='start'){
-		/* Joining in the future and only searching across accepted applications*/
-		$comtype='accepted';$comname='AC:';$comyear=$currentyear;
-		if($startdate!='' and $startdate>=$todate){$extra="$startdate<=info.entrydate AND info.entrydate!='0000-00-00'";}
-		elseif($enddate!='' and $enddate>=$todate){$extra="$enddate<=info.entrydate AND info.entrydate!='0000-00-00'";}
+		if($startdate!='' and $startdate>=$todate){
+			/* Joining in the future and only searching across accepted applications*/
+			$comtype='accepted';$comname='AC:';$comyear=$currentyear;
+			$extra="'$startdate'<=info.entrydate AND info.entrydate!='0000-00-00'";
+			}
+		elseif($startdate!='' and $startdate<$todate){
+			/* Joined in the past and only searching current*/
+			$extra="'$startdate'<=info.entrydate AND info.entrydate!='0000-00-00'";
+			}
+		elseif($enddate!='' and $enddate>=$todate){
+			/* Joining in the future and only searching current */
+			$comtype='accepted';$comname='AC:';$comyear=$currentyear;
+			$extra="'$enddate'<=info.entrydate AND info.entrydate!='0000-00-00'";
+			}
+		elseif($enddate!='' and $enddate<$todate){
+			/* Joined in the pasted and only searching current */
+			$extra="'$enddate'<=info.entrydate AND info.entrydate!='0000-00-00'";
+			}
 		}
 
 	foreach($yids as $index => $yid){
@@ -94,7 +108,7 @@ if(isset($enroldate)){
 else{
 	foreach($yids as $yid){
 		foreach($listtypes as $index => $listtype){
-			trigger_error($yid.' : '.$enrolstatuses[$index],E_USER_WARNING);
+			//trigger_error($yid.' : '.$enrolstatuses[$index],E_USER_WARNING);
 			if($listtype!='year'){
 				$com=array('id'=>'','type'=>$listtype, 
 						   'name'=>$enrolstatuses[$index].':'.$yid,'year'=>$enrolyear);
@@ -116,7 +130,8 @@ foreach($students as $student){
 	$sid=$student['id'];
 	if(isset($reenrol_eid)){
 		$Assessments=(array)fetchAssessments_short($sid,$reenrol_eid,'G');
-		if(sizeof($Assessments)>0 and $Assessments[0]['Result']['value']==$enrolstatus){
+		/* Filter for their re-enrolment status but need extra option for LL when enrolstatus is L to get all leavers. */
+		if(sizeof($Assessments)>0 and ($Assessments[0]['Result']['value']==$enrolstatus or ($Assessments[0]['Result']['value']=='LL' and $enrolstatus=='L'))){
 			$sids[]=$sid;
 			}
 		}

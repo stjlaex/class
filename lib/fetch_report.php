@@ -235,7 +235,7 @@ function fetchSubjectReports($sid,$reportdefs){
 				  }
 				}
 
-			while(list($index,$repsummary)=each($reportdef['summaries'])){
+			foreach($reportdef['summaries'] as $repsummary){
 				$summaryid=$repsummary['subtype'];
 				$Summary=array();
 				$Summary['Description']=array('id'=>$summaryid,
@@ -934,10 +934,10 @@ function fetchReportEntry($reportdef,$sid,$bid,$pid){
 
 		   if(isset($subcomments_fix)){
 			   /* TODO: This fromdate is just a hack needs to check for previous report maybe?*/
-			   $reportyear=$reportdef['report']['year']-1;
-			   $fromdate=$reportyear.'-08-15';//Does the whole academic year
+			   //$reportyear=$reportdef['report']['year']-1;
+			   //$fromdate=$reportyear.'-08-15';//Does the whole academic year
 			   $reportyear=$reportdef['report']['year'];
-			   //$fromdate=$reportyear.'-02-14';
+			   $fromdate=$reportyear.'-06-14';
 			   $comment_div=array();
 			   foreach($reportdef['report']['profile_names'] as $profile_name){
 				   $Statements=(array)fetchProfileStatements($profile_name,$bid,$pid,$sid,$fromdate);
@@ -1011,7 +1011,7 @@ function fetchProfileStatements($profile_name,$bid,$pid,$sid,$cutoff_date){
 				AND eidsid.component_id='$profilepid' AND
 				assessment.profile_name='$profile_name' AND
 				eidsid.date > '$cutoff_date' AND eidsid.value > '$cutoff_rating';");
-			$stats=array();
+			$Statements=array();
 			while($eidsid=mysql_fetch_array($d_eidsid,MYSQL_ASSOC)){
 				$topic=$eidsid['description'];
 				$d_mark=mysql_query("SELECT comment FROM mark JOIN eidmid ON mark.id=eidmid.mark_id 
@@ -1028,13 +1028,15 @@ function fetchProfileStatements($profile_name,$bid,$pid,$sid,$cutoff_date){
 
 	if($profile_name=='APP Framework'){
 		/*TODO: have to pass these values for each report. */
-		/*Only displaying 4c and above which are secure. */
-		$cutoff_rating=1;$cutoff_level=1;$cutoff_statno=6;
+		/*Only displaying those above which are secure. */
+		$cutoff_rating=1;
+		/* limit to 6 per area (gives 6 most recent regardless of the level)*/
+		$cutoff_level=1;$cutoff_statno=6;
 		}
 
 	  $profilepids=(array)list_subject_components($pid,'KS2');
 	  $profilepids[]=array('id'=>$pid,'name'=>'');
-	  $statno=0;
+	  $Statements=array();
 	  foreach($profilepids as $component){
 		  $profilepid=$component['id'];
 		  $d_cat=mysql_query("SELECT report_id, category FROM reportentry WHERE 
@@ -1042,8 +1044,10 @@ function fetchProfileStatements($profile_name,$bid,$pid,$sid,$cutoff_date){
 								 AND report_id=ANY(SELECT DISTINCT report_id FROM ridcatid 
    										JOIN categorydef ON categorydef.id=ridcatid.categorydef_id 
    										WHERE ridcatid.subject_id='profile' AND categorydef.name='$profile_name');");
-		  $stats=array();
 		  $ratings=array();
+		  $statno=0;
+		  $stat_dates=array();
+		  $Statements_new=array();
 		  while($cat=mysql_fetch_array($d_cat,MYSQL_ASSOC)){
 			  $catdefs=(array)get_report_categories($cat['report_id'],$bid,$profilepid);
 			  $reportdef['report']['id']=$cat['report_id'];
@@ -1052,20 +1056,32 @@ function fetchProfileStatements($profile_name,$bid,$pid,$sid,$cutoff_date){
 			  if(isset($Categories['Category'])){
 				  foreach($Categories['Category'] as $Category){
 					  if($Category['value']>=$cutoff_rating and $Category['level']>=$cutoff_level 
-						 and ($Category['date']=='' or $Category['date']>=$cutoff_date) and $statno<$cutoff_statno){
-						  $statno++;
-						  $statement=array('statement_text'=>$Category['label'],
-										   'counter'=>0,
-										   'author'=>'ClaSS',
-										   'rating_fraction'=>1);
-						  $Statements[]=fetchStatement($statement,1);
-						  }
-					  }
+						 and ($Category['date']=='' or $Category['date']>=$cutoff_date)){
+								 $statno++;
+								 $stat_dates[]=$Category['date'];
+								 $statement=array('statement_text'=>$Category['label'],
+												  'counter'=>0,
+												  'author'=>'ClaSS',
+												  'rating_fraction'=>1);
+								 $Statements_new[]=fetchStatement($statement,1);
+							}
+						}
 				  }
 			  }
+
+		  /* sort by date and then limit to the cutoff_statno most recent */
+		  array_multisort($stat_dates,SORT_DESC,$Statements_new);
+		  if($statno>$cutoff_statno){
+			  $Statements=array_merge(array_slice($Statements_new,0,$cutoff_statno,true),$Statements);
+			  }
+		  else{
+			  $Statements=array_merge($Statements_new,$Statements);
+			  }
+
 		  }
 
 	  }
+	  
 
 	return $Statements;
 	}
