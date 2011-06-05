@@ -260,7 +260,7 @@ two_buttonmenu($extrabuttons,$book);
 				if(sizeof($components)==0){$components[]=array('id'=>' ','name'=>'');}
 
 				reset($components);
-			   	while(list($compindex,$component)=each($components)){
+			   	foreach($components as $component){
 					$pid=$component['id'];
 
 					$strands=(array)list_subject_components($pid,$crid);
@@ -268,11 +268,11 @@ two_buttonmenu($extrabuttons,$book);
 					reset($eids);
 					$scoreno=0;
 					$eidno=0;
-					while(list($eidindex,$eid)=each($eids)){
+					foreach($eids as $eid){
 						$eidno++;
 						$Assessments=fetchAssessments_short($sid,$eid,$bid,$pid);
 						$scoreno+=sizeof($Assessments);
-						while(list($strandindex,$strand)=each($strands)){
+						foreach($strands as $strand){
 							$Assessments=fetchAssessments_short($sid,$eid,$bid,$strand['id']);
 							$scoreno+=sizeof($Assessments);
 							}

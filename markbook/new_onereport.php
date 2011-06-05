@@ -163,7 +163,6 @@
 				}
 			$ratings=$reportdef['ratings'][$Categories['ratingname']];
 
-			$Student=fetchStudent_short($sid);
 			foreach($catdefs as $catindex=> $catdef){
 				$catid=$catdefs[$catindex]['id'];
 				$Statement=array('Value'=>$catdefs[$catindex]['name']);
@@ -218,9 +217,10 @@
 					$setcat_value=-1000;
 					$setcat_date='';
 					}
-				while(list($value,$descriptor)=each($ratings)){
+				foreach($ratings as $value => $descriptor){
 					$checkclass='';
 					$checked='';
+					$trafficlite='';
 					if($setcat_value==$value){
 						$checkclass='checked';
 						$checked='checked';
@@ -232,7 +232,7 @@
 					elseif($descriptor=='green'){$trafficlite='class="golite"';}
 					elseif($descriptor=='yellow'){$trafficlite='class="pauselite"';}
 					else{$trafficlite='';}
-					print '<div class="row '.$checkclass.'"><label '.$trafficlite.'">'.$descriptor.'</label>';
+					print '<div class="row '.$checkclass.'"><label '.$trafficlite.'>'.$descriptor.'</label>';
 					print '<input type="radio" name="sid'.$sid.':'.$inc. '" tabindex="'.$tab.'" value="'.$value.'" '.$checked;
 					print ' /></div>';
 					}
@@ -241,6 +241,11 @@
 					print '<span style="float:right;color:#aaa;">'.display_date($setcat_date).'</span>';
 					print '<input type="hidden" name="cat'.$sid.':'.$catid.'" value="'.$setcat_value.'"/>';
 					print '<input type="hidden" name="dat'.$sid.':'.$catid.'" value="'.$setcat_date.'"/>';
+					}
+				else{
+					print '<div class="row">'.get_string('uncheck',$book).'';
+					print '<input type="radio" name="sid'.$sid.':'.$inc. '" value="uncheck" checked="yes" />';
+					print '</div>';
 					}
 
 				$inc++;

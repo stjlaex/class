@@ -41,19 +41,19 @@ else{
 	else{$subjects=list_course_subjects($crid,$substatus);}
 
 		/* Generate a report column for each subject*/
-   	   	while(list($index,$subject)=each($subjects)){
+   	   	foreach($subjects as $subject){
 			$bid=$subject['id'];
 			$components=(array)list_subject_components($bid,$crid,$compstatus);
 			if(sizeof($components)==0){$components[0]['id']='';}
-			while(list($index,$component)=each($components)){
+			foreach($components as $component){
 				/* If its a compound report then it will also work
 				 *   across strands with the same comp status as the
 				 *   components. TODO: Need to specify strand status
 				 *   explicity for reports.
-				*/
+				 */
 				if($marktype=='compound'){$strands=(array)list_subject_components($component['id'],$crid,$compstatus);}else{$strands=array();}
 				if(sizeof($strands)==0){$strands[0]['id']=$component['id'];}
-				while(list($index,$strand)=each($strands)){
+				foreach($strands as $strand){
 
 					$pid=$strand['id'];
 					

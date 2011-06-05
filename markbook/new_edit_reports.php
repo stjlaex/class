@@ -1,20 +1,34 @@
 <?php 
-/**			   							new_edit_reports.php
+/**		   							new_edit_reports.php
  *
  */
 
 $action='new_edit_reports_action.php';
 
 $viewtable=$_SESSION['viewtable'];
-$bid=$_GET['bid'];
-$pid=$_GET['pid'];
-$title=$_GET['title'];
-$rid=$_GET['midlist'];
-if(isset($_GET['sid'])){
-	/* This was called from a clickthrough for one individual student */
-	/* so give access to editing comments. */
+if(isset($_GET['bid'])){$bid=$_GET['bid'];}
+if(isset($_GET['pid'])){$pid=$_GET['pid'];}
+if(isset($_GET['midlist'])){$rid=$_GET['midlist'];}
+if(isset($_GET['title'])){$title=$_GET['title'];}
+if(isset($_GET['sid'])){$sid=$_GET['sid'];}
+if(isset($_GET['nextrow'])){$nextrow=$_GET['nextrow'];}
+if(isset($_POST['nextrow'])){$nextrow=$_POST['nextrow'];}
+
+if(isset($sid) or isset($nextrow)){
+	/* This was called from a clickthrough for one individual student
+	 * so give access to editing comments. 
+	 */
 	$edit_comments_off='no';
-	$sid=$_GET['sid'];
+	if(!isset($_POST['nextnav'])){$nextnav='table';}else{$nextnav=$_POST['nextnav'];}
+	if(!isset($sid)){
+		$sid=$viewtable[$nextrow]['sid'];
+		$bid=$_SESSION['inorders']['subject'];
+		$pid=$_SESSION['inorders']['component'];
+		$rid=$_SESSION['inorders']['rid'];
+		}
+	if($nextnav=='component'){$pid=$_POST['nextarea'];}
+	$Student=fetchStudent_short($sid);
+	$title=$Student['DisplayFullName']['value'];
 	}
 else{
 	/* Viewing the whole list of sids so restrict to editing just the */
@@ -44,7 +58,7 @@ else{
 	 */
 	$ass_colspan=0;
 	$AssDefs=array();//	Contains the relevant assessments only.
-	while(list($index,$eid)=each($eids)){
+	foreach($eids as $eid){
 		$AssDef=fetchAssessmentDefinition($eid);
 		if(($AssDef['Stage']['value']=='%' or $AssDef['Stage']['value']==$class_stage) 
 		   and ($AssDef['Subject']['value']=='%' or $AssDef['Subject']['value']==$bid)){
@@ -70,7 +84,7 @@ if($edit_comments_off=='yes'){
 three_buttonmenu($extrabuttons,$book);
 ?>
   <div id="heading">
-	<label><?php print $title;?></label>
+	<?php print $title;?>
 	<label><?php print $subjectname.' '.$componentname;?></label>
   </div>
 
@@ -87,14 +101,55 @@ three_buttonmenu($extrabuttons,$book);
 		</reportids>
 	  </div>
 
+
+<?php
+	if(isset($nextrow)){
+?>
+
+		<div class="divgroup right">
+	   	<table class="listmenu">
+			<tr>
+			<td>
+			<label for="family"><?php print_string('next',$book);?></label>
+			</td>
+			<td>
+			<div class="row <?php if($nextnav=='table'){print 'checked';}?>">
+			<label for="table"><?php print_string('table',$book);?></label>
+			<input type="radio" name="nextnav" title="Table" id="table" 
+				value="table" <?php if($nextnav=='table'){print 'checked';}?> />
+				</div>
+			  </td>
+			<td>
+			<div class="row <?php if($nextnav=='student'){print 'checked';}?>">
+			<label for="student"><?php print_string('student',$book);?></label>
+			<input type="radio" name="nextnav" title="Student" id="student" 
+				value="student" <?php if($nextnav=='student'){print 'checked';}?> />
+				</div>
+			  </td>
+			  <td>
+			<div class="row <?php if($nextnav=='component'){print 'checked';}?>">
+			<label for="component"><?php print_string('component',$book);?></label>
+			<input type="radio" name="nextnav" title="Component" id="component" 
+				value="component" <?php if($nextnav=='component'){print 'checked';}?> />
+				</div>
+			</td>
+			</tr>
+	   	</table>
+	   	</div>
+<?php
+		}
+?>
+
+
 	  <table class="listmenu center" id="editscores">
 		<thead>
 		  <tr>
 <?php
 		if($edit_comments_off=='yes'){
 ?>
-			<th>
+			<th><label>
 			  <?php print_string('checkall'); ?>
+			</label>
 			  <input type="checkbox" name="checkall" value="yes" onChange="checkAll(this);" />
 			</th>
 <?php
@@ -107,7 +162,6 @@ three_buttonmenu($extrabuttons,$book);
 			}
 ?>	
 			<th>
-			  <?php print_string('student'); ?>
 			</th>
 <?php
 	/* Headers for the entry field columns. Iterate over the assessment columns and
@@ -123,7 +177,7 @@ three_buttonmenu($extrabuttons,$book);
 			/* If this column is for a component then include any strands*/
 			$ass_strandstatus=$AssDef['StrandStatus']['value'];
 			$strands=(array)list_subject_components($pid,$AssDef['Course']['value'],$ass_strandstatus);
-			trigger_error($ass_strandstatus.' : '.sizeof($strands),E_USER_WARNING);
+			//trigger_error($ass_strandstatus.' : '.sizeof($strands),E_USER_WARNING);
 			if(sizeof($strands)==0){
 				if(($ass_compstatus=='A' or $ass_compstatus==$compstatus 
 					  or $compstatus=='%' or ($ass_compstatus=='AV' and ($compstatus='V' or $compstatus='O')))){
@@ -213,9 +267,16 @@ three_buttonmenu($extrabuttons,$book);
 			}
 		}
 
-$_SESSION['inorders']=$inorders;
+	$_SESSION['inorders']=$inorders;
 ?>
 	</table>
+<?php
+	if(isset($nextrow)){
+?>
+	  <input type="hidden" name="nextrow" value="<?php print $nextrow;?>" />
+<?php
+		}
+?>
 	  <input type="hidden" name="current" value="<?php print $action;?>" />
 	  <input type="hidden" name="choice" value="<?php print $choice;?>" />
 	  <input type="hidden" name="cancel" value="<?php print $cancel;?>" />

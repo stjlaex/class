@@ -16,6 +16,34 @@ if(isset($inorders['catdefs'])){$catdefs=$inorders['catdefs'];}
 if(isset($inorders['rating_name'])){$rating_name=$inorders['rating_name'];}
 $todate=date('Y').'-'.date('n').'-'.date('j');
 
+
+if(isset($_POST['nextrow']) and $_POST['nextnav']!='table'){
+	$action='new_edit_reports.php';
+	$nextnav=$_POST['nextnav'];
+	$nextrow=$_POST['nextrow'];
+	$nextarea=$inpid;
+	if($nextnav=='student'){
+		/* Step one row through the viewtable to get next sid. */
+		if($nextrow < (sizeof($viewtable)-1)){$nextrow=$nextrow+1;}else{$nextrow=0;}
+		}
+	elseif($nextnav=='component'){
+		/* Step to the next report column identified by the next pid. */
+		$d_m=mysql_query("SELECT DISTINCT component_id FROM mark WHERE midlist='$rid' AND (marktype='report' OR marktype='compound');");
+		$no=0;
+		$areas=array();
+		while($mark=mysql_fetch_array($d_m,MYSQL_ASSOC)){
+			if($mark['component_id']==$inpid){$nextareano=$no;}
+			$areas[]=$mark['component_id'];
+			$no++;
+			}
+		if($nextareano < (sizeof($areas)-1)){$nextareano=$nextareano+1;}else{$nextareano=0;}
+		$nextarea=$areas[$nextareano];
+		}
+	$action_post_vars=array('nextrow','nextarea','nextnav');
+	}
+
+
+
 include('scripts/sub_action.php');
 
 if($sub=='Submit'){
@@ -58,7 +86,7 @@ if($sub=='Submit'){
 				/* Read previous entry for the categories and check which have changed. */
 				foreach($catdefs as $catdef){
 					$catid=$catdef['id'];
-					if(isset($_POST["sid$sid:$c2"])){
+					if(isset($_POST["sid$sid:$c2"]) and $_POST["sid$sid:$c2"]!='uncheck'){
 					    $in=$_POST["sid$sid:$c2"];
 						if(isset($_POST["cat$sid:$catid"]) and $in==$_POST["cat$sid:$catid"]){
 							$setdate=$_POST["dat$sid:$catid"];

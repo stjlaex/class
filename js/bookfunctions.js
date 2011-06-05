@@ -461,23 +461,29 @@ function sidtableFilter(buttonObject){
 // Highlights the checked radio input and unhighlights any others with 
 // the same name
 
-function checkRadioIndicator(inputObj){
-	var inputname=inputObj.name;
-	var inputval=inputObj.value;
+
+function checkRadioIndicator(parentObj){
+	var inputname=parentObj.childNodes[1].name;
+	var inputval=parentObj.childNodes[1].value;
 	var radioObjs=document.getElementsByName(inputname);
+	if(radioObjs.length==4){
+		if(inputval=="-1"){var class="hilite";}
+		else if(inputval=="0"){var class="pauselite";}
+		else if(inputval=="1"){var class="golite";}
+		}
+	else if(inputval=="uncheck"){class="";}
+	else {class="checked";}
 	for(var c=0;c<radioObjs.length;c++){
-		if(radioObjs[c].value==inputval && inputval!="uncheck"){
-			if(inputval=="-1"){var class="hilite";}
-			else if(inputval=="0"){var class="pauselite";}
-			else if(inputval=="1"){var class="golite";}
-			else {class="checked";}
+		//if(radioObjs[c].value==inputval && inputval!="uncheck"){
+		if(radioObjs[c].value==inputval){
 			radioObjs[c].parentNode.setAttribute("class",class);
+			radioObjs[c].checked=true;
 			}
 		else{
 			radioObjs[c].parentNode.setAttribute("class","");
+			radioObjs[c].checked=false;
 			}
 		}
-
 	}
 
 
@@ -977,7 +983,7 @@ function loadRequired(){
 				elementObject.onchange=function(){checkrowIndicator(this)};
 				}
 			if(elementObject.getAttribute("type")=="radio" && elementObject.parentNode.tagName!="TH"){
-				elementObject.onclick=function(){checkRadioIndicator(this)};
+				elementObject.parentNode.onclick=function(){checkRadioIndicator(this)};
 				}
 			if(elementObject.getAttribute("tabindex")=="1" && firstFocus=="-1"){
 				firstFocus=c;

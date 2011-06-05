@@ -1,3 +1,14 @@
+Version ClaSS-0.9.41 release (2011/06/7)
+-----------------------------------------
+
+Navigating to next student or next subject component, instead of
+returning to the mark table, added as an option to new_edit_reports in
+MarkBook.
+
+Reworked the chekRadoiIndicator js to add event handler to containing div.
+
+
+
 Version ClaSS-0.9.40 release (2011/05/31)
 -----------------------------------------
 
