@@ -42,9 +42,9 @@ include('scripts/epf_access.php');
 			<h4><?php print $report['title'];?></h4>
 		  </td>
 		  <td>
-			<button style="float:right;" title="<?php print_string('print');?>" 			 
-			onclick="clickToPresent('reportbook','<?php print $report['url'];?>','attendance_summary')" >
-			<img src="images/printer.png" /></button>
+			<a style="float:right;" title="<?php print_string('print');?>" href="<?php print $report['url'];?>" >
+			<img src="images/printer.png" />
+			</a>
 		  </td>
 		</tr>
 	  </table>
@@ -64,7 +64,7 @@ include('scripts/epf_access.php');
 	  <form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
 
 <?php
-	  include('scripts/list_student_report.php');
+	include('scripts/list_student_report.php');
 ?>
 
 		<div id="xml-checked-action" style="display:none;">

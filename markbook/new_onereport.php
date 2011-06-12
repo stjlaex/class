@@ -237,15 +237,14 @@
 					print ' /></div>';
 					}
 
+				print '<div class="row">'.get_string('uncheck',$book).'';
+				print '<input type="radio" name="sid'.$sid.':'.$inc. '" value="uncheck" />';
+				print '</div>';
+
 				if($setcat_date!=' ' and $setcat_date!=''){
 					print '<span style="float:right;color:#aaa;">'.display_date($setcat_date).'</span>';
 					print '<input type="hidden" name="cat'.$sid.':'.$catid.'" value="'.$setcat_value.'"/>';
 					print '<input type="hidden" name="dat'.$sid.':'.$catid.'" value="'.$setcat_date.'"/>';
-					}
-				else{
-					print '<div class="row">'.get_string('uncheck',$book).'';
-					print '<input type="radio" name="sid'.$sid.':'.$inc. '" value="uncheck" checked="yes" />';
-					print '</div>';
 					}
 
 				$inc++;

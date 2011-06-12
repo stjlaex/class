@@ -389,4 +389,6 @@ $string['after']='After';
 $string['before']='Before';
 $string['boarder']='Boarder';
 $string['boarders']='Boarders';
+$string['table']='Table';
+$string['component']='Component';
 ?>

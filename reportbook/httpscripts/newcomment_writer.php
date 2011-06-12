@@ -78,10 +78,10 @@ else{
 if($reportdef['report']['profile_names'][0]!='' and isset($subcomments_fix)){
 		$profile_name=$reportdef['report']['profile_names'][0];
 		/* This fromdate is just a hack needs to check for previous report maybe?*/
-		$reportyear=$reportdef['report']['year']-1;
-		$fromdate=$reportyear.'-08-15';//Does the whole academic year
-		//$reportyear=$reportdef['report']['year'];
-		//$fromdate=$reportyear.'-02-1';
+		//$reportyear=$reportdef['report']['year']-1;
+		//$fromdate=$reportyear.'-08-15';//Does the whole academic year
+		$reportyear=$reportdef['report']['year'];
+		$fromdate=$reportyear.'-02-10';
 		foreach($reportdef['report']['profile_names'] as $profile_name){
 			$Statements=(array)fetchProfileStatements($profile_name,$bid,$pid,$sid,$fromdate);
 			}

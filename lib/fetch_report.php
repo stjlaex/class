@@ -184,7 +184,6 @@ function fetchSubjectReports($sid,$reportdefs){
 							  }
 						  /* This is to collect assessments with an exact match to this strand/component */
 						  elseif(isset($assbids[$reportdef['report']['course_id'].$bid][$strand['id']])){
-							  //trigger_error($strandsno.' SINGLE '.$bid.' : '.$pid.' : '.$strand['id'],E_USER_WARNING);
 							  $assnos=array_merge($assnos,$assbids[$reportdef['report']['course_id'].$bid][$strand['id']]);
 							  }
 						  }
@@ -937,7 +936,7 @@ function fetchReportEntry($reportdef,$sid,$bid,$pid){
 			   //$reportyear=$reportdef['report']['year']-1;
 			   //$fromdate=$reportyear.'-08-15';//Does the whole academic year
 			   $reportyear=$reportdef['report']['year'];
-			   $fromdate=$reportyear.'-06-14';
+			   $fromdate=$reportyear.'-02-14';
 			   $comment_div=array();
 			   foreach($reportdef['report']['profile_names'] as $profile_name){
 				   $Statements=(array)fetchProfileStatements($profile_name,$bid,$pid,$sid,$fromdate);
@@ -997,7 +996,8 @@ function fetchProfileStatements($profile_name,$bid,$pid,$sid,$cutoff_date){
 
 		/* OLD and to be replaced.... */
 		$profilepids=(array)list_subject_components($pid,'FS');
-		$profilepids[]=array('id'=>$pid,'name'=>'');
+		$profilepids[]=array('id'=>$pid,'name'=>'');	
+		$Statements=array();
 		while(list($pidindex,$component)=each($profilepids)){
 			$profilepid=$component['id'];
 			/* This cutoff rating is just a hack to work with the FS profile*/
@@ -1011,7 +1011,6 @@ function fetchProfileStatements($profile_name,$bid,$pid,$sid,$cutoff_date){
 				AND eidsid.component_id='$profilepid' AND
 				assessment.profile_name='$profile_name' AND
 				eidsid.date > '$cutoff_date' AND eidsid.value > '$cutoff_rating';");
-			$Statements=array();
 			while($eidsid=mysql_fetch_array($d_eidsid,MYSQL_ASSOC)){
 				$topic=$eidsid['description'];
 				$d_mark=mysql_query("SELECT comment FROM mark JOIN eidmid ON mark.id=eidmid.mark_id 

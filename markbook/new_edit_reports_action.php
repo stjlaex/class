@@ -28,15 +28,19 @@ if(isset($_POST['nextrow']) and $_POST['nextnav']!='table'){
 		}
 	elseif($nextnav=='component'){
 		/* Step to the next report column identified by the next pid. */
-		$d_m=mysql_query("SELECT DISTINCT component_id FROM mark WHERE midlist='$rid' AND (marktype='report' OR marktype='compound');");
 		$no=0;
 		$areas=array();
-		while($mark=mysql_fetch_array($d_m,MYSQL_ASSOC)){
-			if($mark['component_id']==$inpid){$nextareano=$no;}
-			$areas[]=$mark['component_id'];
-			$no++;
+		foreach($components as $component){
+			$nextpid=$component['id'];
+			$d_m=mysql_query("SELECT component_id FROM mark WHERE midlist='$rid' 
+							AND (marktype='report' OR marktype='compound') AND component_id='$nextpid';");
+			if(mysql_num_rows($d_m)>0){
+				if($component['id']==$inpid){$nextareano=$no;}
+				$areas[]=$component['id'];
+				$no++;
+				}
 			}
-		if($nextareano < (sizeof($areas)-1)){$nextareano=$nextareano+1;}else{$nextareano=0;}
+		if($nextareano < ($no-1)){$nextareano=$nextareano+1;}else{$nextareano=0;}
 		$nextarea=$areas[$nextareano];
 		}
 	$action_post_vars=array('nextrow','nextarea','nextnav');

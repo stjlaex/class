@@ -29,20 +29,20 @@ if(isset($_POST['cids'])){
 		}
 	if($displaymid==0){$displaymid=-1;}
 
-	foreach($_SESSION['cids'] as $index => $cid){
+	foreach($_SESSION['cids'] as $cid){
 		/*this is used to describe the class*/
 		$d_c=mysql_query("SELECT detail, subject_id AS bid, course_id
 					AS crid, stage	FROM class WHERE id='$cid';");
 		$classes[$cid]=mysql_fetch_array($d_c,MYSQL_ASSOC);
 		/* Grab the class's subject components, will only only exlcude those which are status=U (unused) */
 		$comps=list_subject_components($classes[$cid]['bid'],$classes[$cid]['crid']);
-		while(list($index,$component)=each($comps)){
+		foreach($comps as $component){
 			if(!in_array($component['id'],$pids)){
 				$components[]=$component;
 				$pids[]=$component['id'];
 				/* Grab the subject component's components ie. strands. Restrict to AV (for all validating) */
 				$strands=list_subject_components($component['id'],$classes[$cid]['crid'],'AV');
-				while(list($index,$strand)=each($strands)){
+				foreach($strands as $strand){
 					if(!in_array($strand['id'],$pids)){
 						$strand['name']='&nbsp;&nbsp;'.$strand['name'];
 						$pids[]=$strand['id'];
@@ -81,7 +81,7 @@ if(isset($_POST['pid'])){
 	if($_SESSION['pid']!=$_POST['pid']){
 	$_SESSION['pid']=$_POST['pid'];
 	$pid=$_SESSION['pid'];
-	foreach($_SESSION['cids'] as $index => $cid){
+	foreach($_SESSION['cids'] as $cid){
 		$d_component=mysql_query("UPDATE tidcid SET component_id='$pid' 
 						WHERE class_id='$cid' AND teacher_id='$tid'");
 		}

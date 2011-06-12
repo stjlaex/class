@@ -10,7 +10,7 @@ body {
     font-size:medium; 
 	background-color:#444444; color:#ffffff; margin:0; border:0;
 	text-align:left;
-	}
+    }
 a {
     font-size:small; 
     color:#000000; 
@@ -40,7 +40,7 @@ option[value=""]{
     background-color:#eeeeee;
     color:#aaaaaa;
     margin:5px 0;
-	}
+    }
 textarea {
     width:95%;
 	}

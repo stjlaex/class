@@ -7,6 +7,9 @@ MarkBook.
 
 Reworked the chekRadoiIndicator js to add event handler to containing div.
 
+Added the uncheck option for report categories.
+
+Fixed the link to published reports from InfoBook.
 
 
 Version ClaSS-0.9.40 release (2011/05/31)
