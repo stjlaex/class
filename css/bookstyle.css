@@ -553,13 +553,16 @@ div.content fieldset.listmenu, div.content fieldset.listmenu div,
 .listmenu td div.row input, .listmenu td.row div input { 
     margin:0;
     border:2px solid #ff9900;
+	cursor:pointer;
 	}
 .listmenu td div.checked, div.checked input, div.checked label, .checked { 
     background-color:#ff9966 !important;
+	cursor:pointer;
 	}
 .listmenu td.boundary div { 
     border:1px solid #eeeeee;
 	width:15%;
+	cursor:pointer;
 	}
 .listmenu td.boundary { 
 	background-color:#fff;
