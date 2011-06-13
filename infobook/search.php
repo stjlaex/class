@@ -67,8 +67,8 @@ if($_SESSION['role']=='office' or $_SESSION['role']=='admin' or $_SESSION['role'
 		/*only used for the infobook search options, not an enumarray at all!*/
 		$contactfield=array(
 							'surname' => 'surname',
-							'country' => 'country',
-							'private' => 'private'
+							'forename' => 'forename',
+							'country' => 'country'
 							);
 		$studentfield=array(
 							'surname' => 'surname', 
@@ -149,18 +149,15 @@ if($_SESSION['role']=='office' or $_SESSION['role']=='admin' or $_SESSION['role'
 		  <input tabindex="<?php print $tab++;?>" 
 			type="text" id="Contactsurname" name="contactsurname" value="" maxlength="30"/>
 		</div>
+		<div id="switchcontactforename" class="hidden">
+		  <input tabindex="<?php print $tab++;?>" 
+			type="text" id="Contactforename" name="contactforename" value="" maxlength="30"/>
+		</div>
 		<div id="switchcontactcountry" class="hidden">
 <?php 
 	    $listname='contactcountry';$listlabel='';$listfilter='address';
 		include('scripts/set_list_vars.php');
 		list_select_enum('country',$listoptions,$book);
-?>
-		</div>
-		<div id="switchcontactprivate" class="hidden">
-<?php 
-	    $listname='contactprivate';$listlabel='';$listfilter='guardian';;
-		include('scripts/set_list_vars.php');
-		list_select_enum('private',$listoptions,$book);
 ?>
 		</div>
 		<div id="switchstudentsurname" class="hidden">

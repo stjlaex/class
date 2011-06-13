@@ -100,7 +100,13 @@ else{
 		elseif($table=='student' and $field=='forename'){
 			$d_sids=mysql_query("SELECT id FROM $table WHERE 
 				MATCH (forename,preferredforename) AGAINST ('*$value*' IN BOOLEAN MODE) 
-				OR forename='$value' OR preferredforename='$value' 
+				OR forename='$value' OR forename LIKE '%$value%'
+				ORDER BY surname, forename");
+			}
+		elseif($table=='guardian' and $field=='forename'){
+			$d_sids=mysql_query("SELECT id FROM $table WHERE 
+				MATCH (forename) AGAINST ('*$value*' IN BOOLEAN MODE) 
+				OR forename LIKE '%$value%' OR forename='$value'  
 				ORDER BY surname, forename");
 			}
 		elseif($table=='student' and ($field!='surname' and $field!='gender')){
