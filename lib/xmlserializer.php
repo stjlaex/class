@@ -209,9 +209,41 @@ function xmlreader($string){
 
 
 function xmlstringToArray($xml){
+
+	/*TODO: how can tidy do this!!!*/
+	/* fix span elements like <p><span>some text</span>more text</p> because the more text is lost when simplexml does its stuff :-(*/
+	$xml=eregi_replace('<span[^>]*>','', $xml);
+	$xml=eregi_replace('</span>','', $xml);
+
+	/*TODO: is php5-tidy a useful tool? need to test for install before calling as its not standard
+	$config = array(
+            'indent' => false,
+			'drop-proprietary-attributes' => true,
+			'drop-empty-paras' => true,
+			'drop-font-tags' => true,
+            'hide-comments' => true,
+            'output-xml' => true,
+            'show-body-only' => true,
+            'merge-spans' => true,
+            'enclose-block-text' => true,
+            'wrap' => 0);
+
+    $tidy = new tidy;
+    $tidy->parseString($xml, $config, 'utf8');
+    $tidy->cleanRepair();
+	*/
+
     $array=simplexml_load_string($xml);
-    $newArray=objectToArray($array);
+	$newArray=objectToArray($array);
+	//$newArray=object2array($array);
+
 	return $newArray;
+	}
+
+
+/*TODO: do we care which method is used?*/
+function object2array($object){ 
+	return @json_decode(@json_encode($object),1); 
 	}
 
 function objectToArray($object){
@@ -224,6 +256,7 @@ function objectToArray($object){
 		}
 	return array_map('objectToArray', $object );
 	}
+
 
 
 

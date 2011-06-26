@@ -12,7 +12,7 @@ CREATE TABLE attendance_booking (
 	index			indexsidcomid (student_id,community_id),
 	primary key		(id)
 );
-ALTER TABLE users ADD homephone varchar(22) not null default '' AFTER nologin;
+ALTER TABLE users ADD homephone		varchar(22) not null default '' AFTER nologin;
 ALTER TABLE users ADD mobilephone	varchar(22) not null default '' AFTER homephone;
 ALTER TABLE users ADD personalcode	varchar(120) not null default '' AFTER mobilephone;
 ALTER TABLE users ADD address_id	int unsigned not null default '0' AFTER personalcode;

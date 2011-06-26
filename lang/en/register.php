@@ -59,5 +59,4 @@ $string['numberofdays']='School days';
 $string['dailyaverage']='Daily average';
 $string['reason']='Reason';
 $string['']='';
-$string['']='';
 ?>

@@ -57,7 +57,7 @@ function generate_random_name($gender){
 	$table='address';
 	$trows=array();
 	$trows=tableRead($table);
-	while(list($index, $row)=each($trows)){
+	foreach($trows as $row){
 		$id=$row['id'];
 		mysql_query("UPDATE $table SET 
 		street='36 Longstreet', neighbourhood='Housing
@@ -98,7 +98,8 @@ function generate_random_name($gender){
 	$table='incidenthistory';
 	$trows=tableClear($table);
 
-	mysql_query("UPDATE attendance SET comment='', teacher_id=''");
+	mysql_query("UPDATE attendance SET comment='', teacher_id='';");
+	mysql_query("UPDATE attendance_booking SET comment='';");
 
 	$table='incidents';
 	$trows=array();
@@ -153,8 +154,7 @@ function generate_random_name($gender){
 	$trows=tableRead($table);
 	while (list($index, $row) = each($trows)) {
 		$id=$row['id'];
-		$d_gidsid=mysql_query("SELECT relationship FROM gidsid 
-				WHERE guardian_id='$id'");
+		$d_gidsid=mysql_query("SELECT relationship FROM gidsid WHERE guardian_id='$id'");
 		$rel=mysql_result($d_gidsid,0);
 		$d_sid=mysql_query("SELECT surname FROM student JOIN gidsid
 				ON gidsid.student_id=student.id WHERE gidsid.guardian_id='$id';");
@@ -176,7 +176,7 @@ function generate_random_name($gender){
 	$senindex=1;
 	$medicalindex=1;
 	$libraryindex=1;
-	while(list($index, $row)=each($trows)){
+	foreach($trows as $row){
 		$id=$row['uid'];
 		$username=$row['username'];
 		$role=$row['role'];
@@ -218,15 +218,14 @@ function generate_random_name($gender){
 			$nun='medical'.$medicalindex++;
 			}
 		
-		$zsurname = 'Prof '.$nun;
+		$zsurname = $nun;
 		
 		mysql_query("UPDATE $table SET username='$nun',
-			forename='P', surname='$zsurname', email='', emailuser='', nologin='0', logcount='0',
-			passwd='$passwd', ip='', epfusername='$nun' WHERE uid='$id'");
-		mysql_query("UPDATE orderaction SET teacher_id='$nun'
-			WHERE teacher_id='$username'");
-		mysql_query("UPDATE orderorder SET teacher_id='$nun'
-			WHERE teacher_id='$username'");
+			forename='P', surname='$zsurname', email='', emailuser='', emailpasswd='', nologin='0', logcount='0',
+			passwd='$passwd', ip='', epfusername='$nun', homephone='', mobilephone='', personalcode='', 
+			dob='', contractdate='' WHERE uid='$id';");
+		mysql_query("UPDATE orderaction SET teacher_id='$nun' WHERE teacher_id='$username'");
+		mysql_query("UPDATE orderorder SET teacher_id='$nun' WHERE teacher_id='$username'");
 		}
 
 	$table='orderorder';

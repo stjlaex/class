@@ -198,7 +198,7 @@ CREATE TABLE gidsid (
 		 priority		enum('0','1','2','3','4') not null,
 		 mailing		enum('0','1','2','3','4') not null,
 		 relationship	enum('NOT','CAR','DOC','FAM','OTH', 
-				'PAM','PAF','STP','REL','SWR','HFA','AGN','GRM','GRF') not null,
+				'PAM','PAF','STP','REL','SWR','HFA','AGN','GRM','GRF','TUT') not null,
 		 responsibility	enum('N','Y') not null,
 		 primary key 	(guardian_id, student_id)
 );");

@@ -19,6 +19,9 @@ $eveid=$currentevent['id'];
 include('scripts/sub_action.php');
 
 $extrabuttons=array();
+$extrabuttons['notice']=array('name'=>'current',
+							  'title'=>'notice',
+							  'value'=>'register_notice.php');
 $extrabuttons['previewselected']=array('name'=>'current',
 									   'pathtoscript'=>$CFG->sitepath.'/'.$CFG->applicationdirectory.'/register/',
 									   'value'=>'register_print.php',

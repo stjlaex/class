@@ -27,21 +27,20 @@ if(sizeof($sids)==0){
   	$file='/tmp/class_export.xls';
 	$workbook = new Spreadsheet_Excel_Writer($file);
 	$format_hdr_bold =& $workbook->addFormat(array('Size' => 11,
-		                                  'Align' => 'center',
+		                                  //'Align' => 'center',
 		                                  'Color' => 'white',
 		                                  'Pattern' => 1,
 		                                  'Bold' => 1,
 		                                  'FgColor' => 'gray'));
 	$format_line_bold =& $workbook->addFormat(array('Size' => 10,
-		                                  'Align' => 'center',
+		                                  //'Align' => 'center',
 		                                  'Bold' => 1
 		                                  ));
 	$format_line_normal =& $workbook->addFormat(array('Size' => 10,
-		                                  'Align' => 'center',
+		                                  //'Align' => 'center',
 		                                  'Bold' => 0
 		                                  ));
 	$worksheet =& $workbook->addWorksheet('Export_Students');
-  	
   	
 	if(!$file){
 		$error[]='unabletoopenfileforwriting';
@@ -86,7 +85,7 @@ if(sizeof($sids)==0){
 				else{
 					$displayout=$Student[$displayfield]['value'];
 					}
-				$worksheet->write($rown, $col, $displayout, $format_line_normal);
+				$worksheet->write($rown, $col, iconv('UTF-8','ISO-8859-1',$displayout), $format_line_normal);
 				$col++;
 				}
 			$rown++;

@@ -35,24 +35,31 @@ three_buttonmenu();
 	<form id="formtoprocess" name="formtoprocess" novalidate method="post" action="<?php print $host;?>">
 	  <fieldset class="center">
 		<legend><?php print_string('identityofreport',$book);?></legend>
-
+<div class="left">
 <?php
-	$tab=xmlelement_div($RepDef['Title'],'',$tab,'left','reportbook');
- 	$tab=xmlelement_div($RepDef['PublishedDate'],'',$tab,'left','reportbook');
- 	$tab=xmlelement_div($RepDef['Deadline'],'',$tab,'right','reportbook');
+	$tab=xmlelement_div($RepDef['Title'],'',$tab,'center','reportbook');
+ 	$tab=xmlelement_div($RepDef['PublishedDate'],'',$tab,'center','reportbook');
+ 	$tab=xmlelement_div($RepDef['Deadline'],'',$tab,'center','reportbook');
 ?>
-
+</div>
+<div class="right">
 <?php
 		if($rcrid!=''){
 ?>
-		<div class="left">
+		<div class="center">
 <?php 
 			$selstage=$RepDef['Stage']['value'];
 			include('scripts/list_stage.php');
 ?>
 		</div>
 
-		<div class="right">
+		<div class="center">
+<?php 
+			$selsubjectstatus=$RepDef['SubjectStatus']['value'];
+			include('scripts/list_subjectstatus.php'); 
+?>
+		</div>
+		<div class="center">
 <?php 
 			$selcomponentstatus=$RepDef['ComponentStatus']['value'];
 			include('scripts/list_componentstatus.php'); 
@@ -61,7 +68,7 @@ three_buttonmenu();
 <?php
 			}
 ?>
-
+</div>
 	  </fieldset>
 
 <?php
@@ -309,6 +316,7 @@ elseif($sub=='Submit'){
 	if($crid!='wrapper'){
 		/*** This is a subject report ****/
 
+		$substatus=$_POST['subjectstatus'];
 		$compstatus=$_POST['componentstatus'];
 		$stage=$_POST['stage'];
 		$reptype=$_POST['reptype0'];
@@ -317,7 +325,7 @@ elseif($sub=='Submit'){
 		else{$commentlength='0';}
 		if(isset($_POST['profids'])){$profids=(array)$_POST['profids'];}
 
-		mysql_query("UPDATE report SET component_status='$compstatus',
+		mysql_query("UPDATE report SET subject_status='$substatus', component_status='$compstatus',
 				addcomment='$reptype', commentlength='$commentlength', 
 				commentcomp='$commentcomp', stage='$stage', 
 				addcategory='$addcategory', rating_name='$ratingname' WHERE id='$rid';");

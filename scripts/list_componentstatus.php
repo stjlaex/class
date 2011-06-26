@@ -12,7 +12,7 @@ unset($listoptions);
 
 $comps=list_subject_components('%',$rcrid,'A');
 $moreinfo='Determine which subject components this assessment will apply to: ';
-foreach($comps as $index => $comp){
+foreach($comps as $comp){
 	$moreinfo.=$comp['status'].'.'.$comp['name'].' ';
 	}
 ?>

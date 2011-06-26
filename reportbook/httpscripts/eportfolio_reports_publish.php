@@ -114,6 +114,7 @@ else{trigger_error('html2ps not configured!',E_USER_ERROR);}
 			else{
 				$success=false;
 				}
+			unlink($CFG->installpath.'/reports/'.$filename.'.html');
 			}
 
 		if(!$success){

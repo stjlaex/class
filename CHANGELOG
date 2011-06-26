@@ -1,3 +1,34 @@
+Version ClaSS-0.9.42 release (2011/06/27)
+-----------------------------------------
+
+For js compatibility removed class as a var name form bookfunctions.
+
+Applied iconv to the export_students from InfoBook.
+
+Exposed subjectstatus through the new_report scripts.
+
+Fixed the year_end scripts so that report and assessment properties
+are carried forward properly.
+
+Fixed sorting by date for profile statements on reports.
+
+Fixed formatting numbers in export from MarkBook.
+
+Added tutor as a contact relationship.
+
+Replaced the last deprecated split from html_functions and checkEntry.
+
+Import student data now inisists on a postcode for a valid
+address. Can also use either upn, former upn or sid to identify
+students.
+
+Working on new functionality in Register for general notices including two new db
+tables.
+
+Improved the MarkBook's column_export, now formats percentages and raw values in
+Excel correctly.
+
+
 Version ClaSS-0.9.41 release (2011/06/7)
 -----------------------------------------
 
@@ -14,6 +45,7 @@ Fixed the link to published reports from InfoBook.
 Added forename as a guardian search option.
 
 Cursor to a pointer for div.row
+
 
 Version ClaSS-0.9.40 release (2011/05/31)
 -----------------------------------------

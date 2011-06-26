@@ -319,7 +319,7 @@ function fetchReportDefinition($rid,$selbid='%'){
 						  'field_db'=>'year',
 						  'type_db'=>'year', 
 						  'value'=>''.$report['year']);
-   	$RepDef['SubjectStatus']=array('label'=>'subjectstatus', 
+   	$RepDef['SubjectStatus']=array('label'=>'subject', 
 									 'table_db'=>'report', 
 									 'field_db'=>'subject_status',
 									 'type_db'=>'enum', 
@@ -989,7 +989,7 @@ function fetchProfileStatements($profile_name,$bid,$pid,$sid,$cutoff_date){
 
 	if(!isset($cutoff_rating)){$cutoff_rating=-100;}
 	if(!isset($cutoff_level)){$cutoff_level=-100;}
-	if(!isset($cutoff_date)){$cutoff_date='0000-00-00';}
+	if(!isset($cutoff_date)){$cutoff_date=strtotime('0000-00-00');}
 	if(!isset($cutoff_statno)){$cutoff_statno=1000;}
 
 	if($profile_name=='FS Steps'){
@@ -1030,7 +1030,7 @@ function fetchProfileStatements($profile_name,$bid,$pid,$sid,$cutoff_date){
 		/*Only displaying those above which are secure. */
 		$cutoff_rating=1;
 		/* limit to 6 per area (gives 6 most recent regardless of the level)*/
-		$cutoff_level=1;$cutoff_statno=6;
+		$cutoff_level=1;$cutoff_statno=2;
 		}
 
 	  $profilepids=(array)list_subject_components($pid,'KS2');
@@ -1055,9 +1055,9 @@ function fetchProfileStatements($profile_name,$bid,$pid,$sid,$cutoff_date){
 			  if(isset($Categories['Category'])){
 				  foreach($Categories['Category'] as $Category){
 					  if($Category['value']>=$cutoff_rating and $Category['level']>=$cutoff_level 
-						 and ($Category['date']=='' or $Category['date']>=$cutoff_date)){
+						 and ($Category['date']=='' or strtotime($Category['date'])>=$cutoff_date)){
 								 $statno++;
-								 $stat_dates[]=$Category['date'];
+								 $stat_dates[]=strtotime($Category['date']);
 								 $statement=array('statement_text'=>$Category['label'],
 												  'counter'=>0,
 												  'author'=>'ClaSS',

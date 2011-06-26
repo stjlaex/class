@@ -32,6 +32,7 @@ function feeder_fetch($scriptname,$feeder,$postdata){
 	$token=md5($username . $secret);// This gets passed for authentication 
 	$url=$feeder.'/class/admin/httpscripts/'.$scriptname.'.php?username=' 
 			.$username.'&password='. $token;
+
 	$curl=curl_init();
 	curl_setopt($curl,CURLOPT_SSL_VERIFYPEER,0);
 	curl_setopt($curl,CURLOPT_URL,$url);
@@ -41,8 +42,7 @@ function feeder_fetch($scriptname,$feeder,$postdata){
 	$response=curl_exec($curl);
 	curl_close($curl);
 
-	//trigger_error($url,E_USER_WARNING);
-	trigger_error($response,E_USER_WARNING);
+	//trigger_error($response,E_USER_WARNING);
 	
 	if($response!=''){$Response=xmlstringToArray($response);}
 	else{$Response=array();}
