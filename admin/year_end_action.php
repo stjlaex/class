@@ -15,19 +15,18 @@ include('scripts/answer_action.php');
 	$years=array();
 	$yidsyears=array();/* An array to hold the years indexed by yid. */
 	$years=list_yeargroups();
-	while(list($yindex,$year)=each($years)){
+	foreach($years as $year){
 		$yidsyears[$year['id']]=$year;
 		}
-	reset($years);
 	$yidsyears[1000]['name']='Alumni';/* The end point for graduation. */
 	$yidsyears[1000]['sequence']='1000';
 	$seqyears=array();
-	while(list($yid,$year)=each($yidsyears)){
+	reset($yidsyears);
+	foreach($yidsyears as $yid => $year){
 		$seqyear=$year['sequence'];
 		$seqyears[$seqyear][]=$yid;
 		}
 
-	reset($yidsyears);
 	for($c=0;$c<sizeof($years);$c++){
 		$yid=$years[$c]['id'];
 		$seqyear=$years[$c]['sequence'];
@@ -63,12 +62,12 @@ include('scripts/answer_action.php');
 	$cridscourses[1000]['sequence']=1000;
 
 	$sequences=array();
-	while(list($crid,$course)=each($cridscourses)){
+	reset($cridscourses);
+	foreach($cridscourses as $crid => $course){
 		$sequence=$course['sequence'];
 		$sequences[$sequence][]=$crid;
 		}
 
-	reset($cridscourses);
 	for($c=0;$c<sizeof($courses);$c++){
 		$crid=$courses[$c]['id'];
 		$sequence=$courses[$c]['sequence'];
@@ -95,14 +94,14 @@ three_buttonmenu();
 		<legend><?php print_string('endofyearpromotions',$book);?></legend> 
 		  <p><?php print_string('confirmyeargroupstopromote',$book);?></p>
 <?php
-     while(list($yid,$year)=each($yidsyears)){
+     foreach($yidsyears as $yid => $year){
 		 if(isset($year['nextyid'])){
 			 $seqyear=$year['sequence'];
 ?>
 		  <label for="<?php print $year['name'];?>"><?php print $year['name'];?></label>
 		  <select id="<?php print $year['name'];?>" name="<?php print $yid;?>">
 <?php
-			 while(list($index,$newyid)=each($year['nextyid'])){
+			 foreach($year['nextyid'] as $newyid){
 				 print '<option ';
 				 if(($yid==$newyid)){print 'selected="selected"';}
 				 print	' value="'.$newyid.'"> '.$yidsyears[$newyid]['name'].'</option>';
@@ -119,14 +118,14 @@ three_buttonmenu();
 		<legend><?php print_string('endofcoursepromotions',$book);?></legend> 
 		  <p><?php print_string('confirmcoursestopromote',$book);?></p>
 <?php
-     while(list($crid,$course)=each($cridscourses)){
+     foreach($cridscourses as $crid => $course){
 		 if(isset($course['nextcrid'])){
 			 $sequence=$course['sequence'];
 ?>
 		  <label for="<?php print $course['name'];?>"><?php print $course['name'];?></label>
 		  <select id="<?php print $course['name'];?>" name="<?php print $crid;?>">
 <?php
-    	while(list($index,$newcrid)=each($course['nextcrid'])){
+    	foreach($course['nextcrid'] as $newcrid){
 			print '<option ';
 			if(($crid==$newcrid)){print 'selected="selected"';}
 			print	' value="'.$newcrid.'"> '.$cridscourses[$newcrid]['name'].'</option>';

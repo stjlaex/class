@@ -34,6 +34,7 @@ if(sizeof($reenrol_assdefs)>0){
 		$yeargroups[$c]['forms']=(array)list_formgroups($yeargroups[$c]['id']);
 		}
 
+
 	for($c=(sizeof($yeargroups)-1);$c>-1;$c--){
 		$yid=$yeargroups[$c]['id'];
 		$nextpostyid=$_POST[$yid];
@@ -50,7 +51,7 @@ if(sizeof($reenrol_assdefs)>0){
 		if(isset($repeatsids) and sizeof($repeatsids)>0){
 			/* Repeats: just rejoin their existing year group. */
 			$oldcom=array('type'=>'year','name'=>$yid);
-			foreach($repeatsids as $rsindex => $sid){
+			foreach($repeatsids as $sid){
 				join_community($sid,$oldcom);
 				$score=array('result'=>'C','value'=>'0','date'=>$todate);
 				update_assessment_score($reenrol_eid,$sid,'G','',$score);
@@ -59,17 +60,18 @@ if(sizeof($reenrol_assdefs)>0){
 			}
 		unset($repeatsids);
 
+
 		/* Rename the year community. */
 		$community=array('type'=>'year','name'=>$yid);
 		$communitynext=array('type'=>'year','name'=>$nextyid,'detail'=>'');
 		$yearcomid=update_community($community,$communitynext);
 		$yearcommunity=array('id'=>$yearcomid,'type'=>'year','name'=>$nextyid);
 		$leavercom=array('id'=>'', 'type'=>'alumni', 'name'=>'P:'.$yid, 'year'=>$currentyear);
-		while(list($index,$form)=each($yeargroups[$c]['forms'])){
+		foreach($yeargroups[$c]['forms'] as $findex => $form){
 			$fid=$form['id'];
 			if($nextpostyid!='1000'){
-				if(isset($yeargroups[$c+1]['forms'][$index])){
-					$nextfid=$yeargroups[$c+1]['forms'][$index]['id'];
+				if(isset($yeargroups[$c+1]['forms'][$findex])){
+					$nextfid=$yeargroups[$c+1]['forms'][$findex]['id'];
 					}
 				else{
 					$nextfid=$fid.'-'.date('Y').'-'.date('m');
@@ -88,6 +90,7 @@ if(sizeof($reenrol_assdefs)>0){
 			}
 
 		//mysql_query("UPDATE student SET yeargroup_id='$nextyid' WHERE yeargroup_id='$yid';");
+
 
 		if(isset($reenrol_eid)){
 			$pairs=(array)explode (';', $reenrol_assdefs[0]['GradingScheme']['grades']);
@@ -108,7 +111,7 @@ if(sizeof($reenrol_assdefs)>0){
 					$repeatsids=$sids;
 					}
 				if($leavergrade!='C' and $leavergrade!='P' and $leavergrade!='R'){
-					while(list($sindex,$sid)=each($sids)){
+					foreach($sids as $sid){
 						join_community($sid,$leavercom);
 						}
 					}
@@ -119,12 +122,13 @@ if(sizeof($reenrol_assdefs)>0){
 			/* Currently everyone just moves forward as default. */
 			}
 
-		//$result[]='Promoted year '.$yid.' to '.$nextyid;
+		$result[]='Promoted year '.$yid.' to '.$nextyid;
+
 
 		if($type=='alumni'){
 			/* Now join the alumni community proper*/
 			$students=(array)listin_community(array('id'=>$yearcomid));
-			while(list($sindex,$student)=each($students)){
+			foreach($students as $student){
 				$sid=$student['id'];
 				join_community($sid,$leavercom);
 				mysql_query("UPDATE info SET leavingdate='$todate' WHERE student_id='$sid';");
@@ -138,15 +142,14 @@ if(sizeof($reenrol_assdefs)>0){
 			$postdata['currentyear']=$currentyear;
 			$postdata['yid']=$yid;
 			$transfer_Students=array();
-			reset($feeders);
-			while(list($findex,$feeder)=each($feeders)){
+			foreach($feeders as $feeder){
 				$Transfers=array();
-				$Transfers=(array)feeder_fetch('transfer_students',$feeder,$postdata);
+				if($feeder!=''){$Transfers=(array)feeder_fetch('transfer_students',$feeder,$postdata);}
 				/* NOTE the lowercase of the student index, is a product of xmlreader. */
 				if(isset($Transfers['student']) and is_array($Transfers['student'])){
 					//trigger_error('TRANSFER: '.$yid.' '.sizeof($Transfers['student']),E_USER_WARNING);
 					$result[]='TRANSFER: '.$yid.' '.sizeof($Transfers['student']);
-					while(list($tindex,$Student)=each($Transfers['student'])){
+					foreach($Transfers['student'] as $Student){
 						if(isset($Student['surname']) and is_array($Student['surname'])){
 							$previousschool='Transfered from '. $feeder. 
 									' (started there '. $Student['entrydate']['value'].') ';
@@ -184,11 +187,9 @@ if(sizeof($reenrol_assdefs)>0){
 	$acceptedcom=array('id'=>'','type'=>'accepted', 
 					   'name'=>'AC'.':'.$yid,'year'=>$enrolyear);
 	$students=(array)listin_community($acceptedcom);
-   	while(list($sindex,$student)=each($students)){
+	foreach($students as $student){
 		join_community($student['id'],$yearcommunity);
 		}
-
-
 
 
 
@@ -249,8 +250,7 @@ if(sizeof($reenrol_assdefs)>0){
 
 			/* Go through each community of students who were studying
 				this stage (ie. cohidgone) and promote them to nextcohid. */
-			$d_cohidcomid=mysql_query("SELECT community_id FROM cohidcomid 
-											WHERE cohort_id='$cohidgone';");
+			$d_cohidcomid=mysql_query("SELECT community_id FROM cohidcomid WHERE cohort_id='$cohidgone';");
 			while($cohidcomid=mysql_fetch_array($d_cohidcomid,MYSQL_ASSOC)){
 				$comid=$cohidcomid['community_id'];
 				if($nextcohid!=''){
@@ -305,42 +305,43 @@ if(sizeof($reenrol_assdefs)>0){
 	 * academic year.
 	 */
 
-	$d_a=mysql_query("SELECT * FROM assessment WHERE year='$yeargone';");
+	$d_a=mysql_query("SELECT subject_id,component_id,stage,method,element,description,
+				label,resultqualifier,resultstatus,outoftotal,derivation,statistics,
+				grading_name,course_id,component_status,strand_status,year,season,creation,deadline,profile_name 
+				FROM assessment WHERE year='$yeargone';");
 	while($ass=mysql_fetch_array($d_a,MYSQL_NUM)){
-		$dates=(array)explode('-',$ass[19]);
+		$dates=(array)explode('-',$ass[18]);
 		$dates[0]=$dates[0]+1;
 		$creation=$dates[0].'-'.$dates[1].'-'.$dates[2];
-		$dates=(array)explode('-',$ass[20]);
+		$dates=(array)explode('-',$ass[19]);
 		$dates[0]=$dates[0]+1;
 		$deadline=$dates[0].'-'.$dates[1].'-'.$dates[2];
-		$d_newa=mysql_query("INSERT INTO assessment (subject_id,component_id,stage,method,element,description,
-				label,resultqualifier,resultstatus,outoftotal,derivation,statistics,
-				grading_name,course_id,component_status,strand_status,year,season,creation,deadline,profile_name)
-				VALUES ('$ass[1]','$ass[2]','$ass[3]','$ass[4]',
+		$d_newa=mysql_query("INSERT INTO assessment (subject_id, component_id, stage, method, element, description,
+				label, resultqualifier, resultstatus, outoftotal, derivation, statistics,
+				grading_name, course_id, component_status, strand_status, year, season, creation, deadline, profile_name)
+				VALUES ('$ass[0]','$ass[1]','$ass[2]','$ass[3]','$ass[4]',
 				'$ass[5]','$ass[6]','$ass[7]','$ass[8]','$ass[9]','$ass[10]','$ass[11]','$ass[12]',
-				'$ass[13]','$ass[14]','$ass[15]','$ass[16]','$yearnow','$ass[18]',
-				'$creation','$deadline','$ass[21]');");
+				'$ass[13]','$ass[14]','$ass[15]','$yearnow','$ass[17]',
+				'$creation','$deadline','$ass[20]');");
 		$newassrefs[$ass[0]]=mysql_insert_id();
 		}
 
 
-	/* Go for any reports in the past twelve months. */
-	$enddate=$yeargone-1;
-	$enddate=$enddate.'-'.date('m').'-'.date('d');
-
-	$d_r=mysql_query("SELECT * FROM report WHERE date > '$enddate';");
+	$d_r=mysql_query("SELECT title, date, deadline, comment, course_id, stage, subject_status,
+				component_status, addcomment, commentlength, commentcomp, addcategory, style, transform, rating_name, year 
+				FROM report WHERE year='$yeargone';");
 	while($rep=mysql_fetch_array($d_r,MYSQL_NUM)){
-		$dates=(array)explode('-',$rep[2]);
+		$dates=(array)explode('-',$rep[1]);
 		$dates[0]=$dates[0]+1;
 		$date=$dates[0].'-'.$dates[1].'-'.$dates[2];
-		$dates=(array)explode('-',$rep[3]);
+		$dates=(array)explode('-',$rep[2]);
 		$dates[0]=$dates[0]+1;
 		$deadline=$dates[0].'-'.$dates[1].'-'.$dates[2];
-		$d_newa=mysql_query("INSERT INTO report (title,date,deadline,comment,course_id,stage,
-				component_status,addcomment,commentlength,commentcomp,addcategory,style,transform,rating_name)
-				VALUES ('$rep[1]','$date','$deadline','$rep[4]',
+		$d_newa=mysql_query("INSERT INTO report (title, date, deadline, comment, course_id, stage, subject_status,
+				component_status, addcomment, commentlength, commentcomp, addcategory, style, transform, rating_name, year)
+				VALUES ('$rep[0]','$date','$deadline','$rep[3]','$rep[4]',
 				'$rep[5]','$rep[6]','$rep[7]','$rep[8]','$rep[9]','$rep[10]','$rep[11]','$rep[12]',
-				'$rep[13]','$rep[14]');");
+				'$rep[13]','$rep[14]','$yearnow');");
 
 		$newrid=mysql_insert_id();
 		$newrids[$rep[0]]=$newrid;
@@ -374,6 +375,8 @@ if(sizeof($reenrol_assdefs)>0){
 	/* And freshen up the users' history. */
 	mysql_query("DELETE FROM history;");
 	mysql_query("UPDATE users SET logcount='0';");
+
+
 
 	include('scripts/results.php');
 	include('scripts/redirect.php');
