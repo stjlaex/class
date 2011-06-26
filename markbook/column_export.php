@@ -15,18 +15,18 @@ else{
   	//$file=fopen('/tmp/class_export.xls', 'w');
 	$file='/tmp/class_export.xls';
 	$workbook = new Spreadsheet_Excel_Writer($file);
-	$format_bold =& $workbook->addFormat();
-	$format_bold =& $workbook->addFormat(array('Size' => 11,
+	$format_head =& $workbook->addFormat();
+	$format_head =& $workbook->addFormat(array('Size' => 10,
 											   'Align' => 'center',
 											   'Color' => 'white',
 											   'Pattern' => 1,
 											   'Bold' => 1,
 											   'FgColor' => 'gray'));
 	$format =& $workbook->addFormat(array('Size' => 10,
-										  'Align' => 'center',
+										  'Align' => 'left',
 										  'Bold' => 1
 										  ));
-	$worksheet =& $workbook->addWorksheet('ClaSS Export');
+	$worksheet =& $workbook->addWorksheet('ClaSS MarkBook Export');
 
 	if(!$file){
 		$error[]='Unable to open file for writing!';
@@ -35,44 +35,49 @@ else{
 		$checkmids=(array)$_POST['checkmid'];
 
 		/*first do the column headers*/
-		$csv=array();
-		$csv[]='Enrolment No.';
-		$csv[]='Surname';
-		$csv[]='Forename';
-		for($c=0;$c<sizeof($checkmids);$c++){
-			$col_mid=$checkmids[$c];
-			for($col=0;$col<sizeof($umns);$col++){
-				if($col_mid==$umns[$col]['id']){
-					$csv[]=$umns[$col]['topic'] .' '. $umns[$col]['entrydate'].
-						' '.$umns[$col]['component'].' '. $umns[$col]['marktype'];
-					$col=sizeof($umns);
+		$worksheet->setColumn(0,0,14);
+		$worksheet->setColumn(1,2,25);
+		$worksheet->setColumn(3,20,20);
+		$worksheet->write(0, 0, 'Enrolment No.', $format_head);
+		$worksheet->write(0, 1, 'Surname', $format_head);
+		$worksheet->write(0, 2, 'Forename', $format_head);
+		$cols=array();
+		foreach($checkmids as $checkmid){
+			$col=array();
+			$col['mid']=$checkmid;
+			/* No index for the mid so have to cycle through the MarkBook's umns array every time. */
+			for($umnno=0;$umnno<sizeof($umns);$umnno++){
+				if($checkmid==$umns[$umnno]['id']){
+					$col['scoretype']=$umns[$umnno]['scoretype'];
+					$col['head']=$umns[$umnno]['topic'].' '.$umns[$umnno]['component']; 
+					//.' '.$umns[$umnno]['entrydate'].
 					}
 				}
+			$cols[]=$col;
 			}
 
-		/* The column headers */
-		for($col=0; $col<sizeof($csv); $col++) {
-			$worksheet->write(0, $col, $csv[$col], $format_bold);
+		/* Write the column headers */
+		foreach($cols as $colno => $col){
+			$worksheet->write(0, $colno+3, $col['head'], $format_head);
 			}
 
-		/*cycle through the student rows*/
+		/* Now write each student row, looking up the cell values in the MarkBook's viewtable array. */
 		$i=1;
-		for($c2=0;$c2<sizeof($viewtable);$c2++){
-			$csv=array();
-			$csv[]=$viewtable[$c2]['sid'];
-			$csv[]=iconv('UTF-8','ISO-8859-1',$viewtable[$c2]['surname']);
-			$csv[]=iconv('UTF-8','ISO-8859-1',$viewtable[$c2]['forename']);
-			for($c=0;$c<sizeof($checkmids);$c++){
-    			$col_mid=$checkmids[$c];
-				$csv[]=$viewtable[$c2]["$col_mid"];
-				}
-
-			for($col=0;$col<sizeof($csv);$col++){				
-				if($col<=2){
-					$worksheet->write($i, $col, $csv[$col], $format);
+		for($rowno=0;$rowno<sizeof($viewtable);$rowno++){
+			$worksheet->writenumber($i, 0, $viewtable[$rowno]['sid'], $format);
+			$worksheet->write($i, 1, iconv('UTF-8','ISO-8859-1',$viewtable[$rowno]['surname']), $format);
+			$worksheet->write($i, 2, iconv('UTF-8','ISO-8859-1',$viewtable[$rowno]['forename']), $format);
+			foreach($cols as $colno => $col){
+				$value=$viewtable[$rowno][$col['mid']];
+				$no=$colno+3;
+				if($cols[$colno]['scoretype']=='value'){
+					$worksheet->writenumber($i, $no, $value);
 					} 
-				else{					
-					$worksheet->write($i, $col, $csv[$col]);
+				elseif($cols[$colno]['scoretype']=='percentage'){
+					$worksheet->writenumber($i, $no, $value);
+					} 
+				else{
+					$worksheet->write($i, $no, $value);
 					}
 				}
 			$i++;
