@@ -285,11 +285,12 @@ function xmlelement_input($val,$no,$tab,$book){
 		/* TODO: add these patterns for all possible inputs BUT js
 		 needs to be UTF8 aware first!*/
 		//else{$pattern='pattern="alphanumeric"';}
-		$field_type=split('[()]', $val['type_db']);
-		$maxlength=$field_type[1];
+		$field_type=(array)explode('(', $val['type_db']);
+		$field_type=(array)explode(')', $field_type[1]);
+		if(isset($field_type[0])){$maxlength='maxlength="'.$field_type[0].'" ';}else{$maxlength=' ';}
 ?>
 		<input type="text" id="<?php print $val['label'];?>" 
-		  <?php print $pattern;?> maxlength="<?php print $maxlength; ?>" 
+		  <?php print $pattern;?> <?php print $maxlength; ?>
 		  class="<?php if(isset($val['inputtype'])){print $val['inputtype'];}?>" 
 		  name="<?php print $val['field_db'].$no; ?>" 
 		  tabindex="<?php print $tab++;?>" value="<?php print $setval; ?>" />
@@ -298,12 +299,13 @@ function xmlelement_input($val,$no,$tab,$book){
 	elseif($val['type_db']=='smallint' or $val['type_db']=='decimal'){
 		if($val['type_db']=='decimal'){$pattern='pattern="decimal"';$maxlength='20';}
 		else{$pattern='pattern="integer"';$maxlength='4';}
-		$field_type=split('[()]', $val['type_db']);
-		if(isset($field_type[1])){$maxlength=$field_type[1];}
+		$field_type=(array)explode('(', $val['type_db']);
+		$field_type=(array)explode(')', $field_type[1]);
+		if(isset($field_type[0])){$maxlength='maxlength="'.$field_type[0].'" ';}else{$maxlength=' ';}
 ?>
 		<input type="text" id="<?php print $val['label'];?>" 
 			<?php print $pattern;?> 
-		  maxlength="<?php print $maxlength; ?>"
+		  <?php print $maxlength; ?>
 		  class="<?php if(isset($val['inputtype'])){print $val['inputtype'];}?>" 
 		  name="<?php print $val['field_db'].$no; ?>" 
 		  tabindex="<?php print $tab++;?>" value="<?php print $setval; ?>" />

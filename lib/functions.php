@@ -231,13 +231,13 @@ function checkEntry($value, $format='', $field_name=''){
 	$value=trim($value);
 	$value=good_strtolower($value);
 	if($field_name!='email'){$value=ucwords($value);}	
-	$field_type=split('[()]', $format);
+	$field_type=explode('(', $format);
 
 	if($field_name=='form_id'){$value=strtoupper($value);}
 
 	if($field_type[0]=='date'){
 		/*assumes date order day/month/year, php wants year-month-day*/
-		$date=split('[/]',$value);
+		$date=explode('/',$value);
 		$value=$date[2].'-'.$date[1].'-'.$date[0];
 		//$value=$date[0].'-'.$date[1].'-'.$date[2];
 		}
@@ -246,7 +246,7 @@ function checkEntry($value, $format='', $field_name=''){
 		$value=checkEnum($value, $field_name);
 		}
 	elseif($field_type[0]=='time'){
-		$time=split('[:]',$value);
+		$time=explode(':',$value);
 		/*should be validating but no!!!*/
 		//$value=$date[2].'-'.$date[1].'-'.$date[0];
 		}
@@ -769,7 +769,8 @@ function getEnumArray($field_name){
 						'RLG'=>'religiouscontact', 
 						'FAF'=>'familyfriend', 
 						'AGN'=>'agent', 
-						'HFA'=>'hostfamily'
+						'HFA'=>'hostfamily',
+						'TUT'=>'tutor'
 						);
 	$responsibility=array('N'=>'noparentalresponsibility', 
 						  'Y'=>'parentalresponsibility'
@@ -783,7 +784,12 @@ function getEnumArray($field_name){
 	$addresstype=array('H'=>'home', 'W'=>'work', 
 					   'V'=>'holiday', 'O'=>'other');
 
-	/*for the report table*/
+	/*for the report and assessment tables*/
+	$subjectstatus=array('N'=>'non-validating', 
+						 'V'=>'validating', 
+						 'O'=>'othervalidating', 
+						 'AV'=>'allvalidating', 
+						 'A'=>'all');
 	$componentstatus=array('None'=>'notapplied', 
 						   'N'=>'non-validating', 
 						   'V'=>'validating', 
