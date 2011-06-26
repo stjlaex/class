@@ -31,8 +31,6 @@ $nofields=$_SESSION['nofields'];
 		$sidfields=array();
 		$c=0;	
    		$d_student=mysql_query("DESCRIBE student");
-//		remove the first field from user options (id)
-		$ignore=mysql_fetch_array($d_student,MYSQL_ASSOC);
 		while($student_fields=mysql_fetch_array($d_student,MYSQL_ASSOC)){
 				$field_name=$student_fields['Field'];
    				array_push($sidfields, $field_name);

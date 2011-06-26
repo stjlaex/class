@@ -161,31 +161,50 @@ elseif($sub=='Submit'){
 		}
 
 	/*******************cycle through imported rows****************************/
+	$upn_field_no=$infofields['upn'];
+	$formerupn_field_no=$infofields['formerupn'];
+	$sid_field_no=$sidfields['id'];
+
 	for($r=0;$r<sizeof($instudents);$r++){
 		$student=$instudents[$r];
-		/*get the sid for the new student*/
+		unset($d_s);
+		$old_sid=-1;
 
-		$field_no=$infofields['formerupn'];
-		$formerupn=$student[$field_no];
-		$d_s=mysql_query("SELECT student_id FROM info WHERE formerupn='$formerupn' AND formerupn!='';");
-		/**
-		 * TODO: allow option to use of the class id for identifying sids during import
+		/* Identify an existing student record using either the sid,
+		 * formerupn or upn numbers if they are part of the import. 
 		 */
-		//$d_s=mysql_query("SELECT id FROM student WHERE id='$formerupn' AND id!='';");
+		if($student[$formerupn_field_no]){
+			$existingid=$student[$formerupn_field_no];
+			$d_s=mysql_query("SELECT student_id FROM info WHERE formerupn='$existingid' AND formerupn!='';");
+			}
+		elseif($student[$upn_field_no]){
+			$existingid=$student[$upn_field_no];
+			$d_s=mysql_query("SELECT student_id FROM info WHERE upn='$existingid' AND formerupn!='';");
+			}
+		elseif($student[$sid_field_no]){
+			$existingid=$student[$sid_field_no];
+			$d_s=mysql_query("SELECT id FROM student WHERE id='$existingid' AND id!='';");
+			}
 
-		if(mysql_num_rows($d_s)==0 or $formerupn=='' or $formerupn==' ' or mysql_num_rows($d_s)>1){
-			mysql_query("INSERT INTO student SET surname='', forename='';");
-			$new_sid=mysql_insert_id();
-			$old_sid=-1;
+
+		if(isset($d_s)){
+			if(mysql_num_rows($d_s)==0 or $existingid==' ' or $existingid=='' or mysql_num_rows($d_s)>1){
+				$new_sid=-1;
+				}
+			else{
+				$new_sid=mysql_result($d_s,0);
+				$old_sid=$new_sid;
+				}
 			}
 		else{
-			$new_sid=mysql_result($d_s,0);
-			$old_sid=$new_sid;
+			mysql_query("INSERT INTO student SET surname='', forename='';");
+			$new_sid=mysql_insert_id();
 			}
 
+		if($new_sid!=-1){
 		reset($sidfields);
-		while(list($field_name, $field_no)=each($sidfields)){
-			if($field_no==-1){$val='';}//value is null
+		foreach($sidfields as $field_no => $field_name){
+			if($field_no==-1 or $field_name=='id'){$val='';}//value is null
 			else{
 				$val=$student[$field_no];
 				$format=$sidformats[$field_name];
@@ -283,6 +302,7 @@ elseif($sub=='Submit'){
 
 				/*input to guardian table*/
 				reset(${$gfields});
+				unset($priority);unset($relationship);unset($mailing);
 				while(list($field_name, $field_no)=each(${$gfields})){
 					if($field_no==-1){$val='';}//value is null
 					else{
@@ -298,41 +318,51 @@ elseif($sub=='Submit'){
 						}
 					}
 
-				if(!isset($relationship)){$relationship='';}
-				if(!isset($mailing)){$mailing='';}
-				if(!isset($priority)){$priority='';}
+				/* Try to set some sensible values for not so commonly imported fields */
+				if(!isset($relationship)){$relationship='NOT';}
+				if(!isset($mailing)){$mailing='1';}
+				if(!isset($priority)){
+					if($relationship=='PAM'){$priority='0';}
+					elseif($relationship=='PAF'){$priority='1';}
+					else{$priority='2';}
+					}
+
 				mysql_query("INSERT INTO gidsid SET guardian_id='$new_gid', 
 						student_id='$new_sid', priority='$priority',
 						mailing='$mailing', relationship='$relationship';");
 
 				/*input to address table: check some meaningful fields are completed*/ 
-				$ok=0;	
+				$ok=0;
 				if(isset(${$gname.'a'})){
-					if(${$gaddress}['region']!=-1){$region=$student[${$gaddress}['region']]; $ok++;}
-						else{$region=''; }
-					if(${$gaddress}['street']!=-1){
-						$street=$student[${$gaddress}['street']]; 
+					if(${$gaddress}['postcode']!=-1 and $student[${$gaddress}['street']]!=''){
+						$postcode=$student[${$gaddress}['postcode']]; 
+						$ok++;
+						}
+					else{$postcode=''; }
+					if(${$gaddress}['street']!=-1 and $student[${$gaddress}['street']]!=''){
+						$street=$student[${$gaddress}['street']];
 						$ok++;
 						}
 					else{$street='';}
 					}
 
-				/*if region and street blank then too little info for new entry*/
-				if($ok>0){
-					mysql_query("INSERT INTO address SET region='';");
+				/* If postcode and street are both blank then too little info for new entry. */
+				if($ok>1){
+					$new_aid=-1;
+					/*
+					mysql_query("INSERT INTO address SET postcode='';");
 					$new_aid=mysql_insert_id();
 					mysql_query("INSERT INTO gidaid SET 
 										guardian_id='$new_gid', address_id='$new_aid';");
-
+					*/
 					/*check if there is already an entry for this address
 					TODO: If this is wanted then it should be an option but probably not a good idea at all
-					$d_aid=mysql_query("SELECT id FROM address WHERE
-						street='$street' AND region='$region'");
+					*/
+					$d_aid=mysql_query("SELECT id FROM address WHERE street='$street' AND postcode='$postcode';");
 					if(mysql_num_rows($d_aid)==0){
-						mysql_query("INSERT INTO address SET region=''");
+						mysql_query("INSERT INTO address SET postcode=''");
 						$new_aid=mysql_insert_id();
-						mysql_query("INSERT INTO gidaid SET 
-										guardian_id='$new_gid', address_id='$new_aid'");
+						mysql_query("INSERT INTO gidaid SET guardian_id='$new_gid', address_id='$new_aid'");
 						}
 					else{
 						$new_aid=mysql_result($d_aid,0);
@@ -342,18 +372,19 @@ elseif($sub=='Submit'){
 							mysql_query("INSERT INTO gidaid SET 
 											guardian_id='$new_gid', address_id='$new_aid'");
 							}
-					*/
-				
-					reset(${$gaddress});
-					while(list($field_name, $field_no)=each(${$gaddress})){
-						if($field_no==-1){$val='';}//value is null
-						else{
-							$val=$student[$field_no];
-							$format=$gidformats[$field_name];
-							if(isset($_POST["preset$field_no"])){$val=$_POST["preset$field_no"];}
-							$val=checkEntry($val, $format, $field_name);
-							mysql_query("UPDATE address SET
-								$field_name='$val' WHERE id='$new_aid';");
+						}
+
+					if($new_aid!=-1){
+						reset(${$gaddress});
+						while(list($field_name, $field_no)=each(${$gaddress})){
+							if($field_no==-1){$val='';}//value is null
+							else{
+								$val=$student[$field_no];
+								$format=$gidformats[$field_name];
+								if(isset($_POST["preset$field_no"])){$val=$_POST["preset$field_no"];}
+								$val=checkEntry($val, $format, $field_name);
+								mysql_query("UPDATE address SET $field_name='$val' WHERE id='$new_aid';");
+								}
 							}
 						}
 					}
@@ -395,6 +426,7 @@ elseif($sub=='Submit'){
 		$result[]=$student['id'].' '.$student['surname'].'
 			'.$student['forename'].' '.$student['form_id'].'
 				'.$student['yeargroup_id'].' '.$student['dob'];
+		}
 		}
 	$result[]=get_string('studentsaddedtodatabase',$book);
 	include('scripts/results.php');
