@@ -467,16 +467,16 @@ function checkRadioIndicator(parentObj){
 	var inputval=parentObj.childNodes[1].value;
 	var radioObjs=document.getElementsByName(inputname);
 	if(radioObjs.length==4){
-		if(inputval=="-1"){var class="hilite";}
-		else if(inputval=="0"){var class="pauselite";}
-		else if(inputval=="1"){var class="golite";}
+		if(inputval=="-1"){var fieldclass="hilite";}
+		else if(inputval=="0"){var fieldclass="pauselite";}
+		else if(inputval=="1"){var fieldclass="golite";}
 		}
-	else if(inputval=="uncheck"){class="";}
-	else {class="checked";}
+	else if(inputval=="uncheck"){fieldclass="";}
+	else {fieldclass="checked";}
 	for(var c=0;c<radioObjs.length;c++){
 		//if(radioObjs[c].value==inputval && inputval!="uncheck"){
 		if(radioObjs[c].value==inputval){
-			radioObjs[c].parentNode.setAttribute("class",class);
+			radioObjs[c].parentNode.setAttribute("class",fieldclass);
 			radioObjs[c].checked=true;
 			}
 		else{
