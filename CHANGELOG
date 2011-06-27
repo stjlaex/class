@@ -28,6 +28,8 @@ tables.
 Improved the MarkBook's column_export, now formats percentages and raw values in
 Excel correctly.
 
+Included the stop in display_student_transport.
+
 
 Version ClaSS-0.9.41 release (2011/06/7)
 -----------------------------------------

@@ -1837,11 +1837,12 @@ function display_student_transport($sid,$todate=''){
 	$divin='';$divout='';
 	foreach($bookings as $booking){
 		$bus=get_bus($booking['bus_id']);
-		//$stops=list_bus_stops($booking['bus_id']);
+		$stops=list_bus_stops($booking['bus_id']);
+		$stop=$stops[$booking['stop_id']];
 		if($bus['direction']=='I'){$divname='divin';$divclass='AM';}
 		else{$divname='divout';$divclass='PM';}
 		if($$divname==''){
-			$$divname.='<div>'.$bus['name'].' ('.$divclass.')'.'</div>';
+			$$divname.='<div>'.$bus['name'].' ('.$divclass.'):'.$stop['name'].'</div>';
 			}
 		}
 

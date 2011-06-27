@@ -471,8 +471,8 @@ function checkRadioIndicator(parentObj){
 		else if(inputval=="0"){var fieldclass="pauselite";}
 		else if(inputval=="1"){var fieldclass="golite";}
 		}
-	else if(inputval=="uncheck"){fieldclass="";}
-	else {fieldclass="checked";}
+	else if(inputval=="uncheck"){var fieldclass="";}
+	else {var fieldclass="checked";}
 	for(var c=0;c<radioObjs.length;c++){
 		//if(radioObjs[c].value==inputval && inputval!="uncheck"){
 		if(radioObjs[c].value==inputval){
