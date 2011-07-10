@@ -7,7 +7,8 @@ $cancel='student_list.php';
 $action='print_labels.php';
 $choice='print_labels.php';
 
-if(isset($_POST['messageto'])){$messageto=$_POST['messageto'];}else{$messageto='contacts';}
+if(isset($_POST['messageto'])){$messageto=$_POST['messageto'];}else{$messageto='family';}
+if(isset($_POST['explanation'])){$explanation=$_POST['explanation'];}else{$explanation='blank';}
 $_SESSION[$book.'recipients']=array();
 
 
@@ -46,36 +47,34 @@ $recipient_index=array();
 $blank_sids=array();
 $blank_gids=array();
 
-while(list($sindex,$sid)=each($sids)){
+	foreach($sids as $sid){
 		$Student=fetchStudent_short($sid);
 		$Contacts=(array)fetchContacts($sid);
 		$sid_recipient_no=0;
-		while(list($cindex,$Contact)=each($Contacts)){
+		foreach($Contacts as $cindex => $Contact){
 			$Recipient=array();
+			$Recipient['StudentName']=$Student['DisplayFullName'];
+			$Recipient['StudentNumber']=$Student['EnrolNumber'];
 			if($Contact['ReceivesMailing']['value']=='1'){
 				/* Only contacts who are flagged to receive all mailings */
 				if(sizeof($Contact['Addresses'])>0){
 					$Recipient['Address']=$Contact['Addresses'];
 					if($messageto=='contacts'){
 						$Recipient['DisplayFullName']=$Contact['DisplayFullName'];
-						$Recipient['explanation']=$Student['DisplayFullName'];
 						$Recipients['Recipient'][]=$Recipient;
 						$sid_recipient_no++;
-						$explanation='studentname';
 						}
 					elseif($messageto=='student' and !isset($recipient_index[$sid])){
 						$recipient_index[$sid]=$sid;
 						$Recipient['DisplayFullName']=$Student['DisplayFullName'];
 						$Recipients['Recipient'][]=$Recipient;
 						$sid_recipient_no++;
-						$explanation='blank';
 						}
 					elseif($messageto=='family' and !isset($recipient_index[$Contact['id_db']])){
 						$recipient_index[$Contact['id_db']]=$Contact['id_db'];
-						$Recipient['DisplayFullName']=$Contact['DisplayFullName'];
+						$Recipient['DisplayFullName']=$Contact['DisplayAddressName'];
 						$Recipients['Recipient'][]=$Recipient;
 						$sid_recipient_no++;
-						$explanation='blank';
 						}
 					elseif(isset($recipient_index[$sid]) or isset($recipient_index[$Contact['id_db']])){
 						$sid_recipient_no++;
@@ -159,24 +158,21 @@ two_buttonmenu($extrabuttons,$book);
 ?>
 		</div>
 		<div class="right">
-<!--
 		  <div class="row left">
 			<label for="contacts"><?php print_string('enrolmentnumber',$book);?></label>
 			<input type="radio" name="explanation"
 				   title="" id="enrolmentno" tabindex="<?php print $tab++;?>" 
 			value="enrolmentno" <?php if($explanation=='enrolmentno'){print 'checked';}?> />
 		  </div>
--->
-
 		  <div class="row left">
-				<label for="students"><?php print get_string('student',$book).' '.get_string('name',$book);?></label>
+			<label for="students"><?php print get_string('student',$book).' '.get_string('name',$book);?></label>
 			<input type="radio" name="explanation"
 				   title="" id="studentname" tabindex="<?php print $tab++;?>" 
 			value="studentname" <?php if($explanation=='studentname'){print 'checked';}?> />
 		  </div>
 
 		  <div class="row left">
-				<label for="blank"><?php print_string('none','infobook');?></label>
+			<label for="blank"><?php print_string('none','infobook');?></label>
 			<input type="radio" name="explanation"
 				   title="" id="blank" tabindex="<?php print $tab++;?>" 
 			value="blank" <?php if($explanation=='blank'){print 'checked';}?> />

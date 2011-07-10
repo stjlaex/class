@@ -693,13 +693,24 @@ function fetchContact($gidsid=array('guardian_id'=>'-1','student_id'=>'-1','prio
 							'type_db' => 'enum', 
 							'default_value' => '0',
 							'value' => ''.$guardian['title']);
+	$Contact['AddressTitle']=array('label' => 'addresstitle', 
+							'table_db' => 'guardian', 
+							'field_db' => 'addresstitle', 
+							'type_db' => 'varchar(120)', 
+							'default_value' => '',
+							'value' => ''.$guardian['addresstitle']);
+	$title=get_string(displayEnum($Contact['Title']['value'], 'title'),'infobook');
 	$Contact['DisplayFullName']=array('label' => 'fullname',  
-									  'value' =>
-			   					  get_string(displayEnum($Contact['Title']['value'], 'title'),'infobook')
-									  .' ' . $guardian['forename'] . ' ' 
-									  //.$guardian['middlenames']
+									  'value' => $title .' ' . $guardian['forename'] . ' ' 
 									  . ' ' . $guardian['surname']);
-
+    if($Contact['AddressTitle']['value']!=''){
+		$Contact['DisplayAddressName']=array('label' => 'labelname',  
+											 'value' => ''.$Contact['AddressTitle']['value']);
+		}
+	else{
+		$Contact['DisplayAddressName']=array('label' => 'labelname',  
+											 'value' => $title. ' ' . $guardian['surname']);
+		}
 	$Contact['EmailAddress']=array('label' => 'email', 
 								  'table_db' => 'guardian', 
 								  'field_db' => 'email', 

@@ -52,12 +52,7 @@ two_buttonmenu($extrabuttons);
 	while(list($index,$com)=each($registration_coms)){
 		list($nosids,$nop,$noa)=check_communityAttendance($com,$eveid);
 		if($nosids>0){
-			if(!isset($CFG->registrationtype) or $CFG->registrationtype=='form'){
-				$getparam='newfid='.$com['name'];
-				}
-			else{
-				$getparam='newcomid='.$com['id'];
-				}
+			$getparam='newcomid='.$com['id'];
 			if(($nop+$noa)==$nosids and $nosids!=0){$status='complete';$cssclass='';}
 			else{$status='incomplete';$cssclass='vspecial';}
 			$totalnop+=$nop;

@@ -68,7 +68,8 @@ if($_SESSION['role']=='office' or $_SESSION['role']=='admin' or $_SESSION['role'
 		$contactfield=array(
 							'surname' => 'surname',
 							'forename' => 'forename',
-							'country' => 'country'
+							'country' => 'country',
+							'postcode' => 'postcode'
 							);
 		$studentfield=array(
 							'surname' => 'surname', 
@@ -158,6 +159,14 @@ if($_SESSION['role']=='office' or $_SESSION['role']=='admin' or $_SESSION['role'
 	    $listname='contactcountry';$listlabel='';$listfilter='address';
 		include('scripts/set_list_vars.php');
 		list_select_enum('country',$listoptions,$book);
+?>
+		</div>
+		<div id="switchcontactpostcode" class="hidden">
+<?php 
+		$d_p=mysql_query("SELECT DISTINCT postcode AS id, postcode AS name FROM address ORDER BY postcode;");
+	    $listname='contactpostcode';$listlabel='';$listfilter='address';
+		include('scripts/set_list_vars.php');
+		list_select_db($d_p,$listoptions,$book);
 ?>
 		</div>
 		<div id="switchstudentsurname" class="hidden">

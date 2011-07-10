@@ -1,4 +1,4 @@
-Version ClaSS-0.9.42 release (2011/06/27)
+Version ClaSS-0.9.42 release (2011/07/09)
 -----------------------------------------
 
 For js compatibility removed class as a var name form bookfunctions.
@@ -22,13 +22,21 @@ Import student data now inisists on a postcode for a valid
 address. Can also use either upn, former upn or sid to identify
 students.
 
-Working on new functionality in Register for general notices including two new db
-tables.
+New functionality in Register for pop-up notices including two new db tables.
 
 Improved the MarkBook's column_export, now formats percentages and raw values in
 Excel correctly.
 
 Included the stop in display_student_transport.
+
+Simplified the register to use only newcomid or newcid to identify registration group.
+
+Added postcode to the InfoBook options for searching contacts.
+
+Extra guardian field for address title used by preferrence on labels.
+
+Reworked the explanation option on labels, adding enrolment number as an option.
+
 
 
 Version ClaSS-0.9.41 release (2011/06/7)
@@ -38,7 +46,7 @@ Navigating to next student or next subject component, instead of
 returning to the mark table, added as an option to new_edit_reports in
 MarkBook.
 
-Reworked the chekRadoiIndicator js to add event handler to containing div.
+Reworked the chekRadioIndicator js to add event handler to containing div.
 
 Added the uncheck option for report categories.
 

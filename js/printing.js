@@ -127,3 +127,4 @@ function serializeXML(xmlDocument){
     return "Can't serialize XML document.";
   }
 }
+

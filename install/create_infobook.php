@@ -174,6 +174,7 @@ CREATE TABLE guardian (
 	forename	varchar(120) not null default '', 
 	middlenames	varchar(30) not null default '', 
 	title		varchar(20) not null default '', 
+	addresstitle varchar(120) not null default '',
 	gender		enum('F','M') not null, 
 	dob			date not null default '0000-00-00',
 	translator	enum('N','Y') not null,

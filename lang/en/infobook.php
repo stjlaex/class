@@ -213,5 +213,6 @@ $string['saveview']='Save view';
 $string['selectview']='Select view';
 $string['sharedwithguardians']='Shared';
 $string['private']='Private';
+$string['addresstitle']='Address Title';
 $string['']='';
 ?>

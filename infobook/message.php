@@ -23,7 +23,7 @@ else{
 /**/
 
 if(isset($_POST['messageop'])){$messageop=$_POST['messageop'];}else{$messageop='email';}
-if(isset($_POST['messageto'])){$messageto=$_POST['messageto'];}else{$messageto='contacts';}
+if(isset($_POST['messageto'])){$messageto=$_POST['messageto'];}else{$messageto='family';}
 $_SESSION[$book.'recipients']=array();
 
 

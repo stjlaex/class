@@ -16,8 +16,8 @@ $string['timetakenappreciated']='The time taken to describe the problem in detai
 $string['classblurb']='ClaSS (the ClaSS Student System) is a complete student tracking, <br /> reporting and information management system. ClaSS aims to be <br /> the ubiquitous classroom information assistant for schools.';
 $string['formoreinformation']='For more information on how to use
 ClaSS, how you can contribute <br />  to improving ClaSS and to discover how ClaSS can make a difference <br /> to the learning in your school, then take a look at the ClaSS project page.<br />';
-$string['gplintro']='This software is copyright (c) 2002 - 2009
-S. T. Johnson; copyright (c) 2010 ClaSS Information Services S. L. All rights reserved.<br /> This program is free software; you can
+$string['gplintro']='This software is copyright (c) 2002 - 2011
+S. T. Johnson. All rights reserved.<br /> This program is free software; you can
 redistribute it and/or modify it under the <br /> terms of the GNU Affero General Public License version 3 or (at your option) any later version. <br />';
 $string['documentation']='Documentation';
 $string['usermanual']='User manual';

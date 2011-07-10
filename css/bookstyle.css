@@ -137,11 +137,8 @@ form img.calendar {
 	cursor:pointer;
 	background-repeat:no-repeat;
 	}
-/**/
 fieldset {
     border-style:none;
-    border-top:2px solid;
-	background-color:#dde;
 	}
 div.hidden {
 	display:none;
@@ -187,10 +184,10 @@ div.content div {
 	}
 div.content fieldset {
     padding:1%; margin:0;
-	background-color:#dde;
+	background-color:#eeeeee;
 	}
 div.content fieldset div {
-	background-color:#dde;
+	background-color:#eeeeee;
 	}
 div.content fieldset.divgroup, 
 div.topform fieldset.divgroup, div.divgroup,

@@ -17,6 +17,11 @@ if($current!=''){
         <script>parent.updateMarkDisplay(<?php print $displaymid;?>);</script>
 <?php
 		}
+	elseif($book=='register' and $notice!=''){
+?>
+        <script>parent.openAlert('<?php print $notice;?>');</script>
+<?php
+		}
 
 	$uid=$_SESSION['uid'];
 	mysql_query("INSERT INTO history SET uid='$uid', page='$current'");

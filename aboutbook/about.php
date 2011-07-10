@@ -21,8 +21,8 @@
 <hr width="80%">
 
 <p>
-<img onClick="window.open('http://classforschools.com/support','ClaSS Information Services');"
-alt="ClaSS Information Services" src="images/classis_transparent_120x100.png" />
+<img onClick="window.open('http://classis.co.uk/support','ClaSS IS');"
+alt="ClaSS IS" src="images/classis_transparent_120x100.png" />
 </p>
 
 <p>

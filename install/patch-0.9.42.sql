@@ -14,3 +14,5 @@ CREATE TABLE event_notidcomid (
 ALTER TABLE gidsid
 	  CHANGE relationship relationship enum('NOT','CAR','DOC','FAM','OTH', 
 				'PAM','PAF','STP','REL','SWR','HFA','AGN','GRM','GRF','TUT') not null;
+ALTER TABLE guardian ADD
+	addresstitle varchar(120) not null default '' AFTER title;

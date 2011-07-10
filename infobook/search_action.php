@@ -83,13 +83,7 @@ else{
 
 	/*new search method using field and value - currently for admin and office only*/
 	if(isset($field)){
-		if($table=='guardian' and $field=='country'){
-			$d_sids=mysql_query("SELECT DISTINCT guardian_id AS id FROM gidaid
-				JOIN address ON gidaid.address_id=address.id WHERE
-				MATCH (address.country) AGAINST ('$value*' IN BOOLEAN MODE) 
-				OR address.country='$value'");
-			}
-		elseif(($table=='student' or $table=='guardian') and $field=='surname'){
+		if(($table=='student' or $table=='guardian') and $field=='surname'){
 			/*defaults to surname or gender search*/
 				//OR $field LIKE '%$value%' 
 			$d_sids=mysql_query("SELECT id FROM $table WHERE
@@ -114,6 +108,18 @@ else{
 					info.student_id=student.id WHERE
 				MATCH (info.$field) AGAINST ('$value*' IN BOOLEAN MODE) 
 				OR info.$field='$value' ORDER BY student.surname, student.forename");
+			}
+		elseif($table=='guardian' and $field=='country'){
+			$d_sids=mysql_query("SELECT DISTINCT guardian_id AS id FROM gidaid
+				JOIN address ON gidaid.address_id=address.id WHERE
+				MATCH (address.country) AGAINST ('$value*' IN BOOLEAN MODE) 
+				OR address.country='$value'");
+			}
+		elseif($table=='guardian' and $field=='postcode'){
+			$d_sids=mysql_query("SELECT DISTINCT guardian_id AS id FROM gidaid
+				JOIN address ON gidaid.address_id=address.id WHERE
+				MATCH (address.postcode) AGAINST ('$value*' IN BOOLEAN MODE) 
+				OR address.postcode='$value'");
 			}
 		else{
 			/*defaults to gender search*/

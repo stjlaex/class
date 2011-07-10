@@ -7,6 +7,7 @@
 $action='register_list_action.php';
 $choice='register_list.php';
 
+$notice='';
 
 include('scripts/sub_action.php');
 
@@ -49,9 +50,8 @@ else{$session='AM';}
 			}
 		}
 	else{
-		//$community=array('id'=>'','type'=>'form','name'=>$newfid);
 		$students=(array)listin_community($community);
-		if($community['type']=='form'){$tutor_user=(array)get_tutor_user($newfid);}
+		if($community['type']=='form'){$tutor_user=(array)get_tutor_user($community['name']);}
 		$AttendanceEvents=fetchAttendanceEvents($startday,$nodays,$session);
 
 		/* If the currentevent is not yet in the db event table then must
@@ -64,6 +64,17 @@ else{$session='AM';}
 			$Event['Session']['value']=$currentevent['session'];
 			$Event['Period']['value']=$currentevent['period'];
 			$AttendanceEvents['Event'][]=$Event;
+			}
+
+		$sess=$currentevent['session'];
+		$dat=$currentevent['date'];
+		$comid=$community['id'];
+		$d_n=mysql_query("SELECT comment FROM event_notice 
+							JOIN event_notidcomid ON event_notidcomid.notice_id=event_notice.id 
+							WHERE event_notidcomid.community_id='$comid' 
+							AND event_notice.session='$sess' AND event_notice.date='$dat';");
+		while($n=mysql_fetch_array($d_n)){
+			$notice.=$n['comment'].'<br />';
 			}
 		}
 
@@ -104,12 +115,12 @@ else{$session='AM';}
 	threeplus_buttonmenu($startday,2,$extrabuttons);
 
 
-if($community['type']!='class'){
+if($community['type']=='form'){
 ?>
   <div id="heading">
 	<div>
 	  <label><?php print_string('formgroup');?></label>
-	  <?php print $newfid;?>
+	  <?php print $community['name'];?>
 	</div>
 <?php
 	if(isset($tutor_user)){

@@ -25,11 +25,14 @@ $Students['paper']='portrait';
 $Students['homecountry']=strtoupper($CFG->sitecountry);
 $Students['explanation']=$explanation;
 
+
 if(isset($recipients) and sizeof($recipients)>0){
 	$Students['recipients']=$recipients;
 	$returnXML=$Students;
 	$rootName='Students';
 	}
+/* this is de precated - was used for labels button in admin -> enrolment_list.php*/
+/*
 elseif(isset($sids) and sizeof($sids)>0){
 	$Recipients=array();
 	$Recipients['Recipient']=array();
@@ -40,7 +43,6 @@ elseif(isset($sids) and sizeof($sids)>0){
 		foreach($Contacts as $Contact){
 			$Recipient=array();
 			if($Contact['ReceivesMailing']['value']=='1' and $sid_recipient_no==0){
-				/* Only contacts who are flagged to receive all mailings */
 				if(sizeof($Contact['Addresses'])>0){
 					$Recipient['Address']=$Contact['Addresses'];
 					$Recipient['DisplayFullName']=$Contact['DisplayFullName'];
@@ -52,7 +54,7 @@ elseif(isset($sids) and sizeof($sids)>0){
 						$Recipient['explanation']=$Student['EnrolmentNumber'];
 						}
 					else{$Recipient['explanation']='';}
-
+					trigger_error($explanation,E_USER_WARNING);
 					$Recipients['Recipient'][]=$Recipient;
 					$sid_recipient_no++;
 					}
@@ -63,6 +65,8 @@ elseif(isset($sids) and sizeof($sids)>0){
 	$returnXML=$Students;
 	$rootName='Students';
 	}
+
+*/
 else{
 	$result[]=get_string('youneedtoselectstudents');
 	$returnXML=$result;
