@@ -172,12 +172,12 @@ if($_SESSION['worklevel']>-1){
 		</tr>
 <?php
    	/*******************************************
-	 *	Generate each student's row in the table, $row is set as the sizeof
+	 *	Generate each student's row in the table, $rowno is set as the sizeof
 	 *	the viewtable
 	 */
    	include('class_view_table.php');
 
-	for($c2=0;$c2<$row;$c2++){
+	for($c2=0;$c2<$rowno;$c2++){
 		$c4=$c2+1;
 ?>
 		<tr id="sid-<?php print $viewtable[$c2]['sid'];?>" 
@@ -244,8 +244,41 @@ if($_SESSION['worklevel']>-1){
 					}
 			}
 		print '</tr>';
-	}
+		}
 ?>
+
+		<tr id="sid-0" bgcolor="#ffffff">
+		  <td></td>
+		  <td></td>
+		  <td class="student"></td>
+		  <td></td>
+		  <td></td>
+<?php
+		for($c=0;$c<$c_marks;$c++){
+			$col_mid=$umns[$c]['id'];
+			if($umns[$c]['marktype']=='report'){
+				$out='';
+				}
+			elseif($umns[$c]['marktype']=='tally' or $umns[$c]['marktype']=='dif'){
+				$out=round($totals[$col_mid]['value']/$totals[$col_mid]['no']);
+				}
+			elseif($umns[$c]['scoretype']=='grade'){
+				$out=round($totals[$col_mid]['value']/$totals[$col_mid]['no']);
+				$out=scoreToGrade($out,$scoregrades[$c]);
+				}
+			elseif($scoretype=='value' or $scoretype='compound' or $scoretype='sum' or $scoretype='average'){
+				$out=round($totals[$col_mid]['value']/$totals[$col_mid]['no']);
+				}
+			elseif($scoretype=='percentage'){
+				$out=$totals[$col_mid]['value'];
+				}
+			else{
+				$out='';
+				}
+			print '<td class="grade" id="0-'. $col_mid. '" >'.$out.'</td>';
+			}
+?>
+		</tr>
 	  </table>
 
 	<input type="hidden" name="current" value="" />		

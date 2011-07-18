@@ -1,4 +1,4 @@
-Version ClaSS-0.9.42 release (2011/07/09)
+Version ClaSS-0.9.42 release (2011/07/18)
 -----------------------------------------
 
 For js compatibility removed class as a var name form bookfunctions.
@@ -36,6 +36,12 @@ Added postcode to the InfoBook options for searching contacts.
 Extra guardian field for address title used by preferrence on labels.
 
 Reworked the explanation option on labels, adding enrolment number as an option.
+
+Reworked the treatment of derived columns in class_view_table to use prefetched scores.
+
+The profile sum for compound category columns now implemented.
+
+Added a bottom row of column averages to the markbook table.
 
 
 

@@ -40,6 +40,7 @@ if(mysql_result($d_a,0)>0){
 $d_a=mysql_query("SELECT MAX(date) FROM admission_stats WHERE year='$lastenrolyear' AND date<='$todate';");
 if(mysql_result($d_a,0)>0){
 	$lastcurrentdate=mysql_result($d_a,0);/* Date of most recent stats in the db */
+	//$lastcurrentdate='2011-06-28';
 	}
 $d_a=mysql_query("SELECT MAX(date) FROM admission_stats WHERE year='$beforelastenrolyear' AND date<='$todate';");
 if(mysql_result($d_a,0)>0){
@@ -56,12 +57,13 @@ $doing[]=array($lastenrolyear,$lastdate);
 $doing[]=array($lastenrolyear,$lastcurrentdate);
 $doing[]=array($beforelastenrolyear,$beforelastcurrentdate);
 
-foreach($doing as $todo){
+foreach($doing as $tableno => $todo){
 	$year=$todo[0];
 	$date=$todo[1];
 	$Stat=array();
 	$Stat['Groups']=array();
-	$Stat['Date']['value']=$date;
+	if($tableno!=2){$Stat['Date']['value']=$date;}
+	else{$Stat['Date']['value']=$currentdate;}
 	$Stat['Enrolyear']['value']=$year;
 	foreach($yeargroups as $group){
 		$yid=$group['id'];

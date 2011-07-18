@@ -80,9 +80,10 @@ legend, caption  {
 	text-align:left; 
     font-size:x-small; 
     font-weight:300;
-    border:2px solid;
+    border:none;
 	background-color:#ffffff;
-    color:#000000;
+    color:#666666;
+    padding:1px 5px 1px 5px;
 	}
 
 /*generic form stuff, including validation*/

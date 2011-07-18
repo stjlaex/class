@@ -218,11 +218,16 @@ for($i=0;$i<sizeof($cids);$i++){
 		  $c++;
 		}
 
-	/* Everything is different if we are viewing a profile. A column 0
-	 * will be added which is the average for all of the other profile
-	 * columns. this does not exist in the markbook and so needs to be
-	 * dynamically generated.
-	 */
+
+	 /**
+	  *
+	  * Everything is different if we are viewing a profile. A column
+	  * 0 will be added which is the average of all of the other
+	  * profile columns or the difference between the first and most
+	  * recent. This does not exist in the markbook and so needs to be
+	  * dynamically generated.
+	  *
+	  */
 	if($umntype=='p'){
 		$c_marks++;
 		$profile_midlist='';
@@ -255,9 +260,9 @@ for($i=0;$i<sizeof($cids);$i++){
 					$first_profile_iumn=$iumn;
 					}
 				/* Only including if it has the right grading scheme. */
-				if($scoregrading[$iumn]==$scoregrading[$first_profile_iumn] 
-				   and $umns[$iumn]['assessment']=='yes'){
+				if($scoregrading[$iumn]==$scoregrading[$first_profile_iumn]){
 					$profile_midlist.=$umns[$iumn]['id'].' ';
+					//$profile_midlist.=$iumn.' ';
 					}
 				}
 			}
@@ -285,7 +290,7 @@ for($i=0;$i<sizeof($cids);$i++){
 		$marktype[0]=$marktype;
 		$lena[0]=$lena[$first_profile_iumn];
 		$midlist[0]=$profile_midlist;
-		$umns[0]=array('id'=>-1, 
+		$umns[0]=array('id'=>0, 
 					   'mark_total'=>'', 
 					   'marktype'=>$marktype,
 					   'scoretype'=>$scoretype[$first_profile_iumn],
