@@ -19,6 +19,8 @@ $beforelastenrolyear=$enrolyear-2;
 $yearstart=$currentyear-1;
 $yearstartdate=$yearstart.'-08-20';
 $yearenddate=$yearstart.'-07-20';
+$cutoffdate=$currentyear.'-'.$CFG->enrol_cutoffmonth.'-01';
+$targetdate=date('Y-m-d',mktime(0,0,0,$CFG->enrol_cutoffmonth+2,1,$currentyear));
 $yeargroups=list_yeargroups();
 
 /* Does the school have boarders? */
@@ -37,10 +39,11 @@ if(mysql_result($d_a,0)>0){
 	$diff=mktime(0,0,0,$currents[1],$currents[2],$currents[0]) - mktime(0,0,0,$starts[1],$starts[2],$starts[0]);
 	$month=round($diff/(60*60*24*30));/* How months into academic year */
 	}
-$d_a=mysql_query("SELECT MAX(date) FROM admission_stats WHERE year='$lastenrolyear' AND date<='$todate';");
+$d_a=mysql_query("SELECT MAX(date) FROM admission_stats WHERE year='$lastenrolyear' AND date<='$cutoffdate';");
 if(mysql_result($d_a,0)>0){
 	$lastcurrentdate=mysql_result($d_a,0);/* Date of most recent stats in the db */
 	//$lastcurrentdate='2011-06-28';
+	trigger_error('!!!!!!!!!!!!!!!!!!'.$lastcurrentdate,E_USER_WARNING);
 	}
 $d_a=mysql_query("SELECT MAX(date) FROM admission_stats WHERE year='$beforelastenrolyear' AND date<='$todate';");
 if(mysql_result($d_a,0)>0){
@@ -204,7 +207,7 @@ foreach($tables as $tablename=>$table_cols){
 		$Col=array();
 		$Col['name']=get_string($name,$book);
 		if($name=='projectedroll'){$Col['date'].=display_date($todate);}
-		elseif($name=='targetroll'){$Col['date'].=display_date($lastenrolyear. '-'.$CFG->enrol_cutoffmonth.'-30');}
+		elseif($name=='targetroll'){$Col['date'].=display_date($targetdate);}
 		$Col['value']=$col;
 		$Table['cols']['col'][]=$Col;
 		}

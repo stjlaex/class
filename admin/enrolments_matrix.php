@@ -33,11 +33,12 @@ twoplus_buttonmenu($enrolyear,$currentyear+3,$extrabuttons,$book,$currentyear);
 
 
 $todate=date('Y-m-d');
-
 $yearstart=$currentyear-1;
 $yearstartprevious=$yearstart-1;
 $yearstartdate=$yearstart.'-08-15';
 $yearenddate=$yearstart.'-07-20';
+$cutoffdate=$currentyear.'-'.$CFG->enrol_cutoffmonth.'-01';
+$targetdate=date('Y-m-d',mktime(0,0,0,$CFG->enrol_cutoffmonth+2,1,$currentyear));
 $d_a=mysql_query("SELECT MAX(date) FROM admission_stats WHERE year='$enrolyear';");
 if(mysql_result($d_a,0)>0){
 	$update=mysql_result($d_a,0);

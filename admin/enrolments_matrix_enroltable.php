@@ -31,8 +31,7 @@
 				'&enrolstatus='.$enrolcol.'">'.get_string($enrolcol,$book).'</a>';
 			if($enrolcol=='targetroll'){
 				$disyear=$enrolyear-1;
-				$enrolcols[$colindex]['display'].='<br />('. 
-					display_date($disyear. '-'.$CFG->enrol_cutoffmonth.'-30').')';
+				$enrolcols[$colindex]['display'].='<br />('. display_date($targetdate) .')';
 				}
 			}
 		else{
@@ -100,11 +99,19 @@
 
 			/* Each enrol column has its own calculation */
 			if($enrolcol=='reenroling'){
-				$cell['confirm']=count_reenrol_no($comid,$reenrol_eid,'C');
-				$cell['repeat']=count_reenrol_no($comid,$reenrol_eid,'R');
-				$cell['pending']=count_reenrol_no($comid,$reenrol_eid,'P');
-				$cell['pending']+=count_reenrol_no($comid,$reenrol_eid,'');
-				$cell['leavers']=count_reenrol_no($comid,$reenrol_eid,'L','LL');
+				$cell['confirm']=count_reenrol_no($comid,$reenrol_eid,'C','');
+				$cell['repeat']=count_reenrol_no($comid,$reenrol_eid,'R','');
+				$cell['pending']=count_reenrol_no($comid,$reenrol_eid,'P','');
+				$cell['pending']+=count_reenrol_no($comid,$reenrol_eid,'','');
+				/* Have to count anyone removed from the roll after
+				 * the cutoffdate as not reenrolling (leavers in September) whatever their
+				 * reenroll status might be.
+				 */
+				$leavercomid=update_community(array('id'=>'','type'=>'alumni','name'=>'P:'.$yid,'year'=>$currentyear));
+				$leavercom=get_community($leavercomid);
+				$cutoffleavers=listin_community_new($leavercom,$cutoffdate);
+				$cell['leavers']=sizeof($cutoffleavers)+count_reenrol_no($comid,$reenrol_eid,'L','LL');
+
 				$cell['transfersout']=0;
 				foreach($transfer_codes as $transfer_code){
 					$cell['transfersout']+=count_reenrol_no($comid,$reenrol_eid,$transfer_code['result']);
@@ -113,9 +120,9 @@
 				if(isset($CFG->enrol_boarders) and $CFG->enrol_boarders=='yes' and $yidindex==1){
 					$rescoms=(array)list_communities('accomodation');
 					foreach($rescoms as $rescom){
-						$cell['confirm_boarder']+=count_reenrol_no($rescom['id'],$reenrol_eid,'C');
-						$cell['repeat_boarder']+=count_reenrol_no($rescom['id'],$reenrol_eid,'R');
-						$cell['pending_boarder']+=count_reenrol_no($rescom['id'],$reenrol_eid,'P');
+						$cell['confirm_boarder']+=count_reenrol_no($rescom['id'],$reenrol_eid,'C','');
+						$cell['repeat_boarder']+=count_reenrol_no($rescom['id'],$reenrol_eid,'R','');
+						$cell['pending_boarder']+=count_reenrol_no($rescom['id'],$reenrol_eid,'P','');
 						$cell['leavers_boarder']+=count_reenrol_no($rescom['id'],$reenrol_eid,'L','LL');
 						}
 					}
