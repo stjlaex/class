@@ -363,4 +363,31 @@ function delete_journey_booking($sid,$bookid,$newenddate=''){
 
 	return;
 	}
+
+
+/**
+ *
+ *  Delete all transport bookings for given sid.
+ *  Likely only used when a student leaves the school roll.
+ *  Works by setting the last date of the booking to today's date.
+ *
+ *	@param integer sid
+ */
+function delete_journey_booking_all($sid,$date=''){
+
+	if($date==''){$date=date("Y-m-d");}
+
+	$d_b=mysql_query("SELECT b.id, b.journey_id, b.direction, j.bus_id, j.stop_id, b.startdate, b.enddate, b.day, b.comment 
+						FROM transport_journey AS j JOIN transport_booking AS b ON b.journey_id=j.id 
+						WHERE b.student_id='$sid' AND b.startdate<='$date' 
+						AND (b.enddate>='$date' OR b.enddate='0000-00-00') 
+						ORDER BY b.startdate DESC, b.enddate DESC, b.day ASC;");
+	while($b=mysql_fetch_array($d_b,MYSQL_ASSOC)){
+		delete_journey_booking($sid,$b['id'],$date);
+		}
+
+
+	return;
+	}
+
 ?>

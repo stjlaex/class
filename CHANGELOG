@@ -46,6 +46,8 @@ Added a bottom row of column averages to the markbook table.
 A change to the use of enrol_cutoffdate to indicate the end of the
 changes to the current year. 
 
+The year end functions now also remove leavers from transport lists.
+
 
 Version ClaSS-0.9.41 release (2011/06/7)
 -----------------------------------------
