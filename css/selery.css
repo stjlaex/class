@@ -32,9 +32,7 @@ fieldset.selery {
     color:#765;
 	text-align:left;
     width:auto;
-	background-image:url("../images/gradient_vertical.png");
-    background-repeat:repeat-x;
-    background-color:#ccc;
+    background-color:#eee;
 	}
 
 .selery li input {

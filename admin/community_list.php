@@ -46,7 +46,7 @@ if(isset($_POST['enrolstage'])){$enrolstage=$_POST['enrolstage'];}
 		$infobookcurrent='student_view_enrolment.php';
 
 		/*Check user has permission to edit*/
-		$perm=getYearPerm($yid,$respons);
+		$perm=getYearPerm($yid);
 		$neededperm='r';
 		include('scripts/perm_action.php');
 		}

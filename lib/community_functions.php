@@ -2,63 +2,58 @@
 /**							lib/community_functions.php
  *	@package	ClaSS
  *	@author		stj@laex.org
- *	@copyright	S T Johnson 2004-2008
+ *	@copyright	S T Johnson 2004-2011
  *	@version	
  *	@since		
  */
 
 /**
  * Return an array of communitites of one particular type
- * ignores differences in year by default
+ * ignores differences in year by default. 
  *
  *	@param string $type type of community
  *	@param string $year 
+ *	@param string $yid 
+ *
  *	@return array all students in a community
  */
-function list_communities($type='',$year=''){
+function list_communities($type='',$year='',$yid='%'){
 	if($type!='' and $year==''){
 		if($type=='year'){
 			$d_com=mysql_query("SELECT community.id, community.name, 
-					community.year, community.capacity,
+					community.type, community.year, community.capacity,
 					community.detail, yeargroup.name AS displayname 
 					FROM community JOIN yeargroup ON
 					community.name=yeargroup.id WHERE 
 					community.type='$type' ORDER BY yeargroup.section_id,
-					yeargroup.sequence");
+					yeargroup.sequence;");
 			}
-		elseif($type=='form'){
+		elseif($type=='form' or $type=='house'){
 			$d_com=mysql_query("SELECT community.id, community.name, 
-					community.year, community.capacity,
-					community.detail, form.name AS displayname 
-					FROM community JOIN form ON
-					community.name=form.id WHERE 
-					community.type='$type' ORDER BY form.yeargroup_id,
-					form.name");
+					community.type, community.year, community.capacity,
+					community.detail, groups.yeargroup_id, groups.gid 
+					FROM community JOIN groups ON
+					community.id=groups.community_id WHERE 
+					community.type='$type' AND groups.yeargroup_id LIKE '$yid' 
+					ORDER BY groups.yeargroup_id, community.name;");
 			}
 		else{
-			$d_com=mysql_query("SELECT id, name, year, capacity, detail FROM community WHERE 
-								type='$type' ORDER BY name");
+			$d_com=mysql_query("SELECT id, name, type, year, capacity, detail FROM community 
+									WHERE type='$type' ORDER BY name;");
 			}
 		}
 	elseif($type!=''){
-		$d_com=mysql_query("SELECT id, name, year, capacity, detail FROM community WHERE 
-								type='$type' AND year='$year' ORDER BY name");
+		$d_com=mysql_query("SELECT id, name, type, year, capacity, detail FROM community  
+								WHERE type='$type' AND year='$year' ORDER BY name;");
 		}
 
 	$communities=array();
 	if(isset($d_com) and mysql_num_rows($d_com)>0){
 		while($com=mysql_fetch_array($d_com,MYSQL_ASSOC)){
-			$community=array();
-			$community['id']=$com['id'];
-			$community['type']=$type;
-			$community['name']=$com['name'];
-			$community['year']=$com['year'];
-			$community['capacity']=$com['capacity'];
-			$community['detail']=$com['detail'];
-			if(!isset($com['displayname'])){$community['displayname']=$community['name'];}
-			else{$community['displayname']=$com['displayname'];}
-			if($community['detail']!=''){$community['displayname']=$community['detail'];}
-  			$communities[]=$community;
+			if($com['detail']!=''){$com['displayname']=$com['detail'];}
+			elseif($com['type']=='house'){$com['displayname']=$com['yeargroup_id'].' '.$com['name'];}
+			else{$com['displayname']=$com['name'];}
+  			$communities[]=$com;
 			}
 		}
 
@@ -104,13 +99,23 @@ function fetchCommunity($comid=''){
 function get_community($comid=''){
 	$community=array();
   	$d_com=mysql_query("SELECT name, type, year, capacity, detail, charge, chargetype, sessions 
-					FROM community WHERE id='$comid'");
+					FROM community WHERE id='$comid';");
 	if(mysql_num_rows($d_com)>0){
 		$com=mysql_fetch_array($d_com,MYSQL_ASSOC);
 		$community=$com;
 		$community['id']=$comid;
 		if($community['detail']==''){$community['displayname']=$community['name'];}
 		else{$community['displayname']=$community['detail'];}
+
+		$d_g=mysql_query("SELECT yeargroup_id AS yid, gid FROM groups WHERE community_id='$comid';");
+		if(mysql_num_rows($d_com)>0){
+			$groups=array();
+			while($g=mysql_fetch_array($d_g,MYSQL_ASSOC)){
+				$groups[$g['yid']]=$g['gid'];
+				}
+			$community['groups']=$groups;
+			}
+
 		}
 	else{
 		$community['id']='';
@@ -148,7 +153,8 @@ function update_community($community,$communityfresh=array('id'=>'','type'=>'','
 	if(isset($community['capacity'])){$capacity=$community['capacity'];}else{$capacity='0';}
 	if($type!='' and $name!=''){
 		$d_community=mysql_query("SELECT id FROM community WHERE
-				type='$type' AND name='$name' AND year='$year'");	
+				type='$type' AND name='$name' AND year='$year'");
+		/* If it doesn't exist then create. */
 		if(mysql_num_rows($d_community)==0){
 			if($type=='year'){
 				/*a year group always gets a detail of yeargroup_name*/
@@ -156,9 +162,24 @@ function update_community($community,$communityfresh=array('id'=>'','type'=>'','
 				if(mysql_num_rows($d_y)>0){$detail=mysql_result($d_y,0);}
 				else{$detail='No year group';}
 				}
+
 			mysql_query("INSERT INTO community (name,type,year,capacity,detail) VALUES
 				('$name', '$type', '$year', '$capacity', '$detail')");
 			$comid=mysql_insert_id();
+
+			/* pastoral communities need to have associated permissions' gorups created too */
+			if(strtolower($type)=='house'){
+				$yeargroups=list_yeargroups();
+				foreach($yeargroups as $yeargroup){
+					$yid=$yeargroup['id'];
+					mysql_query("INSERT INTO groups (community_id,yeargroup_id,type) VALUES ('$comid','$yid','p');");
+					}
+				}
+			elseif(strtolower($type)=='form' and isset($community['yeargroup_id'])){
+				$yid=$community['yeargroup_id'];
+				mysql_query("INSERT INTO groups (community_id,yeargroup_id,type) VALUES ('$comid','$yid','p');");
+				}
+
 			}
 		else{
 			$comid=mysql_result($d_community,0);
@@ -191,6 +212,7 @@ function update_community($community,$communityfresh=array('id'=>'','type'=>'','
 				}
 			}
 		}
+
 	return $comid;
 	}
 
@@ -266,12 +288,14 @@ function listin_community($community,$enddate='',$startdate=''){
 	if($startdate==''){$startdate=$enddate;}
 	if(isset($community['id']) and $community['id']!=''){$comid=$community['id'];}
 	else{$comid=update_community($community);}
+	if(isset($community['yeargroup_id']) and $community['yeargroup_id']!=''){$yid=$community['yeargroup_id'];}else{$yid='%';}
+
 	$orderby=get_studentlist_order();
 
 	$d_student=mysql_query("SELECT id, surname,
 				forename, middlenames, preferredforename, form_id, gender, dob, comidsid.special AS special FROM student 
 				JOIN comidsid ON comidsid.student_id=student.id
-				WHERE comidsid.community_id='$comid' AND
+				WHERE student.yeargroup_id LIKE '$yid' AND comidsid.community_id='$comid' AND
 				(comidsid.leavingdate>'$enddate' OR 
 				comidsid.leavingdate='0000-00-00' OR comidsid.leavingdate IS NULL) 
 				AND (comidsid.joiningdate<='$startdate' OR 
@@ -420,6 +444,8 @@ function set_community_stay($sid,$community,$startdate,$enddate){
 function countin_community($community,$enddate='',$startdate='',$static=false){
 	if(isset($community['id']) and $community['id']!=''){$comid=$community['id'];}
 	else{$comid=update_community($community);}
+	if(isset($community['yeargroup_id']) and $community['yeargroup_id']!=''){$yid=$community['yeargroup_id'];}
+
 	if($static){
 		$d_c=mysql_query("SELECT count FROM community WHERE id='$comid';");
 		$nosids=mysql_result($d_c,0);
@@ -428,11 +454,20 @@ function countin_community($community,$enddate='',$startdate='',$static=false){
 		$todate=date('Y-m-d');
 		if($enddate==''){$enddate=$todate;}
 		if($startdate==''){$startdate=$enddate;}
-		$d_student=mysql_query("SELECT COUNT(student_id) FROM comidsid
+		if(isset($yid)){
+			$d_student=mysql_query("SELECT COUNT(student_id) FROM comidsid JOIN student ON student.id=comidsid.student_id
+				 WHERE community_id='$comid' AND student.yeargroup_id='$yid' AND (comidsid.leavingdate>'$enddate' OR 
+				comidsid.leavingdate='0000-00-00' OR comidsid.leavingdate IS NULL) 
+				AND (comidsid.joiningdate<='$startdate' OR 
+				comidsid.joiningdate='0000-00-00' OR comidsid.joiningdate IS NULL);");
+			}
+		else{
+			$d_student=mysql_query("SELECT COUNT(student_id) FROM comidsid
 				 WHERE community_id='$comid' AND (comidsid.leavingdate>'$enddate' OR 
 				comidsid.leavingdate='0000-00-00' OR comidsid.leavingdate IS NULL) 
 				AND (comidsid.joiningdate<='$startdate' OR 
 				comidsid.joiningdate='0000-00-00' OR comidsid.joiningdate IS NULL);");
+			}
 		$nosids=mysql_result($d_student,0);
 		}
 	return $nosids;
@@ -626,8 +661,7 @@ function join_community($sid,$community){
 		if($name!=''){
 			/* If no new fid given then just remove from form group
 					and leave in the same yeargroup*/
-			$d_yeargroup=mysql_query("SELECT yeargroup_id FROM form WHERE id='$name';");
-			$newyid=mysql_result($d_yeargroup,0);
+			$newyid=get_form_yeargroup($name);
 			$d_student=mysql_query("SELECT yeargroup_id FROM student WHERE id='$sid';");
 			$oldyid=mysql_result($d_student,0);
 			/*if new form is in another yeargroup then need to move yeargroup too*/
@@ -755,12 +789,15 @@ function leave_community($sid,$community){
  * Returns the yeargroup to which the form belongs.
  *
  *	@param integer $fid
+ *	@param type $type
  *	@return integer
  */
-function get_form_yeargroup($fid){
+function get_form_yeargroup($fid,$type='form'){
 	if($fid!=' ' and $fid!=''){
-		$d_subject=mysql_query("SELECT yeargroup_id FROM form WHERE id='$fid'");
-		$yid=mysql_result($d_subject,0);
+		$d_y=mysql_query("SELECT yeargroup_id FROM groups 
+							JOIN community ON groups.community_id=community.id 
+							WHERE community.name='$fid' AND community.type='$type';");
+		$yid=mysql_result($d_y,0);
 		}
 	else{
 		$yid='';
@@ -768,22 +805,55 @@ function get_form_yeargroup($fid){
 	return $yid;
 	}
 
+
 /**
- * Reutrns the form tutor for hte given fid
+ *  Reutrns all users with responsibilities for this community. These
+ *  would be the form tutors for example for a form cummunity.
  *
- *	@param integer $fid
- *	@return string
+ *  Where the community array is a form then it will already have a
+ *	unique gid set (one-to-one relationship).  But for other com types
+ *	then the gids will be fetched and it can be one-to-many. The $yid
+ *	will limit to gids associated to a single yeargroup.
+ *
+ *	@param array $com
+ *	@param array $perms
+ *	@param integer $yid
+ *	@return array
  */
-function get_tutor_user($fid){
-	if($fid!=' ' and $fid!=''){
-		$d_t=mysql_query("SELECT teacher_id FROM form WHERE id='$fid';");
-		$tid=mysql_result($d_t,0);
-		$user=get_user($tid);
+function list_community_users($com,$perms=array('r'=>1,'w'=>1,'x'=>1),$yid='%'){
+	$users=array();
+	$gids=array();
+
+	$r=$perms['r'];
+	$w=$perms['w'];
+	$x=$perms['x'];
+
+	if(isset($com['gid']) and $com['gid']!=''){
+		$gids[]=$com['gid'];
 		}
 	else{
-		$user=array();
+		if(isset($com['id']) and $com['id']!=''){$comid=$com['id'];}
+		else{$comid=update_community($com);}
+
+		$d_g=mysql_query("SELECT DISTINCT gid FROM groups WHERE groups.community_id='$comid' AND groups.yeargroup_id LIKE '$yid';");
+		while($g=mysql_fetch_array($d_g,MYSQL_ASSOC)){
+			$gids[]=$g['gid'];
+			}
 		}
-	return $user;
+
+	foreach($gids as $gid){
+		$d_u=mysql_query("SELECT DISTINCT users.uid,
+					username, forename, surname, email, epfusername, role
+					FROM users JOIN perms ON users.uid=perms.uid 
+					WHERE users.nologin='0' AND perms.gid='$gid' AND perms.r='$r' 
+					AND perms.w='$w' AND perms.x='$x';");
+		while($user=mysql_fetch_array($d_u,MYSQL_ASSOC)){
+			$uid=$user['uid'];
+			$users[$uid]=$user;
+			}
+		}
+
+	return $users;
 	}
 
 
@@ -820,9 +890,7 @@ function list_community_cohorts($community){
 	if($community['type']=='form'){
 		/*forms only associate with cohorts through their yeargroup*/
 		$fid=$community['name'];
-		$d_form=mysql_query("SELECT yeargroup_id FROM form WHERE id='$fid';");
-		if(mysql_num_rows($d_form)>0){$yid=mysql_result($d_form,0);}
-		else{$yid='';}
+		$yid=get_form_yeargroup($fid);
 		$community=array('id'=>'','type'=>'year','name'=>$yid);
 		}
 

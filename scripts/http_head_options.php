@@ -31,7 +31,7 @@ if($_SESSION['uid']==0){
 	}
 require_once('../../lib/include.php');
 require_once('../../logbook/permissions.php');
-$respons=getRespons($_SESSION['username']);
+$respons=$_SESSION['respons'];
 if(isset($_GET['uniqueid'])){$xmlid=$_GET['uniqueid'];}
 elseif(isset($_POST['uniqueid'])){$xmlid=$_POST['uniqueid'];}
 ?>

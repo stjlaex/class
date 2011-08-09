@@ -64,7 +64,7 @@ else{
 	*/
 	$Student['Assessments']=xmlarray_indexed_check($Assessments,'Assessment');
 	$Students['Student'][]=$Student;
-	$Students['asstable']=(array)nullCorrect($asstable);
+	$Students['asstable']=(array)$asstable;
 
 	$Students['Date']=date('Y-m-d');
 	$Students['Paper']='landscape';

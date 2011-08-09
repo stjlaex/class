@@ -15,20 +15,20 @@ include('scripts/sub_action.php');
 
 	if($fid!=''){
 		$students=listin_community(array('id'=>'','type'=>'form','name'=>$fid));
-		$formperm=getFormPerm($fid,$respons);
+		$formperm=getFormPerm($fid);
 		$yid=get_form_yeargroup($fid);
-		$yearperm=getYearPerm($yid,$respons);
+		$yearperm=getYearPerm($yid);
 		}
 	elseif($yid!=''){
 		$students=listin_community(array('id'=>'','type'=>'year','name'=>$yid));
-		$yearperm=getYearPerm($yid,$respons);
+		$yearperm=getYearPerm($yid);
 		$formperm=$yearperm;
 		}
 	else{
 		$students=listin_cohort(array('id'=>'','course_id'=>$rcrid,'year'=>$year,'stage'=>$stage));
 		}
 
-	$resperm=getResidencePerm($respons);
+	$resperm=getResidencePerm();
 
 $rids=array();
 if(isset($wrapper_rid)){

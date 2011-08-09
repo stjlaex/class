@@ -48,11 +48,11 @@ two_buttonmenu($extrabuttons);
 		</tr>
 <?php
 
-
-	while(list($index,$com)=each($registration_coms)){
-		list($nosids,$nop,$noa)=check_communityAttendance($com,$eveid);
+	foreach($registration_coms as $com){
+		list($nosids,$nop,$noa)=check_community_attendance($com,$currentevent);
 		if($nosids>0){
 			$getparam='newcomid='.$com['id'];
+			if(isset($com['yeargroup_id'])){$getparam.='&yid='.$com['yeargroup_id'];}
 			if(($nop+$noa)==$nosids and $nosids!=0){$status='complete';$cssclass='';}
 			else{$status='incomplete';$cssclass='vspecial';}
 			$totalnop+=$nop;

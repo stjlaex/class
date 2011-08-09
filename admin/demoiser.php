@@ -193,8 +193,6 @@ function generate_random_name($gender){
 			WHERE teacher_id='$username'");
 			mysql_query("UPDATE grading SET author='$nun'
 			WHERE author='$username'");
-			mysql_query("UPDATE form SET teacher_id='$nun'
-			WHERE teacher_id='$username'");
 			mysql_query("UPDATE markdef SET author='$nun'
 			WHERE author='$username'");
 			mysql_query("UPDATE homework SET author='$nun'
@@ -258,27 +256,21 @@ function generate_random_name($gender){
 	$table='score';
 	mysql_query("UPDATE $table SET comment='';");
 
-	$table='form';
-	$trows=tableRead($table,'yeargroup_id');
+	$forms=list_formgroups();
 	$name=array('AA','BB','CC','DD','EE','FF','GG','HH','JJ','KK','LL','MM');
 	$i=2;
 	$yid=-100;
-	while(list($index,$row)=each($trows)){
+	foreach($forms as $row){
 		if($yid!=$row['yeargroup_id']){$i=2;}
 		else{$i++;}
 		$yid=$row['yeargroup_id'];
-		$id=$row['id'];
+		$id=$row['name'];
 		if($yid=='-2'){$nid='PRE'.$name[$i];}
 		elseif($yid=='-1'){$nid='NUR'.$name[$i];}
 		elseif($yid=='0'){$nid='REC'.$name[$i];}
 		else{$nid=$yid.''.$name[$i];}
-		if(mysql_query("UPDATE $table SET id='$nid', name='$nid' 
-				WHERE id='$id';")){}
-		else{print '<br />'.$id.' '.$nid. mysql_error();}
-		mysql_query("UPDATE student SET form_id='$nid'
-				WHERE form_id='$id'");
-		mysql_query("UPDATE community SET name='$nid'
-				WHERE name='$id' AND type='form'");
+		mysql_query("UPDATE student SET form_id='$nid' WHERE form_id='$id';");
+		mysql_query("UPDATE community SET name='$nid' WHERE name='$id' AND type='form';");
 		}
 
 	$table='classes';

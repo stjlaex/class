@@ -155,11 +155,14 @@ two_buttonmenu();
 <tr>
 <th colspan="<?php print $displayfields_no+3;?>">&nbsp;</th>
 <th>
+		  <div class="rowaction">
 <?php
 $extrabuttons=array();
 $extrabuttons['addcolumn']=array('title'=>'addcolumn','name'=>'extracol','value'=>'yes');
 all_extrabuttons($extrabuttons,'infobook','processContent(this)')
 ?>
+		  </div>
+
 </th>
 </tr>
 	  </table>

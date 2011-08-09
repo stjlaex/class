@@ -71,29 +71,6 @@ function file_putcsv($handle, $row, $fd=',', $quot='"'){
 	}
 
 
-/**
- * This is because the PEAR xml stuff deals with empty strings by
- * closing a tag < /> like so in stead of <></> like so and the xslt
- * chokes. So, this is called before an array is transformed to xml to
- * turn all empty strings to a single space to get <> </>.
- *
- *	@param array[$array] 
- *	@return array modified value
- */
-function nullCorrect($array){
-   	if(sizeof($array)>0 and is_array($array)){
-		foreach($array as $key => $value){
-			if(sizeof($value)>0 and is_array($value)){
-				$array[$key]=nullCorrect($value);
-				}
-			elseif($value=='' and $value!='0'){$array[$key]=' ';}
-			//		  if(!$value){$array[$key]=' ';}
-			}
-		}
-	else{$array=' ';}
-	return $array;
-	}
-
 
 /**
  * For compatibility with utf8
@@ -860,6 +837,7 @@ function getEnumArray($field_name){
 	 * yeargroup, formgroup, accomodation, family etc
 	 */
 	$community_type=array(''=>'', 
+						  //'form'=>'form', 
 						  'ACADEMIC'=>'academic', 
 						  'HOUSE'=>'house', 
 						  'TUTOR'=>'club', 

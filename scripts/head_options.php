@@ -14,7 +14,7 @@
 	if($_SESSION['uid']==0){include('logbook/login.php'); exit;}
 	require_once('logbook/permissions.php');
 	$tid=$_SESSION['username'];
-	$respons=getRespons($tid);
+	$respons=$_SESSION['respons'];
 	$r=$_SESSION['r'];
 	$tab=1;
 	$currentlang=current_language();

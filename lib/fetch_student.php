@@ -74,18 +74,21 @@ function fetchStudent_short($sid){
 						  'value' => ''.$student['dob']);
    	$Student['RegistrationGroup']=array('label' => 'formgroup',  
 										'value' => ''.$student['form_id']);
-	$tutor_user=get_tutor_user($Student['RegistrationGroup']['value']);
-   	$Student['RegistrationTutor']=array('label' => 'formtutor', 
+
+	$tutor_users=(array)list_community_users(array('id'=>'','name'=>$student['form_id'],'type'=>'form'),array('r'=>1,'w'=>1,'x'=>1),$student['yeargroup_id']);
+	foreach($tutor_users as $tutor_user){
+		$Student['RegistrationTutor']=array('label' => 'formtutor', 
 										'email' => ''.$tutor_user['email'],
 										'value' => ''.$tutor_user['forename'][0].' '. $tutor_user['surname']
 										);
+		}
    	$Student['YearGroup']=array('label' => 'yeargroup', 
 								'value' => ''.$student['yeargroup_id']);
    	$Student['SENFlag']=array('label' => 'seninformation', 
 							  'value' => ''.$info['sen']);
    	$Student['MedicalFlag']=array('label' => 'medicalinformation', 
 								  'value' => ''.$info['medical']);
-	return nullCorrect($Student);
+	return $Student;
 	}
 
 
@@ -390,11 +393,14 @@ function fetchStudent($sid='-1'){
    	$Student['RegistrationGroup']=array('label' => 'formgroup', 
 										'value' => ''.$student['form_id']
 										);
-	$tutor_user=get_tutor_user($Student['RegistrationGroup']['value']);
-   	$Student['RegistrationTutor']=array('label' => 'formtutor', 
+
+	$tutor_users=(array)list_community_users(array('id'=>'','name'=>$student['form_id'],'type'=>'form'),array('r'=>1,'w'=>1,'x'=>1),$student['yeargroup_id']);
+	foreach($tutor_users as $tutor_user){
+		$Student['RegistrationTutor']=array('label' => 'formtutor', 
 										'email' => ''.$tutor_user['email'],
 										'value' => ''.$tutor_user['forename'][0].' '. $tutor_user['surname']
 										);
+		}
    	$Student['YearGroup']=array('label' => 'yeargroup',   
 								'value' => ''.$student['yeargroup_id']);
 	/*
@@ -930,7 +936,7 @@ function fetchIncidents($sid,$startdate='',$enddate=''){
 		$Incident['Actions']=$Actions;
 		$Incidents['Incident'][]=$Incident;
 		}
-	return nullCorrect($Incidents);
+	return $Incidents;
 	}
 
 
@@ -1177,7 +1183,7 @@ function fetchComments($sid,$startdate='',$enddate=''){
 	while(list($bid,$name)=each($subtable)){
 		$Comments['subtable']['subject'][]=array('value_db'=>$bid,'value'=>$name);
 		}
-	return nullCorrect($Comments);
+	return $Comments;
 	}
 
 
@@ -1797,7 +1803,7 @@ function fetchMerit($m=array('id'=>-1,'subject_id'=>'','component_id'=>'','resul
 						 'field_db'=>'date', 
 						 'type_db'=>'date', 
 						 'value'=>''.$m['date']);
-						 $Merit=nullCorrect($Merit);
+						 $Merit=$Merit;
 	return $Merit;
 	}
 

@@ -17,6 +17,7 @@ if(isset($_POST['umnfilter'])){$umnfilter=$_POST['umnfilter'];}else{$umnfilter='
 $_SESSION['savedview']=$savedview;
 $_SESSION['infolisttitle']=$title;
 
+$sort_types='';
 $displayfields=array();
 $extra_studentfields=array();
 $application_steps=array('AP','ATD','AT','RE','CA','ACP','AC','WL');
@@ -28,7 +29,7 @@ if($savedview=='form'){
 	$displayfields_no=3;
 	$Student=fetchStudent_short($sids[0]);
 	$fid=$Student['RegistrationGroup']['value'];
-	$tutor_user=(array)get_tutor_user($fid);
+	$tutor_users=(array)list_community_users(array('id'=>'','name'=>$fid,'type'=>'form'),array('r'=>1,'w'=>1,'x'=>1));
 	}
 elseif($savedview=='year'){
 	$displayfields[]='RegistrationGroup';
@@ -119,19 +120,23 @@ two_buttonmenu($extrabuttons,$book);
 		  <tr>
 		  <th rowspan="2" colspan="1" style="width:1em;">
 			<input type="checkbox" name="checkall"  value="yes" onChange="checkAll(this);" />
+			<?php print_string('checkall'); ?>
 		  </th>
 		  <th rowspan="2" style="border:0;text-align:left;">
-			<?php print_string('checkall'); ?>
 		  </th>
 
 <?php
-	if(isset($tutor_user)){
+	if(isset($tutor_users)){
 ?>
 		<th rowspan="2">
 		<label><?php print_string('formgroup'); ?></label>
 		<?php print $fid.' &nbsp;&nbsp;';?>
-		<?php print $tutor_user['forename'][0].' '. $tutor_user['surname'];?>
-		<?php emaillink_display($tutor_user['email']);?>
+		<?php 
+			   foreach($tutor_users as $tutor_user){
+				   print $tutor_user['forename'][0].' '. $tutor_user['surname'];
+				   emaillink_display($tutor_user['email']);
+				   }
+?>
 		</th>
 <?php
 		}

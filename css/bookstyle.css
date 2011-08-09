@@ -293,9 +293,11 @@ div.buttonmenu {
     z-index:4000;
 	}
 .buttonmenu button, #heading button {
-	margin:1px 2px; border:2px; border-style:outset; padding:0;
+	margin:1px 2px; 
+    border:1px solid; 
+    padding:0;
 	font-size:x-small; 
-    font-weight:300; 
+    font-weight:600; 
     color:#ffeeff;
 	cursor:pointer;
 	}
@@ -348,17 +350,21 @@ button.install {
 	}
 /* The micro-action buttons contianed inside content, usually for xmlHttprequests*/
 div.rowaction {
-	padding:0;margin:0;
 	float:right;
     width:8em;
 	}
 button.rowaction, div.rowaction, div.rowaction button {
-	margin:1px 2px; border:1px; border-style:outset; padding:0;
-	font-weight:100; 
+	margin:1px 2px; 
+    padding:0;
     font-size:xx-small; 
     color:#ffeeff;
 	cursor:pointer;
 	float:right;
+	}
+button.rowaction, div.rowaction button {
+    border:1px none; 
+	font-weight:600;
+    background-color:#666666;
 	}
 button.rowaction img { 
 	float:left;
@@ -493,11 +499,10 @@ div.content fieldset.listmenu, div.content fieldset.listmenu div,
 	font-weight:600; font-style:italic;
 	}
 .listmenu th {
-	font-weight:600; font-size:small;
+	font-size:x-small;
 	border-left:2px solid #999999;
 	background-color:#ffffff;
 	}
-
 .listmenu th:first-child {
 	border-left:0;
 	}
@@ -639,6 +644,7 @@ table.sidtable {
     width:99%;
 	}
 .sidtable th {
+    font-weight:600;
 	font-size:x-small;
 	cursor:pointer;
 	}

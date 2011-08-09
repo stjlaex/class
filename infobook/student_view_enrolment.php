@@ -8,8 +8,8 @@ $action='student_view_enrolment_action.php';
 three_buttonmenu();
 
 	/*Check user has permission to view*/
-	$perm=getFormPerm($Student['RegistrationGroup']['value'],$respons);
-	if($perm['r']!=1){$perm=getSENPerm($Student['YearGroup']['value'],$respons);}
+	$perm=getFormPerm($Student['RegistrationGroup']['value']);
+	if($perm['r']!=1){$perm=getSENPerm($Student['YearGroup']['value']);}
 	include('scripts/perm_action.php');
 
 ?>

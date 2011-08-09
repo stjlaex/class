@@ -8,7 +8,7 @@ include('scripts/sub_action.php');
 if($sub=='Submit'){
 	/*Check user has permission to edit*/
 	$yid=$Student['YearGroup']['value'];
-	$perm=getYearPerm($yid,$respons);
+	$perm=getYearPerm($yid);
 	$neededperm='w';
 	include('scripts/perm_action.php');
 

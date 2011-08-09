@@ -8,7 +8,7 @@ include('scripts/sub_action.php');
 
 	/*Check user has permission to edit*/
 	$yid=$Student['YearGroup']['value'];
-	$perm=getMedicalPerm($yid,$respons);
+	$perm=getMedicalPerm($yid);
 	$neededperm='w';
 	include('scripts/perm_action.php');
 

@@ -208,7 +208,7 @@ if($_SESSION['worklevel']>-1){
 		  <td><?php print $viewtable[$c2]['form_id'];?></td>
 		  <td status="<?php print $viewtable[$c2]['attstatus'];?>" 
 <?php 
-			if($viewtable[$c2]['attcode']!=' '){
+			if($viewtable[$c2]['attcode']!='' and $viewtable[$c2]['attcode']!=' '){
 ?>			
 				title="">
 				<span title="<?php print 
@@ -254,6 +254,10 @@ if($_SESSION['worklevel']>-1){
 		  <td></td>
 		  <td></td>
 <?php
+
+/**
+* This is the bottom row of the mark table for the totals.
+*/
 		for($c=0;$c<$c_marks;$c++){
 			$col_mid=$umns[$c]['id'];
 			if($umns[$c]['marktype']=='report'){
@@ -263,7 +267,7 @@ if($_SESSION['worklevel']>-1){
 				$out=round($totals[$col_mid]['value']/$totals[$col_mid]['no']);
 				}
 			elseif($umns[$c]['scoretype']=='grade'){
-				$out=round($totals[$col_mid]['value']/$totals[$col_mid]['no']);
+				$out=round($totals[$col_mid]['grade']/$totals[$col_mid]['no']);
 				$out=scoreToGrade($out,$scoregrades[$c]);
 				}
 			elseif($scoretype=='value' or $scoretype='compound' or $scoretype='sum' or $scoretype='average'){

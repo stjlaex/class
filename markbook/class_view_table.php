@@ -40,7 +40,7 @@ while($student=mysql_fetch_array($d_students, MYSQL_ASSOC)){
 					  );
 
 	/* Compile in reverse order to allow referring back to older columns. */
-	for($c=$c_marks;$c>-1;$c--) {
+	for($c=$c_marks-1;$c>-1;$c--) {
 		$col_mid=$umns[$c]['id'];
 		$score=array();
 
@@ -83,7 +83,8 @@ while($student=mysql_fetch_array($d_students, MYSQL_ASSOC)){
 					$gradesum=0;
 					$gradecount=0;
 					foreach($mids as $mid){
-						$iscore=$studentrow["score$mid"];
+						if(isset($studentrow["score$mid"])){$iscore=$studentrow["score$mid"];}
+						else{$iscore=array();}
 						if(isset($iscore['grade'])){
 							$gradesum=$gradesum+$iscore['grade'];
 							$gradecount++;
@@ -95,6 +96,7 @@ while($student=mysql_fetch_array($d_students, MYSQL_ASSOC)){
 						$grade=scoreToGrade($score_grade,$grading_grades);
 						$out=$grade;
 						$outrank=$score_grade;
+						$score['grade']=$score_grade;
 						}
 					else{$outrank=-100;$out='';unset($score_grade);}
 					}
@@ -109,7 +111,10 @@ while($student=mysql_fetch_array($d_students, MYSQL_ASSOC)){
 							$scorecount++;
 							}
 						}
-					if($scorecount>0){$scoresum=$scoresum/$scorecount;}
+					if($scorecount>0){
+						$scoresum=$scoresum/$scorecount;
+						$score['value']=$scoresum;
+						}
 					list($display,$out,$outrank)=scoreToPercent($scoresum);
 					}
 				else{
@@ -125,6 +130,7 @@ while($student=mysql_fetch_array($d_students, MYSQL_ASSOC)){
 					if($scorecount>0){
 						$scoresum=$scoresum/$scorecount;
 						$out=$scoresum;$outrank=$scoresum;
+						$score['value']=$scoresum;
 						}
 					else{$out='';$outrank=-100;}
 					}

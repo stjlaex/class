@@ -4,7 +4,7 @@ CREATE TABLE event (
 		id			int unsigned not null auto_increment,
 		date		date not null default '0000-00-00',
 		session		enum('AM','PM') not null default 'AM',
-		period		enum('AM','PM','1','2','3','4','5','6','7','8','9','10','11','12','13','14') not null default 'AM',
+		period		enum('0','1','2','3','4','5','6','7','8','9','10','11','12','13','14') not null default '0',
 		unique		indexeve (date,session,period),
 		primary key (id)
 ) type=myisam;

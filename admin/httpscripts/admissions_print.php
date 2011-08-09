@@ -8,7 +8,7 @@ require_once('../../scripts/http_head_options.php');
 $book='admin';
 //if(isset($_GET['sids'])){}else{}
 //if(isset($_POST['sids'])){}
-if(isset($_GET['format'])){$format=$_GET['format'];}
+if(isset($_GET['format'])){$format=$_GET['format'];}else{$format='long';}
 if(isset($_POST['format'])){$format=$_POST['format'];}
 
 $todate=date('Y-m-d');
@@ -42,8 +42,6 @@ if(mysql_result($d_a,0)>0){
 $d_a=mysql_query("SELECT MAX(date) FROM admission_stats WHERE year='$lastenrolyear' AND date<='$cutoffdate';");
 if(mysql_result($d_a,0)>0){
 	$lastcurrentdate=mysql_result($d_a,0);/* Date of most recent stats in the db */
-	//$lastcurrentdate='2011-06-28';
-	trigger_error('!!!!!!!!!!!!!!!!!!'.$lastcurrentdate,E_USER_WARNING);
 	}
 $d_a=mysql_query("SELECT MAX(date) FROM admission_stats WHERE year='$beforelastenrolyear' AND date<='$todate';");
 if(mysql_result($d_a,0)>0){
@@ -204,7 +202,7 @@ foreach($tables as $tablename=>$table_cols){
 	$Table['cols']=array();
 	$Table['name']=$tablename;
 	foreach($table_cols as $name => $col){
-		$Col=array();
+		$Col=array('name'=>'','date'=>'');
 		$Col['name']=get_string($name,$book);
 		if($name=='projectedroll'){$Col['date'].=display_date($todate);}
 		elseif($name=='targetroll'){$Col['date'].=display_date($targetdate);}

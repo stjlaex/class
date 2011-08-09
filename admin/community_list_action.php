@@ -24,7 +24,7 @@ if($sub=='Submit'){
 		list($enrolstatus,$yid)=explode(':',$com['name']);
 
 		/*Check user has permission to edit*/
-		$perm=getYearPerm($yid,$respons);
+		$perm=getYearPerm($yid);
 		$neededperm='w';
 		include('scripts/perm_action.php');
 

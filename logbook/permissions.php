@@ -55,20 +55,12 @@ function list_sid_responsible_users($sid, $bid){
 			}
 		}
 
-	/*checks for the form tutor*/
-	$d_form=mysql_query("SELECT teacher_id FROM form JOIN student ON
-		  	student.form_id=form.id WHERE student.id='$sid'"); 
-	$formtid=mysql_result($d_form,0);
-	$user=get_user($formtid);
-	if(preg_match('/^[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.([a-zA-Z]{2,4})$/i', $user['email'])){ 
-		$recipients[$user['uid']]=array('username'=>$user['username'], 'email'=>$user['email']);
-		}
 
 	/*checks for boarders*/
 	$Student=fetchStudent_singlefield($sid,'Boarder');
 	if($Student['Boarder']['value']!='N'){
 		$d_u=mysql_query("SELECT uid FROM perms JOIN groups ON perms.gid=groups.gid WHERE
-					  groups.type='p' AND groups.name='residence';");
+					  groups.type='p' AND groups.yeargroup_id='-9998';");
 		while($u=mysql_fetch_array($d_u)){
 			$user=get_user($u['uid'],'uid');
 			if(check_email_valid($user['email'])){ 
@@ -123,11 +115,13 @@ function list_responsible_users($tid,$respons,$r=0){
 	return $users;
 	}
 
+
 /**
  *
  * Will return all details of users of interest based on the current
  * selected yeargroup in an array with the uid as the key
  * a head of year would be 111
+ *
  */
 function list_pastoral_users($ryid,$perms){
    	$users=array();
@@ -136,9 +130,10 @@ function list_pastoral_users($ryid,$perms){
 	$w=$perms['w'];
 	$x=$perms['x'];
 	$d_g=mysql_query("SELECT gid FROM groups WHERE
-			course_id='' AND subject_id='' AND yeargroup_id LIKE '$ryid' AND type='p';");
+			course_id='' AND subject_id='' AND community_id='0' AND yeargroup_id LIKE '$ryid' AND type='p';");
+
 	if(mysql_num_rows($d_g)==0){
-		mysql_query("INSERT INTO groups (name,type) VALUES ('$ryid','p');");
+		mysql_query("INSERT INTO groups (yeargroup_id,type) VALUES ('$ryid','p');");
 		}
 	else{
 		$gid=mysql_result($d_g,0);
@@ -152,6 +147,7 @@ function list_pastoral_users($ryid,$perms){
 			$uid=$user['uid'];
 			$users[$uid]=$user;
 			}
+
 		}
 	return $users;
 	}
@@ -179,8 +175,7 @@ function list_group_users_perms($gid){
  *
  */
 function get_group_perms($gid,$uid){
-	$d_p=mysql_query("SELECT r, w, x, e FROM perms WHERE
-								gid='$gid' AND uid='$uid';");
+	$d_p=mysql_query("SELECT r, w, x, e FROM perms WHERE gid='$gid' AND uid='$uid';");
 	if(mysql_num_rows($d_p)>0){
 		$perms=mysql_fetch_array($d_u,MYSQL_ASSOC);
 		}
@@ -199,7 +194,7 @@ function get_group_perms($gid,$uid){
  */
 function get_admin_perm($type,$uid){
 	$d_p=mysql_query("SELECT r FROM perms JOIN groups ON perms.gid=groups.gid WHERE
-					  perms.uid='$uid' AND groups.type='$type' AND groups.name='admin';");
+					  perms.uid='$uid' AND groups.type='$type' AND groups.yeargroup_id='-9999';");
 	if(mysql_num_rows($d_p)>0){
 		$perm=1;
 		}
@@ -212,7 +207,7 @@ function get_admin_perm($type,$uid){
 /**
  *
  * Returns array of special groups with admin permissions identified
- * by group.name='admin'.
+ * by group.yeargroup_id='-9999'.
  *
  * If they haven't already been created in the db table then calling
  * this function will take care of that too.
@@ -224,7 +219,7 @@ function list_admin_groups(){
 				  'u'=>array('name'=>'users'),
 				  'b'=>array('name'=>'budgets')
 				  );
-	$d_g=mysql_query("SELECT gid,type FROM groups WHERE name='admin';");
+	$d_g=mysql_query("SELECT gid,type FROM groups WHERE yeargroup_id='-9999';");
 	if(mysql_num_rows($d_g)>=sizeof($groups)){
 		while($group=mysql_fetch_array($d_g,MYSQL_ASSOC)){
 			if(array_key_exists($group['type'],$groups)){$groups[$group['type']]['gid']=$group['gid'];}
@@ -233,9 +228,9 @@ function list_admin_groups(){
 	else{
 		/* Check each individual group and create if it doesn't exist. */
 		foreach($groups as $type=>$name){
-			$d_g=mysql_query("SELECT gid,type FROM groups WHERE name='admin' AND type='$type';");
+			$d_g=mysql_query("SELECT gid,type FROM groups WHERE yeargroup_id='-9999' AND type='$type';");
 			if(mysql_num_rows($d_g)==0){
-				mysql_query("INSERT INTO groups (name,type) VALUES ('admin','$type');");
+				mysql_query("INSERT INTO groups (yeargroup_id,type) VALUES ('-9999','$type');");
 				}
 			}
 		$groups=list_admin_groups();
@@ -243,6 +238,8 @@ function list_admin_groups(){
 
 	return $groups;
 	}
+
+
 
 /**
  * Will return all details of all users.
@@ -349,7 +346,6 @@ function checkCurrentRespon($r,$respons,$required='subject'){
 		$bid=$respons[$r]['subject_id'];
 		$crid=$respons[$r]['course_id'];
 		if($bid==''){$bid='%';}
-		//$error[]='';
 		}
 	if($required=='subject' and $bid==''){
 		$error[]=get_string('selectresponsibility');
@@ -361,21 +357,18 @@ function checkCurrentRespon($r,$respons,$required='subject'){
 	}
 
 /**
- * 
+ *  
+ * Return perm for yeargroup
  */
-function getYearPerm($yid,$respons){
-	/*return perm for yeargroup*/	
+function getYearPerm($yid){
 	$perm['r']=0;
 	$perm['w']=0;
 	$perm['x']=0;
-	for($c=0;$c<sizeof($respons);$c++){
-		$resp=$respons[$c];
-		if($resp['name']!='Form'){
-			if($resp['yeargroup_id']==$yid){
-				$perm['r']=$resp['r'];
-				$perm['w']=$resp['w'];
-				$perm['x']=$resp['x'];
-				}
+	foreach($_SESSION['prespons'] as $respon){
+		if($respon['yeargroup_id']==$yid and $respon['community_id']==0){
+			$perm['r']=$respon['r'];
+			$perm['w']=$respon['w'];
+			$perm['x']=$respon['x'];
 			}
 		}
 	if($_SESSION['role']=='admin'){$perm['r']=1; $perm['w']=1; $perm['x']=1;}		
@@ -387,12 +380,12 @@ function getYearPerm($yid,$respons){
 /**
  * 
  */
-function getSENPerm($yid,$respons){
+function getSENPerm($yid){
 	/*return perm for sen in this yeargroup*/	
 	$perm['r']=0;
 	$perm['w']=0;
 	$perm['x']=0;
-	$perm=getYearPerm($yid,$respons);
+	$perm=getYearPerm($yid);
 	if($_SESSION['senrole']=='1' or $_SESSION['role']=='sen'){$perm['r']=1;$perm['w']=1;}
 	if($_SESSION['role']=='admin'){$perm['r']=1; $perm['w']=1; $perm['x']=1;}
 	return $perm;
@@ -401,12 +394,12 @@ function getSENPerm($yid,$respons){
 /**
  * 
  */
-function getMedicalPerm($yid,$respons){
+function getMedicalPerm($yid){
 	/*return perm for med in this yeargroup*/	
 	$perm['r']=0;
 	$perm['w']=0;
 	$perm['x']=0;
-	$perm=getYearPerm($yid,$respons);
+	$perm=getYearPerm($yid);
 	if($_SESSION['role']=='medical' or $_SESSION['medrole']=='1'){$perm['r']=1;$perm['w']=1;}
 	return $perm;
 	}
@@ -415,12 +408,12 @@ function getMedicalPerm($yid,$respons){
 /**
  * 
  */
-function getResidencePerm($respons){
+function getResidencePerm(){
 	$perm['r']=0;
 	$perm['w']=0;
 	$perm['x']=0;
-	for($c=0;$c<sizeof($respons);$c++){
-		$resp=$respons[$c];
+	for($c=0;$c<sizeof($_SESSION['prespons']);$c++){
+		$resp=$_SESSION['prespons'][$c];
 		if($resp['name']=='residence'){
 			$perm['r']=$resp['r'];
 			$perm['w']=$resp['w'];
@@ -431,33 +424,49 @@ function getResidencePerm($respons){
 	return $perm;
 	}
 
+
 /**
  * 
  */
-function getFormPerm($fid,$respons){
+function getFormPerm($fid){
 	/*return perm for form group*/
 	$perm['r']=0;
 	$perm['w']=0;
 	$perm['x']=0;
-	$d_form=mysql_query("SELECT yeargroup_id FROM form WHERE id='$fid';");
-	$formyid=mysql_result($d_form,0);
-	for($c=0;$c<sizeof($respons);$c++){
-		$resp=$respons[$c];
-		if($resp['name']=='Form'){
-			if($resp['form_id']==$fid){
-				$perm['r']=$resp['r'];
-				$perm['w']=$resp['w'];
-				$perm['x']=$resp['x'];
-				}
+
+	$comid=update_community(array('id'=>'','type'=>'form','name'=>$fid));
+
+	$formyid=get_form_yeargroup($fid);
+
+	$perm=get_community_perm($comid,$formyid);
+
+	return $perm;
+	}
+
+
+/**
+ * 
+ */
+function get_community_perm($comid,$comyid=''){
+	$perm['r']=0;
+	$perm['w']=0;
+	$perm['x']=0;
+
+	foreach($_SESSION['prespons'] as $respon){
+		if($respon['community_id']==$comid){
+			/* Are they directly assigned to this form? */
+			$perm['r']=$respon['r'];
+			$perm['w']=$respon['w'];
+			$perm['x']=$respon['x'];
 			}
-		elseif($resp['yeargroup_id']!=''){
-			if($resp['yeargroup_id']==$formyid){
-				$perm['r']=$resp['r'];
-				$perm['w']=$resp['w'];
-				$perm['x']=$resp['x'];
-				}
+		elseif($comyid!='' and $respon['community_id']==0 and $respon['yeargroup_id']==$comyid ){
+			/* Are they assigned to a year group to which this group belongs. */
+			$perm['r']=$respon['r'];
+			$perm['w']=$respon['w'];
+			$perm['x']=$respon['x'];
 			}
 		}
+
 	if($_SESSION['role']=='admin'){$perm['r']=1; $perm['w']=1; $perm['x']=1;}		
 	elseif($_SESSION['role']=='office'){$perm['r']=1; $perm['w']=1; $perm['x']=0;}
 	elseif($_SESSION['role']=='district'){$perm['r']=1; $perm['w']=0; $perm['x']=0;}
@@ -468,7 +477,7 @@ function getFormPerm($fid,$respons){
 /**
  * 
  */
-function getMarkPerm($mid, $respons){
+function getMarkPerm($mid,$respons){
 	$d_class=mysql_query("SELECT subject_id, course_id FROM class
 		 JOIN midcid ON class.id=midcid.class_id WHERE midcid.mark_id='$mid'");
 	$class=mysql_fetch_array($d_class,MYSQL_ASSOC);
@@ -549,32 +558,37 @@ function getCoursePerm($course,$respons){
  * given $respons array.
  *
  */
-function list_pastoral_respon($respons){
+function list_pastoral_respon(){
 	$rfids=array();
+	$rhids=array();
 	$ryids=array();
 	$aperm=get_admin_perm('p',$_SESSION['uid']);
-	$resperm=getResidencePerm($respons);
+	$resperm=getResidencePerm();
 	if($aperm==1 or $resperm['x']==1){
-		$d_groups=mysql_query("SELECT * FROM groups WHERE type='p' AND yeargroup_id IS NOT NULL ORDER BY yeargroup_id;");
+		/* If the user has admin access to pastoral then return all groups. */
+		$d_groups=mysql_query("SELECT DISTINCT yeargroup_id FROM groups WHERE type='p'  
+								AND yeargroup_id IS NOT NULL ORDER BY yeargroup_id;");
 		while($group=mysql_fetch_array($d_groups, MYSQL_ASSOC)){
 			$ryids[]=$group['yeargroup_id'];
 			}
 		}
 	else{
-		
-		for($c=0;$c<sizeof($respons);$c++){
-			$resp=$respons[$c];
-			if($resp['name']=='Form'){
-				if($resp['form_id']!=''){$rfids[]=$resp['form_id'];}
+		/* For a normal user split yeargroups and forms into to arrays. */
+		foreach($_SESSION['prespons'] as $respon){
+			if($respon['comtype']=='form'){
+				$rfids[]=$respon['name'];
 				}
-			elseif($resp['yeargroup_id']!=''){
-			/*academic respons must have null yeargroup_id for this to work!*/
+			elseif($respon['comtype']=='house'){
+				$rhids[]=$respon['name'];
+				}
+			elseif($respon['yeargroup_id']!='' and $respon['community_id']=='0'){
+				/* All academic respons must have null yeargroup_id for this to work!*/
 				$ryids[]=$resp['yeargroup_id'];
 				}
 			}
 		}
 
-	return array('forms'=>$rfids,'years'=>$ryids);
+	return array('forms'=>$rfids,'years'=>$ryids,'houses'=>$rhids);
 	}
 
 
@@ -724,16 +738,17 @@ function update_staff_perms($uid,$gid,$newperms){
 	else{
 		if(mysql_query("INSERT perms (uid, gid, r, w, x, e) VALUES
 				('$uid', '$gid', '$r', '$w', '$x', '$e')")){
-				$result=get_string('assignednewresponsibilities','admin');
-				}
+			$result=get_string('assignednewresponsibilities','admin');
+			}
 		else{mysql_query("UPDATE perms SET r='$r', w='$w', x='$x',
 				e='$e' WHERE uid='$uid' AND gid='$gid'"); 
-				$result=get_string('updatedresponsibilities','admin');
-				}
+			$result=get_string('updatedresponsibilities','admin');
+			}
 		}
 
 	return $result;
 	}
+
 
 /**
  * Taken from Moodle (lib/moodlelib.php) for ClaSS without ammendment

@@ -58,7 +58,7 @@ include('scripts/sub_action.php');
 		$Reports['Coversheet']='yes';
 		$Reports['Transform']=$transform;
 		$Reports['Paper']=$paper;
-		$Student['Reports']=nullCorrect($Reports);
+		$Student['Reports']=$Reports;
 		$reportyear=$reportdefs[0]['report']['year']-1;
 		$startdate=$reportyear.'-08-15';//Does the whole academic year
 		$Student['Reports']['Attendance']=fetchAttendanceSummary($sid,$startdate,$pubdate);

@@ -50,9 +50,9 @@ three_buttonmenu($extrabuttons);
 	$nosidstotal=0;
 	$capacitytotal=0;
 	$yeargroups=list_yeargroups();
-	while(list($index,$year)=each($yeargroups)){
+    foreach($yeargroups as $year){
 		$yid=$year['id'];
-		$perms=getYearPerm($yid,$respons);
+		$perms=getYearPerm($yid);
 		$comid=update_community(array('type'=>'year','name'=>$yid));
 		$com=get_community($comid);
 		$nosids=countin_community($com);

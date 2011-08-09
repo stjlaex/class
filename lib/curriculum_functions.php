@@ -63,6 +63,7 @@ function list_yeargroups($secid='%'){
 	return $yeargroups;
 	}
 
+
 /**
  * Returns an array of all posible formgroups, can limited by $yid
  *
@@ -70,12 +71,9 @@ function list_yeargroups($secid='%'){
  *	@return array
  */
 function list_formgroups($yid='%'){
-	$forms=array();
-	$d_f=mysql_query("SELECT DISTINCT id, name FROM form WHERE
-					yeargroup_id LIKE '$yid' ORDER BY yeargroup_id, id;");
-	while($form=mysql_fetch_array($d_f,MYSQL_ASSOC)){
-		$forms[]=$form;
-		}
+
+	$forms=(array)list_communities('form','',$yid);
+
 	return $forms;
 	}
 
@@ -960,23 +958,6 @@ function get_sectionname($secid){
 	return $name;
 	}
 
-/**
- *
- * Returns a form's record for a given $fid
- *
- *	@param string $fid
- *	@return array
- */
-function get_form($fid){
-	$d_f=mysql_query("SELECT * FROM form WHERE id='$fid';");
-	if(mysql_num_rows($d_f)>0){
-		$form=mysql_fetch_array($d_f,MYSQL_ASSOC);
-		}
-	else{
-		$form=array();
-		}
-	return $form;
-	}
 
 /**
  *
@@ -991,8 +972,7 @@ function get_form($fid){
  */
 function get_section($id,$type='year'){
 	if($type=='form'){
-		$d_f=mysql_query("SELECT yeargroup_id FROM form WHERE form.id='$id';");
-		$yid=mysql_result($d_f,0);
+		$fid=get_form_yeargroup($fid);
 		}
 	else{
 		$yid=$id;

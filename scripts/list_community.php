@@ -47,7 +47,7 @@ include('scripts/set_list_vars.php');
 	/*The current active year for new enrolments.*/
 	$enrolyear=get_curriculumyear()+1;
 	$listcomids=array();
-	while(list($index,$listtype)=each($listcomtypes)){
+	foreach($listcomtypes as $listtype){
 		if(sizeof($listcomtypes)>1){$display=get_string($listtype).' - ';}
 		else{$display='';}
 
@@ -57,7 +57,7 @@ include('scripts/set_list_vars.php');
 		else{
 			$listcoms=(array)list_communities($listtype);
 			}
-		while(list($index,$listcom)=each($listcoms)){
+		foreach($listcoms as $listcom){
 			$listcomids[$listcom['id']]=$listcom;
 			/*a fix to display something meaningful until detail is used*/
 			if($listcomids[$listcom['id']]['detail']!='' and $listcomids[$listcom['id']]['type']!='tutor'){

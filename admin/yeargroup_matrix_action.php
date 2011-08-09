@@ -11,7 +11,7 @@ include('scripts/sub_action.php');
 
 if($newtid!='' and $newyid!=''){
 	/*Check user has permission to edit*/
-	$perm=getYearPerm($newyid,$respons);
+	$perm=getYearPerm($newyid);
 	$neededperm='x';
 	include('scripts/perm_action.php');
 

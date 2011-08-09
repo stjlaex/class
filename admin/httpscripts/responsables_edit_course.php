@@ -9,8 +9,7 @@ if(!isset($xmlid)){print "Failed"; exit;}
 	list($crid,$bid,$uid)=explode('-',$xmlid);
 	$Responsible=array();
 	$Responsible['id_db']=$crid.'-'.$bid.'-'.$uid;
-	$d_groups=mysql_query("SELECT gid FROM groups WHERE
-				course_id='$crid' AND subject_id='$bid'");
+	$d_groups=mysql_query("SELECT gid FROM groups WHERE course_id='$crid' AND subject_id='$bid' AND type='a';");
 	$gid=mysql_result($d_groups,0);
 
 	$permc=getCoursePerm($crid, $respons);

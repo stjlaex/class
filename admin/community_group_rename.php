@@ -14,8 +14,6 @@ if(isset($_POST['newname'])){$newname=$_POST['newname'];}
 include('scripts/sub_action.php');
 
 if($sub=='Submit'){
-	trigger_error('SUBMIT!!!!!',E_USER_WARNING);
-
 
 	if(isset($comid) and $comid!=''){
 		/* Existing group is being edited. */
@@ -69,7 +67,7 @@ else{
 		<div class="center">
 		  <label for="Newname"><?php print_string('newgroupname',$book);?></label>
 			<input type="text" id="Newname" name="newname"
-				  tabindex="<?php print $tab++;?>" maxlength="30" class="required" value="<?php print $com['name']; ?>">
+				   tabindex="<?php print $tab++;?>" maxlength="30" class="required" value="<?php if(isset($com['name'])){print $com['name'];} ?>">
 		</div>
 	  </fieldset>
 
@@ -109,8 +107,13 @@ else{
 ?>
 
 
-
+<?php
+	if(isset($comid)){
+?>
 	<input type="hidden" name="comid" value="<?php print $comid;?>" />
+<?php
+		}
+?>
 	<input type="hidden" name="newcomtype" value="<?php print $newcomtype;?>" />
 	<input type="hidden" name="newcomid" value="<?php print $newcomid;?>" />
 	<input type="hidden" name="choice" value="<?php print $choice;?>" />

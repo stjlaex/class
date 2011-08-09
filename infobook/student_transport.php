@@ -12,7 +12,7 @@ require_once('lib/fetch_transport.php');
 three_buttonmenu();
 
 	/*Check user has permission to view*/
-	$perm=getFormPerm($Student['RegistrationGroup']['value'],$respons);
+	$perm=getFormPerm($Student['RegistrationGroup']['value']);
 	include('scripts/perm_action.php');
 
 ?>

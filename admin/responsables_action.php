@@ -20,53 +20,30 @@ if($perm=='w'){$newperms=array('r'=>1,'w'=>1,'x'=>0);}
 if($perm=='r'){$newperms=array('r'=>1,'w'=>0,'x'=>0);}
 if($email=='yes'){$newperms['e']=1;}else{$newperms['e']=0;}
 
-$result=array();
+if($bid!='' or $crid!=''){
 
-if($yid!=''){
-	$perm=getYearPerm($yid,$respons);
-	if($perm['x']==1){
-		$d_group=mysql_query("SELECT gid FROM groups WHERE
-				yeargroup_id='$yid' AND (course_id IS NULL OR course_id='');");
-		/*if no group exists create one*/
-		if(mysql_num_rows($d_group)==0){
-				mysql_query("SELECT name FROM yeargroup WHERE id='$yid'");
-				$yearname=mysql_result($d_group,0);
-				mysql_query("INSERT groups (yeargroup_id, name) VALUES ('$yid','yearname')");
-				$gid=mysql_insert_id();
-				}
-		else{$gid=mysql_result($d_group,0);}
+	if($bid==''){$bid='%';}
+	if($crid==''){$crid='%';}
 
-		if($gid==0){print 'Failed on group!'; exit;}
-
-		$result[]=update_staff_perms($newuid,$gid,$newperms);
-
-		}
-	elseif($perm['x']!=1){
-		$error[]=get_string('nopermissions');
-		}
-	}
-
-elseif($bid!='' and $crid!=''){
-	$permc=getCoursePerm($crid, $respons);
-	$permb=getSubjectPerm($bid, $respons);
+	$permc=getCoursePerm($crid,$respons);
+	$permb=getSubjectPerm($bid,$respons);
 
 	if(($permc['x']==1 and $crid!='%') or ($permb['x']==1 and $bid!='%' and $crid=='%')){
 		$d_group=mysql_query("SELECT gid FROM groups WHERE
-				subject_id='$bid' AND course_id='$crid' AND yeargroup_id IS NULL");
+				subject_id='$bid' AND course_id='$crid' AND yeargroup_id IS NULL AND type='a';");
 		if(mysql_num_rows($d_group)==0){
 			/*if no group exists create one for this combination*/
-				if ($crid!='%' and $bid!='%'){$name=$crid.'/'.$bid;}
-				else if ($crid!='%'){$name=$crid;}
-				else {$name=$bid;}
-				mysql_query("INSERT groups (course_id, subject_id,
-					name) VALUES ('$crid', '$bid', '$name')");
-				$gid=mysql_insert_id();
-				}
+			if ($crid!='%' and $bid!='%'){$name=$crid.'/'.$bid;}
+			else if ($crid!='%'){$name=$crid;}
+			else {$name=$bid;}
+			mysql_query("INSERT groups (course_id, subject_id, type) VALUES ('$crid', '$bid', 'a');");
+			$gid=mysql_insert_id();
+			}
 		else{$gid=mysql_result($d_group,0);}
 
 		if($gid==0){print 'Failed on group!'; exit;}
 
-		$result[]=update_staff_perms($newuid,$gid,$newperms);
+		update_staff_perms($newuid,$gid,$newperms);
 
 		}
 	elseif($permc['x']!=1 and $crid!='%'){
@@ -77,7 +54,7 @@ elseif($bid!='' and $crid!=''){
 		}
 	}
 else{
-	$error[]='You need to select both a Course and a Subject for academic priviliges.';
+	$error[]='You need to select a Course or a Subject to assign academic priviliges.';
 	}
 include('scripts/results.php');
 include('scripts/redirect.php');

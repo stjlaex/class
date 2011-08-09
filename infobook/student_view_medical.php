@@ -10,7 +10,7 @@ two_buttonmenu();
 
 	/*Anyone who gets to this page can read it but not edit*/
 	$yid=$Student['YearGroup']['value'];
-	$perm=getMedicalPerm($yid,$respons);
+	$perm=getMedicalPerm($yid);
 
 ?>
   <div id="heading">

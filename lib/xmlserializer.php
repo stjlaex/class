@@ -10,9 +10,9 @@
  */
 
 
-/*include the PEAR XML stuff*/
-require_once 'XML/Serializer.php';
-require_once 'XML/Unserializer.php';
+/* Still using the PHP4 xslt functions and need this for compatibility
+ * with PHP5. TODO: move to PHP5 xsl functions.
+ */
 if((PHP_VERSION>='5')&&extension_loaded('xsl')){
 	require_once('xslt-php4-to-php5.php');
 	}
@@ -26,7 +26,6 @@ if((PHP_VERSION>='5')&&extension_loaded('xsl')){
 function caseCorrect($array){
 	if(is_array($array)){
 		$newarray=array();
-		//$array=array_change_key_case($array,CASE_LOWER);
 		foreach($array as $key => $value){
 			$key=mb_strtolower($key);
 			$newarray[$key]=caseCorrect($value);
@@ -38,39 +37,83 @@ function caseCorrect($array){
 	return $newarray;
 	}
 
+
 /**
- * Takes the root name as input
+ * Serializes an xml-compatible array into a string of xml with the
+ * root name given - in preparation for using or outputing the
+ * xml. All xml tagnames will be in lowercase.
  *
- * @param string $rootName
- * @param string $xmlentry
+ * @param string $root_element_name
+ * @param array $xmlarray
  * @param array $options
  * @return string
  */
-function xmlpreparer($rootName,$xmlentry,$options=''){
+function xmlpreparer($root_element_name,$xmlarray,$options=''){
 	if($options==''){
-		$xmlentry=nullCorrect($xmlentry);
-		$xmlentry=caseCorrect($xmlentry);
-		$options=array(
-					   'addDecl' => FALSE,
-					   'encoding' => 'UTF-8',
-					   'indent' => '  ',
-					   'rootName' => "$rootName",
-					   'defaultTagName' => 'undefined',
-					   'mode'           => 'simplexml',
-					   //	'scalarAsAttributes' => TRUE,
-					   //   'attributesArray' => array('field_db', 'label'),
-					   //	'contentNAME' => 'value'
-					   //	'addDoctype' => true
-					   //	'doctype' => array(
-					   //	'uri' => 'http://pear.php.net/dtd/package-1.0',
-					   //	'id'  => '-//PHP//PEAR/DTD PACKAGE 0.1')
-					   );
+		$xmlarray=caseCorrect($xmlarray);
 		}
-	$Serializer=new XML_Serializer($options);
-	$status=$Serializer->serialize($xmlentry);
-	if(PEAR::isError($status)){die($status->getMessage());}
-	return $Serializer->getSerializedData();
+ 
+	$rootname=strtolower(trim($root_element_name));
+	$xml=new SimpleXMLElement("<{$rootname}></{$rootname}>");
+
+	array_to_xml($xmlarray,$xml);
+
+	$xmlstring=$xml->asXML();
+	$xmlstring=str_replace('<?xml version="1.0"?>','',$xmlstring);
+
+	return $xmlstring;
 	}
+
+
+
+
+/**
+ * Works recursively to convert an xml-compatible array to an xml
+ * object. The array can be of any depth. If numerically indexed then
+ * the passed tagname will be used.
+ *
+ * Only called from xmlpreparer.
+ *
+ * @param array $xmlarray
+ * @param string $xml
+ * @param string $tagname
+ *
+ * @return object
+ *
+ */
+function array_to_xml($xmlarray, &$xml, $tagname=''){
+
+    foreach($xmlarray as $key => $value){
+        if(is_array($value)){
+			if(!is_numeric($key)){
+				$subkeys=array_keys($value);
+				if(!is_numeric($subkeys[0])){
+					$newnode = $xml->addChild($key);
+					array_to_xml($value, $newnode, $key);
+					}
+				else{
+					array_to_xml($value, $xml, $key);
+					}
+				}
+            else{
+				$subnode=$xml->addChild($tagname);
+				array_to_xml($value, $subnode, $tagname);
+				}
+			}
+        else{
+			$value=html_entity_decode($value,ENT_QUOTES,"UTF-8");
+			if(!is_numeric($key)){
+				$xml->addChild($key,$value);
+				}
+			else{
+				$xml->addChild($tagname,$value);
+				}
+			}
+		}
+	}
+
+
+
 
 /**
  *
@@ -188,21 +231,6 @@ function xmlreader($string){
 		$xmlstring='<div>'.html_entity_decode($string,ENT_QUOTES,"UTF-8").'</div>';
 		$xml=xmlstringToArray($xmlstring);
 		}
-	/* This was the old PEAR library method...
-	else{
-		$nicexml=clean_text($xmlstring);
-		$Unserializer=new XML_Unserializer();
-		$status=$Unserializer->unserialize($nicexml);
-		if(PEAR::isError($status)){
-			//die($status->getMessage());
-			//$data=array();
-			$data='';
-			}
-		else{
-			$data=$Unserializer->getUnserializedData();
-			}
-		}
-	*/
 
 	return $xml;
 	}
@@ -241,7 +269,7 @@ function xmlstringToArray($xml){
 	}
 
 
-/*TODO: do we care which method is used?*/
+/***** TODO: do we care which method is used? **********/
 function object2array($object){ 
 	return @json_decode(@json_encode($object),1); 
 	}
@@ -252,11 +280,11 @@ function objectToArray($object){
 		}
 
 	if(is_object($object) ){
-		$object = get_object_vars($object);
+		$object=get_object_vars($object);
 		}
 	return array_map('objectToArray', $object );
 	}
-
+/**** The abve remain experimental!!!  ******/
 
 
 

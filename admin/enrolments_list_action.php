@@ -23,7 +23,7 @@ if($sub=='Submit' and $comid!=-1){
 
 
 	/*Check user has permission to edit*/
-	$perm=getYearPerm($yid,$respons);
+	$perm=getYearPerm($yid);
 	$neededperm='w';
 	include('scripts/perm_action.php');
 

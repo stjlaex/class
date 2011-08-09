@@ -7,10 +7,9 @@ require_once('../../scripts/http_head_options.php');
 if(!isset($xmlid)){print "Failed"; exit;}
 
 	list($yid,$uid)=explode('-',$xmlid);
-	$d_groups=mysql_query("SELECT gid FROM groups WHERE
-				yeargroup_id='$yid' AND course_id=''");
+	$d_groups=mysql_query("SELECT gid FROM groups WHERE yeargroup_id='$yid' AND course_id=''");
 	$gid=mysql_result($d_groups,0);
-	$perms=getYearPerm($yid,$respons);
+	$perms=getYearPerm($yid);
 	$Responsible=array();
 	$Responsible['id_db']=$yid.'-'.$uid;
 	if($perms['x']==1){

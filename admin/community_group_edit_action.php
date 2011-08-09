@@ -3,9 +3,10 @@
  */
 
 $action='community_group_edit.php';
-$action_post_vars=array('newcomtype','newcomid','comid');
+$action_post_vars=array('newcomtype','newcomid','comid','yid');
 
 if(isset($_POST['comid'])){$comid=$_POST['comid'];}
+if(isset($_POST['yid'])){$yid=$_POST['yid'];}
 if(isset($_POST['newcomid'])){$newcomid=$_POST['newcomid'];}else{$newcomid='';}
 if(isset($_POST['newcomtype'])){$newcomtype=$_POST['newcomtype'];}
 if(isset($_POST['newsids'])){$newsids=(array)$_POST['newsids'];}

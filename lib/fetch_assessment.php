@@ -170,7 +170,6 @@ function fetchAssessmentDefinition($eid){
 	if(mysql_numrows($d_ass)==0){$AssDef['exists']='false';}
 	else{$AssDef['exists']='true';}
 	$ass=mysql_fetch_array($d_ass,MYSQL_ASSOC);
-	//$ass=nullCorrect($ass);
 
 	$d_mid=mysql_query("SELECT mark_id FROM eidmid WHERE assessment_id='$eid';");
 	$markcount=mysql_numrows($d_mid);
@@ -348,12 +347,10 @@ function fetchAssessments($sid,$eid='%'){
 				student_id='$sid' AND assessment_id LIKE '$eid';");
 	$asses=array();
   	while($eidsid=mysql_fetch_array($d_eidsid,MYSQL_ASSOC)){
-		$eidsid=nullCorrect($eidsid);
 		$eid=$eidsid['assessment_id'];
 		if(!isset($asses[$eid])){
 			$d_ass=mysql_query("SELECT * FROM assessment WHERE id='$eid';");
 			$ass=mysql_fetch_array($d_ass,MYSQL_ASSOC);
-			$ass=nullCorrect($ass);
 			$asses[$eid]=$ass;
 			}
 		else{
@@ -436,7 +433,6 @@ function fetchAssessments($sid,$eid='%'){
 	   	$Assessment['Value']=array('label'=>'Result value','table_db'
 					=> 'eidsid', 'field_db'=>'value', 
 					'type_db'=>'', 'value'=>$eidsid['value']);
-		$Assessment=nullCorrect($Assessment);
 		if($eidsid['weight']=='2'){
 			$Assessments[]=$Assessment;
 	   		}
@@ -463,11 +459,9 @@ function fetchAssessments_short($sid,$eid='%',$bid='%',$pid='%'){
 				student_id='$sid' AND assessment_id LIKE '$eid' AND
 				subject_id LIKE '$bid' AND component_id LIKE '$pid';");
   	while($eidsid=mysql_fetch_array($d_eidsid,MYSQL_ASSOC)){
-		$eidsid=nullCorrect($eidsid);
 		$eid=$eidsid['assessment_id'];
 		$d_ass=mysql_query("SELECT * FROM assessment WHERE id='$eid';");
 		$ass=mysql_fetch_array($d_ass,MYSQL_ASSOC);
-		$ass=nullCorrect($ass);
 		$Assessment['id_db']=$ass['id'];
 	   	$Assessment['Course']=array('value'=>''.$ass['course_id']);
 		if($eidsid['subject_id']=='%'){$subject='';}
@@ -480,9 +474,9 @@ function fetchAssessments_short($sid,$eid='%',$bid='%',$pid='%'){
 	   	$Assessment['PrintLabel']=array('value'=>''.$ass['label']);
 	   	$Assessment['Element']=array('value'=>''.$ass['element']);
 	   	$Assessment['Result']=array('value'=>''.$eidsid['result']);
-		$Assessment['Result']=nullCorrect($Assessment['Result']);
+		$Assessment['Result']=$Assessment['Result'];
 	   	$Assessment['Value']=array('value' =>''.$eidsid['value']);
-		$Assessment=nullCorrect($Assessment);
+		$Assessment=$Assessment;
 		if($eidsid['weight']=='2'){
 			$Assessments[]=$Assessment;
 	   		}
@@ -1153,7 +1147,7 @@ function fetchHomeworkDefinition($hwid){
 	if(mysql_numrows($d_hw)==0){$Def['exists']='false';}
 	else{$Def['exists']='true';}
 	$hw=mysql_fetch_array($d_hw,MYSQL_ASSOC);
-	//$hw=nullCorrect($hw);
+
    	$Def['Course']=array('label'=>'course',
 						 // 'table_db'=>'homework', 
 						 'field_db'=>'course_id',

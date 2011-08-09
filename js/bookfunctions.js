@@ -194,7 +194,7 @@ function clickToReveal(rowObject){
 //possible action values are Edit, New, process, print, chart and current.
 //With current it will always ask for confirmation before making a xmlhttprequest 
 //and it applies returned xml to update the current page wihtout a reload.
-//The print and chart actions are for pop-up report windows and don't affect any changes.
+//The print and chart actions are for pop-up report windows and don't effect any changes.
 function clickToAction(buttonObject){
 	var i=0;
 	//need the id of the div containing the xml-record 
@@ -202,7 +202,6 @@ function clickToAction(buttonObject){
 	if(theDivId==""){
 		//gets it from the id of the tbody container for this row
 		var theContainerId=buttonObject.parentNode.parentNode.parentNode.id;
-	//alert(theContainerId);
 		}
 	else{
 		//or gets it from the id of the parent div container
@@ -216,9 +215,9 @@ function clickToAction(buttonObject){
 		var test=fillxmlForm(xmlRecord);
 		document.getElementById("Subject").parentNode.setAttribute("class","right");
 		if(document.getElementById("No_db")){document.getElementById("No_db").value="";}
-		document.getElementById("formstatus-new").setAttribute("class","hidden");
-		document.getElementById("formstatus-edit").setAttribute("class","");
-		document.getElementById("formstatus-action").setAttribute("class","hidden");
+		if(document.getElementById("formstatus-new")){document.getElementById("formstatus-new").setAttribute("class","hidden");}
+		if(document.getElementById("formstatus-edit")){document.getElementById("formstatus-edit").setAttribute("class","");}
+		if(document.getElementById("formstatus-action")){document.getElementById("formstatus-action").setAttribute("class","hidden");}
 		}
 	else if(action=="New"){
 		document.formtoprocess.reset();
@@ -255,7 +254,7 @@ function clickToAction(buttonObject){
 			}
 		}
 	else if(action=="current" || action=="print" || action=="chart"){
-		var recordId=xmlRecord.childNodes[1].childNodes[0].nodeValue;
+		var recordId=xmlRecord.childNodes[0].childNodes[0].nodeValue;
 		var script=buttonObject.value;
 		var url=pathtobook + "httpscripts/" + script + "?uniqueid=" + escape(recordId);
 		if(action!="print" && action!="chart"){
@@ -270,7 +269,7 @@ function clickToAction(buttonObject){
 			if(document.getElementById("sidtable")){
 				var sidrows=document.getElementById("sidtable").getElementsByTagName("tr");
 				for(var c=0; c<sidrows.length; c++){
-					if(sidrows[c].id!=""){
+					if(sidrows[c].id!="" && sidrows[c].id!="sid-0"){
 						var rowId=escape(sidrows[c].attributes["id"].value);
 						var sidId=rowId.substring(4,rowId.length);//strip off "sid-" part
 						params=params+"&sids[]=" + sidId;

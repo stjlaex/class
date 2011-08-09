@@ -27,7 +27,7 @@ if(isset($_POST['enrolyear'])){$enrolyear=$_POST['enrolyear'];}
 
 	if($comtype=='year'){
 		/*Check user has permission to edit*/
-		$perm=getYearPerm($comname,$respons);
+		$perm=getYearPerm($comname);
 		$neededperm='r';
 		include('scripts/perm_action.php');
 	
@@ -66,14 +66,16 @@ if(isset($_POST['enrolyear'])){$enrolyear=$_POST['enrolyear'];}
 		  </caption>
 		  <tr>
 			<th colspan="3">
+			  <h2>
 			  <?php print $displayname;?>
+			  </h2>
 			</th>
-			<td>
+			<th>
 			  <?php print_string('remove');?><br />
 			  <input type="checkbox" name="checkall" 
 				value="yes" onChange="checkAll(this);" />
 				<?php print_string('checkall'); ?>
-			</td>
+			</th>
 		  </tr>
 <?php
 	$rown=1;

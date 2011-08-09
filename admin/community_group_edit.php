@@ -3,19 +3,23 @@
  */
 
 $action='community_group_edit_action.php';
-$cancel='community_group.php';
 
 if(isset($_GET['comid'])){$comid=$_GET['comid'];}
-if(isset($_GET['newcomtype'])){$newcomtype=$_GET['newcomtype'];}
 if(isset($_POST['comid'])){$comid=$_POST['comid'];}
-if(isset($_POST['newcomid'])){$newcomid=$_POST['newcomid'];}else{$newcomid='';}
+if(isset($_GET['yid'])){$yid=$_GET['yid'];}else{$yid='%';}
+if(isset($_POST['yid'])){$yid=$_POST['yid'];}
+if(isset($_GET['newcomtype'])){$newcomtype=$_GET['newcomtype'];}
 if(isset($_POST['newcomtype'])){$newcomtype=$_POST['newcomtype'];}
+if(isset($_POST['newcomid'])){$newcomid=$_POST['newcomid'];}else{$newcomid='';}
 
 	$d_com=mysql_query("SELECT name FROM community WHERE id='$comid'");
 	$comname=mysql_result($d_com,0);
-	$currentcommunity=array('type'=>$newcomtype,'id'=>$comid);
+	$currentcommunity=array('yeargroup_id'=>$yid,'type'=>$newcomtype,'id'=>$comid);
 
+
+	/* This sets the group to select students from for adding. */
 	if($newcomid!=''){$newcommunity=array('id'=>$newcomid);}
+	elseif($yid!='%'){$newcommunity=array('type'=>'year','name'=>$yid);}
 	else{$newcommunity=array('type'=>'year','name'=>'');}
 
 	$oldstudents=listin_community($currentcommunity);
@@ -34,8 +38,12 @@ three_buttonmenu($extrabuttons);
 		<table class="listmenu">
 		  <caption><?php print_string($description,$book);?></caption>
 		  <tr>
-			<th colspan="3"><?php print $comname;?></th>
-			<th><?php print_string('remove');?></th>
+			<th colspan="3"><h2><?php print $comname;?></h2></th>
+			<th>
+			  <?php print_string('remove');?><br />
+			  <input type="checkbox" name="checkall" value="yes" onChange="checkAll(this);" />
+			  <?php print_string('checkall'); ?>
+			</th>
 		  </tr>
 <?php
 	$no=1;
@@ -97,7 +105,9 @@ three_buttonmenu($extrabuttons);
 		</div>
 		</fieldset>
 	  </div>
+
 	<input type="hidden" name="comid" value="<?php print $comid;?>" /> 
+	<input type="hidden" name="yid" value="<?php print $yid;?>" /> 
 	<input type="hidden" name="newcomid" value="<?php print $newcomid;?>" /> 
 	<input type="hidden" name="newcomtype" value="<?php print $newcomtype;?>" />
 	<input type="hidden" name="choice" value="<?php print $choice;?>" />

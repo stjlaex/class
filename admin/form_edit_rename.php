@@ -10,7 +10,7 @@ if(isset($_POST['newname'])){$newname=$_POST['newname'];}
 include('scripts/sub_action.php');
 
 	/*Check user has permission to edit*/
-	$perm=getFormPerm($oldname,$respons);
+	$perm=getFormPerm($oldname);
 	$neededperm='w';
 	include('scripts/perm_action.php');
 

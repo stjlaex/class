@@ -1,3 +1,40 @@
+Version ClaSS-1.0.0rc1 release (2011/08/22)
+-----------------------------------------
+
+Major change to the way form groups are defined, they are merged
+completely with the community table. And at the same time permission
+groups can now be linked to communities. 
+
+The get_form_tutor function is replaced with list_community_users and
+now permits multiple teachers to be acting as form tutors.
+
+Fix to the the create_register script.
+
+Simplified and brought up to date the responsibilities page so it only
+deals with academic permissions.
+
+Tiny change to css for rowaction buttons.
+
+Removed the dependency on PEAR XML Serializer and Unserializer
+functions. Eliminated the need for nullCorrect in the process.
+
+Fixed the printing of orders.
+
+Treating houses as pastoral commuities the same as forms. Both forms and
+houses can be managed through the form group matrix.
+
+The update_community function will now create an associated
+permissions group for a pastoral community.
+
+The Register's completion list can now handle houses or forms. 
+
+Several community functions, including listin and
+check_community_attendance adapted to use yid to limit the sids
+included.
+
+
+
+
 Version ClaSS-0.9.42 release (2011/07/18)
 -----------------------------------------
 

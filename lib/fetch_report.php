@@ -113,7 +113,7 @@ function fetchSubjectReports($sid,$reportdefs){
 				$GAssessments=(array)fetchAssessments_short($sid,$eid);
 				//trigger_error('GStats: '.$eid.' number '.sizeof($GAssessments),E_USER_WARNING);
 				if(sizeof($GAssessments)>0){
-					$Reports['SummaryAssessments'][]['Assessment']=nullCorrect($GAssessments);
+					$Reports['SummaryAssessments'][]['Assessment']=$GAssessments;
 					/* Only take the overall assessments for the statseid
 					 * which is relevant to this sid 
 					 */
@@ -189,7 +189,10 @@ function fetchSubjectReports($sid,$reportdefs){
 						  }
 					  
 					  $Coms=(array)fetchReportEntry($reportdef,$sid,$bid,$strand['id']);
-					  if(isset($Coms['Comment']) and sizeof($Coms['Comment'])>0){array_push($Comments['Comment'],$Coms['Comment']);}
+					  if(isset($Coms['Comment']) and sizeof($Coms['Comment'])>0){
+						  $Comments['Comment']=array_merge($Comments['Comment'],$Coms['Comment']);
+						  }
+
 					  }
 
 				  //$Comments=fetchReportEntry($reportdef,$sid,$bid,$pid);
@@ -208,7 +211,7 @@ function fetchSubjectReports($sid,$reportdefs){
 					  
 					  $repasses=array();
 					  foreach($assnos as $assno){
-						  $repasses['Assessment'][]=nullCorrect($Assessments[$assno]);
+						  $repasses['Assessment'][]=$Assessments[$assno];
 						  }
 						  
 					  /* An additional section if the report is linked to an assessment profile. */
@@ -217,19 +220,19 @@ function fetchSubjectReports($sid,$reportdefs){
 						  foreach($profile_asseids as $profindex=>$eid){
 							  $PAsses=(array)fetchAssessments_short($sid,$eid,$bid,$pid);
 							  if(sizeof($PAsses)>0){
-								  $PAsses=nullCorrect($PAsses);
+								  $PAsses=$PAsses;
 								  $ProfileAssessments['Assessment']=array_merge($ProfileAssessments['Assessment'],$PAsses);
 								  }
 							  }
 						  if(sizeof($ProfileAssessments['Assessment'])==0){
-							  $ProfileAssessments['Assessment']=nullCorrect($ProfileAssessments['Assessment']);
+							  $ProfileAssessments['Assessment']=$ProfileAssessments['Assessment'];
 							  }
 						  $Report['ProfileAssessments']=$ProfileAssessments;
 						  }
 					  
-					  $Report['Assessments']=nullCorrect($repasses);
-					  $Report['Comments']=nullCorrect($Comments);
-					  $Reports['Report'][]=nullCorrect($Report);
+					  $Report['Assessments']=$repasses;
+					  $Report['Comments']=$Comments;
+					  $Reports['Report'][]=$Report;
 					  }
 				  }
 				}
@@ -240,9 +243,9 @@ function fetchSubjectReports($sid,$reportdefs){
 				$Summary['Description']=array('id'=>$summaryid,
 							 'type'=>$repsummary['type'], 'value'=>$repsummary['name']);
 				if($repsummary['type']=='com'){
-					$Summary['Comments']=nullCorrect(fetchReportEntry($reportdef,$sid,'summary',$summaryid));
+					$Summary['Comments']=fetchReportEntry($reportdef,$sid,'summary',$summaryid);
 					}
-				$Summaries['Summary'][]=nullCorrect($Summary);
+				$Summaries['Summary'][]=$Summary;
 				}
 
 			/* Add assessments to the asstable, to display using xslt
@@ -260,14 +263,14 @@ function fetchSubjectReports($sid,$reportdefs){
 			 has the same properties. Otherwise it will be the properties
 			 of the last reportdef in the list which dominate!!!*/
 		   	if(isset($reportdef['cattable'])){$Reports['cattable']=$reportdef['cattable'];}
-			$Reports['Summaries']=nullCorrect($Summaries);
+			$Reports['Summaries']=$Summaries;
 		   	$Reports['publishdate']=date('jS M Y',strtotime($reportdef['report']['date']));
 		   	$transform=$reportdef['report']['transform'];
 		   	$style=$reportdef['report']['style'];
 		}
 
 	if(sizeof($Reports['SummaryAssessments'])==0){
-		$Reports['SummaryAssessments']=nullCorrect($Reports['SummaryAssessments']);
+		$Reports['SummaryAssessments']=$Reports['SummaryAssessments'];
 		}
 
 	return $Reports;
@@ -401,7 +404,7 @@ function fetchReportDefinition($rid,$selbid='%'){
 									 'stage'=>$rep['stage'],
 									 'id_db' => $rep['id']);
 			}
-		$RepDef['reptable']=nullCorrect($reptable);
+		$RepDef['reptable']=$reptable;
 		}
 
 
@@ -469,7 +472,7 @@ function fetchReportDefinition($rid,$selbid='%'){
 									 'element' => ''.$ass['element']);
 			}
 		}
-	$RepDef['asstable']=nullCorrect($asstable);
+	$RepDef['asstable']=$asstable;
 
 	if($report['addcategory']=='yes'){
 		/* ratings is an array of value=>descriptor pairs. 
@@ -499,7 +502,7 @@ function fetchReportDefinition($rid,$selbid='%'){
 				$cattable['rat'][]=array('name' => ''.$rat, 'value' => ''.$value);
 				}
 			}
-		$RepDef['cattable']=nullCorrect($cattable);
+		$RepDef['cattable']=$cattable;
 		*/
 		}
 	$RepDef['summaries']=(array)fetchReportSummaries($rid);
@@ -566,9 +569,9 @@ function fetch_reportdefinition($rid,$selbid='%'){
 									 'stage'=>$rep['stage'],
 									 'id_db' => $rep['id']);
 			}
-		$reportdef['reptable']=nullCorrect($reptable);
+		$reportdef['reptable']=$reptable;
 		}
-	$reportdef['report']=nullCorrect($report);
+	$reportdef['report']=$report;
 
 	/* Build a reference of relevant bids/pids/strands */
 	$subjects=array();
@@ -644,7 +647,7 @@ function fetch_reportdefinition($rid,$selbid='%'){
 									 'element' => ''.$ass['element']);
 			}
 		}
-	$reportdef['asstable']=nullCorrect($asstable);
+	$reportdef['asstable']=$asstable;
 
 	if($reportdef['report']['addcategory']=='yes'){
 
@@ -675,7 +678,7 @@ function fetch_reportdefinition($rid,$selbid='%'){
 												 'descriptor'=>''.$rating['longdescriptor'],
 												 'value'=>''.$rating['value']);
 						}
-					$reportdef['cattable'][]=nullCorrect($cattable);
+					$reportdef['cattable'][]=$cattable;
 					$reportdef['ratings'][$ratingname]=$ratings;
 					}
 				}
@@ -694,7 +697,7 @@ function fetch_reportdefinition($rid,$selbid='%'){
 				$cattable['rat'][]=array('name' => ''.$rat, 'value' => ''.$value);
 				}
 			}
-		$reportdef['cattable']=nullCorrect($cattable);
+		$reportdef['cattable']=$cattable;
 		*/
 
 		}
@@ -951,8 +954,8 @@ function fetchReportEntry($reportdef,$sid,$bid,$pid){
 			   $comment_html['div'][]=$comment_div;
 			   }
 
-		   $Comment['Text']=nullCorrect(array('value'=>$comment_html,
-											  'value_db'=>''.$entry['comment']));
+		   $Comment['Text']=array('value'=>$comment_html,
+								  'value_db'=>''.$entry['comment']);
 		   }
 
 	   /* These are the check box ratings. */
@@ -965,10 +968,10 @@ function fetchReportEntry($reportdef,$sid,$bid,$pid){
 
 	   $enttid=$entry['teacher_id'];
 	   $teachername=get_teachername($enttid);
-	   $Comment['Teacher']=nullCorrect(array('id_db'=>''.$enttid, 
-											 'value'=>''.$teachername));
+	   $Comment['Teacher']=array('id_db'=>''.$enttid, 
+								 'value'=>''.$teachername);
 
-	   $Comments['Comment'][]=nullCorrect($Comment);
+	   $Comments['Comment'][]=$Comment;
 	   }
 
 	return $Comments;

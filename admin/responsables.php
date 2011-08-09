@@ -50,16 +50,12 @@ three_buttonmenu();
 
 	  <div class="right">
 		<fieldset class="center divgroup">
-		  <legend><?php print_string('pastoralresponsibility',$book);?></legend>
-		  <?php include('scripts/list_year.php');?>
-		</fieldset>
-		<fieldset class="center divgroup">
 		  <legend><?php print_string('academicresponsibility',$book);?></legend>
 		  <div class="left">
 			<label for="Course"><?php print_string('course');?></label>
 			<select id="Course"  tabindex="<?php print $tab++;?>" name="crid" size="1">
 <?php
-  	$d_group=mysql_query("SELECT * FROM groups WHERE subject_id='%' ORDER BY course_id"); 
+  	$d_group=mysql_query("SELECT id AS course_id FROM course ORDER BY course_id;"); 
 	print '<option value="" selected="selected"></option>';
 	print '<option value="%">';
 	print_string('all',$book);
@@ -75,7 +71,7 @@ three_buttonmenu();
 			<label for="Subject"><?php print_string('subject');?></label>
 			<select id="Subject"  tabindex="<?php print $tab++;?>" name="bid" size="1">
 <?php
-  	$d_group=mysql_query("SELECT * FROM groups WHERE course_id='%' ORDER BY subject_id"); 
+  	$d_group=mysql_query("SELECT DISTINCT subject_id FROM component WHERE id='' ORDER BY subject_id;"); 
 	print '<option value="" selected="selected"></option>';
 	print '<option value="%">';
 	print_string('all');
@@ -98,18 +94,11 @@ three_buttonmenu();
 <?php
 	foreach($users as $uid => $user){
 		if($user['username']!='administrator'){
-			$uid=$user['uid'];
-			$d_group=mysql_query("SELECT * FROM groups LEFT JOIN perms ON
-				perms.gid=groups.gid WHERE perms.uid='$uid' AND groups.type='p' AND groups.name!='admin';");
-			$user['pastoral'][]=array();
-			while($group=mysql_fetch_array($d_group,MYSQL_ASSOC)){
-				if($group['gid']>0){$user['pastoral'][]=$group;}
-				}
-			$d_group=mysql_query("SELECT * FROM groups LEFT JOIN perms ON
-				perms.gid=groups.gid WHERE perms.uid='$uid' AND groups.type='a' AND groups.name!='admin';");
+			$d_g=mysql_query("SELECT DISTINCT groups.gid, groups.subject_id, groups.course_id FROM groups JOIN perms ON
+				perms.gid=groups.gid WHERE perms.uid='$uid' AND groups.type='a' AND groups.yeargroup_id IS NULL;");
 			$user['academic'][]=array();
-			while($group=mysql_fetch_array($d_group,MYSQL_ASSOC)){
-				if($group['gid']>0){$user['academic'][]=$group;}
+			while($g=mysql_fetch_array($d_g,MYSQL_ASSOC)){
+				$user['academic'][]=$g;
 				}
 			}
 		$users[$uid]=$user;
@@ -120,52 +109,18 @@ three_buttonmenu();
 	  <table class="listmenu">
 	  <tr>
 		<th><?php print_string('users',$book);?></th>
-		<th style="width:25%;"><?php print_string('pastoralresponsibilities',$book);?></th>
 		<th><?php print_string('academicresponsibilities',$book);?></th>
 	  </tr>
 <?php
 	foreach($users as $uid => $user){
-		if($user['username']!='administrator' and 
-		   (sizeof($user['pastoral'])>1 or sizeof($user['academic'])>1)){
-			$uid=$user['uid'];
+		if($user['username']!='administrator' and sizeof($user['academic'])>1){
 ?>
 	  <tr>
 		<td>
 		  <?php print $user['username'].' ('.$user['surname'].')';?>
 		</td>
-		<td>
+		  <td>
 <?php
-			foreach($user['pastoral'] as $group){
-				if(isset($group['gid']) and $group['gid']>0){
-					$gid=$group['gid'];
-					$yid=$group['yeargroup_id'];
-					$Responsible=array('id_db'=>$yid.'-'.$uid);
-					$perms=getYearPerm($yid, $respons);
-					if($perms['x']==1){
-?>
-			<div id="<?php print $yid.'-'.$uid;?>" class="rowaction" >
-			  <button class="rowaction" title="Remove this responsibility"
-				name="current" 
-				value="responsables_edit_yeargroup.php" 
-				onClick="clickToAction(this)">
-				<?php print $group['name'];?>
-			  </button>
-			  <div id="<?php print 'xml-'.$yid.'-'.$uid;?>" style="display:none;">
-							  <?php xmlechoer('Responsible',$Responsible);?>
-			  </div>
-			</div>
-<?php
-					  }
-					else{
-						print $group['name'].' ';
-						}
-					}
-				}
-?>
-		</td>
-		<td>
-<?php
-		if(sizeof($user['pastoral'])>0){
 			foreach($user['academic'] as $group){
 				if(isset($group['gid']) and $group['gid']>0){
 					$gid=$group['gid'];
@@ -173,6 +128,10 @@ three_buttonmenu();
 					$bid=$group['subject_id'];
 					$Responsible=array('id_db'=>$crid.'-'.$bid.'-'.$uid);
 					$perms=getCoursePerm($crid, $respons);
+					if($crid=='%'){$name=$bid;}
+					elseif($bid=='%'){$name=$crid;}
+					else{$name=$crid.'/'.$bid;}
+
 					if($perms['x']==1){
 ?>
 			<div id="<?php print $crid.'-'.$bid.'-'.$uid;?>" class="rowaction" >
@@ -180,7 +139,7 @@ three_buttonmenu();
 				name="current"
 				value="responsables_edit_course.php" 
 				onClick="clickToAction(this)">
-					 <?php print $group['name'];?>
+					 <?php print $name;?>
 			  </button>
 			  <div id="<?php print 'xml-'.$crid.'-'.$bid.'-'.$uid;?>" style="display:none;">
 							  <?php xmlechoer('Responsible',$Responsible);?>
@@ -189,11 +148,10 @@ three_buttonmenu();
 <?php
 						}
 					else{
-						print $group['name'].' ';
+						print $name.' ';
 						}
 					}
 				}
-			}
 ?>
 		</td>
 	  </tr>

@@ -10,39 +10,56 @@ function session_defaults(){
 	$_SESSION['worklevel']='';
 	$_SESSION['cookie']=0;
 	$_SESSION['remember']=true;
+	$_SESSION['respons']=array();
+	$_SESSION['prespons']=array();
 	}
 
 /**
+ * 
+ *  The special array respons is loaded once at login. It holds an
+ *  entry for each academic permission group this user belongs to. Numericaly
+ *  indexed the logbook variable $r points to the currently active
+ *  selection for academic reponsibilities.
  *
  *
  */
-function getRespons($username,$type='%'){
+function get_respons($uid,$type='%'){
 	$groups=array();
-	$d_users=mysql_query("SELECT uid FROM users WHERE username='$username';");
-	$uid=mysql_result($d_users,0);
 	$d_groups=mysql_query("SELECT groups.*, perms.r, perms.w, perms.x
 					   FROM groups LEFT JOIN perms ON groups.gid=perms.gid WHERE
 					   perms.uid='$uid' AND groups.type LIKE
-					   '$type' AND groups.name!='admin' ORDER BY groups.course_id
+					   '$type' ORDER BY groups.course_id
 					   DESC, groups.yeargroup_id;");
-	$c=0;
-    while($group=mysql_fetch_array($d_groups, MYSQL_ASSOC)){
-		$groups[$c]=$group;
-		if($groups[$c]['name']==''){
-			$groups[$c]['name']=$groups[$c]['course_id'].$groups[$c]['subject_id'];
+    while($group=mysql_fetch_array($d_groups,MYSQL_ASSOC)){
+		if($group['yeargroup_id']=='' or $group['yeargroup_id']>-9000){
+			if($group['type']=='a'){
+				if($group['course_id']=='%'){$name=$group['subject_id'];}
+				elseif($group['subject_id']=='%'){$name=$group['course_id'];}
+				else{$name=$group['course_id'].'/'.$group['subject_id'];}
+				$group['name']=$name;
+				}
+			elseif($group['type']=='p' and $group['community_id']=='0'){
+				$yid=$group['yeargroup_id'];
+				$d_c=mysql_query("SELECT name FROM yeargroup WHERE id='$yid';");
+				$com=mysql_fetch_array($d_c,MYSQL_ASSOC);
+				$group['name']=$com['name'];
+				$group['comtype']='year';
+				}
+			elseif($group['type']=='p' or $group['type']=='c'){
+				$comid=$group['community_id'];
+				$d_c=mysql_query("SELECT name, type FROM community WHERE id='$comid';");
+				$com=mysql_fetch_array($d_c,MYSQL_ASSOC);
+				$group['name']=$com['name'];
+				$group['comtype']=$com['type'];
+				}
+			$groups[]=$group;
 			}
-		$c++;
 		}
-	$d_form=mysql_query("SELECT id, yeargroup_id FROM form WHERE
-						  teacher_id='$username' ORDER BY yeargroup_id DESC;");
-    while($form=mysql_fetch_array($d_form, MYSQL_ASSOC)){
-		$groups[$c]=array('name'=>'Form','form_id'=>$form['id'],'r'=>'1','w'=>'1','x'=>'1',
-						  'course_id'=>'','subject_id'=>'','type'=>'p',
-						  'yeargroup_id'=>$form['yeargroup_id']);
-		$c++;
-		}
+
 	return $groups;
     }
+
+
 
 /**
  *
@@ -76,21 +93,23 @@ class User{
   function _setSession(&$values, $remember, $init=true){
     ini_set('session.gc_maxlifetime', 7200);
 	$this->uid=$values->uid;
-	$_SESSION['uid']=$this->uid;
-	$_SESSION['username']=htmlspecialchars($values->username);
-	$_SESSION['cookie']=$values->cookie;
-	$_SESSION['lang']=$values->language;
-	$_SESSION['firstbookpref']=$values->firstbookpref;
-	$_SESSION['role']=$values->role;
-	$_SESSION['senrole']=$values->senrole;
-	$_SESSION['medrole']=$values->medrole;
-	$_SESSION['worklevel']=$values->worklevel;
-	$_SESSION['logged']=true;
 	if($remember){
 		$this->updateCookie($values->cookie, true);
 		}
 	$this->updateSharedCookie($values->cookie, true);
 	if($init){
+		$_SESSION['uid']=$this->uid;
+		$_SESSION['username']=htmlspecialchars($values->username);
+		$_SESSION['cookie']=$values->cookie;
+		$_SESSION['lang']=$values->language;
+		$_SESSION['firstbookpref']=$values->firstbookpref;
+		$_SESSION['role']=$values->role;
+		$_SESSION['senrole']=$values->senrole;
+		$_SESSION['medrole']=$values->medrole;
+		$_SESSION['worklevel']=$values->worklevel;
+		$_SESSION['logged']=true;
+		$_SESSION['respons']=(array)get_respons($this->uid,'a');
+		$_SESSION['prespons']=(array)get_respons($this->uid,'p');
 		$session=$this->db->quote(session_id());
 		$ip=$this->db->quote($_SERVER['REMOTE_ADDR']);
 		$sql="UPDATE users SET session=$session, ip=$ip, 

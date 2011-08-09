@@ -13,14 +13,14 @@ if(isset($_GET['newfid'])){$fid=$_GET['newfid'];}
 if(isset($_POST['fid'])){$fid=$_POST['fid'];}
 
 	/*Check user has permission to edit*/
-	$perm=getFormPerm($fid,$respons);
+	$perm=getFormPerm($fid);
 	$neededperm='r';
 	include('scripts/perm_action.php');
 
-	$form=get_form($fid);
-	$tutor_user=(array)get_tutor_user($fid);
-	$yid=$form['yeargroup_id'];
+	$community=array('id'=>'','type'=>'form','name'=>$fid);
+	$yid=get_form_yeargroup($fid);
 	$year=get_yeargroupname($yid);
+	$tutor_users=(array)list_community_users($community,array('r'=>1,'w'=>1,'x'=>1));
 
 	$extrabuttons['renamegroup']=array('name'=>'current','value'=>'form_edit_rename.php');
 	three_buttonmenu($extrabuttons);
@@ -37,21 +37,23 @@ if(isset($_POST['fid'])){$fid=$_POST['fid'];}
 		</caption>
 		  <tr>
 			<th colspan="3">
+			  <h2>
 		<?php print $fid.' &nbsp;&nbsp;';?>
-		<?php print $tutor_user['forename'][0].' '. $tutor_user['surname'];?>
-		<a onclick="parent.viewBook('webmail');" target="viewwebmail" 
-			href="webmail.php?recipients[]=<?php print $tutor_user['email'];?>">
-			<img class="clicktoemail" title="<?php print_string('clicktoemail');?>" />
-		</a>
+<?php 
+		  foreach($tutor_users as $tutor_user){
+			  print $tutor_user['forename'][0].' '. $tutor_user['surname'];
+			  emaillink_display($tutor_user['email']);
+			  }
+?>
+			  </h2>
 			</th>
-			<td>
+			<th>
 			  <?php print_string('remove');?><br />
 			  <input type="checkbox" name="checkall" value="yes" onChange="checkAll(this);" />
 		<?php print_string('checkall'); ?>
-			</td>
+			</th>
 		  </tr>
 <?php
-	$community=array('id'=>'','type'=>'form','name'=>$fid);
 	$students=(array)listin_community($community);
 	$rown=1;
 	while(list($index,$student)=each($students)){

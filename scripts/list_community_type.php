@@ -16,7 +16,7 @@
 			<?php if($required=='yes'){ print ' class="required" ';} ?> >
 <?php
 	$comtype_array=getEnumArray('community_type');
-	while(list($val,$description)=each($comtype_array)){
+	foreach($comtype_array as $val => $description){
 		print '<option ';
 		if(($selcomtype==$val)){print 'selected="selected"';}
 		print	' value="'.$val.'">'.get_string($description,'admin').'</option>';

@@ -11,10 +11,10 @@ $notice='';
 
 include('scripts/sub_action.php');
 
-if(isset($CFG->registration[$secid]) 
-   and $CFG->registration[$secid]!='single'){$session='%';}
+if(isset($CFG->registration[$secid]) and $CFG->registration[$secid]!='single'){$session='%';}
 else{$session='AM';}
 
+trigger_error($yid,E_USER_WARNING);
 
 	if($community['type']=='class'){
 		$students=(array)listin_class($community['name'],true);
@@ -50,8 +50,9 @@ else{$session='AM';}
 			}
 		}
 	else{
+		$community['yeargroup_id']=$yid;
 		$students=(array)listin_community($community);
-		if($community['type']=='form'){$tutor_user=(array)get_tutor_user($community['name']);}
+		$tutor_users=(array)list_community_users($community);
 		$AttendanceEvents=fetchAttendanceEvents($startday,$nodays,$session);
 
 		/* If the currentevent is not yet in the db event table then must
@@ -123,7 +124,8 @@ if($community['type']=='form'){
 	  <?php print $community['name'];?>
 	</div>
 <?php
-	if(isset($tutor_user)){
+	if(isset($tutor_users)){
+		foreach($tutor_users as $uid => $tutor_user){
 ?>
 	<div>
 	  <label><?php print_string('formtutor');?>
@@ -133,6 +135,7 @@ if($community['type']=='form'){
 	  &nbsp;
 	</div>
 <?php
+			}
 		}
 ?>
 	<div>

@@ -13,7 +13,7 @@ if(isset($_POST['contactno'])){$contactno=$_POST['contactno'];}
 /* Check user has permission to view. */
 if($sid!=''){
 	$yid=$Student['YearGroup']['value'];
-	$perm=getYearPerm($yid,$respons);
+	$perm=getYearPerm($yid);
 	include('scripts/perm_action.php');
 	}
 

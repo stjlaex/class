@@ -33,7 +33,7 @@ if(isset($_POST['pid'])){$pid=$_POST['pid'];}
 			$Reports=fetchSubjectReports($sid,$reportdefs);
 			$Reports['Coversheet']='yes';
 			$Reports['Paper']=$reportdefs[0]['report']['style'];
-			$Student['Reports']=nullCorrect($Reports);
+			$Student['Reports']=$Reports;
 			$Students['Student'][]=$Student;
 			}
 		$returnXML=$Students;

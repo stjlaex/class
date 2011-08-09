@@ -14,7 +14,7 @@ if($Student['SENFlag']['value']=='N'){
 
 	/*Check user has permission to view*/
 	$yid=$Student['YearGroup']['value'];
-	$perm=getSENPerm($yid,$respons);
+	$perm=getSENPerm($yid);
 	include('scripts/perm_action.php');
 
 ?>

@@ -9,7 +9,7 @@ include('scripts/sub_action.php');
 
 /*Check user has permission to view*/
 $yid=$Student['YearGroup']['value'];
-$perm=getYearPerm($yid, $respons);
+$perm=getYearPerm($yid);
 include('scripts/perm_action.php');
 
 three_buttonmenu();

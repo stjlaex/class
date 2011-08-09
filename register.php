@@ -13,7 +13,7 @@ $book='register';
 
 include('scripts/head_options.php');
 include('scripts/set_book_vars.php');
-$session_vars=array('newcid','newcomid','startday','checkeveid','secid','nodays');
+$session_vars=array('newcid','newcomid','startday','checkeveid','secid','nodays','yid');
 include('scripts/set_book_session_vars.php');
 if(!isset($CFG->registrationtype)){$CFG->registrationtype='form';}
 
@@ -30,23 +30,22 @@ if($nodays==''){$nodays=8;}
 	  $section=get_section($community['name'],$community['type']);
 	  $secid=$section['id'];
 	  $newcid='';
-	  trigger_error('SECTION: '.$secid,E_USER_WARNING);
 	  }
 
   if(isset($community) and is_array($community)){
 	  $comid=$community['id'];
 	  }
   else{
-	  /* On first load select the teacher's form group by default. */
-	  $pastorals=list_pastoral_respon($respons);
+	  /* On first load select the teacher's formgroup by default. */
+	  $pastorals=(array)list_pastoral_respon();
 	  $rfids=$pastorals['forms'];
 	  $ryids=$pastorals['years'];
+	  $rhids=$pastorals['houses'];
 	  if(sizeof($rfids)!=0){
 		  $section=get_section($rfids[0],'form');
 		  $secid=$section['id'];
 		  $community=array('id'=>'','type'=>'form','name'=>$rfids[0]);
-		  $community=(array)update_community($community);
-		  $comid=$community['id'];
+		  $comid=(array)update_community($community);
 		  }
 	  }
 ?>
@@ -84,15 +83,19 @@ if($nodays==''){$nodays=8;}
 
 		<br />
 		<br />
+<!--
+
+TODO: list_sections here:
 
 	  <fieldset class="register">
-		<legend><?php print_string('takeregister',$book);?></legend>
+		<legend><?php print_string('section',$book);?></legend>
 
-		<form id="registerchoice" name="registerchoice" method="post" 
-							action="register.php" target="viewregister">
+		<form id="registerchoice" name="registerchoice" method="post" action="register.php" target="viewregister">
 <?php
-			$onsidechange='yes'; $listtype=$CFG->registrationtype; $listlabel=''; 
-			include('scripts/list_community.php');
+//			$onsidechange='yes';
+//			$listtype='section';
+//			$listlabel='';
+//			include('scripts/list_community.php');
 ?>
 		<input type="hidden" name="newcid" value="" />
 		<input type="hidden" name="current" value="register_list.php" />
@@ -100,8 +103,9 @@ if($nodays==''){$nodays=8;}
 		</form>
 	  </fieldset>
 
-	<br />
-	<br />
+	  <br />
+	  <br />
+-->
 
 	<form id="registerchoicesel" name="registerchoicesel" method="post" 
 		  action="register.php" target="viewregister">

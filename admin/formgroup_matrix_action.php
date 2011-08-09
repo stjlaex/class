@@ -3,26 +3,19 @@
  */
 
 $action='formgroup_matrix.php';
+$action_post_vars=array('newcomtype');
 
-if($_POST['newtid']!=''){$newtid=$_POST['newtid'];}else{$newtid='';}
-if(isset($_POST['newfid'])){$newfid=$_POST['newfid'];}else{$newfid='';}
+if(isset($_POST['newtid']) and $_POST['newtid']!=''){$newtid=$_POST['newtid'];}else{$newtid='';}
+if(isset($_POST['gid']) and $_POST['gid']!=''){$gid=$_POST['gid'];}else{$gid='';}
+if(isset($_POST['pastoraltype']) and $_POST['pastoraltype']!=''){$newcomtype=$_POST['pastoraltype'];}
+else{$newcomtype=$_POST['newcomtype'];}
 
 include('scripts/sub_action.php');
 
-if($newtid!='' AND $newfid!=''){
-		$d_test=mysql_query("SELECT id, yeargroup_id FROM form WHERE teacher_id='$newtid'");
-		$rows=mysql_num_rows($d_test);
-
-		/*Check user has permission to edit*/
-		$perm=getFormPerm($newfid,$respons);
-		$neededperm='w';
-		include('scripts/perm_action.php');
-
-		if($rows==0){
-			mysql_query("UPDATE form SET teacher_id='$newtid' WHERE id='$newfid'");
-			$result[]='Teacher assigned to the form.';
-			}
-		else{$error[]='Teacher '.$newtid.' already has been assigned a form!';}
+if($newtid!='' AND $gid!=''){
+		$newperms=array('r'=>1,'w'=>1,'x'=>1,'e'=>1);
+		$uid=get_uid($newtid);
+		update_staff_perms($uid,$gid,$newperms);
 		}
 
 include('scripts/results.php');

@@ -16,7 +16,7 @@ if(isset($_POST['enrolyear'])){$enrolyear=$_POST['enrolyear'];}
 include('scripts/sub_action.php');
 
 		/*Check user has permission to edit*/
-		$perm=getYearPerm($comname,$respons);
+		$perm=getYearPerm($comname);
 		$neededperm='w';
 		include('scripts/perm_action.php');
 

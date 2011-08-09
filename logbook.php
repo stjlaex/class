@@ -22,13 +22,11 @@
 		<option value="-1" <?php  if($r==-1){print 'selected="selected" ';} ?>
 		  ><?php print_string('myclasses');?></option>
 <?php 
-    for($c=0;$c<(sizeof($respons));$c++){
-		/*only lists the academic responsibilities*/
-		if($respons[$c]['type']=='a'){
-			print '<option value="'.$c.'"';
-			if(isset($r) and $r==$c){print ' selected="selected" ';}
-			print '>'.$respons[$c]['name'].'</option>';
-			}
+    foreach($respons as $rindex => $respon){
+		/* Lists the academic responsibilities. */
+		print '<option value="'.$rindex.'"';
+		if(isset($r) and $r==$rindex){print ' selected="selected" ';}
+		print '>'.$respon['name'].'</option>';
 		}
 ?>
 		</select>

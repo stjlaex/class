@@ -20,7 +20,7 @@ $action='search_action.php'
 	$onsidechange='yes';
 	include('scripts/list_community.php');
 
-if($_SESSION['role']=='office' or $_SESSION['role']=='admin' or $_SESSION['role']=='sen'){
+	if($_SESSION['role']=='office' or $_SESSION['role']=='admin' or $_SESSION['role']=='sen'){
 		$listtype='admissions';
 		$listlabel='enrolments';
 		$onsidechange='yes'; 

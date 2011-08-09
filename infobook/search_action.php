@@ -16,11 +16,10 @@ if(isset($_POST['newyid']) and $_POST['newyid']!=''){
 	$selsavedview='year';
 	}
 elseif(isset($_POST['newfid']) and $_POST['newfid']!=''){
-	$com=array('id'=>'','type'=>'form','name'=>$_POST['newfid']);
+	$com=get_community($_POST['newfid']);
 	$selsavedview='form';
 	}
 elseif(isset($_POST['newcomid']) and $_POST['newcomid']!=''){
-	//$com=array('id'=>$_POST['newcomid'],'type'=>'','name'=>'');
 	$com=get_community($_POST['newcomid']);
 	$selsavedview='';
 	$title='<label>'.get_string($com['type']).'</label>'.$com['name'];

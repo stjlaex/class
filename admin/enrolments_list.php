@@ -95,7 +95,7 @@ if(isset($_POST['startdate'])){$startdate=$_POST['startdate'];}
 	$infobookcurrent='student_view_enrolment.php';
 
 	/*Check user has permission to edit*/
-	$perm=getYearPerm($yid,$respons);
+	$perm=getYearPerm($yid);
 	$neededperm='r';
 	include('scripts/perm_action.php');
 

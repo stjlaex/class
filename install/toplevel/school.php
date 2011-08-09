@@ -78,12 +78,10 @@ $CFG->feeders[2]='';
 $CFG->enrol_assess='no';
 $CFG->enrol_assess_sen='';
 /**
- * The start of the month (integer 1 to 12) beyond which students
- * count as new mid-year enrolments as distinct from enrolments who joined in
- * time for the start of the academic year. Probably just the start of
- * term if you don't care.
+ * The start of the month (integer 1 to 12) beyond which the current enrolment year ends.
+ * Probably just the end of term if you don't care.
  */
-$CFG->enrol_cutoffmonth='09';
+$CFG->enrol_cutoffmonth='08';
 /**
  * The end of the month (integer 1 to 12) after which the budget year for orders
  * rolls forward.

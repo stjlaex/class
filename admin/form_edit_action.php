@@ -16,7 +16,7 @@ else{$classestoo='no';}
 include('scripts/sub_action.php');
 
 	/*Check user has permission to edit*/
-	$perm=getFormPerm($fid,$respons);
+	$perm=getFormPerm($fid);
 	$neededperm='w';
 	include('scripts/perm_action.php');
 
