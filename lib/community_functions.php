@@ -687,6 +687,8 @@ function join_community($sid,$community){
 	elseif($type=='alumni'){
 		$oldtypes[]='year';
 		$oldtypes[]='form';
+		$oldtypes[]='transport';
+		$oldtypes[]='tutor';
 		/*may be joining from previous point in application procedure*/
 		$oldtypes[]='accepted';
 		$oldtypes[]='applied';
@@ -752,6 +754,7 @@ function join_community($sid,$community){
 		if($enrolstatus=='P'){
 			/* Record the school leaving date. */
 			mysql_query("UPDATE info SET leavingdate='$todate' WHERE student_id='$sid';");
+			delete_journey_booking_all($sid,$todate);
 			}
 		}
 
