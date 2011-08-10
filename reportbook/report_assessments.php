@@ -105,8 +105,8 @@ three_buttonmenu();
 		<legend><?php print_string('assessments',$book);?></legend>
 		<div class="center" >
 <?php
-	if($selyid!=''){$ryids=array('0'=>$selyid);$rfids=array();}
-	elseif($selfid!=''){$rfids=array('0'=>$selfid);$ryids=array();}
+	if($selyid!=''){$ryids=array('0'=>$selyid);$rforms=array();}
+	elseif($selfid!=''){$rforms=array('0'=>array('name'=>$selfid));$ryids=array();}
 	if($profid==''){$selprofid='%';}
 	else{$selprofid=$profid;}
 	$required='no';

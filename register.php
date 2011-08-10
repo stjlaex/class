@@ -32,20 +32,25 @@ if($nodays==''){$nodays=8;}
 	  $newcid='';
 	  }
 
+	/* If a community is already selected (by passing newcomid) then
+	 * stick with that. Otherwise try choose a relevant community to
+	 * display by default form the users pastoral responsibilities. 
+	 */
   if(isset($community) and is_array($community)){
 	  $comid=$community['id'];
 	  }
   else{
-	  /* On first load select the teacher's formgroup by default. */
+	  /* On first load select the teacher's pastoral group by default. */
 	  $pastorals=(array)list_pastoral_respon();
-	  $rfids=$pastorals['forms'];
-	  $ryids=$pastorals['years'];
-	  $rhids=$pastorals['houses'];
-	  if(sizeof($rfids)!=0){
-		  $section=get_section($rfids[0],'form');
+	  if($CFG->registrationtype=='form' and sizeof($pastorals['forms'])!=0){
+		  $section=get_section($pastorals['forms'][0],'form');
 		  $secid=$section['id'];
-		  $community=array('id'=>'','type'=>'form','name'=>$rfids[0]);
-		  $comid=(array)update_community($community);
+		  $community=array('id'=>$pastorals['forms'][0]['community_id'],'type'=>'form','name'=>$pastorals['forms'][0]['name']);
+		  $yid=$pastorals['forms'][0]['yeargroup_id'];
+		  }
+	  elseif($CFG->registrationtype=='house' and sizeof($pastorals['houses'])!=0){
+		  $community=array('id'=>$pastorals['houses'][0]['community_id'],'type'=>'house','name'=>$pastorals['houses'][0]['name']);
+		  $yid=$pastorals['houses'][0]['yeargroup_id'];
 		  }
 	  }
 ?>

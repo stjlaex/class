@@ -32,6 +32,10 @@ Several community functions, including listin and
 check_community_attendance adapted to use yid to limit the sids
 included.
 
+The method used by list_sid_responsibles changed to include all
+communities with a permissions group. Could increase the number of
+users receiving email alerts about a student.
+
 
 
 
@@ -84,6 +88,7 @@ A change to the use of enrol_cutoffdate to indicate the end of the
 changes to the current year. 
 
 The year end functions now also remove leavers from transport lists.
+
 
 
 Version ClaSS-0.9.41 release (2011/06/7)

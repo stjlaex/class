@@ -38,16 +38,15 @@
 	/* no academic repsonsiiblity set so use a selected pastoral group */
 	elseif(sizeof($ryids)>0){
 		reset($ryids);
-   		while(list($index,$ryid)=each($ryids)){
+   		foreach($ryids as $ryid){
 			$comcohorts=(array)list_community_cohorts(array('id'=>'','type'=>'year','name'=>$ryid));
 			while(list($index,$cohort)=each($comcohorts)){
 				$cohorts[$cohort['id']]=$cohort;
 				}
 			}
-		reset($ryids);
 		}
-	elseif(sizeof($rfids)>0){
-		$cohorts=list_community_cohorts(array('id'=>'','type'=>'form','name'=>$rfids[0]));
+	elseif(sizeof($rforms)>0){
+		$cohorts=list_community_cohorts(array('id'=>'','type'=>'form','name'=>$rforms[0]['name']));
 		}
 
 	if(!isset($required)){$required='yes';}

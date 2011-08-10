@@ -11,13 +11,13 @@ include('scripts/set_book_vars.php');
 ?>
 <div id="bookbox" class="reportcolor">
 <?php
-	$rfids=array();
-	$ryids=array();
 	/**
 	 * All scripts except report_reports is sensitive to whether an
 	 * academic responsibility is selected, if it is students can be
 	 * listed by cohort, otherwise by pastoral groups.
 	 */
+	$rforms=array();
+	$ryids=array();
 	if($r>-1 and $current!='report_reports.php'){
 		$rcrid=$respons[$r]['course_id'];
 	 	$rbid=$respons[$r]['subject_id'];
@@ -28,12 +28,12 @@ include('scripts/set_book_vars.php');
 		}
 	else{
 		$pastorals=list_pastoral_respon();
-		$rfids=$pastorals['forms'];
+		$rforms=$pastorals['forms'];
 		$ryids=$pastorals['years'];
 		$listgroup='list_pastoralgroup.php';
 		$reportpubs='yes';
 		}
-	if(sizeof($rfids)==0 and sizeof($ryids)==0 and $r=='-1' and $_SESSION['role']!='admin'){
+	if(sizeof($rforms)==0 and sizeof($ryids)==0 and $r=='-1' and $_SESSION['role']!='admin'){
 		$error[]=get_string('selectresponsibility');
 		include('scripts/results.php');
 		$current='';

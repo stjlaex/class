@@ -18,7 +18,7 @@ if(sizeof($ryids)>0){
 			style="width:20em;" <?php if($required=='yes'){ print ' class="requiredor" ';} ?> >
 			<option value=""></option>
 <?php
-		if(!isset($rfids)){$rfids=array();}
+		if(!isset($rforms)){$rforms=array();}
     	foreach($ryids as $yid){
 			$d_yeargroup=mysql_query("SELECT name FROM yeargroup WHERE id='$yid';");
 			if(mysql_num_rows($d_yeargroup)>0){
@@ -27,7 +27,7 @@ if(sizeof($ryids)>0){
 				if($selyid==$yid){print 'selected="selected"';}
 				print	' value="'.$yid.'">'.$yeargroup.'</option>';
 				}
-			$rfids=array_merge($rfids,list_formgroups($yid));
+			$rforms=array_merge($rforms,list_formgroups($yid));
 			}
 ?>
 	</select>
@@ -35,8 +35,8 @@ if(sizeof($ryids)>0){
 <?php
 	}
 
-if(sizeof($rfids)>0){
-	if(!isset($selfid)){$selfid=$rfids[0];}
+if(sizeof($rforms)>0){
+	if(!isset($selfid)){$selfid=$rforms[0]['name'];}
 ?>
 <div class="right">
 	<label for="Form group"><?php print_string('formgroup');?></label>
@@ -46,7 +46,7 @@ if(sizeof($rfids)>0){
 	  <?php if($required=='yes'){ print ' class="requiredor" ';} ?> >
 	<option value=""></option>
 <?php
-        foreach($rfids as $form){
+        foreach($rforms as $form){
 			print '<option value="'.$form['name'].'" ';
 			if($selfid==$form['name']){print ' selected="selected" ';}
 			print ' >'.$form['name'].'</option>';
@@ -57,9 +57,9 @@ if(sizeof($rfids)>0){
 <?php
 	}
 
-if(sizeof($rfids)==0 and sizeof($ryids)==0){
+if(sizeof($rforms)==0 and sizeof($ryids)==0){
 	print '<label>'.get_string('youhavenopastoralresponsibilities').'</label>';
 	}
 reset($ryids);
-reset($rfids);
+reset($rforms);
 ?>

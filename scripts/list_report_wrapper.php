@@ -12,8 +12,8 @@
 			    WHERE course_id='wrapper' AND date<'$startdate' ORDER BY date DESC, title;");
 		/*This needs to moved to use cohorts!!!*/
 		}
-	elseif(sizeof($rfids)==1){
-		$selfid=$rfids[0];
+	elseif(sizeof($rforms)==1){
+		$selfid=$rforms[0]['name'];
 		$d_report=mysql_query("SELECT id, title, date FROM report
 			    WHERE course_id='wrapper' AND date<'$startdate' ORDER BY date DESC, title;");
 		/*This needs to moved to use cohorts!!!*/

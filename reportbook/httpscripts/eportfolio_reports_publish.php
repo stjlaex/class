@@ -70,7 +70,7 @@ else{trigger_error('html2ps not configured!',E_USER_ERROR);}
 		$publishdata['title']=$reportdef['report']['title'].' - '.$pubdate;		
 		/* Format specific to html2ps and NOT for html2fpdf. */
 		$postdata['batch[0]']=$filename.'.html';
-		$postdata['url']='http://'.$CFG->siteaddress.$CFG->sitepath.'/reports/';
+		$postdata['url']=$CFG->eportfolio_dataroot.'/cache/';
 		$postdata['process_mode']='batch';
 		$postdata['topmargin']='10';
 		$postdata['bottommargin']='0';
@@ -86,6 +86,7 @@ else{trigger_error('html2ps not configured!',E_USER_ERROR);}
 		curl_exec($curl);
 		curl_close($curl);
 
+
 /* Alternative is using html2fpdf....
    require_once('lib/html2fpdf/html2fpdf.php');
    while(list($index,$batchfile)=each($batchfiles)){
@@ -98,8 +99,9 @@ else{trigger_error('html2ps not configured!',E_USER_ERROR);}
    fclose($fp);
    $pdf->WriteHTML($strContent);
    $pdf->Output($pdffile);
-   } 
+   }
 */
+
 
 		if($success){
 			$S=fetchStudent_singlefield($sid,'EPFUsername');
@@ -114,13 +116,15 @@ else{trigger_error('html2ps not configured!',E_USER_ERROR);}
 			else{
 				$success=false;
 				}
-			unlink($CFG->installpath.'/reports/'.$filename.'.html');
 			}
 
 		if(!$success){
 			mysql_query("UPDATE report_event SET success='0', time=NOW() 
 						WHERE report_id='$wrapper_rid' AND student_id='$sid';");
 			trigger_error('PDF report publication failed for: '.$filename,E_USER_WARNING);
+			}
+		else{
+			unlink($CFG->eportfolio_dataroot.'/cache/'.$filename.'.html');
 			}
 
 		}

@@ -146,9 +146,9 @@ $CFG->eportfolio_db='';
 $CFG->eportfolio_db_prefix='';
 $CFG->eportfolio_access='enrol';
 /* The dataroot shared with the eportfolio which is where uploaded files will go.
- * This should be outside your wwwroot. Specified relative to your installpath.
+ * This should be outside your wwwroot. Specified as an absolute path.
  */
-$CFG->eportfolio_dataroot = $CFG->installpath . '../theboxdata';
+$CFG->eportfolio_dataroot = '/home/classdata';
 /*optional details of the school's lms site*/
 $CFG->lmssite='';
 $CFG->lmstabname='Moodle';

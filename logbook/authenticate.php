@@ -31,6 +31,10 @@ function get_respons($uid,$type='%'){
 					   '$type' ORDER BY groups.course_id
 					   DESC, groups.yeargroup_id;");
     while($group=mysql_fetch_array($d_groups,MYSQL_ASSOC)){
+		/* Setting a -ve silly number for yeargroup distinguishes an
+		 * admin group. There is one admin group for each permissions
+		 * type. These won't be included in the respons array. 
+		 */
 		if($group['yeargroup_id']=='' or $group['yeargroup_id']>-9000){
 			if($group['type']=='a'){
 				if($group['course_id']=='%'){$name=$group['subject_id'];}

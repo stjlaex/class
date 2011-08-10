@@ -1821,7 +1821,7 @@ function get_student_house($sid){
 	$house='';
 	$housecommunity=array('id'=>'','type'=>'house','name'=>'');
 	$coms=(array)list_member_communities($sid,$housecommunity);
-	while(list($index,$com)=each($coms)){
+	foreach($coms as $com){
 		$house=$com['name'];
 		}
 	return $house;

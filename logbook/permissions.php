@@ -8,22 +8,24 @@
  *
  * Given a sid and a bid this will return a numerical array which
  * lists the responsibles (both pastoral and academic) who have been
- * flagged to receive emails. 
+ * flagged to receive emails.
  *
  */
 function list_sid_responsible_users($sid, $bid){
 
     $gids=array();
 	$recipients=array();
+	$yid=get_student_yeargroup($sid);
 
-	/*first find pastoral group*/
-  	$d_group=mysql_query("SELECT gid FROM groups JOIN student
-	  	ON student.yeargroup_id=groups.yeargroup_id WHERE
-	  	student.id='$sid' AND groups.course_id='';"); 
-	$group=mysql_fetch_array($d_group);
-	$gids[]=$group['gid'];
+	/* First find all communities (yeargroup, form, house etc.) with a permissions group. */
+	$coms=list_member_communities($sid,array('id'=>'','type'=>'','name'=>''));
+	foreach($coms as $com){
+		if(isset($com['groups']) and sizeof($com['groups'][$yid])>0){
+			$gids[]=$com['groups'][$yid];
+			}
+		}
 
-	/*academic groups for course and subject*/
+	/* Then academic permission groups by course and subject. */
 	if($bid!='' and $bid!='%' and $bid!='General' and $bid!='G'){
 	  	$d_class=mysql_query("SELECT course_id FROM class JOIN cidsid
 		  	ON cidsid.class_id=class.id WHERE
@@ -48,7 +50,6 @@ function list_sid_responsible_users($sid, $bid){
 		$d_users=mysql_query("SELECT * FROM users JOIN perms ON users.uid=perms.uid WHERE
 			perms.gid='$gid' AND perms.e='1' AND users.nologin!='1';");
 		while($user=mysql_fetch_array($d_users)){
-			//			if(eregi('^[a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.([a-zA-Z]{2,4})$', $user['email'])){ 
 			if(check_email_valid($user['email'])){ 
 				$recipients[$user['uid']]=array('username'=>$user['username'], 'email'=>$user['email']);
 				}
@@ -120,7 +121,7 @@ function list_responsible_users($tid,$respons,$r=0){
  *
  * Will return all details of users of interest based on the current
  * selected yeargroup in an array with the uid as the key
- * a head of year would be 111
+ * eg. a head of year would be 111
  *
  */
 function list_pastoral_users($ryid,$perms){
@@ -147,8 +148,8 @@ function list_pastoral_users($ryid,$perms){
 			$uid=$user['uid'];
 			$users[$uid]=$user;
 			}
-
 		}
+
 	return $users;
 	}
 
@@ -559,9 +560,9 @@ function getCoursePerm($course,$respons){
  *
  */
 function list_pastoral_respon(){
-	$rfids=array();
-	$rhids=array();
-	$ryids=array();
+	$rforms=array();
+	$rhouses=array();
+	$ryears=array();
 	$aperm=get_admin_perm('p',$_SESSION['uid']);
 	$resperm=getResidencePerm();
 	if($aperm==1 or $resperm['x']==1){
@@ -569,26 +570,26 @@ function list_pastoral_respon(){
 		$d_groups=mysql_query("SELECT DISTINCT yeargroup_id FROM groups WHERE type='p'  
 								AND yeargroup_id IS NOT NULL ORDER BY yeargroup_id;");
 		while($group=mysql_fetch_array($d_groups, MYSQL_ASSOC)){
-			$ryids[]=$group['yeargroup_id'];
+			$ryears[]=$group['yeargroup_id'];
 			}
 		}
 	else{
 		/* For a normal user split yeargroups and forms into to arrays. */
 		foreach($_SESSION['prespons'] as $respon){
 			if($respon['comtype']=='form'){
-				$rfids[]=$respon['name'];
+				$rforms[]=$respon;
 				}
 			elseif($respon['comtype']=='house'){
-				$rhids[]=$respon['name'];
+				$rhouses[]=$respon;
 				}
 			elseif($respon['yeargroup_id']!='' and $respon['community_id']=='0'){
 				/* All academic respons must have null yeargroup_id for this to work!*/
-				$ryids[]=$resp['yeargroup_id'];
+				$ryears[]=$respon['yeargroup_id'];
 				}
 			}
 		}
 
-	return array('forms'=>$rfids,'years'=>$ryids,'houses'=>$rhids);
+	return array('forms'=>$rforms,'years'=>$ryears,'houses'=>$rhouses);
 	}
 
 

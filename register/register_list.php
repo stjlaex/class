@@ -14,7 +14,6 @@ include('scripts/sub_action.php');
 if(isset($CFG->registration[$secid]) and $CFG->registration[$secid]!='single'){$session='%';}
 else{$session='AM';}
 
-trigger_error($yid,E_USER_WARNING);
 
 	if($community['type']=='class'){
 		$students=(array)listin_class($community['name'],true);

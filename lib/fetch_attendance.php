@@ -403,8 +403,6 @@ function check_community_attendance($community,$event){
 	$eveid=$event['id'];
 	$nosids=countin_community($community);
 
-	trigger_error($community['yeargroup_id'],E_USER_WARNING);
-
 
 	/* If no register yet taken for current session then $eveid=0 so set sensible defaults*/
 	$nop=0;$noa=0;
