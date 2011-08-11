@@ -68,13 +68,13 @@ if(sizeof($reenrol_assdefs)>0){
 		$yearcommunity=array('id'=>$yearcomid,'type'=>'year','name'=>$nextyid);
 		$leavercom=array('id'=>'', 'type'=>'alumni', 'name'=>'P:'.$yid, 'year'=>$currentyear);
 		foreach($yeargroups[$c]['forms'] as $findex => $form){
-			$fid=$form['id'];
+			$fid=$form['name'];
 			if($nextpostyid!='1000'){
 				if(isset($yeargroups[$c+1]['forms'][$findex])){
-					$nextfid=$yeargroups[$c+1]['forms'][$findex]['id'];
+					$nextfid=$yeargroups[$c+1]['forms'][$findex]['name'];
 					}
 				else{
-					$nextfid=$fid.'-'.date('Y').'-'.date('m');
+					$nextfid=$nextyid.'-'.$fid;
 					}
 				$type='form';
 				}
@@ -84,12 +84,23 @@ if(sizeof($reenrol_assdefs)>0){
 				}
 
 			$community=array('type'=>'form','name'=>$fid);
-			$communitynext=array('type'=>$type,'name'=>$nextfid);
+			$communitynext=array('type'=>$type,'name'=>$nextfid,'yeargroup_id'=>$nextyid);
 			update_community($community,$communitynext);
-			mysql_query("UPDATE student SET form_id='$nextfid', yeargroup_id='$nextyid' WHERE form_id='$fid';");
+			mysql_query("UPDATE student SET form_id='$nextfid' WHERE form_id='$fid';");
 			}
 
-		//mysql_query("UPDATE student SET yeargroup_id='$nextyid' WHERE yeargroup_id='$yid';");
+
+		/* Ensure the first yeargroup has the same number of forms as the
+		 * precious year ready to receive new students.
+		*/
+		if($c==0){
+			foreach($yeargroups[$c]['forms'] as $ffindex => $form){
+				$community=array('type'=>'form','name'=>$form['name'],'yeargroup_id'=>$yid);
+				update_community($community);
+				}
+			}
+
+		mysql_query("UPDATE student SET yeargroup_id='$nextyid' WHERE yeargroup_id='$yid';");
 
 
 		if(isset($reenrol_eid)){

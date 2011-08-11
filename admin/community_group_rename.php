@@ -20,13 +20,36 @@ if($sub=='Submit'){
 		$community=(array)get_community($comid);
 		$communityfresh=(array)$community;
 		$communityfresh['name']=$newname;
+		$oldname=$community['name'];
+
+		/* Changing the name of a form has implications for any
+		 * classes which are named after it.
+		 */
+		if($community['type']=='form'){
+			$oldcids=(array)list_forms_classes($oldname);
+			foreach($oldcids as $oldcid){
+				$d_c=mysql_query("SELECT subject_id FROM class WHERE id='$oldcid';");
+				if(mysql_num_rows($d_c)>0){
+					$bid=mysql_result($d_c,0);
+					$newcid=$bid.''.$newname;
+					mysql_query("UPDATE class SET id='$newcid' WHERE id='$oldcid';");
+					mysql_query("UPDATE cidsid SET class_id='$newcid' WHERE class_id='$oldcid';");
+					mysql_query("UPDATE tidcid SET class_id='$newcid' WHERE class_id='$oldcid';");
+					mysql_query("UPDATE midcid SET class_id='$newcid' WHERE class_id='$oldcid';");
+					}
+				}
+			}
+
 		}
 	else{
 		/* New group is being created. */
 		$community=array('id'=>'','type'=>$newcomtype,'name'=>$newname);
+		if($newcomtype=='form'){$community['yeargroup_id']=$_POST['newyid'];}
 		$comid=update_community($community);
 		$community=(array)get_community($comid);
 		$communityfresh=(array)$community;
+
+		/* TODO: create subject classes in a similar many to the renaming above. */
 		}
 
 
@@ -71,9 +94,22 @@ else{
 		</div>
 	  </fieldset>
 
+
 <?php
-				  if($newcomtype=='TUTOR'){
-					  $days=getEnumArray('dayofweek');
+
+	if($newcomtype=='form'){
+		$yeargroups=list_yeargroups();
+
+?>
+	  <fieldset class="center">
+		<legend><?php print_string('yeargroups',$book);?></legend>
+		<div class="center">
+		<?php $required='yes'; include('scripts/list_year.php')?>
+		</div>
+<?php
+		 }
+	elseif($newcomtype=='TUTOR'){
+		$days=getEnumArray('dayofweek');
 ?>
 	  <fieldset class="center">
 		<div class="center">
@@ -86,23 +122,23 @@ else{
 		<legend for="days"><?php print_string('sessions',$book);?></legend>
 		<div class="center">
 <?php
-					  foreach($days as $day => $dayname){
-						  $pos=strpos($com['sessions'],"A$day");
+		foreach($days as $day => $dayname){
+			$pos=strpos($com['sessions'],"A$day");
 ?>
 						  <div>
 						  <?php print_string($dayname);?>
 
 						  <input type="checkbox" name="sessions[]" value="<?php print $day;?>" 
-<?php if($pos!==false){print 'checked="checked"';}?>/>
+								 <?php if($pos!==false){print 'checked="checked"';}?>/>
 
 						  </div>
 <?php
-						  }
+			}
 ?>
 		</div>
 	  </fieldset>
 <?php
-					  }
+		}
 
 ?>
 

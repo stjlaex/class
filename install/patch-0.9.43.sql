@@ -8,3 +8,4 @@ INSERT INTO groups (community_id,type,yeargroup_id) SELECT community.id, 'p', fo
 UPDATE form, groups SET form.name=groups.gid WHERE groups.community_id=ANY(SELECT community.id FROM community WHERE community.type='form' AND community.name=form.id);
 INSERT INTO perms (uid,gid,r,w,x,e) SELECT users.uid,form.name,'1','1','1','1' FROM users JOIN form ON users.username=form.teacher_id;
 DROP table form;
+INSERT INTO groups (community_id,type,yeargroup_id) SELECT community.id, 'p', yeargroup.id FROM community, yeargroup WHERE community.type='house';

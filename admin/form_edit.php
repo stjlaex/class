@@ -9,20 +9,21 @@ $action='form_edit_action.php';
 $cancel='formgroup_matrix.php';
 $choice='formgroup_matrix.php';
 
-if(isset($_GET['newfid'])){$fid=$_GET['newfid'];}
-if(isset($_POST['fid'])){$fid=$_POST['fid'];}
+if(isset($_GET['comid'])){$comid=$_GET['comid'];}
+if(isset($_POST['comid'])){$comid=$_POST['comid'];}
 
+	$community=get_community($comid);
+	$fid=$community['name'];
 	/*Check user has permission to edit*/
 	$perm=getFormPerm($fid);
 	$neededperm='r';
 	include('scripts/perm_action.php');
 
-	$community=array('id'=>'','type'=>'form','name'=>$fid);
 	$yid=get_form_yeargroup($fid);
 	$year=get_yeargroupname($yid);
 	$tutor_users=(array)list_community_users($community,array('r'=>1,'w'=>1,'x'=>1));
 
-	$extrabuttons['renamegroup']=array('name'=>'current','value'=>'form_edit_rename.php');
+	$extrabuttons['renamegroup']=array('name'=>'current','value'=>'community_group_rename.php');
 	three_buttonmenu($extrabuttons);
 ?>
   <div class="content">
@@ -123,7 +124,9 @@ if(isset($_POST['fid'])){$fid=$_POST['fid'];}
 		</div>
 		</fieldset>
 	  </div>
-	<input type="hidden" name="fid" value="<?php print $fid;?>" /> 
+
+	<input type="hidden" name="newcomtype" value="form" />
+	<input type="hidden" name="comid" value="<?php print $comid;?>" />
 	<input type="hidden" name="name" value="<?php print $fid;?>" /> 
 	<input type="hidden" name="choice" value="<?php print $choice;?>" />
 	<input type="hidden" name="current" value="<?php print $action;?>" />

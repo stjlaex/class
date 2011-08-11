@@ -3,9 +3,9 @@
  */
 
 $action='form_edit.php';
-$action_post_vars=array('fid');
+$action_post_vars=array('comid');
 
-if(isset($_POST['fid'])){$fid=$_POST['fid'];}
+if(isset($_POST['comid'])){$comid=$_POST['comid'];}
 if(isset($_POST['newsids'])){$newsids=(array)$_POST['newsids'];}
 else{$newsids=array();}
 if(isset($_POST['oldsids'])){$oldsids=(array)$_POST['oldsids'];}
@@ -15,6 +15,9 @@ else{$classestoo='no';}
 
 include('scripts/sub_action.php');
 
+
+	$community=get_community($comid);
+	$fid=$community['name'];
 	/*Check user has permission to edit*/
 	$perm=getFormPerm($fid);
 	$neededperm='w';
@@ -39,7 +42,7 @@ if($sub=='Submit'){
 
 	/*sids to add*/
    	while(list($index,$sid)=each($newsids)){
-		$oldcommunities=join_community($sid,array('id'=>'','type'=>'form','name'=>$fid));
+		$oldcommunities=join_community($sid,$community);
 		if(isset($oldcommunities['form'][0]['name'])){
 			$oldfid=$oldcommunities['form'][0]['name'];}
 		else{$oldfid='';}

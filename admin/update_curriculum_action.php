@@ -39,7 +39,6 @@ if($coursecheck=='yes'){
   	mysql_query("DELETE FROM component");
 	}
 if($groupcheck=='yes'){
-	mysql_query("DELETE FROM form");
 	mysql_query("DELETE FROM yeargroup");
 	}
 if($asscheck=='yes'){
@@ -363,17 +362,8 @@ while(list($index,$curriculum)=each($curriculums)){
 			//$fid=$Form['id'];
 			$name=$Form['name'];
 			if($name==''){$name=$fid;}
-			$d_form=mysql_query("SELECT name FROM form WHERE id='$fid';");
-			if(mysql_num_rows($d_form)==0){
-				mysql_query("INSERT INTO form (id, name, yeargroup_id)
-						VALUES('$fid','$name','$yid')");
-				}
-			else{
-				mysql_query("UPDATE form SET name='$name',
-					yeargroup_id='$yid' WHERE id='$fid'");
-				}
-			$comform=array('id'=>'','name'=>$fid,'type'=>'form');
-			$comid=update_community($comform,$comform);
+			$comform=array('id'=>'','name'=>$fid,'type'=>'form','yeargroup_id'=>$yid);
+			$comid=update_community($comform);
 			}
 		}
 	  }

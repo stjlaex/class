@@ -36,6 +36,10 @@ The method used by list_sid_responsibles changed to include all
 communities with a permissions group. Could increase the number of
 users receiving email alerts about a student.
 
+Merged form_edit_rename in to the more general
+community_edit_rename. Added option to choose associated yeargroups.
+
+Functionality to create new forms from formgroup_matrix.
 
 
 

@@ -15,10 +15,12 @@ $action='formgroup_matrix_action.php';
  * yeargroup basis.
  *
  */
-if(isset($_GET['newcomtype'])){$newcomtype=$_GET['newcomtype'];}else{$newcomtype='house';}
+if(isset($_GET['newcomtype'])){$newcomtype=$_GET['newcomtype'];}else{$newcomtype='form';}
 if(isset($_POST['newcomtype'])){$newcomtype=$_POST['newcomtype'];}
 
-
+if($newcomtype=='form'){
+	$extrabuttons['createnewgroup']=array('name'=>'current','value'=>'community_group_rename.php');
+	}
 $extrabuttons['lists']=array('name'=>'current',
 							 'pathtoscript'=>$CFG->sitepath.'/'.$CFG->applicationdirectory.'/admin/',
 							 'value'=>'group_print.php',
@@ -84,7 +86,7 @@ three_buttonmenu($extrabuttons);
 		  <td>
 <?php
 		if($perms['r']==1 and $newcomtype=='form'){
-			print '<a href="admin.php?current=form_edit.php&cancel='.$choice.'&choice='.$choice.'&newtid='.$tid.'&newfid='.$com['name'].'&newcomtype='.$newcomtype.'">'.$com['displayname'].'</a>';
+			print '<a href="admin.php?current=form_edit.php&cancel='.$choice.'&choice='.$choice.'&newtid='.$tid.'&comid='.$com['id'].'&newcomtype='.$newcomtype.'">'.$com['displayname'].'</a>';
 			}
 		elseif($perms['r']==1 and $newcomtype=='house'){
 	   		print '<a href="admin.php?current=community_group_edit.php&cancel='.$choice.'&choice='.$choice.'&newcomtype='.$newcomtype.'&comid='.$com['id'].'&yid='.$yid.'">'.$com['displayname'].'</a>';
