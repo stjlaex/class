@@ -906,12 +906,13 @@ function get_student_section($sid){
 	if($sid!=' ' and $sid!=''){
 		$d_s=mysql_query("SELECT section_id FROM yeargroup JOIN
 				student ON student.yeargroup_id=yeargroup.id WHERE student.id='$sid';");
-		$secid=mysql_result($d_s,0);
+		if(mysql_num_rows($d_s)>0){
+			$secid=mysql_result($d_s,0);
+			}
 		}
-	else{
+	if(!isset($secid)){
 		$secid=1;// default to whole school
 		}
-   	//trigger_error('SECTION'.$secid,E_USER_WARNING);
 	return $secid;
 	}
 

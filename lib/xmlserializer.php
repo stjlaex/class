@@ -87,7 +87,7 @@ function array_to_xml($xmlarray, &$xml, $tagname=''){
         if(is_array($value)){
 			if(!is_numeric($key)){
 				$subkeys=array_keys($value);
-				if(!is_numeric($subkeys[0])){
+				if(array_key_exists(0,$subkeys) and !is_numeric($subkeys[0])){
 					$newnode = $xml->addChild($key);
 					array_to_xml($value, $newnode, $key);
 					}
@@ -101,7 +101,7 @@ function array_to_xml($xmlarray, &$xml, $tagname=''){
 				}
 			}
         else{
-			$value=html_entity_decode($value,ENT_QUOTES,"UTF-8");
+			$value=htmlspecialchars($value);
 			if(!is_numeric($key)){
 				$xml->addChild($key,$value);
 				}
@@ -238,7 +238,7 @@ function xmlreader($string){
 
 function xmlstringToArray($xml){
 
-	/*TODO: how can tidy do this!!!*/
+	/*TODO: how can tidy do this!!! Or is neccessary to use DOM? */
 	/* fix span elements like <p><span>some text</span>more text</p> because the more text is lost when simplexml does its stuff :-(*/
 	$xml=eregi_replace('<span[^>]*>','', $xml);
 	$xml=eregi_replace('</span>','', $xml);

@@ -250,7 +250,7 @@ function fetchSubjectReports($sid,$reportdefs){
 
 			/* Add assessments to the asstable, to display using xslt
 			   in the report. Each element appears only once.*/
-			if(is_array($reportdef['asstable']['ass'])){
+			if(array_key_exists('ass',$reportdef['asstable']) and is_array($reportdef['asstable']['ass'])){
 				while(list($index,$ass)=each($reportdef['asstable']['ass'])){
 					if(!in_array($ass['element'],$asselements)){
 						$asselements[]=$ass['element'];
@@ -944,13 +944,14 @@ function fetchReportEntry($reportdef,$sid,$bid,$pid){
 			   foreach($reportdef['report']['profile_names'] as $profile_name){
 				   $Statements=(array)fetchProfileStatements($profile_name,$bid,$pid,$sid,$fromdate);
 				   if(sizeof($Statements)>0){
+					   $comment_list=array();
 					   for($c=sizeof($Statements)-1;$c>-1;$c--){
 						   $Statement=personaliseStatement($Statements[$c],$Student);
 						   $comment_list['li'][]=''.$Statement['Value'];
 						   }
+					   $comment_div['ul'][]=$comment_list;
 					   }
 				   }
-			   $comment_div['ul'][]=$comment_list;
 			   $comment_html['div'][]=$comment_div;
 			   }
 
@@ -1018,11 +1019,13 @@ function fetchProfileStatements($profile_name,$bid,$pid,$sid,$cutoff_date){
 				$topic=$eidsid['description'];
 				$d_mark=mysql_query("SELECT comment FROM mark JOIN eidmid ON mark.id=eidmid.mark_id 
 							WHERE mark.component_id='$profilepid' AND mark.def_name='$profile_name' AND topic='$topic';");
-				$statement=array('statement_text'=>mysql_result($d_mark,0),
+				if(mysql_num_rows($d_mark)>0){
+					$statement=array('statement_text'=>mysql_result($d_mark,0),
 								 'counter'=>0,
 								 'author'=>'ClaSS',
 								 'rating_fraction'=>1);
-				$Statements[]=fetchStatement($statement,1);
+					$Statements[]=fetchStatement($statement,1);
+					}
 				}
 			}
 	  }

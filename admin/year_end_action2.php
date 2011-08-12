@@ -20,6 +20,8 @@ $reenrol_assdefs=(array)fetch_enrolmentAssessmentDefinitions('','RE',$enrolyear)
 if(sizeof($reenrol_assdefs)>0){
 	$reenrol_eid=$reenrol_assdefs[0]['id_db'];
 	}
+
+
 /** 
  * Two steps: (1) Promote students to next (chosen) pastoral groups; 
  * (2) Promote students to next stage in course or graduate to
@@ -312,63 +314,76 @@ if(sizeof($reenrol_assdefs)>0){
 			}
 		}
 
-	/* Carried forward the assessment and reporting structure for the new
+	/**
+	 * Carry forward the assessment and reporting structure for the new
 	 * academic year.
 	 */
 
-	$d_a=mysql_query("SELECT subject_id,component_id,stage,method,element,description,
+	$d_a=mysql_query("SELECT id, subject_id,component_id,stage,method,element,description,
 				label,resultqualifier,resultstatus,outoftotal,derivation,statistics,
 				grading_name,course_id,component_status,strand_status,year,season,creation,deadline,profile_name 
 				FROM assessment WHERE year='$yeargone';");
 	while($ass=mysql_fetch_array($d_a,MYSQL_NUM)){
-		$dates=(array)explode('-',$ass[18]);
-		$dates[0]=$dates[0]+1;
-		$creation=$dates[0].'-'.$dates[1].'-'.$dates[2];
-		$dates=(array)explode('-',$ass[19]);
-		$dates[0]=$dates[0]+1;
-		$deadline=$dates[0].'-'.$dates[1].'-'.$dates[2];
-		$d_newa=mysql_query("INSERT INTO assessment (subject_id, component_id, stage, method, element, description,
+		$d_r=mysql_query("SELECT id FROM report WHERE title='$ass[6]' AND course_id='$ass[14]';");
+		if(mysql_num_rows($d_r)>0){
+			/* Reports which are really skills profiles need to be
+			   treated differently - these just roll forward year on
+			   year instead of being generated afresh. 
+			*/
+			$newassrefs[$ass[0]]=$ass[0];
+			$profile_rid=mysql_result($d_r,0);
+			mysql_query("UPDATE report SET year='$yearnow' WHERE id='$profile_rid';");
+			mysql_query("UPDATE assessment SET year='$yearnow' WHERE id='$ass[0]';");
+			}
+		else{
+			$dates=(array)explode('-',$ass[19]);
+			$dates[0]=$dates[0]+1;
+			$creation=$dates[0].'-'.$dates[1].'-'.$dates[2];
+			$dates=(array)explode('-',$ass[20]);
+			$dates[0]=$dates[0]+1;
+			$deadline=$dates[0].'-'.$dates[1].'-'.$dates[2];
+			$d_newa=mysql_query("INSERT INTO assessment (subject_id, component_id, stage, method, element, description,
 				label, resultqualifier, resultstatus, outoftotal, derivation, statistics,
 				grading_name, course_id, component_status, strand_status, year, season, creation, deadline, profile_name)
-				VALUES ('$ass[0]','$ass[1]','$ass[2]','$ass[3]','$ass[4]',
+				VALUES ('$ass[1]','$ass[2]','$ass[3]','$ass[4]',
 				'$ass[5]','$ass[6]','$ass[7]','$ass[8]','$ass[9]','$ass[10]','$ass[11]','$ass[12]',
 				'$ass[13]','$ass[14]','$ass[15]','$yearnow','$ass[17]',
-				'$creation','$deadline','$ass[20]');");
-		$newassrefs[$ass[0]]=mysql_insert_id();
-		}
-
-
-	$d_r=mysql_query("SELECT title, date, deadline, comment, course_id, stage, subject_status,
-				component_status, addcomment, commentlength, commentcomp, addcategory, style, transform, rating_name, year 
-				FROM report WHERE year='$yeargone';");
-	while($rep=mysql_fetch_array($d_r,MYSQL_NUM)){
-		$dates=(array)explode('-',$rep[1]);
-		$dates[0]=$dates[0]+1;
-		$date=$dates[0].'-'.$dates[1].'-'.$dates[2];
-		$dates=(array)explode('-',$rep[2]);
-		$dates[0]=$dates[0]+1;
-		$deadline=$dates[0].'-'.$dates[1].'-'.$dates[2];
-		$d_newa=mysql_query("INSERT INTO report (title, date, deadline, comment, course_id, stage, subject_status,
-				component_status, addcomment, commentlength, commentcomp, addcategory, style, transform, rating_name, year)
-				VALUES ('$rep[0]','$date','$deadline','$rep[3]','$rep[4]',
-				'$rep[5]','$rep[6]','$rep[7]','$rep[8]','$rep[9]','$rep[10]','$rep[11]','$rep[12]',
-				'$rep[13]','$rep[14]','$yearnow');");
-
-		$newrid=mysql_insert_id();
-		$newrids[$rep[0]]=$newrid;
-		mysql_query("INSERT INTO ridcatid (report_id,categorydef_id,subject_id) 
-					SELECT '$newrid',categorydef_id,subject_id 
-					FROM ridcatid WHERE report_id='$rep[0]';");
-		$d_e=mysql_query("SELECT assessment_id FROM rideid WHERE report_id='$rep[0]';");
-		while($rideid=mysql_fetch_array($d_e,MYSQL_NUM)){
-			if(isset($newassrefs[$rideid[0]])){$neweid=$newassrefs[$rideid[0]];}
-			else{$neweid=$rideid[0];}
-			mysql_query("INSERT INTO rideid (report_id,assessment_id) VALUES ('$newrid','$neweid');");
+				'$creation','$deadline','$ass[20]','$ass[21]');");
+			$newassrefs[$ass[0]]=mysql_insert_id();
 			}
 		}
 
+	$d_r=mysql_query("SELECT id, title, date, deadline, comment, course_id, stage, subject_status,
+				component_status, addcomment, commentlength, commentcomp, addcategory, style, transform, rating_name, year 
+				FROM report WHERE year='$yeargone';");
+	while($rep=mysql_fetch_array($d_r,MYSQL_NUM)){
+			$dates=(array)explode('-',$rep[2]);
+			$dates[0]=$dates[0]+1;
+			$date=$dates[0].'-'.$dates[1].'-'.$dates[2];
+			$dates=(array)explode('-',$rep[3]);
+			$dates[0]=$dates[0]+1;
+			$deadline=$dates[0].'-'.$dates[1].'-'.$dates[2];
+			$d_newa=mysql_query("INSERT INTO report (title, date, deadline, comment, course_id, stage, subject_status,
+				component_status, addcomment, commentlength, commentcomp, addcategory, style, transform, rating_name, year)
+				VALUES ('$rep[1]','$date','$deadline','$rep[4]',
+				'$rep[5]','$rep[6]','$rep[7]','$rep[8]','$rep[9]','$rep[10]','$rep[11]','$rep[12]',
+				'$rep[13]','$rep[14]','$rep[15]','$yearnow');");
+			$newrid=mysql_insert_id();
+			$newrids[$rep[0]]=$newrid;
+			mysql_query("INSERT INTO ridcatid (report_id,categorydef_id,subject_id) 
+					SELECT '$newrid',categorydef_id,subject_id 
+					FROM ridcatid WHERE report_id='$rep[0]';");
+			$d_e=mysql_query("SELECT assessment_id FROM rideid WHERE report_id='$rep[0]';");
+			while($rideid=mysql_fetch_array($d_e,MYSQL_NUM)){
+				if(isset($newassrefs[$rideid[0]])){$neweid=$newassrefs[$rideid[0]];}
+				else{$neweid=$rideid[0];}
+				mysql_query("INSERT INTO rideid (report_id,assessment_id) VALUES ('$newrid','$neweid');");
+				}
+		}
+
+
 	/* Go through all the new wrappers and update their references. */
-	while(list($nindex,$wraprid)=each($newrids)){
+	foreach($newrids as $wraprid){
 		$d_r=mysql_query("SELECT categorydef_id FROM ridcatid WHERE report_id='$wraprid' AND subject_id='wrapper';");
 		while($rep=mysql_fetch_array($d_r,MYSQL_NUM)){
 			if(isset($newrids[$rep[0]])){$newrid=$newrids[$rep[0]];}
@@ -383,6 +398,7 @@ if(sizeof($reenrol_assdefs)>0){
 	mysql_query("DELETE FROM midcid;");
 	mysql_query("DELETE FROM mark;");
 	mysql_query("DELETE FROM eidmid;");
+
 	/* And freshen up the users' history. */
 	mysql_query("DELETE FROM history;");
 	mysql_query("UPDATE users SET logcount='0';");

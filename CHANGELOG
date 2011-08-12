@@ -41,6 +41,8 @@ community_edit_rename. Added option to choose associated yeargroups.
 
 Functionality to create new forms from formgroup_matrix.
 
+Improved year_end to be able to roll forward reports which are skills
+profiles.
 
 
 Version ClaSS-0.9.42 release (2011/07/18)
