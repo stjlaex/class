@@ -1,5 +1,3 @@
-<?php
-mysql_query("
 CREATE TABLE event (
 		id			int unsigned not null auto_increment,
 		date		date not null default '0000-00-00',
@@ -8,9 +6,8 @@ CREATE TABLE event (
 		unique		indexeve (date,session,period),
 		primary key (id)
 ) type=myisam;
-");
 
-mysql_query("
+
 CREATE TABLE event_notice (
 		id			int unsigned not null auto_increment,
 		date		date not null default '0000-00-00',
@@ -18,18 +15,16 @@ CREATE TABLE event_notice (
 	    comment		text,
 		primary key (id)
 ) type=myisam;
-");
 
-mysql_query("
+
 CREATE TABLE event_notidcomid (
 		notice_id		int unsigned not null default '0',
 		community_id	int unsigned not null default '0',
 		inactive		enum('0','1') not null default '0',
 		primary key (notice_id,community_id)
 ) type=myisam;
-");
 
-mysql_query("
+
 CREATE TABLE attendance (
 		 event_id		int unsigned not null default '0',
 		 student_id		int unsigned not null default '0',
@@ -41,9 +36,8 @@ CREATE TABLE attendance (
 		 logtime		timestamp(14),
 		 primary key 	(event_id, student_id)
 ) type=myisam;
-");
 
-mysql_query("
+
 CREATE TABLE attendance_booking (
 	id				int unsigned not null auto_increment,
 	student_id		int unsigned not null default '0',
@@ -58,29 +52,3 @@ CREATE TABLE attendance_booking (
 	index			indexsidcomid (student_id,community_id),
 	primary key		(id)
 ) type=myisam;
-")
-;
-
-
-/**
-mysql_query("
-CREATE TABLE eventcatid (
-	event_id		int unsigned not null default '0',
-	categorydef_id	int unsigned not null default '0',
-	primary key 	(event_id, categorydef_id)
-) type=myisam;");
-
-mysql_query("
-CREATE TABLE attendance_history (
-	student_id			int unsigned not null default 0, 
-	yeargroup_id	smallint not null default '0',
-	lea					varchar(3) not null default '',
-	estab				varchar(4) not null default 'XXXX',
-	possible			smallint unsigned,
-	attended			smallint unsigned,
-	unauthorised		smallint unsigned,
-	late				smallint unsigned,
-   	primary key         (student_id, yeargroup_id)
-) type=myisam;");
-*/
-?>

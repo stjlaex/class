@@ -1,8 +1,4 @@
-<?php
-/**								create_orderbook.php	
- */
-	
-mysql_query("
+
 CREATE TABLE orderorder (
 	id				int unsigned not null auto_increment, 
 	budget_id		int unsigned not null default '0',
@@ -13,8 +9,9 @@ CREATE TABLE orderorder (
 	teacher_id		varchar(14) not null default '',
 	detail			text not null default '',
 	primary key (id)
-);");
-mysql_query("
+) type=myisam;
+
+
 CREATE TABLE orderbudget (
 	id				int unsigned not null auto_increment, 
 	gid 			int(10) NOT NULL default '0',
@@ -26,8 +23,9 @@ CREATE TABLE orderbudget (
 	overbudget_id	int unsigned not null default '0',
 	unique			indexbudget (code,yearcode),
 	primary key (id)
-);");
-mysql_query("
+) type=myisam;
+
+
 CREATE TABLE ordersupplier (
 	id				int unsigned not null auto_increment, 
 	name			varchar(160) not null default '',
@@ -39,8 +37,9 @@ CREATE TABLE ordersupplier (
 	specialaction	enum('0','1') not null default '0',
 	inactive		enum('0','1') not null default '0',
 	primary key (id)
-);");
-mysql_query("
+) type=myisam;
+
+
 CREATE TABLE orderaction (
 	order_id		int unsigned not null default '0', 
 	entryn			tinyint unsigned not null auto_increment,
@@ -50,8 +49,9 @@ CREATE TABLE orderaction (
 	teacher_id		varchar(14) not null default '',
 	actiondate		date not null,
    	primary key		(order_id,entryn)
-);");
-mysql_query("
+) type=myisam;
+
+
 CREATE TABLE ordermaterial (
 	order_id		int unsigned not null default '0', 
 	entryn			tinyint unsigned not null auto_increment,
@@ -59,9 +59,11 @@ CREATE TABLE ordermaterial (
 	unitcost		decimal(10,2) unsigned not null default '0',
 	detail			text not null default '',
 	materialtype	int unsigned not null default '0',
+	invoice_id		int unsigned not null default '0', 
    	primary key		(order_id,entryn)
-);");
-mysql_query("
+) type=myisam;
+
+
 CREATE TABLE orderinvoice (
 	id				int unsigned not null auto_increment, 
 	invoicedate		date not null,
@@ -76,5 +78,4 @@ CREATE TABLE orderinvoice (
 	credit			tinyint(1) not null default '0',
 	exchange		decimal(10,2) unsigned not null default '0',
    	primary key		(id)
-);");
-?>
+) type=myisam;

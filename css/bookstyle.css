@@ -478,7 +478,7 @@ table.listmenu {
 .right .listmenu caption, .right .listmenu legend {
 	padding-right:5%; margin:0 5% 0 70%;
 	}
-.listmenu td label, .listmenu th label {
+.listmenu td label, .listmenu th label, .listmenu li label {
     color:#666666 !important;
 	}
 .listmenu td {
@@ -487,6 +487,15 @@ table.listmenu {
 	background-color:#ffffee;
     padding-left:1%;
 	}
+ul.listmenu, .listmenu li {
+	border:0px none;
+	background-color:#ffffee;
+    color:#115599;
+    margin-top:2px;
+	}
+ul.listmenu { 
+    list-style-type:square;
+    }
 div.content fieldset.listmenu, div.content fieldset.listmenu div,
 	.listmenu td label,  .listmenu th label {
 	background-color:#ffffee;
@@ -791,3 +800,4 @@ table.smalltable {
     width:10%;
     text-align:center;
 	}
+

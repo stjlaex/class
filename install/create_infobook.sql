@@ -1,8 +1,4 @@
-<?php
-/**								create_infobook.php	
- */
-	
-mysql_query("
+
 CREATE TABLE info (
 	student_id		int unsigned not null default 0, 
 	upn				char(20) not null default '',
@@ -37,9 +33,9 @@ CREATE TABLE info (
 	appdate			date null,
 	siblings		enum('N','Y') not null,
    	primary key		(student_id)
-);");
+) type=myisam;
 
-mysql_query("
+
 CREATE TABLE accomodation (
 	id					int unsigned not null auto_increment,
 	student_id			int unsigned not null, 
@@ -60,9 +56,9 @@ CREATE TABLE accomodation (
 	departureflight		varchar(240) not null default '',
 	index				index_student (student_id),
    	primary key			(id)
-);");
+) type=myisam;
 
-mysql_query("
+
 CREATE TABLE senhistory (
 	id				int unsigned not null auto_increment,
 	student_id		int unsigned not null, 
@@ -71,18 +67,18 @@ CREATE TABLE senhistory (
 	reviewdate		date,
 	index			index_student (student_id),
    	primary key		(id)
-);");
+) type=myisam;
 
-mysql_query("
+
 CREATE TABLE sentype (
 	student_id		int unsigned not null, 
 	entryn			smallint unsigned not null auto_increment,
 	senranking		enum('1', '2', '3') not null,
 	sentype			char(4) not null default '',
    	primary key		(student_id, entryn)
-);");
+) type=myisam;
 
-mysql_query("
+
 CREATE TABLE sencurriculum (
 	senhistory_id	int unsigned not null,
 	subject_id		varchar(10) not null default '', 
@@ -93,9 +89,9 @@ CREATE TABLE sencurriculum (
 	outcome			text not null default '',
 	extra			text not null default '',
    	primary key		(senhistory_id, subject_id)
-);");
+) type=myisam;
 
-mysql_query("
+
 CREATE TABLE incidents (
 	id				int unsigned not null auto_increment,
 	student_id		int unsigned not null, 
@@ -108,9 +104,9 @@ CREATE TABLE incidents (
 	teacher_id		varchar(14) not null default '',	
 	index			index_student (student_id),
    	primary key		(id)
-);");
+) type=myisam;
 
-mysql_query("
+
 CREATE TABLE incidenthistory (
 	incident_id		int unsigned not null, 
 	entryn			smallint unsigned not null auto_increment,
@@ -119,10 +115,9 @@ CREATE TABLE incidenthistory (
 	teacher_id		varchar(14) not null default '',
 	entrydate		date not null,
    	primary key		(incident_id,entryn)
-);");
+) type=myisam;
 
 
-mysql_query("
 CREATE TABLE comments (
 	id				int unsigned not null auto_increment,
 	student_id		int unsigned not null, 
@@ -135,9 +130,9 @@ CREATE TABLE comments (
 	guardians		enum('0','1') not null default'0',
 	index			index_student (student_id),
    	primary key		(id)
-);");
+) type=myisam;
 
-mysql_query("
+
 CREATE TABLE background (
 	id				int unsigned not null auto_increment,
 	student_id		int unsigned not null,
@@ -150,9 +145,9 @@ CREATE TABLE background (
 	teacher_id		varchar(14) not null default '',	
 	index			index_student (student_id),
    	primary key		(id)
-);");
+) type=myisam;
 
-mysql_query("
+
 CREATE TABLE exclusions (
 	student_id		int unsigned not null,
 	category		enum('F', 'P', 'L') not null default 'F',
@@ -164,10 +159,9 @@ CREATE TABLE exclusions (
 	appealdate		date not null default '0000-00-00',
 	appealresult	enum('', 'R', 'S') not null default '',
    	primary key		(student_id, startdate)
-);");
+) type=myisam;
 
 
-mysql_query("
 CREATE TABLE guardian (
 	id			int unsigned not null auto_increment, 
 	surname		varchar(120) not null default '', 
@@ -190,9 +184,9 @@ CREATE TABLE guardian (
 	index index_name (surname(5),forename(5)),
 	index index_forename (forename(5)),
 	primary key (id)
-);");
+) type=myisam;
 
-mysql_query("
+
 CREATE TABLE gidsid (
 		 guardian_id	int unsigned not null,
 		 student_id		int unsigned not null,
@@ -202,18 +196,19 @@ CREATE TABLE gidsid (
 				'PAM','PAF','STP','REL','SWR','HFA','AGN','GRM','GRF','TUT') not null,
 		 responsibility	enum('N','Y') not null,
 		 primary key 	(guardian_id, student_id)
-);");
+) type=myisam;
 
-mysql_query("
+
 CREATE TABLE gidaid (
 		 guardian_id	int unsigned not null,
 		 address_id		int unsigned not null,
 		 priority		smallint unsigned not null,
 		 addresstype	enum('H', 'W', 'V', 'O') not null,
 		 primary key 	(guardian_id, address_id)
-);");
+) type=myisam;
 
-mysql_query("
+
+
 CREATE TABLE address (
    	id				int unsigned not null auto_increment, 	
 	street			varchar(160) not null default '',
@@ -225,9 +220,10 @@ CREATE TABLE address (
 	lng				decimal(10,6) not null,
 	index			index_address (region(5)),
 	primary key (id)
-);");
+) type=myisam;
 
-mysql_query("
+
+
 CREATE TABLE phone (
 	id				int unsigned not null auto_increment,
 	some_id			int unsigned not null default '0',
@@ -235,9 +231,9 @@ CREATE TABLE phone (
 	phonetype		enum('H', 'M', 'W', 'F', 'O') not null,
 	index			index_id (some_id),
 	primary key 	(id)	
-);");
+) type=myisam;
 
-mysql_query("
+
 CREATE TABLE message_event (
   id bigint(20) NOT NULL default '0',
   create_time datetime NOT NULL default '0000-00-00 00:00:00',
@@ -254,9 +250,9 @@ CREATE TABLE message_event (
   PRIMARY KEY  (id),
   KEY time_to_send (time_to_send),
   KEY id_user (id_user)
-);");
+) type=myisam;
 
-mysql_query("
+
 CREATE TABLE merits (
 	id				int unsigned not null auto_increment, 
 	student_id		int unsigned not null,
@@ -271,5 +267,4 @@ CREATE TABLE merits (
 	component_id	varchar(10) not null default '',
 	index			index_result(student_id),
    	primary key		(id)
-);");
-?>
+) type=myisam;

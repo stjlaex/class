@@ -237,7 +237,7 @@ function clickToAction(buttonObject){
 			var answer=true;
 			}
 		if(answer){
-			var recordId=xmlRecord.childNodes[1].childNodes[0].nodeValue;
+			var recordId=xmlRecord.childNodes[0].childNodes[0].nodeValue;
 			var formObject=document.formtoprocess;
 			var formElements=formObject.elements;
 			var input1=document.createElement("input");

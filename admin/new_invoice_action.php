@@ -7,6 +7,7 @@ $action='orders_list.php';
 $cancel='orders_list.php';
 $budid=$_POST['budid'];
 $ordid=$_POST['ordid'];
+$entryns=(array)$_POST['sids'];
 $action_post_vars=array('budid','ordid');
 
 include('scripts/sub_action.php');
@@ -24,8 +25,7 @@ if($sub=='Submit'){
 		detail='$detail', actiondate='$todate', 
 		action='3', teacher_id='$tid', invoice_id='$invid';");
 
-	reset($Invoice);
-	while(list($index,$val)=each($Invoice)){
+	foreach($Invoice as $val){
 		if(isset($val['value']) and is_array($val) and isset($val['table_db'])){
 			$field=$val['field_db'];
 			$inname=$field;
@@ -36,7 +36,11 @@ if($sub=='Submit'){
 			}
 		}
 
-	$result[]=get_string('newinvoicerecorded',$book);
+	foreach($entryns as $entryn){
+		mysql_query("UPDATE ordermaterial SET invoice_id='$invid' WHERE order_id='$ordid' AND entryn='$entryn';");
+		}
+
+	//$result[]=get_string('newinvoicerecorded',$book);
 	}
 
 

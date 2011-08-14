@@ -103,7 +103,8 @@ $schooldb=$_POST['school'];
 			}
 
 	/* 	Create the core database tables */
-	include('create_admin.php');
+	execute_sql_file('create_admin.sql');
+
 	$asswd=md5($password);
 	mysql_query("INSERT INTO users (username, passwd, 
 			forename,role,firstbookpref) VALUES ('administrator', 
@@ -113,24 +114,12 @@ $schooldb=$_POST['school'];
 				VALUES ('Whole School','1','');");
 
 	/*	Optional (and not so optional!) tables for the books */
-	if(file_exists('create_markbook.php')){
-		include('create_markbook.php');
-		}
-	if(file_exists('create_reportbook.php')){
-		include('create_reportbook.php');
-		}
-	if(file_exists('create_infobook.php')){
-		include('create_infobook.php');
-		}
-	if(file_exists('create_register.php')){
-		include('create_register.php');
-		}
-	if(file_exists('create_orderbook.php')){
-		include('create_orderbook.php');
-		}
-	if(file_exists('create_transport.php')){
-		include('create_transport.php');
-		}
+	execute_sql_file('create_markbook.sql');
+	execute_sql_file('create_reportbook.sql');
+	execute_sql_file('create_infobook.sql');
+	execute_sql_file('create_register.sql');
+	execute_sql_file('create_orderbook.sql');
+	execute_sql_file('create_transport.sql');
 
 	/* Write the database access file to the toplevel directory*/	
 	$file=fopen ('../../dbh_connect.php', 'w');	

@@ -1,5 +1,3 @@
-<?php 
-
 /* Three predefined marktypes: level, sum and average which are
 secondary calculated values based on the values of marks pointed to by
 the mids in mid_list.  Or a compound marktype which associates several
@@ -22,7 +20,7 @@ mysql_query("CREATE TABLE mark (
 	author			varchar(14) not null default '', 
 	component_id	varchar(10) not null default '', 
 	primary key		(id) 
-);");
+) type=myisam;
 
 /*
 	marktype is the definition of a mark. The values in table:score
@@ -32,7 +30,6 @@ mysql_query("CREATE TABLE mark (
 	in score.grade.
 */
 
-mysql_query("
 CREATE TABLE markdef (
        name				varchar(20) not null default '',
        scoretype		enum('value','grade','percentage','comment') not null default 'value',
@@ -44,9 +41,9 @@ CREATE TABLE markdef (
 	   author			varchar(14) not null default '',
 	   index			index_bid (subject_id),
        primary key	(course_id, name)
-);");
+) type=myisam;
 
-mysql_query("
+
 CREATE TABLE homework (
 	   id				int unsigned not null auto_increment, 
        title			varchar(120) not null default '',
@@ -60,9 +57,9 @@ CREATE TABLE homework (
 	   author			varchar(14) not null default '',
 	   index			index_crid (course_id),
        primary key	(id)
-);");
+) type=myisam;
 
-mysql_query("
+
 CREATE TABLE score (
        mark_id		int unsigned not null default '0',
        student_id	int unsigned not null default '0',	 		
@@ -72,12 +69,14 @@ CREATE TABLE score (
        outoftotal	smallint unsigned not null default '0',
 	   extra	   	enum('0','1','2','3','4') not null default '0',
        primary key	(mark_id, student_id)
-);");
+) type=myisam;
+
+
 
 /*
 	Provides user-defined level boundaries for the raw values stored in table:score
 */
-mysql_query("
+
 CREATE TABLE levelling (
        name				varchar(20) not null default '',
        levels			varchar(200) not null default '',
@@ -87,28 +86,26 @@ CREATE TABLE levelling (
 	   subject_id		varchar(10) not null default '',
 	   author			varchar(14) not null default '',
        primary key		(course_id, name)
-);");
+) type=myisam;
+
 
 /*
 	Provides user-defined grade names for the raw grades stored in table:score
 */
-mysql_query("
 CREATE TABLE grading (
        name				varchar(20) not null default '',
        grades			text not null default '',
        comment			text not null default'',
        author			varchar(14) not null default '',
        primary key		(name)
-);");
+) type=myisam;
 
 
 /*
 	Lookup index providing marks for classes
 */
-mysql_query("
 CREATE TABLE midcid (
 		 class_id		varchar(10) not null default '',
 		 mark_id		int unsigned not null default '0',
 		 primary key 	(class_id, mark_id)
-);");
-?>
+) type=myisam;

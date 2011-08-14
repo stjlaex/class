@@ -325,7 +325,7 @@ function fetchMaterials($ordid){
 	$Materials=array();
 	$Materials['Material']=array();
 	$d_m=mysql_query("SELECT entryn, quantity, unitcost, detail,
-			   refno, materialtype FROM ordermaterial WHERE order_id='$ordid' ORDER BY entryn;");
+			   refno, materialtype, invoice_id FROM ordermaterial WHERE order_id='$ordid' ORDER BY entryn;");
 	list($ratingnames,$catdefs)=fetch_categorydefs('mat');
 	while($mat=mysql_fetch_array($d_m,MYSQL_ASSOC)){
 		$Material=(array)fetchMaterial($mat,$catdefs);
@@ -350,6 +350,7 @@ function fetchMaterial($mat=array('entryn'=>'','materialtype'=>'','detail'=>'',
 	else{$materialtype_name='';}
 	$Material=array();
 	$Material['id_db']=$mat['entryn'];
+	$Material['invoice_id_db']=$mat['invoice_id'];
    	$Material['Type']=array('label' => 'type',
 							//'inputtype'=> 'required',	
 							'table_db' => 'ordermaterial', 

@@ -49,6 +49,8 @@ $blank_gids=array();
 
 	foreach($sids as $sid){
 		$Student=fetchStudent_short($sid);
+		$field=fetchStudent_singlefield($sid,'EnrolNumber');
+		$Student=array_merge($Student,$field);
 		$Contacts=(array)fetchContacts($sid);
 		$sid_recipient_no=0;
 		foreach($Contacts as $cindex => $Contact){
@@ -157,7 +159,21 @@ two_buttonmenu($extrabuttons,$book);
 			include('scripts/list_template.php');
 ?>
 		</div>
+	  </div>
+
+	  <div class="center">
+		<br />
+		<div class="left">
+		  <br />
+		  <label for="text"><?php print_string('labeltext',$book);?></label><br />
+		  <textarea  tabindex="<?php print $tab++;?>" name="text" 
+					 cols="28" rows="6" class="nothtmleditorarea" id="text"></textarea>
+		</div>
+
+
 		<div class="right">
+		  <br />
+		  <br />
 		  <div class="row left">
 			<label for="contacts"><?php print_string('enrolmentnumber',$book);?></label>
 			<input type="radio" name="explanation"
@@ -234,5 +250,6 @@ two_buttonmenu($extrabuttons,$book);
 	  <params>
 		<selectname>template</selectname>
 		<selectname>explanation</selectname>
+		<selectname>text</selectname>
 	  </params>
 	</div>

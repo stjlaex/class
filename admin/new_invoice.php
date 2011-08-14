@@ -24,17 +24,27 @@ $Invoice['Currency']['value']=$Order['Currency']['value'];
 
 	  <fieldset class="center divgroup">
 		<div class="center">
-		  <ul>
+		  <table class="listmenu">
+		  <th colspan="1" style="width:1em;">
+			<input type="checkbox" name="checkall"  value="yes" onChange="checkAll(this);" />
+		  </th>
+		  <th>
+			<?php print_string('checkall'); ?>
+		  </th>
 <?php
-   	 while(list($index,$Material)=each($Order['Materials']['Material'])){
-	   	print '<li>'.$Material['Detail']['value'].'  &nbsp; (' 
-	 			 .$Material['Quantity']['value']. 
-	  			 ' x '.$Material['Unitcost']['value']. ' '. 
-	   			 displayEnum($Order['Currency']['value'],$Order['Currency']['field_db']). 
-	   			 ')</li>';
+   	 foreach($Order['Materials']['Material'] as $Material){
+		 if($Material['invoice_id_db']==0){
+			 print '<tr id="sid-'.$Material['id_db'].'" class="">' 
+				 .'<td><input type="checkbox" name="sids[]" value="'.$Material['id_db'].'" /></td>' 
+				 .'<td>'.$Material['Detail']['value'].'  (' 
+				 .$Material['Quantity']['value']. 
+				 ' x '.$Material['Unitcost']['value']. ' '. 
+				 displayEnum($Order['Currency']['value'],$Order['Currency']['field_db']). 
+				 ')</td></tr>';
+			 }
 		}
 ?>
-		  </ul>
+		  </table>
 		</div>
 	  </fieldset>
 

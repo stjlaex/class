@@ -163,11 +163,13 @@ two_buttonmenu($extrabuttons,$book);
 					print '<div class="center nolite">'.$Order['Detail']['value'].'</div>';
 					}
 ?>
-<ul>
+				<ul class="listmenu">
 <?php
 				 $sumcost=0;
-				 while(list($index,$Material)=each($Order['Materials']['Material'])){
-					 print '<li>'.$Material['Detail']['value'].' &nbsp; - '
+				 foreach($Order['Materials']['Material'] as $Material){
+					 if($Material['invoice_id_db']==0){$listclass='positive';}
+					 else{$listclass='lowlite';}
+					 print '<li class="'.$listclass.'">'.$Material['Detail']['value'].' &nbsp; - '
 							 .$Material['SupplierReference']['value'].' &nbsp; (' 
 					 .$Material['Quantity']['value']. 
 					 ' x '. $Material['Unitcost']['value']. ' '. 
@@ -176,7 +178,7 @@ two_buttonmenu($extrabuttons,$book);
 					 $sumcost+=$Material['Quantity']['value']*$Material['Unitcost']['value'];
 					}
 ?>
-</ul>
+				</ul>
 				<div class="center nolite">
 <?php
 				 print 'Projected total cost = '.$sumcost. 
@@ -291,11 +293,7 @@ two_buttonmenu($extrabuttons,$book);
 ?>
 			</td>
 		  </tr>
-		  <div id="<?php print 'xml-'.$entryno;?>" style="display:none;">
-<?php
-					  xmlechoer('Order',$Order);
-?>
-		  </div>
+		  <div id="<?php print 'xml-'.$entryno;?>" style="display:none;"><?php xmlechoer('Order',$Order);?></div>
 		</tbody>
 <?php
 				}
@@ -340,4 +338,3 @@ two_buttonmenu($extrabuttons,$book);
   </form>
 
   </div>
-

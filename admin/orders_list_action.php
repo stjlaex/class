@@ -80,6 +80,5 @@ elseif($sub=='reopen'){
 	mysql_query("DELETE FROM orderaction WHERE order_id='$ordid' AND action='5';");
 	}
 
-
 include('scripts/redirect.php');
 ?>

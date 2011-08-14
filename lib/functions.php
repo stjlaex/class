@@ -1817,4 +1817,95 @@ function get_studentlist_order(){
 
 	return $orderby;
 	}
+
+/**
+ *
+ *
+ *	@param
+ *	@return date
+ */
+function check_class_release(){
+	global $CFG;
+	$upgrade=false;
+
+	$d_c=mysql_query("SELECT comment FROM categorydef WHERE
+						name='current installed version' AND type='rel';");
+	if(mysql_num_rows($d_c)>0){
+		$version=mysql_result($d_c,0);
+		}
+	else{
+		mysql_query("INSERT INTO categorydef SET comment='$CFG->version',
+						name='current installed version', type='rel';");
+		mysql_query("INSERT INTO categorydef SET comment='',
+						name='previous installed version', type='rel';");
+		}
+
+	if($version!=$CFG->version){
+		$dbversion=explode('.',$version);
+		$db_major=$dbversion[0];
+		$db_minor=$dbversion[1];
+		$db_revision=$dbversion[2];
+
+		$relversion=explode('.',$CFG->version);
+		$rel_major=$relversion[0];
+		$rel_minor=$relversion[1];
+		$rel_revision=$relversion[2];
+
+		mysql_query("UPDATE categorydef SET comment='$CFG->version' WHERE
+						name='current installed version' AND type='rel';");
+		mysql_query("UPDATE categorydef SET comment='$version' WHERE
+						name='previous installed version' AND type='rel';");
+		$upgrade=true;
+		}
+
+	if($upgrade and $db_major==$rel_major){
+		$mdiff=$db_minor-$rel_minor;
+		if($mdiff==0){$rdiff=$db_revision-$rel_revision+1;$final_revision=$rel_revision;}
+		else{$rdiff=$db_revision-98;$final_revision=99;}
+		while($mdiff<1){
+			$minor=$rel_minor+$mdiff;
+			while($rdiff<1){
+				$revision=$final_revision+$rdiff;
+				$fname='patch-'.$rel_major.'.'.$minor.'.'.$revision.'.sql';
+				/* TODO: Remove this restriction after full testing completed. */
+				if($CFG->debug=='yes'){$errorno=execute_sql_file($fname);}
+				if($errorno==0){trigger_error('UPGRADE: changes applied to db '.$fname,E_USER_WARNING);}
+				elseif($errorno>0){trigger_error('UPGRADE FAILED: the db could not be upgraded for '.$fname,E_USER_WARNING);}
+				$rdiff++;
+				}
+			$mdiff++;
+			if($mdiff==0){$rdiff=0-$rel_revision;$final_revision=$rel_revision;}
+			else{$rdiff=-100;$final_revision=99;}
+			}
+		}
+
+	return $upgrade;
+	}
+
+
+/**
+ * Loads an sql file from the install directory and executes using mysql_query.
+ * Recognises comments indicated on multiple and single lines.
+ *
+ * @param string[$fname]
+ * @return boolean[success]
+ */
+
+function execute_sql_file($fname){
+
+	$errorno=-1;
+
+	if(file_exists('install/'.$fname)){
+		$errorno=0;
+		$sql=implode("\n", file('install/'.$fname));
+		mysql_query($sql);
+		if(mysql_errno()){
+			$errorno++;
+			trigger_error('UPGRADE ERROR! '.mysql_error(),E_USER_WARNING);
+			}
+		}
+
+	return $errorno;
+	}
+
 ?>

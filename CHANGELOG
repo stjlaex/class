@@ -1,8 +1,8 @@
-Version ClaSS-1.0.0rc1 release (2011/08/22)
------------------------------------------
+Version ClaSS-1.0.0 release (2011/08/22)
+-------------------------------------------
 
 Major change to the way form groups are defined, they are merged
-completely with the community table. And at the same time permission
+completely with the community table. At the same time permission
 groups can now be linked to communities. 
 
 The get_form_tutor function is replaced with list_community_users and
@@ -43,6 +43,18 @@ Functionality to create new forms from formgroup_matrix.
 
 Improved year_end to be able to roll forward reports which are skills
 profiles.
+
+Added a plain text option to printing labels and made the student
+identifier optional.
+
+Changed the installation files so they are plain sql and use
+execute_sql_file function to run. Same function for patches.
+
+Installed version number stored in catdef table. Auto update of db
+with patches on administrator login.
+
+Order invoices now allow items to be ticked of as delivered. Linked
+through a new field in ordermaterial table.
 
 
 Version ClaSS-0.9.42 release (2011/07/18)
