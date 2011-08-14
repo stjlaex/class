@@ -16,14 +16,6 @@ CREATE TABLE student (
 	primary key (id)
 ) type=myisam;
 
-CREATE TABLE form (
-		id					varchar(10) not null default '',
-		name				varchar(20) not null default '',
-		yeargroup_id		smallint not null default '0',
-		teacher_id			varchar(14) not null default '',
-		primary key (id)
-) type=myisam;
-
 CREATE TABLE yeargroup (
 		id				smallint not null default '0',
 		name			varchar(20) not null default '',
@@ -142,13 +134,13 @@ CREATE TABLE groups (
 	subject_id		varchar(10) not null default '',
 	course_id		varchar(10) not null default '',
 	yeargroup_id	smallint,
-	community_id	int(10) unsigned not null default '',
+	community_id	int(10) unsigned not null default '0',
     type			enum('a','p','b','s','u','c') not null default 'a',
 	index			index_crid (course_id),
 	index			index_bid (subject_id),
 	index			index_yid (yeargroup_id),
   	primary key		(gid)
-					 );
+) type=myisam;
 
 CREATE TABLE perms (
   uid 			int(10) not null default '0',

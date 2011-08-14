@@ -13,16 +13,16 @@ $password=$_POST['password'];
 $password2=$_POST['password2'];
 $schooldb=$_POST['school'];
 
-	require_once('../../school.php');
-	require_once('../classdata.php');
-	require_once('../lib/include.php');
+require_once('../../school.php');
+require_once('../classdata.php');
+require_once('../lib/include.php');
+
 ?>
 
 <html>
   <head>
 	<meta http-equiv="Content-Script-Type" content="text/JavaScript" />
-	<meta name="copyright" content="Copyright 2002, 2003, 2004, 2005,
-	2006, 2007 Stuart Thomas Johnson. All trademarks acknowledged. All rights reserved." />
+	<meta name="copyright" content="Copyright 2002 - 2011 Stuart Thomas Johnson. All trademarks acknowledged. All rights reserved." />
 	<meta name="license" content="GNU General Public License version 2" />
 	<link rel="stylesheet" type="text/css" href="../css/bookstyle.css" />
   </head>
@@ -94,32 +94,37 @@ $schooldb=$_POST['school'];
 			exit;
 			}
 
-	if(mysql_query("GRANT ALL PRIVILEGES ON $schooldb.* TO
-				class@localhost IDENTIFIED BY '$password'")){
+	if(mysql_query("GRANT ALL PRIVILEGES ON $schooldb.* TO class@localhost IDENTIFIED BY '$password'")){
 			print 'Successfully granted privileges to MySQL user:class <br />';	
 			}
-		else {
+		else{
 			print 'WARNING! Failed with database privileges for class user!<br />'; 
 			}
 
-	/* 	Create the core database tables */
-	execute_sql_file('create_admin.sql');
 
-	$asswd=md5($password);
-	mysql_query("INSERT INTO users (username, passwd, 
+	/* 	Create the core database tables */
+	$errorno=execute_sql_file('create_admin.sql');
+	if($errorno==0){
+		$asswd=md5($password);
+		mysql_query("INSERT INTO users (username, passwd, 
 			forename,role,firstbookpref) VALUES ('administrator', 
 			'$asswd', 'administrator','admin','admin')");
-	$admin_uid=mysql_insert_id();
-	mysql_query("INSERT INTO section (name,sequence,teacher_id) 
+		$admin_uid=mysql_insert_id();
+		mysql_query("INSERT INTO section (name,sequence,teacher_id) 
 				VALUES ('Whole School','1','');");
+		}
+	else{
+		die('Could not create core db tables for '.$schooldb);
+		}
 
-	/*	Optional (and not so optional!) tables for the books */
-	execute_sql_file('create_markbook.sql');
-	execute_sql_file('create_reportbook.sql');
-	execute_sql_file('create_infobook.sql');
-	execute_sql_file('create_register.sql');
-	execute_sql_file('create_orderbook.sql');
-	execute_sql_file('create_transport.sql');
+	$books=array('markbook','reportbook','infobook','register','orderbook','transport');
+	foreach($books as $book){
+		$errorno=execute_sql_file('create_'.$book.'.sql');
+		if(!$errorno==0){
+			die('Could not create db tables for '.$book);
+			}
+		}
+
 
 	/* Write the database access file to the toplevel directory*/	
 	$file=fopen ('../../dbh_connect.php', 'w');	
@@ -146,9 +151,9 @@ $schooldb=$_POST['school'];
       $string[12]="?>";
 
  	for($c=0; $c < sizeof($string); $c++){
-		fputs ($file, $string[$c]."\n");
+		fputs($file, $string[$c]."\n");
 		}
-	fclose ($file);
+	fclose($file);
 
 	if(mysql_query("FLUSH PRIVILEGES;")){
 		print 'Flushed with success.<br />';

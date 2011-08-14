@@ -1868,8 +1868,10 @@ function check_class_release(){
 				$revision=$final_revision+$rdiff;
 				$fname='patch-'.$rel_major.'.'.$minor.'.'.$revision.'.sql';
 				/* TODO: Remove this restriction after full testing completed. */
-				if($CFG->debug=='yes'){$errorno=execute_sql_file($fname);}
-				if($errorno==0){trigger_error('UPGRADE: changes applied to db '.$fname,E_USER_WARNING);}
+				if($CFG->debug=='yes'){
+					$errorno=execute_sql_file('install/'.$fname);
+					if($errorno==0){trigger_error('UPGRADE: changes applied to db '.$fname,E_USER_WARNING);}
+					}
 				elseif($errorno>0){trigger_error('UPGRADE FAILED: the db could not be upgraded for '.$fname,E_USER_WARNING);}
 				$rdiff++;
 				}
@@ -1895,14 +1897,28 @@ function execute_sql_file($fname){
 
 	$errorno=-1;
 
-	if(file_exists('install/'.$fname)){
+	if(file_exists($fname)){
+
 		$errorno=0;
-		$sql=implode("\n", file('install/'.$fname));
-		mysql_query($sql);
-		if(mysql_errno()){
-			$errorno++;
-			trigger_error('UPGRADE ERROR! '.mysql_error(),E_USER_WARNING);
+		$fcontent=file_get_contents($fname);
+		$lines=explode("\n",$fcontent);
+		$query='';
+		foreach($lines as $sql_line){
+			if(trim($sql_line)!='' and strpos($sql_line,'--')===false){
+				$query.=$sql_line;
+				if(preg_match("/(.*);/", $sql_line)){
+					$query = substr($query, 0, strlen($query)-1);
+					//Executing the parsed string, returns the error code in failure
+					mysql_query($query);
+					if(mysql_errno()){
+						$errorno++;
+						trigger_error('UPGRADE ERROR! '.mysql_error(),E_USER_WARNING);
+						}
+					$query='';
+					}
+				}
 			}
+
 		}
 
 	return $errorno;

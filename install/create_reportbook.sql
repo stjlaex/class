@@ -1,6 +1,3 @@
-<?php
-
-mysql_query("
 CREATE TABLE report (
 		id				int  unsigned not null auto_increment,
 		title			varchar(60) not null default '',
@@ -20,9 +17,8 @@ CREATE TABLE report (
 		rating_name		text not null default '',
 		year			year not null default '0000',
 		primary key		(id)
-);");
+) type=myisam;
 
-mysql_query("
 CREATE TABLE reportentry (
 		 report_id		int  unsigned not null default '0',
 		 student_id		int  unsigned not null default '0',
@@ -35,9 +31,8 @@ CREATE TABLE reportentry (
 	  	 teacher_id		varchar(14) not null default '',	
 		 primary key 	(report_id, student_id, subject_id,
 							component_id, entryn)
-) type=myisam;");
+) type=myisam;
 
-mysql_query("
 CREATE TABLE assessment (
 	id				int unsigned not null auto_increment, 
 	subject_id		varchar(10) not null default '%',
@@ -63,9 +58,8 @@ CREATE TABLE assessment (
 	profile_name	varchar(60) not null default '',
 	index			index_subject(subject_id),
    	primary key		(id)
-);");
+) type=myisam;
 
-mysql_query("
 CREATE TABLE eidsid (
 	id				int unsigned not null auto_increment,
 	assessment_id	int unsigned not null default '0',
@@ -81,9 +75,8 @@ CREATE TABLE eidsid (
 	examsyllabus	char(6) not null default '',
 	index			index_result(student_id),
 	primary key 	(id)	
-);");
+) type=myisam;
 
-mysql_query("
 CREATE TABLE eidmid (
 	assessment_id	int unsigned not null default '0',
 	mark_id			int unsigned not null default '0',
@@ -93,25 +86,22 @@ CREATE TABLE eidmid (
 	examboard		char(3) not null default '',
 	examsyllabus	char(6) not null default '',
 	primary key 	(assessment_id, mark_id)
-);");
+) type=myisam;
 
-mysql_query("
 CREATE TABLE rideid (
 	report_id		int unsigned not null default '0',
 	assessment_id	int unsigned not null default '0',
 	priority		smallint unsigned not null default 0,
 	primary key 	(report_id, assessment_id)
-);");
+) type=myisam;
 
-mysql_query("
 CREATE TABLE ridcatid (
 	report_id		int unsigned not null default '0',
 	categorydef_id	int unsigned not null default '0',
 	subject_id		varchar(10) not null default '%',
 	primary key 	(report_id, categorydef_id, subject_id)
-);");
+) type=myisam;
 
-mysql_query("
 CREATE TABLE statvalues (
 	stats_id		int unsigned not null auto_increment,
     stage		 	char(3) not null default '',
@@ -128,9 +118,8 @@ CREATE TABLE statvalues (
     value4		 	float not null default '0.0',
 	date			date not null default '0000-00-00',
 	primary key 	(stats_id, stage, subject_id, component_id)
-);");
+) type=myisam;
 
-mysql_query("
 CREATE TABLE stats (
 	id				int unsigned not null auto_increment,
 	description		varchar(60) not null default '',
@@ -139,18 +128,16 @@ CREATE TABLE stats (
 	asstwo_id		int unsigned not null default '0',
 	profile_name	varchar(60) not null default '',
 	primary key 	(id)
-);");
+) type=myisam;
 
-mysql_query("
 CREATE TABLE derivation (
 	resultid		int unsigned not null default '0',
 	operandid		int unsigned not null default '0',
 	type		    enum('A', 'M', 'R', 'S') default 'A' not null,
 	element			char(3) not null default '',
 	primary key 	(resultid, operandid, type)
-);");
+) type=myisam;
 
-mysql_query("
 CREATE TABLE report_event (
 	report_id		int unsigned not null default '0',
 	student_id		int unsigned not null default '0',
@@ -158,6 +145,4 @@ CREATE TABLE report_event (
 	success			enum('0', '1') not null,
 	time			timestamp(14),
 	primary key 	(report_id,student_id)
-);");
-
-?>
+) type=myisam;

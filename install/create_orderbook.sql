@@ -74,7 +74,6 @@ CREATE TABLE orderinvoice (
 	totalcost		decimal(10,2) unsigned not null default '0',
 	debitcost		decimal(10,2) unsigned not null default '0',
 	currency		enum('0','1','2','3','4') not null,
-	debitcost		decimal(10,2) unsigned not null default '0',
 	credit			tinyint(1) not null default '0',
 	exchange		decimal(10,2) unsigned not null default '0',
    	primary key		(id)

@@ -1,11 +1,10 @@
-/* Three predefined marktypes: level, sum and average which are
-secondary calculated values based on the values of marks pointed to by
-the mids in mid_list.  Or a compound marktype which associates several
-marks in one column All other marktypes (indicated by marktype=score)
-are user-defined and are given their definition in the table:markdef
-and their values in the table:score.  */
-
-mysql_query("CREATE TABLE mark ( 
+-- Three predefined marktypes: level, sum and average which are
+-- secondary calculated values based on the values of marks pointed to by
+-- the mids in mid_list.  Or a compound marktype which associates several
+-- marks in one column All other marktypes (indicated by marktype=score)
+-- are user-defined and are given their definition in the table:markdef
+-- and their values in the table:score.
+CREATE TABLE mark ( 
 	id				int unsigned not null auto_increment, 
 	entrydate		date not null default '0000-00-00', 
 	marktype		enum('score', 'sum', 'average', 'level', 
@@ -22,14 +21,12 @@ mysql_query("CREATE TABLE mark (
 	primary key		(id) 
 ) type=myisam;
 
-/*
-	marktype is the definition of a mark. The values in table:score
-	can be any one of scoretype=(comment, value, grade, percentage). A
-	scoretype=percentage indicates a raw numerical score.value and an
-	score.outoftotal are to be used to generate a rounded percentage
-	in score.grade.
-*/
 
+-- 	marktype is the definition of a mark. The values in table:score
+-- 	can be any one of scoretype=(comment, value, grade, percentage). A
+-- 	scoretype=percentage indicates a raw numerical score.value and an
+-- 	score.outoftotal are to be used to generate a rounded percentage
+-- 	in score.grade.
 CREATE TABLE markdef (
        name				varchar(20) not null default '',
        scoretype		enum('value','grade','percentage','comment') not null default 'value',
@@ -73,10 +70,8 @@ CREATE TABLE score (
 
 
 
-/*
-	Provides user-defined level boundaries for the raw values stored in table:score
-*/
 
+-- 	Provides user-defined level boundaries for the raw values stored in table:score
 CREATE TABLE levelling (
        name				varchar(20) not null default '',
        levels			varchar(200) not null default '',
@@ -89,9 +84,8 @@ CREATE TABLE levelling (
 ) type=myisam;
 
 
-/*
-	Provides user-defined grade names for the raw grades stored in table:score
-*/
+
+-- 	Provides user-defined grade names for the raw grades stored in table:score
 CREATE TABLE grading (
        name				varchar(20) not null default '',
        grades			text not null default '',
@@ -101,9 +95,8 @@ CREATE TABLE grading (
 ) type=myisam;
 
 
-/*
-	Lookup index providing marks for classes
-*/
+
+-- 	Lookup index providing marks for classes
 CREATE TABLE midcid (
 		 class_id		varchar(10) not null default '',
 		 mark_id		int unsigned not null default '0',
