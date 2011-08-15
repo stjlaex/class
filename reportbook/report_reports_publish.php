@@ -88,7 +88,7 @@ include('scripts/sub_action.php');
 			 * Write the html to as a file in the reports folder.
 			 */
 			$filename='Report'.$pubdate.'_'.$sid.'_'.$wrapper_rid;
-			$file=fopen($CFG->installpath.'/reports/'.$filename.'.html', 'w');
+			$file=fopen($CFG->eportfolio_dataroot.'/cache/reports/'.$filename.'.html', 'w');
 			if(!$file){
 				$error[]='Unable to open file for writing!';
 				}

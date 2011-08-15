@@ -826,8 +826,16 @@ function elgg_upload_files($filedata,$dbc=true){
  */
 function make_portfolio_directory($directory,$shownotices=false){
     global $CFG;
-	$CFG->directorypermissions=0755;
-	$CFG->filepermissions=0655;
+	/* File and directory permissions in the $CFG->eportfolio_dataroot */
+	if(!isset($CFG->directorypermissions)){
+		//$CFG->directorypermissions=0777;
+		$CFG->directorypermissions=0755;
+		}
+	if(!isset($CFG->filepermissions)){
+		//$CFG->filepermissions=0666;
+		$CFG->filepermissions=0655;
+		}
+
     $currdir=$CFG->eportfolio_dataroot;
     umask(0000);
 

@@ -16,6 +16,7 @@ $schooldb=$_POST['school'];
 require_once('../../school.php');
 require_once('../classdata.php');
 require_once('../lib/include.php');
+require_once('../lib/eportfolio_functions.php');
 
 ?>
 
@@ -47,18 +48,22 @@ require_once('../lib/include.php');
 		  </div>
 	  <div class="left">
 <?php
-	/*check the password*/
+	/* check the password */
 	if($password!=$password2){die('Mistake in matching the passwords. Please try again!');}
 
-	/*this requires you have the PEAR:DB library installed*/
-	/*ClaSS simply won't work without!*/
+
+	/**
+	 *  This requires you have the PEAR:DB library installed
+	 *  ClaSS simply won't work without!
+	 *
+	 */
 	require_once('DB.php');
 	PEAR::setErrorHandling(PEAR_ERROR_DIE);
 	$dsn="mysql://$username:$oldpassword@unix+$hostname";
 	$dbh=DB::connect($dsn);
 	$dbh->setFetchMode(DB_FETCHMODE_OBJECT);
 
-	/*check db doesn't already exist*/
+	/* check db doesn't already exist */
 	$result=mysql_list_dbs();
 	$exists='';
 	while($row=mysql_fetch_array($result, MYSQL_NUM)){
@@ -105,6 +110,7 @@ require_once('../lib/include.php');
 	/* 	Create the core database tables */
 	$errorno=execute_sql_file('create_admin.sql');
 	if($errorno==0){
+		/* Setup an administrator's account. */ 
 		$asswd=md5($password);
 		mysql_query("INSERT INTO users (username, passwd, 
 			forename,role,firstbookpref) VALUES ('administrator', 
@@ -117,6 +123,7 @@ require_once('../lib/include.php');
 		die('Could not create core db tables for '.$schooldb);
 		}
 
+	/* Create the rest of the tables. */
 	$books=array('markbook','reportbook','infobook','register','orderbook','transport');
 	foreach($books as $book){
 		$errorno=execute_sql_file('create_'.$book.'.sql');
@@ -151,7 +158,7 @@ require_once('../lib/include.php');
       $string[12]="?>";
 
  	for($c=0; $c < sizeof($string); $c++){
-		fputs($file, $string[$c]."\n");
+		fputs($file,$string[$c]."\n");
 		}
 	fclose($file);
 
@@ -159,7 +166,23 @@ require_once('../lib/include.php');
 		print 'Flushed with success.<br />';
 		}
 ?>
-		  </div>
+	  </div>
+	  <div class="left">
+<?php
+	if($CFG->eportfolio_dataroot=='' or !is_writable($CFG->eportfolio_dataroot)){
+		die('The dataroot directory defined in school.php ( '. 
+			$CFG->eportfolio_dataroot.' ) is not writable by the Apache user.');
+		}
+	else{
+		//make_portfolio_directory('cache/phpThumb',true);
+		make_portfolio_directory('cache/files',true);
+		make_portfolio_directory('cache/reports',true);
+		make_portfolio_directory('cache/images',true);
+		make_portfolio_directory('sessions',true);
+		}
+
+?>
+	  </div>
 		  <div class="left">
 			<hr width="100%" />
 			  <p>If all the above lines where successful, well done!</p>

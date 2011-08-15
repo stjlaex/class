@@ -24,5 +24,6 @@ require_once($CFG->dirroot.'/lib/language.php');
 require_once($CFG->dirroot.'/lib/html_functions.php');
 require_once($CFG->dirroot.'/lib/xmlserializer.php');
 require_once($CFG->dirroot.'/lib/ldap.php');
+//require_once($CFG->dirroot.'/lib/eportfolio_functions.php');
 //require_once($CFG->dirroot.'/lib/xslt-php4-to-php5.php'); //Load the PHP5 converter
 ?>

@@ -57,7 +57,7 @@ if(isset($_POST['comid'])){$comid=$_POST['comid'];}
 <?php
 	$students=(array)listin_community($community);
 	$rown=1;
-	while(list($index,$student)=each($students)){
+	foreach($students as $student){
 		$sid=$student['id'];
 		if($_SESSION['role']=='admin' or $_SESSION['role']=='office'){
 			$Enrolment=fetchEnrolment($sid);
@@ -68,7 +68,7 @@ if(isset($_POST['comid'])){$comid=$_POST['comid'];}
 		print '<tr id="sid-'.$sid.'">';
 		print '<td>'.$rown++.'</td>';
 		print '<td>'.$student['surname']. ', '.$student['forename'].' '.$student['preferredforename'].'</td><td>'.$extra.'</td>';
-		print '<td><input type="checkbox" name="oldsids[]" value="'.$sid.'" /></td>';
+		print '<td><input type="checkbox" name="sids[]" value="'.$sid.'" /></td>';
 		print '</tr>';
 		}
 ?>

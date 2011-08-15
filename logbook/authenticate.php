@@ -14,6 +14,7 @@ function session_defaults(){
 	$_SESSION['prespons']=array();
 	}
 
+
 /**
  * 
  *  The special array respons is loaded once at login. It holds an
@@ -95,7 +96,6 @@ class User{
 		}
 	}
   function _setSession(&$values, $remember, $init=true){
-    ini_set('session.gc_maxlifetime', 7200);
 	$this->uid=$values->uid;
 	if($remember){
 		$this->updateCookie($values->cookie, true);

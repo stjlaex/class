@@ -56,6 +56,14 @@ with patches on administrator login.
 Order invoices now allow items to be ticked of as delivered. Linked
 through a new field in ordermaterial table.
 
+The installation script now demands an eportfolio_dataroot directory
+is available and creates subdirectories used by class.
+
+Improved PHP session handling. Now saves to a directory in the
+eportfolio_datafoot. Sensible default values for session lifetimes set
+and all abstracted out a start_class_phpsession function.
+
+
 
 Version ClaSS-0.9.42 release (2011/07/18)
 -----------------------------------------

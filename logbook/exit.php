@@ -1,8 +1,8 @@
 <?php
 	require_once('../../school.php');
 	require_once('../classdata.php');
-	session_name("$session");
-	session_start();
+	require_once('session.php');
+	start_class_phpsession();
 	$past=time()-7200;
 	foreach($_COOKIE as $key=>$value){setcookie($key, $value, $past, '/' );}
 	session_unset();

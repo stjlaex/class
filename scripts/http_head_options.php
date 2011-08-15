@@ -4,11 +4,10 @@ $error=array();
 require_once('../../../dbh_connect.php');
 require_once('../../../school.php');
 require_once('../../classdata.php');
+require_once('../../logbook/session.php');
 $db=db_connect();
 mysql_query("SET NAMES 'utf8'");
-session_name("$session");
-session_cache_limiter('nocache');
-session_start();
+start_class_phpsession();
 require_once('../../logbook/authenticate.php');
 if(!isset($_SESSION['uid'])){session_defaults();} 
 $user=new user($db);

@@ -95,7 +95,7 @@ function get_photo($uid, $ldap_host=null, $ldap_rdn=null, $ldap_pass=null, $base
 
 	$error=false;
 
-	$cached_photo=$CFG->installpath.'/images/tmp/'.$uid.'.jpeg';
+	$cached_photo=$CFG->eportfolio_dataroot.'/cache/images/'.$uid.'.jpeg';
 	if(file_exists($cached_photo)){
 		$photo=$CFG->siteaddress.$CFG->sitepath.'/images/tmp/'.$uid.'.jpeg';
 		}
@@ -152,7 +152,7 @@ function get_photo($uid, $ldap_host=null, $ldap_rdn=null, $ldap_pass=null, $base
 
 				if($attrs['jpegPhoto']['count']>0){
 				    $jpeg_data=ldap_get_values_len( $ldap_connection, $entry, "jpegPhoto");
-				    $outfile=$CFG->installpath.'/images/tmp/'.$uid.'.jpeg';
+				    $outfile=$CFG->eportfolio_dataroot.'/cache/images/'.$uid.'.jpeg';
 				    $handle=fopen($outfile, 'wb');
 			   		fwrite($handle,$jpeg_data[0]);
 				    fclose($handle);
@@ -206,11 +206,11 @@ function get_student_photo_small($epfun, $s_photo_size, $s_ldap_host=null, $s_ld
 	$uid=$epfun;
 	
 	if($s_photo_size==2 or $s_photo_size==3){
-		$cached_thumb=$CFG->installpath.'/images/tmp/'.$uid.'_f'. $s_photo_size .'.jpeg';
+		$cached_thumb=$CFG->eportfolio_dataroot.'/cache/images/'.$uid.'_f'. $s_photo_size .'.jpeg';
 		if(!file_exists($cached_thumb)){
 		
 		
-			$cached_photo=$CFG->installpath.'/images/tmp/'.$uid.'.jpeg';
+			$cached_photo=$CFG->eportfolio_dataroot.'/cache/images/'.$uid.'.jpeg';
 			if(file_exists($cached_photo)){
 				$filename=$cached_photo;
 				}
@@ -243,7 +243,7 @@ function get_student_photo_small($epfun, $s_photo_size, $s_ldap_host=null, $s_ld
 				$source = imagecreatefromjpeg($filename);
 				imagecopyresized($thumb, $source, 0, 0, 0, 0, $new_width, $new_height, $width, $height);
 				$n=$i+2;
-				$outfile=$CFG->installpath.'/images/tmp/' . $uid .'_f'. $n .'.jpeg';
+				$outfile=$CFG->eportfolio_dataroot.'/cache/images/' . $uid .'_f'. $n .'.jpeg';
 				if(file_exists($outfile)){
 					unlink($outfile);
 					}
@@ -292,11 +292,11 @@ function get_photo_small2($user_type, $epfun, $s_photo_size, $s_ldap_host=null, 
 	
 	
 	if($s_photo_size==2 or $s_photo_size==3){
-		$cached_thumb=$CFG->installpath.'/images/tmp/'.$uid.'_f'. $s_photo_size .'.jpeg';
+		$cached_thumb=$CFG->eportfolio_dataroot.'/cache/images/'.$uid.'_f'. $s_photo_size .'.jpeg';
 		if(!file_exists($cached_thumb)){
 		
 		
-			$cached_photo=$CFG->installpath.'/images/tmp/'.$uid.'.jpeg';
+			$cached_photo=$CFG->eportfolio_dataroot.'/cache/images/'.$uid.'.jpeg';
 			if(file_exists($cached_photo)){
 				$filename=$cached_photo;
 				}
@@ -329,7 +329,7 @@ function get_photo_small2($user_type, $epfun, $s_photo_size, $s_ldap_host=null, 
 				$source = imagecreatefromjpeg($filename);
 				imagecopyresized($thumb, $source, 0, 0, 0, 0, $new_width, $new_height, $width, $height);
 				$n=$i+2;
-				$outfile=$CFG->installpath.'/images/tmp/' . $uid .'_f'. $n .'.jpeg';
+				$outfile=$CFG->eportfolio_dataroot.'/cache/images/' . $uid .'_f'. $n .'.jpeg';
 				if(file_exists($outfile)){
 					unlink($outfile);
 					}
@@ -427,7 +427,7 @@ function set_photo($uid, $photo, $ldap_host=null, $lda_rdn=null, $ldap_pass=null
 				$rdname='uid='.$uid.',ou=student,ou=people'.',dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
 				$ldaprdn='cn='.$CFG->ldapuser.',dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
 
-				$temp_path=$CFG->installpath.'/images/tmp/'.'import_'.$uid.'_'.$timestamp;
+				$temp_path=$CFG->eportfolio_dataroot.'/cache/images/'.'import_'.$uid.'_'.$timestamp;
 				$outfname=$temp_path.'.ldif';
 				$outfile = fopen($outfname,'w');
 				$pic_number=$attrs['jpegPhoto']['count'];
@@ -487,8 +487,8 @@ function set_photo($uid, $photo, $ldap_host=null, $lda_rdn=null, $ldap_pass=null
 				fclose ($outfile);
 				
 				// prepare & run the line command
-				$drfl1=$CFG->installpath.'/images/tmp/'.'import_'.$uid.'_'.$timestamp;
-				$drfl2=$CFG->installpath.'/images/tmp/'.'import_'.$uid.'_'.$timestamp.'.ldif';
+				$drfl1=$CFG->eportfolio_dataroot.'/cache/images/'.'import_'.$uid.'_'.$timestamp;
+				$drfl2=$CFG->eportfolio_dataroot.'/cache/images/'.'import_'.$uid.'_'.$timestamp.'.ldif';
 				//$line_cmd='/usr/bin/ldapmodify -v -x -w '.$CFG->ldappasswd.' -D '.$ldaprdn.' -f '.$outfname.';rm -R '.$drfl1.';rm '.$drfl2;
 				$line_cmd='/usr/bin/ldapmodify -v -x -w '.$CFG->ldappasswd.' -D '.$ldaprdn.' -f '.$outfname;
 				$output = shell_exec($line_cmd);
@@ -590,8 +590,8 @@ function delete_photo($uid, $photo_to_delete, $ldap_host=null, $lda_rdn=null, $l
 				$timestamp=time();
 				$rdname='uid='.$uid.',ou=student,ou=people'.',dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
 				$ldaprdn='cn='.$CFG->ldapuser.',dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
-				$temp_path=$CFG->installpath.'/images/tmp/'.'import_'.$uid.'_'.$timestamp;
-				$outfname=$CFG->installpath.'/images/tmp/'.'import_'.$uid.'_'.$timestamp.'.ldif';
+				$temp_path=$CFG->eportfolio_dataroot.'/cache/images/'.'import_'.$uid.'_'.$timestamp;
+				$outfname=$CFG->eportfolio_dataroot.'/cache/images/'.'import_'.$uid.'_'.$timestamp.'.ldif';
 				$outfile = fopen($outfname,'w');
 				$pic_number=$attrs['jpegPhoto']['count'];
 				if($pic_number>0){
@@ -651,8 +651,8 @@ function delete_photo($uid, $photo_to_delete, $ldap_host=null, $lda_rdn=null, $l
 				
 				// prepare & run the line command
 				/*
-				$drfl1=$CFG->installpath.'/images/tmp/'.'import_'.$uid.'_'.$timestamp;
-				$drfl2=$CFG->installpath.'/images/tmp/'.'import_'.$uid.'_'.$timestamp.'.ldif';
+				$drfl1=$CFG->eportfolio_dataroot.'/cache/images/'.'import_'.$uid.'_'.$timestamp;
+				$drfl2=$CFG->eportfolio_dataroot.'/cache/images/'.'import_'.$uid.'_'.$timestamp.'.ldif';
 				$line_cmd='/usr/bin/ldapmodify -v -x -w '.$CFG->ldappasswd.' -D '.$ldaprdn.' -f '.$outfname.';rm -R '.$drfl1.';rm '.$drfl2;
 				*/
 				$line_cmd='/usr/bin/ldapmodify -v -x -w '.$CFG->ldappasswd.' -D '.$ldaprdn.' -f '.$outfname;

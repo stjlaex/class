@@ -9,7 +9,7 @@ if(isset($_POST['comid'])){$comid=$_POST['comid'];}else{$comid='';}
 if(isset($_POST['newcomid'])){$newcomid=$_POST['newcomid'];}else{$newcomid='';}
 if(isset($_POST['newsids'])){$newsids=(array)$_POST['newsids'];}
 else{$newsids=array();}
-if(isset($_POST['oldsids'])){$oldsids=(array)$_POST['oldsids'];}
+if(isset($_POST['sids'])){$oldsids=(array)$_POST['sids'];}
 else{$oldsids=array();}
 if(isset($_POST['enrolyear'])){$enrolyear=$_POST['enrolyear'];}
 
@@ -28,7 +28,7 @@ if($sub=='Submit'){
 	/*sids to remove*/
 	//$newcommunity=array('type'=>'year','name'=>'');
 	$newcommunity=get_community($newcomid);
-   	while(list($index,$sid)=each($oldsids)){
+   	foreach($oldsids as $sid){
 		$oldcommunities=join_community($sid,$newcommunity);
 		if($classestoo=='yes' and isset($oldcommunities['form'])){
 			$changecids=array();
@@ -43,7 +43,7 @@ if($sub=='Submit'){
 
 	/*sids to add*/
 	$currentcommunity=get_community($comid);
-   	while(list($index,$sid)=each($newsids)){
+	foreach($newsids as $sid){
 		$oldcommunities=join_community($sid,$currentcommunity);
 		if($classestoo=='yes' and isset($oldcommunities['form'])){
 			$changecids=array();

@@ -8,8 +8,8 @@ $action_post_vars=array('comid');
 if(isset($_POST['comid'])){$comid=$_POST['comid'];}
 if(isset($_POST['newsids'])){$newsids=(array)$_POST['newsids'];}
 else{$newsids=array();}
-if(isset($_POST['oldsids'])){$oldsids=(array)$_POST['oldsids'];}
-else{$oldsids=array();}
+if(isset($_POST['sids'])){$oldsids=(array)$_POST['sids'];}
+else{$sids=array();}
 if(isset($_POST['classestoo'])){$classestoo=$_POST['classestoo'];}
 else{$classestoo='no';}
 
@@ -28,7 +28,7 @@ if($sub=='Submit'){
 	$changecids=(array)list_forms_classes($fid);
 
 	/*sids to remove*/
-   	while(list($index,$sid)=each($oldsids)){
+	foreach($oldsids as $sid){
 		$oldcommunities=join_community($sid,array('id'=>'','type'=>'form','name'=>''));
 		$oldfid=$oldcommunities['form'][0]['name'];
 		if($classestoo=='yes' and $oldfid==$fid){
@@ -41,7 +41,7 @@ if($sub=='Submit'){
 		}
 
 	/*sids to add*/
-   	while(list($index,$sid)=each($newsids)){
+	foreach($newsids as $sid){
 		$oldcommunities=join_community($sid,$community);
 		if(isset($oldcommunities['form'][0]['name'])){
 			$oldfid=$oldcommunities['form'][0]['name'];}

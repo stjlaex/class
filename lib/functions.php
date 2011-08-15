@@ -1834,7 +1834,8 @@ function check_class_release(){
 		$version=mysql_result($d_c,0);
 		}
 	else{
-		mysql_query("INSERT INTO categorydef SET comment='$CFG->version',
+		$version=$CFG->version;
+		mysql_query("INSERT INTO categorydef SET comment='$version',
 						name='current installed version', type='rel';");
 		mysql_query("INSERT INTO categorydef SET comment='',
 						name='previous installed version', type='rel';");

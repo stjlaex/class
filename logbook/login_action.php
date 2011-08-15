@@ -5,12 +5,10 @@
 	require_once('../../dbh_connect.php');
 	require_once('../../school.php');
 	require_once('../classdata.php');
+	require_once('session.php');
 	$db=db_connect();
 	mysql_query("SET NAMES 'utf8'");
-	$session='ClaSS'.$CFG->shortname;
-	session_name("$session");
-	ini_set('globals','off');
-	session_start();
+	start_class_phpsession();
 	if(isset($_SESSION['lang'])){$langchoice=$_SESSION['lang'];}else{$langchoice='';}
 	$username=$_POST['username'];
 	$password=$_POST['password'];

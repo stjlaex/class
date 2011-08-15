@@ -41,6 +41,12 @@ $CFG->support='laex.org';
 $CFG->contact='stj@laex.org';
 /*default site language*/
 $CFG->sitelang='en';
+/* The dataroot (shared with the eportfolio if one is being used)
+ * which is where uploaded files will go.  This should be outside your
+ * www root. Must be specified as an absolute path and it must be
+ * writable by the Apache user.
+ */
+$CFG->eportfolio_dataroot = '/home/epfdata';
 /**
  * The choice of double (AM/PM) or 'single' (AM) attendance
  * registration, assigned per section (the index is the section_id)
@@ -145,10 +151,6 @@ $CFG->eportfolioshare='secret';
 $CFG->eportfolio_db='';
 $CFG->eportfolio_db_prefix='';
 $CFG->eportfolio_access='enrol';
-/* The dataroot shared with the eportfolio which is where uploaded files will go.
- * This should be outside your wwwroot. Specified as an absolute path.
- */
-$CFG->eportfolio_dataroot = '/home/classdata';
 /*optional details of the school's lms site*/
 $CFG->lmssite='';
 $CFG->lmstabname='Moodle';

@@ -70,7 +70,7 @@ else{trigger_error('html2ps not configured!',E_USER_ERROR);}
 		$publishdata['title']=$reportdef['report']['title'].' - '.$pubdate;		
 		/* Format specific to html2ps and NOT for html2fpdf. */
 		$postdata['batch[0]']=$filename.'.html';
-		$postdata['url']=$CFG->eportfolio_dataroot.'/cache/';
+		$postdata['url']=$CFG->eportfolio_dataroot.'/cache/reports/';
 		$postdata['process_mode']='batch';
 		$postdata['topmargin']='10';
 		$postdata['bottommargin']='0';
@@ -90,8 +90,8 @@ else{trigger_error('html2ps not configured!',E_USER_ERROR);}
 /* Alternative is using html2fpdf....
    require_once('lib/html2fpdf/html2fpdf.php');
    while(list($index,$batchfile)=each($batchfiles)){
-   $htmlfile=$CFG->installpath.'/reports/'.$batchfile.'.html';
-   $pdffile=$CFG->installpath.'/reports/'.$batchfile.'.pdf';
+   $htmlfile=$CFG->eportfolio_dataroot.'/cache/reports/'.$batchfile.'.html';
+   $pdffile=$CFG->eportfolio_dataroot.'/cache/reports/'.$batchfile.'.pdf';
    $pdf=new HTML2FPDF();
    $pdf->AddPage();
    $fp = fopen($htmlfile,'r');
@@ -124,7 +124,7 @@ else{trigger_error('html2ps not configured!',E_USER_ERROR);}
 			trigger_error('PDF report publication failed for: '.$filename,E_USER_WARNING);
 			}
 		else{
-			unlink($CFG->eportfolio_dataroot.'/cache/'.$filename.'.html');
+			unlink($CFG->eportfolio_dataroot.'/cache/reports/'.$filename.'.html');
 			}
 
 		}

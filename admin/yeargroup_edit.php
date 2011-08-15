@@ -59,48 +59,39 @@ if(isset($_POST['enrolyear'])){$enrolyear=$_POST['enrolyear'];}
 	  action="<?php print $host; ?>">
 
 	  <div style="width:48%;float:left;"  id="viewcontent">
-		<table class="listmenu">
+		<table class="listmenu" id="sidtable">
 		  <caption>
 			<?php print_string('current');?>
 			<?php print_string('yeargroup');?>
 		  </caption>
 		  <tr>
-			<th colspan="3">
+			<th colspan="4">
 			  <h2>
 			  <?php print $displayname;?>
 			  </h2>
 			</th>
 			<th>
 			  <?php print_string('remove');?><br />
-			  <input type="checkbox" name="checkall" 
-				value="yes" onChange="checkAll(this);" />
+			  <input type="checkbox" name="checkall" value="yes" onChange="checkAll(this);" />
 				<?php print_string('checkall'); ?>
 			</th>
 		  </tr>
 <?php
 	$rown=1;
-	while(list($index,$student)=each($oldstudents)){
+	foreach($oldstudents as $student){
 		if($_SESSION['role']=='admin' or $_SESSION['role']=='office'
 		   or $_SESSION['role']=='district'){
 			$Enrolment=fetchEnrolment($student['id']);
 			$extra=$Enrolment['EnrolNumber']['value'];
 			}
 		else{$extra='&nbsp;';}
-?>
-		  <tr>
-			<td><?php print $rown++;?></td>
-			<td>
-<?php  print $student['surname']. 
-				', '.$student['forename'].' '.$student['middlenames'].' '.$student['preferredforename'].' ('.$student['form_id'].
-												')</td><td>'.$extra;
-?>
-			</td>
-			<td>
-			  <input type="checkbox" name="oldsids[]" 
-							value="<?php print $student['id'];?>" />
-			</td>
-		</tr>
-<?php
+		$sid=$student['id'];
+		print '<tr id="sid-'.$sid.'">';
+		print '<td>'.$rown++.'</td>';
+		print '<td>'.$student['surname']. ', '.$student['forename'].' '.$student['middlenames'].' '.$student['preferredforename'].'</td><td>'.$student['form_id'].
+												'</td><td>'.$extra.'</td>';
+		print '<td><input type="checkbox" name="sids[]" value="'.$sid.'" /></td>';
+		print '</tr>';
 		}
 ?>
 		</table>
@@ -129,7 +120,7 @@ if(isset($_POST['enrolyear'])){$enrolyear=$_POST['enrolyear'];}
 		  <label><?php print_string('studentsnotin',$book);?></label>
 		  <select name="newsids[]" size="24" multiple="multiple" style="width:98%;">
 <?php
-	while(list($index,$student)=each($newstudents['scab'])){
+	foreach($newstudents['scab'] as $student){
 		print '<option ';
 		print	'value="'.$student['student_id'].'">'. 
 		$student['surname'].', '.$student['forename'].' '. 
