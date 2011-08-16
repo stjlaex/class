@@ -1644,7 +1644,12 @@ function fetchMedical($sid='-1'){
 		$d_background=mysql_query("SELECT * FROM background WHERE 
 				student_id='$sid' AND type='$cattype';");
 		$entry=mysql_fetch_array($d_background,MYSQL_ASSOC);
-		$Note['id_db']=''.$entry['id'];
+		if(!empty($entry['id'])){
+			$Note['id_db']=''.$entry['id'];
+			}
+		else{
+			$Note['id_db']=-1;
+			}
 		$Note['MedicalCategory']=array('label' => 'medicalcategory', 
 										'value_db' => ''.$cattype,
 										'value' => ''.$cat['name']);
@@ -1935,6 +1940,21 @@ function get_age($dob){
  */
 function import_student($Student){
 
+	/* Use the student enrolment number to check this student hasn't already been entered. */
+	if(!empty($Student['enrolnumber']['value'])){
+		$existing_no=$Student['enrolnumber']['value'];
+		$d_s=mysql_query("SELECT student_id FROM info WHERE formerupn='$existing_no' AND student_id!='';");
+		if(mysql_num_rows($d_s)==1){
+			$sid=mysql_result($d_s,0);
+			}
+		}
+
+	if(!isset($sid)){
+		mysql_query("INSERT INTO student SET surname='';");
+		$sid=mysql_insert_id();
+		mysql_query("INSERT INTO info SET student_id='$sid';");
+		}
+
 	$Comments=(array)$Student['comments'];unset($Student['comments']);
 	if(!isset($Comments['comment']) or !is_array($Comments['comment'])){
 		$Comments['comment']=array();
@@ -1953,9 +1973,6 @@ function import_student($Student){
 	$Contacts=(array)$Student['contacts'];unset($Student['contacts']);
 	if(!isset($Contacts[0])){$temp=$Contacts;$Contacts=array();$Contacts[]=$temp;unset($temp);}
 
-	mysql_query("INSERT INTO student SET surname='';");
-	$sid=mysql_insert_id();
-	mysql_query("INSERT INTO info SET student_id='$sid';");
 	while(list($key,$val)=each($Student)){
 		if(isset($val['value']) and is_array($val) and isset($val['field_db'])){
 			$field=$val['field_db'];
@@ -2049,22 +2066,22 @@ function import_student($Student){
 
 
 	/* Transfer medical entries */
-	if(!isset($MedNotes['note'][0]) and isset($MedNotes['note']['id_db'])){$temp=$MedNotes['note'];$MedNotes['note']=array();$MedNotes['note'][]=$temp;}
+	if(!isset($MedNotes['note'][0]) and isset($MedNotes['note']['id_db'])){$temp=(array)$MedNotes['note'];$MedNotes['note']=array();$MedNotes['note'][]=$temp;}
 	foreach($MedNotes['note'] as $Note){
 		if(is_array($Note) and isset($Note['id_db']) and $Note['id_db']>0){
+			$medcat=-1;
 			$cat=$Note['medicalcategory']['value'];
 			$d_cat=mysql_query("SELECT subtype FROM categorydef WHERE name='$cat' AND type='med';");
 			if(mysql_num_rows($d_cat)>0){
 				$medcat=mysql_result($d_cat,0);
 				}
-			else{$medcat=-1;}
 
 
 			if($medcat!=-1){
 				trigger_error('MED: '.$cat.' : '.$medcat.' :' .$sid,E_USER_WARNING);
 				mysql_query("INSERT INTO background SET student_id='$sid', type='$medcat';");
 				$id=mysql_insert_id();
-				while(list($key,$val)=each($Ent)){
+				while(list($key,$val)=each($Note)){
 					if(is_array($val) and isset($val['value']) and isset($val['field_db'])){
 						$field=$val['field_db'];
 						if(isset($val['value_db'])){
@@ -2093,7 +2110,6 @@ function import_student($Student){
 				if(mysql_num_rows($d)>0){
 					$gid=mysql_result($d,0);
 					$fresh='no';
-					//trigger_error('EPFU Contact: '.$sid.' :' .$gid,E_USER_WARNING);
 					}
 				else{
 					/* Make sure the epfu goes into new record. */

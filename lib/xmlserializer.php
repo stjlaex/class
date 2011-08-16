@@ -4,7 +4,7 @@
  *
  *	@package	ClaSS
  *	@author		stj@laex.org
- *	@copyright	S T Johnson 2004-2010
+ *	@copyright	S T Johnson 2004-2011
  *	@version	
  *	@since				
  */
@@ -13,8 +13,11 @@
 /* Still using the PHP4 xslt functions and need this for compatibility
  * with PHP5. TODO: move to PHP5 xsl functions.
  */
-if((PHP_VERSION>='5')&&extension_loaded('xsl')){
+if((PHP_VERSION>='5') and extension_loaded('xsl')){
 	require_once('xslt-php4-to-php5.php');
+	}
+else{
+	trigger_error('XSL configuration error', E_USER_WARNING);
 	}
 
 /**
@@ -125,12 +128,11 @@ function xmlechoer($rootName,$xmlentry){
 	echo $xml;
 	}
 
+
 /**
  * Combines an $xml string with an xsl file which it reads, writes the
  * html output to a file if (output_filename is set) otherwise just
  * returns the html
- * Any ouput currently goes to the toplevel directory reports.
- * Still under development!!!!
  *
  * @global string $CFG
  * @param string $xml
@@ -148,13 +150,14 @@ function xmlprocessor($xml,$xsl_filename,$output_filename=NULL){
 	$parameters=array(
 					   );
 	$xh=xslt_create();
-	$filebase='file://'.$CFG->installpath;
+	$template_filepath='file://'.$CFG->installpath.'/templates/'.$xsl_filename;
 	xslt_set_base($xh,$filebase);
-	if($output_filename!=''){$output_filename=$filebase.'/reports/'.$output_filename;}
+	if($output_filepath!=''){$output_filepath='file://'.$CFG->eportfolio_database.'/cache/reports/'.$output_filename;}
+	else{$output_filepath=NULL;}
 	$html=xslt_process($xh
 					   ,'arg:/_xml'
-					   ,$filebase.'/templates/'.$xsl_filename 
-					   ,$output_filename
+					   ,$template_filepath
+					   ,$output_filepath
 					   ,$arguments
 					   );
 	if(empty($html)){
@@ -166,30 +169,6 @@ function xmlprocessor($xml,$xsl_filename,$output_filename=NULL){
 	return $html;
 	}
 
-/**
- * Reads an xml file and xsl file, writes output to a third file
- *
- * @global string $CFG
- * @param string $xml_filename
- * @param string $xsl_filename
- * @return null
- */
-function xmlfileprocessor($xml_filename,$xsl_filename){
-	global $CFG;
-
-	$xh=xslt_create();
-	$filebase='file://'.$CFG->installpath . '/templates/';
-	xslt_set_base($xh,$filebase);
-	xslt_process($xh
-				 ,$xml_filename 
-				 ,$xsl_filename 
-				 ,'output2.html'
-				 ,$arguments
-				 );
-	trigger_error('XSLT processing error: '. xslt_error($xh), E_USER_WARNING);
-	xslt_free($xh);
-	return;
-	}
 
 
 /**

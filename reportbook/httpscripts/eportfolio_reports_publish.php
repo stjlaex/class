@@ -29,10 +29,18 @@ require_once($CFG->installpath.'/'.$CFG->applicationdirectory.'/scripts/cron_hea
 if(isset($CFG->eportfolio_db) and $CFG->eportfolio_db!=''){
 	require_once($fullpath.'/lib/eportfolio_functions.php');
 	}
-else{trigger_error('eportfolio not configured!',E_USER_ERROR);}
-if(isset($CFG->html2psscript) and $CFG->html2psscript!=''){
+else{
+	$error=true;
+	trigger_error('eportfolio not configured!',E_USER_ERROR);
 	}
-else{trigger_error('html2ps not configured!',E_USER_ERROR);}
+if(isset($CFG->html2pdf) and $CFG->html2pdf!=''){
+	require_once($CFG->html2pdf.'/html2pdf.class.php');
+	}
+else{
+	trigger_error('html2pdf is not configured!',E_USER_ERROR);
+	$error=true;
+	}
+
 
 /**
  * To ensure we don't get a race condition the report_event is touched
@@ -45,8 +53,9 @@ else{trigger_error('html2ps not configured!',E_USER_ERROR);}
 	$agelimit=10;//in minutes
 	$d_e=mysql_query("SELECT report_id, student_id FROM report_event 
 					WHERE success='0' AND time + interval $agelimit minute < now() LIMIT 10;");
-	$d_u=mysql_query("UPDATE report_event  SET success='0' 
+	$d_u=mysql_query("UPDATE report_event  SET success='1' 
 					WHERE success='0' AND time + interval $agelimit minute < now() LIMIT 10;");
+
 	while($ridsid=mysql_fetch_array($d_e,MYSQL_ASSOC)){
 		$success=true;
 		$wrapper_rid=$ridsid['report_id'];
@@ -55,20 +64,38 @@ else{trigger_error('html2ps not configured!',E_USER_ERROR);}
 		$pubdate=$reportdef['report']['date'];
 		$paper=$reportdef['report']['style'];
 		$transform=$reportdef['report']['transform'];
-		
 		$filename='Report'.$pubdate.'_'.$sid.'_'.$wrapper_rid;
 		
-		/* Two arrays, one postdata is used by html2ps and inlcudes config
-		 * options, a second publishdata is used for the eportfolio, both incorporate
-		 * an array called batch listing all of the filenames to be processed. 
+		/* An array publishdata is used for the eportfolio, it incorporates
+		 * an array called batch listing all of the filenames to be uploaded. 
 		 */
 		$postdata=array();
 		$publishdata=array();
 		$publish_batch=array();
 		$publishdata['foldertype']='report';
 		$publishdata['description']='report';
-		$publishdata['title']=$reportdef['report']['title'].' - '.$pubdate;		
-		/* Format specific to html2ps and NOT for html2fpdf. */
+		$publishdata['title']=$reportdef['report']['title'].' - '.$pubdate;
+		
+		try{
+			// init HTML2PDF
+			$html2pdf = new HTML2PDF('P', 'A4', 'en', true, 'UTF-8');
+			
+			// display the full page
+			$html2pdf->pdf->SetDisplayMode('fullpage');
+			
+			// convert
+			//$html2pdf->writeHTML($content, isset($_GET['vuehtml']));
+			$html2pdf->writeHTML('<p>This is your first PDF File</p>');
+
+			// send the PDF
+			$html2pdf->Output($CFG->eportfolio_dataroot.'/cache/reports/'.$filename.'.pdf', 'F');
+			}
+		catch(HTML2PDF_exception $e) {
+			trigger_error($e,E_USER_WARNING);
+			$success=false;
+			}
+
+		/* Format specific to html2ps and NOT for html2fpdf...
 		$postdata['batch[0]']=$filename.'.html';
 		$postdata['url']=$CFG->eportfolio_dataroot.'/cache/reports/';
 		$postdata['process_mode']='batch';
@@ -85,30 +112,15 @@ else{trigger_error('html2ps not configured!',E_USER_ERROR);}
 		curl_setopt($curl,CURLOPT_POSTFIELDS,$postdata);
 		curl_exec($curl);
 		curl_close($curl);
-
-
-/* Alternative is using html2fpdf....
-   require_once('lib/html2fpdf/html2fpdf.php');
-   while(list($index,$batchfile)=each($batchfiles)){
-   $htmlfile=$CFG->eportfolio_dataroot.'/cache/reports/'.$batchfile.'.html';
-   $pdffile=$CFG->eportfolio_dataroot.'/cache/reports/'.$batchfile.'.pdf';
-   $pdf=new HTML2FPDF();
-   $pdf->AddPage();
-   $fp = fopen($htmlfile,'r');
-   $strContent = fread($fp, filesize($htmlfile));
-   fclose($fp);
-   $pdf->WriteHTML($strContent);
-   $pdf->Output($pdffile);
-   }
-*/
+		*/
 
 
 		if($success){
 			$S=fetchStudent_singlefield($sid,'EPFUsername');
 			$publish_batch[]=array('epfusername'=>$S['EPFUsername']['value'],'filename'=>$filename.'.pdf');
 			$publishdata['batchfiles']=$publish_batch;
-			if(elgg_upload_files($publishdata,true)){
-				//if(true){
+			//if(elgg_upload_files($publishdata,true)){
+			if(true){
 				/* Mark the event table as succesful. */
 				mysql_query("UPDATE report_event SET success='1', time=NOW()
 						WHERE report_id='$wrapper_rid' AND student_id='$sid';");
@@ -125,6 +137,7 @@ else{trigger_error('html2ps not configured!',E_USER_ERROR);}
 			}
 		else{
 			unlink($CFG->eportfolio_dataroot.'/cache/reports/'.$filename.'.html');
+			trigger_error('PDF report publishsed for: '.$filename,E_USER_WARNING);
 			}
 
 		}

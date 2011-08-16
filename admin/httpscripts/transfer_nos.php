@@ -34,7 +34,7 @@ else{$feeder_code=-1;}
 	$Transfers=array();
 	$Transfers['Transfer']=array();
 	$yeargroups=list_yeargroups();
-	while(list($yearindex,$yeargroup)=each($yeargroups)){
+	foreach($yeargroups as $yeargroup){
 		$no=0;
 		$yid=$yeargroup['id'];
 		$comyid=$yid+$yeardif;
@@ -44,7 +44,7 @@ else{$feeder_code=-1;}
 		$coms[]=array('id'=>'','type'=>'alumni', 
 									 'name'=>'P:'.$yid,'year'=>$enrolyear-1);
 		$coms[]=array('id'=>'','type'=>'year','name'=>(string)$comyid);
-		while(list($cindex,$com)=each($coms)){
+		foreach($coms as $com){
 			$comid=update_community($com);
 			$no+=count_reenrol_no($comid,$reenrol_eid,$feeder_code);
 			}

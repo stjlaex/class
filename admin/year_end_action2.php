@@ -159,14 +159,15 @@ if(sizeof($reenrol_assdefs)>0){
 				$Transfers=array();
 				if($feeder!=''){$Transfers=(array)feeder_fetch('transfer_students',$feeder,$postdata);}
 				/* NOTE the lowercase of the student index, is a product of xmlreader. */
+				//trigger_error($feeder.' : '.$yid.' '.sizeof($Transfers['student']),E_USER_WARNING);
 				if(isset($Transfers['student']) and is_array($Transfers['student'])){
-					//trigger_error('TRANSFER: '.$yid.' '.sizeof($Transfers['student']),E_USER_WARNING);
-					$result[]='TRANSFER: '.$yid.' '.sizeof($Transfers['student']);
+					$result[]='TRANSFER FROM: '.$feeder.': '.$yid.' '.sizeof($Transfers['student']);
 					foreach($Transfers['student'] as $Student){
 						if(isset($Student['surname']) and is_array($Student['surname'])){
 							$previousschool='Transfered from '. $feeder. 
 									' (started there '. $Student['entrydate']['value'].') ';
 							$Student['entrydate']['value']=$todate;
+							$Student['leavingdate']['value']='';
 							$Student['enrolmentnotes']['value']=$previousschool. 
 									' ' . $Student['enrolmentnotes']['value'];
 							$transfer_Students[]=$Student;
@@ -178,6 +179,8 @@ if(sizeof($reenrol_assdefs)>0){
 				foreach($transfer_Students as $Student){
 					$sid=import_student($Student);
 					join_community($sid,$yearcommunity);
+					unset($Student);
+					unset($sid);
 					}
 				}
 

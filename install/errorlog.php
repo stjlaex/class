@@ -7,14 +7,14 @@
 
 require('../../school.php');
 
-function tail_html($file,$tail_size){   
+function tail_html($file,$tail_size){
 	$tail_string='';
 	if(file_exists($file)){
         $file_contents=implode('',file($file));
         $lines=explode("\n", $file_contents);
         $line_count=count($lines)-1;
         for($i=$line_count;$i>($line_count-$tail_size);$i--) {
-            $tail_string.='<p>'.$lines[$i].'</p>';
+            $tail_string.=''.$lines[$i].'<br />';
 			}
 		}
 	else{

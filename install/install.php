@@ -151,11 +151,15 @@ require_once('../lib/eportfolio_functions.php');
       $string[5]="	\$db_pass = '".$password."';";
       $string[6]="	\$db_host = '".$hostname."';";
       $string[7]="	\$dsn = \"mysql://\$db_user:\$db_pass@unix+\$db_host/\$db_name\";";
-      $string[8]="	\$db = DB::connect(\$dsn);";
-      $string[9]="	\$db->setFetchMode(DB_FETCHMODE_OBJECT);";
-      $string[10]="	return \$db;";
-      $string[11]="	}";
-      $string[12]="?>";
+      $string[8]="	if(\$con){";
+      $string[9]="	  \$db = DB::connect(\$dsn);";
+      $string[10]="	  \$db->setFetchMode(DB_FETCHMODE_OBJECT);";
+      $string[11]="	  return \$db;";
+      $string[12]="	  }";
+      $string[13]="	else{";
+	  $string[14]="	  return \$dsn;";
+      $string[15]="	  }";
+      $string[16]="?>";
 
  	for($c=0; $c < sizeof($string); $c++){
 		fputs($file,$string[$c]."\n");

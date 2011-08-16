@@ -48,12 +48,12 @@ if(!isset($ARGS['option'])){
 		$cmd='/usr/bin/php '.$fullpath.'/infobook/httpscripts/message_event_cron.php --path='.$CFG->installpath;
 		exec("$cmd > /dev/null &");
 		}
-	
+
 	/**
-	 * Run nightly only
+	 * Run outside of peak registration time only.
 	 */
 	$latehour=date('H',$starttime);
-	if(($latehour>0 and $latehour<8) or $latehour>14){
+	if(($latehour>0 and $latehour<8) or $latehour>11){
 		/* Generate PDFs of reports queued for publication */
 		$cmd='/usr/bin/php '.$fullpath.'/reportbook/httpscripts/eportfolio_reports_publish.php --path='.$CFG->installpath;
 		exec("$cmd > /dev/null &");

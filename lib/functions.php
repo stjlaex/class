@@ -1869,12 +1869,12 @@ function check_class_release(){
 				$revision=$final_revision+$rdiff;
 				$fname='patch-'.$rel_major.'.'.$minor.'.'.$revision.'.sql';
 				/* TODO: Remove this restriction after full testing completed. */
-				if($CFG->debug=='yes'){
+				if($CFG->debug=='on'){
 					$errorno=execute_sql_file('install/'.$fname);
 					if($errorno==0){trigger_error('UPGRADE: changes applied to db '.$fname,E_USER_WARNING);}
+					elseif($errorno>0){trigger_error('UPGRADE FAILED: the db could not be upgraded with '.$fname,E_USER_WARNING);}
+					$rdiff++;
 					}
-				elseif($errorno>0){trigger_error('UPGRADE FAILED: the db could not be upgraded for '.$fname,E_USER_WARNING);}
-				$rdiff++;
 				}
 			$mdiff++;
 			if($mdiff==0){$rdiff=0-$rel_revision;$final_revision=$rel_revision;}

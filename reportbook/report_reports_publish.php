@@ -53,7 +53,6 @@ include('scripts/sub_action.php');
 		$Reports=(array)fetchSubjectReports($sid,$reportdefs);
 		$Reports['Coversheet']='yes';/* No longer used, always yes */
 		$Reports['Paper']=$paper;
-
 		$Reports['CoverTitle']=$reportdefs[0]['report']['title'];
 		$Reports['Coversheet']='yes';
 		$Reports['Transform']=$transform;
@@ -73,7 +72,6 @@ include('scripts/sub_action.php');
 <title>ClaSS Report</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="author" content="'.$CFG->version.'" />
-<base href="http://'.$CFG->siteaddress.$CFG->sitepath.'/reports/" />
 <link rel="stylesheet" type="text/css" href="http://'.$CFG->siteaddress.$CFG->sitepath.'/templates/'.$transform.'.css" />
 </head>
 <body>';
@@ -83,9 +81,8 @@ include('scripts/sub_action.php');
 		$html_report=xmlprocessor($xml,$xsl_filename);
 		if(!empty($html_report)){
 			$html=$html_header. $html_report . $html_footer;
-
 			/**
-			 * Write the html to as a file in the reports folder.
+			 * Write the html to a file in the reports folder.
 			 */
 			$filename='Report'.$pubdate.'_'.$sid.'_'.$wrapper_rid;
 			$file=fopen($CFG->eportfolio_dataroot.'/cache/reports/'.$filename.'.html', 'w');

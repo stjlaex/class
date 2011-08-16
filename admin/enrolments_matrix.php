@@ -77,7 +77,7 @@ foreach($yeargroups as $year){
 				if(!isset($feeder_nos[$Transfer['yeargroup']])){
 					$feeder_nos[$Transfer['yeargroup']]=0;
 					}
-				trigger_error($Transfer['yeargroup'].' '.$Transfer['value'],E_USER_WARNING);
+				//trigger_error($Transfer['yeargroup'].' '.$Transfer['value'],E_USER_WARNING);
 				$feeder_nos[$Transfer['yeargroup']]+=$Transfer['value'];
 				}
 			}
