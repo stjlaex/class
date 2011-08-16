@@ -63,6 +63,9 @@ Improved PHP session handling. Now saves to a directory in the
 eportfolio_datafoot. Sensible default values for session lifetimes set
 and all abstracted out a start_class_phpsession function.
 
+Some fixes to student transfers at year end.
+
+eportfolio_reports_publish is under construction!
 
 
 Version ClaSS-0.9.42 release (2011/07/18)
