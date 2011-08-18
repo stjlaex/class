@@ -3,6 +3,7 @@ require_once('../../dbh_connect.php');
 require_once('../../school.php');
 require_once('../classdata.php');
 require_once('../logbook/authenticate.php');
+require_once('../logbook/session.php');
 $db=db_connect();
 mysql_query("SET NAMES 'utf8'");
 start_class_phpsession();

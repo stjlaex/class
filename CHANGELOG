@@ -65,6 +65,10 @@ and all abstracted out a start_class_phpsession function.
 
 Some fixes to student transfers at year end.
 
+Fixes to custom group search, in particular for leavers.
+
+New script for displaying profile photos.
+
 eportfolio_reports_publish is under construction!
 
 

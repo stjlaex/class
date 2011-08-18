@@ -57,30 +57,47 @@ if(isset($enroldate)){
 	if(isset($_POST['enroldate2'])){$enddate=$_POST['enroldate2'];}else{$enddate='';}
 	$currentyear=get_curriculumyear();
 	$todate=date("Y-m-d");
+	$cutoffdate=$currentyear.'-'.$CFG->enrol_cutoffmonth.'-01';
 
-	$comtype='year';$comname='';$comyear='0000';
+	$totime=strtotime($todate);
+	$starttime=strtotime($startdate);
+	$endtime=strtotime($enddate);
+
+	$comtype='year';
+	$comname='';
+	$comyear='0000';
+
 	if($enroldate=='leave'){
-		/* Leaving in the future and only searching across accepted applications*/
-		if($startdate!='' and $startdate<$todate){$comtype='alumni';$comname='P:';$comyear=$currentyear;}
+		/* Left in the past and could be for a different academic year. */
+		if($startdate!='' and $starttime < $totime){
+			$comtype='alumni';$comname='P:';
+			if($starttime > mktime(0,0,0,$CFG->enrol_cutoffmonth+2,1,$currentyear-1)){
+				$comyear=$currentyear;
+				}
+			else{
+				$comyear=$currentyear-1;
+				}
+			}
+		/* Leaving in the future and only searching across accepted applications */
 		elseif($startdate>=$todate){$extra="'$startdate'<=info.leavingdate AND info.leavingdate!='0000-00-00'";}
 		elseif($enddate>=$todate){$extra="'$enddate'<=info.leavingdate AND info.leavingdate!='0000-00-00'";}
 		}
 	elseif($enroldate=='start'){
-		if($startdate!='' and $startdate>=$todate){
+		if($startdate!='' and $starttime>=$totime){
 			/* Joining in the future and only searching across accepted applications*/
 			$comtype='accepted';$comname='AC:';$comyear=$currentyear;
 			$extra="'$startdate'<=info.entrydate AND info.entrydate!='0000-00-00'";
 			}
-		elseif($startdate!='' and $startdate<$todate){
+		elseif($startdate!='' and $starttime<$totime){
 			/* Joined in the past and only searching current*/
 			$extra="'$startdate'<=info.entrydate AND info.entrydate!='0000-00-00'";
 			}
-		elseif($enddate!='' and $enddate>=$todate){
+		elseif($enddate!='' and $endtime>=$totime){
 			/* Joining in the future and only searching current */
 			$comtype='accepted';$comname='AC:';$comyear=$currentyear;
 			$extra="'$enddate'<=info.entrydate AND info.entrydate!='0000-00-00'";
 			}
-		elseif($enddate!='' and $enddate<$todate){
+		elseif($enddate!='' and $endtime<$totime){
 			/* Joined in the pasted and only searching current */
 			$extra="'$enddate'<=info.entrydate AND info.entrydate!='0000-00-00'";
 			}
@@ -92,7 +109,7 @@ if(isset($enroldate)){
 		$com=get_community($comid);
 
 		/* all students who joined the community after startdate and before enddate*/
-		if(!$extra){
+		if(!isset($extra)){
 			$yearstudents=(array)listin_community_new($com,$startdate,$enddate);
 			}
 		else{

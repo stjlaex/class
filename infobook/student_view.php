@@ -25,9 +25,8 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 
 	  <div class="center">
 <?php
-		$photo=get_student_photo($Student['EPFUsername']['value']);
-		//$photo=get_student_photo_small($Student['EPFUsername']['value'],2); 
-		print '<div class="icon"><img src="http://'.$photo.'" /></div>';
+	$epfu=strtolower($Student['EPFUsername']['value']);
+	print '<div class="icon"><img src="http://'.$CFG->siteaddress.$CFG->sitepath.'/'.$CFG->applicationdirectory.'/scripts/photo_display.php?epfu='.$epfu.'" /></div>';
 ?>
 
 		<table class="listmenu listinfo">

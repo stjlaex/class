@@ -40,6 +40,8 @@ function get_student_photo($epfun, $s_ldap_host=null, $s_ldap_rdn=null, $s_ldap_
 	}
 
 
+
+
 /**
  * The only required variable is: $epfun (eportfolio name, get student photo) or userid (get_user_photo)
  *
@@ -65,9 +67,11 @@ function get_user_photo($userid, $u_ldap_host=null, $u_ldap_rdn=null, $u_ldap_pa
 	$uid=$CFG->clientid.$userid;
 	if(!$u_base_tree_node){
 		$u_base_tree_node='ou=people,dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
-		}	
+		}
 	return get_photo($uid, $u_ldap_host, $u_ldap_rdn, $u_ldap_pass, $u_base_tree_node, $u_object_class);
 	}
+
+
 
 /**
  * The only required variable is: $uid
@@ -96,8 +100,10 @@ function get_photo($uid, $ldap_host=null, $ldap_rdn=null, $ldap_pass=null, $base
 	$error=false;
 
 	$cached_photo=$CFG->eportfolio_dataroot.'/cache/images/'.$uid.'.jpeg';
+	$blank_photo=$CFG->installpath.'/'.$CFG->applicationdirectory.'/images/blank_profile.jpeg';
+
 	if(file_exists($cached_photo)){
-		$photo=$CFG->siteaddress.$CFG->sitepath.'/images/tmp/'.$uid.'.jpeg';
+		$photo=$cached_photo;
 		}
 	else{
 		if(is_null($ldap_host)){
@@ -144,7 +150,7 @@ function get_photo($uid, $ldap_host=null, $ldap_rdn=null, $ldap_pass=null, $base
 		    $entry=ldap_first_entry( $ldap_connection, $search_result );
 
 		    if(!$entry){
-				trigger_error('user id: '.$uid.', not found! ', E_USER_WARNING);
+				trigger_error('LDAP: user id: '.$uid.', not found! ', E_USER_WARNING);
 				$error=true;
 				}
 			else{
@@ -156,20 +162,20 @@ function get_photo($uid, $ldap_host=null, $ldap_rdn=null, $ldap_pass=null, $base
 				    $handle=fopen($outfile, 'wb');
 			   		fwrite($handle,$jpeg_data[0]);
 				    fclose($handle);
-				    $photo=$CFG->siteaddress.$CFG->sitepath.'/images/tmp/'.$uid.'.jpeg';
+					$photo=$cached_photo;
 					}
 				else{
-				    $photo=$CFG->siteaddress.$CFG->sitepath.'/'.$CFG->applicationdirectory.'/images/blank_profile.jpeg';
+					$photo=$blank_photo;
 					}
 				}
 			}
 
 		if($error){
-			$photo=$CFG->siteaddress.$CFG->sitepath.'/'.$CFG->applicationdirectory.'/images/blank_profile.jpeg';
+			$photo=$blank_photo;
 			}
 		}
-	$uid_image=$photo;
-	return $uid_image;
+
+	return $photo;
 	}
 
 
