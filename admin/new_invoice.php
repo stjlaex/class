@@ -11,6 +11,7 @@ three_buttonmenu();
 
 $Invoice=fetchInvoice();
 $Order=fetchOrder($ordid);
+if($budid==-1){$budid=$Order['Budget']['value_db'];}
 $Invoice['Currency']['value']=$Order['Currency']['value'];
 ?>
 

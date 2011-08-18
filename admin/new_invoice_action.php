@@ -7,12 +7,15 @@ $action='orders_list.php';
 $cancel='orders_list.php';
 $budid=$_POST['budid'];
 $ordid=$_POST['ordid'];
-$entryns=(array)$_POST['sids'];
+if(isset($_POST['sids'])){$entryns=(array)$_POST['sids'];}
 $action_post_vars=array('budid','ordid');
+
+trigger_error('!!!!!!!'.$budid,E_USER_WARNING);
 
 include('scripts/sub_action.php');
 
 if($sub=='Submit'){
+
 
 	$todate=date('Y-m-d');
 	$yearcode=-1;
@@ -36,8 +39,10 @@ if($sub=='Submit'){
 			}
 		}
 
-	foreach($entryns as $entryn){
-		mysql_query("UPDATE ordermaterial SET invoice_id='$invid' WHERE order_id='$ordid' AND entryn='$entryn';");
+	if(isset($entryns)){
+		foreach($entryns as $entryn){
+			mysql_query("UPDATE ordermaterial SET invoice_id='$invid' WHERE order_id='$ordid' AND entryn='$entryn';");
+			}
 		}
 
 	//$result[]=get_string('newinvoicerecorded',$book);

@@ -265,6 +265,9 @@ two_buttonmenu($extrabuttons,$book);
 						$actionbuttons['close']=array('name'=>'process','value'=>'close');
 						$orderactions[]='delivery';
 						}
+					elseif($status=='cancelled' and $perms['w']==1){
+						$orderactions[]='reopen';
+						}
 
 					if(sizeof($orderactions)>0){
 						if($orderactions[0]=='cancel'){

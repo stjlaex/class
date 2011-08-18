@@ -77,7 +77,7 @@ if(isset($orderaction) and $orderaction!=3){
 	$entryn=mysql_insert_id();
 	}
 elseif($sub=='reopen'){
-	mysql_query("DELETE FROM orderaction WHERE order_id='$ordid' AND action='5';");
+	mysql_query("DELETE FROM orderaction WHERE order_id='$ordid' AND (action='5' OR action='4');");
 	}
 
 include('scripts/redirect.php');

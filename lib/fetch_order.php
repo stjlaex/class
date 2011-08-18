@@ -324,9 +324,9 @@ function fetchOrder($ordid='-1'){
 function fetchMaterials($ordid){
 	$Materials=array();
 	$Materials['Material']=array();
+	list($ratingnames,$catdefs)=fetch_categorydefs('mat');
 	$d_m=mysql_query("SELECT entryn, quantity, unitcost, detail,
 			   refno, materialtype, invoice_id FROM ordermaterial WHERE order_id='$ordid' ORDER BY entryn;");
-	list($ratingnames,$catdefs)=fetch_categorydefs('mat');
 	while($mat=mysql_fetch_array($d_m,MYSQL_ASSOC)){
 		$Material=(array)fetchMaterial($mat,$catdefs);
 		$Materials['Material'][]=$Material;
