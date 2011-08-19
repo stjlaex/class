@@ -73,6 +73,12 @@ Allow cancelled orders to be reopened.
 
 Added the restable to the xml from report_profile_print.
 
+Improved the script for listing of assessments - groups by cohort and
+allows multiple cohorts even for pastoral groups.
+
+Reworked and simplified the report_assessments script to make more
+usable.
+
 eportfolio_reports_publish is under construction!
 
 

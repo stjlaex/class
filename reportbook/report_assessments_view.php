@@ -22,10 +22,8 @@ if(isset($_POST['selfid'])){$fid=$_POST['selfid'];}else{$fid='';}
 if(isset($_POST['cid'])){$cid=$_POST['cid'];}else{$cid='';}
 if(isset($_POST['gender'])){$gender=$_POST['gender'];}else{$gender='';}
 if(isset($_POST['profid'])){$profid=$_POST['profid'];}
-if(isset($_POST['template'])){$template=$_POST['template'];}
 if(isset($_POST['bids'])){$selbids=(array)$_POST['bids'];}
 if(isset($_POST['eids'])){$eids=(array)$_POST['eids'];}else{$eids=array();}
-if(isset($_POST['breakdown'])){$breakdown=$_POST['breakdown'];}else{$breakdown='subject';}
 
 include('scripts/sub_action.php');
 
@@ -74,7 +72,6 @@ $students=array();
 
 
 	$viewtable=array();/*The array used to store the information to display*/
-	$gradestats=array();
 	$assdefs=array();
 	$assbids=array();/*index all the bids these asses may relate to*/
 	$asscrids=array();/*index all the crids these asses may relate to*/
@@ -114,7 +111,7 @@ $students=array();
 				}
 			}
 
-		while(list($bindex,$bid)=each($selbids)){
+		foreach($selbids as $bid){
 			$assbids[]=$bid.' ';
 			$compstatus='%';
 			$comps=list_subject_components($bid,$rcrid,$compstatus);
@@ -127,7 +124,6 @@ $students=array();
 				}
 			}
 
-		reset($selbids);
 		}
 
 /****************/
@@ -135,7 +131,7 @@ $students=array();
 	$viewtable[0]['out']=array();
 	$viewtable[0]['count']=array();
 	$c=1;/*$c=0 in viewtable is for column headers*/
-	while(list($index,$student)=each($students)){
+	foreach($students as $student){
 		$sid=$student['id'];
 		$Student=(array)fetchStudent_short($sid);
 		/* TODO: improve and extend the filter methods... */
@@ -148,139 +144,97 @@ $students=array();
 		}
 
 
-	/* the displayed table will either show columns for subject (and */
-	/* average over the assessments) or show columns for assessments (and */
-	/* average over the subjects) --- averaging is done over $aids for */
-	/* each column in $hids */
 
-	/* First row of table is column headers - starting with yeargroup*/
+	/* First row of table is column headers - starting with identifying the student group. */
 	if($yid!=''){$viewtable[0]['cohort']=get_string('yeargroup').' '.$yid;}
 	elseif($fid!=''){$viewtable[0]['cohort']=get_string('formgroup').' '.$fid;}
 	else{$viewtable[0]['cohort']=get_string('cohort').' '.$stage.' '.$year;}
-	if($breakdown=='subject'){
-		$hids=$assbids;
-		$aids=$eids;
-		while(list($c3,$bidpid)=each($assbids)){
-			$viewtable[0]['out'][]=$bidpid;
-			$viewtable[0]['count'][]=0;
-			}
-		}
-	elseif($breakdown=='assessment'){
-		$hids=$eids;
-		$aids=$assbids;
-		while(list($c4,$eid)=each($hids)){
-			$viewtable[0]['out'][]=$assdefs[$eid]['Description']['value'];
-			}
+
+	foreach($assbids as $bidpid){
+		$viewtable[0]['out'][]=$bidpid;
+		$viewtable[0]['count'][]=0;
 		}
 
 	/* the main loop - working the values for each student row in the table*/
 	for($rowno=1;$rowno<sizeof($viewtable);$rowno++){
 		$sid=$viewtable[$rowno]['student']['id'];
 		$Assessments=array();
-		while(list($index,$eid)=each($eids)){
+		foreach($eids as $eid){
 			$Assessments=array_merge($Assessments,fetchAssessments($sid,$eid));
 			}
-		reset($eids);
 
 		/* generate an index to lookup values from the assessments' array*/
-		$assaids=array();
-		$asshids=array();
-		if($breakdown=='subject'){
-			while(list($assno,$Assessment)=each($Assessments)){
-				$eid=$Assessment['id_db'];
-				$bid=$Assessment['Subject']['value'];
-				$pid=$Assessment['SubjectComponent']['value'];
-				$asshids[$bid . $pid][]=$assno;
-				$assaids[$eid][]=$assno;
-				}
-			}
-		elseif($breakdown=='assessment'){
-			while(list($assno,$Assessment)=each($Assessments)){
-				$eid=$Assessment['id_db'];
-				$bid=$Assessment['Subject']['value'];
-				$pid=$Assessment['SubjectComponent']['value'];
-				$asshids[$eid][]=$assno;
-				$assaids[$bid. $pid][]=$assno;
-				}
+		$ass_indexes=array();
+		foreach($Assessments as $assno => $Assessment){
+			$bid=''.$Assessment['Subject']['value'];
+			$pid=''.$Assessment['SubjectComponent']['value'];
+			$ass_indexes[trim($bid . $pid)][]=$assno;
 			}
 
-		/* each cell averages over all selected assessments for one hid*/
-		reset($hids);
+		/* each cell averages over all selected assessments for one bid*/
 		$colcount=-1;
-		while(list($c33,$hid)=each($hids)){
+		foreach($assbids as $bidpid){
+			$bidpid=trim($bidpid);
 			$colcount++;
-		  if(array_key_exists($hid,$asshids)){
-			  /*any assessments for this hid?*/
-			$assnos=$asshids[$hid];/*all of the entries in Assessments for this hid*/
-			$gradesum=0;
-			$gradecount=0;
-			$scorecount=0;
-			/*average over all possible Assessments, indexed by assnos*/
-			for($c=0;$c<sizeof($assnos);$c++){
-				$assno=$assnos[$c];
-				$Assessment=$Assessments[$assno];
-				$eid=$Assessment['id_db'];
-				if($breakdown=='subject'){$aid=$eid;}
-				else{$aid=$Assessment['Subject']['value'].$Assessment['SubjectComponent']['value'];}
-				/* if this matches one of the chosen aids then include in average*/
-				if(in_array($aid,$aids)){
-					/* get the marktype for this cell  based on one of the
-					Assessments, this simplistically assumes all assessments have
-					the same marktype - can't do much else until there is the ability
-					to translate between grading schemes*/
-			   		$crid=$Assessment['Course']['value'];
-					if($assdefs[$eid]['GradingScheme']['grades']!=''){
-						$result=$Assessment['Result']['value'];
-						$score=gradeToScore($result,$assdefs[$eid]['GradingScheme']['grades']);
-	   					$gradesum=$gradesum+$score;
-		   				$gradecount++;
-						}
-					else{
-						$result=$Assessment['Value']['value'];
-						$score=$result;
-	   					$gradesum=$gradesum+$score;
-		   				$scorecount++;
+			$result='';
+			/* Any assessments for this bid? */
+			if(array_key_exists($bidpid,$ass_indexes)){
+				/*all of the entries in Assessments for this bid*/
+				$assnos=(array)$ass_indexes[$bidpid];
+
+				/*average over all possible Assessments, indexed by assnos*/
+				foreach($assnos as $assno){
+					$Assessment=$Assessments[$assno];
+					$eid=$Assessment['id_db'];
+
+					/* if this matches one of the chosen eids then include in average*/
+					if(in_array($eid,$eids)){
+						/* get the marktype for this cell  based on one of the
+						   Assessments, this simplistically assumes all assessments have
+						   the same marktype - can't do much else until there is the ability
+						   to translate between grading schemes
+						*/
+						if($assdefs[$eid]['GradingScheme']['grades']!=''){
+							$result.=$Assessment['Result']['value'].' ';
+							}
+						else{
+							$result.=$Assessment['Value']['value'].' ';
+							}
 						}
 					}
 				}
+			
+			if($result!=''){
+				$viewtable[$rowno]['out'][]=$result;
+				$viewtable[0]['count'][$colcount]=1;
+				}
+			else{
+				$viewtable[$rowno]['out'][]='';
+				}
 			}
-		  else{$assnos=array(); $gradecount=0; $scorecount=0;}
-
-		  /*display the assessment average*/
-		  if($gradecount>0){
-					$scoreaverage=$gradesum/$gradecount;
-					$scoreaverage=round($scoreaverage,1);
-					$score=round($scoreaverage);
-					$grade=scoreToGrade($score,$assdefs[$eid]['GradingScheme']['grades']);
-					$viewtable[0]['count'][$colcount]=1;
-					}
-		  elseif($scorecount>0){
-					$scoreaverage=$gradesum/$scorecount;
-					$scoreaverage=round($scoreaverage,1);
-					$grade=round($scoreaverage);
-					$viewtable[0]['count'][$colcount]=1;
-					}
-		  else{$score='';$scoreaverage='';$grade='';}
-		  if(isset($gradestats[$grade])){$gradestats[$grade]=$gradestats[$grade]+1;/*sum for stats*/}
-		  else{$gradestats[$grade]=0;$gradestats[$grade]=$gradestats[$grade]+1;}
-		  if($gradecount>1){
-			  $viewtable[$rowno]['out'][]=$grade.' ('.$scoreaverage.')';
-			  }
-		  elseif($scorecount>1){
-			  $viewtable[$rowno]['out'][]=$scoreaverage;
-			  }
-		  else{
-			  $viewtable[$rowno]['out'][]=$grade;
-			  }
-			}
-
-		/*TODO: end of row average needed here*/
 		}
 ?>
 
 	  <div id="viewcontent" class="content fullwidth">
-		<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>"> 
-		<table class="listmenu sidtable" id="sidtable">
+		<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
+
+
+	  <fieldset class="right">
+		<legend><?php print_string('template',$book);?></legend>
+		<div class="center">
+<?php
+	$onchange='yes';$required='no';
+   	$d_catdef=mysql_query("SELECT DISTINCT comment AS id, name AS name FROM categorydef WHERE
+								  type='pro' AND comment!='' ORDER BY course_id;");
+	$listname='template';$onchange='no';$required='yes';
+	include('scripts/set_list_vars.php');
+	list_select_db($d_catdef,$listoptions,$book);
+	unset($listoptions);
+?>
+		</div>
+	  </fieldset>
+ 
+		<table class="listmenu sidtable center" id="sidtable">
 			<tr>
 		<th colspan="1"><?php print_string('checkall'); ?>
 		  <input type="checkbox" name="checkall" 
@@ -350,7 +304,7 @@ $students=array();
 <?php
 			}
 		}
-	while(list($index,$eid)=each($eids)){
+	foreach($eids as $eid){
 ?>
 			<input type="hidden" name="eids[]" value="<?php print $eid;?>" />
 <?php
@@ -364,27 +318,27 @@ $students=array();
 
 		<div id="xml-checked-action" style="display:none;">
 <?php 
-
-if(isset($profid)){$profile=get_assessment_profile($profid);}
+if(isset($profid)){
+	$profile=get_assessment_profile($profid);
+	}
 else{
-$profile['name']='blank';
-$profile['course_id']='';
-$profile['subject_id']='%';
-$profile['component_status']='All';
-$profile['rating_name']='average';
-$profile['bid']='%';
-}
+	$profile['name']='blank';
+	$profile['course_id']='';
+	$profile['subject_id']='%';
+	$profile['component_status']='All';
+	$profile['rating_name']='average';
+	$profile['bid']='%';
+	}
 $profile['eids']=(array)$eids;
 $profile['year']=$year;
 if($profile['crid']=='FS'){
-        $profile['bid']='EY';
+	$profile['bid']='EY';
 	}
-if($template!=''){
-        $profile['transform']=$template;
-        }
 $profile['stage']=$stage;
 $profile['pid']='';
 //$profile['stage']='R';
+/* selectname needed for js to capture the template field */
+$profile['selectname']='template';
 xmlechoer('Profile',$profile);
 ?>
 		</div>

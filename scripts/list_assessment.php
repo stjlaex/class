@@ -36,18 +36,18 @@
 							 );
 			}
 		}
-	/* no academic repsonsiiblity set so use a selected pastoral group */
+	/* no academic repsonsiblity set so use a selected pastoral group */
 	elseif(sizeof($ryids)>0){
 		reset($ryids);
    		foreach($ryids as $ryid){
-			$comcohorts=(array)list_community_cohorts(array('id'=>'','type'=>'year','name'=>$ryid));
-			while(list($index,$cohort)=each($comcohorts)){
+			$comcohorts=(array)list_community_cohorts(array('id'=>'','type'=>'year','name'=>$ryid),false);
+			foreach($comcohorts as $cohort){
 				$cohorts[$cohort['id']]=$cohort;
 				}
 			}
 		}
 	elseif(sizeof($rforms)>0){
-		$cohorts=list_community_cohorts(array('id'=>'','type'=>'form','name'=>$rforms[0]['name']));
+		$cohorts=list_community_cohorts(array('id'=>'','type'=>'form','name'=>$rforms[0]['name']),false);
 		}
 
 	if(!isset($required)){$required='yes';}
@@ -66,6 +66,9 @@
 		foreach($cohorts as $cohort){
 			$AssDefs=array();
 			$AssDefs=(array)fetch_cohortAssessmentDefinitions($cohort,$selprofid);
+
+			print '<optgroup label="'.$cohort['course_id'].' - '.$cohort['year'].'">';
+
 			foreach($AssDefs as$AssDef){
 				if(!array_key_exists($AssDef['id_db'],$eids)){
 					$eids[$AssDef['id_db']]=$AssDef['id_db'];
@@ -74,13 +77,16 @@
 <?php
 					if(in_array($AssDef['id_db'], $seleids)){print ' selected="selected" ';}
 					print 'value="'.$AssDef['id_db'].'">';
-					print $AssDef['Course']['value']. ' '.$AssDef['Stage']['value'].' ('.
-						display_date($AssDef['Deadline']['value']).') '.$AssDef['Description']['value'];
+					print $AssDef['Description']['value']. ' ('.display_date($AssDef['Deadline']['value']).' )';
+					if($AssDef['Stage']['value']!='%'){
+						print ' - '.$AssDef['Stage']['value'];
+						}
 ?>
 		</option>
 <?php
 					}
 				}
+			print '</optgroup>';
 			}
 ?>
 	</select>

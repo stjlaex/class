@@ -16,7 +16,6 @@ if(isset($_POST['gender'])){$gender=$_POST['gender'];}else{$gender='';}
 if(isset($_POST['year'])){$year=$_POST['year'];}
 if(isset($_POST['stage'])){$stage=$_POST['stage'];}
 if(isset($_POST['cid'])){$cid=$_POST['cid'];}
-if(isset($_POST['template'])){$template=$_POST['template'];}
 if(isset($_POST['gender'])){$gender=$_POST['gender'];}
 if(isset($_POST['eids'])){$eids=(array)$_POST['eids'];}else{$eids=array();}
 
@@ -47,7 +46,7 @@ three_buttonmenu();
 <?php
 		if($r>-1){
 ?>
-	  <fieldset class="center">
+	  <fieldset class="right">
 		<legend><?php print_string('limitbysubject',$book);?></legend>
 		<div class="left" >
 <?php
@@ -64,7 +63,7 @@ three_buttonmenu();
 		if($r>-1 or isset($cohorts)){
 ?>
 
-	  <fieldset class="center">
+	  <fieldset class="left">
 		<legend><?php print_string('choosetoinclude',$book);?></legend>
 		<div class="center" >
 <?php
@@ -75,9 +74,9 @@ three_buttonmenu();
 		</div>
 	  </fieldset>
 
-	  <fieldset class="left">
-		<legend><?php print_string('assessmentprofile',$book);?></legend>
-		<div class="center">
+	  <fieldset class="center">
+		<legend><?php print_string('assessments',$book);?></legend>
+		<div class="right">
 <?php 
 	$profiles=array();
 	if(isset($cohorts)){
@@ -92,33 +91,14 @@ three_buttonmenu();
 	include('scripts/list_assessment_profile.php');
 ?>
 		</div>
-	  </fieldset>
-	  <fieldset class="right">
-		<legend><?php print_string('template',$book);?></legend>
-		<div class="center">
-<?php
-	$onchange='yes';$required='no';
-   	$d_catdef=mysql_query("SELECT DISTINCT comment AS id, comment AS name FROM categorydef WHERE
-								  type='pro' AND comment!='' ORDER BY course_id;");
-	$listname='template';$onchange='no';
-	include('scripts/set_list_vars.php');
-	list_select_db($d_catdef,$listoptions,$book);
-	unset($listoptions);
-?>
-		</div>
-	  </fieldset>
 
-
-
-	  <fieldset class="center">
-		<legend><?php print_string('assessments',$book);?></legend>
-		<div class="center" >
+		<div class="left" >
 <?php
 	if($selyid!=''){$ryids=array('0'=>$selyid);$rforms=array();}
 	elseif($selfid!=''){$rforms=array('0'=>array('name'=>$selfid));$ryids=array();}
 	if($profid==''){$selprofid='%';}
 	else{$selprofid=$profid;}
-	$required='no';
+	$required='yes';$multi=15;
 	include('scripts/list_assessment.php');
 ?>
 		</div>

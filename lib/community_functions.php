@@ -606,7 +606,7 @@ function listin_community_extra($community,$extra,$enddate='',$startdate=''){
  *
  *	@param integer $sid
  *	@param array $community 
-
+ *  $param boolean $current
  *	@return array
  */
 function list_member_communities($sid,$community,$current=true){
@@ -943,10 +943,12 @@ function get_student_yeargroup($sid){
  * Only returns cohorts for this academic year.
  *
  *	@param array $community
+ *  @param boolean $current
+ *
  *	@return array
  *
  */
-function list_community_cohorts($community){
+function list_community_cohorts($community,$current=true){
 	if($community['type']=='form'){
 		/*forms only associate with cohorts through their yeargroup*/
 		$fid=$community['name'];
@@ -960,14 +962,18 @@ function list_community_cohorts($community){
 	$cohorts=array();
 	$d_cohort=mysql_query("SELECT * FROM cohort JOIN
 						cohidcomid ON cohidcomid.cohort_id=cohort.id WHERE
-						cohidcomid.community_id='$comid' ORDER BY course_id;");
+						cohidcomid.community_id='$comid' ORDER BY year DESC, course_id;");
    	while($cohort=mysql_fetch_array($d_cohort, MYSQL_ASSOC)){
-		$currentyear=get_curriculumyear($cohort['course_id']);
-		$currentseason='S';
-		if($cohort['year']==$currentyear and $cohort['season']==$currentseason){
+		if($current){
+			$currentyear=get_curriculumyear($cohort['course_id']);
+			$currentseason='S';
+			if($cohort['year']==$currentyear and $cohort['season']==$currentseason){
+				$cohorts[]=$cohort;
+				}
+			}
+		else{
 			$cohorts[]=$cohort;
 			}
-		//$cohorts[]=$cohort;
 		}
 	return $cohorts;
 	}
