@@ -103,7 +103,7 @@ three_buttonmenu($extrabuttons);
 		foreach($users as $uid => $user){
 			$Responsible=array('id_db'=>$com['gid'].'-'.$uid);
 			if($user['role']!='office' and $user['username']!='administrator'){
-				if($perms['x']==1){
+				if($perms['w']==1){
 ?>
 			<div  id="<?php print $com['gid'].'-'.$uid;?>" class="rowaction" >
 			  <button type="button" title="Remove this responsibility"

@@ -1,6 +1,7 @@
 <?php
 /**										scripts/list_assessment.php
  *
+ *
  * $multi>1 returns eids[] or $multi=1 returns eid (default=10)
  * set $required='no' to make not required (default=yes)
  * first call returns eid, second call returns eid1 etc.
@@ -62,22 +63,20 @@
 		<option value=""></option>
 <?php
 		$eids=array();
-   		while(list($index,$cohort)=each($cohorts)){
+		foreach($cohorts as $cohort){
 			$AssDefs=array();
 			$AssDefs=(array)fetch_cohortAssessmentDefinitions($cohort,$selprofid);
-			while(list($index,$AssDef)=each($AssDefs)){
+			foreach($AssDefs as$AssDef){
 				if(!array_key_exists($AssDef['id_db'],$eids)){
 					$eids[$AssDef['id_db']]=$AssDef['id_db'];
 ?>
 		<option 
 <?php
-		if(in_array($AssDef['id_db'], $seleids)){print ' selected="selected" ';}
+					if(in_array($AssDef['id_db'], $seleids)){print ' selected="selected" ';}
+					print 'value="'.$AssDef['id_db'].'">';
+					print $AssDef['Course']['value']. ' '.$AssDef['Stage']['value'].' ('.
+						display_date($AssDef['Deadline']['value']).') '.$AssDef['Description']['value'];
 ?>
-			value="<?php print $AssDef['id_db'];?>">
-				<?php print 
-					$AssDef['Course']['value']. 
-				 ' '.$AssDef['Stage']['value'].' ('.
-					display_date($AssDef['Deadline']['value']).') '.$AssDef['Description']['value'];?>
 		</option>
 <?php
 					}

@@ -35,7 +35,7 @@ if(sizeof($sids)==0){
 	}
 else{
 	if($xmlid==-1){
-		while(list($index,$eid)=each($eids)){
+		foreach($eids as $eid){
 			$AssDef=fetchAssessmentDefinition($eid);
 			$AssDefs[]=$AssDef;
 			}
@@ -65,7 +65,7 @@ else{
 
 		if(sizeof($eids)>0){
 			$AssDefs=array();
-			foreach($eids as $eindex => $eid){
+			foreach($eids as $eid){
 				$AssDefs[]=fetchAssessmentDefinition($eid);
 				}
 			}
@@ -106,6 +106,7 @@ else{
 	for($ec=0;$ec<sizeof($AssDefs);$ec++){
 		unset($bdate);
 		$assdate=$AssDefs[$ec]['Deadline']['value'];
+		$grading_grades=$AssDefs[$ec]['GradingScheme']['grades'];
 		foreach($bands as $date=>$band){
 			if($assdate>$date or !isset($bdate)){$bdate=$date;}
 			//trigger_error($profilename.':'.$assdate.': '.$date. ' -------> '. $bdate,E_USER_WARNING);
@@ -125,7 +126,6 @@ else{
 
 	/* TODO: this assumes all are using same gradescheme */
 	$restable=array();
-	$grading_grades=$AssDefs[1]['GradingScheme']['grades'];
 	$pairs=explode(';', $grading_grades);
 	for($c=0;$c<sizeof($pairs);$c++){
 		list($levelgrade,$level)=explode(':',$pairs[$c]);

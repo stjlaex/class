@@ -12,6 +12,15 @@ if(isset($_POST['selyid'])){$selyid=$_POST['selyid'];}
 if(isset($_POST['profid'])){$profid=$_POST['profid'];}else{$profid='%';}
 if(isset($_POST['gender'])){$gender=$_POST['gender'];}else{$gender='';}
 
+
+if(isset($_POST['year'])){$year=$_POST['year'];}
+if(isset($_POST['stage'])){$stage=$_POST['stage'];}
+if(isset($_POST['cid'])){$cid=$_POST['cid'];}
+if(isset($_POST['template'])){$template=$_POST['template'];}
+if(isset($_POST['gender'])){$gender=$_POST['gender'];}
+if(isset($_POST['eids'])){$eids=(array)$_POST['eids'];}else{$eids=array();}
+
+
 if($selfid!=''){
 	$cohorts=list_community_cohorts(array('id'=>'','type'=>'form','name'=>$selfid));
 	}

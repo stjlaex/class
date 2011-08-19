@@ -15,7 +15,7 @@ $perms=getYearPerm($yid);
 $perms['x'];
 $Responsible=array();
 $Responsible['id_db']=$xmlid;
-if($perms['x']==1){
+if($perms['w']==1){
 	$newperms=array('r'=>0,'w'=>0,'x'=>0);
 	$result[]=update_staff_perms($uid,$gid,$newperms);
 	$Responsible['exists']='false';
