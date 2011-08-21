@@ -79,6 +79,11 @@ allows multiple cohorts even for pastoral groups.
 Reworked and simplified the report_assessments script to make more
 usable.
 
+Fix to listing contact addresses in InfoBook when fetchsinglefield was used.
+
+Improved the printgeneric js to disable all links and buttons. Tidied
+the css for generic printing.
+
 eportfolio_reports_publish is under construction!
 
 

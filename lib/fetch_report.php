@@ -819,6 +819,28 @@ function fetchReportSummaries($rid){
 	}
 
 
+/**
+ *
+ *	Simply checks to see if the report for this sid has been published
+ *	ie. has an entry in report_event table. Returns a css row class
+ *	to colour the sidtable.
+ *
+ */
+function checkReportPub($rid,$sid){
+	$d_a=mysql_query("SELECT success FROM report_event 
+						WHERE report_id='$rid' AND student_id='$sid';");
+
+	if(mysql_num_rows($d_a)==0){
+		$class='';
+		}
+	else{
+		$success=mysql_result($d_a,0);
+		if($success==1){$class='nolite lowlite';}
+		else{$class='lowlite';}
+		}
+	return $class;
+	}
+
 
 /**
  *
@@ -876,6 +898,7 @@ function checkReportEntryCat($rid,$sid,$bid,$pid){
 
 	return $ass;
 	}
+
 
 
 

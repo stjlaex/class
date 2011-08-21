@@ -185,7 +185,7 @@ two_buttonmenu($extrabuttons,$book);
 			$sortno=$dno+3;
 			$sort_types.=",'s'";
 ?>
-	  <th>
+	  <th  class="noprint">
 		<div class="rowaction">
 		  <input class="underrow" type='button' name='action' value='v' onClick='tsDraw("<?php print $sortno;?>A", "sidtable");' />
 		  <input class="underrow"  type='button' name='action' value='-' onClick='tsDraw("<?php print $sortno;?>U", "sidtable");' />
@@ -280,7 +280,7 @@ two_buttonmenu($extrabuttons,$book);
 		}
 ?>
 	</tbody>
-	<tfoot>
+	<tfoot class="noprint">
 		<tr>
 		  <th colspan="3">
 		  <div class="rowaction">

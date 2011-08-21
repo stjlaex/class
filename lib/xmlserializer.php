@@ -151,8 +151,8 @@ function xmlprocessor($xml,$xsl_filename,$output_filename=NULL){
 					   );
 	$xh=xslt_create();
 	$template_filepath='file://'.$CFG->installpath.'/templates/'.$xsl_filename;
-	xslt_set_base($xh,$filebase);
-	if($output_filepath!=''){$output_filepath='file://'.$CFG->eportfolio_database.'/cache/reports/'.$output_filename;}
+	//xslt_set_base($xh,$filebase);
+	if($output_filename!=''){$output_filepath='file://'.$CFG->eportfolio_database.'/cache/reports/'.$output_filename;}
 	else{$output_filepath=NULL;}
 	$html=xslt_process($xh
 					   ,'arg:/_xml'

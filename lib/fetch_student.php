@@ -196,28 +196,21 @@ function fetchStudent_singlefield($sid,$tag){
 			/*
 			 * NOT a part of the xml def for Student but useful here.
 			 */
-			$d_add=mysql_query("SELECT DISTINCT id, street, neighbourhood, region, postcode, country FROM address
-							JOIN gidaid ON gidaid.address_id=address.id WHERE 
-							gidaid.guardian_id=ANY(SELECT guardian_id FROM gidsid WHERE gidsid.student_id='$sid'
-							AND gidsid.mailing='1' AND gidsid.priority='$contactno');");
+			$Contacts=(array)fetchContacts($sid);
 			$Student[$tag]=array('label'=>'',
 								 'value'=>'');
-			if(mysql_num_rows($d_add)>0){
-				$noa=0;
-				while($add=mysql_fetch_array($d_add,MYSQL_ASSOC)){
-					if(trim($add['street'])!=''){
-						$noa++;
-						if($noa>1){$Student[$tag]['value'].='<br />';}
-						$Student[$tag]['value'].=$add['street'].', '. $add['neighbourhood'].', '. $add['region'].' '. $add['country']. ' '. $add['postcode'];
-						}
-					}
+			if(sizeof($Contacts[$contactno]['Addresses'])>0){
+				$Add=$Contacts[$contactno]['Addresses'][0];
+				if($Contacts[$contactno]['ReceivesMailing']['value']==0){$displayclass='class="lowlite"';}else{$displayclass='';}
+				$Student[$tag]['value']='<div '.$displayclass.'>'.$Add['Street']['value'].' '. $Add['Neighbourhood']['value'].' '. $Add['Town']['value'].' '. $Add['Country']['value']. ' '. $Add['Postcode']['value'].'</div>';
 				}
 			}
 		elseif(substr_count($tag,'EmailAddress')){
 			/*NOT a part of the xml def for Student but useful here*/
 			$Contacts=(array)fetchContacts($sid);
+			if($Contacts[$contactno]['ReceivesMailing']['value']==0){$displayclass='class="lowlite"';}else{$displayclass='';}
 			$Student[$tag]=array('label'=>'',
-								 'value'=>''.$Contacts[$contactno]['EmailAddress']['value']);
+								 'value'=>'<div '.$displayclass.'>'.$Contacts[$contactno]['EmailAddress']['value'].'</div>');
 			}
 		elseif(substr_count($tag,'EPFUsername')){
 			/*NOT a part of the xml def for Student but useful here*/
@@ -267,7 +260,7 @@ function fetchStudent_singlefield($sid,$tag){
 		else{
 			/*NOT a part of the xml def for Student but useful here*/
 			$Contacts=(array)fetchContacts($sid);
-			$firstcontact= $Contacts[$contactno]['Forename']['value']. ' '.$Contacts[$contactno]['Surname']['value'];
+			$firstcontact=$Contacts[$contactno]['Forename']['value']. ' '.$Contacts[$contactno]['Surname']['value'];
 			$Student[$tag]=array('label'=>'',
 								 'value'=>'');
 			$Student[$tag]['value']=''.$firstcontact; 
@@ -714,7 +707,7 @@ function fetchContact($gidsid=array('guardian_id'=>'-1','student_id'=>'-1','prio
 											 'value' => ''.$Contact['AddressTitle']['value']);
 		}
 	else{
-		$Contact['DisplayAddressName']=array('label' => 'labelname',  
+		$Contact['DisplayAddressName']=array('label' => 'labelname',
 											 'value' => $title. ' ' . $guardian['surname']);
 		}
 	$Contact['EmailAddress']=array('label' => 'email', 
@@ -762,8 +755,7 @@ function fetchContact($gidsid=array('guardian_id'=>'-1','student_id'=>'-1','prio
 
 	/*******ContactsAddresses****/
 	$Addresses=array();
-	$d_gidaid=mysql_query("SELECT * FROM gidaid WHERE 
-					guardian_id='$gid' ORDER BY priority;");
+	$d_gidaid=mysql_query("SELECT * FROM gidaid WHERE guardian_id='$gid' ORDER BY priority;");
 	while($gidaid=mysql_fetch_array($d_gidaid,MYSQL_ASSOC)){
 		$Addresses[]=fetchAddress($gidaid);
 		}

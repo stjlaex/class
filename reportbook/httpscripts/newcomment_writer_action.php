@@ -10,7 +10,7 @@ $inno=$_POST['inno'];/*the number of textareas to expect*/
 $incom='';
 $tid=$_SESSION['username'];
 
-trigger_error('INNO: '.$inno,E_USER_WARNING);
+//trigger_error('INNO: '.$inno,E_USER_WARNING);
 
 if($sub=='Cancel'){
 	$openerId='-100';

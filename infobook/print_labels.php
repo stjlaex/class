@@ -59,26 +59,38 @@ $blank_gids=array();
 			$Recipient['StudentNumber']=$Student['EnrolNumber'];
 			if($Contact['ReceivesMailing']['value']=='1'){
 				/* Only contacts who are flagged to receive all mailings */
-				if(sizeof($Contact['Addresses'])>0){
-					$Recipient['Address']=$Contact['Addresses'];
-					if($messageto=='contacts'){
+				if(sizeof($Contact['Addresses'])>0 and ($Contact['Addresses'][0]['Street']['value']!='' or $Contact['Addresses'][0]['Neighbourhood']['value']!='')){
+					$Recipient['Address']=$Contact['Addresses'][0];
+					$aid=$Recipient['Address']['id_db'];
+					$gid=$Contact['id_db'];
+					/* The templates for labels will always use the
+					   displayfullname tag for addressing. Fix the recipient
+					   value here appropriately but this value is only for labels.
+					*/
+					if($messageto=='contacts' and !isset($recipient_index[$gid])){
+						/* once per contact */
+						$recipient_index[$gid]=$gid;
 						$Recipient['DisplayFullName']=$Contact['DisplayFullName'];
 						$Recipients['Recipient'][]=$Recipient;
 						$sid_recipient_no++;
 						}
 					elseif($messageto=='student' and !isset($recipient_index[$sid])){
+						/* once per contact per student */
 						$recipient_index[$sid]=$sid;
-						$Recipient['DisplayFullName']=$Student['DisplayFullName'];
+						$Recipient['DisplayFullName']=$Contact['DisplayFullName'];
 						$Recipients['Recipient'][]=$Recipient;
 						$sid_recipient_no++;
 						}
-					elseif($messageto=='family' and !isset($recipient_index[$Contact['id_db']])){
-						$recipient_index[$Contact['id_db']]=$Contact['id_db'];
+					elseif($messageto=='family' and !isset($recipient_index[$aid])){
+						/* once per household */
+						$recipient_index[$aid]=$aid;
 						$Recipient['DisplayFullName']=$Contact['DisplayAddressName'];
 						$Recipients['Recipient'][]=$Recipient;
 						$sid_recipient_no++;
 						}
-					elseif(isset($recipient_index[$sid]) or isset($recipient_index[$Contact['id_db']])){
+					elseif((isset($recipient_index[$sid]) and $messageto=='student') 
+						   or (isset($recipient_index[$gid]) and $messageto=='contacts') 
+						   or (isset($recipient_index[$aid]) and $messageto=='family')){
 						$sid_recipient_no++;
 						}
 					}

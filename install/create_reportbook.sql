@@ -144,5 +144,6 @@ CREATE TABLE report_event (
 	date			date not null default '0000-00-00',
 	success			enum('0', '1') not null,
 	time			timestamp(14),
+	try				tinyint(4) not null default '0'
 	primary key 	(report_id,student_id)
 ) type=myisam;

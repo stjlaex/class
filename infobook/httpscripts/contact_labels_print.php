@@ -4,6 +4,7 @@
  * Allows for a list of sids to select the recipients (coming from the
  * Admin book probably). Or an already selected list of recipients set as a
  * session var within the InfoBook.
+ *
  */
 
 require_once('../../scripts/http_head_options.php');

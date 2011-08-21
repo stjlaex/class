@@ -207,7 +207,24 @@ function printGenericContent(iFrameName){
 		if(window.frames["view"+currentbook].document.getElementById("heading")){
 			contentToPrint=window.frames["view"+currentbook].document.getElementById("heading").innerHTML;
 			}
-		contentToPrint=contentToPrint + window.frames["view"+currentbook].document.getElementById("viewcontent").innerHTML;
+
+		var contentDiv=window.frames["view"+currentbook].document.getElementById("viewcontent");
+
+		var alinks = contentDiv.getElementsByTagName("a");
+		for(c=0;c<alinks.length;c++){
+			alinks[c].setAttribute("href","#");
+			alinks[c].setAttribute("onclick","return false");
+			}
+		var alinks = contentDiv.getElementsByTagName("input");
+		for(c=0;c<alinks.length;c++){
+			alinks[c].setAttribute("onclick","return false");
+			}
+		var alinks = contentDiv.getElementsByTagName("button");
+		for(c=0;c<alinks.length;c++){
+			alinks[c].setAttribute("onclick","return false");
+			}
+
+		contentToPrint=contentToPrint + contentDiv.innerHTML;
 		}
 	else{
 		contentToPrint="<h3>There is no printer friendly content on this page.</h3>";

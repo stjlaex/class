@@ -1,54 +1,15 @@
 <?php
-/**
- *									report_reports_publish.php
- *
- * Publishes the selected reports to html files
- * and then schedules a cron event for pdf conversion 
- * (if the html2ps package is available through $CFG -> html2psscript)
- *
- */
-
-$action='report_reports.php';
-$action_post_vars=array('rids');
-
-if(isset($_POST['sids'])){$sids=(array) $_POST['sids'];}else{$sids=array();}
-if(isset($_POST['rids'])){$rids=(array) $_POST['rids'];}else{$rids=array();}
-
-if(isset($_POST['wrapper_rid'])){$wrapper_rid=$_POST['wrapper_rid'];}else{$wrapper_rid=$rids[0];}
-
-include('scripts/sub_action.php');
-
-	if(sizeof($sids)==0){
-		$result[]=get_string('youneedtoselectstudents');
-   		include('scripts/results.php');
-   		include('scripts/redirect.php');
-		exit;
-		}
-
-	if($wrapper_rid!=''){
+		$rids=array();
+		$reportdefs=array();
+		$rids[]=$wrapper_rid;
+		$reportdefs[]=fetch_reportdefinition($wrapper_rid);
 		$d_rid=mysql_query("SELECT categorydef_id AS report_id FROM ridcatid WHERE
 				 report_id='$wrapper_rid' AND subject_id='wrapper' ORDER BY categorydef_id;");
-		$rids=array();
-		$rids[]=$wrapper_rid;
-		while($rid=mysql_fetch_array($d_rid,MYSQL_ASSOC)){
-			$rids[]=$rid['report_id'];
+		while($r=mysql_fetch_array($d_rid,MYSQL_ASSOC)){
+			$rids[]=$r['report_id'];
+			$reportdefs[]=fetch_reportdefinition($r['report_id']);
 			}
-		}
 
-
-	/* Find the definition specific to each report */
-	$reportdefs=array();
-	for($c=0;$c<sizeof($rids);$c++){ 
-		$reportdefs[]=fetch_reportdefinition($rids[$c]);
-		}
-
-	/* reportdefs index 0 will be the wrapper if one is used */
-	$pubdate=$reportdefs[0]['report']['date'];
-	$paper=$reportdefs[0]['report']['style'];
-	$transform=$reportdefs[0]['report']['transform'];
-
-	for($c=0;$c<sizeof($sids);$c++){
-		$sid=$sids[$c];
 		$Student=(array)fetchStudent_short($sid);
 		$Reports=(array)fetchSubjectReports($sid,$reportdefs);
 		$Reports['Coversheet']='yes';/* No longer used, always yes */
@@ -66,6 +27,7 @@ include('scripts/sub_action.php');
 
 		/*Finished with the student's reports. Output the result as xml.*/
 		$xsl_filename=$transform.'.xsl';
+		$imagepath='http://'.$CFG->siteaddress.$CFG->sitepath.'/images/';
 		$html_header='<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/DTD/loose.dtd">
 <html>
 <head>
@@ -79,8 +41,10 @@ include('scripts/sub_action.php');
 		$xml=xmlpreparer('student',$Student);
 		$xml='<'.'?xml version="1.0" encoding="utf-8"?'.'><students>'.$xml.'</students>';
 		$html_report=xmlprocessor($xml,$xsl_filename);
+		$html_report=eregi_replace('../images/',$imagepath,$html_report);
 		if(!empty($html_report)){
-			$html=$html_header. $html_report . $html_footer;
+			$html_css=file_get_contents($CFG->installpath.'/templates/'.$transform.'.css');
+			$html_file=$html_header. $html_report . $html_footer;
 			/**
 			 * Write the html to a file in the reports folder.
 			 */
@@ -90,25 +54,13 @@ include('scripts/sub_action.php');
 				$error[]='Unable to open file for writing!';
 				}
 			else{
-				fputs($file,$html);
+				fputs($file,$html_file);
 				fclose($file);
-				/* Log to the event table for publication. */
-				if(mysql_query("INSERT INTO report_event SET report_id='$wrapper_rid', 
-							student_id='$sid',date='$pubdate',success='0';")){}
-				else{mysql_query("UPDATE report_event SET success='0' 
-					WHERE report_id='$wrapper_rid' AND student_id='$sid';");}
 				}
 			}
 		else{
+			$success=false;
 			trigger_error('Report publication failed for: '.$sid. ' '.$Student['Surname']['value'],E_USER_WARNING);
 			$error[]='Report publication failed for: '.$sid.' '.$Student['Surname']['value'];
 			}
-		}
-
-if(!isset($error)){
-	$result[]=get_string('scheduledforpublication',$book);
-	}
-
-include('scripts/results.php');
-include('scripts/redirect.php');
 ?>

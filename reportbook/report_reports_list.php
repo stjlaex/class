@@ -40,18 +40,19 @@ if(isset($wrapper_rid)){
 		}
 	}
 else{
-	while(list($index,$rid)=each($postrids)){
+	foreach($postrids as $rid){
 		if($rid!=0){$rids[]=$rid;}
 		}
 	}
 
 $extrabuttons=array();
 $extrabuttons['previewselected']=array('name'=>'current',
-								'value'=>'report_reports_print.php',
-								'onclick'=>'checksidsAction(this)');
+									   'value'=>'report_reports_print.php',
+									   'onclick'=>'checksidsAction(this)');
 if($_SESSION['role']=='admin' and isset($CFG->eportfolio_dataroot) and $CFG->eportfolio_dataroot!=''){
 	$extrabuttons['publishpdf']=array('name'=>'current',
-									  'value'=>'report_reports_publish.php');
+									  'value'=>'report_reports_publish.php',
+									  'onclick'=>'checksidsAction(this)');
 	if($_SESSION['username']=='administrator' and $CFG->emailoff=='no'){
 		/*
 		  $extrabuttons['email']=array('name'=>'current',
@@ -76,13 +77,11 @@ two_buttonmenu($extrabuttons,$book);
 <?php
 	$reports=array();
 	$input_elements='';
-	while(list($index,$rid)=each($rids)){
+	foreach($rids as $rid){
 		$reportdef=fetch_reportdefinition($rid);
 		$reportdefs[]=$reportdef;
-			/*this is to feed the rids to the javascript function*/
-?>
-		  <rids><?php print $rid;?></rids>
-<?php
+		/*this is to feed the rids to the javascript function*/
+		print '<rids>'.$rid.'</rids>';
 	    $input_elements.=' <input type="hidden" name="rids[]" value="'.$rid.'" />';
 		}
 ?>
@@ -99,10 +98,9 @@ two_buttonmenu($extrabuttons,$book);
 			</th>
 			<th colspan="2"><?php print_string('student');?></th>
 <?php
-		reset($rids);
-		while(list($index,$rid)=each($rids)){
+		foreach($rids as $index => $rid){
 				$summaries=(array)$reportdefs[$index]['summaries'];
-				while(list($index2,$summary)=each($summaries)){
+				foreach($summaries as $summary){
 					$summaryid=$summary['subtype'];
 					if($summary['type']=='com'){
 						if($formperm['x']==1 and $summaryid=='form'){
@@ -126,11 +124,12 @@ two_buttonmenu($extrabuttons,$book);
 		  </tr>
 <?php
 	$rown=1;
-	while(list($index,$student)=each($students)){
+	foreach($students as $student){
 		$sid=$student['id'];
 		$comment=comment_display($sid);
+		$rowclass=checkReportPub($rids[0],$sid);
 ?>
-		<tr id="sid-<?php print $sid;?>">
+		<tr id="sid-<?php print $sid;?>" <?php print 'class="'.$rowclass.'"';?>>
 			<td>
 			<input type="checkbox" name="sids[]" value="<?php print $sid; ?>" />
 			<?php print $rown++;?>
@@ -152,17 +151,14 @@ two_buttonmenu($extrabuttons,$book);
 			<div id="merit-<?php print $sid;?>"></div>
 			</td>
 <?php
-		reset($rids);
-		while(list($index,$rid)=each($rids)){
+	   foreach($rids as $index => $rid){
    			$summaries=(array)$reportdefs[$index]['summaries'];
-			while(list($index2,$summary)=each($summaries)){
+			foreach($summaries as $summary){
 				$summaryid=$summary['subtype'];
 				if($summary['type']=='com'){
 					if($formperm['x']==1 and $summaryid=='form'){
-						$d_summaryentry=mysql_query("SELECT teacher_id
-					FROM reportentry WHERE report_id='$rid' AND
-					student_id='$sid' AND subject_id='summary' AND
-					component_id='$summaryid' AND entryn='1'");
+						$d_summaryentry=mysql_query("SELECT teacher_id FROM reportentry WHERE report_id='$rid' AND
+							student_id='$sid' AND subject_id='summary' AND component_id='$summaryid' AND entryn='1'");
 						$openId=$sid.'summary-'.$summaryid;
 ?>
 			<td id="icon<?php print $openId;?>" <?php if(mysql_num_rows($d_summaryentry)>0){print 'class="vspecial"';}?> >
@@ -172,10 +168,8 @@ two_buttonmenu($extrabuttons,$book);
 <?php
 						}
 					elseif($yearperm['x']==1 and $summaryid=='year'){
-						$d_summaryentry=mysql_query("SELECT teacher_id
-					FROM reportentry WHERE report_id='$rid' AND
-					student_id='$sid' AND subject_id='summary' AND
-					component_id='$summaryid' AND entryn='1'");
+						$d_summaryentry=mysql_query("SELECT teacher_id FROM reportentry WHERE report_id='$rid' AND
+							student_id='$sid' AND subject_id='summary' AND component_id='$summaryid' AND entryn='1'");
 						$openId=$sid.'summary-'.$summaryid;
 ?>
 			<td id="icon<?php print $openId;?>" <?php if(mysql_num_rows($d_summaryentry)>0){print 'class="vspecial"';}?> >
@@ -226,8 +220,7 @@ two_buttonmenu($extrabuttons,$book);
 		 * and reportentrys and list in the table highlighting those that
 		 * met this reports required elements for completion. 
 		 */
-		reset($rids);
-		while(list($rindex,$rid)=each($rids)){
+		 foreach($rids as $rindex => $rid){
 			$eids=(array)$reportdefs[$rindex]['eids'];
 		    if(isset($reportdefs[$rindex]['report']['course_id'])){
 				$crid=$reportdefs[$rindex]['report']['course_id'];
@@ -255,17 +248,15 @@ two_buttonmenu($extrabuttons,$book);
 
 				$components=array();
 				if($compstatus!='None'){
-					$components=list_subject_components($bid,$crid,$compstatus);
+					$components=(array)list_subject_components($bid,$crid,$compstatus);
 					}
 				if(sizeof($components)==0){$components[]=array('id'=>' ','name'=>'');}
 
-				reset($components);
 			   	foreach($components as $component){
 					$pid=$component['id'];
 
 					$strands=(array)list_subject_components($pid,$crid);
 
-					reset($eids);
 					$scoreno=0;
 					$eidno=0;
 					foreach($eids as $eid){
