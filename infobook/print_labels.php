@@ -74,9 +74,9 @@ $blank_gids=array();
 						$Recipients['Recipient'][]=$Recipient;
 						$sid_recipient_no++;
 						}
-					elseif($messageto=='student' and !isset($recipient_index[$sid])){
+					elseif($messageto=='student' and !isset($recipient_index[$sid.$aid])){
 						/* once per contact per student */
-						$recipient_index[$sid]=$sid;
+						$recipient_index[$sid.$aid]=$sid;
 						$Recipient['DisplayFullName']=$Contact['DisplayFullName'];
 						$Recipients['Recipient'][]=$Recipient;
 						$sid_recipient_no++;
@@ -88,7 +88,14 @@ $blank_gids=array();
 						$Recipients['Recipient'][]=$Recipient;
 						$sid_recipient_no++;
 						}
-					elseif((isset($recipient_index[$sid]) and $messageto=='student') 
+					elseif($messageto=='studentname' and !isset($recipient_index[$sid])){
+						/* once per household */
+						$recipient_index[$sid]=$sid;
+						$Recipient['DisplayFullName']=$Student['DisplayFullName'];
+						$Recipients['Recipient'][]=$Recipient;
+						$sid_recipient_no++;
+						}
+					elseif((isset($recipient_index[$sid.$aid]) and $messageto=='student') 
 						   or (isset($recipient_index[$gid]) and $messageto=='contacts') 
 						   or (isset($recipient_index[$aid]) and $messageto=='family')){
 						$sid_recipient_no++;
@@ -135,23 +142,42 @@ two_buttonmenu($extrabuttons,$book);
 			<div class="row <?php if($messageto=='family'){print 'checked';}?>">
 			<label for="family"><?php print_string('families',$book);?></label>
 			<input type="radio" name="messageto" onChange="processContent(this);" 
-			title="Every contact - only once per family" id="family" 
+			title="Only once per household" id="family" 
 				tabindex="<?php print $tab++;?>" 
 				value="family" <?php if($messageto=='family'){print 'checked';}?> />
 				</div>
 			<div class="row <?php if($messageto=='contacts'){print 'checked';}?>">
 			<label for="contacts"><?php print_string('contacts',$book);?></label>
 			<input type="radio" name="messageto" onChange="processContent(this);"
-			title="Every contact - once per child" id="contacts" 
+			title="Once per contact" id="contacts" 
 				tabindex="<?php print $tab++;?>" 
 				value="contacts" <?php if($messageto=='contacts'){print 'checked';}?> />
 				</div>
 			<div class="row <?php if($messageto=='student'){print 'checked';}?>">
-			<label for="students"><?php print_string('students');?></label>
+			<label for="student"><?php print_string('students');?></label>
 			<input type="radio" name="messageto" onChange="processContent(this);"
-			title="Students - is NOT sent to any contacts" id="student" 
+			title="Once per student per household" id="student" 
 				tabindex="<?php print $tab++;?>" 
 				value="student" <?php if($messageto=='student'){print 'checked';}?> />
+				</div>
+			</td>
+			</tr>
+	   	</table>
+	   	</div>
+
+		<div class="divgroup center">
+	   	<table class="listmenu">
+			<tr>
+			<td>
+			<label for="family"><?php print_string('badges',$book);?></label>
+			</td>
+			<td>
+			<div class="row <?php if($messageto=='studentname'){print 'checked';}?>">
+			<label for="studentname"><?php print get_string('student').' '.get_string('name');?></label>
+			<input type="radio" name="messageto" onChange="processContent(this);"
+			title="Student name badge " id="student" 
+				tabindex="<?php print $tab++;?>" 
+				value="studentname" <?php if($messageto=='studentname'){print 'checked';}?> />
 				</div>
 			</td>
 			</tr>
@@ -179,7 +205,7 @@ two_buttonmenu($extrabuttons,$book);
 		  <br />
 		  <label for="text"><?php print_string('labeltext',$book);?></label><br />
 		  <textarea  tabindex="<?php print $tab++;?>" name="text" 
-					 cols="28" rows="6" class="nothtmleditorarea" id="text"></textarea>
+					 cols="28" rows="2" class="nothtmleditorarea" id="text"></textarea>
 		</div>
 
 
@@ -262,6 +288,7 @@ two_buttonmenu($extrabuttons,$book);
 	  <params>
 		<selectname>template</selectname>
 		<selectname>explanation</selectname>
+		<selectname>messageto</selectname>
 		<selectname>text</selectname>
 	  </params>
 	</div>

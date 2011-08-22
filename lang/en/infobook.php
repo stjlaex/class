@@ -215,5 +215,6 @@ $string['sharedwithguardians']='Shared';
 $string['private']='Private';
 $string['addresstitle']='Address Title';
 $string['labeltext']='Label Text (leave blank to for addresses)';
+$string['badges']='Name labels';
 $string['']='';
 ?>

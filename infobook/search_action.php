@@ -62,8 +62,8 @@ else{
 	if(isset($_POST['forename']) and $_POST['forename']!=''){$forename=clean_text($_POST['forename']);$table='student';}
 	if(isset($_POST['surname']) and $_POST['surname']!=''){$surname=clean_text($_POST['surname']);$table='student';}
 	/*these are the switchlabels set for guardian and student*/
-	$gfield=$_POST['gfield'];
 	$sfield=$_POST['sfield'];
+	$gfield=$_POST['gfield'];
 	if(isset($_POST['contact'.$gfield]) and $_POST['contact'.$gfield]!=''){
 		$value=clean_text($_POST['contact'.$gfield]);
 		$table='guardian';
@@ -75,6 +75,7 @@ else{
 		$field=$sfield;
 		}
 
+			trigger_error($table.' : '.$field.':'.$value,E_USER_WARNING);
 	/*
 	 *	Returns array of $d_sids and number of $rows in it
 	 *  $table should be set to student or guardian
@@ -84,7 +85,6 @@ else{
 	if(isset($field)){
 		if(($table=='student' or $table=='guardian') and $field=='surname'){
 			/*defaults to surname or gender search*/
-				//OR $field LIKE '%$value%' 
 			$d_sids=mysql_query("SELECT id FROM $table WHERE
 				MATCH (surname) AGAINST ('*$value*' IN BOOLEAN MODE) 
 				OR surname LIKE '%$value%' OR surname='$value' 
@@ -96,17 +96,15 @@ else{
 				OR forename='$value' OR forename LIKE '%$value%'
 				ORDER BY surname, forename");
 			}
+		elseif($table=='student' and $field=='gender'){
+			$d_sids=mysql_query("SELECT id FROM $table WHERE
+				$field='$value' ORDER BY surname, forename");
+			}
 		elseif($table=='guardian' and $field=='forename'){
 			$d_sids=mysql_query("SELECT id FROM $table WHERE 
 				MATCH (forename) AGAINST ('*$value*' IN BOOLEAN MODE) 
 				OR forename LIKE '%$value%' OR forename='$value'  
 				ORDER BY surname, forename");
-			}
-		elseif($table=='student' and ($field!='surname' and $field!='gender')){
-			$d_sids=mysql_query("SELECT id FROM student JOIN info ON
-					info.student_id=student.id WHERE
-				MATCH (info.$field) AGAINST ('$value*' IN BOOLEAN MODE) 
-				OR info.$field='$value' ORDER BY student.surname, student.forename");
 			}
 		elseif($table=='guardian' and $field=='country'){
 			$d_sids=mysql_query("SELECT DISTINCT guardian_id AS id FROM gidaid
@@ -121,9 +119,20 @@ else{
 				OR address.postcode='$value'");
 			}
 		else{
-			/*defaults to gender search*/
-			$d_sids=mysql_query("SELECT id FROM $table WHERE
-				$field='$value' ORDER BY surname, forename");
+			trigger_error($table.' : '.$field.':'.$value,E_USER_WARNING);
+			if($table=='student'){
+				$d_sids=mysql_query("SELECT id FROM student JOIN info ON
+					info.student_id=student.id WHERE
+				MATCH (info.$field) AGAINST ('$value*' IN BOOLEAN MODE) 
+				OR info.$field='$value' ORDER BY student.surname, student.forename");
+				trigger_error($table.' : '.$field.':'.$value,E_USER_WARNING);
+				}
+			elseif($table=='guardian'){
+				$d_sids=mysql_query("SELECT id FROM $table WHERE 
+				MATCH ($field) AGAINST ('*$value*' IN BOOLEAN MODE) 
+				OR $field LIKE '%$value%' OR $field='$value'  
+				ORDER BY surname, forename");
+				}
 			}
 		}
 

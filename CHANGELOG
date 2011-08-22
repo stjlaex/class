@@ -86,6 +86,11 @@ the css for generic printing.
 
 Fix to using comid instead of fid for tranport lists.
 
+Added option for plain student name badges on the labels page.
+
+Added enrolment number and epfusername field to InfoBook search
+options.
+
 eportfolio_reports_publish is under construction!
 
 

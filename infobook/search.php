@@ -69,13 +69,16 @@ $action='search_action.php'
 							'surname' => 'surname',
 							'forename' => 'forename',
 							'country' => 'country',
-							'postcode' => 'postcode'
+							'postcode' => 'postcode',
+							'epfusername' => 'epfusername'
 							);
 		$studentfield=array(
 							'surname' => 'surname', 
 							'forename' => 'forename', 
 							'nationality' => 'nationality',
-							'gender' => 'gender'
+							'gender' => 'gender',
+							'formerupn' => 'enrolmentnumber',
+							'epfusername' => 'epfusername'
 							);
 		if(isset($CFG->enrol_boarders) and $CFG->enrol_boarders=='yes'){
 			$studentfield['boarder']='boarder';
@@ -169,6 +172,10 @@ $action='search_action.php'
 		list_select_db($d_p,$listoptions,$book);
 ?>
 		</div>
+		<div id="switchcontactepfusername" class="hidden">
+		  <input tabindex="<?php print $tab++;?>" 
+			type="text" name="contactepfusername" value="" maxlength="30"/>
+		</div>
 		<div id="switchstudentsurname" class="hidden">
 		  <input tabindex="<?php print $tab++;?>" 
 			type="text" name="studentsurname" value="" maxlength="30"/>
@@ -190,6 +197,14 @@ $action='search_action.php'
 		include('scripts/set_list_vars.php');
 		list_select_enum('nationality',$listoptions,$book);
 ?>
+		</div>
+		<div id="switchstudentformerupn" class="hidden">
+		  <input tabindex="<?php print $tab++;?>" 
+			type="text" name="studentformerupn" value="" maxlength="30"/>
+		</div>
+		<div id="switchstudentepfusername" class="hidden">
+		  <input tabindex="<?php print $tab++;?>" 
+			type="text" name="studentepfusername" value="" maxlength="30"/>
 		</div>
 <?php
 	if($CFG->enrol_boarders=='yes'){

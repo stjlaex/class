@@ -20,6 +20,9 @@ else{$template='address_labels2x7';}
 if(isset($_POST['explanation'])){$explanation=$_POST['explanation'];}
 elseif(isset($_GET['explanation'])){$explanation=$_GET['explanation'];}
 else{$explanation='blank';}
+if(isset($_POST['messageto'])){$messageto=$_POST['messageto'];}
+elseif(isset($_GET['messageto'])){$messageto=$_GET['messageto'];}
+else{$messageto='blank';}
 if(isset($_POST['text'])){$text=$_POST['text'];}
 elseif(isset($_GET['text'])){$text=$_GET['text'];}
 else{$text='';}
@@ -29,7 +32,8 @@ $Students['paper']='portrait';
 $Students['homecountry']=strtoupper($CFG->sitecountry);
 $Students['explanation']=$explanation;
 $Students['content']=$text;
-
+if($messageto=='studentname'){$Students['type']='badge';}
+trigger_error($messageto,E_USER_WARNING);
 
 if(isset($recipients) and sizeof($recipients)>0){
 	$Students['recipients']=$recipients;
