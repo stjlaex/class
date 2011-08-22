@@ -98,7 +98,7 @@ two_buttonmenu($extrabuttons);
 		  </td>
 		  <td>
 <?php
-				print '<a  href="admin.php?current=transport_list.php&cancel='.$choice.'&choice='.$choice.'&fid='.$form['id'].'">'.$form['name'].'</a>';
+				print '<a  href="admin.php?current=transport_list.php&cancel='.$choice.'&choice='.$choice.'&comid='.$form['id'].'">'.$form['name'].'</a>';
 ?>
 		  </td>
 		  <td></td>

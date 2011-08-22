@@ -84,6 +84,8 @@ Fix to listing contact addresses in InfoBook when fetchsinglefield was used.
 Improved the printgeneric js to disable all links and buttons. Tidied
 the css for generic printing.
 
+Fix to using comid instead of fid for tranport lists.
+
 eportfolio_reports_publish is under construction!
 
 

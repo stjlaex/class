@@ -10,8 +10,8 @@ include('scripts/sub_action.php');
 
 if((isset($_POST['busname']) and $_POST['busname']!='')){$busname=$_POST['busname'];}else{$busname='';}
 if((isset($_GET['busname']) and $_GET['busname']!='')){$busname=$_GET['busname'];}
-if((isset($_POST['fid']) and $_POST['fid']!='')){$fid=$_POST['fid'];}else{$fid='';}
-if((isset($_GET['fid']) and $_GET['fid']!='')){$fid=$_GET['fid'];}
+if((isset($_POST['comid']) and $_POST['comid']!='')){$comid=$_POST['comid'];}else{$comid='';}
+if((isset($_GET['comid']) and $_GET['comid']!='')){$comid=$_GET['comid'];}
 if((isset($_POST['date0']) and $_POST['date0']!='')){$todate=$_POST['date0'];}else{$todate=date('Y-m-d');}
 if((isset($_GET['date0']) and $_GET['date0']!='')){$todate=$_GET['date0'];}
 
@@ -22,9 +22,10 @@ if($busname!=''){
 	$com=array('id'=>'','type'=>'transport','name'=>$busname);
 	$students=(array)list_bus_journey_students($busname,$todate,5);
 	}
-elseif($fid!=''){
+elseif($comid!=''){
 	$listtype='f';
-	$com=array('id'=>'','type'=>'form','name'=>$fid);
+	$com=get_community($comid);
+	$fid=$com['name'];
 	$students=(array)listin_community($com);
 	}
 else{

@@ -35,6 +35,7 @@ else{
 	foreach($busnames as $typebusname){
 		list($type,$busname)=explode('-',$typebusname);
 		if($busname!='' and $type=='b'){
+			$display_name=$busname;
 			$busin=(array)get_bus('',$busname,'I',$day);
 			$buses[$busin['id']]['stops']=list_bus_stops($busin['id']);
 			$busout=(array)get_bus('',$busname,'O',$day);
@@ -42,14 +43,15 @@ else{
 			$students=(array)list_bus_journey_students($busname,$printdate,0);
 			}
 		elseif($busname!='' and $type=='f'){
-			$com=array('id'=>'','type'=>'form','name'=>$busname);
+			$com=get_community($busname);
+			$display_name=$com['name'];
 			$students=(array)listin_community($com);
 			$busin='';$busout='';
 			}
 
 		if(sizeof($students)>0){
 			$Transport=array();
-			$Transport['Name']=array('value'=>$busname);
+			$Transport['Name']=array('value'=>$display_name);
 			$Transport['Type']=array('value'=>$type);
 			$Transport['Day']=array('value'=>get_string(displayEnum($day,'dayofweek'),'admin'));
 			$Transport['Date']=array('value'=>display_date($printdate));
