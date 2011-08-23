@@ -140,6 +140,10 @@ if($enrolyear==$currentyear){
 					AND (leavingdate>'$todate' OR leavingdate='0000-00-00' OR leavingdate IS NULL)
 					AND joiningdate<='$todate' AND joiningdate>='$yearstartdate';");
 				$value=mysql_result($d_nosids,0);
+				$displayvalue=$value+$extravalue;
+				$display='<a href="admin.php?current=enrolments_list.php&cancel='.
+						$choice.'&choice='. $choice.'&enrolyear='. $enrolyear.'&yid='. $yid.
+						'&comid='.$com['id'].'">'.$displayvalue.'</a>';
 				}
 			else{
 				$value=countin_community($com);
