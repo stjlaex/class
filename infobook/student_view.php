@@ -26,6 +26,7 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 	  <div class="center">
 <?php
 	$epfu=strtolower($Student['EPFUsername']['value']);
+	if(trim($epfu)==''){$epfu=strtolower($Student['EnrolNumber']['value']);}
 	print '<div class="icon"><img src="http://'.$CFG->siteaddress.$CFG->sitepath.'/'.$CFG->applicationdirectory.'/scripts/photo_display.php?epfu='.$epfu.'" /></div>';
 ?>
 

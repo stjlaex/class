@@ -61,12 +61,9 @@ require_once($CFG->installpath.'/'.$CFG->applicationdirectory.'/lib/eportfolio_f
 		}
 
 	$formusers=array();
-	while(list($index,$com)=each($formcoms)){
-		$fid=$com['name'];
-		$d_form=mysql_query("SELECT teacher_id FROM form WHERE id='$fid';");
-		$formusers[]=strtolower(mysql_result($d_form,0));
+	foreach($formcoms as $com){
+		$formusers=(array)list_community_users($com,array('r'=>1,'w'=>1,'x'=>1));
 		}
-	reset($formcoms);
 
 
 	/**
@@ -110,16 +107,18 @@ require_once($CFG->installpath.'/'.$CFG->applicationdirectory.'/lib/eportfolio_f
 		elgg_update_community($com,$com,$epfuid);
 		}
 
-	reset($formcoms);
-	while(list($formindex,$com)=each($formcoms)){
+	foreach($formcoms as $formindex => $com){
 		$fid=$com['name'];
-		$tid=$formusers[$formindex];
-		$epfuid=$staff[$tid];
-		if($epfuid!=-1){
-			$epfcomid=elgg_update_community($com,$com,$epfuid);
-			$com['epfcomid']=$epfcomid;
-			$formepfcomids[$fid]=$epfcomid;
-			elgg_join_community($epfuid,$com);
+		$users=(array)$formusers[$formindex];
+		foreach($users as $user){
+			$tid=$user['username'];
+			$epfuid=$staff[$tid];
+			if($epfuid!=-1){
+				$epfcomid=elgg_update_community($com,$com,$epfuid);
+				$com['epfcomid']=$epfcomid;
+				$formepfcomids[$fid]=$epfcomid;
+				elgg_join_community($epfuid,$com);
+				}
 			}
 		}
 

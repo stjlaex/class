@@ -612,10 +612,9 @@ function get_classdef_classes($classdef,$currentseason='S'){
 		/*TODO: this only works for one yid!!!!*/
 		if($communities[$comid]['type']=='year'){
 			$yid=$communities[$comid]['name'];
-			$d_form=mysql_query("SELECT id FROM form
-								WHERE yeargroup_id='$yid'");
-			while($form=mysql_fetch_array($d_form,MYSQL_ASSOC)){
-				$fids[]=$form['id'];
+			$forms=(array)list_formgroups($yid);
+			foreach($forms as $form){
+				$fids[]=$form['name'];
 				}
 			}
 		}
@@ -642,7 +641,7 @@ function get_classdef_classes($classdef,$currentseason='S'){
 		}
 
 
-		/* class_counters will be either a fid or an integer counter */
+	/* class_counters will be either a fid or an integer counter */
 	$class_counters=array();
 	if($classdef['generate']=='forms' and isset($fids)){
 		$class_counters=$fids;
@@ -686,14 +685,14 @@ function populate_subjectclassdef($classdef,$currentseason='S'){
 
 	list($newcids,$groups)=get_classdef_classes($classdef,$currentseason);
 
-	while(list($index,$newcid)=each($newcids)){
+	foreach($newcids as $nindex => $newcid){
 		$bid=$classdef['bid'];
 		$crid=$classdef['crid'];
 		$stage=$classdef['stage'];
 		if(mysql_query("INSERT INTO class (id,subject_id,course_id,stage) 
 				VALUES ('$newcid','$bid','$crid','$stage')")){
 			if($classdef['generate']=='forms'){
-				$fid=$groups[$index];
+				$fid=$groups[$nindex];
 				$d_sids=mysql_query("SELECT id FROM student WHERE form_id='$fid';");
 				while($sids=mysql_fetch_array($d_sids, MYSQL_ASSOC)){
 					$sid=$sids['id'];

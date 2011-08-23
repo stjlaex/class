@@ -155,7 +155,6 @@ function get_photo($uid, $ldap_host=null, $ldap_rdn=null, $ldap_pass=null, $base
 				}
 			else{
 				$attrs=ldap_get_attributes($ldap_connection, $entry);
-
 				if($attrs['jpegPhoto']['count']>0){
 				    $jpeg_data=ldap_get_values_len( $ldap_connection, $entry, "jpegPhoto");
 				    $outfile=$CFG->eportfolio_dataroot.'/cache/images/'.$uid.'.jpeg';

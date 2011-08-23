@@ -1,4 +1,4 @@
-Version ClaSS-1.0.0 release (2011/08/22)
+Version ClaSS-1.0.0 release (2011/08/23)
 -------------------------------------------
 
 Major change to the way form groups are defined, they are merged
@@ -90,6 +90,8 @@ Added option for plain student name badges on the labels page.
 
 Added enrolment number and epfusername field to InfoBook search
 options.
+
+Fixes to generate classes and eportfoliosync to handle forms as coms.
 
 eportfolio_reports_publish is under construction!
 
