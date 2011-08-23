@@ -133,7 +133,7 @@ if($enrolyear==$currentyear){
 				$value=countin_community($com,'','',true);
 				$display=$value+$extravalue;
 				}
-			elseif($enrolstatus=='CA'){
+			elseif($enrolstatus=='CA' or $enrolstatus=='RE'){
 				/* Exclude applications which were canclled before the start of the year. */
 				$d_nosids=mysql_query("SELECT COUNT(student_id) FROM
 						comidsid WHERE community_id='$comid'
