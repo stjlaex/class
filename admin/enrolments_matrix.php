@@ -11,10 +11,32 @@ $action='enrolments_matrix_action.php';
 
 require_once('lib/curl_calls.php');
 
-/* Default to displaying enrolment for next curriculum year. */
+/* Some useful dates and times. */
 $currentyear=get_curriculumyear();
+$todate=date('Y-m-d');
+$todate_time=mktime(0,0,0,date('m'),date('d'),date('Y'));
+/* The end of the academic year - after which admissions will be closed. */
+$cutoffdate=$currentyear.'-'.$CFG->enrol_cutoffmonth.'-01';
+/* The start of next academic year. */
+$targetdate=date('Y-m-d',mktime(0,0,0,$CFG->enrol_cutoffmonth+2,1,$currentyear));
+$targetdate_time=mktime(0,0,0,$CFG->enrol_cutoffmonth+2,1,$currentyear);
+$yearstart=$currentyear-1;
+$yearstartprevious=$yearstart-1;
+/* The date when the current academic year started. */
+$yearstart_month=$CFG->enrol_cutoffmonth+1;
+$yearstartdate=$yearstart.'-'.$yearstart_month.'-18';
+$yearstartdate_time=mktime(0,0,0,$yearstart_month,1,$yearstart);
+/* The date when the old academic year ended. */
+$yearenddate=$yearstart.'-'.$CFG->enrol_cutoffmonth.'-1';
+
+trigger_error('START:'.$yearstartdate.' END:'.$yearenddate,E_USER_WARNING);
+
 if(isset($_POST['enrolyear']) and $_POST['enrolyear']!=''){$enrolyear=$_POST['enrolyear'];}
+/* Display currentyear's enrolments if still near start of term (less than 8 weeks). */
+elseif(($todate_time-$yearstartdate_time)<(86400*7*8)){$enrolyear=$currentyear;}
+/* Default to displaying enrolment for next curriculum year. */
 else{$enrolyear=$currentyear+1;}
+
 
 $extrabuttons=array();
 $extrabuttons['summary']=array('name'=>'current',
@@ -32,19 +54,11 @@ $extrabuttons['statistics']=array('name'=>'current',
 twoplus_buttonmenu($enrolyear,$currentyear+3,$extrabuttons,$book,$currentyear);
 
 
-$todate=date('Y-m-d');
-$yearstart=$currentyear-1;
-$yearstartprevious=$yearstart-1;
-$yearstartdate=$yearstart.'-08-15';
-$yearenddate=$yearstart.'-07-20';
-$cutoffdate=$currentyear.'-'.$CFG->enrol_cutoffmonth.'-01';
-$targetdate=date('Y-m-d',mktime(0,0,0,$CFG->enrol_cutoffmonth+2,1,$currentyear));
 $d_a=mysql_query("SELECT MAX(date) FROM admission_stats WHERE year='$enrolyear';");
 if(mysql_result($d_a,0)>0){
 	$update=mysql_result($d_a,0);
-	$todates=explode('-',$todate);
 	$updates=explode('-',$update);
-	$diff=mktime(0,0,0,$todates[1],$todates[2],$todates[0]) - mktime(0,0,0,$updates[1],$updates[2],$updates[0]);
+	$diff=$todate_time - mktime(0,0,0,$updates[1],$updates[2],$updates[0]);
 	$dayno=round($diff/(60*60*24));/* How days since last update */
 	if($dayno>6){$save_stats=true;}
 	else{$save_stats=false;}

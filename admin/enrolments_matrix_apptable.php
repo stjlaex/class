@@ -89,7 +89,7 @@ if($enrolyear==$currentyear){
 					AND joiningdate<='$todate' AND joiningdate>='$yearstartdate';");
 			$newnewcurrentsids=mysql_result($d_nosids,0);
 
-			trigger_error('countin - '.$yearcomid. ' :' .$yearstartdate.' : '.$todate,E_USER_WARNING);
+			//trigger_error('countin - '.$yearcomid. ' :' .$yearstartdate.' : '.$todate,E_USER_WARNING);
 
 			/* Students who joined the current roll regardless of when accepted*/
 
@@ -109,7 +109,7 @@ if($enrolyear==$currentyear){
 		$values=array();//holds values for this row
 		$values[0]=0;// index 0 is for the total for this row
 		reset($application_steps);
-		while(list($index,$enrolstatus)=each($application_steps)){
+		foreach($application_steps as $index => $enrolstatus){
 			$value=0;
 			$extravalue=0;
 			if($enrolstatus=='EN'){$comtype='enquired';}
@@ -129,7 +129,19 @@ if($enrolyear==$currentyear){
 
 			/* Two possibilities: 'live' or 'static' values. Only enquiries are static (ie. keyed) */
 			$value_boarder=0;
-			if($enrolstatus!='EN'){
+			if($enrolstatus=='EN'){
+				$value=countin_community($com,'','',true);
+				$display=$value+$extravalue;
+				}
+			elseif($enrolstatus=='CA'){
+				/* Exclude applications which were canclled before the start of the year. */
+				$d_nosids=mysql_query("SELECT COUNT(student_id) FROM
+						comidsid WHERE community_id='$comid'
+					AND (leavingdate>'$todate' OR leavingdate='0000-00-00' OR leavingdate IS NULL)
+					AND joiningdate<='$todate' AND joiningdate>='$yearstartdate';");
+				$value=mysql_result($d_nosids,0);
+				}
+			else{
 				$value=countin_community($com);
 				if($value>0){
 					$value_boarder=countin_community_extra($com,'boarder','B');
@@ -139,10 +151,8 @@ if($enrolyear==$currentyear){
 						$choice.'&choice='. $choice.'&enrolyear='. $enrolyear.'&yid='. $yid.
 						'&comid='.$com['id'].'">'.$displayvalue.'</a>';
 				}
-			else{
-				$value=countin_community($com,'','',true);
-				$display=$value+$extravalue;
-				}
+
+
 			$values[$index+1]=$value;
 
 			/* Don't count enquiries as full applications so don't add to row total. */
