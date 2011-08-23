@@ -167,7 +167,7 @@ else{
 				);
 	$enrol_cols=array('reenroled'=>'reenroled'
 				  ,'newenrolmentsprevious'=>'newenrolmentsprevious'
-				  ,'transfersprevious'=>'transfersprevious'
+					  //,'transfersprevious'=>'transfersprevious'
 				  ,'newnewenrolments'=>'newnewenrolments'
 				  ,'leaverssince'=>'leaverssince'
 				  ,'currentroll'=>'currentroll'
