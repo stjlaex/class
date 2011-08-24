@@ -42,9 +42,11 @@ include('scripts/epf_access.php');
 			<h4><?php print $report['title'];?></h4>
 		  </td>
 		  <td>
-			<a style="float:right;" title="<?php print_string('print');?>" href="<?php print $report['url'];?>" >
-			<img src="images/printer.png" />
-			</a>
+<?php
+	$epfu=strtolower($Student['EPFUsername']['value']);
+	if(trim($epfu)==''){$epfu=strtolower($Student['EnrolNumber']['value']);}
+	print '<a style="float:right;" href="http://'.$CFG->siteaddress.$CFG->sitepath.'/'.$CFG->applicationdirectory.'/scripts/file_display.php?epfu='.$epfu.'&location='.$report['location'].'" /><img src="images/printer.png" /></a>';
+?>
 		  </td>
 		</tr>
 	  </table>
