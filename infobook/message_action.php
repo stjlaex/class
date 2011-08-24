@@ -8,7 +8,7 @@ $action='student_list.php';
 if(isset($_POST['messageto'])){$messageto=$_POST['messageto'];}
 if(isset($_POST['messageop'])){$messageop=$_POST['messageop'];}
 
-if(isset($_POST['messagebody'])){$messagebody=clean_text($_POST['messagebody']);}
+if(isset($_POST['messagebody'])){$messagebody=clean_text($_POST['messagebody'],false);}
 if(isset($_POST['messagebcc'])){$messagebcc=clean_text($_POST['messagebcc']);}else{$messagebcc='';}
 if(isset($_POST['messagesubject'])){$messagesubject=clean_text($_POST['messagesubject']);}else{$messagesubject='';}
 if(isset($_POST['recipients'])){$recipients=(array)$_POST['recipients'];}else{$recipients=array();}
@@ -65,8 +65,10 @@ if($sub=='Submit' and $recipients and sizeof($recipients)>0 and !isset($error)){
 			}
 
 		/* For the BCC */
-		$extrarecipient=array('email'=>$messagebcc,'explanation'=>'');
-		$recipients[]=$extrarecipient;
+		if($messagebcc!=''){
+			$extrarecipient=array('email'=>$messagebcc,'explanation'=>'');
+			$recipients[]=$extrarecipient;
+			}
 
 		foreach($recipients as $key => $recipient){
 			
