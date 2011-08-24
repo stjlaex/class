@@ -606,7 +606,7 @@ function elgg_list_files($epfun,$filetype,$dbc=false){
 	$d_f=mysql_query("SELECT ident, title, description, location, originalname FROM $table_files 
 						WHERE files_owner='$epfuid' AND folder='$folder_id' ORDER BY time_uploaded DESC;");
 	while($file=mysql_fetch_array($d_f,MYSQL_ASSOC)){
-		$file['path']=$CFG->eportfolio_dataroot.'/'.$files['location'];
+		$file['path']=$CFG->eportfolio_dataroot.'/'.$file['location'];
 		$file['url']=$CFG->eportfoliosite.'/'.$epfun.'/files/'.$folder_id.'/'.$file['ident'].'/'.$file['originalname'];
 		$files[]=$file;
 		}

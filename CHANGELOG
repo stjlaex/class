@@ -93,6 +93,8 @@ options.
 
 Fixes to generate classes and eportfoliosync to handle forms as coms.
 
+Changed display of published reports to an internal script.
+
 eportfolio_reports_publish is under construction!
 
 
