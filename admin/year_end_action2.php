@@ -322,7 +322,7 @@ if(sizeof($reenrol_assdefs)>0){
 	 * academic year.
 	 */
 
-	$d_a=mysql_query("SELECT id, subject_id,component_id,stage,method,element,description,
+	$d_a=mysql_query("SELECT id,subject_id,component_id,stage,method,element,description,
 				label,resultqualifier,resultstatus,outoftotal,derivation,statistics,
 				grading_name,course_id,component_status,strand_status,year,season,creation,deadline,profile_name 
 				FROM assessment WHERE year='$yeargone';");
@@ -351,7 +351,7 @@ if(sizeof($reenrol_assdefs)>0){
 				VALUES ('$ass[1]','$ass[2]','$ass[3]','$ass[4]',
 				'$ass[5]','$ass[6]','$ass[7]','$ass[8]','$ass[9]','$ass[10]','$ass[11]','$ass[12]',
 				'$ass[13]','$ass[14]','$ass[15]','$yearnow','$ass[17]',
-				'$creation','$deadline','$ass[20]','$ass[21]');");
+				'$creation','$deadline','$ass[21]');");
 			$newassrefs[$ass[0]]=mysql_insert_id();
 			}
 		}
