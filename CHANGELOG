@@ -1,4 +1,10 @@
-Version ClaSS-1.0.0 release (2011/08/23)
+Version ClaSS-1.0.2 release (2011/09/5)
+-------------------------------------------
+
+
+
+
+Version ClaSS-1.0.1 release (2011/08/24)
 -------------------------------------------
 
 Major change to the way form groups are defined, they are merged
@@ -94,6 +100,8 @@ options.
 Fixes to generate classes and eportfoliosync to handle forms as coms.
 
 Changed display of published reports to an internal script.
+
+Removed webmail tab.
 
 eportfolio_reports_publish is under construction!
 

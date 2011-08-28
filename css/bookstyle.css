@@ -292,7 +292,7 @@ div.buttonmenu {
 	background-color:#444444;
     z-index:4000;
 	}
-.buttonmenu button, #heading button {
+.buttonmenu button, #heading button, fieldset button {
 	margin:1px 2px; 
     border:1px solid; 
     padding:0;
@@ -342,8 +342,8 @@ button.install {
 	color:#ffffee; 
     font-size:xx-small; 
 	}
-.buttonmenu button:hover, .buttonmenu button:focus, 
- #heading button:hover, #heading button:focus {
+.buttonmenu button:hover, .buttonmenu button:focus, fieldset button:hover, 
+fieldset button:focus, #heading button:hover, #heading button:focus {
     border-color:#5599cc;
     background-color:#5599cc;
     color:#ffffff;

@@ -5,7 +5,7 @@
  */
 
 $ids=array();	
-$action_post_vars=array('selsavedview','title');
+$action_post_vars=array('selsavedview','title','comid');
 $title='';
 //if(isset($_SESSION['savedview'])){$savedview=$_SESSION['savedview'];}
 //else{$savedview='';}
@@ -29,9 +29,9 @@ elseif(isset($_POST['newcomid1']) and $_POST['newcomid1']!=''){
 	$com=get_community($_POST['newcomid1']);
 	$selsavedview='';
 	}
-
 if(isset($com)){
 	$table='student';
+	$comid=$com['id'];
 	if($com['type']=='accomodation'){
 		/*TODO: temporary hack!*/
 		$startdate='2000-01-01';
@@ -53,7 +53,7 @@ if(isset($com)){
 		}
 
 	$rows=sizeof($students);
-	while(list($index,$student)=each($students)){
+	foreach($students as $student){
 		$ids[]=$student['id'];
 		}
 	}

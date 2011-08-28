@@ -154,10 +154,6 @@ function logOut(){
 		var epflogout=window.frames["vieweportfolio"].document.getElementById("eportfoliosite").getAttribute("logout");
 		window.frames["vieweportfolio"].frames["externalbook"].location.href=epflogout;
 		}
-	if(window.frames["viewwebmail"].document.getElementById("webmailsite")){
-		var epflogout=window.frames["viewwebmail"].document.getElementById("webmailsite").getAttribute("logout");
-		window.frames["viewwebmail"].frames["externalbook"].location.href=epflogout;
-		}
 	window.frames["viewlogbook"].location.href="logbook/exit.php";
 	}
 

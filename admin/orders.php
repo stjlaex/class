@@ -50,11 +50,9 @@ twoplus_buttonmenu($budgetyear,$currentyear+2,$extrabuttons,$book);
 		  <input tabindex="<?php print $tab++;?>" 
 			type="text" id="Ordernumber" name="ordernumber" maxlength="30"/>
 		  </div>
-		  <div class="right">
-			<button type="submit" name="sub" value="search">
+			<button style="float:right;"  type="submit" name="sub" value="search">
 			  <?php print_string('search');?>
 			</button>
-		  </div>
 		</div>
 		<div class="center">
 

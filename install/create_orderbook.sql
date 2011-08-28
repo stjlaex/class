@@ -1,4 +1,3 @@
-
 CREATE TABLE orderorder (
 	id				int unsigned not null auto_increment, 
 	budget_id		int unsigned not null default '0',
@@ -57,6 +56,7 @@ CREATE TABLE ordermaterial (
 	entryn			tinyint unsigned not null auto_increment,
 	quantity		smallint unsigned not null default '0',
 	unitcost		decimal(10,2) unsigned not null default '0',
+	refno			varchar(240) not null default '',
 	detail			text not null default '',
 	materialtype	int unsigned not null default '0',
 	invoice_id		int unsigned not null default '0', 
@@ -76,5 +76,20 @@ CREATE TABLE orderinvoice (
 	currency		enum('0','1','2','3','4') not null,
 	credit			tinyint(1) not null default '0',
 	exchange		decimal(10,2) unsigned not null default '0',
+   	primary key		(id)
+) type=myisam;
+
+
+CREATE TABLE ordercatalogue (
+	id				int unsigned not null auto_increment, 
+	supplier_id		int unsigned not null default '0', 
+	unitcost		decimal(10,2) unsigned not null default '0',
+	currency		enum('0','1','2','3','4') not null,
+	detail			text not null default '',
+	refno			varchar(240) not null default '',
+	isbn			varchar(240) not null default '',
+	materialtype	int unsigned not null default '0',
+	subject_id		varchar(10) not null default '',
+	index			index_mat (materialtype,supplier_id),
    	primary key		(id)
 ) type=myisam;

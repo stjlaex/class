@@ -262,9 +262,11 @@ while($student=mysql_fetch_array($d_students, MYSQL_ASSOC)){
 		if(!isset($score['comment'])){$score['comment']='';}
 		if(!isset($score['extra'])){$score['extra']='';}
 
-		$totals[$col_mid]['grade']+=$score['grade'];
-		$totals[$col_mid]['value']+=$score['value'];
-		$totals[$col_mid]['no']++;
+		if($score['grade']!=''){
+			$totals[$col_mid]['grade']+=$score['grade'];
+			$totals[$col_mid]['value']+=$score['value'];
+			$totals[$col_mid]['no']++;
+			}
 
 		$score['scoreclass']=$scoreclass;
 		$studentrow["score$col_mid"]=$score;

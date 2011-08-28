@@ -99,12 +99,12 @@ else{
 
 	if($newcomtype=='form'){
 		$yeargroups=list_yeargroups();
-
+		$selnewyid=get_form_yeargroup($com['name']);
 ?>
 	  <fieldset class="center">
 		<legend><?php print_string('yeargroups',$book);?></legend>
 		<div class="center">
-		<?php $required='yes'; include('scripts/list_year.php')?>
+		<?php $required='yes'; include('scripts/list_year.php');?>
 		</div>
 <?php
 		 }

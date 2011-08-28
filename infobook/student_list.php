@@ -14,6 +14,7 @@ else{$savedview='';}
 if(isset($_POST['colno'])){$displayfields_no=$_POST['colno'];}
 if(isset($_POST['title'])){$title=$_POST['title'];}else{$title=$_SESSION['infolisttitle'];}
 if(isset($_POST['umnfilter'])){$umnfilter=$_POST['umnfilter'];}else{$umnfilter='%';}
+if(isset($_POST['comid'])){$comid=$_POST['comid'];}else{$comid='';}
 $_SESSION['savedview']=$savedview;
 $_SESSION['infolisttitle']=$title;
 
@@ -27,9 +28,9 @@ if($savedview=='form'){
 	$displayfields[]='DOB';
 	$displayfields[]='Nationality';
 	$displayfields_no=3;
-	$Student=fetchStudent_short($sids[0]);
-	$fid=$Student['RegistrationGroup']['value'];
-	$tutor_users=(array)list_community_users(array('id'=>'','name'=>$fid,'type'=>'form'),array('r'=>1,'w'=>1,'x'=>1));
+	$com=get_community($comid);
+	$fid=$com['name'];
+	$tutor_users=(array)list_community_users($com,array('r'=>1,'w'=>1,'x'=>1));
 	}
 elseif($savedview=='year'){
 	$displayfields[]='RegistrationGroup';

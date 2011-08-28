@@ -82,32 +82,32 @@ $externalbooks['all']=array(
 							);
 if(isset($CFG->webmailsite) and $CFG->webmailsite!=''){
 $externalbooks['admin']=array(
-							  'webmail' => $CFG->webmailtabname
+							  //'webmail' => $CFG->webmailtabname
 							  //,'lms' => $CFG->lmstabname
 							  //,'eportfolio' => $CFG->eportfoliotabname
 							  );
 $externalbooks['office']=array(
-							   'webmail' => $CFG->webmailtabname
+							   //'webmail' => $CFG->webmailtabname
 							   //,'eportfolio' => $CFG->eportfoliotabname
 							   );
 $externalbooks['medical']=array(
-								'webmail' => $CFG->webmailtabname
+								//'webmail' => $CFG->webmailtabname
 								//,'eportfolio' => $CFG->eportfoliotabname
 								);
 $externalbooks['sen']=array(
-							'webmail' => $CFG->webmailtabname
+							//'webmail' => $CFG->webmailtabname
 							//,'eportfolio' => $CFG->eportfoliotabname
 							);
 $externalbooks['district']=array(
-								 'webmail' => $CFG->webmailtabname
+								 //'webmail' => $CFG->webmailtabname
 								 //,'eportfolio' => $CFG->eportfoliotabname
 								 );
 $externalbooks['support']=array(
-								'webmail' => $CFG->webmailtabname
+								//'webmail' => $CFG->webmailtabname
 								//,'eportfolio' => $CFG->eportfoliotabname
 								);
 $externalbooks['teacher']=array(
-								'webmail' => $CFG->webmailtabname
+								//'webmail' => $CFG->webmailtabname
 								//,'lms' => $CFG->lmstabname
 								//,'eportfolio' => $CFG->eportfoliotabname
 								);

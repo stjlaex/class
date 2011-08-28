@@ -256,28 +256,25 @@ if($_SESSION['worklevel']>-1){
 <?php
 
 /**
-* This is the bottom row of the mark table for the totals.
-*/
+ * This is the bottom row of the mark table for the totals.
+ */
 		for($c=0;$c<$c_marks;$c++){
 			$col_mid=$umns[$c]['id'];
-			if($umns[$c]['marktype']=='report'){
-				$out='';
-				}
-			elseif($umns[$c]['marktype']=='tally' or $umns[$c]['marktype']=='dif'){
-				$out=round($totals[$col_mid]['value']/$totals[$col_mid]['no']);
-				}
-			elseif($umns[$c]['scoretype']=='grade'){
-				$out=round($totals[$col_mid]['grade']/$totals[$col_mid]['no']);
-				$out=scoreToGrade($out,$scoregrades[$c]);
-				}
-			elseif($scoretype=='value' or $scoretype='compound' or $scoretype='sum' or $scoretype='average'){
-				$out=round($totals[$col_mid]['value']/$totals[$col_mid]['no']);
-				}
-			elseif($scoretype=='percentage'){
-				$out=$totals[$col_mid]['value'];
-				}
-			else{
-				$out='';
+			$out='';
+			if($totals[$col_mid]['no']>0){
+				if($umns[$c]['marktype']=='tally' or $umns[$c]['marktype']=='dif'){
+					$out=round($totals[$col_mid]['value']/$totals[$col_mid]['no']);
+					}
+				elseif($umns[$c]['scoretype']=='grade'){
+					$out=round($totals[$col_mid]['grade']/$totals[$col_mid]['no']);
+					$out=scoreToGrade($out,$scoregrades[$c]);
+					}
+				elseif($scoretype=='value' or $scoretype='compound' or $scoretype='sum' or $scoretype='average'){
+					$out=round($totals[$col_mid]['value']/$totals[$col_mid]['no']);
+					}
+				elseif($scoretype=='percentage'){
+					$out=$totals[$col_mid]['value'];
+					}
 				}
 			print '<td class="grade" id="0-'. $col_mid. '" >'.$out.'</td>';
 			}

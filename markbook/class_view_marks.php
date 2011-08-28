@@ -214,7 +214,7 @@ for($i=0;$i<sizeof($cids);$i++){
 			  elseif($umns[$c]['assessment']=='yes'){$umns[$c]['displayclass']='other';}
 			  else{$umns[$c]['displayclass']='';}
 			  }
-		  
+		  $totals[$mark['id']]=array('grade'=>'','value'=>'','no'=>0);		  
 		  $c++;
 		}
 
@@ -304,5 +304,6 @@ for($i=0;$i<sizeof($cids);$i++){
 					   'component'=>$pid,
 					   'displayclass'=>'derived'
 					   );
+		$totals[0]=array('grade'=>'','value'=>'','no'=>0);
 		}
 ?>

@@ -34,7 +34,7 @@ else{$session='AM';}
 		$perindex=$AttendanceEvents['perindex'];
 
 		$classperiods=get_class_periods($currentevent,$secid);
-		while(list($classperiod,$periodtime)=each($classperiods)){
+		foreach($classperiods as $classperiod => $periodtime){
 			if(!array_key_exists($classperiod,$perindex)){
 				/* This must be negative to indicate a class period!!! 
 				 * Its 0 for a fresh session and a positive value would be 
