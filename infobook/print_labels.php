@@ -44,6 +44,7 @@ if(sizeof($sids)==0){
 $Recipients=array();
 $Recipients['Recipient']=array();
 $recipient_index=array();
+$recipient_sids=array();
 $blank_sids=array();
 $blank_gids=array();
 
@@ -70,6 +71,7 @@ $blank_gids=array();
 					if($messageto=='contacts' and !isset($recipient_index[$gid])){
 						/* once per contact */
 						$recipient_index[$gid]=$gid;
+						$recipient_sids[$sid]=$sid;
 						$Recipient['DisplayFullName']=$Contact['DisplayFullName'];
 						$Recipients['Recipient'][]=$Recipient;
 						$sid_recipient_no++;
@@ -77,6 +79,7 @@ $blank_gids=array();
 					elseif($messageto=='student' and !isset($recipient_index[$sid.$aid])){
 						/* once per contact per student */
 						$recipient_index[$sid.$aid]=$sid;
+						$recipient_sids[$sid]=$sid;
 						$Recipient['DisplayFullName']=$Contact['DisplayFullName'];
 						$Recipients['Recipient'][]=$Recipient;
 						$sid_recipient_no++;
@@ -84,6 +87,7 @@ $blank_gids=array();
 					elseif($messageto=='family' and !isset($recipient_index[$aid])){
 						/* once per household */
 						$recipient_index[$aid]=$aid;
+						$recipient_sids[$sid]=$sid;
 						$Recipient['DisplayFullName']=$Contact['DisplayAddressName'];
 						$Recipients['Recipient'][]=$Recipient;
 						$sid_recipient_no++;
@@ -91,6 +95,7 @@ $blank_gids=array();
 					elseif($messageto=='studentname' and !isset($recipient_index[$sid])){
 						/* once per household */
 						$recipient_index[$sid]=$sid;
+						$recipient_sids[$sid]=$sid;
 						$Recipient['DisplayFullName']=$Student['DisplayFullName'];
 						$Recipients['Recipient'][]=$Recipient;
 						$sid_recipient_no++;
@@ -98,6 +103,7 @@ $blank_gids=array();
 					elseif((isset($recipient_index[$sid.$aid]) and $messageto=='student') 
 						   or (isset($recipient_index[$gid]) and $messageto=='contacts') 
 						   or (isset($recipient_index[$aid]) and $messageto=='family')){
+						/* Already have a label/message */
 						$sid_recipient_no++;
 						}
 					}
@@ -253,7 +259,7 @@ two_buttonmenu($extrabuttons,$book);
 ?>
 	<fieldset class="left">
 	  <div class="center"><a <?php print $cssstyle;?> href="infobook.php?current=student_list.php
-<?php foreach($blank_sids as $index =>$sid){print '&sids[]='.$sid;}?>">Students who have no contacts <br /> configured to receive this mailing: <?php print sizeof($blank_sids);?></a>
+<?php foreach($blank_sids as $sid){print '&sids[]='.$sid;}?>">Students who have no contacts <br /> configured to receive this mailing: <?php print sizeof($blank_sids);?></a>
 	</div>
 	</fieldset>
 <?php
@@ -262,7 +268,7 @@ two_buttonmenu($extrabuttons,$book);
 ?>
 	<fieldset class="right">
 	<div class="center"><a  <?php print $cssstyle;?> href="infobook.php?current=contact_list.php
-<?php foreach($blank_gids as $index=>$gid){print '&gids[]='.$gid;}?>">Contacts who should receive this mailing <br /> but will not because they have no address: <?php print sizeof($blank_gids);?></a>
+<?php foreach($blank_gids as $gid){print '&gids[]='.$gid;}?>">Contacts who should receive this mailing <br /> but will not because they have no address: <?php print sizeof($blank_gids);?></a>
 	</div>
 	</fieldset>
 <?php
@@ -271,14 +277,15 @@ two_buttonmenu($extrabuttons,$book);
 ?>
 	<fieldset class="right">
 	  <div class="center"><a <?php print $cssstyle;?> href="infobook.php?current=student_list.php
-<?php foreach($blank_sids as $index =>$sid){print '&sids[]='.$sid;}?>">Students who will not receive this mailing<br /> becasue they lack an address: <?php print sizeof($blank_sids);?></a>
+<?php foreach($blank_sids as $sid){print '&sids[]='.$sid;}?>">Students who will not receive this mailing<br /> becasue they lack an address: <?php print sizeof($blank_sids);?></a>
 	</div>
 	</fieldset>
 <?php
 	}
 ?>
 	<fieldset class="center">
-	<div class="center" style="font-weight:600;">The number of recipients identified for this mailing: <?php print sizeof($Recipients['Recipient']);?></div>
+	<div class="center" style="font-weight:600;"><a <?php print $cssstyle;?> href="infobook.php?current=student_list.php
+<?php foreach($recipient_sids as $sid){print '&sids[]='.$sid;}?>">The number of recipients identified for this mailing: <?php print sizeof($Recipients['Recipient']);?></a></div>
 	</fieldset>
 
 	</div>

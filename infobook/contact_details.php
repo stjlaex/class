@@ -145,7 +145,7 @@ three_buttonmenu($extrabuttons,$book);
 			  </td>
 			</tr>
 <?php
-		while(list($index,$Dependent)=each($Dependents)){
+		foreach($Dependents as $Dependent){
 			$Student=$Dependent['Student'];
 			$relation=displayEnum($Dependent['Relationship']['value'],'relationship');
 ?>

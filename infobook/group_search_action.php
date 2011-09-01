@@ -9,9 +9,9 @@ if(isset($_POST['yids'])){$yids=(array)$_POST['yids'];}else{$yids=array();}
 //if(isset($_POST['listtypes'])){$listtypes=$_POST['listtypes'];}else{$listtypes[]='year';}
 if(isset($_POST['enrolstatuses']) and $_POST['enrolstatuses'][0]!='uncheck'){$enrolstatuses=(array)$_POST['enrolstatuses'];}
 if(isset($_POST['enroldate']) and $_POST['enroldate']!='uncheck'){$enroldate=$_POST['enroldate'];}
+if(isset($_POST['limit']) and $_POST['limit']!='uncheck'){$limit=$_POST['limit'];}
 
 $listtypes=array();
-
 if(isset($enrolstatuses)){
 	$enrolyear=get_curriculumyear()+1;
 	foreach($enrolstatuses as $enrolstatus){
@@ -32,9 +32,9 @@ else{
 /* First list the yeargroups to search in yids*/
 if(isset($secids)){
 	$yids=array();
-	foreach($secids as $index => $secid){
+	foreach($secids as $secid){
 		$yeargroups=list_yeargroups($secid);
-		foreach($yeargroups as $index => $yeargroup){
+		foreach($yeargroups as $yeargroup){
 			$yids[]=$yeargroup['id'];
 			}
 		}
@@ -43,7 +43,7 @@ if(isset($secids)){
 /* Default to the whole school if no sections etc selected. */
 if(sizeof($yids)==0){
 	$yeargroups=list_yeargroups();
-	foreach($yeargroups as $index => $yeargroup){
+	foreach($yeargroups as $yeargroup){
 		$yids[]=$yeargroup['id'];
 		}
 	}
@@ -103,7 +103,7 @@ if(isset($enroldate)){
 			}
 		}
 
-	foreach($yids as $index => $yid){
+	foreach($yids as $yid){
 
 		$comid=update_community(array('id'=>'','type'=>$comtype,'name'=>$comname.$yid,'year'=>$comyear));
 		$com=get_community($comid);
@@ -143,6 +143,7 @@ else{
 
 /* The list of sids which form the search result. */
 $sids=array();
+$sids_index[]=array();
 foreach($students as $student){
 	$sid=$student['id'];
 	if(isset($reenrol_eid)){
@@ -153,7 +154,20 @@ foreach($students as $student){
 			}
 		}
 	else{
-		$sids[]=$sid;
+		if($limit=='Y'){
+			$Contacts=(array)fetchContacts($sid);
+			foreach($Contacts as $cindex => $Contact){
+				$Dependents=fetchDependents($Contact['id_db']);
+				$Youngest=(array)array_pop($Dependents);
+				if(!isset($sids_index[$Youngest['id_db']])){
+					$sids[]=$Youngest['id_db'];
+					$sids_index[$Youngest['id_db']]=$Youngest['id_db'];
+					}
+				}
+			}
+		else{
+			$sids[]=$sid;
+			}
 		}
 	}
 

@@ -97,6 +97,21 @@ three_buttonmenu($extrabuttons,$book);
 	  </table>
 	</div>
 
+	  <div class="right">
+	  <table class="listmenu">
+		<tr>
+		  <th><?php print_string('siblings','infobook');?></th>
+		</tr>
+<?php
+	$sibling_steps=array('Y'=>'youngest');
+	foreach($sibling_steps as $value => $enrolstatus){
+		print '<tr><td><input type="radio" name="limit" value="'.$value.'">'.get_string($enrolstatus,$book).'</input></td></tr>';
+		}
+	print '<tr><td><input type="radio" name="limit" value="uncheck" checked="yes">'.get_string('uncheck',$book).'</input></td></tr>';
+?>
+	  </table>
+	</div>
+
 	<div class="center">
 	  <table class="listmenu">
 		<tr>

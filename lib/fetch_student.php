@@ -627,8 +627,9 @@ function fetchDependents($gid='-1'){
 										 'field_db' => 'relationship',
 										 'type_db' => 'enum', 
 										 'value' => ''.$gidsid['relationship']);
-		$Dependents[]=$Dependent;
+		$Dependents[$Dependent['Student']['DOB']['value']]=$Dependent;
 		}
+	ksort($Dependents);
 	return $Dependents;
 	}
 

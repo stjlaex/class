@@ -652,7 +652,6 @@ function fetch_cohortAssessmentDefinitions($cohort,$profid=''){
 	else{
 		$profile_name=$profid;
 		}
-
 	$d_assessment=mysql_query("SELECT id FROM assessment
 			   WHERE (course_id LIKE '$crid' OR course_id='%') AND 
 				(stage LIKE '$stage' OR stage='%') AND 
