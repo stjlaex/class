@@ -15,7 +15,7 @@ include('scripts/head_options.php');
 include('scripts/set_book_vars.php');
 $session_vars=array('newcid','newcomid','startday','checkeveid','secid','nodays','yid');
 include('scripts/set_book_session_vars.php');
-if(!isset($CFG->registrationtype)){$CFG->registrationtype='form';}
+if(!isset($CFG->registrationtype)){$CFG->registrationtype[1]='form';}
 
 if($nodays==''){$nodays=8;}
 
@@ -42,13 +42,14 @@ if($nodays==''){$nodays=8;}
   else{
 	  /* On first load select the teacher's pastoral group by default. */
 	  $pastorals=(array)list_pastoral_respon();
-	  if($CFG->registrationtype=='form' and sizeof($pastorals['forms'])!=0){
+	  //if($CFG->registrationtype[1]=='form' and sizeof($pastorals['forms'])!=0){
+	  if(sizeof($pastorals['forms'])!=0){
 		  $section=get_section($pastorals['forms'][0],'form');
 		  $secid=$section['id'];
 		  $community=array('id'=>$pastorals['forms'][0]['community_id'],'type'=>'form','name'=>$pastorals['forms'][0]['name']);
 		  $yid=$pastorals['forms'][0]['yeargroup_id'];
 		  }
-	  elseif($CFG->registrationtype=='house' and sizeof($pastorals['houses'])!=0){
+	  elseif($CFG->registrationtype[1]=='house' and sizeof($pastorals['houses'])!=0){
 		  $community=array('id'=>$pastorals['houses'][0]['community_id'],'type'=>'house','name'=>$pastorals['houses'][0]['name']);
 		  $yid=$pastorals['houses'][0]['yeargroup_id'];
 		  }

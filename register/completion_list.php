@@ -6,12 +6,18 @@
 
 $choice='completion_list.php';
 
-if(!isset($CFG->registrationtype) or $CFG->registrationtype=='form'){
-	$registration_coms=list_communities('form');
-	}
-else{
-	$registration_coms=list_communities($CFG->registrationtype);
-	}
+if(!isset($CFG->registrationtype)){$CFG->registrationtype[1]=='form';}
+
+	$registration_coms=array();
+	foreach($CFG->registrationtype as $secid => $type){
+		trigger_error($type.' '.' '.$secid,E_USER_WARNING);
+		$ygs=(array)list_yeargroups($secid);
+		foreach($ygs as $yg){
+			trigger_error($type.' '.$yg['id']. ' '.$secid,E_USER_WARNING);
+			$coms=(array)list_communities($type,'',$yg['id']);
+			$registration_coms=array_merge($registration_coms,$coms);
+			}
+		}
 
 $eveid=$currentevent['id'];
 

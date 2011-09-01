@@ -46,8 +46,8 @@ if($sub=='Submit'){
 	  		$subjectrow=array_shift($inrows);/*grabs the first row*/
 			$subjects=array_slice($subjectrow,2);/*offset to ignore uid and student name in first two columns*/
   			if(sizeof($subjects)>0){
-				while(list($index,$subject)=each($subjects)){
-					//trigger_error($index.' : '.$subject,E_USER_WARNING);
+				foreach($subjects as $index => $subject){
+					trigger_error($index.' : '.$subject,E_USER_WARNING);
 					$bid='';
 					$pid='';
 					/* Check if this subject code exists for this course or if its in fact a component. */
@@ -117,7 +117,9 @@ if($sub=='Submit'){
 							}
 						else{
 							$value=$invalue;
-							$res=sigfigs($value,3);
+							//$res=sigfigs($value,3);
+							$res=$value;
+							trigger_error($eid.' '.$value.' '.$res,E_USER_WARNING);
 							}
 						$score=array('result'=>$res,'value'=>$value);
 						update_assessment_score($eid,$sid,$bid,$pids[$col],$score);

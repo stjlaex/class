@@ -240,7 +240,8 @@ $students=array();
 		  <input type="checkbox" name="checkall" 
 				value="yes" onChange="checkAll(this);" />
 		</th>
-
+<th>
+</th>
 <?php
 		  /*  display the column headers*/
 		  print '<th colspan="1">'.$viewtable[0]['cohort'].'</th>';
@@ -261,6 +262,9 @@ $students=array();
 		  <td>
 			<input type="checkbox" name="sids[]" value="<?php print $sid;?>" />
 			<?php print $rowno;?>
+		  </td>
+		  <td>
+			<?php print $sid;?>
 		  </td>
 					<td>
 					<?php print $row['student']['surname']; ?>,
