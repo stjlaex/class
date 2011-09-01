@@ -604,6 +604,7 @@ function fetchContacts_emails($sid='-1'){
  */
 function fetchDependents($gid='-1'){
 	$Dependents=array();
+	$Others=array();
 	$d_gidsid=mysql_query("SELECT * FROM gidsid WHERE guardian_id='$gid' ORDER BY priority;");
 	while($gidsid=mysql_fetch_array($d_gidsid,MYSQL_ASSOC)){
 		$Dependent=array();
@@ -627,10 +628,17 @@ function fetchDependents($gid='-1'){
 										 'field_db' => 'relationship',
 										 'type_db' => 'enum', 
 										 'value' => ''.$gidsid['relationship']);
-		$Dependents[$Dependent['Student']['DOB']['value']]=$Dependent;
+		$EnrolStatus=fetchStudent_singlefield($gidsid['student_id'],'EnrolmentStatus');
+		if($EnrolStatus['EnrolmentStatus']['value']=='C'){
+			$Dependents[$Dependent['Student']['DOB']['value']]=$Dependent;
+			}
+		else{
+			$Others[$EnrolStatus['EnrolmentStatus']['value']]=$Dependent;
+			}
 		}
 	ksort($Dependents);
-	return $Dependents;
+
+	return array_merge($Others,$Dependents);
 	}
 
 
