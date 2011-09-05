@@ -74,8 +74,7 @@ if($budid!=''){
 	/* crid must be % to only grab curriculum subject groups*/
   	$d_group=mysql_query("SELECT gid AS id, subject.name AS name FROM groups 
 						JOIN subject ON subject_id=subject.id 
-						WHERE groups.course_id='%' ORDER BY
-						groups.name;");
+						WHERE groups.course_id='%' ORDER BY subject.name;");
 	$listname='gid';
 	$listlabel='department';
 	$listeitheror='Catid';

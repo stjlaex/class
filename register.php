@@ -42,14 +42,14 @@ if($nodays==''){$nodays=8;}
   else{
 	  /* On first load select the teacher's pastoral group by default. */
 	  $pastorals=(array)list_pastoral_respon();
-	  //if($CFG->registrationtype[1]=='form' and sizeof($pastorals['forms'])!=0){
+		  trigger_error($pastorals['forms'][0]['name'].' '.sizeof($pastorals['forms']),E_USER_WARNING);
 	  if(sizeof($pastorals['forms'])!=0){
 		  $section=get_section($pastorals['forms'][0],'form');
 		  $secid=$section['id'];
 		  $community=array('id'=>$pastorals['forms'][0]['community_id'],'type'=>'form','name'=>$pastorals['forms'][0]['name']);
 		  $yid=$pastorals['forms'][0]['yeargroup_id'];
 		  }
-	  elseif($CFG->registrationtype[1]=='house' and sizeof($pastorals['houses'])!=0){
+	  elseif(sizeof($pastorals['houses'])!=0){
 		  $community=array('id'=>$pastorals['houses'][0]['community_id'],'type'=>'house','name'=>$pastorals['houses'][0]['name']);
 		  $yid=$pastorals['houses'][0]['yeargroup_id'];
 		  }

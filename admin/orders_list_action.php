@@ -50,7 +50,7 @@ elseif($sub=='authorise'){
 					orderorder ON orderorder.supplier_id=ordersupplier.id 
 					WHERE orderorder.id='$ordid';");
 	$special=mysql_result($d_s,0);
-	if($special==1){$orderaction=5;}
+	if($special==1 or $special==2){$orderaction=5;}
 	else{$orderaction=1;}
 	}
 elseif($sub=='place'){

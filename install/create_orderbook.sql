@@ -33,7 +33,7 @@ CREATE TABLE ordersupplier (
 	phonenumber3	varchar(22) not null default '',
 	email			varchar(240) not null default '',
 	address_id		int unsigned not null default '0',
-	specialaction	enum('0','1') not null default '0',
+	specialaction	enum('0','1','2') not null default '0',
 	inactive		enum('0','1') not null default '0',
 	primary key (id)
 ) type=myisam;
@@ -60,6 +60,7 @@ CREATE TABLE ordermaterial (
 	detail			text not null default '',
 	materialtype	int unsigned not null default '0',
 	invoice_id		int unsigned not null default '0', 
+	catalogue_id	int unsigned not null default '0', 
    	primary key		(order_id,entryn)
 ) type=myisam;
 

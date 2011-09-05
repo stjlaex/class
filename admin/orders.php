@@ -24,6 +24,7 @@ if($_SESSION['role']=='admin' or $aperm==1){
 	}
 if($_SESSION['role']=='admin' or $aperm==1 or $_SESSION['role']=='office'){
 	$extrabuttons['suppliers']=array('name'=>'current','value'=>'suppliers_list.php');
+	$extrabuttons['inventory']=array('name'=>'current','value'=>'inventory_list.php');
 	$extrabuttons['export']=array('name'=>'current','value'=>'orders_export.php');
 	}
 twoplus_buttonmenu($budgetyear,$currentyear+2,$extrabuttons,$book);
@@ -140,21 +141,15 @@ twoplus_buttonmenu($budgetyear,$currentyear+2,$extrabuttons,$book);
 			else{
 				print $budget['name'];
 				}
-?>
-		  </td>
-		  <td>
-<?php 
+
 			/* Restrict access to budget managers, x perms*/
 			if($budget['x']){
 				print '<a href="admin.php?current=orders_limit.php&cancel='.
-							$choice.'&choice='. $choice.'&budid='. $budget['id'].'&budgetyear='.$budgetyear.'">' 
-							.round($budget['costlimit'],0).'</a>';
-				}
-			else{
-				print $budget['costlimit'];
+							$choice.'&choice='. $choice.'&budid='. $budget['id'].'&budgetyear='.$budgetyear.'"><img class="clicktoconfigure" style="float:right;padding:8px 8px;" title="'.get_string('clicktoconfigure','admin').'" />&nbsp;</a>';
 				}
 ?>
 		  </td>
+		  <td><?php print round($budget['costlimit'],0);?></td>
 		  <td><?php print get_budget_current($budget['id']);?></td>
 		  <td><?php print get_budget_projected($budget['id']);?></td>
 		</tr>

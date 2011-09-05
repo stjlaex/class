@@ -17,11 +17,10 @@ if($sub=='Submit'){
 		/*academic budget*/
 		$gid_a=$_POST['gid'];
 		$catid=0;
-		$d_n=mysql_query("SELECT name FROM groups WHERE gid='$gid_a';");
-		$name=mysql_result($d_n,0);
 		$users_perms=(array)list_group_users_perms($gid_a);
 		$d_n=mysql_query("SELECT subject_id FROM groups WHERE gid='$gid_a';");
 		$bid=mysql_result($d_n,0);
+		$name=get_subjectname($bid);
 		$teacher_users=list_teacher_users($crid='%',$bid);
 		}
 	else{

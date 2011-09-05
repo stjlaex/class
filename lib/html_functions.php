@@ -300,7 +300,7 @@ function xmlelement_input($val,$no,$tab,$book){
 		if($val['type_db']=='decimal'){$pattern='pattern="decimal"';$maxlength='20';}
 		else{$pattern='pattern="integer"';$maxlength='4';}
 		$field_type=(array)explode('(', $val['type_db']);
-		$field_type=(array)explode(')', $field_type[1]);
+		if(isset($field_type[1])){$field_type=(array)explode(')', $field_type[1]);}
 		if(isset($field_type[0])){$maxlength='maxlength="'.$field_type[0].'" ';}else{$maxlength=' ';}
 ?>
 		<input type="text" id="<?php print $val['label'];?>" 

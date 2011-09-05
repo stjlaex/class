@@ -7,9 +7,10 @@ $cancel='orders_list.php';
 if(isset($_POST['ordid'])){$ordid=$_POST['ordid'];}else{$ordid=-1;}
 $budid=$_POST['budid'];
 $maxmatn=$_POST['maxmatn'];
-$supid=$_POST['supid'];
+if(isset($_POST['supid'])){$supid=$_POST['supid'];}else{$supid=-1;}
+if(isset($_POST['catid'])){$catid=$_POST['catid'];}else{$catid=-1;}
 $budgetyear=$_POST['budgetyear'];
-$action_post_vars=array('budid','budgetyear');
+$action_post_vars=array('budid','budgetyear','supid','ordid','catid');
 
 include('scripts/sub_action.php');
 
@@ -17,6 +18,9 @@ if($sub=='Submit' and $supid>0){
 
 	$yearcode=-1;
 	$Order=fetchOrder();
+	$d_sup=mysql_query("SELECT specialaction FROM ordersupplier WHERE id='$supid';");
+	$specialaction=mysql_result($d_sup,0);/* value=2 for catalogue items */
+
 	if($ordid==-1){
 		mysql_query("INSERT INTO orderorder SET budget_id='$budid',
 						supplier_id='$supid', teacher_id='$tid';");
@@ -26,8 +30,8 @@ if($sub=='Submit' and $supid>0){
 		mysql_query("UPDATE orderorder SET supplier_id='$supid' WHERE id='$ordid';");
 		mysql_query("DELETE FROM ordermaterial WHERE order_id='$ordid';");	
 		}
-	reset($Order);
-	while(list($index,$val)=each($Order)){
+
+	foreach($Order as $val){
 		if(isset($val['value']) and is_array($val) and isset($val['table_db'])){
 			$field=$val['field_db'];
 			$inname=$field;
@@ -51,9 +55,10 @@ if($sub=='Submit' and $supid>0){
 		   $_POST['quantity'.$matn]!='' and $_POST['unitcost'.$matn]!='' 
 		   and $_POST['quantity'.$matn]!='0' and $_POST['unitcost'.$matn]!='0'){
 			$entryn++;
+
 			mysql_query("INSERT INTO ordermaterial SET order_id='$ordid', entryn='$entryn';");
-			reset($Material);
-			while(list($index,$val)=each($Material)){
+			$mat=array();
+			foreach($Material as $val){
 				if(isset($val['value']) and is_array($val) and isset($val['table_db'])){
 					$field=$val['field_db'];
 					$inname=$field. $matn;
@@ -62,10 +67,29 @@ if($sub=='Submit' and $supid>0){
 						mysql_query("UPDATE ordermaterial SET $field='$inval'
 								WHERE entryn='$entryn' AND order_id='$ordid';");
 						}
+					$mat[$field]=$inval;
 					}
 				}
+
+			/* If the catalogue id is already set then don't change otherwise set to new value. */
+			if($_POST["catalogue_id_db$matn"]>0){$incatid=$_POST["catalogue_id_db$matn"];}
+			else{$incatid=$catid;}
+			if($specialaction==2){
+				trigger_error('SPECIAL: '.$incatid.' : '.$catid,E_USER_WARNING);
+				$mat['catalogue_id_db']=$incatid;
+				$mat['supplier_id_db']=$supid;
+				$mat['currency']=$_POST['currency'];
+				$incatid=updateCatalogueMaterial($mat);
+				}
+
+			$ininvid=$_POST["invoice_id_db$matn"];
+			mysql_query("UPDATE ordermaterial SET catalogue_id='$incatid', invoice_id='$ininvid'
+								WHERE entryn='$entryn' AND order_id='$ordid';");
 			}
 		}
+	}
+elseif($supid>0){
+	$action='new_order.php';
 	}
 
 include('scripts/redirect.php');

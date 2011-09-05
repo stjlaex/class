@@ -51,7 +51,7 @@ else{$session='AM';}
 	else{
 		$community['yeargroup_id']=$yid;
 		$students=(array)listin_community($community);
-		$tutor_users=(array)list_community_users($community);
+		$tutor_users=(array)list_community_users($community,array('r'=>1,'w'=>1,'x'=>1),$yid);
 		$AttendanceEvents=fetchAttendanceEvents($startday,$nodays,$session);
 
 		/* If the currentevent is not yet in the db event table then must
@@ -115,11 +115,11 @@ else{$session='AM';}
 	threeplus_buttonmenu($startday,2,$extrabuttons);
 
 
-if($community['type']=='form'){
+if($community['type']=='form' or $community['type']=='house'){
 ?>
   <div id="heading">
 	<div>
-	  <label><?php print_string('formgroup');?></label>
+	  <label><?php print_string($community['type']);?></label>
 	  <?php print $community['name'];?>
 	</div>
 <?php

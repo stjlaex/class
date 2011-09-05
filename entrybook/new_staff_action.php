@@ -1,5 +1,6 @@
 <?php
 /**			  					new_staff_action.php
+ *
  */
 
 $action='new_staff.php';

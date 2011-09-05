@@ -9,13 +9,16 @@ $maxmatn=12;
 include('scripts/sub_action.php');
 
 if(isset($_POST['ordid'])){$ordid=$_POST['ordid'];}else{$ordid=-1;}
+if(isset($_POST['catid'])){$catid=$_POST['catid'];}else{$catid=-1;}
 $Order=fetchOrder($ordid);
 if($ordid==-1){
 	$budid=$_POST['budid'];
+	if(isset($_POST['supid'])){$supid=$_POST['supid'];}else{$supid=-1;}
 	}
 else{
 	/* Editing an existing order.*/
 	$budid=$Order['Budget']['value_db'];
+	$supid=$Order['Supplier']['id_db'];
 	}
 $Budget=fetchBudget($budid);
 $budgetyear=get_budgetyear($Budget['YearCode']['value']);
@@ -78,20 +81,25 @@ else{
 		  <tr>
 			<td>
 <?php
-		  /* The specialaction=1 is for suppliers who are probably not
-		   * 'suppliers' ie. petty cash or photocopy and which will bypass
-		   * the action tracking for deilvery and invoices. But still
-		   * need to be authorised.
-		   */
-		if($perms['x']==1 or $_SESSION['role']=='office'){$special='%';}
-		else{$special=0;}
-		$d_sup=mysql_query("SELECT id, name FROM ordersupplier WHERE
-						inactive='0' AND specialaction LIKE '$special' ORDER
-						BY specialaction, name;");
+		/**
+		 * The specialaction=1 is for suppliers who are probably not
+		 * 'suppliers' ie. petty cash or photocopy and which will bypass
+		 * the action tracking for deilvery and invoices. But still
+		 * need to be authorised. specialaction=2 are similar but for catalogue orders
+		 */
+		if($perms['x']==1 or $_SESSION['role']=='office'){
+			$d_sup=mysql_query("SELECT ordersupplier.id, ordersupplier.name FROM ordersupplier 
+					WHERE inactive='0' ORDER BY specialaction, name;");
+			}
+		else{
+			$d_sup=mysql_query("SELECT ordersupplier.id, ordersupplier.name FROM ordersupplier 
+					WHERE inactive='0' AND (specialaction='0' OR specialaction='2') ORDER BY specialaction, name;");
+			}
 		$listlabel='supplier';
-		$selsupid=$Order['Supplier']['id_db'];
+		$selsupid=$supid;
 		$listname='supid';
-		$required='yes';
+		$onchange='yes';
+		//$required='yes';
 		include('scripts/set_list_vars.php');
 		list_select_db($d_sup,$listoptions,$book);
 		unset($listoptions);
@@ -101,6 +109,39 @@ else{
 		</table>
 	  </div>
 
+
+<?php
+		/* List all catalogue items for this supplier. */
+		$d_sup=mysql_query("SELECT id, detail AS name FROM ordercatalogue 
+					WHERE supplier_id='$supid' ORDER BY subject_id, detail;");
+		if(mysql_num_rows($d_sup)>0){
+?>
+	  <div class="right">
+		<table class="listmenu">
+		  <caption><?php print_string('catalogue',$book);?></caption>
+		  <tr>
+			<td>
+<?php
+			$listlabel='item';
+			$selcatid=$catid;
+			$listname='catid';
+			$onchange='yes';
+			$liststyle='width:80%;';
+			include('scripts/set_list_vars.php');
+			list_select_db($d_sup,$listoptions,$book);
+			unset($listoptions);
+			$specialaction=2;
+?>
+			</td>
+		  </tr>
+		</table>
+	  </div>
+
+<?php
+			$maxmatn=0;
+			$Order['Materials']['Material'][]=fetchCatalogueMaterial($catid);
+			}
+?>
 
 	  <div class="center">
 		<table class="listmenu">
@@ -113,14 +154,14 @@ else{
 <?php
 
 		$materialno=sizeof($Order['Materials']['Material']);
-		if($materialno>($maxmatn-2)){$maxmatn=$materialno+12;}
+		if($materialno>($maxmatn-2)){$maxmatn=$materialno+$maxmatn;}
 		if($materialno<$maxmatn){
 			for($matn=$materialno;$matn<$maxmatn;$matn++){
 				$Order['Materials']['Material'][]=$Materialblank;
 				}
 			  }
 
-		while(list($index,$Material)=each($Order['Materials']['Material'])){
+		foreach($Order['Materials']['Material'] as $index => $Material){
 			$matn=$index+1;
 ?>
 		  <tr>
@@ -133,7 +174,11 @@ else{
 			${'sel'.$listname}=$Material['Type']['value_db']; $cattype='mat';
 			include('scripts/list_category.php');
 			unset(${'sel'.$listname});
+			if($Material['catalogue_id_db']>0){$selcatid=$Material['catalogue_id_db'];}
+			else{$selcatid=$catid;}
 ?>
+			<input type="hidden" name="catalogue_id_db<?php print $matn;?>" value="<?php print $selcatid;?>">
+			<input type="hidden" name="invoice_id_db<?php print $matn;?>" value="<?php print $Material['invoice_id_db'];?>">
 			</td>
 			<td><?php $tab=xmlelement_input($Material['Detail'],$matn,$tab,$book);?></td>
 			<td><?php $tab=xmlelement_input($Material['SupplierReference'],$matn,$tab,$book);?></td>

@@ -23,14 +23,14 @@ if($sub=='medstatus'){
 	}
 elseif($sub=='Submit'){
 	$Notes=$Medical['Notes'];
-	while(list($index,$Note)=each($Notes['Note'])){
+	foreach($Notes['Note'] as $index => $Note){
 		$todate=date('Y-m-d');
 		$cattype=$Note['MedicalCategory']['value_db'];
 		$inname='detail'.$index;
 		$inval=clean_text($_POST[$inname]);
 		if($Note['Detail']['value']!=$inval){
 			$noteid=$Note['id_db'];
-			if($noteid==''){
+			if($noteid==-1){
 				mysql_query("INSERT INTO background
 						(student_id,detail,type,entrydate) 
 						VALUES ('$sid','$inval','$cattype','$todate');");

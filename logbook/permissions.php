@@ -694,10 +694,9 @@ function update_user($user,$update='no',$short='class'){
 					 '$surname', '$title', '$email', '$emailuser', 
 						'$emailpasswd', '$role', '$nologin', '$worklevel',
 					   '$senrole', '$medrole', '$firstbookpref', '$homephone', '$mobilephone', 
-						'$address_id', '$personalcode', '$dob', '$contractdate')");
+						'$address_id', '$personalcode', '$dob', '$contractdate');");
 		$result=$result.'Username '.$username.' added.';
 		}
-
 	if($assword!=''){
 		  $d_user=mysql_query("UPDATE users SET
 					passwd='$assword' WHERE username='$username'");

@@ -316,6 +316,76 @@ function fetchOrder($ordid='-1'){
 	}
 
 
+
+
+/**
+ *
+ * @param integer $catid
+ * @return array
+ */
+function fetchCatalogueMaterial($catid,$budid=-1){
+	$Materials=array();
+	$Materials['Material']=array();
+	list($ratingnames,$catdefs)=fetch_categorydefs('mat');
+
+	$d_m=mysql_query("SELECT id AS catalogue_id, '-1' AS entryn, '0' AS quantity, unitcost, detail,
+			   CONCAT(refno,isbn) AS refno, currency, materialtype FROM ordercatalogue WHERE id='$catid' ORDER BY entryn;");
+	$mat=mysql_fetch_array($d_m,MYSQL_ASSOC);
+
+	$Material=(array)fetchMaterial($mat,$catdefs);
+	if($budid!=-1){
+		$d_m=mysql_query("SELECT SUM(quantity) FROM ordermaterial 
+			JOIN orderorder ON orderorder.id=ordermaterial.order_id 
+			WHERE ordermaterial.catalogue_id='$catid' AND orderorder.budget_id='$budid' ORDER BY entryn;");
+		$purchased=mysql_result($d_m,0);
+
+		$d_f=mysql_query("SELECT SUM(quantity) FROM fees_charge WHERE budget_id='$budid' AND catalogue_id='$catid' AND payment='0';");
+		$delivered=mysql_result($d_f,0);
+		$d_f=mysql_query("SELECT SUM(quantity) FROM fees_charge WHERE budget_id='$budid' AND catalogue_id='$catid' AND payment='1';");
+		$paid=mysql_result($d_f,0);
+		$stock=$purchased-$delivered-$paid;
+		}
+	else{
+		$stock='';
+		}
+
+	$Material['Purchased']=array('label' => 'purchased', 
+							 //'inputtype'=> 'required',
+							 'value' => ''.$purchased
+							 );
+	$Material['Stock']=array('label' => 'stock', 
+							 //'inputtype'=> 'required',
+							 'value' => ''.$stock
+							 );
+	return $Material;
+	}
+
+
+/**
+ *
+ */
+function updateCatalogueMaterial($mat){
+	$catid=$mat['catalogue_id_db'];
+	$supid=$mat['supplier_id_db'];
+	$detail=$mat['detail'];
+	$unitcost=$mat['unitcost'];
+	$detail=$mat['detail'];
+	$type=$mat['materialtype'];
+	$refno=$mat['refno'];
+	$currency=$mat['currency'];
+
+	if($catid=='' or $catid==-1){
+		mysql_query("INSERT INTO ordercatalogue SET supplier_id='$supid';");
+		$catid=mysql_insert_id();
+		}
+
+	mysql_query("UPDATE ordercatalogue SET currency='$currency', refno='$refno', detail='$detail', unitcost='$unitcost', materialtype='$type' WHERE id='$catid';");
+
+	return $catid;
+	}
+
+
+
 /**
  *
  * @param integer $ordid
@@ -326,7 +396,7 @@ function fetchMaterials($ordid){
 	$Materials['Material']=array();
 	list($ratingnames,$catdefs)=fetch_categorydefs('mat');
 	$d_m=mysql_query("SELECT entryn, quantity, unitcost, detail,
-			   refno, materialtype, invoice_id FROM ordermaterial WHERE order_id='$ordid' ORDER BY entryn;");
+			   refno, materialtype, invoice_id, catalogue_id  FROM ordermaterial WHERE order_id='$ordid' ORDER BY entryn;");
 	while($mat=mysql_fetch_array($d_m,MYSQL_ASSOC)){
 		$Material=(array)fetchMaterial($mat,$catdefs);
 		$Materials['Material'][]=$Material;
@@ -340,7 +410,7 @@ function fetchMaterials($ordid){
  * @param array $mat
  * @return array
  */
-function fetchMaterial($mat=array('entryn'=>'','materialtype'=>'','detail'=>'', 
+function fetchMaterial($mat=array('invoice_id'=>'','catalogue_id'=>'','entryn'=>'','materialtype'=>'','detail'=>'', 
 								  'quantity'=>'','unitcost'=>'','refno'=>''),$catdefs=array()){
 
 	if(sizeof($catdefs)==0){list($ratingnames,$catdefs)=fetch_categorydefs('mat');}
@@ -351,6 +421,7 @@ function fetchMaterial($mat=array('entryn'=>'','materialtype'=>'','detail'=>'',
 	$Material=array();
 	$Material['id_db']=$mat['entryn'];
 	$Material['invoice_id_db']=$mat['invoice_id'];
+	$Material['catalogue_id_db']=$mat['catalogue_id'];
    	$Material['Type']=array('label' => 'type',
 							//'inputtype'=> 'required',	
 							'table_db' => 'ordermaterial', 

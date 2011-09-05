@@ -41,6 +41,7 @@ else{
 	if(isset($_GET['budid'])){$budid=$_GET['budid'];}
 	$orders=list_budget_orders($budid);
 	$extrabuttons['neworder']=array('name'=>'current','value'=>'new_order.php');
+	$extrabuttons['inventory']=array('name'=>'current','value'=>'inventory_list.php');
 	$colspan=6;
 	$perms=get_budget_perms($budid);
 	$Budget=fetchBudget($budid);
