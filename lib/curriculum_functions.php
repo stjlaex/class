@@ -582,7 +582,7 @@ function update_subjectclassdef($classdef){
 	$stage=$classdef['stage'];
 	$crid=$classdef['crid'];
 
-	if($many!=''){
+	if($many!='' and $generate!=''){
 		$d_classes=mysql_query("SELECT * FROM classes WHERE
 						subject_id='$bid' AND stage='$stage' AND course_id='$crid';");
 		if(mysql_numrows($d_classes)>0){
@@ -604,10 +604,8 @@ function update_subjectclassdef($classdef){
 		}
 	else{
 		mysql_query("DELETE FROM classes WHERE
-						stage='$stage' AND  course_id='$crid' AND
-						subject_id='$bid' LIMIT 1;");
+						stage='$stage' AND  course_id='$crid' AND subject_id='$bid' LIMIT 1;");
 		}
-
 	}
 
 

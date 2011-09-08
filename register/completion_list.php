@@ -8,13 +8,33 @@ $choice='completion_list.php';
 if(isset($_POST['newsecid'])){$secid=$_POST['newsecid'];}
 
 $registration_coms=array();
-$ygs=(array)list_yeargroups($secid);
-if(!isset($CFG->regtypes[$secid])){$type=$regtype;}
-else{$type=$CFG->regtypes[$secid];}
-foreach($ygs as $yg){
-	$coms=(array)list_communities($type,'',$yg['id']);
-	$registration_coms=array_merge($registration_coms,$coms);
+
+if($secid!='' and $secid>1){
+	/* Limit list to just the year groups for this section. */
+	$ygs=(array)list_yeargroups($secid);
+	if(!isset($CFG->regtypes[$secid])){$type=$regtype;}
+	else{$type=$CFG->regtypes[$secid];}
+	foreach($ygs as $yg){
+		$coms=(array)list_communities($type,'',$yg['id']);
+		$registration_coms=array_merge($registration_coms,$coms);
+		}
 	}
+else{
+	/* Give the whole school ig no section selected. */
+	$sections=list_sections();
+	foreach($sections as $section){
+		$secid=$section['id'];
+		$ygs=(array)list_yeargroups($secid);
+		if(!isset($CFG->regtypes[$secid])){$type=$regtype;}
+		else{$type=$CFG->regtypes[$secid];}
+		foreach($ygs as $yg){
+			$coms=(array)list_communities($type,'',$yg['id']);
+			$registration_coms=array_merge($registration_coms,$coms);
+			}
+		}
+	$secid='';
+	}
+
 
 $eveid=$currentevent['id'];
 

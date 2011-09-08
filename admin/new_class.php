@@ -74,8 +74,8 @@ $nonsubjects=list_subjects($rcrid,false);
 ?>
 			  </td>
 			  <td>
-				<select name="<?php print $stagename;?>-g" 
-				  tabindex="<?php print $tab++;?>" >
+				<select name="<?php print $stagename;?>-g" tabindex="<?php print $tab++;?>" >
+				  <option value="" <?php if($generate==""){print "selected='selected'";}?>></option>	
 				  <option value="sets" <?php if($generate=="sets"){print "selected='selected'";}?>>sets</option>	
 				  <option value="forms" <?php if($generate=="forms"){print "selected='selected'";}?>>forms</option>	
 				</select>

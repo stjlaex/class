@@ -565,29 +565,34 @@ function list_pastoral_respon(){
 	$ryears=array();
 	$aperm=get_admin_perm('p',$_SESSION['uid']);
 	$resperm=getResidencePerm();
+
+	/* For a normal user split yeargroups, houses and forms into separate arrays. */
+	foreach($_SESSION['prespons'] as $respon){
+		if($respon['comtype']=='form'){
+			$rforms[]=$respon;
+			}
+		elseif($respon['comtype']=='house'){
+			$rhouses[]=$respon;
+			}
+		elseif($respon['yeargroup_id']!='' and $respon['community_id']=='0'){
+			/* All academic respons must have null yeargroup_id for this to work!*/
+			$ryears[]=$respon['yeargroup_id'];
+			}
+		}
+
+	/**
+	 * In addition if the user has admin access to pastoral then
+	 * return all year groups to ensure access to everything.
+	 */
 	if($aperm==1 or $resperm['x']==1){
-		/* If the user has admin access to pastoral then return all groups. */
+		$ryears=array();
 		$d_groups=mysql_query("SELECT DISTINCT yeargroup_id FROM groups WHERE type='p'  
 								AND yeargroup_id IS NOT NULL ORDER BY yeargroup_id;");
 		while($group=mysql_fetch_array($d_groups, MYSQL_ASSOC)){
 			$ryears[]=$group['yeargroup_id'];
 			}
 		}
-	else{
-		/* For a normal user split yeargroups and forms into to arrays. */
-		foreach($_SESSION['prespons'] as $respon){
-			if($respon['comtype']=='form'){
-				$rforms[]=$respon;
-				}
-			elseif($respon['comtype']=='house'){
-				$rhouses[]=$respon;
-				}
-			elseif($respon['yeargroup_id']!='' and $respon['community_id']=='0'){
-				/* All academic respons must have null yeargroup_id for this to work!*/
-				$ryears[]=$respon['yeargroup_id'];
-				}
-			}
-		}
+
 
 	return array('forms'=>$rforms,'years'=>$ryears,'houses'=>$rhouses);
 	}
