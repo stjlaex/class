@@ -124,6 +124,35 @@ function list_course_subjects($crid='',$substatus='A'){
 	return $subjects;
 	}
 
+
+/**
+ *
+ *  Returns an array of id,name pairs for every subject definition
+ *
+ *	@return array
+ */
+function list_subjects($crid,$exist=true){
+	$subjects=array();
+
+	if($exist){
+		$d_c=mysql_query("SELECT DISTINCT subject.id, CONCAT(subject.name,' (', subject.id,')') AS name FROM subject 
+						LEFT JOIN component ON component.subject_id=subject.id 
+						WHERE component.course_id='$crid' ORDER BY name;");
+		}
+	else{
+		$d_c=mysql_query("SELECT DISTINCT subject.id, CONCAT(subject.name,' (', subject.id,')') AS name FROM subject 
+						LEFT OUTER JOIN component ON component.subject_id=subject.id 
+						AND component.course_id='$crid' WHERE component.subject_id IS NULL ORDER BY name;");
+		}
+	while($subject=mysql_fetch_array($d_c,MYSQL_ASSOC)){
+		$subjects[]=$subject;
+		}
+
+	return $subjects;
+	}
+
+
+
 /**
  * Returns an array of id,name pairs of every subject taught by a teacher
  *
@@ -514,6 +543,7 @@ function message_student_teachers($sid, $tid, $bid, $messagesubject, $messagetex
  *	@return array
  */
 function get_subjectclassdef($crid,$bid,$stage){
+
 	$d_c=mysql_query("SELECT many, generate, naming, sp, dp, block FROM classes WHERE
 				subject_id='$bid' AND stage='$stage' AND course_id='$crid';");
 	if(mysql_num_rows($d_c)>0){
@@ -522,10 +552,12 @@ function get_subjectclassdef($crid,$bid,$stage){
 	else{
 		$classdef=array();
 		$classdef['many']=-1;
+		$classdef['generate']='';
 		}
 	$classdef['crid']=$crid;
 	$classdef['bid']=$bid;
 	$classdef['stage']=$stage;
+
 	return $classdef;
 	}
 
@@ -550,7 +582,7 @@ function update_subjectclassdef($classdef){
 	$stage=$classdef['stage'];
 	$crid=$classdef['crid'];
 
-	if($many!='0'){
+	if($many!=''){
 		$d_classes=mysql_query("SELECT * FROM classes WHERE
 						subject_id='$bid' AND stage='$stage' AND course_id='$crid';");
 		if(mysql_numrows($d_classes)>0){

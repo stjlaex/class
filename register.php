@@ -15,7 +15,8 @@ include('scripts/head_options.php');
 include('scripts/set_book_vars.php');
 $session_vars=array('newcid','newcomid','startday','checkeveid','secid','nodays','yid');
 include('scripts/set_book_session_vars.php');
-if(!isset($CFG->registrationtype)){$CFG->registrationtype[1]='form';}
+if(isset($CFG->regtypes[1])){$regtype=$CFG->regtypes[1];}
+else{$regtype='form';}
 
 if($nodays==''){$nodays=8;}
 
@@ -27,7 +28,8 @@ if($nodays==''){$nodays=8;}
   elseif($newcomid!=''){
 	  //TODO: no relation between sections and other community groups
 	  $community=(array)get_community($newcomid);
-	  $section=get_section($community['name'],$community['type']);
+	  if($yid==''){$yid=array_pop(array_keys($community['groups']));}
+	  $section=get_section($yid);
 	  $secid=$section['id'];
 	  $newcid='';
 	  }
@@ -42,16 +44,17 @@ if($nodays==''){$nodays=8;}
   else{
 	  /* On first load select the teacher's pastoral group by default. */
 	  $pastorals=(array)list_pastoral_respon();
-		  trigger_error($pastorals['forms'][0]['name'].' '.sizeof($pastorals['forms']),E_USER_WARNING);
-	  if(sizeof($pastorals['forms'])!=0){
-		  $section=get_section($pastorals['forms'][0],'form');
-		  $secid=$section['id'];
-		  $community=array('id'=>$pastorals['forms'][0]['community_id'],'type'=>'form','name'=>$pastorals['forms'][0]['name']);
-		  $yid=$pastorals['forms'][0]['yeargroup_id'];
-		  }
-	  elseif(sizeof($pastorals['houses'])!=0){
+	  if(sizeof($pastorals['houses'])!=0){
 		  $community=array('id'=>$pastorals['houses'][0]['community_id'],'type'=>'house','name'=>$pastorals['houses'][0]['name']);
 		  $yid=$pastorals['houses'][0]['yeargroup_id'];
+		  $section=get_section($yid);
+		  $secid=$section['id'];
+		  }
+	  elseif(sizeof($pastorals['forms'])!=0){
+		  $community=array('id'=>$pastorals['forms'][0]['community_id'],'type'=>'form','name'=>$pastorals['forms'][0]['name']);
+		  $yid=$pastorals['forms'][0]['yeargroup_id'];
+		  $section=get_section($yid);
+		  $secid=$section['id'];
 		  }
 	  }
 ?>
@@ -89,29 +92,32 @@ if($nodays==''){$nodays=8;}
 
 		<br />
 		<br />
-<!--
-
-TODO: list_sections here:
 
 	  <fieldset class="register">
 		<legend><?php print_string('section',$book);?></legend>
 
 		<form id="registerchoice" name="registerchoice" method="post" action="register.php" target="viewregister">
 <?php
-//			$onsidechange='yes';
-//			$listtype='section';
-//			$listlabel='';
-//			include('scripts/list_community.php');
+	$onsidechange='yes';
+	$listtype='section';
+	$listname='newsecid';
+	$selnewsecid=$secid;
+	$listlabel='';
+	$sections=list_sections();
+	include('scripts/set_list_vars.php');
+	list_select_list($sections,$listoptions,$book);
+	unset($listoptions);unset($sections);
 ?>
 		<input type="hidden" name="newcid" value="" />
-		<input type="hidden" name="current" value="register_list.php" />
+		<input type="hidden" name="newcomid" value="" />
+		<input type="hidden" name="current" value="completion_list.php" />
 		<input type="hidden" name="nodays" value="8" />
 		</form>
 	  </fieldset>
 
 	  <br />
 	  <br />
--->
+
 
 	<form id="registerchoicesel" name="registerchoicesel" method="post" 
 		  action="register.php" target="viewregister">

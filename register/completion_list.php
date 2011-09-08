@@ -5,19 +5,16 @@
  */
 
 $choice='completion_list.php';
+if(isset($_POST['newsecid'])){$secid=$_POST['newsecid'];}
 
-if(!isset($CFG->registrationtype)){$CFG->registrationtype[1]=='form';}
-
-	$registration_coms=array();
-	foreach($CFG->registrationtype as $secid => $type){
-		trigger_error($type.' '.' '.$secid,E_USER_WARNING);
-		$ygs=(array)list_yeargroups($secid);
-		foreach($ygs as $yg){
-			trigger_error($type.' '.$yg['id']. ' '.$secid,E_USER_WARNING);
-			$coms=(array)list_communities($type,'',$yg['id']);
-			$registration_coms=array_merge($registration_coms,$coms);
-			}
-		}
+$registration_coms=array();
+$ygs=(array)list_yeargroups($secid);
+if(!isset($CFG->regtypes[$secid])){$type=$regtype;}
+else{$type=$CFG->regtypes[$secid];}
+foreach($ygs as $yg){
+	$coms=(array)list_communities($type,'',$yg['id']);
+	$registration_coms=array_merge($registration_coms,$coms);
+	}
 
 $eveid=$currentevent['id'];
 
@@ -58,6 +55,7 @@ two_buttonmenu($extrabuttons);
 		list($nosids,$nop,$noa)=check_community_attendance($com,$currentevent);
 		if($nosids>0){
 			$getparam='newcomid='.$com['id'];
+			$getparam.='&newcid=';
 			if(isset($com['yeargroup_id'])){$getparam.='&yid='.$com['yeargroup_id'];}
 			if(($nop+$noa)==$nosids and $nosids!=0){$status='complete';$cssclass='';}
 			else{$status='incomplete';$cssclass='vspecial';}

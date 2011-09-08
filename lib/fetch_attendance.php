@@ -266,7 +266,7 @@ function fetchAttendanceEvents($startday=0,$nodays=7,$session='%'){
 							   'value'=>''.$event['period']);
 		$AttendanceEvents['Event'][]=$Event;
 		$eveindex[$event['id']]=$index;
-		$perindex[$event['period']]=$index;//only needed when nodays=1
+		$perindex[]=$event['period'];//only needed when nodays=1
 		$index++;
 		}
 	$AttendanceEvents['eveindex']=$eveindex;

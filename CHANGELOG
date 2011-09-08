@@ -1,4 +1,4 @@
-Version ClaSS-1.0.2 release (2011/09/5)
+Version ClaSS-1.0.2 release (2011/09/11)
 -------------------------------------------
 
 Yougest sibling filter for group_search.
@@ -8,6 +8,12 @@ Fix to adding new medical details.
 Fixes to new budget needed now groups have no name.
 
 Working on catalogue, inventory and fees.
+
+Sorting of register by class periods fixed.
+
+Separated the completed registers by section and added a sideoption for this.
+
+Improved new_class to allow overwriting exisitng MarkBook classes.
 
 
 Version ClaSS-1.0.1 release (2011/08/24)

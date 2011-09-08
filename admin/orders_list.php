@@ -276,9 +276,9 @@ two_buttonmenu($extrabuttons,$book);
 																 'value'=>array_shift($orderactions),
 																 'title'=>'cancelled');
 							}
-						while(list($indexoa,$orderaction)=each($orderactions)){
+						foreach($orderactions as $orderaction){
 							$actionbuttons[$orderaction]=array('name'=>'process',
-														   'value'=>$orderaction);
+															   'value'=>$orderaction);
 							}
 ?>
 				<label>

@@ -14,7 +14,6 @@ include('scripts/sub_action.php');
 if(isset($CFG->registration[$secid]) and $CFG->registration[$secid]!='single'){$session='%';}
 else{$session='AM';}
 
-
 	if($community['type']=='class'){
 		$students=(array)listin_class($community['name'],true);
 		$AttendanceEvents=fetchAttendanceEvents($startday,1,$session);
@@ -31,11 +30,12 @@ else{$session='AM';}
 			$AttendanceEvents['Event'][]=$Event;
 			}
 
+		/* An used to order the Events array by period. */
 		$perindex=$AttendanceEvents['perindex'];
 
 		$classperiods=get_class_periods($currentevent,$secid);
 		foreach($classperiods as $classperiod => $periodtime){
-			if(!array_key_exists($classperiod,$perindex)){
+			if(!in_array($classperiod,$perindex)){
 				/* This must be negative to indicate a class period!!! 
 				 * Its 0 for a fresh session and a positive value would be 
 				 * an existing event id.
@@ -45,8 +45,12 @@ else{$session='AM';}
 				$Event['Session']['value']=$session;
 				$Event['Period']['value']=$classperiod;
 				$AttendanceEvents['Event'][]=$Event;
+				$perindex[]=$classperiod;
 				}
 			}
+
+		array_multisort($perindex,SORT_ASC,$AttendanceEvents['Event']);
+
 		}
 	else{
 		$community['yeargroup_id']=$yid;
@@ -210,7 +214,7 @@ if($community['type']=='form' or $community['type']=='house'){
 		</tr>
 <?php
 	$rown=1;
-	while(list($sindex,$student)=each($students)){
+	foreach($students as $student){
 		$sid=$student['id'];
 		$Student=fetchStudent_short($sid);
 		$Attendances=(array)fetchAttendances($sid,$startday,$nodays);
@@ -342,7 +346,7 @@ if($community['type']=='form' or $community['type']=='house'){
 		<tr>
 	<th colspan="3"><?php print get_string('inschool',$book);?></th>
 <?php
-		foreach($events as $index=>$eveid){
+		foreach($events as $eveid){
 ?>
 		  <th>&nbsp;<?php print $tallys[$eveid];?></th>
 <?php

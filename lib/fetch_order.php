@@ -319,6 +319,9 @@ function fetchOrder($ordid='-1'){
 
 
 /**
+ * Returns a regular Material array but using the catalogue id as
+ * reference. With a budget specified then will also include numbers
+ * for current inventory.
  *
  * @param integer $catid
  * @return array
@@ -334,11 +337,14 @@ function fetchCatalogueMaterial($catid,$budid=-1){
 
 	$Material=(array)fetchMaterial($mat,$catdefs);
 	if($budid!=-1){
-		$d_m=mysql_query("SELECT SUM(quantity) FROM ordermaterial 
-			JOIN orderorder ON orderorder.id=ordermaterial.order_id 
-			WHERE ordermaterial.catalogue_id='$catid' AND orderorder.budget_id='$budid' ORDER BY entryn;");
-		$purchased=mysql_result($d_m,0);
 
+		/* Only include authorised orders (action=5). */
+		$d_m=mysql_query("SELECT SUM(quantity) FROM ordermaterial  
+			WHERE ordermaterial.catalogue_id='$catid' 
+			AND ordermaterial.order_id=ANY(SELECT DISTINCT id FROM orderorder JOIN orderaction ON orderorder.id=orderaction.order_id 
+			WHERE orderorder.budget_id='$budid' AND orderaction.action='5');");
+
+		$purchased=mysql_result($d_m,0);
 		$d_f=mysql_query("SELECT SUM(quantity) FROM fees_charge WHERE budget_id='$budid' AND catalogue_id='$catid' AND payment='0';");
 		$delivered=mysql_result($d_f,0);
 		$d_f=mysql_query("SELECT SUM(quantity) FROM fees_charge WHERE budget_id='$budid' AND catalogue_id='$catid' AND payment='1';");
@@ -350,11 +356,15 @@ function fetchCatalogueMaterial($catid,$budid=-1){
 		}
 
 	$Material['Purchased']=array('label' => 'purchased', 
-							 //'inputtype'=> 'required',
 							 'value' => ''.$purchased
 							 );
+	$Material['Delivered']=array('label' => 'delivered', 
+							 'value' => ''.$delivered
+							 );
+	$Material['Paid']=array('label' => 'paid', 
+							 'value' => ''.$paid
+							 );
 	$Material['Stock']=array('label' => 'stock', 
-							 //'inputtype'=> 'required',
 							 'value' => ''.$stock
 							 );
 	return $Material;

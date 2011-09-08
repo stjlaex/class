@@ -1245,7 +1245,8 @@ function list_assessment_profiles($crid,$bid='%'){
 		}
 	return $profiles;
 	}
-/*		$d_profile=mysql_query("SELECT name, subtype, rating_name FROM
+/*
+		$d_profile=mysql_query("SELECT name, subtype, rating_name FROM
 				categorydef WHERE type='pro' AND
 				course_id='$profile_crid' AND (subject_id='$profile_bid' OR subject_id='%');");
 		$profile=mysql_fetch_array($d_profile,MYSQL_ASSOC);
@@ -1255,12 +1256,19 @@ function list_assessment_profiles($crid,$bid='%'){
 /**
  *
  *
+ * TODO: bring up to date for bid specific ratings identified using ratingname
+ * TODO: make use of the longdescriptor?
+ *
+ * @param string $ratingname
+ * @return array $ratings
  */
 function get_ratings($ratingname){
-	$d_rating=mysql_query("SELECT * FROM rating WHERE name='$ratingname' ORDER BY value;");
+	$d_rating=mysql_query("SELECT value, descriptor FROM rating WHERE name='$ratingname' ORDER BY value;");
 	$ratings=array();
 	while($rating=mysql_fetch_array($d_rating,MYSQL_ASSOC)){
 		$ratings[$rating['value']]=$rating['descriptor'];
 		}
+
+	return $ratings;
 	}
 ?>

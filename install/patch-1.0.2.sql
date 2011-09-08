@@ -22,6 +22,7 @@ ALTER TABLE ordermaterial
 	ADD catalogue_id int unsigned not null default '0' AFTER invoice_id;
 ALTER TABLE ordersupplier
 	CHANGE specialaction specialaction enum('0','1','2') not null default '0';
+DROP TABLE IF EXISTS fees_charge;
 CREATE TABLE fees_charge (
 	id				int unsigned not null auto_increment,
 	student_id		int unsigned not null default 0,

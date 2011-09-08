@@ -54,7 +54,7 @@ $CFG->eportfolio_dataroot = '/home/epfdata';
  * to be added. Wither set to single or to the turnover time for the
  * PM session.
  */
-$CFG->registrationtype='form';//the default community type (eg. form or reg)
+$CFG->regtypes[1]='form';//the default community type (eg. form or reg)
 $CFG->registration[1]='single';//Whole school
 //$CFG->registration[2]='13:00';//where the index is the section id.
 //$CFG->regperiods[1]['AM']=array('1'=>'8:45','2'=>'9:30','3'=>'10:30','4'=>'11:15','5'=>'12:00');

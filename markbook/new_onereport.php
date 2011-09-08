@@ -153,21 +153,19 @@
 			$ass_colspan++;
 			//fetched by parent script new_edit_reports
 			//$catdefs=get_report_categories($rid,$bid,$pid,'cat',$class_stage);
-			$ratings=$reportdef['ratings'];
-			reset($catdefs);
 			unset($Categories);
 			if(isset($Comment['Categories'])){$Categories=$Comment['Categories'];}
 			else{
 				$Categories['Category']=array();
 				$Categories['ratingname']=get_report_ratingname($reportdef,$bid);
 				}
-			$ratings=$reportdef['ratings'][$Categories['ratingname']];
+			$ratings=get_ratings($Categories['ratingname']);
 
 			foreach($catdefs as $catindex=> $catdef){
 				$catid=$catdefs[$catindex]['id'];
 				$Statement=array('Value'=>$catdefs[$catindex]['name']);
 				$Statement=personaliseStatement($Statement,$Student);
-
+				trigger_error($catid.' : '.$catdefs[$catindex]['name'],E_USER_WARNING);
 				if($catdefs[$catindex]['rating']!=''){
 					if(!isset($cat_grading_grades)){
 						/*TODO: Only works with a single uniform grade scheme. */
@@ -188,7 +186,6 @@
 				print '<tr class="'.$rowclass.'" id="'.$openId.'-'.$rown++.'"><td></td>';
 				print '<td colspan="'.$extra_colspan.'"><div class="row" style="width:100%;"><p class="bigger">'
 					.$statementlabel. $Statement['Value'].'</p></div></td></tr>';
-				reset($ratings);
 				print '<tr class="'.$rowclass.'" id="'.$openId.'-'.$rown++.'"><th></th><td colspan="'.$extra_colspan.'" class="boundary row">';
 
 				/* Find any previously recorded value for this catid,

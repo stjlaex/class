@@ -203,7 +203,7 @@ elseif($sub=='Submit'){
 
 		if($new_sid!=-1){
 		reset($sidfields);
-		foreach($sidfields as $field_no => $field_name){
+		foreach($sidfields as $field_name => $field_no){
 			if($field_no==-1 or $field_name=='id'){$val='';}//value is null
 			else{
 				$val=$student[$field_no];

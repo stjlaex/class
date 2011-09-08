@@ -30,12 +30,10 @@ three_buttonmenu($book);
 	<div class="center">
 	<table class="listmenu">
 	  <tr>
-		<th>&nbsp</th>
-		<th colspan="3"><?php print $Budget['Name']['value'];?></th>
+		<th colspan="2"><?php print $Budget['Name']['value'];?></th>
+		<th>Available</th>
 	  </tr>
 	  <tr>
-		<td>
-		</td>
 		<td>
 		  <?php print $Material['SupplierReference']['value']; ?>
 		</td>
@@ -63,6 +61,7 @@ include('scripts/list_form.php');
 		  <th colspan="2"></th>
 		  <th>Add</th>
 		  <th>Delivered</th>
+		  <th>Return</th>
 		  <th>Paid</th>
 		</tr>
 <?php
@@ -88,8 +87,11 @@ include('scripts/list_form.php');
 		include('scripts/set_list_vars.php');
 		list_select_list($manys,$listoptions);
 		print '</td>';
-		print '<td>'.$delivered.' <input type="checkbox" name="remove'.$sid.'" value="'.$sid.'" /></td>';
-		print '<td>'.$paid.'</td>';
+		print '<td class="row">'.$delivered.'</td><td>';
+		if($delivered>0){
+			print '<input type="checkbox" name="remove'.$sid.'" value="'.$sid.'" />';
+			}
+		print '</td><td>'.$paid.'</td>';
 		print '</tr>';
 		}
 

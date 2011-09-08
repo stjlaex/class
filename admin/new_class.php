@@ -18,7 +18,8 @@ for($c=0;$c<$maxclassno;$c++){
 	$manys[]=array('id'=>$c,'name'=>$c);
 	}
 $stages=list_course_stages($rcrid);
-$subjects=list_course_subjects($rcrid);
+$subjects=list_subjects($rcrid);
+$nonsubjects=list_subjects($rcrid,false);
 ?>
   <div id="heading">
 	<label><?php print_string('editsubjectclasses',$book);?></label>
@@ -31,7 +32,6 @@ $subjects=list_course_subjects($rcrid);
 	  <fieldset class="center divgroup">
 		<div class="left">
 <?php
-	reset($manys);
 	$listname='bid';
 	$listlabel='subject';
 	$onchange='yes';
@@ -49,9 +49,11 @@ $subjects=list_course_subjects($rcrid);
 			  <th><?php print_string('type',$book)?></th>
 			</tr>
 <?php
-   		while(list($index,$stage)=each($stages)){
+
+		foreach($stages as $stage){
 			$stagename=$stage['name'];
 			$classdef=get_subjectclassdef($rcrid,$bid,$stagename);
+
    			$many=$classdef['many'];
    			$generate=$classdef['generate'];
 ?>
@@ -66,7 +68,7 @@ $subjects=list_course_subjects($rcrid);
 			$liststyle='width:10em;';
 			$listname=$stagename.'-m';
 			$listlabel='';
-			${$sel.$listname}=$many;
+			${'sel'.$listname}=$many;
 			include('scripts/set_list_vars.php');
 			list_select_list($manys,$listoptions);
 ?>
@@ -86,6 +88,30 @@ $subjects=list_course_subjects($rcrid);
 		</div>
 
 
+		<div class="right">
+<?php 
+		if($_SESSION['role']=='admin'){
+			$checkcaption='Overwrite exisiting (may lose MarkBook data!)';
+			$checkname='overwrite';
+			include('scripts/check_yesno.php');
+			}
+?>
+		</div>
+
+	  </fieldset>
+
+
+	  <fieldset class="left divgroup">
+	    <legend>New subject</legend>
+		<div class="center">
+<?php
+	$listname='newbid';
+	$listlabel='';
+	$onchange='yes';
+	include('scripts/set_list_vars.php');
+	list_select_list($nonsubjects,$listoptions,$book);
+?>
+		</div>
 	  </fieldset>
 
 	<input type="hidden" name="crid" value="<?php print $rcrid;?>" />

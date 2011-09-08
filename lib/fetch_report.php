@@ -475,18 +475,10 @@ function fetchReportDefinition($rid,$selbid='%'){
 	$RepDef['asstable']=$asstable;
 
 	if($report['addcategory']=='yes'){
-		/* ratings is an array of value=>descriptor pairs. 
-		   TODO: make use of the longdescriptor?
-		 */
+		/* ratings is an array of value=>descriptor pairs. */
 	   	if($RepDef['CategoriesRating']['value']!=''){
 			$ratingname=$RepDef['CategoriesRating']['value'];
-			$d_rating=mysql_query("SELECT * FROM rating WHERE name='$ratingname' ORDER BY value;");
-			$ratings=array();
-			/*TODO: bring up to date for bid specific ratings identified using ratingname */
-			while($rating=mysql_fetch_array($d_rating,MYSQL_ASSOC)){
-				$ratings[$rating['value']]=$rating['descriptor'];
-				}
-			$RepDef['CategoriesRating']['ratings']=$ratings;
+			$RepDef['CategoriesRating']['ratings']=(array)get_ratings($ratingname);
 			}
 
 		/*
@@ -671,7 +663,8 @@ function fetch_reportdefinition($rid,$selbid='%'){
 				/* Only need to do each rating name once. */
 				if(!isset($reportdef['ratings'][$ratingname])){
 					$cattable['ratingname']=$ratingname;
-					$d_rating=mysql_query("SELECT * FROM rating WHERE name='$ratingname' ORDER BY value;");
+
+					$d_rating=mysql_query("SELECT value, descriptor, longdescriptor FROM rating WHERE name='$ratingname' ORDER BY value;");
 					while($rating=mysql_fetch_array($d_rating,MYSQL_ASSOC)){
 						$ratings[$rating['value']]=$rating['descriptor'];
 						$cattable['rat'][]=array('name'=>''.$rating['descriptor'],
@@ -679,7 +672,8 @@ function fetch_reportdefinition($rid,$selbid='%'){
 												 'value'=>''.$rating['value']);
 						}
 					$reportdef['cattable'][]=$cattable;
-					$reportdef['ratings'][$ratingname]=$ratings;
+					$tagname=str_replace(' ','',$ratingname);
+					$reportdef['ratings'][$tagname]=$ratings;
 					}
 				}
 			}
@@ -1149,7 +1143,7 @@ function personaliseStatement($Statement,$Student){
 		$pronoun='she';
 		$objectpronoun='her';
 		}
-	if($Student['PreferredForename']['value']!=' '){$forename=$Student['PreferredForename']['value'];}
+	if($Student['PreferredForename']['value']!=''){$forename=$Student['PreferredForename']['value'];}
 	else{$forename=$Student['Forename']['value'];}
    	$text=str_replace('~',$possessive,$text);
 	$text=str_replace('^',$pronoun,$text);
@@ -1157,6 +1151,7 @@ function personaliseStatement($Statement,$Student){
 	$text=ucfirst($text);
 	$text=str_replace('#',$forename,$text);
 	$Statement['Value']=$text;
+
 	return $Statement;
 	}
 
