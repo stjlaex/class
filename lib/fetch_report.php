@@ -870,7 +870,7 @@ function checkReportEntryCat($rid,$sid,$bid,$pid){
 		$rep=array();
 		$tot=0;
 		while($entry=mysql_fetch_array($d_r)){
-			$rep['count']++;
+			//$rep['count']++;
 			$pairs=explode(';',$entry['category']);
 			for($c=0;$c<(sizeof($pairs)-1);$c++){
 				$thiscat=explode(':',$pairs[$c]);

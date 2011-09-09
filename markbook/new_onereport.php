@@ -165,7 +165,6 @@
 				$catid=$catdefs[$catindex]['id'];
 				$Statement=array('Value'=>$catdefs[$catindex]['name']);
 				$Statement=personaliseStatement($Statement,$Student);
-				trigger_error($catid.' : '.$catdefs[$catindex]['name'],E_USER_WARNING);
 				if($catdefs[$catindex]['rating']!=''){
 					if(!isset($cat_grading_grades)){
 						/*TODO: Only works with a single uniform grade scheme. */

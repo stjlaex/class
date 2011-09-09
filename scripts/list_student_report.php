@@ -7,8 +7,7 @@
 
 	$reportwrappers=array();
 
-	/* Reports with assessments */
-	/* Not needed?
+	/* Reports with assessments 
 	$d_rideid=mysql_query("SELECT DISTINCT report_id FROM rideid JOIN eidsid ON 
 				rideid.assessment_id=eidsid.assessment_id WHERE eidsid.student_id='$sid';");
 	while($rep=mysql_fetch_array($d_rideid,MYSQL_ASSOC)){
@@ -21,8 +20,7 @@
 			$reportwrappers[$report['id']]=$report;
 			}
 		}
-		*/
-
+	*/
 	/* Reports with subject comments (with or without assessments) */
 	$d_report=mysql_query("SELECT id, title, date, year FROM report JOIN ridcatid ON ridcatid.report_id=report.id  
 			    WHERE ridcatid.categorydef_id=ANY(SELECT DISTINCT report_id FROM reportentry WHERE student_id='$sid') 
@@ -38,7 +36,7 @@
 			$reportwrappers[$report['id']]=$report;
 			}
 
-//krsort($reportwrappers);
+krsort($reportwrappers);
 ?>
 
 <div class="center"> 

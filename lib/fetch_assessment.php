@@ -116,8 +116,9 @@ function scoreToGrade($score,$grading_grades){
 	The numerical equivalents for the grades (levels in the grading
 	scheme) must have integer values.
 	*/
-	if(is_numeric($score)){
+	if(is_numeric($score) and $grading_grades!=''){
 		$pairs=explode(';', $grading_grades);
+		trigger_error($grading_grades,E_USER_WARNING);
 	    $score=round($score);
 		$high=sizeof($pairs);
 		for($c=0;$c<sizeof($pairs);$c++){
@@ -1074,7 +1075,6 @@ function update_profile_score($rid,$sid,$bid,$pid,$cat,$catdefs,$rating_name){
 				WHERE report.id='$rid';");
 	if(mysql_num_rows($d_a)>0){$eid=mysql_result($d_a,0);}
 	else{$eid=-1;}
-
 
 	$statno=0;
 	$Categories=(array)fetchCategories($Student,$cat,$catdefs,$rating_name);
