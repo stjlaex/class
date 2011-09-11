@@ -27,7 +27,7 @@ if($sub=='Update'){
 			if(isset($_POST[$ing])){
 				if($_POST[$ing]=='forms'){
 					$classdef['generate']=$_POST[$ing];
-					$classdef['many']=''; 
+					$classdef['many']='0'; 
 					}
 				else{
 					$classdef['generate']='sets';
@@ -72,22 +72,36 @@ elseif($sub=='Submit'){
 
 	$result[]=get_string('newclassstructure',$book);
 
+	/*
+	*/
+
+	/* Clear out the class table but keep a copy reference */
+	$oldcids=(array)list_course_classes($crid);
 	mysql_query("DELETE cidsid.* FROM cidsid, class WHERE
 		class.id=cidsid.class_id AND class.course_id='$crid';");
-	mysql_query("DELETE tidcid.* FROM tidcid, class WHERE 
-		class.id=tidcid.class_id AND class.course_id='$crid';");
-	mysql_query("DELETE midcid.* FROM midcid, class WHERE 
-		class.id=midcid.class_id AND class.course_id='$crid';");
 	mysql_query("DELETE FROM class WHERE course_id='$crid';");
 
 	$d_classes=mysql_query("SELECT * FROM classes WHERE
-				  				course_id='$crid' ORDER BY subject_id, stage;");   	
-
+				  				course_id='$crid' ORDER BY subject_id, stage;");
 	while($classes=mysql_fetch_array($d_classes,MYSQL_ASSOC)){
 		$bid=$classes['subject_id'];
 		$stage=$classes['stage'];
 		$classdef=get_subjectclassdef($crid,$bid,$stage);
 		populate_subjectclassdef($classdef);
+		}
+
+	/* Go through the oldcids and unassociate any marks or teachers for dead classes. */
+	$newcids=(array)list_course_classes($crid);
+	foreach($oldcids as $oldclass){
+		$cid=$oldclass['id'];
+		if(!array_key_exists($cid,$newcids)){
+			mysql_query("DELETE FROM tidcid WHERE class_id='$cid';");
+			mysql_query("DELETE FROM midcid WHERE class_id='$cid';");
+			/* TODO: clear out any orphanned marks and scores? 
+			mysql_query("DELETE score, cidsid FROM score JOIN cidsid ON
+						   	cidsid.student_id=score.student_id WHERE cidsid.class_id='$cid';");
+			*/
+			}
 		}
 	}
 

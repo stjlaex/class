@@ -1842,7 +1842,6 @@ function get_student_house($sid){
  */
 function display_student_transport($sid,$todate=''){
 	global $CFG;
-	require_once($CFG->dirroot.'/lib/fetch_transport.php');
 	$transport='';
 	/*
 	$tcom=array('id'=>'','type'=>'transport','name'=>'');
@@ -1861,7 +1860,8 @@ function display_student_transport($sid,$todate=''){
 	foreach($bookings as $booking){
 		$bus=get_bus($booking['bus_id']);
 		$stops=list_bus_stops($booking['bus_id']);
-		$stop=$stops[$booking['stop_id']];
+		if(array_key_exists($booking['stop_id'],$stops)){$stop=$stops[$booking['stop_id']];}
+		else{$stop=array('name'=>'');}
 		if($bus['direction']=='I'){$divname='divin';$divclass='AM';}
 		else{$divname='divout';$divclass='PM';}
 		if($$divname==''){

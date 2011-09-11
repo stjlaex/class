@@ -615,16 +615,16 @@ function list_member_communities($sid,$community,$current=true){
 	$name=$community['name'];
 	if($community['id']!=''){
 		$comid=$community['id'];
-		$d_community=mysql_query("SELECT id FROM community JOIN
+		$d_community=mysql_query("SELECT id, special, joiningdate, leavingdate FROM community JOIN
 				comidsid ON community.id=comidsid.community_id
 				WHERE community.id='$comid' AND comidsid.student_id='$sid' AND
-   				(comidsid.joiningdate<='$todate' OR comidsid.joiningdate  IS NULL) 
+   				(comidsid.joiningdate<='$todate' OR comidsid.joiningdate IS NULL) 
 				AND (comidsid.leavingdate>'$todate' OR 
 				comidsid.leavingdate='0000-00-00' OR comidsid.leavingdate IS NULL)");
 		}
 	elseif($name!=''){
 		$comid=update_community($community);
-		$d_community=mysql_query("SELECT id FROM community JOIN
+		$d_community=mysql_query("SELECT id, special, joiningdate, leavingdate  FROM community JOIN
 				comidsid ON community.id=comidsid.community_id
 				WHERE community.id='$comid' AND comidsid.student_id='$sid' AND
    				(comidsid.joiningdate<='$todate' OR comidsid.joiningdate IS NULL) 
@@ -633,22 +633,22 @@ function list_member_communities($sid,$community,$current=true){
 		}
 	elseif($type!=''){
 		if($current){
-			$d_community=mysql_query("SELECT id FROM community JOIN
+			$d_community=mysql_query("SELECT id, special, joiningdate, leavingdate FROM community JOIN
 				comidsid ON community.id=comidsid.community_id
 				WHERE community.type='$type' AND comidsid.student_id='$sid' AND
    				(comidsid.joiningdate<='$todate' OR comidsid.joiningdate IS NULL)
 				AND (comidsid.leavingdate>'$todate' OR 
-				comidsid.leavingdate IS NULL OR comidsid.leavingdate='0000-00-00')");
+				comidsid.leavingdate IS NULL OR comidsid.leavingdate='0000-00-00');");
 			}
 		else{
-			$d_community=mysql_query("SELECT id FROM community JOIN
+			$d_community=mysql_query("SELECT id, special, joiningdate, leavingdate FROM community JOIN
 				comidsid ON community.id=comidsid.community_id
 				WHERE community.type='$type' AND comidsid.student_id='$sid' AND
    				(comidsid.joiningdate<=comidsid.leavingdate AND comidsid.leavingdate!='0000-00-00' AND comidsid.leavingdate<'$todate');");
 			}
 		}
 	else{
-		$d_community=mysql_query("SELECT id FROM community JOIN
+		$d_community=mysql_query("SELECT id, special, joiningdate, leavingdate FROM community JOIN
 				comidsid ON community.id=comidsid.community_id
 				WHERE comidsid.student_id='$sid' AND
    				(comidsid.joiningdate<='$todate' OR comidsid.joiningdate IS NULL)
@@ -657,8 +657,8 @@ function list_member_communities($sid,$community,$current=true){
 		}
 
 	$coms=array();
-   	while($com=mysql_fetch_array($d_community, MYSQL_ASSOC)){
-		$coms[]=get_community($com['id']);
+   	while($com=mysql_fetch_array($d_community,MYSQL_ASSOC)){
+		$coms[]=array_merge($com,get_community($com['id']));
 		}
 
 	return $coms;
@@ -750,11 +750,11 @@ function join_community($sid,$community){
 
 	/*first remove sid from any old conflicting communities*/
 	$leftcommunities=array();
-	while(list($index,$oldtype)=each($oldtypes)){
+	foreach($oldtypes as $oldtype){
 		$checkcommunity=array('id'=>'','type'=>$oldtype,'name'=>'');
 		$oldcommunities=array();
 		$oldcommunities=(array)list_member_communities($sid,$checkcommunity);
-		while(list($index,$oldcommunity)=each($oldcommunities)){
+		foreach($oldcommunities as $oldcommunity){
 			if($oldcommunity['name']!=$name or $oldcommunity['year']!=$year){
 				$leftcommunities[$oldtype][]=$oldcommunity;
 				leave_community($sid,$oldcommunity);
@@ -819,7 +819,6 @@ function leave_community($sid,$community){
 		}
 	if($type=='year'){mysql_query("UPDATE student SET yeargroup_id=NULL WHERE id='$sid'");}
 	elseif($type=='form'){mysql_query("UPDATE student SET form_id='' WHERE id='$sid'");}
-	return;
 	}
 
 

@@ -7,10 +7,12 @@ $action='new_assessment.php';
 $rcrid=$respons[$r]['course_id'];
 
 $curryear=$_POST['curryear'];
-$profid=$_POST['profid'];
+if(isset($_POST['profid'])){
+	$profid=$_POST['profid'];
+	$profile=get_assessment_profile($profid);
+	$profile_name=$profile['name'];
+	}
 $action_post_vars=array('curryear','profid');
-$profile=get_assessment_profile($profid);
-$profile_name=$profile['name'];
 
 include('scripts/sub_action.php');
 
@@ -26,34 +28,28 @@ if($sub=='Submit' and isset($_FILES['importfile']) and $_FILES['importfile']['tm
 	   	$result[]='Loading file '.$importfile;
 		include('scripts/file_import_csv.php');
 		if(sizeof($inrows>0)){
-			while(list($index,$d)=each($inrows)){
-				/* This is based on the UK CBDS spreadsheets originaly
-						but has developed to be generally useful. */
-				$stage=$d[0];
-				$year=$d[1];
-				$subject=$d[2];
-				$method=$d[3];
-				$element=$d[4];
-				$description=$d[5];
-				$label=$d[6];
-				$resultq=$d[7];
-				$outoftotal=$d[8];
-				$derivation=$d[9];
-				$resultstatus=$d[10];
-				$componentstatus=$d[11];
-				$strandstatus=$d[12];
-				$gena=$d[13];
-				$create=$d[14];
-				$deadline=$d[15];
-				trigger_error('rest: '.$resultstatus,E_USER_WARNING);
-				mysql_query("INSERT INTO assessment (stage, year, subject_id, method, element,
-					description, label, resultqualifier, outoftotal,
-					resultstatus, component_status, strand_status,
+			foreach($inrows as $d){
+				$description=$d[0];
+				$element=$d[1];
+				$label=$d[2];
+				$resultstatus=$d[3];
+				$create=$d[4];
+				$deadline=$d[5];
+				$stage=$d[6];
+				$subject=$d[7];
+				if($subject=='All' or $subject=='all'){$subject='%';}
+				$componentstatus=$d[8];
+				$strandstatus=$d[9];
+				$gena=$d[10];
+				if(isset($d[11])){$profile_name=$d[11];}else{$profile_name='';}
+				if(isset($d[12])){$derivation=$d[12];}else{$derivation='';}
+
+				mysql_query("INSERT INTO assessment (stage, year, subject_id, element,
+					description, label, resultstatus, component_status, strand_status,
 					course_id, grading_name, creation, deadline, profile_name) VALUES
-					('$stage', '$year', '$subject', '$method',
-					'$element', '$description', '$label', '$resultq',
-					'$outoftotal', '$resultstatus', '$componentstatus', 
-					'$strandstatus', '$rcrid', '$gena', '$create', '$deadline', '$profile_name');");
+					('$stage', '$curryear', '$subject', '$element', '$description', '$label',
+						'$resultstatus', '$componentstatus', '$strandstatus', 
+						'$rcrid', '$gena', '$create', '$deadline', '$profile_name');");
 				if($derivation!=''){
 					$eid=mysql_insert_id();
 					update_derivation($eid,$derivation);

@@ -4,7 +4,6 @@
  */
 
 require_once('../../scripts/http_head_options.php');
-require_once('../../lib/fetch_transport.php');
 
 /*NB. The busnames are pulled by checksidsAction hence they honestly really are called sids!*/
 if(isset($_GET['sids'])){$busnames=(array)$_GET['sids'];}else{$busnames=array();}

@@ -8,9 +8,7 @@ $book='admin';
 
 include('scripts/head_options.php');
 include('scripts/set_book_vars.php');
-include('lib/fetch_order.php');
-include('lib/fetch_transport.php');
-
+require_once('lib/fetch_order.php');
 
 $rtid=$tid;
 $section_perm=get_admin_perm('s',get_uid($tid));

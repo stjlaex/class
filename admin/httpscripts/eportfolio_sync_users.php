@@ -40,18 +40,18 @@ require_once($CFG->installpath.'/'.$CFG->applicationdirectory.'/lib/eportfolio_f
 	$allteachers=(array)list_teacher_users();
 	$Students=array();
 	$yearusers=array();
-	while(list($yearindex,$com)=each($yearcoms)){
+	foreach($yearcoms as $com){
 		$yid=$com['name'];
 		$yearusers[$yid]=array();
 		$yearperms=array('r'=>1,'w'=>1,'x'=>1);/*heads of year only*/
 		$owners=(array)list_pastoral_users($yid,$yearperms);
-		while(list($uid,$user)=each($owners)){
+		foreach($owners as $uid => $user){
 			if($user['role']!='office' and $user['role']!='admin'){
 				$yearusers[$yid][]=strtolower($user['username']);
 				}
 			}
 		$students=listin_community($com);
-		while(list($studentindex,$student)=each($students)){
+		foreach($students as $student){
 			$sid=$student['id'];
 			$Students[$sid]=fetchStudent_short($sid);
 			$Email=fetchStudent_singlefield($sid,'EmailAddress');
@@ -75,7 +75,7 @@ require_once($CFG->installpath.'/'.$CFG->applicationdirectory.'/lib/eportfolio_f
 	$epfcomid=elgg_update_community($com);
 	$com['epfcomid']=$epfcomid;
 
-	while(list($aindex,$user)=each($allteachers)){
+	foreach($allteachers as $user){
 		$Newuser=(array)fetchUser($user);
 		/* Ignore anyone who has not yet got an epfusername (handled by ldap). */
    		$epfuid=-1;
@@ -90,14 +90,13 @@ require_once($CFG->installpath.'/'.$CFG->applicationdirectory.'/lib/eportfolio_f
 		$staff[$Newuser['Username']['value']]=$epfuid;
 		}
 
-	reset($yearcoms);
-	while(list($yearindex,$com)=each($yearcoms)){
+	foreach($yearcoms as $com){
 		$yid=$com['name'];
 		$epfcomid=elgg_update_community($com);
 		$com['epfcomid']=$epfcomid;
 		$yearepfcomids[$yid]=$epfcomid;
 		$comowners=$yearusers[$yid];
-		while(list($index,$tid)=each($comowners)){
+		foreach($comowners as $tid){
 			if($staff[$tid]!=-1){
 				$epfuid=$staff[$tid];
 				elgg_join_community($epfuid,$com);
@@ -127,8 +126,7 @@ require_once($CFG->installpath.'/'.$CFG->applicationdirectory.'/lib/eportfolio_f
 	/**
 	 * Now do all students.
 	 */
-	reset($Students);
-	while(list($sid,$Student)=each($Students)){
+	foreach($Students as $sid => $Student){
 		$field=fetchStudent_singlefield($sid,'EPFUsername');
 		$Student=array_merge($Student,$field);
 		/* Ignore if they don't yet have an epfusername (handled by ldap). */
@@ -164,7 +162,7 @@ require_once($CFG->installpath.'/'.$CFG->applicationdirectory.'/lib/eportfolio_f
 		}
 
 	/* Now do teaching groups */
-	while(list($index,$class)=each($classes)){
+	foreach($classes as $class){
 		$cid=$class['id'];
 		$epfcid=str_replace('/','-',$cid);
 		$com=array('epfcomid'=>'','type'=>'class','name'=>$epfcid);

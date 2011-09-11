@@ -4,7 +4,6 @@
  */
 
 require_once('../../scripts/http_head_options.php');
-require_once('../../lib/fetch_transport.php');
 
 /*NB. The comids are pulled by checksidsAction hence they really are called sids!*/
 if(isset($_GET['sids'])){$comids=(array)$_GET['sids'];}else{$comids=array();}

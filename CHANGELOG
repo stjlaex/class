@@ -1,4 +1,19 @@
-Version ClaSS-1.0.2 release (2011/09/11)
+Version ClaSS-1.0.3 release (2011/09/12)
+-------------------------------------------
+
+Fix to student_enrolment action page.
+
+Made fetch_transport lib part of the general functions set.
+
+Improved class_matrix so it will only clear out classes which are no
+longer needed, teacher assignments are preserved for unchanged classes.
+
+Fix to list_member_communities to preserve membership info.
+
+Tidied the new assessment import script.
+
+
+Version ClaSS-1.0.2 release (2011/09/09)
 -------------------------------------------
 
 Yougest sibling filter for group_search.

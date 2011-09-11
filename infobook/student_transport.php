@@ -7,7 +7,6 @@ $action='student_transport_action.php';
 $newcomtype='TUTOR';
 $communities=list_communities($newcomtype);
 
-require_once('lib/fetch_transport.php');
 
 three_buttonmenu();
 
@@ -61,12 +60,15 @@ three_buttonmenu();
 			foreach($bookings as $booking){
 				$bus=get_bus($booking['bus_id']);
 				$stops=list_bus_stops($booking['bus_id']);
+				if(array_key_exists($booking['stop_id'],$stops)){$stop=$stops[$booking['stop_id']];}
+				else{$stop=array('name'=>'');}
+
 				if($bus['direction']=='I'){$divname='divin';$divclass='midlite';}
 				else{$divname='divout';$divclass='gomidlite';}
 				if($$divname==''){
 					$divaction='onClick="clickToEditTransport('.$sid.',\''.$dates[$day].'\',\''.$booking['id'].'\',\''.$openId.'\');"';
 					if($booking['comment']!=''){$$divname='<span title="'.$booking['comment'].'">';}
-					$$divname.='<div '.$divaction.' class="'.$divclass.'">'.$bus['name'].' <br /><div style="font-size:7pt;color:#909090;">'.$stops[$booking['stop_id']]['name'].'</div></div>';
+					$$divname.='<div '.$divaction.' class="'.$divclass.'">'.$bus['name'].' <br /><div style="font-size:7pt;color:#909090;">'.$stop['name'].'</div></div>';
 					if($booking['comment']!=''){$$divname.='</span>';}
 					}
 				}

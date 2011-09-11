@@ -347,7 +347,7 @@ function list_course_classes($crid='%',$bid='%',$stage='%'){
 					subject_id LIKE '$bid' AND stage LIKE '$stage' 
 					ORDER BY course_id, id");   
    	while($class=mysql_fetch_array($d_c,MYSQL_ASSOC)){
-		$classes[]=$class;
+		$classes[$class['id']]=$class;
 		}
 	return $classes;
 	}

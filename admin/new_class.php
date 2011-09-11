@@ -45,7 +45,6 @@ $nonsubjects=list_subjects($rcrid,false);
 		  <table class="listmenu">
 			<tr>
 			  <th><?php print_string('stage',$book)?></th>
-			  <th><?php print_string('number',$book)?></th>
 			  <th><?php print_string('type',$book)?></th>
 			</tr>
 <?php
@@ -64,21 +63,23 @@ $nonsubjects=list_subjects($rcrid,false);
 ?>
 			  </td>
 			  <td>
+
+			<select name="<?php print $stagename.'-g';?>">
+			  <option value="none" <?php if($generate=="none"){print "selected='selected'";}?>>
+			  </option>
+			  <option value="forms" <?php if($generate=="forms"){print 'selected="selected"';}?> >
+				<?php print_string('forms',$book);?>
+			  </option>
 <?php
-			$liststyle='width:10em;';
-			$listname=$stagename.'-m';
-			$listlabel='';
-			${'sel'.$listname}=$many;
-			include('scripts/set_list_vars.php');
-			list_select_list($manys,$listoptions);
+		   		for($no=1; $no<18; $no++){
 ?>
-			  </td>
-			  <td>
-				<select name="<?php print $stagename;?>-g" tabindex="<?php print $tab++;?>" >
-				  <option value="" <?php if($generate==""){print "selected='selected'";}?>></option>	
-				  <option value="sets" <?php if($generate=="sets"){print "selected='selected'";}?>>sets</option>	
-				  <option value="forms" <?php if($generate=="forms"){print "selected='selected'";}?>>forms</option>	
-				</select>
+			  <option value="<?php print $no;?>" <?php if($generate=='sets' and $many==$no){print "selected='selected'";}?> >
+				<?php print $no.' '.get_string('sets',$book);?>
+			  </option>
+<?php
+					}
+?>
+			  </select>
 			  </td>
 			</tr>
 <?php

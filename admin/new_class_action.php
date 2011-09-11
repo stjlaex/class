@@ -17,12 +17,17 @@ if($sub=='Submit'){
 	$stages=list_course_stages($crid);
 	foreach($stages as $stage){
 		$stagename=$stage['name'];
-		$ing=$stagename. '-g';
-		$inm=$stagename. '-m';
 		$newclassdef=array('crid'=>$crid,'bid'=>$bid,'stage'=>$stagename);
+		$ing=$stagename. '-g';
+		if($_POST[$ing]=='forms'){
+			$newclassdef['generate']=$_POST[$ing];
+			$newclassdef['many']='0'; 
+			}
+		else{
+			$newclassdef['generate']='sets';
+			$newclassdef['many']=$_POST[$ing]; 
+			}
 		$oldclassdef=get_subjectclassdef($crid,$bid,$stagename);
-		$newclassdef['many']=$_POST[$inm]; 
-		$newclassdef['generate']=$_POST[$ing];
 		if($newclassdef['many']!=$oldclassdef['many'] 
 					   or $oldclassdef['generate']!=$newclassdef['generate']){
 			$d_c=mysql_query("SELECT COUNT(id) FROM class WHERE

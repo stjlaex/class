@@ -386,8 +386,6 @@ function delete_journey_booking_all($sid,$date=''){
 		delete_journey_booking($sid,$b['id'],$date);
 		}
 
-
-	return;
 	}
 
 ?>

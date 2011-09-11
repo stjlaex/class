@@ -59,4 +59,5 @@ $string['limittoonetype']='Limit to one type';
 $string['estimate']='Estimate';
 $string['result']='Result';
 $string['target']='Target';
+$string['formatoffilenewassessment']='Format of file: Description, ElementID, Print Label, Result Status, Create Date, Deadline Date, Stage, Subject, Component Status, Strand Status, Grading Scheme, Profile Name';
 ?>

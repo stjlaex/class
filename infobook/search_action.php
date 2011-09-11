@@ -44,7 +44,6 @@ if(isset($com)){
 		$selsavedview='club';
 		}
 	elseif($com['type']=='transport'){
-		require_once('lib/fetch_transport.php');
 		$students=(array)list_bus_journey_students($com['name']);
 		$selsavedview='transport';
 		}

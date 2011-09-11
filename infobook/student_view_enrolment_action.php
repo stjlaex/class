@@ -50,15 +50,13 @@ if($sub=='Submit'){
 		}
 	*/
 
-	reset($Enrolment);
-	while(list($index,$val)=each($Enrolment)){
+	foreach($Enrolment as $index => $val){
 		if(isset($val['value']) and is_array($val) and isset($val['table_db'])){
 			$field=$val['field_db'];
 			$inname=$field;
 			$inval=clean_text($_POST[$inname]);
 			if($val['table_db']=='info'){
-				mysql_query("UPDATE info SET
-							$field='$inval' WHERE student_id='$sid';");
+				mysql_query("UPDATE info SET $field='$inval' WHERE student_id='$sid';");
 				$Enrolment["$index"]['value']=$inval;
 				}
 			}
@@ -68,7 +66,7 @@ if($sub=='Submit'){
 	 * the form.
 	 */
 	$todate=date('Y-m-d');
-	while(list($index,$eid)=each($eids)){
+	foreach($eids as $eid){
 		$AssDef=fetchAssessmentDefinition($eid);
 		$grading_grades=$AssDef['GradingScheme']['grades'];
 		/* $$eid are the names of score values posted by the form
@@ -85,7 +83,6 @@ if($sub=='Submit'){
 		$score=array('result'=>$result,'value'=>$scorevalue,'date'=>$todate);
 		update_assessment_score($eid,$sid,'G','',$score);
 		/* Option to automatically flag student as SEN */
-		//trigger_error('SEN:'.$result.':'.$scorevalue,E_USER_WARNING);
 		if($CFG->enrol_assess_sen!='' and $CFG->enrol_assess_sen==$result){
 			mysql_query("UPDATE info SET sen='Y' WHERE student_id='$sid';");
 			$todate=$Enrolment['EntryDate']['value'];
@@ -112,5 +109,5 @@ if($sub=='Submit'){
 		}
 	}
 
-	include('scripts/redirect.php');
+include('scripts/redirect.php');
 ?>

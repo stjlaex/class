@@ -4,7 +4,7 @@
  */
 
 require_once('../../scripts/http_head_options.php');
-include('../../lib/fetch_transport.php');
+
 $sub=$_POST['sub'];
 $sid=$_POST['sid'];
 

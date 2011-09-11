@@ -3,7 +3,6 @@
  */
 
 require_once('../../scripts/http_head_options.php');
-include('../../lib/fetch_transport.php');
 
 if(isset($_GET['sid'])){$sid=$_GET['sid'];}
 elseif(isset($_POST['sid'])){$sid=$_POST['sid'];}
