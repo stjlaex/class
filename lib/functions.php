@@ -1735,8 +1735,8 @@ function check_class_release(){
 					$errorno=execute_sql_file('install/'.$fname);
 					if($errorno==0){trigger_error('UPGRADE: changes applied to db '.$fname,E_USER_WARNING);}
 					elseif($errorno>0){trigger_error('UPGRADE FAILED: the db could not be upgraded with '.$fname,E_USER_WARNING);}
-					$rdiff++;
 					}
+				$rdiff++;
 				}
 			$mdiff++;
 			if($mdiff==0){$rdiff=0-$rel_revision;$final_revision=$rel_revision;}

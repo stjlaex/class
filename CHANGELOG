@@ -10,6 +10,8 @@ longer needed, teacher assignments are preserved for unchanged classes.
 
 Fix to list_member_communities to preserve membership info.
 
+Fix to the new db update function (still under debug only).
+
 Tidied the new assessment import script.
 
 

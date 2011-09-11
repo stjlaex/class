@@ -45,6 +45,7 @@ if($AssDef['Year']['value']!=$yearnow){
 		$cridscourses[$course['id']]=$course;
 		}
 	$nextcrid=$cridscourses[$crid]['nextcourse_id'];
+
 	if($stage=='%'){
 		$stagegones=(array)$stages;
 		$sc=0;

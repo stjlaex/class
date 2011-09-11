@@ -96,7 +96,7 @@
 ?>
 		<script>setInterval("parent.sessionAlive(pathtobook);",15*60*1000);</script>
 <?php
-			if($tid='administrator'){
+			if($tid=='administrator'){
 				check_class_release();
 				}
 			}

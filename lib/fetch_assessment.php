@@ -118,7 +118,7 @@ function scoreToGrade($score,$grading_grades){
 	*/
 	if(is_numeric($score) and $grading_grades!=''){
 		$pairs=explode(';', $grading_grades);
-		trigger_error($grading_grades,E_USER_WARNING);
+		//trigger_error($grading_grades,E_USER_WARNING);
 	    $score=round($score);
 		$high=sizeof($pairs);
 		for($c=0;$c<sizeof($pairs);$c++){
