@@ -14,6 +14,8 @@ Fix to the new db update function (still under debug only).
 
 Tidied the new assessment import script.
 
+Fix to the epf_sync script for the new form group structure.
+
 
 Version ClaSS-1.0.2 release (2011/09/09)
 -------------------------------------------

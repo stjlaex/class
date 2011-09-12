@@ -61,8 +61,8 @@ require_once($CFG->installpath.'/'.$CFG->applicationdirectory.'/lib/eportfolio_f
 		}
 
 	$formusers=array();
-	foreach($formcoms as $com){
-		$formusers=(array)list_community_users($com,array('r'=>1,'w'=>1,'x'=>1));
+	foreach($formcoms as $formindex => $com){
+		$formusers[$formindex]=(array)list_community_users($com,array('r'=>1,'w'=>1,'x'=>1));
 		}
 
 
@@ -92,6 +92,7 @@ require_once($CFG->installpath.'/'.$CFG->applicationdirectory.'/lib/eportfolio_f
 
 	foreach($yearcoms as $com){
 		$yid=$com['name'];
+		$com['displayname']=get_yeargroupname($yid);
 		$epfcomid=elgg_update_community($com);
 		$com['epfcomid']=$epfcomid;
 		$yearepfcomids[$yid]=$epfcomid;
@@ -108,17 +109,20 @@ require_once($CFG->installpath.'/'.$CFG->applicationdirectory.'/lib/eportfolio_f
 
 	foreach($formcoms as $formindex => $com){
 		$fid=$com['name'];
+		$com['displayname']=get_string('formgroup').' '.$fid;
+		$epfcomid=elgg_update_community($com);
+		$com['epfcomid']=$epfcomid;
+		$formepfcomids[$fid]=$epfcomid;
 		$users=(array)$formusers[$formindex];
 		foreach($users as $user){
 			$tid=$user['username'];
-			$epfuid=$staff[$tid];
 			if($epfuid!=-1){
-				$epfcomid=elgg_update_community($com,$com,$epfuid);
-				$com['epfcomid']=$epfcomid;
-				$formepfcomids[$fid]=$epfcomid;
+				$epfuid=$staff[$tid];
 				elgg_join_community($epfuid,$com);
 				}
 			}
+		/* Only one can be the owner and this makes it the last in the list. */
+		elgg_update_community($com,$com,$epfuid);
 		}
 
 
@@ -165,7 +169,8 @@ require_once($CFG->installpath.'/'.$CFG->applicationdirectory.'/lib/eportfolio_f
 	foreach($classes as $class){
 		$cid=$class['id'];
 		$epfcid=str_replace('/','-',$cid);
-		$com=array('epfcomid'=>'','type'=>'class','name'=>$epfcid);
+		$bidname=get_subjectname($class['subject_id']);
+		$com=array('epfcomid'=>'','type'=>'class','name'=>$epfcid,'displayname'=>$bidname.': '.$epfcid);
 		$epfcomid=elgg_update_community($com);
 		$com['epfcomid']=$epfcomid;
 		$d_t=mysql_query("SELECT teacher_id FROM tidcid WHERE class_id='$cid';");
@@ -176,7 +181,7 @@ require_once($CFG->installpath.'/'.$CFG->applicationdirectory.'/lib/eportfolio_f
 				WHERE a.class_id='$cid' AND b.id=a.student_id ORDER BY b.surname;");
 		while($student=mysql_fetch_array($d_student, MYSQL_ASSOC)){
 			$sid=$student['id'];
-			if(isset($Students[$sid])){
+			if(isset($Students[$sid]) and isset($Students[$sid]['epfuid'])){
 				elgg_join_community($Students[$sid]['epfuid'],$com);
 				elgg_fix_homework($Students[$sid]['epfuid'],$com['epfcomid']);
 				}

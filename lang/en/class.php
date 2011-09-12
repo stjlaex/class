@@ -20,7 +20,6 @@ $string['clicktoconfigure']='Click to configure';
 $string['details']='Details';
 $string['cancel']='Back';
 $string['forename']='Forename';
-$string['formgroup']='Form group';
 $string['general']='General';
 $string['helpandsupport']='Help and support';
 $string['help']='Help';

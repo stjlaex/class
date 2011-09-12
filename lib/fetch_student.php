@@ -199,7 +199,7 @@ function fetchStudent_singlefield($sid,$tag){
 			$Contacts=(array)fetchContacts($sid);
 			$Student[$tag]=array('label'=>'',
 								 'value'=>'');
-			if(sizeof($Contacts[$contactno]['Addresses'])>0){
+			if(array_key_exists($contactno,$Contacts) and sizeof($Contacts[$contactno]['Addresses'])>0){
 				$Add=$Contacts[$contactno]['Addresses'][0];
 				if($Contacts[$contactno]['ReceivesMailing']['value']==0){$displayclass='class="lowlite"';}else{$displayclass='';}
 				$Student[$tag]['value']='<div '.$displayclass.'>'.$Add['Street']['value'].' '. $Add['Neighbourhood']['value'].' '. $Add['Town']['value'].' '. $Add['Country']['value']. ' '. $Add['Postcode']['value'].'</div>';
@@ -208,9 +208,15 @@ function fetchStudent_singlefield($sid,$tag){
 		elseif(substr_count($tag,'EmailAddress')){
 			/*NOT a part of the xml def for Student but useful here*/
 			$Contacts=(array)fetchContacts($sid);
-			if($Contacts[$contactno]['ReceivesMailing']['value']==0){$displayclass='class="lowlite"';}else{$displayclass='';}
-			$Student[$tag]=array('label'=>'',
-								 'value'=>'<div '.$displayclass.'>'.$Contacts[$contactno]['EmailAddress']['value'].'</div>');
+			if(array_key_exists($contactno,$Contacts)){
+					if($Contacts[$contactno]['ReceivesMailing']['value']==0){$displayclass='class="lowlite"';}else{$displayclass='';}
+					$Student[$tag]=array('label'=>'',
+										 'value'=>'<div '.$displayclass.'>'.$Contacts[$contactno]['EmailAddress']['value'].'</div>');
+					}
+				else{
+					$Student[$tag]=array('label'=>'',
+										 'value'=>'');
+					}
 			}
 		elseif(substr_count($tag,'EPFUsername')){
 			/*NOT a part of the xml def for Student but useful here*/

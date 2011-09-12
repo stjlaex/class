@@ -75,7 +75,6 @@ require_once($CFG->installpath.'/'.$CFG->applicationdirectory.'/scripts/cron_hea
 				$Students[$sid]['EmailAddress']['value']=$Email['EmailAddress']['value'];
 				$Students[$sid]['EPFUsername']['value']=$EPFUsername['EPFUsername']['value'];
 
-				/* Search for entry in LDAP */
 				$epfusername=$Students[$sid]['EPFUsername']['value'];
 				if($epfusername=='' or $epfusername==' '){
 					/* Treat as a completely new entry. */

@@ -78,7 +78,7 @@ else{$session='AM';}
 							WHERE event_notidcomid.community_id='$comid' 
 							AND event_notice.session='$sess' AND event_notice.date='$dat';");
 		while($n=mysql_fetch_array($d_n)){
-			$notice.=$n['comment'].'<br />';
+			$notice.=$n['comment'].'';
 			}
 		}
 

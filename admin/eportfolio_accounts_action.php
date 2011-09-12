@@ -3,7 +3,7 @@
  *
  */
 
-$choice='';
+$choice='eportfolio_accounts.php';
 $cancel='eportfolio_accounts.php';
 require_once('lib/eportfolio_functions.php');
 

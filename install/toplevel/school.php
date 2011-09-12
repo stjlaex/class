@@ -156,11 +156,6 @@ $CFG->lmssite='';
 $CFG->lmstabname='Moodle';
 $CFG->lmsshare='secret';
 $CFG->lms_db='';
-/*optional details of the school's webmail*/
-$CFG->webmailsite='';
-$CFG->webmailtabname='WebMail';
-$CFG->webmailshare='secret';
-$CFG->webmail_db='';/*probably not needed!*/
 /*optional details of the statement bank for writing report comments*/
 $CFG->statementbank_db='';
 /*optional details for publishing reports to pdf using html2ps*/
