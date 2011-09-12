@@ -206,75 +206,58 @@ require_once($CFG->installpath.'/'.$CFG->applicationdirectory.'/lib/eportfolio_f
    					student ON gidsid.student_id=student.id 
    					WHERE student.yeargroup_id LIKE '$yid' AND gidsid.mailing!='0';");
 	while($contact=mysql_fetch_array($d_c,MYSQL_ASSOC)){
-		$epfuid_contact=-1;
 		$gid=$contact['guardian_id'];
 		$Contact=fetchContact(array('guardian_id'=>$gid));
+		if($Contact['Title']['value']!=''){
+			$Contact['Title']['value']=get_string(displayEnum($Contact['Title']['value'],'title'),'infobook');
+			}
+		$epfuid_contact=elgg_get_epfuid($Contact['EPFUsername']['value'],'person',true);
 		$d_i=mysql_query("SELECT info.student_id, formerupn,
    				epfusername FROM info JOIN gidsid ON
    				gidsid.student_id=info.student_id WHERE
    				info.epfusername!='' AND  info.formerupn!='' AND gidsid.mailing!='0' AND
    				gidsid.guardian_id='$gid' ORDER BY info.formerupn ASC;");
+		$no=0;
+		$pwds=array();
 		while($info=mysql_fetch_array($d_i,MYSQL_ASSOC)){
 			$sid=$info['student_id'];
 			$epfuid_student=elgg_get_epfuid($info['epfusername'],'person',true);
-			if($epfuid_contact==-1){
-				/* The first time round for this contact. If a
-				 * epfusername has not yet been issued (done by ldap_sync_users) then nothing
-				 * can be done and ignore.
-				 */
-				if($Contact['EPFUsername']['value']!=''){
-					if($yid!='%'){
-						/* Bit of extra work to prepare the initial password
-						 * for creating a new account. If only doing one yeargroup then only 
-						 * want to use the fomerupn of their child in this yeargroup.
-						 */
-						$d_s=mysql_query("SELECT id FROM student
-											JOIN gidsid ON student.id=gidsid.student_id WHERE
-											student.yeargroup_id='$yid' AND gidsid.guardian_id='$gid'
-											ORDER BY dob ASC LIMIT 0,1;");
-						$firstsid=mysql_result($d_s,0);
-						}
-					else{
-						$firstsid=$sid;
-						}
 
-					/* Choice of two methods for setting the password. */
-					if(isset($CFG->eportfolio_access) and $CFG->eportfolio_access=='dob'){
-						$d_s=mysql_query("SELECT dob FROM student WHERE id='$firstsid';");
-						$dob=(array)explode('-',mysql_result($d_s,0));
-						$firstchild=$dob[2].$dob[1].$dob[0];
-						}
-					else{
-						$d_s=mysql_query("SELECT formerupn FROM info WHERE student_id='$firstsid';");
-						$firstchild=good_strtolower(mysql_result($d_s,0));
-						}
+			if($Contact['EPFUsername']['value']!='' and $Contact['EPFUsername']['value']!=' '){
+				/* Choice of two methods for setting the password. */
+				if(isset($CFG->eportfolio_access) and $CFG->eportfolio_access=='dob'){
+					$d_s=mysql_query("SELECT dob FROM student WHERE id='$sid';");
+					$dob=(array)explode('-',mysql_result($d_s,0));
+					$pwd=$dob[2].$dob[1].$dob[0];
+					}
+				else{
+					$d_s=mysql_query("SELECT formerupn FROM info WHERE student_id='$sid';");
+					$pwd=good_strtolower(mysql_result($d_s,0));
+					}
 
-
-					if($Contact['Title']['value']!=''){
-						$Contact['Title']['value']=get_string(displayEnum($Contact['Title']['value'],'title'),'infobook');
-						}
-					$epfuid_contact=elgg_get_epfuid($Contact['EPFUsername']['value'],'person',true);
-					$Contact['firstchild']=$firstchild;
+				if(strlen($pwd)>5){
+					$Password=array('value'=>md5($pwd),'index'=>$no);
+					$Contact['Password']=(array)$Password;
 					if($epfuid_contact>0){
-						/* Will only update name and email. */
+						/* Will only update name and email and password. */
 						elgg_updateUser($epfuid_contact,$Contact,'guardian');
 						}
-					elseif($epfuid_contact==-1){
-						/* New account to be created in elgg. */
+					else{
+						/* New account to be created in elgg BUT only if we have valid password. */
 						$epfuid_contact=elgg_newUser($Contact,'guardian');
 						}
+					$no++;
 					}
-				}
-
-			/*
-			 * Joining a family community involves simply an entry in
-			 * friends and an access group, a family does not have a community of
-			 * its own.
-			 */
-			if($epfuid_contact!=-1 and $epfuid_student!=-1){
-				$epfgroupid=elgg_update_group(array('owner'=>$epfuid_student,'name'=>'Family'));
-				elgg_join_community($epfuid_contact,array('epfcomid'=>$epfuid_student));
-				elgg_join_group($epfuid_contact,array('epfgroupid'=>$epfgroupid,'name'=>'family','owner'=>$epfuid_student,'access'=>''));
+				/*
+				 * Joining a family community involves simply an entry in
+				 * friends and an access group, a family does not have a community of
+				 * its own.
+				 */
+				if($epfuid_contact>0 and $epfuid_student>0){
+					$epfgroupid=elgg_update_group(array('owner'=>$epfuid_student,'name'=>'Family'));
+					elgg_join_community($epfuid_contact,array('epfcomid'=>$epfuid_student));
+					elgg_join_group($epfuid_contact,array('epfgroupid'=>$epfgroupid,'name'=>'family','owner'=>$epfuid_student,'access'=>''));
+					}
 				}
 			}
 		}

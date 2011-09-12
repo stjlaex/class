@@ -128,6 +128,8 @@ function elgg_blank($usertemplate){
 	mysql_query("SET NAMES 'utf8'");
 	}
 
+
+
 /**
  * Generates a new user account in elgg for the User xml-array.
  * Properties are decided by one of three possible roles: staff,
@@ -164,7 +166,7 @@ function elgg_newUser($User,$role){
 		$dob=(array)explode('-',$User['DOB']['value']);
 		$passwstart=utf8_to_ascii($surname);
 		$password=good_strtolower($passwstart[0]).$dob[0];
-		$assword=md5($password);
+		$assword0=md5($password);
 		}
 	elseif($role=='guardian'){
 		$email=$User['EmailAddress']['value'];
@@ -172,20 +174,14 @@ function elgg_newUser($User,$role){
 		$epfusertype='person';
 		$epftemplate_name='Default_Guardian';
 		$epftemplate=3;
-		$password=$User['firstchild'];
-		$len=strlen($password);
-		while($len<5){
-			$password='0'.$password;
-			$len=strlen($password);
-			}
-		$assword=md5($password);
+		$assword0=$User['Password']['value'];
 		}
 	elseif($role=='staff'){
 		$email=$User['EmailAddress']['value'];
 		$epfusertype='person';
 		$epftemplate_name='Default_Staff';
 		$epftemplate=1;
-		$assword=$User['Password']['value'];
+		$assword0=$User['Password']['value'];
 		}
 
 	if(isset($dbepf)){
@@ -198,7 +194,7 @@ function elgg_newUser($User,$role){
 			$name=str_replace("'",'',$name);
 			mysql_query("INSERT INTO $table (username, password, name, 
 					email, active, user_type,icon,template_id,template_name) VALUES 
-					('$epfusername', '$assword', '$name',
+					('$epfusername', '$assword0', '$name',
 					'$email', '$active','$epfusertype','$epftemplate',
 					'$epftemplate','$epftemplate_name');");
 			$epfuid=mysql_insert_id();
@@ -212,11 +208,10 @@ function elgg_newUser($User,$role){
 	}
 
 
+
 /**
- * Generates a new user account in elgg for the User xml-array.
- * Properties are decided by one of three possible roles: staff,
- * student or guardian. Returns the new epfuid for the User or -1 if
- * it fails.
+ * Updates and existingw user account in elgg for the User xml-array.
+ * Returns the epfuid for the User or -1 if it fails.
  *
  */
 function elgg_updateUser($epfuid,$User,$role='guardian'){
@@ -240,6 +235,8 @@ function elgg_updateUser($epfuid,$User,$role='guardian'){
 	elseif($role=='guardian'){
 		$email=$User['EmailAddress']['value'];
 		$name=$User['Title']['value'].' '.$User['Surname']['value'];
+		$pwdno=$User['Password']['index'];
+		$assword=$User['Password']['value'];
 		}
 	elseif($role=='staff'){
 		$email=$User['EmailAddress']['value'];
@@ -248,6 +245,14 @@ function elgg_updateUser($epfuid,$User,$role='guardian'){
 	if(isset($dbepf)){
 		mysql_query("UPDATE $table SET email='$email', name='$name'
 					WHERE ident='$epfuid' AND username='$epfusername';");
+		if(isset($assword) and $pwdno==0){
+			mysql_query("UPDATE $table SET password='$assword'
+					WHERE ident='$epfuid' AND username='$epfusername';");
+			}
+		elseif(isset($assword) and $pwdno<4){
+			mysql_query("UPDATE $table SET password$pwdno='$assword'
+					WHERE ident='$epfuid' AND username='$epfusername';");
+			}
 
 		$db=db_connect();
 		mysql_query("SET NAMES 'utf8'");

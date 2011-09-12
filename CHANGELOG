@@ -16,6 +16,8 @@ Tidied the new assessment import script.
 
 Fix to the epf_sync script for the new form group structure.
 
+Allow for parents' epf logins to use data form upto 4 siblings.
+
 
 Version ClaSS-1.0.2 release (2011/09/09)
 -------------------------------------------
