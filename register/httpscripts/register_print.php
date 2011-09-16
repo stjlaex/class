@@ -4,35 +4,37 @@
 
 require_once('../../scripts/http_head_options.php');
 
-if(isset($_GET['sids'])){$sids=(array)$_GET['sids'];}else{$sids=array();}
-if(isset($_POST['sids'])){$sids=(array)$_POST['sids'];}
+if(isset($_GET['sids'])){$comids=(array)$_GET['sids'];}else{$comids=array();}
+if(isset($_POST['sids'])){$comids=(array)$_POST['sids'];}
+if(isset($_GET['eveid'])){$eveid=$_GET['eveid'];}else{$eveid='';}
+if(isset($_POST['eveid'])){$eveid=$_POST['eveid'];}
 
-if(sizeof($sids)==0){
+if(sizeof($comids)==0){
 	$result[]=get_string('youneedtoselectstudents');
 	$returnXML=$result;
 	$rootName='Error';
 	}
 else{
 
-		/*TODO: get the section for this register?*/
-	if(!isset($secid)){$secid=1;}
-	$currentevent=get_currentevent($secid);
+	if($eveid==''){
+		$currentevent=get_currentevent();
+		$eveid=$currentevent['id'];
+		}
 
 	$Students=array();
 	$Students['Community'];
 
-  	$AttendanceEvent=fetchAttendanceEvent($currentevent['id']);
+  	$AttendanceEvent=fetchAttendanceEvent($eveid);
  	$Students['AttendanceEvent']=$AttendanceEvent;
 
-	while(list($index,$comid)=each($sids)){
-		//trigger_error($comid,E_USER_WARNING);
+	foreach($comids as $comid){
 		if($comid!=''){
 			$Community=(array)fetchCommunity($comid);
 			$Community['Student']=array();
 			$students=(array)listin_community(array('id'=>$comid));
-			while(list($index,$student)=each($students)){
+			foreach($students as $student){
 				$Student=fetchStudent_short($student['id']);
-				$Student['Attendances']['Attendance'][]=fetchcurrentAttendance($student['id']);
+				$Student['Attendances']['Attendance'][]=fetchcurrentAttendance($student['id'],$eveid);
 				$Community['Student'][]=$Student;
 				}
 			$Students['Community'][]=$Community;

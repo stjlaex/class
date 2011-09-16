@@ -230,8 +230,9 @@ while($student=mysql_fetch_array($d_students, MYSQL_ASSOC)){
 	   	elseif($marktype=='compound'){
 			/*Mark is a compound column*/
 			$scoreclass='derived';
-			$rep=checkReportEntryCat($umns[$c]['midlist'],$sid,$bid[0],$umns[$c]['component']);
-			$out='<div class="'.$rep['class'].'"><a href="markbook.php?current=new_edit_reports.php&cancel=class_view.php&midlist='.$umns[$c]['midlist'].'&pid='.$umns[$c]['component'].'&sid='.$sid.'&bid='.$bid[0].'&nextrow='.$rowno.'">'.$rep['result'].'</a></div>';
+			/* Have to explicity pass the bid and pid for the profile here NOT for the class. */
+			$rep=checkReportEntryCat($umns[$c]['midlist'],$sid,$umns[$c]['profile_bid'],$umns[$c]['component']);
+			$out='<div class="'.$rep['class'].'"><a href="markbook.php?current=new_edit_reports.php&cancel=class_view.php&midlist='.$umns[$c]['midlist'].'&pid='.$umns[$c]['component'].'&sid='.$sid.'&bid='.$umns[$c]['profile_bid'].'&nextrow='.$rowno.'">'.$rep['result'].'</a></div>';
 			$score['value']=$rep['result'];
 			$score['outoftotal']=100;
 			$outrank=$rep['value'];

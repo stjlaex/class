@@ -20,7 +20,7 @@ if($secid!='' and $secid>1){
 		}
 	}
 else{
-	/* Give the whole school ig no section selected. */
+	/* Give the whole school when no section is selected. */
 	$sections=list_sections();
 	foreach($sections as $section){
 		$secid=$section['id'];
@@ -44,9 +44,11 @@ include('scripts/sub_action.php');
 $extrabuttons=array();
 $extrabuttons['notice']=array('name'=>'current',
 							  'title'=>'notice',
+							  'xmlcontainerid'=>'notice',
 							  'value'=>'register_notice.php');
 $extrabuttons['previewselected']=array('name'=>'current',
 									   'pathtoscript'=>$CFG->sitepath.'/'.$CFG->applicationdirectory.'/register/',
+									   'xmlcontainerid'=>'print',
 									   'value'=>'register_print.php',
 									   'onclick'=>'checksidsAction(this)');
 two_buttonmenu($extrabuttons);
@@ -87,7 +89,7 @@ two_buttonmenu($extrabuttons);
 ?>
 		<tr>
 		  <td>
-			<input type="checkbox" name="sids[]" value="<?php print $com['id']; ?>" />
+			<input type="checkbox" name="comids[]" value="<?php print $com['id']; ?>" />
 		  </td>
 		  <td>
 			<a onclick="parent.viewBook('register');" target="viewregister"  
@@ -125,10 +127,15 @@ two_buttonmenu($extrabuttons);
 		</tr>
 		</table>
 
-		<div id="xml-checked-action" style="display:none;">
+		<div id="xml-print" style="display:none;">
 		  <params>
-			<sids><?php print $sid;?></sids>
-			<selectname>wrapper_rid</selectname>
+			<checkname>comids</checkname>
+			<eveid><?php print $currentevent['id'];?></eveid>
+		  </params>
+		</div>
+		<div id="xml-notice" style="display:none;">
+		  <params>
+			<checkname>comids</checkname>
 		  </params>
 		</div>
 

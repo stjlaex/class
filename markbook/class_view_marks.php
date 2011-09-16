@@ -183,19 +183,25 @@ for($i=0;$i<sizeof($cids);$i++){
 				  }
 			  else{$levels[$c]='';}
 			  $umns[$c]['displayclass']='derived';
-				}
+			  }
 		  elseif($marktype[$c]=='report'){
-			  /*no markdef for a compound or report*/
+			  /* No markdef for a compound or report. */
 			  $scoregrading[$c]='';
 			  $scoregrades[$c]='';   
 			  $umns[$c]['displayclass']='report';
-				}
+			  }
 		  elseif($marktype[$c]=='compound'){
-			  /*no markdef for a compound or report*/
+			  /* No markdef for a compound. This is for a skills
+				 profile and maybe froma subject different to the
+				 class - so fetch from the profile definition. 
+			  */
 			  $scoregrading[$c]='';
 			  $scoregrades[$c]='';   
+			  $d_s=mysql_query("SELECT categorydef.subject_id FROM categorydef JOIN ridcatid ON ridcatid.categorydef_id=categorydef.id 
+								WHERE ridcatid.subject_id='profile' AND ridcatid.report_id='$midlist[$c]';");
+			  $umns[$c]['profile_bid']=mysql_result($d_s,0);
 			  $umns[$c]['displayclass']='derived';
-				}
+			  }
 		  elseif($marktype[$c]=='score' or $marktype[$c]=='hw'){
 			  $markdef_name=$mark['def_name'];
 			  $d_markdef=mysql_query("SELECT * FROM markdef WHERE name='$markdef_name'");
@@ -205,8 +211,7 @@ for($i=0;$i<sizeof($cids);$i++){
 			  $scoregrading[$c]=$markdef['grading_name'];
 			  if($scoregrading[$c]!=''){
 				  $grading_name=$scoregrading[$c];
-					$d_grading=mysql_query("SELECT grades FROM grading 
-											WHERE name='$grading_name'");
+					$d_grading=mysql_query("SELECT grades FROM grading WHERE name='$grading_name';");
 					$scoregrades[$c]=mysql_result($d_grading,0);
 				  }
 			  else{$scoregrades[$c]='';}

@@ -203,6 +203,7 @@ function fetchStudent_singlefield($sid,$tag){
 				$Add=$Contacts[$contactno]['Addresses'][0];
 				if($Contacts[$contactno]['ReceivesMailing']['value']==0){$displayclass='class="lowlite"';}else{$displayclass='';}
 				$Student[$tag]['value']='<div '.$displayclass.'>'.$Add['Street']['value'].' '. $Add['Neighbourhood']['value'].' '. $Add['Town']['value'].' '. $Add['Country']['value']. ' '. $Add['Postcode']['value'].'</div>';
+				$Student[$tag]['value_db']=$Add['Street']['value'].' '. $Add['Neighbourhood']['value'].' '. $Add['Town']['value'].' '. $Add['Country']['value']. ' '. $Add['Postcode']['value'];
 				}
 			}
 		elseif(substr_count($tag,'EmailAddress')){
@@ -211,6 +212,7 @@ function fetchStudent_singlefield($sid,$tag){
 			if(array_key_exists($contactno,$Contacts)){
 					if($Contacts[$contactno]['ReceivesMailing']['value']==0){$displayclass='class="lowlite"';}else{$displayclass='';}
 					$Student[$tag]=array('label'=>'',
+										 'value_db'=>$Contacts[$contactno]['EmailAddress']['value'],
 										 'value'=>'<div '.$displayclass.'>'.$Contacts[$contactno]['EmailAddress']['value'].'</div>');
 					}
 				else{

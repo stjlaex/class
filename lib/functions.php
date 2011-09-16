@@ -1480,7 +1480,10 @@ function send_email_to($recipient, $from, $subject, $messagetext, $messagehtml='
 		/* message header */
 		$hdrs = array( 'From'    => $from,
 					   'To'      => $recipient,
-					   'Subject' => $subject  );
+					   'Subject' => $subject,
+					   'Date'    => date("r")
+					   );
+		/* 'Date'    => date("r") must be RFC 2822 foramtted date for email headers */
 
 		/* we use Mail_mime() to construct a valid mail */
 		$mime =& new Mail_mime();

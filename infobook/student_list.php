@@ -28,9 +28,11 @@ if($savedview=='form'){
 	$displayfields[]='DOB';
 	$displayfields[]='Nationality';
 	$displayfields_no=3;
-	$com=get_community($comid);
-	$fid=$com['name'];
-	$tutor_users=(array)list_community_users($com,array('r'=>1,'w'=>1,'x'=>1));
+	if($comid!=''){
+		$com=get_community($comid);
+		$fid=$com['name'];
+		$tutor_users=(array)list_community_users($com,array('r'=>1,'w'=>1,'x'=>1));
+		}
 	}
 elseif($savedview=='year'){
 	$displayfields[]='RegistrationGroup';

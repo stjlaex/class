@@ -50,42 +50,38 @@ three_buttonmenu();
 <?php
 		}
 ?>
-		  <th style="width:15%;">
+		  <th>
 <?php
+	print get_string('mark',$book).'<br />';
 	if($scoretype=='grade'){
 		$d_grading=mysql_query("SELECT grades FROM grading WHERE name='$grading_name'");
 		$grading_grades=mysql_result($d_grading,0);
 		$pairs=explode (';', $grading_grades);
-		print $grading_name;
+		print '('.$grading_name.')';
 		}
 	else{
-		print_string('decimalvalue',$book);
+		print '('.get_string('decimalvalue',$book).')';
 		}
 ?>
 		  </th>
+		  <th style="background-color:#444;border-color:#444;width:10px;">&nbsp;</th>
 <?php
 	if($scoretype=='percentage'){
 		$total=$umns[$col]['mark_total'];
 ?>
-		  <th style="width:15%;">
+		  <th>
 			<?php print_string('total');?><br />
 			  (<?php print_string('default',$book);?>=<?php print $total;?>)
 		  </th>
-		  <th
-<?php if($_SESSION['worklevel']<0){print ' class="hidden" '; }?>
+<?php
+		}
+?>
+
+		  <th 
+<?php if($_SESSION['worklevel']<0){print ' class="hidden" '; } print $_SESSION['worklevel'];?>
 			>
 			<?php print_string('shortnote',$book);?>
 		  </th>
-<?php
-		}
-	else{
-?>
-		  <th colspan="2" 
-<?php if($_SESSION['worklevel']<0){print ' class="hidden" '; } print $_SESSION['worklevel'];?>
-			><?php print_string('shortnote',$book);?></th>
-<?php
-		}
-?>
 		  <th></th>
 		</tr>
 <?php
@@ -142,14 +138,17 @@ three_buttonmenu();
 		else{
 			print '<td><input pattern="decimal" type="text" tabindex="'.$tab.'" name="'.$sid.'" maxlength="8" value="'.$viewtable[$c]["score$mid"]['value'].'" /></td>';
 			}
+?>
+			<td style="background-color:#444;border-color:#444;width:10px;"></td>
+
+<?php
 		if($scoretype=='percentage'){
-			print '<td><input pattern="decimal" type="text" name="total'.$sid.'" maxlength="8" value="'.$viewtable[$c]["score$mid"]['outoftotal'].'" /></td>';
+			print '<td><input pattern="decimal" style="background-color:#ddd;" type="text" name="total'.$sid.'" maxlength="8" value="'.$viewtable[$c]["score$mid"]['outoftotal'].'" /></td>';
 			}
-		else{print '<td>&nbsp;</td>';}
 ?>
 
 			<td <?php if($_SESSION['worklevel']<0){print 'class="hidden"';}?> >
-			  <input type="text" style="width:80%;"
+			  <input type="text" style="width:80%;background-color:#ddd;"
 				 name="<?php print 'comm'.$sid;?>" maxlength="98" 
 				value="<?php print $viewtable[$c]["score$mid"]['comment'];?>"  />
 			</td>

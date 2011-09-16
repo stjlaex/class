@@ -26,7 +26,11 @@ if(isset($sid) or isset($nextrow)){
 		$pid=$_SESSION['inorders']['component'];
 		$rid=$_SESSION['inorders']['rid'];
 		}
-	if($nextnav=='component'){$pid=$_POST['nextarea'];}
+	if($nextnav=='component'){
+		$bid=$_SESSION['inorders']['subject'];
+		$pid=$_POST['nextarea'];
+		$rid=$_SESSION['inorders']['rid'];
+		}
 	$Student=fetchStudent_short($sid);
 	$title=$Student['DisplayFullName']['value'];
 	}

@@ -22,23 +22,30 @@ else{
 	$marktype='report';
 	}
 
-		/*EXPERIMENTAL! and no longer required.*/
-		/* First generate the associated assessment columns for this report
-   	   	while(list($index,$eid)=each($ReportDef['eids'])){
-			$url='http://'.$CFG->siteaddress.$CFG->sitepath.'/'.$CFG->applicationdirectory.'/reportbook/httpscripts/generate_assessment_columns.php?uniqueid='.$eid;
-			//trigger_error('url:'.$url,E_USER_WARNING);
-			$postdata['process_mode']='batch';
-			$curl=curl_init();
-			curl_setopt($curl,CURLOPT_URL,$url);
-			$result[]=curl_exec($curl);
-			curl_close($curl);
+
+
+	/* This will identify the first stage of the next course. */
+	$d_course=mysql_query("SELECT nextsubject_id FROM report WHERE id='$rid'");
+	$nextbid=mysql_result($d_course,0);
+	if($nextbid!=''){
+		/* This will identify the first stage of the next course. */
+		$d_course=mysql_query("SELECT nextcourse_id FROM course WHERE id='$crid'");
+		$nextcrid=mysql_result($d_course,0);
+		$yearnow=get_curriculumyear($crid);
+		if($nextcrid!='' and $nextcrid!='1000'){
+			$nextstages=list_course_stages($nextcrid);
+			$nextstage=$nextstages[0]['id'];
 			}
-		*/
+		else{
+			unset($nextcrid);
+			}
+		}
 
 	/* Make a list of subjects that will need distinct new marks*/
 	$subjects=array();
 	if($substatus=='G' or $substatus=='%'){$subjects[]=array('id'=>'%');}/*special when bid is general*/
 	else{$subjects=list_course_subjects($crid,$substatus);}
+
 
 		/* Generate a report column for each subject*/
    	   	foreach($subjects as $subject){
@@ -55,28 +62,40 @@ else{
 				if(sizeof($strands)==0){$strands[0]['id']=$component['id'];}
 				foreach($strands as $strand){
 
+					/* NB. If there is no component for this subject or components are not
+					 * requested then $pid is blank. 
+					 */
 					$pid=$strand['id'];
 					
-					/* NB. If there is no component for this subject or components are not
-					   requested then $pid is blank. */
 					/* The rid is stored in the midlist field for each mark*/
-					mysql_query("INSERT INTO mark 
-				(entrydate, marktype, topic, comment, author,
-				 def_name, assessment, midlist, component_id) 
-					VALUES ('$date', '$marktype', '$title', 
-				 'complete by $deadline', 'ClaSS', '', 'no', '$rid', '$pid')");
+					mysql_query("INSERT INTO mark (entrydate, marktype, topic, comment, author,
+									def_name, assessment, midlist, component_id) 
+									VALUES ('$date', '$marktype', '$title', 
+									'complete by $deadline', 'ClaSS', '', 'no', '$rid', '$pid')");
 					$mid=mysql_insert_id();
 				
-					/*entry in midcid for new mark and classes with crid and bid*/
+					/* Entry in midcid for new mark and classes with crid and bid. */
 					$d_class=mysql_query("SELECT id FROM class WHERE
 						course_id LIKE '$crid' AND subject_id LIKE
 						'$bid' AND stage LIKE '$stage' ORDER BY subject_id");
 					while($d_cid=mysql_fetch_array($d_class,MYSQL_NUM)){
 						$cid=$d_cid[0];
-						mysql_query("INSERT INTO midcid (mark_id,
-							class_id) VALUES ('$mid', '$cid')");
+						mysql_query("INSERT INTO midcid (mark_id,class_id) VALUES ('$mid', '$cid')");
 						}
 					mysql_free_result($d_class);
+
+					if($nextcrid){
+						$nextbid='Inf';
+						$d_class=mysql_query("SELECT id FROM class WHERE
+									course_id LIKE '$nextcrid' AND subject_id LIKE
+									'$nextbid' AND stage LIKE '$nextstage' ORDER BY subject_id;");
+						while($d_cid=mysql_fetch_array($d_class,MYSQL_NUM)){
+							$cid=$d_cid[0];
+							mysql_query("INSERT INTO midcid (mark_id,class_id) VALUES ('$mid', '$cid')");
+							}
+						mysql_free_result($d_class);
+						}
+
 					}
 				}
 			}

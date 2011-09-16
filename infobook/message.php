@@ -103,10 +103,12 @@ if($messageto=='student'){
 							$recipient['name']=$Contact['DisplayFullName']['value'];
 							$recipient['explanation']=$CFG->schoolname;
 							if($messageto=='contacts'){
-								$recipient['explanation'].="\r\n".get_string(displayEnum($Contact['Relationship']['value'],'relationship'),'infobook'). ' to '. $Student['DisplayFullName']['value'];
+								//$recipient['explanation'].="\r\n".get_string(displayEnum($Contact['Relationship']['value'],'relationship'),'infobook'). ' to '. $Student['DisplayFullName']['value'];
+								$recipient['explanation']='';
 								}
 							else{
-								$recipient['explanation'].="\r\n".'Dear '.$Contact['DisplayFullName']['value'];
+								//$recipient['explanation'].="\r\n".'Dear '.$Contact['DisplayFullName']['value'];
+								$recipient['explanation']='';
 								}
 							$recipient['email']=$email;
 							if($messageto=='family'){$recipients[$email]=$recipient;}
@@ -129,7 +131,7 @@ if($messageto=='student'){
 							}
 						if($mobile!='' and $mobile!=' '){
 							$recipient['name']=$Contact['DisplayFullName']['value'];
-							$recipient['explanation']=$CFG->schoolname;
+							$recipient['explanation']='';
 							$recipient['mobile']=$mobile;
 							$recipient['email']=strtolower($Contact['EmailAddress']['value']);
 							if($messageto=='family'){$recipients[$mobile]=$recipient;}

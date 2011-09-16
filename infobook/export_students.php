@@ -82,6 +82,9 @@ if(sizeof($sids)==0){
 					   and $Student[$displayfield]['type_db']=='date'){
 					$displayout=display_date($Student[$displayfield]['value']);
 					}
+				elseif(isset($Student[$displayfield]['value_db'])){
+					$displayout=$Student[$displayfield]['value_db'];
+					}
 				else{
 					$displayout=$Student[$displayfield]['value'];
 					}

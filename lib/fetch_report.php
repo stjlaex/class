@@ -853,9 +853,8 @@ function checkReportEntry($rid,$sid,$bid,$pid){
 
 /**
  *
- *	Simply checks to see if any report entries for a bid/pid combination 
- *  have been made for this sid in this report. The number of report entries 
- *  are returned.
+ *  Checks to see if any report entries for a bid/pid combination 
+ *  have been made for this sid in this report and calculates a colour coded percentage
  *
  */
 function checkReportEntryCat($rid,$sid,$bid,$pid){
@@ -870,7 +869,6 @@ function checkReportEntryCat($rid,$sid,$bid,$pid){
 		$rep=array();
 		$tot=0;
 		while($entry=mysql_fetch_array($d_r)){
-			//$rep['count']++;
 			$pairs=explode(';',$entry['category']);
 			for($c=0;$c<(sizeof($pairs)-1);$c++){
 				$thiscat=explode(':',$pairs[$c]);

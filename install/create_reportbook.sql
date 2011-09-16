@@ -16,6 +16,7 @@ CREATE TABLE report (
 		transform		varchar(60) not null default '',
 		rating_name		text not null default '',
 		year			year not null default '0000',
+		subject_id		varchar(10) not null default '',
 		primary key		(id)
 ) type=myisam;
 

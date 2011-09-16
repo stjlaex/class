@@ -30,20 +30,27 @@ if(isset($_POST['nextrow']) and $_POST['nextnav']!='table'){
 		/* Step to the next report column identified by the next pid. */
 		$no=0;
 		$areas=array();
-		foreach($components as $component){
-			$nextpid=$component['id'];
-			$d_m=mysql_query("SELECT component_id FROM mark WHERE midlist='$rid' 
+		$d_r=mysql_query("SELECT course_id FROM report WHERE id='$rid';");
+		$incrid=mysql_result($d_r,0);
+		$profile_comps=list_subject_components($inbid,$incrid);
+		foreach($profile_comps as $comp){
+			$subject_comps=(array)list_subject_components($comp['id'],$incrid);
+			$subject_comps[]=array('id'=>$comp['id']);
+			foreach($subject_comps as $comp){
+				$nextpid=$comp['id'];
+				$d_m=mysql_query("SELECT component_id FROM mark WHERE midlist='$rid' 
 							AND (marktype='report' OR marktype='compound') AND component_id='$nextpid';");
-			if(mysql_num_rows($d_m)>0){
-				if($component['id']==$inpid){$nextareano=$no;}
-				$areas[]=$component['id'];
-				$no++;
+				if(mysql_num_rows($d_m)>0){
+					if($nextpid==$inpid){$nextareano=$no;}
+					$areas[]=$nextpid;
+					$no++;
+					}
 				}
 			}
 		if($nextareano < ($no-1)){$nextareano=$nextareano+1;}else{$nextareano=0;}
 		$nextarea=$areas[$nextareano];
 		}
-	$action_post_vars=array('nextrow','nextarea','nextnav');
+	$action_post_vars=array('nextrow','nextarea','nextnav','bid');
 	}
 
 

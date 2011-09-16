@@ -84,7 +84,8 @@ if($nodays==''){$nodays=8;}
 			target="viewregister" onclick="parent.viewBook('register');">
 <?php 
 			print ''.display_date($currentevent['date']).'<br />';
-			print ''.date('H:i').' '.get_string('period',$book).': '.$currentevent['session'];
+			print date('H:i').'<br />';
+			print get_string('period',$book).': '.$currentevent['session'];
 ?>
 		</a>
 		</div>	  

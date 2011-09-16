@@ -6,8 +6,8 @@
 $action='register_notice_action.php';
 $choice='completion_list.php';
 
-if(isset($_POST['sids'])){
-	$comids=(array)$_POST['sids'];
+if(isset($_POST['comids'])){
+	$comids=(array)$_POST['comids'];
 	}
 else{
 	$comids=array();

@@ -869,24 +869,31 @@ function list_community_users($com,$perms=array('r'=>1,'w'=>1,'x'=>1),$yid='%'){
 		$gids[]=$com['gid'];
 		}
 	else{
-		if(isset($com['id']) and $com['id']!=''){$comid=$com['id'];}
-		else{$comid=update_community($com);}
-
-		$d_g=mysql_query("SELECT DISTINCT gid FROM groups WHERE groups.community_id='$comid' AND groups.yeargroup_id LIKE '$yid';");
-		while($g=mysql_fetch_array($d_g,MYSQL_ASSOC)){
-			$gids[]=$g['gid'];
+		if(isset($com['id']) and $com['id']!=''){
+			$comid=$com['id'];
+			}
+		elseif(isset($com['name']) and $com['name']!='' and isset($com['type']) and $com['type']!='' ){
+			$comid=update_community($com);
+			}
+		if(isset($comid)){
+			$d_g=mysql_query("SELECT DISTINCT gid FROM groups WHERE groups.community_id='$comid' AND groups.yeargroup_id LIKE '$yid';");
+			while($g=mysql_fetch_array($d_g,MYSQL_ASSOC)){
+				$gids[]=$g['gid'];
+				}
 			}
 		}
 
-	foreach($gids as $gid){
-		$d_u=mysql_query("SELECT DISTINCT users.uid,
+	if(sizeof($gids)>0){
+		foreach($gids as $gid){
+			$d_u=mysql_query("SELECT DISTINCT users.uid,
 					username, forename, surname, email, epfusername, role
 					FROM users JOIN perms ON users.uid=perms.uid 
 					WHERE users.nologin='0' AND perms.gid='$gid' AND perms.r='$r' 
 					AND perms.w='$w' AND perms.x='$x';");
-		while($user=mysql_fetch_array($d_u,MYSQL_ASSOC)){
-			$uid=$user['uid'];
-			$users[$uid]=$user;
+			while($user=mysql_fetch_array($d_u,MYSQL_ASSOC)){
+				$uid=$user['uid'];
+				$users[$uid]=$user;
+				}
 			}
 		}
 

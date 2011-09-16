@@ -75,11 +75,10 @@ two_buttonmenu($extrabuttons,$book);
 	  <div id="xml-checked-action" style="display:none;">
 		<reportids>
 <?php
-	$reports=array();
+	$reportdefs=array();
 	$input_elements='';
 	foreach($rids as $rid){
-		$reportdef=fetch_reportdefinition($rid);
-		$reportdefs[]=$reportdef;
+		$reportdefs[]=(array)fetch_reportdefinition($rid);
 		/*this is to feed the rids to the javascript function*/
 		print '<rids>'.$rid.'</rids>';
 	    $input_elements.=' <input type="hidden" name="rids[]" value="'.$rid.'" />';
@@ -98,27 +97,26 @@ two_buttonmenu($extrabuttons,$book);
 			</th>
 			<th colspan="2"><?php print_string('student');?></th>
 <?php
-		foreach($rids as $index => $rid){
-				$summaries=(array)$reportdefs[$index]['summaries'];
-				foreach($summaries as $summary){
-					$summaryid=$summary['subtype'];
-					if($summary['type']=='com'){
-						if($formperm['x']==1 and $summaryid=='form'){
-							print '<th style="width:4%;">'.$summary['name'].'</th>';
-							}
-						elseif($yearperm['x']==1 and $summaryid=='year'){
-							print '<th style="width:4%;">'.$summary['name'].'</th>';
-							}
-						elseif($yearperm['x']==1 and $summaryid=='section'){
-							print '<th style="width:4%;">'.$summary['name'].'</th>';
-							}
-						elseif($resperm['x']==1 and $summaryid=='residence'){
-							print '<th style="width:4%;">'.$summary['name'].'</th>';
-							}
-						}
+	foreach($rids as $index => $rid){
+		$summaries=(array)$reportdefs[$index]['summaries'];
+		foreach($summaries as $summary){
+			$summaryid=$summary['subtype'];
+			if($summary['type']=='com'){
+				if($formperm['x']==1 and $summaryid=='form'){
+					print '<th style="width:4%;">'.$summary['name'].'</th>';
+					}
+				elseif($yearperm['x']==1 and $summaryid=='year'){
+					print '<th style="width:4%;">'.$summary['name'].'</th>';
+					}
+				elseif($yearperm['x']==1 and $summaryid=='section'){
+					print '<th style="width:4%;">'.$summary['name'].'</th>';
+					}
+				elseif($resperm['x']==1 and $summaryid=='residence'){
+					print '<th style="width:4%;">'.$summary['name'].'</th>';
 					}
 				}
-			
+			}
+		}	
 ?>
 			<th><?php print_string('completedsubjectreports',$book);?></th>
 		  </tr>
@@ -235,6 +233,8 @@ two_buttonmenu($extrabuttons,$book);
 					WHERE cidsid.student_id='$sid' AND class.course_id='$crid' 
 					AND (class.stage='$reportstage' OR class.stage LIKE '$reportstage') 
 					ORDER BY subject_id;");
+
+
 			while($subject=mysql_fetch_array($d_subjectclasses,MYSQL_ASSOC)){
 			    $bid=$subject['subject_id'];
 				$cid=$subject['class_id'];

@@ -1,3 +1,24 @@
+Version ClaSS-1.0.4 release (2011/09/16)
+-------------------------------------------
+
+Fix to email headers sent through Pear mail, needed the date to be explicity set.
+
+Allowed statement profiles (compound mark types) to be carried forward
+to first stage of next course.
+
+Removed the explanation line for SMS and EMails to parents as its not generally helpful.
+
+Fix to listing_community_users when community is blank.
+
+Export student data from InfoBook now checks for value_db in
+preference to value from the Student array.
+
+Now pass the active eveid to the absences and print register scripts
+(before always use get_currentevent for the whole school and so was not
+sensitive to sections).
+
+
+
 Version ClaSS-1.0.3 release (2011/09/12)
 -------------------------------------------
 
@@ -17,6 +38,7 @@ Tidied the new assessment import script.
 Fix to the epf_sync script for the new form group structure.
 
 Allow for parents' epf logins to use data form upto 4 siblings.
+
 
 
 Version ClaSS-1.0.2 release (2011/09/09)

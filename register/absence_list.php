@@ -6,9 +6,8 @@
 
 $action='absence_list_action.php';
 $choice='absence_list.php';
+if(isset($_POST['newsecid'])){$secid=$_POST['newsecid'];}
 
-$students=list_absentStudents();
-//trigger_error('Subject'.$bid,E_USER_WARNING);
 
 include('scripts/sub_action.php');
 
@@ -25,6 +24,13 @@ $extrabuttons['summary']=array('name'=>'current',
 							   );
 //threeplus_buttonmenu($startday,2,$extrabuttons);
 two_buttonmenu($extrabuttons);
+
+if($currentevent['id']>0){
+	$students=list_absentStudents($currentevent['id']);
+	}
+else{
+	$students=list_absentStudents();
+	}
 ?>
   <div id="heading">
 	<label><?php print_string('absencesthissession','register');?></label>
@@ -44,7 +50,7 @@ two_buttonmenu($extrabuttons);
 		</tr>
 <?php
 	$rown=1;
-	while(list($index,$student)=each($students['Student'])){
+	foreach($students['Student'] as $student){
 		$sid=$student['id_db'];
 		$Attendance=(array)$student['Attendance'];
 		$Student=fetchStudent_short($sid);

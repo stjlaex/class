@@ -97,7 +97,7 @@ $action='med_view_action.php';
 				</tr>
 				<tr>
 				  <td>
-				  <textarea id="Detail" 
+				  <textarea id="Detail" style="font-wight:600; font-size:large;" 
 				  wrap="on" rows="5" tabindex="<?php print $tab++;?>"
 				  name="<?php print $Note['Detail']['field_db'].$index;?>" 
 				  ><?php print $Note['Detail']['value'];?></textarea>
