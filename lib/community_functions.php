@@ -251,8 +251,8 @@ function update_community($community,$communityfresh=array('id'=>'','type'=>'','
  *	@return array 
  *
  */
-function listin_union_communities($community1,$community2){
-	$todate=date("Y-m-d");
+function listin_both_communities($community1,$community2){
+	$todate=date('Y-m-d');
 	if(isset($community1['id']) and $community1['id']!=''){$comid1=$community1['id'];}
 	else{$comid1=update_community($community1);}
 	if(isset($community2['id']) and $community2['id']!=''){$comid2=$community2['id'];}
@@ -271,28 +271,32 @@ function listin_union_communities($community1,$community2){
 			b.id=a.student_id AND (a.leavingdate>'$todate' OR 
 			a.leavingdate='0000-00-00' OR a.leavingdate IS NULL))");
 
+	/* Not in com1 but in com2... */
   	$d_student=mysql_query("SELECT a.student_id, a.forename, a.middlenames,
 					a.surname, a.preferredforename, a.form_id FROM
 					com2students AS a LEFT JOIN com1students AS b ON
 					a.student_id=b.student_id WHERE
 					b.student_id IS NULL ORDER BY a.form_id, a.surname");
-	$scabstudents=array();
+	$complement_students=array();
 	while($student=mysql_fetch_array($d_student, MYSQL_ASSOC)){
-		if($student['student_id']!=''){$scabstudents[]=$student;}
+		if($student['student_id']!=''){$complement_students[]=$student;}
 		}
 
+	/* Are in both com1 and com2... */
   	$d_student=mysql_query("SELECT a.student_id, a.forename, a.middlenames,
 					a.surname, a.preferredforename, a.form_id FROM
 					com2students AS a LEFT JOIN com1students AS b ON
 					a.student_id=b.student_id WHERE
 					b.student_id IS NOT NULL ORDER BY a.form_id, a.surname");
-	$unionstudents=array();
+	$intersection_students=array();
 	while($student=mysql_fetch_array($d_student, MYSQL_ASSOC)){
-		if($student['student_id']!=''){$unionstudents[]=$student;}
+		if($student['student_id']!=''){$intersection_students[]=$student;}
 		}
+
 	mysql_query("DROP TABLE com2students");
 	mysql_query("DROP TABLE com1students");
-	return array('scab'=>$scabstudents,'union'=>$unionstudents);
+
+	return array('complement'=>$complement_students,'intersection'=>$intersection_students);
 	}
 
 
@@ -318,7 +322,11 @@ function listin_community($community,$enddate='',$startdate=''){
 
 	$orderby=get_studentlist_order();
 
-	if(isset($yid)){
+	/* Limit to students in this com for one yeargroup. 
+	 * NB. LIKE '%' will NOT get all students because it ignores yeargorup_id NULL! 
+	 * Hence the need for the second SELECT which ignores $yid.
+	 */
+	if(isset($yid) and $yid!='%'){
 		$d_student=mysql_query("SELECT id, surname,
 				forename, middlenames, preferredforename, form_id, gender, dob, comidsid.special AS special FROM student 
 				JOIN comidsid ON comidsid.student_id=student.id
@@ -327,8 +335,8 @@ function listin_community($community,$enddate='',$startdate=''){
 				AND (comidsid.joiningdate<='$startdate' OR comidsid.joiningdate IS NULL) ORDER BY $orderby;");
 		}
 	else{
-		$d_student=mysql_query("SELECT id, surname,
-				forename, middlenames, preferredforename, form_id, gender, dob, comidsid.special AS special FROM student 
+		$d_student=mysql_query("SELECT id, surname, forename, middlenames, preferredforename, 
+				form_id, gender, dob, comidsid.special AS special FROM student 
 				JOIN comidsid ON comidsid.student_id=student.id
 				WHERE comidsid.community_id='$comid' AND
 				(comidsid.leavingdate>'$enddate' OR comidsid.leavingdate='0000-00-00' OR comidsid.leavingdate IS NULL) 

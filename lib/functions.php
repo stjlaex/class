@@ -1350,6 +1350,7 @@ function send_email_to($recipient, $from, $subject, $messagetext, $messagehtml='
 		}
 	$subject=substr(stripslashes($subject), 0, 900);
 
+	/* The fallback is phpmailer, the preferred is PEAR_Mail */
 	if(!isset($CFG->emailsys) or $CFG->emailsys=='phpmail'){
 
 		include_once($CFG->phpmailerpath.'/class.phpmailer.php'); 
@@ -1494,8 +1495,9 @@ function send_email_to($recipient, $from, $subject, $messagetext, $messagehtml='
 			$mime->setTXTBody($messagetext);
 			}
 
+		/* Only PDF allowed as attachments. */
 		if(is_array($attachments)){
-			while(list($index,$attachment)=each($attachments)){
+			foreach($attachments as $attachment){
 				if(is_file($attachment['filepath'])){ 
 		  			$mimetype='application/pdf';
 					$mime->addAttachment($attachment['filepath'],$mimetype,$attachment['filename']);
@@ -1507,7 +1509,7 @@ function send_email_to($recipient, $from, $subject, $messagetext, $messagehtml='
 		$body = $mime->get();
 		$hdrs = $mime->headers($hdrs);
 
-		/* Put message into queue */
+		/* Put message into queue */ 
 		$mail_queue->put($from, $recipient, $hdrs, $body,0,false);
 		if(PEAR::isError($mail_queue->container->db)){ 
 			trigger_error('PEAR:'.ERROR,E_USER_WARNING);
@@ -1517,6 +1519,7 @@ function send_email_to($recipient, $from, $subject, $messagetext, $messagehtml='
 	else{
 		tigger_error('Not configured for email: message not sent.',E_USER_WARNING);
 		}
+
 	return $success;
 	}
 

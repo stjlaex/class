@@ -6,8 +6,8 @@ $choice='community_group.php';
 $action='community_group_action.php';
 
 if(isset($_POST['newcomtype'])){$newcomtype=$_POST['newcomtype'];}
-elseif($_SESSION['role']=='teacher'){$newcomtype='ACADEMIC';}
-else{$newcomtype='TUTOR';}
+elseif($_SESSION['role']=='office'){$newcomtype='TUTOR';}
+else{$newcomtype='ACADEMIC';}
 
 
 $extrabuttons['form']=array('name'=>'current',
@@ -55,11 +55,9 @@ two_buttonmenu($extrabuttons);
 	$communities=list_communities($newcomtype);
 	foreach($communities as $com){
 		$nosids=countin_community($com);
-		$nosidstotal=$nosidstotal+$nosids;
-		
+		$nosidstotal=$nosidstotal+$nosids;		
 		if($newcomtype=='HOUSE'){unset($HouseTotal);$HouseTotal=fetchHouseMeritsTotal($com['name']);}
-
-?>	   	
+?>
 		<tr>
 		<td>
 		<input type="checkbox" name="comids[]" value="<?php print $com['id'];?>" />
@@ -92,7 +90,7 @@ two_buttonmenu($extrabuttons);
 			<?php $required='no'; include('scripts/jsdate-form.php');?>
 		  </div>
 		</div>
-<br />
+		<br />
 		<div style="float:left;">
 		  <label><?php print_string('end',$book);?></label>
 		  <div style="float:left;">
@@ -100,8 +98,6 @@ two_buttonmenu($extrabuttons);
 		  </div>
 		</div>
 	</fieldset>
-
-
 
 
 	  <input type="hidden" name="current" value="<?php print $action;?>" />

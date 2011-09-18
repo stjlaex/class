@@ -59,6 +59,7 @@ if(isset($_POST['comid'])){$comid=$_POST['comid'];}
 	$rown=1;
 	foreach($students as $student){
 		$sid=$student['id'];
+		$Student=(array)fetchStudent_short($sid);
 		if($_SESSION['role']=='admin' or $_SESSION['role']=='office'){
 			$Enrolment=fetchEnrolment($sid);
 			$extra=$Enrolment['EnrolNumber']['value'];
@@ -67,7 +68,10 @@ if(isset($_POST['comid'])){$comid=$_POST['comid'];}
 		
 		print '<tr id="sid-'.$sid.'">';
 		print '<td>'.$rown++.'</td>';
-		print '<td>'.$student['surname']. ', '.$student['forename'].' '.$student['preferredforename'].'</td><td>'.$extra.'</td>';
+		print '<td class="student"><a target="viewinfobook" onclick="parent.viewBook(\'infobook\');" href="infobook.php?current=student_view.php&sid='.$sid.'&sids[]='.$sid.'">'. $Student['DisplayFullSurname']['value'].'</a></td><td>'.$extra.'</td>';
+
+		//		print '<td class="student">'.$student['surname']. ', '.$student['forename'].' '.$student['preferredforename'].'</td><td>'.$extra.'</td>';
+
 		print '<td><input type="checkbox" name="sids[]" value="'.$sid.'" /></td>';
 		print '</tr>';
 		}

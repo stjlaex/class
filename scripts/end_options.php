@@ -17,7 +17,7 @@ if($current!=''){
         <script>parent.updateMarkDisplay(<?php print $displaymid;?>);</script>
 <?php
 		}
-	elseif($book=='register' and $notice!=''){
+	elseif($book=='register' and isset($notice) and $notice!=''){
 ?>
         <script>parent.openAlert('<?php print $notice;?>');</script>
 <?php

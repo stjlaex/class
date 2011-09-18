@@ -49,7 +49,7 @@ if(isset($_POST['enrolyear'])){$enrolyear=$_POST['enrolyear'];}
 
 
 	$oldstudents=listin_community($currentcommunity);
-	$newstudents=listin_union_communities($currentcommunity,$newcommunity);
+	$newstudents=listin_both_communities($currentcommunity,$newcommunity);
 
 
 	three_buttonmenu();
@@ -65,7 +65,7 @@ if(isset($_POST['enrolyear'])){$enrolyear=$_POST['enrolyear'];}
 			<?php print_string('yeargroup');?>
 		  </caption>
 		  <tr>
-			<th colspan="4">
+			<th colspan="3">
 			  <h2>
 			  <?php print $displayname;?>
 			  </h2>
@@ -86,10 +86,10 @@ if(isset($_POST['enrolyear'])){$enrolyear=$_POST['enrolyear'];}
 			}
 		else{$extra='&nbsp;';}
 		$sid=$student['id'];
+		$Student=(array)fetchStudent_short($sid);
 		print '<tr id="sid-'.$sid.'">';
 		print '<td>'.$rown++.'</td>';
-		print '<td>'.$student['surname']. ', '.$student['forename'].' '.$student['middlenames'].' '.$student['preferredforename'].'</td><td>'.$student['form_id'].
-												'</td><td>'.$extra.'</td>';
+		print '<td class="student"><a target="viewinfobook" onclick="parent.viewBook(\'infobook\');" href="infobook.php?current=student_view.php&sid='.$sid.'&sids[]='.$sid.'">'. $Student['DisplayFullSurname']['value'].'</a> ('.$student['form_id'].')</td><td>'.$extra.'</td>';
 		print '<td><input type="checkbox" name="sids[]" value="'.$sid.'" /></td>';
 		print '</tr>';
 		}
@@ -120,7 +120,7 @@ if(isset($_POST['enrolyear'])){$enrolyear=$_POST['enrolyear'];}
 		  <label><?php print_string('studentsnotin',$book);?></label>
 		  <select name="newsids[]" size="24" multiple="multiple" style="width:98%;">
 <?php
-	foreach($newstudents['scab'] as $student){
+	foreach($newstudents['complement'] as $student){
 		print '<option ';
 		print	'value="'.$student['student_id'].'">'. 
 		$student['surname'].', '.$student['forename'].' '. 

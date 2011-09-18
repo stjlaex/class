@@ -55,7 +55,7 @@ elseif($sub=='Submit'){
 	else{
 		$students=(array)listin_community($community);
 		}
-	while(list($index,$student)=each($students)){
+	foreach($students as $student){
 		$instatus='';
 		$sid=$student['id'];
 		if(isset($_POST['status-' .$sid])){
@@ -73,20 +73,19 @@ elseif($sub=='Submit'){
 					}
 
 				$d_attendance=mysql_query("SELECT status, code, late, comment FROM attendance
-				WHERE student_id='$sid' AND event_id='$eveid'");
+												WHERE student_id='$sid' AND event_id='$eveid';");
 				if(mysql_num_rows($d_attendance)==0){
 					mysql_query("INSERT INTO attendance (event_id,
-					student_id, status, code, late, comment, teacher_id) 
-					VALUES ('$eveid','$sid','$instatus','$incode','$inlate','$incomm','$tid');");
+								student_id, status, code, late, comment, teacher_id, class_id) 
+								VALUES ('$eveid','$sid','$instatus','$incode','$inlate','$incomm','$tid','$newcid');");
 					}
 				else{
 					$att=mysql_fetch_array($d_attendance,MYSQL_ASSOC);
 					if($att['status']!=$instatus or $att['code']!=$incode or 
 					   $att['late']!=$inlate or $att['comment']!=$incomm){
-						mysql_query("UPDATE attendance SET status='$instatus',
-							code='$incode', late='$inlate',
-							comment='$incomm', teacher_id='$tid' WHERE
-							event_id='$eveid' AND student_id='$sid'");
+						mysql_query("UPDATE attendance SET status='$instatus', code='$incode', 
+									late='$inlate', comment='$incomm', teacher_id='$tid', class_id='$newcid' 
+									WHERE event_id='$eveid' AND student_id='$sid';");
 						}
 					}
 				}

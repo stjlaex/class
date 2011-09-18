@@ -8,6 +8,9 @@ if(!isset($xmlid)){print "Failed"; exit;}
 
 	$eid=$xmlid;
 	$AssDef=fetchAssessmentDefinition($eid);
+	$AssCount=fetchAssessmentCount($eid);
+	$AssDef=array_merge($AssDef,$AssCount);
+
 	$crid=$AssDef['Course']['value'];
 	/*Check user has permission to configure*/
 	$perm=getCoursePerm($crid,$respons);
@@ -23,7 +26,8 @@ if(!isset($xmlid)){print "Failed"; exit;}
 		$result[]="Deleted mark columns.";
 		}
 
-$returnXML=fetchAssessmentDefinition($eid);
+$AssCount=(array)fetchAssessmentCount($eid);
+$returnXML=array_merge($AssDef,$AssCount);
 $rootName='AssessmentDefinition';
 require_once('../../scripts/http_end_options.php');
 exit;

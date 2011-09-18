@@ -159,6 +159,7 @@ function gradeToScore($grade,$grading_grades){
 	return $score;
 	}
 
+
 /**
  *
  *	@param integer $eid
@@ -171,15 +172,6 @@ function fetchAssessmentDefinition($eid){
 	if(mysql_numrows($d_ass)==0){$AssDef['exists']='false';}
 	else{$AssDef['exists']='true';}
 	$ass=mysql_fetch_array($d_ass,MYSQL_ASSOC);
-
-	$d_mid=mysql_query("SELECT mark_id FROM eidmid WHERE assessment_id='$eid';");
-	$markcount=mysql_numrows($d_mid);
-	$d_score=mysql_query("SELECT student_id FROM score
-		JOIN eidmid ON eidmid.mark_id=score.mark_id WHERE eidmid.assessment_id='$eid';");
-	$scorecount=mysql_numrows($d_score);
-	$d_eidsid=mysql_query("SELECT student_id FROM eidsid
-				   		WHERE assessment_id='$eid' AND student_id!='0'");
-	$archivecount=mysql_numrows($d_eidsid);
 
    	$AssDef['Course']=array('label'=>'Course',
 							'table_db'=>'assessment', 
@@ -296,18 +288,40 @@ function fetchAssessmentDefinition($eid){
 							  'field_db'=>'creation',
 							  'type_db'=>'date', 
 							  'value'=>''.$ass['creation']);
-   	$AssDef['MarkCount']=array('label'=>'Markcolumns', 
-							   'table_db' =>'', 'field_db'=>'',
-							   'type_db'=>'', 'value'=>''.$markcount);
-   	$AssDef['ScoreCount']=array('label'=>'Markscores', 
-								'table_db' =>'', 'field_db'=>'',
-								'type_db'=>'', 'value'=>''.$scorecount);
-   	$AssDef['ArchiveCount']=array('label'=>'Archivescores', 
-								  'table_db' =>'', 'field_db'=>'',
-								  'type_db'=>'', 'value'=>''.$archivecount);
+
 	return $AssDef;
    	}
 
+
+
+
+
+/**
+ *  Counts the number of associated mark columns and scores in the
+ *  MarkBook for the given assessment id.
+ *
+ *	@param integer $eid
+ *	@return array
+ */
+function fetchAssessmentCount($eid){
+	$AssDef=array();
+	$d_c=mysql_query("SELECT COUNT(mark_id) FROM eidmid WHERE assessment_id='$eid';");
+	$markcount=mysql_result($d_c,0);
+	$d_c=mysql_query("SELECT COUNT(student_id) FROM score 
+							JOIN eidmid ON eidmid.mark_id=score.mark_id WHERE eidmid.assessment_id='$eid';");
+	$scorecount=mysql_result($d_c,0);
+	$d_c=mysql_query("SELECT COUNT(student_id) FROM eidsid WHERE assessment_id='$eid' AND student_id!='0'");
+	$archivecount=mysql_result($d_c,0);
+
+   	$AssDef['MarkCount']=array('label'=>'Markcolumns', 
+							   'value'=>''.$markcount);
+   	$AssDef['ScoreCount']=array('label'=>'Markscores', 
+								'value'=>''.$scorecount);
+   	$AssDef['ArchiveCount']=array('label'=>'Archivescores', 
+								  'value'=>''.$archivecount);
+
+	return $AssDef;
+   	}
 
 /**
  *
@@ -653,15 +667,16 @@ function fetch_cohortAssessmentDefinitions($cohort,$profid=''){
 	else{
 		$profile_name=$profid;
 		}
-	$d_assessment=mysql_query("SELECT id FROM assessment
-			   WHERE (course_id LIKE '$crid' OR course_id='%') AND 
-				(stage LIKE '$stage' OR stage='%') AND 
-				year LIKE '$year' AND profile_name LIKE '$profile_name' AND
-				resultstatus!='S' AND  stage!='RE' AND stage!='E' 
-				ORDER BY year DESC, deadline DESC, element ASC;");
-   	while($ass=mysql_fetch_array($d_assessment, MYSQL_ASSOC)){
+
+	$d_a=mysql_query("SELECT id FROM assessment WHERE course_id='$crid' AND 
+						(stage LIKE '$stage' OR stage='%') AND 
+						year LIKE '$year' AND profile_name LIKE '$profile_name' AND
+						resultstatus!='S' AND  stage!='RE' AND stage!='E' 
+						ORDER BY year DESC, deadline DESC, element ASC;");
+   	while($ass=mysql_fetch_array($d_a,MYSQL_ASSOC)){
 		$AssDefs[]=fetchAssessmentDefinition($ass['id']);
 		}
+
 	return $AssDefs;
 	}
 

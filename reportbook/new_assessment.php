@@ -140,8 +140,9 @@ three_buttonmenu($extrabuttons);
 
 	$cohort=array('id'=>'','course_id'=>$rcrid,'stage'=>'%','year'=>$curryear);
 	$AssDefs=(array)fetch_cohortAssessmentDefinitions($cohort,$profid);
-	while(list($index,$AssDef)=each($AssDefs)){
+	foreach($AssDefs as $AssDef){
 		$eid=$AssDef['id_db'];
+		$AssCount=fetchAssessmentCount($eid);
 		$rown=0;
 		if(isset($AssDef['Derivation']['value'][0]) 
 		   and $AssDef['Derivation']['value'][0]!=' '){$AssDef['ResultStatus']['value']='E';}
@@ -166,12 +167,12 @@ three_buttonmenu($extrabuttons);
 					$AssDef['Statistics']['value'];?></value>.&nbsp;
 				<?php print_string('markbookcolumns',$book);?>
 				<value id="<?php print $eid;?>-Markcount"><?php print
-						 $AssDef['MarkCount']['value'];?></value>.&nbsp;
+						 $AssCount['MarkCount']['value'];?></value>.&nbsp;
 			<a href="reportbook.php?current=edit_scores.php&cancel=new_assessment.php&eid=<?php print $eid;?>&curryear=<?php print $curryear;?>&profid=<?php print $profid;?>&pid=&bid="><?php print_string('scoresentered',$book);?>				
 				<value id="<?php print $eid;?>-Archivecount">
-				  <?php print $AssDef['ArchiveCount']['value'];?></value>
+				  <?php print $AssCount['ArchiveCount']['value'];?></value>
 				(<value id="<?php print $eid;?>-Scorecount"> 
-				  <?php print $AssDef['ScoreCount']['value'];?></value>).</a>
+				  <?php print $AssCount['ScoreCount']['value'];?></value>).</a>
 			  </p>
 			</td>
 		  </tr>

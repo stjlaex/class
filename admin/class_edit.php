@@ -74,7 +74,7 @@ three_buttonmenu($extrabuttons);
 		<table class="listmenu">
 		<caption><?php print_string('currentclassfor',$book);?>: <?php print $bid;?></caption>
 		<tr>
-		  <th><?php print $newcid.'/'.$newtid; ?></th>
+		  <th colspan="3"><?php print $newcid.'/'.$newtid; ?></th>
 			<td>
 			  <?php print_string('remove');?><br />
 			  <input type="checkbox" name="checkall" 
@@ -88,11 +88,14 @@ three_buttonmenu($extrabuttons);
 				b.middlenames, b.preferredforename,
 				b.forename, b.yeargroup_id, b.form_id FROM cidsid a, student b 
 				WHERE a.class_id='$newcid' AND b.id=a.student_id ORDER BY b.surname");
+	$rown=1;
 	while($student=mysql_fetch_array($d_student, MYSQL_ASSOC)){
-		print '<tr><td>'.$student['surname']. 
-				', '. $student['forename'].' '. 
-				$student['preferredforename']. ' ('.$student['form_id'].')</td>';
-		print '<td><input type="checkbox" name="'.$student['student_id'].'" /></td>';
+		$sid=$student['student_id'];
+		$Student=(array)fetchStudent_short($sid);
+		print '<tr id="sid-'.$sid.'">';
+		print '<td>'.$rown++.'</td>';
+		print '<td class="student"><a target="viewinfobook" onclick="parent.viewBook(\'infobook\');" href="infobook.php?current=student_view.php&sid='.$sid.'&sids[]='.$sid.'">'. $Student['DisplayFullSurname']['value'].'</a></td><td>'.$student['form_id'].'</td>';
+		print '<td><input type="checkbox" name="'.$sid.'" /></td>';
 		print '</tr>';
 		}
 ?>

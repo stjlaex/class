@@ -81,11 +81,8 @@ else{
 		$pid='%';
 		}
 	else{
-		//trigger_error('PREV: '.$prevstage,E_USER_WARNING);
-		//trigger_error(sizeof($AssDefs),E_USER_WARNING);
 		$PrevAssDefs=(array)fetch_cohortAssessmentDefinitions($prevcohort,$profile['id']);
 		$all_AssDefs=(array)array_merge_recursive($AssDefs + $PrevAssDefs);
-		//trigger_error(sizeof($all_AssDefs),E_USER_WARNING);
 		}
 
 	/* Bands in ascending date order. */

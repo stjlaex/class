@@ -8,6 +8,8 @@ if(!isset($xmlid)){print 'Failed'; exit;}
 
 $eid=$xmlid;
 $AssDef=fetchAssessmentDefinition($eid);
+$AssCount=fetchAssessmentCount($eid);
+$AssDef=array_merge($AssDef,$AssCount);
 $crid=$AssDef['Course']['value'];
 $gena=$AssDef['GradingScheme']['value'];
 $subject=$AssDef['Subject']['value'];
@@ -210,7 +212,9 @@ if($perm["$neededperm"]=1 and $AssDef['MarkCount']['value']==0){
 		}
 	}
 
-$returnXML=fetchAssessmentDefinition($eid);
+
+$AssCount=(array)fetchAssessmentCount($eid);
+$returnXML=array_merge($AssDef,$AssCount);
 $rootName='AssessmentDefinition';
 require_once('../../scripts/http_end_options.php');
 exit;

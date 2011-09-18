@@ -12,7 +12,7 @@ if(isset($_GET['newcomtype'])){$newcomtype=$_GET['newcomtype'];}
 if(isset($_POST['newcomtype'])){$newcomtype=$_POST['newcomtype'];}
 if(isset($_POST['newcomid'])){$newcomid=$_POST['newcomid'];}else{$newcomid='';}
 
-	$d_com=mysql_query("SELECT name FROM community WHERE id='$comid'");
+	$d_com=mysql_query("SELECT name FROM community WHERE id='$comid';");
 	$comname=mysql_result($d_com,0);
 	$currentcommunity=array('yeargroup_id'=>$yid,'type'=>$newcomtype,'id'=>$comid);
 
@@ -23,7 +23,7 @@ if(isset($_POST['newcomid'])){$newcomid=$_POST['newcomid'];}else{$newcomid='';}
 	else{$newcommunity=array('type'=>'year','name'=>'');}
 
 	$oldstudents=listin_community($currentcommunity);
-	$newstudents=listin_union_communities($currentcommunity,$newcommunity);
+	$newstudents=listin_both_communities($currentcommunity,$newcommunity);
 	$description=displayEnum($newcomtype,'community_type');
 
 $extrabuttons['edit']=array('name'=>'current','value'=>'community_group_rename.php');
@@ -78,12 +78,11 @@ three_buttonmenu($extrabuttons);
 		  <label><?php print_string('studentsnotin',$book);?></label>
 		  <select name="newsids[]" size="24" multiple="multiple" style="width:98%;">
 <?php
-	while(list($index,$student)=each($newstudents['scab'])){
-		print '<option ';
-		print	'value="'.$student['student_id'].'">'. 
-		$student['surname'].', '.$student['forename'].' '. 
-		$student['middlenames'].' '.$student['preferredforename']. 
-		' ('.$student['form_id'].')</option>';
+	foreach($newstudents['complement'] as $student){
+		print '<option value="'.$student['student_id'].'">'. 
+			$student['surname'].', '.$student['forename'].' '. 
+			$student['middlenames'].' '.$student['preferredforename']. 
+			' ('.$student['form_id'].')</option>';
 		}
 ?>
 		  </select>
@@ -93,12 +92,11 @@ three_buttonmenu($extrabuttons);
 		  <label><?php print_string('studentsalreadyin',$book);?></label>
 		  <select name="newsids[]" size="24" multiple="multiple" style="width:98%;">
 <?php
-	while(list($index,$student)=each($newstudents['union'])){
-		print '<option ';
-		print	'value="'.$student['student_id'].'">'. 
-		$student['surname'].', '.$student['forename'].' '. 
-		$student['middlenames'].' '.$student['preferredforename']. 
-		' ('.$student['form_id'].')</option>';
+	foreach($newstudents['intersection'] as $student){
+		print '<option value="'.$student['student_id'].'">'. 
+			$student['surname'].', '.$student['forename'].' '. 
+			$student['middlenames'].' '.$student['preferredforename']. 
+			' ('.$student['form_id'].')</option>';
 		}
 ?>
 		  </select>

@@ -8,6 +8,7 @@
  *
  * Lists relevant assessments based on selected academic
  * responsibility or defaults to pastoral responsibilities.
+ *
  */
 
 	$cohorts=array();
@@ -36,9 +37,8 @@
 							 );
 			}
 		}
-	/* no academic repsonsiblity set so use a selected pastoral group */
 	elseif(sizeof($ryids)>0){
-		reset($ryids);
+		/* No academic repsonsiblity set so use a selected pastoral group. */
    		foreach($ryids as $ryid){
 			$comcohorts=(array)list_community_cohorts(array('id'=>'','type'=>'year','name'=>$ryid),false);
 			foreach($comcohorts as $cohort){
@@ -49,6 +49,7 @@
 	elseif(sizeof($rforms)>0){
 		$cohorts=list_community_cohorts(array('id'=>'','type'=>'form','name'=>$rforms[0]['name']),false);
 		}
+
 
 	if(!isset($required)){$required='yes';}
 	if(!isset($multi)){$multi='10';}
