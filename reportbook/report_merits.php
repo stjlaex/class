@@ -6,14 +6,14 @@ $action='report_merits_list.php';
 $choice='report_merits.php';
 
 
-//last two weeks by default
+/* Last two weeks by default. */
 $todate=date('Y-m-d',mktime(0,0,0,date('m'),date('d')-14,date('Y')));
 
 three_buttonmenu();
 ?>
   <div id="heading">
 	<label><?php print_string('search',$book);?></label>
-<?php	print_string('merits');?>
+	<?php print_string('merits');?>
   </div>
   <div class="content">
 	<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>"> 
@@ -39,4 +39,3 @@ three_buttonmenu();
 	  <input type="hidden" name="cancel" value="<?php print ''; ?>">
 	</form>
   </div
-

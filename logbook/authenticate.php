@@ -45,10 +45,14 @@ function get_respons($uid,$type='%'){
 				}
 			elseif($group['type']=='p' and $group['community_id']=='0'){
 				$yid=$group['yeargroup_id'];
-				$d_c=mysql_query("SELECT name FROM yeargroup WHERE id='$yid';");
-				$com=mysql_fetch_array($d_c,MYSQL_ASSOC);
-				$group['name']=$com['name'];
-				$group['comtype']='year';
+				if($yid!=''){
+					$d_y=mysql_query("SELECT name FROM yeargroup WHERE id='$yid';");
+					$group['name']=mysql_result($d_y,0);
+					$group['comtype']='year';
+					}
+				else{
+					unset($group);
+					}
 				}
 			elseif($group['type']=='p' or $group['type']=='c'){
 				$comid=$group['community_id'];
@@ -56,8 +60,9 @@ function get_respons($uid,$type='%'){
 				$com=mysql_fetch_array($d_c,MYSQL_ASSOC);
 				$group['name']=$com['name'];
 				$group['comtype']=$com['type'];
+				$group['id']=$comid;
 				}
-			$groups[]=$group;
+			if(isset($group)){$groups[]=$group;}
 			}
 		}
 

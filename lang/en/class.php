@@ -391,4 +391,5 @@ $string['boarders']='Boarders';
 $string['table']='Table';
 $string['component']='Component';
 $string['notice']='Notice';
+$string['nonefound']='None found';
 ?>

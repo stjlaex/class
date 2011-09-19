@@ -53,6 +53,9 @@ two_buttonmenu($extrabuttons);
 <?php
 	$nosidstotal=0;
 	$communities=list_communities($newcomtype);
+	$houses=list_communities('house');
+	trigger_error($newcomtype.' '.sizeof($communities),E_USER_WARNING);
+
 	foreach($communities as $com){
 		$nosids=countin_community($com);
 		$nosidstotal=$nosidstotal+$nosids;		

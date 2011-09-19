@@ -4,8 +4,9 @@
 
 $action='report_reports.php';
 
-if(isset($_POST['newfid'])){$fid=$_POST['newfid'];}else{$fid='';}
-if(isset($_POST['newyid'])){$yid=$_POST['newyid'];}else{$yid='';}
+if(isset($_POST['yid'])){$yid=$_POST['yid'];}else{$yid='';}
+if(isset($_POST['formid']) and $_POST['formid']!=''){$comid=$_POST['formid'];}
+elseif(isset($_POST['houseid'])  and $_POST['houseid']!=''){$comid=$_POST['houseid'];}else{$comid='';}
 if(isset($_POST['year'])){$year=$_POST['year'];}
 if(isset($_POST['stage'])){$stage=$_POST['stage'];}
 if(isset($_POST['rids'])){$postrids=$_POST['rids'];}else{$postrids=array();}
@@ -13,10 +14,17 @@ if(isset($_POST['wrapper_rid'])){$wrapper_rid=$_POST['wrapper_rid'];}
 
 include('scripts/sub_action.php');
 
-	if($fid!=''){
-		$students=listin_community(array('id'=>'','type'=>'form','name'=>$fid));
-		$formperm=getFormPerm($fid);
-		$yid=get_form_yeargroup($fid);
+	if($comid!=''){
+		$com=get_community($comid);
+		if($yid!=''){
+			$com['yeargroup_id']=$yid;
+			$students=listin_community($com);
+			}
+		else{
+			$students=listin_community($com);
+			$yid=get_form_yeargroup($com['name'],$com['type']);
+			}
+		$formperm=get_community_perm($comid,$yid);
 		$yearperm=getYearPerm($yid);
 		}
 	elseif($yid!=''){
@@ -67,7 +75,7 @@ if($_SESSION['role']=='admin' and isset($CFG->eportfolio_dataroot) and $CFG->epo
 two_buttonmenu($extrabuttons,$book);
 ?>
   <div id="heading">
-  <?php print get_string('subjectreportsfor',$book).' '.get_yeargroupname($yid).' '.$fid;?>
+  <?php print get_string('subjectreportsfor',$book).' '.get_yeargroupname($yid).' '.$com['displayname'];?>
   </div>
   <div id="viewcontent" class="content">
 	<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">

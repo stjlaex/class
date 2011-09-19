@@ -8,29 +8,40 @@ $action='report_incidents.php';
 
 $startdate=$_POST['date0'];
 $enddate=$_POST['date1'];
-if(isset($_POST['bid'])){$bid=$_POST['bid'];}else{$bid='';}
-if(isset($_POST['newyid'])){$yid=$_POST['newyid'];}else{$yid='';}
-if(isset($_POST['newfid'])){$fid=$_POST['newfid'];}else{$fid='';}
+if(isset($_POST['bid']) and $_POST['bid']!=''){$bid=$_POST['bid'];}else{$bid='%';}
 if(isset($_POST['stage'])){$stage=$_POST['stage'];}
 if(isset($_POST['year'])){$year=$_POST['year'];}
+if(isset($_POST['yid'])){$yid=$_POST['yid'];}else{$yid='';}
+if(isset($_POST['formid']) and $_POST['formid']!=''){$comid=$_POST['formid'];}
+elseif(isset($_POST['houseid'])  and $_POST['houseid']!=''){$comid=$_POST['houseid'];}else{$comid='';}
 
 include('scripts/sub_action.php');
 
-	if($yid!=''){
+	if($comid!=''){
+		if($yid!=''){
+			$d_incidents=mysql_query("SELECT * FROM incidents WHERE
+							incidents.entrydate >= '$startdate' AND incidents.entrydate<='$enddate' 
+							AND incidents.subject_id LIKE '$bid' 
+							AND incidents.student_id=ANY(SELECT student.id FROM student JOIN comidsid AS a ON comidsid.student_id=student.id
+							WHERE student.yeargroup_id='$yid' a.community_id='$comid' 
+							AND (a.leavingdate>'$enddate' OR a.leavingdate='0000-00-00' OR a.leavingdate IS NULL));");
+			}
+		else{
+			$d_incidents=mysql_query("SELECT * FROM incidents JOIN
+					comidsid AS a ON a.student_id=incidents.student_id WHERE
+					a.community_id='$comid' AND (a.leavingdate>'$enddate' OR a.leavingdate='0000-00-00' OR a.leavingdate IS NULL)
+					AND incidents.entrydate >= '$startdate' AND incidents.entrydate<='$enddate' 
+					AND incidents.subject_id LIKE '$bid';");
+			}
+		}
+	elseif($yid!=''){
 		$d_incidents=mysql_query("SELECT * FROM incidents JOIN
 		student ON student.id=incidents.student_id WHERE
 		incidents.entrydate > '$startdate' AND student.yeargroup_id LIKE
 		'$yid' ORDER BY student.surname");
 		}
-	elseif($fid!=''){
-		$d_incidents=mysql_query("SELECT * FROM incidents JOIN
-		student ON student.id=incidents.student_id WHERE
-		incidents.entrydate > '$startdate' AND student.form_id LIKE
-		'$fid' ORDER BY student.surname");
-		}
 	elseif($bid!=''){
-		$d_incidents=mysql_query("SELECT * FROM incidents WHERE entrydate
-				> '$startdate' AND subject_id LIKE '$bid'");
+		$d_incidents=mysql_query("SELECT * FROM incidents WHERE entrydate > '$startdate' AND subject_id LIKE '$bid'");
 		}
 	else{
 		if($rcrid=='%'){
@@ -52,7 +63,7 @@ include('scripts/sub_action.php');
 		}
 
 	if(mysql_num_rows($d_incidents)==0){
-		$error[]=get_string('noincidentsfound',$book);
+		$error[]=get_string('nonefound',$book);
 		$action='report_incidents.php';
     	include('scripts/results.php');
 	    include('scripts/redirect.php');

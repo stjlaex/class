@@ -46,7 +46,6 @@ three_buttonmenu($extrabuttons);
 	$listname='gid';
 	$liststyle='width:95%;';
 	include('scripts/set_list_vars.php');
-	$yeargroups=(array)list_yeargroups();
 	$listgids=array();
 	$listcoms=array();
 	$coms=list_communities($newcomtype);

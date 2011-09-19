@@ -17,8 +17,8 @@ $action='report_assessments.php';
 
 if(isset($_POST['year'])){$year=$_POST['year'];}
 if(isset($_POST['stage'])){$stage=$_POST['stage'];}
-if(isset($_POST['selyid'])){$yid=$_POST['selyid'];}else{$yid='';}
-if(isset($_POST['selfid'])){$fid=$_POST['selfid'];}else{$fid='';}
+if(isset($_POST['yid'])){$yid=$_POST['yid'];}else{$yid='';}
+if(isset($_POST['comid'])){$comid=$_POST['comid'];}else{$comid='';}
 if(isset($_POST['cid'])){$cid=$_POST['cid'];}else{$cid='';}
 if(isset($_POST['gender'])){$gender=$_POST['gender'];}else{$gender='';}
 if(isset($_POST['profid'])){$profid=$_POST['profid'];}
@@ -45,8 +45,8 @@ two_buttonmenu($extrabuttons,$book);
 
 $students=array();
 
-	if($fid!=''){
-		$students=listin_community(array('id'=>'','type'=>'form','name'=>$fid));
+	if($comid!=''){
+		$students=listin_community(array('id'=>$comid));
 		}
 	elseif($yid!=''){
 		$students=listin_community(array('id'=>'','type'=>'year','name'=>$yid));
@@ -147,7 +147,7 @@ $students=array();
 
 	/* First row of table is column headers - starting with identifying the student group. */
 	if($yid!=''){$viewtable[0]['cohort']=get_string('yeargroup').' '.$yid;}
-	elseif($fid!=''){$viewtable[0]['cohort']=get_string('formgroup').' '.$fid;}
+	elseif($comid!=''){$viewtable[0]['cohort']=get_string('formgroup').' '.$comid;}
 	else{$viewtable[0]['cohort']=get_string('cohort').' '.$stage.' '.$year;}
 
 	foreach($assbids as $bidpid){
@@ -295,10 +295,10 @@ $students=array();
 			<input type="hidden" name="year" value="<?php print $year;?>" />
 <?php	} ?>
 <?php if(isset($yid)){?>
-			<input type="hidden" name="selyid" value="<?php print $yid;?>" />
+			<input type="hidden" name="yid" value="<?php print $yid;?>" />
 <?php	} ?>
-<?php if(isset($fid)){?>
-			<input type="hidden" name="selfid" value="<?php print $fid;?>" />
+<?php if(isset($comid)){?>
+			<input type="hidden" name="comid" value="<?php print $comid;?>" />
 <?php	} ?>
 <?php 
 	if(isset($selbids)){

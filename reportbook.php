@@ -17,8 +17,9 @@ include('scripts/set_book_vars.php');
 	 * listed by cohort, otherwise by pastoral groups.
 	 */
 	$rforms=array();
+	$rhouses=array();
 	$ryids=array();
-	if($r>-1 and $current!='report_reports.php'){
+	if($r>-1 and $current!='report_reports.php' and $current!='report_merits.php'){
 		$rcrid=$respons[$r]['course_id'];
 	 	$rbid=$respons[$r]['subject_id'];
 		$ryid=$respons[$r]['yeargroup_id'];
@@ -27,13 +28,16 @@ include('scripts/set_book_vars.php');
 		$reportpubs='no';
 		}
 	else{
-		$pastorals=list_pastoral_respon();
+		$pastorals=(array)list_pastoral_respon();
 		$rforms=$pastorals['forms'];
+		$rhouses=$pastorals['houses'];
 		$ryids=$pastorals['years'];
 		$listgroup='list_pastoralgroup.php';
 		$reportpubs='yes';
 		}
-	if(sizeof($rforms)==0 and sizeof($ryids)==0 and $r=='-1' and $_SESSION['role']!='admin'){
+
+	if(sizeof($rforms)==0 and sizeof($ryids)==0 and sizeof($rhouses)==0 and $r=='-1' and $_SESSION['role']!='admin'){
+		/* Could not find any responsibility for this user which gives them access to a group. */
 		$error[]=get_string('selectresponsibility');
 		include('scripts/results.php');
 		$current='';

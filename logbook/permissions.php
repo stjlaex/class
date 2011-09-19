@@ -57,13 +57,16 @@ function list_sid_responsible_users($sid, $bid){
 		}
 
 
+			trigger_error($u['uid'],E_USER_WARNING);
 	/*checks for boarders*/
 	$Student=fetchStudent_singlefield($sid,'Boarder');
 	if($Student['Boarder']['value']!='N'){
 		$d_u=mysql_query("SELECT uid FROM perms JOIN groups ON perms.gid=groups.gid WHERE
-					  groups.type='p' AND groups.yeargroup_id='-9998';");
+				groups.type='p' AND groups.community_id=ANY(SELECT id FROM community WHERE type='accomodation');");
+		trigger_error($u['uid'].mysql_error(),E_USER_WARNING);
 		while($u=mysql_fetch_array($d_u)){
 			$user=get_user($u['uid'],'uid');
+			trigger_error($u['uid'],E_USER_WARNING);
 			if(check_email_valid($user['email'])){ 
 				$recipients[$user['uid']]=array('username'=>$user['username'], 'email'=>$user['email']);
 				}
@@ -415,7 +418,7 @@ function getResidencePerm(){
 	$perm['x']=0;
 	for($c=0;$c<sizeof($_SESSION['prespons']);$c++){
 		$resp=$_SESSION['prespons'][$c];
-		if($resp['name']=='residence'){
+		if($resp['comtype']=='accomodation'){
 			$perm['r']=$resp['r'];
 			$perm['w']=$resp['w'];
 			$perm['x']=$resp['x'];
@@ -586,7 +589,7 @@ function list_pastoral_respon(){
 	 */
 	if($aperm==1 or $resperm['x']==1){
 		$ryears=array();
-		$d_groups=mysql_query("SELECT DISTINCT yeargroup_id FROM groups WHERE type='p'  
+		$d_groups=mysql_query("SELECT DISTINCT yeargroup_id FROM groups WHERE type='p' 
 								AND yeargroup_id IS NOT NULL ORDER BY yeargroup_id;");
 		while($group=mysql_fetch_array($d_groups, MYSQL_ASSOC)){
 			$ryears[]=$group['yeargroup_id'];

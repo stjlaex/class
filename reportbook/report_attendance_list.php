@@ -8,16 +8,24 @@ $action='report_attendance.php';
 
 $startdate=$_POST['date0'];
 $enddate=$_POST['date1'];
-if(isset($_POST['newyid'])){$yid=$_POST['newyid'];}else{$yid='';}
-if(isset($_POST['newfid'])){$fid=$_POST['newfid'];}else{$fid='';}
+if(isset($_POST['yid'])){$yid=$_POST['yid'];}else{$yid='';}
+if(isset($_POST['formid']) and $_POST['formid']!=''){$comid=$_POST['formid'];}
+elseif(isset($_POST['houseid'])  and $_POST['houseid']!=''){$comid=$_POST['houseid'];}else{$comid='';}
 if(isset($_POST['stage'])){$stage=$_POST['stage'];}
 if(isset($_POST['year'])){$year=$_POST['year'];}
 
 
 include('scripts/sub_action.php');
 
-	if($fid!=''){
-		$students=listin_community(array('id'=>'','type'=>'form','name'=>$fid));
+	if($comid!=''){
+		$com=get_community($comid);
+		if($yid!=''){
+			$com['yeargroup_id']=$yid;
+			$students=listin_community($com);
+			}
+		else{
+			$students=listin_community($com);
+			}
 		}
 	elseif($yid!=''){
 		$students=listin_community(array('id'=>'','type'=>'year','name'=>$yid));

@@ -1,4 +1,4 @@
-Version ClaSS-1.0.4 release (2011/09/16)
+Version ClaSS-1.0.4 release (2011/09/19)
 -------------------------------------------
 
 Fix to email headers sent through Pear mail, needed the date to be explicity set.
@@ -25,6 +25,12 @@ Fixed typo in count_attendance.
 A fix to listin_community when $yid='%' for the com.
 
 Improved performance of fetchCohortAssessmentDefs.
+
+Re-worked the list_pastoralgroups used by Report to use comid instead
+of fid and so make use of Houses as pastoral groups.
+
+Changed the residence perms to link to accomodation groups (only
+partly done).
 
 
 

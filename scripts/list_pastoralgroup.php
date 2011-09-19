@@ -5,61 +5,65 @@
  */
 
 
-if(!isset($onchange)){$onchange='no';}
+if(!isset($onchange)){$selonchange='no';}else{$selonchange=$onchange;}
 if(!isset($required)){$required='yes';}
+$required='no';
+
+/* On first load select the teacher's pastoral group by default. */
+if(sizeof($rhouses)>0){
+	$selhouseid=$rhouses[0]['community_id'];
+	$selyid=$rhouses[0]['yeargroup_id'];
+	}
+elseif(sizeof($rforms)>0){
+	$selformid=$rforms[0]['community_id'];
+	}
+
 
 if(sizeof($ryids)>0){
 	if(!isset($selyid)){$selyid=$ryids[0];}
-?>
-<div class="left">
-	<label for="Year group"><?php print_string('yeargroup');?></label>
-	<select id="Year group" name="newyid" eitheror="Form group" tabindex="<?php print $tab++;?>"
-			<?php if($onchange=='yes'){ print ' onchange="processContent(this);" ';} ?>
-			style="width:20em;" <?php if($required=='yes'){ print ' class="requiredor" ';} ?> >
-			<option value=""></option>
-<?php
-		if(!isset($rforms)){$rforms=array();}
-    	foreach($ryids as $yid){
-			$d_yeargroup=mysql_query("SELECT name FROM yeargroup WHERE id='$yid';");
-			if(mysql_num_rows($d_yeargroup)>0){
-				$yeargroup=mysql_result($d_yeargroup,0);
-				print '<option ';
-				if($selyid==$yid){print 'selected="selected"';}
-				print	' value="'.$yid.'">'.$yeargroup.'</option>';
-				}
-			$rforms=array_merge($rforms,list_formgroups($yid));
+	foreach($ryids as $ryid){
+		if($ryid>0){
+			$years[]=array('id'=>$ryid,'name'=>get_yeargroupname($ryid));
+			$rforms=(array)array_merge($rforms,list_formgroups($ryid));
 			}
-?>
-	</select>
-</div>
-<?php
+		}
+	$houses=list_communities('HOUSE');
+	$listlabel='yeargroup';
+	$listname='yid';
+	$onchange=$selonchange;
+	include('scripts/set_list_vars.php');
+	print '<div class="left">';
+	list_select_list($years,$listoptions,$book);
+	print '</div>';
+	unset($listoptions);
 	}
+
 
 if(sizeof($rforms)>0){
-	if(!isset($selfid)){$selfid=$rforms[0]['name'];}
-?>
-<div class="right">
-	<label for="Form group"><?php print_string('formgroup');?></label>
-	<select type="text" id="Form group" name="newfid"  eitheror="Year group"
-	  tabindex="<?php print $tab++;?>" style="width:20em;" 
-	  <?php if($onchange=='yes'){ print ' onchange="processContent(this);" ';} ?>
-	  <?php if($required=='yes'){ print ' class="requiredor" ';} ?> >
-	<option value=""></option>
-<?php
-        foreach($rforms as $form){
-			print '<option value="'.$form['name'].'" ';
-			if($selfid==$form['name']){print ' selected="selected" ';}
-			print ' >'.$form['name'].'</option>';
-   			}
-?>
-	</select>
-</div>
-<?php
+	$listlabel='form';
+	$listname='formid';
+	$onchange=$selonchange;
+	include('scripts/set_list_vars.php');
+	print '<div class="right">';
+	list_select_list($rforms,$listoptions,$book);
+	print '</div>';
+	unset($listoptions);
 	}
 
-if(sizeof($rforms)==0 and sizeof($ryids)==0){
+if(sizeof($houses)>0){
+	$listlabel='house';
+	$listname='houseid';
+	$onchange=$selonchange;
+	include('scripts/set_list_vars.php');
+	print '<div class="left">';
+	list_select_list($houses,$listoptions,$book);
+	print '</div>';
+	unset($listoptions);
+	}
+
+if(sizeof($rforms)==0 and sizeof($ryids)==0 and sizeof($rhouses)==0){
 	print '<label>'.get_string('youhavenopastoralresponsibilities').'</label>';
 	}
-reset($ryids);
-reset($rforms);
+
+
 ?>

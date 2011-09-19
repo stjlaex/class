@@ -5,26 +5,25 @@
 $action='report_assessments_action.php';
 $choice='report_assessments.php';
 
-if(isset($_GET['selfid'])){$selfid=$_GET['selfid'];}else{$selfid='';}
-if(isset($_POST['selfid'])){$selfid=$_POST['selfid'];}
-if(isset($_GET['selyid'])){$selyid=$_GET['selyid'];}else{$selyid='';}
-if(isset($_POST['selyid'])){$selyid=$_POST['selyid'];}
+if(isset($_GET['yid'])){$yid=$_GET['yid'];}else{$yid='';}
+if(isset($_POST['yid'])){$yid=$_POST['yid'];}
 if(isset($_POST['profid'])){$profid=$_POST['profid'];}else{$profid='%';}
 if(isset($_POST['gender'])){$gender=$_POST['gender'];}else{$gender='';}
-
-
+if(isset($_POST['comid']) and $_POST['comid']!=''){$comid=$_POST['comid'];}else{$comid='';}
 if(isset($_POST['year'])){$year=$_POST['year'];}
 if(isset($_POST['stage'])){$stage=$_POST['stage'];}
 if(isset($_POST['cid'])){$cid=$_POST['cid'];}
 if(isset($_POST['gender'])){$gender=$_POST['gender'];}
 if(isset($_POST['eids'])){$eids=(array)$_POST['eids'];}else{$eids=array();}
 
-
-if($selfid!=''){
-	$cohorts=list_community_cohorts(array('id'=>'','type'=>'form','name'=>$selfid));
+if($comid!=''){
+	$com=(array)get_community($comid);
+	if($com['type']=='form'){$formid=$comid;}
+	elseif($com['type']=='house'){$houseid=$comid;}
+	$cohorts=list_community_cohorts($com);
 	}
-elseif($selyid!=''){
-	$cohorts=list_community_cohorts(array('id'=>'','type'=>'year','name'=>$selyid));
+elseif($yid!=''){
+	$cohorts=list_community_cohorts(array('id'=>'','type'=>'year','name'=>$yid));
 	}
 if(isset($cohorts)){
 	$rcrid=$cohorts[1]['course_id'];$onchange='';$required='yes';
@@ -94,8 +93,9 @@ three_buttonmenu();
 
 		<div class="left" >
 <?php
-	if($selyid!=''){$ryids=array('0'=>$selyid);$rforms=array();}
-	elseif($selfid!=''){$rforms=array('0'=>array('name'=>$selfid));$ryids=array();}
+	if($yid!=''){$ryids=array('0'=>$yid);$rforms=array();}
+	elseif($comid!='' and $com['type']=='form'){$rforms[0]=$com;$ryids=array();}
+	elseif($comid!='' and $com['type']=='houses'){$rhouses[0]=$com;$ryids=array();}
 	if($profid==''){$selprofid='%';}
 	else{$selprofid=$profid;}
 	$required='yes';$multi=15;
@@ -109,8 +109,6 @@ three_buttonmenu();
 		}
 ?>
 
-	  <input type="hidden" name="selfid" value="<?php print $selfid;?>" />
-	  <input type="hidden" name="selyid" value="<?php print $selyid;?>" />
 	  <input type="hidden" name="cancel" value="<?php print '';?>" />
 	  <input type="hidden" name="current" value="<?php print $action;?>" />
 	  <input type="hidden" name="choice" value="<?php print $choice;?>" />

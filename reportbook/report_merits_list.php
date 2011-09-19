@@ -16,28 +16,35 @@ if(isset($_POST['activity'])){$activity=$_POST['activity'];}else{$activity='%';}
 if($activity==''){$activity='%';}
 if(isset($_POST['stage'])){$stage=$_POST['stage'];}
 if(isset($_POST['year'])){$year=$_POST['year'];}
-if(isset($_POST['newyid'])){$yid=$_POST['newyid'];}else{$yid='';}
-if(isset($_POST['newfid'])){$fid=$_POST['newfid'];}else{$fid='';}
+if(isset($_POST['yid'])){$yid=$_POST['yid'];}else{$yid='';}
+if(isset($_POST['formid']) and $_POST['formid']!=''){$comid=$_POST['formid'];}
+elseif(isset($_POST['houseid'])  and $_POST['houseid']!=''){$comid=$_POST['houseid'];}else{$comid='';}
 list($ratingnames,$catdefs)=fetch_categorydefs('mer');
 $curryear=get_curriculumyear();
 
 
 include('scripts/sub_action.php');
 
-	if($yid!=''){
+	if($comid!=''){
+		if($yid!=''){
+			$d_m=mysql_query("SELECT * FROM merits WHERE merits.date >= '$startdate' AND
+					merits.date<='$enddate'  AND merits.activity LIKE '$activity' AND merits.year='$curryear'
+					AND merits.student_id=ANY(SELECT student.id FROM student JOIN comidsid AS a ON a.student_id=student.id
+					WHERE student.yeargroup_id='$yid' AND a.community_id='$comid' 
+					AND (a.leavingdate>'$enddate' OR a.leavingdate='0000-00-00' OR a.leavingdate IS NULL));");
+			}
+		else{
+			$d_m=mysql_query("SELECT * FROM merits JOIN comidsid AS a ON a.student_id=merits.student_id WHERE
+			a.community_id='$comid' AND (a.leavingdate>'$enddate' OR a.leavingdate='0000-00-00' OR a.leavingdate IS NULL)
+			AND merits.date >= '$startdate' AND merits.date<='$enddate'  AND merits.activity LIKE '$activity' AND merits.year='$curryear';");
+			}
+		}
+	elseif($yid!=''){
 		$d_m=mysql_query("SELECT * FROM merits JOIN
 			student ON student.id=merits.student_id WHERE
 			merits.date>='$startdate' AND merits.date<='$enddate' 
-			AND student.yeargroup_id LIKE '$yid' AND merits.subject_id LIKE '$bid'  
-			AND merits.activity LIKE '$activity' AND merits.year='$curryear' ORDER BY student.surname;");
-		}
-	elseif($fid!=''){
-		$d_m=mysql_query("SELECT * FROM merits JOIN
-			student ON student.id=merits.student_id WHERE
-			merits.date >= '$startdate' AND
-			merits.date<='$enddate' AND student.form_id LIKE
-			'$fid' AND merits.subject_id LIKE '$bid' 
-			AND merits.activity LIKE '$activity' AND merits.year='$curryear' ORDER BY student.surname;");
+			AND student.yeargroup_id LIKE '$yid'  
+			AND merits.activity LIKE '$activity' AND merits.year='$curryear';");
 		}
 	else{
 		if($rcrid=='%'){
@@ -61,7 +68,7 @@ include('scripts/sub_action.php');
 		}
 
 	if(mysql_num_rows($d_m)==0){
-		$error[]=get_string('nomeritsfound',$book);
+		$error[]=get_string('nonefound',$book);
 		$action='report_merits.php';
     	include('scripts/results.php');
 	    include('scripts/redirect.php');
@@ -142,7 +149,7 @@ two_buttonmenu($extrabuttons,$book);
 		</tr>
 <?php
 	$rown=0;
-	while(list($index,$summary)=each($summarys)){
+	foreach($summarys as $summary){
 		$rown++;
 		$sid=$summary['sid'];
 		$Student=fetchStudent_short($sid);
