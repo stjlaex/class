@@ -32,6 +32,10 @@ of fid and so make use of Houses as pastoral groups.
 Changed the residence perms to link to accomodation groups (only
 partly done).
 
+Fix to import students when student id is not already in db.
+
+Added date navigation to student_transport page.
+
 
 
 Version ClaSS-1.0.3 release (2011/09/12)

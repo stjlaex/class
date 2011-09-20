@@ -10,12 +10,19 @@ if(isset($_GET['date'])){$date=$_GET['date'];}
 
 $todate=date('Y-m-d');
 $today=date('N');
+
+/*TODO: make use of the passed date calculate the dates being viewed. Or just pass startday? */
+//$datediff=strtotime($date)-strtotime($todate);
+//$startday=floor($datediff/86400);
+$startday=0;
+
 $Student=fetchStudent_short($sid);
-	$buses=list_buses();
-	$days=getEnumArray('dayofweek');
-	$dates=array();
+$buses=list_buses();
+$days=getEnumArray('dayofweek');
+$dates=array();
+
 	foreach($days as $day => $dayname){
-		$daydiff=$day-$today;
+		$daydiff=$startday+$day-$today;
 		$date=date('Y-m-d',strtotime($daydiff.' day'));
 		$dates[$day]=$date;
 		}

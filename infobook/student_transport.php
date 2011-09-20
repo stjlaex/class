@@ -6,9 +6,10 @@
 $action='student_transport_action.php';
 $newcomtype='TUTOR';
 $communities=list_communities($newcomtype);
+if(isset($_POST['startday'])){$startday=$_POST['startday'];}else{$startday=0;}
 
-
-three_buttonmenu();
+$extrabuttons=array();
+threeplus_buttonmenu($startday,3,$extrabuttons);
 
 	/*Check user has permission to view*/
 	$perm=getFormPerm($Student['RegistrationGroup']['value']);
@@ -33,11 +34,12 @@ three_buttonmenu();
 <?php
 	$buses=list_buses();
 	$days=getEnumArray('dayofweek');
-	$todate=date('Y-m-d');
-	$today=date('N');
+
+	$todate=date('Y-m-d',mktime(0,0,0,date('m'),date('d'),date('Y')));
+	$today=date('N',mktime(0,0,0,date('m'),date('d'),date('Y')));
 	$dates=array();
 	foreach($days as $day => $dayname){
-		$daydiff=$day-$today;
+		$daydiff=$startday+$day-$today;
 		$date=date('Y-m-d',strtotime($daydiff.' day'));
 		$dates[$day]=$date;
 		if($todate==$date){$colclass='style="background-color:#cfcfcf;"';}
@@ -185,6 +187,7 @@ three_buttonmenu();
 	  </fieldset>
 
 
+	    <input type="hidden" name="startday" value="<?php print $startday;?>" />
 	    <input type="hidden" name="current" value="<?php print $action;?>" />
 		<input type="hidden" name="cancel" value="<?php print $cancel;?>">
 		<input type="hidden" name="choice" value="<?php print $choice;?>">

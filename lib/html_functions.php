@@ -81,9 +81,9 @@ function twoplus_buttonmenu($currentkey,$maxkey,$extrabuttons='',$book='',$minke
 <?php
 		 all_extrabuttons($extrabuttons,$book);
 ?>
-  	<button onClick="processContent(this);" <?php if($currentkey==$minkey){print 'disabled="disabled"
+  	<button onClick="processContent(this);" <?php if($currentkey<=$minkey){print 'disabled="disabled"
 	style="visibility:hidden;"';} ?> name="sub" value="Previous"><?php print_string('previous',$book);?></button>
-	<button onClick="processContent(this);" <?php if($currentkey==($maxkey-1)){print 'disabled="disabled" style="visibility:hidden;"';} ?> name="sub" value="Next"><?php print_string('next',$book);?></button>
+	<button onClick="processContent(this);" <?php if($currentkey>=($maxkey-1)){print 'disabled="disabled" style="visibility:hidden;"';} ?> name="sub" value="Next"><?php print_string('next',$book);?></button>
 	<button onClick="processContent(this);" name="sub" value="Cancel"><?php print_string('cancel');?></button>
 	<button onClick="processContent(this);" name="sub" value="Reset"><?php print_string('reset');?></button>
   </div>
@@ -91,7 +91,10 @@ function twoplus_buttonmenu($currentkey,$maxkey,$extrabuttons='',$book='',$minke
 	}
 
 /**
- * 
+ * Allows for navigation using Previous and Next buttons which step
+ * the key down or up by 1 at a time. A limit to moving forward is set
+ * by maxkey.
+ *
  */
 function threeplus_buttonmenu($currentkey,$maxkey,$extrabuttons='',$book=''){
 	if($currentkey==''){$currentkey=1;}//Register only needs this

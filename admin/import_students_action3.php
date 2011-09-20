@@ -168,7 +168,7 @@ elseif($sub=='Submit'){
 	for($r=0;$r<sizeof($instudents);$r++){
 		$student=$instudents[$r];
 		unset($d_s);
-		$old_sid=-1;
+		$existing_student=false;
 
 		/* Identify an existing student record using either the sid,
 		 * formerupn or upn numbers if they are part of the import. 
@@ -188,49 +188,53 @@ elseif($sub=='Submit'){
 
 
 		if(isset($d_s)){
+			/* If we've searched for an existing student make absolutely sure the result was sane. */
 			if(mysql_num_rows($d_s)==0 or $existingid==' ' or $existingid=='' or mysql_num_rows($d_s)>1){
 				$new_sid=-1;
 				}
 			else{
 				$new_sid=mysql_result($d_s,0);
-				$old_sid=$new_sid;
+				$existing_student=true;
 				}
 			}
 		else{
+			$new_sid=-1;
+			}
+
+		if(!$existing_student){
 			mysql_query("INSERT INTO student SET surname='', forename='';");
 			$new_sid=mysql_insert_id();
-			}
-
-		if($new_sid!=-1){
-		reset($sidfields);
-		foreach($sidfields as $field_name => $field_no){
-			if($field_no==-1 or $field_name=='id'){$val='';}//value is null
-			else{
-				$val=$student[$field_no];
-				$format=$sidformats[$field_name];
-				if(isset($_POST["preset$field_no"])){$val=$_POST["preset$field_no"];}
-				$val=checkEntry($val, $format, $field_name);
-				mysql_query("UPDATE student SET $field_name='$val' WHERE id='$new_sid'");
-				if($field_name=='yeargroup_id'){
-					if($enrolstatus=='EN'){$newtype='enquired';}
-					elseif($enrolstatus=='AC' or $enrolstatus=='C'){$newtype='accepted';}
-					else{$newtype='applied';}
-					$newcom=array('id'=>'','type'=>$newtype, 
-								  'name'=>$enrolstatus.':'.$val,'year'=>$enrolyear);
-					$oldcoms=join_community($new_sid,$newcom);
-					$oldcoms=join_community($new_sid,array('id'=>'','type'=>'year','name'=>$val));
-
-					}
-				elseif($field_name=='form_id'){
-					$oldcoms=join_community($new_sid,array('id'=>'','type'=>'form','name'=>$val));
-					}
-				}
-			}
-
-		reset($infofields);
-		if($old_sid==-1){
 			mysql_query("INSERT INTO info SET student_id='$new_sid';");
 			}
+
+		trigger_error($new_sid,E_USER_WARNING);
+		if($new_sid!=-1){
+			reset($sidfields);
+			foreach($sidfields as $field_name => $field_no){
+				if($field_no==-1 or $field_name=='id'){$val='';}//value is null
+				else{
+					$val=$student[$field_no];
+					$format=$sidformats[$field_name];
+					if(isset($_POST["preset$field_no"])){$val=$_POST["preset$field_no"];}
+					$val=checkEntry($val, $format, $field_name);
+					mysql_query("UPDATE student SET $field_name='$val' WHERE id='$new_sid'");
+					if($field_name=='yeargroup_id'){
+						if($enrolstatus=='EN'){$newtype='enquired';}
+						elseif($enrolstatus=='AC' or $enrolstatus=='C'){$newtype='accepted';}
+						else{$newtype='applied';}
+						$newcom=array('id'=>'','type'=>$newtype, 
+									  'name'=>$enrolstatus.':'.$val,'year'=>$enrolyear);
+						$oldcoms=join_community($new_sid,$newcom);
+						$oldcoms=join_community($new_sid,array('id'=>'','type'=>'year','name'=>$val));
+						
+						}
+					elseif($field_name=='form_id'){
+						$oldcoms=join_community($new_sid,array('id'=>'','type'=>'form','name'=>$val));
+						}
+					}
+				}
+
+		reset($infofields);
 		while(list($field_name, $field_no)=each($infofields)){
 			if($field_no==-1){$val='';}//value is null
 			else{

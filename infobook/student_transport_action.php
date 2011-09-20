@@ -4,11 +4,20 @@
  */
 
 $action='student_transport.php';
-include('scripts/sub_action.php');
+$action_post_vars=array('startday');
 if(isset($_POST['newcomid'])){$newcomid=$_POST['newcomid'];}else{$newcomid='';}
+if(isset($_POST['startday'])){$startday=$_POST['startday'];}else{$startday='';}
 
+include('scripts/sub_action.php');
 
-if($sub=='Submit'){
+if($sub=='Previous'){
+	$startday=$startday-7;
+	}
+elseif($sub=='Next'){
+	$startday=$startday+7;
+	}
+elseif($sub=='Submit'){
+
 	/*Check user has permission to edit*/
 	$yid=$Student['YearGroup']['value'];
 	$perm=getYearPerm($yid, $respons);
