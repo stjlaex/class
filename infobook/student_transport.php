@@ -9,7 +9,7 @@ $communities=list_communities($newcomtype);
 if(isset($_POST['startday'])){$startday=$_POST['startday'];}else{$startday=0;}
 
 $extrabuttons=array();
-threeplus_buttonmenu($startday,3,$extrabuttons);
+threeplus_buttonmenu($startday,35,$extrabuttons);
 
 	/*Check user has permission to view*/
 	$perm=getFormPerm($Student['RegistrationGroup']['value']);
