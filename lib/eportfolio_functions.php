@@ -682,6 +682,60 @@ function elgg_new_homework($tid,$cid,$bid,$pid,$title,$body,$dateset){
 
 	}
 
+
+
+
+
+/**
+ *
+ */
+function elgg_new_comment($epfu,$dateset,$message,$title,$tid){
+
+	list($year,$month,$day)=explode('-',$dateset);
+	$posted=mktime(0,0,0,$month,$day,$year);
+	global $CFG;
+
+	if($CFG->eportfolio_db!=''){
+		$dbepf=db_connect(true,$CFG->eportfolio_db);
+		mysql_query("SET NAMES 'utf8'");
+		}
+
+	if(isset($CFG->clientid)){$school=$CFG->clientid;}
+	else{$school='';}
+
+	/* Identify the student - the comment is being posted to the personal weblog for this student. */
+	$epfuid=elgg_get_epfuid($epfu,'person');
+	$epfuidowner=elgg_get_epfuid($school. $tid,'person');
+
+	/* This is the family access group */
+	$group=array('epfgroupid'=>'','owner'=>$epfuid,'name'=>'Family','access'=>'');
+	$epfgroupid=elgg_update_group($group,array('owner'=>'','name'=>'','access'=>''),false);
+	$access='group'.$epfgroupid;
+
+	if($epfuid!='' and $message!=''){
+		/* Post the comment to the weblog. */
+		$table=$CFG->eportfolio_db_prefix.'weblog_posts';
+		mysql_query("INSERT INTO $table SET owner='$epfuidowner',weblog='$epfuid',
+			   	posted='$posted',title='$title',body='$message',access='$access';");
+		$epfuidpost=mysql_insert_id();
+
+		/* Update the watchlist*/
+		$table=$CFG->eportfolio_db_prefix.'friends';
+		$d_f=mysql_query("SELECT owner FROM $table WHERE friend='$epfuid';");
+		while($friend=mysql_fetch_array($d_f,MYSQL_ASSOC)){
+			$epfuidmember=$friend['owner'];
+			$table=$CFG->eportfolio_db_prefix.'weblog_comment';
+			mysql_query("INSERT INTO $table SET owner='$epfuidmember',weblog_post='$epfuidpost';");
+			}
+
+		}
+
+	$db=db_connect();
+	mysql_query("SET NAMES 'utf8'");
+
+	}
+
+
 /**
  *  Temporary stuff to set a student's icon photo to their school year
  *  photo. The icon file has a standard name of eg. y9.jpg

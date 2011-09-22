@@ -55,9 +55,7 @@ else{
 			$Transport['Day']=array('value'=>get_string(displayEnum($day,'dayofweek'),'admin'));
 			$Transport['Date']=array('value'=>display_date($printdate));
 
-
 			$Transport['Student']=array();
-
 
 			$clubcommunity=array('id'=>'','name'=>'','type'=>'tutor');
 

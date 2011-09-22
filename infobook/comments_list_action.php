@@ -22,6 +22,8 @@ include('scripts/sub_action.php');
 	$category=$catid.':'.$ratvalue.';';
 	$yid=$Student['YearGroup']['value'];
 	$teachername=get_teachername($tid);
+	$Student=array_merge($Student,fetchStudent_singlefield($sid,'Boarder'));
+	$Student=array_merge($Student,fetchStudent_singlefield($sid,'EPFUsername'));
 
 	if($id!=''){
 		mysql_query("UPDATE comments SET student_id='$sid',
@@ -53,7 +55,6 @@ include('scripts/sub_action.php');
 			}
 
 		/* Optional is messaging student's parents. */
-		$Student=fetchStudent_singlefield($sid,'Boarder');
 		if($guardianemail=='yes' and ($Student['Boarder']['value']=='N' or $CFG->emailboarders=='yes')){
 			$Contacts=(array)fetchContacts_emails($sid);
 			$footer='--'. "\r\n" .get_string('guardianemailfooterdisclaimer');
@@ -75,7 +76,24 @@ include('scripts/sub_action.php');
 					}
 				}
 			}
+		}
 
+	if($id!='' and $guardianemail=='yes' and $CFG->emailguardiancomments=='epf' ){
+		require_once($CFG->dirroot.'/lib/eportfolio_functions.php');
+
+			//$Contacts=(array)fetchContacts_emails($sid);
+			//$footer='--'. "\r\n" .get_string('guardianemailfooterdisclaimer');
+			//$fromaddress=$CFG->schoolname;
+
+		$epfu=$Student['EPFUsername']['value'];
+		$title='Subject: ' .display_subjectname($bid);
+		$message='<p>'.$detail.'</p>'. '<p>Posted by '.$teachername.'</p>';
+		if($CFG->eportfolio_db!='' and $epfu!=''){
+			/* Set guardians field in comments table to 1 to indicate shared. */
+			mysql_query("UPDATE comments SET guardians='1' WHERE id='$id';");
+	   		elgg_new_comment($epfu,$entrydate,$message,$title,$tid);
+   			$result[]='Shared with parents.';
+			}
 		}
 
 include('scripts/results.php');	

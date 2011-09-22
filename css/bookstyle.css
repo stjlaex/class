@@ -623,10 +623,10 @@ tr.hidden {
 	display:none;
 	}
 tr.revealed td, tr.revealed td label { 
-	background-color:#999999;
+	background-color:#aaaaaa;
 	}
 tr.revealed td label { 
-	background-color:#999999;
+	background-color:#888888;
 	color:#ffffff !important;
     padding:0 2px;
     font-size:x-small;
@@ -636,7 +636,7 @@ tr.revealed div {
     padding:3px;
 	}
 tr.revealed p, tr.revealed ul { 
-	background-color:#eeeeee;
+	background-color:#ffffff;
     margin:0 0 0 2px;
     padding:0 4px;
     width:80%;

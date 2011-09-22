@@ -9,6 +9,8 @@ $action='comments_list_action.php';
 if(isset($_GET['bid'])){$bid=$_GET['bid'];}
 $Comments=fetchComments($sid,'','');
 $Student['Comments']=$Comments;
+$yid=$Student['YearGroup']['value'];
+$perm=getYearPerm($yid,$respons);
 
 three_buttonmenu();
 ?>
@@ -56,10 +58,10 @@ print '('.$Student['RegistrationGroup']['value'].')';
 	  <div class="left">
 <?php 
 				
-	if($CFG->emailguardiancomments=='yes'){
-		$checkname='guardianemail';$checkcaption=get_string('emailtoguardian',$book);
-		$checkalert=get_string('emailcommentalert',$book);
-		include('scripts/check_yesno.php'); 
+	if(($CFG->emailguardiancomments=='yes' or $CFG->emailguardiancomments=='epf') and $perm['x']==1){
+		$checkname='guardianemail';$checkcaption=get_string('sharewithguardian',$book);
+		$checkalert=get_string('sharecommentalert',$book);
+		include('scripts/check_yesno.php');
 		unset($checkalert);
 		}
 ?>
@@ -70,7 +72,6 @@ print '('.$Student['RegistrationGroup']['value'].')';
 	  												 
 	if($CFG->emailcomments=='yes'){
 		$checkname='teacheremail';$checkcaption=get_string('emailtoteachers',$book);
-		//$checkalert=get_string('emailcommentalert',$book);
 		include('scripts/check_yesno.php'); 
 		}
 ?>
@@ -101,17 +102,22 @@ print '('.$Student['RegistrationGroup']['value'].')';
 		  </tr>
 		</thead>
 <?php
-	$yid=$Student['YearGroup']['value'];
-	$perm=getYearPerm($yid, $respons);
 	if(is_array($Student['Comments']['Comment'])){
 		reset($Student['Comments']['Comment']);
 		while(list($key,$entry)=each($Student['Comments']['Comment'])){
 			if(is_array($entry)){
 				$rown=0;
 				$entryno=$entry['id_db'];
+				if(isset($entry['Shared']['value']) and $entry['Shared']['value']=='1'){
+					$shared=true;
+					}
+				else{
+					$shared=false;
+					}
+
 ?>
 		<tbody id="<?php print $entryno;?>">
-		  <tr class="rowplus" onClick="clickToReveal(this)" id="<?php print $entryno.'-'.$rown++;?>">
+				<tr <?php if(!$shared){print 'class="rowplus" onClick="clickToReveal(this)"';}?> id="<?php print $entryno.'-'.$rown++;?>">
 			<th>&nbsp</th>
 <?php 
 		   if(isset($entry['YearGroup']['value'])){print '<td>'.$entry['YearGroup']['value'].'</td>';}
@@ -123,7 +129,7 @@ print '('.$Student['RegistrationGroup']['value'].')';
 ?>
 			 <td>
 <?php
-		   while(list($index,$category)=each($entry['Categories']['Category'])){
+		   foreach($entry['Categories']['Category'] as $category){
 			   if($category['rating']['value']==-1){print '<div class="negative">';}
 			   else{print'<div style="float:left;padding:0 6px 0 6px;" class="positive">';}
 			   print $category['label'].'</div>';
@@ -131,11 +137,11 @@ print '('.$Student['RegistrationGroup']['value'].')';
 ?>
 			</td>
 		  </tr>
-		  <tr class="hidden" id="<?php print $entryno.'-'.$rown++;?>">
+		  <tr <?php if($shared){print 'class="revealed"';}else{print 'class="hidden"';}?> id="<?php print $entryno.'-'.$rown++;?>">
 			<td colspan="6">
 			  <p>
 <?php
-		   if(isset($entry['Shared']['value']) and $entry['Shared']['value']=='1'){
+		   if($shared){
 			   print '<label>'.get_string('sharedwithguardians',$book).': </label>';
 			   }
 		   if(isset($entry['Detail']['value'])){
@@ -146,13 +152,23 @@ print '('.$Student['RegistrationGroup']['value'].')';
 			   }
 ?>
 			  </p>
-			  <button class="rowaction" title="Delete this comment"
-				name="current" value="delete_comment.php" onClick="clickToAction(this)">
-				<img class="clicktodelete" />
-			  </button>
-			  <button class="rowaction" title="Edit" name="Edit" onClick="clickToAction(this)">
-				<img class="clicktoedit" />
-			  </button>
+
+<?php
+		   if($shared){
+			   /* TODO: display parent's cofirmation*/
+			   print '<p><br /></p><br />';
+			   }
+		   else{
+			   $imagebuttons=array();
+			   $imagebuttons['clicktodelete']=array('name'=>'current',
+													'value'=>'delete_comment.php',
+													'title'=>'delete');
+			   $imagebuttons['clicktoedit']=array('name'=>'Edit',
+												  'value'=>'',
+												  'title'=>'edit');
+				rowaction_buttonmenu($imagebuttons,$extrabuttons,$book);
+			   }
+?>
 			</td>
 		  </tr>
 		  <div id="<?php print 'xml-'.$entryno;?>" style="display:none;">
