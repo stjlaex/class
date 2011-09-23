@@ -8,7 +8,7 @@ $action='comments_list.php';
 $id=$_POST['id_db'];
 $detail=clean_text($_POST['detail']);
 $entrydate=$_POST['entrydate'];
-if(isset($_POST['bid'])){$bid=$_POST['bid'];}else{$bid='G';}
+if(isset($_POST['bid']) and $_POST['bid']!=''){$bid=$_POST['bid'];}else{$bid='G';}
 if(isset($_POST['catid'])){$catid=$_POST['catid'];}else{$catid='';}
 if(isset($_POST['ratvalue'])){$ratvalue=$_POST['ratvalue'];}else{$ratvalue='N';}
 if(isset($_POST['newyid'])){$newyid=$_POST['newyid'];}else{$newyid=$Student['YearGroup']['value'];}
@@ -58,8 +58,7 @@ include('scripts/sub_action.php');
 		if($guardianemail=='yes' and ($Student['Boarder']['value']=='N' or $CFG->emailboarders=='yes')){
 			$Contacts=(array)fetchContacts_emails($sid);
 			$footer='--'. "\r\n" .get_string('guardianemailfooterdisclaimer');
-			$message=$messagesubject."\r\n". 'Subject: ' .display_subjectname($bid)."\r\n". 
-				'Posted by '.$teachername. "\r\n";
+			$message=$messagesubject."\r\n". 'Subject: ' .display_subjectname($bid)."\r\n". 'Posted by '.$teachername. "\r\n";
 			$message.="\r\n". $detail. "\r\n";
 			$message.="\r\n". $footer;
 			$fromaddress=$CFG->schoolname;
@@ -87,7 +86,7 @@ include('scripts/sub_action.php');
 
 		$epfu=$Student['EPFUsername']['value'];
 		$title='Subject: ' .display_subjectname($bid);
-		$message='<p>'.$detail.'</p>'. '<p>Posted by '.$teachername.'</p>';
+		$message='<p>'.$detail.'</p>';
 		if($CFG->eportfolio_db!='' and $epfu!=''){
 			/* Set guardians field in comments table to 1 to indicate shared. */
 			mysql_query("UPDATE comments SET guardians='1' WHERE id='$id';");

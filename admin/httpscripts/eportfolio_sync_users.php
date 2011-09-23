@@ -212,10 +212,12 @@ require_once($CFG->installpath.'/'.$CFG->applicationdirectory.'/lib/eportfolio_f
 			$Contact['Title']['value']=get_string(displayEnum($Contact['Title']['value'],'title'),'infobook');
 			}
 		$epfuid_contact=elgg_get_epfuid($Contact['EPFUsername']['value'],'person',true);
+
+		/* List all the students linked to this contact (ie. in this family group). */
 		$d_i=mysql_query("SELECT info.student_id, formerupn,
    				epfusername FROM info JOIN gidsid ON
    				gidsid.student_id=info.student_id WHERE
-   				info.epfusername!='' AND  info.formerupn!='' AND gidsid.mailing!='0' AND
+   				info.epfusername!='' AND gidsid.mailing!='0' AND
    				gidsid.guardian_id='$gid' ORDER BY info.formerupn ASC;");
 		$no=0;
 		$pwds=array();
