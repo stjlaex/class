@@ -395,6 +395,29 @@ function list_student_subjects($sid){
 	return $subs;
 	}
 
+/** 
+ * Returns an array listing all subject classes and their teachers for this sid.
+ *
+ *	@param string $sid
+ *	@param string $crid
+ *	@return array
+ */
+function list_student_course_classes($sid,$crid){
+	if($sid==''){$sid=-1;}
+	$classes=array();
+   	$d_c=mysql_query("SELECT DISTINCT id FROM
+				class JOIN cidsid ON class.id=cidsid.class_id WHERE
+				cidsid.student_id='$sid' AND class.course_id LIKE '$crid';");
+   	while($c=mysql_fetch_array($d_c,MYSQL_ASSOC)){
+		$cid=$c['id'];
+		$d_t=mysql_query("SELECT group_concat(forename, ' ', surname separator ', ') AS tids
+								FROM users JOIN tidcid ON tidcid.teacher_id=users.username 
+								WHERE tidcid.class_id='$cid' GROUP BY 'class_id';");
+		$classes[]=array('id'=>$cid,'teachers'=>mysql_result($d_t,0));
+		}
+
+	return $classes;
+	}
 
 /** 
  * Returns an id-name array listing all classes this sid attends.
@@ -410,7 +433,7 @@ function list_student_classes($sid){
 					class JOIN cidsid ON class.id=cidsid.class_id 
 					WHERE cidsid.student_id='$sid';");
    	while($c=mysql_fetch_array($d_c,MYSQL_ASSOC)){
-		$classes[]=array('id'=>$c['teacher_id'],
+		$classes[]=array('id'=>$c['id'],
 						 'name'=>$c['course_id'].' '.$c['subject_id']
 						 );
 		}

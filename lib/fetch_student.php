@@ -170,9 +170,18 @@ function fetchStudent_singlefield($sid,$tag){
    	elseif($tag=='Course'){
 		$courses='';
 		$crids=list_student_courses($sid);
-		foreach($crids as $crid){$courses.=' '.$crid;}
+		foreach($crids as $crid){
+			$classes=(array)list_student_course_classes($sid,$crid);
+			$courses.=' '.$crid;
+			$title='';
+			foreach($classes as $c){
+				$title.=$c['id'].' - '.$c['teachers'].'<br />';
+				}
+			$display.='<span title="'.$title.'">'.$crid.'</span>';
+			}
 		$Student[$tag]=array('label'=>'course',
-							 'value'=>''.$courses);
+							 'value_db'=>''.$courses,
+							 'value'=>''.$display);
 		}
 
 	if(isset($contactno)){

@@ -4,8 +4,8 @@ Version ClaSS-1.0.5 release (2011/09/22)
 Updated the InfoBook comments_list to allow for posting of comments to
 the eportfolio.
 
-
-
+Added a pop-up to list a student's classes and teachers to the student course
+element.
 
 
 Version ClaSS-1.0.4 release (2011/09/19)

@@ -215,7 +215,7 @@ $string['guardianemailfooterdisclaimer']='
 		in part is strictly prohibited.';
 $string['epfreportemail1']='Dear Parent,
 
-You now have access to your child\'s latest homework and academic
+You now have access to your child\'s latest homework and school
 reports through the web-site ClaSSic. The link to access ClaSSic can
 be found on the front page of the official school website under the
 area for Parents or directly from:';
