@@ -991,7 +991,8 @@ function compute_accumulators($sid,$AssDef,$steps,$accumulators=''){
 function update_assessment_score($eid,$sid,$bid,$pid,$score){
 	$res=$score['result'];
 	$val=$score['value'];
-	if(isset($score['date'])){$date=$score['date'];}else{$date='';}
+
+	if(isset($score['date'])){$date=$score['date'];}else{$date=date('Y-m-d');}
 
 	/* Check if this is really an update of eidsid and if not insert a
 		new record. If the result is blank then simply delete the old

@@ -47,16 +47,16 @@ if($sub=='Submit'){
 			$subjects=array_slice($subjectrow,2);/*offset to ignore uid and student name in first two columns*/
   			if(sizeof($subjects)>0){
 				foreach($subjects as $index => $subject){
-					trigger_error($index.' : '.$subject,E_USER_WARNING);
 					$bid='';
 					$pid='';
+					$subject=trim($subject);
 					/* Check if this subject code exists for this course or if its in fact a component. */
 					$d_sub=mysql_query("SELECT subject_id FROM 
 							component WHERE course_id='$rcrid' AND subject_id='$subject' AND id='';");
 					if(mysql_num_rows($d_sub)==0){
 						$d_com=mysql_query("SELECT subject_id FROM 
 								component WHERE course_id='$rcrid' AND id='$subject';");
-						if(mysql_num_rows($d_com)!=0){
+						if(mysql_num_rows($d_com)>0){
 							$bid=mysql_result($d_com,0);
 							$pid=$subject;
 							}
@@ -70,6 +70,7 @@ if($sub=='Submit'){
 							}
 						}
 					else{
+						trigger_error($subject. ' '.$rcrid,E_USER_WARNING);
 						$bid=$subject;
 						$pid='';
 						}
@@ -97,7 +98,7 @@ if($sub=='Submit'){
 
 	if(!isset($error)){
 		/* Now read each student row.*/
-		while(list($index,$row)=each($inrows)){
+		foreach($inrows as $row){
 			$sid='';
 			if($firstcol=='enrolno' and $row[0]!=''){
 				$d_student=mysql_query("SELECT student_id FROM info WHERE formerupn='$row[0]';");
@@ -119,7 +120,6 @@ if($sub=='Submit'){
 							$value=$invalue;
 							//$res=sigfigs($value,3);
 							$res=$value;
-							trigger_error($eid.' '.$value.' '.$res,E_USER_WARNING);
 							}
 						$score=array('result'=>$res,'value'=>$value);
 						update_assessment_score($eid,$sid,$bid,$pids[$col],$score);
