@@ -207,7 +207,6 @@ elseif($sub=='Submit'){
 			mysql_query("INSERT INTO info SET student_id='$new_sid';");
 			}
 
-		trigger_error($new_sid,E_USER_WARNING);
 		if($new_sid!=-1){
 			reset($sidfields);
 			foreach($sidfields as $field_name => $field_no){

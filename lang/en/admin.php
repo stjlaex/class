@@ -231,5 +231,6 @@ $string['sessions']='Sessions';
 $string['absent']='Absent';
 $string['inventory']='Inventory';
 $string['stock']='Stock';
+$string['deletecommunitygroups']='You have requested to delete these groups. This will mean the groups are not available to use in the future and any student memberships will be cancelled with immediate effect.';
 $string['']='';
 ?>

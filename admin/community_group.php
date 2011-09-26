@@ -22,6 +22,7 @@ $extrabuttons['groups']=array('name'=>'current',
 							  'onclick'=>'checksidsAction(this)');
 $extrabuttons['export']=array('name'=>'current','value'=>'community_group_export.php');
 $extrabuttons['createnewgroup']=array('name'=>'current','value'=>'community_group_rename.php');
+$extrabuttons['delete']=array('name'=>'current','value'=>'community_group_delete.php');
 two_buttonmenu($extrabuttons);
 ?>
   <div class="content">
@@ -54,7 +55,6 @@ two_buttonmenu($extrabuttons);
 	$nosidstotal=0;
 	$communities=list_communities($newcomtype);
 	$houses=list_communities('house');
-	trigger_error($newcomtype.' '.sizeof($communities),E_USER_WARNING);
 
 	foreach($communities as $com){
 		$nosids=countin_community($com);

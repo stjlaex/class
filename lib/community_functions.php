@@ -821,13 +821,42 @@ function leave_community($sid,$community){
 	$name=$community['name'];
 	if($community['id']!=''){
 		$comid=$community['id'];
-		//else{$comid=update_community($community);}
 		mysql_query("UPDATE comidsid SET leavingdate='$todate' WHERE
 							community_id='$comid' AND student_id='$sid'");
 		}
 	if($type=='year'){mysql_query("UPDATE student SET yeargroup_id=NULL WHERE id='$sid'");}
 	elseif($type=='form'){mysql_query("UPDATE student SET form_id='' WHERE id='$sid'");}
 	}
+
+
+/**
+ *
+ * Mark a sid as having left a commmunity
+ * Does not delete the record only sets leavingdate to today
+ * Should only really be called to do the work from within join_community
+ *
+ *	@param integer $sid
+ *	@param array $community
+ *	@return null
+ */
+function delete_community($com){
+	$todate=date('Y-m-d');
+	$type=$com['type'];
+	$name=$com['name'];
+	$year=get_curriculumyear();
+	if($com['id']!=''){
+		$comid=$com['id'];
+		mysql_query("UPDATE community SET type='', year='$year' WHERE id='$comid';");
+		$students=(array)listin_community($com);
+		foreach($students as $student){
+			$sid=$student['id'];
+			leave_community($sid,$com);
+			if($type=='year'){mysql_query("UPDATE student SET yeargroup_id=NULL WHERE id='$sid'");}
+			elseif($type=='form'){mysql_query("UPDATE student SET form_id='' WHERE id='$sid'");}
+			}
+		}
+	}
+
 
 
 /**
