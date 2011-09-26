@@ -33,7 +33,7 @@ trigger_error('START:'.$yearstartdate.' END:'.$yearenddate,E_USER_WARNING);
 
 if(isset($_POST['enrolyear']) and $_POST['enrolyear']!=''){$enrolyear=$_POST['enrolyear'];}
 /* Display currentyear's enrolments if still near start of term (less than 8 weeks). */
-elseif(($todate_time-$yearstartdate_time)<(86400*7*8)){$enrolyear=$currentyear;}
+elseif(($todate_time-$yearstartdate_time)<(86400*7*16)){$enrolyear=$currentyear;}
 /* Default to displaying enrolment for next curriculum year. */
 else{$enrolyear=$currentyear+1;}
 

@@ -169,6 +169,7 @@ function fetchStudent_singlefield($sid,$tag){
 		}
    	elseif($tag=='Course'){
 		$courses='';
+		$display='';
 		$crids=list_student_courses($sid);
 		foreach($crids as $crid){
 			$classes=(array)list_student_course_classes($sid,$crid);
@@ -615,6 +616,8 @@ function fetchContacts_emails($sid='-1'){
 
 /**
  *
+ * Returns two arrays one for current students in the school and one for others (alumni, applied, wahtever )
+ * the dependents in each will ordered by DOB from youngest to eldest.
  *
  * @params integer $gid
  * @return array
@@ -622,7 +625,8 @@ function fetchContacts_emails($sid='-1'){
 function fetchDependents($gid='-1'){
 	$Dependents=array();
 	$Others=array();
-	$d_gidsid=mysql_query("SELECT * FROM gidsid WHERE guardian_id='$gid' ORDER BY priority;");
+	$d_gidsid=mysql_query("SELECT student_id, priority, mailing, relationship FROM gidsid 
+								JOIN student ON student.id=gidsid.student_id WHERE gidsid.guardian_id='$gid' ORDER BY student.dob ASC;");
 	while($gidsid=mysql_fetch_array($d_gidsid,MYSQL_ASSOC)){
 		$Dependent=array();
 		$Dependent['id_db']=$gidsid['student_id'];
@@ -646,11 +650,12 @@ function fetchDependents($gid='-1'){
 										 'type_db' => 'enum', 
 										 'value' => ''.$gidsid['relationship']);
 		$EnrolStatus=fetchStudent_singlefield($gidsid['student_id'],'EnrolmentStatus');
+		$dob=$Dependent['Student']['DOB']['value'];
 		if($EnrolStatus['EnrolmentStatus']['value']=='C'){
-			$Dependents[$Dependent['Student']['DOB']['value']]=$Dependent;
+			$Dependents[]=$Dependent;
 			}
 		else{
-			$Others[$EnrolStatus['EnrolmentStatus']['value']]=$Dependent;
+			$Others[]=$Dependent;
 			}
 		}
 	ksort($Dependents);

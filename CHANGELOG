@@ -9,6 +9,8 @@ element.
 
 The community group page now has a delete option.
 
+Fix to fetchDependents for the very special case of twins.
+
 
 
 Version ClaSS-1.0.4 release (2011/09/19)
