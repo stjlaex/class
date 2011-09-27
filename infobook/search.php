@@ -70,11 +70,13 @@ $action='search_action.php'
 							'forename' => 'forename',
 							'country' => 'country',
 							'postcode' => 'postcode',
+							'email' => 'email',
 							'epfusername' => 'epfusername'
 							);
 		$studentfield=array(
 							'surname' => 'surname', 
 							'forename' => 'forename', 
+							'preferredforename' => 'preferredforename', 
 							'nationality' => 'nationality',
 							'gender' => 'gender',
 							'formerupn' => 'enrolmentnumber',
@@ -172,6 +174,10 @@ $action='search_action.php'
 		list_select_db($d_p,$listoptions,$book);
 ?>
 		</div>
+		<div id="switchcontactemail" class="hidden">
+		  <input tabindex="<?php print $tab++;?>" 
+			type="text" name="contactemail" value="" maxlength="30"/>
+		</div>
 		<div id="switchcontactepfusername" class="hidden">
 		  <input tabindex="<?php print $tab++;?>" 
 			type="text" name="contactepfusername" value="" maxlength="30"/>
@@ -183,6 +189,10 @@ $action='search_action.php'
 		<div id="switchstudentforename" class="hidden">
 		  <input tabindex="<?php print $tab;?>" 
 			type="text" name="studentforename" value="" maxlength="30"/>
+		</div>
+		<div id="switchstudentpreferredforename" class="hidden">
+		  <input tabindex="<?php print $tab;?>" 
+			type="text" name="studentpreferredforename" value="" maxlength="30"/>
 		</div>
 		<div id="switchstudentgender"  class="hidden">
 <?php 

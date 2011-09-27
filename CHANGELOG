@@ -1,4 +1,4 @@
-Version ClaSS-1.0.5 release (2011/09/26)
+Version ClaSS-1.0.5 release (2011/09/27)
 -------------------------------------------
 
 Updated the InfoBook comments_list to allow for posting of comments to
@@ -11,6 +11,7 @@ The community group page now has a delete option.
 
 Fix to fetchDependents for the very special case of twins.
 
+Added preferredforename to student and email to guardian searches in InfoBook.
 
 
 Version ClaSS-1.0.4 release (2011/09/19)

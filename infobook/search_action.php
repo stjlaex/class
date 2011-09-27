@@ -58,8 +58,7 @@ if(isset($com)){
 	}
 /*else results from the free text searches*/
 else{
-	if(isset($_POST['forename']) and $_POST['forename']!=''){$forename=clean_text($_POST['forename']);$table='student';}
-	if(isset($_POST['surname']) and $_POST['surname']!=''){$surname=clean_text($_POST['surname']);$table='student';}
+
 	/*these are the switchlabels set for guardian and student*/
 	$sfield=$_POST['sfield'];
 	$gfield=$_POST['gfield'];
@@ -73,8 +72,8 @@ else{
 		$table='student';
 		$field=$sfield;
 		}
+			trigger_error($field.':'.$table.':'.$value,E_USER_WARNING);
 
-			trigger_error($table.' : '.$field.':'.$value,E_USER_WARNING);
 	/*
 	 *	Returns array of $d_sids and number of $rows in it
 	 *  $table should be set to student or guardian
@@ -93,6 +92,12 @@ else{
 			$d_sids=mysql_query("SELECT id FROM $table WHERE 
 				MATCH (forename,preferredforename) AGAINST ('*$value*' IN BOOLEAN MODE) 
 				OR forename='$value' OR forename LIKE '%$value%'
+				ORDER BY surname, forename");
+			}
+		elseif($table=='student' and $field=='preferredforename'){
+			$d_sids=mysql_query("SELECT id FROM $table WHERE 
+				MATCH (preferredforename) AGAINST ('*$value*' IN BOOLEAN MODE) 
+				OR preferredforename='$value' OR preferredforename LIKE '%$value%'
 				ORDER BY surname, forename");
 			}
 		elseif($table=='student' and $field=='gender'){
@@ -135,7 +140,7 @@ else{
 			}
 		}
 
-	/*old search method using surname and forename*/
+	/*old search method using surname and forename
 	elseif(isset($surname) and $surname!=''){
 		if(isset($forename) and $forename!=''){
 			$d_sids=mysql_query("SELECT id FROM $table WHERE
@@ -160,7 +165,14 @@ else{
 				OR forename='$forename' OR preferredforename='$forename' 
 				ORDER BY surname, forename");
 		}
-
+	elseif(isset($preferredforename) and $preferredforename!=''){
+		$d_sids=mysql_query("SELECT id FROM $table WHERE 
+				MATCH (preferredforename) 
+				AGAINST ('*$preferredforename*' IN BOOLEAN MODE) 
+				OR preferredforename='$preferredforename'
+				ORDER BY surname, forename");
+		}
+*/
 	if(!isset($d_sids)){
 		$rows=0;
 		$result[]='No matches found!';

@@ -19,7 +19,7 @@ while(list($index,$varname)=each($action_post_vars)){
 				 }
 			}
 		else{
-			if($book=='infobook'){trigger_error($varname.': '.$$varname,E_USER_WARNING);}
+			//if($book=='infobook'){trigger_error($varname.': '.$$varname,E_USER_WARNING);}
 ?>
 		<input type="hidden" name="<?php print $varname;?>" value="<?php print $$varname;?>">
 <?php
