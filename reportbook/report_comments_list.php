@@ -9,23 +9,26 @@ $action='report_comments.php';
 $startdate=$_POST['date0'];
 $enddate=$_POST['date1'];
 if(isset($_POST['bid']) and $_POST['bid']!=''){$bid=$_POST['bid'];}else{$bid='%';}
-if(isset($_POST['ratvalue'])){$ratvalue=$_POST['ratvalue'];}else{$ratvalue='%';}
-if($ratvalue==''){$ratvalue='%';}
-else{$ratvalue='%:'.$ratvalue.';%';}
+if(isset($_POST['catid']) and $_POST['catid']!=''){$catid=$_POST['catid'];}else{$catid='%';}
+if(isset($_POST['ratvalue']) and $_POST['ratvalue']!=''){$ratvalue=$_POST['ratvalue'];}else{$ratvalue='%';}
 if(isset($_POST['stage'])){$stage=$_POST['stage'];}
 if(isset($_POST['year'])){$year=$_POST['year'];}
 if(isset($_POST['yid'])){$yid=$_POST['yid'];}else{$yid='';}
 if(isset($_POST['formid']) and $_POST['formid']!=''){$comid=$_POST['formid'];}
 elseif(isset($_POST['houseid'])  and $_POST['houseid']!=''){$comid=$_POST['houseid'];}else{$comid='';}
-list($ratingnames,$catdefs)=fetch_categorydefs('con');
 
 include('scripts/sub_action.php');
+
+
+list($ratingnames,$catdefs)=fetch_categorydefs('con');
+$filtercat=$catid.':'.$ratvalue.';';
+
 
 	if($comid!=''){
 		if($yid!=''){
 			$d_comments=mysql_query("SELECT * FROM comments WHERE
 							comments.entrydate >= '$startdate' AND comments.entrydate<='$enddate' 
-							AND comments.subject_id LIKE '$bid' AND comments.category LIKE '$ratvalue'
+							AND comments.subject_id LIKE '$bid' AND comments.category LIKE '$filtercat'
 							AND comments.student_id=ANY(SELECT student.id FROM student JOIN comidsid AS a ON comidsid.student_id=student.id
 							WHERE student.yeargroup_id='$yid' AND a.community_id='$comid' 
 							AND (a.leavingdate>'$enddate' OR a.leavingdate='0000-00-00' OR a.leavingdate IS NULL));");
@@ -35,14 +38,14 @@ include('scripts/sub_action.php');
 					comidsid AS a ON a.student_id=comments.student_id WHERE
 					a.community_id='$comid' AND (a.leavingdate>'$enddate' OR a.leavingdate='0000-00-00' OR a.leavingdate IS NULL)
 					AND comments.entrydate >= '$startdate' AND comments.entrydate<='$enddate' 
-							AND comments.subject_id LIKE '$bid' AND comments.category LIKE '$ratvalue';");
+							AND comments.subject_id LIKE '$bid' AND comments.category LIKE '$filtercat';");
 			}
 		}
 	elseif($yid!=''){
 		$d_comments=mysql_query("SELECT * FROM comments JOIN
 			student ON student.id=comments.student_id WHERE comments.entrydate >= '$startdate' AND
 			comments.entrydate<='$enddate' AND student.yeargroup_id='$yid' AND comments.subject_id LIKE '$bid' 
-			AND comments.category LIKE '$ratvalue' ORDER BY student.surname;");
+			AND comments.category LIKE '$filtercat' ORDER BY student.surname;");
 		}
 	else{
 		if($rcrid=='%'){
@@ -61,7 +64,7 @@ include('scripts/sub_action.php');
 				comidsid ON comidsid.student_id=comments.student_id
 				WHERE comments.entrydate >= '$startdate' AND
 				comments.entrydate<='$enddate' AND
-				comments.subject_id LIKE '$bid' AND comments.category LIKE '$ratvalue' 
+				comments.subject_id LIKE '$bid' AND comments.category LIKE '$filtercat' 
 				AND comidsid.community_id='$comid';");
 		}
 
@@ -122,8 +125,7 @@ two_buttonmenu($extrabuttons,$book);
 		  <th colspan="2"><?php print_string('student');?></th>
 		  <th class="smalltable"><?php print_string('formgroup');?></th>
 <?php
-		reset($catdefs);
-		while(list($catid,$catdef)=each($catdefs)){
+		foreach($catdefs as $catdef){
 			print '<th class="smalltable">'.$catdef['name'].'</th>';
 			}
 ?>
@@ -150,8 +152,7 @@ two_buttonmenu($extrabuttons,$book);
 		  </td>
 <?php
 		$summary=$summarys[$sid];
-		reset($catdefs);
-		while(list($catid,$catdef)=each($catdefs)){
+		foreach($catdefs as $catid => $catdef){
 			if(!isset($summary[$catid]['value'])){$colourclass='';$summary[$catid]['count']='';}
 			elseif($summary[$catid]['value']==0){$colourclass='nolite';}
 			elseif($summary[$catid]['value']<-1){$colourclass='hilite';}

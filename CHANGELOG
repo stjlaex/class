@@ -13,6 +13,9 @@ Fix to fetchDependents for the very special case of twins.
 
 Added preferredforename to student and email to guardian searches in InfoBook.
 
+Filter by category for reporting on comments.
+
+
 
 Version ClaSS-1.0.4 release (2011/09/19)
 -------------------------------------------

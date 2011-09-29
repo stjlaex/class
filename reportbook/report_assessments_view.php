@@ -33,14 +33,6 @@ $extrabuttons['previewselected']=array('name'=>'print',
 									   'value'=>'report_profile_print.php',
 									   'onclick'=>'checksidsAction(this)');
 
-/*
-$extrabuttons['displaybysubject']=array('name'=>'breakdown',
-										'value'=>'subject'
-										);
-$extrabuttons['displaybyassessment']=array('name'=>'breakdown',
-										   'value'=>'assessment'
-										   );
-*/
 two_buttonmenu($extrabuttons,$book);
 
 $students=array();
@@ -92,11 +84,15 @@ $students=array();
 			$subjects=(array)list_course_subjects($asscrid);
 			foreach($subjects as $subject){
 				$bid=$subject['id'];
-				$assbids[$bid]=$bid.' ';
+				$assbids[$bid]=$bid;
 				$compstatus='%';
 				$comps=list_subject_components($bid,$asscrid,$compstatus);
 				foreach($comps as $comp){
 					$assbids[$bid.$comp['id']]=$bid . $comp['id'];
+					$strands=list_subject_components($comp['id'],$asscrid);
+					foreach($strands as $strand){
+						$assbids[$bid.$strand['id']]=$bid . $strand['id'];
+						}
 					}
 				}
 			}
@@ -224,7 +220,7 @@ $students=array();
 		<div class="center">
 <?php
 	$onchange='yes';$required='no';
-   	$d_catdef=mysql_query("SELECT DISTINCT comment AS id, name AS name FROM categorydef WHERE
+$d_catdef=mysql_query("SELECT DISTINCT comment AS id, CONCAT(name,': ',comment) AS name FROM categorydef WHERE
 								  type='pro' AND comment!='' ORDER BY course_id;");
 	$listname='template';$onchange='no';$required='yes';
 	include('scripts/set_list_vars.php');
@@ -302,7 +298,7 @@ $students=array();
 <?php	} ?>
 <?php 
 	if(isset($selbids)){
-		while(list($index,$bid)=each($selbids)){
+		foreach($selbids as $bid){
 ?>
 			<input type="hidden" name="bids[]" value="<?php print $bid;?>" />
 <?php

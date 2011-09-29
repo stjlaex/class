@@ -820,7 +820,8 @@ function getEnumArray($field_name){
 				   'OTH'=>'otherdifficulty/disability',
 				   'ENC'=>'enrolmentconcern',
 				   'ATD'=>'attentiondifficulties',
-				   'GNC'=>'generalconcern'
+				   'GNC'=>'generalconcern',
+				   'EAL'=>'eal'
 				   );
 	$sencurriculum=array('A'=>'allsubject',
 						 'M'=>'modifiedcurriculum', 

@@ -91,7 +91,7 @@ three_buttonmenu();
 ?>
 		</div>
 
-		<div class="left" >
+		<div class="center" >
 <?php
 	if($yid!=''){$ryids=array('0'=>$yid);$rforms=array();}
 	elseif($comid!='' and $com['type']=='form'){$rforms[0]=$com;$ryids=array();}

@@ -37,5 +37,5 @@ $string['shorttermfailing']='Short term failing';
 $string['enrolmentconcern']='Enrolment concern';
 $string['attentiondifficulties']='Attention difficulties';
 $string['generalconcern']='General Concern';
-$string['']='';
+$string['eal']='EAL';
 ?>

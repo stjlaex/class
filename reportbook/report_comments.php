@@ -38,7 +38,7 @@ three_buttonmenu();
 <?php
 		$listlabel='category'; $listid='category';
 		$required='no';
-		include('scripts/list_rating.php');
+		include('scripts/list_category.php');
 ?>
 	  </fieldset>
 
