@@ -1555,17 +1555,24 @@ function send_sms_to($phone,$message){
  * Takes a date string, probably from the database, and makes its user friendly.
  *
  */
-function display_date($date=''){
+function display_date($date='',$format='human'){
 	if($date!='' and $date!='0000-00-00'){
 		list($year,$month,$day)=explode('-',$date);
 		$time=mktime(0,0,0,$month,$day,$year);
-		$displaydate=date('jS M Y',$time);
+		if($format=='human'){
+			$displaydate=date('jS M Y',$time);
+			}
+		else{
+			$displaydate=date('d/m/Y',$time);
+			}
 		}
 	else{
 		$displaydate='0000-00-00';
 		}
 	return $displaydate;
 	}
+
+
 
 /** 
  *

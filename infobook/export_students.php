@@ -57,7 +57,7 @@ if(sizeof($sids)==0){
 
 		/*cycle through the student rows*/
 		$rown=1;
-		while(list($index,$sid)=each($sids)){
+		foreach($sids as $sid){
 			$Student=(array)fetchStudent_short($sid);
 			$EnrolNumber=(array)fetchStudent_singlefield($sid,'EnrolNumber');
 
@@ -67,8 +67,7 @@ if(sizeof($sids)==0){
 			$worksheet->write($rown, 3, iconv('UTF-8','ISO-8859-1',$Student['Forename']['value']), $format_line_bold);
 
 			$col=4;
-			reset($displayfields);
-			while(list($index,$displayfield)=each($displayfields)){
+			foreach($displayfields as $displayfield){
 				if(!array_key_exists($displayfield,$Student)){
 					$field=fetchStudent_singlefield($sid,$displayfield);
 					$Student=array_merge($Student,$field);
@@ -80,7 +79,7 @@ if(sizeof($sids)==0){
 					}
 				elseif(isset($Student[$displayfield]['type_db'])  
 					   and $Student[$displayfield]['type_db']=='date'){
-					$displayout=display_date($Student[$displayfield]['value']);
+					$displayout=display_date($Student[$displayfield]['value'],'export');
 					}
 				elseif(isset($Student[$displayfield]['value_db'])){
 					$displayout=$Student[$displayfield]['value_db'];
