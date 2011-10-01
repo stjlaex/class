@@ -213,21 +213,6 @@ if($_SESSION['role']=='admin' or $aperm==1){
 				maxlength="190" style="width:90%;" tabindex="<?php print $tab++;?>" 
 				value="<?php print $edituser['email'];?>" />
 
-<?php 
-			  /*this is stored encrypted and need to decrypt before
-				posting back the value*/
-				$emailpasswd=endecrypt($CFG->webmailshare,$edituser['emailpasswd'],'de');
-?>
-			  <label for="Emailpasswd"><?php print_string('emailpassword',$book);?></label>
-			  <input pattern="truealphanumeric" type="password" id="Emailpasswd" name="emailpasswd" 
-				maxlength="32" style="width:20%;" tabindex="<?php print $tab++;?>" 
-				value="<?php print $emailpasswd;?>" />
-
-
-			  <label for="Emailuser"><?php print get_string('email',$book).' '.get_string('username',$book);?></label>
-			  <input pattern="alphanumeric" type="text" id="Emailuser" name="emailuser" 
-				maxlength="60" style="width:20%;" tabindex="<?php print $tab++;?>" 
-				value="<?php print $edituser['emailuser'];?>" />
 		</div>
 
 	  </fieldset>

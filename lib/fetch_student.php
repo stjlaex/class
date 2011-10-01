@@ -280,7 +280,8 @@ function fetchStudent_singlefield($sid,$tag){
 			$Contacts=(array)fetchContacts($sid);
 			$firstcontact=$Contacts[$contactno]['Forename']['value']. ' '.$Contacts[$contactno]['Surname']['value'];
 			$Student[$tag]=array('label'=>'',
-								 'value'=>'');
+								 'value_db'=>$Contacts[$contactno]['Surname']['value'],
+								 'value'=>''.$firstcontact);
 			$Student[$tag]['value']=''.$firstcontact; 
 			}
 		}

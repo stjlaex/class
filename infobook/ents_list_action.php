@@ -18,23 +18,20 @@ if(isset($_POST['newyid'])){$newyid=$_POST['newyid'];}else{$newyid='';}
 include('scripts/sub_action.php');
 
 if($sub=='Submit'){
-	$d_catdef=mysql_query("SELECT subtype FROM categorydef WHERE 
-				type='ent' AND name='$tagname'");
-	$backgroundtype=mysql_result($d_catdef,0);
-	trigger_error($detail,E_USER_WARNING);
+	$d_c=mysql_query("SELECT subtype FROM categorydef WHERE type='ent' AND name='$tagname';");
+	$type=mysql_result($d_c,0);
 	if($bid=='' OR $bid=='%'){$bid='General';}
 	$category=$catid.':'.$ratvalue.';';
 
 	if($id!=''){
 		mysql_query("UPDATE background SET 
-		detail='$detail', entrydate='$entrydate', yeargroup_id='$newyid',
-		subject_id='$bid', category='$category', teacher_id='$tid'
-		WHERE id='$id'");
+						detail='$detail', entrydate='$entrydate', yeargroup_id='$newyid',
+						subject_id='$bid', category='$category', teacher_id='$tid' WHERE id='$id';");
 		}
 	else{
-		mysql_query("INSERT INTO background SET student_id='$sid', type='$backgroundtype',
-		detail='$detail', entrydate='$entrydate', yeargroup_id='$newyid', subject_id='$bid',
-		category='$category', teacher_id='$tid'");
+		mysql_query("INSERT INTO background SET student_id='$sid', type='$type',
+					detail='$detail', entrydate='$entrydate', yeargroup_id='$newyid', subject_id='$bid',
+					category='$category', teacher_id='$tid';");
 		}
 	}
 

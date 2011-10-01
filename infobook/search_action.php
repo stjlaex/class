@@ -72,7 +72,6 @@ else{
 		$table='student';
 		$field=$sfield;
 		}
-			trigger_error($field.':'.$table.':'.$value,E_USER_WARNING);
 
 	/*
 	 *	Returns array of $d_sids and number of $rows in it
@@ -123,13 +122,11 @@ else{
 				OR address.postcode='$value'");
 			}
 		else{
-			trigger_error($table.' : '.$field.':'.$value,E_USER_WARNING);
 			if($table=='student'){
 				$d_sids=mysql_query("SELECT id FROM student JOIN info ON
 					info.student_id=student.id WHERE
 				MATCH (info.$field) AGAINST ('$value*' IN BOOLEAN MODE) 
 				OR info.$field='$value' ORDER BY student.surname, student.forename");
-				trigger_error($table.' : '.$field.':'.$value,E_USER_WARNING);
 				}
 			elseif($table=='guardian'){
 				$d_sids=mysql_query("SELECT id FROM $table WHERE 

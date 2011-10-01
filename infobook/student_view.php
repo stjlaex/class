@@ -147,10 +147,9 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 	$Comments=(array)fetchComments($sid,$date,'');
 	$Student['Comments']=$Comments;
 	if(array_key_exists('Comment',$Comments)){
-		print '<td></td>';
 		$Comment=$Comments['Comment'][0];
 		print '<td>'.display_date($Comment['EntryDate']['value']).'</td>';
-		print '<td>'.substr($Comment['Detail']['value'],0,40).'...'.'</td>';
+		print '<td>'.substr($Comment['Detail']['value'],0,60).'...'.'</td>';
 		}	
 	else{
 		print '<td colspan="3">&nbsp;</td>';
@@ -169,8 +168,7 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 	if(array_key_exists(0,$Incidents['Incident'])){
 		$Incident=$Incidents['Incident'][0];
 		print '<td>'.display_date($Incident['EntryDate']['value']).'</td>';
-		$out=substr($Incident['Detail']['value'],0,40).'...';
-		print '<td colspan="2">'.$out.'</td>';
+		print '<td colspan="2">'.substr($Incident['Detail']['value'],0,60).'...'.'</td>';
 		}
 	else{
 		print '<td colspan="3">&nbsp;</td>';
@@ -186,7 +184,7 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 		  </tr>
 <?php
 	$Backgrounds=(array)fetchBackgrounds($sid);
-	while(list($tagname,$Ents)=each($Backgrounds)){
+	foreach($Backgrounds as $tagname => $Ents){
 ?>
 		  <tr>
 			<th>
@@ -194,11 +192,11 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 			  </a>
 			</th>
 <?php
-		if(array_key_exists(0,$Ents)){
+		/* Ensure private entries for Background are not displayed here! */
+		if(array_key_exists(0,$Ents) and !($tagname=='Background' and $Ents[0]['Categories']['Category'][0]['rating']['value']<0)){
 			$Ent=$Ents[0];
 			print '<td>'.display_date($Ent['EntryDate']['value']).'</td>';
-			$out=substr($Ent['Detail']['value'],0,30).'...';
-			print '<td colspan="2">'.$out.'</td>';
+			print '<td colspan="2">'.substr($Ent['Detail']['value_db'],0,60).'...'.'</td>';
 			}
 		else{
 			print '<td colspan="3">&nbsp;</td>';

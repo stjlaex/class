@@ -1,11 +1,11 @@
 /**							bookstyle.css
-   *
-   *		All css common to the books. Principly deals with positioning
-   *   and layout. The color schemes are defined on a book by book basis
-   *   elsewhere.
-   */
+ *
+ *   All css common to the books. Principly deals with positioning
+ *   and layout. The color schemes are defined on a book by book basis
+ *   elsewhere.
+ */
 body {
-    font-family:Verdana, Arial, helvetica, sans-serif; 
+    font-family:Verdana, "Bitstream Vera Sans", Arial, sans-serif;
     font-weight:500; 
     font-size:medium; 
 	background-color:#444444; color:#ffffff; margin:0; border:0;

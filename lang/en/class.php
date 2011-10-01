@@ -332,6 +332,7 @@ $string['budgetroll']='Budget roll';
 $string['accomodation']='Accomodation';
 $string['academic']='Curriculum';
 $string['pastoral']='Pastoral';
+$string['reserved']='Restricted information';
 $string['overall']='Overall';
 $string['weeks']='Weeks';
 $string['closed']='Closed';

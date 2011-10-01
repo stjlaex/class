@@ -57,7 +57,6 @@ function list_sid_responsible_users($sid, $bid){
 		}
 
 
-			trigger_error($u['uid'],E_USER_WARNING);
 	/*checks for boarders*/
 	$Student=fetchStudent_singlefield($sid,'Boarder');
 	if($Student['Boarder']['value']!='N'){
@@ -104,7 +103,7 @@ function list_responsible_users($tid,$respons,$r=0){
 		subject_id LIKE '$rbid' AND course_id LIKE '$rcrid' ORDER BY id");
 		while($cid=mysql_fetch_row($d_cids)){
 			$d_users=mysql_query("SELECT DISTINCT uid,
-			   	username, passwd, forename, surname, email, emailuser, emailpasswd, nologin,
+			   	username, passwd, forename, surname, email, emailuser, nologin,
 				firstbookpref, role, senrole, medrole, epfusername FROM users JOIN tidcid ON 
 				users.username=tidcid.teacher_id WHERE
 				tidcid.class_id='$cid[0]' AND users.nologin!='1' ORDER BY username");
@@ -142,8 +141,7 @@ function list_pastoral_users($ryid,$perms){
 	else{
 		$gid=mysql_result($d_g,0);
 		$d_users=mysql_query("SELECT DISTINCT users.uid,
-			   	username, passwd, forename, surname, email, emailuser,
-				emailpasswd, nologin,
+			   	username, passwd, forename, surname, email, emailuser, nologin,
 				firstbookpref, role, senrole, medrole, epfusername FROM users JOIN perms ON 
 				users.uid=perms.uid WHERE perms.gid='$gid' AND perms.r='$r' 
 				AND perms.w='$w' AND perms.x='$x'");
@@ -189,9 +187,10 @@ function get_group_perms($gid,$uid){
 	return $perms;
 	}
 
+
 /**
  * Singles out a special group of users with admin permissions
- * $type is b=budget, a=academic, p=pastoral, s=section, u=users.
+ * $type is b=budget, a=academic, p=pastoral, s=section, u=users, r=reserved
  *
  * The return perm is either true or false.
  *
@@ -208,6 +207,7 @@ function get_admin_perm($type,$uid){
 	return $perm;
 	}
 
+
 /**
  *
  * Returns array of special groups with admin permissions identified
@@ -220,6 +220,7 @@ function get_admin_perm($type,$uid){
 function list_admin_groups(){
 	$groups=array('a'=>array('name'=>'academic'),
 				  'p'=>array('name'=>'pastoral'),
+				  's'=>array('name'=>'reserved'),
 				  'u'=>array('name'=>'users'),
 				  'b'=>array('name'=>'budgets')
 				  );
@@ -252,7 +253,7 @@ function list_admin_groups(){
 function list_all_users($nologin='%'){
    	$users=array();
 	$d_users=mysql_query("SELECT uid, username, passwd, forename,
-				surname, title, email, emailuser, emailpasswd, nologin, firstbookpref,
+				surname, title, email, emailuser, nologin, firstbookpref,
 				role, worklevel, senrole, medrole, epfusername
 				FROM users WHERE nologin LIKE '$nologin' ORDER BY username");
 	while($user=mysql_fetch_array($d_users,MYSQL_ASSOC)){;
@@ -278,7 +279,7 @@ function list_teacher_users($crid='',$bid='',$nologin='0'){
 		while($teacher=mysql_fetch_array($d_teacher,MYSQL_ASSOC)){
 			$tid=$teacher['teacher_id'];
 			$d_users=mysql_query("SELECT uid, username, passwd, forename,
-					surname, title, email, emailuser, emailpasswd,
+					surname, title, email, emailuser, 
 					nologin, firstbookpref, role, worklevel,
 					senrole, medrole, epfusername FROM users WHERE
 					username='$tid' AND nologin LIKE '$nologin';");
@@ -289,7 +290,7 @@ function list_teacher_users($crid='',$bid='',$nologin='0'){
 	else{
 		/*Otherwise just return all active teaching staff ie. nologin=0*/
 		$d_user=mysql_query("SELECT uid, username, passwd, forename,
-				surname, title, email, emailuser, emailpasswd, 
+				surname, title, email, emailuser,  
 				nologin, firstbookpref, role, worklevel, senrole, 
 				medrole, epfusername FROM users WHERE
 				(role='teacher' or role='admin') AND nologin LIKE '$nologin' AND
@@ -647,19 +648,11 @@ function update_user($user,$update='no',$short='class'){
 			$email=$user['email'];
 			if(isset($user['emailuser'])){$emailuser=$user['emailuser'];}
 			else{$emailuser='';}
-			/*endecrypt is the rc4 encryption function from moodlelib*/
-			/*the same function (and webmailshare!) needs to be used
-			/*by the webmail app to decrypt the passwd if its passed encrypted*/
-			/*NB. changing webmailshare will invalidate any email
-			/*passwds already stored in the class db*/
-			$emailpasswd=endecrypt($CFG->webmailshare,$user['emailpasswd']);
-			//$emailpasswd=$user['emailpasswd'];
 	   		}
 		}
 	else{
 		$email='';
 		$emailuser='';
-		$emailpasswd='';
 		}
     if(isset($user['nologin'])){$nologin=$user['nologin'];}else{$nologin='0';}
     if(isset($user['senrole'])){$senrole=$user['senrole'];}else{$senrole='0';}
@@ -685,7 +678,7 @@ function update_user($user,$update='no',$short='class'){
 		  else{
 			mysql_query("UPDATE users SET
 				  surname='$surname', forename='$forename', title='$title',
-					email='$email', emailuser='$emailuser', emailpasswd='$emailpasswd', 
+					email='$email', emailuser='$emailuser',  
 					role='$role', senrole='$senrole', medrole='$medrole', worklevel='$worklevel', nologin='$nologin',
 					firstbookpref='$firstbookpref', homephone='$homephone', mobilephone='$mobilephone', 
 					address_id='$address_id', personalcode='$personalcode', dob='$dob', 
@@ -695,12 +688,12 @@ function update_user($user,$update='no',$short='class'){
 		}
 	else{
 		mysql_query("INSERT INTO users (username, passwd, forename,
-					surname, title, email, emailuser, emailpasswd, role, nologin, worklevel,
+					surname, title, email, emailuser, role, nologin, worklevel,
 					senrole, medrole, firstbookpref, homephone, mobilephone, 
 					address_id, personalcode, dob, contractdate) 
 					VALUES ('$username', '$assword', '$forename',
 					 '$surname', '$title', '$email', '$emailuser', 
-						'$emailpasswd', '$role', '$nologin', '$worklevel',
+						'$role', '$nologin', '$worklevel',
 					   '$senrole', '$medrole', '$firstbookpref', '$homephone', '$mobilephone', 
 						'$address_id', '$personalcode', '$dob', '$contractdate');");
 		$result=$result.'Username '.$username.' added.';
@@ -764,7 +757,7 @@ function update_staff_perms($uid,$gid,$newperms){
  *
  * @param string $pwd ?
  * @param string $data ?
- * @param string $case ?
+ * @param string $case 'en' or 'de'
  * @return string
  */
 function endecrypt($pwd, $data, $case='en'){
@@ -780,7 +773,7 @@ function endecrypt($pwd, $data, $case='en'){
 
     $pwd_length=strlen($pwd);
 
-    for($i=0; $i<=255; $i++) {
+    for($i=0; $i<=255; $i++){
         $key[$i]=ord(substr($pwd,($i % $pwd_length),1));
         $box[$i]=$i;
 		}

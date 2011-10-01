@@ -10,6 +10,18 @@ elseif(isset($_POST['tagname'])){$tagname=$_POST['tagname'];}
 if(isset($_GET['bid'])){$bid=$_GET['bid'];}
 
 $Backgrounds=(array)fetchBackgrounds($sid);
+$aperm=get_admin_perm('s',get_uid($tid));
+$perm=getYearPerm($Student['YearGroup']['value'], $respons);
+
+$imagebuttons=array();
+/*the rowaction buttons used within each assessments table row*/
+$imagebuttons['clicktodelete']=array('name'=>'current',
+									 'value'=>'delete_background.php',
+									 'title'=>'delete');
+$imagebuttons['clicktoedit']=array('name'=>'Edit',
+								   'value'=>'',
+								   'title'=>'edit');
+
 
 three_buttonmenu();
 ?>
@@ -84,14 +96,17 @@ else{
 		  </tr>
 		</thead>
 <?php
-	$yid=$Student['YearGroup']['value'];
-	$perm=getYearPerm($yid, $respons);
 	$Entries=$Backgrounds["$tagname"];
 	$entryno=0;
 	if(is_array($Entries)){
 	while(list($key,$entry)=each($Entries)){
-		if($tagname=='Background' and $entry['Categories']['Category'][0]['rating']=='-1'
-					and $perm['r']!=1){$entry['Detail']['value']='Confidential';}
+		$restricted=false;
+		if($tagname=='Background' and $entry['Categories']['Category'][0]['rating']['value']<0){$restricted=true;}
+
+		if($restricted and $aperm!=1 and $entry['Teacher']['username']!=$tid){
+			$entry['Detail']['value']='Confidential';$entry['Detail']['value_db']='Confidential';
+			}
+
 		if(is_array($entry)){
 			$rown=0;
 			$entryno=$entry['id_db'];
@@ -100,11 +115,11 @@ else{
 		  <tr class="rowplus" onClick="clickToReveal(this)" id="<?php print $entryno.'-'.$rown++;?>">
 			<th>&nbsp;</th>
 <?php 
-		   if(isset($entry['YearGroup']['value'])){print '<td>'.$entry['YearGroup']['value'].'</td>';}
+		   if(isset($entry['YearGroup']['value'])){print '<td>'.get_yeargroupname($entry['YearGroup']['value']).'</td>';}
 		   else{print'<td></td>';}
-		   if(isset($entry['EntryDate']['value'])){print '<td>'.$entry['EntryDate']['value'].'</td>';}
+		   if(isset($entry['EntryDate']['value'])){print '<td>'.display_date($entry['EntryDate']['value']).'</td>';}
 		   else{print'<td></td>';}
-		   if(isset($entry['Subject']['value'])){print '<td>'.$entry['Subject']['value'].'</td>';}
+		   if(isset($entry['Subject']['value'])){print '<td>'.get_subjectname($entry['Subject']['value']).'</td>';}
 		   else{print'<td></td>';}
 ?>
 		  </tr>
@@ -121,13 +136,11 @@ else{
 		   if(isset($entry['Teacher']['value'])){print '  - '.$entry['Teacher']['value'];}
 ?>
 			  </p>
-			  <button class="rowaction" title="Delete this entry"
-				name="current" value="delete_background.php" onClick="clickToAction(this)">
-				<img class="clicktodelete" />
-			  </button>
-			  <button class="rowaction" title="Edit" name="Edit" onClick="clickToAction(this)">
-				<img class="clicktoedit" />
-			  </button>
+<?php
+		   if(($perm['x']==1 and !$restricted) or ($restricted and $aperm==1) or $entry['Teacher']['username']==$tid){
+			   rowaction_buttonmenu($imagebuttons,'',$book);
+			   }
+?>
 			</td>
 		  </tr>
 		  <div id="<?php print 'xml-'.$entryno;?>" style="display:none;">
