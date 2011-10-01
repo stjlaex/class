@@ -84,7 +84,7 @@ else{
 				$cell='title="" ><span title="? : <br />'. $attcomm.'" >';
 				$cell.='<img src="images/ostroke.png" /></span>';
 				}
-			else if($attvalue=='a' and $attcode!=' ' and $attcode!='O'){
+			elseif($attvalue=='a' and $attcode!=' ' and $attcode!='O'){
 				$des=displayEnum($attcode,'absencecode');
 				$des=get_string($des,'register');
 				$cell='title="" ><span title="'.$attcode .': '. $des
