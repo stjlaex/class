@@ -35,8 +35,9 @@ $section_perm=get_admin_perm('s',get_uid($tid));
 	   or $_SESSION['role']=='district' or $section_perm==1){
 		$choices['transport.php']='transport';
 		$choices['enrolments_matrix.php']='enrolments';
-		//$choices['fees.php']='fees';
+		$choices['fees.php']='fees';
 		}
+	$choices['orders.php']='orders';
 	if($_SESSION['role']=='admin' or $_SESSION['role']=='teacher' 
 	   or $_SESSION['role']=='office'){
 		$choices['teacher_matrix.php']='subjectclasses';
@@ -45,7 +46,6 @@ $section_perm=get_admin_perm('s',get_uid($tid));
 	if($_SESSION['role']=='admin' or $_SESSION['role']=='teacher'){
 		$choices['responsables.php']='responsibilities';
 		}
-	$choices['orders.php']='orders';
 	if($_SESSION['role']=='admin' or $_SESSION['role']=='teacher'
 	   or $_SESSION['role']=='district'){
 		$choices['class_nos.php']='classnumbers';

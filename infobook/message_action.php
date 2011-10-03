@@ -74,7 +74,8 @@ if($sub=='Submit' and $recipients and sizeof($recipients)>0 and !isset($error)){
 			
 			$message="\r\n". $recipient['explanation']. "\r\n";
 			$message.="\r\n".$messagebody;		
-			$message=utf8_to_ascii($message);
+			//$message=utf8_to_ascii($message);
+			$message=iconv('UTF-8','ISO-8859-1',$message);
 
 			$email_result=send_email_to($recipient['email'],$fromaddress,$messagesubject,'',$message,$attachments);
 
@@ -90,7 +91,7 @@ if($sub=='Submit' and $recipients and sizeof($recipients)>0 and !isset($error)){
 			
 			$message=$recipient['explanation']. ":";
 			$message.="\r\n".$messagebody;
-			$message=utf8_to_ascii($message);
+			$message=iconv('UTF-8','ISO-8859-1',$message);
 
 			$sms_result=send_sms_to($recipient['mobile'],$message);
 

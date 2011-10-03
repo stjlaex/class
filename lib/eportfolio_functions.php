@@ -611,6 +611,7 @@ function elgg_list_files($epfun,$filetype,$dbc=false){
 	$d_f=mysql_query("SELECT ident, title, description, location, originalname FROM $table_files 
 						WHERE files_owner='$epfuid' AND folder='$folder_id' ORDER BY time_uploaded DESC;");
 	while($file=mysql_fetch_array($d_f,MYSQL_ASSOC)){
+		$file['name']=$file['originalname'];
 		$file['path']=$CFG->eportfolio_dataroot.'/'.$file['location'];
 		$file['url']=$CFG->eportfoliosite.'/'.$epfun.'/files/'.$folder_id.'/'.$file['ident'].'/'.$file['originalname'];
 		$files[]=$file;
@@ -835,7 +836,7 @@ function elgg_upload_files($filedata,$dbc=true){
 			$file_location=$dir . '/'. $file_name;
 			$file_originalname=$file_name;
 			if($filedata['foldertype']=='report'){
-				$file_originalpath=$CFG->installpath .'/reports/'. $file_name;
+				$file_originalpath=$CFG->eportfolio_dataroot.'/cache/reports/'. $file_name;
 				}
 			else{
 				$file_originalpath=$batchfile['tmpname'];

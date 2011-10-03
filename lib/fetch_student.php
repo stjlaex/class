@@ -220,15 +220,19 @@ function fetchStudent_singlefield($sid,$tag){
 			/*NOT a part of the xml def for Student but useful here*/
 			$Contacts=(array)fetchContacts($sid);
 			if(array_key_exists($contactno,$Contacts)){
-					if($Contacts[$contactno]['ReceivesMailing']['value']==0){$displayclass='class="lowlite"';}else{$displayclass='';}
-					$Student[$tag]=array('label'=>'',
-										 'value_db'=>$Contacts[$contactno]['EmailAddress']['value'],
-										 'value'=>'<div '.$displayclass.'>'.$Contacts[$contactno]['EmailAddress']['value'].'</div>');
-					}
-				else{
-					$Student[$tag]=array('label'=>'',
-										 'value'=>'');
-					}
+				/* This is to high-light contacts who have requested not to receive mailings. 
+				 * The address will not be exported. 
+				 */
+				if($Contacts[$contactno]['ReceivesMailing']['value']==0){$displayclass='class="lowlite"';$email='';}
+				else{$displayclass='';$email=$Contacts[$contactno]['EmailAddress']['value'];}
+				$Student[$tag]=array('label'=>'',
+									 'value_db'=>$email,
+									 'value'=>'<div '.$displayclass.'>'.$Contacts[$contactno]['EmailAddress']['value'].'</div>');
+				}
+			else{
+				$Student[$tag]=array('label'=>'',
+									 'value'=>'');
+				}
 			}
 		elseif(substr_count($tag,'EPFUsername')){
 			/*NOT a part of the xml def for Student but useful here*/
@@ -280,7 +284,7 @@ function fetchStudent_singlefield($sid,$tag){
 			$Contacts=(array)fetchContacts($sid);
 			$firstcontact=$Contacts[$contactno]['Forename']['value']. ' '.$Contacts[$contactno]['Surname']['value'];
 			$Student[$tag]=array('label'=>'',
-								 'value_db'=>$Contacts[$contactno]['Surname']['value'],
+								 'value_db'=>$firstcontact,
 								 'value'=>''.$firstcontact);
 			$Student[$tag]['value']=''.$firstcontact; 
 			}

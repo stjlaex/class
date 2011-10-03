@@ -1479,11 +1479,21 @@ function send_email_to($recipient, $from, $subject, $messagetext, $messagehtml='
 			$from=$CFG->emailnoreply;
 			}
 
+		if(!empty($CFG->emailhandlebounces)){
+			$return= $CFG->emailhandlebounces;
+			}
+		else{
+			$return='';
+			}
+
+
 		/* message header */
 		$hdrs = array( 'From'    => $from,
 					   'To'      => $recipient,
 					   'Subject' => $subject,
-					   'Date'    => date("r")
+					   'Date'    => date("r"),
+					   'Sender' => $from,
+					   'Return-Path' => $return
 					   );
 		/* 'Date'    => date("r") must be RFC 2822 foramtted date for email headers */
 

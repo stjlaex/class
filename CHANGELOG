@@ -17,6 +17,11 @@ Filter by category for reporting on comments.
 
 Added a new admin group 's' for special access to restricted Background entries.
 
+Extended the file_display script to handle filetypes other than just pdf.
+
+The eportfolio script now embeds the css in the html file and can
+publish to just html (was restricted to only pdf).
+
 
 Version ClaSS-1.0.4 release (2011/09/19)
 -------------------------------------------

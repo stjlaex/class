@@ -24,15 +24,21 @@ function arguments($argv) {
 $ARGS=arguments($_SERVER['argv']);
 require_once($ARGS['path'].'/school.php');
 require_once($CFG->installpath.'/'.$CFG->applicationdirectory.'/scripts/cron_head_options.php');
-/**/
 
+/**
+ * Need to decide how the report is being published:
+ * (1) through the companion eportfolio app
+ * (2) only for access by ClaSS
+ *
+ * The end location in the file directory in dataroot is the same in both cases.
+ */
 if(isset($CFG->eportfolio_db) and $CFG->eportfolio_db!=''){
 	require_once($fullpath.'/lib/eportfolio_functions.php');
-	$doingepf=false;
+	$doingepf=true;
 	}
 else{
 	$doingepf=false;
-	trigger_error('eportfolio not configured!',E_USER_ERROR);
+	trigger_error('eportfolio not configured!',E_USER_WARNING);
 	}
 if(isset($CFG->html2pdf) and $CFG->html2pdf!=''){
 	require_once($CFG->html2pdf.'/html2pdf.class.php');
@@ -45,7 +51,7 @@ elseif(isset($CFG->html2ps) and $CFG->html2ps!=''){
 	$pubmethod='html2ps';
 	}
 else{
-	trigger_error('html2pdf is not configured!',E_USER_ERROR);
+	trigger_error('html2pdf is not configured!',E_USER_WARNING);
 	$pubtype='html';
 	}
 
@@ -83,7 +89,8 @@ else{
 		$publishdata['foldertype']='report';
 		$publishdata['description']='report';
 		$publishdata['title']=$reportdef['report']['title'].' - '.$pubdate;
-		
+
+		/* Creates the html version of the report and writes to the epf cache directory. */
 		include('report_html.php');
 
 		if($success and $pubtype=='pdf'){
@@ -139,7 +146,7 @@ else{
 			}
 		elseif($success){
 			$dir='files/' . substr($epfusername,0,1) . '/' . $epfusername; 
-			//rename($CFG->eportfolio_dataroot.'/cache/reports/'.$filename.'.'.$pubtype,$CFG->eportfolio_dataroot.'/'.$dir.'/'.$filename.'.'.$pubtype);
+			rename($CFG->eportfolio_dataroot.'/cache/reports/'.$filename.'.'.$pubtype,$CFG->eportfolio_dataroot.'/'.$dir.'/'.$filename.'.'.$pubtype);
 			}
 
 		if($success){

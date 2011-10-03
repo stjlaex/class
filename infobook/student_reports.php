@@ -41,7 +41,7 @@ $report_files=(array)elgg_list_files($Student['EPFUsername']['value'],'report',t
 <?php
 	$epfu=strtolower($Student['EPFUsername']['value']);
 	if(trim($epfu)==''){$epfu=strtolower($Student['EnrolNumber']['value']);}
-	print '<a style="float:right;" href="http://'.$CFG->siteaddress.$CFG->sitepath.'/'.$CFG->applicationdirectory.'/scripts/file_display.php?epfu='.$epfu.'&location='.$report['location'].'" /><img src="images/printer.png" /></a>';
+	print '<a style="float:right;" href="http://'.$CFG->siteaddress.$CFG->sitepath.'/'.$CFG->applicationdirectory.'/scripts/file_display.php?epfu='.$epfu.'&location='.$report['location'].'&filename='.$report['name'].'" /><img src="images/printer.png" /></a>';
 ?>
 		  </td>
 		</tr>

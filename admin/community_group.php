@@ -6,7 +6,7 @@ $choice='community_group.php';
 $action='community_group_action.php';
 
 if(isset($_POST['newcomtype'])){$newcomtype=$_POST['newcomtype'];}
-elseif($_SESSION['role']=='office'){$newcomtype='TUTOR';}
+elseif($_SESSION['role']=='office' or $_SESSION['role']=='admin'){$newcomtype='TUTOR';}
 else{$newcomtype='ACADEMIC';}
 
 
@@ -84,23 +84,6 @@ two_buttonmenu($extrabuttons);
 		  </tr>
 	  </table>
 	</div>
-
-
-	<fieldset class="right">
-		<div style="float:left;">
-		  <label><?php print_string('start',$book);?></label>
-		  <div style="float:left;">
-			<?php $required='no'; include('scripts/jsdate-form.php');?>
-		  </div>
-		</div>
-		<br />
-		<div style="float:left;">
-		  <label><?php print_string('end',$book);?></label>
-		  <div style="float:left;">
-			<?php $required='no'; include('scripts/jsdate-form.php');?>
-		  </div>
-		</div>
-	</fieldset>
 
 
 	  <input type="hidden" name="current" value="<?php print $action;?>" />

@@ -1,7 +1,8 @@
 .logincolor fieldset, .logincolor div.topform, .logincolor table.listmenu {
 	border-color:#777777;
 	color:#000000;
-	background-color:#999999; color:#000000;
+	background-color:#bbbbbb;
+    color:#000000;
 	}	
 .logincolor button {
 	background-color:#666666;
@@ -29,7 +30,7 @@
 	padding:2% 0% 2% 5%;
 	}
 .logincolor fieldset#loginbox table { 
-    background-color:#999999;
+    background-color:#bbbbbb;
     width:70%;
 	}
 .logincolor table td { 

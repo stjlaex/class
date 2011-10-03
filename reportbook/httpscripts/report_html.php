@@ -28,13 +28,20 @@
 		/*Finished with the student's reports. Output the result as xml.*/
 		$xsl_filename=$transform.'.xsl';
 		$imagepath='http://'.$CFG->siteaddress.$CFG->sitepath.'/images/';
+		$html_css=file_get_contents($CFG->installpath.'/templates/'.$transform.'.css');
+/*
+<link rel="stylesheet" type="text/css" href="http://'.$CFG->siteaddress.$CFG->sitepath.'/templates/'.$transform.'.css" />
+*/
+
 		$html_header='<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/DTD/loose.dtd">
 <html>
 <head>
 <title>ClaSS Report</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <meta name="author" content="'.$CFG->version.'" />
-<link rel="stylesheet" type="text/css" href="http://'.$CFG->siteaddress.$CFG->sitepath.'/templates/'.$transform.'.css" />
+<style type="text/css">'.
+$html_css.
+'</style>
 </head>
 <body>';
 		$html_footer='</body></html>';
@@ -43,7 +50,6 @@
 		$html_report=xmlprocessor($xml,$xsl_filename);
 		$html_report=eregi_replace('../images/',$imagepath,$html_report);
 		if(!empty($html_report)){
-			$html_css=file_get_contents($CFG->installpath.'/templates/'.$transform.'.css');
 			$html_file=$html_header. $html_report . $html_footer;
 			/**
 			 * Write the html to a file in the reports folder.

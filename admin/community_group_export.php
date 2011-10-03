@@ -56,10 +56,9 @@ $todate=date('Y-m-d');
 		$rown=1;
 		foreach($comids as $comid){
 			$com=(array)get_community($comid);
-			/* All students who are current members and who joined the
+			/* List all students who are current members and who joined the
 			 * community before startdate and left after enddate.
 			 */
-			/* TODO: add these form values to community_group */ 
 			if(isset($_POST['date0'])){$startdate=$_POST['date0'];}else{$startdate='';}
 			if(isset($_POST['date1'])){$enddate=$_POST['date1'];}else{$enddate='';}
 			//$students=(array)listin_community_new($com,$startdate,$enddate);
@@ -81,7 +80,7 @@ $todate=date('Y-m-d');
 				$worksheet->write($rown, 6, $hours, $format_line_normal);
 				$worksheet->write($rown, 7, $todate, $format_line_normal);
 				/* TODO: calculate the term correctly!!!! */
-				$worksheet->write($rown, 8, '2', $format_line_normal);
+				$worksheet->write($rown, 8, '1', $format_line_normal);
 				$rown++;
 				}
 			}
