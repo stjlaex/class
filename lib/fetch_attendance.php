@@ -425,15 +425,15 @@ function check_community_attendance($community,$event){
 				 WHERE community_id='$comid' AND student.yeargroup_id='$yid' AND (comidsid.leavingdate>'$enddate' OR 
 				comidsid.leavingdate='0000-00-00' OR comidsid.leavingdate IS NULL) 
 				AND (comidsid.joiningdate<='$startdate' OR comidsid.joiningdate='0000-00-00' OR comidsid.joiningdate IS NULL));");
-		$noa=mysql_result($d_att,0);
+			$noa=mysql_result($d_att,0);
 
-		$d_att=mysql_query("SELECT COUNT(attendance.student_id) FROM attendance 
+			$d_att=mysql_query("SELECT COUNT(attendance.student_id) FROM attendance 
 							 WHERE attendance.event_id='$eveid' AND attendance.status='p' AND attendance.student_id=ANY(
 				SELECT comidsid.student_id FROM comidsid JOIN student ON student.id=comidsid.student_id
 				 WHERE comidsid.community_id='$comid' AND student.yeargroup_id LIKE '$yid' AND (comidsid.leavingdate>'$enddate' OR 
 				comidsid.leavingdate='0000-00-00' OR comidsid.leavingdate IS NULL) 
 				AND (comidsid.joiningdate<='$startdate' OR comidsid.joiningdate='0000-00-00' OR comidsid.joiningdate IS NULL));");
-		$nop=mysql_result($d_att,0);
+			$nop=mysql_result($d_att,0);
 			}
 		else{
 			$d_att=mysql_query("SELECT COUNT(attendance.student_id) FROM attendance JOIN comidsid

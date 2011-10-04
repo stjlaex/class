@@ -77,6 +77,11 @@ include('scripts/sub_action.php');
 			}
 		}
 
+	/**
+	 * This could be needed after an edit or for a new comment which
+	 * is why its outside the above condition.
+	 */
+
 	if($id!='' and $guardianemail=='yes' and $CFG->emailguardiancomments=='epf' ){
 		require_once($CFG->dirroot.'/lib/eportfolio_functions.php');
 

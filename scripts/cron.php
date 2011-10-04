@@ -50,10 +50,10 @@ if(!isset($ARGS['option'])){
 		}
 
 	/**
-	 * Run outside of peak registration time only.
+	 * Run outside of peak registration times only.
 	 */
 	$latehour=date('H',$starttime);
-	if(($latehour>0 and $latehour<8) or $latehour>11){
+	if(($latehour>=0 and $latehour<8) or $latehour>13){
 		/* Generate PDFs of reports queued for publication */
 		$cmd='/usr/bin/php '.$fullpath.'/reportbook/httpscripts/eportfolio_reports_publish.php --path='.$CFG->installpath;
 		exec("$cmd > /dev/null &");

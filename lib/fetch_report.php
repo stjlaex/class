@@ -825,14 +825,12 @@ function checkReportPub($rid,$sid){
 						WHERE report_id='$rid' AND student_id='$sid';");
 
 	if(mysql_num_rows($d_a)==0){
-		$class='';
+		$success=-1;
 		}
 	else{
 		$success=mysql_result($d_a,0);
-		if($success==1){$class='nolite lowlite';}
-		else{$class='lowlite';}
 		}
-	return $class;
+	return $success;
 	}
 
 

@@ -38,7 +38,7 @@ if(isset($CFG->eportfolio_db) and $CFG->eportfolio_db!=''){
 	}
 else{
 	$doingepf=false;
-	trigger_error('eportfolio not configured!',E_USER_WARNING);
+	//trigger_error('eportfolio not configured!',E_USER_WARNING);
 	}
 if(isset($CFG->html2pdf) and $CFG->html2pdf!=''){
 	require_once($CFG->html2pdf.'/html2pdf.class.php');
@@ -51,7 +51,7 @@ elseif(isset($CFG->html2ps) and $CFG->html2ps!=''){
 	$pubmethod='html2ps';
 	}
 else{
-	trigger_error('html2pdf is not configured!',E_USER_WARNING);
+	//trigger_error('html2pdf is not configured!',E_USER_WARNING);
 	$pubtype='html';
 	}
 
@@ -64,11 +64,11 @@ else{
  * The age limit also prevents the queue beng swamped will retries of any failures.
  *
  */
-	$agelimit=10;//in minutes
+	$agelimit=15;//in minutes
 	$d_e=mysql_query("SELECT report_id, student_id FROM report_event 
-					WHERE success='0' AND time + interval $agelimit minute < now()  AND try < 4 LIMIT 10;");
+					WHERE success='0' AND time + interval $agelimit minute < now()  AND try < 4 LIMIT 20;");
 	$d_u=mysql_query("UPDATE report_event  SET success='0' 
-					WHERE success='0' AND time + interval $agelimit minute < now() AND try < 4 LIMIT 10;");
+					WHERE success='0' AND time + interval $agelimit minute < now() AND try < 4 LIMIT 20;");
 
 	while($ridsid=mysql_fetch_array($d_e,MYSQL_ASSOC)){
 		$success=true;
@@ -99,6 +99,7 @@ else{
 					$margins=array(5,10,5,10);
 					$html2pdf = new HTML2PDF('P', 'A4', 'en', true, 'UTF-8', $margins);
 					$html2pdf->pdf->SetDisplayMode('real','SinglePage','UseNone');
+					/* Wants the html without the header oddly. */
 					$html2pdf->writeHTML('<style type="text/css">'.$html_css. '</style>'.$html_report);
 					$html2pdf->Output($CFG->eportfolio_dataroot.'/cache/reports/'.$filename.'.pdf', 'F');
 					}
@@ -153,13 +154,13 @@ else{
 			/* Mark the event table as succesful. */
 			mysql_query("UPDATE report_event SET success='1', time=NOW(), try=try+1
 						WHERE report_id='$wrapper_rid' AND student_id='$sid';");
-			trigger_error('Report publishsed for: '.$filename,E_USER_WARNING);
-			//unlink($CFG->eportfolio_dataroot.'/cache/reports/'.$filename.'.html');
+			//trigger_error('Report publishsed for: '.$filename,E_USER_WARNING);
+			unlink($CFG->eportfolio_dataroot.'/cache/reports/'.$filename.'.html');
 			}
 		else{
 			mysql_query("UPDATE report_event SET success='0', time=NOW(), try=try+1 
 						WHERE report_id='$wrapper_rid' AND student_id='$sid';");
-			trigger_error('Report publication failed for: '.$filename,E_USER_WARNING);
+			trigger_error('Report publication failed for: '.$filename,E_USER_ERROR);
 			}
 
 		}

@@ -217,7 +217,7 @@ $action='search_action.php'
 			type="text" name="studentepfusername" value="" maxlength="30"/>
 		</div>
 <?php
-	if($CFG->enrol_boarders=='yes'){
+	if(isset($CFG->enrol_boarders) and $CFG->enrol_boarders=='yes'){
 ?>
 		<div id="switchstudentboarder"  class="hidden">
 <?php

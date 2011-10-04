@@ -8,7 +8,8 @@
  *
  */
 
-require_once('../../scripts/http_head_options.php');
+$action='report_reports.php';
+//$action_post_vars=array('sids');
 
 
 if(isset($_GET['sids'])){$sids=(array)$_GET['sids'];}else{$sids=array();}
@@ -18,14 +19,16 @@ if(isset($_POST['rids'])){$rids=(array)$_POST['rids'];}
 if(isset($_GET['wrapper_rid'])){$wrapper_rid=$_GET['wrapper_rid'];}else{$wrapper_rid=$rids[0];}
 if(isset($_POST['wrapper_rid'])){$wrapper_rid=$_POST['wrapper_rid'];}
 
+include('scripts/sub_action.php');
 
-	if(sizeof($sids)==0){
+if(sizeof($sids)==0){
 		$result[]=get_string('youneedtoselectstudents');
-		$returnXML=$result;
-		$rootName='Error';
+   		include('scripts/results.php');
+   		include('scripts/redirect.php');
+		exit;
 		}
-	else{
-		if($wrapper_rid!=''){
+
+	if($wrapper_rid!=''){
 			$d_rid=mysql_query("SELECT categorydef_id AS report_id FROM ridcatid WHERE
 				 report_id='$wrapper_rid' AND subject_id='wrapper' ORDER BY categorydef_id;");
 		$rids=array();
@@ -53,10 +56,7 @@ if(isset($_POST['wrapper_rid'])){$wrapper_rid=$_POST['wrapper_rid'];}
 					WHERE report_id='$wrapper_rid' AND student_id='$sid';");}
 			}
 
-		$returnXML=$sids;
-		$rootName='Students';
-		}
 
-require_once('../../scripts/http_end_options.php');
-exit;
+include('scripts/results.php');
+include('scripts/redirect.php');
 ?>
