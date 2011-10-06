@@ -29,6 +29,7 @@ elseif(isset($_POST['newcomid1']) and $_POST['newcomid1']!=''){
 	$com=get_community($_POST['newcomid1']);
 	$selsavedview='';
 	}
+
 if(isset($com)){
 	$table='student';
 	$comid=$com['id'];
@@ -56,9 +57,11 @@ if(isset($com)){
 		$ids[]=$student['id'];
 		}
 	}
-/*else results from the free text searches*/
+
+/* else results from the free text searches */
 else{
 
+	unset($field);
 	/*these are the switchlabels set for guardian and student*/
 	$sfield=$_POST['sfield'];
 	$gfield=$_POST['gfield'];
@@ -72,7 +75,6 @@ else{
 		$table='student';
 		$field=$sfield;
 		}
-
 	/*
 	 *	Returns array of $d_sids and number of $rows in it
 	 *  $table should be set to student or guardian
@@ -137,39 +139,36 @@ else{
 			}
 		}
 
-	/*old search method using surname and forename
-	elseif(isset($surname) and $surname!=''){
-		if(isset($forename) and $forename!=''){
+	/*simple search method using surname and forename for non-office staff*/
+	else{
+		$surname=clean_text($_POST['surname']);
+		$forename=clean_text($_POST['forename']);
+		$table='student';
+		trigger_error($surname. ':'.$forename,E_USER_WARNING);
+		if($forename!='' and $surname!=''){
 			$d_sids=mysql_query("SELECT id FROM $table WHERE
 				(MATCH (surname) AGAINST ('$surname*' IN BOOLEAN MODE) 
-					OR surname LIKE '%$surname%') 
+					OR surname LIKE '%$surname%' OR $surname='$surname') 
 					AND (MATCH (forename,preferredforename) 
 					AGAINST ('$forename*' IN BOOLEAN MODE) 
 					OR forename='$forename' OR preferredforename='$forename')
 						ORDER BY surname, forename");
 			}
-		else{
+		elseif($surname!=''){
 			$d_sids=mysql_query("SELECT id FROM $table WHERE
 				MATCH (surname) AGAINST ('$surname*' IN BOOLEAN MODE) 
 				OR surname LIKE '%$surname%' 
 				OR surname='$surname' ORDER BY surname, forename");
 			}
-		}
-	elseif(isset($forename) and $forename!=''){
-		$d_sids=mysql_query("SELECT id FROM $table WHERE 
+		elseif($forename!=''){
+			$d_sids=mysql_query("SELECT id FROM $table WHERE 
 				MATCH (forename,preferredforename) 
 				AGAINST ('*$forename*' IN BOOLEAN MODE) 
 				OR forename='$forename' OR preferredforename='$forename' 
 				ORDER BY surname, forename");
+			}
 		}
-	elseif(isset($preferredforename) and $preferredforename!=''){
-		$d_sids=mysql_query("SELECT id FROM $table WHERE 
-				MATCH (preferredforename) 
-				AGAINST ('*$preferredforename*' IN BOOLEAN MODE) 
-				OR preferredforename='$preferredforename'
-				ORDER BY surname, forename");
-		}
-*/
+
 	if(!isset($d_sids)){
 		$rows=0;
 		$result[]='No matches found!';

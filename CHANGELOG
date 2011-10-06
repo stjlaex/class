@@ -1,9 +1,20 @@
-Version ClaSS-1.0.6 release (2011/10/03)
+Version ClaSS-1.0.7 release (2011/10/10)
+-------------------------------------------
+
+Allow get_photo functions to use the student's enrolment number.
+
+Added a button to seneeds host page to list all sen students.
+
+Fixed very recent problem with simple search in InfoBook.
+
+
+Version ClaSS-1.0.6 release (2011/10/05)
 -------------------------------------------
 
 The reports are now locked from changes in report_report_list once published.
 
 Correctly handle bounces when using PEAR:Mail.
+
 
 
 Version ClaSS-1.0.5 release (2011/10/01)

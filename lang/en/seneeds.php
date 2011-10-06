@@ -38,4 +38,5 @@ $string['enrolmentconcern']='Enrolment concern';
 $string['attentiondifficulties']='Attention difficulties';
 $string['generalconcern']='General Concern';
 $string['eal']='EAL';
+$string['allstudents']='All students';
 ?>

@@ -36,7 +36,6 @@ $string['schoolclosedtopupils']='School closed to pupils';
 $string['unauthorisedabsence']='Unauthorised absence';
 $string['authorisedabsence']='Authorised absence';
 $string['absencelists']='Absences';
-$string['list']='List';
 $string['completions']='Completions';
 $string['absencesthissession']='Absences for current session';
 $string['completedregisters']='Completed registers';

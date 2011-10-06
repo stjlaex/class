@@ -17,6 +17,7 @@ include('../lib/functions.php');
 require_once('../lib/ldap.php');
 
 if(isset($_GET['epfu'])){$epfu=clean_text($_GET['epfu']);}else{$epfu='';}
+if(isset($_GET['enrolno'])){$enrolno=clean_text($_GET['enrolno']);}else{$enrolno='';}
 if(isset($_GET['type'])){$type=clean_text($_GET['type']);}else{$type='';}
 
 $mimetype='image/jpeg';
@@ -24,10 +25,10 @@ if($type=='staff'){
 	$photo_path=get_user_photo($epfu);
 	}
 else{
-	$photo_path=get_student_photo($epfu);
+	$photo_path=get_student_photo($epfu,$enrolno);
 	}
 
-if($epfu!='' and $mimetype){
+if($photo_path!='' and $mimetype){
 	header('Content-type: ' . $mimetype);
 	if($type=='profileiconbyid'){
 		$maxage = 604800; // 1 week

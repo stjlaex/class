@@ -402,6 +402,24 @@ function emaillink_display($email){
 
 
 
+
+/**
+ *
+ *
+ */
+function photo_img($epfu,$enrolno=''){
+	global $CFG;
+	$epfu=trim(strtolower($epfu));
+?>
+   <div class="icon">
+	 <img src="<?php print 'http://'.$CFG->siteaddress.$CFG->sitepath.'/'.$CFG->applicationdirectory. 
+				'/scripts/photo_display.php?epfu='.$epfu.'?enrolno='.$enrolno;?>" />
+   </div>
+<?php
+	}
+
+
+
 /**
  * 
  */

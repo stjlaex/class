@@ -5,14 +5,14 @@
  *
  *	@package	ClaSS
  *	@author		stj@laex.org
- *	@copyright	S T Johnson 2004-2008
+ *	@copyright	S T Johnson 2004-2011
  *	@version
  *	@since
  */
 
 
 /** 
- * The only required variable is: $epfun (eportfolio name, get student photo) or userid (get_user_photo)
+ * The only required variable is: $epfu (eportfolio name, get student photo) or userid (get_user_photo)
  *
  * The following three variables work all together. Or all of them have blank values, or haven't.
  * 		$ldap_host: ldaphost:port
@@ -23,27 +23,20 @@
  *                        or 'ou=people,dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
  * $object_class: default: inetOrgPerson
  *
- * @param string $epfun ePortfolio user name
- * @param string $s_ldap_host host:port
- * @param string $s_ldap_rdn ldap user authority
- * @param string $s_ldap_pass ldap user authority
- * @param string $s_base_tree_node base node for searching people
- * @param string $s_object_class 
+ * @param string $epfu ePortfolio user name
+ *
  * @return resource
  */
-function get_student_photo($epfun, $s_ldap_host=null, $s_ldap_rdn=null, $s_ldap_pass=null, $s_base_tree_node=null, $s_object_class=null){
+function get_student_photo($epfu,$enrolno){
 	global $CFG;
-	if(!$s_base_tree_node){
-		$s_base_tree_node='ou=student,ou=people,dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
-		}
-	return get_photo($epfun, $s_ldap_host, $s_ldap_rdn, $s_ldap_pass,$s_base_tree_node, $s_object_class);
+	$s_base_tree_node='ou=student,ou=people,dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
+	return get_photo($epfu,$enrolno,$s_base_tree_node);
 	}
 
 
 
-
 /**
- * The only required variable is: $epfun (eportfolio name, get student photo) or userid (get_user_photo)
+ * The only required variable is: epfu (eportfolio name, get student photo) or userid (get_user_photo)
  *
  * The following three variables work all together. Or all of them have blank values, or haven't.
  * 		$ldap_host: ldaphost:port
@@ -55,20 +48,14 @@ function get_student_photo($epfun, $s_ldap_host=null, $s_ldap_rdn=null, $s_ldap_
  * $object_class: default: inetOrgPerson
  *
  * @param string $userid user name
- * @param string $u_ldap_host host:port
- * @param string $u_ldap_rdn ldap user authority
- * @param string $u_ldap_pass ldap user authority
- * @param string $u_base_tree_node base node for searching people
- * @param string $u_object_class 
+ *
  * @return resource
  */
-function get_user_photo($userid, $u_ldap_host=null, $u_ldap_rdn=null, $u_ldap_pass=null, $u_base_tree_node=null, $u_object_class=null){
+function get_user_photo($epfu){
 	global $CFG;
-	$uid=$CFG->clientid.$userid;
-	if(!$u_base_tree_node){
-		$u_base_tree_node='ou=people,dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
-		}
-	return get_photo($uid, $u_ldap_host, $u_ldap_rdn, $u_ldap_pass, $u_base_tree_node, $u_object_class);
+	$uid=$CFG->clientid. $epfu;
+	$u_base_tree_node='ou=people,dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
+	return get_photo($uid,-1,$u_base_tree_node);
 	}
 
 
@@ -85,93 +72,77 @@ function get_user_photo($userid, $u_ldap_host=null, $u_ldap_rdn=null, $u_ldap_pa
  *                        or 'ou=people,dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
  * $object_class: default: inetOrgPerson
  *
- * @param string $uid user id
- * @param string $ldap_host host:port
- * @param string $ldap_rdn ldap user authority
- * @param string $ldap_pass ldap user authority
+ * @param string $epfu eportfolio user name
+ * @param string $enrolno alternative unique id no for students only
  * @param string $base_tree_node base node for searching people
- * @param string $object_class 
+ *
  * @return resource
  */
-function get_photo($uid, $ldap_host=null, $ldap_rdn=null, $ldap_pass=null, $base_tree_node=null, $object_class=null){
+function get_photo($epfu,$enrolno,$base_tree_node=null){
 
     global $CFG;
-
+	$blank_photo=$CFG->installpath.'/'.$CFG->applicationdirectory.'/images/blank_profile.jpeg';
 	$error=false;
 
-	$cached_photo=$CFG->eportfolio_dataroot.'/cache/images/'.$uid.'.jpeg';
-	$blank_photo=$CFG->installpath.'/'.$CFG->applicationdirectory.'/images/blank_profile.jpeg';
 
-	if(file_exists($cached_photo)){
-		$photo=$cached_photo;
+	/* First try for a cached file named with epfusername */
+	if($epfu!=''){
+		$cached_photo=$CFG->eportfolio_dataroot.'/cache/images/'.$epfu.'.jpeg';
+		if(file_exists($cached_photo)){$photo=$cached_photo;}
 		}
-	else{
-		if(is_null($ldap_host)){
-		    $ldap_host=$CFG->ldapserver;
-		    $ldap_rdn ='cn='.$CFG->ldapuser.',dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
-		    $ldap_pass=$CFG->ldappasswd;
 
-		    $ldap_connection=ldap_connect($ldap_host);
-		    if(!ldap_set_option($ldap_connection, LDAP_OPT_PROTOCOL_VERSION, 3)){
-				trigger_error('Failed to set protocol version to 3', E_USER_WARNING);
-				$error=true;
-				}
-		    $ldapbind=ldap_bind($ldap_connection,$ldap_rdn,$ldap_pass );
-		    if(!$ldapbind){
-				trigger_error('Unable to bind', E_USER_WARNING);
-				$error=true;
-				}
-			}
-		else{
-		    $ldap_connection=ldap_connect($ldap_host);
-		    if(!ldap_set_option($ldap_connection, LDAP_OPT_PROTOCOL_VERSION, 3)){
-				trigger_error('Failed to set protocol version to 3', E_USER_WARNING);
-				$error=true;
-				}
-		    $ldapbind=ldap_bind($ldap_connection,$ldap_rdn,$ldap_pass );
-		    if(!$ldapbind){
-				trigger_error('Unable to bind', E_USER_WARNING);
-				$error=true;
-				}
-			}
+	/* Then try for a file manually uploaded to the cache with enrolno (only valid for students!) */
+	if(!isset($photo) and $enrolno!='' and $enrolno!='-1'){
+		$cached_photo=$CFG->eportfolio_dataroot.'/cache/images/'.$enrolno.'.jpeg';
+		if(file_exists($cached_photo)){$photo=$cached_photo;}
+		}
 
+	/* Last try and fetch photo from the LDAP */
+	if(!isset($photo)){
+		$ldap_host=$CFG->ldapserver;
+		$ldap_rdn ='cn='.$CFG->ldapuser.',dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
+		$ldap_pass=$CFG->ldappasswd;
+		$search_filter= '( & (objectClass=inetOrgPerson) (uid='.$epfu.') )';
 		if(is_null($base_tree_node)){
 		    $base_tree_node='ou=people,dc=example,dc=com';
 			}
-		if(is_null($object_class)){
-		    $search_filter= '( & (objectClass=inetOrgPerson) (uid='.$uid.') )';
+		
+		$ldap_connection=ldap_connect($ldap_host);
+		if(!ldap_set_option($ldap_connection, LDAP_OPT_PROTOCOL_VERSION, 3)){
+			trigger_error('Failed to set protocol version to 3', E_USER_WARNING);
+			$error=true;
 			}
-		else{
-		    $search_filter= '( & (objectClass='.$object_class.') (uid='.$uid.') )';
+		$ldapbind=ldap_bind($ldap_connection,$ldap_rdn,$ldap_pass );
+		if(!$ldapbind){
+			trigger_error('Unable to bind', E_USER_WARNING);
+			$error=true;
 			}
+
 		$search_result=ldap_search( $ldap_connection, $base_tree_node, $search_filter, array( 'jpegPhoto' ));
 
 		if($search_result){
 		    $entry=ldap_first_entry( $ldap_connection, $search_result );
 
 		    if(!$entry){
-				trigger_error('LDAP: user id: '.$uid.', not found! ', E_USER_WARNING);
+				trigger_error('LDAP: user id: '.$epfu.', not found! ', E_USER_WARNING);
 				$error=true;
 				}
 			else{
 				$attrs=ldap_get_attributes($ldap_connection, $entry);
 				if($attrs['jpegPhoto']['count']>0){
 				    $jpeg_data=ldap_get_values_len( $ldap_connection, $entry, "jpegPhoto");
-				    $outfile=$CFG->eportfolio_dataroot.'/cache/images/'.$uid.'.jpeg';
+				    $outfile=$CFG->eportfolio_dataroot.'/cache/images/'.$epfu.'.jpeg';
 				    $handle=fopen($outfile, 'wb');
 			   		fwrite($handle,$jpeg_data[0]);
 				    fclose($handle);
 					$photo=$cached_photo;
 					}
-				else{
-					$photo=$blank_photo;
-					}
 				}
 			}
+		}
 
-		if($error){
-			$photo=$blank_photo;
-			}
+	if($error or !isset($photo)){
+		$photo=$blank_photo;
 		}
 
 	return $photo;
@@ -179,92 +150,11 @@ function get_photo($uid, $ldap_host=null, $ldap_rdn=null, $ldap_pass=null, $base
 
 
 
-/**
- * The only required variables are: 
- *		$epfun (eportfolio name, get student photo) or userid (get_user_photo)
- *		$s_photo_size: 2 or 3
- *			2 means: 35.0%, 
- *			3 menas: 25.0%		
- *			these percentages have been harcoded inside the function
- *
- * The following three variables work all together. Or all of them have blank values, or haven't.
- * 		$ldap_host: ldaphost:port
- * 		$ldap_rdn: ldap user authority
- * 		$ldap_pass: ldap password authority
- * 
- * $base_tree_node: default: 'ou=student,ou=people,dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2; 
- *                        or 'ou=people,dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
- * $object_class: default: inetOrgPerson
- *
- * @param string $epfun ePortfolio user name
- * @param string $s_photo_size 
- * @param string $s_ldap_host host:port
- * @param string $s_ldap_rdn ldap user authority
- * @param string $s_ldap_pass ldap user authority
- * @param string $s_base_tree_node base node for searching people
- * @param string $s_object_class 
- * @return resource
- */
-function get_student_photo_small($epfun, $s_photo_size, $s_ldap_host=null, $s_ldap_rdn=null, $s_ldap_pass=null, $s_base_tree_node=null, $s_object_class=null){
-
-	global $CFG;
-	$uid=$epfun;
-	
-	if($s_photo_size==2 or $s_photo_size==3){
-		$cached_thumb=$CFG->eportfolio_dataroot.'/cache/images/'.$uid.'_f'. $s_photo_size .'.jpeg';
-		if(!file_exists($cached_thumb)){
-		
-		
-			$cached_photo=$CFG->eportfolio_dataroot.'/cache/images/'.$uid.'.jpeg';
-			if(file_exists($cached_photo)){
-				$filename=$cached_photo;
-				}
-			else{
-				
-				//chequear si uid es inexistente
-				if ( strlen( trim($uid) ) < 3 )  {
-					$filename=$CFG->installpath.'/images/blank_profile.jpeg';
-					trigger_error('### '.$filename,E_USER_WARNING);
-
-					} else {
-					$filename=get_photo($uid, $s_ldap_host, $s_ldap_rdn, $s_ldap_pass,$s_base_tree_node, $s_object_class);
-					}
-					
-				}
-
-			$percent=array(0.35,0.25);
-
-			if(strpos($filename,'blank')){
-				// when errors a blank image is shown
-				$filename=$CFG->installpath.'/images/blank_profile.jpeg';
-				$uid='blank_profile';
-				}
-			
-			list($width, $height) = getimagesize($filename);
-			for($i=0; $i<2; $i++) {
-				$new_width = $width * $percent[$i];
-				$new_height = $height * $percent[$i];
-				$thumb = imagecreatetruecolor($new_width, $new_height);
-				$source = imagecreatefromjpeg($filename);
-				imagecopyresized($thumb, $source, 0, 0, 0, 0, $new_width, $new_height, $width, $height);
-				$n=$i+2;
-				$outfile=$CFG->eportfolio_dataroot.'/cache/images/' . $uid .'_f'. $n .'.jpeg';
-				if(file_exists($outfile)){
-					unlink($outfile);
-					}
-				imagejpeg($thumb,$outfile);
-				}
-			}
-		$cached_photo=$CFG->siteaddress.$CFG->sitepath.'/images/tmp/'.$uid.'_f'. $s_photo_size .'.jpeg';
-		return $cached_photo;
-		}
-	}
-
 
 /**
  * The only required variables are: 
  *		$user_type: s=student, t=teachers & others (at the moment)
- *		$epfun (eportfolio user name, get student photo) or userid (get_user_photo)
+ *		$epfu (eportfolio user name, get student photo) or userid (get_user_photo)
  *		$s_photo_size: 2 or 3
  *			2 means: 35.0%, 
  *			3 means: 25.0%		
@@ -279,7 +169,7 @@ function get_student_photo_small($epfun, $s_photo_size, $s_ldap_host=null, $s_ld
  *                        or 'ou=people,dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
  * $object_class: default: inetOrgPerson
  *
- * @param string $epfun ePortfolio user name
+ * @param string $epfu ePortfolio user name
  * @param string $s_ldap_host host:port
  * @param string $s_ldap_rdn ldap user authority
  * @param string $s_ldap_pass ldap user authority
@@ -287,12 +177,12 @@ function get_student_photo_small($epfun, $s_photo_size, $s_ldap_host=null, $s_ld
  * @param string $s_object_class 
  * @return resource
  */
-function get_photo_small2($user_type, $epfun, $s_photo_size, $s_ldap_host=null, $s_ldap_rdn=null, $s_ldap_pass=null, $s_base_tree_node=null, $s_object_class=null){
+function get_photo_small($user_type, $epfu, $s_photo_size, $s_ldap_host=null, $s_ldap_rdn=null, $s_ldap_pass=null, $s_base_tree_node=null, $s_object_class=null){
 	global $CFG;
 	if (strtolower($user_type)=='s') {
-		$uid=$epfun;
+		$uid=$epfu;
 		} else {
-		$uid=$CFG->clientid.$epfun;
+		$uid=$CFG->clientid.$epfu;
 		}
 	
 	
@@ -313,7 +203,7 @@ function get_photo_small2($user_type, $epfun, $s_photo_size, $s_ldap_host=null, 
 					trigger_error('### '.$filename,E_USER_WARNING);
 
 					} else {
-					$filename=get_photo($uid, $s_ldap_host, $s_ldap_rdn, $s_ldap_pass,$s_base_tree_node, $s_object_class);
+					$filename=get_photo($uid,-1,$s_base_tree_node);
 					}
 					
 				}
@@ -524,7 +414,7 @@ function set_photo($uid, $photo, $ldap_host=null, $lda_rdn=null, $ldap_pass=null
  * $base_tree_node: default: 'ou=student,ou=people,dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
  * $object_class: default: inetOrgPerson
  *
- * @param string  $epfun ePortfolio user name
+ * @param string  $epfu ePortfolio user name
  * @param integer $photo_to_delete 
  * @param string  $s_ldap_host host:port
  * @param string  $s_ldap_rdn ldap user authority

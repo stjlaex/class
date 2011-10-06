@@ -36,8 +36,8 @@ two_buttonmenu();
 
 	$sids=array();
 	if($sentype!='' or $newyid!=''){
-
-		/* These are the filter vars form the sideoptions
+		/* 
+		 * These are the filter vars form the sideoptions
 		 */
 		if($sentype!='' and $newyid!=''){
 			mysql_query("CREATE TEMPORARY TABLE tempstudents
@@ -60,20 +60,20 @@ two_buttonmenu();
 				AND info.sen='Y' AND info.enrolstatus='C' ORDER BY student.surname;");
 			}
 		}
-	else{
-		if($_SESSION['seneedscount']>0 and $_SESSION['seneedscount']<50){
-			$d_info=mysql_query("SELECT info.student_id FROM info JOIN student
+	elseif($list=='all'){
+		/*
+		 * Just list all if requested.
+		 */
+		$d_info=mysql_query("SELECT info.student_id FROM info JOIN student
 				ON student.id=info.student_id WHERE 
 				info.sen='Y' AND info.enrolstatus='C' ORDER BY student.surname;");
-			}
-		else{
-			}
 		}
 
+if(isset($d_info)){
 	while($info=mysql_fetch_array($d_info,MYSQL_ASSOC)){
 		$sids[]=$info['student_id'];
 		}
-
+	}
 
 ?>
 
@@ -86,7 +86,7 @@ two_buttonmenu();
 	<th><?php print_string('formgroup'); ?></th>
 <?php
 	$extra_studentfields=array('NextReviewDate'=>'nextreviewdate');
-	while(list($index,$displayfield)=each($displayfields)){
+	foreach($displayfields as $displayfield){
 ?>
 		<th style="width:<?php print $displayfields_width;?>;">
 		<?php include('scripts/list_studentfield.php');?>
@@ -94,7 +94,7 @@ two_buttonmenu();
 <?php
 		}
 
-	while(list($index,$sid)=each($sids)){
+	foreach($sids as $index => $sid){
 		$display='yes';
 		$Student=fetchStudent_short($sid);
 		$comment=comment_display($sid);
@@ -136,24 +136,23 @@ two_buttonmenu();
 				print $Student['RegistrationGroup']['value']; 
 ?>
 		  </td>
-
 <?php
-	reset($displayfields);
-	while(list($index,$displayfield)=each($displayfields)){
-		if(array_key_exists($displayfield,$Student)){
-			print '<td>'.$Student[$displayfield]['value'].'</td>';
-			}
-		else{
-			$field=fetchStudent_singlefield($sid,$displayfield);
-			print '<td>'.$field[$displayfield]['value'].'</td>';
-			}
-		}
+				foreach($displayfields as $displayfield){
+					if(array_key_exists($displayfield,$Student)){
+						print '<td>'.$Student[$displayfield]['value'].'</td>';
+						}
+					else{
+						$field=fetchStudent_singlefield($sid,$displayfield);
+						print '<td>'.$field[$displayfield]['value'].'</td>';
+						}
+					}
 ?>
 		</tr>
 <?php
-				  }
+			}
 		}
-	reset($sids);
+	/* Must unset of the host page things a single sid is being displayed*/
+	unset($sid);
 ?>
 <tr>
 <th colspan="<?php print $displayfields_no+3;?>">&nbsp;</th>
