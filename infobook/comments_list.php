@@ -160,6 +160,7 @@ print '('.$Student['RegistrationGroup']['value'].')';
 			   }
 		   else{
 			   $imagebuttons=array();
+			   $extrabuttons=array();
 			   $imagebuttons['clicktodelete']=array('name'=>'current',
 													'value'=>'delete_comment.php',
 													'title'=>'delete');

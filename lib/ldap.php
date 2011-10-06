@@ -135,7 +135,7 @@ function get_photo($epfu,$enrolno,$base_tree_node=null){
 				    $handle=fopen($outfile, 'wb');
 			   		fwrite($handle,$jpeg_data[0]);
 				    fclose($handle);
-					$photo=$cached_photo;
+					$photo=$outfile;
 					}
 				}
 			}

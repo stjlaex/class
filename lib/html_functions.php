@@ -413,7 +413,7 @@ function photo_img($epfu,$enrolno=''){
 ?>
    <div class="icon">
 	 <img src="<?php print 'http://'.$CFG->siteaddress.$CFG->sitepath.'/'.$CFG->applicationdirectory. 
-				'/scripts/photo_display.php?epfu='.$epfu.'?enrolno='.$enrolno;?>" />
+				'/scripts/photo_display.php?epfu='.$epfu.'&enrolno='.$enrolno;?>" />
    </div>
 <?php
 	}
