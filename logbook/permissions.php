@@ -559,7 +559,7 @@ function getCoursePerm($course,$respons){
 
 /**
  * 
- * Returns arrays of fids and yids ie. pastoral responisbilites for a 
+ * Returns arrays of fids, yids and houses ie. pastoral responisbilites for a 
  * given $respons array.
  *
  */
