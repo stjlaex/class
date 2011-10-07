@@ -7,6 +7,7 @@ $action='student_list.php';
 
 if(isset($_POST['messageto'])){$messageto=$_POST['messageto'];}
 if(isset($_POST['messageop'])){$messageop=$_POST['messageop'];}
+if(isset($_POST['share0'])){$share=$_POST['share0'];}
 
 if(isset($_POST['messagebody'])){$messagebody=clean_text($_POST['messagebody'],false);}
 if(isset($_POST['messagebcc'])){$messagebcc=clean_text($_POST['messagebcc']);}else{$messagebcc='';}
@@ -16,10 +17,27 @@ if(isset($_POST['recipients'])){$recipients=(array)$_POST['recipients'];}else{$r
 if(isset($_SESSION[$book.'recipients'])){$recipients=$_SESSION[$book.'recipients'];}
 else{$recipients=array();}
 
+if(isset($_SESSION[$book.'tutors'])){$tutors=$_SESSION[$book.'tutors'];}
+else{$tutors=array();}
+
+/* For the BCCs to staff */
+if($share=='yes'){
+	foreach($tutors as $tutor){
+		$recipients[]=$tutor;
+		}
+	}
+if($messagebcc!=''){
+	$tutor=array_pop($tutors);
+	$extrarecipient=array('email'=>$messagebcc,'explanation'=>'',
+						  'explanation'=>$tutor['explanation']);
+	$recipients[]=$extrarecipient;
+	}
+
+
 include('scripts/sub_action.php');
 
 if($sub=='' and (isset($messageto) or isset($messageop))){
-	$action_post_vars=array('messageto','messageop');
+	$action_post_vars=array('messageto','messageop','share');
 	$action='message.php';
 	$cancel=$action;
 	include('scripts/redirect.php');
@@ -64,16 +82,10 @@ if($sub=='Submit' and $recipients and sizeof($recipients)>0 and !isset($error)){
 				}
 			}
 
-		/* For the BCC */
-		if($messagebcc!=''){
-			$extrarecipient=array('email'=>$messagebcc,'explanation'=>'');
-			$recipients[]=$extrarecipient;
-			}
-
 		foreach($recipients as $key => $recipient){
 			
-			$message="\r\n". $recipient['explanation']. "\r\n";
-			$message.="\r\n".$messagebody;		
+			$message=$recipient['explanation'];
+			$message.=$messagebody;
 			//$message=utf8_to_ascii($message);
 			$message=iconv('UTF-8','ISO-8859-1',$message);
 

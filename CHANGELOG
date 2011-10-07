@@ -1,4 +1,13 @@
-Version ClaSS-1.0.7 release (2011/10/10)
+Version ClaSS-1.0.8 release (2011/10/10)
+-------------------------------------------
+
+Option to BCC email messages to parents with student tutors.
+
+Message explanation line included on the to sender's copy.
+
+
+
+Version ClaSS-1.0.7 release (2011/10/06)
 -------------------------------------------
 
 Allow get_photo functions to use the student's enrolment number.
@@ -6,6 +15,7 @@ Allow get_photo functions to use the student's enrolment number.
 Added a button to seneeds host page to list all sen students.
 
 Fixed very recent problem with simple search in InfoBook.
+
 
 
 Version ClaSS-1.0.6 release (2011/10/05)
