@@ -116,7 +116,6 @@ function fetchStudent_singlefield($sid,$tag){
 	elseif($tag=='EnrolNumber'){$fieldname='formerupn';}
 	elseif($tag=='EnrolmentNotes'){$fieldname='appnotes';}
 	elseif($tag=='EnrolmentStatus'){$fieldname='enrolstatus';}
-	elseif($tag=='Language'){$fieldname='language';$fieldtype='enum';}
 	elseif($tag=='Boarder'){$fieldname='boarder';$fieldtype='enum';}
 	elseif($tag=='EntryDate'){$fieldname='entrydate';}
 	elseif($tag=='LeavingDate'){$fieldname='leavingdate';}

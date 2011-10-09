@@ -18,7 +18,8 @@ if(isset($_POST['stage'])){$stage=$_POST['stage'];}
 if(isset($_POST['year'])){$year=$_POST['year'];}
 if(isset($_POST['yid'])){$yid=$_POST['yid'];}else{$yid='';}
 if(isset($_POST['formid']) and $_POST['formid']!=''){$comid=$_POST['formid'];}
-elseif(isset($_POST['houseid'])  and $_POST['houseid']!=''){$comid=$_POST['houseid'];}else{$comid='';}
+elseif(isset($_POST['houseid']) and $_POST['houseid']!=''){$comid=$_POST['houseid'];}
+else{$comid='';}
 list($ratingnames,$catdefs)=fetch_categorydefs('mer');
 $curryear=get_curriculumyear();
 
@@ -26,9 +27,14 @@ $curryear=get_curriculumyear();
 include('scripts/sub_action.php');
 
 	if($comid!=''){
+		$com=get_community($comid);
 		if($yid!=''){
 			$d_m=mysql_query("SELECT * FROM merits WHERE merits.date >= '$startdate' AND
 					merits.date<='$enddate'  AND merits.activity LIKE '$activity' AND merits.year='$curryear'
+					AND merits.student_id=ANY(SELECT student.id FROM student JOIN comidsid AS a ON a.student_id=student.id
+					WHERE student.yeargroup_id='$yid' AND a.community_id='$comid' 
+					AND (a.leavingdate>'$enddate' OR a.leavingdate='0000-00-00' OR a.leavingdate IS NULL));");
+			$d_total=mysql_query("SELECT SUM(value) FROM merits WHERE merits.year='$curryear'
 					AND merits.student_id=ANY(SELECT student.id FROM student JOIN comidsid AS a ON a.student_id=student.id
 					WHERE student.yeargroup_id='$yid' AND a.community_id='$comid' 
 					AND (a.leavingdate>'$enddate' OR a.leavingdate='0000-00-00' OR a.leavingdate IS NULL));");
@@ -37,6 +43,11 @@ include('scripts/sub_action.php');
 			$d_m=mysql_query("SELECT * FROM merits JOIN comidsid AS a ON a.student_id=merits.student_id WHERE
 			a.community_id='$comid' AND (a.leavingdate>'$enddate' OR a.leavingdate='0000-00-00' OR a.leavingdate IS NULL)
 			AND merits.date >= '$startdate' AND merits.date<='$enddate'  AND merits.activity LIKE '$activity' AND merits.year='$curryear';");
+			$d_total=mysql_query("SELECT SUM(value) FROM merits WHERE merits.year='$curryear'
+					AND merits.student_id=ANY(SELECT student.id FROM student JOIN comidsid AS a ON a.student_id=student.id
+					WHERE a.community_id='$comid' 
+					AND (a.leavingdate>'$enddate' OR a.leavingdate='0000-00-00' OR a.leavingdate IS NULL));");
+
 			}
 		}
 	elseif($yid!=''){
@@ -78,6 +89,7 @@ include('scripts/sub_action.php');
 	$summarys=array();
 	$sids=array();
 	$range=0;
+	$totaltotal=0;
 	while($merit=mysql_fetch_array($d_m,MYSQL_ASSOC)){
 		$summary=array();
 		$sid=$merit['student_id'];
@@ -93,10 +105,9 @@ include('scripts/sub_action.php');
 		if(isset($summary[$cat]['value'])){$summary[$cat]['value']+=$value;}
 		else{$summary[$cat]['value']=$value;}
 		if(isset($summary['total'])){$summary['total']+=$value;}
-		else{
-			$summary['total']=$value;
-			}
+		else{$summary['total']=$value;}
 		if($summary['total']>$range){$range=$summary['total'];}
+		$totaltotal+=$summary['total'];
 		$summarys[$sid]=$summary;
 		}
 
@@ -121,8 +132,30 @@ two_buttonmenu($extrabuttons,$book);
 		  <enddate><?php print $enddate;?></enddate>
 		</period>
 	  </div>
-
-
+<?php
+if(isset($com)){
+?>
+	  <div class="center">
+		<table class="listmenu sidtable">
+		  <tr>
+			<th>
+				<?php print_string($com['type']);?>
+			</th>
+			<th>
+				<?php print $com['name'];?>
+			</th>
+			<th>
+			  <?php print get_string('total').' '.get_string('year').': '.mysql_result($d_total,0);?>
+			</th>
+			<th>
+			  <?php print get_string('total').' '.get_string('period','register').': '.$totaltotal;?>
+			</th>
+		  </tr>
+		</table>
+	  </div>
+<?php
+}
+?>
 	  <table class="listmenu sidtable">
 		<tr id="sid-<?php print $sid;?>">
 		  <th colspan="1">
@@ -162,7 +195,7 @@ two_buttonmenu($extrabuttons,$book);
 			<?php print $rown;?>
 		  </td>
 		  <td>
-		<?php print $house;?>
+			<?php print $house;?>
 		  </td>
 		  <td class="student">
 			<a href="infobook.php?current=student_view.php&sid=<?php
