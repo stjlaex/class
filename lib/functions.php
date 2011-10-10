@@ -878,6 +878,8 @@ function getEnumArray($field_name){
 						'Language'=>'language',
 						'MobilePhone'=>'mobilephone',
 						'PersonalNumber'=>'personalnumber',
+						'OtherNumber'=>'othernumber',
+						'AnotherNumber'=>'anothernumber',
 						'Postcode'=>'postcode',
 						'Transport'=>'transport',
 						'Club'=>'club',

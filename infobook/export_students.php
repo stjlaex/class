@@ -50,9 +50,10 @@ if(sizeof($sids)==0){
 		$worksheet->write(0, 1, 'Enrolment No.', $format_hdr_bold);
 		$worksheet->write(0, 2, 'Surname', $format_hdr_bold);
 		$worksheet->write(0, 3, 'Forename', $format_hdr_bold);
+		$worksheet->write(0, 4, 'Preferred Forename', $format_hdr_bold);
 		for($colno=0;$colno<$_POST['colno'];$colno++){
 			$dspfld='displayfield'.$colno;
-			$worksheet->write(0, $colno+4, $_POST[$dspfld], $format_hdr_bold);
+			$worksheet->write(0, $colno+5, $_POST[$dspfld], $format_hdr_bold);
 			}
 
 		/*cycle through the student rows*/
@@ -65,8 +66,9 @@ if(sizeof($sids)==0){
 			$worksheet->write($rown, 1, $EnrolNumber['EnrolNumber']['value'], $format_line_bold);
 			$worksheet->write($rown, 2, iconv('UTF-8','ISO-8859-1',$Student['Surname']['value']), $format_line_bold);
 			$worksheet->write($rown, 3, iconv('UTF-8','ISO-8859-1',$Student['Forename']['value']), $format_line_bold);
+			$worksheet->write($rown, 4, iconv('UTF-8','ISO-8859-1',$Student['PreferredForename']['value']), $format_line_bold);
 
-			$col=4;
+			$col=5;
 			foreach($displayfields as $displayfield){
 				if(!array_key_exists($displayfield,$Student)){
 					$field=fetchStudent_singlefield($sid,$displayfield);

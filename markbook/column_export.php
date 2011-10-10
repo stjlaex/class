@@ -37,10 +37,12 @@ else{
 		/*first do the column headers*/
 		$worksheet->setColumn(0,0,14);
 		$worksheet->setColumn(1,2,25);
-		$worksheet->setColumn(3,20,20);
-		$worksheet->write(0, 0, 'Enrolment No.', $format_head);
+		$worksheet->setColumn(2,20,20);
+		$worksheet->write(0, 0, 'ClaSS Id.', $format_head);
 		$worksheet->write(0, 1, 'Surname', $format_head);
 		$worksheet->write(0, 2, 'Forename', $format_head);
+		$worksheet->write(0, 3, 'Preferred Forename', $format_head);
+
 		$cols=array();
 		foreach($checkmids as $checkmid){
 			$col=array();
@@ -58,7 +60,7 @@ else{
 
 		/* Write the column headers */
 		foreach($cols as $colno => $col){
-			$worksheet->write(0, $colno+3, $col['head'], $format_head);
+			$worksheet->write(0, $colno+4, $col['head'], $format_head);
 			}
 
 		/* Now write each student row, looking up the cell values in the MarkBook's viewtable array. */
@@ -67,9 +69,10 @@ else{
 			$worksheet->writenumber($i, 0, $viewtable[$rowno]['sid'], $format);
 			$worksheet->write($i, 1, iconv('UTF-8','ISO-8859-1',$viewtable[$rowno]['surname']), $format);
 			$worksheet->write($i, 2, iconv('UTF-8','ISO-8859-1',$viewtable[$rowno]['forename']), $format);
+			$worksheet->write($i, 3, iconv('UTF-8','ISO-8859-1',$viewtable[$rowno]['preferredforename']), $format);
 			foreach($cols as $colno => $col){
 				$value=$viewtable[$rowno][$col['mid']];
-				$no=$colno+3;
+				$no=$colno+4;
 				if($cols[$colno]['scoretype']=='value'){
 					$worksheet->writenumber($i, $no, $value);
 					} 

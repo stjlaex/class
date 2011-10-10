@@ -17,12 +17,8 @@ while($student=mysql_fetch_array($d_students, MYSQL_ASSOC)){
 	$Medical_field=fetchStudent_singlefield($sid,'MedicalFlag');
 	$comment=comment_display($sid);
 	$Attendance=fetchcurrentAttendance($sid);
-	
-	if($student['preferredforename']!=''){
-		$displaypfn='&nbsp;('.$student['preferredforename'].')';
-		}
-	else{$displaypfn='';}
-	$studentrow=array('row'=>$rowno, 
+
+	$studentrow=array('row'=>$rowno,
 					  'sen'=>$SEN_field['SENFlag']['value'],
 					  'medical'=>$Medical_field['MedicalFlag']['value'],
 					  'commentclass'=>$comment['class'], 
@@ -34,7 +30,7 @@ while($student=mysql_fetch_array($d_students, MYSQL_ASSOC)){
 					  'sid'=>$sid,
 					  'surname'=>$student['surname'],
 					  'forename'=>$student['forename'],
-					  'preferredforename'=>$displaypfn,
+					  'preferredforename'=>$student['preferredforename'],
 					  'form_id'=>$student['form_id'],
 					  'class_id'=>$student['class_id']
 					  );

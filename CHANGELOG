@@ -7,6 +7,11 @@ Message explanation line included on the to sender's copy.
 
 Display merit totals for a house on the report_merit page.
 
+Added prefererred forename MarkBook export.
+
+Exposed the otherpn1 and 2 fields in fetchStudent.
+
+
 
 Version ClaSS-1.0.7 release (2011/10/06)
 -------------------------------------------
