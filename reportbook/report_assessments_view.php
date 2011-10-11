@@ -38,6 +38,7 @@ two_buttonmenu($extrabuttons,$book);
 $students=array();
 
 	if($comid!=''){
+		$com=get_community($comid);
 		$students=listin_community(array('id'=>$comid));
 		}
 	elseif($yid!=''){
@@ -142,9 +143,10 @@ $students=array();
 
 
 	/* First row of table is column headers - starting with identifying the student group. */
-	if($yid!=''){$viewtable[0]['cohort']=get_string('yeargroup').' '.$yid;}
-	elseif($comid!=''){$viewtable[0]['cohort']=get_string('formgroup').' '.$comid;}
-	else{$viewtable[0]['cohort']=get_string('cohort').' '.$stage.' '.$year;}
+	if($yid!=''){$cohortname=get_string('yeargroup').' '.$yid;}
+	elseif($comid!=''){$cohortname=get_string($com['type']).' '.$com['name'];}
+	else{$chortname=get_string('cohort').' '.$stage.' '.$year;}
+	$viewtable[0]['cohort']=$cohortname;
 
 	foreach($assbids as $bidpid){
 		$viewtable[0]['out'][]=$bidpid;
@@ -236,12 +238,11 @@ $d_catdef=mysql_query("SELECT DISTINCT comment AS id, CONCAT(name,': ',comment) 
 		  <input type="checkbox" name="checkall" 
 				value="yes" onChange="checkAll(this);" />
 		</th>
-<th>
-</th>
 <?php
 		  /*  display the column headers*/
-		  print '<th colspan="1">'.$viewtable[0]['cohort'].'</th>';
-		  for($c2=0;$c2<sizeof($viewtable[0]['out']);$c2++){
+		print '<th>'.get_string('enrolmentnumber','infobook').'</th>';
+		print '<th>'.$viewtable[0]['cohort'].'</th>';
+		for($c2=0;$c2<sizeof($viewtable[0]['out']);$c2++){
 			  if($viewtable[0]['count'][$c2]>0){
 				  print '<th style="font-weight:300;">'.$viewtable[0]['out'][$c2].'</th>';
 				  }

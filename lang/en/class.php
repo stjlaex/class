@@ -238,6 +238,9 @@ one child at the school then your password maybe the matriculation
 number for either the eldest or youngest child. If you need any
 further help then please refer to the information on ClaSSic.
 ';
+$string['epfcommentemail']="\r\n".'Dear Parent,'."\r\n"."\r\n". 'There is a new comment on ClaSSic about '."\$a". 
+	'. Please follow the link below to access it:'."\r\n"."\r\n";
+$string['epfcommenttitle']='New comment from';
 $string['passwords']='Passwords';
 $string['statementbank']='Statement bank';
 $string['subjectcomponent']='Subject component';

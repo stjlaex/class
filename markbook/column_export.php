@@ -6,13 +6,12 @@ $action='class_view.php';
 
 $viewtable=$_SESSION['viewtable'];
 $umns=$_SESSION['umns'];
+if(isset($_POST['checkmid'])){$checkmids=(array)$_POST['checkmid'];}
+else{$checkmids=array();}
 
-if(!isset($_POST['checkmid'])){
-	$error[]='Choose one or more columns to export.';
-	}
-else{
+
 	require_once 'Spreadsheet/Excel/Writer.php';
-  	//$file=fopen('/tmp/class_export.xls', 'w');
+//$file=fopen('/tmp/class_export.xls', 'w');
 	$file='/tmp/class_export.xls';
 	$workbook = new Spreadsheet_Excel_Writer($file);
 	$format_head =& $workbook->addFormat();
@@ -32,7 +31,6 @@ else{
 		$error[]='Unable to open file for writing!';
 		}
 	else{
-		$checkmids=(array)$_POST['checkmid'];
 
 		/*first do the column headers*/
 		$worksheet->setColumn(0,0,14);
@@ -89,12 +87,10 @@ else{
 
 		/*send the workbook w/ spreadsheet and close them*/ 
 		$workbook->close();
-		$result[]='Exported table in current view to file.';
 ?>
 		<script>openFileExport('xls');</script>
 <?php
 		}
-	}
 
 include('scripts/results.php');
 include('scripts/redirect.php');

@@ -58,7 +58,7 @@ print '('.$Student['RegistrationGroup']['value'].')';
 	  <div class="left">
 <?php 
 				
-	if(($CFG->emailguardiancomments=='yes' or $CFG->emailguardiancomments=='epf') and $perm['x']==1){
+if($CFG->emailguardiancomments=='yes' or ($CFG->emailguardiancomments=='epf' and $perm['x']==1)){
 		$checkname='guardianemail';$checkcaption=get_string('sharewithguardian',$book);
 		$checkalert=get_string('sharecommentalert',$book);
 		include('scripts/check_yesno.php');

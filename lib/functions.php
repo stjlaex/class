@@ -1341,7 +1341,8 @@ function array_filter_fields($startarray,$fields){
  * @return boolean|string Returns "true" if mail was sent OK, "emailstop" if email
  *          was blocked by user and "false" if there was another sort of error.
  */
-function send_email_to($recipient, $from, $subject, $messagetext, $messagehtml='', $attachments='', $usetrueaddress=true, $replyto='', $replytoname='',$dbc=''){
+function send_email_to($recipient, $from, $subject, $messagetext, $messagehtml='', $attachments='', $usetrueaddress=true, 
+					   $replyto='', $replytoname='', $dbc='', $mailtable=''){
 
     global $CFG;
 	$success=false;
@@ -1456,8 +1457,11 @@ function send_email_to($recipient, $from, $subject, $messagetext, $messagehtml='
 		require_once 'Mail/mime.php';
 
 		$db_options['type']='db';
-		$db_options['dsn']=db_connect(false);
-		$db_options['mail_table']='message_event';
+		if($dbc==''){$db_options['dsn']=db_connect(false);}
+		else{$db_options['dsn']=$dbc;}
+
+		if($mailtable==''){$db_options['mail_table']='message_event';}
+		else{$db_options['mail_table']=$mailtable;}
 
 		$mail_options['driver']='smtp';
 		$mail_options['host']=$CFG->smtphosts;

@@ -85,10 +85,6 @@ include('scripts/sub_action.php');
 	if($id!='' and $guardianemail=='yes' and $CFG->emailguardiancomments=='epf' ){
 		require_once($CFG->dirroot.'/lib/eportfolio_functions.php');
 
-			//$Contacts=(array)fetchContacts_emails($sid);
-			//$footer='--'. "\r\n" .get_string('guardianemailfooterdisclaimer');
-			//$fromaddress=$CFG->schoolname;
-
 		$epfu=$Student['EPFUsername']['value'];
 		$title='Subject: ' .display_subjectname($bid);
 		$message='<p>'.$detail.'</p>';
@@ -98,6 +94,7 @@ include('scripts/sub_action.php');
 	   		elgg_new_comment($epfu,$entrydate,$message,$title,$tid);
    			$result[]='Shared with parents.';
 			}
+
 		}
 
 include('scripts/results.php');	

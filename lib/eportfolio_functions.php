@@ -720,13 +720,32 @@ function elgg_new_comment($epfu,$dateset,$message,$title,$tid){
 			   	posted='$posted',title='$title',body='$message',access='$access';");
 		$epfuidpost=mysql_insert_id();
 
-		/* Update the watchlist*/
 		$table=$CFG->eportfolio_db_prefix.'friends';
 		$d_f=mysql_query("SELECT owner FROM $table WHERE friend='$epfuid';");
 		while($friend=mysql_fetch_array($d_f,MYSQL_ASSOC)){
 			$epfuidmember=$friend['owner'];
+			/* Update the watchlist for this parent. */
 			$table=$CFG->eportfolio_db_prefix.'weblog_comment';
 			mysql_query("INSERT INTO $table SET owner='$epfuidmember',weblog_post='$epfuidpost';");
+
+			/* Notify the parent by email. */
+			$table=$CFG->eportfolio_db_prefix.'users';
+			$d_u=mysql_query("SELECT name FROM $table WHERE ident='$epfuid';");
+			$studentname=mysql_result($d_u,0);
+			$d_u=mysql_query("SELECT email FROM $table WHERE ident='$epfuidmember';");
+			$emailaddress=trim(mysql_result($d_u,0));
+			//$emailaddress='stj@laex.org';
+			if($emailaddress!=''){
+				$title=get_string('epfcommenttitle','infobook').' '.$CFG->schoolname;
+				$message=get_string('epfcommentemail','infobook',$studentname).' '.$CFG->eportfoliosite;
+				$footer="\r\n" ."\r\n" .'--'. "\r\n" .get_string('guardianemailfooterdisclaimer');
+				$message.="\r\n". $footer;
+				$fromaddress=$CFG->schoolname;
+				$emailaddress=strtolower($emailaddress);
+				$dbn=db_connect(false,$CFG->eportfolio_db);
+				$table=$CFG->eportfolio_db_prefix.'message_event';
+				send_email_to($emailaddress,$fromaddress,$title,$message,'','',true,'','',$dbn,$table);
+				}
 			}
 
 		}

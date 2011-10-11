@@ -77,7 +77,7 @@ function clean_getstring_data( $a ){
             $new_a_vars[$fname] = clean_getstring_data( $a_var );
         }
         return (object)$new_a_vars;
-    } 
+    }
     else {
         return $a;
     }

@@ -1,4 +1,4 @@
-Version ClaSS-1.0.8 release (2011/10/10)
+Version ClaSS-1.0.8 release (2011/10/12)
 -------------------------------------------
 
 Option to BCC email messages to parents with student tutors.
@@ -11,6 +11,10 @@ Added prefererred forename MarkBook export.
 
 Exposed the otherpn1 and 2 fields in fetchStudent.
 
+Allowed MarkBook export to work without a selected column.
+
+Added a notification message sent out through the eportfolio for
+shared comments.
 
 
 Version ClaSS-1.0.7 release (2011/10/06)
