@@ -131,10 +131,10 @@ else{
 				OR info.$field='$value' ORDER BY student.surname, student.forename");
 				}
 			elseif($table=='guardian'){
+				trigger_error($table.' '.$field.' '.$value,E_USER_WARNING);
 				$d_sids=mysql_query("SELECT id FROM $table WHERE 
-				MATCH ($field) AGAINST ('*$value*' IN BOOLEAN MODE) 
-				OR $field LIKE '%$value%' OR $field='$value'  
-				ORDER BY surname, forename");
+						$field LIKE '%$value%' OR $field='$value'  
+						ORDER BY surname, forename");
 				}
 			}
 		}

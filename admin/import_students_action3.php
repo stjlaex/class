@@ -179,7 +179,7 @@ elseif($sub=='Submit'){
 			}
 		elseif($student[$upn_field_no]){
 			$existingid=$student[$upn_field_no];
-			$d_s=mysql_query("SELECT student_id FROM info WHERE upn='$existingid' AND formerupn!='';");
+			$d_s=mysql_query("SELECT student_id FROM info WHERE upn='$existingid' AND upn!='';");
 			}
 		elseif($student[$sid_field_no]){
 			$existingid=$student[$sid_field_no];
@@ -277,21 +277,30 @@ elseif($sub=='Submit'){
 				$title=$student[${$gfields}['title']];
 				if(isset($student[${$gfields}['email']])){$email=$student[${$gfields}['email']];}
 
-				/* Check if there is already an entry for this
+				/*
+				 * Check if there is already an entry for this
 				 * guardian and prefer to use email as an identifier
-				 * because this is much more likely unique - if it changes though!
+				 * because this is much more likely unique - if it
+				 * changes though have to falbkac on next method
 				 */
 				if(isset($email) and $email!=''){
 					$d_g=mysql_query("SELECT id FROM guardian WHERE surname='$surname' AND email='$email';");
 					}
-				elseif($surname!='' and $forename!=''){
-					$d_g=mysql_query("SELECT id FROM guardian WHERE
-					surname='$surname' AND forename='$forename' 
-					AND middlenames='$middlenames' AND title='$title';");
+				/*
+				 * Alternative search using guardian's surname and forename and
+				 * also restricting to guardians already linked to this
+				 * student (as names much less unique!)
+				 */
+				if((!isset($d_g) or mysql_num_rows($d_g)==0) and $surname!='' and $forename!=''){
+					$d_g=mysql_query("SELECT id FROM guardian JOIN gidsid ON gidsid.guardian_id=guardian.id WHERE
+										gidsid.student_id='$new_sid' AND surname='$surname' AND forename='$forename' 
+										AND middlenames='$middlenames' AND title='$title';");
 					}
 
-				/*this is not fool-proof need to offer user check to*/
-				/*avoid wrong matches*/
+				/*
+				 * TODO: Neither of the above is fool-proof so perhaps
+				 * need to offer user check to avoid wrong matches
+				 */
 
 				if(!isset($d_g) or mysql_num_rows($d_g)==0){
 					mysql_query("INSERT INTO guardian SET 
@@ -303,7 +312,7 @@ elseif($sub=='Submit'){
 					}
 				if(isset($d_g)){unset($d_g);}
 
-				/*input to guardian table*/
+				/* Input all fields for the guardian table */
 				reset(${$gfields});
 				unset($priority);unset($relationship);unset($mailing);
 				while(list($field_name, $field_no)=each(${$gfields})){
@@ -334,7 +343,7 @@ elseif($sub=='Submit'){
 						student_id='$new_sid', priority='$priority',
 						mailing='$mailing', relationship='$relationship';");
 
-				/*input to address table: check some meaningful fields are completed*/ 
+				/* Input to address table: check some meaningful fields are completed. */ 
 				$ok=0;
 				if(isset(${$gname.'a'})){
 					if(${$gaddress}['postcode']!=-1 and $student[${$gaddress}['street']]!=''){
@@ -358,8 +367,11 @@ elseif($sub=='Submit'){
 					mysql_query("INSERT INTO gidaid SET 
 										guardian_id='$new_gid', address_id='$new_aid';");
 					*/
-					/*check if there is already an entry for this address
-					TODO: If this is wanted then it should be an option but probably not a good idea at all
+
+					/* Check if there is already an entry for this
+					 * address TODO: If this is wanted then it should
+					 * be an option but probably not a good idea at
+					 * all
 					*/
 					$d_aid=mysql_query("SELECT id FROM address WHERE street='$street' AND postcode='$postcode';");
 					if(mysql_num_rows($d_aid)==0){
@@ -392,7 +404,10 @@ elseif($sub=='Submit'){
 						}
 					}
 	
-				/*input to phone table*/	
+				/* 
+				 * Input to phone table - checking first if number
+				 * already exists and ignore if it does 
+				 */	
 				if(isset(${$gname.'p'})){
 					reset(${$gphone});
 					while(list($field_name,$field_no)=each(${$gphone})){
@@ -417,11 +432,13 @@ elseif($sub=='Submit'){
 							}
 						}
 					}
-				/*finished with guardians*/	
+				/* Finished with guardians */	
 				}
 			}
 
-		/*read the newly input student to check okay*/
+		/* 
+		 * Read back the newly affected students as a confirmation
+		 */
 		$d_student=mysql_query("SELECT * FROM student WHERE id='$new_sid'");
 		$d_info=mysql_query("SELECT * FROM info WHERE student_id='$new_sid'");
 		$student=mysql_fetch_array($d_student,MYSQL_ASSOC);
@@ -431,7 +448,7 @@ elseif($sub=='Submit'){
 				'.$student['yeargroup_id'].' '.$student['dob'];
 		}
 		}
-	$result[]=get_string('studentsaddedtodatabase',$book);
+	//$result[]=get_string('studentsaddedtodatabase',$book);
 	include('scripts/results.php');
 	}
 ?>

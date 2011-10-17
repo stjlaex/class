@@ -28,6 +28,15 @@ three_buttonmenu();
 		<?php $required='no'; unset($todate); include('scripts/jsdate-form.php'); ?>
 	  </fieldset>
 
+	  <fieldset class="left">
+		<legend><?php print_string('sanction');?></legend>
+<?php 
+		$listlabel='sanction'; $required='no';
+		$listid='sanction';$cattype='inc';
+		include('scripts/list_category.php');
+?>
+	  </fieldset>
+
 	  <fieldset class="right" >
 		<legend><?php print_string('limittoonesubject');?></legend>
 <?php
