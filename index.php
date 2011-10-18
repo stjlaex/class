@@ -50,7 +50,7 @@ print '<?xml version="1.0" encoding="utf-8"?'.'>';
 <meta name="license" content="GNU Affero General Public License version 3" />
 <link href="css/hoststyle.css" rel="stylesheet" type="text/css" />
 <link href="css/selery.css" rel="stylesheet" type="text/css" />
-<script language="JavaScript" type="text/javascript" src="js/hostfunctions.js?version=943"></script>
+<script language="JavaScript" type="text/javascript" src="js/hostfunctions.js?version=108"></script>
 </head>
 <body onload="loadLogin('cover');">
 

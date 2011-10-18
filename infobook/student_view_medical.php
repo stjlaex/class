@@ -53,7 +53,7 @@ else{
 				</tr>
 				<tr>
 				  <td colspan="2">
-				  <textarea id="Detail" 
+				  <textarea disabled="disabled" id="Detail" 
 				  wrap="on" rows="5" tabindex="<?php print $tab++;?>"
 				  name="<?php print $Note['Detail']['field_db'].$index;?>" 
 				  ><?php print $Note['Detail']['value'];?></textarea>

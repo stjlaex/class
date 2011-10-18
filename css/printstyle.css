@@ -18,6 +18,9 @@ table {
 th, td 	{
 	border:1pt solid #999999;
 	}
+th select {
+	width:80% !important;
+	}
 select, button, input {
 	border:0;
 	}

@@ -219,6 +219,10 @@ function printGenericContent(iFrameName){
 		for(c=0;c<alinks.length;c++){
 			alinks[c].setAttribute("onclick","return false");
 			}
+		var alinks = contentDiv.getElementsByTagName("select");
+		for(c=0;c<alinks.length;c++){
+			alinks[c].setAttribute("disabled","disabled");
+			}
 
 		contentToPrint=contentToPrint + contentDiv.innerHTML;
 		}

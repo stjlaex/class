@@ -131,7 +131,7 @@ two_buttonmenu($extrabuttons,$book);
 <?php
 	if(isset($tutor_users)){
 ?>
-		<th rowspan="2">
+		<th rowspan="2"  style="width:30%;">
 		<label><?php print_string('formgroup'); ?></label>
 		<?php print $fid.' &nbsp;&nbsp;';?>
 		<?php 
@@ -145,12 +145,12 @@ two_buttonmenu($extrabuttons,$book);
 		}
 	elseif(isset($title) and $title!=''){
 ?>
-		<th rowspan="2"><label><?php print $title; ?></label></th>
+		<th rowspan="2"   style="width:30%;"><label><?php print $title; ?></label></th>
 <?php
 		}
 	else{
 ?>
-		<th rowspan="2">
+		<th rowspan="2" style="width:30%;">
 		  <?php print_string('student'); ?>
 		</th>
 <?php

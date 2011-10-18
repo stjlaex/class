@@ -1,4 +1,4 @@
-Version ClaSS-1.0.8 release (2011/10/17)
+Version ClaSS-1.0.8 release (2011/10/18)
 -------------------------------------------
 
 Option to BCC email messages to parents with student tutors.
@@ -25,6 +25,9 @@ Re-wroked reporting incidents to display full table of details with
 sorting.
 
 Allow filter by sanction and for reproting incidents.
+
+Disabled select options in generic print function.
+
 
 
 Version ClaSS-1.0.7 release (2011/10/06)
