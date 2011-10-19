@@ -4,6 +4,7 @@
 	}
 div#bookbox{
 	border-color:#44aaaa;
+    overflow:auto;
 	}
 div.content{ 
 	position:relative; 
@@ -39,7 +40,6 @@ textarea#Comment {
   	font-weight:300; 
     font-size:12pt; 
 	text-align:left;
-    overflow:scroll;
 	}
 /* All the rest is for the spell_checker */
 .status { 

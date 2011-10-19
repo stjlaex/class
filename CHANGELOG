@@ -1,4 +1,17 @@
-Version ClaSS-1.0.8 release (2011/10/18)
+Version ClaSS-1.0.8 release (2011/10/24)
+-------------------------------------------
+
+Used js to disable select options in generic print function.
+
+Improved column display for student list when printing from InfoBook.
+
+Removed the filter for em and en dashes in clean_text to avoid
+corruption of Chinese chars.
+
+Added form group as an explanation option line on labels.
+
+
+Version ClaSS-1.0.8 release (2011/10/17)
 -------------------------------------------
 
 Option to BCC email messages to parents with student tutors.
@@ -25,9 +38,6 @@ Re-wroked reporting incidents to display full table of details with
 sorting.
 
 Allow filter by sanction and for reproting incidents.
-
-Disabled select options in generic print function.
-
 
 
 Version ClaSS-1.0.7 release (2011/10/06)

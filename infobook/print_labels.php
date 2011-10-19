@@ -58,6 +58,7 @@ $blank_gids=array();
 			$Recipient=array();
 			$Recipient['StudentName']=$Student['DisplayFullName'];
 			$Recipient['StudentNumber']=$Student['EnrolNumber'];
+			$Recipient['StudentRegistrationGroup']=$Student['RegistrationGroup'];
 			if($Contact['ReceivesMailing']['value']=='1'){
 				/* Only contacts who are flagged to receive all mailings */
 				if(sizeof($Contact['Addresses'])>0 and ($Contact['Addresses'][0]['Street']['value']!='' or $Contact['Addresses'][0]['Neighbourhood']['value']!='')){
@@ -219,29 +220,39 @@ two_buttonmenu($extrabuttons,$book);
 		  <br />
 		  <br />
 		  <div class="row left">
-			<label for="contacts"><?php print_string('enrolmentnumber',$book);?></label>
-			<input type="radio" name="explanation"
-				   title="" id="enrolmentno" tabindex="<?php print $tab++;?>" 
-			value="enrolmentno" <?php if($explanation=='enrolmentno'){print 'checked';}?> />
-		  </div>
-		  <div class="row left">
-			<label for="students"><?php print get_string('student',$book).' '.get_string('name',$book);?></label>
-			<input type="radio" name="explanation"
-				   title="" id="studentname" tabindex="<?php print $tab++;?>" 
-			value="studentname" <?php if($explanation=='studentname'){print 'checked';}?> />
-		  </div>
-
-		  <div class="row left">
 			<label for="blank"><?php print_string('none','infobook');?></label>
 			<input type="radio" name="explanation"
 				   title="" id="blank" tabindex="<?php print $tab++;?>" 
-			value="blank" <?php if($explanation=='blank'){print 'checked';}?> />
+				   value="blank" <?php if($explanation=='blank'){print 'checked';}?> />
 		  </div>
+
+		  <div class="row right">
+			<label for="formgroup"><?php print_string('formgroup',$book);?></label>
+			<input type="radio" name="explanation"
+				   title="" id="formgroup" tabindex="<?php print $tab++;?>" 
+				   value="form" <?php if($explanation=='form'){print 'checked';}?> />
+		  </div>
+
+		  <div class="row left">
+			<label for="enrolmentno"><?php print_string('enrolmentnumber',$book);?></label>
+			<input type="radio" name="explanation"
+				   title="" id="enrolmentno" tabindex="<?php print $tab++;?>" 
+				   value="enrolmentno" <?php if($explanation=='enrolmentno'){print 'checked';}?> />
+		  </div>
+
+		  <div class="row right">
+			<label for="studentname"><?php print get_string('student',$book).' '.get_string('name',$book);?></label>
+			<input type="radio" name="explanation"
+				   title="" id="studentname" tabindex="<?php print $tab++;?>" 
+				   value="studentname" <?php if($explanation=='studentname'){print 'checked';}?> />
+		  </div>
+
+		</div>
+
 		</div>
 	  </div>
 
 
-	  </div>
 
 	  <input type="hidden" name="groupsearch" value="no" />
 	  <input type="hidden" name="messageto" value="<?php print $messageto;?>" />

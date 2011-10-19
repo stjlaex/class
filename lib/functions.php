@@ -172,9 +172,10 @@ function clean_text($value,$in=true){
 	//else{trigger_error('NO MAGIC!!',E_USER_WARNING);}
 
 	/*replaces all MS Word smart quotes, EM dashes and EN dashes*/
-	$search=array(chr(145),chr(146),chr(147),chr(148),chr(150),chr(151));
-	$replace=array("'","'",'"','"','-','-');
-	$value=str_replace($search,$replace,$value);
+	/* TODO: had to remove because they take out chinese characters!!! */
+	//$search=array(chr(145),chr(146),chr(147),chr(148),chr(150),chr(151));
+	//$replace=array("'","'",'"','"','-','-');
+	//$value=str_replace($search,$replace,$value);
 
 	/*blanks possible dodgy sql injection attempt*/
 	$search=array('SELECT ','INSERT ','DELETE ','DROP ');

@@ -9,8 +9,8 @@ function openFileExport(ftype){
 	printWindow.document.writeln("</head>");
 	printWindow.document.writeln("<script type='text/javascript'>function actionpage(){document.location='scripts/export.php?ftype="+ftype+"'}</script>");
 	printWindow.document.writeln("<body onLoad=\"setTimeout('actionpage()', 5000);\">");
-+	printWindow.document.writeln("<h3>The file will download shortly.<h2>");
-+	printWindow.document.writeln("<h4>Open using your favourite Spreadsheet.<h4>");
+	printWindow.document.writeln("<h3>The file will download shortly.<h2>");
+	printWindow.document.writeln("<h4>Open using your favourite Spreadsheet.<h4>");
 	printWindow.document.writeln("<form><input type='button' value='Close This Window' onClick='window.close();' /></form>");
 	printWindow.document.writeln("</body>");
 	printWindow.document.writeln("</html>");
