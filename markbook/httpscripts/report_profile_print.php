@@ -27,6 +27,7 @@ if(isset($_GET['year'])){$curryear=$_GET['year'];}else{$curryear='';}
 if(isset($_POST['year'])){$curryear=$_POST['year'];}
 if(isset($_GET['name'])){$profilename=$_GET['name'];}
 if(isset($_POST['name'])){$profilename=$_POST['name'];}
+if(isset($_GET['description'])){$description=$_GET['description'];}
 
 if(sizeof($sids)==0){
 	$result[]=get_string('youneedtoselectstudents');
@@ -77,7 +78,6 @@ else{
 
 	/* TODO: make this a property of the profile */
 	if($profile['transform']!='tracking_grid'){
-		$bid='%';
 		$pid='%';
 		}
 	else{
@@ -149,7 +149,10 @@ else{
 	$Students['Subject']['value']=get_subjectname($bid);
 	$Students['Component']['value_db']=$pid;
 	$Students['Component']['value']=get_subjectname($pid);
-	if($classes!=''){
+	if(isset($description)){
+		$Students['Description']['value']=$description;
+		}
+	elseif($classes!=''){
 		$Students['Description']['value']=$classes;
 		}
 	else{

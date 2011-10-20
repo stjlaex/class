@@ -101,6 +101,7 @@ else{
 	if(is_array($Entries)){
 	while(list($key,$entry)=each($Entries)){
 		$restricted=false;
+		trigger_error($key,E_USER_WARNING);
 		if($tagname=='Background' and $entry['Categories']['Category'][0]['rating']['value']<0){$restricted=true;}
 
 		if($restricted and $aperm!=1 and $entry['Teacher']['username']!=$tid){

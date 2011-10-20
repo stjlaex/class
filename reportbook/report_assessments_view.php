@@ -19,11 +19,11 @@ if(isset($_POST['year'])){$year=$_POST['year'];}
 if(isset($_POST['stage'])){$stage=$_POST['stage'];}
 if(isset($_POST['yid'])){$yid=$_POST['yid'];}else{$yid='';}
 if(isset($_POST['comid'])){$comid=$_POST['comid'];}else{$comid='';}
-if(isset($_POST['cid'])){$cid=$_POST['cid'];}else{$cid='';}
 if(isset($_POST['gender'])){$gender=$_POST['gender'];}else{$gender='';}
 if(isset($_POST['profid'])){$profid=$_POST['profid'];}
-if(isset($_POST['bids'])){$selbids=(array)$_POST['bids'];}
+if(isset($_POST['limitbid'])){$limitbid=$_POST['limitbid'];}
 if(isset($_POST['eids'])){$eids=(array)$_POST['eids'];}else{$eids=array();}
+if(isset($_POST['cids'])){$cids=(array)$_POST['cids'];}else{$cids=array();}
 
 include('scripts/sub_action.php');
 
@@ -36,16 +36,22 @@ $extrabuttons['previewselected']=array('name'=>'print',
 two_buttonmenu($extrabuttons,$book);
 
 $students=array();
+$description='';
 
-	if($comid!=''){
+	if(sizeof($cids)>0){
+		foreach($cids as $cid){
+			$description.=$cid.' ';
+			$students=array_merge($students,listin_class($cid));
+			}
+		}
+	elseif($comid!=''){
 		$com=get_community($comid);
+		$description=$com['name'];
 		$students=listin_community(array('id'=>$comid));
 		}
 	elseif($yid!=''){
+		$description=get_yeargroupname($yid);
 		$students=listin_community(array('id'=>'','type'=>'year','name'=>$yid));
-		}
-	elseif($cid!=''){
-		$students=listin_class($cid);
 		}
 	else{
 		if($rcrid=='%'){
@@ -78,28 +84,31 @@ $students=array();
 		}
 
 
-	if(!isset($selbids)){
 		/*all subjects selected so fetch bids for each crid*/
 		/*the assessments may be across multiple crids to make even harder!*/
 		foreach($asscrids as $asscrid){
 			$subjects=(array)list_course_subjects($asscrid);
 			foreach($subjects as $subject){
-				$bid=$subject['id'];
-				$assbids[$bid]=$bid;
-				$compstatus='%';
-				$comps=list_subject_components($bid,$asscrid,$compstatus);
-				foreach($comps as $comp){
-					$assbids[$bid.$comp['id']]=$bid . $comp['id'];
-					$strands=list_subject_components($comp['id'],$asscrid);
-					foreach($strands as $strand){
-						$assbids[$bid.$strand['id']]=$bid . $strand['id'];
+				trigger_error($limitbid,E_USER_WARNING);
+				if(!isset($limitbid) or $limitbid=='' or $limitbid=='%' or $subject['id']==$limitbid){
+					$bid=$subject['id'];
+					$assbids[$bid]=$bid;
+					$compstatus='%';
+					$comps=list_subject_components($bid,$asscrid,$compstatus);
+					foreach($comps as $comp){
+						$assbids[$bid.$comp['id']]=$bid . $comp['id'];
+						$strands=list_subject_components($comp['id'],$asscrid);
+						foreach($strands as $strand){
+							$assbids[$bid.$strand['id']]=$bid . $strand['id'];
+							}
 						}
 					}
 				}
 			}
-		}
-	else{
+
 		/*selbids can only be returned when rcrid is set so easier!*/
+/*
+	else{
 		if($selbids[0]=='%'){
 			$selbids=array();
 			$subjects=list_course_subjects($rcrid);
@@ -122,6 +131,7 @@ $students=array();
 			}
 
 		}
+*/
 
 /****************/
 
@@ -298,12 +308,10 @@ $d_catdef=mysql_query("SELECT DISTINCT comment AS id, CONCAT(name,': ',comment) 
 			<input type="hidden" name="comid" value="<?php print $comid;?>" />
 <?php	} ?>
 <?php 
-	if(isset($selbids)){
-		foreach($selbids as $bid){
+	if(isset($limitbid)){
 ?>
-			<input type="hidden" name="bids[]" value="<?php print $bid;?>" />
+			<input type="hidden" name="limitbid" value="<?php print $limitbid;?>" />
 <?php
-			}
 		}
 	foreach($eids as $eid){
 ?>
@@ -335,8 +343,15 @@ $profile['year']=$year;
 if($profile['crid']=='FS'){
 	$profile['bid']='EY';
 	}
+if(isset($limitbid)){
+	$profile['bid']=$limitbid;
+	}
+else{
+	$profile['bid']='%';
+	}
 $profile['stage']=$stage;
 $profile['pid']='';
+$profile['description']=$description;
 //$profile['stage']='R';
 /* selectname needed for js to capture the template field */
 $profile['selectname']='template';

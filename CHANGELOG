@@ -1,4 +1,4 @@
-Version ClaSS-1.0.8 release (2011/10/24)
+Version ClaSS-1.0.9 release (2011/10/24)
 -------------------------------------------
 
 Used js to disable select options in generic print function.
@@ -8,7 +8,16 @@ Improved column display for student list when printing from InfoBook.
 Removed the filter for em and en dashes in clean_text to avoid
 corruption of Chinese chars.
 
-Added form group as an explanation option line on labels.
+Added form group as an optional explanation line on labels.
+
+Date of first application added to the InfoBook list fields.
+
+A description line added to printing assessment profile sheets.
+
+Allow limiting students by a choice of subject classes in report
+assessments and limit the assessments to a single subject.
+
+
 
 
 Version ClaSS-1.0.8 release (2011/10/17)

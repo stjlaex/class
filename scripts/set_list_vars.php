@@ -18,7 +18,7 @@
  * selectedvalue!='' if a value is preselected
  */
 $listoptions=array();
-if(isset($multi) and $multi>1){$listoptions['multi']=$multi;$listname.='s';unset($multi);}else{$listoptions['multi']=1;}
+if(isset($multi) and $multi>1){$listoptions['multi']=$multi;$listname.='s';}else{$listoptions['multi']=1;}
 $listoptions['name']=$listname;
 if(isset($required)){$listoptions['required']=$required;unset($required);}else{$listoptions['required']='no';}
 if(isset($onsidechange)){$listoptions['onsidechange']=$onsidechange;unset($onsidechange);}else{$listoptions['onsidechange']='no';}
@@ -41,7 +41,7 @@ else{
 	}
 if($listoptions['required']=='eitheror'){$listoptions['eitheror']=$listeitheror;unset($listeitheror);}
 if(isset($listid)){$listoptions['id']=ucfirst($listid);unset($listid);}else{$listoptions['id']=ucfirst($listname).$listoptions['i'];}
-$listoptions['selectedvalue']='';
+if(isset($multi) and $multi>1){$listoptions['selectedvalue']=array();unset($multi);}else{$listoptions['selectedvalue']='';}
 if(isset(${'sel'.$listname})){$listoptions['selectedvalue']=${'sel'.$listname};}
 if(isset(${$listname})){$listoptions['selectedvalue']=${$listname};}
 if(isset(${'new'.$listname})){$listoptions['selectedvalue']=${'new'.$listname};}

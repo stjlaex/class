@@ -10,25 +10,22 @@ if(isset($_POST['yid'])){$yid=$_POST['yid'];}
 if(isset($_POST['profid'])){$profid=$_POST['profid'];}else{$profid='%';}
 if(isset($_POST['gender'])){$gender=$_POST['gender'];}else{$gender='';}
 if(isset($_POST['comid']) and $_POST['comid']!=''){$comid=$_POST['comid'];}else{$comid='';}
+if(isset($_POST['limitbid'])){$limitbid=$_POST['limitbid'];}
 if(isset($_POST['year'])){$year=$_POST['year'];}
 if(isset($_POST['stage'])){$stage=$_POST['stage'];}
-if(isset($_POST['cid'])){$cid=$_POST['cid'];}
 if(isset($_POST['gender'])){$gender=$_POST['gender'];}
 if(isset($_POST['eids'])){$eids=(array)$_POST['eids'];}else{$eids=array();}
+if(isset($_POST['cids'])){$cids=(array)$_POST['cids'];}else{$cids=array();}
 
-if($comid!=''){
+if($yid!=''){
+	$cohorts=list_community_cohorts(array('id'=>'','type'=>'year','name'=>$yid));
+	}
+elseif($comid!=''){
 	$com=(array)get_community($comid);
 	if($com['type']=='form'){$formid=$comid;}
 	elseif($com['type']=='house'){$houseid=$comid;}
 	$cohorts=list_community_cohorts($com);
 	}
-elseif($yid!=''){
-	$cohorts=list_community_cohorts(array('id'=>'','type'=>'year','name'=>$yid));
-	}
-if(isset($cohorts)){
-	$rcrid=$cohorts[1]['course_id'];$onchange='';$required='yes';
-	}
-
 
 three_buttonmenu();
 ?>
@@ -41,25 +38,10 @@ three_buttonmenu();
 		<?php $onchange='yes'; $required='no'; include('scripts/'.$listgroup);?>
 	  </fieldset>
 
+<?php
 
-<?php
-		if($r>-1){
-?>
-	  <fieldset class="right">
-		<legend><?php print_string('limitbysubject',$book);?></legend>
-		<div class="left" >
-<?php
-			$classes=(array)list_course_classes($rcrid);
-			$listname='cid';$listlabel='class';$required='no';
-			include('scripts/set_list_vars.php');
-			list_select_list($classes,$listoptions,$book);
-?>
-		</div>
-	  </fieldset>
+if($r>-1 or isset($cohorts)){
 
-<?php
-			}
-		if($r>-1 or isset($cohorts)){
 ?>
 
 	  <fieldset class="left">
@@ -69,25 +51,54 @@ three_buttonmenu();
 	$listname='gender';$listlabel='gender';$required='no';
 	include('scripts/set_list_vars.php');
 	list_select_enum('gender',$listoptions,$book);
+	unset($listoptions);
 ?>
 		</div>
 	  </fieldset>
 
+
+	  <fieldset class="right">
+		<legend><?php print_string('choosetoinclude',$book);?></legend>
+		<div class="left" >
+<?php
+	$classes=array();
+	foreach($cohorts as $cohort){
+		$classes=array_merge($classes,list_course_classes($cohort['course_id']));
+		}
+	$listname='cid';$listlabel='classes';$required='no';$multi=5;
+	include('scripts/set_list_vars.php');
+	list_select_list($classes,$listoptions,$book);
+	unset($listoptions);
+?>
+		</div>
+	  </fieldset>
+
+
 	  <fieldset class="center">
 		<legend><?php print_string('assessments',$book);?></legend>
-		<div class="right">
+		<div class="left">
 <?php 
+
 	$profiles=array();
-	if(isset($cohorts)){
-		foreach($cohorts as $cohort){
-			$profiles=array_merge($profiles,list_assessment_profiles($cohort['course_id']));
-			}
-		}
-	else{
-		$profiles=(array)list_assessment_profiles($rcrid);
+	foreach($cohorts as $cohort){
+		$profiles=array_merge($profiles,list_assessment_profiles($cohort['course_id']));
 		}
 	$onchange='yes';$required='no';
 	include('scripts/list_assessment_profile.php');
+?>
+		</div>
+
+		<div class="right">
+<?php 
+
+	$subjects=array();
+	foreach($cohorts as $cohort){
+		$subjects=array_merge($subjects,list_course_subjects($cohort['course_id']));
+		}
+	$listname='limitbid';$listlabel='subject';$required='no';$multi=1;
+	include('scripts/set_list_vars.php');
+	list_select_list($subjects,$listoptions,$book);
+	unset($listoptions);
 ?>
 		</div>
 
@@ -106,7 +117,7 @@ three_buttonmenu();
 
 
 <?php
-		}
+			}
 ?>
 
 	  <input type="hidden" name="cancel" value="<?php print '';?>" />
