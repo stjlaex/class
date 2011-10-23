@@ -195,7 +195,7 @@ function elgg_newUser($User,$role){
 			mysql_query("INSERT INTO $table (username, password, name, 
 					email, active, user_type,icon,template_id,template_name) VALUES 
 					('$epfusername', '$assword0', '$name',
-					'$email', '$active','$epfusertype','$epftemplate',
+					'$email', '$active','$epfusertype','-$epftemplate',
 					'$epftemplate','$epftemplate_name');");
 			$epfuid=mysql_insert_id();
 			}
@@ -314,13 +314,13 @@ function elgg_update_community($community,$communityfresh=array('type'=>'','name
 				}
 			else{
 				$epftemplate_name='Default_Template';
-				$epftemplate=-1;
+				$epftemplate=1;
 				}
 			mysql_query("INSERT INTO $table (username, name, 
 				    active, moderation, owner,
 					user_type,icon,icon_quota, template_id,template_name) 
 					VALUES ('$epfusername', '$epffullname',
-					'yes', 'yes', '1', 'community','$epftemplate','1',
+					'yes', 'yes', '1', 'community','-$epftemplate','1',
 					'$epftemplate','$epftemplate_name')");
 			$comid=mysql_insert_id();
 			}
@@ -574,10 +574,6 @@ function elgg_list_files($epfun,$filetype,$dbc=false){
 		mysql_query("SET NAMES 'utf8'");
 		}
 
-	//$d_u=mysql_query("SELECT filename FROM $iconstable i JOIN
-	//	   		$userstable u ON u.icon=i.ident	WHERE u.username='$owner';");
-	//$filepath=$CFG->eportfolio_dataroot.'/icons/'.$owner[0].'/'.$owner.'/'.$filename;
-
 	$epfuid=elgg_get_epfuid($epfun,'person');
 
 	if($filetype=='icon'){
@@ -756,30 +752,6 @@ function elgg_new_comment($epfu,$dateset,$message,$title,$tid){
 	}
 
 
-/**
- *  Temporary stuff to set a student's icon photo to their school year
- *  photo. The icon file has a standard name of eg. y9.jpg
- *
- */
-function elgg_set_student_photo($epfuid,$yid,$dbc=true){
-	global $CFG;
-	$table_users=$CFG->eportfolio_db_prefix.'users';
-	$table_icons=$CFG->eportfolio_db_prefix.'icons';
-
-	if($CFG->eportfolio_db!='' and $dbc==true){
-		$dbepf=db_connect(true,$CFG->eportfolio_db);
-		mysql_query("SET NAMES 'utf8'");
-		}
-
-	mysql_query("INSERT INTO $table_icons SET owner='$epfuid',
-				filename='y$yid.jpg', description='Year $yid - October 2007';"); 
-	mysql_query("UPDATE $table_users SET icon=LAST_INSERT_ID() WHERE ident='$epfuid';");
-
-	if($dbc==true){
-		$db=db_connect();
-		mysql_query("SET NAMES 'utf8'");
-		}
-	}
 
 /**
  *
@@ -803,6 +775,8 @@ function elgg_upload_files($filedata,$dbc=true){
 
 	$table_folders=$CFG->eportfolio_db_prefix.'file_folders';
 	$table_files=$CFG->eportfolio_db_prefix.'files';
+	$table_users=$CFG->eportfolio_db_prefix.'users';
+	$table_icons=$CFG->eportfolio_db_prefix.'icons';
 	if($CFG->eportfolio_db!='' and $dbc==true){
 		$dbepf=db_connect(true,$CFG->eportfolio_db);
 		mysql_query("SET NAMES 'utf8'");
@@ -820,18 +794,25 @@ function elgg_upload_files($filedata,$dbc=true){
 	 */
 	if($filedata['foldertype']=='report'){
 		$folder_name='Reports';
+		$dir_name='files';
 		}
 	elseif($filedata['foldertype']=='work'){
 		$folder_name='Portfolio Work';
+		$dir_name='files';
+		}
+	elseif($filedata['foldertype']=='icon'){
+		$folder_name='root';
+		$dir_name='icons';
 		}
 	else{
 		/* Just defaults to their parent folder. */
 		$folder_name='root';
+		$dir_name='files';
 		$folder_id=-1;
 		}
 
 	$batchfiles=$filedata['batchfiles'];
-	while(list($index,$batchfile)=each($batchfiles)){
+	foreach($batchfiles as $batchfile){
 		$epfusername=$batchfile['epfusername'];
 		$file_name=$batchfile['filename'];
 		$epfuid=elgg_get_epfuid($epfusername,'person');
@@ -845,7 +826,7 @@ function elgg_upload_files($filedata,$dbc=true){
 			$folder_id=elgg_new_folder($epfuid,$folder_name,'group'.$epfgroupid,false);
 			}
 
-		$dir='files/' . substr($epfusername,0,1) . '/' . $epfusername; 
+		$dir=$dir_name . '/' . substr($epfusername,0,1) . '/' . $epfusername; 
 		/* Create the physical folder if it doesn't exist. */
 		if(!make_portfolio_directory($dir)){
 			trigger_error('Could not create eportfolio directory: '.$dir,E_USER_WARNING);
@@ -857,22 +838,34 @@ function elgg_upload_files($filedata,$dbc=true){
 			if($filedata['foldertype']=='report'){
 				$file_originalpath=$CFG->eportfolio_dataroot.'/cache/reports/'. $file_name;
 				}
+			elseif($filedata['foldertype']=='icon'){
+				$file_originalpath=$CFG->eportfolio_dataroot.'/cache/images/'. $file_name;
+				}
 			else{
 				$file_originalpath=$batchfile['tmpname'];
 				}
-			$d_f=mysql_query("SELECT ident FROM $table_files WHERE originalname='$file_originalname' 
+
+			if($filedata['foldertype']=='icon'){
+
+				mysql_query("INSERT INTO $table_icons SET owner='$epfuid',
+					filename='$file_name', description='$file_description';");
+				mysql_query("UPDATE $table_users SET icon=LAST_INSERT_ID() WHERE ident='$epfuid';");
+				}
+			else{
+				$d_f=mysql_query("SELECT ident FROM $table_files WHERE originalname='$file_originalname' 
 								AND files_owner='$epfuid';");
-			if(mysql_num_rows($d_f)==0){
-				$d_f=mysql_query("INSERT INTO $table_files 
+				if(mysql_num_rows($d_f)==0){
+					$d_f=mysql_query("INSERT INTO $table_files 
 		   			 (owner, files_owner, folder, title, originalname,
 						description, location, access, time_uploaded) VALUES 
 		   			 ('1', '$epfuid','$folder_id','$file_title','$file_originalname',
 		   			  '$file_description','$file_location','$file_access','$file_time');");
-				}
-			else{
-				$file_ident=mysql_result($d_f,0);
-				$d_f=mysql_query("UPDATE $table_files SET (originalname='$file_originalname') 
+					}
+				else{
+					$file_ident=mysql_result($d_f,0);
+					$d_f=mysql_query("UPDATE $table_files SET (originalname='$file_originalname') 
 		   				WHERE ident='$file_ident';");
+					}
 				}
 
 			if(rename($file_originalpath,$file_fullpath)){
@@ -882,6 +875,7 @@ function elgg_upload_files($filedata,$dbc=true){
 				}
 			else{trigger_error('Could not move file to eportfolio: '.$file_fullpath,E_USER_WARNING);}
 			}
+
 		}
 
 	if($dbc==true){

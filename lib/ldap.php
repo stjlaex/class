@@ -12,16 +12,6 @@
 
 
 /** 
- * The only required variable is: $epfu (eportfolio name, get student photo) or userid (get_user_photo)
- *
- * The following three variables work all together. Or all of them have blank values, or haven't.
- * 		$ldap_host: ldaphost:port
- * 		$ldap_rdn: ldap user authority
- * 		$ldap_pass: ldap password authority
- * 
- * $base_tree_node: default: 'ou=student,ou=people,dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2; 
- *                        or 'ou=people,dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
- * $object_class: default: inetOrgPerson
  *
  * @param string $epfu ePortfolio user name
  *
@@ -36,16 +26,6 @@ function get_student_photo($epfu,$enrolno){
 
 
 /**
- * The only required variable is: epfu (eportfolio name, get student photo) or userid (get_user_photo)
- *
- * The following three variables work all together. Or all of them have blank values, or haven't.
- * 		$ldap_host: ldaphost:port
- * 		$ldap_rdn: ldap user authority
- * 		$ldap_pass: ldap password authority
- * 
- * $base_tree_node: default: 'ou=student,ou=people,dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2; 
- *                        or 'ou=people,dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
- * $object_class: default: inetOrgPerson
  *
  * @param string $userid user name
  *
@@ -61,16 +41,9 @@ function get_user_photo($epfu){
 
 
 /**
- * The only required variable is: $uid
- *
- * The following three variables work all together. Or all of them have blank values, or haven't.
- * 		$ldap_host: ldaphost:port
- * 		$ldap_rdn: ldap user authority
- * 		$ldap_pass: ldap password authority
  *
  * $base_tree_node: default: 'ou=student,ou=people,dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
  *                        or 'ou=people,dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
- * $object_class: default: inetOrgPerson
  *
  * @param string $epfu eportfolio user name
  * @param string $enrolno alternative unique id no for students only
@@ -99,6 +72,13 @@ function get_photo($epfu,$enrolno,$base_tree_node=null){
 
 	/* Last try and fetch photo from the LDAP */
 	if(!isset($photo)){
+		$stored_photo=$CFG->eportfolio_dataroot.'/icons/' . substr($epfu,0,1) . '/' . $epfu.'/'.$epfu.'.jpeg';
+		if(file_exists($stored_photo)){$photo=$stored_photo;}
+		}
+
+
+	/* Last try and fetch photo from the LDAP */
+	if(!isset($photo)){
 		$ldap_host=$CFG->ldapserver;
 		$ldap_rdn ='cn='.$CFG->ldapuser.',dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
 		$ldap_pass=$CFG->ldappasswd;
@@ -106,7 +86,7 @@ function get_photo($epfu,$enrolno,$base_tree_node=null){
 		if(is_null($base_tree_node)){
 		    $base_tree_node='ou=people,dc=example,dc=com';
 			}
-		
+
 		$ldap_connection=ldap_connect($ldap_host);
 		if(!ldap_set_option($ldap_connection, LDAP_OPT_PROTOCOL_VERSION, 3)){
 			trigger_error('Failed to set protocol version to 3', E_USER_WARNING);

@@ -41,29 +41,6 @@ if($contactblank=='yes'){
 	}
 
 
-/**
- * TODO:
- * Temporary to set default icon photos for all students.
- * The photos still have to be placed in the elggdata/icons folders by some
- * other means.
- *
-if($photocheck=='yes'){
-
-	$yearcoms=(array)list_communities('year');
-	while(list($yearindex,$com)=each($yearcoms)){
-		$yid=$com['name'];
-		$students=listin_community($com);
-		while(list($studentindex,$student)=each($students)){
-			$sid=$student['id'];
-			$Student=fetchStudent_singlefield($sid,'EPFUsername');
-			$epfuid=elgg_get_epfuid($Student['EPFUsername']['value'],'person',true);
-			if($epfuid!=-1){elgg_set_student_photo($epfuid,$yid);}
-			}
-		}
-
-	}
- */
-
 
 include('scripts/results.php');
 include('scripts/redirect.php');

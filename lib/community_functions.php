@@ -1002,6 +1002,8 @@ function list_community_cohorts($community,$current=true){
 	if($community['id']!=''){$comid=$community['id'];}
 	else{$comid=update_community($community);}
 
+	trigger_error($community['type']. ' :COHORTS: '.$yid.' : '.$comid,E_USER_WARNING);
+
 	$cohorts=array();
 	$d_cohort=mysql_query("SELECT * FROM cohort JOIN
 						cohidcomid ON cohidcomid.cohort_id=cohort.id WHERE

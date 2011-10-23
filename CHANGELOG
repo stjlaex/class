@@ -17,6 +17,11 @@ A description line added to printing assessment profile sheets.
 Allow limiting students by a choice of subject classes in report
 assessments and limit the assessments to a single subject.
 
+The epfsync cron script now uploads cached profile photos to the
+eportoflio icons directory for permanent storage.
+
+The get_photo script now checks the cache then the eportfolio and last of
+all ldap.
 
 
 

@@ -5,11 +5,10 @@
 $action='report_assessments_action.php';
 $choice='report_assessments.php';
 
-if(isset($_GET['yid'])){$yid=$_GET['yid'];}else{$yid='';}
 if(isset($_POST['yid'])){$yid=$_POST['yid'];}
+if(isset($_POST['comid']) and $_POST['comid']!=''){$comid=$_POST['comid'];}else{$comid='';}
 if(isset($_POST['profid'])){$profid=$_POST['profid'];}else{$profid='%';}
 if(isset($_POST['gender'])){$gender=$_POST['gender'];}else{$gender='';}
-if(isset($_POST['comid']) and $_POST['comid']!=''){$comid=$_POST['comid'];}else{$comid='';}
 if(isset($_POST['limitbid'])){$limitbid=$_POST['limitbid'];}
 if(isset($_POST['year'])){$year=$_POST['year'];}
 if(isset($_POST['stage'])){$stage=$_POST['stage'];}
@@ -18,13 +17,14 @@ if(isset($_POST['eids'])){$eids=(array)$_POST['eids'];}else{$eids=array();}
 if(isset($_POST['cids'])){$cids=(array)$_POST['cids'];}else{$cids=array();}
 
 if($yid!=''){
-	$cohorts=list_community_cohorts(array('id'=>'','type'=>'year','name'=>$yid));
+	$cohorts=(array)list_community_cohorts(array('id'=>'','type'=>'year','name'=>$yid));
 	}
 elseif($comid!=''){
 	$com=(array)get_community($comid);
 	if($com['type']=='form'){$formid=$comid;}
 	elseif($com['type']=='house'){$houseid=$comid;}
-	$cohorts=list_community_cohorts($com);
+	trigger_error('COM:'.$com['type'].' '.$comid,E_USER_WARNING);
+	$cohorts=(array)list_community_cohorts($com);
 	}
 
 three_buttonmenu();

@@ -135,7 +135,8 @@ require_once($CFG->installpath.'/'.$CFG->applicationdirectory.'/lib/eportfolio_f
 		$Student=array_merge($Student,$field);
 		/* Ignore if they don't yet have an epfusername (handled by ldap). */
 		$epfuid=-1;
-		if($Student['EPFUsername']['value']!=''){
+		$epfun=$Student['EPFUsername']['value'];
+		if($epfun!=''){
 			$epfuid=elgg_get_epfuid($Student['EPFUsername']['value'],'person',true);
 			if($epfuid==-1){
 				/* New epfusername so add to elgg db.*/
@@ -144,7 +145,10 @@ require_once($CFG->installpath.'/'.$CFG->applicationdirectory.'/lib/eportfolio_f
 			$Students[$sid]['epfuid']=$epfuid;
 			}
 
-		/* Ignore if something went wrong or they don't yet have an epfusername (handled by ldap). */
+		/* Ignore if something went wrong or they don't yet have an
+		 * epfusername yet (assigning epfusernames is handled by
+		 * ldap_sync or db_sync). 
+		 */
 		if($epfuid!=-1){
 			/* Join the student to pastoral groups */
 			$fid=$Student['RegistrationGroup']['value'];
@@ -157,13 +161,36 @@ require_once($CFG->installpath.'/'.$CFG->applicationdirectory.'/lib/eportfolio_f
 				$com=array('epfcomid'=>$yearepfcomids[$yid],'type'=>'year','name'=>'');
 				elgg_join_community($epfuid,$com);
 				}
+			/* Create virtual folders for holding files. */
 			$group=array('epfgroupid'=>'','owner'=>$epfuid,'name'=>'Family','access'=>'');
 			$epfgroupid=elgg_update_group($group);
 			elgg_new_folder($epfuid,'Reports','group'.$epfgroupid);
 			elgg_new_folder($epfuid,'Portfolio Work','group'.$epfgroupid);
 			$Students[$sid]['epfgroupid']=$epfgroupid;
+
+			/* Check if a profile photo has been cached and up load as an icon. */
+			$filename=$epfun .'.jpeg';
+			$filepath=$CFG->eportfolio_dataroot . '/cache/images/' . $filename;
+			if(file_exists($filepath)){
+				$description=get_yeargroupname($yid);					
+				$filedata=array();
+				$file_batch=array();
+				$filedata['foldertype']='icon';
+				$filedata['description']=$description;
+				$filedata['title']=$description;
+				$file_batch[]=array('epfusername'=>$epfun,'filename'=>$filename);
+				$filedata['batchfiles']=$file_batch;
+				elgg_upload_files($filedata,true);
+				}
+
 			}
 		}
+
+
+
+
+
+
 
 	/* Now do teaching groups */
 	foreach($classes as $class){

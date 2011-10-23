@@ -47,7 +47,10 @@
 			}
 		}
 	elseif(sizeof($rforms)>0){
-		$cohorts=list_community_cohorts($rforms[0]['name'],false);
+		$comcohorts=list_community_cohorts(array('id'=>'','type'=>'form','name'=>$rforms[0]['name']),false);
+		foreach($comcohorts as $cohort){
+			$cohorts[$cohort['id']]=$cohort;
+			}
 		}
 
 
