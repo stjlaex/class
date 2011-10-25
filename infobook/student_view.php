@@ -62,8 +62,14 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 			  <?php print $Student['RegistrationGroup']['value'];?>
 			  <br />
 			  <label><?php print_string('formtutor');?></label>
-			  <?php print $Student['RegistrationTutor']['value'];?>
-			  <?php emaillink_display($Student['RegistrationTutor']['email']);?>
+			  <?php 
+				$tutoremails='';
+				foreach($Student['RegistrationTutor'] as $Tutor){
+					print $Tutor['value'].' ';
+					$tutoremails.=$Tutor['email'].';';
+					}
+				emaillink_display($tutoremails);
+			  ?>
 			  <br />
 			  <label><?php print_string($Student['Course']['label'],$book);?></label>
 			  <?php print $Student['Course']['value'];?>

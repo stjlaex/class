@@ -77,7 +77,7 @@ function fetchStudent_short($sid){
 
 	$tutor_users=(array)list_community_users(array('id'=>'','name'=>$student['form_id'],'type'=>'form'),array('r'=>1,'w'=>1,'x'=>1),$student['yeargroup_id']);
 	foreach($tutor_users as $tutor_user){
-		$Student['RegistrationTutor']=array('label' => 'formtutor', 
+		$Student['RegistrationTutor'][]=array('label' => 'formtutor', 
 										'email' => ''.$tutor_user['email'],
 										'value' => ''.$tutor_user['forename'][0].' '. $tutor_user['surname']
 										);
@@ -414,7 +414,7 @@ function fetchStudent($sid='-1'){
 
 	$tutor_users=(array)list_community_users(array('id'=>'','name'=>$student['form_id'],'type'=>'form'),array('r'=>1,'w'=>1,'x'=>1),$student['yeargroup_id']);
 	foreach($tutor_users as $tutor_user){
-		$Student['RegistrationTutor']=array('label' => 'formtutor', 
+		$Student['RegistrationTutor'][]=array('label' => 'formtutor', 
 										'email' => ''.$tutor_user['email'],
 										'value' => ''.$tutor_user['forename'][0].' '. $tutor_user['surname']
 										);

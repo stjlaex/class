@@ -28,11 +28,10 @@
 		/*Finished with the student's reports. Output the result as xml.*/
 		$xsl_filename=$transform.'.xsl';
 		$imagepath='http://'.$CFG->siteaddress.$CFG->sitepath.'/images/';
-		$html_css=file_get_contents($CFG->installpath.'/templates/'.$transform.'.css');
 /*
-<link rel="stylesheet" type="text/css" href="http://'.$CFG->siteaddress.$CFG->sitepath.'/templates/'.$transform.'.css" />
+ * <link rel="stylesheet" type="text/css" href="http://'.$CFG->siteaddress.$CFG->sitepath.'/templates/'.$transform.'.css" />
 */
-
+		$html_css=file_get_contents($CFG->installpath.'/templates/'.$transform.'.css');
 		$html_header='<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/DTD/loose.dtd">
 <html>
 <head>

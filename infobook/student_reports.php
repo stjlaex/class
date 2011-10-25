@@ -15,6 +15,7 @@ $extrabuttons['previewselected']=array('name'=>'current',
 									   'onclick'=>'checksidsAction(this)');
 two_buttonmenu($extrabuttons);
 
+/* TODO: If epfdb='' then simply list epfuser's directory looking for reports. */
 $report_files=(array)elgg_list_files($Student['EPFUsername']['value'],'report',true);
 ?>
 

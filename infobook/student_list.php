@@ -134,11 +134,13 @@ two_buttonmenu($extrabuttons,$book);
 		<th rowspan="2"  style="width:30%;">
 		<label><?php print_string('formgroup'); ?></label>
 		<?php print $fid.' &nbsp;&nbsp;';?>
-		<?php 
+<?php 
+			   $tutoremails='';
 			   foreach($tutor_users as $tutor_user){
-				   print $tutor_user['forename'][0].' '. $tutor_user['surname'];
-				   emaillink_display($tutor_user['email']);
+				   print $tutor_user['forename'][0].' '. $tutor_user['surname'].' ';
+				   $tutoremails.=$tutor_user['email'].';';
 				   }
+			   emaillink_display($tutoremails);
 ?>
 		</th>
 <?php

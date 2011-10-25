@@ -66,6 +66,11 @@ if($sub=='Submit' and $recipients and sizeof($recipients)>0 and !isset($error)){
 	if($CFG->emailoff!='yes' and $messageop=='email'){
 		$footer='--'. "\r\n" . get_string('guardianemailfooterdisclaimer');
 		$messagebody.="\r\n". $footer;
+		/* TODO: needs testing and work to send in UTF-8 instead of converting? */
+		//$message=utf8_to_ascii($message);
+		$messagebody=iconv('UTF-8','ISO-8859-1',$messagebody);
+		$messagesubject=iconv('UTF-8','ISO-8859-1',$messagesubject);
+
 		$attachments=array();
 		if(isset($file_name)){
 			//copy the temp. uploaded file to uploads folder
@@ -84,10 +89,8 @@ if($sub=='Submit' and $recipients and sizeof($recipients)>0 and !isset($error)){
 
 		foreach($recipients as $key => $recipient){
 			
-			$message=$recipient['explanation'];
+			$message=iconv('UTF-8','ISO-8859-1',$recipient['explanation']);
 			$message.=$messagebody;
-			//$message=utf8_to_ascii($message);
-			$message=iconv('UTF-8','ISO-8859-1',$message);
 
 			$email_result=send_email_to($recipient['email'],$fromaddress,$messagesubject,'',$message,$attachments);
 
@@ -99,11 +102,11 @@ if($sub=='Submit' and $recipients and sizeof($recipients)>0 and !isset($error)){
 		}
 	elseif(isset($CFG->smsoff) and $CFG->smsoff=='no' and $messageop=='sms'){
 
+		$messagebody=iconv('UTF-8','ISO-8859-1',$messagebody);
 		foreach($recipients as $key => $recipient){
 			
-			$message=$recipient['explanation']. ":";
+			$message=iconv('UTF-8','ISO-8859-1',$recipient['explanation']);
 			$message.="\r\n".$messagebody;
-			$message=iconv('UTF-8','ISO-8859-1',$message);
 
 			$sms_result=send_sms_to($recipient['mobile'],$message);
 

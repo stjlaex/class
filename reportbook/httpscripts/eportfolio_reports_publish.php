@@ -24,6 +24,7 @@ function arguments($argv) {
 $ARGS=arguments($_SERVER['argv']);
 require_once($ARGS['path'].'/school.php');
 require_once($CFG->installpath.'/'.$CFG->applicationdirectory.'/scripts/cron_head_options.php');
+require_once($fullpath.'/lib/eportfolio_functions.php');
 
 /**
  * Need to decide how the report is being published:
@@ -33,14 +34,25 @@ require_once($CFG->installpath.'/'.$CFG->applicationdirectory.'/scripts/cron_hea
  * The end location in the file directory in dataroot is the same in both cases.
  */
 if(isset($CFG->eportfolio_db) and $CFG->eportfolio_db!=''){
-	require_once($fullpath.'/lib/eportfolio_functions.php');
 	$doingepf=true;
 	}
 else{
 	$doingepf=false;
-	//trigger_error('eportfolio not configured!',E_USER_WARNING);
 	}
-if(isset($CFG->html2pdf) and $CFG->html2pdf!=''){
+
+/**
+ * Pssible methods for genrating PDFs:
+ * (0) webkit wkthmltopdf is the winner?
+ * (1) CommandLinePrint extension for Firefox
+ * (2) the html2pdf scripts from html2pdf.fr
+ * (3) the html2ps scripts from tufat.com
+ *
+ */
+if(isset($CFG->wkhtml2pdf) and $CFG->wkhtml2pdf!=''){
+	$pubtype='pdf';
+	$pubmethod='wkhtml2pdf';
+	}
+elseif(isset($CFG->html2pdf) and $CFG->html2pdf!=''){
 	require_once($CFG->html2pdf.'/html2pdf.class.php');
 	$pubtype='pdf';
 	$pubmethod='html2pdf';
@@ -51,7 +63,6 @@ elseif(isset($CFG->html2ps) and $CFG->html2ps!=''){
 	$pubmethod='html2ps';
 	}
 else{
-	//trigger_error('html2pdf is not configured!',E_USER_WARNING);
 	$pubtype='html';
 	}
 
@@ -93,8 +104,12 @@ else{
 		/* Creates the html version of the report and writes to the epf cache directory. */
 		include('report_html.php');
 
+		/* Now convert to PDF if thats the chosen method. */
 		if($success and $pubtype=='pdf'){
-			if($pubmethod=='html2pdf'){
+			if($pubmethod=='wkhtml2pdf'){
+				$success=write_pdf($html_file,$filename);
+				}
+			elseif($pubmethod=='html2pdf'){
 				try{
 					$margins=array(5,10,5,10);
 					$html2pdf = new HTML2PDF('P', 'A4', 'en', true, 'UTF-8', $margins);
@@ -108,34 +123,15 @@ else{
 					$success=false;
 					}
 				}
-			elseif($pubmethod=='html2ps'){
-				/* Format specific to html2ps
-				$postdata['batch[0]']=$filename.'.html';
-				$postdata['url']=$CFG->eportfolio_dataroot.'/cache/reports/';
-				$postdata['process_mode']='batch';
-				$postdata['topmargin']='10';
-				$postdata['bottommargin']='0';
-				$postdata['leftmargin']='5';
-				$postdata['rightmargin']='5';
-				$postdata['pixels']='850';
-				$postdata['scalepoints']='false';
-				if($paper=='landscape'){$postdata['landscape']='true';}
-				$curl=curl_init();
-				curl_setopt($curl,CURLOPT_URL,$CFG->html2psscript);
-				curl_setopt($curl,CURLOPT_POST,1);
-				curl_setopt($curl,CURLOPT_POSTFIELDS,$postdata);
-				curl_exec($curl);
-				curl_close($curl);
-				*/
-				//convert_to_pdf($CFG->eportfolio_dataroot.'/cache/reports/'.$filename.'.html',$CFG->eportfolio_dataroot.'/cache/reports/'.$filename.'.pdf');
-				//trigger_error('TEST',E_USER_WARNING);
-				}
 			unset($html_file);
 			}
 
 		$S=fetchStudent_singlefield($sid,'EPFUsername');
 		$epfusername=$S['EPFUsername']['value'];
 
+		/* Move the file into the owners eportfolio direcotry. The end
+		 * location is the same whether doing epf or not.
+		 */
 		if($success and $doingepf){
 			$publish_batch[]=array('epfusername'=>$epfusername,'filename'=>$filename.'.'.$pubtype);
 			$publishdata['batchfiles']=$publish_batch;
@@ -145,9 +141,15 @@ else{
 				$success=false;
 				}
 			}
-		elseif($success){
-			$dir='files/' . substr($epfusername,0,1) . '/' . $epfusername; 
-			rename($CFG->eportfolio_dataroot.'/cache/reports/'.$filename.'.'.$pubtype,$CFG->eportfolio_dataroot.'/'.$dir.'/'.$filename.'.'.$pubtype);
+		elseif($success){			
+			$targetdir='files/' . substr($epfusername,0,1) . '/' . $epfusername;
+			if(!make_portfolio_directory($targetdir)){
+				$success=false;
+				}
+			else{
+				$targetpath=$CFG->eportfolio_dataroot.'/'.$targetdir.'/'.$filename.'.'.$pubtype;
+				rename($CFG->eportfolio_dataroot.'/cache/reports/'.$filename.'.'.$pubtype, $targetpath);
+				}
 			}
 
 		if($success){
@@ -155,15 +157,71 @@ else{
 			mysql_query("UPDATE report_event SET success='1', time=NOW(), try=try+1
 						WHERE report_id='$wrapper_rid' AND student_id='$sid';");
 			//trigger_error('Report publishsed for: '.$filename,E_USER_WARNING);
-			unlink($CFG->eportfolio_dataroot.'/cache/reports/'.$filename.'.html');
 			}
 		else{
 			mysql_query("UPDATE report_event SET success='0', time=NOW(), try=try+1 
 						WHERE report_id='$wrapper_rid' AND student_id='$sid';");
-			trigger_error('Report publication failed for: '.$filename,E_USER_ERROR);
+			$messagesubject=$CFG->clientid.': Report publication failed for: '.$filename;
+			$fromaddress=$CFG->schoolname.'<ClaSS@'.$CFG->siteaddress.'>';
+			send_email_to('support@'.$CFG->support,$fromaddress,$messagesubject,'',$messagesubject);
+			trigger_error($messagesubject,E_USER_ERROR);
+			}
+
+		/* Clean up: make sure the cache finishes empty. */
+		if(file_exists($CFG->eportfolio_dataroot.'/cache/reports/'.$filename.'.html')){
+			unlink($CFG->eportfolio_dataroot.'/cache/reports/'.$filename.'.html');
+			}
+		if(file_exists($CFG->eportfolio_dataroot.'/cache/reports/'.$filename.'.pdf')){
+			unlink($CFG->eportfolio_dataroot.'/cache/reports/'.$filename.'.pdf');
 			}
 
 		}
+
+
+
+function write_pdf($html,$filename){
+	global $CFG;
+
+    $descriptorspec=array(
+						  0 => array('pipe', 'r'), // stdin
+						  1 => array('pipe', 'w'), // stdout
+						  2 => array('pipe', 'w'), // stderr
+						  );
+    $process=proc_open($CFG->wkhtml2pdf.' -q - -',$descriptorspec,$pipes);
+ 
+    // Send the HTML on stdin
+    fwrite($pipes[0], $html);
+    fclose($pipes[0]);
+ 
+    // Read the outputs
+    $pdf=stream_get_contents($pipes[1]);
+    $errors=stream_get_contents($pipes[2]);
+ 
+    // Close the process
+    fclose($pipes[1]);
+    $return_value=proc_close($process);
+ 
+    // Output the results
+    if($errors){
+        trigger_error('PDF GENERATOR ERROR: ' . nl2br(htmlspecialchars($errors)),E_USER_WARNING);
+		$success=false;
+		}
+	else{
+		$file=fopen($CFG->eportfolio_dataroot.'/cache/reports/'.$filename.'.pdf', 'w');
+		if(!$file){
+			$error[]='Unable to open file for writing!';
+			$success=false;
+			}
+		else{
+			fputs($file,$pdf);
+			fclose($file);
+			$success=true;
+			}
+		}
+
+	return $success;
+	}
+
 
 require_once($CFG->installpath.'/'.$CFG->applicationdirectory.'/scripts/cron_end_options.php');
 ?>

@@ -16,9 +16,11 @@ $recipients=array();
 
 include('scripts/sub_action.php');
 
-	$message=$subject."\r\n".'Date:
-	'.$entrydate."\r\n".$CFG->version."\r\n". $book. "\r\n". 
-				$detail. "\r\n" .'Posted by '.$tid. "\r\n";
+	$message=$subject."\r\n".
+		'Date:	'.$entrydate."\r\n".$CFG->version."\r\n". $book. "\r\n". $detail. "\r\n" .
+		'Posted by '.$_SESSION['username']. "\r\n".
+		'School: '.$CFG->schoolname. "\r\n".
+		'Client: '.$CFG->clientid. "\r\n";
 
 	if(isset($CFG->clientid)){
 		$clientid=$CFG->clientid;

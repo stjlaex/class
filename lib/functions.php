@@ -1494,7 +1494,7 @@ function send_email_to($recipient, $from, $subject, $messagetext, $messagehtml='
 			$return='';
 			}
 
-
+		/* TODO: make use of the $from['email] and $from_name values */
 		/* message header */
 		$hdrs = array( 'From'    => $from,
 					   'To'      => $recipient,

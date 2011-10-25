@@ -1,4 +1,4 @@
-Version ClaSS-1.0.9 release (2011/10/24)
+Version ClaSS-1.0.9 release (2011/10/25)
 -------------------------------------------
 
 Used js to disable select options in generic print function.
@@ -23,6 +23,15 @@ eportoflio icons directory for permanent storage.
 The get_photo script now checks the cache then the eportfolio and last of
 all ldap.
 
+Fix: iconv applied to email message subject line.
+
+Added an unlock button for published reports.
+
+The Student array index RegistrationTutor now works for mulitple
+form tutors.
+
+Email notification of failures in the eportfolio_reports_publish
+script.
 
 
 Version ClaSS-1.0.8 release (2011/10/17)

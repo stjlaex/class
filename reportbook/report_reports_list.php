@@ -6,10 +6,9 @@ $action='report_reports.php';
 
 if(isset($_POST['yid'])){$yid=$_POST['yid'];}else{$yid='';}
 if(isset($_POST['formid']) and $_POST['formid']!=''){$comid=$_POST['formid'];}
-elseif(isset($_POST['houseid'])  and $_POST['houseid']!=''){$comid=$_POST['houseid'];}else{$comid='';}
-if(isset($_POST['year'])){$year=$_POST['year'];}
-if(isset($_POST['stage'])){$stage=$_POST['stage'];}
-if(isset($_POST['rids'])){$postrids=$_POST['rids'];}else{$postrids=array();}
+elseif(isset($_POST['houseid'])  and $_POST['houseid']!=''){$comid=$_POST['houseid'];}
+elseif(isset($_POST['comid'])  and $_POST['comid']!=''){$comid=$_POST['comid'];}
+else{$comid='';}
 if(isset($_POST['wrapper_rid'])){$wrapper_rid=$_POST['wrapper_rid'];}
 
 include('scripts/sub_action.php');
@@ -32,9 +31,6 @@ include('scripts/sub_action.php');
 		$yearperm=getYearPerm($yid);
 		$formperm=$yearperm;
 		}
-	else{
-		$students=listin_cohort(array('id'=>'','course_id'=>$rcrid,'year'=>$year,'stage'=>$stage));
-		}
 
 	$resperm=getResidencePerm();
 
@@ -47,11 +43,6 @@ if(isset($wrapper_rid)){
 		$rids[]=$rid['report_id'];
 		}
 	}
-else{
-	foreach($postrids as $rid){
-		if($rid!=0){$rids[]=$rid;}
-		}
-	}
 
 $extrabuttons=array();
 $extrabuttons['previewselected']=array('name'=>'current',
@@ -60,6 +51,8 @@ $extrabuttons['previewselected']=array('name'=>'current',
 if($_SESSION['role']=='admin' and isset($CFG->eportfolio_dataroot) and $CFG->eportfolio_dataroot!=''){
 	$extrabuttons['publishpdf']=array('name'=>'current',
 									  'value'=>'report_reports_publish.php');
+	$extrabuttons['unlock']=array('name'=>'current',
+								  'value'=>'report_reports_unlock.php');
 	if($_SESSION['username']=='administrator' and $CFG->emailoff=='no'){
 		/*
 		  $extrabuttons['email']=array('name'=>'current',
@@ -133,8 +126,8 @@ two_buttonmenu($extrabuttons,$book);
 		$sid=$student['id'];
 		$comment=comment_display($sid);
 		$success=checkReportPub($rids[0],$sid);
-		if($success==1){$rowclass='nolite lowlite';}
-		elseif($success==0){$rowclass='lowlite';}
+		if($success==1){$rowclass='nolite';}
+		elseif($success==0){$rowclass='gomidlite';}
 		else{$rowclass='';}
 ?>
 		<tr id="sid-<?php print $sid;?>" <?php print 'class="'.$rowclass.'"';?>>
@@ -171,7 +164,7 @@ two_buttonmenu($extrabuttons,$book);
 ?>
 			<td id="icon<?php print $openId;?>" <?php if(mysql_num_rows($d_summaryentry)>0){print 'class="vspecial"';}?> >  
 <?php
-			if($success<0){
+			if($success<1){
 				print '<img class="clicktowrite" name="Write" onClick="clickToWriteCommentNew('.$sid.','.$rid.',\'summary\',\''.$summaryid.'\',\'0\',\''.$openId.'\');"/>';
 				}
 ?>
@@ -186,7 +179,7 @@ two_buttonmenu($extrabuttons,$book);
 			<td id="icon<?php print $openId;?>" <?php if(mysql_num_rows($d_summaryentry)>0){print 'class="vspecial"';}?> >
 			    
 <?php
-			if($success<0){
+			if($success<1){
 				print '<img class="clicktowrite" name="Write" onClick="clickToWriteCommentNew('.$sid.','.$rid.',\'summary\',\''.$summaryid.'\',\'0\',\''.$openId.'\');"/>';
 				}
 ?>
@@ -202,7 +195,7 @@ two_buttonmenu($extrabuttons,$book);
 ?>
 			<td id="icon<?php print $openId;?>" <?php if(mysql_num_rows($d_summaryentry)>0){print 'class="vspecial"';}?> > 
 <?php
-			if($success<0){
+			if($success<1){
 				print '<img class="clicktowrite" name="Write" onClick="clickToWriteCommentNew('.$sid.','.$rid.',\'summary\',\''.$summaryid.'\',\'0\',\''.$openId.'\');"/>';
 				}
 ?>
@@ -220,7 +213,7 @@ two_buttonmenu($extrabuttons,$book);
 ?>
 			<td id="icon<?php print $openId;?>" <?php if(mysql_num_rows($d_summaryentry)>0){print 'class="vspecial"';}?> >
 <?php
-			if($success<0){
+			if($success<1){
 				print '<img class="clicktowrite" name="Write" onClick="clickToWriteCommentNew('.$sid.','.$rid.',\'summary\',\''.$summaryid.'\',\'0\',\''.$openId.'\');"/>';
 				}
 ?>
@@ -314,7 +307,7 @@ two_buttonmenu($extrabuttons,$book);
 			  <a <?php print $cssclass;?> id="icon<?php print $openId;?>">
 				  
 <?php
-			if($success<0){
+			if($success<1){
 				  print '<img class="clicktowrite" name="Write" onClick="clickToWriteCommentNew('.
 				  $sid.','.$rid.',\''.$bid.'\',\''.$pid.'\',\''.$en.'\',\''.$openId.'\');"/>';
 				}
@@ -339,6 +332,9 @@ two_buttonmenu($extrabuttons,$book);
 		</table>
 	  </div>
   <?php print $input_elements;?>
+ 	<input type="hidden" name="wrapper_id" value="<?php print $wrapper_id;?>" />
+ 	<input type="hidden" name="comid" value="<?php print $comid;?>" />
+ 	<input type="hidden" name="yid" value="<?php print $yid;?>" />
  	<input type="hidden" name="cancel" value="<?php print $choice;?>" />
  	<input type="hidden" name="choice" value="<?php print $choice;?>" />
  	<input type="hidden" name="current" value="<?php print $action;?>" />

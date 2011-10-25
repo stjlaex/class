@@ -1,6 +1,6 @@
 <?php
 /**
- *									httpscripts/report_reports_publish.php
+ *									report_reports_publish.php
  *
  * Publishes the selected reports to html files
  * and then schedules a cron event for pdf conversion 
@@ -8,8 +8,8 @@
  *
  */
 
-$action='report_reports.php';
-//$action_post_vars=array('sids');
+$action='report_reports_list.php';
+$action_post_vars=array('wrapper_rid','yid','comid');
 
 
 if(isset($_GET['sids'])){$sids=(array)$_GET['sids'];}else{$sids=array();}
@@ -18,6 +18,8 @@ if(isset($_GET['rids'])){$rids=(array)$_GET['rids'];}else{$rids=array();}
 if(isset($_POST['rids'])){$rids=(array)$_POST['rids'];}
 if(isset($_GET['wrapper_rid'])){$wrapper_rid=$_GET['wrapper_rid'];}else{$wrapper_rid=$rids[0];}
 if(isset($_POST['wrapper_rid'])){$wrapper_rid=$_POST['wrapper_rid'];}
+if(isset($_POST['yid'])){$yid=$_POST['yid'];}
+if(isset($_POST['comid'])){$comid=$_POST['comid'];}
 
 include('scripts/sub_action.php');
 
@@ -28,7 +30,8 @@ if(sizeof($sids)==0){
 		exit;
 		}
 
-	if($wrapper_rid!=''){
+
+if(isset($wrapper_rid) and $wrapper_rid!=''){
 			$d_rid=mysql_query("SELECT categorydef_id AS report_id FROM ridcatid WHERE
 				 report_id='$wrapper_rid' AND subject_id='wrapper' ORDER BY categorydef_id;");
 		$rids=array();
@@ -56,7 +59,5 @@ if(sizeof($sids)==0){
 					WHERE report_id='$wrapper_rid' AND student_id='$sid';");}
 			}
 
-
-include('scripts/results.php');
 include('scripts/redirect.php');
 ?>
