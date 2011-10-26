@@ -187,8 +187,9 @@ function write_pdf($html,$filename){
 						  1 => array('pipe', 'w'), // stdout
 						  2 => array('pipe', 'w'), // stderr
 						  );
-    $process=proc_open($CFG->wkhtml2pdf.' -q - -',$descriptorspec,$pipes);
- 
+    //$process=proc_open($CFG->wkhtml2pdf.' -q - -',$descriptorspec,$pipes);
+	$process=proc_open($CFG->wkhtml2pdf.' --margin-left 0 --margin-right 0 --margin-bottom 0 --margin-top 4 --dpi 300 --page-size A4 --orientation Portrait -q - -',$descriptorspec,$pipes);
+
     // Send the HTML on stdin
     fwrite($pipes[0], $html);
     fclose($pipes[0]);

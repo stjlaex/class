@@ -75,7 +75,6 @@ else{
 			}
 		}
 
-
 	/* TODO: make this a property of the profile */
 	if($profile['transform']!='tracking_grid'){
 		$pid='%';

@@ -332,7 +332,7 @@ two_buttonmenu($extrabuttons,$book);
 		</table>
 	  </div>
   <?php print $input_elements;?>
- 	<input type="hidden" name="wrapper_id" value="<?php print $wrapper_id;?>" />
+ 	<input type="hidden" name="wrapper_rid" value="<?php print $wrapper_rid;?>" />
  	<input type="hidden" name="comid" value="<?php print $comid;?>" />
  	<input type="hidden" name="yid" value="<?php print $yid;?>" />
  	<input type="hidden" name="cancel" value="<?php print $choice;?>" />
