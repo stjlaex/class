@@ -16,6 +16,8 @@ $subject=$AssDef['Subject']['value'];
 $compstatus=$AssDef['ComponentStatus']['value'];
 $strandstatus=$AssDef['StrandStatus']['value'];
 $description=$AssDef['Description']['value'];
+$label=$AssDef['PrintLabel']['value'];
+$total=$AssDef['Total']['value'];
 $stage=$AssDef['Stage']['value'];
 $deadline=$AssDef['Deadline']['value'];
 /* Any estimates or targets or whatever get assessment type = other. */
@@ -88,19 +90,28 @@ if($perm["$neededperm"]=1 and $AssDef['MarkCount']['value']==0){
 	/*find the appropriate markdef_name*/
 	if($gena!='' and $gena!=' '){
 		$grading_grades=$AssDef['GradingScheme']['grades'];
-		$d_markdef=mysql_query("SELECT * FROM markdef WHERE
+		$d_m=mysql_query("SELECT name FROM markdef WHERE
 						grading_name='$gena' AND scoretype='grade' 
 						AND (course_id='%' OR course_id='$crid');");
-		$markdef=mysql_fetch_array($d_markdef,MYSQL_ASSOC);
+		if(mysql_num_rows($d_m)==0){
+			/* If none exists then create keeping the name field unique for this crid.  */
+			$markdef_name=$crid.' '.$gena;
+			mysql_query("INSERT INTO markdef SET
+						name='$markdef_name', scoretype='grade', grading_name='$gena',
+						comment='$description', outoftotal='$total', author='ClaSS', 
+						course_id='$crid', subject_id='$subject';");
+			}
+		else{
+			$markdef_name=mysql_result($d_m,0);
+			}
 		}
 	else{
-		$d_markdef=mysql_query("SELECT * FROM markdef WHERE
+		$d_m=mysql_query("SELECT name FROM markdef WHERE
 						scoretype='value' AND (course_id='%' OR course_id='$crid');");
-		$markdef=mysql_fetch_array($d_markdef,MYSQL_ASSOC);
+		$markdef_name=mysql_result($d_m,0);
 		}
-	$markdef_name=$markdef['name'];
-	mysql_free_result($d_markdef);
-		
+	mysql_free_result($d_m);
+
 	if($deadline!='0000-00-00'){$entrydate=$deadline;}
 	else{$entrydate=date('Y').'-'.date('n').'-'.date('j');}
 	
@@ -111,17 +122,17 @@ if($perm["$neededperm"]=1 and $AssDef['MarkCount']['value']==0){
 		$subjects=list_course_subjects($crid);
 		}
 		
-	/*generate a mark for each bid/pid combination*/
-	while(list($index,$subject)=each($subjects)){
+	/* Generate a mark for each bid/pid combination */
+	foreach($subjects as $subject){
 		$bid=$subject['id'];
 		$components=(array)list_subject_components($bid,$crid,$compstatus);
 		/* If there is no component for this subject or
 		   components are not requested then $pid is blank*/
 		if(sizeof($components)==0){$components[0]['id']='';}
-		while(list($index,$component)=each($components)){
+		foreach($components as $component){
 			$strands=(array)list_subject_components($component['id'],$crid,$strandstatus);
 			if(sizeof($strands)==0){$strands[0]['id']=$component['id'];}
-			while(list($index,$strand)=each($strands)){
+			foreach($strands as $strand){
 				$pid=$strand['id'];
 
 				if($bid==' ' or $bid=='G'){$bid='%';}
@@ -136,23 +147,23 @@ if($perm["$neededperm"]=1 and $AssDef['MarkCount']['value']==0){
 						   to accomodate hanges in currilucum
 						   structure ie. hunt for equivalent subject/component/strand combination */
 						$d_s=mysql_query("SELECT DISTINCT subject_id FROM component 
-					WHERE course_id='$cridnow' AND id='$pid' AND subject_id='$bid' AND status!='U';");
+									WHERE course_id='$cridnow' AND id='$pid' AND subject_id='$bid' AND status!='U';");
 						if(mysql_num_rows($d_s)>0){$bidnow=$bid;$pidnow=$pid;}
 						else{
 							if($pid!=''){
 								$d_s=mysql_query("SELECT DISTINCT subject_id FROM component 
-					WHERE course_id='$cridnow' AND id='' AND subject_id='$pid' AND status!='U';");
+											WHERE course_id='$cridnow' AND id='' AND subject_id='$pid' AND status!='U';");
 								if(mysql_num_rows($d_s)>0){$bidnow=$pid;$pidnow='';}
 								else{
 									if($pid!=''){
 										$d_s=mysql_query("SELECT DISTINCT subject_id FROM component 
-					WHERE course_id='$cridnow' AND id='$pid' AND status!='U';");
+															WHERE course_id='$cridnow' AND id='$pid' AND status!='U';");
 										if(mysql_num_rows($d_s)>0){$bidnow=mysql_result($d_s,0);$pidnow=$pid;}
 										if($bidnow!=''){
 											$d_s=mysql_query("SELECT DISTINCT subject_id FROM component 
-					WHERE course_id='$cridnow' AND id='$bidnow' AND status!='U';");
+														   WHERE course_id='$cridnow' AND id='$bidnow' AND status!='U';");
 											if(mysql_num_rows($d_s)>0){$bidnow=mysql_result($d_s,0);$pidnow=$pid;}
-											}		
+											}
 										}
 									}
 								}
@@ -202,7 +213,7 @@ if($perm["$neededperm"]=1 and $AssDef['MarkCount']['value']==0){
 								}
 							else{$score='';}
 							mysql_query("INSERT INTO score (student_id,
-							mark_id, grade, value) VALUES ('$sid','$mid', '$score', '$value');");
+										mark_id, grade, value) VALUES ('$sid','$mid', '$score', '$value');");
 							}
 						mysql_free_result($d_eidsids);
 						}

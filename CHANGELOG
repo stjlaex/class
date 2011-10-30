@@ -4,6 +4,9 @@ Version ClaSS-1.0.10 release (2011/11/2)
 Included lates after registrer closes to the completion list and
 changed number present to present in school.
 
+Fix to generate_assessment_columns to add a mark definition when none
+exists.
+
 
 
 Version ClaSS-1.0.9 release (2011/10/25)

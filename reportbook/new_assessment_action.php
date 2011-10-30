@@ -71,14 +71,14 @@ elseif($sub=='Submit'){
 		$subject=$_POST['bid'];
 		if(isset($_POST['course'])){$course=$_POST['course'];}else{$course=$rcrid;};
 		//$method=$_POST['method'];
+		//$outoftotal=$_POST['outoftotal'];
+		//$season=$_POST['season'];
+		//$resultq=$_POST['resultq'];
 		$pid='';
 		$description=$_POST['description'];
-		//$resultq=$_POST['resultq'];
 		$element=$_POST['element'];
 		$printlabel=$_POST['printlabel'];
 		$resultstatus=$_POST['resultstatus'];
-		//$outoftotal=$_POST['outoftotal'];
-		//$season=$_POST['season'];
 		$derivation=$_POST['derivation'];
 		$componentstatus=$_POST['componentstatus'];
 		$strandstatus=$_POST['strandstatus'];
