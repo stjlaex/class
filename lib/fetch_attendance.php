@@ -390,7 +390,7 @@ function get_event($date='',$session='',$period='0'){
 /**
  *
  * Returns the number of sids in a community and if eveid is for a
- * valid event then the number of them present and absent.
+ * valid event then the number of them present and absent and late.
  *
  * @param array $community
  * @param integer $session
@@ -405,7 +405,7 @@ function check_community_attendance($community,$event){
 
 
 	/* If no register yet taken for current session then $eveid=0 so set sensible defaults*/
-	$nop=0;$noa=0;
+	$nop=0;$noa=0;$nol=0;
 
 	if($eveid>0){
 		if(isset($event['date'])){
@@ -420,12 +420,21 @@ function check_community_attendance($community,$event){
 
 		if(isset($yid)){
 			$d_att=mysql_query("SELECT COUNT(attendance.student_id) FROM attendance 
-							 WHERE attendance.event_id='$eveid' AND attendance.status='a' AND attendance.student_id=ANY(
+							 WHERE attendance.event_id='$eveid' AND attendance.status='a' AND attendance.code NOT IN ('U','L','UB','UA') AND attendance.student_id=ANY(
 				SELECT comidsid.student_id FROM comidsid JOIN student ON student.id=comidsid.student_id
 				 WHERE community_id='$comid' AND student.yeargroup_id='$yid' AND (comidsid.leavingdate>'$enddate' OR 
 				comidsid.leavingdate='0000-00-00' OR comidsid.leavingdate IS NULL) 
 				AND (comidsid.joiningdate<='$startdate' OR comidsid.joiningdate='0000-00-00' OR comidsid.joiningdate IS NULL));");
 			$noa=mysql_result($d_att,0);
+
+
+			$d_att=mysql_query("SELECT COUNT(attendance.student_id) FROM attendance 
+							 WHERE attendance.event_id='$eveid' AND attendance.status='a' AND attendance.code IN ('U','L','UB','UA') AND attendance.student_id=ANY(
+				SELECT comidsid.student_id FROM comidsid JOIN student ON student.id=comidsid.student_id
+				 WHERE community_id='$comid' AND student.yeargroup_id='$yid' AND (comidsid.leavingdate>'$enddate' OR 
+				comidsid.leavingdate='0000-00-00' OR comidsid.leavingdate IS NULL) 
+				AND (comidsid.joiningdate<='$startdate' OR comidsid.joiningdate='0000-00-00' OR comidsid.joiningdate IS NULL));");
+			$nol=mysql_result($d_att,0);
 
 			$d_att=mysql_query("SELECT COUNT(attendance.student_id) FROM attendance 
 							 WHERE attendance.event_id='$eveid' AND attendance.status='p' AND attendance.student_id=ANY(
@@ -441,8 +450,17 @@ function check_community_attendance($community,$event){
 							 WHERE comidsid.community_id='$comid'  
 							 AND (comidsid.leavingdate>'$enddate' OR comidsid.leavingdate='0000-00-00' OR comidsid.leavingdate IS NULL) 
 							 AND (comidsid.joiningdate<='$startdate' OR comidsid.joiningdate='0000-00-00' OR comidsid.joiningdate IS NULL)
-							 AND attendance.event_id='$eveid' AND attendance.status='a'");
+							 AND attendance.event_id='$eveid' AND attendance.status='a' AND attendance.code NOT IN ('U','L','UB','UA');");
 			$noa=mysql_result($d_att,0);
+
+			$d_att=mysql_query("SELECT COUNT(attendance.student_id) FROM attendance JOIN comidsid
+							 ON comidsid.student_id=attendance.student_id 
+							 WHERE comidsid.community_id='$comid'  
+							 AND (comidsid.leavingdate>'$enddate' OR comidsid.leavingdate='0000-00-00' OR comidsid.leavingdate IS NULL) 
+							 AND (comidsid.joiningdate<='$startdate' OR comidsid.joiningdate='0000-00-00' OR comidsid.joiningdate IS NULL)
+							 AND attendance.event_id='$eveid' AND attendance.status='a' AND attendance.code IN ('U','L','UB','UA');");
+			$nol=mysql_result($d_att,0);
+
 			$d_att=mysql_query("SELECT COUNT(attendance.student_id) FROM attendance JOIN comidsid
 							 ON comidsid.student_id=attendance.student_id 
 							 WHERE comidsid.community_id='$comid' 
@@ -453,7 +471,7 @@ function check_community_attendance($community,$event){
 			}
 		}
 
-	$results=array($nosids,$nop,$noa);
+	$results=array($nosids,$nop,$noa,$nol);
 	return $results;
 	}
 
@@ -489,7 +507,7 @@ function list_absentStudents($eveid='',$lates=0){
 			/* Logical lates defaults to 0 and flags to filter out those
 			 * students who are merely late (codes U, L, UA, UB), as these students
 			 * will be on site and in classes. They will though still be
-			 * counted in statistics as absent.
+			 * counted in statistics as an absensce.
 			 */
 			if($attendance['code']!='U' and $attendance['code']!='L' and $attendance['code']!='UB' 
 			   and $attendance['code']!='UA' and $lates==0){

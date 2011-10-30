@@ -60,7 +60,7 @@ two_buttonmenu($extrabuttons);
 	  <form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
 		<table class="listmenu">
 		<tr>
-		  <th>
+		  <th  style="width:1em;">
 			<label id="checkall">
 			  <?php print_string('checkall');?>
 			  <input type="checkbox" name="checkall" value="yes" onChange="checkAll(this);" />
@@ -68,21 +68,25 @@ two_buttonmenu($extrabuttons);
 		  </th>
 		  <th><?php print_string('registrationgroup',$book); ?></th>
 		  <th><?php print_string('status',$book);?></th>
-		  <th><?php print_string('present',$book);?></th>
+		  <th><?php print_string('inschool',$book);?></th>
 		  <th><?php print_string('absent',$book);?></th>
+		  <th><?php print_string('late',$book);?></th>
 		</tr>
 <?php
 
 	foreach($registration_coms as $com){
-		list($nosids,$nop,$noa)=check_community_attendance($com,$currentevent);
+		list($nosids,$nop,$noa,$nol)=check_community_attendance($com,$currentevent);
 		if($nosids>0){
 			$getparam='newcomid='.$com['id'];
 			$getparam.='&newcid=';
 			if(isset($com['yeargroup_id'])){$getparam.='&yid='.$com['yeargroup_id'];}
-			if(($nop+$noa)==$nosids and $nosids!=0){$status='complete';$cssclass='';}
+			if(($nop+$noa+$nol)==$nosids and $nosids!=0){$status='complete';$cssclass='';}
 			else{$status='incomplete';$cssclass='vspecial';}
+			/*The number present in school is nop + nol */
+			$nop+=$nol;
 			$totalnop+=$nop;
 			$totalnoa+=$noa;
+			$totalnol+=$nol;
 			$totalnosids+=$nosids;
 
 			/* Called sids for convenience of js but the checkbox is really comids */
@@ -104,6 +108,9 @@ two_buttonmenu($extrabuttons);
 		  <td>
 			<?php print $noa;?>
 		  </td>
+		  <td>
+			<?php print $nol;?>
+		  </td>
 		</tr>
 <?php
 			}
@@ -123,6 +130,9 @@ two_buttonmenu($extrabuttons);
 		  </td>
 		  <td>
 			<?php print $totalnoa;?>
+		  </td>
+		  <td>
+			<?php print $totalnol;?>
 		  </td>
 		</tr>
 		</table>

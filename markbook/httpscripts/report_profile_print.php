@@ -29,6 +29,7 @@ if(isset($_GET['name'])){$profilename=$_GET['name'];}
 if(isset($_POST['name'])){$profilename=$_POST['name'];}
 if(isset($_GET['description'])){$description=$_GET['description'];}
 
+
 if(sizeof($sids)==0){
 	$result[]=get_string('youneedtoselectstudents');
 	$returnXML=$result;
