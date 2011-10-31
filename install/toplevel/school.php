@@ -84,6 +84,26 @@ $CFG->feeders[2]='';
 $CFG->enrol_assess='no';
 $CFG->enrol_assess_sen='';
 /**
+ * Is the enrolment number to be generated automatically by ClaSS
+ * (yes) or is it a free value to be entered as any other field (no).
+ */
+$CFG->enrol_number_generate='no';
+/**
+ * Custom formula to generate unique enrolment number.
+function enrolno_formula($sid){
+	$Enrolment=(array)fetchEnrolment($sid);
+	$year=$Enrolment['Year']['value'] -1;
+	$year=substr($year,2,2);
+	$d_i=mysql_query("SELECT MAX(CAST(formerupn AS UNSIGNED)) FROM info WHERE formerupn LIKE '$year%';");
+	$maxno=mysql_result($d_i,0);
+	$idno=substr($maxno,2) + 1;
+	$enrolno=$year. sprintf("%03s",$idno);// number format 001-999
+	trigger_error('NEW enrolno : '.$enrolno,E_USER_WARNING);
+	return $enrolno;
+	}
+*/
+
+/**
  * The start of the month (integer 1 to 12) beyond which the current enrolment year ends.
  * Probably just the end of term if you don't care.
  */

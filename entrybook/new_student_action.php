@@ -22,11 +22,11 @@ if($sub=='Submit'){
 	$Enrolment=fetchEnrolment(-1);
 	$Student[]=$Enrolment['Siblings'];
 	$Student[]=$Enrolment['StaffChild'];
-	mysql_query("INSERT INTO student SET surname=''");
+	mysql_query("INSERT INTO student SET surname='';");
 	$sid=mysql_insert_id();
-	mysql_query("INSERT INTO info SET student_id='$sid'");
-	reset($Student);
-	while(list($key,$val)=each($Student)){
+	mysql_query("INSERT INTO info SET student_id='$sid';");
+
+	foreach($Student as $key => $val){
 		if(isset($val['value']) and is_array($val) and isset($val['table_db'])){
 			$field=$val['field_db'];
 			$inname=$field;
@@ -48,16 +48,18 @@ if($sub=='Submit'){
 
 	/*Figure out the community they need to join*/
 	if($enrolstatus=='C' or $enrolstatus=='G'){
-		/*joining the current roll directly is special*/
-		/*as the student must join a yeargroup community*/
+		/* Joining the current roll directly is special
+		 * as the student must join a yeargroup community
+		 */
 		$community=array('id'=>'','type'=>'year','name'=>$enrolyid);
 		}
 	else{
 		if($enrolstatus=='P'){$comtype='alumni';}
 		elseif($enrolstatus=='EN'){$comtype='enquired';}
 		elseif($enrolstatus=='AC'){$comtype='accepted';}
-		/*all other enrolstatus values place the student within the*/
-		/*applied category - apllication is in progress*/
+		/* All other enrolstatus values place the student within the
+		 * applied category - apllication is in progress
+		 */
 		else{$comtype='applied';}
 		//if($enrolstatus==''){$enrolstatus='EN';}/*default if blank*/
 		$comname=$enrolstatus.':'.$enrolyid;
@@ -65,7 +67,6 @@ if($sub=='Submit'){
 		}
 
 	join_community($sid,$community);
-//$result[]=get_string('newstudentadded',$book);
 
 include('scripts/results.php');
 include('scripts/redirect.php');

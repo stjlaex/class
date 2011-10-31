@@ -2,9 +2,7 @@
 /**
  *											enrolments_matrix_apptable.php
  *
- *	This is the applications table - it can be 'live' numbers counted
- *  from the database or 'static' keyed values - configured in school.php
- *  by setting $CFG->enrol_applications='yes' or ='no' respectively.
+ *	This is the applications table.
  */
 
 

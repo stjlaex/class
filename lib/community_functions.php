@@ -686,6 +686,8 @@ function list_member_communities($sid,$community,$current=true){
  *
  */
 function join_community($sid,$community){
+	global $CFG;
+
 	$todate=date('Y-m-d');
 	$type=$community['type'];
 	$name=$community['name'];
@@ -797,7 +799,19 @@ function join_community($sid,$community){
 		if($enrolstatus=='P'){
 			/* Record the school leaving date. */
 			mysql_query("UPDATE info SET leavingdate='$todate' WHERE student_id='$sid';");
+			/* Remove from the transport lists. */ 
 			delete_journey_booking_all($sid,$todate);
+			}
+		if(($enrolstatus=='C' or $enrolstatus=='AC') and $CFG->enrol_number_generate=='yes'){
+			/* The student will now have an enrolment number issued if
+			 * one does not exist and if configured for the enrolment
+			 * number to be auto generated.
+			 */
+			$d_i=mysql_query("SELECT formerupn FROM info WHERE student_id='$sid';");
+			$oldenrolno=mysql_result($d_i,0);
+			if(empty($oldenrolno)){
+				$enrolno=generate_enrolno($sid);
+				}
 			}
 		}
 
@@ -1098,6 +1112,51 @@ function generate_epfusername($User=array(),$role='student'){
 	mysql_query("UPDATE $classtable SET epfusername='$epfusername' WHERE $classfield='$classid';");
 
 	return $epfusername;
+	}
+
+
+
+
+
+/**
+ *
+ * Generates a new enrolment number and places in info table. Only
+ * used when CFG->enrol_number_generate is yes. Only place this could
+ * be overridden is if enrolno is part of an import of student
+ * details.
+ * 
+ * Checks for duplicate values being generated and returns -1 on
+ * error.
+ *
+ *	@param integer sid	
+ *	@return string enrolno
+ */
+function generate_enrolno($sid){
+	global $CFG;
+
+	if(function_exists('enrolno_formula')){
+		/* Custom formula defined in enrolno_formula function. */
+		$enrolno=enrolno_formula($sid);
+		}
+	else{
+		/* The default is merely to take largest existing enrolment
+		 * number and increment by 1 
+		 */
+		$d_i=mysql_query("SELECT MAX(CAST(formerupn AS UNSIGNED)) FROM info;");
+		$enrolno=mysql_result($d_i,0)+1;
+		}
+
+	$d_i=mysql_query("SELECT student_id FROM info WHERE formerupn='$enrolno';");
+	if(mysql_num_rows($d_i)==0){
+		mysql_query("UPDATE info SET formerupn='$enrolno' WHERE student_id='$sid';");
+		}
+	else{
+		trigger_error('DUPLICATE NEW Enrol No: '.$enrolno,E_USER_ERROR);
+		$enrolno=-1;
+		}
+
+
+	return $enrolno;
 	}
 
 ?>

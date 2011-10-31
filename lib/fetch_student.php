@@ -344,9 +344,11 @@ function fetchStudent_singlefield($sid,$tag){
  *
  */
 function fetchStudent($sid='-1'){
-   	$d_student=mysql_query("SELECT * FROM student WHERE id='$sid'");
+	global $CFG;
+
+   	$d_student=mysql_query("SELECT * FROM student WHERE id='$sid';");
 	$student=mysql_fetch_array($d_student,MYSQL_ASSOC);
-   	$d_info=mysql_query("SELECT * FROM info WHERE student_id='$sid'");
+   	$d_info=mysql_query("SELECT * FROM info WHERE student_id='$sid';");
 	$info=mysql_fetch_array($d_info,MYSQL_ASSOC);
 
 	$Student=array();
@@ -495,12 +497,21 @@ function fetchStudent($sid='-1'){
 								   'type_db' => 'varhar(128)', 
 								   'value' => ''.$info['epfusername']
 								   );
-   	$Student['EnrolNumber']=array('label' => 'enrolmentnumber', 
-								  'table_db' => 'info', 
-								  'field_db' => 'formerupn', 
-								  'type_db' => 'char(20)', 
-								  'value' => ''.$info['formerupn']
-								  );
+	if($CFG->enrol_number_generate=='yes'){
+		$Student['EnrolNumber']=array('label' => 'enrolmentnumber', 
+										'field_db' => 'formerupn', 
+										'type_db' =>'char(20)', 
+										'value' => ''.$info['formerupn']
+										);
+		}
+	else{
+		$Studentt['EnrolNumber']=array('label' => 'enrolmentnumber', 
+										'table_db' => 'info', 
+										'field_db' => 'formerupn', 
+										'type_db' =>'char(20)', 
+										'value' => ''.$info['formerupn']
+										);
+		}
    	$Student['EnrolmentStatus']=array('label' => 'enrolstatus', 
 									  //'table_db' => 'info', 
 									  'field_db' => 'enrolstatus', 
@@ -1280,6 +1291,8 @@ function comment_display($sid,$date='',$Comments=''){
  * @return array
  */
 function fetchEnrolment($sid='-1'){
+	global $CFG;
+
 	$comid=-1;
    	$d_info=mysql_query("SELECT * FROM info WHERE student_id='$sid';");
 	if(mysql_num_rows($d_info)>0){
@@ -1385,12 +1398,22 @@ function fetchEnrolment($sid='-1'){
 									'type_db' =>'date', 
 									'value' => ''.$info['leavingdate']
 									);
-   	$Enrolment['EnrolNumber']=array('label' => 'enrolmentnumber', 
+	if($CFG->enrol_number_generate=='yes'){
+		$Enrolment['EnrolNumber']=array('label' => 'enrolmentnumber', 
+									'field_db' => 'formerupn', 
+									'type_db' =>'char(20)', 
+									'value' => ''.$info['formerupn']
+									);
+		}
+	else{
+		$Enrolment['EnrolNumber']=array('label' => 'enrolmentnumber', 
 									'table_db' => 'info', 
 									'field_db' => 'formerupn', 
 									'type_db' =>'char(20)', 
 									'value' => ''.$info['formerupn']
 									);
+		}
+
 	return $Enrolment;
 	}
 

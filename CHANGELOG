@@ -7,6 +7,10 @@ changed number present to present in school.
 Fix to generate_assessment_columns to add a mark definition when none
 exists.
 
+Config option to auto-geenrate the enrolment number. Defaults to
+auto-increment of current max value. But cutom method can be deinfed
+by adding enrolno_formula function.
+
 
 
 Version ClaSS-1.0.9 release (2011/10/25)
