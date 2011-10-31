@@ -11,6 +11,13 @@ Config option to auto-geenrate the enrolment number. Defaults to
 auto-increment of current max value. But cutom method can be deinfed
 by adding enrolno_formula function.
 
+A leaver is now automatically removed from subject classes.
+
+Opened access to InfoBook Message function for teachers with
+worklevel>1 but only for emails to students.
+
+Fixed rename formgroup to not alow change of yeargroup.
+
 
 
 Version ClaSS-1.0.9 release (2011/10/25)

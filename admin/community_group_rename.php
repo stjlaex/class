@@ -97,9 +97,8 @@ else{
 
 <?php
 
-	if($newcomtype=='form'){
+ if($newcomtype=='form' and !isset($comid)){
 		$yeargroups=list_yeargroups();
-		$selnewyid=get_form_yeargroup($com['name']);
 ?>
 	  <fieldset class="center">
 		<legend><?php print_string('yeargroups',$book);?></legend>

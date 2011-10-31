@@ -95,18 +95,17 @@ if(sizeof($EnrolAssDefs)>0){
 $extrabuttons=array();
 if($_SESSION['role']=='office' or $_SESSION['role']=='admin'){
 	$displayname='DisplayFullSurname';
+	}
+else{
+	$displayname='DisplayFullName';
+	}
+if($_SESSION['role']=='office' or $_SESSION['role']=='admin' or ($_SESSION['role']=='teacher' and $_SESSION['worklevel']>1)){
 	$extrabuttons['message']=array('name'=>'current',
 								   'title'=>'message',
 								   'value'=>'message.php');
    	$extrabuttons['addresslabels']=array('name'=>'current',
 										 'title'=>'printaddresslabels',
 										 'value'=>'print_labels.php');
-   	$extrabuttons['exportstudentrecords']=array('name'=>'current',
-												'title'=>'exportstudentrecords',
-												'value'=>'export_students.php');
-	}
-else{
-	$displayname='DisplayFullName';
 	}
 
 $extrabuttons['exportstudentrecords']=array('name'=>'current',

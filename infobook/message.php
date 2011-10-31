@@ -28,6 +28,11 @@ if(isset($_POST['share0'])){$share=$_POST['share0'];}else{$share='yes';}
 $_SESSION[$book.'recipients']=array();
 $_SESSION[$book.'tutors']=array();
 
+/* Locked down for teachers to only email and only to students. */
+if($_SESSION['role']=='teacher'){
+	$messageop='email';
+	$messageto='student';
+	}
 
 include('scripts/sub_action.php');
 
@@ -185,6 +190,10 @@ three_buttonmenu();
 					   tabindex="<?php print $tab++;?>" 
 					   value="email" <?php if($messageop=='email'){print 'checked';}?> />
 			  </div>
+<?php
+		if($_SESSION['role']=='office' or $_SESSION['role']=='admin'){
+?>
+
 			  <div class="row <?php if($messageop=='sms'){print 'checked';}?>">
 				<label for="sms"><?php print_string('sms',$book);?></label>
 				<input type="radio" name="messageop" onChange="processContent(this);"
@@ -192,6 +201,10 @@ three_buttonmenu();
 					   tabindex="<?php print $tab++;?>" 
 					   value="sms" <?php if($messageop=='sms'){print 'checked';}?> />
 			  </div>
+<?php
+			}
+?>
+
 			</td>
 		  </tr>
 	   	</table>
@@ -204,6 +217,9 @@ three_buttonmenu();
 			  <label for="family"><?php print_string('sendto',$book);?></label>
 			</th>
 			<td>
+<?php
+if($_SESSION['role']=='office' or $_SESSION['role']=='admin'){
+?>
 			  <div class="row <?php if($messageto=='family'){print 'checked';}?>">
 				<label for="family"><?php print_string('families',$book);?></label>
 				<input type="radio" name="messageto" onChange="processContent(this);" 
@@ -218,6 +234,9 @@ three_buttonmenu();
 					   tabindex="<?php print $tab++;?>" 
 					   value="contacts" <?php if($messageto=='contacts'){print 'checked';}?> />
 			  </div>
+<?php
+}
+?>
 			  <div class="row <?php if($messageto=='student'){print 'checked';}?>">
 				<label for="students"><?php print_string('students');?></label>
 				<input type="radio" name="messageto" onChange="processContent(this);"

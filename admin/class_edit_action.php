@@ -29,7 +29,7 @@ elseif($sub=='Submit'){
 					student_id='$sid' AND class_id='$newcid' LIMIT 1;");
 				}
 			}
-   	while(list($index,$sid)=each($newsid)){
+	foreach($newsid as $sid){
    		mysql_query("INSERT INTO cidsid SET student_id='$sid', class_id='$newcid';");
    		}
 
