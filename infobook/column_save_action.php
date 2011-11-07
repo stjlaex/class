@@ -1,5 +1,5 @@
 <?php
-/**									column_save__action.php
+/**									column_save_action.php
  *
  */
 
@@ -11,22 +11,30 @@ include('scripts/sub_action.php');
 $displayfields=array();
 $displayfields_no=$_POST['colno'];
 $savedview=$_POST['name'];
-for($dindex=0;$dindex < ($displayfields_no);$dindex++){
-	trigger_error($savedview.' NO '.$dindex.' ',E_USER_WARNING);
-	if(isset($_POST['displayfield'.$dindex])){
-		$displayfields[$dindex]=$_POST['displayfield'.$dindex];
-		if(!isset($taglist)){$taglist=$displayfields[$dindex];}
-		else{$taglist.=':::'.$displayfields[$dindex];}
-		}
-	}
 
+trigger_error($sub,E_USER_WARNING);
 
 if($sub=='Submit'){
-	mysql_query("INSERT INTO categorydef SET name='$savedview', type='col', comment='$taglist';");
-	trigger_error($savedview.' '.$taglist.' ',E_USER_WARNING);
+	for($dindex=0;$dindex < ($displayfields_no);$dindex++){
+		trigger_error($savedview.' NO '.$dindex.' ',E_USER_WARNING);
+		if(isset($_POST['displayfield'.$dindex])){
+			$displayfields[$dindex]=$_POST['displayfield'.$dindex];
+			if(!isset($taglist)){$taglist=$displayfields[$dindex];}
+			else{$taglist.=':::'.$displayfields[$dindex];}
+			}
+		}
+	if($savedview!=''){
+		mysql_query("INSERT INTO categorydef SET name='$savedview', type='col', comment='$taglist';");
+		}
+	}
+else{
+
+	$catids=(array)$_POST['catids'];
+	foreach($catids as $catid){
+		mysql_query("DELETE FROM categorydef WHERE id='$catid' AND type='col';");
+		}
+
 	}
 
-
-include('scripts/results.php');	
 include('scripts/redirect.php');	
 ?>

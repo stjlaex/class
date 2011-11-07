@@ -12,8 +12,9 @@ for($dindex=0;$dindex < ($displayfields_no);$dindex++){
 	if(isset($_POST['displayfield'.$dindex])){$displayfields[$dindex]=$_POST['displayfield'.$dindex];}
 	}
 
+$extrabuttons['delete']=array('name'=>'current','value'=>'column_save_action.php');
 
-three_buttonmenu();
+three_buttonmenu($extrabuttons);
 ?>
 
   <div id="heading">
@@ -23,12 +24,43 @@ three_buttonmenu();
   <div id="viewcontent" class="content">
 	<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
 
-	<fieldset class="divgroup center">
-	  <div class="center">
-		<label for="name"><?php print_string('name',$book);?></label>
-		<input type="text" name="name" id="name" size="60" value="" />
-	  </div>
-	</fieldset>
+	  <fieldset class="divgroup center">
+		<legend>Add new view</legend>
+		<div class="center">
+		  <label for="name"><?php print_string('name',$book);?></label>
+		  <input type="text" name="name" id="name" size="60" value="" />
+		</div>
+	  </fieldset>
+
+
+
+	<div class="center">
+	  <table class="listmenu">
+		<tr>
+		  <th><?php print_string('checkall'); ?>
+		  <input type="checkbox" name="checkall" value="yes" onChange="checkAll(this);" />
+		  </th>
+		  <th>
+			Existing views
+		  </th>
+		</tr>
+<?php
+	$d_c=mysql_query("SELECT id, name, comment FROM categorydef WHERE type='col';");
+	while($cat=mysql_fetch_array($d_c,MYSQL_ASSOC)){
+?>
+		<tr>
+		  <td>
+			<input type="checkbox" name="catids[]" value="<?php print $cat['id'];?>" />
+		  </td>
+<?php
+		print '<td>'.$cat['name'].'</td>';
+		print '</tr>';
+		}
+?>
+	  </table>
+	</div>
+
+
 
 <?php
 foreach($displayfields as $dindex => $displayfield){
