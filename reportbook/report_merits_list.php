@@ -135,27 +135,23 @@ two_buttonmenu($extrabuttons,$book);
 <?php
 if(isset($com)){
 ?>
-	  <div class="center">
-		<table class="listmenu sidtable">
-		  <tr>
-			<th>
-				<?php print_string($com['type']);?>
-			</th>
-			<th>
+	  <fieldset class="right divgroup">
+			<div class="left">
+				<label><?php print_string($com['type']);?></label>
 				<?php print $com['name'];?>
-			</th>
-			<th>
-			  <?php print get_string('total').' '.get_string('year').': '.mysql_result($d_total,0);?>
-			</th>
-			<th>
-			  <?php print get_string('total').' '.get_string('period','register').': '.$totaltotal;?>
-			</th>
-		  </tr>
-		</table>
-	  </div>
+			</div>
+			<div class="left">
+			  <?php print '<label>'.get_string('total').' '.get_string('year').'</label> '.mysql_result($d_total,0);?>
+			</div>
+			<div class="right">
+			  <?php print '<label>'.get_string('total').' '.get_string('period','register').'</label> '.$totaltotal;?>
+			</div>
+	  </fieldset>
+
 <?php
 }
 ?>
+<div class="center">
 	  <table class="listmenu sidtable">
 		<tr id="sid-<?php print $sid;?>">
 		  <th colspan="1">
@@ -231,9 +227,7 @@ if(isset($com)){
 		}
 ?>
 	  </table>
-
-	</fieldset>
-
+</div>
  	<input type="hidden" name="cancel" value="<?php print $choice;?>" />
  	<input type="hidden" name="choice" value="<?php print $choice;?>" />
  	<input type="hidden" name="current" value="<?php print $action;?>" />
