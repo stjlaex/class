@@ -152,11 +152,10 @@ for($i=0;$i<sizeof($cids);$i++){
 
 
 		  if($marktype[$c]=='average'){
-				/*no markdef for an average, have to get grading_name from the levelname*/
+				/* No markdef for an average, have to get grading_name from the levelname. */
 				$scoregrading[$c]=$lena[$c];
 				if($scoregrading[$c]!=''){
-					$d_grading=mysql_query("SELECT grades FROM grading 
-								WHERE name='$scoregrading[$c]'");
+					$d_grading=mysql_query("SELECT grades FROM grading WHERE name='$scoregrading[$c]';");
 					$scoregrades[$c]=mysql_result($d_grading,0);
 					}
 				else{$scoregrades[$c]='';}
@@ -164,8 +163,12 @@ for($i=0;$i<sizeof($cids);$i++){
 				/* Grab the scoretype of the columns we are averaging */
 				$avmids=explode(' ',$mark['midlist']);
 				$lastmid=$avmids[count($avmids)-1];//use the last one
+				$pos=strpos($lastmid,':::');
+				if(!$pos===false){
+					list($lastmid,$weight)=explode(':::',$lastmid);
+					}
 				$d_markdef=mysql_query("SELECT markdef.scoretype FROM markdef
-				JOIN mark ON markdef.name=mark.def_name WHERE mark.id='$lastmid';");
+											JOIN mark ON markdef.name=mark.def_name WHERE mark.id='$lastmid';");
 				$scoretype[$c]=mysql_result($d_markdef,0);
 				$umn['scoretype']=$scoretype[$c];
 				$umns[$c]['scoretype']=$scoretype[$c];

@@ -74,6 +74,20 @@ while($student=mysql_fetch_array($d_students, MYSQL_ASSOC)){
 				/*Mark is average of several score values*/
 				$scoreclass.=' derived';
 				$mids=explode(' ',$midlist[$c]);
+				$pos=strpos($midlist[$c],':::');
+				if(!$pos===false){
+					$tempmids=$mids;
+					$mids=array();
+					$weights=array();
+					$weightsum=0;
+					foreach($tempmids as $mid){
+						list($mids[],$weight)=explode(':::',$mid);
+						$weights[]=$weight;
+						$weightsum+=$weight;
+						}
+					unset($tempmids);
+					}
+
 				if($umns[$c]['scoretype']=='grade'){
 					$grading_grades=$scoregrades[$c];
 					$gradesum=0;
@@ -99,16 +113,16 @@ while($student=mysql_fetch_array($d_students, MYSQL_ASSOC)){
 				elseif($umns[$c]['scoretype']=='percentage'){
 					$scoresum=0;
 					$scorecount=0;
-					foreach($mids as $mid){
+					foreach($mids as $avc => $mid){
 						$iscore=$studentrow["score$mid"];
 						if($iscore['value']){
 							list($dislpay,$percent,$cent)=scoreToPercent($iscore['value'],$iscore['outoftotal']);
-							$scoresum+=$cent;
+							$scoresum+=$cent * $weights[$avc] / $weightsum;
 							$scorecount++;
 							}
 						}
 					if($scorecount>0){
-						$scoresum=$scoresum/$scorecount;
+						//$scoresum=$scoresum/$scorecount;
 						$score['value']=$scoresum;
 						}
 					list($display,$out,$outrank)=scoreToPercent($scoresum);

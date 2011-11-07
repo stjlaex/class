@@ -116,17 +116,18 @@ three_buttonmenu();
 <?php if($scoretypes[0]=='percentage' or $scoretypes[0]=='value'){
 ?>
 		  <fieldset class="center">
-			<legend>If Copying to a Percentage</legend>
+			<legend><?php print_string('percentage',$book);?></legend>
 
 			<div class="left">
-			  <label for="Total">Default Out-of-Total:</label>
-			  <input type="text" id="Total" name="total" value="<?php print
-			  $mark['total']; ?>" sixe="3" maxlength="4"
-				pattern="integer" />
+			  <label for="Total"><?php print_string('outoftotal',$book);?></label>
+			  <input type="text" id="Total" name="total" value="<?php print $mark['total']; ?>" 
+					 size="3" maxlength="4" pattern="integer" />
 			</div>
 			<div class="right">
-			  <?php $checkname='scale'; $checkcaption='Scale old values?'; 
-			  include('scripts/check_yesno.php');?>
+<?php 
+			  $checkname='scale'; $checkcaption='Scale old values?'; 
+			  include('scripts/check_yesno.php');
+?>
 			</div>
 		  </fieldset>
 <?php	}
