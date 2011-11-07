@@ -26,6 +26,7 @@ if(sizeof($sids)==0){
 
   	$file='/tmp/class_export.xls';
 	$workbook = new Spreadsheet_Excel_Writer($file);
+	$workbook->setVersion(8);
 	$format_hdr_bold =& $workbook->addFormat(array('Size' => 11,
 		                                  //'Align' => 'center',
 		                                  'Color' => 'white',
@@ -46,6 +47,7 @@ if(sizeof($sids)==0){
 		$error[]='unabletoopenfileforwriting';
 		}
 	else{
+		$worksheet->setInputEncoding('UTF-8');
 		$worksheet->write(0, 0, 'ClaSS Id.', $format_hdr_bold);
 		$worksheet->write(0, 1, 'Enrolment No.', $format_hdr_bold);
 		$worksheet->write(0, 2, 'Surname', $format_hdr_bold);
@@ -64,9 +66,12 @@ if(sizeof($sids)==0){
 
 			$worksheet->write($rown, 0, $sid, $format_line_bold);
 			$worksheet->write($rown, 1, $EnrolNumber['EnrolNumber']['value'], $format_line_bold);
-			$worksheet->write($rown, 2, iconv('UTF-8','ISO-8859-1',$Student['Surname']['value']), $format_line_bold);
-			$worksheet->write($rown, 3, iconv('UTF-8','ISO-8859-1',$Student['Forename']['value']), $format_line_bold);
-			$worksheet->write($rown, 4, iconv('UTF-8','ISO-8859-1',$Student['PreferredForename']['value']), $format_line_bold);
+			//$worksheet->write($rown, 2, iconv('UTF-8','ISO-8859-1',$Student['Surname']['value']), $format_line_bold);
+			$worksheet->write($rown, 2, $Student['Surname']['value'], $format_line_bold);
+			//$worksheet->write($rown, 3, iconv('UTF-8','ISO-8859-1',$Student['Forename']['value']), $format_line_bold);
+			$worksheet->write($rown, 3, $Student['Forename']['value'], $format_line_bold);
+			//$worksheet->write($rown, 4, iconv('UTF-8','ISO-8859-1',$Student['PreferredForename']['value']), $format_line_bold);
+			$worksheet->write($rown, 4, $Student['PreferredForename']['value'], $format_line_bold);
 
 			$col=5;
 			foreach($displayfields as $displayfield){
@@ -89,7 +94,8 @@ if(sizeof($sids)==0){
 				else{
 					$displayout=$Student[$displayfield]['value'];
 					}
-				$worksheet->write($rown, $col, iconv('UTF-8','ISO-8859-1',$displayout), $format_line_normal);
+				//$worksheet->write($rown, $col, iconv('UTF-8','ISO-8859-1',$displayout), $format_line_normal);
+				$worksheet->write($rown, $col, $displayout, $format_line_normal);
 				$col++;
 				}
 			$rown++;
@@ -97,7 +103,7 @@ if(sizeof($sids)==0){
 
 		/*send the workbook with the spreadsheet and close it*/ 
 		$workbook->close();
-		$result[]='exportedtofile';
+		//$result[]='exportedtofile';
 ?>
 		<script>openFileExport('xls');</script>
 <?php
