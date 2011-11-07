@@ -16,7 +16,10 @@ $extrabuttons['previewselected']=array('name'=>'current',
 two_buttonmenu($extrabuttons);
 
 /* TODO: If epfdb='' then simply list epfuser's directory looking for reports. */
+//list_directory_files($directory,'pdf')
+
 $report_files=(array)elgg_list_files($Student['EPFUsername']['value'],'report',true);
+
 ?>
 
   <div id="heading">
@@ -25,28 +28,19 @@ $report_files=(array)elgg_list_files($Student['EPFUsername']['value'],'report',t
   </div>
   <div class="content">
 
-	<fieldset class="center divgroup">
+	<fieldset class="center">
 	  <legend>
 			<?php print get_string('published','reportbook'). ' '.get_string('reports',$book);?>
 	  </legend>
 <?php
 	foreach($report_files as $report){
 ?>
-	<div style="float:left;width:24%;margin:2px;">
-	  <table class="listmenu smalltable">
-		<tr>
-		  <td>
-			<h4><?php print $report['title'];?></h4>
-		  </td>
-		  <td>
+	<div style="float:left;width:24%;margin:2px;padding:2px 4px;background-color:#ffffff;">
 <?php
 	$epfu=strtolower($Student['EPFUsername']['value']);
 	if(trim($epfu)==''){$epfu=strtolower($Student['EnrolNumber']['value']);}
-	print '<a style="float:right;" href="http://'.$CFG->siteaddress.$CFG->sitepath.'/'.$CFG->applicationdirectory.'/scripts/file_display.php?epfu='.$epfu.'&location='.$report['location'].'&filename='.$report['name'].'" /><img src="images/printer.png" /></a>';
+	print '<a href="http://'.$CFG->siteaddress.$CFG->sitepath.'/'.$CFG->applicationdirectory.'/scripts/file_display.php?epfu='.$epfu.'&location='.$report['location'].'&filename='.$report['name'].'" /><label>'.$report['title'].'</label><img src="images/printer.png" /></a>';
 ?>
-		  </td>
-		</tr>
-	  </table>
 	</div>
 <?php
 		}
