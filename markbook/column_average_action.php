@@ -6,6 +6,7 @@
 $action='class_view.php';
 $action_post_vars=array('displaymid');
 
+include('scripts/sub_action.php');
 
 $midlist=$_POST['midlist'];
 $grading_name=$_POST['grading_name'];
@@ -23,7 +24,6 @@ $entrydate=$_POST['date0'];
 		if($weight==''){$weight=100;}
 		$midlist.=$joiner. $mid.':::'.$weight;
 		if($c==0){$joiner=' ';}
-		//trigger_error($midlist,E_USER_WARNING);
 		}
 
 	if($midlist!=''){
@@ -34,15 +34,13 @@ $entrydate=$_POST['date0'];
 		 *
 		 * Will store grading_name in mark.levelname, as an average has no markdef row.
 		 */		
-		mysql_query("INSERT INTO mark (entrydate, marktype,
-			midlist, author, levelling_name, def_name, topic,component_id) VALUES
-			('$entrydate', 'average', '$midlist', '$tid',
-			'$grading_name', '$def_name', '$topic','$pid')");
+		mysql_query("INSERT INTO mark (entrydate, marktype, midlist, author, levelling_name, 
+					def_name, topic,component_id) VALUES ('$entrydate', 'average', '$midlist', '$tid',
+					'$grading_name', '$def_name', '$topic','$pid')");
 		$mid=mysql_insert_id();
 		for($c=0;$c<sizeof($cids);$c++){
 			$cid=$cids[$c];
-			mysql_query("INSERT INTO midcid 
-			     (mark_id, class_id) VALUES ('$mid', '$cid')");
+			mysql_query("INSERT INTO midcid (mark_id, class_id) VALUES ('$mid', '$cid')");
 			}
 
 		$displaymid=$mid;				

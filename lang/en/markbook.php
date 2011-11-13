@@ -37,7 +37,7 @@ $string['newsworthy']='News worthy';
 $string['returnedlate']='Handed in late';
 $string['weightings']='Weightings';
 $string['needsamegradingscheme']='Marks must use the same grading scheme.';
-$string['needtobesametype']='Marks need to be of the same type.';
+$string['notofsametype']='Marks are not of the same type.';
 $string['percentage']='Percentage';
 $string['']='';
 ?>

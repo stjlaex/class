@@ -27,46 +27,43 @@ if(sizeof($checkmids)<2){
 	$joiner='';
 	$markdefs=array();
 	$scoretypes=array();
+	$midlist='';
 	foreach($checkmids as $c => $mid){
 		$d_m=mysql_query("SELECT name, scoretype, grading_name
 				FROM markdef JOIN mark ON markdef.name=mark.def_name WHERE mark.id='$mid';");
 		$markdef=mysql_fetch_array($d_m,MYSQL_ASSOC);
 
 		/* Check all columns are compatible by taking the properties
-		 * on the first pass through and only accepting columns witht
-		 * the exact same porperties.
+		 * on the first pass through and comparing
+		 * the porperties of each susequent pass.
 		 */
-		if($markdef['scoretype']=='grade'){
+		if($markdef['scoretype']=='value' or $markdef['scoretype']=='percentage' or $markdef['scoretype']=='grade'){
 			if($c==0){
 				$grading_name=$markdef['grading_name'];
 				$scoretype=$markdef['scoretype'];
 				$def_name=$markdef['name'];
 				}
-			if($grading_name==$markdef['grading_name']){
+			if($grading_name==$markdef['grading_name'] and $markdef['scoretype']==$scoretype){
 				$midlist.=$joiner. $mid;
 				}
 			else{
-				$result[]=get_string('warning',$book).': '.get_string('needsamegradingscheme',$book);
-				}
-			}
-		elseif($markdef['scoretype']=='value' or $markdef['scoretype']=='percentage'){
-			if($c==0){
+				/* Mixing two different types of columns so drop back
+				   to to simple percentage using numerical values for
+				   all grades. 
+				*/
+				$midlist.=$joiner. $mid;
+				$scoretype='value';
+				$def_name='Raw Score';
 				$grading_name='';
-				$scoretype=$markdef['scoretype']; 
-				$def_name=$markdef['name'];
+				$warning[]=get_string('warning',$book).': '.get_string('notofsametype',$book);
 				}
-			if($markdef['scoretype']==$scoretype){
-				$midlist.=$joiner. $mid;
-				}
-			else{
-				$result[]=get_string('warning',$book).': '.get_string('needtobesametype',$book);
-				}
+			$joiner=' ';
+			$markdefs[$def_name]=$def_name;
 			}
 		else{
-			$result[]=get_string('warning',$book).': '.'Marks must be primary values..';
+			/* Can't handle dependent columns yet... */
+			$result[]=get_string('warning',$book).': '.'Marks must be primary values...';
 			}
-		$joiner=' ';
-		$markdefs[$def_name]=$def_name;
 		}
 
 if(isset($result)){
@@ -88,7 +85,7 @@ three_buttonmenu();
 <?php
 			foreach($markdefs as $markdef){
 				print '<option value="'.$markdef.'"';
-				if($markdefname==$markdef){print ' selected="selected" ';}
+				if($def_name==$markdef){print ' selected="selected" ';}
 				print '>'.$markdef.'</option>';
 				}
 ?>
