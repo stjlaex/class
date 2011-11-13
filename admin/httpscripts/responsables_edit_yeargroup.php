@@ -1,5 +1,5 @@
 <?php
-/**                    httpscripts/responsables_edit_pastoral.php
+/**                    httpscripts/responsables_edit_yeargroup.php
  */
 
 require_once('../../scripts/http_head_options.php');
@@ -7,7 +7,8 @@ require_once('../../scripts/http_head_options.php');
 if(!isset($xmlid)){print "Failed"; exit;}
 
 	list($yid,$uid)=explode('-',$xmlid);
-	$d_groups=mysql_query("SELECT gid FROM groups WHERE yeargroup_id='$yid' AND course_id=''");
+	$d_groups=mysql_query("SELECT gid FROM groups WHERE 
+						course_id='' AND subject_id='' AND community_id='0' AND yeargroup_id='$yid' AND type='p';");
 	$gid=mysql_result($d_groups,0);
 	$perms=getYearPerm($yid);
 	$Responsible=array();
