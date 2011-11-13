@@ -15,11 +15,16 @@ $extrabuttons['previewselected']=array('name'=>'current',
 									   'onclick'=>'checksidsAction(this)');
 two_buttonmenu($extrabuttons);
 
-/* TODO: If epfdb='' then simply list epfuser's directory looking for reports. */
-//list_directory_files($directory,'pdf')
 
-$report_files=(array)elgg_list_files($Student['EPFUsername']['value'],'report',true);
-
+$epfu=strtolower($Student['EPFUsername']['value']);
+if(empty($CFG->eportfolio_db)){
+	/* If epfdb='' then simply list epfuser's directory looking for reports. */
+	$directory='files/' . substr($epfu,0,1) . '/' . $epfu;
+	$report_files=(array)list_directory_files($CFG->eportfolio_dataroot.'/'.$directory,'pdf');
+	}
+else{
+	$report_files=(array)elgg_list_files($epfu,'report',true);
+	}
 ?>
 
   <div id="heading">
@@ -33,12 +38,13 @@ $report_files=(array)elgg_list_files($Student['EPFUsername']['value'],'report',t
 			<?php print get_string('published','reportbook'). ' '.get_string('reports',$book);?>
 	  </legend>
 <?php
-	foreach($report_files as $report){
+	foreach($report_files as $reportdetails){
 ?>
 	<div style="float:left;width:24%;margin:2px;padding:2px 4px;background-color:#ffffff;">
 <?php
-	$epfu=strtolower($Student['EPFUsername']['value']);
 	if(trim($epfu)==''){$epfu=strtolower($Student['EnrolNumber']['value']);}
+	if(!is_array($reportdetails)){$report=array('title'=>$reportdetails,'name'=>$reportdetails.'.pdf','location'=>$directory.'/'.$reportdetails.'.pdf');}
+	else{$report=$reportdetails;}
 	print '<a href="http://'.$CFG->siteaddress.$CFG->sitepath.'/'.$CFG->applicationdirectory.'/scripts/file_display.php?epfu='.$epfu.'&location='.$report['location'].'&filename='.$report['name'].'" /><label>'.$report['title'].'</label><img src="images/printer.png" /></a>';
 ?>
 	</div>
