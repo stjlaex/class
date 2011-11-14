@@ -1,12 +1,34 @@
-Version ClaSS-1.0.11 release (2011/11/9)
+Version ClaSS-1.0.12 release (2011/11/16)
 -------------------------------------------
 
-Made UTF-8 compatible for exporting to spreadsheet from InfoBook.
+Support profiles re-organised to include two groups of SEN assessments
+and the extra support search now works.
+
+
+
+Version ClaSS-1.0.11 release (2011/11/12)
+-------------------------------------------
+
+Made exporting to spreadsheet from InfoBook UTF-8 compatible.
 
 The MarkBook column_average script now allows editing of the new column's
 properties including weighting of the columns being averaged.
 
 Option added to delete InfoBook saved views.
+
+Added tables for the fees module.
+
+Removed iconv completely for emails. The send_email_to function now
+using html in UTF-8 across the board.
+
+Made enrolment number and today's date available to reports.
+
+All scripts making use of send_email_to updated to create both plain
+text and html messages.
+
+A student's published subject reports are now listed both with and
+without epfdb being configured.
+
 
 
 Version ClaSS-1.0.10 release (2011/11/2)

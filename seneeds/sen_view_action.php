@@ -51,10 +51,22 @@ elseif($ncmodkey=='-1'){
 
 	}
 elseif($sub=='Submit'){
+	$inval=$_POST['date0'];
+	$table=$SEN['StartDate']['table_db'];
+	$field=$SEN['StartDate']['field_db'];
+	if($SEN['NextReviewDate']['value']!=$inval){
+		mysql_query("UPDATE $table SET $field='$inval' WHERE id='$senhid'");
+		}
 	$inval=$_POST['date1'];
 	$table=$SEN['NextReviewDate']['table_db'];
 	$field=$SEN['NextReviewDate']['field_db'];
 	if($SEN['NextReviewDate']['value']!=$inval){
+		mysql_query("UPDATE $table SET $field='$inval' WHERE id='$senhid'");
+		}
+	$inval=$_POST['date2'];
+	$table=$SEN['AssessmentDate']['table_db'];
+	$field=$SEN['AssessmentDate']['field_db'];
+	if($SEN['Assessment']['value']!=$inval){
 		mysql_query("UPDATE $table SET $field='$inval' WHERE id='$senhid'");
 		}
 

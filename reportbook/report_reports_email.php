@@ -1,5 +1,9 @@
  <?php
 /**									report_reports_email.php
+ * 
+ * Can email a published report as an attachment to parents. Needs the
+ * reports to be in files directory of dataroot and for students to
+ * have an epfusername. Does not need epfdb.
  *
  */
 
@@ -26,87 +30,47 @@ if(sizeof($sids)==0){
 		}
 	$pubdate=$reportdefs[0]['report']['date'];
 
-
-if(isset($CFG->eportfolio_db) and $CFG->eportfolio_db!=''){
-	include('lib/eportfolio_functions.php');
-	$doing_epf=true;
-	}
-
-/*TODO!!!!*/
-$doing_epf=false;
-
-	/*doing one student at a time*/
 	for($c=0;$c<sizeof($sids);$c++){
 		$sid=$sids[$c];
 		$Student=fetchStudent_short($sid);
-		setlocale(LC_CTYPE,'en_GB');
-		//$studentname=iconv('UTF-8','ASCII//TRANSLIT',$Student['DisplayFullName']['value']);
-		$studentname=utf8_to_ascii($Student['DisplayFullName']['value']);
+		$studentname=$Student['DisplayFullName']['value'];
 		$Contacts=fetchContacts($sid);
 
-		if($doing_epf){
+		$bodytxt="\r\n";
+		$bodytxt.='This is an automatic email sent on behalf of '. $CFG->schoolname.'.'."\r\n";
+		$bodytxt.='Please find the academic report for '.$studentname.' attached.'."\r\n";
+		$bodytxt.="\r\n";
+		
+		$body='<p>This is an automatic email sent on behalf of '. $CFG->schoolname.'</p>';
+		$bodytxt.='<p>Please find the academic report for '.$studentname.' attached.</p>';
+			
+		$subject='Report for '.$studentname;
+		$fromaddress='';
+		$filename='Report'.$pubdate.'_'.$sid.'_'.$wrapper_rid.'.pdf';
+		$attachments=array();
 
-			$EPFUsername=fetchStudent_singlefield($sid,'EPFUsername');
-			$epfusername=$EPFUsername['value'];
-			$epfuid=elgg_get_epfuid($epfusername,'person',true);
-			$epf_folder_id=elgg_new_folder($epfuid,'Reports','',true);
-			$body="\r\n";
-			$body.='This is an automatic email sent on behalf of '.$CFG->schoolname.'. '."\r\n";
-			$body.='You can now find the term report for '.$studentname.' available on the ClaSSic website. Please access the report directly using the following link:'."\r\n";
-			$body.="\r\n";
-			$body.='http://classforschools.com/classic/'.$epfusername.'/files/'.$epf_folder_id;
-			$body.="\r\n";
-			$body.="\r\n";
-			$body.='Access to the website is protected by a user-name and password, details of which you will have received previously by email.'."\r\n";
-			$body.='--'."\r\n";
-			$body.="\r\n";
-			$body.='Este es un mensaje automatico enviado en nombre de '.$CFG->schoolname.'.'."\r\n";
-			$body.='Tiene a su disposición el informe del trimestre '.$studentname.' en el website de ClaSSic. Puede acceder directamente al informe haciendo click en el siguiente enlace:'."\r\n";
-			$body.="\r\n";
-			$body.='http://classforschools.com/classic/'.$epfusername.'/files/'.$epf_folder_id;
-			$body.="\r\n";
-			$body.="\r\n";
-			$body.='El acceso al website está protegido con un nombre de usuario y una contraseña que Ud. debe haber recibido previamente por email.'."\r\n";
-
-			$subject='Report for '.$studentname;
-			$fromaddress='';
-			$filename='Report'.$pubdate.'_'.$sid.'_'.$wrapper_rid.'.html';
-			$attachments=array();
-			$attachments[]=array('filepath'=>$CFG->installpath.'/reports/'.$filename,
-								 'filename'=>$filename);
-			while(list($index,$Contact)=each($Contacts)){
-				$mailing=$Contact['ReceivesMailing']['value'];
-				if(($mailing=='1' or $mailing=='2') and $Contact['EmailAddress']['value']!=''){
-					$recipient=$Contact['EmailAddress']['value'];
-					send_email_to($recipient,$fromaddress,$subject,$body,'',$attachments);
-					$result[]=get_string('reportsemailed').': '.$recipient;
+		$S=fetchStudent_singlefield($sid,'EPFUsername');
+		$epfusername=$S['EPFUsername']['value'];
+		if(!empty($epfusername)){
+			$reportpath=$CFG->eportfolio_dataroot.'/files/' . substr($epfusername,0,1) . '/' . $epfusername;
+			if(file_exists($reportpath.'/'.$filename)){
+				$attachments[]=array('filepath'=>$reportpath.'/'.$filename,
+									 'filename'=>$filename);
+				foreach($Contacts as $Contact){
+					$mailing=$Contact['ReceivesMailing']['value'];
+					if(($mailing=='1' or $mailing=='2') and $Contact['EmailAddress']['value']!=''){
+						$recipient=$Contact['EmailAddress']['value'];
+						send_email_to($recipient,$fromaddress,$subject,$bodytxt,$body,$attachments);
+						$result[]=get_string('reportsemailed').': '.$recipient;
+						}
 					}
 				}
-			}
-		else{
-			$body="\r\n";
-			$body.='This is an automatic email sent on behalf of '. $CFG->schoolname.'.'."\r\n";
-			$body.='Please find the academic report for '.$studentname.' attached.'."\r\n";
-			$body.="\r\n";
-
-			$subject='Report for '.$studentname;
-			$fromaddress='';
-			$filename='Report'.$pubdate.'_'.$sid.'_'.$wrapper_rid.'.pdf';
-			$attachments=array();
-			$attachments[]=array('filepath'=>$CFG->installpath.'/reports/'.$filename,
-							 'filename'=>$filename);
-			while(list($index,$Contact)=each($Contacts)){
-				$mailing=$Contact['ReceivesMailing']['value'];
-				if(($mailing=='1' or $mailing=='2') and $Contact['EmailAddress']['value']!=''){
-					$recipient=$Contact['EmailAddress']['value'];
-					send_email_to($recipient,$fromaddress,$subject,$body,'',$attachments);
-					$result[]=get_string('reportsemailed').': '.$recipient;
-					}
+			else{
+				trigger_error('Report file missing for: '.$reportpath.'/'.$filename,E_USER_WARNING);
 				}
-
 			}
 		}
-
+		
 	include('scripts/results.php');
 	include('scripts/redirect.php');
 ?>

@@ -28,7 +28,7 @@ if($share=='yes'){
 	}
 if($messagebcc!=''){
 	$tutor=array_pop($tutors);
-	$extrarecipient=array('email'=>$messagebcc,'explanation'=>'',
+	$extrarecipient=array('email'=>$messagebcc,
 						  'explanation'=>$tutor['explanation']);
 	$recipients[]=$extrarecipient;
 	}
@@ -63,13 +63,15 @@ if($sub=='Submit' and $recipients and sizeof($recipients)>0 and !isset($error)){
 	$fromaddress=$CFG->schoolname;
 	$sentno=0;
 	$failno=0;
+
+	/* Sending emails.... */
 	if($CFG->emailoff!='yes' and $messageop=='email'){
-		$footer='--'. "\r\n" . get_string('guardianemailfooterdisclaimer');
-		$messagebody.="\r\n". $footer;
-		/* TODO: needs testing and work to send in UTF-8 instead of converting? */
-		//$message=utf8_to_ascii($message);
-		$messagebody=iconv('UTF-8','ISO-8859-1',$messagebody);
-		$messagesubject=iconv('UTF-8','ISO-8859-1',$messagesubject);
+
+		/* Need both plain text and html versions of body.*/
+		$footer=get_string('guardianemailfooterdisclaimer');
+		$messagebodytxt=strip_tags(html_entity_decode($messagebody, ENT_QUOTES, 'UTF-8'))."\r\n". '--'. "\r\n" . $footer;
+		$messagebody.='<br /><hr><p>'. $footer.'</p>';
+
 
 		$attachments=array();
 		if(isset($file_name)){
@@ -88,29 +90,27 @@ if($sub=='Submit' and $recipients and sizeof($recipients)>0 and !isset($error)){
 			}
 
 		foreach($recipients as $key => $recipient){
-			
-			$message=iconv('UTF-8','ISO-8859-1',$recipient['explanation']);
-			$message.=$messagebody;
-
-			$email_result=send_email_to($recipient['email'],$fromaddress,$messagesubject,'',$message,$attachments);
-
+			$messagehtml='<p>'.$recipient['explanation'].'</p>';
+			$messagehtml.=$messagebody;
+			$messagetxt='';
+			$messagetxt.=$messagebodytxt;
+			$email_result=send_email_to($recipient['email'],$fromaddress,$messagesubject,$messagetxt,$messagehtml,$attachments);
 			if($email_result){$sentno++;}
 			else{$failno++;}
-
 			}
 		$result[]=get_string('emailsentto',$book).' '. $sentno;
 		}
+
+	/* Sending SMS Text messages.... */
 	elseif(isset($CFG->smsoff) and $CFG->smsoff=='no' and $messageop=='sms'){
 
-		$messagebody=iconv('UTF-8','ISO-8859-1',$messagebody);
+		$messagetxt=iconv('UTF-8','ISO-8859-1',$messagebody);
+
 		foreach($recipients as $key => $recipient){
-			
-			$message=iconv('UTF-8','ISO-8859-1',$recipient['explanation']);
-			$message.="\r\n".$messagebody;
 
-			$sms_result=send_sms_to($recipient['mobile'],$message);
+			$sms_result=send_sms_to($recipient['mobile'],$messagetxt);
 
-			//trigger_error('TO: '.$recipient['mobile'].' BODY:'.$message,E_USER_WARNING);
+			//trigger_error('TO: '.$recipient['mobile'].' BODY:'.$messagetxt,E_USER_WARNING);
 
 			if($sms_result){$sentno++;}
 			else{$failno++;}
@@ -125,6 +125,7 @@ if($sub=='Submit' and $recipients and sizeof($recipients)>0 and !isset($error)){
 elseif($sub=='Submit' and !isset($error)){
 	$result[]=get_string('nocontacts',$book);
 	}
+
 
 include('scripts/results.php');	
 include('scripts/redirect.php');	

@@ -265,6 +265,7 @@ function fetchSubjectReports($sid,$reportdefs){
 		   	if(isset($reportdef['cattable'])){$Reports['cattable']=$reportdef['cattable'];}
 			$Reports['Summaries']=$Summaries;
 		   	$Reports['publishdate']=date('jS M Y',strtotime($reportdef['report']['date']));
+		   	$Reports['date']=date('jS M Y');
 		   	$transform=$reportdef['report']['transform'];
 		   	$style=$reportdef['report']['style'];
 		}

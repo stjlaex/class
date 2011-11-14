@@ -97,7 +97,7 @@ if($messageto=='student'){
 			foreach($Student['RegistrationTutor'] as $Tutor){
 				if($Tutor['email']!=''){
 					$tutors[$Tutor['email']]=array('email'=>$Tutor['email'],
-												   'explanation'=>'<p>'.$CFG->schoolname.': message sent to parents of '.$Student['RegistrationGroup']['value'].'</p>');
+												   'explanation'=>$CFG->schoolname.': message sent to parents of '.$Student['RegistrationGroup']['value']);
 					}
 				}
 			$Contacts=(array)fetchContacts($sid);
@@ -110,15 +110,13 @@ if($messageto=='student'){
 						 * flagged to receive all mailings 
 						 */
 						$email=strtolower($Contact['EmailAddress']['value']);
-						if($email!='' and $email!=' '){
+						if(!empty($email)){
 							$recipient['name']=$Contact['DisplayFullName']['value'];
-							$recipient['explanation']=$CFG->schoolname;
-							if($messageto=='contacts'){
-								//$recipient['explanation'].='<p>'.get_string(displayEnum($Contact['Relationship']['value'],'relationship'),'infobook'). ' to '. $Student['DisplayFullName']['value'].'</p>';
-								$recipient['explanation']='';
+							//$recipient['explanation']=$CFG->schoolname;
+							if(($messageto=='contacts' or $messageto=='family')){
+								$recipient['explanation'].=get_string(displayEnum($Contact['Relationship']['value'],'relationship'),'infobook'). ' to '. $Student['DisplayFullName']['value'];
 								}
 							else{
-								//$recipient['explanation'].='<p>Dear '.$Contact['DisplayFullName']['value'].'</p>';
 								$recipient['explanation']='';
 								}
 							$recipient['email']=$email;

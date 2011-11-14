@@ -20,16 +20,13 @@ three_buttonmenu();
 			tabindex="<?php print $tab++;?>" maxlength="100" size="50" />
 		</div>
 
-		<div class="right" >
-		  <?php include('scripts/jsdate-form.php'); ?>
-		</div>
 		<div class="left" >
 		  <label for="Detail"><?php print_string('details',$book);?></label>
 		  <textarea name="detail" id="Detail" maxlength="1200" class="required"  
-			tabindex="<?php print $tab++;?>" rows="8" cols="40" ></textarea>
+			tabindex="<?php print $tab++;?>" rows="8" cols="70" ></textarea>
 		</div>
 <?php
-	$subject="Support Request from ".$tid."(".$schoolname.")";
+	$subject="Support Request from ".$tid."(".$CFG->schoolname.")";
 ?>
  	<input type="hidden" name="subject" value="<?php print $subject; ?>">
  	<input type="hidden" name="queue" value="support">

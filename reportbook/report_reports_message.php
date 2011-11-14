@@ -75,25 +75,26 @@ if(sizeof($rids)!=0){
 			   and $Contact['EPFUsername']['value']!=''){
 				$recipient=$Contact['EmailAddress']['value'];
 				//$recipient='stj@laex.org';
-				$message=get_string('epfreportemail1');
-				$message.= "\r\n".$CFG->eportfoliosite ."\r\n";
-				$message.=get_string('epfreportemail1bis');
-				$message.= "\r\n". 'Your username is: ' .$Contact['EPFUsername']['value']. "\r\n";
-				//$message.= "\r\n". 'Your password is: ' .$password. "\r\n";
-				if(isset($CFG->eportfolio_access) and $CFG->eportfolio_access=='dob'){$message.=get_string('epfreportemail2dob');}
-				else{$message.=get_string('epfreportemail2no');}
+				$message='<p>'.get_string('epfreportemail1').'</p>';
+				$message.= '<p>'.$CFG->eportfoliosite .'</p>';
+				$message.='<p>'.get_string('epfreportemail1bis').'</p>';
+				$message.= '<p>Your username is: ' .$Contact['EPFUsername']['value']. '</p>';
+				//$message.= '<p>Your password is: ' .$password. '</p>';
+				if(isset($CFG->eportfolio_access) and $CFG->eportfolio_access=='dob'){$message.='<p>'.get_string('epfreportemail2dob').'</p>';}
+				else{$message.='<p>'.get_string('epfreportemail2no').'</p>';}
 
 				if(get_string('epfreportemail3')!='[[epfreportemail3]]'){
-					$message.="\r\n"."\r\n".get_string('epfreportemail3');
-					$message.= "\r\n".'Su nombre de usuario es: '.$Contact['EPFUsername']['value']. "\r\n";
-					if(isset($CFG->eportfolio_access) and $CFG->eportfolio_access=='dob'){$message.=get_string('epfreportemail4dob');}
-					else{$message.=get_string('epfreportemail4no');}
+					$message.='<br /><p>'.get_string('epfreportemail3').'</p>';
+					$message.= '<p>Su nombre de usuario es: '.$Contact['EPFUsername']['value']. '</p>';
+					if(isset($CFG->eportfolio_access) and $CFG->eportfolio_access=='dob'){$message.='<p>'.get_string('epfreportemail4dob').'</p>';}
+					else{$message.='<p>'.get_string('epfreportemail4no').'</p>';}
 					}
 
-				$footer='--'. "\r\n" .get_string('guardianemailfooterdisclaimer');
-				$message.="\r\n". $footer;
+				$footer=get_string('guardianemailfooterdisclaimer');
+				$messagetxt=strip_tags(html_entity_decode($message, ENT_QUOTES, 'UTF-8'))."\r\n".'--'. "\r\n" . $footer;
+				$message.='<br /><hr><p>'. $footer.'<p>';
 
-				send_email_to($recipient,'',$subject,$message,'');
+				send_email_to($recipient,'',$subject,$messagetxt,$message);
 				}
 			}
 		}

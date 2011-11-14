@@ -141,7 +141,7 @@ else{
 				$success=false;
 				}
 			}
-		elseif($success){			
+		elseif($success){
 			$targetdir='files/' . substr($epfusername,0,1) . '/' . $epfusername;
 			if(!make_portfolio_directory($targetdir)){
 				$success=false;
@@ -163,8 +163,8 @@ else{
 						WHERE report_id='$wrapper_rid' AND student_id='$sid';");
 			$messagesubject=$CFG->clientid.': Report publication failed for: '.$filename;
 			$fromaddress=$CFG->schoolname.'<ClaSS@'.$CFG->siteaddress.'>';
-			send_email_to('support@'.$CFG->support,$fromaddress,$messagesubject,'',$messagesubject);
-			trigger_error($messagesubject,E_USER_ERROR);
+			send_email_to('support@'.$CFG->support,$fromaddress,$messagesubject,$messagesubject,$messagesubject);
+			trigger_error($messagesubject,E_USER_WARNING);
 			}
 
 		/* Clean up: make sure the cache finishes empty. */

@@ -10,8 +10,7 @@ $contactno=$_POST['contactno'];
 
 include('scripts/sub_action.php');
 
-if($sub=='Submit'){
-
+if($sub=='Submit' or $sub=='access'){
 	if($contactno>-1){
 		if($sid!=''){
 			/*Check user has permission to edit*/
@@ -54,8 +53,7 @@ if($sub=='Submit'){
 	while(sizeof($Phones)<4){$Phones[]=fetchPhone();}
 	$Addresses[]=fetchAddress();
 
-	reset($Contact);
-	while(list($key,$val)=each($Contact)){
+	foreach($Contact as $key =>$val){
 		if(isset($val['value']) and is_array($val) and isset($val['table_db'])){
 			$field=$val['field_db'];
 			$inname=$field;
@@ -79,8 +77,7 @@ if($sub=='Submit'){
 		mysql_query("UPDATE guardian SET note='$inval' WHERE id='$gid'");
 		}
 
-	reset($Phones);
-	while(list($phoneno,$Phone)=each($Phones)){
+	foreach($Phones as $phoneno => $Phone){
 		$phoneid=$Phone['id_db'];
 		while(list($key,$val)=each($Phone)){
 			if(isset($val['value']) and is_array($val) and isset($val['table_db'])){	
@@ -100,11 +97,9 @@ if($sub=='Submit'){
 			}
 		}
 
-	reset($Addresses);
-	while(list($addressno,$Address)=each($Addresses)){
+	foreach($Addresses as $addressno => $Address){
 		$aid=$Address['id_db'];
-		reset($Address);
-		while(list($key,$val)=each($Address)){
+		foreach($Address as $key => $val){
 			if(isset($val['value']) & is_array($val) and isset($val['table_db'])){
 				$field=$val['field_db'];
 				$inname=$field. $addressno;
@@ -141,6 +136,34 @@ elseif($sub=='Unlink'){
 
 		}
 
+	}
+
+if($sub=='access'){
+	$action='contact_details.php';
+	$_SESSION['accessfees']=$_POST['accessfees'];
+	}
+elseif(!empty($_SESSION['accessfees']) and $gid!=-1){
+	require_once('lib/fetch_fees.php');
+	$access=$_SESSION['accessfees'];
+	$Account=fetchAccount($gid);
+	$acid=$Account['id_db'];
+	foreach($Account as $key => $val){
+		if(isset($val['value']) & is_array($val) and isset($val['table_db'])){
+			$field=$val['field_db'];
+			$inname=$field;
+			if(isset($_POST[$inname])){$inval=clean_text($_POST[$inname]);}
+			else{$inval='';}
+			if($val['value']!=$inval and $val['table_db']=='fees_account'){
+				if($acid=='-1' and $inval!=''){
+					mysql_query("INSERT INTO fees_account SET guardian_id='$gid';");
+					$acid=mysql_insert_id();
+					}
+				mysql_query("UPDATE fees_account SET $field=AES_ENCRYPT('$inval','$access') WHERE id='$acid';");
+				trigger_error($acid.'!!!! '.$access.' '.$field.' : '.$inval,E_USER_WARNING);
+				}
+			}
+		}
+	$action='contact_details.php';
 	}
 
 include('scripts/redirect.php');

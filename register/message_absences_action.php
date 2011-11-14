@@ -38,21 +38,16 @@ if($recipients and sizeof($recipients)>0){
 	$failno=0;
 	if($CFG->emailoff!='yes'){
 
-		$footer='--'. "\r\n" . get_string('guardianemailfooterdisclaimer');
+		$footer=get_string('guardianemailfooterdisclaimer');
 		$messagesubject=$CFG->schoolname.': '.get_string('attendance',$book);
 
 		foreach($recipients as $key => $recipient){
-
 			
-			$message=get_string('absencemessage',$book,$recipient['studentname']);
+			$message='<p>'.get_string('absencemessage',$book,$recipient['studentname']).'</p>';
+			$messagetxt=strip_tags(html_entity_decode($message, ENT_QUOTES, 'UTF-8'))."\r\n".'--'. "\r\n" . $footer;
+			$message.='<br /><hr><p>'. $footer.'<p>';
 
-			/* 
-			 */
-			$message.="\r\n". $footer;
-
-			$message=utf8_to_ascii($message);
-
-			$email_result=send_email_to($recipient['email'],$fromaddress,$messagesubject,$message);
+			$email_result=send_email_to($recipient['email'],$fromaddress,$messagesubject,$messagetxt,$message);
 
 			if($email_result){$sentno++;}
 			else{$failno++;}

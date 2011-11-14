@@ -37,34 +37,36 @@ include('scripts/sub_action.php');
 		$incid=mysql_insert_id();
 
 
-		$footer='--'. "\r\n" . get_string('pastoralemailfooterdisclaimer');
+		$footer=get_string('pastoralemailfooterdisclaimer');
 		$subject='Incident Report for '.$Student['Forename']['value']
 				.' '.$Student['Surname']['value'].' ('. 
 					$Student['RegistrationGroup']['value'].')';
 		if($closed=='Y'){$status='Closed';}else{$status='Open';}
-		$message=$subject."\r\n". 'Status: '.$status."\r\n". 
-				'Subject: '.display_subjectname($bid)."\r\n". 
-				'Posted by '.$teachername. "\r\n";
-		$message.=get_string('sanction','infobook').': '.$sanction;
-		$message.="\r\n". $detail. "\r\n";
-		$message.="\r\n". $footer;
+		$message='<p>'.$subject.'</p><p>'. 'Status: '.$status.'</p>'. 
+				'<p>Subject: '.display_subjectname($bid).'</p>'. 
+				'<p>Posted by '.$teachername. '</p>';
+		$message.='<p>'.get_string('sanction','infobook').': '.$sanction.'</p>';
+		$message.='<p>'. $detail. '</p>';
+		$messagetxt=strip_tags(html_entity_decode($message, ENT_QUOTES, 'UTF-8'))."\r\n".'--'. "\r\n" . $footer;
+		$message.='<br /><hr><p>'. $footer.'<p>';
 
 		/* Message to relevant pastoral teaching staff. */
 		if($CFG->emailincidents=='yes'){
-			$result=(array)message_student_teachers($sid,$tid,$bid,$subject,$message,'p');
-			trigger_error($closed.' NOT CLOSED?',E_USER_WARNING);
+			$result=(array)message_student_teachers($sid,$tid,$bid,$subject,$messagetxt,$message,'p');
 			}
 
 		/* Optionaly send message to parents. */
-		$Student=fetchStudent_singlefield($sid,'Boarder');
+		$Student=array_merge($Student,fetchStudent_singlefield($sid,'Boarder'));
 		if($CFG->emailguardianincidents=='yes' and ($Student['Boarder']['value']=='N' 
 													or $CFG->emailboarders=='yes')){
 			$Contacts=(array)fetchContacts_emails($sid);
-			$footer='--'. "\r\n" .get_string('guardianemailfooterdisclaimer');
-			$message=$subject."\r\n". 'Subject: ' .display_subjectname($bid)."\r\n". 
-				'Posted by '.$teachername. "\r\n";
-			$message.="\r\n". $detail. "\r\n";
-			$message.="\r\n". $footer;
+			$footer=get_string('guardianemailfooterdisclaimer');
+			$message='<p>'.$subject. '<p>Subject: ' .display_subjectname($bid).'</p>'. 
+				'<p>Posted by '.$teachername. '</p>';
+			$message.='<p>'. $detail. '</p>';
+			$messagetxt=strip_tags(html_entity_decode($message, ENT_QUOTES, 'UTF-8'))."\r\n".'--'. "\r\n" . $footer;
+			$message.='<br /><hr><p>'. $footer.'<p>';
+
 			$fromaddress=$CFG->schoolname;
 
 			/*TODO: this is a hack to stop incidents to parents of primary children*/
@@ -72,7 +74,7 @@ include('scripts/sub_action.php');
 				if(sizeof($Contacts)>0){
 					foreach($Contacts as $index => $Contact){
 						$emailaddress=strtolower($Contact['EmailAddress']['value']);
-						send_email_to($emailaddress,$fromaddress,$subject,$message);
+						send_email_to($emailaddress,$fromaddress,$subject,$messagetxt,$message);
 						$result[]=get_string('emailsentto').' '. 
 							get_string(displayEnum($Contact['Relationship']['value'],'relationship'),'infobook').
 							' '.$Contact['Surname']['value'];
@@ -102,18 +104,18 @@ include('scripts/sub_action.php');
 			$teachers=array();
 			$teachers[]=get_user($othertid);
 
-			$footer='--'. "\r\n" . get_string('pastoralemailfooterdisclaimer');
+			$footer=get_string('pastoralemailfooterdisclaimer');
 			$subject='CLOSED: Incident for '.$Student['Forename']['value']
-				.' '.$Student['Surname']['value'].' ('. 
-				$Student['RegistrationGroup']['value'].')';
-			$message=$subject."\r\n". 'Status: CLOSED '."\r\n". 
-				'Subject: '.display_subjectname($bid)."\r\n". 
-				'Posted by '.$teachername. "\r\n";
-			$message.=get_string('sanction','infobook').': '.$sanction;
-			$message.="\r\n". $detail. "\r\n";
-			$message.="\r\n". $footer;
+				.' '.$Student['Surname']['value'].' ('. $Student['RegistrationGroup']['value'].')';
+			$message=$subject.'<p>Status: CLOSED </p>'. 
+				'<p>Subject: '.display_subjectname($bid).'</p>'. 
+				'<p>Posted by '.$teachername. '</p>';
+			$message.='<p>'.get_string('sanction','infobook').': '.$sanction.'</p>';
+			$message.='<p>'. $detail. '</p>';
+			$messagetxt=strip_tags(html_entity_decode($message, ENT_QUOTES, 'UTF-8'))."\r\n".'--'. "\r\n" . $footer;
+			$message.='<br /><hr><p>'. $footer.'<p>';
 
-			$result=(array)message_student_teachers($sid,$tid,$bid,$subject,$message,$teachers);
+			$result=(array)message_student_teachers($sid,$tid,$bid,$subject,$messagetxt,$message,$teachers);
 			}
 
 		}

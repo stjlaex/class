@@ -73,7 +73,7 @@ if($contactno>-1){
 	$extrabuttons['unlinkcontact']=array('name'=>'sub','value'=>'Unlink');
 ?>
   <div id="heading">
-	<label><?php print_string('contactfor',$book); ?></label>
+	<label><?php print $Contact['DisplayFullName']['value'].' - '; ?> <?php print_string('contactfor',$book); ?></label>
 	<?php print $Student['DisplayFullName']['value'];?>
   </div>
 <?php
@@ -111,39 +111,9 @@ three_buttonmenu($extrabuttons,$book);
 		<?php $tab=xmlarray_form($Contact,'','contactdetails',$tab,$book); ?>
 	  </div>
 
-<?php
-	reset($Phones);
-	while(list($phoneno,$Phone)=each($Phones)){
-?>
-		<div class="right">
-		  <?php $tab=xmlarray_form($Phone,$phoneno,'',$tab,$book); ?>
-		</div>
-<?php
-		}
-?>
-	  <fieldset class="right listmenu">
-		<legend>
-		  <?php print_string($Contact['EPFUsername']['label'],$book);?>
-		</legend>
-		<input type="text" readonly="readonly" value="<?php print  $Contact['EPFUsername']['value'];?>" />
-	  </fieldset>
-
-
-	  <div class="left">
-<?php
-	$addressno='0';/*Only doing one address.*/
-	$tab=xmlarray_form($Address,$addressno,'contactaddress',$tab,$book); 
-?>
-	  </div>
-
 	  <div class="right">
 		  <table class="listmenu listinfo">
 			<caption><?php print_string('relationships',$book);?></caption>
-			<tr>
-			  <td>
-				<?php print $Contact['DisplayFullName']['value']; ?>
-			  </td>
-			</tr>
 <?php
 		foreach($Dependents as $Dependent){
 			$Student=$Dependent['Student'];
@@ -163,12 +133,73 @@ three_buttonmenu($extrabuttons,$book);
 ?>
 		  </table>
 	  </div>
+
+
 	  <fieldset class="right listmenu">
 		<legend>
 		  <?php print_string($Contact['Note']['label'],$book);?>
 		</legend>
 		<?php	$tab=xmlelement_input($Contact['Note'],'',$tab,$book);?>
 	  </fieldset>
+
+
+<?php
+	foreach($Phones as $phoneno => $Phone){
+?>
+		<div class="right">
+		  <?php $tab=xmlarray_form($Phone,$phoneno,'',$tab,$book); ?>
+		</div>
+<?php
+		}
+?>
+
+
+	  <div class="left">
+<?php
+	$addressno='0';/*Only doing one address.*/
+	$tab=xmlarray_form($Address,$addressno,'contactaddress',$tab,$book); 
+?>
+	  </div>
+
+
+<?php
+		if(empty($_SESSION['accessfees'])){
+
+?>	  <fieldset class="right listmenu">
+		<legend>
+		  <?php print_string('bankdetails',$book);?>
+		</legend>
+
+		<input type="password" name="accessfees" maxlength="4" value="<?php print $_SESSION['accessfees'];?>" />
+<?php
+		$button['access']=array('name'=>'sub','value'=>'access');
+		all_extrabuttons($button,'','');
+
+			}
+		else{
+			require_once('lib/fetch_fees.php');
+			$Account=(array)fetchAccount($gid);
+?>
+		<div class="right">
+		  <?php $tab=xmlarray_form($Account,'','accountdetails',$tab,$book); ?>
+		</div>
+<?php
+			}
+?>
+
+	  </fieldset>
+
+
+	  <fieldset class="left listmenu">
+		<legend>
+		  <?php print_string($Contact['EPFUsername']['label'],$book);?>
+		</legend>
+		<input type="text" readonly="readonly" value="<?php print  $Contact['EPFUsername']['value'];?>" />
+	  </fieldset>
+
+
+
+
 
  	<input type="hidden" name="contactno" value="<?php print $contactno;?>">
  	<input type="hidden" name="gid" value="<?php print $gid;?>">

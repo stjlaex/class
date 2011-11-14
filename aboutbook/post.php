@@ -8,22 +8,22 @@ $choice='';
 $summary=clean_text($_POST['summary']);
 if(isset($_POST['book'])){$book=$_POST['book'];}else{$book='';}
 $detail=clean_text($_POST['detail']);
-$entrydate=$_POST['date0'];
 $subject=clean_text($_POST['subject']); 
 $address=$_POST['address'];
 $queue=$_POST['queue'];
 $recipients=array();
+$entrydate=date('Y-m-d');
 
 include('scripts/sub_action.php');
 
-	$message=$subject."\r\n".
-		'Date:	'.$entrydate."\r\n".$CFG->version."\r\n". $book. "\r\n". $detail. "\r\n" .
-		'Posted by '.$_SESSION['username']. "\r\n".
-		'School: '.$CFG->schoolname. "\r\n".
-		'Client: '.$CFG->clientid. "\r\n";
+$message.='<p>'.$subject.'</p>';
+$message.='<ul><li>Date: '.$entrydate.'</li><li>Version: '.$CFG->version.'</li><li>Book: '. $book.'</li>';
+$message.='<li>Posted by: '.$_SESSION['username']. '</li>'.
+	'<li>School: '.$CFG->schoolname. '</li>'.
+	'<li>Client: '.$CFG->clientid. '</li></ul>';
+$message.='<p>'.$detail.'</p>';
 
 	if(isset($CFG->clientid)){
-		$clientid=$CFG->clientid;
 		if($queue=='class-bug'){$queue='class_bug';}
 		if($queue=='class-feature'){$queue='class_feature';}
 		}
@@ -36,12 +36,11 @@ include('scripts/sub_action.php');
 		}
 
 	$fromaddress=$CFG->schoolname.'<ClaSS@'.$CFG->siteaddress.'>';
-	$headers='List-Id: '.$clientid . "\r\n" .
-			    'X-Mailer: PHP/' . phpversion();
+	$messagetxt=strip_tags(html_entity_decode($messagebody, ENT_QUOTES, 'UTF-8'));
 
 	if(sizeof($recipients)>0 and $CFG->emailoff!='yes'){
 		foreach($recipients as $key => $recipient){
-			send_email_to($recipient['email'],$fromaddress,$summary,$message);
+			send_email_to($recipient['email'],$fromaddress,$summary,$messagetxt,$message);
 			$result[]='Email sent to '.$recipient['username'];
 			}
 		}

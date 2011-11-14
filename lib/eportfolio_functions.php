@@ -733,14 +733,16 @@ function elgg_new_comment($epfu,$dateset,$message,$title,$tid){
 			//$emailaddress='stj@laex.org';
 			if($emailaddress!=''){
 				$title=get_string('epfcommenttitle','infobook').' '.$CFG->schoolname;
-				$message=get_string('epfcommentemail','infobook',$studentname).' '.$CFG->eportfoliosite;
-				$footer="\r\n" ."\r\n" .'--'. "\r\n" .get_string('guardianemailfooterdisclaimer');
-				$message.="\r\n". $footer;
+				$message='<p>'.get_string('epfcommentemail','infobook',$studentname).' '.$CFG->eportfoliosite.'</p>';
+				$footer=get_string('guardianemailfooterdisclaimer');
+				$messagetxt=strip_tags(html_entity_decode($message, ENT_QUOTES, 'UTF-8'))."\r\n".'--'. "\r\n" . $footer;
+				$message.='<br /><hr><p>'. $footer.'<p>';
+
 				$fromaddress=$CFG->schoolname;
 				$emailaddress=strtolower($emailaddress);
 				$dbn=db_connect(false,$CFG->eportfolio_db);
 				$table=$CFG->eportfolio_db_prefix.'message_event';
-				send_email_to($emailaddress,$fromaddress,$title,$message,'','',true,'','',$dbn,$table);
+				send_email_to($emailaddress,$fromaddress,$title,$messagetxt,$message,'',true,'','',$dbn,$table);
 				}
 			}
 

@@ -21,7 +21,7 @@ function list_courses($bid=''){
 		$d_c=mysql_query("SELECT * FROM course ORDER BY sequence;");
 		}
 	else{
-		$d_crid=mysql_query("SELECT DISTINCT course_id FROM component 
+		$d_c=mysql_query("SELECT DISTINCT course_id FROM component 
 							WHERE id='' AND subject_id='$bid' ORDER BY sequence;");
 		}
 	while($course=mysql_fetch_array($d_c,MYSQL_ASSOC)){
@@ -499,9 +499,10 @@ function list_student_teachers($sid){
  * @param tid    the teacher sending message 
  * @param string $messagesubject plain text subject line of the email
  * @param string $messagetext plain text version of the message
+ * @param string $messagehtml html formatted version of the message
  * @param string $teachergroup single character either %, a or p
  */
-function message_student_teachers($sid, $tid, $bid, $messagesubject, $messagetext, $teachergroup='%'){
+function message_student_teachers($sid,$tid,$bid,$messagesubject,$messagetext,$messagehtml,$teachergroup='%'){
 
 	global $CFG;
 	$result=array();
@@ -530,10 +531,12 @@ function message_student_teachers($sid, $tid, $bid, $messagesubject, $messagetex
 	$teachername=get_teachername($tid);
 	$teacher=get_user($tid,'username');
 	if($teacher['email']!='' and $teacher['email']!=' '){
-		$from['name']=$teachername;$from['email']=$teacher['email'];
+		$from['name']=$teachername;
+		$from['email']=$teacher['email'];
 		}
 	else{
-		$from['name']='ClaSS';$from['email']=$CFG->emailnoreply;;
+		$from['name']='ClaSS';
+		$from['email']=$CFG->emailnoreply;;
 		}
 
 	if($recipients and $CFG->emailoff!='yes' and $CFG->emailcomments=='yes'){
@@ -542,7 +545,7 @@ function message_student_teachers($sid, $tid, $bid, $messagesubject, $messagetex
 			foreach($recipients as $recipient){
 				if(!array_key_exists($recipient['username'],$dones)){
 					$recipient['email']=strtolower($recipient['email']);
-					send_email_to($recipient['email'],$from,$messagesubject,$messagetext);
+					send_email_to($recipient['email'],$from,$messagesubject,$messagetext,$messagehtml);
 					$result[]=get_string('emailsentto','infobook').' '.$recipient['username'];
 					$dones[$recipient['username']]=$recipient['username'];
 					}

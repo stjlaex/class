@@ -52,14 +52,16 @@ elseif($sub=='Submit'){
 			/* Message to relevant teaching staff. */
 			list($ratingnames,$catdefs)=fetch_categorydefs('mer');
 
-			$footer='--'. "\r\n" . get_string('pastoralemailfooterdisclaimer');
+			$footer=get_string('pastoralemailfooterdisclaimer');
 			$messagesubject='Merit for '.$Student['Forename']['value']
 				.' '.$Student['Surname']['value'].' ('. 
 					$Student['RegistrationGroup']['value'].')'; 
-			$message=$messagesubject."\r\n".'For: '. $catdefs[$activity]['name'] ."\r\n";
-			$message.="\r\n". $detail. "\r\n";
-			$message.="\r\n". $footer;
-			$result=(array)message_student_teachers($sid,'',$bid,$messagesubject,$message,'p');
+			$message='<p>'.$messagesubject.'</p><p>For: '. $catdefs[$activity]['name'] .'</p>';
+			$message.='<p>'. $detail.'</p>';
+			$messagetxt=strip_tags(html_entity_decode($message, ENT_QUOTES, 'UTF-8'))."\r\n".'--'. "\r\n" . $footer;
+			$message.='<br /><hr><p>'. $footer.'<p>';
+
+			$result=(array)message_student_teachers($sid,'',$bid,$messagesubject,$messagetxt,$message,'p');
 			}
 
 

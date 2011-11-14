@@ -65,6 +65,7 @@ CREATE TABLE senhistory (
 	senprovision	enum('N','A','P','Q','S') not null, 
 	startdate		date,
 	reviewdate		date,
+	assessmentdate	date,
 	index			index_student (student_id),
    	primary key		(id)
 ) type=myisam;
@@ -75,7 +76,8 @@ CREATE TABLE sentype (
 	entryn			smallint unsigned not null auto_increment,
 	senranking		enum('1', '2', '3') not null,
 	sentype			char(4) not null default '',
-   	primary key		(student_id, entryn)
+	senassessment	enum('I','E') not null,
+   	primary key		(student_id, entryn, senassessment)
 ) type=myisam;
 
 
