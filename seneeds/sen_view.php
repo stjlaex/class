@@ -8,7 +8,7 @@ if($current=='sen_view.php'){$action='sen_view_action.php';}
 if(!isset($cancel)){$cancel='';}
 if(!isset($selbid)){$selbid='G';}
 ?>
-  <div id="heading"><label><?php print_string('iep',$book);?></label>
+  <div id="heading"><label><?php print_string('senprofile',$book);?></label>
   <?php print $Student['Forename']['value'].' '.$Student['Surname']['value'];?>
   </div>
 <?php 
@@ -19,27 +19,63 @@ if(!isset($selbid)){$selbid='G';}
 	<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
 
 	  <fieldset class="left divgroup">
-		<legend><?php print_string('senprofile',$book);?></legend>
+		<legend><?php print get_string('internal',$book).' '.get_string('assessment',$book);?></legend>
 
 		<div class="center">
 		  <label for="Start Date">
-			<?php print_string($SEN['SENhistory']['StartDate']['label'],$book);?>
+			<?php print_string($SEN['StartDate']['label'],$book);?>
 		  </label>
 <?php
-		$todate=$SEN['SENhistory']['StartDate']['value'];
+		$todate=$SEN['StartDate']['value'];
 		include('scripts/jsdate-form.php');
 ?>
 		</div>
 
 		<div class="center">
 		  <label>
-			<?php print_string($SEN['SENhistory']['NextReviewDate']['label'],$book);?>
+			<?php print_string($SEN['NextReviewDate']['label'],$book);?>
 		  </label>
 <?php
-		$todate=$SEN['SENhistory']['NextReviewDate']['value'];
+		$todate=$SEN['NextReviewDate']['value'];
 		include('scripts/jsdate-form.php');
 ?>
 		</div>
+
+
+		<ol>
+<?php
+	/* Allow up to 3 records with blanks for new entries*/
+	while(sizeof($SEN['SENinternaltypes']['SENtype'])<3){
+		$SEN['SENinternaltypes']['SENtype'][]=fetchSENtype();
+		}
+	$asscode='I';
+	foreach($SEN['SENinternaltypes']['SENtype'] as $index => $SENtype){
+		$entryn=$index+1;
+		$enum=getEnumArray($SENtype['SENtype']['field_db']);
+		print '<li><select id="Type"  tabindex="'.$tab++.'"
+			name="'.$asscode. $SENtype['SENtype']['field_db'].$entryn.'">';
+		print '<option value=""></option>';
+		while(list($inval,$description)=each($enum)){ 
+			print '<option ';
+			if($SENtype['SENtype']['value']==$inval){print 'selected="selected" ';}
+			print ' value="'.$inval.'">'.get_string($description,$book).'</option>';
+			}
+		print '</select>';
+
+		$enum=getEnumArray($SENtype['SENtypeRank']['field_db']);
+		print '<select id="Rank"  tabindex="'.$tab++.'" 
+			name="'.$asscode. $SENtype['SENtypeRank']['field_db'].$entryn.'" size="1">';
+		print '<option value=""></option>';		
+		while(list($inval,$description)=each($enum)){	
+			print '<option ';
+			if($SENtype['SENtypeRank']['value']==$inval){print "selected='selected'";}
+			print " value='".$inval."'>".$description."</option>";
+			}
+		print '</select></li><br />';
+		}
+?>
+		</ol>
+
 	  </fieldset>
 
 
@@ -49,16 +85,16 @@ if(!isset($selbid)){$selbid='G';}
 <?php
 	$key=-1;
 	$keybids=array();
-	while(list($key,$Subject)=each($SEN['NCmodifications'])){
+	foreach($SEN['Curriculum'] as $key => $Subject){
 		if(is_array($Subject)){
 			$keybids[$Subject['Subject']['value_db']]=$key;
 			}
 		}
+
 	if(array_key_exists($selbid,$keybids)){$selkey=$keybids[$selbid];$selbid='';}
 	else{$selkey=0;}
 
-	reset($SEN['NCmodifications']);
-	while(list($key,$Subject)=each($SEN['NCmodifications'])){
+	foreach($SEN['Curriculum'] as $key => $Subject){
 		if(is_array($Subject)){
 ?>
 			<li id="<?php print 'tinytab-sen-'.$Subject['Subject']['value'];?>"><p 
@@ -210,43 +246,62 @@ if(!isset($selbid)){$selbid='G';}
 		</div>
 	  </div>
 
-<?php
-	/* Allow up to 2 records with blanks for new entries*/
-	while(sizeof($SEN['SENtypes']['SENtype'])<2){$SEN['SENtypes']['SENtype'][]=fetchSENtype();}
 
-	while(list($index,$SENtype)=each($SEN['SENtypes']['SENtype'])){
-		$entryn=$index+1;
-?>
 	  <fieldset class="left divgroup">
-		<legend><?php print_string($SENtype['SENtype']['label'],$book);?></legend>
+		<legend><?php print get_string('external',$book).' '.get_string('assessment',$book);?></legend>
+
+		<div class="center">
+		  <label for="Date">
+			<?php print_string($SEN['AssessmentDate']['label'],$book);?>
+		  </label>
 <?php
+		$todate=$SEN['AssessmentDate']['value'];
+		$required='no';
+		include('scripts/jsdate-form.php');
+?>
+		</div>
+
+		<ol>
+<?php
+	/* Allow up to 3 records with blanks for new entries*/
+	while(sizeof($SEN['SENtypes']['SENtype'])<3){
+		$SEN['SENtypes']['SENtype'][]=fetchSENtype();
+		}
+
+	$asscode='E';
+	foreach($SEN['SENtypes']['SENtype'] as $index => $SENtype){
+		$entryn=$index+1;
 		$enum=getEnumArray($SENtype['SENtype']['field_db']);
-		print '<select id="Type"  tabindex="'.$tab++.'"
-			name="'.$SENtype['SENtype']['field_db'].$entryn.'">';
+		print '<li><select id="Type"  tabindex="'.$tab++.'"
+			name="'.$asscode. $SENtype['SENtype']['field_db'].$entryn.'">';
 		print '<option value=""></option>';
 		while(list($inval,$description)=each($enum)){ 
 			print '<option ';
 			if($SENtype['SENtype']['value']==$inval){print 'selected="selected" ';}
 			print ' value="'.$inval.'">'.get_string($description,$book).'</option>';
 			}
-		print '</select>';				
+		print '</select>';
 
 		$enum=getEnumArray($SENtype['SENtypeRank']['field_db']);
 		print '<select id="Rank"  tabindex="'.$tab++.'" 
-			name="'.$SENtype['SENtypeRank']['field_db'].$entryn.'" size="1">';
+			name="'.$asscode. $SENtype['SENtypeRank']['field_db'].$entryn.'" size="1">';
 		print '<option value=""></option>';		
 		while(list($inval,$description)=each($enum)){	
 			print '<option ';
 			if($SENtype['SENtypeRank']['value']==$inval){print "selected='selected'";}
 			print " value='".$inval."'>".$description."</option>";
 			}
-		print '</select>';			
-?>
-		</fieldset>
-<?php
+		print '</select></li><br />';
 		}
 ?>
-	
+		</ol>
+	  </fieldset>
+
+
+
+
+
+
  	<input type="hidden" name="current" value="<?php print $action;?>"/>
  	<input type="hidden" name="choice" value="<?php print $current;?>"/>
  	<input type="hidden" name="cancel" value="<?php print $cancel;?>"/>

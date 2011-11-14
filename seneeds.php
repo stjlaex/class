@@ -11,17 +11,17 @@ include('scripts/set_book_vars.php');
 $session_vars=array('sid','sentype','newyid','sensupport');
 include('scripts/set_book_session_vars.php');
 
+if(isset($_POST['list']) and $_POST['list']=='all'){
+	$sentype='';$newyid='';$sensupport='';$list='all';$sid='';
+	}
 if($sid=='' or $current==''){
 	$current='sen_student_list.php';
 	$_SESSION['seneedssid']='';
-	if(isset($_POST['list']) and $_POST['list']=='all'){
-		$sentype='';$newyid='';$sensupport='';$list='all';
-		}
 	}
 elseif($sid!=''){
 	/*working with a single student*/
 	$Student=fetchStudent($sid);
-	$SEN=fetchSEN($sid);
+	$SEN=(array)fetchSEN($sid);
 	}
 ?>
   <div id="bookbox" class="seneedscolor">
@@ -38,17 +38,16 @@ elseif($sid!=''){
 		action="seneeds.php" target="viewseneeds">
 
 <?php 
-	  if($sid==''){
+	  if(empty($sid)){
 		  $enum=getEnumArray('sentype');
 ?>
 	  <fieldset class="seneeds">
 		<legend><?php print_string('filterlist',$book);?></legend>
 		<label for="Type"><?php print_string('sentype',$book);?></label>
-		<select id="Type" name="sentype" 
-		  onChange="document.<?php print $book;?>choice.submit();">
+		<select id="Type" name="sentype" onChange="document.<?php print $book;?>choice.submit();">
 		  <option value=""></option>
 <?php
-		  while(list($inval,$description)=each($enum)){	
+		 foreach($enum as $inval => $description){	
 			  print '<option ';
 			  if($sentype==$inval){print 'selected="selected" ';}
 			  print ' value="'.$inval.'">'.get_string($description,$book).'</option>';
@@ -56,6 +55,7 @@ elseif($sid!=''){
 ?>
 		</select>
 <?php
+
 		  $onsidechange='yes'; 
 		  include('scripts/list_year.php');
 
@@ -68,11 +68,12 @@ elseif($sid!=''){
 ?>
 	  </fieldset>
 	</form>
+
 	<form id="configseneedschoice" name="configseneedschoice" method="post" action="seneeds.php" target="viewseneeds">
 	  <fieldset class="seneeds selery">
 		<legend><?php print get_string('list','admin');?></legend>
 <?php 
-		$choices=array('sen_list.php'=>'allstudents');
+		$choices=array('sen_student_list.php'=>'allstudents');
 		selery_stick($choices,'',$book);
 ?>
 		<input type="hidden" name="list" value="all"/>

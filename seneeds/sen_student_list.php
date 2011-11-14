@@ -35,7 +35,7 @@ $displayfields_width=60/$displayfields_no.'%';
 two_buttonmenu();
 
 	$sids=array();
-	if($sentype!='' or $newyid!=''){
+	if($sentype!='' or $newyid!='' or $sensupport!=''){
 		/* 
 		 * These are the filter vars form the sideoptions
 		 */
@@ -59,6 +59,12 @@ two_buttonmenu();
 				ON student.id=info.student_id WHERE student.yeargroup_id='$newyid'
 				AND info.sen='Y' AND info.enrolstatus='C' ORDER BY student.surname;");
 			}
+		elseif($sensupport!=''){
+			$d_info=mysql_query("SELECT info.student_id FROM info WHERE info.student_id=ANY(SELECT student_id FROM senhistory
+				JOIN sencurriculum ON sencurriculum.senhistory_id=senhistory.id WHERE sencurriculum.categorydef_id='$sensupport')
+				AND info.sen='Y' AND info.enrolstatus='C';");
+			}
+
 		}
 	elseif($list=='all'){
 		/*
@@ -78,12 +84,12 @@ if(isset($d_info)){
 ?>
 
 <div id="viewcontent" class="content">
-<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
-<table class="listmenu sidtable">
-	<th colspan="2"><?php print_string('checkall'); ?><input type="checkbox" name="checkall" 
+  <form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
+	<table class="listmenu sidtable">
+	  <th colspan="2"><?php print_string('checkall'); ?><input type="checkbox" name="checkall" 
 				value="yes" onChange="checkAll(this);" /></th>
-	<th><?php print_string('student'); ?></th>
-	<th><?php print_string('formgroup'); ?></th>
+	  <th><?php print_string('student'); ?></th>
+	  <th><?php print_string('formgroup'); ?></th>
 <?php
 	$extra_studentfields=array('NextReviewDate'=>'nextreviewdate');
 	foreach($displayfields as $displayfield){
@@ -132,9 +138,7 @@ if(isset($d_info)){
 			</a>
 		  </td>
 		  <td>
-<?php 
-				print $Student['RegistrationGroup']['value']; 
-?>
+			<?php	print $Student['RegistrationGroup']['value']; ?>
 		  </td>
 <?php
 				foreach($displayfields as $displayfield){
@@ -151,28 +155,29 @@ if(isset($d_info)){
 <?php
 			}
 		}
-	/* Must unset of the host page things a single sid is being displayed*/
+	/* Must unset or the host page thinks a single sid is being displayed*/
 	unset($sid);
 ?>
+
 <tr>
-<th colspan="<?php print $displayfields_no+3;?>">&nbsp;</th>
-<th>
-		  <div class="rowaction">
+  <th colspan="<?php print $displayfields_no+3;?>">&nbsp;</th>
+  <th>
+	<div class="rowaction">
 
 <?php
 $extrabuttons=array();
 $extrabuttons['addcolumn']=array('title'=>'addcolumn','name'=>'extracol','value'=>'yes');
 all_extrabuttons($extrabuttons,'infobook','processContent(this)')
 ?>
-		  </div>
-</th>
+	</div>
+  </th>
 </tr>
 
-	  </table>
+	</table>
 
-	  <input type="hidden" name="colno" value="<?php print $displayfields_no;?>" />
-	  <input type="hidden" name="current" value="<?php print $action;?>" />
-	  <input type="hidden" name="cancel" value="<?php print '';?>" />
-	  <input type="hidden" name="choice" value="<?php print $choice;?>" />
-	</form>
-  </div>
+	<input type="hidden" name="colno" value="<?php print $displayfields_no;?>" />
+	<input type="hidden" name="current" value="<?php print $action;?>" />
+	<input type="hidden" name="cancel" value="<?php print '';?>" />
+	<input type="hidden" name="choice" value="<?php print $choice;?>" />
+  </form>
+</div>

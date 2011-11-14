@@ -12,7 +12,7 @@ include('scripts/sub_action.php');
 if(isset($_POST['ncmod'])){$ncmodkey=$_POST['ncmod'];}else{$ncmodkey='';}
 if(isset($_POST['bid'])){$bid=$_POST['bid'];}else{$bid='G';}
 
-$senhid=$SEN['SENhistory']['id_db'];
+$senhid=$SEN['id_db'];
 
 	/* Check user has permission to edit */
 	$yid=$Student['YearGroup']['value'];
@@ -51,41 +51,49 @@ elseif($ncmodkey=='-1'){
 
 	}
 elseif($sub=='Submit'){
-	$SENhistory=$SEN['SENhistory'];
 	$inval=$_POST['date1'];
-	$table=$SENhistory['NextReviewDate']['table_db'];
-	$field=$SENhistory['NextReviewDate']['field_db'];
-	if($SENhistory['NextReviewDate']['value']!=$inval){
+	$table=$SEN['NextReviewDate']['table_db'];
+	$field=$SEN['NextReviewDate']['field_db'];
+	if($SEN['NextReviewDate']['value']!=$inval){
 		mysql_query("UPDATE $table SET $field='$inval' WHERE id='$senhid'");
 		}
-	/* Allow up to 2 records with blanks for new entries*/
-	while(sizeof($SEN['SENtypes']['SENtype'])<2){$SEN['SENtypes']['SENtype'][]=fetchSENtype();}
-	while(list($index,$SENtypes)=each($SEN['SENtypes']['SENtype'])){
-		$entryn=$index+1;
-		$table=$SENtypes['SENtypeRank']['table_db'];
-		$field=$SENtypes['SENtypeRank']['field_db'];
-		$inname=$field. $entryn;
-		$inval=clean_text($_POST[$inname]);
-		if($SENtypes['SENtypeRank']['value']!=$inval){
+
+
+	$senasstypes=array('I'=>'SENinternaltypes','E'=>'SENtypes');
+	foreach($senasstypes as $asscode => $assname){
+		/* Allow up to 3 records with blanks for new entries */
+		while(sizeof($SEN[$assname]['SENtype'])<3){
+			$SEN[$assname]['SENtype'][]=fetchSENtype();
+			}
+
+		foreach($SEN[$assname]['SENtype'] as $index => $SENtypes){
+			$entryn=$index+1;
+			$table=$SENtypes['SENtypeRank']['table_db'];
+			$field=$SENtypes['SENtypeRank']['field_db'];
+			$inname=$asscode. $field. $entryn;
+			$inval=clean_text($_POST[$inname]);
+			if($SENtypes['SENtypeRank']['value']!=$inval){
 				if(mysql_query("INSERT INTO $table SET
-						student_id='$sid', entryn='$entryn',$field='$inval';")){}
+						student_id='$sid', entryn='$entryn',$field='$inval',senassessment='$asscode';")){}
 				else{mysql_query("UPDATE $table SET $field='$inval'
-								WHERE student_id='$sid' 
-								AND entryn='$entryn';");}
+								WHERE student_id='$sid' AND entryn='$entryn' AND senassessment='$asscode';");}
 				}
-		$table=$SENtypes['SENtype']['table_db'];
-		$field=$SENtypes['SENtype']['field_db'];
-		$inname=$field. $entryn;
-		$inval=clean_text($_POST[$inname]);
-		if($SENtypes['SENtype']['value']!=$inval){
+			$table=$SENtypes['SENtype']['table_db'];
+			$field=$SENtypes['SENtype']['field_db'];
+			$inname=$asscode. $field. $entryn;
+			$inval=clean_text($_POST[$inname]);
+			if($SENtypes['SENtype']['value']!=$inval){
 				if(mysql_query("INSERT INTO sentype SET
-						student_id='$sid', entryn='$entryn',$field='$inval';")){}
+						student_id='$sid', entryn='$entryn',$field='$inval',senassessment='$asscode';")){}
 				else{mysql_query("UPDATE $table SET $field='$inval'
-								WHERE student_id='$sid' AND entryn='$entryn';");}
+								WHERE student_id='$sid' AND entryn='$entryn' AND senassessment='$asscode';");}
 				}
+			}
 		}
 
-	while(list($key,$Subject)=each($SEN['NCmodifications'])){
+
+
+	foreach($SEN['Curriculum'] as $key => $Subject){
 		$bid=$Subject['Subject']['value_db'];
 		$table='sencurriculum';
 		$inname='extrasupport'.$key;
@@ -109,7 +117,7 @@ elseif($sub=='Submit'){
 		if($Subject['Strategies']['value']!=$inval){
 			mysql_query("UPDATE $table SET $field='$inval'
 									WHERE senhistory_id='$senhid' AND subject_id='$bid'");
-				}
+			}
 
 		$field=$Subject['Strategies']['field_db'];
 		$inname=$field. $key;
