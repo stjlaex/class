@@ -805,7 +805,38 @@ function getEnumArray($field_name){
 						'P'=> 'schoolactionplus', 
 						'S'=> 'statemented');
 	$senranking=array('1'=>'level 1', '2'=>'level 2', '3'=>'level 3');
-	$sentype=array('SPLD'=>'specificlearningdifficulty(dyslexia)', 
+	$sentypeinternal=array('NO'=>'nosenissue', 
+						   'LD'=>'literacydifficulty', 
+						   'ND'=>'numeracydifficulty', 
+						   'MD'=>'memory', 
+						   'AD'=>'attention', 
+						   'SCD'=>'speechorcommunicationdifficulty', 
+						   'VI'=>'visualimpairment', 
+						   'HI'=>'hearingimpairment', 
+						   'PD'=>'physicaldisability', 
+						   'GT'=>'giftedandtalented',
+						   'GNC'=>'generalconcern',
+						   'EAR'=>'externalassessmentrecommended',
+						   'EAL'=>'eal'
+						   );
+	$sentype=array('EAN'=>'noexternalassessement', 
+				   'DYL'=>'dyslexia', 
+				   'DYG'=>'dysgraphia', 
+				   'DYC'=>'dyscalculia', 
+				   'DYP'=>'dyspraxia',
+				   'ADHD'=>'adhd', 
+				   'AUT'=>'autism', 
+				   'WM'=>'workingmemory', 
+				   'SCD'=>'speechorcommunicationdifficulty', 
+				   'VI'=>'visualimpairment', 
+				   'HI'=>'hearingimpairment', 
+				   'PD'=>'physicaldisability', 
+				   'GT'=>'giftedandtalented',
+				   'GNC'=>'generalconcern',
+				   'EAL'=>'eal',
+				   'OTH'=>'otherdifficulty/disability'
+				   );
+	/*	$sentype=array('SPLD'=>'specificlearningdifficulty(dyslexia)', 
 				   'MLD'=>'moderatelearningdifficulty', 
 				   'SLD'=>'severelearningdifficulty', 
 				   'PMLD'=>'profoundandmultiplelearningdifficulty', 
@@ -824,6 +855,7 @@ function getEnumArray($field_name){
 				   'GNC'=>'generalconcern',
 				   'EAL'=>'eal'
 				   );
+	*/
 	$sencurriculum=array('A'=>'allsubject',
 						 'M'=>'modifiedcurriculum', 
 						 'D'=>'curriculumdisapplied');
@@ -1496,6 +1528,7 @@ function send_email_to($recipient, $from, $subject, $messagetext, $messagehtml='
 
 		/* TODO: make use of the $from['email] and $from_name values */
 		/* message header */
+		/* 'Date'    => date("r") must be RFC 2822 foramtted date for email headers */
 		$hdrs = array( 'From'    => $from,
 					   'To'      => $recipient,
 					   'Subject' => $subject,
@@ -1503,7 +1536,12 @@ function send_email_to($recipient, $from, $subject, $messagetext, $messagehtml='
 					   'Sender' => $from,
 					   'Return-Path' => $return
 					   );
-		/* 'Date'    => date("r") must be RFC 2822 foramtted date for email headers */
+		$mimeparams=array(
+						  'text_encoding'=>'7bit',
+						  'text_charset'=>'UTF-8',
+						  'html_charset'=>'UTF-8',
+						  'head_charset'=>'UTF-8'
+						  );
 
 		/* we use Mail_mime() to construct a valid mail */
 		$mime =& new Mail_mime();
@@ -1511,8 +1549,9 @@ function send_email_to($recipient, $from, $subject, $messagetext, $messagehtml='
 			$mime->setHTMLBody($messagehtml);
 			}
 		else{
-			$mime->setTXTBody($messagetext);
+			$mime->setHTMLBody('<p>'.$messagetext.'</p>');
 			}
+		$mime->setTXTBody($messagetext);
 
 		/* Only PDF allowed as attachments. */
 		if(is_array($attachments)){
@@ -1525,7 +1564,8 @@ function send_email_to($recipient, $from, $subject, $messagetext, $messagehtml='
 			}
 
 		/* next sentence has to be written after everything else */
-		$body = $mime->get();
+		//$body = $mime->get();
+		$body = $mime->get($mimeparams);  
 		$hdrs = $mime->headers($hdrs);
 
 		/* Put message into queue */ 
