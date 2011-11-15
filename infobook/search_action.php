@@ -131,7 +131,7 @@ else{
 				OR info.$field='$value' ORDER BY student.surname, student.forename");
 				}
 			elseif($table=='guardian'){
-				trigger_error($table.' '.$field.' '.$value,E_USER_WARNING);
+				//trigger_error($table.' '.$field.' '.$value,E_USER_WARNING);
 				$d_sids=mysql_query("SELECT id FROM $table WHERE 
 						$field LIKE '%$value%' OR $field='$value'  
 						ORDER BY surname, forename");
@@ -144,7 +144,6 @@ else{
 		$surname=clean_text($_POST['surname']);
 		$forename=clean_text($_POST['forename']);
 		$table='student';
-		trigger_error($surname. ':'.$forename,E_USER_WARNING);
 		if($forename!='' and $surname!=''){
 			$d_sids=mysql_query("SELECT id FROM $table WHERE
 				(MATCH (surname) AGAINST ('$surname*' IN BOOLEAN MODE) 

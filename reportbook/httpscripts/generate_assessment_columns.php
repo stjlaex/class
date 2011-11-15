@@ -104,11 +104,13 @@ if($perm["$neededperm"]=1 and $AssDef['MarkCount']['value']==0){
 		else{
 			$markdef_name=mysql_result($d_m,0);
 			}
+		$markdef_scoretype='grade';
 		}
 	else{
 		$d_m=mysql_query("SELECT name FROM markdef WHERE
 						scoretype='value' AND (course_id='%' OR course_id='$crid');");
 		$markdef_name=mysql_result($d_m,0);
+		$markdef_scoretype='value';
 		}
 	mysql_free_result($d_m);
 
@@ -208,7 +210,7 @@ if($perm["$neededperm"]=1 and $AssDef['MarkCount']['value']==0){
 						while(list($sid,$score)=each($sids)){
 							$out=$score['result'];
 							$value=$score['value'];
-							if($markdef['scoretype']=='grade'){
+							if($markdef_scoretype=='grade'){
 								$score=gradeToScore($out,$grading_grades);		
 								}
 							else{$score='';}

@@ -5,12 +5,13 @@
 $action='student_view.php';
 $action_post_vars=array('contactno');
 
+if(isset($_POST['access'])){$access=$_POST['access'];}
 $gid=$_POST['gid'];
 $contactno=$_POST['contactno'];
 
 include('scripts/sub_action.php');
 
-if($sub=='Submit' or $sub=='access'){
+if($sub=='Submit' or $access=='access'){
 	if($contactno>-1){
 		if($sid!=''){
 			/*Check user has permission to edit*/
@@ -138,7 +139,7 @@ elseif($sub=='Unlink'){
 
 	}
 
-if($sub=='access'){
+if($access=='access'){
 	$action='contact_details.php';
 	$_SESSION['accessfees']=$_POST['accessfees'];
 	}

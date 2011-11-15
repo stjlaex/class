@@ -170,10 +170,10 @@ three_buttonmenu($extrabuttons,$book);
 		  <?php print_string('bankdetails',$book);?>
 		</legend>
 
-		<input type="password" name="accessfees" maxlength="4" value="<?php print $_SESSION['accessfees'];?>" />
+		<input type="password" name="accessfees" maxlength="4" value="" />
 <?php
-		$button['access']=array('name'=>'sub','value'=>'access');
-		all_extrabuttons($button,'','');
+			$button['access']=array('name'=>'access','value'=>'access');
+			all_extrabuttons($button,'','');
 
 			}
 		else{
