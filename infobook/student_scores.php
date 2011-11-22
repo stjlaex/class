@@ -30,15 +30,13 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 	$eids=array();
 	$bids=array();
 	$elements=array();
-	while(list($assno,$Assessment)=each($Assessments)){
+	foreach($Assessments as $assno => $Assessment){
 		$eid=$Assessment['id_db'];
 		$bid=$Assessment['Subject']['value'];
 		$pid=$Assessment['SubjectComponent']['value'];
 		$year=$Assessment['Year']['value'];
-		/*spaces are cause of nullCorrect*/
-		if($Assessment['Element']['value']==' '){$element=$eid;}
+		if($Assessment['Element']['value']==''){$element=$eid;}
 		else{$element=$year. $Assessment['Element']['value'];}
-		if($pid==''){$pid=' ';}
 		$elements[$element][]=$assno;
 		$eids[$eid][]=$assno;
 		$bids[$bid][$pid][]=$assno;
@@ -47,7 +45,7 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 	krsort($elements);
 
 	/* display the column headers - subject codes*/
-	while(list($bid,$pids)=each($bids)){
+	foreach($bids as $bid => $pids){
 		while(list($pid,$assnos)=each($pids)){
 		  if($pid==' ' or $pid==''){print '<th>'.$bid.'</th>';}
 		  else{print '<th>'.$pid.'</th>';}
@@ -59,7 +57,7 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 <?php
 	/* each row in the table is for a single assessment using eid as
 	 * the key, first find the mark type for this row's values*/
-	while(list($element,$assnos)=each($elements)){
+	foreach($elements as $element => $assnos){
 		$gradesum=0;
 		$gradecount=0;
 		$eid=$Assessments[$assnos[0]]['id_db'];
@@ -82,9 +80,8 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 			print '</td>';
 
 			/* display values for each bid along the row*/
-			reset($bids);
-			while(list($bid,$pids)=each($bids)){
-				while(list($pid,$assses)=each($pids)){
+			foreach($bids as $bid => $pids){
+				foreach($pids as $pid => $assses){
 					print '<td>';
 					/* iterate over assnos, that is the pointer to all entries in
 					assessments with this eid*/
