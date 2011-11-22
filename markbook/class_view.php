@@ -267,7 +267,7 @@ if($_SESSION['worklevel']>-1){
 					}
 				elseif($umns[$c]['scoretype']=='grade'){
 					$out=round($totals[$col_mid]['grade']/$totals[$col_mid]['no']);
-					$out=scoreToGrade($out,$scoregrades[$c]);
+					$out=scoreToGrade($out,$scoregrades[$scoregrading[$c]]);
 					}
 				elseif($scoretype=='value' or $scoretype='compound' or $scoretype='sum' or $scoretype='average'){
 					$out=round($totals[$col_mid]['value']/$totals[$col_mid]['no']);

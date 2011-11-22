@@ -73,6 +73,7 @@ for($i=0;$i<sizeof($cids);$i++){
 	else{$umntype=$umnfilter;}
 
 	$umns=array();
+	$scoregrades=array();
 	if($umntype=='t'){
 		/* t really means r for Reports, both report column and
 		 * assessments which are linked to a report 
@@ -152,14 +153,6 @@ for($i=0;$i<sizeof($cids);$i++){
 
 
 		  if($marktype[$c]=='average'){
-				/* No markdef for an average, have to get grading_name from the levelname. */
-				$scoregrading[$c]=$lena[$c];
-				if($scoregrading[$c]!=''){
-					$d_grading=mysql_query("SELECT grades FROM grading WHERE name='$scoregrading[$c]';");
-					$scoregrades[$c]=mysql_result($d_grading,0);
-					}
-				else{$scoregrades[$c]='';}
-
 				/* Grab the scoretype of the columns we are averaging */
 				$avmids=explode(' ',$mark['midlist']);
 				$lastmid=$avmids[count($avmids)-1];//use the last one
@@ -190,16 +183,14 @@ for($i=0;$i<sizeof($cids);$i++){
 		  elseif($marktype[$c]=='report'){
 			  /* No markdef for a compound or report. */
 			  $scoregrading[$c]='';
-			  $scoregrades[$c]='';   
 			  $umns[$c]['displayclass']='report';
 			  }
 		  elseif($marktype[$c]=='compound'){
 			  /* No markdef for a compound. This is for a skills
-				 profile and maybe froma subject different to the
-				 class - so fetch from the profile definition. 
-			  */
+			   * profile and maybe from a subject different to the
+			   * class - so fetch from the profile definition. 
+			   */
 			  $scoregrading[$c]='';
-			  $scoregrades[$c]='';   
 			  $d_s=mysql_query("SELECT categorydef.subject_id FROM categorydef JOIN ridcatid ON ridcatid.categorydef_id=categorydef.id 
 								WHERE ridcatid.subject_id='profile' AND ridcatid.report_id='$midlist[$c]';");
 			  $umns[$c]['profile_bid']=mysql_result($d_s,0);
@@ -207,17 +198,16 @@ for($i=0;$i<sizeof($cids);$i++){
 			  }
 		  elseif($marktype[$c]=='score' or $marktype[$c]=='hw'){
 			  $markdef_name=$mark['def_name'];
-			  $d_markdef=mysql_query("SELECT * FROM markdef WHERE name='$markdef_name'");
+			  $d_markdef=mysql_query("SELECT * FROM markdef WHERE name='$markdef_name';");
 			  $markdef=mysql_fetch_array($d_markdef,MYSQL_ASSOC);	      
 			  $scoretype[$c]=$markdef['scoretype'];
 			  $umns[$c]['scoretype']=$markdef['scoretype'];
 			  $scoregrading[$c]=$markdef['grading_name'];
-			  if($scoregrading[$c]!=''){
+			  if($scoregrading[$c]!='' and !array_key_exists($markdef['grading_name'],$scoregrades)){
 				  $grading_name=$scoregrading[$c];
-					$d_grading=mysql_query("SELECT grades FROM grading WHERE name='$grading_name';");
-					$scoregrades[$c]=mysql_result($d_grading,0);
+				  $d_grading=mysql_query("SELECT grades FROM grading WHERE name='$grading_name';");
+				  $scoregrades[$grading_name]=mysql_result($d_grading,0);
 				  }
-			  else{$scoregrades[$c]='';}
 			  if($umns[$c]['assessment']=='other'){$umns[$c]['displayclass']='other';}
 			  elseif($umns[$c]['assessment']=='yes'){$umns[$c]['displayclass']='other';}
 			  else{$umns[$c]['displayclass']='';}
@@ -290,7 +280,6 @@ for($i=0;$i<sizeof($cids);$i++){
 		 * Use the first because the latter ones could be special columns for estimated grades 
 		 * and have different properties.
 		 */
-		$scoregrades[0]=$scoregrades[$first_profile_iumn];
 		$scoregrading[0]=$scoregrading[$first_profile_iumn];
 		$scoretype[0]=$scoretype[$first_profile_iumn];
 		$mid[0]=-1;

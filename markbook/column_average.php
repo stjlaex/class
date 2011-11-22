@@ -55,7 +55,7 @@ if(sizeof($checkmids)<2){
 				$scoretype='value';
 				$def_name='Raw Score';
 				$grading_name='';
-				$warning[]=get_string('warning',$book).': '.get_string('notofsametype',$book);
+				$result[]=get_string('warning',$book).': '.get_string('notofsametype',$book);
 				}
 			$joiner=' ';
 			$markdefs[$def_name]=$def_name;

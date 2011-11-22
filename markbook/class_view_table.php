@@ -51,10 +51,10 @@ while($student=mysql_fetch_array($d_students, MYSQL_ASSOC)){
 			if($asstype=='other'){$scoreclass.=' other';}
 			$d_score=mysql_query("SELECT * FROM score 
 					WHERE mark_id='$col_mid' AND student_id='$sid';");
-			$score=mysql_fetch_array($d_score,MYSQL_ASSOC);				
+			$score=mysql_fetch_array($d_score,MYSQL_ASSOC);			
 			/*score can be one of four types: grade, value, percentage, comment*/
 			if($scoretype=='grade'){
-				$out=scoreToGrade($score['grade'],$scoregrades[$c]);
+				$out=scoreToGrade($score['grade'],$scoregrades[$scoregrading[$c]]);
 				$outrank=$score['grade'];
 				}
 			elseif($scoretype=='value'){
@@ -69,116 +69,112 @@ while($student=mysql_fetch_array($d_students, MYSQL_ASSOC)){
 				$outrank=-100;
 				}
 			}
-			/*********************************************************/
+		/*********************************************************/
 		elseif($marktype=='average'){
-				/*Mark is average of several score values*/
-				$scoreclass.=' derived';
-				$mids=explode(' ',$midlist[$c]);
-				$pos=strpos($midlist[$c],':::');
-				if(!$pos===false){
-					$tempmids=$mids;
-					$mids=array();
-					$weights=array();
-					$weightsum=0;
-					foreach($tempmids as $mid){
-						list($mids[],$weight)=explode(':::',$mid);
-						$weights[]=$weight;
-						$weightsum+=$weight;
-						}
-					unset($tempmids);
+			/*Mark is average of several score values*/
+			$scoreclass.=' derived';
+			$mids=explode(' ',$midlist[$c]);
+			/* Test if this average uses weightings... */
+			$pos=strpos($midlist[$c],':::');
+			if(!$pos===false){
+				$tempmids=$mids;
+				$mids=array();
+				$weights=array();
+				$weightsum=0;
+				foreach($tempmids as $mid){
+					list($mids[],$weight)=explode(':::',$mid);
+					$weights[]=$weight;
+					$weightsum+=$weight;
 					}
-				else{$weightsum=sizeof($mids);}
+				unset($tempmids);
+				}
+			else{$weightsum=sizeof($mids);}
 
-				trigger_error('!!!!!!!!1'.$umns[$c]['scoretype'],E_USER_WARNING);
-				$umns[$c]['scoretype']='value';
+			//$umns[$c]['scoretype']='value';
 
-				/* Average is to be a grade */
-				if($umns[$c]['scoretype']=='grade'){
-					$grading_grades=$scoregrades[$c];
-					$gradesum=0;
-					$gradecount=0;
-					foreach($mids as $mid){
-						if(isset($studentrow["score$mid"])){$iscore=$studentrow["score$mid"];}
-						else{$iscore=array();}
-						/* Careful to exclude NULL values but not 0s */
-						if(isset($iscore['grade']) and $iscore['grade']!=''){
-							$gradesum=$gradesum+$iscore['grade'];
-							$gradecount++;
-							}
+			/* Average is to be a grade */
+			if($umns[$c]['scoretype']=='grade'){
+				$grading_grades=$scoregrades[$umns[$c]['lena']];
+				$gradesum=0;
+				$gradecount=0;
+				foreach($mids as $mid){
+					if(isset($studentrow["score$mid"])){$iscore=$studentrow["score$mid"];}
+					else{$iscore=array();}
+					/* Careful to exclude NULL values but not 0s */
+					if(isset($iscore['grade']) and $iscore['grade']!=''){
+						$gradesum=$gradesum+$iscore['grade'];
+						$gradecount++;
 						}
-					if($gradecount>0){
-						$score_grade=$gradesum/$gradecount;
-						$score_grade=round($score_grade);
-						$grade=scoreToGrade($score_grade,$grading_grades);
-						$out=$grade;
-						$outrank=$score_grade;
-						$score['grade']=$score_grade;
-						}
-					else{$outrank=-100;$out='';unset($score_grade);}
 					}
-				/* Average is to be a percentage */
-				elseif($umns[$c]['scoretype']=='percentage'){
-					$scoresum=0;
-					$scorecount=0;
-					foreach($mids as $avc => $mid){
-						$iscore=$studentrow["score$mid"];
-						if(isset($iscore['value']) and $iscore['outoftotal']>0){
-							//$ival=list($display,$percent,$cent)=scoreToPercent($iscore['value'],$iscore['outoftotal']);
-							$ival=$iscore['value']/$iscore['outoftotal']*100;
-							}
-						elseif(isset($iscore['grade']) and $iscore['grade']!=''){$ival=$iscore['grade'];}
-						elseif(isset($iscore['value']) and $iscore['value']!=''){$ival=$iscore['value'];}
-						if(isset($ival)){
-							if(!isset($weights[$avc])){
-								$scoresum+=$ival / $weightsum;
-								}
-							else{
-								$scoresum+=$ival * $weights[$avc] / $weightsum;
-								}
-							$scorecount++;
-							unset($ival);
-							}
-						}
-					if($scorecount>0){
-						$score['value']=$scoresum;
-						list($display,$out,$outrank)=scoreToPercent($scoresum,100);
-						}
-					else{$out='';$outrank=-100;}
+				if($gradecount>0){
+					$score_grade=round($gradesum/$gradecount);
+					$grade=scoreToGrade($score_grade,$grading_grades);
+					$out=$grade;
+					$outrank=$score_grade;
+					$score['grade']=$score_grade;
 					}
-				/* Average is to be a raw score */
-				else{
-					$scoresum=0;
-					$scorecount=0;
-					foreach($mids as $avc => $mid){
-						$iscore=$studentrow["score$mid"];
-						if($iscore['value']!='' and $iscore['outoftotal']>0){
-							$ival=$iscore['value']/$iscore['outoftotal']*100;
-							}
-						elseif($iscore['grade']!='' and $iscore['value']===''){$ival=$iscore['grade'];}
-						elseif($iscore['value']!=''){$ival=$iscore['value'];}
-						if(isset($ival)){
-							if(!isset($weights[$avc])){
-								$scoresum+=$ival / $weightsum;
-								}
-							else{
-								$scoresum+=$ival * $weights[$avc] / $weightsum;
-
-				trigger_error($ival.' : '.$scoresum.' : '.$weights[$avc] .' : '.$weightsum,E_USER_WARNING);
-
-								}
-							$scorecount++;
-							unset($ival);
-							}
+				else{$outrank=-100;$out='';unset($score_grade);}
+				}
+			/* Average is to be a percentage */
+			elseif($umns[$c]['scoretype']=='percentage'){
+				$scoresum=0;
+				$scorecount=0;
+				foreach($mids as $avc => $mid){
+					$iscore=$studentrow["score$mid"];
+					if(isset($iscore['value']) and $iscore['outoftotal']>0){
+						//$ival=list($display,$percent,$cent)=scoreToPercent($iscore['value'],$iscore['outoftotal']);
+						$ival=$iscore['value']/$iscore['outoftotal']*100;
 						}
-					if($scorecount>0){
-						$out=$scoresum;
-						$outrank=$scoresum;
-						$score['value']=$scoresum;
+					elseif(isset($iscore['grade']) and $iscore['grade']!=''){$ival=$iscore['grade'];}
+					elseif(isset($iscore['value']) and $iscore['value']!=''){$ival=$iscore['value'];}
+					if(isset($ival)){
+						if(!isset($weights[$avc])){
+							$scoresum+=$ival / $weightsum;
+							}
+						else{
+							$scoresum+=$ival * $weights[$avc] / $weightsum;
+							}
+						$scorecount++;
+						unset($ival);
 						}
-					else{$out='';$outrank=-100;}
 					}
-				unset($weights);
-				unset($weightsum);
+				if($scorecount>0){
+					$score['value']=$scoresum;
+					list($display,$out,$outrank)=scoreToPercent($scoresum,100);
+					}
+				else{$out='';$outrank=-100;}
+				}
+			/* Average is to be a raw score */
+			else{
+				$scoresum=0;
+				$scorecount=0;
+				foreach($mids as $avc => $mid){
+					$iscore=$studentrow["score$mid"];
+					if($iscore['value']!='' and $iscore['outoftotal']>0){
+						$ival=$iscore['value']/$iscore['outoftotal']*100;
+						}
+					elseif($iscore['grade']!='' and $iscore['value']===''){$ival=$iscore['grade'];}
+					elseif($iscore['value']!=''){$ival=$iscore['value'];}
+					if(isset($ival)){
+						if(!isset($weights[$avc])){
+							$scoresum+=$ival / $weightsum;
+							}
+						else{
+							$scoresum+=$ival * $weights[$avc] / $weightsum;
+							}
+						$scorecount++;
+						unset($ival);
+						}
+					}
+				if($scorecount>0){
+					$out=round($scoresum,1);
+					$outrank=$scoresum;
+					$score['value']=$scoresum;
+					}
+				else{$out='';$outrank=-100;}
+				}
+			unset($weights);
+			unset($weightsum);
 			}
 		
 		/*********************************************************/
