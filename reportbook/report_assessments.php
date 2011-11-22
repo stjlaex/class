@@ -63,6 +63,7 @@ if($r>-1 or isset($cohorts)){
 <?php
 	$classes=array();
 	foreach($cohorts as $cohort){
+		trigger_error(':'.$cohort['course_id'],E_USER_WARNING);
 		$classes=array_merge($classes,list_course_classes($cohort['course_id']));
 		}
 	$listname='cid';$listlabel='classes';$required='no';$multi=5;

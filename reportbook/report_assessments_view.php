@@ -145,6 +145,7 @@ $description='';
 		if($gender=='' or $gender==$Student['Gender']['value']){
 			$viewtable[$c]=array();
 			$viewtable[$c]['student']=(array)$student;
+			$viewtable[$c]['Student']=(array)$Student;
 			$viewtable[$c]['out']=array();
 			$c++;
 			}
@@ -274,8 +275,7 @@ $d_catdef=mysql_query("SELECT DISTINCT comment AS id, CONCAT(name,': ',comment) 
 			<?php print $sid;?>
 		  </td>
 					<td>
-					<?php print $row['student']['surname']; ?>,
-					<?php print $row['student']['forename']; ?>
+					<?php print $row['Student']['DisplayFullSurname']['value']; ?> 
 					(<?php print $row['student']['form_id']; ?>)
 					</td>
 <?php

@@ -124,6 +124,7 @@ two_buttonmenu($extrabuttons,$book);
 	$rown=1;
 	foreach($students as $student){
 		$sid=$student['id'];
+		$Student=(array)fetchStudent_short($sid);
 		$comment=comment_display($sid);
 		$success=checkReportPub($rids[0],$sid);
 		if($success==1){$rowclass='nolite';}
@@ -147,7 +148,8 @@ two_buttonmenu($extrabuttons,$book);
 		  <td class="student">
 			<a onclick="parent.viewBook('infobook');" target="viewinfobook" 
 			  href="infobook.php?current=student_view.php&sid=<?php print $sid;?>">
-				   <?php print $student['surname']; ?>, <?php print $student['forename']; ?>
+					<?php print $Student['DisplayFullSurname']['value']; ?> 
+					(<?php print $Student['RegistrationGroup']['value']; ?>)
 			</a>
 			<div id="merit-<?php print $sid;?>"></div>
 			</td>

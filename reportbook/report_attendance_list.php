@@ -99,7 +99,8 @@ two_buttonmenu($extrabuttons,$book);
 			<a href="register.php?current=register_list.php&newfid=<?php
 			  print $fid;?>"  target="viewregister"
 			  onclick="parent.viewBook('register');"> 
-			  <?php print $Student['DisplayFullName']['value']; ?>
+			  <?php print $Student['DisplayFullSurname']['value']; ?>
+			  (<?php print $Student['RegistrationGroup']['value']; ?>)
 			</a>
 		  </td>
 		  <td>
