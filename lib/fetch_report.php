@@ -156,7 +156,8 @@ function fetchSubjectReports($sid,$reportdefs){
 					  $componentseq=$component['sequence'];
 					  }
 				  else{
-					  $componentseq='';
+					  /* Set this always so that sorting on component sequence is an option. */
+					  $componentseq=$subject['sequence'];
 					  }
 
 				  /* Combine assessment indexes for this component and all of its
