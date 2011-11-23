@@ -665,8 +665,8 @@ function count_late($sid,$startdate,$enddate){
 
 /**
  *
- * Count no of attendnace entries recorded for the whole schol between two given dates.
- * If no absence code is given then will counting status=present entries only.
+ * Count no of attendance entries recorded for the whole schol between two given dates.
+ * If no absence code is given then will be counting status=present entries only.
  * If a code given then coutning status=absent entries.
  * Disgards all entries which are not part of the school record (X, Y, Z and #).
  *
@@ -698,6 +698,7 @@ function count_overall_attendance($startdate,$enddate,$code=''){
 	return $noatts;
 	}
 
+
 /**
  *
  * TODO: Only counting AM at the moment!!!!
@@ -713,6 +714,7 @@ function count_overall_late($startdate,$enddate){
 
 	return $noatts;
 	}
+
 
 /**
  *

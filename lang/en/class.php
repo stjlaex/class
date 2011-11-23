@@ -396,4 +396,5 @@ $string['nonefound']='None found';
 $string['becareful']='Take care!';
 $string['list']='List';
 $string['warning']='Warning';
+$string['universityoffers']='University Offers';
 ?>

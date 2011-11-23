@@ -149,12 +149,19 @@ class User{
 		}
 	}
   function _checkSession(){
+	  global $CFG;
 	$username=$this->db->quote($_SESSION['username']);
 	$cookie=$this->db->quote($_SESSION['cookie']);
 	$session=$this->db->quote(session_id());
 	$ip=$this->db->quote($_SERVER['REMOTE_ADDR']);
-	$sql="SELECT * FROM users WHERE (username=$username) 
+	if(!isset($CFG->ipfixed) or $CFG->ipfixed==true){
+		$sql="SELECT * FROM users WHERE (username=$username) 
 				AND (cookie=$cookie) AND (session=$session) AND (ip=$ip)";
+		}
+	else{
+		$sql="SELECT * FROM users WHERE (username=$username) 
+				AND (cookie=$cookie) AND (session=$session)";
+		}
 	$result=$this->db->getRow($sql);
 	if(is_object($result)){
 		$this->_setSession($result, false, false);} 
