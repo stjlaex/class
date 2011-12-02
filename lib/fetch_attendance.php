@@ -543,10 +543,11 @@ function list_absentStudents($eveid='',$lates=0){
  * @param date $enddate
  * @return array
  */
-function fetchAttendanceSummary($sid,$startdate,$enddate){
+function fetchAttendanceSummary($sid,$startdate,$enddate,$session='%'){
 	$Attendance['Summary']=array();
+	$Attendance['Summary']['Session']=$session;
 
-	$no_present=count_attendance($sid,$startdate,$enddate);
+	$no_present=count_attendance($sid,$startdate,$enddate,'',$session);
 
 	/**
 	 * These are lates after the register closed only
@@ -554,11 +555,11 @@ function fetchAttendanceSummary($sid,$startdate,$enddate){
 	 *
 	 * NB. Non-UK local additions here are UA and UB for authorised lates
 	 */
-	$no_late_authorised=count_attendance($sid,$startdate,$enddate,'L');
-	$no_late_authorised+=count_attendance($sid,$startdate,$enddate,'UA');
-	$no_late_authorised+=count_attendance($sid,$startdate,$enddate,'UB');
-	$no_late_unauthorised=count_attendance($sid,$startdate,$enddate,'U');
-	$no_visit=count_attendance($sid,$startdate,$enddate,'V');
+	$no_late_authorised=count_attendance($sid,$startdate,$enddate,'L',$session);
+	$no_late_authorised+=count_attendance($sid,$startdate,$enddate,'UA',$session);
+	$no_late_authorised+=count_attendance($sid,$startdate,$enddate,'UB',$session);
+	$no_late_unauthorised=count_attendance($sid,$startdate,$enddate,'U',$session);
+	$no_visit=count_attendance($sid,$startdate,$enddate,'V',$session);
 	$no_late=$no_late_authorised+$no_late_unauthorised;
 	$no_attended=$no_present+$no_late+$no_visit;
 
@@ -568,11 +569,11 @@ function fetchAttendanceSummary($sid,$startdate,$enddate){
 	 * attendance and the following formula resepcts this for
 	 * compiling the summary
 	 */
-	$no_absent=count_attendance($sid,$startdate,$enddate,'%') - $no_late - $no_visit;
-	$no_notagreed=count_attendance($sid,$startdate,$enddate,'G');
-	$no_notexplained=count_attendance($sid,$startdate,$enddate,'O');
-	$no_noreason=count_attendance($sid,$startdate,$enddate,'N');
-	$no_late_register=count_late($sid,$startdate,$enddate);
+	$no_absent=count_attendance($sid,$startdate,$enddate,'%',$session) - $no_late - $no_visit;
+	$no_notagreed=count_attendance($sid,$startdate,$enddate,'G',$session);
+	$no_notexplained=count_attendance($sid,$startdate,$enddate,'O',$session);
+	$no_noreason=count_attendance($sid,$startdate,$enddate,'N',$session);
+	$no_late_register=count_late($sid,$startdate,$enddate,$session);
 	//$no_ill=count_attendance($sid,$startdate,$endate,'I');
 	//$no_medical=count_attendance($sid,$startdate,$endate,'M');
 
@@ -617,7 +618,7 @@ function fetchAttendanceSummary($sid,$startdate,$enddate){
  * @param string $code
  * @return array
  */
-function count_attendance($sid,$startdate,$enddate,$code=''){
+function count_attendance($sid,$startdate,$enddate,$code='',$session='%'){
 
 	if($code==''){
 		$status='p';
@@ -632,7 +633,7 @@ function count_attendance($sid,$startdate,$enddate,$code=''){
 			attendance.status='$status' AND attendance.code LIKE '$code' 
 			AND attendance.code!='X' AND attendance.code!='Y' AND attendance.code!='Z'  
 			AND attendance.code!='#' 
-			AND event.date >= '$startdate' AND event.date <= '$enddate' AND period='0';");
+			AND event.date >= '$startdate' AND event.date <= '$enddate' AND event.period='0' AND event.session LIKE '$session';");
 	$noatts=mysql_result($d_attendance,0);
 
 	return $noatts;
@@ -649,14 +650,14 @@ function count_attendance($sid,$startdate,$enddate,$code=''){
  * @param date $enddate
  * @return integer
  */
-function count_late($sid,$startdate,$enddate){
+function count_late($sid,$startdate,$enddate,$session='%'){
 
 	$status='p';
 	$code='';
 	$d_attendance=mysql_query("SELECT COUNT(attendance.status) FROM attendance JOIN
 			event ON event.id=attendance.event_id WHERE
 			attendance.student_id='$sid' AND attendance.status='$status'  AND attendance.late='1' 
-			AND event.date >= '$startdate' AND event.date <= '$enddate' AND event.period='0';");
+			AND event.date >= '$startdate' AND event.date <= '$enddate' AND event.period='0' AND event.session LIKE '$session';");
 	$noatts=mysql_result($d_attendance,0);
 
 	return $noatts;

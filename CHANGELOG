@@ -1,9 +1,16 @@
-Version ClaSS-1.0.12 release (2011/11/16)
+Version ClaSS-1.0.12 release (2011/12/03)
 -------------------------------------------
 
 Support profiles re-organised to include two groups of SEN assessments
 and the extra support search now works.
 
+Fixed student_scores in InfoBook as nullcorrect spaces no longer an issue.
+
+CFG option to make IP address checking optional.
+
+Changed the Register count_ functions to distinguish between AM/PM sessions.
+
+A whole year summary attendance report added to Register.
 
 
 
