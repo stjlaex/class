@@ -215,32 +215,54 @@ function xmlreader($string){
 	}
 
 
-function xmlstringToArray($xml){
+/**
+ * Cean up a string for unwanted html elements and attributes (ususally resulting from a cut'n'paste job). to a php array.
+ *
+ * @param string $xml
+ * @return string
+ */
+function xmlstringToArray($xmlstring){
 
-	/*TODO: how can tidy do this!!! Or is neccessary to use DOM? */
-	/* fix span elements like <p><span>some text</span>more text</p> because the more text is lost when simplexml does its stuff :-(*/
-	$xml=eregi_replace('<span[^>]*>','', $xml);
-	$xml=eregi_replace('</span>','', $xml);
+	/* Remove unwanted tags */
+	$xmlstring = preg_replace("/<(\/)?(font|span|del|ins|table|tbody|tr|td|colgroup|col|strong|em|pre)[^>]*>/i","",$xmlstring);
 
-	/*TODO: is php5-tidy a useful tool? need to test for install before calling as its not standard
-	$config = array(
-            'indent' => false,
-			'drop-proprietary-attributes' => true,
-			'drop-empty-paras' => true,
-			'drop-font-tags' => true,
-            'hide-comments' => true,
-            'output-xml' => true,
-            'show-body-only' => true,
-            'merge-spans' => true,
-            'enclose-block-text' => true,
-            'wrap' => 0);
+	/* Remove attributes, inline style etc.
+	 * Each pass takes one attribute per element, so do three times just to be sure 
+	 */
+	$xmlstring = preg_replace("/<([^>]*)(class|lang|style|size|face|width)=(\"[^\"]*\"|'[^']*'|[^>]+)([^>]*)>/i","<\\1>",$xmlstring);
+	$xmlstring = preg_replace("/<([^>]*)(class|lang|style|size|face|width)=(\"[^\"]*\"|'[^']*'|[^>]+)([^>]*)>/i","<\\1>",$xmlstring); 
+	$xmlstring = preg_replace("/<([^>]*)(class|lang|style|size|face|width)=(\"[^\"]*\"|'[^']*'|[^>]+)([^>]*)>/i","<\\1>",$xmlstring); 
 
-    $tidy = new tidy;
-    $tidy->parseString($xml, $config, 'utf8');
-    $tidy->cleanRepair();
-	*/
+	$search=array('<p></p>','&nbsp;','<p> </p>','<p>&nbsp;</p>','<p>:::</p>');
+	$replace=array('',' ','','','');
+	$xmlstring=str_replace($search,$replace,$xmlstring);
 
-    $array=simplexml_load_string($xml);
+
+	/*
+	 * TODO: is php5-tidy a useful tool? need to test for install before calling as its not standard
+	 */
+	if($tiny){
+		$config=array(
+					  'indent' => false,
+					  'drop-proprietary-attributes' => true,
+					  'drop-empty-paras' => true,
+					  'drop-font-tags' => true,
+					  'hide-comments' => true,
+					  'output-xml' => true,
+					  'show-body-only' => true,
+					  //'merge-spans' => true,
+					  //'enclose-block-text' => true,
+					  'word-2000' => true,
+					  'bare' => true,
+					  'wrap' => 0);	
+		$xml=tidy_parse_string($xmlstring, $config, 'utf8');
+		tidy_clean_repair($xml);
+		}
+	else{
+		$xml=$xmlstring;
+		}
+
+	$array=simplexml_load_string($xml);
 	$newArray=objectToArray($array);
 	//$newArray=object2array($array);
 
