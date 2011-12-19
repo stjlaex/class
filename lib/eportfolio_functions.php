@@ -889,6 +889,86 @@ function elgg_upload_files($filedata,$dbc=true){
 	}
 
 
+
+/**
+ *
+ *
+ */
+function elgg_delete_files($filedata,$dbc=true){
+	global $CFG;
+	$success=false;
+
+	$table_folders=$CFG->eportfolio_db_prefix.'file_folders';
+	$table_files=$CFG->eportfolio_db_prefix.'files';
+	$table_users=$CFG->eportfolio_db_prefix.'users';
+	$table_icons=$CFG->eportfolio_db_prefix.'icons';
+	if($CFG->eportfolio_db!='' and $dbc==true){
+		$dbepf=db_connect(true,$CFG->eportfolio_db);
+		mysql_query("SET NAMES 'utf8'");
+		}
+
+
+	/* Identify the folder to be linked with this file. Note this is a
+	 * virtual flolder in elgg and does not affect the physical directory
+	 * the file is being stored in. 
+	 */
+	if($filedata['foldertype']=='report'){
+		$folder_name='Reports';
+		$dir_name='files';
+		}
+	elseif($filedata['foldertype']=='work'){
+		$folder_name='Portfolio Work';
+		$dir_name='files';
+		}
+	elseif($filedata['foldertype']=='icon'){
+		$folder_name='root';
+		$dir_name='icons';
+		}
+	else{
+		/* Just defaults to their parent folder. */
+		$folder_name='root';
+		$dir_name='files';
+		$folder_id=-1;
+		}
+
+	$batchfiles=$filedata['batchfiles'];
+	foreach($batchfiles as $batchfile){
+		$epfusername=$batchfile['epfusername'];
+		$file_name=$batchfile['filename'];
+		$epfuid=elgg_get_epfuid($epfusername,'person');
+		$dir=$dir_name . '/' . substr($epfusername,0,1) . '/' . $epfusername; 
+		$file_fullpath=$CFG->eportfolio_dataroot . '/' . $dir. '/'. $file_name;
+		$file_location=$dir . '/'. $file_name;
+		$file_originalname=$file_name;
+		trigger_error($epfusername.' : '.$file_name,E_USER_WARNING);	
+
+		if($filedata['foldertype']=='icon'){
+			mysql_query("DELETE FROM $table_icons WHERE owner='$epfuid' AND filename='$file_name';");
+			}
+		else{
+			$d_f=mysql_query("SELECT ident FROM $table_files WHERE originalname='$file_originalname' 
+								AND files_owner='$epfuid';");
+			if(mysql_num_rows($d_f)>0){
+				$file_ident=mysql_result($d_f,0);
+				$d_f=mysql_query("DELETE FROM $table_files WHERE ident='$file_ident';");
+				}
+			}
+		
+		if(unlink($file_fullpath)){
+			$success=true;
+			}
+		else{trigger_error('Could not remove file from eportfolio: '.$file_fullpath,E_USER_WARNING);}
+		}
+	if($dbc==true){
+		$db=db_connect();
+		mysql_query("SET NAMES 'utf8'");
+		}
+
+	return $success;
+	}
+
+
+
 /**
  * Create a directory in the eportfolio_dataroot.
  *

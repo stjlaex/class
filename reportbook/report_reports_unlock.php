@@ -9,7 +9,6 @@
 $action='report_reports_list.php';
 $action_post_vars=array('wrapper_rid','yid','comid');
 
-
 if(isset($_GET['sids'])){$sids=(array)$_GET['sids'];}else{$sids=array();}
 if(isset($_POST['sids'])){$sids=(array)$_POST['sids'];}
 if(isset($_GET['rids'])){$rids=(array)$_GET['rids'];}else{$rids=array();}
@@ -28,6 +27,23 @@ if(sizeof($sids)==0){
 		exit;
 		}
 
+if(isset($CFG->eportfolio_db) and $CFG->eportfolio_db!=''){
+	$doingepf=true;
+	}
+else{
+	$doingepf=false;
+	}
+if(isset($CFG->wkhtml2pdf) and $CFG->wkhtml2pdf!=''){
+	$pubtype='pdf';
+	$pubmethod='wkhtml2pdf';
+	}
+else{
+	$pubtype='html';
+	}
+
+$reportdef=(array)fetch_reportdefinition($wrapper_rid);
+$pubdate=$reportdef['report']['date'];
+
 foreach($sids as $sid){
 	/* Log to the event table for publication. */
 
@@ -36,8 +52,34 @@ foreach($sids as $sid){
 	if(mysql_num_rows($d_r)>0){
 		$pub=mysql_result($d_r,0);
 		if($pub==1){
+			/* The report has already been published to file so need to delete and unpublish. */
 			mysql_query("UPDATE report_event SET success='0', try='0' 
 					WHERE report_id='$wrapper_rid' AND student_id='$sid';");
+
+			$filename='Report'.$pubdate.'_'.$sid.'_'.$wrapper_rid;
+			$S=fetchStudent_singlefield($sid,'EPFUsername');
+			$epfusername=$S['EPFUsername']['value'];
+
+			$targetdir='files/' . substr($epfusername,0,1) . '/' . $epfusername;
+			unlink($CFG->eportfolio_dataroot.'/cache/reports/'.$filename.'.'.$pubtype);
+
+			if($doingepf){
+				$publishdata=array();
+				$publish_batch=array();
+				$publishdata['foldertype']='report';
+				$publishdata['description']='report';
+				$publishdata['title']=$reportdef['report']['title'].' - '.$pubdate;
+				$publish_batch[]=array('epfusername'=>$epfusername,'filename'=>$filename.'.'.$pubtype);
+				$publishdata['batchfiles']=$publish_batch;
+       				if(elgg_delete_files($publishdata,true)){
+				}
+				else{
+				  $success=false;
+				}
+				}
+			else{
+				unlink($CFG->eportfolio_dataroot.'/'.$targetdir.'/'.$filename.'.'.$pubtype);
+				}
 			}
 		else{
 			mysql_query("DELETE FROM report_event  
