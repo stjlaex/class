@@ -16,11 +16,15 @@ if((isset($_POST['date0']) and $_POST['date0']!='')){$todate=$_POST['date0'];}el
 if((isset($_GET['date0']) and $_GET['date0']!='')){$todate=$_GET['date0'];}
 
 $today=date('N',strtotime($todate));
+$extrabuttons=array();
 
 if($busname!=''){
 	$listtype='b';
 	$com=array('id'=>'','type'=>'transport','name'=>$busname);
 	$students=(array)list_bus_journey_students($busname,$todate,5);
+	$extrabuttons['editroute']=array('name'=>'current',
+									 'value'=>'transport_route.php'
+									 );
 	}
 elseif($comid!=''){
 	$listtype='f';
@@ -32,7 +36,7 @@ else{
 	$students=array();
 	}
 
-$extrabuttons=array();
+
 $extrabuttons['morning']=array('name'=>'current',
 							   'pathtoscript'=>$CFG->sitepath.'/'.$CFG->applicationdirectory.'/admin/',
 							   'value'=>'transport_print.php',
@@ -50,7 +54,7 @@ $extrabuttons['changes']=array('name'=>'current',
 							   'onclick'=>'checksidsAction(this)');
 two_buttonmenu($extrabuttons,$book);
 
-	if($busname!=-1){
+	if($busname!=''){
 ?>
   <div id="heading">
 	<label><?php print_string('transport',$book);?></label>

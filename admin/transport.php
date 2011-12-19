@@ -20,6 +20,11 @@ if($_SESSION['role']=='admin' or $aperm==1){
 	}
 if($_SESSION['role']=='admin' or $aperm==1 or $_SESSION['role']=='office'){
 	//$extrabuttons['export']=array('name'=>'current','value'=>'transport_export.php');
+	$extrabuttons['route']=array('name'=>'current',
+								   'pathtoscript'=>$CFG->sitepath.'/'.$CFG->applicationdirectory.'/admin/',
+								   'value'=>'transport_route_print.php',
+								   'xmlcontainerid'=>'route',
+								   'onclick'=>'checksidsAction(this)');
 	}
 
 $extrabuttons['morning']=array('name'=>'current',
@@ -139,6 +144,13 @@ two_buttonmenu($extrabuttons);
 		<length>short</length>
 		<transform>transport_list_changes</transform>
 		<paper>landscape</paper>
+	  </params>
+	</div>
+	<div id="xml-route" style="display:none;">
+	  <params>
+		<checkname>busnames</checkname>
+		<transform>transport_route</transform>
+		<paper>portrait</paper>
 	  </params>
 	</div>
   </form>
