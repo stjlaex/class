@@ -86,7 +86,8 @@ function list_buses($direction='%',$day='%',$name='%'){
  */
 function list_bus_stops($busid){
 	$stops=array();
-	$d_s=mysql_query("SELECT * FROM transport_stop AS s JOIN transport_rtidstid AS rs ON rs.stop_id=s.id 
+	$d_s=mysql_query("SELECT s.id, s.name, s.detail, s.lat, s.lng, rs.sequence, rs.traveltime 
+						FROM transport_stop AS s JOIN transport_rtidstid AS rs ON rs.stop_id=s.id 
 						WHERE rs.route_id=(SELECT route_id FROM transport_bus WHERE transport_bus.id='$busid') 
 						ORDER BY rs.sequence ASC;");
 	while($stop=mysql_fetch_array($d_s,MYSQL_ASSOC)){
