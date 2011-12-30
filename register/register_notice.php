@@ -49,7 +49,7 @@ three_buttonmenu();
 
 		<div class="center">
 		  <textarea  tabindex="<?php print $tab++;?>" name="noticebody" 
-				 cols="78" rows="12" class="htmleditorarea" id="noticebody"></textarea>
+				 cols="78" rows="12" id="noticebody"></textarea>
 		</div>
 
 
