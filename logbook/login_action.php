@@ -17,7 +17,7 @@
 	$date=gmdate("'Y-m-d'");
 	$user=new user($db);
 	$user->_checkLogin($username, $password, $remember);
-	if($_SESSION['logged']==false){session_defaults();}
+	if($_SESSION['logged']!==true){session_defaults();}
 	require_once('../lib/include.php');
 	if($langchoice!=''){update_user_language($langchoice);}
 ?>

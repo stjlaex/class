@@ -14,15 +14,20 @@
  */
 function start_class_phpsession(){
 	global $CFG;
-	$session='ClaSS'.$CFG->shortname;
+	$sessionname='ClaSS'.$CFG->shortname;
+	$path=$CFG->sitepath;
+	$domain=$_SERVER['SERVER_NAME'];
+	$secure=isset($_SERVER['HTTPS']);
 	ini_set('globals','off');
 	ini_set('session.gc_probability',1);
 	ini_set('session.gc_divisor',100);
 	if(!empty($CFG->sessiontimeout)){ini_set('session.gc_maxlifetime',$CFG->sessiontimeout);}
 	else{ini_set('session.gc_maxlifetime',7200);}
 	session_save_path($CFG->eportfolio_dataroot .'/sessions');
-	session_name("$session");
+	session_name("$sessionname");
 	session_cache_limiter('nocache');
+	/* session_set_cookie_params ($lifetime,$path,$domain,$secure,$httponly) */
+	session_set_cookie_params(0, $path, $domain, $secure, true);
 	session_start();
 	}
 ?>

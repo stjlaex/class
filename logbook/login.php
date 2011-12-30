@@ -17,7 +17,7 @@
 </head>
 
 
-<body onLoad="loadRequired();">
+<body>
 
 <div style="visibility:hidden;" id="hiddenbookoptions">	
 <p>
@@ -94,6 +94,7 @@ else{
 <script>
 parent.document.getElementById("langchoice").innerHTML=document.getElementById("hiddenlang").innerHTML;
 document.getElementById("coverbox").style.zIndex="100";
+parent.loadRequired("logbook");
 parent.loadBookOptions("logbook");
 </script>
 

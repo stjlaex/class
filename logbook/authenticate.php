@@ -3,13 +3,13 @@
  *
  */
 function session_defaults(){
-	$_SESSION['logged']=false;
+	//$_SESSION['logged']=false;
 	$_SESSION['uid']=0;
 	$_SESSION['username']='';
 	$_SESSION['role']='';
 	$_SESSION['worklevel']='';
 	$_SESSION['cookie']=0;
-	$_SESSION['remember']=true;
+	$_SESSION['remember']=false;
 	$_SESSION['respons']=array();
 	$_SESSION['prespons']=array();
 	}
@@ -81,9 +81,11 @@ class User{
   function User(&$db){
 		$this->db=$db;
 		if($_SESSION['logged']){
-				$this->_checkSession();} 
-		elseif(isset($_COOKIE['ClaSSwebLogin'])){
-				$this->_checkRemembered($_COOKIE['ClaSSwebLogin']);}
+			$this->_checkSession();
+			} 
+		elseif(isset($_COOKIE['ClaSSlogin'])){
+			$this->_checkRemembered($_COOKIE['ClaSSlogin']);
+			}
 		}
   function _checkLogin($username, $passwd, $remember) {
 	$username=$this->db->quote($username);
@@ -105,7 +107,6 @@ class User{
 	if($remember){
 		$this->updateCookie($values->cookie, true);
 		}
-	$this->updateSharedCookie($values->cookie, true);
 	if($init){
 		$_SESSION['uid']=$this->uid;
 		$_SESSION['username']=htmlspecialchars($values->username);
@@ -121,21 +122,18 @@ class User{
 		$_SESSION['prespons']=(array)get_respons($this->uid,'p');
 		$session=$this->db->quote(session_id());
 		$ip=$this->db->quote($_SERVER['REMOTE_ADDR']);
-		$sql="UPDATE users SET session=$session, ip=$ip, 
-				logcount=logcount+1 WHERE uid=$this->uid";
+		$sql="UPDATE users SET session=$session, ip=$ip, logcount=logcount+1 WHERE uid=$this->uid";
 		$this->db->query($sql);
 		}
 	}
   function updateCookie($cookie, $save){
+	  global $CFG;
 	$_SESSION['cookie']=$cookie;
 	if($save){
-		$cookie=serialize(array($_SESSION['username'], $cookie) );
-		setcookie('ClaSSwebLogin', $cookie, time() + 31104000, '');
+		$cookie=serialize(array($_SESSION['username'], $cookie));
+		/*setcookie( name, value, expire, path, domain, secure, httponly);*/
+		setcookie('ClaSSlogin', $cookie, time() + 31104000, $CFG->sitepath,'',isset($_SERVER["HTTPS"]),true);
 		}
-	}
-  function updateSharedCookie($cookie){
-	$cookie=serialize(array($_SESSION['uid'], $_SESSION['lang'], ) );
-	setcookie('ClaSSsharedLogin', $cookie);
 	}
   function _checkRemembered($cookie){
 	list($username, $cookie)=@unserialize($cookie);
@@ -144,32 +142,33 @@ class User{
 		$cookie=$this->db->quote($cookie);
 		$sql="SELECT * FROM users WHERE (username=$username) AND (cookie=$cookie)";
 		$result=$this->db->getRow($sql);
-	if (is_object($result) ) {
+	if (is_object($result)){
 		$this->_setSession($result, true);
 		}
 	}
   function _checkSession(){
 	  global $CFG;
-	$username=$this->db->quote($_SESSION['username']);
-	$cookie=$this->db->quote($_SESSION['cookie']);
-	$session=$this->db->quote(session_id());
-	$ip=$this->db->quote($_SERVER['REMOTE_ADDR']);
-	if(!isset($CFG->ipfixed) or $CFG->ipfixed==true){
-		$sql="SELECT * FROM users WHERE (username=$username) 
+	  $username=$this->db->quote($_SESSION['username']);
+	  $cookie=$this->db->quote($_SESSION['cookie']);
+	  $session=$this->db->quote(session_id());
+	  $ip=$this->db->quote($_SERVER['REMOTE_ADDR']);
+	  if(!isset($CFG->ipfixed) or $CFG->ipfixed==true){
+		  $sql="SELECT * FROM users WHERE (username=$username) 
 				AND (cookie=$cookie) AND (session=$session) AND (ip=$ip)";
-		}
-	else{
-		$sql="SELECT * FROM users WHERE (username=$username) 
+		  }
+	  else{
+		  $sql="SELECT * FROM users WHERE (username=$username) 
 				AND (cookie=$cookie) AND (session=$session)";
-		}
-	$result=$this->db->getRow($sql);
-	if(is_object($result)){
-		$this->_setSession($result, false, false);} 
-	else{
-		$this->_logout();}
-	}
+		  }
+	  $result=$this->db->getRow($sql);
+	  if(is_object($result)){
+		  $this->_setSession($result, false, false);} 
+	  else{
+		  $this->_logout();}
+	  }
   function _logout(){
 	session_defaults();
+	$_SESSION['logged']=false;
 	}
 }
 ?>
