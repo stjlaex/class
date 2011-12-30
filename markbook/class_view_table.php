@@ -121,12 +121,12 @@ while($student=mysql_fetch_array($d_students, MYSQL_ASSOC)){
 				$scorecount=0;
 				foreach($mids as $avc => $mid){
 					$iscore=$studentrow["score$mid"];
-					if(isset($iscore['value']) and $iscore['outoftotal']>0){
+					if(isset($iscore['value']) and $iscore['value']!=='' and $iscore['outoftotal']>0){
 						//$ival=list($display,$percent,$cent)=scoreToPercent($iscore['value'],$iscore['outoftotal']);
 						$ival=$iscore['value']/$iscore['outoftotal']*100;
 						}
-					elseif(isset($iscore['grade']) and $iscore['grade']!=''){$ival=$iscore['grade'];}
-					elseif(isset($iscore['value']) and $iscore['value']!=''){$ival=$iscore['value'];}
+					elseif(isset($iscore['grade']) and $iscore['grade']!==''){$ival=$iscore['grade'];}
+					elseif(isset($iscore['value']) and $iscore['value']!==''){$ival=$iscore['value'];}
 					if(isset($ival)){
 						if(!isset($weights[$avc])){
 							$scoresum+=$ival / $weightsum;
@@ -271,9 +271,11 @@ while($student=mysql_fetch_array($d_students, MYSQL_ASSOC)){
 	   	elseif($marktype=='compound'){
 			/*Mark is a compound column*/
 			$scoreclass='derived';
+			if(empty($umns[$c]['profile_bid'])){$profilebid=$bid[0];}
+			else{$profilebid=$umns[$c]['profile_bid'];}
 			/* Have to explicity pass the bid and pid for the profile here NOT for the class. */
-			$rep=checkReportEntryCat($umns[$c]['midlist'],$sid,$umns[$c]['profile_bid'],$umns[$c]['component']);
-			$out='<div class="'.$rep['class'].'"><a href="markbook.php?current=new_edit_reports.php&cancel=class_view.php&midlist='.$umns[$c]['midlist'].'&pid='.$umns[$c]['component'].'&sid='.$sid.'&bid='.$umns[$c]['profile_bid'].'&nextrow='.$rowno.'">'.$rep['result'].'</a></div>';
+			$rep=checkReportEntryCat($umns[$c]['midlist'],$sid,$profilebid,$umns[$c]['component']);
+			$out='<div class="'.$rep['class'].'"><a href="markbook.php?current=new_edit_reports.php&cancel=class_view.php&midlist='.$umns[$c]['midlist'].'&pid='.$umns[$c]['component'].'&sid='.$sid.'&bid='.$profilebid.'&nextrow='.$rowno.'">'.$rep['result'].'</a></div>';
 			$score['value']=$rep['result'];
 			$score['outoftotal']=100;
 			$outrank=$rep['value'];
@@ -307,6 +309,7 @@ while($student=mysql_fetch_array($d_students, MYSQL_ASSOC)){
 		if($score['grade']!=''){
 			$totals[$col_mid]['grade']+=$score['grade'];
 			$totals[$col_mid]['value']+=$score['value'];
+			$totals[$col_mid]['outoftotal']+=$score['outoftotal'];
 			$totals[$col_mid]['no']++;
 			}
 

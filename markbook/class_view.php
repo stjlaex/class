@@ -269,11 +269,11 @@ if($_SESSION['worklevel']>-1){
 					$out=round($totals[$col_mid]['grade']/$totals[$col_mid]['no']);
 					$out=scoreToGrade($out,$scoregrades[$scoregrading[$c]]);
 					}
-				elseif($scoretype=='value' or $scoretype='compound' or $scoretype='sum' or $scoretype='average'){
+				elseif($umns[$c]['scoretype']=='value' or $umns[$c]['scoretype']=='compound' or $umns[$c]['scoretype']=='sum' or $umns[$c]['scoretype']=='average'){
 					$out=round($totals[$col_mid]['value']/$totals[$col_mid]['no']);
 					}
-				elseif($scoretype=='percentage'){
-					$out=$totals[$col_mid]['value'];
+				elseif($umns[$c]['scoretype']=='percentage'){
+					list($display,$out,$outrank)=scoreToPercent($totals[$col_mid]['value'],$totals[$col_mid]['outoftotal']);
 					}
 				}
 			print '<td class="grade" id="0-'. $col_mid. '" >'.$out.'</td>';
