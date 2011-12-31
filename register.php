@@ -35,26 +35,42 @@ if($nodays==''){$nodays=8;}
 	  }
 
 	/* If a community is already selected (by passing newcomid) then
-	 * stick with that. Otherwise try choose a relevant community to
+	 * stick with that. Otherwise try to choose a relevant community to
 	 * display by default form the users pastoral responsibilities. 
 	 */
   if(isset($community) and is_array($community)){
 	  $comid=$community['id'];
 	  }
   else{
-	  /* On first load select the teacher's pastoral group by default. */
+	  /* On first load select the teacher's pastoral group by default.
+	   * This is made tricky because of different regtypes for
+	   * different sections may or may not apply.
+	   */
 	  $pastorals=(array)list_pastoral_respon();
-	  if(sizeof($pastorals['houses'])!=0){
-		  $community=array('id'=>$pastorals['houses'][0]['community_id'],'type'=>'house','name'=>$pastorals['houses'][0]['name']);
+	  if(sizeof($pastorals['houses'])>0 and array_search('house',$CFG->regtypes)!==false){
 		  $yid=$pastorals['houses'][0]['yeargroup_id'];
 		  $section=get_section($yid);
-		  $secid=$section['id'];
+		  if((array_key_exists($section['id'],$CFG->regtypes) and $CFG->regtypes[$section['id']]=='house') or (!array_key_exists($section['id'],$CFG->regtypes) and $CFG->regtypes[1]=='house')){
+			  $community=array('id'=>$pastorals['houses'][0]['community_id'],'type'=>'house','name'=>$pastorals['houses'][0]['name']);
+			  $secid=$section['id'];
+			  }
 		  }
-	  elseif(sizeof($pastorals['forms'])!=0){
-		  $community=array('id'=>$pastorals['forms'][0]['community_id'],'type'=>'form','name'=>$pastorals['forms'][0]['name']);
+	  if(!isset($community) and sizeof($pastorals['forms'])>0 and array_search('form',$CFG->regtypes)!==false){
 		  $yid=$pastorals['forms'][0]['yeargroup_id'];
 		  $section=get_section($yid);
-		  $secid=$section['id'];
+		  if((array_key_exists($section['id'],$CFG->regtypes) and $CFG->regtypes[$section['id']]=='form') or (!array_key_exists($section['id'],$CFG->regtypes) and $CFG->regtypes[1]=='form')){
+			  $community=array('id'=>$pastorals['forms'][0]['community_id'],'type'=>'form','name'=>$pastorals['forms'][0]['name']);
+			  $secid=$section['id'];
+			  }
+		  }
+	  if(!isset($community) and sizeof($pastorals['years'])>0 and array_search('year',$CFG->regtypes)!==false){
+		  foreach($pastorals['years'] as $yid){
+			  $section=get_section($yid);
+			  if((array_key_exists($section['id'],$CFG->regtypes) and $CFG->regtypes[$section['id']]=='year') or (!array_key_exists($section['id'],$CFG->regtypes) and $CFG->regtypes[1]=='year')){
+				  $community=array('id'=>'','type'=>'year','name'=>$yid);
+				  $secid=$section['id'];
+				  }
+			  }
 		  }
 	  }
 ?>

@@ -8,6 +8,7 @@ $choice='completion_list.php';
 if(isset($_POST['newsecid'])){$secid=$_POST['newsecid'];}
 
 $registration_coms=array();
+$registration_ids=array();
 
 if($secid!='' and $secid>1){
 	/* Limit list to just the year groups for this section. */
@@ -16,7 +17,9 @@ if($secid!='' and $secid>1){
 	else{$type=$CFG->regtypes[$secid];}
 	foreach($ygs as $yg){
 		$coms=(array)list_communities($type,'',$yg['id']);
-		$registration_coms=array_merge($registration_coms,$coms);
+		foreach($coms as $com){
+			if(!in_array($com['id'],$registration_ids) or $com['type']=='house'){$registration_coms[]=$com;$registration_ids[]=$com['id'];}
+			}
 		}
 	}
 else{
@@ -29,7 +32,9 @@ else{
 		else{$type=$CFG->regtypes[$secid];}
 		foreach($ygs as $yg){
 			$coms=(array)list_communities($type,'',$yg['id']);
-			$registration_coms=array_merge($registration_coms,$coms);
+			foreach($coms as $com){
+				if(!in_array($com['id'],$registration_ids) or $com['type']=='house'){$registration_coms[]=$com;$registration_ids[]=$com['id'];}
+				}
 			}
 		}
 	$secid='';
@@ -46,6 +51,11 @@ $extrabuttons['notice']=array('name'=>'current',
 							  'title'=>'notice',
 							  'xmlcontainerid'=>'notice',
 							  'value'=>'register_notice.php');
+$extrabuttons['summary']=array('name'=>'current',
+							   'pathtoscript'=>$CFG->sitepath.'/'.$CFG->applicationdirectory.'/register/',
+							   'xmlcontainerid'=>'print',
+							   'value'=>'register_summary.php',
+							   'onclick'=>'checksidsAction(this)');
 $extrabuttons['previewselected']=array('name'=>'current',
 									   'pathtoscript'=>$CFG->sitepath.'/'.$CFG->applicationdirectory.'/register/',
 									   'xmlcontainerid'=>'print',
