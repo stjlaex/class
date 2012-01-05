@@ -45,7 +45,6 @@ if(sizeof($sids)==0){
 		$bodytxt.='<p>Please find the academic report for '.$studentname.' attached.</p>';
 			
 		$subject='Report for '.$studentname;
-		$fromaddress='';
 		$filename='Report'.$pubdate.'_'.$sid.'_'.$wrapper_rid.'.pdf';
 		$attachments=array();
 
@@ -60,7 +59,7 @@ if(sizeof($sids)==0){
 					$mailing=$Contact['ReceivesMailing']['value'];
 					if(($mailing=='1' or $mailing=='2') and $Contact['EmailAddress']['value']!=''){
 						$recipient=$Contact['EmailAddress']['value'];
-						send_email_to($recipient,$fromaddress,$subject,$bodytxt,$body,$attachments);
+						send_email_to($recipient,'',$subject,$bodytxt,$body,$attachments);
 						$result[]=get_string('reportsemailed').': '.$recipient;
 						}
 					}

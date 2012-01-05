@@ -28,11 +28,14 @@ if(isset($_POST['cids'])){$cids=(array)$_POST['cids'];}else{$cids=array();}
 include('scripts/sub_action.php');
 
 $extrabuttons=array();
+$extrabuttons['export']=array('name'=>'current',
+							  'title'=>'export',
+							  'value'=>'report_assessments_export.php'
+							  );
 $extrabuttons['previewselected']=array('name'=>'print',
 									   'pathtoscript'=>$CFG->sitepath.'/'.$CFG->applicationdirectory.'/markbook/',
 									   'value'=>'report_profile_print.php',
 									   'onclick'=>'checksidsAction(this)');
-
 two_buttonmenu($extrabuttons,$book);
 
 $students=array();
@@ -71,6 +74,7 @@ $description='';
 
 
 	$viewtable=array();/*The array used to store the information to display*/
+	$viewtable[0]['results']=array();
 	$assdefs=array();
 	$assbids=array();/*index all the bids these asses may relate to*/
 	$asscrids=array();/*index all the crids these asses may relate to*/
@@ -81,6 +85,7 @@ $description='';
 		$AssDef=fetchAssessmentDefinition($eid);
 		$assdefs[$eid]=$AssDef;
 		$asscrids[$AssDef['Course']['value']]=$AssDef['Course']['value'];
+		$viewtable[0]['results'][]=array('label'=>$AssDef['PrintLabel']['value'],'date'=>$AssDef['Deadline']['value']);
 		}
 
 
@@ -89,7 +94,6 @@ $description='';
 		foreach($asscrids as $asscrid){
 			$subjects=(array)list_course_subjects($asscrid);
 			foreach($subjects as $subject){
-				trigger_error($limitbid,E_USER_WARNING);
 				if(!isset($limitbid) or $limitbid=='' or $limitbid=='%' or $subject['id']==$limitbid){
 					$bid=$subject['id'];
 					$assbids[$bid]=$bid;
@@ -185,7 +189,8 @@ $description='';
 		foreach($assbids as $bidpid){
 			$bidpid=trim($bidpid);
 			$colcount++;
-			$result='';
+			$out='';
+			$results=array();
 			/* Any assessments for this bid? */
 			if(array_key_exists($bidpid,$ass_indexes)){
 				/*all of the entries in Assessments for this bid*/
@@ -204,21 +209,27 @@ $description='';
 						   to translate between grading schemes
 						*/
 						if($assdefs[$eid]['GradingScheme']['grades']!=''){
-							$result.=$Assessment['Result']['value'].' ';
+							$out.=$Assessment['Result']['value'].' ';
+							$results[$eid]=$Assessment['Result']['value'];
+							$viewtable[0]['scoretype'][$colcount]='grade';
 							}
 						else{
-							$result.=$Assessment['Value']['value'].' ';
+							$out.=$Assessment['Value']['value'].' ';
+							$results[$eid]=$Assessment['Value']['value'];
+							$viewtable[0]['scoretype'][$colcount]='value';
 							}
 						}
 					}
 				}
 			
-			if($result!=''){
-				$viewtable[$rowno]['out'][]=$result;
+			if($out!=''){
+				$viewtable[$rowno]['out'][]=$out;
+				$viewtable[$rowno]['results'][]=$results;
 				$viewtable[0]['count'][$colcount]=1;
 				}
 			else{
 				$viewtable[$rowno]['out'][]='';
+				$viewtable[$rowno]['results'][]='';
 				}
 			}
 		}
@@ -233,7 +244,7 @@ $description='';
 		<div class="center">
 <?php
 	$onchange='yes';$required='no';
-$d_catdef=mysql_query("SELECT DISTINCT comment AS id, CONCAT(name,': ',comment) AS name FROM categorydef WHERE
+	$d_catdef=mysql_query("SELECT DISTINCT comment AS id, CONCAT(name,': ',comment) AS name FROM categorydef WHERE
 								  type='pro' AND comment!='' ORDER BY course_id;");
 	$listname='template';$onchange='no';$required='yes';
 	include('scripts/set_list_vars.php');
@@ -352,9 +363,12 @@ else{
 $profile['stage']=$stage;
 $profile['pid']='';
 $profile['description']=$description;
+unset($profile['transform']);/* Override the profile template with the selected one. */
 //$profile['stage']='R';
 /* selectname needed for js to capture the template field */
 $profile['selectname']='template';
 xmlechoer('Profile',$profile);
+/*	All finished.*/
+$_SESSION[$book.'viewtable']=$viewtable;
 ?>
 		</div>

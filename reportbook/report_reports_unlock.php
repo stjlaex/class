@@ -71,11 +71,11 @@ foreach($sids as $sid){
 				$publishdata['title']=$reportdef['report']['title'].' - '.$pubdate;
 				$publish_batch[]=array('epfusername'=>$epfusername,'filename'=>$filename.'.'.$pubtype);
 				$publishdata['batchfiles']=$publish_batch;
-       				if(elgg_delete_files($publishdata,true)){
-				}
+				if(elgg_delete_files($publishdata,true)){
+					}
 				else{
-				  $success=false;
-				}
+					$success=false;
+					}
 				}
 			else{
 				unlink($CFG->eportfolio_dataroot.'/'.$targetdir.'/'.$filename.'.'.$pubtype);

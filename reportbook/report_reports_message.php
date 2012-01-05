@@ -19,6 +19,9 @@ if(sizeof($sids)==0){
 		exit;
 		}
 
+/*
+ * TODO: 
+ */
 $report=false;
 
 if(sizeof($rids)!=0){
