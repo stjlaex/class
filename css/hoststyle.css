@@ -97,9 +97,6 @@ height:3em;
 .booktabs p.lms:hover, #currentbook.lms {
     background-color:#ffcc44;
     }
-.booktabs p.webmail:hover, #currentbook.webmail {
-    background-color:#203468;
-    }
 .booktabs p.admin:hover, #currentbook.admin {
     background-color:#aa4444;
     }
@@ -159,9 +156,6 @@ div#logbookstripe.eportfolio {
     }
 div#logbookstripe.lms {
     border-color:#ffcc44;
-    }
-div#logbookstripe.webmail {
-    border-color:#203468;
     }
 div#logbookstripe.admin {
     border-color:#aa4444;
@@ -306,9 +300,6 @@ button {
 
 .lms {background-color:#cccccc; border-color:#ffcc44;}
 .lms legend, .lms button {background-color:#ffcc44; color:#ffffff;}	
-
-.webmail {background-color:#cccccc; border-color:#203468;}
-.webmail legend, .webmail button {background-color:#203468; color:#ffffff;}	
 
 .entrybook {background-color:#cccccc; border-color:#1181AA;}
 .entrybook legend, .entrybook button {background-color:#1181AA; color:#ffffff;}	

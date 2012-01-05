@@ -100,7 +100,7 @@ if(!isset($selbid)){$selbid='G';}
 			<li id="<?php print 'tinytab-sen-'.$Subject['Subject']['value'];?>"><p 
 					 <?php if($key==$selkey){ print ' id="current-tinytab" ';}?>
 				class="<?php print $Subject['Subject']['value'];?>"
-				onclick="tinyTabs(this)"><?php print $Subject['Subject']['value'];?></p>
+				onclick="parent.tinyTabs(this)"><?php print $Subject['Subject']['value'];?></p>
 			</li>
 
 			<div class="hidden" id="tinytab-xml-sen-<?php print $Subject['Subject']['value'];?>">
@@ -186,7 +186,7 @@ if(!isset($selbid)){$selbid='G';}
 			<li id="<?php print 'tinytab-sen-'.$subject;?>"><p 
 					 <?php if($key==-1){ print ' id="current-tinytab" ';}?>
 				class="<?php print $subject;?>"
-				onclick="tinyTabs(this)"><?php print_string($subject,$book);?></p></li>
+				onclick="parent.tinyTabs(this)"><?php print_string($subject,$book);?></p></li>
 
 			<div class="hidden" id="tinytab-xml-sen-<?php print $subject;?>">
 			  <table>

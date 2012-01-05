@@ -58,8 +58,8 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 		  </tr>
 		  <tr>
 			<td>
-			  <label><?php print_string($Student['RegistrationGroup']['label'],$book);?></label>
-			  <?php print $Student['RegistrationGroup']['value'];?>
+			  <label><?php print_string($Student['TutorGroup']['label'],$book);?></label>
+			  <?php print $Student['TutorGroup']['value'];?>
 			  <br />
 			  <label><?php print_string('formtutor');?></label>
 			  <?php 
@@ -240,7 +240,7 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 			<li id="<?php print 'tinytab-contact-'.$relation. $contactno;?>"><p 
 					 <?php if($n==0){ print ' id="current-tinytab" ';}?>
 				class="<?php print $relation. $contactno;?>"
-				onclick="tinyTabs(this)"><?php print_string($relation,$book);?></p></li>
+				onclick="parent.tinyTabs(this)"><?php print_string($relation,$book);?></p></li>
 
 			<div class="hidden" id="tinytab-xml-contact-<?php print $relation. $contactno;?>">
 			  <table class="listmenu">
@@ -279,7 +279,7 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 			<li id="<?php print 'tinytab-contact-'.$relation;?>"><p 
 				<?php if($n==0){ print ' id="current-tinytab" ';}?>
 				class="<?php print $relation;?>"
-				onclick="tinyTabs(this)"><?php print_string($relation,$book);?></p></li>
+				onclick="parent.tinyTabs(this)"><?php print_string($relation,$book);?></p></li>
 			<div class="hidden" id="tinytab-xml-contact-<?php print $relation;?>">
 			  <table class="listmenu">
 				<tr>

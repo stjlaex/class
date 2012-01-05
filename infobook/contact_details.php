@@ -90,8 +90,9 @@ elseif($contactno==-1){
 		$listname='pregid';$listlabel='';$liststyle='width:16em;';
 		include('scripts/set_list_vars.php');
 		list_select_db($d_guardian,$listoptions,$book);
-		$button['linkcontact']=array('name'=>'sub','value'=>'Link');
-		all_extrabuttons($button,'entrybook','processHeader(this)');
+		$buttons=array();
+		$buttons['linkcontact']=array('name'=>'sub','value'=>'Link');
+		all_extrabuttons($buttons,'entrybook','processHeader(this)');
 ?>
  	<input type="hidden" name="contactno" value="<?php print $contactno;?>">
  	<input type="hidden" name="gid" value="<?php print $gid;?>">
@@ -172,16 +173,16 @@ three_buttonmenu($extrabuttons,$book);
 
 		<input type="password" name="accessfees" maxlength="4" value="" />
 <?php
-			$button['access']=array('name'=>'access','value'=>'access');
-			all_extrabuttons($button,'','');
-
+			$buttons=array();
+			$buttons['access']=array('name'=>'access','value'=>'access');
+			all_extrabuttons($buttons,$book,'');
 			}
 		else{
 			require_once('lib/fetch_fees.php');
 			$Account=(array)fetchAccount($gid);
 ?>
 		<div class="right">
-		  <?php $tab=xmlarray_form($Account,'','accountdetails',$tab,$book); ?>
+		  <?php $tab=xmlarray_form($Account,'','bankdetails',$tab,$book); ?>
 		</div>
 <?php
 			}

@@ -112,12 +112,17 @@ function seleryGrow(buttonObj){
 	buttonObj.parentNode.getElementsByTagName("input")[0].value=end;
 	}
 
-function selerySwitch(servantclass,fieldvalue){
+function selerySwitch(servantclass,fieldvalue,bookname){
 	switchedId="switch"+servantclass;
 	newfielddivId="switch"+servantclass+fieldvalue;
-	if(document.getElementById(newfielddivId)){	
-		//alert(switchedId,fieldvalue);
+	if(bookname=='' && document.getElementById(newfielddivId)){	
 		document.getElementById(switchedId).innerHTML=document.getElementById(newfielddivId).innerHTML;
+		}
+	else if(window.frames["view"+bookname].document.getElementById(newfielddivId)){
+		window.frames["view"+bookname].document.getElementById(switchedId).innerHTML=window.frames["view"+bookname].document.getElementById(newfielddivId).innerHTML;
+		}
+	else {
+		window.frames["view"+bookname].document.getElementById(switchedId).innerHTML='';
 		}
 	}
 
@@ -128,9 +133,8 @@ function selerySwitch(servantclass,fieldvalue){
 //  displays the cover or login page respectively
 function loadLogin(page){
 	window.frames["viewlogbook"].location.href="logbook/exit.php";
-	//alert(page);
-	setTimeout(window.frames["viewlogbook"].location.href=page+".php",100);
-	//window.frames["viewlogbook"].location.href=page+".php";
+	//setTimeout(window.frames["viewlogbook"].location.href=page,100);
+	window.frames["viewlogbook"].location.href=page;
 	document.getElementById("viewlogbook").style.zIndex="100";
 	document.getElementById("viewlogbook").focus();
 	}
@@ -254,4 +258,116 @@ function sessionAlive(pathtobook){
 //
 function openAlert(message) {
 	alert(message);
+	}
+
+
+
+//------------------------------------------------------
+//
+function tinyTabs(tabObject){
+	// the id of containing div (eg. area for statementbank)
+	var tabmenuId=tabObject.parentNode.parentNode.parentNode.id;
+	var chosentab=tabObject.getAttribute("class");
+	var currentbook=document.getElementById("currentbook").getAttribute("class");
+
+	window.frames["view"+currentbook].document.getElementById("current-tinytab").removeAttribute("id");
+	window.frames["view"+currentbook].document.getElementById("tinytab-"+tabmenuId+"-"+chosentab).firstChild.setAttribute("id","current-tinytab");
+	var targetId="tinytab-display-"+tabmenuId;
+	var sourceId="tinytab-xml-"+tabmenuId+"-"+chosentab;
+	var fragment=window.frames["view"+currentbook].document.getElementById(sourceId).innerHTML;
+	window.frames["view"+currentbook].document.getElementById(targetId).innerHTML="";
+	window.frames["view"+currentbook].document.getElementById(targetId).innerHTML=fragment;
+	if(window.frames["view"+currentbook].document.getElementById("statementbank")){
+		//this must be running the statement bank
+		filterStatements(subarea,ability);
+		}
+	}
+
+
+//-------------------------------------------------------
+// adds the images and attributes to required input fields
+// inits the js-calendar elements and the tooltip titles
+
+function loadRequired(book){
+	var firstFocus;
+	var formObject;
+	var elementObject;
+	var imageRequired;
+	firstFocus=-1;
+	for(i=0;i<window.frames["view"+book].document.forms.length;i++){
+		formObject=window.frames["view"+book].document.forms[i];
+		for(c=0;c<formObject.elements.length;c++){
+			elementObject=formObject.elements[c];
+			if(elementObject.className.indexOf("required")!=-1){
+				elementObject.setAttribute("onChange","validateRequired(this)");
+				imageRequired=window.frames["view"+book].document.createElement("img");
+				imageRequired.className="required";
+				elementObject.parentNode.insertBefore(imageRequired, elementObject);
+				}
+			if(elementObject.className.indexOf("eitheror")!=-1){
+				elementObject.setAttribute('onChange','validateRequiredOr(this)');
+				imageRequired=window.frames["view"+book].document.createElement("img");
+				imageRequired.className="required";
+				elementObject.parentNode.insertBefore(imageRequired, elementObject);
+				}
+			if(elementObject.className.indexOf("switcher")!=-1){
+				switcherId=elementObject.getAttribute("id");
+				parent.selerySwitch(switcherId,elementObject.value,book);
+				elementObject.setAttribute("onChange","parent.selerySwitch('"+switcherId+"',this.value,book)");
+				//alert(switcherId,elementObject.value);
+				}
+
+			// add event handlers to the checkbox input elements
+			if(elementObject.getAttribute("type")=="checkbox" && elementObject.name=="sids[]"){
+				elementObject.onchange=function(){window.frames["view"+book].checkrowIndicator(this)};
+				}
+			if(elementObject.getAttribute("type")=="radio" && elementObject.parentNode.tagName!="TH"){
+				elementObject.parentNode.onclick=function(){window.frames["view"+book].checkRadioIndicator(this)};
+				}
+			if(elementObject.getAttribute("tabindex")=="1" && firstFocus=="-1"){
+				firstFocus=c;
+				}
+			if(elementObject.getAttribute("maxlength")){
+				var maxlength=elementObject.getAttribute("maxlength");
+				if(maxlength>180){
+					elementObject.style.width="80%";
+					}
+				else if(maxlength>50){
+					elementObject.style.width="60%";
+					}
+				else if(maxlength<20 && maxlength>0){
+					elementObject.style.width=maxlength+"em";
+					}
+				}
+			if(elementObject.getAttribute("type")=="date"){
+				var inputId=elementObject.getAttribute("id");
+				window.frames["view"+book].Calendar.setup({
+      					inputField  : inputId,
+      					ifFormat    : "%Y-%m-%d",
+      					button      : "calendar-"+inputId
+    					});
+				}
+			}
+		}
+	/*load the first tiny-tab (if there is one)*/
+	if(window.frames["view"+book].document.getElementById('current-tinytab')){
+		tinyTabs(window.frames["view"+book].document.getElementById("current-tinytab"));
+		}
+
+	/*prepares the span elements with title attributes for qtip*/
+	window.frames["view"+book].tooltip.init();
+
+	/*prepares a sidtable if it is present*/
+	if(window.frames["view"+book].document.getElementById("sidtable")){
+		window.frames["view"+book].sidtableInit();
+		}
+
+	/*give focus to the tab=1 form element if this is a form*/
+	/*should always be last!*/
+	if(i>0){
+		if(firstFocus==-1){firstFocus=0;}
+		if(window.frames["view"+book].document.forms[0].elements[firstFocus]){
+		  window.frames["view"+book].document.forms[0].elements[firstFocus].focus();  
+		  }
+		}
 	}

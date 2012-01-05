@@ -80,7 +80,7 @@ $action='med_view_action.php';
 			<li id="<?php print 'tinytab-med-'.$cattype;?>"><p 
 					 <?php if($index==$selkey){ print ' id="current-tinytab" ';}?>
 				class="<?php print $cattype;?>"
-				onclick="tinyTabs(this)"><?php print $Note['MedicalCategory']['value'];?></p>
+				onclick="parent.tinyTabs(this)"><?php print $Note['MedicalCategory']['value'];?></p>
 			</li>
 
 			<div class="hidden" id="tinytab-xml-med-<?php print $cattype;?>">
