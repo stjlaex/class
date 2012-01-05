@@ -7,7 +7,7 @@
  * required=yes or =eitheror to add the orange star
  * onsidechange=yes only if this is in the bookoptions on the leftside
  * onchange=yes if the form is to be submitted on value change
- * liststyle!='' if you need this element to have a css class
+ * liststyle!='' if you need this element to have some inline css
  * listlabel!='' if you want to display a label different to the name
  * listname must be set and is the name of the returned post variable
  *				an 's' for an array is automatically added so beware 'ss'!

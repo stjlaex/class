@@ -13,6 +13,7 @@ $required='no';
 if(sizeof($rhouses)>0){
 	$selhouseid=$rhouses[0]['community_id'];
 	$selyid=$rhouses[0]['yeargroup_id'];
+	$ryids[]=$selyid;
 	}
 elseif(sizeof($rforms)>0){
 	$selformid=$rforms[0]['community_id'];
@@ -27,7 +28,7 @@ if(sizeof($ryids)>0){
 			$rforms=(array)array_merge($rforms,list_formgroups($ryid));
 		  	}
 		}
-	$houses=list_communities('HOUSE');
+	$rhouses=list_communities('HOUSE');
 	$listlabel='yeargroup';
 	$listname='yid';
 	$onchange=$selonchange;
@@ -50,13 +51,13 @@ if(sizeof($rforms)>0){
 	unset($listoptions);
 	}
 
-if(sizeof($houses)>0){
+if(sizeof($rhouses)>0){
 	$listlabel='house';
 	$listname='houseid';
 	$onchange=$selonchange;
 	include('scripts/set_list_vars.php');
 	print '<div class="left">';
-	list_select_list($houses,$listoptions,$book);
+	list_select_list($rhouses,$listoptions,$book);
 	print '</div>';
 	unset($listoptions);
 	}
@@ -64,6 +65,5 @@ if(sizeof($houses)>0){
 if(sizeof($rforms)==0 and sizeof($ryids)==0 and sizeof($rhouses)==0){
 	print '<label>'.get_string('youhavenopastoralresponsibilities').'</label>';
 	}
-
 
 ?>

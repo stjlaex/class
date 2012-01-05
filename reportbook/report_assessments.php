@@ -26,7 +26,15 @@ elseif($comid!=''){
 	trigger_error('COM:'.$com['type'].' '.$comid,E_USER_WARNING);
 	$cohorts=(array)list_community_cohorts($com);
 	}
+elseif(!empty($year) and !empty($stage)){
+	$cohorts=array();
+	$cohorts[]=array('id'=>'',
+					 'course_id'=>$rcrid,
+					 'stage'=>$stage,
+					 'year'=>$year
+					 );
 
+	}
 three_buttonmenu();
 ?>
   <div class="content">
@@ -40,7 +48,7 @@ three_buttonmenu();
 
 <?php
 
-if($r>-1 or isset($cohorts)){
+if(isset($cohorts)){
 
 ?>
 

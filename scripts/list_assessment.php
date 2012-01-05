@@ -16,9 +16,10 @@
 	if(!isset($seleids)){$seleids=array();}
 	if(!isset($curryear)){$curryear='%';}
 	if(!isset($selprofid)){$selprofid='';}
+	/* Use the academic responsibility if set */
 	if($r>-1){
-		/* use the academic responsibility */
 		if($rcrid=='%'){
+			/* Just has a subject responsibility, spanning courses. */
 			$d_cridbid=mysql_query("SELECT DISTINCT course_id FROM component WHERE
 						subject_id='$rbid' AND id='' ORDER BY course_id;"); 
 			while($course=mysql_fetch_array($d_cridbid,MYSQL_ASSOC)){
@@ -29,7 +30,24 @@
 								 );
 				}
 			}
+		elseif(!empty($stage) and !empty($year)){
+			/* Try to figure out each previous years cohorts for these students. */
+			$stages=(array)list_course_stages($rcrid,$year);
+			$nextstage='no';
+			for($c2=sizeof($stages)-1;$c2>-1;$c2--){
+				if($stages[$c2]['id']==$stage or $nextstage=='yes'){
+					$cohorts[]=array('id'=>'',
+									 'course_id'=>$rcrid,
+									 'stage'=>$stages[$c2]['id'],
+									 'year'=>$year
+									 );
+					$nextstage='yes';
+					$year--;
+					}
+				}
+			}
 		else{
+			/**/
 			$cohorts[]=array('id'=>'',
 							 'course_id'=>$rcrid,
 							 'stage'=>'%',
