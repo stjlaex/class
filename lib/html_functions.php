@@ -284,7 +284,8 @@ function xmlelement_input($val,$no,$tab,$book){
 <?php
 		}
 	elseif(substr($val['type_db'],0,3)=='var' or substr($val['type_db'],0,3)=='cha'){
-		if($val['field_db']=='email'){$pattern='pattern="email"';}
+		/*TODO: use html5 validation, regex patterns needed*/
+		//if($val['field_db']=='email'){$pattern='pattern="email"';}
 		/* TODO: add these patterns for all possible inputs BUT js
 		 needs to be UTF8 aware first!*/
 		//else{$pattern='pattern="alphanumeric"';}
@@ -382,21 +383,11 @@ function xmlattendance_display($Attendance){
 function emaillink_display($email){
 	global $CFG;
 	if($email!='' and $email!=' '){
-		if(isset($CFG->webmailsite) and $CFG->webmailsite!=''){
 ?>
-		<a onclick="parent.viewBook('webmail');" target="viewwebmail" 
-			href="webmail.php?recipients[]=<?php print $email;?>">
-			<img class="clicktoemail" title="<?php print_string('clicktoemail');?>" />
-		</a>
+	<a href="mailto:<?php print $email;?>">
+	  <img class="clicktoemail" title="<?php print_string('clicktoemail');?>" />
+	</a>
 <?php
-			}
-		else{
-?>
-			<a href="mailto:<?php print $email;?>">
-			<img class="clicktoemail" title="<?php print_string('clicktoemail');?>" />
-			</a>
-			<?php
-			}
 		}
 	}
 
@@ -455,6 +446,7 @@ function selery_stick($choices,$choice='',$book=''){
 function list_select_db($d_list,$vars,$book=''){
 	$valuefield=$vars['valuefield'];
 	$descriptionfield=$vars['descriptionfield'];
+	$extraclass='';
 	if($vars['label']!=''){
 ?>
   <label for="<?php print $vars['id'];?>">
@@ -474,7 +466,9 @@ function list_select_db($d_list,$vars,$book=''){
 	<?php print $vars['style'];?>
 	<?php if($vars['onsidechange']=='yes'){print ' onChange="document.'.$book.'choice.submit();"';}?>
 	<?php if($vars['onchange']=='yes'){print ' onChange="processContent(this);"';}?>
-	<?php if($vars['required']=='yes'){ print ' class="required" ';}
+	<?php if($vars['switch']!=''){//print 'onChange="selerySwitch(\''.$vars['switch'].'\',this.value)"';
+		$extraclass=' switcher';} ?>
+	<?php if($vars['required']=='yes'){ print ' class="required'.$extraclass.'" ';}
 		elseif($vars['required']=='eitheror'){ 
 			print ' class="eitheror" eitheror="'.$vars['eitheror'].'" ';} ?>
 	>

@@ -148,6 +148,66 @@ function fetchAttendances($sid,$startday=0,$nodays=7){
 	}
 
 
+
+/**
+ *
+ * Returns all attendance records for the previous number of lessons
+ * for the class $cid before the day specified by $startday (and
+ * $startday=0 is today)
+ *
+ * The returned Attendances array includes $Attendances['eveindex']
+ * where the eveindex is an array to provide a lookup index to the
+ * Attendances based on the eveid
+ *
+ * @param integer cid
+ * @param integer $startday
+ * @param integer $lessonno
+ * @param integer sid
+ *
+ * @return array
+ */
+function fetchLessonAttendances($cid,$startday=0,$lessonno=4,$sid){
+	$Attendances=array();
+	$eveindex=array();
+	$startdate=date('Y-m-d',mktime(0,0,0,date('m'),date('d')+$startday,date('Y')));
+
+	$d_a=mysql_query("SELECT attendance.status,
+			attendance.code, attendance.late, attendance.comment, 
+			event.id, event.session, event.period, event.date FROM attendance JOIN
+			event ON event.id=attendance.event_id WHERE attendance.class_id='$cid'
+			AND attendance.student_id='$sid' AND event.date <= '$startdate' 
+			ORDER BY event.date DESC, event.session, event.period LIMIT $lessonno;");
+
+	$index=0;
+	$Attendances['Attendance']=array();
+	while($a=mysql_fetch_array($d_a,MYSQL_ASSOC)){
+		$Attendance=array();
+		$Attendance['id_db']=$a['id'];
+	   	$Attendance['Date']=array('label'=>'date', 
+								  'type_db'=>'date', 
+								  'value'=>''.$a['date']);
+	   	$Attendance['Session']=array('label'=>'session',
+									 'value'=>''.$a['session']);
+	   	$Attendance['Period']=array('label'=>'period',
+									 'value'=>''.$a['period']);
+	   	$Attendance['Status']=array('label'=>'attendance',
+									'value'=>''.$a['status']);
+	   	$Attendance['Code']=array('label'=>'code',
+								  'value'=>''.$a['code']);
+	   	$Attendance['Late']=array('label'=>'late',
+								  'value'=>''.$a['late']);
+	   	$Attendance['Comment']=array('label'=>'comment',
+									 'value'=>''.$a['comment']);
+		$Attendances['Attendance'][]=$Attendance;
+		$eveindex[$a['id']]=$index++;
+		}
+
+	trigger_error(sizeof($eveindex),E_USER_WARNING);
+	$Attendances['eveindex']=$eveindex;
+	return $Attendances;
+	}
+
+
 /**
  *
  * Returns a single attendance record for a single sid for the event
@@ -561,6 +621,8 @@ function fetchAttendanceSummary($sid,$startdate,$enddate,$session='%'){
 	$no_late_unauthorised=count_attendance($sid,$startdate,$enddate,'U',$session);
 	$no_visit=count_attendance($sid,$startdate,$enddate,'V',$session);
 	$no_late=$no_late_authorised+$no_late_unauthorised;
+
+	/* Attended: includes all partial sessions (late after register and out for educational visits/trip */
 	$no_attended=$no_present+$no_late+$no_visit;
 
 	/** 
@@ -627,11 +689,19 @@ function count_attendance($sid,$startdate,$enddate,$code='',$session='%'){
 	else{
 		$status='a';
 		}
+	$excludecode="";
+	/*Normaly X and Z  should always be discounted for statistics except they have explicitly been searched for. */
+	if($code!='X'){
+		$excludecode=" AND attendance.code!='X'";
+		}
+	if($code!='Z'){
+		$excludecode.=" AND attendance.code!='Z'";
+		}
 	$d_attendance=mysql_query("SELECT COUNT(attendance.status) FROM attendance JOIN
 			event ON event.id=attendance.event_id WHERE
 			attendance.student_id='$sid' AND
 			attendance.status='$status' AND attendance.code LIKE '$code' 
-			AND attendance.code!='X' AND attendance.code!='Y' AND attendance.code!='Z'  
+			$excludecode AND attendance.code!='Y'   
 			AND attendance.code!='#' 
 			AND event.date >= '$startdate' AND event.date <= '$enddate' AND event.period='0' AND event.session LIKE '$session';");
 	$noatts=mysql_result($d_attendance,0);

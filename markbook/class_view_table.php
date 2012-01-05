@@ -275,7 +275,10 @@ while($student=mysql_fetch_array($d_students, MYSQL_ASSOC)){
 			else{$profilebid=$umns[$c]['profile_bid'];}
 			/* Have to explicity pass the bid and pid for the profile here NOT for the class. */
 			$rep=checkReportEntryCat($umns[$c]['midlist'],$sid,$profilebid,$umns[$c]['component']);
-			$out='<div class="'.$rep['class'].'"><a href="markbook.php?current=new_edit_reports.php&cancel=class_view.php&midlist='.$umns[$c]['midlist'].'&pid='.$umns[$c]['component'].'&sid='.$sid.'&bid='.$profilebid.'&nextrow='.$rowno.'">'.$rep['result'].'</a></div>';
+			if($rep['result']>0){$outof=round($rep['value']*100/$rep['result']);}
+			else{$outof=0;}
+			$out='<div class="'.$rep['class'].'" title="'.display_date($rep['date']).': '.$rep['value'].' /' .$outof.' ('.$rep['result'].'%)"><a href="markbook.php?current=new_edit_reports.php&cancel=class_view.php&midlist='.$umns[$c]['midlist'].'&pid='.$umns[$c]['component'].'&sid='.$sid.'&bid='.$profilebid.'&nextrow='.$rowno.'">'.'&nbsp;&nbsp;&nbsp;'.'</a></div>';
+			$score['grade']=$rep['result'];
 			$score['value']=$rep['result'];
 			$score['outoftotal']=100;
 			$outrank=$rep['value'];
@@ -311,6 +314,7 @@ while($student=mysql_fetch_array($d_students, MYSQL_ASSOC)){
 			$totals[$col_mid]['value']+=$score['value'];
 			$totals[$col_mid]['outoftotal']+=$score['outoftotal'];
 			$totals[$col_mid]['no']++;
+			trigger_error($score['grade'],E_USER_WARNING);
 			}
 
 		$score['scoreclass']=$scoreclass;

@@ -121,7 +121,15 @@ if(sizeof($profiles)==0 and substr($umnfilter,0,1)=='p'){
 	}
 if(!isset($_SESSION['umnrank'])){$_SESSION['umnrank']='surname';}
 $umnrank=$_SESSION['umnrank'];
+/* Current date for attendance. */
 $attdate=date('Y-m-d',mktime(0,0,0,date('m'),date('d'),date('Y')));
+/* Previous lesson attendance displayed. */
+$lessonatt=0;
+if($cidsno==1){
+	if(isset($_GET['lessonatt'])){$lessonatt=$_GET['lessonatt'];}
+	elseif(isset($_SESSION['lessonatt'])){$lessonatt=$_SESSION['lessonatt'];}
+	}
+$_SESSION['lessonatt']=$lessonatt;
 ?>
 
 <div class="markcolor" id="bookbox">

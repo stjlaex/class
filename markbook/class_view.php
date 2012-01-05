@@ -84,8 +84,10 @@ if($_SESSION['worklevel']>-1){
 	$rowcolour=array('#ffffee', '#ffffcc', '#ffffaa', '#ffff99',
 	'#ffff77', '#ffff55', '#ffff33', '#ffff11', '#ffffdd', '#ffffbb',
 	'#ffff00', '#ffff88', '#ffff66', '#ffff44', '#ffff22');
+	if($cidsno==1 and $lessonatt>0){$headcols=5+$lessonatt;}
+	else{$headcols=5;}
 ?>
-<td style="background-color:#fff;" colspan="5">
+<td style="background-color:#fff;" colspan="<?php print $headcols;?>">
 			<table>
 <?php
 	/* cidsno is the size of the cids array being displayed */
@@ -96,7 +98,7 @@ if($_SESSION['worklevel']>-1){
 			print '<tr bgcolor="'.$rowcolour[$i].'">';
 			if($_SESSION['worklevel']>-1){
 ?>
-				<td colspan="4">
+			<td colspan="4">
 				<span title="<?php print $classes[$cid]['detail'];?>">&nbsp;&nbsp;<?php print $cids[$i].$teachers[$i];?><a
 				  href="admin.php?current=class_edit.php&newcid=<?php print $cids[$i];?>" 
 				  target="viewadmin" onclick="parent.viewBook('admin');">
@@ -206,6 +208,14 @@ if($_SESSION['worklevel']>-1){
 			<div id="merit-<?php print $viewtable[$c2]['sid'];?>"></div>
 		  </td>
 		  <td><?php print $viewtable[$c2]['form_id'];?></td>
+<?php
+   		if($lessonatt>0){
+			$Attendances=(array)fetchLessonAttendances($cids[0],0,$lessonatt,$viewtable[$c2]['sid']);
+			foreach($Attendances['Attendance'] as $Att){
+				print '<td style="border:1px solid #ddd;" status="'.$Att['Status']['value'].'"><span title="'.$Att['Date']['value'].' P'.$Att['Period']['value'].' '.$Att['Comment']['value'].'">'.$Att['Code']['value'].'</span></td>';
+				}
+			}
+?>
 		  <td status="<?php print $viewtable[$c2]['attstatus'];?>" 
 <?php 
 			if($viewtable[$c2]['attcode']!='' and $viewtable[$c2]['attcode']!=' '){
@@ -252,9 +262,28 @@ if($_SESSION['worklevel']>-1){
 		  <td></td>
 		  <td class="student"></td>
 		  <td></td>
-		  <td></td>
 <?php
 
+if(sizeof($cids)==1){
+	if($lessonatt>0){
+		$nextlessonatt=$lessonatt+4;
+		$attlink='<a style="color:#fff;"
+				 href="markbook.php?current=class_view.php&lessonatt='.$nextlessonatt.'"><</a>';
+		$attlink.='<a style="color:#fff;"
+				 href="markbook.php?current=class_view.php&lessonatt=0">></a>';
+		}
+	else{
+		$attlink='<a style="color:#fff;"
+				 href="markbook.php?current=class_view.php&lessonatt=4"><</a>';
+		}
+	}
+else{
+	$attlink='';
+	$lessonatt=0;
+	}
+?>
+		  <td status="p" colspan="<?php print $lessonatt+1;?>"><?php print $attlink;?></td>
+<?php
 /**
  * This is the bottom row of the mark table for the totals.
  */
@@ -265,11 +294,20 @@ if($_SESSION['worklevel']>-1){
 				if($umns[$c]['marktype']=='tally' or $umns[$c]['marktype']=='dif'){
 					$out=round($totals[$col_mid]['value']/$totals[$col_mid]['no']);
 					}
+				elseif($umns[$c]['marktype']=='compound'){
+					$out=round(100*$totals[$col_mid]['value']/$totals[$col_mid]['outoftotal']);
+					if($out>=85){$outclass='golite';}
+					elseif($out>=60){$outclass='gomidlite';}
+					elseif($out>=35){$outclass='pauselite';}
+					elseif($out>=10){$outclass='midlite';}
+					else{$outclass='nolite';}
+					$out='<div class="'.$outclass.'">'.$out.'</div>';
+					}
 				elseif($umns[$c]['scoretype']=='grade'){
 					$out=round($totals[$col_mid]['grade']/$totals[$col_mid]['no']);
 					$out=scoreToGrade($out,$scoregrades[$scoregrading[$c]]);
 					}
-				elseif($umns[$c]['scoretype']=='value' or $umns[$c]['scoretype']=='compound' or $umns[$c]['scoretype']=='sum' or $umns[$c]['scoretype']=='average'){
+				elseif($umns[$c]['scoretype']=='value' or $umns[$c]['scoretype']=='sum' or $umns[$c]['scoretype']=='average'){
 					$out=round($totals[$col_mid]['value']/$totals[$col_mid]['no']);
 					}
 				elseif($umns[$c]['scoretype']=='percentage'){
