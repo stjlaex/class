@@ -738,11 +738,10 @@ function elgg_new_comment($epfu,$dateset,$message,$title,$tid){
 				$messagetxt=strip_tags(html_entity_decode($message, ENT_QUOTES, 'UTF-8'))."\r\n".'--'. "\r\n" . $footer;
 				$message.='<br /><hr><p>'. $footer.'<p>';
 
-				$fromaddress=$CFG->schoolname;
 				$emailaddress=strtolower($emailaddress);
 				$dbn=db_connect(false,$CFG->eportfolio_db);
 				$table=$CFG->eportfolio_db_prefix.'message_event';
-				send_email_to($emailaddress,$fromaddress,$title,$messagetxt,$message,'',true,'','',$dbn,$table);
+				send_email_to($emailaddress,'',$title,$messagetxt,$message,'','',$dbn,$table);
 				}
 			}
 

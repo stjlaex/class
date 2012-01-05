@@ -90,7 +90,7 @@ else{
 		$paper=$reportdef['report']['style'];
 		$transform=$reportdef['report']['transform'];
 		$filename='Report'.$pubdate.'_'.$sid.'_'.$wrapper_rid;
-		
+
 		/* An array publishdata is used for the eportfolio, it incorporates
 		 * an array called batch listing all of the filenames to be uploaded. 
 		 */
@@ -161,9 +161,12 @@ else{
 		else{
 			mysql_query("UPDATE report_event SET success='0', time=NOW(), try=try+1 
 						WHERE report_id='$wrapper_rid' AND student_id='$sid';");
-			$messagesubject=$CFG->clientid.': Report publication failed for: '.$filename;
-			$fromaddress=$CFG->schoolname.'<ClaSS@'.$CFG->siteaddress.'>';
-			send_email_to('support@'.$CFG->support,$fromaddress,$messagesubject,$messagesubject,$messagesubject);
+			$d_r=mysql_query("SELECT try FROM report_event WHERE report_id='$wrapper_rid' AND student_id='$sid';");
+			if(mysql_result($d_r,0)>3){
+				$messagesubject=$CFG->clientid.': Report publication failed for: '.$filename;
+				send_email_to('support@'.$CFG->support,'',$messagesubject,$messagesubject,$messagesubject);
+				}
+
 			trigger_error($messagesubject,E_USER_WARNING);
 			}
 

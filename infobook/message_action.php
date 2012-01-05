@@ -60,7 +60,6 @@ if($sub=='Submit' and isset($_FILES['messageattach']) and $_FILES['messageattach
 	}
 
 if($sub=='Submit' and $recipients and sizeof($recipients)>0 and !isset($error)){
-	$fromaddress=$CFG->schoolname;
 	$sentno=0;
 	$failno=0;
 
@@ -85,6 +84,9 @@ if($sub=='Submit' and $recipients and sizeof($recipients)>0 and !isset($error)){
 					}
 				else{
 					$attachments[]=array('filepath'=>$upload_file,'filename'=>$file_name);
+					/*DOING!!!!!!!!!!!*/
+
+					/*DOING!!!!!!!!!!!!*/
 					}
 				}
 			}
@@ -94,7 +96,11 @@ if($sub=='Submit' and $recipients and sizeof($recipients)>0 and !isset($error)){
 			$messagehtml.=$messagebody;
 			$messagetxt='';
 			$messagetxt.=$messagebodytxt;
-			$email_result=send_email_to($recipient['email'],$fromaddress,$messagesubject,$messagetxt,$messagehtml,$attachments);
+			/*DOING!!!!!!!!!!!!*/
+
+
+			/*DOING!!!!!!!!!!!!*/
+			$email_result=send_email_to($recipient['email'],'',$messagesubject,$messagetxt,$messagehtml,$attachments);
 			if($email_result){$sentno++;}
 			else{$failno++;}
 			}

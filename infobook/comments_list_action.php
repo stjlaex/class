@@ -41,35 +41,53 @@ include('scripts/sub_action.php');
 
 		$messagesubject='Comment for '.$Student['Forename']['value'] .' '.$Student['Surname']['value'].' ('. 
 					$Student['RegistrationGroup']['value'].')';
+		$footer=get_string('pastoralemailfooterdisclaimer');
+
+		/* Construct a html version of message */
 		$message='<p>'.$messagesubject.'</p><p>Subject: '. display_subjectname($bid).'</p>'. 
 				'<p>Posted by '.$teachername. '</p>';
 		$message.='<p>'. $detail. '</p>';
 		if($guardianemail=='yes' and ($Student['Boarder']['value']=='N' or $CFG->emailboarders=='yes')){
 			$message.='<p>Note: this message has been shared with parents.</p>';
 			}
-		$footer=get_string('pastoralemailfooterdisclaimer');
-		$messagetxt=strip_tags(html_entity_decode($message, ENT_QUOTES, 'UTF-8'))."\r\n". '--'. "\r\n" . $footer;
 		$message.='<br /><hr><p>'. $footer.'</p>';
 
+		/* Plain text version of the message */
+		$messagetxt=$messagesubject."\r\n".'Subject: '. display_subjectname($bid)."\r\n". 
+				'Posted by '.$teachername. "\r\n";
+		$messagetxt.=$detail. "\r\n";
+		if($guardianemail=='yes' and ($Student['Boarder']['value']=='N' or $CFG->emailboarders=='yes')){
+			$messagetxt.='Note: this message has been shared with parents.'."\r\n";
+			}
+		$messagetxt.="\r\n". '--'. "\r\n" . $footer;
+
+		/* Option to message teachers */
 		if($CFG->emailcomments=='yes'){
 			$result=(array)message_student_teachers($sid,$tid,$bid,$messagesubject,$messagetxt,$message,$teachergroup);
 			}
 
-		/* Optional is messaging student's parents. */
+		/* Option to message parents. */
 		if($guardianemail=='yes' and ($Student['Boarder']['value']=='N' or $CFG->emailboarders=='yes')){
 			$Contacts=(array)fetchContacts_emails($sid);
 			$footer=get_string('guardianemailfooterdisclaimer');
-			$message='<p>'.$messagesubject.'</p><p>'. 'Subject: ' .display_subjectname($bid).'</p><p>Posted by '.$teachername. '</p>';
+			$message='<p>'.$messagesubject.'</p><p>'. 'Subject: ' .display_subjectname($bid).'</p>'. 
+				'<p>Posted by '.$teachername. '</p>';
 			$message.='<p>'. $detail. '</p>';
 			$message.='<br /><hr><p>'. $footer.'</p>';
-			$messagetxt=strip_tags(html_entity_decode($message, ENT_QUOTES, 'UTF-8'))."\r\n".'--'. "\r\n" . $footer;
-			$fromaddress=$CFG->schoolname;
+
+			/* Plain text version of the message */
+			$messagetxt=$messagesubject."\r\n".'Subject: '. display_subjectname($bid)."\r\n". 
+				'Posted by '.$teachername. "\r\n";
+			$messagetxt.=$detail. "\r\n";
+			$messagetxt.="\r\n". '--'. "\r\n" . $footer;
+
+
 			if($Contacts and $CFG->emailoff!='yes' and $CFG->emailguardiancomments=='yes'){
 				if(sizeof($Contacts)>0){
 					mysql_query("UPDATE comments SET guardians='1' WHERE id='$id';");
 					foreach($Contacts as $index => $Contact){
 						$emailaddress=strtolower($Contact['EmailAddress']['value']);
-						send_email_to($emailaddress,$fromaddress,$messagesubject,$messagetxt,$message);
+						send_email_to($emailaddress,'',$messagesubject,$messagetxt,$message);
 						$result[]=get_string('emailsentto','infobook').' '. 
 							get_string(displayEnum($Contact['Relationship']['value'],'relationship'),'infobook'). 
 							' '.$Contact['Surname']['value'];

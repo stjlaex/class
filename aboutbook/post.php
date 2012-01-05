@@ -35,12 +35,23 @@ $message.='<p>'.$detail.'</p>';
 							'username'=>'ClaSS Contact');
 		}
 
-	$fromaddress=$CFG->schoolname.'<ClaSS@'.$CFG->siteaddress.'>';
+	/* Decide on the addressee of the message. If possible use teacher's own email address. */
+	//$teachername=get_teachername($tid);
+	//$teacher=get_user($tid,'username');
+	if($teacher['email']!='' and $teacher['email']!=' '){
+		$from['name']=$teachername;
+		$from['email']=$teacher['email'];
+		}
+	else{
+		$from['name']='ClaSS for '.$CFG->schoolname;
+		$from['email']=$CFG->emailnoreply;
+		}
+
 	$messagetxt=strip_tags(html_entity_decode($messagebody, ENT_QUOTES, 'UTF-8'));
 
 	if(sizeof($recipients)>0 and $CFG->emailoff!='yes'){
 		foreach($recipients as $key => $recipient){
-			send_email_to($recipient['email'],$fromaddress,$summary,$messagetxt,$message);
+			send_email_to($recipient['email'],$from,$summary,$messagetxt,$message);
 			$result[]='Email sent to '.$recipient['username'];
 			}
 		}

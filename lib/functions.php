@@ -336,10 +336,30 @@ function getEnumArray($field_name){
 						  '2009' => '09', 
 						  '2010' => '10', 
 						  '2011' => '11', 
-						  '2012' => '12' 
+						  '2012' => '12', 
+						  '2013' => '13', 
+						  '2014' => '14' 
 						  );
 	$inactive=array('0' => 'no', 
 					'1' => 'yes'
+					);
+	/* For the fees tables. */
+	$paymenttype=array('0' => 'bank', 
+					   '1' => 'cash'
+					   );
+	$payment=array('0' => 'due', 
+				   '1' => 'paid'
+				   );
+	$religion=array('TU' => 'tuition',
+					'TR' => 'transport',
+					'EN' => 'enrolment',
+					'IN' => 'insurance',
+					'FO' => 'lunches',
+					'BO' => 'books',
+					'CL' => 'club',
+					'EX' => 'exams',
+					'EV' => 'excursions',
+					'OT' => 'other'
 					);
 
 
@@ -881,7 +901,8 @@ function getEnumArray($field_name){
 						  'EXTRA'=>'other'
 						  );
 
-	/* For the list_studentfield script, not an enumarray at all!
+	/*
+	 * For the list_studentfield script, not an enumarray at all! Uses fetchStudent_singlefield function.
 	 */
 	$studentfield=array(
 						''=>'',
@@ -889,6 +910,7 @@ function getEnumArray($field_name){
 						'Forename'=>'forename', 
 						'Gender'=>'gender', 
 						'YearGroup'=>'yeargroup', 
+						'TutorGroup'=>'tutorgroup', 
 						'RegistrationGroup'=>'formgroup', 
 						'Course'=>'course', 
 						'House'=>'house', 
@@ -1360,8 +1382,7 @@ function array_filter_fields($startarray,$fields){
  * Send an email (with attachments)
  *
  * Originally from moodlelib and altered for ClaSS. Now works only
- * with PEAR Mail of libphpmailer (the former is recommended for among
- * other things its queing of messages). Set $CFG -> emailsys to specify.
+ * with PEAR Mail. Set $CFG -> emailsys to 'pearmail'.
  *
  * @uses $CFG
  * @param recipient 
@@ -1375,208 +1396,136 @@ function array_filter_fields($startarray,$fields){
  * @return boolean|string Returns "true" if mail was sent OK, "emailstop" if email
  *          was blocked by user and "false" if there was another sort of error.
  */
-function send_email_to($recipient, $from, $subject, $messagetext, $messagehtml='', $attachments='', $usetrueaddress=true, 
-					   $replyto='', $replytoname='', $dbc='', $mailtable=''){
+function send_email_to($recipient, $from, $subject, $messagetext, $messagehtml='', $attachments='',
+					   $reply='', $dbc='', $mailtable=''){
 
     global $CFG;
 	$success=false;
+	$subject=substr(stripslashes($subject), 0, 900);
+
 	if(empty($recipient)){
 		return false;
 		}
 	if($CFG->emailoff=='yes'){
 		return 'emailstop';
 		}
-	$subject=substr(stripslashes($subject), 0, 900);
-
-	/* The fallback is phpmailer, the preferred is PEAR_Mail */
-	if(!isset($CFG->emailsys) or $CFG->emailsys=='phpmail'){
-
-		include_once($CFG->phpmailerpath.'/class.phpmailer.php'); 
-
-		$mail = new phpmailer;
-		$mail->Version = $CFG->version;
-		$mail->IsSMTP();
-		if($CFG->debug=='on'){
-			echo '<pre>' . "\n";
-			$mail->SMTPDebug = true;
-			}
-		$mail->Host=$CFG->smtphosts;
-		if($CFG->smtpuser){
-			/* surely always need authentication? */
-			$mail->SMTPAuth = true;
-			$mail->Username = $CFG->smtpuser;
-			$mail->Password = $CFG->smtppasswd;
-			}
-
-		/* for handling bounces */
-		if(!empty($CFG->emailhandlebounces)){
-			$mail->Sender = $CFG->emailhandlebounces;
-			}
-		else{
-			$mail->Sender='';
-			}
-		if(is_string($from)){
-			$mail->From     = $CFG->emailnoreply;
-			$mail->FromName = $from;
-			}
-		elseif(is_array($from)){
-			$mail->FromName=$from['name'];
-			$$mail->From=$from['email'];
-			}
-		else{
-			$mail->From     = $CFG->emailnoreply;
-			$mail->FromName = 'ClaSS';
-			if(empty($replyto)){
-				$mail->AddReplyTo($CFG->emailnoreply,'ClaSS');
-				}
-			}
-		
-		if(!empty($replyto)){
-			$mail->AddReplyTo($replyto,$replytoname);
-			}
-		
-		$mail->Subject = $subject;
-		$mail->AddAddress($recipient,'');
-		$mail->WordWrap = 79;
-		/*
-		  if(!empty($from->customheaders)){
-		  if(is_array($from->customheaders)){
-		  foreach ($from->customheaders as $customheader) {
-		  $mail->AddCustomHeader($customheader);
-		  }
-		  } else {
-		  $mail->AddCustomHeader($from->customheaders);
-		  }
-		  }
-		  if (!empty($from->priority)) {
-		  $mail->Priority = $from->priority;
-		  }
-		*/
-		
-		if($messagehtml){
-			$mail->IsHTML(true);
-			$mail->Encoding='quoted-printable';
-			$mail->Body=$messagehtml;
-			$mail->AltBody="\n$messagetext\n";
-			}
-		else{
-			$mail->IsHTML(false);
-			$mail->Body="\n$messagetext\n";
-			}
-
-		if(is_array($attachments)){
-			while(list($index,$attachment)=each($attachments)){
-				if(is_file($attachment['filepath'])){ 
-					/* Only pdfs allowed. */
-		  			$mimetype='application/pdf';
-					$mail->AddAttachment($attachment['filepath'], $attachment['filename'], 'base64', $mimetype);
-					}
-				}
-			}
-		if($mail->Send()){
-			$success=true;
-			}
-		else{
-			//mtrace('ERROR: '. $mail->ErrorInfo);
-			tigger_error('phplib mailer send failure: '. $mail->ErrorInfo,E_USER_WARNING);
-			}
+	if(!isset($CFG->emailsys) or $CFG->emailsys!='pearmail'){
+		tigger_error('Not configured for email: message not sent.',E_USER_WARNING);
+		return 'emailstop';
 		}
-	elseif(isset($CFG->emailsys) and $CFG->emailsys=='pearmail'){
 	
-		/* PEAR MAIL: under this system, every mail is queued 
-		 * for the cronjob to send it at a later stage
-		 * 
-		 */
-		require_once "Mail/Queue.php";
-		require_once 'Mail/mime.php';
+	/* PEAR MAIL: under this system, every mail is queued 
+	 * for the cronjob to send it at a later stage
+	 * 
+	 */
+	require_once "Mail/Queue.php";
+	require_once 'Mail/mime.php';
 
-		$db_options['type']='db';
-		if($dbc==''){$db_options['dsn']=db_connect(false);}
-		else{$db_options['dsn']=$dbc;}
+	$db_options['type']='db';
+	if($dbc==''){$db_options['dsn']=db_connect(false);}
+	else{$db_options['dsn']=$dbc;}
+	
+	if($mailtable==''){$db_options['mail_table']='message_event';}
+	else{$db_options['mail_table']=$mailtable;}
+	
+	$mail_options['driver']='smtp';
+	$mail_options['host']=$CFG->smtphosts;
+	$mail_options['port']=25;
+	$mail_options['auth']=true;
+	$mail_options['username']=$CFG->smtpuser;
+	$mail_options['password']=$CFG->smtppasswd;
+	
+	$mail_queue=& new Mail_Queue($db_options, $mail_options);
 
-		if($mailtable==''){$db_options['mail_table']='message_event';}
-		else{$db_options['mail_table']=$mailtable;}
-
-		$mail_options['driver']='smtp';
-		$mail_options['host']=$CFG->smtphosts;
-		$mail_options['port']=25;
-		$mail_options['auth']=true;
-		$mail_options['username']=$CFG->smtpuser;
-		$mail_options['password']=$CFG->smtppasswd;
-
-		$mail_queue=& new Mail_Queue($db_options, $mail_options);
-
-		if(is_string($from)){
-			$from_name=$from;
-			$from=$CFG->emailnoreply;
-			}
-		elseif(is_array($from)){
-			$from_name=$from['name'];
-			$from=$from['email'];
-			}
-		else{
-			$from_name='ClaSS';
-			$from=$CFG->emailnoreply;
-			}
-
-		if(!empty($CFG->emailhandlebounces)){
-			$return= $CFG->emailhandlebounces;
-			}
-		else{
-			$return='';
-			}
-
-		/* TODO: make use of the $from['email] and $from_name values */
-		/* message header */
-		/* 'Date'    => date("r") must be RFC 2822 foramtted date for email headers */
-		$hdrs = array( 'From'    => $from,
-					   'To'      => $recipient,
-					   'Subject' => $subject,
-					   'Date'    => date("r"),
-					   'Sender' => $from,
-					   'Return-Path' => $return
-					   );
-		$mimeparams=array(
-						  'text_encoding'=>'7bit',
-						  'text_charset'=>'UTF-8',
-						  'html_charset'=>'UTF-8',
-						  'head_charset'=>'UTF-8'
-						  );
-
-		/* we use Mail_mime() to construct a valid mail */
-		$mime =& new Mail_mime();
-		if($messagehtml!=''){
-			$mime->setHTMLBody($messagehtml);
-			}
-		else{
-			$mime->setHTMLBody('<p>'.$messagetext.'</p>');
-			}
-		$mime->setTXTBody($messagetext);
-
-		/* Only PDF allowed as attachments. */
-		if(is_array($attachments)){
-			foreach($attachments as $attachment){
-				if(is_file($attachment['filepath'])){ 
-		  			$mimetype='application/pdf';
-					$mime->addAttachment($attachment['filepath'],$mimetype,$attachment['filename']);
-					}
-				}
-			}
-
-		/* next sentence has to be written after everything else */
-		//$body = $mime->get();
-		$body = $mime->get($mimeparams);  
-		$hdrs = $mime->headers($hdrs);
-
-		/* Put message into queue */ 
-		$mail_queue->put($from, $recipient, $hdrs, $body,0,false);
-		if(PEAR::isError($mail_queue->container->db)){ 
-			trigger_error('PEAR:'.ERROR,E_USER_WARNING);
-			}
-		$success=true;
+	if(is_string($from) and !empty($from)){
+		$from_name=$from.' <'.$CFG->emailnoreply.'>';
+		$replyto=$CFG->emailnoreply;
+		}
+	elseif(is_array($from)){
+		$from_name=$from['name'].' <'.$from['email'].'>';
+		$replyto=$from['email'];
 		}
 	else{
-		tigger_error('Not configured for email: message not sent.',E_USER_WARNING);
+		$from_name=$CFG->schoolname.' <'.$CFG->emailnoreply.'>';
+		$replyto=$CFG->emailnoreply;
+		}
+
+	/* Option to overide the default reply-to address*/
+	if(is_string($reply) and !empty($reply)){
+		$replyto=$reply;
+		}
+	elseif(is_array($reply)){
+		$replyto=$reply['email'];
+		}
+
+
+	/* Are we accepting bounces and failure notices? */
+	if(!empty($CFG->emailhandlebounces)){
+		$return= $CFG->emailhandlebounces;
+		}
+	else{
+		$return='';
+		}
+
+	/* The account doing the sending. */
+	if(!empty($CFG->smtpsender)){
+		$sender= $CFG->smtpsender;
+		}
+	else{
+		$sender=$CFG->emailnoreply;
+		}
+	
+	/* TODO: make use of the $from['email] and $from_name values 
+	 * message header 
+	 */
+	/* 'Date'    => date("r") must be RFC 2822 foramtted date for email headers */
+	$hdrs = array( 'From'    => $from_name,
+				   'To'      => $recipient,
+				   'Subject' => $subject,
+				   'Date'    => date("r"),
+				   'Sender' => $sender,
+				   'Reply-To' => $replyto,
+				   'Return-Path' => $return
+				   );
+	$mimeparams=array(
+					  'text_encoding'=>'7bit',
+					  'text_charset'=>'UTF-8',
+					  'html_charset'=>'UTF-8',
+					  'head_charset'=>'UTF-8'
+					  );
+
+	/* we use Mail_mime() to construct a valid mail */
+	$mime =& new Mail_mime();
+	if($messagehtml!=''){
+		$mime->setHTMLBody($messagehtml);
+		}
+	else{
+		$mime->setHTMLBody('<p>'.$messagetext.'</p>');
+		}
+	$mime->setTXTBody($messagetext);
+	
+	/* Only PDF allowed as attachments. */
+	if(is_array($attachments)){
+		foreach($attachments as $attachment){
+			if(is_file($attachment['filepath'])){ 
+				$mimetype='application/pdf';
+				$mime->addAttachment($attachment['filepath'],$mimetype,$attachment['filename']);
+				}
+			}
+		}
+	
+	/* next sentence has to be written after everything else */
+	//$body = $mime->get();
+	$body = $mime->get($mimeparams);  
+	$hdrs = $mime->headers($hdrs);
+	
+	/* Put message into queue */ 
+	$mail_queue->put($from, $recipient, $hdrs, $body,0,false);
+	if(PEAR::isError($mail_queue->container->db)){ 
+		trigger_error('PEAR: '.ERROR,E_USER_WARNING);
+		}
+	else{
+		$success=true;
 		}
 
 	return $success;
