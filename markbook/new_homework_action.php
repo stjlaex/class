@@ -49,7 +49,6 @@ $stage=$_POST['stage'];
 		elgg_new_homework($tid,$cid,$subject,$component,$title,$body,$dateset);
 		}
 
-	$result[]='New homework added.';
-	include('scripts/results.php');
+//include('scripts/results.php');
 	include('scripts/redirect.php');
 ?>

@@ -86,12 +86,17 @@ else{
 					(subject_id LIKE '$bid' OR subject_id='%') AND
 					(course_id LIKE '$crid' OR course_id='%') ORDER BY subject_id;");
 		$required='yes';$liststyle='width:90%;';
+		$listswitch='yes';
 		$listname='defname';$listlabel='thetypeofmark';
 		$seldefname=$HomeworkDef['Markdef']['value'];
 		include('scripts/set_list_vars.php');
 		list_select_db($d_markdef,$listoptions,$book);
 ?>
 	  </div>
+
+		<div id="switchDefname" class="right">
+		</div>
+
 
 	    <input type="hidden" name="hwid" value="<?php print $hwid;?>">
 	    <input type="hidden" name="crid" value="<?php print $crid;?>">
@@ -152,4 +157,10 @@ else{
 	  </table>
 	</div>
 
+  </div>
+
+  <div id="switchDefnametest percent" class="hidden">
+	<label for="Total"><?php print_string('outoftotal',$book);?></label>
+	<input class="required" type="text" id="Total" name="total" 
+		   maxlength="4" pattern="integer" />
   </div>
