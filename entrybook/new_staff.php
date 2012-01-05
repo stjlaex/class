@@ -56,18 +56,6 @@ three_buttonmenu();
 				  type="text" id="Email" name="email" maxlength="190" /></td>
 		  </tr>
 
-		  <tr>
-			<td>
-			  <label for="Emailpasswd">
-				<?php print_string('emailpassword','admin');?>
-			  </label>
-			</td>
-			 <td><input pattern="truealphanumeric"
-				type="password" id="Emailpasswd" name="emailpasswd" 
-				maxlength="32" style="width:20%;" 
-				tabindex="<?php print $tab++;?>" /></td>
-		  </tr>
-
 		</table>
 	    <input type="hidden" name="current" value="<?php print $action;?>">
 		<input type="hidden" name="cancel" value="<?php print '';?>">

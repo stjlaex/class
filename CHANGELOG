@@ -1,4 +1,4 @@
-Version ClaSS-1.0.12 release (2011/12/03)
+Version ClaSS-1.0.12 release (2012/01/07)
 -------------------------------------------
 
 Support profiles re-organised to include two groups of SEN assessments
@@ -8,9 +8,48 @@ Fixed student_scores in InfoBook as nullcorrect spaces no longer an issue.
 
 CFG option to make IP address checking optional.
 
+Improved security through better use of cookies.
+
 Changed the Register count_ functions to distinguish between AM/PM sessions.
 
 A whole year summary attendance report added to Register.
+
+Removed last of the references to webmail including host page.
+
+Placed the RegistrationGroup field in its own function and fixed
+RegistrationTutors to include both House and Form tutors.
+
+Clarified use of RegistrationGroup (which can refer to a house, a form
+or a reg community) by adding TutorGroup to always correspond to the
+form. 
+
+Fix to new_homework to include default out of total for percentages.
+
+Fix to list_partoralgroup script for house tutors.
+
+Altered field type for transport_route time and lengthened transport_stop name.
+
+New eportfolio function for deleting uploaded files.
+
+Improved the unlock script for reports to actually unpublish a file.
+
+Register nav buttons now do one day for class periods.
+
+Correct column average for percentages.
+
+Fix to completion list to avoid multiple listing of the same registration community. 
+
+Added regtype option for listing year groups in Register.
+
+Attendance by period for previous lessons displayed as an option in MarkBook.
+
+Absence messages now have CFG option for a dedicated reply-to address.
+
+Removed the unmaintained libphpmailer option.
+
+Improved list_assessments to use the selected stage and year for filtering.
+
+Added export function to report_assessments.
 
 
 
