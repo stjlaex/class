@@ -67,14 +67,13 @@ include('scripts/sub_action.php');
 			$messagetxt=strip_tags(html_entity_decode($message, ENT_QUOTES, 'UTF-8'))."\r\n".'--'. "\r\n" . $footer;
 			$message.='<br /><hr><p>'. $footer.'<p>';
 
-			$fromaddress=$CFG->schoolname;
 
 			/*TODO: this is a hack to stop incidents to parents of primary children*/
-			if($Contacts and $CFG->emailoff!='yes' and $CFG->emailguardianincidents=='yes' and $yid>6){
+			if($Contacts and $CFG->emailoff!='yes' and $CFG->emailguardianincidents=='yes' and $newyid>6){
 				if(sizeof($Contacts)>0){
 					foreach($Contacts as $index => $Contact){
 						$emailaddress=strtolower($Contact['EmailAddress']['value']);
-						send_email_to($emailaddress,$fromaddress,$subject,$messagetxt,$message);
+						send_email_to($emailaddress,'',$subject,$messagetxt,$message);
 						$result[]=get_string('emailsentto').' '. 
 							get_string(displayEnum($Contact['Relationship']['value'],'relationship'),'infobook').
 							' '.$Contact['Surname']['value'];

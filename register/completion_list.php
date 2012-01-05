@@ -54,7 +54,7 @@ $extrabuttons['notice']=array('name'=>'current',
 $extrabuttons['summary']=array('name'=>'current',
 							   'pathtoscript'=>$CFG->sitepath.'/'.$CFG->applicationdirectory.'/register/',
 							   'xmlcontainerid'=>'print',
-							   'value'=>'register_summary.php',
+							   'value'=>'register_summary_weekly.php',
 							   'onclick'=>'checksidsAction(this)');
 $extrabuttons['previewselected']=array('name'=>'current',
 									   'pathtoscript'=>$CFG->sitepath.'/'.$CFG->applicationdirectory.'/register/',

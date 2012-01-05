@@ -62,6 +62,10 @@ $CFG->registration[1]='single';//Whole school
 $CFG->timezone='Europe/Madrid';
 /*defualt sort order sor most student lists*/
 $CFG->studentlist_order='surname';
+/* How should a teacher's name be used to sign off? Values of either
+ * informal, formal or null
+ */
+$CFG->teachername='informal';
 /**
  * An array of feeder schools whose dbs are to be checked for students
  * transfering here. This affects numbers in the enrolments table and
@@ -122,15 +126,10 @@ $CFG->enrol_boarders='no';
  * Optional settings to tune the use of emails for notifying staff
  * values set to either 'yes' or 'no'
  */
-/*setting to yes will mean all emailing is prevented*/
+/* Setting to yes will mean emailing is disabled completely. */
 $CFG->emailoff='no';
 $CFG->emailnoreply='';
 $CFG->emailhandlebounces='';
-/* Choose either pearmail of phpmail (and for the latter specify path
- * to where you've installed the phpmailer library).
- */
-$CFG->emailsys='phpmail';
-$CFG->phpmailerpath='/usr/share/php/libphp-phpmailer';//this works for Debian
 /*only needed if using an external mail server, something other than local sendmail*/
 $CFG->smtphosts='';
 $CFG->smtpuser='';
@@ -144,8 +143,9 @@ $CFG->emailmerits='no';
 $CFG->emailguardianmerits='no';
 /*will exclude guardians of boarders from all emails unless set to 'yes'*/
 $CFG->emailboarders='no';
-/*send out reminders to relevant staff of approaching deadlines*/
+/* Options for the Register: send out reminders to relevant staff of incomplete registers*/
 $CFG->emailreminders='no';
+$CFG->emailregisternoreply='';
 /**
  *
  * Optional LDAP connection details.

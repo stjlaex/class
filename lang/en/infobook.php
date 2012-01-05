@@ -221,4 +221,9 @@ $string['labeltext']='Label Text (leave blank to for addresses)';
 $string['badges']='Name labels';
 $string['youngest']='Youngest';
 $string['achievements']='Achievements';
+$string['bankdetails']='Account Details';
+$string['access']='Access';
+$string['bankcode']='Bank code';
+$string['branch']='Branch';
+$string['control']='Control';
 ?>
