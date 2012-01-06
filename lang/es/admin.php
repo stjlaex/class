@@ -111,7 +111,6 @@ $string['disablelogin']='Deshabilitar entrada';
 $string['mistakematchingpasswords']='Las contrase&ntilde;as no coinciden: por favor, reescr&iacute;balas';
 $string['emailtostaffisdisabled']='Los emails a profesores est&aacute;n deshabilitados (necesita editar su fichero school.php para cambiar el estado.)';
 $string['eportfolios']='ePortafolios';
-$string['emailpassword']='Contrase&ntilde;a de webmail';
 $string['enrolment']='Inscripci&oacute;n';
 $string['reenrolments']='Re-inscripci&oacute;n';
 $string['changeyear']='A&ntilde;o siguiente';

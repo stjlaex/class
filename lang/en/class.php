@@ -103,6 +103,7 @@ $string['unassigned']='Unassigned';
 $string['classes']='Classes';
 $string['assigned']='Assigned';
 $string['formgroup']='Form group';
+$string['tutorgroup']='Tutor group';
 $string['classesalreadyassigned']='Classes already assigned';
 $string['description']='Description';
 $string['estimates']='Estimates';
