@@ -72,16 +72,9 @@ function fetchStudent_short($sid){
    	$Student['DOB']=array('label' => 'dateofbirth', 
 						  'type_db' => 'date',
 						  'value' => ''.$student['dob']);
-   	$Student['RegistrationGroup']=array('label' => 'formgroup',  
-										'value' => ''.$student['form_id']);
 
-	$tutor_users=(array)list_community_users(array('id'=>'','name'=>$student['form_id'],'type'=>'form'),array('r'=>1,'w'=>1,'x'=>1),$student['yeargroup_id']);
-	foreach($tutor_users as $tutor_user){
-		$Student['RegistrationTutor'][]=array('label' => 'formtutor', 
-											  'email' => ''.$tutor_user['email'],
-											  'value' => ''.$tutor_user['forename'][0].' '. $tutor_user['surname']
-											  );
-		}
+	$Student=array_merge($Student,fetchRegGroup($student));
+
    	$Student['YearGroup']=array('label' => 'yeargroup', 
 								'value' => ''.$student['yeargroup_id']);
    	$Student['EnrolNumber']=array('label' => 'enrolmentnumber',  
@@ -122,7 +115,6 @@ function fetchStudent_singlefield($sid,$tag){
 	elseif($tag=='Boarder'){$fieldname='boarder';$fieldtype='enum';}
 	elseif($tag=='EntryDate'){$fieldname='entrydate';}
 	elseif($tag=='LeavingDate'){$fieldname='leavingdate';}
-	elseif($tag=='Siblings'){$fieldname='siblings';}
 	elseif($tag=='StaffChild'){$fieldname='staffchild';}
 	elseif($tag=='EmailAddress'){$fieldname='email';}
 	elseif($tag=='MobilePhone'){$fieldname='phonenumber';}
@@ -170,6 +162,26 @@ function fetchStudent_singlefield($sid,$tag){
 		$Enrolment=fetchEnrolment($sid);
 		$Student[$tag]=array('label'=>'course',
 							 'value'=>''.$Enrolment['YearGroup']['value']);
+		}
+	elseif($tag=='Siblings'){
+		$Contacts=(array)fetchContacts($sid);
+		$Siblings=array();
+		$sibs=array();
+		$display='';
+		foreach($Contacts as $cindex => $Contact){
+			$Dependents=(array)fetchDependents($Contact['id_db']);
+			/* Only do siblings in the school. */
+			$Siblings=array_merge($Siblings,$Dependents['Dependents']);
+			}
+		foreach($Siblings as $Sibling){
+			$r=$Sibling['Relationship']['value'];
+			if(!in_array($Sibling['Student']['id_db'],$sibs) and $Sibling['Student']['id_db']!=$sid and ($r=='PAF' or $r=='PAM' or $r=='STP')){
+				$sibs[]=$Sibling['Student']['id_db'];
+				$display.=$Sibling['Student']['DisplayFullName']['value'].' ('.$Sibling['Student']['TutorGroup']['value'].') ';
+				}
+			}
+		$Student[$tag]=array('label'=>'siblings',
+							 'value'=>''.$display);
 		}
    	elseif($tag=='Course'){
 		$courses='';
@@ -412,17 +424,10 @@ function fetchStudent($sid='-1'){
 						  'type_db' => 'date', 
 						  'value' => ''.$student['dob']
 						  );
-   	$Student['RegistrationGroup']=array('label' => 'formgroup', 
-										'value' => ''.$student['form_id']
-										);
 
-	$tutor_users=(array)list_community_users(array('id'=>'','name'=>$student['form_id'],'type'=>'form'),array('r'=>1,'w'=>1,'x'=>1),$student['yeargroup_id']);
-	foreach($tutor_users as $tutor_user){
-		$Student['RegistrationTutor'][]=array('label' => 'formtutor', 
-										'email' => ''.$tutor_user['email'],
-										'value' => ''.$tutor_user['forename'][0].' '. $tutor_user['surname']
-										);
-		}
+	$Student=array_merge($Student,fetchRegGroup($student));
+
+
    	$Student['YearGroup']=array('label' => 'yeargroup',   
 								'value' => ''.$student['yeargroup_id']);
 	/*
@@ -507,7 +512,7 @@ function fetchStudent($sid='-1'){
 										);
 		}
 	else{
-		$Studentt['EnrolNumber']=array('label' => 'enrolmentnumber', 
+		$Student['EnrolNumber']=array('label' => 'enrolmentnumber', 
 										'table_db' => 'info', 
 										'field_db' => 'formerupn', 
 										'type_db' =>'char(20)', 
@@ -612,6 +617,71 @@ function fetchStudent($sid='-1'){
 	}
 
 
+
+/**
+ *
+ * Returns both the Registration Group and the Tutor Group for a
+ * student. Usually these are both the same and are synonymous with
+ * the form group. But the Registration Group can be configured to be
+ * a different group, either likned to an ad hoc community (type=reg)
+ * for that purpose or to the student's House.
+ *
+ * @params integer $sid
+ * @return array
+ */
+function fetchRegGroup($student){
+	global $CFG;
+
+	$sid=$student['id'];
+	$tutors=array();
+
+   	$Student['TutorGroup']=array('label' => 'formgroup', 
+								 'value' => ''.$student['form_id']
+								 );
+
+	if(isset($CFG->regtypes)){
+		if(sizeof($CFG->regtypes)>1){
+			$secid=get_student_section($sid);
+			if(!isset($CFG->regtypes[$secid])){$regtype=$CFG->regtypes[1];}
+			else{$regtype=$CFG->regtypes[$secid];}
+			}
+		else{
+			$regtype=$CFG->regtypes[1];
+			}
+		}
+	else{$regtype='form';}
+
+	if($regtype=='form'){
+		$reggroup=$student['form_id'];
+		}
+	elseif($regtype=='house'){
+		$house=get_student_house($sid);
+		$reggroup=$student['yeargroup_id']. '-'.$house;
+		$tutors=array_merge($tutors,list_community_users(array('id'=>'','name'=>$house,'type'=>'house'),array('r'=>1,'w'=>1,'x'=>1),$student['yeargroup_id']));
+		}
+	elseif($regtype=='reg'){
+		$checkcommunity=array('id'=>'','type'=>'reg','name'=>'');
+		$regcom=(array)list_member_communities($sid,$checkcommunity);
+		$reggroup=$regcom['name'];
+		}
+
+	$Student['RegistrationGroup']=array('label' => 'formgroup', 
+										'value' => ''.$reggroup
+										);
+
+	$tutors=array_merge($tutors,list_community_users(array('id'=>'','name'=>$student['form_id'],'type'=>'form'),array('r'=>1,'w'=>1,'x'=>1),$student['yeargroup_id']));
+
+	foreach($tutors as $tutor){
+		$Student['RegistrationTutor'][]=array('label' => 'formtutor', 
+											  'email' => ''.$tutor['email'],
+											  'value' => ''.$tutor['forename'][0].' '. $tutor['surname']
+											  );
+		}
+
+	return $Student;
+	}
+
+
 /**
  *
  *
@@ -657,6 +727,9 @@ function fetchContacts_emails($sid='-1'){
 function fetchDependents($gid='-1'){
 	$Dependents=array();
 	$Others=array();
+	$deps=array();
+	$oths=array();
+
 	$d_gidsid=mysql_query("SELECT student_id, priority, mailing, relationship FROM gidsid 
 								JOIN student ON student.id=gidsid.student_id WHERE gidsid.guardian_id='$gid' ORDER BY student.dob ASC;");
 	while($gidsid=mysql_fetch_array($d_gidsid,MYSQL_ASSOC)){
@@ -685,14 +758,18 @@ function fetchDependents($gid='-1'){
 		$dob=$Dependent['Student']['DOB']['value'];
 		if($EnrolStatus['EnrolmentStatus']['value']=='C'){
 			$Dependents[]=$Dependent;
+			$deps[]=$dob;
 			}
 		else{
 			$Others[]=$Dependent;
+			$oths[]=$dob;
 			}
 		}
-	ksort($Dependents);
 
-	return array_merge($Others,$Dependents);
+	if(sizeof($deps>0)){array_multisort($deps, SORT_ASC, $Dependents);}
+	if(sizeof($oths>0)){array_multisort($oths, SORT_ASC, $Others);}
+
+	return array('Others'=>$Others,'Dependents'=>$Dependents);
 	}
 
 

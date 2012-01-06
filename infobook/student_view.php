@@ -227,9 +227,10 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 				$gid=$Contact['id_db'];
 				$relation=displayEnum($Contact['Relationship']['value'],'relationship');
 
-				$Dependents=fetchDependents($gid);
-				if(sizeof($Dependents)>0){
-					foreach($Dependents as $depindex=>$Sib){
+				$Dependents=(array)fetchDependents($gid);
+				$Dependents=(array)array_merge($Dependents['Dependents'],$Dependents['Others']);
+				if(sizeof($Sibs)>0){
+					foreach($Sibs as $depindex=>$Sib){
 						$r=$Sib['Relationship']['value'];
 						/* Check relationship to only list true siblings. */
 						if($Sib['id_db']!=$sid and 
@@ -432,7 +433,7 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 			  </td>
 			</tr>
 <?php
-		while(list($index,$Dependent)=each($Siblings)){
+		foreach($Dependents as $Dependent){
 			$Sibling=$Dependent['Student'];
 			//$relation=displayEnum($Dependent['Relationship']['value'],'relationship');
 ?>
@@ -440,7 +441,7 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 					  <td style="padding:5px 2px 2px 6px;">
 						  <a href="infobook.php?current=student_view.php&cancel=contact_list.php&sid=<?php print $Sibling['id_db'];?>&sids[]=<?php print $Sibling['id_db'];?>">
 							<?php print $Sibling['DisplayFullName']['value']; ?>
-						  </a>
+			</a><?php print ' ('.$Sibling['TutorGroup']['value'].')';?>
 					  </td>
 					</tr>
 <?php

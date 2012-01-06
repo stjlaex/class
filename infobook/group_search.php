@@ -103,7 +103,7 @@ three_buttonmenu($extrabuttons,$book);
 		  <th><?php print_string('siblings','infobook');?></th>
 		</tr>
 <?php
-	$sibling_steps=array('Y'=>'youngest');
+$sibling_steps=array('Y'=>'youngest','E'=>'eldest');
 	foreach($sibling_steps as $value => $enrolstatus){
 		print '<tr><td><input type="radio" name="limit" value="'.$value.'">'.get_string($enrolstatus,$book).'</input></td></tr>';
 		}

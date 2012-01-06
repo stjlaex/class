@@ -51,6 +51,7 @@ two_buttonmenu($extrabuttons,$book);
 	while(list($index,$gid)=each($gids)){
 		$Contact=fetchContact(array('guardian_id'=>$gid));
 		$Dependents=fetchDependents($gid);
+		$Sibs=(array)array_merge($Dependents['Dependents'],$Dependents['Others']);
 		$rown=0;
 ?>
 			<tbody id="<?php print $gid;?>">
@@ -71,7 +72,7 @@ two_buttonmenu($extrabuttons,$book);
 				</td>
 				<td>
 <?php
-		while(list($index,$Dependent)=each($Dependents)){
+		foreach($Sibs as $Dependent){
 			$Student=$Dependent['Student'];
 			$relation=displayEnum($Dependent['Relationship']['value'],'relationship');
 			$mailing=displayEnum($Dependent['ReceivesMailing']['value'],'mailing');
@@ -83,7 +84,7 @@ two_buttonmenu($extrabuttons,$book);
 						  <?php print get_string($relation,$book) 
 							 .' '.get_string('to',$book).' ';?>
 						  <a href="infobook.php?current=student_view.php&cancel=contact_list.php&sid=<?php print $Student['id_db'];?>&sids[]=<?php print $Student['id_db'];?>">
-							<?php print $Student['DisplayFullName']['value']; ?>
+							<?php print $Student['DisplayFullName']['value'].' ('.$Student['TutorGroup']['value'].')'; ?>
 						  </a>
 						<span style="float:right;"><?php print get_string('receivesmailing',$book).': '.get_string($mailing,$book);?></span>
 						</p>

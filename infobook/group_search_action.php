@@ -157,11 +157,22 @@ foreach($students as $student){
 		if($limit=='Y'){
 			$Contacts=(array)fetchContacts($sid);
 			foreach($Contacts as $cindex => $Contact){
-				$Dependents=fetchDependents($Contact['id_db']);
-				$Youngest=(array)array_pop($Dependents);
+				$Siblings=fetchDependents($Contact['id_db']);
+				$Youngest=(array)array_pop($Siblings['Dependents']);
 				if(!isset($sids_index[$Youngest['id_db']])){
 					$sids[]=$Youngest['id_db'];
 					$sids_index[$Youngest['id_db']]=$Youngest['id_db'];
+					}
+				}
+			}
+		elseif($limit=='E'){
+			$Contacts=(array)fetchContacts($sid);
+			foreach($Contacts as $cindex => $Contact){
+				$Siblings=fetchDependents($Contact['id_db']);
+				$Eldest=(array)array_shift($Siblings['Dependents']);
+				if(!isset($sids_index[$Eldest['id_db']])){
+					$sids[]=$Eldest['id_db'];
+					$sids_index[$Eldest['id_db']]=$Eldest['id_db'];
 					}
 				}
 			}

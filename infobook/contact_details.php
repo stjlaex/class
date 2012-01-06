@@ -35,10 +35,11 @@ elseif($contactno==-1){
 	$Phones=$Contact['Phones'];
 	$Addresses=$Contact['Addresses'];
 	$Dependents=fetchDependents($gid);
-	if(sizeof($Dependents)>0){
-		$Contact['Order']['value']=$Dependents[0]['Order']['value'];
-		$Contact['Relationship']['value']=$Dependents[0]['Relationship']['value'];
-		$Contact['ReceivesMailing']['value']=$Dependents[0]['ReceivesMailing']['value'];
+	if(sizeof($Dependents['Dependents'])>0){
+		/* Default relationship options to an existing sibling. */
+		$Contact['Order']['value']=$Dependents['Dependents'][0]['Order']['value'];
+		$Contact['Relationship']['value']=$Dependents['Dependents'][0]['Relationship']['value'];
+		$Contact['ReceivesMailing']['value']=$Dependents['Dependents'][0]['ReceivesMailing']['value'];
 		}
 	}
 else{
@@ -116,7 +117,8 @@ three_buttonmenu($extrabuttons,$book);
 		  <table class="listmenu listinfo">
 			<caption><?php print_string('relationships',$book);?></caption>
 <?php
-		foreach($Dependents as $Dependent){
+		$Sibs=(array)array_merge($Dependents['Dependents'],$Dependents['Others']);
+		foreach($Sibs as $Dependent){
 			$Student=$Dependent['Student'];
 			$relation=displayEnum($Dependent['Relationship']['value'],'relationship');
 ?>

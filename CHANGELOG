@@ -51,6 +51,12 @@ Improved list_assessments to use the selected stage and year for filtering.
 
 Added export function to report_assessments.
 
+Improved display of siblings to include current, previous and applied
+names and their form group.
+
+Added Custom Groups option to search for eldest siblings.
+
+Siblings can now be listed in full as part of a student list.
 
 
 Version ClaSS-1.0.11 release (2011/11/12)
