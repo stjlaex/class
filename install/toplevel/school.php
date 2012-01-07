@@ -130,21 +130,24 @@ $CFG->enrol_boarders='no';
 $CFG->emailoff='no';
 $CFG->emailnoreply='';
 $CFG->emailhandlebounces='';
-/*only needed if using an external mail server, something other than local sendmail*/
+/* Only needed if using an external mail server, something other than local sendmail. */
 $CFG->smtphosts='';
 $CFG->smtpuser='';
 $CFG->smtppasswd='';
-/*choose to send email notifications to the responsible staff for a student*/
+/* Choose to send email notifications to the responsible staff for a student. */
 $CFG->emailincidents='yes';
 $CFG->emailguardianincidents='no';
 $CFG->emailcomments='no';
 $CFG->emailguardiancomments='no';
 $CFG->emailmerits='no';
 $CFG->emailguardianmerits='no';
-/*will exclude guardians of boarders from all emails unless set to 'yes'*/
+/* Bcc these email addresses with all group messages to guardians. */
+$CFG->emailguardianbccs[]='';
+/* Will exclude guardians of boarders from all emails unless set to 'yes'. */
 $CFG->emailboarders='no';
-/* Options for the Register: send out reminders to relevant staff of incomplete registers*/
-$CFG->emailreminders='no';
+/* Options for the Register: send out reminders to relevant staff of incomplete registers. */
+$CFG->emailregisterreminders='no';
+/* The dedicated noreply address for parents replying to absence messages. */
 $CFG->emailregisternoreply='';
 /**
  *

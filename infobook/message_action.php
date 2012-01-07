@@ -19,20 +19,26 @@ else{$recipients=array();}
 
 if(isset($_SESSION[$book.'tutors'])){$tutors=$_SESSION[$book.'tutors'];}
 else{$tutors=array();}
-
 /* For the BCCs to staff */
+$extrarecipients=array();
+$explanation=$CFG->schoolname.': message sent to '.sizeof($recipients).' parents.';
 if($share=='yes'){
 	foreach($tutors as $tutor){
-		$recipients[]=$tutor;
+		$extrarecipients[]=$tutor;
 		}
 	}
 if($messagebcc!=''){
-	$tutor=array_pop($tutors);
-	$extrarecipient=array('email'=>$messagebcc,
-						  'explanation'=>$tutor['explanation']);
-	$recipients[]=$extrarecipient;
+	$extrarecipients[]=array('email'=>$messagebcc,
+							 'explanation'=>$explanation);
 	}
-
+if(sizeof($CFG->emailguardianbccs)>0){
+	foreach($CFG->emailguardianbccs as $messagebcc){
+		$extrarecipients[]=array('email'=>$messagebcc,
+								 'explanation'=>$explanation);
+		}
+	}
+/* Add the BCCs on first. */
+$recipients=array_merge($extrarecipients,$recipients);
 
 include('scripts/sub_action.php');
 
@@ -104,6 +110,7 @@ if($sub=='Submit' and $recipients and sizeof($recipients)>0 and !isset($error)){
 			if($email_result){$sentno++;}
 			else{$failno++;}
 			}
+		$sentno=$sentno-sizeof($extrarecipients);
 		$result[]=get_string('emailsentto',$book).' '. $sentno;
 		}
 

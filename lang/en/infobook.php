@@ -220,6 +220,7 @@ $string['addresstitle']='Address Title';
 $string['labeltext']='Label Text (leave blank to for addresses)';
 $string['badges']='Name labels';
 $string['youngest']='Youngest';
+$string['eldest']='Eldest';
 $string['achievements']='Achievements';
 $string['bankdetails']='Account Details';
 $string['access']='Access';
