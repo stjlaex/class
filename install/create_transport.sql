@@ -30,7 +30,7 @@ CREATE TABLE transport_rtidstid (
 	route_id		smallint unsigned not null default '0',
 	stop_id			smallint unsigned not null default '0',
 	sequence		smallint unsigned not null default '0',
-	traveltime		time,
+	traveltime		smallint unsigned not null default '0',
 	primary key		(route_id, stop_id)
 ) type=myisam;
 
@@ -39,7 +39,7 @@ CREATE TABLE transport_stop (
 	id				smallint unsigned auto_increment, 
 	lat				decimal(10,6) not null,
 	lng				decimal(10,6) not null,
-	name			varchar(30) not null default '', 
+	name			varchar(60) not null default '', 
 	detail			text not null default '',
 	primary key		(id)
 ) type=myisam;

@@ -34,12 +34,12 @@
 <link rel="stylesheet" type="text/css" href="css/<?php print $book; ?>.css" />
 <script language="JavaScript" type="text/javascript">
 var pathtobook = "<?php print $CFG->sitepath.'/'.$CFG->applicationdirectory.'/'.$book.'/';?>";
+var book = "<?php print $book;?>";
 </script>
 <script language="JavaScript" type="text/javascript" src="js/printing.js?version=101"></script>
-<script language="JavaScript" type="text/javascript" src="js/qtip.js"></script>
-<script language="JavaScript" type="text/javascript" src="js/bookfunctions.js?version=101"></script> 
+<script language="JavaScript" type="text/javascript" src="js/bookfunctions.js?version=112"></script> 
 <script language="JavaScript" type="text/javascript" src="js/register.js"></script>
-<script language="JavaScript" type="text/javascript" src="lib/tiny_mce/tiny_mce.js"></script>
+<script language="JavaScript" type="text/javascript" src="js/qtip.js"></script>
 <script language="JavaScript" type="text/javascript" src="lib/jscalendar/calendar.js"></script>
 <script language="JavaScript" type="text/javascript" src="lib/jscalendar/lang/calendar-<?php  print_string('shortlocale');?>.js"></script>
 <script language="JavaScript" type="text/javascript" src="lib/jscalendar/calendar-setup.js"></script>
@@ -51,4 +51,4 @@ if($book=='infobook' or $book=='reportbook'){
 	}
 ?>
 </head>
-<body onload="loadRequired();">
+<body>

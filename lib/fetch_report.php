@@ -716,6 +716,7 @@ function fetch_reportdefinition($rid,$selbid='%'){
  */
 function get_report_categories($rid,$bid='%',$pid='',$type='cat',$stage='%'){
 
+	trigger_error($bid. ' : '.$pid,E_USER_WARNING);
 	/* There is no component_id field in ridcatid, if pid is set then it uses subject_id */
 	if($pid!='' and $pid!=' '){$bid=$pid;}
 
@@ -858,7 +859,7 @@ function checkReportEntry($rid,$sid,$bid,$pid){
  *
  */
 function checkReportEntryCat($rid,$sid,$bid,$pid){
-	$d_a=mysql_query("SELECT result, value, weight FROM eidsid 
+	$d_a=mysql_query("SELECT result, value, weight, date FROM eidsid 
 				JOIN rideid ON rideid.assessment_id=eidsid.assessment_id WHERE rideid.report_id='$rid'
 				AND eidsid.student_id='$sid' AND eidsid.subject_id='$bid' AND eidsid.component_id='$pid';");
 
@@ -878,13 +879,15 @@ function checkReportEntryCat($rid,$sid,$bid,$pid){
 		$ass['result']=$tot;
 		$ass['value']=$tot;
 		$ass['weight']=1;
+		$ass['date']='';
 		$ass['class']='nolite';
 		}
 	else{
 		$ass=mysql_fetch_array($d_a);
-		if($ass['result']>85){$ass['class']='golite';}
-		elseif($ass['result']>55){$ass['class']='gomidlite';}
-		elseif($ass['result']>25){$ass['class']='pauselite';}
+		if($ass['result']>=85){$ass['class']='golite';}
+		elseif($ass['result']>=60){$ass['class']='gomidlite';}
+		elseif($ass['result']>=35){$ass['class']='pauselite';}
+		elseif($ass['result']>=10){$ass['class']='midlite';}
 		else{$ass['class']='nolite';}
 		}
 
@@ -940,7 +943,6 @@ function fetchReportEntry($reportdef,$sid,$bid,$pid){
 					   }
 				   }
 			   }
-		   //  elseif($reportdef['report']['date']<'2009-08-11'){
 		   elseif($reportdef['report']['date']<'2009-04-01'){
 			   /* For backward compatibility with old xslt templates. */
 			   $comment_html=$entry['comment'];
@@ -949,12 +951,12 @@ function fetchReportEntry($reportdef,$sid,$bid,$pid){
 			   $comment_html['div'][]=xmlreader($entry['comment']);
 			   }
 
-		   if(isset($subcomments_fix)){
+		   if(isset($subcomments_fix) or true){
 			   /* TODO: This fromdate is just a hack needs to check for previous report maybe?*/
-			   //$reportyear=$reportdef['report']['year']-1;
-			   //$fromdate=$reportyear.'-08-15';//Does the whole academic year
-			   $reportyear=$reportdef['report']['year'];
-			   $fromdate=$reportyear.'-02-14';
+			   $reportyear=$reportdef['report']['year']-1;
+			   $fromdate=$reportyear.'-08-15';//Does the whole academic year
+			   //$reportyear=$reportdef['report']['year'];
+			   //$fromdate=$reportyear.'-02-14';
 			   $comment_div=array();
 			   foreach($reportdef['report']['profile_names'] as $profile_name){
 				   $Statements=(array)fetchProfileStatements($profile_name,$bid,$pid,$sid,$fromdate);
@@ -988,7 +990,7 @@ function fetchReportEntry($reportdef,$sid,$bid,$pid){
 								 'value'=>''.$teachername);
 
 	   $Comments['Comment'][]=$Comment;
-	   }
+		}
 
 	return $Comments;
 	}
@@ -1054,9 +1056,11 @@ function fetchProfileStatements($profile_name,$bid,$pid,$sid,$cutoff_date){
 		$cutoff_level=1;$cutoff_statno=2;
 		}
 
-	  $profilepids=(array)list_subject_components($pid,'KS2');
+	  $profilepids=(array)list_subject_components($pid,'FS');
 	  $profilepids[]=array('id'=>$pid,'name'=>'');
 	  $Statements=array();
+	  //trigger_error($profile_name.' '. $pid,E_USER_WARNING);
+
 	  foreach($profilepids as $component){
 		  $profilepid=$component['id'];
 		  $d_cat=mysql_query("SELECT report_id, category FROM reportentry WHERE 

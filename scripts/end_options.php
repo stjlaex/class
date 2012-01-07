@@ -2,12 +2,15 @@
 /**							end_options.php
  */
 ?>
-<script>parent.loadBookOptions("<?php print $book;?>")</script>
+<script>parent.loadRequired("<?php print $book;?>");parent.loadBookOptions("<?php print $book;?>");</script>
 <div id="helpcontent" class="hidden">
 <?php 
+/**
+ * TODO: decide if helpcontent will ever be served up...
 print $book;
 if(isset($current)){print ' current='.$current.' - action='.$action.' - cancel='.$cancel;}
 else{$current='';}
+*/
 ?>
 </div>
 <?php

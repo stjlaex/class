@@ -4,6 +4,7 @@
 
 $action='transport_route.php';
 $cancel='transport_route.php';
+
 if(isset($_POST['busname'])){$busname=$_POST['busname'];}else{$busname='';}
 if(isset($_POST['stids'])){$stids=(array)$_POST['stids'];}else{$stids=array();}
 if(isset($_POST['names'])){$names=(array)$_POST['names'];}else{$names=array();}
@@ -37,12 +38,13 @@ if($sub=='Submit' and $busname!=''){
 				$stid=mysql_insert_id();
 				mysql_query("INSERT transport_rtidstid SET route_id='$rtid', stop_id='$stid', traveltime='$times[$no]', sequence='$sequences[$no]';");
 				}
-			elseif(isset($stids[$no]) and $stids[$no]!=0 and and $sequences[$no]==''){
+			elseif(isset($stids[$no]) and $stids[$no]!=0 and $sequences[$no]==''){
 				/*TODO: amend journeys (not delete!) affected by removed stops */
 
 				}
 			}
 		}
 	}
+
 include('scripts/redirect.php');
 ?>

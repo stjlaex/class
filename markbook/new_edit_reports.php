@@ -241,6 +241,7 @@ three_buttonmenu($extrabuttons,$book);
 	$inorders=array('rid'=>$rid,'subject'=>$bid,'component'=>$pid,'inasses'=>$inasses);
    	if($reportdef['report']['addcategory']=='yes'){
 		/*the categories and rating details for later use*/
+	trigger_error('!!!!! '.$bid. ' : '.$pid,E_USER_WARNING);
 		$catdefs=get_report_categories($rid,$bid,$pid,'cat',$class_stage);
 		$ratings=$reportdef['ratings'];
 		$inorders['category']='yes';

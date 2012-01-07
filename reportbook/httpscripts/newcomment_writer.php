@@ -129,12 +129,13 @@ else{
 <meta name="licence" content="GNU General Public License version 2" />
 <link rel="stylesheet" type="text/css" href="../../css/bookstyle.css" />
 <link rel="stylesheet" type="text/css" href="../../css/commentwriter.css" />
-<script src="../../js/bookfunctions.js?version=932" type="text/javascript"></script>
+<script src="../../js/bookfunctions.js?version=112" type="text/javascript"></script>
 <script src="../../js/qtip.js" type="text/javascript"></script>
 <script src="../../js/statementbank.js" type="text/javascript"></script>
-<script language="JavaScript" type="text/javascript" src="../../lib/tiny_mce/tiny_mce.js"></script>
+<script src="../../lib/tiny_mce/tiny_mce.js" type="text/javascript"></script>
+<script src="../../lib/tiny_mce/test.js" type="text/javascript"></script>
 </head>
-<body onload="loadRequired();">
+<body onload="window.opener.parent.loadRequired('reportbook');loadEditor();">
 
 	<div id="bookbox">
 	  <?php three_buttonmenu(); ?>

@@ -54,6 +54,9 @@ function decorateStudent(tdObj){
 		}
 	}
 
+/*
+ * Highlight the student row when the attendnace input has focus. 
+ */
 function checkAttendance(selObj){
 	var editId=selObj.parentNode.id;
 	var sidId=editId.substring(5,editId.length);//strip off "edit-" part
@@ -62,6 +65,10 @@ function checkAttendance(selObj){
 	selectRow(rowId);
 	}
 
+/*
+ * As focus leaves the attendance input add/remove the extra fields
+ * for absence codes.
+ */
 function processAttendance(selObj){
 	var editId=selObj.parentNode.id;
 	var sidId=editId.substring(5,editId.length);//strip off "edit-" part
@@ -175,7 +182,7 @@ function selectColumn(thObj,multi){
 					}
 				tdEditObj.className=tdEditClaSS;
 				}
-			i++;
+			//i++;
 			}
 	}
 
@@ -255,6 +262,6 @@ function setAll(set){
 					}
 				tdEditObj.className=tdEditClaSS;
 				}
-			i++;
+			//i++;
 			}
 	}

@@ -284,9 +284,7 @@ three_buttonmenu();
   </div>
 <?php
 
-	   	exit;
 		}
-
 elseif($sub=='Submit'){
 
 	if($rcrid==''){$crid='wrapper';}
@@ -399,7 +397,7 @@ elseif($sub=='Submit'){
 			}
 
 		}
-	}
 
-include('scripts/redirect.php');
+	include('scripts/redirect.php');
+	}
 ?>

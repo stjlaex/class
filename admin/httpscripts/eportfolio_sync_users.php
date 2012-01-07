@@ -264,7 +264,7 @@ require_once($CFG->installpath.'/'.$CFG->applicationdirectory.'/lib/eportfolio_f
 					$pwd=good_strtolower(mysql_result($d_s,0));
 					}
 
-				if(strlen($pwd)>5){
+				if(strlen($pwd)>3){
 					$Password=array('value'=>md5($pwd),'index'=>$no);
 					$Contact['Password']=(array)$Password;
 					if($epfuid_contact>0){

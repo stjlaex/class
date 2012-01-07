@@ -7,8 +7,10 @@
  *	@since		
  */
 
+
 /**
- * Return an array of communitites of one particular type
+ *
+ * Return an array of communitites of one particular type,
  * ignores differences in year by default. 
  *
  *	@param string $type type of community
@@ -20,13 +22,23 @@
 function list_communities($type='',$year='',$yid='%'){
 	if($type!='' and $year==''){
 		if($type=='year'){
-			$d_com=mysql_query("SELECT community.id, community.name, 
+			if($yid!='%' and $yid!=''){
+				$d_com=mysql_query("SELECT community.id, community.name, 
+					community.type, community.year, community.capacity,
+					community.detail, yeargroup.name AS displayname 
+					FROM community JOIN yeargroup ON
+					community.name=yeargroup.id WHERE 
+					community.type='$type' AND community.name='$yid';");
+				}
+			else{
+				$d_com=mysql_query("SELECT community.id, community.name, 
 					community.type, community.year, community.capacity,
 					community.detail, yeargroup.name AS displayname 
 					FROM community JOIN yeargroup ON
 					community.name=yeargroup.id WHERE 
 					community.type='$type' ORDER BY yeargroup.section_id,
 					yeargroup.sequence;");
+				}
 			}
 		elseif($type=='form' or $type=='house'){
 			$d_com=mysql_query("SELECT community.id, community.name, 
@@ -997,8 +1009,9 @@ function get_student_yeargroup($sid){
 
 /**
  * 
- * Find all current cohorts with which a community is associated.
- * Only returns cohorts for this academic year.
+ * Find all current cohorts with which a community is associated.  By
+ * defualt only returns cohorts for this academic year when current is
+ * true.
  *
  *	@param array $community
  *  @param boolean $current
@@ -1016,8 +1029,6 @@ function list_community_cohorts($community,$current=true){
 
 	if($community['id']!=''){$comid=$community['id'];}
 	else{$comid=update_community($community);}
-
-	trigger_error($community['type']. ' :COHORTS: '.$yid.' : '.$comid,E_USER_WARNING);
 
 	$cohorts=array();
 	$d_cohort=mysql_query("SELECT * FROM cohort JOIN
@@ -1037,6 +1048,7 @@ function list_community_cohorts($community,$current=true){
 		}
 	return $cohorts;
 	}
+
 
 
 /**

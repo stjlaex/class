@@ -946,10 +946,22 @@ function display_subjectname($bid){
  *	@return array
  */
 function get_teachername($tid){
+	global $CFG;
+
 	$d_teacher=mysql_query("SELECT forename, surname 
 							FROM users WHERE username='$tid'");
-	$teacher=mysql_fetch_array($d_teacher,MYSQL_NUM);	      
-	$teachername=$teacher[0][0].' '.$teacher[1];
+	$teacher=mysql_fetch_array($d_teacher,MYSQL_NUM);
+
+	if($CFG->teachername=='formal'){
+		$teachername=$teacher[0][0].' '.$teacher[1];
+		}
+	elseif($CFG->teachername=='informal'){
+		$teachername=$teacher[0];
+		}
+	else{
+		$teachername=$teacher[0].' '.$teacher[1];
+		}
+
 	return $teachername;
 	}
 

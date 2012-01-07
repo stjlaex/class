@@ -26,8 +26,7 @@ if($newtid!='' and $newyid!=''){
 		mysql_query("INSERT groups (yeargroup_id, name, type) VALUES ('$newyid','$yearname','p');");
 		$gid=mysql_insert_id();
 		}
-	else{$gid=mysql_result($d_groups,0);}
-	trigger_error($gid.' : '.$newyid,E_USER_WARNING);
+	else{$gid=mysql_result($d_g,0);}
 	$result[]=update_staff_perms($uid,$gid,$newperms);
 	}
 

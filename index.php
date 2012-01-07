@@ -31,7 +31,9 @@ require_once('classdata.php');
 require_once('lib/include.php');
 /* Just if last logout wasn't clean. */
 $past=time()-7200;
-foreach($_COOKIE as $key=>$value){setcookie( $key, $value, $past, '/' );}
+foreach($_COOKIE as $key=>$value){
+	setcookie($key, $value, $past, $CFG->sitepath);
+	}
 session_unset();
 session_destroy();
 $books=$CFG->books;
@@ -50,14 +52,14 @@ print '<?xml version="1.0" encoding="utf-8"?'.'>';
 <meta name="license" content="GNU Affero General Public License version 3" />
 <link href="css/hoststyle.css" rel="stylesheet" type="text/css" />
 <link href="css/selery.css" rel="stylesheet" type="text/css" />
-<script language="JavaScript" type="text/javascript" src="js/hostfunctions.js?version=108"></script>
+<script language="JavaScript" type="text/javascript" src="js/hostfunctions.js?version=112"></script>
 </head>
-<body onload="loadLogin('cover');">
+<body onload="loadLogin('cover.php');">
 
 <div id="navtabs">
 	<div class="booktabs">
 		<ul>
-		<li id="logbooktab"><p class="logbook" onclick="loadLogin('logbook');">Log In</p></li>
+		<li id="logbooktab"><p class="logbook" onclick="loadLogin('logbook.php');">Log In</p></li>
 		</ul>
 	</div>
 </div>

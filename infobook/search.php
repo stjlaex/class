@@ -60,7 +60,7 @@ $action='search_action.php'
 		<legend><?php print_string('contactsearch',$book);?></legend>
 
 		<select class="switcher" type="text" id="contact" 
-		  onChange="selerySwitch('contact',this.value)"  
+		  onChange="selerySwitch('contact',this.value,'')"  
 		  tabindex="<?php print $tab++;?>" name="gfield" size="1">
 <?php
 		$selgfield='surname';
@@ -102,7 +102,7 @@ $action='search_action.php'
 	  <fieldset class="infobook">
 		<legend><?php print_string('studentsearch');?></legend>
 		<select class="switcher" type="text" id="student" 
-		  onChange="selerySwitch('student',this.value)" 
+		  onChange="selerySwitch('student',this.value,'')" 
 		  tabindex="<?php print $tab++;?>" name="sfield" size="1">
 <?php
 		$selsfield='surname';

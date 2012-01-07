@@ -11,7 +11,7 @@ else{$checkmids=array();}
 
 
 	require_once 'Spreadsheet/Excel/Writer.php';
-//$file=fopen('/tmp/class_export.xls', 'w');
+
 	$file='/tmp/class_export.xls';
 	$workbook = new Spreadsheet_Excel_Writer($file);
 	$format_head =& $workbook->addFormat();
