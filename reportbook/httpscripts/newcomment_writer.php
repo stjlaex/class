@@ -124,16 +124,17 @@ else{
 <title>ClaSS Comment Writer</title>
 <meta http-equiv="content-type" content="application/xhtml+xml; charset=utf-8" />
 <meta http-equiv="Content-Script-Type" content="text/JavaScript" />
-<meta name="copyright" content="Copyright 2002-2010 S T Johnson.  All trademarks acknowledged. All rights reserved" />
+<meta name="copyright" content="Copyright 2002-2012 S T Johnson.  All trademarks acknowledged. All rights reserved" />
 <meta name="version" content='<?php print "$CFG->version"; ?>' />
-<meta name="licence" content="GNU General Public License version 2" />
+<meta name="licence" content="Affero General Public License version 3" />
 <link rel="stylesheet" type="text/css" href="../../css/bookstyle.css" />
 <link rel="stylesheet" type="text/css" href="../../css/commentwriter.css" />
-<script src="../../js/bookfunctions.js?version=112" type="text/javascript"></script>
+<script src="../../js/editor.js" type="text/javascript"></script>
+<script src="../../js/book.js?version=1013" type="text/javascript"></script>
 <script src="../../js/qtip.js" type="text/javascript"></script>
 <script src="../../js/statementbank.js" type="text/javascript"></script>
 <script src="../../lib/tiny_mce/tiny_mce.js" type="text/javascript"></script>
-<script src="../../lib/tiny_mce/test.js" type="text/javascript"></script>
+<script src="../../lib/tiny_mce/loadeditor.js" type="text/javascript"></script>
 </head>
 <body onload="window.opener.parent.loadRequired('reportbook');loadEditor();">
 

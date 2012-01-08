@@ -35,21 +35,13 @@ $tab=0;
 <title>Transport Editor</title>
 <meta http-equiv="content-type" content="application/xhtml+xml; charset=utf-8" />
 <meta http-equiv="Content-Script-Type" content="text/JavaScript" />
-<meta name="copyright" content="Copyright 2002-2010 S T Johnson.  All trademarks acknowledged. All rights reserved" />
+<meta name="copyright" content="Copyright 2002-2012 S T Johnson.  All trademarks acknowledged. All rights reserved" />
 <meta name="version" content='<?php print "$CFG->version"; ?>' />
 <meta name="licence" content="GNU Affero General Public License version 3" />
 <link rel="stylesheet" type="text/css" href="../../css/bookstyle.css" />
 <link rel="stylesheet" type="text/css" href="../../css/admin.css" />
-<script type="text/javascript">
-function selerySwitch(servantclass,fieldvalue){
-	switchedId="switch"+servantclass;
-	newfielddivId="switch"+servantclass+fieldvalue;
-	if(document.getElementById(newfielddivId)){	
-		document.getElementById(switchedId).innerHTML=document.getElementById(newfielddivId).innerHTML;
-		}
-	}
-</script>
-<script src="../../js/bookfunctions.js" type="text/javascript"></script>
+<script src="../../js/editor.js" type="text/javascript"></script>
+<script src="../../js/book.js?version=1013" type="text/javascript"></script>
 <script src="../../js/qtip.js" type="text/javascript"></script>
 </head>
 <body onload="loadRequired();">

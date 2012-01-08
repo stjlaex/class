@@ -25,20 +25,18 @@
 <title>ClaSS</title>
 <meta http-equiv="content-type" content="application/xhtml+xml; charset=utf-8" />
 <meta http-equiv="Content-Script-Type" content="text/JavaScript" />
-<meta name="copyright" content="Copyright 2002-2011 Stuart Thomas Johnson.  All trademarks acknowledged. All rights reserved" />
+<meta name="copyright" content="Copyright 2002-2012 Stuart Thomas Johnson. All trademarks acknowledged. All rights reserved" />
 <meta name="version" content='<?php print "$CFG->version"; ?>' />
 <meta name="licence" content="GNU Affero General Public License version 3" />
 <style type="text/css">@import url(lib/jscalendar/skins/aqua/theme.css);</style>
-<link rel="stylesheet" type="text/css" href="css/bookstyle.css?version=941" />
+<link rel="stylesheet" type="text/css" href="css/bookstyle.css?version=113" />
 <link rel="stylesheet" type="text/css" href="css/selery.css" />
 <link rel="stylesheet" type="text/css" href="css/<?php print $book; ?>.css" />
 <script language="JavaScript" type="text/javascript">
 var pathtobook = "<?php print $CFG->sitepath.'/'.$CFG->applicationdirectory.'/'.$book.'/';?>";
 var book = "<?php print $book;?>";
 </script>
-<script language="JavaScript" type="text/javascript" src="js/printing.js?version=101"></script>
-<script language="JavaScript" type="text/javascript" src="js/bookfunctions.js?version=112"></script> 
-<script language="JavaScript" type="text/javascript" src="js/register.js"></script>
+<script language="JavaScript" type="text/javascript" src="js/book.js?version=1013"></script> 
 <script language="JavaScript" type="text/javascript" src="js/qtip.js"></script>
 <script language="JavaScript" type="text/javascript" src="lib/jscalendar/calendar.js"></script>
 <script language="JavaScript" type="text/javascript" src="lib/jscalendar/lang/calendar-<?php  print_string('shortlocale');?>.js"></script>

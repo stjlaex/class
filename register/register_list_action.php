@@ -12,7 +12,12 @@ include('scripts/sub_action.php');
 
 if($sub=='Previous'){
 	if($community['type']=='class'){
-		$startday=$startday-1;
+		$event=array('id'=>0);
+		while($event['id']==0 and $startday>-20){
+			$startday=$startday-1;
+			$startdate=date('Y-m-d',mktime(0,0,0,date('m'),date('d')+$startday,date('Y')));
+			$event=(array)get_event($startdate,'AM');
+			}
 		}
 	else{
 		$startday=$startday-7;
@@ -20,7 +25,12 @@ if($sub=='Previous'){
 	}
 elseif($sub=='Next'){
 	if($community['type']=='class'){
-		$startday=$startday+1;
+		$event=array('id'=>0);
+		while($event['id']==0 and $startday<20){
+			$startday=$startday+1;
+			$startdate=date('Y-m-d',mktime(0,0,0,date('m'),date('d')+$startday,date('Y')));
+			$event=(array)get_event($startdate,'AM');
+			}
 		}
 	else{
 		$startday=$startday+7;

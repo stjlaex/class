@@ -441,7 +441,6 @@ function get_event($date='',$session='',$period='0'){
 	else{
 		$eveid=mysql_result($d_event,0);
 		}
-	//trigger_error($eveid. ' '.$period,E_USER_WARNING);
 
 	$event=array('id'=>$eveid,'date'=>$date,'session'=>$session,'period'=>$period);
 	return $event;

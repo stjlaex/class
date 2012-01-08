@@ -49,10 +49,10 @@ else{
 <title>Attendance Editor</title>
 <meta http-equiv="content-type" content="application/xhtml+xml; charset=utf-8" />
 <meta http-equiv="Content-Script-Type" content="text/JavaScript" />
-<meta name="copyright" content="Copyright 2002-2010 S T Johnson.  All trademarks acknowledged. All rights reserved" />
+<meta name="copyright" content="Copyright 2002-2012 S T Johnson.  All trademarks acknowledged. All rights reserved" />
 <meta name="version" content='<?php print "$CFG->version"; ?>' />
 <meta name="licence" content="GNU Affero General Public License version 3" />
-<script language="JavaScript" type="text/javascript" src="../../js/bookfunctions.js"></script>
+<script language="JavaScript" type="text/javascript" src="../../js/book.js?version=1013"></script>
 </head>
 <body onload="closeAttendanceHelper(<?php print '\''.$sid.'\',\''.$date.'\',\''.$openerId.'\'';?>);">
 	<div id="bookbox">

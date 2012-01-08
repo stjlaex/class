@@ -65,12 +65,12 @@ elseif($sub=='Submit'){
 <title>ClaSS Comment Writer</title>
 <meta http-equiv="content-type" content="application/xhtml+xml; charset=utf-8" />
 <meta http-equiv="Content-Script-Type" content="text/JavaScript" />
-<meta name="copyright" content="Copyright 2002-2006 S T Johnson.  All trademarks acknowledged. All rights reserved" />
+<meta name="copyright" content="Copyright 2002-2012 S T Johnson.  All trademarks acknowledged. All rights reserved" />
 <meta name="version" content='<?php print "$CFG->version"; ?>' />
-<meta name="licence" content="GNU General Public License version 2" />
+<meta name="licence" content="Affero General Public License version 3" />
 <link id="viewstyle" rel="stylesheet" type="text/css" href="../../css/bookstyle.css" />
 <link id="viewstyle" rel="stylesheet" type="text/css" href="../../css/commentwriter.css" />
-<script language="JavaScript" type="text/javascript" src="../../js/bookfunctions.js"></script>
+<script language="JavaScript" type="text/javascript" src="../../js/boo.js?version=1013"></script>
 </head>
 <body onload="closeHelperWindow(<?php print '\''.$openerId.'\'';?>);">
 	<div id="bookbox">

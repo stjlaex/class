@@ -284,10 +284,10 @@ function tinyTabs(tabObject){
 	}
 
 
-//-------------------------------------------------------
-// adds the images and attributes to required input fields
-// inits the js-calendar elements and the tooltip titles
-
+/**
+ * adds the images and attributes to required input fields
+ * inits the js-calendar elements and the tooltip titles
+ */
 function loadRequired(book){
 	var firstFocus;
 	var formObject;

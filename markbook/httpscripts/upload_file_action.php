@@ -57,29 +57,21 @@ elseif($sub=='Submit' and isset($_FILES['importfile']) and $_FILES['importfile']
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-<title>ClaSS Comment Writer</title>
+<title>ClaSS File Uploader</title>
 <meta http-equiv="content-type" content="application/xhtml+xml; charset=utf-8" />
 <meta http-equiv="Content-Script-Type" content="text/JavaScript" />
-<meta name="copyright" content="Copyright 2002-2009 S T Johnson.  All trademarks acknowledged. All rights reserved" />
+<meta name="copyright" content="Copyright 2002-2012 S T Johnson.  All trademarks acknowledged. All rights reserved" />
 <meta name="version" content='<?php print "$CFG->version"; ?>' />
-<meta name="licence" content="GNU General Public License version 2" />
+<meta name="licence" content="GNU Affero General Public License version 3" />
 <link id="viewstyle" rel="stylesheet" type="text/css" href="../../css/bookstyle.css" />
-<script language="JavaScript" type="text/javascript" src="../../js/bookfunctions.js"></script>
+<script language="JavaScript" type="text/javascript" src="../../js/book.js?version=1013"></script>
 </head>
 <body onload="closeHelperWindow(<?php print '\''.$openerId.'\',\''.$entryn.'\',\'\'';?>);">
 	<div id="bookbox">
-
 	  <div id="heading">
-			  <label><?php print_string('student'); ?></label>
-			<?php print $Student['DisplayFullName']['value'];?>
 	  </div>
-
 	  <div id="viewcontent" class="content">
-<?php
-	  //	  include('../../scripts/results.php');
-?>
 	  </div>
-
 	</div>
 </body>
 </html>
