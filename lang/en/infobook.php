@@ -227,4 +227,5 @@ $string['access']='Access';
 $string['bankcode']='Bank code';
 $string['branch']='Branch';
 $string['control']='Control';
+$string['personaltutor']='Tutor';
 ?>

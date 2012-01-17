@@ -193,4 +193,5 @@ $string['emailsentto']='EMAIL en cola de salida';
 $string['smssentto']='SMS en cola de salida';
 $string['custom']='Cliente';
 $string['selectfromthegroups']='Seleccionar algunos grupos abajo';
+$string['personaltutor']='Tutor / Tutora';
 ?>

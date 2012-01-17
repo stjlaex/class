@@ -651,7 +651,7 @@ function fetchRegGroup($student){
 		}
 	else{$regtype='form';}
 
-	if($regtype=='form'){
+	if($regtype=='form' or $regtype=='year'){
 		$reggroup=$student['form_id'];
 		}
 	elseif($regtype=='house'){

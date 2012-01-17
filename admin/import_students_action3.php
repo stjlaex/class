@@ -346,12 +346,12 @@ elseif($sub=='Submit'){
 				/* Input to address table: check some meaningful fields are completed. */ 
 				$ok=0;
 				if(isset(${$gname.'a'})){
-					if(${$gaddress}['postcode']!=-1 and $student[${$gaddress}['street']]!=''){
+					if($student[${$gaddress}['postcode']]!=-1 and $student[${$gaddress}['street']]!=''){
 						$postcode=$student[${$gaddress}['postcode']]; 
 						$ok++;
 						}
 					else{$postcode=''; }
-					if(${$gaddress}['street']!=-1 and $student[${$gaddress}['street']]!=''){
+					if($student[${$gaddress}['street']]!=-1 and $student[${$gaddress}['street']]!=''){
 						$street=$student[${$gaddress}['street']];
 						$ok++;
 						}

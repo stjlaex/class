@@ -86,7 +86,6 @@ two_buttonmenu($extrabuttons,$book);
 		$sid=$student['id'];
 		$sids[]=$sid;
 		$Student=fetchStudent_short($sid);
-		$fid=$Student['RegistrationGroup']['value'];
 ?>
 		<tr>
 		  <td>
@@ -96,15 +95,14 @@ two_buttonmenu($extrabuttons,$book);
 			&nbsp;
 		  </td>
 		  <td>
-			<a href="register.php?current=register_list.php&newfid=<?php
-			  print $fid;?>"  target="viewregister"
-			  onclick="parent.viewBook('register');"> 
+			<a href="infobook.php?current=student_view.php&sid=<?php print $sid;?>&sids[]=<?php print $sid;?>"  target="viewinfobook"
+			  onclick="parent.viewBook('infobook');"> 
 			  <?php print $Student['DisplayFullSurname']['value']; ?>
 			  (<?php print $Student['RegistrationGroup']['value']; ?>)
 			</a>
 		  </td>
 		  <td>
-			<?php print $fid; ?>
+			<?php print $Student['RegistrationGroup']['value']; ?>
 		  </td>
 <?php
 		$Attendance=fetchAttendanceSummary($sid,$startdate,$enddate);
@@ -112,24 +110,22 @@ two_buttonmenu($extrabuttons,$book);
 		$nolate=$Attendance['Summary']['Lateunauthorised']['value'] + $Attendance['Summary']['Latetoregister']['value'];
 		$noabsent_authorised=$Attendance['Summary']['Absentauthorised']['value'];
 		$noabsent_unauthorised=$Attendance['Summary']['Absentunauthorised']['value'];
-		if($noattended>0){
-			$noabsent=$noabsent_authorised+$noabsent_unauthorised;
-			$nosession=$noattended+$noabsent;
-			$average=round(($noattended / $nosession)*100);
-			if($average<80){$cssclass=' class="hilite"';}
-			elseif($average<90){$cssclass=' class="midlite"';}
-			elseif($average>99){$cssclass=' class="gomidlite"';}
-			else{$cssclass='';}
-			print '<td '.$cssclass.'>'.$average.'% &nbsp;('.$noattended.')</td>';
-			print '<td>'.$noabsent_authorised.'</td>';
-			if(($noabsent_unauthorised/$nosession)>0.05){$cssclass=' class="midlite"';}
-			else{$cssclass='';}
-			print '<td '.$cssclass.'>'.$noabsent_unauthorised.'</td>';
-			if(($nolate/$nosession)>0.16){$cssclass=' class="hilite"';}
-			elseif(($nolate/$nosession)>0.08){$cssclass=' class="midlite"';}
-			else{$cssclass='';}
-			print '<td '.$cssclass.'>'.$nolate.'</td>';
-			}
+		$noabsent=$noabsent_authorised+$noabsent_unauthorised;
+		$nosession=$noattended+$noabsent;
+		$average=round(($noattended / $nosession)*100);
+		if($average<80){$cssclass=' class="hilite"';}
+		elseif($average<90){$cssclass=' class="midlite"';}
+		elseif($average>99){$cssclass=' class="gomidlite"';}
+		else{$cssclass='';}
+		print '<td '.$cssclass.'>'.$average.'% &nbsp;('.$noattended.')</td>';
+		print '<td>'.$noabsent_authorised.'</td>';
+		if(($noabsent_unauthorised/$nosession)>0.05){$cssclass=' class="midlite"';}
+		else{$cssclass='';}
+		print '<td '.$cssclass.'>'.$noabsent_unauthorised.'</td>';
+		if(($nolate/$nosession)>0.16){$cssclass=' class="hilite"';}
+		elseif(($nolate/$nosession)>0.08){$cssclass=' class="midlite"';}
+		else{$cssclass='';}
+		print '<td '.$cssclass.'>'.$nolate.'</td>';
 ?>
 		</tr>
 <?php	

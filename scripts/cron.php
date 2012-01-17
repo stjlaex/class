@@ -43,7 +43,7 @@ $fullpath=$CFG->installpath.'/'.$CFG->applicationdirectory;
 
 if(!isset($ARGS['option'])){
 
-	if(isset($CFG->emailsys) and $CFG->emailsys=='pearmail'){
+	if($CFG->emailoff!='yes'){
 		/* Run the mail queue */
 		$cmd='/usr/bin/php '.$fullpath.'/infobook/httpscripts/message_event_cron.php --path='.$CFG->installpath;
 		exec("$cmd > /dev/null &");
