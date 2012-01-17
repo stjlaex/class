@@ -28,7 +28,7 @@ if($sub=='Submit' and $supid>0){
 		}
 	else{
 		mysql_query("UPDATE orderorder SET supplier_id='$supid' WHERE id='$ordid';");
-		mysql_query("DELETE FROM ordermaterial WHERE order_id='$ordid';");	
+		mysql_query("DELETE FROM ordermaterial WHERE order_id='$ordid';");
 		}
 
 	foreach($Order as $val){
@@ -89,6 +89,9 @@ if($sub=='Submit' and $supid>0){
 		}
 	}
 elseif($supid>0){
+	if($ordid>0){
+		mysql_query("UPDATE orderorder SET supplier_id='$supid' WHERE id='$ordid';");
+		}
 	$action='new_order.php';
 	}
 

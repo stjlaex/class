@@ -61,11 +61,16 @@ if($balance<(0.05*$Budget['Limit']['value']) or $balance<20){
 <?php
 
 /**
-* TODO: locked to be set always or as an option per budget?
-*/
+ * TODO: locked to be set always or as an option per budget?
+ */
 
-	//$locked=true;
+	$locked=true;
 	}
+else{
+	$locked=false;
+	}
+
+
 
 if($locked and $perms['x']!=1){
 	}
@@ -113,7 +118,7 @@ else{
 <?php
 		/* List all catalogue items for this supplier. */
 		$d_sup=mysql_query("SELECT id, detail AS name FROM ordercatalogue 
-					WHERE supplier_id='$supid' ORDER BY subject_id, detail;");
+								WHERE supplier_id='$supid' ORDER BY subject_id, detail;");
 		if(mysql_num_rows($d_sup)>0){
 ?>
 	  <div class="right">
@@ -170,10 +175,11 @@ else{
 <?php 
 			//$tab=xmlelement_input($Material['Type'],$matn,$tab,$book);
 			$listlabel='';
-			$listid='materialtype'.$matn; $listname='materialtype'.$matn; 
+			$listid='materialtype'.$matn; 
+			$listname='materialtype'.$matn; 
 			${'sel'.$listname}=$Material['Type']['value_db']; $cattype='mat';
 			include('scripts/list_category.php');
-			unset(${'sel'.$listname});
+			//unset(${'sel'.$listname});
 			if($Material['catalogue_id_db']>0){$selcatid=$Material['catalogue_id_db'];}
 			else{$selcatid=$catid;}
 ?>

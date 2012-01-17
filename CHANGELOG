@@ -1,4 +1,4 @@
-Version ClaSS-1.0.13 release (2012/01/16)
+Version ClaSS-1.0.13 release (2012/01/20)
 -------------------------------------------
 
 Re-organised the js scripts as host, book and editor.
@@ -8,6 +8,8 @@ Fix to a type in the import student scripts which affected addresses.
 Fix to listing siblins on student_view page.
 
 Edited language strings.
+
+Fix to editing an order's supplier.
 
 
 Version ClaSS-1.0.12 release (2012/01/07)

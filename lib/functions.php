@@ -1381,7 +1381,7 @@ function array_filter_fields($startarray,$fields){
  * Send an email (with attachments)
  *
  * Originally from moodlelib and altered for ClaSS. Now works only
- * with PEAR Mail. Set $CFG -> emailsys to 'pearmail'.
+ * with PEAR Mail.
  *
  * @uses $CFG
  * @param recipient 
@@ -1406,9 +1406,6 @@ function send_email_to($recipient, $from, $subject, $messagetext, $messagehtml='
 		return false;
 		}
 	if($CFG->emailoff=='yes'){
-		return 'emailstop';
-		}
-	if(!isset($CFG->emailsys) or $CFG->emailsys!='pearmail'){
 		tigger_error('Not configured for email: message not sent.',E_USER_WARNING);
 		return 'emailstop';
 		}
