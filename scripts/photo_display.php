@@ -30,11 +30,12 @@ else{
 
 if($photo_path!='' and $mimetype){
 	header('Content-type: ' . $mimetype);
+	/* TODO: implement some sensible caching? Currently type is not used. */
 	if($type=='profileiconbyid'){
 		$maxage = 604800; // 1 week
 		}
 	else{
-		$maxage = 1200; // 20 minutes
+		$maxage = 86400; //  1 day
 		}
 	header('Expires: '. gmdate('D, d M Y H:i:s', time() + $maxage) .' GMT');
 	header('Cache-Control: max-age=' . $maxage);

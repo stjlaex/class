@@ -11,6 +11,9 @@ Edited language strings.
 
 Fix to editing an order's supplier.
 
+Fix to the setting of yid in the register which failed when regtypes=year.
+
+
 
 Version ClaSS-1.0.12 release (2012/01/07)
 -------------------------------------------

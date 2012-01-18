@@ -70,7 +70,7 @@ function get_photo($epfu,$enrolno,$base_tree_node=null){
 		if(file_exists($cached_photo)){$photo=$cached_photo;}
 		}
 
-	/* Last try and fetch photo from the LDAP */
+	/* Try and fetch the photo from epfdata repository */
 	if(!isset($photo)){
 		$stored_photo=$CFG->eportfolio_dataroot.'/icons/' . substr($epfu,0,1) . '/' . $epfu.'/'.$epfu.'.jpeg';
 		if(file_exists($stored_photo)){$photo=$stored_photo;}
@@ -78,7 +78,7 @@ function get_photo($epfu,$enrolno,$base_tree_node=null){
 
 
 	/* Last try and fetch photo from the LDAP */
-	if(!isset($photo)){
+	if(!isset($photo) and !empty($CFG->ldapserver)){
 		$ldap_host=$CFG->ldapserver;
 		$ldap_rdn ='cn='.$CFG->ldapuser.',dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
 		$ldap_pass=$CFG->ldappasswd;

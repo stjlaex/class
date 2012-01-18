@@ -28,7 +28,10 @@ if($nodays==''){$nodays=8;}
   elseif($newcomid!=''){
 	  //TODO: no relation between sections and other community groups
 	  $community=(array)get_community($newcomid);
-	  if($yid==''){$yid=array_pop(array_keys($community['groups']));}
+	  /* The yid should always be set to match the community here. */
+	  if($community['type']=='year'){$yid=$community['name'];}
+	  else{$yid=array_pop(array_keys($community['groups']));}
+	  //if($yid==''){$yid=array_pop(array_keys($community['groups']));}
 	  $section=get_section($yid);
 	  $secid=$section['id'];
 	  $newcid='';
@@ -64,11 +67,12 @@ if($nodays==''){$nodays=8;}
 			  }
 		  }
 	  if(!isset($community) and sizeof($pastorals['years'])>0 and array_search('year',$CFG->regtypes)!==false){
-		  foreach($pastorals['years'] as $yid){
-			  $section=get_section($yid);
+		  foreach($pastorals['years'] as $yeargroup_id){
+			  $section=get_section($yeargroup_id);
 			  if((array_key_exists($section['id'],$CFG->regtypes) and $CFG->regtypes[$section['id']]=='year') or (!array_key_exists($section['id'],$CFG->regtypes) and $CFG->regtypes[1]=='year')){
-				  $community=array('id'=>'','type'=>'year','name'=>$yid);
+				  $community=array('id'=>'','type'=>'year','name'=>$yeargroup_id);
 				  $secid=$section['id'];
+				  $yid=$yeargroup_id;
 				  }
 			  }
 		  }

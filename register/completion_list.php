@@ -84,6 +84,11 @@ two_buttonmenu($extrabuttons);
 		</tr>
 <?php
 
+	$totalnop=0;
+	$totalnoa=0;
+	$totalnol=0;
+	$totalnosids=0;
+
 	foreach($registration_coms as $com){
 		list($nosids,$nop,$noa,$nol)=check_community_attendance($com,$currentevent);
 		if($nosids>0){
