@@ -58,17 +58,23 @@ $inmust='yes';
 
 	  <div class="right">
 <?php 
-		$listlabel='activity'; $listname='activity'; $listid='activity'; 
+		/* Offer a choice of activities or hide if only one. */
 		list($ratingnames,$catdefs)=fetch_categorydefs('mer');
-		$required='yes';
-		include('../../scripts/set_list_vars.php');
-		list_select_list($catdefs,$listoptions,$book);
+		if(sizeof($catdefs)>1){
+			$required='yes';
+			$listlabel='activity'; $listname='activity'; $listid='activity'; 
+			include('../../scripts/set_list_vars.php');
+			list_select_list($catdefs,$listoptions,$book);
+			}
+		else{
+			print '<input type="hidden" name="activity" value="'.array_pop(array_keys($catdefs)).'"/>';
+			}
 ?>
 	  </div>
 
 	  <div class="right">
 <?php 
-		$listlabel='points'; $required='yes'; $listname='points';
+		$listlabel='points'; $required='yes'; $listname='points';$listid='points';
 		$ratings=$ratingnames['meritpoints']; asort($ratings);
 		include('../../scripts/set_list_vars.php');
 		list_select_list($ratings,$listoptions,$book);

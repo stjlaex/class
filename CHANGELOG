@@ -22,6 +22,7 @@ Added late to register totals on the Register completion page.
 
 Bus departue time editable in transport_route.
 
+Hide choice of acitivies for merits if only one exists.
 
 
 Version ClaSS-1.0.12 release (2012/01/07)
