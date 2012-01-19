@@ -1079,10 +1079,22 @@ function generate_epfusername($User=array(),$role='student'){
 	$nums='';
 	$code='';
 	if($role=='student'){
-		/* Only use the first part of the forename. */
-		$forename=(array)explode(' ',$User['Forename']['value']);
+		/* Only use the first part of the forename. 
+		 * Use preferred forename if it is set (often best for Chinese students). 
+		 */
+		if(!empty($User['PreferredForename']['value']) and strlen($User['PreferredForename']['value'])>2){
+			$forename=$User['PreferredForename']['value'];
+			}
+		else{
+			$forename=$User['Forename']['value'];
+			}
+		$forename=(array)explode(' ',$forename);
 		$start=iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $forename[0]);
 		$start=utf8_to_ascii($start);
+		$start=str_replace(' ','',$start);
+		$start=str_replace("'",'',$start);
+		$start=str_replace('-','',$start);
+		$start=str_replace('?','',$start);
 		$classtable='info';
 		$classfield='student_id';
 		while(count($nums)<9){$nums[rand(1,9)]=null;}

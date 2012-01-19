@@ -81,27 +81,30 @@ two_buttonmenu($extrabuttons);
 		  <th><?php print_string('inschool',$book);?></th>
 		  <th><?php print_string('absent',$book);?></th>
 		  <th><?php print_string('late',$book);?></th>
+		  <th><?php print_string('latebeforeregisterclosed',$book);?></th>
 		</tr>
 <?php
 
 	$totalnop=0;
 	$totalnoa=0;
 	$totalnol=0;
+	$totalnopl=0;
 	$totalnosids=0;
 
 	foreach($registration_coms as $com){
-		list($nosids,$nop,$noa,$nol)=check_community_attendance($com,$currentevent);
+		list($nosids,$nop,$noa,$nol,$nopl)=check_community_attendance($com,$currentevent);
 		if($nosids>0){
 			$getparam='newcomid='.$com['id'];
 			$getparam.='&newcid=';
 			if(isset($com['yeargroup_id'])){$getparam.='&yid='.$com['yeargroup_id'];}
 			if(($nop+$noa+$nol)==$nosids and $nosids!=0){$status='complete';$cssclass='';}
 			else{$status='incomplete';$cssclass='vspecial';}
-			/*The number present in school is nop + nol */
+			/*The number present in school is nop (present) + nol (late after register)*/
 			$nop+=$nol;
 			$totalnop+=$nop;
 			$totalnoa+=$noa;
 			$totalnol+=$nol;
+			$totalnopl+=$nopl;
 			$totalnosids+=$nosids;
 
 			/* Called sids for convenience of js but the checkbox is really comids */
@@ -126,6 +129,9 @@ two_buttonmenu($extrabuttons);
 		  <td>
 			<?php print $nol;?>
 		  </td>
+		  <td>
+			<?php print $nopl;?>
+		  </td>
 		</tr>
 <?php
 			}
@@ -148,6 +154,9 @@ two_buttonmenu($extrabuttons);
 		  </td>
 		  <td>
 			<?php print $totalnol;?>
+		  </td>
+		  <td>
+			<?php print $totalnopl;?>
 		  </td>
 		</tr>
 		</table>

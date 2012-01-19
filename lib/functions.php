@@ -1000,6 +1000,11 @@ function getEnumArray($field_name){
 						'Z'=>'pupilnotonrole',
 						'#'=>'schoolclosedtopupils'
 						);
+	/*for the register*/
+	$latecode=array(
+					'0' => '',
+					'1' => 'latebeforeregisterclosed'
+					);
 
 	/**
 	 * ISO 3166-1 alpha-2 codes are two-letter country codes in the ISO

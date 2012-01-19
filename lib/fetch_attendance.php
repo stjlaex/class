@@ -502,8 +502,18 @@ function check_community_attendance($community,$event){
 				comidsid.leavingdate='0000-00-00' OR comidsid.leavingdate IS NULL) 
 				AND (comidsid.joiningdate<='$startdate' OR comidsid.joiningdate='0000-00-00' OR comidsid.joiningdate IS NULL));");
 			$nop=mysql_result($d_att,0);
+
+			/* Number present but late to register*/
+			$d_att=mysql_query("SELECT COUNT(attendance.student_id) FROM attendance 
+							 WHERE attendance.event_id='$eveid' AND attendance.status='p' AND attendance.late!='0' AND attendance.student_id=ANY(
+				SELECT comidsid.student_id FROM comidsid JOIN student ON student.id=comidsid.student_id
+				 WHERE comidsid.community_id='$comid' AND student.yeargroup_id LIKE '$yid' AND (comidsid.leavingdate>'$enddate' OR 
+				comidsid.leavingdate='0000-00-00' OR comidsid.leavingdate IS NULL) 
+				AND (comidsid.joiningdate<='$startdate' OR comidsid.joiningdate='0000-00-00' OR comidsid.joiningdate IS NULL));");
+			$nopl=mysql_result($d_att,0);
 			}
 		else{
+			/* Number absent */
 			$d_att=mysql_query("SELECT COUNT(attendance.student_id) FROM attendance JOIN comidsid
 							 ON comidsid.student_id=attendance.student_id 
 							 WHERE comidsid.community_id='$comid'  
@@ -512,6 +522,7 @@ function check_community_attendance($community,$event){
 							 AND attendance.event_id='$eveid' AND attendance.status='a' AND attendance.code NOT IN ('U','L','UB','UA');");
 			$noa=mysql_result($d_att,0);
 
+			/* Number late after register closed */
 			$d_att=mysql_query("SELECT COUNT(attendance.student_id) FROM attendance JOIN comidsid
 							 ON comidsid.student_id=attendance.student_id 
 							 WHERE comidsid.community_id='$comid'  
@@ -520,6 +531,7 @@ function check_community_attendance($community,$event){
 							 AND attendance.event_id='$eveid' AND attendance.status='a' AND attendance.code IN ('U','L','UB','UA');");
 			$nol=mysql_result($d_att,0);
 
+			/* Number present */
 			$d_att=mysql_query("SELECT COUNT(attendance.student_id) FROM attendance JOIN comidsid
 							 ON comidsid.student_id=attendance.student_id 
 							 WHERE comidsid.community_id='$comid' 
@@ -527,10 +539,19 @@ function check_community_attendance($community,$event){
 							 AND (comidsid.joiningdate<='$startdate' OR comidsid.joiningdate='0000-00-00' OR comidsid.joiningdate IS NULL)
 							 AND attendance.event_id='$eveid' AND attendance.status='p'");
 			$nop=mysql_result($d_att,0);
+
+			/* Number present but late to register*/
+			$d_attendance=mysql_query("SELECT COUNT(attendance.status) FROM attendance JOIN comidsid
+							 ON comidsid.student_id=attendance.student_id 
+							 WHERE comidsid.community_id='$comid' 
+							 AND (comidsid.leavingdate>'$enddate' OR comidsid.leavingdate='0000-00-00' OR comidsid.leavingdate IS NULL) 
+							 AND (comidsid.joiningdate<='$startdate' OR comidsid.joiningdate='0000-00-00' OR comidsid.joiningdate IS NULL)
+							 AND attendance.status='p'  AND attendance.late!='0' AND attendance.event_id='$eveid';");
+			$nopl=mysql_result($d_att,0);
 			}
 		}
 
-	$results=array($nosids,$nop,$noa,$nol);
+	$results=array($nosids,$nop,$noa,$nol,$nopl);
 	return $results;
 	}
 
@@ -725,7 +746,7 @@ function count_late($sid,$startdate,$enddate,$session='%'){
 	$code='';
 	$d_attendance=mysql_query("SELECT COUNT(attendance.status) FROM attendance JOIN
 			event ON event.id=attendance.event_id WHERE
-			attendance.student_id='$sid' AND attendance.status='$status'  AND attendance.late='1' 
+			attendance.student_id='$sid' AND attendance.status='$status'  AND attendance.late!='0' 
 			AND event.date >= '$startdate' AND event.date <= '$enddate' AND event.period='0' AND event.session LIKE '$session';");
 	$noatts=mysql_result($d_attendance,0);
 

@@ -28,10 +28,9 @@ if($nodays==''){$nodays=8;}
   elseif($newcomid!=''){
 	  //TODO: no relation between sections and other community groups
 	  $community=(array)get_community($newcomid);
-	  /* The yid should always be set to match the community here. */
+	  /* The yid should always be set, but how depends on to the community type. TODO: simplfy! */
 	  if($community['type']=='year'){$yid=$community['name'];}
-	  else{$yid=array_pop(array_keys($community['groups']));}
-	  //if($yid==''){$yid=array_pop(array_keys($community['groups']));}
+	  elseif($yid==''){$yid=array_pop(array_keys($community['groups']));}
 	  $section=get_section($yid);
 	  $secid=$section['id'];
 	  $newcid='';

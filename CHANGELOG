@@ -13,6 +13,14 @@ Fix to editing an order's supplier.
 
 Fix to the setting of yid in the register which failed when regtypes=year.
 
+Use preferred forename for student epfusernames if set.
+
+Removed redundat externalbook call from student_view page (cause of
+logging out problem).
+
+Added late to register totals on the Register completion page.
+
+
 
 
 Version ClaSS-1.0.12 release (2012/01/07)
