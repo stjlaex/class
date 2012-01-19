@@ -23,6 +23,15 @@ if($sub=='Submit' and $busname!=''){
 		$bus=(array)get_bus('',$busname,$direction,'%');
 		$stops=(array)list_bus_stops($bus['id']);
 
+		/* Starting departure time for bus. */
+		if(isset($_POST['deptime'.$direction])){$deptime=checkEntry($_POST['deptime'.$direction],'time');}
+		else{$deptime='';}
+		if(!empty($deptime)){
+			$busid=$bus['id'];
+			mysql_query("UPDATE transport_bus SET departuretime='$deptime' WHERE id='$busid';");
+			}
+
+		/* Blank the route and then re-enter from scratch. */
 		$rtid=$bus['route_id'];
 		mysql_query("DELETE FROM transport_rtidstid WHERE route_id='$rtid';");	
 

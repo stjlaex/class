@@ -45,9 +45,12 @@ three_buttonmenu($extrabuttons,$book);
 		<caption><?php print $title;?></caption>
 		<thead>
 		  <tr>
-			<th colspan="2" style="width:80%;">&nbsp;</th>
+			<th colspan="2" style="width:80%;">
+			<label for="time"><?php print get_string('departuretime',$book);?>
+			<input id="time<?php print $direction;?>" maxlength="8" type="time" tabindex="'.$tab++.'" name="deptime<?php print $direction;?>" value="<?php print $bus['departuretime'];?>" />
+			</th>
 			<th><?php print get_string('traveltime',$book);?></th>
-			<th><?php print get_string('departuretime',$book);?></th>
+			<th>&nbsp;</th>
 		  </tr>
 		</thead>
 
@@ -75,7 +78,7 @@ three_buttonmenu($extrabuttons,$book);
 				}
 			print '</select>';
 			print '</td>';
-			print '<td><input maxlength="40" type="text" tabindex="'.$tab++.'" name="names[]" value="'.$stop['name'].'" style="width:30em;" /></td>';
+			print '<td style="width:70%;"><input maxlength="60" type="text" tabindex="'.$tab++.'" name="names[]" value="'.$stop['name'].'"  /></td>';
 			print '<td><input pattern="decimal" maxlength="2" type="text" tabindex="'.$tab++.'" name="times[]" value="'.$stop['traveltime'].'" /></td>';
 			print '<td>'.date('H:i',$time).'</td>';
 			print '</tr>';

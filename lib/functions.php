@@ -224,9 +224,11 @@ function checkEntry($value, $format='', $field_name=''){
 		$value=checkEnum($value, $field_name);
 		}
 	elseif($field_type[0]=='time'){
-		$time=explode(':',$value);
-		/*should be validating but no!!!*/
-		//$value=$date[2].'-'.$date[1].'-'.$date[0];
+		if(preg_match("/^(([0-1]?[0-9])|([2][0-3])):([0-5]?[0-9])(:([0-5]?[0-9]))?$/",$value)){
+				}
+			else{
+				$value='';
+				}
 		}
 	return $value;
 	}
