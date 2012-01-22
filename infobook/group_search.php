@@ -61,7 +61,7 @@ three_buttonmenu($extrabuttons,$book);
 		</tr>
 <?php
 	$yeargroups=list_yeargroups();
-	while(list($index,$year)=each($yeargroups)){
+	foreach($yeargroups as $year){
 		print '<tr><td><input type="checkbox" name="yids[]" value="'.$year['id'].'">'.$year['name'].'</input></td></tr>';
 		}
 ?>
@@ -71,14 +71,27 @@ three_buttonmenu($extrabuttons,$book);
 	  <div class="left">
 	  <table class="listmenu">
 		<tr>
-		  <th><?php print_string('applications',$book);?></th>
+		  <th colspan="2"><?php print_string('applications',$book);?></th>
 		</tr>
 <?php
 	$application_steps=array('EN','AP','AT','RE','CA','WL','ACP','AC');
 	foreach($application_steps as $enrolstatus){
-		print '<tr><td><input type="checkbox" name="enrolstatuses[]" value="'.$enrolstatus.'">'.get_string(displayEnum($enrolstatus,'enrolstatus'),$book).'</input></td></tr>';
+		print '<tr><td colspan="2"><input type="checkbox" name="enrolstatuses[]" value="'.$enrolstatus.'">'.get_string(displayEnum($enrolstatus,'enrolstatus'),$book).'</input></td></tr>';
 		}
 ?>
+		<tr>
+		  <th colspan="2"><?php print_string('year',$book);?></th>
+		</tr>
+		<tr>
+<?php
+		$currentyear=get_curriculumyear();
+		$nextyear=$currentyear+1;
+		print '<td><input type="radio" name="enrolyear" value="'.$currentyear.'">'.display_curriculumyear($currentyear).'</input></td>';
+		print '<td><input type="radio" name="enrolyear" checked="yes" value="'.$nextyear.'">'.display_curriculumyear($nextyear).'</input></td>';
+
+?>
+		</tr>
+
 	  </table>
 	</div>
 

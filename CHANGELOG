@@ -26,6 +26,8 @@ Hide choice of acitivies for merits if only one exists.
 
 Re-orgnaised logging out so that closing of a seesion is a function.
 
+Option added to custom group search for current or next enrolment
+year.
 
 
 Version ClaSS-1.0.12 release (2012/01/07)

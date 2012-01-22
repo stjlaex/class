@@ -13,7 +13,7 @@ if(isset($_POST['limit']) and $_POST['limit']!='uncheck'){$limit=$_POST['limit']
 
 $listtypes=array();
 if(isset($enrolstatuses)){
-	$enrolyear=get_curriculumyear()+1;
+	$enrolyear=$_POST['enrolyear'];
 	foreach($enrolstatuses as $enrolstatus){
 		if($enrolstatus=='EN'){$listtypes[]='enquired';}
 		elseif($enrolstatus=='AC'){$listtypes[]='accepted';}
@@ -125,7 +125,7 @@ if(isset($enroldate)){
 else{
 	foreach($yids as $yid){
 		foreach($listtypes as $index => $listtype){
-			//trigger_error($yid.' : '.$enrolstatuses[$index],E_USER_WARNING);
+			//trigger_error($enrolyear.' : '.$yid.' : '.$enrolstatuses[$index],E_USER_WARNING);
 			if($listtype!='year'){
 				$com=array('id'=>'','type'=>$listtype, 
 						   'name'=>$enrolstatuses[$index].':'.$yid,'year'=>$enrolyear);
