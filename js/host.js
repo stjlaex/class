@@ -132,8 +132,8 @@ function selerySwitch(servantclass,fieldvalue,bookname){
 //  only called when index is loaded or the LogIn button is hit
 //  displays the cover or login page respectively
 function loadLogin(page){
-	window.frames["viewlogbook"].location.href="logbook/exit.php";
-	//setTimeout(window.frames["viewlogbook"].location.href=page,100);
+	//window.frames["viewlogbook"].location.href="logbook/exit.php";
+	//setTimeout(window.frames["viewlogbook"].location.href=page,200);
 	window.frames["viewlogbook"].location.href=page;
 	document.getElementById("viewlogbook").style.zIndex="100";
 	document.getElementById("viewlogbook").focus();

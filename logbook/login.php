@@ -1,6 +1,9 @@
 <?php
 	require_once('../school.php');
 	require_once('classdata.php');
+	require_once('session.php');
+	start_class_phpsession();
+	kill_class_phpsession();
 ?>
 <?php print '<?xml version="1.0" encoding="utf-8"?'.'>'; ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">

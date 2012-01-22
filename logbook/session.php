@@ -30,4 +30,20 @@ function start_class_phpsession(){
 	session_set_cookie_params(0, $path, $domain, $secure, true);
 	session_start();
 	}
+/**
+ *
+ * Close the PHP session and cookies.
+ *
+ */
+function kill_class_phpsession(){
+	global $CFG;
+	$sessionname='ClaSS'.$CFG->shortname;
+	$path=$CFG->sitepath;
+	$past=time()-7200;
+	foreach($_COOKIE as $key=>$value){
+		setcookie($key, $value, $past,$path);
+		}
+	session_unset();
+	session_destroy();
+	}
 ?>
