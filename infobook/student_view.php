@@ -222,7 +222,7 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 		  <ul>
 <?php
 		$n=0;
-		while(list($contactno,$Contact)=each($Contacts)){
+		foreach($Contacts as $contactno => $Contact){
 			if($Contact['id_db']!=' '){
 				$gid=$Contact['id_db'];
 				$relation=displayEnum($Contact['Relationship']['value'],'relationship');
@@ -233,7 +233,7 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 					foreach($Dependents as $depindex=>$Dependent){
 						$r=$Dependent['Relationship']['value'];
 						/* Check relationship to only list true siblings. */
-						if($Dependent['id_db']!=$sid and ($r=='PAF' or $r=='PAM' or $r=='STP')){$Siblings[$Depedent['id_db']]=$Dependent['Student'];}
+						if($Dependent['id_db']!=$sid and ($r=='PAF' or $r=='PAM' or $r=='STP')){$Siblings[$Dependent['id_db']]=$Dependent['Student'];}
 						}
 					}
 ?>

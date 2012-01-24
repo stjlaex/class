@@ -464,7 +464,7 @@ function check_community_attendance($community,$event){
 
 
 	/* If no register yet taken for current session then $eveid=0 so set sensible defaults*/
-	$nop=0;$noa=0;$nol=0;
+	$nop=0;$noa=0;$nol=0;$nopl=0;
 
 	if($eveid>0){
 		if(isset($event['date'])){

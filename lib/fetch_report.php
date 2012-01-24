@@ -716,7 +716,7 @@ function fetch_reportdefinition($rid,$selbid='%'){
  */
 function get_report_categories($rid,$bid='%',$pid='',$type='cat',$stage='%'){
 
-	trigger_error($bid. ' : '.$pid,E_USER_WARNING);
+	//trigger_error($bid. ' : '.$pid,E_USER_WARNING);
 	/* There is no component_id field in ridcatid, if pid is set then it uses subject_id */
 	if($pid!='' and $pid!=' '){$bid=$pid;}
 
@@ -1048,18 +1048,25 @@ function fetchProfileStatements($profile_name,$bid,$pid,$sid,$cutoff_date){
 	  }
   else{
 
-	if($profile_name=='APP Framework'){
 		/*TODO: have to pass these values for each report. */
+	  if($profile_name=='APP Framework'){
 		/*Only displaying those above which are secure. */
 		$cutoff_rating=1;
 		/* limit to 6 per area (gives 6 most recent regardless of the level)*/
-		$cutoff_level=1;$cutoff_statno=2;
+		$cutoff_level=1;
+		$cutoff_statno=2;
+		}
+	  elseif(strpos($profile_name,'EYFS')!==false){
+		/*Only displaying those above which are secure. */
+		$cutoff_rating=1;
+		/* limit to 6 per area (gives 6 most recent regardless of the level)*/
+		$cutoff_statno=2;
 		}
 
 	  $profilepids=(array)list_subject_components($pid,'FS');
 	  $profilepids[]=array('id'=>$pid,'name'=>'');
 	  $Statements=array();
-	  //trigger_error($profile_name.' '. $pid,E_USER_WARNING);
+	  trigger_error($profile_name.' '. $pid,E_USER_WARNING);
 
 	  foreach($profilepids as $component){
 		  $profilepid=$component['id'];
@@ -1088,6 +1095,7 @@ function fetchProfileStatements($profile_name,$bid,$pid,$sid,$cutoff_date){
 												  'author'=>'ClaSS',
 												  'rating_fraction'=>1);
 								 $Statements_new[]=fetchStatement($statement,1);
+								 trigger_error($profile_name.' '.$statno.':: '.$Category['value'].' : '.$Category['level'].' : '.$Category['date'],E_USER_WARNING);
 							}
 						}
 				  }

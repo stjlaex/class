@@ -224,17 +224,17 @@ function xmlreader($string){
 function xmlstringToArray($xmlstring){
 
 	/* Remove unwanted tags */
-	$xmlstring = preg_replace("/<(\/)?(font|span|del|ins|table|tbody|tr|td|colgroup|col|strong|em|pre)[^>]*>/i","",$xmlstring);
+	$xmlstring = preg_replace("/<(\/)?(font|span|del|ins|table|tbody|tr|td|colgroup|col|strong|em|br|pre)[^>]*>/i","",$xmlstring);
 
 	/* Remove attributes, inline style etc.
 	 * Each pass takes one attribute per element, so do three times just to be sure 
 	 */
-	$xmlstring = preg_replace("/<([^>]*)(class|lang|style|size|face|width)=(\"[^\"]*\"|'[^']*'|[^>]+)([^>]*)>/i","<\\1>",$xmlstring);
-	$xmlstring = preg_replace("/<([^>]*)(class|lang|style|size|face|width)=(\"[^\"]*\"|'[^']*'|[^>]+)([^>]*)>/i","<\\1>",$xmlstring); 
-	$xmlstring = preg_replace("/<([^>]*)(class|lang|style|size|face|width)=(\"[^\"]*\"|'[^']*'|[^>]+)([^>]*)>/i","<\\1>",$xmlstring); 
+	$xmlstring = preg_replace("/<([^>]*)(class|lang|style|size|face|width|id)=(\"[^\"]*\"|'[^']*'|[^>]+)([^>]*)>/i","<\\1>",$xmlstring);
+	$xmlstring = preg_replace("/<([^>]*)(class|lang|style|size|face|width|id)=(\"[^\"]*\"|'[^']*'|[^>]+)([^>]*)>/i","<\\1>",$xmlstring); 
+	$xmlstring = preg_replace("/<([^>]*)(class|lang|style|size|face|width|id)=(\"[^\"]*\"|'[^']*'|[^>]+)([^>]*)>/i","<\\1>",$xmlstring); 
 
-	$search=array('<p></p>','&nbsp;','<p> </p>','<p>&nbsp;</p>','<p>:::</p>');
-	$replace=array('',' ','','','');
+	$search=array('<p></p>','<p> </p>','<p>&nbsp;</p>','<p>:::</p>','&nbsp;');
+	$replace=array('','','','',' ');
 	$xmlstring=str_replace($search,$replace,$xmlstring);
 
 

@@ -237,6 +237,7 @@ $string['fees']='Fees';
 $string['concept']='Concept';
 $string['due']='Pending';
 $string['paid']='Paid';
+$string['notpaid']='Not paid';
 $string['bank']='Bank';
 $string['cash']='Cash';
 $string['payment']='Payment';

@@ -350,7 +350,8 @@ function getEnumArray($field_name){
 					   '1' => 'cash'
 					   );
 	$payment=array('0' => 'due', 
-				   '1' => 'paid'
+				   '1' => 'paid',
+				   '2' => 'notpaid'
 				   );
 	$religion=array('TU' => 'tuition',
 					'TR' => 'transport',
