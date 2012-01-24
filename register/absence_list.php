@@ -6,7 +6,7 @@
 
 $action='absence_list_action.php';
 $choice='absence_list.php';
-if(isset($_POST['newsecid'])){$secid=$_POST['newsecid'];}
+//if(isset($_POST['newsecid'])){$secid=$_POST['newsecid'];}
 
 
 include('scripts/sub_action.php');
@@ -25,12 +25,18 @@ $extrabuttons['summary']=array('name'=>'current',
 //threeplus_buttonmenu($startday,2,$extrabuttons);
 two_buttonmenu($extrabuttons);
 
-if($currentevent['id']>0){
-	$students=list_absentStudents($currentevent['id']);
+
+if($secid!='' and $secid>1){
+	/* Limit list to just the year groups for this section. */
+	$ygs=(array)list_yeargroups($secid);
+	$sectionname=get_sectionname($secid);
 	}
 else{
-	$students=list_absentStudents();
+	/* Give the whole school when no section is selected. */
+	$ygs=(array)list_yeargroups();
+	$sectionname=get_sectionname(1);
 	}
+
 ?>
   <div id="heading">
 	<label><?php print_string('absencesthissession','register');?></label>
@@ -45,11 +51,23 @@ else{
 			  <input type="checkbox" name="checkall" value="yes" onChange="checkAll(this);" />
 			</label>
 		  </th>
-		  <th colspan="2"><?php print_string('student'); ?></th>
+		  <th colspan="2" style="text-align:center;"><?php print $sectionname;?></th>
 		  <th><?php print_string('attendance',$book);?></th>
 		</tr>
 <?php
-	$rown=1;
+
+$rown=1;
+foreach($ygs as $yg){
+	if($currentevent['id']>0){
+		$students=(array)list_absentStudents($currentevent['id'],$yg['id']);
+		}
+	else{
+		$students=(array)list_absentStudents('',$yg['id']);
+		}
+	if(sizeof($students['Student'])>0){
+		print '<tr><th colspan="2"></th><th colspan="2" style="text-align:center;">'.$yg['name'].'</th><th></th></tr>';
+		}
+
 	foreach($students['Student'] as $student){
 		$sid=$student['id_db'];
 		$Attendance=(array)$student['Attendance'];
@@ -101,6 +119,8 @@ else{
 		</tr>
 <?php
 			}
+		}
+
 ?>
 		</table>
 

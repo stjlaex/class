@@ -5,7 +5,6 @@
  */
 
 $choice='completion_list.php';
-if(isset($_POST['newsecid'])){$secid=$_POST['newsecid'];}
 
 $registration_coms=array();
 $registration_ids=array();

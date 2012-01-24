@@ -567,7 +567,7 @@ function check_community_attendance($community,$event){
  * @param integer $lates
  * @return array
  */
-function list_absentStudents($eveid='',$lates=0){
+function list_absentStudents($eveid='',$yid='%',$lates=0){
 	if($eveid==''){
 		$event=get_currentevent();
 		$eveid=$event['id'];
@@ -579,7 +579,7 @@ function list_absentStudents($eveid='',$lates=0){
 			UNIX_TIMESTAMP(attendance.logtime) AS logtime
 			FROM attendance JOIN student ON student.id=attendance.student_id WHERE
 			attendance.student_id=student.id AND
-			attendance.event_id='$eveid' AND attendance.status='a'
+			attendance.event_id='$eveid' AND attendance.status='a' AND student.yeargroup_id LIKE '$yid'
 			ORDER BY student.yeargroup_id, student.form_id, student.surname");
 		$Attendance=array();
 		$Student=array();

@@ -13,10 +13,12 @@ $book='register';
 
 include('scripts/head_options.php');
 include('scripts/set_book_vars.php');
-$session_vars=array('newcid','newcomid','startday','checkeveid','secid','nodays','yid');
+$session_vars=array('newcid','newcomid','startday','checkeveid','secid','newsecid','nodays','yid');
 include('scripts/set_book_session_vars.php');
 if(isset($CFG->regtypes[1])){$regtype=$CFG->regtypes[1];}
 else{$regtype='form';}
+
+if($newsecid!=''){$secid=$newsecid;}
 
 if($nodays==''){$nodays=8;}
 
@@ -130,7 +132,6 @@ if($nodays==''){$nodays=8;}
 ?>
 		<input type="hidden" name="newcid" value="" />
 		<input type="hidden" name="newcomid" value="" />
-		<input type="hidden" name="current" value="completion_list.php" />
 		<input type="hidden" name="nodays" value="8" />
 		</form>
 	  </fieldset>

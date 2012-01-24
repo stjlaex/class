@@ -28,6 +28,8 @@ function dateDiff($startdate,$enddate){
 		}
 	else{
 
+		/* Start the week on a Monday. */
+		$startdate=date('Y-M-d',strtotime('last sunday  ',strtotime($startdate)));
 		$nodays=dateDiff($startdate,$enddate);//number of days for the period
 		$startday=dateDiff(date('Y-m-d'),$enddate);//number days relative to today, -ve for the past
 
@@ -66,10 +68,10 @@ function dateDiff($startdate,$enddate){
 					$Attendances=fetchAttendances($sid,$atday,1);
 					$content='';
 					foreach($Attendances['Attendance'] as $aindex => $Attendance){
-						if($Attendance['Status']['value']=='p' and $Attendance['Session']['value']=='AM'){
+						if($Attendance['Status']['value']=='p' and $Attendance['Session']['value']=='AM' and $Attendance['Period']['value']=='0'){
 							$content.='/';
 							}
-						elseif($Attendance['Status']['value']=='p' and $Attendance['Session']['value']=='PM'){
+						elseif($Attendance['Status']['value']=='p' and $Attendance['Session']['value']=='PM' and $Attendance['Period']['value']=='0'){
 							$content.="\\";
 							}
 						elseif($Attendance['Status']['value']=='a'){
