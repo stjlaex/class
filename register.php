@@ -13,15 +13,15 @@ $book='register';
 
 include('scripts/head_options.php');
 include('scripts/set_book_vars.php');
-$session_vars=array('newcid','newcomid','startday','checkeveid','secid','newsecid','nodays','yid');
+$session_vars=array('newcid','newcomid','startday','checkeveid','secid','nodays','yid');
 include('scripts/set_book_session_vars.php');
 if(isset($CFG->regtypes[1])){$regtype=$CFG->regtypes[1];}
 else{$regtype='form';}
 
-if($newsecid!=''){$secid=$newsecid;}
 
 if($nodays==''){$nodays=8;}
 
+if($current=='' or $current=='register_list.php'){
   if($newcid!=''){
 	  $secid=get_class_section($newcid);
 	  $community=array('id'=>'','type'=>'class','name'=>$newcid);
@@ -46,7 +46,7 @@ if($nodays==''){$nodays=8;}
 	  $comid=$community['id'];
 	  }
   else{
-	  /* On first load select the teacher's pastoral group by default.
+/* On first load select the teacher's pastoral group by default.
 	   * This is made tricky because of different regtypes for
 	   * different sections may or may not apply.
 	   */
@@ -78,20 +78,28 @@ if($nodays==''){$nodays=8;}
 			  }
 		  }
 	  }
+	}
 ?>
   <div id="bookbox" class="registercolor">
 <?php
+
  
-	if(!isset($secid)){$secid=1;}
+	if(empty($secid)){$secid=1;}
 	$currentevent=get_currentevent($secid);
 
-	if($current!=''){
+
+	if($current=='register_list.php' and empty($comid)){
+		$current='completion_list.php';
+		}
+
+	if(!empty($current)){
 		include($book.'/'.$current);
 		}
 	elseif(isset($community) and is_array($community)){
 		$current='register_list.php';
 		include($book.'/'.$current);
 		}
+
 ?>
   </div>
 
@@ -122,8 +130,7 @@ if($nodays==''){$nodays=8;}
 <?php
 	$onsidechange='yes';
 	$listtype='section';
-	$listname='newsecid';
-	$selnewsecid=$secid;
+	$listname='secid';
 	$listlabel='';
 	$sections=list_sections();
 	include('scripts/set_list_vars.php');
@@ -133,6 +140,15 @@ if($nodays==''){$nodays=8;}
 		<input type="hidden" name="newcid" value="" />
 		<input type="hidden" name="newcomid" value="" />
 		<input type="hidden" name="nodays" value="8" />
+<?php
+if($current!='register_list.php'){
+	$nextpage=$current;
+	}
+else{
+	$nextpage='completion_list.php';
+	}
+?>
+		<input type="hidden" name="current" value="<?php print $nextpage;?>" />
 		</form>
 	  </fieldset>
 
@@ -153,6 +169,10 @@ if($nodays==''){$nodays=8;}
 		selery_stick($choices,$choice,$book);
 ?>
 	  </fieldset>
+	  <input type="hidden" name="secid" value="<?php print $secid;?>" />
+	  <input type="hidden" name="newcid" value="" />
+	  <input type="hidden" name="newcomid" value="" />
+	  <input type="hidden" name="nodays" value="8" />
 	</form>
 
   </div>

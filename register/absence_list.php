@@ -6,7 +6,6 @@
 
 $action='absence_list_action.php';
 $choice='absence_list.php';
-//if(isset($_POST['newsecid'])){$secid=$_POST['newsecid'];}
 
 
 include('scripts/sub_action.php');
