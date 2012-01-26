@@ -157,22 +157,26 @@ function fetchRemittance($remid=-1){
 	$Remittance=array();
 	$Remittance['id_db']=$remid;
    	$Remittance['Name']=array('label' => 'name', 
-						   'inputtype'=> 'required',
-						   'table_db' => 'fees_remittance', 
-						   'field_db' => 'name',
-						   'type_db' => 'varchar(240)', 
-						   'value' => ''.$c['name']
-							);
-	$Remittance['EntryDate']=array('label' => 'date', 
-								   'type_db' => 'date', 
+							  'inputtype'=> 'required',
+							  'table_db' => 'fees_remittance', 
+							  'field_db' => 'name',
+							  'type_db' => 'varchar(240)', 
+							  'value' => ''.$c['name']
+							  );
+	$Remittance['IssueDate']=array('label' => 'issue', 
+								   'type_db' => 'issuedate', 
+								   'table_db' => 'fees_remittance', 
 								   'value' => ''.$c['date']);
-
+	$Remittance['PaymentDate']=array('label' => 'due', 
+									 'type_db' => 'duedate', 
+									 'table_db' => 'fees_remittance', 
+									 'value' => ''.$c['date']);
    	$Remittance['Year']=array('label' => 'year', 
 							  //'table_db' => 'fees_remittance', 
-							   'field_db' => 'year',
-							   'type_db' => 'year', 
-							   'value' => ''.$c['year']
-							   );
+							  'field_db' => 'year',
+							  'type_db' => 'year', 
+							  'value' => ''.$c['year']
+							  );
 
 	$Remittance['Concepts']=array();
 	$d_c=mysql_query("SELECT id FROM fees_concept;");

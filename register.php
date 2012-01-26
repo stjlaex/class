@@ -21,13 +21,12 @@ else{$regtype='form';}
 
 if($nodays==''){$nodays=8;}
 
-if($current=='' or $current=='register_list.php'){
-  if($newcid!=''){
+	if($newcid!=''){
 	  $secid=get_class_section($newcid);
 	  $community=array('id'=>'','type'=>'class','name'=>$newcid);
 	  $newcomid='';
 	  }
-  elseif($newcomid!=''){
+	elseif($newcomid!=''){
 	  //TODO: no relation between sections and other community groups
 	  $community=(array)get_community($newcomid);
 	  /* The yid should always be set, but how depends on to the community type. TODO: simplfy! */
@@ -36,17 +35,15 @@ if($current=='' or $current=='register_list.php'){
 	  $section=get_section($yid);
 	  $secid=$section['id'];
 	  $newcid='';
+	  //trigger_error('NEWCOMID: '.$community['type'].' : '.$yid.' : '.$secid.' : '.$newcomid.' .... '.$current,E_USER_WARNING);
 	  }
 
 	/* If a community is already selected (by passing newcomid) then
 	 * stick with that. Otherwise try to choose a relevant community to
 	 * display by default form the users pastoral responsibilities. 
 	 */
-  if(isset($community) and is_array($community)){
-	  $comid=$community['id'];
-	  }
-  else{
-/* On first load select the teacher's pastoral group by default.
+	if(!isset($community) and $current==''){
+	  /* On first load select the teacher's pastoral group by default.
 	   * This is made tricky because of different regtypes for
 	   * different sections may or may not apply.
 	   */
@@ -77,8 +74,17 @@ if($current=='' or $current=='register_list.php'){
 				  }
 			  }
 		  }
+	  //trigger_error('DEFAULT: '.$community['type'].' : '.$yid.' : '.$secid.' : '.$newcomid.' .... '.$current,E_USER_WARNING);
+		}
+
+	/* If a community has been set then don't lose it. */
+  if(isset($community) and is_array($community)){
+	  $newcomid=update_community($community);
+	  $community=(array)get_community($newcomid);
+	  $_SESSION[$book.'newcomid']=$newcomid;
+	  //trigger_error('SESSION: '.$community['type'].' : '.$yid.' : '.$secid.' : '.$newcomid.' .... '.$current,E_USER_WARNING);
 	  }
-	}
+
 ?>
   <div id="bookbox" class="registercolor">
 <?php
@@ -88,7 +94,7 @@ if($current=='' or $current=='register_list.php'){
 	$currentevent=get_currentevent($secid);
 
 
-	if($current=='register_list.php' and empty($comid)){
+	if($current=='register_list.php' and empty($community)){
 		$current='completion_list.php';
 		}
 
@@ -99,6 +105,7 @@ if($current=='' or $current=='register_list.php'){
 		$current='register_list.php';
 		include($book.'/'.$current);
 		}
+//trigger_error('CURRENT: '.$community['type'].' : '.$yid.' : '.$secid.' : '.$newcomid.' .... '.$current,E_USER_WARNING);
 
 ?>
   </div>

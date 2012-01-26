@@ -21,15 +21,17 @@ CREATE TABLE fees_charge (
 	paymenttype		enum('0','1') not null default '0',
 	payment			enum('0','1') not null default '0',
 	paymentdate		date not null default '0000-00-00',
-	remittance_id	int unsigned not null default 0,
+	invoice_id		int unsigned not null default 0,
 	index 			index_sid (student_id),
 	primary key  	(id)
 ) type=myisam;
 CREATE TABLE fees_remittance (
 	id				int unsigned not null auto_increment,
 	name			varchar(240) not null default '',
-	date			date not null default '0000-00-00',
+	duedate			date not null default '0000-00-00',
+	issuedate		date not null default '0000-00-00',
 	year			year not null default '0000',
+	account_id		int unsigned not null default 0,
 	primary key  	(id)
 ) type=myisam;
 CREATE TABLE fees_concept (
@@ -45,3 +47,11 @@ CREATE TABLE fees_tarif (
 	amount			smallint unsigned not null default '0',
 	primary key  	(id)
 ) type=myisam;
+CREATE TABLE fees_invoice (
+	id				int unsigned not null auto_increment, 
+	reference		varchar(240) not null default '',
+	account_id		int unsigned not null default 0,
+	remittance_id	int unsigned not null default 0,
+   	primary key		(id)
+) type=myisam;
+

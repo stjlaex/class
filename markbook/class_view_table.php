@@ -314,7 +314,7 @@ while($student=mysql_fetch_array($d_students, MYSQL_ASSOC)){
 			$totals[$col_mid]['value']+=$score['value'];
 			$totals[$col_mid]['outoftotal']+=$score['outoftotal'];
 			$totals[$col_mid]['no']++;
-			trigger_error($score['grade'],E_USER_WARNING);
+			//trigger_error($score['grade'],E_USER_WARNING);
 			}
 
 		$score['scoreclass']=$scoreclass;

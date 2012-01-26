@@ -658,14 +658,6 @@ function update_user($user,$update='no',$short='class'){
     if(isset($user['senrole'])){$senrole=$user['senrole'];}else{$senrole='0';}
     if(isset($user['medrole'])){$medrole=$user['medrole'];}else{$medrole='0';}
 
- 	/*All users get a passwd based on the shortkeyword (set in $CFG) and a
-   	/*userno, this formula should be personalised to meet your needs.*/
-	/*The userno should be unique to each staff login, is not stored in*/
-	/*the database and should be recorded elsewhere for reference if needed.*/
-	if(isset($user['passwd']) and $user['passwd']!=''){$passwd=$user['passwd'];}
-	elseif(isset($user['userno'])){$passwd=$short.$user['userno'];}
-	if(isset($passwd)){$assword=md5($passwd);}
-	else{$assword='';}
 
 	$d_user=mysql_query("SELECT username, surname, forename 
 							FROM users WHERE username='$username'");
@@ -687,23 +679,28 @@ function update_user($user,$update='no',$short='class'){
 			}
 		}
 	else{
-		mysql_query("INSERT INTO users (username, passwd, forename,
+		mysql_query("INSERT INTO users (username, forename,
 					surname, title, email, emailuser, role, nologin, worklevel,
 					senrole, medrole, firstbookpref, homephone, mobilephone, 
 					address_id, personalcode, dob, contractdate) 
-					VALUES ('$username', '$assword', '$forename',
+					VALUES ('$username', '$forename',
 					 '$surname', '$title', '$email', '$emailuser', 
 						'$role', '$nologin', '$worklevel',
 					   '$senrole', '$medrole', '$firstbookpref', '$homephone', '$mobilephone', 
 						'$address_id', '$personalcode', '$dob', '$contractdate');");
 		$result=$result.'Username '.$username.' added.';
 		}
-	if($assword!=''){
-		  $d_user=mysql_query("UPDATE users SET
-					passwd='$assword' WHERE username='$username'");
-		  if($CFG->emailoff=='no' and $user['userno']!=''){
-			  if(check_email_valid($user['email'])){ 
-				  //$headers=emailHeader();
+
+ 	/** 
+	 * All users get a passwd based on the shortkeyword (set in $CFG) and a
+	 * userno, this formula should be personalised to meet your needs.
+	 */
+	if(isset($user['userno']) and $user['userno']!=''){
+		$assword=md5($short.$user['userno']);
+		$d_user=mysql_query("UPDATE users SET passwd='$assword' WHERE username='$username';");
+		if($CFG->emailoff=='no' and !empty($user['userno'])){
+			if(check_email_valid($user['email'])){ 
+				//$headers=emailHeader();
 				  $footer='--'. "\r\n" .get_string('emailfooterdisclaimer');
 				  $message=get_string('emailnewloginuserno','admin')."\r\n";
 				  $message=$message ."\r\n".get_string('username').': '.$username."\r\n";
@@ -713,10 +710,10 @@ function update_user($user,$update='no',$short='class'){
 				  $fromaddress='ClaSS';
 				  /* TODO: decide if update_user needs to send email. */
    				  //send_email_to($email,$fromaddress,$subject,$message);
-				  }
-			  }
-		   }
-
+				}
+			}
+		}
+	
 	return $result;
 	}
 
