@@ -472,8 +472,9 @@ function list_select_db($d_list,$vars,$book=''){
 	<?php print $vars['style'];?>
 	<?php if($vars['onsidechange']=='yes'){print ' onChange="document.'.$book.'choice.submit();"';}?>
 	<?php if($vars['onchange']=='yes'){print ' onChange="processContent(this);"';}?>
-	<?php if($vars['switch']!=''){//print 'onChange="selerySwitch(\''.$vars['switch'].'\',this.value)"';
-		$extraclass=' switcher';} ?>
+	<?php if($vars['switch']!=''){
+		  //print 'onChange="selerySwitch(\''.$vars['switch'].'\',this.value,'.$book.')"';
+			$extraclass=' switcher';} ?>
 	<?php if($vars['required']=='yes'){ print ' class="required'.$extraclass.'" ';}
 		elseif($vars['required']=='eitheror'){ 
 			print ' class="eitheror" eitheror="'.$vars['eitheror'].'" ';} ?>

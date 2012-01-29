@@ -115,7 +115,7 @@ function seleryGrow(buttonObj){
 function selerySwitch(servantclass,fieldvalue,bookname){
 	switchedId="switch"+servantclass;
 	newfielddivId="switch"+servantclass+fieldvalue;
-	if(bookname=='' && document.getElementById(newfielddivId)){	
+	if(document.getElementById(newfielddivId)){	
 		document.getElementById(switchedId).innerHTML=document.getElementById(newfielddivId).innerHTML;
 		}
 	else if(window.frames["view"+bookname].document.getElementById(newfielddivId)){
@@ -313,8 +313,7 @@ function loadRequired(book){
 			if(elementObject.className.indexOf("switcher")!=-1){
 				switcherId=elementObject.getAttribute("id");
 				parent.selerySwitch(switcherId,elementObject.value,book);
-				elementObject.setAttribute("onChange","parent.selerySwitch('"+switcherId+"',this.value,book)");
-				//alert(switcherId,elementObject.value);
+				elementObject.setAttribute("onChange","parent.selerySwitch('"+switcherId+"',this.value,'"+book+"')");
 				}
 
 			// add event handlers to the checkbox input elements
