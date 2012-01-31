@@ -7,7 +7,7 @@ $action='student_list.php';
 
 if(isset($_POST['messageto'])){$messageto=$_POST['messageto'];}
 if(isset($_POST['messageop'])){$messageop=$_POST['messageop'];}
-if(isset($_POST['share0'])){$share=$_POST['share0'];}
+if(isset($_POST['share0'])){$share=$_POST['share0'];}else{$share='no';}
 
 if(isset($_POST['messagebody'])){$messagebody=clean_text($_POST['messagebody'],false);}
 if(isset($_POST['messagebcc'])){$messagebcc=clean_text($_POST['messagebcc']);}else{$messagebcc='';}
@@ -31,7 +31,7 @@ if($messagebcc!=''){
 	$extrarecipients[]=array('email'=>$messagebcc,
 							 'explanation'=>$explanation);
 	}
-if(sizeof($CFG->emailguardianbccs)>0){
+if(sizeof($CFG->emailguardianbccs)>0 and $messageop=='email'){
 	foreach($CFG->emailguardianbccs as $messagebcc){
 		$extrarecipients[]=array('email'=>$messagebcc,
 								 'explanation'=>$explanation);
@@ -122,8 +122,6 @@ if($sub=='Submit' and $recipients and sizeof($recipients)>0 and !isset($error)){
 		foreach($recipients as $key => $recipient){
 
 			$sms_result=send_sms_to($recipient['mobile'],$messagetxt);
-
-			//trigger_error('TO: '.$recipient['mobile'].' BODY:'.$messagetxt,E_USER_WARNING);
 
 			if($sms_result){$sentno++;}
 			else{$failno++;}

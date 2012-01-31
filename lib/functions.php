@@ -353,7 +353,8 @@ function getEnumArray($field_name){
 				   '1' => 'paid',
 				   '2' => 'notpaid'
 				   );
-	$religion=array('TU' => 'tuition',
+	/* TODO: delete?
+	$concept=array('TU' => 'tuition',
 					'TR' => 'transport',
 					'EN' => 'enrolment',
 					'IN' => 'insurance',
@@ -364,7 +365,7 @@ function getEnumArray($field_name){
 					'EV' => 'excursions',
 					'OT' => 'other'
 					);
-
+	*/
 
 	/*codes from CBDS 2007, including deprecated six for compatibility*/
 	/*not always the same as ISO 639-2 is the alpha-3 code for language!*/
@@ -953,6 +954,7 @@ function getEnumArray($field_name){
                         'FirstContactCode'=>'firstcontactcode',
                         'FirstContactPrivate'=>'firstcontactprivate',
                         'FirstContactTitle'=>'firstcontacttitle',
+                        'FirstContactAddressTitle'=>'firstcontactaddresstitle',
 						'SecondContact'=>'secondcontact',
 						'SecondContactPhone'=>'secondcontactphone',
 						'SecondContactEmailAddress'=>'secondcontactemailaddress',
@@ -1539,26 +1541,19 @@ function send_email_to($recipient, $from, $subject, $messagetext, $messagehtml='
 /**
  * Send an SMS
  *
- * @param $recipient  --> The mobile phone number or an array of numbers
+ * @param $phone  --> The mobile phone number or an array of numbers
  * @param $message --> plain text for the message
  * @return boolean|string Returns "true" if sms was sent OK
  *         or "false" if there was any sort of error.
  */
-function send_sms_to($phone,$message){
+function send_sms_to($phone,$message,$recipientid=0){
+	$todate=date('Y-m-d');
+	$type='g';//g=guardian,s=student,u=user
 
-    global $CFG;
-
-    include_once('lib/'.$CFG->smslib); 
-
-	$result_xml = peticionCURL($phone, $message);
-
-    if($result_xml==-1){
-		return false;
-		}
-	else{
-        return true;
-		}
-
+	mysql_query("INSERT INTO message_text_event SET phonenumber='$phone',
+   					textbody='$message', texttype='$type', some_id='$recipientid', date='$todate', success='0';");
+	
+	return true;
 	}
 
 
