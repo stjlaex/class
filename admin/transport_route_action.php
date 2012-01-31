@@ -6,10 +6,6 @@ $action='transport_route.php';
 $cancel='transport_route.php';
 
 if(isset($_POST['busname'])){$busname=$_POST['busname'];}else{$busname='';}
-if(isset($_POST['stids'])){$stids=(array)$_POST['stids'];}else{$stids=array();}
-if(isset($_POST['names'])){$names=(array)$_POST['names'];}else{$names=array();}
-if(isset($_POST['times'])){$times=(array)$_POST['times'];}else{$times=array();}
-if(isset($_POST['sequences'])){$sequences=(array)$_POST['sequences'];}else{$sequences=array();}
 $action_post_vars=array('busname');
 
 include('scripts/sub_action.php');
@@ -17,9 +13,12 @@ include('scripts/sub_action.php');
 if($sub=='Submit' and $busname!=''){
 
 	$directions=array('I','O');
-	$no=0;
 	foreach($directions as $direction){
-		$laststop=$_POST['last'.$direction]+$no;
+		$stids=(array)$_POST['stids'.$direction];
+		$names=(array)$_POST['names'.$direction];
+		$times=(array)$_POST['times'.$direction];
+		$sequences=(array)$_POST['sequences'.$direction];
+		$laststop=$_POST['last'.$direction];
 		$bus=(array)get_bus('',$busname,$direction,'%');
 		$stops=(array)list_bus_stops($bus['id']);
 
@@ -35,7 +34,7 @@ if($sub=='Submit' and $busname!=''){
 		$rtid=$bus['route_id'];
 		mysql_query("DELETE FROM transport_rtidstid WHERE route_id='$rtid';");	
 
-		for($no;$no<=$laststop;$no++){
+		for($no=0;$no<=$laststop;$no++){
 			if(isset($stids[$no]) and $stids[$no]!=0 and $sequences[$no]!=''){
 				/* Update an existing stop */
 				mysql_query("INSERT transport_rtidstid SET route_id='$rtid', stop_id='$stids[$no]', traveltime='$times[$no]', sequence='$sequences[$no]';");

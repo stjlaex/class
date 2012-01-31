@@ -55,21 +55,22 @@ three_buttonmenu($extrabuttons,$book);
 		</thead>
 
 <?php
-	    $laststop=count($stops);
-		print '<input type="hidden" name="last'.$direction.'" value="'.$laststop.'" />';
 		$stopno=0;
-		$stops[]=array('name'=>'','traveltime'=>'');
-		$stops[]=array('name'=>'','traveltime'=>'');
+		$stops[]=array('id'=>'0','name'=>'','traveltime'=>'');
+		$stops[]=array('id'=>'0','name'=>'','traveltime'=>'');
+	    $laststop=count($stops)+2;
+		print '<input type="hidden" name="last'.$direction.'" value="'.$laststop.'" />';
 		foreach($stops as $stop){
 			$stopno++;
 			print '<tr>';
 
 			if($stop['traveltime']!=''){$time=strtotime('+'.$stop['traveltime'].' minutes', $time);}
 
-			print '<td><input type="hidden" name="stids[]" value="'.$stop['id'].'" />';
-			print '<select name="sequences[]">';
+			print '<td><input type="hidden" name="stids'.$direction.'[]" value="'.$stop['id'].'" />';
+			print '<select name="sequences'.$direction.'[]">';
 			print '<option value=""></option>';
 			for($no=1;$no<($laststop+10);$no++){
+				/* Sets the sequence number */
 ?>
 			  <option value="<?php print $no;?>" <?php if($stopno==$no){print 'selected="selected"';}?>>
 				<?php print $no;?>
@@ -78,8 +79,8 @@ three_buttonmenu($extrabuttons,$book);
 				}
 			print '</select>';
 			print '</td>';
-			print '<td style="width:70%;"><input maxlength="60" type="text" tabindex="'.$tab++.'" name="names[]" value="'.$stop['name'].'"  /></td>';
-			print '<td><input pattern="decimal" maxlength="2" type="text" tabindex="'.$tab++.'" name="times[]" value="'.$stop['traveltime'].'" /></td>';
+			print '<td style="width:70%;"><input maxlength="60" type="text" tabindex="'.$tab++.'" name="names'.$direction.'[]" value="'.$stop['name'].'"  /></td>';
+			print '<td><input pattern="decimal" maxlength="2" type="text" tabindex="'.$tab++.'" name="times'.$direction.'[]" value="'.$stop['traveltime'].'" /></td>';
 			print '<td>'.date('H:i',$time).'</td>';
 			print '</tr>';
 			}
