@@ -44,8 +44,13 @@ $fullpath=$CFG->installpath.'/'.$CFG->applicationdirectory;
 if(!isset($ARGS['option'])){
 
 	if($CFG->emailoff!='yes'){
-		/* Run the mail queue */
+		/* Run the message queue */
 		$cmd='/usr/bin/php '.$fullpath.'/infobook/httpscripts/message_event_cron.php --path='.$CFG->installpath;
+		exec("$cmd > /dev/null &");
+		}
+	if($CFG->smsoff!='yes'){
+		/* Run the message_text queue */
+		$cmd='/usr/bin/php '.$fullpath.'/infobook/httpscripts/message_text_event_cron.php --path='.$CFG->installpath;
 		exec("$cmd > /dev/null &");
 		}
 
