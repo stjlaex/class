@@ -216,27 +216,29 @@ function xmlreader($string){
 
 
 /**
- * Cean up a string for unwanted html elements and attributes (ususally resulting from a cut'n'paste job). to a php array.
+ * Clean up a string for unwanted html elements and attributes (ususally resulting from a cut'n'paste job). to a php array.
  *
  * @param string $xml
  * @return string
  */
-function xmlstringToArray($xmlstring){
+function xmlstringToArray($xmlstring,$clean=true){
 
-	/* Remove unwanted tags */
-	$xmlstring = preg_replace("/<(\/)?(font|span|del|ins|table|tbody|tr|td|colgroup|col|strong|em|br|pre)[^>]*>/i","",$xmlstring);
+	if($clean){
+		/* Attempt to tidy user inputted html, set $clean=false if the xml is known to be valid. */
+		/* Remove unwanted tags */
+		$xmlstring = preg_replace("/<(\/)?(font|span|del|ins|table|tbody|tr|td|colgroup|col|strong|em|br|pre)[^>]*>/i","",$xmlstring);
 
-	/* Remove attributes, inline style etc.
-	 * Each pass takes one attribute per element, so do three times just to be sure 
-	 */
-	$xmlstring = preg_replace("/<([^>]*)(class|lang|style|size|face|width|id)=(\"[^\"]*\"|'[^']*'|[^>]+)([^>]*)>/i","<\\1>",$xmlstring);
-	$xmlstring = preg_replace("/<([^>]*)(class|lang|style|size|face|width|id)=(\"[^\"]*\"|'[^']*'|[^>]+)([^>]*)>/i","<\\1>",$xmlstring); 
-	$xmlstring = preg_replace("/<([^>]*)(class|lang|style|size|face|width|id)=(\"[^\"]*\"|'[^']*'|[^>]+)([^>]*)>/i","<\\1>",$xmlstring); 
-
-	$search=array('<p></p>','<p> </p>','<p>&nbsp;</p>','<p>:::</p>','&nbsp;');
-	$replace=array('','','','',' ');
-	$xmlstring=str_replace($search,$replace,$xmlstring);
-
+		/* Remove attributes, inline style etc.
+		 * Each pass takes one attribute per element, so do three times just to be sure 
+		 */
+		$xmlstring = preg_replace("/<([^>]*)(class|lang|style|size|face|width|id|dir)=(\"[^\"]*\"|'[^']*'|[^>]+)([^>]*)>/i","<\\1>",$xmlstring);
+		$xmlstring = preg_replace("/<([^>]*)(class|lang|style|size|face|width|id|dir)=(\"[^\"]*\"|'[^']*'|[^>]+)([^>]*)>/i","<\\1>",$xmlstring); 
+		$xmlstring = preg_replace("/<([^>]*)(class|lang|style|size|face|width|id|dir)=(\"[^\"]*\"|'[^']*'|[^>]+)([^>]*)>/i","<\\1>",$xmlstring); 
+		
+		$search=array('<p></p>','<p> </p>','<p>&nbsp;</p>','<p>:::</p>','&nbsp;');
+		$replace=array('','','','',' ');
+		$xmlstring=str_replace($search,$replace,$xmlstring);
+		}
 
 	/*
 	 * TODO: is php5-tidy a useful tool? need to test for install before calling as its not standard

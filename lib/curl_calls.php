@@ -44,7 +44,7 @@ function feeder_fetch($scriptname,$feeder,$postdata){
 
 	//trigger_error($response,E_USER_WARNING);
 	
-	if($response!=''){$Response=xmlstringToArray($response);}
+	if($response!=''){$Response=xmlstringToArray($response,false);}
 	else{$Response=array();}
 
 	return $Response;
