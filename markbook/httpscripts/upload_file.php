@@ -45,7 +45,7 @@ if(isset($_GET['openid'])){$openid=$_GET['openid'];}
 <script src="../../js/book.js?version=1013" type="text/javascript"></script>
 <script src="../../js/qtip.js" type="text/javascript"></script>
 </head>
-<body onload="loadRequired();">
+<body onload="loadRequired('<?php print $book;?>');">
 
 	<div class="markcolor" id="bookbox">
 

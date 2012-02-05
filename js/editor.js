@@ -2,7 +2,7 @@
  * adds the images and attributes to required input fields
  * inits the js-calendar elements and the tooltip titles
  */
-function loadRequired(){
+function loadRequired(book){
 	var firstFocus;
 	var formObject;
 	var elementObject;
@@ -27,7 +27,7 @@ function loadRequired(){
 			if(elementObject.className.indexOf("switcher")!=-1){
 				switcherId=elementObject.getAttribute("id");
 				parent.selerySwitch(switcherId,elementObject.value,book);
-				elementObject.setAttribute("onChange","parent.selerySwitch('"+switcherId+"',this.value,book)");
+				elementObject.setAttribute("onChange","parent.selerySwitch('"+switcherId+"',this.value,'"+book+"')");
 				}
 
 			if(elementObject.getAttribute("tabindex")=="1" && firstFocus=="-1"){

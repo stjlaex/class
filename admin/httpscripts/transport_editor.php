@@ -44,7 +44,7 @@ $tab=0;
 <script src="../../js/book.js?version=1013" type="text/javascript"></script>
 <script src="../../js/qtip.js" type="text/javascript"></script>
 </head>
-<body onload="loadRequired();">
+<body onload="loadRequired('<?php print $book;?>');">
 
 	<div id="bookbox" class="admincolor">
 	<?php 
@@ -82,7 +82,7 @@ three_buttonmenu($extrabuttons,$book);
 ?>
 			</div>
 
-			<div id="switchBus" class="right">
+			<div id="switchBus" class="right switcher">
 			</div>
 		  </fieldset>
 

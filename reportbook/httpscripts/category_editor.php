@@ -125,7 +125,7 @@ while(list($cindex,$catdef)=each($catdefs)){
 <script src="../../js/book.js?version=1013" type="text/javascript"></script>
 <script src="../../js/qtip.js" type="text/javascript"></script>
 </head>
-<body onload="loadRequired();">
+<body onload="loadRequired('<?php print $book;?>');">
 
 	<div id="bookbox">
 	<?php three_buttonmenu(); ?>
