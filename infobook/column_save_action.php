@@ -12,8 +12,6 @@ $displayfields=array();
 $displayfields_no=$_POST['colno'];
 $savedview=$_POST['name'];
 
-trigger_error($sub,E_USER_WARNING);
-
 if($sub=='Submit'){
 	for($dindex=0;$dindex < ($displayfields_no);$dindex++){
 		trigger_error($savedview.' NO '.$dindex.' ',E_USER_WARNING);

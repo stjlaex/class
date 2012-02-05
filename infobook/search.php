@@ -40,7 +40,20 @@ $action='search_action.php'
 			<?php print get_string('custom',$book).' '.get_string('groups');?>
 			</button>
 			<input type="hidden" name="current" value="group_search.php"/>
-		</form>
+		  </form>
+<?php
+		if($_SESSION['role']=='admin' or $_SESSION['role']=='district'){
+?>
+		  <form id="updatesfile" name="updatesfile"  method="post" 
+			action="infobook.php" target="viewinfobook">
+			<button type="submit" name="submit">
+			<?php print get_string('updatesfile',$book);?>
+			</button>
+			<input type="hidden" name="current" value="updates_file.php"/>
+		  </form>
+<?php
+			}
+?>
 		</div>
 <?php
 		}
@@ -123,12 +136,9 @@ $action='search_action.php'
 			<button type="submit" name="submit">
 				<?php print_string('search');?>
 			</button>
-			<button type="reset" name="reset" value="Reset">
-				<?php print_string('reset');?>
-			</button>
 	  </fieldset>
 <?php
-		}
+																															}
 	  else{
 ?>
 	  <fieldset class="infobook">

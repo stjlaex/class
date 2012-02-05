@@ -1,19 +1,13 @@
 <?php
-/**								   column_save.php
+/**								   updates_file.php
  *
  */
 
-$action='column_save_action.php';
+$action='updates_file_action.php';
 $choice='student_list.php';
 
-if(isset($_POST['colno'])){$displayfields_no=$_POST['colno'];}
-for($dindex=0;$dindex < ($displayfields_no);$dindex++){
-	if(isset($_POST['displayfield'.$dindex])){$displayfields[$dindex]=$_POST['displayfield'.$dindex];}
-	}
 
-$extrabuttons['delete']=array('name'=>'current','value'=>'column_save_action.php');
-
-three_buttonmenu($extrabuttons);
+three_buttonmenu();
 ?>
 
   <div id="heading">
@@ -24,10 +18,16 @@ three_buttonmenu($extrabuttons);
 	<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
 
 	  <fieldset class="divgroup center">
-		<legend>Add new view</legend>
-		<div class="center">
-		  <label for="name"><?php print_string('name',$book);?></label>
-		  <input type="text" name="name" id="name" size="60" value="" />
+		<legend>
+			<?php print get_string('select',$book).' '.get_string('update',$book); ?>
+		</legend>
+		<div class="left">
+		  <label for="name"><?php print_string('current',$book);?></label>
+		  <input type="radio" name="update" id="current" value="1"  checked="yes" />
+		</div>
+		<div class="right">
+		  <label for="name"><?php print_string('previous',$book);?></label>
+		  <input type="radio" name="update" id="previous" value="2" />
 		</div>
 	  </fieldset>
 
@@ -36,11 +36,8 @@ three_buttonmenu($extrabuttons);
 	<div class="center">
 	  <table class="listmenu">
 		<tr>
-		  <th><?php print_string('checkall'); ?>
-		  <input type="checkbox" name="checkall" value="yes" onChange="checkAll(this);" />
-		  </th>
-		  <th>
-			Existing views
+		  <th colspan="2">
+			<?php print_string('selectview',$book); ?>
 		  </th>
 		</tr>
 <?php
@@ -49,13 +46,18 @@ three_buttonmenu($extrabuttons);
 ?>
 		<tr>
 		  <td>
-			<input type="checkbox" name="catids[]" value="<?php print $cat['id'];?>" />
+			<input type="radio" name="catid" value="<?php print $cat['id'];?>" />
 		  </td>
 <?php
 		print '<td>'.$cat['name'].'</td>';
 		print '</tr>';
 		}
 ?>
+		<tr>
+		  <td colspan="2">
+			<input type="radio" name="catid" value="uncheck" checked="yes"><?php print_string('uncheck',$book);?></input>
+		  </td>
+		</tr>
 	  </table>
 	</div>
 
