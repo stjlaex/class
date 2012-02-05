@@ -1,3 +1,28 @@
+Version ClaSS-1.0.15 release (2012/02/01)
+-------------------------------------------
+
+New db table to log updates to student/guardian records.
+
+InfoBook option to export a file of changed records only.
+
+Simplified logic of POST vars for trsnport_route.
+
+Improved report_comments to search across multiple yeargroups.
+
+Function list_support_teachers added to list SEN/Support staff.
+
+Comments option to share with SEN/Support staff.
+
+New CFG option sitephonecode for the international dialling code of
+home country.
+
+Fix to transport edit and transport display.
+
+Added a 'trigger' to email defined users for a specific comment
+category.
+
+
+
 Version ClaSS-1.0.14 release (2012/01/27)
 -------------------------------------------
 
@@ -6,6 +31,7 @@ Improved the absence list to respect the selected section.
 Fixes to the print attendance summary: only first period AM/PM is
 included; start the week with a Monday always.
 
+Fix to the selerySwitch function when in sideoptions.
 
 
 Version ClaSS-1.0.13 release (2012/01/20)

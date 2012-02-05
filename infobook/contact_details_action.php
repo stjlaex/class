@@ -12,6 +12,8 @@ $contactno=$_POST['contactno'];
 include('scripts/sub_action.php');
 
 if($sub=='Submit' or $access=='access'){
+	$update_flag=false;
+
 	if($contactno>-1){
 		if($sid!=''){
 			/*Check user has permission to edit*/
@@ -33,6 +35,7 @@ if($sub=='Submit' or $access=='access'){
 		$gid=mysql_insert_id();
 		mysql_query("INSERT INTO gidsid SET guardian_id='$gid', student_id='$sid';");
 		$Contact=fetchContact();
+		$update_flag=true;
 		}
 	elseif($gid>=-1 and $sid!=''){
 		/*pre-existing contact being linked to*/
@@ -42,6 +45,7 @@ if($sub=='Submit' or $access=='access'){
 		$Contact=fetchContact($gidsid);
 		$Phones=(array)$Contact['Phones'];
 		$Addresses=$Contact['Addresses'];
+		$update_flag=true;
 		}
 	elseif($gid>=-1){
 		/*just editing a contact without reference to a sid*/
@@ -49,6 +53,7 @@ if($sub=='Submit' or $access=='access'){
 		$Contact=fetchContact(array('guardian_id'=>$gid));
 		$Phones=(array)$Contact['Phones'];
 		$Addresses=$Contact['Addresses'];
+		$update_flag=true;
 		}
 
 	while(sizeof($Phones)<4){$Phones[]=fetchPhone();}
@@ -67,15 +72,18 @@ if($sub=='Submit' or $access=='access'){
 					mysql_query("UPDATE gidsid SET $field='$inval'
 						WHERE guardian_id='$gid' AND student_id=$sid");
 					}
+				$update_flag=true;
 				}
 			}
 		}
 
 	/* Have to do this seperate because it has no table_db field to
-		keep it out of the main form. */
+	 * keep it out of the main form. 
+	 */
 	$inval=clean_text($_POST['note']);
 	if($Contact['Note']['value']!=$inval){
 		mysql_query("UPDATE guardian SET note='$inval' WHERE id='$gid'");
+		$update_flag=true;
 		}
 
 	foreach($Phones as $phoneno => $Phone){
@@ -92,8 +100,8 @@ if($sub=='Submit' or $access=='access'){
 						}
 					mysql_query("UPDATE phone SET $field='$inval'
 							WHERE some_id='$gid' AND id='$phoneid';");
+					$update_flag=true;
 					}
-
 				}
 			}
 		}
@@ -117,11 +125,12 @@ if($sub=='Submit' or $access=='access'){
 						mysql_query("UPDATE address SET $field='$inval' 
 											WHERE id='$aid';");
 						}
-					
+
 					if($val['table_db']=='gidaid'){
 						mysql_query("UPDATE gidaid SET $field='$inval'
 						WHERE address_id='$aid' AND guardian_id='$gid';");
 						}
+					$update_flag=true;
 					}
 				}
 			}
@@ -134,14 +143,22 @@ elseif($sub=='Unlink'){
 	if($gid!='' and $sid!=''){
 		mysql_query("DELETE FROM gidsid WHERE 
 						guardian_id='$gid' AND student_id='$sid'");
-
+		$update_flag=true;
 		}
 
 	}
 
-if($access=='access'){
+if(isset($access) AND $access=='access'){
 	$action='contact_details.php';
-	$_SESSION['accessfees']=$_POST['accessfees'];
+	$access=clean_text($_POST['accessfees']);
+	$d_a=mysql_query("SELECT AES_DECRYPT(bankname,'$access') FROM fees_account 
+							WHERE id='1' AND guardian_id='0';");
+	if(mysql_num_rows($d_a)>0 and !empty($_POST['accesstest'])){
+		$accesstest=mysql_result($d_a,0);
+		if($_POST['accesstest']==$accesstest){
+			$_SESSION['accessfees']=$access;
+			}
+		}
 	}
 elseif(!empty($_SESSION['accessfees']) and $gid!=-1){
 	require_once('lib/fetch_fees.php');
@@ -160,12 +177,13 @@ elseif(!empty($_SESSION['accessfees']) and $gid!=-1){
 					$acid=mysql_insert_id();
 					}
 				mysql_query("UPDATE fees_account SET $field=AES_ENCRYPT('$inval','$access') WHERE id='$acid';");
-				trigger_error($acid.'!!!! '.$access.' '.$field.' : '.$inval,E_USER_WARNING);
+				$update_flag=true;
 				}
 			}
 		}
 	$action='contact_details.php';
 	}
+
 
 include('scripts/redirect.php');
 ?>

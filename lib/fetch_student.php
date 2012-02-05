@@ -212,10 +212,12 @@ function fetchStudent_singlefield($sid,$tag){
 			$Contacts=(array)fetchContacts($sid);
 			$Phones=(array)$Contacts[$contactno]['Phones'];
 			$Student[$tag]=array('label'=>'',
+								 'value_db'=>'',
 								 'value'=>'');
-			while(list($phoneno,$Phone)=each($Phones)){
-				$Student[$tag]['value'].=$separator . $Phone['PhoneNo']['value'].' ';				
-				$separator=' : ';
+			foreach($Phones as $phoneno => $Phone){
+				$Student[$tag]['value'].=$Phone['PhoneType']['value'].':'.$Phone['PhoneNo']['value'].' ';				
+				$Student[$tag]['value_db'].=$separator. ' '.$Phone['PhoneNo']['value'];
+				$separator=':::';
 				}
 			}
 		elseif(substr_count($tag,'PostalAddress')){
@@ -224,12 +226,13 @@ function fetchStudent_singlefield($sid,$tag){
 			 */
 			$Contacts=(array)fetchContacts($sid);
 			$Student[$tag]=array('label'=>'',
+								 'value_db'=>'',
 								 'value'=>'');
 			if(array_key_exists($contactno,$Contacts) and sizeof($Contacts[$contactno]['Addresses'])>0){
 				$Add=$Contacts[$contactno]['Addresses'][0];
 				if($Contacts[$contactno]['ReceivesMailing']['value']==0){$displayclass='class="lowlite"';}else{$displayclass='';}
 				$Student[$tag]['value']='<div '.$displayclass.'>'.$Add['Street']['value'].' '. $Add['Neighbourhood']['value'].' '. $Add['Town']['value'].' '. $Add['Country']['value']. ' '. $Add['Postcode']['value'].'</div>';
-				$Student[$tag]['value_db']=$Add['Street']['value'].' '. $Add['Neighbourhood']['value'].' '. $Add['Town']['value'].' '. $Add['Country']['value']. ' '. $Add['Postcode']['value'];
+				$Student[$tag]['value_db']=$Add['Street']['value'].':::'. $Add['Neighbourhood']['value'].':::'. $Add['Town']['value'].':::'. $Add['Country']['value']. ':::'. $Add['Postcode']['value'];
 				}
 			}
 		elseif(substr_count($tag,'EmailAddress')){
@@ -280,6 +283,11 @@ function fetchStudent_singlefield($sid,$tag){
 			$Contacts=(array)fetchContacts($sid);
 			$Student[$tag]=array('label'=>'',
 								 'value'=>$Contacts[$contactno]['Code']['value']);
+			}
+		elseif(substr_count($tag,'AddressTitle')){
+			$Contacts=(array)fetchContacts($sid);
+			$Student[$tag]=array('label'=>'',
+								 'value'=>$Contacts[$contactno]['AddressTitle']['value']);
 			}
 		elseif(substr_count($tag,'Title')){
 			/*NOT a part of the xml def for Student but useful here*/
@@ -2367,5 +2375,20 @@ function import_student($Student){
 		}
 
 	return $sid;
+	}
+
+/**
+ *
+ *
+ */
+function set_update_event($sid){
+	$todate=date('Y-m-d');
+	$d_u=mysql_query("SELECT id FROM update_event WHERE student_id='$sid' AND export='0';");
+	if(mysql_num_rows($d_u)>0){
+		mysql_query("UPDATE update_event SET updatedate='$todate' WHERE student_id='$sid' AND export='0';");
+		}
+	else{
+		mysql_query("INSERT INTO update_event SET export='0', updatedate='$todate',student_id='$sid';");
+		}
 	}
 ?>

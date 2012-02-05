@@ -270,3 +270,25 @@ CREATE TABLE merits (
 	index			index_result(student_id),
    	primary key		(id)
 ) type=myisam;
+
+CREATE TABLE update_event (
+	id				int unsigned not null auto_increment, 
+	student_id		int unsigned not null default '0',
+	updatedate		date not null default '0000-00-00',
+	export			enum('0', '1') not null,
+	exportdate		date not null default '0000-00-00',
+	primary key 	(id)
+) type=myisam;
+
+CREATE TABLE text_event (
+	id		 		int unsigned not null auto_increment,
+	some_id			int unsigned not null default '0',
+	texttype		enum('s', 'g', 'u') not null,
+	phonenumber		varchar(22) not null default '',
+	textbody		text not null default '',
+	date			date not null default '0000-00-00',
+	success			enum('0', '1') not null,
+	time			timestamp(14),
+	try				tinyint(4) not null default '0'
+	primary key 	(id)
+) type=myisam;

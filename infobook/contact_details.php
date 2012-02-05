@@ -173,6 +173,7 @@ three_buttonmenu($extrabuttons,$book);
 		  <?php print_string('bankdetails',$book);?>
 		</legend>
 
+		<input type="password" name="accesstest" maxlength="20" value="" />
 		<input type="password" name="accessfees" maxlength="4" value="" />
 <?php
 			$buttons=array();

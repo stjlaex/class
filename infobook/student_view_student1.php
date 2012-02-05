@@ -8,6 +8,7 @@ include('scripts/sub_action.php');
 if($sub=='Submit'){
 	/*Check user has permission to edit*/
 	$yid=$Student['YearGroup']['value'];
+	$update_flag=false;
 	$perm=getYearPerm($yid);
 	$neededperm='w';
 	include('scripts/perm_action.php');
@@ -20,12 +21,12 @@ if($sub=='Submit'){
 			if($val['value']!=$inval){
 				/*the value has changed, update database*/
 				if($val['table_db']=='student'){
-					mysql_query("UPDATE student SET $field='$inval'
-									WHERE id='$sid'");
+					mysql_query("UPDATE student SET $field='$inval' WHERE id='$sid'");
+					$update_flag=true;
 					}
 				elseif($val['table_db']=='info'){
-					mysql_query("UPDATE info SET $field='$inval'
-									WHERE student_id='$sid'");
+					mysql_query("UPDATE info SET $field='$inval' WHERE student_id='$sid'");
+					$update_flag=true;
 					}
 				}
 			}
@@ -35,7 +36,9 @@ if($sub=='Submit'){
 	if($Student['Boarder']['value']!=$_POST['boarder'] 
 	   or $Student['Gender']['value']!=$_POST['gender']){
 		set_accomodation($sid);
+		$update_flag=true;
 		}
+
 	}
 include('scripts/redirect.php');
 ?>
