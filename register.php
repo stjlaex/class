@@ -35,7 +35,6 @@ if($nodays==''){$nodays=8;}
 	  $section=get_section($yid);
 	  $secid=$section['id'];
 	  $newcid='';
-	  //trigger_error('NEWCOMID: '.$community['type'].' : '.$yid.' : '.$secid.' : '.$newcomid.' .... '.$current,E_USER_WARNING);
 	  }
 
 	/* If a community is already selected (by passing newcomid) then
@@ -82,7 +81,6 @@ if($nodays==''){$nodays=8;}
 	  $newcomid=update_community($community);
 	  $community=(array)get_community($newcomid);
 	  $_SESSION[$book.'newcomid']=$newcomid;
-	  //trigger_error('SESSION: '.$community['type'].' : '.$yid.' : '.$secid.' : '.$newcomid.' .... '.$current,E_USER_WARNING);
 	  }
 
 ?>

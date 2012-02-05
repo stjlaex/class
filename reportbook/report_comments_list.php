@@ -48,25 +48,25 @@ $filtercat=$catid.':'.$ratvalue.';';
 			AND comments.category LIKE '$filtercat' ORDER BY student.surname;");
 		}
 	else{
-		if($rcrid=='%'){
-			/*User has a subject not a course responsibility selected*/
-			$d_course=mysql_query("SELECT DISTINCT cohort.course_id FROM
-				cohort JOIN component ON component.course_id=cohort.course_id WHERE
-				component.subject_id='$rbid' AND component.id='' AND cohort.stage='$stage' AND cohort.year='$year'");
-			$rcrid=mysql_result($d_course,0);
+		$pastorals=(array)list_pastoral_respon();
+		$ryids=$pastorals['years'];
+		if(sizeof($ryids)>0){
+			$yearsearch='(';
+			$separator='';
+			foreach($ryids as $ryid){
+				if($ryid>-100){
+					$yearsearch.=$separator."student.yeargroup_id='$ryid'";
+					$separator=' OR ';
+					}
+				}
+			$yearsearch.=')';
+			$d_comments=mysql_query("SELECT * FROM comments JOIN
+					student ON student.id=comments.student_id WHERE comments.entrydate >= '$startdate' AND
+					comments.entrydate<='$enddate' AND $yearsearch AND comments.subject_id LIKE '$bid' 
+					AND comments.category LIKE '$filtercat' ORDER BY student.surname;");
 			}
-		$d_community=mysql_query("SELECT community_id FROM cohidcomid JOIN
-				cohort ON cohidcomid.cohort_id=cohort.id WHERE
-			    cohort.stage='$stage' AND cohort.year='$year' AND
-				cohort.course_id='$rcrid' LIMIT 1;");
-		$comid=mysql_result($d_community,0);
-		$d_comments=mysql_query("SELECT * FROM comments JOIN
-				comidsid ON comidsid.student_id=comments.student_id
-				WHERE comments.entrydate >= '$startdate' AND
-				comments.entrydate<='$enddate' AND
-				comments.subject_id LIKE '$bid' AND comments.category LIKE '$filtercat' 
-				AND comidsid.community_id='$comid';");
 		}
+
 
 	if(mysql_num_rows($d_comments)==0){
 		$error[]=get_string('nonefound',$book);

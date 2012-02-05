@@ -19,7 +19,7 @@ include('scripts/set_book_vars.php');
 	$rforms=array();
 	$rhouses=array();
 	$ryids=array();
-	if($r>-1 and $current!='report_reports.php' and $current!='report_merits.php' and $current!='report_incidents.php'){
+	if($r>-1 and $current!='report_reports.php' and $current!='report_merits.php' and $current!='report_comments.php' and $current!='report_incidents.php'){
 		$rcrid=$respons[$r]['course_id'];
 	 	$rbid=$respons[$r]['subject_id'];
 		$ryid=$respons[$r]['yeargroup_id'];
