@@ -41,6 +41,10 @@ $CFG->support='laex.org';
 $CFG->contact='stj@laex.org';
 /*default site language*/
 $CFG->sitelang='en';
+/*default site country*/
+$CFG->sitecountry='gb';
+/* International dialing code for this country*/
+$CFG->sitephonecode='+44';
 /* The dataroot (shared with the eportfolio if one is being used)
  * which is where uploaded files will go.  This should be outside your
  * www root. Must be specified as an absolute path and it must be

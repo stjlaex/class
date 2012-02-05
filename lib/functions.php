@@ -1547,8 +1547,16 @@ function send_email_to($recipient, $from, $subject, $messagetext, $messagehtml='
  *         or "false" if there was any sort of error.
  */
 function send_sms_to($phone,$message,$recipientid=0){
+
+	global $CFG;
+
 	$todate=date('Y-m-d');
 	$type='g';//g=guardian,s=student,u=user
+
+	/*TODO: validate the phone number before sending. */
+	if(strpos($phone,'+')!==false){}
+	elseif(!empty($CFG->sitephonecode)){$phone=$CFG->sitephonecode.$phone;}
+ 
 
 	mysql_query("INSERT INTO message_text_event SET phonenumber='$phone',
    					textbody='$message', texttype='$type', some_id='$recipientid', date='$todate', success='0';");
