@@ -14,6 +14,7 @@ if(isset($_POST['ratvalue'])){$ratvalue=$_POST['ratvalue'];}else{$ratvalue='N';}
 if(isset($_POST['newyid'])){$newyid=$_POST['newyid'];}else{$newyid=$Student['YearGroup']['value'];}
 if(isset($_POST['guardianemail0'])){$guardianemail=$_POST['guardianemail0'];}else{$guardianemail='no';}
 if(isset($_POST['teacheremail0'])){$teacheremail=$_POST['teacheremail0'];}else{$teacheremail='no';}
+if(isset($_POST['senemail0'])){$senemail=$_POST['senemail0'];}else{$senemail='no';}
 
 
 include('scripts/sub_action.php');
@@ -36,8 +37,10 @@ include('scripts/sub_action.php');
 		subject_id='$bid', category='$category', teacher_id='$tid';");
 		$id=mysql_insert_id();
 
-		/* Message to relevant teaching staff. */
-		if($teacheremail=='yes'){$teachergroup='%';}else{$teachergroup='p';}
+		/* Message to all relevant teaching staff. */
+		$teachergroup='p';
+		if($teacheremail=='yes'){$teachergroup.='a';}
+		if($senemail=='yes'){$teachergroup.='s';}
 
 		$messagesubject='Comment for '.$Student['Forename']['value'] .' '.$Student['Surname']['value'].' ('. 
 					$Student['RegistrationGroup']['value'].')';
@@ -64,8 +67,23 @@ include('scripts/sub_action.php');
 		/* Option to message teachers */
 		if($CFG->emailcomments=='yes'){
 			$result=(array)message_student_teachers($sid,$tid,$bid,$messagesubject,$messagetxt,$message,$teachergroup);
+			if($catid!=''){
+				$d_c=mysql_query("SELECT comment FROM categorydef WHERE id='$catid' AND type='con';");
+				$userlist=mysql_result($d_c,0);
+				$usernames=(array)explode(':::',$userlist);
+				$teachers=array();
+				foreach($usernames as $username){
+					if($username!=''){
+						$teachers[]=get_user($username,'username');
+						}
+					}
+				if(sizeof($teachers)>0){
+					$result1=(array)message_student_teachers($sid,$tid,$bid,$messagesubject,$messagetxt,$message,$teachers);
+					$result=array_merge($result,$result1);
+					}
+				}
 			}
-
+		
 		/* Option to message parents. */
 		if($guardianemail=='yes' and ($Student['Boarder']['value']=='N' or $CFG->emailboarders=='yes')){
 			$Contacts=(array)fetchContacts_emails($sid);

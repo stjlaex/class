@@ -68,10 +68,17 @@ if($CFG->emailguardiancomments=='yes' or ($CFG->emailguardiancomments=='epf' and
 	  </div>
 
 	  <div class="right">
-<?php 
-	  												 
+<?php 					 
 	if($CFG->emailcomments=='yes'){
 		$checkname='teacheremail';$checkcaption=get_string('emailtoteachers',$book);
+		include('scripts/check_yesno.php'); 
+		}
+?>
+	  </div>
+	  <div class="right">
+<?php 					 
+	if($CFG->emailcomments=='yes'){
+		$checkname='senemail';$checkcaption=get_string('emailtosensupport',$book);
 		include('scripts/check_yesno.php'); 
 		}
 ?>

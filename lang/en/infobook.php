@@ -185,6 +185,7 @@ $string['notes']='Notes';
 $string['nextreviewdate']='Next review';
 $string['ethnicity']='Ethnicity';
 $string['emailtoteachers']='Email to subject teachers';
+$string['emailtosensupport']='Email to SEN/Support';
 $string['sharewithguardian']='Share with parents';
 $string['sharecommentalert']='NOTE: This comment will be shared with the parents of this student!';
 $string['epfusername']='ePortfolio Username';
@@ -228,4 +229,5 @@ $string['bankcode']='Bank code';
 $string['branch']='Branch';
 $string['control']='Control';
 $string['personaltutor']='Tutor';
+$string['updatesfile']='Updates File';
 ?>

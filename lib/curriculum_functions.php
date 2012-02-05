@@ -489,6 +489,26 @@ function list_student_teachers($sid){
 	}
 
 
+/** 
+ *
+ * Returns an array listing all staff and teachers with
+ * sepsonsibilities for SEN/Support
+ *
+ *
+ *	@return array
+ */
+function list_support_teachers(){
+	$teachers=array();
+	$d_t=mysql_query("SELECT  username, forename, surname, title, email FROM users 
+						 WHERE (role='sen' OR senrole='1') AND users.nologin!='1';");
+	while($t=mysql_fetch_array($d_t)){
+		$teachers[]=$t;
+		}
+	return $teachers;
+	}
+
+
+
 /**
  *
  * Send a message about a student to the relevant teaching staff.
@@ -507,6 +527,7 @@ function message_student_teachers($sid,$tid,$bid,$messagesubject,$messagetext,$m
 	global $CFG;
 	$result=array();
 
+	/* Teacher group can be a list of set teachers to send to */
 	if(is_array($teachergroup)){
 		foreach($teachergroup as $teacher){
 			if(isset($teacher['email'])){
@@ -514,17 +535,21 @@ function message_student_teachers($sid,$tid,$bid,$messagesubject,$messagetext,$m
 				}
 			}
 		}
+	/* Or make lists of academic and pastoral teacher recipients for the email */
 	else{
-		/* Make lists of academic and pastoral teacher recipients for the email */
-		$precips=array();
-		$arecips=array();
-		if($teachergroup=='%' or $teachergroup=='p'){
-			$precips=(array)list_sid_responsible_users($sid,$bid);
+		$recipients=array();
+		if(strpos($teachergroup,'p')!==false){
+			$recips=(array)list_sid_responsible_users($sid,$bid);
+			$recipients=array_merge($recipients, $recips);
 			}
-		if($teachergroup=='%' or $teachergroup=='a'){
-			$arecips=(array)list_student_teachers($sid);
+		if(strpos($teachergroup,'a')!==false){
+			$recips=(array)list_student_teachers($sid);
+			$recipients=array_merge($recipients, $recips);
 			}
-		$recipients=array_merge($precips, $arecips);
+		if(strpos($teachergroup,'s')!==false){
+			$recips=(array)list_support_teachers($sid);
+			$recipients=array_merge($recipients, $recips);
+			}
 		}
 	
 	/* Decide on the addressee of the message. If possible use teacher's own email address. */
@@ -536,7 +561,7 @@ function message_student_teachers($sid,$tid,$bid,$messagesubject,$messagetext,$m
 		}
 	else{
 		$from['name']='ClaSS';
-		$from['email']=$CFG->emailnoreply;;
+		$from['email']=$CFG->emailnoreply;
 		}
 
 	if($recipients and $CFG->emailoff!='yes' and $CFG->emailcomments=='yes'){
