@@ -26,6 +26,13 @@ if($current!=''){
 <?php
 		}
 
+	/* This flags a change of student/parent details or status 
+	 * and logs to the update_event table. 
+	 */
+	if(isset($update_flag) and $update_flag and !empty($sid) and $sid!=-1){
+		set_update_event($sid);
+		}
+
 	$uid=$_SESSION['uid'];
 	mysql_query("INSERT INTO history SET uid='$uid', page='$current'");
 	}

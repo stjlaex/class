@@ -21,8 +21,8 @@ Fix to transport edit and transport display.
 Added a 'trigger' to email defined users for a specific comment
 category.
 
-SMS text sending now operates the same as email through the cron with an
-event db table.
+SMS text sending now operates the same as email through the cron with
+an event db table.
 
 
 Version ClaSS-1.0.14 release (2012/01/27)

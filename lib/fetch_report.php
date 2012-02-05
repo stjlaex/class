@@ -1066,7 +1066,7 @@ function fetchProfileStatements($profile_name,$bid,$pid,$sid,$cutoff_date){
 	  $profilepids=(array)list_subject_components($pid,'FS');
 	  $profilepids[]=array('id'=>$pid,'name'=>'');
 	  $Statements=array();
-	  trigger_error($profile_name.' '. $pid,E_USER_WARNING);
+	  //trigger_error($profile_name.' '. $pid,E_USER_WARNING);
 
 	  foreach($profilepids as $component){
 		  $profilepid=$component['id'];
@@ -1144,9 +1144,9 @@ function fetchStatement($statement,$nolevels){
 function personaliseStatement($Statement,$Student){
 	$text=$Statement['Value'];
 	if($Student['Gender']['value']=='M'){
-		$possessive='his';
-		$pronoun='he';
-		$objectpronoun='him';
+		$possessive='his';//~
+		$pronoun='he';//^
+		$objectpronoun='him';//*
 		}
 	else{
 		$possessive='her';

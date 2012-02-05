@@ -12,10 +12,12 @@
 
 /**
  *
+ * Can return and account either for a given guardian_id (the default) or for
+ * a given account id (set idname=id). id=1 is special and not a valid value.
  * 
  * @return array
  */
-function fetchAccount($gid=-1){
+function fetchAccount($gid=-1,$idname='guardian_id'){
 
 	$Account=array();
 	$acid=-1;
@@ -27,7 +29,7 @@ function fetchAccount($gid=-1){
 					AES_DECRYPT(bankcode,'$access') AS bankcode,
 					AES_DECRYPT(bankcountry,'$access') AS bankcountry, AES_DECRYPT(bankcontrol,'$access') 
 					AS bankcontrol, AES_DECRYPT(banknumber,'$access') AS banknumber  
-					FROM fees_account WHERE guardian_id='$gid';");
+					FROM fees_account WHERE $idname='$gid' AND id!='1';");
 		$a=mysql_fetch_array($d_a,MYSQL_ASSOC);
 		if(mysql_numrows($d_a)>0){
 			$acid=$a['id'];
@@ -151,7 +153,7 @@ function fetchTarif($tarif=array('id'=>-1)){
 function fetchRemittance($remid=-1){
 
 	if($remid==''){$remid=-1;}
-	$d_c=mysql_query("SELECT id, name, year, date FROM fees_remittance WHERE id='$remid' ORDER BY date DESC LIMIT 1;");
+	$d_c=mysql_query("SELECT id, name, concepts, year, duedate, issuedate FROM fees_remittance WHERE id='$remid' ORDER BY date DESC LIMIT 1;");
 	$c=mysql_fetch_array($d_c,MYSQL_ASSOC);
 
 	$Remittance=array();
@@ -164,24 +166,27 @@ function fetchRemittance($remid=-1){
 							  'value' => ''.$c['name']
 							  );
 	$Remittance['IssueDate']=array('label' => 'issue', 
-								   'type_db' => 'issuedate', 
+								   'type_db' => 'date', 
+								   'field_db' => 'issuedate',
 								   'table_db' => 'fees_remittance', 
-								   'value' => ''.$c['date']);
+								   'value' => ''.$c['issuedate']);
 	$Remittance['PaymentDate']=array('label' => 'due', 
-									 'type_db' => 'duedate', 
+									 'type_db' => 'date', 
+									 'field_db' => 'duedate',
 									 'table_db' => 'fees_remittance', 
-									 'value' => ''.$c['date']);
+									 'value' => ''.$c['duedate']);
    	$Remittance['Year']=array('label' => 'year', 
 							  //'table_db' => 'fees_remittance', 
 							  'field_db' => 'year',
 							  'type_db' => 'year', 
 							  'value' => ''.$c['year']
 							  );
+   	$Remittance['Account']=fetchAccount($c['account_id'],'id');
 
 	$Remittance['Concepts']=array();
-	$d_c=mysql_query("SELECT id FROM fees_concept;");
-	while($c=mysql_fetch_array($d_c)){
-		$conid=$c['id'];
+
+	$conids=(array)explode(':::',$c['concepts']);
+	foreach($conids as $conid){
 		$d_a=mysql_query("SELECT SUM(t.amount) FROM fees_charge AS c JOIN fees_tarif AS t ON t.id=c.tarif_id 
 							WHERE c.remittance_id='$remid' AND t.concept_id='$conid';");
 		$total=mysql_result($d_a,0);
@@ -228,7 +233,7 @@ function list_remittances($feeyear=''){
 
 	if($feeyear==''){$feeyear=get_curriculumyear();}
 
-	$d_c=mysql_query("SELECT id, name, year  FROM fees_remittance WHERE year='$feeyear' ORDER BY date DESC;");
+	$d_c=mysql_query("SELECT id, name, year  FROM fees_remittance WHERE year='$feeyear' ORDER BY issuedate DESC;");
 
 	$remittances=array();
 	while($c=mysql_fetch_array($d_c)){

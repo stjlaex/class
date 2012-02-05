@@ -28,6 +28,7 @@ CREATE TABLE fees_charge (
 CREATE TABLE fees_remittance (
 	id				int unsigned not null auto_increment,
 	name			varchar(240) not null default '',
+	concepts		varchar(240) not null default '',
 	duedate			date not null default '0000-00-00',
 	issuedate		date not null default '0000-00-00',
 	year			year not null default '0000',

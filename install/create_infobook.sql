@@ -280,7 +280,7 @@ CREATE TABLE update_event (
 	primary key 	(id)
 ) type=myisam;
 
-CREATE TABLE text_event (
+CREATE TABLE message_text_event (
 	id		 		int unsigned not null auto_increment,
 	some_id			int unsigned not null default '0',
 	texttype		enum('s', 'g', 'u') not null,
