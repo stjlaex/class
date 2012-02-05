@@ -12,10 +12,11 @@ $todate=date('Y-m-d');
 $today=date('N');
 
 /* Make use of the passed date to calculate the dates being viewed. */
-$datediff=strtotime($date)-strtotime($todate);
-$weekdiff=round($datediff/(86400*7));
+$startdate=strtotime($date);
+$firstmonday=strtotime('first Monday',$startdate);//Monday next week
+$datediff=$firstmonday-strtotime($todate)-86400*7;//difference between today and Monday
+$weekdiff=round($datediff/(86400*7))+1;
 $startday=$weekdiff*7;
-trigger_error($weekdiff.' : '.$startday,E_USER_WARNING);
 
 $Student=fetchStudent_short($sid);
 $buses=list_buses();
@@ -26,7 +27,6 @@ $dates=array();
 		$daydiff=$startday+$day-$today;
 		$date=date('Y-m-d',strtotime($daydiff.' day'));
 		$dates[$day]=$date;
-		trigger_error($date,E_USER_WARNING);
 		}
 
 	$html='';
