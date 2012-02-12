@@ -12,7 +12,7 @@ CREATE TABLE info (
 	epfusername		varchar(128) not null default '',
 	phonenumber		varchar(22) not null default '',
 	parttime		enum('N','Y') not null,
-	boarder			enum('N','B','H','6','7') not null,
+	boarder			char(2) not null default 'N',
 	nationality		char(2) not null default '',
 	secondnationality		char(2) not null default '',
 	birthplace		varchar(240) not null default '',

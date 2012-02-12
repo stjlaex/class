@@ -55,3 +55,5 @@ CREATE TABLE message_text_event (
 	try				tinyint(4) not null default '0',
 	primary key 	(id)
 ) type=myisam;
+ALTER TABLE info CHANGE boarder
+	boarder char(2) not null default 'N';

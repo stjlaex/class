@@ -126,7 +126,9 @@ if($enrolyear==$currentyear){
 			$com['id']=$comid;
 
 			/* Two possibilities: 'live' or 'static' values. Only enquiries are static (ie. keyed) */
-			$value_boarder=0;
+			foreach($boardercoms as $index=>$boardercom){
+				$value_boarders[$index]=0;
+				}
 			if($enrolstatus=='EN'){
 				$value=countin_community($com,'','',true);
 				$display=$value+$extravalue;
@@ -141,17 +143,19 @@ if($enrolyear==$currentyear){
 				$displayvalue=$value+$extravalue;
 				$display='<a href="admin.php?current=enrolments_list.php&cancel='.
 						$choice.'&choice='. $choice.'&enrolyear='. $enrolyear.'&yid='. $yid.
-						'&comid='.$com['id'].'">'.$displayvalue.'</a>';
+						'&comid='.$com['id'].'&enrolstatus='.$enrolstatus.'">'.$displayvalue.'</a>';
 				}
 			else{
 				$value=countin_community($com);
 				if($value>0){
-					$value_boarder=countin_community_extra($com,'boarder','B');
+					foreach($boardercoms as $index=>$boardercom){
+						$value_boarders[$index]=countin_community_extra($com,'boarder',$boardercom['name']);
+						}
 					}
 				$displayvalue=$value+$extravalue;
 				$display='<a href="admin.php?current=enrolments_list.php&cancel='.
 						$choice.'&choice='. $choice.'&enrolyear='. $enrolyear.'&yid='. $yid.
-						'&comid='.$com['id'].'">'.$displayvalue.'</a>';
+						'&comid='.$com['id'].'&enrolstatus='.$enrolstatus.'">'.$displayvalue.'</a>';
 				}
 
 
@@ -160,8 +164,9 @@ if($enrolyear==$currentyear){
 			/* Don't count enquiries as full applications so don't add to row total. */
 			if($enrolstatus!='EN'){
 				$values[0]+=$values[$index+1];
-				$values['B']+=$value_boarder;
-				//trigger_error($index.' : '.$value.' : '.$value_boarder,E_USER_WARNING);
+				foreach($boardercoms as $index=>$boardercom){
+					$values['B'][$index]+=$value_boarders[$index];
+					}
 				}
 
 
@@ -174,8 +179,10 @@ if($enrolyear==$currentyear){
 
 			$app_tablecells[$enrolstatus]['value']=$value;
 			$app_tablecells[$enrolstatus]['name']=$enrolstatus.':'.$yid;
-			$app_tablecells[$enrolstatus]['value_boarder']=$value_boarder;
-			$app_tablecells[$enrolstatus]['name_boarder']=$enrolstatus.':boarder';
+			foreach($boardercoms as $index=>$boardercom){
+				$app_tablecells[$enrolstatus]['value_boarders'][$index]=$value_boarders[$index];
+				$app_tablecells[$enrolstatus]['name_boarders'][$index]=$enrolstatus.':boarder';
+				}
 			}
 
 		/* Don't forget applications who have already joined current
@@ -189,7 +196,9 @@ if($enrolyear==$currentyear){
 							.$newnewcurrentsids.'</a>';
 			}
 		$app_tablecells['applicationsreceived']['value']=$values[0]+$newnewcurrentsids;
-		$app_tablecells['applicationsreceived']['value_boarder']=$values['B'];
+		foreach($boardercoms as $index=>$boardercom){
+			$app_tablecells['applicationsreceived']['value_boarders'][$index]=$values['B'][$index];
+			}
 		$app_tablecells['applicationsreceived']['name']='TOTAL:'.$yid;
 		$app_tablecells['applicationsreceived']['name_boarder']='TOTAL:boarder';
 		$app_tablecells['applicationsreceived']['display']='<a href="admin.php?current=enrolments_list.php&cancel=' 

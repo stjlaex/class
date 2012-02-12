@@ -24,6 +24,11 @@ category.
 SMS text sending now operates the same as email through the cron with
 an event db table.
 
+Change to the boarder field in info table: B value now set to code for
+accomodation group or N if not a boarder.
+
+Display individual boarder groups in the enrolments tables.
+
 
 Version ClaSS-1.0.14 release (2012/01/27)
 -------------------------------------------

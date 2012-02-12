@@ -42,11 +42,11 @@ $send_attempts=2;
  * The age limit also prevents the queue being swamped with retries of any failures.
  *
  */
-	$agelimit=5;//in minutes
+	$agelimit=6;//in minutes
 	$d_e=mysql_query("SELECT id, phonenumber, textbody FROM message_text_event 
-					WHERE success='0' AND time + interval $agelimit minute < now()  AND try < 2 LIMIT 100;");
+					WHERE success='0' AND time + interval $agelimit minute < now()  AND try < 2 LIMIT 80;");
 	$d_u=mysql_query("UPDATE message_text_event SET success='0' 
-					WHERE success='0' AND time + interval $agelimit minute < now() AND try < 2 LIMIT 100;");
+					WHERE success='0' AND time + interval $agelimit minute < now() AND try < 2 LIMIT 80;");
 
 	while($send=mysql_fetch_array($d_e,MYSQL_ASSOC)){
 		$success=true;

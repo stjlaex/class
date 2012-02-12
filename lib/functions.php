@@ -291,7 +291,8 @@ function getEnumArray($field_name){
 				   'B' => 'boarder',
 				   'H' => 'hostfamily',
 				   '6' => 'boardersixnightsorless', 
-				   '7' => 'boardersevennights');
+				   '7' => 'boardersevennights'
+				   );
 	$religion=array('NOT' => 'informationnotobtained', 
 					'BU' => 'buddhist', 
 					'CH' => 'christian', 

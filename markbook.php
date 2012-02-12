@@ -253,7 +253,7 @@ if(isset($umns)){
 <?php 
 						 /*TODO: should bid and pid be past here? Seems to stop report_profile_print from working*/
 			//$currentprofile['bid']=$bid[0];
-			//$currentprofile['pid']=$pid;
+			$currentprofile['pid']=$pid;
 			$currentprofile['stage']=$classes[$cid]['stage'];
 			$currentprofile['classes']='';
 			foreach($cids as $cindex => $cid){

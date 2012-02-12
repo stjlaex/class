@@ -6,12 +6,15 @@ $action='enrolments_list_action.php';
 
 if(isset($_GET['comid'])){$comid=$_GET['comid'];}else{$comid=-1;}
 if(isset($_GET['enrolyear'])){$enrolyear=$_GET['enrolyear'];}
+if(isset($_GET['enrolstatus'])){$enrolstatus=$_GET['enrolstatus'];}
 if(isset($_GET['yid'])){$yid=$_GET['yid'];}
 if(isset($_GET['enrolstage'])){$enrolstage=$_GET['enrolstage'];}else{$enrolstage='E';}
 if(isset($_GET['startdate'])){$startdate=$_GET['startdate'];}
+if(isset($_GET['boarder'])){$boarder=$_GET['boarder'];}
 if(isset($_POST['comid'])){$comid=$_POST['comid'];}
 if(isset($_POST['enrolyear'])){$enrolyear=$_POST['enrolyear'];}
 if(isset($_POST['enrolstage'])){$enrolstage=$_POST['enrolstage'];}
+if(isset($_POST['enrolstatus'])){$enrolstatus=$_POST['enrolstatus'];}
 if(isset($_POST['startdate'])){$startdate=$_POST['startdate'];}
 
 	/**
@@ -50,14 +53,40 @@ if(isset($_POST['startdate'])){$startdate=$_POST['startdate'];}
 		$comtype='year';
 		$current_enrolstatus='C';
 		}
-	else{
-		$comtype='allapplied';
-		foreach($application_steps as $enrolstatus){ 
+	elseif(!empty($enrolstatus) and in_array($enrolstatus,$application_steps)){
+		$yeargroups=list_yeargroups();
+		foreach($yeargroups as $yeargroup){ 
 			if($enrolstatus=='EN'){$type='enquired';}
 			elseif($enrolstatus=='AC'){$type='accepted';}
 			else{$type='applied';}
 			$coms[]=array('id'=>'','type'=>$type, 
-					   'name'=>$enrolstatus.':'.$yid,'year'=>$enrolyear);
+					   'name'=>$enrolstatus.':'.$yeargroup['id'],'year'=>$enrolyear);
+			}
+		$comtype=$type;
+		$current_enrolstatus=$enrolstatus;
+		}
+	else{
+		$comtype='allapplied';
+		if($yid>-100){
+			foreach($application_steps as $es){ 
+				if($es=='EN'){$type='enquired';}
+				elseif($es=='AC'){$type='accepted';}
+				else{$type='applied';}
+				$coms[]=array('id'=>'','type'=>$type, 
+							  'name'=>$es.':'.$yid,'year'=>$enrolyear);
+				}
+			}
+		else{
+			$yeargroups=list_yeargroups();
+			foreach($application_steps as $es){ 
+				foreach($yeargroups as $yeargroup){ 
+					if($es=='EN'){$type='enquired';}
+					elseif($es=='AC'){$type='accepted';}
+					else{$type='applied';}
+					$coms[]=array('id'=>'','type'=>$type, 
+								  'name'=>$es.':'.$yeargroup['id'],'year'=>$enrolyear);
+					}
+				}
 			}
 		}
 
@@ -89,6 +118,15 @@ if(isset($_POST['startdate'])){$startdate=$_POST['startdate'];}
 		$students=array_merge($students,$comstudents);
 		if($enrolstage=='E'){
 			$AssDefs=fetch_enrolmentAssessmentDefinitions($com);
+			}
+		}
+
+	if(!empty($boarder)){
+		$boardercom=array('id'=>'','type'=>'accomodation','name'=>$boarder);
+		$boarders=(array)listin_community($boardercom);
+		$boarder_students=array();
+		foreach($boarders as $student){
+			$boarder_students[]=$student['id'];
 			}
 		}
 
@@ -133,6 +171,7 @@ if(isset($_POST['startdate'])){$startdate=$_POST['startdate'];}
 				value="yes" onChange="checkAll(this);" />
 			</th>
 			<th style="width:40%;"><?php print $description;?></th>
+			<th><?php print_string('yeargroup','infobook');?></th>
 			<th><?php print_string('schoolstartdate','infobook');?></th>
 <?php
 
@@ -160,6 +199,7 @@ if(isset($_POST['startdate'])){$startdate=$_POST['startdate'];}
 	foreach($students as $student){
 		$sid=$student['id'];
 		$Enrolment=fetchEnrolment($sid);
+		if(empty($boarder) or in_array($sid,$boarder_students)){
 ?>
 		  <tr id="sid-<?php print $sid;?>">
 			<td>
@@ -202,7 +242,8 @@ if(isset($_POST['startdate'])){$startdate=$_POST['startdate'];}
 ?>
 			</td>
 <?php
-			print '<td>'.display_date($Enrolment['EntryDate']['value']).'</td>';
+		print '<td>'.get_yeargroupname($Enrolment['YearGroup']['value']).'</td>';
+		print '<td>'.display_date($Enrolment['EntryDate']['value']).'</td>';
 ?>
 			<td class="row">
 <?php
@@ -265,8 +306,8 @@ if(isset($_POST['startdate'])){$startdate=$_POST['startdate'];}
 					}
 				}
 ?>
-			  <input type="hidden"  
-				name="sids[]" value="<?php print $sid;?>" />
+			  <input type="hidden" name="sids[]" value="<?php print $sid;?>" />
+			  <input type="hidden" name="yid<?php print $sid;?>" value="<?php print $Enrolment['YearGroup']['value'];?>" />
 			</td>
 		  </tr>
 <?php
@@ -274,7 +315,7 @@ if(isset($_POST['startdate'])){$startdate=$_POST['startdate'];}
 	if($enrolstage=='RE'){
 ?>
 		<tr>
-		  <th colspan="2">
+		  <th colspan="3">
 			<?php print_string('total',$book);?>
 		  </th>
 		  <td class="row">
@@ -290,10 +331,12 @@ if(isset($_POST['startdate'])){$startdate=$_POST['startdate'];}
 		</tr>
 <?php
 		}
+	}
 ?>
 		</table>
 	  </div>
 
+	<input type="hidden" name="enrolstatus" value="<?php print $enrolstatus;?>" /> 
 	<input type="hidden" name="enrolstage" value="<?php print $enrolstage;?>" /> 
 	<input type="hidden" name="enrolyear" value="<?php print $enrolyear;?>" /> 
 	<input type="hidden" name="comid" value="<?php print $comid;?>" /> 
