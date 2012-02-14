@@ -66,6 +66,8 @@ if(mysql_result($d_a,0)>0){
 else{
 	$save_stats=true;
 	}
+	$save_stats=true;
+
 
 $yeargroups=list_yeargroups();
 $yeargroup_names=array();/* The row index for both tables. */
@@ -202,8 +204,19 @@ if(isset($CFG->enrol_boarders) and $CFG->enrol_boarders=='yes'){
 						}
 					}
 				if(isset($boardercoms) and $save_stats){
-					$cellname=$table['rows'][1][$col['value']]['name_boarder'];
-					mysql_query("INSERT admission_stats SET date='$todate', name='$cellname', year='$enrolyear', count='$total_boarders[$index]';");
+					$cellvalue=0;
+					foreach($boardercoms as $index=>$boardercom){
+						$cellvalue+=$total_boarders[$index];
+						}
+					if(isset($table['rows'][1][$col['value']]['name_boarders'])){
+						$cellname=$table['rows'][1][$col['value']]['name_boarders'][0];
+						}
+					else{
+						$cellname=$table['rows'][1][$col['value']]['name_boarder'];
+						}
+
+					trigger_error($cellname.' '.$cellvalue,E_USER_WARNING);
+					mysql_query("INSERT admission_stats SET date='$todate', name='$cellname', year='$enrolyear', count='$cellvalue';");
 					}
 				}
 			}

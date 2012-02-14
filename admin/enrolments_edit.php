@@ -39,29 +39,18 @@ three_buttonmenu();
 ?>
 		  </th>
 		</tr>
-		<tr>
 <?php 
 	$yeargroups=list_yeargroups();
-	/* Does the school have boarders? */
-	if(isset($CFG->boarders) and $CFG->boarders=='yes'){
-		$yeargroup_names['B']='Residence';
-		$yeargroup_comids['B']='B';
-		$yeargroups[]=array('id'=>'B');
-		}
-
-	while(list($yindex,$year)=each($yeargroups)){
+	foreach($yeargroups as $year){
 		$yid=$year['id'];
 		if($enrolstatus=='capacity'){
 			if($enrolyear==$currentyear){
 				/* capacity for the current year is in the year community */
-				$com=array('id'=>'','type'=>'year', 
-						   'name'=>$yid);
+				$com=array('id'=>'','type'=>'year', 'name'=>$yid);
 				}
 			else{
-				/* to allow it to change year to year it is 
-						stored in the accepted community */
-				$com=array('id'=>'','type'=>'accepted', 
-						   'name'=>'AC:'.$yid,'year'=>$enrolyear);
+				/* to allow it to change year to year it is stored in the accepted community */
+				$com=array('id'=>'','type'=>'accepted', 'name'=>'AC:'.$yid,'year'=>$enrolyear);
 				}
 			$comid=update_community($com);
 			$community=get_community($comid);
@@ -86,6 +75,7 @@ three_buttonmenu();
 			}
 
 ?>
+		<tr>
 		  <td>
 			<?php print $year['name'];?>
 		  </td>
@@ -97,6 +87,26 @@ three_buttonmenu();
 		  </td>
 		</tr>
 <?php
+		}
+
+	/* Does the school have boarders? */
+	if($enrolstatus=='capacity' and isset($CFG->enrol_boarders) and $CFG->enrol_boarders=='yes'){
+		$boardercoms=(array)list_communities('accomodation');
+		foreach($boardercoms as $index => $com){
+?>
+		<tr>
+		  <td>
+			<?php print $com['name'];?>
+		  </td>
+		  <td>
+			<input type="hidden" name="comids[]" value="<?php print $com['id'];?>" />
+			<input pattern="decimal" type="text" 
+				tabindex="<?php print $tab++;?>" 
+				name="values[]" maxlength="8" value="<?php print $com['capacity'];?>" />
+		  </td>
+		</tr>
+<?php
+			}
 		}
 ?>
 	  </table>
