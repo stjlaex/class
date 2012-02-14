@@ -66,7 +66,6 @@ if(mysql_result($d_a,0)>0){
 else{
 	$save_stats=true;
 	}
-	$save_stats=true;
 
 
 $yeargroups=list_yeargroups();
