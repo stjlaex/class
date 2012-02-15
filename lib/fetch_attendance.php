@@ -690,7 +690,7 @@ function fetchAttendanceSummary($sid,$startdate,$enddate,$session='%'){
 /**
  * This will count all present marks unless a code is specified when 
  * it will count absence marks with that code. Set code=% will count
- * all absence marks excluding those which can be counted for a 
+ * all absence marks excluding those which can not be counted for a 
  * student (ie. school closed #, not on roll Z, enforced closure Y and
  * non-compulsory age X).
  *

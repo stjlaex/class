@@ -29,7 +29,7 @@ function dateDiff($startdate,$enddate){
 	else{
 
 		/* Start the week on a Monday. */
-		$startdate=date('Y-M-d',strtotime('last sunday  ',strtotime($startdate)));
+		$startdate=date('Y-m-d',strtotime('last sunday  ',strtotime($startdate)));
 		$nodays=dateDiff($startdate,$enddate);//number of days for the period
 		$startday=dateDiff(date('Y-m-d'),$enddate);//number days relative to today, -ve for the past
 
@@ -38,8 +38,8 @@ function dateDiff($startdate,$enddate){
 		/*doing one student at a time*/
 		for($c=0;$c<sizeof($sids);$c++){
 			$sid=$sids[$c];
-			$Student=fetchStudent_short($sid);
-			$AttendanceSummary=fetchAttendanceSummary($sid,$startdate,$enddate);
+			$Student=(array)fetchStudent_short($sid);
+			$AttendanceSummary=(array)fetchAttendanceSummary($sid,$startdate,$enddate);
 
 			$table_html=array();
 			$rows=array();
