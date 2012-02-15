@@ -76,8 +76,8 @@ if($nodays==''){$nodays=8;}
 	  //trigger_error('DEFAULT: '.$community['type'].' : '.$yid.' : '.$secid.' : '.$newcomid.' .... '.$current,E_USER_WARNING);
 		}
 
-	/* If a community has been set then don't lose it. */
-  if(isset($community) and is_array($community)){
+	/* If a community has been set then don't lose it. But careful of class communities which are not yet communities! */
+	if(isset($community) and is_array($community) and $community['type']!='class'){
 	  $newcomid=update_community($community);
 	  $community=(array)get_community($newcomid);
 	  $_SESSION[$book.'newcomid']=$newcomid;

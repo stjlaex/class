@@ -311,14 +311,15 @@ if(isset($_POST['startdate'])){$startdate=$_POST['startdate'];}
 			</td>
 		  </tr>
 <?php
+			}
 		}
 	if($enrolstage=='RE'){
 ?>
 		<tr>
-		  <th colspan="3">
+		  <th colspan="4">
 			<?php print_string('total',$book);?>
 		  </th>
-		  <td class="row">
+		  <td class="row" colspan="1">
 <?php
 				foreach($grades as $grade){
 					print '<div class=""><label>' 
@@ -330,7 +331,6 @@ if(isset($_POST['startdate'])){$startdate=$_POST['startdate'];}
 		  </td>
 		</tr>
 <?php
-		}
 	}
 ?>
 		</table>

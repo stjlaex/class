@@ -14,6 +14,8 @@ include('scripts/sub_action.php');
 if(isset($CFG->registration[$secid]) and $CFG->registration[$secid]!='single'){$session='%';}
 else{$session='AM';}
 
+trigger_error($community['id'].' '.$community['name'].' '.$community['type'],E_USER_WARNING);
+
 	if($community['type']=='class'){
 		$students=(array)listin_class($community['name'],true);
 		$AttendanceEvents=fetchAttendanceEvents($startday,1,$session);
