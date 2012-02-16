@@ -297,6 +297,36 @@ if($_SESSION['role']=='office' or $_SESSION['role']=='admin'){
 ?>
 	  </div>
 
+	  <div class="divgroup right">
+<?php 
+		if($messageop=='email' and $_SESSION['role']=='admin'){
+?>
+		<label for="replyto"><?php print_string('emailreplyto','admin');?></label>
+<?php
+			$choices=array();
+			if(is_array($CFG->emailnoreply)){
+				foreach($CFG->emailnoreply as $address){
+					$choices[]=$address;
+					}
+				}
+			else{
+				$choices[]=$CFG->emailnoreply;
+				}
+			$teacher=get_user($tid,'username');
+			if($teacher['email']!='' and check_email_valid($teacher['email'])){
+				$choices[]=$teacher['email'];
+				}
+			print '<select name="replyto" id="replyto" size="1" tabindex="'.$tab++.'">';
+			foreach($choices as $index=>$choice){
+				print '<option ';
+				if($index==0){print 'selected="selected"';}
+				print	' value="'.$choice.'">'.$choice.'</option>';
+				}
+			print '</select>';
+			}
+?>
+	  </div>
+
 	</div>
 
 

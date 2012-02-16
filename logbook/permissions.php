@@ -62,10 +62,10 @@ function list_sid_responsible_users($sid, $bid){
 	if($Student['Boarder']['value']!='N'){
 		$d_u=mysql_query("SELECT uid FROM perms JOIN groups ON perms.gid=groups.gid WHERE
 				groups.type='p' AND groups.community_id=ANY(SELECT id FROM community WHERE type='accomodation');");
-		trigger_error($u['uid'].mysql_error(),E_USER_WARNING);
+		//trigger_error($u['uid'].mysql_error(),E_USER_WARNING);
 		while($u=mysql_fetch_array($d_u)){
 			$user=get_user($u['uid'],'uid');
-			trigger_error($u['uid'],E_USER_WARNING);
+			//trigger_error($u['uid'],E_USER_WARNING);
 			if(check_email_valid($user['email'])){ 
 				$recipients[$user['uid']]=array('username'=>$user['username'], 'email'=>$user['email']);
 				}

@@ -40,7 +40,12 @@ if($recipients and sizeof($recipients)>0){
 			$replyto=$CFG->emailregisternoreply;
 			}
 		else{
-			$replyto=$CFG->emailnoreply;
+			if(is_array($CFG->emailnoreply)){
+				$replyto=$CFG->emailnoreply[0];
+				}
+			else{
+				$replyto=$CFG->emailnoreply;
+				}
 			}
 
 		$footer=get_string('guardianemailfooterdisclaimer');

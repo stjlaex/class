@@ -36,15 +36,20 @@ $message.='<p>'.$detail.'</p>';
 		}
 
 	/* Decide on the addressee of the message. If possible use teacher's own email address. */
-	//$teachername=get_teachername($tid);
-	//$teacher=get_user($tid,'username');
+	$teacher=get_user($tid,'username');
 	if($teacher['email']!='' and $teacher['email']!=' '){
-		$from['name']=$teachername;
+		$teachername=get_teachername($tid);
+		$from['name']=$teachername.' - '.$CFG->schoolname;
 		$from['email']=$teacher['email'];
 		}
 	else{
 		$from['name']='ClaSS for '.$CFG->schoolname;
-		$from['email']=$CFG->emailnoreply;
+		if(is_array($CFG->emailnoreply)){
+			$from['email']=$CFG->emailnoreply[0];
+			}
+		else{
+			$from['email']=$CFG->emailnoreply;
+			}
 		}
 
 	$messagetxt=strip_tags(html_entity_decode($messagebody, ENT_QUOTES, 'UTF-8'));

@@ -561,7 +561,12 @@ function message_student_teachers($sid,$tid,$bid,$messagesubject,$messagetext,$m
 		}
 	else{
 		$from['name']='ClaSS';
-		$from['email']=$CFG->emailnoreply;
+		if(is_array($CFG->emailnoreply)){
+			$from['email']=$CFG->emailnoreply[0];
+			}
+		else{
+			$from['email']=$CFG->emailnoreply;
+			}
 		}
 
 	if($recipients and $CFG->emailoff!='yes' and $CFG->emailcomments=='yes'){

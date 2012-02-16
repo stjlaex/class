@@ -1413,6 +1413,13 @@ function send_email_to($recipient, $from, $subject, $messagetext, $messagehtml='
 	$success=false;
 	$subject=substr(stripslashes($subject), 0, 900);
 
+	if(is_array($CFG->emailnoreply)){
+		$default_emailnoreply=$CFG->emailnoreply[0];
+		}
+	else{
+		$default_emailnoreply=$CFG->emailnoreply;
+		}
+
 	if(empty($recipient)){
 		return false;
 		}
@@ -1445,16 +1452,16 @@ function send_email_to($recipient, $from, $subject, $messagetext, $messagehtml='
 	$mail_queue=& new Mail_Queue($db_options, $mail_options);
 
 	if(is_string($from) and !empty($from)){
-		$from_name=$from.' <'.$CFG->emailnoreply.'>';
-		$replyto=$CFG->emailnoreply;
+		$from_name=$from.' <'.$default_emailnoreply.'>';
+		$replyto=$default_emailnoreply;
 		}
 	elseif(is_array($from)){
 		$from_name=$from['name'].' <'.$from['email'].'>';
 		$replyto=$from['email'];
 		}
 	else{
-		$from_name=$CFG->schoolname.' <'.$CFG->emailnoreply.'>';
-		$replyto=$CFG->emailnoreply;
+		$from_name=$CFG->schoolname.' <'.$default_emailnoreply.'>';
+		$replyto=$default_emailnoreply;
 		}
 
 	/* Option to overide the default reply-to address*/
@@ -1476,10 +1483,10 @@ function send_email_to($recipient, $from, $subject, $messagetext, $messagehtml='
 
 	/* The account doing the sending. */
 	if(!empty($CFG->smtpsender)){
-		$sender= $CFG->smtpsender;
+		$sender=$CFG->smtpsender;
 		}
 	else{
-		$sender=$CFG->emailnoreply;
+		$sender=$default_emailnoreply;
 		}
 	
 	/* TODO: make use of the $from['email] and $from_name values 

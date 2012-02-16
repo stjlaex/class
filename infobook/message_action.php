@@ -11,6 +11,7 @@ if(isset($_POST['share0'])){$share=$_POST['share0'];}else{$share='no';}
 
 if(isset($_POST['messagebody'])){$messagebody=clean_text($_POST['messagebody'],false);}
 if(isset($_POST['messagebcc'])){$messagebcc=clean_text($_POST['messagebcc']);}else{$messagebcc='';}
+if(isset($_POST['replyto'])){$replyto=clean_text($_POST['replyto']);}else{$replyto='';}
 if(isset($_POST['messagesubject'])){$messagesubject=clean_text($_POST['messagesubject']);}else{$messagesubject='';}
 if(isset($_POST['recipients'])){$recipients=(array)$_POST['recipients'];}else{$recipients=array();}
 
@@ -72,6 +73,14 @@ if($sub=='Submit' and $recipients and sizeof($recipients)>0 and !isset($error)){
 	/* Sending emails.... */
 	if($CFG->emailoff!='yes' and $messageop=='email'){
 
+		if(isset($replyto)){
+			$from=array('name'=>$CFG->schoolname,'email'=>$replyto);
+			}
+		else{
+			$from='';
+			}
+
+
 		/* Need both plain text and html versions of body.*/
 		$footer=get_string('guardianemailfooterdisclaimer');
 		$messagebodytxt=strip_tags(html_entity_decode($messagebody, ENT_QUOTES, 'UTF-8'))."\r\n". '--'. "\r\n" . $footer;
@@ -102,11 +111,12 @@ if($sub=='Submit' and $recipients and sizeof($recipients)>0 and !isset($error)){
 			$messagehtml.=$messagebody;
 			$messagetxt='';
 			$messagetxt.=$messagebodytxt;
+
 			/*DOING!!!!!!!!!!!!*/
 
 
 			/*DOING!!!!!!!!!!!!*/
-			$email_result=send_email_to($recipient['email'],'',$messagesubject,$messagetxt,$messagehtml,$attachments);
+			$email_result=send_email_to($recipient['email'],$from,$messagesubject,$messagetxt,$messagehtml,$attachments);
 			if($email_result){$sentno++;}
 			else{$failno++;}
 			}
