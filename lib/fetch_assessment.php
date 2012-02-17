@@ -503,12 +503,13 @@ function fetchAssessments_short($sid,$eid='%',$bid='%',$pid='%'){
 
 /**
  *
- * Special assessment definitions for the enrolment process. Will
- * check for assdefs for all cohorts associated with the yeargroup
- * community. If no association between yeargroup and cohort is needed
- * and this is just a one off then leave $com blank. The $stage is
- * either 'E' for assdefs used before being accepted or 'RE' for
- * reenrolment of current students each academic year.
+ * Special assessment definitions for the enrolment process or used as
+ * general assessments independent of a course. Will check for assdefs
+ * for all cohorts associated with the yeargroup community. If no
+ * association between yeargroup and cohort is needed and this is just
+ * a one off then leave $com blank. The $stage is either 'E' for
+ * assdefs used during enrolment or 'RE' for reenrolment of
+ * current students each academic year.
  *
  * @param array $com
  * @param string $stage
@@ -519,25 +520,32 @@ function fetch_enrolmentAssessmentDefinitions($com='',$stage='E',$enrolyear='000
 	$AssDefs=array();
 	$crids=array();
 
-	if($com==''){$crids[]='%';}
+	if($com==''){
+		$d_a=mysql_query("SELECT id FROM assessment
+			   WHERE course_id='%' AND 
+				stage='$stage' AND year='$enrolyear' AND profile_name='' AND resultstatus!='S' 
+				ORDER BY course_id;");
+		}
 	else{
-		list($enrolstatus,$yid)=explode(':',$com['name']);
+		if($com['type']=='year'){
+			$yid=$com['name'];
+			}
+		else{
+			list($enrolstatus,$yid)=explode(':',$com['name']);
+			}
 		$yearcommunity=array('id'=>'','type'=>'year','name'=>$yid);
 		$cohorts=list_community_cohorts($yearcommunity);
-		while(list($index,$cohort)=each($cohorts)){
-			$crids[]=$cohort['course_id'];
+		foreach($cohorts as $cohort){
+			$crid=$cohort['course_id'];
+			$d_a=mysql_query("SELECT id FROM assessment
+			   WHERE course_id='$crid' AND 
+				stage='$stage' AND year='$enrolyear' AND profile_name='' AND resultstatus!='S' 
+				ORDER BY course_id;");
 			}
 		}
 
-	while(list($index,$crid)=each($crids)){
-		//$cohort=array('course_id'=>$crid,'stage'=>$stage,'year'=>$enrolyear);
-		$d_assessment=mysql_query("SELECT id FROM assessment
-			   WHERE (course_id LIKE '$crid' OR course_id='%') AND 
-				stage='$stage' AND year='$enrolyear' AND profile_name='' AND resultstatus!='S' 
-				ORDER BY course_id;");
-		while($ass=mysql_fetch_array($d_assessment, MYSQL_ASSOC)){
-			$AssDefs[]=fetchAssessmentDefinition($ass['id']);
-			}
+	while($ass=mysql_fetch_array($d_a, MYSQL_ASSOC)){
+		$AssDefs[]=fetchAssessmentDefinition($ass['id']);
 		}
 
 	//TODO: allow enrolment assessments linked to the cohort they are joining?

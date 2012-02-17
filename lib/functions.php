@@ -1822,5 +1822,4 @@ function execute_sql_file($fname){
 
 	return $errorno;
 	}
-
 ?>

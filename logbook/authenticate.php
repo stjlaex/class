@@ -157,8 +157,12 @@ class User{
 				AND (cookie=$cookie) AND (session=$session) AND (ip=$ip)";
 		  }
 	  else{
+		  $sql="SELECT * FROM users WHERE (username=$username) AND (session=$session)";
+		  /*
 		  $sql="SELECT * FROM users WHERE (username=$username) 
 				AND (cookie=$cookie) AND (session=$session)";
+
+		  */
 		  }
 	  $result=$this->db->getRow($sql);
 	  if(is_object($result)){

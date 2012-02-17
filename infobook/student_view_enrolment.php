@@ -57,10 +57,9 @@ three_buttonmenu();
 <?php 
 	$EnrolAssDefs=array();
 	$com=get_community($Enrolment['Community']['id_db']);
-	$EnrolAssDefs=fetch_enrolmentAssessmentDefinitions() 
-	 + fetch_enrolmentAssessmentDefinitions($com);
+	$EnrolAssDefs=array_merge(fetch_enrolmentAssessmentDefinitions(),fetch_enrolmentAssessmentDefinitions($com));
 	$input_elements='';
-	while(list($index,$AssDef)=each($EnrolAssDefs)){
+	foreach($EnrolAssDefs as $index => $AssDef){
 		$eid=$AssDef['id_db'];
 		$input_elements.=' <input type="hidden" name="eids[]" value="'.$eid.'" />';
 		$gena=$AssDef['GradingScheme']['value'];
