@@ -46,6 +46,17 @@ $eveid=$currentevent['id'];
 include('scripts/sub_action.php');
 
 $extrabuttons=array();
+/*
+$extrabuttons['message']=array('name'=>'current',
+							   'title'=>'message',
+							   'value'=>'message_absences.php',
+							   'onclick'=>'processContent(this)'
+							   );
+*/
+$extrabuttons['reminder']=array('name'=>'current',
+								'title'=>'notice',
+								'xmlcontainerid'=>'print',
+								'value'=>'completion_reminder.php');
 $extrabuttons['notice']=array('name'=>'current',
 							  'title'=>'notice',
 							  'xmlcontainerid'=>'notice',
@@ -106,11 +117,10 @@ two_buttonmenu($extrabuttons);
 			$totalnopl+=$nopl;
 			$totalnosids+=$nosids;
 
-			/* Called sids for convenience of js but the checkbox is really comids */
 ?>
 		<tr>
 		  <td>
-			<input type="checkbox" name="comids[]" value="<?php print $com['id']; ?>" />
+			<input type="checkbox" name="comids[]" value="<?php print $com['id'].':::'.$com['yeargroup_id']; ?>" />
 		  </td>
 		  <td>
 			<a onclick="parent.viewBook('register');" target="viewregister"  
@@ -137,10 +147,10 @@ two_buttonmenu($extrabuttons);
 		}
 ?>
 		<tr>
-<td>Total:
+		  <td>Total:
 		  </td>
-<td>
-&nbsp;
+		  <td>
+			&nbsp;
 		  </td>
 		  <td>
 			<?php print $totalnosids;?>
@@ -160,6 +170,11 @@ two_buttonmenu($extrabuttons);
 		</tr>
 		</table>
 
+		<div id="xml-checked-action" style="display:none;">
+		  <params>
+			<checkname>comids</checkname>
+		  </params>
+		</div>
 		<div id="xml-print" style="display:none;">
 		  <params>
 			<checkname>comids</checkname>
