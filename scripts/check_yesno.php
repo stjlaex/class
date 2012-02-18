@@ -17,22 +17,22 @@ if(isset($checkalert)){$doublecheck='onClick="alert(\''.$checkalert.'\');"';}els
 	<tr>
 	  <th><label><?php print $checkcaption; ?></label></th>
 	  <td>
-		<div class="row  <?php if($checkchoice=='yes'){print 'checked';}?>">
-		  <label for="yes<?php print $$icheckname; ?>"><?php print_string('yes');?></label>
-		  <input type="radio" name="<?php print $checkname;?><?php print $$icheckname; ?>" 
-				 title="yes" id="yes<?php print $checkname. $$icheckname; ?>" 
-				 tabindex="<?php print $tab++;?>" <?php print $doublecheck;?>
-					value="yes" <?php if($checkchoice=='yes'){print 'checked';}?> />
-				  </div>
+<?php
+		if($checkchoice=='yes'){$checkclass='checked';}
+		else{$checkclass='notchecked';}
+		print '<div class="'.$checkclass.'"><label>'.get_string('yes').'</label>';
+		print '<input type="radio" name="'.$checkname. $$icheckname.'" '.$doublecheck.'
+						tabindex="'.$tab++.'" value="yes" '.$checkclass.' /></div>';
+?>
 		</td>
 		<td>
-		<div class="row <?php if($checkchoice=='no'){print 'checked';}?>">
-		  <label for="no<?php print $$icheckname; ?>"><?php print_string('no');?></label>
-		  <input type="radio" name="<?php print $checkname;?><?php print $$icheckname; ?>" 
-				 title="no" id="no<?php print $checkname. $$icheckname; ?>"
-				 tabindex="<?php print $tab++;?>" 
-				 value="no" <?php if($checkchoice=='no'){print 'checked';}?> />
-		</div>
+<?php
+		if($checkchoice=='no'){$checkclass='checked';}
+		else{$checkclass='notchecked';}
+		print '<div class="'.$checkclass.'"><label>'.get_string('no').'</label>';
+		print '<input type="radio" name="'.$checkname. $$icheckname.'" 
+						tabindex="'.$tab++.'" value="no" '.$checkclass.' /></div>';
+?>
 		</td>
 	  </tr>
 	</table>
