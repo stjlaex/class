@@ -72,15 +72,18 @@ trigger_error($community['id'].' '.$community['name'].' '.$community['type'],E_U
 			$AttendanceEvents['Event'][]=$Event;
 			}
 
+		/* Check if there are any notices linked to this session and community. */
 		$sess=$currentevent['session'];
 		$dat=$currentevent['date'];
 		$comid=$community['id'];
-		$d_n=mysql_query("SELECT comment FROM event_notice 
+		$d_n=mysql_query("SELECT id, comment FROM event_notice 
 							JOIN event_notidcomid ON event_notidcomid.notice_id=event_notice.id 
-							WHERE event_notidcomid.community_id='$comid' 
+							WHERE event_notidcomid.community_id='$comid' AND event_notidcomid.seen<'5'
 							AND event_notice.session='$sess' AND event_notice.date='$dat';");
 		while($n=mysql_fetch_array($d_n)){
-			$notice.=$n['comment'].'';
+			$notice.='<div class="center">'.$n['comment'].'</div>';
+			$notid=$n['id'];
+			mysql_query("UPDATE event_notidcomid SET seen=seen+1 WHERE notice_id='$notid' AND community_id='$comid';");
 			}
 		}
 
@@ -247,9 +250,12 @@ if($community['type']=='form' or $community['type']=='house'){
 <?php		if($Student['MedicalFlag']['value']=='Y'){ ?>
 			<a href="infobook.php?current=student_view_medical.php&sid=<?php print $sid;?>&sids[]=<?php print $sid;?>"
 			  target="viewinfobook" onclick="parent.viewBook('infobook');">M</a>
-<?php			} ?>
-
-<?php			
+<?php			} 
+		if($Student['Boarder']['value']!='N' and $Student['Boarder']['value']!=''){ ?>
+		<a href="infobook.php?current=student_view.php&sid=<?php print $sid;?>&sids[]=<?php print $sid;?>"
+			  target="viewinfobook" onclick="parent.viewBook('infobook');">B</a>
+<?php
+				}
 			}
 		else{
 			print '&nbsp';

@@ -240,6 +240,10 @@ two_buttonmenu($extrabuttons,$book);
 		if($Student['MedicalFlag']['value']=='Y'){ ?>
 		<a href="infobook.php?current=student_view_medical.php&sid=<?php print $sid;?>&sids[]=<?php print $sid;?>&bid=G">M</a>
 <?php			}
+		if($Student['Boarder']['value']!='N' and $Student['Boarder']['value']!=''){ ?>
+		<a href="infobook.php?current=student_view.php&sid=<?php print $sid;?>&sids[]=<?php print $sid;?>&bid=G">B</a>
+<?php
+				}
 			}
 		else{
 			print '&nbsp';

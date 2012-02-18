@@ -425,7 +425,8 @@ function set_accomodation($sid,$accid=''){
 	$d_acc=mysql_query("SELECT * FROM accomodation WHERE id='$accid'");
 	$acc=mysql_fetch_array($d_acc, MYSQL_ASSOC);
 	$oldcomid=$acc['community_id'];
-	$comname=$Student['Gender']['value']. $acc['roomcategory']. $Student['Boarder']['value'];
+	//$comname=$Student['Gender']['value']. $acc['roomcategory']. $Student['Boarder']['value'];
+	$comname=$Student['Boarder']['value'];
 	if($oldcomid!=0){$oldcom=get_community($oldcomid);}
 	else{$oldcom=array('id'=>'','name'=>'');}
 	if($oldcom['name']!=$comname and $oldcomid!=0){

@@ -272,8 +272,7 @@ if(isset($_POST['startdate'])){$startdate=$_POST['startdate'];}
 						$checkclass='checked';
 						$$grade['value']++;
 						}
-					print '<div class="'.$checkclass.'"><label>' 
-							.$grade['result'].'</label>';
+					print '<div class="'.$checkclass.'"><label>'.$grade['result'].'</label>';
 					print '<input type="radio" name="RE'.$sid.'"
 						tabindex="'.$tab++.'" value="'.$grade['value'].'" '.$checkclass;
 					print '/></div>';

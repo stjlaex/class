@@ -25,7 +25,7 @@
 function fetchStudent_short($sid){
    	$d_student=mysql_query("SELECT * FROM student WHERE id='$sid';");
 	$student=mysql_fetch_array($d_student,MYSQL_ASSOC);
-   	$d_info=mysql_query("SELECT sen, medical, formerupn FROM info WHERE student_id='$sid';");
+   	$d_info=mysql_query("SELECT sen, medical, formerupn, boarder FROM info WHERE student_id='$sid';");
 	$info=mysql_fetch_array($d_info,MYSQL_ASSOC);
 
 	$Student=array();
@@ -83,6 +83,10 @@ function fetchStudent_short($sid){
 							  'value' => ''.$info['sen']);
    	$Student['MedicalFlag']=array('label' => 'medicalinformation', 
 								  'value' => ''.$info['medical']);
+   	$Student['Boarder']=array('label' => 'boarder', 
+							  'value' => ''.$info['boarder']
+							  );
+
 	return $Student;
 	}
 

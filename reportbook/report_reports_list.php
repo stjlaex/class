@@ -144,6 +144,20 @@ two_buttonmenu($extrabuttons,$book);
 			</span>
 			<a onclick="parent.viewBook('infobook');" target="viewinfobook"  
 			  href='infobook.php?current=incidents_list.php&sid=<?php print $sid;?>'>I</a>
+<?php		if($Student['SENFlag']['value']=='Y'){ ?>
+			<a href="infobook.php?current=student_view_sen.php&sid=<?php print $sid;?>&sids[]=<?php print $sid;?>"
+			  target="viewinfobook" onclick="parent.viewBook('infobook');">S</a>
+<?php			} ?>
+<?php		if($Student['MedicalFlag']['value']=='Y'){ ?>
+			<a href="infobook.php?current=student_view_medical.php&sid=<?php print $sid;?>&sids[]=<?php print $sid;?>"
+			  target="viewinfobook" onclick="parent.viewBook('infobook');">M</a>
+<?php			} 
+		if($Student['Boarder']['value']!='N' and $Student['Boarder']['value']!=''){ ?>
+		<a href="infobook.php?current=student_view.php&sid=<?php print $sid;?>&sids[]=<?php print $sid;?>"
+			  target="viewinfobook" onclick="parent.viewBook('infobook');">B</a>
+<?php
+				}
+?>
 		  </td>
 		  <td class="student">
 			<a onclick="parent.viewBook('infobook');" target="viewinfobook" 

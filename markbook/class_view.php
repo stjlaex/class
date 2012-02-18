@@ -200,6 +200,10 @@ if($_SESSION['worklevel']>-1){
 			<a href="infobook.php?current=student_view_medical.php&sid=<?php print $viewtable[$c2]['sid'];?>&sids[]=<?php print $viewtable[$c2]['sid'];?>"
 			  target="viewinfobook" onclick="parent.viewBook('infobook');">M</a>
 <?php			} ?>
+<?php		if($viewtable[$c2]['boarder']!='N' and $viewtable[$c2]['boarder']!=''){ ?>
+			<a href="infobook.php?current=student_view.php&sid=<?php print $viewtable[$c2]['sid'];?>&sids[]=<?php print $viewtable[$c2]['sid'];?>"
+			  target="viewinfobook" onclick="parent.viewBook('infobook');">B</a>
+<?php			} ?>
 		  </td>
 		  <td class="student">
 			<a href="infobook.php?current=student_view.php&sid=<?php print $viewtable[$c2]['sid'];?>&sids[]=<?php print $viewtable[$c2]['sid'];?>"

@@ -15,12 +15,14 @@ while($student=mysql_fetch_array($d_students, MYSQL_ASSOC)){
 	$sid=$student['student_id'];
 	$SEN_field=fetchStudent_singlefield($sid,'SENFlag');
 	$Medical_field=fetchStudent_singlefield($sid,'MedicalFlag');
+	$Boarder_field=fetchStudent_singlefield($sid,'Boarder');
 	$comment=comment_display($sid);
 	$Attendance=fetchcurrentAttendance($sid);
 
 	$studentrow=array('row'=>$rowno,
 					  'sen'=>$SEN_field['SENFlag']['value'],
 					  'medical'=>$Medical_field['MedicalFlag']['value'],
+					  'boarder'=>$Boarder_field['Boarder']['value'],
 					  'commentclass'=>$comment['class'], 
 					  'commentbody'=>$comment['body'], 
 					  'attstatus'=>$Attendance['Status']['value'], 
