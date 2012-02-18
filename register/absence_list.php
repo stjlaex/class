@@ -64,7 +64,7 @@ foreach($ygs as $yg){
 		$students=(array)list_absentStudents('',$yg['id']);
 		}
 	if(sizeof($students['Student'])>0){
-		print '<tr><th colspan="2"></th><th colspan="2" style="text-align:center;">'.$yg['name'].'</th><th></th></tr>';
+		print '<tr><th colspan="5" style="text-align:center;">'.$yg['name'].'</th></tr>';
 		}
 
 	foreach($students['Student'] as $student){

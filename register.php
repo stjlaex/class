@@ -182,5 +182,12 @@ else{
 
   </div>
 <?php
+	/**/
+	if(isset($notice) and $notice!=''){
+		print '<div id="notice" class="hidden"><div class="rowaction"><button name="close" value="close" onclick="closeAlert();">CLOSE</button></div><div class="content"><div class="center"></div>'.$notice.'</div>';
+?>
+	  <script>openAlert('<?php print $book;?>');</script>
+<?php
+		}
 	  include('scripts/end_options.php'); 
 ?>

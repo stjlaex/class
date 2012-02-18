@@ -28,10 +28,16 @@ else{
  	$Students['AttendanceEvent']=$AttendanceEvent;
 
 	foreach($comids as $comid){
+
+		/* Passed as comid:::yid so yid is already defined*/
+		list($comid,$yid)=explode(':::',$comid);
+
 		if($comid!=''){
+			$com=(array)get_community($comid);
+			$com['yeargroup_id']=$yid;
 			$Community=(array)fetchCommunity($comid);
 			$Community['Student']=array();
-			$students=(array)listin_community(array('id'=>$comid));
+			$students=(array)listin_community($com);
 			foreach($students as $student){
 				$Student=fetchStudent_short($student['id']);
 				$Student['Attendances']['Attendance'][]=fetchcurrentAttendance($student['id'],$eveid);

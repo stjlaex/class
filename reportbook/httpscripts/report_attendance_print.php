@@ -74,7 +74,7 @@ function dateDiff($startdate,$enddate){
 						elseif($Attendance['Status']['value']=='p' and $Attendance['Session']['value']=='PM' and $Attendance['Period']['value']=='0'){
 							$content.="\\";
 							}
-						elseif($Attendance['Status']['value']=='a'){
+						elseif($Attendance['Status']['value']=='a' and $Attendance['Period']['value']=='0'){
 							$content.=$Attendance['Code']['value'];
 							}
 						}

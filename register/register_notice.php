@@ -49,7 +49,7 @@ three_buttonmenu();
 
 		<div class="center">
 		  <textarea  tabindex="<?php print $tab++;?>" name="noticebody" 
-				 cols="78" rows="12" id="noticebody"></textarea>
+			class="htmleditorarea" cols="78" rows="12" id="noticebody"></textarea>
 		</div>
 
 
@@ -68,3 +68,6 @@ three_buttonmenu();
 
 	</div>
   </div>
+<script src="lib/tiny_mce/tiny_mce.js" type="text/javascript"></script>
+<script src="lib/tiny_mce/loadeditor.js" type="text/javascript"></script>
+<script type="text/javascript">loadEditor();</script>

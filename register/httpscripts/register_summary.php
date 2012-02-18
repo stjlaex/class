@@ -39,15 +39,20 @@ else{
 
 	foreach($comids as $comid){
 
+		/* Passed as comid:::yid so yid is already defined*/
+		list($comid,$yid)=explode(':::',$comid);
+
 		if($comid!=''){
 
+			$com=(array)get_community($comid);
+			$com['yeargroup_id']=$yid;
 			$Community=(array)fetchCommunity($comid);
 			$Community['Student']=array();
 
 			/* This will collect all students who have been enrolled
 			 * at any time during the course of the year - not just current students.
 			 */
-			$students=(array)listin_community(array('id'=>$comid),$Months['Month'][0]['StartDate'],$edate);
+			$students=(array)listin_community($com,$Months['Month'][0]['StartDate'],$edate);
 
 			foreach($students as $student){
 				$sid=$student['id'];

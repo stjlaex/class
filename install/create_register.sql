@@ -20,7 +20,7 @@ CREATE TABLE event_notice (
 CREATE TABLE event_notidcomid (
 		notice_id		int unsigned not null default '0',
 		community_id	int unsigned not null default '0',
-		inactive		enum('0','1') not null default '0',
+		seen			tinyint(1) unsigned not null default '0',
 		primary key (notice_id,community_id)
 ) type=myisam;
 

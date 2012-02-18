@@ -461,7 +461,7 @@ function checkRadioIndicator(parentObj){
 			radioObjs[c].checked=true;
 			}
 		else{
-			radioObjs[c].parentNode.setAttribute("class","");
+			radioObjs[c].parentNode.setAttribute("class","notchecked");
 			radioObjs[c].checked=false;
 			}
 		}
@@ -1461,3 +1461,17 @@ function setAll(set){
 			//i++;
 			}
 	}
+
+
+//
+function openAlert(book) {
+	//document.getElementById(book+"options").innerHTML=window.frames["view"+book].document.getElementById("hiddenbookoptions").innerHTML;
+
+	document.getElementById("notice").className="overlay";
+
+	}
+
+function closeAlert() {
+	document.getElementById('notice').className="hidden";
+	}
+

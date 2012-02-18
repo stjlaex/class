@@ -1,4 +1,16 @@
-Version ClaSS-1.0.15 release (2012/02/17)
+Version ClaSS-1.0.15 release (2012/02/20)
+-------------------------------------------
+
+Register notices re-worked to use a div overlay and accept html content.
+
+Reminder messages to tutors for incomplete registers.
+
+Added a B for boarder flag to student tables.
+
+Fixed the chechrowIndicator for yes/no radio boxes.
+
+
+Version ClaSS-1.0.15 release (2012/02/16)
 -------------------------------------------
 
 New db table to log updates to student/guardian records.
@@ -32,7 +44,6 @@ Display individual boarder groups in the enrolments tables.
 Option for InfoBook messaging to change default email replyto address.
 
 Fix to the Enrolment Assessments when course and non-course are mixed.
-
 
 
 Version ClaSS-1.0.14 release (2012/01/27)

@@ -570,6 +570,10 @@ div.content fieldset.listmenu, div.content fieldset.listmenu div,
     background-color:#ff9966 !important;
 	cursor:pointer;
 	}
+.listmenu td div.notchecked, div.notchecked input, div.notchecked label, .notchecked { 
+    background-color:#eeeeee !important;
+	cursor:pointer;
+	}
 .listmenu td.boundary div { 
     border:1px solid #eeeeee;
 	width:15%;
@@ -796,9 +800,19 @@ table.smalltable {
     text-align:left;
 	}
 .smalltable th + th, .smalltable td  {
-	font-size:small;
+    font-size:small;
     font-weight:300;
     width:10%;
     text-align:center;
 	}
+.overlay {
+	top:80px;
+	left:80px;
+    width:80%;
+    height:60%;
+    background:#000;
+    opacity:0.86;
+    z-index:2000;
+    position:absolute;
+    }
 

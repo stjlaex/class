@@ -255,11 +255,6 @@ function sessionAlive(pathtobook){
 	xmlHttp.send(null);
 	}
 
-//
-function openAlert(message) {
-	alert(message);
-	}
-
 
 
 //------------------------------------------------------

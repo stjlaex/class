@@ -400,4 +400,5 @@ $string['add']='Add';
 $string['recent']='Recent';
 $string['warning']='Warning';
 $string['universityoffers']='University Offers';
+$string['reminder']='Reminder';
 ?>
