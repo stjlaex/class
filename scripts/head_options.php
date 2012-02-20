@@ -36,7 +36,7 @@
 var pathtobook = "<?php print $CFG->sitepath.'/'.$CFG->applicationdirectory.'/'.$book.'/';?>";
 var book = "<?php print $book;?>";
 </script>
-<script language="JavaScript" type="text/javascript" src="js/book.js?version=1013"></script> 
+<script language="JavaScript" type="text/javascript" src="js/book.js?version=1016"></script> 
 <script language="JavaScript" type="text/javascript" src="js/qtip.js"></script>
 <script language="JavaScript" type="text/javascript" src="lib/jscalendar/calendar.js"></script>
 <script language="JavaScript" type="text/javascript" src="lib/jscalendar/lang/calendar-<?php  print_string('shortlocale');?>.js"></script>
