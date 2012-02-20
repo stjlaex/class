@@ -108,7 +108,7 @@ if($_SESSION['worklevel']>-1){
 				 </td>
 				 <td status="p">
 				 <a style="color:#fff;"
-				 href="register.php?current=register_list.php&newfid=&newcid=<?php print $cids[$i];?>&nodays=1&startday=" 
+				 href="register.php?current=register_list.php&newcomid=&newcid=<?php print $cids[$i];?>&nodays=1&startday=" 
 				 target="viewregister" onclick="parent.viewBook('register');">R</a>
 				 </td>
 			</tr>

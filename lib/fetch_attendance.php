@@ -67,7 +67,12 @@ function fetchAttendance($sid='-1'){
 								 'table_db'=>'attendance', 
 								 'field_db'=>'teacher_id',
 								 'type_db'=>'varchar(14)', 
-								 'value'=>''.$attendance['teacer_id']);
+								 'value'=>''.$attendance['teacher_id']);
+	$Attendance['Class']=array('label'=>'class',
+						  'table_db'=>'attendance', 
+						  'field_db'=>'class_id',
+						  'type_db'=>'varchar(10)', 
+						  'value'=>''.$attendance['class_id']);
 	return $Attendance;
 	}
 
@@ -92,12 +97,12 @@ function fetchAttendances($sid,$startday=0,$nodays=7){
 	$startdate=date('Y-m-d',mktime(0,0,0,date('m'),date('d')+$startday,date('Y')));
 
 	/* If nodays is 1 then interested in all events for this day
-	 * otherwise we are looking for events (limited to AM/PM sessions)
+	 * otherwise we are looking for events limited to AM/PM sessions (ie. period=0)
 	 * for the time window
 	 */
 	if($nodays==1){
 		$d_a=mysql_query("SELECT attendance.status,
-			attendance.code, attendance.late, attendance.comment, 
+			attendance.code, attendance.late, attendance.comment, attendance.teacher_id, attendance.class_id,
 			UNIX_TIMESTAMP(attendance.logtime) AS logtime, event.id,
 			event.session, event.period, event.date FROM attendance JOIN
 			event ON event.id=attendance.event_id WHERE
@@ -138,6 +143,12 @@ function fetchAttendances($sid,$startday=0,$nodays=7){
 									 'value'=>''.$a['comment']);
 	   	$Attendance['Logtime']=array('label'=>'time',
 									 'value'=>''.$a['logtime']);
+		if($nodays==1){
+			$Attendance['Teacher']=array('label'=>'teacher',
+										 'value'=>''.$a['teacher_id']);
+			$Attendance['Class']=array('label'=>'class',
+									   'value'=>''.$a['class_id']);
+			}
 		$Attendances['Attendance'][]=$Attendance;
 		$eveindex[$a['id']]=$index++;
 		}
@@ -202,7 +213,7 @@ function fetchLessonAttendances($cid,$startday=0,$lessonno=4,$sid){
 		$eveindex[$a['id']]=$index++;
 		}
 
-	trigger_error(sizeof($eveindex),E_USER_WARNING);
+	//trigger_error(sizeof($eveindex),E_USER_WARNING);
 	$Attendances['eveindex']=$eveindex;
 	return $Attendances;
 	}

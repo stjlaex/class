@@ -664,8 +664,12 @@ table.sidtable {
 	}
 .sidtable td.edit, .sidtable th.edit {  
     border-left:20px solid #444444;
-	padding:0 25px; margin:0;
+	padding:0 5px 0 2px; margin:0;
     width:20%;
+	}
+.sidtable td.empty, .sidtable th.empty {  
+    background-color:#444444;
+    border-color:#444444;
 	}
 .sidtable .edit select, .sidtable th select {
     float:left;

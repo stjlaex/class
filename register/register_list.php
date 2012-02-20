@@ -14,12 +14,26 @@ include('scripts/sub_action.php');
 if(isset($CFG->registration[$secid]) and $CFG->registration[$secid]!='single'){$session='%';}
 else{$session='AM';}
 
-trigger_error($community['id'].' '.$community['name'].' '.$community['type'],E_USER_WARNING);
+//trigger_error($community['id'].' '.$community['name'].' '.$community['type'],E_USER_WARNING);
 
+
+	/**
+	 * Get student either for a class or a community
+	 */
 	if($community['type']=='class'){
 		$students=(array)listin_class($community['name'],true);
-		$AttendanceEvents=fetchAttendanceEvents($startday,1,$session);
+		}
+	else{
+		$community['yeargroup_id']=$yid;
+		$students=(array)listin_community($community);
+		$tutor_users=(array)list_community_users($community,array('r'=>1,'w'=>1,'x'=>1),$yid);
+		}
+	/**
+	 * Get attendance events either periods for a single day or sessions for more
+	 */
+	if($nodays==1){
 
+		$AttendanceEvents=fetchAttendanceEvents($startday,1,$session);
 		/* If the currentevent is not yet in the db event table then must
 		 * add a blank to get started.
 		 */
@@ -32,22 +46,22 @@ trigger_error($community['id'].' '.$community['name'].' '.$community['type'],E_U
 			$AttendanceEvents['Event'][]=$Event;
 			}
 
-		/* An used to order the Events array by period. */
+		/* And used to order the Events array by period. */
 		$perindex=$AttendanceEvents['perindex'];
 
 		$classperiods=get_class_periods($currentevent,$secid);
-		foreach($classperiods as $classperiod => $periodtime){
-			if(!in_array($classperiod,$perindex)){
+		foreach($classperiods as $classperiod_seq => $classperiod){
+			if(!in_array($classperiod_seq,$perindex)){
 				/* This must be negative to indicate a class period!!! 
 				 * Its 0 for a fresh session and a positive value would be 
 				 * an existing event id.
 				 */
-				$Event['id_db']=-$classperiod;
+				$Event['id_db']=-$classperiod_seq;
 				$Event['Date']['value']=$currentevent['date'];
 				$Event['Session']['value']=$session;
-				$Event['Period']['value']=$classperiod;
+				$Event['Period']['value']=$classperiod_seq;
 				$AttendanceEvents['Event'][]=$Event;
-				$perindex[]=$classperiod;
+				$perindex[]=$classperiod_seq;
 				}
 			}
 
@@ -55,11 +69,8 @@ trigger_error($community['id'].' '.$community['name'].' '.$community['type'],E_U
 
 		}
 	else{
-		$community['yeargroup_id']=$yid;
-		$students=(array)listin_community($community);
-		$tutor_users=(array)list_community_users($community,array('r'=>1,'w'=>1,'x'=>1),$yid);
-		$AttendanceEvents=fetchAttendanceEvents($startday,$nodays,$session);
 
+		$AttendanceEvents=fetchAttendanceEvents($startday,$nodays,$session);
 		/* If the currentevent is not yet in the db event table then must
 		 * add a blank to get started.
 		 */
@@ -86,6 +97,7 @@ trigger_error($community['id'].' '.$community['name'].' '.$community['type'],E_U
 			mysql_query("UPDATE event_notidcomid SET seen=seen+1 WHERE notice_id='$notid' AND community_id='$comid';");
 			}
 		}
+
 
 
 	/* 
@@ -121,37 +133,31 @@ trigger_error($community['id'].' '.$community['name'].' '.$community['type'],E_U
 								   'value'=>'report_attendance_print.php',
 								   'onclick'=>'checksidsAction(this)'
 								   );
+if($nodays>1){
 	threeplus_buttonmenu($startday,2,$extrabuttons);
+	}
+else{
+	three_buttonmenu($extrabuttons);
+	}
 
-
-if($community['type']=='form' or $community['type']=='house'){
 ?>
   <div id="heading">
-	<div>
-	  <label><?php print_string($community['type']);?></label>
-	  <?php print $community['name'];?>
-	</div>
 <?php
+if($community['type']=='form' or $community['type']=='house'){
+	print '<div><label>'.get_string($community['type']).'</label>'.$community['name'].'</div>';
 	if(isset($tutor_users)){
 		foreach($tutor_users as $uid => $tutor_user){
-?>
-	<div>
-	  <label><?php print_string('formtutor');?>
-	  </label>
-	  <?php print $tutor_user['forename'][0].' '. $tutor_user['surname'];?>
-		<?php emaillink_display($tutor_user['email']);?>
-	  &nbsp;
-	</div>
-<?php
+			print '<div><label>'.get_string('formtutor').'</label>'.$tutor_user['forename'][0].' '. $tutor_user['surname'].'</div><div>';
+			emaillink_display($tutor_user['email']);
+			print '</div>';
 			}
 		}
-?>
-	<div>
-	</div>
-  </div>
-<?php
+	}
+else{
+	print '<div><label>'.get_string('subject',$book).' class'.'</label>'.$newcid.'</div>';
 	}
 ?>
+  </div>
 
 
   <div id="viewcontent" class="content">
@@ -184,12 +190,10 @@ if($community['type']=='form' or $community['type']=='house'){
 					}
 				}
 			else{
-				print 'Period <br />';
-				print $Event['Period']['value'].'<br />';	
+				print $classperiods[$Event['Period']['value']]['title'].'<br />';	
 				}
 
 			if($_SESSION['worklevel']>-1 or $seleveid==$Event['id_db']){
-
 ?>
 			<input type="radio" name="checkeveid" value="<?php print $Event['id_db'];?>" />
 <?php
@@ -203,9 +207,8 @@ if($community['type']=='form' or $community['type']=='house'){
 		  <th class="edit">
 <?php
 	if($nodays==1 or $_SESSION['role']=='office' or $_SESSION['role']=='admin'){
+		print_string('checkall',$book);
 ?>
-<?php print_string('checkall',$book);?>
-
 				<select name="setall" >
 				  <option value="n"></option>
 				  <option value="l" onclick="setAll('<?php print $lasteveid;?>')"><?php print_string('last',$book);?></option>
@@ -261,12 +264,12 @@ if($community['type']=='form' or $community['type']=='house'){
 			print '&nbsp';
 			}
 ?>
-<div style="font-size:7pt;color:#909090;float:right;width:30px;">
+			<div style="font-size:7pt;color:#909090;float:right;width:30px;">
 <?php
 	   		$t=display_student_transport($sid);
 			if($t!=' '){print '<span title="'.$t.'"><img class="clicktotransport" /></span>';}
 ?>
-</div>
+			</div>
 		  </td>
 		  <td class="student">
 			<a href="infobook.php?current=student_view.php&sid=<?php print $sid;?>&sids[]=<?php print $sid;?>"
@@ -297,16 +300,17 @@ if($community['type']=='form' or $community['type']=='house'){
 				$attcomm=$Attendance['Comment']['value'];
 				if($Attendance['Logtime']['value']!=''){$atttime=date('H:i',$Attendance['Logtime']['value']);}
 				else{$atttime='';}
+				if(!empty($Attendance['Class']['value'])){$subjectclass=$Attendance['Class']['value']. ' - '. $Attendance['Teacher']['value'];}
+				else{$subjectclass='';}
 				if($attvalue=='a' and ($attcode==' ' or $attcode=='O')){
-					$cell='title="" ><span title="? : <br />'. 
-							$atttime.' '.$attcomm.'" >';
+					$cell='title="" ><span title="? : <br />'. $atttime.' '.$attcomm.'<br />'. $subjectclass.'" >';
 					$cell.='<img src="images/ostroke.png" /></span>';
 					}
 				elseif($attvalue=='a' and $attcode!=' ' and $attcode!='O'){
 					$des=displayEnum($attcode,'absencecode');
 					$des=get_string($des,'register');
 					$cell='title="" ><span title="'.$attcode .': '. $des
-							.'<br />'.$atttime.' '.$attcomm.'" >';
+							.'<br />'.$atttime.' '.$attcomm.'<br />'. $subjectclass.'" >';
 					$cell.=' &nbsp '.$attcode.'</span>';
 					if($attcode=='U' or $attcode=='L' or $attcode=='UB' or $attcode=='UA'){$tallys[$eveid]++;}
 					}
@@ -352,22 +356,58 @@ if($community['type']=='form' or $community['type']=='house'){
 ?>
 		</tr>
 		<tr>
-	<th colspan="3"><?php print get_string('inschool',$book);?></th>
 <?php
-		foreach($events as $eveid){
-?>
-		  <th>&nbsp;<?php print $tallys[$eveid];?></th>
-<?php
+		print '<th colspan="3" style="text-align:right;">'.get_string('inschool',$book).'</th>';
+		foreach($AttendanceEvents['Event'] as $index=>$Event){
+			if($Event['Period']['value']=='0' or array_key_exists($Event['Period']['value'],$classperiods)){
+			if($nodays==1 and $index==0){
+				print '<th style="text-align:center;">';
+				print $tallys[$Event['id_db']];
+				print '</th>';
+				}
+			elseif($nodays>1){
+				print '<th style="text-align:center;">';
+				print $tallys[$Event['id_db']];
+				print '</th>';
+				}
+			else{
+				print '<th>&nbsp;</th>';
+				}
+				}
 			}
 ?>
-		  <th class="edit"></th>
+		  <th class="edit">&nbsp;</th>
+		</tr>
+		<tr>
+<?php
+		print '<th colspan="3"  class="empty">&nbsp;</th>';
+		foreach($AttendanceEvents['Event'] as $index=>$Event){
+			if($Event['Period']['value']=='0' or array_key_exists($Event['Period']['value'],$classperiods)){
+			if($nodays==1 and $index==0){
+				print '<th style="text-align:center;">';
+				print '<a href="register.php?current=register_list.php&newcomid='.$newcomid.'&newcid='.$newcid.'&nodays=8&checkeveid='.$Event['id_db'].'&startday='.$startday.'">><</a>';
+				print '</th>';
+				}
+			elseif($nodays>1){
+				$newstartday=-abs((strtotime(date('Y-m-d'))-strtotime($Event['Date']['value'])) / (86400));
+				print '<th style="text-align:center;">';
+				print '<a href="register.php?current=register_list.php&newcomid='.$newcomid.'&newcid='.$newcid.'&nodays=1&checkeveid='.$Event['id_db'].'&startday='.$newstartday.'"><></a>';
+				print '</th>';
+				}
+			else{
+				print '<th class="empty">&nbsp;</th>';
+				}
+				}
+			}
+?>
+		  <th class="edit empty">&nbsp;</th>
 		</tr>
 		</table>
 
 		<input type="hidden" name="date" value="<?php print $currentevent['date'];?>" />
 		<input type="hidden" name="session" value="<?php print $currentevent['session'];?>" />
 		<input type="hidden" name="current" value="<?php print $action;?>" />
-		<input type="hidden" name="cancel" value="<?php print '';?>" />
+		<input type="hidden" name="cancel" value="<?php print 'completion_list.php';?>" />
 	    <input type="hidden" name="choice" value="<?php print $choice;?>" />
 	  </form>
 
@@ -385,7 +425,7 @@ if($community['type']=='form' or $community['type']=='house'){
 	<select style="width:10em;" name="late" id="late">
 <?php
 	$enum=getEnumArray('latecode');
-	while(list($inval,$description)=each($enum)){	
+	foreach($enum as $inval =>$description){	
 		print '<option ';
 		print ' value="'.$inval.'">'.get_string($description,$book).'</option>';
 		}

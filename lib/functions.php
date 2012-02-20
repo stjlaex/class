@@ -1011,6 +1011,15 @@ function getEnumArray($field_name){
 					'0' => '',
 					'1' => 'latebeforeregisterclosed'
 					);
+	/* TODO: for the register - lesson attendance
+	$contributioncode=array(
+							'0' => '',
+							'1' => 'excellent',
+							'2' => 'good',
+							'3' => 'poor',
+							'4' => 'disruptive'
+							);
+	*/
 
 	/**
 	 * ISO 3166-1 alpha-2 codes are two-letter country codes in the ISO

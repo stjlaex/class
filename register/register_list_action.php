@@ -11,9 +11,9 @@ else{$checkeveid=0;}
 include('scripts/sub_action.php');
 
 if($sub=='Previous'){
-	if($community['type']=='class'){
+	if($nodays==1){
 		$event=array('id'=>0);
-		while($event['id']==0 and $startday>-20){
+		while($event['id']==0 and $startday>-50){
 			$startday=$startday-1;
 			$startdate=date('Y-m-d',mktime(0,0,0,date('m'),date('d')+$startday,date('Y')));
 			$event=(array)get_event($startdate,'AM');
@@ -24,9 +24,9 @@ if($sub=='Previous'){
 		}
 	}
 elseif($sub=='Next'){
-	if($community['type']=='class'){
+	if($nodays==1){
 		$event=array('id'=>0);
-		while($event['id']==0 and $startday<20){
+		while($event['id']==0 and $startday<50){
 			$startday=$startday+1;
 			$startdate=date('Y-m-d',mktime(0,0,0,date('m'),date('d')+$startday,date('Y')));
 			$event=(array)get_event($startdate,'AM');
@@ -43,16 +43,19 @@ elseif($sub=='Submit'){
 
 	$date=$_POST['date'];
 	$session=$_POST['session'];
+
+
 	if($checkeveid<0){
-		/* This is for an event which is a teaching period. */
+		/* If the event has not been recorded yet then checkeveid= -ve
+		   period no. if this is for an event which is a teaching period  
+		*/
 		$period=abs($checkeveid);
 		$checkeveid=0;
 		}
 	else{
+		/* otherwise a registration period AM or PM and period is 0 */
 		$period=0;
 		}
-
-	//trigger_error($checkeveid.':: '.$date.' : '.$session.' : '.$period,E_USER_WARNING);
 
 	if($checkeveid==0){
 		/* This event was not in the db when first displayed. */
@@ -72,10 +75,13 @@ elseif($sub=='Submit'){
 
 	if($community['type']=='class'){
 		$students=(array)listin_class($community['name'],true);
+		$storecid=$newcid;
 		}
 	else{
 		$students=(array)listin_community($community);
+		$storecid='';
 		}
+
 	foreach($students as $student){
 		$instatus='';
 		$sid=$student['id'];
@@ -98,14 +104,14 @@ elseif($sub=='Submit'){
 				if(mysql_num_rows($d_attendance)==0){
 					mysql_query("INSERT INTO attendance (event_id,
 								student_id, status, code, late, comment, teacher_id, class_id) 
-								VALUES ('$eveid','$sid','$instatus','$incode','$inlate','$incomm','$tid','$newcid');");
+								VALUES ('$eveid','$sid','$instatus','$incode','$inlate','$incomm','$tid','$storecid');");
 					}
 				else{
 					$att=mysql_fetch_array($d_attendance,MYSQL_ASSOC);
 					if($att['status']!=$instatus or $att['code']!=$incode or 
 					   $att['late']!=$inlate or $att['comment']!=$incomm){
 						mysql_query("UPDATE attendance SET status='$instatus', code='$incode', 
-									late='$inlate', comment='$incomm', teacher_id='$tid', class_id='$newcid' 
+									late='$inlate', comment='$incomm', teacher_id='$tid', class_id='$storecid' 
 									WHERE event_id='$eveid' AND student_id='$sid';");
 						}
 					}

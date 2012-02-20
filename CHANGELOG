@@ -9,6 +9,9 @@ Added a B for boarder flag to student tables.
 
 Fixed the chechrowIndicator for yes/no radio boxes.
 
+Buttons to switch between one day lesson attendance and daily
+registration views.
+
 
 Version ClaSS-1.0.15 release (2012/02/16)
 -------------------------------------------

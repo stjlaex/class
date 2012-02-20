@@ -182,7 +182,7 @@ else{
 
   </div>
 <?php
-	/**/
+	/* This is for the pop-up Register notices. */
 	if(isset($notice) and $notice!=''){
 		print '<div id="notice" class="hidden"><div class="rowaction"><button name="close" value="close" onclick="closeAlert();">CLOSE</button></div><div class="content"><div class="center"></div>'.$notice.'</div>';
 ?>
