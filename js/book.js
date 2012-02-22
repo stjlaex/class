@@ -171,12 +171,14 @@ function clickToReveal(rowObject){
 	}
 
 
-//Only for rowaction or sideoption buttons NOT for buttonmenu form buttons.
-//The type of action is specified as the button's name attribute and
-//possible action values are Edit, New, process, print, chart and current.
-//With current it will always ask for confirmation before making a xmlhttprequest 
-//and it applies returned xml to update the current page wihtout a reload.
-//The print and chart actions are for pop-up report windows and don't effect any changes.
+/**
+ * Only for rowaction or sideoption buttons NOT for buttonmenu form buttons.
+ * The type of action is specified as the button's name attribute and
+ * possible action values are Edit, New, process, print, chart and current.
+ * With current it will always ask for confirmation before making a xmlhttprequest 
+ * and it applies returned xml to update the current page wihtout a reload.
+ * The print and chart actions are for pop-up report windows and don't effect any changes.
+ */
 function clickToAction(buttonObject){
 	var i=0;
 	//need the id of the div containing the xml-record 
@@ -246,8 +248,17 @@ function clickToAction(buttonObject){
 		else{
 			var answer=true;
 			var params="";
-			// this is for passing a list of sids grabbed from the tr ids of a sidtable
-			// used for example by report_profile_print
+			if(parent.document.getElementById("Chart-template")){
+				var selectObj=parent.document.getElementById("Chart-template");
+				for(var i=0; i < selectObj.options.length; i++){
+					if(selectObj.options[i].selected){
+						params="&template=" + escape(selectObj.options[i].value);
+						}
+					}
+				}
+			/* This is for passing a list of sids grabbed from the tr ids of a sidtable
+			 * used for example by report_profile_print
+			 */
 			if(document.getElementById("sidtable")){
 				var sidrows=document.getElementById("sidtable").getElementsByTagName("tr");
 				for(var c=0; c<sidrows.length; c++){
@@ -258,6 +269,9 @@ function clickToAction(buttonObject){
 						}
 					}
 				}
+			/*
+			 * Reads through some xml adding as params with name = tagname
+			 */
 			for(var i=0; i < xmlRecord.childNodes.length; i++){
 				var xmlfieldid=xmlRecord.childNodes[i];
 				if(xmlfieldid.tagName){
@@ -568,7 +582,6 @@ function checksidsAction(buttonObject){
 		else {
 			for(var sc=0; sc<selno; sc++){
 				if(formObject.elements[c].name==selectnames[sc]){
-
 					if(formObject.elements[c].type=="select-one"){
 						var selectObj=formObject.elements[c];
 						for(var i=0; i < selectObj.options.length; i++){

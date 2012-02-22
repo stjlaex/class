@@ -1,4 +1,4 @@
-Version ClaSS-1.0.15 release (2012/02/20)
+Version ClaSS-1.0.16 release (2012/02/23)
 -------------------------------------------
 
 Register notices re-worked to use a div overlay and accept html content.
@@ -11,6 +11,9 @@ Fixed the chechrowIndicator for yes/no radio boxes.
 
 Buttons to switch between one day lesson attendance and daily
 registration views.
+
+The MarkBook chart option now offers a choice of template for
+assessment profiles.
 
 
 Version ClaSS-1.0.15 release (2012/02/16)

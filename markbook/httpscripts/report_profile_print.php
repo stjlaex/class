@@ -29,6 +29,7 @@ if(isset($_GET['name'])){$profilename=$_GET['name'];}
 if(isset($_POST['name'])){$profilename=$_POST['name'];}
 if(isset($_GET['description'])){$description=$_GET['description'];}
 
+trigger_error($bid.' :  '.$pid.' : '.$template,E_USER_WARNING);
 
 if(sizeof($sids)==0){
 	$result[]=get_string('youneedtoselectstudents');
@@ -36,12 +37,16 @@ if(sizeof($sids)==0){
 	$rootName='Error';
 	}
 else{
+	/* Can either be passed a list of assessments to work with.. */
 	if($xmlid==-1){
 		foreach($eids as $eid){
 			$AssDef=fetchAssessmentDefinition($eid);
 			$AssDefs[]=$AssDef;
 			}
 		}
+	/* Or a profile definition which means all assessments linked to
+	 * the profile will be included. 
+	 */
 	else{
 		$profile=get_assessment_profile($xmlid);
 		$crid=$profile['course_id'];
@@ -50,6 +55,7 @@ else{
 
 		/*TODO*/
 		$prevyear=$curryear-1;
+
 		$allstages=list_course_stages($crid);
 		foreach($allstages as $sin => $allstage){
 			if($allstage['name']==$stage){$stageno=$sin-1;}
@@ -63,8 +69,8 @@ else{
 		$prevcohort=array('id'=>'','course_id'=>$crid,'stage'=>$prevstage,'year'=>$prevyear);
 		/* Allows for alternative to the profile's default template */
 		if($template!=''){$profile['transform']=$template;}
-		/* Allows a subset of the profile's assessments to be included */
 
+		/* Allows a subset of the profile's assessments to be included */
 		if(sizeof($eids)>0){
 			$AssDefs=array();
 			foreach($eids as $eid){
@@ -76,14 +82,25 @@ else{
 			}
 		}
 
-	/* TODO: make this a property of the profile */
-	if($profile['transform']!='tracking_grid'){
+	/* TODO: make this a property of the profile 
+	 * The tracking grid will oly work with a single bid/pid ombination at the moment.
+	 */
+	if($profile['transform']=='tracking_grid'){
+		//$prevcohort=array('id'=>'','course_id'=>$crid,'stage'=>'%','year'=>'%');
+		$prev_AssDefs=(array)fetch_cohortAssessmentDefinitions($prevcohort,$profile['id']);
+		$AssDefs=(array)array_merge($AssDefs,$prev_AssDefs);
+		}
+	elseif($profile['transform']=='tracking_summary_comparison'){
 		$pid='%';
+		$prevcohort=array('id'=>'','course_id'=>$crid,'stage'=>'%','year'=>'%');
+		$prev_AssDefs=(array)fetch_cohortAssessmentDefinitions($prevcohort,$profile['id']);
+		$AssDefs=(array)array_merge($AssDefs,$prev_AssDefs);
 		}
 	else{
-		$PrevAssDefs=(array)fetch_cohortAssessmentDefinitions($prevcohort,$profile['id']);
-		$all_AssDefs=(array)array_merge_recursive($AssDefs + $PrevAssDefs);
+		$pid='%';
 		}
+
+
 
 	/* Bands in ascending date order. */
   	$d_stats=mysql_query("SELECT DISTINCT * FROM statvalues JOIN stats ON stats.id=statvalues.stats_id 
@@ -99,44 +116,54 @@ else{
 
 	$Students=array();
 
+	/* These are the tracking bands for target/below target/failing. */
 	$asstable=array();
-	for($ec=0;$ec<sizeof($AssDefs);$ec++){
-		unset($bdate);
-		$assdate=$AssDefs[$ec]['Deadline']['value'];
-		$grading_grades=$AssDefs[$ec]['GradingScheme']['grades'];
-		foreach($bands as $date=>$band){
-			if($assdate>$date or !isset($bdate)){$bdate=$date;}
-			//trigger_error($profilename.':'.$assdate.': '.$date. ' -------> '. $bdate,E_USER_WARNING);
+	foreach($AssDefs as $index=>$AssDef){
+		if(sizeof($bands)>0){
+			unset($bdate);
+			foreach($bands as $date=>$band){
+				if($AssDef['Deadline']['value']>$date or !isset($bdate)){$bdate=$date;}
+				}
+			/* If the assessment is out of range then set to the last band. */
+			if(isset($bdate) and array_key_exists($bdate,$bands)){
+				$assbands=array(array('name'=>'C','value'=>$bands[$bdate]['value3']),
+								array('name'=>'B','value'=>$bands[$bdate]['value2']),
+								array('name'=>'A','value'=>$bands[$bdate]['value1']));
+				}
 			}
-		/* If the assessment is out of range then set to the last band. */
-		$asstable['ass'][]=array('label'=>''.$AssDefs[$ec]['PrintLabel']['value'],
-								 'date'=>''.display_date($assdate),
-								 'id_db'=>''.$AssDefs[$ec]['id_db'],
-								 'bands'=>array(array('name'=>'C','value'=>$bands[$bdate]['value3']),
-												array('name'=>'B','value'=>$bands[$bdate]['value2']),
-												array('name'=>'A','value'=>$bands[$bdate]['value1'])
-												)
-								 );
+		else{
+			$assbands=array();
+			}
+		$AssDefs[$index]['assbands']=$assbands;
 		}
 
-	$Students['asstable']=$asstable;
 
 	/* TODO: this assumes all are using same gradescheme */
 	$restable=array();
+	$grading_grades=$AssDefs[0]['GradingScheme']['grades'];
 	$pairs=explode(';', $grading_grades);
 	for($c=0;$c<sizeof($pairs);$c++){
 		list($levelgrade,$level)=explode(':',$pairs[$c]);
 		$restable['res'][]=array('label'=>''.$levelgrade,
 								 'value'=>''.$level);
 		}
-	$Students['restable']=$restable;
 	
 	$Students['Student']=array();
 	foreach($sids as $sid){
 		$Student=(array)fetchStudent_short($sid);
 		$Assessments['Assessment']=array();
 		foreach($AssDefs as $AssDef){
-			$Assessments['Assessment']=array_merge($Assessments['Assessment'],fetchAssessments_short($sid,$AssDef['id_db'],$bid,$pid));
+			$Asses=(array)fetchAssessments_short($sid,$AssDef['id_db'],$bid,$pid);
+			if(sizeof($Asses)>0){
+				$Assessments['Assessment']=array_merge($Assessments['Assessment'],$Asses);
+				if(!array_key_exists($AssDef['id_db'],$asstable)){
+					/* This will exclude assessments which have no scores. */
+					$asstable['ass'][$AssDef['id_db']]=array('label'=>''.$AssDef['Description']['value'],
+															 'date'=>''.display_date($AssDef['Deadline']['value']),
+															 'id_db'=>''.$AssDef['id_db'],
+															 'bands'=>$AssDef['assbands']);
+					}
+				}
 			}
 		$Student['Assessments']=xmlarray_indexed_check($Assessments,'Assessment');
 		$Students['Student'][]=$Student;
@@ -158,6 +185,9 @@ else{
 	else{
 		$Students['Description']['value']=$stage;
 		}
+
+	$Students['restable']=$restable;
+	$Students['asstable']=$asstable;
 	$returnXML=$Students;
 	$rootName='Students';
 	}

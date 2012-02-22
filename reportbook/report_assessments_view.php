@@ -243,13 +243,8 @@ $description='';
 		<legend><?php print_string('template',$book);?></legend>
 		<div class="center">
 <?php
-	$onchange='yes';$required='no';
-	$d_catdef=mysql_query("SELECT DISTINCT comment AS id, CONCAT(name,': ',comment) AS name FROM categorydef WHERE
-								  type='pro' AND comment!='' ORDER BY course_id;");
-	$listname='template';$onchange='no';$required='yes';
-	include('scripts/set_list_vars.php');
-	list_select_db($d_catdef,$listoptions,$book);
-	unset($listoptions);
+		$required='yes';
+		include('scripts/list_profile_template.php');
 ?>
 		</div>
 	  </fieldset>

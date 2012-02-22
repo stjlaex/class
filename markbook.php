@@ -240,19 +240,23 @@ if(isset($umns)){
 
 <br />
 <?php
-		if(isset($currentprofile) and $currentprofile['transform']!=''){
+		if(!empty($currentprofile)){
 ?>
 	  <div id="<?php print $currentprofile['id'];?>" class="neat sidebuttons">
 		<button name="chart" onclick="window.frames['viewmarkbook'].clickToAction(this);" 
-			style="background-color:#666;"
-			value="report_profile_print.php">
+			style="background-color:#666;" value="report_profile_print.php">
 			<img alt="Chart" src="images/charter.png"/>
 		</button>
-			<label style="font-weight:600;">&nbsp;<?php print $currentprofile['name'];?></label>
+			<label style="font-weight:600;">&nbsp;<?php print $currentprofile['name'];?></label><br />
+<?php
+			$listid='chart-template';
+			$seltemplate=$currentprofile['transform'];
+			include('scripts/list_profile_template.php');
+?>
 			<div id="<?php print 'xml-'.$currentprofile['id'];?>" style="display:none;">
 <?php 
-						 /*TODO: should bid and pid be past here? Seems to stop report_profile_print from working*/
-			//$currentprofile['bid']=$bid[0];
+			/*TODO: should bid and pid be past here? Seems to stop report_profile_print from working*/
+			$currentprofile['bid']=$bid[0];
 			$currentprofile['pid']=$pid;
 			$currentprofile['stage']=$classes[$cid]['stage'];
 			$currentprofile['classes']='';
@@ -264,7 +268,6 @@ if(isset($umns)){
 		  </div>
 	  </div>
 <?php
-
 			}
 ?>
 
