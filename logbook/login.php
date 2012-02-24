@@ -33,7 +33,13 @@ else{print_string('loginaside');}
 
 <div style="visibility:hidden;" id="hiddenlang">
 <?php
-	if(isset($_POST['langchoice'])){update_user_language($_POST['langchoice']);};
+	if(isset($_POST['langchoice'])){
+		$langchoice=$_POST['langchoice'];
+		update_user_language($langchoice);
+		}
+	else{
+		$langchoice='';
+		}
 	include('logbook/language_select.php');
 ?>
 </div>
@@ -86,6 +92,7 @@ else{
 
 </div>
 </fieldset>
+<input type="hidden" id="lang" name="lang" value="<?php print $langchoice;?>" />
 </form>
 
 <?php 

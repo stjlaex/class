@@ -83,7 +83,7 @@ else{
 		}
 
 	/* TODO: make this a property of the profile 
-	 * The tracking grid will oly work with a single bid/pid ombination at the moment.
+	 * The tracking grid will only work with a single bid/pid ombination at the moment.
 	 */
 	if($profile['transform']=='tracking_grid'){
 		//$prevcohort=array('id'=>'','course_id'=>$crid,'stage'=>'%','year'=>'%');
@@ -91,7 +91,7 @@ else{
 		$AssDefs=(array)array_merge($AssDefs,$prev_AssDefs);
 		}
 	elseif($profile['transform']=='tracking_summary_comparison'){
-		$pid='%';
+		//$pid='%';
 		$prevcohort=array('id'=>'','course_id'=>$crid,'stage'=>'%','year'=>'%');
 		$prev_AssDefs=(array)fetch_cohortAssessmentDefinitions($prevcohort,$profile['id']);
 		$AssDefs=(array)array_merge($AssDefs,$prev_AssDefs);
@@ -154,6 +154,9 @@ else{
 		$Assessments['Assessment']=array();
 		foreach($AssDefs as $AssDef){
 			$Asses=(array)fetchAssessments_short($sid,$AssDef['id_db'],$bid,$pid);
+			if(sizeof($Asses)==0 and $bid=='Mat'){
+				$Asses=(array)fetchAssessments_short($sid,$AssDef['id_db'],'Jun',$bid);
+				}
 			if(sizeof($Asses)>0){
 				$Assessments['Assessment']=array_merge($Assessments['Assessment'],$Asses);
 				if(!array_key_exists($AssDef['id_db'],$asstable)){

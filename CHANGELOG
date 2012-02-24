@@ -1,4 +1,4 @@
-Version ClaSS-1.0.16 release (2012/02/23)
+Version ClaSS-1.0.16 release (2012/02/24)
 -------------------------------------------
 
 Register notices re-worked to use a div overlay and accept html content.
@@ -14,6 +14,8 @@ registration views.
 
 The MarkBook chart option now offers a choice of template for
 assessment profiles.
+
+Fix to preserving the language choice after login.
 
 
 Version ClaSS-1.0.15 release (2012/02/16)

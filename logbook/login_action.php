@@ -10,6 +10,7 @@
 	mysql_query("SET NAMES 'utf8'");
 	start_class_phpsession();
 	if(isset($_SESSION['lang'])){$langchoice=$_SESSION['lang'];}else{$langchoice='';}
+	if(isset($_POST['lang'])){$langchoice=$_POST['lang'];$_SESSION['lang']=$langchoice;}
 	$username=$_POST['username'];
 	$password=$_POST['password'];
 	if(!isset($remember)){$remember=false;}
