@@ -81,7 +81,9 @@ foreach($yeargroups as $year){
 if(isset($CFG->enrol_boarders) and $CFG->enrol_boarders=='yes'){
 	$boardercoms=(array)list_communities('accomodation');
 	}
-
+else{
+	$boardercoms=array();
+	}
 
 /**
  * This is for checking transfers from feeder schools and needs
@@ -158,17 +160,21 @@ if(isset($CFG->enrol_boarders) and $CFG->enrol_boarders=='yes'){
 <?php
 				$total=0;
 				$total_boarders=array();
-				foreach($boardercoms as $index=>$boardercom){
-					$total_boarders[$index]=0;
+				if(isset($boardercoms)){
+					foreach($boardercoms as $index=>$boardercom){
+						$total_boarders[$index]=0;
+						}
 					}
 				/* Calculate the totals for each column. */
 				foreach($yeargroups as $yeargroup){
 					$cellvalue=$table['rows'][$yeargroup['id']][$col['value']]['value'];
 					$total+=$cellvalue;
 
-					foreach($boardercoms as $index=>$boardercom){
-						if(isset($table['rows'][$yeargroup['id']][$col['value']]['value_boarders'])){
-							$total_boarders[$index]+=$table['rows'][$yeargroup['id']][$col['value']]['value_boarders'][$index];
+					if(isset($boardercoms)){
+						foreach($boardercoms as $index=>$boardercom){
+							if(isset($table['rows'][$yeargroup['id']][$col['value']]['value_boarders'])){
+								$total_boarders[$index]+=$table['rows'][$yeargroup['id']][$col['value']]['value_boarders'][$index];
+								}
 							}
 						}
 					//$total+=$table['rows'][$yeargroup['id']][$col['value']]['extravalue'];

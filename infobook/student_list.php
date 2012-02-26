@@ -21,7 +21,7 @@ $_SESSION['infolisttitle']=$title;
 $sort_types='';
 $displayfields=array();
 $extra_studentfields=array();
-$application_steps=array('AP','ATD','AT','RE','CA','ACP','AC','WL');
+$application_steps=array('AP','AT','RE','CA','ACP','AC','WL');
 
 if($savedview=='form'){
 	$displayfields[]='Gender';

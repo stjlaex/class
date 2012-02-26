@@ -27,7 +27,7 @@ if(isset($_POST['startdate'])){$startdate=$_POST['startdate'];}
 		$application_steps=array('C','P');
 		}
 	else{
-		$application_steps=array('EN','AP','AT','ATD','RE','CA','WL','ACP','AC');
+		$application_steps=array('EN','AP','AT','RE','CA','WL','ACP','AC');
 		}
 
 	if($comid!=-1){

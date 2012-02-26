@@ -703,7 +703,6 @@ function getEnumArray($field_name){
 	$enrolstatus=array('EN' => 'enquired', 
 					   'AP' => 'applied', 
 					   'AT' => 'awaitingtesting', 
-					   //'ATD' => 'testingdelayed', 
 					   'ACP' => 'acceptedpending', 
 					   'AC' => 'accepted', 
 					   'RE' => 'rejected', 
