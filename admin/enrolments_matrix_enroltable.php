@@ -79,6 +79,17 @@
 			}
 		mysql_query("INSERT INTO assessment (subject_id,stage,description,grading_name,course_id,year,season) VALUES ('G','RE','Re-enrolment','Re-enrolmentStatus','%','$enrolyear','S')");
 		$reenrol_eid=mysql_insert_id();
+
+		/* If we have boarders need an addiotional re-enrolment flag for their accomodation. */
+		if(isset($boardercoms) and $yidindex==1){
+			$accomodation_status='P:1;L:2';
+			foreach($boardercoms as $bindex => $boardercom){
+				$accomodation_status=$boardercom['name'].':'.$boardercom['id'].';'.$accomodation_status;
+				}
+			mysql_query("INSERT INTO grading (name,grades,comment,author) VALUES ('AccomodationStatus','$accomodation_status','Boarder re-enrolment for the next year','ClaSS')");
+			mysql_query("INSERT INTO assessment (subject_id,stage,description,grading_name,course_id,year,season) VALUES ('G','RE','Boarder Re-enrolment','Re-enrolmentStatus','%','$enrolyear','S')");
+			$reenrol_boarder_eid=mysql_insert_id();
+			}
 		}
 
 
@@ -103,8 +114,8 @@
 			$cell['comid']=$comid;
 			$cell['name']=$enrolcol.':'.$yid;
 
-			foreach($boardercoms as $index=>$boardercom){
-				$cell['name_boarders'][$index]=$enrolcol.':boarder';
+			foreach($boardercoms as $bindex=>$boardercom){
+				$cell['name_boarders'][$bindex]=$enrolcol.':boarder';
 				}
 
 			/* Each enrol column has its own calculation */
@@ -128,11 +139,12 @@
 					}
 
 				if(isset($boardercoms) and $yidindex==1){
-					foreach($boardercoms as $index => $boardercom){
-						$cell['confirm_boarders'][$index]+=count_reenrol_no($boardercom['id'],$reenrol_eid,'C','');
-						$cell['repeat_boarders'][$index]+=count_reenrol_no($boardercom['id'],$reenrol_eid,'R','');
-						$cell['pending_boarders'][$index]+=count_reenrol_no($boardercom['id'],$reenrol_eid,'P','');
-						$cell['leavers_boarders'][$index]+=count_reenrol_no($boardercom['id'],$reenrol_eid,'L','LL');
+					foreach($boardercoms as $bindex => $boardercom){
+						/* This will catch boeaders both old and new who are confirmed for next year... */
+						$cell['confirm_boarders'][$bindex]+=count_reenrol_no($comid,$reenrol_boarder_eid,$boardercom['id'],'');
+						$cell['repeat_boarders'][$bindex]+=0;
+						$cell['pending_boarders'][$bindex]+=count_reenrol_no($boardercom['id'],$reenrol_boarder_eid,'P','');
+						$cell['leavers_boarders'][$bindex]+=count_reenrol_no($boardercom['id'],$reenrol_boarder_eid,'L','LL');
 						}
 					}
 
@@ -143,15 +155,15 @@
 				else{
 					$pre_reenrolcell=$cell;
 					$pre_reenrolcell['confirm']=0;
-					foreach($boardercoms as $index => $boardercom){
-						$pre_reenrolcell['confirm_boarders'][$index]=0;
+					foreach($boardercoms as $bindex => $boardercom){
+						$pre_reenrolcell['confirm_boarders'][$bindex]=0;
 						}
 					}
 				$cell['value']=$pre_reenrolcell['confirm']+$cell['repeat'];	
 				//$cell['value_boarder']=0;
 				if(isset($boardercoms)){
-					foreach($boardercoms as $index => $boardercom){
-						$cell['value_boarders'][$index]=$pre_reenrolcell['confirm_boarders'][$index]+$cell['repeat_boarders'][$index];
+					foreach($boardercoms as $bindex => $boardercom){
+						$cell['value_boarders'][$bindex]=$pre_reenrolcell['confirm_boarders'][$bindex]+$cell['repeat_boarders'][$bindex];
 						}
 					}
 				$cell['display']='<a href="admin.php?current=enrolments_list.php&cancel='.
@@ -163,8 +175,8 @@
 				if(isset($enrol_tablerows[$previous_yid])){
 					$cell['value']=$enrol_tablerows[$previous_yid]['reenroling']['pending'];	
 					if(isset($boardercoms)){
-						foreach($boardercoms as $index => $boardercom){
-							$cell['value_boarders'][$index]=$enrol_tablerows[$previous_yid]['reenroling']['pending_boarders'][$index];
+						foreach($boardercoms as $bindex => $boardercom){
+							$cell['value_boarders'][$bindex]=$enrol_tablerows[$previous_yid]['reenroling']['pending_boarders'][$bindex];
 							}
 						}
 					}
@@ -194,9 +206,9 @@
 				/**
 				 * TODO: Doesn't work because boarders are permanent installed as boarders....
 				 *
-				foreach($boardercoms as $index => $boardercom){
-					$cell['value_boarders'][$index]=count_reenrol_no($boardercom['id'],$reenrol_eid,'P','C');
-					$cell['value_boarders'][$index]+=count_reenrol_no($boardercom['id'],$reenrol_eid,'R');
+				foreach($boardercoms as $bindex => $boardercom){
+					$cell['value_boarders'][$bindex]=count_reenrol_no($boardercom['id'],$reenrol_eid,'P','C');
+					$cell['value_boarders'][$bindex]+=count_reenrol_no($boardercom['id'],$reenrol_eid,'R');
 					}
 				*/
 				}
@@ -206,8 +218,8 @@
 				$leavercom=get_community($leavercomid);
 				$cell['value']=countin_community($leavercom);
 				//$cell['value']=count_reenrol_no($leavercomid,$reenrol_eid,'LL','L');
-				foreach($boardercoms as $index => $boardercom){
-					$cell['value_boarders'][$index]=countin_community_extra($leavercom,'boarder',$boardercom['name']);
+				foreach($boardercoms as $bindex => $boardercom){
+					$cell['value_boarders'][$bindex]=countin_community_extra($leavercom,'boarder',$boardercom['name']);
 					}
 				}
 			elseif($enrolcol=='leaverstotal'){
@@ -221,16 +233,16 @@
 				if(isset($enrol_tablerows[$previous_yid]['leaverstotal']['leaverslast'])){
 					$cell['value']=$enrol_tablerows[$previous_yid]['leaverstotal']['leaverslast']+$enrol_tablecells['leaverssince']['value'];
 					if(isset($boardercoms)){
-						foreach($boardercoms as $index => $boardercom){
-							//$cell['value_boarders'][$index]+=$enrol_tablecells[$previous_yid]['leaverstotal_boarders'][$index]['leaverslast'] + $enrol_tablecells['leaverssince']['value_boarders'][$index];
+						foreach($boardercoms as $bindex => $boardercom){
+							//$cell['value_boarders'][$bindex]+=$enrol_tablecells[$previous_yid]['leaverstotal_boarders'][$bindex]['leaverslast'] + $enrol_tablecells['leaverssince']['value_boarders'][$bindex];
 							}
 						}
 					}
 				else{
 					$cell['value']=$enrol_tablecells['leaverssince']['value'];
 					if(isset($boardercoms)){
-						foreach($boardercoms as $index => $boardercom){
-							$cell['value_boarders'][$index]+=$enrol_tablecells[$yid]['leaverssince']['value_boarders'][$index];
+						foreach($boardercoms as $bindex => $boardercom){
+							$cell['value_boarders'][$bindex]+=$enrol_tablecells[$yid]['leaverssince']['value_boarders'][$bindex];
 							}
 						}
 					}
@@ -251,26 +263,26 @@
 				/* The new students who have joined the roll since the start of the year*/
 				$cell['value']=$app_tablerows[$yid]['newnewenrolments']['value'];
 				if(isset($boardercoms)){
-					foreach($boardercoms as $index => $boardercom){
-						$cell['value_boarders'][$index]+=$app_tablerows[$yid]['newnewenrolments']['value_boarders'][$index];
+					foreach($boardercoms as $bindex => $boardercom){
+						$cell['value_boarders'][$bindex]+=$app_tablerows[$yid]['newnewenrolments']['value_boarders'][$bindex];
 						}
 					}
 				}
 			elseif($enrolcol=='newenrolments'){
 				$cell['value']+=$app_tablerows[$yid]['AC']['value'];
 				if(isset($boardercoms)){
-					foreach($boardercoms as $index => $boardercom){
-						$cell['value_boarders'][$index]+=$app_tablerows[$yid]['AC']['value_boarders'][$index];
+					foreach($boardercoms as $bindex => $boardercom){
+						$cell['value_boarders'][$bindex]+=$app_tablerows[$yid]['AC']['value_boarders'][$bindex];
 						}
 					}
 				}
 			elseif($enrolcol=='currentroll'){
 				$cell['value']=countin_community($yearcommunity);
 				if(isset($boardercoms)){
-					foreach($boardercoms as $index => $boardercom){
-						$cell['value_boarders'][$index]=0;
+					foreach($boardercoms as $bindex => $boardercom){
+						$cell['value_boarders'][$bindex]=0;
 						if($cell['value']>0){
-							$cell['value_boarders'][$index]=countin_community_extra($yearcommunity,'boarder',$boardercom['name']);
+							$cell['value_boarders'][$bindex]=countin_community_extra($yearcommunity,'boarder',$boardercom['name']);
 							}
 						}
 					}
@@ -286,8 +298,8 @@
 
 				$cell['value']=$enrol_tablecells['newenrolments']['value'] + $enrol_tablecells['transfersin']['value'] + $enrol_tablecells['reenroling']['repeat'] + $pre_reenrolcell['confirm'];
 				if(isset($boardercoms)){
-					foreach($boardercoms as $index => $boardercom){
-						$cell['value_boarders'][$index]=$enrol_tablecells['newenrolments']['value_boarders'][$index] + $enrol_tablecells['reenroling_boarders'][$index]['repeat'] + $pre_reenrolcell['confirm_boarders'][$index];
+					foreach($boardercoms as $bindex => $boardercom){
+						$cell['value_boarders'][$bindex]=$enrol_tablecells['newenrolments']['value_boarders'][$bindex] + $enrol_tablecells['reenroling_boarders'][$bindex]['repeat'] + $pre_reenrolcell['confirm_boarders'][$bindex];
 						}
 					}
 				}
@@ -296,8 +308,8 @@
 				$leavercom=get_community($leavercomid);
 				$cell['value']=countin_community($leavercom);
 				if(isset($boardercoms)){
-					foreach($boardercoms as $index => $boardercom){
-						$cell['value_boarders'][$index]=countin_community_extra($leavercom,'boarder',$boardercom['name']);
+					foreach($boardercoms as $bindex => $boardercom){
+						$cell['value_boarders'][$bindex]=countin_community_extra($leavercom,'boarder',$boardercom['name']);
 						}
 					}
 
@@ -314,15 +326,15 @@
 				if(isset($enrol_tablerows[$previous_yid])){
 					$cell['value']=$enrol_tablerows[$previous_yid]['reenroling']['leavers'];
 					if(isset($boardercoms)){	
-						foreach($boardercoms as $index => $boardercom){
-							$cell['value_boarders'][$index]=$enrol_tablerows[$previous_yid]['reenroling']['leavers_boarders'][$index];
+						foreach($boardercoms as $bindex => $boardercom){
+							$cell['value_boarders'][$bindex]=$enrol_tablerows[$previous_yid]['reenroling']['leavers_boarders'][$bindex];
 							}
 						}
 					}
 				else{
 					$cell['value']=0;
-					foreach($boardercoms as $index => $boardercom){
-						$cell['value_boarders'][$index]=0;
+					foreach($boardercoms as $bindex => $boardercom){
+						$cell['value_boarders'][$bindex]=0;
 						}
 					}
 				}
@@ -335,8 +347,8 @@
 					$cell['value']=$yearcommunity['capacity'];
 					if(isset($boardercoms) and $yidindex==1){
 						/* Only used in a total so count once. */	
-						foreach($boardercoms as $index => $boardercom){
-							$cell['value_boarders'][$index]=$boardercom['capacity'];
+						foreach($boardercoms as $bindex => $boardercom){
+							$cell['value_boarders'][$bindex]=$boardercom['capacity'];
 							}
 						}
 					}
@@ -350,8 +362,8 @@
 					$cell['value']=$accom['capacity'];
 					/* Assume the capacity is fixed for boarders year-on-year as its easier...*/
 					if(isset($boardercoms) and $yidindex==1){	
-						foreach($boardercoms as $index => $boardercom){
-							$cell['value_boarders'][$index]=$boardercom['capacity'];
+						foreach($boardercoms as $bindex => $boardercom){
+							$cell['value_boarders'][$bindex]=$boardercom['capacity'];
 							}
 						}
 					}
@@ -365,16 +377,16 @@
 				if($enrolyear==$currentyear){
 					$cell['value']=$enrol_tablecells['capacity']['value'] - $enrol_tablecells['currentroll']['value'] - $app_tablerows[$yid]['AC']['value'];
 					if(isset($boardercoms)){
-						foreach($boardercoms as $index => $boardercom){
-							$cell['value_boarders'][$index]=$enrol_tablecells['capacity']['value_boarders'][$index] - $enrol_tablecells['currentroll']['value_boarders'][$index] - $app_tablerows[$yid]['AC']['value_boarders'][$index];
+						foreach($boardercoms as $bindex => $boardercom){
+							$cell['value_boarders'][$bindex]=$enrol_tablecells['capacity']['value_boarders'][$bindex] - $enrol_tablecells['currentroll']['value_boarders'][$bindex] - $app_tablerows[$yid]['AC']['value_boarders'][$bindex];
 							}
 						}
 					}
 				elseif(isset($pre_reenrolcell)){
 					$cell['value']=$enrol_tablecells['capacity']['value'] -	$enrol_tablecells['transfersin']['value'] - $enrol_tablecells['newenrolments']['value'] - $enrol_tablecells['pending']['value'] - $enrol_tablecells['reenroling']['repeat'] - $pre_reenrolcell['confirm'];
 					if(isset($boardercoms)){
-						foreach($boardercoms as $index => $boardercom){
-							$cell['value_boarders'][$index]=$enrol_tablecells['capacity']['value_boarders'][$index] - $enrol_tablecells['newenrolments']['value_boarders'][$index] - $enrol_tablecells['pending']['value_boarders'][$index] - $enrol_tablecells['reenroling']['repeat_boarders'][$index] - $pre_reenrolcell['confirm_boarders'][$index];
+						foreach($boardercoms as $bindex => $boardercom){
+							$cell['value_boarders'][$bindex]=$enrol_tablecells['capacity']['value_boarders'][$bindex] - $enrol_tablecells['newenrolments']['value_boarders'][$bindex] - $enrol_tablecells['pending']['value_boarders'][$bindex] - $enrol_tablecells['reenroling']['repeat_boarders'][$bindex] - $pre_reenrolcell['confirm_boarders'][$bindex];
 							}
 						}
 					}

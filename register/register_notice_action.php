@@ -25,7 +25,8 @@ if($sub=='Submit' and sizeof($comids)>0){
 
 	$notid=mysql_insert_id();
 	foreach($comids as $comid){
-		$d_n=mysql_query("INSERT INTO event_notidcomid (notice_id,community_id) VALUES ('$notid','$comid');");
+		list($comid,$yid)=explode(':::',$comid);
+		$d_n=mysql_query("INSERT INTO event_notidcomid (notice_id,community_id,yeargroup_id) VALUES ('$notid','$comid','$yid');");
 		}
 
 

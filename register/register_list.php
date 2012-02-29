@@ -89,7 +89,8 @@ else{$session='AM';}
 		$comid=$community['id'];
 		$d_n=mysql_query("SELECT id, comment FROM event_notice 
 							JOIN event_notidcomid ON event_notidcomid.notice_id=event_notice.id 
-							WHERE event_notidcomid.community_id='$comid' AND event_notidcomid.seen<'5'
+							WHERE event_notidcomid.community_id='$comid' AND event_notidcomid.yeargroup_id='$yid' AND 
+							event_notidcomid.seen<'5'
 							AND event_notice.session='$sess' AND event_notice.date='$dat';");
 		while($n=mysql_fetch_array($d_n)){
 			$notice.='<div class="center">'.$n['comment'].'</div>';

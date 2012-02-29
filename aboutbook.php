@@ -44,7 +44,7 @@ include('scripts/set_book_vars.php');
 
 	  <fieldset class="aboutbook selery">
 		<legend><?php print_string('documentation',$book);?></legend>
-<a href="http://laex.org/classdoku" target="_blank">
+<a href="http://wiki.classlearning.net/" target="_blank">
 <?php
 	$choices=array('usermanual.php' => 'usermanual'
 				   );

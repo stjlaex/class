@@ -29,7 +29,7 @@ if($nodays==''){$nodays=8;}
 	elseif($newcomid!=''){
 	  //TODO: no relation between sections and other community groups
 	  $community=(array)get_community($newcomid);
-	  /* The yid should always be set, but how depends on to the community type. TODO: simplfy! */
+	  /* The yid should always be set, but how depends on to the community type. TODO: simplfy!*/ 
 	  if($community['type']=='year'){$yid=$community['name'];}
 	  elseif($yid==''){$yid=array_pop(array_keys($community['groups']));}
 	  $section=get_section($yid);
@@ -39,7 +39,7 @@ if($nodays==''){$nodays=8;}
 
 	/* If a community is already selected (by passing newcomid) then
 	 * stick with that. Otherwise try to choose a relevant community to
-	 * display by default form the users pastoral responsibilities. 
+	 * display by default from the users pastoral responsibilities. 
 	 */
 	if(!isset($community) and $current==''){
 	  /* On first load select the teacher's pastoral group by default.
@@ -73,6 +73,7 @@ if($nodays==''){$nodays=8;}
 				  }
 			  }
 		  }
+
 	  //trigger_error('DEFAULT: '.$community['type'].' : '.$yid.' : '.$secid.' : '.$newcomid.' .... '.$current,E_USER_WARNING);
 		}
 
@@ -81,6 +82,7 @@ if($nodays==''){$nodays=8;}
 	  $newcomid=update_community($community);
 	  $community=(array)get_community($newcomid);
 	  $_SESSION[$book.'newcomid']=$newcomid;
+	  $_SESSION[$book.'yid']=$yid;
 	  }
 
 ?>

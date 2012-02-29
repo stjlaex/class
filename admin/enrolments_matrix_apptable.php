@@ -24,7 +24,7 @@ else{
 	$appcols_value=array('AP','AT','RE','CA','ACP','AC','WL');
 	}
 
-if($enrolyear>$currentyear){
+if($enrolyear>=$currentyear){
 	$appcols['enquiries']['class']='blank';
 	if(!empty($CFG->enrol_enquiries) and $CFG->enrol_enquiries=='static'){
 		$appcols['enquiries']['display']='<a href="admin.php?current=enrolments_edit.php&cancel='.
@@ -60,7 +60,7 @@ if($enrolyear==$currentyear){
    is stored in tablerows array indexed by the yid. */
 foreach($yeargroups as $year){
 	$app_tablecells=array();
-	if($enrolyear>$currentyear){
+	if($enrolyear>=$currentyear){
 		$app_tablecells['enquiries']=array();
 		}
 	$app_tablecells['applicationsreceived']=array();

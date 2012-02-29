@@ -157,8 +157,7 @@ if($_SESSION['role']=='admin' or $aperm==1){
 			class="required" >
 			<option value=""></option>
 <?php
-		$worklevels=array('-1'=>'useless','0'=>'tryharder','1'=>'good', 
-					  '2'=>'verygood','3'=>'teacherspet');
+		$worklevels=array('-1'=>'useless','0'=>'tryharder','1'=>'good','2'=>'verygood');
 		foreach($worklevels as $index => $worklevel){
 			print '<option ';
 			if(isset($edituser['worklevel'])){if($edituser['worklevel']==$index){print 'selected="selected"';}}
