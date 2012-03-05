@@ -250,6 +250,7 @@ $string['remittance']='Remittance';
 $string['remittances']='Remittances';
 $string['newremittance']='New remittance';
 $string['route']='Route';
+$string['catalogue']='Catalogue';
 $string['editroute']='Edit route';
 $string['emailreplyto']='Address for replies';
 ?>

@@ -25,6 +25,13 @@ if($Budget['overbudid_db']==0){
 	$extrabuttons['newbudget']=array('name'=>'current','value'=>'new_budget.php');
 	$subbudgets=list_subbudgets($budid);
 	}
+else{
+	$subbudgets=array();
+	}
+$d_o=mysql_query("SELECT COUNT(id) FROM orderorder WHERE budget_id='$budid'");
+if(($_SESSION['role']=='admin' or $aperm==1) and mysql_result($d_o,0)==0 and sizeof($subbudgets)==0){
+	$extrabuttons['delete']=array('name'=>'sub','value'=>'Delete');
+	}
 three_buttonmenu($extrabuttons,$book);
 ?>
   <div id="heading">

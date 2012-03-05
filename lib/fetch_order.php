@@ -17,6 +17,7 @@
  *							  );
  */
 
+
 /**
  * Returns the budgetname for that ordid from the database
  *
@@ -30,6 +31,25 @@ function get_budgetname($ordid){
 		}
 	else{
 		$name='BLANK';
+		}
+	return $name;
+	}
+
+
+
+/**
+ * Returns the budgetname for that ordid from the database
+ *
+ * @param integer $ordid
+ * @return string
+ */
+function get_order_catalogue($catlogid){
+	if($catlogid!=' ' and $catlogid!='' and $catlogid>0){
+		$d_b=mysql_query("SELECT detail AS name FROM ordercatalogue WHERE id='$catlogid';");
+		$name=mysql_result($d_b,0);
+		}
+	else{
+		$name='';
 		}
 	return $name;
 	}
@@ -235,7 +255,7 @@ function get_order_reference($ordid){
  */
 function fetchOrder($ordid='-1'){
 	$Order=array();
-	$d_o=mysql_query("SELECT budget_id, supplier_id, entrydate,
+	$d_o=mysql_query("SELECT budget_id, supplier_id, catalogue_id, entrydate,
 						currency, teacher_id, detail 
 						FROM orderorder WHERE id='$ordid';");
 	$order=mysql_fetch_array($d_o,MYSQL_ASSOC);
@@ -275,6 +295,10 @@ function fetchOrder($ordid='-1'){
 						   );
    	$Order['Reference']=array('label' => 'reference', 
 							  'value' => ''.get_order_reference($ordid)
+							  );
+   	$Order['Catalogue']=array('label' => 'catalogue', 
+							  'value_db' => ''.$order['catalogue_id'],
+							  'value' => ''.get_order_catalogue($order['catalogue_id'])
 							  );
 	$Order['Supplier']=(array)fetchSupplier($order['supplier_id']);
 	$Order['Materials']=(array)fetchMaterials($ordid);

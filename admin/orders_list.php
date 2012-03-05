@@ -163,6 +163,9 @@ two_buttonmenu($extrabuttons,$book);
 				if($Order['Detail']['value']!=''){
 					print '<div class="center nolite">'.$Order['Detail']['value'].'</div>';
 					}
+				if($Order['Catalogue']['value_db']>0){
+					print '<div class="nolite">'.$Order['Catalogue']['value'].'</div>';
+					}
 ?>
 				<ul class="listmenu">
 <?php

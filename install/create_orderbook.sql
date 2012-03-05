@@ -2,6 +2,7 @@ CREATE TABLE orderorder (
 	id				int unsigned not null auto_increment, 
 	budget_id		int unsigned not null default '0',
 	supplier_id		int unsigned not null default '0',
+	catalogue_id 	int unsigned not null default 0 ,
 	entrydate		date not null,
 	ordertype	   	enum('0','1','2','3','4','5') not null,
 	currency		enum('0','1','2','3','4') not null,
@@ -84,6 +85,7 @@ CREATE TABLE orderinvoice (
 CREATE TABLE ordercatalogue (
 	id				int unsigned not null auto_increment, 
 	supplier_id		int unsigned not null default '0', 
+	catalogue_id 	int unsigned not null default 0 ,
 	unitcost		decimal(10,2) unsigned not null default '0',
 	currency		enum('0','1','2','3','4') not null,
 	detail			text not null default '',
