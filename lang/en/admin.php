@@ -144,7 +144,7 @@ $string['specialneedsandsupport']='Special needs and support';
 $string['receivingextrasupport']='Receiving extra support';
 $string['studentswithiep']='Students with current IEP';
 $string['ratio']='Ratio';
-$string['notesonclass']='Description of this class';
+$string['notesonclass']='Note about this class';
 $string['orders']='Orders';
 $string['order']='Order';
 $string['limit']='Limit';
@@ -253,4 +253,5 @@ $string['route']='Route';
 $string['catalogue']='Catalogue';
 $string['editroute']='Edit route';
 $string['emailreplyto']='Address for replies';
+$string['coursecurriculum']='Course curriculum for this level of the subject.';
 ?>

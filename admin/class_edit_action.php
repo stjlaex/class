@@ -7,6 +7,7 @@ $action_post_vars=array('newtid','newcid');
 
 if(isset($_POST['newcid'])){$newcid=$_POST['newcid'];}
 if(isset($_POST['detail'])){$detail=$_POST['detail'];}
+if(isset($_POST['description'])){$description=$_POST['description'];}
 if(isset($_POST['newtid'])){$newtid=$_POST['newtid'];}else{$newtid='';}
 if(isset($_POST['newsid'])){$newsid=(array)$_POST['newsid'];}else{$newsid=array();}
 
@@ -36,6 +37,12 @@ elseif($sub=='Submit'){
 	if(isset($detail)){
 		$detail=clean_text($detail);
 		mysql_query("UPDATE class SET detail='$detail' WHERE id='$newcid';");
+		}
+	if(isset($description)){
+		$description=clean_text($description);
+		mysql_query("UPDATE classes, class SET classes.description='$description' 
+						WHERE classes.course_id=class.course_id AND classes.subject_id=class.subject_id 
+						AND classes.stage=class.stage AND class.id='$newcid';");
 		}
 	}
 

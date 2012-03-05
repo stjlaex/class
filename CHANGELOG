@@ -1,9 +1,15 @@
-Version ClaSS-1.0.17 release (2012/03/02)
+Version ClaSS-1.0.17 release (2012/03/05)
 -------------------------------------------
 
 Register notices now work with house groups using their yeargroup to
 identify.
 
+Allow grouping of order items by catalogue and added catalogue_id
+field to order and catalogue table.
+
+Delete button for unsued budgets (without orders and without subbudgets).
+
+A description field added to classes table for a subject's curriculum outline.
 
 
 Version ClaSS-1.0.16 release (2012/02/26)

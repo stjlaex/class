@@ -135,7 +135,7 @@ function generate_random_name($gender){
 	$table='sencurriculum';
 	$trows=array();
 	mysql_query("UPDATE $table SET comments='The background.',
-					targets='To improve.', outcome='The result.'");
+					targets='To improve.', outcome='The result.', extra='';");
 
 	$table='student';
 	$trows=array();

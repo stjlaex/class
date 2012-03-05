@@ -13,6 +13,11 @@ elseif(isset($_POST['pid'])){$pid=$_POST['pid'];}
 if(isset($_GET['openid'])){$openid=$_GET['openid'];}
 
 $curryear=get_curriculumyear();
+$imagebuttons=array();
+/*the rowaction buttons used within each assessments table row*/
+$imagebuttons['clicktodelete']=array('name'=>'current',
+									 'value'=>'merit_delete.php',
+									 'title'=>'delete');
 
 $Student=fetchStudent_short($sid);
 $house=get_student_house($sid);
@@ -36,6 +41,10 @@ $inmust='yes';
 <script src="../../js/editor.js" type="text/javascript"></script>
 <script src="../../js/book.js?version=1013" type="text/javascript"></script>
 <script src="../../js/qtip.js" type="text/javascript"></script>
+<script language="JavaScript" type="text/javascript">
+var pathtobook = "<?php print $CFG->sitepath.'/'.$CFG->applicationdirectory.'/'.$book.'/';?>";
+var book = "<?php print $book;?>";
+</script>
 </head>
 <body onload="loadRequired();">
 
@@ -86,8 +95,8 @@ $inmust='yes';
 	    <input type="hidden" name="bid" value="<?php print $bid; ?>"/>
 		<input type="hidden" name="pid" value="<?php print $pid; ?>"/>
 		<input type="hidden" name="openid" value="<?php print $openid; ?>"/>
-		</form>
 
+		</form>
 
 	</div>
 
@@ -131,15 +140,7 @@ $inmust='yes';
 ?>
 			  </p>
 <?php
-				/*TODO
-			  <button class="rowaction" title="Delete"
-				name="current" value="delete_merit.php" onClick="clickToAction(this)">
-				<img class="clicktodelete" />
-			  </button>
-			  <button class="rowaction" title="Edit" name="Edit" onClick="clickToAction(this)">
-				<img class="clicktoedit" />
-			  </button>
-				*/
+			rowaction_buttonmenu($imagebuttons,array(),$book);
 ?>
 			</td>
 		  </tr>

@@ -12,10 +12,13 @@ if(isset($_POST['newtid'])){$newtid=$_POST['newtid'];}
 
 $d_class=mysql_query("SELECT * FROM class WHERE id='$newcid'");
 $class=mysql_fetch_array($d_class, MYSQL_ASSOC);
-$detail=$class['detail'];
 $crid=$class['course_id'];
 $bid=$class['subject_id'];
 $stage=$class['stage'];
+$detail=$class['detail'];
+$d_c=mysql_query("SELECT description FROM classes 
+						WHERE course_id='$crid' AND subject_id='$bid' AND stage='$stage';");
+$description=mysql_result($d_c,0);
 /*keeping things simple by fixing season to a single value*/
 /*to sophisticate in the future*/
 $currentseason='S';
@@ -153,15 +156,22 @@ three_buttonmenu($extrabuttons);
 
 	  </fieldset>
 	  </div>
-		<div  style="float:right;width:66%;">
+	  <div style="float:right;width:66%;">
 		<fieldset>
 		  <legend>
 			<?php print get_string('notesonclass',$book);?>
 		  </legend>
-		  <input name="detail" maxlength="240" 
-			tabindex="<?php print $tab++;?>"
-			value="<?php print $detail;?>"/>
-	  </fieldset>
+		  <input name="detail" maxlength="240" tabindex="<?php print $tab++;?>" value="<?php print $detail;?>"/>
+		</fieldset>
+	  </div>
+	  <div style="float:right;width:66%;">
+		<fieldset>
+		  <legend>
+			<?php print get_string('coursecurriculum',$book);?>
+		  </legend>
+		  <textarea  tabindex="<?php print $tab++;?>" name="description" class="htmleditorarea" 
+					 id="Description" rows="3" cols="35"><?php print $description;?></textarea>
+		</fieldset>
 	  </div>
 
 
@@ -172,3 +182,6 @@ three_buttonmenu($extrabuttons);
 	<input type="hidden" name="cancel" value="<?php print $cancel;?>" />
 	</form>
   </div>
+<script src="lib/tiny_mce/tiny_mce.js" type="text/javascript"></script>
+<script src="lib/tiny_mce/loadeditor.js" type="text/javascript"></script>
+<script type="text/javascript">loadEditor();</script>
