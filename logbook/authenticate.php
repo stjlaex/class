@@ -152,7 +152,7 @@ class User{
 	  $cookie=$this->db->quote($_SESSION['cookie']);
 	  $session=$this->db->quote(session_id());
 	  $ip=$this->db->quote($_SERVER['REMOTE_ADDR']);
-	  if(!isset($CFG->ipfixed) or $CFG->ipfixed==true){
+	  if(!isset($CFG->ipfixed) or $CFG->ipfixed=='yes'){
 		  $sql="SELECT * FROM users WHERE (username=$username) 
 				AND (cookie=$cookie) AND (session=$session) AND (ip=$ip)";
 		  }
@@ -166,9 +166,11 @@ class User{
 		  }
 	  $result=$this->db->getRow($sql);
 	  if(is_object($result)){
-		  $this->_setSession($result, false, false);} 
+		  $this->_setSession($result, false, false);
+		  } 
 	  else{
-		  $this->_logout();}
+		  $this->_logout();
+		  }
 	  }
   function _logout(){
 	session_defaults();
