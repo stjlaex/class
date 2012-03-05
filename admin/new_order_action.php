@@ -8,9 +8,10 @@ if(isset($_POST['ordid'])){$ordid=$_POST['ordid'];}else{$ordid=-1;}
 $budid=$_POST['budid'];
 $maxmatn=$_POST['maxmatn'];
 if(isset($_POST['supid'])){$supid=$_POST['supid'];}else{$supid=-1;}
+if(isset($_POST['catlogid'])){$catlogid=$_POST['catlogid'];}else{$catlogid=-1;}
 if(isset($_POST['catid'])){$catid=$_POST['catid'];}else{$catid=-1;}
 $budgetyear=$_POST['budgetyear'];
-$action_post_vars=array('budid','budgetyear','supid','ordid','catid');
+$action_post_vars=array('budid','budgetyear','supid','ordid','catlogid','catid');
 
 include('scripts/sub_action.php');
 
@@ -23,11 +24,11 @@ if($sub=='Submit' and $supid>0){
 
 	if($ordid==-1){
 		mysql_query("INSERT INTO orderorder SET budget_id='$budid',
-						supplier_id='$supid', teacher_id='$tid';");
+						supplier_id='$supid', catalogue_id='$catlogid', teacher_id='$tid';");
 		$ordid=mysql_insert_id();
 		}
 	else{
-		mysql_query("UPDATE orderorder SET supplier_id='$supid' WHERE id='$ordid';");
+		mysql_query("UPDATE orderorder SET supplier_id='$supid', catalogue_id='$catlogid' WHERE id='$ordid';");
 		mysql_query("DELETE FROM ordermaterial WHERE order_id='$ordid';");
 		}
 

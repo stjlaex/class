@@ -14,11 +14,13 @@ $Order=fetchOrder($ordid);
 if($ordid==-1){
 	$budid=$_POST['budid'];
 	if(isset($_POST['supid'])){$supid=$_POST['supid'];}else{$supid=-1;}
+	if(isset($_POST['catlogid'])){$catlogid=$_POST['catlogid'];}else{$catlogid=-1;}
 	}
 else{
 	/* Editing an existing order.*/
 	$budid=$Order['Budget']['value_db'];
 	$supid=$Order['Supplier']['id_db'];
+	$catlogid=$Order['Catalogue']['value_db'];
 	}
 $Budget=fetchBudget($budid);
 $budgetyear=get_budgetyear($Budget['YearCode']['value']);
@@ -111,15 +113,40 @@ else{
 ?>
 			</td>
 		  </tr>
+<?php
+			/* TODO: limit catalogue by year. */
+		$d_c=mysql_query("SELECT DISTINCT id, detail AS name FROM ordercatalogue 
+								WHERE catalogue_id='0' AND supplier_id='$supid' ORDER BY subject_id, detail;");
+		if(mysql_num_rows($d_c)>0){
+			/* Give a choice of catalogue references. */
+?>
+		  <tr>
+			<td>
+<?php
+			$listlabel='catalogue';
+			$selcatlogid=$catlogid;
+			$listname='catlogid';
+			$onchange='yes';
+			$liststyle='width:80%;';
+			include('scripts/set_list_vars.php');
+			list_select_db($d_c,$listoptions,$book);
+			unset($listoptions);
+?>
+			</td>
+		  </tr>
+<?php
+			}
+?>
 		</table>
 	  </div>
 
 
 <?php
-		/* List all catalogue items for this supplier. */
-		$d_sup=mysql_query("SELECT id, detail AS name FROM ordercatalogue 
-								WHERE supplier_id='$supid' ORDER BY subject_id, detail;");
-		if(mysql_num_rows($d_sup)>0){
+		if(!empty($catlogid) and $catlogid>0){
+			/* List all catalogue items for this supplier. */
+			$d_s=mysql_query("SELECT id, detail AS name FROM ordercatalogue 
+								WHERE catalogue_id='$catlogid' AND supplier_id='$supid' ORDER BY subject_id, detail;");
+			if(mysql_num_rows($d_s)>0){
 ?>
 	  <div class="right">
 		<table class="listmenu">
@@ -127,24 +154,24 @@ else{
 		  <tr>
 			<td>
 <?php
-			$listlabel='item';
-			$selcatid=$catid;
-			$listname='catid';
-			$onchange='yes';
-			$liststyle='width:80%;';
-			include('scripts/set_list_vars.php');
-			list_select_db($d_sup,$listoptions,$book);
-			unset($listoptions);
-			$specialaction=2;
+				$listlabel='item';
+				$selcatid=$catid;
+				$listname='catid';
+				$onchange='yes';
+				$liststyle='width:80%;';
+				include('scripts/set_list_vars.php');
+				list_select_db($d_s,$listoptions,$book);
+				unset($listoptions);
+				$specialaction=2;
 ?>
 			</td>
 		  </tr>
 		</table>
 	  </div>
-
 <?php
-			$maxmatn=0;
-			$Order['Materials']['Material'][]=fetchCatalogueMaterial($catid);
+				$maxmatn=0;
+				$Order['Materials']['Material'][]=fetchCatalogueMaterial($catid);
+				}
 			}
 ?>
 

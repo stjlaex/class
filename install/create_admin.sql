@@ -53,6 +53,7 @@ CREATE TABLE classes (
 		sp				smallint unsigned not null default 0,
 		dp				smallint unsigned not null default 0,
 		block			char(3) not null default '',
+		description		text not null default '',
 		primary 		key (course_id, subject_id, stage)
 ) type=myisam;
 
