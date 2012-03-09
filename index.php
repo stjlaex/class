@@ -29,13 +29,10 @@
 require_once('../school.php');
 require_once('classdata.php');
 require_once('lib/include.php');
-/* Just if last logout wasn't clean. */
-$past=time()-7200;
-foreach($_COOKIE as $key=>$value){
-	setcookie($key, $value, $past, $CFG->sitepath);
-	}
-session_unset();
-session_destroy();
+/* Just maybe last logout wasn't clean... */
+require_once('logbook/session.php');
+start_class_phpsession();
+kill_class_phpsession();
 $books=$CFG->books;
 $currentlang=current_language();
 print '<?xml version="1.0" encoding="utf-8"?'.'>';
