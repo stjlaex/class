@@ -13,7 +13,11 @@ $grading_name=$_POST['grading_name'];
 $def_name=$_POST['def_name'];
 $comment=$_POST['comment'];
 $topic=$_POST['topic'];
-$entrydate=$_POST['date0'];
+$entrydate=$_POST['entrydate'];
+
+	/* Make sure the column is displayed to the left of the original. */
+	list($year,$month,$day)=explode('-',$entrydate);
+	$entrydate=date('Y-m-d',mktime(0,0,0,$month,$day+1,$year));
 
 
 	$mids=explode(' ',$midlist);

@@ -50,11 +50,9 @@ if($_SESSION['worklevel']>-1){
 	<button onClick="processContent(this);" name="current" value="column_average.php">
 	  <?php print_string('average',$book);?>
 	</button>
-<!--
 	<button onClick="processContent(this);" name="current" value="column_level.php">
 	  <?php print_string('level',$book);?>
 	</button>
--->
 	<button onClick="processContent(this);" name="current"value="column_rank.php">
 	  <?php print_string('rank',$book);?>
 	  </button>

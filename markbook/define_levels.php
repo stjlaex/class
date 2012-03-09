@@ -24,8 +24,7 @@ while($new=mysql_fetch_array($d_grading,MYSQL_ASSOC)){
 		  <option selected="selected" value=""></option>
 <?php	  
 			for($c=0;$c<sizeof($grading);$c++){
-				print '<option ';
-				print	' value="'.$grading[$c]['name'].'">'.$grading[$c]['name'].'</option>';
+				print '<option value="'.$grading[$c]['name'].'">'.$grading[$c]['name'].'</option>';
 				}
 ?>  
 		</select>

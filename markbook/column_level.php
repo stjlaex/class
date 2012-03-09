@@ -51,8 +51,7 @@ if($markdef['scoretype']!='percentage' and $markdef['scoretype']!='value'){
 /*	select levelling schemes by the crid/bid of the displayed classes*/
 	for($c=0;$c<sizeof($cids);$c++){
 		$cid=$cids[$c];	
-		$d_cridbid=mysql_query("SELECT subject_id, course_id 
-									FROM class WHERE id='$cid'");
+		$d_cridbid=mysql_query("SELECT subject_id, course_id FROM class WHERE id='$cid'");
 		$bid=mysql_result($d_cridbid,0,0);
 		$crid=mysql_result($d_cridbid,0,1);
 		$d_levelling=mysql_query("SELECT * FROM levelling

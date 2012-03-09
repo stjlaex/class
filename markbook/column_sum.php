@@ -18,13 +18,13 @@ elseif(sizeof($_POST['checkmid'])<2){
 else{
 	$checkmids=(array)$_POST['checkmid'];
 	$midlist='';
-	for ($c=0; $c<sizeof($checkmids); $c++){
+	for($c=0;$c<sizeof($checkmids);$c++){
 		$mid=$checkmids[$c];	
-		$d_markdef=mysql_query("SELECT markdef.scoretype, markdef.name 
+		$d_markdef=mysql_query("SELECT markdef.scoretype, markdef.name, mark.entrydate 
 				FROM markdef, mark WHERE mark.id='$mid' AND markdef.name=mark.def_name");
 		$markdef=mysql_fetch_array($d_markdef, MYSQL_ASSOC);
 		if($markdef['scoretype']=='value' or $markdef['scoretype']=='percentage'){
-			if($c==0){$scoretype=$markdef['scoretype'];}
+			if($c==0){$scoretype=$markdef['scoretype'];$entrydate=$markdef['entrydate'];}
 			if($markdef['scoretype']==$scoretype){
 				$midlist=$midlist.' '.$mid;
 				$def_name=$markdef['name'];
@@ -35,11 +35,10 @@ else{
 		}
 		
 	if($midlist!=''){
-		$tomonth = date('n');
-		$today	= date('j');
-		$toyear = date('Y');
-		$entrydate = $toyear.'-'.$tomonth.'-'.$today;
-		$topic='(sum)';		
+		/* Make sure the column is displayed to the left of the original. */
+		list($year,$month,$day)=explode('-',$entrydate);
+		$entrydate=date('Y-m-d',mktime(0,0,0,$month,$day+1,$year));
+		$topic='(sum)';
 
 		if(mysql_query("INSERT INTO mark (entrydate, marktype, def_name,
 				midlist, author, topic, component_id) VALUES ('$entrydate', 'sum',

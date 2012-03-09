@@ -29,7 +29,7 @@ if(sizeof($checkmids)<2){
 	$scoretypes=array();
 	$midlist='';
 	foreach($checkmids as $c => $mid){
-		$d_m=mysql_query("SELECT name, scoretype, grading_name
+		$d_m=mysql_query("SELECT name, scoretype, grading_name, mark.entrydate
 				FROM markdef JOIN mark ON markdef.name=mark.def_name WHERE mark.id='$mid';");
 		$markdef=mysql_fetch_array($d_m,MYSQL_ASSOC);
 
@@ -42,6 +42,7 @@ if(sizeof($checkmids)<2){
 				$grading_name=$markdef['grading_name'];
 				$scoretype=$markdef['scoretype'];
 				$def_name=$markdef['name'];
+				$entrydate=$markdef['entrydate'];
 				}
 			if($grading_name==$markdef['grading_name'] and $markdef['scoretype']==$scoretype){
 				$midlist.=$joiner. $mid;
@@ -92,10 +93,6 @@ three_buttonmenu();
 			</select>
 		  </fieldset>
 
-		  <fieldset class="center">
-			<legend><?php print_string('dateofmark',$book);?></legend>
-			<?php $todate=$mark['entrydate']; include('scripts/jsdate-form.php');?>
-		  </fieldset>
 
 		  <fieldset class="center">
 			<legend><?php print_string('detailsofmark',$book);?></legend>
@@ -133,6 +130,7 @@ three_buttonmenu();
 		  </fieldset>
 <?php	}
 ?>
+	<input type="hidden" name="entrydate" value="<?php print $entrydate; ?>"/>
 	<input type="hidden" name="midlist" value="<?php print $midlist; ?>"/>
 	<input type="hidden" name="scoretype" value="<?php print $scoretype; ?>"/>
 	<input type="hidden" name="grading_name" value="<?php print $grading_name; ?>"/>

@@ -19,14 +19,15 @@ elseif($lena!=''){
 	/* Copy over some details form the original mark*/
 	$d_mark=mysql_query("SELECT * FROM mark WHERE id='$mid'");
 	$mark=mysql_fetch_array($d_mark,MYSQL_ASSOC);
-	$topic=$mark{'topic'};
-	$entrydate=$mark{'entrydate'};
-	$total=$mark{'total'};
+	$topic=$mark['topic'];
+	$total=$mark['total'];
+	/* Make sure the column is displayed to the left of the original. */
+	list($year,$month,$day)=explode('-',$mark['entrydate']);
+	$entrydate=date('Y-m-d',mktime(0,0,0,$month,$day+1,$year));
 
 	/* Insert the mark row for the level. The mid to level goes in midlist.*/	
    	if(mysql_query("INSERT INTO mark (entrydate, marktype,
-				levelling_name, def_name, topic, total, midlist,
-				author, component_id) 
+				levelling_name, def_name, topic, total, midlist, author, component_id) 
 				VALUES ('$entrydate', 'level', '$lena', '$markdefname', '$topic',
 				'$total', '$mid', '$tid', '$pid');")){
 			$newmid=mysql_insert_id();
@@ -37,10 +38,8 @@ elseif($lena!=''){
 			$d_midcid=mysql_query("SELECT class_id FROM midcid WHERE mark_id='$mid'");	
 			while ($midcid=mysql_fetch_array($d_midcid,MYSQL_ASSOC)){
 				$cid=$midcid{'class_id'};
-				mysql_query("INSERT INTO midcid 
-							(mark_id, class_id) VALUES ('$newmid', '$cid')");
+				mysql_query("INSERT INTO midcid (mark_id, class_id) VALUES ('$newmid', '$cid')");
 				}
-			$result[]=get_string('columnlevelled',$book);
 			}
 	}
 include('scripts/redirect.php');
