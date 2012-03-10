@@ -67,7 +67,7 @@ while($student=mysql_fetch_array($d_students, MYSQL_ASSOC)){
 				list($out,$percent,$outrank)=scoreToPercent($score['value'],$score['outoftotal']);
 				}
 			elseif($scoretype=='comment'){
-				$out=$score['comment'];
+				$out=substr($score['comment'],0,12).'<br />'.substr($score['comment'],12,12);
 				$outrank=-100;
 				}
 			}

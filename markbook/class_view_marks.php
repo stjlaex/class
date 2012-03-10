@@ -210,6 +210,7 @@ for($i=0;$i<sizeof($cids);$i++){
 				  }
 			  if($umns[$c]['assessment']=='other'){$umns[$c]['displayclass']='other';}
 			  elseif($umns[$c]['assessment']=='yes'){$umns[$c]['displayclass']='other';}
+			  elseif($scoretype[$c]=='comment'){$umns[$c]['displayclass']='report';}
 			  else{$umns[$c]['displayclass']='';}
 			  }
 		  $totals[$mark['id']]=array('grade'=>'','value'=>'','outoftotal'=>'','no'=>0);		  
