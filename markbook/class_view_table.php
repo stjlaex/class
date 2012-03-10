@@ -96,7 +96,10 @@ while($student=mysql_fetch_array($d_students, MYSQL_ASSOC)){
 
 			/* Average is to be a grade */
 			if($umns[$c]['scoretype']=='grade'){
-				$grading_grades=$scoregrades[$umns[$c]['lena']];
+
+				if($scoregrades[$umns[$c]['lena']]){$grading_grades=$scoregrades[$umns[$c]['lena']];}
+				else{$grading_grades=$scoregrades[$scoregrading[$c]];}
+
 				$gradesum=0;
 				$gradecount=0;
 				foreach($mids as $mid){
