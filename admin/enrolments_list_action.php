@@ -22,8 +22,13 @@ if($sub=='Submit'){
 		$todate=date('Y-m-d');
 		$AssDefs=fetch_enrolmentAssessmentDefinitions('','RE',$enrolyear);
 		$eid=$AssDefs[0]['id_db'];
-		$AssDef=fetchAssessmentDefinition($eid);
+		$AssDef=(array)fetchAssessmentDefinition($eid);
 		$grading_grades=$AssDef['GradingScheme']['grades'];
+		if(isset($CFG->enrol_boarders) and $CFG->enrol_boarders=='yes'){
+			$reenrol_boarder_eid=$AssDefs[1]['id_db'];
+			$AssDef=(array)fetchAssessmentDefinition($reenrol_boarder_eid);
+			$boarder_grades=$AssDef['GradingScheme']['grades'];
+			}
 		}
 
 	foreach($sids as $sid){
@@ -61,7 +66,6 @@ if($sub=='Submit'){
 			elseif($enrolstage=='RE'){
 				if(isset($_POST["RE$sid"])){
 					$in=clean_text($_POST["RE$sid"]);
-					//trigger_error($in,E_USER_WARNING);
 					if($grading_grades!='' and $grading_grades!=' '){
 						$result=scoreToGrade($in,$grading_grades);
 						}
@@ -75,6 +79,18 @@ if($sub=='Submit'){
 					}
 				$score=array('result'=>$result,'value'=>$in,'date'=>$todate);
 				update_assessment_score($eid,$sid,'G','',$score);
+
+				if(isset($_POST["ACRE$sid"])){
+					$in=clean_text($_POST["ACRE$sid"]);
+					if($boarder_grades!='' and $boarder_grades!=' '){
+						$result=scoreToGrade($in,$boarder_grades);
+						}
+					else{
+						$result=$in;
+						}
+					$score=array('result'=>$result,'value'=>$in,'date'=>$todate);
+					update_assessment_score($reenrol_boarder_eid,$sid,'G','',$score);
+					}
 				}
 			}
 		}

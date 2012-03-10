@@ -101,6 +101,16 @@ if(isset($_POST['startdate'])){$startdate=$_POST['startdate'];}
 			}
 		$eid=$AssDefs[0]['id_db'];
 		$description=display_yeargroupname($yid).' ('.display_curriculumyear($enrolyear-1).')';
+
+		if(isset($CFG->enrol_boarders) and $CFG->enrol_boarders=='yes'){
+			$reenrol_boarder_eid=$AssDefs[1]['id_db'];
+			$pairs=explode (';', $AssDefs[1]['GradingScheme']['grades']);
+			$boarder_grades=array();
+			foreach($pairs as $pair){
+				list($grade['result'], $grade['value'])=explode(':',$pair);
+				$boarder_grades[$grade['value']]=$grade['result'];
+				}
+			}
 		}
 	else{
 		$description=display_yeargroupname($yid).' ('.display_curriculumyear($enrolyear).')';
@@ -110,7 +120,6 @@ if(isset($_POST['startdate'])){$startdate=$_POST['startdate'];}
 	foreach($coms as $com){
 		if(isset($startdate)){
 			$comstudents=(array)listin_community_new($com,$startdate);
-			trigger_error('LISTING!!!  '.$startdate,E_USER_WARNING);
 			}
 		else{
 			$comstudents=listin_community($com);
@@ -127,6 +136,16 @@ if(isset($_POST['startdate'])){$startdate=$_POST['startdate'];}
 		$boarder_students=array();
 		foreach($boarders as $student){
 			$boarder_students[]=$student['id'];
+			}
+		}
+	elseif(isset($CFG->enrol_boarders) and $CFG->enrol_boarders=='yes'){
+		$boardercoms=(array)list_communities('accomodation');
+		$boarder_students=array();
+		foreach($boardercoms as $boardercom){
+			$boarders=(array)listin_community($boardercom);
+			foreach($boarders as $student){
+				$boarder_students[]=$student['id'];
+				}
 			}
 		}
 
@@ -177,13 +196,17 @@ if(isset($_POST['startdate'])){$startdate=$_POST['startdate'];}
 
 		$required='no';$multi='1';
 		$colspan=2+sizeof($AssDefs);
-		if($comtype=='allapplied' or 
+
+	   if($enrolstage=='RE'){
+			foreach($AssDefs as $AssDef){
+				print '<th>'. $AssDef['Description']['value'].'</th>';
+				}
+			}
+		elseif($comtype=='allapplied' or 
 			   $enrolstatus=='year' or $enrolstatus='alumni'){
 				print '<th colspan="'.$colspan.'">'.get_string('enrolstatus','infobook').'</th>';
 			}
-		elseif($enrolstage=='RE'){
-			print '<th colspan="'.$colspan.'">'.get_string('reenroling','infobook').'</th>';
-			}
+
 		else{
 			foreach($AssDefs as $AssDef){
 				print '<th>'.get_coursename($AssDef['Course']['value']).'<br />'. 
@@ -277,6 +300,15 @@ if(isset($_POST['startdate'])){$startdate=$_POST['startdate'];}
 						tabindex="'.$tab++.'" value="'.$grade['value'].'" '.$checkclass;
 					print '/></div>';
 					}
+				if(isset($reenrol_boarder_eid)){
+					$listname='ACRE'.$sid;$listlabel='';
+					$Assessments=(array)fetchAssessments_short($sid,$reenrol_boarder_eid,'G');
+					if(sizeof($Assessments)>0){${'sel'.$listname}=$Assessments[0]['Value']['value'];}
+					elseif(in_array($sid,$boarder_students)){${'sel'.$listname}='1';}
+					print '</td><td>';
+					include('scripts/set_list_vars.php');
+					list_select_list($boarder_grades,$listoptions,$book);
+					}
 				}
 			else{
 				foreach($AssDefs as $AssDef){
@@ -318,7 +350,7 @@ if(isset($_POST['startdate'])){$startdate=$_POST['startdate'];}
 		  <th colspan="4">
 			<?php print_string('total',$book);?>
 		  </th>
-		  <td class="row" colspan="1">
+		  <td class="row">
 <?php
 				foreach($grades as $grade){
 					print '<div class=""><label>' 
@@ -328,6 +360,11 @@ if(isset($_POST['startdate'])){$startdate=$_POST['startdate'];}
 					}
 ?>
 		  </td>
+<?php
+		if(isset($CFG->enrol_boarders) and $CFG->enrol_boarders=='yes'){
+			print '<th></th>';
+			}
+?>
 		</tr>
 <?php
 	}

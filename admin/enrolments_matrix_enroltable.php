@@ -70,6 +70,9 @@
 				$transfer_codes[]=$grade;
 				}
 			}
+		if(isset($boardercoms)){
+			$reenrol_boarder_eid=$reenrol_assdefs[1]['id_db'];
+			}
 		}
 	else{
 		/* If no reenrol assessment exists then create one for this enrolyear. */
@@ -84,15 +87,13 @@
 		if(isset($boardercoms) and $yidindex==1){
 			$accomodation_status='P:1;L:2';
 			foreach($boardercoms as $bindex => $boardercom){
-				$accomodation_status=$boardercom['name'].':'.$boardercom['id'].';'.$accomodation_status;
+				$accomodation_status.=';'.$boardercom['name'].':'.$boardercom['id'];
 				}
 			mysql_query("INSERT INTO grading (name,grades,comment,author) VALUES ('AccomodationStatus','$accomodation_status','Boarder re-enrolment for the next year','ClaSS')");
-			mysql_query("INSERT INTO assessment (subject_id,stage,description,grading_name,course_id,year,season) VALUES ('G','RE','Boarder Re-enrolment','Re-enrolmentStatus','%','$enrolyear','S')");
+			mysql_query("INSERT INTO assessment (subject_id,stage,description,grading_name,course_id,year,season) VALUES ('G','RE','Boarder Re-enrolment','AccomodationStatus','%','$enrolyear','S')");
 			$reenrol_boarder_eid=mysql_insert_id();
 			}
 		}
-
-
 
 
 	foreach($yeargroups as $yidindex => $yeargroup){
@@ -141,7 +142,7 @@
 				if(isset($boardercoms) and $yidindex==1){
 					foreach($boardercoms as $bindex => $boardercom){
 						/* This will catch boeaders both old and new who are confirmed for next year... */
-						$cell['confirm_boarders'][$bindex]+=count_reenrol_no($comid,$reenrol_boarder_eid,$boardercom['id'],'');
+						$cell['confirm_boarders'][$bindex]+=count_reenrol_no('',$reenrol_boarder_eid,$boardercom['name'],'');
 						$cell['repeat_boarders'][$bindex]+=0;
 						$cell['pending_boarders'][$bindex]+=count_reenrol_no($boardercom['id'],$reenrol_boarder_eid,'P','');
 						$cell['leavers_boarders'][$bindex]+=count_reenrol_no($boardercom['id'],$reenrol_boarder_eid,'L','LL');

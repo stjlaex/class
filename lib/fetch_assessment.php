@@ -583,7 +583,8 @@ function count_reenrol_no($comid,$reenrol_eid,$result1,$result2='',$cutoffdate='
 		}
 
 	if(isset($resultstring)){
-		$d_noc=mysql_query("SELECT COUNT(eidsid.student_id) FROM
+		if($comid!=''){
+			$d_noc=mysql_query("SELECT COUNT(eidsid.student_id) FROM
 						eidsid JOIN comidsid ON
 					eidsid.student_id=comidsid.student_id WHERE comidsid.community_id='$comid'
 					AND (comidsid.leavingdate>'$cutoffdate' OR 
@@ -591,6 +592,11 @@ function count_reenrol_no($comid,$reenrol_eid,$result1,$result2='',$cutoffdate='
 					AND (comidsid.joiningdate<='$cutoffdate' OR 
 					comidsid.joiningdate='0000-00-00' OR comidsid.joiningdate IS NULL) 
 					AND assessment_id='$reenrol_eid' AND $resultstring;");
+			}
+		else{
+			$d_noc=mysql_query("SELECT COUNT(student_id) FROM
+						eidsid WHERE assessment_id='$reenrol_eid' AND $resultstring;");
+			}
 		}
 	else{
 		$d_noc=mysql_query("SELECT COUNT(student_id) FROM comidsid WHERE comidsid.community_id='$comid'
