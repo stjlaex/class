@@ -24,6 +24,8 @@ include('scripts/sub_action.php');
 $eid=$_POST['eid'];
 $curryear=$_POST['curryear'];
 $firstcol=$_POST['firstcol'];
+$colstart=$_POST['colstart'];
+if($_POST['separator']=='semicolon'){$separator=';';}else{$separator=',';}
 
 if($sub=='Submit'){
 
@@ -43,8 +45,10 @@ if($sub=='Submit'){
 			/* The first row is column headers containing the subject
 			 * ids of scores being imported. 
 			 */
-	  		$subjectrow=array_shift($inrows);/*grabs the first row*/
-			$subjects=array_slice($subjectrow,2);/*offset to ignore uid and student name in first two columns*/
+			/* grabs the first row with subject codes */
+	  		$subjectrow=array_shift($inrows);
+			/* colstart defines the offset to ignore uid, student name columns etc.*/
+			$subjects=array_slice($subjectrow,$colstart);
   			if(sizeof($subjects)>0){
 				foreach($subjects as $index => $subject){
 					$bid='';
@@ -111,7 +115,7 @@ if($sub=='Submit'){
 				$insid++;
 				foreach($bids as $col => $bid){
 					if(isset($bid[0]) and $bid[0]!='#'){
-						$invalue=$row[$col+2];/*offset to ignore first two columns*/
+						$invalue=$row[$col+$colstart];/*offset to ignore first columns*/
 						if($grading_grades!=''){
 							$res=trim($invalue);
 							$value=gradeToScore($res,$grading_grades);

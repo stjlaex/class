@@ -11,6 +11,7 @@ $fname=$_FILES['importfile']['tmp_name'];
 $fuser=$_FILES['importfile']['name'];
 $ferror=$_FILES['importfile']['error'];
 $ftype=$_FILES['importfile']['type'];
+if(!isset($separator)){$separator=',';}
 
 	if($ferror>0){
 		$error[]='Unable to open remote file.';
@@ -39,7 +40,7 @@ $ftype=$_FILES['importfile']['type'];
 			if(!isset($multiline)){$multiline=1;}
 			$nofields='';
 			while(!feof($file)){
-				$in=(array)fgetcsv($file,999,';','"');
+				$in=(array)fgetcsv($file,999,$separator,'"');
 				/*(filename, maxrowsize,delimeter,enclosure)*/
 
 				/*if first item a # then ignore whole row*/
@@ -51,10 +52,11 @@ $ftype=$_FILES['importfile']['type'];
 						$recordcount++;
 						$noin=sizeof($record);
 						if($nofields!='' and $nofields!=$noin and $recordcount>$multiline){
-							$error[]='WARNING: record '. $recordcount. 
-									' has a mismatched field count! ' 
-									.$in[0].' ';}
-						else{$nofields=$noin;}
+							$error[]='WARNING: record '. $recordcount. ' has a mismatched field count! '.$in[0].' ';
+							}
+						else{
+							$nofields=$noin;
+							}
 						array_push($inrows, $record);
 						$record=array();
 						$recordline=0;
