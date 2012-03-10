@@ -68,8 +68,7 @@ if(sizeof($sids)==0){
 		$worksheet->write(0, 4, 'Preferred Forename', $format_hdr_bold);
 		$coloffset=5;
 		for($colno=0;$colno<$displayfields_no;$colno++){
-			$dspfld='displayfield'.$colno;
-			$header=$_POST[$dspfld];
+			$header=$displayfields[$colno];
 			$worksheet->write(0, $colno+$coloffset, $header, $format_hdr_bold);
 			if(substr_count($header,'PostalAddress')){$coloffset=$coloffset+4;}
 			if(substr_count($header,'ContactPhone')){$coloffset=$coloffset+2;}

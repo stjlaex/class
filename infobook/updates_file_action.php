@@ -15,13 +15,12 @@ if(isset($_POST['update'])){$update=$_POST['update'];}
 
 if($sub=='Submit'){
 	if(!empty($catid) and $catid!='uncheck'){
-		trigger_error($catid);
 		$sids=array();
 		if($update==1){
 			$d_u=mysql_query("SELECT student_id FROM update_event WHERE export='0';");
 			}
 		else{
-			$d_u=mysql_query("SELECT student_id FROM update_event WHERE exportdate='$update';");
+			$d_u=mysql_query("SELECT student_id FROM update_event WHERE export='1';");
 			}
 		while($u=mysql_fetch_array($d_u)){
 			$sids[]=$u['student_id'];
