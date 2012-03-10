@@ -49,21 +49,17 @@ three_buttonmenu();
 		  </th>
 <?php
 		}
-?>
-		  <th>
-<?php
-	print get_string('mark',$book).'<br />';
+
 	if($scoretype=='grade'){
 		$d_grading=mysql_query("SELECT grades FROM grading WHERE name='$grading_name'");
 		$grading_grades=mysql_result($d_grading,0);
 		$pairs=explode (';', $grading_grades);
-		print '('.$grading_name.')';
+		print '<th>'.$grading_name.'</th>';
 		}
-	else{
-		print '('.get_string('decimalvalue',$book).')';
+	elseif($scoretype=='value'  or $scoretype=='percentage'){
+		print '<th>'.get_string('decimalvalue',$book).'</th>';
 		}
 ?>
-		  </th>
 		  <th style="background-color:#444;border-color:#444;width:10px;">&nbsp;</th>
 <?php
 	if($scoretype=='percentage'){
@@ -77,9 +73,7 @@ three_buttonmenu();
 		}
 ?>
 
-		  <th 
-<?php if($_SESSION['worklevel']<0){print ' class="hidden" '; } print $_SESSION['worklevel'];?>
-			>
+		  <th>
 			<?php print_string('shortnote',$book);?>
 		  </th>
 		  <th></th>
@@ -135,7 +129,7 @@ three_buttonmenu();
 		</td>
 <?php
 			}
-		else{
+		elseif($scoretype=='value' or $scoretype=='percentage'){
 			print '<td><input pattern="decimal" type="text" tabindex="'.$tab.'" name="'.$sid.'" maxlength="8" value="'.$viewtable[$c]["score$mid"]['value'].'" /></td>';
 			}
 ?>
@@ -147,13 +141,12 @@ three_buttonmenu();
 			}
 ?>
 
-			<td <?php if($_SESSION['worklevel']<0){print 'class="hidden"';}?> >
+			<td>
 			  <input type="text" style="width:80%;background-color:#ddd;"
 				 name="<?php print 'comm'.$sid;?>" maxlength="98" 
 				value="<?php print $viewtable[$c]["score$mid"]['comment'];?>"  />
 			</td>
-			<td id="icon<?php print $sid;?>" class=""
-			  style="width:18px;" >
+			<td id="icon<?php print $sid;?>" class="" style="width:18px;" >
 			  <img class="clicktoload" name="Attachment"
 		 onClick="clickToAttachFile(<?php print $sid.','.$mid.',\''.$viewtable[$c]['class_id'].'\',\''.$pid.'\',\''.$sid.'\'';?>);" 
 		  title="<?php print_string('clicktoattachfile');?>" />

@@ -27,7 +27,7 @@ elseif($def_name==''){
 
 	$d_markdef=mysql_query("SELECT * FROM markdef WHERE name='$def_name'");
 	$markdef=mysql_fetch_array($d_markdef, MYSQL_ASSOC);
-	$scoretype=$markdef{'scoretype'};
+	$scoretype=$markdef['scoretype'];
 
 three_buttonmenu();
 ?>
@@ -41,7 +41,7 @@ three_buttonmenu();
 
 	  <fieldset class="left">
 		<legend><?php print_string('classesthatusethismark',$book);?></legend>
-	 	<select class="required" id="Classes" name="newcid[]" 
+	 	<select class="required" id="Classes" name="newcids[]" 
 		  size="14"	multiple="multiple" tabindex="2">
 <?php
 		/* Select all possible classes to apply the mark to*/
@@ -62,8 +62,8 @@ three_buttonmenu();
 		}
 	while($newcids=mysql_fetch_array($d_cids,MYSQL_ASSOC)) {
 		print '<option ';
-		if(in_array($newcids{'class_id'},$cids)){print 'selected="selected"';}
-		print ' value="'.$newcids{'class_id'}.'">'.$newcids{'class_id'}.'</option>';
+		if(in_array($newcids['class_id'],$cids)){print 'selected="selected"';}
+		print ' value="'.$newcids['class_id'].'">'.$newcids['class_id'].'</option>';
 		}
 ?>
 		</select>
@@ -87,25 +87,23 @@ three_buttonmenu();
 	  <fieldset class="right">
 		<legend><?php print_string('detailsofmark',$book);?></legend>
 		<label for="Topic"><?php print_string('markstitleidentifyingname',$book);?></label>
-		<input class="required" type="text" id="Topic" name="topic" 
-		  maxlength="38" pattern="alphanumeric" />
+		<input class="required" type="text" id="Topic" name="topic" maxlength="38" pattern="alphanumeric" />
 		  <label for="Comment"><?php print_string('optionalcomment',$book);?></label>
-		  <input type="text" id="Comment" name="comment" 
-			maxlength="98" pattern="alphanumeric" />
+		  <input type="text" id="Comment" name="comment" maxlength="98" pattern="alphanumeric" />
 <?php 
 		  if($scoretype=='percentage'){ 
 ?>
 			<label for="Total"><?php print_string('outoftotal',$book);?></label>
-			<input class="required" type="text" id="Total" name="total" 
-			  maxlength="4" pattern="integer" />
+			<input class="required" type="text" id="Total" name="total" maxlength="4" pattern="integer" />
 <?php
 			}
 ?>
 	  </fieldset>
 
+	  <input type="hidden" name="scoretype" value="<?php print $scoretype;?>" />
 	  <input type="hidden" name="def_name" value="<?php print $def_name;?>" />
-		<input type="hidden" name="current" value="<?php print $action;?>" />
-		  <input type="hidden" name="choice" value="<?php print $choice;?>" />
-		  <input type="hidden" name="cancel" value="<?php print 'new_mark.php';?>" />
+	  <input type="hidden" name="current" value="<?php print $action;?>" />
+	  <input type="hidden" name="choice" value="<?php print $choice;?>" />
+	  <input type="hidden" name="cancel" value="<?php print 'new_mark.php';?>" />
 	</form>
   </div>
