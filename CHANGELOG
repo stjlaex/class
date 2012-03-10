@@ -1,4 +1,4 @@
-Version ClaSS-1.0.17 release (2012/03/05)
+Version ClaSS-1.0.17 release (2012/03/10)
 -------------------------------------------
 
 Register notices now work with house groups using their yeargroup to
@@ -10,6 +10,21 @@ field to order and catalogue table.
 Delete button for unsued budgets (without orders and without subbudgets).
 
 A description field added to classes table for a subject's curriculum outline.
+
+Fix to comment writer for tinyMCE to use character limit on multiple instances.
+
+Use kill_session on index.php page to make sure cookies are dead.
+
+Improved the positioning of derived (sum, average and level) columns
+by calculating a relevant date.
+
+Improved the assessment scores import by adding options for start
+column and field separator.
+
+Fix to update export to allow repeat of previous exports and to
+export_students so that headers are not missed.
+
+New MarkBook column type for text only comments.
 
 
 Version ClaSS-1.0.16 release (2012/02/26)

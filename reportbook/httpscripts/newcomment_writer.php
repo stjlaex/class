@@ -225,7 +225,8 @@ if($subcomments_no==0){$subcomments[]['name']='Comment';$subcomments_no=1;}
 			<label style="float:left;background-color:#ffe;font-weight:600;padding:2px 6px;">
 			  <?php print $commentlabel;?>
 			</label>
-    		  <input id="textlen" name="textlen" size="3" type="input" readonly="readonly" tabindex="10000"  style="float:right;padding:0px 2px;margin:0 28px 0 0;"/>
+			<input id="maxtextlenincom<?php print $c;?>" name="maxtextlenincom<?php print $c;?>" type="hidden" value="<?php print $maxtextlen;?>"/>
+    		  <input id="textlenincom<?php print $c;?>" name="textlenincom<?php print $c;?>" size="3" type="input" readonly="readonly" tabindex="10000"  style="float:right;padding:0px 2px;margin:0 28px 0 0;"/>
 			<br />
 			<textarea id="incom<?php print $c;?>" class="<?php print $htmleditor;?>"
 			  style="height:<?php print $commentheight-20;?>px;"  
@@ -236,7 +237,6 @@ if($subcomments_no==0){$subcomments[]['name']='Comment';$subcomments_no=1;}
 			}
 ?>
 
-		<input id="maxtextlen" name="maxtextlen" type="hidden" value="<?php print $maxtextlen;?>"/>
 		<input type="hidden" name="inno" value="<?php print $subcomments_no;?>"/>
 		<input type="hidden" name="inmust" value="<?php print $inmust;?>"/>
 		<input type="hidden" name="addcategory" value="<?php print $reportdef['report']['addcategory'];?>"/>
