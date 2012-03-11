@@ -251,17 +251,19 @@ for($i=0;$i<sizeof($cids);$i++){
 				}
 			}
 
-		/* Collect the midlist columns to be averaged. */
+		/* Collect the midlist columns to be used. Will exclude target
+		 * and estimates (assement=other), we only want to be working
+		 * from actual results.
+		 */
 		$first_profile_iumn=0;
 		for($iumn=($c_marks-1);$iumn>0;$iumn--){
-			if(in_array($umns[$iumn]['component'],$profile_pids)){
+			if(in_array($umns[$iumn]['component'],$profile_pids) and $umns[$iumn]['assessment']=='yes'){
 				if($first_profile_iumn==0){
 					$first_profile_iumn=$iumn;
 					}
 				/* Only including if it has the right grading scheme. */
 				if($scoregrading[$iumn]==$scoregrading[$first_profile_iumn]){
 					$profile_midlist.=$umns[$iumn]['id'].' ';
-					//$profile_midlist.=$iumn.' ';
 					}
 				}
 			}
@@ -271,7 +273,8 @@ for($i=0;$i<sizeof($cids);$i++){
 		if($marktype==''){
 			/* TODO: The derivation of the profile summary columns is now in
 			   the catregorydef table this clause is just for backward
-			   compatibility and should probably be removed? */
+			   compatibility and should probably be removed? 
+			*/
 			if($profile_name=='FS Steps'){$marktype='tally';}
 			else{$marktype='sum';}
 			}

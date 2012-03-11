@@ -26,7 +26,12 @@ export_students so that headers are not missed.
 
 New MarkBook column type for text only comments.
 
-Tiny to assessment profiles when auto column is an average.
+Fix to assessment profiles when auto column is an average.
+
+Improvement to profiles to exclude Estimates and Targets from calculations.
+
+Colour progression indicators in MarkBook for assessment profiles of type=dif.
+
 
 
 Version ClaSS-1.0.16 release (2012/02/26)

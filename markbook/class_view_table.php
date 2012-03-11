@@ -51,8 +51,7 @@ while($student=mysql_fetch_array($d_students, MYSQL_ASSOC)){
 		$scoreclass='grade';/* Will only be overridden by a report. */
 		if($marktype=='score' or $marktype=='hw'){
 			if($asstype=='other'){$scoreclass.=' other';}
-			$d_score=mysql_query("SELECT * FROM score 
-					WHERE mark_id='$col_mid' AND student_id='$sid';");
+			$d_score=mysql_query("SELECT * FROM score WHERE mark_id='$col_mid' AND student_id='$sid';");
 			$score=mysql_fetch_array($d_score,MYSQL_ASSOC);			
 			/*score can be one of four types: grade, value, percentage, comment*/
 			if($scoretype=='grade'){
@@ -61,7 +60,7 @@ while($student=mysql_fetch_array($d_students, MYSQL_ASSOC)){
 				}
 			elseif($scoretype=='value'){
 				$out=$score['value'];
-				$outrank=$score['value'];			      
+				$outrank=$score['value'];    
 				}
 			elseif($scoretype=='percentage'){
 				list($out,$percent,$outrank)=scoreToPercent($score['value'],$score['outoftotal']);
@@ -213,26 +212,40 @@ while($student=mysql_fetch_array($d_students, MYSQL_ASSOC)){
 		
 		/*********************************************************/
 	   	elseif($marktype=='dif'){
-			/*Mark is the difference of two score values*/
+			/* Mark is the difference of two grades (does not work for raw values only grades!) */
 			$scoreclass.=' derived';
 			$mids=(array)explode(' ',$midlist[$c]);
 			$score_value=0;
 			$score_total=0;
-			foreach($mids as $mid){
+			foreach($mids as $ccc => $mid){
 				$iscore=$studentrow["score$mid"];
-				if(!isset($firstscore['value']) and $iscore['value']!==''){$firstscore=$iscore;}
-				if(isset($iscore['value']) and $iscore['value']!==''){$lastscore=$iscore;}
+				if(isset($lastscore) and $iscore['grade']!==''){$previousscore=$lastscore;}
+				if(!isset($firstscore) and $iscore['grade']!=''){$firstscore=$iscore;}
+				if(isset($iscore['grade']) and $iscore['grade']!==''){$lastscore=$iscore;}
+				if(isset($previousscore) and isset($lastscore)){
+					$lastdif=$lastscore['grade']-$previousscore['grade'];
+					if($lastdif>0){$studentrow["score$mid"]['scoreclass'].=' golite';}
+					elseif($lastdif<0){$studentrow["score$mid"]['scoreclass'].=' hilite';}
+					}
 				}
-			if($firstscore['value'] and $lastscore['value']){
-				$score_value=$lastscore['value']-$firstscore['value'];
+			if(isset($firstscore) and isset($lastscore)){
+				$score_value=$lastscore['grade']-$firstscore['grade'];
 				$yesval=1;
 				}
-			if(isset($yesval)){$out=$score_value; $outrank=$score_value; $score['value']=$score_value;}
-			else{$out='';$outrank=-100;}
+			if(isset($yesval)){
+				$out=$score_value;
+				$outrank=$score_value;
+				$score['value']=$score_value;
+				}
+			else{
+				$out='';
+				$outrank=-100;
+				}
 			unset($yesval);
 			unset($yestotal);
 			unset($firstscore);
 			unset($lastscore);
+			unset($previousscore);
 			}
 
 		/*********************************************************/

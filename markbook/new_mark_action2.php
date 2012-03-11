@@ -15,12 +15,6 @@ if(!isset($_POST['newpid'])){$newpid='';}else{$newpid=$_POST['newpid'];}
 
 include('scripts/sub_action.php');
 
-	if($_POST['scoretype']=='comment'){
-		$marktype='comment';
-		}
-	else{
-		$marktype='score';
-		}
 	/*	Create the new entry in table:mark */
 	mysql_query("INSERT INTO mark (entrydate, marktype, topic, total, comment, author, def_name, component_id) 
 	     VALUES ('$entrydate', '$marktype', '$topic', '$total', '$comment', '$tid', '$def_name', '$newpid')");
