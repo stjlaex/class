@@ -192,7 +192,7 @@ else{
 					}
 				elseif($col['value']=='leaverssince'){
 					$totals['displays'][$colindex]='<a href="admin.php?current=enrolments_list.php&cancel='.
-						$choice.'1&choice='. $choice.'&comid=-&enrolyear='. $enrolyear.'&yid=-100&enrolstage=P">'.$total.'</a>';
+						$choice.'&choice='. $choice.'&comid=-1&enrolyear='. $enrolyear.'&yid=-100&enrolstage=P">'.$total.'</a>';
 					}
 				elseif($col['value']=='newnewenrolments'){
 					$totals['displays'][$colindex]='<a href="admin.php?current=enrolments_list.php&cancel='.

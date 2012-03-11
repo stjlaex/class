@@ -84,7 +84,6 @@ if(isset($_POST['startdate'])){$startdate=$_POST['startdate'];}
 		foreach($yeargroups as $yeargroup){
 			$coms[]=array('id'=>'','type'=>$type,'name'=>$yeargroup['id']);
 			}
-		trigger_error($enrolstage.' : '.$enrolstatus.' : '.$yid.' : '.$comid,E_USER_WARNING);
 		}
 	else{
 		$comtype='allapplied';

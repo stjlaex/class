@@ -79,7 +79,7 @@ if(sizeof($rids)!=0){
 				$recipient=$Contact['EmailAddress']['value'];
 				//$recipient='stj@laex.org';
 				$message='<p>'.get_string('epfreportemail1').'</p>';
-				$message.= '<p>'.$CFG->eportfoliosite .'</p>';
+				$message.= '<p><a href="'.$CFG->eportfoliosite .'">'.$CFG->eportfoliosite .'</a></p>';
 				$message.='<p>'.get_string('epfreportemail1bis').'</p>';
 				$message.= '<p>Your username is: ' .$Contact['EPFUsername']['value']. '</p>';
 				//$message.= '<p>Your password is: ' .$password. '</p>';

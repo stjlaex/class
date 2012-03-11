@@ -28,8 +28,8 @@ if(isset($_POST['bid'])){$bid=$_POST['bid'];}else{$bid='';}
 		/*doing one student at a time*/
 		for($c=0;$c<sizeof($sids);$c++){
 			$sid=$sids[$c];
-			$Student=fetchStudent_short($sid);
-			$Comments=fetchIncidents($sid,$startdate);
+			$Student=(array)fetchStudent_short($sid);
+			$Comments=(array)fetchIncidents($sid,$startdate);
 			$Student['Incidents']=$Comments;
 			$Students['Student'][]=$Student;
 			}
