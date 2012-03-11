@@ -30,6 +30,9 @@ if(isset($_POST['startdate'])){$startdate=$_POST['startdate'];}
 		$application_steps=array('EN','AP','AT','RE','CA','WL','ACP','AC');
 		}
 
+	/**
+	 * Put together an array of communities (coms) which we are listing students for.
+	 */
 	if($comid!=-1){
 		$com=get_community($comid);
 		$coms[]=$com;
@@ -46,7 +49,7 @@ if(isset($_POST['startdate'])){$startdate=$_POST['startdate'];}
 			list($current_enrolstatus,$yid)=explode(':',$com['name']);
 			}
 		}
-	elseif($enrolstage=='C' and isset($yid)){
+	elseif($enrolstage=='C' and isset($yid) and $yid>-100){
 		$comid=update_community(array('id'=>'','name'=>$yid,'type'=>'year'));
 		$com=(array)get_community($comid);
 		$coms[]=$com;
@@ -64,6 +67,24 @@ if(isset($_POST['startdate'])){$startdate=$_POST['startdate'];}
 			}
 		$comtype=$type;
 		$current_enrolstatus=$enrolstatus;
+		}
+	elseif($enrolstage=='P'){
+		$comtype='allapplied';
+		$yeargroups=list_yeargroups();
+		$type='alumni';
+		foreach($yeargroups as $yeargroup){
+			$coms[]=array('id'=>'','type'=>$type, 
+						  'name'=>'P:'.$yeargroup['id'],'year'=>$enrolyear);
+			}
+		}
+	elseif($enrolstage=='C'){
+		$comtype='allapplied';
+		$yeargroups=list_yeargroups();
+		$type='year';
+		foreach($yeargroups as $yeargroup){
+			$coms[]=array('id'=>'','type'=>$type,'name'=>$yeargroup['id']);
+			}
+		trigger_error($enrolstage.' : '.$enrolstatus.' : '.$yid.' : '.$comid,E_USER_WARNING);
 		}
 	else{
 		$comtype='allapplied';

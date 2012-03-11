@@ -190,6 +190,15 @@ else{
 						$choice.'&choice='. $choice.'&enrolyear='. $enrolyear.'&yid=-100'.
 						'&comid=-1'. '&enrolstatus='.$col['value'].'">'.$total.'</a>';
 					}
+				elseif($col['value']=='leaverssince'){
+					$totals['displays'][$colindex]='<a href="admin.php?current=enrolments_list.php&cancel='.
+						$choice.'1&choice='. $choice.'&comid=-&enrolyear='. $enrolyear.'&yid=-100&enrolstage=P">'.$total.'</a>';
+					}
+				elseif($col['value']=='newnewenrolments'){
+					$totals['displays'][$colindex]='<a href="admin.php?current=enrolments_list.php&cancel='.
+						$choice.'&choice='. $choice.'&enrolyear='. $enrolyear.
+						'&comid=-1&yid=-100&enrolstage=C&startdate='.$yearstartdate.'">'.$total.'</a>';
+					}
 				else{
 					$totals['displays'][$colindex]=$total;
 					}
@@ -219,8 +228,6 @@ else{
 					else{
 						$cellname=$table['rows'][1][$col['value']]['name_boarder'];
 						}
-
-					trigger_error($cellname.' '.$cellvalue,E_USER_WARNING);
 					mysql_query("INSERT admission_stats SET date='$todate', name='$cellname', year='$enrolyear', count='$cellvalue';");
 					}
 				}

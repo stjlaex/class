@@ -319,7 +319,7 @@
 							$enrolyear.'&comname='. $cell['yid'].'&comtype=alumni'.
 							'&comid='. $leavercomid.'&enrolstage=C">' 
 							.$cell['value'].'</a>';
-				/* Assume any leavers where also reenroled last year before leaving an add to that total. */
+				/* Assume any leavers were also reenroled last year before leaving an add to that total. */
 				$enrol_tablecells['reenroled']['value']+=$cell['value'];
 				$enrol_tablecells['reenroled']['display']=$enrol_tablecells['reenroled']['value'];
 				}
