@@ -31,7 +31,7 @@ if($rid!=-1){
 	$subcomments=array();
 	foreach($subs as $sindex => $sub){
 		if($sub['subtype']=='pro'){$subcomments_fix=1;}
-		else{$subcomments_no++;$subcomments[]=$sub;}
+		else{$subcomments_no++;$subcomments[]=$sub;$submaxtextlen=250;}
 		}
 	}
 elseif($bid=='targets'){
@@ -217,7 +217,10 @@ if($subcomments_no==0){$subcomments[]['name']='Comment';$subcomments_no=1;}
 	if($commentheight>450){$commentheight=450;}
 	for($c=0;$c<$subcomments_no;$c++){
 		if($c==0){$htmleditor='htmleditorarea';}
-		else{$htmleditor='subeditorarea';}
+		else{
+			$htmleditor='subeditorarea';
+			$maxtextlen=$submaxtextlen;
+			}
 		$commentlabel=$subcomments[$c]['name'];
 ?>
 
