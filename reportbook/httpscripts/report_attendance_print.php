@@ -40,7 +40,7 @@ function dateDiff($startdate,$enddate){
 			$sid=$sids[$c];
 			$Student=(array)fetchStudent_short($sid);
 			$AttendanceSummary=(array)fetchAttendanceSummary($sid,$startdate,$enddate);
-
+			$Notes=array();
 			$table_html=array();
 			$rows=array();
 			$row=array();
@@ -76,6 +76,14 @@ function dateDiff($startdate,$enddate){
 							}
 						elseif($Attendance['Status']['value']=='a' and $Attendance['Period']['value']=='0'){
 							$content.=$Attendance['Code']['value'];
+							if(!empty($Attendance['Comment']['value'])){
+								$Note=array('Date'=>display_date($Attendance['Date']['value']),
+											'Session'=>$Attendance['Session']['value'],
+											'Code'=>$Attendance['Code']['value'],
+											'Comment'=>$Attendance['Comment']['value']
+											);
+								$Notes['Note'][]=$Note;
+								}
 							}
 						}
 					if($content==''){$content='#';}
@@ -89,8 +97,7 @@ function dateDiff($startdate,$enddate){
 
 			$table_html['table'][]=$rows;
 			$Student['AttendanceTable']=$table_html;
-
-
+			$Student['AttendanceNotes']=$Notes;
 			$Student['Attendance']=$AttendanceSummary;
 			$Students['Student'][]=$Student;
 			}
