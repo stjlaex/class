@@ -14,7 +14,10 @@ else{$profid='';}
 
 include('scripts/course_respon.php');
 
-$extrabuttons['importfromfile']=array('name'=>'current','value'=>'new_assessment_import.php');
+/* TODO: remove this fully or update?
+ */
+//$extrabuttons['importfromfile']=array('name'=>'current','value'=>'new_assessment_import.php');
+
 three_buttonmenu($extrabuttons);
 ?>
   <div class="topform divgroup">

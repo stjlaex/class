@@ -17,6 +17,8 @@ if(isset($_GET['entryn'])){$entryn=$_GET['entryn'];}
 elseif(isset($_POST['entryn'])){$entryn=$_POST['entryn'];}
 if(isset($_GET['openid'])){$openid=$_GET['openid'];}
 
+$browser=getBrowser();
+
 $StatementBank=array();
 if($rid!=-1){
 	$reportdef=fetch_reportdefinition($rid);
@@ -31,7 +33,7 @@ if($rid!=-1){
 	$subcomments=array();
 	foreach($subs as $sindex => $sub){
 		if($sub['subtype']=='pro'){$subcomments_fix=1;}
-		else{$subcomments_no++;$subcomments[]=$sub;$submaxtextlen=250;}
+		else{$subcomments_no++;$subcomments[]=$sub;$submaxtextlen=200;}
 		}
 	}
 elseif($bid=='targets'){
@@ -133,8 +135,20 @@ else{
 <script src="../../js/book.js?version=1013" type="text/javascript"></script>
 <script src="../../js/qtip.js" type="text/javascript"></script>
 <script src="../../js/statementbank.js" type="text/javascript"></script>
+<?php
+	if($browser['name']=='Mozilla Firefox' and $browser['version']=='11.0'){
+?>
+<script src="../../lib/tiny_mce_custom/tiny_mce.js" type="text/javascript"></script>
+<script src="../../lib/tiny_mce_custom/loadeditor.js" type="text/javascript"></script>
+<?php
+		}
+	else{
+?>
 <script src="../../lib/tiny_mce/tiny_mce.js" type="text/javascript"></script>
 <script src="../../lib/tiny_mce/loadeditor.js" type="text/javascript"></script>
+<?php
+		}
+?>
 </head>
 <body onload="window.opener.parent.loadRequired('reportbook');loadEditor();">
 

@@ -17,7 +17,7 @@ include('scripts/sub_action.php');
 
 	/*	Create the new entry in table:mark */
 	mysql_query("INSERT INTO mark (entrydate, marktype, topic, total, comment, author, def_name, component_id) 
-	     VALUES ('$entrydate', '$marktype', '$topic', '$total', '$comment', '$tid', '$def_name', '$newpid')");
+	     VALUES ('$entrydate', 'score', '$topic', '$total', '$comment', '$tid', '$def_name', '$newpid')");
 
 	/* Get the new marks $mid */
 	$mid=mysql_insert_id();
