@@ -50,27 +50,28 @@ two_buttonmenu();
 			$d_info=mysql_query("SELECT info.student_id FROM info JOIN background
 				ON background.student_id=info.student_id WHERE background.type='$medtype'
 				AND info.medical='Y' AND info.enrolstatus='C';");
-		}
+			}
 		elseif($newyid!=''){
 			$d_info=mysql_query("SELECT info.student_id FROM info JOIN student
 				ON student.id=info.student_id WHERE student.yeargroup_id='$newyid'
 				AND info.medical='Y' AND info.enrolstatus='C';");
 			}
 		}
-	else{
-		if($_SESSION['medbookcount']>0 and $_SESSION['medbookcount']<50){
-			$d_info=mysql_query("SELECT info.student_id FROM info JOIN student
+	elseif($list=='all'){
+		/*
+		 * Just list all if requested.
+		 */
+		$d_info=mysql_query("SELECT info.student_id FROM info JOIN student
 				ON student.id=info.student_id WHERE 
 				info.medical='Y' AND info.enrolstatus='C' ORDER BY student.surname;");
-			}
-		else{
-			}
 		}
 
+
+if(isset($d_info)){
 	while($info=mysql_fetch_array($d_info,MYSQL_ASSOC)){
 		$sids[]=$info['student_id'];
 		}
-
+	}
 ?>
 
 <div id="viewcontent" class="content">
@@ -96,7 +97,7 @@ two_buttonmenu();
 <?php
 		}
 
-	while(list($index,$sid)=each($sids)){
+	foreach($sids as $sindex => $sid){
 		$display='yes';
 		$Student=fetchStudent_short($sid);
 		$comment=comment_display($sid);
@@ -113,7 +114,7 @@ two_buttonmenu();
 		<tr>
 		  <td>
 			<input type="checkbox" name="sids[]" value="<?php print $sid; ?>" />
-			<?php print $index+1;?>
+			<?php print $sindex+1;?>
 		  </td>
 		  <td>
 			<span title="<?php print $comment['body'];?>">
@@ -150,7 +151,8 @@ two_buttonmenu();
 <?php
 				  }
 		}
-	reset($sids);
+	/* Must unset or the host page thinks a single sid is being displayed*/
+	unset($sid);
 ?>
 <tr>
 <th colspan="<?php print $displayfields_no+3;?>">&nbsp;</th>

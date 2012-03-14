@@ -401,4 +401,9 @@ $string['recent']='Recent';
 $string['warning']='Warning';
 $string['universityoffers']='University Offers';
 $string['reminder']='Reminder';
+$string['route']='Route';
+$string['semicolon']='Semi-colon';
+$string['comma']='Comma';
+$string['fieldseparator']='Field separator';
+$string['allstudents']='All students';
 ?>

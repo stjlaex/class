@@ -38,7 +38,6 @@ $string['enrolmentconcern']='Enrolment concern';
 $string['attentiondifficulties']='Attention difficulties';
 $string['generalconcern']='General learning concern';
 $string['eal']='EAL';
-$string['allstudents']='All students';
 $string['internal']='Internal';
 $string['external']='External';
 $string['nosenissue']='No SEN issue identified';

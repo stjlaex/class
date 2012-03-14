@@ -1,3 +1,11 @@
+Version ClaSS-1.0.18 release (2012/03/14)
+-------------------------------------------
+
+Added the absence notes to the summary attendnace report sheet.
+
+Added a list all button to the MedBook.
+
+
 Version ClaSS-1.0.17 release (2012/03/10)
 -------------------------------------------
 
@@ -32,8 +40,9 @@ Improvement to profiles to exclude Estimates and Targets from calculations.
 
 Colour progression indicators in MarkBook for assessment profiles of type=dif.
 
-Extra clich throughs on the enrolments table for new enrolments and
+Extra click throughs on the enrolments table for new enrolments and
 leavers during current year.
+
 
 
 Version ClaSS-1.0.16 release (2012/02/26)

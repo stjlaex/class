@@ -11,15 +11,12 @@ include('scripts/set_book_vars.php');
 $session_vars=array('sid','newyid','medtype');
 include('scripts/set_book_session_vars.php');
 
+if(isset($_POST['list']) and $_POST['list']=='all'){
+	$medtype='';$newyid='';$list='all';$sid='';
+	}
 if($sid=='' or $current==''){
 	$current='med_student_list.php';
 	$_SESSION['medbooksid']='';
-	if(!isset($_SESSION['medbookcount'])){
-		$d_c=mysql_query("SELECT COUNT(info.student_id) FROM info JOIN student
-				ON student.id=info.student_id WHERE 
-				info.medical='Y' AND info.enrolstatus='C' ORDER BY student.surname;");
-		$_SESSION['medbookcount']=mysql_result($d_c,0);
-		}
 	}
 elseif($sid!=''){
 	/*working with a single student*/
@@ -58,14 +55,22 @@ elseif($sid!=''){
 		list_select_db($d_catdef,$listoptions,$book);
 ?>
 	  </fieldset>
+	</form>
 <?php
 		  }
 ?>
-	  <fieldset class="seneeds">
-		<legend><?php print_string('total',$book);?></legend>
-<?php print 'Medical Flags: '.$_SESSION['medbookcount']; ?>
+	<form id="configmedbookchoice" name="configmedbookchoice" method="post" action="medbook.php" target="viewmedbook">
+	  <fieldset class="medbook selery">
+		<legend><?php print get_string('list','admin');?></legend>
+<?php 
+		$choices=array('med_student_list.php'=>'allstudents');
+		selery_stick($choices,'',$book);
+?>
+		<input type="hidden" name="list" value="all"/>
 	  </fieldset>
 	</form>
+
+
   </div>
 <?php
 include('scripts/end_options.php');

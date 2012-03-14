@@ -100,7 +100,7 @@ if(isset($d_info)){
 <?php
 		}
 
-	foreach($sids as $index => $sid){
+	foreach($sids as $sindex => $sid){
 		$display='yes';
 		$Student=fetchStudent_short($sid);
 		$comment=comment_display($sid);
@@ -121,7 +121,7 @@ if(isset($d_info)){
 		<tr>
 		  <td>
 			<input type="checkbox" name="sids[]" value="<?php print $sid; ?>" />
-			<?php print $index+1;?>
+			<?php print $sindex+1;?>
 		  </td>
 		  <td>
 			<span title="<?php print $comment['body'];?>">
