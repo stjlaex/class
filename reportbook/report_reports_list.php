@@ -52,7 +52,7 @@ if($_SESSION['role']=='admin' and isset($CFG->eportfolio_dataroot) and $CFG->epo
 	$extrabuttons['publishpdf']=array('name'=>'current',
 									  'value'=>'report_reports_publish.php');
 	$extrabuttons['unlock']=array('name'=>'current',
-								  'value'=>'report_reports_upload.php');
+								  'value'=>'report_reports_unlock.php');
 	if($_SESSION['username']=='administrator' and $CFG->emailoff=='no'){
 		/*
 		  $extrabuttons['email']=array('name'=>'current',
