@@ -9,6 +9,9 @@ Upgraded tinyMCE to fix compatibility with Firefox 11 and above.
 
 New import routine for transport routes and journeys.
 
+Added times of departure to the route sheet for bus stops.
+
+
 
 Version ClaSS-1.0.17 release (2012/03/10)
 -------------------------------------------

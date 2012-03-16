@@ -41,6 +41,7 @@ if($sub=='Submit'){
 		mysql_query("TRUNCATE TABLE transport_rtidstid;");
 		mysql_query("TRUNCATE TABLE transport_journey;");
 		mysql_query("TRUNCATE TABLE transport_booking;");
+		$routes=array();
 
 		/* First contruct the routes. */
 		foreach($inrows as $row){
@@ -71,13 +72,32 @@ if($sub=='Submit'){
 
 			$bus=(array)get_bus(-1,$busname,$direction,'%');
 			if(isset($bus['id'])){
+				if(!array_key_exists($rtid,$routes)){$routes[$rtid]=array();}
 				$rtid=$bus['route_id'];
-				list($dephour,$depmin,$junk)=explode(':',$bus['departuretime']);
-				list($hour,$min,$junk)=explode(':',$stoptime);
-				if($direction=='O'){$hour=$hour+12;}
-				$traveltime=round((mktime($hour,$min)-mktime($dephour,$depmin))/60);
-				mysql_query("INSERT INTO transport_rtidstid SET route_id='$rtid', stop_id='$stid', 
-							sequence='$seqno', traveltime='$traveltime';");
+				$routes[$rtid][$seqno]=array('id'=>$stid,'time'=>$stoptime);
+				mysql_query("INSERT INTO transport_rtidstid SET route_id='$rtid', 
+							stop_id='$stid', sequence='$seqno';");
+				}
+			}
+
+
+		/* Get the times right. */
+		foreach($routes as $rtid => $stops){
+			krsort($stops,SORT_NUMERIC);
+			$seqnos=array_keys($stops);
+			$i=0;
+			foreach($seqnos as $i => $seqno){
+				$stid=$stops[$seqno]['id'];
+				$stoptime=$stops[$seqno]['time'];
+				if($seqno>1){
+					$prev_seqno=$seqnos[$i+1];
+					$prev_stoptime=$stops[$prev_seqno]['time'];
+					list($dephour,$depmin,$junk)=explode(':',$prev_stoptime);
+					list($hour,$min,$junk)=explode(':',$stoptime);
+					$traveltime=round((mktime($hour,$min)-mktime($dephour,$depmin))/60);
+					mysql_query("UPDATE transport_rtidstid SET traveltime='$traveltime'
+								WHERE route_id='$rtid' AND stop_id='$stid';");
+					}
 				}
 			}
 

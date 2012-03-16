@@ -17,7 +17,7 @@ $aperm=get_admin_perm('b',get_uid($tid));
 $extrabuttons=array();
 if($_SESSION['username']=='administrator'){
 	//$extrabuttons['newbus']=array('name'=>'current','value'=>'new_bus.php');
-	//$extrabuttons['import']=array('name'=>'current','value'=>'transport_import.php');
+	$extrabuttons['import']=array('name'=>'current','value'=>'transport_import.php');
 	}
 if($_SESSION['role']=='admin' or $aperm==1 or $_SESSION['role']=='office'){
 	//$extrabuttons['export']=array('name'=>'current','value'=>'transport_export.php');
