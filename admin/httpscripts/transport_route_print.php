@@ -48,7 +48,7 @@ else{
 										   'name'=>$stop['name'],
 										   'detail'=>$stop['detail'],
 										   'time'=>$stop['traveltime'],
-										   'departuretime'=>gmdate('H:i:s',$deptime)
+										   'departuretime'=>gmdate('H:i',$deptime)
 										   );
 					}
 				$Journey['Stops']=$Stops;

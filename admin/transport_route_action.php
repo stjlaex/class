@@ -3,7 +3,7 @@
  */
 
 $action='transport_route.php';
-$cancel='transport_route.php';
+$cancel='transport.php';
 
 if(isset($_POST['busname'])){$busname=$_POST['busname'];}else{$busname='';}
 $action_post_vars=array('busname');
