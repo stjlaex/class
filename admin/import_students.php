@@ -21,7 +21,22 @@ three_buttonmenu();
 		<input class="required" type="file" id="Filename" name="importfile" />
 	  </fieldset>
 	
-	  <fieldset class="center">
+
+	  <fieldset class="left">
+		<legend><?php print_string('fieldseparator',$book);?></legend>		  
+		<label for="sid"><?php print_string('comma',$book);?></label>
+		<input type="radio" name="separator" tabindex="<?php print $tab++;?>"
+			eitheror="enrolno"  class="requiredor" checked="checked" 
+			id="comma" title="" value="comma" />
+
+		<label for="enrolno"><?php print_string('semicolon','infobook');?></label>
+		<input type="radio" name="separator" tabindex="<?php print $tab++;?>"
+		  eitheror="sid"  class="requiredor"
+		  title="" id="semicolon" value="semicolon" />
+	  </fieldset>
+
+
+	  <fieldset class="right">
 		<legend><?php print_string('records',$book);?></legend>
 		<label for="multiline"><?php print_string('multiplelines',$book);?></label>
 		<select class="required" id="multiline" name="multiline">

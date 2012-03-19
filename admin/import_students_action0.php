@@ -9,6 +9,7 @@ include('scripts/sub_action.php');
 
 if($sub=='Submit'){
 	$multiline=$_POST['multiline'];
+	if($_POST['separator']=='semicolon'){$separator=';';}else{$separator=',';}
 	include('scripts/file_import_csv.php');
 
 	/*to be used by the other action pages*/
