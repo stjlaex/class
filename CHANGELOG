@@ -1,4 +1,4 @@
-Version ClaSS-1.0.18 release (2012/03/14)
+Version ClaSS-1.0.18 release (2012/03/20)
 -------------------------------------------
 
 Added the absence notes to the summary attendnace report sheet.
@@ -10,6 +10,8 @@ Upgraded tinyMCE to fix compatibility with Firefox 11 and above.
 New import routine for transport routes and journeys.
 
 Added times of departure to the route sheet for bus stops.
+
+Added coice of field separator to import students.
 
 
 

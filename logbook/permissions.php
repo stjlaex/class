@@ -76,7 +76,7 @@ function list_sid_responsible_users($sid, $bid){
 	/*checks for special needs*/
 	$Student=fetchStudent_singlefield($sid,'SENFlag');
 	if($Student['SENFlag']['value']!='N'){
-		$d_u=mysql_query("SELECT uid FROM users WHERE (role='sen' OR senrole='1') AND users.nologin!='1';");
+		$d_u=mysql_query("SELECT uid FROM users WHERE (role='sen') AND users.nologin!='1';");
 		while($u=mysql_fetch_array($d_u)){
 			$user=get_user($u['uid'],'uid');
 			if(check_email_valid($user['email'])){ 
