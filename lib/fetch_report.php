@@ -231,6 +231,7 @@ function fetchSubjectReports($sid,$reportdefs){
 						  $Report['ProfileAssessments']=$ProfileAssessments;
 						  }
 					  
+					  $Report['SubjectDescription']=fetchSubjectDescription($reportdef['report']['course_id'],$bid,$reportdef['report']['stage'],$pid);
 					  $Report['Assessments']=$repasses;
 					  $Report['Comments']=$Comments;
 					  $Reports['Report'][]=$Report;
