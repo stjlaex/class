@@ -1147,4 +1147,25 @@ function check_component_status($status,$filter){
 		}
 	return $result;
 	}
+
+/**
+ *
+ */
+function fetchSubjectDescription($crid,$bid,$stage,$pid='%'){
+	$SubjectDescription=array();
+	$d_c=mysql_query("SELECT description FROM classes WHERE course_id='$crid' AND subject_id='$bid' AND stage='$stage';");
+	if(mysql_numrows($d_c)>0){
+		$c=mysql_fetch_array($d_c,MYSQL_ASSOC);
+		$html=array();
+		$html[]=xmlreader($c['description']);
+		$SubjectDescription['Content']=array('label'=>'description',
+											 'table_db'=>'classes', 
+											 'field_db'=>'desription',
+											 'type_db'=>'text',
+											 'value'=>$html,
+											 'value_db'=>''.$c['description']);
+		}
+	return $SubjectDescription;
+	}
+
 ?>
