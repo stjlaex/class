@@ -1879,11 +1879,24 @@ function fetchMeritsTotal($sid,$year){
 
    	$d_m=mysql_query("SELECT COUNT(id) FROM merits WHERE student_id='$sid' AND year='$year' AND value='-1';");
 	$negno=mysql_result($d_m,0);
-   	$d_m=mysql_query("SELECT COUNT(id) FROM merits WHERE student_id='$sid' AND year='$year' AND value>'0';");
+   	$d_m=mysql_query("SELECT COUNT(id) FROM merits WHERE student_id='$sid' AND year='$year' AND value>'0' AND value<'4';");
 	$posno=mysql_result($d_m,0);
-   	$d_m=mysql_query("SELECT SUM(value) FROM merits WHERE student_id='$sid' AND year='$year';");
+   	$d_m=mysql_query("SELECT SUM(value) FROM merits WHERE student_id='$sid' AND year='$year' AND value<'4';");
 	$sum=mysql_result($d_m,0);
 
+	/* Commendations have the special vlaue of 4 and counted per term*/
+	$date1=$year.'-01-01';
+	$date2=$year.'-04-01';
+	$date3=$year.'-08-01';
+   	$d_m=mysql_query("SELECT COUNT(id) FROM merits WHERE student_id='$sid' AND year='$year' AND value='4' AND date<'$date1';");
+	$com1=mysql_result($d_m,0);
+   	$d_m=mysql_query("SELECT COUNT(id) FROM merits WHERE student_id='$sid' AND year='$year' AND value='4' AND date>='$date1'  AND date<'$date2';");
+	$com2=mysql_result($d_m,0);
+   	$d_m=mysql_query("SELECT COUNT(id) FROM merits WHERE student_id='$sid' AND year='$year' AND value='4' AND date>='$date2' AND date<'$date3';");
+	$com3=mysql_result($d_m,0);
+	//trigger_error($comno,E_USER_WARNING);
+
+	$Total['Commendations']=array('value1'=>''.$com1,'value2'=>''.$com2,'value3'=>''.$com3,);
 	$Total['Negative']=array('value'=>''.$negno);
 	$Total['Positive']=array('value'=>''.$posno);
 	$Total['Sum']=array('value'=>''.$sum);

@@ -1463,7 +1463,7 @@ function send_email_to($recipient, $from, $subject, $messagetext, $messagehtml='
 		$from_name=$from.' <'.$default_emailnoreply.'>';
 		$replyto=$default_emailnoreply;
 		}
-	elseif(is_array($from)){
+	elseif(is_array($from) and !empty($from['email'])){
 		$from_name=$from['name'].' <'.$from['email'].'>';
 		$replyto=$from['email'];
 		}
@@ -1476,7 +1476,7 @@ function send_email_to($recipient, $from, $subject, $messagetext, $messagehtml='
 	if(is_string($reply) and !empty($reply)){
 		$replyto=$reply;
 		}
-	elseif(is_array($reply)){
+	elseif(is_array($reply) and !empty($reply['email'])){
 		$replyto=$reply['email'];
 		}
 

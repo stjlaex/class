@@ -11,7 +11,7 @@ if(isset($_POST['share0'])){$share=$_POST['share0'];}else{$share='no';}
 
 if(isset($_POST['messagebody'])){$messagebody=clean_text($_POST['messagebody'],false);}
 if(isset($_POST['messagebcc'])){$messagebcc=clean_text($_POST['messagebcc']);}else{$messagebcc='';}
-if(isset($_POST['replyto'])){$replyto=clean_text($_POST['replyto']);}else{$replyto='';}
+if(isset($_POST['replyto'])){$replyto=$_POST['replyto'];}else{$replyto='';}
 if(isset($_POST['messagesubject'])){$messagesubject=clean_text($_POST['messagesubject']);}else{$messagesubject='';}
 if(isset($_POST['recipients'])){$recipients=(array)$_POST['recipients'];}else{$recipients=array();}
 
