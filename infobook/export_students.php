@@ -68,10 +68,19 @@ if(sizeof($sids)==0){
 		$worksheet->write(0, 4, 'Preferred Forename', $format_hdr_bold);
 		$coloffset=5;
 		for($colno=0;$colno<$displayfields_no;$colno++){
-			$header=$displayfields[$colno];
+			if(substr_count($displayfields[$colno],'Assessment')>0){
+				$eid=substr($displayfields[$colno],10);
+				$AssDef=(array)fetchAssessmentDefinition($eid);
+				$header=$AssDef['Description']['value'];
+				unset($AssDef);
+				}
+			else{
+				$header=$displayfields[$colno];
+				}
 			$worksheet->write(0, $colno+$coloffset, $header, $format_hdr_bold);
 			if(substr_count($header,'PostalAddress')){$coloffset=$coloffset+4;}
-			if(substr_count($header,'ContactPhone')){$coloffset=$coloffset+2;}
+			elseif(substr_count($header,'ContactPhone')){$coloffset=$coloffset+3;}
+			elseif(substr_count($header,'Phone')){$coloffset=$coloffset;}
 			}
 
 		/*cycle through the student rows*/
@@ -102,19 +111,31 @@ if(sizeof($sids)==0){
 					}
 				elseif(isset($Student[$displayfield]['value_db'])){
 					$displayout=(array)explode(':::',$Student[$displayfield]['value_db']);
-					if(substr_count($displayfield,'PostalAddress')>0 and sizeof($displayout)<5){
-						while(sizeof($displayout)<5){
-							$displayout[]='';
+					if(substr_count($displayfield,'PostalAddress')>0){
+						/* Make sure every record has same name number of fields even if blank. */
+						if(sizeof($displayout)<5){
+							while(sizeof($displayout)<5){
+								$displayout[]='';
+								}
 							}
 						}
-					elseif(substr_count($displayfield,'ContactPhone')>0 and sizeof($displayout)<3){
-						while(sizeof($displayout)<3){
-							$displayout[]='';
+					elseif(substr_count($displayfield,'ContactPhone')>0){
+						/* Make sure every record has same name number of fields even if blank. */
+						if(sizeof($displayout)<4){
+							while(sizeof($displayout)<4){
+								$displayout[]='';
+								}
+							}
+						else{
+							$displayout=array_slice($displayout,0,4);
 							}
 						}
 					}
-				else{
+				elseif(array_key_exists($displayfield,$Student)){
 					$displayout=$Student[$displayfield]['value'];
+					}
+				else{
+					$displayout='';
 					}
 
 				if(is_array($displayout)){

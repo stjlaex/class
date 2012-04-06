@@ -945,6 +945,7 @@ function getEnumArray($field_name){
 						'EPFUsername'=>'epfusername',
 						'FirstContact'=>'firstcontact',
 						'FirstContactPhone'=>'firstcontactphone',
+						'FirstContactMobilePhone'=>'firstcontactmobilephone',
 						'FirstContactEmailAddress'=>'firstcontactemailaddress',
 						'FirstContactPostalAddress'=>'firstcontactaddress',
 						'FirstContactRelationship'=>'firstcontactrelationship',

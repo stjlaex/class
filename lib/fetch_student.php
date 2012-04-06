@@ -216,12 +216,18 @@ function fetchStudent_singlefield($sid,$tag){
 			$Contacts=(array)fetchContacts($sid);
 			$Phones=(array)$Contacts[$contactno]['Phones'];
 			$Student[$tag]=array('label'=>'',
-								 'value_db'=>'',
 								 'value'=>'');
 			foreach($Phones as $phoneno => $Phone){
-				$Student[$tag]['value'].=$Phone['PhoneType']['value'].':'.$Phone['PhoneNo']['value'].' ';				
-				$Student[$tag]['value_db'].=$separator. ' '.$Phone['PhoneNo']['value'];
-				$separator=':::';
+				if(substr_count($tag,'Mobile')>0){
+					if($Phone['PhoneType']['value']=='M'){
+						$Student[$tag]['value']=$Phone['PhoneNo']['value'];
+						}
+					}
+				else{
+					$Student[$tag]['value'].=$Phone['PhoneType']['value'].':'.$Phone['PhoneNo']['value'].' ';
+					$Student[$tag]['value_db'].=$separator. ' '.$Phone['PhoneNo']['value'];
+					$separator=':::';
+					}
 				}
 			}
 		elseif(substr_count($tag,'PostalAddress')){
@@ -236,7 +242,7 @@ function fetchStudent_singlefield($sid,$tag){
 				$Add=$Contacts[$contactno]['Addresses'][0];
 				if($Contacts[$contactno]['ReceivesMailing']['value']==0){$displayclass='class="lowlite"';}else{$displayclass='';}
 				$Student[$tag]['value']='<div '.$displayclass.'>'.$Add['Street']['value'].' '. $Add['Neighbourhood']['value'].' '. $Add['Town']['value'].' '. $Add['Country']['value']. ' '. $Add['Postcode']['value'].'</div>';
-				$Student[$tag]['value_db']=$Add['Street']['value'].':::'. $Add['Neighbourhood']['value'].':::'. $Add['Town']['value'].':::'. $Add['Country']['value']. ':::'. $Add['Postcode']['value'];
+				$Student[$tag]['value_db']=$Add['Street']['value'].':::'. $Add['Neighbourhood']['value'].':::'. $Add['Town']['value']. ':::'. $Add['Postcode']['value'].':::'. $Add['Country']['value'];
 				}
 			}
 		elseif(substr_count($tag,'EmailAddress')){
@@ -329,7 +335,9 @@ function fetchStudent_singlefield($sid,$tag){
 	elseif(isset($eid)){
 		/*NOT a part of the xml def for Student but useful here*/
 		$Assessments=(array)fetchAssessments_short($sid,$eid,'G');		
-		if(sizeof($Assessments)>0){$value=$Assessments[0]['Result']['value'];}
+		if(sizeof($Assessments)>0){
+			$value=$Assessments[0]['Result']['value'];
+			}
 		else{$value='';}
 		$Student[$tag]=array('label'=>'',
 							 'value'=>'');

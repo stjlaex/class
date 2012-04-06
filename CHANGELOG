@@ -1,3 +1,14 @@
+Version ClaSS-1.0.19 release (2012/04/10)
+-------------------------------------------
+
+Fix to profile average column with compound profiles.
+
+Export students tweaked to compensate for too many phones.
+
+Extra single student field for FirstContactMobilePhone.
+
+
+
 Version ClaSS-1.0.18 release (2012/03/20)
 -------------------------------------------
 
@@ -12,6 +23,8 @@ New import routine for transport routes and journeys.
 Added times of departure to the route sheet for bus stops.
 
 Added coice of field separator to import students.
+
+A new SubjectDecsription option added to fetchSubjectReport.
 
 
 
