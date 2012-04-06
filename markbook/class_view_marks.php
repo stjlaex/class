@@ -244,7 +244,7 @@ for($i=0;$i<sizeof($cids);$i++){
 			/* Just filter for one pid and its strands. */
 			$profile_pids[]=$pid;
 			$strands=list_subject_components($pid,$profile_crid,'V');
-			while(list($sindex,$strand)=each($strands)){
+			foreach($strands as $strand){
 				if(!in_array($strand['id'],$profile_pids)){
 					$profile_pids[]=$strand['id'];
 					}
@@ -253,11 +253,13 @@ for($i=0;$i<sizeof($cids);$i++){
 
 		/* Collect the midlist columns to be used. Will exclude target
 		 * and estimates (assement=other), we only want to be working
-		 * from actual results.
+		 * from actual results. Difference is for compound assessments
+		 * (skills profiles).
 		 */
 		$first_profile_iumn=0;
 		for($iumn=($c_marks-1);$iumn>0;$iumn--){
-			if(in_array($umns[$iumn]['component'],$profile_pids) and $umns[$iumn]['assessment']=='yes'){
+			if(in_array($umns[$iumn]['component'],$profile_pids) and 
+			   (($umns[$iumn]['assessment']=='yes' and $umns[$iumn]['marktype']=='score') or $umns[$iumn]['marktype']=='compound')){
 				if($first_profile_iumn==0){
 					$first_profile_iumn=$iumn;
 					}
