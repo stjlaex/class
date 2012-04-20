@@ -313,6 +313,16 @@ function fetchStudent_singlefield($sid,$tag){
 			$Student[$tag]=array('label'=>'',
 								 'value'=>''.get_string($rel,'infobook'). ' ('.get_string($mail,'infobook').')');
 			}
+		elseif(substr_count($tag,'Surname')){
+			$Contacts=(array)fetchContacts($sid);
+			$Student[$tag]=array('label'=>'',
+								 'value'=>$Contacts[$contactno]['Surname']['value']);
+			}
+		elseif(substr_count($tag,'Forename')){
+			$Contacts=(array)fetchContacts($sid);
+			$Student[$tag]=array('label'=>'',
+								 'value'=>$Contacts[$contactno]['Forename']['value']);
+			}
 		else{
 			/*NOT a part of the xml def for Student but useful here*/
 			$Contacts=(array)fetchContacts($sid);
@@ -1499,18 +1509,18 @@ function fetchEnrolment($sid='-1'){
 									);
 	if($CFG->enrol_number_generate=='yes'){
 		$Enrolment['EnrolNumber']=array('label' => 'enrolmentnumber', 
-									'field_db' => 'formerupn', 
-									'type_db' =>'char(20)', 
-									'value' => ''.$info['formerupn']
-									);
+										'field_db' => 'formerupn', 
+										'type_db' =>'char(20)', 
+										'value' => ''.$info['formerupn']
+										);
 		}
 	else{
 		$Enrolment['EnrolNumber']=array('label' => 'enrolmentnumber', 
-									'table_db' => 'info', 
-									'field_db' => 'formerupn', 
-									'type_db' =>'char(20)', 
-									'value' => ''.$info['formerupn']
-									);
+										'table_db' => 'info', 
+										'field_db' => 'formerupn', 
+										'type_db' =>'char(20)', 
+										'value' => ''.$info['formerupn']
+										);
 		}
 
 	return $Enrolment;

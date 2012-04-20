@@ -347,8 +347,9 @@ function getEnumArray($field_name){
 					'1' => 'yes'
 					);
 	/* For the fees tables. */
-	$paymenttype=array('0' => 'bank', 
-					   '1' => 'cash'
+	$paymenttype=array('0' => '',
+					   '1' => 'bank', 
+					   '2' => 'cash'
 					   );
 	$payment=array('0' => 'due', 
 				   '1' => 'paid',
@@ -956,6 +957,8 @@ function getEnumArray($field_name){
                         'FirstContactPrivate'=>'firstcontactprivate',
                         'FirstContactTitle'=>'firstcontacttitle',
                         'FirstContactAddressTitle'=>'firstcontactaddresstitle',
+                        'FirstContactSurname'=>'firstcontactsurname',
+                        'FirstContactForename'=>'firstcontactforename',
 						'SecondContact'=>'secondcontact',
 						'SecondContactPhone'=>'secondcontactphone',
 						'SecondContactEmailAddress'=>'secondcontactemailaddress',
@@ -967,6 +970,8 @@ function getEnumArray($field_name){
                         'SecondContactCode'=>'secondcontactcode',
                         'SecondContactTitle'=>'secondcontacttitle',
                         'SecondContactPrivate'=>'secondcontactprivate',
+						'SecondContactSurname'=>'secondcontactsurname',
+						'SecondContactForename'=>'secondcontactforename',
 						'ThirdContact'=>'thirdcontact',
 						'ThirdContactPhone'=>'thirdcontactphone',
 						'ThirdContactEmailAddress'=>'thirdcontactemailaddress',
@@ -1601,6 +1606,21 @@ function display_date($date='',$format='human'){
 		$displaydate='0000-00-00';
 		}
 	return $displaydate;
+	}
+
+/**
+ * Takes a date string, probably from the database, and makes its user friendly.
+ *
+ */
+function display_money($amount){
+
+	$test=setlocale(LC_MONETARY, 'es_ES.utf8');
+	//trigger_error($test,E_USER_WARNING);
+
+	/* 2 decimal places*/
+	$money=money_format('%.2n', $amount);
+
+	return $money;
 	}
 
 
