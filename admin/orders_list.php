@@ -199,7 +199,6 @@ two_buttonmenu($extrabuttons,$book);
 						all_extrabuttons($actionbuttons,
 										 $book,'clickToAction(this)','class="rowaction" ');
 						}
-
 ?>
 			</td>
 		  </tr>
