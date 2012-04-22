@@ -44,7 +44,7 @@ two_buttonmenu($extrabuttons,$book);
 			  <?php 
 			  print $Supplier['Name']['value'];
 			  ?>
-					</a>
+			  </a>
 			</td>
 		  </tr>
 		  <tr class="hidden" id="<?php print $entryno.'-'.$rown++;?>">

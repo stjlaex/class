@@ -923,4 +923,60 @@ function get_budget_currencyrates($budid){
 		}
 	return $rates; 
 	}
+
+
+/**
+ *
+ * The enum currency array for exchange rates. This defaults to
+ * currency '0' is 'euros' and '1' is 'pounds'.  An exchange rate
+ * needs to be set in categorydef (currently manually in the db!) for
+ * Pounds to Euros once for each budget year code.
+ * name=description, type=exc, subtype=1, rating_name=yearcode, comment=rate
+ *
+ */
+function get_currencyrates($yearcode){
+	$rates=array();
+	$rates[0]=1;
+	$d_b=mysql_query("SELECT subtype AS currency, comment AS rate FROM categorydef 
+						WHERE categorydef.rating_name='$yearcode' AND categorydef.type='exc';");
+	while($b=mysql_fetch_array($d_b,MYSQL_ASSOC)){
+		$rates[$b['currency']]=$b['rate'];
+		}
+	return $rates; 
+	}
+
+
+/**
+ * This returns a budget's remaining balance calcualted from the
+ * current balance minus the value of all outstanding orders
+ * 
+ * @param integer $budid
+ * @return float
+ */
+function get_supplier_projected($supid,$startdate,$enddate){
+
+	$yearcode=get_budgetyearcode($year);
+	$currencyrates=get_currencyrates($yearcode);
+
+	$sum=0;
+	foreach($currencyrates as $currency => $rate){
+		/* Projected values come from the material table entered by users */
+		$d_0=mysql_query("SELECT SUM(unitcost*quantity) FROM
+				ordermaterial JOIN orderorder ON orderorder.id=ordermaterial.order_id WHERE
+				orderorder.supplier_id='$supid' AND
+				orderorder.currency='$currency' AND orderorder.entrydate<='$enddate' AND orderorder.entrydate>'$startdate';");
+		/* Want to exclude cancelled (4) orders */
+		$d_3=mysql_query("SELECT SUM(unitcost*quantity) FROM
+				ordermaterial WHERE ordermaterial.order_id=ANY(SELECT
+				DISTINCT order_id FROM orderaction JOIN orderorder ON
+				orderorder.id=orderaction.order_id WHERE orderorder.supplier_id='$supid' AND 
+				orderorder.currency='$currency' AND orderorder.entrydate<='$enddate' AND orderorder.entrydate>'$startdate' AND orderaction.action='4');");
+		$value=mysql_result($d_0,0)-mysql_result($d_3,0);
+
+		$sum+=$rate*$value;
+		}
+
+	return $sum;
+	}
+
 ?>
