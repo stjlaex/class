@@ -66,7 +66,7 @@ elseif($sub=='Submit'){
 	$inval=$_POST['date2'];
 	$table=$SEN['AssessmentDate']['table_db'];
 	$field=$SEN['AssessmentDate']['field_db'];
-	if($SEN['Assessment']['value']!=$inval){
+	if($SEN['AssessmentDate']['value']!=$inval){
 		mysql_query("UPDATE $table SET $field='$inval' WHERE id='$senhid'");
 		}
 
@@ -78,8 +78,7 @@ elseif($sub=='Submit'){
 			$SEN[$assname]['SENtype'][]=fetchSENtype();
 			}
 
-		foreach($SEN[$assname]['SENtype'] as $index => $SENtypes){
-			$entryn=$index+1;
+		foreach($SEN[$assname]['SENtype'] as $entryn => $SENtypes){
 			$table=$SENtypes['SENtypeRank']['table_db'];
 			$field=$SENtypes['SENtypeRank']['field_db'];
 			$inname=$asscode. $field. $entryn;
