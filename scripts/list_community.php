@@ -48,7 +48,12 @@ include('scripts/set_list_vars.php');
 	$enrolyear=get_curriculumyear()+1;
 	$listcomids=array();
 	foreach($listcomtypes as $listtype){
-		if(sizeof($listcomtypes)>1){$display=get_string($listtype).' - ';}
+		if(sizeof($listcomtypes)>1){
+			$display=get_string($listtype).' - ';
+			$listcomids[$listtype]['id']=$listtype;
+			$listcomids[$listtype]['name']=get_string($listtype);
+			$listcomids[$listtype]['detail']=get_string($listtype);
+			}
 		else{$display='';}
 
 		if($listtype=='applied' or $listtype=='enquired' or $listtype=='accepted'){
