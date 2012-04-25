@@ -20,9 +20,15 @@ elseif(isset($_POST['newfid']) and $_POST['newfid']!=''){
 	$selsavedview='form';
 	}
 elseif(isset($_POST['newcomid']) and $_POST['newcomid']!=''){
-	$com=get_community($_POST['newcomid']);
-	$selsavedview='';
-	$title='<label>'.get_string($com['type']).'</label>'.$com['name'];
+	if(is_numeric($_POST['newcomid'])){
+		$com=get_community($_POST['newcomid']);
+		$selsavedview='';
+		$title='<label>'.get_string($com['type']).'</label>'.$com['name'];
+		}
+	else{
+		$comtype=$_POST['newcomid'];
+		trigger_error($comtype);
+		}
 	}
 elseif(isset($_POST['newcomid1']) and $_POST['newcomid1']!=''){
 	//$com=array('id'=>$_POST['newcomid1'],'type'=>'','name'=>'');
@@ -33,6 +39,7 @@ elseif(isset($_POST['newcomid1']) and $_POST['newcomid1']!=''){
 if(isset($com)){
 	$table='student';
 	$comid=$com['id'];
+
 	if($com['type']=='accomodation'){
 		/*TODO: temporary hack!*/
 		$startdate='2000-01-01';
@@ -56,6 +63,42 @@ if(isset($com)){
 	foreach($students as $student){
 		$ids[]=$student['id'];
 		}
+	}
+elseif(isset($comtype)){
+	$table='student';
+	$selsavedview='';
+	$listcoms=(array)list_communities($comtype);
+	$students=array();
+	$sids=array();
+	foreach($listcoms as $com){
+		if($com['type']=='accomodation'){
+			/*TODO: temporary hack!*/
+			$startdate='2000-01-01';
+			$enddate='2015-01-01';
+			$comstudents=(array)listin_community($com,$enddate,$startdate);
+			/*to remove!*/
+			}
+		elseif($com['type']=='tutor'){
+			$comstudents=(array)listin_community($com);
+			$selsavedview='club';
+			}
+		elseif($com['type']=='transport'){
+			$comstudents=(array)list_bus_journey_students($com['name']);
+			$selsavedview='transport';
+			}
+		else{
+			$comstudents=(array)listin_community($com);
+			}
+		/* Students may be in more than one comunity but only list once. */
+		foreach($comstudents as $student){
+			if(!array_key_exists($student['id'],$sids)){
+				$sids[$student['id']]=$student['id'];
+				$ids[]=$student['id'];
+				$students[]=$student;
+				}
+			}
+		}
+	$rows=sizeof($students);
 	}
 
 /* else results from the free text searches */

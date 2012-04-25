@@ -117,7 +117,6 @@ if(isset($enroldate)){
 			}
 
 		$students=array_merge($students,$yearstudents);
-
 		}
 
 
@@ -133,8 +132,7 @@ else{
 			else{
 				$com=array('id'=>'','type'=>$listtype,'name'=>$yid);
 				}
-			$yearstudents=(array)listin_community($com);
-			
+			$yearstudents=(array)listin_community($com);			
 			$students=array_merge($students,$yearstudents);
 			}
 		}
