@@ -48,7 +48,7 @@ include('scripts/set_list_vars.php');
 	$enrolyear=get_curriculumyear()+1;
 	$listcomids=array();
 	foreach($listcomtypes as $listtype){
-		if(sizeof($listcomtypes)>1){
+		if(sizeof($listcomtypes)>1 and $listtype=='infosearch'){
 			$display=get_string($listtype).' - ';
 			$listcomids[$listtype]['id']=$listtype;
 			$listcomids[$listtype]['name']=get_string($listtype);
