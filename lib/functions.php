@@ -341,33 +341,27 @@ function getEnumArray($field_name){
 						  '2011' => '11', 
 						  '2012' => '12', 
 						  '2013' => '13', 
-						  '2014' => '14' 
+						  '2014' => '14', 
+						  '2015' => '15',
+						  '2016' => '16' 
 						  );
 	$inactive=array('0' => 'no', 
 					'1' => 'yes'
 					);
+
 	/* For the fees tables. */
 	$paymenttype=array('0' => '',
 					   '1' => 'bank', 
-					   '2' => 'cash'
+					   '2' => 'cash',
+					   '3' => 'other',
+					   '4' => 'specialpayment1',
+					   '5' => 'specialpayment2',
+					   '6' => 'specialpayment3'
 					   );
 	$payment=array('0' => 'due', 
 				   '1' => 'paid',
 				   '2' => 'notpaid'
 				   );
-	/* TODO: delete?
-	$concept=array('TU' => 'tuition',
-					'TR' => 'transport',
-					'EN' => 'enrolment',
-					'IN' => 'insurance',
-					'FO' => 'lunches',
-					'BO' => 'books',
-					'CL' => 'club',
-					'EX' => 'exams',
-					'EV' => 'excursions',
-					'OT' => 'other'
-					);
-	*/
 
 	/*codes from CBDS 2007, including deprecated six for compatibility*/
 	/*not always the same as ISO 639-2 is the alpha-3 code for language!*/
@@ -1511,7 +1505,9 @@ function send_email_to($recipient, $from, $subject, $messagetext, $messagehtml='
 				   'To'      => $recipient,
 				   'Subject' => $subject,
 				   'Date'    => date("r"),
+				   'Message-Id' => '<'.  microtime(true).$CFG->clientid.'@classforschools.com>',
 				   'Sender' => $sender,
+				   'Organization' => $CFG->schoolname,
 				   'Reply-To' => $replyto,
 				   'Return-Path' => $return
 				   );
@@ -1548,7 +1544,7 @@ function send_email_to($recipient, $from, $subject, $messagetext, $messagehtml='
 	$hdrs = $mime->headers($hdrs);
 	
 	/* Put message into queue */ 
-	$mail_queue->put($from, $recipient, $hdrs, $body,0,false);
+	$mail_queue->put($replyto, $recipient, $hdrs, $body,0,false);
 	if(PEAR::isError($mail_queue->container->db)){ 
 		trigger_error('PEAR: '.ERROR,E_USER_WARNING);
 		}
