@@ -54,12 +54,14 @@ $viewtable=$_SESSION[$book.'viewtable'];
 		$worksheet->setColumn(1,2,25);
 		$worksheet->setColumn(2,20,20);
 		$worksheet->write(0, 0, 'ClaSS Id.', $format_head);
-		$worksheet->write(0, 1, 'Surname', $format_head);
-		$worksheet->write(0, 2, 'Forename', $format_head);
-		$worksheet->write(0, 3, 'Preferred Forename', $format_head);
+		$worksheet->write(0, 1, get_string('enrolmentnumber','infobook'), $format_head);
+		$worksheet->write(0, 2, get_string('personalnumber','infobook'), $format_head);
+		$worksheet->write(0, 3, 'Surname', $format_head);
+		$worksheet->write(0, 4, 'Forename', $format_head);
+		$worksheet->write(0, 5, 'Preferred Forename', $format_head);
 
 		/* Write the column headers */
-		$no=4;
+		$no=6;
 		for($cellno=0;$cellno<sizeof($viewtable[0]['out']);$cellno++){
 			  if($viewtable[0]['count'][$cellno]>0){
 				  foreach($viewtable[0]['results'] as $result){
@@ -76,12 +78,14 @@ $viewtable=$_SESSION[$book.'viewtable'];
 		for($rowno=1;$rowno<sizeof($viewtable);$rowno++){
 			$Student=$viewtable[$rowno]['Student'];
 			$worksheet->writenumber($i, 0, $Student['id_db'], $format);
-			$worksheet->write($i, 1, iconv('UTF-8','ISO-8859-1',$Student['Surname']['value']), $format);
-			$worksheet->write($i, 2, iconv('UTF-8','ISO-8859-1',$Student['Forename']['value']), $format);
-			$worksheet->write($i, 3, iconv('UTF-8','ISO-8859-1',$Student['PreferredForename']['value']), $format);
+			$worksheet->write($i, 1, $Student['EnrolNumber']['value'], $format);
+			$worksheet->write($i, 2, $Student['PersonalNumber']['value'], $format);
+			$worksheet->write($i, 3, iconv('UTF-8','ISO-8859-1',$Student['Surname']['value']), $format);
+			$worksheet->write($i, 4, iconv('UTF-8','ISO-8859-1',$Student['Forename']['value']), $format);
+			$worksheet->write($i, 5, iconv('UTF-8','ISO-8859-1',$Student['PreferredForename']['value']), $format);
 
 			$cells=$viewtable[$rowno]['results'];
-			$no=4;
+			$no=6;
 			foreach($cells as $cellno => $results){
 				if($viewtable[0]['count'][$cellno]>0){
 					foreach($eids as $eid){

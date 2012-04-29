@@ -103,6 +103,7 @@ for($i=0;$i<sizeof($cids);$i++){
 		$profile_bid=$classes[$cid]['bid'];
 		$profile_name=$profile['name'];
 		$profile_pidstatus=$profile['component_status'];
+
 		$profile_marktype=$profile['rating_name'];
 		$d_marks=mysql_query("SELECT $table.* FROM $table WHERE ($table.marktype='score'
 				AND $table.assessment!='no' AND $table.id=ANY(SELECT

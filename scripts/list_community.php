@@ -10,6 +10,7 @@
 if(!isset($listname)){$listname='newcomid';}
 if(!isset($listlabel)){$listlabel='communities';}
 include('scripts/set_list_vars.php');
+$infosearch=false;
 
 	$listcomtypes=array();
 	if(!isset($listtype)){
@@ -41,6 +42,7 @@ include('scripts/set_list_vars.php');
 		$listcomtypes[]='transport';
 		$listcomtypes[]='tutor';
 		$listcomtypes[]='trip';
+		$infosearch=true;
 		}
 	else{$listcomtypes[]=$listtype;}
 
@@ -48,7 +50,7 @@ include('scripts/set_list_vars.php');
 	$enrolyear=get_curriculumyear()+1;
 	$listcomids=array();
 	foreach($listcomtypes as $listtype){
-		if(sizeof($listcomtypes)>1 and $listtype=='infosearch'){
+		if(sizeof($listcomtypes)>1 and $infosearch){
 			$display=get_string($listtype).' - ';
 			$listcomids[$listtype]['id']=$listtype;
 			$listcomids[$listtype]['name']=get_string($listtype);

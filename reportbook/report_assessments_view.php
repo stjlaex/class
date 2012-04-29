@@ -93,11 +93,13 @@ $description='';
 		/*the assessments may be across multiple crids to make even harder!*/
 		foreach($asscrids as $asscrid){
 			$subjects=(array)list_course_subjects($asscrid);
+			$subjects[]='G';
 			foreach($subjects as $subject){
 				if(!isset($limitbid) or $limitbid=='' or $limitbid=='%' or $subject['id']==$limitbid){
 					$bid=$subject['id'];
 					$assbids[$bid]=$bid;
 					$compstatus='%';
+					trigger_error($bid,E_USER_WARNING);
 					$comps=list_subject_components($bid,$asscrid,$compstatus);
 					foreach($comps as $comp){
 						$assbids[$bid.$comp['id']]=$bid . $comp['id'];
@@ -147,6 +149,8 @@ $description='';
 		$Student=(array)fetchStudent_short($sid);
 		/* TODO: improve and extend the filter methods... */
 		if($gender=='' or $gender==$Student['Gender']['value']){
+			$Student=array_merge($Student,fetchStudent_singlefield($sid,'PersonalNumber'));
+			trigger_error($Student['PersonalNumber']['value'],E_USER_WARNING);
 			$viewtable[$c]=array();
 			$viewtable[$c]['student']=(array)$student;
 			$viewtable[$c]['Student']=(array)$Student;

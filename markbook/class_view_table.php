@@ -219,15 +219,17 @@ while($student=mysql_fetch_array($d_students, MYSQL_ASSOC)){
 			$score_total=0;
 			foreach($mids as $ccc => $mid){
 				unset($previousscore);
-				$iscore=$studentrow["score$mid"];
-				if(isset($lastscore) and $iscore['grade']!==''){$previousscore=$lastscore;}
-				if(!isset($firstscore) and $iscore['grade']!=''){$firstscore=$iscore;}
-				if(isset($iscore['grade']) and $iscore['grade']!==''){$lastscore=$iscore;}
-				if(isset($previousscore) and isset($lastscore)){
-					$lastdif=$lastscore['grade']-$previousscore['grade'];
-					if($lastdif>0){$studentrow["score$mid"]['scoreclass'].=' golite';}
-					elseif($lastdif<0){$studentrow["score$mid"]['scoreclass'].=' hilite';}
-					else{$studentrow["score$mid"]['scoreclass'].=' pauselite';}
+				if(isset($studentrow["score$mid"])){			
+					$iscore=$studentrow["score$mid"];
+					if(isset($lastscore) and $iscore['grade']!==''){$previousscore=$lastscore;}
+					if(!isset($firstscore) and $iscore['grade']!=''){$firstscore=$iscore;}
+					if(isset($iscore['grade']) and $iscore['grade']!==''){$lastscore=$iscore;}
+					if(isset($previousscore) and isset($lastscore)){
+						$lastdif=$lastscore['grade']-$previousscore['grade'];
+						if($lastdif>0){$studentrow["score$mid"]['scoreclass'].=' golite';}
+						elseif($lastdif<0){$studentrow["score$mid"]['scoreclass'].=' hilite';}
+						else{$studentrow["score$mid"]['scoreclass'].=' pauselite';}
+						}
 					}
 				}
 			if(isset($firstscore) and isset($lastscore)){
