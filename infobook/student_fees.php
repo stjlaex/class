@@ -22,26 +22,46 @@ include('scripts/perm_action.php');
   <div id="viewcontent" class="content">
 	<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
 
+	  <fieldset class="center">
+		<legend><?php print get_string('payee','admin');?></legend>
+		<div class="left">
+<?php 
+		$listlabel='account';
+		$listname='gid';
+		$required='yes';
+		$guardians=(array)list_student_payees($sid);
+		if(sizeof($guardians)>0 and $guardians[0]['paymenttype']>0){
+			/*the first in the list will be the selected payee*/
+			$selgid=$guardians[0]['id'];
+			$selpaytype=$guardians[0]['paymenttype'];
+			}
+		include('scripts/set_list_vars.php');
+		list_select_list($guardians,$listoptions,'admin');
+?>
+		</div>
+		<div class="right">
+		  <?php include('scripts/list_paymenttypes.php');?>
+		</div>
+	  </fieldset>
 
-	  <fieldset class="center listmenu">
-		<legend><?php print get_string('current',$book);?></legend>
-		<div>
+	  <fieldset class="center">
+		<legend><?php print get_string('fees','admin'). ' '.get_string('applied','admin');?></legend>
+		<div class="divgroup">
 		  <table>
 			<tr>
 			  <thead>
-				<th style="width:30%;"></th>
+				<th style="width:40%;"></th>
 				<th style="width:20%;"><?php print_string('tarif','admin');?></th>
 				<th style="width:20%;"><?php print_string('amount','admin');?></th>
 				<th style="width:20%;"><?php print_string('payment','admin');?></th>
-				<th style="width:10%;"><?php print_string('paid','admin');?></th>
 			  </thead>
 			</tr>
 <?php
 
-	$charges=(array)list_student_charges($sid);
+	$fees=(array)list_student_fees($sid);
 	$no=0;
 
-	foreach($charges as $conid => $concept_charges){
+	foreach($fees as $conid => $concept_fees){
 		$no++;
 		$Concept=fetchConcept($conid);
 		$tarifs=array();
@@ -49,41 +69,36 @@ include('scripts/perm_action.php');
 			$tarifs[$Tarif['id_db']]=$Tarif['Name']['value'];
 			}
 
-		foreach($concept_charges as $index => $c){
-			${'tarif'.$c['id']}=$c['tarif_id'];
-			${'paymenttype'.$c['id']}=$c['paymenttype'];
-			${'payment'.$c['id']}=$c['payment'];
+		foreach($concept_fees as $f){
+			${'feetarif'.$f['id']}=$f['tarif_id'];
+			${'feepaymenttype'.$f['id']}=$f['paymenttype'];
 			print '<tr><td>'.$no.'.  '.$Concept['Name']['value'].'</td><td>';
 			$listlabel='';
 			$liststyle='width:8em;';
-			$listname='tarif'.$c['id'];
+			$listname='feetarif'.$f['id'];
 			include('scripts/set_list_vars.php');
 			list_select_list($tarifs,$listoptions,$book);
 			print '</td><td>';
-			print $c['amount'];
+			print $f['amount'];
 			print '</td><td>';
-
 			$listlabel='';
 			$liststyle='width:8em;';
-			$listname='paymenttype'.$c['id'];
+			$listname='feepaymenttype'.$f['id'];
 			include('scripts/set_list_vars.php');
 			list_select_enum('paymenttype',$listoptions,'admin');
-			print '</td><td>';
-
-			print '<div>';
-			print '<input type="radio" name="payment'.$c['id'].'"
-						tabindex="'.$tab++.'" value="1" ';
-			print '>'.$label.'</input></div>';
-
-			print '</td></tr>';
+			print '</td>';
+			print '</tr>';
 			}
 		}
 ?>
 
 		<tr>
 		  <td colspan="5">
-
-		  <div class="rowaction" style="width:240px;">
+		  </td>
+		</tr>
+		  <tr>
+			<td colspan="5">
+				<div class="rowaction" style="width:240px;">
 <?php
 		$listlabel='';
 		$liststyle='width:16em;';
@@ -92,60 +107,69 @@ include('scripts/perm_action.php');
 		include('scripts/set_list_vars.php');
 		list_select_db($d_c,$listoptions,$book);
 ?>
-		  </div>
-
-		  <div class="rowaction">
+				</div>
+				<div class="rowaction">
 <?php
 	$buttons=array();
 	$buttons['add']=array('name'=>'newconcept','value'=>'add');
 	all_extrabuttons($buttons,'infobook','processContent(this)')
 ?>
-		  </div>
-		  </td>
-		</tr>
+				</div>
+			</td>
+		  </tr>
+	</table>
+	</div>
+</fieldset>
 
-		  </table>
-		</div>
-	  </fieldset>
+<?php
+	$charge_lists=array();
+	$charge_lists['due']=(array)list_student_charges($sid,'P');
+	$charge_lists['paid']=(array)list_student_charges($sid,1);
+   	$charge_lists['notpaid']=(array)list_student_charges($sid,2);
+	foreach($charge_lists as $paymentstatus => $charges){
+?>
 
 	  <fieldset class="center listmenu">
-		<legend><?php print get_string('previous',$book);?></legend>
+		<legend><?php print get_string('charges','admin').' '. get_string($paymentstatus,'admin');?></legend>
 		<div>
 		  <table>
 			<tr>
 			  <thead>
-				<th style="width:40%;></th>
-				<th style="width:20%;"><?php print_string('tarif','admin');?></th>
+				<th style="width:40%;"></th>
 				<th style="width:20%;"><?php print_string('amount','admin');?></th>
 				<th style="width:20%;"><?php print_string('payment','admin');?></th>
 				<th style="width:20%;"><?php print_string('date','admin');?></th>
 			  </thead>
 			</tr>
 <?php
-	$charges=(array)list_student_charges($sid,'1');
-	foreach($charges as $conid => $charge){
-		$Concept=fetchConcept($conid);
-		$tarifs=array();
-		foreach($Concept['Tarifs'] as $Tarif){
-			$tarifs[$Tarif['id_db']]=$Tarif['Name']['value'];
-			}
-?>
-<?php
-		foreach($charge as $index => $c){
-			print '<tr><td>'.$Concept['Name']['value'];
-			print ' - '.$tarifs[$c['tarif_id']].'</td>';
-			print '<td>'.$c['amount'].'</td>';
-			print '<td>'.displayEnum($c['paymenttype'],'paymenttype').'</td>';
-			print '<td>'.display_date($c['paymentdate']).'</td>';
-			print '</tr>';
-			}
-		}
+			foreach($charges as $conid => $charge){
+				$Concept=fetchConcept($conid);
+				$tarifs=array();
+				foreach($Concept['Tarifs'] as $Tarif){
+					$tarifs[$Tarif['id_db']]=$Tarif['Name']['value'];
+					}
+
+				foreach($charge as $c){
+					print '<tr><td>'.$Concept['Name']['value'];
+					print ' - '.$tarifs[$c['tarif_id']].'</td>';
+					print '<td>'.$c['amount'].'</td>';
+					print '<td>'.get_string(displayEnum($c['paymenttype'],'paymenttype'),'admin').'</td>';
+					print '<td>'.display_date($c['paymentdate']).'';
+					print '<div>';
+			print '<input type="radio" name="payment'.$c['id'].'"
+						tabindex="'.$tab++.'" value="1" ';
+			print '>'.$label.'</input></div>';
+					print '</td></tr>';
+					}
+				}
 ?>
 			
 		  </table>
 		</div>
 	  </fieldset>
-
+<?php
+		}
+?>
 
 	    <input type="hidden" name="current" value="<?php print $action;?>" />
 		<input type="hidden" name="cancel" value="<?php print $cancel;?>">

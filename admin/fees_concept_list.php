@@ -56,7 +56,7 @@ two_buttonmenu($extrabuttons,$book);
 			  </ul>
 			</div>
 			  <div class="rowaction">
-				<a href="admin.php?current=fees_new_tarif.php&cancel=fees_concept_list.php&conid=<?php print $conid;?>&feeyear=<?php print $feeyear;?>&tarid=-1"><?php print get_string('add',$book).'&nbsp;'.get_string('tarif',$book);?></a>
+				<a href="admin.php?current=fees_new_tarif.php&cancel=fees_concept_list.php&conid=<?php print $conid;?>&feeyear=<?php print $feeyear;?>&tarid=-1"><button class="rowaction" type="button"><?php print get_string('add',$book).'&nbsp;'.get_string('tarif',$book);?></button></a>
 			  </div>
 			</td>
 

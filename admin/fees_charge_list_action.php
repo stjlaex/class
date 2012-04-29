@@ -13,7 +13,7 @@ include('scripts/sub_action.php');
 
 if($sub=='Submit'){
 
-	$charges=(array)list_charges($conceptid);
+	$charges=(array)list_concept_fees($conceptid);
 
 	$students=array();
 	if(sizeof($comids)>0){
@@ -29,16 +29,15 @@ if($sub=='Submit'){
 		if(isset($_POST['tarifid'.$sid])){
 			$tarifid=$_POST['tarifid'.$sid];
 			if(array_key_exists($sid,$charges)){
-				if($charges[$sid]['tarif_id']!=$tarifid){
-					mysql_query("UPDATE fees_charge SET tarif_id='$tarifid' WHERE student_id='$sid';");
+				if($charges[$sid][0]['tarif_id']!=$tarifid){
+					$charid=$charges[$sid][0]['id'];
+					mysql_query("UPDATE fees_charge SET tarif_id='$tarifid' WHERE id='$charid';");
 					}
 				}
 			elseif($tarifid!=''){
-				mysql_query("INSERT INTO fees_charge (student_id,tarif_id) VALUES ('$sid','$tarifid');");
+				apply_student_fee($sid,'',$tarifid);
 				}
 			}
-
-
 		}
 
 	}

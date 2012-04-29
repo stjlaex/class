@@ -947,14 +947,14 @@ function get_currencyrates($yearcode){
 
 
 /**
- * This returns a budget's remaining balance calcualted from the
- * current balance minus the value of all outstanding orders
  * 
- * @param integer $budid
+ * @param integer $supid
  * @return float
  */
 function get_supplier_projected($supid,$startdate,$enddate){
 
+
+	$year=get_budgetyear();
 	$yearcode=get_budgetyearcode($year);
 	$currencyrates=get_currencyrates($yearcode);
 

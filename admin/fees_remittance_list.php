@@ -1,5 +1,5 @@
 <?php
-/**                                  fees_remittance_list.php    
+/**                                  fees_remittance_list.php
  */
 
 $action='fees_remittance_list_action.php';
@@ -19,6 +19,7 @@ two_buttonmenu($extrabuttons,$book);
 	<div class="center">
 	  <table class="listmenu">
 		<caption><?php print_string('remittance',$book);?></caption>
+		<tr><th></th><th style="width:60%;">&nbsp;</th><th><?php print get_string('issue',$book).' '.get_string('date',$book);?></th><th><?php print get_string('payment',$book).' '.get_string('date',$book);?></th><th><?php print_string('account',$book);?></th></tr>
 <?php
 		$entryno=0;
 		$d_c=mysql_query("SELECT id FROM fees_remittance ORDER BY name;");
@@ -27,36 +28,65 @@ two_buttonmenu($extrabuttons,$book);
 			$Remittance=fetchRemittance($remid);
 			$entryno++;
 			$actionbuttons=array();
+			$imagebuttons=array();
 			$rown=0;
 ?>
 		<tbody id="<?php print $entryno;?>">
 		  <tr class="rowplus" onClick="clickToReveal(this)" id="<?php print $entryno.'-'.$rown++; ?>">
 			<th>&nbsp</th>
-			<td>
-			  <a href="admin.php?current=fees_new_remittance.php&cancel=fees_remittance_list.php&remid=<?php print $remid;?>&feeyear=<?php print $feeyear;?>">
+			<td style="font-size:medium;">
 			  <?php print $Remittance['Name']['value'];?>
-			  </a>
 			</td>
 			<td>
-			  <?php print display_date($Remittance['EntryDate']['value']);?>
+			  <?php print display_date($Remittance['IssueDate']['value']);?>
+			</td>
+			<td>
+			  <?php print display_date($Remittance['PaymentDate']['value']);?>
+			</td>
+			<td>
+			  <?php print $Remittance['Account']['BankName']['value'];?>
 			</td>
 		  </tr>
 		  <tr class="hidden" id="<?php print $entryno.'-'.$rown++;?>">
-			<td>
-			</td>
-			<td colspan="2">
-			  <div>
-			  <ul>
+			<td colspan="5">
+			  <div class="center">
+				<ul class="listmenu">
 <?php 
+			$total=0;
+			$total_paid=0;
+			$total_notpaid=0;
 			foreach($Remittance['Concepts'] as $Concept){
-				print '<li><a  href="admin.php?current=fees_remittance_view.php&cancel='.$choice.'&choice='.$choice.'&remid='.$Remittance['id_db'].'&conid='.$Concept['id_db'].'">'.$Concept['Name']['value'].' - '.$Concept['TotalAmount']['value'];'</a></li>';
+				print '<li class="lowlite"><a  href="admin.php?current=fees_remittance_view.php&cancel='.$choice.'&choice='.$choice.'&remid='.$Remittance['id_db'].'&conid='.$Concept['id_db'].'">'.$Concept['Name']['value'].' - '.display_money($Concept['TotalAmount']['value']).'</a></li>';
+				$total+=$Concept['TotalAmount']['value'];
+				$total_paid+=$Concept['AmountPaid']['value'];
+				$total_notpaid+=$Concept['AmountNotPaid']['value'];
 				}
 ?>
-			  </ul>
-			</div>
-			</td>
+				</ul>
+			  </div>
+<?php
 
+			if($total_paid==0 and $total_notpaid==0){
+				$imagebuttons['clicktodelete']=array('name'=>'process',
+											 'value'=>'delete',
+											 'title'=>'delete');
+				$imagebuttons['clicktoedit']=array('name'=>'process',
+										   'value'=>'edit',
+										   'title'=>'edit');
+				}
+
+			print '<div class="center nolite" style="margin-top:4px;">';
+			print '<div class="left"><a href="admin.php?current=fees_remittance_view.php&cancel=fees_remittance_list.php&remid='.$remid.'"><label>'.get_string('total',$book).'</label> '.display_money($total).'</a></div>';
+			print '<div class="right"><a  href="admin.php?current=fees_remittance_view.php&cancel='.$choice.'&choice='.$choice.'&remid='.$Remittance['id_db'].'&conid='.$Concept['id_db'].'&payment=1"><label>'.get_string('paid',$book).'</label> '.display_money($total_paid).'</a>'.'</div>';
+			print '<div class="right"><a  href="admin.php?current=fees_remittance_view.php&cancel='.$choice.'&choice='.$choice.'&remid='.$Remittance['id_db'].'&conid='.$Concept['id_db'].'&payment=2"><label>'.get_string('notpaid',$book).'</label> '.display_money($total_notpaid).'</a>'.'</div>';
+			print '</div>';
+
+
+			rowaction_buttonmenu($imagebuttons,$actionbuttons,$book);
+?>
+			</td>
 		  </tr>
+		  <div id="<?php print 'xml-'.$entryno;?>" style="display:none;"><?php xmlechoer('Remittance',$Remittance);?></div>
 		</tbody>
 <?php
 			}

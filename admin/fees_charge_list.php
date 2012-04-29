@@ -34,7 +34,7 @@ $extrabuttons['changes']=array('name'=>'current',
 */
 three_buttonmenu($extrabuttons,$book);
 
-$charges=(array)list_charges($conceptid);
+$charges=(array)list_concept_fees($conceptid);
 $Concept=fetchConcept($conceptid);
 $Tarifs=(array)$Concept['Tarifs'];
 $tarifs=array();
@@ -64,9 +64,9 @@ foreach($Tarifs as $Tarif){
 		$liststyle='width:8em;';
 		$listname='conceptid';
 		$onchange='yes';
-		$d_sup=mysql_query("SELECT id, name FROM fees_concept ORDER BY name;");
+		$concepts=list_concepts();
 		include('scripts/set_list_vars.php');
-		list_select_db($d_sup,$listoptions,$book);
+		list_select_list($concepts,$listoptions,$book);
 ?>
 			</th>
 		  </tr>
@@ -90,7 +90,8 @@ foreach($Tarifs as $Tarif){
 				${'tarifid'.$sid}=$charge['tarif_id'];
 				}
 			*/
-			${'tarifid'.$sid}=$charges[$sid]['tarif_id'];
+
+			${'tarifid'.$sid}=$charges[$sid][0]['tarif_id'];
 
 			}
 

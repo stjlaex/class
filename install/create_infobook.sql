@@ -190,13 +190,14 @@ CREATE TABLE guardian (
 
 
 CREATE TABLE gidsid (
-		 guardian_id	int unsigned not null,
-		 student_id		int unsigned not null,
-		 priority		enum('0','1','2','3','4') not null,
-		 mailing		enum('0','1','2','3','4') not null,
-		 relationship	enum('NOT','CAR','DOC','FAM','OTH', 
-				'PAM','PAF','STP','REL','SWR','HFA','AGN','GRM','GRF','TUT') not null,
-		 responsibility	enum('N','Y') not null,
+		 guardian_id		int unsigned not null,
+		 student_id			int unsigned not null,
+		 priority			enum('0','1','2','3','4') not null,
+		 mailing			enum('0','1','2','3','4') not null,
+		 relationship		enum('NOT','CAR','DOC','FAM','OTH', 
+								'PAM','PAF','STP','REL','SWR','HFA','AGN','GRM','GRF','TUT') not null,
+		 responsibility		enum('N','Y') not null,
+		 paymenttype		enum('0','1','2','3','4','5','6','7','8') not null default '0',
 		 primary key 	(guardian_id, student_id)
 ) type=myisam;
 

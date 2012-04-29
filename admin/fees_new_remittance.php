@@ -32,16 +32,56 @@ $Remittance=fetchRemittance($remid);
 
 	  <fieldset class="center">
 		<div class="center">
+<?php 
+		$listlabel='account';
+		$listname='accid';
+		$required='yes';
+		$accid=$Remittance['Account']['id_db'];
+		$accounts=list_accounts();
+		include('scripts/set_list_vars.php');
+		list_select_list($accounts,$listoptions,$book);
+?>
+		</div>
+	  </fieldset>
 
+
+	  <fieldset class="center">
+		<div class="left">
+<?php
+			if($Remittance['IssueDate']['value']==''){
+				$Remittance['IssueDate']['value']=date('Y-m-d');
+				}
+			xmlelement_div($Remittance['IssueDate'],'',$tab,'center','admin');
+?>
+		</div>
+		<div class="right">
+		  <?php xmlelement_div($Remittance['PaymentDate'],'',$tab,'center','admin');?>
+		</div>
+	  </fieldset>
+
+
+	  <fieldset class="left">
+		<div class="center">
 <?php 
 		$listlabel='concept';
-		$liststyle='width:400px;';
+		$liststyle='width:80%;';
 		$multi=10;
 		$listname='conid';
 		$concepts=list_concepts();
+		$conids=array();
+		foreach($Remittance['Concepts'] as $Concept){
+			$conids[]=$Concept['id_db'];
+			}
 		include('scripts/set_list_vars.php');
 		list_select_list($concepts,$listoptions,$book);
 ?>
+		</div>
+	  </fieldset>
+
+
+	  <fieldset class="right">
+		<div class="center">
+		  <?php xmlelement_div($Remittance['EnrolmentStatus'],'',$tab,'center','admin');?>
 		</div>
 	  </fieldset>
 

@@ -177,15 +177,16 @@ elseif($sub=='Submit'){
 			$existingid=$student[$formerupn_field_no];
 			$d_s=mysql_query("SELECT student_id FROM info WHERE formerupn='$existingid' AND formerupn!='';");
 			}
-		elseif($student[$upn_field_no]){
-			$existingid=$student[$upn_field_no];
-			$d_s=mysql_query("SELECT student_id FROM info WHERE upn='$existingid' AND upn!='';");
-			}
 		elseif($student[$sid_field_no]){
 			$existingid=$student[$sid_field_no];
 			$d_s=mysql_query("SELECT id FROM student WHERE id='$existingid' AND id!='';");
 			}
-
+		/* TODO: Needs to be an explicit choice to use this otherwise cannot be imported
+		elseif($student[$upn_field_no]){
+			$existingid=$student[$upn_field_no];
+			$d_s=mysql_query("SELECT student_id FROM info WHERE upn='$existingid' AND upn!='';");
+			}
+		*/
 
 		if(isset($d_s)){
 			/* If we've searched for an existing student make absolutely sure the result was sane. */

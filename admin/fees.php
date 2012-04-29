@@ -16,7 +16,43 @@ $aperm=get_admin_perm('b',get_uid($tid));
 /* TODO: only fees for current year at the moment. */
 $feeyear=get_curriculumyear();
 
+
+if(empty($_SESSION['accessfees'])){
+
+?>
+  <div class="content">
+	<form id="formtoprocess" name="formtoprocess" method="post"
+	  action="<?php print $host; ?>" >
+
+	  <fieldset class="center listmenu">
+		<legend>
+		  <?php print_string('bankdetails','infobook');?>
+		</legend>
+
+		<div class="center">
+		<input type="password" name="accesstest" maxlength="20" value="" />
+		<input type="password" name="accessfees" maxlength="4" value="" />
+<?php
+			$buttons=array();
+			$buttons['access']=array('name'=>'access','value'=>'access');
+			all_extrabuttons($buttons,'infobook','');
+?>
+		</div>
+	  </fieldset>
+	  <input type="hidden" name="feeyear" value="<?php print $feeyear;?>" />
+	  <input type="hidden" name="current" value="<?php print $action;?>" />
+	  <input type="hidden" name="choice" value="<?php print $choice;?>" />
+	  <input type="hidden" name="cancel" value="<?php print '';?>" />
+	</form>
+  </div>
+<?php
+			}
+		else{
+
 $extrabuttons=array();
+if($_SESSION['username']=='administrator'){
+	$extrabuttons['import']=array('name'=>'current','value'=>'fees_import.php');
+	}
 if($_SESSION['role']=='admin' or $aperm==1 or $_SESSION['role']=='office'){
 	$extrabuttons['remittances']=array('name'=>'current','value'=>'fees_remittance_list.php');
 	$extrabuttons['conceptlist']=array('name'=>'current','value'=>'fees_concept_list.php');
@@ -96,19 +132,21 @@ two_buttonmenu($extrabuttons,$book);
 <?php
 
 	$remittances=(array)list_remittances($feeyear);
-
+	if(sizeof($remittances)>0){
 ?>
 	  <fieldset class="right">
 		<legend><?php print get_string('recent',$book).' '.get_string('remittance',$book);?></legend>		
 		<div class="center">
 		  <ul><li>
 <?php
-			print '<a  href="admin.php?current=fees_remittance_list.php&cancel='.$choice.'&choice='.$choice.'&remid='.$remittances[0]['id_db'].'">'.$remittances[0]['name'].'</a>';
+										   print '<a  href="admin.php?current=fees_remittance_view.php&cancel='.$choice.'&choice='.$choice.'&remid='.$remittances[0]['id'].'">'.$remittances[0]['name'].'</a>';
 ?>
 		  </li></ul>
 		</div>
 	  </fieldset>
-
+<?php
+		}
+?>
 
 	  <fieldset class="center divgroup" id="viewcontent">
 		<legend><?php print get_string('yeargroups',$book);?></legend>
@@ -151,3 +189,6 @@ two_buttonmenu($extrabuttons,$book);
 	</form>
 
   </div>
+<?php
+			}
+?>

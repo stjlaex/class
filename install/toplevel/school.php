@@ -154,6 +154,13 @@ $CFG->emailregisterreminders='no';
 /* The dedicated noreply address for parents replying to absence messages. */
 $CFG->emailregisternoreply='';
 /**
+ */
+$CFG->smsoff='yes';
+$CFG->smslib='sms_lib.php';
+/**
+ */
+$CFG->feeslib='fees_lib.php';
+/**
  *
  * Optional LDAP connection details.
  */

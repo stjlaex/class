@@ -1,10 +1,10 @@
 <?php
-/**								transport_import.php
+/**								fees_import.php
  *
  */
 
-$action='transport_import_action.php';
-$choice='transport.php';
+$action='fees_import_action.php';
+$choice='fees.php';
 
 include('scripts/sub_action.php');
 

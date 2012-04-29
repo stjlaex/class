@@ -443,11 +443,12 @@ function sidtableFilter(buttonObject){
 			}
 		}
 	else{
-		tableObj=document.getElementById("sidtable");
-		var trs=tableObj.getElementsByTagName("tr");
-		for(var c=0;c<trs.length;c++){
-			var rowId=trs[c].id;
-			filterrowIndicator(rowId,"")
+		var sidrows=document.getElementById("sidtable").getElementsByTagName("tr");
+		for(var c=0; c<sidrows.length; c++){
+			if(sidrows[c].id!="" && sidrows[c].id!="sid-0"){
+				var rowId=sidrows[c].attributes["id"].value;
+				filterrowIndicator(rowId,"")
+				}
 			}
 		}
 	}
