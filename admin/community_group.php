@@ -38,7 +38,7 @@ two_buttonmenu($extrabuttons);
 
 	</fieldset>
 
-	<div class="left">
+	<div class="left" id="viewcontent">
 	  <table class="listmenu">
 		<tr>
 		<th colspan="2"><?php print_string('checkall'); ?>

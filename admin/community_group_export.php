@@ -61,8 +61,13 @@ $todate=date('Y-m-d');
 			 */
 			if(isset($_POST['date0'])){$startdate=$_POST['date0'];}else{$startdate='';}
 			if(isset($_POST['date1'])){$enddate=$_POST['date1'];}else{$enddate='';}
-			//$students=(array)listin_community_new($com,$startdate,$enddate);
-			$students=(array)listin_community($com,$startdate,$enddate);
+
+			//used for new additions since $startdate
+			//$startdate='2012-01-20';
+			//$students=(array)listin_community_new($com,$startdate);
+
+			//$students=(array)listin_community($com,$startdate,$enddate);
+			$students=(array)listin_community($com);
 
 			/*cycle through the student rows*/
 			foreach($students as $student){
@@ -80,7 +85,7 @@ $todate=date('Y-m-d');
 				$worksheet->write($rown, 6, $hours, $format_line_normal);
 				$worksheet->write($rown, 7, $todate, $format_line_normal);
 				/* TODO: calculate the term correctly!!!! */
-				$worksheet->write($rown, 8, '1', $format_line_normal);
+				$worksheet->write($rown, 8, '3', $format_line_normal);
 				$rown++;
 				}
 			}
