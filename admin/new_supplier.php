@@ -66,6 +66,7 @@ if($supid>-1){
 
 		$startdate=$year.'-01-01';
 		$enddate=$year.'-12-31';
+	trigger_error($lastyear. ' '.$year,E_USER_WARNING);
 		$amount=get_supplier_projected($supid,$startdate,$enddate);
 		$secondrow.='<td> '.display_money($amount).'</td>';
 		$headrow.='<th>'.$year.'</th>';
@@ -79,15 +80,18 @@ if($supid>-1){
 	print '<th>'.get_string('total',$book).'</th><th>'.get_string('quantity',$book).'</th><th style="width:60%;">'.get_string('detail',$book).'</th><th>'.get_string('unitcost',$book).'</th>';
 
 	$year--;
+	$year--;
 	$startdate=$year.'-'.$CFG->budget_endmonth.'-01';
 	$enddate=date('Y-m-d');
+	trigger_error($startdate. ' '.$enddate,E_USER_WARNING);
 	$d_r=mysql_query("SELECT DISTINCT refno FROM ordermaterial JOIN orderorder ON orderorder.id=ordermaterial.order_id 
 						WHERE orderorder.supplier_id='$supid' AND 
-							orderorder.entrydate<='$enddate' AND orderorder.entrydate>='$startdate';");
+							orderorder.entrydate<='$enddate' AND orderorder.entrydate>'$startdate';");
 	$rows=array();
 	while($r=mysql_fetch_array($d_r,MYSQL_ASSOC)){
 		$refno=$r['refno'];
-		$d_m=mysql_query("SELECT SUM(m.quantity*m.unitcost) AS total, SUM(m.quantity) AS number, m.unitcost, m.detail, m.refno FROM ordermaterial AS m JOIN orderorder AS o ON o.id=m.order_id 
+		$d_m=mysql_query("SELECT SUM(m.quantity*m.unitcost) AS total, SUM(m.quantity) AS number, m.unitcost, m.detail, m.refno 
+						FROM ordermaterial AS m JOIN orderorder AS o ON o.id=m.order_id 
 						WHERE m.refno='$refno' AND o.supplier_id='$supid' AND 
 							o.entrydate<='$enddate' AND o.entrydate>'$startdate';");
 		$material=mysql_fetch_array($d_m,MYSQL_ASSOC);
