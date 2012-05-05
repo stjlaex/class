@@ -7,7 +7,10 @@ $action='timetable.php';
 
 include('scripts/answer_action.php');
 
-  	$file=fopen('/tmp/class_export.fet', 'w');
+
+	$filepath=$CFG->eportfolio_dataroot. '/cache/files/';
+  	$filepath.='class_export.fet';
+  	$file=fopen($filepath, 'w');
 	if(!$file){
 		$error[]='unabletoopenfileforwriting';
 		}

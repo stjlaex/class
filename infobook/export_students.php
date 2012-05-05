@@ -37,7 +37,8 @@ if(sizeof($sids)==0){
 
 
 
-  	$file='/tmp/class_export.xls';
+	$file=$CFG->eportfolio_dataroot. '/cache/files/';
+  	$file.='class_export.xls';
 	$workbook = new Spreadsheet_Excel_Writer($file);
 	$workbook->setVersion(8);
 	$format_hdr_bold =& $workbook->addFormat(array('Size' => 11,

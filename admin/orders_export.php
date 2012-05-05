@@ -6,7 +6,9 @@
 $action='orders.php';
 
 
-  	$file=fopen('/tmp/class_export.xml', 'w');
+	$filepath=$CFG->eportfolio_dataroot. '/cache/files/';
+  	$filepath.='class_export.xml';
+  	$file=fopen($filepath, 'w');
 	if(!$file){
 		$error[]='unabletoopenfileforwriting';
 		}

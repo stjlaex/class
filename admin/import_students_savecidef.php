@@ -13,7 +13,9 @@ include('scripts/sub_action.php');
 	$idef=$_SESSION['idef'];
 
 //$outname=$fname.'.cidef';
-  	$file=fopen('/tmp/class_export.csv', 'w');
+	$filepath=$CFG->eportfolio_dataroot. '/cache/files/';
+  	$filepath.='class_export.csv';
+  	$file=fopen($filepath, 'w');
 	if(!$file){
 		$error[]='Unable to open remote file for writing.';
 		}

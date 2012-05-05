@@ -24,7 +24,8 @@ $viewtable=$_SESSION[$book.'viewtable'];
 
 	require_once 'Spreadsheet/Excel/Writer.php';
 
-	$file='/tmp/class_export.xls';
+	$file=$CFG->eportfolio_dataroot. '/cache/files/';
+  	$file.='class_export.xls';
 	$workbook = new Spreadsheet_Excel_Writer($file);
 	$format_head =& $workbook->addFormat(array('Size' => 10,
 											   'Align' => 'center',

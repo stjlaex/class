@@ -187,9 +187,6 @@ div.content fieldset {
     padding:1%; margin:0;
 	background-color:#eeeeee;
 	}
-div.content fieldset div {
-	background-color:#eeeeee;
-	}
 div.content fieldset.divgroup, 
 div.topform fieldset.divgroup, div.divgroup,
 fieldset.divgroup div { 

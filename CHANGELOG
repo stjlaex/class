@@ -10,7 +10,7 @@ type.
 
 Message ID and Organization on email headers.
 
-
+Changed export scripts to use file cache under dataroot.
 
 
 Version ClaSS-1.0.19 release (2012/04/10)

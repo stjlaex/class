@@ -20,7 +20,8 @@ if(sizeof($comids)==0){
 
 $todate=date('Y-m-d');
 
-  	$file='/tmp/class_export.xls';
+	$file=$CFG->eportfolio_dataroot. '/cache/files/';
+  	$file.='class_export.xls';
 	$workbook = new Spreadsheet_Excel_Writer($file);
 	$format_hdr_bold =& $workbook->addFormat(array('Size' => 11,
 		                                  'Align' => 'center',
