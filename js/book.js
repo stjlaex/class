@@ -761,9 +761,9 @@ function makeParam(xmltag){
 	return param;
 	}
 
-//------------------------------------------------------
-//used by the buttonmenu to submit or reset the content form
-
+/**
+ * Used by the buttonmenu to submit or reset the content form.
+ */
 function processContent(buttonObject){
 	var formObject=document.formtoprocess;
 	var formElements=formObject.elements;
@@ -784,20 +784,36 @@ function processContent(buttonObject){
 		document.formtoprocess.submit();
 		}
 	else{
-		var done=0;
+/*
 		for(c=0; c<formElements.length; c++){
 			if(buttonname==formElements[c].name){
 				document.formtoprocess.elements[c].value=buttonObject.value;
 				var done=1;
 				}
 			}
-		if(done!=1){
-			var input=document.createElement('input');
-			input.type="hidden";
-			input.name=buttonObject.name;
-			input.value=buttonObject.value;
-			document.formtoprocess.appendChild(input);
+*/
+		/* Update/add the value of the pressed button to an input
+		 * element, of the same name, so it is passed with the form.
+		 */
+		var inputElement=formElements[buttonname];
+		if(inputElement!=null){
+			if(inputElement.length!=null){
+				for(c=0; c<inputElement.length; c++){
+					formElements[buttonname][c].value=buttonObject.value;
+					}
+				}
+			else{
+				formElements[buttonname].value=buttonObject.value;
+				}
 			}
+		else{
+			var newinputElement=document.createElement('input');
+			newinputElement.type="hidden";
+			newinputElement.name=buttonObject.name;
+			newinputElement.value=buttonObject.value;
+			document.formtoprocess.appendChild(newinputElement);
+			}
+		/* Now submit the form with or without validation. */
 		if(buttonObject.value!="Submit" && buttonObject.value!="Enter"){
 			document.formtoprocess.submit();
 			}
