@@ -22,7 +22,7 @@ include('scripts/perm_action.php');
   <div id="viewcontent" class="content">
 	<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
 
-	  <fieldset class="center">
+	  <fieldset class="center listmenu">
 		<legend><?php print get_string('payee','admin');?></legend>
 		<div class="left">
 <?php 
@@ -44,16 +44,17 @@ include('scripts/perm_action.php');
 		</div>
 	  </fieldset>
 
-	  <fieldset class="center">
+	  <fieldset class="center listmenu">
 		<legend><?php print get_string('fees','admin'). ' '.get_string('applied','admin');?></legend>
-		<div class="divgroup">
-		  <table>
+		<div>
+		  <table class="listmenu">
 			<tr>
 			  <thead>
-				<th style="width:40%;"></th>
-				<th style="width:20%;"><?php print_string('tarif','admin');?></th>
+				<th colspan="2" style="width:40%;">
+				</th>
 				<th style="width:20%;"><?php print_string('amount','admin');?></th>
-				<th style="width:20%;"><?php print_string('payment','admin');?></th>
+				<th><?php print_string('tarif','admin');?></th>
+				<th><?php print_string('payment','admin');?></th>
 			  </thead>
 			</tr>
 <?php
@@ -72,17 +73,18 @@ include('scripts/perm_action.php');
 		foreach($concept_fees as $f){
 			${'feetarif'.$f['id']}=$f['tarif_id'];
 			${'feepaymenttype'.$f['id']}=$f['paymenttype'];
-			print '<tr><td>'.$no.'.  '.$Concept['Name']['value'].'</td><td>';
+			print '<tr><td><input type="checkbox" name="feeids[]" value="'.$f['id'].'" />'.$no.'</td>';
+			print '<td>'.$Concept['Name']['value'].'</td><td>';
+			print display_money($f['amount']);
+			print '</td><td>';
 			$listlabel='';
-			$liststyle='width:8em;';
+			$liststyle='width:16em;';
 			$listname='feetarif'.$f['id'];
 			include('scripts/set_list_vars.php');
 			list_select_list($tarifs,$listoptions,$book);
 			print '</td><td>';
-			print $f['amount'];
-			print '</td><td>';
 			$listlabel='';
-			$liststyle='width:8em;';
+			$liststyle='width:5em;';
 			$listname='feepaymenttype'.$f['id'];
 			include('scripts/set_list_vars.php');
 			list_select_enum('paymenttype',$listoptions,'admin');
@@ -91,13 +93,17 @@ include('scripts/perm_action.php');
 			}
 		}
 ?>
-
-		<tr>
-		  <td colspan="5">
-		  </td>
-		</tr>
-		  <tr>
-			<td colspan="5">
+			<thead>
+			  <th>
+				<div class="rowaction">
+<?php
+					$buttons=array();
+					$buttons['delete']=array('name'=>'oldfees','value'=>'delete');
+					all_extrabuttons($buttons,'infobook','processContent(this)')
+?>
+				</div>
+			  </th>
+			  <th colspan="4">
 				<div class="rowaction" style="width:240px;">
 <?php
 		$listlabel='';
@@ -107,19 +113,17 @@ include('scripts/perm_action.php');
 		include('scripts/set_list_vars.php');
 		list_select_db($d_c,$listoptions,$book);
 ?>
-				</div>
-				<div class="rowaction">
 <?php
 	$buttons=array();
 	$buttons['add']=array('name'=>'newconcept','value'=>'add');
 	all_extrabuttons($buttons,'infobook','processContent(this)')
 ?>
 				</div>
-			</td>
-		  </tr>
-	</table>
-	</div>
-</fieldset>
+			  </th>
+			</thead>
+		  </table>
+		</div>
+	  </fieldset>
 
 <?php
 	$charge_lists=array();
@@ -137,8 +141,7 @@ include('scripts/perm_action.php');
 			  <thead>
 				<th style="width:40%;"></th>
 				<th style="width:20%;"><?php print_string('amount','admin');?></th>
-				<th style="width:20%;"><?php print_string('payment','admin');?></th>
-				<th style="width:20%;"><?php print_string('date','admin');?></th>
+				<th colspan="3"><?php print_string('payment','admin');?></th>
 			  </thead>
 			</tr>
 <?php
@@ -154,11 +157,15 @@ include('scripts/perm_action.php');
 					print ' - '.$tarifs[$c['tarif_id']].'</td>';
 					print '<td>'.$c['amount'].'</td>';
 					print '<td>'.get_string(displayEnum($c['paymenttype'],'paymenttype'),'admin').'</td>';
-					print '<td>'.display_date($c['paymentdate']).'';
-					print '<div>';
-			print '<input type="radio" name="payment'.$c['id'].'"
-						tabindex="'.$tab++.'" value="1" ';
-			print '>'.$label.'</input></div>';
+					print '<td>'.display_date($c['paymentdate']).'</td>';
+
+
+					if($c['payment']=='2'){$checked='checked="yes"';$checkclass='checked';}else{$checked='';$checkclass='';}
+					print '<td><div class="'.$checkclass.'"><label>'.get_string('notpaid','admin').'</label>';
+					print '<input type="radio" name="payment'.$c['id'].'" tabindex="'.$tab++.'" value="2" '.$checked.'>'.$label.'</input></div>';
+					if($c['payment']=='1'){$checked='checked="yes"';$checkclass='checked';}else{$checked='';$checkclass='';}
+					print '<div class="'.$checkclass.'"><label>'.get_string('paid','admin').'</label>';
+					print '<input type="radio" name="payment'.$c['id'].'" tabindex="'.$tab++.'" value="1" '.$checked.'>'.$label.'</input></div>';
 					print '</td></tr>';
 					}
 				}

@@ -117,7 +117,6 @@ if($sub=='Submit'){
 								bankbranch=AES_ENCRYPT('$bankbranch','$access'), bankcontrol=AES_ENCRYPT('$bankcontrol','$access'),
 								bankcountry=AES_ENCRYPT('$bankcountry','$access') 
 											WHERE id='$acid';");
-							trigger_error($acid.'::'.$bankname.mysql_error(),E_USER_WARNING);
 							}
 						}
 					}

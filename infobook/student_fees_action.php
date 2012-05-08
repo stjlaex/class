@@ -7,6 +7,7 @@ $action='student_fees.php';
 require_once('lib/fetch_fees.php');
 
 if(isset($_POST['newconceptid'])){$newconceptid=$_POST['newconceptid'];}else{$newconceptid='';}
+if(isset($_POST['feeids'])){$feeids=(array)$_POST['feeids'];}else{$feeids=array();}
 if(isset($_POST['gid'])){$gid=$_POST['gid'];}
 if(isset($_POST['paytype'])){$default_paymenttype=$_POST['paytype'];}
 
@@ -39,34 +40,39 @@ if($sub=='Submit'){
 	foreach($chargestatuses as $chargestatus){
 		$charges=(array)list_student_charges($sid,$chargestatus);
 		foreach($charges as $conid => $charge){
-			foreach($charge as $index => $c){
+			foreach($charge as $c){
 				$charid=$c['id'];
+				/*
 				if(isset($_POST['tarif'.$charid]) and $_POST['tarif'.$charid]!=''){
 					$tarifid=$_POST['tarif'.$charid];
 					$paymenttype=$_POST['paymenttype'.$charid];
-					if(isset($_POST['payment'.$charid]) and $_POST['payment'.$charid]==1){
-						$payment=$_POST['payment'.$charid];
-						$paymentdate=$todate;
-						}
-					else{
-						$payment=0;
-						$paymentdate='';
-						}
-
-					mysql_query("UPDATE fees_charge SET tarif_id='$tarifid', paymenttype='$paymenttype', 
-						paymentdate='$paymentdate', payment='$payment' WHERE id='$charid';");
+					}
+				*/
+				if(isset($_POST['payment'.$charid]) and ($_POST['payment'.$charid]==1 or $_POST['payment'.$charid]==2)){
+					$payment=$_POST['payment'.$charid];
+					set_charge_payment($charid,$payment);
 					}
 				}
 			}
 		}
+	}
 
+
+/**
+ *  Adding a new fee.
+ */
+if(isset($_POST['newconcept']) and $_POST['newconcept']=='add' and $newconceptid!=''){
+	apply_student_fee($sid,$newconceptid);
 	}
 
 /**
  *  Adding a new fee.
  */
-if($newconceptid!=''){
-	apply_student_fee($sid,$newconceptid);
+if($_POST['oldfees']=='delete' and sizeof($feeids)>0){
+	foreach($feeids as $feeid){
+		delete_fee($feeid);
+		trigger_error($feeid,E_USER_WARNING);
+		}
 	}
 
 include('scripts/redirect.php');

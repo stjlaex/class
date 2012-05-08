@@ -1605,16 +1605,23 @@ function display_date($date='',$format='human'){
 	}
 
 /**
- * Takes a date string, probably from the database, and makes its user friendly.
+ * Takes a number and format it for display to the desired currenct.
+ * This defaults to currency '0' is 'euros' and '1' is 'pounds'.
  *
+ * TODO: format to match the $CFG->sitecountry
  */
-function display_money($amount){
-
+function display_money($amount,$currency='0'){
+	/*
 	$test=setlocale(LC_MONETARY, 'es_ES.utf8');
-	//trigger_error($test,E_USER_WARNING);
-
-	/* 2 decimal places*/
 	$money=money_format('%.2n', $amount);
+	trigger_error($test,E_USER_WARNING);
+	*/
+	if($currency=='0'){
+		$money=number_format($amount,2,',','.').' EUR';
+		}
+	elseif($currency=='1'){
+		$money=number_format($amount,2,',','.').' GBP';
+		}
 
 	return $money;
 	}

@@ -66,6 +66,12 @@ two_buttonmenu($extrabuttons,$book);
 			  </div>
 <?php
 
+			$actionbuttons['invoice']=array('name'=>'process',
+										   'value'=>'invoice');
+
+			$actionbuttons['export']=array('name'=>'process',
+										   'value'=>'export');
+
 			if($total_paid==0 and $total_notpaid==0){
 				$imagebuttons['clicktodelete']=array('name'=>'process',
 											 'value'=>'delete',
@@ -77,8 +83,8 @@ two_buttonmenu($extrabuttons,$book);
 
 			print '<div class="center nolite" style="margin-top:4px;">';
 			print '<div class="left"><a href="admin.php?current=fees_remittance_view.php&cancel=fees_remittance_list.php&remid='.$remid.'"><label>'.get_string('total',$book).'</label> '.display_money($total).'</a></div>';
-			print '<div class="right"><a  href="admin.php?current=fees_remittance_view.php&cancel='.$choice.'&choice='.$choice.'&remid='.$Remittance['id_db'].'&conid='.$Concept['id_db'].'&payment=1"><label>'.get_string('paid',$book).'</label> '.display_money($total_paid).'</a>'.'</div>';
-			print '<div class="right"><a  href="admin.php?current=fees_remittance_view.php&cancel='.$choice.'&choice='.$choice.'&remid='.$Remittance['id_db'].'&conid='.$Concept['id_db'].'&payment=2"><label>'.get_string('notpaid',$book).'</label> '.display_money($total_notpaid).'</a>'.'</div>';
+			print '<div class="right"><a  href="admin.php?current=fees_remittance_view.php&cancel='.$choice.'&choice='.$choice.'&remid='.$Remittance['id_db'].'&payment=1"><label>'.get_string('paid',$book).'</label> '.display_money($total_paid).'</a>'.'</div>';
+			print '<div class="right"><a  href="admin.php?current=fees_remittance_view.php&cancel='.$choice.'&choice='.$choice.'&remid='.$Remittance['id_db'].'&payment=2"><label>'.get_string('notpaid',$book).'</label> '.display_money($total_notpaid).'</a>'.'</div>';
 			print '</div>';
 
 

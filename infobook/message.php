@@ -115,7 +115,7 @@ if($messageto=='student'){
 							//$recipient['explanation']=$CFG->schoolname;
 							$recipient['explanation']='';
 							if(($messageto=='contacts' or $messageto=='family')){
-								$recipient['explanation'].=get_string(displayEnum($Contact['Relationship']['value'],'relationship'),'infobook'). ' to '. $Student['DisplayFullName']['value'];
+								$recipient['explanation'].=get_string(displayEnum($Contact['Relationship']['value'],'relationship'),'infobook'). ' of '. $Student['DisplayFullName']['value'];
 								}
 							$recipient['email']=$email;
 							if($messageto=='family'){$recipients[$email]=$recipient;}

@@ -1,9 +1,10 @@
 <?php
-/**								fees_remittance_export.php
+/**								fees_remittance_invoice.php
  *
  */
 
-$action='fees_remittance_export_action.php';
+$action='fees_remittance_invoice_action.php';
+$cancel='fees_remittance_list.php';
 $choice='fees.php';
 
 $remid=$_POST['remid'];
@@ -15,8 +16,8 @@ three_buttonmenu();
 <div class="content">
   <form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
 	<fieldset class="center"> 
-	<legend><?php print_string('export',$book); ?></legend> 
-	<?php print_string('feesexportwarning',$book); ?>
+	<legend><?php print_string('invoice',$book); ?></legend> 
+	<?php print_string('feesinvoicewarning',$book); ?>
 	</fieldset>
 
 	<fieldset class="center divgroup"> 
@@ -30,9 +31,8 @@ three_buttonmenu();
 		</div>
 	</fieldset>
 
-
 	<input type="hidden" name="remid" value="<?php print $remid;?>" />
-	<input type="hidden" name="cancel" value="<?php print ''; ?>" />
+	<input type="hidden" name="cancel" value="<?php print $cancel; ?>" />
 	<input type="hidden" name="current" value="<?php print $action;?>" />
 	<input type="hidden" name="choice" value="<?php print $choice;?>" />
 	</form> 

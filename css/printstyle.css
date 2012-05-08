@@ -60,6 +60,9 @@ div, fieldset {
 .marktable th {
 	display:none;
 	}
+div.hidden { 
+	display:none;
+	}
 tr.hidden { 
 	display:none;
 	}

@@ -20,7 +20,7 @@
 function fetchAccount($gid=-1,$idname='guardian_id'){
 
 	$Account=array();
-	$acid=-1;
+	$accid=-1;
 
 	if(!empty($_SESSION['accessfees'])){
 		$access=$_SESSION['accessfees'];
@@ -32,14 +32,19 @@ function fetchAccount($gid=-1,$idname='guardian_id'){
 					FROM fees_account WHERE $idname='$gid' AND id!='1';");
 		$a=mysql_fetch_array($d_a,MYSQL_ASSOC);
 		if(mysql_numrows($d_a)>0){
-			$acid=$a['id'];
+			$accid=$a['id'];
+			}
+		if($a['accountname']=='' and $idname='guardian_id'){
+			/* Want plain ascii text for account name. */
+			$d_g=mysql_query("SELECT CAST(CONCAT(surname,', ',forename) AS CHAR CHARACTER SET ASCII) FROM guardian WHERE id='$gid';");
+			$a['accountname']=mysql_result($d_g,0);
 			}
 		}
 	else{
 		$a=array('bankname'=>'','accountname'=>'','bankcountry'=>'','bankcode'=>'','bankbranch'=>'','bankcontrol'=>'','banknumber'=>'');
 		}
 
-	$Account['id_db']=$acid;
+	$Account['id_db']=$accid;
 	$Account['BankName']=array('label' => 'bankname', 
 							   'inputtype'=> 'required',
 							   'table_db' => 'fees_account', 
@@ -93,6 +98,43 @@ function fetchAccount($gid=-1,$idname='guardian_id'){
 	return $Account;
 	}
 
+
+/**
+ *
+ * Can return an account either for a given guardian_id (the default) or for
+ * a given account id (set idname=id). account_id=1 is special and not a valid value.
+ * 
+ * @return array
+ */
+function fetchFeesInvoice($invid=-1){
+
+	$Invoice=array();
+	if($invid!=-1){
+		$d_i=mysql_query("SELECT reference, account_id, remittance_id FROM fees_invoice WHERE id='$invid';");
+		}
+	if(mysql_numrows($d_i)>0){
+		$inv=mysql_fetch_array($d_i,MYSQL_ASSOC);
+		}
+	else{
+		$inv=array('reference'=>'','account_id'=>'','remittance_id'=>'');
+		}
+	$Invoice['id_db']=$invid;
+	$Invoice['BankName']=array('label' => 'bankname', 
+							   'inputtype'=> 'required',
+							   'table_db' => 'fees_account', 
+							   'field_db' => 'bankname',
+							   'type_db' => 'varchar(120)', 
+							   'value' => ''.$inv['bankname']
+							   );
+	$Invoice['AccountName']=array('label' => 'name', 
+							   'inputtype'=> 'required',
+							   'table_db' => 'fees_account', 
+							   'field_db' => 'accountname',
+							   'type_db' => 'varchar(120)', 
+							   'value' => ''.$inv['accountname']
+							   );
+	return $Invoice;
+	}
 
 /**
  *
@@ -299,6 +341,26 @@ function get_concept($conid){
 	}
 
 
+
+/**
+ * Delete a single fee from the fees_applied table.
+ *
+ * @param integer feeid
+ * @return logical 1 on success
+ *
+ */
+function delete_fee($feeid){
+
+	$done=0;
+	if($feeid!=''){
+		mysql_query("DELETE FROM fees_applied WHERE id='$feeid' LIMIT 1;");
+		$done=mysql_affected_rows();
+		}
+
+	return $done;
+	}
+
+
 /**
  *
  *
@@ -306,10 +368,33 @@ function get_concept($conid){
  */
 function get_charge($charid){
 
-	$d_c=mysql_query("SELECT * FROM fees_charge WHERE id='$charid';");
+	$d_c=mysql_query("SELECT id, student_id, note, quantity, budget_id, community_id, paymenttype, 
+						payment, paymentdate, amount, remittance_id, tarif_id 
+						FROM fees_charge WHERE id='$charid';");
 	$c=mysql_fetch_array($d_c);
 
 	return $c;
+	}
+
+
+/**
+ *
+ *
+ *
+ */
+function set_charge_payment($charid,$payment,$invid='0',$date=''){
+
+	if($charid!='' and ($payment=='0' or $payment=='1' or $payment=='2')){
+
+		if($payment=='0'){$date=='0000-00-00';}
+		elseif($date==''){$date=date('Y-m-d');}
+
+		mysql_query("UPDATE fees_charge SET invoice_id='$invid', paymentdate='$date', payment='$payment' 
+							WHERE id='$charid';");
+		$done=mysql_affected_rows();
+		}
+
+	return $done;
 	}
 
 
@@ -359,16 +444,30 @@ function list_remittances($feeyear=''){
  *
  *
  */
-function list_remittance_charges($remid,$conid=''){
-	if($conid==''){
-		$d_c=mysql_query("SELECT c.id, c.student_id, c.tarif_id, c.quantity, c.amount, c.paymenttype 
-							FROM fees_charge AS c  
-							WHERE c.remittance_id='$remid' ORDER BY c.student_id;");
+function list_remittance_charges($remid,$conid='',$payment=''){
+
+	if($payment=='0' or $payment=='1' or $payment=='2'){
+		$payment="AND c.payment='$payment'";
 		}
 	else{
-		$d_c=mysql_query("SELECT c.id, c.student_id, c.tarif_id, c.quantity, c.amount, c.paymenttype 
+		$payment='';
+		}
+
+	if($conid==''){
+		$d_c=mysql_query("SELECT c.id, c.student_id, c.tarif_id, c.quantity, c.amount, c.payment, c.paymenttype 
+							FROM fees_charge AS c JOIN student AS s ON s.id=c.student_id
+							WHERE c.remittance_id='$remid' $payment ORDER BY s.surname, s.id;");
+		}
+	else{
+		$d_c=mysql_query("SELECT c.id, c.student_id, c.tarif_id, c.quantity, c.amount, c.payment, c.paymenttype 
+							FROM fees_charge AS c JOIN student AS s ON s.id=c.student_id
+							WHERE c.remittance_id='$remid' $payment AND c.tarif_id=ANY(SELECT t.id FROM fees_tarif AS t WHERE t.concept_id='$conid')
+							ORDER BY s.surname, s.id;");
+		/*
+		$d_c=mysql_query("SELECT c.id, c.student_id, c.tarif_id, c.quantity, c.amount, c.payment, c.paymenttype 
 							FROM fees_charge AS c JOIN fees_tarif AS t ON t.id=c.tarif_id 
-							WHERE c.remittance_id='$remid' AND t.concept_id='$conid' ORDER BY c.student_id;");
+							WHERE c.remittance_id='$remid' $payment AND t.concept_id='$conid' ORDER BY c.student_id;");
+		*/
 		}
 
 	$charges=array();
@@ -488,7 +587,7 @@ function list_student_payees($sid){
 		$gid=$g['id'];
 		$d_a=mysql_query("SELECT COUNT(id) FROM fees_account WHERE guardian_id='$gid';");
 		$g['accountsno']=mysql_result($d_a,0);
-		$g['name']=displayEnum($g['relationship'], 'relationship').': '.$g['surname'];
+		$g['name']=get_string(displayEnum($g['relationship'], 'relationship'),'infobook').': '.$g['surname'];
 		$guardians[]=$g;
 		}
 
@@ -573,6 +672,30 @@ function add_student_charge($sid,$conceptid='',$tarifid='',$paymenttype=''){
 
 
 
+/**
+ *
+ * Will add a new charge for sid and conceptid.
+ *
+ * @param integer $accid
+ * @param integer $remid
+ *
+ * @return $reference
+ */
+function create_invoice($accid,$remid){
+
+	$d_r=mysql_query("SELECT year FROM fees_remittance WHERE id='$remid';");
+	$year=mysql_result($d_r,0);
+	/* Join last 2 digits of year to an auto-increment of 5 digit idno. */
+	$year=substr($year,2,2);
+	$d_i=mysql_query("SELECT MAX(CAST(reference AS UNSIGNED)) FROM fees_invoice WHERE reference LIKE '$year%';");
+	$maxno=mysql_result($d_i,0);
+	$idno=substr($maxno,2) + 1;
+	$ref=$year. sprintf("%05s",$idno);// number format 00001-99999
+
+	mysql_query("INSERT INTO fees_invoice (reference,account_id,remittance_id) VALUES ('$ref','$accid','$remid');");
+
+	return $ref;
+	}
 
 
 
