@@ -4,25 +4,26 @@
 
 require_once('../../scripts/http_head_options.php');
 require_once('../../lib/fetch_fees.php');
-if(isset($_GET['id_db'])){$ordid=$_GET['id_db'];}else{$id_db='';}
-if(isset($_POST['id_db'])){$ordid=$_POST['id_db'];}
-if(isset($xmlid)){$ordids[]=$xmlid;}
 
-	if($ordid==''){
-		$result[]=get_string('error');
-		$returnXML=$result;
-		$rootName='Error';
-		}
-	else{
-		$Orders=array();
-		$Orders['Order']=array();
-		//$Order=fetchOrder($ordid);
-		$Orders['Order'][]=$Order;
-		$Orders['Paper']='portrait';
-		$Orders['Transform']='order_form';
-		$returnXML=$Orders;
-		$rootName='Orders';
-		}
+if(isset($_GET['sids'])){$invids=(array)$_GET['sids'];}else{$invids=array();}
+if(isset($_POST['sids'])){$invids=(array)$_POST['sids'];}
+
+
+if(sizeof($invids)==0){
+	$result[]=get_string('youneedtoselectstudents');
+	$returnXML=$result;
+	$rootName='Error';
+	}
+else{
+	$Invoices=array();
+	$Invoices['Invoice']=array();
+	$Invoice=fetchFeesInvoice($invid);
+	$Invoices['Invoice'][]=$Invoice;
+	$Invoices['Paper']='portrait';
+	//$Invoices['Transform']='order_form';
+	$returnXML=$Invoices;
+	$rootName='Invoices';
+	}
 
 require_once('../../scripts/http_end_options.php');
 exit;
