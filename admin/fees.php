@@ -74,48 +74,6 @@ two_buttonmenu($extrabuttons,$book);
 	  action="<?php print $host; ?>" >
 
 	  <fieldset class="left">
-		<legend><?php print get_string('payment',$book).' '.get_string('search',$book);?></legend>		
-		<div class="center">
-		  <button style="float:right;"  type="submit" name="sub" value="search">
-			<?php print_string('search');?>
-		  </button>
-		</div>
-		<div class="center">
-		  <div class="left">
-<?php 
-		$payment='0';
-		$listlabel='type';
-		$listname='paymenttype';
-		include('scripts/set_list_vars.php');
-		list_select_enum('paymenttype',$listoptions,$book);
-?>
-		  </div>
-
-		  <div class="left">
-<?php 
-		$payment='0';
-		$listlabel='status';
-		$listname='payment';
-		include('scripts/set_list_vars.php');
-		list_select_enum('payment',$listoptions,$book);
-?>
-		  </div>
-
-		  <div class="right">
-<?php 
-		$listlabel='concept';
-		$liststyle='width:8em;';
-		$listname='conceptid';
-		$concepts=list_concepts();
-		include('scripts/set_list_vars.php');
-		list_select_list($concepts,$listoptions,$book);
-?>
-		  </div>
-
-		</div>
-	  </fieldset>
-
-	  <fieldset class="right">
 		<legend><?php print_string('invoicesearch',$book);?></legend>		
 		<div class="center">
 		  <div class="center">

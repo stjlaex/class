@@ -6,6 +6,8 @@
 $action='fees_invoice_list.php';
 $cancel='fees_remittance_list.php';
 
+$action_post_vars=array('remid');
+
 /* CFG->feeslib needs to be set depending on your provider */
 require_once($CFG->dirroot.'/lib/'.$CFG->feeslib);
 
@@ -20,20 +22,20 @@ if($_POST['payment0']=='yes'){
 
 	$rown=1;
 	$Students=array();
-	/* Only include charges which are not yet paid. */
+	/* Only include charges which are not yet invoiced (0=pending). */
 	$charges=(array)list_remittance_charges($remid,'','0');
 	foreach($charges as $charge){
 		$okay=false;
 		$charid=$charge['id'];
 		$charge=get_charge($charid);
 		/* Filter out any charges which are intended for bank payment */
-		if($charge['paymenttype']!=1){
+		if($charge['paymenttype']!='1'){
 			$sid=$charge['student_id'];
 			/* Do certain things once only for a student... */
 			if(!array_key_exists($sid,$Students)){
 				$Student=(array)fetchStudent_short($sid);
 				$guardians=(array)list_student_payees($sid);
-				if(sizeof($guardians)>0 and $guardians[0]['paymenttype']=='1' and $guardians[0]['accountsno']>0){
+				if(sizeof($guardians)>0 and $guardians[0]['paymenttype']!='1'){
 					/* Only add the student record if their is a valid payee account. */
 					$Student['payee']=$guardians[0];
 					$Student['charges']=array();
@@ -55,14 +57,12 @@ if($_POST['payment0']=='yes'){
 	foreach($Students as $sid => $Student){
 		$Account=(array)fetchAccount($Student['payee']['id']);
 		if($Account['id_db']!=-1){
-			$invid=create_invoice($Account['id_db'],$remid);
+			$invoice=(array)create_invoice($Account['id_db'],$remid);
 			foreach($Student['charges'] as $charge){
-				set_charge_payment($charge['id'],'1',$invid);
+				set_charge_payment($charge['id'],'1',$invoice['id']);
 				}
 			}
 		}
-
-	$result[]='exportedtofile';
 	}
 else{
 	$result[]=get_string('noactiontaken',$book);

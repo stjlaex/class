@@ -106,19 +106,41 @@ function fetchAccount($gid=-1,$idname='guardian_id'){
  * 
  * @return array
  */
-function fetchFeesInvoice($invid=-1){
+function fetchFeesInvoice($invoice=array('id'=>'-1')){
 
+	$invid=$invoice['id'];
 	$Invoice=array();
-	if($invid!=-1){
+	if($invid!='-1' and !isset($invoice['reference'])){
 		$d_i=mysql_query("SELECT reference, account_id, remittance_id FROM fees_invoice WHERE id='$invid';");
+		if(mysql_numrows($d_i)>0){
+			$invoice=mysql_fetch_array($d_i,MYSQL_ASSOC);
+			}
+		else{
+			$invid=-1;
+			}
 		}
-	if(mysql_numrows($d_i)>0){
-		$inv=mysql_fetch_array($d_i,MYSQL_ASSOC);
+	if($invid=='-1'){
+		$invoice=array('reference'=>'','account_id'=>'','remittance_id'=>'');
 		}
 	else{
-		$inv=array('reference'=>'','account_id'=>'','remittance_id'=>'');
+		$d_c=mysql_query("SELECT SUM(c.amount) AS totalamount, c.paymenttype, c.student_id 
+							FROM fees_charge AS c WHERE c.invoice_id='$invid';");
+		$charge=mysql_fetch_array($d_c,MYSQL_ASSOC);
 		}
+
 	$Invoice['id_db']=$invid;
+	$Invoice['student_id_db']=$invid;
+	$Invoice['TotalAmount']=array('label' => 'amount', 
+								  'value' => ''.$charge['totalamount']
+								  );
+
+	$Invoice['PaymentType']=array('label' => 'amount', 
+								  'value' => ''.$charge['paymenttype']
+								  );
+	$Invoice['Reference']=array('label' => 'reference', 
+								'value' => ''.$invoice['reference']
+								);
+	/*
 	$Invoice['BankName']=array('label' => 'bankname', 
 							   'inputtype'=> 'required',
 							   'table_db' => 'fees_account', 
@@ -133,6 +155,7 @@ function fetchFeesInvoice($invid=-1){
 							   'type_db' => 'varchar(120)', 
 							   'value' => ''.$inv['accountname']
 							   );
+	*/
 	return $Invoice;
 	}
 
@@ -299,6 +322,7 @@ function fetchRemittance($remid=-1){
 
    	$Remittance['EnrolmentStatus']=array('label' => 'enrolstatus', 
 										 'table_db' => 'fees_remittance', 
+										 'inputtype'=> 'required',
 										 'field_db' => 'enrolstatus', 
 										 'type_db' => 'enum', 
 										 'value' => ''.$c['enrolstatus']
@@ -477,6 +501,37 @@ function list_remittance_charges($remid,$conid='',$payment=''){
 
 	return $charges;
 	}
+
+
+
+/**
+ *
+ *
+ *
+ */
+function list_remittance_invoices($remid,$paymenttype=''){
+	/*
+	if($paymenttype!=''){
+		$payment="AND a.paymenttype='$paymenttype'";
+		}
+	else{
+		$payment='';
+		}
+	*/
+
+	$d_i=mysql_query("SELECT i.id, i.reference, i.account_id FROM fees_invoice AS i
+							WHERE i.remittance_id='$remid' ORDER BY i.reference;");
+
+	$invoices=array();
+	while($i=mysql_fetch_array($d_i)){
+		trigger_error($i['id'].' ::: '.$remid,E_USER_WARNING);
+
+		$invoices[]=$i;
+		}
+
+	return $invoices;
+	}
+
 
 
 
@@ -693,8 +748,10 @@ function create_invoice($accid,$remid){
 	$ref=$year. sprintf("%05s",$idno);// number format 00001-99999
 
 	mysql_query("INSERT INTO fees_invoice (reference,account_id,remittance_id) VALUES ('$ref','$accid','$remid');");
+$invid=
+	$invid=mysql_insert_id();
 
-	return $ref;
+	return array('id'=>$invid,'reference'=>$ref);
 	}
 
 

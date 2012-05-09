@@ -10,6 +10,8 @@ if(isset($_POST['remid'])){$remid=$_POST['remid'];}
 if(isset($_GET['feeyear'])){$feeyear=$_GET['feeyear'];}else{$feeyear='';}
 if(isset($_POST['feeyear'])){$feeyear=$_POST['feeyear'];}
 
+if($feeyear==''){$feeyear=get_curriculumyear();}
+
 three_buttonmenu();
 
 $Remittance=fetchRemittance($remid);

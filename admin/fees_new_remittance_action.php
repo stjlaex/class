@@ -53,9 +53,16 @@ if($sub=='Submit'){
 
 
 		if($concept['community_type']==''){
+
+			/*			mysql_query("INSERT INTO fees_charge (student_id, remittance_id, tarif_id, paymenttype, amount) 
+							SELECT a.student_id, '$remid', a.tarif_id, a.paymenttype, t.amount FROM fees_applied AS a, 
+							fees_tarif AS t WHERE t.concept_id='$conid' AND t.id=a.tarif_id AND a.student_id=ANY(SELECT student_id FROM info WHERE enrolstatus='$enrolstatus');");
+			*/
 			mysql_query("INSERT INTO fees_charge (student_id, remittance_id, tarif_id, paymenttype, amount) 
 							SELECT a.student_id, '$remid', a.tarif_id, a.paymenttype, t.amount FROM fees_applied AS a, 
 							fees_tarif AS t WHERE t.concept_id='$conid' AND t.id=a.tarif_id;");
+
+
 			}
 		else{
 			$comtype=$concept['community_type'];
