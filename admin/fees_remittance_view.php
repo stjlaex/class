@@ -14,6 +14,8 @@ if((isset($_POST['remid']) and $_POST['remid']!='')){$remid=$_POST['remid'];}els
 if((isset($_GET['remid']) and $_GET['remid']!='')){$remid=$_GET['remid'];}
 if((isset($_POST['payment']) and $_POST['payment']!='')){$payment=$_POST['payment'];}else{$payment='';}
 if((isset($_GET['payment']) and $_GET['payment']!='')){$payment=$_GET['payment'];}
+if((isset($_POST['paymenttype']) and $_POST['paymenttype']!='')){$filter_paymenttype=$_POST['paymenttype'];}else{$filter_paymenttype='';}
+if((isset($_GET['paymenttype']) and $_GET['paymenttype']!='')){$filter_paymenttype=$_GET['paymenttype'];}
 
 
 $extrabuttons=array();
@@ -59,8 +61,10 @@ if($conid==-1){
 else{
 	$conids[]=$conid;
 	}
+
+if($filter_paymenttype==''){
 ?>
-  <div id="heading">
+<div id="heading">
 <?php
 	$listname='filtervalue';$listlabel='';
 	//$listdescriptionfield='name';$listvaluefield='value';
@@ -69,8 +73,10 @@ else{
 	$button['filterlist']=array('name'=>'filter','value'=>'paymenttype');
 	all_extrabuttons($button,'entrybook','sidtableFilter(this)');
 ?>
-  </div>
-
+</div>
+<?php
+	}
+?>
   <div id="viewcontent" class="content">
 
   <form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host; ?>" >
@@ -125,14 +131,15 @@ else{
 <?php
 		$rown=1;
 		foreach($charges as $charge){
-			$sid=$charge['student_id'];
-			if($charge['payment']=='1'){
-				$rowclass='class="lowlite"';
-				}
-			else{
-				$rowclass='class=""';
-				}
-			if(!array_key_exists($sid,$Students)){
+			if($charge['paymenttype']==$filter_paymenttype or $filter_paymenttype==''){
+				$sid=$charge['student_id'];
+				if($charge['payment']=='1'){
+					$rowclass='class="lowlite"';
+					}
+				else{
+					$rowclass='class=""';
+					}
+				if(!array_key_exists($sid,$Students)){
 					/* Do certain things once only for a student... */
 					$Student=(array)fetchStudent_short($sid);
 					$guardians=(array)list_student_payees($sid);
@@ -155,28 +162,28 @@ else{
 					}
 
 
-			/* Warn when no payee is set or the payment type is bank and the payee has no bank account. */
-			$payclass='';
-			if($Student['paymenttype']==''){$payclass='class="hilite"';}
-			elseif($charge['paymenttype']=='1' and $Student['accountsno']==0){$payclass='class="midlite"';}
-
-			/* first entry for this student for this concept (group by concept and then by student in on other words) */
-			print '<tr id="sid-'.$charge['id'].'" '.$rowclass.'>';
-			print '<td><input type="checkbox" name="sids[]" value="'.$charge['id'].'" />';
-			//print $rown++;
-			print '</td>';
-			print '<td>'.$Student['EnrolNumber']['value'].'</td><td></td>';
-			print '<td class="student"><a target="viewinfobook" onclick="parent.viewBook(\'infobook\');" href="infobook.php?current=student_fees.php&cancel=student_view.php&sids[]='.$sid.'&sid='.$sid.'">'.$Student['DisplayFullSurname']['value'].'</a></td>';
-			print '<td>'.$Student['RegistrationGroup']['value'].'</td>';
-			print '<td>'.$Tarifs[$charge['tarif_id']]['Name']['value'].'</td>';
-			print '<td>'.'<div class="hidden">';
-			$listname='paymenttype'.$charge['id'];
-			${'paymenttype'.$charge['id']}=$charge['paymenttype'];
-			include('scripts/list_paymenttypes.php');
-			print '</div>';
-			print get_string(displayEnum($charge['paymenttype'],'paymenttype'),$book).'</td>';
-			print '<td '.$payclass.'>'.display_money($charge['amount']).'</td></tr>';
-
+				/* Warn when no payee is set or the payment type is bank and the payee has no bank account. */
+				$payclass='';
+				if($Student['paymenttype']==''){$payclass='class="hilite"';}
+				elseif($charge['paymenttype']=='1' and $Student['accountsno']==0){$payclass='class="midlite"';}
+				
+				/* first entry for this student for this concept (group by concept and then by student in on other words) */
+				print '<tr id="sid-'.$charge['id'].'" '.$rowclass.'>';
+				print '<td><input type="checkbox" name="sids[]" value="'.$charge['id'].'" />';
+				//print $rown++;
+				print '</td>';
+				print '<td>'.$Student['EnrolNumber']['value'].'</td><td></td>';
+				print '<td class="student"><a target="viewinfobook" onclick="parent.viewBook(\'infobook\');" href="infobook.php?current=student_fees.php&cancel=student_view.php&sids[]='.$sid.'&sid='.$sid.'">'.$Student['DisplayFullSurname']['value'].'</a></td>';
+				print '<td>'.$Student['RegistrationGroup']['value'].'</td>';
+				print '<td>'.$Tarifs[$charge['tarif_id']]['Name']['value'].'</td>';
+				print '<td>'.'<div class="hidden">';
+				$listname='paymenttype'.$charge['id'];
+				${'paymenttype'.$charge['id']}=$charge['paymenttype'];
+				include('scripts/list_paymenttypes.php');
+				print '</div>';
+				print get_string(displayEnum($charge['paymenttype'],'paymenttype'),$book).'</td>';
+				print '<td '.$payclass.'>'.display_money($charge['amount']).'</td></tr>';
+				}
 			}
 ?>
 		</tbody>

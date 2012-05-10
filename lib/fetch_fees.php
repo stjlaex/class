@@ -129,7 +129,7 @@ function fetchFeesInvoice($invoice=array('id'=>'-1')){
 		}
 
 	$Invoice['id_db']=$invid;
-	$Invoice['student_id_db']=$invid;
+	$Invoice['student_id_db']=$charge['student_id'];
 	$Invoice['TotalAmount']=array('label' => 'amount', 
 								  'value' => ''.$charge['totalamount']
 								  );
@@ -237,6 +237,7 @@ function fetchRemittance($remid=-1){
 	$d_c=mysql_query("SELECT id, name, concepts, enrolstatus, year, duedate, issuedate, account_id 
 								FROM fees_remittance WHERE id='$remid' ORDER BY issuedate DESC LIMIT 1;");
 	$c=mysql_fetch_array($d_c,MYSQL_ASSOC);
+	$paymenttypes=getEnumArray('paymenttype');
 
 	$Remittance=array();
 	$Remittance['id_db']=$remid;
@@ -268,43 +269,56 @@ function fetchRemittance($remid=-1){
    	$Remittance['Account']=fetchAccount($c['account_id'],'id');
 
 	$Remittance['Concepts']=array();
+	$Remittance['TotalAmounts']=array();
 
 	$conids=(array)explode(':::',$c['concepts']);
 	foreach($conids as $conid){
-
 		$Concept=fetchConcept($conid);
-		if($Concept['Type']['value']==''){
-			/* charges pending (not yet invoiced or exported) with payment=0*/
-			$d_a=mysql_query("SELECT SUM(c.amount) FROM fees_charge AS c JOIN fees_tarif AS t ON t.id=c.tarif_id 
-							WHERE c.remittance_id='$remid' AND c.payment='0' AND t.concept_id='$conid';");
-			$amount_pending=mysql_result($d_a,0);
-			/* charges paid with payment=1*/
-			$d_a=mysql_query("SELECT SUM(c.amount) FROM fees_charge AS c JOIN fees_tarif AS t ON t.id=c.tarif_id 
-							WHERE c.remittance_id='$remid' AND c.payment='1' AND t.concept_id='$conid';");
-			$amount_paid=mysql_result($d_a,0);
-			/* charges not paid with payment=2*/
-			$d_a=mysql_query("SELECT SUM(c.amount) FROM fees_charge AS c JOIN fees_tarif AS t ON t.id=c.tarif_id 
-							WHERE c.remittance_id='$remid' AND c.payment='2'  AND t.concept_id='$conid';");
-			$amount_notpaid=mysql_result($d_a,0);
-			}
-		else{
-			$comtype=strtolower($Concept['Type']['value']);
-			/* charges pending (not yet invoiced or exported) with payment=0*/
-			$d_a=mysql_query("SELECT SUM(c.amount) FROM fees_charge AS c JOIN community AS com ON com.id=c.community_id
-							WHERE c.remittance_id='$remid' AND c.payment='0' AND com.type='$comtype';");
-			$amount_pending=mysql_result($d_a,0);
-			/* charges paid with payment=1*/
-			$d_a=mysql_query("SELECT SUM(c.amount) FROM fees_charge AS c JOIN community AS com ON com.id=c.community_id
-							WHERE c.remittance_id='$remid' AND c.payment='1' AND com.type='$comtype';");
-			$amount_paid=mysql_result($d_a,0);
-			/* charges not paid with payment=2*/
-			$d_a=mysql_query("SELECT SUM(c.amount) FROM fees_charge AS c JOIN community AS com ON com.id=c.community_id
-							WHERE c.remittance_id='$remid' AND c.payment='2' AND com.type='$comtype';");
-			$amount_notpaid=mysql_result($d_a,0);
+		$concept_total=0;$concept_paid=0;$concept_notpaid=0;$concept_pending=0;
+
+		foreach($paymenttypes as $paytype => $payname){
+
+			if(!isset($$payname)){$$payname=0;}//this is the total for this paymenttype
+
+			if($Concept['Type']['value']==''){
+				/* charges pending (not yet invoiced or exported) with payment=0 */
+				$d_a=mysql_query("SELECT SUM(c.amount) FROM fees_charge AS c JOIN fees_tarif AS t ON t.id=c.tarif_id 
+							WHERE c.remittance_id='$remid' AND c.payment='0' AND c.paymenttype='$paytype' AND t.concept_id='$conid';");
+				$amount_pending=mysql_result($d_a,0);
+				/* charges paid with payment=1 */
+				$d_a=mysql_query("SELECT SUM(c.amount) FROM fees_charge AS c JOIN fees_tarif AS t ON t.id=c.tarif_id 
+							WHERE c.remittance_id='$remid' AND c.payment='1' AND c.paymenttype='$paytype' AND t.concept_id='$conid';");
+				$amount_paid=mysql_result($d_a,0);
+				/* charges not paid with payment=2 */
+				$d_a=mysql_query("SELECT SUM(c.amount) FROM fees_charge AS c JOIN fees_tarif AS t ON t.id=c.tarif_id 
+							WHERE c.remittance_id='$remid' AND c.payment='2' AND c.paymenttype='$paytype' AND t.concept_id='$conid';");
+				$amount_notpaid=mysql_result($d_a,0);
+				}
+			else{
+				/* charges linked to a community */
+				$comtype=strtolower($Concept['Type']['value']);
+				/* charges pending (not yet invoiced or exported) with payment=0*/
+				$d_a=mysql_query("SELECT SUM(c.amount) FROM fees_charge AS c JOIN community AS com ON com.id=c.community_id
+							WHERE c.remittance_id='$remid' AND c.payment='0' AND c.paymenttype='$paytype' AND com.type='$comtype';");
+				$amount_pending=mysql_result($d_a,0);
+				/* charges paid with payment=1*/
+				$d_a=mysql_query("SELECT SUM(c.amount) FROM fees_charge AS c JOIN community AS com ON com.id=c.community_id
+							WHERE c.remittance_id='$remid' AND c.payment='1' AND c.paymenttype='$paytype' AND com.type='$comtype';");
+				$amount_paid=mysql_result($d_a,0);
+				/* charges not paid with payment=2*/
+				$d_a=mysql_query("SELECT SUM(c.amount) FROM fees_charge AS c JOIN community AS com ON com.id=c.community_id
+							WHERE c.remittance_id='$remid' AND c.payment='2' AND c.paymenttype='$paytype' AND com.type='$comtype';");
+				$amount_notpaid=mysql_result($d_a,0);
+				}
+
+			$concept_pending+=$amount_pending;
+			$concept_paid+=$amount_paid;
+			$concept_notpaid+=$amount_notpaid;
+
+			$$payname+=$amount_pending + $amount_paid + $amount_notpaid;
 			}
 
-
-		$total=$amount_pending + $amount_paid + $amount_notpaid;
+		$concept_total=$concept_pending + $concept_paid + $concept_notpaid;
 		$Concept['AmountPending']=array('label' => 'pending', 
 										'value' => ''.$amount_pending
 										);
@@ -315,9 +329,16 @@ function fetchRemittance($remid=-1){
 										'value' => ''.$amount_notpaid
 										);
 		$Concept['TotalAmount']=array('label' => 'total', 
-									  'value' => ''.$total
+									  'value' => ''.$concept_total
 									  );
 		$Remittance['Concepts'][]=$Concept;
+		}
+
+	foreach($paymenttypes as $paytype => $payname){
+		$Remittance['TotalAmounts'][$payname]=array('label' => $payname,
+													'paymenttype' => $paytype, 
+													'value' => ''.$$payname
+													);
 		}
 
    	$Remittance['EnrolmentStatus']=array('label' => 'enrolstatus', 
@@ -524,8 +545,6 @@ function list_remittance_invoices($remid,$paymenttype=''){
 
 	$invoices=array();
 	while($i=mysql_fetch_array($d_i)){
-		trigger_error($i['id'].' ::: '.$remid,E_USER_WARNING);
-
 		$invoices[]=$i;
 		}
 
@@ -743,10 +762,13 @@ function create_invoice($accid,$remid){
 	/* Join last 2 digits of year to an auto-increment of 5 digit idno. */
 	$year=substr($year,2,2);
 	$d_i=mysql_query("SELECT MAX(CAST(reference AS UNSIGNED)) FROM fees_invoice WHERE reference LIKE '$year%';");
+	/* Just sequential numbers... */
 	$maxno=mysql_result($d_i,0);
+	$ref=$maxno+1;
+	/* Include the feeyear 
 	$idno=substr($maxno,2) + 1;
 	$ref=$year. sprintf("%05s",$idno);// number format 00001-99999
-
+	*/
 	mysql_query("INSERT INTO fees_invoice (reference,account_id,remittance_id) VALUES ('$ref','$accid','$remid');");
 $invid=
 	$invid=mysql_insert_id();

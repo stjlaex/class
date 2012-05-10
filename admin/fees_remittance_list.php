@@ -64,6 +64,15 @@ two_buttonmenu($extrabuttons,$book);
 ?>
 				</ul>
 			  </div>
+			  <div class="center">
+				<ul class="listmenu">
+<?php
+			foreach($Remittance['TotalAmounts'] as $paytype => $TotalAmount){
+				print '<li class="lowlite"><a href="admin.php?current=fees_remittance_view.php&cancel=fees_remittance_list.php&remid='.$remid.'&paymenttype='.$TotalAmount['paymenttype'].'"><label>'.get_string($TotalAmount['label'],$book).'</label> '.display_money($TotalAmount['value']).'</a></li>';
+				}
+?>
+				</ul>
+			  </div>
 <?php
 
 			$actionbuttons['invoice']=array('name'=>'process',
@@ -82,7 +91,8 @@ two_buttonmenu($extrabuttons,$book);
 				}
 
 			print '<div class="center nolite" style="margin-top:4px;">';
-			print '<div class="left"><a href="admin.php?current=fees_remittance_view.php&cancel=fees_remittance_list.php&remid='.$remid.'"><label>'.get_string('total',$book).'</label> '.display_money($total).'</a></div>';
+			print '<div class="left">';
+			print '<a href="admin.php?current=fees_remittance_view.php&cancel=fees_remittance_list.php&remid='.$remid.'"><label>'.get_string('total',$book).'</label> '.display_money($total).'</a>';			print '</div>';
 			print '<div class="right"><a  href="admin.php?current=fees_remittance_view.php&cancel='.$choice.'&choice='.$choice.'&remid='.$Remittance['id_db'].'&payment=1"><label>'.get_string('paid',$book).'</label> '.display_money($total_paid).'</a>'.'</div>';
 			print '<div class="right"><a  href="admin.php?current=fees_remittance_view.php&cancel='.$choice.'&choice='.$choice.'&remid='.$Remittance['id_db'].'&payment=2"><label>'.get_string('notpaid',$book).'</label> '.display_money($total_notpaid).'</a>'.'</div>';
 			print '</div>';

@@ -86,6 +86,19 @@ function good_strtolower($value){
 
 
 /**
+ * For compatibility with utf8
+ *
+ *	@param string[$value] a string to be made lowercase
+ *	@return string new alfabetic string to lowercase
+ *
+ */
+function good_strtoupper($value){
+	$value=mb_strtoupper($value, mb_detect_encoding($value));
+	return $value;
+	}
+
+
+/**
  *	This takes international accented characters - have only bothered
  *	to cover spanish ones in the list - and transliterates them to
  *	their nearest ascii equivalent, making them safe for email
@@ -350,8 +363,7 @@ function getEnumArray($field_name){
 					);
 
 	/* For the fees tables. */
-	$paymenttype=array('0' => '',
-					   '1' => 'bank', 
+	$paymenttype=array('1' => 'bank', 
 					   '2' => 'cash',
 					   '3' => 'other',
 					   '4' => 'specialpayment1',
