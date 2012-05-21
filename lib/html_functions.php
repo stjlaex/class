@@ -613,7 +613,14 @@ function url_construct($params,$entrypage,$fullurl=false){
 
 	global $CFG;
 
-	if($fullurl){$url='http://'.$CFG->siteaddress.$CFG->sitepath.'/'.$CFG->applicationdirectory.'/';}
+	if(isset($_SERVER['HTTPS'])){
+		$http='https';
+		}
+	else{
+		$http='http';
+		}
+
+	if($fullurl){$url=$http.'://'.$CFG->siteaddress.$CFG->sitepath.'/'.$CFG->applicationdirectory.'/';}
 	else{$url='';}
 
 	$fullurl=$url. $entrypage;

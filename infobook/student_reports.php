@@ -45,7 +45,13 @@ else{
 	if(trim($epfu)==''){$epfu=strtolower($Student['EnrolNumber']['value']);}
 	if(!is_array($reportdetails)){$report=array('title'=>$reportdetails,'name'=>$reportdetails.'.pdf','location'=>$directory.'/'.$reportdetails.'.pdf');}
 	else{$report=$reportdetails;}
-	print '<a href="http://'.$CFG->siteaddress.$CFG->sitepath.'/'.$CFG->applicationdirectory.'/scripts/file_display.php?epfu='.$epfu.'&location='.$report['location'].'&filename='.$report['name'].'" /><label>'.$report['title'].'</label><img src="images/printer.png" /></a>';
+	if(isset($_SERVER['HTTPS'])){
+		$http='https';
+		}
+	else{
+		$http='http';
+		}
+	print '<a href='.$http.'"://'.$CFG->siteaddress.$CFG->sitepath.'/'.$CFG->applicationdirectory.'/scripts/file_display.php?epfu='.$epfu.'&location='.$report['location'].'&filename='.$report['name'].'" /><label>'.$report['title'].'</label><img src="images/printer.png" /></a>';
 ?>
 	</div>
 <?php
