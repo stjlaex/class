@@ -13,7 +13,7 @@ two_buttonmenu($extrabuttons);
 	<form name="formtoprocess" id="formtoprocess" method="post" action="<?php print $host; ?>">
 <?php
 	$courses=(array)list_courses();
-	while(list($index,$course)=each($courses)){
+	foreach($courses as $course){
 		$crid=$course['id'];
 		$stages=(array)list_course_stages($crid);
 		$subjects=(array)list_course_subjects($crid);
@@ -23,38 +23,38 @@ two_buttonmenu($extrabuttons);
 		<tr>
 		  <th>&nbsp</th>
 <?php
-	foreach($stages as $stage){
-  		print '<th>'.$stage['name'].'</th>';
-		}
+		foreach($stages as $stage){
+			print '<th>'.$stage['name'].'</th>';
+			}
 ?>
 		</tr>
 <?php
-	for($c2=0; $c2<sizeof($subjects); $c2++){
-		$bid=$subjects[$c2]['id'];
-   		print '<tr id="'.$c2.'" >';
-   		print '<th>'.$crid.': '.$subjects[$c2]['name'].'</th>';
-	
-   		for($c=0; $c<sizeof($stages); $c++){
-			$stageid=$stages[$c]['id'];
-   			$d_classes=mysql_query("SELECT many,generate FROM classes WHERE
+		foreach($subjects as $subno => $subject){
+			$bid=$subject['id'];
+			print '<tr id="'.$subno.'" >';
+			print '<th>'.$crid.': '.$subject['name'].'</th>';
+			
+			for($c=0; $c<sizeof($stages); $c++){
+				$stageid=$stages[$c]['id'];
+				$d_classes=mysql_query("SELECT many,generate FROM classes WHERE
 				subject_id='$bid' AND stage='$stageid' AND course_id='$crid'");
-   			$d_class=mysql_query("SELECT id FROM class WHERE
+				$d_class=mysql_query("SELECT id FROM class WHERE
 				subject_id='$bid' AND stage='$stageid' AND course_id='$crid'");
-   			$classes=mysql_fetch_array($d_classes,MYSQL_ASSOC);
-   			$many=$classes['many'];
-   			$generate=$classes['generate'];
-			$nosids=0;
-			$nocids=0;
-			while($class=mysql_fetch_array($d_class,MYSQL_ASSOC)){
-				$cid=$class['id'];
-				$d_cidsid=mysql_query("SELECT COUNT(student_id) AS no FROM cidsid
+				$classes=mysql_fetch_array($d_classes,MYSQL_ASSOC);
+				$many=$classes['many'];
+				$generate=$classes['generate'];
+				$nosids=0;
+				$nocids=0;
+				while($class=mysql_fetch_array($d_class,MYSQL_ASSOC)){
+					$cid=$class['id'];
+					$d_cidsid=mysql_query("SELECT COUNT(student_id) AS no FROM cidsid
 								WHERE class_id='$cid'");
-				$no=mysql_result($d_cidsid,0);
-				if($no>0){
-					$nosids+=$no;
-					$nocids++;
+					$no=mysql_result($d_cidsid,0);
+					if($no>0){
+						$nosids+=$no;
+						$nocids++;
+						}
 					}
-				}
 ?>
 		  <td>
 			<table>
@@ -66,11 +66,11 @@ two_buttonmenu($extrabuttons);
 			</table>
 		  </td>
 <?php
-	  		}
+				}
 ?>
 		</tr>
 <?php
-	   	}
+			}
 ?>
 	  </table>
 	  <br />
