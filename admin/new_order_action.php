@@ -92,6 +92,9 @@ if($sub=='Submit' and $supid>0){
 elseif($supid>0){
 	if($ordid>0){
 		mysql_query("UPDATE orderorder SET supplier_id='$supid' WHERE id='$ordid';");
+		if($catlogid>0){
+			mysql_query("UPDATE orderorder SET catalogue_id='$catlogid' WHERE id='$ordid';");
+			}
 		}
 	$action='new_order.php';
 	}
