@@ -14,7 +14,7 @@ $savedview=$_POST['name'];
 
 if($sub=='Submit'){
 	for($dindex=0;$dindex < ($displayfields_no);$dindex++){
-		trigger_error($savedview.' NO '.$dindex.' ',E_USER_WARNING);
+		//trigger_error($savedview.' NO '.$dindex.' ',E_USER_WARNING);
 		if(isset($_POST['displayfield'.$dindex])){
 			$displayfields[$dindex]=$_POST['displayfield'.$dindex];
 			if(!isset($taglist)){$taglist=$displayfields[$dindex];}

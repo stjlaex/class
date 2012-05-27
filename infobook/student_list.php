@@ -333,7 +333,7 @@ two_buttonmenu($extrabuttons,$book);
 <?php
 	$buttons=array();
 	$buttons['selectview']=array('name'=>'sub','value'=>'select');
-	all_extrabuttons($buttons,'infobook','processContent(this)')
+	all_extrabuttons($buttons,'infobook','processContent(this)');
 ?>
 		  </div>
 		  <div class="rowaction">
@@ -342,7 +342,7 @@ two_buttonmenu($extrabuttons,$book);
 	if($savedview==''){
 		$buttons['saveview']=array('title'=>'saveview','name'=>'current','value'=>'column_save.php');
 		}
-	all_extrabuttons($buttons,'infobook','processContent(this)')
+	all_extrabuttons($buttons,'infobook','processContent(this)');
 ?>
 		  </div>
 		</th>

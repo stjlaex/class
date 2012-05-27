@@ -98,7 +98,7 @@ CREATE TABLE grading (
 
 -- 	Lookup index providing marks for classes
 CREATE TABLE midcid (
-		 class_id		varchar(10) not null default '',
-		 mark_id		int unsigned not null default '0',
+		 class_id		int unsigned not null default 0,
+		 mark_id		int unsigned not null default 0,
 		 primary key 	(class_id, mark_id)
 ) type=myisam;

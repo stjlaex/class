@@ -239,6 +239,11 @@ if(sizeof($reenrol_assdefs)>0){
 			$cohidgone=update_cohort($cohort);
 			$cohort=array('course_id'=>$crid,'stage'=>$stage,'year'=>$yearnow);
 			$cohidnow=update_cohort($cohort);
+
+			/* Copy teaching classes from year gone forward for new year. */
+			mysql_query("INSERT INTO class (name, detail, subject_id, cohort_id) 
+		   				SELECT name, detail, subject_id, '$cohidnow' FROM class WHERE cohort_id='$cohidgone';");
+
 			$stages[$c2]['cohidnow']=$cohidnow;
 			$nextstage='';
 			if($c2!=(sizeof($stages)-1)){
@@ -281,39 +286,43 @@ if(sizeof($reenrol_assdefs)>0){
 			/*
 			 * Move subject classes forward to the next stage
 			 * preserving as much as possible. Where set numbers
-			 * differ between stages this merge any extras into the
-			 * last set found. Note who teaches what (tidcid) is not
-			 * moved forward.
+			 * differ between stages then merge any extras into the
+			 * last set found. 
+			 *
+			 * Note who teaches what (tidcid) is not moved forward.
 			 */
-			if($nextstage!=''){
-				$subjects=list_course_subjects($crid);
-				while(list($sindex,$subject)=each($subjects)){
-					$classes=(array)list_course_classes($crid,$subject['id'],$stage);
-					$nextclasses=(array)list_course_classes($crid,$subject['id'],$nextstage);
-					$noclass=sizeof($classes);
-					$nextcid='';
-					for($c4=0;$c4<$noclass;$c4++){
-						$cid=$classes[$c4]['id'];
-						if(isset($nextclasses[$c4])){$nextcid=$nextclasses[$c4]['id'];}
-						if($nextcid!=''){
-							mysql_query("UPDATE cidsid SET class_id='$nextcid' WHERE class_id='$cid';");
-							}
-						else{
-							mysql_query("DELETE FROM cidsid WHERE class_id='$cid';");
-							}
-						}					
+			$subjects=list_course_subjects($crid);
+			foreach($subjects as $subject){
+				$classes=(array)list_course_classes($crid,$subject['id'],$stage,$yeargone);
+				if($nextstage!=''){
+					$nextclasses=(array)list_course_classes($crid,$subject['id'],$nextstage,$yearnow);
+					}
+				else{
+					/* All classes for the first stage of the course will
+					 * always need to be assigned manually. 
+					 */
+					$nextclasses=array();
+					}
+
+				foreach($classes as $class){
+					$cid=$class['id'];
+					$cname=$class['name'];
+					$nextclass=array_shift($nextclasses);
+					if(!is_null($nextclass)){
+						$nextcid=$nextclass['id'];
+						mysql_query("INSERT INTO cidsid (class_id, student_id) SELECT '$nextcid', student_id 
+											FROM cidsid WHERE class_id='$cid';");
+						}
+					$teachers=(array)list_class_teachers($cid);
+					foreach($teachers as $teacher){
+						$teacherid=$teacher['id'];
+						$d_c=mysql_query("SELECT id FROM class WHERE name='$cname' AND cohort_id='$cohidnow';");
+						$newcid=mysql_result($d_c,0);
+						mysql_query("INSERT INTO tidcid (teacher_id, class_id) SELECT '$teacherid', class.id FROM class 
+									WHERE class.name='$cname' AND class.cohort_id='$cohidnow';");
+						}
 					}
 				}
-			else{
-				/* All classes for the first stage of the course will
-				 * always need to be assigned manually. 
-				 */
-				mysql_query("DELETE FROM cidsid USING cidsid INNER JOIN class 
-									WHERE cidsid.class_id=class.id 
-									 AND class.course_id='$crid' AND class.stage='$stage';");
-				}
-
-
 			}
 		}
 
@@ -396,16 +405,10 @@ if(sizeof($reenrol_assdefs)>0){
 			}
 		}
 
-	/* Empty out the MarkBook of all collumns ready for a fresh start. */
-	mysql_query("DELETE FROM score;");
-	mysql_query("DELETE FROM midcid;");
-	mysql_query("DELETE FROM mark;");
-	mysql_query("DELETE FROM eidmid;");
 
-	/* And freshen up the users' history. */
+	/* Freshen up the users' history. */
 	mysql_query("DELETE FROM history;");
 	mysql_query("UPDATE users SET logcount='0';");
-
 
 
 	include('scripts/results.php');

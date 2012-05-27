@@ -1,5 +1,6 @@
 <?php 
 /** 									new_mark.php
+ *
  *	Creates a new row in the table:mark for one or more classes using table:midcid
  */
 
@@ -7,21 +8,17 @@ $action='new_mark_action1.php';
 
 if($umnfilter!='%'){$umnfilter='cw';$_SESSION['umnfilter']=$umnfilter;}
 
-	$markdef=array();
-	for($c=0;$c<sizeof($cids);$c++){
-		$cid=$cids[$c];	
-		$d_cridbid=mysql_query("SELECT subject_id, course_id 
-									FROM class WHERE id='$cid'");
-		$bid=mysql_result($d_cridbid,0,0);
-		$crid=mysql_result($d_cridbid,0,1);
+	$markdefs=array();
+	foreach($cids as $cid){
+		$class=(array)get_this_class($cid);
+		$bid=$class['bid'];
+		$crid=$class['crid'];
    		$d_markdef=mysql_query("SELECT name, comment FROM markdef WHERE 
 					(subject_id LIKE '$bid' OR subject_id='%') AND
 					(course_id LIKE '$crid' OR course_id='%') ORDER BY subject_id");
-   		$c2=0;
 		while($new=mysql_fetch_array($d_markdef,MYSQL_ASSOC)){
-			if(!in_array($new,$markdef)){
-				$markdef[$c2]=$new;
-				$c2++;
+			if(!in_array($new,$markdefs)){
+				$markdefs[]=$new;
 				}
 			}
 		}
@@ -39,19 +36,19 @@ three_buttonmenu();
 		<table class="listmenu">
 		  <caption><?php print_string('chooseamarkdefinition',$book);?></caption>
 <?php
-	   	for($c=0; $c<sizeof($markdef); $c++){
+	   	foreach($markdefs as $markdef){
 ?>
 		  <tr>
 			<td>
 			  <input type="radio" name="def_name" id="def_name" 
 				tabindex="<?php print $tab++;?>"
-				value="<?php print $markdef[$c]['name'];?>" />
+				value="<?php print $markdef['name'];?>" />
 			</td>
 			<td>
-			  <?php print $markdef[$c]['name'];?>
+			  <?php print $markdef['name'];?>
 			</td>
 			<td>
-			  <label><?php print $markdef[$c]['comment'];?></label>
+			  <label><?php print $markdef['comment'];?></label>
 			</td>
 		  </tr>
 <?php

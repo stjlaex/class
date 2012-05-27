@@ -58,25 +58,27 @@ CREATE TABLE classes (
 ) type=myisam;
 
 CREATE TABLE class (
-       	id	    		varchar(10) not null default '',
+	   	id				int unsigned not null auto_increment, 
+       	name	    	varchar(20) not null default '',
        	detail	    	varchar(240) not null default '',
 		subject_id		varchar(10) not null default '',
 		course_id		varchar(10) not null default '',
 		stage			char(3) not null default '',
+		cohort_id int unsigned not null;
 		index			index_bid (subject_id),
 		index			index_crid (course_id),
 		primary key  	(id)
 ) type=myisam;
 
 CREATE TABLE cidsid (
-		 class_id		varchar(10) not null default '',
+		 class_id		int unsigned not null default 0,
 		 student_id		int unsigned not null default 0,
 		 primary key 	(class_id, student_id)
 ) type=myisam;
 
 CREATE TABLE tidcid (
 		 teacher_id		varchar(14) not null default '',
-		 class_id		varchar(10) not null default '',
+		 class_id		int unsigned not null default 0,
 		 component_id  	varchar(10) not null default '',
 		 primary key 	(teacher_id, class_id)
 ) type=myisam;

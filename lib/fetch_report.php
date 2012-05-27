@@ -266,10 +266,12 @@ function fetchSubjectReports($sid,$reportdefs){
 			 of the last reportdef in the list which dominate!!!*/
 		   	if(isset($reportdef['cattable'])){$Reports['cattable']=$reportdef['cattable'];}
 			$Reports['Summaries']=$Summaries;
-		   	$Reports['publishdate']=date('jS M Y',strtotime($reportdef['report']['date']));
-		   	$Reports['date']=date('jS M Y');
-		   	$transform=$reportdef['report']['transform'];
-		   	$style=$reportdef['report']['style'];
+			if($reportdef['report']['course_id']=='wrapper'){
+				$Reports['publishdate']=date('jS M Y',strtotime($reportdef['report']['date']));
+				$Reports['date']=date('jS M Y');
+				$transform=$reportdef['report']['transform'];
+				$style=$reportdef['report']['style'];
+				}
 		}
 
 	if(sizeof($Reports['SummaryAssessments'])==0){
@@ -1057,7 +1059,7 @@ function fetchProfileStatements($profile_name,$bid,$pid,$sid,$cutoff_date){
 		$cutoff_level=1;
 		$cutoff_statno=2;
 		}
-	  elseif(strpos($profile_name,'EYFS')!==false){
+	  elseif(strpos($profile_name,'EYFS')==false){
 		/*Only displaying those above which are secure. */
 		$cutoff_rating=1;
 		/* limit to 6 per area (gives 6 most recent regardless of the level)*/
