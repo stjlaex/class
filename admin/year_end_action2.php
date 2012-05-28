@@ -246,6 +246,7 @@ if(sizeof($reenrol_assdefs)>0){
 
 			$stages[$c2]['cohidnow']=$cohidnow;
 			$nextstage='';
+			$nextcoursestage='';
 			if($c2!=(sizeof($stages)-1)){
 				/* 
 				 *  Promote to next stage of this course.... 
@@ -258,14 +259,17 @@ if(sizeof($reenrol_assdefs)>0){
 				/* The last stage of the course are graduating to next course
 				 *	   identified in nextpostcrid so grab the first stage only. 
 				 */
-				$d_cohort=mysql_query("SELECT id FROM cohort WHERE
+				$d_cohort=mysql_query("SELECT id, stage FROM cohort WHERE
 						course_id='$nextpostcrid' AND year='$yearnow' AND
 						season='S' ORDER BY stage ASC;");
 				$nextcohid=mysql_result($d_cohort,0,0);
+				$nextcoursestage=mysql_result($d_cohort,0,1);
+				trigger_error($nextcohid.' :::: '.$nextcoursestage,E_USER_WARNING);
 				}
 			else{
 				/*last stage is graduating and leaving*/
 				$nextcohid='';
+				trigger_error($nextcohid.' :::: '.$nextcoursestage,E_USER_WARNING);
 				}
 
 
@@ -301,18 +305,21 @@ if(sizeof($reenrol_assdefs)>0){
 					/* All classes for the first stage of the course will
 					 * always need to be assigned manually. 
 					 */
-					$nextclasses=array();
+					//$nextclasses=array();
+					$nextclasses=(array)list_course_classes($nextpostcrid,$subject['id'],$nextcoursestage,$yearnow);
 					}
 
 				foreach($classes as $class){
 					$cid=$class['id'];
 					$cname=$class['name'];
+
 					$nextclass=array_shift($nextclasses);
 					if(!is_null($nextclass)){
 						$nextcid=$nextclass['id'];
 						mysql_query("INSERT INTO cidsid (class_id, student_id) SELECT '$nextcid', student_id 
 											FROM cidsid WHERE class_id='$cid';");
 						}
+
 					$teachers=(array)list_class_teachers($cid);
 					foreach($teachers as $teacher){
 						$teacherid=$teacher['id'];
@@ -359,7 +366,7 @@ if(sizeof($reenrol_assdefs)>0){
 				grading_name, course_id, component_status, strand_status, year, season, creation, deadline, profile_name)
 				VALUES ('$ass[1]','$ass[2]','$ass[3]','$ass[4]',
 				'$ass[5]','$ass[6]','$ass[7]','$ass[8]','$ass[9]','$ass[10]','$ass[11]','$ass[12]',
-				'$ass[13]','$ass[14]','$ass[15]','$yearnow','$ass[17]',
+				'$ass[13]','$ass[14]','$ass[15]','$ass[16]','$yearnow','$ass[18]',
 				'$creation','$deadline','$ass[21]');");
 			$newassrefs[$ass[0]]=mysql_insert_id();
 			}

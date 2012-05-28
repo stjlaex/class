@@ -31,7 +31,7 @@ if(mysql_num_rows($d_n)==0){
 			$gid=$sb['gid'];
 			$name=$sb['name'];
 			$bcode=$sb['code'];
-			$costlimit=0;
+			$costlimit=$sb['costlimit'];
 			$sectionid=$sb['section_id'];
 			mysql_query("INSERT INTO orderbudget SET gid='$gid',
 					name='$name', code='$bcode',
