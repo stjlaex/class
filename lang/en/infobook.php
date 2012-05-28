@@ -201,6 +201,7 @@ $string['foreign']='Foreign';
 $string['addcolumn']='Add column';
 $string['personalnumber']='Personal number';
 $string['othernumber']='Passport No.';
+$string['expirydate']='Passport expiry date';
 $string['anothernumber']='Locker No.';
 $string['from']='From';
 $string['to']='To';

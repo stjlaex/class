@@ -7,6 +7,9 @@ Fix to new order to allow changing catalogue for existing order.
 
 Check for HTTPS when constructing file urls.
 
+Added passport expiry date as student field.
+
+Custom enrolment view for student lists.
 
 
 Version ClaSS-1.0.20 release (2012/04/22)

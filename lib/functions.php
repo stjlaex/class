@@ -945,6 +945,7 @@ function getEnumArray($field_name){
 						'MobilePhone'=>'mobilephone',
 						'PersonalNumber'=>'personalnumber',
 						'OtherNumber'=>'othernumber',
+						'IdExpiryDate'=>'expirydate',
 						'AnotherNumber'=>'anothernumber',
 						'Postcode'=>'postcode',
 						'Transport'=>'transport',

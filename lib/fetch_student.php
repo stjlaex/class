@@ -127,6 +127,7 @@ function fetchStudent_singlefield($sid,$tag){
 	elseif($tag=='MedicalFlag'){$fieldname='medical';}
    	elseif($tag=='PersonalNumber'){$fieldname='upn';}
    	elseif($tag=='OtherNumber'){$fieldname='otherpn1';}
+   	elseif($tag=='IdExpiryDate'){$fieldname='passportdate';}
    	elseif($tag=='AnotherNumber'){$fieldname='otherpn2';}
 	elseif(substr_count($tag,'FirstContact')){$contactno=0;}
 	elseif(substr_count($tag,'SecondContact')){$contactno=1;}
@@ -579,6 +580,12 @@ function fetchStudent($sid='-1'){
 									 'type_db' => 'char(20)', 
 									 'value' => ''.$info['otherpn1']
 									 );
+   	$Student['IdExpiryDate']=array('label' => 'expirydate', 
+								   'table_db' => 'info', 
+								   'field_db' => 'passportdate', 
+								   'type_db' => 'date', 
+								   'value' => ''.$info['passportdate']
+								   );
    	$Student['AnotherNumber']=array('label' => 'anothernumber', 
 									 'table_db' => 'info', 
 									 'field_db' => 'otherpn2', 

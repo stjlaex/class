@@ -11,6 +11,8 @@ if(isset($_POST['enrolstatuses']) and $_POST['enrolstatuses'][0]!='uncheck'){$en
 if(isset($_POST['enroldate']) and $_POST['enroldate']!='uncheck'){$enroldate=$_POST['enroldate'];}
 if(isset($_POST['limit']) and $_POST['limit']!='uncheck'){$limit=$_POST['limit'];}
 
+$action_post_vars=array('selsavedview');
+
 $listtypes=array();
 if(isset($enrolstatuses)){
 	$enrolyear=$_POST['enrolyear'];
@@ -128,6 +130,7 @@ else{
 			if($listtype!='year'){
 				$com=array('id'=>'','type'=>$listtype, 
 						   'name'=>$enrolstatuses[$index].':'.$yid,'year'=>$enrolyear);
+				$selsavedview='enrolment';
 				}
 			else{
 				$com=array('id'=>'','type'=>$listtype,'name'=>$yid);

@@ -52,6 +52,14 @@ elseif($savedview=='transport'){
 	$displayfields[]='Club';
 	$displayfields_no=3;
 	}
+elseif($savedview=='enrolment'){
+	$displayfields[]='Gender';
+	$displayfields[]='EntryDate';
+	$displayfields[]='EnrolmentYearGroup';
+	$displayfields[]='EnrolmentStatus';
+	$displayfields[]='EnrolmentApplicationDate';
+	$displayfields_no=5;
+	}
 elseif($savedview!='' and $sub=='select'){
 	$d_c=mysql_query("SELECT comment FROM categorydef WHERE name='$savedview' AND type='col';");
 	$taglist=mysql_result($d_c,0);
