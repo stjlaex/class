@@ -51,7 +51,7 @@ $extrabuttons['report']=array('name'=>'current',
 $extrabuttons['statistics']=array('name'=>'current',
 								  'value'=>'yeargroup_statistics.php'
 								  );
-twoplus_buttonmenu($enrolyear,$currentyear+3,$extrabuttons,$book,$currentyear);
+twoplus_buttonmenu($enrolyear,$currentyear+5,$extrabuttons,$book,$currentyear);
 
 
 $d_a=mysql_query("SELECT MAX(date) FROM admission_stats WHERE year='$enrolyear';");

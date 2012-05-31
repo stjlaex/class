@@ -103,6 +103,7 @@ if(sizeof($sids)==0){
 					$field=fetchStudent_singlefield($sid,$displayfield);
 					$Student=array_merge($Student,$field);
 					}
+
 				if(isset($Student[$displayfield]['type_db']) and $Student[$displayfield]['type_db']=='enum'){
 					$displayout=displayEnum($Student[$displayfield]['value'],$Student[$displayfield]['field_db']);
 					$displayout=get_string($displayout,$book);
@@ -111,7 +112,16 @@ if(sizeof($sids)==0){
 					$displayout=display_date($Student[$displayfield]['value'],'export');
 					}
 				elseif(isset($Student[$displayfield]['value_db'])){
+					/* Use the raw value from db if exists, so that one field value per column is exported. */
 					$displayout=(array)explode(':::',$Student[$displayfield]['value_db']);
+					if(isset($Student[$displayfield]['private'])){
+						$privs=(array)explode(':::',$Student[$displayfield]['private']);
+						foreach($privs as $privindex => $priv){
+							if($priv=='Y'){
+								$displayout[$privindex]='';
+								}
+							}
+						}
 					if(substr_count($displayfield,'PostalAddress')>0){
 						/* Make sure every record has same name number of fields even if blank. */
 						if(sizeof($displayout)<5){
@@ -132,11 +142,16 @@ if(sizeof($sids)==0){
 							}
 						}
 					}
-				elseif(array_key_exists($displayfield,$Student)){
+				elseif(array_key_exists($displayfield,$Student) and $Student[$displayfield]['value']!='' and $Student[$displayfield]['private']=='N'){
 					$displayout=$Student[$displayfield]['value'];
 					}
 				else{
-					$displayout='';
+					if(substr_count($displayfield,'PostalAddress')){$displayno=5;}
+					elseif(substr_count($displayfield,'ContactPhone')){$displayno=4;}
+					else{$displayno=1;}
+					while(sizeof($displayout)<$displayno){
+						$displayout[]='';
+						}
 					}
 
 				if(is_array($displayout)){

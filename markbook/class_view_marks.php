@@ -155,6 +155,8 @@ for($i=0;$i<sizeof($cids);$i++){
 
 		  if($marktype[$c]=='average'){
 				/* Grab the scoretype of the columns we are averaging */
+			trigger_error(' '.$mark['midlist'],E_USER_WARNING);
+
 				$avmids=explode(' ',$mark['midlist']);
 				$lastmid=$avmids[count($avmids)-1];//use the last one
 				$pos=strpos($lastmid,':::');
@@ -270,6 +272,7 @@ for($i=0;$i<sizeof($cids);$i++){
 					}
 				}
 			}
+
 		$profile_midlist=trim($profile_midlist);
 
 		$marktype=$profile_marktype;

@@ -23,7 +23,7 @@ $Inputs[]=array_filter_fields($Student,$studentfields);
 	<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
 
 <?php
-while(list($index,$Input)=each($Inputs)){
+foreach($Inputs as $Input){
 ?>
 	  <div class="center">
 		  <?php $tab=xmlarray_form($Input,'','newstudent',$tab,'infobook'); ?>

@@ -330,6 +330,8 @@ function getEnumArray($field_name){
 	$medical=array('N' => 'no', 'Y' => 'yes');
 	$incare=array('N' => 'no', 'Y' => 'yes');
 	$private=array('N' => 'no', 'Y' => 'yes');
+	$privateaddress=array('N' => 'no', 'Y' => 'yes');
+	$privatephone=array('N' => 'no', 'Y' => 'yes');
 	$roomcategory=array('' => '', 'GL' => 'groupleader');
 	$building=array('' => '');
 	$bed=array('' => '');

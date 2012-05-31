@@ -91,7 +91,6 @@ while($student=mysql_fetch_array($d_students, MYSQL_ASSOC)){
 				}
 			else{$weightsum=sizeof($mids);}
 
-			//$umns[$c]['scoretype']='value';
 
 			/* Average is to be a grade */
 			if($umns[$c]['scoretype']=='grade'){
@@ -153,21 +152,23 @@ while($student=mysql_fetch_array($d_students, MYSQL_ASSOC)){
 				$scoresum=0;
 				$scorecount=0;
 				foreach($mids as $avc => $mid){
-					$iscore=$studentrow["score$mid"];
-					if($iscore['value']!='' and $iscore['outoftotal']>0){
-						$ival=$iscore['value']/$iscore['outoftotal']*100;
-						}
-					elseif($iscore['grade']!='' and $iscore['value']===''){$ival=$iscore['grade'];}
-					elseif($iscore['value']!=''){$ival=$iscore['value'];}
-					if(isset($ival)){
-						if(!isset($weights[$avc])){
-							$scoresum+=$ival / $weightsum;
+					if(isset($studentrow["score$mid"])){
+						$iscore=$studentrow["score$mid"];
+						if($iscore['value']!='' and $iscore['outoftotal']>0){
+							$ival=$iscore['value']/$iscore['outoftotal']*100;
 							}
-						else{
-							$scoresum+=$ival * $weights[$avc] / $weightsum;
+						elseif($iscore['grade']!='' and $iscore['value']===''){$ival=$iscore['grade'];}
+						elseif($iscore['value']!=''){$ival=$iscore['value'];}
+						if(isset($ival)){
+							if(!isset($weights[$avc])){
+								$scoresum+=$ival / $weightsum;
+								}
+							else{
+								$scoresum+=$ival * $weights[$avc] / $weightsum;
+								}
+							$scorecount++;
+							unset($ival);
 							}
-						$scorecount++;
-						unset($ival);
 						}
 					}
 				if($scorecount>0){
@@ -175,7 +176,7 @@ while($student=mysql_fetch_array($d_students, MYSQL_ASSOC)){
 					$outrank=$scoresum;
 					$score['value']=$scoresum;
 					}
-				else{$out='';$outrank=-100;}
+				else{$out=$c.''.$midlist[$c];$outrank=-100;}
 				}
 			unset($weights);
 			unset($weightsum);
@@ -336,7 +337,6 @@ while($student=mysql_fetch_array($d_students, MYSQL_ASSOC)){
 			$totals[$col_mid]['value']+=$score['value'];
 			$totals[$col_mid]['outoftotal']+=$score['outoftotal'];
 			$totals[$col_mid]['no']++;
-			//trigger_error($score['grade'],E_USER_WARNING);
 			}
 
 		$score['scoreclass']=$scoreclass;

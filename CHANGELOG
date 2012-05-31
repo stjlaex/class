@@ -11,6 +11,11 @@ Added passport expiry date as student field.
 
 Custom enrolment view for student lists.
 
+Fix to the enrolments list: hide submit when all applied is listed.
+
+Private fields implemented for contact phone numbers and addresses.
+
+
 
 Version ClaSS-1.0.20 release (2012/04/22)
 -------------------------------------------

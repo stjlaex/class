@@ -15,7 +15,7 @@ while($c<$selyear){
 	$c++;
 	}
 $c=$selyear;
-while($c<$selyear+4){
+while($c<$selyear+5){
 	$years[]=array('id'=>$c,'name'=>display_curriculumyear($c));
 	$c++;
 	}

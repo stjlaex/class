@@ -217,16 +217,19 @@ function fetchStudent_singlefield($sid,$tag){
 			$Contacts=(array)fetchContacts($sid);
 			$Phones=(array)$Contacts[$contactno]['Phones'];
 			$Student[$tag]=array('label'=>'',
+								 'private'=>'',
 								 'value'=>'');
 			foreach($Phones as $phoneno => $Phone){
 				if(substr_count($tag,'Mobile')>0){
 					if($Phone['PhoneType']['value']=='M'){
 						$Student[$tag]['value']=$Phone['PhoneNo']['value'];
+						$Student[$tag]['private']=$Phone['Private']['value'];
 						}
 					}
 				else{
 					$Student[$tag]['value'].=$Phone['PhoneType']['value'].':'.$Phone['PhoneNo']['value'].' ';
 					$Student[$tag]['value_db'].=$separator. ' '.$Phone['PhoneNo']['value'];
+					$Student[$tag]['private'].=$separator. ''.$Phone['Private']['value'];
 					$separator=':::';
 					}
 				}
@@ -244,6 +247,7 @@ function fetchStudent_singlefield($sid,$tag){
 				if($Contacts[$contactno]['ReceivesMailing']['value']==0){$displayclass='class="lowlite"';}else{$displayclass='';}
 				$Student[$tag]['value']='<div '.$displayclass.'>'.$Add['Street']['value'].' '. $Add['Neighbourhood']['value'].' '. $Add['Town']['value'].' '. $Add['Country']['value']. ' '. $Add['Postcode']['value'].'</div>';
 				$Student[$tag]['value_db']=$Add['Street']['value'].':::'. $Add['Neighbourhood']['value'].':::'. $Add['Town']['value']. ':::'. $Add['Postcode']['value'].':::'. $Add['Country']['value'];
+				$Student[$tag]['private']=$Add['Private']['value'];
 				}
 			}
 		elseif(substr_count($tag,'EmailAddress')){
@@ -256,6 +260,7 @@ function fetchStudent_singlefield($sid,$tag){
 				if($Contacts[$contactno]['ReceivesMailing']['value']==0){$displayclass='class="lowlite"';$email='';}
 				else{$displayclass='';$email=$Contacts[$contactno]['EmailAddress']['value'];}
 				$Student[$tag]=array('label'=>'',
+									 'private'=>$Contacts[$contactno]['Private']['value'],
 									 'value_db'=>$email,
 									 'value'=>'<div '.$displayclass.'>'.$Contacts[$contactno]['EmailAddress']['value'].'</div>');
 				}
@@ -957,7 +962,7 @@ function fetchContact($gidsid=array('guardian_id'=>'-1','student_id'=>'-1','prio
  * @params array $phone
  * @return array
  */
-function fetchPhone($phone=array('id'=>'-1','number'=>'','phonetype'=>'')){
+function fetchPhone($phone=array('id'=>'-1','number'=>'','phonetype'=>'','privatephone'=>'no')){
 	$Phone=array();
 	$Phone['id_db']=$phone['id'];
 	$Phone['PhoneNo']=array('label' => 'phonenumber', 
@@ -970,6 +975,12 @@ function fetchPhone($phone=array('id'=>'-1','number'=>'','phonetype'=>'')){
 							  'field_db' => 'phonetype',
 							  'type_db' => 'enum', 
 							  'value' => ''.$phone['phonetype']);
+	$Phone['Private']=array('label' => 'private', 
+							'table_db' => 'phone', 
+							'field_db' => 'privatephone', 
+							'type_db' => 'enum', 
+							'default_value' => 'N',
+							'value' => ''.$phone['privatephone']);
 	return $Phone;
 	}
 
@@ -1023,6 +1034,12 @@ function fetchAddress($gidaid=array('address_id'=>'-1','addresstype'=>'')){
 							   'field_db' => 'postcode',
 							   'type_db' => 'varchar(8)', 
 							   'value' => ''.$address['postcode']);
+	$Address['Private']=array('label' => 'private', 
+							  'table_db' => 'address', 
+							  'field_db' => 'privateaddress', 
+							  'type_db' => 'enum', 
+							  'default_value' => 'N',
+							  'value' => ''.$address['privateaddress']);
 	return $Address;
 	}
 

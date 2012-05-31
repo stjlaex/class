@@ -183,7 +183,15 @@ if(isset($_POST['startdate'])){$startdate=$_POST['startdate'];}
 										 'pathtoscript'=>$CFG->sitepath.'/'.$CFG->applicationdirectory.'/infobook/',
 										 'value'=>'contact_labels_print.php');
 */
-	three_buttonmenu($extrabuttons,'infobook');
+
+	if($comtype!='allapplied'){
+		three_buttonmenu($extrabuttons,'infobook');
+		}
+	else{
+		two_buttonmenu($extrabuttons,'infobook');
+		}
+
+
 ?>
   <div id="heading">
 <?php

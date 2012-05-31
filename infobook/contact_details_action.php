@@ -89,18 +89,21 @@ if($sub=='Submit' or $access=='access'){
 	foreach($Phones as $phoneno => $Phone){
 		$phoneid=$Phone['id_db'];
 		while(list($key,$val)=each($Phone)){
-			if(isset($val['value']) and is_array($val) and isset($val['table_db'])){	
+			if(is_array($val) and isset($val['value']) and isset($val['table_db'])){	
 				$field=$val['field_db'];
 				$inname=$field. $phoneno;
 				$inval=clean_text($_POST["$inname"]);
 				if($val['value']!=$inval){
-					if($phoneid=='-1' and $inval!=''){
+					if($phoneid=='-1' and $inval!='' and $field!='privatephone'){
 						mysql_query("INSERT INTO phone SET some_id='$gid';");
 						$phoneid=mysql_insert_id();
+						$update_flag=true;
 						}
-					mysql_query("UPDATE phone SET $field='$inval'
+					if($phoneid!='-1'){
+						mysql_query("UPDATE phone SET $field='$inval'
 							WHERE some_id='$gid' AND id='$phoneid';");
-					$update_flag=true;
+						$update_flag=true;
+						}
 					}
 				}
 			}
@@ -116,21 +119,25 @@ if($sub=='Submit' or $access=='access'){
 				else{$inval='';}
 				if($val['value']!=$inval){
 					if($val['table_db']=='address'){
-						if($aid=='-1' and $inval!=''){
+						if($aid=='-1' and $inval!='' and $field!='privateaddress'){
 							mysql_query("INSERT INTO address SET region='';");
 							$aid=mysql_insert_id();
 							mysql_query("INSERT INTO gidaid SET
 											guardian_id='$gid', address_id='$aid';");
+							$update_flag=true;
 							}
-						mysql_query("UPDATE address SET $field='$inval' 
+						if($aid!='-1'){
+							mysql_query("UPDATE address SET $field='$inval' 
 											WHERE id='$aid';");
+							$update_flag=true;
+							}
 						}
 
-					if($val['table_db']=='gidaid'){
+					if($val['table_db']=='gidaid' and $aid!='-1'){
 						mysql_query("UPDATE gidaid SET $field='$inval'
 						WHERE address_id='$aid' AND guardian_id='$gid';");
+						$update_flag=true;
 						}
-					$update_flag=true;
 					}
 				}
 			}
