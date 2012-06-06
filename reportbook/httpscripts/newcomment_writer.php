@@ -136,7 +136,7 @@ else{
 <script src="../../js/qtip.js" type="text/javascript"></script>
 <script src="../../js/statementbank.js" type="text/javascript"></script>
 <?php
-	if($browser['name']=='Mozilla Firefox' and $browser['version']=='11.0'){
+if($browser['name']=='Mozilla Firefox' and ($browser['version']=='11.0' or $browser['version']=='12.0')){
 ?>
 <script src="../../lib/tiny_mce_custom/tiny_mce.js" type="text/javascript"></script>
 <script src="../../lib/tiny_mce_custom/loadeditor.js" type="text/javascript"></script>
@@ -150,7 +150,7 @@ else{
 		}
 ?>
 </head>
-<body onload="window.opener.parent.loadRequired('reportbook');loadEditor();">
+<body onload="window.opener.parent.loadRequired('reportbook');if(document.getElementById('current-tinytab')){tinyTabs(document.getElementById('current-tinytab'));loadEditor();}">
 
 	<div id="bookbox">
 	  <?php three_buttonmenu(); ?>

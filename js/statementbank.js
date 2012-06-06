@@ -52,3 +52,23 @@ function filterStatements(subarea,ability){
 		}
 	return;
 	}
+
+
+//------------------------------------------------------
+//
+function tinyTabs(tabObject){
+       // the id of containing div (eg. area for statementbank)
+       var tabmenuId=tabObject.parentNode.parentNode.parentNode.id;
+       var chosentab=tabObject.getAttribute("class");
+       document.getElementById("current-tinytab").removeAttribute("id");
+       document.getElementById("tinytab-"+tabmenuId+"-"+chosentab).firstChild.setAttribute("id","current-tinytab");
+       var targetId="tinytab-display-"+tabmenuId;
+       var sourceId="tinytab-xml-"+tabmenuId+"-"+chosentab;
+       var fragment=document.getElementById(sourceId).innerHTML;
+       document.getElementById(targetId).innerHTML="";
+       document.getElementById(targetId).innerHTML=fragment;
+       if(document.getElementById("statementbank")){
+               //this must be running the statement bank
+               filterStatements(subarea,ability);
+               }
+       }

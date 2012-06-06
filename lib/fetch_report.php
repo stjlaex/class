@@ -1057,7 +1057,7 @@ function fetchProfileStatements($profile_name,$bid,$pid,$sid,$cutoff_date){
 		$cutoff_level=1;
 		$cutoff_statno=2;
 		}
-	  elseif(strpos($profile_name,'EYFS')!==false){
+	  elseif(strpos($profile_name,'EY')!==false){
 		/*Only displaying those above which are secure. */
 		$cutoff_rating=1;
 		/* limit to 6 per area (gives 6 most recent regardless of the level)*/
