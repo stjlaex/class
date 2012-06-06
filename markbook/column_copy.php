@@ -4,7 +4,7 @@
 
 $action='column_copy_action.php';
 
-/* Make sure a column is checked*/
+/* Make sure a column is checked */
 if(!isset($_POST['checkmid'])){
 	$action='class_view.php';
 	$result[]='Please choose a mark column to copy!';
@@ -14,23 +14,78 @@ if(!isset($_POST['checkmid'])){
 	}
 
 $checkmids=(array)$_POST['checkmid'];
-/*Make sure only one column was checked*/	
-if(sizeof($checkmids)>1){
+/* Make sure only one column was checked */	
+if(sizeof($checkmids)>2){
 	$action='class_view.php';
-	$result[]='Please choose only one mark column to copy!';
+	$result[]='Please choose only one two mark column to copy!';
 	include('scripts/results.php');
 	include('scripts/redirect.php');
 	exit;
 	}
-else{$mid=$checkmids[0];}
-	
+elseif(sizeof($checkmids)>1){
+	$action='column_copyinto_action.php';
+	$marks=array();
+	$copyto=-1;
+	foreach($checkmids as $c => $mid){
+		$d_mark=mysql_query("SELECT * FROM mark WHERE id='$mid'");
+		$marks[]=mysql_fetch_array($d_mark,MYSQL_ASSOC);
+		$markdefname=$marks[$c]['def_name'];
+		$marktype=$marks[$c]['marktype'];
+		if($markdefname!=''){
+			$d_markdef=mysql_query("SELECT DISTINCT scoretype, grading_name, outoftotal FROM markdef WHERE name='$markdefname'");
+			$marks[$c]['scoretype']=mysql_result($d_markdef,0,0);
+			$marks[$c]['grading_name']=mysql_result($d_markdef,0,1);
+			if(!isset($copyto_markdefname)){
+				$copyto=$c;
+				$copyto_markdefname=$markdefname;
+				}
+			}
+		}
+
+	if($copyto>-1){
+		if($copyto==0){$copyfrom=1;}
+		else{$copyfrom=0;}
+
+		three_buttonmenu();
+?>
+	  <div class="content">
+		<form id="formtoprocess" name="formtoprocess" novalidate   
+		  method="post" action="<?php print $host;?>"> 
+
+		  <fieldset class="left divgroup">
+			<legend><?php print_string('from','infobook');?></legend>
+			<label for="Mark Type"><?php print_string('mark',$book);?></label>
+			<?php print $marks[$copyfrom]['topic'].' ('. display_date($marks[$copyfrom]['entrydate']). ')';?>
+		  </fieldset>
+
+		  <fieldset class="right divgroup">
+			<legend><?php print_string('to','infobook');?></legend>
+			<label for="Mark Type"><?php print_string('mark',$book);?></label>
+			<?php print $marks[$copyto]['topic'].' ('. display_date($marks[$copyto]['entrydate']). ')';?>
+		  </fieldset>
+<?php
+		}
+?>
+	<input type="hidden" name="mid0" value="<?php print $marks[$copyfrom]['id']; ?>"/>
+	<input type="hidden" name="mid1" value="<?php print $marks[$copyto]['id']; ?>"/>
+	<input type="hidden" name="current" value="<?php print $action;?>"/>
+	<input type="hidden" name="choice" value="<?php print $choice;?>"/>
+	<input type="hidden" name="cancel" value="<?php print $choice;?>"/>
+		</form>
+	  </div>
+<?php
+	}
+else{
+
+	$mid=$checkmids[0];
 	$d_mark=mysql_query("SELECT * FROM mark WHERE id='$mid'");
 	$mark=mysql_fetch_array($d_mark,MYSQL_ASSOC);
 	$markdefname=$mark['def_name'];
 	$marktype=$mark['marktype'];
 	$scoretypes=array();
 	/*This is a horrible hack. Solves the problem (as things work now)
-	that dependent columns have no real markdef of their own - so we'll guess!*/
+	  that dependent columns have no real markdef of their own - so we'll guess!
+	*/
     if($marktype=='level'){
 	  /*make a guess at the best markdef to choose*/
    	    $lena=$mark['levelling_name'];
@@ -40,6 +95,7 @@ else{$mid=$checkmids[0];}
 		if(mysql_num_rows($d_markdef)>0){$markdefname=mysql_result($d_markdef,0);}
 		else{$markdefname='';/*no markdefs use that grading scheme!*/}
 		}
+
 	if($markdefname!=''){
 		$d_markdef=mysql_query("SELECT DISTINCT scoretype FROM 
 								markdef WHERE name='$markdefname'");
@@ -57,22 +113,21 @@ else{$mid=$checkmids[0];}
 
 	for($c7=0;$c7<sizeof($cids);$c7++){
 		$cid=$cids[$c7];
-		$d_subject=mysql_query("SELECT DISTINCT subject_id FROM class
-				WHERE id='$cid'");
+		$d_subject=mysql_query("SELECT DISTINCT subject_id FROM class WHERE id='$cid'");
 		}
 
 	$markdefs=array();
     while($subject=mysql_fetch_array($d_subject,MYSQL_ASSOC)){
 		$newbid=$subject['subject_id'];
 		for($c=0;$c<sizeof($scoretypes);$c++){
-		  $d_markdef=mysql_query("SELECT * FROM markdef WHERE scoretype='$scoretypes[$c]'
+			$d_markdef=mysql_query("SELECT * FROM markdef WHERE scoretype='$scoretypes[$c]'
 					AND	(subject_id LIKE '$newbid' OR subject_id='%')");
-		  while ($markdef=mysql_fetch_array($d_markdef,MYSQL_ASSOC)){
-		    if(!in_array($markdef,$markdefs)){
-				$markdefs[]=$markdef;
+			while ($markdef=mysql_fetch_array($d_markdef,MYSQL_ASSOC)){
+				if(!in_array($markdef,$markdefs)){
+					$markdefs[]=$markdef;
+					}
 				}
-		    }
-		  }
+			}
 		}
 
 three_buttonmenu();
@@ -142,3 +197,6 @@ three_buttonmenu();
 	<input type="hidden" name="cancel" value="<?php print $choice;?>"/>
 		</form>
 	  </div>
+<?php
+	}
+?>
