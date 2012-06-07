@@ -106,6 +106,7 @@ three_buttonmenu($extrabuttons,$book);
 		</div>
 	  </fieldset>
 
+	    <input type="hidden" name="curryear" value="<?php print $curryear;?>" />
 	    <input type="hidden" name="current" value="<?php print $action;?>" />
 		<input type="hidden" name="choice" value="<?php print $choice;?>" />
 		<input type="hidden" name="cancel" value="<?php print '';?>" />

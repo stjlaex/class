@@ -332,7 +332,7 @@ function list_forms_classes($fid){
 					}
 				else{
 					list($name['root'],$name['stem'],$name['branch'],$name_counter)
-								= split(';',$classes['naming'],4);
+								= explode(';',$classes['naming'],4);
 					while(list($index,$namecheck)=each($name)){
 						if($namecheck=='subject'){$name["$index"]=$bid;}
 						if($namecheck=='stage'){$name["$index"]=$stage;}
@@ -837,14 +837,17 @@ function get_classdef_classes($classdef,$currentseason='S'){
  */
 function populate_subjectclassdef($classdef,$currentseason='S'){
 
-	list($newcids,$groups)=get_classdef_classes($classdef,$currentseason);
+	list($newnames,$groups)=get_classdef_classes($classdef,$currentseason);
+	if(isset($classdef['year'])){$curryear=$classdef['year'];}
+	else{$curryear=get_curriculumyear($classdef['crid']);}
 
-	foreach($newcids as $nindex => $newcid){
+	$cohid=update_cohort(array('year'=>$curryear,'course_id'=>$classdef['crid'],'stage'=>$classdef['stage']));
+
+	foreach($newnames as $nindex => $newname){
 		$bid=$classdef['bid'];
-		$crid=$classdef['crid'];
-		$stage=$classdef['stage'];
-		if(mysql_query("INSERT INTO class (id,subject_id,course_id,stage) 
-				VALUES ('$newcid','$bid','$crid','$stage')")){
+		mysql_query("INSERT INTO class (name,subject_id,cohort_id) VALUES ('$newname','$bid','$cohid');");
+		$newcid=mysql_insert_id();
+		if($newcid>0){
 			if($classdef['generate']=='forms'){
 				$fid=$groups[$nindex];
 				$d_sids=mysql_query("SELECT id FROM student WHERE form_id='$fid';");
