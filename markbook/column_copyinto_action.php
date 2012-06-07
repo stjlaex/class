@@ -166,8 +166,7 @@ if($sub=='Submit'){
 				$scorecount=0;
 				$scoretotal=0;
 				foreach($mids as $mid){
-					$d_score=mysql_query("SELECT value FROM score 
-							WHERE mark_id='$mid' AND student_id='$sid';");
+					$d_score=mysql_query("SELECT value FROM score WHERE mark_id='$mid' AND student_id='$sid';");
 					if(mysql_num_rows($d_score)>0){
 						$score=mysql_result($d_score,0);
 						$scoresum=+$score;
@@ -202,10 +201,8 @@ if($sub=='Submit'){
 							FROM score WHERE mark_id='$mids[$c2]' AND student_id='$sid'");
 					$score=mysql_fetch_array($d_score,MYSQL_ASSOC);
 					if($score['value']){
-						$scorevalue=$score['value'];
-						$scoretotal=$score['outoftotal'];
-						include('percent_score.php'); 
-						$scoresum=$cent+$scoresum;
+						list($out,$percent,$outrank)=scoreToPercent($score['value'],$score['outoftotal']);
+						$scoresum+=$percent;
 						$scorecount++;
 						}
 					}

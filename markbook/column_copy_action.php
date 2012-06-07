@@ -131,10 +131,8 @@ if($sub=='Submit'){
 							FROM score WHERE mark_id='$mids[$c2]' AND student_id='$sid'");
 					$score=mysql_fetch_array($d_score,MYSQL_ASSOC);
 					if($score['value']){
-						$score_value=$score['value'];
-						$score_total=$score['outoftotal'];
-						include('percent_score.php'); 
-						$scoresum=$cent+$scoresum;
+						list($out,$cent,$outrank)=scoreToPercent($score['value'],$score['outoftotal']);
+						$scoresum+=$cent;
 						$scorecount++;
 						}
 					}

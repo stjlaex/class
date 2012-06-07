@@ -17,7 +17,7 @@ $checkmids=(array)$_POST['checkmid'];
 /* Make sure only one column was checked */	
 if(sizeof($checkmids)>2){
 	$action='class_view.php';
-	$result[]='Please choose only one two mark column to copy!';
+	$result[]='Please choose only one or two mark columns to copy!';
 	include('scripts/results.php');
 	include('scripts/redirect.php');
 	exit;
