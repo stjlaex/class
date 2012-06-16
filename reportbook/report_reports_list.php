@@ -257,13 +257,20 @@ two_buttonmenu($extrabuttons,$book);
 				$reportstage=$reportdefs[$rindex]['report']['stage'];
 				$addcomment=$reportdefs[$rindex]['report']['addcomment'];
 				$commentcomp=$reportdefs[$rindex]['report']['commentcomp'];
+				$substatus=$reportdefs[$rindex]['report']['subject_status'];
 				$compstatus=$reportdefs[$rindex]['report']['component_status'];
 				}
 
+			if($substatus=='A'){$compmatch="(component.status LIKE '%' AND component.status!='U')";}
+			elseif($substatus=='AV'){$compmatch="(component.status='V' OR component.status='O')";}
+			else{$compmatch="(component.status LIKE '$substatus' AND component.status!='U')";}
+
+			/* Filter subjects based on the classes a studnet is subscribed to. */
 			$d_subjectclasses=mysql_query("SELECT DISTINCT subject_id, class_id
 					FROM class JOIN cidsid ON cidsid.class_id=class.id
 					WHERE cidsid.student_id='$sid' AND class.course_id='$crid' 
 					AND (class.stage='$reportstage' OR class.stage LIKE '$reportstage') 
+					AND subject_id=ANY(SELECT DISTINCT subject_id FROM component WHERE id='' AND course_id='$crid' AND $compmatch) 
 					ORDER BY subject_id;");
 
 

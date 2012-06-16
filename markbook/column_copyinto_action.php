@@ -207,7 +207,7 @@ if($sub=='Submit'){
 						}
 					}
 				if($scorecount>0){
-					$scorevalue=$scoresum/$scorecount;
+					$scorevalue=round($scoresum/$scorecount)/10;
 					$scoretotal=100;
 					}
 				mysql_query("DELETE FROM score WHERE mark_id='$copytomid' AND student_id='$sid' LIMIT 1");

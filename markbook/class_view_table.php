@@ -122,26 +122,36 @@ while($student=mysql_fetch_array($d_students, MYSQL_ASSOC)){
 			elseif($umns[$c]['scoretype']=='percentage'){
 				$scoresum=0;
 				$scorecount=0;
+				$iweightsum=0;
+				$ivals=array();
 				foreach($mids as $avc => $mid){
 					$iscore=$studentrow["score$mid"];
 					if(isset($iscore['value']) and $iscore['value']!=='' and $iscore['outoftotal']>0){
 						//$ival=list($display,$percent,$cent)=scoreToPercent($iscore['value'],$iscore['outoftotal']);
-						$ival=$iscore['value']/$iscore['outoftotal']*100;
-						}
-					elseif(isset($iscore['grade']) and $iscore['grade']!==''){$ival=$iscore['grade'];}
-					elseif(isset($iscore['value']) and $iscore['value']!==''){$ival=$iscore['value'];}
-					if(isset($ival)){
+						$ivals[$avc]=$iscore['value']/$iscore['outoftotal']*100;
+						$scorecount++;
 						if(!isset($weights[$avc])){
-							$scoresum+=$ival / $weightsum;
+							$iweightsum++;
 							}
 						else{
-							$scoresum+=$ival * $weights[$avc] / $weightsum;
+							$iweightsum+=$weights[$avc];
 							}
-						$scorecount++;
-						unset($ival);
 						}
+					//elseif(isset($iscore['grade']) and $iscore['grade']!==''){$ival=$iscore['grade'];}
+					//elseif(isset($iscore['value']) and $iscore['value']!==''){$ival=$iscore['value'];}
 					}
+
 				if($scorecount>0){
+					foreach($mids as $avc => $mid){
+						if(isset($ivals[$avc])){
+							if(!isset($weights[$avc])){
+								$scoresum+=$ivals[$avc] / $iweightsum;
+								}
+							else{
+								$scoresum+=$ivals[$avc] * $weights[$avc] / $iweightsum;
+								}
+							}
+						}
 					$score['value']=$scoresum;
 					list($display,$out,$outrank)=scoreToPercent($scoresum,100);
 					}

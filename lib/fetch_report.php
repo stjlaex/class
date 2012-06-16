@@ -396,7 +396,7 @@ function fetchReportDefinition($rid,$selbid='%'){
 		}
 	else{
 		$report['course_name']='';
-		$d_report=mysql_query("SELECT id,title,stage,course_id FROM
+		$d_report=mysql_query("SELECT id, title, stage, course_id FROM
 				report JOIN ridcatid ON ridcatid.categorydef_id=report.id 
 				WHERE ridcatid.report_id='$rid' AND
 				ridcatid.subject_id='wrapper';");
@@ -414,7 +414,7 @@ function fetchReportDefinition($rid,$selbid='%'){
 	/* Build a reference of relevant bids/pids/strands */
 	$subjects=array();
 	if($selbid=='%'){
-		$subjects=list_course_subjects($crid);
+		$subjects=list_course_subjects($crid,$report['subject_status']);
 		}
 	else{
 		$subjectname=get_subjectname($selbid);
@@ -571,7 +571,8 @@ function fetch_reportdefinition($rid,$selbid='%'){
 	/* Build a reference of relevant bids/pids/strands */
 	$subjects=array();
 	if($selbid=='%'){
-		$subjects=list_course_subjects($crid);
+		$subjects=list_course_subjects($crid,$report['subject_status']);
+		trigger_error($crid.' '.$report['subject_status'],E_USER_WARNING);
 		}
 	else{
 		$subjectname=get_subjectname($selbid);

@@ -1,4 +1,4 @@
-Version ClaSS-1.0.21 release (2012/05/21)
+Version ClaSS-1.0.21 release (2012/06/14)
 -------------------------------------------
 
 Tidied the class_nos script.
@@ -17,6 +17,10 @@ Private fields implemented for contact phone numbers and addresses.
 
 Basic column copy into function for MarkBook.
 
+The report definition functions now filter by the report's subject_status.
+
+The report_reports_list script filters relevant classes by a report's
+subject_status.
 
 
 Version ClaSS-1.0.20 release (2012/04/22)
