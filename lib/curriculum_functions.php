@@ -560,6 +560,36 @@ function list_student_teachers($sid){
 
 /** 
  *
+ * Returns a string of '/' separated subject teacher names who teach
+ * relevant classes fro this student. Used to add names to reports.
+ *
+ *	@param string $sid
+ *	@param string $crid
+ *	@param string $bid
+ *	@param year $curryear
+ *
+ *	@return array
+ */
+function get_student_subjectteacher($sid,$crid,$bid,$curryear=''){
+	if($sid==''){$sid=-1;}
+	$teacher='';
+	$separator='';
+	if($curryear==''){$curryear=get_curriculumyear($crid);}
+	$d_t=mysql_query("SELECT DISTINCT teacher_id AS id FROM tidcid JOIN cidsid ON cidsid.class_id=tidcid.class_id 
+							WHERE cidsid.student_id='$sid' AND cidsid.class_id=ANY(SELECT DISTINCT class.id 
+							FROM class JOIN cohort ON class.cohort_id=cohort.id 
+								WHERE class.subject_id='$bid' AND cohort.course_id='$crid' AND cohort.year='$curryear');");
+   	while($t=mysql_fetch_array($d_t,MYSQL_ASSOC)){
+		$teachername=get_teachername($t['id']);
+		$teacher.=$separator.' '.$teachername;
+		$separator=' / ';
+		}
+	return $teacher;
+	}
+
+
+/** 
+ *
  * Returns an array listing all staff and teachers with
  * sepsonsibilities for SEN/Support
  *
