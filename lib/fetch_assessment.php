@@ -1134,31 +1134,43 @@ function update_profile_score($rid,$sid,$bid,$pid,$cat,$catdefs,$rating_name){
 
 /**
  * This tries to find the mid (if one exists otherwise -1) associated 
- * with an assessment for a distinct $crid/$bid/$pid combination. And 
+ * with an assessment for a distinct $bid/$pid combination. And 
  * its not easy and only hopefully unique! WARNING!
  *
- * @param integer $eid
- * @param string $crid
+ * @param array $AssDef
  * @param string $bid
  * @param string $pid
  * @return array
  */
-function get_assessment_mid($eid,$crid,$bid,$pid=''){
+function get_assessment_mid($AssDef,$bid,$pid=''){
+	$crid=$AssDef['Course']['value'];
+	$eid=$AssDef['id_db'];
+
+	$cohorts=array();
+	if($AssDef['Stage']['value']=='%'){
+		$stages=(array)list_course_stages($crid);
+		}
+	else{
+		$stages[]=array('id'=>$AssDef['Stage']['value'],'name'=>$AssDef['Stage']['value']);
+		}
+	foreach($stages as $stage){
+		$cohorts[]=array('course_id'=>$crid,'stage'=>$stage['id'],'year'=>$AssDef['Year']['value']);
+		}
+
 	if(mysql_query("CREATE TEMPORARY TABLE assmids (SELECT DISTINCT mark_id FROM eidmid 
 				JOIN mark ON mark.id=eidmid.mark_id WHERE (mark.assessment='yes' OR mark.assessment='other') AND
 				mark.component_id='$pid' AND eidmid.assessment_id='$eid');")){}
 	else{print 'Failed!<br />'; $error=mysql_error(); print $error.'<br />';}
-	if(mysql_query("CREATE TEMPORARY TABLE classmids (SELECT
-				mark_id FROM midcid JOIN class
-				ON class.id=midcid.class_id WHERE class.subject_id='$bid' 
-				AND class.course_id='$crid');")){}
-	else{print 'Failed!<br />'; $error=mysql_error(); print $error.'<br />';}
-	$d_marks=mysql_query("SELECT DISTINCT assmids.mark_id FROM assmids JOIN
-						classmids ON classmids.mark_id=assmids.mark_id;");
-	if(mysql_num_rows($d_marks)>0){$mid=mysql_result($d_marks,0);}
-	else{$mid=-1;}
+
+	$mid=-1;
+	foreach($cohorts as $cohort){
+		$cohid=update_cohort($cohort);
+		$d_marks=mysql_query("SELECT DISTINCT assmids.mark_id FROM assmids 
+							WHERE assmids.mark_id=ANY(SELECT mark_id FROM midcid JOIN class ON class.id=midcid.class_id 
+														WHERE class.subject_id='$bid' AND class.cohort_id='$cohid');");
+		if(mysql_num_rows($d_marks)>0){$mid=mysql_result($d_marks,0);}
+		}
 	mysql_query("DROP TABLE assmids;");
-	mysql_query("DROP TABLE classmids;");
 
 	return $mid;
 	}

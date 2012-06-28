@@ -38,12 +38,12 @@ if($sub=='Submit'){
 	if($strandno>0){
 		foreach($strands as $sindex => $strand){
 			$labels[]=$strand['id'];
-			$mids[]=get_assessment_mid($eid,$crid,$bid,$strand['id']);
+			$mids[]=get_assessment_mid($AssDef,$bid,$strand['id']);
 			}
 		}
 	else{
 		$labels[]=$pid;
-		$mids[]=get_assessment_mid($eid,$crid,$bid,$pid);
+		$mids[]=get_assessment_mid($AssDef,$bid,$pid);
 		}
 
 

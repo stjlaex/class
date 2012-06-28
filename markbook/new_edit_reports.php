@@ -201,7 +201,7 @@ three_buttonmenu($extrabuttons,$book);
 			/* Need to identify the mid (if one exists) that is related to 
 			 * this assessment for updating scores in the action page.
 			 */
-			$mid=get_assessment_mid($eid,$AssDef['Course']['value'],$bid,$strand['id']);
+			$mid=get_assessment_mid($AssDef,$bid,$strand['id']);
 			$ass_colspan++;
 ?>
 			<th>

@@ -36,7 +36,7 @@ if($AssDef['Stage']['value']=='%'){
 	$stages=(array)list_course_stages($crid);
 	}
 else{
-	$stages[]=$AssDef['Stage']['value'];
+	$stages[]=array('id'=>$AssDef['Stage']['value'],'name'=>$AssDef['Stage']['value']);
 	}
 foreach($stages as $stage){
 	$cohorts[]=array('course_id'=>$crid,'stage'=>$stage['id'],'year'=>$AssDef['Year']['value']);
@@ -189,7 +189,7 @@ if($perm["$neededperm"]=1 and $AssDef['MarkCount']['value']==0){
 
 					/* Can only carry forward to next course if their is a correpsonding subject */
 					if($bidnow!=''){
-						trigger_error($cohid. ' : '.$AssDef['Stage']['value'].' '.$crid.': '.$bid.' : '.$pid,E_USER_WARNING);
+						//trigger_error($cohid. ' : '.$AssDef['Stage']['value'].' '.$crid.': '.$bid.' : '.$pid,E_USER_WARNING);
 	
 						mysql_query("INSERT INTO mark (entrydate, marktype, topic, comment, author,
 						 def_name, assessment, component_id) VALUES ('$entrydate', 'score', '$description', 
@@ -207,7 +207,7 @@ if($perm["$neededperm"]=1 and $AssDef['MarkCount']['value']==0){
 							$cidno++;
 							}
 						mysql_free_result($d_class);
-						trigger_error($stagenow.' '.$cridnow.': '.$bidnow.' : '.$pidnow. ' '.$cidno,E_USER_WARNING);
+						//trigger_error($stagenow.' '.$cridnow.': '.$bidnow.' : '.$pidnow. ' '.$cidno,E_USER_WARNING);
 						}
 
 					if($cidno>0){
