@@ -30,8 +30,10 @@ $section_perm=get_admin_perm('s',get_uid($tid));
 <?php
 	$choices=array('formgroup_matrix.php' => 'formgroups'
 				   ,'yeargroup_matrix.php' => 'yeargroups'
-				   ,'community_group.php' => 'communitygroups'
 				   );
+	if($_SESSION['worklevel']>-1){
+		$choices['community_group.php']='communitygroups';
+		}
 	if($_SESSION['role']=='admin' or $_SESSION['role']=='office'  
 	   or $_SESSION['role']=='district' or $section_perm==1){
 		$choices['transport.php']='transport';

@@ -25,13 +25,16 @@ if(isset($_POST['bid'])){$bid=$_POST['bid'];}else{$bid='';}
 
 		$Students=array();
 		$Students['Student']=array();
+		$done=array();
 		/*doing one student at a time*/
-		for($c=0;$c<sizeof($sids);$c++){
-			$sid=$sids[$c];
-			$Student=(array)fetchStudent_short($sid);
-			$Comments=(array)fetchIncidents($sid,$startdate);
-			$Student['Incidents']=$Comments;
-			$Students['Student'][]=$Student;
+		foreach($sids as $sid){
+			if(!array_key_exists($sid,$done)){
+				$done[$sid]=$sid;
+				$Student=(array)fetchStudent_short($sid);
+				$Comments=(array)fetchIncidents($sid,$startdate);
+				$Student['Incidents']=$Comments;
+				$Students['Student'][]=$Student;
+				}
 			}
 		$Students['Paper']='portrait';
 		$Students['Transform']='incident_summary';

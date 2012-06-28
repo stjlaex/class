@@ -22,6 +22,10 @@ The report definition functions now filter by the report's subject_status.
 The report_reports_list script filters relevant classes by a report's
 subject_status.
 
+Fix to printing Incidents for the same student multiple times.
+
+Access to Other Groups restricted by worklevel.
+
 
 Version ClaSS-1.0.20 release (2012/04/22)
 -------------------------------------------
