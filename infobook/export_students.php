@@ -103,7 +103,7 @@ if(sizeof($sids)==0){
 					$field=fetchStudent_singlefield($sid,$displayfield);
 					$Student=array_merge($Student,$field);
 					}
-
+				trigger_error('!!!!!!!!!'.$displayfield,E_USER_WARNING);
 				if(isset($Student[$displayfield]['type_db']) and $Student[$displayfield]['type_db']=='enum'){
 					$displayout=displayEnum($Student[$displayfield]['value'],$Student[$displayfield]['field_db']);
 					$displayout=get_string($displayout,$book);
@@ -142,7 +142,7 @@ if(sizeof($sids)==0){
 							}
 						}
 					}
-				elseif(array_key_exists($displayfield,$Student) and $Student[$displayfield]['value']!='' and $Student[$displayfield]['private']=='N'){
+				elseif(array_key_exists($displayfield,$Student) and $Student[$displayfield]['value']!='' and (!isset($Student[$displayfield]['private']) or $Student[$displayfield]['private']=='N')){
 					$displayout=$Student[$displayfield]['value'];
 					}
 				else{
