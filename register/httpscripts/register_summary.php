@@ -20,27 +20,43 @@ else{
 	$Students=array();
 	$Students['Community']=array();
 
-
-	$months=array('August'=>'08','September'=>'09','October'=>'10','November'=>'11','December'=>'12','January'=>'01','February'=>'02','March'=>'03','April'=>'04','May'=>'05','June'=>'06','July'=>'07');
-	$Months=array();
-	$Months['Year']=$toyear;
-	$Months['Month']=array();
-	foreach($months as $month => $monthno){
-		if($monthno=='01'){$toyear++;}
-		$sdate=$toyear.'-'.$monthno.'-'.'00';
-		$edate=$toyear.'-'.$monthno.'-'.'31';
-		$Month['Label']=$month;
-		$Month['StartDate']=$sdate;
-		$Month['EndDate']=$edate;
-		$Months['Month'][]=$Month;
-		}
- 	$Students['Months']=$Months;
 	$sids=array();
-
 	foreach($comids as $comid){
 
 		/* Passed as comid:::yid so yid is already defined*/
 		list($comid,$yid)=explode(':::',$comid);
+
+		/* Months will be either months or weeks(!) depending on the yeargroup. */
+		$Months=array();
+		$Months['Year']=$toyear;
+		$Months['Month']=array();
+		if($yid<0){
+			$startdate=strtotime($toyear.'-08-20');
+			$firstmonday=strtotime('next Monday',$startdate);
+			for($i=1;$i<=48;$i++){
+				$sdate=date('Y-m-d', strtotime('+'.$i.' week',$firstmonday));
+				$edate=date('Y-m-d', strtotime('+'.$i.' week + 6 days',$firstmonday));
+				$Month['Label']=$i;
+				$Month['StartDate']=$sdate;
+				$Month['EndDate']=$edate;
+				$Months['Month'][]=$Month;
+				}
+			}
+		else{
+			$months=array('August'=>'08','September'=>'09','October'=>'10','November'=>'11','December'=>'12','January'=>'01','February'=>'02','March'=>'03','April'=>'04','May'=>'05','June'=>'06','July'=>'07');
+			foreach($months as $month => $monthno){
+				if($monthno=='01'){$toyear++;}
+				$sdate=$toyear.'-'.$monthno.'-'.'00';
+				$edate=$toyear.'-'.$monthno.'-'.'31';
+				$Month['Label']=$month;
+				$Month['StartDate']=$sdate;
+				$Month['EndDate']=$edate;
+				$Months['Month'][]=$Month;
+				}
+			}
+		$Students['Months']=$Months;
+
+
 
 		if($comid!=''){
 
@@ -87,6 +103,13 @@ else{
 			}
 		}
 
+	if($yid<0){
+		$Students['Transform']='register_summary_weekly';
+		}
+	else{
+		$Students['Transform']='register_summary_monthly';
+        }
+	
 	$Students['Transform']='register_summary';
 	$Students['Paper']='landscape';
 	
