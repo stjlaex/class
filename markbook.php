@@ -13,6 +13,28 @@ include('scripts/set_book_vars.php');
 if(!isset($_POST['displaymid'])){$displaymid=0;}//means no change to marks displayed
 else{$displaymid=$_POST['displaymid'];}//new mark created by previous script
 
+/**
+ * Which year's MarkBook are we viewing? 
+ *
+ */
+if(isset($_POST['curryear']) and $_POST['curryear']!=''){
+	if($_SESSION['markbookcurryear']!=$_POST['curryear']){
+		$_SESSION['markbookcurryear']=$_POST['curryear'];
+		if($displaymid==0){$displaymid=-1;}
+		unset($_SESSION['cids']);
+		unset($_SESSION['components']);
+		unset($_SESSION['pids']);
+		unset($_SESSION['profiles']);
+		unset($_SESSION['umnfilter']);
+		}
+	}
+else{
+	if(!isset($_SESSION['markbookcurryear'])){
+		$_SESSION['markbookcurryear']=get_curriculumyear();
+		}
+	}
+$curryear=$_SESSION['markbookcurryear'];
+
  /**
   * If the classes selection has changed then need to refresh some of 
   * the session data for components and stuff (but don't want ot do 
@@ -31,8 +53,8 @@ if(isset($_POST['cids'])){
 
 	foreach($_SESSION['cids'] as $cid){
 		/*this is used to describe the class*/
-		$d_c=mysql_query("SELECT detail, subject_id AS bid, course_id
-					AS crid, stage	FROM class WHERE id='$cid';");
+		$d_c=mysql_query("SELECT class.name, class.detail, class.subject_id AS bid, cohort.course_id AS crid, 
+					   	cohort.stage FROM class, cohort WHERE class.id='$cid' AND cohort.id=class.cohort_id;");
 		$classes[$cid]=mysql_fetch_array($d_c,MYSQL_ASSOC);
 		/* Grab the class's subject components, will only only exlcude those which are status=U (unused) */
 		$comps=list_subject_components($classes[$cid]['bid'],$classes[$cid]['crid']);
@@ -58,7 +80,6 @@ if(isset($_POST['cids'])){
 	$_SESSION['components']=$components;
 	$_SESSION['classes']=$classes;
 	$_SESSION['profiles']=$profiles;
-
 
 
 	/* Tries to recall a tid's previous choice of pid for this class*/
@@ -141,8 +162,20 @@ $_SESSION['lessonatt']=$lessonatt;
 </div>
 
 <div style="visibility:hidden;" id="hiddenbookoptions">
-	<fieldset class="markbook">
-	  <legend><?php print_string('classesandmarks');?></legend>
+
+
+  <fieldset class="markbook">
+	<legend><?php print_string('curriculumyear');?></legend>
+	  <form id="markbookchoice" name="markbookchoice" method="post" 
+		action="markbook.php" target="viewmarkbook">
+<?php 
+		$onsidechange='yes';
+		include('scripts/list_curriculum_year.php');
+?>
+	  </form>
+  </fieldset>
+  <fieldset class="markbook">
+	<legend><?php print_string('classesandmarks');?></legend>
 	  <form id="classchoice" name="classchoice" method="post" 
 		action="markbook.php" target="viewmarkbook">
 <?php	include('scripts/list_class.php');?>

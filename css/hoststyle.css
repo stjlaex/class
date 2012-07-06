@@ -44,7 +44,6 @@ div#currentbook {
 div#logbook {
     position:absolute; left:0%; top:4.4%; width:18%; height:95.15%; 
 	border:0; padding:0;
-	/* -moz-border-radius:0 0 0 18%; */
 	background-color:#444444;
 	}
 /***************************************************************************/
@@ -75,7 +74,7 @@ height:3em;
   	font-family:Verdana, Arial, sans-serif; 
     color:#765;
 	border:1px solid ivory;
-	-moz-border-radius:0 18% 0 0;
+    border-radius: 0 18% 0 0;
 	cursor:pointer;
 	background-image:url("../images/gradient_horizontal.png");
     background-repeat:repeat-y;	
@@ -137,7 +136,7 @@ height:3em;
 	background-color:#444444;
 	border:1px solid ivory;
 	border-left:0;
-	-moz-border-radius:15% 0 0 0;
+    border-radius: 15% 0 0 0;
     padding:4px 12px 25px 14px;
 	background-image:url("");
     }

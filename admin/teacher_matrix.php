@@ -8,6 +8,8 @@ $action='teacher_matrix_action.php';
 list($crid,$bid,$error)=checkCurrentRespon($r,$respons);
 if(sizeof($error)>0){include('scripts/results.php');exit;}
 
+$curryear=get_curriculumyear();
+
 $teachers=list_teacher_users($crid,$bid);
 
 $perm=getCoursePerm($crid,$respons);
@@ -65,13 +67,18 @@ three_buttonmenu($extrabuttons,$book);
 		  <select id="Unassigned" name="newcid[]"  
 			tabindex="<?php print $tab++;?>" size="8" multiple="multiple">
 <?php		
-  	$d_cids=mysql_query("SELECT DISTINCT class.id FROM class LEFT JOIN tidcid
+/*
+  	$d_cids=mysql_query("SELECT DISTINCT class.id, class.name FROM class LEFT JOIN tidcid
 	  	ON class.id=tidcid.class_id WHERE tidcid.class_id IS NULL AND class.subject_id
 		LIKE '$bid' AND class.course_id LIKE '$crid' 
-		ORDER BY class.subject_id, class.course_id, id");
-   	while($cids=mysql_fetch_array($d_cids,MYSQL_ASSOC)){
+		ORDER BY class.subject_id, class.course_id, name");
+   	while($class=mysql_fetch_array($d_cids,MYSQL_ASSOC)){
+*/
+
+	$classes=list_course_classes($crid,$bid,'%',$curryear,'nottaught');
+	foreach($classes as $class){
    		print '<option ';
-		print	' value="'.$cids['id'].'">'.$cids['id'].'</option>';
+		print	' value="'.$class['id'].'">'.$class['name'].'</option>';
 	   	}
 ?>		
 		  </select>
@@ -81,19 +88,25 @@ three_buttonmenu($extrabuttons,$book);
 		  <select id="Assigned" name="newcid[]" 
 			tabindex="<?php print $tab++;?>" size="8" multiple="multiple">
 <?php
-  	$d_cids=mysql_query("SELECT DISTINCT class.id FROM class LEFT
+/*
+  	$d_cids=mysql_query("SELECT DISTINCT class.id, class.name FROM class LEFT
   	JOIN tidcid ON class.id=tidcid.class_id WHERE tidcid.class_id IS
   	NOT NULL AND class.subject_id LIKE '$bid' AND class.course_id LIKE '$crid' ORDER BY
-  	class.subject_id, class.course_id, id"); 
-	while($cids=mysql_fetch_array($d_cids,MYSQL_ASSOC)){
+  	class.subject_id, class.course_id, name");
+
+	while($class=mysql_fetch_array($d_cids,MYSQL_ASSOC)){
+*/
+	$classes=list_course_classes($crid,$bid,'%',$curryear,'taught');
+	foreach($classes as $class){
 		print '<option ';
-		print	' value="'.$cids['id'].'">'.$cids['id'].'</option>';
+		print	' value="'.$class['id'].'">'.$class['name'].'</option>';
 		}
 ?>		
 		  </select>
 		</div>
 	  </fieldset>
 
+	    <input type="hidden" name="curryear" value="<?php print $curryear;?>" />
 	    <input type="hidden" name="current" value="<?php print $action;?>" />
 		<input type="hidden" name="choice" value="<?php print $choice;?>" />
 		<input type="hidden" name="cancel" value="<?php print '';?>" />
@@ -112,13 +125,9 @@ three_buttonmenu($extrabuttons,$book);
    	while(list($tid,$user)=each($teachers)){
 		print '<tr><td>'.$tid.' ('.$user['surname'].')</td>';
 		print '<td>';
-	   	$d_class=mysql_query("SELECT class_id, class.detail  FROM tidcid 
-					JOIN class ON class.id=tidcid.class_id WHERE 
-					tidcid.teacher_id='$tid' AND class.course_id LIKE '$crid' AND
-					class.subject_id LIKE '$bid' ORDER BY tidcid.class_id");   
-	   	while($class=mysql_fetch_array($d_class,MYSQL_ASSOC)){
-			$cids=$class['class_id'];
-			print '<span title="'.$class['detail'].'"><a href="admin.php?current=class_edit.php&choice='.$choice.'&cancel='.$choice.'&newtid='.$tid.'&newcid='.$cids.'">'.$cids.'</a>&nbsp&nbsp</span>';
+		$classes=list_teacher_classes($tid,$crid,$curryear);
+		foreach($classes as $class){
+			print '<span title="'.$class['detail'].'"><a href="admin.php?current=class_edit.php&choice='.$choice.'&cancel='.$choice.'&newtid='.$tid.'&newcid='.$class['id'].'">'.$class['name'].'</a>&nbsp&nbsp</span>';
 			}
 		print '</td></tr>';
 		}

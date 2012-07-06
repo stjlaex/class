@@ -25,7 +25,7 @@ elseif($def_name==''){
 		exit;
 		}
 
-	$d_markdef=mysql_query("SELECT * FROM markdef WHERE name='$def_name'");
+	$d_markdef=mysql_query("SELECT * FROM markdef WHERE name='$def_name';");
 	$markdef=mysql_fetch_array($d_markdef, MYSQL_ASSOC);
 	$scoretype=$markdef['scoretype'];
 
@@ -49,21 +49,18 @@ three_buttonmenu();
 		/*either by current responsibility choice*/
 	 	$rbid=$respons[$r]['subject_id'];
 		$rcrid=$respons[$r]['course_id'];
-		$ryid=$respons[$r]['yeargroup_id'];
-		$d_cids=mysql_query("SELECT DISTINCT id AS class_id FROM class WHERE
-			(subject_id LIKE '$rbid' OR subject_id='%') AND (course_id
-			LIKE '$rcrid' OR course_id='%') AND (stage LIKE '%'
-				OR stage='%') ORDER BY id");
+		$newclasses=list_course_classes($rcrid,$rbid,'%','','taught');
 		}
 	else{
 		/* or by select definitions by subjects of classes taught*/
-		$d_cids=mysql_query("SELECT class_id FROM tidcid WHERE
-		   teacher_id='$tid' ORDER BY class_id");
+		$newclasses=list_teacher_classes($tid);
 		}
-	while($newcids=mysql_fetch_array($d_cids,MYSQL_ASSOC)) {
+
+
+	foreach($newclasses as $newclass){
 		print '<option ';
-		if(in_array($newcids['class_id'],$cids)){print 'selected="selected"';}
-		print ' value="'.$newcids['class_id'].'">'.$newcids['class_id'].'</option>';
+		if(in_array($newclass['id'],$cids)){print 'selected="selected"';}
+		print ' value="'.$newclass['id'].'">'.$newclass['name'].'</option>';
 		}
 ?>
 		</select>

@@ -10,10 +10,9 @@ if(isset($_GET['newtid'])){$newtid=$_GET['newtid'];}else{$newtid='';}
 if(isset($_POST['newcid'])){$newcid=$_POST['newcid'];}
 if(isset($_POST['newtid'])){$newtid=$_POST['newtid'];}
 
-$d_class=mysql_query("SELECT * FROM class WHERE id='$newcid'");
-$class=mysql_fetch_array($d_class, MYSQL_ASSOC);
-$crid=$class['course_id'];
-$bid=$class['subject_id'];
+$class=get_this_class($newcid);
+$crid=$class['crid'];
+$bid=$class['bid'];
 $stage=$class['stage'];
 $detail=$class['detail'];
 $d_c=mysql_query("SELECT description FROM classes 
@@ -53,12 +52,12 @@ three_buttonmenu($extrabuttons);
 				AND (a.leavingdate='0000-00-00' OR a.leavingdate IS NULL)");}
 		$firstit++;
 		}
+
 	/*Fetch students already in classes for this subject.*/
-	$d_class=mysql_query("SELECT id FROM class WHERE
-		course_id='$crid' AND subject_id='$bid' AND stage='$stage'");
+	$classes=list_course_classes($crid,$bid,$stage,$currentyear);
 	$firstit=0;
-	while($class=mysql_fetch_array($d_class,MYSQL_ASSOC)){
-		$cid=$class['id'];
+	foreach($classes as $otherclass){
+		$cid=$otherclass['id'];
 		if($firstit==0){mysql_query("CREATE TEMPORARY TABLE subjectstudents
 			(SELECT a.student_id, b.surname, b.forename, 
 			b.middlenames, b.preferredforename, b.form_id, a.class_id FROM
@@ -77,7 +76,7 @@ three_buttonmenu($extrabuttons);
 		<table class="listmenu">
 		<caption><?php print_string('currentclassfor',$book);?>: <?php print $bid;?></caption>
 		<tr>
-		  <th colspan="3"><?php print $newcid.'/'.$newtid; ?></th>
+		  <th colspan="3"><?php print $class['name'].'/'.$newtid; ?></th>
 			<td>
 			  <?php print_string('remove');?><br />
 			  <input type="checkbox" name="checkall" 

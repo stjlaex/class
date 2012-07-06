@@ -3,8 +3,9 @@
  */
 
 $action='new_class.php';
-$action_post_vars=array('bid');
+$action_post_vars=array('bid','curryear');
 
+$curryear=$_POST['curryear'];
 if(isset($_POST['bid'])){$bid=$_POST['bid'];}else{$bid='';}
 if(isset($_POST['newbid'])){$newbid=$_POST['newbid'];}else{$newbid='';}
 if(isset($_POST['crid'])){$crid=$_POST['crid'];}else{$crid='';}
@@ -30,8 +31,8 @@ if($sub=='Submit'){
 		$oldclassdef=get_subjectclassdef($crid,$bid,$stagename);
 		if($newclassdef['many']!=$oldclassdef['many'] 
 					   or $oldclassdef['generate']!=$newclassdef['generate']){
-			$d_c=mysql_query("SELECT COUNT(id) FROM class WHERE
-				course_id='$crid' AND subject_id='$bid' AND stage='$stagename';");
+			$d_c=mysql_query("SELECT COUNT(class.id) FROM class JOIN cohort ON class.cohort_id=cohort.id WHERE
+				cohort.course_id='$crid' AND cohort.stage='$stagename' AND cohort.year='$curryear' AND class.subject_id='$bid';");
 			$currentno=mysql_result($d_c,0);
 			if($currentno==0 or ($newclassdef['many']>$currentno 
 								 and $oldclassdef['generate']==$newclassdef['generate'])){
@@ -42,14 +43,14 @@ if($sub=='Submit'){
 				$result[]=$stagename.' class/es added.';
 				}
 			elseif($overwrite=='yes' and $_SESSION['role']=='admin'){
-				mysql_query("DELETE FROM tidcid JOIN class ON tidcid.class_id=class.id 
-					WHERE class.subject_id='$bid' AND class.course_id='$crid' AND class.stage='$stagename';");
-				mysql_query("DELETE FROM midcid JOIN class ON midcid.class_id=class.id 
-					WHERE class.subject_id='$bid' AND class.course_id='$crid' AND class.stage='$stagename';");
-				mysql_query("DELETE FROM cidsid JOIN class ON cidsid.class_id=class.id 
-					WHERE class.subject_id='$bid' AND class.course_id='$crid' AND class.stage='$stagename';");
-				mysql_query("DELETE FROM class  
-					WHERE class.subject_id='$bid' AND class.course_id='$crid' AND class.stage='$stagename';");
+				mysql_query("DELETE FROM tidcid WHERE class_id=ANY(SELECT id FROM class JOIN cohort ON class.cohort_id=cohort.id 
+					WHERE class.subject_id='$bid' AND cohort.course_id='$crid' AND cohort.stage='$stagename' AND cohort.year='$curryear');");
+				mysql_query("DELETE FROM midcid WHERE class_id=ANY(SELECT id FROM class JOIN cohort ON class.cohort_id=cohort.id 
+					WHERE class.subject_id='$bid' AND cohort.course_id='$crid' AND cohort.stage='$stagename' AND cohort.year='$curryear');");
+				mysql_query("DELETE FROM cidsid WHERE class_id=ANY(SELECT id FROM class JOIN cohort ON class.cohort_id=cohort.id 
+					WHERE class.subject_id='$bid' AND cohort.course_id='$crid' AND cohort.stage='$stagename' AND cohort.year='$curryear');");
+				mysql_query("DELETE FROM class WHERE class.subject_id='$bid' AND class.cohort_id=ANY(SELECT id FROM cohort 
+					WHERE cohort.course_id='$crid' AND cohort.stage='$stagename' AND cohort.year='$curryear');");
 				if(isset($oldclassdef['naming'])){$newclassdef['naming']=$oldclassdef['naming'];}
 				update_subjectclassdef($newclassdef);
 				populate_subjectclassdef($newclassdef);

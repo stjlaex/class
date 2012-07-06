@@ -6,6 +6,7 @@ $action='new_class_action.php';
 $cancel=$choice;
 
 if(isset($_POST['bid'])){$bid=$_POST['bid'];}else{$bid='';}
+$curryear=$_POST['curryear'];
 
 list($rcrid,$rbid,$error)=checkCurrentRespon($r,$respons,'course');
 if(sizeof($error)>0){include('scripts/results.php');exit;}
@@ -115,6 +116,7 @@ $nonsubjects=list_subjects($rcrid,false);
 		</div>
 	  </fieldset>
 
+	<input type="hidden" name="curryear" value="<?php print $curryear;?>" />
 	<input type="hidden" name="crid" value="<?php print $rcrid;?>" />
 	<input type="hidden" name="choice" value="<?php print $choice;?>" />
 	<input type="hidden" name="current" value="<?php print $action;?>" />

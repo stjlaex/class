@@ -97,7 +97,7 @@ if($_SESSION['worklevel']>-1){
 			if($_SESSION['worklevel']>-1){
 ?>
 			<td colspan="4">
-				<span title="<?php print $classes[$cid]['detail'];?>">&nbsp;&nbsp;<?php print $cids[$i].$teachers[$i];?><a
+				<span title="<?php print $classes[$cids[$i]]['detail'];?>">&nbsp;&nbsp;<?php print $classes[$cids[$i]]['name'].$teachers[$i];?><a
 				  href="admin.php?current=class_edit.php&newcid=<?php print $cids[$i];?>" 
 				  target="viewadmin" onclick="parent.viewBook('admin');">
 				  <img class="clicktoconfigure" style="padding:1px;" title="<?php print_string('clicktoconfigure','admin');?>" />&nbsp;
@@ -114,7 +114,7 @@ if($_SESSION['worklevel']>-1){
 				}
 			else{
 ?>
-			   <td colspan="5">&nbsp;&nbsp;<?php print $cids[$i].$teachers[$i];?>
+			   <td colspan="5">&nbsp;&nbsp;<?php print $classes[$cids[$i]]['name'].$teachers[$i];?>
 		  </td>
 		</tr>
 <?php

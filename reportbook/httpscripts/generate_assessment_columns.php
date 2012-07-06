@@ -18,7 +18,6 @@ $strandstatus=$AssDef['StrandStatus']['value'];
 $description=$AssDef['Description']['value'];
 $label=$AssDef['PrintLabel']['value'];
 $total=$AssDef['Total']['value'];
-$stage=$AssDef['Stage']['value'];
 $deadline=$AssDef['Deadline']['value'];
 /* Any estimates or targets or whatever get assessment type = other. */
 if($AssDef['ResultStatus']['value']=='R'){$asstype='yes';}
@@ -26,19 +25,32 @@ else{$asstype='other';}
 
 $yearnow=get_curriculumyear($crid);
 
+
 /* Where to apply this assessment in the MarkBook will be indicated in
  * a cohorts array with the cohort pointing to where the students are
  * now - and this could be for another course altogether.
  */
 $cohorts=array();
+/* Always add the cohort for the assessment year */
+if($AssDef['Stage']['value']=='%'){
+	$stages=(array)list_course_stages($crid);
+	}
+else{
+	$stages[]=array('id'=>$AssDef['Stage']['value'],'name'=>$AssDef['Stage']['value']);
+	}
+foreach($stages as $stage){
+	$cohorts[]=array('course_id'=>$crid,'stage'=>$stage['id'],'year'=>$AssDef['Year']['value']);
+	}
 
 /**
  * Is this assessment for the current year or from a previous year?
  * If for a previous year then we need to find where the students are
  * now: (1) the next stage in the same course; (2) the first stage of
- * the following course it appropriate.
+ * the following course if appropriate.
  *
  */
+
+
 if($AssDef['Year']['value']!=$yearnow){
 	$yeardiff=$yearnow-$AssDef['Year']['value'];
 	$stagegones=array();
@@ -51,15 +63,15 @@ if($AssDef['Year']['value']!=$yearnow){
 	$nextcrid=$cridscourses[$crid]['nextcourse_id'];
 
 
-	if($stage=='%'){
+	if($AssDef['Stage']['value']=='%'){
 		$stagegones=(array)$stages;
 		$sc=0;
 		}
 	else{
-		$stagegones[]=array('id'=>$stage,'name'=>$stage);
+		$stagegones[]=array('id'=>$AssDef['Stage']['value'],'name'=>$AssDef['Stage']['value']);
 		$c=0;
 		foreach($stages as $stagegone){
-			if($stagegone['id']==$stage){$sc=$c;}
+			if($stagegone['id']==$AssDef['Stage']['value']){$sc=$c;}
 			$c++;
 			}
 		unset($c);
@@ -80,10 +92,8 @@ if($AssDef['Year']['value']!=$yearnow){
 		$sc++;
 		}
 	}
-else{
-	/* Assessment is for current year so not much to do */
-	$cohorts[]=array('course_id'=>$crid,'stage'=>$stage,'year'=>$yearnow);
-	}
+
+
 
 /* Check user has permission to configure */
 $perm=getCoursePerm($crid,$respons);
@@ -143,6 +153,7 @@ if($perm["$neededperm"]=1 and $AssDef['MarkCount']['value']==0){
 				if($bid==' ' or $bid=='G'){$bid='%';}
 				$cidno=0;
 				foreach($cohorts as $cohort){
+					$cohid=update_cohort($cohort);
 					$cridnow=$cohort['course_id'];
 					$stagenow=$cohort['stage'];
 					$bidnow='';
@@ -181,7 +192,7 @@ if($perm["$neededperm"]=1 and $AssDef['MarkCount']['value']==0){
 
 					/* Can only carry forward to next course if their is a correpsonding subject */
 					if($bidnow!=''){
-						trigger_error($stage.' '.$crid.': '.$bid.' : '.$pid.' -------->'.$cridnow.' : '.$bidnow.' : '.$pidnow.' : '.$stagenow,E_USER_WARNING);
+						//trigger_error($stage.' '.$crid.': '.$bid.' : '.$pid.' -------->'.$cridnow.' : '.$bidnow.' : '.$pidnow.' : '.$stagenow,E_USER_WARNING);
 	
 						mysql_query("INSERT INTO mark (entrydate, marktype, topic, comment, author,
 						 def_name, assessment, component_id) VALUES ('$entrydate', 'score', '$description', 
@@ -191,8 +202,7 @@ if($perm["$neededperm"]=1 and $AssDef['MarkCount']['value']==0){
 						/* Make entry in eidmid for this new mark. */
 						mysql_query("INSERT INTO eidmid (assessment_id,mark_id) VALUES ('$eid', '$mid');");
 
-						$d_class=mysql_query("SELECT id FROM class WHERE
-						course_id='$cridnow' AND subject_id LIKE '$bidnow' AND stage LIKE '$stagenow';");
+						$d_class=mysql_query("SELECT id FROM class WHERE cohort_id='$cohid' AND subject_id LIKE '$bidnow';");
 						/* Make entries in midcid for the new mark */
 						while($d_cid=mysql_fetch_array($d_class,MYSQL_NUM)){
 							$cid=$d_cid[0];
@@ -204,7 +214,7 @@ if($perm["$neededperm"]=1 and $AssDef['MarkCount']['value']==0){
 						}
 
 					if($cidno>0){
-						$d_eidsids=mysql_query("SELECT student_id,result, value FROM eidsid WHERE
+						$d_eidsids=mysql_query("SELECT student_id, result, value FROM eidsid WHERE
 				   		subject_id LIKE '$bid' AND component_id='$pid' AND assessment_id='$eid';");
 						$sids=array();
 						while($eidsid=mysql_fetch_array($d_eidsids,MYSQL_ASSOC)){

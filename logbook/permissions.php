@@ -271,11 +271,13 @@ function list_all_users($nologin='%'){
  */
 function list_teacher_users($crid='',$bid='',$nologin='0'){
 	$users=array();
+	$year=get_curriculumyear();
 	if($crid!='' or $bid!=''){
 		/*Get ids for the teachers of this subject and store in tids[]*/
 		$d_teacher=mysql_query("SELECT DISTINCT teacher_id FROM tidcid JOIN
 				class ON class.id=tidcid.class_id WHERE class.subject_id LIKE '$bid' 
-				AND class.course_id LIKE '$crid' ORDER BY teacher_id;");
+				AND class.cohort_id=ANY(SELECT cohort.id FROM cohort WHERE cohort.course_id LIKE '$crid' AND cohort.year='$year') 
+				ORDER BY teacher_id;");
 		while($teacher=mysql_fetch_array($d_teacher,MYSQL_ASSOC)){
 			$tid=$teacher['teacher_id'];
 			$d_users=mysql_query("SELECT uid, username, passwd, forename,

@@ -1,5 +1,15 @@
-Version ClaSS-1.0.21 release (2012/06/14)
+Version ClaSS-1.0.22 release (2012/07/06)
 -------------------------------------------
+
+Major change to the MarkBook to preserve contents from previous
+academic years.
+
+
+
+Version ClaSS-1.0.21 release (2012/06/10)
+-------------------------------------------
+
+A list of a student's class teachers added to each subject report.
 
 Tidied the class_nos script.
 

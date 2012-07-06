@@ -46,11 +46,8 @@ elseif($sub=='Submit' and isset($_FILES['importfile']) and $_FILES['importfile']
 	elseif($inmust!='yes'){
 		/* TODO: Update an existing file*/
 		$entryn=$inmust;
-		/*		mysql_query("UPDATE reportentry SET
-						comment='$incom' WHERE report_id='$rid' AND
-						student_id='$sid' AND subject_id='$bid' AND
-						component_id='$pid' AND entryn='$entryn'");
-		*/
+
+
 		}
 	}
 ?>

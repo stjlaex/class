@@ -89,7 +89,7 @@ function fetchSubjectReports($sid,$reportdefs){
 					 * should be fixed at the publication data). 
 					 */
 					$d_a=mysql_query("SELECT id FROM assessment WHERE course_id='$profile_crid' AND
-					   profile_name='$profile_name' AND resultstatus='R' AND deadline<='$profile_enddate' 
+					   profile_name='$profile_name' AND (resultstatus='R' OR resultstatus='T') AND deadline<='$profile_enddate' 
 						AND year='$curryear';");
 					while($a=mysql_fetch_array($d_a,MYSQL_ASSOC)){
 						/* Do not include any eid that is linked explicity
@@ -200,6 +200,7 @@ function fetchSubjectReports($sid,$reportdefs){
 
 				  if(sizeof($Comments['Comment'])>0 or sizeof($assnos)>0){
 					  $Report=array();
+					  $Report['Title']=array('value'=>''.$reportdef['report']['title']);
 					  $Report['Course']=array('id'=>''.$reportdef['report']['course_id'], 
 											  'value'=>''.$reportdef['report']['course_name']);
 					  $Report['Subject']=array('id'=>''.$bid, 
@@ -209,7 +210,8 @@ function fetchSubjectReports($sid,$reportdefs){
 												 'status'=>''.$componentstatus,
 												 'sequence'=>''.$componentseq,
 												 'value'=>''.$componentname);
-					  
+					  $teacher=get_student_subjectteacher($sid,$reportdef['report']['course_id'],$bid,$reportdef['report']['year']);
+					  $Report['Teacher']=array('value'=>''.$teacher);
 					  $repasses=array();
 					  foreach($assnos as $assno){
 						  $repasses['Assessment'][]=$Assessments[$assno];
@@ -266,10 +268,12 @@ function fetchSubjectReports($sid,$reportdefs){
 			 of the last reportdef in the list which dominate!!!*/
 		   	if(isset($reportdef['cattable'])){$Reports['cattable']=$reportdef['cattable'];}
 			$Reports['Summaries']=$Summaries;
-		   	$Reports['publishdate']=date('jS M Y',strtotime($reportdef['report']['date']));
-		   	$Reports['date']=date('jS M Y');
-		   	$transform=$reportdef['report']['transform'];
-		   	$style=$reportdef['report']['style'];
+			if($reportdef['report']['course_id']=='wrapper'){
+				$Reports['publishdate']=date('jS M Y',strtotime($reportdef['report']['date']));
+				$Reports['date']=date('jS M Y');
+				$transform=$reportdef['report']['transform'];
+				$style=$reportdef['report']['style'];
+				}
 		}
 
 	if(sizeof($Reports['SummaryAssessments'])==0){

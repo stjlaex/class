@@ -285,6 +285,22 @@ function get_class_section($cid){
 	}
 
 
+/**
+ *
+ *	@param string $cid
+ *	@return array
+ */
+function get_this_class($cid){
+
+	$d_c=mysql_query("SELECT class.id, class.name, class.detail, class.subject_id AS bid, 
+							cohort.stage AS stage, cohort.course_id AS crid, cohort.year 
+							FROM class, cohort WHERE cohort.id=class.cohort_id AND class.id='$cid'");
+  	$class=mysql_fetch_array($d_c,MYSQL_ASSOC);
+
+	return $class;
+	}
+
+
 
 /**
  *
@@ -316,7 +332,7 @@ function list_forms_classes($fid){
 					}
 				else{
 					list($name['root'],$name['stem'],$name['branch'],$name_counter)
-								= split(';',$classes['naming'],4);
+								= explode(';',$classes['naming'],4);
 					while(list($index,$namecheck)=each($name)){
 						if($namecheck=='subject'){$name["$index"]=$bid;}
 						if($namecheck=='stage'){$name["$index"]=$stage;}
@@ -331,21 +347,51 @@ function list_forms_classes($fid){
 	return $cids;
 	}
 
+
+
 /** 
  * Returns an array listing the classes associated with
- * this course and subject
+ * this course and subject.
+ *
+ * If limit is true then only classes assigned to a teacher are listed.
  *
  *	@param string $crid
  *	@param string $bid
  *	@param string $stage
+ *	@param string $year
+ *	@param string $limit
  *	@return array
  */
-function list_course_classes($crid='%',$bid='%',$stage='%'){
+function list_course_classes($crid='%',$bid='%',$stage='%',$year='',$limit='all'){
+
 	$classes=array();
-	$d_c=mysql_query("SELECT id, id AS name, detail, subject_id, stage FROM  
-					class WHERE course_id LIKE '$crid' AND
-					subject_id LIKE '$bid' AND stage LIKE '$stage' 
-					ORDER BY course_id, id");   
+	if($year==''){$year=get_curriculumyear();}
+	if($limit=='taught'){
+		$d_c=mysql_query("SELECT class.id, class.name, class.detail, class.subject_id, 
+							cohort.stage, cohort.course_id FROM class 
+							JOIN cohort ON class.cohort_id=cohort.id
+							WHERE cohort.course_id LIKE '$crid' AND cohort.stage LIKE '$stage' 
+							AND cohort.year='$year' AND class.subject_id LIKE '$bid' 
+							AND class.id IN(SELECT tidcid.class_id FROM tidcid) 
+							ORDER BY cohort.course_id, class.name");
+		}
+	elseif($limit=='nottaught'){
+		$d_c=mysql_query("SELECT class.id, class.name, class.detail, class.subject_id, 
+							cohort.stage, cohort.course_id FROM class 
+							JOIN cohort ON class.cohort_id=cohort.id
+							WHERE cohort.course_id LIKE '$crid' AND cohort.stage LIKE '$stage' 
+							AND cohort.year='$year' AND class.subject_id LIKE '$bid' 
+							AND class.id NOT IN(SELECT tidcid.class_id FROM tidcid) 
+							ORDER BY cohort.course_id, class.name");
+		}
+	else{
+		$d_c=mysql_query("SELECT class.id, class.name, class.detail, class.subject_id, 
+							cohort.stage, cohort.course_id FROM class 
+							JOIN cohort ON class.cohort_id=cohort.id
+							WHERE cohort.course_id LIKE '$crid' AND cohort.stage LIKE '$stage' 
+							AND cohort.year='$year' AND class.subject_id LIKE '$bid'  
+							ORDER BY cohort.course_id, class.name");
+		}
    	while($class=mysql_fetch_array($d_c,MYSQL_ASSOC)){
 		$classes[$class['id']]=$class;
 		}
@@ -363,13 +409,36 @@ function list_course_classes($crid='%',$bid='%',$stage='%'){
  */
 function list_class_teachers($cid){
 	$teachers=array();
-	$d_t=mysql_query("SELECT teacher_id FROM  
-					tidcid WHERE class_id='$cid';");   
+	$d_t=mysql_query("SELECT teacher_id FROM tidcid WHERE class_id='$cid';");   
    	while($teacher=mysql_fetch_array($d_t,MYSQL_ASSOC)){
 		$teachers[]=array('id'=>$teacher['teacher_id'],'name'=>$teacher['teacher_id']);
 		}
 	return $teachers;
 	}
+
+
+
+/** 
+ * Returns an id-name array listing the teachers of a class identified 
+ * by its cid
+ * 
+ *	@param string $cid
+ *	@return array
+ *
+ */
+function list_teacher_classes($tid,$crid='%',$year=''){
+	$classes=array();
+	if($year==''){$year=get_curriculumyear();}
+	$d_c=mysql_query("SELECT class.id, class.name, class.detail, class.subject_id AS bid FROM class JOIN tidcid
+			ON class.id=tidcid.class_id WHERE tidcid.teacher_id='$tid' 
+			AND class.cohort_id=ANY(SELECT id FROM cohort WHERE cohort.year='$year' 
+			AND cohort.course_id LIKE '$crid') ORDER BY class.name;");
+   	while($class=mysql_fetch_array($d_c,MYSQL_ASSOC)){
+		$classes[]=$class;
+		}
+	return $classes;
+	}
+
 
 /** 
  * Returns an id-name array listing all curriculum areas (subject and components) this sid studies.
@@ -486,6 +555,36 @@ function list_student_teachers($sid){
 		$teachers[]=$t;
 		}
 	return $teachers;
+	}
+
+
+/** 
+ *
+ * Returns a string of '/' separated subject teacher names who teach
+ * relevant classes fro this student. Used to add names to reports.
+ *
+ *	@param string $sid
+ *	@param string $crid
+ *	@param string $bid
+ *	@param year $curryear
+ *
+ *	@return array
+ */
+function get_student_subjectteacher($sid,$crid,$bid,$curryear=''){
+	if($sid==''){$sid=-1;}
+	$teacher='';
+	$separator='';
+	if($curryear==''){$curryear=get_curriculumyear($crid);}
+	$d_t=mysql_query("SELECT DISTINCT teacher_id AS id FROM tidcid JOIN cidsid ON cidsid.class_id=tidcid.class_id 
+							WHERE cidsid.student_id='$sid' AND cidsid.class_id=ANY(SELECT DISTINCT class.id 
+							FROM class JOIN cohort ON class.cohort_id=cohort.id 
+								WHERE class.subject_id='$bid' AND cohort.course_id='$crid' AND cohort.year='$curryear');");
+   	while($t=mysql_fetch_array($d_t,MYSQL_ASSOC)){
+		$teachername=get_teachername($t['id']);
+		$teacher.=$separator.' '.$teachername;
+		$separator=' / ';
+		}
+	return $teacher;
 	}
 
 
@@ -768,14 +867,17 @@ function get_classdef_classes($classdef,$currentseason='S'){
  */
 function populate_subjectclassdef($classdef,$currentseason='S'){
 
-	list($newcids,$groups)=get_classdef_classes($classdef,$currentseason);
+	list($newnames,$groups)=get_classdef_classes($classdef,$currentseason);
+	if(isset($classdef['year'])){$curryear=$classdef['year'];}
+	else{$curryear=get_curriculumyear($classdef['crid']);}
 
-	foreach($newcids as $nindex => $newcid){
+	$cohid=update_cohort(array('year'=>$curryear,'course_id'=>$classdef['crid'],'stage'=>$classdef['stage']));
+
+	foreach($newnames as $nindex => $newname){
 		$bid=$classdef['bid'];
-		$crid=$classdef['crid'];
-		$stage=$classdef['stage'];
-		if(mysql_query("INSERT INTO class (id,subject_id,course_id,stage) 
-				VALUES ('$newcid','$bid','$crid','$stage')")){
+		mysql_query("INSERT INTO class (name,subject_id,cohort_id) VALUES ('$newname','$bid','$cohid');");
+		$newcid=mysql_insert_id();
+		if($newcid>0){
 			if($classdef['generate']=='forms'){
 				$fid=$groups[$nindex];
 				$d_sids=mysql_query("SELECT id FROM student WHERE form_id='$fid';");

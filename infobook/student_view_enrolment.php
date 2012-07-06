@@ -127,4 +127,28 @@ three_buttonmenu();
 		<input type="hidden" name="cancel" value="<?php print $cancel;?>">
 		<input type="hidden" name="choice" value="<?php print $choice;?>">
 	</form>
+
+
+	<form id="upload" name="formfileupload" method="post" action="scripts/file_upload.php" enctype="multipart/form-data">
+	  <fieldset class="center listmenu fileupload">
+		<legend><?php print_string('documents',$book);?></legend>
+
+		<div>
+		  <label for="fileselect">Files to upload:</label>
+		  <input type="file" id="fileselect" name="fileselect[]" multiple="multiple" />
+		  <div id="filedrag">drop files here</div>
+		</div>
+		<div id="submitbutton">
+		  <button type="submit">Upload Files</button>
+		</div>
+		<div id="progress"></div>
+		<div id="messages">
+		</div>
+
+	  </fieldset>
+	  <input type="hidden" id="MAX_FILE_SIZE" name="MAX_FILE_SIZE" value="300000" />
+	  <input type="hidden" id="FILE_OWNER" name="FILE_OWNER" value="<?php print $Student['EPFUsername']['value'];?>" />
+	</form>
+
 </div>
+<script language="JavaScript" type="text/javascript" src="js/fileupload.js?version=1022"></script>
