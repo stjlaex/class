@@ -72,7 +72,10 @@ if($AssDef['Year']['value']!=$yearnow){
 		elseif($nextcrid!='' and $nextcrid!='1000'){
 			/* This will identify the first stage of the next course. */
 			$nextstages=list_course_stages($nextcrid);
-			$cohorts[]=array('course_id'=>$nextcrid,'stage'=>$nextstages[0]['id'],'year'=>$yearnow);
+			if(isset($nextstages[$yeardiff-1]['id'])){
+				$cohorts[]=array('course_id'=>$nextcrid,'stage'=>$nextstages[$yeardiff-1]['id'],'year'=>$yearnow);
+				//trigger_error($stagegone['id'].' '.$stagediff.' -------->'.$yeardiff.' : '.$nextstages[$yeardiff-1]['id'],E_USER_WARNING);
+				}
 			}
 		$sc++;
 		}
@@ -116,7 +119,7 @@ if($perm["$neededperm"]=1 and $AssDef['MarkCount']['value']==0){
 
 	if($deadline!='0000-00-00'){$entrydate=$deadline;}
 	else{$entrydate=date('Y').'-'.date('n').'-'.date('j');}
-	
+
 	/*make a list of subjects that will need distinct new marks*/
 	$subjects=array();
 	if($subject!='%'){$subjects[]['id']=$subject;}
@@ -146,7 +149,7 @@ if($perm["$neededperm"]=1 and $AssDef['MarkCount']['value']==0){
 					$pidnow='';
 					if($cridnow!=$crid){
 						/* If carrying forward to another course need
-						   to accomodate hanges in currilucum
+						   to accomodate changes in currilucum
 						   structure ie. hunt for equivalent subject/component/strand combination */
 						$d_s=mysql_query("SELECT DISTINCT subject_id FROM component 
 									WHERE course_id='$cridnow' AND id='$pid' AND subject_id='$bid' AND status!='U';");
@@ -178,7 +181,7 @@ if($perm["$neededperm"]=1 and $AssDef['MarkCount']['value']==0){
 
 					/* Can only carry forward to next course if their is a correpsonding subject */
 					if($bidnow!=''){
-						//trigger_error($stage.' '.$crid.': '.$bid.' : '.$pid,E_USER_WARNING);
+						trigger_error($stage.' '.$crid.': '.$bid.' : '.$pid.' -------->'.$cridnow.' : '.$bidnow.' : '.$pidnow.' : '.$stagenow,E_USER_WARNING);
 	
 						mysql_query("INSERT INTO mark (entrydate, marktype, topic, comment, author,
 						 def_name, assessment, component_id) VALUES ('$entrydate', 'score', '$description', 
