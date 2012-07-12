@@ -2,16 +2,13 @@
 /**                    staff_details_action.php
  */
 
-$action='staff_details.php';
-$action_post_vars=array('seluid');
-
-if(isset($_POST['newuid0']) and $_POST['newuid0']!=''){$seluid=$_POST['newuid0'];}
-if(isset($_POST['newuid1']) and $_POST['newuid1']!=''){$seluid=$_POST['newuid1'];}
-if(isset($_POST['newuid2']) and $_POST['newuid2']!=''){$seluid=$_POST['newuid2'];}
-
+$action='staff_list.php';
 include('scripts/sub_action.php');
 
-if($sub=='Submit' and $_POST['seluid']!=''){
+if(isset($_POST['seluid']) and $_POST['seluid']!=''){$seluid=$_POST['seluid'];}
+
+
+if($sub=='Submit' and $seluid!=''){
 	$seluid=$_POST['seluid'];
    	$user=array();
    	$user['username']=clean_text($_POST['username']);
@@ -26,6 +23,10 @@ if($sub=='Submit' and $_POST['seluid']!=''){
    	$user['homephone']=clean_text($_POST['homephone']);
    	$user['mobilephone']=clean_text($_POST['mobilephone']);
    	$user['personalcode']=clean_text($_POST['personalcode']);
+   	$user['personalemail']=clean_text($_POST['personalemail']);
+   	$user['jobtitle']=clean_text($_POST['jobtitle']);
+   	$user['contractdate']=clean_text($_POST['contractdate']);
+   	$user['dob']=clean_text($_POST['dob']);
    	$user['worklevel']=$_POST['worklevel'];
    	if(isset($_POST['nologin'])){$user['nologin']=$_POST['nologin'];}
 	else{$user['nologin']='0';}
@@ -82,7 +83,6 @@ if($sub=='Submit' and $_POST['seluid']!=''){
 				}
 			}
 		}
-
 
 	include('scripts/results.php');
    	}

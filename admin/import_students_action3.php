@@ -282,7 +282,7 @@ elseif($sub=='Submit'){
 				 * Check if there is already an entry for this
 				 * guardian and prefer to use email as an identifier
 				 * because this is much more likely unique - if it
-				 * changes though have to falbkac on next method
+				 * changes though have to fallback on next method
 				 */
 				if(isset($email) and $email!=''){
 					$d_g=mysql_query("SELECT id FROM guardian WHERE surname='$surname' AND email='$email';");

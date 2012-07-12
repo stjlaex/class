@@ -7,14 +7,12 @@
 $books=$CFG->books;
 
 if(!isset($required)){$required='yes';}
-if(!isset($user['role'])){$role=$_SESSION['role'];}else{$role=$user['role'];}
-if(isset($edituser['role'])){$role=$edituser['role'];}
+if(isset($User['Role']['value'])){$role=$User['Role']['value'];}
 ?>
 
   <label for="book"><?php print_string('book');?></label>
   <select name="book" id="book" size="1" tabindex="<?php print $tab++;?>" 
-  <?php if($required=='yes'){ print ' class="required" ';} ?>
-	>
+  <?php if($required=='yes'){ print ' class="required" ';} ?> >
    	<option value=""></option>
 <?php
 	$showbooks=$books[$role];

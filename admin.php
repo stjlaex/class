@@ -44,7 +44,7 @@ $section_perm=get_admin_perm('s',get_uid($tid));
 	if($_SESSION['role']=='admin' or $_SESSION['role']=='teacher' 
 	   or $_SESSION['role']=='office'){
 		$choices['teacher_matrix.php']='subjectclasses';
-		$choices['staff_details.php']='staffdetails';
+		$choices['staff_list.php']='staff';
 		}
 	if($_SESSION['role']=='admin' or $_SESSION['role']=='teacher'){
 		$choices['responsables.php']='responsibilities';

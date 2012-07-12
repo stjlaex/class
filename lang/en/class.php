@@ -144,7 +144,6 @@ in subject classes';
 $string['unassignclass']='Unassign class';
 $string['studentsnotinaform']='Students not in a form';
 $string['studentsalreadyinaform']='Students already in a form';
-$string['selectstafftoedit']='Select staff to edit';
 $string['changedetails']='Change details';
 $string['email']='Email';
 $string['permissions']='Permissions';

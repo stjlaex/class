@@ -858,11 +858,10 @@ function leave_community($sid,$community){
 
 /**
  *
- * Mark a sid as having left a commmunity
- * Does not delete the record only sets leavingdate to today
- * Should only really be called to do the work from within join_community
- *
- *	@param integer $sid
+ * Archives a community (not actually delete) by setting type empty.
+ * Closes all student memberships of the community by setting
+ * leavingdate to today.
+ * 
  *	@param array $community
  *	@return null
  */

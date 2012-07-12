@@ -46,8 +46,8 @@ function list_sid_responsible_users($sid, $bid){
 		$group=mysql_fetch_array($d_group);
 		$gids[]=$group['gid'];
 		}
-	foreach($gids as $key => $gid){
-		$d_users=mysql_query("SELECT * FROM users JOIN perms ON users.uid=perms.uid WHERE
+	foreach($gids as $gid){
+		$d_users=mysql_query("SELECT username, email FROM users JOIN perms ON users.uid=perms.uid WHERE
 			perms.gid='$gid' AND perms.e='1' AND users.nologin!='1';");
 		while($user=mysql_fetch_array($d_users)){
 			if(check_email_valid($user['email'])){ 
@@ -620,6 +620,8 @@ function update_user($user,$update='no',$short='class'){
 	$mobilephone=$user['mobilephone'];
 	$address_id=$user['address_id'];
 	$personalcode=$user['personalcode'];
+	$personalemail=$user['personalemail'];
+	$jobtitle=$user['jobtitle'];
 	$dob=$user['dob'];
 	$contractdate=$user['contractdate'];
 	if(isset($user['worklevel'])){
@@ -672,7 +674,8 @@ function update_user($user,$update='no',$short='class'){
 		  else{
 			mysql_query("UPDATE users SET
 				  surname='$surname', forename='$forename', title='$title',
-					email='$email', emailuser='$emailuser',  
+					email='$email', emailuser='$emailuser', 
+					personalemail='$personalemail', jobtitle='$jobtitle',  
 					role='$role', senrole='$senrole', medrole='$medrole', worklevel='$worklevel', nologin='$nologin',
 					firstbookpref='$firstbookpref', homephone='$homephone', mobilephone='$mobilephone', 
 					address_id='$address_id', personalcode='$personalcode', dob='$dob', 
@@ -816,11 +819,134 @@ function endecrypt($pwd, $data, $case='en'){
     return $cipher;
 	}
 
+
+
+function fetchUser($uid='-1'){
+	global $CFG;
+
+   	$d_u=mysql_query("SELECT * FROM users WHERE uid='$uid';");
+	$user=mysql_fetch_array($d_u,MYSQL_ASSOC);
+
+	$User=array();
+	$User['id_db']=$uid;
+	$User['Username']=array('label' => 'username', 
+							'field_db' => 'username',
+							'type_db' => 'varchar(14)', 
+							'value' => ''.$user['username']);
+	$User['EPFUsername']=array('label' => 'epfusername', 
+							   'field_db' => 'epfusername',
+							   'type_db' => 'varchar(128)', 
+							   'value' => ''.$user['epfusername']);
+	$User['Surname']=array('label' => 'surname', 
+						   'inputtype'=> 'required',
+						   'table_db' => 'user', 
+						   'field_db' => 'surname',
+						   'type_db' => 'varchar(50)', 
+						   'value' => ''.$user['surname']);
+	$User['Forename']=array('label' => 'forename', 
+						   'inputtype'=> 'required',
+						   'table_db' => 'user', 
+						   'field_db' => 'forename',
+						   'type_db' => 'varchar(50)', 
+						   'value' => ''.$user['forename']);
+	$User['Title']=array('label' => 'title', 
+						 'table_db' => 'user', 
+						 'field_db' => 'title',
+						 'type_db' => 'enum', 
+						 'value' => ''.$user['title']);
+	$User['EmailAddress']=array('label' => 'email', 
+						 'table_db' => 'user', 
+						 'field_db' => 'email',
+						 'type_db' => 'varchar(200)', 
+						 'value' => ''.$user['email']);
+	$User['PersonalEmailAddress']=array('label' => 'personalemail', 
+						 'table_db' => 'user', 
+						 'field_db' => 'personalemail',
+						 'type_db' => 'varchar(200)', 
+						 'value' => ''.$user['personalemail']);
+	$User['SENRole']=array('label' => 'senrole', 
+						   'inputtype'=> 'required',
+						   //'table_db' => 'user', 
+						   'field_db' => 'senrole',
+						   'type_db' => 'enum', 
+						   'value' => ''.$user['senrole']);
+	$User['MedRole']=array('label' => 'medrole', 
+						   'inputtype'=> 'required',
+						   //'table_db' => 'user', 
+						   'field_db' => 'medrole',
+						   'type_db' => 'enum', 
+						   'value' => ''.$user['medrole']);
+	$User['Role']=array('label' => 'role', 
+						'inputtype'=> 'required',
+						//'table_db' => 'user', 
+						'field_db' => 'role',
+						'type_db' => 'enum', 
+						'value' => ''.$user['role']);
+	$User['Language']=array('label' => 'language',
+							'inputtype'=> 'required',
+							//'table_db' => 'user',
+							'field_db' => 'language',
+							'type_db' => 'enum', 
+							'value' => ''.$user['language']);
+	$User['Worklevel']=array('label' => 'worklevel', 
+							 'inputtype'=> 'required',
+							 //'table_db' => 'user', 
+							 'field_db' => 'worklevel',
+							 'type_db' => 'enum', 
+							 'value' => ''.$user['worklevel']);
+	$User['FirstBook']=array('label' => 'firstbookpref', 
+							 'inputtype'=> 'required',
+							 //'table_db' => 'user', 
+							 'field_db' => 'firstbookpref',
+							 'type_db' => 'enum', 
+							 'value' => ''.$user['firstbookpref']);
+	$User['NoLogin']=array('label' => 'nologin', 
+						   //'table_db' => 'user', 
+						   'field_db' => 'nologin',
+						   'type_db' => 'flag', 
+						   'value' => ''.$user['nologin']);
+	$User['JobTitle']=array('label' => 'jobtitle', 
+							'table_db' => 'user', 
+							'field_db' => 'jobtitle',
+							'type_db' => 'varchar(240)', 
+							'value' => ''.$user['jobtitle']);
+	$User['HomePhone']=array('label' => 'homephone', 
+							 'table_db' => 'user', 
+							 'field_db' => 'homephone',
+							 'type_db' => 'varchar(22)', 
+							 'value' => ''.$user['homephone']);
+	$User['MobilePhone']=array('label' => 'moibilephone', 
+							 'table_db' => 'user', 
+							 'field_db' => 'mobilephone',
+							 'type_db' => 'varchar(22)', 
+							 'value' => ''.$user['mobilephone']);
+	$User['PersonalCode']=array('label' => 'personalcode', 
+								'table_db' => 'user', 
+								'field_db' => 'personalcode',
+								'type_db' => 'varchar(120)', 
+								'value' => ''.$user['personalcode']);
+	$User['DOB']=array('label' => 'dob', 
+					   'table_db' => 'user', 
+					   'field_db' => 'dob',
+					   'type_db' => 'date', 
+					   'value' => ''.$user['dob']);
+	$User['ContractDate']=array('label' => 'contractdate', 
+								'table_db' => 'user', 
+								'field_db' => 'contractdate',
+								'type_db' => 'date', 
+								'value' => ''.$user['contractdate']);
+	if($user['address_id']>0){$addid=$user['address_id'];}
+	else{$addid=-1;}
+	$User['Address']=(array)fetchAddress(array('address_id'=>$addid,'addresstype'=>''));
+
+	return $User;
+	}
+
 /**
  * Takes a user record and returns an xml array for it.
  *
  */
-function fetchUser($user){
+function fetchUser_short($user){
 	$User=array();
 	$User['id_db']=$user['uid'];
 	$User['Surname']['value']=$user['surname'];

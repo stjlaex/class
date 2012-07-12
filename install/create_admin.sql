@@ -114,6 +114,8 @@ CREATE TABLE  users (
   medrole		enum('0','1') not null,
   worklevel	   	enum('-1','0', '1', '2') not null default '0',
   nologin		tinyint(1) not null default '0',
+  jobtitle		varchar(240) not null default '', 
+  personalemail	varchar(200) not null default '',
   homephone		varchar(22) not null default '',
   mobilephone	varchar(22) not null default '',
   personalcode	varchar(120) not null default '',

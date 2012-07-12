@@ -1,6 +1,7 @@
 DELETE FROM cidsid WHERE class_id NOT IN(SELECT id FROM class);
 DELETE FROM tidcid WHERE class_id NOT IN(SELECT id FROM class);
 DELETE FROM midcid WHERE class_id NOT IN(SELECT id FROM class);
+DELETE FROM attendance WHERE class_id NOT IN(SELECT id FROM class) AND class_id!='';
 ALTER TABLE class DROP primary KEY;
 ALTER TABLE class CHANGE id
 	  name varchar(20) not null default '';
@@ -17,13 +18,13 @@ UPDATE midcid, class
 	   SET midcid.class_id=class.id WHERE class.name=midcid.class_id;
 UPDATE cidsid, class 
 	   SET cidsid.class_id=class.id WHERE class.name=cidsid.class_id;
-UPDATE attendance, class 
-	   SET attendance.class_id=class.id WHERE class.name=attendance.class_id;
 ALTER TABLE tidcid CHANGE class_id
 	  class_id int unsigned not null;
 ALTER TABLE midcid CHANGE class_id
 	  class_id int unsigned not null;
 ALTER TABLE cidsid CHANGE class_id
 	  class_id int unsigned not null;
+UPDATE attendance, class 
+	   SET attendance.class_id=class.id WHERE attendance.class_id!='' AND class.name=attendance.class_id;
 ALTER TABLE attendance CHANGE class_id
 	  class_id int unsigned not null;

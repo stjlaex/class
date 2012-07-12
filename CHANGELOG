@@ -1,9 +1,17 @@
+Version ClaSS-1.0.23 release (2012/07/12)
+-------------------------------------------
+
+New fields added to users table including personal email.
+
+Re-worked the staff page under Admin to list users by role.
+
+
+
 Version ClaSS-1.0.22 release (2012/07/06)
 -------------------------------------------
 
 Major change to the MarkBook to preserve contents from previous
 academic years.
-
 
 
 Version ClaSS-1.0.21 release (2012/06/10)
@@ -1728,7 +1736,7 @@ Version ClaSS-0.9.0 release (2009/05/06)
 
 Migrated from subversion to git.
 
-Expanded the classification of compnents/strands to have an 'Other
+Expanded the classification of components/strands to have an 'Other
 Validating' category. Assessments can now be applied to one of O or V,
 they can also use AV (all validating) for both.
 
@@ -3417,7 +3425,7 @@ given a select field as part of the action buttons which pulls an
 existing contact record from the database and allows it to be linked
 to the student. Have made the relationship a required field.
 
-A new table for accomodation and an eccompanying section of the
+A new table for accomodation and an accompanying section of the
 student profile has been added. This allows the managment of details
 for boarders including their arrival and departure times. A student is
 subscribed to a new type of community 'accomodation' which is named

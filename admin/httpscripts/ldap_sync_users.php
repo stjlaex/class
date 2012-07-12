@@ -57,7 +57,7 @@ if($ds){
 		$countno=0;
 		foreach($users as $uid => $row){
 			$info=array();
-			$Newuser=(array)fetchUser($row);
+			$Newuser=(array)fetchUser_short($row);
 			$epfusername=$Newuser['EPFUsername']['value'];
 			if($epfusername=='' or $epfusername==' '){
 				$epfusername=generate_epfusername($Newuser,$type='staff');

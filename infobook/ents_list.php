@@ -10,7 +10,7 @@ elseif(isset($_POST['tagname'])){$tagname=$_POST['tagname'];}
 if(isset($_GET['bid'])){$bid=$_GET['bid'];}
 
 $Backgrounds=(array)fetchBackgrounds($sid);
-$aperm=get_admin_perm('s',get_uid($tid));
+$aperm=get_admin_perm('s',get_uid($tid));// special access to reserved information
 $perm=getYearPerm($Student['YearGroup']['value'], $respons);
 
 $imagebuttons=array();
@@ -99,18 +99,17 @@ else{
 	$Entries=$Backgrounds["$tagname"];
 	$entryno=0;
 	if(is_array($Entries)){
-	while(list($key,$entry)=each($Entries)){
-		$restricted=false;
-		trigger_error($key,E_USER_WARNING);
-		if($tagname=='Background' and $entry['Categories']['Category'][0]['rating']['value']<0){$restricted=true;}
+		foreach($Entries as $key => $entry){
+			$restricted=false;
+			if($tagname=='Background' and $entry['Categories']['Category'][0]['rating']['value']<0){$restricted=true;}
 
-		if($restricted and $aperm!=1 and $entry['Teacher']['username']!=$tid){
-			$entry['Detail']['value']='Confidential';$entry['Detail']['value_db']='Confidential';
-			}
-
-		if(is_array($entry)){
-			$rown=0;
-			$entryno=$entry['id_db'];
+			if($restricted and $aperm!=1 and $entry['Teacher']['username']!=$tid){
+				$entry['Detail']['value']='Confidential';$entry['Detail']['value_db']='Confidential';
+				}
+			
+			if(is_array($entry)){
+				$rown=0;
+				$entryno=$entry['id_db'];
 ?>
 		<tbody id="<?php print $entryno;?>">
 		  <tr class="rowplus" onClick="clickToReveal(this)" id="<?php print $entryno.'-'.$rown++;?>">

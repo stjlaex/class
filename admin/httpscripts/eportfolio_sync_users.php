@@ -76,7 +76,7 @@ require_once($CFG->installpath.'/'.$CFG->applicationdirectory.'/lib/eportfolio_f
 	$com['epfcomid']=$epfcomid;
 
 	foreach($allteachers as $user){
-		$Newuser=(array)fetchUser($user);
+		$Newuser=(array)fetchUser_short($user);
 		/* Ignore anyone who has not yet got an epfusername (handled by ldap). */
    		$epfuid=-1;
 		if(isset($user['epfusername']) and $user['epfusername']!=''){
