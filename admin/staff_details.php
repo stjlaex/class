@@ -118,10 +118,9 @@ if($_SESSION['role']=='admin' or $aperm==1){
 	   //and $User['role']!='admin'
 	   ){
 ?>
-
-	  <fieldset class="right">
+<div class="right">
+	  <fieldset class="left">
 		<legend><?php print_string('specialadminpermissions',$book);?></legend>
-		<div class="center">
 <?php
 		$agroups=(array)list_admin_groups();
 		foreach($agroups as $type=>$agroup){
@@ -134,8 +133,26 @@ if($_SESSION['role']=='admin' or $aperm==1){
 <?php
 			}
 ?>
-		</div>
 	  </fieldset>
+
+	  <fieldset class="right">
+		<legend><?php print_string('section',$book);?></legend>
+<?php
+		$sections=(array)list_sections();
+		$access_groups=(array)list_user_groups($seluid,'s');
+		foreach($sections as $section){
+			if(in_array($section['gid'],$access_groups)){$editaperm=true;}
+			else{$editaperm=false;}
+?>
+		  <label for="<?php print $section['name'];?>"><?php print $section['name'];?></label>
+		  <input type="checkbox" id="a<?php print $section['gid'];?>"  
+				  name="a<?php print $section['gid'];?>"  tabindex="<?php print $tab++;?>" 
+				  <?php if($editaperm){print 'checked="checked"';}?> value="1"/>
+<?php
+			}
+?>
+		</fieldset>
+	  </div>
 <?php
 		}
 

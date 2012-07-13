@@ -171,6 +171,7 @@ function list_group_users_perms($gid){
 	return $users_perms;
 	}
 
+
 /**
  * Will return perms for the given gid and uid.
  *
@@ -205,6 +206,23 @@ function get_admin_perm($type,$uid){
 		$perm=0;
 		}
 	return $perm;
+	}
+
+
+/**
+ * Return an array of gids to which this user has at least 'r' perms,
+ * restricted to one particular type of group.
+ *
+ * 
+ */
+function list_user_groups($uid,$type){
+	$d_p=mysql_query("SELECT perms.r, perms.gid FROM perms JOIN groups ON perms.gid=groups.gid WHERE
+					  perms.uid='$uid' AND groups.type='$type' AND groups.yeargroup_id IS NULL;");
+	$groups=array();
+	while($p=mysql_fetch_array($d_p,MYSQL_ASSOC)){
+		$groups[]=$p['gid'];
+		}
+	return $groups;
 	}
 
 
@@ -732,7 +750,7 @@ function update_staff_perms($uid,$gid,$newperms){
 	$r=$newperms['r'];
 	$w=$newperms['w'];
 	$x=$newperms['x'];
-	$e=$newperms['e'];
+	if(isset($newperms['e'])){$e=$newperms['e'];}else{$e='0';}
 
 	if($r==0 and $w==0 and $x==0){
 		mysql_query("DELETE FROM perms WHERE uid='$uid' AND gid='$gid' LIMIT 1");

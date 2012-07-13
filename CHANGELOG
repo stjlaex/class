@@ -5,6 +5,10 @@ New fields added to users table including personal email.
 
 Re-worked the staff page under Admin to list users by role.
 
+Make use of permissions' groups for sections to restricted the scope
+of other permissions.
+
+List staff by section in Admin.
 
 
 Version ClaSS-1.0.22 release (2012/07/06)

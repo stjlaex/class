@@ -38,7 +38,7 @@ function list_courses($bid=''){
  */
 function list_sections(){
 	$sections=array();
-	$d_s=mysql_query("SELECT * FROM section WHERE id>'1' ORDER BY sequence;");
+	$d_s=mysql_query("SELECT id, name, sequence, gid FROM section WHERE id>'1' ORDER BY sequence;");
 	while($section=mysql_fetch_array($d_s,MYSQL_ASSOC)){
 		$sections[]=$section;
 		}

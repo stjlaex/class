@@ -24,6 +24,7 @@ ALTER TABLE midcid CHANGE class_id
 	  class_id int unsigned not null;
 ALTER TABLE cidsid CHANGE class_id
 	  class_id int unsigned not null;
+DELETE FROM attendance WHERE class_id!='';
 UPDATE attendance, class 
 	   SET attendance.class_id=class.id WHERE attendance.class_id!='' AND class.name=attendance.class_id;
 ALTER TABLE attendance CHANGE class_id

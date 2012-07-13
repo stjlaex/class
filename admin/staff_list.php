@@ -9,15 +9,6 @@ if(isset($_POST['listsecids'])){$listsecids=$_POST['listsecids'];}else{$listseci
 if(isset($_POST['listroles'])){$listroles=$_POST['listroles'];}else{$listroles=array();}
 
 
-$users=(array)list_all_users('0');
-//$users=list_responsible_users($tid,$respons,$r);
-$aperm=get_admin_perm('u',$_SESSION['uid']);
-
-if(($_SESSION['role']=='admin' or $aperm==1)){
-	$nologin_users=list_all_users('1');
-	$aperm=1;
-	}
-
 ?>
   <div class="content">
 	<form name="formtoprocess" id="formtoprocess" method="post" novalidate action="<?php print $host; ?>">
@@ -33,10 +24,11 @@ if(($_SESSION['role']=='admin' or $aperm==1)){
 <?php
 	$sections=list_sections();
 	foreach($sections as $section){
-		if(in_array($section['id'],$listsecids)){$checked=' checked="checked" ';}else{$checked='';}
-		print '<td><input type="checkbox" name="listsecids[]" '.$checked.' value="'.$section['id'].'">'.$section['name'].'</input></td>';
+		if(in_array($section['id'],$listsecids)){$checked=' checked="checked" ';$selsection=$section;}else{$checked='';}
+		print '<td><input type="radio" name="listsecids[]" '.$checked.' value="'.$section['id'].'">'.$section['name'].'</input></td>';
 		}
 ?>
+			<td><input type="radio" name="listsecids[]" value="uncheck"><?php print_string('uncheck',$book);?></input></td>
 			</tr>
 		  </table>
 		</div>
@@ -69,12 +61,30 @@ if(($_SESSION['role']=='admin' or $aperm==1)){
 		  </tr>
 
 <?php
-		foreach($users as $user){
+
+
+	if(isset($selsection)){
+		$users=(array)list_group_users_perms($selsection['gid']);
+		}
+	else{
+		$users=(array)list_all_users('0');
+		//$users=list_responsible_users($tid,$respons,$r);
+		}
+
+	$aperm=get_admin_perm('u',$_SESSION['uid']);
+	if(($_SESSION['role']=='admin' or $aperm==1)){
+		$nologin_users=list_all_users('1');
+		$aperm=1;
+		}
+
+
+	foreach($users as $user){
+			$User=(array)fetchUser($user['uid']);
 			if(in_array($user['role'],$listroles) or sizeof($listroles)==0){
 ?>
 		<tr>
-		  <td><?php print $user['surname'];?></td>
-		  <td><?php print $user['forename'];?></td>
+		  <td><?php print $User['Surname']['value'];?></td>
+		  <td><?php print $User['Forename']['value'];?></td>
 		  <td>
 <?php
 			if($aperm==1 or $user['uid']==$_SESSION['uid']){
@@ -85,8 +95,8 @@ if(($_SESSION['role']=='admin' or $aperm==1)){
 				}
 ?>
 		  </td>
-		  <td><?php print $user['email'];?></td>
-			<td><?php print get_string($user['role']);?></td>
+		  <td><?php print $User['EmailAddress']['value'];?></td>
+			<td><?php print get_string($User['Role']['value']);?></td>
 		</tr>
 <?php
 					}

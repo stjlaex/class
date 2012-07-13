@@ -46,11 +46,25 @@ if($sub=='Submit' and $seluid!=''){
 	$aperm=get_admin_perm('u',$_SESSION['uid']);
 	if($_SESSION['role']=='admin' or $aperm==1){
 
+		/* Update special access permissions */
 		$agroups=(array)list_admin_groups();
-		foreach($agroups as $type=>$agroup){
+		foreach($agroups as $agroup){
 			$agid=$agroup['gid'];
 			if(isset($_POST["a$agid"]) and $_POST["a$agid"]==1){
 				$newperms=array('r'=>1,'w'=>1,'x'=>1);
+				}
+			else{
+				$newperms=array('r'=>0,'w'=>0,'x'=>0);
+				}
+			update_staff_perms($seluid,$agid,$newperms);
+			}
+
+		/* Update access restrictions for sections. */
+		$agroups=(array)list_sections();
+		foreach($agroups as $agroup){
+			$agid=$agroup['gid'];
+			if(isset($_POST["a$agid"]) and $_POST["a$agid"]==1){
+				$newperms=array('r'=>1,'w'=>0,'x'=>0);
 				}
 			else{
 				$newperms=array('r'=>0,'w'=>0,'x'=>0);
