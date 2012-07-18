@@ -576,7 +576,7 @@ function fetch_reportdefinition($rid,$selbid='%'){
 	$subjects=array();
 	if($selbid=='%'){
 		$subjects=list_course_subjects($crid,$report['subject_status']);
-		trigger_error($crid.' '.$report['subject_status'],E_USER_WARNING);
+		//trigger_error($crid.' '.$report['subject_status'],E_USER_WARNING);
 		}
 	else{
 		$subjectname=get_subjectname($selbid);

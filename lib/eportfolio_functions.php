@@ -783,8 +783,6 @@ function elgg_upload_files($filedata,$dbc=true){
 		mysql_query("SET NAMES 'utf8'");
 		}
 
-	//require_once('lib/file_upload.php');
-
 	$file_title=$filedata['title'];
 	$file_description=$filedata['description'];
 	$file_time=time();

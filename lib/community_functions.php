@@ -94,10 +94,10 @@ function fetchCommunity($comid=''){
 							 'value' => ''.$com['capacity']);
 	$Community['Detail']=array('label' => 'name',
 							 'value' => ''.$com['detail']);
-	if($community['detail']==''){$display=$community['name'];}
-	else{$display=$community['detail'];}
+	if($com['detail']==''){$display=$com['name'];}
+	else{$display=$com['detail'];}
 	$Community['Displayname']=array('label' => 'displayname',
-							 'value' => ''.$display);
+									'value' => ''.$display);
 	return $Community;
 	}
 
@@ -621,8 +621,6 @@ function listin_community_extra($community,$extra,$enddate='',$startdate=''){
  *
  * Returns all communities to which a student is currently enrolled.
  * Filter for community id, name or type optional.
- * With $stardate set all communities joined after that date
- * and with $enddate set lists communitiess in that period.
  *
  *	@param integer $sid
  *	@param array $community 
@@ -653,6 +651,7 @@ function list_member_communities($sid,$community,$current=true){
 		}
 	elseif($type!=''){
 		if($current){
+			/* Current communities of one type. */
 			$d_community=mysql_query("SELECT id, special, joiningdate, leavingdate FROM community JOIN
 				comidsid ON community.id=comidsid.community_id
 				WHERE community.type='$type' AND comidsid.student_id='$sid' AND
@@ -661,6 +660,7 @@ function list_member_communities($sid,$community,$current=true){
 				comidsid.leavingdate IS NULL OR comidsid.leavingdate='0000-00-00');");
 			}
 		else{
+			/* Previous communities only of one type. */
 			$d_community=mysql_query("SELECT id, special, joiningdate, leavingdate FROM community JOIN
 				comidsid ON community.id=comidsid.community_id
 				WHERE community.type='$type' AND comidsid.student_id='$sid' AND
@@ -668,6 +668,7 @@ function list_member_communities($sid,$community,$current=true){
 			}
 		}
 	else{
+		/* All communities a student is a current member of. */
 		$d_community=mysql_query("SELECT id, special, joiningdate, leavingdate FROM community JOIN
 				comidsid ON community.id=comidsid.community_id
 				WHERE comidsid.student_id='$sid' AND
@@ -683,6 +684,57 @@ function list_member_communities($sid,$community,$current=true){
 
 	return $coms;
 	}
+
+
+
+
+
+/**
+ *
+ * Returns all communities to which a student is currently enrolled.
+ * Filter for community id, name or type optional.
+ *
+ *	@param integer $sid
+ *	@param array $community 
+ *  $param boolean $current
+ *	@return array
+ */
+function list_member_history($sid,$type){
+	$todate=date("Y-m-d");
+	$coms=array();
+	if($type!=''){
+			/* Current communities of one type. */
+			$d_community=mysql_query("SELECT id, special, joiningdate, leavingdate FROM community JOIN
+				comidsid ON community.id=comidsid.community_id
+				WHERE community.type='$type' AND comidsid.student_id='$sid' AND
+   				(comidsid.joiningdate<='$todate' OR comidsid.joiningdate IS NULL)
+				AND (comidsid.leavingdate>'$todate' OR 
+				comidsid.leavingdate IS NULL OR comidsid.leavingdate='0000-00-00') ORDER BY comidsid.joiningdate DESC;");
+
+			while($com=mysql_fetch_array($d_community,MYSQL_ASSOC)){
+				$coms[]=array_merge($com,get_community($com['id']));
+				}
+
+			/* Previous communities only of one type. */
+			$d_community=mysql_query("SELECT id, special, joiningdate, leavingdate FROM community JOIN
+				comidsid ON community.id=comidsid.community_id
+				WHERE community.type='$type' AND comidsid.student_id='$sid' AND
+   				(comidsid.joiningdate<=comidsid.leavingdate AND comidsid.leavingdate!='0000-00-00' AND comidsid.leavingdate<'$todate') ORDER BY comidsid.joiningdate DESC;");
+
+			while($com=mysql_fetch_array($d_community,MYSQL_ASSOC)){
+				$coms[]=array_merge($com,get_community($com['id']));
+				}
+
+			}
+
+
+	return $coms;
+	}
+
+
+
+
+
 
 
 /**
