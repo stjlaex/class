@@ -120,7 +120,7 @@ else{
 		$Students['Transform']='register_summary_monthly';
         }
 	
-	$Students['Transform']='register_summary';
+	//$Students['Transform']='register_summary';
 	$Students['Paper']='landscape';
 	
 	$returnXML=$Students;

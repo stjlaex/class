@@ -501,7 +501,7 @@ function elgg_new_folder($owner,$name,$access,$dbc=true){
 		}
 	elseif($owner!='' and $name!='' and $access!=''){
 		$d_f=mysql_query("INSERT INTO $table SET owner='$owner', files_owner='$owner',
-					 name='$name', access='$access', parent='-1', handler='class';");
+					 name='$name', access='$access', parent='-1';");
 		$folder_id=mysql_insert_id();
 		}
 	else{
@@ -1011,4 +1011,319 @@ function make_portfolio_directory($directory,$shownotices=false){
 
     return $currdir;
 	}
+
+
+
+/**
+ *
+ * Uploads files to a student's epf file space.  The file properties
+ * are given by $file=array($name,$description,$title,$foldertype,$batchfiles)
+ *
+ * Will upload as many files as batchfiles identifies with epfusername
+ * and filename, all with the same porperties defined by file.
+ *
+ * $foldertype is report or work or null for the root folder.
+ *
+ * @return true|false Returns true on success
+ *
+ * NB. We don't want to include these file sizes for the user quota when
+ * they are posted by ClaSS.
+ *
+ */
+function upload_files($filedata){
+	global $CFG;
+	$success=false;
+
+	$file_title=$filedata['title'];
+	$file_description=$filedata['description'];
+	$file_time=time();
+
+	/* Identify the folder to be linked with this file. Note this is a
+	 * virtual flolder in elgg and does not affect the physical directory
+	 * the file is being stored in. 
+	 */
+	if($filedata['foldertype']=='icon'){
+		$folder_name='root';
+		$dir_name='icons';
+		}
+	else{
+		/* Just defaults to their parent folder. */
+		if(!isset($filedata['foldertype'])){
+			$folder_name='root';
+			$folder_id=-1;
+			}
+		else{$folder_name=$filedata['foldertype'];}
+		$dir_name='files';
+		}
+
+	$batchfiles=$filedata['batchfiles'];
+	foreach($batchfiles as $batchfile){
+		$epfusername=$batchfile['epfusername'];
+		$file_name=$batchfile['filename'];
+		$epfuid=elgg_get_epfuid($epfusername,'person');
+
+		/* This is the family access group */
+		$group=array('epfgroupid'=>'','owner'=>$epfuid,'name'=>'Family','access'=>'');
+		$epfgroupid=elgg_update_group($group,array('owner'=>'','name'=>'','access'=>''),false);
+		$file_access='group'.$epfgroupid;
+		if($folder_name!='root'){
+			/* Create the virtual folder if it doesn't exist. */
+			$folder_id=elgg_new_folder($epfuid,$folder_name,'group'.$epfgroupid,false);
+			}
+
+		$dir=$dir_name . '/' . substr($epfusername,0,1) . '/' . $epfusername; 
+		/* Create the physical folder if it doesn't exist. */
+		if(!make_portfolio_directory($dir)){
+			trigger_error('Could not create eportfolio directory: '.$dir,E_USER_WARNING);
+			}
+		else{
+			$file_fullpath=$CFG->eportfolio_dataroot . '/' . $dir. '/'. $file_name;
+			$file_location=$dir . '/'. $file_name;
+			$file_originalname=$file_name;
+			if($filedata['foldertype']=='report'){
+				$file_originalpath=$CFG->eportfolio_dataroot.'/cache/reports/'. $file_name;
+				}
+			elseif($filedata['foldertype']=='icon'){
+				$file_originalpath=$CFG->eportfolio_dataroot.'/cache/images/'. $file_name;
+				}
+			else{
+				$file_originalpath=$batchfile['tmpname'];
+				}
+
+			if($filedata['foldertype']=='icon'){
+
+				mysql_query("INSERT INTO $table_icons SET owner='$epfuid',
+					filename='$file_name', description='$file_description';");
+				mysql_query("UPDATE $table_users SET icon=LAST_INSERT_ID() WHERE ident='$epfuid';");
+				}
+			else{
+				$d_f=mysql_query("SELECT ident FROM $table_files WHERE originalname='$file_originalname' 
+								AND files_owner='$epfuid';");
+				if(mysql_num_rows($d_f)==0){
+					$d_f=mysql_query("INSERT INTO $table_files 
+		   			 (owner, files_owner, folder, title, originalname,
+						description, location, access, time_uploaded) VALUES 
+		   			 ('1', '$epfuid','$folder_id','$file_title','$file_originalname',
+		   			  '$file_description','$file_location','$file_access','$file_time');");
+					}
+				else{
+					$file_ident=mysql_result($d_f,0);
+					$d_f=mysql_query("UPDATE $table_files SET (originalname='$file_originalname') 
+		   				WHERE ident='$file_ident';");
+					}
+				}
+
+			if(rename($file_originalpath,$file_fullpath)){
+				trigger_error('Uploaded file to: '.$dir,E_USER_NOTICE);
+				// chmod($file_fullpath, $CFG->filepermissions);
+				$success=true;
+				}
+			else{trigger_error('Could not move file to eportfolio: '.$file_fullpath,E_USER_WARNING);}
+			}
+
+		}
+
+	if($dbc==true){
+		$db=db_connect();
+		mysql_query("SET NAMES 'utf8'");
+		}
+
+	return $success;
+	}
+
+
+
+/**
+ *
+ *
+ */
+function delete_files($filedata,$dbc=true){
+	global $CFG;
+	$success=false;
+
+	$table_folders=$CFG->eportfolio_db_prefix.'file_folders';
+	$table_files=$CFG->eportfolio_db_prefix.'files';
+	$table_users=$CFG->eportfolio_db_prefix.'users';
+	$table_icons=$CFG->eportfolio_db_prefix.'icons';
+	if($CFG->eportfolio_db!='' and $dbc==true){
+		$dbepf=db_connect(true,$CFG->eportfolio_db);
+		mysql_query("SET NAMES 'utf8'");
+		}
+
+
+	/* Identify the folder to be linked with this file. Note this is a
+	 * virtual flolder in elgg and does not affect the physical directory
+	 * the file is being stored in. 
+	 */
+	if($filedata['foldertype']=='report'){
+		$folder_name='Reports';
+		$dir_name='files';
+		}
+	elseif($filedata['foldertype']=='work'){
+		$folder_name='Portfolio Work';
+		$dir_name='files';
+		}
+	elseif($filedata['foldertype']=='icon'){
+		$folder_name='root';
+		$dir_name='icons';
+		}
+	else{
+		/* Just defaults to their parent folder. */
+		$folder_name='root';
+		$dir_name='files';
+		$folder_id=-1;
+		}
+
+	$batchfiles=$filedata['batchfiles'];
+	foreach($batchfiles as $batchfile){
+		$epfusername=$batchfile['epfusername'];
+		$file_name=$batchfile['filename'];
+		$epfuid=elgg_get_epfuid($epfusername,'person');
+		$dir=$dir_name . '/' . substr($epfusername,0,1) . '/' . $epfusername; 
+		$file_fullpath=$CFG->eportfolio_dataroot . '/' . $dir. '/'. $file_name;
+		$file_location=$dir . '/'. $file_name;
+		$file_originalname=$file_name;
+		trigger_error($epfusername.' : '.$file_name,E_USER_WARNING);	
+
+		if($filedata['foldertype']=='icon'){
+			mysql_query("DELETE FROM $table_icons WHERE owner='$epfuid' AND filename='$file_name';");
+			}
+		else{
+			$d_f=mysql_query("SELECT ident FROM $table_files WHERE originalname='$file_originalname' 
+								AND files_owner='$epfuid';");
+			if(mysql_num_rows($d_f)>0){
+				$file_ident=mysql_result($d_f,0);
+				$d_f=mysql_query("DELETE FROM $table_files WHERE ident='$file_ident';");
+				}
+			}
+		
+		if(unlink($file_fullpath)){
+			$success=true;
+			}
+		else{trigger_error('Could not remove file from eportfolio: '.$file_fullpath,E_USER_WARNING);}
+		}
+	if($dbc==true){
+		$db=db_connect();
+		mysql_query("SET NAMES 'utf8'");
+		}
+
+	return $success;
+	}
+
+
+/**
+ *
+ * If the folder already exists then just returns the folder_id
+ *
+ * If folder doesn't exist and the @access is set then creates new
+ * folder and returns its folder_id.
+ *
+ * This can only create folders in the user's root folder because
+ * parent=-1 always.
+ *
+ *
+ *
+ */
+function new_folder($owner,$name,$access,$dbc=true){
+	global $CFG;
+	$table=$CFG->eportfolio_db_prefix.'file_folders';
+
+	if($CFG->eportfolio_db!='' and $dbc==true){
+		$dbepf=db_connect(true,$CFG->eportfolio_db);
+		mysql_query("SET NAMES 'utf8'");
+		}
+
+	$d_folder=mysql_query("SELECT ident FROM $table WHERE owner='$owner' AND name='$name';");
+	if(mysql_num_rows($d_folder)>0){
+		$folder_id=mysql_result($d_folder,0);
+		}
+	elseif($owner!='' and $name!='' and $access!=''){
+		$d_f=mysql_query("INSERT INTO $table SET owner='$owner', files_owner='$owner',
+					 name='$name', access='$access', parent='-1';");
+		$folder_id=mysql_insert_id();
+		}
+	else{
+		$folder_id=-1;
+		}
+
+	if($dbc==true){
+		$db=db_connect();
+		mysql_query("SET NAMES 'utf8'");
+		}
+
+	return $folder_id;
+	}
+
+
+/** 
+ *
+ * Returns an array of file urls and descriptions for the given $filetype and $owner.
+ * If not called from other elgg_ functions set dbc=true.
+ * The owner is the epfusername.
+ *
+ * @params string $epfusername of the owner
+ * @params string $filetype
+ * @params logical $dbc
+ * @return array $files
+ */
+function list_files($epfun,$filetype,$dbc=false){
+	global $CFG;
+	$table_users=$CFG->eportfolio_db_prefix.'users';
+	$table_icons=$CFG->eportfolio_db_prefix.'icons';
+	$table_folders=$CFG->eportfolio_db_prefix.'file_folders';
+	$table_files=$CFG->eportfolio_db_prefix.'files';
+	$files=array();
+
+	if($CFG->eportfolio_db!='' and $dbc==true){
+		$dbepf=db_connect(true,$CFG->eportfolio_db);
+		mysql_query("SET NAMES 'utf8'");
+		}
+
+	$epfuid=elgg_get_epfuid($epfun,'person');
+
+	if($filetype=='icon'){
+		/* TODO: make all icons (ie.photos), with exception of current
+		 *		 icon, part of normal file structure??? 
+		 */
+		/*
+		$d_u=mysql_query("SELECT icon FROM $userstable WHERE username='$owner';");
+		if(mysql_num_rows($d_u)==1){
+			$iconid=mysql_result($d_u,0);
+			$fileurl=$CFG->eportfoliosite.'/_icon/user/'.$iconid.'/h/135/w/100';
+			}
+		*/
+		}
+	elseif($filetype=='work'){
+		$folder_name='Portfolio Work';
+		}
+	elseif($filetype=='report'){
+		$folder_name='Reports';
+		}
+	else{
+		/* Just defaults to their parent folder. */
+		$folder_name='root';
+		$folder_id=-1;
+		}
+
+	if($folder_name!='root'){
+		$folder_id=elgg_new_folder($epfuid,$folder_name,'',false);
+		}
+
+	$d_f=mysql_query("SELECT ident, title, description, location, originalname FROM $table_files 
+						WHERE files_owner='$epfuid' AND folder='$folder_id' ORDER BY time_uploaded DESC;");
+	while($file=mysql_fetch_array($d_f,MYSQL_ASSOC)){
+		$file['name']=$file['originalname'];
+		$file['path']=$CFG->eportfolio_dataroot.'/'.$file['location'];
+		$file['url']=$CFG->eportfoliosite.'/'.$epfun.'/files/'.$folder_id.'/'.$file['ident'].'/'.$file['originalname'];
+		$files[]=$file;
+		}
+
+	if($dbc==true){
+		$db=db_connect();
+		mysql_query("SET NAMES 'utf8'");
+		}
+
+	return $files;
+	}
+
 ?>

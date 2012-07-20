@@ -320,13 +320,13 @@ function fetchRemittance($remid=-1){
 
 		$concept_total=$concept_pending + $concept_paid + $concept_notpaid;
 		$Concept['AmountPending']=array('label' => 'pending', 
-										'value' => ''.$amount_pending
+										'value' => ''.$concept_pending
 										);
 		$Concept['AmountPaid']=array('label' => 'paid', 
-									 'value' => ''.$amount_paid
+									 'value' => ''.$concept_paid
 									 );
 		$Concept['AmountNotPaid']=array('label' => 'notpaid', 
-										'value' => ''.$amount_notpaid
+										'value' => ''.$concept_notpaid
 										);
 		$Concept['TotalAmount']=array('label' => 'total', 
 									  'value' => ''.$concept_total

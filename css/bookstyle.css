@@ -851,7 +851,7 @@ table.smalltable {
 	margin: 2px 0;
 	border: 1px inset #446;
 	border-radius: 5px;
-	background: #eee url("progress.png") 50% 0 repeat-y;
+	background: #eee url("../images/progress.png") 50% 0 repeat-y;
 	}
 
 .fileupload #progress p.success {

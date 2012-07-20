@@ -243,7 +243,8 @@ function xmlstringToArray($xmlstring,$clean=true){
 	/*
 	 * TODO: is php5-tidy a useful tool? need to test for install before calling as its not standard
 	 */
-	if($tiny){
+	$tiny='no';
+	if($tiny=='yes'){
 		$config=array(
 					  'indent' => false,
 					  'drop-proprietary-attributes' => true,

@@ -146,7 +146,7 @@ three_buttonmenu();
 		</div>
 
 	  </fieldset>
-	  <input type="hidden" id="MAX_FILE_SIZE" name="MAX_FILE_SIZE" value="300000" />
+	  <input type="hidden" id="MAX_FILE_SIZE" name="MAX_FILE_SIZE" value="3000000" />
 	  <input type="hidden" id="FILE_OWNER" name="FILE_OWNER" value="<?php print $Student['EPFUsername']['value'];?>" />
 	</form>
 
