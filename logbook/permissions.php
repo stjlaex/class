@@ -586,6 +586,7 @@ function getCoursePerm($course,$respons){
 function list_pastoral_respon(){
 	$rforms=array();
 	$rhouses=array();
+	$rregs=array();
 	$ryears=array();
 	$aperm=get_admin_perm('p',$_SESSION['uid']);
 	$resperm=getResidencePerm();
@@ -597,6 +598,9 @@ function list_pastoral_respon(){
 			}
 		elseif($respon['comtype']=='house'){
 			$rhouses[]=$respon;
+			}
+		elseif($respon['comtype']=='reg'){
+			$rregs[]=$respon;
 			}
 		elseif($respon['yeargroup_id']!='' and $respon['community_id']=='0'){
 			/* All academic respons must have null yeargroup_id for this to work!*/
@@ -618,7 +622,7 @@ function list_pastoral_respon(){
 		}
 
 
-	return array('forms'=>$rforms,'years'=>$ryears,'houses'=>$rhouses);
+	return array('forms'=>$rforms,'years'=>$ryears,'houses'=>$rhouses,'regs'=>$rregs);
 	}
 
 

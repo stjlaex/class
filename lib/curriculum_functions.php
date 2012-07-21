@@ -1170,7 +1170,7 @@ function get_sectionname($secid){
  */
 function get_section($id,$type='year'){
 	if($type=='form'){
-		$fid=get_form_yeargroup($fid);
+		$yid=get_form_yeargroup($fid);
 		}
 	else{
 		$yid=$id;

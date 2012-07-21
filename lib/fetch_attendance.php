@@ -473,7 +473,6 @@ function check_community_attendance($community,$event){
 	$eveid=$event['id'];
 	$nosids=countin_community($community);
 
-
 	/* If no register yet taken for current session then $eveid=0 so set sensible defaults*/
 	$nop=0;$noa=0;$nol=0;$nopl=0;
 
@@ -488,7 +487,7 @@ function check_community_attendance($community,$event){
 			$enddate=$Event['Date']['value'];
 			}
 
-		if(isset($yid)){
+		if(isset($yid) and $yid>-9000){
 			$d_att=mysql_query("SELECT COUNT(attendance.student_id) FROM attendance 
 							 WHERE attendance.event_id='$eveid' AND attendance.status='a' AND attendance.code NOT IN ('U','L','UB','UA') AND attendance.student_id=ANY(
 				SELECT comidsid.student_id FROM comidsid JOIN student ON student.id=comidsid.student_id

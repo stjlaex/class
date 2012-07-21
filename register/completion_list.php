@@ -17,7 +17,10 @@ if($secid!='' and $secid>1){
 	foreach($ygs as $yg){
 		$coms=(array)list_communities($type,'',$yg['id']);
 		foreach($coms as $com){
-			if(!in_array($com['id'],$registration_ids) or $com['type']=='house'){$registration_coms[]=$com;$registration_ids[]=$com['id'];}
+			if(!in_array($com['id'],$registration_ids) or $com['type']=='house'){
+				$registration_coms[]=$com;
+				$registration_ids[]=$com['id'];
+				}
 			}
 		}
 	}

@@ -55,6 +55,12 @@ if($nodays==''){$nodays=8;}
 			  $secid=$section['id'];
 			  }
 		  }
+	  if(!isset($community) and sizeof($pastorals['regs'])>0 and array_search('reg',$CFG->regtypes)!==false){
+		  $yid=$pastorals['regs'][0]['yeargroup_id'];
+		  $section=get_section($yid);
+		  $community=array('id'=>$pastorals['regs'][0]['community_id'],'type'=>'reg','name'=>$pastorals['regs'][0]['name']);
+			  $secid=$section['id'];
+		  }
 	  if(!isset($community) and sizeof($pastorals['forms'])>0 and array_search('form',$CFG->regtypes)!==false){
 		  $yid=$pastorals['forms'][0]['yeargroup_id'];
 		  $section=get_section($yid);

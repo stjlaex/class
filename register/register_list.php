@@ -28,6 +28,7 @@ else{$session='AM';}
 		$students=(array)listin_community($community);
 		$tutor_users=(array)list_community_users($community,array('r'=>1,'w'=>1,'x'=>1),$yid);
 		}
+
 	/**
 	 * Get attendance events either periods for a single day or sessions for more
 	 */
@@ -144,7 +145,7 @@ else{
 ?>
   <div id="heading">
 <?php
-if($community['type']=='form' or $community['type']=='house'){
+if($community['type']=='form' or $community['type']=='house' or $community['type']=='reg'){
 	print '<div><label>'.get_string($community['type']).'</label>'.$community['name'].'</div>';
 	if(isset($tutor_users)){
 		foreach($tutor_users as $uid => $tutor_user){

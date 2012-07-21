@@ -362,6 +362,7 @@ $string['enrolments']='Enrolments';
 $string['<']='<';
 $string['>']='>';
 $string['house']='House';
+$string['reg']='Registration group';
 $string['merits']='Merits';
 $string['groups']='Groups';
 $string['form']=$string['formgroup'];

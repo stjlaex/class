@@ -85,9 +85,9 @@ three_buttonmenu($extrabuttons);
 		  <td>
 <?php
 		if($perms['r']==1 and $newcomtype=='form'){
-			print '<a href="admin.php?current=form_edit.php&cancel='.$choice.'&choice='.$choice.'&newtid='.$tid.'&comid='.$com['id'].'&newcomtype='.$newcomtype.'">'.$com['displayname'].'</a>';
+			print '<a href="admin.php?current=form_edit.php&cancel='.$choice.'&choice='.$choice.'&comid='.$com['id'].'&newcomtype='.$newcomtype.'">'.$com['displayname'].'</a>';
 			}
-		elseif($perms['r']==1 and $newcomtype=='house'){
+		elseif($perms['r']==1 and ($newcomtype=='house' or $newcomtype=='reg')){
 	   		print '<a href="admin.php?current=community_group_edit.php&cancel='.$choice.'&choice='.$choice.'&newcomtype='.$newcomtype.'&comid='.$com['id'].'&yid='.$yid.'">'.$com['displayname'].'</a>';
 			}
 		else{
@@ -141,7 +141,7 @@ three_buttonmenu($extrabuttons);
 
 
 	<fieldset class="right">
-		  <legend><?php print_string('changetype',$book);?></legend>
+	  <legend><?php print_string('changetype',$book);?></legend>
 
 		<div class="center">
 <?php
@@ -150,7 +150,7 @@ three_buttonmenu($extrabuttons);
 	$listlabel='';
 	$liststyle='width:95%;';
 	include('scripts/set_list_vars.php');
-	$list=array('form'=>'form','house'=>'house');
+	$list=array('form'=>'form','house'=>'house','reg'=>'registrationgroup');
 	list_select_list($list,$listoptions,$book);
 	unset($listoptions);
 ?>

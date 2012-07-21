@@ -49,6 +49,15 @@ function list_communities($type='',$year='',$yid='%'){
 					community.type='$type' AND groups.yeargroup_id LIKE '$yid' 
 					ORDER BY groups.yeargroup_id, community.name;");
 			}
+		elseif($type=='reg'){
+			$d_com=mysql_query("SELECT community.id, community.name, 
+					community.type, community.year, community.capacity,
+					community.detail, groups.yeargroup_id, groups.gid 
+					FROM community JOIN groups ON
+					community.id=groups.community_id WHERE 
+					community.type='$type' 
+					ORDER BY community.name;");
+			}
 		else{
 			$d_com=mysql_query("SELECT id, name, type, year, capacity, detail FROM community 
 									WHERE type='$type' ORDER BY name;");
@@ -202,6 +211,10 @@ function update_community($community,$communityfresh=array('id'=>'','type'=>'','
 				$yid=$community['yeargroup_id'];
 				mysql_query("INSERT INTO groups (community_id,yeargroup_id,type) VALUES ('$comid','$yid','p');");
 				}
+			elseif(strtolower($type)=='reg'){
+				$yid='-9000';
+				mysql_query("INSERT INTO groups (community_id,yeargroup_id,type) VALUES ('$comid','$yid','p');");
+				}
 
 			}
 		else{
@@ -330,7 +343,9 @@ function listin_community($community,$enddate='',$startdate=''){
 	if($startdate==''){$startdate=$enddate;}
 	if(isset($community['id']) and $community['id']!=''){$comid=$community['id'];}
 	else{$comid=update_community($community);}
-	if(isset($community['yeargroup_id']) and $community['yeargroup_id']!=''){$yid=$community['yeargroup_id'];}
+	if(isset($community['yeargroup_id']) and $community['yeargroup_id']!='' and $community['yeargroup_id']>-9000){
+		$yid=$community['yeargroup_id'];
+		}
 
 	$orderby=get_studentlist_order();
 
@@ -497,7 +512,7 @@ function set_community_stay($sid,$community,$startdate,$enddate){
 function countin_community($community,$enddate='',$startdate='',$static=false){
 	if(isset($community['id']) and $community['id']!=''){$comid=$community['id'];}
 	else{$comid=update_community($community);}
-	if(isset($community['yeargroup_id']) and $community['yeargroup_id']!=''){$yid=$community['yeargroup_id'];}
+	if(isset($community['yeargroup_id']) and $community['yeargroup_id']!='' and $community['yeargroup_id']>-9000){$yid=$community['yeargroup_id'];}
 
 	if($static){
 		$d_c=mysql_query("SELECT count FROM community WHERE id='$comid';");
@@ -642,7 +657,7 @@ function list_member_communities($sid,$community,$current=true){
 		}
 	elseif($name!=''){
 		$comid=update_community($community);
-		$d_community=mysql_query("SELECT id, special, joiningdate, leavingdate  FROM community JOIN
+		$d_community=mysql_query("SELECT id, special, joiningdate, leavingdate FROM community JOIN
 				comidsid ON community.id=comidsid.community_id
 				WHERE community.id='$comid' AND comidsid.student_id='$sid' AND
    				(comidsid.joiningdate<='$todate' OR comidsid.joiningdate IS NULL) 
@@ -777,6 +792,9 @@ function join_community($sid,$community){
 			if($newyid!=$oldyid){join_community($sid,array('type'=>'year','name'=>$newyid));}
 			}
 		}
+	elseif($type=='reg'){
+		$oldtypes[]='reg';
+		}
 	elseif($type=='year'){
 		$studentfield='yeargroup_id';
 		$newyid=$name;
@@ -796,6 +814,7 @@ function join_community($sid,$community){
 	elseif($type=='alumni'){
 		$oldtypes[]='year';
 		$oldtypes[]='form';
+		$oldtypes[]='reg';
 		$oldtypes[]='transport';
 		$oldtypes[]='tutor';
 		/*may be joining from previous point in application procedure*/
