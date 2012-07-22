@@ -137,7 +137,7 @@ function fetchStudent_singlefield($sid,$tag){
    	elseif($tag=='Postcode'){
 		$d_add=mysql_query("SELECT DISTINCT postcode FROM address JOIN gidaid ON gidaid.address_id=address.id
 							WHERE address.postcode!='' AND gidaid.guardian_id=ANY(SELECT guardian_id FROM gidsid 
-							wHERE gidsid.student_id='$sid' ORDER BY gidsid.priority ASC);");
+							WHERE gidsid.student_id='$sid' ORDER BY gidsid.priority ASC);");
 		$Student[$tag]=array('label'=>'',
 							 'value'=>'');
 		while($add=mysql_fetch_array($d_add,MYSQL_ASSOC)){

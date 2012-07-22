@@ -17,10 +17,11 @@ if(sizeof($invids)==0){
 else{
 	$Invoices=array();
 	$Invoices['Invoice']=array();
-	$Invoice=fetchFeesInvoice($invid);
-	$Invoices['Invoice'][]=$Invoice;
+	foreach($invids as $invid){
+		$Invoice=fetchFeesInvoice(array('id'=>$invid));
+		$Invoices['Invoice'][]=$Invoice;
+		}
 	$Invoices['Paper']='portrait';
-	//$Invoices['Transform']='order_form';
 	$returnXML=$Invoices;
 	$rootName='Invoices';
 	}

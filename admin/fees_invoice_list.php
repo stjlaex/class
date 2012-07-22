@@ -135,7 +135,7 @@ $invoices=(array)list_remittance_invoices($remid);
   <div id="xml-invoices" style="display:none;">
 	<params>
 	  <checkname>sids</checkname>
-	  <transform>order_form</transform>
+	  <transform>fees_invoice</transform>
 	  <paper>portrait</paper>
 	</params>
   </div>

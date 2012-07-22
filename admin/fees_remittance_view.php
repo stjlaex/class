@@ -19,8 +19,9 @@ if((isset($_GET['paymenttype']) and $_GET['paymenttype']!='')){$filter_paymentty
 
 
 $extrabuttons=array();
-if($conid==-1){
+if($conid==-1 and $payment==1){
 /*
+TODO: print invoices from here....
 	$extrabuttons['invoice']=array('name'=>'current',
 								   'pathtoscript'=>$CFG->sitepath.'/'.$CFG->applicationdirectory.'/admin/',
 								   'value'=>'fees_invoice_print.php',
@@ -211,7 +212,7 @@ if($filter_paymenttype==''){
 	<params>
 	  <checkname>sids</checkname>
 	  <length>short</length>
-	  <transform>fees_invoice_form</transform>
+	  <transform>fees_invoice</transform>
 	  <paper>portrait</paper>
 	</params>
   </div>

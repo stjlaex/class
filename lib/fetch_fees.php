@@ -21,6 +21,7 @@ function fetchAccount($fetchid=-1,$idname='guardian_id'){
 
 	$Account=array();
 	$accid=-1;
+	$gid=-1;
 
 	if(!empty($_SESSION['accessfees'])){
 		$access=$_SESSION['accessfees'];
@@ -45,7 +46,7 @@ function fetchAccount($fetchid=-1,$idname='guardian_id'){
 			$a=array('bankname'=>'','accountname'=>'','bankcountry'=>'','bankcode'=>'','bankbranch'=>'','bankcontrol'=>'','banknumber'=>'');
 			}
 
-		if($a['accountname']=='' and isset($gid)){
+		if($a['accountname']=='' and $gid!=-1){
 			/* Want plain ascii text for account name. 
 			$d_g=mysql_query("SELECT CAST(CONCAT(surname,', ',forename) AS CHAR CHARACTER SET ASCII) FROM guardian WHERE id='$gid';");
 			*/
@@ -59,6 +60,7 @@ function fetchAccount($fetchid=-1,$idname='guardian_id'){
 		}
 
 	$Account['id_db']=$accid;
+	$Account['guardian_id_db']=$gid;
 	$Account['BankName']=array('label' => 'bankname', 
 							   //'inputtype'=> 'required',
 							   'table_db' => 'fees_account', 
@@ -122,7 +124,9 @@ function fetchFeesInvoice($invoice=array('id'=>'-1')){
 	$invid=$invoice['id'];
 	$Invoice=array();
 	if($invid!='-1' and !isset($invoice['reference'])){
-		$d_i=mysql_query("SELECT reference, account_id, remittance_id FROM fees_invoice WHERE id='$invid';");
+		$d_i=mysql_query("SELECT i.series, i.reference, i.account_id, i.remittance_id, r.issuedate, r.duedate FROM fees_invoice AS i  
+							JOIN fees_remittance AS r ON r.id=i.remittance_id  
+							 WHERE i.id='$invid';");
 		if(mysql_numrows($d_i)>0){
 			$invoice=mysql_fetch_array($d_i,MYSQL_ASSOC);
 			}
@@ -132,31 +136,51 @@ function fetchFeesInvoice($invoice=array('id'=>'-1')){
 		}
 	if($invid=='-1'){
 		$invoice=array('reference'=>'','account_id'=>'','remittance_id'=>'');
+		$Address=array();
+		$Student=array();
+		$Account=array();
 		}
 	else{
 		$d_c=mysql_query("SELECT SUM(c.amount) AS totalamount, c.paymenttype, c.student_id 
 							FROM fees_charge AS c WHERE c.invoice_id='$invid';");
 		$charge=mysql_fetch_array($d_c,MYSQL_ASSOC);
+		$Student=(array)fetchStudent_short($charge['student_id']);
+		$Account=fetchAccount($invoice['account_id'],'id');
+		$gid=$Account['guardian_id_db'];
+		$d_gidaid=mysql_query("SELECT * FROM gidaid WHERE guardian_id='$gid' ORDER BY priority;");
+		$gidaid=mysql_fetch_array($d_gidaid,MYSQL_ASSOC);
+		$Address=(array)fetchAddress($gidaid);
 		}
 
 	$Invoice['id_db']=$invid;
 	$Invoice['student_id_db']=$charge['student_id'];
+	$Invoice['account_id_db']=$invoice['account_id'];
 	$Invoice['TotalAmount']=array('label' => 'amount', 
 								  'value' => ''.$charge['totalamount']
 								  );
-
 	$Invoice['PaymentType']=array('label' => 'amount', 
 								  'value' => ''.$charge['paymenttype']
 								  );
+	$Invoice['PaymentDate']=array('label' => 'date', 
+								  'value' => ''.$invoice['duedate']
+								  );
+	$Invoice['IssueDate']=array('label' => 'date', 
+								'value' => ''.$invoice['issuedate']
+								);
 	$Invoice['Reference']=array('label' => 'reference', 
 								'value' => ''.$invoice['reference']
 								);
-	$Invoice['StudentName']=array('label' => 'bankname', 
-							   'value' => ''.$inv['bankname']
-							   );
-	$Invoice['AccountName']=array('label' => 'name', 
-								  'value' => ''.$inv['accountname']
+	$Invoice['StudentName']=array('label' => 'student', 
+								  'value' => ''.$Student['DisplayFullSurname']['value']
 								  );
+	$Invoice['StudentRegistrationGroup']=array('label' => 'formgroup', 
+											   'value' => ''.$Student['RegistrationGroup']['value']
+											   );
+	$Invoice['AccountName']=array('label' => 'name', 
+								  'value' => ''.$Account['AccountName']['value']
+								  );
+	$Invoice['Address']=$Address;
+
 	return $Invoice;
 	}
 
