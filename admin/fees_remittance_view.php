@@ -162,11 +162,11 @@ if($filter_paymenttype==''){
 					}
 
 
-				/* Warn when no payee is set or the payment type is bank and the payee has no bank account. */
-				$payclass='';
-				if($Student['paymenttype']==''){$payclass='class="hilite"';}
-				elseif($charge['paymenttype']=='1' and $Student['accountsno']==0){$payclass='class="midlite"';}
-				
+				/* Warn when no payee is set or the payment type is bank and the payee has no valid bank account. */
+				$payclass='';$payspan='';
+				if($Student['paymenttype']==''){$payclass='class="hilite"';$payspan=get_string('nopayeeset',$book);}
+				elseif($charge['paymenttype']=='1' and $Student['accountsno']==0){$payclass='class="midlite"';$payspan=get_string('novalidbankaccount',$book);}
+
 				/* first entry for this student for this concept (group by concept and then by student in on other words) */
 				print '<tr id="sid-'.$charge['id'].'" '.$rowclass.'>';
 				print '<td><input type="checkbox" name="sids[]" value="'.$charge['id'].'" />';
@@ -182,7 +182,13 @@ if($filter_paymenttype==''){
 				include('scripts/list_paymenttypes.php');
 				print '</div>';
 				print get_string(displayEnum($charge['paymenttype'],'paymenttype'),$book).'</td>';
-				print '<td '.$payclass.'>'.display_money($charge['amount']).'</td></tr>';
+				if($payclass!=''){
+					print '<td '.$payclass.'><span title="'.$payspan.'">'.display_money($charge['amount']).'</span></td></tr>';
+					}
+				else{
+					print '<td>'.display_money($charge['amount']).'</td></tr>';
+					}
+
 				}
 			}
 ?>

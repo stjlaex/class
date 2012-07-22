@@ -28,7 +28,7 @@ if($_POST['payment0']=='yes'){
 		$okay=false;
 		$charid=$charge['id'];
 		$charge=get_charge($charid);
-		/* Filter out any charges which are intended for bank payment */
+		/* Filter out any charges which are intended for bank payment (paymenttype=1) */
 		if($charge['paymenttype']!='1'){
 			$sid=$charge['student_id'];
 			/* Do certain things once only for a student... */
@@ -56,6 +56,7 @@ if($_POST['payment0']=='yes'){
 
 	foreach($Students as $sid => $Student){
 		$Account=(array)fetchAccount($Student['payee']['id']);
+		//trigger_error('ACCOUNT: '.$sid.' :'.$Account['id_db'],E_USER_WARNING);
 		if($Account['id_db']!=-1){
 			$invoice=(array)create_invoice($Account['id_db'],$remid);
 			foreach($Student['charges'] as $charge){

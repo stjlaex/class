@@ -8,6 +8,7 @@ CREATE TABLE fees_account (
 	bankbranch		varbinary(40) not null default '',
 	bankcontrol 	varbinary(20) not null default '',
 	banknumber 		varbinary(60) not null default '',
+	valid			enum('0','1') not null default '0',
 	index 			index_gid (guardian_id),
 	primary key  	(id)
 ) type=myisam;
@@ -65,9 +66,11 @@ CREATE TABLE fees_tarif (
 ) type=myisam;
 CREATE TABLE fees_invoice (
 	id				int unsigned not null auto_increment, 
+	series			varchar(8) not null default '0',
 	reference		varchar(240) not null default '',
 	account_id		int unsigned not null default 0,
 	remittance_id	int unsigned not null default 0,
+	index 			refno (series,reference),
    	primary key		(id)
 ) type=myisam;
 

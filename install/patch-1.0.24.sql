@@ -24,3 +24,11 @@ CREATE TABLE file_folder (
  KEY folderowner (owner,owner_id),
  KEY name (name)
 );
+
+ALTER TABLE fees_account ADD
+	valid enum('0','1') not null default '0' AFTER banknumber;
+UPDATE fees_account SET valid='1';
+ALTER TABLE fees_invoice ADD
+	series varchar(8) not null default '0' AFTER id;
+ALTER TABLE fees_invoice ADD
+	KEY refno (series,reference);

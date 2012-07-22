@@ -1,4 +1,4 @@
-Version ClaSS-1.0.24 release (2012/07/20)
+Version ClaSS-1.0.24 release (2012/07/23)
 -------------------------------------------
 
 New db tables for file storage and organising by virtual folders.
@@ -7,7 +7,12 @@ Sepcial perms group exception added for communities idependent of
 yeargroup (yid=-9000).
 
 Added perm groups for community type=reg and reggistration groups
-moved to the formgrouop_matrix.
+moved to the formgroup_matrix.
+
+New fees_invoice field for the series number.
+
+New fees_account field to record a validity check.
+
 
 
 Version ClaSS-1.0.23 release (2012/07/12)

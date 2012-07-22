@@ -17,28 +17,42 @@
  * 
  * @return array
  */
-function fetchAccount($gid=-1,$idname='guardian_id'){
+function fetchAccount($fetchid=-1,$idname='guardian_id'){
 
 	$Account=array();
 	$accid=-1;
 
 	if(!empty($_SESSION['accessfees'])){
 		$access=$_SESSION['accessfees'];
-		$d_a=mysql_query("SELECT id, AES_DECRYPT(bankname,'$access') AS bankname, AES_DECRYPT(accountname,'$access') AS accountname, 
+		$d_a=mysql_query("SELECT id, valid, guardian_id,
+					AES_DECRYPT(bankname,'$access') AS bankname, 
+					AES_DECRYPT(accountname,'$access') AS accountname, 
 					AES_DECRYPT(bankbranch,'$access') AS bankbranch, 
 					AES_DECRYPT(bankcode,'$access') AS bankcode,
-					AES_DECRYPT(bankcountry,'$access') AS bankcountry, AES_DECRYPT(bankcontrol,'$access') 
-					AS bankcontrol, AES_DECRYPT(banknumber,'$access') AS banknumber  
-					FROM fees_account WHERE $idname='$gid' AND id!='1';");
+					AES_DECRYPT(bankcountry,'$access') AS bankcountry, 
+					AES_DECRYPT(bankcontrol,'$access') AS bankcontrol, 
+					AES_DECRYPT(banknumber,'$access') AS banknumber  
+					FROM fees_account WHERE $idname='$fetchid' AND id!='1';");
 		$a=mysql_fetch_array($d_a,MYSQL_ASSOC);
 		if(mysql_numrows($d_a)>0){
 			$accid=$a['id'];
+			$gid=$a['guardian_id'];
 			}
-		if($a['accountname']=='' and $idname='guardian_id'){
-			/* Want plain ascii text for account name. */
+		elseif($idname='guardian_id'){
+			mysql_query("INSERT INTO fees_account SET guardian_id='$fetchid', valid='0';");
+			$accid=mysql_insert_id();
+			$gid=$fetchid;
+			$a=array('bankname'=>'','accountname'=>'','bankcountry'=>'','bankcode'=>'','bankbranch'=>'','bankcontrol'=>'','banknumber'=>'');
+			}
+
+		if($a['accountname']=='' and isset($gid)){
+			/* Want plain ascii text for account name. 
 			$d_g=mysql_query("SELECT CAST(CONCAT(surname,', ',forename) AS CHAR CHARACTER SET ASCII) FROM guardian WHERE id='$gid';");
+			*/
+			$d_g=mysql_query("SELECT CAST(CONCAT(surname,', ',forename) AS CHAR CHARACTER SET UTF8) FROM guardian WHERE id='$gid';");
 			$a['accountname']=mysql_result($d_g,0);
 			}
+
 		}
 	else{
 		$a=array('bankname'=>'','accountname'=>'','bankcountry'=>'','bankcode'=>'','bankbranch'=>'','bankcontrol'=>'','banknumber'=>'');
@@ -46,14 +60,14 @@ function fetchAccount($gid=-1,$idname='guardian_id'){
 
 	$Account['id_db']=$accid;
 	$Account['BankName']=array('label' => 'bankname', 
-							   'inputtype'=> 'required',
+							   //'inputtype'=> 'required',
 							   'table_db' => 'fees_account', 
 							   'field_db' => 'bankname',
 							   'type_db' => 'varchar(120)', 
 							   'value' => ''.$a['bankname']
 							   );
 	$Account['AccountName']=array('label' => 'name', 
-							   'inputtype'=> 'required',
+								  //'inputtype'=> 'required',
 							   'table_db' => 'fees_account', 
 							   'field_db' => 'accountname',
 							   'type_db' => 'varchar(120)', 
@@ -67,42 +81,39 @@ function fetchAccount($gid=-1,$idname='guardian_id'){
 							  'value' => ''.$a['bankcountry']
 							  );
 	$Account['BankCode']=array('label' => 'bankcode', 
-							   'inputtype'=> 'required',
+							   //'inputtype'=> 'required',
 							   'table_db' => 'fees_account', 
 							   'field_db' => 'bankcode',
 							   'type_db' => 'varchar(8)', 
 							   'value' => ''.$a['bankcode']
 							   );
 	$Account['Branch']=array('label' => 'branch', 
-							 'inputtype'=> 'required',
+							 //'inputtype'=> 'required',
 							 'table_db' => 'fees_account', 
 							 'field_db' => 'bankbranch',
 							 'type_db' => 'varchar(8)', 
 							 'value' => ''.$a['bankbranch']
 							 );
 	$Account['Control']=array('label' => 'control', 
-							  'inputtype'=> 'required',
+							  //'inputtype'=> 'required',
 							  'table_db' => 'fees_account', 
 							  'field_db' => 'bankcontrol',
 							  'type_db' => 'varchar(4)', 
 							  'value' => ''.$a['bankcontrol']
 							  );
 	$Account['Number']=array('label' => 'number', 
-							 'inputtype'=> 'required',
+							 //'inputtype'=> 'required',
 							 'table_db' => 'fees_account', 
 							 'field_db' => 'banknumber',
 							 'type_db' => 'varchar(20)', 
 							 'value' => ''.$a['banknumber']
 							 );
-
 	return $Account;
 	}
 
 
 /**
  *
- * Can return an account either for a given guardian_id (the default) or for
- * a given account id (set idname=id). account_id=1 is special and not a valid value.
  * 
  * @return array
  */
@@ -140,22 +151,12 @@ function fetchFeesInvoice($invoice=array('id'=>'-1')){
 	$Invoice['Reference']=array('label' => 'reference', 
 								'value' => ''.$invoice['reference']
 								);
-	/*
-	$Invoice['BankName']=array('label' => 'bankname', 
-							   'inputtype'=> 'required',
-							   'table_db' => 'fees_account', 
-							   'field_db' => 'bankname',
-							   'type_db' => 'varchar(120)', 
+	$Invoice['StudentName']=array('label' => 'bankname', 
 							   'value' => ''.$inv['bankname']
 							   );
 	$Invoice['AccountName']=array('label' => 'name', 
-							   'inputtype'=> 'required',
-							   'table_db' => 'fees_account', 
-							   'field_db' => 'accountname',
-							   'type_db' => 'varchar(120)', 
-							   'value' => ''.$inv['accountname']
-							   );
-	*/
+								  'value' => ''.$inv['accountname']
+								  );
 	return $Invoice;
 	}
 
@@ -659,7 +660,7 @@ function list_student_payees($sid){
 	$d_g=mysql_query("SELECT guardian.id AS id, gidsid.relationship, guardian.surname, guardian.forename, gidsid.paymenttype FROM gidsid, guardian WHERE gidsid.guardian_id=guardian.id AND gidsid.student_id='$sid' ORDER BY paymenttype DESC;");
 	while($g=mysql_fetch_array($d_g,MYSQL_ASSOC)){
 		$gid=$g['id'];
-		$d_a=mysql_query("SELECT COUNT(id) FROM fees_account WHERE guardian_id='$gid';");
+		$d_a=mysql_query("SELECT COUNT(id) FROM fees_account WHERE guardian_id='$gid' AND valid='1';");
 		$g['accountsno']=mysql_result($d_a,0);
 		$g['name']=get_string(displayEnum($g['relationship'], 'relationship'),'infobook').': '.$g['surname'];
 		$guardians[]=$g;
@@ -759,21 +760,17 @@ function create_invoice($accid,$remid){
 
 	$d_r=mysql_query("SELECT year FROM fees_remittance WHERE id='$remid';");
 	$year=mysql_result($d_r,0);
-	/* Join last 2 digits of year to an auto-increment of 5 digit idno. */
-	$year=substr($year,2,2);
-	$d_i=mysql_query("SELECT MAX(CAST(reference AS UNSIGNED)) FROM fees_invoice WHERE reference LIKE '$year%';");
+	/* Take last 2 digits of year to be the series number. */
+	$seriesno=substr($year,2,2);
+	$d_i=mysql_query("SELECT MAX(CAST(reference AS UNSIGNED)) FROM fees_invoice WHERE series='$seriesno';");
 	/* Just sequential numbers... */
 	$maxno=mysql_result($d_i,0);
-	$ref=$maxno+1;
-	/* Include the feeyear 
-	$idno=substr($maxno,2) + 1;
-	$ref=$year. sprintf("%05s",$idno);// number format 00001-99999
-	*/
-	mysql_query("INSERT INTO fees_invoice (reference,account_id,remittance_id) VALUES ('$ref','$accid','$remid');");
-$invid=
+	$idno=$maxno + 1;
+	$ref=sprintf("%05s",$idno);// number format 00001-99999
+	mysql_query("INSERT INTO fees_invoice (series,reference,account_id,remittance_id) VALUES ('$seriesno','$ref','$accid','$remid');");
 	$invid=mysql_insert_id();
 
-	return array('id'=>$invid,'reference'=>$ref);
+	return array('id'=>$invid,'series'=>$seriesno,'reference'=>$ref);
 	}
 
 
