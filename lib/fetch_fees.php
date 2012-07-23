@@ -39,7 +39,7 @@ function fetchAccount($fetchid=-1,$idname='guardian_id'){
 			$accid=$a['id'];
 			$gid=$a['guardian_id'];
 			}
-		elseif($idname='guardian_id'){
+		elseif($idname='guardian_id' and $fetchid>0){
 			mysql_query("INSERT INTO fees_account SET guardian_id='$fetchid', valid='0';");
 			$accid=mysql_insert_id();
 			$gid=$fetchid;

@@ -179,7 +179,7 @@ elseif(!empty($_SESSION['accessfees']) and $gid!=-1){
 			if(isset($_POST[$inname])){$inval=clean_text($_POST[$inname]);}
 			else{$inval='';}
 			if($val['value']!=$inval and $val['table_db']=='fees_account'){
-				if($accid=='-1' and $inval!=''){
+				if($accid=='-1' and $inval!='' and $gid>0){
 					mysql_query("INSERT INTO fees_account SET guardian_id='$gid';");
 					$accid=mysql_insert_id();
 					}
