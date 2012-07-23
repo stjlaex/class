@@ -171,7 +171,7 @@ elseif(!empty($_SESSION['accessfees']) and $gid!=-1){
 	require_once('lib/fetch_fees.php');
 	$access=$_SESSION['accessfees'];
 	$Account=fetchAccount($gid);
-	$acid=$Account['id_db'];
+	$accid=$Account['id_db'];
 	foreach($Account as $key => $val){
 		if(isset($val['value']) & is_array($val) and isset($val['table_db'])){
 			$field=$val['field_db'];
@@ -179,14 +179,19 @@ elseif(!empty($_SESSION['accessfees']) and $gid!=-1){
 			if(isset($_POST[$inname])){$inval=clean_text($_POST[$inname]);}
 			else{$inval='';}
 			if($val['value']!=$inval and $val['table_db']=='fees_account'){
-				if($acid=='-1' and $inval!=''){
+				if($accid=='-1' and $inval!=''){
 					mysql_query("INSERT INTO fees_account SET guardian_id='$gid';");
-					$acid=mysql_insert_id();
+					$accid=mysql_insert_id();
 					}
-				mysql_query("UPDATE fees_account SET $field=AES_ENCRYPT('$inval','$access') WHERE id='$acid';");
+				mysql_query("UPDATE fees_account SET $field=AES_ENCRYPT('$inval','$access') WHERE id='$accid';");
+				$Account[$key]['value']=$inval;
 				$update_flag=true;
 				}
 			}
+		}
+	if($update_flag){
+		$valid=check_account_valid($Account);
+		mysql_query("UPDATE fees_account SET valid='$valid' WHERE id='$accid';");
 		}
 	$action='contact_details.php';
 	}

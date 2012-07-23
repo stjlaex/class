@@ -78,7 +78,7 @@ foreach($Tarifs as $Tarif){
 
 		print '<tr id="sid-'.$sid.'">';
 		print '<td>'.'<input type="checkbox" name="sids[]" value="'.$sid.'" />'.$rown++.'</td><td></td>';
-		print '<td class="student"><a target="viewinfobook" onclick="parent.viewBook(\'infobook\');" href="infobook.php?current=student_fees.php&sid='.$sid.'">'.$student['surname'].', '. $student['forename'].'</a></td>';
+		print '<td class="student"><a target="viewinfobook" onclick="parent.viewBook(\'infobook\');" href="infobook.php?current=student_fees.php&cancel=student_view.php&sids[]='.$sid.'&sid='.$sid.'">'.$student['surname'].', '. $student['forename'].'</a></td>';
 		print '<td>'.$student['form_id'].'</td>';
 		print '<td>';
 

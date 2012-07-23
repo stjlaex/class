@@ -871,4 +871,18 @@ function add_student_community_charge($sid,$comid,$remid,$amount,$paymenttype=''
 
 	return $charid;
 	}
+
+/**
+ * TODO:
+ */
+function check_account_valid($Account){
+	if($Account['BankName']['value']!='' and $Account['Number']['value']!='' and $Account['Control']['value']!='' and $Account['Branch']['value']!='' and $Account['BankCode']['value']!=''){ 
+		$valid=1;
+		}
+	else{
+		$valid=0;
+		}
+	return $valid;
+	}
+
 ?>
