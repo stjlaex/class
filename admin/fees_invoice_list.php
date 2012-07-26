@@ -98,7 +98,7 @@ else{
 		if(isset($_POST['startno'])){$startno=$_POST['startno'];}
 		else{$startno=0;}
 		$totalno=sizeof($invoices);
-		$nextrowstep=100;
+		$nextrowstep=60;
 		if($startno>$totalno){$startno=$totalno-$nextrowstep;}
 		if($startno<0){$startno=0;}
 		$endno=$startno+$nextrowstep;

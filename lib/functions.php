@@ -139,6 +139,7 @@ function good_pad_item($item,$amount,$len){
  *	@return string output as ASCII encoded string
  *
  */
+
 function utf8_to_ascii($str){
 	$codes=array(
 				 chr(0x00C8)=>'E',
@@ -159,20 +160,23 @@ function utf8_to_ascii($str){
 				 chr(0x00E1)=>'a',
 				 chr(0x00C7)=>'C',
 				 chr(0x00E7)=>'c',
+				 chr(0x00FC)=>'u',
+				 chr(0x00DC)=>'U',
+				 chr(0x00AA)=>'a',
+				 chr(0x00BA)=>'o',
 				 chr(0x0060)=>''
 				 );
 	$encoding=mb_detect_encoding($str);
 	if($encoding=='UTF-8'){
-	/* First change from multibyte characters to ISO-8859-1 so the next step works. */
-		//$str=utf8_decode($str);
+        /* First change from multibyte characters to ISO-8859-1 so the next step works. */
 		$str=mb_convert_encoding($str,'ISO-8859-1',$encoding);
+		/* Now replace the characters with their literal ASCII equivalents defined above. */
+		$str=str_replace(
+						 array_keys($codes),
+						 array_values($codes),
+						 $str
+						 );
 		}
-	/* Now replace the characters with their literal ASCII equivalents defined above. */
-	$str=str_replace(
-					 array_keys($codes),
-					 array_values($codes),
-					 $str
-					 );
 
     return $str;
 	}

@@ -18,6 +18,8 @@ new_remittance_action.
 
 Search for fee invoices implemented.
 
+Improved utf8_to_ascii function to use mb_convert_encoding.
+
 
 Version ClaSS-1.0.23 release (2012/07/12)
 -------------------------------------------
