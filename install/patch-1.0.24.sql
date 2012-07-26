@@ -32,3 +32,5 @@ ALTER TABLE fees_invoice ADD
 	series varchar(8) not null default '0' AFTER id;
 ALTER TABLE fees_invoice ADD
 	KEY refno (series,reference);
+ALTER TABLE fees_remittance ADD
+	yeargroups varchar(240) not null default '' AFTER concepts;

@@ -31,7 +31,8 @@ if(isset($CFG->enrol_boarders) and $CFG->enrol_boarders=='yes'){
 $d_a=mysql_query("SELECT MAX(date) FROM admission_stats WHERE year='$enrolyear' AND date<='$todate';");
 if(mysql_result($d_a,0)>0){
 	$currentdate=mysql_result($d_a,0);/* Date of most recent stats in the db */
-	$lastdate=date('Y-m-d',mktime(0,0,0,date('m')-11,date('d'),date('Y')));
+	/* TODO: Set this last date properly */
+	$lastdate=date('Y-m-d',mktime(0,0,0,date('m')-12,date('d')+14,date('Y')));
 	$d_a=mysql_query("SELECT MAX(date) FROM admission_stats WHERE year='$lastenrolyear' AND date<='$lastdate';");
 	$lastdate=mysql_result($d_a,0);/* Nearest date of most stats in the db 12 months ago*/
 	$currents=explode('-',$currentdate);

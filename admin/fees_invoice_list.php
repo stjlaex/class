@@ -11,6 +11,9 @@ include('scripts/sub_action.php');
 if((isset($_POST['remid']) and $_POST['remid']!='')){$remid=$_POST['remid'];}else{$remid='';}
 if((isset($_GET['remid']) and $_GET['remid']!='')){$remid=$_GET['remid'];}
 
+if((isset($_POST['invoicenumber']) and $_POST['invoicenumber']!='')){$invoicenumber=$_POST['invoicenumber'];}else{$invoicenumber='';}
+if((isset($_GET['invoicenumber']) and $_GET['invoicenumber']!='')){$invoicenumber=$_GET['invoicenumber'];}
+
 $extrabuttons=array();
 $extrabuttons['previewselected']=array('name'=>'current',
 									   'pathtoscript'=>$CFG->sitepath.'/'.$CFG->applicationdirectory.'/admin/',
@@ -22,11 +25,14 @@ $extrabuttons['previewselected']=array('name'=>'current',
 
 two_buttonmenu($extrabuttons,$book);
 
-
-$Remittance=fetchRemittance($remid);
 $Students=array();
-$invoices=(array)list_remittance_invoices($remid);
-
+if($remid!=''){
+	$Remittance=fetchRemittance($remid);
+	$invoices=(array)list_remittance_invoices($remid);
+	}
+else{
+	$invoices=(array)list_invoices($invoicenumber);
+	}
 ?>
   <div id="heading">
 <?php
@@ -44,6 +50,9 @@ $invoices=(array)list_remittance_invoices($remid);
   <form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host; ?>" >
 
 	<div class="center">
+<?php
+if($remid!=''){
+?>
 	  <fieldset class="divgroup right">
 		<legend><?php print_string('remittance',$book);?></legend>
 		<div>
@@ -53,7 +62,11 @@ $invoices=(array)list_remittance_invoices($remid);
 		  <?php print $Remittance['Account']['BankName']['value'].' ('.display_date($Remittance['PaymentDate']['value']).')';?>
 		</div>
 	  </fieldset>
-
+<?php
+	}
+else{
+	}
+?>
 
 	  <table id="sidtable" class="listmenu sidtable">
 		<thead>
@@ -82,8 +95,18 @@ $invoices=(array)list_remittance_invoices($remid);
 		<tbody>
 <?php
 		$rown=1;
-		foreach($invoices as $invoice){
-			$Invoice=fetchFeesInvoice($invoice);
+		if(isset($_POST['startno'])){$startno=$_POST['startno'];}
+		else{$startno=0;}
+		$totalno=sizeof($invoices);
+		$nextrowstep=100;
+		if($startno>$totalno){$startno=$totalno-$nextrowstep;}
+		if($startno<0){$startno=0;}
+		$endno=$startno+$nextrowstep;
+		if($endno>$totalno){$endno=$totalno;}
+		for($entryno=$startno;$entryno<$endno;$entryno++){
+			$invoice=$invoices[$entryno];
+
+			$Invoice=(array)fetchFeesInvoice($invoice);
 			$sid=$Invoice['student_id_db'];
 			/*
 			if($charge['payment']=='1'){
@@ -122,9 +145,29 @@ $invoices=(array)list_remittance_invoices($remid);
 			}
 ?>
 		</tbody>
+		<tr>
+		<th colspan="6">&nbsp;</th>
+		<th colspan="2">
+<?php 
+			$dstartno=$startno+1;
+			print 'Show '. $dstartno.' - '.$endno.' of '.$totalno;
+			$buttons=array();
+			if($startno>0){
+				$buttons['<']=array('title'=>'previous','name'=>'nextrow','value'=>'minus');
+				}
+			if($endno<$totalno){
+				$buttons['>']=array('title'=>'next','name'=>'nextrow','value'=>'plus');
+				}
+			all_extrabuttons($buttons,'admin','processContent(this)')
+?>
+		</th>
+		</tr>
+
 	  </table>
 	</div>
 
+	<input type="hidden" name="startno" value="<?php print $startno;?>" />
+	<input type="hidden" name="nextrowstep" value="<?php print $nextrowstep;?>" />
 	<input type="hidden" name="remid" value="<?php print $remid;?>" />
 	<input type="hidden" name="current" value="<?php print $action;?>" />
 	<input type="hidden" name="choice" value="<?php print $choice;?>" />

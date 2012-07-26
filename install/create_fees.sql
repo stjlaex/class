@@ -43,6 +43,7 @@ CREATE TABLE fees_remittance (
 	id				int unsigned not null auto_increment,
 	name			varchar(240) not null default '',
 	concepts		varchar(240) not null default '',
+	yeargroups		varchar(240) not null default '',
 	enrolstatus		char(3) not null default 'C',
 	duedate			date not null default '0000-00-00',
 	issuedate		date not null default '0000-00-00',

@@ -99,6 +99,31 @@ function good_strtoupper($value){
 
 
 /**
+ *
+ */
+function good_str_pad($value,$pad_length,$encoding){
+	return str_pad($value,strlen($value)-mb_strlen($value,$encoding)+$pad_length);
+	}
+
+
+/**
+ *
+ */
+function good_pad_item($item,$amount,$len){
+	$encoding=mb_detect_encoding($item);
+
+	$al=mb_strlen($amount,$encoding);
+	$il=mb_strlen($item,$encoding);
+
+	$text=mb_substr($item,0,$len-$al,$encoding);
+	$text=good_str_pad($text,$len-$al,$encoding);
+	$text.=$amount;
+	return $text;
+	}
+
+
+
+/**
  *	This takes international accented characters - have only bothered
  *	to cover spanish ones in the list - and transliterates them to
  *	their nearest ascii equivalent, making them safe for email
@@ -136,12 +161,19 @@ function utf8_to_ascii($str){
 				 chr(0x00E7)=>'c',
 				 chr(0x0060)=>''
 				 );
-	$str=utf8_decode($str);
+	$encoding=mb_detect_encoding($str);
+	if($encoding=='UTF-8'){
+	/* First change from multibyte characters to ISO-8859-1 so the next step works. */
+		//$str=utf8_decode($str);
+		$str=mb_convert_encoding($str,'ISO-8859-1',$encoding);
+		}
+	/* Now replace the characters with their literal ASCII equivalents defined above. */
 	$str=str_replace(
 					 array_keys($codes),
 					 array_values($codes),
 					 $str
 					 );
+
     return $str;
 	}
 

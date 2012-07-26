@@ -60,8 +60,7 @@ if($_SESSION['role']=='admin' or $aperm==1 or $_SESSION['role']=='office'){
 two_buttonmenu($extrabuttons,$book);
 ?>
   <div class="content">
-	<form id="formtoprocess" name="formtoprocess" method="post"
-	  action="<?php print $host; ?>" >
+	<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host; ?>" >
 
 		<input type="hidden" name="feeyear" value="<?php print $feeyear;?>" />
 		<input type="hidden" name="current" value="<?php print $action;?>" />
@@ -70,8 +69,7 @@ two_buttonmenu($extrabuttons,$book);
 	</form>
 
 
-	<form id="formtoprocess2" name="formtoprocess2" method="post"
-	  action="<?php print $host; ?>" >
+	<form id="formtoprocess2" name="formtoprocess2" method="post" action="<?php print $host; ?>" >
 
 	  <fieldset class="left">
 		<legend><?php print_string('invoicesearch',$book);?></legend>		
@@ -86,6 +84,14 @@ two_buttonmenu($extrabuttons,$book);
 		  </div>
 		</div>
 	  </fieldset>
+
+		<input type="hidden" name="feeyear" value="<?php print $feeyear;?>" />
+		<input type="hidden" name="current" value="fees_invoice_list.php" />
+		<input type="hidden" name="choice" value="<?php print $choice;?>" />
+		<input type="hidden" name="cancel" value="<?php print '';?>" />
+	</form>
+
+
 
 <?php
 

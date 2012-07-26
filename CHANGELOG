@@ -13,6 +13,10 @@ New fees_invoice field for the series number.
 
 New fees_account field to record a validity check.
 
+New fees_remittance field for yeargroups. Filter by yeargroup in
+new_remittance_action.
+
+Search for fee invoices implemented.
 
 
 Version ClaSS-1.0.23 release (2012/07/12)

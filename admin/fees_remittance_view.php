@@ -175,7 +175,7 @@ if($filter_paymenttype==''){
 				print '</td>';
 				print '<td>'.$Student['EnrolNumber']['value'].'</td><td></td>';
 				print '<td class="student"><a target="viewinfobook" onclick="parent.viewBook(\'infobook\');" href="infobook.php?current=student_fees.php&cancel=student_view.php&sids[]='.$sid.'&sid='.$sid.'">'.$Student['DisplayFullSurname']['value'].'</a></td>';
-				print '<td>'.$Student['RegistrationGroup']['value'].'</td>';
+				print '<td>'.$Student['TutorGroup']['value'].'</td>';
 				print '<td>'.$Tarifs[$charge['tarif_id']]['Name']['value'].'</td>';
 				print '<td>'.'<div class="hidden">';
 				$listname='paymenttype'.$charge['id'];

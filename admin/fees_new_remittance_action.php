@@ -5,6 +5,7 @@
 $action='fees_remittance_list.php';
 $cancel='fees_remittance_list.php';
 $conids=(array)$_POST['conids'];
+$yids=(array)$_POST['newyids'];
 $feeyear=$_POST['feeyear'];
 $accid=$_POST['accid'];
 $remid=$_POST['remid'];
@@ -40,6 +41,13 @@ if($sub=='Submit'){
 			}
 		}
 
+	$yid_list='';
+	$separator='';
+	foreach($yids as $yid){
+		$yid_list.=$separator. $yid;
+		$separator=':::';
+		}
+	mysql_query("UPDATE fees_remittance SET yeargroups='$yid_list' WHERE id='$remid';");
 
 	$concept_list='';
 	$separator='';
@@ -52,7 +60,7 @@ if($sub=='Submit'){
 		/* TODO: filter for students by payment type and set in fees_charge */
 
 
-		if($concept['community_type']==''){
+		if($concept['community_type']=='' and $enrolstatus=='C'){
 			/*			mysql_query("INSERT INTO fees_charge (student_id, remittance_id, tarif_id, paymenttype, amount) 
 							SELECT a.student_id, '$remid', a.tarif_id, a.paymenttype, t.amount FROM fees_applied AS a, 
 							fees_tarif AS t WHERE t.concept_id='$conid' AND t.id=a.tarif_id AND a.student_id=ANY(SELECT student_id FROM info WHERE enrolstatus='$enrolstatus');");
@@ -60,14 +68,16 @@ if($sub=='Submit'){
 
 			$communities=list_communities('year');
 			foreach($communities as $community){
-				$comid=$community['id'];
-				$community=(array)get_community($comid);
-				$students=(array)listin_community($community);
-				foreach($students as $student){
-					$sid=$student['id'];
-					mysql_query("INSERT INTO fees_charge (student_id, remittance_id, tarif_id, paymenttype, amount) 
+				if(in_array($community['name'],$yids)){
+					$comid=$community['id'];
+					$community=(array)get_community($comid);
+					$students=(array)listin_community($community);
+					foreach($students as $student){
+						$sid=$student['id'];
+						mysql_query("INSERT INTO fees_charge (student_id, remittance_id, tarif_id, paymenttype, amount) 
 							SELECT a.student_id, '$remid', a.tarif_id, a.paymenttype, t.amount FROM fees_applied AS a, 
 							fees_tarif AS t WHERE t.concept_id='$conid' AND t.id=a.tarif_id AND a.student_id='$sid';");
+						}
 					}
 				}
 

@@ -27,13 +27,10 @@ $Remittance=fetchRemittance($remid);
 
 
 	  <fieldset class="center">
-		<div class="center">
+		<div class="left">
 		  <?php xmlelement_div($Remittance['Name'],'',$tab,'center','admin');?>
 		</div>
-	  </fieldset>
-
-	  <fieldset class="center">
-		<div class="center">
+		<div class="right">
 <?php 
 		$listlabel='account';
 		$listname='accid';
@@ -65,6 +62,7 @@ $Remittance=fetchRemittance($remid);
 	  <fieldset class="left">
 		<div class="center">
 <?php 
+		$required='yes'; 
 		$listlabel='concept';
 		$liststyle='width:80%;';
 		$multi=10;
@@ -84,6 +82,21 @@ $Remittance=fetchRemittance($remid);
 	  <fieldset class="right">
 		<div class="center">
 		  <?php xmlelement_div($Remittance['EnrolmentStatus'],'',$tab,'center','admin');?>
+		</div>
+<?php
+		$yeargroups=list_yeargroups();
+?>
+		<div class="center">
+<?php 
+		$required='yes'; 
+		$multi='10';
+		$liststyle='width:70%;'; 
+		$newyids=array();
+		foreach($Remittance['YearGroups'] as $Yeargroup){
+			$newyids[]=$Yeargroup['id_db'];
+			}
+		include('scripts/list_year.php');
+?>
 		</div>
 	  </fieldset>
 

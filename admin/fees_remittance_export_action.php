@@ -29,7 +29,7 @@ if($_POST['payment0']=='yes'){
 
 	$rown=1;
 	$Students=array();
-	$charges=(array)list_remittance_charges($remid,'','0');
+	$charges=(array)list_remittance_charges($remid,'','1');
 	foreach($charges as $charge){
 		$okay=false;
 		$charid=$charge['id'];

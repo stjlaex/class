@@ -135,7 +135,7 @@ function fetchFeesInvoice($invoice=array('id'=>'-1')){
 			}
 		}
 	if($invid=='-1'){
-		$invoice=array('reference'=>'','account_id'=>'','remittance_id'=>'');
+		$invoice=array('id'=>'-1','reference'=>'','duedate'=>'','issuedate'=>'','account_id'=>'','remittance_id'=>'');
 		$Address=array();
 		$Student=array();
 		$Account=array();
@@ -173,8 +173,8 @@ function fetchFeesInvoice($invoice=array('id'=>'-1')){
 	$Invoice['StudentName']=array('label' => 'student', 
 								  'value' => ''.$Student['DisplayFullSurname']['value']
 								  );
-	$Invoice['StudentRegistrationGroup']=array('label' => 'formgroup', 
-											   'value' => ''.$Student['RegistrationGroup']['value']
+	$Invoice['StudentTutorGroup']=array('label' => 'formgroup', 
+											   'value' => ''.$Student['TutorGroup']['value']
 											   );
 	$Invoice['AccountName']=array('label' => 'name', 
 								  'value' => ''.$Account['AccountName']['value']
@@ -259,7 +259,7 @@ function fetchTarif($tarif=array('id'=>-1)){
 function fetchRemittance($remid=-1){
 
 	if($remid==''){$remid=-1;}
-	$d_c=mysql_query("SELECT id, name, concepts, enrolstatus, year, duedate, issuedate, account_id 
+	$d_c=mysql_query("SELECT id, name, concepts, yeargroups, enrolstatus, year, duedate, issuedate, account_id 
 								FROM fees_remittance WHERE id='$remid' ORDER BY issuedate DESC LIMIT 1;");
 	$c=mysql_fetch_array($d_c,MYSQL_ASSOC);
 	$paymenttypes=getEnumArray('paymenttype');
@@ -366,6 +366,10 @@ function fetchRemittance($remid=-1){
 													);
 		}
 
+	$yids=(array)explode(':::',$c['yeargroups']);
+	foreach($yids as $yid){
+		$Remittance['YearGroups'][]=array('id_db' => $yid);
+		}
    	$Remittance['EnrolmentStatus']=array('label' => 'enrolstatus', 
 										 'table_db' => 'fees_remittance', 
 										 'inputtype'=> 'required',
@@ -510,8 +514,8 @@ function list_remittances($feeyear=''){
 
 
 /**
- *
- *
+* 
+ * 
  *
  */
 function list_remittance_charges($remid,$conid='',$payment=''){
@@ -565,8 +569,41 @@ function list_remittance_invoices($remid,$paymenttype=''){
 		}
 	*/
 
-	$d_i=mysql_query("SELECT i.id, i.reference, i.account_id FROM fees_invoice AS i
+	$d_i=mysql_query("SELECT i.id, i.series, i.reference, i.account_id, i.remittance_id, r.issuedate, r.duedate FROM fees_invoice AS i  
+							JOIN fees_remittance AS r ON r.id=i.remittance_id  
+							 WHERE i.remittance_id='$remid' ORDER BY i.reference;");
+	/*
+	$d_i=mysql_query("SELECT id, i.reference, i.account_id FROM fees_invoice AS i
 							WHERE i.remittance_id='$remid' ORDER BY i.reference;");
+	*/
+
+	$invoices=array();
+	while($i=mysql_fetch_array($d_i)){
+		$invoices[]=$i;
+		}
+
+	return $invoices;
+	}
+
+
+
+
+/**
+ *
+ *
+ *
+ */
+function list_invoices($refno,$seriesno=''){
+
+	if($seriesno==''){
+		$feeyear=get_curriculumyear();
+		/* Take last 2 digits of year to be the series number. */
+		$seriesno=substr($feeyear,2,2);
+		}
+
+	$d_i=mysql_query("SELECT i.id, i.series, i.reference, i.account_id, i.remittance_id, r.issuedate, r.duedate FROM fees_invoice AS i  
+							JOIN fees_remittance AS r ON r.id=i.remittance_id  
+							 WHERE i.series='$seriesno' AND i.reference LIKE '%$refno' ORDER BY i.reference;");
 
 	$invoices=array();
 	while($i=mysql_fetch_array($d_i)){
@@ -684,9 +721,11 @@ function list_student_payees($sid){
 	$d_g=mysql_query("SELECT guardian.id AS id, gidsid.relationship, guardian.surname, guardian.forename, gidsid.paymenttype FROM gidsid, guardian WHERE gidsid.guardian_id=guardian.id AND gidsid.student_id='$sid' ORDER BY paymenttype DESC;");
 	while($g=mysql_fetch_array($d_g,MYSQL_ASSOC)){
 		$gid=$g['id'];
+		/* Search for valid bank accounts. */
 		$d_a=mysql_query("SELECT COUNT(id) FROM fees_account WHERE guardian_id='$gid' AND valid='1';");
-		$g['accountsno']=mysql_result($d_a,0);
+		$g['accountsno']=mysql_result($d_a,0);/* This counts the number of valid bank accounts. */
 		$g['name']=get_string(displayEnum($g['relationship'], 'relationship'),'infobook').': '.$g['surname'];
+		/* Add the guardian to the list of payees even if no valid accounts because they could use other methods. */
 		$guardians[]=$g;
 		}
 
