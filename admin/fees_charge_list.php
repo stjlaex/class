@@ -61,12 +61,30 @@ foreach($Tarifs as $Tarif){
 <?php 
 		$tab=1;
 		$listlabel='concept';
-		$liststyle='width:8em;';
+		$liststyle='width:200px;font-size:9pt;';
 		$listname='conceptid';
 		$onchange='yes';
 		$concepts=list_concepts();
 		include('scripts/set_list_vars.php');
 		list_select_list($concepts,$listoptions,$book);
+
+		if($conceptid>0){
+			print '</th></tr><tr><th colspan="4">&nbsp;</th><th>';
+
+?>
+		<div class="center">
+		  <p>Set all students to this tarif.</p>
+<?php
+			$listlabel='tarif';
+			$liststyle='font-size:9pt;';
+			$listname='floodtarifid';
+			include('scripts/set_list_vars.php');
+			list_select_list($tarifs,$listoptions,$book);
+?>
+			<?php $checkcaption=''; include('scripts/check_yesno.php');?>
+		</div>
+<?php
+			}
 ?>
 			</th>
 		  </tr>
@@ -96,7 +114,7 @@ foreach($Tarifs as $Tarif){
 			}
 
 		$listlabel='';
-		$liststyle='width:8em;';
+		$liststyle='width:80%;font-size:9pt;';
 		$listname='tarifid'.$sid;
 		include('scripts/set_list_vars.php');
 		list_select_list($tarifs,$listoptions,$book);
