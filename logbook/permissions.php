@@ -159,11 +159,11 @@ function list_pastoral_users($ryid,$perms){
  * Will return all users and their perms with access to the given gid.
  *
  */
-function list_group_users_perms($gid){
+function list_group_users_perms($gid,$nologin='0'){
    	$users_perms=array();
-	$d_users=mysql_query("SELECT DISTINCT users.uid, users.username, 
+	$d_users=mysql_query("SELECT DISTINCT users.uid, users.username, users.surname, 
 				perms.r, perms.w, perms.x, perms.e FROM users JOIN perms ON 
-				users.uid=perms.uid WHERE perms.gid='$gid';");
+				users.uid=perms.uid WHERE perms.gid='$gid' AND users.nologin LIKE '$nologin';");
 	while($user=mysql_fetch_array($d_users,MYSQL_ASSOC)){
 		$uid=$user['uid'];
 		$users_perms[$uid]=$user;
@@ -937,17 +937,17 @@ function fetchUser($uid='-1'){
 							 'field_db' => 'homephone',
 							 'type_db' => 'varchar(22)', 
 							 'value' => ''.$user['homephone']);
-	$User['MobilePhone']=array('label' => 'moibilephone', 
+	$User['MobilePhone']=array('label' => 'mobilephone', 
 							 'table_db' => 'user', 
 							 'field_db' => 'mobilephone',
 							 'type_db' => 'varchar(22)', 
 							 'value' => ''.$user['mobilephone']);
-	$User['PersonalCode']=array('label' => 'personalcode', 
+	$User['PersonalCode']=array('label' => 'code', 
 								'table_db' => 'user', 
 								'field_db' => 'personalcode',
 								'type_db' => 'varchar(120)', 
 								'value' => ''.$user['personalcode']);
-	$User['DOB']=array('label' => 'dob', 
+	$User['DOB']=array('label' => 'dateofbirth', 
 					   'table_db' => 'user', 
 					   'field_db' => 'dob',
 					   'type_db' => 'date', 

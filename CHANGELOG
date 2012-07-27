@@ -1,4 +1,4 @@
-Version ClaSS-1.0.24 release (2012/07/23)
+Version ClaSS-1.0.24 release (2012/07/27)
 -------------------------------------------
 
 New db tables for file storage and organising by virtual folders.
@@ -19,6 +19,7 @@ new_remittance_action.
 Search for fee invoices implemented.
 
 Improved utf8_to_ascii function to use mb_convert_encoding.
+
 
 
 Version ClaSS-1.0.23 release (2012/07/12)

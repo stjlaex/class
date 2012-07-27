@@ -183,7 +183,7 @@ div.content div {
 	border:0; margin:0;
 	overflow:hidden;
 	}
-div.content fieldset {
+div.content fieldset, div.topcontent fieldset {
     padding:1%; margin:0;
 	background-color:#eeeeee;
 	}
@@ -205,55 +205,58 @@ div.divgroup fieldset label, fieldset.divgroup fieldset label {
 
 
 /*a fixed height div, always at the top of the page before the content*/
-div.topform {
+div.topform, div.topcontent {
 	overflow:auto;
 	position:relative;
-	top:7%; height:30%; width:90%;
+	top:7%; 
+    width:90%;
 	padding:1%;
 	margin:0 4% 1% 4%;
-/*	border-top:2px solid;*/
-/*	background-color:#dde;*/
+	}
+/*a div, always at the top of the page before the content*/
+div.topform {
+    height:30%; 
 	}
 div.topform+div.content {
 	position:relative; height:56%;
 	}
 /*classes to position fieldsets and divs in a two-column layout*/
-div.content fieldset.left, div.topform fieldset.left {
+div.content fieldset.left, div.topcontent fieldset.left, div.topform fieldset.left {
 	float:left;
 	width:45%;
 	clear:left;
 	margin:0 0 2% 2%;
 	}
-div.content fieldset.right, div.topform fieldset.right {
+div.content fieldset.right, div.topcontent fieldset.right, div.topform fieldset.right {
 	float:right;
 	width:45%;
 	clear:right;
 	margin:0% 2% 2% 0;
 	}
-div.content fieldset.center, div.topform fieldset.center {
+div.content fieldset.center, div.topcontent fieldset.center, div.topform fieldset.center {
 	float:right;
 	width:92%;
 	clear:right;
 	margin:0% 4% 2% 4%;
 	}
-div.content div.left, div.topform div.left {
+div.content div.left, div.topcontent div.left, div.topform div.left {
 	float:left;
 	width:47%;
 	clear:left;
 	margin:0 0 2% 2%;
 	}
-div.content div.right, div.topform div.right {
+div.content div.right, div.topcontent div.right, div.topform div.right {
 	float:right;
 	width:47%;
 	clear:right;
 	margin:0 2% 2% 0;
 	}
-div.content .center, div.topform .center {
+div.content .center, div.topcontent .center, div.topform .center {
     margin:0 4% 2% 4%;
 	width:92%;
 	clear:both;
 	}
-div.content .fullwidth, div.topform .fullwidth {
+div.content .fullwidth, div.topcontent .fullwidth, div.topform .fullwidth {
     margin:0 1% 2% 1%;
 	width:98% !important;
 	clear:both;

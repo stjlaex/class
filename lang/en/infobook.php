@@ -238,4 +238,7 @@ $string['branch']='Branch';
 $string['control']='Control';
 $string['personaltutor']='Tutor';
 $string['updatesfile']='Updates File';
+$string['jobtitle']='Job title';
+$string['personalemail']='Personal email';
+$string['contractdate']='Contract date';
 ?>
