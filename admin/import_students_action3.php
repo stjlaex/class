@@ -274,8 +274,6 @@ elseif($sub=='Submit'){
 			if(isset(${$gname})){
 				$surname=$student[${$gfields}['surname']];
 				$forename=$student[${$gfields}['forename']];
-				$middlenames=$student[${$gfields}['middlenames']];
-				$title=$student[${$gfields}['title']];
 				if(isset($student[${$gfields}['email']])){$email=$student[${$gfields}['email']];}
 
 				/*
@@ -284,8 +282,8 @@ elseif($sub=='Submit'){
 				 * because this is much more likely unique - if it
 				 * changes though have to fallback on next method
 				 */
-				if(isset($email) and $email!=''){
-					$d_g=mysql_query("SELECT id FROM guardian WHERE surname='$surname' AND email='$email';");
+				if(isset($email) and trim($email)!=''){
+					//$d_g=mysql_query("SELECT id FROM guardian WHERE surname='$surname' AND email='$email';");
 					}
 				/*
 				 * Alternative search using guardian's surname and forename and
@@ -293,9 +291,8 @@ elseif($sub=='Submit'){
 				 * student (as names much less unique!)
 				 */
 				if((!isset($d_g) or mysql_num_rows($d_g)==0) and $surname!='' and $forename!=''){
-					$d_g=mysql_query("SELECT id FROM guardian JOIN gidsid ON gidsid.guardian_id=guardian.id WHERE
-										gidsid.student_id='$new_sid' AND surname='$surname' AND forename='$forename' 
-										AND middlenames='$middlenames' AND title='$title';");
+					$d_g=mysql_query("SELECT DISTINCT id FROM guardian JOIN gidsid ON gidsid.guardian_id=guardian.id WHERE
+										gidsid.student_id='$new_sid' AND surname='$surname' AND forename='$forename';");
 					}
 
 				/*
@@ -304,8 +301,7 @@ elseif($sub=='Submit'){
 				 */
 
 				if(!isset($d_g) or mysql_num_rows($d_g)==0){
-					mysql_query("INSERT INTO guardian SET 
-									surname='$surname', forename='$forename'");
+					mysql_query("INSERT INTO guardian SET surname='$surname', forename='$forename'");
 					$new_gid=mysql_insert_id();
 					}
 				else{
@@ -316,6 +312,7 @@ elseif($sub=='Submit'){
 				/* Input all fields for the guardian table */
 				reset(${$gfields});
 				unset($priority);unset($relationship);unset($mailing);
+				if(isset($email)){unset($email);}
 				while(list($field_name, $field_no)=each(${$gfields})){
 					if($field_no==-1){$val='';}//value is null
 					else{
