@@ -14,6 +14,7 @@ else{$savedview='';}
 if(isset($_POST['colno'])){$displayfields_no=$_POST['colno'];}
 if(isset($_POST['title'])){$title=$_POST['title'];}else{$title=$_SESSION['infolisttitle'];}
 if(isset($_POST['umnfilter'])){$umnfilter=$_POST['umnfilter'];}else{$umnfilter='%';}
+if(isset($_POST['privfilter'])){$privfilter=$_POST['privfilter'];}else{$privfilter='visible';}
 if(isset($_POST['comid'])){$comid=$_POST['comid'];}else{$comid='';}
 $_SESSION['savedview']=$savedview;
 $_SESSION['infolisttitle']=$title;
@@ -269,7 +270,7 @@ two_buttonmenu($extrabuttons,$book);
 <?php
 		foreach($displayfields as $displayfield){
 			if(!array_key_exists($displayfield,$Student)){
-				$field=fetchStudent_singlefield($sid,$displayfield);
+				$field=fetchStudent_singlefield($sid,$displayfield,$privfilter);
 				$Student=array_merge($Student,$field);
 				}
 			if(isset($Student[$displayfield]['type_db'])  
@@ -345,13 +346,11 @@ two_buttonmenu($extrabuttons,$book);
 ?>
 		  </div>
 		  <div class="rowaction">
-<?php
-	$buttons=array();
-	if($savedview==''){
-		$buttons['saveview']=array('title'=>'saveview','name'=>'current','value'=>'column_save.php');
-		}
-	all_extrabuttons($buttons,'infobook','processContent(this)');
-?>
+			<label><?php print_string('private',$book);?></label>
+			<input title="<?php print_string('private',$book);?>" 
+				  type="checkbox" name="privfilter"
+				  value="hidden" <?php if($privfilter=='hidden'){print 'checked';}?>
+				  onchange="processContent(this);" />
 		  </div>
 		</th>
 		<th>
@@ -360,6 +359,15 @@ two_buttonmenu($extrabuttons,$book);
 	$buttons=array();
 	$buttons['addcolumn']=array('title'=>'addcolumn','name'=>'extracol','value'=>'yes');
 	all_extrabuttons($buttons,'infobook','processContent(this)')
+?>
+		  </div>
+		  <div class="rowaction">
+<?php
+	$buttons=array();
+	if($savedview==''){
+		$buttons['saveview']=array('title'=>'saveview','name'=>'current','value'=>'column_save.php');
+		}
+	all_extrabuttons($buttons,'infobook','processContent(this)');
 ?>
 		  </div>
 		</th>

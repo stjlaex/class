@@ -6,6 +6,7 @@
 $action='student_list.php';
 
 if(isset($_POST['sids'])){$sids=(array)$_POST['sids'];}else{$sids=array();}
+if(isset($_POST['privfilter'])){$privfilter=$_POST['privfilter'];}else{$privfilter='visible';}
 
 $displayfields=array();
 $displayfields_no=0;
@@ -103,7 +104,7 @@ if(sizeof($sids)==0){
 					$field=fetchStudent_singlefield($sid,$displayfield);
 					$Student=array_merge($Student,$field);
 					}
-				trigger_error('!!!!!!!!!'.$displayfield,E_USER_WARNING);
+				//trigger_error('!!!!!!!!!'.$displayfield,E_USER_WARNING);
 				if(isset($Student[$displayfield]['type_db']) and $Student[$displayfield]['type_db']=='enum'){
 					$displayout=displayEnum($Student[$displayfield]['value'],$Student[$displayfield]['field_db']);
 					$displayout=get_string($displayout,$book);
@@ -117,7 +118,7 @@ if(sizeof($sids)==0){
 					if(isset($Student[$displayfield]['private'])){
 						$privs=(array)explode(':::',$Student[$displayfield]['private']);
 						foreach($privs as $privindex => $priv){
-							if($priv=='Y'){
+							if($priv=='Y' and $privfilter='hidden'){
 								$displayout[$privindex]='';
 								}
 							}
@@ -142,7 +143,7 @@ if(sizeof($sids)==0){
 							}
 						}
 					}
-				elseif(array_key_exists($displayfield,$Student) and $Student[$displayfield]['value']!='' and (!isset($Student[$displayfield]['private']) or $Student[$displayfield]['private']=='N')){
+				elseif(array_key_exists($displayfield,$Student) and $Student[$displayfield]['value']!='' and (!isset($Student[$displayfield]['private']) or $Student[$displayfield]['private']=='N' or $privfilter=='visible')){
 					$displayout=$Student[$displayfield]['value'];
 					}
 				else{

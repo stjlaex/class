@@ -113,12 +113,14 @@ if($_SESSION['role']=='admin' or $aperm==1){
 <?php
 		}
 
+?>
+<div class="right">
 
+<?php
 	if($_SESSION['role']=='admin' 
 	   //and $User['role']!='admin'
 	   ){
 ?>
-<div class="right">
 	  <fieldset class="left">
 		<legend><?php print_string('specialadminpermissions',$book);?></legend>
 <?php
@@ -134,6 +136,10 @@ if($_SESSION['role']=='admin' or $aperm==1){
 			}
 ?>
 	  </fieldset>
+<?php
+		}
+
+?>
 
 	  <fieldset class="right">
 		<legend><?php print_string('section',$book);?></legend>
@@ -153,10 +159,6 @@ if($_SESSION['role']=='admin' or $aperm==1){
 ?>
 		</fieldset>
 	  </div>
-<?php
-		}
-
-?>
 
 
 	  <div class="left">

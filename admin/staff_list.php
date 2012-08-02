@@ -105,7 +105,7 @@ $aperm=get_admin_perm('u',$_SESSION['uid']);
 
 	foreach($users as $user){
 			$User=(array)fetchUser($user['uid']);
-			if(in_array($user['role'],$listroles) or sizeof($listroles)==0){
+			if((in_array($user['role'],$listroles) or sizeof($listroles)==0) and $user['username']!='administrator'){
 ?>
 		<tr>
 		  <td>

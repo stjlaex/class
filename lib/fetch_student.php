@@ -103,7 +103,7 @@ function fetchStudent_short($sid){
  * @params string $tag
  * @return array
  */
-function fetchStudent_singlefield($sid,$tag){
+function fetchStudent_singlefield($sid,$tag,$privfilter=''){
 	$fieldtype='';
 	$separator='';
 	$Student=array();
@@ -224,10 +224,18 @@ function fetchStudent_singlefield($sid,$tag){
 					if($Phone['PhoneType']['value']=='M'){
 						$Student[$tag]['value']=$Phone['PhoneNo']['value'];
 						$Student[$tag]['private']=$Phone['Private']['value'];
+						if($privfilter=='hidden' and $Phone['Private']['value']=='Y'){
+							$Student[$tag]['value']='private';
+							}
 						}
 					}
 				else{
-					$Student[$tag]['value'].=$Phone['PhoneType']['value'].':'.$Phone['PhoneNo']['value'].' ';
+					if($privfilter=='hidden' and $Phone['Private']['value']=='Y'){
+						$Student[$tag]['value'].=$Phone['PhoneType']['value'].':'.'private';
+						}
+					else{
+						$Student[$tag]['value'].=$Phone['PhoneType']['value'].':'.$Phone['PhoneNo']['value'].' ';
+						}
 					$Student[$tag]['value_db'].=$separator. ' '.$Phone['PhoneNo']['value'];
 					$Student[$tag]['private'].=$separator. ''.$Phone['Private']['value'];
 					$separator=':::';
@@ -246,8 +254,12 @@ function fetchStudent_singlefield($sid,$tag){
 				$Add=$Contacts[$contactno]['Addresses'][0];
 				if($Contacts[$contactno]['ReceivesMailing']['value']==0){$displayclass='class="lowlite"';}else{$displayclass='';}
 				$Student[$tag]['value']='<div '.$displayclass.'>'.$Add['Street']['value'].' '. $Add['Neighbourhood']['value'].' '. $Add['Town']['value'].' '. $Add['Country']['value']. ' '. $Add['Postcode']['value'].'</div>';
+
 				$Student[$tag]['value_db']=$Add['Street']['value'].':::'. $Add['Neighbourhood']['value'].':::'. $Add['Town']['value']. ':::'. $Add['Postcode']['value'].':::'. $Add['Country']['value'];
 				$Student[$tag]['private']=$Add['Private']['value'];
+				if($Add['Private']['value']=='Y' and $privfilter=='hidden'){
+					$Student[$tag]['value']='<div>private</div>';
+					}
 				}
 			}
 		elseif(substr_count($tag,'EmailAddress')){
@@ -263,6 +275,10 @@ function fetchStudent_singlefield($sid,$tag){
 									 'private'=>$Contacts[$contactno]['Private']['value'],
 									 'value_db'=>$email,
 									 'value'=>'<div '.$displayclass.'>'.$Contacts[$contactno]['EmailAddress']['value'].'</div>');
+				if($Contacts[$contactno]['Private']['value']=='Y' and $privfilter=='hidden'){
+					$Student[$tag]['value']='<div>private</div>';
+					}
+
 				}
 			else{
 				$Student[$tag]=array('label'=>'',
