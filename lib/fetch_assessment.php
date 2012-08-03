@@ -1097,7 +1097,7 @@ function update_mark_score($mid,$sid,$score){
 function update_profile_score($rid,$sid,$bid,$pid,$cat,$catdefs,$rating_name){
 
 	$Student=fetchStudent_short($sid);
-	$score=array('result'=>'','value'=>0);
+	$score=array('result'=>'','value'=>0, 'date'=>'0000-00-00');
 	$cutoff_rating='1';
 
 	$d_a=mysql_query("SELECT assessment.id FROM assessment JOIN report  
@@ -1112,6 +1112,7 @@ function update_profile_score($rid,$sid,$bid,$pid,$cat,$catdefs,$rating_name){
 		foreach($Categories['Category'] as $Category){
 			if($Category['value']>=$cutoff_rating){
 				$score['value']++;
+				if(strtotime($Category['date'])>strtotime($score['date'])){$score['date']=$Category['date'];}
 				}
 			$statno++;
 			}
