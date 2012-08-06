@@ -103,8 +103,8 @@ for($i=0;$i<sizeof($cids);$i++){
 		$profile_bid=$classes[$cid]['bid'];
 		$profile_name=$profile['name'];
 		$profile_pidstatus=$profile['component_status'];
-
 		$profile_marktype=$profile['rating_name'];
+
 		$d_marks=mysql_query("SELECT $table.* FROM $table WHERE ($table.marktype='score'
 				AND $table.assessment!='no' AND $table.id=ANY(SELECT
 				eidmid.mark_id FROM eidmid JOIN assessment ON
@@ -199,6 +199,7 @@ for($i=0;$i<sizeof($cids);$i++){
 			  $umns[$c]['profile_bid']=mysql_result($d_s,0);
 			  $umns[$c]['displayclass']='derived';
 			  }
+
 		  elseif($marktype[$c]=='score' or $marktype[$c]=='hw'){
 			  $markdef_name=$mark['def_name'];
 			  $d_markdef=mysql_query("SELECT * FROM markdef WHERE name='$markdef_name';");

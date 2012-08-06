@@ -9,7 +9,7 @@
  */
 
 $choice='class_view.php';
-$cutoffdate=date('Y-m-d',mktime(0,0,0,date('m'),date('d')-360,date('Y')));
+$cutoffdate=date('Y-m-d',mktime(0,0,0,date('m'),date('d')-720,date('Y')));
 /*Fetches all the info needed for this view*/
 include('class_view_marks.php');
 

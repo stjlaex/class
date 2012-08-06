@@ -254,7 +254,7 @@ if(isset($umns)){
 		if(sizeof($profiles)>0){
 			foreach($profiles as $choiceprono => $choiceprofile){
 ?>
-				<label>&nbsp;<?php print substr($choiceprofile['name'],0,2);?>P</label>
+				<label>&nbsp;<?php print substr($choiceprofile['name'],0,4);?></label>
 				<input title="<?php print $choiceprofile['name'].' '.get_string('assessmentprofile',$book);?>" 
 					type="radio" name="umnfilter" 
 					value="p<?php print $choiceprono;?>" 

@@ -223,20 +223,27 @@ while($student=mysql_fetch_array($d_students, MYSQL_ASSOC)){
 		
 		/*********************************************************/
 	   	elseif($marktype=='dif'){
-			/* Mark is the difference of two grades (does not work for raw values only grades!) */
+			/* Mark is the difference of two scores  */
 			$scoreclass.=' derived';
 			$mids=(array)explode(' ',$midlist[$c]);
 			$score_value=0;
 			$score_total=0;
-			foreach($mids as $ccc => $mid){
+			/* Is the score a grade or a raw value. */
+			if($scoregrading[$c]!=''){
+				$scorekey='grade';
+				}
+			else{
+				$scorekey='value';
+				}
+			foreach($mids as $mid){
 				unset($previousscore);
 				if(isset($studentrow["score$mid"])){			
 					$iscore=$studentrow["score$mid"];
-					if(isset($lastscore) and $iscore['grade']!==''){$previousscore=$lastscore;}
-					if(!isset($firstscore) and $iscore['grade']!=''){$firstscore=$iscore;}
-					if(isset($iscore['grade']) and $iscore['grade']!==''){$lastscore=$iscore;}
+					if(isset($lastscore) and $iscore[$scorekey]!==''){$previousscore=$lastscore;}
+					if(!isset($firstscore) and $iscore[$scorekey]!=''){$firstscore=$iscore;}
+					if(isset($iscore[$scorekey]) and $iscore[$scorekey]!==''){$lastscore=$iscore;}
 					if(isset($previousscore) and isset($lastscore)){
-						$lastdif=$lastscore['grade']-$previousscore['grade'];
+						$lastdif=$lastscore[$scorekey]-$previousscore[$scorekey];
 						if($lastdif>0){$studentrow["score$mid"]['scoreclass'].=' golite';}
 						elseif($lastdif<0){$studentrow["score$mid"]['scoreclass'].=' hilite';}
 						else{$studentrow["score$mid"]['scoreclass'].=' pauselite';}
@@ -244,7 +251,7 @@ while($student=mysql_fetch_array($d_students, MYSQL_ASSOC)){
 					}
 				}
 			if(isset($firstscore) and isset($lastscore)){
-				$score_value=$lastscore['grade']-$firstscore['grade'];
+				$score_value=$lastscore[$scorekey]-$firstscore[$scorekey];
 				$yesval=1;
 				}
 			if(isset($yesval)){
@@ -261,6 +268,7 @@ while($student=mysql_fetch_array($d_students, MYSQL_ASSOC)){
 			unset($firstscore);
 			unset($lastscore);
 			unset($previousscore);
+			unset($scorekey);
 			}
 
 		/*********************************************************/

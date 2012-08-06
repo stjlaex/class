@@ -42,7 +42,7 @@ CREATE TABLE assessment (
 	method			char(3) not null default '',
 	element			char(3) not null default '',
 	description		varchar(60) not null default '',
-	label			varchar(12) not null default '',
+	label			varchar(40) not null default '',
 	resultqualifier	char(2) not null default '',
 	resultstatus    enum('R', 'T', 'E', 'S') default 'R' not null,
 	outoftotal		smallint(5) unsigned not null default '0',

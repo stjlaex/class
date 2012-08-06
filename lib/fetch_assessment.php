@@ -234,7 +234,7 @@ function fetchAssessmentDefinition($eid){
    	$AssDef['PrintLabel']=array('label'=>'Print Label',
 								'table_db'=>'assessment', 
 								'field_db'=>'label',
-								'type_db'=>'varchar(12)', 
+								'type_db'=>'varchar(40)', 
 								'value'=>''.$ass['label']);
 	/*
    	$AssDef['ResultQualifier']=array('label'=>'Result Qualifier',
