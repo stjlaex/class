@@ -1134,18 +1134,19 @@ function update_profile_score($rid,$sid,$bid,$pid,$cat,$catdefs,$rating_name){
 
 
 /**
- * This tries to find the mid (if one exists otherwise -1) associated 
+ * This tries to find the mids (if any exist otherwise -1) associated 
  * with an assessment for a distinct $bid/$pid combination. And 
- * its not easy and only hopefully unique! WARNING!
+ * its not easy and not unique!
  *
  * @param array $AssDef
  * @param string $bid
  * @param string $pid
- * @return array
+ * @return array $mids
  */
-function get_assessment_mid($AssDef,$bid,$pid=''){
+function get_assessment_mids($AssDef,$bid,$pid=''){
 	$crid=$AssDef['Course']['value'];
 	$eid=$AssDef['id_db'];
+	$mids=array();
 
 	$cohorts=array();
 	if($AssDef['Stage']['value']=='%'){
@@ -1163,17 +1164,24 @@ function get_assessment_mid($AssDef,$bid,$pid=''){
 				mark.component_id='$pid' AND eidmid.assessment_id='$eid');")){}
 	else{print 'Failed!<br />'; $error=mysql_error(); print $error.'<br />';}
 
-	$mid=-1;
 	foreach($cohorts as $cohort){
 		$cohid=update_cohort($cohort);
 		$d_marks=mysql_query("SELECT DISTINCT assmids.mark_id FROM assmids 
 							WHERE assmids.mark_id=ANY(SELECT mark_id FROM midcid JOIN class ON class.id=midcid.class_id 
 														WHERE class.subject_id='$bid' AND class.cohort_id='$cohid');");
-		if(mysql_num_rows($d_marks)>0){$mid=mysql_result($d_marks,0);}
+		if(mysql_num_rows($d_marks)>0){
+			while($mid=mysql_fetch_array($d_marks,MYSQL_ASSOC)){
+				$mids[]=$mid['mark_id'];
+				}
+			}
 		}
 	mysql_query("DROP TABLE assmids;");
 
-	return $mid;
+	if(sizeof($mids)==0){
+		$mids[]=-1;
+		}
+
+	return $mids;
 	}
 
 

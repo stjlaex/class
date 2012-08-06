@@ -516,6 +516,8 @@ function elgg_new_folder($owner,$name,$access,$dbc=true){
 	return $folder_id;
 	}
 
+
+
 /** 
  *
  * Returns the epfuid - usually called from other elgg_ functions but
@@ -1035,12 +1037,11 @@ function upload_files($filedata){
 	$success=false;
 
 	$file_title=$filedata['title'];
-	$file_description=$filedata['description'];
 	$file_time=time();
 
 	/* Identify the folder to be linked with this file. Note this is a
-	 * virtual flolder in elgg and does not affect the physical directory
-	 * the file is being stored in. 
+	 * virtual flolder does not affect the physical directory the file
+	 * is stored in.
 	 */
 	if($filedata['foldertype']=='icon'){
 		$folder_name='root';
@@ -1060,15 +1061,12 @@ function upload_files($filedata){
 	foreach($batchfiles as $batchfile){
 		$epfusername=$batchfile['epfusername'];
 		$file_name=$batchfile['filename'];
-		$epfuid=elgg_get_epfuid($epfusername,'person');
+		$file_description=$batchfile['description'];
+		$uid=get_epfuid($epfusername,'s');
 
-		/* This is the family access group */
-		$group=array('epfgroupid'=>'','owner'=>$epfuid,'name'=>'Family','access'=>'');
-		$epfgroupid=elgg_update_group($group,array('owner'=>'','name'=>'','access'=>''),false);
-		$file_access='group'.$epfgroupid;
 		if($folder_name!='root'){
 			/* Create the virtual folder if it doesn't exist. */
-			$folder_id=elgg_new_folder($epfuid,$folder_name,'group'.$epfgroupid,false);
+			$folder_id=new_folder($uid,$folder_name);
 			}
 
 		$dir=$dir_name . '/' . substr($epfusername,0,1) . '/' . $epfusername; 
@@ -1091,25 +1089,25 @@ function upload_files($filedata){
 				}
 
 			if($filedata['foldertype']=='icon'){
-
-				mysql_query("INSERT INTO $table_icons SET owner='$epfuid',
+				/* TODO:
+				mysql_query("INSERT INTO $table_icons SET owner='s', owner_id='$epfuid',
 					filename='$file_name', description='$file_description';");
 				mysql_query("UPDATE $table_users SET icon=LAST_INSERT_ID() WHERE ident='$epfuid';");
+				*/
 				}
 			else{
-				$d_f=mysql_query("SELECT ident FROM $table_files WHERE originalname='$file_originalname' 
-								AND files_owner='$epfuid';");
+				$d_f=mysql_query("SELECT id FROM file WHERE originalname='$file_originalname' 
+								AND owner='s', owner_id='$uid';");
 				if(mysql_num_rows($d_f)==0){
-					$d_f=mysql_query("INSERT INTO $table_files 
-		   			 (owner, files_owner, folder, title, originalname,
+					$d_f=mysql_query("INSERT INTO file 
+		   			 (owner, owner_id, folder_id, title, originalname,
 						description, location, access, time_uploaded) VALUES 
-		   			 ('1', '$epfuid','$folder_id','$file_title','$file_originalname',
-		   			  '$file_description','$file_location','$file_access','$file_time');");
+		   			 ('s', '$uid','$folder_id','$file_title','$file_originalname',
+		   			  '$file_description','$file_location','$file_access','$file_size');");
 					}
 				else{
-					$file_ident=mysql_result($d_f,0);
-					$d_f=mysql_query("UPDATE $table_files SET (originalname='$file_originalname') 
-		   				WHERE ident='$file_ident';");
+					$file_id=mysql_result($d_f,0);
+					$d_f=mysql_query("UPDATE 'file' SET (originalname='$file_originalname') WHERE id='$file_id';");
 					}
 				}
 
@@ -1118,14 +1116,11 @@ function upload_files($filedata){
 				// chmod($file_fullpath, $CFG->filepermissions);
 				$success=true;
 				}
-			else{trigger_error('Could not move file to eportfolio: '.$file_fullpath,E_USER_WARNING);}
+			else{
+				trigger_error('Could not move file to eportfolio: '.$file_fullpath,E_USER_WARNING);
+				}
 			}
 
-		}
-
-	if($dbc==true){
-		$db=db_connect();
-		mysql_query("SET NAMES 'utf8'");
 		}
 
 	return $success;
@@ -1178,7 +1173,7 @@ function delete_files($filedata,$dbc=true){
 	foreach($batchfiles as $batchfile){
 		$epfusername=$batchfile['epfusername'];
 		$file_name=$batchfile['filename'];
-		$epfuid=elgg_get_epfuid($epfusername,'person');
+		$epfuid=get_epfuid($epfusername,'person');
 		$dir=$dir_name . '/' . substr($epfusername,0,1) . '/' . $epfusername; 
 		$file_fullpath=$CFG->eportfolio_dataroot . '/' . $dir. '/'. $file_name;
 		$file_location=$dir . '/'. $file_name;
@@ -1224,31 +1219,19 @@ function delete_files($filedata,$dbc=true){
  *
  *
  */
-function new_folder($owner,$name,$access,$dbc=true){
-	global $CFG;
-	$table=$CFG->eportfolio_db_prefix.'file_folders';
+function new_folder($owner,$name,$access=''){
 
-	if($CFG->eportfolio_db!='' and $dbc==true){
-		$dbepf=db_connect(true,$CFG->eportfolio_db);
-		mysql_query("SET NAMES 'utf8'");
-		}
-
-	$d_folder=mysql_query("SELECT ident FROM $table WHERE owner='$owner' AND name='$name';");
+	$d_folder=mysql_query("SELECT id FROM 'file_folder' WHERE owner='s' AND owner_id='$owner' AND name='$name';");
 	if(mysql_num_rows($d_folder)>0){
 		$folder_id=mysql_result($d_folder,0);
 		}
 	elseif($owner!='' and $name!='' and $access!=''){
-		$d_f=mysql_query("INSERT INTO $table SET owner='$owner', files_owner='$owner',
-					 name='$name', access='$access', parent='-1';");
+		$d_f=mysql_query("INSERT INTO 'file_folder' SET  owner='s', owner_id='$owner',
+					 name='$name', access='$access', parent_folder_id='-1';");
 		$folder_id=mysql_insert_id();
 		}
 	else{
 		$folder_id=-1;
-		}
-
-	if($dbc==true){
-		$db=db_connect();
-		mysql_query("SET NAMES 'utf8'");
 		}
 
 	return $folder_id;
@@ -1267,19 +1250,10 @@ function new_folder($owner,$name,$access,$dbc=true){
  * @return array $files
  */
 function list_files($epfun,$filetype,$dbc=false){
-	global $CFG;
-	$table_users=$CFG->eportfolio_db_prefix.'users';
-	$table_icons=$CFG->eportfolio_db_prefix.'icons';
-	$table_folders=$CFG->eportfolio_db_prefix.'file_folders';
-	$table_files=$CFG->eportfolio_db_prefix.'files';
+
 	$files=array();
 
-	if($CFG->eportfolio_db!='' and $dbc==true){
-		$dbepf=db_connect(true,$CFG->eportfolio_db);
-		mysql_query("SET NAMES 'utf8'");
-		}
-
-	$epfuid=elgg_get_epfuid($epfun,'person');
+	$epfuid=get_epfuid($epfun,'person');
 
 	if($filetype=='icon'){
 		/* TODO: make all icons (ie.photos), with exception of current
@@ -1306,7 +1280,7 @@ function list_files($epfun,$filetype,$dbc=false){
 		}
 
 	if($folder_name!='root'){
-		$folder_id=elgg_new_folder($epfuid,$folder_name,'',false);
+		$folder_id=new_folder($epfuid,$folder_name,'',false);
 		}
 
 	$d_f=mysql_query("SELECT ident, title, description, location, originalname FROM $table_files 
@@ -1318,12 +1292,34 @@ function list_files($epfun,$filetype,$dbc=false){
 		$files[]=$file;
 		}
 
-	if($dbc==true){
-		$db=db_connect();
-		mysql_query("SET NAMES 'utf8'");
+	return $files;
+	}
+
+
+/** 
+ *
+ * Returns the epfuid - usually called from other elgg_ functions but
+ * set dbc=true if its to be called elsewhere.
+ * The owner is the epfusername and type is the elgg user_type 
+ * currently only recognised as either 'person' or 'community'.
+ *
+ */
+function get_epf_uid($epfname,$type){
+
+	if($type=='s'){$table='student';}
+	elseif($type=='g'){$table='guardian';}
+	elseif($type=='u'){$table='users';}
+
+	$d_u=mysql_query("SELECT id FROM $table WHERE epfusername='$epfname';");
+
+	if(mysql_num_rows($d_u)==1){
+		$uid=mysql_result($d_u,0);
+		}
+	else{
+		$uid=-1;
 		}
 
-	return $files;
+	return $uid;
 	}
 
 ?>

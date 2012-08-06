@@ -82,7 +82,9 @@ if($sub=='Submit'){
 							 'date'=>$todate);
 				/* Always update eidsid and if a mark column exists then update score too.*/
 				update_assessment_score($eid,$sid,$inbid,$asspid,$score);
-				update_mark_score($inass['mid'],$sid,$score);
+				foreach($inass['mids'] as $mid){
+					update_mark_score($mid,$sid,$score);
+					}
 				}
 			/*Finished assessment scores.*/
 			}

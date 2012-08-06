@@ -96,6 +96,12 @@ else{
 		$prev_AssDefs=(array)fetch_cohortAssessmentDefinitions($prevcohort,$profile['id']);
 		$AssDefs=(array)array_merge($AssDefs,$prev_AssDefs);
 		}
+	elseif($profile['transform']=='tracking_barchart_difference'){
+		$pid='%';
+		$prevcohort=array('id'=>'','course_id'=>$crid,'stage'=>'%','year'=>'%');
+		$prev_AssDefs=(array)fetch_cohortAssessmentDefinitions($prevcohort,$profile['id']);
+		$AssDefs=(array)array_merge($AssDefs,$prev_AssDefs);
+		}
 	else{
 		$pid='%';
 		}
@@ -163,6 +169,7 @@ else{
 					/* This will exclude assessments which have no scores. */
 					$asstable['ass'][$AssDef['id_db']]=array('label'=>''.$AssDef['Description']['value'],
 															 'date'=>''.display_date($AssDef['Deadline']['value']),
+															 'year'=>''.$AssDef['Year']['value'],
 															 'id_db'=>''.$AssDef['id_db'],
 															 'bands'=>$AssDef['assbands']);
 					}

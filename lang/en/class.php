@@ -407,4 +407,7 @@ $string['semicolon']='Semi-colon';
 $string['comma']='Comma';
 $string['fieldseparator']='Field separator';
 $string['allstudents']='All students';
+$string['documents']='Documents';
+$string['documentstoupload']='New documents to upload';
+$string['drophere']='Drop here';
 ?>

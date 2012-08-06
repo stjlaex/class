@@ -201,7 +201,7 @@ three_buttonmenu($extrabuttons,$book);
 			/* Need to identify the mid (if one exists) that is related to 
 			 * this assessment for updating scores in the action page.
 			 */
-			$mid=get_assessment_mid($AssDef,$bid,$strand['id']);
+			$mids=(array)get_assessment_mids($AssDef,$bid,$strand['id']);
 			$ass_colspan++;
 ?>
 			<th>
@@ -217,7 +217,7 @@ three_buttonmenu($extrabuttons,$book);
 							 'scoretype'=>'grade', 
 							 'grading_grades'=>$grading_grades,
 							 'eid'=>$eid,
-							 'mid'=>$mid);
+							 'mids'=>$mids);
 				}
 			else{
 				$inass=array('table'=>'score',
@@ -226,7 +226,7 @@ three_buttonmenu($extrabuttons,$book);
 							 'scoretype'=>'value', 
 							 'grading_grades'=>'',
 							 'eid'=>$eid,
-							 'mid'=>$mid);
+							 'mids'=>$mids);
 				}
 ?>
 		  </th>
@@ -241,7 +241,7 @@ three_buttonmenu($extrabuttons,$book);
 	$inorders=array('rid'=>$rid,'subject'=>$bid,'component'=>$pid,'inasses'=>$inasses);
    	if($reportdef['report']['addcategory']=='yes'){
 		/*the categories and rating details for later use*/
-	trigger_error('!!!!! '.$bid. ' : '.$pid,E_USER_WARNING);
+		trigger_error('!!!!! '.$bid. ' : '.$pid,E_USER_WARNING);
 		$catdefs=get_report_categories($rid,$bid,$pid,'cat',$class_stage);
 		$ratings=$reportdef['ratings'];
 		$inorders['category']='yes';

@@ -34,16 +34,16 @@ if($sub=='Submit'){
 	$strands=(array)list_subject_components($pid,$crid,$compstatus);
 	$strandno=sizeof($strands);
 	$labels=array();
-	$mids=array();
+	$strand_mids=array();
 	if($strandno>0){
 		foreach($strands as $sindex => $strand){
 			$labels[]=$strand['id'];
-			$mids[]=get_assessment_mid($AssDef,$bid,$strand['id']);
+			$strand_mids[]=(array)get_assessment_mids($AssDef,$bid,$strand['id']);
 			}
 		}
 	else{
 		$labels[]=$pid;
-		$mids[]=get_assessment_mid($AssDef,$bid,$pid);
+		$strand_mids[]=(array)get_assessment_mids($AssDef,$bid,$pid);
 		}
 
 
@@ -75,7 +75,9 @@ if($sub=='Submit'){
 				}
 			$score=array('type'=>$scoretype,'result'=>$result,'value'=>$scorevalue,'date'=>$todate);
 			update_assessment_score($eid,$sid,$bid,$label,$score);
-			update_mark_score($mids[$lindex],$sid,$score);
+			foreach($strand_mids[$lindex] as $mid){
+				update_mark_score($mid,$sid,$score);
+				}
 			}
 		}
 	}
