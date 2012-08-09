@@ -1,7 +1,19 @@
-Version ClaSS-1.0.25 release (2012/08/07)
+Version ClaSS-1.0.25 release (2012/08/09)
 -------------------------------------------
 
 Profile column of type dif now works with raw values and grades.
+
+Fix demoiser to work with new class ids.
+
+Added a flag to the classes table to identify those taught by their
+form tutors.
+
+Automatically assign form tutors their related teaching class.
+
+Made editing of forms and the function list_form_classes rewritten to be
+compatible with new class structure
+
+Generating new class structure updated
 
 
 

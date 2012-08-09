@@ -231,7 +231,7 @@ function list_subject_components($bid,$crid,$compstatus='A'){
 
 
 /**
- * Returns an array of all cohorts for a single course year
+ * Returns an array of all cohorts for a single course year. Defaults to current year.
  *
  *	@param string $crid
  *	@param string $year
@@ -240,18 +240,22 @@ function list_subject_components($bid,$crid,$compstatus='A'){
  */
 function list_course_cohorts($crid,$year='',$season='S'){
 	$cohorts=array();
+
 	if($year==''){
 		$year=get_curriculumyear($crid);
 		$season='S';
 		}
+
 	$d_coh=mysql_query("SELECT * FROM cohort WHERE
-						course_id='$crid' AND year='$year' AND 
-						season='$season' ORDER BY stage;");
+	   				course_id='$crid' AND year='$year' AND season='$season' ORDER BY stage;");
 	while($cohort=mysql_fetch_array($d_coh,MYSQL_ASSOC)){
 		$cohorts[]=array('id'=>$cohort['id'],
-						 'stage'=>$cohort['stage'], 'year'=>$cohort['year'], 
-						 'name'=>'('.$cohort['stage'].' '.$cohort['year'].')');
+						 'stage'=>$cohort['stage'],
+						 'year'=>$cohort['year'],
+						 'name'=>'('.$cohort['stage'].' '.$cohort['year'].')'
+						 );
 		}
+
 	return $cohorts;
 	}
 
@@ -304,54 +308,54 @@ function get_this_class($cid){
 
 /**
  *
- * Returns an array listing the cids for all classes associated with
+ * Returns an array listing the classes associated with
  * this form where the class is actually populated by just this
  * form's sids (so does not return sets).
  *
  *	@param string $fid
+ *	@param string $limit
  *	@return array
  */
-function list_forms_classes($fid){
-	$cids=array();
-	$cohorts=list_community_cohorts(array('id'=>'','type'=>'form','name'=>$fid));
-   	while(list($index,$cohort)=each($cohorts)){
+function list_forms_classes($formname,$limit=''){
+	$classes=array();
+	$cohorts=list_community_cohorts(array('id'=>'','type'=>'form','name'=>$formname));
+
+	$limitformgroups='';
+	if($limit=='Y'){
+		$limitformgroups=" AND formgroup='Y'";
+		}
+	elseif($limit=='N'){
+		$limitformgroups=" AND formgroup='N'";
+		}
+
+   	foreach($cohorts as $cohort){
 		$currentyear=get_curriculumyear($cohort['course_id']);
 		$currentseason='S';
 		if($cohort['year']==$currentyear and $cohort['season']==$currentseason){
+			$cohid=$cohort['id'];
 			$stage=$cohort['stage'];
 			$crid=$cohort['course_id'];
-			$d_classes=mysql_query("SELECT subject_id, naming FROM classes 
-				WHERE stage='$stage' AND course_id='$crid' AND generate='forms';");
-			while($classes=mysql_fetch_array($d_classes, MYSQL_ASSOC)){
-				$bid=$classes['subject_id'];
-				$name=array();
-				if($classes['naming']=='' or $classdef['generate']=='forms'){
-					$name['root']=$bid;
-					$name['stem']='';
-					$name['branch']='';
-					}
-				else{
-					list($name['root'],$name['stem'],$name['branch'],$name_counter)
-								= explode(';',$classes['naming'],4);
-					while(list($index,$namecheck)=each($name)){
-						if($namecheck=='subject'){$name["$index"]=$bid;}
-						if($namecheck=='stage'){$name["$index"]=$stage;}
-						if($namecheck=='course'){$name["$index"]=$crid;}
-						if($namecheck=='year'){$name["$index"]=$yid;}
-						}
-					}
-				$cids[]=$name['root'].$name['stem'].$name['branch'].$fid;;
+			$d_c=mysql_query("SELECT subject_id, naming FROM classes 
+						WHERE stage='$stage' AND course_id='$crid' $limitformgroups AND generate='forms';");
+			while($classdef=mysql_fetch_array($d_c,MYSQL_ASSOC)){
+				$bid=$classdef['subject_id'];
+				$classname=$bid. $formname;
+				$d_c=mysql_query("SELECT id FROM class WHERE name='$classname' AND cohort_id='$cohid';");
+				$cid=mysql_result($d_c,0);
+				$classes[]=array('id'=>$cid,'name'=>$classname);
 				}
 			}
 		}
-	return $cids;
+
+	return $classes;
 	}
 
 
 
 /** 
+ *
  * Returns an array listing the classes associated with
- * this course and subject.
+ * this course and subject. Defaults to current year.
  *
  * If limit is true then only classes assigned to a teacher are listed.
  *
@@ -365,7 +369,9 @@ function list_forms_classes($fid){
 function list_course_classes($crid='%',$bid='%',$stage='%',$year='',$limit='all'){
 
 	$classes=array();
+
 	if($year==''){$year=get_curriculumyear();}
+
 	if($limit=='taught'){
 		$d_c=mysql_query("SELECT class.id, class.name, class.detail, class.subject_id, 
 							cohort.stage, cohort.course_id FROM class 
@@ -689,7 +695,7 @@ function message_student_teachers($sid,$tid,$bid,$messagesubject,$messagetext,$m
 
 /**
  *
- * Returns a record from the classes table, Must have crid, bid, and
+ * Returns a single record from the classes table, Must have crid, bid, and
  * stage set.
  *
  *	@param string $crid
@@ -699,7 +705,7 @@ function message_student_teachers($sid,$tid,$bid,$messagesubject,$messagetext,$m
  */
 function get_subjectclassdef($crid,$bid,$stage){
 
-	$d_c=mysql_query("SELECT many, generate, naming, sp, dp, block FROM classes WHERE
+	$d_c=mysql_query("SELECT many, generate, naming, sp, dp, block, formgroup FROM classes WHERE
 				subject_id='$bid' AND stage='$stage' AND course_id='$crid';");
 	if(mysql_num_rows($d_c)>0){
 		$classdef=mysql_fetch_array($d_c,MYSQL_ASSOC);
@@ -726,6 +732,7 @@ function get_subjectclassdef($crid,$bid,$stage){
 function update_subjectclassdef($classdef){
 	$many=$classdef['many'];
 	$generate=$classdef['generate'];
+	$fg=$classdef['formgroup'];
 	if($generate=='none'){$generate='sets';}
 	if(isset($classdef['naming']) and $classdef['naming']!=''){
 		$naming=$classdef['naming'];
@@ -742,14 +749,14 @@ function update_subjectclassdef($classdef){
 						subject_id='$bid' AND stage='$stage' AND course_id='$crid';");
 		if(mysql_numrows($d_classes)>0){
 			mysql_query("UPDATE classes SET many='$many',
-						generate='$generate', sp='$sp',
+						generate='$generate', formgroup='$fg', sp='$sp', 
 						dp='$dp', block='$block' WHERE stage='$stage' AND
 						subject_id='$bid' AND course_id='$crid';");
 			}
 		else{
-			mysql_query("INSERT INTO classes (many, generate, sp, dp,
+			mysql_query("INSERT INTO classes (many, generate, formgroup, sp, dp,
 						course_id, subject_id, stage) VALUES ('$many',
-						'$generate', '$sp', '$dp', '$crid', '$bid', '$stage');");
+						'$generate', '$fg', '$sp', '$dp', '$crid', '$bid', '$stage');");
 			}
 		if(isset($naming)){
 			mysql_query("UPDATE classes SET naming='$naming'
@@ -815,13 +822,15 @@ function get_classdef_classes($classdef,$currentseason='S'){
 		$name['branch']='/';
 		}
 	else{
-		list($name['root'],$name['stem'],$name['branch'],$name_counter)=split(';',$classdef['naming'],4);
-		while(list($index,$namecheck)=each($name)){
-				if($namecheck=='subject'){$name["$index"]=$bid;}
-				if($namecheck=='stage'){$name["$index"]=$stage;}
-				if($namecheck=='course'){$name["$index"]=$crid;}
-				if($namecheck=='year'){$name["$index"]=$yid;}
-				}
+		list($name['root'],$name['stem'],$name['branch'],$name_counter)=explode(';',$classdef['naming'],4);
+
+
+		foreach($name as $index => $namecheck){
+			if($namecheck=='subject'){$name["$index"]=$bid;}
+			if($namecheck=='stage'){$name["$index"]=$stage;}
+			if($namecheck=='course'){$name["$index"]=$crid;}
+			if($namecheck=='year'){$name["$index"]=$yid;}
+			}
 		}
 
 
@@ -880,11 +889,23 @@ function populate_subjectclassdef($classdef,$currentseason='S'){
 		if($newcid>0){
 			if($classdef['generate']=='forms'){
 				$fid=$groups[$nindex];
+				/* Assign students to the class. */
 				$d_sids=mysql_query("SELECT id FROM student WHERE form_id='$fid';");
 				while($sids=mysql_fetch_array($d_sids, MYSQL_ASSOC)){
 					$sid=$sids['id'];
 					mysql_query("INSERT INTO cidsid
 								(class_id, student_id) VALUES ('$newcid','$sid')");
+					}
+				if($classdef['formgroup']=='Y'){
+					/* Optionally assign form tutors as teachers of the class. */
+					$users=(array)list_community_users(array('id'=>'','name'=>$fid,'type'=>'form'));
+					foreach($users as $uid => $user){
+						if($user['role']!='office' and $user['username']!='administrator'){
+							$tid=$user['username'];
+							mysql_query("INSERT INTO tidcid
+								(class_id, teacher_id) VALUES ('$newcid','$tid')");
+							}
+						}
 					}
 				}
 			}

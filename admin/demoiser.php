@@ -276,27 +276,31 @@ function generate_random_name($gender){
 	$table='classes';
 	$trows=tableRead($table);
 	$name=array('AA','BB','CC','DD','EE','FF','GG','HH','JJ','KK','LL','MM');
-	while(list($index,$row)=each($trows)){
+	foreach($trows as $row){
 		if($row['generate']=='forms'){
 			$bid=$row['subject_id'];
 			$crid=$row['course_id'];
 			$stage=$row['stage'];
-			$d_class=mysql_query("SELECT * FROM class WHERE stage='$stage'
-				AND course_id='$crid' AND subject_id='$bid'");
+			$curryear=get_curriculumyear($crid);
+			$d_class=mysql_query("SELECT class.id, class.name FROM class JOIN cohort ON class.cohort_id=cohort.id 
+						WHERE cohort.stage='$stage' AND cohort.course_id='$crid' 
+						AND cohort.year='$curryear' AND class.subject_id='$bid';");
 			$i=0;
 			while($row=mysql_fetch_array($d_class,MYSQL_ASSOC)){
 				$cid=$row['id'];
-				$ncid=$bid . $stage . $name[$i];
+				$newcid=$bid . $stage . $name[$i];
 				$i++;
-
-				$d_c=mysql_query("UPDATE class SET id='$ncid' WHERE id='$cid'");
-				if(mysql_error()!=''){
-					$ncid=$bid . $stage . $name[$i] .$i;
-					$d_c=mysql_query("UPDATE class SET id='$ncid' WHERE id='$cid'");
+				$d_c=mysql_query("UPDATE class SET name='$newcid' WHERE id='$cid'");
+				/*
+				$d_c=mysql_query("SELECT id FROM class WHERE name='$newcid' AND cohort_id='';");
+				if(mysql_num_rows($d_c)>0){
+					$newcid=$bid . $stage . $name[$i] .$i;
+					$d_c=mysql_query("UPDATE class SET name='$newcid' WHERE id='$cid'");
 					}
-				mysql_query("UPDATE tidcid SET class_id='$ncid' WHERE class_id='$cid'");
-				mysql_query("UPDATE midcid SET class_id='$ncid' WHERE class_id='$cid'");
-				mysql_query("UPDATE cidsid SET class_id='$ncid' WHERE class_id='$cid'");
+				else{
+					$d_c=mysql_query("UPDATE class SET name='$newcid' WHERE id='$cid'");
+					}
+				*/
 				}
 			}
 		}

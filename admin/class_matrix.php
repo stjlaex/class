@@ -44,13 +44,19 @@ two_buttonmenu($extrabuttons);
    			$sp=$classes['sp'];
    			$dp=$classes['dp'];
    			$block=$classes['block'];
+   			$fg=$classes['formgroup'];
 ?>
 		  <td>
 			<select name="<?php print $bid.$stage.'g';?>">
 			  <option value="none" <?php if($generate=="none"){print "selected='selected'";}?>>
 			  </option>
+			  <option value="formtutors" 
+				<?php if($generate=='forms' and $fg=='Y'){print 'selected="selected"';}?>
+				>
+				<?php print_string('formtutor',$book);?>
+			  </option>
 			  <option value="forms" 
-				<?php if($generate=="forms"){print 'selected="selected"';}?>
+					  <?php if($generate=='forms' and ($fg=='N' or $fg=='')){print 'selected="selected"';}?>
 				>
 				<?php print_string('forms',$book);?>
 			  </option>

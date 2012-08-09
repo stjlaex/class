@@ -26,17 +26,14 @@ if($sub=='Submit'){
 	$classestoo='yes';
 
 	/*sids to remove*/
-	//$newcommunity=array('type'=>'year','name'=>'');
 	$newcommunity=get_community($newcomid);
    	foreach($oldsids as $sid){
 		$oldcommunities=join_community($sid,$newcommunity);
 		if($classestoo=='yes' and isset($oldcommunities['form'])){
-			$changecids=array();
-			$changecids=list_forms_classes($oldcommunities['form'][0]['name']);
-			for($c=0;$c<sizeof($changecids);$c++){
-				$cid=$changecids[$c];
-				mysql_query("DELETE FROM cidsid WHERE
-		   				student_id='$sid' AND class_id='$cid' LIMIT 1");
+			$changeclasses=(array)list_forms_classes($oldcommunities['form'][0]['name']);
+			foreach($changeclasses as $class){
+				$cid=$class['id'];
+				mysql_query("DELETE FROM cidsid WHERE student_id='$sid' AND class_id='$cid' LIMIT 1;");
 				}
 			}
 		}
@@ -46,12 +43,10 @@ if($sub=='Submit'){
 	foreach($newsids as $sid){
 		$oldcommunities=join_community($sid,$currentcommunity);
 		if($classestoo=='yes' and isset($oldcommunities['form'])){
-			$changecids=array();
-			$changecids=list_forms_classes($oldcommunities['form'][0]['name']);
-			for($c=0;$c<sizeof($changecids);$c++){
-				$cid=$changecids[$c];
-				mysql_query("DELETE FROM cidsid WHERE
-								student_id='$sid' AND class_id='$cid' LIMIT 1");
+			$changeclasses=(array)list_forms_classes($oldcommunities['form'][0]['name']);
+			foreach($changeclasses as $class){
+				$cid=$class['id'];
+				mysql_query("DELETE FROM cidsid WHERE student_id='$sid' AND class_id='$cid' LIMIT 1");
 				}
 			}
 		}

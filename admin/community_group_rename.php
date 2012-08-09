@@ -26,16 +26,14 @@ if($sub=='Submit'){
 		 * classes which are named after it.
 		 */
 		if($community['type']=='form'){
-			$oldcids=(array)list_forms_classes($oldname);
-			foreach($oldcids as $oldcid){
+			$oldclasses=(array)list_forms_classes($oldname);
+			foreach($oldclasses as $oldclass){
+				$oldcid=$oldclass['id'];
 				$d_c=mysql_query("SELECT subject_id FROM class WHERE id='$oldcid';");
 				if(mysql_num_rows($d_c)>0){
 					$bid=mysql_result($d_c,0);
-					$newcid=$bid.''.$newname;
-					mysql_query("UPDATE class SET id='$newcid' WHERE id='$oldcid';");
-					mysql_query("UPDATE cidsid SET class_id='$newcid' WHERE class_id='$oldcid';");
-					mysql_query("UPDATE tidcid SET class_id='$newcid' WHERE class_id='$oldcid';");
-					mysql_query("UPDATE midcid SET class_id='$newcid' WHERE class_id='$oldcid';");
+					$newname=$bid.''.$newname;
+					mysql_query("UPDATE class SET name='$newname' WHERE id='$oldcid';");
 					}
 				}
 			}
@@ -49,7 +47,7 @@ if($sub=='Submit'){
 		$community=(array)get_community($comid);
 		$communityfresh=(array)$community;
 
-		/* TODO: create subject classes in a similar many to the renaming above. */
+		/* TODO: create subject classes in a similar manner to the renaming above. */
 		}
 
 

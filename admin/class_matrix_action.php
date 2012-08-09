@@ -27,10 +27,17 @@ if($sub=='Update'){
 			if(isset($_POST[$ing])){
 				if($_POST[$ing]=='forms'){
 					$classdef['generate']=$_POST[$ing];
+					$classdef['formgroup']='N';
+					$classdef['many']='0'; 
+					}
+				elseif($_POST[$ing]=='formtutors'){
+					$classdef['generate']='forms';
+					$classdef['formgroup']='Y';
 					$classdef['many']='0'; 
 					}
 				else{
 					$classdef['generate']='sets';
+					$classdef['formgroup']='N';
 					$classdef['many']=$_POST[$ing]; 
 					}
 				$classdef['sp']=$_POST[$ins];
@@ -47,20 +54,20 @@ elseif($sub=='Generate'){
 	three_buttonmenu();
 ?>
   <div class="content">
-	<fieldset class="center">
+	<form name="formtoprocess" id="formtoprocess" method="post" action="<?php print $host; ?>">
+	  <fieldset class="center">
 		<legend><?php print_string('confirm',$book);?></legend>
-	  <?php print_string('generateclassstructurequestion',$book);?>
-	  <form name="formtoprocess" id="formtoprocess" method="post" action="<?php print $host; ?>">
+		<?php print_string('generateclassstructurequestion',$book);?>		
+		<div class="right">
+		  <?php include('scripts/check_yesno.php');?>
+		  </div>
+	  </fieldset>
+
 		<input type="hidden" name="current" value="<?php print $action;?>">
 		<input type="hidden" name="choice" value="<?php print $choice;?>">
 		<input type="hidden" name="cancel" value="<?php print $choice;?>">
-
-			  <div class="right">
-				<?php include('scripts/check_yesno.php');?>
-			  </div>
-
+		  
 	  </form>
-	</fieldset>
   </div>
 <?php
 	exit;
@@ -72,15 +79,23 @@ elseif($sub=='Submit'){
 
 	$result[]=get_string('newclassstructure',$book);
 
-	/*
-	*/
 
-	/* Clear out the class table but keep a copy reference */
-	$oldcids=(array)list_course_classes($crid);
-	mysql_query("DELETE cidsid.* FROM cidsid, class WHERE
-		class.id=cidsid.class_id AND class.course_id='$crid';");
-	mysql_query("DELETE FROM class WHERE course_id='$crid';");
+	/* Clear out the class records */
+	$cohorts=(array)list_course_cohorts($crid);
+	foreach($cohorts as $cohort){
+		$cohid=$cohort['id'];
+		mysql_query("DELETE cidsid.* FROM cidsid, class WHERE
+					class.id=cidsid.class_id AND class.cohort_id='$cohid';");
+   		mysql_query("DELETE tidcid.* FROM tidcid, class WHERE 
+					class.id=tidcid.class_id AND class.cohort_id='$cohid';");
+   		mysql_query("DELETE score.* FROM score, midcid WHERE
+					score.mark_id=midcid.id AND midcid.class_id=ANY(SELECT id FROM class WHERE cohort_id='$cohid');");
+  		mysql_query("DELETE midcid.* FROM midcid, class WHERE
+					class.id=midcid.class_id AND class.cohort_id='$cohid';");
+ 		mysql_query("DELETE FROM class WHERE cohort_id='$cohid';");
+		}
 
+	/* Generate the new class structure. */
 	$d_classes=mysql_query("SELECT * FROM classes WHERE
 				  				course_id='$crid' ORDER BY subject_id, stage;");
 	while($classes=mysql_fetch_array($d_classes,MYSQL_ASSOC)){
@@ -88,20 +103,6 @@ elseif($sub=='Submit'){
 		$stage=$classes['stage'];
 		$classdef=get_subjectclassdef($crid,$bid,$stage);
 		populate_subjectclassdef($classdef);
-		}
-
-	/* Go through the oldcids and unassociate any marks or teachers for dead classes. */
-	$newcids=(array)list_course_classes($crid);
-	foreach($oldcids as $oldclass){
-		$cid=$oldclass['id'];
-		if(!array_key_exists($cid,$newcids)){
-			mysql_query("DELETE FROM tidcid WHERE class_id='$cid';");
-			mysql_query("DELETE FROM midcid WHERE class_id='$cid';");
-			/* TODO: clear out any orphanned marks and scores? 
-			mysql_query("DELETE score, cidsid FROM score JOIN cidsid ON
-						   	cidsid.student_id=score.student_id WHERE cidsid.class_id='$cid';");
-			*/
-			}
 		}
 	}
 

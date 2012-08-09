@@ -16,6 +16,16 @@ if($newtid!='' AND $gid!=''){
 		$newperms=array('r'=>1,'w'=>1,'x'=>1,'e'=>1);
 		$uid=get_uid($newtid);
 		update_staff_perms($uid,$gid,$newperms);
+
+		$d_f=mysql_query("SELECT name FROM community JOIN groups ON groups.community_id=community.id WHERE groups.gid='$gid';");
+		$formname=mysql_result($d_f,0);
+		/* Assign any teaching classes which are taught by tutors for this form (limit=Y needed)*/
+		$classes=(array)list_forms_classes($formname,'Y');
+		foreach($classes as $class){
+			$cid=$class['id'];
+			mysql_query("INSERT INTO tidcid (class_id, teacher_id) VALUES ('$cid','$newtid');");
+			}
+
 		}
 
 include('scripts/results.php');
