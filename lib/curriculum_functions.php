@@ -477,18 +477,22 @@ function list_student_subjects($sid){
  *	@param string $crid
  *	@return array
  */
-function list_student_course_classes($sid,$crid){
+function list_student_course_classes($sid,$crid,$curryear=''){
+
 	if($sid==''){$sid=-1;}
+	if($curryear==''){$curryear=get_curriculumyear($crid);}
+
 	$classes=array();
-   	$d_c=mysql_query("SELECT DISTINCT id FROM
+   	$d_c=mysql_query("SELECT DISTINCT id, name FROM
 				class JOIN cidsid ON class.id=cidsid.class_id WHERE
-				cidsid.student_id='$sid' AND class.course_id LIKE '$crid';");
+				cidsid.student_id='$sid' AND class.cohort_id=ANY(SELECT id FROM cohort WHERE cohort.year='$curryear' 
+				AND cohort.course_id LIKE '$crid') ORDER BY class.name;");
    	while($c=mysql_fetch_array($d_c,MYSQL_ASSOC)){
 		$cid=$c['id'];
 		$d_t=mysql_query("SELECT group_concat(forename, ' ', surname separator ', ') AS tids
 								FROM users JOIN tidcid ON tidcid.teacher_id=users.username 
 								WHERE tidcid.class_id='$cid' GROUP BY 'class_id';");
-		$classes[]=array('id'=>$cid,'teachers'=>mysql_result($d_t,0));
+		$classes[]=array('id'=>$cid,'name'=>$c['name'],'teachers'=>mysql_result($d_t,0));
 		}
 
 	return $classes;
@@ -501,15 +505,19 @@ function list_student_course_classes($sid,$crid){
  *	@param string $sid
  *	@return array
  */
-function list_student_classes($sid){
+function list_student_classes($sid,$curryear){
+
 	if($sid==''){$sid=-1;}
+	if($curryear==''){$curryear=get_curriculumyear($crid);}
+
 	$classes=array();
-	$d_c=mysql_query("SELECT DISTINCT class.id, class.course_id, class.subject_id FROM  
-					class JOIN cidsid ON class.id=cidsid.class_id 
-					WHERE cidsid.student_id='$sid';");
+	$d_c=mysql_query("SELECT DISTINCT class.id, class.name, cohort.course_id, class.subject_id FROM  
+					class JOIN cohort ON class.cohort_id=cohort_id WHERE cohort.year='$curryear' 
+					AND class.id=ANY(SELECT class_id FROM cidsid WHERE cidsid.student_id='$sid') ORDER BY cohort.course_id, class.name;");
    	while($c=mysql_fetch_array($d_c,MYSQL_ASSOC)){
 		$classes[]=array('id'=>$c['id'],
-						 'name'=>$c['course_id'].' '.$c['subject_id']
+						 'name'=>$c['name'],
+						 'description'=>$c['course_id'].' '.$c['subject_id']
 						 );
 		}
 	return $classes;
