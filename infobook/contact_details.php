@@ -159,7 +159,7 @@ three_buttonmenu($extrabuttons,$book);
 
 	  <div class="left">
 <?php
-	$addressno='0';/*Only doing one address.*/
+	$addressno='0';/* Only doing one address. */
 	$tab=xmlarray_form($Address,$addressno,'contactaddress',$tab,$book); 
 ?>
 	  </div>

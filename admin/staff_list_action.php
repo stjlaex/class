@@ -15,6 +15,8 @@ if($sub=='list'){
 	if(isset($_POST['listroles'])){$listroles=(array)$_POST['listroles'];}else{$listroles=array();}
 	if(isset($_POST['listoption'])){$listoption=$_POST['listoption'];}else{$listoption='current';}
 	}
+elseif($sub=='export'){
+	}
 
 include('scripts/redirect.php');
 ?>

@@ -12,9 +12,15 @@ if(isset($_POST['listoption'])){$listoption=$_POST['listoption'];}else{$listopti
 /* Super user perms for user accounts. */ 
 $aperm=get_admin_perm('u',$_SESSION['uid']);
 
+if($_SESSION['role']=='admin' or $aperm==1 or $_SESSION['role']=='office'){
+	$extrabuttons['export']=array('name'=>'current','value'=>'staff_export.php');
+	}
+two_buttonmenu($extrabuttons);
+
 ?>
+
   <div class="topcontent divgroup" style="font-size:small;">
-	<form name="formtoprocess" id="formtoprocess" method="post" novalidate action="<?php print $host; ?>">
+	<form name="formtoprocess2" id="formtoprocess2" method="post" novalidate action="<?php print $host; ?>">
 		  <label><?php print get_string('section',$book);?></label>
 		  <table class="center">
 			<tr>
@@ -65,17 +71,25 @@ $aperm=get_admin_perm('u',$_SESSION['uid']);
 			<?php print_string('filterlist');?>
 		  </button>
 		</div>
+
 	  <input type="hidden" name="current" value="<?php print $action; ?>">
 	  <input type="hidden" name="choice" value="<?php print $choice; ?>">
 	  <input type="hidden" name="cancel" value="<?php print ''; ?>">
 	</form>
   </div>
 
+
+
   <div class="content" id="viewcontent" style="height:70%;">
+	<form name="formtoprocess" id="formtoprocess" method="post" novalidate action="<?php print $host; ?>">
 	<fieldset class="divgroup">
 	  <legend><?php print get_string($listoption,$book).' '.get_string('staff',$book);?></legend>
 	  <table class="listmenu center">
 		  <tr>
+			<th style="width:1em;">
+			  <?php print_string('checkall'); ?>
+			  <input type="checkbox" name="checkall" value="yes" onChange="checkAll(this,'uids[]');" />
+			</th>
 			<th><?php print_string('surname',$book);?></th>
 			<th><?php print_string('forename',$book);?></th>
 			<th><?php print_string('username');?></th>
@@ -109,6 +123,9 @@ $aperm=get_admin_perm('u',$_SESSION['uid']);
 ?>
 		<tr>
 		  <td>
+			<input type="checkbox" name="uids[]" value="<?php print $user['uid'];?>" />
+		  </td>
+		  <td>
 <?php
 			if($aperm==1 or $user['uid']==$_SESSION['uid'] or $role==$_SESSION['office']){
 				print '<a href="admin.php?current=staff_details.php&cancel='.$choice.'&choice='.$choice.'&seluid='.$user['uid'].'">'.$User['Surname']['value'].'</a>';
@@ -132,4 +149,9 @@ $aperm=get_admin_perm('u',$_SESSION['uid']);
 
 	  </table>
   </fieldset>
+
+	  <input type="hidden" name="current" value="<?php print $action; ?>">
+	  <input type="hidden" name="choice" value="<?php print $choice; ?>">
+	  <input type="hidden" name="cancel" value="<?php print ''; ?>">
+	</form>
   </div>
