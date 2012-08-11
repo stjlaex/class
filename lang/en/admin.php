@@ -3,7 +3,6 @@
  *
  */
 $string['formatoffilenewteacher']='Format of file: username, surname, forename, title, email, role';
-$string['chooseeitherresponsibility']='Choose either a pastoral OR <br /> academic responsibility for a user.';
 $string['importstudentfileinstructions']='<p>All student records in the file must contain the same number of fields.</p>';
 $string['loadpreviousdefinition']='Load a previously saved definition.';
 $string['generateclassstructurequestion']='<p>Generating a new class structure could lose current data.</p><p>This should normally only be done at the start of the academic term.</p><p>Are you sure you want to continue?</p>';
@@ -258,6 +257,7 @@ $string['remittances']='Remittances';
 $string['newremittance']='New remittance';
 $string['catalogue']='Catalogue';
 $string['editroute']='Edit route';
+$string['unassign']='Unassign';
 $string['emailreplyto']='Address for replies';
 $string['coursecurriculum']='Course curriculum for this level of the subject.';
 $string['feesinvoicewarning']='<p>All charges that have not yet been paid will be marked as paid (this does not affect charges made by bank payment).</p>';

@@ -13,8 +13,8 @@ three_buttonmenu();
 		method="post" action="<?php print $host;?>"> 
 
 	  <fieldset class="left divgroup">
+		<legend><?php print_string('staff',$book);?></legend>
 		<div>
-		<p><?php print_string('chooseeitherresponsibility',$book);?></p>
 		<label for="User">
 		  <?php print_string('username',$book);?>
 		</label>
