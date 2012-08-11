@@ -42,7 +42,7 @@ three_buttonmenu();
 	  <fieldset class="right">
 		<div class="right">
 			<label><?php print get_string('projectedbalance','admin').': ';?></label>
-			<?php print $balance. ' '.' '.displayEnum(0,'currency');?>
+			<?php print display_money($balance);?>
 		</div>
 	  </fieldset>
 <?php
@@ -51,21 +51,7 @@ three_buttonmenu();
  * above zero. Allow an exception for those who can authorise the
  * budget.
  */
-if($balance<(0.05*$Budget['Limit']['value']) or $balance<20){
-?>
-	<fieldset class="left">
-	<div class="center">
-	<p class="warn">
-	<?php print_string('balancetoolow',$book);?>
-	</p>
-	</div>
-	</fieldset>
-<?php
-
-/**
- * TODO: locked to be set always or as an option per budget?
- */
-
+if(isset($CFG->budget_lock) and $CFG->budget_lock>0 and ($balance<(0.05*$Budget['Limit']['value']) or $balance<$CFG->budget_lock)){
 	$locked=true;
 	}
 else{
@@ -75,6 +61,15 @@ else{
 
 
 if($locked and $perms['x']!=1){
+?>
+	<fieldset class="left">
+	<div class="center">
+	<p class="warn">
+	<?php print_string('balancetoolow',$book);?>
+	</p>
+	</div>
+	</fieldset>
+<?php
 	}
 else{
 ?>

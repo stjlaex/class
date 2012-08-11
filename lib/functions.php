@@ -377,10 +377,9 @@ function getEnumArray($field_name){
 				'A' => 'arrival', 
 				'D' => 'departure'
 				);
-
 	/*for the orderbudget table*/
-	$currency=array('0' => 'euros', 
-					'1' => 'pounds' 
+	$currency=array('0' => 'EUR', 
+					'1' => 'GBP'
 					);
 	$credit=array('0' => 'debit', 
 				  '1' => 'credit' 
@@ -1656,7 +1655,7 @@ function display_date($date='',$format='human'){
 	}
 
 /**
- * Takes a number and format it for display to the desired currenct.
+ * Takes a number and format it for display to the desired currency.
  * This defaults to currency '0' is 'euros' and '1' is 'pounds'.
  *
  * TODO: format to match the $CFG->sitecountry
@@ -1667,12 +1666,9 @@ function display_money($amount,$currency='0'){
 	$money=money_format('%.2n', $amount);
 	trigger_error($test,E_USER_WARNING);
 	*/
-	if($currency=='0'){
-		$money=number_format($amount,2,',','.').' EUR';
-		}
-	elseif($currency=='1'){
-		$money=number_format($amount,2,',','.').' GBP';
-		}
+
+	$money=number_format($amount,2,',','.');
+	$money.=' '.displayEnum('currency',$currency);
 
 	return $money;
 	}

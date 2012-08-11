@@ -122,6 +122,11 @@ $CFG->enrol_cutoffmonth='08';
  */
 $CFG->budget_endmonth='05';
 /**
+ * The minimum balance of a budget below which it will be locked from
+ * further orders. Set to 0 to disable budget locking.
+ */
+$CFG->budget_lock='0';
+/**
  * Does the school have boarders.
  */
 $CFG->enrol_boarders='no';

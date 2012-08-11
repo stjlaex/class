@@ -1,4 +1,4 @@
-Version ClaSS-1.0.25 release (2012/08/09)
+Version ClaSS-1.0.25 release (2012/08/12)
 -------------------------------------------
 
 Profile column of type dif now works with raw values and grades.
@@ -10,11 +10,22 @@ form tutors.
 
 Automatically assign form tutors their related teaching class.
 
-Made editing of forms and the function list_form_classes rewritten to be
-compatible with new class structure
+Made editing of forms and the function list_form_classes rewritten to
+be compatible with new class structure
 
-Generating new class structure updated
+Generating new class structure updated.
 
+Added an unassign button to the teacher_matrix table.
+
+New export option for staff details.
+
+Changed the default naming of sub-budgets to match their budget code.
+
+Small change to the currency array to make use of ISO codes instead
+language string.
+
+New CFG option budget_lock to disable locking of budgets with low
+balance.
 
 
 Version ClaSS-1.0.24 release (2012/08/02)

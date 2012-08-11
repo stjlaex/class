@@ -65,7 +65,16 @@ two_buttonmenu($extrabuttons,$book);
 
 <?php
 		if(isset($balance)){
-			if($balance<(0.05*$Budget['Limit']['value']) or $balance<20){
+			if(isset($CFG->budget_lock) and $CFG->budget_lock>0 and ($balance<(0.05*$Budget['Limit']['value']) 
+																	 or $balance<$CFG->budget_lock)){
+				$locked=true;
+				}
+			else{
+				$locked=false;
+				}
+
+
+			if($locked){
 ?>
 	<fieldset class="left">
 	<div class="center">

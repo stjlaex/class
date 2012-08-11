@@ -13,6 +13,9 @@ include('scripts/sub_action.php');
 
 if($sub=='Submit'){
 
+	$budgetcode=$_POST['code'];
+	$secid=$_POST['secid'];
+
 	if(isset($_POST['gid']) and $_POST['gid']!=''){
 		/*academic budget*/
 		$gid_a=$_POST['gid'];
@@ -31,12 +34,11 @@ if($sub=='Submit'){
 		//$catid=$_POST['catid'];
 		//$d_n=mysql_query("SELECT name FROM categorydef WHERE id='$catid';");
 		//$name=mysql_result($d_n,0);
-		$name='NEW BUDGET';
+		$name=$budgetcode;
 		}
-	$secid=$_POST['secid'];
+
 	$d_section=mysql_query("SELECT name, gid FROM section WHERE id='$secid';");
 	$section=mysql_fetch_array($d_section,MYSQL_ASSOC);
-	$name.=' - '.$section['name'];
 	if($overbudid!=''){
 		/* A subbudget must be for the same budgetyear as its overbudget */
 		$OverBudget=fetchBudget($overbudid);
@@ -44,6 +46,7 @@ if($sub=='Submit'){
 		}
 	else{
 		$yearcode=get_budgetyearcode($budgetyear);
+		$name.=' - '.$section['name'];
 		}
 	$Budget=fetchBudget();
 
@@ -70,20 +73,17 @@ if($sub=='Submit'){
 		}
 
 
-	$budgetcode=$_POST['code'];
-	$d_bud=mysql_query("SELECT id FROM orderbudget 
-					WHERE yearcode='$yearcode' AND code='$budgetcode';");
+	$d_bud=mysql_query("SELECT id FROM orderbudget WHERE yearcode='$yearcode' AND code='$budgetcode';");
 	if(mysql_num_rows($d_bud)>0){
 		$error[]='This budget code has already been assigned for the year '. $budgetyear;
 		}
 	else{
-		mysql_query("INSERT INTO orderbudget SET gid='$gid',
-					name='$name', code='$budgetcode',
-					yearcode='$yearcode', section_id='$secid', 
-					overbudget_id='$overbudid';");
+		mysql_query("INSERT INTO orderbudget SET gid='$gid', name='$name', code='$budgetcode',
+					yearcode='$yearcode', section_id='$secid', overbudget_id='$overbudid';");
 		$budid=mysql_insert_id();
-		trigger_error('BUDGET: '.$budid.' '.mysql_error(),E_USER_WARNING);
-		trigger_error('BUDGET: '.$budgetcode.' '.$yearcode. ' '.$name,E_USER_WARNING);
+		//trigger_error('BUDGET: '.$budid.' '.mysql_error(),E_USER_WARNING);
+		//trigger_error('BUDGET: '.$budgetcode.' '.$yearcode. ' '.$name,E_USER_WARNING);
+
 		reset($Budget);
 		while(list($index,$val)=each($Budget)){
 			if(isset($val['value']) and is_array($val) and isset($val['table_db'])){

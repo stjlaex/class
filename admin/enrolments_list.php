@@ -293,7 +293,7 @@ if(isset($_POST['startdate'])){$startdate=$_POST['startdate'];}
 ?>
 			</td>
 <?php
-		print '<td>'.get_yeargroupname($Enrolment['YearGroup']['value']).'</td>';
+		print '<td>'.get_yeargroupname($Enrolment['YearGroup']['value']).' ('.$student['form_id'].')</td>';
 		print '<td>'.display_date($Enrolment['EntryDate']['value']).'</td>';
 ?>
 			<td class="row">

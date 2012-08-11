@@ -76,7 +76,7 @@ if($sub=='Submit' and $supid>0){
 			if($_POST["catalogue_id_db$matn"]>0){$incatid=$_POST["catalogue_id_db$matn"];}
 			else{$incatid=$catid;}
 			if($specialaction==2){
-				trigger_error('SPECIAL: '.$incatid.' : '.$catid,E_USER_WARNING);
+				//trigger_error('SPECIAL: '.$incatid.' : '.$catid,E_USER_WARNING);
 				$mat['catalogue_id_db']=$incatid;
 				$mat['supplier_id_db']=$supid;
 				$mat['currency']=$_POST['currency'];
@@ -98,6 +98,10 @@ elseif($supid>0){
 		}
 	$action='new_order.php';
 	}
+elseif($supid<1){
+	$error[]='Orders must have a supplier.';
+	}
 
+include('scripts/results.php');
 include('scripts/redirect.php');
 ?>

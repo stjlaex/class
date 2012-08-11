@@ -197,9 +197,9 @@ function fetchStudent_singlefield($sid,$tag,$privfilter=''){
 			$courses.=' '.$crid;
 			$title='';
 			foreach($classes as $c){
-				$title.=$c['id'].' - '.$c['teachers'].'<br />';
+				$title.=$c['name'].' - '.$c['teachers'].'<br />';
 				}
-			$display.='<span title="'.$title.'">'.$crid.'</span>';
+			$display.='<span style="margin-right:4px;" title="'.$title.'">'.$crid.'</span>';
 			}
 		$Student[$tag]=array('label'=>'course',
 							 'value_db'=>''.$courses,
