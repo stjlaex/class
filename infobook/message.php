@@ -118,8 +118,13 @@ if($messageto=='student'){
 								$recipient['explanation'].=get_string(displayEnum($Contact['Relationship']['value'],'relationship'),'infobook'). ' of '. $Student['DisplayFullName']['value'];
 								}
 							$recipient['email']=$email;
-							if($messageto=='family'){$recipients[$email]=$recipient;}
-							else{$recipients[]=$recipient;}
+							$recipient['Contact']=$Contact;
+							if($messageto=='family'){
+								$recipients[$email]=$recipient;
+								}
+							else{
+								$recipients[]=$recipient;
+								}
 							$sid_recipient_no++;
 							}
 						elseif($Contact['EmailAddress']['value']==''){
@@ -265,9 +270,19 @@ if($_SESSION['role']=='office' or $_SESSION['role']=='admin'){
 		<input class="required" tabindex="<?php print $tab++;?>"  type="text" name="messagesubject" 
 			   id="messagesubject" value="" maxlength="100"/>
 	  </div>
-	  <div class="center">
+	  <div class="left">
 		<label for="messageatt"><?php print_string('attachment',$book);?></label>
 		<input type="file"  name="messageattach" id="messageattach" value="" />
+	  </div>
+	  <div class="right">
+<?php
+	$formats=array();
+	$formats[]=array('id'=>1,'name'=>'Contact details update');
+	$listname='messageformat';$listlabel='fixedformat';
+	include('scripts/set_list_vars.php');
+	list_select_list($formats,$listoptions,$book);
+	unset($listoptions);
+?>
 	  </div>
 <?php
 		}

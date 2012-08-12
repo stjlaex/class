@@ -720,7 +720,8 @@ function fetchRegGroup($student){
 	elseif($regtype=='reg'){
 		$checkcommunity=array('id'=>'','type'=>'reg','name'=>'');
 		$regcom=(array)list_member_communities($sid,$checkcommunity);
-		$reggroup=$regcom[0]['name'];
+		if(isset($regcom[0]['name'])){$reggroup=$regcom[0]['name'];}
+		else{$reggroup='';}
 		}
 
 	$Student['RegistrationGroup']=array('label' => 'formgroup', 
