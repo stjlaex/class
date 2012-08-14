@@ -532,7 +532,10 @@ function list_student_classes($sid,$curryear){
  */
 function list_student_courses($sid,$todate=''){
 	if($sid==''){$sid=-1;}
-	if($todate==''){$todate=date('Y-m-d');$year=get_curriculumyear();}
+	if($todate==''){
+		$todate=date('Y-m-d');
+		$year=get_curriculumyear();
+		}
 	$crids=array();
 	$d_c=mysql_query("SELECT DISTINCT course_id FROM cohort 
 				WHERE cohort.year='$year' AND cohort.id=ANY(SELECT DISTINCT 

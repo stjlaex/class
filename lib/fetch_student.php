@@ -2306,6 +2306,24 @@ function import_student($Student){
 		}
 
 
+	/* Transfer Assessment results */
+	foreach($Assessments as $Ass){
+		if(is_array($Ass)){
+
+			$element=$Ass['Element']['value'];
+			$crid=$Ass['Course']['value'];
+			$assyear=$Ass['Year']['value'];
+
+			$d_a=mysql_query("SELECT id FROM assessment WHERE element='$element' AND course_id='$crid' AND year='$assyear';");
+			if(mysql_num_rows($d_a)>0){
+				$eid=mysql_result($d_a,0);
+				$ass=array('result'=>$Assessment['Result']['value'],'value'=>$Assessment['Value']['value'],'date'=>$Assessment['Date']['value']);
+				update_assessment_score($eid,$sid,$Assessment['Subject']['value'],$Assessment['SubjectComponent']['value'],$ass);
+				}
+			}
+		}
+
+
 	/* Transfer medical entries */
 	if(!isset($MedNotes['note'][0]) and isset($MedNotes['note']['id_db'])){$temp=(array)$MedNotes['note'];$MedNotes['note']=array();$MedNotes['note'][]=$temp;}
 	foreach($MedNotes['note'] as $Note){

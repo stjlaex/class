@@ -110,25 +110,17 @@ if($sub=='Submit' and $recipients and sizeof($recipients)>0 and !isset($error)){
 
 			$preset='';
 			if($messageformat!=''){
-				if($messageformat==1){
+				if($messageformat=='message_contact_update' and isset($recipient['sid'])){
 					/* This is the parent contact details sheet for verification. */
-					$Phones=(array)$recipient['Contact']['Phones'];
-					$Add=(array)$recipient['Contact']['Addresses'][0];
-					$preset='<br />'. 
-					$preset.='<p>'.$recipient['Contact']['DisplayFullName']['value'].'</p>';
-					$preset.='<p>'.$recipient['Contact']['EmailAddress']['value'].'</p>';
-					$preset.='<p>'.$Add['Street']['value'].'<br />'. $Add['Neighbourhood']['value'].' <br />'
-						. $Add['Town']['value'].'<br /> '. $Add['Country']['value']. '<br /> '. $Add['Postcode']['value'].'</p>';
-					foreach($Phones as $Phone){
-						$preset.='<p>'.$Phone['No']['value'].'</p>';
-						}
+					$Content['Student']=(array)fetchStudent($recipient['sid']);
 					}
+				$preset=html_message($Content,$messageformat);
 				//$messagebodytxt.=strip_tags(html_entity_decode($preset, ENT_QUOTES, 'UTF-8'));
 				}
 
 			$messagehtml='<p>'.$recipient['explanation'].'</p>';
 			$messagehtml.=$messagebody;
-			$messagehtml.=$preset;
+			if($preset){$messagehtml.=$preset;}
 			$messagehtml.='<br /><hr><p>'. $footer.'</p>';
 
 			$messagetxt='';

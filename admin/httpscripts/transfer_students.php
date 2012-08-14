@@ -44,11 +44,10 @@ else{$yid=-1000;}
 		$comyid=$yid+$yeardif;
 
 		/* Two possible places to find the transferees depending on
-		 *	whether the school has already reached year_end or not.
+		 * whether the school has already reached year_end or not.
 		 */
 		$coms=array();
-		$coms[]=array('id'=>'','type'=>'alumni', 
-									 'name'=>'P:'.$yid,'year'=>$enrolyear-1);
+		$coms[]=array('id'=>'','type'=>'alumni','name'=>'P:'.$yid,'year'=>$enrolyear-1);
 		$coms[]=array('id'=>'','type'=>'year','name'=>"$comyid");
 		$sids=array();
 		while(list($cindex,$com)=each($coms)){
@@ -71,6 +70,7 @@ else{$yid=-1000;}
 
 			$Student['Backgrounds']=(array)fetchBackgrounds($sid);
 			$Student['Medical']=(array)fetchMedical($sid);
+			$Student['Assessments']=(array)fetchAssessments($sid);
 
 			$Students['Student'][]=$Student;
 			}

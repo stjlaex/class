@@ -151,7 +151,7 @@ function xmlprocessor($xml,$xsl_filename,$output_filename=NULL){
 					   );
 	$xh=xslt_create();
 	$template_filepath='file://'.$CFG->installpath.'/templates/'.$xsl_filename;
-	//xslt_set_base($xh,$filebase);
+	//xslt_set_base($xh,$filebase);This is not needed?
 	if($output_filename!=''){$output_filepath='file://'.$CFG->eportfolio_database.'/cache/reports/'.$output_filename;}
 	else{$output_filepath=NULL;}
 	$html=xslt_process($xh

@@ -1,3 +1,11 @@
+Version ClaSS-1.0.26 release (2012/08/14)
+-------------------------------------------
+
+Added an examcenter field to the eidsid table - to be used when
+transferring results between centers.
+
+
+
 Version ClaSS-1.0.25 release (2012/08/12)
 -------------------------------------------
 

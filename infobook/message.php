@@ -118,7 +118,8 @@ if($messageto=='student'){
 								$recipient['explanation'].=get_string(displayEnum($Contact['Relationship']['value'],'relationship'),'infobook'). ' of '. $Student['DisplayFullName']['value'];
 								}
 							$recipient['email']=$email;
-							$recipient['Contact']=$Contact;
+							$recipient['sid']=$sid;
+
 							if($messageto=='family'){
 								$recipients[$email]=$recipient;
 								}
@@ -277,7 +278,7 @@ if($_SESSION['role']=='office' or $_SESSION['role']=='admin'){
 	  <div class="right">
 <?php
 	$formats=array();
-	$formats[]=array('id'=>1,'name'=>'Contact details update');
+	$formats[]=array('id'=>'message_contact_update','name'=>'Contact details update');
 	$listname='messageformat';$listlabel='fixedformat';
 	include('scripts/set_list_vars.php');
 	list_select_list($formats,$listoptions,$book);

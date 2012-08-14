@@ -634,4 +634,26 @@ function url_construct($params,$entrypage,$fullurl=false){
 	return $fullurl;
 	}
 
+
+
+function html_message($xmlarray,$transform){
+
+	global $CFG;
+
+	$xsl_filename=$transform.'.xsl';
+	$imagepath='http://'.$CFG->siteaddress.$CFG->sitepath.'/images/';
+
+	//$xml=xmlpreparer('content',$xmlarray);
+	$xml=xmlpreparer('content',$xmlarray);
+
+	$xml='<'.'?xml version="1.0" encoding="utf-8"?'.'>'.$xml;
+	$html_message=xmlprocessor($xml,$xsl_filename);
+	//$html_message=eregi_replace('../images/',$imagepath,$html_message);
+	if(empty($html_message)){
+		trigger_error('html message: xmlprocessor failed for '.$transform,E_USER_WARNING);
+		$html_message=false;
+		}
+
+	return $html_message;
+	}
 ?>

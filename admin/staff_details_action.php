@@ -33,18 +33,18 @@ if($sub=='Submit' and $seluid!=''){
 	if($_POST['pin1']!=''){
 		if($_POST['pin1']==$_POST['pin2']){
 			$user['userno']=clean_text($_POST['pin1']);
-			$result[]=update_user($user,'yes',$CFG->shortkeyword);
+			update_user($user,'yes',$CFG->shortkeyword);
 			}
 		else{
 			$error[]=get_string('mistakematchingpasswords',$book);
 			}
 		}
 	else{
-		$result[]=update_user($user,'yes');
+		update_user($user,'yes');
 		}
 
 	$aperm=get_admin_perm('u',$_SESSION['uid']);
-	if($_SESSION['role']=='admin' or $aperm==1){
+	if($_SESSION['role']=='admin' or $_SESSION['role']=='office' or $aperm==1){
 
 		/* Update special access permissions */
 		$agroups=(array)list_admin_groups();

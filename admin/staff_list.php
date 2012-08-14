@@ -127,7 +127,7 @@ two_buttonmenu($extrabuttons);
 		  </td>
 		  <td>
 <?php
-			if($aperm==1 or $user['uid']==$_SESSION['uid'] or $role==$_SESSION['office']){
+			if($aperm==1 or $user['uid']==$_SESSION['uid'] or $_SESSION['role']=='office'){
 				print '<a href="admin.php?current=staff_details.php&cancel='.$choice.'&choice='.$choice.'&seluid='.$user['uid'].'">'.$User['Surname']['value'].'</a>';
 				}
 			else{

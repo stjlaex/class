@@ -74,6 +74,7 @@ CREATE TABLE eidsid (
 	weight			smallint unsigned not null default '1',
 	examboard		char(3) not null default '',
 	examsyllabus	char(6) not null default '',
+	examcenter		varchar(4) not null default '',
 	index			index_result(student_id),
 	primary key 	(id)	
 ) type=myisam;
