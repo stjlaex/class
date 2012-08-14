@@ -1,1 +1,1 @@
-ALTER eidsid ADD examcenter varchar(4) not null default '' AFTER examsyllabus;
+ALTER TABLE eidsid ADD examcenter varchar(4) not null default '' AFTER examsyllabus;
