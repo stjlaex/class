@@ -40,6 +40,14 @@ function list_sections(){
 	$sections=array();
 	$d_s=mysql_query("SELECT id, name, sequence, gid FROM section WHERE id>'1' ORDER BY sequence;");
 	while($section=mysql_fetch_array($d_s,MYSQL_ASSOC)){
+		if($section['gid']==0){
+			/* If no access group exists then create one. */
+			$secid=$section['id'];
+			mysql_query("INSERT INTO groups (type) VALUES ('s');");
+			$gid=mysql_insert_id();
+			mysql_query("UPDATE section SET gid='$gid' WHERE id='$secid';");
+			$section['gid']=$gid;
+			}
 		$sections[]=$section;
 		}
 	return $sections;

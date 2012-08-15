@@ -117,9 +117,7 @@ if($_SESSION['role']=='admin' or $aperm==1){
 <div class="right">
 
 <?php
-	if($_SESSION['role']=='admin' 
-	   //and $User['role']!='admin'
-	   ){
+	if($_SESSION['role']=='admin'){
 ?>
 	  <fieldset class="left">
 		<legend><?php print_string('specialadminpermissions',$book);?></legend>

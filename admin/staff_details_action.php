@@ -30,8 +30,9 @@ if($sub=='Submit' and $seluid!=''){
    	$user['worklevel']=$_POST['worklevel'];
    	if(isset($_POST['nologin'])){$user['nologin']=$_POST['nologin'];}
 	else{$user['nologin']='0';}
-	if($_POST['pin1']!=''){
+	if(isset($_POST['pin1']) and $_POST['pin1']!=''){
 		if($_POST['pin1']==$_POST['pin2']){
+			/* Update the users' password. */
 			$user['userno']=clean_text($_POST['pin1']);
 			update_user($user,'yes',$CFG->shortkeyword);
 			}
@@ -40,12 +41,13 @@ if($sub=='Submit' and $seluid!=''){
 			}
 		}
 	else{
+		/* Update the user but not the password. */
 		update_user($user,'yes');
 		}
 
 	$aperm=get_admin_perm('u',$_SESSION['uid']);
-	if($_SESSION['role']=='admin' or $_SESSION['role']=='office' or $aperm==1){
 
+	if($_SESSION['role']=='admin'){
 		/* Update special access permissions */
 		$agroups=(array)list_admin_groups();
 		foreach($agroups as $agroup){
@@ -58,11 +60,14 @@ if($sub=='Submit' and $seluid!=''){
 				}
 			update_staff_perms($seluid,$agid,$newperms);
 			}
-
+		}
+	if($_SESSION['role']=='admin' or $_SESSION['role']=='office' or $aperm==1){
 		/* Update access restrictions for sections. */
 		$agroups=(array)list_sections();
+
 		foreach($agroups as $agroup){
 			$agid=$agroup['gid'];
+			trigger_error($agid.' : '.$_POST["a$agid"],E_USER_WARNING);
 			if(isset($_POST["a$agid"]) and $_POST["a$agid"]==1){
 				$newperms=array('r'=>1,'w'=>0,'x'=>0);
 				}
