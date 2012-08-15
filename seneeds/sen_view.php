@@ -49,8 +49,9 @@ if(!isset($selbid)){$selbid='G';}
 		$SEN['SENinternaltypes']['SENtype'][]=fetchSENtype();
 		}
 	$asscode='I';
-	foreach($SEN['SENinternaltypes']['SENtype'] as $entryn => $SENtype){
-		$enum=getEnumArray($SENtype['SENtype']['field_db']);
+	foreach($SEN['SENinternaltypes']['SENtype'] as $n => $SENtype){
+		$entryn=$n+1;
+		$enum=getEnumArray($SENtype['SENtype']['field_db'].'internal');
 		print '<li><select id="Type"  tabindex="'.$tab++.'"
 			name="'.$asscode. $SENtype['SENtype']['field_db'].$entryn.'">';
 		print '<option value=""></option>';
@@ -202,25 +203,19 @@ if(!isset($selbid)){$selbid='G';}
 					  <?php print_string('addsubject',$book);?>
 					</button>
 <?php 
-   	$d_class=mysql_query("SELECT DISTINCT subject_id, course_id FROM
-				class JOIN cidsid ON class.id=cidsid.class_id WHERE
-				cidsid.student_id='$sid'");
+   	$d_class=mysql_query("SELECT DISTINCT class.subject_id FROM class
+				JOIN cidsid ON class.id=cidsid.class_id WHERE cidsid.student_id='$sid'");
 	$subjects=array();
 	while($subject=mysql_fetch_array($d_class,MYSQL_ASSOC)){
 		$subbid=$subject['subject_id'];
-		$subcrid=$subject['course_id'];
 		if(!array_key_exists($subbid,$keybids)){
-			$d_subject=mysql_query("SELECT name FROM subject WHERE id='$subbid'");
-			$subjectname=mysql_result($d_subject,0);
-			$subjects[]=array('id'=>$subbid,'name'=>$subjectname);
+			$subjects[]=array('id'=>$subbid,'name'=>get_subjectname($subbid));
 			}
-		$d_subject=mysql_query("SELECT component.id, subject.name FROM
-			  subject JOIN component ON component.id=subject.id WHERE 
-			component.subject_id='$subbid' AND 
-			component.course_id='$subcrid' ORDER BY subject.name");
+		$d_subject=mysql_query("SELECT DISTINCT id FROM component WHERE 
+			component.subject_id='$subbid' AND id!='' ORDER BY course_id");
 		while($subject=mysql_fetch_array($d_subject,MYSQL_ASSOC)){
 			if(!array_key_exists($subject['id'],$keybids)){
-				$subjects[]=array('id'=>$subject['id'],'name'=>$subject['name']);
+				$subjects[]=array('id'=>$subject['id'],'name'=>get_subjectname($subject['id']));
 				}
 			}
 		}
@@ -268,7 +263,8 @@ if(!isset($selbid)){$selbid='G';}
 		}
 
 	$asscode='E';
-	foreach($SEN['SENtypes']['SENtype'] as $entryn => $SENtype){
+	foreach($SEN['SENtypes']['SENtype'] as $n => $SENtype){
+		$entryn=$n+1;
 		$enum=getEnumArray($SENtype['SENtype']['field_db']);
 		print '<li><select id="Type"  tabindex="'.$tab++.'"
 			name="'.$asscode. $SENtype['SENtype']['field_db'].$entryn.'">';

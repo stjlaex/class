@@ -903,6 +903,8 @@ function getEnumArray($field_name){
 				   'EAL'=>'eal',
 				   'OTH'=>'otherdifficulty/disability'
 				   );
+	$senassessment=array('I'=>'internal',
+						 'E'=>'external');
 	/*	$sentype=array('SPLD'=>'specificlearningdifficulty(dyslexia)', 
 				   'MLD'=>'moderatelearningdifficulty', 
 				   'SLD'=>'severelearningdifficulty', 

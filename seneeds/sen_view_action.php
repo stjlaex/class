@@ -78,7 +78,8 @@ elseif($sub=='Submit'){
 			$SEN[$assname]['SENtype'][]=fetchSENtype();
 			}
 
-		foreach($SEN[$assname]['SENtype'] as $entryn => $SENtypes){
+		foreach($SEN[$assname]['SENtype'] as $n => $SENtypes){
+			$entryn=$n+1;
 			$table=$SENtypes['SENtypeRank']['table_db'];
 			$field=$SENtypes['SENtypeRank']['field_db'];
 			$inname=$asscode. $field. $entryn;

@@ -1837,18 +1837,23 @@ function fetchSEN($sid='-1'){
  * @param array $sentype
  * @return array
  */
-function fetchSENtype($sentype=array('student_id'=>'-1','senranking'=>'','sentype'=>'')){
+function fetchSENtype($sentype=array('student_id'=>'-1','senranking'=>'','sentype'=>'','senassessment'=>'')){
 	$SENtype=array();
-	$SENtype['SENtypeRank']=array('label' => 'ranking',
-								  'table_db' => 'sentype', 
-								  'field_db' => 'senranking', 
-								  'type_db' => 'enum', 
-								  'value' => ''.$sentype['senranking']);
 	$SENtype['SENtype']=array('label' => 'sentype', 
 							  'table_db' => 'sentype', 
 							  'field_db' => 'sentype', 
 							  'type_db' => 'enum', 
 							  'value' => ''.$sentype['sentype']);
+	$SENtype['SENtypeRank']=array('label' => 'ranking',
+								  'table_db' => 'sentype', 
+								  'field_db' => 'senranking', 
+								  'type_db' => 'enum', 
+								  'value' => ''.$sentype['senranking']);
+	$SENtype['SENtypeAssessment']=array('label' => 'senassessment', 
+										'table_db' => 'sentype', 
+										'field_db' => 'senassessment', 
+										'type_db' => 'enum', 
+										'value' => ''.$sentype['senassessment']);
 	return $SENtype;
 	}
 
@@ -2073,6 +2078,28 @@ function get_student_house($sid){
 	return $house;
 	}
 
+
+/**
+ *
+ *
+ */
+function display_student_sentype($sid){
+	$d_s=mysql_query("SELECT sentype, senassessment FROM sentype WHERE student_id='$sid' ORDER BY senassessment, entryn;");
+
+	$display='';
+	while($sentype=mysql_fetch_array($d_s,MYSQL_ASSOC)){
+		if($display!=''){$display.=' / ';}
+		if($sentype['senassessment']=='I'){
+			$assessment='internal';
+			}
+		else{
+			$assessment='';
+			}
+		$display.=get_string(displayEnum($sentype['sentype'], 'sentype'.$assessment),'seneeds');
+		}
+
+	return $display;
+	}
 
 /**
  * Returns AM and PM transport for a given date

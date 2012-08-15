@@ -6,6 +6,7 @@ transferring results between centers.
 
 list_sections function creates access groups if they don't exist.
 
+New display_student_sentype function for decorating the support 'S'.
 
 
 Version ClaSS-1.0.25 release (2012/08/12)
