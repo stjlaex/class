@@ -640,7 +640,6 @@ function update_user($user,$update='no',$short='class'){
 	$role=$user['role'];
 	$homephone=$user['homephone'];
 	$mobilephone=$user['mobilephone'];
-	$address_id=$user['address_id'];
 	$personalcode=$user['personalcode'];
 	$personalemail=$user['personalemail'];
 	$jobtitle=$user['jobtitle'];
@@ -700,7 +699,7 @@ function update_user($user,$update='no',$short='class'){
 					personalemail='$personalemail', jobtitle='$jobtitle',  
 					role='$role', senrole='$senrole', medrole='$medrole', worklevel='$worklevel', nologin='$nologin',
 					firstbookpref='$firstbookpref', homephone='$homephone', mobilephone='$mobilephone', 
-					address_id='$address_id', personalcode='$personalcode', dob='$dob', 
+					personalcode='$personalcode', dob='$dob', 
 					contractdate='$contractdate' WHERE username='$username';");
 			$result=$result.'Updated details for user '.$username;
 			}
@@ -709,12 +708,12 @@ function update_user($user,$update='no',$short='class'){
 		mysql_query("INSERT INTO users (username, forename,
 					surname, title, email, emailuser, role, nologin, worklevel,
 					senrole, medrole, firstbookpref, homephone, mobilephone, 
-					address_id, personalcode, dob, contractdate) 
+					 personalcode, dob, contractdate) 
 					VALUES ('$username', '$forename',
 					 '$surname', '$title', '$email', '$emailuser', 
 						'$role', '$nologin', '$worklevel',
 					   '$senrole', '$medrole', '$firstbookpref', '$homephone', '$mobilephone', 
-						'$address_id', '$personalcode', '$dob', '$contractdate');");
+						 '$personalcode', '$dob', '$contractdate');");
 		$result=$result.'Username '.$username.' added.';
 		}
 
