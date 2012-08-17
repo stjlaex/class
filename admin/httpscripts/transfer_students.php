@@ -50,7 +50,7 @@ else{$yid=-1000;}
 		$coms[]=array('id'=>'','type'=>'alumni','name'=>'P:'.$yid,'year'=>$enrolyear-1);
 		$coms[]=array('id'=>'','type'=>'year','name'=>"$comyid");
 		$sids=array();
-		while(list($cindex,$com)=each($coms)){
+		foreach($coms as $com){
 			$comid=update_community($com);
 			$sids=$sids+list_reenrol_sids($comid,$reenrol_eid,$feeder_code);
 			}
@@ -70,7 +70,7 @@ else{$yid=-1000;}
 
 			$Student['Backgrounds']=(array)fetchBackgrounds($sid);
 			$Student['Medical']=(array)fetchMedical($sid);
-			$Student['Assessments']=(array)fetchAssessments($sid);
+			//$Student['Assessments']=(array)fetchAssessments($sid);
 
 			$Students['Student'][]=$Student;
 			}

@@ -159,7 +159,7 @@ if(sizeof($reenrol_assdefs)>0){
 				$Transfers=array();
 				if($feeder!=''){$Transfers=(array)feeder_fetch('transfer_students',$feeder,$postdata);}
 				/* NOTE the lowercase of the student index, is a product of xmlreader. */
-				//trigger_error($feeder.' : '.$yid.' '.sizeof($Transfers['student']),E_USER_WARNING);
+				trigger_error($feeder.' : '.$yid.' '.sizeof($Transfers['student']),E_USER_WARNING);
 				if(isset($Transfers['student']) and is_array($Transfers['student'])){
 					$result[]='TRANSFER FROM: '.$feeder.': '.$yid.' '.sizeof($Transfers['student']);
 					foreach($Transfers['student'] as $Student){

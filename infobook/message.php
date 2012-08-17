@@ -93,14 +93,14 @@ if($messageto=='student'){
 		
 		$tutors=array();
 		foreach($sids as $sid){
-			$Student=fetchStudent_short($sid);
+			$Student=fetchStudent($sid);
 			foreach($Student['RegistrationTutor'] as $Tutor){
 				if($Tutor['email']!=''){
 					$tutors[$Tutor['email']]=array('email'=>$Tutor['email'],
 												   'explanation'=>$CFG->schoolname.': message sent to parents of '.$Student['RegistrationGroup']['value']);
 					}
 				}
-			$Contacts=(array)fetchContacts($sid);
+			$Contacts=(array)$Student['Contacts'];
 			$sid_recipient_no=0;
 			foreach($Contacts as $Contact){
 				$recipient=array();
@@ -117,8 +117,11 @@ if($messageto=='student'){
 							if(($messageto=='contacts' or $messageto=='family')){
 								$recipient['explanation'].=get_string(displayEnum($Contact['Relationship']['value'],'relationship'),'infobook'). ' of '. $Student['DisplayFullName']['value'];
 								}
+
 							$recipient['email']=$email;
 							$recipient['sid']=$sid;
+							$recipient['Student']=$Student;
+							$recipient['Siblings']=(array)fetchDependents($Contact['id_db']);
 
 							if($messageto=='family'){
 								$recipients[$email]=$recipient;

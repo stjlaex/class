@@ -636,16 +636,14 @@ function url_construct($params,$entrypage,$fullurl=false){
 
 
 
-function html_message($xmlarray,$transform){
+function html_message_transform($xmlarray,$transform){
 
 	global $CFG;
 
 	$xsl_filename=$transform.'.xsl';
 	$imagepath='http://'.$CFG->siteaddress.$CFG->sitepath.'/images/';
 
-	//$xml=xmlpreparer('content',$xmlarray);
 	$xml=xmlpreparer('content',$xmlarray);
-
 	$xml='<'.'?xml version="1.0" encoding="utf-8"?'.'>'.$xml;
 	$html_message=xmlprocessor($xml,$xsl_filename);
 	//$html_message=eregi_replace('../images/',$imagepath,$html_message);

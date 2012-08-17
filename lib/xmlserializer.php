@@ -104,6 +104,11 @@ function array_to_xml($xmlarray, &$xml, $tagname=''){
 				}
 			}
         else{
+			/* !!!!!!!! Not a good idea!?
+			//$encoding=mb_detect_encoding($value);
+			//$value=mb_convert_encoding($value,'UTF-8','WINDOWS-1252');
+			//$value=htmlspecialchars($value,ENT_NOQUOTES,'UTF-8');
+			*/
 			$value=htmlspecialchars($value);
 			if(!is_numeric($key)){
 				$xml->addChild($key,$value);
