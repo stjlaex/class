@@ -12,6 +12,9 @@ else{$seluid='';}
 /*This is the record being edited.*/
 $User=fetchUser($seluid);
 
+/* Super user perms for user accounts. */ 
+$aperm=get_admin_perm('u',$_SESSION['uid']);
+
 three_buttonmenu();
 ?>
   <div class="content">

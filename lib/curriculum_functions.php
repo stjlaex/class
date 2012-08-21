@@ -343,9 +343,9 @@ function list_forms_classes($formname,$limit=''){
 			$cohid=$cohort['id'];
 			$stage=$cohort['stage'];
 			$crid=$cohort['course_id'];
-			$d_c=mysql_query("SELECT subject_id, naming FROM classes 
+			$d_def=mysql_query("SELECT subject_id, naming FROM classes 
 						WHERE stage='$stage' AND course_id='$crid' $limitformgroups AND generate='forms';");
-			while($classdef=mysql_fetch_array($d_c,MYSQL_ASSOC)){
+			while($classdef=mysql_fetch_array($d_def,MYSQL_ASSOC)){
 				$bid=$classdef['subject_id'];
 				$classname=$bid. $formname;
 				$d_c=mysql_query("SELECT id FROM class WHERE name='$classname' AND cohort_id='$cohid';");
