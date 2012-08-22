@@ -118,7 +118,7 @@ if(sizeof($sids)==0){
 					if(isset($Student[$displayfield]['private'])){
 						$privs=(array)explode(':::',$Student[$displayfield]['private']);
 						foreach($privs as $privindex => $priv){
-							if($priv=='Y' and $privfilter='hidden'){
+							if($priv=='Y' and $privfilter=='hidden'){
 								$displayout[$privindex]='';
 								}
 							}
