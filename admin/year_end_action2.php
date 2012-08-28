@@ -36,7 +36,7 @@ if(sizeof($reenrol_assdefs)>0){
 		$yeargroups[$c]['forms']=(array)list_formgroups($yeargroups[$c]['id']);
 		}
 
-
+	/* Important to count down in reverse order. */
 	for($c=(sizeof($yeargroups)-1);$c>-1;$c--){
 		$yid=$yeargroups[$c]['id'];
 		$nextpostyid=$_POST[$yid];
@@ -57,7 +57,7 @@ if(sizeof($reenrol_assdefs)>0){
 				join_community($sid,$oldcom);
 				$score=array('result'=>'C','value'=>'0','date'=>$todate);
 				update_assessment_score($reenrol_eid,$sid,'G','',$score);
-				//trigger_error('REPEAT: '.$yid.' '.$sid,E_USER_WARNING);
+				trigger_error('REPEAT: '.$yid.' '.$sid,E_USER_WARNING);
 				}
 			}
 		unset($repeatsids);
@@ -159,7 +159,7 @@ if(sizeof($reenrol_assdefs)>0){
 				$Transfers=array();
 				if($feeder!=''){$Transfers=(array)feeder_fetch('transfer_students',$feeder,$postdata);}
 				/* NOTE the lowercase of the student index, is a product of xmlreader. */
-				trigger_error($feeder.' : '.$yid.' '.sizeof($Transfers['student']),E_USER_WARNING);
+				//trigger_error($feeder.' : '.$yid.' '.sizeof($Transfers['student']),E_USER_WARNING);
 				if(isset($Transfers['student']) and is_array($Transfers['student'])){
 					$result[]='TRANSFER FROM: '.$feeder.': '.$yid.' '.sizeof($Transfers['student']);
 					foreach($Transfers['student'] as $Student){
@@ -206,7 +206,16 @@ if(sizeof($reenrol_assdefs)>0){
 	foreach($students as $student){
 		join_community($student['id'],$yearcommunity);
 		}
-
+	/* Now repeats for the first year */
+	if(isset($repeatsids) and sizeof($repeatsids)>0){
+		$oldcom=array('type'=>'year','name'=>$yid);
+		foreach($repeatsids as $sid){
+			join_community($sid,$oldcom);
+			$score=array('result'=>'C','value'=>'0','date'=>$todate);
+			update_assessment_score($reenrol_eid,$sid,'G','',$score);
+			trigger_error('REPEAT: '.$yid.' '.$sid,E_USER_WARNING);
+			}
+		}
 
 
 /***** (2) COHORTS AND COURSES*****/
@@ -264,12 +273,12 @@ if(sizeof($reenrol_assdefs)>0){
 						season='S' ORDER BY stage ASC;");
 				$nextcohid=mysql_result($d_cohort,0,0);
 				$nextcoursestage=mysql_result($d_cohort,0,1);
-				trigger_error($nextcohid.' :::: '.$nextcoursestage,E_USER_WARNING);
+				//trigger_error($nextcohid.' :::: '.$nextcoursestage,E_USER_WARNING);
 				}
 			else{
 				/*last stage is graduating and leaving*/
 				$nextcohid='';
-				trigger_error($nextcohid.' :::: '.$nextcoursestage,E_USER_WARNING);
+				//trigger_error($nextcohid.' :::: '.$nextcoursestage,E_USER_WARNING);
 				}
 
 
