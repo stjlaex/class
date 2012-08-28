@@ -1028,8 +1028,6 @@ function make_portfolio_directory($directory,$shownotices=false){
  *
  * @return true|false Returns true on success
  *
- * NB. We don't want to include these file sizes for the user quota when
- * they are posted by ClaSS.
  *
  */
 function upload_files($filedata){
@@ -1038,12 +1036,15 @@ function upload_files($filedata){
 
 	$file_title=$filedata['title'];
 	$file_time=time();
+	/* TODO: set these values... */
+	$file_access='';
+	$file_size=0;
 
 	/* Identify the folder to be linked with this file. Note this is a
 	 * virtual flolder does not affect the physical directory the file
 	 * is stored in.
 	 */
-	if($filedata['foldertype']=='icon'){
+	if(isset($filedata['foldertype']) and $filedata['foldertype']=='icon'){
 		$folder_name='root';
 		$dir_name='icons';
 		}
@@ -1097,13 +1098,12 @@ function upload_files($filedata){
 				}
 			else{
 				$d_f=mysql_query("SELECT id FROM file WHERE originalname='$file_originalname' 
-								AND owner='s', owner_id='$uid';");
+											AND owner='s' AND owner_id='$uid';");
 				if(mysql_num_rows($d_f)==0){
-					$d_f=mysql_query("INSERT INTO file 
-		   			 (owner, owner_id, folder_id, title, originalname,
-						description, location, access, time_uploaded) VALUES 
-		   			 ('s', '$uid','$folder_id','$file_title','$file_originalname',
-		   			  '$file_description','$file_location','$file_access','$file_size');");
+					$d_f=mysql_query("INSERT INTO file (owner, owner_id, folder_id, title, originalname,
+										description, location, access, size) VALUES 
+										('s', '$uid','$folder_id','$file_title','$file_originalname',
+										'$file_description','$file_location','$file_access','$file_size');");
 					}
 				else{
 					$file_id=mysql_result($d_f,0);
@@ -1221,12 +1221,12 @@ function delete_files($filedata,$dbc=true){
  */
 function new_folder($owner,$name,$access=''){
 
-	$d_folder=mysql_query("SELECT id FROM 'file_folder' WHERE owner='s' AND owner_id='$owner' AND name='$name';");
+	$d_folder=mysql_query("SELECT id FROM file_folder WHERE owner='s' AND owner_id='$owner' AND name='$name';");
 	if(mysql_num_rows($d_folder)>0){
 		$folder_id=mysql_result($d_folder,0);
 		}
 	elseif($owner!='' and $name!='' and $access!=''){
-		$d_f=mysql_query("INSERT INTO 'file_folder' SET  owner='s', owner_id='$owner',
+		$d_f=mysql_query("INSERT INTO file_folder SET  owner='s', owner_id='$owner',
 					 name='$name', access='$access', parent_folder_id='-1';");
 		$folder_id=mysql_insert_id();
 		}
@@ -1304,13 +1304,18 @@ function list_files($epfun,$filetype,$dbc=false){
  * currently only recognised as either 'person' or 'community'.
  *
  */
-function get_epf_uid($epfname,$type){
+function get_epfuid($epfname,$type){
 
-	if($type=='s'){$table='student';}
-	elseif($type=='g'){$table='guardian';}
-	elseif($type=='u'){$table='users';}
+	if($type=='s'){
+		$d_u=mysql_query("SELECT student_id FROM info WHERE epfusername='$epfname';");
+		}
+	elseif($type=='g'){
+		$d_u=mysql_query("SELECT id FROM guardian WHERE epfusername='$epfname';");
+		}
+	elseif($type=='u'){
+		$d_u=mysql_query("SELECT id FROM users WHERE epfusername='$epfname';");
+		}
 
-	$d_u=mysql_query("SELECT id FROM $table WHERE epfusername='$epfname';");
 
 	if(mysql_num_rows($d_u)==1){
 		$uid=mysql_result($d_u,0);
