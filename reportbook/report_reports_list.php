@@ -125,38 +125,19 @@ two_buttonmenu($extrabuttons,$book);
 	foreach($students as $student){
 		$sid=$student['id'];
 		$Student=(array)fetchStudent_short($sid);
-		$comment=comment_display($sid);
 		$success=checkReportPub($rids[0],$sid);
 		if($success==1){$rowclass='nolite';}
 		elseif($success==0){$rowclass='gomidlite';}
 		else{$rowclass='';}
 ?>
 		<tr id="sid-<?php print $sid;?>" <?php print 'class="'.$rowclass.'"';?>>
-			<td>
+		  <td>
 			<input type="checkbox" name="sids[]" value="<?php print $sid; ?>" />
 			<?php print $rown++;?>
-			</td>
-			<td>
-			<span <?php print ' title="'.$comment['body'].'"';?>>
-			  <a onclick="parent.viewBook('infobook');" target="viewinfobook"  
-				href='infobook.php?current=comments_list.php&sid=<?php print $sid;?>'
-				<?php print ' class="'.$comment['class'].'" ';?>>C</a> 
-			</span>
-			<a onclick="parent.viewBook('infobook');" target="viewinfobook"  
-			  href='infobook.php?current=incidents_list.php&sid=<?php print $sid;?>'>I</a>
-<?php		if($Student['SENFlag']['value']=='Y'){ ?>
-			<a href="infobook.php?current=student_view_sen.php&sid=<?php print $sid;?>&sids[]=<?php print $sid;?>"
-			  target="viewinfobook" onclick="parent.viewBook('infobook');">S</a>
-<?php			} ?>
-<?php		if($Student['MedicalFlag']['value']=='Y'){ ?>
-			<a href="infobook.php?current=student_view_medical.php&sid=<?php print $sid;?>&sids[]=<?php print $sid;?>"
-			  target="viewinfobook" onclick="parent.viewBook('infobook');">M</a>
-<?php			} 
-		if($Student['Boarder']['value']!='N' and $Student['Boarder']['value']!=''){ ?>
-		<a href="infobook.php?current=student_view.php&sid=<?php print $sid;?>&sids[]=<?php print $sid;?>"
-			  target="viewinfobook" onclick="parent.viewBook('infobook');">B</a>
+		  </td>
+		  <td>
 <?php
-				}
+			include('scripts/studentlist_shortcuts.php');
 ?>
 		  </td>
 		  <td class="student">

@@ -80,8 +80,8 @@ if($_SESSION['worklevel']>-1){
  */
 	$cidcolour=array();
 	$rowcolour=array('#ffffee', '#ffffcc', '#ffffaa', '#ffff99',
-	'#ffff77', '#ffff55', '#ffff33', '#ffff11', '#ffffdd', '#ffffbb',
-	'#ffff00', '#ffff88', '#ffff66', '#ffff44', '#ffff22');
+					 '#ffff77', '#ffff55', '#ffff33', '#ffff11', '#ffffdd', '#ffffbb',
+					 '#ffff00', '#ffff88', '#ffff66', '#ffff44', '#ffff22');
 	if($cidsno==1 and $lessonatt>0){$headcols=5+$lessonatt;}
 	else{$headcols=5;}
 ?>
@@ -184,24 +184,10 @@ if($_SESSION['worklevel']>-1){
 		  bgcolor="<?php print $cidcolour[$viewtable[$c2]['class_id']];?>" >
 		  <td><?php print $c4;?></td>
 		  <td>
-			<a name="chart" href="infobook.php?current=comments_list.php&bid=<?php print $bid[0];?>&sid=<?php print $viewtable[$c2]['sid'];?>&sids[]=<?php print $viewtable[$c2]['sid'];?>"
-			  target="viewinfobook" onclick="parent.viewBook('infobook');" 
-			  class="<?php print $viewtable[$c2]['commentclass'];?>"
-			  ><span title="<?php print $viewtable[$c2]['commentbody'];?>">C</span></a>
-			<a href="infobook.php?current=incidents_list.php&bid=<?php print $bid[0];?>&sid=<?php print $viewtable[$c2]['sid'];?>&sids[]=<?php print $viewtable[$c2]['sid'];?>"
-			  target="viewinfobook" onclick="parent.viewBook('infobook');">I</a>
-<?php		if($viewtable[$c2]['sen']=='Y'){ ?>
-			<a href="infobook.php?current=student_view_sen.php&sid=<?php print $viewtable[$c2]['sid'];?>&sids[]=<?php print $viewtable[$c2]['sid'];?>&bid=<?php print $bid[0];?>"
-			  target="viewinfobook" onclick="parent.viewBook('infobook');"><span title="<?php print display_student_sentype($viewtable[$c2]['sid']);?>">S</span></a>
-<?php			} ?>
-<?php		if($viewtable[$c2]['medical']=='Y'){ ?>
-			<a href="infobook.php?current=student_view_medical.php&sid=<?php print $viewtable[$c2]['sid'];?>&sids[]=<?php print $viewtable[$c2]['sid'];?>"
-			  target="viewinfobook" onclick="parent.viewBook('infobook');">M</a>
-<?php			} ?>
-<?php		if($viewtable[$c2]['boarder']!='N' and $viewtable[$c2]['boarder']!=''){ ?>
-			<a href="infobook.php?current=student_view.php&sid=<?php print $viewtable[$c2]['sid'];?>&sids[]=<?php print $viewtable[$c2]['sid'];?>"
-			  target="viewinfobook" onclick="parent.viewBook('infobook');">B</a>
-<?php			} ?>
+<?php
+				$sid=$viewtable[$c2]['sid'];
+				include('scripts/studentlist_shortcuts.php');
+?>
 		  </td>
 		  <td class="student">
 			<a href="infobook.php?current=student_view.php&sid=<?php print $viewtable[$c2]['sid'];?>&sids[]=<?php print $viewtable[$c2]['sid'];?>"

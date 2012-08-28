@@ -455,27 +455,38 @@ function list_teacher_classes($tid,$crid='%',$year=''){
 
 
 /** 
- * Returns an id-name array listing all curriculum areas (subject and components) this sid studies.
+ *	Returns an id-name array listing all curriculum areas (subject and components) this sid studies.
  *
  *	@param string $sid
+ *	@param string $year
  *	@return array
  */
-function list_student_subjects($sid){
+function list_student_subjects($sid,$year=''){
+
+	if($year==''){$year=get_curriculumyear();}
 	if($sid==''){$sid=-1;}
-	$classes=array();
-   	$d_c=mysql_query("SELECT DISTINCT course_id AS crid, subject_id AS bid FROM
-				class JOIN cidsid ON class.id=cidsid.class_id WHERE
-				cidsid.student_id='$sid'");
+
+	$subjects=array();
+	$bids=array();
+   	$d_c=mysql_query("SELECT DISTINCT class.subject_id AS bid, cohort.course_id AS crid FROM
+				class JOIN cohort ON class.cohort_id=cohort.id WHERE cohort.year='$year' 
+				AND class.id=ANY(SELECT class_id FROM cidsid WHERE cidsid.student_id='$sid');");
 
    	while($c=mysql_fetch_array($d_c,MYSQL_ASSOC)){
-		$subs[]=array('id'=>$c['bid'],'name'=>get_subjectname($c['bid']));
+		if(!in_array($c['bid'],$bids)){
+			$bids[]=$c['bid'];
+			$subjects[]=array('id'=>$c['bid'],'name'=>get_subjectname($c['bid']));
+			}
 		$coms=list_subject_components($c['bid'],$c['crid'],'A');
 		foreach($coms as $com){
-			$subs[]=array('id'=>$com['id'],'name'=>$com['name']);
+			if(!in_array($com['id'],$bids)){
+				$bids[]=$com['id'];
+				$subjects[]=array('id'=>$com['id'],'name'=>$com['name']);
+				}
 			}
 		}
 
-	return $subs;
+	return $subjects;
 	}
 
 /** 
@@ -1263,11 +1274,12 @@ function listin_class($cid,$strict=false){
  *	@param string $stage
  *	@return array
  */
-function listin_subject_classes($bid,$crid,$stage){
-	$d_student=mysql_query("SELECT student_id AS id FROM cidsid 
-							JOIN class ON class.id=cidsid.class_id
-							WHERE class.subject_id='$bid'
-							AND class.course_id='$crid' AND class.stage='$stage';");
+function listin_subject_classes($bid,$crid,$stage,$year=''){
+	if($year==''){$year=get_curriculumyear($crid);}
+
+	$d_student=mysql_query("SELECT student_id AS id FROM cidsid JOIN class ON class.id=cidsid.class_id
+							WHERE class.subject_id='$bid' AND class.cohort_id=ANY(SELECT id FROM cohort 
+								WHERE cohort.course_id='$crid' AND cohort.stage='$stage' AND cohort.year='$year');");
 	$students=array();
 	while($student=mysql_fetch_array($d_student, MYSQL_ASSOC)){
 		if($student['id']!=''){$students[]=$student;}

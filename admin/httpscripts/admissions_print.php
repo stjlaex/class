@@ -30,16 +30,24 @@ if(isset($CFG->enrol_boarders) and $CFG->enrol_boarders=='yes'){
 
 $d_a=mysql_query("SELECT MAX(date) FROM admission_stats WHERE year='$enrolyear' AND date<='$todate';");
 if(mysql_result($d_a,0)>0){
+
 	$currentdate=mysql_result($d_a,0);/* Date of most recent stats in the db */
+
 	/* TODO: Set this last date properly */
 	$lastdate=date('Y-m-d',mktime(0,0,0,date('m')-12,date('d')+14,date('Y')));
 	$d_a=mysql_query("SELECT MAX(date) FROM admission_stats WHERE year='$lastenrolyear' AND date<='$lastdate';");
 	$lastdate=mysql_result($d_a,0);/* Nearest date of most stats in the db 12 months ago*/
+
+	$beforelastdate=date('Y-m-d',mktime(0,0,0,date('m')-24,date('d')+14,date('Y')));
+	$d_a=mysql_query("SELECT MAX(date) FROM admission_stats WHERE year='$beforelastenrolyear' AND date<='$beforelastdate';");
+	$beforelastdate=mysql_result($d_a,0);/* Nearest date of most stats in the db 24 months ago*/
+
 	$currents=explode('-',$currentdate);
 	$starts=explode('-',$yearstartdate);
 	$diff=mktime(0,0,0,$currents[1],$currents[2],$currents[0]) - mktime(0,0,0,$starts[1],$starts[2],$starts[0]);
 	$month=round($diff/(60*60*24*30));/* How months into academic year */
 	}
+
 $d_a=mysql_query("SELECT MAX(date) FROM admission_stats WHERE year='$lastenrolyear' AND date<='$cutoffdate';");
 if(mysql_result($d_a,0)>0){
 	$lastcurrentdate=mysql_result($d_a,0);/* Date of most recent stats in the db */
@@ -58,6 +66,7 @@ $doing[]=array($enrolyear,$currentdate);
 $doing[]=array($lastenrolyear,$lastdate);
 $doing[]=array($lastenrolyear,$lastcurrentdate);
 $doing[]=array($beforelastenrolyear,$beforelastcurrentdate);
+$doing[]=array($beforelastenrolyear,$beforelastdate);
 
 foreach($doing as $tableno => $todo){
 	$year=$todo[0];

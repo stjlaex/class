@@ -1,3 +1,15 @@
+Version ClaSS-1.0.26 release (2012/08/27)
+-------------------------------------------
+
+Shortcut links in student tables moved out to a generic script. 
+
+The "I" for incidents removed.
+
+Majore change to Comments list page. A new comment can now lead to
+either an incident (-ve comment) or a merit (+ve comment).
+
+
+
 Version ClaSS-1.0.26 release (2012/08/15)
 -------------------------------------------
 

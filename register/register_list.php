@@ -228,7 +228,6 @@ else{
 		$sid=$student['id'];
 		$Student=fetchStudent_short($sid);
 		$Attendances=(array)fetchAttendances($sid,$startday,$nodays);
-		$comment=comment_display($sid);
 ?>
 		<tr id="sid-<?php print $sid;?>">
 		  <td>
@@ -237,34 +236,7 @@ else{
 		  </td>
 		  <td>
 <?php
-		if($_SESSION['role']!='support'){
-			/* Consider support staff to be not priviliged to access. */
-				$comment=comment_display($sid);
-?>
-			<span title="<?php print $comment['body'];?>">
-			  <a onclick="parent.viewBook('infobook');" target="viewinfobook"  
-				href='infobook.php?current=comments_list.php&sid=<?php print $sid;?>'
-				<?php print ' class="'.$comment['class'].'" ';?>>C</a> 
-			</span>
-			<a onclick="parent.viewBook('infobook');" target="viewinfobook"  
-			  href='infobook.php?current=incidents_list.php&sid=<?php print $sid;?>'>I</a>
-<?php		if($Student['SENFlag']['value']=='Y'){ ?>
-			<a href="infobook.php?current=student_view_sen.php&sid=<?php print $sid;?>&sids[]=<?php print $sid;?>"
-			  target="viewinfobook" onclick="parent.viewBook('infobook');">S</a>
-<?php			} ?>
-<?php		if($Student['MedicalFlag']['value']=='Y'){ ?>
-			<a href="infobook.php?current=student_view_medical.php&sid=<?php print $sid;?>&sids[]=<?php print $sid;?>"
-			  target="viewinfobook" onclick="parent.viewBook('infobook');">M</a>
-<?php			} 
-		if($Student['Boarder']['value']!='N' and $Student['Boarder']['value']!=''){ ?>
-		<a href="infobook.php?current=student_view.php&sid=<?php print $sid;?>&sids[]=<?php print $sid;?>"
-			  target="viewinfobook" onclick="parent.viewBook('infobook');">B</a>
-<?php
-				}
-			}
-		else{
-			print '&nbsp';
-			}
+			include('scripts/studentlist_shortcuts.php');
 ?>
 			<div style="font-size:7pt;color:#909090;float:right;width:30px;">
 <?php

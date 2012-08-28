@@ -12,6 +12,7 @@
 $action='new_report_action.php';
 $choice='new_report.php';
 $toyear=get_curriculumyear();
+$extrabuttons=array();
 
 if($r>-1){$rcrid=$respons[$r]['course_id'];}
 else{$rcrid='';}

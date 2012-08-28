@@ -1121,7 +1121,7 @@ function fetchIncidents($sid,$startdate='',$enddate=''){
 			$acttid=$action['teacher_id'];
 			$Action['Teacher']=array('username' => ''.$acttid, 
 									 'label' => 'teacher',
-							  'value' => get_teachername($acttid));
+									 'value' => get_teachername($acttid));
 			$Action['Comment']=array('value' => ''.$action['comment']);
 			$Action['EntryDate']=array('label' => 'date', 
 									   'type_db' => 'date', 
@@ -1323,62 +1323,8 @@ function fetchComments($sid,$startdate='',$enddate=''){
 			student_id='$sid' AND entrydate>='$startdate' AND entrydate<='$enddate'
 			ORDER BY yeargroup_id DESC, entrydate DESC, id DESC, subject_id");
 	while($comment=mysql_fetch_array($d_comments,MYSQL_ASSOC)){
-		$Comment=array();
-		$Comment['id_db']=$comment['id'];
-		$bid=$comment['subject_id'];
-		$subjectname=get_subjectname($bid);
-		$subtable[$bid]=$subjectname;
-	   	$Comment['Subject']=array('label' => 'subject',
-								  'field_db' => 'subject_id', 
-								  'value_db' => ''.$bid, 
-								  'value' => ''.$subjectname);
-		$tid=$comment['teacher_id'];
-		$Comment['Teacher']=array('label' => 'teacher', 
-								  'field_db' => 'teacher_id', 
-								  'username' => ''.$tid, 
-								  'value' => ''.get_teachername($tid));
-		$Categories=array();
-		$Categories=array('label' => 'category', 
-						  'field_db' => 'category', 
-						  'type_db' => 'varchar(100)', 
-						  'value_db' => ''.$comment['category'],
-						  'value' => ' ');
-		$pairs=explode(';',$comment['category']);
-		for($c3=0;$c3<sizeof($pairs)-1;$c3++){
-			list($catid,$rank)=explode(':',$pairs[$c3]);
-			$Category=array();
-			$d_categorydef=mysql_query("SELECT name FROM categorydef WHERE id='$catid';");
-			$catname=mysql_result($d_categorydef,0);
-			$Category=array('label' => $catname, 
-							'value' => ''.$catid);
-			$Category['rating']=array('label'=> 'type',
-									  'value' => ''.$rank);
-			$Categories['Category'][]=$Category;
-			}
-		if(!isset($Categories['Category'])){
-			$Category=array('label' => ' ', 
-							'type_db' => 'varchar(30)', 
-							'value' => ' ');
-			$Categories['Category'][]=$Category;
-			}
-		$Comment['Categories']=$Categories;
-	   	$Comment['Detail']=array('label' => 'detail', 
-								 'field_db' => 'detail', 
-								 'type_db' => 'text', 
-								 'value' => ''.$comment['detail']);
-	   	$Comment['EntryDate']=array('label' => 'date', 
-									'field_db' => 'entrydate', 
-									'type_db' => 'date', 
-									'value' => ''.$comment['entrydate']);
-	   	$Comment['YearGroup']=array('label' => 'yeargroup', 
-									'field_db' => 'yeargroup_id', 
-									'type_db' => 'smallint', 
-									'value' => ''.$comment['yeargroup_id']);
-	   	$Comment['Shared']=array('label' => 'shared', 
-									'field_db' => 'guardians', 
-									'type_db' => 'enum', 
-									'value' => ''.$comment['guardians']);
-		$Comments['Comment'][]=$Comment;
+		$subtable[$comment['subject_id']]=get_subjectname($comment['subject_id']);
+		$Comments['Comment'][]=fetchComment($comment);
 		}
 
 	/*The subtable is needed by the xsl templates for sorting*/
@@ -1386,7 +1332,83 @@ function fetchComments($sid,$startdate='',$enddate=''){
 	while(list($bid,$name)=each($subtable)){
 		$Comments['subtable']['subject'][]=array('value_db'=>$bid,'value'=>$name);
 		}
+
 	return $Comments;
+	}
+
+
+/**
+ *
+ *
+ * @params array $comment
+ * @return array
+ */
+function fetchComment($comment){
+	$Comment=array();
+
+	if($comment['id']>-1 and (!isset($comment['student_id']) or $comment['student_id']<1)){
+		$id=$comment['id'];
+		$d_c=mysql_query("SELECT * FROM comments WHERE id='$id';");
+		$comment=mysql_fetch_array($d_c,MYSQL_ASSOC);
+		}
+
+
+	$Comment=array();
+	$Comment['id_db']=$comment['id'];
+	if($comment['incident_id']>0){$Comment['incident_id_db']=$comment['incident_id'];}
+	if($comment['merit_id']>0){$Comment['merit_id_db']=$comment['merit_id'];}
+	$Comment['Subject']=array('label' => 'subject',
+							  'field_db' => 'subject_id', 
+							  'value_db' => ''.$comment['subject_id'], 
+							  'value' => ''.get_subjectname($comment['subject_id']));
+	$tid=$comment['teacher_id'];
+	$Comment['Teacher']=array('label' => 'teacher', 
+							  'field_db' => 'teacher_id', 
+							  'username' => ''.$tid, 
+							  'value' => ''.get_teachername($tid));
+	$Categories=array();
+	$Categories=array('label' => 'category', 
+					  'field_db' => 'category', 
+					  'type_db' => 'varchar(100)', 
+					  'value_db' => ''.$comment['category'],
+					  'value' => ' ');
+	$pairs=explode(';',$comment['category']);
+	for($c3=0;$c3<sizeof($pairs)-1;$c3++){
+		list($catid,$rank)=explode(':',$pairs[$c3]);
+		$Category=array();
+		$d_categorydef=mysql_query("SELECT name FROM categorydef WHERE id='$catid';");
+		$catname=mysql_result($d_categorydef,0);
+		$Category=array('label' => $catname, 
+						'value' => ''.$catid);
+		$Category['rating']=array('label'=> 'type',
+								  'value' => ''.$rank);
+		$Categories['Category'][]=$Category;
+		}
+	if(!isset($Categories['Category'])){
+		$Category=array('label' => ' ', 
+						'type_db' => 'varchar(30)', 
+						'value' => ' ');
+		$Categories['Category'][]=$Category;
+		}
+	$Comment['Categories']=$Categories;
+	$Comment['Detail']=array('label' => 'detail', 
+							 'field_db' => 'detail', 
+							 'type_db' => 'text', 
+							 'value' => ''.$comment['detail']);
+	$Comment['EntryDate']=array('label' => 'date', 
+								'field_db' => 'entrydate', 
+								'type_db' => 'date', 
+								'value' => ''.$comment['entrydate']);
+	$Comment['YearGroup']=array('label' => 'yeargroup', 
+								'field_db' => 'yeargroup_id', 
+								'type_db' => 'smallint', 
+								'value' => ''.$comment['yeargroup_id']);
+	$Comment['Shared']=array('label' => 'shared', 
+							 'field_db' => 'guardians', 
+							 'type_db' => 'enum', 
+							 'value' => ''.$comment['guardians']);
+
+	return $Comment;
 	}
 
 

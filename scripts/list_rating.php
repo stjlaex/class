@@ -16,8 +16,7 @@ include('scripts/set_list_vars.php');
  */
 $d_ratname=mysql_query("SELECT DISTINCT rating_name FROM categorydef WHERE type='$cattype'");
 $rating_name=mysql_result($d_ratname,0);
-$d_rating=mysql_query("SELECT longdescriptor AS name, value AS id FROM rating WHERE
-	        name='$rating_name' ORDER BY value");
+$d_rating=mysql_query("SELECT longdescriptor AS name, value AS id FROM rating WHERE name='$rating_name' ORDER BY value");
 if(mysql_num_rows($d_rating)>0){
 ?>
 <div class="center">

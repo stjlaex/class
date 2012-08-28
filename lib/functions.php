@@ -1707,8 +1707,7 @@ function fetch_categorydefs($type,$crid='%',$secid='%'){
 	   	if($catdef['rating_name']!='' 
 		   and !array_key_exists($catdef['rating_name'],$ratingnames)){
 				$ratingname=$catdef['rating_name'];
-				$d_rating=mysql_query("SELECT * FROM rating 
-						WHERE name='$ratingname' ORDER BY value;");
+				$d_rating=mysql_query("SELECT * FROM rating WHERE name='$ratingname' ORDER BY value;");
 				$ratings=array();
 				while($rating=mysql_fetch_array($d_rating,MYSQL_ASSOC)){
 					$ratings[$rating['value']]=$rating['descriptor'];

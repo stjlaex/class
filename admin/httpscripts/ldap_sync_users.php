@@ -13,7 +13,7 @@ function arguments($argv){
     foreach($argv as $arg){
 		if (ereg('--([^=]+)=(.*)',$arg,$reg)){
 			$ARGS[$reg[1]]=$reg[2];
-			} 
+			}
 		elseif(ereg('-([a-zA-Z0-9])',$arg,$reg)){
             $ARGS[$reg[1]]='true';
 			}
@@ -86,7 +86,7 @@ if($ds){
 				if($row['nologin']=='1'){
 					$distinguishedName='uid='.$epfusername.',ou='.$row['role'].',ou=people'.',dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
 					ldap_delete($ds, $distinguishedName);
-					trigger_error('Deleted nologin user LDAP: '.$distinguishedName, E_USER_WARNING);
+					//trigger_error('Deleted nologin user LDAP: '.$distinguishedName, E_USER_WARNING);
 					}
 				else{
 					/* When the entry exists, LDAP db is updated with values coming from ClaSS */
@@ -103,13 +103,13 @@ if($ds){
 					$info['mail']=$row['email'];
 					$info['objectclass']='inetOrgPerson';
 				
-					if ($attrs['employeeType'][0]<>$row['role']) {
+					if($attrs['employeeType'][0]<>$row['role']){
 						/* Change the LDAP entry to other superior RDN */
 						/* Read Entry again using detailed RDN, the old one */
 						$distinguishedName='uid='.$epfusername.',ou='.$attrs['employeeType'][0].',ou=people'.',dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
 						$sr=ldap_search($ds, $distinguishedName, "uid=$epfusername");
 						/* change type: modify */
-						if ($sr) {
+						if($sr){
 							$info['employeeType']=$row['role'];
 							$info['ou']=$row['role'];
 							$mod=ldap_modify ( $ds, $distinguishedName , $info );

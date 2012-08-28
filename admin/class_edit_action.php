@@ -40,9 +40,13 @@ elseif($sub=='Submit'){
 		}
 	if(isset($description)){
 		$description=clean_text($description);
+		$d_c=mysql_query("SELECT course_id, stage FROM cohort JOIN class ON cohort.id=class.cohort_id 
+								WHERE class.id='$newcid';");
+		$crid=mysql_result($d_c,0,0);
+		$stage=mysql_result($d_c,0,1);
 		mysql_query("UPDATE classes, class SET classes.description='$description' 
-						WHERE classes.course_id=class.course_id AND classes.subject_id=class.subject_id 
-						AND classes.stage=class.stage AND class.id='$newcid';");
+						WHERE classes.course_id='$crid' AND classes.subject_id=class.subject_id 
+						AND classes.stage='$stage' AND class.id='$newcid';");
 		}
 	}
 

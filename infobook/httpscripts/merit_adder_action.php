@@ -69,7 +69,6 @@ elseif($sub=='Submit'){
 	elseif($inmust!='yes'){
 
 		/*TODO: allow editing of existing merits. */
-
 		$merid=$inmust;
 		mysql_query("UPDATE merits SET comment='$incom' WHERE report_id='$rid' AND
 						student_id='$sid' AND subject_id='$bid' AND
