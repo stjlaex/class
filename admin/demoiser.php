@@ -28,9 +28,9 @@ function tableClear($table){
 function generate_random_name($gender){
 	if($gender=='M'){
 		$start=array('John','Paul','David','James','Eric','Ryan','Christopher','Mark','Edward',
-					 'Chris','Luke','Robert','Terence');
+					 'Chris','Luke','Robert','Jack','Steve');
 		$middle=array('John','Paul','David','James','Eric','Ryan','Christopher','Mark','Edward',
-					  'Chris','Luke','Robert','Terence');
+					  'Chris','Luke','Robert','Jack','Steve');
 		}
 	else{
 		$start=array('Emma','Claire','Tracy','Jane','Ann','Fiona','Lara','Sophie','Rachel',
@@ -38,13 +38,13 @@ function generate_random_name($gender){
 		$middle=array('Emma','Claire','Tracy','Jane','Ann','Fiona','Lara','Sophie','Rachel',
 					  'Louise','Jessica','Pamela');
 		}
-	$end=array('Smith','Lee','Patrick','Nunn','Bowman','Stewart','Jenkins',
-			   'White','Kirkpatrick','Ibbotson','Owen','Davidson','Rowell','Phillips',
-			   'Wainwright','Robson','Ball','Quinn','Davis','Johnson','Hope','Blair',
+	$end=array('Smith','Lee','Colback','Nunn','Gardner','Stewart','Mignolet',
+			   'White','Kirkpatrick','Stokoe','Owen','Davidson','Rowell','Phillips',
+			   'McClean','Robson','Ball','Quinn','Davis','Johnson','Hope','Blair',
 			   'Fawcett','Lawrence','Whitehead','Robinson','Wylie','McCartney','Collins',
-			   'West','Anderson','Carter','Mitchell','Main','Mander','Royal','Welsh','Roy',
-			   'Robertson','Riley','Newman','Turner','Hardy','Dene','Poll','Wright','Malick',
-			   'Montgomery','Oscar','Forrest','Hughes','Reid','Murray','Hurley','Ashurst');
+			   'Westwood','Anderson','Carter','Mitchell','Main','Porterfield','Royal','Welsh','Roy',
+			   'Robertson','Riley','Newman','Turner','Hardy','Dene','Poll','Wright','O\'Neil',
+			   'Montgomery','Anderson','Clough','Fletcher','Reid','Murray','Hurley','Ashurst');
 	$name=array();
     srand((double)microtime()*1000000);
 	$name[]=$start[(rand() %  count($start))];
@@ -180,28 +180,13 @@ function generate_random_name($gender){
 		$id=$row['uid'];
 		$username=$row['username'];
 		$role=$row['role'];
-		$passwd=md5('guest');
+		if($username!='administrator'){$passwd=md5('guest');}
 		if($role=='teacher'){
 			$nun='Prof'.$profindex++;
-			mysql_query("UPDATE tidcid SET teacher_id='$nun'
-			WHERE teacher_id='$username'");
-			mysql_query("UPDATE reportentry SET teacher_id='$nun'
-			WHERE teacher_id='$username'");
-			mysql_query("UPDATE comments SET teacher_id='$nun'
-			WHERE teacher_id='$username'");
-			mysql_query("UPDATE incidents SET teacher_id='$nun'
-			WHERE teacher_id='$username'");
-			mysql_query("UPDATE grading SET author='$nun'
-			WHERE author='$username'");
-			mysql_query("UPDATE markdef SET author='$nun'
-			WHERE author='$username'");
-			mysql_query("UPDATE homework SET author='$nun'
-			WHERE author='$username'");
 			}
 		elseif($role=='admin'){
 			if($username!='administrator'){$nun='admin'.$adminindex++;}
 			else{$nun=$username;}
-			$passwd=md5('guest');
 			}
 		elseif($role=='office'){
 			$nun='office'.$officeindex++;
@@ -224,6 +209,20 @@ function generate_random_name($gender){
 			dob='', contractdate='' WHERE uid='$id';");
 		mysql_query("UPDATE orderaction SET teacher_id='$nun' WHERE teacher_id='$username'");
 		mysql_query("UPDATE orderorder SET teacher_id='$nun' WHERE teacher_id='$username'");
+		mysql_query("UPDATE tidcid SET teacher_id='$nun'
+			WHERE teacher_id='$username'");
+		mysql_query("UPDATE reportentry SET teacher_id='$nun'
+			WHERE teacher_id='$username'");
+		mysql_query("UPDATE comments SET teacher_id='$nun'
+			WHERE teacher_id='$username'");
+		mysql_query("UPDATE incidents SET teacher_id='$nun'
+			WHERE teacher_id='$username'");
+		mysql_query("UPDATE grading SET author='$nun'
+			WHERE author='$username'");
+		mysql_query("UPDATE markdef SET author='$nun'
+			WHERE author='$username'");
+		mysql_query("UPDATE homework SET author='$nun'
+			WHERE author='$username'");
 		}
 
 	$table='orderorder';

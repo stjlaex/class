@@ -247,17 +247,20 @@ two_buttonmenu($extrabuttons,$book);
 			else{$compmatch="(component.status LIKE '$substatus' AND component.status!='U')";}
 
 			/* Filter subjects based on the classes a studnet is subscribed to. */
+			/*
 			$d_subjectclasses=mysql_query("SELECT DISTINCT subject_id, class_id
 					FROM class JOIN cidsid ON cidsid.class_id=class.id
-					WHERE cidsid.student_id='$sid' AND class.course_id='$crid' 
-					AND (class.stage='$reportstage' OR class.stage LIKE '$reportstage') 
+					WHERE cidsid.student_id='$sid' 
 					AND subject_id=ANY(SELECT DISTINCT subject_id FROM component WHERE id='' AND course_id='$crid' AND $compmatch) 
 					ORDER BY subject_id;");
-
-
-			while($subject=mysql_fetch_array($d_subjectclasses,MYSQL_ASSOC)){
-			    $bid=$subject['subject_id'];
-				$cid=$subject['class_id'];
+			  AND class.course_id='$crid' 
+			  AND (class.stage='$reportstage' OR class.stage LIKE '$reportstage')
+			  while($subject=mysql_fetch_array($d_subjectclasses,MYSQL_ASSOC)){
+			*/
+			$subjectclasses=(array)list_student_course_classes($sid,$crid);
+			foreach($subjectclasses as $class){
+			    $bid=$class['subject_id'];
+				$cid=$class['id'];
 				$d_teacher=mysql_query("SELECT teacher_id FROM tidcid WHERE class_id='$cid';");
 				$reptids=array();
 				$subjectperm['x']=0;

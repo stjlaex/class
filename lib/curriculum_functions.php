@@ -502,7 +502,7 @@ function list_student_course_classes($sid,$crid,$curryear=''){
 	if($curryear==''){$curryear=get_curriculumyear($crid);}
 
 	$classes=array();
-   	$d_c=mysql_query("SELECT DISTINCT id, name FROM
+   	$d_c=mysql_query("SELECT DISTINCT id, name, subject_id FROM
 				class JOIN cidsid ON class.id=cidsid.class_id WHERE
 				cidsid.student_id='$sid' AND class.cohort_id=ANY(SELECT id FROM cohort WHERE cohort.year='$curryear' 
 				AND cohort.course_id LIKE '$crid') ORDER BY class.name;");
@@ -511,7 +511,10 @@ function list_student_course_classes($sid,$crid,$curryear=''){
 		$d_t=mysql_query("SELECT group_concat(forename, ' ', surname separator ', ') AS tids
 								FROM users JOIN tidcid ON tidcid.teacher_id=users.username 
 								WHERE tidcid.class_id='$cid' GROUP BY 'class_id';");
-		$classes[]=array('id'=>$cid,'name'=>$c['name'],'teachers'=>mysql_result($d_t,0));
+		$classes[]=array('id'=>$cid,
+						 'name'=>$c['name'],
+						 'subject_id'=>$c['subject_id'],
+						 'teachers'=>mysql_result($d_t,0));
 		}
 
 	return $classes;
@@ -536,6 +539,8 @@ function list_student_classes($sid,$curryear){
    	while($c=mysql_fetch_array($d_c,MYSQL_ASSOC)){
 		$classes[]=array('id'=>$c['id'],
 						 'name'=>$c['name'],
+						 'course_id'=>$c['course_id'],
+						 'subject_id'=>$c['subject_id'],
 						 'description'=>$c['course_id'].' '.$c['subject_id']
 						 );
 		}
@@ -914,26 +919,28 @@ function populate_subjectclassdef($classdef,$currentseason='S'){
 
 	foreach($newnames as $nindex => $newname){
 		$bid=$classdef['bid'];
-		mysql_query("INSERT INTO class (name,subject_id,cohort_id) VALUES ('$newname','$bid','$cohid');");
-		$newcid=mysql_insert_id();
-		if($newcid>0){
-			if($classdef['generate']=='forms'){
-				$fid=$groups[$nindex];
-				/* Assign students to the class. */
-				$d_sids=mysql_query("SELECT id FROM student WHERE form_id='$fid';");
-				while($sids=mysql_fetch_array($d_sids, MYSQL_ASSOC)){
-					$sid=$sids['id'];
-					mysql_query("INSERT INTO cidsid
-								(class_id, student_id) VALUES ('$newcid','$sid')");
-					}
-				if($classdef['formgroup']=='Y'){
-					/* Optionally assign form tutors as teachers of the class. */
-					$users=(array)list_community_users(array('id'=>'','name'=>$fid,'type'=>'form'));
-					foreach($users as $uid => $user){
-						if($user['role']!='office' and $user['username']!='administrator'){
-							$tid=$user['username'];
-							mysql_query("INSERT INTO tidcid
-								(class_id, teacher_id) VALUES ('$newcid','$tid')");
+		/* If already exists then nothing to do. */
+		$d_c=mysql_query("SELECT id FROM class WHERE name='$newname' AND subject_id='$bid' AND cohort_id='$cohid';");
+		if(mysql_num_rows($d_c)==0){
+			mysql_query("INSERT INTO class (name,subject_id,cohort_id) VALUES ('$newname','$bid','$cohid');");
+			$newcid=mysql_insert_id();
+			if($newcid>0){
+				if($classdef['generate']=='forms'){
+					$fid=$groups[$nindex];
+					/* Assign students to the class. */
+					$d_sids=mysql_query("SELECT id FROM student WHERE form_id='$fid';");
+					while($sids=mysql_fetch_array($d_sids, MYSQL_ASSOC)){
+						$sid=$sids['id'];
+						mysql_query("INSERT INTO cidsid (class_id, student_id) VALUES ('$newcid','$sid')");
+						}
+					if($classdef['formgroup']=='Y'){
+						/* Optionally assign form tutors as teachers of the class. */
+						$users=(array)list_community_users(array('id'=>'','name'=>$fid,'type'=>'form'));
+						foreach($users as $uid => $user){
+							if($user['role']!='office' and $user['username']!='administrator'){
+								$tid=$user['username'];
+								mysql_query("INSERT INTO tidcid (class_id, teacher_id) VALUES ('$newcid','$tid')");
+								}
 							}
 						}
 					}
