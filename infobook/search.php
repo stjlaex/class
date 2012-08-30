@@ -112,14 +112,23 @@ $action='search_action.php'
 			type="text" id="Contactsurname" name="contactsurname" value="" maxlength="30"/>
 		</div>
 	  </fieldset>
+<?php
+		   }
 
+if($_SESSION['worklevel']>-1){
+?>
 	  <fieldset class="infobook">
 		<legend><?php print_string('studentsearch');?></legend>
 		<select class="switcher" type="text" id="student" 
 		  tabindex="<?php print $tab++;?>" name="sfield" size="1">
 <?php
 		$selsfield='surname';
-		$enum=$studentfield;
+		$enum=array(
+					'surname' => 'surname', 
+					'forename' => 'forename', 
+					'preferredforename' => 'preferredforename',
+					'formerupn' => 'enrolmentnumber'
+					);
 		while(list($val,$description)=each($enum)){	
 				print '<option ';
 				if(($selsfield==$val)){print ' selected="selected" ';}
@@ -129,17 +138,15 @@ $action='search_action.php'
 		</select>
 
 		<div id="switchstudent">
-		  <input tabindex="<?php print $tab++;?>" 
-			type="text" name="studentsurname" value="" maxlength="30"/>
+		  <input tabindex="<?php print $tab++;?>" type="text" name="studentsurname" value="" maxlength="30"/>
 		</div>
-
-			<button type="submit" name="submit">
-				<?php print_string('search');?>
-			</button>
+		<button type="submit" name="submit">
+		  <?php print_string('search');?>
+		</button>
 	  </fieldset>
 <?php
-																															}
-	  else{
+	}
+else{
 ?>
 	  <fieldset class="infobook">
 		<legend><?php print_string('studentsearch');?></legend>

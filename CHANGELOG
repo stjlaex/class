@@ -12,6 +12,7 @@ Fix to yearend for repeat students in first year group.
 
 Fix to new_edit_class to avoid duplicates.
 
+InfoBook option for teachers to search by different student fields.
 
 
 Version ClaSS-1.0.26 release (2012/08/15)
