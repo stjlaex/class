@@ -283,7 +283,7 @@ elseif($sub=='Submit'){
 				 * changes though have to fallback on next method
 				 */
 				if(isset($email) and trim($email)!=''){
-					//$d_g=mysql_query("SELECT id FROM guardian WHERE surname='$surname' AND email='$email';");
+					$d_g=mysql_query("SELECT id FROM guardian WHERE surname='$surname' AND email='$email';");
 					}
 				/*
 				 * Alternative search using guardian's surname and forename and

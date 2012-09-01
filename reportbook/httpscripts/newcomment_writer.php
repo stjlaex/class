@@ -136,20 +136,10 @@ else{
 <script src="../../js/qtip.js" type="text/javascript"></script>
 <script src="../../js/statementbank.js" type="text/javascript"></script>
 <?php
-$bver=(array)explode('.',$browser['version']);
-if($browser['name']=='Mozilla Firefox' and ($bver[0]>10)){
-?>
-<script src="../../lib/tiny_mce_custom/tiny_mce.js" type="text/javascript"></script>
-<script src="../../lib/tiny_mce_custom/loadeditor.js" type="text/javascript"></script>
-<?php
-		}
-	else{
+//$bver=(array)explode('.',$browser['version']);
 ?>
 <script src="../../lib/tiny_mce/tiny_mce.js" type="text/javascript"></script>
 <script src="../../lib/tiny_mce/loadeditor.js" type="text/javascript"></script>
-<?php
-		}
-?>
 </head>
 <body onload="window.opener.parent.loadRequired('reportbook');if(document.getElementById('current-tinytab')){tinyTabs(document.getElementById('current-tinytab'));}loadEditor();">
 
