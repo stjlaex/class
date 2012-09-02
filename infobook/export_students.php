@@ -143,7 +143,7 @@ if(sizeof($sids)==0){
 							}
 						}
 					}
-				elseif(array_key_exists($displayfield,$Student) and $Student[$displayfield]['value']!='' and (!isset($Student[$displayfield]['private']) or $Student[$displayfield]['private']=='N' or $privfilter=='visible')){
+				elseif(array_key_exists($displayfield,$Student) and $Student[$displayfield]['value']!='' and (!isset($Student[$displayfield]['private']) or $Student[$displayfield]['private']=='N' or $privfilter!='hidden')){
 					$displayout=$Student[$displayfield]['value'];
 					}
 				else{
