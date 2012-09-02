@@ -17,6 +17,14 @@ else{
 	$todate=$Comment['EntryDate']['value'];
 	$catid=$Comment['Categories']['Category'][0]['value'];
 	$ratvalue=$Comment['Categories']['Category'][0]['rating']['value'];
+	if(isset($Comment['incident_id_db'])){
+		$incid=$Comment['incident_id_db'];
+		$Incident=(array)fetchIncident(array('id'=>$incid));
+		}
+	elseif(isset($Comment['merit_id_db'])){
+		$merid=$Comment['merit_id_db'];
+		$Merit=(array)fetchMerit(array('id'=>$merid));
+		}
 	}
 
 $yid=$Student['YearGroup']['value'];
@@ -41,12 +49,12 @@ print '('.$Student['RegistrationGroup']['value'].')';
 	  <fieldset class="center">
 		<div class="center">
 		  <label for="Detail"><?php print_string('comments',$book);?></label>
-		  <textarea tabindex="<?php print $tab++;?>" name="detail" class="required" id="Detail" rows="2" 
+		  <textarea tabindex="<?php print $tab++;?>" name="detail" class="required" id="Detail" rows="4" 
 					cols="35"><?php print $Comment['Detail']['value'];?></textarea>
 		</div>
 		<div class="left">
 <?php 
-			$xmldate='Entrydate'; 
+			$xmldate='Entrydate';
 			$required='yes';
 			include('scripts/jsdate-form.php'); 
 ?>
@@ -131,6 +139,8 @@ if($CFG->emailguardiancomments=='yes' or ($CFG->emailguardiancomments=='epf' and
 
 
 	  <input type="hidden" name="commentid" value="<?php print $Comment['id_db'];?>" />
+	  <input type="hidden" name="meritid" value="<?php print $Comment['merit_id_db'];?>" />
+	  <input type="hidden" name="incidentid" value="<?php print $Comment['incident_id_db'];?>" />
 	  <input type="hidden" name="current" value="<?php print $action;?>" />
 	  <input type="hidden" name="cancel" value="<?php print $cancel;?>" />
 	  <input type="hidden" name="choice" value="<?php print $choice;?>" />
@@ -162,6 +172,7 @@ if($CFG->emailguardiancomments=='yes' or ($CFG->emailguardiancomments=='epf' and
   </div>
   <div class="right">
 <?php 
+		if(isset($Merit)){$points=$Merit['Points']['value_db'];}
 		$listlabel='points';
 		$required='no';
 		$listname='points';
@@ -178,10 +189,15 @@ if($CFG->emailguardiancomments=='yes' or ($CFG->emailguardiancomments=='epf' and
 </div>
 <div id="switchRating-1"  class="hidden">
   <div id="formstatus-edit" class="">
-	<?php print_string('recordnewincident',$book);?>
+<?php
+			if(!isset($Incident)){print_string('recordnewincident',$book);}
+			else{print_string('editincident',$book);}
+
+?>
   </div>
 	  <div class="left">
 <?php 
+		if(isset($Incident['Sanction']['value'])){$sanction=$Incident['Sanction']['value_db'];}
 		list($ratingnames,$sanctions)=fetch_categorydefs('inc');
 		$listlabel='sanction';
 		$listname='sanction';
@@ -196,7 +212,15 @@ if($CFG->emailguardiancomments=='yes' or ($CFG->emailguardiancomments=='epf' and
 	  </div>
 	  <div class="right">
 <?php 
-		$listlabel='incidentstatus'; $required='yes'; $listname='closed';$closed='Y';
+		$listlabel='incidentstatus'; 
+		$required='yes'; 
+		$listname='closed';
+		if(isset($Incident['Closed']['value'])){
+			$closed=$Incident['Closed']['value'];
+			}
+		else{
+			$closed='Y';
+			}
 		include('scripts/set_list_vars.php');
 		list_select_enum('closed',$listoptions,'infobook');
 ?>
@@ -204,6 +228,6 @@ if($CFG->emailguardiancomments=='yes' or ($CFG->emailguardiancomments=='epf' and
 	  <div class="center">
 		<label for="Detail"><?php print_string('details',$book);?></label>
 		<textarea name="sanctiondetail"  tabindex="<?php print $tab++;?>" 
-		 id="Detail" rows="2" cols="32"></textarea>
+		 id="Detail" rows="2" cols="32"><?php print $Incident['Detail']['value'];?></textarea>
 	  </div>
 </div>

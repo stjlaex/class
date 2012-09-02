@@ -28,13 +28,42 @@ include('scripts/sub_action.php');
 
 	if($commentid!='-1'){
 		mysql_query("UPDATE comments SET student_id='$sid',
-		detail='$detail', entrydate='$entrydate', yeargroup_id='$newyid',
-		subject_id='$bid', category='$category', teacher_id='$tid' WHERE id='$commentid';");
+				detail='$detail', entrydate='$entrydate', yeargroup_id='$newyid',
+				subject_id='$bid', category='$category', teacher_id='$tid' WHERE id='$commentid';");
+
+
+		if(isset($_POST['sanction']) and $_POST['sanction']!=''){
+			$incid=$_POST['incidentid'];
+			$sanction_catid=$_POST['sanction'];
+			$closed=$_POST['closed'];
+			$sanctiondetail=clean_text($_POST['sanctiondetail']);
+			list($sratingnames,$sanction_catdefs)=fetch_categorydefs('inc');
+			if(array_key_exists($sanction_catid,$sanction_catdefs)){$sanctionname=$sanction_catdefs[$catid]['name'];}
+			else{$sanctionname='';}
+			$sanction=$sanction_catid . ':;';
+			mysql_query("UPDATE incidents SET
+							detail='$sanctiondetail', entrydate='$entrydate', yeargroup_id='$newyid',
+							subject_id='$bid', category='$sanction', closed='$closed' WHERE id='$incid'");
+			}
+		elseif(isset($_POST['points']) and $_POST['points']!=''){
+			$merid=$_POST['meritid'];
+			$pointsvalue=$_POST['points'];
+			$activity=$_POST['activity'];
+			$curryear=get_curriculumyear();
+			$d_rating=mysql_query("SELECT descriptor FROM rating WHERE name='meritpoints' AND value='$pointsvalue';");
+			if(mysql_num_rows($d_rating)>0){
+				$pointsresult=mysql_result($d_rating,0);
+				}
+			mysql_query("UPDATE merits SET date='$entrydate', activity='$activity', 
+								value='$pointsvalue', result='$pointsresult', detail='$detail', 
+								subject_id='$bid' WHERE id='$merid';");
+			$merid=mysql_insert_id();
+			}
 		}
 	else{
 		mysql_query("INSERT INTO comments SET student_id='$sid',
-		detail='$detail', entrydate='$entrydate', yeargroup_id='$newyid',
-		subject_id='$bid', category='$category', teacher_id='$tid';");
+				detail='$detail', entrydate='$entrydate', yeargroup_id='$newyid',
+				subject_id='$bid', category='$category', teacher_id='$tid';");
 		$commentid=mysql_insert_id();
 
 
@@ -42,14 +71,13 @@ include('scripts/sub_action.php');
 			$sanction_catid=$_POST['sanction'];
 			$closed=$_POST['closed'];
 			$sanctiondetail=clean_text($_POST['sanctiondetail']);
-
 			list($sratingnames,$sanction_catdefs)=fetch_categorydefs('inc');
 			if(array_key_exists($sanction_catid,$sanction_catdefs)){$sanctionname=$sanction_catdefs[$catid]['name'];}
 			else{$sanctionname='';}
 			$sanction=$sanction_catid . ':;';
 
 			mysql_query("INSERT INTO incidents SET student_id='$sid',
-							detail='$detail - $sanctiondetail', entrydate='$entrydate', yeargroup_id='$newyid',
+							detail='$sanctiondetail', entrydate='$entrydate', yeargroup_id='$newyid',
 							subject_id='$bid', category='$sanction', teacher_id='$tid', closed='$closed'");
 			$incid=mysql_insert_id();
 			mysql_query("UPDATE comments SET incident_id='$incid' WHERE id='$commentid';");

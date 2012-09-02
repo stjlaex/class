@@ -96,8 +96,7 @@ elseif($sub=='Submit'){
 		}
 
 	/* Generate the new class structure. */
-	$d_classes=mysql_query("SELECT * FROM classes WHERE
-				  				course_id='$crid' ORDER BY subject_id, stage;");
+	$d_classes=mysql_query("SELECT * FROM classes WHERE course_id='$crid' ORDER BY subject_id, stage;");
 	while($classes=mysql_fetch_array($d_classes,MYSQL_ASSOC)){
 		$bid=$classes['subject_id'];
 		$stage=$classes['stage'];
@@ -105,6 +104,23 @@ elseif($sub=='Submit'){
 		populate_subjectclassdef($classdef);
 		}
 	}
+
+elseif($sub=='Refresh'){
+
+	$result[]=get_string('classes',$book).' '. get_string('update',$book);
+
+
+	/* Refresh the class structure and students. */
+	$d_classes=mysql_query("SELECT * FROM classes WHERE course_id='$crid' ORDER BY subject_id, stage;");
+	while($classes=mysql_fetch_array($d_classes,MYSQL_ASSOC)){
+		$bid=$classes['subject_id'];
+		$stage=$classes['stage'];
+		$classdef=get_subjectclassdef($crid,$bid,$stage);
+		populate_subjectclassdef($classdef);
+		}
+	}
+
+
 
 if(isset($result)){include('scripts/results.php');}
 include('scripts/redirect.php');

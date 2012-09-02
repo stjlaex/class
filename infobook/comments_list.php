@@ -58,10 +58,13 @@ print '('.$Student['RegistrationGroup']['value'].')';
 <?php 
 
 		   if(isset($entry['incident_id_db'])){
-			   print '<td>'.get_string('incidents',$book).'</td>';
+			   $Incident=(array)fetchIncident(array('id'=>$entry['incident_id_db']));
+			   if($Incident['Closed']['value']=='N'){$styleclass=' class="hilite" ';}
+			   else{$styleclass='';}
+			   print '<td '.$styleclass.'><label>'.get_string('incidents',$book).'</label></td>';
 			   }
 		   elseif(isset($entry['merit_id_db'])){
-			   print '<td>'.get_string('merits',$book).'</td>';
+			   print '<td><label>'.get_string('merits',$book).'</label></td>';
 			   }
 		   else{print'<td></td>';}
 
@@ -83,7 +86,7 @@ print '('.$Student['RegistrationGroup']['value'].')';
 		   else{print'<td></td>';}
 ?>
 		  </tr>
-		  <tr <?php if($shared or isset($entry['incident_id_db']) or ($entry['merit_id_db'])){print 'class="revealed"';}else{print 'class="hidden"';}?> id="<?php print $entryno.'-'.$rown++;?>">
+		  <tr <?php if($shared or isset($entry['incident_id_db']) or isset($entry['merit_id_db'])){print 'class="revealed"';}else{print 'class="hidden"';}?> id="<?php print $entryno.'-'.$rown++;?>">
 			<td colspan="6">
 			  <p>
 <?php
@@ -104,18 +107,23 @@ print '('.$Student['RegistrationGroup']['value'].')';
 			   /* TODO: display parent's cofirmation*/
 			   print '<p><br /></p><br />';
 			   }
-		   else{
-			   $imagebuttons=array();
-			   $extrabuttons=array();
-			   $imagebuttons['clicktodelete']=array('name'=>'current',
-													'value'=>'delete_comment.php',
-													'title'=>'delete');
-			   $extrabuttons['edit']=array('name'=>'process',
-										   'value'=>'edit',
-										   'title'=>'edit');
-				rowaction_buttonmenu($imagebuttons,$extrabuttons,$book);
+
+		   $imagebuttons=array();
+		   $extrabuttons=array();
+		   $imagebuttons['clicktodelete']=array('name'=>'current',
+												'value'=>'delete_comment.php',
+												'title'=>'delete');
+		   $extrabuttons['edit']=array('name'=>'process',
+									   'value'=>'edit',
+									   'title'=>'edit');
+		   if(isset($entry['incident_id_db']) and $Incident['Closed']['value']=='N'){
+			   $extrabuttons['newaction']=array('name'=>'process',
+												'value'=>'newaction',
+												'title'=>'newaction');
 			   }
+		   rowaction_buttonmenu($imagebuttons,$extrabuttons,$book);
 ?>
+
 			</td>
 		  </tr>
 		  <div id="<?php print 'xml-'.$entryno;?>" style="display:none;">

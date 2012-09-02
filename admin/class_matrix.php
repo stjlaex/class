@@ -14,6 +14,7 @@ $stages=(array)list_course_stages($crid);
 $subjects=(array)list_course_subjects($crid);
 
 $extrabuttons['generateclasses']=array('name'=>'sub','value'=>'Generate');
+$extrabuttons['refreshclasses']=array('name'=>'sub','value'=>'Refresh');
 $extrabuttons['savechanges']=array('name'=>'sub','value'=>'Update');
 two_buttonmenu($extrabuttons);
 ?>

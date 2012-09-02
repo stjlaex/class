@@ -17,6 +17,14 @@ if($sub=='edit'){
 		}
 	else{$commentid=-1;}
 	}
+elseif($sub=='newaction'){
+	$action_post_vars=array('commentid');
+	$action='comments_new.php';
+	if(isset($_POST['recordid'])){
+		$commentid=$_POST['recordid'];
+		}
+	else{$commentid=-1;}
+	}
 /*
 elseif($sub=='Previous'){
 	if($key>1){$key=$key-1;}else{$key=0;}

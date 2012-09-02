@@ -1080,66 +1080,88 @@ function fetchIncidents($sid,$startdate='',$enddate=''){
 			ORDER BY entrydate DESC;");
 	list($ratingnames,$catdefs)=fetch_categorydefs('inc');
 	while($incident=mysql_fetch_array($d_incidents,MYSQL_ASSOC)){
-		$incid=$incident['id'];
-		$Incident=array();
-		$Incident['id_db']=$incid;
-		$pairs=explode(';',$incident['category']);
-		list($catid, $rank)=explode(':',$pairs[0]);
-		if(array_key_exists($catid,$catdefs)){$sanction=$catdefs[$catid]['name'];}
-		else{$sanction='';}
-		$Incident['Sanction']=array('label' => 'sanction', 
-									'type_db' => 'varchar(30)', 
-									'value_db' => ''.$catid,
-									'value' => ''.$sanction);
-	   	$Incident['Detail']=array('label' => 'detail', 
-								  'type_db' => 'text', 
-								  'value' => ''.$incident['detail']);
-	   	$Incident['Subject']=array('label' => 'subject', 
-								   'type_db' => 'varchar(10)', 
-								   'value_db' => ''.$incident['subject_id'],
-								   'value' => ''.get_subjectname($incident['subject_id']));
-	   	$Incident['Closed']=array('label' => 'closed', 
-								   'type_db' => 'enum', 
-								   'value' => ''.$incident['closed']);
-	   	$Incident['EntryDate']=array('label' => 'date',
-									 'type_db' => 'date',
-									 'value' => ''.$incident['entrydate']);
-	   	$Incident['YearGroup']=array('label' => 'yeargroup', 
-									 'type_db' => 'enum', 
-									 'value' => ''.$incident['yeargroup_id']);
-		$tid=$incident['teacher_id'];
-		$Incident['Teacher']=array('username' => ''.$tid,
-								   'label' => 'teacher',
-								   'value' => ''.get_teachername($tid));
-
-		$d_history=mysql_query("SELECT * FROM incidenthistory
-				WHERE incident_id='$incid' ORDER BY entryn");
-		$Actions=array();
-		while($action=mysql_fetch_array($d_history)){
-			$Action=array();
-			$Action['no_db']=$action['entryn'];
-			$acttid=$action['teacher_id'];
-			$Action['Teacher']=array('username' => ''.$acttid, 
-									 'label' => 'teacher',
-									 'value' => get_teachername($acttid));
-			$Action['Comment']=array('value' => ''.$action['comment']);
-			$Action['EntryDate']=array('label' => 'date', 
-									   'type_db' => 'date', 
-									   'value' => ''.$action['entrydate']);
-			$pairs=explode(';',$action['category']);
-			list($catid, $rank)=explode(':',$pairs[0]);
-			$d_categorydef=mysql_query("SELECT name FROM categorydef
-						WHERE id='$catid'");
-			$Action['Sanction']=array('label' => 'sanction', 
-									  'value_db' => ''.$catid,
-									  'value' => ''.mysql_result($d_categorydef,0));
-			$Actions['Action'][]=$Action;
-			}
-		if(sizeof($Actions)==0){$Actions='';}
-		$Incident['Actions']=$Actions;
-		$Incidents['Incident'][]=$Incident;
+		$Incidents['Incident'][]=fetchIncident($incident);
 		}
 	return $Incidents;
+	}
+
+
+
+
+/**
+ *
+ *
+ * @params array $incident
+ * @return array
+ */
+function fetchIncident($incident){
+	$Incident=array();
+
+	if($incident['id']>-1 and (!isset($incident['student_id']) or $incident['student_id']<1)){
+		$id=$incident['id'];
+		$d_c=mysql_query("SELECT * FROM incidents WHERE id='$id';");
+		$incident=mysql_fetch_array($d_c,MYSQL_ASSOC);
+		}
+
+	$incid=$incident['id'];
+	$Incident=array();
+	$Incident['id_db']=$incid;
+	$pairs=explode(';',$incident['category']);
+	list($catid, $rank)=explode(':',$pairs[0]);
+	if(array_key_exists($catid,$catdefs)){$sanction=$catdefs[$catid]['name'];}
+	else{$sanction='';}
+	$Incident['Sanction']=array('label' => 'sanction', 
+								'type_db' => 'varchar(30)', 
+								'value_db' => ''.$catid,
+								'value' => ''.$sanction);
+	$Incident['Detail']=array('label' => 'detail', 
+							  'type_db' => 'text', 
+							  'value' => ''.$incident['detail']);
+	$Incident['Subject']=array('label' => 'subject', 
+							   'type_db' => 'varchar(10)', 
+							   'value_db' => ''.$incident['subject_id'],
+							   'value' => ''.get_subjectname($incident['subject_id']));
+	$Incident['Closed']=array('label' => 'closed', 
+							  'type_db' => 'enum', 
+							  'value' => ''.$incident['closed']);
+	$Incident['EntryDate']=array('label' => 'date',
+								 'type_db' => 'date',
+								 'value' => ''.$incident['entrydate']);
+	$Incident['YearGroup']=array('label' => 'yeargroup', 
+								 'type_db' => 'enum', 
+								 'value' => ''.$incident['yeargroup_id']);
+	$tid=$incident['teacher_id'];
+	$Incident['Teacher']=array('username' => ''.$tid,
+							   'label' => 'teacher',
+							   'value' => ''.get_teachername($tid));
+	
+	$d_history=mysql_query("SELECT * FROM incidenthistory
+										WHERE incident_id='$incid' ORDER BY entryn");
+	$Actions=array();
+	while($action=mysql_fetch_array($d_history)){
+		$Action=array();
+		$Action['no_db']=$action['entryn'];
+		$acttid=$action['teacher_id'];
+		$Action['Teacher']=array('username' => ''.$acttid, 
+								 'label' => 'teacher',
+								 'value' => get_teachername($acttid));
+		$Action['Comment']=array('value' => ''.$action['comment']);
+		$Action['EntryDate']=array('label' => 'date', 
+								   'type_db' => 'date', 
+								   'value' => ''.$action['entrydate']);
+		$pairs=explode(';',$action['category']);
+		list($catid, $rank)=explode(':',$pairs[0]);
+		$d_categorydef=mysql_query("SELECT name FROM categorydef
+						WHERE id='$catid'");
+		$Action['Sanction']=array('label' => 'sanction', 
+								  'value_db' => ''.$catid,
+								  'value' => ''.mysql_result($d_categorydef,0));
+		$Actions['Action'][]=$Action;
+		}
+	if(sizeof($Actions)==0){$Actions='';}
+	$Incident['Actions']=$Actions;
+	
+	return $Incident;
 	}
 
 
@@ -2026,6 +2048,14 @@ function fetchMerits($sid,$limit=-1,$bid='%',$pid='%',$year='0000'){
  * @return array
  */
 function fetchMerit($m=array('id'=>-1,'subject_id'=>'','component_id'=>'','result'=>'','value'=>'','activity'=>'','detail'=>'','year'=>'','date'=>'','teacher_id'=>'')){
+
+
+	if($m['id']>-1 and (!isset($m['student_id']) or $m['student_id']<1)){
+		$id=$m['id'];
+		$d_m=mysql_query("SELECT * FROM merits WHERE id='$id';");
+		$m=mysql_fetch_array($d_m,MYSQL_ASSOC);
+		}
+
 	$Merit=array();
 	$Merit['id_db']=$m['id'];
 	if($m['subject_id']=='%'){$subject='';}
