@@ -110,12 +110,27 @@ elseif($sub=='Refresh'){
 	$result[]=get_string('classes',$book).' '. get_string('update',$book);
 
 
+
 	/* Refresh the class structure and students. */
 	$d_classes=mysql_query("SELECT * FROM classes WHERE course_id='$crid' ORDER BY subject_id, stage;");
 	while($classes=mysql_fetch_array($d_classes,MYSQL_ASSOC)){
 		$bid=$classes['subject_id'];
 		$stage=$classes['stage'];
 		$classdef=get_subjectclassdef($crid,$bid,$stage);
+		if($classdef['generate']=='forms'){
+			if($curryear==''){$curryear=get_curriculumyear($crid);}
+			$cohid=update_cohort(array('year'=>$curryear,'course_id'=>$crid,'stage'=>$stage));
+			mysql_query("DELETE cidsid.* FROM cidsid, class WHERE
+					class.id=cidsid.class_id AND class.subject_id='$bid' AND class.cohort_id='$cohid';");
+			mysql_query("DELETE tidcid.* FROM tidcid, class WHERE 
+					class.id=tidcid.class_id AND class.subject_id='$bid' AND class.cohort_id='$cohid';");
+			mysql_query("DELETE score.* FROM score, midcid WHERE
+					score.mark_id=midcid.id AND midcid.class_id=ANY(SELECT id FROM class 
+					WHERE subject_id='$bid' AND cohort_id='$cohid');");
+			mysql_query("DELETE midcid.* FROM midcid, class WHERE
+					class.id=midcid.class_id AND class.subject_id='$bid' AND class.cohort_id='$cohid';");
+			mysql_query("DELETE FROM class WHERE subject_id='$bid' AND cohort_id='$cohid';");
+			}
 		populate_subjectclassdef($classdef);
 		}
 	}

@@ -940,6 +940,7 @@ function populate_subjectclassdef($classdef,$currentseason='S'){
 			if($classdef['generate']=='forms'){
 				$fid=$groups[$nindex];
 				/* Assign students to the class. */
+				mysql_query("DELETE FROM cidsid WHERE class_id='$cid';");
 				$d_sids=mysql_query("SELECT id FROM student WHERE form_id='$fid';");
 				while($sids=mysql_fetch_array($d_sids, MYSQL_ASSOC)){
 					$sid=$sids['id'];
