@@ -344,12 +344,12 @@ elseif($sub=='Submit'){
 				/* Input to address table: check some meaningful fields are completed. */ 
 				$ok=0;
 				if(isset(${$gname.'a'})){
-					if($student[${$gaddress}['postcode']]!=-1 and $student[${$gaddress}['street']]!=''){
+					if($student[${$gaddress}['postcode']]!=-1 and trim($student[${$gaddress}['postcode']])!=''){
 						$postcode=$student[${$gaddress}['postcode']]; 
 						$ok++;
 						}
 					else{$postcode=''; }
-					if($student[${$gaddress}['street']]!=-1 and $student[${$gaddress}['street']]!=''){
+					if($student[${$gaddress}['street']]!=-1 and trim($student[${$gaddress}['street']])!=''){
 						$street=$student[${$gaddress}['street']];
 						$ok++;
 						}
@@ -357,7 +357,7 @@ elseif($sub=='Submit'){
 					}
 
 				/* If postcode and street are both blank then too little info for new entry. */
-				if($ok>1){
+				if($ok>0){
 					$new_aid=-1;
 					/*
 					mysql_query("INSERT INTO address SET postcode='';");
@@ -396,12 +396,12 @@ elseif($sub=='Submit'){
 								$format=$gidformats[$field_name];
 								if(isset($_POST["preset$field_no"])){$val=$_POST["preset$field_no"];}
 								$val=checkEntry($val, $format, $field_name);
-								mysql_query("UPDATE address SET $field_name='$val' WHERE id='$new_aid';");
+								if($val!=''){mysql_query("UPDATE address SET $field_name='$val' WHERE id='$new_aid';");}
 								}
 							}
 						}
 					}
-	
+
 				/* 
 				 * Input to phone table - checking first if number
 				 * already exists and ignore if it does 

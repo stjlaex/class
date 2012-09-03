@@ -182,6 +182,7 @@ CREATE TABLE guardian (
 	epfusername	varchar(128) not null default '',
 	profession	varchar(120) not null default '',
 	companyname	varchar(240) not null default '',
+	education	varchar(240) not null default '',
 	note		text not null default '',
 	code		varchar(120) not null default '',
 	private		enum('N','Y') not null,
