@@ -46,12 +46,11 @@ if($ds){
 	$firstpass=$CFG->clientid.'1234';
 
 	if($bind_result){
-
 		/**
 		 *	STEP 1: Process all users (teachers) from ClaSS
 		 *	
 		 */
-		$users=list_all_users();
+		$users=(array)list_all_users();
 		
 		/* process result */
 		$countno=0;
@@ -163,10 +162,10 @@ if($ds){
 		//$yearcoms=array();
 		$Students=array();
 		$countno=0;
-		while(list($yearindex,$com)=each($yearcoms)){
+		foreach($yearcoms as $com){
 			$yid=$com['name'];
 			$students=listin_community($com);
-			while(list($studentindex,$student)=each($students)){
+			foreach($students as $student){
 				$sid=$student['id'];
 				$Students[$sid]=fetchStudent_short($sid);
 				$Email=fetchStudent_singlefield($sid,'EmailAddress');
@@ -204,16 +203,9 @@ if($ds){
 
 				/* When the entry exists, LDAP db is updated with values coming from ClaSS */
 				if(ldap_count_entries($ds, $sr)>0){
-					/* DEAD ?
-					$entry=ldap_first_entry($ds, $sr);
-					$attrs=ldap_get_attributes($ds, $entry);
-					  for ($i=0; $i < $attrs['count']; $i++) {
-						$values=ldap_get_values($ds, $entry, $attrs[$i]);
-						}
-					*/
 					/* modify the data in ldap directory */
 					$r=ldap_modify($ds, $distinguishedName, $info);
-					if (!$r) {
+					if(!$r){
 						trigger_error('Unable to modify LDAP DB entry', E_USER_WARNING);
 						}
 					}
@@ -247,8 +239,7 @@ if($ds){
 		$Contacts=array();
 		$countno=0;
 		$d_c=mysql_query("SELECT DISTINCT guardian_id FROM gidsid JOIN
-   					student ON gidsid.student_id=student.id 
-   					WHERE gidsid.mailing!='0';");
+							student ON gidsid.student_id=student.id WHERE gidsid.mailing!='0';");
 		while($contact=mysql_fetch_array($d_c,MYSQL_ASSOC)){
 			$gid=$contact['guardian_id'];
 			$Contacts[$gid]=fetchContact(array('guardian_id'=>$gid));

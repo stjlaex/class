@@ -56,25 +56,12 @@ if(!$bind_result){
 $enrolclasses=array();
 $courses=list_courses();
 foreach($courses as $course){
-	$crid=$course['id'];
-	$classes=list_course_classes($crid);
-	foreach($classes as $class){
-		/* prepare to get teacher enrolment data 
-		 *   get subject/course/stage for a specific class
-		 */
-		$bid=$class['subject_id'];
-		$newclass=array('course_id'=>$crid,
-						'class_id'=>$class['id'],
-						'subject_id'=>$bid,
-						'stage'=>$class['stage']
-						);
-		$enrolclasses[]=$newclass;
-		}
+	$enrolclasses=array_merge($enrolclasses,list_course_classes($course['id']));
 	}
 
 
 $classins=array();
-foreach($enrolclasses as $cindx => $class){
+foreach($enrolclasses as $class){
 	/* remove commas etc. */
 	$subjectv=str_replace(',',' ',get_subjectname($class['subject_id']));
 	$coursev=str_replace(',',' ',get_coursename($class['course_id']));
@@ -83,10 +70,9 @@ foreach($enrolclasses as $cindx => $class){
 	$coursev=str_replace('-',' ',$coursev);
 	$stagev=str_replace('-',' ',$stagev);
 	$cn=$subjectv.'- '.$coursev.' '.$stagev;
-	$teachers=list_class_teachers($class['class_id']);
+	$teachers=(array)list_class_teachers($class['id']);
 	foreach($teachers as $teacher){
-	  $tid=$teacher['id'];
-	  $classins[$cn][$tid]=array('teacher_id'=>$tid,'teacher_name'=>$teacher['name']);
+		$classins[$cn][$tid]=array('teacher_id'=>$teacher['id'],'teacher_name'=>$teacher['name']);
 		}
 	}
 
@@ -135,10 +121,10 @@ $entries=0;
 $courses=list_courses();
 foreach($courses as $course){
 	/* prepare to get the course subject */
-	$subjects=list_course_subjects($course['id']);
+	$subjects=(array)list_course_subjects($course['id']);
 	foreach($subjects as $subject){
 		/* prepare to get course name */
-		$cohorts=list_course_cohorts($course['id']);
+		$cohorts=(array)list_course_cohorts($course['id']);
 		foreach($cohorts as $cohort){
 			/* format cn with course subject/name/stage */
 			if($cohort['stage']!='%'){ 
@@ -177,9 +163,9 @@ foreach($courses as $course){
 							/* assign epfusername*/
 							$S=fetchStudent_singlefield($student['id'],'EPFUsername');
 							if($S['EPFUsername']['value']!=''){
-							  $members[$idx]=$S['EPFUsername']['value'];
-							  $idx++;
-							  }
+								$members[$idx]=$S['EPFUsername']['value'];
+								$idx++;
+								}
 							}
 								
 						/* remove duplicates and assign members */
@@ -217,12 +203,12 @@ foreach($courses as $course){
 								}
                             $entries++;
 							}
-			else{
+						else{
                             /* remove the same course from LDAP Teacher Assignment section*/
                             $coursedn='cn='.$info['cn'].',ou=TchEnrol'.',ou='.$CFG->clientid.',dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
                             $del_res=ldap_delete($ds,$coursedn);
                             if(!$del_res){
-			      //trigger_error('Could not delete entry: '.$coursedn, E_USER_WARNING);
+								//trigger_error('Could not delete entry: '.$coursedn, E_USER_WARNING);
 								}
 							}
 						}

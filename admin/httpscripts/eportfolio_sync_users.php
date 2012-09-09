@@ -195,7 +195,7 @@ require_once($CFG->installpath.'/'.$CFG->applicationdirectory.'/lib/eportfolio_f
 	/* Now do teaching groups */
 	foreach($classes as $class){
 		$cid=$class['id'];
-		$epfcid=str_replace('/','-',$cid);
+		$epfcid=str_replace('/','-',$class['name']);
 		$bidname=get_subjectname($class['subject_id']);
 		$com=array('epfcomid'=>'','type'=>'class','name'=>$epfcid,'displayname'=>$bidname.': '.$epfcid);
 		$epfcomid=elgg_update_community($com);
