@@ -1249,16 +1249,13 @@ function new_folder($owner,$name,$access=''){
  * @params logical $dbc
  * @return array $files
  */
-function list_files($epfun,$filetype,$dbc=false){
+function list_files($epfusername,$foldertype){
 
 	$files=array();
 
-	$epfuid=get_epfuid($epfun,'person');
+	$epfuid=get_epfuid($epfun,'s');
 
 	if($filetype=='icon'){
-		/* TODO: make all icons (ie.photos), with exception of current
-		 *		 icon, part of normal file structure??? 
-		 */
 		/*
 		$d_u=mysql_query("SELECT icon FROM $userstable WHERE username='$owner';");
 		if(mysql_num_rows($d_u)==1){
@@ -1298,10 +1295,8 @@ function list_files($epfun,$filetype,$dbc=false){
 
 /** 
  *
- * Returns the epfuid - usually called from other elgg_ functions but
- * set dbc=true if its to be called elsewhere.
- * The owner is the epfusername and type is the elgg user_type 
- * currently only recognised as either 'person' or 'community'.
+ * Returns the uid - sid, gid or uid
+ * The owner is identified by their epfusername end the type is 's', 'g' or 'u'.
  *
  */
 function get_epfuid($epfname,$type){

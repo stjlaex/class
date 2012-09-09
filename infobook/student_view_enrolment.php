@@ -131,6 +131,31 @@ three_buttonmenu();
 
 	  <fieldset class="center listmenu">
 		<legend><?php print_string('documents');?></legend>
+		<fieldset class="left fileupload">
+<?php
+	$context='enrolment';
+	require_once('lib/eportfolio_functions.php');
+	$files=(array)list_files($Student['EPFUsername']['value'],$context);
+	foreach($files as $file){
+?>
+	<div style="float:left;width:24%;margin:2px;padding:2px 4px;background-color:#ffffff;">
+<?php
+		 if(!is_array($file)){$report=array('title'=>$filedetails,'name'=>$filedetails.'.pdf','location'=>$directory.'/'.$filedetails.'.pdf');}
+		 else{$file=$filedetails;}
+	 if(isset($_SERVER['HTTPS'])){
+		 $http='https';
+		 }
+	 else{
+		 $http='http';
+		 }
+	print '<a href="'.$http.'://'.$CFG->siteaddress.$CFG->sitepath.'/'.$CFG->applicationdirectory.'/scripts/file_display.php?epfu='.$epfu.'&location='.$file['location'].'&filename='.$file['name'].'" /><label>'.$file['title'].'</label><img src="images/printer.png" /></a>';
+?>
+	</div>
+<?php
+		}
+
+?>
+		</fieldset>
 
 		<fieldset class="right fileupload">
 		  <form id="upload" name="formfileupload" method="post" action="scripts/file_upload.php" enctype="multipart/form-data">
@@ -148,7 +173,7 @@ three_buttonmenu();
 
 			<input type="hidden" id="MAX_FILE_SIZE" name="MAX_FILE_SIZE" value="300000" />
 			<input type="hidden" id="FILEOWNER" name="FILEOWNER" value="<?php print $Student['EPFUsername']['value'];?>" />
-			<input type="hidden" id="FILECONTEXT" name="FILECONTEXT" value="enrolment" />
+			<input type="hidden" id="FILECONTEXT" name="FILECONTEXT" value="<?php print $context;?>" />
 		  </form>
 		</fieldset>
 	  </fieldset>

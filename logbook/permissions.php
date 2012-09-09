@@ -47,8 +47,8 @@ function list_sid_responsible_users($sid, $bid){
 		$gids[]=$group['gid'];
 		}
 	foreach($gids as $gid){
-		$d_users=mysql_query("SELECT username, email FROM users JOIN perms ON users.uid=perms.uid WHERE
-			perms.gid='$gid' AND perms.e='1' AND users.nologin!='1';");
+		$d_users=mysql_query("SELECT users.uid, users.username, users.email FROM users 
+								JOIN perms ON users.uid=perms.uid WHERE perms.gid='$gid' AND perms.e='1' AND users.nologin!='1';");
 		while($user=mysql_fetch_array($d_users)){
 			if(check_email_valid($user['email'])){ 
 				$recipients[$user['uid']]=array('username'=>$user['username'], 'email'=>$user['email']);
@@ -645,6 +645,8 @@ function update_user($user,$update='no',$short='class'){
 	$jobtitle=$user['jobtitle'];
 	$dob=$user['dob'];
 	$contractdate=$user['contractdate'];
+	$education2=$user['education2'];
+	$education=$user['education'];
 	if(isset($user['worklevel'])){
 		$worklevel=$user['worklevel'];
 		}
@@ -699,7 +701,7 @@ function update_user($user,$update='no',$short='class'){
 					personalemail='$personalemail', jobtitle='$jobtitle',  
 					role='$role', senrole='$senrole', medrole='$medrole', worklevel='$worklevel', nologin='$nologin',
 					firstbookpref='$firstbookpref', homephone='$homephone', mobilephone='$mobilephone', 
-					personalcode='$personalcode', dob='$dob', 
+					personalcode='$personalcode', dob='$dob', education='$education', education2='$education2',
 					contractdate='$contractdate' WHERE username='$username';");
 			$result=$result.'Updated details for user '.$username;
 			}
@@ -708,12 +710,12 @@ function update_user($user,$update='no',$short='class'){
 		mysql_query("INSERT INTO users (username, forename,
 					surname, title, email, emailuser, role, nologin, worklevel,
 					senrole, medrole, firstbookpref, homephone, mobilephone, 
-					 personalcode, dob, contractdate) 
+					 personalcode, dob, contractdate, education, education2) 
 					VALUES ('$username', '$forename',
 					 '$surname', '$title', '$email', '$emailuser', 
 						'$role', '$nologin', '$worklevel',
 					   '$senrole', '$medrole', '$firstbookpref', '$homephone', '$mobilephone', 
-						 '$personalcode', '$dob', '$contractdate');");
+						 '$personalcode', '$dob', '$contractdate', '$education', '$education2');");
 		$result=$result.'Username '.$username.' added.';
 		}
 
@@ -956,6 +958,16 @@ function fetchUser($uid='-1'){
 								'field_db' => 'contractdate',
 								'type_db' => 'date', 
 								'value' => ''.$user['contractdate']);
+	$User['Qualification']=array('label' => 'qualification', 
+								 'table_db' => 'user', 
+								 'field_db' => 'education',
+								 'type_db' => 'varchar(240)', 
+								 'value' => ''.$user['education']);
+	$User['University']=array('label' => 'university', 
+							  'table_db' => 'user', 
+							  'field_db' => 'education2',
+							  'type_db' => 'varchar(240)', 
+							  'value' => ''.$user['education2']);
 	if($user['address_id']>0){$addid=$user['address_id'];}
 	else{$addid=-1;}
 	$User['Address']=(array)fetchAddress(array('address_id'=>$addid,'addresstype'=>''));

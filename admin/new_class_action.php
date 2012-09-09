@@ -68,7 +68,7 @@ if($sub=='Submit'){
 	}
 else{
 	if($newbid!=''){
-		mysql_query("INSERT INTO component SET course_id='$crid',subject_id='$newbid',status='N';");
+		mysql_query("INSERT INTO component SET course_id='$crid',subject_id='$newbid',status='N',year='$curryear';");
 		$bid=$newbid;
 		}
 	}

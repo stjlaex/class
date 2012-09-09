@@ -91,6 +91,7 @@ CREATE TABLE component (
 		 status			enum('N','V','U') not null default 'N',
 		 sequence	   	smallint unsigned not null default '0',
 		 weight			smallint unsigned not null default '1',
+		 year			year not null default '0000',
 		 primary key 	(id, course_id, subject_id)
 ) type=myisam;
 
@@ -123,6 +124,8 @@ CREATE TABLE  users (
   address_id	int unsigned not null default '0',
   dob			date not null default '0000-00-00',
   contractdate  date not null default '0000-00-00',
+  education		varchar(240) not null default '', 
+  education2	varchar(240) not null default '', 
   logcount		int(10) unsigned not null default '0',
   logtime		timestamp(14),
   index			index_name (username),

@@ -116,15 +116,16 @@ function list_course_stages($crid='',$year=''){
  *	@param string $crid
  *	@return array
  */
-function list_course_subjects($crid='',$substatus='A'){
+function list_course_subjects($crid='',$substatus='A',$curryear=''){
 	$subjects=array();
+	if($curryear==''){$curryear=get_curriculumyear();}
 	if($substatus=='A'){$compmatch="(component.status LIKE '%' AND component.status!='U')";}
 	elseif($substatus=='AV'){$compmatch="(component.status='V' OR component.status='O')";}
 	else{$compmatch="(component.status LIKE '$substatus' AND component.status!='U')";}
 	if($crid!=''){
 		$d_c=mysql_query("SELECT DISTINCT subject.id, subject.name, component.sequence, component.status FROM subject
 					JOIN component ON component.subject_id=subject.id
-					WHERE component.course_id LIKE '$crid' AND component.id='' AND $compmatch ORDER BY subject.id;");
+					WHERE component.course_id LIKE '$crid' AND component.year='$curryear' AND component.id='' AND $compmatch ORDER BY subject.id;");
 		while($subject=mysql_fetch_array($d_c,MYSQL_ASSOC)){
 			$subjects[]=$subject;
 			}
@@ -139,18 +140,20 @@ function list_course_subjects($crid='',$substatus='A'){
  *
  *	@return array
  */
-function list_subjects($crid,$exist=true){
+function list_subjects($crid,$exist=true,$curryear=''){
 	$subjects=array();
+	if($curryear==''){$curryear=get_curriculumyear();}
 
 	if($exist){
 		$d_c=mysql_query("SELECT DISTINCT subject.id, CONCAT(subject.name,' (', subject.id,')') AS name FROM subject 
 						LEFT JOIN component ON component.subject_id=subject.id 
-						WHERE component.course_id='$crid' ORDER BY name;");
+						WHERE component.course_id='$crid' AND component.year='$curryear' ORDER BY name;");
 		}
 	else{
 		$d_c=mysql_query("SELECT DISTINCT subject.id, CONCAT(subject.name,' (', subject.id,')') AS name FROM subject 
 						LEFT OUTER JOIN component ON component.subject_id=subject.id 
-						AND component.course_id='$crid' WHERE component.subject_id IS NULL ORDER BY name;");
+						AND component.course_id='$crid' AND component.year='$curryear' 
+						WHERE component.subject_id IS NULL ORDER BY name;");
 		}
 	while($subject=mysql_fetch_array($d_c,MYSQL_ASSOC)){
 		$subjects[]=$subject;
@@ -192,8 +195,10 @@ function list_teacher_subjects($tid=''){
  *	@param string $compstatus
  *	@return array
  */
-function list_subject_components($bid,$crid,$compstatus='A'){
+function list_subject_components($bid,$crid,$compstatus='A',$curryear=''){
 	$components=array();
+	if($curryear==''){$curryear=get_curriculumyear();}
+
 	if($compstatus=='A'){$compmatch="(component.status LIKE '%' AND component.status!='U')";}
 	elseif($compstatus=='AV'){$compmatch="(component.status='V' OR component.status='O')";}
 	else{$compmatch="(component.status LIKE '$compstatus' AND component.status!='U')";}
@@ -201,13 +206,13 @@ function list_subject_components($bid,$crid,$compstatus='A'){
 		if($bid!='%'){
 			/* Check whether $bid is for a component or a subject. */
 			$d_c=mysql_query("SELECT id FROM component WHERE component.course_id='$crid' 
-						AND component.id='$bid';");
+						AND component.id='$bid' AND year='$curryear';");
 			if(mysql_num_rows($d_c)==0){
 				/* $bid is a subject so listing components */
 				$d_com=mysql_query("SELECT subject.id, subject.name,
 						component.status, component.sequence FROM subject
 						JOIN component ON subject.id=component.id
-						WHERE $compmatch AND component.course_id='$crid' AND
+						WHERE $compmatch AND component.course_id='$crid' AND component.year='$curryear' AND
 						(component.subject_id='$bid' OR component.subject_id='%')  
 						ORDER BY component.sequence, subject.name;");
 				}
@@ -217,7 +222,7 @@ function list_subject_components($bid,$crid,$compstatus='A'){
 						component.status, component.sequence FROM subject
 						JOIN component ON subject.id=component.id
 						WHERE $compmatch AND component.course_id='$crid' AND
-						component.subject_id='$bid'  
+						component.year='$curryear' AND component.subject_id='$bid'  
 						ORDER BY component.status, component.sequence, subject.name;");
 				}
 			}
@@ -226,7 +231,7 @@ function list_subject_components($bid,$crid,$compstatus='A'){
 			$d_com=mysql_query("SELECT subject.id, subject.name,
 						component.status, component.sequence FROM subject
 						JOIN component ON subject.id=component.id
-						WHERE $compmatch AND component.course_id='$crid'
+						WHERE $compmatch AND component.course_id='$crid' AND component.year='$year'
 						ORDER BY component.status, component.sequence, subject.name;");
 			}
 		while($component=mysql_fetch_array($d_com,MYSQL_ASSOC)){
@@ -593,8 +598,7 @@ function list_student_teachers($sid){
 	$teachers=array();
 	$d_t=mysql_query("SELECT DISTINCT username, forename, surname, title, email FROM  
 					users JOIN tidcid ON users.username=tidcid.teacher_id 
-					WHERE users.nologin!='1' AND
-					tidcid.class_id=ANY(SELECT DISTINCT class_id 
+					WHERE users.nologin!='1' AND tidcid.class_id=ANY(SELECT DISTINCT class_id 
 					FROM cidsid WHERE student_id='$sid');");
    	while($t=mysql_fetch_array($d_t,MYSQL_ASSOC)){
 		$teachers[]=$t;

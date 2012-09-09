@@ -26,6 +26,8 @@ if($sub=='Submit' and $seluid!=''){
    	$user['personalemail']=clean_text($_POST['personalemail']);
    	$user['jobtitle']=clean_text($_POST['jobtitle']);
    	$user['contractdate']=clean_text($_POST['contractdate']);
+   	$user['education']=clean_text($_POST['education']);
+   	$user['education2']=clean_text($_POST['education2']);
    	$user['dob']=clean_text($_POST['dob']);
    	$user['worklevel']=$_POST['worklevel'];
    	if(isset($_POST['nologin'])){$user['nologin']=$_POST['nologin'];}
@@ -67,7 +69,7 @@ if($sub=='Submit' and $seluid!=''){
 
 		foreach($agroups as $agroup){
 			$agid=$agroup['gid'];
-			trigger_error($agid.' : '.$_POST["a$agid"],E_USER_WARNING);
+			//trigger_error($agid.' : '.$_POST["a$agid"],E_USER_WARNING);
 			if(isset($_POST["a$agid"]) and $_POST["a$agid"]==1){
 				$newperms=array('r'=>1,'w'=>0,'x'=>0);
 				}

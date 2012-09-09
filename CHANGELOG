@@ -1,3 +1,17 @@
+Version ClaSS-1.0.28 release (2012/09/10)
+-------------------------------------------
+
+Added new fields for education to the users table.
+
+Bugfix to list_sid_responsible_users.
+
+The component table new preserves curriculum structure from year to
+year. TODO: update year_end to match.
+
+Updated ldap scripts to match new class structure.
+
+
+
 Version ClaSS-1.0.27 release (2012/09/02)
 -------------------------------------------
 
@@ -5,7 +19,7 @@ Shortcut links in student tables moved out to a generic script.
 
 The "I" for incidents removed.
 
-Majore change to Comments list page. A new comment can now lead to
+Major change to Comments list page. A new comment can now lead to
 either an incident (-ve comment) or a merit (+ve comment).
 
 Fix to yearend for repeat students in first year group.
@@ -16,7 +30,7 @@ InfoBook option for teachers to search by different student fields.
 
 Made the tiny_mce new version default.
 
-New option refresh class lists through the Admin class_matrix.
+New option to refresh class lists through the Admin class_matrix.
 
 
 
