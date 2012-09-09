@@ -92,7 +92,7 @@ CREATE TABLE component (
 		 sequence	   	smallint unsigned not null default '0',
 		 weight			smallint unsigned not null default '1',
 		 year			year not null default '0000',
-		 primary key 	(id, course_id, subject_id)
+		 primary key 	(id, course_id, subject_id, year)
 ) type=myisam;
 
 CREATE TABLE  users (
