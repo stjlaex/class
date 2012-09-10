@@ -10,6 +10,8 @@ year. TODO: update year_end to match.
 
 Updated ldap scripts to match new class structure.
 
+Improved performance issues with messages.
+
 
 
 Version ClaSS-1.0.27 release (2012/09/02)

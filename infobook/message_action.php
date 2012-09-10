@@ -16,10 +16,10 @@ if(isset($_POST['messagesubject'])){$messagesubject=clean_text($_POST['messagesu
 if(isset($_POST['messageformat'])){$messageformat=$_POST['messageformat'];}else{$messageformat='';}
 if(isset($_POST['recipients'])){$recipients=(array)$_POST['recipients'];}else{$recipients=array();}
 
-if(isset($_SESSION[$book.'recipients'])){$recipients=$_SESSION[$book.'recipients'];unset($_SESSION[$book.'recipients']);}
+if(isset($_SESSION[$book.'recipients'])){$recipients=$_SESSION[$book.'recipients'];}
 else{$recipients=array();}
 
-if(isset($_SESSION[$book.'tutors'])){$tutors=$_SESSION[$book.'tutors'];unset($_SESSION[$book.'recipients']);}
+if(isset($_SESSION[$book.'tutors'])){$tutors=$_SESSION[$book.'tutors'];}
 else{$tutors=array();}
 /* For the BCCs to staff */
 $extrarecipients=array();
@@ -108,22 +108,23 @@ if($sub=='Submit' and $recipients and sizeof($recipients)>0 and !isset($error)){
 
 		foreach($recipients as $key => $recipient){
 
+			/* This is the parent contact details sheet for verification. */
+			/*
 			$preset='';
 			if($messageformat!=''){
 				$Content=array();
 				if($messageformat=='message_contact_update' and isset($recipient['sid'])){
-					/* This is the parent contact details sheet for verification. */
 					$Content['Student']=$recipient['Student'];
 					$Content['Siblings']=$recipient['Siblings'];
 					}
 				$preset=html_message_transform($Content,$messageformat);
-				//$messagebodytxt.=strip_tags(html_entity_decode($preset, ENT_QUOTES, 'UTF-8'));
 				}
-
+			*/
+ 
 			$messagehtml='<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /></head><body>'.'<p>'.$recipient['explanation'].'</p>';
 
 			$messagehtml.=$messagebody;
-			if($preset){$messagehtml.=$preset;}
+			//if($preset){$messagehtml.=$preset;}
 
 			$messagehtml.='<br /><hr><p>'. $footer.'</p></body></html';
 
