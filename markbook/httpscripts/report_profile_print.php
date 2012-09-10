@@ -102,6 +102,13 @@ else{
 		$prev_AssDefs=(array)fetch_cohortAssessmentDefinitions($prevcohort,$profile['id']);
 		$AssDefs=(array)array_merge($AssDefs,$prev_AssDefs);
 		}
+	elseif($profile['transform']=='tracking_sheet'){
+		$pid='%';$bid='%';
+		$AssDefs=(array)fetch_cohortAssessmentDefinitions($cohort,$profile['id']);
+		$prevcohort=array('id'=>'','course_id'=>$crid,'stage'=>'%','year'=>'%');
+		$prev_AssDefs=(array)fetch_cohortAssessmentDefinitions($prevcohort,$profile['id']);
+		$AssDefs=(array)array_merge($AssDefs,$prev_AssDefs);
+		}
 	else{
 		$pid='%';
 		}
@@ -168,8 +175,10 @@ else{
 				if(!array_key_exists($AssDef['id_db'],$asstable)){
 					/* This will exclude assessments which have no scores. */
 					$asstable['ass'][$AssDef['id_db']]=array('label'=>''.$AssDef['Description']['value'],
+															 'printlabel'=>''.$AssDef['PrintLabel']['value'],
 															 'date'=>''.display_date($AssDef['Deadline']['value']),
 															 'year'=>''.$AssDef['Year']['value'],
+															 'element'=>''.$AssDef['Element']['value'],
 															 'id_db'=>''.$AssDef['id_db'],
 															 'bands'=>$AssDef['assbands']);
 					}
