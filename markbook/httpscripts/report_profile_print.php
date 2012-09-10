@@ -105,7 +105,6 @@ else{
 	elseif($profile['transform']=='tracking_sheet'){
 		$pid='%';$bid='%';
 		$AssDefs=(array)fetch_cohortAssessmentDefinitions($cohort,$profile['id']);
-		$prevcohort=array('id'=>'','course_id'=>$crid,'stage'=>'%','year'=>'%');
 		$prev_AssDefs=(array)fetch_cohortAssessmentDefinitions($prevcohort,$profile['id']);
 		$AssDefs=(array)array_merge($AssDefs,$prev_AssDefs);
 		}
