@@ -27,9 +27,9 @@ function list_sid_responsible_users($sid, $bid){
 
 	/* Then academic permission groups by course and subject. */
 	if($bid!='' and $bid!='%' and $bid!='General' and $bid!='G'){
-	  	$d_class=mysql_query("SELECT course_id FROM class JOIN cidsid
-		  	ON cidsid.class_id=class.id WHERE
-		  	class.subject_id='$bid' AND cidsid.student_id='$sid'");
+	  	$d_class=mysql_query("SELECT course_id FROM cohort WHERE 
+						cohort_id=ANY(SELECT cohort_id FROM class JOIN cidsid
+						ON cidsid.class_id=class.id WHERE class.subject_id='$bid' AND cidsid.student_id='$sid');");
 		$crid=mysql_result($d_class,0);
 	  	$d_group=mysql_query("SELECT gid FROM groups WHERE
 		  	course_id='$crid' AND subject_id='%'");

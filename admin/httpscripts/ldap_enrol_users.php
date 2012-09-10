@@ -72,7 +72,7 @@ foreach($enrolclasses as $class){
 	$cn=$subjectv.'- '.$coursev.' '.$stagev;
 	$teachers=(array)list_class_teachers($class['id']);
 	foreach($teachers as $teacher){
-		$classins[$cn][$tid]=array('teacher_id'=>$teacher['id'],'teacher_name'=>$teacher['name']);
+		$classins[$cn][$teacher['id']]=array('teacher_id'=>$teacher['id'],'teacher_name'=>$teacher['name']);
 		}
 	}
 
