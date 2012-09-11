@@ -25,15 +25,14 @@ else{
 	 * class is in the marktable. 
 	 */
 	$cid=$cids[0];
-	$d_cridbid=mysql_query("SELECT subject_id, course_id, stage 
-						   		FROM class WHERE id='$cid'");
+	$d_cridbid=mysql_query("SELECT class.subject_id, cohort.course_id, cohort.stage FROM class 
+								JOIN cohort ON class.cohort_id=cohort.id WHERE class.id='$cid';");
 	$bid=mysql_result($d_cridbid,0,0);
 	$crid=mysql_result($d_cridbid,0,1);
 	$stage=mysql_result($d_cridbid,0,2);
 
 
-   	$d_markdef=mysql_query("SELECT name, comment FROM markdef WHERE 
-					 ORDER BY subject_id");
+   	$d_markdef=mysql_query("SELECT name, comment FROM markdef WHERE ORDER BY subject_id");
 	$d_hw=mysql_query("SELECT id, title AS name FROM homework WHERE
 					(component_id LIKE '$pid' OR component_id='%') AND
 					(subject_id LIKE '$bid' OR subject_id='%') AND

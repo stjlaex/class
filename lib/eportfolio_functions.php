@@ -626,7 +626,7 @@ function elgg_list_files($epfun,$filetype,$dbc=false){
 /**
  *
  */
-function elgg_new_homework($tid,$cid,$bid,$pid,$title,$body,$dateset){
+function elgg_new_homework($tid,$classname,$bid,$pid,$title,$body,$dateset){
 
 	list($year,$month,$day)=explode('-',$dateset);
 	$posted=mktime(0,0,0,$month,$day,$year);
@@ -640,7 +640,7 @@ function elgg_new_homework($tid,$cid,$bid,$pid,$title,$body,$dateset){
 	if(isset($CFG->clientid)){$school=$CFG->clientid;}
 	else{$school='';}
 
-	$epfcid=str_replace('/','',$cid);
+	$epfcid=str_replace('/','',$classname);
 	$epfcid=str_replace('-','',$epfcid);
 	$epfblogname=$school. 'class'. $epfcid;
 	$epfuidweblog=elgg_get_epfuid($epfblogname,'community');

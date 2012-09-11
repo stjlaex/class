@@ -1,9 +1,5 @@
-Version ClaSS-1.0.28 release (2012/09/10)
+Version ClaSS-1.0.29 release (2012/09/12)
 -------------------------------------------
-
-Added new fields for education to the users table.
-
-Bugfix to list_sid_responsible_users.
 
 The component table new preserves curriculum structure from year to
 year. TODO: update year_end to match.
@@ -11,6 +7,17 @@ year. TODO: update year_end to match.
 Updated ldap scripts to match new class structure.
 
 Improved performance issues with messages.
+
+Updated homework functions to match new class structure.
+
+
+
+Version ClaSS-1.0.28 release (2012/09/08)
+-------------------------------------------
+
+Added new fields for education to the users table.
+
+Bugfix to list_sid_responsible_users.
 
 
 

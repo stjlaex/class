@@ -36,8 +36,7 @@ $stage=$_POST['stage'];
    	$mid=mysql_insert_id();
 	$displaymid=$mid;
 	$cid=$cids[0];
-	mysql_query("INSERT INTO midcid 
-			     (mark_id, class_id) VALUES ('$mid', '$cid')");
+	mysql_query("INSERT INTO midcid (mark_id, class_id) VALUES ('$mid', '$cid')");
 
 	if($CFG->eportfoliosite!=''){
 		require_once('lib/eportfolio_functions.php');
@@ -46,7 +45,9 @@ $stage=$_POST['stage'];
 				'&nbsp;&nbsp;&nbsp; Work due by: '. display_date($datedue).'</p><hr />';
 		$subject=get_subjectname($bid);
 		$component=get_subjectname($pid);
-		elgg_new_homework($tid,$cid,$subject,$component,$title,$body,$dateset);
+		$d_c=mysql_query("SELECT name FROM class WHERE id='$cid';");
+		$classname=mysql_result($d_c,0);
+		elgg_new_homework($tid,$classname,$subject,$component,$title,$body,$dateset);
 		}
 
 //include('scripts/results.php');
