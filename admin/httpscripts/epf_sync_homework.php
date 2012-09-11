@@ -40,7 +40,7 @@ require_once($CFG->installpath.'/'.$CFG->applicationdirectory.'/lib/curriculum_f
 		$hwid=$m['hwid'];
 		$d_h=mysql_query("SELECT description, refs, subject_id, component_id FROM homework 
 						WHERE id='$hwid';");
-		trigger_error('HOME!!!!!!!!!!!!!!!'.mysql_error(),E_USER_WARNING);
+
 		$hw=mysql_fetch_array($d_h, MYSQL_ASSOC);
 		$body=$hw['description']. '<hr />'.$hw['refs']. 
 			'<hr /> <p>Work set: '.display_date($m['dateset']). 

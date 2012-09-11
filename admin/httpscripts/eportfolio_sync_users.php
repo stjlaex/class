@@ -116,7 +116,7 @@ require_once($CFG->installpath.'/'.$CFG->applicationdirectory.'/lib/eportfolio_f
 		$users=(array)$formusers[$formindex];
 		foreach($users as $user){
 			$tid=$user['username'];
-			if($epfuid!=-1){
+			if($epfuid!=-1 and array_key_exists($tid,$staff)){
 				$epfuid=$staff[$tid];
 				elgg_join_community($epfuid,$com);
 				}
