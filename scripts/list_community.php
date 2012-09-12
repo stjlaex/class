@@ -42,6 +42,7 @@ $infosearch=false;
 		$listcomtypes[]='transport';
 		$listcomtypes[]='tutor';
 		$listcomtypes[]='trip';
+		$listcomtypes[]='extra';
 		$infosearch=true;
 		}
 	else{$listcomtypes[]=$listtype;}

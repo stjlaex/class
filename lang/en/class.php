@@ -383,6 +383,7 @@ $string['targets']='Targets';
 $string['tutor']='Club';
 $string['club']='Clubs';
 $string['trip']='Excursions';
+$string['extra']='Other';
 $string['lists']='Lists';
 $string['changes']='Changes';
 $string['morning']='Morning';
