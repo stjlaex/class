@@ -40,14 +40,16 @@ require_once($CFG->installpath.'/'.$CFG->applicationdirectory.'/lib/curriculum_f
 		$hwid=$m['hwid'];
 		$d_h=mysql_query("SELECT description, refs, subject_id, component_id FROM homework 
 						WHERE id='$hwid';");
-
 		$hw=mysql_fetch_array($d_h, MYSQL_ASSOC);
+		$cid=$m['cid'];
+		$d_c=mysql_query("SELECT name FROM class WHERE id='$cid';");
+		$classname=mysql_result($d_c,0);
 		$body=$hw['description']. '<hr />'.$hw['refs']. 
 			'<hr /> <p>Work set: '.display_date($m['dateset']). 
 				'&nbsp;&nbsp;&nbsp; Work due by: '. display_date($m['datedue']).'</p><hr />';
 		$subject=get_subjectname($hw['subject_id']);
 		$component=get_subjectname($hw['component_id']);
-		elgg_new_homework($m['tid'],$m['cid'],$subject,$component,$m['title'],$body,$m['dateset']);
+		elgg_new_homework($m['tid'],$classname,$subject,$component,$m['title'],$body,$m['dateset']);
 		}
 
 require_once($CFG->installpath.'/'.$CFG->applicationdirectory.'/scripts/cron_end_options.php');
