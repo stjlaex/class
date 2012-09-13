@@ -1026,8 +1026,7 @@ function update_assessment_score($eid,$sid,$bid,$pid,$score){
 			mysql_query("DELETE FROM eidsid WHERE id='$id' LIMIT 1;");
 			}
 		elseif($oldscore['result']!=$res){
-			mysql_query("UPDATE eidsid SET result='$res',
-				 value='$val', date='$date' WHERE id='$id';");
+			mysql_query("UPDATE eidsid SET result='$res', value='$val', date='$date' WHERE id='$id';");
 			}
 		}
 
