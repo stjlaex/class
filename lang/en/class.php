@@ -215,29 +215,29 @@ $string['guardianemailfooterdisclaimer']='
 		unauthorized use or dissemination of this message in whole or
 		in part is strictly prohibited.';
 $string['epfreportemail1']='Dear Parent,
-
-You now have access to your child\'s latest homework and school
+<br />
+<p>You now have access to your child\'s latest homework and school
 reports through the web-site ClaSSic. The link to access ClaSSic can
 be found on the front page of the official school website under the
-area for Parents or directly from:';
+area for Parents or directly from:</p>';
 $string['epfreportemail1bis']='
-Access to ClaSSic is protected by a user-name and password. These are
-personal to you.
+<p>Access to ClaSSic is protected by a user-name and password. These are
+personal to you</p>.
 ';
 $string['epfreportemail2dob']='
-Your password is the date of birth of your child typed as a continuous
+<p>Your password is the date of birth of your child typed as a continuous
 number without spaces or hyphens. The order must be day month year.
-For example the 9th of March 1998 would be 09031998.
+For example the 9th of March 1998 would be 09031998.</p>
 
-Should you need any further help then please refer to the information
-on the ClaSSic website.
+<p>Should you need any further help then please refer to the information
+on the ClaSSic website.</p>
 ';
 $string['epfreportemail2no']='
-Your password is the matriculation number of your child and can be
+<p>Your password is the matriculation number of your child and can be
 found on any invoices or bills from the school. If you have more than
 one child at the school then your password maybe the matriculation
 number for either the eldest or youngest child. If you need any
-further help then please refer to the information on ClaSSic.
+further help then please refer to the information on ClaSSic.</p>
 ';
 $string['epfcommentemail']="\r\n".'Dear Parent,'."\r\n"."\r\n". 'There is a new comment on ClaSSic about '."\$a". 
 	'. Please follow the link below to access it:'."\r\n"."\r\n";
