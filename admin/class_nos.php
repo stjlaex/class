@@ -8,6 +8,7 @@ $action='class_nos.php';
 $choice='class_nos.php';
 
 two_buttonmenu($extrabuttons);
+$curryear=get_curriculumyear();
 ?>
   <div class="content" id="viewcontent">
 	<form name="formtoprocess" id="formtoprocess" method="post" action="<?php print $host; ?>">
@@ -21,10 +22,28 @@ two_buttonmenu($extrabuttons);
 
 	  <table class="listmenu">
 		<tr>
-		  <th>&nbsp</th>
+		<th><?php print_string('stage',$book);?></th>
 <?php
 		foreach($stages as $stage){
 			print '<th>'.$stage['name'].'</th>';
+			}
+?>
+		</tr>
+		<tr>
+		<th>&nbsp;</th>
+<?php
+		foreach($stages as $stage){
+?>
+			<th>
+			<table>
+			  <tr>
+				<th style="width:10em;">&nbsp</th>
+			<th style="width:10em;">&nbsp<?php print_string('average',$book);?></th>	
+			<th style="width:10em;text-align:left;">&nbsp<?php print_string('total',$book);?></th>
+			  </tr>
+			</table>
+			</th>
+<?php
 			}
 ?>
 		</tr>
@@ -34,12 +53,13 @@ two_buttonmenu($extrabuttons);
 			print '<tr id="'.$subno.'" >';
 			print '<th>'.$crid.': '.$subject['name'].'</th>';
 			
-			for($c=0; $c<sizeof($stages); $c++){
-				$stageid=$stages[$c]['id'];
+			foreach($stages as $stage){
+				$stageid=$stage['id'];
+				$cohid=update_cohort(array('year'=>$curryear,'course_id'=>$crid,'stage'=>$stageid));
 				$d_classes=mysql_query("SELECT many,generate FROM classes WHERE
-				subject_id='$bid' AND stage='$stageid' AND course_id='$crid'");
+							subject_id='$bid' AND stage='$stageid' AND course_id='$crid'");
 				$d_class=mysql_query("SELECT id FROM class WHERE
-				subject_id='$bid' AND stage='$stageid' AND course_id='$crid'");
+							subject_id='$bid' AND cohort_id='$cohid'");
 				$classes=mysql_fetch_array($d_classes,MYSQL_ASSOC);
 				$many=$classes['many'];
 				$generate=$classes['generate'];
@@ -47,8 +67,7 @@ two_buttonmenu($extrabuttons);
 				$nocids=0;
 				while($class=mysql_fetch_array($d_class,MYSQL_ASSOC)){
 					$cid=$class['id'];
-					$d_cidsid=mysql_query("SELECT COUNT(student_id) AS no FROM cidsid
-								WHERE class_id='$cid'");
+					$d_cidsid=mysql_query("SELECT COUNT(student_id) AS no FROM cidsid WHERE class_id='$cid';");
 					$no=mysql_result($d_cidsid,0);
 					if($no>0){
 						$nosids+=$no;
@@ -60,8 +79,8 @@ two_buttonmenu($extrabuttons);
 			<table>
 			  <tr>
 				<td style="width:10em;">&nbsp <?php print $nocids.' '.$generate;?></td>
-				<td style="width:10em;">&nbsp <?php print 'Ave. '.round($nosids/$nocids);?></td>	
-				<td style="width:10em;text-align:left;">&nbsp <?php print 'Tot. '.$nosids;?></td>
+				<td style="width:10em;">&nbsp <?php print round($nosids/$nocids);?></td>	
+				<td style="width:10em;text-align:left;">&nbsp <?php print $nosids;?></td>
 			  </tr>
 			</table>
 		  </td>

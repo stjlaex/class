@@ -1,4 +1,4 @@
-s<?php
+<?php
 /**											manage_homework.php
  */
 
@@ -13,38 +13,39 @@ two_buttonmenu();
 
 $stages=list_course_stages($rcrid);
 $subjects=list_course_subjects($rcrid);
+$curryear=get_curriculumyear($rcrid);
 $tomonth=date('n');
 $today=date('j');
 $toyear=date('Y');
 $todate=$toyear.'-'.$tomonth.'-'.$today;
 $time=mktime(0,0,0,$tomonth,$today-14,$toyear);
 $lastfortnight=date('Y-m-d',$time);
-$time=mktime(0,0,0,8,0,$toyear-1);
+/* Assumes the year ends/starts around Augusut! */
+$time=mktime(0,0,0,8,0,$curryear-1);
 $lastyear=date('Y-m-d',$time);
 
 $noyearhws=array();
 $noweekhws=array();
-while(list($index,$stage)=each($stages)){
+foreach($stages as $stage){
 	$stagid=$stage['id'];
-	/*count for the whole academic year*/
+	$cohid=update_cohort(array('year'=>$curryear,'course_id'=>$rcrid,'stage'=>$stagid));
+
+	/* Count for the whole academic year */
 	$d_m=mysql_query("SELECT COUNT(mark.id) AS no, midcid.class_id AS cid,
 						author AS tid FROM mark JOIN midcid ON
 						mark.id=midcid.mark_id WHERE
-						midcid.class_id=ANY(SELECT id FROM class WHERE
-						course_id='$rcrid' AND stage='$stagid') 
-						AND entrydate>'$lastyear' AND
-						marktype='hw' GROUP BY midcid.class_id;");
+						midcid.class_id=ANY(SELECT id FROM class WHERE cohort_id='$cohid') 
+						AND entrydate>'$lastyear' AND marktype='hw' GROUP BY midcid.class_id;");
 	while($hw=mysql_fetch_array($d_m,MYSQL_ASSOC)){
 		if(!isset($noyearhws[$hw['tid']][$stagid])){$noyearhws[$hw['tid']][$stagid]=array();}
 		$noyearhws[$hw['tid']][$stagid][]=$hw;
 		}
-	/*count for the last two weeks*/
+
+	/* Count for the last two weeks */
 	$d_m=mysql_query("SELECT COUNT(mark.id) AS no, author AS tid
 						FROM mark JOIN midcid ON mark.id=midcid.mark_id WHERE
-						midcid.class_id=ANY(SELECT id FROM class WHERE
-						course_id='$rcrid' AND stage='$stagid') 
-						AND entrydate>'$lastfortnight' AND
-						marktype='hw' GROUP BY midcid.class_id;");
+						midcid.class_id=ANY(SELECT id FROM class WHERE cohort_id='$cohid') 
+						AND entrydate>'$lastfortnight' AND marktype='hw' GROUP BY midcid.class_id;");
 	while($hw=mysql_fetch_array($d_m,MYSQL_ASSOC)){
 		if(!isset($noweekhws[$hw['tid']][$stagid])){$noweekhws[$hw['tid']][$stagid]=0;}
 		$noweekhws[$hw['tid']][$stagid]+=$hw['no'];
@@ -52,30 +53,28 @@ while(list($index,$stage)=each($stages)){
 	}
 
 $nosubjecthws=array();
-reset($stages);
-while(list($index,$stage)=each($stages)){
+foreach($stages as $stage){
 	$stagid=$stage['id'];
-	reset($subjects);
-	while(list($index,$subject)=each($subjects)){
+	foreach($subjects as $subject){
 		$bid=$subject['id'];
+
+		/* Count for the whole academic year */
 		$d_m=mysql_query("SELECT COUNT(mark.id) AS no
 						FROM mark JOIN midcid ON mark.id=midcid.mark_id WHERE
-						midcid.class_id=ANY(SELECT id FROM class WHERE
-						course_id='$rcrid' AND stage='$stagid' AND subject_id='$bid') 
-						AND entrydate>'$lastyear' AND
-						marktype='hw' GROUP BY midcid.class_id;");
+						midcid.class_id=ANY(SELECT id FROM class WHERE cohort_id='$cohid' AND subject_id='$bid') 
+						AND entrydate>'$lastyear' AND marktype='hw' GROUP BY midcid.class_id;");
 		while($hw=mysql_fetch_array($d_m,MYSQL_ASSOC)){
 			if(!isset($nosubjecthws[$stagid][$bid])){
 				$nosubjecthws[$stagid][$bid]=array('year'=>0,'week'=>0);
 				}
 			$nosubjecthws[$stagid][$bid]['year']+=$hw['no'];
 			}
+
+		/* Count for the last two weeks */
 		$d_m=mysql_query("SELECT COUNT(mark.id) AS no
 						FROM mark JOIN midcid ON mark.id=midcid.mark_id WHERE
-						midcid.class_id=ANY(SELECT id FROM class WHERE
-						course_id='$rcrid' AND stage='$stagid' AND subject_id='$bid') 
-						AND entrydate>'$lastfortnight' AND
-						marktype='hw' GROUP BY midcid.class_id;");
+						midcid.class_id=ANY(SELECT id FROM class WHERE cohort_id='$cohid' AND subject_id='$bid') 
+						AND entrydate>'$lastfortnight' AND marktype='hw' GROUP BY midcid.class_id;");
 		while($hw=mysql_fetch_array($d_m,MYSQL_ASSOC)){
 			$nosubjecthws[$stagid][$bid]['week']+=$hw['no'];
 			}
@@ -92,8 +91,7 @@ while(list($index,$stage)=each($stages)){
 			<th><?php print_string('teacher');?></th>
 
 <?php
-		reset($stages);
-		while(list($index,$stage)=each($stages)){
+		foreach($stages as $stage){
 ?>
 			<th><?php print $stage['name'];?></th>
 <?php
@@ -104,15 +102,14 @@ while(list($index,$stage)=each($stages)){
 		  </tr>
 		</thead>
 <?php
-	while(list($tid,$hws)=each($noyearhws)){
+	foreach($noyearhws as $tid => $hws){
 		$tot=0;
 		$cidno=0;
 ?>
 		<tr>
 		  <td><?php print get_teachername($tid);?></td>
 <?php
-		reset($stages);
-		while(list($index,$stage)=each($stages)){
+		foreach($stages as $stage){
 			$stagid=$stage['id'];
 			$stagetot=0;
 			$stagelist='';
@@ -122,7 +119,7 @@ while(list($index,$stage)=each($stages)){
 			if(isset($hws[$stagid])){
 				if(!isset($noweekhws[$tid][$stagid])){$weektot=0;}
 				else{$weektot=$noweekhws[$tid][$stagid];}
-				while(list($index,$hw)=each($hws[$stagid])){
+				foreach($hws[$stagid] as $hw){
 					$tot+=$hw['no'];
 					$stagetot+=$hw['no'];
 					$cidno++;
@@ -156,10 +153,8 @@ while(list($index,$stage)=each($stages)){
 		<thead>
 		  <tr>
 			<th style="width:40%;"><?php print_string('subject',$book);?></th>
-
 <?php
-		reset($stages);
-		while(list($index,$stage)=each($stages)){
+		foreach($stages as $stage){
 ?>
 			<th><?php print $stage['name'];?></th>
 <?php
@@ -168,16 +163,14 @@ while(list($index,$stage)=each($stages)){
 		  </tr>
 		</thead>
 <?php
-	reset($subjects);
-	while(list($index,$subject)=each($subjects)){
+	foreach($subjects as $subject){
 		$bid=$subject['id'];
 		$tot=0;
 ?>
 		<tr>
 		  <td><?php print $subject['name'];?></td>
 <?php
-		reset($stages);
-		while(list($index2,$stage)=each($stages)){
+		foreach($stages as $stage){
 			$stagid=$stage['id'];
 			$stagetot=0;
 			$stagelist='';
