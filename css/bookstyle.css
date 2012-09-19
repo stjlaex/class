@@ -729,7 +729,6 @@ div.tinytab-display {
     color:#ffffff;
 	background-color:#888888;
 	border:1px solid #cccccc;
-	-moz-border-radius:0 18% 0 0;
 	cursor:pointer;
     }
 .tinytabs p:hover, .tinytabs #current-tinytab {
@@ -780,10 +779,6 @@ div#qTip {
     z-index: 1000;
 	max-width:28em;
 	min-width:6em;
-	-moz-border-radius-bottomleft: 10px;
-	-moz-border-radius-bottomright: 10px;
-	-moz-border-radius-topleft: 0;
-	-moz-border-radius-topright: 10px;
 	opacity: .80;
 	}
 

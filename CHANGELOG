@@ -5,6 +5,11 @@ Updated the class sizes page in Admin.
 
 Updated the manage homework in Report.
 
+Changed the sharewithparents for comments option to do eportfolio by
+default if it is configured.
+
+Changed the CFG->emailguardiancomments to have values of "no","yes" or
+"limit".
 
 
 
