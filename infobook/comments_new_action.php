@@ -190,7 +190,7 @@ include('scripts/sub_action.php');
 	 * the eportfolio to message the parent about the comment being
 	 * posted.
 	 */
-	if($commentid!='' and $sharewithparents=='yes' and $sharewithepf='yes'){
+	if($commentid!='' and $sharewithparents=='yes' and $sharewithepf=='yes'){
 		require_once($CFG->dirroot.'/lib/eportfolio_functions.php');
 		$epfu=$Student['EPFUsername']['value'];
 		$title='Subject: ' .display_subjectname($bid);
