@@ -1,3 +1,11 @@
+Version ClaSS-1.0.31 release (2012/09/24)
+-------------------------------------------
+
+A cohort can now be linked to academic commuity groups directly, both
+when edited and created through community_group_rename.
+
+
+
 Version ClaSS-1.0.30 release (2012/09/18)
 -------------------------------------------
 
@@ -10,7 +18,6 @@ default if it is configured.
 
 Changed the CFG->emailguardiancomments to have values of "no","yes" or
 "limit".
-
 
 
 Version ClaSS-1.0.29 release (2012/09/12)

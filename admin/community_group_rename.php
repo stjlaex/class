@@ -37,7 +37,6 @@ if($sub=='Submit'){
 					}
 				}
 			}
-
 		}
 	else{
 		/* New group is being created. */
@@ -67,6 +66,16 @@ if($sub=='Submit'){
 		}
 
 	$comid=update_community($community,$communityfresh);
+
+	if($community['type']=='academic'){
+		if(isset($_POST['cohids'])){$cohids=(array)$_POST['cohids'];}else{$cohids=array();}
+		mysql_query("DELETE FROM cohidcomid WHERE community_id='$comid';");
+		foreach($cohids as $cohid){
+			mysql_query("INSERT INTO cohidcomid SET cohort_id='$cohid', community_id='$comid';");
+			}
+		}
+
+
 	$action=$cancel;
 	include('scripts/redirect.php');
 	exit;
@@ -94,8 +103,7 @@ else{
 
 
 <?php
-
- if($newcomtype=='form' and !isset($comid)){
+	if($newcomtype=='form' and !isset($comid)){
 		$yeargroups=list_yeargroups();
 ?>
 	  <fieldset class="center">
@@ -104,7 +112,36 @@ else{
 		<?php $required='yes'; include('scripts/list_year.php');?>
 		</div>
 <?php
+
 		 }
+	elseif($newcomtype=='ACADEMIC'){
+?>
+	  <fieldset class="center">
+<?php
+		$cohids=array();
+		$cohorts=array();
+		if(isset($comid) and $comid!=''){
+			$com_cohorts=(array)list_community_cohorts($com,true);
+			foreach($com_cohorts as $com_cohort){
+				$cohids[]=$com_cohort['id'];
+				}
+			}
+		$courses=(array)list_courses();
+		foreach($courses as $course){
+			$course_cohorts=(array)list_course_cohorts($course['id']);
+			foreach($course_cohorts as $index => $course_cohort){
+				$course_cohort['name']=$course['name'].' ('.$course['id'].') - '.$course_cohort['stage'];
+				$cohorts[]=$course_cohort;
+				}
+			}
+		$multi=6;
+		$required='yes';
+		$listname='cohid';
+		$listlabel='cohort';
+		include('scripts/set_list_vars.php');
+		list_select_list($cohorts,$listoptions,$book);
+
+		}
 	elseif($newcomtype=='TUTOR'){
 		$days=getEnumArray('dayofweek');
 ?>
@@ -130,6 +167,7 @@ else{
 
 						  </div>
 <?php
+
 			}
 ?>
 		</div>
