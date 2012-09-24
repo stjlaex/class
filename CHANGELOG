@@ -5,12 +5,19 @@ Two new fields added to info for Cadidate Number and UCI.
 
 Exposed the date entry date fields for Targets.
 
+Fix to importing assessment scores for a strand.
+
+Fix to retrospective taking of lesson attendance when the attedance
+event had been already created.
+
+
 
 Version ClaSS-1.0.31 release (2012/09/23)
 -------------------------------------------
 
 A cohort can now be linked to academic commuity groups directly, both
 when edited and created through community_group_rename.
+
 
 
 Version ClaSS-1.0.30 release (2012/09/18)

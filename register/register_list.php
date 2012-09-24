@@ -50,7 +50,9 @@ else{$session='AM';}
 		/* And used to order the Events array by period. */
 		$perindex=$AttendanceEvents['perindex'];
 
-		$classperiods=get_class_periods($currentevent,$secid);
+		//$classperiods=get_class_periods($currentevent,$secid);
+		$classperiods=get_class_periods(array('session'=>$AttendanceEvents['Event'][0]['Session']['value']),$secid);
+
 		foreach($classperiods as $classperiod_seq => $classperiod){
 			if(!in_array($classperiod_seq,$perindex)){
 				/* This must be negative to indicate a class period!!! 
@@ -58,8 +60,8 @@ else{$session='AM';}
 				 * an existing event id.
 				 */
 				$Event['id_db']=-$classperiod_seq;
-				$Event['Date']['value']=$currentevent['date'];
-				$Event['Session']['value']=$session;
+				$Event['Date']['value']=$AttendanceEvents['Event'][0]['Date']['value'];
+				$Event['Session']['value']=$AttendanceEvents['Event'][0]['Session']['value'];
 				$Event['Period']['value']=$classperiod_seq;
 				$AttendanceEvents['Event'][]=$Event;
 				$perindex[]=$classperiod_seq;

@@ -61,7 +61,14 @@ if($sub=='Submit'){
 						$d_com=mysql_query("SELECT subject_id FROM 
 								component WHERE course_id='$rcrid' AND id='$subject';");
 						if(mysql_num_rows($d_com)>0){
+							/* If the subject is a component. */
 							$bid=mysql_result($d_com,0);
+							$d_com=mysql_query("SELECT subject_id FROM 
+								component WHERE course_id='$rcrid' AND id='$bid';");
+							if(mysql_num_rows($d_com)>0){
+								/* Or it could be a strand. */
+								$bid=mysql_result($d_com,0);
+								}
 							$pid=$subject;
 							}
 						elseif($subject=='G'){
@@ -78,6 +85,8 @@ if($sub=='Submit'){
 						$bid=$subject;
 						$pid='';
 						}
+
+					trigger_error('IMPORT: '.$bid. ' '.$pid,E_USER_WARNING);
 
 					if($bid==''){
 						$errorcol=$index+2;

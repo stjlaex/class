@@ -59,10 +59,21 @@ elseif($sub=='Submit'){
 
 	if($checkeveid==0){
 		/* This event was not in the db when first displayed. */
-		$d_event=mysql_query("SELECT id FROM event WHERE date='$date' AND session='$session' 
+
+		if($nodays==1){
+			$AttendanceEvents=fetchAttendanceEvents($startday,1,$session);
+			$eventdate=$AttendanceEvents['Event'][0]['Date']['value'];
+			$eventsession=$AttendanceEvents['Event'][0]['Session']['value'];
+			}
+		else{
+			$eventdate=$date;
+			$eventsession=$session;
+			}
+
+		$d_event=mysql_query("SELECT id FROM event WHERE date='$eventdate' AND session='$eventsession' 
 										AND period='$period';");
 		if(mysql_num_rows($d_event)==0){
-			mysql_query("INSERT INTO event (date,session,period) VALUES ('$date','$session','$period');");
+			mysql_query("INSERT INTO event (date,session,period) VALUES ('$eventdate','$eventsession','$period');");
 			$eveid=mysql_insert_id();
 			}
 		else{
