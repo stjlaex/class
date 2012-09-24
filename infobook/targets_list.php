@@ -29,18 +29,25 @@ three_buttonmenu();
 ?>
 			  <table>
 				<tr>
+				  <td>&nbsp;</td>
+			   	</tr>
+				<tr>
 				  <td>
-				  <label for="Details">
+				  <label for="Detail<?php print $index;?>">
 					<?php print $Target['Category']['value']; ?>
 				  </label>
+				  <div style="float:right;">
+					<label>
+					<?php xmlelement_input($Target['EntryDate'],$index,$tab,$book);?>
+					</label>
+				  </div>
 				  </td>
 				</tr>
 				<tr>
 				  <td>
-				  <textarea id="Detail" 
-				  wrap="on" rows="5" tabindex="<?php print $tab++;?>"
-				  name="<?php print $Target['Detail']['field_db'].$index;?>" 
-				  ><?php print $Target['Detail']['value_db'];?></textarea>
+				  <textarea id="Detail<?php print $index;?>" wrap="on" rows="5" tabindex="<?php print $tab++;?>"
+						name="<?php print $Target['Detail']['field_db'].$index;?>" 
+						><?php print $Target['Detail']['value_db'];?></textarea>
 				  </td>
 				</tr>
 			  </table>
