@@ -411,4 +411,6 @@ $string['allstudents']='All students';
 $string['documents']='Documents';
 $string['documentstoupload']='New documents to upload';
 $string['drophere']='Drop here';
+$string['candidateid']='UCI';
+$string['candidatenumber']='Candidate Number';
 ?>

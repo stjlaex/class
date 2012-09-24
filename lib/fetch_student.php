@@ -129,6 +129,8 @@ function fetchStudent_singlefield($sid,$tag,$privfilter=''){
    	elseif($tag=='OtherNumber'){$fieldname='otherpn1';}
    	elseif($tag=='IdExpiryDate'){$fieldname='passportdate';}
    	elseif($tag=='AnotherNumber'){$fieldname='otherpn2';}
+   	elseif($tag=='CandidateID'){$fieldname='candidaten1';}
+   	elseif($tag=='CandidateNumber'){$fieldname='candidaten2';}
 	elseif(substr_count($tag,'FirstContact')){$contactno=0;}
 	elseif(substr_count($tag,'SecondContact')){$contactno=1;}
 	elseif(substr_count($tag,'ThirdContact')){$contactno=2;}
@@ -613,6 +615,18 @@ function fetchStudent($sid='-1'){
 									 'type_db' => 'char(20)', 
 									 'value' => ''.$info['otherpn2']
 									 );
+   	$Student['CandidateID']=array('label' => 'candidateid', 
+								  'table_db' => 'info', 
+								  'field_db' => 'candidaten1', 
+								  'type_db' => 'varchar(40)', 
+								  'value' => ''.$info['candidaten1']
+								  );
+   	$Student['CandidateNumber']=array('label' => 'candidatenumber', 
+									  'table_db' => 'info', 
+									  'field_db' => 'candidaten2', 
+									  'type_db' => 'varchar(40)', 
+									  'value' => ''.$info['candidaten1']
+									  );
    	$Student['Boarder']=array('label' => 'boarder', 
 							  'inputtype'=> 'required',
 							  'table_db' => 'info', 

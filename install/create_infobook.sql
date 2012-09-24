@@ -32,6 +32,9 @@ CREATE TABLE info (
 	appcategory		varchar(240) not null default '',
 	appdate			date null,
 	siblings		enum('N','Y') not null,
+	passportdate 	date not null default '0000-00-00',
+	candidaten1		varchar(40) not null default '',
+	candidaten2		varchar(40) not null default '',
    	primary key		(student_id)
 ) type=myisam;
 

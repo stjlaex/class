@@ -986,6 +986,8 @@ function getEnumArray($field_name){
 						'OtherNumber'=>'othernumber',
 						'IdExpiryDate'=>'expirydate',
 						'AnotherNumber'=>'anothernumber',
+						'CandidateID'=>'candidateid',
+						'CandidateNumber'=>'candidatenumber',
 						'Postcode'=>'postcode',
 						'Transport'=>'transport',
 						'Club'=>'club',
