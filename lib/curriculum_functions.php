@@ -1068,8 +1068,7 @@ function check_student_cohort($sid,$cohort,$todate=''){
  *	@return date
  */
 function get_curriculumyear($crid=''){
-	$d_c=mysql_query("SELECT year FROM community WHERE
-						name='curriculum year' AND type='';");
+	$d_c=mysql_query("SELECT year FROM community WHERE name='curriculum year' AND type='';");
 	if(mysql_num_rows($d_c)>0){$thisyear=mysql_result($d_c,0);}
 	else{
 		$thisyear=date('Y')+1;

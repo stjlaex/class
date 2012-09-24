@@ -625,7 +625,7 @@ function fetchStudent($sid='-1'){
 									  'table_db' => 'info', 
 									  'field_db' => 'candidaten2', 
 									  'type_db' => 'varchar(40)', 
-									  'value' => ''.$info['candidaten1']
+									  'value' => ''.$info['candidaten2']
 									  );
    	$Student['Boarder']=array('label' => 'boarder', 
 							  'inputtype'=> 'required',

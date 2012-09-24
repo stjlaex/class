@@ -10,7 +10,7 @@ if(!isset($liststyle)){$liststyle='width:12em;';}
 if(!isset($required)){$required='yes';}
 if(!isset($onchange)){$onchange='no';}
 
-trigger_error('!!!!!!!!!'.$onchange,E_USER_WARNING);
+//trigger_error('!!!!!!!!!'.$onchange,E_USER_WARNING);
 include('scripts/set_list_vars.php');
 
 	if($r>-1){

@@ -44,10 +44,9 @@ while($cohort=mysql_fetch_array($d_cohort,MYSQL_ASSOC)){
 		  </th>
 		</tr>
 <?php
-	while(list($index,$cohort)=each($cohorts)){
+	foreach($cohorts as $cohort){
 		$cohid=$cohort['id'];
-		$d_cohidcomid=mysql_query("SELECT community_id FROM cohidcomid WHERE
-							cohort_id='$cohid';");
+		$d_cohidcomid=mysql_query("SELECT community_id FROM cohidcomid WHERE cohort_id='$cohid';");
 		$newcomids=array();
 		while($comid=mysql_fetch_array($d_cohidcomid,MYSQL_ASSOC)){
 			$newcomids[]=$comid['community_id'];
@@ -57,10 +56,10 @@ while($cohort=mysql_fetch_array($d_cohort,MYSQL_ASSOC)){
 		print '<input type="hidden" name="cohids[]" value="'.$cohid.'" />'
 ?>
 		  <td>
-<?php  $multi=4; $listtype='year'; include('scripts/list_community.php'); ?>
+<?php  $multi=6; $listtype='year'; include('scripts/list_community.php'); ?>
 		  </td>
 		  <td>
-<?php  $multi=4; $listtype='academic'; include('scripts/list_community.php'); ?>
+<?php  $multi=6; $listtype='academic'; include('scripts/list_community.php'); ?>
 		  </td>
 		</tr>
 <?php
