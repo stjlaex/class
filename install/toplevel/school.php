@@ -64,8 +64,10 @@ $CFG->registration[1]='single';//Whole school
 //$CFG->regperiods[1]['AM']=array('1'=>'8:45','2'=>'9:30','3'=>'10:30','4'=>'11:15','5'=>'12:00');
 /* Time-zone used by the register - see http://es2.php.net/manual/en/timezones.php*/
 $CFG->timezone='Europe/Madrid';
-/*defualt sort order sor most student lists*/
+/*defualt sort order for most student lists (either surname, forename or preferred)*/
 $CFG->studentlist_order='surname';
+/*defualt name order for most student lists (either surname or forename)*/
+$CFG->studentname_order='surname';
 /* How should a teacher's name be used to sign off? Values of either
  * informal, formal or null
  */

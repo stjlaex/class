@@ -102,7 +102,7 @@ if(sizeof($EnrolAssDefs)>0){
 	}
 
 $extrabuttons=array();
-if($_SESSION['role']=='office' or $_SESSION['role']=='admin'){
+if(($_SESSION['role']=='office' or $_SESSION['role']=='admin') and $CFG->studentname_order=='surname'){
 	$displayname='DisplayFullSurname';
 	}
 else{

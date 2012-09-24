@@ -12,11 +12,13 @@ list_select_enum('strandstatus',$listoptions,'reportbook');
 unset($listoptions);
 
 $comps=list_subject_components('%',$rcrid,'A');
-$moreinfo='Determine which strands will be assessed separately: ';
+$moreinfo='Determine which strands will be assessed separately: 
+';
 foreach($comps as $comp){
 	$strands=list_subject_components($comp['id'],$rcrid,'A');
 	foreach($strands as $strand){
-		$moreinfo.=$strand['status'].'.'.$strand['name'].' ';
+		$moreinfo.=$strand['status'].'.'.$strand['name'].' 
+';
 		}
 	}
 ?>

@@ -10,6 +10,10 @@ Fix to importing assessment scores for a strand.
 Fix to retrospective taking of lesson attendance when the attedance
 event had been already created.
 
+Very simply config option to allow office and admin staff same student
+name order as teachers.
+
+Fix to help tip for compoenents and strands in Report.
 
 
 Version ClaSS-1.0.31 release (2012/09/23)

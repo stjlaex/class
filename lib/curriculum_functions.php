@@ -231,7 +231,7 @@ function list_subject_components($bid,$crid,$compstatus='A',$curryear=''){
 			$d_com=mysql_query("SELECT subject.id, subject.name,
 						component.status, component.sequence FROM subject
 						JOIN component ON subject.id=component.id
-						WHERE $compmatch AND component.course_id='$crid' AND component.year='$year'
+						WHERE $compmatch AND component.course_id='$crid' AND component.year='$curryear'
 						ORDER BY component.status, component.sequence, subject.name;");
 			}
 		while($component=mysql_fetch_array($d_com,MYSQL_ASSOC)){
