@@ -260,7 +260,9 @@ function checkEntry($value, $format='', $field_name=''){
 	if($field_name!='email'){$value=ucwords($value);}	
 	$field_type=explode('(', $format);
 
-	if($field_name=='form_id'){$value=strtoupper($value);}
+	if($field_name=='form_id' or $field_name=='candidaten1' or $field_name=='candidaten2'){
+		$value=strtoupper($value);
+		}
 
 	if($field_type[0]=='date'){
 		/*assumes date order day/month/year, php wants year-month-day*/

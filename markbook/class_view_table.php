@@ -183,7 +183,10 @@ while($student=mysql_fetch_array($d_students, MYSQL_ASSOC)){
 					$outrank=$scoresum;
 					$score['value']=$scoresum;
 					}
-				else{$out=$c.''.$midlist[$c];$outrank=-100;}
+				else{
+					//$out=$c.''.$midlist[$c];
+					$outrank=-100;
+					}
 				}
 			unset($weights);
 			unset($weightsum);
