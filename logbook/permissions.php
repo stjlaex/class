@@ -503,13 +503,12 @@ function get_community_perm($comid,$comyid=''){
  * 
  */
 function getMarkPerm($mid,$respons){
-	$d_class=mysql_query("SELECT subject_id, course_id FROM class
-		 JOIN midcid ON class.id=midcid.class_id WHERE midcid.mark_id='$mid'");
-	$class=mysql_fetch_array($d_class,MYSQL_ASSOC);
+	$d_class=mysql_query("SELECT class_id FROM midcid WHERE mark_id='$mid' LIMIT 1;");
+	$class=get_this_class(mysql_result($d_class,0));
 	/*this will only takes the first crid/bid, would be a prolem if
-				the mark is defined  across more than one type of class*/
-	$bid=$class['subject_id'];
-	$crid=$class['course_id'];
+				the mark is defined across more than one type of class*/
+	$bid=$class['bid'];
+	$crid=$class['crid'];
 
 	$perm['r']=0;
 	$perm['w']=0;

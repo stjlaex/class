@@ -53,22 +53,18 @@ three_buttonmenu();
 		$oldcids[]=$oldcid['class_id'];
 		}
 
-	$curryear=get_curriculumyear();
 
 	/* select all possible classes to apply the mark to */
+	$bid=$classes[$cids[0]]['bid'];
 	if($r>-1){
 		/* either by current responsibility choice */
-	 	$rbid=$respons[$r]['subject_id'];
 		$rcrid=$respons[$r]['course_id'];
 		$d_cids=mysql_query("SELECT class.id, class.name FROM class JOIN cohort ON class.cohort_id=cohort.id
 							WHERE cohort.course_id LIKE '$rcrid' AND cohort.year='$curryear'
-							AND (subject_id LIKE '$rbid' OR subject_id='%') ORDER BY class.name;");
+							AND subject_id LIKE '$bid' ORDER BY class.name;");
 		}
 	else{	 
-		/* by the subject of this class */
-		$cid=$cids[0];
-		$d_bid=mysql_query("SELECT subject_id FROM class WHERE id='$cid'");
-		$bid=mysql_result($d_bid,0);
+		/* or limit by the teacher's own subject class */
 		$d_cids = mysql_query("SELECT class.id, class.name
 				FROM class JOIN tidcid ON tidcid.class_id=class.id 
 				WHERE tidcid.teacher_id='$tid' AND class.subject_id='$bid' 

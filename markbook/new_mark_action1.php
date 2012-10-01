@@ -47,9 +47,8 @@ three_buttonmenu();
 		/* Select all possible classes to apply the mark to*/
 	if($r>-1){
 		/*either by current responsibility choice*/
-	 	$rbid=$respons[$r]['subject_id'];
 		$rcrid=$respons[$r]['course_id'];
-		$newclasses=list_course_classes($rcrid,$rbid,'%','','taught');
+		$newclasses=list_course_classes($rcrid,$classes[$cids[0]]['bid'],'%','','taught');
 		}
 	else{
 		/* or by select definitions by subjects of classes taught */
