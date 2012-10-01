@@ -25,7 +25,7 @@ if($sub=='Unassign'){
 	 	$rbid=$respons[$r]['subject_id'];
 
 		foreach($tids as $tid){
-			$classes=(array)list_teacher_classes($tid,$rcrid,$curryear);
+			$classes=(array)list_teacher_classes($tid,$rcrid,'%',$curryear);
 			foreach($classes as $class){
 				$cid=$class['id'];
 				if($class['bid']==$rbid or $rbid=='%'){

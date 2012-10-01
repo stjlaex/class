@@ -12,7 +12,7 @@
 		$sel_classes=list_course_classes($rcrid,$rbid,'%',$curryear,'taught');
 		}
 	else{
-		$sel_classes=list_teacher_classes($tid,'%',$curryear);
+		$sel_classes=list_teacher_classes($tid,'%','%',$curryear);
 		}
 	$nocids=sizeof($sel_classes);
 	if($nocids>6){$nocids=6;}

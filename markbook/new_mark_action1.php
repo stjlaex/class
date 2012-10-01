@@ -52,8 +52,8 @@ three_buttonmenu();
 		$newclasses=list_course_classes($rcrid,$rbid,'%','','taught');
 		}
 	else{
-		/* or by select definitions by subjects of classes taught*/
-		$newclasses=list_teacher_classes($tid);
+		/* or by select definitions by subjects of classes taught */
+		$newclasses=list_teacher_classes($tid,'%',$classes[$cids[0]]['bid']);
 		}
 
 

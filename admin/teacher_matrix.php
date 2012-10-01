@@ -126,7 +126,7 @@ three_buttonmenu($extrabuttons,$book);
 <?php
 		print '<td>'.$tid.' ('.$user['surname'].')</td>';
 		print '<td>';
-		$classes=list_teacher_classes($tid,$crid,$curryear);
+		$classes=list_teacher_classes($tid,$crid,'%',$curryear);
 		foreach($classes as $no => $class){
 			if(fmod($no,8)==0){print '<br />';}
 			print '<span title="'.$class['detail'].'"><a href="admin.php?current=class_edit.php&choice='.$choice.'&cancel='.$choice.'&newtid='.$tid.'&newcid='.$class['id'].'">'.$class['name'].'</a>&nbsp&nbsp</span>';

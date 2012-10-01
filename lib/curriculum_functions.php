@@ -449,13 +449,13 @@ function list_class_teachers($cid){
  *	@return array
  *
  */
-function list_teacher_classes($tid,$crid='%',$year=''){
+function list_teacher_classes($tid,$crid='%',$bid='%',$year=''){
 	$classes=array();
 	if($year==''){$year=get_curriculumyear();}
 	$d_c=mysql_query("SELECT class.id, class.name, class.detail, class.subject_id AS bid FROM class JOIN tidcid
 			ON class.id=tidcid.class_id WHERE tidcid.teacher_id='$tid' 
 			AND class.cohort_id=ANY(SELECT id FROM cohort WHERE cohort.year='$year' 
-			AND cohort.course_id LIKE '$crid') ORDER BY class.name;");
+			AND cohort.course_id LIKE '$crid') AND class.subject_id LIKE '$bid' ORDER BY class.name;");
    	while($class=mysql_fetch_array($d_c,MYSQL_ASSOC)){
 		$classes[]=$class;
 		}

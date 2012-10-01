@@ -46,29 +46,33 @@ three_buttonmenu();
 	  <fieldset class="left">
 		<legend><?php print_string('classesthatusethismark',$book);?></legend>
 <?php
-	/*select the classes that already use this mark*/
+	/* select the classes that already use this mark */
 	$oldcids=array();
-   	$d_cids=mysql_query("SELECT class_id  FROM midcid WHERE mark_id='$mid' ORDER BY class_id");
-    while($oldcid = mysql_fetch_array($d_cids,MYSQL_ASSOC)){$oldcids[]=$oldcid['class_id'];}
+   	$d_cids=mysql_query("SELECT class_id FROM midcid WHERE mark_id='$mid' ORDER BY class_id");
+    while($oldcid = mysql_fetch_array($d_cids,MYSQL_ASSOC)){
+		$oldcids[]=$oldcid['class_id'];
+		}
 
-	/*select all possible classes to apply the mark to*/
+	$curryear=get_curriculumyear();
+
+	/* select all possible classes to apply the mark to */
 	if($r>-1){
-		/*	   	either by current responsibility choice*/
+		/* either by current responsibility choice */
 	 	$rbid=$respons[$r]['subject_id'];
 		$rcrid=$respons[$r]['course_id'];
-		$d_cids=mysql_query("SELECT DISTINCT id AS class_id FROM class WHERE
-			(subject_id LIKE '$rbid' OR subject_id='%') AND (course_id
-			LIKE '$rcrid' OR course_id='%') ORDER BY id");
+		$d_cids=mysql_query("SELECT class.id, class.name FROM class JOIN cohort ON class.cohort_id=cohort.id
+							WHERE cohort.course_id LIKE '$rcrid' AND cohort.year='$curryear'
+							AND (subject_id LIKE '$rbid' OR subject_id='%') ORDER BY class.name;");
 		}
 	else{	 
-		/*by the subject of this class*/
+		/* by the subject of this class */
 		$cid=$cids[0];
-		$d_bid = mysql_query("SELECT DISTINCT subject_id FROM class WHERE id='$cid'");
-		$bid = mysql_result($d_bid,0);
-		$d_cids = mysql_query("SELECT DISTINCT id AS class_id
+		$d_bid=mysql_query("SELECT subject_id FROM class WHERE id='$cid'");
+		$bid=mysql_result($d_bid,0);
+		$d_cids = mysql_query("SELECT class.id, class.name
 				FROM class JOIN tidcid ON tidcid.class_id=class.id 
-				WHERE tidcid.teacher_id='$tid' 
-				AND class.subject_id='$bid' ORDER BY class_id");
+				WHERE tidcid.teacher_id='$tid' AND class.subject_id='$bid' 
+				AND cohort_id=ANY(SELECT id FROM cohort WHERE year='$curryear') ORDER BY class.id");
 		}
 
 	$nocids=mysql_num_rows($d_cids)+1;
@@ -80,10 +84,10 @@ three_buttonmenu();
 <?php
 	$newcids=array();
 	while($newcid = mysql_fetch_array($d_cids,MYSQL_ASSOC)) {
-		$newcids[]=$newcid['class_id'];
+		$newcids[]=$newcid['id'];
 		print '<option ';
-		if(in_array($newcid['class_id'],$oldcids)){print 'selected="selected"';}
-		print ' value="'.$newcid['class_id'].'">'.$newcid['class_id'].'</option>';
+		if(in_array($newcid['id'],$oldcids)){print 'selected="selected"';}
+		print ' value="'.$newcid['id'].'">'.$newcid['name'].'</option>';
 		}
 ?>			
 		</select>
