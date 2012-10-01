@@ -29,7 +29,7 @@ if(isset($_GET['name'])){$profilename=$_GET['name'];}
 if(isset($_POST['name'])){$profilename=$_POST['name'];}
 if(isset($_GET['description'])){$description=$_GET['description'];}
 
-trigger_error($bid.' :  '.$pid.' : '.$template,E_USER_WARNING);
+//trigger_error($bid.' :  '.$pid.' : '.$template,E_USER_WARNING);
 
 if(sizeof($sids)==0){
 	$result[]=get_string('youneedtoselectstudents');
@@ -107,6 +107,10 @@ else{
 		$AssDefs=(array)fetch_cohortAssessmentDefinitions($cohort,$profile['id']);
 		$prev_AssDefs=(array)fetch_cohortAssessmentDefinitions($prevcohort,$profile['id']);
 		$AssDefs=(array)array_merge($AssDefs,$prev_AssDefs);
+		}
+	elseif($profile['transform']=='tracking_gcse'){
+		$pid='%';
+		$bid='%';
 		}
 	else{
 		$pid='%';
