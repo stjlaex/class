@@ -34,6 +34,7 @@ else{
 		}
 	}
 $curryear=$_SESSION['markbookcurryear'];
+$current_curryear=get_curriculumyear();
 
  /**
   * If the classes selection has changed then need to refresh some of 

@@ -9,6 +9,7 @@
  */
 
 $choice='class_view.php';
+/* Automatically lock assessment columns older than 60 days. */
 $cutoffdate=date('Y-m-d',mktime(0,0,0,date('m'),date('d')-60,date('Y')));
 /*Fetches all the info needed for this view*/
 include('class_view_marks.php');
@@ -128,7 +129,8 @@ if($_SESSION['worklevel']>-1){
 	/*The mark's column header, with a checkbox which provides $mid */	      
 	for($col=0;$col<sizeof($umns);$col++){
 		if($umns[$col]['marktype']=='score' or $umns[$col]['marktype']=='hw'){
-			if($umns[$col]['entrydate']<$cutoffdate and $umns[$col]['assessment']!='no'){
+			/* If it is an assessment column and older than 60 days then lock form editing, unless you have course permissions. */
+			if(($umns[$col]['entrydate']<$cutoffdate and $umns[$col]['assessment']!='no' and $r==-1) or $curryear!=$current_curryear){
 				print '<th class="'.$umns[$col]['displayclass'].'" id="'.$umns[$col]['id'].'"><span title="'.$umns[$col]['comment'].'">' 
 					  .$umns[$col]['topic'].'<p>'.display_date($umns[$col]['entrydate']).'</p>
 	      <p class="component">'.$umns[$col]['component'].'</p>'.$umns[$col]['marktype'].'<input type="checkbox" name="checkmid[]" value="'.$umns[$col]['id'].'" /></span></th>';
@@ -137,7 +139,7 @@ if($_SESSION['worklevel']>-1){
 				print '<th class="'.$umns[$col]['displayclass'].'" id="'.$umns[$col]['id'].'"><span title="'.$umns[$col]['comment'].'"><a 
 				href="markbook.php?current=edit_scores.php&cancel=class_view.php&scoretype='. 
 					  $scoretype[$col].'&grading_name='. 
-					  $scoregrading[$col].'&mid='.$umns[$col]['id'].'&col='.$col.'">' 
+					  $scoregrading[$col].'&mid='.$umns[$col]['id'].'&col='.$col.'"><img class="clicktoedit"/>' 
 					  .$umns[$col]['topic'].'<p>'.display_date($umns[$col]['entrydate']).'</p></a>
 	      <p class="component">'.$umns[$col]['component'].'</p>'.$umns[$col]['marktype'].'<input type="checkbox" name="checkmid[]" value="'.$umns[$col]['id'].'" /></span></th>';
 				}

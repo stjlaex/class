@@ -174,8 +174,11 @@ three_buttonmenu($extrabuttons);
 			<a href="reportbook.php?current=edit_scores.php&cancel=new_assessment.php&eid=<?php print $eid;?>&curryear=<?php print $curryear;?>&profid=<?php print $profid;?>&pid=&bid="><?php print_string('scoresentered',$book);?>				
 				<value id="<?php print $eid;?>-Archivecount">
 				  <?php print $AssCount['ArchiveCount']['value'];?></value>
+<!-- With multiple MarkBook years this now misleading...
 				(<value id="<?php print $eid;?>-Scorecount"> 
-				  <?php print $AssCount['ScoreCount']['value'];?></value>).</a>
+				  <?php print $AssCount['ScoreCount']['value'];?></value>).
+-->
+				</a>
 			  </p>
 			</td>
 		  </tr>

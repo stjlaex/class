@@ -77,6 +77,7 @@ if($sub=='Submit'){
 			update_assessment_score($eid,$sid,$bid,$label,$score);
 			foreach($strand_mids[$lindex] as $mid){
 				update_mark_score($mid,$sid,$score);
+				trigger_error($mid.' '.$sid.' '.$score['value'],E_USER_WARNING);
 				}
 			}
 		}

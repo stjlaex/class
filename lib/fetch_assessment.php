@@ -300,6 +300,8 @@ function fetchAssessmentDefinition($eid){
  *  Counts the number of associated mark columns and scores in the
  *  MarkBook for the given assessment id.
  *
+ *  TODO: limit the counts to current year perhaps??
+ *
  *	@param integer $eid
  *	@return array
  */
@@ -307,9 +309,11 @@ function fetchAssessmentCount($eid){
 	$AssDef=array();
 	$d_c=mysql_query("SELECT COUNT(mark_id) FROM eidmid WHERE assessment_id='$eid';");
 	$markcount=mysql_result($d_c,0);
-	$d_c=mysql_query("SELECT COUNT(student_id) FROM score 
+	/*
+	$d_c=mysql_query("SELECT COUNT(DISTINCT student_id) FROM score 
 							JOIN eidmid ON eidmid.mark_id=score.mark_id WHERE eidmid.assessment_id='$eid';");
 	$scorecount=mysql_result($d_c,0);
+	*/
 	$d_c=mysql_query("SELECT COUNT(student_id) FROM eidsid WHERE assessment_id='$eid' AND student_id!='0'");
 	$archivecount=mysql_result($d_c,0);
 
@@ -1065,7 +1069,6 @@ function update_mark_score($mid,$sid,$score){
 					('$val',  '$mid', '$sid')")){}
 			else{mysql_query("UPDATE score SET
 					$field='$val' WHERE mark_id='$mid' AND student_id='$sid';");}
-
 			}
 		}
 	}
