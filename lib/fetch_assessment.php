@@ -1157,24 +1157,16 @@ function get_assessment_mids($AssDef,$bid,$pid=''){
 	else{
 		$stages[]=array('id'=>$AssDef['Stage']['value'],'name'=>$AssDef['Stage']['value']);
 		}
-	foreach($stages as $stage){
-		$cohorts[]=array('course_id'=>$crid,'stage'=>$stage['id'],'year'=>$AssDef['Year']['value']);
-		}
-
 	if(mysql_query("CREATE TEMPORARY TABLE assmids (SELECT DISTINCT mark_id FROM eidmid 
 				JOIN mark ON mark.id=eidmid.mark_id WHERE (mark.assessment='yes' OR mark.assessment='other') AND
 				mark.component_id='$pid' AND eidmid.assessment_id='$eid');")){}
 	else{print 'Failed!<br />'; $error=mysql_error(); print $error.'<br />';}
-
-	foreach($cohorts as $cohort){
-		$cohid=update_cohort($cohort);
-		$d_marks=mysql_query("SELECT DISTINCT assmids.mark_id FROM assmids 
+	$d_marks=mysql_query("SELECT DISTINCT assmids.mark_id FROM assmids 
 							WHERE assmids.mark_id=ANY(SELECT mark_id FROM midcid JOIN class ON class.id=midcid.class_id 
-														WHERE class.subject_id='$bid' AND class.cohort_id='$cohid');");
-		if(mysql_num_rows($d_marks)>0){
-			while($mid=mysql_fetch_array($d_marks,MYSQL_ASSOC)){
-				$mids[]=$mid['mark_id'];
-				}
+														WHERE class.subject_id='$bid');");
+	if(mysql_num_rows($d_marks)>0){
+		while($mid=mysql_fetch_array($d_marks,MYSQL_ASSOC)){
+			$mids[]=$mid['mark_id'];
 			}
 		}
 	mysql_query("DROP TABLE assmids;");

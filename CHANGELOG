@@ -8,7 +8,11 @@ Removed the ScoreCount field from an Assessment Def as it is confusing.
 Added a clicktoedit icon to MarkBook column headers.
 
 Change the cutoffdate option for editing assessment columns so that
-anyone with course responsibilities selected can edit any of them.
+anyone with course responsibilities selected can edit any in the
+current MarrkBook.
+
+Fix to get_assessment_mids for when the assessment is for a previous
+year.
 
 
 Version ClaSS-1.0.32 release (2012/09/26)
