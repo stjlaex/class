@@ -54,6 +54,12 @@ while($student=mysql_fetch_array($d_students, MYSQL_ASSOC)){
 			if($scoretype=='grade'){
 				$out=scoreToGrade($score['grade'],$scoregrades[$scoregrading[$c]]);
 				$outrank=$score['grade'];
+
+				/* For traffic light grades only... */
+				if($out=='green'){$scoreclass.=' golite';$out='';}
+				elseif($out=='red'){$scoreclass.=' hilite';$out='';}
+				elseif($out=='yellow'){$scoreclass.=' pauselite';$out='';}
+
 				}
 			elseif($scoretype=='value'){
 				$out=$score['value'];
