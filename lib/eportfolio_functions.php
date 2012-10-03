@@ -1280,12 +1280,15 @@ function list_files($epfusername,$foldertype){
 		$folder_id=new_folder($epfuid,$folder_name,'',false);
 		}
 
-	$d_f=mysql_query("SELECT ident, title, description, location, originalname FROM $table_files 
-						WHERE files_owner='$epfuid' AND folder='$folder_id' ORDER BY time_uploaded DESC;");
+	$d_f=mysql_query("SELECT file.id, title, description, location, originalname FROM file 
+						JOIN file_folder ON file_folder.id=file.folder_id
+						WHERE file.owner_id='$epfuid';");
 	while($file=mysql_fetch_array($d_f,MYSQL_ASSOC)){
+		$file['description']=$file['description'];
 		$file['name']=$file['originalname'];
 		$file['path']=$CFG->eportfolio_dataroot.'/'.$file['location'];
-		$file['url']=$CFG->eportfoliosite.'/'.$epfun.'/files/'.$folder_id.'/'.$file['ident'].'/'.$file['originalname'];
+		// only the path is needed?
+		//$file['url']=$CFG->eportfoliosite.'/'.$epfun.'/files/'.$folder_id.'/'.$file['ident'].'/'.$file['originalname'];
 		$files[]=$file;
 		}
 
