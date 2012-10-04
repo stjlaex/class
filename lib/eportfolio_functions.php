@@ -1225,7 +1225,7 @@ function new_folder($owner,$name,$access=''){
 	if(mysql_num_rows($d_folder)>0){
 		$folder_id=mysql_result($d_folder,0);
 		}
-	elseif($owner!='' and $name!='' and $access!=''){
+	elseif($owner!='' and $name!=''){
 		$d_f=mysql_query("INSERT INTO file_folder SET  owner='s', owner_id='$owner',
 					 name='$name', access='$access', parent_folder_id='-1';");
 		$folder_id=mysql_insert_id();
@@ -1249,40 +1249,15 @@ function new_folder($owner,$name,$access=''){
  * @params logical $dbc
  * @return array $files
  */
-function list_files($epfusername,$foldertype){
+function list_files($epfun,$foldertype){
 
 	$files=array();
 
 	$epfuid=get_epfuid($epfun,'s');
 
-	if($filetype=='icon'){
-		/*
-		$d_u=mysql_query("SELECT icon FROM $userstable WHERE username='$owner';");
-		if(mysql_num_rows($d_u)==1){
-			$iconid=mysql_result($d_u,0);
-			$fileurl=$CFG->eportfoliosite.'/_icon/user/'.$iconid.'/h/135/w/100';
-			}
-		*/
-		}
-	elseif($filetype=='work'){
-		$folder_name='Portfolio Work';
-		}
-	elseif($filetype=='report'){
-		$folder_name='Reports';
-		}
-	else{
-		/* Just defaults to their parent folder. */
-		$folder_name='root';
-		$folder_id=-1;
-		}
-
-	if($folder_name!='root'){
-		$folder_id=new_folder($epfuid,$folder_name,'',false);
-		}
-
 	$d_f=mysql_query("SELECT file.id, title, description, location, originalname FROM file 
 						JOIN file_folder ON file_folder.id=file.folder_id
-						WHERE file.owner_id='$epfuid';");
+						WHERE file.owner_id='$epfuid' AND file_folder.name='$foldertype';");
 	while($file=mysql_fetch_array($d_f,MYSQL_ASSOC)){
 		$file['description']=$file['description'];
 		$file['name']=$file['originalname'];
