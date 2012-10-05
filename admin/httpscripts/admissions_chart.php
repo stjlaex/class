@@ -121,7 +121,7 @@ if(isset($transform) and $transform!=''){
 	$Centers=array();
 	$Centers['AdmissionCenter']=array();
 	$Centers['AdmissionCenter'][]['Stats']=$Stats;
-	$postdata='';
+	$postdata['transform']='';
 	require_once('../../lib/curl_calls.php');
 	foreach($CFG->feeders as $feeder){
 		if($feeder!=''){
