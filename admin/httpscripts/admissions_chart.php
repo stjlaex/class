@@ -6,13 +6,8 @@
 require_once('../../scripts/http_head_options.php');
 
 $book='admin';
-if(isset($_GET['transform'])){$transform=$_GET['transform'];}else{$transform='';}
+if(isset($_GET['transform'])){$transform=$_GET['transform'];}else{$transform='admission_chart_current';}
 if(isset($_POST['transform'])){$transform=$_POST['transform'];}
-
-$Centers=array();
-$Centers['AdmissionCenter']=array();
-
-
 
 
 $todate=date('Y-m-d');
@@ -121,25 +116,34 @@ foreach($tables as $tablename=>$table_cols){
 	$Stats['tables']['table'][]=$Table;
 	}
 
-$Centers['AdmissionCenter'][]['Stats']=$Stats;
 
 if(isset($transform) and $transform!=''){
+	$Centers=array();
+	$Centers['AdmissionCenter']=array();
+	$Centers['AdmissionCenter'][]['Stats']=$Stats;
+	$postdata='';
+	require_once('../../lib/curl_calls.php');
 	foreach($CFG->feeders as $feeder){
 		if($feeder!=''){
-			$OtherCenters=(array)feeder_fetch('admission_chart',$feeder,$postdata);
-			$Centers['AdmissionCenter'][]['Stats']=$OtherCenters['AdmissionCenter'][0]['Stats'];
+			$Centers['AdmissionCenter'][]['Stats']=(array)feeder_fetch('admissions_chart',$feeder,$postdata);
+			//trigger_error($feeder,E_USER_WARNING);
 			}
 		}
+
+	$Centers['DateStamp']=display_date($todate);
+	$Centers['Paper']='landscape';
+	$Centers['Transform']=$transform;
+	$returnXML=$Centers;
+	$rootName='AdmissionCenters';
+	}
+else{
+	/* This is repsonse to a curl call */
+	$returnXML=$Stats;
+	$rootName='Stats';
 	}
 
 
-$Centers['DateStamp']=display_date($todate);
-$Centers['Paper']='landscape';
-$Centers['Transform']=$transform;
 
-
-$returnXML=$Centers;
-$rootName='AdmissionCenters';
 
 require_once('../../scripts/http_end_options.php');
 exit;
