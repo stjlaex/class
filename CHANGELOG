@@ -1,4 +1,4 @@
-Version ClaSS-1.0.33 release (2012/10/02)
+Version ClaSS-1.0.33 release (2012/10/05)
 -------------------------------------------
 
 Fix to the list of subject classes in column edit.
@@ -15,6 +15,9 @@ Fix to get_assessment_mids for when the assessment is for a previous
 year.
 
 Added coloured grade cells for traffic light grade schemes.
+
+New chart option, just looking at current roll, for the
+enrolments_matrix.
 
 
 Version ClaSS-1.0.32 release (2012/09/26)

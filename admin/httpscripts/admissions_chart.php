@@ -6,8 +6,14 @@
 require_once('../../scripts/http_head_options.php');
 
 $book='admin';
-if(isset($_GET['transform'])){$transform=$_GET['transform'];}else{$transform='admission_chart_current';}
+if(isset($_GET['transform'])){$transform=$_GET['transform'];}else{$transform='';}
 if(isset($_POST['transform'])){$transform=$_POST['transform'];}
+
+$Centers=array();
+$Centers['AdmissionCenter']=array();
+
+
+
 
 $todate=date('Y-m-d');
 $currentyear=get_curriculumyear();
@@ -115,12 +121,25 @@ foreach($tables as $tablename=>$table_cols){
 	$Stats['tables']['table'][]=$Table;
 	}
 
-$Stats['DateStamp']=display_date($todate);
-$Stats['Paper']='landscape';
-$Stats['Transform']=$transform;
+$Centers['AdmissionCenter'][]['Stats']=$Stats;
 
-$returnXML=$Stats;
-$rootName='Stats';
+if(isset($transform) and $transform!=''){
+	foreach($CFG->feeders as $feeder){
+		if($feeder!=''){
+			$OtherCenters=(array)feeder_fetch('admission_chart',$feeder,$postdata);
+			$Centers['AdmissionCenter'][]['Stats']=$OtherCenters['AdmissionCenter'][0]['Stats'];
+			}
+		}
+	}
+
+
+$Centers['DateStamp']=display_date($todate);
+$Centers['Paper']='landscape';
+$Centers['Transform']=$transform;
+
+
+$returnXML=$Centers;
+$rootName='AdmissionCenters';
 
 require_once('../../scripts/http_end_options.php');
 exit;
