@@ -1101,7 +1101,7 @@ function fetchProfileStatements($profile_name,$bid,$pid,$sid,$cutoff_date){
 												  'author'=>'ClaSS',
 												  'rating_fraction'=>1);
 								 $Statements_new[]=fetchStatement($statement,1);
-								 trigger_error($profile_name.' '.$statno.':: '.$Category['value'].' : '.$Category['level'].' : '.$Category['date'],E_USER_WARNING);
+								 //trigger_error($profile_name.' '.$statno.':: '.$Category['value'].' : '.$Category['level'].' : '.$Category['date'],E_USER_WARNING);
 							}
 						}
 				  }

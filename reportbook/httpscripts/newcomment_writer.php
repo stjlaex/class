@@ -95,13 +95,11 @@ if($reportdef['report']['profile_names'][0]!='' and isset($subcomments_fix)){
 			}
 		}
 
-/*TODO: categories are not yet handled by the comment writer*/
-$reportdef['report']['addcategory']='no';
-if($reportdef['report']['addcategory']=='yes'){
-	//trigger_error($rid.$bid.$pid.'cat',E_USER_WARNING);
+/*TODO: categories are only handled by the comment writer for rpeort summaries. */
+if($reportdef['report']['addcategory']=='yes' and $bid=='summary'){
 	$catdefs=get_report_categories($rid,$bid,$pid,'cat');
-	$ratings=$reportdef['ratings'];
 	$ratingname=get_report_ratingname($reportdef,$bid);
+	$ratings=get_ratings($ratingname);
 	}
 
 /* Now if the connection to the statementbank db is turned on then
@@ -156,9 +154,9 @@ else{
 									action="newcomment_writer_action.php">
 
 <?php
-if($reportdef['report']['addcategory']=='yes'){
+if($reportdef['report']['addcategory']=='yes' and $bid=='summary'){
 ?>
-		  <div class="center" style="border-top:solid 1px;">
+		  <div class="content center" style="margin:5px 60px 5px 50px;">
 			<table class="listmenu hidden">
 <?php
 			if(isset($Comment['Categories'])){$Categories=$Comment['Categories'];}
@@ -166,12 +164,13 @@ if($reportdef['report']['addcategory']=='yes'){
 				$Categories['Category']=array();
 				$Categories['ratingname']=$ratingname;
 				}
-			$ratings=$reportdef['ratings'][$Categories['ratingname']];
+
+					   //$ratings=$reportdef['ratings'][$Categories['ratingname']];
 
 			while(list($catindex,$catdef)=each($catdefs)){
 				$catid=$catdefs[$catindex]['id'];
 				$catname=$catdefs[$catindex]['name'];
-				print '<tr class="revealed"><td class="row"><div style="width:100%;"><p>'.$catname.'</p></div></td></tr>';
+				print '<tr class="revealed"><td class="row" style="background-color:#fff;"><div style="width:100%;"><p>'.$catname.'</p></div></td></tr>';
 
 				/* Find any previously recorded value for this catid,
 				   make a first guess that they will have been
@@ -195,7 +194,7 @@ if($reportdef['report']['addcategory']=='yes'){
 					$setcat_value=-1000;
 					}
 
-				print '<tr class="revealed"><td class="boundary row">';
+				print '<tr class="revealed"><td class="boundary row" style="padding-left:40px;">';
 				$divwidth=round(90/sizeof($ratings));
 				foreach($ratings as $value=>$descriptor){
 					$checkclass='';
@@ -229,7 +228,7 @@ if($subcomments_no==0){$subcomments[]['name']='Comment';$subcomments_no=1;}
 		$commentlabel=$subcomments[$c]['name'];
 ?>
 
-		  <div class="center" style="border-top:solid 1px;">
+		  <div class="center" style="border-top:0px;">
 			<label style="float:left;background-color:#ffe;font-weight:600;padding:2px 6px;">
 			  <?php print $commentlabel;?>
 			</label>

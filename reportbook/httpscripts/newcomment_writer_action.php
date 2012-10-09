@@ -22,8 +22,6 @@ elseif($sub=='Submit'){
 	if(isset($_POST['pid'])){$pid=$_POST['pid'];}
 	if(isset($_POST['inmust'])){$inmust=$_POST['inmust'];}
 	if(isset($_POST['addcategory'])){$addcategory=$_POST['addcategory'];}
-/*TODO: categories are not yet handled by the commentwriter*/
-$addcategory=='no';
 
 
 	for($c=0;$c<$inno;$c++){
@@ -43,7 +41,9 @@ $addcategory=='no';
 
 	/* Now do the category radio boxes */
 	$incat='';
-	if($addcategory=='yes'){
+	/*TODO: categories are only handled by the commentwriter for
+	  report summaries. Careful not to overwrite subject ones!! */
+	if($addcategory=='yes' and $bid=='summary'){
 		/* CARE: we don't know the class stage here so have to get all
 		   catdefs and depend on catid being used correctly to
 		   identify the post values.
@@ -74,6 +74,13 @@ $addcategory=='no';
 						comment='$incom' WHERE report_id='$rid' AND
 						student_id='$sid' AND subject_id='$bid' AND
 						component_id='$pid' AND entryn='$entryn';");
+
+		if($incat!=''){
+			mysql_query("UPDATE reportentry SET
+						category='$incat' WHERE report_id='$rid' AND
+						student_id='$sid' AND subject_id='$bid' AND
+						component_id='$pid' AND entryn='$entryn';");
+			}
 		}
 	}
 

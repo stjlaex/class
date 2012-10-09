@@ -125,7 +125,8 @@ if(isset($transform) and $transform!=''){
 	require_once('../../lib/curl_calls.php');
 	foreach($CFG->feeders as $feeder){
 		if($feeder!=''){
-			$Centers['AdmissionCenter'][]['Stats']=(array)feeder_fetch('admissions_chart',$feeder,$postdata);
+			//TODO: make sure this is tested before going live!!
+			//$Centers['AdmissionCenter'][]['Stats']=(array)feeder_fetch('admissions_chart',$feeder,$postdata);
 			//trigger_error($feeder,E_USER_WARNING);
 			}
 		}
