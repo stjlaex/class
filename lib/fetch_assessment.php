@@ -489,7 +489,7 @@ function fetchAssessments_short($sid,$eid='%',$bid='%',$pid='%'){
 		if($eidsid['component_id']=='%'){$component='';}
 				else{$component=$eidsid['component_id'];}
 	   	$Assessment['SubjectComponent']=array('value'=>''.$component);
-	   	$Assessment['Component']=array('value'=>''.get_subjectname($component));
+	   	$Assessment['Component']=array('id'=>''.$component,'value'=>''.get_subjectname($component));
 	   	$Assessment['PrintLabel']=array('value'=>''.$ass['label']);
 	   	$Assessment['Element']=array('value'=>''.$ass['element']);
 	   	$Assessment['Result']=array('value'=>''.$eidsid['result']);
