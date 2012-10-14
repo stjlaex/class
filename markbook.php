@@ -285,7 +285,7 @@ if(isset($umns)){
 			$currentprofile['stage']=$classes[$cid]['stage'];
 			$currentprofile['classes']='';
 			foreach($cids as $cindex => $cid){
-				$currentprofile['classes'].=$cid.' ';
+				$currentprofile['classes'].=$classes[$cid]['name'].' ';
 				}
 			xmlechoer('Profile',$currentprofile);
 ?>
