@@ -114,7 +114,7 @@ else{
 		$prev_AssDefs=(array)fetch_cohortAssessmentDefinitions($prevcohort,$profile['id']);
 		$AssDefs=(array)array_merge($AssDefs,$prev_AssDefs);
 		}
-	elseif($profile['transform']=='tracking_gcse'){
+	elseif($profile['transform']=='tracking_gcse' or $profile['transform']=='tracking_us' or $profile['transform']=='tracking_ib'){
 		$pid='%';
 		$bid='%';
 		}

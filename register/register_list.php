@@ -18,7 +18,7 @@ else{$session='AM';}
 
 
 	/**
-	 * Get student either for a class or a community
+	 * Get students either for a class or a community
 	 */
 	if($community['type']=='class'){
 		$students=(array)listin_class($community['name'],true);
@@ -131,17 +131,33 @@ else{$session='AM';}
 	else{$seleveid=$checkeveid;}
 
 
-	$extrabuttons['summary']=array('name'=>'current',
+if($nodays>1){
+	$extrabuttons['studentsummary']=array('name'=>'current',
 								   'pathtoscript'=>$CFG->sitepath.'/'.$CFG->applicationdirectory.'/reportbook/',
 								   'title'=>'printreportsummary',
 								   'value'=>'report_attendance_print.php',
 								   'onclick'=>'checksidsAction(this)'
 								   );
-if($nodays>1){
-	threeplus_buttonmenu($startday,2,$extrabuttons);
+	threeplus_buttonmenu($startday,2,$extrabuttons,$book);
 	}
 else{
-	three_buttonmenu($extrabuttons);
+	$extrabuttons['classsummary']=array('name'=>'current',
+										'pathtoscript'=>$CFG->sitepath.'/'.$CFG->applicationdirectory.'/register/',
+										'title'=>'printreportsummary',
+										'value'=>'register_class_summary.php',
+										'xmlcontainerid'=>'class',
+										'onclick'=>'checksidsAction(this)'
+										);
+	/*
+	$extrabuttons['studentsummary']=array('name'=>'current',
+								   'pathtoscript'=>$CFG->sitepath.'/'.$CFG->applicationdirectory.'/register/',
+								   'title'=>'printreportsummary',
+								   'value'=>'register_student_summary.php',
+								   'xmlcontainerid'=>'class',
+								   'onclick'=>'checksidsAction(this)'
+								   );
+	*/
+	three_buttonmenu($extrabuttons,$book);
 	}
 
 ?>
@@ -427,6 +443,7 @@ else{
 <?php
 	$toyear=get_curriculumyear()-1;//TODO: set a proper start of term date
 	$today=date('Y-m-d');
+	if($nodays>1){
 ?>
   <div id="xml-checked-action" style="display:none;">
 	<session>
@@ -434,7 +451,18 @@ else{
 	  <enddate><?php print $today;?></enddate>
 	</session>
   </div>
-
 <?php
+		}
+	else{
+?>
+  <div id="xml-class" style="display:none;">
+	<params>
+		<cid><?php print $newcid;?></cid>
+		<startdate><?php print $toyear.'-08-01';?></startdate>
+		<enddate><?php print $today;?></enddate>
+	</params>
+  </div>
+<?php
+		}
 include('scripts/studentlist_extra.php');
 ?> 

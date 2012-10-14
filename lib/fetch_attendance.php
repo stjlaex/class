@@ -162,7 +162,7 @@ function fetchAttendances($sid,$startday=0,$nodays=7){
 
 /**
  *
- * Returns all attendance records for the previous number of lessons
+ * Returns attendance records for the previous number of lessons
  * for the class $cid before the day specified by $startday (and
  * $startday=0 is today)
  *
@@ -177,16 +177,24 @@ function fetchAttendances($sid,$startday=0,$nodays=7){
  *
  * @return array
  */
-function fetchLessonAttendances($cid,$startday=0,$lessonno=4,$sid){
+function fetch_classAttendances($cid,$sid,$startday=0,$lessonno=4,$dayno=-1){
 	$Attendances=array();
 	$eveindex=array();
 	$startdate=date('Y-m-d',mktime(0,0,0,date('m'),date('d')+$startday,date('Y')));
 
-	$d_a=mysql_query("SELECT attendance.status,
-			attendance.code, attendance.late, attendance.comment, 
+	if($dayno==-1){
+		$datelimit='';
+		}
+	else{
+		/* limit to lessons within a number of days */
+		$enddate=date('Y-m-d',mktime(0,0,0,date('m'),date('d')+$startday-($dayno-1),date('Y')));
+		$datelimit="AND event.date >= '$enddate' ";
+		}
+
+	$d_a=mysql_query("SELECT attendance.status, attendance.code, attendance.late, attendance.comment, 
 			event.id, event.session, event.period, event.date FROM attendance JOIN
 			event ON event.id=attendance.event_id WHERE attendance.class_id='$cid'
-			AND attendance.student_id='$sid' AND event.date <= '$startdate' 
+			AND attendance.student_id='$sid' AND event.date <= '$startdate' $datelimit 
 			ORDER BY event.date DESC, event.session, event.period LIMIT $lessonno;");
 
 	$index=0;
@@ -729,10 +737,8 @@ function count_attendance($sid,$startdate,$enddate,$code='',$session='%'){
 		}
 	$d_attendance=mysql_query("SELECT COUNT(attendance.status) FROM attendance JOIN
 			event ON event.id=attendance.event_id WHERE
-			attendance.student_id='$sid' AND
-			attendance.status='$status' AND attendance.code LIKE '$code' 
-			$excludecode AND attendance.code!='Y'   
-			AND attendance.code!='#' 
+			attendance.student_id='$sid' AND attendance.status='$status' AND attendance.code LIKE '$code' 
+			$excludecode AND attendance.code!='Y' AND attendance.code!='#' 
 			AND event.date >= '$startdate' AND event.date <= '$enddate' AND event.period='0' AND event.session LIKE '$session';");
 	$noatts=mysql_result($d_attendance,0);
 

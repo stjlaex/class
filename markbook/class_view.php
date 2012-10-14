@@ -200,7 +200,7 @@ if($_SESSION['worklevel']>-1){
 		  <td><?php print $viewtable[$c2]['form_id'];?></td>
 <?php
    		if($lessonatt>0){
-			$Attendances=(array)fetchLessonAttendances($cids[0],0,$lessonatt,$viewtable[$c2]['sid']);
+			$Attendances=(array)fetch_classAttendances($cids[0],$viewtable[$c2]['sid'],0,$lessonatt);
 			$lessonno=0;
 			foreach($Attendances['Attendance'] as $Att){
 				print '<td style="border:1px solid #ddd;" status="'.$Att['Status']['value'].'"><span title="'.$Att['Date']['value'].' P'.$Att['Period']['value'].' '.$Att['Comment']['value'].'">'.$Att['Code']['value'].'</span></td>';
