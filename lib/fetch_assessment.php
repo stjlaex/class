@@ -362,8 +362,8 @@ function fetchAssessments($sid,$eid='%'){
 					'type_db'=>'', 'value'=>$['']);
 */
 
-   	$d_eidsid=mysql_query("SELECT * FROM eidsid WHERE
-				student_id='$sid' AND assessment_id LIKE '$eid';");
+   	$d_eidsid=mysql_query("SELECT eidsid.*, comments.detail FROM eidsid LEFT JOIN comments ON comments.eidsid_id=eidsid.id
+								WHERE eidsid.student_id='$sid' AND eidsid.assessment_id LIKE '$eid';");
 	$asses=array();
   	while($eidsid=mysql_fetch_array($d_eidsid,MYSQL_ASSOC)){
 		$eid=$eidsid['assessment_id'];
@@ -452,6 +452,9 @@ function fetchAssessments($sid,$eid='%'){
 	   	$Assessment['Value']=array('label'=>'Result value','table_db'
 					=> 'eidsid', 'field_db'=>'value', 
 					'type_db'=>'', 'value'=>$eidsid['value']);
+	   	$Assessment['Comment']=array('label'=>'Comment','table_db'
+					=> 'comments', 'field_db'=>'detail', 
+					'type_db'=>'text', 'value'=>$eidsid['detail']);
 		if($eidsid['weight']=='2'){
 			$Assessments[]=$Assessment;
 	   		}
@@ -474,9 +477,10 @@ function fetchAssessments($sid,$eid='%'){
 function fetchAssessments_short($sid,$eid='%',$bid='%',$pid='%'){
 	if($pid==' '){$pid='%';}
 	$Assessments=array();
-   	$d_eidsid=mysql_query("SELECT * FROM eidsid WHERE
-				student_id='$sid' AND assessment_id LIKE '$eid' AND
-				subject_id LIKE '$bid' AND component_id LIKE '$pid';");
+   	$d_eidsid=mysql_query("SELECT eidsid.*, comments.detail FROM eidsid 
+				LEFT JOIN comments ON comments.eidsid_id=eidsid.id WHERE
+				eidsid.student_id='$sid' AND eidsid.assessment_id LIKE '$eid' AND
+				eidsid.subject_id LIKE '$bid' AND eidsid.component_id LIKE '$pid';");
   	while($eidsid=mysql_fetch_array($d_eidsid,MYSQL_ASSOC)){
 		$eid=$eidsid['assessment_id'];
 		$d_ass=mysql_query("SELECT * FROM assessment WHERE id='$eid';");
@@ -495,6 +499,7 @@ function fetchAssessments_short($sid,$eid='%',$bid='%',$pid='%'){
 	   	$Assessment['Result']=array('value'=>''.$eidsid['result']);
 		$Assessment['Result']=$Assessment['Result'];
 	   	$Assessment['Value']=array('value' =>''.$eidsid['value']);
+	   	$Assessment['Comment']=array('value'=>$eidsid['detail']);
 		$Assessment=$Assessment;
 		if($eidsid['weight']=='2'){
 			$Assessments[]=$Assessment;
@@ -525,8 +530,7 @@ function fetch_enrolmentAssessmentDefinitions($com='',$stage='E',$enrolyear='000
 	$crids=array();
 
 	if($com==''){
-		$d_a=mysql_query("SELECT id FROM assessment
-			   WHERE course_id='%' AND 
+		$d_a=mysql_query("SELECT id FROM assessment WHERE course_id='%' AND 
 				stage='$stage' AND year='$enrolyear' AND profile_name='' AND resultstatus!='S' 
 				ORDER BY course_id;");
 		}
@@ -541,8 +545,7 @@ function fetch_enrolmentAssessmentDefinitions($com='',$stage='E',$enrolyear='000
 		$cohorts=list_community_cohorts($yearcommunity);
 		foreach($cohorts as $cohort){
 			$crid=$cohort['course_id'];
-			$d_a=mysql_query("SELECT id FROM assessment
-			   WHERE course_id='$crid' AND 
+			$d_a=mysql_query("SELECT id FROM assessment WHERE course_id='$crid' AND 
 				stage='$stage' AND year='$enrolyear' AND profile_name='' AND resultstatus!='S' 
 				ORDER BY course_id;");
 			}
@@ -1013,8 +1016,9 @@ function update_assessment_score($eid,$sid,$bid,$pid,$score){
 	if(isset($score['date'])){$date=$score['date'];}else{$date=date('Y-m-d');}
 
 	/* Check if this is really an update of eidsid and if not insert a
-		new record. If the result is blank then simply delete the old
-		record. */
+	 * new record. If the result is blank then simply delete the old
+	 * record.
+	 */
 	$d_eidsid=mysql_query("SELECT id, result FROM eidsid
 				WHERE subject_id='$bid' AND component_id='$pid' 
 				AND assessment_id='$eid' AND student_id='$sid';");
@@ -1022,6 +1026,7 @@ function update_assessment_score($eid,$sid,$bid,$pid,$score){
 		mysql_query("INSERT INTO eidsid (assessment_id,
 					student_id, subject_id, component_id, result, value, date) 
 					VALUES ('$eid','$sid','$bid','$pid','$res','$val','$date');");
+		$id=mysql_insert_id();
 		}
 	else{
 		$oldscore=mysql_fetch_array($d_eidsid,MYSQL_ASSOC);
@@ -1034,11 +1039,39 @@ function update_assessment_score($eid,$sid,$bid,$pid,$score){
 			}
 		}
 
-	/* Now check to see if this score is an operand in any derivations*/
-	/* not needed if sid=0 (meaning just statistics being updated).*/
+	/*
+	 * Not needed if sid=0 (meaning just statistics being updated).
+	 */
 	if($sid>0){
-		$d_der=mysql_query("SELECT resultid FROM derivation
-				WHERE type='A' AND operandid='$eid'");
+		/* Check to see if a comment has been attached to the score
+		 *   and save to the comments table. 
+		 */
+		if(isset($score['comment'])){ 
+			$comment=$score['comment'];
+			$d_c=mysql_query("SELECT id FROM comments WHERE eidsid_id='$id';");
+			if(mysql_num_rows($d_c)>0){
+				$comment_id=mysql_result($d_c,0);
+				}
+			else{
+				$comment_id=-1;
+				}
+			if($comment!=''){
+				if($comment_id>0){
+					mysql_query("UPDATE comments SET detail='$comment' WHERE eidsid_id='$id';");
+					}
+				else{
+					mysql_query("INSERT INTO comments SET student_id='$sid',
+						detail='$comment', entrydate='$date', subject_id='$bid', 
+						category='$pid', eidsid_id='$id';");
+					}
+				}
+			elseif($comment=='' and $comment_id>0){
+				mysql_query("DELETE FROM comments WHERE eidsid_id='$id' LIMIT 1;");
+				}
+			}
+
+		/* Now check to see if this score is an operand in any derivations. */
+		$d_der=mysql_query("SELECT resultid FROM derivation WHERE type='A' AND operandid='$eid';");
 		while($der=mysql_fetch_array($d_der,MYSQL_ASSOC)){
 			$resultid=$der['resultid'];
 			$AssDef=fetchAssessmentDefinition($resultid);
@@ -1051,16 +1084,17 @@ function update_assessment_score($eid,$sid,$bid,$pid,$score){
 
 
 /**
+ *
  * Should always be used when writing to the score table. The $score
  * being recorded is an array with both result and value.
+ *
  */
 function update_mark_score($mid,$sid,$score){
 	if($mid!=-1 and $mid!=''){
 		$res=$score['result'];
 		$val=$score['value'];
 		if($val==''){
-			mysql_query("DELETE FROM score WHERE
-						mark_id='$mid' AND student_id='$sid' LIMIT 1");
+			mysql_query("DELETE FROM score WHERE mark_id='$mid' AND student_id='$sid' LIMIT 1;");
 			}
 		elseif(isset($score['type'])){
 			$field=$score['type'];/*either grade or value*/

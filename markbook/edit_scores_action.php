@@ -70,8 +70,8 @@ if($sub=='Submit'){
 			}
 
 		if(isset($eid) and isset($res)){
-			$ass=array('result'=>$res,'value'=>$inscore,'date'=>$todate);
-			update_assessment_score($eid,$sid,$bid,$pid,$ass);
+			$ass_score=array('result'=>$res,'value'=>$inscore,'date'=>$todate,'comment'=>$incomm);
+			update_assessment_score($eid,$sid,$bid,$pid,$ass_score);
 			}
 
 /*		Tidy up any empty value entries by deleting their score 
@@ -86,7 +86,8 @@ if($sub=='Submit'){
 					AND assessment_id='$eid' AND student_id='$sid'");
 				if(mysql_num_rows($d_eidsid)!=0){
 					$eidsidid=mysql_result($d_eidsid,0);
-					mysql_query("DELETE FROM eidsid WHERE id='$eidsidid'");
+					mysql_query("DELETE FROM eidsid WHERE id='$eidsidid';");
+					mysql_query("DELETE FROM comments WHERE eidsid_id='$eidsidid';");
 					}
 				}
 			}

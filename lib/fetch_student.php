@@ -1356,7 +1356,7 @@ function fetchComments($sid,$startdate='',$enddate=''){
 	$Comments['Startdate']=array('label' => 'startdate',
 								 'value' => ''.$startdate);
 	$d_comments=mysql_query("SELECT * FROM comments WHERE
-			student_id='$sid' AND entrydate>='$startdate' AND entrydate<='$enddate'
+			student_id='$sid' AND entrydate>='$startdate' AND entrydate<='$enddate' AND eidsid_id='0'
 			ORDER BY yeargroup_id DESC, entrydate DESC, id DESC, subject_id");
 	while($comment=mysql_fetch_array($d_comments,MYSQL_ASSOC)){
 		$subtable[$comment['subject_id']]=get_subjectname($comment['subject_id']);

@@ -83,6 +83,11 @@ elseif($ARGS['option']=='epfsync'){
 	$cmd='/usr/bin/php '.$CFG->installpath.'/'.$CFG->applicationdirectory.'/admin/httpscripts/eportfolio_sync_users.php --path='.$CFG->installpath;
 	exec("$cmd > /dev/null &");
 	}
+elseif($ARGS['option']=='studentevent'){
+	/* Update accounts for contacts in the ClaSSIC database */
+	$cmd='/usr/bin/php '.$CFG->installpath.'/'.$CFG->applicationdirectory.'/reportbook/httpscripts/student_event_cron.php --path='.$CFG->installpath;
+	exec("$cmd > /dev/null &");
+	}
 elseif($ARGS['option']=='ldapenrol'){
 	/* Synchronise courses and enrolments in ldap for use by Moodle */
 	$cmd='/usr/bin/php '.$CFG->installpath.'/'.$CFG->applicationdirectory.'/admin/httpscripts/ldap_enrol_users.php --path='.$CFG->installpath;

@@ -202,7 +202,8 @@ if($perm["$neededperm"]=1 and $AssDef['MarkCount']['value']==0){
 						/* Make entry in eidmid for this new mark. */
 						mysql_query("INSERT INTO eidmid (assessment_id,mark_id) VALUES ('$eid', '$mid');");
 
-						$d_class=mysql_query("SELECT id FROM class WHERE cohort_id='$cohid' AND subject_id LIKE '$bidnow';");
+						$d_class=mysql_query("SELECT id FROM class 
+												WHERE cohort_id='$cohid' AND subject_id LIKE '$bidnow';");
 						/* Make entries in midcid for the new mark */
 						while($d_cid=mysql_fetch_array($d_class,MYSQL_NUM)){
 							$cid=$d_cid[0];
@@ -214,21 +215,23 @@ if($perm["$neededperm"]=1 and $AssDef['MarkCount']['value']==0){
 						}
 
 					if($cidno>0){
-						$d_eidsids=mysql_query("SELECT student_id, result, value FROM eidsid WHERE
-				   		subject_id LIKE '$bid' AND component_id='$pid' AND assessment_id='$eid';");
+						$d_eidsids=mysql_query("SELECT eidsid.student_id, eidsid.result, eidsid.value, comments.detail 
+		   					FROM eidsid LEFT JOIN comments ON comments.eidsid_id=eidsid.id WHERE
+							eidsid.subject_id LIKE '$bid' AND eidsid.component_id='$pid' AND eidsid.assessment_id='$eid';");
 						$sids=array();
 						while($eidsid=mysql_fetch_array($d_eidsids,MYSQL_ASSOC)){
 							$sids[$eidsid['student_id']]=$eidsid;
 							}
-						while(list($sid,$score)=each($sids)){
+						foreach($sids as $sid => $score){
 							$out=$score['result'];
 							$value=$score['value'];
+							$comment=$score['detail'];
 							if($markdef_scoretype=='grade'){
 								$score=gradeToScore($out,$grading_grades);		
 								}
 							else{$score='';}
-							mysql_query("INSERT INTO score (student_id,
-										mark_id, grade, value) VALUES ('$sid','$mid', '$score', '$value');");
+							mysql_query("INSERT INTO score (student_id, mark_id, grade, value, comment) 
+											VALUES ('$sid','$mid', '$score', '$value','$comment');");
 							}
 						mysql_free_result($d_eidsids);
 						}

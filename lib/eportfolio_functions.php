@@ -718,6 +718,8 @@ function elgg_new_comment($epfu,$dateset,$message,$title,$tid){
 			   	posted='$posted',title='$title',body='$message',access='$access';");
 		$epfuidpost=mysql_insert_id();
 
+
+		$sends=array();//use to avoid mulitple notification meassages to the same address
 		$table=$CFG->eportfolio_db_prefix.'friends';
 		$d_f=mysql_query("SELECT owner FROM $table WHERE friend='$epfuid';");
 		while($friend=mysql_fetch_array($d_f,MYSQL_ASSOC)){
@@ -733,7 +735,8 @@ function elgg_new_comment($epfu,$dateset,$message,$title,$tid){
 			$d_u=mysql_query("SELECT email FROM $table WHERE ident='$epfuidmember';");
 			$emailaddress=trim(mysql_result($d_u,0));
 			//$emailaddress='stj@laex.org';
-			if($emailaddress!=''){
+			if($emailaddress!='' and !in_array($emailaddress,$sends)){
+				$sends[]=$emailaddress;
 				$title=get_string('epfcommenttitle','infobook').' '.$CFG->schoolname;
 				$message='<p>'.get_string('epfcommentemail','infobook',$studentname).' '.$CFG->eportfoliosite.'</p>';
 				$footer=get_string('guardianemailfooterdisclaimer');

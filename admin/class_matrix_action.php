@@ -120,7 +120,7 @@ elseif($sub=='Refresh'){
 		if($classdef['generate']=='forms'){
 			if($curryear==''){$curryear=get_curriculumyear($crid);}
 			$cohid=update_cohort(array('year'=>$curryear,'course_id'=>$crid,'stage'=>$stage));
-			/* TODO: make this optional becuase its a lot more than jst a refresh...
+			/* TODO: make this optional becuase its a lot more than just a refresh...
 			mysql_query("DELETE cidsid.* FROM cidsid, class WHERE
 					class.id=cidsid.class_id AND class.subject_id='$bid' AND class.cohort_id='$cohid';");
 			mysql_query("DELETE tidcid.* FROM tidcid, class WHERE 

@@ -1,3 +1,14 @@
+Version ClaSS-1.0.34 release (2012/10/22)
+-------------------------------------------
+
+Fix to avoid multiple notifications for share with parents emails.
+
+New summary option in the Register for class attendance.
+
+Assessment scores can now have a linked comment through the short note
+in edit_scores.
+
+
 Version ClaSS-1.0.33 release (2012/10/10)
 -------------------------------------------
 

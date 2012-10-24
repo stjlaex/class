@@ -141,13 +141,15 @@ if($nodays>1){
 	threeplus_buttonmenu($startday,2,$extrabuttons,$book);
 	}
 else{
-	$extrabuttons['classsummary']=array('name'=>'current',
+	if($newcid!=''){
+		$extrabuttons['classsummary']=array('name'=>'current',
 										'pathtoscript'=>$CFG->sitepath.'/'.$CFG->applicationdirectory.'/register/',
 										'title'=>'printreportsummary',
 										'value'=>'register_class_summary.php',
 										'xmlcontainerid'=>'class',
 										'onclick'=>'checksidsAction(this)'
 										);
+		}
 	/*
 	$extrabuttons['studentsummary']=array('name'=>'current',
 								   'pathtoscript'=>$CFG->sitepath.'/'.$CFG->applicationdirectory.'/register/',
