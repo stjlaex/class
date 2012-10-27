@@ -520,10 +520,12 @@ function list_student_course_classes($sid,$crid,$curryear=''){
 		$d_t=mysql_query("SELECT group_concat(forename, ' ', surname separator ', ') AS tids
 								FROM users JOIN tidcid ON tidcid.teacher_id=users.username 
 								WHERE tidcid.class_id='$cid' GROUP BY 'class_id';");
+		if(mysql_num_rows($d_t)>0){$tids=mysql_result($d_t,0);}
+		else{$tids='';}
 		$classes[]=array('id'=>$cid,
 						 'name'=>$c['name'],
 						 'subject_id'=>$c['subject_id'],
-						 'teachers'=>mysql_result($d_t,0));
+						 'teachers'=>$tids);
 		}
 
 	return $classes;
