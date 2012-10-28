@@ -69,10 +69,10 @@ function fetchAttendance($sid='-1'){
 								 'type_db'=>'varchar(14)', 
 								 'value'=>''.$attendance['teacher_id']);
 	$Attendance['Class']=array('label'=>'class',
-						  'table_db'=>'attendance', 
-						  'field_db'=>'class_id',
-						  'type_db'=>'varchar(10)', 
-						  'value'=>''.$attendance['class_id']);
+							   'table_db'=>'attendance', 
+							   'field_db'=>'class_id',
+							   'type_db'=>'varchar(10)', 
+							   'value'=>''.$attendance['class_id']);
 	return $Attendance;
 	}
 
@@ -641,11 +641,11 @@ function list_absentStudents($eveid='',$yid='%',$lates=0){
  * @param date $enddate
  * @return array
  */
-function fetchAttendanceSummary($sid,$startdate,$enddate,$session='%'){
+function fetch_classAttendanceSummary($cid,$sid,$startdate,$enddate,$session='%'){
 	$Attendance['Summary']=array();
 	$Attendance['Summary']['Session']=$session;
 
-	$no_present=count_attendance($sid,$startdate,$enddate,'',$session);
+	$no_present=count_class_attendance($sid,$cid,$startdate,$enddate,'',$session);
 
 	/**
 	 * These are lates after the register closed only
@@ -653,11 +653,11 @@ function fetchAttendanceSummary($sid,$startdate,$enddate,$session='%'){
 	 *
 	 * NB. Non-UK local additions here are UA and UB for authorised lates
 	 */
-	$no_late_authorised=count_attendance($sid,$startdate,$enddate,'L',$session);
-	$no_late_authorised+=count_attendance($sid,$startdate,$enddate,'UA',$session);
-	$no_late_authorised+=count_attendance($sid,$startdate,$enddate,'UB',$session);
-	$no_late_unauthorised=count_attendance($sid,$startdate,$enddate,'U',$session);
-	$no_visit=count_attendance($sid,$startdate,$enddate,'V',$session);
+	$no_late_authorised=count_class_attendance($sid,$cid,$startdate,$enddate,'L',$session);
+	$no_late_authorised+=count_class_attendance($sid,$cid,$startdate,$enddate,'UA',$session);
+	$no_late_authorised+=count_class_attendance($sid,$cid,$startdate,$enddate,'UB',$session);
+	$no_late_unauthorised=count_class_attendance($sid,$cid,$startdate,$enddate,'U',$session);
+	$no_visit=count_class_attendance($sid,$cid,$startdate,$enddate,'V',$session);
 	$no_late=$no_late_authorised+$no_late_unauthorised;
 
 	/* Attended: includes all partial sessions (late after register and out for educational visits/trip */
@@ -669,13 +669,11 @@ function fetchAttendanceSummary($sid,$startdate,$enddate,$session='%'){
 	 * attendance and the following formula resepcts this for
 	 * compiling the summary
 	 */
-	$no_absent=count_attendance($sid,$startdate,$enddate,'%',$session) - $no_late - $no_visit;
-	$no_notagreed=count_attendance($sid,$startdate,$enddate,'G',$session);
-	$no_notexplained=count_attendance($sid,$startdate,$enddate,'O',$session);
-	$no_noreason=count_attendance($sid,$startdate,$enddate,'N',$session);
-	$no_late_register=count_late($sid,$startdate,$enddate,$session);
-	//$no_ill=count_attendance($sid,$startdate,$endate,'I');
-	//$no_medical=count_attendance($sid,$startdate,$endate,'M');
+	$no_absent=count_class_attendance($sid,$cid,$startdate,$enddate,'%',$session) - $no_late - $no_visit;
+	$no_notagreed=count_class_attendance($sid,$cid,$startdate,$enddate,'G',$session);
+	$no_notexplained=count_class_attendance($sid,$cid,$startdate,$enddate,'O',$session);
+	$no_noreason=count_class_attendance($sid,$cid,$startdate,$enddate,'N',$session);
+	//$no_late_register=count_late($sid,$startdate,$enddate,$session);
 
 	$no_unauthorised_absent=$no_notagreed+$no_noreason+$no_notexplained;
 	$no_authorised_absent=$no_absent-$no_unauthorised_absent;
@@ -744,6 +742,48 @@ function count_attendance($sid,$startdate,$enddate,$code='',$session='%'){
 
 	return $noatts;
 	}
+
+
+/**
+ * This will count all present marks unless a code is specified when 
+ * it will count absence marks with that code. Set code=% will count
+ * all absence marks excluding those which can not be counted for a 
+ * student (ie. school closed #, not on roll Z, enforced closure Y and
+ * non-compulsory age X).
+ *
+ * @param integer $sid
+ * @param date $startdate
+ * @param date $enddate
+ * @param string $code
+ * @return array
+ */
+function count_class_attendance($sid,$cid,$startdate,$enddate,$code=''){
+
+	if($code==''){
+		$status='p';
+		$code='%';
+		}
+	else{
+		$status='a';
+		}
+	$excludecode="";
+	/*Normaly X and Z  should always be discounted for statistics except they have explicitly been searched for. */
+	if($code!='X'){
+		$excludecode=" AND attendance.code!='X'";
+		}
+	if($code!='Z'){
+		$excludecode.=" AND attendance.code!='Z'";
+		}
+	$d_attendance=mysql_query("SELECT COUNT(attendance.status) FROM attendance JOIN
+			event ON event.id=attendance.event_id WHERE
+			attendance.student_id='$sid'  AND attendance.class_id='$cid' AND attendance.status='$status' 
+			AND attendance.code LIKE '$code' $excludecode AND attendance.code!='Y' AND attendance.code!='#' 
+			AND event.date >= '$startdate' AND event.date <= '$enddate';");
+	$noatts=mysql_result($d_attendance,0);
+
+	return $noatts;
+	}
+
 
 
 

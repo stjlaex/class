@@ -274,6 +274,7 @@ else{
 		  </td>
 <?php
 		$attodds=array('AM'=>'forstroke','PM'=>'backstroke');
+		$prev_classes=array();
 		foreach($events as $index=>$eveid){
 ?>
 			<td id="cell-<?php print $eveid.'-'.$sid;?>"  
@@ -295,7 +296,16 @@ else{
 				$attcomm=$Attendance['Comment']['value'];
 				if($Attendance['Logtime']['value']!=''){$atttime=date('H:i',$Attendance['Logtime']['value']);}
 				else{$atttime='';}
-				if(!empty($Attendance['Class']['value'])){$subjectclass=$Attendance['Class']['value']. ' - '. $Attendance['Teacher']['value'];}
+				if(!empty($Attendance['Class']['value'])){
+					if(array_key_exists($Attendance['Class']['value'],$prev_classes)){
+						$thisclass=$prev_classes[$Attendance['Class']['value']];
+						}
+					else{
+						$thisclass=get_this_class($Attendance['Class']['value']);
+						$prev_classes[$Attendance['Class']['value']]=$thisclass;
+						}
+					$subjectclass=$thisclass['name']. ' - '. $Attendance['Teacher']['value'];
+					}
 				else{$subjectclass='';}
 				if($attvalue=='a' and ($attcode==' ' or $attcode=='O')){
 					$cell='title="" ><span title="? : <br />'. $atttime.' '.$attcomm.'<br />'. $subjectclass.'" >';
