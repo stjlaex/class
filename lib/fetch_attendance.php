@@ -641,6 +641,83 @@ function list_absentStudents($eveid='',$yid='%',$lates=0){
  * @param date $enddate
  * @return array
  */
+function fetchAttendanceSummary($sid,$startdate,$enddate,$session='%'){
+	$Attendance['Summary']=array();
+	$Attendance['Summary']['Session']=$session;
+
+	$no_present=count_attendance($sid,$startdate,$enddate,'',$session);
+
+	/**
+	 * These are lates after the register closed only
+	 * NB. UK Government says a late does not count as a present but here it does
+	 *
+	 * NB. Non-UK local additions here are UA and UB for authorised lates
+	 */
+	$no_late_authorised=count_attendance($sid,$startdate,$enddate,'L',$session);
+	$no_late_authorised+=count_attendance($sid,$startdate,$enddate,'UA',$session);
+	$no_late_authorised+=count_attendance($sid,$startdate,$enddate,'UB',$session);
+	$no_late_unauthorised=count_attendance($sid,$startdate,$enddate,'U',$session);
+	$no_visit=count_attendance($sid,$startdate,$enddate,'V',$session);
+	$no_late=$no_late_authorised+$no_late_unauthorised;
+
+	/* Attended: includes all partial sessions (late after register and out for educational visits/trip */
+	$no_attended=$no_present+$no_late+$no_visit;
+
+	/** 
+	 * For the purpose of official statistics an attendnace code can
+	 * be either an unauthorised absence, authorised absence or in
+	 * attendance and the following formula resepcts this for
+	 * compiling the summary
+	 */
+	$no_absent=count_attendance($sid,$startdate,$enddate,'%',$session) - $no_late - $no_visit;
+	$no_notagreed=count_attendance($sid,$startdate,$enddate,'G',$session);
+	$no_notexplained=count_attendance($sid,$startdate,$enddate,'O',$session);
+	$no_noreason=count_attendance($sid,$startdate,$enddate,'N',$session);
+	$no_late_register=count_late($sid,$startdate,$enddate,$session);
+	//$no_ill=count_attendance($sid,$startdate,$endate,'I');
+	//$no_medical=count_attendance($sid,$startdate,$endate,'M');
+
+	$no_unauthorised_absent=$no_notagreed+$no_noreason+$no_notexplained;
+	$no_authorised_absent=$no_absent-$no_unauthorised_absent;
+
+	$Attendance['Summary']['Attended']=array('label'=>'attended',
+											 'value'=>''.$no_attended);
+	$Attendance['Summary']['Late']=array('label'=>'late',
+										 'value'=>''.$no_late);
+	$Attendance['Summary']['Absentauthorised']=array('label'=>'authorisedabsent',
+													 'value'=>''.$no_authorised_absent);
+	$Attendance['Summary']['Absentunauthorised']=array('label'=>'unauthorisedabsent',
+													   'value'=>''.$no_unauthorised_absent);
+	$Attendance['Summary']['Lateunauthorised']=array('label'=>'lateunauthrosied',
+													 'value'=>''.$no_late_unauthorised);
+	$Attendance['Summary']['Lateauthorised']=array('label'=>'lateauthorised',
+												   'value'=>''.$no_late_authorised);
+	$Attendance['Summary']['Latetoregister']=array('label'=>'latetoregister',
+												   'value'=>''.$no_late_register);
+	$Attendance['Summary']['Notexplained']=array('label'=>'unexplained',
+												 'value'=>''.$no_notexplained);
+	$Attendance['Summary']['Enddate']=array('label'=>'enddate',
+											'value'=>''.$enddate);
+	$Attendance['Summary']['Startdate']=array('label'=>'startdate',
+											  'value'=>''.$startdate);
+	return $Attendance;
+	}
+
+
+
+
+
+/**
+ *
+ * Produces an xml-array called Summary with label,value pairs containg 
+ * number of lates, attended, authorised absences and unauthorised absences.
+ * Need to add count for approved educational activity codes.
+ *
+ * @param integer $sid
+ * @param date $startdate
+ * @param date $enddate
+ * @return array
+ */
 function fetch_classAttendanceSummary($cid,$sid,$startdate,$enddate,$session='%'){
 	$Attendance['Summary']=array();
 	$Attendance['Summary']['Session']=$session;
