@@ -11,6 +11,9 @@ include('scripts/sub_action.php');
 if((isset($_POST['remid']) and $_POST['remid']!='')){$remid=$_POST['remid'];}else{$remid='';}
 if((isset($_GET['remid']) and $_GET['remid']!='')){$remid=$_GET['remid'];}
 
+if((isset($_POST['paymenttype']) and $_POST['paymenttype']!='')){$filter_paymenttype=$_POST['paymenttype'];}else{$filter_paymenttype='';}
+if((isset($_GET['paymenttype']) and $_GET['paymenttype']!='')){$filter_paymenttype=$_GET['paymenttype'];}
+
 if((isset($_POST['invoicenumber']) and $_POST['invoicenumber']!='')){$invoicenumber=$_POST['invoicenumber'];}else{$invoicenumber='';}
 if((isset($_GET['invoicenumber']) and $_GET['invoicenumber']!='')){$invoicenumber=$_GET['invoicenumber'];}
 
@@ -23,16 +26,19 @@ $extrabuttons['previewselected']=array('name'=>'current',
 									   );
 
 
+
 two_buttonmenu($extrabuttons,$book);
 
 $Students=array();
 if($remid!=''){
 	$Remittance=fetchRemittance($remid);
-	$invoices=(array)list_remittance_invoices($remid);
+	$invoices=(array)list_remittance_invoices($remid,$filter_paymenttype);
 	}
 else{
 	$invoices=(array)list_invoices($invoicenumber);
 	}
+
+if($filter_paymenttype==''){
 ?>
   <div id="heading">
 <?php
@@ -44,6 +50,9 @@ else{
 	all_extrabuttons($button,'entrybook','sidtableFilter(this)');
 ?>
   </div>
+<?php
+	}
+?>
 
   <div id="viewcontent" class="content">
 
@@ -98,7 +107,7 @@ else{
 		if(isset($_POST['startno'])){$startno=$_POST['startno'];}
 		else{$startno=0;}
 		$totalno=sizeof($invoices);
-		$nextrowstep=60;
+		$nextrowstep=90;
 		if($startno>$totalno){$startno=$totalno-$nextrowstep;}
 		if($startno<0){$startno=0;}
 		$endno=$startno+$nextrowstep;
@@ -169,6 +178,7 @@ else{
 	<input type="hidden" name="startno" value="<?php print $startno;?>" />
 	<input type="hidden" name="nextrowstep" value="<?php print $nextrowstep;?>" />
 	<input type="hidden" name="remid" value="<?php print $remid;?>" />
+	<input type="hidden" name="paymenttype" value="<?php print $filter_paymenttype;?>" />
 	<input type="hidden" name="current" value="<?php print $action;?>" />
 	<input type="hidden" name="choice" value="<?php print $choice;?>" />
 	<input type="hidden" name="cancel" value="<?php print $choice;?>" />

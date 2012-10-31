@@ -6,12 +6,13 @@
 $action='fees_invoice_list.php';
 $cancel='fees_remittance_list.php';
 
-$action_post_vars=array('remid');
+$action_post_vars=array('remid','paymenttype');
 
 /* CFG->feeslib needs to be set depending on your provider */
 require_once($CFG->dirroot.'/lib/'.$CFG->feeslib);
 
 $remid=$_POST['remid'];
+$paymenttype=$_POST['paymenttype'];
 
 include('scripts/sub_action.php');
 

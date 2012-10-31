@@ -8,6 +8,7 @@ $cancel='fees_remittance_list.php';
 $choice='fees.php';
 
 $remid=$_POST['remid'];
+$paymenttype=$_POST['paymenttype'];
 if(isset($_POST['sids'])){$charids=(array)$_POST['sids'];}else{$charids=array();}
 
 three_buttonmenu();
@@ -31,6 +32,7 @@ three_buttonmenu();
 		</div>
 	</fieldset>
 
+	<input type="hidden" name="paymenttype" value="<?php print $paymenttype;?>" />
 	<input type="hidden" name="remid" value="<?php print $remid;?>" />
 	<input type="hidden" name="cancel" value="<?php print $cancel; ?>" />
 	<input type="hidden" name="current" value="<?php print $action;?>" />

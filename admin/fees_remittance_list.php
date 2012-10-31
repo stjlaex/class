@@ -75,19 +75,22 @@ two_buttonmenu($extrabuttons,$book);
 			  </div>
 <?php
 
+			$actionbuttons['list']=array('name'=>'process',
+											'value'=>'list');
+
 			$actionbuttons['invoice']=array('name'=>'process',
-										   'value'=>'invoice');
+											'value'=>'invoice');
 
 			$actionbuttons['export']=array('name'=>'process',
 										   'value'=>'export');
 
 			if($total_paid==0 and $total_notpaid==0){
 				$imagebuttons['clicktodelete']=array('name'=>'process',
-											 'value'=>'delete',
-											 'title'=>'delete');
+													 'value'=>'delete',
+													 'title'=>'delete');
 				$imagebuttons['clicktoedit']=array('name'=>'process',
-										   'value'=>'edit',
-										   'title'=>'edit');
+												   'value'=>'edit',
+												   'title'=>'edit');
 				}
 
 			print '<div class="center nolite" style="margin-top:4px;">';
