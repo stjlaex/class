@@ -560,25 +560,29 @@ function list_remittance_charges($remid,$conid='',$payment=''){
  *
  */
 function list_remittance_invoices($remid,$paymenttype=''){
-	/*
+
+
+	$d_i=mysql_query("SELECT issuedate, duedate FROM fees_remittance WHERE remittance_id='$remid';");
 	if($paymenttype!=''){
-		$payment="AND a.paymenttype='$paymenttype'";
+		$d_i=mysql_query("SELECT DISTINCT i.id, i.series, i.reference, i.account_id, i.remittance_id 
+							FROM fees_invoice AS i JOIN fees_charge AS c ON c.invoice_id=i.id  
+							WHERE i.remittance_id='$remid' AND c.paymenttype='$paymenttype' ORDER BY i.reference;");
 		}
 	else{
-		$payment='';
-		}
-	*/
-
-	$d_i=mysql_query("SELECT i.id, i.series, i.reference, i.account_id, i.remittance_id, r.issuedate, r.duedate FROM fees_invoice AS i  
-							JOIN fees_remittance AS r ON r.id=i.remittance_id  
-							 WHERE i.remittance_id='$remid' ORDER BY i.reference;");
-	/*
-	$d_i=mysql_query("SELECT id, i.reference, i.account_id FROM fees_invoice AS i
+		/*
+		$d_i=mysql_query("SELECT i.id, i.series, i.reference, i.account_id, i.remittance_id, r.issuedate, r.duedate 
+							FROM fees_invoice AS i JOIN fees_remittance AS r ON r.id=i.remittance_id  
 							WHERE i.remittance_id='$remid' ORDER BY i.reference;");
-	*/
+		*/
+		$d_i=mysql_query("SELECT id, reference, account_id, remittance_id FROM fees_invoice
+							WHERE remittance_id='$remid' ORDER BY reference;");
+		}
+
 
 	$invoices=array();
 	while($i=mysql_fetch_array($d_i)){
+		$i['issuedate']=$r['issuedate'];
+		$i['duedate']=$r['duedate'];
 		$invoices[]=$i;
 		}
 

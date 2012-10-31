@@ -6,10 +6,11 @@ $action='fees_remittance_list.php';
 $choice='fees.php';
 
 $feeyear=$_POST['feeyear'];
+$paymenttype='';
 
 if(isset($_GET['remid'])){$remid=$_GET['remid'];}else{$remid=-1;}
 if(isset($_POST['recordid'])){$remid=$_POST['recordid'];}
-$action_post_vars=array('feeyear','remid');
+$action_post_vars=array('feeyear','remid','paymenttype');
 
 include('scripts/sub_action.php');
 
@@ -21,6 +22,11 @@ elseif($sub=='export'){
 	}
 elseif($sub=='invoice'){
 	$action='fees_remittance_invoice.php';
+	$paymenttype='';
+	}
+elseif($sub=='list'){
+	$action='fees_invoice_list.php';
+	$paymenttype='2';
 	}
 elseif($sub=='delete'){
 
