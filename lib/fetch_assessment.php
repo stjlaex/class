@@ -1026,16 +1026,16 @@ function update_assessment_score($eid,$sid,$bid,$pid,$score){
 		mysql_query("INSERT INTO eidsid (assessment_id,
 					student_id, subject_id, component_id, result, value, date) 
 					VALUES ('$eid','$sid','$bid','$pid','$res','$val','$date');");
-		$id=mysql_insert_id();
+		$eidsid_id=mysql_insert_id();
 		}
 	else{
 		$oldscore=mysql_fetch_array($d_eidsid,MYSQL_ASSOC);
-		$id=$oldscore['id'];
+		$eidsid_id=$oldscore['id'];
 		if($res==''){
-			mysql_query("DELETE FROM eidsid WHERE id='$id' LIMIT 1;");
+			mysql_query("DELETE FROM eidsid WHERE id='$eidsid_id' LIMIT 1;");
 			}
 		elseif($oldscore['result']!=$res){
-			mysql_query("UPDATE eidsid SET result='$res', value='$val', date='$date' WHERE id='$id';");
+			mysql_query("UPDATE eidsid SET result='$res', value='$val', date='$date' WHERE id='$eidsid_id';");
 			}
 		}
 
@@ -1044,11 +1044,11 @@ function update_assessment_score($eid,$sid,$bid,$pid,$score){
 	 */
 	if($sid>0){
 		/* Check to see if a comment has been attached to the score
-		 *   and save to the comments table. 
+		 * and save to the comments table.
 		 */
-		if(isset($score['comment'])){ 
+		if(isset($score['comment']) and $eidsid_id>0){
 			$comment=$score['comment'];
-			$d_c=mysql_query("SELECT id FROM comments WHERE eidsid_id='$id';");
+			$d_c=mysql_query("SELECT id FROM comments WHERE eidsid_id='$eidsid_id' AND student_id='$sid';");
 			if(mysql_num_rows($d_c)>0){
 				$comment_id=mysql_result($d_c,0);
 				}
@@ -1057,16 +1057,16 @@ function update_assessment_score($eid,$sid,$bid,$pid,$score){
 				}
 			if($comment!=''){
 				if($comment_id>0){
-					mysql_query("UPDATE comments SET detail='$comment' WHERE eidsid_id='$id';");
+					mysql_query("UPDATE comments SET detail='$comment' WHERE id='$comment_id';");
 					}
 				else{
 					mysql_query("INSERT INTO comments SET student_id='$sid',
 						detail='$comment', entrydate='$date', subject_id='$bid', 
-						category='$pid', eidsid_id='$id';");
+						category='$pid', eidsid_id='$eidsid_id';");
 					}
 				}
 			elseif($comment=='' and $comment_id>0){
-				mysql_query("DELETE FROM comments WHERE eidsid_id='$id' LIMIT 1;");
+				mysql_query("DELETE FROM comments WHERE eidsid_id='$eidsid_id' AND student_id='$sid' LIMIT 1;");
 				}
 			}
 
