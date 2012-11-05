@@ -249,6 +249,7 @@ CREATE TABLE file (
  location varchar(255) NOT NULL DEFAULT '',
  access varchar(20) NOT NULL DEFAULT '',
  size int(11) NOT NULL DEFAULT '0',
+ other_id int(10) UNSIGNED NOT NULL DEFAULT '0',
  PRIMARY KEY (id),
  KEY fileowner (owner,owner_id,folder_id)
  );

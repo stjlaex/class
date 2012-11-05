@@ -128,53 +128,9 @@ three_buttonmenu();
 		<input type="hidden" name="choice" value="<?php print $choice;?>">
 	</form>
 
-
-	  <fieldset class="center listmenu">
-		<legend><?php print_string('documents');?></legend>
-		<fieldset class="left fileupload">
 <?php
-	$context='enrolment';
 	require_once('lib/eportfolio_functions.php');
-	$files=(array)list_files($Student['EPFUsername']['value'],$context);
-	foreach($files as $file){
+	html_document_drop($Student['EPFUsername']['value'],'enrolment')
 ?>
-	<div style="float:left;width:100%;margin:2px;padding:2px 4px;background-color:#ffffff;">
-<?php
-	 if(isset($_SERVER['HTTPS'])){
-		 $http='https';
-		 }
-	 else{
-		 $http='http';
-		 }
-	print '<a href="'.$http.'://'.$CFG->siteaddress.$CFG->sitepath.'/'.$CFG->applicationdirectory.'/scripts/file_display.php?epfu='.$Student['EPFUsername']['value'].'&location='.$file['location'].'&filename='.$file['name'].'" /><label>'.$file['title'].'</label><img src="images/printer.png" /></a>';
-?>
-	</div>
-<?php
-		}
-
-?>
-		</fieldset>
-
-		<fieldset class="right fileupload">
-		  <form id="upload" name="formfileupload" method="post" action="scripts/file_upload.php" enctype="multipart/form-data">
-			<div>
-			  <label for="fileselect"><?php print_string('documentstoupload');?></label>
-			  <input type="file" id="fileselect" name="fileselect[]" multiple="multiple" />
-			  <div id="filedrag"><?php print_string('drophere');?></div>
-			</div>
-			<div id="submitbutton">
-			  <button type="submit"><?php print_string('submit');?></button>
-			</div>
-			<div id="progress"></div>
-			<div id="messages">
-			</div>
-
-			<input type="hidden" id="MAX_FILE_SIZE" name="MAX_FILE_SIZE" value="300000" />
-			<input type="hidden" id="FILEOWNER" name="FILEOWNER" value="<?php print $Student['EPFUsername']['value'];?>" />
-			<input type="hidden" id="FILECONTEXT" name="FILECONTEXT" value="<?php print $context;?>" />
-		  </form>
-		</fieldset>
-	  </fieldset>
-
 </div>
 <script language="JavaScript" type="text/javascript" src="js/fileupload.js?version=1024"></script>

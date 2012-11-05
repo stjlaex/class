@@ -17,13 +17,15 @@ two_buttonmenu($extrabuttons);
 
 
 $epfu=strtolower($Student['EPFUsername']['value']);
-if(empty($CFG->eportfolio_db)){
-	/* If epfdb='' then simply list epfuser's directory looking for reports. */
-	$directory='files/' . substr($epfu,0,1) . '/' . $epfu;
-	$report_files=(array)list_directory_files($CFG->eportfolio_dataroot.'/'.$directory,'pdf');
-	}
-else{
-	$report_files=(array)elgg_list_files($epfu,'report',true);
+if($epfu!=''){
+	if(empty($CFG->eportfolio_db)){
+		/* If epfdb='' then simply list epfuser's directory looking for reports. */
+		$directory='files/' . substr($epfu,0,1) . '/' . $epfu;
+		$report_files=(array)list_directory_files($CFG->eportfolio_dataroot.'/'.$directory,'pdf');
+		}
+	else{
+		$report_files=(array)elgg_list_files($epfu,'report',true);
+		}
 	}
 ?>
 

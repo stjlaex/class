@@ -1,4 +1,4 @@
-Version ClaSS-1.0.34 release (2012/10/31)
+Version ClaSS-1.0.34 release (2012/11/05)
 -------------------------------------------
 
 Fix to avoid multiple notifications for share with parents emails.
@@ -11,6 +11,18 @@ in edit_scores.
 A student_event_cron in testing - so far only for Support review updates.
 
 Changed the listing invoices to better filter by peymenttype.
+
+New field in file table to make context even more specific, linking to
+a single other id.
+
+Re-worked the InfoBook backgrounds (ents) scripts to allow file
+attachments.
+
+A new html template functions for a div contianer.
+
+Fix to identifying commendations (affected counting merit with points>4).
+
+
 
 
 Version ClaSS-1.0.33 release (2012/10/10)

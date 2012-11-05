@@ -138,6 +138,13 @@ form img.calendar {
 	cursor:pointer;
 	background-repeat:no-repeat;
 	}
+h3 { 
+     font-size:small;
+     margin:0;
+     padding:2px 0 2px 4px;
+     color:#eeeeee;
+     background-color:#666;
+	}
 fieldset {
     border-style:none;
 	}
@@ -604,27 +611,34 @@ that style*/
 	}
 
 /*extra functionality for a listmenu which lets rows be expanded and collapsed*/
-tr.rowplus th:first-child {
+tr.rowplus th:first-child, div.rowplus div:first-child  {
 	background-image:url("../images/orangeplus.png");
 	background-repeat:no-repeat;
 	background-position:center;
 	cursor:pointer;
 	background-color:#888888;
 	}
-tr.rowminus th:first-child {
+tr.rowminus th:first-child, div.rowminus div:first-child {
 	background-image:url("../images/orangeminus.png");
 	background-repeat:no-repeat;
 	background-position:center;
 	cursor:pointer;
 	background-color:#eeeeee;
+	color:#444444;
 	}
-tr.rowplus {
+div.rowminus div:first-child, div.rowplus div:first-child { 
+	background-position:left;
+    text-align:center;
+    margin:20px 0 0 0;
+    padding:4px;
+	}
+tr.rowplus, div.rowplus {
 	cursor:pointer;
 	}
-tr.rowminus {
+tr.rowminus, div.rowminus {
 	cursor:pointer;
 	}
-tr.hidden { 
+tr.hidden, div.hidden { 
 	display:none;
 	}
 tr.revealed td, tr.revealed td label { 
@@ -844,7 +858,6 @@ table.smalltable {
 	}
 .fileupload #progress p {
 	display: block;
-	width: 240px;
 	padding: 2px 5px;
 	margin: 2px 0;
 	border: 1px inset #446;
@@ -858,3 +871,17 @@ table.smalltable {
 .fileupload #progress p.failed {
 	background: #c00 none 0 0 no-repeat;
 	}
+.fileupload div a label { 
+    color:#ffffff !important;
+    background-color:#446 !important;
+	cursor:pointer;
+    padding:2px 4px;
+    }
+div.document {
+    float:left;
+	cursor:pointer;
+    margin:4px !important;
+    background-color:#446 !important;
+    color:#ffffff !important;
+	border-radius: 5px;
+    }

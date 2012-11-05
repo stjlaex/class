@@ -29,16 +29,18 @@ if(isset($_SERVER['HTTP_X_FILECONTEXT'])){$context=$_SERVER['HTTP_X_FILECONTEXT'
 if($filename!='' and $owner!=''){
 	/* From an AJAX call */
 	$filepath=$CFG->eportfolio_dataroot. '/cache/files/';
-	$tmp=$filepath . $filename;
+	$uniquename=uniqid();
+	$tmp=$filepath . $uniquename;
 	file_put_contents($tmp,file_get_contents('php://input'));
 
 	$publishdata['foldertype']=$context;
 	$publishdata['title']='';
 	$publishdata['batchfiles'][]=array('epfusername'=>$owner,
-									   'filename'=>$filename,
+									   'filename'=>$uniquename,
+									   'originalname'=>$filename,
 									   'description'=>'',
 									   'tmpname'=>$tmp);
-	$CFG->eportfolio_db_prefix='';
+
 	upload_files($publishdata,false);
 
 	print $filename.' uploaded';

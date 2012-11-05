@@ -12,7 +12,7 @@ if($commentid==-1){
 	if(isset($_GET['bid'])){$bid=$_GET['bid'];}
 	}
 else{
-	/* Editing an existing order.*/
+	/* Editing an existing comment.*/
 	$bid=$Comment['Subject']['value_db'];
 	$todate=$Comment['EntryDate']['value'];
 	$catid=$Comment['Categories']['Category'][0]['value'];

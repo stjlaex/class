@@ -636,7 +636,10 @@ function url_construct($params,$entrypage,$fullurl=false){
 
 
 
-function html_message_transform($xmlarray,$transform){
+/**
+ *
+ */
+function html_message_transform($epfum,$transform){
 
 	global $CFG;
 
@@ -653,5 +656,117 @@ function html_message_transform($xmlarray,$transform){
 		}
 
 	return $html_message;
+	}
+
+
+/**
+ *
+ */
+function html_table_container_open($containerno,$state='rowplus',$label){
+
+
+	if($state!='' and $containerno!=0){
+
+		if($state=='rowplus'){$hidden='hidden';}
+		else{$hidden='revealed';}
+?>
+		<div id="<?php print $containerno;?>">
+		  <div class="<?php print $state;?>" onClick="clickToReveal(this)" id="<?php print $containerno.'-0';?>" >
+			<div><?php print $label;?></div>
+		  </div>
+		  <div class="<?php print $hidden;?>" id="<?php print $containerno.'-1';?>">
+			<table class="listmenu">
+<?php 
+
+		}
+
+	return;
+	}
+
+/**
+ *
+ */
+function html_table_container_close($containerno,$xmltagname='',$entry=''){
+
+	if($containerno!=0){
+?>
+			</table>
+		  </div>
+		</div>
+<?php
+		}
+
+	return;
+	}
+
+
+/**
+ *
+ */
+function html_document_drop($epfun,$context,$linked_id='-1'){
+
+	global $CFG;
+
+?>
+	  <fieldset class="center listmenu">
+		<legend><?php print_string('documents');?></legend>
+		<fieldset class="left fileupload">
+<?php
+	$files=(array)list_files($epfun,$context,$linked_id);
+	html_document_list($files);
+?>
+		</fieldset>
+
+		<fieldset class="right fileupload">
+		  <form id="upload" name="formfileupload" method="post" action="scripts/file_upload.php" enctype="multipart/form-data">
+			<div style="background-color:#eee;">
+			  <label for="fileselect"><?php print_string('documentstoupload');?></label>
+			  <input type="file" id="fileselect" name="fileselect[]" multiple="multiple" />
+			  <div id="filedrag"style="background-color:#446;color:#fff;"><?php print_string('drophere');?></div>
+			</div>
+			<div id="submitbutton">
+			  <button type="submit"><?php print_string('submit');?></button>
+			</div>
+			<div id="progress"></div>
+			<div id="messages">
+			</div>
+
+			<input type="hidden" id="MAX_FILE_SIZE" name="MAX_FILE_SIZE" value="300000" />
+			<input type="hidden" id="FILEOWNER" name="FILEOWNER" value="<?php print $epfun;?>" />
+			<input type="hidden" id="FILECONTEXT" name="FILECONTEXT" value="<?php print $context;?>" />
+			<input type="hidden" id="FILELINKID" name="FILELINKID" value="<?php print $linked_id;?>" />
+		  </form>
+		</fieldset>
+	  </fieldset>
+<?php
+	return;
+	}
+
+
+
+/**
+ *
+ */
+function html_document_list($files){
+
+	global $CFG;
+
+	foreach($files as $file){
+?>
+		<div class="document">
+<?php
+		if(isset($_SERVER['HTTPS'])){
+			$http='https';
+			}
+		else{
+			$http='http';
+			}
+		print '<a href="'.$http.'://'.$CFG->siteaddress.$CFG->sitepath.'/'.$CFG->applicationdirectory.'/scripts/file_display.php?epfu='.$epfun.'&location='.$file['location'].'&filename='.$file['name'].'" /><label>'.$file['originalname'].'<img src="images/printer.png" /></label></a>';
+?>
+		</div>
+<?php
+		}
+
+	return;
 	}
 ?>

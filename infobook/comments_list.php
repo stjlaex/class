@@ -13,7 +13,7 @@ $yid=$Student['YearGroup']['value'];
 $perm=getYearPerm($yid,$respons);
 
 $extrabuttons=array();
-$extrabuttons['new']=array('name'=>'current','value'=>'comments_new.php');
+$extrabuttons['addnew']=array('name'=>'current','value'=>'comments_new.php');
 two_buttonmenu($extrabuttons);
 ?>
 

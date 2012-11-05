@@ -1066,6 +1066,8 @@ function upload_files($filedata){
 		$epfusername=$batchfile['epfusername'];
 		$file_name=$batchfile['filename'];
 		$file_description=$batchfile['description'];
+		$file_originalname=$batchfile['originalname'];
+		$file_linked_id=0;
 		$uid=get_epfuid($epfusername,'s');
 
 		if($folder_name!='root'){
@@ -1081,15 +1083,19 @@ function upload_files($filedata){
 		else{
 			$file_fullpath=$CFG->eportfolio_dataroot . '/' . $dir. '/'. $file_name;
 			$file_location=$dir . '/'. $file_name;
-			$file_originalname=$file_name;
+			$sql_linked='';
+
 			if($filedata['foldertype']=='report'){
-				$file_originalpath=$CFG->eportfolio_dataroot.'/cache/reports/'. $file_name;
+				$file_tmppath=$CFG->eportfolio_dataroot.'/cache/reports/'. $file_name;
 				}
 			elseif($filedata['foldertype']=='icon'){
-				$file_originalpath=$CFG->eportfolio_dataroot.'/cache/images/'. $file_name;
+				$file_tmppath=$CFG->eportfolio_dataroot.'/cache/images/'. $file_name;
 				}
 			else{
-				$file_originalpath=$batchfile['tmpname'];
+				$file_tmppath=$batchfile['tmpname'];
+				if(isset($batchfile['linked_id']) and $batchfile['linked_id']>0){
+					$file_linked_id=$batchfile['linked_id'];
+					}
 				}
 
 			if($filedata['foldertype']=='icon'){
@@ -1100,21 +1106,23 @@ function upload_files($filedata){
 				*/
 				}
 			else{
+				$sql_linked="AND other_id='$file_linked_id'";
 				$d_f=mysql_query("SELECT id FROM file WHERE originalname='$file_originalname' 
-											AND owner='s' AND owner_id='$uid';");
+											$sql_linked AND owner='s' AND owner_id='$uid';");
 				if(mysql_num_rows($d_f)==0){
 					$d_f=mysql_query("INSERT INTO file (owner, owner_id, folder_id, title, originalname,
-										description, location, access, size) VALUES 
+										description, location, access, size, other_id) VALUES 
 										('s', '$uid','$folder_id','$file_title','$file_originalname',
-										'$file_description','$file_location','$file_access','$file_size');");
+										'$file_description','$file_location','$file_access','$file_size','$file_linked_id');");
 					}
 				else{
 					$file_id=mysql_result($d_f,0);
-					$d_f=mysql_query("UPDATE 'file' SET (originalname='$file_originalname') WHERE id='$file_id';");
+					$d_f=mysql_query("UPDATE file SET (originalname='$file_originalname', 
+										title='$file_title', description='$file_description') WHERE id='$file_id';");
 					}
 				}
 
-			if(rename($file_originalpath,$file_fullpath)){
+			if(rename($file_tmppath,$file_fullpath)){
 				trigger_error('Uploaded file to: '.$dir,E_USER_NOTICE);
 				// chmod($file_fullpath, $CFG->filepermissions);
 				$success=true;
@@ -1249,18 +1257,28 @@ function new_folder($owner,$name,$access=''){
  *
  * @params string $epfusername of the owner
  * @params string $filetype
- * @params logical $dbc
- * @return array $files
+ * @params string $linked_id
+ *
  */
-function list_files($epfun,$foldertype){
+function list_files($epfun,$foldertype,$linked_id='-1'){
+	global $CFG;
 
 	$files=array();
 
 	$epfuid=get_epfuid($epfun,'s');
 
+	if($linked_id!='%'){
+		/* Looking only at the files attached to a single entry. */
+		$attachment="file.other_id='$linked_id' AND ";
+		}
+	else{
+		/* Looking only at all files dropped in this context. */
+		$attachment='';
+		}
+
 	$d_f=mysql_query("SELECT file.id, title, description, location, originalname FROM file 
 						JOIN file_folder ON file_folder.id=file.folder_id
-						WHERE file.owner_id='$epfuid' AND file_folder.name='$foldertype';");
+						WHERE $attachment file.owner_id='$epfuid' AND file.owner='s' AND file_folder.name='$foldertype';");
 	while($file=mysql_fetch_array($d_f,MYSQL_ASSOC)){
 		$file['description']=$file['description'];
 		$file['name']=$file['originalname'];
@@ -1271,6 +1289,29 @@ function list_files($epfun,$foldertype){
 		}
 
 	return $files;
+	}
+
+
+/** 
+ *
+ * Returns an array of file urls and descriptions for the given $filetype and $owner.
+ * If not called from other elgg_ functions set dbc=true.
+ * The owner is the epfusername.
+ *
+ * @params string $epfusername of the owner
+ * @params string $foldertype
+ * @params string $linked_id
+ */
+function link_files($epfun,$foldertype,$linked_id){
+	global $CFG;
+
+	$epfuid=get_epfuid($epfun,'s');
+
+	$folder_id=new_folder($epfuid,$foldertype,$access='');
+
+	mysql_query("UPDATE file SET other_id='$linked_id' 
+						WHERE owner_id='$epfuid' AND owner='s' AND file.other_id='0';");
+
 	}
 
 

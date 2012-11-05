@@ -13,117 +13,86 @@ $Backgrounds=(array)fetchBackgrounds($sid);
 $aperm=get_admin_perm('s',get_uid($tid));// special access to reserved information
 $perm=getYearPerm($Student['YearGroup']['value'], $respons);
 
-$imagebuttons=array();
-/*the rowaction buttons used within each assessments table row*/
-$imagebuttons['clicktodelete']=array('name'=>'current',
-									 'value'=>'delete_background.php',
-									 'title'=>'delete');
-$imagebuttons['clicktoedit']=array('name'=>'Edit',
-								   'value'=>'',
-								   'title'=>'edit');
-
-
-three_buttonmenu();
+$extrabuttons=array();
+$extrabuttons['addnew']=array('name'=>'current','value'=>'ents_new.php');
+two_buttonmenu($extrabuttons);
 ?>
   <div id="heading">
 	<label><?php print_string('student',$book);?></label>
 	<?php print $Student['DisplayFullName']['value'];?>
   </div>
 
-  <div class="topform divgroup">
+  <div id="viewcontent" class="content">
 	<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
-	  <div class="left">
-		<label for="Detail"><?php print_string('details',$book);?></label>
-		<textarea name="detail" id="Detail" tabindex="<?php print $tab++;?>"
-		  class="required" rows="5" cols="30"></textarea>
-	  </div>
-<?php
-if($tagname=='Background'){
-?>
-	  <div class="right" >
-<?php 
-		$cattype='bac'; $required='yes'; $listlabel='source';
-		$listname='catid'; $listid='Category'; include('scripts/list_category.php'); 
-?>
-	  </div>
 
-	  <div class="right" >
-		<?php $xmldate='Entrydate'; $required='yes'; include('scripts/jsdate-form.php'); ?>
-	  </div>
-
-	  <div class="right" >
-		<?php $listid='yeargroup'; $newyid=$Student['YearGroup']['value']; include('scripts/list_year.php'); ?>
-	  </div>
-<?php
-   	}
-else{
-?>
-	  <div class="right">
-		<label><?php print_string('subjectspecific');?></label>
-<?php 
-		$required='no'; $listname='bid'; $listid='subject';$listlabel='';
-		$subjects=list_student_subjects($sid);
-		include('scripts/set_list_vars.php');
-		list_select_list($subjects,$listoptions,$book);
-		unset($listoptions);
-?>
-	  </div>
-
-	  <div class="right">
-		<?php $xmldate='Entrydate'; $required='yes'; include('scripts/jsdate-form.php'); ?>
-	  </div>
-<?php 
-	}
-?>
-	<input type="text" style="display:none;" id="Id_db" name="id_db" value="" />
-	<input type="hidden" name="tagname" value="<?php print $tagname;?>"/>
-	<input type="hidden" name="current" value="<?php print $action;?>"/>
- 	<input type="hidden" name="cancel" value="<?php print $cancel;?>"/>
- 	<input type="hidden" name="choice" value="<?php print $choice;?>"/>
-  </form>
-  </div>
-
-  <div class="content">
 	<div class="center">
-	  <table class="listmenu">
-		<caption><?php print_string(strtolower($tagname),$book);?></caption>
-		<thead>
-		  <tr>
-			<th></th>
-			<th><?php print_string('yeargroup');?></th>
-			<th><?php print_string('date');?></th>
-			<th><?php print_string('subject');?></th>
-		  </tr>
-		</thead>
 <?php
-	$Entries=$Backgrounds["$tagname"];
-	$entryno=0;
-	if(is_array($Entries)){
-		foreach($Entries as $key => $entry){
-			$restricted=false;
-			if($tagname=='Background' and $entry['Categories']['Category'][0]['rating']['value']<0){$restricted=true;}
 
-			if($restricted and $aperm!=1 and $entry['Teacher']['username']!=$tid){
-				$entry['Detail']['value']='Confidential';$entry['Detail']['value_db']='Confidential';
-				}
-			
-			if(is_array($entry)){
-				$rown=0;
-				$entryno=$entry['id_db'];
+$imagebuttons=array();
+$extrabuttons=array();
+/*the rowaction buttons used within each assessments table row*/
+$imagebuttons['clicktodelete']=array('name'=>'current',
+									 'value'=>'delete_background.php',
+									 'title'=>'delete');
+$extrabuttons['edit']=array('name'=>'process',
+							'value'=>'edit',
+							'title'=>'edit');
+
+
+
+$Entries=$Backgrounds["$tagname"];
+$entryno=0;
+
+if(is_array($Entries)){
+
+	$currentyid='';
+	foreach($Entries as $key => $entry){
+
+		/* Display the entries grouped by year group. */
+		if(!isset($startyid)){
+			$startyid=$entry['YearGroup']['value'];
+			$currentyid=$startyid;
+			$opencontainer=uniqid();
+			$containerno=0;
+			}
+		elseif($entry['YearGroup']['value']!=$currentyid){
+			html_table_container_close(1);
+			$opencontainer=uniqid();
+			$containerno++;
+			}
+		else{
+			$opencontainer=0;
+			}
+
+		if($containerno<1){$containerclass='rowminus';}
+		else{$containerclass='rowplus';}
+		if($containerclass=='rowplus'){$hidden='hidden';}
+		else{$hidden='revealed';}
+
+		html_table_container_open($opencontainer,$containerclass,get_yeargroupname($currentyid).' - '.get_string(strtolower($tagname),$book));
+
+		$restricted=false;
+		if($tagname=='Background' and $entry['Categories']['Category'][0]['rating']['value']<0){$restricted=true;}
+
+		if($restricted and $aperm!=1 and $entry['Teacher']['username']!=$tid){
+			$entry['Detail']['value']='Confidential';$entry['Detail']['value_db']='Confidential';
+			}
+
+		if(is_array($entry)){
+			$rown=0;
+			$entryno=$entry['id_db'];
 ?>
 		<tbody id="<?php print $entryno;?>">
-		  <tr class="rowplus" onClick="clickToReveal(this)" id="<?php print $entryno.'-'.$rown++;?>">
+		  <tr class="<?php print $containerclass;?>" onClick="clickToReveal(this)" id="<?php print $entryno.'-'.$rown++;?>">
 			<th>&nbsp;</th>
 <?php 
-		   if(isset($entry['YearGroup']['value'])){print '<td>'.get_yeargroupname($entry['YearGroup']['value']).'</td>';}
-		   else{print'<td></td>';}
 		   if(isset($entry['EntryDate']['value'])){print '<td>'.display_date($entry['EntryDate']['value']).'</td>';}
 		   else{print'<td></td>';}
-		   if(isset($entry['Subject']['value'])){print '<td>'.get_subjectname($entry['Subject']['value']).'</td>';}
+		   if(isset($entry['Subject']['value'])){print '<td>'.$entry['Subject']['value'].'</td>';}
 		   else{print'<td></td>';}
 ?>
 		  </tr>
-		  <tr class="hidden" id="<?php print $entryno.'-'.$rown++;?>">
+		  <tr class="<?php print $hidden;?>" id="<?php print $entryno.'-'.$rown++;?>">
 			<td colspan="6">
 			  <p>
 <?php
@@ -136,9 +105,16 @@ else{
 		   if(isset($entry['Teacher']['value'])){print '  - '.$entry['Teacher']['value'];}
 ?>
 			  </p>
+			  <div class="listmenu fileupload">
+<?php
+		   require_once('lib/eportfolio_functions.php');
+		   $files=(array)list_files($Student['EPFUsername']['value'],$tagname,$entry['id_db']);
+		   html_document_list($files);
+?>
+			  </div>
 <?php
 		   if(($perm['x']==1 and !$restricted) or ($restricted and $aperm==1) or $entry['Teacher']['username']==$tid){
-			   rowaction_buttonmenu($imagebuttons,'',$book);
+			   rowaction_buttonmenu($imagebuttons,$extrabuttons,$book);
 			   }
 ?>
 			</td>
@@ -150,10 +126,13 @@ else{
 		  </div>
 		</tbody>
 <?php
-				}
 			}
+
 		}
-	if($tagname=='Background' and $CFG->enrol_assess=='yes'){
+
+
+	}
+if($tagname=='Background' and $CFG->enrol_assess=='yessssssssssss'){
 		$entryno++;
 		$rown=0;
 		$EnrolNotes=fetchBackgrounds_Entries($sid,'ena');
@@ -183,13 +162,15 @@ else{
 		  </div>
 		</tbody>
 <?php
-			}
+	}
+
+	html_table_container_close(1);
 ?>
 
-		<tr>
-		  <td>
-		  </td>
-		</tr>
-	  </table>
-	</div>
+
+	  <input type="hidden" name="tagname" value="<?php print $tagname;?>"/>
+	  <input type="hidden" name="cancel" value="<?php print $cancel;?>" />
+	  <input type="hidden" name="current" value="<?php print $action; ?>">
+	  <input type="hidden" name="choice" value="<?php print $choice; ?>">
+	</form>
   </div>
