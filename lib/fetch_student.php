@@ -1190,9 +1190,8 @@ function fetchIncident($incident){
  */
 function fetchBackgrounds($sid='-1'){
 	$Backgrounds=array();
-	$d_catdef=mysql_query("SELECT name AS tagname, 
-				subtype AS background_type FROM categorydef WHERE 
-				type='ent' ORDER BY rating");
+	$d_catdef=mysql_query("SELECT name AS tagname, subtype AS background_type FROM categorydef 
+							WHERE type='ent' ORDER BY rating;");
 	while($back=mysql_fetch_array($d_catdef,MYSQL_ASSOC)){
 		$type=$back['background_type'];
 		$tagname=ucfirst($back['tagname']);
@@ -1213,75 +1212,98 @@ function fetchBackgrounds($sid='-1'){
  * @return array
  */
 function fetchBackgrounds_Entries($sid,$type){
-		$Entries=array();
-		$d_background=mysql_query("SELECT * FROM background WHERE 
+	$Entries=array();
+	$d_background=mysql_query("SELECT * FROM background WHERE 
 				student_id='$sid' AND type='$type' ORDER BY yeargroup_id, entrydate, id;");
-
-		while($entry=mysql_fetch_array($d_background,MYSQL_ASSOC)){
-			$Entry=array();
-			$Entry['id_db']=$entry['id'];
-			$Entry['Teacher']=array('label' => 'teacher', 
-									'field_db' => 'teacher_id', 
-									'type_db' => 'varchar(14)', 
-									'username' => ''.$entry['teacher_id'], 
-									'value' => ''.get_teachername($entry['teacher_id']));
-			$Categories=array();
-			$Categories=array('label' => 'category', 
-							  'field_db' => 'category', 
-							  'type_db' => 'varchar(100)', 
-							  'value_db' => ''.$entry['category'],
-							  'value' => ' ');
-			$pairs=explode(';',$entry['category']);
-			for($c3=0; $c3<sizeof($pairs)-1; $c3++){
-				list($catid, $rank)=explode(':',$pairs[$c3]);
-				$Category=array();
-				$d_categorydef=mysql_query("SELECT name FROM categorydef WHERE id='$catid'");
-				if(mysql_num_rows($d_categorydef)>0){
-					$catname=mysql_result($d_categorydef,0);
-					}
-				else{$catname='';}
-				$Category=array('label' => 'category', 
-								'type_db'=> 'varchar(30)', 
-								'value_db' => ''.$catid,
-								'value' => ''.$catname);
-				$Category['rating']=array('value' => $rank);
-				$Categories['Category'][]=$Category;
-				}
-			if(!isset($Categories['Category'])){
-				$Category=array('label' => 'category', 
-								'type_db' => 'varchar(30)', 
-								'value_db' => ' ',
-								'value' => ' ');
-				$Categories['Category'][]=$Category;
-				}
-			$Entry['Categories']=$Categories;
-			$Entry['EntryDate']=array('label' => 'date',
-									  'field_db' => 'entrydate', 
-									  'type_db' => 'date', 
-									  'value' => ''.$entry['entrydate']);
-			unset($comment_html);
-			$comment_html['div'][]=$entry['detail'];
-
-			$Entry['Detail']=array('label' => 'details', 
-								   'field_db' => 'detail', 
-								   'type_db'=> 'text', 
-								   'value'=> ''.$comment_html,
-								   'value_db' => ''.$entry['detail']);
-			$bid=$entry['subject_id'];
-			$subjectname=get_subjectname($bid);
-			$Entry['Subject']=array('label' => 'subject', 
-									'field_db' => 'subject_id', 
-									'type_db' => 'varchar(15)', 
-									'value_db' => ''.$bid, 
-									'value' => ''.$subjectname);
-			$Entry['YearGroup']=array('label' => 'yeargroup', 
-									  'field_db' => 'yeargroup_id', 
-									  'type_db' => 'smallint', 
-									  'value' => ''.$entry['yeargroup_id']);
-			$Entries[]=$Entry;
-			}
-		return $Entries;
+	while($entry=mysql_fetch_array($d_background,MYSQL_ASSOC)){
+		$Entries[]=fetchBackgrounds_Entry($entry);
+		}
+	return $Entries;
 	}
+
+
+
+/**
+ *
+ *
+ * @params array $ent
+ * @return array
+ */
+function fetchBackgrounds_Entry($entry){
+	$Entry=array();
+
+	if($entry['id']>-1 and (!isset($entry['student_id']) or $entry['student_id']<1)){
+		$id=$entry['id'];
+		$d_c=mysql_query("SELECT * FROM background WHERE id='$id';");
+		$entry=mysql_fetch_array($d_c,MYSQL_ASSOC);
+		}
+
+	$Entry=array();
+	$Entry['id_db']=$entry['id'];
+	$Entry['Teacher']=array('label' => 'teacher', 
+							'field_db' => 'teacher_id', 
+							'type_db' => 'varchar(14)', 
+							'username' => ''.$entry['teacher_id'], 
+							'value' => ''.get_teachername($entry['teacher_id']));
+	$Categories=array();
+	$Categories=array('label' => 'category', 
+					  'field_db' => 'category', 
+					  'type_db' => 'varchar(100)', 
+					  'value_db' => ''.$entry['category'],
+					  'value' => ' ');
+	$pairs=explode(';',$entry['category']);
+	for($c3=0; $c3<sizeof($pairs)-1; $c3++){
+		list($catid, $rank)=explode(':',$pairs[$c3]);
+		$Category=array();
+		$d_categorydef=mysql_query("SELECT name FROM categorydef WHERE id='$catid'");
+		if(mysql_num_rows($d_categorydef)>0){
+			$catname=mysql_result($d_categorydef,0);
+			}
+		else{$catname='';}
+		$Category=array('label' => 'category', 
+						'type_db'=> 'varchar(30)', 
+						'value_db' => ''.$catid,
+						'value' => ''.$catname);
+		$Category['rating']=array('value' => $rank);
+		$Categories['Category'][]=$Category;
+		}
+	if(!isset($Categories['Category'])){
+		$Category=array('label' => 'category', 
+						'type_db' => 'varchar(30)', 
+						'value_db' => ' ',
+						'value' => ' ');
+		$Categories['Category'][]=$Category;
+		}
+	$Entry['Categories']=$Categories;
+	$Entry['EntryDate']=array('label' => 'date',
+							  'field_db' => 'entrydate', 
+							  'type_db' => 'date', 
+							  'value' => ''.$entry['entrydate']);
+	unset($comment_html);
+	$comment_html['div'][]=$entry['detail'];
+	
+	$Entry['Detail']=array('label' => 'details', 
+						   'field_db' => 'detail', 
+						   'type_db'=> 'text', 
+						   'value'=> ''.$comment_html,
+						   'value_db' => ''.$entry['detail']);
+	$bid=$entry['subject_id'];
+	$subjectname=get_subjectname($bid);
+	$Entry['Subject']=array('label' => 'subject', 
+							'field_db' => 'subject_id', 
+							'type_db' => 'varchar(15)', 
+							'value_db' => ''.$bid, 
+							'value' => ''.$subjectname);
+	$Entry['YearGroup']=array('label' => 'yeargroup', 
+							  'field_db' => 'yeargroup_id', 
+							  'type_db' => 'smallint', 
+							  'value' => ''.$entry['yeargroup_id']);
+	return $Entry;
+	}
+
+
+
+
 
 
 /**
@@ -2001,20 +2023,20 @@ function fetchMeritsTotal($sid,$year){
 
    	$d_m=mysql_query("SELECT COUNT(id) FROM merits WHERE student_id='$sid' AND year='$year' AND value='-1';");
 	$negno=mysql_result($d_m,0);
-   	$d_m=mysql_query("SELECT COUNT(id) FROM merits WHERE student_id='$sid' AND year='$year' AND value>'0' AND value<'4';");
+   	$d_m=mysql_query("SELECT COUNT(id) FROM merits WHERE student_id='$sid' AND year='$year' AND value>'0' AND result!='Commendation';");
 	$posno=mysql_result($d_m,0);
-   	$d_m=mysql_query("SELECT SUM(value) FROM merits WHERE student_id='$sid' AND year='$year' AND value<'4';");
+   	$d_m=mysql_query("SELECT SUM(value) FROM merits WHERE student_id='$sid' AND year='$year' AND result!='Commendation';");
 	$sum=mysql_result($d_m,0);
 
 	/* Commendations have the special vlaue of 4 and counted per term*/
 	$date1=$year.'-01-01';
 	$date2=$year.'-04-01';
 	$date3=$year.'-08-01';
-   	$d_m=mysql_query("SELECT COUNT(id) FROM merits WHERE student_id='$sid' AND year='$year' AND value='4' AND date<'$date1';");
+   	$d_m=mysql_query("SELECT COUNT(id) FROM merits WHERE student_id='$sid' AND year='$year' AND result='Commendation' AND date<'$date1';");
 	$com1=mysql_result($d_m,0);
-   	$d_m=mysql_query("SELECT COUNT(id) FROM merits WHERE student_id='$sid' AND year='$year' AND value='4' AND date>='$date1'  AND date<'$date2';");
+   	$d_m=mysql_query("SELECT COUNT(id) FROM merits WHERE student_id='$sid' AND year='$year' AND result='Commendation' AND date>='$date1'  AND date<'$date2';");
 	$com2=mysql_result($d_m,0);
-   	$d_m=mysql_query("SELECT COUNT(id) FROM merits WHERE student_id='$sid' AND year='$year' AND value='4' AND date>='$date2' AND date<'$date3';");
+   	$d_m=mysql_query("SELECT COUNT(id) FROM merits WHERE student_id='$sid' AND year='$year' AND result='Commendation' AND date>='$date2' AND date<'$date3';");
 	$com3=mysql_result($d_m,0);
 	//trigger_error($comno,E_USER_WARNING);
 
