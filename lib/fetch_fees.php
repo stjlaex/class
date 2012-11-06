@@ -143,8 +143,10 @@ function fetchFeesInvoice($invoice=array('id'=>'-1')){
 	else{
 		$d_c=mysql_query("SELECT SUM(c.amount) AS totalamount, c.paymenttype, c.student_id 
 							FROM fees_charge AS c WHERE c.invoice_id='$invid';");
-		$charge=mysql_fetch_array($d_c,MYSQL_ASSOC);
-		$Student=(array)fetchStudent_short($charge['student_id']);
+		$c=mysql_fetch_array($d_c,MYSQL_ASSOC);
+		$sid=$c['student_id'];
+		$Student=(array)fetchStudent_short($sid);
+		$charges=(array)list_invoice_charges($invid);
 		$Account=fetchAccount($invoice['account_id'],'id');
 		$gid=$Account['guardian_id_db'];
 		$d_gidaid=mysql_query("SELECT * FROM gidaid WHERE guardian_id='$gid' ORDER BY priority;");
@@ -153,13 +155,13 @@ function fetchFeesInvoice($invoice=array('id'=>'-1')){
 		}
 
 	$Invoice['id_db']=$invid;
-	$Invoice['student_id_db']=$charge['student_id'];
+	$Invoice['student_id_db']=$sid;
 	$Invoice['account_id_db']=$invoice['account_id'];
 	$Invoice['TotalAmount']=array('label' => 'amount', 
-								  'value' => ''.$charge['totalamount']
+								  'value' => ''.$c['totalamount']
 								  );
 	$Invoice['PaymentType']=array('label' => 'amount', 
-								  'value' => ''.$charge['paymenttype']
+								  'value' => ''.$c['paymenttype']
 								  );
 	$Invoice['PaymentDate']=array('label' => 'date', 
 								  'value' => ''.$invoice['duedate']
@@ -180,6 +182,14 @@ function fetchFeesInvoice($invoice=array('id'=>'-1')){
 								  'value' => ''.$Account['AccountName']['value']
 								  );
 	$Invoice['Address']=$Address;
+	$Invoice['Charges']=array();
+	$Invoice['Charges']['Charge']=array();
+	foreach($charges as $charge){
+		$Charge=array();
+		$Charge['Detail']=array('label'=>'tarif','value'=>''.$charge['name']);
+		$Charge['Amount']=array('label'=>'amount','value'=>''.$charge['amount']);
+		$Invoice['Charges']['Charge'][]=$Charge;
+		}
 
 	return $Invoice;
 	}
@@ -514,7 +524,7 @@ function list_remittances($feeyear=''){
 
 
 /**
-* 
+ * 
  * 
  *
  */
@@ -544,6 +554,25 @@ function list_remittance_charges($remid,$conid='',$payment=''){
 		*/
 		}
 
+	$charges=array();
+	while($c=mysql_fetch_array($d_c)){
+		$charges[]=$c;
+		}
+
+	return $charges;
+	}
+
+
+
+/**
+ * 
+ * 
+ *
+ */
+function list_invoice_charges($invid){
+
+	$d_c=mysql_query("SELECT c.id, c.student_id, c.tarif_id, c.quantity, c.amount, c.payment, c.paymenttype, t.name 
+							FROM fees_charge AS c JOIN fees_tarif AS t ON c.tarif_id=t.id WHERE c.invoice_id='$invid' ORDER BY c.paymentdate;");
 	$charges=array();
 	while($c=mysql_fetch_array($d_c)){
 		$charges[]=$c;
