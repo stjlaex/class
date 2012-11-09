@@ -49,8 +49,7 @@ if(!isset($selbid)){$selbid='G';}
 		$SEN['SENinternaltypes']['SENtype'][]=fetchSENtype();
 		}
 	$asscode='I';
-	foreach($SEN['SENinternaltypes']['SENtype'] as $n => $SENtype){
-		$entryn=$n+1;
+	foreach($SEN['SENinternaltypes']['SENtype'] as $entryn => $SENtype){
 		$enum=getEnumArray($SENtype['SENtype']['field_db'].'internal');
 		print '<li><select id="Type"  tabindex="'.$tab++.'"
 			name="'.$asscode. $SENtype['SENtype']['field_db'].$entryn.'">';
@@ -263,8 +262,7 @@ if(!isset($selbid)){$selbid='G';}
 		}
 
 	$asscode='E';
-	foreach($SEN['SENtypes']['SENtype'] as $n => $SENtype){
-		$entryn=$n+1;
+	foreach($SEN['SENtypes']['SENtype'] as $entryn => $SENtype){
 		$enum=getEnumArray($SENtype['SENtype']['field_db']);
 		print '<li><select id="Type"  tabindex="'.$tab++.'"
 			name="'.$asscode. $SENtype['SENtype']['field_db'].$entryn.'">';

@@ -73,32 +73,16 @@ elseif($sub=='Submit'){
 
 	$senasstypes=array('I'=>'SENinternaltypes','E'=>'SENtypes');
 	foreach($senasstypes as $asscode => $assname){
-		/* Allow up to 3 records with blanks for new entries */
-		while(sizeof($SEN[$assname]['SENtype'])<3){
-			$SEN[$assname]['SENtype'][]=fetchSENtype();
-			}
-
-		foreach($SEN[$assname]['SENtype'] as $n => $SENtypes){
-			$entryn=$n+1;
-			$table=$SENtypes['SENtypeRank']['table_db'];
-			$field=$SENtypes['SENtypeRank']['field_db'];
-			$inname=$asscode. $field. $entryn;
-			$inval=clean_text($_POST[$inname]);
-			if($SENtypes['SENtypeRank']['value']!=$inval){
-				if(mysql_query("INSERT INTO $table SET
-						student_id='$sid', entryn='$entryn',$field='$inval',senassessment='$asscode';")){}
-				else{mysql_query("UPDATE $table SET $field='$inval'
-								WHERE student_id='$sid' AND entryn='$entryn' AND senassessment='$asscode';");}
-				}
-			$table=$SENtypes['SENtype']['table_db'];
-			$field=$SENtypes['SENtype']['field_db'];
-			$inname=$asscode. $field. $entryn;
-			$inval=clean_text($_POST[$inname]);
-			if($SENtypes['SENtype']['value']!=$inval){
-				if(mysql_query("INSERT INTO sentype SET
-						student_id='$sid', entryn='$entryn',$field='$inval',senassessment='$asscode';")){}
-				else{mysql_query("UPDATE $table SET $field='$inval'
-								WHERE student_id='$sid' AND entryn='$entryn' AND senassessment='$asscode';");}
+		mysql_query("DELETE FROM sentype WHERE student_id='$sid' AND senassessment='$asscode';");
+		/* Allow up to 3 records for each assessment type  */
+		for($entryn=0;$entryn<3;$entryn++){
+			$inname=$asscode. 'senranking' . $entryn;
+			$senranking=clean_text($_POST[$inname]);
+			$inname=$asscode. 'sentype' . $entryn;
+			$sentype=clean_text($_POST[$inname]);
+			if($sentype!='' or $senranking!=''){
+				mysql_query("INSERT INTO sentype SET student_id='$sid', entryn='$entryn', 
+								senranking='$senranking', sentype='$sentype', senassessment='$asscode';");
 				}
 			}
 		}
