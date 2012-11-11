@@ -32,7 +32,6 @@ if(isset($_POST['extracol']) and $_POST['extracol']=='yes'){
 $displayfields_width=60/$displayfields_no.'%';
 
 
-two_buttonmenu();
 
 	$sids=array();
 	if($sentype!='' or $newyid!='' or $sensupport!=''){
@@ -81,15 +80,19 @@ if(isset($d_info)){
 		}
 	}
 
+
+/* Nothing to do unless their are sids to list. */
+if(sizeof($sids)>0){
+	two_buttonmenu();
 ?>
 
-<div id="viewcontent" class="content">
-  <form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
-	<table class="listmenu sidtable">
-	  <th colspan="2"><?php print_string('checkall'); ?><input type="checkbox" name="checkall" 
+	<div id="viewcontent" class="content">
+	  <form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
+		<table class="listmenu sidtable">
+		  <th colspan="2"><?php print_string('checkall'); ?><input type="checkbox" name="checkall" 
 				value="yes" onChange="checkAll(this);" /></th>
-	  <th><?php print_string('student'); ?></th>
-	  <th><?php print_string('formgroup'); ?></th>
+		  <th><?php print_string('student'); ?></th>
+		  <th><?php print_string('formgroup'); ?></th>
 <?php
 	$extra_studentfields=array('NextReviewDate'=>'nextreviewdate');
 	foreach($displayfields as $displayfield){
@@ -181,3 +184,6 @@ all_extrabuttons($extrabuttons,'infobook','processContent(this)')
 	<input type="hidden" name="choice" value="<?php print $choice;?>" />
   </form>
 </div>
+<?php
+	}
+?>

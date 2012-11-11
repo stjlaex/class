@@ -14,6 +14,7 @@ if(isset($_POST['bid'])){$bid=$_POST['bid'];}else{$bid='G';}
 
 $senhid=$SEN['id_db'];
 
+
 	/* Check user has permission to edit */
 	$yid=$Student['YearGroup']['value'];
 	$fid=$Student['RegistrationGroup']['value'];
@@ -28,6 +29,7 @@ $senhid=$SEN['id_db'];
 	include('scripts/perm_action.php');
 
 if($sub=='senstatus'){
+
 	if($Student['SENFlag']['value']=='Y'){
 		mysql_query("UPDATE info SET sen='N' WHERE student_id='$sid'");
 		}
@@ -42,15 +44,19 @@ if($sub=='senstatus'){
 					senhistory_id='$senhid', subject_id='General'");
 		}
 	if($current=='sen_view_action.php'){$action='sen_student_list.php';}
+
 	}
 elseif($ncmodkey=='-1'){
+
+
 	if($bid!='G' and $bid!=''){
-		mysql_query("INSERT INTO sencurriculum SET
-			senhistory_id='$senhid', subject_id='$bid'");
+		mysql_query("INSERT INTO sencurriculum SET senhistory_id='$senhid', subject_id='$bid'");
 		}
+trigger_error('NCMODKEY'.$ncmodkey.' '.$bid,E_USER_WARNING);
 
 	}
 elseif($sub=='Submit'){
+
 	$inval=$_POST['date0'];
 	$table=$SEN['StartDate']['table_db'];
 	$field=$SEN['StartDate']['field_db'];
@@ -86,8 +92,6 @@ elseif($sub=='Submit'){
 				}
 			}
 		}
-
-
 
 	foreach($SEN['Curriculum'] as $key => $Subject){
 		$bid=$Subject['Subject']['value_db'];
@@ -130,7 +134,6 @@ elseif($sub=='Submit'){
 			mysql_query("UPDATE $table SET $field='$inval'
 									WHERE senhistory_id='$senhid' AND subject_id='$bid'");
 			}
-
 		}
 
 	}

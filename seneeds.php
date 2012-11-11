@@ -11,6 +11,7 @@ include('scripts/set_book_vars.php');
 $session_vars=array('sid','sentype','newyid','sensupport');
 include('scripts/set_book_session_vars.php');
 
+$list='';
 if(isset($_POST['list']) and $_POST['list']=='all'){
 	$sentype='';$newyid='';$sensupport='';$list='all';$sid='';
 	}
@@ -39,7 +40,7 @@ elseif($sid!=''){
 
 <?php 
 	  if(empty($sid)){
-		  $enum=getEnumArray('sentype');
+		  $enum=array_merge(getEnumArray('sentypeinternal'),getEnumArray('sentype'));
 ?>
 	  <fieldset class="seneeds">
 		<legend><?php print_string('filterlist',$book);?></legend>

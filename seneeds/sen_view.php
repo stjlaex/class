@@ -180,6 +180,7 @@ if(!isset($selbid)){$selbid='G';}
 <?php
 			}
 		}
+
 		$subject='addsubject';
 ?>
 			<li id="<?php print 'tinytab-sen-'.$subject;?>"><p 
@@ -195,10 +196,7 @@ if(!isset($selbid)){$selbid='G';}
 				</tr>
 				<tr>
 				  <td>
-					<button class="rowaction" 
-					  name="ncmod" 
-					  value="-1" 
-					  onClick="processContent(this);">
+					<button class="rowaction" name="ncmod" value="-1" onClick="processContent(this);"> 
 					  <?php print_string('addsubject',$book);?>
 					</button>
 <?php 
@@ -218,7 +216,10 @@ if(!isset($selbid)){$selbid='G';}
 				}
 			}
 		}
-	$listname='bid';$listlabel='subject';
+
+	unset($key);
+	$listname='bid';
+	$listlabel='subject';
 	include('scripts/set_list_vars.php');
 	list_select_list($subjects,$listoptions,$book);
 	unset($listoptions);
