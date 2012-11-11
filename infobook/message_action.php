@@ -126,7 +126,7 @@ if($sub=='Submit' and $recipients and sizeof($recipients)>0 and !isset($error)){
 			$messagehtml.=$messagebody;
 			//if($preset){$messagehtml.=$preset;}
 
-			$messagehtml.='<br /><hr><p>'. $footer.'</p></body></html';
+			$messagehtml.='<br /><hr><p>'. $footer.'</p></body></html>';
 
 			$messagetxt='';
 			$messagetxt.=$messagebodytxt;

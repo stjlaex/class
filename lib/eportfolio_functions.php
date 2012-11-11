@@ -1143,75 +1143,24 @@ function upload_files($filedata){
  *
  *
  */
-function delete_files($filedata,$dbc=true){
-	global $CFG;
+function delete_file($filedata){
+
 	$success=false;
 
-	$table_folders=$CFG->eportfolio_db_prefix.'file_folders';
-	$table_files=$CFG->eportfolio_db_prefix.'files';
-	$table_users=$CFG->eportfolio_db_prefix.'users';
-	$table_icons=$CFG->eportfolio_db_prefix.'icons';
-	if($CFG->eportfolio_db!='' and $dbc==true){
-		$dbepf=db_connect(true,$CFG->eportfolio_db);
-		mysql_query("SET NAMES 'utf8'");
-		}
-
-
-	/* Identify the folder to be linked with this file. Note this is a
-	 * virtual flolder in elgg and does not affect the physical directory
-	 * the file is being stored in. 
-	 */
-	if($filedata['foldertype']=='report'){
-		$folder_name='Reports';
-		$dir_name='files';
-		}
-	elseif($filedata['foldertype']=='work'){
-		$folder_name='Portfolio Work';
-		$dir_name='files';
-		}
-	elseif($filedata['foldertype']=='icon'){
-		$folder_name='root';
-		$dir_name='icons';
+	$file_id=$filedata['id'];
+	
+	if($filedata['foldertype']=='icon'){
+		//mysql_query("DELETE FROM $table_icons WHERE owner='$epfuid' AND filename='$file_name';");
 		}
 	else{
-		/* Just defaults to their parent folder. */
-		$folder_name='root';
-		$dir_name='files';
-		$folder_id=-1;
+		mysql_query("DELETE FROM file WHERE id='$file_id';");
 		}
-
-	$batchfiles=$filedata['batchfiles'];
-	foreach($batchfiles as $batchfile){
-		$epfusername=$batchfile['epfusername'];
-		$file_name=$batchfile['filename'];
-		$epfuid=get_epfuid($epfusername,'person');
-		$dir=$dir_name . '/' . substr($epfusername,0,1) . '/' . $epfusername; 
-		$file_fullpath=$CFG->eportfolio_dataroot . '/' . $dir. '/'. $file_name;
-		$file_location=$dir . '/'. $file_name;
-		$file_originalname=$file_name;
-		trigger_error($epfusername.' : '.$file_name,E_USER_WARNING);	
-
-		if($filedata['foldertype']=='icon'){
-			mysql_query("DELETE FROM $table_icons WHERE owner='$epfuid' AND filename='$file_name';");
-			}
-		else{
-			$d_f=mysql_query("SELECT ident FROM $table_files WHERE originalname='$file_originalname' 
-								AND files_owner='$epfuid';");
-			if(mysql_num_rows($d_f)>0){
-				$file_ident=mysql_result($d_f,0);
-				$d_f=mysql_query("DELETE FROM $table_files WHERE ident='$file_ident';");
-				}
-			}
-		
-		if(unlink($file_fullpath)){
-			$success=true;
-			}
-		else{trigger_error('Could not remove file from eportfolio: '.$file_fullpath,E_USER_WARNING);}
+	
+	if(unlink($filedata['path'])){
+		$success=true;
 		}
-	if($dbc==true){
-		$db=db_connect();
-		mysql_query("SET NAMES 'utf8'");
-		}
+	else{trigger_error('Could not remove file from eportfolio: '.$filedata['path'],E_USER_WARNING);}
+ 
 
 	return $success;
 	}
@@ -1289,6 +1238,32 @@ function list_files($epfun,$foldertype,$linked_id='-1'){
 		}
 
 	return $files;
+	}
+
+
+
+/** 
+ *
+ * Returns an array of file urls and descriptions for the given $filetype and $owner.
+ * If not called from other elgg_ functions set dbc=true.
+ * The owner is the epfusername.
+ *
+ * @params string $epfusername of the owner
+ * @params string $filetype
+ * @params string $linked_id
+ *
+ */
+function get_filedata($file_id){
+	global $CFG;
+
+	$d_f=mysql_query("SELECT file.id, file.title, file.description, file.location, file.originalname, file_folder.owner_id, file_folder.owner, 
+						file.folder_id, file_folder.name AS foldertype FROM file 
+						JOIN file_folder ON file_folder.id=file.folder_id WHERE file.id='$file_id';");
+	$filedata=mysql_fetch_array($d_f,MYSQL_ASSOC);
+
+	$filedata['path']=$CFG->eportfolio_dataroot.'/'.$filedata['location'];
+
+	return $filedata;
 	}
 
 

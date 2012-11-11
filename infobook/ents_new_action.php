@@ -35,10 +35,11 @@ if($sub=='Submit'){
 					category='$category', teacher_id='$tid';");
 		$entid=mysql_insert_id();
 
-		require_once('lib/eportfolio_functions.php');
-		link_files($Student['EPFUsername']['value'],'background',$entid);
-
 		}
+
+	require_once('lib/eportfolio_functions.php');
+	link_files($Student['EPFUsername']['value'],'background',$entid);
+
 	}
 
 include('scripts/redirect.php');

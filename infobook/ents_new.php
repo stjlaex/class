@@ -108,4 +108,4 @@ else{
 ?>
 
   </div>
-<script language="JavaScript" type="text/javascript" src="js/fileupload.js?version=1024"></script>
+<script language="JavaScript" type="text/javascript" src="js/documentdrop.js?version=1035"></script>

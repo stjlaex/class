@@ -16,7 +16,7 @@ if($_SESSION['uid']==0){exit;}
 include('../lib/functions.php');
 require_once('../lib/ldap.php');
 
-if(isset($_GET['epfu'])){$epfu=clean_text($_GET['epfu']);}else{$epfu='';}
+if(isset($_GET['fileid'])){$fileid=clean_text($_GET['fileid']);}else{$fileid=-1;}
 if(isset($_GET['location'])){$location=clean_text($_GET['location']);}else{$location='';}
 if(isset($_GET['filename'])){$filename=clean_text($_GET['filename']);}
 

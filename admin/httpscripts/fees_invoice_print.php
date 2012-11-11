@@ -21,7 +21,7 @@ else{
 		$Invoice=fetchFeesInvoice(array('id'=>$invid));
 		$Invoices['Invoice'][]=$Invoice;
 		}
-	$Invoices['Paper']='portrait';
+	//$Invoices['Paper']='portrait';
 	$returnXML=$Invoices;
 	$rootName='Invoices';
 	}

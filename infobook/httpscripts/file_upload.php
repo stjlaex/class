@@ -3,28 +3,17 @@
  *
  */
 
-require_once('../../dbh_connect.php');
-require_once('../../school.php');
-require_once('../classdata.php');
-require_once('../logbook/session.php');
-$db=db_connect();
-mysql_query("SET NAMES 'utf8'");
-start_class_phpsession();
-require_once('../logbook/authenticate.php');
-if(!isset($_SESSION['uid'])){session_defaults();} 
-$user=new user($db);
-if($_SESSION['uid']==0){exit;}
+require_once('../../scripts/http_head_options.php');
 
-require_once('../lib/include.php');
-require_once('../lib/eportfolio_functions.php');
-//require_once('../logbook/permissions.php');
-//$respons=$_SESSION['respons'];
+require_once('../../lib/eportfolio_functions.php');
 
 
 if(isset($_SERVER['HTTP_X_FILENAME'])){$filename=$_SERVER['HTTP_X_FILENAME'];}else{$filename='';}
 if(isset($_SERVER['HTTP_X_FILEOWNER'])){$owner=$_SERVER['HTTP_X_FILEOWNER'];}else{$owner='';}
 if(isset($_SERVER['HTTP_X_FILECONTEXT'])){$context=$_SERVER['HTTP_X_FILECONTEXT'];}else{$context='';}
 
+
+$Files=array();
 
 if($filename!='' and $owner!=''){
 	/* From an AJAX call */
@@ -43,20 +32,12 @@ if($filename!='' and $owner!=''){
 
 	upload_files($publishdata,false);
 
-	print $filename.' uploaded';
-	exit();
+	//$File=array('name'=>$filename);
+	$Files[]=$File;
 	}
-/* From a form submit 
-else{
-	$files=$_FILES['fileselect'];
-	foreach($files['error'] as $id => $err){
-		if($err==UPLOAD_ERR_OK){
-			$filename=$files['name'][$id];
-			//move_uploaded_file($files['tmp_name'][$id],'uploads/' . $filename);
-			print '<p>File '.$filename.' uploaded.</p>';
-			}
-		}
-	}
-*/
 
+$returnXML=$Files;
+$rootName='Files';
+require_once('../../scripts/http_end_options.php');
+exit();
 ?>

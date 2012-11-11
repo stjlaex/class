@@ -53,8 +53,8 @@ $html_css.
 			/**
 			 * Write the html to a file in the reports folder.
 			 */
-			//$filename='Report'.$pubdate.'_'.$sid.'_'.$wrapper_rid;
-			$filename='Report'.$pubdate.'_'.$sid.'_'.$wrapper_rid.'_'.$Student['Forename']['value'].'_'.$Student['Surname']['value'].'_'.$Student['RegistrationGroup']['value'];
+			$filename='Report'.$pubdate.'_'.$sid.'_'.$wrapper_rid;
+			//$filename='Report'.$pubdate.'_'.$sid.'_'.$wrapper_rid.'_'.$Student['Forename']['value'].'_'.$Student['Surname']['value'].'_'.$Student['RegistrationGroup']['value'];
 
 			$file=fopen($CFG->eportfolio_dataroot.'/cache/reports/'.$filename.'.html', 'w');
 			if(!$file){

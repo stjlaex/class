@@ -89,8 +89,8 @@ else{
 		$pubdate=$reportdef['report']['date'];
 		$paper=$reportdef['report']['style'];
 		$transform=$reportdef['report']['transform'];
-		//$filename='Report'.$pubdate.'_'.$sid.'_'.$wrapper_rid;
-		$filename='Report'.$pubdate.'_'.$sid.'_'.$wrapper_rid.'_'.$Student['Forename']['value'].'_'.$Student['Surname']['value'].'_'.$Student['RegistrationGroup']['value'];
+		$filename='Report'.$pubdate.'_'.$sid.'_'.$wrapper_rid;
+		//$filename='Report'.$pubdate.'_'.$sid.'_'.$wrapper_rid.'_'.$Student['Forename']['value'].'_'.$Student['Surname']['value'].'_'.$Student['RegistrationGroup']['value'];
 		/* An array publishdata is used for the eportfolio, it incorporates
 		 * an array called batch listing all of the filenames to be uploaded. 
 		 */
