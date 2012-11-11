@@ -147,6 +147,7 @@ if($sub=='Submit' and $recipients and sizeof($recipients)>0 and !isset($error)){
 	/* Sending SMS Text messages.... */
 	elseif(isset($CFG->smsoff) and $CFG->smsoff=='no' and $messageop=='sms'){
 
+		$messagebody=str_replace("'",'',$messagebody);
 		$messagetxt=iconv('UTF-8','ISO-8859-1',$messagebody);
 
 		foreach($recipients as $key => $recipient){
