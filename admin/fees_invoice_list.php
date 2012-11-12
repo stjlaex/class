@@ -103,9 +103,8 @@ else{
 		</thead>
 		<tbody>
 <?php
-		$rown=1;
-		if(isset($_POST['startno'])){$startno=$_POST['startno'];}
-		else{$startno=0;}
+		if(isset($_POST['startno'])){$startno=$_POST['startno'];$rown=$startno+1;}
+		else{$rown=1;$startno=0;}
 		$totalno=sizeof($invoices);
 		$nextrowstep=90;
 		if($startno>$totalno){$startno=$totalno-$nextrowstep;}
@@ -138,7 +137,7 @@ else{
 			/* first entry for this student for this concept (group by concept and then by student in on other words) */
 			print '<tr id="sid-'.$Invoice['id_db'].'" '.$rowclass.'>';
 			print '<td><input type="checkbox" name="sids[]" value="'.$Invoice['id_db'].'" />';
-			//print $rown++;
+			print $rown++;
 			print '</td>';
 			print '<td></td><td>'.$Invoice['Reference']['value'].'</td><td></td>';
 			print '<td class="student"><a target="viewinfobook" onclick="parent.viewBook(\'infobook\');" href="infobook.php?current=student_fees.php&cancel=student_view.php&sids[]='.$sid.'&sid='.$sid.'">'.$Student['DisplayFullSurname']['value'].'</a></td>';

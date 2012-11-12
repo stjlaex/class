@@ -69,14 +69,13 @@ two_buttonmenu($extrabuttons,$book);
 <?php
 			foreach($Remittance['TotalAmounts'] as $paytype => $TotalAmount){
 				print '<li class="lowlite"><a href="admin.php?current=fees_remittance_view.php&cancel=fees_remittance_list.php&remid='.$remid.'&paymenttype='.$TotalAmount['paymenttype'].'"><label>'.get_string($TotalAmount['label'],$book).'</label> '.display_money($TotalAmount['value']).'</a></li>';
+				$actionbuttons[$TotalAmount['label']]=array('name'=>'process',
+											 'value'=>'list:::'.$TotalAmount['paymenttype']);
 				}
 ?>
 				</ul>
 			  </div>
 <?php
-
-			$actionbuttons['list']=array('name'=>'process',
-											'value'=>'list');
 
 			$actionbuttons['invoice']=array('name'=>'process',
 											'value'=>'invoice');

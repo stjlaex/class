@@ -24,9 +24,10 @@ elseif($sub=='invoice'){
 	$action='fees_remittance_invoice.php';
 	$paymenttype='';
 	}
-elseif($sub=='list'){
+elseif(strpos($sub,'list:::')!==false){
+	/* list invoices by a single paymnettype */
 	$action='fees_invoice_list.php';
-	$paymenttype='2';
+	list($sub,$paymenttype)=explode(':::',$sub);
 	}
 elseif($sub=='delete'){
 

@@ -595,7 +595,7 @@ function list_remittance_invoices($remid,$paymenttype=''){
 	if($paymenttype!=''){
 		$d_i=mysql_query("SELECT DISTINCT i.id, i.series, i.reference, i.account_id, i.remittance_id 
 							FROM fees_invoice AS i JOIN fees_charge AS c ON c.invoice_id=i.id  
-							WHERE i.remittance_id='$remid' AND c.paymenttype!='1' ORDER BY i.reference;");
+							WHERE i.remittance_id='$remid' AND c.paymenttype='$paymenttype' ORDER BY i.reference;");
 		//							WHERE i.remittance_id='$remid' AND c.paymenttype='$paymenttype' ORDER BY i.reference;");
 
 		}
