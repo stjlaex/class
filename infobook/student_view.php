@@ -142,6 +142,14 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 		  </tr>
 		  <tr>
 			<th>
+			  <a href="infobook.php?current=student_reports.php&cancel=student_view.php">
+				<?php print_string('subjectreports'); ?>
+			  </a>
+			</th>
+			<td colspan="3">&nbsp;</td>
+		  </tr>
+		  <tr>
+			<th>
 			  <a href="infobook.php?current=comments_list.php&cancel=student_view.php">
 				<?php print_string('comments'); ?>
 			  </a>
@@ -312,32 +320,6 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 	  <div class="left">
 		<fieldset class="left">
 		  <legend>
-			<?php print_string('reports',$book);?>
-		  </legend>
-		  <a href="infobook.php?current=student_reports.php&cancel=student_view.php">
-			<?php print_string('subjectreports'); ?>
-		  </a>
-		</fieldset>
-
-	  <fieldset class="right">
-		<legend>
-		  <a href="infobook.php?current=student_view_enrolment.php&cancel=student_view.php">
-			<img class="clicktoedit" title="<?php print_string('edit');?>" />
-			<?php print_string('enrolment','admin');?>
-		  </a>
-		</legend>
-		<div>
-<?php 
-
-	print '<label>'.get_string('status','admin').'</label> '. 
-		  get_string(displayEnum($Student['EnrolmentStatus']['value'],$Student['EnrolmentStatus']['field_db']),$book);
-?>
-		</div>
-	  </fieldset>
-	  </div>
-	  <div class="left">
-		<fieldset class="left">
-		  <legend>
 			<a href="infobook.php?current=student_view_sen.php&cancel=student_view.php">
 			  <img class="clicktoedit" title="<?php print_string('edit');?>" />
 			  <?php print_string('sen','seneeds');?>
@@ -422,6 +404,41 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 */
 ?>
   </div>
+
+	  <div class="left">
+		<fieldset class="left">
+		  <legend>
+			<a href="infobook.php?current=student_view_enrolment.php&cancel=student_view.php">
+			  <img class="clicktoedit" title="<?php print_string('edit');?>" />
+			  <?php print_string('enrolment','admin');?>
+			</a>
+		  </legend>
+		  <div>
+<?php 
+
+	print '<label>'.get_string('status','admin').'</label> '. 
+		  get_string(displayEnum($Student['EnrolmentStatus']['value'],$Student['EnrolmentStatus']['field_db']),$book);
+?>
+		  </div>
+		</fieldset>
+<?php
+		if(!empty($_SESSION['accessfees'])){
+?>
+		<fieldset class="right">
+		  <legend>
+			<a href="infobook.php?current=student_fees.php&cancel=student_view.php">
+			  <img class="clicktoedit" title="<?php print_string('edit');?>" />
+			  <?php print_string('fees','admin');?>
+			</a>
+		  </legend>
+		  <p></p>
+		</fieldset>
+<?php
+}
+?>
+	  </div>
+
+
 
 
 	  <div class="right">
