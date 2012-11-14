@@ -3,8 +3,8 @@ Version ClaSS-1.0.35 release (2012/11/12)
 
 Fix to the recording of sentypes to prevent blank records.
 
-Added a check of the ini setting for upload_max_filesize. in document
-drop
+Added a check of the ini setting for upload_max_filesize in document
+drop.
 
 Reworked hte document drop scripts and css.
 
@@ -13,6 +13,7 @@ Fix to seneeds for "Add subject" option.
 Shortcut link to fees added to student profile page.
 
 Added invoice list buttons for each paymenttype.
+
 
 
 Version ClaSS-1.0.34 release (2012/11/05)
@@ -38,7 +39,6 @@ attachments.
 A new html template functions for a div contianer.
 
 Fix to identifying commendations (affected counting merit with points>4).
-
 
 
 

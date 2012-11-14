@@ -114,6 +114,18 @@ else{
 		$prev_AssDefs=(array)fetch_cohortAssessmentDefinitions($prevcohort,$profile['id']);
 		$AssDefs=(array)array_merge($AssDefs,$prev_AssDefs);
 		}
+	elseif($profile['transform']=='tracking_assessment_sheet'){
+		$profile['transform']='tracking_sheet';
+		$pid='%';$bid='%';
+		$AssDefs=array();
+		/* A single sheet to span all courses. */
+		$crids=array('GCSE','AS','A2','Foun','EngCrs');
+		foreach($crids as $crid){
+			$cohort=array('id'=>'','course_id'=>$crid,'stage'=>$stage,'year'=>$curryear);
+			$more_AssDefs=(array)fetch_cohortAssessmentDefinitions($cohort,$profile['id']);
+			$AssDefs=(array)array_merge($AssDefs,$more_AssDefs);
+			}
+		}
 	elseif($profile['transform']=='tracking_gcse' or $profile['transform']=='tracking_us' or $profile['transform']=='tracking_ib'){
 		$pid='%';
 		$bid='%';
