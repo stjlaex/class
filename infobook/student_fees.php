@@ -131,6 +131,7 @@ include('scripts/perm_action.php');
 	$charge_lists['paid']=(array)list_student_charges($sid,1);
    	$charge_lists['notpaid']=(array)list_student_charges($sid,2);
 	foreach($charge_lists as $paymentstatus => $charges){
+
 ?>
 
 	  <fieldset class="center listmenu">
@@ -139,9 +140,9 @@ include('scripts/perm_action.php');
 		  <table>
 			<tr>
 			  <thead>
-				<th style="width:40%;"></th>
+				<th colspan="2" style="width:60%;"></th>
 				<th style="width:20%;"><?php print_string('amount','admin');?></th>
-				<th colspan="3"><?php print_string('payment','admin');?></th>
+				<th colspan="2"><?php print_string('payment','admin');?></th>
 			  </thead>
 			</tr>
 <?php
@@ -153,11 +154,22 @@ include('scripts/perm_action.php');
 					}
 
 				foreach($charge as $c){
-					print '<tr><td>'.$Concept['Name']['value'];
-					print ' - '.$tarifs[$c['tarif_id']].'</td>';
-					print '<td>'.$c['amount'].'</td>';
+
+					if($c['remittance_id']>0){
+						$remittance=get_remittance($c['remittance_id']);
+						$description=$remittance['name'].'<br />'.$Concept['Name']['value'].' - '.$tarifs[$c['tarif_id']];
+						$displaydate=$remittance['duedate'];
+						}
+					else{
+						$remittance=array();
+						$description=$Concept['Name']['value'].' - '.$tarifs[$c['tarif_id']];
+						$displaydate=$c['paymentdate'];
+						}
+
+					print '<tr><td>'.$description.'</td>';
+					print '<td>'.display_date($displaydate).'</td>';
+					print '<td style="text-align:center;">'.display_money($c['amount']).'</td>';
 					print '<td>'.get_string(displayEnum($c['paymenttype'],'paymenttype'),'admin').'</td>';
-					print '<td>'.display_date($c['paymentdate']).'</td>';
 
 
 					if($c['payment']=='2'){$checked='checked="yes"';$checkclass='checked';}else{$checked='';$checkclass='';}

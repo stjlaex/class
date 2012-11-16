@@ -22,7 +22,7 @@ two_buttonmenu($extrabuttons,$book);
 		<tr><th></th><th style="width:60%;">&nbsp;</th><th><?php print get_string('issue',$book).' '.get_string('date',$book);?></th><th><?php print get_string('payment',$book).' '.get_string('date',$book);?></th><th><?php print_string('account',$book);?></th></tr>
 <?php
 		$entryno=0;
-		$d_c=mysql_query("SELECT id FROM fees_remittance ORDER BY name;");
+		$d_c=mysql_query("SELECT id FROM fees_remittance ORDER BY issuedate DESC;");
 		while($remittance=mysql_fetch_array($d_c)){
 			$remid=$remittance['id'];
 			$Remittance=fetchRemittance($remid);
@@ -80,7 +80,7 @@ two_buttonmenu($extrabuttons,$book);
 			$actionbuttons['invoice']=array('name'=>'process',
 											'value'=>'invoice');
 
-			$actionbuttons['export']=array('name'=>'process',
+			$actionbuttons['bankexport']=array('name'=>'process',
 										   'value'=>'export');
 
 			if($total_paid==0 and $total_notpaid==0){

@@ -24,7 +24,9 @@ $extrabuttons['previewselected']=array('name'=>'current',
 									   'xmlcontainerid'=>'invoices',
 									   'onclick'=>'checksidsAction(this)'
 									   );
-
+$extrabuttons['export']=array('name'=>'current',
+							  'title'=>'export',
+							  'value'=>'fees_invoice_export.php');
 
 
 two_buttonmenu($extrabuttons,$book);
@@ -125,16 +127,17 @@ else{
 				}
 			*/
 			if(!array_key_exists($sid,$Students)){
-				/* Do certain things once only for a student... */
+				/* Do this once only for a student... */
 				$Student=(array)fetchStudent_short($sid);
-				$guardians=(array)list_student_payees($sid);
 				$Students[$sid]=$Student;
+				}
+			else{
+				$Student=$Students[$sid];
 				}
 
 			$rowclass='';
 			$payclass='';
 
-			/* first entry for this student for this concept (group by concept and then by student in on other words) */
 			print '<tr id="sid-'.$Invoice['id_db'].'" '.$rowclass.'>';
 			print '<td><input type="checkbox" name="sids[]" value="'.$Invoice['id_db'].'" />';
 			print $rown++;

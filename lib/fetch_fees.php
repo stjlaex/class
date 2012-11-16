@@ -460,6 +460,20 @@ function get_charge($charid){
 	return $c;
 	}
 
+/**
+ *
+ *
+ *
+ */
+function get_remittance($remid){
+
+	$d_r=mysql_query("SELECT id, name, concepts, yeargroups, enrolstatus, duedate, issuedate, year, account_id
+						FROM fees_remittance WHERE id='$remid';");
+	$r=mysql_fetch_array($d_r);
+
+	return $r;
+	}
+
 
 /**
  *
@@ -677,7 +691,7 @@ function list_student_charges($sid,$status,$remid=-1){
 		$remittance="AND c.remittance_id>'0'";
 		}
 	$d_c=mysql_query("SELECT c.id, c.student_id, c.tarif_id, c.quantity, c.paymentdate, c.paymenttype, c.payment, 
-							c.amount, t.concept_id FROM fees_charge AS c JOIN fees_tarif AS t ON t.id=c.tarif_id 
+							c.amount, c.remittance_id, t.concept_id FROM fees_charge AS c JOIN fees_tarif AS t ON t.id=c.tarif_id 
 							WHERE c.student_id='$sid' AND c.payment='$payment' $remittance ORDER BY c.paymentdate;");
 
 	$charges=array();
@@ -761,7 +775,7 @@ function list_student_payees($sid){
 		/* Search for valid bank accounts. */
 		$d_a=mysql_query("SELECT COUNT(id) FROM fees_account WHERE guardian_id='$gid' AND valid='1';");
 		$g['accountsno']=mysql_result($d_a,0);/* This counts the number of valid bank accounts. */
-		$g['name']=get_string(displayEnum($g['relationship'], 'relationship'),'infobook').': '.$g['surname'];
+		$g['name']=get_string(displayEnum($g['relationship'], 'relationship'),'infobook').': '.$g['surname'].', '.$g['forename'];
 		/* Add the guardian to the list of payees even if no valid accounts because they could use other methods. */
 		$guardians[]=$g;
 		}
