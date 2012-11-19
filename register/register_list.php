@@ -86,7 +86,10 @@ else{$session='AM';}
 			$AttendanceEvents['Event'][]=$Event;
 			}
 
-		/* Check if there are any notices linked to this session and community. */
+		/* Check if there are any notices linked to this session and
+		 * community. Notices are considered seen after the 4th
+		 * time. 
+		*/
 		$sess=$currentevent['session'];
 		$dat=$currentevent['date'];
 		$comid=$community['id'];
@@ -98,7 +101,7 @@ else{$session='AM';}
 		while($n=mysql_fetch_array($d_n)){
 			$notice.='<div class="center">'.$n['comment'].'</div>';
 			$notid=$n['id'];
-			mysql_query("UPDATE event_notidcomid SET seen=seen+1 WHERE notice_id='$notid' AND community_id='$comid';");
+			mysql_query("UPDATE event_notidcomid SET seen=seen+1 WHERE notice_id='$notid' AND community_id='$comid' AND yeargroup_id='$yid';");
 			}
 		}
 

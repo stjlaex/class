@@ -22,7 +22,7 @@ CREATE TABLE event_notidcomid (
 		community_id	int unsigned not null default '0',
 		yeargroup_id	smallint,
 		seen			tinyint(1) unsigned not null default '0',
-		primary key (notice_id,community_id)
+		primary key (notice_id,community_id,yeargroup_id)
 ) type=myisam;
 
 
