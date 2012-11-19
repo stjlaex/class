@@ -132,7 +132,15 @@ $CFG->budget_lock='0';
  * Does the school have boarders.
  */
 $CFG->enrol_boarders='no';
-/*****
+/**
+ *
+ * Optional settings for receiving emails through an imap account
+ */
+$CFG->email_imap_off='yes';
+$CFG->email_imap_host='';
+$CFG->email_imap_user='';
+$CFG->email_imap_passwd='';
+/**
  *
  * Optional settings to tune the use of emails for notifying staff
  * values set to either 'yes' or 'no'

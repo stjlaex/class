@@ -98,6 +98,11 @@ elseif($ARGS['option']=='hwsync'){
 	$cmd='/usr/bin/php '.$CFG->installpath.'/'.$CFG->applicationdirectory.'/admin/httpscripts/epf_sync_homework.php --path='.$CFG->installpath;
 	exec("$cmd > /dev/null &");
 	}
+elseif($ARGS['option']=='newenquiries'){
+	/* Update accounts for contacts in the ClaSSIC database */
+	$cmd='/usr/bin/php '.$CFG->installpath.'/'.$CFG->applicationdirectory.'/admin/httpscripts/admissions_enquiries.php --path='.$CFG->installpath;
+	exec("$cmd > /dev/null &");
+	}
 
 require_once($CFG->installpath.'/'.$CFG->applicationdirectory.'/scripts/cron_end_options.php');
 ?>

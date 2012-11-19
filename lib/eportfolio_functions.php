@@ -738,11 +738,11 @@ function elgg_new_comment($epfu,$dateset,$message,$title,$tid){
 			if($emailaddress!='' and !in_array($emailaddress,$sends)){
 				$sends[]=$emailaddress;
 				$title=get_string('epfcommenttitle','infobook').' '.$CFG->schoolname;
-				$message='<p>'.get_string('epfcommentemail','infobook',$studentname).' '.$CFG->eportfoliosite.'</p>';
+				$message=get_string('epfcommentemail','infobook',$studentname)
+					.' <p><a href="'.$CFG->eportfoliosite.'">'.$CFG->eportfoliosite.'</a></p>';
 				$footer=get_string('guardianemailfooterdisclaimer');
 				$messagetxt=strip_tags(html_entity_decode($message, ENT_QUOTES, 'UTF-8'))."\r\n".'--'. "\r\n" . $footer;
 				$message.='<br /><hr><p>'. $footer.'<p>';
-
 				$emailaddress=strtolower($emailaddress);
 				$dbn=db_connect(false,$CFG->eportfolio_db);
 				$table=$CFG->eportfolio_db_prefix.'message_event';
