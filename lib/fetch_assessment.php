@@ -496,6 +496,7 @@ function fetchAssessments_short($sid,$eid='%',$bid='%',$pid='%'){
 	   	$Assessment['Component']=array('id'=>''.$component,'value'=>''.get_subjectname($component));
 	   	$Assessment['PrintLabel']=array('value'=>''.$ass['label']);
 	   	$Assessment['Element']=array('value'=>''.$ass['element']);
+	   	$Assessment['Year']=array('value'=>''.$ass['year']);
 	   	$Assessment['Result']=array('value'=>''.$eidsid['result']);
 		$Assessment['Result']=$Assessment['Result'];
 	   	$Assessment['Value']=array('value' =>''.$eidsid['value']);

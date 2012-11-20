@@ -1,4 +1,4 @@
-Version ClaSS-1.0.36 release (2012/11/19)
+Version ClaSS-1.0.36 release (2012/11/20)
 -------------------------------------------
 
 New invoice export function.
@@ -12,6 +12,10 @@ New imap CFG details in school.php for fetching emails.
 
 Tidied html of comment emails.
 
+Fix to listing sanctions in new_comment.
+
+Added the assessment year to fetchAssessments_Short.
+
 
 Version ClaSS-1.0.35 release (2012/11/12)
 -------------------------------------------
@@ -21,7 +25,7 @@ Fix to the recording of sentypes to prevent blank records.
 Added a check of the ini setting for upload_max_filesize in document
 drop.
 
-Reworked hte document drop scripts and css.
+Reworked the document drop scripts and css.
 
 Fix to seneeds for "Add subject" option.
 

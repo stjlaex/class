@@ -29,6 +29,7 @@ else{
 
 $yid=$Student['YearGroup']['value'];
 $perm=getYearPerm($yid,$respons);
+$secid=get_student_section($sid);
 
 three_buttonmenu();
 ?>
@@ -198,7 +199,7 @@ if($_SESSION['worklevel']>-1 and ($CFG->emailguardiancomments=='yes' or ($CFG->e
 	  <div class="left">
 <?php 
 		if(isset($Incident['Sanction']['value'])){$sanction=$Incident['Sanction']['value_db'];}
-		list($ratingnames,$sanctions)=fetch_categorydefs('inc');
+		list($ratingnames,$sanctions)=fetch_categorydefs('inc','%',$secid);
 		$listlabel='sanction';
 		$listname='sanction';
 		$listid='sanction';

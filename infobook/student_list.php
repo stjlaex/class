@@ -325,14 +325,14 @@ two_buttonmenu($extrabuttons,$book);
 		  </div>
 		  <div class="rowaction">
 			<label><?php print_string('private',$book);?></label>
-			<input title="<?php print_string('private',$book);?>" 
+			<input title="<?php print get_string('private',$book).' ' .get_string('hidden',$book);?>" 
 				  type="radio" name="privfilter"
 				  value="hidden" <?php if($privfilter=='hidden'){print 'checked';}?>
 				  onchange="processContent(this);" />
 		  </div>
 		  <div class="rowaction">
 			<label><?php print_string('visible',$book);?></label>
-			<input title="<?php print_string('private',$book);?>" 
+			<input title="<?php print get_string('private',$book).' ' .get_string('visible',$book);?>" 
 				   type="radio" name="privfilter"
 				   value="visible" <?php if($privfilter=='visible'){print 'checked';}?>
 			onchange="processContent(this);" />

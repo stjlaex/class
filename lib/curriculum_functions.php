@@ -670,7 +670,7 @@ function list_support_teachers(){
  * @param string $messagesubject plain text subject line of the email
  * @param string $messagetext plain text version of the message
  * @param string $messagehtml html formatted version of the message
- * @param string $teachergroup single character either %, a or p
+ * @param string $teachergroup single character either %, a, p or an array of teachers
  */
 function message_student_teachers($sid,$tid,$bid,$messagesubject,$messagetext,$messagehtml,$teachergroup='%'){
 
@@ -701,7 +701,7 @@ function message_student_teachers($sid,$tid,$bid,$messagesubject,$messagetext,$m
 			$recipients=array_merge($recipients, $recips);
 			}
 		}
-	
+
 	/* Decide on the addressee of the message. If possible use teacher's own email address. */
 	$teachername=get_teachername($tid);
 	$teacher=get_user($tid,'username');

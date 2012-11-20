@@ -244,4 +244,6 @@ $string['contractdate']='Contract date';
 $string['fixedformat']='Fixed format';
 $string['qualification']='Qualification';
 $string['university']='University';
+$string['visible']='Visible';
+$string['hidden']='Hidden';
 ?>
