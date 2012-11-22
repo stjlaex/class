@@ -23,12 +23,17 @@ function arguments($argv){
 $ARGS=arguments($_SERVER['argv']);
 require_once($ARGS['path'].'/school.php');
 require_once($CFG->installpath.'/'.$CFG->applicationdirectory.'/scripts/cron_head_options.php');
+require_once($CFG->installpath.'/'.$CFG->applicationdirectory.'/lib/simple_html_dom.php');
 
 
 if($CFG->email_imap_off=='no'){
+	/* fetch emails using imap functions */
 	$emailif=new email_imap_fetch();
 	$emailif->connect($CFG->email_imap_host, '/pop3:995/ssl', $CFG->email_imap_user, $CFG->email_imap_passwd);
 	$emailif->inbox_read();
+	foreach($emailif->html_forms as $no => $html_form){
+		trigger_error('FORM NO'.$no,E_USER_WARNING);
+		}
 	}
 
 
@@ -46,7 +51,11 @@ exit;
 
 
 /**
- * Original idea from Ernest Wojciuk's EMAIL_TO_DB script (emailtodb.moldo.pl)
+ * Original idea from Ernest Wojciuk's EMAIL_TO_DB script
+ * (emailtodb.moldo.pl).
+ *
+ * Re-written and simplified for the specific ClaSS need of just
+ * parsing the emails and then doing something with the content.
  *
  */
 
@@ -65,6 +74,7 @@ class email_imap_fetch{
 	var $error=array();
 	var $status;
 	var $partsarray=array();
+	var $html_forms=array();
 	var $msgid =1; 
 	var $newid;
 	var $logid;
@@ -280,7 +290,7 @@ class email_imap_fetch{
 	  $email=$this->email_get();
 	  foreach($this->partsarray as $part){
 		  if($part['text']['type']=='HTML'){
-			  xmlreader($part['text']['string']);
+			  $this->html_forms[]=xmlreader($part['text']['string']);
 			  }
 		  elseif($part['text']['type']=='PLAIN'){
 			  }
@@ -317,12 +327,19 @@ class email_imap_fetch{
 		  while($this->msgid <= $inbox_count){
 			  $header=imap_headerinfo($this->link, $this->msgid, 80,80);
 			  $subject=$this->mime_text_decode($header->Subject);
+
+			  /* Expect to find the school's short name in the subject
+			   * line if the enquiry is intended for this db. 
+			   */
 			  if(strpos($subject,$CFG->shortname)>0){
 
 				  trigger_error('INBOX: '.$this->msgid.' '.$subject,E_USER_WARNING);
 
 				  $this->email_read();
 
+				  /* Need to mark the emails as read or delete them
+				   * otherwise we just get the same back everytime. 
+				   */
 				  //$this->email_setflag();
 				  //$this->email_delete();
 				  //$this->email_expunge();
@@ -333,7 +350,7 @@ class email_imap_fetch{
 		  }
 	  }
 
-	/* End of the class */
+	/* End of the imap class */
 	}
 
 ?>

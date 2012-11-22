@@ -67,7 +67,7 @@ print '('.$Student['RegistrationGroup']['value'].')';
 		$listname='bid'; 
 		$listid='subject';
 		$listlabel='subject';
-		$subjects=list_student_subjects($sid);
+		$subjects=array_merge(array('form'=>get_string('form')),list_student_subjects($sid));
 		include('scripts/set_list_vars.php');
 		list_select_list($subjects,$listoptions,$book);
 ?>
