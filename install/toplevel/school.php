@@ -112,7 +112,16 @@ function enrolno_formula($sid){
 	return $enrolno;
 	}
 */
+/**
+ * Custom formula to generate unique enrolment number.
+function parse_enquiry_form($html_form_text){
 
+	$form_fields=array('guardian'=>array(),'student'=>array());
+
+
+	return $form_fields;	
+	}
+*/
 /**
  * The start of the month (integer 1 to 12) beyond which the current enrolment year ends.
  * Probably just the end of term if you don't care.

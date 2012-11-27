@@ -130,7 +130,7 @@ three_buttonmenu();
 
 <?php
 	require_once('lib/eportfolio_functions.php');
-	html_document_drop($Student['EPFUsername']['value'],'enrolment','%')
+	html_document_drop($Student['EPFUsername']['value'],'enrolment','%');
 ?>
 </div>
 <script language="JavaScript" type="text/javascript" src="js/documentdrop.js?version=1035"></script>

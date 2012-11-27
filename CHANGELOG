@@ -1,4 +1,4 @@
-Version ClaSS-1.0.36 release (2012/11/20)
+Version ClaSS-1.0.36 release (2012/11/27)
 -------------------------------------------
 
 New invoice export function.
@@ -15,6 +15,13 @@ Tidied html of comment emails.
 Fix to listing sanctions in new_comment.
 
 Added the assessment year to fetchAssessments_Short.
+
+Made the student icon photo part of the document drop system.
+
+Script to fetch enquiry forms from an imap account.
+
+New custom function in school.php parse_enquiry_form.
+
 
 
 Version ClaSS-1.0.35 release (2012/11/12)

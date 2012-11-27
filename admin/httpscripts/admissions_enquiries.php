@@ -27,12 +27,69 @@ require_once($CFG->installpath.'/'.$CFG->applicationdirectory.'/lib/simple_html_
 
 
 if($CFG->email_imap_off=='no'){
-	/* fetch emails using imap functions */
+	/* fetch emails using imap functions  */
 	$emailif=new email_imap_fetch();
 	$emailif->connect($CFG->email_imap_host, '/pop3:995/ssl', $CFG->email_imap_user, $CFG->email_imap_passwd);
 	$emailif->inbox_read();
-	foreach($emailif->html_forms as $no => $html_form){
-		trigger_error('FORM NO'.$no,E_USER_WARNING);
+
+	foreach($emailif->html_forms as $no => $html_form_text){
+
+		$fields=array();
+
+		if(function_exists('parse_enquiry_form')){
+
+			/* Custom function in school.php to match the wen-form for enquiries. */
+			$fields=(array)parse_enquiry_form($html_form_text);
+
+			}
+		else{
+
+			trigger_error('Not configured to receieved enquiry form emails!',E_USER_WARNING);
+
+			}
+
+
+		if($fields['guardian']['surname']!='' and $fields['guardian']['email']!='' and $fields['student']['surname']!=''){
+			$gemail=$fields['guardian']['email'];
+			$gsurname=$fields['guardian']['surname'];
+			$gforename=$fields['guardian']['forename'];
+			$gphone=$fields['guardian']['phone'];
+
+			/* Check by email for existing contacts. */
+			$d_g=mysql_query("SELECT id FROM guardian WHERE email='$gemail';");
+			if(mysql_num_rows($d_g)>0){
+				/* Contact alrady exists in db. */
+				$gid=mysql_result($d_g,0);
+				}
+			else{
+				/* New contact. */
+				mysql_query("INSERT INTO guardian (surname, forename, email) 
+									VALUES ('$gsurname', '$gforename', '$gemail');");
+				$gid=mysql_insert_id();
+				mysql_query("INSERT INTO phone (some_id, number) 
+									VALUES ('$gid', '$gphone');");
+				}
+
+
+			$sdob=$fields['student']['dob'];
+			$ssurname=$fields['student']['surname'];
+			$sforename=$fields['student']['forename'];
+			$note=$fields['note'];
+			mysql_query("INSERT INTO student (surname, forename, dob) 
+							VALUES ('$ssurname', '$sforename', '$sdob');");
+
+			$sid=mysql_insert_id();
+
+			mysql_query("INSERT INTO info SET student_id='$sid', appnotes='$note';");
+			mysql_query("INSERT INTO gidsid SET guardian_id='$gid', student_id='$sid';");
+
+			/* Enter the student in to the relevant enquiry community. */
+			$enrolstatus='EN';
+			$comtype='enquired';
+			$comname=$enrolstatus.':'.$fields['yeargroup_id'];
+			$community=array('id'=>'','type'=>$comtype,'name'=>$comname,'year'=>$fields['enrolyear']);
+			join_community($sid,$community);
+			}
 		}
 	}
 
@@ -207,7 +264,7 @@ class email_imap_fetch{
 				  }
 			  }
 
-		  $email['CHARSET']=$charset;
+		  //$email['CHARSET']=$charset;
 		  $email['SUBJECT']=$this->mime_text_decode($header->Subject);
 		  $email['FROM_NAME']=$this->mime_text_decode($fromname);
 		  $email['FROM_EMAIL']=$fromaddress;
@@ -290,18 +347,15 @@ class email_imap_fetch{
 	  $email=$this->email_get();
 	  foreach($this->partsarray as $part){
 		  if($part['text']['type']=='HTML'){
-			  $this->html_forms[]=xmlreader($part['text']['string']);
+			  //$this->html_forms[]=xmlreader($part['text']['string']);
+			  $this->html_forms[]=$part['text']['string'];
 			  }
 		  elseif($part['text']['type']=='PLAIN'){
 			  }
 		  }
-
 	  if($email!=''){
 		  unset($this->partsarray);
 		  }
-
-	  trigger_error('READ: '.$this->msgid,E_USER_WARNING);
-
 	  }
 
   /**
@@ -316,15 +370,15 @@ class email_imap_fetch{
 
 	  if($inbox_count>=1){
 
-		  if($inbox_count>10){
-			  $inbox_count=10;
+		  if($inbox_count>20){
+			  $inbox_count=20;
 			  }
 
 		  if(!isset($this->msgid) or $this->msgid<=0){
 			  $this->msgid=1;
 			  }
 
-		  while($this->msgid <= $inbox_count){
+		  while($this->msgid < $inbox_count){
 			  $header=imap_headerinfo($this->link, $this->msgid, 80,80);
 			  $subject=$this->mime_text_decode($header->Subject);
 
@@ -333,16 +387,16 @@ class email_imap_fetch{
 			   */
 			  if(strpos($subject,$CFG->shortname)>0){
 
-				  trigger_error('INBOX: '.$this->msgid.' '.$subject,E_USER_WARNING);
+				  trigger_error('MESSAGE: '.$this->msgid.' '.$subject,E_USER_WARNING);
 
 				  $this->email_read();
 
 				  /* Need to mark the emails as read or delete them
 				   * otherwise we just get the same back everytime. 
 				   */
-				  //$this->email_setflag();
-				  //$this->email_delete();
-				  //$this->email_expunge();
+				  $this->email_setflag();
+				  $this->email_delete();
+				  $this->email_expunge();
 
 				  }
 			  $this->msgid++;
@@ -352,5 +406,7 @@ class email_imap_fetch{
 
 	/* End of the imap class */
 	}
+
+
 
 ?>
