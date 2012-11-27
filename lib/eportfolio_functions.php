@@ -1099,11 +1099,16 @@ function upload_files($filedata){
 				}
 
 			if($filedata['foldertype']=='icon'){
-				/* TODO:
-				mysql_query("INSERT INTO $table_icons SET owner='s', owner_id='$epfuid',
-					filename='$file_name', description='$file_description';");
-				mysql_query("UPDATE $table_users SET icon=LAST_INSERT_ID() WHERE ident='$epfuid';");
-				*/
+
+				/* Keep a copy of the old icon */
+				if(file_exists($file_fullpath)){
+					$year=get_curriculumyear()-1;
+					$file_old=$CFG->eportfolio_dataroot . '/'. $dir .'/'. $epfusername. '-'.$year. '.jpeg';
+					rename($file_fullpath,$file_old);
+					}
+
+				/* No db record is required for icons. */
+
 				}
 			else{
 				$sql_linked="AND other_id='$file_linked_id'";
@@ -1216,25 +1221,48 @@ function list_files($epfun,$foldertype,$linked_id='-1'){
 
 	$epfuid=get_epfuid($epfun,'s');
 
-	if($linked_id!='%'){
-		/* Looking only at the files attached to a single entry. */
-		$attachment="file.other_id='$linked_id' AND ";
+	if($foldertype=='report' or $foldertype=='icon'){
+		if($foldertype=='report'){
+			$foldername='files';
+			$file_extension='pdf';
+			}
+		else{
+			$foldername='icons';
+			$file_extension='jpeg';
+			}
+
+		$directory=$foldername.'/' . substr($epfun,0,1) . '/' . $epfun;
+		$dir_files=(array)list_directory_files($CFG->eportfolio_dataroot.'/'.$directory,$file_extension);
+		foreach($dir_files as $file){
+			$files[]=array('id'=>'',
+						   'description'=>$file,
+						   'name'=>$file.'.'.$file_extension,
+						   'originalname'=>$file.'.'.$file_extension,
+						   'path'=>$CFG->eportfolio_dataroot.'/'.$directory.'/'.$file.'.'.$file_extension,
+						   'location'=>$directory.'/'.$file.'.'.$file_extension);
+			}
 		}
 	else{
-		/* Looking only at all files dropped in this context. */
-		$attachment='';
-		}
+		if($linked_id!='%'){
+			/* Looking only at the files attached to a single entry. */
+			$attachment="file.other_id='$linked_id' AND ";
+			}
+		else{
+			/* Looking only at all files dropped in this context. */
+			$attachment='';
+			}
 
-	$d_f=mysql_query("SELECT file.id, title, description, location, originalname FROM file 
+		$d_f=mysql_query("SELECT file.id, title, description, location, originalname FROM file 
 						JOIN file_folder ON file_folder.id=file.folder_id
 						WHERE $attachment file.owner_id='$epfuid' AND file.owner='s' AND file_folder.name='$foldertype';");
-	while($file=mysql_fetch_array($d_f,MYSQL_ASSOC)){
-		$file['description']=$file['description'];
-		$file['name']=$file['originalname'];
-		$file['path']=$CFG->eportfolio_dataroot.'/'.$file['location'];
-		// only the path is needed?
-		//$file['url']=$CFG->eportfoliosite.'/'.$epfun.'/files/'.$folder_id.'/'.$file['ident'].'/'.$file['originalname'];
-		$files[]=$file;
+		while($file=mysql_fetch_array($d_f,MYSQL_ASSOC)){
+			$file['description']=$file['description'];
+			$file['name']=$file['originalname'];
+			$file['path']=$CFG->eportfolio_dataroot.'/'.$file['location'];
+			// only the path is needed?
+			//$file['url']=$CFG->eportfoliosite.'/'.$epfun.'/files/'.$folder_id.'/'.$file['ident'].'/'.$file['originalname'];
+			$files[]=$file;
+			}
 		}
 
 	return $files;

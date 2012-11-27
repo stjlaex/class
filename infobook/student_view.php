@@ -25,7 +25,7 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 
 	  <div class="center">
 <?php
-		photo_img($Student['EPFUsername']['value'],$Student['EnrolNumber']['value']);
+		photo_img($Student['EPFUsername']['value'],$Student['EnrolNumber']['value'],'w');
 ?>
 
 		<table class="listmenu listinfo">

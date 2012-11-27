@@ -1,6 +1,7 @@
 <?php
 /**                    httpscripts/file_upload.php
  *
+ * From an AJAX call
  */
 
 require_once('../../scripts/http_head_options.php');
@@ -16,9 +17,22 @@ if(isset($_SERVER['HTTP_X_FILECONTEXT'])){$context=$_SERVER['HTTP_X_FILECONTEXT'
 $Files=array();
 
 if($filename!='' and $owner!=''){
-	/* From an AJAX call */
-	$filepath=$CFG->eportfolio_dataroot. '/cache/files/';
-	$uniquename=uniqid();
+	if($context=='icon'){
+		$filepath=$CFG->eportfolio_dataroot. '/cache/images/';
+		$uniquename=$owner.'.jpeg';
+		if(file_exists($filepath.$uniquename)){
+			if(unlink($filepath.$uniquename)){
+				}
+			else{
+				trigger_error('FAILED TO UNLINK: '.$filepath.$uniquename,E_USER_WARNING);
+				}
+			}
+		}
+	else{
+		$filepath=$CFG->eportfolio_dataroot. '/cache/files/';
+		$uniquename=uniqid();
+		}
+
 	$tmp=$filepath . $uniquename;
 	file_put_contents($tmp,file_get_contents('php://input'));
 
@@ -29,7 +43,6 @@ if($filename!='' and $owner!=''){
 									   'originalname'=>$filename,
 									   'description'=>'',
 									   'tmpname'=>$tmp);
-
 	upload_files($publishdata,false);
 
 	//$File=array('name'=>$filename);

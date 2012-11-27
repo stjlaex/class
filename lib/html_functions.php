@@ -398,7 +398,7 @@ function emaillink_display($email){
  *
  *
  */
-function photo_img($epfu,$enrolno=''){
+function photo_img($epfu,$enrolno='',$access=''){
 	global $CFG;
 	$epfu=trim(strtolower($epfu));
 	if(isset($_SERVER['HTTPS'])){
@@ -407,12 +407,19 @@ function photo_img($epfu,$enrolno=''){
 	else{
 		$http='http';
 		}
+   print '<div class="icon">';
+   if($access=='w'){
+	   print '<a href="infobook.php?current=student_photo.php&cancel=student_view.php">';
+	   }
 ?>
-   <div class="icon">
 	 <img src="<?php print $http.'://'.$CFG->siteaddress.$CFG->sitepath.'/'.$CFG->applicationdirectory. 
 				'/scripts/photo_display.php?epfu='.$epfu.'&enrolno='.$enrolno;?>" />
-   </div>
 <?php
+   if($access=='w'){
+	   print '</a>';
+	   }
+   print '</div>';
+
 	}
 
 
