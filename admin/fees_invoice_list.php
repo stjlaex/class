@@ -118,6 +118,20 @@ else{
 
 			$Invoice=(array)fetchFeesInvoice($invoice);
 			$sid=$Invoice['student_id_db'];
+			$invid=$Invoice['id_db'];
+
+			if($sid=='' and $filter_paymenttype==1){
+				/* TODO */
+				$accid=$Invoice['account_id_db'];
+				$d_c=mysql_query("SELECT c.student_id FROM fees_charge AS c JOIN gidsid ON gidsid.student_id=c.student_id 
+									WHERE c.remittance_id='$remid' AND c.invoice_id='0' 
+									AND gidsid.guardian_id=ANY(SELECT guardian_id FROM fees_account WHERE fees_account.id='$accid');");
+				$sid=mysql_result($d_c,0);
+				mysql_query("UPDATE fees_charge SET invoice_id='$invid' 
+								WHERE student_id='$sid' AND invoice_id='0' AND paymenttype='$filter_paymenttype' AND remittance_id='$remid';");
+				}
+
+
 			/*
 			if($charge['payment']=='1'){
 				$rowclass='class="lowlite"';
@@ -126,6 +140,7 @@ else{
 				$rowclass='class=""';
 				}
 			*/
+
 			if(!array_key_exists($sid,$Students)){
 				/* Do this once only for a student... */
 				$Student=(array)fetchStudent_short($sid);
@@ -150,7 +165,8 @@ else{
 			${'paymenttype'.$Invoice['id_db']}=$Invoice['PaymentType']['value'];
 			include('scripts/list_paymenttypes.php');
 			print '</div>';
-			print get_string(displayEnum($Invoice['PaymentType']['value'],'paymenttype'),$book).'</td>';
+			print get_string(displayEnum($Invoice['PaymentType']['value'],'paymenttype'),$book);
+			print '</td>';
 			print '<td '.$payclass.'>'.display_money($Invoice['TotalAmount']['value']).'</td></tr>';
 
 			}

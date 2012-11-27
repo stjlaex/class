@@ -157,7 +157,7 @@ include('scripts/perm_action.php');
 
 					if($c['remittance_id']>0){
 						$remittance=get_remittance($c['remittance_id']);
-						$description=$remittance['name'].'<br />'.$Concept['Name']['value'].' - '.$tarifs[$c['tarif_id']];
+						$description='<label>'.$remittance['name'].'</label><br />'.$Concept['Name']['value'].' - '.$tarifs[$c['tarif_id']];
 						$displaydate=$remittance['duedate'];
 						}
 					else{

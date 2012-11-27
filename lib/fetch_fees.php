@@ -613,7 +613,6 @@ function list_remittance_invoices($remid,$paymenttype=''){
 							FROM fees_invoice AS i JOIN fees_charge AS c ON c.invoice_id=i.id  
 							WHERE i.remittance_id='$remid' AND c.paymenttype='$paymenttype' ORDER BY i.reference;");
 		//							WHERE i.remittance_id='$remid' AND c.paymenttype='$paymenttype' ORDER BY i.reference;");
-
 		}
 	else{
 		/*

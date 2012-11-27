@@ -81,7 +81,7 @@ two_buttonmenu($extrabuttons,$book);
 											'value'=>'invoice');
 
 			$actionbuttons['bankexport']=array('name'=>'process',
-										   'value'=>'export');
+											   'value'=>'export');
 
 			if($total_paid==0 and $total_notpaid==0){
 				$imagebuttons['clicktodelete']=array('name'=>'process',
