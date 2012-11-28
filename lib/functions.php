@@ -1655,7 +1655,8 @@ function display_date($date='',$format='human'){
 			}
 		}
 	else{
-		$displaydate='0000-00-00';
+		//$displaydate='0000-00-00';
+		$displaydate='';
 		}
 	return $displaydate;
 	}

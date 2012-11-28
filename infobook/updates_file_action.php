@@ -8,7 +8,6 @@ $action_post_vars=array('sids','catid');
 
 include('scripts/sub_action.php');
 
-$displayfields=array();
 if(isset($_POST['catid'])){$catid=$_POST['catid'];}
 if(isset($_POST['update'])){$update=$_POST['update'];}
 

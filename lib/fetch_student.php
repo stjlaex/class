@@ -117,8 +117,8 @@ function fetchStudent_singlefield($sid,$tag,$privfilter=''){
 	elseif($tag=='EnrolmentApplicationDate'){$fieldname='appdate';}
 	elseif($tag=='EnrolmentStatus'){$fieldname='enrolstatus';}
 	elseif($tag=='Boarder'){$fieldname='boarder';$fieldtype='enum';}
-	elseif($tag=='EntryDate'){$fieldname='entrydate';}
-	elseif($tag=='LeavingDate'){$fieldname='leavingdate';}
+	elseif($tag=='EntryDate'){$fieldname='entrydate';$fieldtype='date';}
+	elseif($tag=='LeavingDate'){$fieldname='leavingdate';$fieldtype='date';}
 	elseif($tag=='StaffChild'){$fieldname='staffchild';}
 	elseif($tag=='EmailAddress'){$fieldname='email';}
 	elseif($tag=='MobilePhone'){$fieldname='phonenumber';}
@@ -127,7 +127,7 @@ function fetchStudent_singlefield($sid,$tag,$privfilter=''){
 	elseif($tag=='MedicalFlag'){$fieldname='medical';}
    	elseif($tag=='PersonalNumber'){$fieldname='upn';}
    	elseif($tag=='OtherNumber'){$fieldname='otherpn1';}
-   	elseif($tag=='IdExpiryDate'){$fieldname='passportdate';}
+   	elseif($tag=='IdExpiryDate'){$fieldname='passportdate';$fieldtype='date';}
    	elseif($tag=='AnotherNumber'){$fieldname='otherpn2';}
    	elseif($tag=='CandidateID'){$fieldname='candidaten1';}
    	elseif($tag=='CandidateNumber'){$fieldname='candidaten2';}
@@ -378,8 +378,9 @@ function fetchStudent_singlefield($sid,$tag,$privfilter=''){
 		$Student[$tag]['value']=''.$value; 
 		}
 
-	/* The easiest of all because they just come from the info table
-	 *   and are part of the full Student def anyway. 
+	/*
+	 * The easiest of all because they just come from the info table
+	 * and are part of the full Student def anyway. 
 	 */
 	if(isset($fieldname)){
 		$d_info=mysql_query("SELECT $fieldname FROM info WHERE student_id='$sid';");

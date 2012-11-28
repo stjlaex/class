@@ -11,7 +11,7 @@ three_buttonmenu();
 ?>
 
   <div id="heading">
-	<label><?php print_string('saveview',$book);?></label>
+	<label><?php print_string('updatesfile',$book);?></label>
   </div>
 
   <div id="viewcontent" class="content">
@@ -19,7 +19,7 @@ three_buttonmenu();
 
 	  <fieldset class="divgroup center">
 		<legend>
-			<?php print get_string('select',$book).' '.get_string('update',$book); ?>
+			<?php print_string('update','admin'); ?>
 		</legend>
 		<div class="left">
 		  <label for="name"><?php print_string('current',$book);?></label>
@@ -28,7 +28,7 @@ three_buttonmenu();
 		<div class="right">
 		  <label for="name"><?php print_string('previous',$book);?></label>
 		  <input type="radio" name="update" id="previous" value="2" />
-		</div>
+		</div>   
 	  </fieldset>
 
 
@@ -62,12 +62,6 @@ three_buttonmenu();
 	</div>
 
 
-
-<?php
-foreach($displayfields as $dindex => $displayfield){
-	print '<input type="hidden" name="displayfield'.$dindex.'" value="'.$displayfield.'" />';
-	}
-?>
 	<input type="hidden" name="colno" value="<?php print $displayfields_no;?>" />
 	<input type="hidden" name="current" value="<?php print $action;?>" />
 	<input type="hidden" name="cancel" value="<?php print 'student_list.php';?>" />
