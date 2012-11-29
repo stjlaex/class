@@ -121,7 +121,7 @@ else{
 			$invid=$Invoice['id_db'];
 
 			if($sid=='' and $filter_paymenttype==1){
-				/* TODO */
+				/* TODO - temporary fix for lost invoice ids
 				$accid=$Invoice['account_id_db'];
 				$d_c=mysql_query("SELECT c.student_id FROM fees_charge AS c JOIN gidsid ON gidsid.student_id=c.student_id 
 									WHERE c.remittance_id='$remid' AND c.invoice_id='0' 
@@ -129,10 +129,11 @@ else{
 				$sid=mysql_result($d_c,0);
 				mysql_query("UPDATE fees_charge SET invoice_id='$invid' 
 								WHERE student_id='$sid' AND invoice_id='0' AND paymenttype='$filter_paymenttype' AND remittance_id='$remid';");
+				*/
 				}
 
 
-			/*
+			/* TODO: need to highlight not paid / paid invoices?
 			if($charge['payment']=='1'){
 				$rowclass='class="lowlite"';
 				}

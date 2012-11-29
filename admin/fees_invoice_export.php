@@ -45,34 +45,38 @@ $invoices=(array)list_remittance_invoices($remid,$paymenttype);
 		}
 	else{
 
+		/* optional schoollogo but oly bitmap possible */
+		if(file_exists('../images/schoollogo.bmp')){
+			$worksheet->insertBitmap(0,0,'../images/schoollogo.bmp',0,0,0.45,0.7);
+			}
 		/*first do the column headers*/
 		$worksheet->setColumn(0,0,14);
 		$worksheet->setColumn(1,2,25);
 		$worksheet->setColumn(2,20,20);
 
 
-		$worksheet->write(0, 0, '', $format);
-		$worksheet->write(0, 1, '', $format);
-		$worksheet->write(0, 2, '', $format_head);
-		$worksheet->write(0, 3, get_string('remittance',$book), $format_head);
-		$worksheet->write(0, 4, get_string('date',$book), $format_head);
-		$worksheet->write(0, 5, get_string('total',$book), $format_head);
 		$worksheet->write(1, 0, '', $format);
 		$worksheet->write(1, 1, '', $format);
-		$worksheet->write(1, 2, '', $format);
-		$worksheet->write(1, 3, $Remittance['Name']['value'], $format);
-		$worksheet->write(1, 4, display_date($Remittance['IssueDate']['value']), $format);
+		$worksheet->write(1, 2, '', $format_head);
+		$worksheet->write(1, 3, get_string('remittance',$book), $format_head);
+		$worksheet->write(1, 4, get_string('date',$book), $format_head);
+		$worksheet->write(1, 5, get_string('total',$book), $format_head);
+		$worksheet->write(2, 0, '', $format);
+		$worksheet->write(2, 1, '', $format);
+		$worksheet->write(2, 2, '', $format);
+		$worksheet->write(2, 3, $Remittance['Name']['value'], $format);
+		$worksheet->write(2, 4, display_date($Remittance['IssueDate']['value']), $format);
 
-		$worksheet->write(3, 0, '', $format_head);
-		$worksheet->write(3, 1, get_string('invoice',$book), $format_head);
-		$worksheet->write(3, 2, get_string('student',$book), $format_head);
-		$worksheet->write(3, 3, get_string('formgroup',$book), $format_head);
-		$worksheet->write(3, 4, get_string('payment',$book), $format_head);
-		$worksheet->write(3, 5, get_string('amount',$book), $format_head);
+		$worksheet->write(4, 0, '', $format_head);
+		$worksheet->write(4, 1, get_string('invoice',$book), $format_head);
+		$worksheet->write(4, 2, get_string('student',$book), $format_head);
+		$worksheet->write(4, 3, get_string('formgroup',$book), $format_head);
+		$worksheet->write(4, 4, get_string('payment',$book), $format_head);
+		$worksheet->write(4, 5, get_string('amount',$book), $format_head);
 
 
 		$total=0;
-		$rowno=3;
+		$rowno=4;
 		foreach($invoices as $invoice){
 			$rowno++;
 			$Invoice=(array)fetchFeesInvoice($invoice);
@@ -87,7 +91,7 @@ $invoices=(array)list_remittance_invoices($remid,$paymenttype);
 				$Student=$Students[$sid];
 				}
 			
-			$worksheet->write($rowno, 0, $rowno-3, $format);
+			$worksheet->write($rowno, 0, $rowno-4, $format);
 			$worksheet->write($rowno, 1, $Invoice['Reference']['value'], $format);
 			$worksheet->write($rowno, 2, iconv('UTF-8','ISO-8859-1',$Student['DisplayFullSurname']['value']), $format);
 			$worksheet->write($rowno, 3, iconv('UTF-8','ISO-8859-1',$Student['RegistrationGroup']['value']), $format);
@@ -97,7 +101,7 @@ $invoices=(array)list_remittance_invoices($remid,$paymenttype);
 			}
 
 		/* The final Total */
-		$worksheet->write(1, 5, display_money($total), $format);
+		$worksheet->write(2, 5, display_money($total), $format);
 
 		/*send the workbook w/ spreadsheet and close them*/ 
 		$workbook->close();
