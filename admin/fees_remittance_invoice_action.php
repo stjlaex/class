@@ -62,7 +62,7 @@ if($_POST['payment0']=='yes'){
 		if($Account['id_db']!=-1){
 			$invoice=(array)create_invoice($Account['id_db'],$remid);
 			foreach($Student['charges'] as $charge){
-				set_charge_payment($charge['id'],'1',$invoice['id']);
+				set_charge_payment($charge['id'],'2',$invoice['id']);
 				}
 			}
 		}

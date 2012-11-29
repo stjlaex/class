@@ -6,6 +6,7 @@ Tiny change to display_date to blank 0000-00-00 entries.
 Applied fieldtype=date to leaving and entry dates in
 fetchStudent_short.
 
+Fix to the set_charge_payment to prevent losing invoice ids.
 
 
 

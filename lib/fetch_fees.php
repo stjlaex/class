@@ -477,18 +477,31 @@ function get_remittance($remid){
 
 /**
  *
+ * Updates the payment state of a charge and dates the change. 
+ * Links to an invoice if the invoice id is passed.
+ * The payment states are 0=pending, 1=paid and 2=not paid
  *
  *
  */
-function set_charge_payment($charid,$payment,$invid='0',$date=''){
+function set_charge_payment($charid,$payment,$invid='',$date=''){
 
 	if($charid!='' and ($payment=='0' or $payment=='1' or $payment=='2')){
 
+		/* If payment pending then date should be blank. */
 		if($payment=='0'){$date=='0000-00-00';}
 		elseif($date==''){$date=date('Y-m-d');}
 
-		mysql_query("UPDATE fees_charge SET invoice_id='$invid', paymentdate='$date', payment='$payment' 
+		/* If no invoice set then careful not to overwrite. */
+		if($invid!='' and $invid!='0'){
+			$invoiceset="invoice_id='$invid', ";
+			}
+		else{
+			$invoiceset='';
+			}
+
+		mysql_query("UPDATE fees_charge SET $invoiceset paymentdate='$date', payment='$payment' 
 							WHERE id='$charid';");
+
 		$done=mysql_affected_rows();
 		}
 
