@@ -482,6 +482,7 @@ function fetchAssessments_short($sid,$eid='%',$bid='%',$pid='%'){
 				eidsid.student_id='$sid' AND eidsid.assessment_id LIKE '$eid' AND
 				eidsid.subject_id LIKE '$bid' AND eidsid.component_id LIKE '$pid';");
   	while($eidsid=mysql_fetch_array($d_eidsid,MYSQL_ASSOC)){
+		$Assessment=array();
 		$eid=$eidsid['assessment_id'];
 		$d_ass=mysql_query("SELECT * FROM assessment WHERE id='$eid';");
 		$ass=mysql_fetch_array($d_ass,MYSQL_ASSOC);
@@ -498,10 +499,8 @@ function fetchAssessments_short($sid,$eid='%',$bid='%',$pid='%'){
 	   	$Assessment['Element']=array('value'=>''.$ass['element']);
 	   	$Assessment['Year']=array('value'=>''.$ass['year']);
 	   	$Assessment['Result']=array('value'=>''.$eidsid['result']);
-		$Assessment['Result']=$Assessment['Result'];
 	   	$Assessment['Value']=array('value' =>''.$eidsid['value']);
 	   	$Assessment['Comment']=array('value'=>$eidsid['detail']);
-		$Assessment=$Assessment;
 		if($eidsid['weight']=='2'){
 			$Assessments[]=$Assessment;
 	   		}

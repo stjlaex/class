@@ -324,11 +324,13 @@ function clickToAction(buttonObject){
 	}
 
 
-/* Pop-up report window for one student in a sidtable.
-* Currently fixed to http scripts in the MarkBook
-*/
-function clickToPresentSid(script,xsltransform){
-	var sidId=currentsidrow;
+/*
+ * Pop-up report window for one student in a sidtable.
+ * Currently fixed to http scripts in the MarkBook
+ */
+function clickToPresentSid(script,xsltransform,sidId=-1){
+
+	if(sidId==-1){sidId=currentsidrow;}
 	var helperurl="markbook/httpscripts/" + script;
 	var getvars="&sid="+sidId;
 	var url=helperurl + "?uniqueid=" + sidId + getvars;

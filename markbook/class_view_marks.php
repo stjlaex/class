@@ -283,7 +283,7 @@ for($i=0;$i<sizeof($cids);$i++){
 			   compatibility and should probably be removed? 
 			*/
 			if($profile_name=='FS Steps'){$marktype='tally';}
-			elseif($profile_name=='APP Framework'){$marktype='tally';}
+			elseif($profile_name=='APP Framework'){$marktype='applevel';}
 			else{$marktype='sum';}
 			}
 

@@ -23,7 +23,10 @@ function arguments($argv){
 $ARGS=arguments($_SERVER['argv']);
 require_once($ARGS['path'].'/school.php');
 require_once($CFG->installpath.'/'.$CFG->applicationdirectory.'/scripts/cron_head_options.php');
-require_once($CFG->installpath.'/'.$CFG->applicationdirectory.'/lib/simple_html_dom.php');
+/*
+ * simple tml dom could provide a nice alternative to preg_match but only for well formed html emails
+ */
+//require_once($CFG->installpath.'/'.$CFG->applicationdirectory.'/lib/simple_html_dom.php');
 
 
 if($CFG->email_imap_off=='no'){

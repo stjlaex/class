@@ -130,6 +130,9 @@ else{
 		$pid='%';
 		$bid='%';
 		}
+	elseif($profile['transform']=='tracking_barchart_app'){
+		$bid='%';
+		}
 	else{
 		$pid='%';
 		}
@@ -208,6 +211,49 @@ else{
 		$Student['Assessments']=xmlarray_indexed_check($Assessments,'Assessment');
 		$Students['Student'][]=$Student;
 		}
+
+
+	/**
+	 * Totally ignore all of the above!!
+	 */
+	if($profile['transform']=='tracking_barchart_app'){
+
+		$d_r=mysql_query("SELECT report.id FROM report JOIN assessment  
+				ON (report.title=assessment.description AND report.course_id=assessment.course_id) 
+				WHERE assessment.profile_name='$profilename' AND report.course_id='$crid';");
+		$rids=array();
+		while($r=mysql_fetch_array($d_r,MYSQL_ASSOC)){
+			$rids[]=$r['id'];
+			}
+
+		$Students['Student']=array();
+		foreach($sids as $sid){
+			$Student=(array)fetchStudent_short($sid);
+
+			$Assessments=array();
+			$Assessments['Assessment']=array();
+
+			foreach($rids as $no => $rid){
+
+				$lev=calculateProfileLevel($rid,$sid,'%',$pid);
+
+				for($pno=1;$pno<6;$pno++){
+					$points[$pno]=array('point'=>$pno,'id'=>$rid,'pid'=>$pid,'level'=>$lev['result'],'result'=>'','value'=>$lev["value$pno"]);
+					if($lev["value$pno"]>80 and $points[$pno]['result']==''){$points[$pno]['result']=$lev['result'].'a';}
+					elseif($lev["value$pno"]>60 and $points[$pno]['result']==''){$points[$pno]['result']=$lev['result'].'b';}
+					elseif($lev["value$pno"]>30 and $points[$pno]['result']==''){$points[$pno]['result']=$lev['result'].'c';}
+					}
+
+				$Assessments['Assessment']=array_merge($Assessments['Assessment'],$points);
+				}
+
+			trigger_error($no.' '.$points[1]['result'],E_USER_WARNING);
+			$Student['Assessments']=xmlarray_indexed_check($Assessments,'Assessment');
+			$Students['Student'][]=$Student;
+			}
+
+		}
+
 
 	$Students['Date']=date('Y-m-d');
 	$Students['Paper']='landscape';

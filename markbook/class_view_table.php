@@ -293,6 +293,35 @@ while($student=mysql_fetch_array($d_students, MYSQL_ASSOC)){
 			}
 
 		/*********************************************************/
+	   	elseif($marktype=='applevel'){
+			/* Mark tallies (counts) the number of grades obtained */
+			$scoreclass.=' derived';
+			$mids=explode(' ',$midlist[$c]);
+			$score_value=0;
+			$score_display='';
+			foreach($mids as $no => $mid){
+				$iscore=$studentrow["score$mid"];
+				if($iscore['value']){
+					$lev=calculateProfileLevel($iscore['rid'],$sid,$profilebid,$iscore['pid']);
+					$score_value+=$lev['value1'];
+					$yesval=1;
+					if($lev['value1']>80 and $score_display==''){$score_display=$lev['result'].'a';}
+					elseif($lev['value1']>60 and $score_display==''){$score_display=$lev['result'].'b';}
+					elseif($lev['value1']>30 and $score_display==''){$score_display=$lev['result'].'c';}
+					}
+				//$score_display.=$lev['value1'].' '.$lev['value2'].' '.$lev['value3'].' '.$lev['value4'].' '.$lev['value5'].' '.$lev['outoftotal'].'<br />';
+				}
+
+			if(isset($yesval)){
+				$out=$score_display.' '; 
+				$outrank=$score_value; 
+				$score['value']=$score_value;
+				}
+			else{$out='';$outrank=-100;}
+			unset($yesval);
+			}
+
+		/*********************************************************/
 	   	elseif($marktype=='level'){
 			$scoreclass.=' derived';
 			$mid=$midlist[$c];
@@ -328,6 +357,8 @@ while($student=mysql_fetch_array($d_students, MYSQL_ASSOC)){
 			$score['grade']=$rep['result'];
 			$score['value']=$rep['result'];
 			$score['outoftotal']=100;
+			$score['rid']=$umns[$c]['midlist'];//need this for the overall applevel column
+			$score['pid']=$umns[$c]['component'];//need this for the overall applevel column
 			$outrank=$rep['value'];
 			}
 

@@ -865,6 +865,7 @@ function checkReportEntry($rid,$sid,$bid,$pid){
  *
  */
 function checkReportEntryCat($rid,$sid,$bid,$pid){
+
 	$d_a=mysql_query("SELECT result, value, weight, date FROM eidsid 
 				JOIN rideid ON rideid.assessment_id=eidsid.assessment_id WHERE rideid.report_id='$rid'
 				AND eidsid.student_id='$sid' AND eidsid.subject_id='$bid' AND eidsid.component_id='$pid';");
@@ -896,6 +897,82 @@ function checkReportEntryCat($rid,$sid,$bid,$pid){
 		elseif($ass['result']>=10){$ass['class']='midlite';}
 		else{$ass['class']='nolite';}
 		}
+
+	return $ass;
+	}
+
+
+/**
+ *
+ *  Checks to see if any report entries for a bid/pid combination 
+ *  have been made for this sid in this report and calculates a colour coded percentage
+ *
+ */
+function calculateProfileLevel($rid,$sid,$bid,$pid,$date=''){
+
+	$d_r=mysql_query("SELECT title FROM report WHERE id='$rid'");
+	$area=mysql_result($d_r,0);
+	$d_c=mysql_query("SELECT COUNT(id) FROM categorydef 
+				WHERE categorydef.othertype='$area' AND categorydef.type='cat' 
+				AND (categorydef.subject_id='$pid' OR categorydef.subject_id='%');");
+	$totalno=mysql_result($d_c,0);
+
+	$d_r=mysql_query("SELECT category FROM reportentry WHERE report_id='$rid' AND 
+							student_id='$sid' AND subject_id='$bid' AND component_id='$pid';");
+	$rep=array();
+	$tot1=0;
+	$tot2=0;
+	$tot3=0;
+	$tot4=0;
+	$tot5=0;
+
+	if($date=='' or $date=='0000-00-00'){
+		$date=date('Y-m-d');
+		}
+	list($y,$m,$d)=explode('-',$date);
+	$stepsize=4;
+	$step=0;
+	$cutoff1=strtotime($date);
+	$cutoff2=mktime(0,0,0,$m-($stepsize),$d,$y);
+	$cutoff3=mktime(0,0,0,$m-($stepsize*2),$d,$y);
+	$cutoff4=mktime(0,0,0,$m-($stepsize*3),$d,$y);
+	$cutoff5=mktime(0,0,0,$m-($stepsize*4),$d,$y);
+
+	while($entry=mysql_fetch_array($d_r)){
+		$pairs=explode(';',$entry['category']);
+		for($c=0;$c<(sizeof($pairs)-1);$c++){
+			list($catid,$value,$entrydate)=explode(':',$pairs[$c]);
+			if($value>0){
+				$entrytime=strtotime($entrydate);
+				if($entrytime<=$cutoff1){
+					$tot1+=$value;
+					}
+				if($entrytime<=$cutoff2){
+					$tot2+=$value;
+					}
+				if($entrytime<=$cutoff3){
+					$tot3+=$value;
+					}
+				if($entrytime<=$cutoff4){
+					$tot4+=$value;
+					}
+				if($entrytime<=$cutoff5){
+					$tot5+=$value;
+					}
+				}
+			}
+		}
+
+	$ass['result']=$area;
+	$ass['outoftotal']=$totalno;
+	$ass['value1']=round(100*$tot1/$totalno);
+	$ass['value2']=round(100*$tot2/$totalno);
+	$ass['value3']=round(100*$tot3/$totalno);
+	$ass['value4']=round(100*$tot4/$totalno);
+	$ass['value5']=round(100*$tot5/$totalno);
+	$ass['weight']=1;
+	$ass['date']='';
+	$ass['class']='nolite';
 
 	return $ass;
 	}
