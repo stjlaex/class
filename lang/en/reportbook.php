@@ -45,6 +45,7 @@ $string['notapplied']='Not applied';
 $string['derivation']='Derivation';
 $string['publishpdf']='Publish';
 $string['published']='Published';
+$string['notpublished']='Not Published';
 $string['scheduledforpublication']='Scheduled for publication';
 $string['collatesince']='Collate since';
 $string['collateuntil']='Collate until';

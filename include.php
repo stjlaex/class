@@ -77,30 +77,12 @@ $books['teacher']=array(
 $externalbooks=array();
 $externalbooks['all']=array(
 							'lms' => $CFG->lmstabname
-							,'eportfolio' => $CFG->eportfoliotabname
 							);
 $externalbooks['admin']=array(
 							  //'lms' => $CFG->lmstabname
-							  //,'eportfolio' => $CFG->eportfoliotabname
 							  );
-$externalbooks['office']=array(
-							   //'eportfolio' => $CFG->eportfoliotabname
-							   );
-$externalbooks['medical']=array(
-								//'eportfolio' => $CFG->eportfoliotabname
-								);
-$externalbooks['sen']=array(
-							//'eportfolio' => $CFG->eportfoliotabname
-							);
-$externalbooks['district']=array(
-								 //'eportfolio' => $CFG->eportfoliotabname
-								 );
-$externalbooks['support']=array(
-								//'eportfolio' => $CFG->eportfoliotabname
-								);
 $externalbooks['teacher']=array(
 								//'lms' => $CFG->lmstabname
-								//,'eportfolio' => $CFG->eportfoliotabname
 								);
 $books['external']=$externalbooks;
 ?>

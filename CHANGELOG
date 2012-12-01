@@ -8,6 +8,11 @@ fetchStudent_short.
 
 Fix to the set_charge_payment to prevent losing invoice ids.
 
+Fix to emailing comments to academic group responsibles.
+
+Gave office to attendance and reports through student profile.
+
+Removed the arcane externalbook references to eportfolio.
 
 
 Version ClaSS-1.0.36 release (2012/11/27)

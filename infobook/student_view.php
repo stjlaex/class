@@ -118,20 +118,8 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 	  </div>
 	
 	  <div class="center">
-<?php
-	if($_SESSION['role']!='office' and $_SESSION['role']!='support'){
-?>
 		<table class="listmenu">
 		  <caption><?php print_string('studenthistory',$book);?></caption>
-
-		  <tr>
-			<th>
-			  <a href="infobook.php?current=student_scores.php&cancel=student_view.php&sid=<?php print $sid;?>">
-				<?php print_string('assessments'); ?>
-			  </a> 
-			</th>
-			<td colspan="3">&nbsp;</td>
-		  </tr>
 		  <tr>
 			<th>
 			  <a href="infobook.php?current=student_attendance.php&cancel=student_view.php&sid=<?php print $sid;?>">
@@ -145,6 +133,18 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 			  <a href="infobook.php?current=student_reports.php&cancel=student_view.php">
 				<?php print_string('subjectreports'); ?>
 			  </a>
+			</th>
+			<td colspan="3">&nbsp;</td>
+		  </tr>
+
+<?php
+	if($_SESSION['role']!='office' and $_SESSION['role']!='support'){
+?>
+		  <tr>
+			<th>
+			  <a href="infobook.php?current=student_scores.php&cancel=student_view.php&sid=<?php print $sid;?>">
+				<?php print_string('assessments'); ?>
+			  </a> 
 			</th>
 			<td colspan="3">&nbsp;</td>
 		  </tr>

@@ -61,7 +61,11 @@ if($epfu!=''){
 ?>
 	</fieldset>
 
-	<fieldset class="center">
+	<fieldset class="center" style="background-color:#888888;">
+<?php
+		html_table_container_open('1','rowplus',get_string('notpublished','reportbook'));
+?>
+
 	  <form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
 
 <?php
@@ -75,9 +79,15 @@ if($epfu!=''){
 		  </params>
 		</div>
 
+
 		<input type="hidden" name="cancel" value="<?php print $cancel;?>"/>
 		<input type="hidden" name="choice" value="<?php print $choice;?>"/>
 	  </form>
+
+
+<?php
+		html_table_container_close(1);
+?>
 	</fieldset>
   </div>
 

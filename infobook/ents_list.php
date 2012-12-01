@@ -132,7 +132,7 @@ if(is_array($Entries)){
 
 
 	}
-if($tagname=='Background' and $CFG->enrol_assess=='yessssssssssss'){
+if($tagname=='Background' and $CFG->enrol_assess=='yesssss'){
 		$entryno++;
 		$rown=0;
 		$EnrolNotes=fetchBackgrounds_Entries($sid,'ena');

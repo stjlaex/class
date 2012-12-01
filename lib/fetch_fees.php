@@ -618,7 +618,7 @@ function list_invoice_charges($invid){
 function list_remittance_invoices($remid,$paymenttype=''){
 
 
-	$d_r=mysql_query("SELECT issuedate, duedate FROM fees_remittance WHERE remittance_id='$remid';");
+	$d_r=mysql_query("SELECT issuedate, duedate FROM fees_remittance WHERE id='$remid';");
 	$r=mysql_fetch_array($d_r);
 
 	if($paymenttype!=''){
