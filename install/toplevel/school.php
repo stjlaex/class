@@ -204,7 +204,6 @@ $CFG->clientid='';
  */
 /*optional details of the school's eportfolio site*/
 $CFG->eportfoliosite='';
-$CFG->eportfoliotabname='Portfolio';
 $CFG->eportfolioshare='secret';
 $CFG->eportfolio_db='';
 $CFG->eportfolio_db_prefix='';
