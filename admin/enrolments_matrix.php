@@ -39,11 +39,13 @@ else{$enrolyear=$currentyear+1;}
 
 
 $extrabuttons=array();
+/*
 $extrabuttons['summary']=array('name'=>'chart',
 							   'pathtoscript'=>$CFG->sitepath.'/'.$CFG->applicationdirectory.'/admin/',
 							   'value'=>'admissions_chart.php',
 							   'xmlcontainerid'=>'short',
 							   'onclick'=>'checksidsAction(this)');
+*/
 $extrabuttons['report']=array('name'=>'current',
 							  'pathtoscript'=>$CFG->sitepath.'/'.$CFG->applicationdirectory.'/admin/',
 							  'value'=>'admissions_print.php',
