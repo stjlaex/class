@@ -409,7 +409,4 @@ class email_imap_fetch{
 
 	/* End of the imap class */
 	}
-
-
-
 ?>

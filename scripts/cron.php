@@ -53,7 +53,6 @@ if(!isset($ARGS['option'])){
 		$cmd='/usr/bin/php '.$fullpath.'/infobook/httpscripts/message_text_event_cron.php --path='.$CFG->installpath;
 		exec("$cmd > /dev/null &");
 		}
-
 	/**
 	 * Run outside of peak registration times only.
 	 */
@@ -62,6 +61,12 @@ if(!isset($ARGS['option'])){
 		/* Generate PDFs of reports queued for publication */
 		$cmd='/usr/bin/php '.$fullpath.'/reportbook/httpscripts/eportfolio_reports_publish.php --path='.$CFG->installpath;
 		exec("$cmd > /dev/null &");
+
+		if($CFG->enrol_geocode_off=='no'){
+			$cmd='/usr/bin/php '.$CFG->installpath.'/'.$CFG->applicationdirectory.'/admin/httpscripts/admissions_geocode.php --path='.$CFG->installpath;
+			exec("$cmd > /dev/null &");
+			}
+
 		}
 	}
 
@@ -99,8 +104,13 @@ elseif($ARGS['option']=='hwsync'){
 	exec("$cmd > /dev/null &");
 	}
 elseif($ARGS['option']=='newenquiries'){
-	/* Update accounts for contacts in the ClaSSIC database */
+	/* Geocode addresses of contacts  */
 	$cmd='/usr/bin/php '.$CFG->installpath.'/'.$CFG->applicationdirectory.'/admin/httpscripts/admissions_enquiries.php --path='.$CFG->installpath;
+	exec("$cmd > /dev/null &");
+	}
+elseif($ARGS['option']=='geocode'){
+	/* Update accounts for contacts in the ClaSSIC database */
+	$cmd='/usr/bin/php '.$CFG->installpath.'/'.$CFG->applicationdirectory.'/admin/httpscripts/admissions_geocode.php --path='.$CFG->installpath;
 	exec("$cmd > /dev/null &");
 	}
 

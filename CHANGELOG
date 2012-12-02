@@ -1196,6 +1196,8 @@ Included form tutors as a bcc on messages to parents.
 
 Tweaked generate_epfusername to cope better with corrupt names.
 
+New cron script to collect lat+lng coordinates for addresses.
+
 
 
 Version ClaSS-0.9.32 release (2011/01/17)

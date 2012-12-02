@@ -94,6 +94,10 @@ $CFG->feeders[2]='';
 $CFG->enrol_assess='no';
 $CFG->enrol_assess_sen='';
 /**
+ * Are geocoding addresses of contacts for mapping.
+ */
+$CFG->enrol_geocode_off='yes'
+/**
  * Is the enrolment number to be generated automatically by ClaSS
  * (yes) or is it a free value to be entered as any other field (no).
  */

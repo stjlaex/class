@@ -115,7 +115,6 @@ else{
 		$AssDefs=(array)array_merge($AssDefs,$prev_AssDefs);
 		}
 	elseif($profile['transform']=='tracking_assessment_sheet'){
-		$profile['transform']='tracking_sheet';
 		$pid='%';$bid='%';
 		$AssDefs=array();
 		/* A single sheet to span all courses. */
