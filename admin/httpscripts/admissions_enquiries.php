@@ -381,7 +381,7 @@ class email_imap_fetch{
 			  $this->msgid=1;
 			  }
 
-		  while($this->msgid < $inbox_count){
+		  while($this->msgid <= $inbox_count){
 			  $header=imap_headerinfo($this->link, $this->msgid, 80,80);
 			  $subject=$this->mime_text_decode($header->Subject);
 
