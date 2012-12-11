@@ -195,10 +195,17 @@ two_buttonmenu();
 		<div>
 			<table class="listmenu">
 				<tr>
-					<th><?php print 'Postcodes'; ?></th>
-					<th><?php print_string('currentroll',$book);?></th>
+				  <th>
+					<label style="font-weight:600;"><?php print_string('postcode',$book); ?></label>
+					<div class="" title="<?php print_string('tracking','markbook');?>" 
+											  name="current" value="student_grades_print.php" 
+											  onclick="clickToMap('admin','demographic_chart.php','demographic_chart')" >
+					  <img style="padding:0 8px;" class="clicktochart" />
+					</div>
+				  </th>
+				<th><?php print_string('currentroll',$book);?></th>
 <?php
-				foreach($sections as $section){
+				  foreach($sections as $section){
 ?>
 					<th><?php print $section['name'].' '.get_string('applied',$book);?></th>
 <?php
@@ -225,7 +232,7 @@ two_buttonmenu();
 			/* Do postcodes. Use localcode to restrict to those within the local area. */
 			$Student=fetchStudent_singlefield($student['id'],'Postcode');
 			$poststring=$Student['Postcode']['value'];
-			if(isset($CFG->localpostcode)){$localcode=$CFG->localpostcode;}
+			if(isset($CFG->sitepostcode)){$localcode=$CFG->sitepostcode;}
 			else{$localcode='2';}
 			$student_pcodes=explode(' : ',$poststring);
 			foreach($student_pcodes as $pcode){

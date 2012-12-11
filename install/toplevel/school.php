@@ -221,9 +221,17 @@ $CFG->lms_db='';
 $CFG->statementbank_db='';
 /*optional details for publishing reports to pdf using html2ps*/
 $CFG->html2psscript='';
-/*****
+/**
+ *
+ * API Key for web services
+ *
+ */
+$CFG->api_key='';
+/**
+ *
  * These are for development sites only - they will dramatically
  * slow performance - should always be set to off.
+ *
  */
 $CFG->debug='off';
 $CFG->classlog='/var/www/classerrors.xml';

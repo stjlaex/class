@@ -356,9 +356,9 @@ function clickToPresentSid(script,xsltransform){
 	xmlHttp.send(null);
 	}
 
-/* 
-* More general pop-up report window.
-*/
+/**
+ * More general pop-up report window.
+ */
 function clickToPresent(book,script,xsltransform){
 	var url=book + "/httpscripts/" + script;
 	var paper="portrait";
@@ -369,6 +369,38 @@ function clickToPresent(book,script,xsltransform){
 				xmlRecord=xmlHttp.responseXML;
 				var xmlResult=processXML(xmlRecord,xsltransform,"../templates/");
 				openPrintReport(xmlResult,xsltransform,paper);
+				}
+			else if(xmlHttp.status==404){alert ("Requested URL is not found.");}
+			else if(xmlHttp.status==403){alert("Access denied.");}
+			else {alert("status is " + xmlHttp.status);}
+			progressIndicator("stop");
+			}
+		else{
+			progressIndicator("start");
+			}
+		}
+	xmlHttp.send(null);
+	}
+
+
+/**
+ * More general pop-up report window.
+ */
+function clickToMap(book,script,xsltransform){
+	var url=book + "/httpscripts/" + script;
+	var paper="portrait";
+	xmlHttp.open("GET", url, true);
+	xmlHttp.onreadystatechange=function () {
+		if(xmlHttp.readyState==4){
+			if(xmlHttp.status==200){
+				xmlRecord=xmlHttp.responseXML;
+				var xmlResult=processXML(xmlRecord,xsltransform,"../templates/");
+
+				content=serializeXML(xmlResult);
+				mapWindow=window.open('','','height=800,width=1000,dependent,resizable,menubar,screenX=50,scrollbars');
+				mapWindow.document.writeln(content);
+				mapWindow.document.close();
+
 				}
 			else if(xmlHttp.status==404){alert ("Requested URL is not found.");}
 			else if(xmlHttp.status==403){alert("Access denied.");}
@@ -1176,9 +1208,11 @@ function openChartReport(xml, xsltName, paper){
 	printWindow.document.close();
 	}
 
-/* Receives the result of an xsl transformation as xml and opens a
-separate preview window to display. xsltName defines the css sheet to
-apply and paper is either ladnscape or portrait.*/
+/**
+ * Receives the result of an xsl transformation as xml and opens a
+ * separate preview window to display. xsltName defines the css sheet to
+ * apply and paper is either ladnscape or portrait.
+ */
 function openPrintReport(xml, xsltName, paper){
 	var content="";
 
