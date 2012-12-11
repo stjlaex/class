@@ -714,11 +714,13 @@ function html_document_drop($epfun,$context,$linked_id='-1'){
 
 	global $CFG;
 
+	if($context=='assessment'){$path='../../';}
+	else{$path='';}
 ?>
 	  <fieldset class="center listmenu">
 		<legend><?php print_string('documents');?></legend>
 		<fieldset class="left documentdrop">
-		  <form id="formfiledelete" name="formfiledelete" method="post" action="infobook/httpscripts/file_delete.php">
+		  <form id="formfiledelete" name="formfiledelete" method="post" action="<?php print $path;?>infobook/httpscripts/file_delete.php">
 <?php
 	$files=(array)list_files($epfun,$context,$linked_id);
 	if(sizeof($files)>0){
@@ -731,7 +733,7 @@ function html_document_drop($epfun,$context,$linked_id='-1'){
 		</fieldset>
 
 		<fieldset class="right documentdrop">
-		  <form id="formdocumentdrop" name="formdocumentdrop" method="post" action="infobook/httpscripts/file_upload.php" enctype="multipart/form-data">
+		  <form id="formdocumentdrop" name="formdocumentdrop" method="post" action="<?php print $path;?>infobook/httpscripts/file_upload.php" enctype="multipart/form-data">
 			  <label for="fileselect"><?php print_string('documentstoupload');?></label><br />
 			  <input type="file" id="fileselect" name="fileselect[]" multiple="multiple" />
 			  <div id="filedrag"><?php print_string('drophere');?></div>
