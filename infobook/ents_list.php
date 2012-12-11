@@ -174,3 +174,4 @@ if($tagname=='Background' and $CFG->enrol_assess=='yesssss'){
 	  <input type="hidden" name="choice" value="<?php print $choice; ?>">
 	</form>
   </div>
+<script language="JavaScript" type="text/javascript" src="js/documentdrop.js?version=1035"></script>
