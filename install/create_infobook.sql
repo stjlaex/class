@@ -35,6 +35,10 @@ CREATE TABLE info (
 	passportdate 	date not null default '0000-00-00',
 	candidaten1		varchar(40) not null default '',
 	candidaten2		varchar(40) not null default '',
+	language2		char(4) not null default '',
+	languagetype2	enum('NOT','F','M','H','T','S','C') not null,
+	language3		char(4) not null default '',
+	languagetype3	enum('NOT','F','M','H','T','S','C') not null,
    	primary key		(student_id)
 ) type=myisam;
 

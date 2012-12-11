@@ -737,8 +737,8 @@ function getEnumArray($field_name){
 					'ZUL'=>'zulu',
 					'ZZZ'=>'classificationpending'
 					);
-	$ethnicity=array(''=>''
-					 );
+	$language2=$language;
+	$language3=$language;
 	$languagetype=array('F' => 'firstlanguage', 
 						'M' => 'multiplefirstlanguage',
 						'H' => 'home',
@@ -746,6 +746,10 @@ function getEnumArray($field_name){
 						'S' => 'secondlanguage',
 						'C' => 'correspondence'
 						);
+	$languagetype2=$languagetype;
+	$languagetype3=$languagetype;
+	$ethnicity=array(''=>''
+					 );
 	$enrolstatus=array('EN' => 'enquired', 
 					   'AP' => 'applied', 
 					   'AT' => 'awaitingtesting', 
@@ -972,6 +976,8 @@ function getEnumArray($field_name){
 						'Birthplace'=>'placeofbirth',
 						'CountryOfOrigin'=>'countryoforigin',
 						'Language'=>'firstlanguage',
+						'SecondLanguage'=>'secondlanguage',
+						'ThirdLanguage'=>'thirdlanguage',
 						'EmailAddress'=>'email',
 						'EnrolNumber'=>'enrolmentnumber',
 						'EnrolmentNotes'=>'enrolmentnotes',
@@ -1629,7 +1635,10 @@ function send_sms_to($phone,$message,$recipientid=0){
 
 	/*TODO: validate the phone number before sending. */
 	if(strpos($phone,'+')!==false){}
-	elseif(!empty($CFG->sitephonecode)){$phone=$CFG->sitephonecode.$phone;}
+	elseif(!empty($CFG->sitephonecode)){
+		if(strpos($phone,'0')===0){$phone=substr($phone,1);}
+		$phone=$CFG->sitephonecode.$phone;
+		}
  
 
 	mysql_query("INSERT INTO message_text_event SET phonenumber='$phone',

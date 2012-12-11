@@ -25,7 +25,7 @@
 function fetchStudent_short($sid){
    	$d_student=mysql_query("SELECT * FROM student WHERE id='$sid';");
 	$student=mysql_fetch_array($d_student,MYSQL_ASSOC);
-   	$d_info=mysql_query("SELECT sen, medical, formerupn, boarder FROM info WHERE student_id='$sid';");
+   	$d_info=mysql_query("SELECT sen, medical, formerupn, boarder, epfusername FROM info WHERE student_id='$sid';");
 	$info=mysql_fetch_array($d_info,MYSQL_ASSOC);
 
 	$Student=array();
@@ -86,6 +86,9 @@ function fetchStudent_short($sid){
    	$Student['Boarder']=array('label' => 'boarder', 
 							  'value' => ''.$info['boarder']
 							  );
+   	$Student['EPFUsername']=array('label' => 'epfusername', 
+							  'value' => ''.$info['epfusername']
+							  );
 
 	return $Student;
 	}
@@ -112,6 +115,8 @@ function fetchStudent_singlefield($sid,$tag,$privfilter=''){
 	elseif($tag=='Birthplace'){$fieldname='birthplace';}
 	elseif($tag=='CountryOfOrigin'){$fieldname='countryoforigin';$fieldtype='enum';}
 	elseif($tag=='Language'){$fieldname='language';$fieldtype='enum';}
+	elseif($tag=='SecondLanguage'){$fieldname='language2';$fieldtype='enum';}
+	elseif($tag=='ThirdLanguage'){$fieldname='language3';$fieldtype='enum';}
 	elseif($tag=='EnrolNumber'){$fieldname='formerupn';}
 	elseif($tag=='EnrolmentNotes'){$fieldname='appnotes';}
 	elseif($tag=='EnrolmentApplicationDate'){$fieldname='appdate';}
@@ -541,6 +546,18 @@ function fetchStudent($sid='-1'){
 							   'type_db' => 'enum', 
 							   'value' => ''.$info['language']
 							   );
+   	$Student['SecondLanguage']=array('label' => 'secondlanguage', 
+									 'table_db' => 'info', 
+									 'field_db' => 'language2',
+									 'type_db' => 'enum', 
+									 'value' => ''.$info['language2']
+									 );
+   	$Student['ThirdLanguage']=array('label' => 'thirdlanguage', 
+									 'table_db' => 'info', 
+									 'field_db' => 'language3',
+									 'type_db' => 'enum', 
+									 'value' => ''.$info['language3']
+									 );
    	$Student['MobilePhone']=array('label' => 'mobilephone',
 								  'table_db' => 'info', 
 								  'field_db' => 'phonenumber',
@@ -1072,6 +1089,10 @@ function fetchAddress($gidaid=array('address_id'=>'-1','addresstype'=>'')){
 							  'type_db' => 'enum', 
 							  'default_value' => 'N',
 							  'value' => ''.$address['privateaddress']);
+	$Address['Latitude']=array('label' => 'latitude',
+							   'value' => ''.$address['lat']);
+	$Address['Longitude']=array('label' => 'longitude',
+							   'value' => ''.$address['lng']);
 	return $Address;
 	}
 

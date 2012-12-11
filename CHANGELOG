@@ -1,3 +1,14 @@
+Version ClaSS-1.0.38 release (2012/12/10)
+-------------------------------------------
+
+Changed name of config option from localpostcode to sitepostcode.
+
+Added config option for external api_key.
+
+Added additional language (2nd and 3rd) fields for students.
+
+
+
 Version ClaSS-1.0.37 release (2012/12/02)
 -------------------------------------------
 
@@ -13,6 +24,9 @@ Fix to emailing comments to academic group responsibles.
 Gave office to attendance and reports through student profile.
 
 Removed the arcane externalbook references to eportfolio.
+
+New cron script to collect lat+lng coordinates for addresses.
+
 
 
 Version ClaSS-1.0.36 release (2012/11/27)
@@ -1195,9 +1209,6 @@ epfortolio.
 Included form tutors as a bcc on messages to parents.
 
 Tweaked generate_epfusername to cope better with corrupt names.
-
-New cron script to collect lat+lng coordinates for addresses.
-
 
 
 Version ClaSS-0.9.32 release (2011/01/17)
