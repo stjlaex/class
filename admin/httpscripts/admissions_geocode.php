@@ -1,7 +1,7 @@
 #! /usr/bin/php -q
 <?php
 /** 
- *                                                       admissions_enquiries.php
+ *                                                       admissions_eocode.php
  * 
  */
 $book='admin';
@@ -28,10 +28,11 @@ require_once($CFG->installpath.'/'.$CFG->applicationdirectory.'/lib/curl_calls.p
 
 if($CFG->enrol_geocode_off=='no'){
 
+	/* new addresses will have lat and lng set to zero */
 	$d_a=mysql_query("SELECT id, street, neighbourhood, region, postcode, country
-   								FROM address WHERE lat='0' AND lng='0' AND privateaddress='N';");
-	$ano=0;
-	while($a=mysql_fetch_array($d_a) and $ano<40){
+   								FROM address WHERE street!='' AND lat='0' AND lng='0' AND privateaddress='N' LIMIT 4;");
+
+	while($a=mysql_fetch_array($d_a)){
 
 		$addid=$a['id'];
 
@@ -39,6 +40,7 @@ if($CFG->enrol_geocode_off=='no'){
 
 			$coords=map_geocode::getLatLng($a);
 			if($coords===false){
+				/* If the lookup fails then set lat and lng to 999999 so it is ignored by the next lookup. */
 				$lat='999999';
 				$lng='999999';
 				}
@@ -48,10 +50,9 @@ if($CFG->enrol_geocode_off=='no'){
 				}
 
 			mysql_query("UPDATE address SET lat='$lat', lng='$lng' WHERE id='$addid';");
-			//trigger_error($ano.': '.$lat. ' '.$lng,E_USER_WARNING);
+			//trigger_error('LATLNG: '.$lat. ' '.$lng,E_USER_WARNING);
 
 			unset($coords);
-			$ano++;
 			}
 		}
 
@@ -73,8 +74,9 @@ exit;
 
 
 /**
+ *
  * Google geocode API call using curl
- * Result returned as a json object with lots of info - only return lat+lng coordiantes though
+ * Result returned as a json object with lots of info - only return lat+lng coordinates though
  * 
  *
  */
@@ -106,7 +108,7 @@ class map_geocode{
 		if($add['postcode']!=''){
 			$comp.='|postal_code:'.$add['postcode'];
 			}
-		/* Less information the better!
+		/* It seems the less information the better!
 		if($add['region']!=''){
 			$comp.='|administrative_area:'.$region;
 			}

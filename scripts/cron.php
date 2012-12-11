@@ -62,6 +62,7 @@ if(!isset($ARGS['option'])){
 		$cmd='/usr/bin/php '.$fullpath.'/reportbook/httpscripts/eportfolio_reports_publish.php --path='.$CFG->installpath;
 		exec("$cmd > /dev/null &");
 
+		/* Geocode contact addresses */
 		if($CFG->enrol_geocode_off=='no'){
 			$cmd='/usr/bin/php '.$CFG->installpath.'/'.$CFG->applicationdirectory.'/admin/httpscripts/admissions_geocode.php --path='.$CFG->installpath;
 			exec("$cmd > /dev/null &");

@@ -122,20 +122,16 @@ if($sub=='Submit' or $access=='access'){
 						if($aid=='-1' and $inval!='' and $field!='privateaddress'){
 							mysql_query("INSERT INTO address SET region='';");
 							$aid=mysql_insert_id();
-							mysql_query("INSERT INTO gidaid SET
-											guardian_id='$gid', address_id='$aid';");
+							mysql_query("INSERT INTO gidaid SET guardian_id='$gid', address_id='$aid';");
 							$update_flag=true;
 							}
 						if($aid!='-1'){
-							mysql_query("UPDATE address SET $field='$inval' 
-											WHERE id='$aid';");
+							mysql_query("UPDATE address SET $field='$inval', lat='0', lng='0' WHERE id='$aid';");
 							$update_flag=true;
 							}
 						}
-
 					if($val['table_db']=='gidaid' and $aid!='-1'){
-						mysql_query("UPDATE gidaid SET $field='$inval'
-						WHERE address_id='$aid' AND guardian_id='$gid';");
+						mysql_query("UPDATE gidaid SET $field='$inval' WHERE address_id='$aid' AND guardian_id='$gid';");
 						$update_flag=true;
 						}
 					}
