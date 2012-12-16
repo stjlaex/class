@@ -494,25 +494,33 @@ function sidtableFilter(buttonObject){
 
 
 function checkRadioIndicator(parentObj){
-	var inputname=parentObj.childNodes[1].name;
-	var inputval=parentObj.childNodes[1].value;
-	var radioObjs=document.getElementsByName(inputname);
-	if(radioObjs.length==4){
-		if(inputval=="-1"){var fieldclass="hilite";}
-		else if(inputval=="0"){var fieldclass="pauselite";}
-		else if(inputval=="1"){var fieldclass="golite";}
-		}
-	else if(inputval=="uncheck"){var fieldclass="";}
-	else {var fieldclass="checked";}
-	for(var c=0;c<radioObjs.length;c++){
-		//if(radioObjs[c].value==inputval && inputval!="uncheck"){
-		if(radioObjs[c].value==inputval){
-			radioObjs[c].parentNode.setAttribute("class",fieldclass);
-			radioObjs[c].checked=true;
+	var inputname='', inputval='';
+	for(c=0;c<parentObj.childNodes.length;c++){
+		if(parentObj.childNodes[c].getAttribute("type")=="radio"){
+			inputname=parentObj.childNodes[c].name;
+			inputval=parentObj.childNodes[c].value;
 			}
-		else{
-			radioObjs[c].parentNode.setAttribute("class","notchecked");
-			radioObjs[c].checked=false;
+		}
+
+	if(inputname!=''){
+		var radioObjs=document.getElementsByName(inputname);
+		if(radioObjs.length==4){
+			if(inputval=="-1"){var fieldclass="hilite";}
+			else if(inputval=="0"){var fieldclass="pauselite";}
+			else if(inputval=="1"){var fieldclass="golite";}
+			}
+		else if(inputval=="uncheck"){var fieldclass="";}
+		else {var fieldclass="checked";}
+		for(var c=0;c<radioObjs.length;c++){
+			//if(radioObjs[c].value==inputval && inputval!="uncheck"){
+			if(radioObjs[c].value==inputval){
+				radioObjs[c].parentNode.setAttribute("class",fieldclass);
+				radioObjs[c].checked=true;
+				}
+			else{
+				radioObjs[c].parentNode.setAttribute("class","notchecked");
+				radioObjs[c].checked=false;
+				}
 			}
 		}
 	}

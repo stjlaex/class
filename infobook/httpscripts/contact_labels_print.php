@@ -26,6 +26,9 @@ else{$messageto='blank';}
 if(isset($_POST['text'])){$text=$_POST['text'];}
 elseif(isset($_GET['text'])){$text=$_GET['text'];}
 else{$text='';}
+if(isset($_POST['orderby'])){$orderby=$_POST['orderby'];}
+elseif(isset($_GET['orderby'])){$orderby=$_GET['orderby'];}
+else{$orderby='sortstudent';}
 
 $Students['transform']=$template;
 $Students['paper']='portrait';
@@ -33,9 +36,19 @@ $Students['homecountry']=strtoupper($CFG->sitecountry);
 $Students['explanation']=$explanation;
 $Students['content']=$text;
 if($messageto=='studentname'){$Students['type']='badge';}
-trigger_error($messageto,E_USER_WARNING);
+//trigger_error($messageto,E_USER_WARNING);
+trigger_error($orderby,E_USER_WARNING);
 
 if(isset($recipients) and sizeof($recipients)>0){
+
+	if($orderby=='sortcontact'){
+		$sort_titles=array();
+		foreach($recipients['Recipient'] as $Recipient){
+			$sort_titles[]=$Recipient['DisplayFullName']['value'];
+			}
+		array_multisort($sort_titles,SORT_ASC,SORT_STRING,$recipients['Recipient']);
+		}
+
 	$Students['recipients']=$recipients;
 	$returnXML=$Students;
 	$rootName='Students';

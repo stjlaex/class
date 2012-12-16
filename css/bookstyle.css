@@ -204,10 +204,17 @@ fieldset.divgroup div {
 div.divgroup label, fieldset.divgroup label { 
 	background-color:#666666; 
 	color:#ffffee !important;
+    padding:3px 6px !important;
 	}
 div.divgroup fieldset label, fieldset.divgroup fieldset label { 
 	background-color:#ddddee; 
 	color:#666666 !important;
+
+	}
+div.content fieldset.divgroup .subgroup, 
+div.topform fieldset.divgroup .subgroup, div.divgroup .subgroup,
+fieldset.divgroup .subgroup { 
+	background-color:#888888 !important; 
 	}
 
 

@@ -7,6 +7,8 @@ Added config option for external api_key.
 
 Added additional language (2nd and 3rd) fields for students.
 
+New option to sort labels by contact name instead of student.
+
 
 
 Version ClaSS-1.0.37 release (2012/12/02)

@@ -9,6 +9,7 @@ $choice='print_labels.php';
 
 if(isset($_POST['messageto'])){$messageto=$_POST['messageto'];}else{$messageto='family';}
 if(isset($_POST['explanation'])){$explanation=$_POST['explanation'];}else{$explanation='blank';}
+if(isset($_POST['orderby'])){$orderby=$_POST['orderby'];}else{$orderby='student';}
 $_SESSION[$book.'recipients']=array();
 
 
@@ -93,7 +94,7 @@ $blank_gids=array();
 						$Recipients['Recipient'][]=$Recipient;
 						$sid_recipient_no++;
 						}
-					elseif($messageto=='studentname' and !isset($recipient_index[$sid])){
+					elseif($messageto=='studentbadge' and !isset($recipient_index[$sid])){
 						/* once per household */
 						$recipient_index[$sid]=$sid;
 						$recipient_sids[$sid]=$sid;
@@ -139,6 +140,8 @@ two_buttonmenu($extrabuttons,$book);
 
   <div id="viewcontent" class="content">
 
+	<form id="topform" name="topform" method="post" action="<?php print $host;?>">
+
 		<div class="divgroup center">
 	   	<table class="listmenu">
 			<tr>
@@ -147,26 +150,26 @@ two_buttonmenu($extrabuttons,$book);
 			</td>
 			<td>
 			<div class="row <?php if($messageto=='family'){print 'checked';}?>">
-			<label for="family"><?php print_string('families',$book);?></label>
-			<input type="radio" name="messageto" onChange="processContent(this);" 
-			title="Only once per household" id="family" 
-				tabindex="<?php print $tab++;?>" 
-				value="family" <?php if($messageto=='family'){print 'checked';}?> />
-				</div>
+			  <label for="family"><?php print_string('families',$book);?></label>
+			  <input type="radio" name="messageto" onChange="processContent(this);" 
+					 title="Only once per household" id="family" 
+					 tabindex="<?php print $tab++;?>" 
+					 value="family" <?php if($messageto=='family'){print 'checked';}?> />
+			</div>
 			<div class="row <?php if($messageto=='contacts'){print 'checked';}?>">
-			<label for="contacts"><?php print_string('contacts',$book);?></label>
-			<input type="radio" name="messageto" onChange="processContent(this);"
-			title="Once per contact" id="contacts" 
-				tabindex="<?php print $tab++;?>" 
-				value="contacts" <?php if($messageto=='contacts'){print 'checked';}?> />
-				</div>
+			  <label for="contacts"><?php print_string('contacts',$book);?></label>
+			  <input type="radio" name="messageto" onChange="processContent(this);"
+					 title="Once per contact" id="contacts" 
+					 tabindex="<?php print $tab++;?>" 
+					 value="contacts" <?php if($messageto=='contacts'){print 'checked';}?> />
+			</div>
 			<div class="row <?php if($messageto=='student'){print 'checked';}?>">
-			<label for="student"><?php print_string('students');?></label>
-			<input type="radio" name="messageto" onChange="processContent(this);"
-			title="Once per student per household" id="student" 
-				tabindex="<?php print $tab++;?>" 
-				value="student" <?php if($messageto=='student'){print 'checked';}?> />
-				</div>
+			  <label for="student"><?php print_string('students');?></label>
+			  <input type="radio" name="messageto" onChange="processContent(this);"
+					 title="Once per student per household" id="student" 
+					 tabindex="<?php print $tab++;?>" 
+					 value="student" <?php if($messageto=='student'){print 'checked';}?> />
+			</div>
 			</td>
 			</tr>
 	   	</table>
@@ -179,20 +182,21 @@ two_buttonmenu($extrabuttons,$book);
 			<label for="family"><?php print_string('badges',$book);?></label>
 			</td>
 			<td>
-			<div class="row <?php if($messageto=='studentname'){print 'checked';}?>">
-			<label for="studentname"><?php print get_string('student').' '.get_string('name');?></label>
-			<input type="radio" name="messageto" onChange="processContent(this);"
-			title="Student name badge " id="student" 
-				tabindex="<?php print $tab++;?>" 
-				value="studentname" <?php if($messageto=='studentname'){print 'checked';}?> />
-				</div>
+			<div class="row <?php if($messageto=='studentbadge'){print 'checked';}?>">
+			  <label for="studentbadge"><?php print get_string('student').' '.get_string('name');?></label>
+			  <input type="radio" name="messageto" onChange="processContent(this);"
+					 title="Student name badge " id="studentbadge" 
+					 tabindex="<?php print $tab++;?>" 
+					 value="studentbadge" <?php if($messageto=='studentbadge'){print 'checked';}?> />
+			</div>
 			</td>
 			</tr>
 	   	</table>
 	   	</div>
 
-	<form id="formtoprocess" 
-			name="formtoprocess" method="post" action="<?php print $host;?>">
+	  </form>
+
+	<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
 
 	<div class="divgroup center">
 	  <div class="center">
@@ -204,6 +208,26 @@ two_buttonmenu($extrabuttons,$book);
 			include('scripts/list_template.php');
 ?>
 		</div>
+
+		<div class="right subgroup">
+		  <br />
+		  <div class="center">
+			<?php print_string('orderby','infobook');?>:
+		  </div>
+		  <div class="row left">
+			<label for="sortstudent"><?php print_string('student',$book);?></label>
+			<input type="radio" name="orderby"
+				   title="Order labels by student" id="sortstudent" tabindex="<?php print $tab++;?>" 
+				   value="sortstudent" <?php if($orderby=='sortstudent'){print 'checked';}?> />
+		  </div>
+		  <div class="row right">
+			<label for="sortcontact"><?php print_string('contact',$book);?></label>
+			<input type="radio" name="orderby"
+				   title="Order labels by contact name" id="sortcontact" tabindex="<?php print $tab++;?>" 
+				   value="sortcontact" <?php if($orderby=='sortcontact'){print 'checked';}?> />
+		  </div>
+		</div>
+
 	  </div>
 
 	  <div class="center">
@@ -216,9 +240,11 @@ two_buttonmenu($extrabuttons,$book);
 		</div>
 
 
-		<div class="right">
+		<div class="right subgroup">
 		  <br />
-		  <br />
+		  <div class="center">
+			<?php print_string('extra','infobook');?>:
+		  </div>
 		  <div class="row left">
 			<label for="blank"><?php print_string('none','infobook');?></label>
 			<input type="radio" name="explanation"
@@ -307,6 +333,7 @@ two_buttonmenu($extrabuttons,$book);
 		<selectname>template</selectname>
 		<selectname>explanation</selectname>
 		<selectname>messageto</selectname>
+		<selectname>orderby</selectname>
 		<selectname>text</selectname>
 	  </params>
 	</div>

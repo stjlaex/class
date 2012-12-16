@@ -222,8 +222,7 @@ be found on the front page of the official school website under the
 area for Parents or directly from:</p>';
 $string['epfreportemail1bis']='
 <p>Access to ClaSSic is protected by a user-name and password. These are
-personal to you.</p>.
-';
+personal to you.</p>';
 $string['epfreportemail2dob']='
 <p>Your password is the date of birth of your child typed as a continuous
 number without spaces or hyphens. The order must be day month year.
@@ -413,4 +412,5 @@ $string['documentstoupload']='New documents to upload here';
 $string['drophere']='Document Drop';
 $string['candidateid']='UCI';
 $string['candidatenumber']='Candidate Number';
+$string['orderby']='Sort by';
 ?>
