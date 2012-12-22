@@ -1205,7 +1205,6 @@ function openChartReport(xml, xsltName, paper){
 	printWindow.document.writeln("<link rel='stylesheet' type='text/css' href='../templates/"+xsltName+".css' media='all' title='ReportBook Output' />");
 	printWindow.document.writeln("<script language='JavaScript' type='text/javascript' src='js/raphael.js' charset='utf-8'></script>");
 	printWindow.document.writeln("<script language='JavaScript' type='text/javascript' src='js/g.raphael-min.js' charset='utf-8'></script>");
-	printWindow.document.writeln("<script language='JavaScript' type='text/javascript' src='js/g.bar.js' charset='utf-8'></script>");
 	printWindow.document.writeln("<script language='JavaScript' type='text/javascript' src='http://d3js.org/d3.v3.min.js' charset='utf-8'></script>");
 	printWindow.document.writeln("<script language='JavaScript' type='text/javascript' src='../templates/"+xsltName+".js' charset='utf-8'></script>");
 	printWindow.document.writeln("<meta http-equiv='pragma' content='no-cache'/>");
