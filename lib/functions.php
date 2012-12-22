@@ -829,7 +829,7 @@ function getEnumArray($field_name){
 
 	/*for the phone table*/
 	$phonetype=array('H'=>'homephone', 'W'=>'workphone', 
-					 'M'=>'mobilephone', 'F'=>'faxnumber', 'O'=>'otherphone');
+					 'M'=>'mobilephone', 'F'=>'faxnumber', 'O'=>'otherphone', 'N'=>'carer');
 
 	/*for the gidaid table*/
 	$addresstype=array('H'=>'home', 'W'=>'work', 

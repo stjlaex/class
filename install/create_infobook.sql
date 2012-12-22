@@ -242,7 +242,7 @@ CREATE TABLE phone (
 	id				int unsigned not null auto_increment,
 	some_id			int unsigned not null default '0',
 	number			varchar(22) not null default '',
-	phonetype		enum('H', 'M', 'W', 'F', 'O') not null,
+	phonetype		enum('H', 'M', 'W', 'F', 'O', 'N') not null,
 	index			index_id (some_id),
 	primary key 	(id)	
 ) type=myisam;
