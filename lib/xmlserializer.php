@@ -232,6 +232,7 @@ function xmlstringToArray($xmlstring,$clean=true){
 		/* Attempt to tidy user inputted html, set $clean=false if the xml is known to be valid. */
 		/* Remove unwanted tags */
 		$xmlstring = preg_replace("/<(\/)?(font|span|del|a|ins|table|tbody|tr|td|colgroup|col|strong|em|br|pre|dir)[^>]*>/i","",$xmlstring);
+		$xmlstring = preg_replace("/<(\/)?(script)[^>]*>*<(\/)?(script)[^>]*>/i","",$xmlstring);
 
 		/* Remove attributes, inline style etc.
 		 * Each pass takes one attribute per element, so do three times just to be sure 
