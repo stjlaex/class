@@ -30,7 +30,8 @@ function fetchSubjectReports($sid,$reportdefs){
 	$asseids=array();
 	$asselements=array();
 
-	/* Take care first to only apply reports for which this sid is a
+	/*
+	 * Take care first to only apply reports for which this sid is a
 	 * member of the relevant cohort.
 	 */
 	foreach($reportdefs as $reportdef){
@@ -45,12 +46,14 @@ function fetchSubjectReports($sid,$reportdefs){
 		else{$relevant_reportdefs[]=$reportdef;}
 		}
 
-	/* Collate all assessment and report entries by subject for each
+	/*
+	 * Collate all assessment and report entries by subject for each
 	 * course report chosen.
 	 */
 	foreach($relevant_reportdefs as $reportdef){
 		$rid=$reportdef['rid'];
-		/* Provide a look-up array $assbids which references the $Assessments
+		/*
+		 * Provide a look-up array $assbids which references the $Assessments
 		 * array by index for every subject and component combination which
 		 * has an Assessment for this student. 
 		 */
@@ -75,6 +78,7 @@ function fetchSubjectReports($sid,$reportdefs){
 			}
 		ksort($assbids);
 
+
 		/**
 		 * List the assessments for any linked profile
 		 */
@@ -84,7 +88,8 @@ function fetchSubjectReports($sid,$reportdefs){
 				$profile_enddate=$reportdef['report']['date'];
 				$profile_asseids=array();
 				foreach($reportdef['report']['profile_names'] as $profile_name){
-					/* Include only those that are results and that were recorded prior 
+					/*
+					 * Include only those that are results and that were recorded prior 
 					 * to this report (otherwise the report is going to change and it 
 					 * should be fixed at the publication data). 
 					 */
@@ -160,7 +165,8 @@ function fetchSubjectReports($sid,$reportdefs){
 					  $componentseq=$subject['sequence'];
 					  }
 
-				  /* Combine assessment indexes for this component and all of its
+				  /*
+				   * Combine assessment indexes for this component and all of its
 				   * strands into a single array $assnos.
 				   * 
 				   */
@@ -238,8 +244,10 @@ function fetchSubjectReports($sid,$reportdefs){
 					  $Report['Comments']=$Comments;
 					  $Reports['Report'][]=$Report;
 					  }
+
 				  }
 				}
+
 
 			foreach($reportdef['summaries'] as $repsummary){
 				$summaryid=$repsummary['subtype'];
@@ -251,9 +259,10 @@ function fetchSubjectReports($sid,$reportdefs){
 					}
 				$Summaries['Summary'][]=$Summary;
 				}
-
-			/* Add assessments to the asstable, to display using xslt
-			   in the report. Each element appears only once.*/
+			/*
+			 * Add assessments to the asstable, to display using xslt
+			 * in the report. Each element appears only once.
+			 */
 			if(array_key_exists('ass',$reportdef['asstable']) and is_array($reportdef['asstable']['ass'])){
 				while(list($index,$ass)=each($reportdef['asstable']['ass'])){
 					if(!in_array($ass['element'],$asselements)){
@@ -263,9 +272,11 @@ function fetchSubjectReports($sid,$reportdefs){
 					}
 				}
 
-			/* When combining reports, for now this only works if each
-			 has the same properties. Otherwise it will be the properties
-			 of the last reportdef in the list which dominate!!!*/
+			/* 
+			 * When combining reports, for now this only works if each
+			 * has the same properties. Otherwise it will be the properties
+			 * of the last reportdef in the list which dominate!!!
+			 */
 		   	if(isset($reportdef['cattable'])){$Reports['cattable']=$reportdef['cattable'];}
 			$Reports['Summaries']=$Summaries;
 			if($reportdef['report']['course_id']=='wrapper'){
@@ -1022,13 +1033,19 @@ function fetchReportEntry($reportdef,$sid,$bid,$pid){
 			   for($c=0;$c<$subcomments_no;$c++){
 				   /* If a subcomment is empty then don't display in the html page. */
 				   if($comments[$c]!=' ' and $comments[$c]!=''){
-					   $comment_html['div'][]=xmlreader('<label>'.$subcomments[$c]['name'].'</label>'.'<div>'.$comments[$c].'</div>');
+					   if(strtotime($reportdef['report']['date']) < strtotime('2009-04-01')){
+						   /* For backward compatibility with old xslt templates. */
+						   $comment_html=$entry['comment'];
+						   }
+					   else{
+						   $comment_html['div'][]=xmlreader('<label>'.$subcomments[$c]['name'].'</label>'.'<div>'.$comments[$c].'</div>');
+						   }
 					   }
 				   }
 			   }
-		   elseif($reportdef['report']['date']<'2009-04-01'){
+		   elseif(strtotime($reportdef['report']['date']) < strtotime('2009-04-01')){
 			   /* For backward compatibility with old xslt templates. */
-			   $comment_html=$entry['comment'];
+			   $comment_html[]=$entry['comment'];
 			   }
 		   else{
 			   $comment_html['div'][]=xmlreader($entry['comment']);
@@ -1036,10 +1053,10 @@ function fetchReportEntry($reportdef,$sid,$bid,$pid){
 
 		   if(isset($subcomments_fix) or true){
 			   /* TODO: This fromdate is just a hack needs to check for previous report maybe?*/
-			   //$reportyear=$reportdef['report']['year']-1;
-			   //$fromdate=$reportyear.'-08-15';//Does the whole academic year
-			   $reportyear=$reportdef['report']['year'];
-			   $fromdate=$reportyear.'-03-01';
+			   $reportyear=$reportdef['report']['year']-1;
+			   $fromdate=$reportyear.'-08-15';//Does the whole academic year
+			   //$reportyear=$reportdef['report']['year'];
+			   //$fromdate=$reportyear.'-03-01';
 			   $comment_div=array();
 			   foreach($reportdef['report']['profile_names'] as $profile_name){
 				   $Statements=(array)fetchProfileStatements($profile_name,$bid,$pid,$sid,$fromdate);
