@@ -217,6 +217,12 @@ $CFG->lmssite='';
 $CFG->lmstabname='Moodle';
 $CFG->lmsshare='secret';
 $CFG->lms_db='';
+/* Optional details of the school's calendar site - currently only
+ * work with a public google calendar. 
+ */
+$CFG->calendarsite='https://www.google.com/calendar';
+$CFG->calendartabname='Calendar';
+$CFG->calendarsrc='';
 /*optional details of the statement bank for writing report comments*/
 $CFG->statementbank_db='';
 /*optional details for publishing reports to pdf using html2ps*/
