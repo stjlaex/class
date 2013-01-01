@@ -90,8 +90,8 @@ height:3em;
 .booktabs p.entrybook:hover, #currentbook.entrybook {
     background-color:#1181AA;
     }
-.booktabs p.eportfolio:hover, #currentbook.eportfolio {
-    background-color:#52aee7;
+.booktabs p.calendar:hover, #currentbook.calendar {
+    background-color:#668CD9;
     }
 .booktabs p.lms:hover, #currentbook.lms {
     background-color:#ffcc44;
@@ -150,8 +150,8 @@ div#logbookstripe.seneeds {
 div#logbookstripe.entrybook {
     border-color:#1181AA;
     }
-div#logbookstripe.eportfolio {
-    border-color:#52aee7;
+div#logbookstripe.calendar {
+    border-color:#668CD9;
     }
 div#logbookstripe.lms {
     border-color:#ffcc44;
@@ -294,8 +294,8 @@ button {
 .register {background-color:#cccccc; border-color:#44aa66;}
 .register legend, .register button {background-color:#44aa66; color:#ffffff;}	
 
-.eportfolio {background-color:#cccccc; border-color:#52aee7;}
-.eportfolio legend, .eportfolio button {background-color:#52aee7; color:#ffffff;}	
+.calendar {background-color:#cccccc; border-color:#668CD9;}
+.calendar legend, .calendar button {background-color:#668CD9; color:#ffffff;}	
 
 .lms {background-color:#cccccc; border-color:#ffcc44;}
 .lms legend, .lms button {background-color:#ffcc44; color:#ffffff;}	

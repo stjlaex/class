@@ -76,13 +76,16 @@ $books['teacher']=array(
 						);
 $externalbooks=array();
 $externalbooks['all']=array(
-							'lms' => $CFG->lmstabname
+							'lms' => $CFG->lmstabname,
+							'calendar' => $CFG->calendartabname
 							);
 $externalbooks['admin']=array(
 							  //'lms' => $CFG->lmstabname
+							  'calendar' => $CFG->calendartabname
 							  );
 $externalbooks['teacher']=array(
 								//'lms' => $CFG->lmstabname
+								'calendar' => $CFG->calendartabname
 								);
 $books['external']=$externalbooks;
 ?>

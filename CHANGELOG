@@ -1,11 +1,12 @@
-Version ClaSS-1.0.39 release (2012/12/24)
+Version ClaSS-1.0.39 release (2013/01/02)
 -------------------------------------------
 
 Added carer as a new telephone type.
 
 Fix to fetchSubjectReport for compatibility with pre-html subject comments.
 
-
+New external book for a Calendar added (currently only works with a
+public Google Calendar).
 
 
 
