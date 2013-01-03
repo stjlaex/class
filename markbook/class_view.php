@@ -129,8 +129,8 @@ if($_SESSION['worklevel']>-1){
 	/*The mark's column header, with a checkbox which provides $mid */	      
 	for($col=0;$col<sizeof($umns);$col++){
 		if($umns[$col]['marktype']=='score' or $umns[$col]['marktype']=='hw'){
-			/* If it is an assessment column and older than 60 days then lock form editing, unless you have course permissions. */
-			if(($umns[$col]['entrydate']<$cutoffdate and $umns[$col]['assessment']!='no' and $r==-1) or $curryear!=$current_curryear){
+			/* If it is an assessment column and older than 60 days then lock from editing, unless you have course permissions. */
+			if(($umns[$col]['entrydate']<$cutoffdate and $umns[$col]['assessment']!='no' and $r==-1)){
 				print '<th class="'.$umns[$col]['displayclass'].'" id="'.$umns[$col]['id'].'"><span title="'.$umns[$col]['comment'].'">' 
 					  .$umns[$col]['topic'].'<p>'.display_date($umns[$col]['entrydate']).'</p>
 	      <p class="component">'.$umns[$col]['component'].'</p>'.$umns[$col]['marktype'].'<input type="checkbox" name="checkmid[]" value="'.$umns[$col]['id'].'" /></span></th>';
