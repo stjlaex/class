@@ -79,13 +79,14 @@ $externalbooks['all']=array(
 							'lms' => $CFG->lmstabname,
 							'calendar' => $CFG->calendartabname
 							);
-$externalbooks['admin']=array(
-							  //'lms' => $CFG->lmstabname
-							  'calendar' => $CFG->calendartabname
-							  );
-$externalbooks['teacher']=array(
-								//'lms' => $CFG->lmstabname
-								'calendar' => $CFG->calendartabname
-								);
+if(isset($CFG->calendartabname) and $CFG->calendartabname!=''){
+	$externalbooks['admin']['calendar']=$CFG->calendartabname;
+	$externalbooks['teacher']['calendar']=$CFG->calendartabname;
+	$externalbooks['office']['calendar']=$CFG->calendartabname;
+	}
+if(isset($CFG->lmstabname) and $CFG->lmstabname!=''){
+	$externalbooks['admin']['lms']=$CFG->lmstabname;
+	$externalbooks['teacher']['lms']=$CFG->lmstabname;
+	}
 $books['external']=$externalbooks;
 ?>
