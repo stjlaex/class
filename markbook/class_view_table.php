@@ -351,9 +351,26 @@ while($student=mysql_fetch_array($d_students, MYSQL_ASSOC)){
 			else{$profilebid=$umns[$c]['profile_bid'];}
 			/* Have to explicity pass the bid and pid for the profile here NOT for the class. */
 			$rep=checkReportEntryCat($umns[$c]['midlist'],$sid,$profilebid,$umns[$c]['component']);
-			if($rep['result']>0){$outof=round($rep['value']*100/$rep['result']);}
-			else{$outof=0;}
-			$out='<div class="'.$rep['class'].'" title="'.display_date($rep['date']).': '.$rep['value'].' /' .$outof.' ('.$rep['result'].'%)"><a href="markbook.php?current=new_edit_reports.php&cancel=class_view.php&midlist='.$umns[$c]['midlist'].'&pid='.$umns[$c]['component'].'&sid='.$sid.'&bid='.$profilebid.'&nextrow='.$rowno.'">'.'&nbsp;&nbsp;&nbsp;'.'</a></div>';
+			/* Option to decide what is displayed in the table cell: either blank or the result value. */
+			if($umns[$c]['profile_celldisplay']==''){
+				$outspace='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
+				}
+			else{
+				$outspace=$rep['result'];
+				}
+			/* Only use the result value if it is a percentage (greater than 0) */
+			if($rep['result']>0){
+				$outof=round($rep['value']*100/$rep['result']);
+				$outtitle=display_date($rep['date']).': '.$rep['value'].' /' .$outof.' ('.$rep['result'].'%)';
+				}
+			else{
+				$outof=0;
+				$outtitle='';
+				$rep['result']=0;
+				}
+
+			$out='<div class="'.$rep['class'].'" title="'.$outtitle.'"><a href="markbook.php?current=new_edit_reports.php&cancel=class_view.php&midlist='.$umns[$c]['midlist'].'&pid='.$umns[$c]['component'].'&sid='.$sid.'&bid='.$profilebid.'&nextrow='.$rowno.'">'.$outspace.'</a></div>';
+
 			$score['grade']=$rep['result'];
 			$score['value']=$rep['result'];
 			$score['outoftotal']=100;

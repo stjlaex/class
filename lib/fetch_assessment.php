@@ -405,8 +405,6 @@ function fetchAssessments($sid,$eid='%'){
 	   	$Assessment['Description']=array('label' =>
 					'Description','table_db'=>'assessment', 'field_db'=>'description',
 					'type_db'=>'varchar(60)', 'value'=>$ass['description']);
-	   	$Assessment['Year']=array('label' =>
-					'Year', 'type_db'=>'year', 'field_db'=>'year', 'value'=>$ass['year']);
 	   	$Assessment['PrintLabel']=array('label' =>
 					'Print Label','table_db'=>'assessment', 'field_db'=>'label',
 					'type_db'=>'varchar(12)', 'value'=>$ass['label']);
@@ -1136,11 +1134,7 @@ function update_profile_score($rid,$sid,$bid,$pid,$cat,$catdefs,$rating_name){
 	$score=array('result'=>'','value'=>0, 'date'=>'0000-00-00');
 	$cutoff_rating='1';
 
-	$d_a=mysql_query("SELECT assessment.id FROM assessment JOIN report  
-				ON (report.title=assessment.description AND report.course_id=assessment.course_id) 
-				WHERE report.id='$rid';");
-	if(mysql_num_rows($d_a)>0){$eid=mysql_result($d_a,0);}
-	else{$eid=-1;}
+	$eid=get_profile_eid($rid);
 
 	$statno=0;
 	$Categories=(array)fetchCategories($Student,$cat,$catdefs,$rating_name);
@@ -1168,6 +1162,25 @@ function update_profile_score($rid,$sid,$bid,$pid,$cat,$catdefs,$rating_name){
 	}
 
 
+/**
+ *
+ * Finds the assessment being used to store profile scores given the
+ * profile_rid (report_id NOT categorydef_id).
+ * 
+ * TODO: Probably a stop gap anyway.....
+ *
+ * 
+ */
+function get_profile_eid($profile_rid){
+
+	$d_a=mysql_query("SELECT assessment.id FROM assessment JOIN report  
+				ON (report.title=assessment.description AND report.course_id=assessment.course_id) 
+				WHERE report.id='$profile_rid';");
+	if(mysql_num_rows($d_a)>0){$eid=mysql_result($d_a,0);}
+	else{$eid=-1;}
+
+	return $eid;
+	}
 
 /**
  * This tries to find the mids (if any exist otherwise -1) associated 
@@ -1315,7 +1328,7 @@ function list_assessment_profiles($crid,$bid='%'){
 	$profiles=array();
 	if($crid!=''){
 		$d_pro=mysql_query("SELECT id, name, subtype AS component_status, rating_name, course_id,
-						subject_id, comment AS transform FROM categorydef WHERE type='pro'
+						subject_id, comment AS transform, othertype AS celldisplay FROM categorydef WHERE type='pro'
 						AND (subject_id LIKE '$bid' OR subject_id='%') AND course_id='$crid' ORDER
 						BY subject_id, name;");
 		while($profile=mysql_fetch_array($d_pro,MYSQL_ASSOC)){

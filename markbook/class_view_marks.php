@@ -104,7 +104,7 @@ for($i=0;$i<sizeof($cids);$i++){
 		$profile_name=$profile['name'];
 		$profile_pidstatus=$profile['component_status'];
 		$profile_marktype=$profile['rating_name'];
-
+		$profile_celldisplay=$profile['celldisplay'];
 		$d_marks=mysql_query("SELECT $table.* FROM $table WHERE ($table.marktype='score'
 				AND $table.assessment!='no' AND $table.id=ANY(SELECT
 				eidmid.mark_id FROM eidmid JOIN assessment ON
@@ -197,6 +197,7 @@ for($i=0;$i<sizeof($cids);$i++){
 			  $d_s=mysql_query("SELECT categorydef.subject_id FROM categorydef JOIN ridcatid ON ridcatid.categorydef_id=categorydef.id 
 								WHERE ridcatid.subject_id='profile' AND ridcatid.report_id='$midlist[$c]';");
 			  $umns[$c]['profile_bid']=mysql_result($d_s,0);
+			  $umns[$c]['profile_celldisplay']=$profile_celldisplay;
 			  $umns[$c]['displayclass']='derived';
 			  }
 
