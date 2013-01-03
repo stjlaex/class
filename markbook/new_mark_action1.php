@@ -48,11 +48,11 @@ three_buttonmenu();
 	if($r>-1){
 		/*either by current responsibility choice*/
 		$rcrid=$respons[$r]['course_id'];
-		$newclasses=list_course_classes($rcrid,$classes[$cids[0]]['bid'],'%','','taught');
+		$newclasses=list_course_classes($rcrid,$classes[$cids[0]]['bid'],'%',$curryear,'taught');
 		}
 	else{
 		/* or by select definitions by subjects of classes taught */
-		$newclasses=list_teacher_classes($tid,'%',$classes[$cids[0]]['bid']);
+		$newclasses=list_teacher_classes($tid,'%',$classes[$cids[0]]['bid'],$curryear);
 		}
 
 

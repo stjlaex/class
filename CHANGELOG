@@ -3,7 +3,8 @@ Version ClaSS-1.0.39 release (2013/01/02)
 
 Added carer as a new telephone type.
 
-Fix to fetchSubjectReport for compatibility with pre-html subject comments.
+Fix to fetchSubjectReport for compatibility with pre-html subject
+comments.
 
 New external book for a Calendar added (currently only works with a
 public Google Calendar).
@@ -14,6 +15,8 @@ optional switch for activating externalbooks.
 New profile option called celldisplay (othertype field in categorydef
 table) for displaying extra content in the MarkBook.
 
+Fix to new_mark scripts when creating a mark for a previous academic
+year.
 
 
 Version ClaSS-1.0.38 release (2012/12/10)
