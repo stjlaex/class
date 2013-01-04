@@ -53,6 +53,7 @@ if(!isset($ARGS['option'])){
 		$cmd='/usr/bin/php '.$fullpath.'/infobook/httpscripts/message_text_event_cron.php --path='.$CFG->installpath;
 		exec("$cmd > /dev/null &");
 		}
+
 	/**
 	 * Run outside of peak registration times only.
 	 */
@@ -100,12 +101,12 @@ elseif($ARGS['option']=='ldapenrol'){
 	exec("$cmd > /dev/null &");
 	}
 elseif($ARGS['option']=='hwsync'){
-	/* Update accounts for contacts in the ClaSSIC database */
+	/* Update homework in the ClaSSIC database */
 	$cmd='/usr/bin/php '.$CFG->installpath.'/'.$CFG->applicationdirectory.'/admin/httpscripts/epf_sync_homework.php --path='.$CFG->installpath;
 	exec("$cmd > /dev/null &");
 	}
 elseif($ARGS['option']=='newenquiries'){
-	/* Geocode addresses of contacts  */
+	/* Fetch new enquiries for admissions  */
 	$cmd='/usr/bin/php '.$CFG->installpath.'/'.$CFG->applicationdirectory.'/admin/httpscripts/admissions_enquiries.php --path='.$CFG->installpath;
 	exec("$cmd > /dev/null &");
 	}

@@ -24,7 +24,7 @@ $ARGS=arguments($_SERVER['argv']);
 require_once($ARGS['path'].'/school.php');
 require_once($CFG->installpath.'/'.$CFG->applicationdirectory.'/scripts/cron_head_options.php');
 /*
- * simple tml dom could provide a nice alternative to preg_match but only for well formed html emails
+ * simple html dom could provide a nice alternative to preg_match but only for well formed html emails
  */
 //require_once($CFG->installpath.'/'.$CFG->applicationdirectory.'/lib/simple_html_dom.php');
 
@@ -34,6 +34,7 @@ if($CFG->email_imap_off=='no'){
 	$emailif=new email_imap_fetch();
 	$emailif->connect($CFG->email_imap_host, '/pop3:995/ssl', $CFG->email_imap_user, $CFG->email_imap_passwd);
 	$emailif->inbox_read();
+	$emailif->close();
 
 	foreach($emailif->html_forms as $no => $html_form_text){
 
@@ -119,6 +120,7 @@ exit;
  *
  */
 
+/* suggeseted seetings? */
 //ini_set('max_execution_time', 3000);
 //ini_set('default_socket_timeout', 3000);
 //ini_set('memory_limit','512M');
@@ -191,19 +193,24 @@ class email_imap_fetch{
 		  break;
 		  }
 	  }
-  
+
   /**
    * Parse e-mail structure
    */
   function parsepart($p,$msgid,$i){
    
 	  $part=imap_fetchbody($this->link,$msgid,$i);
+	  //$part=imap_qprint($part);
 
 	  /* Ignore attachments and everything except the email body text */
 	  if($p->type==0){
 		  /* decode text */
-		  if($p->encoding==4){$part=quoted_printable_decode($part);}
-		  if($p->encoding==3){$part=base64_decode($part);}
+		  if($p->encoding==4){
+			  $part=utf8_encode(quoted_printable_decode($part));
+			  }
+		  if($p->encoding==3){
+			  $part=base64_decode($part);
+			  }
 		  /* if plain text or HTML
 		  if(strtoupper($p->subtype)=='PLAIN'){1;}
 		  elseif(strtoupper($p->subtype)=='HTML'){1;}
@@ -235,22 +242,21 @@ class email_imap_fetch{
 	  $to=$header->to;
 	  $size=$header->Size;
 
-	  if($header->Unseen == "U" || $header->Recent == "N"){
-
+	  /* U (not seen AND not recent) or N (recent AND not seen) */
+	  if($header->Unseen=='U' or $header->Recent=='N'){
 		  /* Check is it a multipart messsage */
 		  $s=imap_fetchstructure($this->link,$this->msgid);
 		  if(count($s->parts)>0){
 			  foreach ($s->parts as $partno=>$partarr){
-				  //parse parts of email
+				  /* parse each part of the email */
 				  $this->parsepart($partarr,$this->msgid,$partno+1);
 				  }
 			  } 
 		  else{ 
 			  $text=imap_body($this->link,$this->msgid);
-			  //decode if quoted-printable
-			  if ($s->encoding==4) $text=quoted_printable_decode($text);
-			  if (strtoupper($s->subtype)=='PLAIN') $text=$text;
-			  if (strtoupper($s->subtype)=='HTML') $text=$text;
+			  if($s->encoding==4){$text=utf8_encode(quoted_printable_decode($text));}
+			  //if(strtoupper($s->subtype)=='PLAIN'){$text=$text;}
+			  //if(strtoupper($s->subtype)=='HTML'){$text=$text;}
 			  $this->partsarray['not multipart']['text']=array('type'=>$s->subtype,'string'=>$text);
 			  }
 		  
@@ -274,7 +280,7 @@ class email_imap_fetch{
 		  $email['TO_EMAIL']=$toaddress;
 		  $email['DATE']=date("Y-m-d H:i:s",strtotime($header->date));
 		  $email['SIZE']=$size;
-		  //SECTION - FLAGS
+		  /* not used ?? */
 		  $email['FLAG_RECENT']=$header->Recent;
 		  $email['FLAG_UNSEEN']=$header->Unseen;
 		  $email['FLAG_ANSWERED']=$header->Answered;
@@ -313,7 +319,7 @@ class email_imap_fetch{
    */ 
   function email_setflag(){
     
-	  imap_setflag_full($this->link, "2,5","\\Seen \\Flagged"); 
+	  imap_setflag_full($this->link, $this->msgid,"\\Seen \\Flagged"); 
   
 	  }
 
@@ -340,7 +346,7 @@ class email_imap_fetch{
    * Close IMAP connection
    */ 
   function close(){
-	  imap_close($this->link);   
+	  imap_close($this->link,CL_EXPUNGE);
 	  }
 
 
@@ -362,19 +368,21 @@ class email_imap_fetch{
 	  }
 
   /**
-   * Parse the first 10 emails in the inbox - check if they are for this school
+   *
+   * Parse the first 6 emails in the inbox.
+   * Check if they are for this school searching for the $CFG->shortname in the subject line.
    */
   function inbox_read(){
 	  global $CFG;
 
 	  $inbox_count=imap_num_msg($this->link);
-	  
+
 	  trigger_error('INBOX COUNT: '.$inbox_count,E_USER_WARNING);
 
 	  if($inbox_count>=1){
 
-		  if($inbox_count>20){
-			  $inbox_count=20;
+		  if($inbox_count>6){
+			  $inbox_count=6;
 			  }
 
 		  if(!isset($this->msgid) or $this->msgid<=0){
@@ -394,13 +402,10 @@ class email_imap_fetch{
 
 				  $this->email_read();
 
-				  /* Need to mark the emails as read or delete them
+				  /* Need to mark the email as deleted 
 				   * otherwise we just get the same back everytime. 
 				   */
-				  $this->email_setflag();
 				  $this->email_delete();
-				  $this->email_expunge();
-
 				  }
 			  $this->msgid++;
 			  }
