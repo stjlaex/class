@@ -32,9 +32,9 @@ function clickToWriteCommentNew(sid,rid,bid,pid,entryn,openId){
 	}
 
 //opens the a window for file attachments
-function clickToAttachFile(sid,mid,cid,pid,openId){
+function clickToAttachFile(sid,eid,bid,pid,openId){
 	var helperurl="markbook/httpscripts/upload_file.php";
-	var getvars="sid="+sid+"&mid="+mid+"&cid="+cid+"&pid="+pid+"&openid="+openId;
+	var getvars="sid="+sid+"&eid="+eid+"&bid="+bid+"&pid="+pid+"&openid="+openId;
 	openHelperWindow(helperurl,getvars);
 	}
 

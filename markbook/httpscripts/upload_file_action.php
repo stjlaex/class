@@ -14,40 +14,50 @@ if($sub=='Cancel'){
 	$openerId='-100';
 	$incom='';
 	}
-elseif($sub=='Submit' and isset($_FILES['importfile']) and $_FILES['importfile']['tmp_name']!=''){
-	$publishdata=array();
-	$entryn='';
+elseif($sub=='Submit'){
 	$openerId=$_POST['openid'];
-	$Student=fetchStudent_short($sid);
-	$filename=$_FILES['importfile']['name'];
-	$tmpname=$_FILES['importfile']['tmp_name'];
 	if(isset($_POST['inmust'])){$inmust=$_POST['inmust'];}
-	if(isset($_POST['mid'])){$bid=$_POST['mid'];}
-	if(isset($_POST['cid'])){$cid=$_POST['cid'];}
+	if(isset($_POST['eid'])){$eid=$_POST['eid'];}
+	if(isset($_POST['bid'])){$bid=$_POST['bid'];}
 	if(isset($_POST['pid'])){$pid=$_POST['pid'];}
-	if(isset($_POST['title'])){$publishdata['title']=clean_text($_POST['title']);}else{$publishdata['title']='';}
-	if(isset($_POST['comment'])){$publishdata['description']=clean_text($_POST['comment']);}else{$publishdata['description']='';}
-	if(isset($_POST['news'])){$news=$_POST['news'];}else{$news='no';}
+	if(isset($_POST['comment'])){$comment=clean_text($_POST['comment']);}else{$comment='';}
+	$todate=date('Y-m-d');
+	$Student=fetchStudent_singlefield($sid,'EPFUsername');
 
-	$EPFUsername=fetchStudent_singlefield($sid,'EPFUsername');
-
-	$publishdata['foldertype']='work';
-	$publishdata['batchfiles'][]=array('epfusername'=>$EPFUsername['value'],
-									   'filename'=>$filename,
-									   'tmpname'=>$tmpname);
 
 	if($inmust=='yes'){
 		/*Create a new entry*/
-		trigger_error($sid.' : '.$epfusername. ' : '.$filename,E_USER_WARNING);
+		trigger_error($sid.' : '.$comment. ' : '.$bid.' : '.$pid,E_USER_WARNING);
 
-		elgg_upload_files($publishdata);
+		$score=(array)get_assessment_score($eid,$sid,$bid,$pid);
+		if($score['id']>0){
+			$eidsid_id=$score['id'];
+			}
+		else{
+			mysql_query("INSERT INTO eidsid (assessment_id, student_id, subject_id, component_id, result, value, date) 
+							VALUES ('$eid','$sid','$bid','$pid','','','$todate');");
+			$eidsid_id=mysql_insert_id();
+			}
+
+		$d_c=mysql_query("INSERT INTO comments SET student_id='$sid', detail='$comment', entrydate='$todate', 
+							subject_id='$bid', category='$pid', eidsid_id='$eidsid_id';");
+		$entid=mysql_insert_id();
+		require_once('../../lib/eportfolio_functions.php');
+		link_files($Student['EPFUsername']['value'],'assessment',$entid);
+
+		//$Student=fetchStudent_short($sid);
+		//elgg_upload_files($publishdata);
+		//$EPFUsername=$Student['EPFUsername'];
+		//$publishdata['foldertype']='work';
+		//$publishdata['batchfiles'][]=array('epfusername'=>$EPFUsername['value'],
+		//							   'filename'=>$filename,
+		//							   'tmpname'=>$tmpname);
+
 
 		}
 	elseif($inmust!='yes'){
 		/* TODO: Update an existing file*/
 		$entryn=$inmust;
-
-
 		}
 	}
 ?>

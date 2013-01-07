@@ -146,11 +146,19 @@ three_buttonmenu();
 				 name="<?php print 'comm'.$sid;?>" maxlength="98" 
 				value="<?php print $viewtable[$c]["score$mid"]['comment'];?>"  />
 			</td>
-			<td id="icon<?php print $sid;?>" class="" style="width:18px;" >
-			  <img class="clicktoload" name="Attachment"
-		 onClick="clickToAttachFile(<?php print $sid.','.$mid.',\''.$viewtable[$c]['class_id'].'\',\''.$pid.'\',\''.$sid.'\'';?>);" 
-		  title="<?php print_string('clicktoattachfile');?>" />
-			</td>
+<?php
+			/* TODO: implement this for assessments only... need get eid and bid... 
+			$imagebuttons=array();
+			$imagebuttons['clicktoload']=array('name'=>'Attachment',
+													 'onclick'=>"clickToAttachFile($sid,'$eid','$bid','$pid','$sid')", 
+													 'class'=>'clicktoload',
+													 'value'=>'category_editor.php',
+													 'title'=>'clicktoattachfile');
+			*/
+			print '<td id="icon'.$sid.'" class="" style="width:18px;" >';
+			//rowaction_buttonmenu($imagebuttons,array(),$book);
+			print '</td></tr>';
+?>
 		</tr>
 <?php
 		}

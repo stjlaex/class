@@ -45,8 +45,11 @@ else{
 	$class_crid=$classes[$cids[0]]['crid'];
 	$class_stage=$classes[$cids[0]]['stage'];
 	if($pid!=''){
-		$d_comp=mysql_query("SELECT status FROM component
-		   		WHERE id='$pid' AND course_id='$class_crid' AND subject_id='$bid';");
+		$d_comp=mysql_query("SELECT status FROM component 
+								WHERE id='$pid' AND course_id='$class_crid' AND subject_id='$bid';");
+		if(mysql_num_rows($d_comp)==0){
+			$d_comp=mysql_query("SELECT status FROM component WHERE id='$pid' AND course_id='$class_crid';");
+			}
 		$compstatus=mysql_result($d_comp,0);
 		}
 	else{

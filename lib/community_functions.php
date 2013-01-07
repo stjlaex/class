@@ -374,6 +374,7 @@ function listin_community($community,$enddate='',$startdate=''){
 	while($student=mysql_fetch_array($d_student, MYSQL_ASSOC)){
 		if($student['id']!=''){$students[]=$student;}
 		}
+
 	return $students;
 	}
 

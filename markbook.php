@@ -264,7 +264,7 @@ if(isset($umns)){
 
 <br />
 <?php
-		if(!empty($currentprofile)){
+if(!empty($currentprofile) and isset($cid)){
 ?>
 	  <div id="<?php print $currentprofile['id'];?>" class="neat sidebuttons">
 		<button name="chart" onclick="window.frames['viewmarkbook'].clickToAction(this);" 

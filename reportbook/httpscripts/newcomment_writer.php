@@ -130,7 +130,7 @@ else{
 <link rel="stylesheet" type="text/css" href="../../css/bookstyle.css" />
 <link rel="stylesheet" type="text/css" href="../../css/commentwriter.css" />
 <script src="../../js/editor.js" type="text/javascript"></script>
-<script src="../../js/book.js?version=1013" type="text/javascript"></script>
+<script src="../../js/book.js?version=1040" type="text/javascript"></script>
 <script src="../../js/qtip.js" type="text/javascript"></script>
 <script src="../../js/statementbank.js" type="text/javascript"></script>
 <?php

@@ -259,7 +259,6 @@
 			print ' tabindex="'.$tab.'" name="sid'.$sid.':'.$inc++.'" id="text'.$openId.'">';
 			print $Comment['Text']['value_db'];
 			print '</textarea>';
-			$extrabuttons=array();
 			$imagebuttons=array();
 			if($inmust=='yes' and $reportdef['report']['addcategory']=='yes'){
 				$imagebuttons['clicktoconfigure']=array('name'=>'current',
@@ -272,7 +271,36 @@
 													 'value'=>'delete_reportentry.php',
 													 'title'=>'deletethiscomment');
 				}
-			rowaction_buttonmenu($imagebuttons,$extrabuttons,$book);
+			rowaction_buttonmenu($imagebuttons,array(),$book);
+			print '</td></tr>';
+			}
+		if($reportdef['report']['addcategory']=='yes' and $reportdef['report']['course_id']=='FS'){
+
+			$profile_eid=get_profile_eid($rid);
+
+			print '<tr class="'.$rowclass.'" id="'.$openId.'-'.$rown++.'" >';
+			print '<td></td><td colspan="'.$extra_colspan.'">';
+			print '<div class="listmenu fileupload">';
+			require_once('lib/eportfolio_functions.php');
+
+			$thisscore=get_assessment_score($eid,$sid,$bid,$pid);
+			$eidsid_id=$thisscore['id'];
+			$d_c=mysql_query("SELECT id FROM comments WHERE eidsid_id='$eidsid_id' AND student_id='$sid';");
+			while($c=mysql_fetch_array($d_c,MYSQL_ASSOC)){
+				$files=(array)list_files($Student['EPFUsername']['value'],'assessment',$c['id']);
+				html_document_list($files);
+				}
+			unset($thisscore);
+			unset($eidsid_id);
+			print '</div></td>';
+			$imagebuttons=array();
+			$imagebuttons['clicktoload']=array('name'=>'Attachment',
+													 'onclick'=>"clickToAttachFile($sid,$profile_eid,'$bid','$pid','$sid')", 
+													 'class'=>'clicktoload',
+													 'value'=>'category_editor.php',
+													 'title'=>'clicktoattachfile');
+			print '<td id="icon'.$sid.'" class="" style="width:18px;" >';
+			rowaction_buttonmenu($imagebuttons,array(),$book);
 			print '</td></tr>';
 			}
 ?>

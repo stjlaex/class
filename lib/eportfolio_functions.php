@@ -1214,7 +1214,7 @@ function new_folder($owner,$name,$access=''){
  * @params string $linked_id
  *
  */
-function list_files($epfun,$foldertype,$linked_id='-1'){
+function list_files($epfun,$foldertype,$linked_id='-1',$bid=''){
 	global $CFG;
 
 	$files=array();
@@ -1222,6 +1222,7 @@ function list_files($epfun,$foldertype,$linked_id='-1'){
 	$epfuid=get_epfuid($epfun,'s');
 
 	if($foldertype=='report' or $foldertype=='icon'){
+		/* Just involves listing the directory contents */
 		if($foldertype=='report'){
 			$foldername='files';
 			$file_extension='pdf';
@@ -1243,7 +1244,7 @@ function list_files($epfun,$foldertype,$linked_id='-1'){
 			}
 		}
 	else{
-		if($linked_id!='%'){
+		if($linked_id>0){
 			/* Looking only at the files attached to a single entry. */
 			$attachment="file.other_id='$linked_id' AND ";
 			}
@@ -1256,11 +1257,21 @@ function list_files($epfun,$foldertype,$linked_id='-1'){
 						JOIN file_folder ON file_folder.id=file.folder_id
 						WHERE $attachment file.owner_id='$epfuid' AND file.owner='s' AND file_folder.name='$foldertype';");
 		while($file=mysql_fetch_array($d_f,MYSQL_ASSOC)){
+			if($foldertype=='assessment'){
+				/* Looking only at the files associated with a particular subject. 
+				 * The other_id is a comment_id and will have an entry in comments?
+				 */
+				/** TODO **/
+				}
+
 			$file['description']=$file['description'];
 			$file['name']=$file['originalname'];
 			$file['path']=$CFG->eportfolio_dataroot.'/'.$file['location'];
 			// only the path is needed?
 			//$file['url']=$CFG->eportfoliosite.'/'.$epfun.'/files/'.$folder_id.'/'.$file['ident'].'/'.$file['originalname'];
+
+			trigger_error($file['name'],E_USER_WARNING);
+
 			$files[]=$file;
 			}
 		}

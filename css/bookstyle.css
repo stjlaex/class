@@ -569,6 +569,10 @@ div.content fieldset.listmenu, div.content fieldset.listmenu div,
 .listmenu tr.gomidlite td, .listmenu td.gomidlite, .gomidlite { 
     background-color:#66cc66 !important;
 	}
+/*outline red*/
+.listmenu tr.outlite td, .listmenu td.outlite, .outlite { 
+    border:3px solid #bbbbbb !important;
+	}
 /*handy for checkboxes inside a table*/
 .listmenu td div.row, .listmenu td div.row p, .listmenu td.row div, .listmenu td.row div p { 
     float:left;

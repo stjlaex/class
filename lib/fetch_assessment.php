@@ -999,6 +999,23 @@ function compute_accumulators($sid,$AssDef,$steps,$accumulators=''){
 	}
 
 
+/**
+ *
+ *
+ */
+function get_assessment_score($eid,$sid,$bid,$pid){
+	$d_eidsid=mysql_query("SELECT id, result, value FROM eidsid
+							WHERE subject_id='$bid' AND component_id='$pid' 
+								AND assessment_id='$eid' AND student_id='$sid';");
+	if(mysql_num_rows($d_eidsid)>0){
+		$score=mysql_fetch_array($d_eidsid,MYSQL_ASSOC);
+		}
+	else{
+		$score=array('id'=>-1,'result'=>'','value'=>'');
+		}
+
+	return $score;
+	}
 
 /**
  *
@@ -1017,13 +1034,12 @@ function update_assessment_score($eid,$sid,$bid,$pid,$score){
 	 * new record. If the result is blank then simply delete the old
 	 * record.
 	 */
-	$d_eidsid=mysql_query("SELECT id, result FROM eidsid
+	$d_eidsid=mysql_query("SELECT id, result, value FROM eidsid
 				WHERE subject_id='$bid' AND component_id='$pid' 
 				AND assessment_id='$eid' AND student_id='$sid';");
 	if(mysql_num_rows($d_eidsid)==0 and $res!=''){
-		mysql_query("INSERT INTO eidsid (assessment_id,
-					student_id, subject_id, component_id, result, value, date) 
-					VALUES ('$eid','$sid','$bid','$pid','$res','$val','$date');");
+		mysql_query("INSERT INTO eidsid (assessment_id, student_id, subject_id, component_id, result, value, date) 
+							VALUES ('$eid','$sid','$bid','$pid','$res','$val','$date');");
 		$eidsid_id=mysql_insert_id();
 		}
 	else{
@@ -1137,20 +1153,30 @@ function update_profile_score($rid,$sid,$bid,$pid,$cat,$catdefs,$rating_name){
 	$eid=get_profile_eid($rid);
 
 	$statno=0;
+	$lowvalue=0;
 	$Categories=(array)fetchCategories($Student,$cat,$catdefs,$rating_name);
 	if(isset($Categories['Category'])){
 		foreach($Categories['Category'] as $Category){
+			/* Only count positive scores (cutoff_rating fixed at 1) as part of the total. */
 			if($Category['value']>=$cutoff_rating){
 				$score['value']++;
-				if(strtotime($Category['date'])>strtotime($score['date'])){$score['date']=$Category['date'];}
 				}
+			elseif($Category['value']<$cutoff_rating){
+				$lowvalue++;
+				}
+			/* Grab the date of the most recent category changed. */
+			if(strtotime($Category['date'])>strtotime($score['date'])){$score['date']=$Category['date'];}
 			$statno++;
 			}
 		}
 
 	$catno=sizeof($catdefs);
 	if($statno>0 and $eid>-1){
-		$score['result']=round(100*($score['value']/$catno));
+		$score['result']=round(100*($score['value']/$catno));	
+		if($score['result']==''){
+			$score['result']=$lowvalue;
+			$score['value']=0;
+			}
 		update_assessment_score($eid,$sid,$bid,$pid,$score);
 		$result=true;
 		}
@@ -1224,6 +1250,44 @@ function get_assessment_mids($AssDef,$bid,$pid=''){
 
 	return $mids;
 	}
+
+
+/**
+ * This finds the subject/component combination relevant to an
+ * assessment score given mid of the mark it is being entered for.
+ * Only for marks which are linked to assessments!
+ *
+ * @param string $mid
+ * @return array $mid, $pid
+ */
+function get_mark_assessment($mid){
+
+	$d_assessment=mysql_query("SELECT id, subject_id, component_id FROM assessment JOIN
+				eidmid ON assessment.id=eidmid.assessment_id WHERE eidmid.mark_id='$mid';");
+	$ass=mysql_fetch_array($d_assessment,MYSQL_ASSOC);
+	$eid=$ass['id'];
+	$bid=$ass['subject_id'];
+	$pid=$ass['component_id'];
+	if($bid=='%'){
+		/*  Any value other than % means this eid is for a single
+		 *	bid and is already explicity defined, probably as G
+		 *	for general. Note G for general cannot be found from
+		 *	midcid anyway!  And the mid must only be linked to
+		 *	classes for a single bid - which is always so when
+		 *	columns have been auto-generated
+		 */
+		$d_bid=mysql_query("SELECT DISTINCT subject_id FROM class JOIN midcid ON
+					midcid.class_id=class.id WHERE midcid.mark_id='$mid';");
+		$bid=mysql_result($d_bid,0);
+		}
+	if($pid==''){
+		$d_pid=mysql_query("SELECT component_id FROM mark WHERE id='$mid';");
+		$pid=mysql_result($d_pid,0);
+		}
+
+	return array($eid,$bid,$pid);
+	}
+
 
 
 /**

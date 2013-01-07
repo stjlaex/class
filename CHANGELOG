@@ -1,4 +1,4 @@
-Version ClaSS-1.0.39 release (2013/01/07)
+Version ClaSS-1.0.40 release (2013/01/07)
 -------------------------------------------
 
 Fixes to the new enquiries script to decode utf8 characters and to
@@ -9,7 +9,13 @@ Export of invoiced charges from the remittance view page.
 Function to change state of Paid/Not Paid charges from the remittance
 view page.
 
+New document drop option added to skills profile in the MarkBook for
+recording observations and supporting examples.
 
+New outlite css class for mark table cells.
+
+Highlight the started but not yet achieved areas in skills profiles in
+the MarkBook table.
 
 
 Version ClaSS-1.0.39 release (2013/01/02)

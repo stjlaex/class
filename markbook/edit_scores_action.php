@@ -18,27 +18,10 @@ if($sub=='Submit'){
 
 	if($umns[$col]['assessment']!='no'){
 		$todate=date('Y').'-'.date('n').'-'.date('j');
-		/*if associated with an assessment then find which*/
-		$d_assessment=mysql_query("SELECT id, subject_id, component_id FROM assessment JOIN
-				eidmid ON assessment.id=eidmid.assessment_id WHERE eidmid.mark_id='$mid'");
-		$ass=mysql_fetch_array($d_assessment,MYSQL_ASSOC);
-		$eid=$ass['id'];
-		$bid=$ass['subject_id'];
-		$pid=$ass['component_id'];
-		if($bid=='%'){
-			/*any value other than % means this eid is for a single bid and
-				is already explicity defined, probably as G for
-				general. Note G for general cannot be found from midcid anyway!
-				And the mid must only be linked to classes for a single bid -
-				which is always so when columns have been auto-generated*/
-				$d_bid=mysql_query("SELECT DISTINCT subject_id FROM class JOIN midcid ON
-					midcid.class_id=class.id WHERE midcid.mark_id='$mid'");
-				$bid=mysql_result($d_bid,0);
-				}
-		if($pid==''){
-				$d_pid=mysql_query("SELECT component_id FROM mark WHERE id='$mid'");
-				$pid=mysql_result($d_pid,0);
-				}
+		/* Need to explicitly state the bid/pid relevant to these
+		 *   scores for updating the assessment results. 
+		 */ 
+		list($eid,$bid,$pid)=get_mark_assessment($mid);
 		}
 
 	for($c=0;$c<sizeof($viewtable);$c++){

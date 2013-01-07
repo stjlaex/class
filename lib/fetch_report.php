@@ -906,6 +906,7 @@ function checkReportEntryCat($rid,$sid,$bid,$pid){
 		elseif($ass['result']>=60){$ass['class']='gomidlite';}
 		elseif($ass['result']>=35){$ass['class']='pauselite';}
 		elseif($ass['result']>=10){$ass['class']='midlite';}
+		elseif($ass['value']<10){$ass['class']='outlite';}
 		else{$ass['class']='nolite';}
 		}
 
