@@ -174,10 +174,10 @@ include('scripts/perm_action.php');
 
 					if($c['payment']=='2'){$checked='checked="yes"';$checkclass='checked';}else{$checked='';$checkclass='';}
 					print '<td><div class="'.$checkclass.'"><label>'.get_string('notpaid','admin').'</label>';
-					print '<input type="radio" name="payment'.$c['id'].'" tabindex="'.$tab++.'" value="2" '.$checked.'>'.$label.'</input></div>';
+					print '<input type="radio" name="payment'.$c['id'].'" tabindex="'.$tab++.'" value="2" '.$checked.'/></div>';
 					if($c['payment']=='1'){$checked='checked="yes"';$checkclass='checked';}else{$checked='';$checkclass='';}
 					print '<div class="'.$checkclass.'"><label>'.get_string('paid','admin').'</label>';
-					print '<input type="radio" name="payment'.$c['id'].'" tabindex="'.$tab++.'" value="1" '.$checked.'>'.$label.'</input></div>';
+					print '<input type="radio" name="payment'.$c['id'].'" tabindex="'.$tab++.'" value="1" '.$checked.'/></div>';
 					print '</td></tr>';
 					}
 				}

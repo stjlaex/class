@@ -115,8 +115,6 @@ if($filter_paymenttype==''){
 <?php
 	foreach($conids as $conid){
 
-		$Concept=(array)$Concepts[$conid];
-
 		$charges=(array)list_remittance_charges($remid,$conid,$payment);
 ?>
 		<thead>
@@ -125,6 +123,7 @@ if($filter_paymenttype==''){
 			<th colspan="7">
 <?php
 			if($conid!=''){
+				$Concept=(array)$Concepts[$conid];
 				print $Concept['Name']['value']. ' <div class="right">'.display_money($Concept['TotalAmount']['value']).'</div>';
 				}
 ?>
@@ -217,6 +216,26 @@ if($filter_paymenttype==''){
 <?php
 		}
 ?>
+	<tfoot class="noprint">
+		<tr>
+		  <th colspan="2">
+			<div class="rowaction">
+<?php
+$buttons=array();
+if($conid=='' and ($payment==1)){
+	$buttons['notpaid']=array('name'=>'sub','value'=>'notpaid');
+	}
+elseif($conid=='' and ($payment==2)){
+	$buttons['paid']=array('name'=>'sub','value'=>'paid');
+	}
+all_extrabuttons($buttons,'infobook','processContent(this)');
+?>
+		  </div>
+		</th>
+		<th colspan="7">
+		</th>
+		</tr>
+	  </tfoot>
 	  </table>
 	</div>
 

@@ -4,6 +4,11 @@ Version ClaSS-1.0.39 release (2013/01/07)
 Fixes to the new enquiries script to decode utf8 characters and to
 expunge on closing connection.
 
+Export of invoiced charges from the remittance view page.
+
+Function to change state of Paid/Not Paid charges from the remittance
+view page.
+
 
 
 

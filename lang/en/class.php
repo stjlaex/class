@@ -413,4 +413,6 @@ $string['drophere']='Document Drop';
 $string['candidateid']='UCI';
 $string['candidatenumber']='Candidate Number';
 $string['orderby']='Sort by';
+$string['paid']='Paid';
+$string['notpaid']='Not paid';
 ?>
