@@ -56,6 +56,10 @@ if($filter_paymenttype==''){
 	}
 ?>
 
+  <div id="heading">
+	<?php print get_string('invoice',$book).' '.get_string('list',$book);?>
+  </div>
+
   <div id="viewcontent" class="content">
 
   <form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host; ?>" >
@@ -86,15 +90,18 @@ else{
 			  <input type="checkbox" name="checkall"  value="yes" onChange="checkAll(this);" />
 			  <?php print_string('checkall'); ?>
 			</th>
-			<th colspan="6">&nbsp;</th>
+			<th colspan="7">&nbsp;</th>
 		  </tr>
 		</thead>
 		<thead>
 		  <tr>
-			<th colspan="8">&nbsp;</th>
-		  </tr>
-		  <tr>
-			<th colspan="6"></th>
+			<th colspan="2"></th>
+			<th>
+			  <?php print_string('invoicenumber',$book);?>
+			</th>
+			<th colspan="4">
+			  <?php print_string('student',$book);?>
+			</th>
 			<th>
 			  <?php print_string('payment',$book);?>
 			</th>
@@ -160,6 +167,7 @@ else{
 			print '</td>';
 			print '<td></td><td>'.$Invoice['Reference']['value'].'</td><td></td>';
 			print '<td class="student"><a target="viewinfobook" onclick="parent.viewBook(\'infobook\');" href="infobook.php?current=student_fees.php&cancel=student_view.php&sids[]='.$sid.'&sid='.$sid.'">'.$Student['DisplayFullSurname']['value'].'</a></td>';
+			print '<td>'.$Student['EnrolNumber']['value'].'</td>';
 			print '<td>'.$Student['RegistrationGroup']['value'].'</td>';
 			print '<td>'.'<div class="hidden">';
 			$listname='paymenttype'.$Invoice['id_db'];
@@ -174,7 +182,7 @@ else{
 ?>
 		</tbody>
 		<tr>
-		<th colspan="6">&nbsp;</th>
+		<th colspan="7">&nbsp;</th>
 		<th colspan="2">
 <?php 
 			$dstartno=$startno+1;

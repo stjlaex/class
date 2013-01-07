@@ -19,7 +19,7 @@ if((isset($_GET['paymenttype']) and $_GET['paymenttype']!='')){$filter_paymentty
 
 
 $extrabuttons=array();
-if($conid==-1 and $payment==1){
+if($conid==-1 and ($payment==1 or $payment==2)){
 /*
 TODO: print invoices from here....
 	$extrabuttons['invoice']=array('name'=>'current',
@@ -28,10 +28,10 @@ TODO: print invoices from here....
 								   'xmlcontainerid'=>'invoices',
 								   'onclick'=>'checksidsAction(this)'
 								   );
-	$extrabuttons['export']=array('name'=>'current',
-								  'value'=>'fees_remittance_export.php'
-								  );
 */
+	$extrabuttons['export']=array('name'=>'current',
+								  'title'=>'export',
+								  'value'=>'fees_remittance_charge_export.php');
 	}
 
 
@@ -78,11 +78,19 @@ if($filter_paymenttype==''){
 <?php
 	}
 ?>
+
+
   <div id="viewcontent" class="content">
 
   <form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host; ?>" >
 
 	<div class="center">
+<!--
+	<fieldset class="divgroup left">
+	<div>
+	</div>
+	</fieldset>
+-->
 	  <fieldset class="divgroup right">
 		<legend><?php print_string('remittance',$book);?></legend>
 		<div>
@@ -101,7 +109,7 @@ if($filter_paymenttype==''){
 			  <input type="checkbox" name="checkall"  value="yes" onChange="checkAll(this);" />
 			  <?php print_string('checkall'); ?>
 			</th>
-			<th colspan="6">&nbsp;</th>
+			<th colspan="7">&nbsp;</th>
 		  </tr>
 		</thead>
 <?php
@@ -113,17 +121,30 @@ if($filter_paymenttype==''){
 ?>
 		<thead>
 		  <tr>
-			<th colspan="8">&nbsp;</th>
+			<th colspan="2">&nbsp;</th>
+			<th colspan="7">
+<?php
+			if($conid!=''){
+				print $Concept['Name']['value']. ' <div class="right">'.display_money($Concept['TotalAmount']['value']).'</div>';
+				}
+?>
+			</th>
 		  </tr>
 		  <tr>
-			<th colspan="5"><?php if($conid!=''){print $Concept['Name']['value']. ' <div class="right">'.display_money($Concept['TotalAmount']['value']).'</div>';}?></th>
+			<th colspan="2">&nbsp;</th>
+			<th>
+			  <?php print_string('enrolmentnumber','infobook');?>
+			</th>
+			<th colspan="2">
+			  <?php print_string('student',$book);?>
+			</th>
 			<th>
 			  <?php print_string('tarif',$book);?>
 			</th>
 			<th>
 			  <?php print_string('payment',$book);?>
 			</th>
-			<th>
+			<th colspan="2">
 			  <?php print_string('amount',$book);?>
 			</th>
 		  </tr>
@@ -170,25 +191,24 @@ if($filter_paymenttype==''){
 
 				/* first entry for this student for this concept (group by concept and then by student in on other words) */
 				print '<tr id="sid-'.$charge['id'].'" '.$rowclass.'>';
-				print '<td><input type="checkbox" name="sids[]" value="'.$charge['id'].'" />';
-				//print $rown++;
-				print '</td>';
-				print '<td>'.$Student['EnrolNumber']['value'].'</td><td></td>';
+				print '<td><input type="checkbox" name="sids[]" value="'.$charge['id'].'" /></td>';
+				print '<td>'.$rown++.'</td>';
+				print '<td>'.$Student['EnrolNumber']['value'].'</td>';
 				print '<td class="student"><a target="viewinfobook" onclick="parent.viewBook(\'infobook\');" href="infobook.php?current=student_fees.php&cancel=student_view.php&sids[]='.$sid.'&sid='.$sid.'">'.$Student['DisplayFullSurname']['value'].'</a></td>';
 				print '<td>'.$Student['TutorGroup']['value'].'</td>';
 				print '<td>'.$Tarifs[$charge['tarif_id']]['Name']['value'].'</td>';
-				print '<td>'.'<div class="hidden">';
+				print '<td>'.get_string(displayEnum($charge['paymenttype'],'paymenttype'),$book).'</td>';
+				if($payclass!=''){
+					print '<td '.$payclass.' ><span title="'.$payspan.'">'.display_money($charge['amount']).'</span></td>';
+					}
+				else{
+					print '<td>'.display_money($charge['amount']).'</td>';
+					}
+				print '<td style="width:1em;">'.'<div class="hidden">';
 				$listname='paymenttype'.$charge['id'];
 				${'paymenttype'.$charge['id']}=$charge['paymenttype'];
 				include('scripts/list_paymenttypes.php');
-				print '</div>';
-				print get_string(displayEnum($charge['paymenttype'],'paymenttype'),$book).'</td>';
-				if($payclass!=''){
-					print '<td '.$payclass.'><span title="'.$payspan.'">'.display_money($charge['amount']).'</span></td></tr>';
-					}
-				else{
-					print '<td>'.display_money($charge['amount']).'</td></tr>';
-					}
+				print '</div></td></tr>';
 
 				}
 			}
@@ -200,6 +220,8 @@ if($filter_paymenttype==''){
 	  </table>
 	</div>
 
+	<input type="hidden" name="payment" value="<?php print $payment;?>" />
+	<input type="hidden" name="paymenttype" value="<?php print $filter_paymenttype;?>" />
 	<input type="hidden" name="conid" value="<?php print $conid;?>" />
 	<input type="hidden" name="remid" value="<?php print $remid;?>" />
 	<input type="hidden" name="current" value="<?php print $action;?>" />

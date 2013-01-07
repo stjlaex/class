@@ -1684,7 +1684,7 @@ function display_money($amount,$currency='0'){
 	*/
 
 	$money=number_format($amount,2,',','.');
-	$money.=' '.displayEnum('currency',$currency);
+	//$money.=' '.displayEnum($currency,'currency');
 
 	return $money;
 	}

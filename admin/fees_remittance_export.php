@@ -1,6 +1,8 @@
 <?php
 /**								fees_remittance_export.php
  *
+ * This export the bank charges file for a single remittance.
+ *
  */
 
 $action='fees_remittance_export_action.php';
