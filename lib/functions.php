@@ -1606,7 +1606,9 @@ function send_email_to($recipient, $from, $subject, $messagetext, $messagehtml='
 	$hdrs = $mime->headers($hdrs);
 	
 	/* Put message into queue */ 
-	$mail_queue->put($replyto, $recipient, $hdrs, $body,0,false);
+	$delete_after_send = true;//keep the size of the queue to a minimum
+	$seconds_to_send = 600;//small delay
+	$mail_queue->put($replyto, $recipient, $hdrs, $body,$seconds_to_send,$delete_after_send);
 	if(PEAR::isError($mail_queue->container->db)){ 
 		trigger_error('PEAR: '.ERROR,E_USER_WARNING);
 		}

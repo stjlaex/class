@@ -1617,6 +1617,12 @@ function fetchEnrolment($sid='-1'){
 									   'type_db' => 'text', 
 									   'value' => ''.$info['appnotes']
 									   );
+   	$Enrolment['PreviousSchool']=array('label' => 'previousschool', 
+									   'table_db' => 'info', 
+									   'field_db' => 'previousschool',
+									   'type_db' => 'text', 
+									   'value' => ''.$info['previousschool']
+									   );
 	/* TODO: enable this for using categorydef
    	$Enrolment['ApplicationCategory']=array('label' => 'applicationcategory', 
 									   'table_db' => 'info', 

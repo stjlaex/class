@@ -1,3 +1,10 @@
+Version ClaSS-1.0.40 release (2013/01/20)
+-------------------------------------------
+
+New info field for previousschool used as part of Enrolment.
+
+
+
 Version ClaSS-1.0.40 release (2013/01/07)
 -------------------------------------------
 
@@ -16,6 +23,8 @@ New outlite css class for mark table cells.
 
 Highlight the started but not yet achieved areas in skills profiles in
 the MarkBook table.
+
+Changed mail queue options to keep the queue size to a minimum.
 
 
 Version ClaSS-1.0.39 release (2013/01/02)
