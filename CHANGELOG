@@ -1,7 +1,20 @@
-Version ClaSS-1.0.40 release (2013/01/20)
+Version ClaSS-1.0.41 release (2013/01/20)
 -------------------------------------------
 
 New info field for previousschool used as part of Enrolment.
+
+Made use of the informal/formal teachername option for registration
+tutors.
+
+Fix to list_student_teachers to respect classes for the current
+curriculum year only.
+
+Moved the SEN functions out to there own lib fetch_sen.
+
+Replaced deprecated mysql type for engine in installation scripts.
+
+Replaced deprecated mysql timestamp(14) with timestamp in installation
+scripts.
 
 
 
@@ -73,7 +86,7 @@ Fix to the set_charge_payment to prevent losing invoice ids.
 
 Fix to emailing comments to academic group responsibles.
 
-Gave office to attendance and reports through student profile.
+Gave access to office to attendance and reports through student profile.
 
 Removed the arcane externalbook references to eportfolio.
 

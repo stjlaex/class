@@ -34,7 +34,7 @@ CREATE TABLE attendance (
 		 late			enum('0','1','2','3','4','5','U') not null default '0',
 		 comment		text,
 	  	 teacher_id		varchar(14) not null default '',	
-		 int 			unsigned not null default 0,
+		 class_id 		int unsigned not null default 0,
 		 logtime		timestamp,
 		 primary key 	(event_id, student_id)
 ) ENGINE=MYISAM;

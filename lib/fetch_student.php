@@ -763,9 +763,19 @@ function fetchRegGroup($student){
 	$tutors=array_merge($tutors,list_community_users(array('id'=>'','name'=>$student['form_id'],'type'=>'form'),array('r'=>1,'w'=>1,'x'=>1),$student['yeargroup_id']));
 
 	foreach($tutors as $tutor){
+		if($CFG->teachername=='formal'){
+			$teachername=$tutor['forename'][0].' '.$tutor['surname'];
+			}
+		elseif($CFG->teachername=='informal'){
+			$teachername=$tutor['forename'];
+			}
+		else{
+			$teachername=$tutor['forename'].' '.$tutor['surname'];
+			}
+
 		$Student['RegistrationTutor'][]=array('label' => 'formtutor', 
 											  'email' => ''.$tutor['email'],
-											  'value' => ''.$tutor['forename'][0].' '. $tutor['surname']
+											  'value' => ''.$teachername
 											  );
 		}
 
@@ -1819,152 +1829,6 @@ function getNCYear($yid){
 	}
 
 
-/**
- * SEN: Special Educational Needs
- *
- * TODO: only working for one senhistory per student but could be
- * ramped up for more
- *
- * @param string $sid
- * @return array
- */
-function fetchSEN($sid='-1'){
-	$SEN=array();
-
-	$d_s=mysql_query("SELECT * FROM senhistory WHERE 
-	   								student_id='$sid' ORDER BY startdate LIMIT 1;");
-
-	while($sen=mysql_fetch_array($d_s,MYSQL_ASSOC)){
-		$SEN=array();
-		$senhid=$sen['id'];
-		$SEN['id_db']=$senhid;
-	   	$SEN['SENprovision']=array('label' => 'provision', 
-								   'table_db' => 'senhistory', 
-								   'field_db' => 'senprovision',
-								   'type_db' => 'enum', 
-								   'value' => ''.$sen['senprovision']);
-	   	$SEN['SpecialProvisionIndicator']=array('label' => 'specialprovisionindicator', 
-												'type_db' => 'enum', 
-												'value' => '');
-	   	$SEN['StartDate']=array('label' => 'startdate', 
-								'table_db' => 'senhistory', 
-								'field_db' => 'startdate',
-								'type_db' => 'date', 
-								'value' => ''.$sen['startdate']);
-	   	$SEN['NextReviewDate']=array('label' => 'nextreviewdate', 
-									 'table_db' => 'senhistory', 
-									 'field_db' => 'reviewdate',
-									 'type_db' => 'date', 
-									 'value' => ''.$sen['reviewdate']);
-	   	$SEN['AssessmentDate']=array('label' => 'date', 
-									 'table_db' => 'senhistory', 
-									 'field_db' => 'assessmentdate',
-									 'type_db' => 'date', 
-									 'value' => ''.$sen['assessmentdate']);
-
-
-		$d_s=mysql_query("SELECT * FROM sencurriculum
-										WHERE senhistory_id='$senhid' ORDER BY subject_id;");
-		$Curriculum=array();
-		while($sencurriculum=mysql_fetch_array($d_s,MYSQL_ASSOC)){
-			$Subject=array();
-			$bid=$sencurriculum['subject_id'];
-			$subjectname=get_subjectname($bid);
-		   	$Subject['Subject']=array('label' => 'subject', 
-									  'table_db' => 'sencurriculum', 
-									  'field_db' => 'subject_id', 
-									  'type_db' => 'varchar(10)', 
-									  'value_db' => ''.$bid,
-									  'value' => ''.$subjectname);
-			$Subject['Modification']=array('label' => 'sencurriculum', 
-										  'table_db' => 'sencurriculum', 
-										  'field_db' => 'curriculum',
-										  'type_db' => 'enum', 
-										  'value' => ''.$sencurriculum['curriculum']);
-			$catid=$sencurriculum['categorydef_id'];
-			if($catid!=0){
-				$d_categorydef=mysql_query("SELECT name FROM categorydef WHERE id='$catid'");
-				$catname=mysql_result($d_categorydef,0);
-				}
-			else{
-				$catname='';
-				}
-		   	$Subject['ExtraSupport']=array('label' => 'extrasupport',
-										   'table_db' => 'sencurriculum',
-										   'field_db' => 'categorydef_id',
-										   'type_db'=> 'int',
-										   'value_db' => ''.$catid,
-										   'value' => ''.$catname);
-			$Subject['Strengths']=array('label' => 'strengths', 
-										'table_db' => 'sencurriculum', 
-										'field_db' => 'comments', 
-										'type_db' => 'text', 
-										'value' => ''.$sencurriculum['comments']);
-		   	$Subject['Weaknesses']=array('label' => 'weaknesses', 
-										 'table_db' => 'sencurriculum', 
-										 'field_db' => 'targets', 
-										 'type_db' => 'text', 
-										 'value' => ''.$sencurriculum['targets']);
-		   	$Subject['Strategies']=array('label' => 'strategies',
-										 'table_db' => 'sencurriculum', 
-										 'field_db' => 'outcome', 
-										 'type_db' => 'text', 
-										 'value' => ''.$sencurriculum['outcome']);
-		   	$Subject['Targets']=array('label' => 'targets',
-									  'table_db' => 'sencurriculum', 
-									  'field_db' => 'extra', 
-									  'type_db' => 'text', 
-									  'value' => ''.$sencurriculum['extra']);
-		   	$Curriculum[]=$Subject;
-			}
-
-		$SEN['Curriculum']=$Curriculum;
-
-		$d_s=mysql_query("SELECT * FROM sentype WHERE student_id='$sid' AND senassessment='I' ORDER BY entryn;");
-		$SENtypes['SENtype']=array();
-		while($sentype=mysql_fetch_array($d_s,MYSQL_ASSOC)){
-			$SENtypes['SENtype'][]=fetchSENtype($sentype);
-			}
-		$SEN['SENinternaltypes']=$SENtypes;
-
-		$d_s=mysql_query("SELECT * FROM sentype WHERE student_id='$sid' AND senassessment='E' ORDER BY entryn;");
-		$SENtypes['SENtype']=array();
-		while($sentype=mysql_fetch_array($d_s,MYSQL_ASSOC)){
-			$SENtypes['SENtype'][]=fetchSENtype($sentype);
-			}
-		$SEN['SENtypes']=$SENtypes;
-
-		}
-
-	return $SEN;
-	}
-
-/**
- *
- *
- * @param array $sentype
- * @return array
- */
-function fetchSENtype($sentype=array('student_id'=>'-1','senranking'=>'','sentype'=>'','senassessment'=>'')){
-	$SENtype=array();
-	$SENtype['SENtype']=array('label' => 'sentype', 
-							  'table_db' => 'sentype', 
-							  'field_db' => 'sentype', 
-							  'type_db' => 'enum', 
-							  'value' => ''.$sentype['sentype']);
-	$SENtype['SENtypeRank']=array('label' => 'ranking',
-								  'table_db' => 'sentype', 
-								  'field_db' => 'senranking', 
-								  'type_db' => 'enum', 
-								  'value' => ''.$sentype['senranking']);
-	$SENtype['SENtypeAssessment']=array('label' => 'senassessment', 
-										'table_db' => 'sentype', 
-										'field_db' => 'senassessment', 
-										'type_db' => 'enum', 
-										'value' => ''.$sentype['senassessment']);
-	return $SENtype;
-	}
-
 
 /**
  * Medical
@@ -2195,27 +2059,6 @@ function get_student_house($sid){
 	}
 
 
-/**
- *
- *
- */
-function display_student_sentype($sid){
-	$d_s=mysql_query("SELECT sentype, senassessment FROM sentype WHERE student_id='$sid' ORDER BY senassessment, entryn;");
-
-	$display='';
-	while($sentype=mysql_fetch_array($d_s,MYSQL_ASSOC)){
-		if($display!=''){$display.=' / ';}
-		if($sentype['senassessment']=='I'){
-			$assessment='internal';
-			}
-		else{
-			$assessment='';
-			}
-		$display.=get_string(displayEnum($sentype['sentype'], 'sentype'.$assessment),'seneeds');
-		}
-
-	return $display;
-	}
 
 /**
  * Returns AM and PM transport for a given date

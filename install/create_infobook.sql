@@ -301,6 +301,6 @@ CREATE TABLE message_text_event (
 	date			date not null default '0000-00-00',
 	success			enum('0', '1') not null,
 	time			timestamp,
-	try				tinyint(4) not null default '0'
+	try				tinyint(4) not null default '0',
 	primary key 	(id)
 ) ENGINE=MYISAM;
