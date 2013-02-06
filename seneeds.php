@@ -8,7 +8,7 @@ $book='seneeds';
 
 include('scripts/head_options.php');
 include('scripts/set_book_vars.php');
-$session_vars=array('sid','sentype','newyid','sensupport');
+$session_vars=array('sid','senhid','sentype','newyid','sensupport');
 include('scripts/set_book_session_vars.php');
 
 $list='';

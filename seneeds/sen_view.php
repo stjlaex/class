@@ -2,8 +2,10 @@
 /**                                  sen_view.php
  */
 
-/*Have to be careful to check current as this can be called from the */
-/* InfoBook too.*/
+/**
+ *  Have to be careful to check current as this can be called from the
+ *  InfoBook too.
+ */
 if($current=='sen_view.php'){$action='sen_view_action.php';}
 if(!isset($cancel)){$cancel='';}
 if(!isset($selbid)){$selbid='G';}
