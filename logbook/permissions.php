@@ -16,6 +16,7 @@ function list_sid_responsible_users($sid, $bid){
     $gids=array();
 	$recipients=array();
 	$yid=get_student_yeargroup($sid);
+	$year=get_curriculumyear();
 
 	/* First find all communities (yeargroup, form, house etc.) with a permissions group. */
 	$coms=list_member_communities($sid,array('id'=>'','type'=>'','name'=>''));
@@ -27,7 +28,7 @@ function list_sid_responsible_users($sid, $bid){
 
 	/* Then academic permission groups by course and subject. */
 	if($bid!='' and $bid!='%' and $bid!='General' and $bid!='G'){
-	  	$d_class=mysql_query("SELECT course_id FROM cohort WHERE 
+	  	$d_class=mysql_query("SELECT course_id FROM cohort WHERE cohort.year='$year' AND 
 						cohort.id=ANY(SELECT class.cohort_id FROM class JOIN cidsid
 						ON cidsid.class_id=class.id WHERE class.subject_id='$bid' AND cidsid.student_id='$sid');");
 		$crid=mysql_result($d_class,0);
@@ -73,7 +74,8 @@ function list_sid_responsible_users($sid, $bid){
 		}
 
 
-	/*checks for special needs*/
+	/* Checks for special needs */
+	/* TODO: make this optional at the user level or restrict within sections? */
 	$Student=fetchStudent_singlefield($sid,'SENFlag');
 	if($Student['SENFlag']['value']!='N'){
 		$d_u=mysql_query("SELECT uid FROM users WHERE (role='sen') AND users.nologin!='1';");
@@ -95,12 +97,13 @@ function list_sid_responsible_users($sid, $bid){
  */
 function list_responsible_users($tid,$respons,$r=0){
    	$users=array();
+	$year=get_curriculumyear();
 
 	if($r>-1){
 		$rbid=$respons[$r]['subject_id'];
 		$rcrid=$respons[$r]['course_id'];
-		$d_cids=mysql_query("SELECT DISTINCT id FROM class WHERE
-		subject_id LIKE '$rbid' AND course_id LIKE '$rcrid' ORDER BY id");
+		$d_cids=mysql_query("SELECT DISTINCT class.id FROM class JOIN cohort ON class.cohort_id=cohort.id WHERE
+						  class. subject_id LIKE '$rbid' AND cohort.year='$year' AND cohort.course_id LIKE '$rcrid' ORDER BY id");
 		while($cid=mysql_fetch_row($d_cids)){
 			$d_users=mysql_query("SELECT DISTINCT uid,
 			   	username, passwd, forename, surname, email, emailuser, nologin,
