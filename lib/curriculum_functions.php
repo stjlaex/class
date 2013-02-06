@@ -589,7 +589,7 @@ function list_student_courses($sid,$todate=''){
 /** 
  *
  * Returns an array listing all subject teachers (not trainee
- * teachers!!!) of this student. The array is a partial users record
+ * teachers!!!) of this student. The array is of users records
  * with name and email detials.
  *
  *	@param string $sid
@@ -597,14 +597,18 @@ function list_student_courses($sid,$todate=''){
  */
 function list_student_teachers($sid){
 	if($sid==''){$sid=-1;}
+	$curryear=get_curriculumyear();
 	$teachers=array();
-	$d_t=mysql_query("SELECT DISTINCT username, forename, surname, title, email FROM  
-					users JOIN tidcid ON users.username=tidcid.teacher_id 
-					WHERE users.nologin!='1' AND tidcid.class_id=ANY(SELECT DISTINCT class_id 
-					FROM cidsid WHERE student_id='$sid');");
+
+	$d_t=mysql_query("SELECT DISTINCT teacher_id AS id FROM tidcid JOIN cidsid ON cidsid.class_id=tidcid.class_id 
+							WHERE cidsid.student_id='$sid' AND cidsid.class_id=ANY(SELECT DISTINCT class.id 
+							FROM class JOIN cohort ON class.cohort_id=cohort.id 
+							WHERE cohort.course_id='$crid' AND cohort.year='$curryear');");
+
    	while($t=mysql_fetch_array($d_t,MYSQL_ASSOC)){
-		$teachers[]=$t;
+		$teachers[]=get_user($t['id']);
 		}
+
 	return $teachers;
 	}
 
@@ -612,7 +616,7 @@ function list_student_teachers($sid){
 /** 
  *
  * Returns a string of '/' separated subject teacher names who teach
- * relevant classes fro this student. Used to add names to reports.
+ * relevant classes for this student. Used to add names to reports.
  *
  *	@param string $sid
  *	@param string $crid
