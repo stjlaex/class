@@ -5,7 +5,7 @@ CREATE TABLE event (
 		period		enum('0','1','2','3','4','5','6','7','8','9','10','11','12','13','14') not null default '0',
 		unique		indexeve (date,session,period),
 		primary key (id)
-) type=myisam;
+) ENGINE=MYISAM;
 
 
 CREATE TABLE event_notice (
@@ -14,7 +14,7 @@ CREATE TABLE event_notice (
 		session		enum('AM','PM') not null default 'AM',
 	    comment		text,
 		primary key (id)
-) type=myisam;
+) ENGINE=MYISAM;
 
 
 CREATE TABLE event_notidcomid (
@@ -23,7 +23,7 @@ CREATE TABLE event_notidcomid (
 		yeargroup_id	smallint,
 		seen			tinyint(1) unsigned not null default '0',
 		primary key (notice_id,community_id,yeargroup_id)
-) type=myisam;
+) ENGINE=MYISAM;
 
 
 CREATE TABLE attendance (
@@ -35,9 +35,9 @@ CREATE TABLE attendance (
 		 comment		text,
 	  	 teacher_id		varchar(14) not null default '',	
 		 int 			unsigned not null default 0,
-		 logtime		timestamp(14),
+		 logtime		timestamp,
 		 primary key 	(event_id, student_id)
-) type=myisam;
+) ENGINE=MYISAM;
 
 
 CREATE TABLE attendance_booking (
@@ -53,4 +53,4 @@ CREATE TABLE attendance_booking (
 	comment			text,
 	index			indexsidcomid (student_id,community_id),
 	primary key		(id)
-) type=myisam;
+) ENGINE=MYISAM;

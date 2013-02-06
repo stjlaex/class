@@ -40,7 +40,7 @@ CREATE TABLE info (
 	language3		char(4) not null default '',
 	languagetype3	enum('NOT','F','M','H','T','S','C') not null,
    	primary key		(student_id)
-) type=myisam;
+) ENGINE=MYISAM;
 
 
 CREATE TABLE accomodation (
@@ -63,7 +63,7 @@ CREATE TABLE accomodation (
 	departureflight		varchar(240) not null default '',
 	index				index_student (student_id),
    	primary key			(id)
-) type=myisam;
+) ENGINE=MYISAM;
 
 
 CREATE TABLE senhistory (
@@ -75,7 +75,7 @@ CREATE TABLE senhistory (
 	assessmentdate	date,
 	index			index_student (student_id),
    	primary key		(id)
-) type=myisam;
+) ENGINE=MYISAM;
 
 
 CREATE TABLE sentype (
@@ -85,7 +85,7 @@ CREATE TABLE sentype (
 	sentype			char(4) not null default '',
 	senassessment	enum('I','E') not null,
    	primary key		(student_id, entryn, senassessment)
-) type=myisam;
+) ENGINE=MYISAM;
 
 
 CREATE TABLE sencurriculum (
@@ -98,7 +98,7 @@ CREATE TABLE sencurriculum (
 	outcome			text not null default '',
 	extra			text not null default '',
    	primary key		(senhistory_id, subject_id)
-) type=myisam;
+) ENGINE=MYISAM;
 
 
 CREATE TABLE incidents (
@@ -113,7 +113,7 @@ CREATE TABLE incidents (
 	teacher_id		varchar(14) not null default '',	
 	index			index_student (student_id),
    	primary key		(id)
-) type=myisam;
+) ENGINE=MYISAM;
 
 
 CREATE TABLE incidenthistory (
@@ -124,7 +124,7 @@ CREATE TABLE incidenthistory (
 	teacher_id		varchar(14) not null default '',
 	entrydate		date not null,
    	primary key		(incident_id,entryn)
-) type=myisam;
+) ENGINE=MYISAM;
 
 
 CREATE TABLE comments (
@@ -142,7 +142,7 @@ CREATE TABLE comments (
 	eidsid_id		int unsigned not null default '0',
 	index			index_student (student_id),
    	primary key		(id)
-) type=myisam;
+) ENGINE=MYISAM;
 
 
 CREATE TABLE background (
@@ -157,7 +157,7 @@ CREATE TABLE background (
 	teacher_id		varchar(14) not null default '',	
 	index			index_student (student_id),
    	primary key		(id)
-) type=myisam;
+) ENGINE=MYISAM;
 
 
 CREATE TABLE exclusions (
@@ -171,7 +171,7 @@ CREATE TABLE exclusions (
 	appealdate		date not null default '0000-00-00',
 	appealresult	enum('', 'R', 'S') not null default '',
    	primary key		(student_id, startdate)
-) type=myisam;
+) ENGINE=MYISAM;
 
 
 CREATE TABLE guardian (
@@ -197,7 +197,7 @@ CREATE TABLE guardian (
 	index index_name (surname(5),forename(5)),
 	index index_forename (forename(5)),
 	primary key (id)
-) type=myisam;
+) ENGINE=MYISAM;
 
 
 CREATE TABLE gidsid (
@@ -210,7 +210,7 @@ CREATE TABLE gidsid (
 		 responsibility		enum('N','Y') not null,
 		 paymenttype		enum('0','1','2','3','4','5','6','7','8') not null default '0',
 		 primary key 	(guardian_id, student_id)
-) type=myisam;
+) ENGINE=MYISAM;
 
 
 CREATE TABLE gidaid (
@@ -219,7 +219,7 @@ CREATE TABLE gidaid (
 		 priority		smallint unsigned not null,
 		 addresstype	enum('H', 'W', 'V', 'O') not null,
 		 primary key 	(guardian_id, address_id)
-) type=myisam;
+) ENGINE=MYISAM;
 
 
 
@@ -234,7 +234,7 @@ CREATE TABLE address (
 	lng				decimal(10,6) not null,
 	index			index_address (region(5)),
 	primary key (id)
-) type=myisam;
+) ENGINE=MYISAM;
 
 
 
@@ -245,7 +245,7 @@ CREATE TABLE phone (
 	phonetype		enum('H', 'M', 'W', 'F', 'O', 'N') not null,
 	index			index_id (some_id),
 	primary key 	(id)	
-) type=myisam;
+) ENGINE=MYISAM;
 
 
 CREATE TABLE message_event (
@@ -264,7 +264,7 @@ CREATE TABLE message_event (
   PRIMARY KEY  (id),
   KEY time_to_send (time_to_send),
   KEY id_user (id_user)
-) type=myisam;
+) ENGINE=MYISAM;
 
 
 CREATE TABLE merits (
@@ -281,7 +281,7 @@ CREATE TABLE merits (
 	component_id	varchar(10) not null default '',
 	index			index_result(student_id),
    	primary key		(id)
-) type=myisam;
+) ENGINE=MYISAM;
 
 CREATE TABLE update_event (
 	id				int unsigned not null auto_increment, 
@@ -290,7 +290,7 @@ CREATE TABLE update_event (
 	export			enum('0', '1') not null,
 	exportdate		date not null default '0000-00-00',
 	primary key 	(id)
-) type=myisam;
+) ENGINE=MYISAM;
 
 CREATE TABLE message_text_event (
 	id		 		int unsigned not null auto_increment,
@@ -300,7 +300,7 @@ CREATE TABLE message_text_event (
 	textbody		text not null default '',
 	date			date not null default '0000-00-00',
 	success			enum('0', '1') not null,
-	time			timestamp(14),
+	time			timestamp,
 	try				tinyint(4) not null default '0'
 	primary key 	(id)
-) type=myisam;
+) ENGINE=MYISAM;

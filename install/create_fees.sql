@@ -11,7 +11,7 @@ CREATE TABLE fees_account (
 	valid			enum('0','1') not null default '0',
 	index 			index_gid (guardian_id),
 	primary key  	(id)
-) type=myisam;
+) ENGINE=MYISAM;
 CREATE TABLE fees_charge (
 	id				int unsigned not null auto_increment,
 	student_id		int unsigned not null default 0,
@@ -29,7 +29,7 @@ CREATE TABLE fees_charge (
 	remittance_id	int unsigned not null default 0,
 	index 			index_sid (student_id),
 	primary key  	(id)
-) type=myisam;
+) ENGINE=MYISAM;
 CREATE TABLE fees_applied (
 	id				int unsigned not null auto_increment,
 	student_id		int unsigned not null default 0,
@@ -38,7 +38,7 @@ CREATE TABLE fees_applied (
 	paymenttype		enum('0','1','2','3','4','5','6','7','8') not null default '0',
 	index 			index_sid (student_id),
 	primary key  	(id)
-) type=myisam;
+) ENGINE=MYISAM;
 CREATE TABLE fees_remittance (
 	id				int unsigned not null auto_increment,
 	name			varchar(240) not null default '',
@@ -50,21 +50,21 @@ CREATE TABLE fees_remittance (
 	year			year not null default '0000',
 	account_id		int unsigned not null default 0,
 	primary key  	(id)
-) type=myisam;
+) ENGINE=MYISAM;
 CREATE TABLE fees_concept (
 	id				int unsigned not null auto_increment,
 	name			varchar(240) not null default '',
 	inactive		enum('0','1') not null default '0',
 	community_type	varchar(60) not null default '', 
 	primary key  	(id)
-) type=myisam;
+) ENGINE=MYISAM;
 CREATE TABLE fees_tarif (
 	id				int unsigned not null auto_increment,
 	concept_id		int not null default 0,
 	name			varchar(240) not null default '',
 	amount			decimal(10,2) unsigned not null default '0',
 	primary key  	(id)
-) type=myisam;
+) ENGINE=MYISAM;
 CREATE TABLE fees_invoice (
 	id				int unsigned not null auto_increment, 
 	series			varchar(8) not null default '0',
@@ -73,5 +73,5 @@ CREATE TABLE fees_invoice (
 	remittance_id	int unsigned not null default 0,
 	index 			refno (series,reference),
    	primary key		(id)
-) type=myisam;
+) ENGINE=MYISAM;
 

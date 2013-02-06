@@ -14,7 +14,7 @@ CREATE TABLE student (
 	index 			index_name (surname(5),forename(5)),
 	index 			index_forename (forename(5)),
 	primary key (id)
-) type=myisam;
+) ENGINE=MYISAM;
 
 CREATE TABLE yeargroup (
 		id				smallint not null default '0',
@@ -22,14 +22,13 @@ CREATE TABLE yeargroup (
 		sequence	   	smallint unsigned not null default '0',
 		section_id		smallint unsigned not null default '0',
 		primary key (id)
-) type=myisam;
+) ENGINE=MYISAM;
 
 CREATE TABLE subject (
 		id				varchar(10) not null default '',
 		name			varchar(120) not null default '',
 		primary key (id)
-
-) type=myisam;
+) ENGINE=MYISAM;
 
 CREATE TABLE course (
 	id				varchar(10) not null default '', 
@@ -41,7 +40,7 @@ CREATE TABLE course (
 	nextcourse_id	varchar(10) not null default '',
 	endmonth		enum('','1','2','3','4','5','6','7','8','9','10','11','12') not null default '',
 	primary key (id)
-) type=myisam;
+) ENGINE=MYISAM;
 
 CREATE TABLE classes (
 		course_id		varchar(10) not null default '',
@@ -56,7 +55,7 @@ CREATE TABLE classes (
 		description		text not null default '',
 		formgroup		enum('N','Y') not null,
 		primary 		key (course_id, subject_id, stage)
-) type=myisam;
+) ENGINE=MYISAM;
 
 CREATE TABLE class (
 	   	id				int unsigned not null auto_increment, 
@@ -65,24 +64,24 @@ CREATE TABLE class (
 		subject_id		varchar(10) not null default '',
 		course_id		varchar(10) not null default '',
 		stage			char(3) not null default '',
-		cohort_id 		int unsigned not null;
+		cohort_id 		int unsigned not null,
 		index			index_bid (subject_id),
 		index			index_crid (course_id),
 		primary key  	(id)
-) type=myisam;
+) ENGINE=MYISAM;
 
 CREATE TABLE cidsid (
 		 class_id		int unsigned not null default 0,
 		 student_id		int unsigned not null default 0,
 		 primary key 	(class_id, student_id)
-) type=myisam;
+) ENGINE=MYISAM;
 
 CREATE TABLE tidcid (
 		 teacher_id		varchar(14) not null default '',
 		 class_id		int unsigned not null default 0,
 		 component_id  	varchar(10) not null default '',
 		 primary key 	(teacher_id, class_id)
-) type=myisam;
+) ENGINE=MYISAM;
 
 CREATE TABLE component (
 		 id				varchar(10) not null default '',
@@ -93,7 +92,7 @@ CREATE TABLE component (
 		 weight			smallint unsigned not null default '1',
 		 year			year not null default '0000',
 		 primary key 	(id, course_id, subject_id, year)
-) type=myisam;
+) ENGINE=MYISAM;
 
 CREATE TABLE  users (
   uid			int(10) unsigned auto_increment,
@@ -127,16 +126,16 @@ CREATE TABLE  users (
   education		varchar(240) not null default '', 
   education2	varchar(240) not null default '', 
   logcount		int(10) unsigned not null default '0',
-  logtime		timestamp(14),
-  index			index_name (username),
+  logtime		timestamp,
+  index			index_name(username),
   primary key	(uid)
-) type=myisam;
+) ENGINE=MYISAM;
 
 CREATE TABLE  history (
   uid			int(10) unsigned,
   page			varchar(60) not null default '', 
-  time			timestamp(14)
-) type=myisam;
+  time			timestamp
+) ENGINE=MYISAM;
 
 CREATE TABLE groups (
 	gid 			int(10) unsigned auto_increment,
@@ -145,11 +144,11 @@ CREATE TABLE groups (
 	yeargroup_id	smallint,
 	community_id	int(10) unsigned not null default '0',
     type			enum('a','p','b','s','u','c') not null default 'a',
-	index			index_crid (course_id),
-	index			index_bid (subject_id),
-	index			index_yid (yeargroup_id),
+	index			index_crid(course_id),
+	index			index_bid(subject_id),
+	index			index_yid(yeargroup_id),
   	primary key		(gid)
-) type=myisam;
+) ENGINE=MYISAM;
 
 CREATE TABLE perms (
   uid 			int(10) not null default '0',
@@ -159,7 +158,7 @@ CREATE TABLE perms (
   x				set('0','1') not null default '0',
   e				set('0','1') not null default '0',
   primary key  	(uid, gid)
-) type=myisam;
+) ENGINE=MYISAM;
 
 CREATE TABLE section (
 	id				smallint unsigned not null auto_increment, 
@@ -168,7 +167,7 @@ CREATE TABLE section (
 	address_id		int unsigned not null default '0',
 	gid 			int(10) NOT NULL default '0',
 	primary key		(id)
-) type=myisam;
+) ENGINE=MYISAM;
 
 CREATE TABLE community (
 	id			int unsigned not null auto_increment, 
@@ -186,7 +185,7 @@ CREATE TABLE community (
 	enddate		date not null,
 	index		indexcom (type,name),
 	primary		key (id)
-) type=myisam;
+) ENGINE=MYISAM;
 
 CREATE TABLE comidsid (
 	community_id	int unsigned not null default '0',
@@ -195,7 +194,7 @@ CREATE TABLE comidsid (
 	leavingdate 	date null,
 	special			char(2) not null default '',
 	primary key 	(community_id, student_id)
-) type=myisam;
+) ENGINE=MYISAM;
 
 CREATE TABLE cohort (
 	id				int unsigned not null auto_increment, 
@@ -205,13 +204,13 @@ CREATE TABLE cohort (
 	season			enum('','S','W','M','1','2','3','4','5','6','7','8','9','a','b','c') not null default 'S',
 	unique			indexcohort (course_id,stage,year,season),
 	primary key (id)
-) type=myisam;
+) ENGINE=MYISAM;
 
 CREATE TABLE cohidcomid (
 	cohort_id		int unsigned not null default '0',
 	community_id	int unsigned not null default '0',
 	primary key 	(cohort_id, community_id)
-) type=myisam;
+) ENGINE=MYISAM;
 
 CREATE TABLE categorydef (
 	id				int unsigned not null auto_increment, 
@@ -227,7 +226,7 @@ CREATE TABLE categorydef (
 	section_id		smallint not null default 0,
 	othertype		varchar(20) not null default '',
    	primary key		(id)
-) type=myisam;
+) ENGINE=MYISAM;
 
 CREATE TABLE rating (
 	name			varchar(30) not null default '',
@@ -235,7 +234,7 @@ CREATE TABLE rating (
 	longdescriptor	varchar(250) not null default '',
 	value			smallint not null default 0,
    	primary key		(name, value)
-) type=myisam;
+) ENGINE=MYISAM;
 
 
 CREATE TABLE file (
@@ -252,7 +251,7 @@ CREATE TABLE file (
  other_id int(10) UNSIGNED NOT NULL DEFAULT '0',
  PRIMARY KEY (id),
  KEY fileowner (owner,owner_id,folder_id)
- );
+ ) ENGINE=MYISAM;
 
 CREATE TABLE file_folder (
  id int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -264,4 +263,4 @@ CREATE TABLE file_folder (
  PRIMARY KEY (id),
  KEY folderowner (owner,owner_id),
  KEY name (name)
-);
+) ENGINE=MYISAM;

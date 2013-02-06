@@ -15,7 +15,7 @@ CREATE TABLE transport_bus (
 	departuretime	time,
 	teacher_id		varchar(14) not null default '',
 	primary key		(id)
-) type=myisam;
+) ENGINE=MYISAM;
 
 
 CREATE TABLE transport_route (
@@ -23,7 +23,7 @@ CREATE TABLE transport_route (
 	name			varchar(30) not null default '',
 	detail			text not null default '',
 	primary key  	(id)
-) type=myisam;
+) ENGINE=MYISAM;
 
 
 CREATE TABLE transport_rtidstid (
@@ -32,7 +32,7 @@ CREATE TABLE transport_rtidstid (
 	sequence		smallint unsigned not null default '0',
 	traveltime		smallint unsigned not null default '0',
 	primary key		(route_id, stop_id)
-) type=myisam;
+) ENGINE=MYISAM;
 
 
 CREATE TABLE transport_stop (
@@ -42,7 +42,7 @@ CREATE TABLE transport_stop (
 	name			varchar(60) not null default '', 
 	detail			text not null default '',
 	primary key		(id)
-) type=myisam;
+) ENGINE=MYISAM;
 
 
 CREATE TABLE transport_booking (
@@ -57,7 +57,7 @@ CREATE TABLE transport_booking (
 	comment			text,
 	index			indexsidjid (student_id,journey_id),
 	primary key		(id)
-) type=myisam;
+) ENGINE=MYISAM;
 
 
 /*
@@ -70,4 +70,4 @@ CREATE TABLE transport_journey (
 	cost			decimal(10,2) unsigned not null default '0',
 	unique			indexjourney (bus_id,stop_id),
 	primary key		(id)
-) type=myisam;
+) ENGINE=MYISAM;

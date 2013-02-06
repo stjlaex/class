@@ -9,7 +9,7 @@ CREATE TABLE orderorder (
 	teacher_id		varchar(14) not null default '',
 	detail			text not null default '',
 	primary key (id)
-) type=myisam;
+) ENGINE=MYISAM;
 
 
 CREATE TABLE orderbudget (
@@ -23,7 +23,7 @@ CREATE TABLE orderbudget (
 	overbudget_id	int unsigned not null default '0',
 	unique			indexbudget (code,yearcode),
 	primary key (id)
-) type=myisam;
+) ENGINE=MYISAM;
 
 
 CREATE TABLE ordersupplier (
@@ -37,7 +37,7 @@ CREATE TABLE ordersupplier (
 	specialaction	enum('0','1','2') not null default '0',
 	inactive		enum('0','1') not null default '0',
 	primary key (id)
-) type=myisam;
+) ENGINE=MYISAM;
 
 
 CREATE TABLE orderaction (
@@ -49,7 +49,7 @@ CREATE TABLE orderaction (
 	teacher_id		varchar(14) not null default '',
 	actiondate		date not null,
    	primary key		(order_id,entryn)
-) type=myisam;
+) ENGINE=MYISAM;
 
 
 CREATE TABLE ordermaterial (
@@ -63,7 +63,7 @@ CREATE TABLE ordermaterial (
 	invoice_id		int unsigned not null default '0', 
 	catalogue_id	int unsigned not null default '0', 
    	primary key		(order_id,entryn)
-) type=myisam;
+) ENGINE=MYISAM;
 
 
 CREATE TABLE orderinvoice (
@@ -79,7 +79,7 @@ CREATE TABLE orderinvoice (
 	credit			tinyint(1) not null default '0',
 	exchange		decimal(10,2) unsigned not null default '0',
    	primary key		(id)
-) type=myisam;
+) ENGINE=MYISAM;
 
 
 CREATE TABLE ordercatalogue (
@@ -95,4 +95,4 @@ CREATE TABLE ordercatalogue (
 	subject_id		varchar(10) not null default '',
 	index			index_mat (materialtype,supplier_id),
    	primary key		(id)
-) type=myisam;
+) ENGINE=MYISAM;

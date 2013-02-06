@@ -8,7 +8,7 @@ CREATE TABLE fees_remittance (
 	year			year not null default '0000',
 	account_id		int unsigned not null default 0,
 	primary key  	(id)
-) type=myisam;
+) ENGINE=MYISAM;
 DROP TABLE IF EXISTS fees_charge;
 CREATE TABLE fees_charge (
 	id				int unsigned not null auto_increment,
@@ -24,7 +24,7 @@ CREATE TABLE fees_charge (
 	invoice_id		int unsigned not null default 0,
 	index 			index_sid (student_id),
 	primary key  	(id)
-) type=myisam;
+) ENGINE=MYISAM;
 DROP TABLE IF EXISTS fees_invoice;
 CREATE TABLE fees_invoice (
 	id				int unsigned not null auto_increment, 
@@ -32,7 +32,7 @@ CREATE TABLE fees_invoice (
 	account_id		int unsigned not null default 0,
 	remittance_id	int unsigned not null default 0,
    	primary key		(id)
-) type=myisam;
+) ENGINE=MYISAM;
 DROP TABLE IF EXISTS update_event;
 CREATE TABLE update_event (
 	id				int unsigned not null auto_increment, 
@@ -41,7 +41,7 @@ CREATE TABLE update_event (
 	export			enum('0', '1') not null,
 	exportdate		date not null default '0000-00-00',
 	primary key 	(id)
-) type=myisam;
+) ENGINE=MYISAM;
 DROP TABLE IF EXISTS message_text_event;
 CREATE TABLE message_text_event (
 	id		 		int unsigned not null auto_increment,
@@ -51,9 +51,9 @@ CREATE TABLE message_text_event (
 	textbody		text not null default '',
 	date			date not null default '0000-00-00',
 	success			enum('0', '1') not null,
-	time			timestamp(14),
+	time			timestamp,
 	try				tinyint(4) not null default '0',
 	primary key 	(id)
-) type=myisam;
+) ENGINE=MYISAM;
 ALTER TABLE info CHANGE boarder
 	boarder char(2) not null default 'N';
