@@ -60,6 +60,7 @@ $blank_gids=array();
 			$Recipient['StudentName']=$Student['DisplayFullName'];
 			$Recipient['StudentNumber']=$Student['EnrolNumber'];
 			$Recipient['StudentRegistrationGroup']=$Student['RegistrationGroup'];
+			$Recipient['StudentRegistrationTutor']=$Student['RegistrationTutor'];
 			if($Contact['ReceivesMailing']['value']=='1'){
 				/* Only contacts who are flagged to receive all mailings */
 				if(sizeof($Contact['Addresses'])>0 and ($Contact['Addresses'][0]['Street']['value']!='' or $Contact['Addresses'][0]['Neighbourhood']['value']!='')){

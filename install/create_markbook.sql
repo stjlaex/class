@@ -19,7 +19,7 @@ CREATE TABLE mark (
 	author			varchar(14) not null default '', 
 	component_id	varchar(10) not null default '', 
 	primary key		(id) 
-) type=myisam;
+) ENGINE=MYISAM;
 
 
 -- 	marktype is the definition of a mark. The values in table:score
@@ -38,7 +38,7 @@ CREATE TABLE markdef (
 	   author			varchar(14) not null default '',
 	   index			index_bid (subject_id),
        primary key	(course_id, name)
-) type=myisam;
+) ENGINE=MYISAM;
 
 
 CREATE TABLE homework (
@@ -54,7 +54,7 @@ CREATE TABLE homework (
 	   author			varchar(14) not null default '',
 	   index			index_crid (course_id),
        primary key	(id)
-) type=myisam;
+) ENGINE=MYISAM;
 
 
 CREATE TABLE score (
@@ -66,7 +66,7 @@ CREATE TABLE score (
        outoftotal	smallint unsigned not null default '0',
 	   extra	   	enum('0','1','2','3','4') not null default '0',
        primary key	(mark_id, student_id)
-) type=myisam;
+) ENGINE=MYISAM;
 
 
 
@@ -81,7 +81,7 @@ CREATE TABLE levelling (
 	   subject_id		varchar(10) not null default '',
 	   author			varchar(14) not null default '',
        primary key		(course_id, name)
-) type=myisam;
+) ENGINE=MYISAM;
 
 
 
@@ -92,7 +92,7 @@ CREATE TABLE grading (
        comment			text not null default'',
        author			varchar(14) not null default '',
        primary key		(name)
-) type=myisam;
+) ENGINE=MYISAM;
 
 
 
@@ -101,4 +101,4 @@ CREATE TABLE midcid (
 		 class_id		int unsigned not null default 0,
 		 mark_id		int unsigned not null default 0,
 		 primary key 	(class_id, mark_id)
-) type=myisam;
+) ENGINE=MYISAM;

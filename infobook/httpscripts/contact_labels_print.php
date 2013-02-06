@@ -35,9 +35,7 @@ $Students['paper']='portrait';
 $Students['homecountry']=strtoupper($CFG->sitecountry);
 $Students['explanation']=$explanation;
 $Students['content']=$text;
-if($messageto=='studentname'){$Students['type']='badge';}
-//trigger_error($messageto,E_USER_WARNING);
-trigger_error($orderby,E_USER_WARNING);
+if($messageto=='studentbadge'){$Students['type']='badge';}
 
 if(isset($recipients) and sizeof($recipients)>0){
 
