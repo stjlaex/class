@@ -3,17 +3,16 @@
  */
 
 /** 
- * Have to be careful to check current as this can be called from the
- * InfoBook too.
+ *
+ * WARNING: Have to be careful to check current as this can be called from the
+ * InfoBook too!
+ *
  */
 if($current=='sen_view_action.php'){$action='sen_view.php';}
 
 include('scripts/sub_action.php');
 if(isset($_POST['ncmod'])){$ncmodkey=$_POST['ncmod'];}else{$ncmodkey='';}
 if(isset($_POST['bid'])){$bid=$_POST['bid'];}else{$bid='G';}
-
-$senhid=$SEN['id_db'];
-
 
 	/* Check user has permission to edit */
 	$yid=$Student['YearGroup']['value'];
@@ -30,29 +29,23 @@ $senhid=$SEN['id_db'];
 
 if($sub=='senstatus'){
 
+	/* Change sen status using the senstatus button... */
 	if($Student['SENFlag']['value']=='Y'){
-		mysql_query("UPDATE info SET sen='N' WHERE student_id='$sid'");
+		/* Remove the SEN status. */
+		set_student_senstatus($sid,'N');
 		}
 	elseif($Student['SENFlag']['value']=='N'){
-		mysql_query("UPDATE info SET sen='Y' WHERE student_id='$sid'");
-		/*set up first blank record for the profile*/
-		$todate=date('Y')."-".date('n')."-".date('j');
-		mysql_query("INSERT INTO senhistory SET startdate='$todate', student_id='$sid'");
-		$senhid=mysql_insert_id();
-		/*creates a blank entry for general comments applicable to all subjects*/
-		mysql_query("INSERT INTO sencurriculum SET
-					senhistory_id='$senhid', subject_id='General'");
+		/* Add to the SEN register. */
+		$senhid=set_student_senstatus($sid,'Y');
 		}
 	if($current=='sen_view_action.php'){$action='sen_student_list.php';}
 
 	}
 elseif($ncmodkey=='-1'){
 
-
 	if($bid!='G' and $bid!=''){
 		mysql_query("INSERT INTO sencurriculum SET senhistory_id='$senhid', subject_id='$bid'");
 		}
-trigger_error('NCMODKEY'.$ncmodkey.' '.$bid,E_USER_WARNING);
 
 	}
 elseif($sub=='Submit'){

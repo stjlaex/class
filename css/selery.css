@@ -8,7 +8,6 @@ fieldset.selery {
     border-width:2px 0 0 0;
     background-color:#444444;
 	}
-
 .selery ul {
     margin:0;
     border:0;
@@ -24,17 +23,21 @@ fieldset.selery {
     padding:0;
 	}
 
-.selery li {
+.selery li, .selery div.solery {
     border:0;
     padding:0 4px 0 0;
     margin-bottom:2px;
 	border-top:1px solid #765;
-    color:#765;
 	text-align:left;
     width:auto;
+	}
+.selery li {
+    color:#765;
     background-color:#eee;
 	}
-
+.selery div.solery {
+    background-color:#665;
+	}
 .selery li input {
     display:none;
     margin:2px;
@@ -44,7 +47,6 @@ fieldset.selery {
     width:1em;
     height:auto;
 	}
-
 .selery li:hover, .selery li.checked  {  
     border-color:#5599cc;
     background-color:#5599cc;
@@ -82,4 +84,10 @@ button.selery[value="3"] img {
 	}
 button.selery[value="4"] img { 
 	background-image:url("../images/dot4.png");
+	}
+.selery div.hilite {
+	color:#ffffff !important;
+	}
+.selery div.lolite {
+	color:#aabbcc !important;
 	}

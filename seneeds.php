@@ -13,16 +13,30 @@ include('scripts/set_book_session_vars.php');
 
 $list='';
 if(isset($_POST['list']) and $_POST['list']=='all'){
-	$sentype='';$newyid='';$sensupport='';$list='all';$sid='';
+	$sentype='';
+	$newyid='';
+	$sensupport='';
+	$list='all';
+	$_SESSION['seneedssid']='';
+	$_SESSION['seneedssenhid']='-1';
+	$sid='';
+	$senhid=-1;
 	}
 if($sid=='' or $current==''){
 	$current='sen_student_list.php';
 	$_SESSION['seneedssid']='';
+	$_SESSION['seneedssenhid']='-1';
+	$sid='';
+	$senhid=-1;
 	}
 elseif($sid!=''){
 	/*working with a single student*/
 	$Student=fetchStudent($sid);
-	$SEN=(array)fetchSEN($sid);
+	if($senhid==-1000){
+		$senhid=set_student_senstatus($sid);
+		}
+	$SEN=(array)fetchSEN($sid,$senhid);
+	$senhid=$SEN['id_db'];
 	}
 ?>
   <div id="bookbox" class="seneedscolor">
@@ -35,13 +49,11 @@ elseif($sid!=''){
 
 
   <div style="visibility:hidden;" id="hiddenbookoptions" class="bookoptions">
-	<form id="seneedschoice" name="seneedschoice" method="post" 
-		action="seneeds.php" target="viewseneeds">
-
 <?php 
-	  if(empty($sid)){
+	 if(!isset($sid) or $sid==''){
 		  $enum=array_merge(getEnumArray('sentypeinternal'),getEnumArray('sentype'));
 ?>
+	<form id="seneedschoice" name="seneedschoice" method="post" action="seneeds.php" target="viewseneeds">
 	  <fieldset class="seneeds">
 		<legend><?php print_string('filterlist',$book);?></legend>
 		<label for="Type"><?php print_string('sentype',$book);?></label>
@@ -65,11 +77,47 @@ elseif($sid!=''){
 		  $cattype='sen';
 		  $onsidechange='yes';
 		  include('scripts/list_category.php');
+?>
+	  </fieldset>
+	</form>
+<?php
 		  }
+	  else{
+
+		  $senhistories=(array)list_student_senhistories($sid);
+?>
+	<form id="seneedschoice" name="seneedschoice" method="post" action="seneeds.php" target="viewseneeds">
+	  <fieldset class="seneeds selery">
+		<legend><?php print_string('records','admin');?></legend>
+<?php
+
+	     foreach($senhistories as $no => $senhistory){
+			 if($senhid==$senhistory['id']){$displayclass=' class="solery hilite" ';}
+			 else{$displayclass=' class="solery lolite" ';}
+?>
+			   <a href="seneeds.php?current=sen_view.php&sid=<?php print $sid;?>&senhid=<?php print $senhistory['id'];?>" target="viewseneeds" onclick="parent.viewBook('seneeds');">
+				 <div <?php print $displayclass;?>>
+				   <?php print '&nbsp;'.display_date($senhistory['startdate']);?>
+				 </div>
+			   </a>
+<?php
+			 }
+		 if(strtotime($senhistory['reviewdate']) <= mktime() and $senhistory['reviewdate']!=''){
+			 /* If the last IEP's reviewdate has past then allow option to create to a new one. */
+?>
+			   <a  class="lolite" href="seneeds.php?current=sen_view.php&sid=<?php print $sid;?>&senhid=-1000" target="viewseneeds" onclick="parent.viewBook('seneeds');">
+				 <div class="solery lolite"><?php print ' '.get_string('new');?></div>
+			   </a>
+<?php
+			 }
 ?>
 	  </fieldset>
 	</form>
 
+<?php
+		  }
+?>
+	<br />
 	<form id="configseneedschoice" name="configseneedschoice" method="post" action="seneeds.php" target="viewseneeds">
 	  <fieldset class="seneeds selery">
 		<legend><?php print get_string('list','admin');?></legend>
@@ -80,6 +128,9 @@ elseif($sid!=''){
 		<input type="hidden" name="list" value="all"/>
 	  </fieldset>
 	</form>
+
+
+
   </div>
 <?php
 include('scripts/end_options.php');

@@ -7,8 +7,6 @@ $action='student_view_sen1.php';
 if(isset($_POST['bid'])){$selbid=$_POST['bid'];}else{$selbid='';}
 if(isset($_GET['bid'])){$selbid=$_GET['bid'];}
 
-$SEN=fetchSEN($sid);
-
 if($Student['SENFlag']['value']=='N'){
 	two_buttonmenu();
 
@@ -33,6 +31,9 @@ if($Student['SENFlag']['value']=='N'){
 <?php
 	}
 else{
+
+	/* Get the most recent SEN record if one exists. */
+	$SEN=fetchSEN($sid);
 
 	$book='seneeds';
 	include('seneeds/sen_view.php');

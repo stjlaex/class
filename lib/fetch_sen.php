@@ -20,12 +20,13 @@
 function fetchSEN($sid=-1,$senhid=-1){
 	$SEN=array();
 
+	/* Fetch the most recent senhistory unles a senhid is set and fetch that. */
 	if($senhid>0){
 		$d_s=mysql_query("SELECT * FROM senhistory WHERE id='$senhid';");
 		}
 	else{
 		$d_s=mysql_query("SELECT * FROM senhistory WHERE 
-	   								student_id='$sid' ORDER BY startdate LIMIT 1;");
+	   								student_id='$sid' ORDER BY startdate DESC LIMIT 1;");
 		}
 
 	$sen=mysql_fetch_array($d_s,MYSQL_ASSOC);
@@ -174,13 +175,13 @@ function list_student_senhistories($sid){
 	$senhistories=array();
 	if($sid!=''){
 		$d_s=mysql_query("SELECT id, senprovision, startdate, reviewdate, assessmentdate FROM senhistory
-													WHERE sid='$sid' ORDER BY startdate;");
+													WHERE student_id='$sid' ORDER BY startdate ASC;");
 		while($s=mysql_fetch_array($d_s,MYSQL_ASSOC)){
 			$senhistories[]=$s;
 			}
 		}
 
-	return $senhistoriees;
+	return $senhistories;
 	}
 
 
@@ -208,4 +209,53 @@ function display_student_sentype($sid){
 	return $display;
 	}
 
+
+
+/**
+ *
+ * Sets the senstatus to specified value for a sid.  Creates new blank
+ * senhistory entry if the status is Y (and can be used to just do
+ * that even when no change in status is being requested).
+ *
+ *
+ * @param integer $sid
+ * @param string $senstatus
+ *
+ * @return integer $senhid
+ *
+ */
+function set_student_senstatus($sid,$status='Y'){
+
+	$todate=date('Y')."-".date('n')."-".date('j');
+
+	if($status=='N'){
+
+		/* Remove the SEN status. */
+		mysql_query("UPDATE info SET sen='N' WHERE student_id='$sid'");
+		$senhid=-1;
+
+		}
+	elseif($status=='Y'){
+
+		/* If not already done add to SEN register. */
+		mysql_query("UPDATE info SET sen='Y' WHERE student_id='$sid'");
+		
+		$d_s=mysql_query("SELECT id FROM senhistory WHERE startdate='$todate' AND student_id='$sid'");
+
+		if(mysql_num_rows($d_s)>0){
+			$senhid=mysql_result();
+			}
+		else{
+			/* Set up first blank record for the profile. */
+			mysql_query("INSERT INTO senhistory SET startdate='$todate', student_id='$sid'");
+			$senhid=mysql_insert_id();
+
+			/* Creates a blank entry for general comments applicable to all subjects. */
+			mysql_query("INSERT INTO sencurriculum SET
+					senhistory_id='$senhid', subject_id='General'");
+			}
+		}
+
+	return $senhid;
+	}
 ?>

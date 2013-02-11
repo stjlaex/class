@@ -1,4 +1,4 @@
-Version ClaSS-1.0.41 release (2013/01/20)
+Version ClaSS-1.0.41 release (2013/02/12)
 -------------------------------------------
 
 New info field for previousschool used as part of Enrolment.
@@ -15,6 +15,9 @@ Replaced deprecated mysql type for engine in installation scripts.
 
 Replaced deprecated mysql timestamp(14) with timestamp in installation
 scripts.
+
+Implemented senhistories for the SEN book. Includes new sideoptions to
+navigate the previous IEPs.
 
 
 

@@ -1813,13 +1813,14 @@ function fetchNCYear($sid){
 	return $ncyear;
 	}
 
+
 /**
  *
  * @params string $yid
  * @return string
  */
 function getNCYear($yid){
-	$ncyears=array(''=>'','N' => 'Nursery', 'R' => 'Reception', '1' => '1',
+	$ncyears=array('-2'=>'Pre-Nursery','-1' => 'Nursery', '0' => 'Reception', '1' => '1',
 				   '2' => '2', '3' => '3', '4' => '4', '5' => '5', '6' => '6', '7' =>
 				   '7', '8' => '8', '9' => '9', '10' => '10', '11' => '11', '12' =>
 				   '12', '13' => '13', '14' => '14');	
@@ -2134,6 +2135,7 @@ function list_address_guardians($aid){
 	return $guardians;
 	}
 
+
 /**
  * Returns the approximate age in years and months given dob.
  *
@@ -2156,8 +2158,10 @@ function get_age($dob){
 	else{
 		$years=0;$months=0;
 		}
+
 	return floor($years).' / '.floor($months);
 	}
+
 
 /**
  *

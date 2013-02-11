@@ -7,8 +7,8 @@
  *  InfoBook too.
  */
 if($current=='sen_view.php'){$action='sen_view_action.php';}
-if(!isset($cancel)){$cancel='';}
 if(!isset($selbid)){$selbid='G';}
+
 ?>
   <div id="heading"><label><?php print_string('senprofile',$book);?></label>
   <?php print $Student['Forename']['value'].' '.$Student['Surname']['value'];?>
@@ -16,11 +16,15 @@ if(!isset($selbid)){$selbid='G';}
 <?php 
 
 	three_buttonmenu(array('removesen'=>array('name'=>'sub','value'=>'senstatus')));
+
 ?>
+
   <div class="content">
 	<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
 
-	  <fieldset class="left divgroup">
+
+	  <div class="left">
+	  <fieldset class="divgroup">
 		<legend><?php print get_string('internal',$book).' '.get_string('assessment',$book);?></legend>
 
 		<div class="center">
@@ -44,7 +48,6 @@ if(!isset($selbid)){$selbid='G';}
 		</div>
 
 
-		<ol>
 <?php
 	/* Allow up to 3 records with blanks for new entries*/
 	while(sizeof($SEN['SENinternaltypes']['SENtype'])<3){
@@ -53,7 +56,7 @@ if(!isset($selbid)){$selbid='G';}
 	$asscode='I';
 	foreach($SEN['SENinternaltypes']['SENtype'] as $entryn => $SENtype){
 		$enum=getEnumArray($SENtype['SENtype']['field_db'].'internal');
-		print '<li><select id="Type"  tabindex="'.$tab++.'"
+		print '<div class="center"><select id="Type"  tabindex="'.$tab++.'"
 			name="'.$asscode. $SENtype['SENtype']['field_db'].$entryn.'">';
 		print '<option value=""></option>';
 		while(list($inval,$description)=each($enum)){ 
@@ -72,13 +75,59 @@ if(!isset($selbid)){$selbid='G';}
 			if($SENtype['SENtypeRank']['value']==$inval){print "selected='selected'";}
 			print " value='".$inval."'>".$description."</option>";
 			}
-		print '</select></li><br />';
+		print '</select></div>';
 		}
 ?>
-		</ol>
-
 	  </fieldset>
 
+
+	  <fieldset class="divgroup">
+		<legend><?php print get_string('external',$book).' '.get_string('assessment',$book);?></legend>
+
+		<div class="center">
+		  <label for="Date">
+			<?php print_string($SEN['AssessmentDate']['label'],$book);?>
+		  </label>
+<?php
+		$todate=$SEN['AssessmentDate']['value'];
+		$required='no';
+		include('scripts/jsdate-form.php');
+?>
+		</div>
+
+<?php
+	/* Allow up to 3 records with blanks for new entries*/
+	while(sizeof($SEN['SENtypes']['SENtype'])<3){
+		$SEN['SENtypes']['SENtype'][]=fetchSENtype();
+		}
+
+	$asscode='E';
+	foreach($SEN['SENtypes']['SENtype'] as $entryn => $SENtype){
+		$enum=getEnumArray($SENtype['SENtype']['field_db']);
+		print '<div class="center"><select id="Type"  tabindex="'.$tab++.'"
+			name="'.$asscode. $SENtype['SENtype']['field_db'].$entryn.'">';
+		print '<option value=""></option>';
+		while(list($inval,$description)=each($enum)){ 
+			print '<option ';
+			if($SENtype['SENtype']['value']==$inval){print 'selected="selected" ';}
+			print ' value="'.$inval.'">'.get_string($description,$book).'</option>';
+			}
+		print '</select>';
+
+		$enum=getEnumArray($SENtype['SENtypeRank']['field_db']);
+		print '<select id="Rank"  tabindex="'.$tab++.'" 
+			name="'.$asscode. $SENtype['SENtypeRank']['field_db'].$entryn.'" size="1">';
+		print '<option value=""></option>';		
+		while(list($inval,$description)=each($enum)){	
+			print '<option ';
+			if($SENtype['SENtypeRank']['value']==$inval){print "selected='selected'";}
+			print " value='".$inval."'>".$description."</option>";
+			}
+		print '</select></div>';
+		}
+?>
+	  </fieldset>
+	  </div>
 
 	  <div class="right">
 		<div class="tinytabs" id="sen">
@@ -202,23 +251,7 @@ if(!isset($selbid)){$selbid='G';}
 					  <?php print_string('addsubject',$book);?>
 					</button>
 <?php 
-   	$d_class=mysql_query("SELECT DISTINCT class.subject_id FROM class
-				JOIN cidsid ON class.id=cidsid.class_id WHERE cidsid.student_id='$sid'");
-	$subjects=array();
-	while($subject=mysql_fetch_array($d_class,MYSQL_ASSOC)){
-		$subbid=$subject['subject_id'];
-		if(!array_key_exists($subbid,$keybids)){
-			$subjects[]=array('id'=>$subbid,'name'=>get_subjectname($subbid));
-			}
-		$d_subject=mysql_query("SELECT DISTINCT id FROM component WHERE 
-			component.subject_id='$subbid' AND id!='' ORDER BY course_id");
-		while($subject=mysql_fetch_array($d_subject,MYSQL_ASSOC)){
-			if(!array_key_exists($subject['id'],$keybids)){
-				$subjects[]=array('id'=>$subject['id'],'name'=>get_subjectname($subject['id']));
-				}
-			}
-		}
-
+	$subjects=(array)list_student_subjects($sid,'%');
 	unset($key);
 	$listname='bid';
 	$listlabel='subject';
@@ -243,55 +276,6 @@ if(!isset($selbid)){$selbid='G';}
 	  </div>
 
 
-	  <fieldset class="left divgroup">
-		<legend><?php print get_string('external',$book).' '.get_string('assessment',$book);?></legend>
-
-		<div class="center">
-		  <label for="Date">
-			<?php print_string($SEN['AssessmentDate']['label'],$book);?>
-		  </label>
-<?php
-		$todate=$SEN['AssessmentDate']['value'];
-		$required='no';
-		include('scripts/jsdate-form.php');
-?>
-		</div>
-
-		<ol>
-<?php
-	/* Allow up to 3 records with blanks for new entries*/
-	while(sizeof($SEN['SENtypes']['SENtype'])<3){
-		$SEN['SENtypes']['SENtype'][]=fetchSENtype();
-		}
-
-	$asscode='E';
-	foreach($SEN['SENtypes']['SENtype'] as $entryn => $SENtype){
-		$enum=getEnumArray($SENtype['SENtype']['field_db']);
-		print '<li><select id="Type"  tabindex="'.$tab++.'"
-			name="'.$asscode. $SENtype['SENtype']['field_db'].$entryn.'">';
-		print '<option value=""></option>';
-		while(list($inval,$description)=each($enum)){ 
-			print '<option ';
-			if($SENtype['SENtype']['value']==$inval){print 'selected="selected" ';}
-			print ' value="'.$inval.'">'.get_string($description,$book).'</option>';
-			}
-		print '</select>';
-
-		$enum=getEnumArray($SENtype['SENtypeRank']['field_db']);
-		print '<select id="Rank"  tabindex="'.$tab++.'" 
-			name="'.$asscode. $SENtype['SENtypeRank']['field_db'].$entryn.'" size="1">';
-		print '<option value=""></option>';		
-		while(list($inval,$description)=each($enum)){	
-			print '<option ';
-			if($SENtype['SENtypeRank']['value']==$inval){print "selected='selected'";}
-			print " value='".$inval."'>".$description."</option>";
-			}
-		print '</select></li><br />';
-		}
-?>
-		</ol>
-	  </fieldset>
-
 
 
 
@@ -299,6 +283,7 @@ if(!isset($selbid)){$selbid='G';}
 
  	<input type="hidden" name="current" value="<?php print $action;?>"/>
  	<input type="hidden" name="choice" value="<?php print $current;?>"/>
- 	<input type="hidden" name="cancel" value="<?php print $cancel;?>"/>
+ 	<input type="hidden" name="cancel" value=""/>
 	</form>
   </div>
+
