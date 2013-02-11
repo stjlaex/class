@@ -99,7 +99,7 @@ $description='';
 					$bid=$subject['id'];
 					$assbids[$bid]=$bid;
 					$compstatus='%';
-					trigger_error($bid,E_USER_WARNING);
+					//trigger_error($bid,E_USER_WARNING);
 					$comps=list_subject_components($bid,$asscrid,$compstatus);
 					foreach($comps as $comp){
 						$assbids[$bid.$comp['id']]=$bid . $comp['id'];
@@ -150,7 +150,7 @@ $description='';
 		/* TODO: improve and extend the filter methods... */
 		if($gender=='' or $gender==$Student['Gender']['value']){
 			$Student=array_merge($Student,fetchStudent_singlefield($sid,'PersonalNumber'));
-			trigger_error($Student['PersonalNumber']['value'],E_USER_WARNING);
+			//trigger_error($Student['PersonalNumber']['value'],E_USER_WARNING);
 			$viewtable[$c]=array();
 			$viewtable[$c]['student']=(array)$student;
 			$viewtable[$c]['Student']=(array)$Student;

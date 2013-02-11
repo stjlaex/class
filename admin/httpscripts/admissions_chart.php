@@ -57,7 +57,7 @@ $Stats['Stat']=array();
 $Stats['School']['value']=$CFG->schoolname;
 
 $doing=array();
-//$doing[]=array($enrolyear,$currentdate);
+$doing[]=array($enrolyear,$currentdate);
 //$doing[]=array($lastenrolyear,$lastdate);
 $doing[]=array($lastenrolyear,$lastcurrentdate);
 //$doing[]=array($beforelastenrolyear,$beforelastcurrentdate);
@@ -96,6 +96,9 @@ foreach($doing as $tableno => $todo){
 $enrol_cols=array('currentroll'=>'currentroll'
 				  ,'capacity'=>'capacity'
 				  ,'spaces'=>'spaces'
+				  ,'pending'=>'pending'
+				  ,'reenroling'=>'reenroling'
+				  ,'leavers'=>'leavers'
 				  );
 $tables=array('enrolcurrent'=>$enrol_cols);
 
@@ -126,7 +129,7 @@ if(isset($transform) and $transform!=''){
 	foreach($CFG->feeders as $feeder){
 		if($feeder!=''){
 			//TODO: make sure this is tested before going live!!
-			//$Centers['AdmissionCenter'][]['Stats']=(array)feeder_fetch('admissions_chart',$feeder,$postdata);
+			$Centers['AdmissionCenter'][]['Stats']=(array)feeder_fetch('admissions_chart',$feeder,$postdata);
 			//trigger_error($feeder,E_USER_WARNING);
 			}
 		}

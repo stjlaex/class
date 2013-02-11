@@ -8,7 +8,7 @@ require_once('../../scripts/http_head_options.php');
 
 
 if(isset($_GET['id'])){$xmlid=$_GET['id'];}
-if(isset($_POST['id'])){$xmlid=$_POST['id'];}
+if(isset($_POST['id'])){$xmlid=$_POST['id'];}else{$xmlid=-1;}
 if(isset($_GET['sids'])){$sids=(array)$_GET['sids'];}else{$sids=array();}
 if(isset($_POST['sids'])){$sids=(array)$_POST['sids'];}
 if(isset($_GET['bid'])){$bid=$_GET['bid'];}else{$bid='%';}
@@ -29,7 +29,11 @@ if(isset($_GET['name'])){$profilename=$_GET['name'];}
 if(isset($_POST['name'])){$profilename=$_POST['name'];}
 if(isset($_GET['description'])){$description=$_GET['description'];}
 
-//trigger_error($bid.' :  '.$pid.' : '.$template,E_USER_WARNING);
+//$template='tracking_summary_comparison';
+//$profile['transform']=$template;
+//$xmlid=-1;
+
+//trigger_error($bid.' :  '.$xmlid.' : '.$template,E_USER_WARNING);
 
 if(sizeof($sids)==0){
 	$result[]=get_string('youneedtoselectstudents');
@@ -91,6 +95,7 @@ else{
 		$AssDefs=(array)array_merge($AssDefs,$prev_AssDefs);
 		}
 	elseif($profile['transform']=='tracking_summary_comparison'){
+		//$pid='%';$bid='Inf';
 		$prevcohort=array('id'=>'','course_id'=>$crid,'stage'=>'%','year'=>'%');
 		$prev_AssDefs=(array)fetch_cohortAssessmentDefinitions($prevcohort,$profile['id']);
 		$AssDefs=(array)array_merge($AssDefs,$prev_AssDefs);
@@ -99,7 +104,7 @@ else{
 		$bid='%';
 		$pid='%';
 		$prevcohort=array('id'=>'','course_id'=>$crid,'stage'=>'%','year'=>'%');
-		$prev_AssDefs=(array)fetch_cohortAssessmentDefinitions($prevcohort,$profile['id']);
+		$prev_AssDefs=(array)fetch_cohortAssesmentDefinitions($prevcohort,$profile['id']);
 		$AssDefs=(array)array_merge($AssDefs,$prev_AssDefs);
 		}
 	elseif($profile['transform']=='tracking_barchart_difference'){
@@ -207,7 +212,9 @@ else{
 					}
 				}
 			}
+
 		$Student['Assessments']=xmlarray_indexed_check($Assessments,'Assessment');
+		//$Student['Assessments']=$Assessments;
 		$Students['Student'][]=$Student;
 		}
 
@@ -247,7 +254,9 @@ else{
 				}
 
 			trigger_error($no.' '.$points[1]['result'],E_USER_WARNING);
+
 			$Student['Assessments']=xmlarray_indexed_check($Assessments,'Assessment');
+			//$Student['Assessments']=$Assessments;
 			$Students['Student'][]=$Student;
 			}
 

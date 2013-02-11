@@ -151,8 +151,6 @@
 <?php
 		if($reportdef['report']['addcategory']=='yes'){
 			$ass_colspan++;
-			//fetched by parent script new_edit_reports
-			//$catdefs=get_report_categories($rid,$bid,$pid,'cat',$class_stage);
 			unset($Categories);
 			if(isset($Comment['Categories'])){$Categories=$Comment['Categories'];}
 			else{

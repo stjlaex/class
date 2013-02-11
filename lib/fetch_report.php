@@ -752,7 +752,7 @@ function get_report_categories($rid,$bid='%',$pid='',$type='cat',$stage='%'){
 
 
 	/* These will be statements linked to a profile: needs the
-	 * otherype set to title of the report which is also the name of
+	 * othertype set to title of the report which is also the name of
 	 * the linked assessment.
 	 */
 	$d_r=mysql_query("SELECT title FROM report WHERE id='$rid'");
@@ -762,11 +762,11 @@ function get_report_categories($rid,$bid='%',$pid='',$type='cat',$stage='%'){
 				WHERE categorydef.othertype='$area' AND categorydef.type='$type' 
 				AND (categorydef.stage='' OR categorydef.stage='%' 
 					OR categorydef.stage LIKE '$stage') 
-				AND (categorydef.subject_id='$bid' OR categorydef.subject_id='%');");
+				AND (categorydef.subject_id='$bid' OR categorydef.subject_id='%') ORDER BY rating ASC;");
 	while($catdef=mysql_fetch_array($d_c,MYSQL_ASSOC)){
 	   	$catdefs[]=$catdef;
+		//trigger_error('CATDEFS '.sizeof($catdefs),E_USER_WARNING);
 	   	}
-
 
 	return $catdefs;
 	}
@@ -1052,13 +1052,14 @@ function fetchReportEntry($reportdef,$sid,$bid,$pid){
 			   $comment_html['div'][]=xmlreader($entry['comment']);
 			   }
 
-		   if(isset($subcomments_fix) or true){
-			   /* TODO: This fromdate is just a hack needs to check for previous report maybe?*/
+		   if(!isset($subcomments_fix)){
+			   /* TODO: This fromdate is just a hack needs to check for previous report maybe? */
 			   $reportyear=$reportdef['report']['year']-1;
 			   $fromdate=$reportyear.'-08-15';//Does the whole academic year
 			   //$reportyear=$reportdef['report']['year'];
 			   //$fromdate=$reportyear.'-03-01';
 			   $comment_div=array();
+
 			   foreach($reportdef['report']['profile_names'] as $profile_name){
 				   $Statements=(array)fetchProfileStatements($profile_name,$bid,$pid,$sid,$fromdate);
 				   if(sizeof($Statements)>0){
@@ -1150,24 +1151,25 @@ function fetchProfileStatements($profile_name,$bid,$pid,$sid,$cutoff_date){
   else{
 
 		/*TODO: have to pass these values for each report. */
-	  if($profile_name=='APP Framework'){
+	  if(strpos($profile_name,'APP')!==false){
 		/*Only displaying those above which are secure. */
-		$cutoff_rating=1;
+		$cutoff_rating=-100;
 		/* limit to 6 per area (gives 6 most recent regardless of the level)*/
-		$cutoff_level=1;
-		$cutoff_statno=2;
+		$cutoff_level=-100;
+		$cutoff_statno=200;
+		$profilepids=(array)list_subject_components($pid,'KS1');
 		}
 	  elseif(strpos($profile_name,'EY')!==false){
 		/*Only displaying those above which are secure. */
 		$cutoff_rating=1;
 		/* limit to 6 per area (gives 6 most recent regardless of the level)*/
 		$cutoff_statno=2;
+		$profilepids=(array)list_subject_components($pid,'FS');
 		}
 
-	  $profilepids=(array)list_subject_components($pid,'FS');
 	  $profilepids[]=array('id'=>$pid,'name'=>'');
 	  $Statements=array();
-	  //trigger_error($profile_name.' '. $pid,E_USER_WARNING);
+	  trigger_error($profile_name.' '. $pid,E_USER_WARNING);
 
 	  foreach($profilepids as $component){
 		  $profilepid=$component['id'];

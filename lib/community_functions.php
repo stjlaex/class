@@ -707,18 +707,19 @@ function list_member_communities($sid,$community,$current=true){
 
 /**
  *
- * Returns all communities to which a student is currently enrolled.
- * Filter for community id, name or type optional.
+ * Returns all communities of one particular type to which a student
+ * has belonged. Including current and preivous memberships.
  *
  *	@param integer $sid
- *	@param array $community 
- *  $param boolean $current
+ *	@param string $type 
  *	@return array
  */
 function list_member_history($sid,$type){
 	$todate=date("Y-m-d");
 	$coms=array();
+
 	if($type!=''){
+
 			/* Current communities of one type. */
 			$d_community=mysql_query("SELECT id, special, joiningdate, leavingdate FROM community JOIN
 				comidsid ON community.id=comidsid.community_id
@@ -735,7 +736,8 @@ function list_member_history($sid,$type){
 			$d_community=mysql_query("SELECT id, special, joiningdate, leavingdate FROM community JOIN
 				comidsid ON community.id=comidsid.community_id
 				WHERE community.type='$type' AND comidsid.student_id='$sid' AND
-   				(comidsid.joiningdate<=comidsid.leavingdate AND comidsid.leavingdate!='0000-00-00' AND comidsid.leavingdate<'$todate') ORDER BY comidsid.joiningdate DESC;");
+   				(comidsid.joiningdate<=comidsid.leavingdate AND comidsid.leavingdate!='0000-00-00' AND comidsid.leavingdate<'$todate') 
+				ORDER BY comidsid.joiningdate DESC;");
 
 			while($com=mysql_fetch_array($d_community,MYSQL_ASSOC)){
 				$coms[]=array_merge($com,get_community($com['id']));

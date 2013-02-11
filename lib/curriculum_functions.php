@@ -464,7 +464,11 @@ function list_teacher_classes($tid,$crid='%',$bid='%',$year=''){
 
 
 /** 
- *	Returns an id-name array listing all curriculum areas (subject and components) this sid studies.
+ *	Returns an id-name array listing all curriculum areas (subject and
+ *	components) this sid studies.
+ *
+ *  Use year = % if you want to get all current and past subjects
+ *  studied.
  *
  *	@param string $sid
  *	@param string $year
@@ -478,7 +482,7 @@ function list_student_subjects($sid,$year=''){
 	$subjects=array();
 	$bids=array();
    	$d_c=mysql_query("SELECT DISTINCT class.subject_id AS bid, cohort.course_id AS crid FROM
-				class JOIN cohort ON class.cohort_id=cohort.id WHERE cohort.year='$year' 
+				class JOIN cohort ON class.cohort_id=cohort.id WHERE cohort.year LIKE '$year' 
 				AND class.id=ANY(SELECT class_id FROM cidsid WHERE cidsid.student_id='$sid');");
 
    	while($c=mysql_fetch_array($d_c,MYSQL_ASSOC)){
