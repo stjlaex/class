@@ -284,6 +284,9 @@ if(!empty($currentprofile) and isset($cid)){
 			$currentprofile['pid']=$pid;
 			$currentprofile['stage']=$classes[$cid]['stage'];
 			$currentprofile['classes']='';
+unset($currentprofile['component_status']);
+unset($currentprofile['celldisplay']);
+unset($currentprofile['rating_name']);
 			foreach($cids as $cindex => $cid){
 				$currentprofile['classes'].=$classes[$cid]['name'].' ';
 				}

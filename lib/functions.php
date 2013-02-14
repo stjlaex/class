@@ -1641,7 +1641,7 @@ function send_sms_to($phone,$message,$recipientid=0){
 		if(strpos($phone,'0')===0){$phone=substr($phone,1);}
 		$phone=$CFG->sitephonecode.$phone;
 		}
- 
+
 
 	mysql_query("INSERT INTO message_text_event SET phonenumber='$phone',
    					textbody='$message', texttype='$type', some_id='$recipientid', date='$todate', success='0';");

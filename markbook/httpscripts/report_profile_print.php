@@ -7,8 +7,8 @@
 require_once('../../scripts/http_head_options.php');
 
 
-if(isset($_GET['id'])){$xmlid=$_GET['id'];}
-if(isset($_POST['id'])){$xmlid=$_POST['id'];}else{$xmlid=-1;}
+if(isset($_GET['id'])){$xmlid=$_GET['id'];}else{$xmlid=-1;}
+if(isset($_POST['id'])){$xmlid=$_POST['id'];}
 if(isset($_GET['sids'])){$sids=(array)$_GET['sids'];}else{$sids=array();}
 if(isset($_POST['sids'])){$sids=(array)$_POST['sids'];}
 if(isset($_GET['bid'])){$bid=$_GET['bid'];}else{$bid='%';}
@@ -30,7 +30,7 @@ if(isset($_POST['name'])){$profilename=$_POST['name'];}
 if(isset($_GET['description'])){$description=$_GET['description'];}
 
 //$template='tracking_summary_comparison';
-//$profile['transform']=$template;
+$profile['transform']=$template;
 //$xmlid=-1;
 
 //trigger_error($bid.' :  '.$xmlid.' : '.$template,E_USER_WARNING);
@@ -104,7 +104,7 @@ else{
 		$bid='%';
 		$pid='%';
 		$prevcohort=array('id'=>'','course_id'=>$crid,'stage'=>'%','year'=>'%');
-		$prev_AssDefs=(array)fetch_cohortAssesmentDefinitions($prevcohort,$profile['id']);
+		$prev_AssDefs=(array)fetch_cohortAssessmentDefinitions($prevcohort,$profile['id']);
 		$AssDefs=(array)array_merge($AssDefs,$prev_AssDefs);
 		}
 	elseif($profile['transform']=='tracking_barchart_difference'){
@@ -135,13 +135,12 @@ else{
 		$bid='%';
 		}
 	elseif($profile['transform']=='tracking_barchart_app'){
-		$bid='%';
+		//$bid='%';
+		//$pid='Spk';
 		}
 	else{
 		$pid='%';
 		}
-
-
 
 	/* Bands in ascending date order. */
   	$d_stats=mysql_query("SELECT DISTINCT * FROM statvalues JOIN stats ON stats.id=statvalues.stats_id 
@@ -253,7 +252,6 @@ else{
 				$Assessments['Assessment']=array_merge($Assessments['Assessment'],$points);
 				}
 
-			trigger_error($no.' '.$points[1]['result'],E_USER_WARNING);
 
 			$Student['Assessments']=xmlarray_indexed_check($Assessments,'Assessment');
 			//$Student['Assessments']=$Assessments;
@@ -262,6 +260,8 @@ else{
 
 		}
 
+
+	trigger_error($bid. ' '.$pid,E_USER_WARNING);
 
 	$Students['Date']=date('Y-m-d');
 	$Students['Paper']='landscape';
