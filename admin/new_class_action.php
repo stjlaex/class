@@ -70,7 +70,6 @@ if($sub=='Submit'){
 			 * can be added and that student lists will be re-synced.
 			 */
 			populate_subjectclassdef($newclassdef);
-			trigger_error('FORM',E_USER_WARNING);
 			}
 		}
 	}

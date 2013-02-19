@@ -22,6 +22,9 @@ navigate the previous IEPs.
 Small improvement to the the new_edit_class scripts to update classes
 for forms automatically.
 
+Added a count of students for each bus to the main transport page.
+
+Tutor names added as a pop-up to the Register completion list.
 
 
 Version ClaSS-1.0.40 release (2013/01/07)

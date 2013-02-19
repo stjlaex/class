@@ -109,7 +109,18 @@ two_buttonmenu($extrabuttons);
 		if($nosids>0){
 			$getparam='newcomid='.$com['id'];
 			$getparam.='&newcid=';
-			if(isset($com['yeargroup_id'])){$getparam.='&yid='.$com['yeargroup_id'];}
+			if(isset($com['yeargroup_id'])){
+				$getparam.='&yid='.$com['yeargroup_id'];
+				$tutor_users=(array)list_community_users($com,array('r'=>1,'w'=>1,'x'=>1),$com['yeargroup_id']);
+				$title='<label>'.get_string('formtutor').'</label>';
+				foreach($tutor_users as $uid => $tutor_user){
+					$title.='<div>'.$tutor_user['forename'][0].'&nbsp;'. $tutor_user['surname'].'<div>';
+					}
+				}
+			else{
+				$tutor_users=array();
+				$title='';
+				}
 			if(($nop+$noa+$nol)==$nosids and $nosids!=0){$status='complete';$cssclass='';}
 			else{$status='incomplete';$cssclass='vspecial';}
 			/*The number present in school is nop (present) + nol (late after register)*/
@@ -119,15 +130,16 @@ two_buttonmenu($extrabuttons);
 			$totalnol+=$nol;
 			$totalnopl+=$nopl;
 			$totalnosids+=$nosids;
-
 ?>
 		<tr>
 		  <td>
 			<input type="checkbox" name="comids[]" value="<?php print $com['id'].':::'.$com['yeargroup_id']; ?>" />
 		  </td>
 		  <td>
+			<span style="margin-right:4px;" title="<?php print $title;?>">
 			<a onclick="parent.viewBook('register');" target="viewregister"  
-			  href='register.php?current=register_list.php&cancel=completion_list.php&<?php print $getparam;?>&checkeveid=0&startday=&nodays=8'><?php print $com['displayname'];?></a>
+			  href="register.php?current=register_list.php&cancel=completion_list.php&<?php print $getparam;?>&checkeveid=0&startday=&nodays=8"><?php print $com['displayname'];?></a>
+		  </span>
 		  </td>
 		  <td class="<?php print $cssclass;?>">
 			<?php print_string($status,$book);?>
