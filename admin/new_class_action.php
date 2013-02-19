@@ -22,15 +22,14 @@ if($sub=='Submit'){
 		$ing=$stagename. '-g';
 		if($_POST[$ing]=='forms'){
 			$newclassdef['generate']=$_POST[$ing];
-			$newclassdef['many']='0'; 
+			$newclassdef['many']='0';
 			}
 		else{
 			$newclassdef['generate']='sets';
 			$newclassdef['many']=$_POST[$ing]; 
 			}
 		$oldclassdef=get_subjectclassdef($crid,$bid,$stagename);
-		if($newclassdef['many']!=$oldclassdef['many'] 
-					   or $oldclassdef['generate']!=$newclassdef['generate']){
+		if($newclassdef['many']!=$oldclassdef['many'] or $oldclassdef['generate']!=$newclassdef['generate']){
 			$d_c=mysql_query("SELECT COUNT(class.id) FROM class JOIN cohort ON class.cohort_id=cohort.id WHERE
 				cohort.course_id='$crid' AND cohort.stage='$stagename' AND cohort.year='$curryear' AND class.subject_id='$bid';");
 			$currentno=mysql_result($d_c,0);
@@ -58,11 +57,20 @@ if($sub=='Submit'){
 				}
 			else{
 				/* Anything else could need midcid, tidcid and cidsid to
-				be updated first and so is not going to be done from
-				here!!! The changes will only take effect at the start of the next
-				curriculum year. */
+				 * be updated first and so is not going to be done from
+				 * here!!! The changes will only take effect at the start of the next
+				 * curriculum year. 
+				 */
 				$error[]='This change may lose existing MarkBooks - use overwrite option to force changes.';
 				}
+			}
+		elseif($oldclassdef['generate']==$newclassdef['generate'] and $newclassdef['generate']=='forms'){
+			/* Useful to update for form groups - even though no
+			 * explicit change is requested - means a new form group
+			 * can be added and that student lists will be re-synced.
+			 */
+			populate_subjectclassdef($newclassdef);
+			trigger_error('FORM',E_USER_WARNING);
 			}
 		}
 	}
