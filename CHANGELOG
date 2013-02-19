@@ -26,6 +26,15 @@ Added a count of students for each bus to the main transport page.
 
 Tutor names added as a pop-up to the Register completion list.
 
+EntryBook side bar displays (if it can) the next enrolment number
+value to be generated.
+
+Fixed display of assessments on the enrolments_list.
+
+The distinction between static and live recording of enquires removed
+by merging the two methods in the applications table.
+
+
 
 Version ClaSS-1.0.40 release (2013/01/07)
 -------------------------------------------

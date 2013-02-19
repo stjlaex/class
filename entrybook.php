@@ -64,6 +64,27 @@ include('scripts/set_book_session_vars.php');
 
 	</fieldset>
 <?php
+		/**
+		 * Display what the next automatically generated enrolment
+		 * number should be - will only work with the simple default
+		 * maxcast formula.
+		 */
+		if($CFG->enrol_number_generate=='yes' and $enrolstatus=='AC'){
+?>
+	<br />
+	<fieldset class="entrybook">
+	  <legend><?php print get_string('next').' '.get_string('enrolmentnumber','infobook');?></legend>
+	  <div style="background-color:#666655;font-size:medium;padding:2px;">
+<?php
+		 if(!function_exists('enrolno_formula')){
+			 print generate_enrolno(-1);
+			 }
+?>
+	  </div>
+	</fieldset>
+<?php
+			}
+
 		}
 ?>
 	</form>

@@ -1223,6 +1223,9 @@ function generate_epfusername($User=array(),$role='student'){
  * be overridden is if enrolno is part of an import of student
  * details.
  * 
+ * If sid=-1 then no update will be made and the enrolno will simply
+ * be returned.
+ *
  * Checks for duplicate values being generated and returns -1 on
  * error.
  *
@@ -1244,15 +1247,18 @@ function generate_enrolno($sid){
 		$enrolno=mysql_result($d_i,0)+1;
 		}
 
-	$d_i=mysql_query("SELECT student_id FROM info WHERE formerupn='$enrolno';");
-	if(mysql_num_rows($d_i)==0){
-		mysql_query("UPDATE info SET formerupn='$enrolno' WHERE student_id='$sid';");
+	if($sid>0){
+		/* Only set the value if a sid is specified */
+		$d_i=mysql_query("SELECT student_id FROM info WHERE formerupn='$enrolno';");
+		if(mysql_num_rows($d_i)==0){
+			mysql_query("UPDATE info SET formerupn='$enrolno' WHERE student_id='$sid';");
+			trigger_error('NEW Enrol No: '.$enrolno,E_USER_ERROR);
+			}
+		else{
+			trigger_error('DUPLICATE Enrol No: '.$enrolno,E_USER_ERROR);
+			$enrolno=-1;
+			}
 		}
-	else{
-		trigger_error('DUPLICATE NEW Enrol No: '.$enrolno,E_USER_ERROR);
-		$enrolno=-1;
-		}
-
 
 	return $enrolno;
 	}

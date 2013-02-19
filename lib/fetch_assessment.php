@@ -529,8 +529,7 @@ function fetch_enrolmentAssessmentDefinitions($com='',$stage='E',$enrolyear='000
 
 	if($com==''){
 		$d_a=mysql_query("SELECT id FROM assessment WHERE course_id='%' AND 
-				stage='$stage' AND year='$enrolyear' AND profile_name='' AND resultstatus!='S' 
-				ORDER BY course_id;");
+				stage='$stage' AND year='$enrolyear' AND profile_name='' AND resultstatus!='S';");
 		}
 	else{
 		if($com['type']=='year'){
@@ -559,6 +558,7 @@ function fetch_enrolmentAssessmentDefinitions($com='',$stage='E',$enrolyear='000
 
 	return $AssDefs;
 	}
+
 
 /**
  * This needs the appropriate eid obtained from above for RE. Not generally of use
