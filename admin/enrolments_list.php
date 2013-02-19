@@ -25,9 +25,11 @@ if(isset($_POST['startdate'])){$startdate=$_POST['startdate'];}
 	 */
 	if($enrolstage=='C' or $enrolstage=='P'){
 		$application_steps=array('C','P');
+		$AssDefs=arrray();
 		}
 	else{
 		$application_steps=array('EN','AP','AT','RE','CA','WL','ACP','AC');
+		$AssDefs=fetch_enrolmentAssessmentDefinitions();
 		}
 
 	/**
@@ -146,7 +148,7 @@ if(isset($_POST['startdate'])){$startdate=$_POST['startdate'];}
 			}
 		$students=array_merge($students,$comstudents);
 		if($enrolstage=='E'){
-			$AssDefs=fetch_enrolmentAssessmentDefinitions($com);
+			//$AssDefs=array_merge($AssDefs,fetch_enrolmentAssessmentDefinitions($com));
 			}
 		}
 
@@ -224,26 +226,26 @@ if(isset($_POST['startdate'])){$startdate=$_POST['startdate'];}
 
 		$required='no';$multi='1';
 		$colspan=2+sizeof($AssDefs);
-
+trigger_error($enrolstage.' '.sizeof($AssDefs),E_USER_WARNING);
 	   if($enrolstage=='RE'){
 			foreach($AssDefs as $AssDef){
 				print '<th>'. $AssDef['Description']['value'].'</th>';
 				}
 			}
 		elseif($comtype=='allapplied' or 
-			   $enrolstatus=='year' or $enrolstatus='alumni'){
+			   $enrolstatus=='year' or $enrolstatus=='alumni'){
 				print '<th colspan="'.$colspan.'">'.get_string('enrolstatus','infobook').'</th>';
 			}
-
 		else{
 			foreach($AssDefs as $AssDef){
-				print '<th>'.get_coursename($AssDef['Course']['value']).'<br />'. 
+				if($AssDef['Course']['value']!='%'){$coursename=get_coursename($AssDef['Course']['value']);}
+				else{$coursename='';}
+				print '<th>'.$coursename.'<br />'. 
 		   					$AssDef['Description']['value'].'</th>';
 				}
 			print '<th>'.get_string('enrolstatus','infobook').'</th>';
 			}
 ?>
-			</th>
 		  </tr>
 <?php
 	$rown=1;

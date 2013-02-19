@@ -248,4 +248,5 @@ $string['qualification']='Qualification';
 $string['university']='University';
 $string['visible']='Visible';
 $string['hidden']='Hidden';
+$string['previousschool']='Previous Schools';
 ?>

@@ -26,14 +26,9 @@ else{
 
 if($enrolyear>=$currentyear){
 	$appcols['enquiries']['class']='blank';
-	if(!empty($CFG->enrol_enquiries) and $CFG->enrol_enquiries=='static'){
-		$appcols['enquiries']['display']='<a href="admin.php?current=enrolments_edit.php&cancel='.
+	$appcols['enquiries']['display']='<a href="admin.php?current=enrolments_edit.php&cancel='.
 		$choice.'&choice='. $choice.'&enrolyear='.$enrolyear. 
 		'&enrolstatus=EN">'.get_string('enquiries',$book).'</a>';
-		}
-	else{
-		$appcols['enquiries']['display']=get_string('enquiries',$book);
-		}
 	$appcols['enquiries']['value']='enquiries';
 	}
 $appcols['TOTAL']['class']='other';
@@ -120,14 +115,13 @@ foreach($yeargroups as $year){
 			$value_boarders[$bindex]=0;
 			}
 
-		if($enrolstatus=='EN' and !empty($CFG->enrol_enquiries) and $CFG->enrol_enquiries=='static'){
-			/* Exception is static values for enquiries. */
-			$value=countin_community($com,'','',true);
-			$displayvalue=$value+$extravalue;
-			$display=$displayvalue;
+		if($enrolstatus=='EN'){
+			/* Need to pick up static keyed totals for enquiries. */
+			$extravalue=countin_community($com,'','',true);
 			}
-		elseif($enrolstatus=='CA' or $enrolstatus=='RE'){
-			/* Exclude applications which were canclled before the start of the year. */
+
+		if($enrolstatus=='CA' or $enrolstatus=='RE'){
+			/* Exclude applications which were canceled before the start of the year. */
 			$d_nosids=mysql_query("SELECT COUNT(student_id) FROM
 						comidsid WHERE community_id='$comid'
 					AND (leavingdate>'$todate' OR leavingdate='0000-00-00' OR leavingdate IS NULL)
@@ -151,7 +145,7 @@ foreach($yeargroups as $year){
 						'&comid='.$com['id'].'&enrolstatus='.$enrolstatus.'">'.$displayvalue.'</a>';
 			}
 
-		
+
 		/* Don't count enquiries as full applications so don't add to row total. */
 		if($enrolstatus!='EN'){
 			$values[$colindex]=$value;
@@ -162,10 +156,13 @@ foreach($yeargroups as $year){
 			$cellindex=$enrolstatus;
 			}
 		else{
+			/* For enquiries need to total the extravalue. */
 			$cellindex='enquiries';
+			$value=$value+$extravalue;
 			}
 		/* Only set the display value if the column is being
-			   displayed in the matrix but always set the value for totals*/
+		 * displayed in the matrix but always set the value for totals
+		 */
 		if(in_array($enrolstatus,$appcols_value) OR $enrolstatus=='EN'){
 			$app_tablecells[$cellindex]['display']=$display;
 			}
@@ -179,7 +176,8 @@ foreach($yeargroups as $year){
 		}
 
 	/* Don't forget applications who have already joined current
-	   roll have to be counted as applications received. */
+	 * roll have to be counted as applications received. 
+	 */
 	$app_tablecells['C']['value']=$newcurrentsids;
 	$app_tablecells['newnewenrolments']['value']=$newnewcurrentsids;
 	if($enrolyear==$currentyear){
