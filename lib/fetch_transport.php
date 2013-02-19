@@ -204,12 +204,13 @@ function list_student_journey_bookings($sid,$date,$day='%',$direction='%'){
 
 
 /**
- * Returns all journey bookings for a sid on a given date
  *
- * @param integer $sid
+ * Returns all journey bookings for a given busname on a given date
+ *
+ * @param string $busname
  * @param date $date
- * @param enum $dayb
- * @param enum $direction
+ * @param enum $dayno
+ * 
  * @return array
  *
  */

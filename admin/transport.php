@@ -13,6 +13,7 @@ $action='transport_action.php';
 
 /* TO DO: add a transport admin group */
 $aperm=get_admin_perm('b',get_uid($tid));
+$todate=date('Y-m-d');
 
 $extrabuttons=array();
 if($_SESSION['username']=='administrator'){
@@ -81,7 +82,12 @@ two_buttonmenu($extrabuttons);
 				print '<a  href="admin.php?current=transport_list.php&cancel='.$choice.'&choice='.$choice.'&busname='.$busname['name'].'">'.$busname['name'].'</a>';
 ?>
 		  </td>
-		  <td></td>
+		  <td>
+<?php
+				$students=(array)list_bus_journey_students($busname['name'],$todate,1);
+				print count($students);
+?>
+		  </td>
 		</tr>
 	  </table>
 	</div>
