@@ -1169,7 +1169,7 @@ function fetchProfileStatements($profile_name,$bid,$pid,$sid,$cutoff_date){
 
 	  $profilepids[]=array('id'=>$pid,'name'=>'');
 	  $Statements=array();
-	  trigger_error($profile_name.' '. $pid,E_USER_WARNING);
+	  //trigger_error($profile_name.' '. $pid,E_USER_WARNING);
 
 	  foreach($profilepids as $component){
 		  $profilepid=$component['id'];

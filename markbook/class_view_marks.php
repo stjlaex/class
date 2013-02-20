@@ -135,6 +135,7 @@ for($i=0;$i<sizeof($cids);$i++){
 	      $marktype[$c]=$mark['marktype'];
 		  $midlist[$c]=trim($mark['midlist']);
 	      $lena[$c]=$mark['levelling_name'];
+		  $profile_celldisplay='';
 
 		  /*umn an array of mark properties for this column*/	
 	      $umn=array('id'=>$mark['id'], 
@@ -155,7 +156,7 @@ for($i=0;$i<sizeof($cids);$i++){
 
 		  if($marktype[$c]=='average'){
 				/* Grab the scoretype of the columns we are averaging */
-			trigger_error(' '.$mark['midlist'],E_USER_WARNING);
+			  //trigger_error(' '.$mark['midlist'],E_USER_WARNING);
 
 				$avmids=explode(' ',$mark['midlist']);
 				$lastmid=$avmids[count($avmids)-1];//use the last one

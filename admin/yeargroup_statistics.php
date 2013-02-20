@@ -77,19 +77,24 @@ two_buttonmenu();
 				}
 			$gender_countrys[$countrycode][$gender]++;
 			$countrys[$countrycode]++;
-			if($secondcountrycode!='' and $secondcountrycode!=' '){trigger_error('2ND: '.$secondcountrycode,E_USER_WARNING);$second_countrys[$countrycode]++;}
+			if($secondcountrycode!='' and $secondcountrycode!=' '){
+				//trigger_error('2ND: '.$secondcountrycode,E_USER_WARNING);
+				$second_countrys[$countrycode]++;
+				}
 
 			/* Do postcodes. Use localcode to restrict to those within the local area. */
 			$Student=fetchStudent_singlefield($student['id'],'Postcode');
 			$poststring=$Student['Postcode']['value'];
-			if(isset($CFG->localpostcode)){$localcode=$CFG->localpostcode;}
-			else{$localcode='2';}
+			if(isset($CFG->sitepostcode)){$localcode=$CFG->sitepostcode;}
+			else{$localcode='';}
 			$student_pcodes=explode(' : ',$poststring);
 			foreach($student_pcodes as $pcode){
 				$pos=stripos($pcode,$localcode);
-				if($pos === false){
+				if($pos === false and $localcode!=''){
+					/* Exclude all postcodes which are not part of the local postcode district. */
 					}
 				else{
+					/* Include if localcode is not set or is part of the local district. */
 					$postcode=substr($pcode,$pos,5);
 					if(!isset($postcodes[$postcode])){
 						$postcodes[$postcode]=0;
@@ -233,11 +238,11 @@ two_buttonmenu();
 			$Student=fetchStudent_singlefield($student['id'],'Postcode');
 			$poststring=$Student['Postcode']['value'];
 			if(isset($CFG->sitepostcode)){$localcode=$CFG->sitepostcode;}
-			else{$localcode='2';}
+			else{$localcode='';}
 			$student_pcodes=explode(' : ',$poststring);
 			foreach($student_pcodes as $pcode){
 				$pos=stripos($pcode,$localcode);
-				if($pos === false){
+				if($pos === false and $localcode!=''){
 					}
 				else{
 					$postcode=substr($pcode,$pos,5);

@@ -34,6 +34,7 @@ Fixed display of assessments on the enrolments_list.
 The distinction between static and live recording of enquires removed
 by merging the two methods in the applications table.
 
+Fix to statistics page for localpostcode.
 
 
 Version ClaSS-1.0.40 release (2013/01/07)
