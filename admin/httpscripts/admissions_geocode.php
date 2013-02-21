@@ -87,6 +87,8 @@ class map_geocode{
 	
 	static public function getLatLng($add){
 
+		global $CFG;
+
 		/* Try to strip off flat numbers etc. as they seem to confuse google */
 		$address=explode(',',$add['street']);
 		$address=explode('-',$address[0]);

@@ -34,6 +34,7 @@ else{
 
 	/* Get the most recent SEN record if one exists. */
 	$SEN=fetchSEN($sid);
+	$senhid=$SEN['id_db'];
 
 	$book='seneeds';
 	include('seneeds/sen_view.php');
