@@ -73,17 +73,26 @@ button.selery img {
 	background-repeat:no-repeat;	
     padding:1px;border:0;
 	}
-button.selery[value="1"] img { 
+button.selerydot[value="1"] img { 
 	background-image:url("../images/dot1.png");
 	}
-button.selery[value="2"] img { 
+button.selerydot[value="2"] img { 
 	background-image:url("../images/dot2.png");
 	}
-button.selery[value="3"] img { 
+button.selerydot[value="3"] img { 
 	background-image:url("../images/dot3.png");
 	}
-button.selery[value="4"] img { 
+button.selerydot[value="4"] img { 
 	background-image:url("../images/dot4.png");
+	}
+button.selerytick[value="1"] img { 
+	background-image:url("../images/greentick.png");
+	}
+button.selerytick[value="2"] img { 
+	background-image:url("../images/greyminus.png");
+	}
+button.selerytick[value="3"] img { 
+	background-image:url("../images/redcross.png");
 	}
 .selery div.hilite {
 	color:#ffffff !important;

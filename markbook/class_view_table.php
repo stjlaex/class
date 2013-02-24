@@ -352,7 +352,7 @@ while($student=mysql_fetch_array($d_students, MYSQL_ASSOC)){
 			/* Have to explicity pass the bid and pid for the profile here NOT for the class. */
 			$rep=checkReportEntryCat($umns[$c]['midlist'],$sid,$profilebid,$umns[$c]['component']);
 			/* Option to decide what is displayed in the table cell: either blank or the result value. */
-			if($umns[$c]['profile_celldisplay']=='' or $rep['value']==='' or $rep['value']<=0){
+			if($umns[$c]['profile_celldisplay']==='' or $rep['value']==='' or $rep['value']<=0){
 				$outspace='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 				}
 			else{

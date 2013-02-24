@@ -104,10 +104,10 @@ function selerySubmit(liObj){
 	liObj.parentNode.parentNode.parentNode.submit();
 	}
 
-function seleryGrow(buttonObj){
+function seleryGrow(buttonObj,limit){
 	var start=buttonObj.value;
 	var end=++start;
-	if(end>4){end=0;}
+	if(end>limit){end=0;}
 	buttonObj.value=end;
 	buttonObj.parentNode.getElementsByTagName("input")[0].value=end;
 	}

@@ -1,3 +1,14 @@
+Version ClaSS-1.0.42 release (2013/02/25)
+-------------------------------------------
+
+Added a new selerygrow class for ticks as opposed to dots and a
+parameter to indicate the number of options to cycle through.
+
+The Targets now have the tick as achieved or not achieved with full
+history on display.
+
+
+
 Version ClaSS-1.0.41 release (2013/02/19)
 -------------------------------------------
 
@@ -35,6 +46,8 @@ The distinction between static and live recording of enquires removed
 by merging the two methods in the applications table.
 
 Fix to statistics page for localpostcode.
+
+Fix to fetchIncident for the catdefs.
 
 
 Version ClaSS-1.0.40 release (2013/01/07)

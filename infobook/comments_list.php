@@ -10,7 +10,7 @@ if(isset($_GET['bid'])){$bid=$_GET['bid'];}
 $Comments=fetchComments($sid,'','');
 $Student['Comments']=$Comments;
 $yid=$Student['YearGroup']['value'];
-$perm=getYearPerm($yid,$respons);
+$perm=getFormPerm($Student['RegistrationGroup']['value'],$respons);
 
 $extrabuttons=array();
 $extrabuttons['addnew']=array('name'=>'current','value'=>'comments_new.php');
@@ -121,7 +121,10 @@ print '('.$Student['RegistrationGroup']['value'].')';
 												'value'=>'newaction',
 												'title'=>'newaction');
 			   }
-		   rowaction_buttonmenu($imagebuttons,$extrabuttons,$book);
+
+		   if($perm['w']=='1'){
+			   rowaction_buttonmenu($imagebuttons,$extrabuttons,$book);
+			   }
 ?>
 
 			</td>

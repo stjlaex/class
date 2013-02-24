@@ -249,4 +249,5 @@ $string['university']='University';
 $string['visible']='Visible';
 $string['hidden']='Hidden';
 $string['previousschool']='Previous Schools';
+$string['achieved']='Achieved';
 ?>

@@ -15,18 +15,19 @@ if($sub=='Submit'){
 			$inname='detail'.$index;
 			$inval=clean_text($_POST[$inname]);
 			$indate=$_POST['entrydate'.$index];
-			trigger_error($indate,E_USER_WARNING);
+			$insuccess=$_POST['success'.$index];
+			//trigger_error($indate,E_USER_WARNING);
 			if($indate=='0000-00-00' or $indate==''){$entrydate=date('Y-m-d');}
 			else{$entrydate=$indate;}
 
 			if(clean_text($Target['Detail']['value'])!=$inval){
 				$noteid=$Target['id_db'];
 				if($noteid==''){
-					mysql_query("INSERT INTO background (student_id,detail,type,entrydate) 
-									VALUES ('$sid','$inval','$cattype','$entrydate');");
+					mysql_query("INSERT INTO background (student_id,detail,type,entrydate,category) 
+									VALUES ('$sid','$inval','$cattype','$entrydate','$insuccess');");
 					}
 				else{
-					mysql_query("UPDATE background SET detail='$inval', entrydate='$entrydate'
+					mysql_query("UPDATE background SET detail='$inval', entrydate='$entrydate', category='$insuccess'
 									WHERE id='$noteid';");
 					}
 				}

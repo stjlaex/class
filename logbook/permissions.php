@@ -31,21 +31,20 @@ function list_sid_responsible_users($sid, $bid){
 	  	$d_class=mysql_query("SELECT course_id FROM cohort WHERE cohort.year='$year' AND 
 						cohort.id=ANY(SELECT class.cohort_id FROM class JOIN cidsid
 						ON cidsid.class_id=class.id WHERE class.subject_id='$bid' AND cidsid.student_id='$sid');");
-		$crid=mysql_result($d_class,0);
-	  	$d_group=mysql_query("SELECT gid FROM groups WHERE
-		  	course_id='$crid' AND subject_id='%'");
-		$group=mysql_fetch_array($d_group);
-		$gids[]=$group['gid'];
+		if(mysql_num_rows($d_class)>0){
+			$crid=mysql_result($d_class,0);
+			$d_group=mysql_query("SELECT gid FROM groups WHERE course_id='$crid' AND subject_id='%';");
+			$group=mysql_fetch_array($d_group);
+			$gids[]=$group['gid'];
 
-	  	$d_group=mysql_query("SELECT gid FROM groups WHERE
-		  	course_id='%' AND subject_id='$bid'"); 
-		$group=mysql_fetch_array($d_group);
-		$gids[]=$group['gid'];
+			$d_group=mysql_query("SELECT gid FROM groups WHERE course_id='%' AND subject_id='$bid';"); 
+			$group=mysql_fetch_array($d_group);
+			$gids[]=$group['gid'];
 
-	  	$d_group=mysql_query("SELECT gid FROM groups WHERE
-								course_id='$crid' AND subject_id='$bid'"); 
-		$group=mysql_fetch_array($d_group);
-		$gids[]=$group['gid'];
+			$d_group=mysql_query("SELECT gid FROM groups WHERE course_id='$crid' AND subject_id='$bid';"); 
+			$group=mysql_fetch_array($d_group);
+			$gids[]=$group['gid'];
+			}
 		}
 	foreach($gids as $gid){
 		$d_users=mysql_query("SELECT users.uid, users.username, users.email FROM users 
@@ -89,6 +88,9 @@ function list_sid_responsible_users($sid, $bid){
 
 	return $recipients;
 	}
+
+
+
 
 /**
  *  Will return all details of users of interest based on the

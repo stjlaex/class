@@ -386,6 +386,10 @@ function getEnumArray($field_name){
 	$credit=array('0' => 'debit', 
 				  '1' => 'credit' 
 				  );
+	$success=array('0' => '', 
+				   '1' => 'achieved' ,
+				   '2' => 'notachieved' 
+				   );
 	$budgetyearcode=array('2007' => '07', 
 						  '2008' => '08', 
 						  '2009' => '09', 

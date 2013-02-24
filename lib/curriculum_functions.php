@@ -594,7 +594,7 @@ function list_student_courses($sid,$todate=''){
  *
  * Returns an array listing all subject teachers (not trainee
  * teachers!!!) of this student. The array is of users records
- * with name and email detials.
+ * with name and email details.
  *
  *	@param string $sid
  *	@return array

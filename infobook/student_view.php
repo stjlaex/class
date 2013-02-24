@@ -160,8 +160,8 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 	$Student['Comments']=$Comments;
 	if(array_key_exists('Comment',$Comments)){
 		$Comment=$Comments['Comment'][0];
-		print '<td>'.display_date($Comment['EntryDate']['value']).'</td>';
-		print '<td>'.substr($Comment['Detail']['value'],0,60).'...'.'</td>';
+		print '<td><label>'.display_date($Comment['EntryDate']['value']).'</label></td>';
+		print '<td>'.substr($Comment['Detail']['value'],0,120).'...'.'</td>';
 		}	
 	else{
 		print '<td colspan="3">&nbsp;</td>';
@@ -192,7 +192,17 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 			  <a href="infobook.php?current=targets_list.php&cancel=student_view.php"><?php print_string('targets',$book); ?>
 			  </a>
 			</th>
-			<td colspan="3">&nbsp;</td>
+<?php
+		$Targets=(array)fetchTargets($sid);
+		if(array_key_exists(0,$Targets['Target'])){
+			$Target=$Targets['Target'][0];
+			print '<td><label>'.display_date($Target['EntryDate']['value']).'</label></td>';
+			print '<td colspan="2">'.substr($Target['Detail']['value_db'],0,120).'...'.'</td>';
+			}
+		else{
+			print '<td colspan="3">&nbsp;</td>';
+			}
+?>
 		  </tr>
 <?php
 	$Backgrounds=(array)fetchBackgrounds($sid);
@@ -207,8 +217,8 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 		/* Ensure private entries for Background are not displayed here! */
 		if(array_key_exists(0,$Ents) and !($tagname=='Background' and $Ents[0]['Categories']['Category'][0]['rating']['value']<0)){
 			$Ent=$Ents[0];
-			print '<td>'.display_date($Ent['EntryDate']['value']).'</td>';
-			print '<td colspan="2">'.substr($Ent['Detail']['value_db'],0,60).'...'.'</td>';
+			print '<td><label>'.display_date($Ent['EntryDate']['value']).'</label></td>';
+			print '<td colspan="2">'.substr($Ent['Detail']['value_db'],0,120).'...'.'</td>';
 			}
 		else{
 			print '<td colspan="3">&nbsp;</td>';
