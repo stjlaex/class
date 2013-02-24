@@ -1399,51 +1399,51 @@ function fetchTargets($sid,$secid=''){
  * Returns all targets for a given $sid. Limited to their current section by default.
  *
  */
-function fetchPreviousTargets($sid,$secid=''){
+function fetchPreviousTargets($sid){
 	$Targets=array();
 	$Targets['Target']=array();
+	$entids=array();
 
-	$d_b=mysql_query("SELECT c.type AS cattype, c.name AS catname, b.id, b.teacher_id, 
-						  b.detail, b.entrydate, b.category, b.yeargroup_id
-						  FROM background AS b JOIN categorydef AS c ON c.subtype=b.type
-						  WHERE c.type='tar' AND b.student_id='$sid' 
-						  AND (b.category='1' OR b.category='2') ORDER BY b.entrydate DESC;");
+	$d_b=mysql_query("SELECT DISTINCT b.id, b.teacher_id, b.detail, b.entrydate, b.category, b.yeargroup_id,
+						  c.type AS cattype, c.name AS catname FROM background AS b JOIN categorydef AS c ON c.subtype=b.type
+						  WHERE b.student_id='$sid' AND (b.category='1' OR b.category='2') ORDER BY b.entrydate DESC, b.id;");
 
 	while($entry=mysql_fetch_array($d_b,MYSQL_ASSOC)){
 
-		$Entry=array();
-		$Entry['id_db']=$entry['id'];
-		$Entry['Teacher']=array('label' => 'teacher', 
+		if(!in_array($entry['id'],$entids)){
+			$entids[]=$entry['id'];
+			$Entry=array();
+			$Entry['id_db']=$entry['id'];
+			$Entry['Teacher']=array('label' => 'teacher', 
 									'field_db' => 'teacher_id', 
 									'type_db' => 'varchar(14)', 
 									'username' => ''.$entry['teacher_id'], 
 									'value' => ''.get_teachername($entry['teacher_id']));
-		$Entry['Category']=array('label' => 'category', 
+			$Entry['Category']=array('label' => 'category', 
 									 'value_db' => ''.$entry['cattype'],
 									 'value' => ''.$entry['catname']);
-		$Entry['EntryDate']=array('label' => 'date',
-								  'field_db' => 'entrydate', 
-								  'type_db' => 'date', 
+			$Entry['EntryDate']=array('label' => 'date',
+									  'field_db' => 'entrydate', 
+									  'type_db' => 'date', 
 									  'value' => ''.$entry['entrydate']);
-		$Entry['Success']=array('label' => 'success',
-								'field_db' => 'category', 
-								'type_db' => 'varchar', 
-								'value' => ''.$entry['category']);
-		unset($comment_html);
-		$comment_html['div'][]=$entry['detail'];
-		
-		$Entry['Detail']=array('label' => 'details', 
-							   'field_db' => 'detail', 
-							   'type_db'=> 'text', 
-							   'value'=> $comment_html,
-							   'value_db' => ''.$entry['detail']);
-		$Entry['YearGroup']=array('label' => 'yeargroup', 
-								  'field_db' => 'yeargroup_id', 
-								  'type_db' => 'smallint', 
-								  'value' => ''.$entry['yeargroup_id']);
-		$Targets['Target'][]=$Entry;
-		trigger_error('TARGET: '.sizeof($Targets['Target']),E_USER_WARNING);
-
+			$Entry['Success']=array('label' => 'success',
+									'field_db' => 'category', 
+									'type_db' => 'varchar', 
+									'value' => ''.$entry['category']);
+			unset($comment_html);
+			$comment_html['div'][]=$entry['detail'];
+			
+			$Entry['Detail']=array('label' => 'details', 
+								   'field_db' => 'detail', 
+								   'type_db'=> 'text', 
+								   'value'=> $comment_html,
+								   'value_db' => ''.$entry['detail']);
+			$Entry['YearGroup']=array('label' => 'yeargroup', 
+									  'field_db' => 'yeargroup_id', 
+									  'type_db' => 'smallint', 
+									  'value' => ''.$entry['yeargroup_id']);
+			$Targets['Target'][]=$Entry;
+			}
 		}
 
 	return $Targets;

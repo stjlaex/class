@@ -194,7 +194,7 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 			</th>
 <?php
 		$Targets=(array)fetchTargets($sid);
-		if(array_key_exists(0,$Targets['Target'])){
+		if($Targets['Target'][0]['Detail']['value_db']!=''){
 			$Target=$Targets['Target'][0];
 			print '<td><label>'.display_date($Target['EntryDate']['value']).'</label></td>';
 			print '<td colspan="2">'.substr($Target['Detail']['value_db'],0,120).'...'.'</td>';
