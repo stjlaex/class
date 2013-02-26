@@ -54,8 +54,7 @@ if($sub=='Submit'){
 
 
 	if(isset($sid)){
-		mysql_query("INSERT INTO gidsid SET
-				guardian_id='$gid', student_id='$sid';");
+		mysql_query("INSERT INTO gidsid SET guardian_id='$gid', student_id='$sid';");
 		}
 
 
@@ -66,11 +65,11 @@ if($sub=='Submit'){
 			$inname=$field;
 			$inval=clean_text($_POST[$inname]);
 			if($val['table_db']=='guardian'){
-				mysql_query("UPDATE guardian SET $field='$inval' WHERE id='$gid'");
+				mysql_query("UPDATE guardian SET $field='$inval' WHERE id='$gid';");
 				}
 			elseif($val['table_db']=='gidsid'){
-				mysql_query("UPDATE gidsid SET $field='$inval'
-						WHERE guardian_id='$gid' AND student_id='$sid'");
+				mysql_query("UPDATE gidsid SET $field='$inval' 
+						WHERE guardian_id='$gid' AND student_id='$sid';");
 				}
 			}
 		}

@@ -194,10 +194,17 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 			</th>
 <?php
 		$Targets=(array)fetchTargets($sid);
-		if($Targets['Target'][0]['Detail']['value_db']!=''){
-			$Target=$Targets['Target'][0];
-			print '<td><label>'.display_date($Target['EntryDate']['value']).'</label></td>';
-			print '<td colspan="2">'.substr($Target['Detail']['value_db'],0,120).'...'.'</td>';
+		$detail='';
+		$date='';
+		foreach($Targets['Target'] as $Target){
+			if($Target['Detail']['value_db']!='' and strtotime($date) < strtotime($Target['EntryDate']['value'])){
+				$detail=substr($Target['Detail']['value_db'],0,120);
+				$date=display_date($Target['EntryDate']['value']);
+				}
+			}
+		if($detail!=''){
+			print '<td><label>'.$date.'</label></td>';
+			print '<td colspan="2">'.$detail.'...'.'</td>';
 			}
 		else{
 			print '<td colspan="3">&nbsp;</td>';
