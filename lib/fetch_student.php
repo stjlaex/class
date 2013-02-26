@@ -900,6 +900,7 @@ function fetchContact($gidsid=array('guardian_id'=>'-1','student_id'=>'-1','prio
 										  'inputtype'=> 'required',
 										  'table_db' => 'gidsid', 
 										  'field_db' => 'mailing',
+										  'default_value' => '1',
 										  'type_db' => 'enum', 
 										  'value' => ''.$gidsid['mailing']);
 		$Contact['Relationship']=array('label' => 'relationship', 
@@ -1317,7 +1318,7 @@ function fetchBackgrounds_Entry($entry){
 	$Entry['Detail']=array('label' => 'details', 
 						   'field_db' => 'detail', 
 						   'type_db'=> 'text', 
-						   'value'=> ''.$comment_html,
+						   'value'=> $comment_html,
 						   'value_db' => ''.$entry['detail']);
 	$bid=$entry['subject_id'];
 	$subjectname=get_subjectname($bid);
