@@ -283,9 +283,9 @@
 
 			$thisscore=get_assessment_score($eid,$sid,$bid,$pid);
 			$eidsid_id=$thisscore['id'];
-			$d_c=mysql_query("SELECT id FROM comments WHERE eidsid_id='$eidsid_id' AND student_id='$sid';");
+			$d_c=mysql_query("SELECT id, detail FROM comments WHERE eidsid_id='$eidsid_id' AND student_id='$sid';");
 			while($c=mysql_fetch_array($d_c,MYSQL_ASSOC)){
-				$files=(array)list_files($Student['EPFUsername']['value'],'assessment',$c['id']);
+				$files=(array)list_files($Student['EPFUsername']['value'],'assessment',$ck);
 				html_document_list($files);
 				}
 			unset($thisscore);

@@ -726,7 +726,8 @@ function html_document_drop($epfun,$context,$linked_id='-1'){
 	if(sizeof($files)>0){
 		html_document_list($files);
 		print '<button id="deletebutton" class="rowaction imagebutton" 
-						type="button" title="Delete" name="current" value=""/><img class="clicktodelete" style="max-width:100%;" /></button>';
+						type="button" title="Delete" name="current" 
+						value=""/><img class="clicktodelete" style="max-width:100%;" /></button>';
 		}
 ?>
 		  </form>
@@ -770,10 +771,10 @@ function html_document_list($files){
 
 	foreach($files as $file){
 		$fileparam_list='?fileid='.$file['id'].'&location='.$file['location'].'&filename='.$file['name'];
-		print '<div id="filecontainer'.$file['id'].'" class="document">';
+		print '<div id="filecontainer'.$file['id'].'" class="document"><span title="'.$file['description'].'">';
 		print '<a href="'.$filedisplay_url. $fileparam_list.'" /><label>'.$file['originalname'].'<img src="images/printer.png" /></label></a>';
 		print '<input type="checkbox" name="fileids[]" value="'.$file['id'].'" />';
-		print '</div>';
+		print '</span></div>';
 		}
 
 	return;

@@ -1244,6 +1244,13 @@ function list_files($epfun,$foldertype,$linked_id='-1',$bid=''){
 			}
 		}
 	else{
+
+		/* Could be assing both an id and some description from a linked comment. */
+		if(is_array($linked_id)){
+			$linked_description=$linked_id['detail'];
+			$linked_id=$linked_id['id'];
+			}
+
 		if($linked_id>0){
 			/* Looking only at the files attached to a single entry. */
 			$attachment="file.other_id='$linked_id' AND ";
@@ -1258,20 +1265,16 @@ function list_files($epfun,$foldertype,$linked_id='-1',$bid=''){
 						WHERE $attachment file.owner_id='$epfuid' AND file.owner='s' AND file_folder.name='$foldertype';");
 		while($file=mysql_fetch_array($d_f,MYSQL_ASSOC)){
 			if($foldertype=='assessment'){
-				/* Looking only at the files associated with a particular subject. 
-				 * The other_id is a comment_id and will have an entry in comments?
+				/*
+				 * The other_id is a comment_id and will have a descriptoin from there.
 				 */
-				/** TODO **/
+				$file['description']=$linked_description;
 				}
-
-			$file['description']=$file['description'];
+			else{
+				$file['description']=$file['description'];
+				}
 			$file['name']=$file['originalname'];
 			$file['path']=$CFG->eportfolio_dataroot.'/'.$file['location'];
-			// only the path is needed?
-			//$file['url']=$CFG->eportfoliosite.'/'.$epfun.'/files/'.$folder_id.'/'.$file['ident'].'/'.$file['originalname'];
-
-			trigger_error($file['name'],E_USER_WARNING);
-
 			$files[]=$file;
 			}
 		}

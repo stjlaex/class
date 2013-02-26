@@ -66,10 +66,15 @@ if(isset($_GET['openid'])){$openid=$_GET['openid'];}
 		<script language="JavaScript" type="text/javascript" src="../../js/documentdrop.js?version=1035"></script>
 
 
+
+
+
+
 		<form id="formtoprocess" name="formtoprocess" method="post" action="upload_file_action.php">
 
-		  <fieldset class="center">
-			<div class="right">
+		<div class="listmenu fileupload">
+		  <div class="center">
+		  <fieldset class="right documentdrop">
 <?php
 
 if($_SESSION['worklevel']>-1 and ($CFG->emailguardiancomments=='yes' or ($CFG->emailguardiancomments=='limit' and $perm['x']==1))){
@@ -77,18 +82,19 @@ if($_SESSION['worklevel']>-1 and ($CFG->emailguardiancomments=='yes' or ($CFG->e
 		$checkcaption=get_string('sharewithguardian','infobook');
 		$checkalert=get_string('sharecommentalert','infobook');
 		/* TODO: implement share with parents */
-		//include('../../scripts/check_yesno.php');
+		include('../../scripts/check_yesno.php');
 		unset($checkalert);
 		}
 
 ?>
-			</div>
 
-	  <label for="Comment"><?php print_string('description',$book);?></label>
-	  <textarea id="Comment"
+			<label for="Comment"><?php print_string('description',$book);?></label>
+			<textarea id="Comment"
 				style="height:80px;" tabindex="<?php print $tab++;?>"  
 				name="comment" ></textarea>
 		  </fieldset>
+		  </div>
+		</div>
 
 		<input type="hidden" name="inmust" value="<?php print $inmust; ?>"/>
 		<input type="hidden" name="sid" value="<?php print $sid; ?>"/>
