@@ -178,6 +178,8 @@ if(isset($_POST['startdate'])){$startdate=$_POST['startdate'];}
 	$neededperm='r';
 	include('scripts/perm_action.php');
 
+	$sort_types='';
+
 	$extrabuttons=array();
 /*   	$extrabuttons['addresslabels']=array('name'=>'current',
 										 'title'=>'printaddresslabels',
@@ -214,6 +216,7 @@ if(isset($_POST['startdate'])){$startdate=$_POST['startdate'];}
 		  <caption>
 			<?php print_string($comtype,$book);?>
 		  </caption>
+		  <thead>
 		  <tr>
 			<th colpsan="2"><?php print_string('checkall'); ?>
 			  <input type="checkbox" name="checkall" 
@@ -226,10 +229,9 @@ if(isset($_POST['startdate'])){$startdate=$_POST['startdate'];}
 
 		$required='no';$multi='1';
 		$colspan=2+sizeof($AssDefs);
-trigger_error($enrolstage.' '.sizeof($AssDefs),E_USER_WARNING);
 	   if($enrolstage=='RE'){
 			foreach($AssDefs as $AssDef){
-				print '<th>'. $AssDef['Description']['value'].'</th>';
+				print '<th>'.$AssDef['Description']['value'].'</th>';
 				}
 			}
 		elseif($comtype=='allapplied' or 
@@ -237,16 +239,27 @@ trigger_error($enrolstage.' '.sizeof($AssDefs),E_USER_WARNING);
 				print '<th colspan="'.$colspan.'">'.get_string('enrolstatus','infobook').'</th>';
 			}
 		else{
-			foreach($AssDefs as $AssDef){
+			foreach($AssDefs as $ano => $AssDef){
 				if($AssDef['Course']['value']!='%'){$coursename=get_coursename($AssDef['Course']['value']);}
 				else{$coursename='';}
-				print '<th>'.$coursename.'<br />'. 
-		   					$AssDef['Description']['value'].'</th>';
+				$sortno=$ano+4;
+				$sort_types.=",'s'";
+?>
+		<th> 
+				<?php print $AssDef['Description']['value'];?>
+				<div class="rowaction">
+				  <input class="underrow" type='button' name='action' value='v' onClick='tsDraw("<?php print $sortno;?>A", "sidtable");' />
+				  <input class="underrow"  type='button' name='action' value='-' onClick='tsDraw("<?php print $sortno;?>U", "sidtable");' />
+				  <input class="underrow"  type='button' name='action' value='^' onClick='tsDraw("<?php print $sortno;?>D", "sidtable");' />
+				</div>
+		</th>
+<?php
 				}
 			print '<th>'.get_string('enrolstatus','infobook').'</th>';
 			}
 ?>
 		  </tr>
+		</thead>
 <?php
 	$rown=1;
 	foreach($students as $student){
@@ -411,3 +424,9 @@ trigger_error($enrolstage.' '.sizeof($AssDefs),E_USER_WARNING);
 	<input type="hidden" name="cancel" value="<?php print $cancel;?>" />
 	</form>
   </div>
+
+
+<script type="text/javascript">
+	var TSort_Data = new Array ('sidtable', '', '', ''<?php print $sort_types;?>);
+		tsRegister();
+</script> 

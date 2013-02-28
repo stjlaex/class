@@ -1,4 +1,4 @@
-Version ClaSS-1.0.42 release (2013/02/25)
+Version ClaSS-1.0.42 release (2013/02/28)
 -------------------------------------------
 
 Added a new selerygrow class for ticks as opposed to dots and a
@@ -9,7 +9,7 @@ history on display.
 
 Receives mailing now defaults to all for new contacts.
 
-
+Added table sort to the enrolments_list for enrolment assessments.
 
 
 Version ClaSS-1.0.41 release (2013/02/19)
