@@ -91,7 +91,7 @@ elseif($ARGS['option']=='epfsync'){
 	exec("$cmd > /dev/null &");
 	}
 elseif($ARGS['option']=='studentevent'){
-	/* Update accounts for contacts in the ClaSSIC database */
+	/* Runs some reports on sids and sends notifications */
 	$cmd='/usr/bin/php '.$CFG->installpath.'/'.$CFG->applicationdirectory.'/reportbook/httpscripts/student_event_cron.php --path='.$CFG->installpath;
 	exec("$cmd > /dev/null &");
 	}

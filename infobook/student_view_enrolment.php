@@ -70,8 +70,7 @@ three_buttonmenu();
 		  <tr>
 			  <td>
 <?php 
-		print '<label>'.get_coursename($AssDef['Course']['value']).'<br />'. 
-						$AssDef['Description']['value'].'</label>';
+		print '<label>'.$AssDef['Description']['value'].'</label>';
 		if($gena!='' and $gena!=' '){
 			$input_elements.=' <input type="hidden" name="scoretype'.$eid.'" value="grade" />';
 			$pairs=explode (';',$AssDef['GradingScheme']['grades']);
