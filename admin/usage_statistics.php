@@ -9,8 +9,7 @@ $action='usage.php';
 
 include('scripts/sub_action.php');
 
-$extrabuttons['usagestatistics']=array('name'=>'current','value'=>'usage_statistics.php');
-two_buttonmenu($extrabuttons,$book);
+two_buttonmenu();
 
 $year=get_curriculumyear();
 $time=mktime(0,0,0,8,0,$year-1);
@@ -295,75 +294,6 @@ $todate=date('Y-m-d');
 	  </table>
 	</fieldset>
 
-
-
-	<fieldset class="center divgroup">
-	  <legend><?php print_string('pastoralandacademicmonitoring',$book);?></legend>
-<?php
-		$d_h=mysql_query("SELECT COUNT(*)
-				FROM comments WHERE entrydate>'$date'");
-		$nocoms=mysql_result($d_h,0);
-		$d_h=mysql_query("SELECT COUNT(*)
-				FROM incidents WHERE entrydate>'$date'");
-		$noins=mysql_result($d_h,0);
-		$d_h=mysql_query("SELECT COUNT(*)
-				FROM background WHERE entrydate>'$date'");
-		$noents=mysql_result($d_h,0);
-?>
-	  <table class="listmenu">
-		<tr>
-		  <th><?php print_string('comments',$book);?></th>
-		  <th><?php print_string('incidents',$book);?></th>
-		  <th><?php print_string('other',$book);?></th>
-		</tr>
-		<tr>
-		  <td><?php print $nocoms;?></td>
-		  <td><?php print $noins;?></td>
-		  <td><?php print $noents;?></td>
-		</tr>
-	  </table>
-
-<br />
-
-	  <table class="listmenu">
-		<tr>
-		  <th><?php print_string('yeargroup',$book);?></th>
-		  <th><?php print_string('comments',$book);?></th>
-		  <th><?php print_string('incidents',$book);?></th>
-		  <th><?php print_string('other',$book);?></th>
-		  <th><?php print_string('numberofstudents',$book);?></th>
-		  <th><?php print_string('averageperstudent',$book);?></th>
-		</tr>
-<?php
-	$d_y=mysql_query("SELECT id, name FROM yeargroup ORDER BY sequence");
-	while($yeargroup=mysql_fetch_array($d_y,MYSQL_ASSOC)){
-		$yid=$yeargroup['id'];
-		$nosids=countin_community(array('type'=>'year','name'=>$yid));
-		$d_h=mysql_query("SELECT COUNT(*)
-			FROM comments WHERE entrydate>'$date' AND yeargroup_id='$yid'");
-		$nocoms=mysql_result($d_h,0);
-		$d_h=mysql_query("SELECT COUNT(*)
-			FROM incidents WHERE entrydate>'$date' AND yeargroup_id='$yid'");
-		$noins=mysql_result($d_h,0);
-		$d_h=mysql_query("SELECT COUNT(*)
-			FROM background WHERE entrydate>'$date' AND yeargroup_id='$yid'");
-		$noents=mysql_result($d_h,0);
-		if($nosids>0){$ave=round(($noents+$noins+$nocoms)/$nosids);}else{$ave=0;}
-
-?>
-		<tr>
-		  <td><?php print $yeargroup['name'];?></td>
-		  <td><?php print $nocoms;?></td>
-		  <td><?php print $noins;?></td>
-		  <td><?php print $noents;?></td>
-		  <td><?php print $nosids;?></td>
-		  <td><?php print $ave;?></td>
-		</tr>
-<?php
-		}
-?>
-		</table>
-	</fieldset>
 
 
 	<fieldset class="center divgroup">

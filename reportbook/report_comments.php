@@ -9,7 +9,8 @@ $choice='report_comments.php';
 //last two weeks by default
 $todate=date('Y-m-d',mktime(0,0,0,date('m'),date('d')-14,date('Y')));
 
-three_buttonmenu();
+$extrabuttons['summary']=array('name'=>'current','value'=>'report_comments_summary.php');
+three_buttonmenu($extrabuttons);
 ?>
   <div id="heading">
 	<label><?php print_string('search',$book);?></label>
