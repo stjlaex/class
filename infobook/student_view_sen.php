@@ -36,7 +36,9 @@ else{
 	$SEN=fetchSEN($sid);
 	$senhid=$SEN['id_db'];
 
+	/* Careful with the setting of book: it needs to be seneeds to get
+	 * all of the lang options but tinytabs won't find the tab to load if
+	 * we are in infobook; 
+	 */
 	$book='seneeds';
-	include('seneeds/sen_view.php');
-	}
-?>
+	include('seneeds/sen_view.php'); $book='infobook'; } ?>

@@ -9,6 +9,7 @@
 if($current=='sen_view.php'){$action='sen_view_action.php';}
 if(!isset($selbid)){$selbid='G';}
 
+
 ?>
   <div id="heading"><label><?php print_string('senprofile',$book);?></label>
   <?php print $Student['Forename']['value'].' '.$Student['Surname']['value'];?>
@@ -141,7 +142,7 @@ if(!isset($selbid)){$selbid='G';}
 			}
 		}
 
-	if(array_key_exists($selbid,$keybids)){$selkey=$keybids[$selbid];$selbid='';}
+	if(array_key_exists($selbid,$keybids)){$selkey=$keybids[$selbid];}
 	else{$selkey=0;}
 
 	foreach($SEN['Curriculum'] as $key => $Subject){
@@ -281,6 +282,7 @@ if(!isset($selbid)){$selbid='G';}
 
 
 
+ 	<input type="hidden" name="selbid" value="<?php print $selbid;?>"/>
  	<input type="hidden" name="current" value="<?php print $action;?>"/>
  	<input type="hidden" name="choice" value="<?php print $current;?>"/>
  	<input type="hidden" name="cancel" value=""/>

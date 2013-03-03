@@ -22,15 +22,15 @@ if(isset($sid) and $_SESSION['role']!='support'){
 	</span>
 <?php
 	if($Student['SENFlag']['value']=='Y'){ ?>
-		<a href="infobook.php?current=student_view_sen.php&sid=<?php print $sid;?>&sids[]=<?php print $sid;?>&bid=G" <?php print $target;?> >S</a>
+		<a href="infobook.php?current=student_view_sen.php&sid=<?php print $sid;?>&sids[]=<?php print $sid;?>&bid=<?php print $bid[0]?>" <?php print $target;?> >S</a>
 <?php
 		}
 	if($Student['MedicalFlag']['value']=='Y'){ ?>
-		<a href="infobook.php?current=student_view_medical.php&sid=<?php print $sid;?>&sids[]=<?php print $sid;?>&bid=G" <?php print $target;?> >M</a>
+		<a href="infobook.php?current=student_view_medical.php&sid=<?php print $sid;?>&sids[]=<?php print $sid;?>" <?php print $target;?> >M</a>
 <?php
 		}
 	if($Student['Boarder']['value']!='N' and $Student['Boarder']['value']!=''){ ?>
-		<a href="infobook.php?current=student_view.php&sid=<?php print $sid;?>&sids[]=<?php print $sid;?>&bid=G" <?php print $target;?> >B</a>
+		<a href="infobook.php?current=student_view.php&sid=<?php print $sid;?>&sids[]=<?php print $sid;?>" <?php print $target;?> >B</a>
 <?php
 		}
 	unset($comment);

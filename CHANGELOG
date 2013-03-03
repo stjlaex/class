@@ -15,6 +15,10 @@ New summary page for reporting usage statistics on comments.
 
 The fees access check is now included on th estudent profile page.
 
+Fix to subject permissions when editing sen_view page.
+
+Fix to loading the first tinytab when viewing the sen page in infobook.
+
 
 Version ClaSS-1.0.41 release (2013/02/19)
 -------------------------------------------

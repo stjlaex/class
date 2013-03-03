@@ -9,21 +9,25 @@
  *
  */
 if($current=='sen_view_action.php'){$action='sen_view.php';}
+if(isset($_POST['ncmod'])){$ncmodkey=$_POST['ncmod'];}else{$ncmodkey='';}
+if(isset($_POST['selbid'])){$selbid=$_POST['selbid'];}else{$selbid='';}
+if(isset($_POST['bid'])){$bid=$_POST['bid'];}else{$bid='';}
+$action_post_vars=array('selbid','bid');
+
 
 include('scripts/sub_action.php');
-if(isset($_POST['ncmod'])){$ncmodkey=$_POST['ncmod'];}else{$ncmodkey='';}
-if(isset($_POST['bid'])){$bid=$_POST['bid'];}else{$bid='G';}
+
 
 	/* Check user has permission to edit */
 	$yid=$Student['YearGroup']['value'];
 	$fid=$Student['RegistrationGroup']['value'];
-	$bperm=getSubjectPerm($bid, $respons);
 	$sperm=getSENPerm($yid, $respons);
 	$fperm=getFormPerm($fid, $respons);
 	$perm=$fperm;
-	if($sperm['w']==1 or $fperm['w']==1 or $bperm['w']==1){
+	if($sperm['w']==1 or $fperm['w']==1 or ($selbid!='' and $selbid!='G')){
 		$perm['w']=1;
 		}
+trigger_error($bid .' :::: '.$selbid.' :::: '.$perm['w'],E_USER_WARNING);
 	$neededperm='w';
 	include('scripts/perm_action.php');
 

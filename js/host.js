@@ -346,7 +346,7 @@ function loadRequired(book){
 			}
 		}
 	/*load the first tiny-tab (if there is one)*/
-	if(window.frames["view"+book].document.getElementById('current-tinytab')){
+	if(window.frames["view"+book].document.getElementById("current-tinytab")){
 		tinyTabs(window.frames["view"+book].document.getElementById("current-tinytab"));
 		}
 
