@@ -168,17 +168,20 @@ three_buttonmenu($extrabuttons,$book);
 <?php
 		if(empty($_SESSION['accessfees'])){
 
-?>	  <fieldset class="right listmenu">
+?>
+	  <fieldset class="right listmenu">
 		<legend>
 		  <?php print_string('bankdetails',$book);?>
 		</legend>
-
 		<input type="password" name="accesstest" maxlength="20" value="" />
 		<input type="password" name="accessfees" maxlength="4" value="" />
 <?php
 			$buttons=array();
 			$buttons['access']=array('name'=>'access','value'=>'access');
 			all_extrabuttons($buttons,$book,'');
+?>
+	  </fieldset>
+<?php
 			}
 		else{
 			require_once('lib/fetch_fees.php');
@@ -190,8 +193,6 @@ three_buttonmenu($extrabuttons,$book);
 <?php
 			}
 ?>
-
-	  </fieldset>
 
 
 	  <fieldset class="left listmenu">

@@ -1,4 +1,4 @@
-Version ClaSS-1.0.42 release (2013/02/28)
+Version ClaSS-1.0.42 release (2013/03/03)
 -------------------------------------------
 
 Added a new selerygrow class for ticks as opposed to dots and a
@@ -12,6 +12,8 @@ Receives mailing now defaults to all for new contacts.
 Added table sort to the enrolments_list for enrolment assessments.
 
 New summary page for reporting usage statistics on comments.
+
+The fees access check is now included on th estudent profile page.
 
 
 Version ClaSS-1.0.41 release (2013/02/19)

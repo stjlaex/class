@@ -5,6 +5,7 @@
 
 $action='student_view.php';
 $action_post_vars=array('sid');
+if(isset($_POST['access'])){$access=$_POST['access'];}
 
 $key=array_search($sid,$sids);	
 
@@ -21,6 +22,9 @@ elseif($sub=='Next'){
 	$sid=$sids[$key];
 	$current=$action;
 	}
+
+
+include('scripts/fees_access.php');
 
 include('scripts/redirect.php');	
 ?>

@@ -439,7 +439,26 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 		  </div>
 		</fieldset>
 <?php
-		if(!empty($_SESSION['accessfees'])){
+
+		if(empty($_SESSION['accessfees'])){
+?>
+	  <fieldset class="right">
+		<legend>
+		  <?php print_string('fees','admin');?>
+		</legend>
+		<input type="password" name="accesstest" maxlength="20" value="" />
+		<input type="password" name="accessfees" maxlength="4" value="" />
+<?php
+			$buttons=array();
+			$buttons['access']=array('name'=>'access','value'=>'access');
+			all_extrabuttons($buttons,$book,'');
+?>
+	  </fieldset>
+<?php
+			}
+		else{
+			require_once('lib/fetch_fees.php');
+			$Account=(array)fetchAccount($gid);
 ?>
 		<fieldset class="right">
 		  <legend>
@@ -451,8 +470,9 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 		  <p></p>
 		</fieldset>
 <?php
-}
+			}
 ?>
+
 	  </div>
 
 
