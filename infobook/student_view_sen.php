@@ -1,5 +1,8 @@
 <?php
 /**                                  student_view_sen.php
+ *
+ * sort or a mini wrapper for the sen page when viewing in InfoBook
+ *
  */
 
 $cancel='student_view.php';
@@ -41,4 +44,6 @@ else{
 	 * we are in infobook; 
 	 */
 	$book='seneeds';
-	include('seneeds/sen_view.php'); $book='infobook'; } ?>
+	include('seneeds/sen_view.php'); 
+	$book='infobook'; } 
+?>

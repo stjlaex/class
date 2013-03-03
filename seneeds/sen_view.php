@@ -278,10 +278,6 @@ if(!isset($selbid)){$selbid='G';}
 
 
 
-
-
-
-
  	<input type="hidden" name="selbid" value="<?php print $selbid;?>"/>
  	<input type="hidden" name="current" value="<?php print $action;?>"/>
  	<input type="hidden" name="choice" value="<?php print $current;?>"/>

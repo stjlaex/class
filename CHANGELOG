@@ -17,7 +17,12 @@ The fees access check is now included on th estudent profile page.
 
 Fix to subject permissions when editing sen_view page.
 
-Fix to loading the first tinytab when viewing the sen page in infobook.
+Fix to loading the first tinytab when viewing the sen page in
+infobook.
+
+Tweak to the logic of generating invoices when payment method differs
+from default.
+
 
 
 Version ClaSS-1.0.41 release (2013/02/19)

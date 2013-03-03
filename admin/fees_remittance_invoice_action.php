@@ -36,8 +36,13 @@ if($_POST['payment0']=='yes'){
 			if(!array_key_exists($sid,$Students)){
 				$Student=(array)fetchStudent_short($sid);
 				$guardians=(array)list_student_payees($sid);
-				/* TODO: Check the guardians preferred payment method... if it is by bank??? */
-				if(sizeof($guardians)>0 and $guardians[0]['paymenttype']!='1'){
+				/* TODO: Check the guardians preferred payment
+				 *  method... but if there is not one is who
+				 *  mathces??? The following would filter out payees
+				 *  who only do bank: "and $guardians[0]['paymenttype']!='1'" but then you
+				 *  get no payees
+				 */
+				if(sizeof($guardians)>0){
 					/* Only add the student record if their is a valid payee account. */
 					$Student['payee']=$guardians[0];
 					$Student['charges']=array();
