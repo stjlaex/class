@@ -13,16 +13,6 @@ if(isset($_POST['startdate'])){$startdate=$_POST['startdate'];}
 if(isset($_GET['enddate'])){$enddate=$_GET['enddate'];}else{$enddate='';}
 if(isset($_POST['enddate'])){$enddate=$_POST['enddate'];}
 
-/** Taken from PHP manual and > PHP5? */
-function dateDiff($startdate,$enddate){
-	$startArry = date_parse($startdate);
-	$endArry = date_parse($enddate);
-	$start_date = gregoriantojd($startArry["month"], $startArry["day"], $startArry["year"]);
-	$end_date = gregoriantojd($endArry["month"], $endArry["day"], $endArry["year"]);
-	return round(($end_date - $start_date), 0);
-	}
-/***/
-
 	if(sizeof($sids)==0 or $cid<1){
 		$result[]=get_string('youneedtoselectstudents');
 		$returnXML=$result;

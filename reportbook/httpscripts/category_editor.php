@@ -135,8 +135,8 @@ while(list($cindex,$catdef)=each($catdefs)){
 </div>
 
 	
-	<div class="content">
-	<form id="formtoprocess" name="formtoprocess" method="post" 
+	<div class="content" style="overflow:auto;">
+	<form id="formtoprocess" name="formtoprocegss" method="post" 
 		action="category_editor_action.php">
 
 	  <div class="center">
@@ -155,7 +155,7 @@ while(list($cindex,$catdef)=each($catdefs)){
 			  }
 
 	$tab=$maxcatn*2;
-	while(list($index,$Category)=each($Categorys['Category'])){
+	foreach($Categorys['Category'] as $index => $Category){
 			$catn=$index+1;
 			if($catn==($catno+1)){$tab=1;}/*start tab at first blank*/
 ?>

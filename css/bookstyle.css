@@ -716,6 +716,7 @@ table.sidtable {
     padding:0 20%;
     width:10px;
     height:10px;
+	border:0;
 	}
 .sidtable td[title] {
 	background-repeat: no-repeat;

@@ -2022,5 +2022,14 @@ function return_bytes($val) {
     return $val;
 }
 
+/** Taken from PHP manual and > PHP5? */
+function dateDiff($startdate,$enddate){
+	$startArry = date_parse($startdate);
+	$endArry = date_parse($enddate);
+	$start_date = gregoriantojd($startArry["month"], $startArry["day"], $startArry["year"]);
+	$end_date = gregoriantojd($endArry["month"], $endArry["day"], $endArry["year"]);
+	return round(($end_date - $start_date), 0);
+	}
+/***/
 
 ?>

@@ -153,15 +153,12 @@ else{
 										'onclick'=>'checksidsAction(this)'
 										);
 		}
-	/*
-	$extrabuttons['studentsummary']=array('name'=>'current',
-								   'pathtoscript'=>$CFG->sitepath.'/'.$CFG->applicationdirectory.'/register/',
-								   'title'=>'printreportsummary',
-								   'value'=>'register_student_summary.php',
-								   'xmlcontainerid'=>'class',
-								   'onclick'=>'checksidsAction(this)'
-								   );
-	*/
+	$extrabuttons['lessonsummary']=array('name'=>'current',
+										 'pathtoscript'=>$CFG->sitepath.'/'.$CFG->applicationdirectory.'/register/',
+										 'title'=>'printreportsummary',
+										 'value'=>'register_lesson_summary.php',
+										 'onclick'=>'checksidsAction(this)'
+										 );
 	three_buttonmenu($extrabuttons,$book);
 	}
 
@@ -282,7 +279,7 @@ else{
 ?>
 			<td id="cell-<?php print $eveid.'-'.$sid;?>"  
 <?php
-			$cell='';
+			$cell='>';
 			$des='';
 			unset($Attendance);
 			if(array_key_exists($eveid,$Attendances['eveindex'])){
@@ -458,7 +455,6 @@ else{
 <?php
 	$toyear=get_curriculumyear()-1;//TODO: set a proper start of term date
 	$today=date('Y-m-d');
-	if($nodays>1){
 ?>
   <div id="xml-checked-action" style="display:none;">
 	<session>
@@ -467,8 +463,7 @@ else{
 	</session>
   </div>
 <?php
-		}
-	else{
+	if($nodays==1){
 ?>
   <div id="xml-class" style="display:none;">
 	<params>
