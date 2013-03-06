@@ -192,8 +192,36 @@ three_buttonmenu($extrabuttons,$book);
 		</div>
 <?php
 			}
+	if($CFG->enrol_geocode_off=='no'){
 ?>
 
+
+		<div id="gmaps" class="left">
+		  <div id="map_canvas" style="width:auto; height:180px; overflow:visible; color:orange;"></div>
+		  <table>
+			<tr>
+				<td><div id="public_time"></div></td>
+				<td id="transit">
+				  <input id="display_public_route" type="checkbox" onclick="calcPublicRoute();" style="cursor:pointer;" />
+				  Display route
+				</td>
+				<td>
+				  <div id="car_time" style="border-left:1px solid black;padding-left:5px"></div>
+				</td>
+				<td id="car">
+				  <input id="display_car_route" type="checkbox" onclick="calcCarRoute();" style="cursor:pointer;" /> 
+				  Display route
+				</td>
+			</tr>
+		  </table>
+		  <input id="address_map" type="hidden" value="<?php echo $Address['Street']['value'].' '.$Address['Postcode']['value'].' '.$Address['Neighbourhood']['value'].' '.$Address['Country']['value'];?>" />
+		  <input id="lat" type="hidden" value="<?php echo $Address['Latitude']['value'];?>" />
+		  <input id="lon" type="hidden" value="<?php echo $Address['Longitude']['value'];?>" />
+		</div>
+
+<?php
+		}
+?>
 
 	  <fieldset class="left listmenu">
 		<legend>
@@ -201,7 +229,6 @@ three_buttonmenu($extrabuttons,$book);
 		</legend>
 		<input type="text" readonly="readonly" value="<?php print  $Contact['EPFUsername']['value'];?>" />
 	  </fieldset>
-
 
 
 

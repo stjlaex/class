@@ -50,3 +50,12 @@ div#formstatus-action {
     border:0;
     background-color:#eee;
 	}
+div.content div#map_canvas div {
+    overflow:visible;
+}
+div.content div#gmaps table {
+    background-color:#FFFFEE;
+}
+div.content div#gmaps tr:hover {
+    background-color: #FCD39A;
+}

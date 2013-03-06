@@ -20,6 +20,15 @@ if($current!=''){
         <script>parent.updateMarkDisplay(<?php print $displaymid;?>);</script>
 <?php
 		}
+	if($current=='contact_details.php' and $CFG->enrol_geocode_off=='no'){
+?>
+    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?key=<?php echo $CFG->api_key; ?>&sensor=false"></script>
+    <script type="text/javascript">destination="<?php echo '('.$CFG->sitelatlng[0].','.$CFG->sitelatlng[1].')'; ?>"; </script>
+    <script type="text/javascript" src="js/geocoding.js"></script>
+	<script>initAddressMap();</script>
+<?php
+		}
+
 
 	/* This flags a change of student/parent details or status 
 	 * and logs to the update_event table. 

@@ -1,4 +1,15 @@
-Version ClaSS-1.0.42 release (2013/03/05)
+Version ClaSS-1.0.43 release (2013/03/06)
+-------------------------------------------
+
+New Register script for reporting lesson attendance.
+
+Moved the dateDiff function out to the main functions lib.
+
+New geocoding javascript for a route map on the contact_details page.
+
+
+
+Version ClaSS-1.0.42 release (2013/03/04)
 -------------------------------------------
 
 Added a new selerygrow class for ticks as opposed to dots and a
@@ -23,9 +34,6 @@ infobook.
 Tweak to the logic of generating invoices when payment method differs
 from default.
 
-New Register script for reporting lesson attendance.
-
-Moved the dateDiff function out to the main functions lib.
 
 
 Version ClaSS-1.0.41 release (2013/02/19)
