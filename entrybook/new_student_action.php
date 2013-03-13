@@ -45,6 +45,13 @@ if($sub=='Submit'){
 	$todate=date('Y-m-d');
 	mysql_query("UPDATE info SET appdate='$todate' WHERE student_id='$sid';");
 
+	if(isset($_POST['sen']) and $_POST['sen']=='Y'){
+		$senhid=set_student_senstatus($sid,'Y');
+		}
+	if(isset($_POST['medical']) and $_POST['medical']=='Y'){
+		mysql_query("UPDATE info SET medical='Y' WHERE student_id='$sid'");
+		}
+
 
 	/*Figure out the community they need to join*/
 	if($enrolstatus=='C' or $enrolstatus=='G'){

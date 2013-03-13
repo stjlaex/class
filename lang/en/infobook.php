@@ -16,6 +16,7 @@ $string['schoolstartdate']='School start date';
 $string['nationality']='Nationality';
 $string['secondnationality']='Second nationality';
 $string['medicalinformation']='Medical information';
+$string['seninformation']='SEN information';
 $string['religion']='Religion';
 $string['firstlanguage']='First language';
 $string['secondlanguage']='Second language';

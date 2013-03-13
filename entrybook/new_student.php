@@ -13,9 +13,28 @@ $Student[]=$Enrolment['Siblings'];
 $Student[]=$Enrolment['StaffChild'];
 
 $Inputs=array();
-//$studentfields=array('Forename','Surname','Gender','DOB','Boarder');
 /* Use studentfields to limit entry for the subset of fields listed. */
-$studentfields=array();
+if($enrolstatus=='EN'){
+	$studentfields=array('Forename','Surname','Gender','DOB','Boarder','EntryDate');
+	}
+else{
+	$studentfields=array();
+   	$Student['MedicalFlag']=array('label' => 'medicalinformation', 
+								  'field_db' => 'medical', 
+								  'table_db' => 'info', 
+								  'type_db' => 'enum', 
+								  'default_value' => 'N',
+								  'value' => ''.$info['medical']
+								  );
+   	$Student['SENFlag']=array('label' => 'seninformation', 
+							  'field_db' => 'sen', 
+							  'table_db' => 'info', 
+							  'type_db' => 'enum', 
+							  'default_value' => 'N',
+							  'value' => ''.$info['sen']
+							  );
+	}
+
 $Inputs[]=array_filter_fields($Student,$studentfields);
 ?>
 
@@ -30,6 +49,8 @@ foreach($Inputs as $Input){
 	  </div>
 <?php
 	}
+
+
 ?>
 
 	    <input type="hidden" name="current" value="<?php print $action;?>">
