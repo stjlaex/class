@@ -1,4 +1,4 @@
-Version ClaSS-1.0.43 release (2013/03/06)
+Version ClaSS-1.0.43 release (2013/03/13)
 -------------------------------------------
 
 New Register script for reporting lesson attendance.
@@ -7,6 +7,11 @@ Moved the dateDiff function out to the main functions lib.
 
 New geocoding javascript for a route map on the contact_details page.
 
+The medbook can list all new (applied students).
+
+Made SEN status and Medical status fields which can be set in EntryBook.
+
+Shortened the Entrybook form for an enquiry.
 
 
 Version ClaSS-1.0.42 release (2013/03/04)

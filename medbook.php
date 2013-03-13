@@ -11,8 +11,8 @@ include('scripts/set_book_vars.php');
 $session_vars=array('sid','newyid','medtype');
 include('scripts/set_book_session_vars.php');
 
-if(isset($_POST['list']) and $_POST['list']=='all'){
-	$medtype='';$newyid='';$list='all';$sid='';
+if(isset($_POST['list']) and ($_POST['list']=='all' or $_POST['list']=='new')){
+	$medtype='';$newyid='';$list=$_POST['list'];$sid='';
 	}
 if($sid=='' or $current==''){
 	$current='med_student_list.php';
@@ -67,6 +67,16 @@ elseif($sid!=''){
 		selery_stick($choices,'',$book);
 ?>
 		<input type="hidden" name="list" value="all"/>
+	  </fieldset>
+	</form>
+
+	<form id="configmedbookchoice" name="configmedbookchoice" method="post" action="medbook.php" target="viewmedbook">
+	  <fieldset class="medbook selery">
+<?php 
+		$choices=array('med_student_list.php'=>'newstudents');
+		selery_stick($choices,'',$book);
+?>
+		<input type="hidden" name="list" value="new"/>
 	  </fieldset>
 	</form>
 

@@ -65,6 +65,16 @@ two_buttonmenu();
 				ON student.id=info.student_id WHERE 
 				info.medical='Y' AND info.enrolstatus='C' ORDER BY student.surname;");
 		}
+	elseif($list=='new'){
+		/*
+		 * List all new students.  use filter A% to grab
+		 * A,AT,ATD,AP,ACP but will exclude rejected, waiting list,
+		 * cancelled etc.
+		 */
+		$d_info=mysql_query("SELECT info.student_id FROM info JOIN student
+				ON student.id=info.student_id WHERE 
+				info.medical='Y' AND (info.enrolstatus LIKE 'A%') ORDER BY student.surname;");
+		}
 
 
 if(isset($d_info)){
