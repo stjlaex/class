@@ -1074,8 +1074,11 @@ function fetchReportEntry($reportdef,$sid,$bid,$pid){
 			   $comment_html['div'][]=$comment_div;
 			   }
 
+		   /* TODO: decide when entity_decode should be applied? */
 		   $Comment['Text']=array('value'=>$comment_html,
-								  'value_db'=>''.$entry['comment']);
+								  //'value_db'=>''.html_entity_decode($entry['comment'],ENT_QUOTES,"UTF-8")
+								  'value_db'=>''.$entry['comment']
+								  );
 		   }
 
 	   /* These are the check box ratings. */

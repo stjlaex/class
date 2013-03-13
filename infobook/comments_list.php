@@ -122,7 +122,7 @@ print '('.$Student['RegistrationGroup']['value'].')';
 												'title'=>'newaction');
 			   }
 
-		   if($perm['w']=='1'){
+		   if($perm['w']=='1' or $entry['Teacher']['username']==$tid){
 			   rowaction_buttonmenu($imagebuttons,$extrabuttons,$book);
 			   }
 ?>

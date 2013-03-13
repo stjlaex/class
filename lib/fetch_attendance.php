@@ -677,11 +677,14 @@ function fetchAttendanceSummary($sid,$startdate,$enddate,$session='%'){
 	//$no_ill=count_attendance($sid,$startdate,$endate,'I');
 	//$no_medical=count_attendance($sid,$startdate,$endate,'M');
 
+	$no_possible=$no_attended+$no_absent;
 	$no_unauthorised_absent=$no_notagreed+$no_noreason+$no_notexplained;
 	$no_authorised_absent=$no_absent-$no_unauthorised_absent;
 
 	$Attendance['Summary']['Attended']=array('label'=>'attended',
 											 'value'=>''.$no_attended);
+	$Attendance['Summary']['Possible']=array('label'=>'possible',
+											 'value'=>''.$no_possible);
 	$Attendance['Summary']['Late']=array('label'=>'late',
 										 'value'=>''.$no_late);
 	$Attendance['Summary']['Absentauthorised']=array('label'=>'authorisedabsent',

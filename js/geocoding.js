@@ -1,4 +1,4 @@
-  //Variables for display map adn store the geocoded address
+  //Variables for display map and store the geocoded address
   var geocoder;
   var map;
   //Variables for displaying routes
