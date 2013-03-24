@@ -167,7 +167,7 @@ function list_pastoral_users($ryid,$perms){
 function list_group_users_perms($gid,$nologin='0'){
    	$users_perms=array();
 	$d_users=mysql_query("SELECT DISTINCT users.uid, users.username, users.surname, 
-				perms.r, perms.w, perms.x, perms.e FROM users JOIN perms ON 
+				perms.r, perms.w, perms.x, perms.e, role FROM users JOIN perms ON 
 				users.uid=perms.uid WHERE perms.gid='$gid' AND users.nologin LIKE '$nologin';");
 	while($user=mysql_fetch_array($d_users,MYSQL_ASSOC)){
 		$uid=$user['uid'];
@@ -860,10 +860,6 @@ function fetchUser($uid='-1'){
 							'field_db' => 'username',
 							'type_db' => 'varchar(14)', 
 							'value' => ''.$user['username']);
-	$User['EPFUsername']=array('label' => 'epfusername', 
-							   'field_db' => 'epfusername',
-							   'type_db' => 'varchar(128)', 
-							   'value' => ''.$user['epfusername']);
 	$User['Surname']=array('label' => 'surname', 
 						   'inputtype'=> 'required',
 						   'table_db' => 'user', 
@@ -972,6 +968,16 @@ function fetchUser($uid='-1'){
 							  'field_db' => 'education2',
 							  'type_db' => 'varchar(240)', 
 							  'value' => ''.$user['education2']);
+	if($user['epfusername']==''){
+		/* If we can then set the epfusername now. */
+		$user['epfusername']=new_epfusername($User,'staff');
+		}
+	$User['EPFUsername']=array('label' => 'epfusername', 
+							   'field_db' => 'epfusername',
+							   'type_db' => 'varchar(128)', 
+							   'value' => ''.$user['epfusername']);
+
+
 	if($user['address_id']>0){$addid=$user['address_id'];}
 	else{$addid=-1;}
 	$User['Address']=(array)fetchAddress(array('address_id'=>$addid,'addresstype'=>''));
