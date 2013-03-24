@@ -1384,8 +1384,7 @@ function sortx(&$array,$sort=array()){
    }
 
 /**
- * Lists the contents of a directory on the server, can limit by extension
- * Currently used only for the templates
+ * Lists the contents of a directory on the server, can limit by extension.
  *
  *	@param string[$directory] 
  *	@param string[$extension]

@@ -1123,6 +1123,64 @@ function list_community_cohorts($community,$current=true){
 	}
 
 
+/**
+ *
+ * This call generate_epfusername and evaluate if the return efun is
+ * unique. The scope for uniqueness is either the db itself or an ldap
+ * directory (inidcated by ldapoff).
+ *
+ */
+function new_epfusername($User=array(),$role='student',$ldap_ds=''){
+	global $CFG;
+
+	$fresh=false;
+
+	if(isset($CFG->ldapoff) and $CFG->ldapoff=='no'){
+		/* Scope for uniqueness is across schools and maintained in an ldap directory. */
+
+		if($ldap_ds==''){
+			/* TODO: establish an ldap connection if none passed */
+			$ldap_ds='';
+			}
+
+		if($ldap_ds!=''){
+			while(!($fresh)){
+				$epfusername=generate_epfusername($User,$role);
+				if($role=='guardian' or $role='contact'){
+					$sr=ldap_search($ldap_ds,'ou='.$role.',ou=people'.',dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2,"uid=$epfusername");
+					}
+				elseif($role=='staff'){
+					}
+				if(isset($sr) and ldap_count_entries($ldap_ds, $sr)>0){$fresh=false;}
+				else{$fresh=true;}
+				}
+			}
+
+		}
+	else{
+
+		/* Scope for uniqueness is just this db. */
+		while(!($fresh)){
+			$epfusername=generate_epfusername($User,$role);
+			if($role=='guardian'){
+				$sr=mysql_query("SELECT id FROM guardian WHERE epfusername='$epfusername';");
+				}
+			elseif($role=='student'){
+				$sr=mysql_query("SELECT * FROM info WHERE epfusername='$epfusername';");
+				}
+			elseif($role=='staff'){
+				}
+
+			if(isset($sr) and mysql_num_rows($sr)>1){$fresh=false;}
+			else{$fresh=true;}
+			}
+
+		}
+
+
+	return $epfusername;
+	}
+
 
 /**
  *

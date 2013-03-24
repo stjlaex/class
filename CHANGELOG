@@ -1,4 +1,4 @@
-Version ClaSS-1.0.43 release (2013/03/13)
+Version ClaSS-1.0.43 release (2013/03/24)
 -------------------------------------------
 
 New Register script for reporting lesson attendance.
@@ -12,6 +12,13 @@ The medbook can list all new (applied students).
 Made SEN status and Medical status fields which can be set in EntryBook.
 
 Shortened the Entrybook form for an enquiry.
+
+Moved all generate_epfusername calls to a dedicated function
+new_epfusername which takes care of checking for uniqueness.
+
+Change the use of css background-image to content for compatibility
+with Chrome.
+
 
 
 Version ClaSS-1.0.42 release (2013/03/04)

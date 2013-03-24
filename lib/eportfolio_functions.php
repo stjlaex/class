@@ -1051,6 +1051,11 @@ function upload_files($filedata){
 		$folder_name='root';
 		$dir_name='icons';
 		}
+	elseif(isset($filedata['foldertype']) and $filedata['foldertype']=='staff'){
+		$folder_usertype='u';
+		$folder_name='staff';
+		$dir_name='files';
+		}
 	else{
 		/* Just defaults to their parent folder. */
 		if(!isset($filedata['foldertype'])){
@@ -1060,6 +1065,8 @@ function upload_files($filedata){
 		else{$folder_name=$filedata['foldertype'];}
 		$dir_name='files';
 		}
+	
+	if(!isset($folder_usertype)){$folder_usertype='s';}
 
 	$batchfiles=$filedata['batchfiles'];
 	foreach($batchfiles as $batchfile){
@@ -1068,7 +1075,8 @@ function upload_files($filedata){
 		$file_description=$batchfile['description'];
 		$file_originalname=$batchfile['originalname'];
 		$file_linked_id=0;
-		$uid=get_epfuid($epfusername,'s');
+		$uid=get_epfuid($epfusername,$folder_usertype);
+
 
 		if($folder_name!='root'){
 			/* Create the virtual folder if it doesn't exist. */
@@ -1111,13 +1119,15 @@ function upload_files($filedata){
 
 				}
 			else{
+
 				$sql_linked="AND other_id='$file_linked_id'";
+
 				$d_f=mysql_query("SELECT id FROM file WHERE originalname='$file_originalname' 
-											$sql_linked AND owner='s' AND owner_id='$uid';");
+											$sql_linked AND owner='$folder_usertype' AND owner_id='$uid';");
 				if(mysql_num_rows($d_f)==0){
 					$d_f=mysql_query("INSERT INTO file (owner, owner_id, folder_id, title, originalname,
 										description, location, access, size, other_id) VALUES 
-										('s', '$uid','$folder_id','$file_title','$file_originalname',
+										('$folder_usertype', '$uid','$folder_id','$file_title','$file_originalname',
 										'$file_description','$file_location','$file_access','$file_size','$file_linked_id');");
 					}
 				else{
@@ -1138,6 +1148,7 @@ function upload_files($filedata){
 			}
 
 		}
+
 
 	return $success;
 	}
@@ -1186,12 +1197,19 @@ function delete_file($filedata){
  */
 function new_folder($owner,$name,$access=''){
 
-	$d_folder=mysql_query("SELECT id FROM file_folder WHERE owner='s' AND owner_id='$owner' AND name='$name';");
+	if($name=='staff'){
+		$folder_usertype='u';
+		}
+	else{
+		$folder_usertype='s';
+		}
+
+	$d_folder=mysql_query("SELECT id FROM file_folder WHERE owner='$folder_usertype' AND owner_id='$owner' AND name='$name';");
 	if(mysql_num_rows($d_folder)>0){
 		$folder_id=mysql_result($d_folder,0);
 		}
 	elseif($owner!='' and $name!=''){
-		$d_f=mysql_query("INSERT INTO file_folder SET  owner='s', owner_id='$owner',
+		$d_f=mysql_query("INSERT INTO file_folder SET  owner='$folder_usertype', owner_id='$owner',
 					 name='$name', access='$access', parent_folder_id='-1';");
 		$folder_id=mysql_insert_id();
 		}
@@ -1219,7 +1237,14 @@ function list_files($epfun,$foldertype,$linked_id='-1',$bid=''){
 
 	$files=array();
 
-	$epfuid=get_epfuid($epfun,'s');
+	if($foldertype=='staff'){
+		$folder_usertype='u';
+		}
+	else{
+		$folder_usertype='s';
+		}
+
+	$epfuid=get_epfuid($epfun,$folder_usertype);
 
 	if($foldertype=='report' or $foldertype=='icon'){
 		/* Just involves listing the directory contents */
@@ -1245,7 +1270,7 @@ function list_files($epfun,$foldertype,$linked_id='-1',$bid=''){
 		}
 	else{
 
-		/* Could be assing both an id and some description from a linked comment. */
+		/* Could be passing both an id and some description from a linked comment. */
 		if(is_array($linked_id)){
 			$linked_description=$linked_id['detail'];
 			$linked_id=$linked_id['id'];
@@ -1262,7 +1287,8 @@ function list_files($epfun,$foldertype,$linked_id='-1',$bid=''){
 
 		$d_f=mysql_query("SELECT file.id, title, description, location, originalname FROM file 
 						JOIN file_folder ON file_folder.id=file.folder_id
-						WHERE $attachment file.owner_id='$epfuid' AND file.owner='s' AND file_folder.name='$foldertype';");
+						WHERE $attachment file.owner_id='$epfuid' AND file.owner='$folder_usertype' 
+						AND file_folder.name='$foldertype';");
 		while($file=mysql_fetch_array($d_f,MYSQL_ASSOC)){
 			if($foldertype=='assessment'){
 				/*
@@ -1322,12 +1348,19 @@ function get_filedata($file_id){
 function link_files($epfun,$foldertype,$linked_id){
 	global $CFG;
 
-	$epfuid=get_epfuid($epfun,'s');
+	if($foldertype=='staff'){
+		$folder_usertype='u';
+		}
+	else{
+		$folder_usertype='s';
+		}
+
+	$epfuid=get_epfuid($epfun,$folder_usertype);
 
 	$folder_id=new_folder($epfuid,$foldertype,$access='');
 
 	mysql_query("UPDATE file SET other_id='$linked_id' 
-						WHERE owner_id='$epfuid' AND owner='s' AND file.other_id='0';");
+						WHERE owner_id='$epfuid' AND owner='$folder_usertype' AND file.other_id='0';");
 
 	}
 
@@ -1341,17 +1374,20 @@ function link_files($epfun,$foldertype,$linked_id){
 function get_epfuid($epfname,$type){
 
 	if($type=='s'){
+		/* student */
 		$d_u=mysql_query("SELECT student_id FROM info WHERE epfusername='$epfname';");
 		}
 	elseif($type=='g'){
+		/* guardian */
 		$d_u=mysql_query("SELECT id FROM guardian WHERE epfusername='$epfname';");
 		}
 	elseif($type=='u'){
-		$d_u=mysql_query("SELECT id FROM users WHERE epfusername='$epfname';");
+		/* user */
+		$d_u=mysql_query("SELECT uid FROM users WHERE epfusername='$epfname';");
 		}
 
 
-	if(mysql_num_rows($d_u)==1){
+	if(isset($d_u) and mysql_num_rows($d_u)==1){
 		$uid=mysql_result($d_u,0);
 		}
 	else{

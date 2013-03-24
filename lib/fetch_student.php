@@ -570,12 +570,7 @@ function fetchStudent($sid='-1'){
 								   'type_db' => 'varhar(240)', 
 								   'value' => ''.$info['email']
 								   );
-   	$Student['EPFUsername']=array('label' => 'epfusername',
-								  //'table_db' => 'info', 
-								   'field_db' => 'epfusername',
-								   'type_db' => 'varhar(128)', 
-								   'value' => ''.$info['epfusername']
-								   );
+
 	if($CFG->enrol_number_generate=='yes'){
 		$Student['EnrolNumber']=array('label' => 'enrolmentnumber', 
 										'field_db' => 'formerupn', 
@@ -670,6 +665,16 @@ function fetchStudent($sid='-1'){
 									 'type_db' => 'text', 
 									 'value' => ''.$info['appnotes']
 									 );
+	if($info['epfusername']==''){
+		/* If we can set the epfusername now. */
+		$info['epfusername']=new_epfusername($Student,'student');
+		}
+   	$Student['EPFUsername']=array('label' => 'epfusername',
+								  //'table_db' => 'info', 
+								   'field_db' => 'epfusername',
+								   'type_db' => 'varhar(128)', 
+								   'value' => ''.$info['epfusername']
+								   );
 
 	/*******Contacts****/
 
@@ -962,11 +967,6 @@ function fetchContact($gidsid=array('guardian_id'=>'-1','student_id'=>'-1','prio
 								  'field_db' => 'nationality', 
 								  'type_db' => 'enum', 
 								  'value' => ''.$guardian['nationality']);
-   	$Contact['EPFUsername']=array('label' => 'epfusername', 
-								  // 'table_db' => 'guardian', 
-								  'field_db' => 'epfusername', 
-								  'type_db'=> 'varchar(128)', 
-								  'value' => ''.$guardian['epfusername']);
    	$Contact['Profession']=array('label' => 'profession', 
 								  'table_db' => 'guardian', 
 								  'field_db' => 'profession', 
@@ -993,6 +993,15 @@ function fetchContact($gidsid=array('guardian_id'=>'-1','student_id'=>'-1','prio
 							'type_db' => 'enum', 
 							'default_value' => 'N',
 							'value' => ''.$guardian['private']);
+	if($guardian['epfusername']==''){
+		/* If we can set the epfusername now. */
+		$guardian['epfusername']=new_epfusername($Contact,'contact');
+		}
+   	$Contact['EPFUsername']=array('label' => 'epfusername', 
+								  // 'table_db' => 'guardian', 
+								  'field_db' => 'epfusername', 
+								  'type_db'=> 'varchar(128)', 
+								  'value' => ''.$guardian['epfusername']);
 
 
 	/*******ContactsAddresses****/

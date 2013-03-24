@@ -48,7 +48,9 @@ require_once($CFG->installpath.'/'.$CFG->applicationdirectory.'/scripts/cron_hea
 			$Newuser=(array)fetchUser_short($row);
 			$epfusername=$Newuser['EPFUsername']['value'];
 			if($epfusername=='' or $epfusername==' '){
-				$epfusername=generate_epfusername($Newuser,$type='staff');
+
+				$epfusername=new_epfusername($Newuser,'staff');
+
 				}
 			$entries++;
 			}
@@ -78,14 +80,9 @@ require_once($CFG->installpath.'/'.$CFG->applicationdirectory.'/scripts/cron_hea
 				$epfusername=$Students[$sid]['EPFUsername']['value'];
 				if($epfusername=='' or $epfusername==' '){
 					/* Treat as a completely new entry. */
-					$fresh=false;
-					while(!($fresh)){
-						$epfusername=generate_epfusername($Students[$sid],$type='student');
-						$sr=mysql_query("SELECT * FROM info WHERE epfusername='$epfusername';");
-						if(mysql_num_rows($sr)>1){$fresh=false;}
-						else{$fresh=true;}
-						}
+					$epfusername=new_epfusername($Students[$gid],'student');
 					}
+
 				$entries++;
 				}
 			}
@@ -116,21 +113,18 @@ require_once($CFG->installpath.'/'.$CFG->applicationdirectory.'/scripts/cron_hea
 				$email=$Contacts[$gid]['EmailAddress']['value'];
 				if($epfusername=='' or $epfusername==' '){
 					/* Treat as a completely new entry. */
-					$fresh=false;
-					/* Check for duplicate email addresses first 
+
+					/* Check for duplicate email addresses first
 					$sr=mysql_query("SELECT epfusername FROM guardian WHERE email='$email' 
 											AND id!='$gid' AND epfusername!='' AND email!='';");
 					if(mysql_num_rows($sr)>1){
 						$epfusername=mysql_result($sr,0);
-						$fresh=true;
+						}
+						else{
 						}
 					*/
-					while(!($fresh)){
-						$epfusername=generate_epfusername($Contacts[$gid],$type='guardian');
-						$sr=mysql_query("SELECT id FROM guardian WHERE epfusername='$epfusername';");
-						if(mysql_num_rows($sr)>1){$fresh=false;}
-						else{$fresh=true;}
-						}
+					$epfusername=new_epfusername($Contacts[$gid],'contact');
+
 					}
 				/* entry counter */
 				$entries++;

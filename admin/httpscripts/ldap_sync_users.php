@@ -59,7 +59,7 @@ if($ds){
 			$Newuser=(array)fetchUser_short($row);
 			$epfusername=$Newuser['EPFUsername']['value'];
 			if($epfusername=='' or $epfusername==' '){
-				$epfusername=generate_epfusername($Newuser,$type='staff');
+				$epfusername=new_epfusername($Newuser,'staff',$ds);
 				}
 			/*The cn for a user takes the first part of their email address (removing any dots).*/
 			$atpos=strpos($row['email'], '@');
@@ -178,13 +178,7 @@ if($ds){
 				$epfusername=$Students[$sid]['EPFUsername']['value'];
 				if($epfusername==''){
 					/* Treat as a completely new entry. */
-					$fresh=false;
-					while(!($fresh)){
-						$epfusername=generate_epfusername($Students[$sid],$type='student');
-						$sr=ldap_search($ds,'ou=student'.',ou=people'.',dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2,"uid=$epfusername");
-						if(ldap_count_entries($ds, $sr)>0){$fresh=false;}
-						else{$fresh=true;}
-						}
+					$epfusername=new_epfusername($Students[$sid],'student',$ds);
 					}
 				else{
 					/* Should already be in LDAP. */
@@ -269,12 +263,7 @@ if($ds){
 							}
 						}
 
-					while(!($fresh)){
-						$epfusername=generate_epfusername($Contacts[$gid],$type='guardian');//TODO: change type to contact too
-						$sr=ldap_search($ds,'ou=contact'.',ou=people'.',dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2,"uid=$epfusername");
-						if(ldap_count_entries($ds, $sr)>0){$fresh=false;}
-						else{$fresh=true;}
-						}
+					$epfusername=new_epfusername($Contacts[$gid],'contact',$ds);
 					}
 				else{
 					/* Should already be in LDAP so search for entry in LDAP */
