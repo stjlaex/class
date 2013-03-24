@@ -114,21 +114,23 @@ label+select[multiple="multiple"] {
 	margin-bottom:5px; margin-left:5px;
 	}
 form img {
-	float:left;	
-	width:12px; height:12px; border-style:none;	
-	background-repeat: no-repeat;
+	float:left;
+	width:12px;
+	height:12px; 
+	border:0 none;
+	background-repeat:no-repeat;
 	}
 form img.required { 
-	background-image: url("../images/orangestar.png");
-    padding:1%;
+	background-image:url("../images/orangestar.png");
+	content:url("../images/orangestar.png");
 	}
 form img.caution { 
 	background-image: url("../images/redcross.png");
-    padding:1%;
+	content: url("../images/redcross.png");
 	}
 form img.completed { 
 	background-image: url("../images/greentick.png");
-    padding:1%;
+	content: url("../images/greentick.png");
 	}
 form img.caution+input, form img.caution+select {
 	background-color:#ffff99;
@@ -191,7 +193,8 @@ div.content div {
 	overflow:hidden;
 	}
 div.content fieldset, div.topcontent fieldset {
-    padding:1%; margin:0;
+    padding:1%;
+	margin:0;
 	background-color:#eeeeee;
 	}
 div.content fieldset.divgroup, 
@@ -400,50 +403,51 @@ button.imagebutton {
 	}
 img.clicktoload { 
 	background-image:url("../images/folder-open.png");
-    padding:1px;
+	content:url("../images/folder-open.png");
 	cursor:pointer;
     width:16px !important;
     height:16px !important;
 	}
 img.clicktowrite { 
 	background-image:url("../images/accessories-text-editor.png");
-    padding:1px;
+	content:url("../images/accessories-text-editor.png");
 	cursor:pointer;
     width:16px !important;
     height:16px !important;
 	}
 img.clicktoedit { 
 	background-image:url("../images/editer.png");
-    padding:1px;
+	content:url("../images/editer.png");
 	cursor:pointer;
 	}
 img.clicktodelete { 
 	background-image:url("../images/redcross.png");
-    padding:1px;
+	content:url("../images/redcross.png");
 	cursor:pointer;
 	}
 img.clicktoconfigure { 
 	background-image:url("../images/document-properties.png");
-    padding:1px;
+	content:url("../images/document-properties.png");
 	cursor:pointer;
 	}
 img.clicktoaddmerit { 
 	background-image:url("../images/goldstar.png");
-    padding:1px;
+	content:url("../images/goldstar.png");
 	cursor:pointer;
 	}
 img.clicktotarget { 
 	background-image:url("../images/greentick.png");
-    padding:1px;
+	content:url("../images/greentick.png");
 	cursor:pointer;
 	}
 img.clicktochart { 
 	background-image:url("../images/charter.png");
-    padding:1px;
+	content:url("../images/charter.png");
 	cursor:pointer;
 	}
 img.clicktoprint { 
 	background-image:url("../images/printer.png");
+	content:url("../images/printer.png");
     padding:0;
 	cursor:pointer;
     width:20px !important;
@@ -452,7 +456,7 @@ img.clicktoprint {
 	}
 img.clicktoemail { 
 	background-image:url("../images/mail-message-new.png");
-    padding:1px;
+	content:url("../images/mail-message-new.png");
 	cursor:pointer;
     width:16px !important;
     height:16px !important;
@@ -461,14 +465,14 @@ img.clicktoemail {
 	}
 img.clicktotransport { 
 	background-image:url("../images/bus.png");
-    padding:1px;
+	content:url("../images/bus.png");
     width:16px !important;
     height:16px !important;
     border:0;
 	}
 img.clicktohelp { 
 	background-image:url("../images/help-browser.png");
-    padding:1px;
+	content:url("../images/help-browser.png");
 	cursor:pointer;
     width:22px !important;
     height:22px !important;
@@ -713,9 +717,9 @@ table.sidtable {
     border:2px solid #ff9900;
 	}
 .sidtable td img { 
-    padding:0 20%;
-    width:10px;
-    height:10px;
+    padding:0;
+    width:12px;
+    height:12px;
 	border:0;
 	}
 .sidtable td[title] {
