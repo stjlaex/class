@@ -302,8 +302,12 @@ function fetchStudent_singlefield($sid,$tag,$privfilter=''){
 			/*NOT a part of the xml def for Student but useful here*/
 			$Contacts=(array)fetchContacts($sid);
 			$Student[$tag]=array('label'=>'',
-								 'value'=>$Contacts[$contactno]['Profession']['value']. 
-								 ' ('.$Contacts[$contactno]['CompanyName']['value'].')');
+								 'value'=>$Contacts[$contactno]['Profession']['value']);
+			}
+		elseif(substr_count($tag,'Company')){
+			$Contacts=(array)fetchContacts($sid);
+			$Student[$tag]=array('label'=>'',
+								 'value'=>$Contacts[$contactno]['CompanyName']['value']);
 			}
 		elseif(substr_count($tag,'Note')){
 			/*NOT a part of the xml def for Student but useful here*/
