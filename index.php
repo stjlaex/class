@@ -48,8 +48,8 @@ print '<?xml version="1.0" encoding="utf-8"?'.'>';
 <meta name="version" content="<?php print $CFG->version; ?>" />
 <meta name="license" content="GNU Affero General Public License version 3" />
 <link href="css/hoststyle.css" rel="stylesheet" type="text/css" />
-<link href="css/selery.css" rel="stylesheet" type="text/css" />
-<script language="JavaScript" type="text/javascript" src="js/host.js?version=1037"></script>
+<link href="css/selery.css?version=1042" rel="stylesheet" type="text/css" />
+<script language="JavaScript" type="text/javascript" src="js/host.js?version=1042"></script>
 </head>
 <body onload="loadLogin('cover.php');">
 

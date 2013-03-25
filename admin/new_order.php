@@ -51,7 +51,7 @@ three_buttonmenu();
  * above zero. Allow an exception for those who can authorise the
  * budget.
  */
-if(isset($CFG->budget_lock) and $CFG->budget_lock>0 and ($balance<(0.05*$Budget['Limit']['value']) or $balance<$CFG->budget_lock)){
+if(isset($CFG->budget_lock) and $CFG->budget_lock>0 and ($balance<(0.01*$Budget['Limit']['value']) or $balance<$CFG->budget_lock)){
 	$locked=true;
 	}
 else{

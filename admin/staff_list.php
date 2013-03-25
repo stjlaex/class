@@ -5,7 +5,7 @@
 
 $choice='staff_list.php';
 $action='staff_list_action.php';
-if(isset($_POST['listsecids'])){$listsecids=$_POST['listsecids'];}else{$listsecids=array();}
+if(isset($_POST['listsecid'])){$listsecid=$_POST['listsecid'];}else{$listsecid='';}
 if(isset($_POST['listroles'])){$listroles=$_POST['listroles'];}else{$listroles=array();}
 if(isset($_POST['listoption'])){$listoption=$_POST['listoption'];}else{$listoption='current';}
 
@@ -19,40 +19,45 @@ two_buttonmenu($extrabuttons);
 
 ?>
 
-  <div class="topcontent divgroup" style="font-size:small;">
-	<form name="formtoprocess2" id="formtoprocess2" method="post" novalidate action="<?php print $host; ?>">
-		  <label><?php print get_string('section',$book);?></label>
-		  <table class="center">
-			<tr>
+  <div class="content" id="viewcontent">
+
+
+	<fieldset class="divgroup left">
+	  <div class="center">
+		<form name="formtoprocess2" id="formtoprocess2" method="post" novalidate action="<?php print $host; ?>">
 <?php
 	$sections=list_sections();
-	foreach($sections as $section){
-		if(in_array($section['id'],$listsecids)){$checked=' checked="checked" ';$selsection=$section;}else{$checked='';}
-		print '<td><input type="radio" name="listsecids[]" '.$checked.' value="'.$section['id'].'">'.$section['name'].'</input></td>';
-		}
-	if(sizeof($listsecids)==0){$checked=' checked="checked" ';}else{$checked='';}
+	$listlabel='section';
+	$listname='listsecid';
+	include('scripts/set_list_vars.php');
+	$sections[]=array('id'=>'','name'=>get_string('wholeschool'));
+	list_select_list($sections,$listoptions,$book);
+	unset($listoptions);
 ?>
-			<td><input type="radio" name="listsecids[]" <?php print $checked;?> value="uncheck"><?php print_string('all',$book);?></input></td>
-			</tr>
-		  </table>
 
-		  <label><?php print get_string('role',$book);?></label>
-		  <table class="center">
-			<tr>
+
+<div style="float:right;">
+  <button style="font-size:small;"  type="submit" name="sub" value="list">
+	<?php print_string('filterlist');?>
+  </button>
+</div>
+
+<div class="center">
+  <table class="listmenu">
+	<tr><th><?php print get_string('role',$book);?></th></tr>
 <?php
 	$userroles=$CFG->roles;
 	foreach($userroles as $userrole){
 		if(in_array($userrole,$listroles)){$checked=' checked="checked" ';}else{$checked='';}
-		print '<td><input type="checkbox" name="listroles[]" '.$checked.' value="'.$userrole.'">'.get_string($userrole).'</input></td>';
+		print '<tr><td><input type="checkbox" name="listroles[]" '.$checked.' value="'.$userrole.'">'.get_string($userrole).'</input></td></tr>';
 		}
 ?>
-			</tr>
-		  </table>
+</table>
 
 <?php
 	if($aperm==1){
 ?>
-		  <table class="left">
+		  <table class="listmenu">
 			<tr>
 <?php
 	$options=array(array('id'=>'current','name'=>'current'),array('id'=>'previous','name'=>'previous'));
@@ -66,25 +71,19 @@ two_buttonmenu($extrabuttons);
 <?php
 		}
 ?>
-		<div style="float:right;">
-		  <button style="font-size:small;"  type="submit" name="sub" value="list">
-			<?php print_string('filterlist');?>
-		  </button>
-		</div>
 
+</div>
 	  <input type="hidden" name="current" value="<?php print $action; ?>">
 	  <input type="hidden" name="choice" value="<?php print $choice; ?>">
 	  <input type="hidden" name="cancel" value="<?php print ''; ?>">
-	</form>
-  </div>
+	  </form>
+	</div>
+  </fieldset>
 
-
-
-  <div class="content" id="viewcontent" style="height:70%;">
-	<form name="formtoprocess" id="formtoprocess" method="post" novalidate action="<?php print $host; ?>">
-	<fieldset class="divgroup">
-	  <legend><?php print get_string($listoption,$book).' '.get_string('staff',$book);?></legend>
-	  <table class="listmenu center">
+  <div class="right">
+  <form name="formtoprocess" id="formtoprocess" method="post" novalidate action="<?php print $host; ?>">
+	<table class="listmenu">
+	  <caption><?php print get_string($listoption,$book).' '.get_string('staff',$book);?></caption>
 		  <tr>
 			<th style="width:1em;">
 			  <?php print_string('checkall'); ?>
@@ -107,19 +106,22 @@ two_buttonmenu($extrabuttons);
 		$nologin='0';
 		}
 
-	if(isset($selsection)){
+	if($listsecid!=''){
+		/* Limit staff list to one section. */
+		foreach($sections as $section){
+			if($section['id']==$listsecid){$selsection=$section;}
+			}
 		$users=(array)list_group_users_perms($selsection['gid'],$nologin);
 		}
 	else{
 		$users=(array)list_all_users($nologin);
-		//$users=list_responsible_users($tid,$respons,$r);
 		}
 
 
 
 	foreach($users as $user){
-			$User=(array)fetchUser($user['uid']);
-			if((in_array($user['role'],$listroles) or sizeof($listroles)==0) and $user['username']!='administrator'){
+		$User=(array)fetchUser($user['uid']);
+		if((in_array($user['role'],$listroles) or sizeof($listroles)==0) and $user['username']!='administrator'){
 ?>
 		<tr>
 		  <td>
@@ -148,10 +150,20 @@ two_buttonmenu($extrabuttons);
 ?>
 
 	  </table>
-  </fieldset>
 
-	  <input type="hidden" name="current" value="<?php print $action; ?>">
-	  <input type="hidden" name="choice" value="<?php print $choice; ?>">
-	  <input type="hidden" name="cancel" value="<?php print ''; ?>">
+	  <input type="hidden" name="current" value="<?php print $action; ?>" />
+	  <input type="hidden" name="choice" value="<?php print $choice; ?>" />
+	  <input type="hidden" name="cancel" value="<?php print ''; ?>" />
 	</form>
+	</div>
+
+
+	<div class="left">
+<?php
+	require_once('lib/eportfolio_functions.php');
+	//html_document_drop('','section'.$listsecid);
+?>
+	</div>
+
   </div>
+<script language="JavaScript" type="text/javascript" src="js/documentdrop.js?version=1042"></script>

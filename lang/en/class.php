@@ -415,4 +415,5 @@ $string['candidatenumber']='Candidate Number';
 $string['orderby']='Sort by';
 $string['paid']='Paid';
 $string['notpaid']='Not paid';
+$string['wholeschool']='Whole School';
 ?>

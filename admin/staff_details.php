@@ -24,6 +24,7 @@ three_buttonmenu();
 		<?php $tab=xmlarray_form($User,'','details',$tab,'infobook'); ?>
 	  </div>
 
+
 	  <fieldset class="right">
 		<legend><?php print_string('account',$book);?></legend>
 
@@ -175,4 +176,16 @@ if($_SESSION['role']=='admin' or $aperm==1){
 	  <input type="hidden" name="choice" value="<?php print $choice; ?>">
 	  <input type="hidden" name="cancel" value="<?php print $choice; ?>">
 	</form>
+
+
+<div class="right">
+<?php
+	require_once('lib/eportfolio_functions.php');
+	html_document_drop($User['EPFUsername']['value'],'staff');
+?>
+</div>
   </div>
+
+
+
+<script language="JavaScript" type="text/javascript" src="js/documentdrop.js?version=1035"></script>

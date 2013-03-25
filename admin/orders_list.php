@@ -65,7 +65,7 @@ two_buttonmenu($extrabuttons,$book);
 
 <?php
 		if(isset($balance)){
-			if(isset($CFG->budget_lock) and $CFG->budget_lock>0 and ($balance<(0.05*$Budget['Limit']['value']) 
+			if(isset($CFG->budget_lock) and $CFG->budget_lock>0 and ($balance<(0.01*$Budget['Limit']['value']) 
 																	 or $balance<$CFG->budget_lock)){
 				$locked=true;
 				}
