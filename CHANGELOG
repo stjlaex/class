@@ -1,4 +1,4 @@
-Version ClaSS-1.0.43 release (2013/03/24)
+Version ClaSS-1.0.43 release (2013/03/28)
 -------------------------------------------
 
 New Register script for reporting lesson attendance.
@@ -18,6 +18,9 @@ new_epfusername which takes care of checking for uniqueness.
 
 Change the use of css background-image to content for compatibility
 with Chrome.
+
+Made use of the displayfield's data type in the student_list for
+sorting dates and ages etc.
 
 
 

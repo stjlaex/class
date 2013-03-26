@@ -137,13 +137,6 @@ function tsInit()
 				text = text.replace(/<[^>]+>/g, '');
 				text = text.toLowerCase();
 			}
-			else if	(sorting == 's')
-				text = text.toLowerCase();
-			else if (sorting == 'i')
-			{
-				text = parseInt(text);
-				if	(isNaN(text))	text = 0;
-			}
 			else if (sorting == 'n')
 			{
 				text = text.replace(/(\d)\,(?=\d\d\d)/g, "$1");
@@ -168,8 +161,32 @@ function tsInit()
 				text = parseFloat(text);
 				if	(isNaN(text))	text = 0;
 			}
+			else if	(sorting == 's')
+				text = text.toLowerCase();
+			else if (sorting == 'i')
+			{
+				text = parseInt(text);
+				if	(isNaN(text))	text = 0;
+			}
+			//ClaSS Age format years / months => 14 / 2
+			else if (sorting == 'a')
+			{
+				//If age is 1 / 1 or 14 / 4 => result is 1001 and 14004
+				if(text.match(/^\d \/ \d$/) || text.match(/^\d\d \/ \d$/)) {
+					text = text.replace(' / ', "00");
+				}
+				//If age is 1 / 10 or 14 / 11 => result is 1010 and 14011
+				else text = text.replace(' / ', "0",'g');
+				text = parseInt(text);			
+				if	(isNaN(text))	text = 0;
+			}
 			else if (sorting == 'd')
 			{
+				//Remove st, nd, etc. from ClaSS date format
+				text = text.replace('st ',' ','g');
+				text = text.replace('nd ',' ','g');
+				text = text.replace('rd ',' ','g');
+				text = text.replace('th ',' ','g');
 				if	(text.match(/^\d\d\d\d\-\d\d?\-\d\d?(?: \d\d?:\d\d?:\d\d?)?$/))
 				{
 					a = text.split (/[\s\-:]/);
@@ -177,8 +194,9 @@ function tsInit()
 						Date.UTC(a[0], a[1] - 1, a[2],    0,    0,    0, 0):
 						Date.UTC(a[0], a[1] - 1, a[2], a[3], a[4], a[5], 0);
 				}
-				else
+				else {
 					text = Date.parse(text);
+				}
 			}
 			row_data.push(text);
 		}

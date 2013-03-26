@@ -176,7 +176,13 @@ two_buttonmenu($extrabuttons,$book);
 
 		foreach($displayfields as $dno => $displayfield){
 			$sortno=$dno+3;
-			$sort_types.=",'s'";
+			//a=age, d=date, i=integer, s=string
+			if($displayfield=='Age') $sort_types.=",'a'";
+			elseif($displayfield=='DOB' or $displayfield=='IdExpiryDate' or $displayfield=='LeavingDate' or $displayfield=='EntryDate' or $displayfield=='EnrolmentApplicationDate'){
+				$sort_types.=",'d'";
+			}
+			elseif($displayfield=='YearGroup' or $displayfield=='EnrolmentYearGroup' or $displayfield=='EnrolNumber') $sort_types.=",'i'";
+			else $sort_types.=",'s'";
 ?>
 		<th style="width:<?php print $displayfields_width;?>;">
 <?php include('scripts/list_studentfield.php');?>
@@ -194,9 +200,15 @@ two_buttonmenu($extrabuttons,$book);
 		<tr>
 <?php
 
-		foreach($displayfields as $dno => $displayfield){
+		foreach($displayfields as $dno => $displayfield){	
 			$sortno=$dno+3;
-			$sort_types.=",'s'";
+			//a=age, d=date, i=integer, s=string
+			if($displayfield=='Age') $sort_types.=",'a'";
+			elseif($displayfield=='DOB'  or $displayfield=='IdExpiryDate' or $displayfield=='LeavingDate' or $displayfield=='EntryDate' or $displayfield=='EnrolmentApplicationDate'){
+				$sort_types.=",'d'";
+			}
+			elseif($displayfield=='YearGroup' or $displayfield=='EnrolmentYearGroup' or $displayfield=='EnrolNumber') $sort_types.=",'i'";
+			else $sort_types.=",'s'";
 ?>
 	  <th  class="noprint">
 		<div class="rowaction">
@@ -258,7 +270,7 @@ two_buttonmenu($extrabuttons,$book);
 				}
 			elseif(isset($Student[$displayfield]['type_db'])  
 				   and $Student[$displayfield]['type_db']=='date'){
-				$displayout=display_date($Student[$displayfield]['value']);
+					$displayout=display_date($Student[$displayfield]['value']);
 				}
 			elseif($displayfield!=''){
 				$displayout=$Student[$displayfield]['value'];
@@ -369,7 +381,7 @@ two_buttonmenu($extrabuttons,$book);
 
 
 <script type="text/javascript">
-	var TSort_Data = new Array ('sidtable', '', '', ''<?php print $sort_types;?>);
+	var TSort_Data = new Array ('sidtable','','',''<?php print $sort_types;?>);
 		tsRegister();
 </script> 
 

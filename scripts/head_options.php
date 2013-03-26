@@ -44,7 +44,7 @@ var book = "<?php print $book;?>";
 <?php 
 if($book=='infobook' or $book=='reportbook'  or $book=='admin'){
 ?>
-<script language="JavaScript" type="text/javascript" src="js/gs_sortable.js?version=937"></script>
+<script language="JavaScript" type="text/javascript" src="js/gs_sortable.js?version=1043"></script>
 <?php 
 	}
 ?>
