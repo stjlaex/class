@@ -37,15 +37,16 @@ if(isset($_GET['openid'])){$openid=$_GET['openid'];}
 <meta http-equiv="content-type" content="application/xhtml+xml; charset=utf-8" />
 <meta http-equiv="Content-Script-Type" content="text/JavaScript" />
 <meta name="copyright" content="Copyright 2002-2012 S T Johnson.  All trademarks acknowledged. All rights reserved" />
-<meta name="version" content='<?php print "$CFG->version"; ?>' />
+<meta name="version" content="<?php print $CFG->version; ?>" />
 <meta name="licence" content="GNU Affero General Public License version 3" />
 <link rel="stylesheet" type="text/css" href="../../css/bookstyle.css" />
 <link rel="stylesheet" type="text/css" href="../../css/markbook.css" />
 <script src="../../js/editor.js" type="text/javascript"></script>
-<script src="../../js/book.js?version=1040" type="text/javascript"></script>
+<script src="../../js/book.js?version=1043" type="text/javascript"></script>
+<script src="../../js/documentdrop.js?version=1043" type="text/javascript"></script>
 <script src="../../js/qtip.js" type="text/javascript"></script>
 </head>
-<body onload="loadRequired('<?php print $book;?>');">
+<body onload="loadRequired('<?php print $book;?>');documentdropInit();">
 
 	<div class="markcolor" id="bookbox">
 
@@ -63,10 +64,6 @@ if(isset($_GET['openid'])){$openid=$_GET['openid'];}
 		html_document_drop($Student['EPFUsername']['value'],'assessment',$entid);
 ?>
 		</div>
-		<script language="JavaScript" type="text/javascript" src="../../js/documentdrop.js?version=1035"></script>
-
-
-
 
 
 

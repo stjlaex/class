@@ -3,15 +3,15 @@
  * Developed by Craig Buckler (@craigbuckler) of OptimalWorks.net
  * Extended and adapted for ClaSS
  */
-(function() {
-
+function documentdropInit(){
 	/**
-	 * Some genwral useful stuff
+	 * Some general useful stuff
 	 */
 	/* getElementById */
 	function $id(id) {
 		return document.getElementById(id);
 		}
+
 	/* output information */
 	function Output(msg) {
 		var m = $id('messages');
@@ -157,33 +157,25 @@
 		}
 
 
-	// initialize
-	function Init() {
-
-		var fileselect = $id('fileselect'),
-			filedrag = $id('filedrag'),
-			deletebutton = $id('deletebutton');
+	/* Initliaise */
+	var fileselect = $id('fileselect'),
+	filedrag = $id('filedrag'),
+	deletebutton = $id('deletebutton');
 
 
-		// file select
-		fileselect.addEventListener('change', FileSelectHandler, false);
-		fileselect.style.display = 'none';
+	// file select
+	fileselect.addEventListener('change', FileSelectHandler, false);
+	fileselect.style.display = 'none';
+	
+	// file drop
+	filedrag.addEventListener('dragover', FileDragHover, false);
+	filedrag.addEventListener('dragleave', FileDragHover, false);
+	filedrag.addEventListener('drop', FileSelectHandler, false);
+	filedrag.style.display = 'block';
 
-		// file drop
-		filedrag.addEventListener('dragover', FileDragHover, false);
-		filedrag.addEventListener('dragleave', FileDragHover, false);
-		filedrag.addEventListener('drop', FileSelectHandler, false);
-		filedrag.style.display = 'block';
-
-		// file delete
-		if(deletebutton){
-			deletebutton.addEventListener('click', FileDelete, false);
-			}
-
-		}
-
-	// call initialization file
-	if(window.File && window.FileList && window.FileReader){
-		Init();
+	// file delete
+	if(deletebutton){
+		deletebutton.addEventListener('click', FileDelete, false);
 	}
-})();
+
+}

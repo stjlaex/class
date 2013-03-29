@@ -132,4 +132,3 @@ three_buttonmenu();
 	html_document_drop($Student['EPFUsername']['value'],'enrolment','%');
 ?>
 </div>
-<script language="JavaScript" type="text/javascript" src="js/documentdrop.js?version=1035"></script>

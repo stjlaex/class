@@ -487,8 +487,10 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 			</tr>
 <?php
 		foreach($Siblings as $Sibling){
+			if($Sibling['EnrolmentStatus']['value']!='C'){$displayclass=' class="lowlite" ';}
+			else{$displayclass='';}
 ?>
-					<tr>
+					<tr <?php print $displayclass;?>>
 					  <td style="padding:5px 2px 2px 6px;">
 						  <a href="infobook.php?current=student_view.php&cancel=contact_list.php&sid=<?php print $Sibling['id_db'];?>&sids[]=<?php print $Sibling['id_db'];?>">
 							<?php print $Sibling['DisplayFullName']['value']; ?></a><?php print ' ('.$Sibling['TutorGroup']['value'].')';?>

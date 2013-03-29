@@ -42,9 +42,10 @@ var book = "<?php print $book;?>";
 <script language="JavaScript" type="text/javascript" src="lib/jscalendar/lang/calendar-<?php  print_string('shortlocale');?>.js"></script>
 <script language="JavaScript" type="text/javascript" src="lib/jscalendar/calendar-setup.js"></script>
 <?php 
-if($book=='infobook' or $book=='reportbook'  or $book=='admin'){
+if($book=='infobook' or $book=='reportbook'  or $book=='admin'  or $book=='markbook'){
 ?>
 <script language="JavaScript" type="text/javascript" src="js/gs_sortable.js?version=1043"></script>
+<script language="JavaScript" type="text/javascript" src="js/documentdrop.js?version=1043"></script>
 <?php 
 	}
 ?>

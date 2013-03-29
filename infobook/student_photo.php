@@ -28,4 +28,3 @@ two_buttonmenu();
 	html_document_drop($Student['EPFUsername']['value'],'icon','%');
 ?>
 </div>
-<script language="JavaScript" type="text/javascript" src="js/documentdrop.js?version=1035"></script>
