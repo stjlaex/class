@@ -32,13 +32,15 @@ function list_courses($bid=''){
 
 /**
  * Returns an array of the school's sections.
- * First record id=1 is always special (the wholeschool) and is excluded.
+ * First record id=1 is always special (the wholeschool) and is excluded if real is true.
  *
  *	@return array sections
  */
-function list_sections(){
+function list_sections($real=false){
 	$sections=array();
-	$d_s=mysql_query("SELECT id, name, sequence, gid FROM section WHERE id>'1' ORDER BY sequence;");
+	if($real){$limit=1;}
+	else{$limit=0;}
+	$d_s=mysql_query("SELECT id, name, sequence, gid FROM section WHERE id>'$limit' ORDER BY sequence ASC;");
 	while($section=mysql_fetch_array($d_s,MYSQL_ASSOC)){
 		if($section['gid']==0){
 			/* If no access group exists then create one. */

@@ -45,7 +45,7 @@ three_buttonmenu($extrabuttons,$book);
 		  <th><?php print_string('section',$book);?></th>
 		</tr>
 <?php
-	$sections=list_sections();
+	$sections=list_sections(true);
 	while(list($index,$section)=each($sections)){
 		print '<tr><td><input type="checkbox" name="secids[]" value="'.$section['id'].'">'.$section['name'].'</input></td></tr>';
 		}

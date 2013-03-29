@@ -5,7 +5,7 @@
 
 $choice='staff_list.php';
 $action='staff_list_action.php';
-if(isset($_POST['listsecid'])){$listsecid=$_POST['listsecid'];}else{$listsecid='';}
+if(isset($_POST['listsecid'])){$listsecid=$_POST['listsecid'];}else{$listsecid=1;}
 if(isset($_POST['listroles'])){$listroles=$_POST['listroles'];}else{$listroles=array();}
 if(isset($_POST['listoption'])){$listoption=$_POST['listoption'];}else{$listoption='current';}
 
@@ -17,6 +17,8 @@ if($_SESSION['role']=='admin' or $aperm==1 or $_SESSION['role']=='office'){
 	}
 two_buttonmenu($extrabuttons);
 
+	$sort_types='';
+	$sortno=0;
 ?>
 
   <div class="content" id="viewcontent">
@@ -30,21 +32,22 @@ two_buttonmenu($extrabuttons);
 	$listlabel='section';
 	$listname='listsecid';
 	include('scripts/set_list_vars.php');
-	$sections[]=array('id'=>'','name'=>get_string('wholeschool'));
 	list_select_list($sections,$listoptions,$book);
 	unset($listoptions);
 ?>
 
 
-<div style="float:right;">
-  <button style="font-size:small;"  type="submit" name="sub" value="list">
-	<?php print_string('filterlist');?>
-  </button>
-</div>
+	<div style="float:right;">
+	  <button style="font-size:small;"  type="submit" name="sub" value="list">
+		<?php print_string('filterlist');?>
+	  </button>
+	</div>
 
-<div class="center">
-  <table class="listmenu">
-	<tr><th><?php print get_string('role',$book);?></th></tr>
+	<div class="center">
+	  <table class="listmenu">
+		<tr>
+		  <th><?php print get_string('role',$book);?></th>
+		</tr>
 <?php
 	$userroles=$CFG->roles;
 	foreach($userroles as $userrole){
@@ -52,13 +55,13 @@ two_buttonmenu($extrabuttons);
 		print '<tr><td><input type="checkbox" name="listroles[]" '.$checked.' value="'.$userrole.'">'.get_string($userrole).'</input></td></tr>';
 		}
 ?>
-</table>
+	  </table>
 
 <?php
 	if($aperm==1){
 ?>
-		  <table class="listmenu">
-			<tr>
+		<table class="listmenu">
+		  <tr>
 <?php
 	$options=array(array('id'=>'current','name'=>'current'),array('id'=>'previous','name'=>'previous'));
 	foreach($options as $option){
@@ -66,8 +69,8 @@ two_buttonmenu($extrabuttons);
 		print '<td><input type="radio" name="listoption" '.$checked.' value="'.$option['id'].'">'.get_string($option['name'],$book).get_string('staff',$book).'</input></td>';
 		}
 ?>
-			</tr>
-		  </table>
+		  </tr>
+		</table>
 <?php
 		}
 ?>
@@ -82,20 +85,44 @@ two_buttonmenu($extrabuttons);
 
   <div class="right">
   <form name="formtoprocess" id="formtoprocess" method="post" novalidate action="<?php print $host; ?>">
-	<table class="listmenu">
+	<table class="listmenu" id="sidtable">
 	  <caption><?php print get_string($listoption,$book).' '.get_string('staff',$book);?></caption>
+		<thead>
 		  <tr>
 			<th style="width:1em;">
 			  <?php print_string('checkall'); ?>
 			  <input type="checkbox" name="checkall" value="yes" onChange="checkAll(this,'uids[]');" />
 			</th>
-			<th><?php print_string('surname',$book);?></th>
-			<th><?php print_string('forename',$book);?></th>
-			<th><?php print_string('username');?></th>
+			<th>
+			<?php print_string('surname',$book);?>
+			<div class="rowaction">
+			  <?php $sortno++;$sort_types.=",'s'";?>
+			  <input class="underrow" type='button' name='action' value='v' onClick='tsDraw("<?php print $sortno;?>A", "sidtable");' />
+			  <input class="underrow"  type='button' name='action' value='-' onClick='tsDraw("<?php print $sortno;?>U", "sidtable");' />
+			  <input class="underrow"  type='button' name='action' value='^' onClick='tsDraw("<?php print $sortno;?>D", "sidtable");' />
+			</div>
+			</th>
+			<th>
+			<?php print_string('forename',$book);?>
+			<div class="rowaction">
+			  <?php $sortno++;$sort_types.=",'s'";?>
+			  <input class="underrow" type='button' name='action' value='v' onClick='tsDraw("<?php print $sortno;?>A", "sidtable");' />
+			  <input class="underrow"  type='button' name='action' value='-' onClick='tsDraw("<?php print $sortno;?>U", "sidtable");' />
+			  <input class="underrow"  type='button' name='action' value='^' onClick='tsDraw("<?php print $sortno;?>D", "sidtable");' />
+			</div>
+			</th>
+			<th>
+			<?php print_string('username');?>
+			<div class="rowaction">
+			  <?php $sortno++;$sort_types.=",'s'";?>
+			  <input class="underrow" type='button' name='action' value='v' onClick='tsDraw("<?php print $sortno;?>A", "sidtable");' />
+			  <input class="underrow"  type='button' name='action' value='-' onClick='tsDraw("<?php print $sortno;?>U", "sidtable");' />
+			  <input class="underrow"  type='button' name='action' value='^' onClick='tsDraw("<?php print $sortno;?>D", "sidtable");' />
+			</div>
+			</th>
 			<th><?php print_string('email',$book);?></th>
-			<th><?php print_string('role',$book);?></th>
 		  </tr>
-
+		</thead>
 <?php
 
 
@@ -106,7 +133,7 @@ two_buttonmenu($extrabuttons);
 		$nologin='0';
 		}
 
-	if($listsecid!=''){
+	if($listsecid>1){
 		/* Limit staff list to one section. */
 		foreach($sections as $section){
 			if($section['id']==$listsecid){$selsection=$section;}
@@ -115,6 +142,7 @@ two_buttonmenu($extrabuttons);
 		}
 	else{
 		$users=(array)list_all_users($nologin);
+		$selsection=$sections[0];
 		}
 
 
@@ -127,22 +155,19 @@ two_buttonmenu($extrabuttons);
 		  <td>
 			<input type="checkbox" name="uids[]" value="<?php print $user['uid'];?>" />
 		  </td>
+		  <td><?php print $User['Surname']['value'];?></td>
+		  <td><?php print $User['Forename']['value'];?></td>
 		  <td>
 <?php
 			if($aperm==1 or $user['uid']==$_SESSION['uid'] or $_SESSION['role']=='office'){
-				print '<a href="admin.php?current=staff_details.php&cancel='.$choice.'&choice='.$choice.'&seluid='.$user['uid'].'">'.$User['Surname']['value'].'</a>';
+				print '<a href="admin.php?current=staff_details.php&cancel='.$choice.'&choice='.$choice.'&seluid='.$user['uid'].'">'.$User['Username']['value'].'</a>';
 				}
 			else{
-				print $User['Surname']['value'];
+				print $User['Username']['value'];
 				}
 ?>
 		  </td>
-		  <td><?php print $User['Forename']['value'];?></td>
-		  <td>
-		  <?php print $User['Username']['value'];?>
-		  </td>
 		  <td><?php print $User['EmailAddress']['value'];?></td>
-			<td><?php print get_string($User['Role']['value']);?></td>
 		</tr>
 <?php
 					}
@@ -157,13 +182,17 @@ two_buttonmenu($extrabuttons);
 	</form>
 	</div>
 
-
-	<div class="left">
+	  <div class="left">
 <?php
 	require_once('lib/eportfolio_functions.php');
-	//html_document_drop('','section'.$listsecid);
+	html_document_drop($selsection['name'],'section',$selsection['id']);
 ?>
-	</div>
+	  </div>
 
   </div>
-<script language="JavaScript" type="text/javascript" src="js/documentdrop.js?version=1042"></script>
+
+
+<script type="text/javascript">
+	var TSort_Data = new Array ('sidtable', '', '', ''<?php print $sort_types;?>);
+		tsRegister();
+</script> 

@@ -39,7 +39,7 @@ two_buttonmenu();
 	$postcodes=array();
 
 	$yeargroups=list_yeargroups();
-	$sections=list_sections();
+	$sections=list_sections(true);
 	foreach($yeargroups as $year){
 		$yid=$year['id'];
 		$d_groups=mysql_query("SELECT gid FROM groups WHERE
