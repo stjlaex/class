@@ -21,11 +21,11 @@ elseif(sizeof($rforms)>0){
 
 
 if(sizeof($ryids)>0){
-	if(!isset($selyid)){$selyid=$ryids[0];}
+	if(!isset($selyid)){$selyid='';}
 	foreach($ryids as $ryid){
 		if($ryid>-100){
 			$years[]=array('id'=>$ryid,'name'=>get_yeargroupname($ryid));
-			$rforms=(array)array_merge($rforms,list_formgroups($ryid));
+			if($selyid=='' or $selyid==$ryid){$rforms=(array)array_merge($rforms,list_formgroups($ryid));}
 		  	}
 		}
 	$rhouses=list_communities('HOUSE');

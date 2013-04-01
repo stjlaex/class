@@ -4,28 +4,24 @@
  */
 
 	$todate=date('Y-m-d');
+	/* Only include reports which are no more than 7 weeks ahead. */
 	$startdate=date('Y-m-d',mktime(0,0,0,date('m'),date('d')+49,date('Y')));
 
-	if(sizeof($ryids)==1){
-		$selyid=$ryids[0];
-		$d_report=mysql_query("SELECT id, title, date FROM report
-			    WHERE course_id='wrapper' AND date<'$startdate' ORDER BY date DESC, title;");
-		/*This needs to moved to use cohorts!!!*/
-		}
-	elseif(sizeof($rforms)==1){
-		$selfid=$rforms[0]['name'];
-		$d_report=mysql_query("SELECT id, title, date FROM report
-			    WHERE course_id='wrapper' AND date<'$startdate' ORDER BY date DESC, title;");
-		/*This needs to moved to use cohorts!!!*/
-		}
-	else{
-		$d_report=mysql_query("SELECT id, title, date FROM report
-			    WHERE course_id='wrapper' AND date<'$startdate' ORDER BY date DESC, title;");
-		}
 	$reports=array();
-   	while($report=mysql_fetch_array($d_report,MYSQL_ASSOC)){
-		$reports[$report['id']]=$report;
+
+	foreach($cohorts as $cohort){
+		$crid=$cohort['course_id'];
+		$year=$cohort['year'];
+		$d_r=mysql_query("SELECT report_id FROM ridcatid JOIN report ON ridcatid.categorydef_id=report.id
+								WHERE ridcatid.subject_id='wrapper' AND report.year='$year' AND report.course_id='$crid' 
+								AND report.date<'$startdate' ORDER BY report.date DESC, report.title;");
+		while($r=mysql_fetch_array($d_r,MYSQL_ASSOC)){
+			$rid=$r['report_id'];
+			$d_report=mysql_query("SELECT id, title, date FROM report WHERE id='$rid';");
+			$reports[$rid]=mysql_fetch_array($d_report,MYSQL_ASSOC);
+			}
 		}
+
 ?>
 
 <div class="center"> 
@@ -34,8 +30,8 @@
 	  class="required"  tabindex="<?php print $tab++;?>" size="14" >
 	  <option value="">----<?php print_string('current');?>----------------</option>
 <?php
-   	while(list($rid,$report)=each($reports)){
-		if($report['date']>=$todate){
+   	foreach($reports as $rid => $report){
+		if(strtotime($report['date'])>=strtotime($todate)){
 ?>
 		<option value="<?php print $report['id'];?>">
 			<?php print $report['title'].' ('.$report['date'].')';?>
@@ -46,9 +42,9 @@
 ?>
 	  <option value="">----<?php print_string('previous');?>----------------</option>
 <?php
-	reset($reports);
-	while(list($rid,$report)=each($reports)){
-		if($report['date']<$todate){
+
+   	foreach($reports as $rid => $report){
+		if(strtotime($report['date']) < strtotime($todate)){
 ?>
 		<option value="<?php print $report['id'];?>">
 			<?php print $report['title'].' ('.$report['date'].')';?>
