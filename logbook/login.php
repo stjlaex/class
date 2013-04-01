@@ -85,9 +85,8 @@ else{
 </tr>
 </table>
 
-<button id="login" name="submitlogin" tabindex="3" 
-	onClick="return validateForm(this.form);">
-<?php print_string('enter');?>
+<button id="login" name="submitlogin" tabindex="3" onClick="return validateForm(this.form);">
+  <?php print_string('enter');?>
 </button>
 
 </div>

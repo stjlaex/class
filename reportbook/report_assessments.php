@@ -23,7 +23,6 @@ elseif($comid!=''){
 	$com=(array)get_community($comid);
 	if($com['type']=='form'){$formid=$comid;}
 	elseif($com['type']=='house'){$houseid=$comid;}
-	trigger_error('COM:'.$com['type'].' '.$comid,E_USER_WARNING);
 	$cohorts=(array)list_community_cohorts($com);
 	}
 elseif(!empty($year) and !empty($stage)){

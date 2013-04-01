@@ -95,10 +95,8 @@ if($nodays==''){$nodays=8;}
   <div id="bookbox" class="registercolor">
 <?php
 
- 
 	if(empty($secid)){$secid=1;}
 	$currentevent=get_currentevent($secid);
-
 
 	if($current=='register_list.php' and empty($community)){
 		$current='completion_list.php';
@@ -145,10 +143,7 @@ if($nodays==''){$nodays=8;}
 	$listtype='section';
 	$listname='secid';
 	$listlabel='';
-	$sections=list_sections();
-	include('scripts/set_list_vars.php');
-	list_select_list($sections,$listoptions,$book);
-	unset($listoptions);unset($sections);
+	include('scripts/list_section.php');
 ?>
 		<input type="hidden" name="newcid" value="" />
 		<input type="hidden" name="newcomid" value="" />

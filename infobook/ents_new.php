@@ -106,6 +106,4 @@ else{
 	require_once('lib/eportfolio_functions.php');
 	html_document_drop($Student['EPFUsername']['value'],'background',$entid);
 ?>
-
   </div>
-<script language="JavaScript" type="text/javascript" src="js/documentdrop.js?version=1035"></script>

@@ -12,6 +12,7 @@ require_once('../../lib/eportfolio_functions.php');
 if(isset($_SERVER['HTTP_X_FILENAME'])){$filename=$_SERVER['HTTP_X_FILENAME'];}else{$filename='';}
 if(isset($_SERVER['HTTP_X_FILEOWNER'])){$owner=$_SERVER['HTTP_X_FILEOWNER'];}else{$owner='';}
 if(isset($_SERVER['HTTP_X_FILECONTEXT'])){$context=$_SERVER['HTTP_X_FILECONTEXT'];}else{$context='';}
+if(isset($_SERVER['HTTP_X_FILELINKEDID'])){$linkedid=$_SERVER['HTTP_X_FILELINKEDID'];}else{$linkedid=0;}
 
 
 $Files=array();
@@ -41,6 +42,7 @@ if($filename!='' and $owner!=''){
 	$publishdata['batchfiles'][]=array('epfusername'=>$owner,
 									   'filename'=>$uniquename,
 									   'originalname'=>$filename,
+									   'linkedid'=>$linkedidb,
 									   'description'=>'',
 									   'tmpname'=>$tmp);
 	upload_files($publishdata,false);

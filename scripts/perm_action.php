@@ -1,5 +1,8 @@
 <?php
 /**						scripts/perm_action.php
+ *
+ * By default will checking for read access. 
+ * Set $neededperm = w or x for testing other levels
  */
 if(!isset($neededperm)){$neededperm='r';}
 if($perm["$neededperm"]!=1){

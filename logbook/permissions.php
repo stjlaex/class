@@ -182,26 +182,27 @@ function list_group_users_perms($gid,$nologin='0'){
  *
  *
  */
-function get_group_perms($gid,$uid){
+function get_group_perm($gid,$uid){
 	$d_p=mysql_query("SELECT r, w, x, e FROM perms WHERE gid='$gid' AND uid='$uid';");
 	if(mysql_num_rows($d_p)>0){
-		$perms=mysql_fetch_array($d_u,MYSQL_ASSOC);
+		$perm=mysql_fetch_array($d_u,MYSQL_ASSOC);
 		}
 	else{
-		$perms=array('r'=>0,'w'=>0,'x'=>0,'e'=>0);
+		$perm=array('r'=>0,'w'=>0,'x'=>0,'e'=>0);
 		}
-	return $perms;
+	return $perm;
 	}
 
 
 /**
  * Singles out a special group of users with admin permissions
- * $type is b=budget, a=academic, p=pastoral, s=section, u=users, r=reserved
+ * $type is b=budget, a=academic, p=pastoral, u=users, s=special access to restricted
  *
  * The return perm is either true or false.
  *
  */
 function get_admin_perm($type,$uid){
+
 	$d_p=mysql_query("SELECT r FROM perms JOIN groups ON perms.gid=groups.gid WHERE
 					  perms.uid='$uid' AND groups.type='$type' AND groups.yeargroup_id='-9999';");
 	if(mysql_num_rows($d_p)>0){
@@ -500,6 +501,30 @@ function get_community_perm($comid,$comyid=''){
 	if($_SESSION['role']=='admin'){$perm['r']=1; $perm['w']=1; $perm['x']=1;}		
 	elseif($_SESSION['role']=='office'){$perm['r']=1; $perm['w']=1; $perm['x']=0;}
 	elseif($_SESSION['role']=='district'){$perm['r']=1; $perm['w']=0; $perm['x']=0;}
+	return $perm;
+	}
+
+
+/**
+ * 
+ */
+function get_section_perm($secid){
+	$perm=array('r'=>0,'w'=>0,'x'=>0);
+
+	if(sizeof($_SESSION['srespons'])>0){
+		foreach($_SESSION['srespons'] as $respon){
+			if($respon['id']==$secid){
+				$perm['r']=1;
+				}
+			}
+		}
+	else{
+		$perm['r']=1;
+		}
+
+	if($_SESSION['role']=='admin'){$perm['r']=1; $perm['w']=1; $perm['x']=1;}
+	elseif($_SESSION['role']=='district'){$perm['r']=1;}
+
 	return $perm;
 	}
 

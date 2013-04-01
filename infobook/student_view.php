@@ -6,6 +6,10 @@
 
 $action='student_view_action.php';
 
+/* Check user has permission to view students within this section. */
+$perm=get_section_perm($student_secid);
+include('scripts/perm_action.php');
+/**/
 
 $house=get_student_house($sid);
 $Siblings=array();
@@ -116,6 +120,9 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 
 		</table>
 	  </div>
+<?php
+		if($_SESSION['role']!='support'){
+?>
 	
 	  <div class="center">
 		<table class="listmenu">
@@ -138,7 +145,7 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 		  </tr>
 
 <?php
-	if($_SESSION['role']!='office' and $_SESSION['role']!='support'){
+	if($_SESSION['role']!='office'){
 ?>
 		  <tr>
 			<th>
@@ -331,9 +338,6 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 
 
 
-<?php
-		if($_SESSION['role']!='support'){
-?>
 	  <div class="left">
 		<fieldset class="left">
 		  <legend>

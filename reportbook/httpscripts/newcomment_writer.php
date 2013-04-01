@@ -17,7 +17,7 @@ if(isset($_GET['entryn'])){$entryn=$_GET['entryn'];}
 elseif(isset($_POST['entryn'])){$entryn=$_POST['entryn'];}
 if(isset($_GET['openid'])){$openid=$_GET['openid'];}
 
-$browser=getBrowser();
+//$browser=getBrowser();
 
 $StatementBank=array();
 if($rid!=-1){
@@ -48,6 +48,7 @@ elseif($bid=='targets'){
 
 $tabindex=0;
 
+//$subcomments_fix=1;
 
 $Student=fetchStudent_short($sid);
 $Report['Comments']=fetchReportEntry($reportdef, $sid, $bid, $pid);
@@ -77,7 +78,7 @@ else{
  * then the bank gets all of the achieved statements.
  * TODO: Lots! We only have one working profile!
  */
-if($reportdef['report']['profile_names'][0]!='' and isset($subcomments_fix)){
+if(isset($reportdef['report']['profile_names'][0]) and $reportdef['report']['profile_names'][0]!=''){
 		$profile_name=$reportdef['report']['profile_names'][0];
 		/* This fromdate is just a hack needs to check for previous report maybe?*/
 		//$reportyear=$reportdef['report']['year']-1;

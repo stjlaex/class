@@ -744,7 +744,7 @@ function html_document_drop($epfun,$context,$linked_id='-1'){
 			<input type="hidden" id="MAX_FILE_SIZE" name="MAX_FILE_SIZE" value="<?php print return_bytes(ini_get('upload_max_filesize'));?>" />
 			<input type="hidden" id="FILEOWNER" name="FILEOWNER" value="<?php print $epfun;?>" />
 			<input type="hidden" id="FILECONTEXT" name="FILECONTEXT" value="<?php print $context;?>" />
-			<input type="hidden" id="FILELINKID" name="FILELINKID" value="<?php print $linked_id;?>" />
+			<input type="hidden" id="FILELINKEDID" name="FILELINKEDID" value="<?php print $linked_id;?>" />
 		  </form>
 		</fieldset>
 	  </fieldset>

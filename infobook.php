@@ -28,6 +28,7 @@ $sidskey=array_search($sid,$sids);
 
 if($current!='student_list.php' and $sid!=''){
 	$Student=fetchStudent($sid);
+	$student_secid=get_student_section($sid);
 	}
 ?>
   <div id="bookbox" class="infocolor">

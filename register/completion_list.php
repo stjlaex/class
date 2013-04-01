@@ -26,8 +26,16 @@ if($secid!='' and $secid>1){
 	}
 else{
 	/* Give the whole school when no section is selected. */
-	$sections=list_sections();
+	if(sizeof($_SESSION['srespons'])>0){
+		$sections=list_sections(false,$_SESSION['srespons']);
+		}
+	else{
+		$sections=list_sections();
+		}
 	foreach($sections as $section){
+		/* different sections may have different regtypes so can't
+		 * just list all yeargroups in one go?
+		 */
 		$secid=$section['id'];
 		$ygs=(array)list_yeargroups($secid);
 		if(!isset($CFG->regtypes[$secid])){$type=$regtype;}

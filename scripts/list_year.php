@@ -7,8 +7,13 @@
 if(!isset($listname)){$listname='newyid';}
 if(!isset($listlabel)){$listlabel='yeargroup';}
 include('scripts/set_list_vars.php');
-$d_yeargroup=mysql_query("SELECT id, name FROM yeargroup ORDER BY sequence");
-list_select_db($d_yeargroup,$listoptions,$book);
-mysql_free_result($d_yeargroup);
+if(sizeof($_SESSION['srespons'])>0){
+	$yeargroups=list_yeargroups($_SESSION['srespons']);
+	}
+else{
+	$yeargroups=list_yeargroups();
+	}
+list_select_list($yeargroups,$listoptions,$book);
 unset($listoptions);
+unset($yeargroups);
 ?>

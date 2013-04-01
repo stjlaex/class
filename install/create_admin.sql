@@ -239,7 +239,7 @@ CREATE TABLE rating (
 
 CREATE TABLE file (
  id int(10) UNSIGNED NOT NULL AUTO_INCREMENT,
- owner enum('s','g','u') NOT NULL,
+ owner enum('s','g','u','c') NOT NULL,
  owner_id int(10) UNSIGNED NOT NULL DEFAULT '0',
  folder_id int(10) UNSIGNED NOT NULL DEFAULT '0',
  title varchar(255) NOT NULL DEFAULT '',

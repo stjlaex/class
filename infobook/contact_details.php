@@ -110,8 +110,53 @@ three_buttonmenu($extrabuttons,$book);
 	<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
 
 	  <div class="left">
+	  <div class="center">
 		<?php $tab=xmlarray_form($Contact,'','contactdetails',$tab,$book); ?>
 	  </div>
+
+	  <div class="center">
+<?php
+	$addressno='0';/* Only doing one address. */
+	$tab=xmlarray_form($Address,$addressno,'contactaddress',$tab,$book); 
+?>
+
+
+<?php
+	if($CFG->enrol_geocode_off=='no'){
+?>
+		<div id="gmaps">
+		  <div id="map_canvas" style="width:auto; height:180px; overflow:visible; color:orange;"></div>
+		  <table>
+			<tr>
+			  <td>
+				<div id="public_time" style="border-left:1px solid black;padding-left:5px"></div>
+			  </td>
+			  <td id="transit">
+				<input id="display_public_route" type="checkbox" onclick="calcPublicRoute();" style="cursor:pointer;" />
+				Route
+			  </td>
+			  <td>
+				<div id="car_time" style="border-left:1px solid black;padding-left:5px"></div>
+			  </td>
+			  <td id="car">
+				<input id="display_car_route" type="checkbox" onclick="calcCarRoute();" style="cursor:pointer;" /> 
+				Route
+			  </td>
+			</tr>
+		  </table>
+		  <input id="address_map" type="hidden" value="<?php echo $Address['Street']['value'].' '.$Address['Postcode']['value'].' '.$Address['Neighbourhood']['value'].' '.$Address['Country']['value'];?>" />
+		  <input id="lat" type="hidden" value="<?php echo $Address['Latitude']['value'];?>" />
+		  <input id="lon" type="hidden" value="<?php echo $Address['Longitude']['value'];?>" />
+		</div>
+
+<?php
+		}
+?>
+
+	  </div>
+
+	</div>
+
 
 	  <div class="right">
 		  <table class="listmenu listinfo">
@@ -157,14 +202,6 @@ three_buttonmenu($extrabuttons,$book);
 ?>
 
 
-	  <div class="left">
-<?php
-	$addressno='0';/* Only doing one address. */
-	$tab=xmlarray_form($Address,$addressno,'contactaddress',$tab,$book); 
-?>
-	  </div>
-
-
 <?php
 		if(empty($_SESSION['accessfees'])){
 
@@ -192,38 +229,9 @@ three_buttonmenu($extrabuttons,$book);
 		</div>
 <?php
 			}
-	if($CFG->enrol_geocode_off=='no'){
 ?>
 
-
-		<div id="gmaps" class="left">
-		  <div id="map_canvas" style="width:auto; height:180px; overflow:visible; color:orange;"></div>
-		  <table>
-			<tr>
-				<td><div id="public_time"></div></td>
-				<td id="transit">
-				  <input id="display_public_route" type="checkbox" onclick="calcPublicRoute();" style="cursor:pointer;" />
-				  Display route
-				</td>
-				<td>
-				  <div id="car_time" style="border-left:1px solid black;padding-left:5px"></div>
-				</td>
-				<td id="car">
-				  <input id="display_car_route" type="checkbox" onclick="calcCarRoute();" style="cursor:pointer;" /> 
-				  Display route
-				</td>
-			</tr>
-		  </table>
-		  <input id="address_map" type="hidden" value="<?php echo $Address['Street']['value'].' '.$Address['Postcode']['value'].' '.$Address['Neighbourhood']['value'].' '.$Address['Country']['value'];?>" />
-		  <input id="lat" type="hidden" value="<?php echo $Address['Latitude']['value'];?>" />
-		  <input id="lon" type="hidden" value="<?php echo $Address['Longitude']['value'];?>" />
-		</div>
-
-<?php
-		}
-?>
-
-	  <fieldset class="left listmenu">
+	  <fieldset class="right listmenu">
 		<legend>
 		  <?php print_string($Contact['EPFUsername']['label'],$book);?>
 		</legend>

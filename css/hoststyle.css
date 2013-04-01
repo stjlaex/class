@@ -201,6 +201,8 @@ button {
 	font-weight:600;
 	font-size:small;
 	cursor:pointer;
+	border-radius:4px;
+    border:0px none;
 	}
 .bookoptions {
 	position:absolute; left:0.75%; top:18%; width:13.75%;
@@ -238,6 +240,7 @@ button {
 	width:90%;
 	font-weight:300;
 	margin:0 0 5% 5%;
+	border-radius:4px;
 	}
 .bookoptions button[value="Reset"] {
 	background-color:#666666; 
@@ -248,6 +251,10 @@ button {
     border-style:solid;
 	padding:2px; margin:0;
     background-color:#444444;
+	}
+.bookoptions button:hover {
+    background-color:#5599cc;
+	color:#ffffff;
 	}
 /*these select widths are not ideal but seem to solve a firefox bug for 100%!*/
 .bookoptions option {
@@ -264,7 +271,6 @@ button {
 .bookoptions input[type="radio"] {
 	width:1em;
 	}
-
 .formimages {
 	padding:5px;
     width:10px; 
@@ -381,7 +387,10 @@ div#sidebuttons button {
 	}
 .sidebuttons button { 
     float:left;
-	padding:0; margin:0 1px; border:0; 
+	border-radius:4px;
+	padding:0; 
+	margin:0 1px;
+    border:0px none;
 	width:22px; height:22px;
 	}
 div.hidden {

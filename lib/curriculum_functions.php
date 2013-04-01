@@ -36,11 +36,20 @@ function list_courses($bid=''){
  *
  *	@return array sections
  */
-function list_sections($real=false){
+function list_sections($real=false,$secids=''){
 	$sections=array();
+
 	if($real){$limit=1;}
 	else{$limit=0;}
-	$d_s=mysql_query("SELECT id, name, sequence, gid FROM section WHERE id>'$limit' ORDER BY sequence ASC;");
+
+	if(is_array($secids)){
+		$sqllist=implode("','",$secids);
+		$d_s=mysql_query("SELECT id, name, sequence, gid FROM section WHERE id>'$limit' AND id IN ('$sqllist') ORDER BY sequence ASC;");
+		}
+	else{
+		$d_s=mysql_query("SELECT id, name, sequence, gid FROM section WHERE id>'$limit' ORDER BY sequence ASC;");
+		}
+
 	while($section=mysql_fetch_array($d_s,MYSQL_ASSOC)){
 		if($section['gid']==0){
 			/* If no access group exists then create one. */
@@ -64,11 +73,21 @@ function list_sections($real=false){
  */
 function list_yeargroups($secid='%'){
 	$yeargroups=array();
-	$d_y=mysql_query("SELECT DISTINCT id, name, sequence, section_id FROM yeargroup WHERE
+
+	if(is_array($secid)){
+		$sqllist=implode("','",$secid);
+		$d_y=mysql_query("SELECT DISTINCT id, name, sequence, section_id FROM yeargroup WHERE
+					 section_id IN ('$sqllist') ORDER BY sequence;");
+		}
+	else{
+		$d_y=mysql_query("SELECT DISTINCT id, name, sequence, section_id FROM yeargroup WHERE
 					 section_id LIKE '$secid' ORDER BY sequence;");
+		}
+
 	while($y=mysql_fetch_array($d_y,MYSQL_ASSOC)){
 		$yeargroups[]=$y;
 		}
+
 	return $yeargroups;
 	}
 

@@ -14,7 +14,7 @@ body {
 a {
     font-size:small; 
     color:#000000; 
-    font-weight:600;
+    font-weight:900;
     text-decoration:none;
 	}
 a:hover {
@@ -310,17 +310,18 @@ div.buttonmenu {
 	}
 .buttonmenu button, #heading button, fieldset button {
 	margin:1px 2px; 
-    border:1px solid; 
-    padding:0;
+    border:0px none;
+	border-radius:3px;
+    padding:2px 4px 2px 3px;
 	font-size:x-small; 
-    font-weight:600; 
+    font-weight:900; 
     color:#ffeeff;
 	cursor:pointer;
 	}
 .buttonmenu button[value="Submit"], .buttonmenu button[value="Enter"] {
-	background-color:#444444; 
+	background-color:#666666;
 	color:#ff9900;
-    font-weight:600; 
+    font-weight:900;
 	}
 .buttonmenu button[value="Submit"]:hover, .buttonmenu button[value="Enter"]:hover {
 	background-color:#ff9900; 
@@ -378,7 +379,9 @@ button.rowaction, div.rowaction, div.rowaction button {
 	float:right;
 	}
 button.rowaction, div.rowaction button {
-    border:1px none; 
+    border:1px none;
+	border-radius:4px;
+	padding:0 3px 0 3px;
 	font-weight:600;
     background-color:#666666;
 	}

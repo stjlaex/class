@@ -141,12 +141,14 @@ if($_SESSION['role']=='admin' or $aperm==1){
 <?php
 		}
 
+	if($_SESSION['role']=='admin' or $aperm==1){
+
 ?>
 
 	  <fieldset class="right">
 		<legend><?php print_string('section',$book);?></legend>
 <?php
-		$sections=(array)list_sections();
+		$sections=(array)list_sections(true);
 		$access_groups=(array)list_user_groups($seluid,'s');
 		foreach($sections as $section){
 			if(in_array($section['gid'],$access_groups)){$editaperm=true;}
@@ -160,8 +162,10 @@ if($_SESSION['role']=='admin' or $aperm==1){
 			}
 ?>
 		</fieldset>
+<?php
+		}
+?>
 	  </div>
-
 
 	  <div class="left">
 <?php
@@ -178,14 +182,10 @@ if($_SESSION['role']=='admin' or $aperm==1){
 	</form>
 
 
-<div class="right">
+	<div class="right">
 <?php
 	require_once('lib/eportfolio_functions.php');
 	html_document_drop($User['EPFUsername']['value'],'staff');
 ?>
-</div>
+	</div>
   </div>
-
-
-
-<script language="JavaScript" type="text/javascript" src="js/documentdrop.js?version=1035"></script>

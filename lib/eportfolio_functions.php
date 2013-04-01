@@ -1074,9 +1074,8 @@ function upload_files($filedata){
 		$file_name=$batchfile['filename'];
 		$file_description=$batchfile['description'];
 		$file_originalname=$batchfile['originalname'];
-		$file_linked_id=0;
+		$file_linkedid=0;
 		$uid=get_epfuid($epfusername,$folder_usertype);
-
 
 		if($folder_name!='root'){
 			/* Create the virtual folder if it doesn't exist. */
@@ -1101,8 +1100,9 @@ function upload_files($filedata){
 				}
 			else{
 				$file_tmppath=$batchfile['tmpname'];
-				if(isset($batchfile['linked_id']) and $batchfile['linked_id']>0){
-					$file_linked_id=$batchfile['linked_id'];
+				if(isset($batchfile['linkedid']) and $batchfile['linkedid']>0){
+					$file_linkedid=$batchfile['linkedid'];
+		trigger_error($file_linkedid,E_USER_WARNING);
 					}
 				}
 
@@ -1120,7 +1120,7 @@ function upload_files($filedata){
 				}
 			else{
 
-				$sql_linked="AND other_id='$file_linked_id'";
+				$sql_linked="AND other_id='$file_linkedid'";
 
 				$d_f=mysql_query("SELECT id FROM file WHERE originalname='$file_originalname' 
 											$sql_linked AND owner='$folder_usertype' AND owner_id='$uid';");
@@ -1128,12 +1128,12 @@ function upload_files($filedata){
 					$d_f=mysql_query("INSERT INTO file (owner, owner_id, folder_id, title, originalname,
 										description, location, access, size, other_id) VALUES 
 										('$folder_usertype', '$uid','$folder_id','$file_title','$file_originalname',
-										'$file_description','$file_location','$file_access','$file_size','$file_linked_id');");
+										'$file_description','$file_location','$file_access','$file_size','$file_linkedid');");
 					}
 				else{
 					$file_id=mysql_result($d_f,0);
 					$d_f=mysql_query("UPDATE file SET (originalname='$file_originalname', 
-										title='$file_title', description='$file_description') WHERE id='$file_id';");
+										title='$file_title', description='$file_description', other_id='$file_linkedid') WHERE id='$file_id';");
 					}
 				}
 
@@ -1232,7 +1232,7 @@ function new_folder($owner,$name,$access=''){
  * @params string $linked_id
  *
  */
-function list_files($epfun,$foldertype,$linked_id='-1',$bid=''){
+function list_files($epfun,$foldertype,$linkedid='-1',$bid=''){
 	global $CFG;
 
 	$files=array();
@@ -1271,14 +1271,14 @@ function list_files($epfun,$foldertype,$linked_id='-1',$bid=''){
 	else{
 
 		/* Could be passing both an id and some description from a linked comment. */
-		if(is_array($linked_id)){
-			$linked_description=$linked_id['detail'];
-			$linked_id=$linked_id['id'];
+		if(is_array($linkedid)){
+			$linked_description=$linkedid['detail'];
+			$linkedid=$linkedid['id'];
 			}
 
-		if($linked_id>0){
+		if($linkedid>0){
 			/* Looking only at the files attached to a single entry. */
-			$attachment="file.other_id='$linked_id' AND ";
+			$attachment="file.other_id='$linkedid' AND ";
 			}
 		else{
 			/* Looking only at all files dropped in this context. */
@@ -1312,13 +1312,8 @@ function list_files($epfun,$foldertype,$linked_id='-1',$bid=''){
 
 /** 
  *
- * Returns an array of file urls and descriptions for the given $filetype and $owner.
- * If not called from other elgg_ functions set dbc=true.
- * The owner is the epfusername.
  *
- * @params string $epfusername of the owner
- * @params string $filetype
- * @params string $linked_id
+ * @params string $file_id
  *
  */
 function get_filedata($file_id){
@@ -1336,16 +1331,13 @@ function get_filedata($file_id){
 
 
 /** 
+ * Associates a file to another resource identified by the linkedid.
  *
- * Returns an array of file urls and descriptions for the given $filetype and $owner.
- * If not called from other elgg_ functions set dbc=true.
- * The owner is the epfusername.
- *
- * @params string $epfusername of the owner
+ * @params string $epfun of the owner
  * @params string $foldertype
- * @params string $linked_id
+ * @params string $linkedid
  */
-function link_files($epfun,$foldertype,$linked_id){
+function link_files($epfun,$foldertype,$linkedid){
 	global $CFG;
 
 	if($foldertype=='staff'){
@@ -1359,7 +1351,7 @@ function link_files($epfun,$foldertype,$linked_id){
 
 	$folder_id=new_folder($epfuid,$foldertype,$access='');
 
-	mysql_query("UPDATE file SET other_id='$linked_id' 
+	mysql_query("UPDATE file SET other_id='$linkedid' 
 						WHERE owner_id='$epfuid' AND owner='$folder_usertype' AND file.other_id='0';");
 
 	}
@@ -1371,24 +1363,28 @@ function link_files($epfun,$foldertype,$linked_id){
  * The owner is identified by their epfusername end the type is 's', 'g' or 'u'.
  *
  */
-function get_epfuid($epfname,$type){
+function get_epfuid($epfun,$user_type){
 
-	if($type=='s'){
+	if($user_type=='s'){
 		/* student */
-		$d_u=mysql_query("SELECT student_id FROM info WHERE epfusername='$epfname';");
+		$d_u=mysql_query("SELECT student_id FROM info WHERE epfusername='$epfun';");
 		}
-	elseif($type=='g'){
+	elseif($user_type=='g'){
 		/* guardian */
-		$d_u=mysql_query("SELECT id FROM guardian WHERE epfusername='$epfname';");
+		$d_u=mysql_query("SELECT id FROM guardian WHERE epfusername='$epfun';");
 		}
-	elseif($type=='u'){
+	elseif($user_type=='u'){
 		/* user */
-		$d_u=mysql_query("SELECT uid FROM users WHERE epfusername='$epfname';");
+		$d_u=mysql_query("SELECT uid FROM users WHERE epfusername='$epfun';");
 		}
-
 
 	if(isset($d_u) and mysql_num_rows($d_u)==1){
 		$uid=mysql_result($d_u,0);
+		}
+	elseif(substr($epfun,0,7)=='section'){
+		/* special situation for a school section which is within the
+		   context of staff and owner will be administrator */
+		$uid=1;
 		}
 	else{
 		$uid=-1;

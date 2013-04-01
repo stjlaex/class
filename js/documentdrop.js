@@ -74,8 +74,8 @@ function documentdropInit(){
 		var xhr = new XMLHttpRequest();
 		var owner = $id('FILEOWNER').value;
 		var context = $id('FILECONTEXT').value;
+		var linkedid = $id('FILELINKEDID').value;
 		var scriptpath=$id('formdocumentdrop').action;
-
 		// limit upload by filetype eg. JPEG files
 		//if (xhr.upload && file.type == 'image/jpeg' && file.size <= $id('MAX_FILE_SIZE').value) {
 		// limit only by filesize
@@ -110,6 +110,7 @@ function documentdropInit(){
 			xhr.setRequestHeader('X_FILENAME',file.name);
 			xhr.setRequestHeader('X_FILEOWNER',owner);
 			xhr.setRequestHeader('X_FILECONTEXT',context);
+			xhr.setRequestHeader('X_FILELINKEDID',linkedid);
 			xhr.send(file);
 			}
 		else{

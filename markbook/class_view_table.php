@@ -347,8 +347,11 @@ while($student=mysql_fetch_array($d_students, MYSQL_ASSOC)){
 	   	elseif($marktype=='compound'){
 			/*Mark is a compound column*/
 			$scoreclass='derived';
-			if(empty($umns[$c]['profile_bid'])){$profilebid=$bid[0];}
+			if(empty($umns[$c]['profile_bid']) or $umns[$c]['profile_bid']=='%'){$profilebid=$bid[0];}
 			else{$profilebid=$umns[$c]['profile_bid'];}
+
+trigger_error($umns[$c]['profile_bid'].' ::: '.$profilebid.' ::: '.$bid[0],E_USER_WARNING);
+
 			/* Have to explicity pass the bid and pid for the profile here NOT for the class. */
 			$rep=checkReportEntryCat($umns[$c]['midlist'],$sid,$profilebid,$umns[$c]['component']);
 			/* Option to decide what is displayed in the table cell: either blank or the result value. */

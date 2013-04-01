@@ -2033,4 +2033,11 @@ function dateDiff($startdate,$enddate){
 	}
 /***/
 
+/**
+ * Custom trigger_error
+ */
+function eror($string){
+	if(is_array($string)){$string=implode(',',$string);}
+	trigger_error($string,E_USER_WARNING);
+	}
 ?>

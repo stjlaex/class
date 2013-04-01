@@ -62,7 +62,16 @@ function get_respons($uid,$type='%'){
 				$group['comtype']=$com['type'];
 				$group['id']=$comid;
 				}
-			if(isset($group)){$groups[]=$group;}
+			elseif($group['type']=='s'){
+				$gid=$group['gid'];
+				$d_c=mysql_query("SELECT id, name FROM section WHERE gid='$gid';");
+				$com=mysql_fetch_array($d_c,MYSQL_ASSOC);
+				$group=$com['id'];
+				}
+			if(isset($group)){
+				$groups[]=$group;
+				unset($group);
+				}
 			}
 		}
 
@@ -120,6 +129,7 @@ class User{
 		$_SESSION['logged']=true;
 		$_SESSION['respons']=(array)get_respons($this->uid,'a');
 		$_SESSION['prespons']=(array)get_respons($this->uid,'p');
+		$_SESSION['srespons']=(array)get_respons($this->uid,'s');
 		$session=$this->db->quote(session_id());
 		$ip=$this->db->quote($_SERVER['REMOTE_ADDR']);
 		$sql="UPDATE users SET session=$session, ip=$ip, logcount=logcount+1 WHERE uid=$this->uid";

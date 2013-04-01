@@ -136,7 +136,7 @@ while(list($cindex,$catdef)=each($catdefs)){
 
 	
 	<div class="content" style="overflow:auto;">
-	<form id="formtoprocess" name="formtoprocegss" method="post" 
+	<form id="formtoprocess" name="formtoprocess" method="post" 
 		action="category_editor_action.php">
 
 	  <div class="center">

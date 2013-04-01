@@ -23,8 +23,7 @@ function TSort_StoreDef () {
 	this.sort_colors = [ '#FF0000', '#800080', '#0000FF' ];
 };
 
-function tsInitOnload ()
-{
+function tsInitOnload () {
 	//	If TSort_All is not initialized - do it now (simulate old behavior)
 	if	(TSort_All == null)
 		tsRegister();
@@ -38,8 +37,7 @@ function tsInitOnload ()
 		window.onload_sort_table();
 }
 
-function tsInit()
-{
+function tsInit() {
 
 	if	(TSort_Data.push == null)
 		return;

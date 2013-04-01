@@ -9,6 +9,7 @@
     width:60%; 
     margin-left:20%; 
     margin-top:10%;
+	border-radius:4px;
 	}
 .logincolor button:hover, .logincolor button:focus {
     border-color:#5599cc;

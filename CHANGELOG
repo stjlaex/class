@@ -1,3 +1,19 @@
+Version ClaSS-1.0.44 release (2013/04/02)
+-------------------------------------------
+
+Rounded button corners with CSS3.
+
+Moved the documentdrop init function into the host.
+
+The file table now has owner type 'c' for community.
+
+The list_section function can optionally include "Whole School".
+
+The staff_list page has document a drop area for each section.
+
+
+
+
 Version ClaSS-1.0.43 release (2013/03/28)
 -------------------------------------------
 
@@ -21,6 +37,9 @@ with Chrome.
 
 Made use of the displayfield's data type in the student_list for
 sorting dates and ages etc.
+
+Fixed the identification profile_bid in the class_view_table for
+profiles qith bid=% (profiles extending across subjects).
 
 
 
@@ -236,7 +255,14 @@ A new html template functions for a div contianer.
 
 Fix to identifying commendations (affected counting merit with points>4).
 
+Listing of yeargroups and forms filtered to match a users section assignments.
 
+Staff section assignments now used alongside access permissions to
+confine access to student records within sections (get_section_perm).
+
+Changed list_partoral_groups to filter forms depending on other selection.
+
+Improved report_reports to list only relevant report wrappers.
 
 Version ClaSS-1.0.33 release (2012/10/10)
 -------------------------------------------

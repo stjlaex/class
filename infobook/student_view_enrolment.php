@@ -8,9 +8,12 @@ $action='student_view_enrolment_action.php';
 three_buttonmenu();
 
 	/*Check user has permission to view*/
+$perm=get_section_perm($student_secid);
+if($perm['r']==1){
 	$perm=getFormPerm($Student['RegistrationGroup']['value']);
 	if($perm['r']!=1){$perm=getSENPerm($Student['YearGroup']['value']);}
-	include('scripts/perm_action.php');
+	}
+include('scripts/perm_action.php');
 
 ?>
   <div id="heading">

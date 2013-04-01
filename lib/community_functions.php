@@ -1060,8 +1060,8 @@ function get_student_section($sid){
 	}
 
 /** 
- * Returns the section id for the yeargroup to which the 
- * student belongs, defaults to whole school secid=1 if nothing else available.
+ * Returns the yeargroup id for the yeargroup to which the student
+ * belongs.
  *
  *	@param integer $sid
  *	@return integer

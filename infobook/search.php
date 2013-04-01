@@ -160,9 +160,6 @@ else{
 			<button type="submit" name="submit">
 				<?php print_string('search');?>
 			</button>
-			<button type="reset" name="reset" value="Reset">
-				<?php print_string('reset');?>
-			</button>
 	  </fieldset>
 <?php
 		}

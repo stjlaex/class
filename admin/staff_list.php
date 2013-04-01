@@ -185,7 +185,7 @@ two_buttonmenu($extrabuttons);
 	  <div class="left">
 <?php
 	require_once('lib/eportfolio_functions.php');
-	html_document_drop($selsection['name'],'section',$selsection['id']);
+	html_document_drop('section'.$selsection['id'],'staff',$selsection['id']);
 ?>
 	  </div>
 

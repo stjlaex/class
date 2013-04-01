@@ -11,9 +11,10 @@ if(isset($_POST['startday'])){$startday=$_POST['startday'];}else{$startday=0;}
 $extrabuttons=array();
 threeplus_buttonmenu($startday,35,$extrabuttons);
 
-	/*Check user has permission to view*/
-	$perm=getFormPerm($Student['RegistrationGroup']['value']);
-	include('scripts/perm_action.php');
+/* Check user has permission to view */
+$perm=get_section_perm($student_secid);
+if($perm['r']==1){$perm=getFormPerm($Student['RegistrationGroup']['value']);}
+include('scripts/perm_action.php');
 
 ?>
   <div id="heading">

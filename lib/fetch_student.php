@@ -865,6 +865,7 @@ function fetchDependents($gid='-1'){
 										 'type_db' => 'enum', 
 										 'value' => ''.$gidsid['relationship']);
 		$EnrolStatus=fetchStudent_singlefield($gidsid['student_id'],'EnrolmentStatus');
+		$Dependent['Student']['EnrolmentStatus']['value']=$EnrolStatus['EnrolmentStatus']['value'];
 		$dob=$Dependent['Student']['DOB']['value'];
 		if($EnrolStatus['EnrolmentStatus']['value']=='C'){
 			$Dependents[]=$Dependent;
