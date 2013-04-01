@@ -1123,6 +1123,36 @@ function list_community_cohorts($community,$current=true){
 	}
 
 
+
+
+/**
+ * Returns an array of yids which are asscociated with this course. It
+ * will not include other types of groups which may contain students
+ * subscribed to the course.
+ *
+ *
+ *	@param string $crid
+ *
+ *	@return array $yids
+ *
+ */
+function list_course_yeargroups($crid){
+
+	$curryear=get_curriculumyear($crid);
+
+	$yids=array();
+	$d_c=mysql_query("SELECT id, name FROM community JOIN
+						cohidcomid ON cohidcomid.community_id=community.id WHERE community.type='year' AND
+						cohidcomid.cohort_id=ANY(SELECT cohort.id FROM cohort WHERE cohort.year='$curryear' AND cohort.course_id='$crid');");
+   	while($com=mysql_fetch_array($d_c, MYSQL_ASSOC)){
+		$yids[]=$com['name'];
+		}
+
+	return $yids;
+	}
+
+
+
 /**
  *
  * This call generate_epfusername and evaluate if the return efun is

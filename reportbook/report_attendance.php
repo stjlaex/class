@@ -2,11 +2,15 @@
 /**			       		report_attendance.php
  */
 
-$action='report_attendance_list.php';
+$action='report_attendance_action.php';
 $choice='report_attendance.php';
 
+if(isset($_POST['yid'])){$yid=$_POST['yid'];$selyid=$yid;}else{$yid='';}
+if(isset($_POST['formid'])){$formid=$_POST['formid'];}else{$formid='';}
+if(isset($_POST['houseid'])){$houseid=$_POST['houseid'];}else{$houseid='';}
+if(isset($_POST['wrapper_rid'])){$wrapper_rid=$_POST['wrapper_rid'];}else{$wrapper_rid='';}
 
-//last four weeks by default
+/* Search across last four weeks by default */
 $todate=date('Y-m-d',mktime(0,0,0,date('m'),date('d')-28,date('Y')));
 
 three_buttonmenu();
@@ -20,7 +24,7 @@ three_buttonmenu();
 
 	  <fieldset class="center">
 		<legend><?php print_string('collateforstudentsfrom',$book);?></legend>
-		  <?php $required='yes'; include('scripts/'.$listgroup);?>
+		  <?php  $onchange='yes'; $required='yes'; include('scripts/'.$listgroup);?>
 	  </fieldset>
 
 	  <fieldset class="left">

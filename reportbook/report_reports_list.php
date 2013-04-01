@@ -32,7 +32,7 @@ include('scripts/sub_action.php');
 		$formperm=$yearperm;
 		}
 
-	$resperm=getResidencePerm();
+	$resperm=get_residence_perm();
 
 $rids=array();
 if(isset($wrapper_rid)){

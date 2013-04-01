@@ -712,7 +712,7 @@ function fetchAttendanceSummary($sid,$startdate,$enddate,$session='%'){
 
 /**
  *
- * Produces an xml-array called Summary with label,value pairs containg 
+ * Produces an xml-array called Summary with label,value pairs containing 
  * number of lates, attended, authorised absences and unauthorised absences.
  * Need to add count for approved educational activity codes.
  *

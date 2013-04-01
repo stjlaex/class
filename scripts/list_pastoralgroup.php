@@ -13,18 +13,26 @@ $required='no';
 if(sizeof($rhouses)>0){
 	$selhouseid=$rhouses[0]['community_id'];
 	$selyid=$rhouses[0]['yeargroup_id'];
-	$ryids[]=$selyid;
+	if(!in_array($selyid,$ryids)){$ryids[]=$selyid;}
 	}
 elseif(sizeof($rforms)>0){
 	$selformid=$rforms[0]['community_id'];
 	}
 
+if($r>-1){
+	/* If an acadeic respon is selected then try to list relevant pastoral groups. */
+	$ryids=(array)list_course_yeargroups($respons[$r]['course_id']);
+	}
+else{
+	/* Otherwise the users' pastoral respons will be used. */
+	}
 
 if(sizeof($ryids)>0){
+	$ryears=array();
 	if(!isset($selyid)){$selyid='';}
 	foreach($ryids as $ryid){
 		if($ryid>-100){
-			$years[]=array('id'=>$ryid,'name'=>get_yeargroupname($ryid));
+			$ryears[]=array('id'=>$ryid,'name'=>get_yeargroupname($ryid));
 			if($selyid=='' or $selyid==$ryid){$rforms=(array)array_merge($rforms,list_formgroups($ryid));}
 		  	}
 		}
@@ -34,7 +42,7 @@ if(sizeof($ryids)>0){
 	$onchange=$selonchange;
 	include('scripts/set_list_vars.php');
 	print '<div class="left">';
-	list_select_list($years,$listoptions,$book);
+	list_select_list($ryears,$listoptions,$book);
 	print '</div>';
 	unset($listoptions);
 	}

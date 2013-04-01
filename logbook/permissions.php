@@ -439,7 +439,7 @@ function getMedicalPerm($yid){
 /**
  * 
  */
-function getResidencePerm(){
+function get_residence_perm(){
 	$perm['r']=0;
 	$perm['w']=0;
 	$perm['x']=0;
@@ -451,7 +451,7 @@ function getResidencePerm(){
 			$perm['x']=$resp['x'];
 			}
 		}
-	if($_SESSION['role']=='admin'){$perm['r']=1; $perm['w']=1; $perm['x']=1;}
+	if($_SESSION['role']=='admin'){$perm['r']=1; $perm['w']=1; $perm['x']=0;}
 	return $perm;
 	}
 
@@ -618,7 +618,7 @@ function list_pastoral_respon(){
 	$rregs=array();
 	$ryears=array();
 	$aperm=get_admin_perm('p',$_SESSION['uid']);
-	$resperm=getResidencePerm();
+	$resperm=get_residence_perm();
 
 	/* For a normal user split yeargroups, houses and forms into separate arrays. */
 	foreach($_SESSION['prespons'] as $respon){
@@ -633,7 +633,7 @@ function list_pastoral_respon(){
 			}
 		elseif($respon['yeargroup_id']!='' and $respon['community_id']=='0'){
 			/* All academic respons must have null yeargroup_id for this to work!*/
-			$ryears[]=$respon['yeargroup_id'];
+			$ryears[$respon['yeargroup_id']]=$respon['yeargroup_id'];
 			}
 		}
 

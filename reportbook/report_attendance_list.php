@@ -11,8 +11,6 @@ $enddate=$_POST['date1'];
 if(isset($_POST['yid'])){$yid=$_POST['yid'];}else{$yid='';}
 if(isset($_POST['formid']) and $_POST['formid']!=''){$comid=$_POST['formid'];}
 elseif(isset($_POST['houseid'])  and $_POST['houseid']!=''){$comid=$_POST['houseid'];}else{$comid='';}
-if(isset($_POST['stage'])){$stage=$_POST['stage'];}
-if(isset($_POST['year'])){$year=$_POST['year'];}
 
 
 include('scripts/sub_action.php');
@@ -29,17 +27,6 @@ include('scripts/sub_action.php');
 		}
 	elseif($yid!=''){
 		$students=listin_community(array('id'=>'','type'=>'year','name'=>$yid));
-		}
-	else{
-		if($rcrid=='%'){
-			/*User has a subject not a course responsibility selected*/
-			$d_course=mysql_query("SELECT DISTINCT cohort.course_id FROM
-				cohort JOIN component ON component.course_id=cohort.course_id WHERE
-				component.subject_id='$rbid' AND component.id='' AND cohort.stage='$stage' AND cohort.year='$year'");
-			$rcrid=mysql_result($d_course,0);
-			}
-
-		$students=listin_cohort(array('id'=>'','course_id'=>$rcrid,'year'=>$year,'stage'=>$stage));
 		}
 
 	if(sizeof($students)<1){
@@ -82,7 +69,7 @@ two_buttonmenu($extrabuttons,$book);
 		</tr>
 <?php	
 	$sids=array();
-	while(list($index,$student)=each($students)){
+	foreach($students as $student){
 		$sid=$student['id'];
 		$sids[]=$sid;
 		$Student=fetchStudent_short($sid);
@@ -130,7 +117,6 @@ two_buttonmenu($extrabuttons,$book);
 		</tr>
 <?php	
 		}
-	reset($sids);
 ?>
 	  </table>
 

@@ -24,7 +24,7 @@ three_buttonmenu();
 
 	  <fieldset class="center">
 		<legend><?php print_string('collateforstudentsfrom',$book);?></legend>
-		  <?php  $onchange='yes'; $required='yes'; include('scripts/'.$listgroup);?>
+		  <?php $onchange='yes'; $required='yes'; include('scripts/'.$listgroup);?>
 	  </fieldset>
 
 
@@ -34,14 +34,14 @@ three_buttonmenu();
 if($_SESSION['role']=='admin'){$current=false;}
 else{$current=true;}
 
-if($yid!=''){
-	$cohorts=(array)list_community_cohorts(array('id'=>'','type'=>'year','name'=>$yid),$current);
-	}
-elseif($comid!=''){
+if($comid!=''){
 	$com=(array)get_community($comid);
 	if($com['type']=='form'){$formid=$comid;}
 	elseif($com['type']=='house'){$houseid=$comid;}
 	$cohorts=(array)list_community_cohorts($com,$current);
+	}
+elseif($yid!=''){
+	$cohorts=(array)list_community_cohorts(array('id'=>'','type'=>'year','name'=>$yid),$current);
 	}
 
 if(isset($cohorts)){

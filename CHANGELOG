@@ -11,6 +11,12 @@ The list_section function can optionally include "Whole School".
 
 The staff_list page has document a drop area for each section.
 
+Renamed and fixed get_residence_perm.
+
+New fuction to list yeargroups associated to a course.
+
+Re-worked report_reports and report_attendance to filter by
+permissions.
 
 
 
@@ -263,6 +269,8 @@ confine access to student records within sections (get_section_perm).
 Changed list_partoral_groups to filter forms depending on other selection.
 
 Improved report_reports to list only relevant report wrappers.
+
+
 
 Version ClaSS-1.0.33 release (2012/10/10)
 -------------------------------------------
