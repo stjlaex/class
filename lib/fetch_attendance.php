@@ -770,8 +770,10 @@ function fetch_classAttendanceSummary($cid,$sid,$startdate,$enddate,$session='%'
 													 'value'=>''.$no_late_unauthorised);
 	$Attendance['Summary']['Lateauthorised']=array('label'=>'lateauthorised',
 												   'value'=>''.$no_late_authorised);
+	/*
 	$Attendance['Summary']['Latetoregister']=array('label'=>'latetoregister',
 												   'value'=>''.$no_late_register);
+	*/
 	$Attendance['Summary']['Notexplained']=array('label'=>'unexplained',
 												 'value'=>''.$no_notexplained);
 	$Attendance['Summary']['Enddate']=array('label'=>'enddate',

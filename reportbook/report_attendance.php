@@ -8,7 +8,7 @@ $choice='report_attendance.php';
 if(isset($_POST['yid'])){$yid=$_POST['yid'];$selyid=$yid;}else{$yid='';}
 if(isset($_POST['formid'])){$formid=$_POST['formid'];}else{$formid='';}
 if(isset($_POST['houseid'])){$houseid=$_POST['houseid'];}else{$houseid='';}
-if(isset($_POST['wrapper_rid'])){$wrapper_rid=$_POST['wrapper_rid'];}else{$wrapper_rid='';}
+if(isset($_POST['reporttype'])){$reporttype=$_POST['reporttype'];}else{$reporttype='S';}
 
 /* Search across last four weeks by default */
 $todate=date('Y-m-d',mktime(0,0,0,date('m'),date('d')-28,date('Y')));
@@ -40,6 +40,22 @@ three_buttonmenu();
 		unset($todate);
 		include('scripts/jsdate-form.php'); 
 ?>
+	  </fieldset>
+
+
+
+	  <fieldset class="right">
+		<legend><?php print get_string('attendance','register').' '.get_string('type',$book);?></legend>
+	  <table class="listmenu">
+<?php
+	$types=array('P'=>'classes','S'=>'registrationsession');
+	foreach($types as $value => $type){
+		if($value==$reporttype){$checked='checked="checked"';}
+		else{$checked='';}
+		print '<tr><th><input type="radio" name="reporttype" '.$checked .'value="'.$value.'">'.get_string($type,'register').'</input></th></tr>';
+		}
+?>
+	  </table>
 	  </fieldset>
 
 

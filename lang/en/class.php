@@ -416,4 +416,7 @@ $string['orderby']='Sort by';
 $string['paid']='Paid';
 $string['notpaid']='Not paid';
 $string['wholeschool']='Whole School';
+$string['studentsummary']='Student Summary';
+$string['classsummary']='Class Summary';
+$string['lessonsummary']='Lesson Summary';
 ?>

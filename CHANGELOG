@@ -18,6 +18,8 @@ New fuction to list yeargroups associated to a course.
 Re-worked report_reports and report_attendance to filter by
 permissions.
 
+Added the option for class/lesson attendance reporting to the existing
+session attendance in report_attendance.
 
 
 Version ClaSS-1.0.43 release (2013/03/28)

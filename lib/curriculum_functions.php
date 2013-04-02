@@ -566,7 +566,7 @@ function list_student_course_classes($sid,$crid,$curryear=''){
 function list_student_classes($sid,$curryear){
 
 	if($sid==''){$sid=-1;}
-	if($curryear==''){$curryear=get_curriculumyear($crid);}
+	if($curryear==''){$curryear=get_curriculumyear();}
 
 	$classes=array();
 	$d_c=mysql_query("SELECT DISTINCT class.id, class.name, cohort.course_id, class.subject_id FROM  

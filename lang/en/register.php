@@ -59,7 +59,4 @@ $string['numberofdays']='School days';
 $string['dailyaverage']='Daily average';
 $string['reason']='Reason';
 $string['messagetutors']='send a message to complete registers';
-$string['studentsummary']='Student Summary';
-$string['classsummary']='Class Summary';
-$string['lessonsummary']='Lesson Summary';
 ?>

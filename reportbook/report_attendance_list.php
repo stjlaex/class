@@ -8,10 +8,13 @@ $action='report_attendance.php';
 
 $startdate=$_POST['date0'];
 $enddate=$_POST['date1'];
+$reporttype=$_POST['reporttype'];
 if(isset($_POST['yid'])){$yid=$_POST['yid'];}else{$yid='';}
 if(isset($_POST['formid']) and $_POST['formid']!=''){$comid=$_POST['formid'];}
 elseif(isset($_POST['houseid'])  and $_POST['houseid']!=''){$comid=$_POST['houseid'];}else{$comid='';}
 
+$reporttypes=array('P'=>'classes','S'=>'registrationsession');
+$curryear=get_curriculumyear();
 
 include('scripts/sub_action.php');
 
@@ -38,9 +41,15 @@ include('scripts/sub_action.php');
 		}
 
 $extrabuttons=array();
-$extrabuttons['previewselected']=array('name'=>'current',
-								'value'=>'report_attendance_print.php',
-								'onclick'=>'checksidsAction(this)');
+$extrabuttons['studentsummary']=array('name'=>'current',
+									   'value'=>'report_attendance_print.php',
+									   'onclick'=>'checksidsAction(this)');
+$extrabuttons['lessonsummary']=array('name'=>'current',
+									 'pathtoscript'=>$CFG->sitepath.'/'.$CFG->applicationdirectory.'/register/',
+									 'title'=>'printreportsummary',
+									 'value'=>'register_lesson_summary.php',
+									 'onclick'=>'checksidsAction(this)'
+									 );
 two_buttonmenu($extrabuttons,$book);
 ?>
 <div id="viewcontent" class="content">
@@ -60,8 +69,8 @@ two_buttonmenu($extrabuttons,$book);
 			  <input type="checkbox" name="checkall" value="yes" onChange="checkAll	(this);" />
 			</label>
 		  </th>
-		  <th colspan="2"><?php print_string('student');?></th>
-		  <th><?php print_string('formgroup');?></th>
+		  <th colspan="3" style="text-align:center;"><?php print get_string($reporttypes[$reporttype],'register').' '. 
+						get_string('attendance','register').' '.get_string('reports','report');?></th>
 		  <th class="smalltable"><?php print_string('attended','register');?></th>
 		  <th class="smalltable"><?php print_string('authorisedabsence','register');?></th>
 		  <th class="smalltable"><?php print_string('unauthorisedabsence','register');?></th>
@@ -85,13 +94,14 @@ two_buttonmenu($extrabuttons,$book);
 			<a href="infobook.php?current=student_view.php&sid=<?php print $sid;?>&sids[]=<?php print $sid;?>"  target="viewinfobook"
 			  onclick="parent.viewBook('infobook');"> 
 			  <?php print $Student['DisplayFullSurname']['value']; ?>
-			  (<?php print $Student['RegistrationGroup']['value']; ?>)
 			</a>
 		  </td>
 		  <td>
 			<?php print $Student['RegistrationGroup']['value']; ?>
 		  </td>
 <?php
+
+	if($reporttype=='S'){
 		$Attendance=fetchAttendanceSummary($sid,$startdate,$enddate);
 		$noattended=$Attendance['Summary']['Attended']['value'];
 		$nolate=$Attendance['Summary']['Lateunauthorised']['value'] + $Attendance['Summary']['Latetoregister']['value'];
@@ -113,6 +123,44 @@ two_buttonmenu($extrabuttons,$book);
 		elseif(($nolate/$nosession)>0.08){$cssclass=' class="midlite"';}
 		else{$cssclass='';}
 		print '<td '.$cssclass.'>'.$nolate.'</td>';
+		}
+	else{
+		$noattended=0;
+		$nolate=0;
+		$noabsent_authorised=0;
+		$noabsent_unauthorised=0;
+		$classlist='';
+
+		$crids=(array)list_student_courses($sid);
+		foreach($crids as $crid){
+			$classes=(array)list_student_course_classes($sid,$crid);
+			foreach($classes as $class){
+				$classlist=$classlist.' '.$class['name'];
+				$Attendance=fetch_classAttendanceSummary($class['id'],$sid,$startdate,$enddate);
+				$noattended+=$Attendance['Summary']['Attended']['value'];
+				$nolate+=$Attendance['Summary']['Lateunauthorised']['value'] + $Attendance['Summary']['Latetoregister']['value'];
+				$noabsent_authorised+=$Attendance['Summary']['Absentauthorised']['value'];
+				$noabsent_unauthorised+=$Attendance['Summary']['Absentunauthorised']['value'];
+				}
+			}
+
+		$noabsent=$noabsent_authorised+$noabsent_unauthorised;
+		$nosession=$noattended+$noabsent;
+		$average=round(($noattended / $nosession)*100);
+		if($average<80){$cssclass=' class="hilite"';}
+		elseif($average<90){$cssclass=' class="midlite"';}
+		elseif($average>98){$cssclass=' class="gomidlite"';}
+		else{$cssclass='';}
+		print '<td '.$cssclass.'><span title="'.$classlist.'">'.$average.'% &nbsp;('.$noattended.')</span></td>';
+		print '<td>'.$noabsent_authorised.'</td>';
+		if(($noabsent_unauthorised/$nosession)>0.05){$cssclass=' class="midlite"';}
+		else{$cssclass='';}
+		print '<td '.$cssclass.'>'.$noabsent_unauthorised.'</td>';
+		if(($nolate/$nosession)>0.16){$cssclass=' class="hilite"';}
+		elseif(($nolate/$nosession)>0.08){$cssclass=' class="midlite"';}
+		else{$cssclass='';}
+		print '<td '.$cssclass.'>'.$nolate.'</td>';
+		}
 ?>
 		</tr>
 <?php	
