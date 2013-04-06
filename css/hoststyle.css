@@ -198,7 +198,7 @@ input:focus, select:focus {
 	}
 button {
 	width:100%; 
-	font-weight:600;
+	font-weight:900;
 	font-size:small;
 	cursor:pointer;
 	border-radius:4px;
@@ -238,7 +238,7 @@ button {
 	}
 .bookoptions form button { 
 	width:90%;
-	font-weight:300;
+	font-weight:900;
 	margin:0 0 5% 5%;
 	border-radius:4px;
 	}

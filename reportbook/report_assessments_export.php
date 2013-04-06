@@ -16,8 +16,6 @@ if(isset($_POST['limitbid'])){$limitbid=$_POST['limitbid'];}
 if(isset($_POST['eids'])){$eids=(array)$_POST['eids'];}else{$eids=array();}
 if(isset($_POST['cids'])){$cids=(array)$_POST['cids'];}else{$cids=array();}
 
-require_once 'Spreadsheet/Excel/Writer.php';
-
 include('scripts/sub_action.php');
 
 $viewtable=$_SESSION[$book.'viewtable'];
@@ -45,7 +43,7 @@ $viewtable=$_SESSION[$book.'viewtable'];
 										  ));
 	$worksheet =& $workbook->addWorksheet('ClaSS MarkBook Export');
 
-	if(!$file){
+if(!$file){
 		$error[]='Unable to open file for writing!';
 		}
 	else{

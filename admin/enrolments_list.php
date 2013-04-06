@@ -16,7 +16,6 @@ if(isset($_POST['enrolyear'])){$enrolyear=$_POST['enrolyear'];}
 if(isset($_POST['enrolstage'])){$enrolstage=$_POST['enrolstage'];}
 if(isset($_POST['enrolstatus'])){$enrolstatus=$_POST['enrolstatus'];}
 if(isset($_POST['startdate'])){$startdate=$_POST['startdate'];}
-
 	/**
 	 * Four possible types of table: current yeargroup for selecting
 	 * leavers (enrolstage=C), current yeargroup for re-enrolment
@@ -25,7 +24,7 @@ if(isset($_POST['startdate'])){$startdate=$_POST['startdate'];}
 	 */
 	if($enrolstage=='C' or $enrolstage=='P'){
 		$application_steps=array('C','P');
-		$AssDefs=arrray();
+		$AssDefs=array();
 		}
 	else{
 		$application_steps=array('EN','AP','AT','RE','CA','WL','ACP','AC');
@@ -228,8 +227,8 @@ if(isset($_POST['startdate'])){$startdate=$_POST['startdate'];}
 <?php
 
 		$required='no';$multi='1';
-		$colspan=2+sizeof($AssDefs);
-	   if($enrolstage=='RE'){
+		$colspan=2 + sizeof($AssDefs);
+		if($enrolstage=='RE'){
 			foreach($AssDefs as $AssDef){
 				print '<th>'.$AssDef['Description']['value'].'</th>';
 				}
@@ -314,11 +313,9 @@ if(isset($_POST['startdate'])){$startdate=$_POST['startdate'];}
 			<td class="row">
 <?php
 			if($comtype=='allapplied'){
-?>
-			  <?php print_string(displayEnum($Enrolment['EnrolmentStatus']['value'],$Enrolment['EnrolmentStatus']['field_db']),'admin');?>
-<?php
+				print_string(displayEnum($Enrolment['EnrolmentStatus']['value'],$Enrolment['EnrolmentStatus']['field_db']),'admin');
 				}
-		   	elseif($enrolstage=='C'){
+			elseif($enrolstage=='C'){
 				foreach($application_steps as $value){
 					$checkclass='';
 					if($value==$current_enrolstatus){$checkclass='checked';}
