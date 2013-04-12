@@ -59,7 +59,6 @@ if(isset($enroldate)){
 	if(isset($_POST['enroldate2'])){$enddate=$_POST['enroldate2'];}else{$enddate='';}
 	$currentyear=get_curriculumyear();
 	$todate=date("Y-m-d");
-	$cutoffdate=$currentyear.'-'.$CFG->enrol_cutoffmonth.'-01';
 
 	$totime=strtotime($todate);
 	$starttime=strtotime($startdate);
@@ -73,7 +72,7 @@ if(isset($enroldate)){
 		/* Left in the past and could be for a different academic year. */
 		if($startdate!='' and $starttime < $totime){
 			$comtype='alumni';$comname='P:';
-			if($starttime > mktime(0,0,0,$CFG->enrol_cutoffmonth+2,1,$currentyear-1)){
+			if($starttime > mktime(0,0,0,$CFG->enrol_cutoffmonth+1,1,$currentyear-1)){
 				$comyear=$currentyear;
 				}
 			else{

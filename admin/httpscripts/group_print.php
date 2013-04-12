@@ -44,7 +44,26 @@ else{
 			$Group['Day']=array('value'=>get_string(displayEnum($today,'dayofweek'),$book));
 			$Group['Date']=array('value'=>display_date($printdate));
 			$Group['Student']=array();
-			$community=array('id'=>'','name'=>'','type'=>'tutor');
+			$Group['Tutor']=array();
+
+			/* list any repsonsible teachers */
+			$tutors=(array)list_community_users($com,array('r'=>1,'w'=>1,'x'=>1));
+			foreach($tutors as $tutor){
+				if($CFG->teachername=='formal'){
+					$teachername=$tutor['forename'][0].' '.$tutor['surname'];
+					}
+				elseif($CFG->teachername=='informal'){
+					$teachername=$tutor['forename'];
+					}
+				else{
+					$teachername=$tutor['forename'].' '.$tutor['surname'];
+					}
+				$Group['Tutor'][]=array('label' => 'formtutor', 
+										'email' => ''.$tutor['email'],
+										'value' => ''.$teachername
+										);
+				}
+
 
 			foreach($students as $student){
 				$sid=$student['id'];

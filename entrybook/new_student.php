@@ -9,6 +9,7 @@ three_buttonmenu();
 
 $Student=fetchStudent();
 $Enrolment=fetchEnrolment(-1);
+$Student[]=$Enrolment['PreviousSchool'];
 $Student[]=$Enrolment['Siblings'];
 $Student[]=$Enrolment['StaffChild'];
 
