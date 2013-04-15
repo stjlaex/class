@@ -663,7 +663,7 @@ function fetchStudent($sid='-1'){
 									'field_db' => 'transportmode',
 									'type_db' => 'enum', 
 									'value' => ''.$info['transportmode']);
-   	$Student['EnrolmentNotes']=array('label' => 'enrolmentnotes', 
+   	$Student['EnrolmentNotes']=array('label' => 'applicationnotes', 
 									 'table_db' => 'info', 
 									 'field_db' => 'appnotes',
 									 'type_db' => 'text', 

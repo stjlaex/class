@@ -419,4 +419,6 @@ $string['wholeschool']='Whole School';
 $string['studentsummary']='Student Summary';
 $string['classsummary']='Class Summary';
 $string['lessonsummary']='Lesson Summary';
+$string['youhaveno']='WARNING: You do not have any';
+$string['chooseanacademicresponsibility']='Choose an acacemic responsibility instead of \"My classes\"';
 ?>

@@ -5,6 +5,8 @@ The previous school field added to the entrybook new_student form.
 
 The teacher names added to group_list printing in Admin.
 
+New script to export a remittance's fees grouped by concept.
+
 
 Version ClaSS-1.0.44 release (2013/04/02)
 -------------------------------------------

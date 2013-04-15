@@ -2,6 +2,7 @@
 /**			       		list_pastoralgroup.php
  *
  * Used to distinguish selections available to year heads or form tutors
+ *
  */
 
 
@@ -71,7 +72,8 @@ if(sizeof($rhouses)>0){
 	}
 
 if(sizeof($rforms)==0 and sizeof($ryids)==0 and sizeof($rhouses)==0){
-	print '<label>'.get_string('youhavenopastoralresponsibilities').'</label>';
+	print '<label>'.get_string('youhaveno').' '.get_string('pastoralresponsibilities').'</label><br />';
+	print '<label>'.get_string('chooseanacademicresponsibility').'</label>';
 	}
 
 ?>

@@ -733,7 +733,6 @@ function fetch_reportdefinition($rid,$selbid='%'){
  */
 function get_report_categories($rid,$bid='%',$pid='',$type='cat',$stage='%'){
 
-	//trigger_error($bid. ' : '.$pid,E_USER_WARNING);
 	/* There is no component_id field in ridcatid, if pid is set then it uses subject_id */
 	if($pid!='' and $pid!=' '){$bid=$pid;}
 

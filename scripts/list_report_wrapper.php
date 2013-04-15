@@ -4,8 +4,8 @@
  */
 
 	$todate=date('Y-m-d');
-	/* Only include reports which are no more than 7 weeks ahead. */
-	$startdate=date('Y-m-d',mktime(0,0,0,date('m'),date('d')+49,date('Y')));
+	/* Only include reports which are no more than 10 weeks ahead. */
+	$startdate=date('Y-m-d',mktime(0,0,0,date('m'),date('d')+70,date('Y')));
 
 	$reports=array();
 

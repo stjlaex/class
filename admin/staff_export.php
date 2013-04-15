@@ -7,7 +7,6 @@ $action='staff_list.php';
 
 if(isset($_POST['uids'])){$uids=(array)$_POST['uids'];}else{$uids=array();}
 
-require_once 'Spreadsheet/Excel/Writer.php';
 
 include('scripts/sub_action.php');
 
@@ -18,7 +17,7 @@ if(sizeof($uids)==0){
 		exit;
 		}
 
-
+require_once('Spreadsheet/Excel/Writer.php');
 
 	$file=$CFG->eportfolio_dataroot. '/cache/files/';
   	$file.='class_export.xls';
@@ -76,12 +75,11 @@ if(sizeof($uids)==0){
 			$rown++;
 			}
 
-		/*send the workbook with the spreadsheet and close it*/ 
+
 		$workbook->close();
-?>
-		<script>openFileExport('xls');</script>
-<?php
+
 		}
+
 
 	include('scripts/results.php');
 	include('scripts/redirect.php');

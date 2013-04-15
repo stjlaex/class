@@ -1,5 +1,5 @@
 <?php
-/**                                  fees_remittance_charge_export.php
+/**                                  fees_remittance_concept_export.php
  *
  */
 
@@ -25,16 +25,9 @@ $Students=array();
 $charges=array();
 $invoices=array();
 $Remittance=fetchRemittance($remid);
-if(sizeof($charids)>0){
-	foreach($charids as $charid){
-		$charges[]=get_charge($charid);
-		}
-	}
-else{
-	$charges=(array)list_remittance_charges($remid,$conid,$payment);
-	}
 
-require_once 'Spreadsheet/Excel/Writer.php';
+
+	require_once 'Spreadsheet/Excel/Writer.php';
 
 	$file=$CFG->eportfolio_dataroot. '/cache/files/';
   	$file.='class_export.xls';
@@ -61,6 +54,7 @@ require_once 'Spreadsheet/Excel/Writer.php';
 		if(file_exists('../images/schoollogo.bmp')){
 			$worksheet->insertBitmap(0,0,'../images/schoollogo.bmp',0,0,0.45,0.7);
 			}
+
 		/*first do the column headers*/
 		$worksheet->setColumn(0,0,14);
 		$worksheet->setColumn(1,2,25);
@@ -79,79 +73,75 @@ require_once 'Spreadsheet/Excel/Writer.php';
 		$worksheet->write(2, 3, display_date($Remittance['IssueDate']['value']), $format);
 		$worksheet->write(2, 4, '', $format);
 
-		$worksheet->write(4, 0, '', $format_head);
-		$worksheet->write(4, 1, get_string('enrolmentnumber','infobook'), $format_head);
-		$worksheet->write(4, 2, get_string('student',$book), $format_head);
-		$worksheet->write(4, 3, get_string('account',$book), $format_head);
-		$worksheet->write(4, 4, get_string('invoicenumber',$book), $format_head);
-		$worksheet->write(4, 5, get_string('payment',$book), $format_head);
-		$worksheet->write(4, 6, get_string('amount',$book), $format_head);
 
 
 		$total=0;
 		$rowno=4;
-		foreach($charges as $charge){
-			if($charge['paymenttype']==$paymenttype or $paymenttype==''){
+		foreach($Remittance['Concepts'] as $Concept){
+		  $Tarifs=array();
 
-				$rowno++;
-				$sid=$charge['student_id'];
-				if(!array_key_exists($sid,$Students)){
-					/* Do certain things once only for a student... */
-					$Student=(array)fetchStudent_short($sid);
-					$guardians=(array)list_student_payees($sid);
-					if(sizeof($guardians)>0 and $guardians[0]['paymenttype']>0){
-						$Student['payee']=$guardians[0];
-						$Student['paymenttype']=$guardians[0]['paymenttype'];
-						$Student['accountsno']=$guardians[0]['accountsno'];
-						$Student['accountsno']=$guardians[0]['accountsno'];
-						$Student['account']=fetchAccount($guardians[0]['id']);
-						}
-					else{
-						$Student['payee']='';
-						$Student['account']='';
-						$Student['paymenttype']='';
-						$Student['accountsno']=0;
-						}
-					$Students[$sid]=$Student;
-					$first=1;
-					}
-				else{
-					$Student=$Students[$sid];
-					$first++;
-					}
+		  foreach($Concept['Tarifs'] as $Tarif){
+		    $Tarifs[$Tarif['id_db']]=$Tarif;
+		  }
+		  $charges=(array)list_remittance_charges($remid,$Concept['id_db']);
 
-				if(!array_key_exists($charge['invoice_id'],$invoices)){
-					$invoice=get_invoice($charge['invoice_id']);
-					//$invoice=array('reference'=>'');
-					$invoices[$charge['invoice_id']]=$invoice;
-					}
-				else{
-					$invoice=$invoices[$charge['invoice_id']];
-					}
+		  $subtotal=0;
+		  $rowno++;
+		  $rowno++;
+		  $worksheet->write($rowno, 0, '', $format_head);
+		  $worksheet->write($rowno, 1, iconv('UTF-8','ISO-8859-1',$Concept['Name']['value']), $format_head);
+		  $rowno++;
+		  $worksheet->write($rowno, 0, '', $format_head);
+		  $worksheet->write($rowno, 1, get_string('enrolmentnumber','infobook'), $format_head);
+		  $worksheet->write($rowno, 2, get_string('student',$book), $format_head);
+		  $worksheet->write($rowno, 3, get_string('tarif',$book), $format_head);
+		  $worksheet->write($rowno, 4, get_string('amount',$book), $format_head);
+  
+		  $chargeno=0;
+		  foreach($charges as $charge){
 
-				$worksheet->write($rowno, 0, $rowno-4, $format);
-				$worksheet->write($rowno, 1, $Student['EnrolNumber']['value'], $format);
-				$worksheet->write($rowno, 2, iconv('UTF-8','ISO-8859-1',$Student['DisplayFullSurname']['value']).' ('.iconv('UTF-8','ISO-8859-1',$Student['RegistrationGroup']['value']).')', $format);
-				$worksheet->write($rowno, 3, iconv('UTF-8','ISO-8859-1',$Student['account']['AccountName']['value']).' '.$Student['account']['BankCode']['value'].' '.$Student['account']['Branch']['value'].' '.$Student['account']['Control']['value'].' '.$Student['account']['Number']['value'], $format);
-				$worksheet->write($rowno, 4, $invoice['reference'], $format);
-				$worksheet->write($rowno, 5, iconv('UTF-8','ISO-8859-1',get_string(displayEnum($charge['paymenttype'],'paymenttype'),$book)), $format);
-				$worksheet->write($rowno, 6, iconv('UTF-8','ISO-8859-1',display_money($charge['amount'])), $format);
-				$total+=$charge['amount'];
-				}
-			}
+		    $rowno++;
+		    $chargeno++;
+		    $sid=$charge['student_id'];
+		    if(!array_key_exists($sid,$Students)){
+		      $Student=(array)fetchStudent_short($sid);
+		      $Students[$sid]=$Student;
+		      $first=1;
+		    }
+		    else{
+		      $Student=$Students[$sid];
+		      $first++;
+		    }
 
+		    $worksheet->write($rowno, 0, $chargeno, $format);
+		    $worksheet->write($rowno, 1, $Student['EnrolNumber']['value'], $format);
+		    $worksheet->write($rowno, 2, iconv('UTF-8','ISO-8859-1',$Student['DisplayFullSurname']['value']), $format);
+		    $worksheet->write($rowno, 3, iconv('UTF-8','ISO-8859-1',$Tarifs[$charge['tarif_id']]['Name']['value']), $format);
+		    $worksheet->write($rowno, 4, display_money($charge['amount']), $format);
+		    $subtotal+=$charge['amount'];
+		    trigger_error($Tarifs[$charge['tarif_id']]['Name']['value'],E_USER_WARNING);
+		  }
+		$rowno++;
+
+		$worksheet->write($rowno, 0, '', $format_head);
+		$worksheet->write($rowno, 1, get_string('total',$book), $format_head);
+		$worksheet->write($rowno, 2, '', $format_head);
+		$worksheet->write($rowno, 3, '', $format_head);
+		$worksheet->write($rowno, 4, display_money($subtotal), $format_head);
+		$total+=$subtotal;
+		}
 		/* The final Total */
 		$worksheet->write(2, 6, display_money($total), $format);
-
 		$worksheet->write($rowno+2, 6, get_string('total',$book), $format_head);
 		$worksheet->write($rowno+3, 6, display_money($total), $format);
+
 
 		/*send the workbook w/ spreadsheet and close them*/ 
 		$workbook->close();
 ?>
 		<script>openFileExport('xls');</script>
 <?php
-		}
+						  }
 
 include('scripts/results.php');
 include('scripts/redirect.php');
