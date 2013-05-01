@@ -132,8 +132,6 @@ if(sizeof($sids)>0){
 			  href="infobook.php?current=comments_list.php&sid=<?php print $sid;?>"
 			  class="<?php print $comment['class'];?>">C</a> 
 			</span>
-			<a onclick="parent.viewBook('infobook');" target="viewinfobook"  
-			  href="infobook.php?current=incidents_list.php&sid=<?php print $sid;?>">I</a>
 		  </td>
 		  <td>
 			<a href="seneeds.php?current=sen_view.php&sid=<?php print $sid;?>">

@@ -7,6 +7,10 @@ The teacher names added to group_list printing in Admin.
 
 New script to export a remittance's fees grouped by concept.
 
+Fix to list_student_teachers.
+
+Added a shortcut button to edit the medical page in InfoBook.
+
 
 Version ClaSS-1.0.44 release (2013/04/02)
 -------------------------------------------

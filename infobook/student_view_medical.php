@@ -65,7 +65,17 @@ else{
 
 				}
 			}
+		if($Student['MedicalFlag']['value']=='Y' and $perm['w']==1){
+?>
 
+		<div>
+		  <button class="rowaction" type="button" name="edit" disable="disable">
+			<a style="color:#ffeeff;" href="medbook.php?current=med_view.php&sid=<?php print $sid;?>"
+			  target="viewmedbook" onclick="parent.viewBook('medbook');"><?php print_string('edit');?><a/>
+		  </button>
+		</div>
+<?php
+				}
 		}
 ?>
 	  </fieldset>
