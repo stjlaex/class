@@ -628,7 +628,7 @@ function list_student_teachers($sid){
 	$d_t=mysql_query("SELECT DISTINCT teacher_id AS id FROM tidcid JOIN cidsid ON cidsid.class_id=tidcid.class_id 
 							WHERE cidsid.student_id='$sid' AND cidsid.class_id=ANY(SELECT DISTINCT class.id 
 							FROM class JOIN cohort ON class.cohort_id=cohort.id 
-							WHERE cohort.course_id='$crid' AND cohort.year='$curryear');");
+							WHERE cohort.year='$curryear');");
 
    	while($t=mysql_fetch_array($d_t,MYSQL_ASSOC)){
 		$teachers[]=get_user($t['id']);
