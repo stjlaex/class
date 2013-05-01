@@ -94,6 +94,29 @@ if($CFG->student_event_support=='yes'){
 	}
 
 
+
+if(isset($CFG->student_event_support) and $CFG->student_event_support=='tidy'){
+
+	/**
+	 * Temporary hack to tidy up out of date enrolment concerns...
+	 */
+	$d_s=mysql_query("SELECT senhistory.id, senhistory.student_id, sentype.entryn FROM senhistory 
+							JOIN sentype ON senhistory.student_id=sentype.student_id
+							WHERE sentype.entryn='1' AND sentype.senassessment='I' AND sentype.sentype='ENC';");
+	while($s=mysql_fetch_array($d_s,MYSQL_ASSOC)){
+		$sid=$s['student_id'];
+		$senhid=$s['id'];
+		eror($senhid.' '.$sid);
+		mysql_query("DELETE FROM senhistory WHERE student_id='$sid' AND id='$senhid';");
+		mysql_query("DELETE FROM sencurriculum WHERE senhistory_id='$senhid';");
+		mysql_query("DELETE FROM sentype WHERE student_id='$sid' AND sentype='ENC';");
+		mysql_query("UPDATE info SET sen='N' WHERE student_id='$sid';");
+		}
+
+	}
+
+
+
 /**
  *
  */

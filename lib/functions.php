@@ -893,6 +893,7 @@ function getEnumArray($field_name){
 						   'PD'=>'physicaldisability', 
 						   'GT'=>'giftedandtalented',
 						   'GNC'=>'generalconcern',
+						   'ENC'=>'enrolmentconcern',
 						   'EAR'=>'externalassessmentrecommended',
 						   'EAL'=>'eal'
 						   );
@@ -1068,6 +1069,7 @@ function getEnumArray($field_name){
 						'D'=>'dualregistrationattendingother',
 						'N'=>'noreasonyetprovided',
 						'U'=>'lateafterregisterclosed',
+						'US'=>'signedoutafterregisterclosed',
 						'X'=>'untimetabledsessions',
 						'Y'=>'enforcedclosure',
 						'Z'=>'pupilnotonrole',
