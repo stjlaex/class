@@ -201,7 +201,6 @@ for($i=0;$i<sizeof($cids);$i++){
 			  $umns[$c]['profile_celldisplay']=$profile_celldisplay;
 			  $umns[$c]['displayclass']='derived';
 			  }
-
 		  elseif($marktype[$c]=='score' or $marktype[$c]=='hw'){
 			  $markdef_name=$mark['def_name'];
 			  $d_markdef=mysql_query("SELECT * FROM markdef WHERE name='$markdef_name';");

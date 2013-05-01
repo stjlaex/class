@@ -314,6 +314,7 @@ function fetchAssessmentCount($eid){
 							JOIN eidmid ON eidmid.mark_id=score.mark_id WHERE eidmid.assessment_id='$eid';");
 	$scorecount=mysql_result($d_c,0);
 	*/
+	$scorecount=0;
 	$d_c=mysql_query("SELECT COUNT(student_id) FROM eidsid WHERE assessment_id='$eid' AND student_id!='0'");
 	$archivecount=mysql_result($d_c,0);
 
@@ -1433,5 +1434,49 @@ function get_ratings($ratingname){
 		}
 
 	return $ratings;
+	}
+
+
+/**
+ *
+ * Returns the mark table record identified by mid
+ *
+ * @param integer $mid
+ * @return array $ratings
+ */
+function get_mark($mid){
+
+	if($mid>0){
+		$d_mark=mysql_query("SELECT id, entrydate, marktype, topic, comment, def_name, 
+								midlist, total, assessment, author, component_id FROM mark 
+								WHERE id='$mid';");
+		$mark=mysql_fetch_array($d_mark,MYSQL_ASSOC);
+		}
+	else{
+		$mark=array('id'=>-1);
+		}
+
+	return $mark;
+	}
+
+
+/**
+ *
+ * Returns the mark table record identified by mid
+ *
+ * @param integer $mid
+ * @return array $ratings
+ */
+function list_mark_cids($mid){
+
+	$cids=array();
+	if($mid>0){
+		$d_c=mysql_query("SELECT class_id FROM midcid WHERE mark_id='$mid' ORDER BY class_id;");
+		while($c=mysql_fetch_array($d_c,MYSQL_ASSOC)){
+			$cids[]=$c['class_id'];
+			}
+		}
+
+	return $cids;
 	}
 ?>

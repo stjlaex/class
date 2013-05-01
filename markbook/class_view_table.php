@@ -347,6 +347,8 @@ while($student=mysql_fetch_array($d_students, MYSQL_ASSOC)){
 	   	elseif($marktype=='compound'){
 			/*Mark is a compound column*/
 			$scoreclass='derived';
+
+			/* TODO: figure out a simpler way of defining this for profile_bid.... */ 
 			if(empty($umns[$c]['profile_bid']) or $umns[$c]['profile_bid']=='%'){$profilebid=$bid[0];}
 			else{$profilebid=$umns[$c]['profile_bid'];}
 
