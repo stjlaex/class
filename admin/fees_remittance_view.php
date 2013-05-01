@@ -35,8 +35,8 @@ TODO: print invoices from here....
 	}
 elseif($conid==-1 and $payment==''){
 	$extrabuttons['chargeexport']=array('name'=>'current',
-								  'title'=>'export',
-								  'value'=>'fees_remittance_concept_export.php');
+										'title'=>'export',
+										'value'=>'fees_remittance_concept_export.php');
 	}
 
 

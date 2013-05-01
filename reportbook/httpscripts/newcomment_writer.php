@@ -39,7 +39,7 @@ if($rid!=-1){
 	$subcomments=array();
 	foreach($subs as $sindex => $sub){
 		if($sub['subtype']=='pro'){$subcomments_fix=1;}
-		else{$subcomments_no++;$subcomments[]=$sub;$submaxtextlen=200;}
+		else{$subcomments_no++;$subcomments[]=$sub;$submaxtextlen=400;}
 		}
 	}
 elseif($bid=='targets'){
