@@ -37,18 +37,15 @@ else{
 									  'value'=>$busname,
 									  'time'=>$bus['departuretime']
 									  );
-				list($h,$m,$s)=explode(':',$bus['departuretime']);
-				$deptime=$h*3600+$m*60+$s;
 				$Stops=array();
 				$Stops['Stop']=array();
 				foreach($stops as $stop){
-					$deptime+=$stop['traveltime']*60;
 					$Stops['Stop'][]=array('id_db'=>$stop['id'],
 										   'sequence'=>$stop['sequence'],
 										   'name'=>$stop['name'],
 										   'detail'=>$stop['detail'],
 										   'time'=>$stop['traveltime'],
-										   'departuretime'=>gmdate('H:i',$deptime)
+										   'departuretime'=>$stop['departuretime']
 										   );
 					}
 				$Journey['Stops']=$Stops;

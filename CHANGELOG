@@ -11,6 +11,14 @@ Fix to list_student_teachers.
 
 Added a shortcut button to edit the medical page in InfoBook.
 
+New signed out attendance code.
+
+Moved the stop departuretime calculation to the list_bus_stops
+function.
+
+New transport function to count the number of bookings per journey.
+
+
 
 Version ClaSS-1.0.44 release (2013/04/02)
 -------------------------------------------

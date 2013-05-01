@@ -59,4 +59,5 @@ $string['numberofdays']='School days';
 $string['dailyaverage']='Daily average';
 $string['reason']='Reason';
 $string['messagetutors']='send a message to complete registers';
+$string['signedoutafterregisterclosed']='Signed Out after register closed';
 ?>

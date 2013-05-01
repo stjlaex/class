@@ -84,8 +84,9 @@ two_buttonmenu($extrabuttons);
 		  </td>
 		  <td>
 <?php
-				$students=(array)list_bus_journey_students($busname['name'],$todate,1);
-				print count($students);
+				$noi=count_bus_journey_students($busname['name'],'I',$todate,1);
+				$noo=count_bus_journey_students($busname['name'],'O',$todate,1);
+				print '<div> AM:'.$noi. ' PM:' .$noo.'</div>';
 ?>
 		  </td>
 		</tr>

@@ -105,6 +105,7 @@ else{
 
 						$Journey['Stop']=array('id_db'=>$booking['stop_id'],
 											   'sequence'=>$buses[$booking['bus_id']]['stops'][$booking['stop_id']]['sequence'],
+											   'departuretime'=>$buses[$booking['bus_id']]['stops'][$booking['stop_id']]['departuretime'],
 											   'value'=>$buses[$booking['bus_id']]['stops'][$booking['stop_id']]['name']
 											   );
 						$Student['Journey'][]=$Journey;
@@ -121,6 +122,7 @@ else{
 											  );
 						$Journey['Stop']=array('id_db'=>$booking['stop_id'],
 											   'sequence'=>$buses[$booking['bus_id']]['stops'][$booking['stop_id']]['sequence'],
+											   'departuretime'=>$buses[$booking['bus_id']]['stops'][$booking['stop_id']]['departuretime'],
 											   'value'=>$buses[$booking['bus_id']]['stops'][$booking['stop_id']]['name']
 											   );
 						$Student['OtherJourney'][]=$Journey;

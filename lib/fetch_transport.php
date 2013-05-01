@@ -86,13 +86,21 @@ function list_buses($direction='%',$day='%',$name='%'){
  */
 function list_bus_stops($busid){
 	$stops=array();
+
+	$bus=(array)get_bus($busid);
+	list($h,$m,$s)=explode(':',$bus['departuretime']);
+	$deptime=$h*3600+$m*60+$s;
+
 	$d_s=mysql_query("SELECT s.id, s.name, s.detail, s.lat, s.lng, rs.sequence, rs.traveltime 
 						FROM transport_stop AS s JOIN transport_rtidstid AS rs ON rs.stop_id=s.id 
 						WHERE rs.route_id=(SELECT route_id FROM transport_bus WHERE transport_bus.id='$busid') 
 						ORDER BY rs.sequence ASC;");
 	while($stop=mysql_fetch_array($d_s,MYSQL_ASSOC)){
+		$deptime+=$stop['traveltime']*60;
+		$stop['departuretime']=gmdate('H:i',$deptime);
 		$stops[$stop['id']]=$stop;
 		}
+
 	return $stops;
 	}
 
@@ -226,8 +234,9 @@ function list_bus_journey_students($busname,$date='',$dayno=1){
 				JOIN transport_booking AS b ON b.student_id=student.id 
    				WHERE NOT((b.enddate<'$date1' AND b.enddate!='0000-00-00') 
 						OR (b.startdate>'$date2' AND b.startdate!='0000-00-00')) 
-				AND b.journey_id=ANY(SELECT transport_journey.id FROM transport_journey JOIN transport_bus ON transport_bus.id=transport_journey.bus_id WHERE transport_bus.name='$busname')
-				ORDER BY surname, forename;");
+						AND b.journey_id=ANY(SELECT transport_journey.id FROM transport_journey 
+						JOIN transport_bus ON transport_bus.id=transport_journey.bus_id WHERE transport_bus.name='$busname')
+						ORDER BY surname, forename;");
 
 	$students=array();
 	while($student=mysql_fetch_array($d_student, MYSQL_ASSOC)){
@@ -236,6 +245,37 @@ function list_bus_journey_students($busname,$date='',$dayno=1){
 	return $students;
 	}
 
+
+
+
+/**
+ *
+ * Returns all journey bookings for a given busname on a given date
+ *
+ * @param string $busname
+ * @param date $date
+ * @param enum $dayno
+ * 
+ * @return array
+ *
+ */
+function count_bus_journey_students($busname,$direction,$date='',$dayno=1){
+
+	if($date==''){$date=date('Y-m-d');}
+	list($y,$m,$d)=explode('-',$date);
+	$date1=date('Y-m-d',mktime(0, 0, 0, $m, $d-$dayno, $y));
+	$date2=date('Y-m-d',mktime(0, 0, 0, $m, $d+$dayno, $y));
+
+	$d_s=mysql_query("SELECT COUNT(DISTINCT student_id) FROM transport_booking AS b 
+						WHERE NOT((b.enddate<'$date1' AND b.enddate!='0000-00-00') 
+						OR (b.startdate>'$date2' AND b.startdate!='0000-00-00')) 
+						AND b.direction='$direction' AND b.journey_id=ANY(SELECT transport_journey.id FROM transport_journey 
+						JOIN transport_bus ON transport_bus.id=transport_journey.bus_id WHERE transport_bus.name='$busname');");
+
+	$no=mysql_result($d_s,0);
+
+	return $no;
+	}
 
 
 /**

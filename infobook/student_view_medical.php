@@ -65,7 +65,7 @@ else{
 
 				}
 			}
-		if($Student['MedicalFlag']['value']=='Y' and $perm['w']==1){
+		if($Student['MedicalFlag']['value']=='Y' and $perm['w']==1 and $_SESSION['medrole']=='1' ){
 ?>
 
 		<div>
