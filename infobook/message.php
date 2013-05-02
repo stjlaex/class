@@ -92,6 +92,7 @@ if($messageto=='student'){
 	elseif($messageto=='contacts' or $messageto=='family'){
 		
 		$tutors=array();
+		$yids=array();
 		foreach($sids as $sid){
 			$Student=fetchStudent_short($sid);
 			foreach($Student['RegistrationTutor'] as $Tutor){
@@ -99,6 +100,7 @@ if($messageto=='student'){
 					$tutors[$Tutor['email']]=array('email'=>$Tutor['email'],
 												   'explanation'=>$CFG->schoolname.': message sent to parents of '.$Student['RegistrationGroup']['value']);
 					}
+				$yids[$Student['YearGroup']['value']]=$Student['YearGroup']['value'];
 				}
 			$Contacts=(array)fetchContacts($sid);
 			$sid_recipient_no=0;
@@ -163,6 +165,16 @@ if($messageto=='student'){
 			/* Collect a list of sids who won't have any contacts receving this message */
 			if($sid_recipient_no==0){
 				$email_blank_sids[]=$sid;
+				}
+			}
+
+		foreach($yids as $yid){
+			$yeartutors=(array)list_pastoral_users($yid,array('r'=>1,'w'=>1,'x'=>1));
+			foreach($yeartutors as $tutor){
+				if($tutor['email']!=''){
+					$tutors[$tutor['email']]=array('email'=>$tutor['email'],
+												   'explanation'=>$CFG->schoolname.': message sent to parents of Year '.get_yeargroupname($yid));
+					}
 				}
 			}
 
