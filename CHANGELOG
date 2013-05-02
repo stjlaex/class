@@ -1,3 +1,15 @@
+Version ClaSS-1.0.46 release (2013/05/02)
+-------------------------------------------
+
+Changed the color coding for register late codes.
+
+Attendance statistics counts new signed out code US seprately.
+
+Added yeargroup responsibles to the list of bccs, same as for tutors,
+for messaging.
+
+
+
 Version ClaSS-1.0.45 release (2013/04/14)
 -------------------------------------------
 

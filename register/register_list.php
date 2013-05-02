@@ -316,7 +316,7 @@ else{
 					$des=get_string($des,'register');
 					$cell='title="" ><span title="'.$attcode .': '. $des
 							.'<br />'.$atttime.' '.$attcomm.'<br />'. $subjectclass.'" >';
-					$cell.=' &nbsp '.$attcode.'</span>';
+					$cell.=$attcode.' &nbsp '.'</span>';
 					if($attcode=='U' or $attcode=='L' or $attcode=='UB' or $attcode=='UA'){$tallys[$eveid]++;}
 					}
 				else{

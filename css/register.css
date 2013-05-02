@@ -29,8 +29,14 @@ div#bookbox{
     font-weight:900;
     font-size:10pt;
     color:#000000;
+	text-align:center;
 	}
-
+.sidtable td[code="US"] { 
+    background-color:#d7df01;
+	}
+.sidtable td[code="UB"], .sidtable td[code="UA"], .sidtable td[code="U"] { 
+    background-color:#ffffee;
+	}
 /*these are register specific additions to the sidtable class*/
 .sidtable td[late="1"] {  
 	background-image:url("../images/dot1.png");
