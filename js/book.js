@@ -1498,46 +1498,52 @@ function removeExtraFields(sidId,extraId,containerId){
  * numerical event_id then all values are preset with the existing value from
  * that column
  */
-function setAll(set){
+function setAll(eveid){
 	var sids=getSidsArray();
+	var setvalue=document.getElementById("setall").value;
+
 	for(var c=0;c<sids.length;c++){
-			var editId="edit-"+sids[c];
-			if(document.getElementById(editId)){
+		var editId="edit-"+sids[c];
+		if(document.getElementById(editId)){
 				var tdEditObj=document.getElementById(editId);
+
 				var selObj=tdEditObj.getElementsByTagName("select")[0];
-				var tdEditClaSS=tdEditObj.className;
+
+				var classname=tdEditObj.className;
 				removeExtraFields(sids[c],"extra-a","edit");
 				removeExtraFields(sids[c],"extra-p","edit");
 
-				if(set!="p" & set!="a"){
-					//var colId="event-"+eveId;
-					var cellId="cell-"+set+'-'+sids[c];
+				if(setvalue=="l"){
+					/* Copy the value over from a previous (last) column
+					 * identified by the eveid. 
+					 */
+					var cellId="cell-"+eveid+'-'+sids[c];
 					var cellObj=document.getElementById(cellId);
 					if(cellId!=null){
-						status=cellObj.attributes.getNamedItem("status").value;
+						statusvalue=cellObj.attributes.getNamedItem("status").value;
 						}
 					else{
-						status="a";
+						statusvalue="a";
 						}
 					}
 				else{
-					status=set;
+					statusvalue=setvalue;
 					cellId=null;
 					}
 
-				if(status=="a"){
-					tdEditClaSS=tdEditClaSS+" extra";
+				if(statusvalue=="a"){
+					classname=classname+" extra";
 					addExtraFields(sids[c],cellId,"extra-a","edit");
-					selObj.value=status;
+					selObj.selectedIndex=2;
 					}
-				else if(status=="p"){
-					tdEditClaSS="edit";
+				else if(statusvalue=="p"){
+					classname="edit";
 					addExtraFields(sids[c],cellId,"extra-p","edit");
-					selObj.value=status;
+					selObj.selectedIndex=1;
 					}
-				tdEditObj.className=tdEditClaSS;
+
+				tdEditObj.setAttribute("class",classname);
 				}
-			//i++;
 			}
 	}
 

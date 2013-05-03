@@ -232,11 +232,11 @@ else{
 	if($nodays==1 or $_SESSION['role']=='office' or $_SESSION['role']=='admin'){
 		print_string('checkall',$book);
 ?>
-				<select name="setall" >
+				<select id="setall" name="setall" onchange="setAll('<?php print $lasteveid;?>')">
 				  <option value="n"></option>
-				  <option value="l" onclick="setAll('<?php print $lasteveid;?>')"><?php print_string('last',$book);?></option>
-				  <option value="p" onclick="setAll('p')"><?php print_string('present',$book);?></option>
-				  <option value="a" onclick="setAll('a')"><?php print_string('absent',$book);?></option>
+				  <option value="l"><?php print_string('last',$book);?></option>
+				  <option value="p"><?php print_string('present',$book);?></option>
+				  <option value="a"><?php print_string('absent',$book);?></option>
 				</select>
 <?php
 		}
