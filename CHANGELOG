@@ -11,6 +11,9 @@ for messaging.
 Compatibility fix to the register setAll js function for Chrome and
 Firefox 20.
 
+New Register page to list signed out student with time.
+
+
 
 Version ClaSS-1.0.45 release (2013/04/14)
 -------------------------------------------

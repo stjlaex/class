@@ -4,24 +4,32 @@
  *   	Lists students in array sids.
  */
 
+
 $action='absence_list_action.php';
-$choice='absence_list.php';
 
+/**
+ * Unusual but the absence_list can be called as an include from
+ * signedout_list which means the filtercode is set. 
+ */
+if(!isset($filtercode)){
 
-include('scripts/sub_action.php');
+	$choice='absence_list.php';
 
-$extrabuttons['message']=array('name'=>'current',
+	$extrabuttons['message']=array('name'=>'current',
 							   'title'=>'message',
 							   'value'=>'message_absences.php',
 							   'onclick'=>'processContent(this)'
 							   );
-$extrabuttons['summary']=array('name'=>'current',
+	$extrabuttons['summary']=array('name'=>'current',
 							   'pathtoscript'=>$CFG->sitepath.'/'.$CFG->applicationdirectory.'/reportbook/',
 							   'title'=>'printreportsummary',
 							   'value'=>'report_attendance_print.php',
 							   'onclick'=>'checksidsAction(this)'
 							   );
-//threeplus_buttonmenu($startday,2,$extrabuttons);
+	}
+
+include('scripts/sub_action.php');
+
 two_buttonmenu($extrabuttons);
 
 
@@ -38,7 +46,16 @@ else{
 
 ?>
   <div id="heading">
-	<label><?php print_string('absencesthissession','register');?></label>
+	<label>
+<?php 
+if(!isset($filtercode)){
+	print_string('absencesthissession','register');
+	}
+else{
+	print_string('signedoutafterregisterclosed','register');
+	}
+?>
+	</label>
   </div>
   <div id="viewcontent" class="content">
 	  <form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
@@ -71,6 +88,8 @@ foreach($ygs as $yg){
 		$sid=$student['id_db'];
 		$Attendance=(array)$student['Attendance'];
 		$Student=fetchStudent_short($sid);
+
+		if((!isset($filtercode) and $Attendance['Code']['value']!='US') or $filtercode==$Attendance['Code']['value']){
 ?>
 		<tr id="sid-<?php print $sid;?>">
 		<td>
@@ -95,17 +114,27 @@ foreach($ygs as $yg){
 			$attcode=$Attendance['Code']['value'];
 			$attlate=$Attendance['Late']['value'];
 			$attcomm=$Attendance['Comment']['value'];
+
+			if($Attendance['Logtime']['value']!=''){$atttime=date('H:i',$Attendance['Logtime']['value']);}
+			else{$atttime='';}
+
+
 			$des=displayEnum($attcode,'absencecode');
 			$des=get_string($des,'register');
-			if($attvalue=='a' and ($attcode==' ' or $attcode=='O')){
+
+			if($filtercode=='US'){
 				$cell='title="" ><span title="? : <br />'. $attcomm.'" >';
+				$cell.=$atttime.'</span>';
+				}
+			elseif($attvalue=='a' and ($attcode==' ' or $attcode=='O')){
+				$cell='title="" ><span title="? : <br />'. $atttime. ' '.$attcomm.'" >';
 				$cell.='<img src="images/ostroke.png" /></span>';
 				}
 			elseif($attvalue=='a' and $attcode!=' ' and $attcode!='O'){
 				$des=displayEnum($attcode,'absencecode');
 				$des=get_string($des,'register');
 				$cell='title="" ><span title="'.$attcode .': '. $des
-						.'<br />'.$attcomm.'" >';
+						.'<br />'.$atttime. ' '.$attcomm.'" >';
 				$cell.=' &nbsp '.$attcode.'</span>';
 				}
 ?>
@@ -117,6 +146,7 @@ foreach($ygs as $yg){
 		  </td>
 		</tr>
 <?php
+			}
 			}
 		}
 

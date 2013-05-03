@@ -170,7 +170,7 @@ else{
 		<legend><?php print_string('list',$book);?></legend>
 <?php
 		$choices=array('absence_list.php' => 'absencelists'
-					   //,'late_list.php' => 'lates' TODO
+					   ,'signedout_list.php' => 'signedout'
 					   ,'completion_list.php' => 'completedregisters'
 					   ,'statistics.php' => 'statistics'
 					   );
