@@ -45,8 +45,8 @@ foreach($comids as $comid){
 	$com['yeargroup_id']=$yid;
 
 	/* Check just for incomplete registers. */
-	list($nosids,$nop,$noa,$nol,$nopl)=check_community_attendance($com,$currentevent);
-	if(($nop+$noa+$nol)!=$nosids and $nosids!=0){
+	list($nosids,$nop,$noa,$nol,$nopl,$noso)=check_community_attendance($com,$currentevent);
+	if(($nop+$noa+$nol+$noso)!=$nosids and $nosids!=0){
 		$tutors=(array)list_community_users($com,array('r'=>1,'w'=>1,'x'=>1),$yid);
 		foreach($tutors as $tutor){
 			$recipient=array();

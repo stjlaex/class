@@ -523,14 +523,14 @@ function check_community_attendance($community,$event){
 				AND (comidsid.joiningdate<='$startdate' OR comidsid.joiningdate='0000-00-00' OR comidsid.joiningdate IS NULL));");
 			$noso=mysql_result($d_att,0);
 
-			/* no present */
+			/* no present in school */
 			$d_att=mysql_query("SELECT COUNT(attendance.student_id) FROM attendance 
 							 WHERE attendance.event_id='$eveid' AND attendance.status='p' AND attendance.student_id=ANY(
 				SELECT comidsid.student_id FROM comidsid JOIN student ON student.id=comidsid.student_id
 				 WHERE comidsid.community_id='$comid' AND student.yeargroup_id LIKE '$yid' AND (comidsid.leavingdate>'$enddate' OR 
 				comidsid.leavingdate='0000-00-00' OR comidsid.leavingdate IS NULL) 
 				AND (comidsid.joiningdate<='$startdate' OR comidsid.joiningdate='0000-00-00' OR comidsid.joiningdate IS NULL));");
-			$nop=mysql_result($d_att,0) + $noso;
+			$nop=mysql_result($d_att,0);
 
 			/* Number present but late to register*/
 			$d_att=mysql_query("SELECT COUNT(attendance.student_id) FROM attendance 
@@ -569,14 +569,14 @@ function check_community_attendance($community,$event){
 							 AND attendance.event_id='$eveid' AND attendance.status='a' AND attendance.code IN ('US');");
 			$noso=mysql_result($d_att,0);
 
-			/* Number present */
+			/* Number present in school */
 			$d_att=mysql_query("SELECT COUNT(attendance.student_id) FROM attendance JOIN comidsid
 							 ON comidsid.student_id=attendance.student_id 
 							 WHERE comidsid.community_id='$comid' 
 							 AND (comidsid.leavingdate>'$enddate' OR comidsid.leavingdate='0000-00-00' OR comidsid.leavingdate IS NULL) 
 							 AND (comidsid.joiningdate<='$startdate' OR comidsid.joiningdate='0000-00-00' OR comidsid.joiningdate IS NULL)
 							 AND attendance.event_id='$eveid' AND attendance.status='p'");
-			$nop=mysql_result($d_att,0) + $noso;
+			$nop=mysql_result($d_att,0);
 
 			/* Number present but late to register*/
 			$d_attendance=mysql_query("SELECT COUNT(attendance.status) FROM attendance JOIN comidsid
@@ -589,7 +589,8 @@ function check_community_attendance($community,$event){
 			}
 		}
 
-	$results=array($nosids,$nop,$noa,$nol,$nopl);
+	$results=array($nosids,$nop,$noa,$nol,$nopl,$noso);
+
 	return $results;
 	}
 

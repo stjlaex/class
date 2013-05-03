@@ -103,6 +103,7 @@ two_buttonmenu($extrabuttons);
 		  <th><?php print_string('absent',$book);?></th>
 		  <th><?php print_string('late',$book);?></th>
 		  <th><?php print_string('latebeforeregisterclosed',$book);?></th>
+		  <th><?php print_string('signedout',$book);?></th>
 		</tr>
 <?php
 
@@ -110,10 +111,11 @@ two_buttonmenu($extrabuttons);
 	$totalnoa=0;
 	$totalnol=0;
 	$totalnopl=0;
+	$totalnoso=0;
 	$totalnosids=0;
 
 	foreach($registration_coms as $com){
-		list($nosids,$nop,$noa,$nol,$nopl)=check_community_attendance($com,$currentevent);
+		list($nosids,$nop,$noa,$nol,$nopl,$noso)=check_community_attendance($com,$currentevent);
 		if($nosids>0){
 			$getparam='newcomid='.$com['id'];
 			$getparam.='&newcid=';
@@ -129,7 +131,7 @@ two_buttonmenu($extrabuttons);
 				$tutor_users=array();
 				$title='';
 				}
-			if(($nop+$noa+$nol)==$nosids and $nosids!=0){$status='complete';$cssclass='';}
+			if(($nop+$noa+$nol+$noso)==$nosids and $nosids!=0){$status='complete';$cssclass='';}
 			else{$status='incomplete';$cssclass='vspecial';}
 			/*The number present in school is nop (present) + nol (late after register)*/
 			$nop+=$nol;
@@ -137,6 +139,7 @@ two_buttonmenu($extrabuttons);
 			$totalnoa+=$noa;
 			$totalnol+=$nol;
 			$totalnopl+=$nopl;
+			$totalnoso+=$noso;
 			$totalnosids+=$nosids;
 ?>
 		<tr>
@@ -164,6 +167,9 @@ two_buttonmenu($extrabuttons);
 		  <td>
 			<?php print $nopl;?>
 		  </td>
+		  <td>
+			<?php print $noso;?>
+		  </td>
 		</tr>
 <?php
 			}
@@ -189,6 +195,9 @@ two_buttonmenu($extrabuttons);
 		  </td>
 		  <td>
 			<?php print $totalnopl;?>
+		  </td>
+		  <td>
+			<?php print $totalnoso;?>
 		  </td>
 		</tr>
 		</table>
