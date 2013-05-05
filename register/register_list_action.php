@@ -42,8 +42,7 @@ elseif($sub=='Submit'){
 
 
 	$date=$_POST['date'];
-	$session=$_POST['session'];
-
+	$eventsession=$_POST['session'];
 
 	if($checkeveid<0){
 		/* If the event has not been recorded yet then checkeveid= -ve
@@ -59,15 +58,12 @@ elseif($sub=='Submit'){
 
 	if($checkeveid==0){
 		/* This event was not in the db when first displayed. */
-
 		if($nodays==1){
-			$AttendanceEvents=fetchAttendanceEvents($startday,1,$session);
+			$AttendanceEvents=fetchAttendanceEvents($startday,1,$eventsession);
 			$eventdate=$AttendanceEvents['Event'][0]['Date']['value'];
-			$eventsession=$AttendanceEvents['Event'][0]['Session']['value'];
 			}
 		else{
 			$eventdate=$date;
-			$eventsession=$session;
 			}
 
 		$d_event=mysql_query("SELECT id FROM event WHERE date='$eventdate' AND session='$eventsession' 
@@ -81,7 +77,9 @@ elseif($sub=='Submit'){
 			}
 		$checkeveid=$eveid;
 		}
-	else{$eveid=$checkeveid;}
+	else{
+		$eveid=$checkeveid;
+		}
 
 
 	if($community['type']=='class'){

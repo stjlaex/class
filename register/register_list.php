@@ -16,7 +16,6 @@ else{$session='AM';}
 
 //trigger_error($community['id'].' '.$community['name'].' '.$community['type'],E_USER_WARNING);
 
-
 	/**
 	 * Get students either for a class or a community
 	 */
@@ -34,12 +33,14 @@ else{$session='AM';}
 	 */
 	if($nodays==1){
 
-		$d_event=mysql_query("SELECT session FROM event WHERE id='$checkeveid';");
-		if(mysql_num_rows($d_event)>0){
-			$session=mysql_result($d_event,0);
-			}
-		else{
-			$session=$currentevent['session'];
+		if($checkeveid>0){
+			$d_event=mysql_query("SELECT session FROM event WHERE id='$checkeveid';");
+			if(mysql_num_rows($d_event)>0){
+				$session=mysql_result($d_event,0);
+				}
+			else{
+				$session=$currentevent['session'];
+				}
 			}
 
 		$AttendanceEvents=fetchAttendanceEvents($startday,1,$session);
@@ -135,11 +136,15 @@ else{$session='AM';}
 	 * the current event.
 	 */
 	if($checkeveid=='' or $checkeveid=='0'){
-
 		$seleveid=$currentevent['id'];
-
+		$selsession=$currentevent['session'];
+		$seldate=$currentevent['date'];
 		}
-	else{$seleveid=$checkeveid;}
+	else{
+		$seleveid=$checkeveid;
+		$selsession=$AttendanceEvents['Event'][$eveindex[$seleveid]]['Session']['value'];
+		$seldate=$AttendanceEvents['Event'][$eveindex[$seleveid]]['Date']['value'];
+		}
 
 
 if($nodays>1){
@@ -398,7 +403,7 @@ else{
 			if($Event['Period']['value']=='0' or array_key_exists($Event['Period']['value'],$classperiods)){
 			if($nodays==1 and $index==0){
 				print '<th style="text-align:center;">';
-				print '<a href="register.php?current=register_list.php&newcomid='.$newcomid.'&newcid='.$newcid.'&nodays=8&checkeveid='.$Event['id_db'].'&startday='.$startday.'">><</a>';
+				print '<a href="register.php?current=register_list.php&newcomid='.$newcomid.'&newcid='.$newcid.'&nodays=8&checkeveid='.'&startday='.$startday.'">><</a>';
 				print '</th>';
 				}
 			elseif($nodays>1){
@@ -417,8 +422,8 @@ else{
 		</tr>
 		</table>
 
-		<input type="hidden" name="date" value="<?php print $currentevent['date'];?>" />
-		<input type="hidden" name="session" value="<?php print $currentevent['session'];?>" />
+		<input type="hidden" name="date" value="<?php print $seldate;?>" />
+		<input type="hidden" name="session" value="<?php print $selsession;?>" />
 		<input type="hidden" name="current" value="<?php print $action;?>" />
 		<input type="hidden" name="cancel" value="<?php print 'completion_list.php';?>" />
 	    <input type="hidden" name="choice" value="<?php print $choice;?>" />

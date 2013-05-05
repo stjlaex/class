@@ -21,8 +21,10 @@ if(isset($sid) and $_SESSION['role']!='support'){
 				<?php print $target;?> class="<?php print $comment['class'];?>">C</a> 
 	</span>
 <?php
-	if($Student['SENFlag']['value']=='Y'){ ?>
-		<a href="infobook.php?current=student_view_sen.php&sid=<?php print $sid;?>&sids[]=<?php print $sid;?>&bid=<?php print $bid[0]?>" <?php print $target;?> >S</a>
+	if($Student['SENFlag']['value']=='Y'){ 
+		if(isset($bid)){$sensbuject=$bid[0];}else{$sensubject='';}
+?>
+		<a href="infobook.php?current=student_view_sen.php&sid=<?php print $sid;?>&sids[]=<?php print $sid;?>&bid=<?php print $sensubject;?>" <?php print $target;?> >S</a>
 <?php
 		}
 	if($Student['MedicalFlag']['value']=='Y'){ ?>
