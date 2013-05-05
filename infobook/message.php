@@ -170,6 +170,7 @@ if($messageto=='student'){
 
 		foreach($yids as $yid){
 			$yeartutors=(array)list_pastoral_users($yid,array('r'=>1,'w'=>1,'x'=>1));
+			$yeartutors=array_merge($yeartutors,list_pastoral_users($yid,array('r'=>1,'w'=>1,'x'=>0)));
 			foreach($yeartutors as $tutor){
 				if($tutor['email']!=''){
 					$tutors[$tutor['email']]=array('email'=>$tutor['email'],

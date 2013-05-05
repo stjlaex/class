@@ -34,6 +34,14 @@ else{$session='AM';}
 	 */
 	if($nodays==1){
 
+		$d_event=mysql_query("SELECT session FROM event WHERE id='$checkeveid';");
+		if(mysql_num_rows($d_event)>0){
+			$session=mysql_result($d_event,0);
+			}
+		else{
+			$session=$currentevent['session'];
+			}
+
 		$AttendanceEvents=fetchAttendanceEvents($startday,1,$session);
 		/* If the currentevent is not yet in the db event table then must
 		 * add a blank to get started.
@@ -394,7 +402,7 @@ else{
 				print '</th>';
 				}
 			elseif($nodays>1){
-				$newstartday=-abs((strtotime(date('Y-m-d'))-strtotime($Event['Date']['value'])) / (86400));
+				$newstartday=round(-abs((strtotime(date('Y-m-d'))-strtotime($Event['Date']['value'])) / (86400)));
 				print '<th style="text-align:center;">';
 				print '<a href="register.php?current=register_list.php&newcomid='.$newcomid.'&newcid='.$newcid.'&nodays=1&checkeveid='.$Event['id_db'].'&startday='.$newstartday.'"><></a>';
 				print '</th>';
