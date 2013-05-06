@@ -972,6 +972,7 @@ function getEnumArray($field_name){
 						'YearGroup'=>'yeargroup', 
 						'TutorGroup'=>'tutorgroup', 
 						'RegistrationGroup'=>'formgroup', 
+						'RegistrationTutor'=>'formtutor',
 						'Course'=>'course', 
 						'House'=>'house', 
 						'DOB'=>'dateofbirth',

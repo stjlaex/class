@@ -272,6 +272,12 @@ two_buttonmenu($extrabuttons,$book);
 				   and $Student[$displayfield]['type_db']=='date'){
 					$displayout=display_date($Student[$displayfield]['value']);
 				}
+			elseif(is_array($Student[$displayfield])){
+				$displayout='';
+				foreach($Student[$displayfield] as $displayfieldvalue){
+					$displayout.=' '.$displayfieldvalue['value'];
+					}
+				}
 			elseif($displayfield!=''){
 				$displayout=$Student[$displayfield]['value'];
 				}
