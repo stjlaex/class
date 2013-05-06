@@ -272,7 +272,8 @@ two_buttonmenu($extrabuttons,$book);
 				   and $Student[$displayfield]['type_db']=='date'){
 					$displayout=display_date($Student[$displayfield]['value']);
 				}
-			elseif(is_array($Student[$displayfield])){
+			elseif(!isset($Student[$displayfield]['value'])){
+				/* This is for the Tutor field or any which has multiple values to combine. */
 				$displayout='';
 				foreach($Student[$displayfield] as $displayfieldvalue){
 					$displayout.=' '.$displayfieldvalue['value'];

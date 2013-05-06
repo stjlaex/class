@@ -25,7 +25,7 @@ elseif(isset($_POST['catid'])){
 	}
 
 
-require_once 'Spreadsheet/Excel/Writer.php';
+require_once('Spreadsheet/Excel/Writer.php');
 
 include('scripts/sub_action.php');
 
