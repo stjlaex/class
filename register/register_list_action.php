@@ -41,7 +41,7 @@ elseif($sub=='Next'){
 elseif($sub=='Submit'){
 
 
-	$date=$_POST['date'];
+	$eventdate=$_POST['date'];
 	$eventsession=$_POST['session'];
 
 	if($checkeveid<0){
@@ -58,13 +58,6 @@ elseif($sub=='Submit'){
 
 	if($checkeveid==0){
 		/* This event was not in the db when first displayed. */
-		if($nodays==1){
-			$AttendanceEvents=fetchAttendanceEvents($startday,1,$eventsession);
-			$eventdate=$AttendanceEvents['Event'][0]['Date']['value'];
-			}
-		else{
-			$eventdate=$date;
-			}
 
 		$d_event=mysql_query("SELECT id FROM event WHERE date='$eventdate' AND session='$eventsession' 
 										AND period='$period';");
