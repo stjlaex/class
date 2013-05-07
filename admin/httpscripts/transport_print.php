@@ -72,12 +72,16 @@ else{
 						}
 					}
 
-				$Student['Attendances']=(array)fetchAttendances($sid,$attday,1);
 				$Student['Journey']=array();
-				$field=fetchStudent_singlefield($sid,'FirstContactPhone');
-				$Student=array_merge($Student,$field);
-				$field=fetchStudent_singlefield($sid,'SecondContactPhone');
-				$Student=array_merge($Student,$field);
+
+				if($length=='full'){
+					$Student['Attendances']=(array)fetchAttendances($sid,$attday,1);
+					$field=fetchStudent_singlefield($sid,'FirstContactPhone');
+					$Student=array_merge($Student,$field);
+					$field=fetchStudent_singlefield($sid,'SecondContactPhone');
+					$Student=array_merge($Student,$field);
+					}
+
 				$bookings=(array)list_student_journey_bookings($sid,$printdate,$day);
 				$jout=false;$jin=false;
 				$onbus=false;

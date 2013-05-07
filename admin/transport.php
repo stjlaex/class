@@ -29,6 +29,11 @@ if($_SESSION['role']=='admin' or $aperm==1 or $_SESSION['role']=='office'){
 								   'onclick'=>'checksidsAction(this)');
 	}
 
+$extrabuttons['list']=array('name'=>'current',
+							'pathtoscript'=>$CFG->sitepath.'/'.$CFG->applicationdirectory.'/admin/',
+							'value'=>'transport_print.php',
+							'xmlcontainerid'=>'list',
+							'onclick'=>'checksidsAction(this)');
 $extrabuttons['attendance']=array('name'=>'current',
 								  'pathtoscript'=>$CFG->sitepath.'/'.$CFG->applicationdirectory.'/admin/',
 								  'value'=>'transport_print.php',
@@ -154,7 +159,7 @@ two_buttonmenu($extrabuttons);
 		<checkname>busnames</checkname>
 		<checkname>formnames</checkname>
 		<selectname>date0</selectname>
-		<length>short</length>
+		<length>full</length>
 		<transform>transport_list_changes</transform>
 		<paper>landscape</paper>
 	  </params>
@@ -166,6 +171,16 @@ two_buttonmenu($extrabuttons);
 		<selectname>date0</selectname>
 		<length>short</length>
 		<transform>transport_list_attendance</transform>
+		<paper>landscape</paper>
+	  </params>
+	</div>
+	<div id="xml-list" style="display:none;">
+	  <params>
+		<checkname>busnames</checkname>
+		<checkname>formnames</checkname>
+		<selectname>date0</selectname>
+		<length>short</length>
+		<transform>transport_list</transform>
 		<paper>landscape</paper>
 	  </params>
 	</div>
