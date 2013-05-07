@@ -104,7 +104,14 @@ if(sizeof($sids)==0){
 					$field=fetchStudent_singlefield($sid,$displayfield);
 					$Student=array_merge($Student,$field);
 					}
-				if(isset($Student[$displayfield]['type_db']) and $Student[$displayfield]['type_db']=='enum'){
+				if(!isset($Student[$displayfield]['value'])){
+					/* This is for the Tutor field or any which has multiple values to combine. */
+					$displayout='';
+					foreach($Student[$displayfield] as $displayfieldvalue){
+						$displayout.=' '.$displayfieldvalue['value'];
+						}
+					}
+				elseif(isset($Student[$displayfield]['type_db']) and $Student[$displayfield]['type_db']=='enum'){
 					$displayout=displayEnum($Student[$displayfield]['value'],$Student[$displayfield]['field_db']);
 					$displayout=get_string($displayout,$book);
 					}
