@@ -1,4 +1,4 @@
-Version ClaSS-1.0.46 release (2013/05/05)
+Version ClaSS-1.0.46 release (2013/05/10)
 -------------------------------------------
 
 Changed the color coding for register late codes.
@@ -16,6 +16,11 @@ New Register page to list signed out student with time.
 Fix to identifying the attendance session for new events.
 
 New list only button for printing the buses.
+
+A fix to the gs_sortable javascript for Spanish accented characters.
+
+Tiny fix to the contact details form to turn off autofill and prevent
+errors from Chrome.
 
 
 

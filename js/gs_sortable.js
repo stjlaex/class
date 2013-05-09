@@ -159,8 +159,16 @@ function tsInit() {
 				text = parseFloat(text);
 				if	(isNaN(text))	text = 0;
 			}
-			else if	(sorting == 's')
+			else if	(sorting == 's') {
+				/*TODO: Find a good solution for the sorting with spanish accents*/
+				text = text.replace('Á','A');
+				text = text.replace('É','E');
+				text = text.replace('Í','I');
+				text = text.replace('Ó','O');
+				text = text.replace('Ú','U');
 				text = text.toLowerCase();
+				
+			}
 			else if (sorting == 'i')
 			{
 				text = parseInt(text);

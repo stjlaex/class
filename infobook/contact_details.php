@@ -107,7 +107,7 @@ elseif($contactno==-1){
 three_buttonmenu($extrabuttons,$book);
 ?>
   <div class="content" id="viewcontent">
-	<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
+	<form id="formtoprocess" name="formtoprocess" method="post" autocomplete="off" novalidate="novalidate" action="<?php print $host;?>">
 
 	  <div class="left">
 	  <div class="center">
