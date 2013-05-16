@@ -65,14 +65,16 @@ else{
 
 				}
 			}
-		if($Student['MedicalFlag']['value']=='Y' and $perm['w']==1 and $_SESSION['medrole']=='1' ){
+		if($Student['MedicalFlag']['value']=='Y' and $perm['w']==1 and ($_SESSION['medrole']=='1' or $_SESSION['role']=='medical')){
 ?>
 
 		<div>
-		  <button class="rowaction" type="button" name="edit" disable="disable">
 			<a style="color:#ffeeff;" href="medbook.php?current=med_view.php&sid=<?php print $sid;?>"
-			  target="viewmedbook" onclick="parent.viewBook('medbook');"><?php print_string('edit');?><a/>
-		  </button>
+			  target="viewmedbook" onclick="parent.viewBook('medbook');" >
+			  <button class="rowaction" type="button" name="edit" disable="disable">
+				<?php print_string('edit');?>
+			  </button>
+			</a>
 		</div>
 <?php
 				}
