@@ -34,7 +34,7 @@ if($_POST['payment0']=='yes'){
 		$okay=false;
 		$charid=$charge['id'];
 		$charge=get_charge($charid);
-		/* Filter out any charges which are not intended for bank payment or which are already paid. */
+		/* Filter out any charges which are not intended for bank (paymentype=1) or which are already paid. */
 		if($charge['paymenttype']==1){
 			$sid=$charge['student_id'];
 			/* Do certain things once only for a student... */
@@ -47,6 +47,17 @@ if($_POST['payment0']=='yes'){
 					$Student['charges']=array();
 					$Students[$sid]=$Student;
 					$okay=true;
+					}
+				elseif(sizeof($guardians)>0){
+					/* Only add the student record if their is a valid payee account. */
+					foreach($guardians as $guardian){
+						if($guardian['accountsno']>0){
+							$Student['payee']=$guardian;
+							$Student['charges']=array();
+							$Students[$sid]=$Student;
+							$okay=true;
+							}
+						}
 					}
 				}
 			else{

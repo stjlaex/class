@@ -120,6 +120,7 @@ function fetchStudent_singlefield($sid,$tag,$privfilter=''){
 	elseif($tag=='EnrolNumber'){$fieldname='formerupn';}
 	elseif($tag=='EnrolmentNotes'){$fieldname='appnotes';}
 	elseif($tag=='EnrolmentApplicationDate'){$fieldname='appdate';}
+	elseif($tag=='EnrolmentPreviousSchool'){$fieldname='previousschool';}
 	elseif($tag=='EnrolmentStatus'){$fieldname='enrolstatus';}
 	elseif($tag=='Boarder'){$fieldname='boarder';$fieldtype='enum';}
 	elseif($tag=='EntryDate'){$fieldname='entrydate';$fieldtype='date';}

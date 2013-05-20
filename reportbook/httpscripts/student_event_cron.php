@@ -38,25 +38,48 @@ $yearcoms=(array)list_communities('year');
 if($CFG->student_event_attendance=='yes'){
 
 	/* TODO: this needs to be defined as an option in the database */
-	$percent_threshold='85';
+	$attendance_percent_threshold=85;
 	/**/
-
+	$startdate=date('Y-m-d');
+	$enddate=date('Y-m-d',mktime(0,0,0,date('m'),date('d')-90,date('Y')));
+	/* Students with a percentage attendnace less than a threshold*/
 	foreach($yearcoms as $com){
 		$students=listin_community($com);
 		foreach($students as $student){
-			$sid=$student['id'];
-
-			fetchAttendanceSummary($sid,$startdate,$enddate,$session='%');
-
-			if($Attendance['Summary']['Attended']['value']/$Attendance['Summary']['Possible']['value']<0.85){
-
-				$Students[$sid]=fetchStudent_short($sid);
-
+			$Attendance=(array)fetchAttendanceSummary($student['id'],$startdate,$enddate,$session='%');
+			if($Attendance['Summary']['Possible']['value']>10){
+				if(round(100*$Attendance['Summary']['Attended']['value']/$Attendance['Summary']['Possible']['value'])<$attendance_percent_threshold){
+					$Students[$student['id']]=fetchStudent_short($student['id']);
+					trigger_error('PERCENT!!!!!!!!!!!!!!!!!! '.$student['id'],E_USER_WARNING);
+					}
 				}
-
 			}
 		}
 
+
+	/* TODO: this needs to be defined as an option in the database */
+	$attendance_unexplained_number=3;
+	/**/
+	/* Students with a consecutive number of unexplained absences */
+	$Students=(array)list_absentStudents($eveid='',$yid='%',$lates=0);
+	foreach($Students['Student'] as $Student){
+		$no=0;
+		if($Student['Attendance']['Code']['value']=='O'){
+			$Attendances=fetchAttendances($Student['id_db'],0,3);
+			foreach($Attendances['Attendance'] as $Attendance){
+				if($Attendance['Code']['value']=='O'){
+					$no++;
+					}
+				}
+			}
+		if($no>=$attendance_unexplained_number){
+			$Students[$Student['id_db']]=fetchStudent_short($Student['id_db']);
+			trigger_error('ALERT!!!!!!!!!!!!!!!!!! '.$Student['id_db'],E_USER_WARNING);
+
+
+
+			}
+		}
 
 
 	}
@@ -67,7 +90,8 @@ if($CFG->student_event_attendance=='yes'){
  * to SEN support list
  *
  */
-if($CFG->student_event_support=='yes'){
+if(isset($CFG->student_event_support) and isset($CFG->student_event_support_elementid) and 
+				$CFG->student_event_support=='yes' and $CFG->student_event_support_elementid!=''){
 	/**
 	 * Use an elementid to identify the relevant assessments because we
 	 * need to search across courses.
@@ -77,6 +101,7 @@ if($CFG->student_event_support=='yes'){
 	/* TODO: this needs to be defined as an option in the database */
 	$elementid='P2';
 	/**/
+	$elementid=$CFG->student_event_support_elementid;
 
 	$d_a=mysql_query("SELECT id FROM assessment WHERE year='$curryear' AND element='$elementid';");
 	while($ass=mysql_fetch_array($d_a, MYSQL_ASSOC)){
@@ -106,7 +131,6 @@ if(isset($CFG->student_event_support) and $CFG->student_event_support=='tidy'){
 	while($s=mysql_fetch_array($d_s,MYSQL_ASSOC)){
 		$sid=$s['student_id'];
 		$senhid=$s['id'];
-		eror($senhid.' '.$sid);
 		mysql_query("DELETE FROM senhistory WHERE student_id='$sid' AND id='$senhid';");
 		mysql_query("DELETE FROM sencurriculum WHERE senhistory_id='$senhid';");
 		mysql_query("DELETE FROM sentype WHERE student_id='$sid' AND sentype='ENC';");

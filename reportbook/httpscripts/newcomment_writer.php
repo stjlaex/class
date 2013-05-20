@@ -18,7 +18,13 @@ elseif(isset($_POST['entryn'])){$entryn=$_POST['entryn'];}
 if(isset($_GET['openid'])){$openid=$_GET['openid'];}
 
 //$browser=getBrowser();
-//$subject_lengths=array('ICT'=>300,'ESL'=>1000,'MFL'=>2000,'PE'=>300,'JunNum'=>700,'JunTop'=>300,'InfTop'=>300,'JunRE'=>300,'InfRE'=>300,'JunDT'=>300,'InfDT'=>300,'JunSci'=>300,'InfSci'=>300,'JunEng'=>500,'InfEng'=>500,'InfNum'=>700,'EA'=>400,'InfEAD'=>400);
+/*
+if($rid==61 or $rid==58){
+	$subject_lengths=array('ICT'=>300,'ESL'=>1000,'MFL'=>2000,'PE'=>300,'JunNum'=>700,
+                      'JunTop'=>300,'InfTop'=>300,'JunRE'=>300,'InfRE'=>300,'JunDT'=>300,'InfDT'=>300,
+                      'JunSci'=>300,'InfSci'=>300,'JunEng'=>600,'InfEng'=>600,'InfNum'=>800,'EA'=>400,'InfEAD'=>400);
+	}
+	*/
 
 $StatementBank=array();
 if($rid!=-1){
