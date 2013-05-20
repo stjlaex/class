@@ -1,10 +1,4 @@
-Version ClaSS-1.0.47 release (2013/05/21)
--------------------------------------------
-
-
-
-
-Version ClaSS-1.0.47 release (2013/05/10)
+Version ClaSS-1.0.46 release (2013/05/10)
 -------------------------------------------
 
 Changed the color coding for register late codes.
@@ -27,6 +21,9 @@ A fix to the gs_sortable javascript for Spanish accented characters.
 
 Tiny fix to the contact details form to turn off autofill and prevent
 errors from Chrome.
+
+The transport print lists now filter out any students who are not on
+the current roll.
 
 
 

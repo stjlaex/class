@@ -33,6 +33,7 @@ elseif($sub=='delete'){
 
 	mysql_query("DELETE FROM fees_remittance WHERE id='$remid' LIMIT 1;");
 	mysql_query("DELETE FROM fees_charge WHERE remittance_id='$remid';");
+	mysql_query("DELETE FROM fees_invoice WHERE remittance_id='$remid';");
 
 	}
 
