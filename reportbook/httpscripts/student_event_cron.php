@@ -62,6 +62,11 @@ if($CFG->student_event_attendance=='yes'){
 	/**/
 	/* Students with a consecutive number of unexplained absences */
 	$Students=(array)list_absentStudents($eveid='',$yid='%',$lates=0);
+
+	/* geenric elements for the email */
+	$footer=get_string('pastoralemailfooterdisclaimer');
+	$messagesubject=$CFG->schoolname.': '.get_string('register',$book);
+
 	foreach($Students['Student'] as $Student){
 		$no=0;
 		if($Student['Attendance']['Code']['value']=='O'){
@@ -76,6 +81,27 @@ if($CFG->student_event_attendance=='yes'){
 			$Students[$Student['id_db']]=fetchStudent_short($Student['id_db']);
 			trigger_error('ALERT!!!!!!!!!!!!!!!!!! '.$Student['id_db'],E_USER_WARNING);
 
+			/* who to notify? */
+			$tutors=(array)list_community_users($com,array('r'=>1,'w'=>1,'x'=>1),$Student['YearGroup']['value']);
+			$recipients=array();
+			foreach($tutors as $tutor){
+				$recipient=array();
+				if($tutor['email']!='' and check_email_valid($tutor['email'])){
+					$tutor['explanation']=$com['name'].': '.$Student['DisplayFullName']['alue'];
+					$recipients[]=$tutor;
+					}
+				}
+
+			/* notify by email... */
+			foreach($recipients as $recipient){
+				$message='<p>'.get_string('completeregisterreminder',$book,$recipient['explanation']).'</p>';
+				$messagetxt=strip_tags(html_entity_decode($message,ENT_QUOTES,'UTF-8'))."\r\n".'--'. "\r\n" . $footer;
+				$message.='<br /><hr><p>'. $footer.'<p>';
+				$email_result=send_email_to($recipient['email'],'',$messagesubject,$messagetxt,$message,'',$replyto);
+				if($email_result){
+					$result[]=get_string('emailsentto','infobook').' '.get_teachername($recipient['username']);
+					}
+				}
 
 
 			}
