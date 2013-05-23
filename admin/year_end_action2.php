@@ -57,7 +57,7 @@ if(sizeof($reenrol_assdefs)>0){
 				join_community($sid,$oldcom);
 				$score=array('result'=>'C','value'=>'0','date'=>$todate);
 				update_assessment_score($reenrol_eid,$sid,'G','',$score);
-				trigger_error('REPEAT: '.$yid.' '.$sid,E_USER_WARNING);
+				//trigger_error('REPEAT: '.$yid.' '.$sid,E_USER_WARNING);
 				}
 			}
 		unset($repeatsids);
@@ -213,7 +213,7 @@ if(sizeof($reenrol_assdefs)>0){
 			join_community($sid,$oldcom);
 			$score=array('result'=>'C','value'=>'0','date'=>$todate);
 			update_assessment_score($reenrol_eid,$sid,'G','',$score);
-			trigger_error('REPEAT: '.$yid.' '.$sid,E_USER_WARNING);
+			//trigger_error('REPEAT: '.$yid.' '.$sid,E_USER_WARNING);
 			}
 		}
 
@@ -232,7 +232,8 @@ if(sizeof($reenrol_assdefs)>0){
 	for($c=sizeof($courses)-1;$c>-1;$c--){
 		$crid=$courses[$c]['id'];
 		/* Currently sequence of the stages for a course depends solely
-			upon their alphanumeric order - so best have a numeric ending*/
+		 * upon their alphanumeric order - so best have a numeric ending.
+		 */
 		$courses[$c]['stages']=(array)list_course_stages($crid,$yeargone);
 		}
 
@@ -257,7 +258,7 @@ if(sizeof($reenrol_assdefs)>0){
 			$nextstage='';
 			$nextcoursestage='';
 			if($c2!=(sizeof($stages)-1)){
-				/* 
+				/** 
 				 *  Promote to next stage of this course.... 
 				 *       ....you could say the stage is set :-)
 				 */
@@ -265,8 +266,9 @@ if(sizeof($reenrol_assdefs)>0){
 				$nextstage=$stages[$c2+1]['id'];
 				}
 			elseif($nextpostcrid!='1000'){
-				/* The last stage of the course are graduating to next course
-				 *	   identified in nextpostcrid so grab the first stage only. 
+				/**
+				 *  The last stage of the course are graduating to next course
+				 *  identified in nextpostcrid so grab the first stage only. 
 				 */
 				$d_cohort=mysql_query("SELECT id, stage FROM cohort WHERE
 						course_id='$nextpostcrid' AND year='$yearnow' AND
@@ -282,8 +284,10 @@ if(sizeof($reenrol_assdefs)>0){
 				}
 
 
-			/* Go through each community of students who were studying
-				this stage (ie. cohidgone) and promote them to nextcohid. */
+			/**
+			 * Go through each community of students who were studying
+			 * this stage (ie. cohidgone) and promote them to nextcohid. 
+			 */
 			$d_cohidcomid=mysql_query("SELECT community_id FROM cohidcomid WHERE cohort_id='$cohidgone';");
 			while($cohidcomid=mysql_fetch_array($d_cohidcomid,MYSQL_ASSOC)){
 				$comid=$cohidcomid['community_id'];
@@ -304,9 +308,10 @@ if(sizeof($reenrol_assdefs)>0){
 			 *
 			 * Note who teaches what (tidcid) is not moved forward.
 			 */
-			$subjects=list_course_subjects($crid);
+			$subjects=list_course_subjects($crid,'A',$yeargone);
 			foreach($subjects as $subject){
 				$classes=(array)list_course_classes($crid,$subject['id'],$stage,$yeargone);
+
 				if($nextstage!=''){
 					$nextclasses=(array)list_course_classes($crid,$subject['id'],$nextstage,$yearnow);
 					}
@@ -314,7 +319,6 @@ if(sizeof($reenrol_assdefs)>0){
 					/* All classes for the first stage of the course will
 					 * always need to be assigned manually. 
 					 */
-					//$nextclasses=array();
 					$nextclasses=(array)list_course_classes($nextpostcrid,$subject['id'],$nextcoursestage,$yearnow);
 					}
 
@@ -322,6 +326,7 @@ if(sizeof($reenrol_assdefs)>0){
 					$cid=$class['id'];
 					$cname=$class['name'];
 
+					/* Move students forward to a next class for this subject. */
 					$nextclass=array_shift($nextclasses);
 					if(!is_null($nextclass)){
 						$nextcid=$nextclass['id'];
@@ -329,6 +334,7 @@ if(sizeof($reenrol_assdefs)>0){
 											FROM cidsid WHERE class_id='$cid';");
 						}
 
+					/* Assign teachers to */
 					$teachers=(array)list_class_teachers($cid);
 					foreach($teachers as $teacher){
 						$teacherid=$teacher['id'];
