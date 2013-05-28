@@ -209,13 +209,14 @@ function js_addslashes($value){
 	return $o;
 	}
 
+
 /**
  *  Attempts to get rid of any nasties before a mysql insert
  *
  *	@param string[$value]
  *	@return string a clean value
  */
-function clean_text($value,$in=true){
+function clean_text_old($value,$in=true){
 
 	//if(get_magic_quotes_gpc()){$value=stripslashes($value);}
 	//else{trigger_error('NO MAGIC!!',E_USER_WARNING);}
@@ -243,6 +244,71 @@ function clean_text($value,$in=true){
 
 	return $value;
  	}
+
+
+
+/**
+ *  Attempts to get rid of any nasties before a mysql insert
+ *
+ *	@param string[$value]
+ *	@return string a clean value
+ */
+function clean_text($value,$in=true){
+
+
+	/*blanks possible dodgy sql injection attempt*/
+	$search=array('SELECT ','INSERT ','DELETE ','DROP ');
+	$replace=array(' ',' ',' ',' ',' ');
+	$value=str_replace($search,$replace,$value);
+
+	$value=trim($value);
+
+	if(!get_magic_quotes_gpc() and $in){$value=mysql_real_escape_string($value);}
+
+	return $value;
+ 	}
+
+/**
+ *  Attempts to get rid of any nasties before a mysql insert
+ *
+ *	@param string[$value]
+ *	@return string a clean value
+ */
+function clean_html($value){
+
+	global $CFG;
+
+	if(stream_resolve_include_path('HTMLPurifier.auto.php')!==false){
+
+		require_once('HTMLPurifier.auto.php');
+
+		$config = HTMLPurifier_Config::createDefault();
+		//$config->set('Core.DefinitionCache', null);//disable the cache
+		$config->set('Cache.SerializerPath', $CFG->eportfolio_dataroot.'/cache/phpThumb');//set the cache path
+		$config->set('HTML.TidyLevel', 'medium');
+		$config->set('CSS.AllowedProperties', array());
+		$config->set('Attr.AllowedClasses', array());
+		$config->set('HTML.ForbiddenElements', array('br','&amp;'));
+		$config->set('AutoFormat.RemoveSpansWithoutAttributes', true);
+		$config->set('AutoFormat.RemoveEmpty.RemoveNbsp', true);
+		$config->set('AutoFormat.RemoveEmpty', true);
+
+		$purifier= new HTMLPurifier($config);
+		$newvalue=$purifier->purify($value);
+
+		}
+	else{
+
+		$search=array('<p></p>','&nbsp;','<p> </p>','<p>&nbsp;</p>','&ndash;','<strong>','</strong>','&amp;','<em>','</em>','<pre>','</pre>');
+		$replace=array('',' ','','','-','','',' and ','','','','');
+		$newvalue=str_replace($search,$replace,$value);
+
+		}
+ 
+
+	return $newvalue;
+ 	}
+
 
 
 /**

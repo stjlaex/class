@@ -23,6 +23,8 @@ $description=mysql_result($d_c,0);
 $currentseason='S';
 $currentyear=get_curriculumyear($crid);
 
+$orderbyname='surname';
+
 $extrabuttons['unassignclass']=array('name'=>'sub','value'=>'Unassign');
 three_buttonmenu($extrabuttons);
 ?>
@@ -62,12 +64,12 @@ three_buttonmenu($extrabuttons);
 			(SELECT a.student_id, b.surname, b.forename, 
 			b.middlenames, b.preferredforename, b.form_id, a.class_id FROM
 			cidsid a, student b WHERE a.class_id='$cid' AND
-			b.id=a.student_id ORDER BY b.surname)");}
+			b.id=a.student_id ORDER BY b.$orderbyname)");}
 		else{mysql_query("INSERT INTO subjectstudents SELECT
 			a.student_id, b.surname, b.forename, b.middlenames, b.preferredforename, 
 				b.form_id, a.class_id FROM cidsid a,
 			student b WHERE a.class_id='$cid' AND b.id=a.student_id ORDER
-			BY b.surname");}
+			BY b.$orderbyname");}
 		$firstit++;
 		}
 ?>
@@ -89,7 +91,7 @@ three_buttonmenu($extrabuttons);
 	$d_student=mysql_query("SELECT a.student_id, b.surname,
 				b.middlenames, b.preferredforename,
 				b.forename, b.yeargroup_id, b.form_id FROM cidsid a, student b 
-				WHERE a.class_id='$newcid' AND b.id=a.student_id ORDER BY b.surname");
+				WHERE a.class_id='$newcid' AND b.id=a.student_id ORDER BY b.$orderbyname");
 	$rown=1;
 	while($student=mysql_fetch_array($d_student, MYSQL_ASSOC)){
 		$sid=$student['student_id'];
@@ -115,7 +117,7 @@ three_buttonmenu($extrabuttons);
 					cohortstudents AS a LEFT JOIN subjectstudents AS b ON
 					a.student_id=b.student_id WHERE
 					b.student_id IS NULL 
-					ORDER BY a.surname");
+					ORDER BY a.$orderbyname");
 ?>
 		<div class="left">
 		  <label><?php print_string('studentsnotinsubject',$book);?></label>
@@ -141,7 +143,7 @@ three_buttonmenu($extrabuttons);
 <?php
 		/*all those assigned already in this subject and yeargroup*/
 		$d_student=mysql_query("SELECT student_id, forename, middlenames,
-					surname, preferredforename, form_id FROM subjectstudents ORDER BY surname"); 
+					surname, preferredforename, form_id FROM subjectstudents ORDER BY $orderbyname"); 
 		while($student=mysql_fetch_array($d_student,MYSQL_ASSOC)) {
 			print '<option ';
 			print	'value="'.$student['student_id'].'">'. 

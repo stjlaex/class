@@ -135,6 +135,7 @@ function xmlechoer($rootName,$xmlentry){
 
 
 /**
+ *
  * Combines an $xml string with an xsl file which it reads, writes the
  * html output to a file if (output_filename is set) otherwise just
  * returns the html
@@ -177,6 +178,7 @@ function xmlprocessor($xml,$xsl_filename,$output_filename=NULL){
 
 
 /**
+ *
  * Uses simplexml to load xml file and converts to a standard xml
  * array. Returns empty array on failure.
  *
@@ -197,6 +199,7 @@ function xmlfilereader($xmlfilename){
 
 
 /**
+ *
  * Unserialize some $xml to a php array.
  *
  * @param string $xml
@@ -210,9 +213,11 @@ function xmlreader($string){
 		$xml=$string;
 		}
 	else{
-		/* Need the div tags because the first level tag is always dropped by simplexml for some reason. */
-		$string=clean_text($string,false);
-		$xmlstring='<div>'.html_entity_decode($string,ENT_QUOTES,"UTF-8").'</div>';
+		/* Need the div tags because the first level tag is always
+		 * dropped by simplexml for some reason. 
+		 */
+		$string=clean_html($string);
+		$xmlstring='<div>'.$string.'</div>';
 		$xml=xmlstringToArray($xmlstring);
 		}
 
@@ -221,14 +226,22 @@ function xmlreader($string){
 
 
 /**
- * Clean up a string for unwanted html elements and attributes (ususally resulting from a cut'n'paste job). to a php array.
  *
- * @param string $xml
- * @return string
+ * Convert a string of xml to a php array using simplexml.
+ * 
+ * Optionally try and clean up the string for unwanted html elements
+ * and attributes (ususally resulting from a cut'n'paste job).
+ *
+ * @param string $xmlstring
+ *
+ * @return array
+ *
  */
-function xmlstringToArray($xmlstring,$clean=true){
+function xmlstringToArray($xmlstring){
 
-	if($clean){
+	$array=simplexml_load_string($xmlstring);
+
+	if($array===false){
 		/* Attempt to tidy user inputted html, set $clean=false if the xml is known to be valid. */
 		/* Remove unwanted tags */
 		$xmlstring = preg_replace("/<(\/)?(font|span|del|a|ins|table|tbody|tr|td|colgroup|col|strong|em|br|pre|dir)[^>]*>/i","",$xmlstring);
@@ -245,34 +258,11 @@ function xmlstringToArray($xmlstring,$clean=true){
 		$search=array('<p></p>','<p> </p>','<p>&nbsp;</p>','<p>:::</p>','&nbsp;');
 		$replace=array('','','','',' ');
 		$xmlstring=str_replace($search,$replace,$xmlstring);
+
+		$array=simplexml_load_string($xmlstring);
 		}
 
-	/*
-	 * TODO: is php5-tidy a useful tool? need to test for install before calling as its not standard
-	 */
-	$tiny='no';
-	if($tiny=='yes'){
-		$config=array(
-					  'indent' => false,
-					  'drop-proprietary-attributes' => true,
-					  'drop-empty-paras' => true,
-					  'drop-font-tags' => true,
-					  'hide-comments' => true,
-					  'output-xml' => true,
-					  'show-body-only' => true,
-					  //'merge-spans' => true,
-					  //'enclose-block-text' => true,
-					  'word-2000' => true,
-					  'bare' => true,
-					  'wrap' => 0);	
-		$xml=tidy_parse_string($xmlstring, $config, 'utf8');
-		tidy_clean_repair($xml);
-		}
-	else{
-		$xml=$xmlstring;
-		}
 
-	$array=simplexml_load_string($xml);
 	$newArray=objectToArray($array);
 	//$newArray=object2array($array);
 

@@ -10,7 +10,6 @@ $inno=$_POST['inno'];/*the number of textareas to expect*/
 $incom='';
 $tid=$_SESSION['username'];
 
-//trigger_error('INNO: '.$inno,E_USER_WARNING);
 
 if($sub=='Cancel'){
 	$openerId='-100';
@@ -26,9 +25,9 @@ elseif($sub=='Submit'){
 
 	for($c=0;$c<$inno;$c++){
 		if(isset($_POST['incom'.$c])){
-			$incom.=clean_text($_POST['incom'.$c]);
-			//$incom.=$_POST['incom'.$c];
+			$incom.=trim($_POST['incom'.$c]);
 			}
+
 		/* Separate the subcomments with ::: for splitting 
 		 * but last subcomment should not get a separator
 		 */
@@ -36,7 +35,9 @@ elseif($sub=='Submit'){
 		$comment='   ';
 		}
 
-	//trigger_error($c.' '.$incom,E_USER_WARNING);
+
+	$incom=clean_html($incom);
+	$incom=clean_text($incom);
 
 
 	/* Now do the category radio boxes */

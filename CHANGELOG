@@ -1,7 +1,11 @@
-Version ClaSS-1.0.47 release (2013/05/26)
+Version ClaSS-1.0.47 release (2013/05/28)
 -------------------------------------------
 
 Fix to the year end script for assigning teaching classes.
+
+Adopted HTMLPurifier for cleaning HTML comments prior to storing in
+the db.
+
 
 
 
