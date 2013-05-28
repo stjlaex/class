@@ -9,6 +9,9 @@ if(isset($_GET['newcid'])){$newcid=$_GET['newcid'];}
 if(isset($_GET['newtid'])){$newtid=$_GET['newtid'];}else{$newtid='';}
 if(isset($_POST['newcid'])){$newcid=$_POST['newcid'];}
 if(isset($_POST['newtid'])){$newtid=$_POST['newtid'];}
+if(isset($_GET['orderbyname'])){$orderbyname=$_GET['orderbyname'];}else{$orderbyname='surname';}
+if(isset($_POST['orderbyname'])){$orderbyname=$_POST['orderbyname'];}
+
 
 $class=get_this_class($newcid);
 $crid=$class['crid'];
@@ -18,12 +21,12 @@ $detail=$class['detail'];
 $d_c=mysql_query("SELECT description FROM classes 
 						WHERE course_id='$crid' AND subject_id='$bid' AND stage='$stage';");
 $description=mysql_result($d_c,0);
+
 /*keeping things simple by fixing season to a single value*/
 /*to sophisticate in the future*/
 $currentseason='S';
 $currentyear=get_curriculumyear($crid);
 
-$orderbyname='surname';
 
 $extrabuttons['unassignclass']=array('name'=>'sub','value'=>'Unassign');
 three_buttonmenu($extrabuttons);
@@ -154,9 +157,23 @@ three_buttonmenu($extrabuttons);
 
 		  </select>
 		</div>
-
+		<div class="fullwidth">
+		  <label><?php print get_string('orderby',$book);?></label>
+<?php
+	$options=array('surname'=>'surname','forename'=>'forename','preferredforename'=>'preferredforename','form_id'=>'formgroup');
+	foreach($options as $value => $description){
+		if($orderbyname==$value){$checked='checked="checked"';}else{$checked='';}
+		eror($value.' '.$orderbyname.' '.$checked);
+		print '<div style="float:left;padding-left:4px;"><input type="radio" name="orderbyname" value="'.$value.'" '.$checked.' onChange="processContent(this);">'.get_string($description,$book).'</input></div>';
+		}
+$value='';$description='';
+?>
+		</div>
 	  </fieldset>
 	  </div>
+
+
+
 	  <div style="float:right;width:66%;">
 		<fieldset>
 		  <legend>

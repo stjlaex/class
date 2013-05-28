@@ -3,10 +3,11 @@
  */
 
 $action='class_edit.php';
-$action_post_vars=array('newtid','newcid');
+$action_post_vars=array('newtid','newcid','orderbyname');
 
 if(isset($_POST['newcid'])){$newcid=$_POST['newcid'];}
 if(isset($_POST['detail'])){$detail=$_POST['detail'];}
+if(isset($_POST['orderbyname'])){$orderbyname=$_POST['orderbyname'];}
 if(isset($_POST['description'])){$description=$_POST['description'];}
 if(isset($_POST['newtid'])){$newtid=$_POST['newtid'];}else{$newtid='';}
 if(isset($_POST['newsid'])){$newsid=(array)$_POST['newsid'];}else{$newsid=array();}
