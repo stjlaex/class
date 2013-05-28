@@ -348,6 +348,15 @@ if(sizeof($reenrol_assdefs)>0){
 			}
 		}
 
+
+
+	/**
+	 * Carry forward the curriculum structure.
+	 */
+	mysql_query("INSERT INTO component (id, course_id,subject_id,status,sequence,weight,year) 
+					SELECT id, course_id,subject_id,status,sequence,weight,'2014' 
+					FROM component WHERE year='2013';");
+
 	/**
 	 * Carry forward the assessment and reporting structure for the new
 	 * academic year.
