@@ -3,7 +3,13 @@
  *
  */
 
+/**
+ * TODO: two different import formats with separate action
+ * scripts. Needs an option for the format.
+ *
+ */
 $action='fees_import_action.php';
+//$action='fees_import_exam_action.php';
 $choice='fees.php';
 
 include('scripts/sub_action.php');
