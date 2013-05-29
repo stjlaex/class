@@ -8,6 +8,10 @@ the db.
 
 Added a sort by option to the class_edit page.
 
+The statistics page now gets a table counting siblings or family
+sizes.
+
+
 
 Version ClaSS-1.0.46 release (2013/05/10)
 -------------------------------------------

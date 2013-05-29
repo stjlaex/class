@@ -37,13 +37,14 @@ two_buttonmenu();
 	$birth_years=array();
 	$gender_birth_years=array();
 	$postcodes=array();
+	$siblings=array();
 
 	$yeargroups=list_yeargroups();
 	$sections=list_sections(true);
 	foreach($yeargroups as $year){
 		$yid=$year['id'];
 		$d_groups=mysql_query("SELECT gid FROM groups WHERE
-				yeargroup_id='$yid' AND course_id=''");
+										yeargroup_id='$yid' AND course_id=''");
 		$gid=mysql_result($d_groups,0);
 		$perms=getYearPerm($yid, $respons);
 		$comid=update_community(array('type'=>'year','name'=>$yid));
@@ -53,7 +54,7 @@ two_buttonmenu();
 		$nomalesids=countin_community_gender($com,'M');
 		$nofemalesids=countin_community_gender($com,'F');
 		$totalsids=$totalsids+$nosids;
-		while(list($index,$student)=each($students)){
+		foreach($students as $student){
 			$Student=(array)fetchStudent_singlefield($student['id'],'Nationality');
 			$countrycode=strtoupper($Student['Nationality']['value']);
 			$Student=(array)fetchStudent_singlefield($student['id'],'SecondNationality');
@@ -81,6 +82,15 @@ two_buttonmenu();
 				//trigger_error('2ND: '.$secondcountrycode,E_USER_WARNING);
 				$second_countrys[$countrycode]++;
 				}
+
+			/* Family sizes based on number of siblings in school. */
+			$Student=(array)fetchStudent_singlefield($student['id'],'Siblings');
+			if(!isset($siblings[$Student['Siblings']['no']])){
+				$siblings[$Student['Siblings']['no']]=0;
+				}
+			$siblings[$Student['Siblings']['no']]++;
+			
+
 
 			/* Do postcodes. Use localcode to restrict to those within the local area. */
 			$Student=fetchStudent_singlefield($student['id'],'Postcode');
@@ -161,6 +171,31 @@ two_buttonmenu();
 		</tr>
 	  </table>
 	</div>
+
+
+<br />
+
+	<div>
+	  <table class="listmenu">
+		<tr>
+		  <th><?php print_string('siblings','infobook');?></th>
+		  <th><?php print_string('numberofstudents',$book);?></th>
+		</tr>
+<?php
+		asort($siblings,SORT_NUMERIC);
+		$siblings=array_reverse($siblings,true);
+		while(list($siblingno,$nosids)=each($siblings)){
+?>
+		<tr>
+		  <td><?php print ' '.$siblingno;?></td>
+		  <td><?php print $nosids;?></td>  
+		</tr>
+<?php
+			}
+?>
+	  </table>
+	</div>
+
 
 <br />
 
@@ -268,7 +303,8 @@ two_buttonmenu();
 				foreach($sections as $section){
 					$sec_postcodes=$app_postcodes[$section['id']];
 ?>
-					<td><?php
+					<td>
+<?php
 					  $noappsids=$sec_postcodes[$postcode]['AP']+$sec_postcodes[$postcode]['AC']+$sec_postcodes[$postcode]['ACP']+$sec_postcodes[$postcode]['AT']+$sec_postcodes[$postcode]['RE']+$sec_postcodes[$postcode]['CA']+$sec_postcodes[$postcode]['WL']; 
 					  print $noappsids;
 					  $totals[$section['id']]+=$noappsids;

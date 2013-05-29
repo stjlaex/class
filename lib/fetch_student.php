@@ -186,7 +186,7 @@ function fetchStudent_singlefield($sid,$tag,$privfilter=''){
 		$display='';
 		foreach($Contacts as $cindex => $Contact){
 			$Dependents=(array)fetchDependents($Contact['id_db']);
-			/* Only do siblings in the school. */
+			/* Only do siblings who are current students of the school. */
 			$Siblings=array_merge($Siblings,$Dependents['Dependents']);
 			}
 		foreach($Siblings as $Sibling){
@@ -197,6 +197,7 @@ function fetchStudent_singlefield($sid,$tag,$privfilter=''){
 				}
 			}
 		$Student[$tag]=array('label'=>'siblings',
+							 'no'=>sizeof($sibs),
 							 'value'=>''.$display);
 		}
    	elseif($tag=='Course'){
@@ -833,7 +834,7 @@ function fetchContacts_emails($sid='-1'){
 /**
  *
  * Returns two arrays one for current students in the school and one for others (alumni, applied, wahtever )
- * the dependents in each will ordered by DOB from youngest to eldest.
+ * the dependents in each will be ordered by DOB from youngest to eldest.
  *
  * @params integer $gid
  * @return array
