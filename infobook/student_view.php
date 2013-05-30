@@ -16,7 +16,17 @@ $Siblings=array();
 $field=fetchStudent_singlefield($sid,'Course');
 $Student=array_merge($Student,$field);
 
-twoplus_buttonmenu($sidskey,sizeof($sids));
+$extrabuttons=array();
+if($_SESSION['role']=='office' or $_SESSION['role']=='admin'){
+	$extrabuttons['print']=array('name'=>'current',
+										'pathtoscript'=>$CFG->sitepath.'/'.$CFG->applicationdirectory.'/infobook/',
+										'value'=>'student_profile_print.php',
+										'xmlcontainerid'=>'profile',
+										'onclick'=>'checksidsAction(this)'
+										);
+	}
+
+twoplus_buttonmenu($sidskey,sizeof($sids),$extrabuttons);
 ?>
   <div id="heading">
 	<label><?php print_string('student'); ?></label>
@@ -515,3 +525,10 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 </form>
 </div>
 
+	<div id="xml-profile" style="display:none;">
+	  <params>
+		<sids><?php print $sid;?></sids>
+		<transform>student_profile_print</transform>
+		<paper>portrait</paper>
+	  </params>
+	</div>
