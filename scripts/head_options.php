@@ -34,6 +34,7 @@
 <link rel="stylesheet" type="text/css" href="css/<?php print $book; ?>.css" />
 <script language="JavaScript" type="text/javascript">
 var pathtobook = "<?php print $CFG->sitepath.'/'.$CFG->applicationdirectory.'/'.$book.'/';?>";
+var pathtoapplication = "<?php print $CFG->sitepath.'/'.$CFG->applicationdirectory.'/';?>";
 var book = "<?php print $book;?>";
 </script>
 <script language="JavaScript" type="text/javascript" src="js/book.js?version=1043"></script> 

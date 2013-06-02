@@ -39,8 +39,11 @@ function clickToAttachFile(sid,eid,bid,pid,openId){
 	}
 
 //opens the merit window
-function clickToAddMerit(bid,pid,openId){
-	var sidId=currentsidrow;
+function clickToAddMerit(thisObj,bid,pid,openId){
+	//get the sidId from the containing row id
+	var objId=thisObj.parentNode.parentNode.parentNode.parentNode.id;
+	var sidId=objId.substring(4,objId.length);
+
 	var helperurl="infobook/httpscripts/merit_adder.php";
 	var getvars="sid="+sidId+"&bid="+bid+"&pid="+pid+"&openid="+openId+'-'+sidId;
 	openHelperWindow(helperurl,getvars);
@@ -328,10 +331,12 @@ function clickToAction(buttonObject){
  * Pop-up report window for one student in a sidtable.
  * Currently fixed to http scripts in the MarkBook
  */
-function clickToPresentSid(script,xsltransform){
+function clickToPresentSid(thisObj,script,xsltransform){
 
-	//if(sidId==-1){sidId=currentsidrow;}
-	var sidId=currentsidrow;
+	//get the sidId from the containing row id
+	var objId=thisObj.parentNode.parentNode.parentNode.parentNode.id;
+	var sidId=objId.substring(4,objId.length);
+
 	var helperurl="markbook/httpscripts/" + script;
 	var getvars="&sid="+sidId;
 	var url=helperurl + "?uniqueid=" + sidId + getvars;
@@ -1275,8 +1280,6 @@ function serializeXML(xmlDocument){
  * Functions previous in separate file register.js
  */
 
-/* used to identify the sid of the current row under the mouse in a sidtable */
-var currentsidrow=-1;
 
 function sidtableInit(){
 	// sets up the sidtable and should be called by loadRequired
@@ -1290,8 +1293,6 @@ function sidtableInit(){
 			if(thObj.className=="selected"){var colId=thObj.id;}
 			thObj.onclick=function(){selectColumn(this,1);};
 			thObj.onfocus=function(){selectColumn(this,1);};
-			//thObj.addEventListener("click",selectColumn(this,1),false);
-			//thObj.addEventListener("focus",selectColumn(this,1),false);
 			}
 		}
 
@@ -1302,12 +1303,19 @@ function sidtableInit(){
 		if(thObj){selectColumn(thObj,1);}
 		}
 
+
 	// add event handlers to the td elements in the edit column
+	// onmouseout has to be careful to not trigger for child elements
 	var tds=document.getElementsByTagName("td");
 	for(var i=0;i<tds.length;i++){
 		var tdObj=tds[i];
 		if(tdObj.className=="student"){
 			tdObj.onmouseover=function(){decorateStudent(this)};
+			tdObj.onmouseout=function(e){
+				var obj=e.relatedTarget;
+				while(obj!=null){if(obj==this){return;}obj=obj.parentNode;}
+				undecorateStudent(this);
+				};
 			}
 		else if(tdObj.className=="edit" | tdObj.className=="edit extra"){
 			var selObj=tdObj.getElementsByTagName("select")[0];
@@ -1317,14 +1325,24 @@ function sidtableInit(){
 		}
 	}
 
-function decorateStudent(tdObj){
+function getrowsidId(tdObj){
 	var rowId=tdObj.parentNode.id;
 	var sidId=rowId.substring(4,rowId.length);//strip off "sid-" part
-	if(sidId!=currentsidrow){
-		setTimeout("addExtraFields("+sidId+",null,'merit','')",100);
-		setTimeout("removeExtraFields("+currentsidrow+",'merit','')",100);
-		currentsidrow=sidId;
+	return sidId;
+	}
+
+
+function decorateStudent(tdObj){
+	var sidId=getrowsidId(tdObj);
+	if(document.getElementById("add-merit-"+sidId)==null){
+		addExtraFields(sidId,null,'merit','');
 		}
+	}
+
+
+function undecorateStudent(tdObj){
+	var sidId=getrowsidId(tdObj);
+	removeExtraFields(sidId,'merit','');
 	}
 
 /**
@@ -1469,9 +1487,12 @@ function addExtraFields(sidId,cellId,extraId,containerId){
 	if(containerId==''){containerId=extraId;}
 	var editContainer=document.getElementById(containerId+"-"+sidId);
 	var extraDiv=document.getElementById("add-"+extraId).cloneNode(true);
+
 	extraDiv.removeAttribute("class");
 	extraDiv.id="add-"+extraId+"-"+sidId;
+
 	var newElements=extraDiv.childNodes;
+
 	if(cellId!=null){var cellObj=document.getElementById(cellId);}
 	for(var i=0;i<newElements.length;i++){
 		var genName=newElements[i].name;
@@ -1482,14 +1503,43 @@ function addExtraFields(sidId,cellId,extraId,containerId){
 			if(cellId!=null){newElements[i].value=cellObj.attributes.getNamedItem(genName).value;}
 			}
 		}
-	editContainer.insertBefore(extraDiv,null);
+
+	if(editContainer){
+		editContainer.insertBefore(extraDiv,null);
+		}
+
+	/* Optionally (if a mini div is present) creates a link to upload a mini profile photo */
+	if(document.getElementById('mini-'+sidId)){
+		if(!document.getElementById('mini-'+sidId).hasChildNodes()){
+			var a = document.createElement("a");
+			a.href = pathtoapplication+'infobook.php?current=student_view.php&cancel=student_view.php&sid='+sidId;
+			a.setAttribute("id", "miniaturechange"+sidId);
+			//creates a miniature and displays it
+			var img = document.createElement("img");
+			img.src = pathtoapplication+'scripts/photo_display.php?sid='+sidId+'&size=mini';
+			img.setAttribute("id", "miniature");
+			//when the mouse is over displays the main div and appends the link and inside it the image
+			document.getElementById('mini-'+sidId).appendChild(a);
+			document.getElementById('miniaturechange'+sidId).appendChild(img);
+			}
+		}
+
 	}
 
 function removeExtraFields(sidId,extraId,containerId){
 	if(containerId==''){containerId=extraId;}
 	var editContainer=document.getElementById(containerId+"-"+sidId);
 	var extraDiv=document.getElementById("add-"+extraId+"-"+sidId);
-	if(extraDiv){document.getElementById(containerId+"-"+sidId).removeChild(extraDiv);}
+	var a=document.getElementById("miniaturechange"+sidId);
+	var img=document.getElementById("miniature");
+	if(extraDiv){
+		document.getElementById(containerId+"-"+sidId).removeChild(extraDiv);
+		}
+	if(document.getElementById('mini-'+sidId)){
+		if(document.getElementById('mini-'+sidId).hasChildNodes()){
+			document.getElementById('mini-'+sidId).removeChild(a);
+			}
+		}
 	}
 
 

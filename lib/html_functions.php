@@ -398,7 +398,7 @@ function emaillink_display($email){
  *
  *
  */
-function photo_img($epfu,$enrolno='',$access=''){
+function old_photo_img($epfu,$enrolno='',$access=''){
 	global $CFG;
 	$epfu=trim(strtolower($epfu));
 	if(isset($_SERVER['HTTPS'])){
@@ -413,7 +413,27 @@ function photo_img($epfu,$enrolno='',$access=''){
 	   }
 ?>
 	 <img src="<?php print $http.'://'.$CFG->siteaddress.$CFG->sitepath.'/'.$CFG->applicationdirectory. 
-				'/scripts/photo_display.php?epfu='.$epfu.'&enrolno='.$enrolno;?>" />
+				'/scripts/photo_display.php?epfu='.$epfu.'&enrolno='.$enrolno.'&size=maxi';?>" />
+<?php
+   if($access=='w'){
+	   print '</a>';
+	   }
+   print '</div>';
+
+	}
+
+
+/**
+ *
+ *
+ */
+function photo_img($epfu,$enrolno='',$access=''){
+   print '<div class="icon">';
+   if($access=='w'){
+	   print '<a href="infobook.php?current=student_photo.php&cancel=student_view.php">';
+	   }
+?>
+	 <img src="<?php print 'scripts/photo_display.php?epfu='.$epfu.'&enrolno='.$enrolno.'&size=maxi';?>" />
 <?php
    if($access=='w'){
 	   print '</a>';

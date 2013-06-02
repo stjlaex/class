@@ -250,11 +250,13 @@ two_buttonmenu($extrabuttons,$book);
 ?>
 		  </td>
 		  <td class="student">
+
 			<a href="infobook.php?current=student_view.php&sid=<?php print $sid;?>">
 <?php 
 		print $Student[$displayname]['value'];
 ?>
 			</a>
+			<div id="mini-<?php echo $sid; ?>" style="float:right;"></div>
 			<div id="merit-<?php print $sid;?>"></div>
 		  </td>
 <?php
@@ -387,13 +389,13 @@ two_buttonmenu($extrabuttons,$book);
   </div>
 
 
+
 <script type="text/javascript">
 	var TSort_Data = new Array ('sidtable','','',''<?php print $sort_types;?>);
 		tsRegister();
-</script> 
-
+</script>
 
 
 <?php
 include('scripts/studentlist_extra.php');
-?> 
+?>

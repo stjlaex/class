@@ -725,6 +725,12 @@ table.sidtable {
     height:12px;
 	border:0;
 	}
+.sidtable #miniature { 
+    padding:0;
+    width:60px;
+    height:62px;
+	border:0;
+	}
 .sidtable td[title] {
 	background-repeat: no-repeat;
 	}
