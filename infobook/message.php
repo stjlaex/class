@@ -17,6 +17,9 @@ elseif(isset($_POST['messageto'])  or isset($_POST['messageop'])){
 elseif(isset($_POST['sids'])){
 	$sids=(array)$_POST['sids'];
 	}
+elseif(isset($_GET['sids'])){
+	$sids=(array)$_GET['sids'];
+	}
 else{
 	$sids=array();
 	}

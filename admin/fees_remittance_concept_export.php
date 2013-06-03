@@ -8,7 +8,6 @@ $choice='fees_remittance_list.php';
 
 $action_post_vars=array('feeyear','remid','paymenttype','conid','payment');
 
-if(isset($_POST['sids'])){$charids=(array)$_POST['sids'];}else{$charids=array();}
 
 if((isset($_POST['conid']) and $_POST['conid']!='')){$conid=$_POST['conid'];}else{$conid='';}
 if((isset($_GET['conid']) and $_GET['conid']!='')){$conid=$_GET['conid'];}

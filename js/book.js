@@ -662,13 +662,19 @@ function checksidsAction(buttonObject){
 			}
 		}
 
-	var url=pathtoscript + "httpscripts/" + script + "?" +params;
-	xmlHttp.open("GET", url, true);
-	xmlHttp.onreadystatechange=function () {
+	if(script=='message.php'){
+		progressIndicator("stop");
+		parent.viewBook("infobook");
+		javascript:parent.frames["viewinfobook"].document.location.href="infobook.php?current=message.php&cancel="+params;
+		}
+	else{
+		var url=pathtoscript + "httpscripts/" + script + "?" +params;
+		xmlHttp.open("GET", url, true);
+		xmlHttp.onreadystatechange=function () {
 			if(xmlHttp.readyState==4){
 				if(xmlHttp.status==200){
 					var xmlReport=xmlHttp.responseXML;
-					if(xsltransform==""){
+					if(xsltransform=="" && xmlReport.getElementsByTagName("transform")!=null){
 						/* only if its been set in some non-standard way (should be one of the params!) */
 						xsltransform=xmlReport.getElementsByTagName("transform")[0].firstChild.nodeValue;
 						paper=xmlReport.getElementsByTagName("paper")[0].firstChild.nodeValue;
@@ -693,6 +699,8 @@ function checksidsAction(buttonObject){
 				progressIndicator("start");
 				}
 			}
+		}
+
 	xmlHttp.send(null);
 	}
 
@@ -1508,7 +1516,7 @@ function addExtraFields(sidId,cellId,extraId,containerId){
 		editContainer.insertBefore(extraDiv,null);
 		}
 
-	/* Optionally (if a mini div is present) creates a link to upload a mini profile photo */
+	/* Optionally (if a mini div is present) inserts a mini profile photo */
 	if(document.getElementById('mini-'+sidId)){
 		if(!document.getElementById('mini-'+sidId).hasChildNodes()){
 			var a = document.createElement("a");
