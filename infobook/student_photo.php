@@ -25,6 +25,5 @@ two_buttonmenu();
 	</form>
 <?php
 	require_once('lib/eportfolio_functions.php');
-	html_document_drop($Student['EPFUsername']['value'],'icon','%');
+	html_document_drop($Student['EPFUsername']['value'],'icon','%',$sid);
 ?>
-</div>

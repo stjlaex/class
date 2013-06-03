@@ -730,7 +730,7 @@ function html_table_container_close($containerno,$xmltagname='',$entry=''){
 /**
  *
  */
-function html_document_drop($epfun,$context,$linked_id='-1'){
+function html_document_drop($epfun,$context,$linked_id='-1',$lid='-1'){
 
 	global $CFG;
 
@@ -754,21 +754,88 @@ function html_document_drop($epfun,$context,$linked_id='-1'){
 		</fieldset>
 
 		<fieldset class="right documentdrop">
-		  <form id="formdocumentdrop" name="formdocumentdrop" method="post" action="<?php print $path;?>infobook/httpscripts/file_upload.php" enctype="multipart/form-data">
-			  <label for="fileselect"><?php print_string('documentstoupload');?></label><br />
-			  <input type="file" id="fileselect" name="fileselect[]" multiple="multiple" />
-			  <div id="filedrag"><?php print_string('drophere');?></div>
-			<div id="progress"></div>
-			<div id="messages"></div>
+			<form id="formdocumentdrop" name="formdocumentdrop" method="post" action="<?php print $path;?>infobook/httpscripts/file_upload.php" enctype="multipart/form-data" <?php if($context=='icon') print "onsubmit='return checkForm()'"; ?>>
+				<input type="hidden" id="MAX_FILE_SIZE" name="MAX_FILE_SIZE" value="<?php print return_bytes(ini_get('upload_max_filesize'));?>" />
+				<input type="hidden" id="FILEOWNER" name="FILEOWNER" value="<?php print $epfun;?>" />
+				<input type="hidden" id="FILECONTEXT" name="FILECONTEXT" value="<?php print $context;?>" />
+				<input type="hidden" id="FILELINKEDID" name="FILELINKEDID" value="<?php print $linked_id;?>" />
+				<input type="hidden" id="FILESID" name="FILESID" value="<?php print $lid;?>" />
+				<input type="hidden" id="DRAG" name="DRAG" value="false" />
 
-			<input type="hidden" id="MAX_FILE_SIZE" name="MAX_FILE_SIZE" value="<?php print return_bytes(ini_get('upload_max_filesize'));?>" />
-			<input type="hidden" id="FILEOWNER" name="FILEOWNER" value="<?php print $epfun;?>" />
-			<input type="hidden" id="FILECONTEXT" name="FILECONTEXT" value="<?php print $context;?>" />
-			<input type="hidden" id="FILELINKEDID" name="FILELINKEDID" value="<?php print $linked_id;?>" />
-		  </form>
+				<?php if($context=='icon') { ?>
+					<!--crops parameters-->
+					<input type="hidden" id="x1" name="x1" />
+					<input type="hidden" id="y1" name="y1" />
+					<input type="hidden" id="x2" name="x2" />
+					<input type="hidden" id="y2" name="y2" />
+					<input type="hidden" id="w" name="w" />
+					<input type="hidden" id="h" name="h" />
+
+					<h4>Select image file</h4>
+
+					<div>
+						<label for="fileselect">Files to upload:</label>
+						<div style="position:relative;">
+							<input type="file" name="image_file" id="image_file" onchange="photoSelectHandler();" style="position: relative; text-align: right; -moz-opacity:0; filter:alpha(opacity: 0); opacity:0; z-index: 2;"/>
+							<div style="position: absolute; top: 0px; left: 0px; z-index: 1;">
+								<input type="text" name="fake_field" id="fake_field" value="Select a photo" style="border-top-color:black;border-left-color:black;">
+								<input type="button" name="fake_button" id="fake_button" value="Browse" style="background-color:#444466;color:white;font-weight: bold;border-radius: 7px 7px 7px 7px;border: 2px dashed #555555;font-size: small;">
+							</div>
+						</div>
+						<script>
+							//TODO find a place for this 
+							//Changes the value of the fake field with the filename
+							$('#image_file').change(function() {
+								$('#fake_field').val($(this).val());
+							});
+						</script>
+						<div><input type="hidden" name="fileselect" id="fileselect" onchange="photoSelectHandler();" /></div>
+						<div id="filedrag">or drop files here</div>
+					</div>
+
+					<div class="error"></div>
+					<div class="step2">
+						<div id="messages" style="display:none">
+							<p>Status Messages</p>
+						</div>
+						<div id="progress"></div>
+							<div class="info" style="display:none">
+								<label>File size</label> <input type="text" id="filesize" name="filesize" />
+								<label>Type</label> <input type="text" id="filetype" name="filetype" />
+								<label>Image dimension</label> <input type="text" id="filedim" name="filedim" />
+							</div>
+							<div style="float:right;z-index:1001;">
+								<button type="submit" id="submitbutton" style="background-color:#444466;color:white;font-weight: bold;border-radius: 7px 7px 7px 7px;border: 2px dashed #555555;font-size: small;">Upload</button>
+								<button type="button" id="dragbutton" style="display:none;background-color:#444466;color:white;font-weight: bold;border-radius: 7px 7px 7px 7px;border: 2px dashed #555555;font-size: small;" onclick="javascript:location.href='infobook.php?current=student_view.php&sid=<?php echo $lid; ?>'">Upload</button>
+						</div>
+					</div>
+
+				<br>
+				<?php } ?>
+
+				<?php if($context!='icon') { ?>
+					<label for="fileselect"><?php print_string('documentstoupload');?></label><br />
+					<input type="file" id="fileselect" name="fileselect[]" multiple="multiple" />
+					<div id="filedrag"><?php print_string('drophere');?></div>
+					<div id="progress"></div>
+					<div id="messages"></div>
+				<?php } ?>
+
+			</form>
 		</fieldset>
 	  </fieldset>
-<?php
+
+<?php 
+	if($context=='icon'){ 
+?>
+		<div style="margin: 0 0 0 2%;">After selecting the image size please press the "Upload" button above.</div>
+		<div style="border-style:solid;border-width:5px;max-width:93.5%;margin:0 0 4% 2%;background-color: #FFFFEE;">
+			<center><img id="preview" /></center>
+		</div>
+<?php 
+		} 
+
+
 	return;
 	}
 

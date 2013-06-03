@@ -9,7 +9,7 @@
 		header('Content-Type: text/xml'); 
 		xmlechoer("$rootName",$returnXML);
 		}
-	else{
+	elseif(isset($returnText)){
 		header('Content-Type: text/plain'); 
 		echo $returnText;
 		}

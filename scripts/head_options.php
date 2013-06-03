@@ -29,7 +29,7 @@
 <meta name="version" content='<?php print "$CFG->version"; ?>' />
 <meta name="licence" content="GNU Affero General Public License version 3" />
 <style type="text/css">@import url(lib/jscalendar/skins/aqua/theme.css);</style>
-<link rel="stylesheet" type="text/css" href="css/bookstyle.css?version=1043" />
+<link rel="stylesheet" type="text/css" href="css/bookstyle.css?version=1048" />
 <link rel="stylesheet" type="text/css" href="css/selery.css" />
 <link rel="stylesheet" type="text/css" href="css/<?php print $book; ?>.css" />
 <script language="JavaScript" type="text/javascript">
@@ -37,7 +37,7 @@ var pathtobook = "<?php print $CFG->sitepath.'/'.$CFG->applicationdirectory.'/'.
 var pathtoapplication = "<?php print $CFG->sitepath.'/'.$CFG->applicationdirectory.'/';?>";
 var book = "<?php print $book;?>";
 </script>
-<script language="JavaScript" type="text/javascript" src="js/book.js?version=1043"></script> 
+<script language="JavaScript" type="text/javascript" src="js/book.js?version=1048"></script> 
 <script language="JavaScript" type="text/javascript" src="js/qtip.js"></script>
 <script language="JavaScript" type="text/javascript" src="lib/jscalendar/calendar.js"></script>
 <script language="JavaScript" type="text/javascript" src="lib/jscalendar/lang/calendar-<?php  print_string('shortlocale');?>.js"></script>
@@ -45,10 +45,19 @@ var book = "<?php print $book;?>";
 <?php 
 if($book=='infobook' or $book=='reportbook'  or $book=='admin'  or $book=='markbook'){
 ?>
-<script language="JavaScript" type="text/javascript" src="js/gs_sortable.js?version=1043"></script>
-<script language="JavaScript" type="text/javascript" src="js/documentdrop.js?version=1043"></script>
+<script language="JavaScript" type="text/javascript" src="js/gs_sortable.js?version=1048"></script>
+<script language="JavaScript" type="text/javascript" src="js/documentdrop.js?version=1048"></script>
+<?php 
+	}
+if($book=='infobook'){
+?>
+<link rel="stylesheet" type="text/css" href="js/jcrop/jquery.Jcrop.min.css" />
+<script language="Javascript" type="text/javascript" src="js/jcrop/jquery.min.js"></script>
+<script language="Javascript" type="text/javascript" src="js/jcrop/jquery.Jcrop.min.js"></script>
+<script language="Javascript" type="text/javascript" src="js/crop.js"></script>
 <?php 
 	}
 ?>
+
 </head>
 <body>

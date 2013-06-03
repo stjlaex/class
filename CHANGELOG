@@ -1,3 +1,16 @@
+Version ClaSS-1.0.48 release (2013/06/02)
+-------------------------------------------
+
+Reworked the sidtable js functions for student decorate.
+
+The get_photo functions now take a size parameter.
+
+The sidtable can now include a mini profile photo as part of a student
+row.
+
+
+
+
 Version ClaSS-1.0.47 release (2013/05/28)
 -------------------------------------------
 
