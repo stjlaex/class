@@ -38,6 +38,14 @@ elseif($conid==-1 and $payment==''){
 										'title'=>'export',
 										'value'=>'fees_remittance_concept_export.php');
 	}
+if($payment==''){
+	$extrabuttons['message']=array('name'=>'current',
+								   'pathtoscript'=>$CFG->sitepath.'/'.$CFG->applicationdirectory.'/admin/',
+								   'value'=>'message.php',
+								   //'xmlcontainerid'=>'list',
+								   'onclick'=>'checksidsAction(this)'
+								   );
+	}
 
 
 two_buttonmenu($extrabuttons,$book);
@@ -193,9 +201,16 @@ if($filter_paymenttype==''){
 				if($Student['paymenttype']==''){$payclass='class="hilite"';$payspan=get_string('nopayeeset',$book);}
 				elseif($charge['paymenttype']=='1' and $Student['accountsno']==0){$payclass='class="midlite"';$payspan=get_string('novalidbankaccount',$book);}
 
+				if($conid=='' and $payment!=''){
+					$rowid=$charge['id'];
+					}
+				else{
+					$rowid=$sid;
+					}
+
 				/* first entry for this student for this concept (group by concept and then by student in on other words) */
-				print '<tr id="sid-'.$charge['id'].'" '.$rowclass.'>';
-				print '<td><input type="checkbox" name="sids[]" value="'.$charge['id'].'" /></td>';
+				print '<tr id="sid-'.$rowid.'" '.$rowclass.'>';
+				print '<td><input type="checkbox" name="sids[]" value="'.$rowid.'" /></td>';
 				print '<td>'.$rown++.'</td>';
 				print '<td>'.$Student['EnrolNumber']['value'].'</td>';
 				print '<td class="student"><a target="viewinfobook" onclick="parent.viewBook(\'infobook\');" href="infobook.php?current=student_fees.php&cancel=student_view.php&sids[]='.$sid.'&sid='.$sid.'">'.$Student['DisplayFullSurname']['value'].'</a></td>';
