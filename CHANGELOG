@@ -12,6 +12,11 @@ An option to call the infobook's message script added to the checksidsAction js.
 
 The remittance view page now has a message button.
 
+Uploading profile icons now comes with a js resize function.
+
+Reduced the allowed elements for HTMLPurifier and added importantly the
+label tag.
+
 
 Version ClaSS-1.0.47 release (2013/05/28)
 -------------------------------------------

@@ -123,14 +123,29 @@ function documentdropInit(){
 	   }
 	}
 
-	function UploadFiles(e) {
-		// process all File objects
-		while (filesThatWereDropped.length > 0) {
-			var f = filesThatWereDropped.pop();
-			UploadFile(f);
-		}
 
-	}
+ 	function UploadIconFiles(e) {
+		var lid = $id('FILESID').value;
+		var ownertype = $id('OWNERTYPE').value;
+		var delay = 10; //delay in milliseconds
+
+		/* process all File objects*/
+ 		while(filesThatWereDropped.length > 0){
+ 			var f = filesThatWereDropped.pop();
+			/* uploads the file */
+ 			UploadFile(f);
+			}
+		
+		/* Redirects to staff or student profile page after 10 ms */
+		if(ownertype=='staff'){
+			setTimeout(function(){ window.location = "admin.php?current=staff_details.php&seluid="+lid; }, delay);
+			}
+		else{
+			setTimeout(function(){ window.location = "infobook.php?current=student_view.php&sid="+lid; }, delay);
+			}
+	 	}
+ 
+
 
 	function UploadFile(file) {
 		var xhr = new XMLHttpRequest();
@@ -167,17 +182,17 @@ function documentdropInit(){
 					var pc = parseInt(100 - (e.loaded / e.total * 100));
 					progress.style.backgroundPosition = pc + '% 0';
 					}, false);
-			// file received/failed
-			xhr.onreadystatechange=function(e){
-				if(xhr.readyState==4){
-					if(xhr.status==200){
-						progress.className='success';
-						}
-					else{
-						progress.className='failure';
+				// file received/failed
+				xhr.onreadystatechange=function(e){
+					if(xhr.readyState==4){
+						if(xhr.status==200){
+							progress.className='success';
+							}
+						else{
+							progress.className='failure';
+							}
 						}
 					}
-				}
 				};
 
 			// start upload
@@ -267,7 +282,7 @@ function documentdropInit(){
 	filedrag.style.display = 'block';
 	
 	// file upload
-	if($id('FILECONTEXT').value=='icon'){submitbutton.addEventListener("click", UploadFiles, false);}
+	if($id('FILECONTEXT').value=='icon'){submitbutton.addEventListener("click", UploadIconFiles, false);}
 
 	// file delete
 	if(deletebutton){

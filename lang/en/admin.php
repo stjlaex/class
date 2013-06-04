@@ -264,4 +264,5 @@ $string['coursecurriculum']='Course curriculum for this level of the subject.';
 $string['feesinvoicewarning']='<p>All charges that have not yet been invoiced will be marked as \"Not paid\", meaning they are awaiting collection, and an invoice number issued. This does not affect charges made by bank payment.</p>';
 $string['feesexportwarning']='<p>This export only applies to charges to be made by bank payment and which have not yet been paid. <br />All charges included in the file will be marked as paid after generating the file. <p/><p>WARNING: you can export these payments only once.</p>';
 $string['bankexport']='Bank Export';
+$string['chargeexport']='Charge Export';
 ?>
