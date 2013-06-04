@@ -842,7 +842,7 @@ function html_document_drop($epfun,$context,$linked_id='-1',$lid='-1',$ownertype
 							</div>
 							<div style="float:right;z-index:1001;">
 								<button type="submit" id="submitbutton" style="background-color:#444466;color:white;font-weight: bold;border-radius: 7px 7px 7px 7px;border: 2px dashed #555555;font-size: small;">Upload</button>
-								<button type="button" id="dragbutton" style="display:none;background-color:#444466;color:white;font-weight: bold;border-radius: 7px 7px 7px 7px;border: 2px dashed #555555;font-size: small;" onclick="javascript:location.href='<?php echo $d_book; ?>.php?current=<?php echo $d_current; ?>.php&<?php echo $d_id; ?>=<?php echo $lid; ?>'">Upload</button>
+								<button type="button" id="dragbutton" style="display:none;background-color:#444466;color:white;font-weight: bold;border-radius: 7px 7px 7px 7px;border: 2px dashed #555555;font-size: small; ">Upload</button>
 						</div>
 					</div>
 

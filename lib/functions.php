@@ -282,14 +282,24 @@ function clean_html($value){
 
 		require_once('HTMLPurifier.auto.php');
 
+		$HTML_Allowed_Elms=array('caption','h1','h2','h3','h4','h5','h6','li','ol','p','ul','label','div');
+
 		$config = HTMLPurifier_Config::createDefault();
-		//$config->set('Core.DefinitionCache', null);//disable the cache
+		$config->set('HTML.DefinitionID','test');
+		$config->set('HTML.DefinitionRev', 1);
+		if($def=$config->maybeGetRawHTMLDefinition()){
+			$def->addElement('label', 'Block', 'Inline', 'Common', array());
+			}
+		//$config->set('Core.DefinitionCache', null);//disable the cache for testing only
+		$config->set('Core','Encoding','UTF-8');
 		$config->set('Cache.SerializerPath', $CFG->eportfolio_dataroot.'/cache/phpThumb');//set the cache path
 		$config->set('HTML.TidyLevel', 'medium');
+		$config->set('HTML.AllowedAttributes', array());
+		$config->set('HTML.AllowedElements',$HTML_Allowed_Elms);
+		//$config->set('HTML.ForbiddenElements', array('br','&amp;'));
 		$config->set('CSS.AllowedProperties', array());
 		$config->set('Attr.AllowedClasses', array());
-		$config->set('HTML.ForbiddenElements', array('br','&amp;'));
-		$config->set('AutoFormat.RemoveSpansWithoutAttributes', true);
+		$config->set('AutoFormat.RemoveSpansWithoutAttributes',true);
 		$config->set('AutoFormat.RemoveEmpty.RemoveNbsp', true);
 		$config->set('AutoFormat.RemoveEmpty', true);
 
