@@ -33,6 +33,7 @@ if($_POST['DRAG']=='false') {
 	$context=$_POST['FILECONTEXT'];
 	$linkedid=$_POST['FILELINKEDID'];
 	$lid=$_POST['FILESID'];
+	$ownertype=$_POST['OWNERTYPE'];
 	$filename=$_POST['FILENAME'];
 	$x1=$_POST['x1'];
 	$y1=$_POST['y1'];
@@ -49,6 +50,7 @@ if($_SERVER['HTTP_DRAG']=='true') {
 	$linkedid=$_SERVER['HTTP_FILELINKEDID'];
 	$filename=$_SERVER['HTTP_FILENAME'];
 	$lid=$_SERVER['HTTP_FILESID'];
+	$ownertype=$_SERVER['HTTP_OWNERTYPE'];
 	$x1=$_SERVER['HTTP_X1'];
 	$y1=$_SERVER['HTTP_Y1'];
 	$x2=$_SERVER['HTTP_X2'];
@@ -62,7 +64,7 @@ $iHeight=292.5;
 $iWidth=260;
 $iJpgQuality=100;
 $varName='';
-$fSize=250*1024;
+$fSize=1536*1024;
 
 if($_FILES or $_SERVER['HTTP_DRAG']=='true') {
 	if(!$_FILES['image_file']['error'] && $_FILES['image_file']['size'] < $fSize or $_SERVER['HTTP_DRAG']=='true') {
@@ -72,47 +74,45 @@ if($_FILES or $_SERVER['HTTP_DRAG']=='true') {
 				if($context=='icon') {
 					$filepath=$CFG->eportfolio_dataroot.'/cache/images/';
 					$uniquename=$owner.'.jpeg';
-					if(file_exists($filepath.$uniquename)) {
-						if(unlink($filepath.$uniquename)) {
-						}
-
-						else {
+					if(file_exists($filepath.$uniquename)){
+						if(unlink($filepath.$uniquename)){
+							}
+						else{
 							trigger_error('FAILED TO UNLINK: '.$filepath.$uniquename,E_USER_WARNING);
+							}
 						}
 					}
-				}
-
 				else{
 					$filepath=$CFG->eportfolio_dataroot. '/cache/files/';
 					$uniquename=uniqid();
-				}
+					}
 
 				// new unique filename
 				$sTempFileName=$CFG->eportfolio_dataroot.'/cache/images/'.$owner;  //temp file (just for resizing)
 				$tmp=$filepath.$uniquename;
 
 				// move temporal uploaded file into cache folder
-				if($_SERVER['HTTP_DRAG']=='true') {
+				if($_SERVER['HTTP_DRAG']=='true'){
 					$varName=$tmp;
 					file_put_contents($tmp,file_get_contents('php://input'));
-				}
+					}
 
 				elseif($_POST['DRAG']=='false') {
 					$varName=$sTempFileName;
 					move_uploaded_file($_FILES['image_file']['tmp_name'], $sTempFileName);
-				}
+					}
 
 				if($context=='icon') {
 					// change file permission to 777 to modify it
 					@chmod($varName, 0777);
 
-					if(file_exists($varName) && filesize($varName) > 0) {
+					if(file_exists($varName) && filesize($varName) > 0){
 						
 						$aSize=getimagesize($varName); // try to obtain image info
-						if(!$aSize) {
+						if(!$aSize){
 							@unlink($sTempFileName);
 							return;
-						}
+							}
 
 						// check for image type
 						switch($aSize[2]) {
@@ -129,7 +129,7 @@ if($_FILES or $_SERVER['HTTP_DRAG']=='true') {
 							default:
 								@unlink($sTempFileName);
 							return;
-						}
+							}
 
 						// create a new true color image (final size)
 						$vDstImg=@imagecreatetruecolor($iWidth, $iHeight);
@@ -143,31 +143,49 @@ if($_FILES or $_SERVER['HTTP_DRAG']=='true') {
 						// output image to file with the final features and delete the temporal one
 						imagejpeg($vDstImg, $sResultFileName, $iJpgQuality);
 						@unlink($sTempFileName);
+						}
 					}
-				}
 
 				//Info for publish data
 				$publishdata['foldertype']=$context;
 				$publishdata['title']='';
 				$publishdata['batchfiles'][]=array('epfusername'=>$owner,
-											'filename'=>$uniquename,
-											'originalname'=>$filename,
-											'linkedid'=>$linkedidb,
-											'description'=>'',
-											'tmpname'=>$tmp);
+												   'filename'=>$uniquename,
+												   'originalname'=>$filename,
+												   'linkedid'=>$linkedid,
+												   'description'=>'',
+												   'tmpname'=>$tmp
+												   );
 
 				//Upload the file to eportfolio directory
 				upload_files($publishdata,false);
-//			}
+//				}
+			}
 		}
 	}
-}
 
 require_once('../../scripts/http_end_options.php');
 
-//If context is icon redirect to student view
-global $CFG;
-$site=$CFG->siteaddress.$CFG->sitepath."/".$CFG->applicationdirectory;
-if($context=='icon') header("Location: http://".$site."/infobook.php?current=student_view.php&sid=$lid");
+/*If context is icon redirect to student/staff view*/
+if($context=='icon'){
+	global $CFG;
+	$site=$CFG->siteaddress.$CFG->sitepath."/".$CFG->applicationdirectory;
+
+	//Check if the connection is HTTPS or HTTP
+	if(isset($_SERVER['HTTPS'])){
+  		$httpcheck='https';
+		}
+	else{
+		$httpcheck='http';
+		}
+
+	/* Redirects to profile */
+	if($ownertype=='staff'){ 
+		header("Location: ".$httpcheck."://".$site."/admin.php?current=staff_details.php&seluid=$lid");
+		}
+	else{
+		header("Location: ".$httpcheck."://".$site."/infobook.php?current=student_view.php&sid=$lid");
+		}
+	}
 exit();
 ?>

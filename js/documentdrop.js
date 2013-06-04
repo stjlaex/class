@@ -51,7 +51,7 @@ function documentdropInit(){
 
 	/* output file information */
 	function ParseFile(file) {
-	   if($id('FILECONTEXT').value!='icon') {
+	   if($id('FILECONTEXT').value!='icon'){
 		Output(
 			'<p>File: <strong>' + file.name +
 			'</strong> type: <strong>' + file.type +
@@ -59,7 +59,7 @@ function documentdropInit(){
 			'</strong> bytes</p>'
 			);
 	   }
-	   if($id('FILECONTEXT').value=='icon') {
+	   if($id('FILECONTEXT').value=='icon'){
 		// update info by cropping (onChange and onSelect events handler)
 		function updateInfo(e) {
 			$('#x1').val(e.x);
@@ -137,8 +137,9 @@ function documentdropInit(){
 		var owner = $id('FILEOWNER').value;
 		var context = $id('FILECONTEXT').value;
 		var linkedid = $id('FILELINKEDID').value;
-		if(context=='icon') {
+		if(context=='icon'){
 			var lid = $id('FILESID').value;
+			var ownertype = $id('OWNERTYPE').value;
 			var drag_var = $id('DRAG').value;
 			var x1 = $id('x1').value;
 			var y1 = $id('y1').value;
@@ -146,13 +147,16 @@ function documentdropInit(){
 			var y2 = $id('y2').value;
 			var w = $id('w').value;
 			var h = $id('h').value;
-		}
-		else var drag_var = 'true';
+			}
+		else{
+			var drag_var = 'true';
+			}
+
 		var scriptpath=$id('formdocumentdrop').action;
 
 		// limit upload by filesize
-		if(xhr.upload && file.size <= $id('MAX_FILE_SIZE').value) {
-			if(context!='icon') {
+		if(xhr.upload && file.size <= $id('MAX_FILE_SIZE').value){
+			if(context!='icon'){
 				// create progress bar
 				var o = $id('progress');
 				var progress = o.appendChild(document.createElement('p'));
@@ -162,8 +166,7 @@ function documentdropInit(){
 				xhr.upload.addEventListener('progress',function(e){
 					var pc = parseInt(100 - (e.loaded / e.total * 100));
 					progress.style.backgroundPosition = pc + '% 0';
-				}, false);
-			}
+					}, false);
 			// file received/failed
 			xhr.onreadystatechange=function(e){
 				if(xhr.readyState==4){
@@ -174,6 +177,7 @@ function documentdropInit(){
 						progress.className='failure';
 						}
 					}
+				}
 				};
 
 			// start upload
@@ -183,20 +187,24 @@ function documentdropInit(){
 			xhr.setRequestHeader('FILECONTEXT',context);
 			xhr.setRequestHeader('FILELINKEDID',linkedid);
 			xhr.setRequestHeader('DRAG',drag_var);
-			if(context=='icon') {
+			if(context=='icon'){
 				xhr.setRequestHeader('FILESID',lid);
+				xhr.setRequestHeader('OWNERTYPE',ownertype);
 				xhr.setRequestHeader('X1',x1);
 				xhr.setRequestHeader('Y1',y1);
 				xhr.setRequestHeader('X2',x2);
 				xhr.setRequestHeader('Y2',y2);
 				xhr.setRequestHeader('W',w);
 				xhr.setRequestHeader('H',h);
-			}
+				}
 			
 			xhr.send(file); //TODO: Refresh left div to display the new documents
 			}
 		else{	
-			if(context=='icon') javascript:location.href="infobook.php?current=student_photo.php&cancel=student_view.php";
+			if(context=='icon') {
+				if(ownertype=='staff'){javascript:location.href="admin.php?current=staff_photo.php&cancel=staff_details.php";}
+				else{javascript:location.href="infobook.php?current=student_photo.php&cancel=student_view.php";}
+				}
 			alert('File size is too big.');
 			}
 		}
@@ -259,7 +267,7 @@ function documentdropInit(){
 	filedrag.style.display = 'block';
 	
 	// file upload
-	if($id('FILECONTEXT').value=='icon') submitbutton.addEventListener("click", UploadFiles, false);    
+	if($id('FILECONTEXT').value=='icon'){submitbutton.addEventListener("click", UploadFiles, false);}
 
 	// file delete
 	if(deletebutton){

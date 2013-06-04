@@ -43,18 +43,18 @@ var book = "<?php print $book;?>";
 <script language="JavaScript" type="text/javascript" src="lib/jscalendar/lang/calendar-<?php  print_string('shortlocale');?>.js"></script>
 <script language="JavaScript" type="text/javascript" src="lib/jscalendar/calendar-setup.js"></script>
 <?php 
-if($book=='infobook' or $book=='reportbook'  or $book=='admin'  or $book=='markbook'){
-?>
-<script language="JavaScript" type="text/javascript" src="js/gs_sortable.js?version=1048"></script>
-<script language="JavaScript" type="text/javascript" src="js/documentdrop.js?version=1048"></script>
-<?php 
-	}
-if($book=='infobook'){
+if($book=='infobook' or $book=='admin'){
 ?>
 <link rel="stylesheet" type="text/css" href="js/jcrop/jquery.Jcrop.min.css" />
 <script language="Javascript" type="text/javascript" src="js/jcrop/jquery.min.js"></script>
 <script language="Javascript" type="text/javascript" src="js/jcrop/jquery.Jcrop.min.js"></script>
 <script language="Javascript" type="text/javascript" src="js/crop.js"></script>
+<?php 
+	}
+if($book=='infobook' or $book=='reportbook'  or $book=='admin'  or $book=='markbook'){
+?>
+<script language="JavaScript" type="text/javascript" src="js/gs_sortable.js?version=1048"></script>
+<script language="JavaScript" type="text/javascript" src="js/documentdrop.js?version=1048"></script>
 <?php 
 	}
 ?>

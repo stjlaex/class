@@ -27,7 +27,9 @@ three_buttonmenu();
 
 	  <fieldset class="right">
 		<legend><?php print_string('account',$book);?></legend>
-
+		<div class="center">
+				<?php photo_img($User['EPFUsername']['value'],$seluid,'w','staff'); ?>
+		</div>
 		<div class="center">
 		  <label for="ID"><?php print_string('username');?></label>
 		  <input pattern="truealphanumeric" readonly="readonly"  

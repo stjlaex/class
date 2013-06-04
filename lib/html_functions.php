@@ -427,21 +427,39 @@ function old_photo_img($epfu,$enrolno='',$access=''){
  *
  *
  */
-function photo_img($epfu,$enrolno='',$access=''){
+ function photo_img($epfu,$enrolno='',$access='',$type=''){
+   global $CFG;
+   $epfu=trim(strtolower($epfu));
    print '<div class="icon">';
-   if($access=='w'){
-	   print '<a href="infobook.php?current=student_photo.php&cancel=student_view.php">';
-	   }
+
+   //For staff
+   if($type=='staff') {
+		if($access=='w'){
+			print '<a href="admin.php?current=staff_photo.php&cancel=staff_details.php&seluid='.$enrolno.'">';
+		}
 ?>
-	 <img src="<?php print 'scripts/photo_display.php?epfu='.$epfu.'&enrolno='.$enrolno.'&size=maxi';?>" />
+				<img src="<?php print 'scripts/photo_display.php?epfu='.$epfu.'&type='.$type.'&size=maxi';?>" />
 <?php
-   if($access=='w'){
-	   print '</a>';
-	   }
+		if($access=='w'){
+			print '</a>';
+		}
+   }
+   
+   //For students
+   else {
+		if($access=='w'){
+			print '<a href="infobook.php?current=student_photo.php&cancel=student_view.php">';
+		}
+?>
+				 <img src="<?php print 'scripts/photo_display.php?epfu='.$epfu.'&enrolno='.$enrolno.'&size=maxi';?>" />
+<?php
+		if($access=='w'){
+			print '</a>';
+		}
+   }
    print '</div>';
 
 	}
-
 
 
 /**
@@ -729,8 +747,10 @@ function html_table_container_close($containerno,$xmltagname='',$entry=''){
 
 /**
  *
+ * $ownertype defaults to student
+ *
  */
-function html_document_drop($epfun,$context,$linked_id='-1',$lid='-1'){
+function html_document_drop($epfun,$context,$linked_id='-1',$lid='-1',$ownertype=''){
 
 	global $CFG;
 
@@ -760,9 +780,22 @@ function html_document_drop($epfun,$context,$linked_id='-1',$lid='-1'){
 				<input type="hidden" id="FILECONTEXT" name="FILECONTEXT" value="<?php print $context;?>" />
 				<input type="hidden" id="FILELINKEDID" name="FILELINKEDID" value="<?php print $linked_id;?>" />
 				<input type="hidden" id="FILESID" name="FILESID" value="<?php print $lid;?>" />
+				<input type="hidden" id="OWNERTYPE" name="OWNERTYPE" value="<?php print $ownertype;?>" />
 				<input type="hidden" id="DRAG" name="DRAG" value="false" />
 
-				<?php if($context=='icon') { ?>
+<?php 
+	 if($context=='icon'){ 
+		 if($ownertype=='staff'){
+			 $d_book='admin';
+			 $d_current='staff_details';
+			 $d_id='seluid';
+			 }
+		 else{
+			 $d_book='infobook';
+			 $d_current='student_view';
+			 $d_id='sid';
+			 }
+?>
 					<!--crops parameters-->
 					<input type="hidden" id="x1" name="x1" />
 					<input type="hidden" id="y1" name="y1" />
@@ -774,7 +807,10 @@ function html_document_drop($epfun,$context,$linked_id='-1',$lid='-1'){
 					<h4>Select image file</h4>
 
 					<div>
-						<label for="fileselect">Files to upload:</label>
+						<label for="fileselect">
+							Files to upload:<br />
+							(max: 1.5 MB)
+						</label>
 						<div style="position:relative;">
 							<input type="file" name="image_file" id="image_file" onchange="photoSelectHandler();" style="position: relative; text-align: right; -moz-opacity:0; filter:alpha(opacity: 0); opacity:0; z-index: 2;"/>
 							<div style="position: absolute; top: 0px; left: 0px; z-index: 1;">
@@ -806,20 +842,23 @@ function html_document_drop($epfun,$context,$linked_id='-1',$lid='-1'){
 							</div>
 							<div style="float:right;z-index:1001;">
 								<button type="submit" id="submitbutton" style="background-color:#444466;color:white;font-weight: bold;border-radius: 7px 7px 7px 7px;border: 2px dashed #555555;font-size: small;">Upload</button>
-								<button type="button" id="dragbutton" style="display:none;background-color:#444466;color:white;font-weight: bold;border-radius: 7px 7px 7px 7px;border: 2px dashed #555555;font-size: small;" onclick="javascript:location.href='infobook.php?current=student_view.php&sid=<?php echo $lid; ?>'">Upload</button>
+								<button type="button" id="dragbutton" style="display:none;background-color:#444466;color:white;font-weight: bold;border-radius: 7px 7px 7px 7px;border: 2px dashed #555555;font-size: small;" onclick="javascript:location.href='<?php echo $d_book; ?>.php?current=<?php echo $d_current; ?>.php&<?php echo $d_id; ?>=<?php echo $lid; ?>'">Upload</button>
 						</div>
 					</div>
 
-				<br>
-				<?php } ?>
-
-				<?php if($context!='icon') { ?>
+				<br />
+<?php 
+					}  
+				if($context!='icon') { 
+?>
 					<label for="fileselect"><?php print_string('documentstoupload');?></label><br />
 					<input type="file" id="fileselect" name="fileselect[]" multiple="multiple" />
 					<div id="filedrag"><?php print_string('drophere');?></div>
 					<div id="progress"></div>
 					<div id="messages"></div>
-				<?php } ?>
+<?php 
+					  } 
+?>
 
 			</form>
 		</fieldset>
@@ -829,7 +868,7 @@ function html_document_drop($epfun,$context,$linked_id='-1',$lid='-1'){
 	if($context=='icon'){ 
 ?>
 		<div style="margin: 0 0 0 2%;">After selecting the image size please press the "Upload" button above.</div>
-		<div style="border-style:solid;border-width:5px;max-width:93.5%;margin:0 0 4% 2%;background-color: #FFFFEE;">
+		<div style="border-style:solid;border-width:5px;max-width:93.5%;max-height:90.5%;margin:0 0 4% 2%;background-color: #FFFFEE;overflow:auto;">
 			<center><img id="preview" /></center>
 		</div>
 <?php 

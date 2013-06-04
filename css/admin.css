@@ -34,3 +34,15 @@ div#bookbox {
 .listmenu tr.gomidlite td, .listmenu td.gomidlite, .gomidlite {
     background-color:#99cccc;
 	}
+/* For the staff photos*/
+.center div.icon {
+	position:absolute;
+    right:5%; top:7.5%; 
+	}
+.icon img {
+    padding:0.5em;
+	height:180px; 
+	width:160px;
+    border:0;
+    background-color:#CCCCCC;
+	}
