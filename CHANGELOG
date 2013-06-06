@@ -1,4 +1,4 @@
-Version ClaSS-1.0.48 release (2013/06/04)
+Version ClaSS-1.0.48 release (2013/06/05)
 -------------------------------------------
 
 Reworked the sidtable js functions for student decorate.
@@ -14,8 +14,10 @@ The remittance view page now has a message button.
 
 Uploading profile icons now comes with a js resize function.
 
-Reduced the allowed elements for HTMLPurifier and added importantly the
+Reduced the allowed elements for HTMLPurifier and added (importantly) the
 label tag.
+
+
 
 
 Version ClaSS-1.0.47 release (2013/05/28)

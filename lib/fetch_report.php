@@ -1168,6 +1168,20 @@ function fetchProfileStatements($profile_name,$bid,$pid,$sid,$cutoff_date){
 		$cutoff_statno=2;
 		$profilepids=(array)list_subject_components($pid,'FS');
 		}
+	  elseif(strpos($profile_name,'DM')!==false){
+		/*Only displaying those above which are secure. */
+		$cutoff_rating=0;
+		/* limit to 6 per area (gives 6 most recent regardless of the level)*/
+		$cutoff_statno=2;
+		$profilepids=(array)list_subject_components($pid,'FS');
+		}
+	  elseif(strpos($profile_name,'Goals')!==false){
+		/*Only displaying those above which are secure. */
+		$cutoff_rating=1;
+		/* limit to 6 per area (gives 6 most recent regardless of the level)*/
+		$cutoff_statno=1;
+		$profilepids=(array)list_subject_components($pid,'FS');
+		}
 
 	  $profilepids[]=array('id'=>$pid,'name'=>'');
 	  $Statements=array();

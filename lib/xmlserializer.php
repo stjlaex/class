@@ -189,7 +189,8 @@ function xmlprocessor($xml,$xsl_filename,$output_filename=NULL){
 function xmlfilereader($xmlfilename){
 
 	if(file_exists($xmlfilename)){
-		$array=simplexml_load_file($xmlfilename);
+		//$array=simplexml_load_file($xmlfilename,null,LIBXML_NOCDATA,LIBXML_NSCLEAN);
+		$array=simplexml_load_file($xmlfilename,null,LIBXML_NOCDATA);
 		$xmlArray=objectToArray($array);
 		}
 	else{$xmlArray=array();}
@@ -242,7 +243,10 @@ function xmlstringToArray($xmlstring){
 	$array=simplexml_load_string($xmlstring);
 
 	if($array===false){
-		/* Attempt to tidy user inputted html, set $clean=false if the xml is known to be valid. */
+		/**
+		 * If simplexml failed then it is probably due to unwanted attributes and tags.
+		 * Attempt to tidy user inputted html and try again. 
+		 */
 		/* Remove unwanted tags */
 		$xmlstring = preg_replace("/<(\/)?(font|span|del|a|ins|table|tbody|tr|td|colgroup|col|strong|em|br|pre|dir)[^>]*>/i","",$xmlstring);
 		$xmlstring = preg_replace("/<(\/)?(script)[^>]*>*<(\/)?(script)[^>]*>/i","",$xmlstring);

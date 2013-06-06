@@ -30,6 +30,7 @@ include('scripts/set_book_session_vars.php');
 	$choices=array('new_student.php' => 'student'
 				   ,'new_contact.php' => 'contact'
 				   ,'new_staff.php' => 'staff'
+				   ,'new_import.php' => 'import'
 				   );
 	selery_stick($choices,$choice,$book);
 ?>

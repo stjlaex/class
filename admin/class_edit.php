@@ -20,7 +20,7 @@ $stage=$class['stage'];
 $detail=$class['detail'];
 $d_c=mysql_query("SELECT description FROM classes 
 						WHERE course_id='$crid' AND subject_id='$bid' AND stage='$stage';");
-$description=mysql_result($d_c,0);
+$classdescription=mysql_result($d_c,0);
 
 /*keeping things simple by fixing season to a single value*/
 /*to sophisticate in the future*/
@@ -188,7 +188,7 @@ $value='';$description='';
 			<?php print get_string('coursecurriculum',$book);?>
 		  </legend>
 		  <textarea  tabindex="<?php print $tab++;?>" name="description" class="htmleditorarea" 
-					 id="Description" rows="3" cols="35"><?php print $description;?></textarea>
+					 id="Description" rows="3" cols="35"><?php print $classdescription;?></textarea>
 		</fieldset>
 	  </div>
 

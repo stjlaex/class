@@ -278,7 +278,7 @@ function clean_html($value){
 
 	global $CFG;
 
-	/* Needs PHP 4.4? or higher ! */
+	/* Needs PHP 5.4? or higher ! */
 	//if(stream_resolve_include_path('HTMLPurifier.auto.php')!==false){
 	if(true){
 
@@ -287,13 +287,7 @@ function clean_html($value){
 		$HTML_Allowed_Elms=array('caption','h1','h2','h3','h4','h5','h6','li','ol','p','ul','label','div','span');
 
 		$config = HTMLPurifier_Config::createDefault();
-		$config->set('HTML.DefinitionID','test');
-		$config->set('HTML.DefinitionRev', 1);
-		//$config->set('Core.DefinitionCache', null);//disable the cache for testing only
-		if($def=$config->maybeGetRawHTMLDefinition()){
-			$def->addElement('label', 'Block', 'Inline', 'Common', array());
-			}
-		$config->set('Core','Encoding','UTF-8');
+		$config->set('Core.Encoding','UTF-8');
 		$config->set('Cache.SerializerPath', $CFG->eportfolio_dataroot.'/cache/phpThumb');//set the cache path
 		$config->set('HTML.TidyLevel', 'medium');
 		$config->set('HTML.AllowedAttributes', array());
@@ -305,6 +299,16 @@ function clean_html($value){
 		$config->set('AutoFormat.RemoveEmpty.RemoveNbsp', true);
 		$config->set('AutoFormat.RemoveEmpty', true);
 
+		$config->set('HTML.DefinitionID','html-'.$CFG->clientid.'-report');
+		$config->set('HTML.DefinitionRev', 1);
+		//$config->set('Core.DefinitionCache', null);//disable the cache for testing only
+		/* WARNING: For this to work with the cache on the Serializer
+		 *  directory must exist and be writable by www-data under
+		 *  cache/phpThumb
+		 */
+		if($def=$config->maybeGetRawHTMLDefinition()){
+			$def->addElement('label', 'Block', 'Inline', 'Common', array());
+			}
 		$purifier= new HTMLPurifier($config);
 		$newvalue=$purifier->purify($value);
 
