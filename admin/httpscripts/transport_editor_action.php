@@ -51,7 +51,7 @@ else{
 		if($bus['direction']=='I'){
 			add_journey_booking($sid,1001,'',$date,'once','');
 			}
-		else{
+		elseif($bus['direction']=='O'){
 			add_journey_booking($sid,1002,'',$date,'once','');
 			}
 		}

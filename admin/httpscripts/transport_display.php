@@ -15,7 +15,7 @@ $today=date('N');
 $startdate=strtotime($date);
 $firstmonday=strtotime('first Monday',$startdate);//Monday next week
 $datediff=$firstmonday-strtotime($todate)-86400*7;//difference between today and Monday
-$weekdiff=round($datediff/(86400*7))+1;
+$weekdiff=round($datediff/(86400*7));// removed +1 but is this correct?
 $startday=$weekdiff*7;
 
 $Student=fetchStudent_short($sid);

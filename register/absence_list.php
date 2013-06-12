@@ -54,6 +54,7 @@ if(!isset($filtercode)){
 else{
 	print_string('signedoutafterregisterclosed','register');
 	}
+print ': '.display_date($currentevent['date']).' '.$currentevent['session']
 ?>
 	</label>
   </div>
@@ -67,8 +68,12 @@ else{
 			  <input type="checkbox" name="checkall" value="yes" onChange="checkAll(this);" />
 			</label>
 		  </th>
-		  <th colspan="2" style="text-align:center;"><?php print $sectionname;?></th>
-		  <th><?php print_string('attendance',$book);?></th>
+		  <th colspan="2" style="text-align:center;">
+			<?php print $sectionname;?>
+		  </th>
+		  <th>
+			<?php print_string('attendance',$book);?>
+		  </th>
 		</tr>
 <?php
 
