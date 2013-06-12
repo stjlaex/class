@@ -674,12 +674,12 @@ function fetchStudent($sid='-1'){
 									 'type_db' => 'text', 
 									 'value' => ''.$info['appnotes']
 									 );
-	if($info['epfusername']==''){
+	if($info['epfusername']==''  and trim($student['forename'])!=''){
 		/* If we can set the epfusername now. */
 		$info['epfusername']=new_epfusername($Student,'student');
 		}
    	$Student['EPFUsername']=array('label' => 'epfusername',
-								  //'table_db' => 'info', 
+								  //'table_db' => 'info',
 								   'field_db' => 'epfusername',
 								   'type_db' => 'varhar(128)', 
 								   'value' => ''.$info['epfusername']
@@ -1003,7 +1003,7 @@ function fetchContact($gidsid=array('guardian_id'=>'-1','student_id'=>'-1','prio
 							'type_db' => 'enum', 
 							'default_value' => 'N',
 							'value' => ''.$guardian['private']);
-	if($guardian['epfusername']==''){
+	if($guardian['epfusername']=='' and trim($guardian['surname'])!=''){
 		/* If we can set the epfusername now. */
 		$guardian['epfusername']=new_epfusername($Contact,'contact');
 		}
@@ -1052,7 +1052,7 @@ function fetchPhone($phone=array('id'=>'-1','number'=>'','phonetype'=>'','privat
 	$Phone['PhoneType']=array('label' => 'phonetype', 
 							  'table_db' => 'phone', 
 							  'field_db' => 'phonetype',
-							  'type_db' => 'enum', 
+							  'type_db' => 'enum',
 							  'value' => ''.$phone['phonetype']);
 	$Phone['Private']=array('label' => 'private', 
 							'table_db' => 'phone', 
@@ -1635,6 +1635,7 @@ function comment_display($sid,$date='',$Comments=''){
 function fetchEnrolment($sid='-1'){
 	global $CFG;
 
+
 	$comid=-1;
    	$d_info=mysql_query("SELECT * FROM info WHERE student_id='$sid';");
 	if(mysql_num_rows($d_info)>0){
@@ -1656,7 +1657,7 @@ function fetchEnrolment($sid='-1'){
 			}
 		$searchcom=array('id'=>'','name'=>'','type'=>$comtype);
 		$coms=(array)list_member_communities($sid,$searchcom);
-		while(list($index,$com)=each($coms)){
+		foreach($coms as $com){
 			if($comtype=='year'){
 				$yid=$com['name'];
 				$enrolstatus='C';
@@ -1746,6 +1747,12 @@ function fetchEnrolment($sid='-1'){
 									'type_db' =>'date', 
 									'value' => ''.$info['leavingdate']
 									);
+	$Enrolment['LeavingReason']=array('label' => 'leavingreason', 
+									  'table_db' => 'info', 
+									  'field_db' => 'leavingreason', 
+									  'type_db' => 'text', 
+									  'value' => ''.$info['leavingreason']
+									  );
 	if($CFG->enrol_number_generate=='yes'){
 		$Enrolment['EnrolNumber']=array('label' => 'enrolmentnumber', 
 										'field_db' => 'formerupn', 
@@ -2555,4 +2562,44 @@ function set_update_event($sid){
 		mysql_query("INSERT INTO update_event SET export='0', updatedate='$todate',student_id='$sid';");
 		}
 	}
+/**
+ *
+ * Based on a student date of birth, figure out the likely yeargroup they
+ * will join upon enrolment.
+ *
+ */
+function lookup_enrolyear_yid($dob){
+
+	/* year-month-day of course */
+	$dob_bits=explode('-',$dob);
+
+	/* Try to guess which year group the student might join */
+	$enrolyear=get_curriculumyear()+1;
+	$lookup_index=$enrolyear - $dob_bits[0] - 1;
+	while($lookup_index<2){
+		$enrolyear++;
+		$lookup_index=$enrolyear - $dob_bits[0] - 1;
+		}
+
+	$yid_lookups=array('2'=>'-2'
+					  ,'3'=>'-1'
+					  ,'4'=>'0'
+					  ,'5'=>'1'
+					  ,'6'=>'2'
+					  ,'7'=>'3'
+					  ,'8'=>'4'
+					  ,'9'=>'5'
+					  ,'10'=>'6'
+					  ,'11'=>'7'
+					  ,'12'=>'8'
+					  ,'13'=>'9'
+					  ,'14'=>'10'
+					  ,'15'=>'11'
+					  ,'16'=>'12'
+					  ,'17'=>'13'
+					  );
+
+	return array('0'=>$enrolyear,'1'=>$yid_lookups[$lookup_index]);
+	}
+
 ?>

@@ -6,9 +6,20 @@ section.
 
 Added session date to print out of absences list.
 
-Tweked the getYearPerm function to allow admin perm pastoral to have
+Tweaked the getYearPerm function to allow admin perm pastoral to have
 the same access as office staff.
 
+Fix to the epfusername generation for guardians/contacts.
+
+Fix to report_reports script so that house communities do have reports
+listed.
+
+New to EntryBook is an Import option for loading an xml file of a
+pre-defined format.
+
+Improved the checkEntry function: (1) better handling of different
+date formats when importing; (2) Look up enum strings for their
+equivalents values when importing (eg. gender, nationality).
 
 
 Version ClaSS-1.0.48 release (2013/06/05)
@@ -21,14 +32,15 @@ The get_photo functions now take a size parameter.
 The sidtable can now include a mini profile photo as part of a student
 row.
 
-An option to call the infobook's message script added to the checksidsAction js.
+An option to call the infobook's message script added to the
+checksidsAction js.
 
 The remittance view page now has a message button.
 
 Uploading profile icons now comes with a js resize function.
 
-Reduced the allowed elements for HTMLPurifier and added (importantly) the
-label tag.
+Reduced the allowed elements for HTMLPurifier and added (importantly)
+the label tag.
 
 
 Version ClaSS-1.0.47 release (2013/05/28)

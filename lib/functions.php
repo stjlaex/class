@@ -331,7 +331,8 @@ function clean_html($value){
 
 
 /**
- * Does some simple data validation for input
+ *
+ * Does some simple data validation for imported data values
  *
  *	@param string[$value] input value to be evaluated
  *	@param string[$format]
@@ -339,25 +340,55 @@ function clean_html($value){
  *	@return string checked value
  *
  */
-function checkEntry($value, $format='', $field_name=''){
+function checkEntry($value,$format='',$field_name='',$date_format='european'){
+
 	$value=trim($value);
-	$value=good_strtolower($value);
-	if($field_name!='email'){$value=ucwords($value);}	
 	$field_type=explode('(', $format);
+
+	if(strpos($field_name,'email')!==false){$value=good_strtolower($value);}
 
 	if($field_name=='form_id' or $field_name=='candidaten1' or $field_name=='candidaten2'){
 		$value=strtoupper($value);
 		}
 
 	if($field_type[0]=='date'){
-		/*assumes date order day/month/year, php wants year-month-day*/
-		$date=explode('/',$value);
-		$value=$date[2].'-'.$date[1].'-'.$date[0];
-		//$value=$date[0].'-'.$date[1].'-'.$date[2];
+		/* Need to convert to YYYY-MM-DD */
+		$date_separator='';
+		if(strpos($value,'-')!==false){
+			$date_separator='-';
+			}
+		elseif(strpos($value,'/')!==false){
+			$date_separator='/';
+			}
+		elseif(strpos($value,'.')!==false){
+			$date_separator='.';
+			}
+
+		if($date_separator!=''){
+			$date=explode($date_separator,$value);
+			if($date_format=='european'){
+				/*date order 0day 1month 2year*/
+				$value=$date[2].'-'.$date[1].'-'.$date[0];
+				}
+			elseif($date_format=='us'){
+				/*date order 0month 1day 2year*/
+				$value=$date[2].'-'.$date[0].'-'.$date[1];
+				}
+			else{
+				/*date order 0year 1month 2day*/
+				$value=$date[0].'-'.$date[1].'-'.$date[2];
+				}
+			}
+		else{
+			$value='';
+			}
+		
 		}
 	elseif($field_type[0]=='enum'){
 		$value=strtoupper($value);
-		$value=checkEnum($value, $field_name);
+		if(checkEnum($value,$field_name)==''){
+			$value=getEnumValue($value,$field_name);
+			}
 		}
 	elseif($field_type[0]=='time'){
 		if(preg_match("/^(([0-1]?[0-9])|([2][0-3])):([0-5]?[0-9])(:([0-5]?[0-9]))?$/",$value)){
@@ -366,15 +397,20 @@ function checkEntry($value, $format='', $field_name=''){
 				$value='';
 				}
 		}
+
 	return $value;
 	}
 
+
 /**
- * Validates a value which claims to be compatible with a enum field
+ *
+ * Validates a value which claims to be compatible with a enum field.
+ * Returns the same value if it is compatible with a enum field or
+ * blank if it is not.
  *
  *	@param string[$value]
  *	@param string[$field_name]
- *	@return string returns the same value if it is compatible with a enum field
+ *	@return string 
  *
  */
 function checkEnum($value, $field_name) {
@@ -385,6 +421,44 @@ function checkEnum($value, $field_name) {
 		$value='';
 		}
 	return $value;
+	}
+
+/**
+ *
+ * The enum value being returned is actaully key of the enum array
+ * pointing to the string being passed. All enum strings are
+ * themselves key to the lang array so are lowercase and no spaces and
+ * in English, which may not be much like the user input!
+ *
+ * Returns an empty string on failure.
+ *
+ * TODO: look the user string in the lang array to get the enum string
+ * first
+ *
+ *	@param string[$string]
+ *	@param string[$field_name]
+ *
+ *	@return string 
+ *
+ */
+function getEnumValue($string,$field_name){
+
+
+	$string=good_strtolower($string);
+	$string=str_replace(' ','',$string);
+
+	$enumarray=getEnumArray($field_name);
+	$enumvalue='';
+
+	while($enumstring=current($enumarray)){
+		if($string==$enumstring){
+			$enumvalue=key($enumarray);
+			//trigger_error($field_name.':  '.$string.' = '.$enumvalue,E_USER_WARNING);
+			}
+		next($enumarray);
+		}
+
+	return $enumvalue;
 	}
 
 /** 
