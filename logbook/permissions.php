@@ -390,6 +390,7 @@ function checkCurrentRespon($r,$respons,$required='subject'){
 /**
  *  
  * Return perm for yeargroup
+ *
  */
 function getYearPerm($yid){
 	$perm['r']=0;
@@ -402,8 +403,10 @@ function getYearPerm($yid){
 			$perm['x']=$respon['x'];
 			}
 		}
+
+	$aperm=get_admin_perm('p',$_SESSION['uid']);
 	if($_SESSION['role']=='admin'){$perm['r']=1; $perm['w']=1; $perm['x']=1;}		
-	elseif($_SESSION['role']=='office'){$perm['r']=1; $perm['w']=1; $perm['x']=0;}		
+	elseif($_SESSION['role']=='office' or $aperm==1){$perm['r']=1; $perm['w']=1; $perm['x']=0;}		
 	elseif($_SESSION['role']=='district'){$perm['r']=1; $perm['w']=0; $perm['x']=0;}
 	return $perm;
 	}
@@ -663,7 +666,7 @@ function update_user($user,$update='no',$short='class'){
 	$result='';
 	/* Optional $update='yes' will amend an existing record.*/
 	$username=$user['username'];
-	$surname=checkEntry($user['surname']);
+	$surname=$user['surname'];
 	$forename=$user['forename'];
 	$title=$user['title'];
 	$role=$user['role'];
