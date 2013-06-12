@@ -40,7 +40,8 @@ if($comid!=''){
 	elseif($com['type']=='house'){$houseid=$comid;}
 	$cohorts=(array)list_community_cohorts($com,$current);
 	}
-elseif($yid!=''){
+/* TODO: should the cohorts be listed by community instead???? */
+if($yid!=''){
 	$cohorts=(array)list_community_cohorts(array('id'=>'','type'=>'year','name'=>$yid),$current);
 	}
 

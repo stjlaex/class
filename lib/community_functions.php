@@ -1262,7 +1262,7 @@ function generate_epfusername($User=array(),$role='student'){
 		while(strlen($code)<4){$code.=array_rand($nums);}
 		$tail=$code;
 		}
-	elseif($role=='guardian'){
+	elseif($role=='guardian' or $role=='contact'){
 		/* Only use the first part of the surname. */
 		$surname=$User['Surname']['value'];
 		$start=iconv('UTF-8', 'ASCII//TRANSLIT//IGNORE', $surname);
