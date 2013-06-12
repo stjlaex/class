@@ -39,6 +39,8 @@ CREATE TABLE info (
 	languagetype2	enum('NOT','F','M','H','T','S','C') not null,
 	language3		char(4) not null default '',
 	languagetype3	enum('NOT','F','M','H','T','S','C') not null,
+	previousschool  varchar(240) not null default '',
+	leavingreason 	varchar(240) not null default ''
    	primary key		(student_id)
 ) ENGINE=MYISAM;
 
