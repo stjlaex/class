@@ -36,7 +36,8 @@ if(isset($sids) and sizeof($sids)>0){
 		$Student=(array)fetchStudent($sid);
 
 		/* Translate a few of the strings... */
-		$Student['EnrolNumber']['label']=get_string($Student['EnrolNumber']['label'],'infobook');
+		$Student['EnrolNumber']['label']=strtoupper(get_string($Student['EnrolNumber']['label'],'infobook'));
+		$Student['PersonalNumber']['label']=strtoupper(get_string($Student['PersonalNumber']['label'],'infobook'));
 
 		$Student['Language']['value']=get_string(displayEnum($Student['Language']['value'], 'language'),'infobook');
 		$Student['Nationality']['value']=get_string(displayEnum($Student['Nationality']['value'], 'nationality'),'infobook');

@@ -305,12 +305,14 @@ function import_xml_student($Student){
 					else{
 						$inval=$val['value'];
 						}
-					if(isset($val['table_db']) and $val['table_db']=='guardian' and $fresh=='yes'){
-						mysql_query("UPDATE guardian SET $field='$inval' WHERE id='$gid'");
-						}
-					elseif(isset($val['table_db']) and $val['table_db']=='gidsid'){
-						mysql_query("UPDATE gidsid SET $field='$inval'
+					if($inval!=''){
+						if(isset($val['table_db']) and $val['table_db']=='guardian' and $fresh=='yes'){
+							mysql_query("UPDATE guardian SET $field='$inval' WHERE id='$gid'");
+							}
+						elseif(isset($val['table_db']) and $val['table_db']=='gidsid'){
+							mysql_query("UPDATE gidsid SET $field='$inval'
 											WHERE guardian_id='$gid' AND student_id='$sid'");
+							}
 						}
 					}
 				}
