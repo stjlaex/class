@@ -2028,13 +2028,20 @@ function check_class_release(){
 		while($mdiff<1){
 			$minor=$rel_minor+$mdiff;
 			while($rdiff<1){
+				$upgrade_message='';
 				$revision=$final_revision+$rdiff;
 				$fname='patch-'.$rel_major.'.'.$minor.'.'.$revision.'.sql';
-				/* TODO: Remove this restriction after full testing completed. */
-				if($CFG->debug=='on'){
-					$errorno=execute_sql_file('install/'.$fname);
-					if($errorno==0){trigger_error('UPGRADE: changes applied to db '.$fname,E_USER_WARNING);}
-					elseif($errorno>0){trigger_error('UPGRADE FAILED: the db could not be upgraded with '.$fname,E_USER_WARNING);}
+				$errorno=execute_sql_file('install/'.$fname);
+				if($errorno==0){
+					$upgrade_message='UPGRADE SUCCESS: changes applied to db '.$fname;
+					}
+				elseif($errorno>0){
+					$upgrade_message='UPGRADE FAILED: the db could not be upgraded with '.$fname;
+					}
+				if($upgrade_message!=''){
+					$upgrade_message=$CFG->clientid.' '.$upgrade_message;
+					trigger_error($upgrade_message,E_USER_WARNING);
+					send_email_to('stj@'.$CFG->support,'',$upgrade_message,$upgrade_message,$upgrade_message);
 					}
 				$rdiff++;
 				}
