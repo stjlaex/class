@@ -322,6 +322,28 @@ while($student=mysql_fetch_array($d_students, MYSQL_ASSOC)){
 			}
 
 		/*********************************************************/
+	   	elseif($marktype=='eyscore'){
+			$scoreclass.=' derived';
+			$score_value=0;
+			$score_display='';
+			$iscore=$studentrow["score$mid"];
+			$score=calculateELGScore($sid);
+			$out=$score['value'].' '; 
+			$outrank=$score['value']; 
+			}
+
+		/*********************************************************/
+	   	elseif($marktype=='elgscore'){
+			$scoreclass.=' derived';
+			$score_value=0;
+			$score_display='';
+			$iscore=$studentrow["score$mid"];
+			$score=calculateELGScore($sid,$midlist[$c]);
+			$out=$score['value'].' '; 
+			$outrank=$score['value']; 
+			}
+
+		/*********************************************************/
 	   	elseif($marktype=='level'){
 			$scoreclass.=' derived';
 			$mid=$midlist[$c];
@@ -352,21 +374,21 @@ while($student=mysql_fetch_array($d_students, MYSQL_ASSOC)){
 			if(empty($umns[$c]['profile_bid']) or $umns[$c]['profile_bid']=='%'){$profilebid=$bid[0];}
 			else{$profilebid=$umns[$c]['profile_bid'];}
 
-trigger_error($umns[$c]['profile_bid'].' ::: '.$profilebid.' ::: '.$bid[0],E_USER_WARNING);
+			//trigger_error($umns[$c]['profile_bid'].' ::: '.$profilebid.' ::: '.$bid[0],E_USER_WARNING);
 
 			/* Have to explicity pass the bid and pid for the profile here NOT for the class. */
-			$rep=checkReportEntryCat($umns[$c]['midlist'],$sid,$profilebid,$umns[$c]['component']);
+			//$rep=checkReportEntryCat($umns[$c]['midlist'],$sid,$profilebid,$umns[$c]['component']);
+			$rep=calculateProfileScore($umns[$c]['midlist'],$sid,$profilebid,$umns[$c]['component']);
 			/* Option to decide what is displayed in the table cell: either blank or the result value. */
-			if($umns[$c]['profile_celldisplay']==='' or $rep['value']==='' or $rep['value']<=0){
+			if($umns[$c]['profile_celldisplay']==='xxxx' or $rep['value']==='' or $rep['value']<=0){
 				$outspace='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
 				}
 			else{
-				$outspace=$rep['result'];
+				$outspace=$rep['value'];
 				}
 			/* Only use the result value if it is a percentage (greater than 0) */
 			if($rep['result']>0){
-				$outof=round($rep['value']*100/$rep['result']);
-				$outtitle=display_date($rep['date']).': '.$rep['value'].' /' .$outof.' ('.$rep['result'].'%)';
+				$outtitle=display_date($rep['date']).': '.$rep['value'].' /' .$rep['outoftotal'].' ('.$rep['result'].'%)';
 				}
 			else{
 				$outof=0;

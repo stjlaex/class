@@ -315,5 +315,66 @@ for($i=0;$i<sizeof($cids);$i++){
 					   'displayclass'=>'derived'
 					   );
 		$totals[0]=array('grade'=>'','value'=>'','outoftotal'=>'','no'=>0);
+
+
+		if($profile_crid=='FS'){
+			/* Give the profile column the same properties as the first column in the profile 
+			 * Use the first because the latter ones could be special columns for estimated grades 
+			 * and have different properties.
+			 */
+			$scoregrading[$c]='';
+			$scoretype[$c]='';
+			$mid[$c]=-1;
+			$mark_total[$c]='';
+			$marktype[$c]=$marktype;
+			$lena[$c]='';
+			$midlist[$c]='';
+			$umns[$c]=array('id'=>$c, 
+							'mark_total'=>'', 
+							'marktype'=>'elgscore',
+							'scoretype'=>'',
+							'midlist'=>'',
+							'def_name'=>'', 
+							'topic'=>'EYFS Overall', 
+							'entrydate'=>date('Y-m-d'),
+							'lena'=>'',
+							'comment'=>'',
+							'assessment'=>'no',
+							'component'=>$pid,
+							'displayclass'=>'derived'
+							);
+			$totals[$c]=array('grade'=>'','value'=>'','outoftotal'=>'','no'=>0);
+			$c_marks++;//count of the number of mark columns
+			$c++;
+
+			/* Give the profile column the same properties as the first column in the profile 
+			 * Use the first because the latter ones could be special columns for estimated grades 
+			 * and have different properties.
+			 */
+			$scoregrading[$c]='';
+			$scoretype[$c]='';
+			$mid[$c]=-1;
+			$mark_total[$c]='';
+			$marktype[$c]=$marktype;
+			$lena[$c]='';
+			$midlist[$c]=$profid;
+			$umns[$c]=array('id'=>$c, 
+							'mark_total'=>'', 
+							'marktype'=>'elgscore',
+							'scoretype'=>'',
+							'midlist'=>$profid,
+							'def_name'=>'', 
+							'topic'=>$profile_name, 
+							'entrydate'=>date('Y-m-d'),
+							'lena'=>'',
+							'comment'=>'',
+							'assessment'=>'no',
+							'component'=>$pid,
+							'displayclass'=>'derived'
+							);
+			$totals[$c]=array('grade'=>'','value'=>'','outoftotal'=>'','no'=>0);
+			$c_marks++;//count of the number of mark columns
+
+			}
 		}
 ?>

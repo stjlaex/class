@@ -1,10 +1,10 @@
-Version ClaSS-1.0.49 release (2013/06/16)
+Version ClaSS-1.0.50 release (2013/06/16)
 -------------------------------------------
 
 The db upgrade applies patches regardless of the debug state. Email
 sent to admin with log message.
 
-
+Experimenting with calculating profile scores for EYFS.
 
 
 Version ClaSS-1.0.49 release (2013/06/12)

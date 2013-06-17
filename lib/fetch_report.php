@@ -919,6 +919,81 @@ function checkReportEntryCat($rid,$sid,$bid,$pid){
  *  have been made for this sid in this report and calculates a colour coded percentage
  *
  */
+function calculateProfileScore($rid,$sid,$bid,$pid){
+
+	$d_c=mysql_query("SELECT COUNT(categorydef.id) FROM categorydef JOIN report ON
+						report.title=categorydef.othertype WHERE report.id='$rid' AND categorydef.type='cat' 
+						AND categorydef.subject_id='$pid';");
+	$totalno=mysql_result($d_c,0);
+	if($totalno==0){
+		$d_c=mysql_query("SELECT COUNT(categorydef_id) FROM ridcatid 
+						WHERE report_id='$rid' AND subject_id='$pid';");
+		$totalno=mysql_result($d_c,0);
+		}
+
+	$cutoff_rating='1';
+
+
+	/* For any old profiles not linked to an assessment then just display their tally. */
+	$d_r=mysql_query("SELECT category FROM reportentry WHERE report_id='$rid' AND 
+							student_id='$sid' AND subject_id='$bid' AND component_id='$pid';");
+	$tot=0;
+	$sum=0;
+	$last=0;
+
+	while($entry=mysql_fetch_array($d_r)){
+		$pairs=explode(';',$entry['category']);
+		for($c=0;$c<(sizeof($pairs)-1);$c++){
+			list($catid,$value,$entrydate)=explode(':',$pairs[$c]);
+
+			if(strtotime($entrydate)>$last){
+				$lastdate=$entrydate;
+				$last=strtotime($lastdate);
+				}
+
+			if($value==-1){
+				$tot+=1;
+				}
+			elseif($value==0){
+				$tot+=2;
+				}
+			if($value==1){
+				$tot+=3;
+				}
+
+			if($value>=$cutoff_rating){
+				$sum++;
+				}
+
+			}
+		}
+
+	$ass=array();
+	$ass['result']=round(100*($sum/$totalno));
+	$ass['outoftotal']=$totalno*3;
+	$ass['value']=$tot;
+	$ass['weight']=1;
+	$ass['date']=$lastdate;
+	$ass['class']='nolite';
+
+
+	if($ass['result']>=85){$ass['class']='golite';}
+	elseif($ass['result']>=60){$ass['class']='gomidlite';}
+	elseif($ass['result']>=35){$ass['class']='pauselite';}
+	elseif($ass['result']>=10){$ass['class']='midlite';}
+	//elseif($ass['result']<10){$ass['class']='outlite';}
+	else{$ass['class']='nolite';}
+
+	return $ass;
+	}
+
+
+/**
+ *
+ *  Checks to see if any report entries for a bid/pid combination 
+ *  have been made for this sid in this report and calculates a colour coded percentage
+ *
+ */
 function calculateProfileLevel($rid,$sid,$bid,$pid,$date=''){
 
 	$d_r=mysql_query("SELECT title FROM report WHERE id='$rid'");
@@ -930,7 +1005,7 @@ function calculateProfileLevel($rid,$sid,$bid,$pid,$date=''){
 
 	$d_r=mysql_query("SELECT category FROM reportentry WHERE report_id='$rid' AND 
 							student_id='$sid' AND subject_id='$bid' AND component_id='$pid';");
-	$rep=array();
+	$ass=array();
 	$tot1=0;
 	$tot2=0;
 	$tot3=0;
@@ -987,6 +1062,63 @@ function calculateProfileLevel($rid,$sid,$bid,$pid,$date=''){
 
 	return $ass;
 	}
+
+
+
+
+
+/**
+ *
+ *  Checks to see if any report entries for a bid/pid combination 
+ *  have been made for this sid in this report and calculates a colour coded percentage
+ *
+ */
+function calculateELGScore($sid,$profid){
+
+	if($profid==''){
+		$title="title='ELG' OR title='EYFS2436' OR title='EYFS3648'";
+		$d_report=mysql_query("SELECT id FROM report WHERE $title;");
+		}
+	else{
+		$d_report=mysql_query("SELECT report_id AS id FROM ridcatid WHERE categorydef_id='$profid' AND subject_id='profile';");
+		}
+
+ 
+	$tot=0;
+	$ass=array();
+	while($report=mysql_fetch_array($d_report)){
+		$rid=$report['id'];
+		$d_r=mysql_query("SELECT category FROM reportentry WHERE report_id='$rid' AND student_id='$sid';");
+		while($entry=mysql_fetch_array($d_r)){
+			$pairs=explode(';',$entry['category']);
+			for($c=0;$c<(sizeof($pairs)-1);$c++){
+				list($catid,$value,$entrydate)=explode(':',$pairs[$c]);
+				if($value>-100){
+					if($value==-1){
+						$tot+=1;
+						}
+					elseif($value==0){
+						$tot+=2;
+						}
+					if($value==1){
+						$tot+=3;
+						}
+					}
+				}
+			}
+
+		$ass['result']=$tot;
+		$ass['outoftotal']='';
+		$ass['value']=$tot;
+		$ass['weight']=1;
+		$ass['date']='';
+		$ass['class']='nolite';
+		}
+
+	return $ass;
+	}
+
+
 
 
 

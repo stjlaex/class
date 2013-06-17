@@ -98,7 +98,7 @@ if(isset($_POST['cids'])){
 	}
 
 
-/* If the component selection has changed then update*/
+/* If the component selection has changed then update */
 if(isset($_POST['pid'])){
 	if($_SESSION['pid']!=$_POST['pid']){
 	$_SESSION['pid']=$_POST['pid'];
@@ -111,7 +111,7 @@ if(isset($_POST['pid'])){
 	if($displaymid==0){$displaymid=-1;}
 	}
 
-/* If the column-type filter has changed then update*/
+/* If the column-type filter has changed then update */
 if(isset($_POST['umnfilter'])){
 	if($_SESSION['umnfilter']!=$_POST['umnfilter']){
 	$_SESSION['umnfilter']=$_POST['umnfilter'];
