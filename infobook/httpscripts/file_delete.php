@@ -8,6 +8,8 @@ require_once('../../scripts/http_head_options.php');
 require_once('../../lib/eportfolio_functions.php');
 
 if(isset($_POST['fileids'])){$fileids=(array)$_POST['fileids'];}else{$fileids=array();}
+if(isset($_POST['FILEOWNER'])){$fileowner=$_POST['FILEOWNER'];}else{$fileowner='';}
+if(isset($_POST['FILECONTEXT'])){$filecontext=$_POST['FILECONTEXT'];}else{$filecontext='';}
 
 $Files=array();
 $File['File']=array();
@@ -16,7 +18,14 @@ if(sizeof($fileids)>0){
 
 	foreach($fileids as $fileid){
 
-		$filedata=(array)get_filedata($fileid);
+		if($filecontext=='icon'){
+			$filedata=array();
+			$filedata['context']='icon';
+			$filedata['owner']=$fileowner;
+			$filedata['fname']=$fileid;
+		}
+		else $filedata=(array)get_filedata($fileid);
+		
 		$success=delete_file($filedata);
 		$File=array();
 

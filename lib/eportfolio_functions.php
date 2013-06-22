@@ -1163,10 +1163,16 @@ function delete_file($filedata){
 
 	$success=false;
 
+	global $CFG;
+
 	$file_id=$filedata['id'];
 	
-	if($filedata['foldertype']=='icon'){
+	if($filedata['context']=='icon'){
 		//mysql_query("DELETE FROM $table_icons WHERE owner='$epfuid' AND filename='$file_name';");
+		$owner=$filedata['owner'];
+		$fname=$filedata['fname'];
+		$file=$CFG->eportfolio_dataroot.'/icons/' . substr($owner,0,1) . '/' . $owner.'/'.$fname;
+		if(unlink($file)) $success=true;
 		}
 	else{
 		mysql_query("DELETE FROM file WHERE id='$file_id';");

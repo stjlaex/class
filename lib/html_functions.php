@@ -761,6 +761,8 @@ function html_document_drop($epfun,$context,$linked_id='-1',$lid='-1',$ownertype
 		<legend><?php print_string('documents');?></legend>
 		<fieldset class="left documentdrop">
 		  <form id="formfiledelete" name="formfiledelete" method="post" action="<?php print $path;?>infobook/httpscripts/file_delete.php">
+			<input type="hidden" id="FILEOWNER" name="FILEOWNER" value="<?php print $epfun;?>" />
+			<input type="hidden" id="FILECONTEXT" name="FILECONTEXT" value="<?php print $context;?>" />
 <?php
 	$files=(array)list_files($epfun,$context,$linked_id);
 	if(sizeof($files)>0){
@@ -896,10 +898,13 @@ function html_document_list($files){
 	$filedisplay_url=$http.'://'.$CFG->siteaddress.$CFG->sitepath.'/'.$CFG->applicationdirectory.'/scripts/file_display.php';
 
 	foreach($files as $file){
-		$fileparam_list='?fileid='.$file['id'].'&location='.$file['location'].'&filename='.$file['name'];
-		print '<div id="filecontainer'.$file['id'].'" class="document"><span title="'.$file['description'].'">';
+		if(!isset($file['id']) or $file['id']=='') $fileid=$file['name'];
+		else $fileid=$file['id'];
+		$fileparam_list='?fileid='.$fileid.'&location='.$file['location'].'&filename='.$file['name'];
+		print '<div id="filecontainer'.$fileid.'" class="document"><span title="'.$file['description'].'">';
 		print '<a href="'.$filedisplay_url. $fileparam_list.'" /><label>'.$file['originalname'].'<img src="images/printer.png" /></label></a>';
-		print '<input type="checkbox" name="fileids[]" value="'.$file['id'].'" />';
+		print '<input type="checkbox" name="fileids[]" value="'.$fileid.'" />';
+		print '<input type="hidden" id="fname" value="'.$fileid.'" />';
 		print '</span></div>';
 		}
 
