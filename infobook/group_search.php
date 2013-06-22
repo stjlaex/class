@@ -68,7 +68,7 @@ three_buttonmenu($extrabuttons,$book);
 	  </table>
 	</div>
 
-	  <div class="left">
+	<div class="left">
 	  <table class="listmenu">
 		<tr>
 		  <th colspan="4"><?php print_string('applications',$book);?></th>
@@ -80,6 +80,16 @@ three_buttonmenu($extrabuttons,$book);
 		}
 ?>
 		<tr>
+		  <th colspan="4"><?php print_string('reenrolments','admin');?></th>
+		</tr>
+<?php
+	$application_steps=array('C'=>'reenroling','P'=>'pending','L'=>'leavers');
+	foreach($application_steps as $value => $enrolstatus){
+		print '<tr><td colspan="4"><input type="radio" name="enrolstatuses[]" value="'.$value.'">'.get_string($enrolstatus,$book).'</input></td></tr>';
+		}
+	print '<tr><td colspan="4"><input type="radio" name="enrolstatuses[]" value="uncheck" checked="yes">'.get_string('uncheck',$book).'</input></td></tr>';
+?>
+		<tr>
 		  <th colspan="4"><?php print get_string('applications',$book).' '. get_string('year',$book);?></th>
 		</tr>
 		<tr>
@@ -87,26 +97,12 @@ three_buttonmenu($extrabuttons,$book);
 		$currentyear=get_curriculumyear();
 		for($nextyear=0;$nextyear<4;$nextyear++){
 			$enrolyear=$currentyear+$nextyear;
-			print '<td><input type="radio" name="enrolyear" value="'.$enrolyear.'">'.display_curriculumyear($enrolyear).'</input></td>';
+			if($nextyear==1){$checked=' checked="yes"';}else{$checked='';}
+			print '<td><input type="radio" name="enrolyear" value="'.$enrolyear.'" '.$checked.' >'.display_curriculumyear($enrolyear).'</input></td>';
 			}
 ?>
 		</tr>
 
-	  </table>
-	</div>
-
-	  <div class="left">
-	  <table class="listmenu">
-		<tr>
-		  <th><?php print_string('reenrolments','admin');?></th>
-		</tr>
-<?php
-	$application_steps=array('C'=>'reenroling','P'=>'pending','L'=>'leavers');
-	foreach($application_steps as $value => $enrolstatus){
-		print '<tr><td><input type="radio" name="enrolstatuses[]" value="'.$value.'">'.get_string($enrolstatus,$book).'</input></td></tr>';
-		}
-	print '<tr><td><input type="radio" name="enrolstatuses[]" value="uncheck" checked="yes">'.get_string('uncheck',$book).'</input></td></tr>';
-?>
 	  </table>
 	</div>
 
