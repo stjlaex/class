@@ -8,7 +8,11 @@ Experimenting with calculating profile scores for EYFS.
 
 Fix to permissions for pastoral access to reports.
 
-Set a default enrolyear in group_search to avoid blank re-ernol searches.
+Set a default enrolyear in group_search to avoid blank re-ernol
+searches.
+
+Added the mini-photo to register, markbook and report lists.
+
 
 
 Version ClaSS-1.0.49 release (2013/06/12)

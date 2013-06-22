@@ -283,6 +283,7 @@ else{
 			<a href="infobook.php?current=student_view.php&sid=<?php print $sid;?>&sids[]=<?php print $sid;?>"
 			  target="viewinfobook" onclick="parent.viewBook('infobook');">
 			  <?php print $Student['DisplayFullName']['value']; ?></a>
+			<div id="mini-<?php echo $sid; ?>" style="float:right;"></div>
 			<div id="merit-<?php print $sid;?>"></div>
 		  </td>
 <?php

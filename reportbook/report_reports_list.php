@@ -146,6 +146,7 @@ two_buttonmenu($extrabuttons,$book);
 					<?php print $Student['DisplayFullSurname']['value']; ?> 
 					(<?php print $Student['RegistrationGroup']['value']; ?>)
 			</a>
+			<div id="mini-<?php print $sid;?>"></div>
 			<div id="merit-<?php print $sid;?>"></div>
 			</td>
 <?php
