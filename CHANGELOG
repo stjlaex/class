@@ -15,6 +15,12 @@ Added the mini-photo to register, markbook and report lists.
 
 Fix to the file delete function for icon photos.
 
+New script to list logs of message sent to the parents of an
+individual student the InfoBook.
+
+New Admin script to show overall messages statistics and list email
+failures for trouble shooting.
+
 
 Version ClaSS-1.0.49 release (2013/06/12)
 -------------------------------------------

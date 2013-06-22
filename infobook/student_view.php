@@ -344,6 +344,14 @@ twoplus_buttonmenu($sidskey,sizeof($sids),$extrabuttons);
 		</div>
 		<div id="tinytab-display-contact" class="tinytab-display">
 		</div>
+
+		<table class="listmenu">
+		  <tr>
+			<td style="text-align:right;">
+			  <a href="infobook.php?current=message_list.php&cancel=student_view.php&sid=<?php print $sid;?>"><?php print_string('parentmessages',$book); ?></a>
+			</td>
+		  </tr>
+		</table>
 	  </div>
 
 

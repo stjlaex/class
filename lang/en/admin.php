@@ -265,4 +265,6 @@ $string['feesinvoicewarning']='<p>All charges that have not yet been invoiced wi
 $string['feesexportwarning']='<p>This export only applies to charges to be made by bank payment and which have not yet been paid. <br />All charges included in the file will be marked as paid after generating the file. <p/><p>WARNING: you can export these payments only once.</p>';
 $string['bankexport']='Bank Export';
 $string['chargeexport']='Charge Export';
+$string['emailstats']='Email Statistics';
+$string['selectdaterange']='Select date range';
 ?>
