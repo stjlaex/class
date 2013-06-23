@@ -5,7 +5,21 @@
 
 $action='student_view_enrolment_action.php';
 
-three_buttonmenu();
+$Enrolment=fetchEnrolment($sid);
+$enrolstatus=$Enrolment['EnrolmentStatus']['value'];
+
+$extrabuttons=array();
+
+/**
+ * Under certain circumstances allow a delete of the student: really
+ * only if tey have never been accepted on roll.
+ */
+if($_SESSION['role']=='admin' and ($enrolstatus=='CA' or $enrolstatus=='EN' or $enrolstatus=='RE' or $enrolstatus=='WL')){
+	$extrabuttons['delete']=array('name'=>'current',
+										 'value'=>'student_delete.php'
+										 );
+	}
+three_buttonmenu($extrabuttons);
 
 	/*Check user has permission to view*/
 $perm=get_section_perm($student_secid);
@@ -26,8 +40,6 @@ include('scripts/perm_action.php');
 	  <fieldset class="center listmenu">
 		<div class="left">
 <?php 
-	$Enrolment=fetchEnrolment($sid);
-	$enrolstatus=$Enrolment['EnrolmentStatus']['value'];
 	$listname='enrolstatus';$listlabel='enrolstatus';$required='yes';
 	include('scripts/set_list_vars.php');
 	list_select_enum('enrolstatus',$listoptions,$book);

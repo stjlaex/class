@@ -21,6 +21,12 @@ individual student the InfoBook.
 New Admin script to show overall messages statistics and list email
 failures for trouble shooting.
 
+Fix to miniphoto js to change books.
+
+Controversial delete student button under the InfoBook's Enrolment
+page - limited to students not on the roll.
+
+
 
 Version ClaSS-1.0.49 release (2013/06/12)
 -------------------------------------------

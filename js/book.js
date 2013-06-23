@@ -1520,8 +1520,10 @@ function addExtraFields(sidId,cellId,extraId,containerId){
 	if(document.getElementById('mini-'+sidId)){
 		if(!document.getElementById('mini-'+sidId).hasChildNodes()){
 			var a = document.createElement("a");
-			a.href = pathtoapplication+'infobook.php?current=student_view.php&cancel=student_view.php&sid='+sidId;
+			a.href = pathtoapplication+'infobook.php?current=student_view.php&cancel=student_view.php&sid='+sidId+'&sids[]='+sidId;
 			a.setAttribute("id", "miniaturechange"+sidId);
+			a.setAttribute("target", "viewinfobook");
+			a.onclick=function(){parent.viewBook("infobook");};
 			//creates a miniature and displays it
 			var img = document.createElement("img");
 			img.src = pathtoapplication+'scripts/photo_display.php?sid='+sidId+'&size=mini';

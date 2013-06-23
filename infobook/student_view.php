@@ -344,7 +344,9 @@ twoplus_buttonmenu($sidskey,sizeof($sids),$extrabuttons);
 		</div>
 		<div id="tinytab-display-contact" class="tinytab-display">
 		</div>
-
+<?php
+		if($CFG->emailoff!='yes'){
+?>
 		<table class="listmenu">
 		  <tr>
 			<td style="text-align:right;">
@@ -352,6 +354,10 @@ twoplus_buttonmenu($sidskey,sizeof($sids),$extrabuttons);
 			</td>
 		  </tr>
 		</table>
+
+<?php
+			}
+?>
 	  </div>
 
 

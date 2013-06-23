@@ -24,7 +24,7 @@ CREATE TABLE fees_charge (
 	paymenttype		enum('0','1','2','3','4','5','6','7','8') not null default '0',
 	payment			enum('0','1','2') not null default '0',
 	paymentdate		date not null default '0000-00-00',
-	amount decimal(10,2) unsigned not null default '0',
+	amount 			decimal(10,2) unsigned not null default '0',
 	invoice_id		int unsigned not null default 0,
 	remittance_id	int unsigned not null default 0,
 	index 			index_sid (student_id),
