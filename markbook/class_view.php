@@ -99,7 +99,7 @@ if($_SESSION['worklevel']>-1){
 				$params=array(
 							  'cid'=>$cids[$i]
 							  );
-				$url=url_construct($params,'class_photo_print');
+				$url=url_construct($params,'class_photo_print.php');
 ?>
 				<td colspan="3">
 				  <span title="<?php print $classes[$cids[$i]]['detail'];?>">&nbsp;&nbsp;<?php print $classes[$cids[$i]]['name'].$teachers[$i];?><a
