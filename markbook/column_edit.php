@@ -151,7 +151,7 @@ if(sizeof($components)>0){
 <?php
 if($tid=='administrator'){
 	$cohort=array('id'=>'','course_id'=>$crid,'stage'=>'%','year'=>get_curriculumyear($crid));
-	$AssDefs=(array)fetch_cohortAssessmentDefinitions($cohort);
+	$AssDefs=(array)fetch_cohortAssessmentDefinitions($cohort,'%');
 	foreach($AssDefs as $AssDef){
 		$asses[]=array('id'=>$AssDef['id_db'],'name'=>$AssDef['Description']['value']);
 		}

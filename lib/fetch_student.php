@@ -2562,6 +2562,8 @@ function set_update_event($sid){
 		mysql_query("INSERT INTO update_event SET export='0', updatedate='$todate',student_id='$sid';");
 		}
 	}
+
+
 /**
  *
  * Based on a student date of birth, figure out the likely yeargroup they
@@ -2570,15 +2572,33 @@ function set_update_event($sid){
  */
 function lookup_enrolyear_yid($dob){
 
+	/* Do we start at Nursery or PreNursery for the youngest children.*/
+	$d_y=mysql_query("SELECT id FROM yeargroup WHERE id=-2;");
+	if(mysql_num_rows($d_y)>0){
+		$firstyear=2;//PreNursery
+		}
+	else{
+		$firstyear=3;//Nursery
+		}
+
 	/* year-month-day of course */
 	$dob_bits=explode('-',$dob);
 
 	/* Try to guess which year group the student might join */
 	$enrolyear=get_curriculumyear()+1;
-	$lookup_index=$enrolyear - $dob_bits[0] - 1;
-	while($lookup_index<2){
+
+	/* Born after August counts as a year younger */
+	if($dob_bits[1]>8){
+		$adjustment=1;
+		}
+	else{
+		$adjustment=0;
+		}
+
+	$lookup_index=$enrolyear - $dob_bits[0] - 1 - $adjustment;
+	while($lookup_index < $firstyear){
 		$enrolyear++;
-		$lookup_index=$enrolyear - $dob_bits[0] - 1;
+		$lookup_index++;
 		}
 
 	$yid_lookups=array('2'=>'-2'

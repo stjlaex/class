@@ -25,7 +25,8 @@ two_buttonmenu();
 foreach($sids as $sindex => $sid){
 
 	$rowno=$sindex+1;
-	$Student=fetchStudent($sid);
+	$Student=(array)fetchStudent($sid);
+	$Enrolment=(array)fetchEnrolment($sid);
 
 	if($news[$sindex]=='new'){$rowclass='lolite';}
 	else{$rowclass='nolite';}
@@ -36,12 +37,14 @@ foreach($sids as $sindex => $sid){
 			<input type="checkbox" name="sids[]" value="<?php print $sid; ?>" />
 			<?php print $rowno;?>
 		  </td>
-		  <td class="student">
+		  <td class="student" style="width:40%;">
 			<a href="infobook.php?current=student_view.php&sid=<?php print $sid;?>&sids[]=<?php print $sid;?>"
 			  target="viewinfobook" onclick="parent.viewBook('infobook');">
 			  <?php print $Student['DisplayFullName']['value']; ?></a>
 		  </td>
 <?php
+	print '<td>'.display_date($Student['DOB']['value']).'</td>';
+	print '<td>'.display_yeargroupname($Enrolment['YearGroup']['value']).'</td>';
 	print '<td>'.$news[$sindex].'</td>'.'</tr>';
 	}
 

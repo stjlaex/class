@@ -3,7 +3,9 @@ Version ClaSS-1.0.51 release (2013/06/30)
 
 New photo sheet of a class printed from the MarkBook.
 
+Some fixes to the new student import in EntryBook.
 
+Improved the lookup for yeargroups to handle September/August split.
 
 
 Version ClaSS-1.0.50 release (2013/06/22)

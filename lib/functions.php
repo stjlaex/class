@@ -900,6 +900,7 @@ function getEnumArray($field_name){
 					'ZUL'=>'zulu',
 					'ZZZ'=>'classificationpending'
 					);
+
 	$language2=$language;
 	$language3=$language;
 	$languagetype=array('F' => 'firstlanguage', 
@@ -2041,7 +2042,9 @@ function check_class_release(){
 				if($upgrade_message!=''){
 					$upgrade_message=$CFG->clientid.' '.$upgrade_message;
 					trigger_error($upgrade_message,E_USER_WARNING);
-					send_email_to('stj@'.$CFG->support,'',$upgrade_message,$upgrade_message,$upgrade_message);
+					if($CFG->emailoff!='yes'){
+						send_email_to('stj@'.$CFG->support,'',$upgrade_message,$upgrade_message,$upgrade_message);
+						}
 					}
 				$rdiff++;
 				}

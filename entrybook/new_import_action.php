@@ -96,6 +96,7 @@ if($sub=='Submit'){
 	*/
 	$tables['enrolment']=array(
 							   'PreviousSchool'=>'currentschool'
+							   ,'ApplicationDate'=>'datesubmitted'
 							   ,'ApplicationNotes'=>'howdidyoufindoutaboutthebritishschoolofamsterdam'
 							   );
 
@@ -127,9 +128,11 @@ if($sub=='Submit'){
 				}
 			elseif(strpos($table,'enrolment')!==false){
 				$Current=$blank_Enrolment;
-				$Enrolment=(array)import_xml_read_fields($import,$Current,$fields,$date_format);
+				/* date submitted is a timestamp so not the same date_format */
+				$Enrolment=(array)import_xml_read_fields($import,$Current,$fields,'');
 				$Student['PreviousSchool']=$Enrolment['PreviousSchool'];
 				$Student['ApplicationNotes']=$Enrolment['ApplicationNotes'];
+				$Student['ApplicationDate']=$Enrolment['ApplicationDate'];
 				}
 			elseif(strpos($table,'phone')!==false){
 				$Current=$blank_Phone;
