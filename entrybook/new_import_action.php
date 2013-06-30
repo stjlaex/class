@@ -308,7 +308,7 @@ function import_xml_student($Student){
 					else{
 						$inval=$val['value'];
 						}
-					if($inval!=''){
+					if(trim($inval)!=''){
 						if(isset($val['table_db']) and $val['table_db']=='guardian' and $fresh=='yes'){
 							mysql_query("UPDATE guardian SET $field='$inval' WHERE id='$gid'");
 							}
