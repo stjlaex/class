@@ -56,7 +56,6 @@ if($sub=='Submit'){
 		$concept_list.=$separator. $conid;
 		$separator=':::';
 
-		/* TODO: filter for students by enrolstatus for remittance */
 		/* TODO: filter for students by payment type and set in fees_charge */
 
 
@@ -80,6 +79,27 @@ if($sub=='Submit'){
 						}
 					}
 				}
+
+			}
+		elseif($enrolstatus!='C'){
+			if($enrolstatus=='EN'){$community_type='enquired';}
+			elseif($enrolstatus=='AC'){$community_type='accepted';}
+			else{$community_type='applied';}
+			$enrolyear=get_curriculumyear()+1;
+			$students=array();
+			foreach($yids as $yid){
+				$com=array('id'=>'','type'=>$community_type, 
+						   'name'=>$enrolstatus.':'.$yid,'year'=>$enrolyear);
+				$yearstudents=(array)listin_community($com);			
+				$students=array_merge($students,$yearstudents);
+				}
+			
+			foreach($students as $student){
+				$sid=$student['id'];
+				mysql_query("INSERT INTO fees_charge (student_id, remittance_id, tarif_id, paymenttype, amount) 
+							SELECT a.student_id, '$remid', a.tarif_id, a.paymenttype, t.amount FROM fees_applied AS a, 
+							fees_tarif AS t WHERE t.concept_id='$conid' AND t.id=a.tarif_id AND a.student_id='$sid';");
+						}
 
 			}
 		else{

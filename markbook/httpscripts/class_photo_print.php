@@ -33,8 +33,7 @@ else{
 
 		$Student=fetchStudent_short($student['id']);
 
-		$Student['Photo']['url']=$http.'://'.$CFG->siteaddress.$CFG->sitepath.'/'.$CFG->applicationdirectory. 
-									'/scripts/photo_display.php?epfu='.$Student['EPFUsername']['value'].'&enrolno='.$Student['EnrolNumber']['value'];
+		$Student['Photo']['url']='scripts/photo_display.php?sid='.$Student['id_db'].'&size=midi';
 
 		$Students['Student'][]=$Student;
 
