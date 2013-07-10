@@ -335,7 +335,8 @@ $description='';
 			</form>
 		  </div>
 
-		<div id="xml-checked-action" style="display:none;">
+		  <div id="xml-checked-action" style="display:none;">
+			<params>
 <?php 
 if(isset($profid)){
 	$profile=get_assessment_profile($profid);
@@ -361,13 +362,18 @@ else{
 	}
 $profile['stage']=$stage;
 $profile['pid']='';
-$profile['description']=$description;
-unset($profile['transform']);/* Override the profile template with the selected one. */
-//$profile['stage']='R';
 /* selectname needed for js to capture the template field */
-$profile['selectname']='template';
-xmlechoer('Profile',$profile);
+print '<id>'.$profile['id'].'</id>';
+print '<name>'.$profile['name'].'</name>';
+print '<crid>'.$profile['crid'].'</crid>';
+print '<bid>'.$profile['bid'].'</bid>';
+print '<stage>'.$stage.'</stage>';
+print '<component_status>'.$profile['component_status'].'</component_status>';
+print '<description>'.$description.'</description>';
+print '<selectname>template</selectname>';
+///xmlechoer('Profile',$profile,'Profile');
 /*	All finished.*/
 $_SESSION[$book.'viewtable']=$viewtable;
 ?>
-		</div>
+			</params>
+		  </div>

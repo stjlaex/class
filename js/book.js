@@ -576,6 +576,7 @@ function checksidsAction(buttonObject){
 
         for(var i=0; i < xmlRecord.childNodes.length; i++){
 			var xmlfieldid=xmlRecord.childNodes[i];
+
 			if(xmlfieldid.tagName){
 				var paramname=makeParam(xmlfieldid.tagName);
 				if(xmlfieldid.firstChild){var xmlvalue=xmlfieldid.firstChild.data;}

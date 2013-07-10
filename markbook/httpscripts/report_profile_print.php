@@ -138,9 +138,17 @@ else{
 		//$bid='%';
 		//$pid='Spk';
 		}
+	elseif(strpos($profile['transform'],'transcript')>0){
+		$pid='%';
+		$bid='%';
+		$AssDefs=(array)fetch_cohortAssessmentDefinitions($cohort,$profile['id']);
+		$prev_AssDefs=(array)fetch_cohortAssessmentDefinitions($prevcohort,$profile['id']);
+		$AssDefs=(array)array_merge($AssDefs,$prev_AssDefs);
+		}
 	else{
 		$pid='%';
 		}
+
 
 	/* Bands in ascending date order. */
   	$d_stats=mysql_query("SELECT DISTINCT * FROM statvalues JOIN stats ON stats.id=statvalues.stats_id 
