@@ -1251,6 +1251,7 @@ function list_files($epfun,$foldertype,$linkedid='-1',$bid=''){
 		}
 
 	$epfuid=get_epfuid($epfun,$folder_usertype);
+	if(strlen($epfuid)<2){$epfuid='-999999';}
 
 	if($foldertype=='report' or $foldertype=='icon'){
 		/* Just involves listing the directory contents */

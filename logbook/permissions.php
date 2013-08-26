@@ -406,7 +406,7 @@ function getYearPerm($yid){
 
 	$aperm=get_admin_perm('p',$_SESSION['uid']);
 	if($_SESSION['role']=='admin' or $aperm==1){$perm['r']=1; $perm['w']=1; $perm['x']=1;}		
-	elseif($_SESSION['role']=='office'){$perm['r']=1; $perm['w']=1; $perm['x']=0;}
+	elseif($_SESSION['role']=='office' or $aperm==1){$perm['r']=1; $perm['w']=1; $perm['x']=0;}
 	elseif($_SESSION['role']=='district'){$perm['r']=1; $perm['w']=0; $perm['x']=0;}
 	return $perm;
 	}

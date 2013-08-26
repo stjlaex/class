@@ -1,3 +1,10 @@
+Version ClaSS-1.0.52 release (2013/08/30)
+-------------------------------------------
+
+Changed the statistics page to breakdown nationalities by section.
+
+
+
 Version ClaSS-1.0.51 release (2013/06/30)
 -------------------------------------------
 
@@ -6,7 +13,6 @@ New photo sheet of a class printed from the MarkBook.
 Some fixes to the new student import in EntryBook.
 
 Improved the lookup for yeargroups to handle September/August split.
-
 
 
 

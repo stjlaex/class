@@ -143,7 +143,7 @@ if(isset($_POST['startdate'])){$startdate=$_POST['startdate'];}
 			$comstudents=(array)listin_community_new($com,$startdate);
 			}
 		else{
-			$comstudents=listin_community($com);
+			$comstudents=(array)listin_community($com);
 			}
 		$students=array_merge($students,$comstudents);
 		if($enrolstage=='E'){

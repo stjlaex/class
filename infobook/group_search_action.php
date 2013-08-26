@@ -116,6 +116,9 @@ if(isset($enroldate)){
 		else{
 			$yearstudents=(array)listin_community_extra($com,$extra);
 			}
+		
+		$yearstudents=(array)listin_community_new($com);
+		
 
 		$students=array_merge($students,$yearstudents);
 		}

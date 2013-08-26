@@ -43,8 +43,8 @@ two_buttonmenu();
 	$sections=list_sections(true);
 	foreach($yeargroups as $year){
 		$yid=$year['id'];
-		$d_groups=mysql_query("SELECT gid FROM groups WHERE
-										yeargroup_id='$yid' AND course_id=''");
+		$secid=$year['section_id'];
+		$d_groups=mysql_query("SELECT gid FROM groups WHERE yeargroup_id='$yid' AND course_id=''");
 		$gid=mysql_result($d_groups,0);
 		$perms=getYearPerm($yid, $respons);
 		$comid=update_community(array('type'=>'year','name'=>$yid));
@@ -75,11 +75,12 @@ two_buttonmenu();
 				$countrys[$countrycode]=0;
 				$gender_countrys[$countrycode]=array('BLANK'=>0,'M'=>0,'F'=>0);
 				$second_countrys[$countrycode]=0;
+				$section_countrys[$countrycode]=array();
 				}
 			$gender_countrys[$countrycode][$gender]++;
 			$countrys[$countrycode]++;
+			$section_countrys[$countrycode][$secid]++;
 			if($secondcountrycode!='' and $secondcountrycode!=' '){
-				//trigger_error('2ND: '.$secondcountrycode,E_USER_WARNING);
 				$second_countrys[$countrycode]++;
 				}
 
@@ -125,7 +126,6 @@ two_buttonmenu();
 			/**
 			 * Limited sub-group based on year of birth.
 			 *
-			 */
 			if($yob>2002 and $yob<2006){
 				if(!isset($lcountrys[$countrycode])){
 					$lcountrys[$countrycode]=0;
@@ -134,6 +134,7 @@ two_buttonmenu();
 				$lgender_countrys[$countrycode][$gender]++;
 				$lcountrys[$countrycode]++;
 				}
+			 */
 			}
 ?>
 		<tr>
@@ -203,9 +204,16 @@ two_buttonmenu();
 	  <table class="listmenu">
 		<tr>
 		  <th><?php print_string('nationality','infobook');?></th>
-		  <th><?php print_string('numberofstudents',$book);?></th><th>(Second Nationality)</th>
+		  <th><?php print get_string('first','infobook').' '.get_string('nationality','infobook');?></th>
+		  <th><?php print_string('secondnationality','infobook');?></th>
 		  <th><?php print get_string('male',$book) .'</th><th>'.get_string('female',$book);?></th>
-		  <th>2002 - 2006 <?php print get_string('male',$book) .'</th><th>2002 - 2006 '.get_string('female',$book);?></th>
+<?php
+				  foreach($sections as $section){
+?>
+					<th><?php print $section['name'];?></th>
+<?php
+					}
+?>
 		</tr>
 <?php
 		asort($countrys,SORT_NUMERIC);
@@ -219,10 +227,12 @@ two_buttonmenu();
 		  </td>
 		  <td><?php print $nosids;?></td>  
 			<td><?php if($second_countrys[$countrycode]>0){print '('.$second_countrys[$countrycode].')';}?></td>  
-		  <td><?php print $gender_countrys[$countrycode]['M']. 
-		  '</td><td>'. $gender_countrys[$countrycode]['F'];?></td>
-		  <td><?php print $lgender_countrys[$countrycode]['M']. 
-		  '</td><td>'. $lgender_countrys[$countrycode]['F'];?></td>
+		  <td><?php print $gender_countrys[$countrycode]['M'].'</td><td>'. $gender_countrys[$countrycode]['F'];?></td>
+<?php
+			foreach($sections as $section){
+				print '<td>'.$section_countrys[$countrycode][$section['id']]. '</td>';
+				}
+?>
 		</tr>
 <?php
 			}
