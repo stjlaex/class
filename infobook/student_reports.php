@@ -89,5 +89,9 @@ if($epfu!=''){
 		html_table_container_close(1);
 ?>
 	</fieldset>
+<?php
+	require_once('lib/eportfolio_functions.php');
+	html_document_drop($Student['EPFUsername']['value'],'report','%');
+?>
   </div>
 

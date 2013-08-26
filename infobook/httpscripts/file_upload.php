@@ -82,6 +82,10 @@ if($_FILES or $_SERVER['HTTP_DRAG']=='true') {
 							}
 						}
 					}
+				if($context=='report') {
+					$filepath=$CFG->eportfolio_dataroot. '/cache/reports/';
+					$uniquename=uniqid();
+					}
 				else{
 					$filepath=$CFG->eportfolio_dataroot. '/cache/files/';
 					$uniquename=uniqid();
