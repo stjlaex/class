@@ -60,7 +60,7 @@ include('scripts/set_book_vars.php');
 	selery_stick($choices,$choice,$book);
 ?>
 </a>
-<a href="http://classforschools.com/support" target="_blank">
+<a href="http://learningdata.ie/" target="_blank">
 <?php
 	$choices=array('classis.php' => 'classis'
 				   );
