@@ -56,4 +56,5 @@ $string['adhd']='ADHD';
 $string['workingmemory']='Working memory';
 $string['noexternalassessement']='External assessment not undertaken';
 $string['']='';
+$string['newrecord']='New record';
 ?>

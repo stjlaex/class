@@ -15,6 +15,7 @@ include('scripts/head_options.php');
 include('scripts/set_book_vars.php');
 
 if(!isset($_SESSION['infosid']) or $current=='contact_list.php'){$_SESSION['infosid']='';}
+if(!isset($_SESSION['infosid']) or $current=='contact_list.php'){$_SESSION['infosid']='';}
 if(!isset($_SESSION['infosids']) or $current=='contact_list.php'){$_SESSION['infosids']=array();}
 
 if(isset($_GET['sids'])){$_SESSION['infosids']=$_GET['sids'];}
@@ -25,6 +26,15 @@ if(isset($_POST['sid'])){$_SESSION['infosid']=$_POST['sid'];}
 $sids=(array)$_SESSION['infosids'];
 $sid=$_SESSION['infosid'];
 $sidskey=array_search($sid,$sids);
+
+/*seneeds variables*/
+if(!isset($_SESSION['infosenhid']) or $current=='search_action.php'){$_SESSION['infosenhid']='';}
+if(isset($_GET['senhid'])){$_SESSION['infosenhid']=$_GET['senhid'];}
+if(isset($_POST['senhid'])){$_SESSION['infosenhid']=$_POST['senhid'];}
+$senhid=$_SESSION['infosenhid'];
+$SEN=(array)fetchSEN($sid,$senhid);
+$senhid=$SEN['id_db'];
+
 
 if($current!='student_list.php' and $sid!=''){
 	$Student=fetchStudent($sid);

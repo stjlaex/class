@@ -8,11 +8,11 @@
  */
 if($current=='sen_view.php'){$action='sen_view_action.php';}
 if(!isset($selbid)){$selbid='G';}
-
+$SEN=fetchSEN($sid,$senhid);
 
 ?>
   <div id="heading"><label><?php print_string('senprofile',$book);?></label>
-  <?php print $Student['Forename']['value'].' '.$Student['Surname']['value'];?>
+  <?php print $Student['Forename']['value'].' '.$Student['Surname']['value']; print ' - '.display_date($SEN['StartDate']['value']); ?>
   </div>
 <?php 
 
@@ -276,12 +276,52 @@ if(!isset($selbid)){$selbid='G';}
 		</div>
 	  </div>
 
-
-
  	<input type="hidden" name="selbid" value="<?php print $selbid;?>"/>
  	<input type="hidden" name="current" value="<?php print $action;?>"/>
  	<input type="hidden" name="choice" value="<?php print $current;?>"/>
  	<input type="hidden" name="cancel" value=""/>
 	</form>
+
+
+<?php
+	$senhistories=(array)list_student_senhistories($sid);
+?>
+<div id="records" style="width:100%;">
+	  <fieldset style="background-color:#666666;margin-left:2%;margin-right:2%;">
+		<legend><?php print_string('records','admin');?></legend>
+		 <div class="selery" style="float:left">
+<?php
+		  foreach($senhistories as $no => $senhistory){
+?>
+			 <div style="float:left;margin-right:10px;margin-bottom:5px;border: 0 none;border-radius: 3px 3px 3px 3px;">
+<?php
+			 if($senhid==$senhistory['id']){$displayclass=' class="hilite" style="padding: 4px 4px 3px 3px;" ';}
+			 else{$displayclass=' class="lolite" style="background-color:#FFFFFF;color:#000000 !important;padding: 4px 4px 2px 3px;" ';}
+?>
+			   <a href="<?php print $currentbook;?>.php?current=<?php print $action;?>&sid=<?php print $sid;?>&senhid=<?php print $senhistory['id'];?>"  onclick="parent.viewBook('<?php print $currentbook;?>');" style="text-decoration: none !important;">
+				 <div <?php print $displayclass;?>>
+				   <?php print '&nbsp;'.display_date($senhistory['startdate']); ?>
+				 </div>
+			   </a>
+			 </div>
+<?php
+			 }
+?>
+		 </div>
+<?php
+		if(strtotime($senhistory['reviewdate']) <= mktime() and $senhistory['reviewdate']!=''){
+			 /* If the last IEP's reviewdate has past then allow option to create to a new one. */
+?>
+		 <div style="float:left;">
+			<button class="rowaction" name="sub" value="newrecord" onClick="processContent(this);">
+				<?php print_string('newrecord',$book);?>
+			</button>
+		 </div>
+<?php
+			 }
+?>
+	  </fieldset>
+</div>
+
   </div>
 

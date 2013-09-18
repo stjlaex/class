@@ -5,6 +5,7 @@
 
 $host='seneeds.php';
 $book='seneeds';
+$currentbook='seneeds';
 
 include('scripts/head_options.php');
 include('scripts/set_book_vars.php');
@@ -30,11 +31,8 @@ if($sid=='' or $current==''){
 	$senhid=-1;
 	}
 elseif($sid!=''){
-	/*working with a single student*/
+	include('scripts/sub_action.php');
 	$Student=fetchStudent($sid);
-	if($senhid==-1000){
-		$senhid=set_student_senstatus($sid);
-		}
 	$SEN=(array)fetchSEN($sid,$senhid);
 	$senhid=$SEN['id_db'];
 	}
@@ -82,42 +80,7 @@ elseif($sid!=''){
 	</form>
 <?php
 		  }
-	  else{
-
-		  $senhistories=(array)list_student_senhistories($sid);
 ?>
-	<form id="seneedschoice" name="seneedschoice" method="post" action="seneeds.php" target="viewseneeds">
-	  <fieldset class="seneeds selery">
-		<legend><?php print_string('records','admin');?></legend>
-<?php
-
-	     foreach($senhistories as $no => $senhistory){
-			 if($senhid==$senhistory['id']){$displayclass=' class="solery hilite" ';}
-			 else{$displayclass=' class="solery lolite" ';}
-?>
-			   <a href="seneeds.php?current=sen_view.php&sid=<?php print $sid;?>&senhid=<?php print $senhistory['id'];?>" target="viewseneeds" onclick="parent.viewBook('seneeds');">
-				 <div <?php print $displayclass;?>>
-				   <?php print '&nbsp;'.display_date($senhistory['startdate']);?>
-				 </div>
-			   </a>
-<?php
-			 }
-		 if(strtotime($senhistory['reviewdate']) <= mktime() and $senhistory['reviewdate']!=''){
-			 /* If the last IEP's reviewdate has past then allow option to create to a new one. */
-?>
-			   <a  class="lolite" href="seneeds.php?current=sen_view.php&sid=<?php print $sid;?>&senhid=-1000" target="viewseneeds" onclick="parent.viewBook('seneeds');">
-				 <div class="solery lolite"><?php print ' '.get_string('new');?></div>
-			   </a>
-<?php
-			 }
-?>
-	  </fieldset>
-	</form>
-
-<?php
-		  }
-?>
-	<br />
 	<form id="configseneedschoice" name="configseneedschoice" method="post" action="seneeds.php" target="viewseneeds">
 	  <fieldset class="seneeds selery">
 		<legend><?php print get_string('list','admin');?></legend>

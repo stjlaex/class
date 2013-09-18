@@ -27,12 +27,16 @@ include('scripts/sub_action.php');
 	if($sperm['w']==1 or $fperm['w']==1 or ($selbid!='' and $selbid!='G')){
 		$perm['w']=1;
 		}
-trigger_error($bid .' :::: '.$selbid.' :::: '.$perm['w'],E_USER_WARNING);
+	trigger_error($bid .' :::: '.$selbid.' :::: '.$perm['w'],E_USER_WARNING);
 	$neededperm='w';
 	include('scripts/perm_action.php');
 
-if($sub=='senstatus'){
-
+if($sub=='newrecord'){
+	$senhid=set_student_senstatus($sid);
+	$_SESSION['infosenhid']=$senhid;
+	$_SESSION['seneedssenhid']=$senhid;
+	}
+elseif($sub=='senstatus'){
 	/* Change sen status using the senstatus button... */
 	if($Student['SENFlag']['value']=='Y'){
 		/* Remove the SEN status. */
@@ -46,13 +50,13 @@ if($sub=='senstatus'){
 
 	}
 elseif($ncmodkey=='-1'){
-
 	if($bid!='G' and $bid!=''){
 		mysql_query("INSERT INTO sencurriculum SET senhistory_id='$senhid', subject_id='$bid'");
 		}
-
 	}
-elseif($sub=='Submit'){
+
+
+if($sub=='Submit'){
 
 	$inval=$_POST['date0'];
 	$table=$SEN['StartDate']['table_db'];

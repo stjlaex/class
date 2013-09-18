@@ -36,7 +36,7 @@ if($Student['SENFlag']['value']=='N'){
 else{
 
 	/* Get the most recent SEN record if one exists. */
-	$SEN=fetchSEN($sid);
+	$SEN=(array)fetchSEN($sid,$senhid);
 	$senhid=$SEN['id_db'];
 
 	/* Careful with the setting of book: it needs to be seneeds to get
@@ -44,6 +44,8 @@ else{
 	 * we are in infobook; 
 	 */
 	$book='seneeds';
-	include('seneeds/sen_view.php'); 
-	$book='infobook'; } 
+	$currentbook='infobook';
+	include('seneeds/sen_view.php');
+	$book='infobook'; 
+	} 
 ?>
