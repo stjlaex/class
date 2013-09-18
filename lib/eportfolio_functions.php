@@ -1254,17 +1254,6 @@ function list_files($epfun,$foldertype,$linkedid='-1',$bid=''){
 	$epfuid=get_epfuid($epfun,$folder_usertype);
 	if(strlen($epfuid)<1){$epfuid='-999999';}
 
-	if($foldertype=='reporttt' or $foldertype=='icon'){
-		/* Just involves listing the directory contents */
-		if($foldertype=='report'){
-			$foldername='files';
-			$file_extension='pdf';
-			}
-		else{
-			$foldername='icons';
-			$file_extension='jpeg';
-			}
-
 	if($foldertype=='icon'){
 		/* Just involves listing the directory contents for icons. */
 		$foldername='icons';
