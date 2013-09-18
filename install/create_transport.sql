@@ -39,7 +39,7 @@ CREATE TABLE transport_stop (
 	id				smallint unsigned auto_increment, 
 	lat				decimal(10,6) not null,
 	lng				decimal(10,6) not null,
-	name			varchar(60) not null default '', 
+	name			varchar(120) not null default '', 
 	detail			text not null default '',
 	primary key		(id)
 ) ENGINE=MYISAM;

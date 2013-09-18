@@ -8,6 +8,7 @@ Fix to upload_file in MarkBook for blank epfusernames.
 Moved the SEN history buttons to be part of the sen_view page so they
 work in InfoBook too.
 
+Lengthened the transport_stop name field to 120 chars.
 
 
 Version ClaSS-1.0.52 release (2013/08/30)

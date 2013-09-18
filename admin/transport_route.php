@@ -79,7 +79,7 @@ three_buttonmenu($extrabuttons,$book);
 				}
 			print '</select>';
 			print '</td>';
-			print '<td style="width:70%;"><input maxlength="60" type="text" tabindex="'.$tab++.'" name="names'.$direction.'[]" value="'.$stop['name'].'"  /></td>';
+			print '<td style="width:70%;"><input maxlength="120" type="text" tabindex="'.$tab++.'" name="names'.$direction.'[]" value="'.$stop['name'].'"  /></td>';
 			print '<td><input pattern="decimal" maxlength="2" type="text" tabindex="'.$tab++.'" name="times'.$direction.'[]" value="'.$stop['traveltime'].'" /></td>';
 			print '<td>'.date('H:i',$time).'</td>';
 			print '</tr>';
