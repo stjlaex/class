@@ -27,7 +27,7 @@ if(isset($_GET['openid'])){$openid=$_GET['openid'];}
 		$rootName='Error';
 		}
 	else{
-		$Student=fetchStudent_short($sid);
+		$Student=fetchStudent($sid);
 		}
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">

@@ -82,6 +82,10 @@ if($_FILES or $_SERVER['HTTP_DRAG']=='true') {
 							}
 						}
 					}
+				elseif($context=='report'){
+					$filepath=$CFG->eportfolio_dataroot. '/cache/reports/';
+					$uniquename=uniqid();
+					}
 				else{
 					$filepath=$CFG->eportfolio_dataroot. '/cache/files/';
 					$uniquename=uniqid();
@@ -158,7 +162,7 @@ if($_FILES or $_SERVER['HTTP_DRAG']=='true') {
 												   );
 
 				//Upload the file to eportfolio directory
-				upload_files($publishdata,false);
+				upload_files($publishdata);
 //				}
 			}
 		}

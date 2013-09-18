@@ -1251,32 +1251,26 @@ function list_files($epfun,$foldertype,$linkedid='-1',$bid=''){
 		}
 
 	$epfuid=get_epfuid($epfun,$folder_usertype);
-	if(strlen($epfuid)<2){$epfuid='-999999';}
+	if(strlen($epfuid)<1){$epfuid='-999999';}
 
-	if($foldertype=='report' or $foldertype=='icon'){
-		/* Just involves listing the directory contents */
-		if($foldertype=='report'){
-			$foldername='files';
-			$file_extension='pdf';
-			}
-		else{
-			$foldername='icons';
-			$file_extension='jpeg';
-			}
-
+	if($foldertype=='icon'){
+		/* Just involves listing the directory contents for icons. */
+		$foldername='icons';
+		$file_extensions=array('jpeg','jpg');
 		$directory=$foldername.'/' . substr($epfun,0,1) . '/' . $epfun;
-		$dir_files=(array)list_directory_files($CFG->eportfolio_dataroot.'/'.$directory,$file_extension);
-		foreach($dir_files as $file){
-			$files[]=array('id'=>'',
-						   'description'=>$file,
-						   'name'=>$file.'.'.$file_extension,
-						   'originalname'=>$file.'.'.$file_extension,
-						   'path'=>$CFG->eportfolio_dataroot.'/'.$directory.'/'.$file.'.'.$file_extension,
-						   'location'=>$directory.'/'.$file.'.'.$file_extension);
+		foreach($file_extensions as $file_extension){
+			$dir_files=(array)list_directory_files($CFG->eportfolio_dataroot.'/'.$directory,$file_extension);
+			foreach($dir_files as $file){
+				$files[]=array('id'=>'',
+							   'description'=>$file,
+							   'name'=>$file.'.'.$file_extension,
+							   'originalname'=>$file.'.'.$file_extension,
+							   'path'=>$CFG->eportfolio_dataroot.'/'.$directory.'/'.$file.'.'.$file_extension,
+							   'location'=>$directory.'/'.$file.'.'.$file_extension);
+				}
 			}
 		}
 	else{
-
 		/* Could be passing both an id and some description from a linked comment. */
 		if(is_array($linkedid)){
 			$linked_description=$linkedid['detail'];

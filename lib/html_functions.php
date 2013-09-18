@@ -850,7 +850,7 @@ function html_document_drop($epfun,$context,$linked_id='-1',$lid='-1',$ownertype
 
 				<br />
 <?php 
-					}  
+					}
 				if($context!='icon') { 
 ?>
 					<label for="fileselect"><?php print_string('documentstoupload');?></label><br />
