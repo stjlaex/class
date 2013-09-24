@@ -43,7 +43,7 @@ function generate_random_name($gender){
 			   'McClean','Robson','Ball','Quinn','Davis','Johnson','Hope','Blair',
 			   'Fawcett','Lawrence','Whitehead','Robinson','Wylie','McCartney','Collins',
 			   'Westwood','Anderson','Carter','Mitchell','Main','Porterfield','Royal','Welsh','Roy',
-			   'Robertson','Riley','Newman','Turner','Hardy','Dene','Poll','Wright','O\'Neil',
+			   'Robertson','Riley','Newman','Turner','Hardy','Dene','Poll','Wright',
 			   'Montgomery','Anderson','Clough','Fletcher','Reid','Murray','Hurley','Ashurst');
 	$name=array();
     srand((double)microtime()*1000000);
@@ -65,7 +65,7 @@ function generate_random_name($gender){
 					 WHERE id='$id'");
 		}
 
-	$table='background';	
+	$table='background';
 	$trows=array();
 	$trows=tableRead($table);
 	while(list($index, $row)=each($trows)){
@@ -156,15 +156,21 @@ function generate_random_name($gender){
 		$id=$row['id'];
 		$d_gidsid=mysql_query("SELECT relationship FROM gidsid WHERE guardian_id='$id'");
 		$rel=mysql_result($d_gidsid,0);
-		$d_sid=mysql_query("SELECT surname FROM student JOIN gidsid
-				ON gidsid.student_id=student.id WHERE gidsid.guardian_id='$id';");
-		$surname=mysql_result($d_sid,0);
-		if($rel=='PAF'){$gender='M';$title='1';}else{$gender='F';$title='2';}
-		$name=generate_random_name($gender);
-		mysql_query("UPDATE $table SET surname='$surname',
-			forename='$name[0]', middlenames='$name[1]', title='$title',
-			profession='', email='', companyname='', nationality='', language='',
-			dob='', epfusername='', note='', code='' WHERE id='$id'");
+		if($rel!=''){
+			$d_sid=mysql_query("SELECT surname FROM student JOIN gidsid
+					ON gidsid.student_id=student.id WHERE gidsid.guardian_id='$id';");
+			$surname=mysql_result($d_sid,0);
+			if($rel=='PAF'){$gender='M';$title='1';}else{$gender='F';$title='2';}
+			$name=generate_random_name($gender);
+			mysql_query("UPDATE $table SET surname='$surname',
+				forename='$name[0]', middlenames='$name[1]', title='$title',
+				profession='', email='', companyname='', nationality='', language='',
+				dob='', epfusername='', note='', code='' WHERE id='$id'");
+			}
+		else{
+			$d_guardian=mysql_query("DELETE FROM guardian WHERE id = '$id';");
+			$d_address=mysql_query("DELETE FROM address WHERE guardian_id = '$id';");
+			}
 		}
 
 
@@ -204,8 +210,8 @@ function generate_random_name($gender){
 		$zsurname = $nun;
 		
 		mysql_query("UPDATE $table SET username='$nun',
-			forename='P', surname='$zsurname', email='', emailuser='', emailpasswd='', nologin='0', logcount='0',
-			passwd='$passwd', ip='', epfusername='$nun', homephone='', mobilephone='', personalcode='', 
+			forename='P', surname='$zsurname', email='', emailuser='', emailpasswd='', nologin='0', session='',
+			logcount='0', passwd='$passwd', ip='', epfusername='$nun', homephone='', mobilephone='', personalcode='', 
 			dob='', contractdate='' WHERE uid='$id';");
 		mysql_query("UPDATE orderaction SET teacher_id='$nun' WHERE teacher_id='$username'");
 		mysql_query("UPDATE orderorder SET teacher_id='$nun' WHERE teacher_id='$username'");
@@ -217,16 +223,20 @@ function generate_random_name($gender){
 			WHERE teacher_id='$username'");
 		mysql_query("UPDATE incidents SET teacher_id='$nun'
 			WHERE teacher_id='$username'");
+		mysql_query("UPDATE merits SET teacher_id='$nun'
+			WHERE teacher_id='$username'");
 		mysql_query("UPDATE grading SET author='$nun'
 			WHERE author='$username'");
 		mysql_query("UPDATE markdef SET author='$nun'
 			WHERE author='$username'");
 		mysql_query("UPDATE homework SET author='$nun'
 			WHERE author='$username'");
+		mysql_query("UPDATE mark SET author='$nun'
+			WHERE author='$username'");
 		}
 
 	$table='orderorder';
-	mysql_query("UPDATE $table SET entrydate='2008-01-01';");
+	mysql_query("UPDATE $table SET entrydate='2008-01-01', detail='';");
 
 	$table='orderaction';
 	mysql_query("UPDATE $table SET detail='';");
@@ -244,7 +254,9 @@ function generate_random_name($gender){
 	$table='transport_stop';
 	mysql_query("UPDATE $table SET name=id, detail='Bus Stop', lat='0', lng='0';");
 
-
+	$table='transport_route';
+	mysql_query("UPDATE $table SET detail=name;");
+	
 	$table='transport_booking';
 	mysql_query("UPDATE $table SET comment='';");
 
@@ -306,6 +318,7 @@ function generate_random_name($gender){
 
 $d_class=mysql_query("TRUNCATE TABLE message_event;");
 $d_class=mysql_query("TRUNCATE TABLE message_event_seq;");
+$d_class=mysql_query("TRUNCATE TABLE message_text_event;");
 $d_class=mysql_query("TRUNCATE TABLE report_event;");
 
 $result[]='You\'ve been demoised!';
