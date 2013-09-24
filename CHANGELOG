@@ -10,6 +10,14 @@ work in InfoBook too.
 
 Lengthened the transport_stop name field to 120 chars.
 
+Tweak to the get_photo script to avoid ldap connection hanging up.
+
+Removed O'Neill from the dmeoiser becuase it caused problems.
+
+Improved the generate_assessment_columns scrip so it can handle
+changes in curriclum structure (ie. bids and pids swapping).
+
+
 
 Version ClaSS-1.0.52 release (2013/08/30)
 -------------------------------------------

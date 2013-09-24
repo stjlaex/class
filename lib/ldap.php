@@ -78,7 +78,7 @@ function get_photo($epfu,$enrolno,$base_tree_node=null,$size=''){
 		}
 
 	/* Try and fetch the photo from epfdata repository */
-	if(!isset($photo)){
+	if(!isset($photo) and $epfu!=''){
 		$stored_photo=$CFG->eportfolio_dataroot.'/icons/' . substr($epfu,0,1) . '/' . $epfu.'/'.$epfu.'.jpeg';
 		if(file_exists($stored_photo)){$photo=$stored_photo;}
 		}
@@ -104,25 +104,25 @@ function get_photo($epfu,$enrolno,$base_tree_node=null,$size=''){
 			trigger_error('Unable to bind', E_USER_WARNING);
 			$error=true;
 			}
+		else{
+			$search_result=ldap_search( $ldap_connection, $base_tree_node, $search_filter, array( 'jpegPhoto' ));
+			if($search_result){
+				$entry=ldap_first_entry( $ldap_connection, $search_result );
 
-		$search_result=ldap_search( $ldap_connection, $base_tree_node, $search_filter, array( 'jpegPhoto' ));
-
-		if($search_result){
-		    $entry=ldap_first_entry( $ldap_connection, $search_result );
-
-		    if(!$entry){
-				trigger_error('LDAP: user id: '.$epfu.', not found! ', E_USER_WARNING);
-				$error=true;
-				}
-			else{
-				$attrs=ldap_get_attributes($ldap_connection, $entry);
-				if($attrs['jpegPhoto']['count']>0){
-				    $jpeg_data=ldap_get_values_len( $ldap_connection, $entry, "jpegPhoto");
-				    $outfile=$CFG->eportfolio_dataroot.'/cache/images/'.$epfu.'.jpeg';
-				    $handle=fopen($outfile, 'wb');
-			   		fwrite($handle,$jpeg_data[0]);
-				    fclose($handle);
-					$photo=$outfile;
+				if(!$entry){
+					trigger_error('LDAP: user id: '.$epfu.', not found! ', E_USER_WARNING);
+					$error=true;
+					}
+				else{
+					$attrs=ldap_get_attributes($ldap_connection, $entry);
+					if($attrs['jpegPhoto']['count']>0){
+						$jpeg_data=ldap_get_values_len( $ldap_connection, $entry, "jpegPhoto");
+						$outfile=$CFG->eportfolio_dataroot.'/cache/images/'.$epfu.'.jpeg';
+						$handle=fopen($outfile, 'wb');
+						fwrite($handle,$jpeg_data[0]);
+						fclose($handle);
+						$photo=$outfile;
+						}
 					}
 				}
 			}

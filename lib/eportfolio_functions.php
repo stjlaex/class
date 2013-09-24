@@ -854,6 +854,7 @@ function elgg_upload_files($filedata,$dbc=true){
 				mysql_query("INSERT INTO $table_icons SET owner='$epfuid',
 					filename='$file_name', description='$file_description';");
 				mysql_query("UPDATE $table_users SET icon=LAST_INSERT_ID() WHERE ident='$epfuid';");
+
 				}
 			else{
 				$d_f=mysql_query("SELECT ident FROM $table_files WHERE originalname='$file_originalname' 
