@@ -215,9 +215,27 @@ if($perm["$neededperm"]=1 and $AssDef['MarkCount']['value']==0){
 						}
 
 					if($cidno>0){
+
 						$d_eidsids=mysql_query("SELECT eidsid.student_id, eidsid.result, eidsid.value, comments.detail 
 		   					FROM eidsid LEFT JOIN comments ON comments.eidsid_id=eidsid.id WHERE
 							eidsid.subject_id LIKE '$bid' AND eidsid.component_id='$pid' AND eidsid.assessment_id='$eid';");
+
+						if(mysql_num_rows($d_eidsids)==0){
+							//								$AssDef['Year']['value'];
+							$assyear=$yearnow-$yeardiff;
+							$d_s=mysql_query("SELECT DISTINCT subject_id FROM component 
+											WHERE course_id='$crid' AND id='$bid' AND status!='U' AND year='$assyear';");
+							trigger_error($yearnow.'BID   '.$bid.'/'.$pid,E_USER_WARNING);
+							if(mysql_num_rows($d_s)>0){
+								$bidnow=mysql_result($d_s,0);
+								$pidnow=$bid;
+								trigger_error($yearnow.'NEWBID   '.$bid.'/'.$pid.' : '.$bidnow.'/'.$pidnow,E_USER_WARNING);
+								$d_eidsids=mysql_query("SELECT eidsid.student_id, eidsid.result, eidsid.value, comments.detail 
+											FROM eidsid LEFT JOIN comments ON comments.eidsid_id=eidsid.id WHERE
+											eidsid.subject_id LIKE '$bidnow' AND eidsid.component_id='$pidnow' AND eidsid.assessment_id='$eid';");
+								}
+							}
+
 						$sids=array();
 						while($eidsid=mysql_fetch_array($d_eidsids,MYSQL_ASSOC)){
 							$sids[$eidsid['student_id']]=$eidsid;
