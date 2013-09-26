@@ -64,24 +64,29 @@ $extrabuttons['message']=array('name'=>'current',
 							   'onclick'=>'processContent(this)'
 							   );
 */
+$extrabuttons['weekprint']=array('name'=>'current',
+							  'pathtoscript'=>$CFG->sitepath.'/'.$CFG->applicationdirectory.'/register/',
+							  'xmlcontainerid'=>'print',
+							  'value'=>'register_week_print.php',
+							  'onclick'=>'checksidsAction(this)');
 $extrabuttons['reminder']=array('name'=>'current',
-								'title'=>'notice',
-								'xmlcontainerid'=>'print',
-								'value'=>'completion_reminder.php');
+							  'title'=>'notice',
+							  'xmlcontainerid'=>'print',
+							  'value'=>'completion_reminder.php');
 $extrabuttons['notice']=array('name'=>'current',
 							  'title'=>'notice',
 							  'xmlcontainerid'=>'notice',
 							  'value'=>'register_notice.php');
 $extrabuttons['summary']=array('name'=>'current',
-							   'pathtoscript'=>$CFG->sitepath.'/'.$CFG->applicationdirectory.'/register/',
-							   'xmlcontainerid'=>'print',
-							   'value'=>'register_summary.php',
-							   'onclick'=>'checksidsAction(this)');
+							  'pathtoscript'=>$CFG->sitepath.'/'.$CFG->applicationdirectory.'/register/',
+							  'xmlcontainerid'=>'print',
+							  'value'=>'register_summary.php',
+							  'onclick'=>'checksidsAction(this)');
 $extrabuttons['previewselected']=array('name'=>'current',
-									   'pathtoscript'=>$CFG->sitepath.'/'.$CFG->applicationdirectory.'/register/',
-									   'xmlcontainerid'=>'print',
-									   'value'=>'register_print.php',
-									   'onclick'=>'checksidsAction(this)');
+							  'pathtoscript'=>$CFG->sitepath.'/'.$CFG->applicationdirectory.'/register/',
+							  'xmlcontainerid'=>'print',
+							  'value'=>'register_print.php',
+							  'onclick'=>'checksidsAction(this)');
 two_buttonmenu($extrabuttons);
 ?>
   <div id="heading">
@@ -211,6 +216,7 @@ two_buttonmenu($extrabuttons);
 		  <params>
 			<checkname>comids</checkname>
 			<eveid><?php print $currentevent['id'];?></eveid>
+			<evedate><?php print $currentevent['date'];?></evedate>
 		  </params>
 		</div>
 		<div id="xml-notice" style="display:none;">
