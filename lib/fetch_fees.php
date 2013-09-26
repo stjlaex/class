@@ -261,6 +261,21 @@ function fetchTarif($tarif=array('id'=>-1)){
 	}
 
 
+
+/**
+ *
+ *
+ *
+ */
+function get_tarif($tarid){
+
+	$d_t=mysql_query("SELECT id, name, amount, concept_id FROM fees_tarif WHERE id='$tarid';");
+	$t=mysql_fetch_array($d_t);
+
+	return $t;
+	}
+
+
 /**
  *
  *
@@ -584,12 +599,12 @@ function list_remittance_charges($remid,$conid='',$payment=''){
 		}
 
 	if($conid==''){
-		$d_c=mysql_query("SELECT c.id, c.student_id, c.tarif_id, c.quantity, c.amount, c.payment, c.paymenttype, c.invoice_id 
+		$d_c=mysql_query("SELECT c.id, c.student_id, c.tarif_id, c.quantity, c.amount, c.payment, c.paymenttype, c.invoice_id, c.remittance_id 
 							FROM fees_charge AS c JOIN student AS s ON s.id=c.student_id
 							WHERE c.remittance_id='$remid' $payment ORDER BY s.surname, s.id;");
 		}
 	else{
-		$d_c=mysql_query("SELECT c.id, c.student_id, c.tarif_id, c.quantity, c.amount, c.payment, c.paymenttype, c.invoice_id 
+		$d_c=mysql_query("SELECT c.id, c.student_id, c.tarif_id, c.quantity, c.amount, c.payment, c.paymenttype, c.invoice_id, c.remittance_id 
 							FROM fees_charge AS c JOIN student AS s ON s.id=c.student_id
 							WHERE c.remittance_id='$remid' $payment AND c.tarif_id=ANY(SELECT t.id FROM fees_tarif AS t WHERE t.concept_id='$conid')
 							ORDER BY s.surname, s.id;");

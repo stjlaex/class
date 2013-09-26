@@ -17,6 +17,8 @@ Removed O'Neill from the dmeoiser becuase it caused problems.
 Improved the generate_assessment_columns scrip so it can handle
 changes in curriclum structure (ie. bids and pids swapping).
 
+A get_tarif function for the fees lib.
+
 
 
 Version ClaSS-1.0.52 release (2013/08/30)
