@@ -107,11 +107,14 @@ if($sub=='Submit'){
 	$blank_Enrolment=(array)fetchEnrolment();
 
 	foreach($xml['form']['submissions']['submission'] as $index => $import){
+	
 
 		foreach($tables as $table => $fields){
 			if($table=='student'){
 				$Current=$blank_Student;
 				$Student=(array)import_xml_read_fields($import,$Current,$fields,$date_format);
+				$Student['ImportTimeStamp']=$import['datesubmitted'];
+				$Student['ImportIp']=$import['userip'];
 				}
 			elseif(strpos($table,'contact')!==false){
 				$Current=$blank_Contact;
@@ -168,6 +171,16 @@ if($sub=='Submit'){
  * 
  */
 function import_xml_student($Student){
+	/* Try to identify the student by update_event import timestamp and ip. */
+	if(!empty($Student['ImportTimeStamp']) and !empty($Student['ImportIp'])){
+		$timestamp=$Student['ImportTimeStamp'];
+		$ip=$Student['ImportIp'];
+		$d_e=mysql_query("SELECT student_id FROM update_event WHERE import='$timestamp' AND ip='$ip' AND student_id!='';");
+		if(mysql_num_rows($d_e)==1){
+			$sid=mysql_result($d_e,0);
+			$status='notnew';
+			}
+		}
 
 	/* Try to identify the student by enrolment number. */
 	if(!empty($Student['EnrolNumber']['value'])){
@@ -179,12 +192,13 @@ function import_xml_student($Student){
 			}
 		}
 	/* Try to identify an existing student by name and date of birth. */
-	if(!isset($sid) and !empty($Student['Surname']['value']) and !empty($Student['Forename']['value']) and !empty($Student['DOB']['value'])){
+	if(!isset($sid) and !empty($Student['Surname']['value']) and !empty($Student['Forename']['value'])){
 		$existing_surname=$Student['Surname']['value'];
 		$existing_forename=$Student['Forename']['value'];
 		$existing_dob=$Student['DOB']['value'];
+		if(empty($Student['DOB']['value'])){$existing_dob='0000-00-00';}
 		$d_s=mysql_query("SELECT id FROM student WHERE forename='$existing_forename' 
-							AND surname='$existing_surname' AND dob='$existing_dob';");
+							AND surname='$existing_surname' AND dob IN ('$existing_dob','0000-00-00');");
 		if(mysql_num_rows($d_s)==1){
 			$sid=mysql_result($d_s,0);
 			$status='notnew';
@@ -195,6 +209,7 @@ function import_xml_student($Student){
 		mysql_query("INSERT INTO student SET surname='';");
 		$sid=mysql_insert_id();
 		mysql_query("INSERT INTO info SET student_id='$sid';");
+		mysql_query("INSERT INTO update_event SET student_id='$sid',updatedate='".date('Y-m-d')."',import='$timestamp',ip='$ip';");
 		$status='new';
 		}
 
@@ -227,6 +242,7 @@ function import_xml_student($Student){
 			$comname=$enrolstatus.':'.$Enrolment['YearGroup']['value'];
 			$community=array('id'=>'','type'=>$comtype,'name'=>$comname,'year'=>$Enrolment['Year']['value']);
 			join_community($sid,$community);
+			mysql_query("UPDATE update_event SET updatedate='".date('Y-m-d')."',import='$timestamp',ip='$ip' WHERE student_id='$sid';");
 			}
 		}
 	elseif($status=='new'){
@@ -275,7 +291,7 @@ function import_xml_student($Student){
 				}
 			unset($email);
 
-			
+		
 			if($fresh=='yes' and trim($Contact['Surname']['value'])!='' and trim($Contact['Forename']['value'])!=''){
 				/* Check for existing contact. */
 				$surname=good_strtolower(trim($Contact['Surname']['value']));
@@ -319,7 +335,7 @@ function import_xml_student($Student){
 						}
 					}
 				}
-	
+
 			/* Only import new details if the contact does not already exist. */
 			if($fresh=='yes'){
 				/*All to get around problem with xmlreader!*/

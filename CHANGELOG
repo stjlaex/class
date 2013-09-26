@@ -1,4 +1,4 @@
-Version ClaSS-1.0.52 release (2013/09/18)
+Version ClaSS-1.0.53 release (2013/09/26)
 -------------------------------------------
 
 Fix to the list_files function for report context.
@@ -14,7 +14,7 @@ Tweak to the get_photo script to avoid ldap connection hanging up.
 
 Removed O'Neill from the dmeoiser becuase it caused problems.
 
-Improved the generate_assessment_columns scrip so it can handle
+Improved the generate_assessment_columns script so it can handle
 changes in curriclum structure (ie. bids and pids swapping).
 
 A get_tarif function for the fees lib.
@@ -22,6 +22,9 @@ A get_tarif function for the fees lib.
 New weekly sheet for printing in the Register.
 
 Make the profile sheet for printing available from the student_list page.
+
+Improved the update_event table with a timestamp field to be used when
+detecting duplicate imports.
 
 
 Version ClaSS-1.0.52 release (2013/08/30)

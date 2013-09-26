@@ -443,4 +443,5 @@ $string['notdeliveredemails']='Not delivered emails';
 $string['sender']='Sender';
 $string['parentmessages']='Message Log';
 $string['opens']='Opens';
+$string['weekprint']='Week print';
 ?>
