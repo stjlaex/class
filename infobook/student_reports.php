@@ -48,21 +48,18 @@ if($epfu!=''){
 		$http='http';
 		}
 
+	if(trim($epfu)==''){$epfu=strtolower($Student['EnrolNumber']['value']);}
 	foreach($report_files as $reportdetails){
+		if(!is_array($reportdetails)){$report=array('title'=>$reportdetails,'name'=>$reportdetails.'.pdf','location'=>$directory.'/'.$reportdetails.'.pdf');}
+		else{$report=$reportdetails;}
+
 		/* A mix of PDFs will be uploaded to the epfdata directory for
 		 * files and we only want to display report PDFs. 
 		 */
-		if(strpos($reportdetails,'eport')>0){
-?>
-	<div style="float:left;width:24%;margin:2px;padding:2px 4px;background-color:#ffffff;">
-<?php
-	if(trim($epfu)==''){$epfu=strtolower($Student['EnrolNumber']['value']);}
-	if(!is_array($reportdetails)){$report=array('title'=>$reportdetails,'name'=>$reportdetails.'.pdf','location'=>$directory.'/'.$reportdetails.'.pdf');}
-	else{$report=$reportdetails;}
-	print '<a href="'.$http.'://'.$CFG->siteaddress.$CFG->sitepath.'/'.$CFG->applicationdirectory.'/scripts/file_display.php?epfu='.$epfu.'&location='.$report['location'].'&filename='.$report['name'].'" /><label>'.$report['title'].'</label><img src="images/printer.png" /></a>';
-?>
-	</div>
-<?php
+		if(strpos($reportdetails['name'],'eport')>0){
+			print '<div style="float:left;width:24%;margin:2px;padding:2px 4px;background-color:#ffffff;">';
+			print '<a href="'.$http.'://'.$CFG->siteaddress.$CFG->sitepath.'/'.$CFG->applicationdirectory.'/scripts/file_display.php?epfu='.$epfu.'&location='.$report['location'].'&filename='.$report['name'].'" /><label>'.$report['title'].'</label><img src="images/printer.png" /></a>';
+			print '</div>';
 			}
 		}
 ?>
