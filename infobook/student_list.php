@@ -108,6 +108,14 @@ if(($_SESSION['role']=='office' or $_SESSION['role']=='admin') and $CFG->student
 else{
 	$displayname='DisplayFullName';
 	}
+if($_SESSION['role']=='office' or $_SESSION['role']=='admin'){
+	$extrabuttons['print']=array('name'=>'current',
+										'pathtoscript'=>$CFG->sitepath.'/'.$CFG->applicationdirectory.'/infobook/',
+										'value'=>'student_profile_print.php',
+										'xmlcontainerid'=>'profile',
+										'onclick'=>'checksidsAction(this)'
+										);
+	}
 if($_SESSION['role']=='office' or $_SESSION['role']=='admin' or ($_SESSION['role']=='teacher' and $_SESSION['worklevel']>1)){
 	$extrabuttons['message']=array('name'=>'current',
 								   'title'=>'message',
@@ -399,3 +407,11 @@ two_buttonmenu($extrabuttons,$book);
 <?php
 include('scripts/studentlist_extra.php');
 ?>
+
+	<div id="xml-profile" style="display:none;">
+	  <params>
+		<transform>student_profile_print</transform>
+		<paper>portrait</paper>
+	  </params>
+	</div>
+
