@@ -1,4 +1,15 @@
-Version ClaSS-1.0.53 release (2013/09/26)
+Version ClaSS-1.0.54 release (2013/09/30)
+-------------------------------------------
+
+Added language packs for Russian, Chinese, Rumanian and Irish Gaelic.
+
+Updated the Spanish translation.
+
+Added a new meals module under Admin.
+
+
+
+Version ClaSS-1.0.53 release (2013/09/28)
 -------------------------------------------
 
 Fix to the list_files function for report context.
@@ -25,6 +36,7 @@ Make the profile sheet for printing available from the student_list page.
 
 Improved the update_event table with a timestamp field to be used when
 detecting duplicate imports.
+
 
 
 Version ClaSS-1.0.52 release (2013/08/30)

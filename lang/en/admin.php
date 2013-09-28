@@ -267,4 +267,6 @@ $string['bankexport']='Bank Export';
 $string['chargeexport']='Charge Export';
 $string['emailstats']='Email Statistics';
 $string['selectdaterange']='Select date range';
+$string['meals']='Meals';
+$string['meal']='Meal';
 ?>

@@ -1,3 +1,8 @@
+/**
+ * Meals list is where are stored all meals (name,detail,day)
+ * Meals booking is where the students are attached to the correspondant meal (startdate and enddate)
+ */
+
 CREATE TABLE meals_list (
 	id				smallint unsigned auto_increment,
 	name			varchar(30) not null default '',
@@ -7,6 +12,7 @@ CREATE TABLE meals_list (
 	day				enum('1','2','3','4','5','6','7','%') not null default '%',
 	primary key		(id)
 ) ENGINE=MYISAM;
+
 CREATE TABLE meals_booking (
 	id				int unsigned not null auto_increment,
 	student_id		int unsigned not null default '0',

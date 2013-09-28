@@ -1608,6 +1608,59 @@ function setAll(eveid){
 			}
 	}
 
+/* Edit meal, redirects to meals editor action script*/
+function clickToEditMeal(sid,date,mealid,day){
+	var everyset='no';
+	var everychange='no';
+	/*If it is checked submits it and it if is unchecked deletes it*/
+	if(document.getElementById('form_choice').value=='meal'){
+		var check=document.getElementById("mealcheckbox_"+sid+"_"+day).checked;
+		if(check){sub='Submit';}
+		if(!check){sub='Delete';}
+		if(document.getElementById('everyday_'+sid).checked){document.getElementById('everyday_'+sid).checked=false;everyset='yes';everychange='modify';}
+		}
+	/*If meal id is 0 it deletes it*/
+	if(document.getElementById('form_choice').value=='student'){
+		var mealid=document.getElementById("meals_select_"+sid+"_"+date).value;
+		if(mealid=='0'){var sub='Delete';}
+		if(mealid!='0'){var sub='Submit';}
+		if(mealid=='0'){mealid=document.getElementById("selected_"+sid+"_"+date).value;}
+		}
+	/*URL and parameters*/
+	var url="admin/httpscripts/meals_editor_action.php?sid="+sid+"&date="+date+"&mealid="+mealid+"&sub="+sub+"&everyday="+everyset+"&everydaychange="+everychange+"&day="+day;
+	xmlHttp.open("GET", url, true);
+	xmlHttp.onreadystatechange=function () {
+		if(xmlHttp.readyState==4 && xmlHttp.status==200){
+				//OK
+			}
+		}
+	xmlHttp.send();
+	}
+
+/* Edit everyday meals */
+function enableMealEveryday(id,sid,date,mealid){
+	/*Check everyday checkbox and if one is unchecked the everyday option is unchecked too*/
+	for (var i = 1; i <= 5; i++) {
+		if(document.getElementById('everyday_'+sid).checked){
+			document.getElementById(id+'_'+sid+'_'+i).checked=true;document.getElementById(id+'_'+sid+'_'+i).disabled='disabled';
+			var sub='&sub=Submit&everyday=yes';
+			}
+		if(!document.getElementById('everyday_'+sid).checked){
+			document.getElementById(id+'_'+sid+'_'+i).checked=false;document.getElementById(id+'_'+sid+'_'+i).removeAttribute('disabled');
+			var sub='&sub=Delete&everyday=yes&everydaychange=yes';
+			}
+		}
+	/*URL to script and parameters*/
+	var url="admin/httpscripts/meals_editor_action.php?sid="+sid+"&date="+date+"&mealid="+mealid+sub;
+	xmlHttp.open("GET", url, true);
+	xmlHttp.onreadystatechange=function () {
+		if(xmlHttp.readyState==4 && xmlHttp.status==200){
+				//OK
+			}
+		}
+	xmlHttp.send();
+	}
+
 
 //
 function openAlert(book) {
