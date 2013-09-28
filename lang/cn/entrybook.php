@@ -1,0 +1,10 @@
+<?php
+$string=array(
+     "newstudentadded"=>"添加新学生.",
+     "newcontactadded"=>"添加新的联系方式",
+     "teacherid"=>"用户名",
+     "staffpin"=>"登录密码",
+     "contactfor"=>"联系方式",
+     "linkcontact"=>"选择现有的联系方式",
+     "existingcontacts"=>"现有的联系方式"
+);?>
