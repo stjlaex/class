@@ -7,12 +7,15 @@
  */
 
 $languages=array(
-				 'cn' => 'Chinese',
-				 'de' => 'Deutsch',
 				 'en' => 'English',
 				 'es' => 'Espanol',
 				 'fr' => 'Francais',
+				 'de' => 'Deutsch',
 				 'it' => 'Italiano',
-				 'nl' => 'Nederlands'
+				 'cn' => 'Chinese',
+				 'nl' => 'Nederlands',
+				 'ro' => 'Romana',
+				 'ga' => 'GaelicIrish',
+				 'ru' => 'Russian'
 				 );
 ?>

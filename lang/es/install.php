@@ -1,13 +1,10 @@
 <?php
-/**						lang/es/install.php
+/**						lang/en/install.php
  *
  */
-$string['hopefullyclassresults']='Los (esperados) Resultados de ClaSS';
-$string['wherenext']='Qu&eacute; es lo siguiente';
-$string['forhelpandsupport']='para ayuda y asistencia';
-$string['applicationsite']='sitio de la aplicaci&oacute;n.';
-$string['yournew']='Su nuevo/a';
-$string['']='';
-$string['']='';
-$string['']='';
+$string['hopefullyclassresults']='The (hopefully) ClaSS Results';
+$string['wherenext']='Where next';
+$string['forhelpandsupport']='for help and support.';
+$string['applicationsite']='application site.';
+$string['yournew']='Your new';
 ?>

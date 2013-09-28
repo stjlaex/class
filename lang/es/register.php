@@ -1,63 +1,64 @@
 <?php
-/**						lang/es/register.php
- *
- */
-$string['currentsession']='Sesi&oacute;n actual';
-$string['registrationsession']='Sesi&oacute;n';
-$string['registrationgroups']='Grupos';
-$string['takeregister']='Registrar grupo';
-$string['noreasonyetprovided']='A&uacute;n no ha proporcionado ninguna raz&oacute;n';
-$string['late']='Retraso';
-$string['illness']='Enfermedad';
-$string['medicaldentalappointments']='Cita m&eacute;dica/dental';
-$string['approvedsportingactivity']='Actividad deportiva aprobada';
-$string['studyleave']='Salida de estudios';
-$string['educationalvisitortrip']='Visita o viaje educativo';
-$string['educatedoffsite']='Educaci&oacute;n a distancia';
-$string['excluded']='Excluido';
-$string['extendedfamilyholidayagreed']='Extensi&oacute;n vacaci&oacute;n familiar (con acuerdo)';
-$string['familyholidaynotagreeded']='Vacaci&oacute;n familiar (sin acuerdo)';
-$string['familyholidayagreed']='Vacaci&oacute;n familiar (con acuerdo)';
-$string['interview']='Entrevista';
-$string['religiousobservance']='Pr&aacute;cticas religiosas';
-$string['travellerabsence']='Ausencia por viaje';
-$string['workexperience']='Experiencia de trabajo';
-$string['otherauthorisedcircumstances']='Otras circunstancias autorizadas';
-$string['dualregistrationattendingother']='Inscripci&oacute;n doble (asistiendo al otro sitio)';
-$string['lateafterregisterclosed']='Retraso no autorizado (despu&eacute;s del cierre del registro)';
-$string['lateafterregisterclosedauthorised']='Retraso autorizado (despu&eacute;s del cierre del registro)';
-$string['lateafterregisterclosedbus']='Bus retrasado (tras el cierre del regirtro)';
-$string['latebeforeregisterclosed']='Retrasado (antes del cierre del registro)';
-$string['latebeforeregisterclosedbus']='Bus retrasado (antes del cierre del registro)';
-$string['untimetabledsessions']='Sesiones no programadas';
-$string['enforcedclosure']='Cierre forzado';
-$string['pupilnotonrole']='Alumno no dado de alta (no en la lista)';
-$string['schoolclosedtopupils']='Colegio cerrado a los estudiantes';
-$string['unauthorisedabsence']='Ausencia no autorizada';
-$string['authorisedabsence']='Ausencia autorizada';
-$string['absencelists']='Ausencias';
-$string['list']='Lista';
-$string['completions']='Finalizaci&oacute;n';
-$string['absencesthissession']='Ausencias de la sesi&oacute;n actual';
-$string['completedregisters']='Inscripci&oacute;n completada';
-$string['present']='Presente';
-$string['absent']='Ausente';
-$string['registrationgroup']='Grupo para inscripci&oacute;n';
-$string['registersthissession']='Inscripci&oacute;n para la sesi&oacute;n en curso';
-$string['complete']='Completo/a';
-$string['incomplete']='Incompleto/a';
-$string['attended']='Presentado';
-$string['absences']='Ausencias';
-$string['messagecontactsunauthorisedabsences']='Contactos para mandar mensajes s&oacute;lo sobre ausencias no autorizadas.';
-$string['messagecontactsallabsences']='Contactos para mandar mensajes sobre TODO tipo de ausencias.';
-$string['period']='Per&iacute;odo';
-$string['last']='&Uacute;ltimo';
-$string['absencemessage']='Estmado Padre/Madre,
+$string=array(
+     "currentsession"=>"Sesión actual",
+     "registrationsession"=>"Sesión",
+     "registrationgroups"=>"Grupos",
+     "takeregister"=>"Registrar grupo",
+     "noreasonyetprovided"=>"Aún no ha proporcionado ninguna razón",
+     "late"=>"Retraso",
+     "illness"=>"Enfermedad",
+     "medicaldentalappointments"=>"Cita médica/dental",
+     "approvedsportingactivity"=>"Actividad deportiva aprobada",
+     "studyleave"=>"Salida de estudios",
+     "educationalvisitortrip"=>"Visita o viaje educativo",
+     "educatedoffsite"=>"Educación a distancia",
+     "excluded"=>"Excluido",
+     "extendedfamilyholidayagreed"=>"Extensión vacación familiar (con acuerdo)",
+     "familyholidaynotagreeded"=>"Vacación familiar (sin acuerdo)",
+     "familyholidayagreed"=>"Vacación familiar (con acuerdo)",
+     "interview"=>"Entrevista",
+     "religiousobservance"=>"Prácticas religiosas",
+     "travellerabsence"=>"Ausencia por viaje",
+     "workexperience"=>"Experiencia de trabajo",
+     "otherauthorisedcircumstances"=>"Otras circunstancias autorizadas",
+     "dualregistrationattendingother"=>"Inscripción doble (asistiendo al otro sitio)",
+     "lateafterregisterclosed"=>"Retraso no autorizado (después del cierre del registro)",
+     "lateafterregisterclosedauthorised"=>"Retraso autorizado (después del cierre del registro)",
+     "lateafterregisterclosedbus"=>"Bus retrasado (tras el cierre del regirtro)",
+     "latebeforeregisterclosed"=>"Retrasado (antes del cierre del registro)",
+     "latebeforeregisterclosedbus"=>"Bus retrasado (antes del cierre del registro)",
+     "untimetabledsessions"=>"Sesiones no programadas",
+     "enforcedclosure"=>"Cierre forzado",
+     "pupilnotonrole"=>"Alumno no dado de alta (no en la lista)",
+     "schoolclosedtopupils"=>"Colegio cerrado a los estudiantes",
+     "unauthorisedabsence"=>"Ausencia no autorizada",
+     "authorisedabsence"=>"Ausencia autorizada",
+     "absencelists"=>"Ausencias",
+     "completions"=>"Finalización",
+     "absencesthissession"=>"Ausencias de la sesión actual",
+     "completedregisters"=>"Inscripción completada",
+     "present"=>"Presente",
+     "absent"=>"Ausente",
+     "registrationgroup"=>"Grupo para inscripción",
+     "registersthissession"=>"Inscripción para la sesión en curso",
+     "complete"=>"Completo/a",
+     "incomplete"=>"Incompleto/a",
+     "attended"=>"Presentado",
+     "absences"=>"Ausencias",
+     "messagecontactsunauthorisedabsences"=>"Contactos para mandar mensajes sólo sobre ausencias no autorizadas.",
+     "messagecontactsallabsences"=>"Contactos para mandar mensajes sobre TODO tipo de ausencias.",
+     "period"=>"Período",
+     "last"=>"Último",
+     "absencemessage"=>"Estmado Padre/Madre,
 
-A las 10:00 de esta ma&ntilde;ana, a$ a&uacute;n no se hab&iacute;a registrado en el colegio. Por favor, contacte con el colegio para informar del motivo de su ausencia.
+A las 10:00 de esta mañana, a$ aún no se había registrado en el colegio. Por favor, contacte con el colegio para informar del motivo de su ausencia.
 
 Gracias.
-';
-$string['inschool']='Presente en el colegio';
-$string['']='';
-?>
+",
+     "inschool"=>"Presente en el colegio",
+     "month"=>"Mes",
+     "numberofdays"=>"Días de escuela",
+     "dailyaverage"=>"Promedio diario",
+     "reason"=>"Razón",
+     ""=>""
+);?>

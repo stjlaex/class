@@ -143,7 +143,7 @@ three_buttonmenu();
 
 			<td>
 			  <input type="text" style="width:80%;background-color:#ddd;"
-				 name="<?php print 'comm'.$sid;?>" maxlength="98" 
+				 name="<?php print 'comm'.$sid;?>" maxlength="600" 
 				value="<?php print $viewtable[$c]["score$mid"]['comment'];?>"  />
 			</td>
 <?php
