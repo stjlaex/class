@@ -7,6 +7,10 @@ Updated the Spanish translation.
 
 Added a new meals module under Admin.
 
+Tiny fix to the new_assessment import scores function so that the
+colstart is sensible to humans.
+
+Tiny fix to the ents list to display year group.
 
 
 Version ClaSS-1.0.53 release (2013/09/28)

@@ -47,7 +47,6 @@ if(is_array($Entries)){
 
 	$currentyid='';
 	foreach($Entries as $key => $entry){
-
 		/* Display the entries grouped by year group. */
 		if(!isset($startyid)){
 			$startyid=$entry['YearGroup']['value'];
@@ -57,6 +56,7 @@ if(is_array($Entries)){
 			}
 		elseif($entry['YearGroup']['value']!=$currentyid){
 			html_table_container_close(1);
+			$currentyid=$entry['YearGroup']['value'];
 			$opencontainer=uniqid();
 			$containerno++;
 			}
