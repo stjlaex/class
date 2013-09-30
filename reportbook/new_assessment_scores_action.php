@@ -48,7 +48,7 @@ if($sub=='Submit'){
 			/* grabs the first row with subject codes */
 	  		$subjectrow=array_shift($inrows);
 			/* colstart defines the offset to ignore uid, student name columns etc.*/
-			$subjects=array_slice($subjectrow,$colstart);
+			$subjects=array_slice($subjectrow,$colstart-1);
   			if(sizeof($subjects)>0){
 				foreach($subjects as $index => $subject){
 					$bid='';
@@ -124,7 +124,7 @@ if($sub=='Submit'){
 				$insid++;
 				foreach($bids as $col => $bid){
 					if(isset($bid[0]) and $bid[0]!='#'){
-						$invalue=$row[$col+$colstart];/*offset to ignore first columns*/
+						$invalue=$row[$col+$colstart-1];/*offset to ignore first columns*/
 						if($grading_grades!=''){
 							$res=trim($invalue);
 							$value=gradeToScore($res,$grading_grades);

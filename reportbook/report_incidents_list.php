@@ -53,15 +53,20 @@ include('scripts/sub_action.php');
 				component.subject_id='$rbid' AND component.id='' AND cohort.stage='$stage' AND cohort.year='$year'");
 			$rcrid=mysql_result($d_course,0);
 			}
-
-		$d_community=mysql_query("SELECT community_id FROM cohidcomid JOIN
+		elseif($rcrid!=''){
+			$d_community=mysql_query("SELECT community_id FROM cohidcomid JOIN
 				cohort ON cohidcomid.cohort_id=cohort.id WHERE
 			    cohort.stage='$stage' AND cohort.year='$year' AND
 				cohort.course_id='$rcrid' LIMIT 1");
-		$comid=mysql_result($d_community,0);
-		$d_incidents=mysql_query("SELECT * FROM incidents JOIN
+			$comid=mysql_result($d_community,0);
+			$d_incidents=mysql_query("SELECT * FROM incidents JOIN
 				comidsid ON comidsid.student_id=incidents.student_id
-				WHERE incidents.entrydate > '$startdate' AND comidsid.community_id='$comid'");
+				WHERE incidents.entrydate > '$startdate' AND  incidents.entrydate<='$enddate' AND comidsid.community_id='$comid'");
+			}
+		else{
+			$d_incidents=mysql_query("SELECT * FROM incidents
+				WHERE incidents.entrydate > '$startdate'  AND incidents.entrydate<='$enddate'");
+			}
 		}
 
 	if(mysql_num_rows($d_incidents)==0){
