@@ -45,12 +45,20 @@ function get_meal($mealid,$name='',$day=''){
 function get_student_booking($studentid,$date,$day='%'){
 	$bookings=array();
 	if($studentid!=' ' and $studentid!=''){
-		$d_b=mysql_query("SELECT l.id, l.name, l.detail, l.time, l.type, 
-							b.meal_id, b.student_id, b.comment, b.day, b.startdate, b.enddate
+		if($date=='0000-00-00'){
+			$d_b=mysql_query("SELECT l.id, l.name, l.detail, l.time, l.type, 
+							b.id AS bookingid, b.meal_id, b.student_id, b.comment, b.day, b.startdate, b.enddate
+							FROM meals_list AS l JOIN meals_booking AS b 
+							ON l.id=b.meal_id WHERE b.student_id='$studentid' AND b.enddate='0000-00-00' AND b.day='%';");
+			}
+		else{
+			$d_b=mysql_query("SELECT l.id, l.name, l.detail, l.time, l.type, 
+							b.id AS bookingid, b.meal_id, b.student_id, b.comment, b.day, b.startdate, b.enddate
 							FROM meals_list AS l JOIN meals_booking AS b 
 							ON l.id=b.meal_id WHERE b.student_id='$studentid' AND b.startdate<='$date' 
 							AND (b.enddate>='$date' OR b.enddate='0000-00-00') AND (b.day LIKE '$day' OR b.day='%') 
 							ORDER BY b.startdate DESC, b.enddate DESC, b.day ASC;");
+			}
 		while($bookings[]=mysql_fetch_array($d_b,MYSQL_ASSOC)){}
 		}
 	return $bookings;
@@ -69,7 +77,7 @@ function list_meals($day='%',$name='%'){
 	$meals=array();
 	$d_m=mysql_query("SELECT id,name,detail,type,time
 						FROM meals_list WHERE (day LIKE '$day' OR day='%') 
-							AND name LIKE '$name' ORDER BY name ASC;");
+							AND name LIKE '$name' ORDER BY id ASC;");
 	while($meal=mysql_fetch_array($d_m,MYSQL_ASSOC)){
 		$meals[$meal['id']]=$meal;
 		}
@@ -86,7 +94,7 @@ function list_meals($day='%',$name='%'){
  **/
 function list_mealsnames(){
 	$meals=array();
-	$d_m=mysql_query("SELECT DISTINCT name FROM meals_list ORDER BY name ASC;");
+	$d_m=mysql_query("SELECT DISTINCT name FROM meals_list ORDER BY id ASC;");
 	while($meal=mysql_fetch_array($d_m,MYSQL_ASSOC)){
 		$meals[]=$meal;
 		}
@@ -343,6 +351,36 @@ function delete_bookings($sid,$date){
 		delete_booking($sid,$b['id']);
 		}
 
+	}
+
+/**
+ *
+ * Gets the comment for a booking
+ *
+ * @param integer $sid
+ * @param date $date
+ *
+ **/
+function get_booking_comments($sid,$mealid='%'){
+	$d_c=mysql_query("SELECT * FROM meals_booking AS b 
+						WHERE b.student_id='$sid' 
+						AND b.meal_id LIKE '$mealid';");
+	while($c=mysql_fetch_array($d_c,MYSQL_ASSOC)){
+		$comments[]=$c;
+		}
+	return $comments;
+	}
+
+/**
+ *
+ * Adds a comment to a booking
+ *
+ * @param integer $sid
+ * @param date $date
+ *
+ **/
+function add_booking_comment($sid,$bookingid,$newcomment){
+	mysql_query("UPDATE meals_booking SET comment='$newcomment' WHERE id='$bookingid' AND student_id='$sid';");
 	}
 
 ?>

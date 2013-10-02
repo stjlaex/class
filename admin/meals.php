@@ -44,6 +44,7 @@ two_buttonmenu($extrabuttons);
 		$meals=list_meals();
 
 		foreach($meals as $meal){
+			if($meal['name']!='NOT LUNCHING'){
 ?>
 	<div style="float:left;width:24%;margin:2px;">
 	  <table class="listmenu smalltable">
@@ -53,7 +54,8 @@ two_buttonmenu($extrabuttons);
 		  </td>
 		  <td>
 <?php
-				print '<a  href="admin.php?current=meals_list.php&cancel='.$choice.'&choice='.$choice.'&meal='.$meal['name'].'&mealid='.$meal['id'].'">'.$meal['name'].'</a>';
+	 //print '<a  href="admin.php?current=meals_list.php&cancel='.$choice.'&choice='.$choice.'&meal='.$meal['name'].'&mealid='.$meal['id'].'">'.$meal['name'].'</a>';
+				print ''.$meal['name'].'';
 ?>
 		  </td>
 		  <td>
@@ -67,6 +69,7 @@ two_buttonmenu($extrabuttons);
 	  </table>
 	</div>
 <?php
+				}
 			}
 ?>
 	</fieldset>

@@ -93,9 +93,12 @@ else{
 				$atlunch=false;
 				$mealid='';
 				foreach($bookings as $booking){
+					if($booking['day']=='%' and $booking['enddate']=='0000-00-00'){$everydaycomment=$booking['comment'];}
+					}
+				foreach($bookings as $booking){
 					if($meal!=''){$mealid=$meal['id'];}
 					if($mealid==$booking['meal_id']){$atlunch=true;}
-					if($booking['student_id']==$sid and !$absence){
+					if($booking['student_id']==$sid and !$absence and $meals[$booking['meal_id']]['name']!='NOT LUNCHING'){
 						/*Stores all details for the meal journey*/
 						$Journey=array();
 						$Journey['Id']=$booking['meal_id'];
@@ -103,7 +106,8 @@ else{
 						$Journey['Date']=$booking['startdate'];
 						$Journey['Detail']=$booking['detail'];
 						$Journey['Time']=$meals[$booking['meal_id']]['time'];
-						$Journey['Comment']=$booking['comment'];
+						if($booking['comment']=='falsus'){$Journey['Comment']=$everydaycomment;}
+						else{$Journey['Comment']=$booking['comment'];}
 						$Journey['Meal']=array('id_db'=>$booking['meal_id'],
 											  'value'=>$meals[$booking['meal_id']]['name']
 											  );

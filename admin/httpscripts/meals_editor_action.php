@@ -10,17 +10,36 @@ $sub=$_GET['sub'];
 $sid=$_GET['sid'];
 if(isset($_GET['openid'])){$openerId=$_GET['openid'];}
 if(isset($_GET['sid'])){$sid=$_GET['sid'];}
+if(isset($_POST['date'])){$date=$_POST['date'];}else{$date='';}
 if(isset($_GET['date'])){$date=$_GET['date'];}
+if(isset($_GET['new_comment'])){$new_comment=$_GET['new_comment'];}
+if(isset($_GET['booking_id'])){$booking_id=$_GET['booking_id'];}
 if(isset($_GET['mealid'])){$mealid=$_GET['mealid'];}
 if(isset($_GET['day'])){$day=$_GET['day'];}
 if(isset($_GET['everyday'])){$everyday=$_GET['everyday'];}else{$everyday='no';}
 if(isset($_GET['everydaychange'])){$everychange=$_GET['everydaychange'];}else{$everydaychange='no';}
+if(isset($_GET['allselect'])){$allselect=$_GET['allselect'];}else{$allselect=false;}
+if(isset($_GET['addcomment'])){$addcomment=$_GET['addcomment'];}else{$addcomment=false;}
+if(isset($_GET['sids'])){$sids=$_GET['sids'];}else{$sids='';}
+
+
 
 /*Get all the bookings for a student*/
 $bookings=get_student_booking($sid,$date,'%');
 
+if($addcomment){
+	add_booking_comment($sid,$booking_id,$new_comment);
+	}
+
+if($allselect){
+	foreach($sids as $sid){
+		delete_bookings($sid,$date);
+		add_meal_booking($sid,$mealid,'every',$date);
+		}
+	}
+
 /*It is not an everyday check/uncheck option*/
-if($everyday=='no'){
+if($everyday=='no' and !$allselect){
 	/*It will add or modify a booking*/
 	if($sub=='Submit'){
 		add_meal_booking($sid,$mealid,'once',$date);
@@ -40,7 +59,7 @@ if($everyday=='no'){
 				for($i=0;$i<$diff;$i++){
 					$d=date('Y-m-d',strtotime($startdate.' +'.$i.' day'));
 					/*from startdate to modified date -1 it adds single bookings*/
-					if(date('N',strtotime($d))!=6 and date('N',strtotime($d))!=7 and date('Y-m-d',strtotime($d))<$date){add_meal_booking($sid,$booking['meal_id'],'once',$d,$booking['comment']);}
+					if(date('N',strtotime($d))!=6 and date('N',strtotime($d))!=7 and date('Y-m-d',strtotime($d))<$date){add_meal_booking($sid,$booking['meal_id'],'once',$d,'falsus');}
 					}
 				$everystart=date('Y-m-d',strtotime($deleteddate.' +1 day'));
 				/*from modified date +1 it adds an everyday option*/
@@ -77,7 +96,7 @@ if($everyday=='no'){
 		}
 	}
 /*If it is an everyday option*/
-if($everyday=='yes'){
+if($everyday=='yes' and !$allselect){
 	/* to delete*/
 	if($sub=='Delete'){
 		/*if the user want to remove the everyday option*/
@@ -112,5 +131,6 @@ if($everyday=='yes'){
 		add_meal_booking($sid,$mealid,'every',$date);
 		}
 	}
-
+$bs=get_student_booking($sid,$date,$day);
+print $bs[0]['bookingid'];
 ?>

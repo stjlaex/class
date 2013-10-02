@@ -69,6 +69,21 @@ two_buttonmenu($extrabuttons,$book);
 <?php
 	$days=getEnumArray('dayofweek');
 	if($meal!=''){print '<th>'; print_string('everyday',$book); print '</th>';}
+	if($comid!=''){
+		$meals_list=list_meals();
+		print '<th>'; 
+		print_string('everyday',$book); 
+		print '<div>';
+		print '<label for="selectforall" >Check all</label><select id="selectforall" onChange="enableMealForAll();" ">'; 
+		print '<option value="-1"></option>'; 
+		foreach($meals_list as $meal_list){
+			$opt='<option value="'.$meal_list['id'].'">'.$meal_list['name'].'</option>'; 
+			if($meal_list['name']!='NOT LUNCHING'){print $opt;}
+			}
+		print '</select>';
+		print '</div>';
+		print '</th>';
+		}
 	$dates=array();
 	foreach($days as $day => $dayname){
 		$daydiff=$day-$today;
@@ -89,8 +104,29 @@ two_buttonmenu($extrabuttons,$book);
 		$attendances[$sid]=(array)fetchAttendances($sid);
 		$meals_list=list_meals();
 		print '<tr id="sid-'.$sid.'">';
-		print '<td>'.'<input type="checkbox" name="sids[]" value="'.$sid.'" />'.$rown++.'</td><td></td>';
-		print '<td class="student"><a target="viewinfobook" onclick="parent.viewBook(\'infobook\');" href="infobook.php?current=student_view.php&sid='.$sid.'">'.$student['surname'].', '. $student['forename'].'</a></td>';
+		print '<td>'.'<input type="checkbox" id="sids['.$rown.']" name="sids[]" value="'.$sid.'" />'.$rown++.'</td><td></td>';
+		if($comid!=''){
+			print '<td class="student"><a target="viewinfobook" onclick="parent.viewBook(\'infobook\');" href="infobook.php?current=student_view.php&sid='.$sid.'">'.$student['surname'].', '. $student['forename'].'</a></td>';
+			$bs=get_student_booking($sid,'0000-00-00');
+			print '<td><select id="everydayselect_'.$sid.'" onChange="enableMealEveryday(\'mealselect\',\''.$sid.'\',\''.$dates[$today].'\',\''.$mealid.'\');">'; 
+			print '<option value="-1"></option>'; 
+			foreach($meals_list as $meal_list){
+				$opt='<option value="'.$meal_list['id'].'">'.$meal_list['name'].'</option>'; 
+				foreach($bs as $booking){
+					if($booking['name']==$meal_list['name'] and $booking['enddate']=='0000-00-00'){$opt='<option selected value="'.$meal_list['id'].'">'.$meal_list['name'].'</option>';}
+					}
+				if($meal_list['name']!='NOT LUNCHING'){print $opt;}
+				}
+			print '</select><br>';
+			$comments=get_booking_comments($sid);
+			print '<div id="everydaycomment_container_'.$sid.'" style="float:left">';
+			foreach($comments as $key=>$comment){
+				if($comment['enddate']=='0000-00-00' and $comment['day']=='%' and $comment['meal_id']!='0'){print '<label for="everydaycomment_'.$sid.'">Comment</label><input id="everydaycomment_'.$sid.'" name="everydaycomment_'.$sid.'" type="text" value="'.$comment['comment'].'" onchange="addMealComment('.$sid.','.$comment['id'].');">';}
+				}
+			print '</div>';
+			print '</td>';
+			}
+		if($meal!=''){print '<td class="student"><a target="viewinfobook" onclick="parent.viewBook(\'infobook\');" href="infobook.php?current=student_view.php&sid='.$sid.'">'.$student['surname'].', '. $student['forename'].' ('.$student['form_id'].')</a></td>';}
 		$html='';
 		$everycheck='';
 		foreach($days as $day=>$dayname){
@@ -130,7 +166,7 @@ two_buttonmenu($extrabuttons,$book);
 				if($dates[$day]<$dates[$today]){$divmeal2='<div class="lowlite"><select disabled id=\'meals_select_'.$sid.'_'.$dates[$day].'\'>';}
 				else{$divmeal2='<div class="lowlite"><select onchange="clickToEditMeal('.$sid.',\''.$dates[$day].'\',\'\',\''.$day.'\');" id=\'meals_select_'.$sid.'_'.$dates[$day].'\'>';}
 				/*Delete/blank option*/
-				$divmeal2.='<option value="0">--</option>';
+				$divmeal2.='<option value="-1"></option>';
 				/*All meals*/
 				foreach($meals_list as $meal_list){
 					$divmealoption='<option value="'.$meal_list['id'].'">'.$meal_list['name'].'</option>';
@@ -148,7 +184,14 @@ two_buttonmenu($extrabuttons,$book);
 							}
 						}
 					}
-				$divmeal2.='</select>'.$absence.'</div>';
+				$divmeal2.='</select>'.$absence;
+				$comments=get_booking_comments($sid);
+				$divmeal2.='<br><div id="daycomment_container_'.$sid.'_'.$day.'" style="float:left">';
+				foreach($comments as $key=>$comment){
+					if($comment['startdate']==$dates[$day] and $comment['day']==$day and $comment['meal_id']!='0' and $comment['comment']!='falsus'){$divmeal2.='<label for="daycomment_'.$sid.'_'.$day.'">Comment</label><input id="daycomment_'.$sid.'_'.$day.'" name="daycomment_'.$sid.'_'.$day.'" type="text" value="'.$comment['comment'].'" onchange="addMealComment('.$sid.','.$comment['id'].','.$day.');">';}
+					}
+				$divmeal2.='</div>';
+				$divmeal2.='</div>';
 				$html.='<td class="clicktoaction">'.$divmeal2.'</td>';
 				$html.='<input type="hidden" id="selected_'.$sid.'_'.$dates[$day].'" value="'.$selected[$sid.'_'.$dates[$day]].'">';
 				$html.='<input type="hidden" id="form_choice" value="student">';
@@ -165,7 +208,9 @@ two_buttonmenu($extrabuttons,$book);
 	  *A: Absent
 	</div>
 
-
+	<input type="hidden" id="dayno" value="<?php print $today;?>" />
+	<input type="hidden" name="date" value="<?php print $todate;?>" />
+	<input type="hidden" id="sno" value="<?php print $rown;?>" />
 	<input type="hidden" name="meal" value="<?php print $meal;?>" />
 	<input type="hidden" name="current" value="<?php print $action;?>" />
 	<input type="hidden" name="choice" value="<?php print $choice;?>" />
