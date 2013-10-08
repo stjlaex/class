@@ -18,6 +18,7 @@ $extrabuttons=array();
 if($_SESSION['username']=='administrator'){
 	$extrabuttons['import']=array('name'=>'current','value'=>'meals_import.php');
 	}
+$extrabuttons['add']=array('name'=>'current','value'=>'meals_add.php');
 $extrabuttons['list']=array('name'=>'current',
 							'pathtoscript'=>$CFG->sitepath.'/'.$CFG->applicationdirectory.'/admin/',
 							'value'=>'meals_print.php',
