@@ -8,7 +8,10 @@ $rid=$_POST['rid'];
 $type=$_POST['type'];
 if(isset($_POST['bid'])){$bid=$_POST['bid'];}
 if(isset($_POST['pid'])){$pid=$_POST['pid'];}
+if(isset($_POST['gradingname'])){$grading_name=$_POST['gradingname'];}
 if(isset($_POST['stage'])){$stage=$_POST['stage'];}
+if(isset($_POST['subsubject'])){$subsubject=$_POST['subsubject'];}
+if(isset($_POST['sublevel'])){$sublevel=$_POST['sublevel'];}
 
 /*Note: categories are not handled by the commentwriter*/
 
@@ -19,20 +22,25 @@ if($sub=='Cancel'){
 elseif($sub=='Submit'){
 	$openerId=$_POST['openid'];
 	
+	if($gradingname==''){
+		$d_gn=mysql_query("SELECT grading_name FROM assessment WHERE subject_id='$bid' LIMIT 1;");
+		$gn=mysql_fetch_row($d_gn);
+		$gradingname=$gn[0];
+		}
+	
 	if($type=='cat'){
 		if($pid!='' and $pid!=' '){$bid=$pid;}
 		if(!isset($stage)){$stage='%';}
 		$RepDef=fetchReportDefinition($rid);
 		$crid=$RepDef['Course']['value'];
-		$catdefs=get_report_categories($rid,$bid,$pid);
 		}
 	else{
 		$crid='%';
-		$catdefs=array();
 		}
 
 
 	$maxcatn=30;
+	/*Foreach statement*/
 	for($matn=1;$matn<=$maxcatn;$matn++){
 		if(isset($_POST['catid'.$matn])){
 			$incatid=$_POST['catid'.$matn];
@@ -40,22 +48,26 @@ elseif($sub=='Submit'){
 			$inval=clean_text($_POST[$inname]);
 			if(isset($_POST['stage'.$matn])){$instage=$_POST['stage'.$matn];}
 			else{$instage=$stage;}
+			if(isset($_POST['sublevel'.$matn])){$insublevel=$_POST['sublevel'.$matn];}
+			else{$insublevel=$sublevel;}
+			if(isset($_POST['subsubject'.$matn])){$insubsubject=$_POST['subsubject'.$matn];}
+			else{$insubsubject=$subsubject;}
+			/* it adds a new one - false*/
 			if($incatid==-1 and $inval!=''){
-				mysql_query("INSERT INTO categorydef SET name='$inval', type='$type', 
-					rating_name='', subject_id='$bid', course_id='$crid', stage='$instage';");
-				$catid=mysql_insert_id();
-				mysql_query("INSERT INTO ridcatid SET report_id='$rid', categorydef_id='$catid', 
-					subject_id='$bid';");
+				add_report_skill_statement($inval,$bid,$rid,$pid,$instage,$insubsubject,$insublevel,$gradingname,false);
 				}
+			/* it updates it - true*/
 			elseif($incatid>0 and $inval!=''){
-				mysql_query("UPDATE categorydef SET name='$inval', stage='$instage' WHERE id='$incatid';");
+				add_report_skill_statement($inval,$bid,$rid,$pid,$instage,$insubsubject,$insublevel,$gradingname,true,$incatid);
 				}
+			/* it deletes it*/
 			elseif($incatid>0 and $inval==''){
-				mysql_query("DELETE FROM ridcatid WHERE categorydef_id='$incatid' 
-					AND report_id='$rid';");
+				delete_report_skill_statement($incatid,$rid);
 				}
 			}
-		}
+
+	}
+
 	}
 
 ?>
@@ -81,7 +93,7 @@ elseif($sub=='Submit'){
 
 	  <div id="viewcontent" class="content">
 <?php
-	  //	  include('../../scripts/results.php');
+		  include('../../scripts/results.php');
 ?>
 	  </div>
 

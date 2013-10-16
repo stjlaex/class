@@ -302,7 +302,7 @@ while($student=mysql_fetch_array($d_students, MYSQL_ASSOC)){
 			foreach($mids as $no => $mid){
 				$iscore=$studentrow["score$mid"];
 				if($iscore['value']){
-					$lev=calculateProfileLevel($iscore['rid'],$sid,$profilebid,$iscore['pid']);
+					$lev=calculateProfileLevel($iscore['rid'],$sid,$profilebid,$iscore['pid'],$classes[$cid]['stage']);
 					$score_value+=$lev['value1'];
 					$yesval=1;
 					if($lev['value1']>80 and $score_display==''){$score_display=$lev['result'].'a';}
@@ -378,7 +378,7 @@ while($student=mysql_fetch_array($d_students, MYSQL_ASSOC)){
 
 			/* Have to explicity pass the bid and pid for the profile here NOT for the class. */
 			//$rep=checkReportEntryCat($umns[$c]['midlist'],$sid,$profilebid,$umns[$c]['component']);
-			$rep=calculateProfileScore($umns[$c]['midlist'],$sid,$profilebid,$umns[$c]['component']);
+			$rep=calculateProfileScore($umns[$c]['midlist'],$sid,$profilebid,$umns[$c]['component'],$classes[$cid]['stage']);
 			/* Option to decide what is displayed in the table cell: either blank or the result value. */
 			if($umns[$c]['profile_celldisplay']==='xxxx' or $rep['value']==='' or $rep['value']<=0){
 				$outspace='&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;';
@@ -388,7 +388,7 @@ while($student=mysql_fetch_array($d_students, MYSQL_ASSOC)){
 				}
 			/* Only use the result value if it is a percentage (greater than 0) */
 			if($rep['result']>0){
-				$outtitle=display_date($rep['date']).': '.$rep['value'].' /' .$rep['outoftotal'].' ('.$rep['result'].'%)';
+				$outtitle=display_date($rep['date']).': '.$rep['value'].' /' .$rep['outoftotal'].' ('.$rep['result'].'% completed)';
 				}
 			else{
 				$outof=0;

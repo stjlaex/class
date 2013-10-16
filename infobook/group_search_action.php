@@ -9,7 +9,7 @@ if(isset($_POST['yids'])){$yids=(array)$_POST['yids'];}else{$yids=array();}
 //if(isset($_POST['listtypes'])){$listtypes=$_POST['listtypes'];}else{$listtypes[]='year';}
 if(isset($_POST['enrolstatuses']) and $_POST['enrolstatuses'][0]!='uncheck'){$enrolstatuses=(array)$_POST['enrolstatuses'];}
 if(isset($_POST['enroldate']) and $_POST['enroldate']!='uncheck'){$enroldate=$_POST['enroldate'];}
-if(isset($_POST['limit']) and $_POST['limit']!='uncheck'){$limit=$_POST['limit'];}
+if(isset($_POST['limit']) and $_POST['limit']!='uncheck'){$limit=$_POST['limit'];}else{$limit='';}
 
 $action_post_vars=array('selsavedview');
 
@@ -68,6 +68,8 @@ if(isset($enroldate)){
 	$comname='';
 	$comyear='0000';
 
+	trigger_error($currentyear.' : '.$startdate.' : '.$enroldate,E_USER_WARNING);
+
 	if($enroldate=='leave'){
 		/* Left in the past and could be for a different academic year. */
 		if($startdate!='' and $starttime < $totime){
@@ -79,9 +81,13 @@ if(isset($enroldate)){
 				$comyear=$currentyear-1;
 				}
 			}
+
 		/* Leaving in the future and only searching across accepted applications */
 		elseif($startdate>=$todate){$extra="'$startdate'<=info.leavingdate AND info.leavingdate!='0000-00-00'";}
 		elseif($enddate>=$todate){$extra="'$enddate'<=info.leavingdate AND info.leavingdate!='0000-00-00'";}
+
+		//trigger_error($comyear.' : '.$extra,E_USER_WARNING);
+
 		}
 	elseif($enroldate=='start'){
 		if($startdate!='' and $starttime>=$totime){
@@ -106,6 +112,8 @@ if(isset($enroldate)){
 
 	foreach($yids as $yid){
 
+		//trigger_error($yid.' ::: '.$comyear.' : '.$extra,E_USER_WARNING);
+
 		$comid=update_community(array('id'=>'','type'=>$comtype,'name'=>$comname.$yid,'year'=>$comyear));
 		$com=get_community($comid);
 
@@ -116,10 +124,9 @@ if(isset($enroldate)){
 		else{
 			$yearstudents=(array)listin_community_extra($com,$extra);
 			}
-		
-		$yearstudents=(array)listin_community_new($com);
-		
 
+		//$yearstudents=(array)listin_community_new($com);
+		
 		$students=array_merge($students,$yearstudents);
 		}
 

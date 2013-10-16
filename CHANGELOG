@@ -1,3 +1,19 @@
+Version ClaSS-1.0.55 release (2013/10/16)
+-------------------------------------------
+
+The tinyMCE spellchecker was broken. Removed and use the native
+broswer spellchecker instead.
+
+Work in progress moving the category statements into new db tables for
+the new skills log functionality.
+
+A one-off migrate_statements() function needs to be run for
+backward-compatibility.
+
+The category_editor script now allows individual skill statements to be
+assigned ratings.
+
+
 Version ClaSS-1.0.54 release (2013/09/30)
 -------------------------------------------
 
@@ -17,7 +33,6 @@ Further work on the meals module.
 Add new meal option available.
 
 Fix to the photo upload js for slow uploads.
-
 
 
 Version ClaSS-1.0.53 release (2013/09/28)

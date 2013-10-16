@@ -720,8 +720,6 @@ function fetch_reportdefinition($rid,$selbid='%'){
 	return $reportdef;
 	}
 
-
-
 /**
  *
  * Returns an array containing the catdefs for all
@@ -919,17 +917,12 @@ function checkReportEntryCat($rid,$sid,$bid,$pid){
  *  have been made for this sid in this report and calculates a colour coded percentage
  *
  */
-function calculateProfileScore($rid,$sid,$bid,$pid){
+function calculateProfileScore($rid,$sid,$bid,$pid,$stage='%'){
 
-	$d_c=mysql_query("SELECT COUNT(categorydef.id) FROM categorydef JOIN report ON
-						report.title=categorydef.othertype WHERE report.id='$rid' AND categorydef.type='cat' 
-						AND categorydef.subject_id='$pid';");
+	$d_c=mysql_query("SELECT COUNT(report_skill.id) FROM report_skill JOIN report ON
+						report.id=report_skill.profile_id WHERE report.id='$rid' 
+						AND report_skill.subject_id='$pid' AND (report_skill.stage='%' OR report_skill.stage='$stage');");
 	$totalno=mysql_result($d_c,0);
-	if($totalno==0){
-		$d_c=mysql_query("SELECT COUNT(categorydef_id) FROM ridcatid 
-						WHERE report_id='$rid' AND subject_id='$pid';");
-		$totalno=mysql_result($d_c,0);
-		}
 
 	$cutoff_rating='1';
 
@@ -969,7 +962,8 @@ function calculateProfileScore($rid,$sid,$bid,$pid){
 		}
 
 	$ass=array();
-	$ass['result']=round(100*($sum/$totalno));
+	$ass['stage']=$stage;
+	$ass['result']=round(100*($sum/($totalno)));
 	$ass['outoftotal']=$totalno*3;
 	$ass['value']=$tot;
 	$ass['weight']=1;
@@ -981,7 +975,7 @@ function calculateProfileScore($rid,$sid,$bid,$pid){
 	elseif($ass['result']>=60){$ass['class']='gomidlite';}
 	elseif($ass['result']>=35){$ass['class']='pauselite';}
 	elseif($ass['result']>=10){$ass['class']='midlite';}
-	//elseif($ass['result']<10){$ass['class']='outlite';}
+	elseif($ass['result']<10 and $ass['result']>0){$ass['class']='outlite';}
 	else{$ass['class']='nolite';}
 
 	return $ass;
@@ -994,13 +988,14 @@ function calculateProfileScore($rid,$sid,$bid,$pid){
  *  have been made for this sid in this report and calculates a colour coded percentage
  *
  */
-function calculateProfileLevel($rid,$sid,$bid,$pid,$date=''){
+function calculateProfileLevel($rid,$sid,$bid,$pid,$stage='%',$date=''){
 
 	$d_r=mysql_query("SELECT title FROM report WHERE id='$rid'");
 	$area=mysql_result($d_r,0);
-	$d_c=mysql_query("SELECT COUNT(id) FROM categorydef 
-				WHERE categorydef.othertype='$area' AND categorydef.type='cat' 
-				AND (categorydef.subject_id='$pid' OR categorydef.subject_id='%');");
+	$d_c=mysql_query("SELECT COUNT(id) FROM report_skill 
+				WHERE report_skill.profile_id='$rid' 
+				AND (report_skill.subject_id='$pid' OR report_skill.subject_id='%') 
+				AND (report_skill.stage='%' OR report_skill.stage='$stage');");
 	$totalno=mysql_result($d_c,0);
 
 	$d_r=mysql_query("SELECT category FROM reportentry WHERE report_id='$rid' AND 
@@ -1026,7 +1021,8 @@ function calculateProfileLevel($rid,$sid,$bid,$pid,$date=''){
 
 	while($entry=mysql_fetch_array($d_r)){
 		$pairs=explode(';',$entry['category']);
-		for($c=0;$c<(sizeof($pairs)-1);$c++){
+		$max=sizeof($pairs)-1;
+		for($c=0;$c<$max;$c++){
 			list($catid,$value,$entrydate)=explode(':',$pairs[$c]);
 			if($value>0){
 				$entrytime=strtotime($entrydate);
@@ -1051,6 +1047,7 @@ function calculateProfileLevel($rid,$sid,$bid,$pid,$date=''){
 
 	$ass['result']=$area;
 	$ass['outoftotal']=$totalno;
+	$ass['tot']=$tot1;
 	$ass['value1']=round(100*$tot1/$totalno);
 	$ass['value2']=round(100*$tot2/$totalno);
 	$ass['value3']=round(100*$tot3/$totalno);
@@ -1215,7 +1212,7 @@ function fetchReportEntry($reportdef,$sid,$bid,$pid){
 	   /* These are the check box ratings. */
 	   if($reportdef['report']['addcategory']=='yes'){
 		   $ratingname=get_report_ratingname($reportdef,$bid);
-		   $catdefs=get_report_categories($rid,$bid,$pid);
+		   $catdefs=get_report_skill_statements($rid,$bid,$pid);
 		   $Categories=(array)fetchCategories($Student,$entry['category'],$catdefs,$ratingname);
 		   $Comment['Categories']=$Categories;
 		   }
@@ -1455,6 +1452,137 @@ function fetchCategories($Student,$category_field,$catdefs,$ratingname){
 		}
 
 	return $Categories;
+	}
+
+/*
+ * Gets the statements from report_skill table given the report id and/or subject_id,stage
+ *
+ * @params integer $rid
+ * @params string $bid
+ * @params string $pid
+ * @params string $stage
+ * @return array
+ */
+function get_report_skill_statements($rid,$bid='%',$pid='',$stage='%'){
+	if($pid!='' and $pid!=' '){$bid=$pid;}
+	$d_statements=mysql_query("SELECT id, name, subtype, rating, rating_name, component_id, profile_id, subject_id,stage FROM report_skill 
+					WHERE profile_id='$rid' AND (report_skill.stage='' OR report_skill.stage='%' 
+					OR report_skill.stage LIKE '$stage') AND (subject_id='$bid' or subject_id='%')
+					AND profile_id!=0 ORDER BY rating ASC;");
+   	$statements=array();
+	while($statement=mysql_fetch_array($d_statements,MYSQL_ASSOC)){
+	   	$statements[]=$statement;
+	   	}
+
+	/*
+	$d_r=mysql_query("SELECT title FROM report WHERE id='$rid'");
+	$area=mysql_result($d_r,0);
+	$d_s=mysql_query("SELECT id, stage, name, subtype, rating, rating_name, component_id, profile_id, subject_id FROM report_skill 
+				WHERE report_skill.profile_id='$area'
+				AND (report_skill.stage='' OR report_skill.stage='%' 
+					OR report_skill.stage LIKE '$stage') AND profile_id!=0 
+				AND (report_skill.subject_id='$bid' OR report_skill.subject_id='%') ORDER BY rating ASC;");
+	while($statement=mysql_fetch_array($d_s,MYSQL_ASSOC)){
+	   	$statements[]=$statement;
+	   	}*/
+
+	return $statements;
+	}
+
+/*
+ * Adds or updates a new statement in the skill table
+ *
+ * @params integer $rid
+ * @params string $inval, $bid, $instage
+ * @params string $insubsubject
+ * @params string $insublevel
+ * @params string $gradingname
+ * @params string $update
+ * @params string $instid
+ */
+function add_report_skill_statement($inval,$bid,$rid,$pid,$instage,$insubsubject,$insublevel,$gradingname,$update=false,$instid=''){
+			if(!$update){
+				mysql_query("INSERT INTO report_skill SET name='$inval', 
+					subject_id='$bid', subtype='$insubsubject',component_id='$bid', stage='$instage',
+					profile_id='$rid', rating='$insublevel',rating_name='$gradingname';");
+				}
+			if($update){
+				mysql_query("UPDATE report_skill SET name='$inval', stage='$instage', subtype='$insubsubject', rating='$insublevel',rating_name='$gradingname' WHERE id='$instid';");
+				}
+	}
+
+
+/*
+ * Deletes a statement given the rid and the statement id
+ *
+ * @params integer $instid
+ * @params string $rid
+ */
+function delete_report_skill_statement($instid,$rid){
+	mysql_query("DELETE FROM report_skill WHERE id='$instid';");
+	}
+
+/*
+ * Used to migrate the statements from categorydef table to report_skill
+ */
+function migrate_statements(){
+	$catdefs=array();
+	/*All cat type*/
+	$d_categorydef=mysql_query("SELECT id, name, subtype, rating,  
+				 rating_name, subject_id, stage, othertype FROM categorydef 
+				WHERE type='cat' AND subject_id!='';");
+	while($catdef=mysql_fetch_array($d_categorydef,MYSQL_ASSOC)){
+		$d_report=mysql_query("SELECT id,title FROM report WHERE title='".$catdef['othertype']."';");
+		/*adds the report id instead of title in the array*/
+		if($catdef['othertype']!=''){
+			while($report=mysql_fetch_array($d_report,MYSQL_ASSOC)){
+				//$reports[]=$report;
+				if($report['title']==$catdef['othertype']){$catdef['othertype']=$report['id'];}
+				}
+			}
+		$d_ridcatid=mysql_query("SELECT report_id, categorydef_id, subject_id FROM ridcatid WHERE categorydef_id='".$catdef['id']."';");
+		/*gets the report id from ritcatid table and adds it in the array*/
+		if($catdef['othertype']==''){
+			while($ridcatid=mysql_fetch_array($d_ridcatid,MYSQL_ASSOC)){
+				//$ridcatids[]=$ridcatid;
+				if($ridcatid['subject_id']==$catdef['subject_id']){$catdef['othertype']=$ridcatid['report_id'];}
+				}
+			}
+		$catdefs[]=$catdef;
+		}
+
+	/*Inserts all statements into report_skill table*/
+	foreach($catdefs as $catdef){
+		$id=$catdef['id'];
+		/*for single quotes in sql*/
+		$name=addslashes($catdef['name']);
+		$subject_id=$catdef['subject_id'];
+		$subtype=$catdef['subtype'];
+		$component_id=$catdef['subject_id'];
+		$stage=$catdef['stage'];
+		$profile_id=$catdef['othertype'];
+		$rating=$catdef['rating'];
+		$rating_name=addslashes($catdef['rating_name']);
+		mysql_query("INSERT INTO report_skill SET id='$id', name='$name', 
+					subject_id='$subject_id', subtype='$subtype',component_id='$component_id', stage='$stage',
+					profile_id='$profile_id', rating='$rating',rating_name='$rating_name';");
+		}
+	
+	/*Removes statements from ridcatid and categorydef tables*/
+	/*foreach($catdefs as $catdef){
+		$id=$catdef['id'];
+		$name=addslashes($catdef['name']);
+		$subject_id=$catdef['subject_id'];
+		$subtype=$catdef['subtype'];
+		$component_id=$catdef['subject_id'];
+		$stage=$catdef['stage'];
+		$profile_id=$catdef['othertype'];
+		$rating=$catdef['rating'];
+		$rating_name=addslashes($catdef['rating_name']);
+		mysql_query("INSERT INTO report_skill SET id='$id', name='$name', 
+					subject_id='$subject_id', subtype='$subtype',component_id='$component_id', stage='$stage',
+					profile_id='$profile_id', rating='$rating',rating_name='$rating_name';");
+		}*/
 	}
 
 ?>

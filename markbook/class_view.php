@@ -338,6 +338,10 @@ print ' <td status="p" >'.$attlink.'</td>';
 	<input type="hidden" name="bid" value="<?php print $bid[0]; ?>" />
 	</form>
   </div>
+
 <?php
+
 include('scripts/studentlist_extra.php');
+
 ?>
+
