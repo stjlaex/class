@@ -13,6 +13,14 @@ backward-compatibility.
 The category_editor script now allows individual skill statements to be
 assigned ratings.
 
+Tiny fix the js for Chrome compatibility problem intrlduced with the
+meals module.
+
+Fix to a typo in the db_sync_users script.
+
+Corrected the Irish language name.
+
+
 
 Version ClaSS-1.0.54 release (2013/09/30)
 -------------------------------------------

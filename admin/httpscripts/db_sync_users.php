@@ -80,7 +80,7 @@ require_once($CFG->installpath.'/'.$CFG->applicationdirectory.'/scripts/cron_hea
 				$epfusername=$Students[$sid]['EPFUsername']['value'];
 				if($epfusername=='' or $epfusername==' '){
 					/* Treat as a completely new entry. */
-					$epfusername=new_epfusername($Students[$gid],'student');
+					$epfusername=new_epfusername($Students[$sid],'student');
 					}
 
 				$entries++;

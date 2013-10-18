@@ -1638,7 +1638,7 @@ function clickToEditMeal(sid,date,mealid,day){
 	}
 
 /* Edit everyday meals */
-function enableMealEveryday(id,sid,date,mealid=''){
+function enableMealEveryday(id,sid,date,mealid){
 	/*Check everyday checkbox and if one is unchecked the everyday option is unchecked too*/
 	if(id=='mealcheckbox'){
 		for (var i = 1; i <= 5; i++) {
@@ -1705,7 +1705,7 @@ function enableMealForAll(){
 	xmlHttp.send();
 	}
 
-function addMealComment(sid,bookingid,day=''){
+function addMealComment(sid,bookingid,day){
 	if(day==''){
 		comment=document.getElementById('everydaycomment_'+sid).value;
 		}
