@@ -269,4 +269,5 @@ $string['emailstats']='Email Statistics';
 $string['selectdaterange']='Select date range';
 $string['meals']='Meals';
 $string['meal']='Meal';
+$string['editmeals']='Edit meals';
 ?>

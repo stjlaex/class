@@ -18,13 +18,13 @@ $extrabuttons=array();
 if($_SESSION['username']=='administrator'){
 	$extrabuttons['import']=array('name'=>'current','value'=>'meals_import.php');
 	}
-$extrabuttons['add']=array('name'=>'current','value'=>'meals_add.php');
+$extrabuttons['add']=array('name'=>'current','title'=>'editmeals','value'=>'meals_add.php');
 $extrabuttons['list']=array('name'=>'current',
 							'pathtoscript'=>$CFG->sitepath.'/'.$CFG->applicationdirectory.'/admin/',
 							'value'=>'meals_print.php',
 							'xmlcontainerid'=>'list',
 							'onclick'=>'checksidsAction(this)');
-two_buttonmenu($extrabuttons);
+two_buttonmenu($extrabuttons,'admin');
 ?>
   <div class="content">
 	<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host; ?>" >
@@ -109,11 +109,11 @@ two_buttonmenu($extrabuttons);
 
 	<div id="xml-list" style="display:none;">
 	  <params>
-		<checkname>meals</checkname>
 		<checkname>formnames</checkname>
+		<checkname>meals</checkname>
 		<selectname>date0</selectname>
+		<transform></transform>
 		<length>short</length>
-		<transform>meal_list</transform>
 		<paper>landscape</paper>
 	  </params>
 	</div>
