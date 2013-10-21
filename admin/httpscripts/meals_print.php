@@ -40,6 +40,7 @@ else{
 			$meal=(array)get_meal($mealname);
 			$display_name=$meal['name'];
 			$students=(array)list_meals_students($meal['name'],$printdate,0);
+			$template='meal_list';
 			}
 		elseif($mealname!='' and $type=='f'){
 			/*get the community and the students for a formgroup id (id=mealname)*/
@@ -47,8 +48,8 @@ else{
 			$display_name=$com['name'];
 			$students=(array)listin_community($com);
 			$meal='';
+			$template='meal_list_forms';
 			}
-
 		if(sizeof($students)>0){
 			$Meals=array();
 			$Meals['Name']=array('value'=>$display_name);
@@ -57,6 +58,9 @@ else{
 			$Meals['Date']=array('value'=>display_date($printdate));
 
 			$Meals['Student']=array();
+			$Meals['Transform']=$template;
+			$Meals['selectname']='date0';
+			$Meals['Paper']='landscape';
 
 			$clubcommunity=array('id'=>'','name'=>'','type'=>'tutor');
 
@@ -125,7 +129,7 @@ else{
 			$Students['Meals'][]=$Meals;
 			}
 		}
-
+		
 	$returnXML=$Students;
 	$rootName='Students';
 	}
