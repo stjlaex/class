@@ -1,4 +1,4 @@
-Version ClaSS-1.0.55 release (2013/10/16)
+Version ClaSS-1.0.55 release (2013/10/21)
 -------------------------------------------
 
 The tinyMCE spellchecker was broken. Removed and use the native
@@ -19,6 +19,13 @@ meals module.
 Fix to a typo in the db_sync_users script.
 
 Corrected the Irish language name.
+
+Added the option to edit meal definitions. New print format for meals
+organised by form.
+
+Fix to displaying the rating label for a skill statment.
+
+Increased the max number of skill statements to 50.
 
 
 

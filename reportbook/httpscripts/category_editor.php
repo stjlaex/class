@@ -75,7 +75,7 @@ if($rid!=''){
 		}
 	}
 
-$maxcatn=30;/*allow a max of 30 categories*/
+$maxcatn=50;/*allow a max of 50 categories*/
 if($pid==''){$subject=get_subjectname($bid);}
 else{$subject=get_subjectname($pid);}
 

@@ -39,7 +39,7 @@ elseif($sub=='Submit'){
 		}
 
 
-	$maxcatn=30;
+	$maxcatn=50;
 	/*Foreach statement*/
 	for($matn=1;$matn<=$maxcatn;$matn++){
 		if(isset($_POST['catid'.$matn])){

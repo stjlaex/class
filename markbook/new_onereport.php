@@ -178,7 +178,12 @@
 					}
 
 				$extra_colspan=$ass_colspan+1;
-				if($catdefs[$catindex]['subtype']!=''){$statementlabel=$statementrating.' '.'<label style="float:right;">'.get_subjectname($catdefs[$catindex]['subtype']).'</label><br />';}
+				if($catdefs[$catindex]['subtype']!=''){
+					$statementlabel=$statementrating.' '.'<label style="float:right;">'.get_subjectname($catdefs[$catindex]['subtype']).'</label><br />';
+					}
+				elseif($statementrating!=''){
+					$statementlabel=$statementrating.'<br />';
+					}
 				else{$statementlabel='';}
 				print '<tr class="'.$rowclass.'" id="'.$openId.'-'.$rown++.'"><td></td>';
 				print '<td colspan="'.$extra_colspan.'"><div class="row" style="width:100%;"><p class="bigger">'
