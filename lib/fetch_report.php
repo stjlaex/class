@@ -933,6 +933,7 @@ function calculateProfileScore($rid,$sid,$bid,$pid,$stage='%'){
 	$tot=0;
 	$sum=0;
 	$last=0;
+	$lastdate='';
 
 	while($entry=mysql_fetch_array($d_r)){
 		$pairs=explode(';',$entry['category']);
@@ -963,7 +964,12 @@ function calculateProfileScore($rid,$sid,$bid,$pid,$stage='%'){
 
 	$ass=array();
 	$ass['stage']=$stage;
-	$ass['result']=round(100*($sum/($totalno)));
+	if($totalno>0){
+		$ass['result']=round(100*($sum/($totalno)));
+		}
+	else{
+		$ass['result']='';
+		}
 	$ass['outoftotal']=$totalno*3;
 	$ass['value']=$tot;
 	$ass['weight']=1;

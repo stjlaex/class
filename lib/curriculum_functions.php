@@ -1209,17 +1209,25 @@ function get_teachername($tid){
  *	@return string
  */
 function get_subjectname($bid){
+
 	if($bid=='%' or $bid=='G' or $bid=='General'){
 		/*this is a fix that should be fixed in future!*/
 		$subjectname='General';
 		}
 	elseif($bid!=' ' and $bid!=''){
 		$d_subject=mysql_query("SELECT name FROM subject WHERE id='$bid'");
-		$subjectname=mysql_result($d_subject,0);
+		if(mysql_num_rows($d_subject)>0){
+			$subjectname=mysql_result($d_subject,0);
+			}
+		else{
+			trigger_error('NO subject found for id='.$bid,E_USER_WARNING);
+			}
 		}
-	else{
+
+	if(!isset($subjectname)){
 		$subjectname=$bid;
 		}
+
 	return $subjectname;
 	}
 
