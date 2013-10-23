@@ -1,4 +1,4 @@
-Version ClaSS-1.0.55 release (2013/10/21)
+Version ClaSS-1.0.55 release (2013/10/23)
 -------------------------------------------
 
 The tinyMCE spellchecker was broken. Removed and use the native
@@ -26,6 +26,8 @@ organised by form.
 Fix to displaying the rating label for a skill statment.
 
 Increased the max number of skill statements to 50.
+
+Small change to the meals print format for absent students.
 
 
 

@@ -198,6 +198,7 @@ two_buttonmenu($extrabuttons,$book);
 				}
 			/*Everyday checkbox: books all days from today*/
 			if($meal!=''){$inputevery='<td><input type="checkbox" '.$everycheck.' id="everyday_'.$sid.'" style="float:none" onClick="enableMealEveryday(\'mealcheckbox\',\''.$sid.'\',\''.$dates[$today].'\',\''.$mealid.'\');"></td>';}
+			else{$inputevery='';}
 			}
 		print $inputevery;
 		print $html;

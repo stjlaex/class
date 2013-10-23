@@ -88,8 +88,8 @@ else{
 							if(!($attendances[$sid]['attendance']['Status'])){$attendances[$sid]['attendance']['Status']['value']='p';}
 							foreach($attendance as $att){
 								/*student is absent when: is not present and is absent but not late*/
-								if(($att['Status']['value']!='p' and ($att['Status']['value']=='a' and ($att['Code']['value']!='L' and $att['Code']['value']!='UA' and $att['Code']['value']!='UB' and $att['Code']['value']!='U'))) and $att['Date']['value']==$printdate and $stdid==$sid){$absence=true;}
-								if($att['Status']['value']!='p' and $att['Status']['value']!='a'){$attendances[$sid]['attendance']['Status']['value']='p';}
+								if(($att['Status']['value']!='p' and ($att['Status']['value']=='a' and ($att['Code']['value']!='L' and $att['Code']['value']!='UA' and $att['Code']['value']!='UB' and $att['Code']['value']!='U'))) and $att['Date']['value']==$printdate and $stdid==$sid){$absence=true;$attendances[$sid]['attendance']['Status']['value']=$att['Status']['value'];$attendances[$sid]['attendance']['Code']['value']=$att['Code']['value'];}
+								if($attendances[$sid]['attendance']['Status']['value']=='' and $attendances[$sid]['attendance']['Code']['value']==''){$attendances[$sid]['attendance']['Status']['value']='p';}
 								}
 							}
 						}
@@ -102,7 +102,7 @@ else{
 				foreach($bookings as $booking){
 					if($meal!=''){$mealid=$meal['id'];}
 					if($mealid==$booking['meal_id']){$atlunch=true;}
-					if($booking['student_id']==$sid and !$absence and $meals[$booking['meal_id']]['name']!='NOT LUNCHING'){
+					if($booking['student_id']==$sid and (!$absence or ($absence and $mealid!=1)) and $meals[$booking['meal_id']]['name']!='NOT LUNCHING'){
 						/*Stores all details for the meal journey*/
 						$Journey=array();
 						$Journey['Id']=$booking['meal_id'];
@@ -116,6 +116,7 @@ else{
 											  'value'=>$meals[$booking['meal_id']]['name']
 											  );
 						$Student['Journey'][]=$Journey;
+						//if($absence){$attendances[$sid]['attendance']['Status']['value']='a';}
 						$Student['Attendances']=$attendances[$sid];
 						}
 					}
