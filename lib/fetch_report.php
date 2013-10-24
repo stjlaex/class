@@ -1546,9 +1546,9 @@ function migrate_statements(){
 				if($report['title']==$catdef['othertype']){$catdef['othertype']=$report['id'];}
 				}
 			}
-		$d_ridcatid=mysql_query("SELECT report_id, categorydef_id, subject_id FROM ridcatid WHERE categorydef_id='".$catdef['id']."';");
 		/*gets the report id from ritcatid table and adds it in the array*/
 		if($catdef['othertype']==''){
+			$d_ridcatid=mysql_query("SELECT report_id, categorydef_id, subject_id FROM ridcatid WHERE categorydef_id='".$catdef['id']."';");
 			while($ridcatid=mysql_fetch_array($d_ridcatid,MYSQL_ASSOC)){
 				//$ridcatids[]=$ridcatid;
 				if($ridcatid['subject_id']==$catdef['subject_id']){$catdef['othertype']=$ridcatid['report_id'];}
