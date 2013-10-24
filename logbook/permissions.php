@@ -525,7 +525,8 @@ function get_section_perm($secid){
 		$perm['r']=1;
 		}
 
-	if($_SESSION['role']=='admin'){$perm['r']=1; $perm['w']=1; $perm['x']=1;}
+	$aperm=get_admin_perm('p',$_SESSION['uid']);
+	if($_SESSION['role']=='admin' or $aperm==1){$perm['r']=1; $perm['w']=1; $perm['x']=1;}
 	elseif($_SESSION['role']=='district'){$perm['r']=1;}
 
 	return $perm;

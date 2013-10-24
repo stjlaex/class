@@ -29,6 +29,9 @@ Increased the max number of skill statements to 50.
 
 Small change to the meals print format for absent students.
 
+Tiny change to section permissions so that pastoral perms are
+honoured. Solves a problem of how do we allow access to previous
+students who have no section.
 
 
 Version ClaSS-1.0.54 release (2013/09/30)
