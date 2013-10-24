@@ -86,9 +86,9 @@ two_buttonmenu();
 
 		/* MySQL queries to search guardians */
 		$d_guardian_id=mysql_query("SELECT guardian_id,relationship FROM gidsid WHERE student_id='$sid';");
-		while($gid=mysql_fetch_array($d_guardian_id,0)){
+		while($gid=mysql_fetch_array($d_guardian_id,MYSQL_ASSOC)){
 			$d_email_fetch=mysql_query("SELECT surname,forename,email FROM guardian WHERE id='".$gid['guardian_id']."';");
-			while($guardian=mysql_fetch_array($d_email_fetch,0)){
+			while($guardian=mysql_fetch_array($d_email_fetch,MYSQL_ASSOC)){
 
 				/* Guardian info */
 				$contact=$guardian['surname'].' '.$guardian['forename'].' ('.$gid['relationship'].')';
