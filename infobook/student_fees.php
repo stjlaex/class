@@ -55,6 +55,7 @@ include('scripts/perm_action.php');
 				<th style="width:20%;"><?php print_string('amount','admin');?></th>
 				<th><?php print_string('tarif','admin');?></th>
 				<th><?php print_string('payment','admin');?></th>
+				<th><?php print_string('note','admin');?></th>
 			  </thead>
 			</tr>
 <?php
@@ -88,6 +89,8 @@ include('scripts/perm_action.php');
 			$listname='feepaymenttype'.$f['id'];
 			include('scripts/set_list_vars.php');
 			list_select_enum('paymenttype',$listoptions,'admin');
+			print '</td><td>';
+			print '<input type="text" name="feenote'.$f['id'].'" value="'.$f['note'].'" />';
 			print '</td>';
 			print '</tr>';
 			}
@@ -103,7 +106,7 @@ include('scripts/perm_action.php');
 ?>
 				</div>
 			  </th>
-			  <th colspan="4">
+			  <th colspan="5">
 				<div class="rowaction" style="width:240px;">
 <?php
 		$listlabel='';
@@ -123,6 +126,24 @@ include('scripts/perm_action.php');
 			</thead>
 		  </table>
 		</div>
+	  </fieldset>
+
+<?php
+	$fees_note=fetchBackgrounds_Entries($sid,'fee');
+	print $fees_note[0]['Detail']['value'][0];
+	if(count($fees_note)>0){$val['value']=$fees_note[0]['Detail']['value']['div'][0];}
+	else{$value='';}
+	$val['type_db']='text';
+	$val['field_db']='detail';
+	$val['inputtype']='listmenu';
+	$val['label']='Note';
+?>
+	  <fieldset class="center listmenu">
+		<legend>
+		  <?php print_string('notes','infobook');?>
+		</legend>
+		<?php	$tab=xmlelement_input($val,'',$tab,$book);?>
+		<input type="hidden" name="sid" value="<?php print $sid;?>" />
 	  </fieldset>
 
 <?php

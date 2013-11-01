@@ -766,7 +766,7 @@ function list_student_fees($sid){
 		 * the fees_applied table. The amount is not fixed and open to
 		 * changes to the associated tarif.
 		 */
-		$d_f=mysql_query("SELECT c.id, c.student_id, c.tarif_id, c.paymenttype, t.amount, t.concept_id 
+		$d_f=mysql_query("SELECT c.id, c.student_id, c.tarif_id, c.paymenttype, c.note, t.amount, t.concept_id 
 						FROM fees_applied AS c JOIN fees_tarif AS t ON t.id=c.tarif_id 
 						WHERE c.student_id='$sid' ORDER BY t.concept_id;");
 	$fees=array();

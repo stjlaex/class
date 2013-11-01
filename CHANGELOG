@@ -1,3 +1,13 @@
+Version ClaSS-1.0.56 release (2013/11/1)
+-------------------------------------------
+
+Exposed the note field for fees_applied.
+
+Added a general note field to a student's fees page using Background
+type=fee.
+
+
+
 Version ClaSS-1.0.55 release (2013/10/23)
 -------------------------------------------
 

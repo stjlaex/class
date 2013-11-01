@@ -7,7 +7,8 @@ $action='student_fees.php';
 require_once('lib/fetch_fees.php');
 
 if(isset($_POST['newconceptid'])){$newconceptid=$_POST['newconceptid'];}else{$newconceptid='';}
-if(isset($_POST['feeids'])){$feeids=(array)$_POST['feeids'];}else{$feeids=array();}
+if(isset($_POST['feenotes'])){$feenotes=(array)$_POST['feenotes'];}else{$feenotes=array();}
+if(isset($_POST['detail'])){$detail=$_POST['detail'];}else{$detail='';}
 if(isset($_POST['gid'])){$gid=$_POST['gid'];}
 if(isset($_POST['paytype'])){$default_paymenttype=$_POST['paytype'];}
 
@@ -28,8 +29,18 @@ if($sub=='Submit'){
 			if(isset($_POST['feetarif'.$feeid]) and $_POST['feetarif'.$feeid]!=''){
 				$tarifid=$_POST['feetarif'.$feeid];
 				$paymenttype=$_POST['feepaymenttype'.$feeid];
-				mysql_query("UPDATE fees_applied SET tarif_id='$tarifid', paymenttype='$paymenttype' WHERE id='$feeid';");
+				$note=$_POST['feenote'.$feeid];
+				mysql_query("UPDATE fees_applied SET tarif_id='$tarifid', paymenttype='$paymenttype', note='$note' WHERE id='$feeid';");
 				}
+			}
+		}
+
+	if(isset($detail) and $detail!=''){
+		if(count(fetchBackgrounds_Entries($sid,'fee'))>0){
+			mysql_query("UPDATE background SET type='fee', detail='$detail' WHERE student_id='$sid';");
+			}
+		else{
+			mysql_query("INSERT INTO background (student_id,type,detail) VALUES ('$sid','fee','$detail');");
 			}
 		}
 
