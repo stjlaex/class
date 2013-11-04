@@ -74,6 +74,7 @@ $section_perm=get_admin_perm('s',get_uid($tid));
 					   ,'passwords.php' => 'refreshpasswords'
 					   ,'class_matrix.php' => 'classesmatrix'
 					   ,'cohort_matrix.php' => 'cohortmatrix'
+					   ,'subject_edit.php' => 'editsubjects'
 					   ,'update_curriculum.php' => 'updatecurriculum'
 					   ,'year_end.php' => 'yearend'
 					   ,'timetable.php' => 'timetable'

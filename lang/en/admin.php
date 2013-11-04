@@ -270,4 +270,11 @@ $string['selectdaterange']='Select date range';
 $string['meals']='Meals';
 $string['meal']='Meal';
 $string['editmeals']='Edit meals';
+$string['editsubjects']='Edit subjects';
+$string['newsubject']='New subject';
+$string['subjectname']='Subject name';
+$string['subjectid']='Subject id';
+$string['subjects']='Subjects';
+$string['duplicatesubject']="The subject already exists.";
+$string['duplicatesubjectid']="The id already exists for the subject";
 ?>

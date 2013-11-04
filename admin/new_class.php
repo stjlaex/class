@@ -114,6 +114,13 @@ $nonsubjects=list_subjects($rcrid,false);
 	list_select_list($nonsubjects,$listoptions,$book);
 ?>
 		</div>
+		<div style="float:right">
+		  <a href="admin.php?current=subject_edit.php">
+		   <button style="font-size:small;" type='button'>
+			<?php print_string('editsubjects',$book);?>
+		   </button>
+		  </a>
+	    </div>
 	  </fieldset>
 
 	<input type="hidden" name="curryear" value="<?php print $curryear;?>" />

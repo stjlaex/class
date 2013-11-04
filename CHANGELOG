@@ -8,6 +8,8 @@ type=fee.
 
 Tiny fix to the student_reports scripts in InfoBook.
 
+A new function under Admin to the edit subject names and to add new
+subjects.
 
 
 Version ClaSS-1.0.55 release (2013/10/23)
