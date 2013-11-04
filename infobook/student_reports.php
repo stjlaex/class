@@ -56,7 +56,7 @@ if($epfu!=''){
 		/* A mix of PDFs will be uploaded to the epfdata directory for
 		 * files and we only want to display report PDFs. 
 		 */
-		if(strpos($reportdetails['name'],'eport')>0){
+		if(strpos($report['name'],'eport')>0){
 			print '<div style="float:left;width:24%;margin:2px;padding:2px 4px;background-color:#ffffff;">';
 			print '<a href="'.$http.'://'.$CFG->siteaddress.$CFG->sitepath.'/'.$CFG->applicationdirectory.'/scripts/file_display.php?epfu='.$epfu.'&location='.$report['location'].'&filename='.$report['name'].'" /><label>'.$report['title'].'</label><img src="images/printer.png" /></a>';
 			print '</div>';
