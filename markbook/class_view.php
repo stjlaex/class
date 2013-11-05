@@ -205,7 +205,8 @@ if($_SESSION['worklevel']>-1){
 		  <td class="student">
 			<a href="infobook.php?current=student_view.php&sid=<?php print $viewtable[$c2]['sid'];?>&sids[]=<?php print $viewtable[$c2]['sid'];?>"
 			  target="viewinfobook" onclick="parent.viewBook('infobook');">
-			<?php print $viewtable[$c2]['surname'];?>,&nbsp;<?php print $viewtable[$c2]['forename']. '&nbsp;&nbsp;&nbsp;'.$viewtable[$c2]['preferredforename'].'&nbsp;('.$viewtable[$c2]['middlenames'].')';?></a>
+			<?php if($viewtable[$c2]['preferredforename']!=''){$preferredforename='&nbsp;('.$viewtable[$c2]['preferredforename'].')';}else{$preferredforename='';}?>
+			<?php print $viewtable[$c2]['surname'];?>,&nbsp;<?php print $viewtable[$c2]['forename']. '&nbsp;'.$viewtable[$c2]['middlenames'].$preferredforename;?></a>
 			<div id="mini-<?php echo $viewtable[$c2]['sid']; ?>" style="float:right;"></div>
 			<div id="merit-<?php print $viewtable[$c2]['sid'];?>"></div>
 		  </td>
