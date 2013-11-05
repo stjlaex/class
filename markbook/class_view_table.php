@@ -30,6 +30,7 @@ while($student=mysql_fetch_array($d_students, MYSQL_ASSOC)){
 					  'surname'=>$student['surname'],
 					  'forename'=>$student['forename'],
 					  'preferredforename'=>$student['preferredforename'],
+					  'middlenames'=>$student['middlenames'],
 					  'form_id'=>$student['form_id'],
 					  'class_id'=>$student['class_id']
 					  );

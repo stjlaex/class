@@ -44,14 +44,14 @@ for($i=0;$i<sizeof($cids);$i++){
 	if($i==0){
 		mysql_query("CREATE TEMPORARY TABLE students
 		(SELECT a.student_id, b.surname, b.forename,
-		b.preferredforename, b.form_id, a.class_id FROM
+		b.preferredforename, b.middlenames, b.form_id, a.class_id FROM
 		cidsid a, student b WHERE a.class_id='$cid' AND
 		b.id=a.student_id ORDER BY b.surname);"); 
 		}
 	else{
 		mysql_query("INSERT INTO students SELECT
 		a.student_id, b.surname, b.forename, b.preferredforename, 
-		b.form_id, a.class_id FROM cidsid a,
+		b.middlenames, b.form_id, a.class_id FROM cidsid a,
 		student b WHERE a.class_id='$cid' AND b.id=a.student_id ORDER
 		BY b.surname;");
 		}
