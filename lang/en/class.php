@@ -446,4 +446,6 @@ $string['sender']='Sender';
 $string['parentmessages']='Message Log';
 $string['opens']='Opens';
 $string['weekprint']='Week print';
+$string['activities']='Activities';
+$string['corevalues']='Core values';
 ?>

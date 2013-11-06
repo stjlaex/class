@@ -64,11 +64,21 @@ var book = "<?php print $book;?>";
 		<textarea name="detail"   tabindex="<?php print $tab++;?>" id="Detail" rows="4" cols="35"></textarea>
 	  </div>
 
+<?php list($ratingnames,$catdefs)=fetch_categorydefs('mer'); ?>
 
 	  <div class="right">
 <?php 
+		print '</br>';
+		$listlabel='points'; $required='yes'; $listname='points';$listid='points';
+		$ratings=$ratingnames['meritpoints']; asort($ratings);
+		include('../../scripts/set_list_vars.php');
+		list_select_list($ratings,$listoptions,$book);
+?>
+	  </div>
+
+	  <div class="left">
+<?php 
 		/* Offer a choice of activities or hide if only one. */
-		list($ratingnames,$catdefs)=fetch_categorydefs('mer');
 		if(sizeof($catdefs)>1){
 			$required='yes';
 			$listlabel='activity'; $listname='activity'; $listid='activity'; 
@@ -83,10 +93,17 @@ var book = "<?php print $book;?>";
 
 	  <div class="right">
 <?php 
-		$listlabel='points'; $required='yes'; $listname='points';$listid='points';
-		$ratings=$ratingnames['meritpoints']; asort($ratings);
-		include('../../scripts/set_list_vars.php');
-		list_select_list($ratings,$listoptions,$book);
+		/* Offer a choice of core values or hide if only one. */
+		list($ratingnames,$catdefs)=fetch_categorydefs('cor');
+		if(sizeof($catdefs)>1){
+			$required='yes';
+			$listlabel='corevalue'; $listname='corevalue'; $listid='corevalue'; 
+			include('../../scripts/set_list_vars.php');
+			list_select_list($catdefs,$listoptions,$book);
+			}
+		else{
+			print '<input type="hidden" name="corevalue" value="'.array_pop(array_keys($catdefs)).'"/>';
+			}
 ?>
 	  </div>
 
@@ -123,7 +140,7 @@ var book = "<?php print $book;?>";
 		  <tr class="rowplus" onClick="clickToReveal(this)" id="<?php print $entryno.'-'.$rown++;?>">
 			<th>&nbsp</th>
 			 <td>
-				<?php print $entry['Activity']['value']. '  ('.display_date($entry['Date']['value']).')';?>
+				<?php print $entry['Activity']['value']. '  ('.display_date($entry['Date']['value']).') - '.$entry['CoreValue']['value'];?>
    			</td>
 			<td>
 				<?php print $entry['Points']['value'];?>

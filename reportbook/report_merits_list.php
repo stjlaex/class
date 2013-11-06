@@ -6,7 +6,7 @@
  *
  */
 
-$action='report_merits.php';
+$action='report_merits_list.php';
 
 $startdate=$_POST['date0'];
 $enddate=$_POST['date1'];
@@ -14,15 +14,19 @@ if(isset($_POST['bid'])){$bid=$_POST['bid'];}else{$bid='%';}
 if($bid==''){$bid='%';}
 if(isset($_POST['activity'])){$activity=$_POST['activity'];}else{$activity='%';}
 if($activity==''){$activity='%';}
+if(isset($_POST['core_value'])){$corevalue=$_POST['core_value'];}else{$corevalue='%';}
+if($corevalue==''){$corevalue='%';}
 if(isset($_POST['stage'])){$stage=$_POST['stage'];}
 if(isset($_POST['year'])){$year=$_POST['year'];}
 if(isset($_POST['yid'])){$yid=$_POST['yid'];}else{$yid='';}
 if(isset($_POST['formid']) and $_POST['formid']!=''){$comid=$_POST['formid'];}
 elseif(isset($_POST['houseid']) and $_POST['houseid']!=''){$comid=$_POST['houseid'];}
 else{$comid='';}
-list($ratingnames,$catdefs)=fetch_categorydefs('mer');
 $curryear=get_curriculumyear();
 
+if(isset($_POST['view']) and $_POST['view']!=''){$view=$_POST['view'];}else{$view='activity';}
+if($view=='activity'){list($ratingnames,$catdefs)=fetch_categorydefs('mer');$val=$activity;}
+if($view=='core_value'){list($ratingnames,$catdefs)=fetch_categorydefs('cor');$val=$corevalue;}
 
 include('scripts/sub_action.php');
 
@@ -30,7 +34,7 @@ include('scripts/sub_action.php');
 		$com=get_community($comid);
 		if($yid!=''){
 			$d_m=mysql_query("SELECT * FROM merits WHERE merits.date >= '$startdate' AND
-					merits.date<='$enddate'  AND merits.activity LIKE '$activity' AND merits.year='$curryear'
+					merits.date<='$enddate'  AND merits.$view LIKE '$val' AND merits.year='$curryear'
 					AND merits.student_id=ANY(SELECT student.id FROM student JOIN comidsid AS a ON a.student_id=student.id
 					WHERE student.yeargroup_id='$yid' AND a.community_id='$comid' 
 					AND (a.leavingdate>'$enddate' OR a.leavingdate='0000-00-00' OR a.leavingdate IS NULL));");
@@ -42,7 +46,7 @@ include('scripts/sub_action.php');
 		else{
 			$d_m=mysql_query("SELECT * FROM merits JOIN comidsid AS a ON a.student_id=merits.student_id WHERE
 			a.community_id='$comid' AND (a.leavingdate>'$enddate' OR a.leavingdate='0000-00-00' OR a.leavingdate IS NULL)
-			AND merits.date >= '$startdate' AND merits.date<='$enddate'  AND merits.activity LIKE '$activity' AND merits.year='$curryear';");
+			AND merits.date >= '$startdate' AND merits.date<='$enddate'  AND merits.$view LIKE '$val' AND merits.year='$curryear';");
 			$d_total=mysql_query("SELECT SUM(value) FROM merits WHERE merits.year='$curryear'
 					AND merits.student_id=ANY(SELECT student.id FROM student JOIN comidsid AS a ON a.student_id=student.id
 					WHERE a.community_id='$comid' 
@@ -55,7 +59,7 @@ include('scripts/sub_action.php');
 			student ON student.id=merits.student_id WHERE
 			merits.date>='$startdate' AND merits.date<='$enddate' 
 			AND student.yeargroup_id LIKE '$yid'  
-			AND merits.activity LIKE '$activity' AND merits.year='$curryear';");
+			AND merits.$view LIKE '$val' AND merits.year='$curryear';");
 		}
 	else{
 		if($rcrid=='%'){
@@ -74,7 +78,7 @@ include('scripts/sub_action.php');
 				comidsid ON comidsid.student_id=merits.student_id
 				WHERE merits.date >= '$startdate' AND
 				merits.date<='$enddate' AND
-				merits.subject_id LIKE '$bid' AND merits.activity LIKE '$activity' 
+				merits.subject_id LIKE '$bid' AND merits.$view LIKE '$val' 
 				AND merits.year='$curryear' AND comidsid.community_id='$comid';");
 		}
 
@@ -100,7 +104,7 @@ include('scripts/sub_action.php');
 		else{
 			$summary=$summarys[$sid];
 			}
-		$cat=$merit['activity'];
+		$cat=$merit[$view];
 		$value=$merit['value'];
 		if(isset($summary[$cat]['value'])){$summary[$cat]['value']+=$value;}
 		else{$summary[$cat]['value']=$value;}
@@ -159,7 +163,17 @@ if(isset($com)){
 			  <input type="checkbox" name="checkall" value="yes" onChange="checkAll	(this);" />
 			</label>
 		  </th>
-		  <th colspan="2" style="width:30%;"><?php print_string('student');?></th>
+		  <th colspan="2" style="width:30%;">
+		  	<?php print_string('student');?>
+		  	<div class="rowaction" style="width:30%">
+			  	<label><?php print_string('activities');?></label>
+				<input type="radio" <?php if($view=='activity'){print 'checked';}?> name='view' onchange="processContent(this);" value="activity" name="umnfilter" title="[[filter]]">
+			</div>
+			<div class="rowaction" style="width:30%">
+				<label><?php print_string('corevalues');?></label>
+				<input type="radio" <?php if($view=='core_value'){print 'checked';}?> name='view' onchange="processContent(this);" value="core_value" name="umnfilter" title="[[filter]]">
+		  	</div>
+		  </th>
 		  <th>
 <?php 
 		print get_string('sum').'<br />'. '('. 
@@ -228,6 +242,15 @@ if(isset($com)){
 ?>
 	  </table>
 </div>
+	<input type="hidden" name="date0" value="<?php print $startdate;?>" />
+ 	<input type="hidden" name="date1" value="<?php print $enddate;?>" />
+ 	<input type="hidden" name="yid" value="<?php print $yid;?>" />
+ 	<input type="hidden" name="year" value="<?php print $year;?>" />
+ 	<input type="hidden" name="formid" value="<?php print $formid;?>" />
+ 	<input type="hidden" name="houseid" value="<?php print $comid;?>" />
+ 	<input type="hidden" name="stage" value="<?php print $stage;?>" />
+ 	<input type="hidden" name="bid" value="<?php print $bid;?>" />
+
  	<input type="hidden" name="cancel" value="<?php print $choice;?>" />
  	<input type="hidden" name="choice" value="<?php print $choice;?>" />
  	<input type="hidden" name="current" value="<?php print $action;?>" />

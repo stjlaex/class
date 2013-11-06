@@ -1,0 +1,1 @@
+ALTER TABLE merits  ADD core_value VARCHAR(10) NOT NULL;

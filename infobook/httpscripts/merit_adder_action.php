@@ -21,6 +21,8 @@ elseif($sub=='Submit'){
 	if(isset($_POST['points'])){$pointsvalue=$_POST['points'];}
 	if(isset($_GET['activity'])){$activity=$_GET['activity'];}
 	if(isset($_POST['activity'])){$activity=$_POST['activity'];}
+	if(isset($_GET['corevalue'])){$corevalue=$_GET['corevalue'];}
+	if(isset($_POST['corevalue'])){$corevalue=$_POST['corevalue'];}
 
 	if(isset($_POST['inmust'])){$inmust=$_POST['inmust'];}else{$inmust='yes';}
 	if(isset($_POST['bid'])){$bid=$_POST['bid'];}else{$bid='';}
@@ -43,9 +45,9 @@ elseif($sub=='Submit'){
 
 	if($inmust=='yes' and $pointsvalue!=''){
 		mysql_query("INSERT INTO merits (teacher_id, student_id, date, year, activity, value, result, detail,
-						subject_id, component_id) 
+						subject_id, component_id, core_value) 
 						VALUES ('$tid', '$sid', '$todate', '$curryear', '$activity','$pointsvalue',
-									'$pointsresult','$detail','$bid', '$pid');");
+									'$pointsresult','$detail','$bid', '$pid', '$corevalue');");
 
 
 		if(isset($CFG->emailmerits) and $CFG->emailmerits=='yes'){

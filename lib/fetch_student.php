@@ -2064,7 +2064,7 @@ function fetchMerits($sid,$limit=-1,$bid='%',$pid='%',$year='0000'){
  * @param array $m
  * @return array
  */
-function fetchMerit($m=array('id'=>-1,'subject_id'=>'','component_id'=>'','result'=>'','value'=>'','activity'=>'','detail'=>'','year'=>'','date'=>'','teacher_id'=>'')){
+function fetchMerit($m=array('id'=>-1,'subject_id'=>'','component_id'=>'','result'=>'','value'=>'','activity'=>'','detail'=>'','year'=>'','date'=>'','teacher_id'=>'','corevalue'=>'')){
 
 
 	if($m['id']>-1 and (!isset($m['student_id']) or $m['student_id']<1)){
@@ -2098,6 +2098,15 @@ function fetchMerit($m=array('id'=>-1,'subject_id'=>'','component_id'=>'','resul
 							 'type_db'=>'enum',
 							 'value_db' => ''.$m['activity'],
 							 'value'=>''.$activity);
+	list($ratingnames,$catdefs)=fetch_categorydefs('cor');
+	if(array_key_exists($m['core_value'],$catdefs)){$corevalue=$catdefs[$m['core_value']]['name'];}
+	else{$corevalue='';}
+	$Merit['CoreValue']=array('label'=>'corevalue', 
+							 'table_db'=>'merits', 
+							 'field_db'=>'core_value',
+							 'type_db'=>'enum',
+							 'value_db' => ''.$m['core_value'],
+							 'value'=>''.$corevalue);
 	$Merit['Points']=array('label'=>'points', 
 						   'table_db'=>'merits', 
 						   'field_db'=>'result',
