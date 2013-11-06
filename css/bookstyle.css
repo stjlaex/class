@@ -404,6 +404,24 @@ button.rowaction:hover, button.rowaction:focus {
 button.imagebutton {
 	border:0 !important;
 	}
+img.displayfilepdf { 
+	background-image:url("../images/file-pdf.png");
+	content:url("../images/file-pdf.png");
+    padding:0;
+	cursor:pointer;
+    width:50px !important;
+    height:50px !important;
+    border:0;
+	}
+img.displayfile { 
+	background-image:url("../images/file-generic.png");
+	content:url("../images/file-generic.png");
+    padding:0;
+	cursor:pointer;
+    width:50px !important;
+    height:50px !important;
+    border:0;
+	}
 img.clicktoload { 
 	background-image:url("../images/folder-open.png");
 	content:url("../images/folder-open.png");

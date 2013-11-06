@@ -462,6 +462,116 @@ function old_photo_img($epfu,$enrolno='',$access=''){
 	}
 
 
+
+
+/**
+ *
+ *
+ */
+function display_file($epfun,$foldertype,$linkedid='-1',$bid=''){
+
+	global $CFG;
+	$files=array();
+
+	if($foldertype=='staff'){
+		$folder_usertype='u';
+		}
+	else{
+		$folder_usertype='s';
+		}
+
+	$epfuid=get_epfuid($epfun,$folder_usertype);
+	if(strlen($epfuid)<1){$epfuid='-999999';}
+
+	if($foldertype!='icon'){
+		/* Could be passing both an id and some description from a linked comment. */
+		if(is_array($linkedid)){
+			$linked_description=$linkedid['detail'];
+			$linkedid=$linkedid['id'];
+			}
+
+		if($linkedid>0){
+			/* Looking only at the files attached to a single entry. */
+			$attachment="file.other_id='$linkedid' AND ";
+			}
+		else{
+			/* Looking only at all files dropped in this context. */
+			$attachment='';
+			}
+
+		$d_f=mysql_query("SELECT file.id, title, description, location, originalname FROM file 
+						JOIN file_folder ON file_folder.id=file.folder_id
+						WHERE $attachment file.owner_id='$epfuid' AND file.owner='$folder_usertype' 
+						AND file_folder.name='$foldertype';");
+		while($file=mysql_fetch_array($d_f,MYSQL_ASSOC)){
+			if($foldertype=='assessment'){
+				/*
+				 * The other_id is a comment_id and will have a descriptoin from there.
+				 */
+				$file['description']=$linked_description;
+				}
+			else{
+				$file['description']=$file['description'];
+				}
+			$file['name']=$file['originalname'];
+			$file['path']=$CFG->eportfolio_dataroot.'/'.$file['location'];
+			$files[]=$file;
+			}
+		}
+
+		if(isset($_SERVER['HTTPS'])){
+			$http='https';
+			}
+		else{
+			$http='http';
+			}
+		$filedisplay_url=$http.'://'.$CFG->siteaddress.$CFG->sitepath.'/'.$CFG->applicationdirectory.'/scripts/file_display.php';
+
+		foreach($files as $file){
+			if(!isset($file['id']) or $file['id']=='') $fileid=$file['name'];
+			else $fileid=$file['id'];
+			$fileparam_list='?fileid='.$fileid.'&location='.$file['location'].'&filename='.$file['name'];
+			$path=$filedisplay_url.$fileparam_list;
+			$ext=pathinfo($path);
+?>
+	<div style="height:100px;float:left;">
+		<div>
+			<a href="<?php print $filedisplay_url.$fileparam_list;?>">
+				<button class="rowaction imagebutton" style="float:left;">
+			
+<?php
+			if($ext['extension']=='pdf'){
+?>
+				<img class="displayfilepdf">
+<?php
+				}
+			else{
+?>
+				<img class="displayfile">
+<?php
+				}
+?>
+					<img class="clicktoprint">
+					<span style="text-align: center;"><?php echo $file['name']; ?></span>
+				</button>
+			</a>
+		
+<?php
+			if($ext['extension']=='jpg' or $ext['extension']=='png' or $ext['extension']=='gif' or $ext['extension']=='jpeg'){
+?>
+				<img src="<?php print $filedisplay_url.$fileparam_list;?>" style="height:70px;width:70px;float:right;cursor:pointer;" onclick="getElementById('preview').style.display='block';getElementById('imgpreview').setAttribute('src','<?php print $filedisplay_url.$fileparam_list;?>');">
+<?php
+				}
+?>
+		</div>
+	</div>
+<?php
+			}
+	}
+
+
+
+
 /**
  * 
  */

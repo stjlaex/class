@@ -281,6 +281,15 @@
 
 			$profile_eid=get_profile_eid($rid);
 
+						$imagebuttons=array();
+			$imagebuttons['clicktoload']=array('name'=>'Attachment',
+													 'onclick'=>"clickToAttachFile($sid,$profile_eid,'$bid','$pid','$sid')", 
+													 'class'=>'clicktoload',
+													 'value'=>'category_editor.php',
+													 'title'=>'clicktoattachfile');
+			print '<tr class="'.$rowclass.'" id="'.$openId.'-'.$rown++.'" ><td></td><td colspan="'.$extra_colspan.'"></td><td id="icon'.$sid.'" class="" style="width:18px;" >';
+			rowaction_buttonmenu($imagebuttons,array(),$book);
+			print '</td></tr>';
 			print '<tr class="'.$rowclass.'" id="'.$openId.'-'.$rown++.'" >';
 			print '<td></td><td colspan="'.$extra_colspan.'">';
 			print '<div class="listmenu fileupload">';
@@ -291,20 +300,17 @@
 			$d_c=mysql_query("SELECT id, detail FROM comments WHERE eidsid_id='$eidsid_id' AND student_id='$sid';");
 			while($c=mysql_fetch_array($d_c,MYSQL_ASSOC)){
 				$files=(array)list_files($Student['EPFUsername']['value'],'assessment',$c['id']);
-				html_document_list($files);
+				//html_document_list($files);
+				display_file($Student['EPFUsername']['value'],'assessment',$c['id']);
 				}
+?>
+			<div id="preview" style="display:none; width:80%;float:left;margin-left:10%;">
+				<img id="imgpreview"src="#" alt="Preview" style="display:block;width: auto;height: auto;max-width:100%;margin: 0px auto; float:none;">
+			<div>
+<?php
 			unset($thisscore);
 			unset($eidsid_id);
-			print '</div></td>';
-			$imagebuttons=array();
-			$imagebuttons['clicktoload']=array('name'=>'Attachment',
-													 'onclick'=>"clickToAttachFile($sid,$profile_eid,'$bid','$pid','$sid')", 
-													 'class'=>'clicktoload',
-													 'value'=>'category_editor.php',
-													 'title'=>'clicktoattachfile');
-			print '<td id="icon'.$sid.'" class="" style="width:18px;" >';
-			rowaction_buttonmenu($imagebuttons,array(),$book);
-			print '</td></tr>';
+			print '</div></td><td></td></tr>';
 			}
 ?>
 	<div id="<?php print 'xml-'.$openId;?>" style="display:none;">

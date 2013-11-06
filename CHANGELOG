@@ -1,13 +1,18 @@
 Version ClaSS-1.0.57 release (2013/11/6)
 -------------------------------------------
 
-Tiny fix to the overll total in the rpeort_merits_list page.
+Tiny fix to the overall total in the report_merits_list page.
 
 New merit option to record a second category (example being used for
 core school values).
 
 Improved the report_merits_list to allow breakdown of merits to switch
 between core values and activities.
+
+Changed the dislpay of student names in the MarkBook. Now includes
+middlenames and prefrred forename.
+
+Working on previewing image files for the skills_log in new_onereport.
 
 
 
@@ -23,6 +28,7 @@ Tiny fix to the student_reports scripts in InfoBook.
 
 A new function under Admin to the edit subject names and to add new
 subjects.
+
 
 
 Version ClaSS-1.0.55 release (2013/10/23)
