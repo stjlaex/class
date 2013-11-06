@@ -89,7 +89,8 @@ three_buttonmenu();
 		  <td>
 			<a href="infobook.php?current=student_view.php&sid=<?php print $sid;?>&sids[]=<?php print $sid;?>"
 			  target="viewinfobook" onclick="parent.viewBook('infobook');">
-			<?php print $viewtable[$c]['surname'];?>,&nbsp;<?php print $viewtable[$c]['forename'].$viewtable[$c]['preferredforename'];?></a>
+			<?php if($viewtable[$c]['preferredforename']!=''){$preferredforename='&nbsp;('.$viewtable[$c]['preferredforename'].')';}else{$preferredforename='';}?>
+			<?php print $viewtable[$c]['surname'];?>,&nbsp;<?php print $viewtable[$c]['forename'].'&nbsp;'.$viewtable[$c]['middlenames'].$preferredforename;?></a>
 		  </td>
 		  <td><?php print $viewtable[$c]['form_id'];?>&nbsp;</td>
 <?php

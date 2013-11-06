@@ -77,7 +77,9 @@ require_once('Spreadsheet/Excel/Writer.php');
 
 
 		$workbook->close();
-
+?>
+		<script>openFileExport('xls');</script>
+<?php
 		}
 
 

@@ -111,7 +111,7 @@ include('scripts/sub_action.php');
 		if(isset($summary['total'])){$summary['total']+=$value;}
 		else{$summary['total']=$value;}
 		if($summary['total']>$range){$range=$summary['total'];}
-		$totaltotal+=$summary['total'];
+		$totaltotal+=$value;
 		$summarys[$sid]=$summary;
 		}
 
