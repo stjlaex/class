@@ -468,7 +468,7 @@ function old_photo_img($epfu,$enrolno='',$access=''){
  *
  *
  */
-function display_file($epfun,$foldertype,$linkedid='-1',$bid=''){
+function display_file($epfun,$foldertype,$linkedid='-1',$comment=''){
 
 	global $CFG;
 	$files=array();
@@ -536,8 +536,9 @@ function display_file($epfun,$foldertype,$linkedid='-1',$bid=''){
 ?>
 	<div style="height:100px;float:left;">
 		<div>
+		  <span  style="text-align:center;width:100px;" title="<?php echo $comment;?>">
 			<a href="<?php print $filedisplay_url.$fileparam_list;?>">
-				<button class="rowaction imagebutton" style="float:left;">
+				<button type="button" class="rowaction imagebutton" style="float:left;" >
 			
 <?php
 			if($ext['extension']=='pdf'){
@@ -551,15 +552,15 @@ function display_file($epfun,$foldertype,$linkedid='-1',$bid=''){
 <?php
 				}
 ?>
-					<img class="clicktoprint">
 					<span style="text-align: center;"><?php echo $file['name']; ?></span>
 				</button>
 			</a>
-		
+		  </span>
+
 <?php
-			if($ext['extension']=='jpg' or $ext['extension']=='png' or $ext['extension']=='gif' or $ext['extension']=='jpeg'){
+			if(strcasecmp($ext['extension'], 'jpg')==0 or strcasecmp($ext['extension'], 'png')==0 or strcasecmp($ext['extension'], 'gif')==0 or strcasecmp($ext['extension'], 'jpeg')==0){
 ?>
-				<img src="<?php print $filedisplay_url.$fileparam_list;?>" style="height:70px;width:70px;float:right;cursor:pointer;" onclick="getElementById('preview').style.display='block';getElementById('imgpreview').setAttribute('src','<?php print $filedisplay_url.$fileparam_list;?>');">
+				<img src="<?php print $filedisplay_url.$fileparam_list;?>" style="height:70px;width:70px;float:right;cursor:pointer;" onclick="getElementById('preview').style.display='block';getElementById('shadow').style.display='block';getElementById('imgpreview').setAttribute('src','<?php print $filedisplay_url.$fileparam_list;?>');">
 <?php
 				}
 ?>

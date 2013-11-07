@@ -140,6 +140,14 @@ form img.calendar {
 	cursor:pointer;
 	background-repeat:no-repeat;
 	}
+form img.rowminus { 
+	background-image:url("../images/orangeminus.png");
+	content:url("../images/orangeminus.png");
+	}
+form img.rowplus { 
+	background-image:url("../images/orangeplus.png");
+	content:url("../images/orangeplus.png");
+	}
 h3 { 
      font-size:small;
      margin:0;
@@ -409,7 +417,7 @@ img.displayfilepdf {
 	content:url("../images/file-pdf.png");
     padding:0;
 	cursor:pointer;
-    width:50px !important;
+    width:42px !important;
     height:50px !important;
     border:0;
 	}
@@ -418,7 +426,7 @@ img.displayfile {
 	content:url("../images/file-generic.png");
     padding:0;
 	cursor:pointer;
-    width:50px !important;
+    width:42px !important;
     height:50px !important;
     border:0;
 	}

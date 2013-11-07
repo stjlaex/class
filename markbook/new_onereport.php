@@ -148,6 +148,8 @@
 		name="inmust<?php print $sid.':'.$inc++;?>" 
 		value="<?php print $inmust;?>" />
 	</tr>
+	<tr>
+		<tbody>
 <?php
 		if($reportdef['report']['addcategory']=='yes'){
 			$ass_colspan++;
@@ -248,6 +250,58 @@
 
 				$inc++;
 				print '</td></tr>';
+				
+				if($reportdef['report']['addcategory']=='yes' and $reportdef['report']['course_id']=='FS'){
+
+					$profile_eid=get_profile_eid($rid);
+					$thisscore=get_assessment_score($eid,$sid,$bid,$pid);
+					$eidsid_id=$thisscore['id'];
+					$d_c=mysql_query("SELECT id, comment FROM report_skill_log WHERE skill_id='$catid' AND report_id='$rid' AND student_id='$sid';");
+
+					$imagebuttons=array();
+					$imagebuttons['clicktoload']=array('name'=>'Attachment',
+															 'onclick'=>"clickToAttachFile($sid,$rid,'$catid','$pid','$sid')", 
+															 'class'=>'clicktoload',
+															 'value'=>'category_editor.php',
+															 'title'=>'clicktoattachfile');
+					/*Not empty row*/
+					if(mysql_num_rows($d_c)>0){
+						print '<tr class="'.$rowclass.'" id="'.$openId.'-'.$rown++.'" ><td onclick="clickToRevealRow(\''.$openId.'\',\''.$rown.'\')" ><img id="status'.$openId.'-'.($rown-1).'" class="rowplus"></td><td colspan="'.$extra_colspan.'"></td><td id="icon'.$sid.'" class="" style="width:18px;" >';
+						}
+					/*Row without comments or files*/
+					else{
+						print '<tr class="'.$rowclass.'" id="'.$openId.'-'.$rown++.'" ><td></td><td colspan="'.$extra_colspan.'"></td><td id="icon'.$sid.'" class="" style="width:18px;" >';
+						}
+					rowaction_buttonmenu($imagebuttons,array(),$book);
+					print '</td></tr>';
+					print '<tr class="hidden" id="'.$openId.'-'.$rown++.'" >';
+					print '<td></td><td colspan="'.($extra_colspan).'">';
+					print '<div class="listmenu fileupload">';
+					require_once('lib/eportfolio_functions.php');
+
+					while($c=mysql_fetch_array($d_c,MYSQL_ASSOC)){
+						$files=(array)list_files($Student['EPFUsername']['value'],'assessment',$c['id']);
+						//html_document_list($files);
+						display_file($Student['EPFUsername']['value'],'assessment',$c['id'],$c['comment']);
+						/*Displays the comment without files*/
+						if(count($files)==0 and $c['comment']!=''){
+?>
+						  <div style="float:left;margin-top: 3px;">
+							<span  style="text-align:center;width:100px;padding: 3px;" title="<?php echo $c['comment'];?>">
+								<button type="button" class="rowaction imagebutton" style="float:left;" >
+									<img class="displayfile" style="display:block;margin:0 auto;float:none;">
+								</button>
+							</span>
+						  </div>
+<?php
+							}
+						}
+		?>
+		<?php
+					unset($thisscore);
+					unset($eidsid_id);
+					print '</div></td><td></td></tr>';
+					}
 				}
 			}
 
@@ -277,48 +331,20 @@
 			rowaction_buttonmenu($imagebuttons,array(),$book);
 			print '</td></tr>';
 			}
-		if($reportdef['report']['addcategory']=='yes' and $reportdef['report']['course_id']=='FS'){
-
-			$profile_eid=get_profile_eid($rid);
-
-						$imagebuttons=array();
-			$imagebuttons['clicktoload']=array('name'=>'Attachment',
-													 'onclick'=>"clickToAttachFile($sid,$profile_eid,'$bid','$pid','$sid')", 
-													 'class'=>'clicktoload',
-													 'value'=>'category_editor.php',
-													 'title'=>'clicktoattachfile');
-			print '<tr class="'.$rowclass.'" id="'.$openId.'-'.$rown++.'" ><td></td><td colspan="'.$extra_colspan.'"></td><td id="icon'.$sid.'" class="" style="width:18px;" >';
-			rowaction_buttonmenu($imagebuttons,array(),$book);
-			print '</td></tr>';
-			print '<tr class="'.$rowclass.'" id="'.$openId.'-'.$rown++.'" >';
-			print '<td></td><td colspan="'.$extra_colspan.'">';
-			print '<div class="listmenu fileupload">';
-			require_once('lib/eportfolio_functions.php');
-
-			$thisscore=get_assessment_score($eid,$sid,$bid,$pid);
-			$eidsid_id=$thisscore['id'];
-			$d_c=mysql_query("SELECT id, detail FROM comments WHERE eidsid_id='$eidsid_id' AND student_id='$sid';");
-			while($c=mysql_fetch_array($d_c,MYSQL_ASSOC)){
-				$files=(array)list_files($Student['EPFUsername']['value'],'assessment',$c['id']);
-				//html_document_list($files);
-				display_file($Student['EPFUsername']['value'],'assessment',$c['id']);
-				}
-?>
-			<div id="preview" style="display:none; width:80%;float:left;margin-left:10%;">
-				<img id="imgpreview"src="#" alt="Preview" style="display:block;width: auto;height: auto;max-width:100%;margin: 0px auto; float:none;">
-			<div>
-<?php
-			unset($thisscore);
-			unset($eidsid_id);
-			print '</div></td><td></td></tr>';
-			}
 ?>
 	<div id="<?php print 'xml-'.$openId;?>" style="display:none;">
 	  <?php	 xmlechoer('Comment',$Comment); ?>
 	</div>
   </tbody>
+  </tbody>
+  </tr>
 <?php
 		  }
 		}
 	}
 ?>
+
+	<div id="preview" style="display:none; width:80%;margin-left:10%;z-index:1000;position:absolute;float:left;">
+		<img id="imgpreview"src="#" alt="Preview" style="display:block;width:auto;height:auto;max-width:100%;max-height:100%;padding-top:3%;padding-bottom:3%;margin-left:auto;margin-right:auto; float:none;" onclick="getElementById('preview').style.display='none';getElementById('shadow').style.display='none';">
+	</div>
+	<div id="shadow" style="display:none; width:100%;height:100%;background-color:black;z-index:999;position:fixed;opacity:0.4;" onclick="getElementById('preview').style.display='none';getElementById('shadow').style.display='none';"><div>

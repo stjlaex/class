@@ -29,21 +29,25 @@ elseif($sub=='Submit'){
 		/*Create a new entry*/
 		trigger_error($sid.' : '.$comment. ' : '.$bid.' : '.$pid,E_USER_WARNING);
 
-		$score=(array)get_assessment_score($eid,$sid,$bid,$pid);
-		if($score['id']>0){
-			$eidsid_id=$score['id'];
-			}
-		else{
-			mysql_query("INSERT INTO eidsid (assessment_id, student_id, subject_id, component_id, result, value, date) 
-							VALUES ('$eid','$sid','$bid','$pid','','','$todate');");
-			$eidsid_id=mysql_insert_id();
-			}
+		//$score=(array)get_assessment_score($eid,$sid,$bid,$pid);
+		//if($score['id']>0){
+		//	$eidsid_id=$score['id'];
+		//	}
+		//else{
+		//	mysql_query("INSERT INTO eidsid (assessment_id, student_id, subject_id, component_id, result, value, date) 
+		//					VALUES ('$eid','$sid','$bid','$pid','','','$todate');");
+		//	$eidsid_id=mysql_insert_id();
+		//	}
 
-		$d_c=mysql_query("INSERT INTO comments SET student_id='$sid', detail='$comment', entrydate='$todate', 
-							subject_id='$bid', category='$pid', eidsid_id='$eidsid_id';");
-		$entid=mysql_insert_id();
-		require_once('../../lib/eportfolio_functions.php');
-		link_files($Student['EPFUsername']['value'],'assessment',$entid);
+		/*Only inserts comments or file links if there is a comment or a file uploaded (avoids empty fields)*/
+		$d_f=mysql_query("SELECT * FROM file WHERE owner_id='$sid' AND other_id='0' AND owner='s';");
+		if(mysql_num_rows($d_f)>0 or $comment!=''){
+			$d_c=mysql_query("INSERT INTO report_skill_log SET student_id='$sid', skill_id='$bid', comment='$comment', 
+								report_id='$eid', teacher_id='$tid';");
+			$entid=mysql_insert_id();
+			require_once('../../lib/eportfolio_functions.php');
+			link_files($Student['EPFUsername']['value'],'assessment',$entid);
+			}
 
 		//$Student=fetchStudent_short($sid);
 		//elgg_upload_files($publishdata);

@@ -168,11 +168,38 @@ function clickToReveal(rowObject){
 			}
 		else if(theRow.className=="hidden"){ 
 			theRow.className="revealed";
-			}	
+			}
+		if(i>0 && document.getElementById(rowId+"-0").className=="rowplus"){
+			theRow.className="hidden";
+			}
+		if(document.getElementById("status"+rowId+"-"+i)!=null){
+			document.getElementById(rowId+"-"+(i+1)).className="revealed";
+			document.getElementById("status"+rowId+"-"+i).className='rowplus';
+			}
 		i++;
 		}	
 	}
 
+/*used within a listmenu table to display or hide just next row (rown)*/
+function clickToRevealRow(id,rown){
+	firstRow=document.getElementById(id+'-0');
+	theRow=document.getElementById('status'+id+'-'+(rown-1));
+	nextRow=document.getElementById(id+'-'+rown);
+	if(theRow.className=="rowplus"){ 
+		theRow.className="rowminus"; 
+		}		
+	else if(theRow.className=="rowminus"){ 
+		theRow.className="rowplus";
+		}
+	if(nextRow.className=="revealed" && firstRow.className=="rowminus"){ 
+		nextRow.className="hidden";
+		theRow.className="rowplus";
+		}
+	else if(nextRow.className=="hidden" && firstRow.className=="rowminus"){ 
+		nextRow.className="revealed";
+		theRow.className="rowminus";
+		}
+	}
 
 /**
  * Only for rowaction or sideoption buttons NOT for buttonmenu form buttons.
