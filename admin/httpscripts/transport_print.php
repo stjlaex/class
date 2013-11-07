@@ -138,6 +138,10 @@ else{
 					$Transport['Student'][]=$Student;
 					}
 				}
+			/*Include all stops for both directions*/
+			$Transport['Stops']['IN']=$buses[$busin['id']]['stops'];
+			$Transport['Stops']['OUT']=$buses[$busout['id']]['stops'];
+
 			$Students['Transport'][]=$Transport;
 			}
 		}
