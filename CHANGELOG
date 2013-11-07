@@ -1,4 +1,4 @@
-Version ClaSS-1.0.57 release (2013/11/6)
+Version ClaSS-1.0.57 release (2013/11/8)
 -------------------------------------------
 
 Tiny fix to the overall total in the report_merits_list page.
@@ -15,6 +15,10 @@ middlenames and prefrred forename.
 Working on previewing image files for the skills_log in new_onereport.
 
 Change to the transport list to include all stops on the attendance list.
+
+Implemented the report_skills_log for file attachments and text
+description. They now link to specific statements not just an area.
+
 
 
 
