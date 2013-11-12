@@ -695,6 +695,11 @@ function checksidsAction(buttonObject){
 		parent.viewBook("infobook");
 		javascript:parent.frames["viewinfobook"].document.location.href="infobook.php?current=message.php&cancel="+params;
 		}
+	else if(script=='student_list.php'){
+		progressIndicator("stop");
+		parent.viewBook("infobook");
+		javascript:parent.frames["viewinfobook"].document.location.href="infobook.php?current=student_list.php&cancel="+params;
+		}
 	else{
 		var url=pathtoscript + "httpscripts/" + script + "?" +params;
 		xmlHttp.open("GET", url, true);

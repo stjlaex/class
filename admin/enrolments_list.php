@@ -186,6 +186,12 @@ if(isset($_POST['startdate'])){$startdate=$_POST['startdate'];}
 										 'pathtoscript'=>$CFG->sitepath.'/'.$CFG->applicationdirectory.'/infobook/',
 										 'value'=>'contact_labels_print.php');
 */
+	$extrabuttons['list']=array('name'=>'current',
+								'pathtoscript'=>$CFG->sitepath.'/'.$CFG->applicationdirectory.'/infobook/',
+								'value'=>'student_list.php',
+								//'xmlcontainerid'=>'list',
+								'onclick'=>'checksidsAction(this)'
+								);
 
 	if($comtype!='allapplied'){
 		three_buttonmenu($extrabuttons,'infobook');
