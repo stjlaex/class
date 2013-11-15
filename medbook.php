@@ -11,12 +11,14 @@ include('scripts/set_book_vars.php');
 $session_vars=array('sid','newyid','medtype');
 include('scripts/set_book_session_vars.php');
 
-if(isset($_POST['list']) and ($_POST['list']=='all' or $_POST['list']=='new')){
+if(isset($_POST['list']) and ($_POST['list']=='all' or $_POST['list']=='new' or $_POST['list']=='visit' or $_POST['list']=='search')){
 	$medtype='';$newyid='';$list=$_POST['list'];$sid='';
 	}
 if($sid=='' or $current==''){
-	$current='med_student_list.php';
+	if($current==''){$current='med_student_list.php';}
 	$_SESSION['medbooksid']='';
+	$_SESSION['searchstring']='';
+	$_SESSION['time']='';
 	}
 elseif($sid!=''){
 	/*working with a single student*/
@@ -77,6 +79,28 @@ elseif($sid!=''){
 		selery_stick($choices,'',$book);
 ?>
 		<input type="hidden" name="list" value="new"/>
+	  </fieldset>
+	</form>
+
+
+	<form id="configmedbookchoice" name="configmedbookchoice" method="post" action="medbook.php" target="viewmedbook">
+	  <fieldset class="medbook selery">
+		<legend><?php print get_string('visits','admin');?></legend>
+<?php 
+		$choices=array('med_student_list.php'=>'visitstudents');
+		selery_stick($choices,$choice,$book);
+?>
+		<input type="hidden" name="list" value="visit"/>
+	  </fieldset>
+	</form>
+
+	<form id="configmedbookchoice" name="configmedbookchoice" method="post" action="medbook.php?current=med_search_student.php" target="viewmedbook">
+	  <fieldset class="medbook selery">
+<?php 
+		$choices=array('med_search_student.php'=>'newvisit');
+		selery_stick($choices,$choice,$book);
+?>
+		<input type="hidden" name="list" value="search"/>
 	  </fieldset>
 	</form>
 

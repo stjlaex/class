@@ -1968,6 +1968,61 @@ function fetchMedical($sid='-1'){
 	return $Medical;
 	}
 
+/**
+ * Medical
+ *
+ *
+ * @param string $sid
+ * @return array
+ */
+function fetchMedicalLog($id='-1',$sid='-1',$rowsno='-1'){
+	$Medical=array();
+
+	if($sid!='-1'){$where=' WHERE student_id='.$sid.' ';}
+	else{$where='';}
+
+	if($sid=='-1' and $id!='-1'){$where=' WHERE id='.$id.' ';}
+	elseif($sid!='-1' and $id!='-1'){$where.=' AND id='.$id.' ';}
+
+	if($rowsno!='-1'){$limit=' LIMIT '.$rowsno;}
+	else{$limit='';}
+	$d_v=mysql_query("SELECT * FROM medical_log $where ORDER BY student_id ASC, date DESC $limit;");
+	while($visits=mysql_fetch_array($d_v,MYSQL_ASSOC)){
+		$Logs=array();
+		$Log=array();
+
+		$Log['id_db']=''.$visits['id'];
+
+		$Log['StudentId']=array('label' => 'studentid', 
+									'field_db'=> 'student_id', 
+									'value_db' => ''.$visits['student_id'],
+									'value' => ''.$visits['student_id']);
+		$Log['Date']=array('label' => 'date', 
+										'value_db' => ''.$visits['date'],
+										'type_db' => 'date',
+										'value' => ''.$visits['date']);
+		$Log['Details']=array('label' => 'details', 
+									'type_db' => 'text',
+									'value_db' => ''.$visits['details'],
+									'value' => ''.$visits['details']);
+		$Log['Time']=array('label' => 'time', 
+								 'field_db'=> 'time', 
+								  'type_db' => 'time', 
+								  'value' => ''.$visits['time']);
+		$Log['Category']=array('label' => 'category',
+									'field_db'=> 'category', 
+									'type_db' => 'varchar(10)', 
+									'value' => ''.$visits['category']);
+		$Log['UserId']=array('label' => 'userid', 
+							   'field_db'=> 'user_id', 
+							   'type_db'=> 'varchar(14)', 
+							   'value' => ''.$visits['user_id']);
+		$Logs[]=$Log;
+		}
+	$Medical=$Logs;
+	return $Medical;
+	}
+
 
 /**
  *
