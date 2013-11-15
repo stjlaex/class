@@ -59,7 +59,9 @@ $time=date('H:i:s');
 					function getTimeNow(){
 						var d = new Date();
 						var x = document.getElementById("time");
-						x.value=d.getHours()+':'+d.getMinutes();
+						var minutes=d.getMinutes();
+						minutes=minutes > 9 ? minutes : '0' + minutes;
+						x.value=d.getHours()+':'+minutes;
 						}
 				</script>
 				<tr>
