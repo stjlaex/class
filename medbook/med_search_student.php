@@ -15,7 +15,7 @@ two_buttonmenu();
 
 		<label>
 			<span title="Search by forename, surname, full name, formgroup, name formgroup, enrolment number or student id.<br/><br/>If you select a yeargroup or a from group the speed of the search increases.">
-				Search
+				<?php print_string('search');?>
 			</span>
 		</label>
 		<input tabindex="<?php print $tab++;?>" type="text" name="searchvalue" value="" maxlength="30" title="E.g.: Claire Anderson 7EE or Anderson Claire"/>
@@ -39,7 +39,7 @@ two_buttonmenu();
 
 		<div style="float:right">
 <?php
-			if($_SESSION['searchstring']!='' and $_SESSION['time']!=''){echo 'The search for "'.$_SESSION['searchstring'].'" took '.number_format($_SESSION['time'],2).' seconds.';}
+			if($_SESSION['searchstring']!='' and $_SESSION['searchtime']!=''){echo 'The search for "'.$_SESSION['searchstring'].'" took '.number_format($_SESSION['searchtime'],2).' seconds.';}
 ?>
 		</div>
 	  </fieldset>
@@ -53,7 +53,7 @@ two_buttonmenu();
 
 	<div>
 		<fieldset class="medbook">
-			<legend>Students</legend>
+			<legend><?php print_string('students');?></legend>
 <?php
 	if(count($sid)>1){echo print_string("didyoumean").":<br>";}
 	foreach($sid as $student_id){

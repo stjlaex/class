@@ -15,7 +15,7 @@ if(isset($_POST['list']) and ($_POST['list']=='all' or $_POST['list']=='new' or 
 	$medtype='';$newyid='';$list=$_POST['list'];$sid='';
 	}
 if($sid=='' or $current==''){
-	if($current==''){$current='med_student_list.php';}
+	if($current==''){$current='';}
 	$_SESSION['medbooksid']='';
 	$_SESSION['searchstring']='';
 	$_SESSION['time']='';
@@ -66,7 +66,7 @@ elseif($sid!=''){
 		<legend><?php print get_string('list','admin');?></legend>
 <?php 
 		$choices=array('med_student_list.php'=>'allstudents');
-		selery_stick($choices,'',$book);
+		selery_stick($choices,$choice1,$book);
 ?>
 		<input type="hidden" name="list" value="all"/>
 	  </fieldset>
@@ -76,7 +76,7 @@ elseif($sid!=''){
 	  <fieldset class="medbook selery">
 <?php 
 		$choices=array('med_student_list.php'=>'newstudents');
-		selery_stick($choices,'',$book);
+		selery_stick($choices,$choice2,$book);
 ?>
 		<input type="hidden" name="list" value="new"/>
 	  </fieldset>
@@ -85,10 +85,10 @@ elseif($sid!=''){
 
 	<form id="configmedbookchoice" name="configmedbookchoice" method="post" action="medbook.php" target="viewmedbook">
 	  <fieldset class="medbook selery">
-		<legend><?php print get_string('visits','admin');?></legend>
+		<legend><?php print get_string('visits',$book);?></legend>
 <?php 
 		$choices=array('med_student_list.php'=>'visitstudents');
-		selery_stick($choices,$choice,$book);
+		selery_stick($choices,$choice3,$book);
 ?>
 		<input type="hidden" name="list" value="visit"/>
 	  </fieldset>

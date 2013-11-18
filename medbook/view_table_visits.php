@@ -10,9 +10,9 @@ $d_v=mysql_query("SELECT * FROM medical_log WHERE student_id='$sid' ORDER BY dat
 				<tr>
 					<th></th>
 					<th></th>
-					<th>Date</th>
-					<th>Time</th>
-					<th>Category</th>
+					<th><?php print_string('date');?></th>
+					<th><?php print_string('time');?></th>
+					<th><?php print_string('category');?></th>
 				</tr>
 			</thead>
 <?php

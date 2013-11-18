@@ -17,12 +17,11 @@ if($sub=='edit'){
 	if(isset($_POST['recordid'])){
 		$entid=$_POST['recordid'];
 		$Entry=fetchMedicalLog($entid);
+		$choice3='med_student_list.php';
 		}
 	else{$entid=-1;}
 	}
-else{$entid=-1;}
-$date=date('Y-m-d');
-$time=date('H:i:s');
+else{$entid=-1;$choice='med_search_student.php';}
 ?>
   <div id="heading"><label><?php print_string('medicalrecord',$book);?></label>
 	<a href="infobook.php?current=student_view.php&sid=<?php print $sid;?>&sids[]=<?php print $sid;?>"
@@ -39,40 +38,31 @@ $time=date('H:i:s');
 
 	<div class='center'>
 		<fieldset>
-			<legend>New visit</legend>
+			<legend><?php print_string('newvisit',$book);?></legend>
 			<table>
 				<tr>
 					<td style="width:300px">
-						<label for="Date0">Date</label>
-						<input id="Date0" class="required" type="date" value="<?php if($Entry[0]['Date']['value']!=''){echo $Entry[0]['Date']['value'];}else{echo $date;}?>" name="date0" tabindex="1" 
-										onchange="validateRequired(this)">
+						<label for="Date0"><?php print_string('date');?></label>
+						<input id="Date0" class="required" type="date" value="<?php if($Entry[0]['Date']['value']!=''){echo $Entry[0]['Date']['value'];}?>" name="date0" tabindex="1" 
+										onchange="validateRequired(this)"><?php if($Entry[0]['Date']['value']==''){echo '<script>displayCurrentDate(\'Date0\');</script>';}?>
 						<img class="calendar">
 					<td>
 					<td rowspan='3'>
-						<label for="Detail">Details</label>
+						<label for="Detail"><?php print_string('details');?></label>
 						<textarea id="Detail" style="font-wight:600; font-size:large;" class="required" tabindex="4"
 							wrap="on" rows="5" tabindex="<?php print $tab++;?>" onchange="validateRequired(this)"
 							name="detail"><?php if($entid!=-1){echo $Entry[0]['Details']['value'];}?></textarea>
 					</td>
 				</tr>
-				<script>
-					function getTimeNow(){
-						var d = new Date();
-						var x = document.getElementById("time");
-						var minutes=d.getMinutes();
-						minutes=minutes > 9 ? minutes : '0' + minutes;
-						x.value=d.getHours()+':'+minutes;
-						}
-				</script>
 				<tr>
 					<td style="width:300px">
-						<label>Time</label>
-						<input type="time" id='time' name="time" tabindex="2" <?php if($Entry[0]['Time']['value']!='00:00:00' and $Entry[0]['Time']['value']!=''){echo "value=\"".$Entry[0]['Time']['value']."\">";}else{echo "><script>getTimeNow();</script>";}?>
+						<label><?php print_string('time');?></label>
+						<input type="time" id='time' name="time" tabindex="2" <?php if($Entry[0]['Time']['value']!='00:00:00' and $Entry[0]['Time']['value']!=''){echo "value=\"".$Entry[0]['Time']['value']."\">";}else{echo "><script>displayCurrentTime('time');</script>";}?>
 					<td>
 				</tr>
 				<tr>
 					<td style="width:300px;">
-						<label>Category</label>
+						<label><?php print_string('category');?></label>
 						<input type="text" name="category" tabindex="3" value="<?php echo $Entry[0]['Category']['value'];?>">
 					<td>
 				</tr>
@@ -84,20 +74,20 @@ $logs=fetchMedicalLog('-1',$sid,'1');
 $lastlog=$logs[0];
 ?>
 	<fieldset class="center">
-			<legend><?php print_string('lastvisit','infobook');?></legend>
+			<legend><?php print_string('lastvisit',$book);?></legend>
 				<table class="listmenu">
 					<tr>
 						<td>
-							Date: <?php echo display_date($lastlog['Date']['value']);?>
+							<?php print_string('date');?>: <?php echo display_date($lastlog['Date']['value']);?>
 						</td>
 						<td>
-							<?php if($lastlog['Time']['value']!='00:00:00'){ echo 'Time: '.$lastlog['Time']['value'];}?>
+							<?php if($lastlog['Time']['value']!='00:00:00'){ echo print_string('time').': '.$lastlog['Time']['value'];}?>
 						</td>
 						<td>
-							<?php if($lastlog['Category']['value']!=''){ echo 'Category: '.$lastlog['Category']['value'];}?>
+							<?php if($lastlog['Category']['value']!=''){ echo print_string('category').': '.$lastlog['Category']['value'];}?>
 						</td>
 						<td colspan="3">
-							Details: <?php echo $lastlog['Details']['value'];?>
+							<?php print_string('details');?>: <?php echo $lastlog['Details']['value'];?>
 						</td>
 					</tr>
 				</table>

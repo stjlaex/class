@@ -3,6 +3,7 @@
  */
 
 $action='med_student_list.php';
+$choice3='med_student_list.php';$choice='';
 
 ?>
   <div id="heading"><label><?php print_string('medicalrecord',$book);?></label>

@@ -30,5 +30,4 @@ $action='med_view_visits.php';
 
 include('scripts/results.php');
 include('scripts/redirect.php');
-
 ?>

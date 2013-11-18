@@ -9,6 +9,8 @@ $action='med_student_list.php';
 
 include('scripts/sub_action.php');
 
+if($list==''){$list=$_POST['list'];}
+
 $displayfields=array();
 $displayfields[]='Gender';
 $displayfields[]='DOB';
@@ -34,7 +36,7 @@ $displayfields_width=60/$displayfields_no.'%';
 if($list=='visit'){$extrabuttons['export']=array('name'=>'current','title'=>'exportvisits','value'=>'meals_export.php');two_buttonmenu($extrabutton,'medbook');}
 else{two_buttonmenu();}
 
-	$sids=array();
+	//$sids=array();
 
 	if($medtype!='' or $newyid!=''){
 		/*these are the filter vars form the sideoptions*/
@@ -80,7 +82,6 @@ else{two_buttonmenu();}
 		$d_info=mysql_query("SELECT DISTINCT medical_log.student_id FROM medical_log JOIN student
 				ON student.id=medical_log.student_id ORDER BY student.surname;");
 		}
-
 
 if(isset($d_info)){
 	while($info=mysql_fetch_array($d_info,MYSQL_ASSOC)){
@@ -140,7 +141,10 @@ if(isset($d_info)){
 		  </td>
 		  <td>
 		  <?php
-		  if($list=='visit'){$curr='med_view_visits.php';$choice='med_student_list.php';}
+		  $choice='';
+		  if($list=='all'){$curr='med_view.php';$choice1='med_student_list.php';}
+		  elseif($list=='new'){$curr='med_view.php';$choice2='med_student_list.php';}
+		  elseif($list=='visit'){$curr='med_view_visits.php';$choice3='med_student_list.php';}
 		  else{$curr='med_view.php';}
 		  ?>
 			<a href="medbook.php?current=<?php print $curr;?>&sid=<?php print $sid;?>">
@@ -186,6 +190,7 @@ all_extrabuttons($extrabuttons,'infobook','processContent(this)')
 </tr>
 	  </table>
 
+	  <input type="hidden" name="list" value="<?php print $list;?>" />
 	  <input type="hidden" name="colno" value="<?php print $displayfields_no;?>" />
 	  <input type="hidden" name="current" value="<?php print $action;?>" />
 	  <input type="hidden" name="cancel" value="<?php print '';?>" />
