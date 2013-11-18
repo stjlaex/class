@@ -1755,6 +1755,24 @@ function addMealComment(sid,bookingid,day){
 	}
 
 
+function displayCurrentDate(elementid){
+	var d=new Date();
+	var element=document.getElementById(elementid);
+	var curr_date = d.getDate();
+	if(curr_date<10){curr_date='0'+curr_date;}
+	var curr_month = d.getMonth() + 1;
+	var curr_year = d.getFullYear();
+	element.value=curr_year + "-" + curr_month + "-" + curr_date;
+	}
+
+function displayCurrentTime(elementid){
+	var d=new Date();
+	var element=document.getElementById(elementid);
+	var time=d.getMinutes();
+	time=time>9?time:'0'+time;
+	element.value=d.getHours()+':'+time;
+	}
+
 //
 function openAlert(book) {
 	//document.getElementById(book+"options").innerHTML=window.frames["view"+book].document.getElementById("hiddenbookoptions").innerHTML;
