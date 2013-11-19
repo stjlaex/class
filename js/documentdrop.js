@@ -127,7 +127,6 @@ function documentdropInit(){
  	function UploadIconFiles(e) {
 		var lid = $id('FILESID').value;
 		var ownertype = $id('OWNERTYPE').value;
-		var delay = 10; //delay in milliseconds
 
 		/* process all File objects*/
  		while(filesThatWereDropped.length > 0){
@@ -135,16 +134,7 @@ function documentdropInit(){
 			/* uploads the file */
  			UploadFile(f);
 			}
-		
-		/* Redirects to staff or student profile page after 10 ms */
-		if(ownertype=='staff'){
-			setTimeout(function(){ window.location = "admin.php?current=staff_details.php&seluid="+lid; }, delay);
-			}
-		else{
-			setTimeout(function(){ window.location = "infobook.php?current=student_view.php&sid="+lid; }, delay);
-			}
 	 	}
- 
 
 
 	function UploadFile(file) {
@@ -193,7 +183,20 @@ function documentdropInit(){
 							}
 						}
 					}
-				};
+				}
+			else if(context=='icon'){
+				xhr.onreadystatechange=function(e){
+					/* Redirects to staff or student profile page*/
+					xhr.upload.addEventListener('load',function(e){
+						if(ownertype=='staff'){
+							window.location = "admin.php?current=staff_details.php&seluid="+lid;
+							}
+						else{
+							window.location = "infobook.php?current=student_view.php&sid="+lid;
+							}
+						});
+					}
+				}
 
 			// start upload
 			xhr.open('POST',scriptpath,true);
@@ -215,7 +218,7 @@ function documentdropInit(){
 			
 			xhr.send(file); //TODO: Refresh left div to display the new documents
 			}
-		else{	
+		else{
 			if(context=='icon') {
 				if(ownertype=='staff'){javascript:location.href="admin.php?current=staff_photo.php&cancel=staff_details.php";}
 				else{javascript:location.href="infobook.php?current=student_photo.php&cancel=student_view.php";}

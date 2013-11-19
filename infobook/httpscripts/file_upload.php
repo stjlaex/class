@@ -184,11 +184,13 @@ if($context=='icon'){
 		}
 
 	/* Redirects to profile */
-	if($ownertype=='staff'){ 
-		header("Location: ".$httpcheck."://".$site."/admin.php?current=staff_details.php&seluid=$lid");
-		}
-	else{
-		header("Location: ".$httpcheck."://".$site."/infobook.php?current=student_view.php&sid=$lid");
+	if($_POST['DRAG']=='false'){
+		if($ownertype=='staff'){ 
+			header("Location: ".$httpcheck."://".$site."/admin.php?current=staff_details.php&seluid=$lid");
+			}
+		else{
+			header("Location: ".$httpcheck."://".$site."/infobook.php?current=student_view.php&sid=$lid");
+			}
 		}
 	}
 exit();
