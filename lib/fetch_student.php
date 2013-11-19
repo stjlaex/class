@@ -1267,7 +1267,7 @@ function fetchBackgrounds($sid='-1'){
 function fetchBackgrounds_Entries($sid,$type){
 	$Entries=array();
 	$d_background=mysql_query("SELECT * FROM background WHERE 
-				student_id='$sid' AND type='$type' ORDER BY yeargroup_id, entrydate, id;");
+				student_id='$sid' AND type='$type' ORDER BY entrydate DESC, yeargroup_id DESC, id;");
 	while($entry=mysql_fetch_array($d_background,MYSQL_ASSOC)){
 		$Entries[]=fetchBackgrounds_Entry($entry);
 		}
