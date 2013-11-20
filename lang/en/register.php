@@ -52,6 +52,7 @@ $string['messagecontactsallabsences']='Message contacts for ALL absences.';
 $string['period']='Period';
 $string['last']='Last';
 $string['absencemessage']="\r\n".'Dear Parent,'."\r\n"."\r\n". 'This morning '."\$a".' had not registered in school. Please could you contact the school to inform us of the reason for your child\'s absence.'."\r\n"."\r\n".'Thank you.'."\r\n";
+$string['absencerepeatedmessage']="\r\n".'Dear Tutor,'."\r\n"."\r\n". 'This morning '."\$a".' had not registered in school. Please could you contact the school to inform us of the reason for your child\'s absence.'."\r\n"."\r\n".'Thank you.'."\r\n";
 $string['completeregisterreminder']="\r\n"."\r\n". 'At close of registration the attendance for '."\$a".' remained incomplete. Please would you take action to complete the register or contact the office with a paper copy if there is a problem'."\r\n"."\r\n".'Thank you.'."\r\n";
 $string['inschool']='Present in school';
 $string['month']='Month';

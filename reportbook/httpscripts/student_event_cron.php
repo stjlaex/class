@@ -57,27 +57,38 @@ if($CFG->student_event_attendance=='yes'){
 		}
 
 
+
+
+	/**
+	 * Students with a repeated number of unexplained absences
+	 */ 
+
 	/* TODO: this needs to be defined as an option in the database */
 	$attendance_unexplained_number=3;
-	/**/
-	/* Students with a consecutive number of unexplained absences */
-	$Students=(array)list_absentStudents($eveid='',$yid='%',$lates=0);
 
-	/* geenric elements for the email */
+	$Students=(array)list_absentStudents();
+
+	/* generic elements for the email */
 	$footer=get_string('pastoralemailfooterdisclaimer');
 	$messagesubject=$CFG->schoolname.': '.get_string('register',$book);
 
 	foreach($Students['Student'] as $Student){
 		$no=0;
 		if($Student['Attendance']['Code']['value']=='O'){
-			$Attendances=fetchAttendances($Student['id_db'],0,3);
+			$Attendances=fetchAttendances($Student['id_db'],0,7);//search the past 7 days
 			foreach($Attendances['Attendance'] as $Attendance){
 				if($Attendance['Code']['value']=='O'){
-					$no++;
+					$no_unauthorised_absence++;
 					}
 				}
+
+
 			}
-		if($no>=$attendance_unexplained_number){
+		elseif($Student['Attendance']['Code']['value']=='U'){
+			count_attendance($sid,$startdate,$enddate,'U',$session);
+			}
+
+		if($no_unauthorised_absence>=$attendance_unexplained_number){
 			$Students[$Student['id_db']]=fetchStudent_short($Student['id_db']);
 			trigger_error('ALERT!!!!!!!!!!!!!!!!!! '.$Student['id_db'],E_USER_WARNING);
 
@@ -94,7 +105,7 @@ if($CFG->student_event_attendance=='yes'){
 
 			/* notify by email... */
 			foreach($recipients as $recipient){
-				$message='<p>'.get_string('completeregisterreminder',$book,$recipient['explanation']).'</p>';
+				$message='<p>'.get_string('absencerepeatedmessage',$book,$recipient['explanation']).'</p>';
 				$messagetxt=strip_tags(html_entity_decode($message,ENT_QUOTES,'UTF-8'))."\r\n".'--'. "\r\n" . $footer;
 				$message.='<br /><hr><p>'. $footer.'<p>';
 				$email_result=send_email_to($recipient['email'],'',$messagesubject,$messagetxt,$message,'',$replyto);
@@ -102,12 +113,8 @@ if($CFG->student_event_attendance=='yes'){
 					$result[]=get_string('emailsentto','infobook').' '.get_teachername($recipient['username']);
 					}
 				}
-
-
 			}
 		}
-
-
 	}
 
 
@@ -125,7 +132,7 @@ if(isset($CFG->student_event_support) and isset($CFG->student_event_support_elem
 	 */
 
 	/* TODO: this needs to be defined as an option in the database */
-	$elementid='P2';
+	//$elementid='P2';
 	/**/
 	$elementid=$CFG->student_event_support_elementid;
 
@@ -146,11 +153,10 @@ if(isset($CFG->student_event_support) and isset($CFG->student_event_support_elem
 
 
 
+/**
+ * Temporary hack to tidy up out of date enrolment concerns...
 if(isset($CFG->student_event_support) and $CFG->student_event_support=='tidy'){
 
-	/**
-	 * Temporary hack to tidy up out of date enrolment concerns...
-	 */
 	$d_s=mysql_query("SELECT senhistory.id, senhistory.student_id, sentype.entryn FROM senhistory 
 							JOIN sentype ON senhistory.student_id=sentype.student_id
 							WHERE sentype.entryn='1' AND sentype.senassessment='I' AND sentype.sentype='ENC';");
@@ -164,6 +170,7 @@ if(isset($CFG->student_event_support) and $CFG->student_event_support=='tidy'){
 		}
 
 	}
+*/
 
 
 

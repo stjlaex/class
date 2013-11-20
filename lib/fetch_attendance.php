@@ -597,7 +597,7 @@ function check_community_attendance($community,$event){
 
 /**
  *
- * Returns an xml-array Student array which is empty except for their
+ * Returns an xml-array for Student which is empty except for their
  * Attendance for a single event. The sids included will be only those
  * who are strictly not in school (that is absent but not late or present but signed out). 
  * Set lates=1 to include all absent students (including those lates).
