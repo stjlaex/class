@@ -102,7 +102,7 @@ else{
 				foreach($bookings as $booking){
 					if($meal!=''){$mealid=$meal['id'];}
 					if($mealid==$booking['meal_id']){$atlunch=true;}
-					if($booking['student_id']==$sid and (!$absence or ($absence and $mealid!=1)) and $meals[$booking['meal_id']]['name']!='NOT LUNCHING'){
+					if($booking['student_id']==$sid /*and (!$absence or ($absence and $mealid!=1)) and $meals[$booking['meal_id']]['name']!='NOT LUNCHING'*/){
 						/*Stores all details for the meal journey*/
 						$Journey=array();
 						$Journey['Id']=$booking['meal_id'];
@@ -116,7 +116,7 @@ else{
 											  'value'=>$meals[$booking['meal_id']]['name']
 											  );
 						$Student['Journey'][]=$Journey;
-						//if($absence){$attendances[$sid]['attendance']['Status']['value']='a';}
+						if($booking['meal_id']=='9999'){$attendances[$sid]['attendance']['Status']['value']='a';}
 						$Student['Attendances']=$attendances[$sid];
 						}
 					}
