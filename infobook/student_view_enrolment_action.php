@@ -26,6 +26,24 @@ if($sub=='Submit'){
 	if($enrolyid!=$Enrolment['YearGroup']['value'] or 
 	   $enrolyear!=$Enrolment['Year']['value'] or 
 	   $enrolstatus!=$Enrolment['EnrolmentStatus']['value']){
+	   		/*Add event for enrolstatus message*/
+			$old_status=$Enrolment['EnrolmentStatus']['value'];
+			$new_status=$enrolstatus;
+			//if(($old_status=='AT' or $old_status=='AP') and ($new_status=='ACP' or $new_status=='AC')){$message='1';}
+			//elseif(($old_status=='AT' or $old_status=='AP') and ($new_status=='CA' or $new_status=='RE')){$message='2';}
+			//elseif($old_status=='C' and $new_status=='P'){$message='3';}
+			//elseif($old_status=='AC' and $new_status=='C'){$message='4';}
+			if($old_status!='' and $new_status=='C'){$message='1';}
+			elseif($old_status!='' and $new_status=='CA'){$message='2';}
+			else{$message='';}
+
+			/*rating=messageno*/
+			$d_c=mysql_query("SELECT id FROM categorydef WHERE type='mes' AND name='enrolstatus' and rating='$message' LIMIT 1;");
+			$message_id=mysql_fetch_row($d_c);
+			$catid=$message_id[0];
+			mysql_query("INSERT INTO student_event SET student_id='$sid', event='$old_status:::$new_status',
+						 type='enrolstatus',catid='$catid',file='$current',status='0',ip='".$_SERVER['REMOTE_ADDR']."',user_id='$tid';");
+
 			/*see community_list_action for the same - needs to be moved out*/
 			/*crucial to the logic of enrolments*/
 			if($enrolstatus=='EN'){$newtype='enquired';}
