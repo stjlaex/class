@@ -58,7 +58,7 @@ function fetchSubjectReports($sid,$reportdefs){
 		 * has an Assessment for this student. 
 		 */
 		$assbids=array();
-		while(list($index,$eid)=each($reportdef['eids'])){
+		foreach($reportdef['eids'] as $eid){
 			if(!isset($asseids[$eid])){
 				/*only need to fetch for each eid once*/
 				$asseids[$eid]=(array)fetchAssessments_short($sid,$eid);
@@ -76,35 +76,35 @@ function fetchSubjectReports($sid,$reportdefs){
 				$assbids[$bid][$pid][]=$assindex;
 				}
 			}
-		ksort($assbids);
+		//ksort($assbids);//redundant surely?
 
 
 		/**
 		 * List the assessments for any linked profile
 		 */
 		if(isset($reportdef['report']['profile_names']) and sizeof($reportdef['report']['profile_names'])>0){
-				$curryear=$reportdef['report']['year'];
-				$profile_crid=$reportdef['report']['course_id'];
-				$profile_enddate=$reportdef['report']['date'];
-				$profile_asseids=array();
-				foreach($reportdef['report']['profile_names'] as $profile_name){
-					/*
-					 * Include only those that are results and that were recorded prior 
-					 * to this report (otherwise the report is going to change and it 
-					 * should be fixed at the publication data). 
-					 */
-					$d_a=mysql_query("SELECT id FROM assessment WHERE course_id='$profile_crid' AND
+			$curryear=$reportdef['report']['year'];
+			$profile_crid=$reportdef['report']['course_id'];
+			$profile_enddate=$reportdef['report']['date'];
+			$profile_asseids=array();
+			foreach($reportdef['report']['profile_names'] as $profile_name){
+				/*
+				 * Include only those that are results and that were recorded prior 
+				 * to this report (otherwise the report is going to change and it 
+				 * should be fixed at the publication data). 
+				 */
+				$d_a=mysql_query("SELECT id FROM assessment WHERE course_id='$profile_crid' AND
 					   profile_name='$profile_name' AND (resultstatus='R' OR resultstatus='T') AND deadline<='$profile_enddate' 
 						AND year='$curryear';");
-					while($a=mysql_fetch_array($d_a,MYSQL_ASSOC)){
-						/* Do not include any eid that is linked explicity
-						 * with the report - probably current attainment -
-						 * the profile only deals with the history
-						 */
-						if(!array_key_exists($a['id'],$asseids)){$profile_asseids[]=$a['id'];}
-						}
+				while($a=mysql_fetch_array($d_a,MYSQL_ASSOC)){
+					/* Do not include any eid that is linked explicity
+					 * with the report - probably current attainment -
+					 * the profile only deals with the history
+					 */
+					if(!array_key_exists($a['id'],$asseids)){$profile_asseids[]=$a['id'];}
 					}
 				}
+			}
 
 			/* This is for assessments which are really statistics.
 			 * They have two components: overall averages (sid=0) for
@@ -148,7 +148,7 @@ function fetchSubjectReports($sid,$reportdefs){
 			  //if(sizeof($pids)>0){$pids[]=array('id'=>' ','name'=>'');}
 
 			  /* Note one of these pids will be a blank so we do the parent bid. */
-			  foreach($pids as $pindex=>$component){
+			  foreach($pids as $component){
 				  $pid=$component['id'];
 				  $componentname=$component['name'];
 				  if(isset($component['status']) and $component['status']!=''){
@@ -174,7 +174,7 @@ function fetchSubjectReports($sid,$reportdefs){
 				  $Comments=array();
 				  $Comments['Comment']=array();
 				  $strandsno=sizeof($component['strands']);
-				  foreach($component['strands'] as $sindex => $strand){
+				  foreach($component['strands'] as $strand){
 					  /*
 					  if(isset($assbids[$reportdef['report']['course_id'].$bid][$strand['id']])){
 						  $assnos=array_merge($assnos,$assbids[$reportdef['report']['course_id'].$bid][$strand['id']]);
@@ -226,7 +226,7 @@ function fetchSubjectReports($sid,$reportdefs){
 					  /* An additional section if the report is linked to an assessment profile. */
 					  if(isset($reportdef['report']['profile_names']) and sizeof($reportdef['report']['profile_names'])>0){
 						  $ProfileAssessments['Assessment']=array();
-						  foreach($profile_asseids as $profindex=>$eid){
+						  foreach($profile_asseids as $eid){
 							  $PAsses=(array)fetchAssessments_short($sid,$eid,$bid,$pid);
 							  if(sizeof($PAsses)>0){
 								  $PAsses=$PAsses;
@@ -244,7 +244,6 @@ function fetchSubjectReports($sid,$reportdefs){
 					  $Report['Comments']=$Comments;
 					  $Reports['Report'][]=$Report;
 					  }
-
 				  }
 				}
 
@@ -264,7 +263,7 @@ function fetchSubjectReports($sid,$reportdefs){
 			 * in the report. Each element appears only once.
 			 */
 			if(array_key_exists('ass',$reportdef['asstable']) and is_array($reportdef['asstable']['ass'])){
-				while(list($index,$ass)=each($reportdef['asstable']['ass'])){
+				foreach($reportdef['asstable']['ass'] as $ass){
 					if(!in_array($ass['element'],$asselements)){
 						$asselements[]=$ass['element'];
 						$Reports['asstable']['ass'][]=$ass;
@@ -1147,7 +1146,7 @@ function fetchReportEntry($reportdef,$sid,$bid,$pid){
 	$subs=(array)get_report_categories($rid,$bid,$pid,'sub');
 	$subcomments_no=0;
 	$subcomments=array();
-	foreach($subs as $sindex => $sub){
+	foreach($subs as $sub){
 		if($sub['subtype']=='pro'){$subcomments_fix=1;}
 		else{$subcomments_no++;$subcomments[]=$sub;}
 		}
@@ -1220,7 +1219,9 @@ function fetchReportEntry($reportdef,$sid,$bid,$pid){
 		   $ratingname=get_report_ratingname($reportdef,$bid);
 		   $catdefs=get_report_skill_statements($rid,$bid,$pid);
 		   $Categories=(array)fetchCategories($Student,$entry['category'],$catdefs,$ratingname);
+		   $Files=(array)get_student_skillFiles($Student,$rid,$catdefs);
 		   $Comment['Categories']=$Categories;
+		   $Comment['Files']=$Files;
 		   }
 
 	   $enttid=$entry['teacher_id'];
@@ -1234,6 +1235,45 @@ function fetchReportEntry($reportdef,$sid,$bid,$pid){
 	return $Comments;
 	}
 
+
+function get_student_skillFiles($Student,$rid,$catdefs){
+
+	global $CFG;
+	$Files=array();
+	if(isset($_SERVER['HTTPS'])){
+		$http='https';
+		}
+	else{
+		$http='http';
+		}
+	$filedisplay_url=$http.'://'.$CFG->siteaddress.$CFG->sitepath.'/'.$CFG->applicationdirectory.'/scripts/file_display.php';
+
+	$sid=$Student['id_db'];
+	$catid_list='';
+	$joiner='';
+	foreach($catdefs as $catdef){
+		if($catid_list!=''){$joiner="','";}
+		$catid_list.=$joiner. $catdef['id'];
+		}
+
+	require_once('eportfolio_functions.php');
+	$d_c=mysql_query("SELECT id, comment FROM report_skill_log 
+							WHERE skill_id IN ('$catid_list') AND report_id='$rid' AND student_id='$sid';");
+
+	if(mysql_num_rows($d_c)>0){
+		while($c=mysql_fetch_array($d_c,MYSQL_ASSOC)){
+			$files=(array)list_files($Student['EPFUsername']['value'],'assessment',$c['id']);
+			foreach($files as $file){
+				$File=array();
+				$fileparam_list='?fileid='.$file['id'].'&location='.$file['location'].'&filename='.$file['name'];
+				$File['url']=$filedisplay_url.$fileparam_list;
+				$Files[]=$File;
+				}
+			}
+		}
+
+	return $Files;
+	}
 
 /**
  *

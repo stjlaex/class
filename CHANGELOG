@@ -1,9 +1,12 @@
-Version ClaSS-1.0.59 release (2013/11/26)
+Version ClaSS-1.0.59 release (2013/12/01)
 -------------------------------------------
 
 New student event and message for enrolment status update as cron jobs
 
 Added medical_log and student_event tables patches
+
+Working on adding skill log file links to reports.
+
 
 
 Version ClaSS-1.0.58 release (2013/11/12)

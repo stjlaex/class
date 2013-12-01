@@ -253,10 +253,11 @@
 				
 				if($reportdef['report']['addcategory']=='yes' and $reportdef['report']['course_id']=='FS'){
 
+					/* TO REMOVE?
 					$profile_eid=get_profile_eid($rid);
 					$thisscore=get_assessment_score($eid,$sid,$bid,$pid);
 					$eidsid_id=$thisscore['id'];
-					$d_c=mysql_query("SELECT id, comment FROM report_skill_log WHERE skill_id='$catid' AND report_id='$rid' AND student_id='$sid';");
+					*/
 
 					$imagebuttons=array();
 					$imagebuttons['clicktoload']=array('name'=>'Attachment',
@@ -264,6 +265,7 @@
 															 'class'=>'clicktoload',
 															 'value'=>'category_editor.php',
 															 'title'=>'clicktoattachfile');
+					$d_c=mysql_query("SELECT id, comment FROM report_skill_log WHERE skill_id='$catid' AND report_id='$rid' AND student_id='$sid';");
 					/*Not empty row*/
 					if(mysql_num_rows($d_c)>0){
 						print '<tr class="'.$rowclass.'" id="'.$openId.'-'.$rown++.'" ><td onclick="clickToRevealRow(\''.$openId.'\',\''.$rown.'\')" ><img id="status'.$openId.'-'.($rown-1).'" class="rowplus"></td><td colspan="'.$extra_colspan.'"></td><td id="icon'.$sid.'" class="" style="width:18px;" >';
@@ -296,10 +298,11 @@
 <?php
 							}
 						}
-		?>
-		<?php
+
+					/* TO REMOVE?
 					unset($thisscore);
 					unset($eidsid_id);
+					*/
 					print '</div></td><td></td></tr>';
 					}
 				}

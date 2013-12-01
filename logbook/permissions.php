@@ -219,7 +219,7 @@ function get_admin_perm($type,$uid){
  * Return an array of gids to which this user has at least 'r' perms,
  * restricted to one particular type of group.
  *
- * 
+ * types are s=section, a=academic, b=budgets, p=pastoral, u=users 
  */
 function list_user_groups($uid,$type){
 	$d_p=mysql_query("SELECT perms.r, perms.gid FROM perms JOIN groups ON perms.gid=groups.gid WHERE
