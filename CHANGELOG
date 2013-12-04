@@ -1,6 +1,8 @@
 Version ClaSS-1.0.59 release (2013/12/04)
 -------------------------------------------
 
+Added export button for SEN lists
+
 New message for medical updates as cron jobs
 
 New student event and message for enrolment status update as cron jobs
