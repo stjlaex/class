@@ -27,5 +27,5 @@ CREATE TABLE student_event (
 		 timestamp timestamp not null default CURRENT_TIMESTAMP,
 		 index index_sid (student_id),
 		 index index_uid (user_id),
-		 primary key (id),
+		 primary key (id)
 ) ENGINE=MYISAM;
