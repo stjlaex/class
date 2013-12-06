@@ -451,4 +451,13 @@ $string['weekprint']='Week print';
 $string['activities']='Activities';
 $string['corevalues']='Core values';
 $string['didyoumean']='Did you mean';
+$string['uploadbuttonabove']='After selecting the image size please press the \"Upload\" button above.';
+$string['searchfile']='Search file';
+$string['dropfilebelow']='Or drop file below';
+$string['dropfileshere']='Or drop files here';
+$string['upload']='Upload';
+$string['browse']='Browse';
+$string['max']='Max';
+$string['uploadfile']='Upload file';
+$string['filestoupload']='Search file';
 ?>

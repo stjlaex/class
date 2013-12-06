@@ -2201,6 +2201,79 @@ function return_bytes($val) {
     return $val;
 }
 
+/**
+ * Resize an image bigger than given size or crops it given crop details
+ * 
+ * @param $image		image file path
+ * @param $max_width	maximum width for image size
+ * @param $max_height	maximum height for image size
+ * @param array($crop)	crop details: x1,x2,y1,y2,w,h
+ * 
+ * return boolean
+ */
+function resize_image($image,$max_width=600,$max_height=600,$crop=array()){
+	$info=getimagesize($image);
+	if(($info[0]!=$max_width and $info[1]!=$max_height and ($info[0]>$max_width or $info['1']>$max_height)) or count($crop)>0){
+		switch($info[2]){
+			case IMAGETYPE_JPEG:
+				$type='image';
+				$img=imagecreatefromjpeg($image);
+			break;
+			case IMAGETYPE_PNG:
+				$type='image';
+				$img=imagecreatefrompng($image);
+			break;
+			case IMAGETYPE_GIF:
+				$type='image';
+				$img=imagecreatefromgif($image);
+			break;
+			default:
+				//unlink($image);
+			return;
+			}
+
+		if($type=='image'){
+			$width=imagesx($img);
+			$height=imagesy($img);
+
+			if($height>$width){
+				$ratio=$max_height/$height;
+				$new_height=$max_height;
+				$new_width=$width*$ratio;
+				}
+			else{
+				$ratio=$max_width/$width; 
+				$new_width=$max_width;
+				$new_height=$height*$ratio; 
+				}
+
+			if(count($crop)>0){
+				$x1=$crop['x1'];$x2=$crop['x2'];$y1=$crop['y1'];$y2=$crop['y2'];
+				$w=$crop['w'];$h=$crop['h'];
+				$image_true_color=imagecreatetruecolor($max_width, $max_height);
+				imagecopyresampled($image_true_color, $img, 0, 0, $x1, $y1, $max_width, $max_height, $w, $h);
+				}
+			else{
+				$image_true_color=imagecreatetruecolor($new_width, $new_height);
+				imagecopyresampled($image_true_color, $img, 0, 0, 0, 0, $new_width, $new_height, $width, $height);
+				}
+			imagejpeg($image_true_color, $image, 100);
+			/*TODO: save transparent background for png files (needs filename extension png, not jpeg)
+				if($ext=='png'){
+					$img=imagecreatetruecolor(100,100);
+					imagesavealpha($image_true_color, true);
+					$color=imagecolorallocatealpha($image_true_color,0x00,0x00,0x00,127);
+					imagefill($image_true_color, 0, 0, $color);
+					imagepng($image_true_color, $image);
+					}
+			*/
+			imagedestroy($image_true_color);
+			return true;
+			}
+		}
+		else{return false;}
+	}
+
 /** Taken from PHP manual and > PHP5? */
 function dateDiff($startdate,$enddate){
 	$startArry = date_parse($startdate);

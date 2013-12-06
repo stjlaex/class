@@ -1,5 +1,8 @@
-Version ClaSS-1.0.59 release (2013/12/04)
+Version ClaSS-1.0.59 release (2013/12/06)
 -------------------------------------------
+
+Browse button added to file uploader, when a file is uploaded the user is 
+redirected to last page and now big photographs are resized
 
 Added export button for SEN lists
 

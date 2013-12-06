@@ -935,3 +935,19 @@ div.document, .documentdrop button, #filedrag, .document label {
     background-color:#446 !important;
     color:#ffffff !important;
 	}
+div.upload {
+    width: 142px;
+    height: 30px;
+    overflow: hidden;
+    float:left;
+}
+div.upload input {
+    display: block !important;
+    width: 140px !important;
+    height: 25px !important;
+    opacity: 0 !important;
+    overflow: hidden !important;
+    position: absolute;
+    z-index:1001;
+    cursor:pointer;
+}
