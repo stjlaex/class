@@ -22,9 +22,10 @@ if(isset($_POST['list']) and $_POST['list']=='all'){
 	$_SESSION['seneedssenhid']='-1';
 	$sid='';
 	$senhid=-1;
+	$current='sen_student_list.php';
 	}
 if($sid=='' or $current==''){
-	$current='sen_student_list.php';
+	if($current==''){$current='sen_student_list.php';}
 	$_SESSION['seneedssid']='';
 	$_SESSION['seneedssenhid']='-1';
 	$sid='';
@@ -36,6 +37,7 @@ elseif($sid!=''){
 	$SEN=(array)fetchSEN($sid,$senhid);
 	$senhid=$SEN['id_db'];
 	}
+
 ?>
   <div id="bookbox" class="seneedscolor">
 <?php

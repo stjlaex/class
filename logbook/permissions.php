@@ -330,6 +330,34 @@ function list_teacher_users($crid='',$bid='',$nologin='0'){
 	}
 
 /**
+ * Will return all users with active logins of a particular section
+ * as defined by section. If no arguments given then all
+ * medical users are returned.
+ * 
+ */
+function list_medical_users($sectionid='-1'){
+	$d_u=mysql_query("SELECT uid FROM users WHERE (role='medical' OR medrole='1') AND users.nologin!='1';");
+	while($u=mysql_fetch_array($d_u)){
+		$user=get_user($u['uid'],'uid');
+		if(check_email_valid($user['email'])){
+			if($section!='-1'){
+				$sections=(array)list_sections(false);
+				$access_groups=(array)list_user_groups($user['uid'],'s');
+				foreach($sections as $section){
+					if((in_array($section['gid'],$access_groups) and $section['id']==$sectionid) or count($access_groups)==0){
+						$recipients[$user['uid']]=array('uid'=>$user['uid'],'username'=>$user['username'], 'email'=>$user['email']);
+						}
+					}
+				}
+			else{
+				$recipients[$user['uid']]=array('uid'=>$user['uid'],'username'=>$user['username'], 'email'=>$user['email']);
+				}
+			}
+		}
+	return $recipients;
+	}
+
+/**
  * 
  */
 function get_uid($tid){

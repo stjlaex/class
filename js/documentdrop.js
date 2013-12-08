@@ -157,6 +157,7 @@ function documentdropInit(){
 			var drag_var = 'true';
 			}
 
+		var redirect=$id('upload_redirect').value;
 		var scriptpath=$id('formdocumentdrop').action;
 
 		// limit upload by filesize
@@ -183,6 +184,9 @@ function documentdropInit(){
 							}
 						}
 					}
+				xhr.upload.addEventListener('load',function(e){
+					window.location = redirect;
+					});
 				}
 			else if(context=='icon'){
 				xhr.onreadystatechange=function(e){
@@ -238,6 +242,7 @@ function documentdropInit(){
 		var scriptpath=form.action;
 		var data = new FormData(form);
 
+		var redirect=$id('upload_redirect').value;
 		var answer=confirmAction('Delete');
 
 		if(answer){
@@ -258,6 +263,9 @@ function documentdropInit(){
 						}
 					}
 				};
+			xhr.upload.addEventListener('load',function(e){
+					window.location = redirect;
+					});
 
 			/* start upload */
 			xhr.open('POST',scriptpath,true);

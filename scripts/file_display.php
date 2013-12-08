@@ -22,6 +22,7 @@ if(isset($_GET['filename'])){$filename=clean_text($_GET['filename']);}
 
 if($filename!=''){
 	list($name,$extension)=explode('.',$filename);
+	$extension=strtolower($extension);
 	}
 
 if($location!='' ){
@@ -33,6 +34,10 @@ if($location!='' ){
 		display_pdf($filepath,'Report.pdf');
 		}
 	elseif(file_exists($filepath)){
+		/*resize image if the width or height are higher than the default ones*/
+		if($extension=='jpg' or $extension=='jpeg' or $extension=='png' or $extension=='gif'){
+			$resize=resize_image($filepath);
+			}
 		switch ($extension) {
 			case "html": $ctype="text/html"; break;
 			case "pdf": $ctype="application/pdf"; break;

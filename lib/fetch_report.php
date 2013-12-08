@@ -14,7 +14,7 @@
  * Builds an array of all subject reports for a sid as defined by the array of
  * report definitions. The returned array is ready for transforming.
  *
- * Calls on FetchAssessments and fetchReportEntry for each
+ * Calls on fetchAssessments and fetchReportEntry for each
  * bid/pid/strand to get the individual entries.
  *
  * @params integer $sid
@@ -114,7 +114,7 @@ function fetchSubjectReports($sid,$reportdefs){
 			 * reportentry for ALL conceivable bid-pid combinations is
 			 * included 
 			 */
-			while(list($index,$eid)=each($reportdef['stateids'])){
+			foreach($reportdef['stateids'] as $eid){
 				$GAssessments=(array)fetchAssessments_short($sid,$eid);
 				//trigger_error('GStats: '.$eid.' number '.sizeof($GAssessments),E_USER_WARNING);
 				if(sizeof($GAssessments)>0){
@@ -123,7 +123,7 @@ function fetchSubjectReports($sid,$reportdefs){
 					 * which is relevant to this sid 
 					 */
 					$StatsAssessments=(array)fetchAssessments_short(0,$eid);
-					while(list($index,$Assessment)=each($StatsAssessments)){
+					foreach($StatsAssessments as $Assessment){
 						$bid=$Assessment['Course']['value'].$Assessment['Subject']['value'];
 						$pid=$Assessment['SubjectComponent']['value'];
 						if($pid==''){$pid=' ';}/*nullCorrect as usual!*/
@@ -435,10 +435,10 @@ function fetchReportDefinition($rid,$selbid='%'){
 		$subjects[]=array('id'=>$selbid, 
 						'name'=>''.$subjectname);
 		}
-	while(list($index0,$subject)=each($subjects)){
+	foreach($subjects as $index0 => $subject){
 		$report_components=array();
 		$all_components=(array)list_subject_components($subject['id'],$crid);
-		while(list($index1,$component)=each($all_components)){
+		foreach($all_components as $component){
 			if(check_component_status($component['status'],$reptable['component_status'])){
 				/* To avoid a nasty recursion if component and subject have the same id */
 				if($component['id']!=$subject['id']){
@@ -1137,20 +1137,26 @@ function fetchReportEntry($reportdef,$sid,$bid,$pid){
 	$Student=fetchStudent_short($sid);
 	//$Comments['Comment']=array();
 	$rid=$reportdef['report']['id'];
-   	$d_reportentry=mysql_query("SELECT * FROM reportentry WHERE
-		  report_id='$rid' AND student_id='$sid' AND subject_id='$bid'
-		  AND component_id='$pid' ORDER BY entryn;");
 	/* A special type of fixed sub-comment is not for editing so is
 	 * filtered out here.
 	 */
 	$subs=(array)get_report_categories($rid,$bid,$pid,'sub');
 	$subcomments_no=0;
 	$subcomments=array();
+	$subprofiles=array();
 	foreach($subs as $sub){
-		if($sub['subtype']=='pro'){$subcomments_fix=1;}
-		else{$subcomments_no++;$subcomments[]=$sub;}
+		if($sub['subtype']=='pro'){
+			$subprofiles[]=$sub;
+			}
+		else{
+			$subcomments_no++;
+			$subcomments[]=$sub;
+			}
 		}
 
+   	$d_reportentry=mysql_query("SELECT * FROM reportentry WHERE
+		  report_id='$rid' AND student_id='$sid' AND subject_id='$bid'
+		  AND component_id='$pid' ORDER BY entryn;");
 	while($entry=mysql_fetch_array($d_reportentry)){
 	   $Comment=array();
 	   $Comment['id_db']=$entry['entryn'];
@@ -1185,7 +1191,7 @@ function fetchReportEntry($reportdef,$sid,$bid,$pid){
 			   $comment_html['div'][]=xmlreader($entry['comment']);
 			   }
 
-		   if(!isset($subcomments_fix)){
+		   if(sizeof($subprofiles)>0){
 			   /* TODO: This fromdate is just a hack needs to check for previous report maybe? */
 			   $reportyear=$reportdef['report']['year']-1;
 			   $fromdate=$reportyear.'-08-15';//Does the whole academic year
@@ -1573,7 +1579,7 @@ function delete_report_skill_statement($instid,$rid){
  */
 function migrate_statements(){
 	$catdefs=array();
-	/*All cat type*/
+	/*All cat type */
 	$d_categorydef=mysql_query("SELECT id, name, subtype, rating,  
 				 rating_name, subject_id, stage, othertype FROM categorydef 
 				WHERE type='cat' AND subject_id!='';");
@@ -1600,6 +1606,7 @@ function migrate_statements(){
 	/*Inserts all statements into report_skill table*/
 	foreach($catdefs as $catdef){
 		$id=$catdef['id'];
+		trigger_error(''.$id,E_USER_WARNING);
 		/*for single quotes in sql*/
 		$name=addslashes($catdef['name']);
 		$subject_id=$catdef['subject_id'];

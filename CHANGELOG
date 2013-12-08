@@ -1,5 +1,12 @@
-Version ClaSS-1.0.59 release (2013/12/01)
+Version ClaSS-1.0.59 release (2013/12/06)
 -------------------------------------------
+
+Browse button added to file uploader, when a file is uploaded the user is 
+redirected to last page and now big photographs are resized
+
+Added export button for SEN lists
+
+New message for medical updates as cron jobs
 
 New student event and message for enrolment status update as cron jobs
 

@@ -475,17 +475,26 @@ function fetchAssessments($sid,$eid='%'){
  */
 function fetchAssessments_short($sid,$eid='%',$bid='%',$pid='%'){
 	if($pid==' '){$pid='%';}
+	$assdefs=array();
 	$Assessments=array();
-   	$d_eidsid=mysql_query("SELECT eidsid.*, comments.detail FROM eidsid 
+	$d_eidsid=mysql_query("SELECT eidsid.*, comments.detail FROM eidsid 
 				LEFT JOIN comments ON comments.eidsid_id=eidsid.id WHERE
 				eidsid.student_id='$sid' AND eidsid.assessment_id LIKE '$eid' AND
 				eidsid.subject_id LIKE '$bid' AND eidsid.component_id LIKE '$pid';");
   	while($eidsid=mysql_fetch_array($d_eidsid,MYSQL_ASSOC)){
 		$Assessment=array();
 		$eid=$eidsid['assessment_id'];
-		$d_ass=mysql_query("SELECT * FROM assessment WHERE id='$eid';");
-		$ass=mysql_fetch_array($d_ass,MYSQL_ASSOC);
-		$Assessment['id_db']=$ass['id'];
+
+		/* get the complete definition for this assessment and cache in the assdefs array */
+		if(array_key_exists($eid,$assdefs)){
+			$ass=$assdefs[$eid];
+			}
+		else{
+			$d_ass=mysql_query("SELECT * FROM assessment WHERE id='$eid';");
+			$ass=mysql_fetch_array($d_ass,MYSQL_ASSOC);
+			}
+
+		$Assessment['id_db']=$eid;
 	   	$Assessment['Course']=array('value'=>''.$ass['course_id']);
 		if($eidsid['subject_id']=='%'){$subject='';}
 				else{$subject=$eidsid['subject_id'];}
@@ -506,6 +515,28 @@ function fetchAssessments_short($sid,$eid='%',$bid='%',$pid='%'){
 		$Assessments[]=$Assessment;
 		}
 	return $Assessments;
+	}
+
+
+/**
+ *
+ *
+ *	@param integer $sid
+ *	@param string $eid
+ *	@param string $bid
+ *	@param string $pid
+ *	@return integer
+ */
+function count_student_assessments($sid,$eid,$bid='%',$pid='%'){
+	if($pid==' '){$pid='%';}
+
+	$d_eidsid=mysql_query("SELECT count(id) FROM eidsid WHERE
+				student_id='$sid' AND assessment_id='$eid' AND
+				subject_id LIKE '$bid' AND component_id LIKE '$pid';");
+
+	$assno=mysql_result($d_eidsid,0);
+
+	return $assno;
 	}
 
 

@@ -69,7 +69,7 @@ if(sizeof($rids)!=0){
 			$subject='Report for '.$studentname;
 			}
 		else{
-			$subject='Access to ClaSSic for '.$CFG->schoolname;
+			$subject='Access to Classic for '.$CFG->schoolname;
 			}
 
 		while(list($index,$Contact)=each($Contacts)){

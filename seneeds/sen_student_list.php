@@ -5,7 +5,7 @@
  */
 
 $action='sen_student_list.php';
-$choice='sen_student_list.php';
+//$choice='sen_student_list.php';
 
 include('scripts/sub_action.php');
 
@@ -83,7 +83,11 @@ if(isset($d_info)){
 
 /* Nothing to do unless their are sids to list. */
 if(sizeof($sids)>0){
-	two_buttonmenu();
+	$extrabuttons['exportstudentrecords']=array('name'=>'current',
+											'title'=>'exportstudentrecords',
+											'value'=>'export_students.php');
+
+	two_buttonmenu($extrabuttons,'infobook');
 ?>
 
 	<div id="viewcontent" class="content">

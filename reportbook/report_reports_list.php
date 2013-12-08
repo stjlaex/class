@@ -185,10 +185,8 @@ two_buttonmenu($extrabuttons,$book);
 <?php
 						}
 					elseif($yearperm['x']==1 and $summaryid=='section'){
-						$d_summaryentry=mysql_query("SELECT teacher_id
-					FROM reportentry WHERE report_id='$rid' AND
-					student_id='$sid' AND subject_id='summary' AND
-					component_id='$summaryid' AND entryn='1'");
+						$d_summaryentry=mysql_query("SELECT teacher_id FROM reportentry WHERE report_id='$rid' AND
+									student_id='$sid' AND subject_id='summary' AND component_id='$summaryid' AND entryn='1';");
 						$openId=$sid.'summary-'.$summaryid;
 ?>
 			<td id="icon<?php print $openId;?>" <?php if(mysql_num_rows($d_summaryentry)>0){print 'class="vspecial"';}?> > 
@@ -247,17 +245,6 @@ two_buttonmenu($extrabuttons,$book);
 			elseif($substatus=='AV'){$compmatch="(component.status='V' OR component.status='O')";}
 			else{$compmatch="(component.status LIKE '$substatus' AND component.status!='U')";}
 
-			/* Filter subjects based on the classes a studnet is subscribed to. */
-			/*
-			$d_subjectclasses=mysql_query("SELECT DISTINCT subject_id, class_id
-					FROM class JOIN cidsid ON cidsid.class_id=class.id
-					WHERE cidsid.student_id='$sid' 
-					AND subject_id=ANY(SELECT DISTINCT subject_id FROM component WHERE id='' AND course_id='$crid' AND $compmatch) 
-					ORDER BY subject_id;");
-			  AND class.course_id='$crid' 
-			  AND (class.stage='$reportstage' OR class.stage LIKE '$reportstage')
-			  while($subject=mysql_fetch_array($d_subjectclasses,MYSQL_ASSOC)){
-			*/
 			$subjectclasses=(array)list_student_course_classes($sid,$crid);
 			foreach($subjectclasses as $class){
 			    $bid=$class['subject_id'];
@@ -278,18 +265,15 @@ two_buttonmenu($extrabuttons,$book);
 
 			   	foreach($components as $component){
 					$pid=$component['id'];
-
 					$strands=(array)list_subject_components($pid,$crid);
 
 					$scoreno=0;
 					$eidno=0;
 					foreach($eids as $eid){
 						$eidno++;
-						$Assessments=fetchAssessments_short($sid,$eid,$bid,$pid);
-						$scoreno+=sizeof($Assessments);
+						$scoreno+=count_student_assessments($sid,$eid,$bid,$pid);
 						foreach($strands as $strand){
-							$Assessments=fetchAssessments_short($sid,$eid,$bid,$strand['id']);
-							$scoreno+=sizeof($Assessments);
+							$scoreno+=count_student_assessments($sid,$eid,$bid,$strand['id']);
 							}
 						}
 ?>
