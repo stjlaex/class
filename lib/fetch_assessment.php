@@ -492,6 +492,7 @@ function fetchAssessments_short($sid,$eid='%',$bid='%',$pid='%'){
 		else{
 			$d_ass=mysql_query("SELECT * FROM assessment WHERE id='$eid';");
 			$ass=mysql_fetch_array($d_ass,MYSQL_ASSOC);
+			$assdefs[$eid]=$ass;
 			}
 
 		$Assessment['id_db']=$eid;

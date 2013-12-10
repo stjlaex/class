@@ -48,7 +48,7 @@ $extrabuttons=array();
 $extrabuttons['previewselected']=array('name'=>'current',
 									   'value'=>'report_reports_print.php',
 									   'onclick'=>'checksidsAction(this)');
-if($_SESSION['role']=='admin' and isset($CFG->eportfolio_dataroot) and $CFG->eportfolio_dataroot!=''){
+if(($_SESSION['role']=='admin' or $yearperm['x']==1) and isset($CFG->eportfolio_dataroot) and $CFG->eportfolio_dataroot!=''){
 	$extrabuttons['publishpdf']=array('name'=>'current',
 									  'value'=>'report_reports_publish.php');
 	$extrabuttons['unlock']=array('name'=>'current',
