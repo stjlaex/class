@@ -460,4 +460,6 @@ $string['browse']='Browse';
 $string['max']='Max';
 $string['uploadfile']='Upload file';
 $string['filestoupload']='Search file';
+$string['templates']='Templates';
+$string['save']='Save';
 ?>
