@@ -193,20 +193,33 @@ function list_tags_name($tags){
  * @return string
  *
  **/
-function getMessage($tags,$template_name='default',$message_id='-1'){
-	$d_t=mysql_query("SELECT * FROM categorydef WHERE type='tmp' AND name='$template_name';");
-	$t=mysql_fetch_row($d_t);
-	$template=$t['6'];
+function getMessage($tags,$message='',$template_name='default',$message_id='-1'){
+	if($template_name!='false'){
+		$d_t=mysql_query("SELECT * FROM categorydef WHERE type='tmp' AND name='$template_name';");
+		$t=mysql_fetch_row($d_t);
+		$template=$t['6'];
 
-	if($message_id!='-1'){
-		$d_c=mysql_query("SELECT * FROM categorydef WHERE id='".$content_id."';");
-		$m=mysql_fetch_row($d_c);
-		$content['{{content}}']=$m['6'];
-		$message=strtr($template,$content);
+		if($message_id!='-1'){
+			$d_c=mysql_query("SELECT * FROM categorydef WHERE id='".$content_id."';");
+			$m=mysql_fetch_row($d_c);
+			$content['{{content}}']=$m['6'];
+			$message=strtr($template,$content);
+			}
+		else{$message=$template;}
 		}
-	else{$message=$template;}
 
-	$message=strtr($message,$tags);
+	$f=preg_match('/\{\{footer(.*?)\}\}/',$message,$matches);
+	if(!$f or $tags[$matches[0]]==''){
+		$message.=$tags['{{footer}}'];
+		}
+
+	if(preg_match('/\{\{(.*?)\}\}/',$message)){
+		$message=strtr($message,$tags);
+		if(preg_match('/\{\{(.*?)\}\}/',$message)){
+			$message=strtr($message,$tags);
+			if(preg_match('/\{\{(.*?)\}\}/',$message)){$message=preg_replace('/\{\{(.*?)\}\}/','',$message);}
+			}
+		}
 
 	return $message;
 	}

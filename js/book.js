@@ -1773,6 +1773,115 @@ function displayCurrentTime(elementid){
 	element.value=d.getHours()+':'+time;
 	}
 
+/*Escapes the tag names*/
+function escapeRegExp(str) {
+	return str.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|\:\;]/g, "\\$&");
+	}
+
+/*Replaces tags with values for preview*/
+function replaceTags(code,tags){
+	String.prototype.strtr = function (replacePairs) {
+		"use strict";
+		var str=this.toString(),key,re;
+		for(key in replacePairs){
+			if(replacePairs.hasOwnProperty(key)) {
+				re=new RegExp(escapeRegExp(key),"g");
+				str=str.replace(re,replacePairs[key]);
+				}
+			}
+		return str;
+		}
+	var jsontags=$.parseJSON(tags);
+
+	footer=new RegExp('\{\{(footer.*?)\}\}',"g");
+	var test=code.match(footer);
+	if(!code.match(footer) || jsontags[test]=='' || jsontags[test]==null){
+		code+=jsontags["{{footer}}"];
+		}
+
+	re=new RegExp('\{\{(.*?)\}\}',"g");
+	if(code.match(re)){code=code.strtr(jsontags);}
+	if(code.match(re)){code=code.strtr(jsontags);}
+	if(code.match(re)){code=code.replace(re,'');}
+	return code;
+	}
+
+/*Loads in tiny mce a message*/
+function tinymceLoad(elem){
+	var body='<html><body id="tinymce" class="mceContentBody " contenteditable="true" onload="window.parent.tinyMCE.get(\'messagebody\').onLoad.dispatch();" spellcheck="true" dir="ltr">';
+	document.getElementById('messagebody_ifr').contentWindow.document.write(body+elem.value+'</body></html>');
+	document.getElementById('messagebody_ifr').contentWindow.document.close();
+	}
+
+/*Opens a preview page and replaces all the tags*/
+function openPreview(tags,height,width){
+	writerWindow=window.open("","","height="+height+",width="+width+",scrollbars=yes");
+	writerWindow.document.open();
+	var message=document.getElementById('messagebody_ifr').contentWindow.document.body.innerHTML;
+	message=replaceTags(message,tags);
+	writerWindow.document.writeln(message);
+	writerWindow.document.close();
+	}
+
+/*Template objects handling*/
+function processObject(elem){
+	if(elem.value=='img'){
+		var link=prompt('Please enter the image location','http://www.learningdata.ie/wp-content/uploads/learning-data-logo1.png');
+		myCodeMirror.replaceRange('<img src=\''+link+'\'>', myCodeMirror.getCursor());
+		}
+	else if(elem.value=='link'){
+		var link=prompt('Please enter link','http://learningdata.ie');
+		var title=prompt('Please enter Title','My Website');
+		myCodeMirror.replaceRange('<a href=\''+link+'\'>'+title+'</a>', myCodeMirror.getCursor());
+		}
+	else if(elem.value=='div' || elem.value=='span' || elem.value=='p'
+				|| elem.value=='strong' || elem.value=='em' || elem.value=='u'){
+		myCodeMirror.replaceRange('<'+elem.value+'>Insert content here</'+elem.value+'>', myCodeMirror.getCursor());
+		}
+	else if(elem.value=='br'){
+		myCodeMirror.replaceRange('<'+elem.value+'>', myCodeMirror.getCursor());
+		}
+	else if(elem.value=='table'){
+		var rows=prompt('Please enter number of rows','2');
+		var cols=prompt('Please enter number of columns','2');
+		tableElem='<table>';
+		for(var i=0;i<rows;i++){
+			rowElem='\n\t<tr>';
+			for(var j=0;j<cols;j++){
+				colElem='\n\t\t<td>';
+				colElem+='R'+(i+1)+'C'+(j+1);
+				colElem+='</td>';
+				rowElem+=colElem;
+				}
+			rowElem+='\n\t</tr>';
+			tableElem+=rowElem;
+			}
+		tableElem+='\n</table>';
+		myCodeMirror.replaceRange(tableElem, myCodeMirror.getCursor());
+		}
+	else if(elem.id=='colors' || elem.id=='picker' || elem.id=='templates'){
+		myCodeMirror.replaceRange(elem.value, myCodeMirror.getCursor());
+		if(elem.id=='templates'){document.getElementById('template_name').value=elem.options[elem.selectedIndex].text;}
+		}
+	else{
+		if(elem.value!=''){myCodeMirror.replaceRange('{{'+elem.value+'}}', myCodeMirror.getCursor());}
+		}
+	elem.value='';
+	}
+
+/*Creates a frames for the template preview*/
+function createPreviewFrame(tags,height,code){
+	var iframe=document.createElement('iframe');
+	var prediv=document.getElementById('preview');
+	iframe.style.cssText='width:100%;height:'+height+'px;';
+	prediv.innerHTML='';
+	code=replaceTags(code,tags);
+	prediv.appendChild(iframe);
+	iframe.contentWindow.document.open();
+	iframe.contentWindow.document.write(code);
+	iframe.contentWindow.document.close();
+	document.getElementById('code').value=code;
+	}
 //
 function openAlert(book) {
 	//document.getElementById(book+"options").innerHTML=window.frames["view"+book].document.getElementById("hiddenbookoptions").innerHTML;

@@ -1,10 +1,11 @@
 <?php
 	$action="templates_tags.php";
 	$ac=$_GET['action'];
+	if(!isset($_POST['action'])){$_POST['action']='insert';}
 	/*add*/
 	if(isset($_POST['var']) and $_POST['var']!=''){$var='{{'.$_POST['var'].'}}';}else{$var='';}
-	if(isset($_POST['var2']) and $_POST['var2']!='' and $var==''){$var=$_POST['var2'];}else{$var='';}
-	if(isset($_POST['taf']) and $_POST['tag']!=''){$tag=$_POST['tag'];}else{$tag='';}
+	if(isset($_POST['var2']) and $_POST['var2']!='' and $var==''){$var=$_POST['var2'];}
+	if(isset($_POST['tag']) and $_POST['tag']!=''){$tag=$_POST['tag'];}else{$tag='';}
 	if($_POST['action']!='update' and $var!='' and $tag!=''){addTag($var,$tag);}
 	/*update*/
 	if(isset($_POST['tg']) and $_POST['tg']!=''){$tg=$_POST['tg'];}else{$tg='';}
