@@ -33,7 +33,7 @@ two_buttonmenu($extrabuttons);
 
 $templates=getTemplates();
 ?>
-  <div  id="viewcontent" class="content">
+  <div style="margin-top:50px;">
 	<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host; ?>" >
 		<input type="hidden" name="current" value="<?php print $action;?>" />
 		<input type="hidden" name="choice" value="<?php print $choice;?>" />
