@@ -1,6 +1,8 @@
 Version ClaSS-1.0.60 release (2013/12/10)
 -------------------------------------------
 
+Working on mail templates and tags.
+
 Improved performance of fetchAssessments_short.
 
 New db index for eidsid_id added to the comments table.
@@ -15,13 +17,13 @@ Version ClaSS-1.0.59 release (2013/12/06)
 Browse button added to file uploader, when a file is uploaded the user
 is redirected to last page and now big photographs are resized
 
-Added export button for SEN lists
+Added export button for SEN lists.
 
-New message for medical updates as cron jobs
+New message for medical updates as cron jobs.
 
-New student event and message for enrolment status update as cron jobs
+New student event and message for enrolment status update as cron jobs.
 
-Added medical_log and student_event tables patches
+Added medical_log and student_event tables patches.
 
 Working on adding skill log file links to reports.
 
