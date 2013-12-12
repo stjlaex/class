@@ -1,4 +1,4 @@
-Version ClaSS-1.0.60 release (2013/12/08)
+Version ClaSS-1.0.60 release (2013/12/10)
 -------------------------------------------
 
 Improved performance of fetchAssessments_short.
@@ -12,8 +12,8 @@ Added a count_student_assessments function.
 Version ClaSS-1.0.59 release (2013/12/06)
 -------------------------------------------
 
-Browse button added to file uploader, when a file is uploaded the user is 
-redirected to last page and now big photographs are resized
+Browse button added to file uploader, when a file is uploaded the user
+is redirected to last page and now big photographs are resized
 
 Added export button for SEN lists
 
