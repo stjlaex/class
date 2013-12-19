@@ -61,7 +61,7 @@ if(isset($_GET['openid'])){$openid=$_GET['openid'];}
 		<div class="listmenu fileupload">
 <?php
 		require_once('../../lib/eportfolio_functions.php');
-		html_document_drop($Student['EPFUsername']['value'],'assessment',$entid);
+		html_document_drop($Student['EPFUsername']['value'],'assessment',$eid);
 ?>
 		</div>
 

@@ -144,6 +144,8 @@ if($ds){
 				/* add data to ldap directory */
 				$distinguishedName='uid='.$epfusername.',ou='.$info['employeeType'].',ou=people'.',dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
 				$r=ldap_add($ds, $distinguishedName, $info);
+				$distinguishedName_schoolbag='uid='.$epfusername.',ou=users.ou='.$CFG->clientid.',dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
+				$s=ldap_add($ds, $distinguishedName_schoolbag, '');
 				if(!$r){
 					trigger_error('Unable to insert entry into LDAP DB: '.$distinguishedName. ' with cn: '.$cn, E_USER_WARNING);
 					}
@@ -211,6 +213,8 @@ if($ds){
 					/* add data to ldap directory */
 					$distinguishedName="uid=$epfusername" . ',ou=student'.',ou=people'.',dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
 					$r=ldap_add($ds, $distinguishedName, $info);
+					$distinguishedName_schoolbag='uid='.$epfusername.',ou=users.ou='.$CFG->clientid.',dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
+					$s=ldap_add($ds, $distinguishedName_schoolbag, '');
 					if(!$r){
 						trigger_error('Unable to insert entry into LDAP DB: '.$distinguishedName, E_USER_WARNING);
 						}
