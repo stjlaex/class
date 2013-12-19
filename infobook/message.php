@@ -124,6 +124,7 @@ if($messageto=='student'){
 								}
 
 							$recipient['email']=$email;
+							$recipient['gid']=$Contact['id_db'];
 							$recipient['sid']=$sid;
 							$recipient['Student']=$Student;
 							$recipient['Siblings']=(array)fetchDependents($Contact['id_db']);
@@ -296,13 +297,31 @@ if($_SESSION['role']=='office' or $_SESSION['role']=='admin'){
 	  </div>
 	  <div class="right">
 <?php
-	$formats=array();
+	/*$formats=array();
 	$formats[]=array('id'=>'message_contact_update','name'=>'Contact details update');
 	$listname='messageformat';$listlabel='fixedformat';
 	include('scripts/set_list_vars.php');
 	list_select_list($formats,$listoptions,$book);
-	unset($listoptions);
+	unset($listoptions);*/
+
+	$tags=getTags(true,'default',array('student_id'=>2,'guardian_id'=>2,'user_id'=>2));
+	$templates=getTemplates();
 ?>
+		<label><?php print_string('templates',$book);?></label> 
+		
+		<select id="templates" onchange="tinymceLoad(this);">
+			<option> </option>
+<?php
+			foreach($templates as $template){
+				echo "<option value='".$template['comment']."'>".$template['name']."</option>";
+				}
+?>
+		</select>
+		<script>
+			<?php $jstags=json_encode($tags);?>
+			var jstags=<?php echo json_encode($jstags); ?>;
+		</script>
+		<button name="preview" type="button" onclick="openPreview(jstags,650,950)" style="margin-top:1%;"><?php print_string('preview',$book);?></button>
 	  </div>
 <?php
 		}

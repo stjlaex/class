@@ -51,7 +51,6 @@ if($ds){
 		 *	
 		 */
 		$users=(array)list_all_users();
-		
 		/* process result */
 		$countno=0;
 		foreach($users as $uid => $row){
@@ -148,6 +147,9 @@ if($ds){
 					trigger_error('Unable to insert entry into LDAP DB: '.$distinguishedName. ' with cn: '.$cn, E_USER_WARNING);
 					}
 				}
+				$group_name='cn=users,ou='.$CFG->clientid.',dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
+				$group_info['member']='uid='.$epfusername.',cn=users,ou='.$CFG->clientid.',dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
+				$s=ldap_mod_add($ds,$group_name,$group_info);
 			/* entry counter */
 			$countno++;
 			}
@@ -215,6 +217,10 @@ if($ds){
 						trigger_error('Unable to insert entry into LDAP DB: '.$distinguishedName, E_USER_WARNING);
 						}
 					}
+				$group_name='cn=users,ou='.$CFG->clientid.',dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
+				$group_info['member']='uid='.$epfusername.',cn=users,ou='.$CFG->clientid.',dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
+				$s=ldap_mod_add($ds,$group_name,$group_info);
+
 				/* entry counter */
 				$countno++;
 				}

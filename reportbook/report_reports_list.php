@@ -96,6 +96,7 @@ two_buttonmenu($extrabuttons,$book);
 			  </label>
 			</th>
 			<th colspan="2"><?php print_string('student');?></th>
+			<th><?php print_string('uploadfile');?></th>
 <?php
 	foreach($rids as $index => $rid){
 		$summaries=(array)$reportdefs[$index]['summaries'];
@@ -148,7 +149,14 @@ two_buttonmenu($extrabuttons,$book);
 			</a>
 			<div id="mini-<?php print $sid;?>"></div>
 			<div id="merit-<?php print $sid;?>"></div>
-			</td>
+		  </td>
+		  <td>
+		  	<div id="upload-<?php print $sid;?>">
+				<button onclick="clickToAttachFile(<?php print $sid;?>,<?php print $wrapper_rid;?>,'','',<?php print $sid;?>)" value="category_editor.php" name="Attachment" title="Click to post file" type="button" class="rowaction imagebutton">
+					<img class="clicktoload">
+				</button>
+			</div>
+		  </td>
 <?php
 	   foreach($rids as $index => $rid){
    			$summaries=(array)$reportdefs[$index]['summaries'];

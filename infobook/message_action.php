@@ -9,7 +9,7 @@ if(isset($_POST['messageto'])){$messageto=$_POST['messageto'];}
 if(isset($_POST['messageop'])){$messageop=$_POST['messageop'];}
 if(isset($_POST['share0'])){$share=$_POST['share0'];}else{$share='no';}
 
-if(isset($_POST['messagebody'])){$messagebody=clean_text($_POST['messagebody'],false);}
+if(isset($_POST['messagebody'])){$messageb=clean_text($_POST['messagebody'],false);}
 if(isset($_POST['messagebcc'])){$messagebcc=clean_text($_POST['messagebcc']);}else{$messagebcc='';}
 if(isset($_POST['replyto'])){$replyto=$_POST['replyto'];}else{$replyto='';}
 if(isset($_POST['messagesubject'])){$messagesubject=clean_text($_POST['messagesubject']);}else{$messagesubject='';}
@@ -83,9 +83,6 @@ if($sub=='Submit' and $recipients and sizeof($recipients)>0 and !isset($error)){
 
 
 		$footer=get_string('guardianemailfooterdisclaimer');
-		/* Need both plain text and html versions of body.*/
-		$messagebodytxt=strip_tags(html_entity_decode($messagebody, ENT_QUOTES, 'UTF-8'));
-
 
 		$attachments=array();
 		if(isset($file_name)){
@@ -107,7 +104,7 @@ if($sub=='Submit' and $recipients and sizeof($recipients)>0 and !isset($error)){
 			}
 
 		foreach($recipients as $key => $recipient){
-
+			$messagebody=$messageb;
 			/* This is the parent contact details sheet for verification. */
 			/*
 			$preset='';
@@ -120,20 +117,24 @@ if($sub=='Submit' and $recipients and sizeof($recipients)>0 and !isset($error)){
 				$preset=html_message_transform($Content,$messageformat);
 				}
 			*/
- 
-			$messagehtml='<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /></head><body>'.'<p>'.$recipient['explanation'].'</p>';
+			/* Need both plain text and html versions of body.*/
+			$tags=getTags(true,'student',array('student_id'=>$recipient['sid'],'guardian_id'=>$recipient['gid']));
+			$messagebody=getMessage($tags,$messagebody,'false');
+			$messagebodytxt=strip_tags(html_entity_decode($messagebody, ENT_QUOTES, 'UTF-8'));
+
+			$messagehtml='<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /></head><body>';//.'<p>'.$recipient['explanation'].'</p>';
 
 			$messagehtml.=$messagebody;
 			//if($preset){$messagehtml.=$preset;}
 
-			$messagehtml.='<br /><hr><p>'. $footer.'</p></body></html>';
+			//$messagehtml.='<br /><hr><p>'. $footer.'</p></body></html>';
+			$messagehtml.='</body></html>';
 
 			$messagetxt='';
 			$messagetxt.=$messagebodytxt;
-			$messagetxt.="\r\n". '--'. "\r\n" . $footer;
+			//$messagetxt.="\r\n". '--'. "\r\n" . $footer;
 
 			/*DOING!!!!!!!!!!!!*/
-
 
 			/*DOING!!!!!!!!!!!!*/
 			$email_result=send_email_to($recipient['email'],$from,$messagesubject,$messagetxt,$messagehtml,$attachments);

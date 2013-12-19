@@ -1,5 +1,11 @@
-Version ClaSS-1.0.60 release (2013/12/10)
+Version ClaSS-1.0.60 release (2013/12/19)
 -------------------------------------------
+
+Ldap sync is now improved, in the clientid ou (same for enrolment) must
+already exist a User group named 'users', then all the users are updated
+as member for that group - for Schoolbag sync
+
+Added file upload for report wrappers in Report - other_id is wrapper_id
 
 Working on mail templates and tags.
 

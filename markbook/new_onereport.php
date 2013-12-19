@@ -346,8 +346,3 @@
 		}
 	}
 ?>
-
-	<div id="preview" style="display:none; width:80%;margin-left:10%;z-index:1000;position:absolute;float:left;">
-		<img id="imgpreview"src="#" alt="Preview" style="display:block;width:auto;height:auto;max-width:100%;max-height:100%;padding-top:3%;padding-bottom:3%;margin-left:auto;margin-right:auto; float:none;" onclick="getElementById('preview').style.display='none';getElementById('shadow').style.display='none';">
-	</div>
-	<div id="shadow" style="display:none; width:100%;height:100%;background-color:black;z-index:999;position:fixed;opacity:0.4;" onclick="getElementById('preview').style.display='none';getElementById('shadow').style.display='none';"><div>
