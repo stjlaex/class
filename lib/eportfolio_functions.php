@@ -602,17 +602,18 @@ function elgg_list_files($epfun,$filetype,$dbc=false){
 		$folder_id=-1;
 		}
 
-	if($folder_name!='root'){
-		$folder_id=elgg_new_folder($epfuid,$folder_name,'',false);
-		}
-
-	$d_f=mysql_query("SELECT ident, title, description, location, originalname FROM $table_files 
+	if($epfuid>0){
+		if($folder_name!='root'){
+			$folder_id=elgg_new_folder($epfuid,$folder_name,'',false);
+			}
+		$d_f=mysql_query("SELECT ident, title, description, location, originalname FROM $table_files 
 						WHERE files_owner='$epfuid' AND folder='$folder_id' ORDER BY time_uploaded DESC;");
-	while($file=mysql_fetch_array($d_f,MYSQL_ASSOC)){
-		$file['name']=$file['originalname'];
-		$file['path']=$CFG->eportfolio_dataroot.'/'.$file['location'];
-		$file['url']=$CFG->eportfoliosite.'/'.$epfun.'/files/'.$folder_id.'/'.$file['ident'].'/'.$file['originalname'];
-		$files[]=$file;
+		while($file=mysql_fetch_array($d_f,MYSQL_ASSOC)){
+			$file['name']=$file['originalname'];
+			$file['path']=$CFG->eportfolio_dataroot.'/'.$file['location'];
+			$file['url']=$CFG->eportfoliosite.'/'.$epfun.'/files/'.$folder_id.'/'.$file['ident'].'/'.$file['originalname'];
+			$files[]=$file;
+			}
 		}
 
 	if($dbc==true){

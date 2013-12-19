@@ -9,6 +9,8 @@ New db index for eidsid_id added to the comments table.
 
 Added a count_student_assessments function.
 
+Small fix to the elgg_list_files function to cope with empty epfuids.
+
 
 
 Version ClaSS-1.0.59 release (2013/12/06)
