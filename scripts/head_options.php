@@ -51,7 +51,7 @@ if($book=='infobook' or $book=='admin'){
 <script language="Javascript" type="text/javascript" src="js/crop.js"></script>
 <?php 
 	}
-if($book=='infobook' or $book=='reportbook'  or $book=='admin'  or $book=='markbook'){
+if($book=='infobook' or $book=='reportbook'  or $book=='admin'  or $book=='markbook' or $book=='medbook'){
 ?>
 <script language="JavaScript" type="text/javascript" src="js/gs_sortable.js?version=1048"></script>
 <script language="JavaScript" type="text/javascript" src="js/documentdrop.js?version=1048"></script>
