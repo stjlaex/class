@@ -45,12 +45,15 @@ if($sub=='Submit'){
 			$user['surname']=$d[1];
 			$user['forename']=$d[2];
 			$user['mobilephone']=$d[3];
-			$user['homephone']=$d[4];
-			$user['street']=$d[5];
-			$user['town']=$d[6];
+			$user['homephone']=$d[5];
+			$user['street']=$d[6];
+			$user['town']=$d[7];
 			$user['country']=$d[8];
 			$user['postcode']=$d[9];
-			$result[]=update_user($user,'yes',$CFG->shortkeyword);
+			$user['role']=$d[10];
+			$user['email']=$d[11];
+			$user['passwd']=$d[12];
+			$result[]=update_user($user,'no',$CFG->shortkeyword);
 
 			$Address=fetchAddress(array('address_id'=>$addid,'addresstype'=>''));
 			foreach($Address as $key => $val){
