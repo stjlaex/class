@@ -789,7 +789,7 @@ function update_user($user,$update='no',$short='class'){
 	 * userno, this formula could be personalised to meet your needs.
 	 */
 	if(isset($user['userno']) and $user['userno']!=''){
-		$assword=$short. $user['passwd'];
+		$assword=$short. $user['userno'];
 		$d_user=mysql_query("UPDATE users SET passwd=md5('".$assword."') WHERE username='$username';");
 		if($CFG->emailoff=='no' and !empty($user['userno'])){
 			if(check_email_valid($user['email'])){ 
