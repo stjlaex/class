@@ -3,7 +3,8 @@ Version ClaSS-1.0.61 release (2014/01/03)
 
 The new_teacher import now allows the PIN to be included in the file.
 
-
+Implemented the Register option for all absences when messagaging from
+the absence list.
 
 
 

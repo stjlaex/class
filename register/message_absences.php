@@ -23,12 +23,12 @@ $recipients=array();
 $email_blank_sids=array();
 $email_blank_gids=array();
 
-while(list($index,$sid)=each($sids)){
+
+foreach($sids as $sid){
 
 	$Student=fetchStudent_short($sid);
 	$Contacts=(array)fetchContacts($sid);
 	$Attendance=fetchcurrentAttendance($sid);
-	if($Attendance['Code']['value']=='O'){
 
 		$sid_recipient_no=0;
 		while(list($index,$Contact)=each($Contacts)){
@@ -40,15 +40,15 @@ while(list($index,$sid)=each($sids)){
 				if($Contact['EmailAddress']['value']!=''){
 					
 					$recipient['name']=$Contact['DisplayFullName']['value'];
-					
 					$recipient['relationship']=$Contact['Relationship']['value'];
-					
 					$recipient['studentname']=$Student['DisplayFullName']['value'];
-					
 					$recipient['email']=strtolower($Contact['EmailAddress']['value']);
 					
-					$recipients[]=$recipient;
-					
+					if($Attendance['Code']['value']=='O'){
+						$unauthrecipients[]=$recipient;
+						}
+					$authrecipients[]=$recipient;
+
 					$sid_recipient_no++;
 					}
 				elseif($Contact['EmailAddress']['value']==''){
@@ -56,7 +56,6 @@ while(list($index,$sid)=each($sids)){
 					}
 				}
 			}
-		}
 
 	/* Collect a list of sids who won't have any contacts receving this message */
 	if($sid_recipient_no==0){
@@ -66,7 +65,8 @@ while(list($index,$sid)=each($sids)){
 	}
 
 
-$_SESSION[$book.'unauthrecipients']=$recipients;
+$_SESSION[$book.'unauthrecipients']=$unauthrecipients;
+$_SESSION[$book.'authrecipients']=$authrecipients;
 
 three_buttonmenu();
 ?>

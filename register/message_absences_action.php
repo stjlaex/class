@@ -11,8 +11,8 @@ $recipients=array();
 include('scripts/sub_action.php');
 
 if($_POST['all0']=='yes'){
-	$recipients=$_SESSION[$book.'unauthrecipients'];
-	//$recipients=$_SESSION[$book.'authrecipients'];
+	//$recipients=$_SESSION[$book.'unauthrecipients'];
+	$recipients=$_SESSION[$book.'authrecipients'];
 	}
 elseif($_POST['unauth0']=='yes'){
 	$recipients=$_SESSION[$book.'unauthrecipients'];
