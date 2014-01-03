@@ -688,12 +688,16 @@ function list_pastoral_respon(){
 
 
 /**
+ *
+ * Optional $update='yes' will amend an existing record.
+ *
+ * The value of $short should always really be $CFG->shortkeyword for
+ * generating a password.
  * 
  */
 function update_user($user,$update='no',$short='class'){
 	global $CFG;
 	$result='';
-	/* Optional $update='yes' will amend an existing record.*/
 	$username=$user['username'];
 	$surname=$user['surname'];
 	$forename=$user['forename'];
@@ -782,11 +786,11 @@ function update_user($user,$update='no',$short='class'){
 
  	/** 
 	 * All users get a passwd based on the shortkeyword (set in $CFG) and a
-	 * userno, this formula should be personalised to meet your needs.
+	 * userno, this formula could be personalised to meet your needs.
 	 */
 	if(isset($user['userno']) and $user['userno']!=''){
-		$assword=$user['passwd'];//md5($short.$user['userno']);
-		$d_user=mysql_query("UPDATE users SET passwd=md5('".$CFG->clientid.$assword."') WHERE username='$username';");
+		$assword=$short. $user['passwd'];
+		$d_user=mysql_query("UPDATE users SET passwd=md5('".$assword."') WHERE username='$username';");
 		if($CFG->emailoff=='no' and !empty($user['userno'])){
 			if(check_email_valid($user['email'])){ 
 				//$headers=emailHeader();
@@ -797,12 +801,12 @@ function update_user($user,$update='no',$short='class'){
 				  $message=$message ."\r\n".$footer;
 				  $subject=get_string('emailnewloginsubject','admin');
 				  $fromaddress='ClaSS';
-				  /* TODO: decide if update_user needs to send email. */
+				  /* TODO: decide if update_user needs to send email? */
    				  //send_email_to($email,$fromaddress,$subject,$message);
 				}
 			}
 		}
-	
+
 	return $result;
 	}
 

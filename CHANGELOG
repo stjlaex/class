@@ -1,7 +1,9 @@
-Version ClaSS-1.0.61 release (2014/01/02)
+Version ClaSS-1.0.61 release (2014/01/03)
 -------------------------------------------
 
-The new_teacher import now allows the PIN to be included.
+The new_teacher import now allows the PIN to be included in the file.
+
+
 
 
 
