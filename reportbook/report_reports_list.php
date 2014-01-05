@@ -96,8 +96,8 @@ two_buttonmenu($extrabuttons,$book);
 			  </label>
 			</th>
 			<th colspan="2"><?php print_string('student');?></th>
-			<th><?php print_string('uploadfile');?></th>
 <?php
+	$uploadpic='no';
 	foreach($rids as $index => $rid){
 		$summaries=(array)$reportdefs[$index]['summaries'];
 		foreach($summaries as $summary){
@@ -116,8 +116,16 @@ two_buttonmenu($extrabuttons,$book);
 					print '<th style="width:4%;">'.$summary['name'].'</th>';
 					}
 				}
+			elseif($summary['type']=='pic'){
+				$uploadpic='yes';
+				}
 			}
-		}	
+		}
+	if($uploadpic=='yes' or $yid<3){
+?>
+			<th><?php print_string('uploadfile');?></th>
+<?php
+		}
 ?>
 			<th><?php print_string('completedsubjectreports',$book);?></th>
 		  </tr>
@@ -149,13 +157,6 @@ two_buttonmenu($extrabuttons,$book);
 			</a>
 			<div id="mini-<?php print $sid;?>"></div>
 			<div id="merit-<?php print $sid;?>"></div>
-		  </td>
-		  <td>
-		  	<div id="upload-<?php print $sid;?>">
-				<button onclick="clickToAttachFile(<?php print $sid;?>,<?php print $wrapper_rid;?>,'','',<?php print $sid;?>)" value="category_editor.php" name="Attachment" title="Click to post file" type="button" class="rowaction imagebutton">
-					<img class="clicktoload">
-				</button>
-			</div>
 		  </td>
 <?php
 	   foreach($rids as $index => $rid){
@@ -231,6 +232,17 @@ two_buttonmenu($extrabuttons,$book);
 					}
 				}
 			}
+	if($uploadpic=='yes' or $yid<3){
+?>
+		  <td>
+		  	<div id="upload-<?php print $sid;?>">
+				<button onclick="clickToAttachFile(<?php print $sid;?>,<?php print $wrapper_rid;?>,'','',<?php print $sid;?>)" value="category_editor.php" name="Attachment" title="Click to post file" type="button" class="rowaction imagebutton">
+					<img class="clicktoload">
+				</button>
+			</div>
+		  </td>
+<?php
+						}
 
 		print '<td>';
 
