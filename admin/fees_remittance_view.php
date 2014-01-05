@@ -224,8 +224,8 @@ if($filter_paymenttype==''){
 					print '<td>'.display_money($charge['amount']).'</td>';
 					}
 				print '<td style="width:1em;">'.'<div class="hidden">';
-				$listname='paymenttype'.$charge['id'];
-				${'paymenttype'.$charge['id']}=$charge['paymenttype'];
+				$listname='paymenttype'.$Student['id_db'];
+				${'paymenttype'.$Student['id_db']}=$charge['paymenttype'];
 				include('scripts/list_paymenttypes.php');
 				print '</div></td></tr>';
 

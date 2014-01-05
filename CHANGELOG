@@ -8,8 +8,10 @@ the absence list.
 
 
 
-Version ClaSS-1.0.60 release (2013/12/19)
+Version ClaSS-1.0.60 release (2013/12/27)
 -------------------------------------------
+
+Added file attachment to infobook comments
 
 Ldap sync is now improved, in the clientid ou (same for enrolment) must
 already exist a User group named 'users', then all the users are updated

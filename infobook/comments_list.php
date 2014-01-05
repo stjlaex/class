@@ -116,6 +116,11 @@ print '('.$Student['RegistrationGroup']['value'].')';
 		   $extrabuttons['edit']=array('name'=>'process',
 									   'value'=>'edit',
 									   'title'=>'edit');
+		   $imagebuttons['clicktoload']=array('name'=>'Attachment',
+										 'onclick'=>"clickToAttachFile($sid,$entryno,'','','')", 
+										 'class'=>'clicktoload',
+										 'value'=>'category_editor.php',
+										 'title'=>'clicktoattachfile');
 		   if(isset($entry['incident_id_db']) and $Incident['Closed']['value']=='N'){
 			   $extrabuttons['newaction']=array('name'=>'process',
 												'value'=>'newaction',
@@ -125,9 +130,9 @@ print '('.$Student['RegistrationGroup']['value'].')';
 		   if($perm['w']=='1' or $entry['Teacher']['username']==$tid){
 			   rowaction_buttonmenu($imagebuttons,$extrabuttons,$book);
 			   }
-?>
-
-			</td>
+		   require_once('lib/eportfolio_functions.php');
+		   display_file($Student['EPFUsername']['value'],'assessment',$entryno);
+?>			</td>
 		  </tr>
 		  <div id="<?php print 'xml-'.$entryno;?>" style="display:none;">
 <?php
@@ -141,10 +146,14 @@ print '('.$Student['RegistrationGroup']['value'].')';
 		}
 ?>
 	  </table>
-
-
 	  <input type="hidden" name="cancel" value="<?php print $cancel;?>" />
 	  <input type="hidden" name="current" value="<?php print $action; ?>">
 	  <input type="hidden" name="choice" value="<?php print $choice; ?>">
 	</form>
   </div>
+
+
+  <div id="preview" style="display:none; width:80%;margin-left:10%;z-index:1000;position:absolute;float:left;">
+		<img id="imgpreview" src="" alt="Preview" style="display:block;width:auto;height:auto;max-width:100%;max-height:100%;padding-top:3%;padding-bottom:3%;margin-left:auto;margin-right:auto; float:none;" onclick="getElementById('preview').style.display='none';getElementById('shadow').style.display='none';">
+  </div>
+  <div id="shadow" style="display:none; width:100%;height:100%;background-color:black;z-index:999;position:fixed;opacity:0.4;" onclick="getElementById('preview').style.display='none';getElementById('shadow').style.display='none';"><div>
