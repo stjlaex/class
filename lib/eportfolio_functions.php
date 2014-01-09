@@ -149,7 +149,7 @@ function elgg_newUser($User,$role){
 		}
 
 	/* Only use first part of a name. */
-    $name=$User['Forename']['value'].' '.$User['Surname']['value'];
+	$name=$User['Forename']['value'].' '.$User['Surname']['value'];
 	$active='yes';
 	setlocale(LC_CTYPE,'en_GB');
 
@@ -231,6 +231,7 @@ function elgg_updateUser($epfuid,$User,$role='guardian'){
 
 	if($role=='student'){
 		$email=$User['EmailAddress']['value'];
+		$name=$User['Forename']['value'].' '.$User['Surname']['value'];
 		}
 	elseif($role=='guardian'){
 		$email=$User['EmailAddress']['value'];

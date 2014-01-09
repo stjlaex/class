@@ -142,6 +142,10 @@ require_once($CFG->installpath.'/'.$CFG->applicationdirectory.'/lib/eportfolio_f
 				/* New epfusername so add to elgg db.*/
 				$epfuid=elgg_newUser($Student,'student');
 				}
+			else{
+				/* Updating user */
+				$epfuid=elgg_updateUser($epfuid,$Student,'student');
+				}
 			$Students[$sid]['epfuid']=$epfuid;
 			}
 
