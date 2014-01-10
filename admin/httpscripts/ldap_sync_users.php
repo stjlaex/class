@@ -98,6 +98,7 @@ if($ds){
 					$info['cn']=$cn;
 					$info['givenName']=$row['forename'];
 					$info['sn']=$row['surname'];
+					$info['title']=$row['title'];
 					$info['mail']=$row['email'];
 					$info['objectclass']='inetOrgPerson';
 				
@@ -135,6 +136,7 @@ if($ds){
 				$info['userPassword']='{MD5}' . base64_encode(pack('H*',$row['passwd']));
 				$info['cn']=$cn;
 				$info['givenName']=$row['forename'];
+				$info['title']=$row['title'];
 				$info['sn']=$row['surname'];
 				$info['mail']=$row['email'];
 				$info['objectclass']='inetOrgPerson';
