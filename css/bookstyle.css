@@ -5,881 +5,927 @@
  *   elsewhere.
  */
 body {
-    font-family:Verdana, "Bitstream Vera Sans", Arial, sans-serif;
-    font-weight:500; 
-    font-size:medium; 
-	background-color:#444444; color:#ffffff; margin:0; border:0;
-	text-align:left;
-    }
+	font-family: Verdana, "Bitstream Vera Sans", Arial, sans-serif;
+	font-weight: 500;
+	font-size: medium;
+	background-color: #91c73e;
+	color: #ffffff;
+	margin: 0;
+	border: 0;
+	text-align: left;
+}
 a {
-    font-size:small; 
-    color:#000000; 
-    font-weight:900;
-    text-decoration:none;
-	}
+	font-size: small;
+	color: #000000;
+	font-weight: 900;
+	text-decoration: none;
+}
 a:hover {
-	text-decoration:underline;
-	}
+	text-decoration: underline;
+}
 input, textarea, select {
-	font-size:small; 
-    margin-bottom:10px;
-	text-align:left;
-	cursor:text;
-	float:left;
-	border:2px solid #cccccc;
-    padding:2px;
-    margin:2px;
-    width:auto;
-    background-color:#ffffff;
-	}
+	font-size: small;
+	margin-bottom: 10px;
+	text-align: left;
+	cursor: text;
+	float: left;
+	border: 2px solid #cccccc;
+	padding: 2px;
+	margin: 2px;
+	width: auto;
+	background-color: #ffffff;
+}
 input:focus, textarea:focus, select:focus {
-	border-color:#ff9900;
-    z-index:10000;
-	}
-option[value=""]{ 
-    background-color:#eeeeee;
-    color:#aaaaaa;
-    margin:5px 0;
-    }
+	border-color: #ff9900;
+	z-index: 10000;
+}
+option[value=""] {
+	background-color: #eeeeee;
+	color: #aaaaaa;
+	margin: 5px 0;
+}
 textarea {
-    width:95%;
-	}
-input[readonly="readonly"]{
-	border-color:#cccccc;
-    background-color:#cccccc; 
-	}
+	width: 95%;
+}
+input[readonly="readonly"] {
+	border-color: #cccccc;
+	background-color: #cccccc;
+}
 input[type="checkbox"] {
-	width:1em;
-	}
+	width: 1em;
+}
 input[type="radio"] {
-	width:1em;
-	}
+	width: 1em;
+}
 button {
-	width:auto; 
-    margin-top:2%; 
-    font-weight:300; 
-    color:#ffffff;
-	cursor:pointer;
-	}
+	width: auto;
+	margin-top: 2%;
+	font-weight: 300;
+	color: #ffffff;
+	cursor: pointer;
+}
 table {
-    width:100%;
-	margin:0; border:0; padding:0;
-	empty-cells:hide; border-collapse:collapse;
-	background-color:#dde; color:#000000;
-	}
-th 	{
-	text-align:left; 
-    font-weight:500; 
-    border-style:none; 
-    border-width:0px;
-	}
-td 	{
-	text-align:left; border-style:none; border-width:0px;
-	}
-legend, caption  {
-	text-align:left; 
-    font-size:x-small; 
-    font-weight:300;
-    border:none;
-	background-color:#ffffff;
-    color:#666666;
-    padding:1px 5px 1px 5px;
-	}
+	width: 100%;
+	margin: 0;
+	border: 0;
+	padding: 0;
+	empty-cells: hide;
+	border-collapse: collapse;
+	background-color: #dde;
+	color: #000000;
+}
+th {
+	text-align: left;
+	font-weight: 500;
+	border-style: none;
+	border-width: 0px;
+}
+td {
+	text-align: left;
+	border-style: none;
+	border-width: 0px;
+}
+legend, caption {
+	text-align: left;
+	font-size: x-small;
+	font-weight: 300;
+	border: none;
+	background-color: #ffffff;
+	color: #666666;
+	padding: 1px 5px 1px 5px;
+}
 
 /*generic form stuff, including validation*/
 label {
-	clear:both;
-	float:left;
-	width:auto; 
-	text-align:right; 
-	font-size:x-small; 
-    font-weight:400;
-	margin-left:5px;
-	margin-right:5px;
-    color:#666;
-	}
+	clear: both;
+	float: left;
+	width: auto;
+	text-align: right;
+	font-size: x-small;
+	font-weight: 400;
+	margin-left: 5px;
+	margin-right: 5px;
+	color: #666;
+}
 label[for="Day"], label[for="Month"], label[for="Year"] {
-	clear:none; 
-	}
-label+input, label+select[size="1"], label+textarea {
-	margin-bottom:5px; margin-left:5px;
-	}
-label>input, label>select[size="1"], label>textarea {
-	margin-bottom:5px; margin-left:5px;
-	}
-label>select[multiple="multiple"] {
-	margin-bottom:5px; margin-left:5px;
-	}
-label+select[multiple="multiple"] {
-	margin-bottom:5px; margin-left:5px;
-	}
+	clear: none;
+}
+label+ input, label+ select[size="1"], label+ textarea {
+	margin-bottom: 5px;
+	margin-left: 5px;
+}
+label > input, label > select[size="1"], label > textarea {
+	margin-bottom: 5px;
+	margin-left: 5px;
+}
+label > select[multiple="multiple"] {
+	margin-bottom: 5px;
+	margin-left: 5px;
+}
+label+ select[multiple="multiple"] {
+	margin-bottom: 5px;
+	margin-left: 5px;
+}
 form img {
-	float:left;
-	width:12px;
-	height:12px; 
-	border:0 none;
-	background-repeat:no-repeat;
-	}
-form img.required { 
-	background-image:url("../images/orangestar.png");
-	content:url("../images/orangestar.png");
-	}
-form img.caution { 
+	float: left;
+	width: 12px;
+	height: 12px;
+	border: 0 none;
+	background-repeat: no-repeat;
+}
+form img.required {
+	background-image: url("../images/orangestar.png");
+	content: url("../images/orangestar.png");
+}
+form img.caution {
 	background-image: url("../images/redcross.png");
 	content: url("../images/redcross.png");
-	}
-form img.completed { 
+}
+form img.completed {
 	background-image: url("../images/greentick.png");
 	content: url("../images/greentick.png");
-	}
-form img.caution+input, form img.caution+select {
-	background-color:#ffff99;
-	}
-form img.calendar { 
-    width:0; height:0; border:0;
-	cursor:pointer;
-	background-repeat:no-repeat;
-	}
-form img.rowminus { 
-	background-image:url("../images/orangeminus.png");
-	content:url("../images/orangeminus.png");
-	}
-form img.rowplus { 
-	background-image:url("../images/orangeplus.png");
-	content:url("../images/orangeplus.png");
-	}
-h3 { 
-     font-size:small;
-     margin:0;
-     padding:2px 0 2px 4px;
-     color:#eeeeee;
-     background-color:#666;
-	}
+}
+form img.caution+ input, form img.caution+ select {
+	background-color: #ffff99;
+}
+form img.calendar {
+	width: 0;
+	height: 0;
+	border: 0;
+	cursor: pointer;
+	background-repeat: no-repeat;
+}
+form img.rowminus {
+	background-image: url("../images/orangeminus.png");
+	content: url("../images/orangeminus.png");
+}
+form img.rowplus {
+	background-image: url("../images/orangeplus.png");
+	content: url("../images/orangeplus.png");
+}
+h3 {
+	font-size: small;
+	margin: 0;
+	padding: 2px 0 2px 4px;
+	color: #eeeeee;
+	background-color: #666;
+}
 fieldset {
-    border-style:none;
-	}
+	border-style: none;
+}
 div.hidden {
-	display:none;
-	border:0; margin:0; padding:0;
-	}
+	display: none;
+	border: 0;
+	margin: 0;
+	padding: 0;
+}
 /*the two possible container divs for each book, one after login and one for before*/
 div#bookbox {
-	position:absolute;
-    left:0%; top:0%; width:100%; height:99%; 
-	border-top:3px solid;
-	border-bottom:none;
-	overflow:hidden;
-	}
+	position: absolute;
+	left: 0%;
+	top: 0%;
+	width: 100%;
+	height: 99%;
+	border-top: 3px solid;
+	border-bottom: none;
+	overflow: hidden;
+}
 div#coverbox {
-	position:absolute; left:0%; top:1px; width:100%; height:99.6%; 
-	overflow:hidden; 
-	}
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+	overflow: hidden;
+}
 .externalbookframe {
-	position:absolute; left:4%; top:0%; width:96%; height:100%;	
-	margin:0; border:0;
-	}
+	position: absolute;
+	left: 4%;
+	top: 0%;
+	width: 96%;
+	height: 100%;
+	margin: 0;
+	border: 0;
+}
 /* only used to place a background image*/
 div.background {
-	position:absolute;
-	width:100%;
-	height:100%;
-    z-index:-10;
-	}
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	z-index: -10;
+}
 /*this is main display div within each book*/
 div.content {
-	position:relative; top:7%; height:93%; 
-	font-size:small;
-	border:0;
-	background-color:#444444;
-	overflow:auto; 
-	}
+	position: relative;
+	top: 7%;
+	height: 93%;
+	font-size: small;
+	border: 0;
+	background-color: #444444;
+	overflow: auto;
+}
 .content input[type="checkbox"] {
-	width:1em;
-	}
+	width: 1em;
+}
 div.content div {
-	border:0; margin:0;
-	overflow:hidden;
-	}
+	border: 0;
+	margin: 0;
+	overflow: hidden;
+}
 div.content fieldset, div.topcontent fieldset {
-    padding:1%;
-	margin:0;
-	background-color:#eeeeee;
-	}
-div.content fieldset.divgroup, 
-div.topform fieldset.divgroup, div.divgroup,
-fieldset.divgroup div { 
-	background-color:#666666 !important; 
-	color:#ffffee !important;
-    border:0 !important;
-	}
-div.divgroup label, fieldset.divgroup label { 
-	background-color:#666666; 
-	color:#ffffee !important;
-    padding:3px 6px !important;
-	}
-div.divgroup fieldset label, fieldset.divgroup fieldset label { 
-	background-color:#ddddee; 
-	color:#666666 !important;
-
-	}
-div.content fieldset.divgroup .subgroup, 
-div.topform fieldset.divgroup .subgroup, div.divgroup .subgroup,
-fieldset.divgroup .subgroup { 
-	background-color:#888888 !important; 
-	}
-
+	padding: 1%;
+	margin: 0;
+	background-color: #eeeeee;
+}
+div.content fieldset.divgroup, div.topform fieldset.divgroup, div.divgroup, fieldset.divgroup div {
+	background-color: #666666 !important;
+	color: #ffffee !important;
+	border: 0 !important;
+}
+div.divgroup label, fieldset.divgroup label {
+	background-color: #666666;
+	color: #ffffee !important;
+	padding: 3px 6px !important;
+}
+div.divgroup fieldset label, fieldset.divgroup fieldset label {
+	background-color: #ddddee;
+	color: #666666 !important;
+}
+div.content fieldset.divgroup .subgroup, div.topform fieldset.divgroup .subgroup, div.divgroup .subgroup, fieldset.divgroup .subgroup {
+	background-color: #888888 !important;
+}
 
 /*a fixed height div, always at the top of the page before the content*/
 div.topform, div.topcontent {
-	overflow:auto;
-	position:relative;
-	top:7%; 
-    width:90%;
-	padding:1%;
-	margin:0 4% 1% 4%;
-	}
+	overflow: auto;
+	position: relative;
+	top: 7%;
+	width: 90%;
+	padding: 1%;
+	margin: 0 4% 1% 4%;
+}
 /*a div, always at the top of the page before the content*/
 div.topform {
-    height:30%; 
-	}
-div.topform+div.content {
-	position:relative; height:56%;
-	}
+	height: 30%;
+}
+div.topform+ div.content {
+	position: relative;
+	height: 56%;
+}
 /*classes to position fieldsets and divs in a two-column layout*/
 div.content fieldset.left, div.topcontent fieldset.left, div.topform fieldset.left {
-	float:left;
-	width:45%;
-	clear:left;
-	margin:0 0 2% 2%;
-	}
+	float: left;
+	width: 45%;
+	clear: left;
+	margin: 0 0 2% 2%;
+}
 div.content fieldset.right, div.topcontent fieldset.right, div.topform fieldset.right {
-	float:right;
-	width:45%;
-	clear:right;
-	margin:0% 2% 2% 0;
-	}
+	float: right;
+	width: 45%;
+	clear: right;
+	margin: 0% 2% 2% 0;
+}
 div.content fieldset.center, div.topcontent fieldset.center, div.topform fieldset.center {
-	float:right;
-	width:92%;
-	clear:right;
-	margin:0% 4% 2% 4%;
-	}
+	float: right;
+	width: 92%;
+	clear: right;
+	margin: 0% 4% 2% 4%;
+}
 div.content div.left, div.topcontent div.left, div.topform div.left {
-	float:left;
-	width:47%;
-	clear:left;
-	margin:0 0 2% 2%;
-	}
+	float: left;
+	width: 47%;
+	clear: left;
+	margin: 0 0 2% 2%;
+}
 div.content div.right, div.topcontent div.right, div.topform div.right {
-	float:right;
-	width:47%;
-	clear:right;
-	margin:0 2% 2% 0;
-	}
+	float: right;
+	width: 47%;
+	clear: right;
+	margin: 0 2% 2% 0;
+}
 div.content .center, div.topcontent .center, div.topform .center {
-    margin:0 4% 2% 4%;
-	width:92%;
-	clear:both;
-	}
+	margin: 0 4% 2% 4%;
+	width: 92%;
+	clear: both;
+}
 div.content .fullwidth, div.topcontent .fullwidth, div.topform .fullwidth {
-    margin:0 1% 2% 1%;
-	width:98% !important;
-	clear:both;
-	}
+	margin: 0 1% 2% 1%;
+	width: 98% !important;
+	clear: both;
+}
 
 /*used to describe page content in the space to the left of the top buttonmenu*/
 div#heading {
-	position:absolute; top:1%; left:10%;
-	border:0; 
-    margin-top:2px;
-    padding:3px 8px 3px 4px;
- 	background-color:#ffffff;
-    color:#000000;
-    font-weight:600;
-    font-size:x-small;
-    max-width:55%;
-	}
+	position: absolute;
+	top: 1%;
+	left: 10%;
+	border: 0;
+	margin-top: 2px;
+	padding: 3px 8px 3px 4px;
+	background-color: #ffffff;
+	color: #000000;
+	font-weight: 600;
+	font-size: x-small;
+	max-width: 55%;
+}
 #heading div {
-	padding:0;margin:0;
-	float:left;
-	}
-#heading span {  
-    clear:none;
-    font-size:xx-small;
-    font-weight:100;
-	}
+	padding: 0;
+	margin: 0;
+	float: left;
+}
+#heading span {
+	clear: none;
+	font-size: xx-small;
+	font-weight: 100;
+}
 /*the set of action buttons at the very top of the book*/
 div.buttonmenu {
-	border:0; margin-top:0.5%;
-	overflow:hidden;
-	position:absolute; top:0%; right:10%;
-	background-color:#444444;
-    z-index:4000;
-	}
+	border: 0;
+	margin-top: 0.5%;
+	overflow: hidden;
+	position: absolute;
+	top: 0%;
+	right: 10%;
+	background-color: #444444;
+	z-index: 4000;
+}
 .buttonmenu button, #heading button, fieldset button {
-	margin:1px 2px; 
-    border:0px none;
-	border-radius:3px;
-    padding:2px 4px 2px 3px;
-	font-size:x-small; 
-    font-weight:900; 
-    color:#ffeeff;
-	cursor:pointer;
-	}
+	margin: 1px 2px;
+	border: 0px none;
+	border-radius: 3px;
+	padding: 2px 4px 2px 3px;
+	font-size: x-small;
+	font-weight: 900;
+	color: #ffeeff;
+	cursor: pointer;
+}
 .buttonmenu button[value="Submit"], .buttonmenu button[value="Enter"] {
-	background-color:#666666;
-	color:#ff9900;
-    font-weight:900;
-	}
+	background-color: #666666;
+	color: #ff9900;
+	font-weight: 900;
+}
 .buttonmenu button[value="Submit"]:hover, .buttonmenu button[value="Enter"]:hover {
-	background-color:#ff9900; 
-	color:#ffffff;
-    z-index:1000;
-	}
+	background-color: #ff9900;
+	color: #ffffff;
+	z-index: 1000;
+}
 .buttonmenu button[value="Cancel"], .buttonmenu button.cancel {
-	background-color:#666666; 
-	color:#ffffee;
-	}
+	background-color: #666666;
+	color: #ffffee;
+}
 .buttonmenu button[value="Back"] {
-	background-color:#666666; 
-	color:#ffffee;
-	}
-div.buttongroup { 
-    margin-left:10px; padding:2px;
-    float:left;
-	}
+	background-color: #666666;
+	color: #ffffee;
+}
+div.buttongroup {
+	margin-left: 10px;
+	padding: 2px;
+	float: left;
+}
 .buttonmenu button[value="Reset"], div.buttongroup {
-	background-color:#666666; 
-	color:#ffffee;
-	}
+	background-color: #666666;
+	color: #ffffee;
+}
 div.buttongroup label {
-	color:#dddddd;
-    line-height:90%;
-    font-size:xx-small;
-	}
+	color: #dddddd;
+	line-height: 90%;
+	font-size: xx-small;
+}
 button[value="Okay"] {
-	background-color:#666666; 
-	color:#ffffee;
-	width:5em;
-	}
+	background-color: #666666;
+	color: #ffffee;
+	width: 5em;
+}
 button.install {
-	background-color:#666666; 
-	color:#ffffee; 
-    font-size:xx-small; 
-	}
-.buttonmenu button:hover, .buttonmenu button:focus, fieldset button:hover, 
-fieldset button:focus, #heading button:hover, #heading button:focus {
-    border-color:#5599cc;
-    background-color:#5599cc;
-    color:#ffffff;
-	}
+	background-color: #666666;
+	color: #ffffee;
+	font-size: xx-small;
+}
+.buttonmenu button:hover, .buttonmenu button:focus, fieldset button:hover, fieldset button:focus, #heading button:hover, #heading button:focus {
+	border-color: #5599cc;
+	background-color: #5599cc;
+	color: #ffffff;
+}
 /* The micro-action buttons contianed inside content, usually for xmlHttprequests*/
 div.rowaction {
-	float:right;
-    width:8em;
-	}
+	float: right;
+	width: 8em;
+}
 button.rowaction, div.rowaction, div.rowaction button {
-	margin:1px 2px; 
-    padding:0;
-    font-size:xx-small; 
-    color:#ffeeff;
-	cursor:pointer;
-	float:right;
-	}
+	margin: 1px 2px;
+	padding: 0;
+	font-size: xx-small;
+	color: #ffeeff;
+	cursor: pointer;
+	float: right;
+}
 button.rowaction, div.rowaction button {
-    border:1px none;
-	border-radius:4px;
-	padding:0 3px 0 3px;
-	font-weight:600;
-    background-color:#666666;
-	}
-button.rowaction img { 
-	float:left;
-	width:12px; height:12px; border-style:none;	
-	background-repeat:no-repeat;	
-	opacity:1;
-	}
+	border: 1px none;
+	border-radius: 4px;
+	padding: 0 3px 0 3px;
+	font-weight: 600;
+	background-color: #666666;
+}
+button.rowaction img {
+	float: left;
+	width: 12px;
+	height: 12px;
+	border-style: none;
+	background-repeat: no-repeat;
+	opacity: 1;
+}
 button.rowaction:hover, button.rowaction:focus {
-    border-color:#5599cc;
-    background-color:#5599cc;
-    color:#ffffff;
-	}
+	border-color: #5599cc;
+	background-color: #5599cc;
+	color: #ffffff;
+}
 .rowaction input.underrow {
-	height:18px;
-	font-size:8pt;
-	padding:0;
+	height: 18px;
+	font-size: 8pt;
+	padding: 0;
 }
 button.imagebutton {
-	border:0 !important;
-	}
-img.displayfilepdf { 
-	background-image:url("../images/file-pdf.png");
-	content:url("../images/file-pdf.png");
-    padding:0;
-	cursor:pointer;
-    width:42px !important;
-    height:50px !important;
-    border:0;
-	}
-img.displayfile { 
-	background-image:url("../images/file-generic.png");
-	content:url("../images/file-generic.png");
-    padding:0;
-	cursor:pointer;
-    width:42px !important;
-    height:50px !important;
-    border:0;
-	}
-img.clicktoload { 
-	background-image:url("../images/folder-open.png");
-	content:url("../images/folder-open.png");
-	cursor:pointer;
-    width:16px !important;
-    height:16px !important;
-	}
-img.clicktowrite { 
-	background-image:url("../images/accessories-text-editor.png");
-	content:url("../images/accessories-text-editor.png");
-	cursor:pointer;
-    width:16px !important;
-    height:16px !important;
-	}
-img.clicktoedit { 
-	background-image:url("../images/editer.png");
-	content:url("../images/editer.png");
-	cursor:pointer;
-	}
-img.clicktodelete { 
-	background-image:url("../images/redcross.png");
-	content:url("../images/redcross.png");
-	cursor:pointer;
-	}
-img.clicktoconfigure { 
-	background-image:url("../images/document-properties.png");
-	content:url("../images/document-properties.png");
-	cursor:pointer;
-	}
-img.clicktoaddmerit { 
-	background-image:url("../images/goldstar.png");
-	content:url("../images/goldstar.png");
-	cursor:pointer;
-	}
-img.clicktotarget { 
-	background-image:url("../images/greentick.png");
-	content:url("../images/greentick.png");
-	cursor:pointer;
-	}
-img.clicktochart { 
-	background-image:url("../images/charter.png");
-	content:url("../images/charter.png");
-	cursor:pointer;
-	}
-img.clicktoprint { 
-	background-image:url("../images/printer.png");
-	content:url("../images/printer.png");
-    padding:0;
-	cursor:pointer;
-    width:20px !important;
-    height:20px !important;
-    border:0;
-	}
-img.clicktoemail { 
-	background-image:url("../images/mail-message-new.png");
-	content:url("../images/mail-message-new.png");
-	cursor:pointer;
-    width:16px !important;
-    height:16px !important;
-    border:0;
-    position:absolute;
-	}
-img.clicktotransport { 
-	background-image:url("../images/bus.png");
-	content:url("../images/bus.png");
-    width:16px !important;
-    height:16px !important;
-    border:0;
-	}
-img.clicktohelp { 
-	background-image:url("../images/help-browser.png");
-	content:url("../images/help-browser.png");
-	cursor:pointer;
-    width:22px !important;
-    height:22px !important;
-    border:0;
-    position:absolute;
-	}
-.clicktoaction div { 
-	cursor:pointer;
-	}
+	border: 0 !important;
+}
+img.displayfilepdf {
+	background-image: url("../images/file-pdf.png");
+	content: url("../images/file-pdf.png");
+	padding: 0;
+	cursor: pointer;
+	width: 42px !important;
+	height: 50px !important;
+	border: 0;
+}
+img.displayfile {
+	background-image: url("../images/file-generic.png");
+	content: url("../images/file-generic.png");
+	padding: 0;
+	cursor: pointer;
+	width: 42px !important;
+	height: 50px !important;
+	border: 0;
+}
+img.clicktoload {
+	background-image: url("../images/folder-open.png");
+	content: url("../images/folder-open.png");
+	cursor: pointer;
+	width: 16px !important;
+	height: 16px !important;
+}
+img.clicktowrite {
+	background-image: url("../images/accessories-text-editor.png");
+	content: url("../images/accessories-text-editor.png");
+	cursor: pointer;
+	width: 16px !important;
+	height: 16px !important;
+}
+img.clicktoedit {
+	background-image: url("../images/editer.png");
+	content: url("../images/editer.png");
+	cursor: pointer;
+}
+img.clicktodelete {
+	background-image: url("../images/redcross.png");
+	content: url("../images/redcross.png");
+	cursor: pointer;
+}
+img.clicktoconfigure {
+	background-image: url("../images/document-properties.png");
+	content: url("../images/document-properties.png");
+	cursor: pointer;
+}
+img.clicktoaddmerit {
+	background-image: url("../images/goldstar.png");
+	content: url("../images/goldstar.png");
+	cursor: pointer;
+}
+img.clicktotarget {
+	background-image: url("../images/greentick.png");
+	content: url("../images/greentick.png");
+	cursor: pointer;
+}
+img.clicktochart {
+	background-image: url("../images/charter.png");
+	content: url("../images/charter.png");
+	cursor: pointer;
+}
+img.clicktoprint {
+	background-image: url("../images/printer.png");
+	content: url("../images/printer.png");
+	padding: 0;
+	cursor: pointer;
+	width: 20px !important;
+	height: 20px !important;
+	border: 0;
+}
+img.clicktoemail {
+	background-image: url("../images/mail-message-new.png");
+	content: url("../images/mail-message-new.png");
+	cursor: pointer;
+	width: 16px !important;
+	height: 16px !important;
+	border: 0;
+	position: absolute;
+}
+img.clicktotransport {
+	background-image: url("../images/bus.png");
+	content: url("../images/bus.png");
+	width: 16px !important;
+	height: 16px !important;
+	border: 0;
+}
+img.clicktohelp {
+	background-image: url("../images/help-browser.png");
+	content: url("../images/help-browser.png");
+	cursor: pointer;
+	width: 22px !important;
+	height: 22px !important;
+	border: 0;
+	position: absolute;
+}
+.clicktoaction div {
+	cursor: pointer;
+}
 /*a generic content table, usually for selecting things from a list*/
 table.listmenu {
-	border-top:0;
-	}
+	border-top: 0;
+}
 .center .listmenu caption, .center .listmenu legend {
-	padding-left:5%; margin:0 70% 0 5%;
-	}
+	padding-left: 5%;
+	margin: 0 70% 0 5%;
+}
 .left .listmenu caption, .left .listmenu legend {
-	padding-left:5%; margin:0 70% 0 5%;
-	}
+	padding-left: 5%;
+	margin: 0 70% 0 5%;
+}
 .right .listmenu caption, .right .listmenu legend {
-	padding-right:5%; margin:0 5% 0 70%;
-	}
+	padding-right: 5%;
+	margin: 0 5% 0 70%;
+}
 .listmenu td label, .listmenu th label, .listmenu li label {
-    color:#666666 !important;
-	}
+	color: #666666 !important;
+}
 .listmenu td {
-	border-top:1px solid;
-	border-color:#cccccc;
-	background-color:#ffffee;
-    padding-left:1%;
-	}
+	border-top: 1px solid;
+	border-color: #cccccc;
+	background-color: #ffffee;
+	padding-left: 1%;
+}
 ul.listmenu, .listmenu li {
-	border:0px none;
-	background-color:#ffffee;
-    color:#115599;
-    margin-top:2px;
-	}
-ul.listmenu { 
-    list-style-type:square;
-    }
-div.content fieldset.listmenu, div.content fieldset.listmenu div,
-	.listmenu td label,  .listmenu th label {
-	background-color:#ffffee;
-	}
+	border: 0px none;
+	background-color: #ffffee;
+	color: #115599;
+	margin-top: 2px;
+}
+ul.listmenu {
+	list-style-type: square;
+}
+div.content fieldset.listmenu, div.content fieldset.listmenu div, .listmenu td label, .listmenu th label {
+	background-color: #ffffee;
+}
 .listmenu .special {
-	font-weight:600; font-style:italic;
-	}
+	font-weight: 600;
+	font-style: italic;
+}
 .listmenu .vspecial, .vspecial {
-    background-color:#ffff99 !important;
-	font-weight:600; font-style:italic;
-	}
+	background-color: #ffff99 !important;
+	font-weight: 600;
+	font-style: italic;
+}
 .listmenu th {
-	font-size:x-small;
-	border-left:2px solid #999999;
-	background-color:#ffffff;
-	}
+	font-size: x-small;
+	border-left: 2px solid #999999;
+	background-color: #ffffff;
+}
 .listmenu th:first-child {
-	border-left:0;
-	}
+	border-left: 0;
+}
 .listmenu td.E {
-    color:#aaaaaa;
-	background-color:#ffffff;
-	}
+	color: #aaaaaa;
+	background-color: #ffffff;
+}
 .listmenu tr:hover {
-	background-color:#fcd39a !important;
-	}
-.listmenu tr:hover td { 
-	background-color:#fcd39a !important;
-	}
-.listmenu tr:hover th { 
-	background-color:#fcd39a !important;
-	}
-.listmenu tr td table td:hover { 
-	background-color:#eeeeee !important;
-	}
+	background-color: #fcd39a !important;
+}
+.listmenu tr:hover td {
+	background-color: #fcd39a !important;
+}
+.listmenu tr:hover th {
+	background-color: #fcd39a !important;
+}
+.listmenu tr td table td:hover {
+	background-color: #eeeeee !important;
+}
 /*fade to gray*/
-.listmenu tr.lowlite td, .listmenu td.lowlite, tr.lowlite a, .lowlite { 
-    color:#aaaaaa !important;
-	}
-.listmenu tr.nolite td, .listmenu td.nolite, .nolite { 
-    background-color:#eeeeee !important;
-	}
+.listmenu tr.lowlite td, .listmenu td.lowlite, tr.lowlite a, .lowlite {
+	color: #aaaaaa !important;
+}
+.listmenu tr.nolite td, .listmenu td.nolite, .nolite {
+	background-color: #eeeeee !important;
+}
 /*two shades of red*/
-.listmenu tr.hilite td, .listmenu td.hilite, tr.hilite a, .hilite { 
-    background-color:#ff6600 !important;
-	}
-.listmenu tr.midlite td, .listmenu td.midlite, .midlite { 
-    background-color:#ff9966 !important;
-	}
+.listmenu tr.hilite td, .listmenu td.hilite, tr.hilite a, .hilite {
+	background-color: #ff6600 !important;
+}
+.listmenu tr.midlite td, .listmenu td.midlite, .midlite {
+	background-color: #ff9966 !important;
+}
 /*yellow*/
-.listmenu tr.pauselite td, .listmenu td.pauselite, .pauselite { 
-    background-color:#eeee00 !important;
-	}
+.listmenu tr.pauselite td, .listmenu td.pauselite, .pauselite {
+	background-color: #eeee00 !important;
+}
 /*two shades of green*/
-.listmenu tr.golite td, .listmenu td.golite, .golite { 
-    background-color:#669900 !important;
-	}
-.listmenu tr.gomidlite td, .listmenu td.gomidlite, .gomidlite { 
-    background-color:#66cc66 !important;
-	}
+.listmenu tr.golite td, .listmenu td.golite, .golite {
+	background-color: #669900 !important;
+}
+.listmenu tr.gomidlite td, .listmenu td.gomidlite, .gomidlite {
+	background-color: #66cc66 !important;
+}
 /*outline red*/
-.listmenu tr.outlite td, .listmenu td.outlite, .outlite { 
-    border:3px solid #bbbbbb !important;
-	}
+.listmenu tr.outlite td, .listmenu td.outlite, .outlite {
+	border: 3px solid #bbbbbb !important;
+}
 /*handy for checkboxes inside a table*/
-.listmenu td div.row, .listmenu td div.row p, .listmenu td.row div, .listmenu td.row div p { 
-    float:left;
-    padding:0 4px 0 2px;
-    margin:0;
-	}
-.listmenu td div.row input, .listmenu td.row div input { 
-    margin:0;
-    border:2px solid #ff9900;
-	cursor:pointer;
-	}
-.listmenu td div.checked, div.checked input, div.checked label, .checked { 
-    background-color:#ff9966 !important;
-	cursor:pointer;
-	}
-.listmenu td div.notchecked, div.notchecked input, div.notchecked label, .notchecked { 
-    background-color:#eeeeee !important;
-	cursor:pointer;
-	}
-.listmenu td.boundary div { 
-    border:1px solid #eeeeee;
-	width:15%;
-	cursor:pointer;
-	}
-.listmenu td.boundary { 
-	background-color:#fff;
-	}
+.listmenu td div.row, .listmenu td div.row p, .listmenu td.row div, .listmenu td.row div p {
+	float: left;
+	padding: 0 4px 0 2px;
+	margin: 0;
+}
+.listmenu td div.row input, .listmenu td.row div input {
+	margin: 0;
+	border: 2px solid #ff9900;
+	cursor: pointer;
+}
+.listmenu td div.checked, div.checked input, div.checked label, .checked {
+	background-color: #ff9966 !important;
+	cursor: pointer;
+}
+.listmenu td div.notchecked, div.notchecked input, div.notchecked label, .notchecked {
+	background-color: #eeeeee !important;
+	cursor: pointer;
+}
+.listmenu td.boundary div {
+	border: 1px solid #eeeeee;
+	width: 15%;
+	cursor: pointer;
+}
+.listmenu td.boundary {
+	background-color: #fff;
+}
 .listmenu td div.row p.bigger {
-    padding:2px 4px;
-	font-size:medium;
-	background-color:#fff !important;
-	}
+	padding: 2px 4px;
+	font-size: medium;
+	background-color: #fff !important;
+}
 .listmenu td div.row p.bigger label {
-	color:#444 !important;
-	background-color:#ffffee;
-	font-weight:600 !important;
-	}
-.listmenu td div.row { 
-	background-color:#ffffee;
-	}
+	color: #444 !important;
+	background-color: #ffffee;
+	font-weight: 600 !important;
+}
+.listmenu td div.row {
+	background-color: #ffffee;
+}
 /* Always use in conjunction with listmenu, for when your
-listmenu is not a menu or a form at all but presents some side info in
-that style*/ 
+ listmenu is not a menu or a form at all but presents some side info in
+ that style*/
 .listinfo tr td, .listinfo td {
-    line-height:1.1em;
-    padding-left:2em;
-	}
+	line-height: 1.1em;
+	padding-left: 2em;
+}
 
 /*extra functionality for a listmenu which lets rows be expanded and collapsed*/
-tr.rowplus th:first-child, div.rowplus div:first-child  {
-	background-image:url("../images/orangeplus.png");
-	background-repeat:no-repeat;
-	background-position:center;
-	cursor:pointer;
-	background-color:#888888;
-	}
+tr.rowplus th:first-child, div.rowplus div:first-child {
+	background-image: url("../images/orangeplus.png");
+	background-repeat: no-repeat;
+	background-position: center;
+	cursor: pointer;
+	background-color: #888888;
+}
 tr.rowminus th:first-child, div.rowminus div:first-child {
-	background-image:url("../images/orangeminus.png");
-	background-repeat:no-repeat;
-	background-position:center;
-	cursor:pointer;
-	background-color:#eeeeee;
-	color:#444444;
-	}
-div.rowminus div:first-child, div.rowplus div:first-child { 
-	background-position:left;
-    text-align:center;
-    margin:20px 0 0 0;
-    padding:4px;
-	}
+	background-image: url("../images/orangeminus.png");
+	background-repeat: no-repeat;
+	background-position: center;
+	cursor: pointer;
+	background-color: #eeeeee;
+	color: #444444;
+}
+div.rowminus div:first-child, div.rowplus div:first-child {
+	background-position: left;
+	text-align: center;
+	margin: 20px 0 0 0;
+	padding: 4px;
+}
 tr.rowplus, div.rowplus {
-	cursor:pointer;
-	}
+	cursor: pointer;
+}
 tr.rowminus, div.rowminus {
-	cursor:pointer;
-	}
-tr.hidden, div.hidden { 
-	display:none;
-	}
-tr.revealed td, tr.revealed td label { 
-	background-color:#aaaaaa;
-	}
-tr.revealed td label { 
-	background-color:#888888;
-	color:#ffffff !important;
-    padding:0 2px;
-    font-size:x-small;
-	}
-tr.revealed div {  
-    margin:0;
-    padding:3px;
-	}
-tr.revealed p, tr.revealed ul { 
-	background-color:#ffffff;
-    margin:0 0 0 2px;
-    padding:0 4px;
-    width:80%;
-	}
-td.hidden { 
-	display:none;
-	}
-th.hidden { 
-	display:none;
-	}
+	cursor: pointer;
+}
+tr.hidden, div.hidden {
+	display: none;
+}
+tr.revealed td, tr.revealed td label {
+	background-color: #aaaaaa;
+}
+tr.revealed td label {
+	background-color: #888888;
+	color: #ffffff !important;
+	padding: 0 2px;
+	font-size: x-small;
+}
+tr.revealed div {
+	margin: 0;
+	padding: 3px;
+}
+tr.revealed p, tr.revealed ul {
+	background-color: #ffffff;
+	margin: 0 0 0 2px;
+	padding: 0 4px;
+	width: 80%;
+}
+td.hidden {
+	display: none;
+}
+th.hidden {
+	display: none;
+}
 
 /***********sidtable selected class*******/
 table.sidtable {
-    width:99%;
-	}
+	width: 99%;
+}
 .sidtable th {
-    font-weight:600;
-	font-size:x-small;
-	cursor:pointer;
-	}
-.sidtable td.edit, .sidtable th.edit {  
-    border-left:20px solid #444444;
-	padding:0 5px 0 2px; margin:0;
-    width:20%;
-	}
-.sidtable td.empty, .sidtable th.empty {  
-    background-color:#444444;
-    border-color:#444444;
-	}
+	font-weight: 600;
+	font-size: x-small;
+	cursor: pointer;
+}
+.sidtable td.edit, .sidtable th.edit {
+	border-left: 20px solid #444444;
+	padding: 0 5px 0 2px;
+	margin: 0;
+	width: 20%;
+}
+.sidtable td.empty, .sidtable th.empty {
+	background-color: #444444;
+	border-color: #444444;
+}
 .sidtable .edit select, .sidtable th select {
-    float:left;
-	padding:0; margin:0;
-    font-size:x-small;
-	}
-.sidtable td.extra {  
-    background-color:yellow;
-	padding:0 5px; margin:0;
-	}
-.sidtable .extra input {  
-    width:1em;
-	padding:0; margin:0;
-	}
+	float: left;
+	padding: 0;
+	margin: 0;
+	font-size: x-small;
+}
+.sidtable td.extra {
+	background-color: yellow;
+	padding: 0 5px;
+	margin: 0;
+}
+.sidtable .extra input {
+	width: 1em;
+	padding: 0;
+	margin: 0;
+}
 .sidtable .edit select:focus {
-    border:2px solid #ff9900;
-	}
-.sidtable td img { 
-    padding:0;
-    width:12px;
-    height:12px;
-	border:0;
-	}
-.sidtable #miniature { 
-    padding:0;
-    width:60px;
-    height:62px;
-	border:0;
-	}
+	border: 2px solid #ff9900;
+}
+.sidtable td img {
+	padding: 0;
+	width: 12px;
+	height: 12px;
+	border: 0;
+}
+.sidtable #miniature {
+	padding: 0;
+	width: 60px;
+	height: 62px;
+	border: 0;
+}
 .sidtable td[title] {
 	background-repeat: no-repeat;
-	}
-.sidtable td:first-child { 
-    width:4em;
-    padding:0;
-	}
-.sidtable td:first-child + td { 
-    width:4em;
-    padding:0;
-    text-align:left;
-	}
-.sidtable td:first-child + td a  { 
-    color:#444;
-	font-weight:300;
-	}
+}
+.sidtable td:first-child {
+	width: 4em;
+	padding: 0;
+}
+.sidtable td:first-child + td {
+	width: 4em;
+	padding: 0;
+	text-align: left;
+}
+.sidtable td:first-child + td a {
+	color: #444;
+	font-weight: 300;
+}
 /***********tinytabs*******/
 div.tinytabs {
-    font-size:x-small;
-    line-height:normal;
-    padding:0 1px;
-	}
+	font-size: x-small;
+	line-height: normal;
+	padding: 0 1px;
+}
 div.tinytab-display {
-    overflow:auto;
-	}
+	overflow: auto;
+}
 .tinytabs ul {
-    list-style:none;
-    }
+	list-style: none;
+}
 .tinytabs li {
-    float:right;
-    height:40px;
-    }
+	float: right;
+	height: 40px;
+}
 .tinytabs li p {
-    padding:4px 12px 20px 8px;
-    color:#ffffff;
-	background-color:#888888;
-	border:1px solid #cccccc;
-	cursor:pointer;
-    }
+	padding: 4px 12px 20px 8px;
+	color: #ffffff;
+	background-color: #888888;
+	border: 1px solid #cccccc;
+	cursor: pointer;
+}
 .tinytabs p:hover, .tinytabs #current-tinytab {
-    color:#000000;
-    background-color:#ffffee;
-    }
+	color: #000000;
+	background-color: #ffffee;
+}
 
 /*some general colors used across all books*/
 .neutral {
-	background-color:#ffffff; 
-	color:#000000 !important;
-	font-weight:600 !important;
-	}
+	background-color: #ffffff;
+	color: #000000 !important;
+	font-weight: 600 !important;
+}
 .negative {
-	background-color:#ffffff; 
-	color:red !important;
-	font-weight:600 !important;
-	}
+	background-color: #ffffff;
+	color: red !important;
+	font-weight: 600 !important;
+}
 .positive {
-	background-color:#ffffff; 
-	color:green !important;
-	font-weight:600 !important;
-	}
+	background-color: #ffffff;
+	color: green !important;
+	font-weight: 600 !important;
+}
 p.warn {
-	color:#000000; border: 2px solid #ff9900; background-color:#eeeeee;
-	padding:0.5em;
-	}
+	color: #000000;
+	border: 2px solid #ff9900;
+	background-color: #eeeeee;
+	padding: 0.5em;
+}
 p.success {
-	color:#000000; border: 2px solid #666666; background-color:#ffffff;
-	padding:0.5em;
-	}
+	color: #000000;
+	border: 2px solid #666666;
+	background-color: #ffffff;
+	padding: 0.5em;
+}
 .infoborder {
-	border:2px solid #999900;
-	}
+	border: 2px solid #999900;
+}
 
 /*qTip for the title attributes*/
 div#qTip {
 	background-color: #ff9900;
-    color: #000;
-    padding: 3px;
-    border: 1px solid #666;
-    border-right-width: 2px;
-    border-bottom-width: 2px;
-    display: none;
-    font: bold 13px Verdana, Arial, sans-serif;
-    text-align: left;
-    position: absolute;
-    z-index: 1000;
-	max-width:28em;
-	min-width:6em;
+	color: #000;
+	padding: 3px;
+	border: 1px solid #666;
+	border-right-width: 2px;
+	border-bottom-width: 2px;
+	display: none;
+	font: bold 13px Verdana, Arial, sans-serif;
+	text-align: left;
+	position: absolute;
+	z-index: 1000;
+	max-width: 28em;
+	min-width: 6em;
 	opacity: .80;
-	}
+}
 
 /*only used on the enrolments page*/
-table.smalltable {    
-    width:100%;
-    border-top:2px solid;
-	}
+table.smalltable {
+	width: 100%;
+	border-top: 2px solid;
+}
 .smalltable caption {
-    width:30%;
-    margin-left:5%;
-    padding-left:5px;
-	}
+	width: 30%;
+	margin-left: 5%;
+	padding-left: 5px;
+}
 .smalltable th, th.smalltable {
-	font-size:small;
-    font-weight:300;
-    width:10%;
-    text-align:left;
-	}
-.smalltable th + th, .smalltable td  {
-    font-size:small;
-    font-weight:300;
-    width:10%;
-    text-align:center;
-	}
+	font-size: small;
+	font-weight: 300;
+	width: 10%;
+	text-align: left;
+}
+.smalltable th + th, .smalltable td {
+	font-size: small;
+	font-weight: 300;
+	width: 10%;
+	text-align: center;
+}
 .overlay {
-	top:80px;
-	left:80px;
-    width:80%;
-    height:60%;
-    background:#000;
-    opacity:0.86;
-    z-index:2000;
-    position:absolute;
-    }
-
+	top: 80px;
+	left: 80px;
+	width: 80%;
+	height: 60%;
+	background: #000;
+	opacity: 0.86;
+	z-index: 2000;
+	position: absolute;
+}
 
 /* File upload areas only... */
 .documentdrop #filedrag {
@@ -892,18 +938,18 @@ table.smalltable {
 	border: 2px dashed #555;
 	border-radius: 7px;
 	cursor: default;
-	}
+}
 .documentdrop #filedrag.hover {
 	color: #f00;
 	border-color: #f00;
 	border-style: solid;
 	box-shadow: inset 0 3px 4px #888;
-	}
+}
 .documentdrop #messages {
 	padding: 0 10px;
 	margin: 1em 0;
 	border: 1px solid #999;
-	}
+}
 .documentdrop #progress p {
 	display: block;
 	padding: 2px 5px;
@@ -911,43 +957,43 @@ table.smalltable {
 	border: 1px inset #446;
 	border-radius: 5px;
 	background: #eee url("../images/progress.png") 50% 0 repeat-y;
-	}
+}
 
 .documentdrop #progress p.success {
 	background: #0c0 none 0 0 no-repeat;
-	}
+}
 .documentdrop #progress p.failed {
 	background: #c00 none 0 0 no-repeat;
-	}
-.documentdrop div a label { 
-    color:#ffffff !important;
-    background-color:#446 !important;
-	cursor:pointer;
-    padding:2px 4px;
-    }
+}
+.documentdrop div a label {
+	color: #ffffff !important;
+	background-color: #446 !important;
+	cursor: pointer;
+	padding: 2px 4px;
+}
 div.document {
-    float:left;
-	cursor:pointer;
-    margin:4px !important;
+	float: left;
+	cursor: pointer;
+	margin: 4px !important;
 	border-radius: 5px;
-    }
-div.document, .documentdrop button, #filedrag, .document label { 
-    background-color:#446 !important;
-    color:#ffffff !important;
-	}
+}
+div.document, .documentdrop button, #filedrag, .document label {
+	background-color: #446 !important;
+	color: #ffffff !important;
+}
 div.upload {
-    width: 142px;
-    height: 30px;
-    overflow: hidden;
-    float:left;
+	width: 142px;
+	height: 30px;
+	overflow: hidden;
+	float: left;
 }
 div.upload input {
-    display: block !important;
-    width: 140px !important;
-    height: 25px !important;
-    opacity: 0 !important;
-    overflow: hidden !important;
-    position: absolute;
-    z-index:1001;
-    cursor:pointer;
+	display: block !important;
+	width: 140px !important;
+	height: 25px !important;
+	opacity: 0 !important;
+	overflow: hidden !important;
+	position: absolute;
+	z-index: 1001;
+	cursor: pointer;
 }
