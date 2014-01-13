@@ -121,7 +121,7 @@ two_buttonmenu($extrabuttons,$book);
 			$comments=get_booking_comments($sid);
 			print '<div id="everydaycomment_container_'.$sid.'" style="float:left">';
 			foreach($comments as $key=>$comment){
-				if($comment['enddate']=='0000-00-00' and $comment['day']=='%' and $comment['meal_id']!='0'){print '<label for="everydaycomment_'.$sid.'">Comment</label><input id="everydaycomment_'.$sid.'" name="everydaycomment_'.$sid.'" type="text" value="'.$comment['comment'].'" onchange="addMealComment('.$sid.','.$comment['id'].');">';}
+				if($comment['enddate']=='0000-00-00' and $comment['day']=='%' and $comment['meal_id']!='0'){print '<label for="everydaycomment_'.$sid.'">Comment</label><input id="everydaycomment_'.$sid.'" name="everydaycomment_'.$sid.'" type="text" value="'.$comment['comment'].'" onchange="addMealComment('.$sid.','.$comment['id'].',\'\');">';}
 				}
 			print '</div>';
 			print '</td>';
