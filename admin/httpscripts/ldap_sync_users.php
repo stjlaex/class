@@ -9,13 +9,13 @@ $current='ldap_sync_users.php';
 
 /* The path is passed as a command line argument. */
 function arguments($argv){
-    $ARGS=array();
-    foreach($argv as $arg){
+	$ARGS=array();
+	foreach($argv as $arg){
 		if (ereg('--([^=]+)=(.*)',$arg,$reg)){
 			$ARGS[$reg[1]]=$reg[2];
 			}
 		elseif(ereg('-([a-zA-Z0-9])',$arg,$reg)){
-            $ARGS[$reg[1]]='true';
+			$ARGS[$reg[1]]='true';
 			}
 		}
 	return $ARGS;
@@ -98,9 +98,10 @@ if($ds){
 					$info['cn']=$cn;
 					$info['givenName']=$row['forename'];
 					$info['sn']=$row['surname'];
+					if($row['title']!=''){$info['title']=get_string(displayEnum($row['title'], 'title'),'infobook');}
 					$info['mail']=$row['email'];
 					$info['objectclass']='inetOrgPerson';
-				
+
 					if($attrs['employeeType'][0]<>$row['role']){
 						/* Change the LDAP entry to other superior RDN */
 						/* Read Entry again using detailed RDN, the old one */
@@ -114,7 +115,7 @@ if($ds){
 							$full_old_dn= $distinguishedName;
 							$new_rdn= 'uid='.$epfusername;
 							$new_superior='ou='.$info['employeeType'].',ou=people'.',dc='.$CFG->ldapdc1.',dc='.$CFG->ldapdc2;
-							$ldren=ldap_rename($ds, $full_old_dn, $new_rdn, $new_superior, TRUE);					
+							$ldren=ldap_rename($ds, $full_old_dn, $new_rdn, $new_superior, TRUE);
 							}
 						} 
 					else{
@@ -135,6 +136,7 @@ if($ds){
 				$info['userPassword']='{MD5}' . base64_encode(pack('H*',$row['passwd']));
 				$info['cn']=$cn;
 				$info['givenName']=$row['forename'];
+				if($row['title']!=''){$info['title']=get_string(displayEnum($row['title'], 'title'),'infobook');}
 				$info['sn']=$row['surname'];
 				$info['mail']=$row['email'];
 				$info['objectclass']='inetOrgPerson';
