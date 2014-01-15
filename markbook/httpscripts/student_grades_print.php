@@ -10,6 +10,8 @@ require_once('../../scripts/http_head_options.php');
 
 if(isset($_GET['sid'])){$sid=$_GET['sid'];}else{$sid=-1;}
 if(isset($_POST['sid'])){$sid=$_POST['sid'];}
+if(isset($_GET['xsltransform'])){$xsltransform=$_GET['xsltransform'];}else{$xsltransform=-1;}
+if(isset($_POST['xsltransform'])){$xsltransform=$_POST['xsltransform'];}
 
 if($sid==-1){
 	$result[]=get_string('youneedtoselectstudents');
@@ -68,7 +70,7 @@ else{
 
 	$Students['Date']=date('Y-m-d');
 	$Students['Paper']='landscape';
-	$Students['Transform']='';
+	$Students['Transform']=$xsltransform;
 	$returnXML=$Students;
 	$rootName='Students';
 	}

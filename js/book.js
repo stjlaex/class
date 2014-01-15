@@ -365,7 +365,7 @@ function clickToPresentSid(thisObj,script,xsltransform){
 	var sidId=objId.substring(4,objId.length);
 
 	var helperurl="markbook/httpscripts/" + script;
-	var getvars="&sid="+sidId;
+	var getvars="&sid="+sidId+"&xslt="+xsltransform;
 	var url=helperurl + "?uniqueid=" + sidId + getvars;
 	var paper="portrait";
 	xmlHttp.open("GET", url, true);
