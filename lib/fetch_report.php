@@ -103,6 +103,20 @@ function fetchSubjectReports($sid,$reportdefs){
 					 */
 					if(!array_key_exists($a['id'],$asseids)){$profile_asseids[]=$a['id'];}
 					}
+
+				/*
+				 * Often reports may use of estimates from different stages in the course regardless of date restrictions
+				 */
+				$d_a=mysql_query("SELECT id FROM assessment WHERE course_id='$profile_crid' AND
+                                          profile_name='$profile_name' AND resultstatus='E';");
+				while($a=mysql_fetch_array($d_a,MYSQL_ASSOC)){
+					/* Do not include any eid that is linked explicity
+					 * with the report - probably current attainment -
+					 * the profile only deals with the history
+					 */
+					if(!array_key_exists($a['id'],$asseids)){$profile_asseids[]=$a['id'];}
+					}
+
 				}
 			}
 
