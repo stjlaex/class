@@ -6,6 +6,7 @@ The new_teacher import now allows the PIN to be included in the file.
 Implemented the Register option for all absences when messagaging from
 the absence list.
 
+Medical Assessment added to medbook, allows permissions and comments
 
 
 Version ClaSS-1.0.60 release (2013/12/27)
