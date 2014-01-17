@@ -122,7 +122,7 @@ if($sub=='Submit' and $recipients and sizeof($recipients)>0 and !isset($error)){
 			$messagebody=getMessage($tags,$messagebody,'false');
 			$messagebodytxt=strip_tags(html_entity_decode($messagebody, ENT_QUOTES, 'UTF-8'));
 
-			$messagehtml='<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /></head><body>';//.'<p>'.$recipient['explanation'].'</p>';
+			$messagehtml='<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd"><html><head><meta http-equiv="Content-Type" content="text/html; charset=utf-8" /></head><body>'.'<p>'.$recipient['explanation'].'</p>';
 
 			$messagehtml.=$messagebody;
 			//if($preset){$messagehtml.=$preset;}
