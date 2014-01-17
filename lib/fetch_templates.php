@@ -68,7 +68,7 @@ function addTag($value,$tagname,$update=false,$tagid='-1'){
  **/
 function getTags($db=true,$utype='default',$uid=array('student_id'=>'-1','guardian_id'=>'-1','user_id'=>'-1')){
 	global $CFG;
-	$studentTags=array();$contactsTags=array();$userTags=array();
+	$Tags=array();$studentTags=array();$contactsTags=array();$userTags=array();
 	if($utype=='default' or $utype=='student'){
 		$Student=(array)fetchStudent($uid['student_id']);
 		foreach($Student as $key=>$value){
@@ -159,9 +159,10 @@ function getTags($db=true,$utype='default',$uid=array('student_id'=>'-1','guardi
 	$classisTags['{{schoolname}}']=$CFG->schoolname;
 	$classisTags['{{footer}}']=get_string('guardianemailfooterdisclaimer');
 
-	$Tags=array_merge($studentTags,$contactsTags);
-	$Tags=array_merge($Tags,$userTags);
-	$Tags=array_merge($Tags,$dbTags);
+	if(count($contactsTags)>0){$Tags=array_merge($Tags,$contactsTags);}
+	if(count($studentTags)>0){$Tags=array_merge($Tags,$studentTags);}
+	if(count($userTags)>0){$Tags=array_merge($Tags,$userTags);}
+	if(count($dbTags)>0){$Tags=array_merge($Tags,$dbTags);}
 	$Tags=array_merge($Tags,$classisTags);
 	return $Tags;
 	}

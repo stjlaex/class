@@ -114,7 +114,86 @@ $action='med_view_action.php';
 		<div id="tinytab-display-med" class="tinytab-display">
 		</div>
 	  </div>
-	
+
+
+	  <fieldset class="center listmenu">
+		<legend><?php print_string('assessments',$book);?></legend>
+		<table class="listmenu">
+<?php 
+	$MedicalAssDefs=array();
+	$MedicalAssDefs=fetch_enrolmentAssessmentDefinitions('','M');
+	$input_elements='';
+	foreach($MedicalAssDefs as $index => $AssDef){
+		$eid=$AssDef['id_db'];
+		$input_elements.=' <input type="hidden" name="eids[]" value="'.$eid.'" />';
+		$gena=$AssDef['GradingScheme']['value'];
+		$label=$AssDef['PrintLabel']['value'];
+		$Assessments=(array)fetchAssessments_short($sid,$eid,'G');
+		if(sizeof($Assessments)>0){$value=$Assessments[0]['Value']['value'];}
+		else{$value='';}
+		$extra=$Assessments[0]['Comment']['value'];
+?>
+		  <tr>
+			  <td>
+<?php 
+		print '<label>'.$AssDef['Description']['value'].'</label>';
+		if($gena!='' and $gena!=' '){
+			$input_elements.=' <input type="hidden" name="scoretype'.$eid.'" value="grade" />';
+			$pairs=explode (';',$AssDef['GradingScheme']['grades']);
+?>
+				<select tabindex="<?php print $tab++;?>" name="<?php print $eid;?>" 
+<?php				if($label=='extra'){
+						echo "onchange=\"
+							if(this.value=='1'){
+								document.getElementById('extra".$eid."').style.display='block';
+								}
+							else{
+								document.getElementById('extra".$eid."').style.display='none';
+								}
+							\"";
+						}
+?>
+				>
+<?php
+			print '<option value="" ';
+			if($value==''){print 'selected';}	
+			print ' ></option>';
+			for($c3=0; $c3<sizeof($pairs); $c3++){
+				list($level_grade, $level)=explode(':',$pairs[$c3]);
+				print '<option value="'.$level.'" ';
+				if($value==$level){print 'selected';}
+				print '>'.$level_grade.'</option>';
+				}
+?>
+				</select>
+<?php
+			if($label=='extra'){
+?>
+			  <div id="extra<?php echo $eid;?>" <?php if($value==0){echo "style='display:none';";}?>>
+				<label>Extra info</label>
+				<input type="text" tabindex="<?php print $tab++;?>" size="5"
+				  name="extra<?php echo $eid;?>" value="<?php print $extra;?>"/>
+			  </div>
+<?php
+				}
+			}
+		else{
+?>
+				<input tabindex="<?php print $tab++;?>" 
+				  name="<?php print $eid;?>" value="<?php print $value;?>"/>
+<?php
+			}
+?>
+			</td>
+		  </tr>
+<?php 
+		}
+?>
+		</table>
+
+	  </fieldset>
+
+ 	<?php print $input_elements;?>
  	<input type="hidden" name="current" value="<?php print $action;?>"/>
  	<input type="hidden" name="choice" value="<?php print $current;?>"/>
  	<input type="hidden" name="cancel" value=""/>

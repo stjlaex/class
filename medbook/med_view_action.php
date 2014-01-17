@@ -11,6 +11,7 @@ include('scripts/sub_action.php');
 	$perm=getMedicalPerm($yid);
 	$neededperm='w';
 	include('scripts/perm_action.php');
+	if(isset($_POST['eids'])){$eids=$_POST['eids'];}else{$eids=array();}
 
 if($sub=='medstatus'){
 	if($Student['MedicalFlag']['value']=='Y'){
@@ -50,6 +51,29 @@ elseif($sub=='Submit'){
 	$catid=$message_id[0];
 	mysql_query("INSERT INTO student_event SET student_id='$sid', event='$event',
 				 type='medical',catid='$catid',file='$current',status='0',ip='".$_SERVER['REMOTE_ADDR']."',user_id='$tid';");
+
+	/*Medical Assesments*/
+	$todate=date('Y-m-d');
+	foreach($eids as $eid){
+		if(isset($_POST['extra'.$eid]) and $_POST['extra'.$eid]!='' and $_POST[$eid]=='1'){$extra=$_POST['extra'.$eid];}else{$extra='0';}
+		$AssDef=fetchAssessmentDefinition($eid);
+		$grading_grades=$AssDef['GradingScheme']['grades'];
+		/* $$eid are the names of score values posted by the form
+		 * if the value is empty then score will be unset and no entry made
+		 */
+		$scorevalue=clean_text($_POST[$eid]);
+		if($scorevalue==''){$result='';}
+		elseif($grading_grades!='' and $grading_grades!=' '){
+			$result=scoreToGrade($scorevalue,$grading_grades);
+			}
+		else{
+			$result=$scorevalue;
+			}
+		$label=$AssDef['PrintLabel']['value'];
+		if($label=='extra'){$score=array('result'=>$result,'value'=>$scorevalue,'date'=>$todate,'comment'=>$extra);}
+		else{$score=array('result'=>$result,'value'=>$scorevalue,'date'=>$todate);}
+		update_assessment_score($eid,$sid,'G','',$score);
+		}
 	}
 include('scripts/redirect.php');
 ?>
