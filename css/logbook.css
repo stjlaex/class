@@ -1,7 +1,7 @@
 .logincolor fieldset, .logincolor div.topform, .logincolor table.listmenu {
 	border-color:#777777;
 	color:#000000;
-	background-color:#bbbbbb;
+	background-color:#9ece55;
     color:#000000;
 	}	
 .logincolor button {
@@ -27,24 +27,11 @@
 	border-color:#ff9900;
 	}
 .logincolor fieldset#loginbox {
-    position:absolute; left:20%; top:16%; width:35%;
+    position:absolute; 
+    left:20%; 
+    top:16%; 
+    width:35%;
 	padding:2% 0% 2% 5%;
-	}
-.logincolor fieldset#loginbox table { 
-    background-color:#bbbbbb;
-    width:70%;
-	}
-.logincolor table td { 
-    float:right;
-    font-size:medium;
-	}
-.logincolor table td:first-child { 
-    float:left;
-    width:80%;
-	}
-.logincolor table label, .logincolor button  { 
-    font-size:medium;
-    font-weight:600;
 	}
 
 /*only used in the coverpage splash*/
