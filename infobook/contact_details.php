@@ -223,7 +223,7 @@ three_buttonmenu($extrabuttons,$book);
 		else{
 			require_once('lib/fetch_fees.php');
 			$Account=(array)fetchAccount($gid);
-			if(checkIBAN($Account['Iban']['value'])){$valid='true';}
+			if(checkIBAN($Account['Iban']['value']) or $Account['Iban']['value']==''){$valid='true';}
 			else{$valid='false';}
 ?>
 		<div class="right">
