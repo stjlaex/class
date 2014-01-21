@@ -69,6 +69,12 @@ if(!isset($ARGS['option'])){
 			exec("$cmd > /dev/null &");
 			}
 
+		/* Triggered messages from the enrolment status changes. */
+		if(isset($CFG->enrol_notice) and $CFG->enrol_notice=='yes'){
+			$cmd='/usr/bin/php '.$fullpath.'/infobook/httpscripts/student_enrolment_notice_cron.php --path='.$CFG->installpath;
+			exec("$cmd > /dev/null &");
+			}
+
 		}
 	}
 
