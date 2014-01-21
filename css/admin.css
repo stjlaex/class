@@ -4,45 +4,43 @@
  */
 
 .admincolor fieldset, .admincolor div.topform, .admincolor table.listmenu {
-	border-color:#aa4444;
-	color:#000000;
-	}
-div#bookbox {
-	border-color:#aa4444;
-	}
+    border-color: #aa4444;
+    color: #000000;
+}
 .admincolor button {
-	background-color:#aa4444;
-	}	
+    background-color: #aa4444;
+}
 .admincolor legend, .admincolor caption {
-    border-color:#aa4444;
-	}
+    border-color: #aa4444;
+}
 .smalltable th.other, .smalltable td.other {
-	background-color:#ddeeff;
-	}
+    background-color: #ddeeff;
+}
 .smalltable th.static, .smalltable td.static {
-	background-color:#eeeeee;
-	}
+    background-color: #eeeeee;
+}
 .smalltable th.live, .smalltable td.live {
-	background-color:#ffffee;
-	}
+    background-color: #ffffee;
+}
 .smalltable th.blank, .smalltable td.blank {
-	background-color:#ffffff;
-	}
-.listmenu tr.midlite td, .listmenu td.midlite, .midlite { 
-    background-color:#eeee99;
-	}
+    background-color: #ffffff;
+}
+.listmenu tr.midlite td, .listmenu td.midlite, .midlite {
+    background-color: #eeee99;
+}
 .listmenu tr.gomidlite td, .listmenu td.gomidlite, .gomidlite {
-    background-color:#99cccc;
-	}
+    background-color: #99cccc;
+}
 /* For the staff photos*/
 .center div.icon {
-	position:absolute;
-    right:5%; top:7.5%; 
-	}
+    position: absolute;
+    right: 5%;
+    top: 7.5%;
+}
 .icon img {
-    padding:0.5em;
-	height:180px; 
-	width:160px;
-    border:0;
-    background-color:#CCCCCC;
-	}
+    padding: 0.5em;
+    height: 180px;
+    width: 160px;
+    border: 0;
+    background-color: #CCCCCC;
+}

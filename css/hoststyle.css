@@ -3,412 +3,316 @@
 /* All the styles needed by the top-level host page*/
 /***************************************************************************/
 
-
 body {
-  	font-family:Verdana, "Bitstream Vera Sans", Arial, sans-serif;
-    font-weight:500;
-    font-size:medium;
-	background-color:ivory; color:#ffffff; 
-    margin:0; 
-    border:0;
-    overflow:hidden;
-	}
+    background-color: ivory;
+    color: #ffffff;
+    margin: 0;
+    border: 0;
+    overflow: hidden;
+    font-family: 'Lato', sans-serif;
+}
 a {
-	font-size:small; 
-    color:#000000; 
-    font-weight:600;
-    text-decoration:none;
-	}
-div#currentbook { 
-    overflow:hidden;
-	}
+    font-size: small;
+    color: #000000;
+    font-weight: 600;
+    text-decoration: none;
+}
+div#currentbook {
+    overflow: hidden;
+}
 
 /***************************************************************************/
 /* the two possible main displays one after login and one before*/
 /* plus the logbook div which fills out the rest of the display*/
 .bookframe {
-	position:absolute; left:16%; top:4.4%; width:84%; height:95.1%;
-    border:0; padding:0;
-	overflow:hidden;
-	}
+    position: absolute;
+    left: 16%;
+    top: 80px;
+    width: 84%;
+    height: 95.1%;
+    border: 0;
+    padding: 0;
+    overflow: hidden;
+}
 .fullbookframe {
-	position:absolute; left:0%; top:4.4%; width:100%; height:95.1%;
-    border:0; padding:0;
-	overflow:hidden;
-	}
+    position: absolute;
+    left: 0%;
+    top: 4.4%;
+    width: 100%;
+    height: 95.1%;
+    border: 0;
+    padding: 0;
+    overflow: hidden;
+}
 .coverframe {
-	position:absolute; left:16%; top:0%; width:84%; height:99.4%;
-	margin:1px 0 1px 0; border:0; padding:0;
-	overflow:hidden;
-    }
+    position: absolute;
+    left: 0;
+    top: 80px;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    overflow: hidden;
+}
 div#logbook {
-    position:absolute; left:0%; top:4.4%; width:18%; height:95.15%; 
-	border:0; padding:0;
-	background-color:#444444;
-	}
+    width:100%;
+    height:100px;
+    float:left;
+    background-color: #4d5f72;
+}
 /***************************************************************************/
 /* controls the book tabs along the top*/
 .booktabs {
-	float:right;
-    width:100%;
-    background-color:ivory;
-    font-size:medium;
-    line-height:normal;
-height:3em;
-	}
+    width: 100%;
+    background-color: #34495e;
+    height: 80px;
+}
 .booktabs ul {
-    margin:-1.0em 0em 0 0;
-    padding:0;
-    list-style:none;
-    }
+    margin: 0;
+    list-style: none;
+}
 .booktabs li {
-    float:right;
-    margin:0;
-    padding:0;
-	border:0;
-    }
-.booktabs li p {
-    display:block;
-    padding:4px 10px 30px 6px;
-	font-weight:900;
-  	font-family:Verdana, Arial, sans-serif; 
-    color:#765;
-	border:1px solid ivory;
-    border-radius: 0 18% 0 0;
-	cursor:pointer;
-	background-image:url("../images/gradient_horizontal.png");
-    background-repeat:repeat-y;	
-	background-color:#ccc;
-	}
-/*give colour to tab in focus and to current tab*/
-.booktabs p.medbook:hover, #currentbook.medbook {
-    background-color:#554466;
-    }
-.booktabs p.seneeds:hover, #currentbook.seneeds {
-    background-color:#554466;
-    }
-.booktabs p.entrybook:hover, #currentbook.entrybook {
-    background-color:#1181AA;
-    }
-.booktabs p.calendar:hover, #currentbook.calendar {
-    background-color:#668CD9;
-    }
-.booktabs p.lms:hover, #currentbook.lms {
-    background-color:#ffcc44;
-    }
-.booktabs p.admin:hover, #currentbook.admin {
-    background-color:#aa4444;
-    }
-.booktabs p.infobook:hover, #currentbook.infobook {
-    background-color:#aaaa44;
-    }
-.booktabs p.aboutbook:hover,#currentbook.aboutbook {
-    background-color:#ee9900;
-    }
-.booktabs p.register:hover, #currentbook.register {
-    background-color:#44aa66;
-    }
-.booktabs p.markbook:hover, #currentbook.markbook {
-    background-color:#aa66aa;
-    }
-.booktabs p.reportbook:hover, #currentbook.reportbook {
-    background-color:#44aaaa;
-    }
-.booktabs p:hover {
-    color:ivory;
-    }
-.booktabs #currentbook {
-    color:#ffffff;
-	background-image:url("");
-    }
+    float: right;
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+.booktabs li a {
+    display: block;
+    font-weight: 400;
+    cursor: pointer;
+    font-size: 18px;
+    color: #8995a2;
+    margin: 25px 0 0;
+    padding: 15px 20px;
+}
+.booktabs li a:hover,
+.booktabs #currentbook{
+    background-color: #91c73e;
+    border-radius: 2px 2px 0 0;
+    color: #e7f3d5;
+}
 
 /*the special case logbook in top left corner*/
 #logbooktab {
-    float:left;
-    width:18%;
-	}
-.booktabs p.logbook:hover {
-	background-color:#ee9900;
-    color:#ffffff;
-	}
-.booktabs p.logbook {
-    color:#ee9900;
-	background-color:#444444;
-	border:1px solid ivory;
-	border-left:0;
-    border-radius: 15% 0 0 0;
-    padding:4px 12px 25px 14px;
-	background-image:url("");
-    }
-/*give current book coloured stripe to the logbook*/
-div#logbookstripe.medbook {
-    border-color:#554466;
-    }
-div#logbookstripe.seneeds {
-    border-color:#554466;
-    }
-div#logbookstripe.entrybook {
-    border-color:#1181AA;
-    }
-div#logbookstripe.calendar {
-    border-color:#668CD9;
-    }
-div#logbookstripe.lms {
-    border-color:#ffcc44;
-    }
-div#logbookstripe.admin {
-    border-color:#aa4444;
-    }
-div#logbookstripe.infobook {
-    border-color:#aaaa44;
-    }
-div#logbookstripe.aboutbook {
-    border-color:#ee9900;
-    }
-div#logbookstripe.register {
-    border-color:#44aa66;
-    }
-div#logbookstripe.markbook {
-    border-color:#aa66aa;
-    }
-div#logbookstripe.reportbook {
-    border-color:#44aaaa;
-    }
+    float: left;
+    width: 18%;
+}
+.booktabs .logbook:hover {
+    background-color: #ee9900;
+    color: #ffffff;
+}
+.booktabs .logbook {
+    cursor: pointer;
+}
 
 /***************************************************************************/
 /* stuff for the bookoptions in the sidebar*/
 label, legend {
-    text-align:left; font-size:x-small; font-weight:600;
-	}
+    text-align: left;
+    font-size: x-small;
+    font-weight: 600;
+}
 select, input, button {
-	margin-bottom:10px;
-	}
+    margin-bottom: 10px;
+}
 select, input {
-	width:95%;
-    font-size:x-small;
-    background-color:#ffffff;
-	}
+    width: 95%;
+    font-size: x-small;
+    background-color: #ffffff;
+}
 option {
-	font-size:x-small;
-    background-color:#ffffff;
-	}
+    font-size: x-small;
+    background-color: #ffffff;
+}
 input:focus, select:focus {
-	border:2px solid #ee9900;
-    z-index:10000;
-	}
+    border: 2px solid #ee9900;
+    z-index: 10000;
+}
 button {
-	width:100%; 
-	font-weight:900;
-	font-size:small;
-	cursor:pointer;
-	border-radius:4px;
-    border:0px none;
-	}
+    width: 100%;
+    font-weight: 900;
+    font-size: small;
+    cursor: pointer;
+    border-radius: 4px;
+    border: 0px none;
+}
 .bookoptions {
-	position:absolute; left:0.75%; top:18%; width:13.75%;
-    overflow:hidden;
-	}
+    position: absolute;
+    left: 0.75%;
+    top: 170px;
+    width: 13.75%;
+    overflow: hidden;
+}
 .bookoptions label {
-	margin:0 0 5% 2%;
-    color:#ffffff;
-	}
+    margin: 0 0 5% 2%;
+    color: #ffffff;
+}
 .bookoptions .neat label, .bookoptions .neat input[type="radio"] {
-	font-weight:300;
-	margin:0;
-	padding:0;
-    color:#dddddd;
-	}
+    font-weight: 300;
+    margin: 0;
+    padding: 0;
+    color: #dddddd;
+}
 .bookoptions div.neat {
-	font-size:xx-small;
-    background-color:#666666;
-    width:95%;
-	margin:0;
-	padding:0;
-	}
+    font-size: xx-small;
+    background-color: #666666;
+    width: 95%;
+    margin: 0;
+    padding: 0;
+}
 .bookoptions .neat div {
-    background-color:#888888;
-    float:right;
-    padding:0 1em;
-    margin:0;
-	}
+    background-color: #888888;
+    float: right;
+    padding: 0 1em;
+    margin: 0;
+}
 .bookoptions select.switcher, .bookoptions select.switcher option {
-	font-weight:600;
-    color:#ffffff;
-	background-color:#444444;
-	}
-.bookoptions form button { 
-	width:90%;
-	font-weight:900;
-	margin:0 0 5% 5%;
-	border-radius:4px;
-	}
+    font-weight: 600;
+    color: #ffffff;
+    background-color: #444444;
+}
+.bookoptions form button {
+    width: 90%;
+    font-weight: 900;
+    margin: 0 0 5% 5%;
+    border-radius: 4px;
+}
 .bookoptions button[value="Reset"] {
-	background-color:#666666; 
-	color:#ffffee;
-	}
-.bookoptions fieldset { 
-    border-width:3px 0 0 0;
-    border-style:solid;
-	padding:2px; margin:0;
-    background-color:#444444;
-	}
+    background-color: #666666;
+    color: #ffffee;
+}
+.bookoptions fieldset {
+    border-width: 3px 0 0 0;
+    border-style: solid;
+    padding: 2px;
+    margin: 0;
+    background-color: #444444;
+}
 .bookoptions button:hover {
-    background-color:#5599cc;
-	color:#ffffff;
-	}
+    background-color: #5599cc;
+    color: #ffffff;
+}
 /*these select widths are not ideal but seem to solve a firefox bug for 100%!*/
 .bookoptions option {
-    width:160px;
-	}
+    width: 160px;
+}
 .bookoptions select#mids:focus, select#mids:focus option {
-    width:100%;
-	}
+    width: 100%;
+}
 
 .bookoptions option:hover {
-    background-color:#5599cc;
-    color:#ffffff;
-	}
+    background-color: #5599cc;
+    color: #ffffff;
+}
 .bookoptions input[type="radio"] {
-	width:1em;
-	}
+    width: 1em;
+}
 .formimages {
-	padding:5px;
-    width:10px; 
-    height:10px; 
-    border-style:none;	
-	}
-
-.logbook {background-color:#999999; border-color:#666666;}
-.logbook legend {background-color:#666666; color:#ffffff;}
-
-.aboutbook {background-color:#cccccc; border-color:#ee9900;}
-.aboutbook legend, .aboutbook button {background-color:#ee9900; color:#ffffff;}	
-
-.admin {background-color:#cccccc; border-color:#aa4444;}
-.admin legend, .admin button {background-color:#aa4444; color:#ffffff;}	
-
-.infobook {background-color:#cccccc; border-color:#aaaa44;}
-.infobook legend, .infobook button {background-color:#aaaa44; color:#ffffff;}	
-
-.markbook {background-color:#cccccc; border-color:#aa66aa;}
-.markbook legend, .markbook button {color:#ffffff; background-color:#aa66aa;}
-.markbook select {padding:0;margin:0;}
-
-.reportbook {background-color:#cccccc; border-color:#44aaaa;}
-.reportbook legend, .reportbook button {background-color:#44aaaa; color:#ffffff;}	
-
-.register {background-color:#cccccc; border-color:#44aa66;}
-.register legend, .register button {background-color:#44aa66; color:#ffffff;}	
-
-.calendar {background-color:#cccccc; border-color:#668CD9;}
-.calendar legend, .calendar button {background-color:#668CD9; color:#ffffff;}	
-
-.lms {background-color:#cccccc; border-color:#ffcc44;}
-.lms legend, .lms button {background-color:#ffcc44; color:#ffffff;}	
-
-.entrybook {background-color:#cccccc; border-color:#1181AA;}
-.entrybook legend, .entrybook button {background-color:#1181AA; color:#ffffff;}	
-
-.seneeds {background-color:#cccccc; border-color:#554466;}
-.seneeds legend, .seneeds button {background-color:#554466; color:#ffffff;}	
-
-.medbook {background-color:#cccccc; border-color:#554466;}
-.medbook legend, .medbook button {background-color:#554466; color:#ffffff;}	
+    padding: 5px;
+    width: 10px;
+    height: 10px;
+    border-style: none;
+}
 
 /***************************************************************************/
 /* the rest of the sidebar - which comes under the logbook*/
 
 /*sitethrobber and sitestatus are interchangable div elements*/
 #siteicon.hide, #sitestatus.hide {
-    visibility:hidden;
-    z-index:-1000;
-    display:none;
-	}
+    visibility: hidden;
+    z-index: -1000;
+    display: none;
+}
 #siteicon.show, #sitestatus.show {
-    visibility:visible;
-    z-index:500;
-	}
+    visibility: visible;
+    z-index: 500;
+}
 
 div#logbookstripe {
-	position:absolute; left:0%; top:0%; width:100%; height:0; 
-    padding:0; border:0;
-    margin:0;
-    background-color:#444444;
-    border-top:3px solid;
-    z-index:1000;
-	}
+    width: 100%;
+    height: 0;
+    padding: 0;
+    border: 0;
+    margin: 0;
+    background-color: #444444;
+    border-top: 3px solid;
+    z-index: 1000;
+}
 div#loginworking {
-	position:absolute; left:43.5%; top:0%; width:50%;
-    padding:6px 0 0 0;
-    z-index:100;
-    border-left:3px solid #ffffff;
-	background-color:#eeeeee;
-    margin:0;
-	color:#222;
-	}
+    width: 50%;
+    padding: 6px 0 0 0;
+    z-index: 100;
+    border-left: 3px solid #ffffff;
+    background-color: #eeeeee;
+    margin: 0;
+    color: #222;
+}
 div#loginworking select {
-    position:relative;
-    margin:0 0 4px 2px;
-	}
+    position: relative;
+    margin: 0 0 4px 2px;
+}
 div#loginlang {
-	position:absolute; left:0%; top:0%; width:65%;
-    padding:1.5% 0 0 6%;
-    z-index:100;
-	}
+    position: absolute;
+    left: 0%;
+    top: 0%;
+    width: 65%;
+    padding: 1.5% 0 0 6%;
+    z-index: 100;
+}
 #loginlabel {
-    position:absolute; top:1px; left:7.8%;
-    margin:0 5% 0 0;
-    padding:0.2em 1.2em 3em 1em;
-	color:#222;
-	background-color:#eeeeee;
-	font-weight:300;
-	font-size:medium;
-    border-left:3px solid #ffffff;
-	}
+}
 #login {
-	background-color:#666666; color:#ee9900;
-	margin:5%;
-    width:100%;
-    border-left:3px solid #ffffff;
-	}
+    background-color: #666666;
+    color: #ee9900;
+    margin: 5%;
+    width: 100%;
+    border-left: 3px solid #ffffff;
+}
 div#sidebuttons {
-	position:absolute; 
-    top:1%; left:1%; width:40%;
-    padding:0;margin:0; border:0;
-    z-index:100;
-	background-color:#444444;
-	}
+    width: 40%;
+    padding: 0;
+    margin: 0;
+    border: 0;
+    z-index: 100;
+    background-color: #444444;
+}
 div#sidebuttons button {
-	background-color:#444444;
-	}
-.sidebuttons img { 
-	padding:0; margin:0; border:0;
-	width:20px; height:20px;
-	}
-.sidebuttons button { 
-    float:left;
-	border-radius:4px;
-	padding:0; 
-	margin:0 1px;
-    border:0px none;
-	width:22px; height:22px;
-	}
+    background-color: #444444;
+}
+.sidebuttons img {
+    padding: 0;
+    margin: 0;
+    border: 0;
+    width: 20px;
+    height: 20px;
+}
+.sidebuttons button {
+    float: left;
+    border-radius: 4px;
+    padding: 0;
+    margin: 0 1px;
+    border: 0px none;
+    width: 22px;
+    height: 22px;
+}
 div.hidden {
-	display:none;
-	border:0; margin:0; padding:0;
-	}
+    display: none;
+    border: 0;
+    margin: 0;
+    padding: 0;
+}
 .marktable th.other, .marktable td.other {
-	background-color:#ddeecc;
-	}
+    background-color: #ddeecc;
+}
 .marktable th.derived, .marktable td.derived {
-	background-color:#ddeeff;
-	}
+    background-color: #ddeeff;
+}
 select option.report {
-	background-color:#eeeeee;
-	}
+    background-color: #eeeeee;
+}
 select option.derived {
-	background-color:#ddeeff;
-	}
+    background-color: #ddeeff;
+}
 select option.other {
-	background-color:#ddeecc;
-	}
+    background-color: #ddeecc;
+}

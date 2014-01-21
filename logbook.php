@@ -1,16 +1,20 @@
 <?php
-	$host='logbook.php';
-	$book='logbook';
-	$fresh='';
-	include('scripts/head_options.php');
-	if(isset($_POST['new_r'])){$_SESSION['r']=$_POST['new_r'];$fresh='yes';}
-	if(!isset($_SESSION['r'])){$_SESSION['r']=-1;$fresh='very';}
+$host = 'logbook.php';
+$book = 'logbook';
+$fresh = '';
+include ('scripts/head_options.php');
+if (isset($_POST['new_r'])) {$_SESSION['r'] = $_POST['new_r'];
+    $fresh = 'yes';
+}
+if (!isset($_SESSION['r'])) {$_SESSION['r'] = -1;
+    $fresh = 'very';
+}
 ?>
   <div style="visibility:hidden;" id="hiddenbookoptions">	
   </div>
 
   <div style="visibility:hidden;" id="hiddenloginlabel">
-	<?php print $tid;?>
+	<?php print $tid; ?>
   </div>
 
   <div style="visibility:hidden;" id="hiddenlogbook">
@@ -19,30 +23,34 @@
 	  <form  id="loginchoice" name="workingas" method="post" 
 						action="logbook.php" target="viewlogbook">
 	  <select name="new_r" size="1" onChange="document.workingas.submit();">
-		<option value="-1" <?php  if($r==-1){print 'selected="selected" ';} ?>
-		  ><?php print_string('myclasses');?></option>
-<?php 
-    foreach($respons as $rindex => $respon){
-		/* Lists the academic responsibilities. */
-		print '<option value="'.$rindex.'"';
-		if(isset($r) and $r==$rindex){print ' selected="selected" ';}
-		print '>'.$respon['name'].'</option>';
-		}
-?>
+		<option value="-1" <?php
+        if ($r == -1) {print 'selected="selected" ';
+        }
+ ?>
+		  ><?php print_string('myclasses'); ?></option>
+<?php
+            foreach ($respons as $rindex => $respon) {
+                /* Lists the academic responsibilities. */
+                print '<option value="' . $rindex . '"';
+                if (isset($r) and $r == $rindex) {print ' selected="selected" ';
+                }
+                print '>' . $respon['name'] . '</option>';
+            }
+        ?>
 		</select>
 	  </form>
 	</div>
 
 	<div id="sidebuttons" class="sidebuttons">
-	  <button onclick="viewBook('aboutbook');" title="<?php print_string('about');?>">
+	  <button onclick="viewBook('aboutbook');" title="<?php print_string('about'); ?>">
 		<img src="images/help-browser.png" /></button>
 	  <button id="sitestatus" class="hide" >
 		<img src="images/roller.gif"/></button>
 	  <button id="siteicon" class="show" onClick="loadBook('');" 
-		title="<?php print_string('reload');?>" >
-		<img src="images/view-refresh.png" alt="<?php print_string('reload');?>" /></button>
-	  <button onClick="printGenericContent();" title="<?php print_string('print');?>">
-		<img src="images/printer.png" alt="<?php print_string('print');?>" /></button>
+		title="<?php print_string('reload'); ?>" >
+		<img src="images/view-refresh.png" alt="<?php print_string('reload'); ?>" /></button>
+	  <button onClick="printGenericContent();" title="<?php print_string('print'); ?>">
+		<img src="images/printer.png" alt="<?php print_string('print'); ?>" /></button>
 	</div>
 
   </div>
@@ -64,60 +72,60 @@
 ?>
 				<script>parent.loadBook("<?php print $bookhost; ?>")</script>
 <?php
-				}
-			if($bookhost=='markbook'){
-				/* Clear everything because the user's current
-				 * selection will no longer be avaible. 
-				 */
-				unset($_SESSION['classes']);
-				unset($_SESSION['cids']);
-				unset($_SESSION['cid']);
-				unset($_SESSION['pids']);
-				unset($_SESSION['pid']);
-				unset($_SESSION['umntype']);
-				unset($_SESSION['umnrank']);
-				unset($_SESSION['umns']);
-				unset($_SESSION['viewtable']);
-				}
-		   }
-		}
-	elseif($fresh=='very'){
-		/* This was loaded after a new login so do some extra stuff:
-		 * load the externalbooks, booktabs, update langpref, and raise firstbook
-		 */
+}
+if($bookhost=='markbook'){
+/* Clear everything because the user's current
+* selection will no longer be avaible.
+*/
+unset($_SESSION['classes']);
+unset($_SESSION['cids']);
+unset($_SESSION['cid']);
+unset($_SESSION['pids']);
+unset($_SESSION['pid']);
+unset($_SESSION['umntype']);
+unset($_SESSION['umnrank']);
+unset($_SESSION['umns']);
+unset($_SESSION['viewtable']);
+}
+}
+}
+elseif($fresh=='very'){
+/* This was loaded after a new login so do some extra stuff:
+* load the externalbooks, booktabs, update langpref, and raise firstbook
+*/
 
-		$firstbookpref=$_SESSION['firstbookpref'];
+$firstbookpref=$_SESSION['firstbookpref'];
 
-		if($role=='office' or $role=='medical' or $role=='admin' or $role=='library'){
-			/* This will prevent session timeouts, making an
-			 * xmlhttprequest to the logbook/httpscripts/session_alive.php 
-			 * every 15 minutes. But only for select roles.
-			 */
+if($role=='office' or $role=='medical' or $role=='admin' or $role=='library'){
+/* This will prevent session timeouts, making an
+* xmlhttprequest to the logbook/httpscripts/session_alive.php
+* every 15 minutes. But only for select roles.
+*/
 ?>
-		<script>setInterval("parent.sessionAlive(pathtobook);",15*60*1000);</script>
+		<script>setInterval("parent.sessionAlive(pathtobook);", 15 * 60 * 1000);</script>
 <?php
-			if($tid=='administrator'){
-				check_class_release();
-				}
-			}
+if ($tid == 'administrator') {
+    check_class_release();
+}
+}
 
-		foreach($books[$role] as $bookhost=>$bookname){
+foreach($books[$role] as $bookhost=>$bookname){
 ?>
 				<script>parent.loadBook("<?php print $bookhost; ?>")</script>
 <?php
-		   }
+}
 
-		$externalbooks=array();
-		if(isset($books['external'][$role])){$externalbooks[$role]=$books['external'][$role];}
-		else{$externalbooks[$role]=array();}
-		foreach($externalbooks[$role] as $bookhost=>$bookname){
-			/*loading all the external books - only needed once*/
+$externalbooks=array();
+if(isset($books['external'][$role])){$externalbooks[$role]=$books['external'][$role];}
+else{$externalbooks[$role]=array();}
+foreach($externalbooks[$role] as $bookhost=>$bookname){
+/*loading all the external books - only needed once*/
 ?>
 			<script>parent.loadBook("<?php print $bookhost; ?>")</script>
 <?php
-		   }
+}
 
-		$showtabs=$books[$role]+$externalbooks[$role];
+$showtabs=$books[$role]+$externalbooks[$role];
 ?>
 
 		<script>parent.loadBook("aboutbook")</script>
@@ -128,26 +136,25 @@
 	  <ul>
 		<label id="loginlabel">
 		</label>
-		<li id="logbooktab"><p class="logbook" onclick="logOut();">LogOut</p></li>
+		<li id="logbooktab"><a class="logbook" onclick="logOut();"><span class="fa fa-power-off"></span></a></li>
 		<li id="aboutbooktab" style="display:none;"><p id="currentbook" class="aboutbook">About</p>
 		</li>
 <?php
 		foreach($showtabs as $bookhost=>$bookname){
 ?>
-		<li id="<?php print $bookhost.'tab';?>"><p class="<?php print $bookhost;?>"
-		onclick="viewBook(this.getAttribute('class'));"><?php print $bookname;?></p></li>
+		<li id="<?php print $bookhost . 'tab'; ?>"><a class="<?php print $bookhost; ?>" onclick="viewBook(this.getAttribute('class'));"><?php print $bookname; ?></a></li>
 <?php
-			}
+}
 ?>
 	  </ul>
 	</div>
   </div>
 <?php
-		update_user_language(current_language());
+update_user_language(current_language());
 ?>
 		<script>parent.logInSuccess();</script>
 <?php
-		}
+}
 ?>
 </body>
 </html>
