@@ -2202,6 +2202,39 @@ function return_bytes($val) {
 }
 
 /**
+ * Validate an IBAN
+ * 
+ * @param $iban	IBAN Account
+ * 
+ * return boolean
+ */
+function checkIBAN($iban){
+	$chars=array(  "A"=>"10","B"=>"11","C"=>"12","D"=>"13","E"=>"14","F"=>"15",
+				"G"=>"16","H"=>"17","I"=>"18","J"=>"19","K"=>"20","L"=>"21",
+				"M"=>"22","N"=>"23","O"=>"24","P"=>"25","Q"=>"26","R"=>"27",
+				"S"=>"28","T"=>"29","U"=>"30","V"=>"31","W"=>"32","X"=>"33",
+				"Y"=>"34","Z"=>"35"
+			  );
+	if(!preg_match("/\A[A-Z]{2}\d{2} ?[A-Z\d]{4}( ?\d{4}){1,} ?\d{1,4}\z/", $iban)) {
+		return false;
+		}
+	$country=substr($iban,0,2);
+	$check=substr($iban,2,2);
+	$account=substr($iban,4);
+
+	$code=$account.$country."00";
+	$ncode=strtr($code,$chars);
+	$rest=bcmod($ncode,97);
+	$digits=98-$rest;
+	if($digits<10){$digits=str_pad($digits,2,"0",STR_PAD_LEFT);}
+	$compare=$country.$digits.$account;
+
+	if($compare==$iban){return true;}
+	else{return false;}
+	}
+
+
+/**
  * Resize an image bigger than given size or crops it given crop details
  * 
  * @param $image		image file path

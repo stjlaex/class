@@ -32,6 +32,8 @@ $extrabuttons['save']=array('name'=>'current','value'=>'templates_action.php');
 two_buttonmenu($extrabuttons);
 
 $templates=getTemplates();
+$messages=getTemplates('mes');
+if(count($messages)>0){$templates=array_merge($templates,$messages);}
 ?>
   <div style="margin-top:50px;">
 	<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host; ?>" >
