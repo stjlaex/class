@@ -1,3 +1,9 @@
+Version ClaSS-1.0.62 release (2014/01/21)
+-------------------------------------------
+
+Fields for IBAN and BIC added to the fees_account table.
+
+
 Version ClaSS-1.0.61 release (2014/01/14)
 -------------------------------------------
 
@@ -9,7 +15,7 @@ the absence list.
 Included estimates as part of profile assessments for reports,
 regardless of year or date.
 
-Medical Assessment added to medbook, allows permissions and comments
+Medical Assessment added to medbook, allows permissions and comments.
 
 
 Version ClaSS-1.0.60 release (2013/12/27)

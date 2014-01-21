@@ -95,6 +95,7 @@ $displayfields_width=60/$displayfields_no.'%';
 $enrolyear=get_curriculumyear()+1;
 $ReenrolAssDefs=fetch_enrolmentAssessmentDefinitions('','RE',$enrolyear);
 $EnrolAssDefs=array_merge(fetch_enrolmentAssessmentDefinitions(),$ReenrolAssDefs); 
+$EnrolAssDefs=array_merge(fetch_enrolmentAssessmentDefinitions('','M'),$EnrolAssDefs);
 if(sizeof($EnrolAssDefs)>0){
 	foreach($EnrolAssDefs as $AssDef){
 		$extra_studentfields['Assessment'.$AssDef['id_db']]=$AssDef['Description']['value'];
