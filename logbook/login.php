@@ -22,7 +22,7 @@
 
 <body>
 
-<div style="visibility:hidden;" id="hiddenbookoptions">	
+<div style="visibility:hidden;" id="hiddenbookoptions">
 <p>
 <?php 
 if($CFG->loginaside!=''){print $CFG->loginaside;}
@@ -99,6 +99,37 @@ else{
 ?>
 
 </div>
+
+<div id="coverbox">
+
+<div class="background">
+	<img src="../images/gradient.png" style="width:95%;height:100%;float:right;" />
+</div>
+
+<div id="branded">
+<?php
+if($CFG->support!='' and $CFG->support!='laex.org'){
+?>
+	<img onClick="window.open('http://<?php print $CFG->support;?>','support');"
+		src="../images/bannerlogo.png" 
+		alt="<?php print $CFG->support;?>" title="<?php print $CFG->support;?> support" />
+<?php
+	}
+else{
+?>
+	<img onclick="window.open('http://laex.org/class','support');"
+				alt="ClaSS" title="ClaSS Homepage" src="images/orangelogo.png" />
+<?php
+	}
+?>
+</div>
+
+<div id="schoollogo">
+	<img src="../images/<?php print $CFG->schoollogo;?>" />
+</div>
+
+</div>
+
 
 <script>
 parent.document.getElementById("langchoice").innerHTML=document.getElementById("hiddenlang").innerHTML;
