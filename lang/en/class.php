@@ -482,4 +482,6 @@ $string['strong']='Strong';
 $string['paragraph']='Paragraph';
 $string['underlined']='Underlined';
 $string['emphasized']='Emphasized';
+$string['iban']='IBAN';
+$string['bic']='BIC';
 ?>
