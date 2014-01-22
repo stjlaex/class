@@ -50,6 +50,18 @@ print '<?xml version="1.0" encoding="utf-8"?' . '>';
 <link href="css/hoststyle.css" rel="stylesheet" type="text/css" />
 <link href="css/selery.css?version=1042" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" href="css/uniform.default.css" media="screen" />
+
+    <script src="js/host.js?version=1042"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+    <script src="js/jquery.uniform.min.js"></script>
+
+    <script>
+        $( document ).ready(function() {
+            $("select").uniform();
+        });
+    </script>
+    
+    
 </head>
 <body onload="loadLogin('logbook.php');">
 <header>
@@ -100,11 +112,5 @@ print '<?xml version="1.0" encoding="utf-8"?' . '>';
 <?php
 }
 ?>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
-    <script src="js/jquery.uniform.min.js"></script>
-    <script src="js/host.js?version=1042"></script>
-    <script>
-        $("select").uniform();
-    </script>
 </body>
 </html>

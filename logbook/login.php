@@ -74,6 +74,8 @@ kill_class_phpsession();
     }
     ?>
     <div id="schoollogo" class="schoollogo">
+        <h1>Welcome</h1>
+        <p>This a Demo database for Learning Data's school information management system Classis. For further information please contact us through our website at www.learningdata.ie</p>
     	<img src="../images/<?php print $CFG -> schoollogo; ?>" />
     </div>
     <script type="text/javascript" src="js/qtip.js"></script>
@@ -84,6 +86,20 @@ kill_class_phpsession();
         parent.loadRequired("logbook");
         parent.loadBookOptions("logbook");
     </script>
+    
+    
+    
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+    <script src="js/jquery.uniform.min.js"></script>
+
+    <script>
+        $( document ).ready(function() {
+            $("select").uniform();
+        });
+    </script>
+    
+    
+    
 </body>
 </html>
 
