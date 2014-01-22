@@ -14,6 +14,8 @@ print '<?xml version="1.0" encoding="utf-8"?'.'>';
 <meta name="license" content="GNU General Public License version 2" />
 <link href="css/bookstyle.css" rel="stylesheet" type="text/css" />
 <link href="css/logbook.css" rel="stylesheet" type="text/css" />
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+<link href='http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900' rel='stylesheet' type='text/css'>
 </head>
 <body>
 

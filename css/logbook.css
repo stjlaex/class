@@ -1,58 +1,49 @@
-.logincolor fieldset, .logincolor div.topform, .logincolor table.listmenu {
-	border-color:#777777;
-	color:#000000;
-	background-color:#bbbbbb;
-    color:#000000;
-	}	
-.logincolor button {
-	background-color:#666666;
-    width:60%; 
-    margin-left:20%; 
-    margin-top:10%;
-	border-radius:4px;
-	}
-.logincolor button:hover, .logincolor button:focus {
-    border-color:#5599cc;
-    background-color:#5599cc;
-    color:#ffffff;
-	}	
-.logincolor legend, .logincolor caption {
-	background-color:#eeeeee;
-    border-color:#666666;
-	}	
-.logincolor input {
-	border-color:#eeeeee;
-	}
-.logincolor input:focus {
-	border-color:#ff9900;
-	}
-.logincolor fieldset#loginbox {
-    position:absolute; left:20%; top:16%; width:35%;
-	padding:2% 0% 2% 5%;
-	}
-.logincolor fieldset#loginbox table { 
-    background-color:#bbbbbb;
-    width:70%;
-	}
-.logincolor table td { 
-    float:right;
-    font-size:medium;
-	}
-.logincolor table td:first-child { 
-    float:left;
-    width:80%;
-	}
-.logincolor table label, .logincolor button  { 
-    font-size:medium;
-    font-weight:600;
-	}
+body.login  {
+    background-color: #91c73e;
+}
+.login-form {
+    width: 50%;
+    float: right;
+}
+.login-form .form-group {
+    position: relative;
+}
+.login-form label   {
+    font-size: 14px;
+    color: #bfde8f;
+    background-color: #6e972f;
+    border-radius: 2px 0 0 2px;
+    height: 15px;
+    width: 30px;
+    position: absolute;
+    text-align: center;
+    padding: 10px 0;
+}
+.login-form button {
+    background-color: #434d57;
+    border-radius: 2px;
+    border: none;
+    height: 35px;
+}
+.login-form button:hover,  .login-form button:focus {
+    border-color: #5599cc;
+    background-color: #5599cc;
+    color: #ffffff;
+}
+.login-form input {
+    border: none;
+    background-color: #daefd7;
+    height: 35px;
+    border-radius: 0 3px 3px 0;
+    padding: 0 0 0 10px;
+    margin-left: 30px;
+    color: #547324;
+    text-transform: capitalize;
+}
+.login-form input:focus {
+    border-color: #ff9900;
+}
 
-/*only used in the coverpage splash*/
-div#branded  {
-	position:absolute; right:6%; bottom:4%;
-	cursor:pointer;
-	}
-div#schoollogo {
-	position:absolute; right:5%; top:5%;
-    z-index:5;
-	}
+.schoollogo {
+    width: 50%;
+}

@@ -1,7 +1,7 @@
 <?php
 /**
  *
- * ClaSS is the ClaSS Student System, a complete student 
+ * ClaSS is the ClaSS Student System, a complete student
  * tracking, reporting, and information management system for schools.
  *
  * Copyright (C) 2002-2012 by Stuart Thomas Johnson.
@@ -26,42 +26,45 @@
  * @copyright  (C) 2012 Stuart Thomas Johnson
  *
  */
-require_once('../school.php');
-require_once('classdata.php');
-require_once('lib/include.php');
+require_once ('../school.php');
+require_once ('classdata.php');
+require_once ('lib/include.php');
 /* Just maybe last logout wasn't clean... */
-require_once('logbook/session.php');
+require_once ('logbook/session.php');
 start_class_phpsession();
 kill_class_phpsession();
-$books=$CFG->books;
-$currentlang=current_language();
-print '<?xml version="1.0" encoding="utf-8"?'.'>';
+$books = $CFG -> books;
+$currentlang = current_language();
+print '<?xml version="1.0" encoding="utf-8"?' . '>';
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="<?php print $currentlang;?>" xml:lang="<?php print $currentlang;?>">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="<?php print $currentlang; ?>" xml:lang="<?php print $currentlang; ?>">
 <head profile="http://www.w3.org/2005/10/profile">
-<title><?php print $CFG->sitename; ?></title>
+<title><?php print $CFG -> sitename; ?></title>
 <link rel="icon" type="image/png" href="images/classicon.png" />
 <meta http-equiv="content-type" content="application/xhtml+xml; charset=utf-8" />
 <meta http-equiv="Content-Script-Type" content="text/JavaScript" />
 <meta name="copyright" content="Copyright 2002-2012 Stuart Thomas Johnson. All trademarks acknowledged. All rights reserved." />
-<meta name="version" content="<?php print $CFG->version; ?>" />
+<meta name="version" content="<?php print $CFG -> version; ?>" />
 <meta name="license" content="GNU Affero General Public License version 3" />
 <link href="css/hoststyle.css" rel="stylesheet" type="text/css" />
 <link href="css/selery.css?version=1042" rel="stylesheet" type="text/css" />
-<script language="JavaScript" type="text/javascript" src="js/host.js?version=1042"></script>
+<link rel="stylesheet" href="css/uniform.default.css" media="screen" />
 </head>
 <body onload="loadLogin('logbook.php');">
+<header>
+    <div id="navtabs">
+    	<div class="booktabs"></div>
+    </div>
+    <div id="branded">
+        <img src="../images/logo.png" />
+    </div>
+    <div id="logbook">
+        <form id="langchoice" name="langpref" method="post" action="logbook.php" target="viewlogbook">
+    </form>
+</div>
+</header>  	
 
-<div id="navtabs">
-	<div class="booktabs">
-	</div>
-</div>
-			
-<div id="logbook">
-	<form id="langchoice" name="langpref" method="post" action="logbook.php" target="viewlogbook">
-	</form>
-</div>
 
 <iframe id="viewlogbook" name="viewlogbook" class="coverframe" scrolling="no"></iframe>
 <div id="logbookoptions" class="bookoptions"></div>
@@ -75,26 +78,33 @@ print '<?xml version="1.0" encoding="utf-8"?'.'>';
 	$showbooks=$books['all'];
 	foreach($showbooks as $bookhost=>$bookname){
 ?>
-		<div id="<?php print $bookhost.'options';?>" class="bookoptions"></div>
+		<div id="<?php print $bookhost . 'options'; ?>" class="bookoptions"></div>
 
-		<iframe id="<?php print 'view'.$bookhost;?>" 
-			name="<?php print 'view'.$bookhost;?>" class="bookframe">
+		<iframe id="<?php print 'view' . $bookhost; ?>" 
+			name="<?php print 'view' . $bookhost; ?>" class="bookframe">
 		</iframe>
 <?php
-   		}
+}
 ?>
 <?php
 	$showbooks=$books['external']['all'];
 	foreach($showbooks as $bookhost=>$bookname){
 ?>
-		<div id="<?php print $bookhost.'options';?>" style="display:none;" class="bookoptions"></div>
+		<div id="<?php print $bookhost . 'options'; ?>" style="display:none;" class="bookoptions"></div>
 
-		<iframe id="<?php print 'view'.$bookhost;?>" 
-			name="<?php print 'view'.$bookhost;?>" class="bookframe">
+		<iframe id="<?php print 'view' . $bookhost; ?>" 
+			name="<?php print 'view' . $bookhost; ?>"
+
+ class="bookframe">
 		</iframe>
 <?php
-   		}
+}
 ?>
-
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+    <script src="js/jquery.uniform.min.js"></script>
+    <script src="js/host.js?version=1042"></script>
+    <script>
+        $("select").uniform();
+    </script>
 </body>
 </html>
