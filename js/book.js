@@ -1861,8 +1861,13 @@ function processObject(elem){
 		myCodeMirror.replaceRange(tableElem, myCodeMirror.getCursor());
 		}
 	else if(elem.id=='colors' || elem.id=='picker' || elem.id=='templates'){
-		myCodeMirror.replaceRange(elem.value, myCodeMirror.getCursor());
-		if(elem.id=='templates'){document.getElementById('template_name').value=elem.options[elem.selectedIndex].text;}
+		if(elem.id=='templates'){
+			myCodeMirror.setValue("");
+			var val=document.getElementById('template'+elem.value).value;
+			myCodeMirror.replaceRange(val, myCodeMirror.getCursor());
+			document.getElementById('template_name').value=elem.options[elem.selectedIndex].text;
+			}
+		else{myCodeMirror.replaceRange(elem.value, myCodeMirror.getCursor());}
 		}
 	else{
 		if(elem.value!=''){myCodeMirror.replaceRange('{{'+elem.value+'}}', myCodeMirror.getCursor());}
