@@ -52,9 +52,9 @@ if(empty($_SESSION['accessfees'])){
 $extrabuttons=array();
 if($_SESSION['username']=='administrator'){
 	$extrabuttons['import']=array('name'=>'current','value'=>'fees_import.php');
-	$extrabuttons['export']=array('name'=>'current','value'=>'fees_accounts_export.php');
 	}
 if($_SESSION['role']=='admin' or $aperm==1 or $_SESSION['role']=='office'){
+	$extrabuttons['exportbankaccounts']=array('name'=>'current','value'=>'fees_accounts_export.php');
 	$extrabuttons['remittances']=array('name'=>'current','value'=>'fees_remittance_list.php');
 	$extrabuttons['conceptlist']=array('name'=>'current','value'=>'fees_concept_list.php');
 	}

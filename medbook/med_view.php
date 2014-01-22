@@ -117,7 +117,7 @@ $action='med_view_action.php';
 
 
 	  <fieldset class="center listmenu">
-		<legend><?php print_string('assessments',$book);?></legend>
+		<legend><?php print_string('medications',$book);?></legend>
 		<table class="listmenu">
 <?php 
 	$MedicalAssDefs=array();

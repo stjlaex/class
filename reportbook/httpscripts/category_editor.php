@@ -89,7 +89,7 @@ $Categoryblank['Type']=array('label'=>'type',
 $Categoryblank['Name']=array('label'=>'name',
 							 'table_db'=>'report_skill', 
 							 'field_db'=>'name',
-							 'type_db'=>'varchar(240)',
+							 'type_db'=>'varchar(720)',
 							 'value'=>''
 							 );
 $Categoryblank['Subject']=array('label'=>'subject',
@@ -136,7 +136,7 @@ while(list($cindex,$catdef)=each($catdefs)){
 	$Category['Name']=array('label'=>'name',
 							'table_db'=>'report_skill', 
 							'field_db'=>'name',
-							'type_db'=>'varchar(240)',
+							'type_db'=>'varchar(720)',
 							'value'=>$catdef['name']
 							);
 	if($catdef['bid']=='%'){$displaysub='General';}

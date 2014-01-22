@@ -11,4 +11,5 @@ $string['visits']='Visits';
 $string['addvisit']='Add visit';
 $string['newvisit']='New visit';
 $string['lastvisit']='Last visit';
+$string['medications']='Medications';
 ?>

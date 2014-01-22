@@ -100,9 +100,6 @@ if($CFG->emailoff!='yes'){
 					}
 				}
 
-			$replyto=$CFG->emailnoreply[0];
-			$from=array('name'=>$CFG->schoolname,'email'=>$replyto);
-			$attachments=array();
 			foreach($recipients as $key => $recipient){
 				$messagesubject=clean_text($recipient['subject']);
 
@@ -114,7 +111,7 @@ if($CFG->emailoff!='yes'){
 				$messagebody=$recipient['body'];
 				$messagehtml=$messagebody;
 
-				$email_result=send_email_to($recipient['email'],$from,$messagesubject,$messagetxt,$messagehtml,$attachments);
+				$email_result=send_email_to($recipient['email'],'',$messagesubject,$messagetxt,$messagehtml);
 				if($email_result){
 					$sentno++;
 					mysql_query("UPDATE student_event SET status='1' WHERE type='enrolstatus' AND student_id='$sid';");
