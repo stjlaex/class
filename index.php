@@ -50,20 +50,23 @@ print '<?xml version="1.0" encoding="utf-8"?' . '>';
 <link href="css/hoststyle.css" rel="stylesheet" type="text/css" />
 <link href="css/selery.css?version=1042" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" href="css/uniform.default.css" media="screen" />
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
 </head>
+
 <body onload="loadLogin('logbook.php');">
+
 <header>
-    <div id="navtabs">
-    	<div class="booktabs"></div>
-    </div>
-    <div id="branded">
-        <img src="../images/logo.png" />
-    </div>
-    <div id="logbook">
-        <form id="langchoice" name="langpref" method="post" action="logbook.php" target="viewlogbook">
-    </form>
-</div>
-</header>  	
+	<div id="navtabs">
+		<div class="booktabs"></div>
+	</div>
+	<div id="branded">
+		<img src="../images/logo.png" />
+	</div>
+	<div id="logbook">
+		<form id="langchoice" name="langpref" method="post" action="logbook.php" target="viewlogbook">
+		</form>
+	</div>
+</header>
 
 
 <iframe id="viewlogbook" name="viewlogbook" class="coverframe" scrolling="no"></iframe>
@@ -100,11 +103,15 @@ print '<?xml version="1.0" encoding="utf-8"?' . '>';
 <?php
 }
 ?>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
-    <script src="js/jquery.uniform.min.js"></script>
-    <script src="js/host.js?version=1042"></script>
-    <script>
-        $("select").uniform();
-    </script>
+
+	<script src="js/host.js?version=1042"></script>
+
+	<script src="js/jquery.uniform.min.js"></script>
+	<script>
+		$("iframe").load(function(){
+			$("select").uniform();
+			$("iframe").contents().find("select").uniform();
+			});
+	</script>
 </body>
 </html>
