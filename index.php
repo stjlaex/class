@@ -50,32 +50,23 @@ print '<?xml version="1.0" encoding="utf-8"?' . '>';
 <link href="css/hoststyle.css" rel="stylesheet" type="text/css" />
 <link href="css/selery.css?version=1042" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" href="css/uniform.default.css" media="screen" />
-
-    <script src="js/host.js?version=1042"></script>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
-    <script src="js/jquery.uniform.min.js"></script>
-
-    <script>
-        $( document ).ready(function() {
-            $("select").uniform();
-        });
-    </script>
-    
-    
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
 </head>
+
 <body onload="loadLogin('logbook.php');">
+
 <header>
     <div id="navtabs">
-    	<div class="booktabs"></div>
+        <div class="booktabs"></div>
     </div>
     <div id="branded">
         <img src="../images/logo.png" />
     </div>
     <div id="logbook">
         <form id="langchoice" name="langpref" method="post" action="logbook.php" target="viewlogbook">
-    </form>
-</div>
-</header>  	
+        </form>
+    </div>
+</header>
 
 
 <iframe id="viewlogbook" name="viewlogbook" class="coverframe" scrolling="no"></iframe>
@@ -85,32 +76,42 @@ print '<?xml version="1.0" encoding="utf-8"?' . '>';
 <iframe id="viewaboutbook" name="viewaboutbook" class="bookframe"></iframe>
 
 <?php
-	/* Use all because it contains all possible books*/
-	/* even if after login user does not have access*/
-	$showbooks=$books['all'];
-	foreach($showbooks as $bookhost=>$bookname){
+    /* Use all because it contains all possible books*/
+    /* even if after login user does not have access*/
+    $showbooks=$books['all'];
+    foreach($showbooks as $bookhost=>$bookname){
 ?>
-		<div id="<?php print $bookhost . 'options'; ?>" class="bookoptions"></div>
+        <div id="<?php print $bookhost . 'options'; ?>" class="bookoptions"></div>
 
-		<iframe id="<?php print 'view' . $bookhost; ?>" 
-			name="<?php print 'view' . $bookhost; ?>" class="bookframe">
-		</iframe>
+        <iframe id="<?php print 'view' . $bookhost; ?>" 
+            name="<?php print 'view' . $bookhost; ?>" class="bookframe">
+        </iframe>
 <?php
 }
 ?>
 <?php
-	$showbooks=$books['external']['all'];
-	foreach($showbooks as $bookhost=>$bookname){
+    $showbooks=$books['external']['all'];
+    foreach($showbooks as $bookhost=>$bookname){
 ?>
-		<div id="<?php print $bookhost . 'options'; ?>" style="display:none;" class="bookoptions"></div>
+        <div id="<?php print $bookhost . 'options'; ?>" style="display:none;" class="bookoptions"></div>
 
-		<iframe id="<?php print 'view' . $bookhost; ?>" 
-			name="<?php print 'view' . $bookhost; ?>"
+        <iframe id="<?php print 'view' . $bookhost; ?>" 
+            name="<?php print 'view' . $bookhost; ?>"
 
  class="bookframe">
-		</iframe>
+        </iframe>
 <?php
 }
 ?>
+
+    <script src="js/host.js?version=1042"></script>
+
+    <script src="js/jquery.uniform.min.js"></script>
+    <script>
+        $("iframe").load(function(){
+            $("select").uniform();
+            $("iframe").contents().find("select").uniform();
+            });
+    </script>
 </body>
 </html>

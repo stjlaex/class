@@ -18,6 +18,7 @@ kill_class_phpsession();
 <link href="css/logbook.css" rel="stylesheet" type="text/css" />
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
 <link href='http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900' rel='stylesheet' type='text/css'>
+<link rel="stylesheet" href="css/uniform.default.css" media="screen" />
 </head>
 
 <body class="login">
@@ -70,6 +71,13 @@ kill_class_phpsession();
                 <input type="hidden" id="lang" name="lang" value="<?php print $langchoice; ?>" />
             </form>
         </div>
+        <div>
+            <?php print_string('theme'); ?>
+            <select>
+                <option value="1">Classis 1.0</option>
+                <option value="2">Classis 2.0</option>
+            </select>
+        </div>
     <?php
     }
     ?>
@@ -82,24 +90,11 @@ kill_class_phpsession();
     <script type="text/javascript" src="js/book.js?version=1013"></script>
     <script type="text/javascript" >
         parent.document.getElementById("langchoice").innerHTML = document.getElementById("hiddenlang").innerHTML;
-        document.getElementById("coverbox").style.zIndex = "100";
+        //document.getElementById("coverbox").style.zIndex = "100";
         parent.loadRequired("logbook");
         parent.loadBookOptions("logbook");
     </script>
-    
-    
-    
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
-    <script src="js/jquery.uniform.min.js"></script>
 
-    <script>
-        $( document ).ready(function() {
-            $("select").uniform();
-        });
-    </script>
-    
-    
-    
 </body>
 </html>
 
