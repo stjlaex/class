@@ -4,12 +4,16 @@
  *   and layout. The color schemes are defined on a book by book basis
  *   elsewhere.
  */
+*   {
+    margin: 0;
+    padding:0;
+    border: 0;
+}
 body {
     color: #ffffff;
-    margin: 0;
-    border: 0;
     text-align: left;
     font-family: 'Lato', sans-serif;
+    font-size: 14px;
 }
 a {
     font-size: small;
@@ -81,13 +85,7 @@ input[type="checkbox"] {
 input[type="radio"] {
     width: 1em;
 }
-button {
-    width: auto;
-    margin-top: 2%;
-    font-weight: 300;
-    color: #ffffff;
-    cursor: pointer;
-}
+
 table {
     width: 100%;
     margin: 0;
@@ -347,7 +345,7 @@ div.buttonmenu {
     background-color: #444444;
     z-index: 4000;
 }
-.buttonmenu button, #heading button, fieldset button {
+.buttonmenu button, #heading button {
     margin: 1px 2px;
     border: 0px none;
     border-radius: 3px;
@@ -399,7 +397,7 @@ button.install {
     color: #ffffee;
     font-size: xx-small;
 }
-.buttonmenu button:hover, .buttonmenu button:focus, fieldset button:hover, fieldset button:focus, #heading button:hover, #heading button:focus {
+.buttonmenu button:hover, .buttonmenu button:focus, #heading button:hover, #heading button:focus {
     border-color: #5599cc;
     background-color: #5599cc;
     color: #ffffff;

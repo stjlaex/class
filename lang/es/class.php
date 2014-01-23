@@ -264,6 +264,7 @@ $string=array(
      "slovak"=>"Eslovaco",
      "classificationpending"=>"Clasificación Pendiente",
      ""=>"",
+     "welcome"=>"Bienvenidos",
      "locale"=>"es_ES",
      "shortlocale"=>"es",
      "thislanguage"=>"Español",

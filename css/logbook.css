@@ -1,9 +1,28 @@
 body.login  {
     background-color: #91c73e;
+    font-size: 14px!important;
 }
-.login-form {
+.theme-selector {
+    width: 80%;
+    margin:2% auto 5%;
+}
+
+
+.login-left,
+.login-right {
     width: 50%;
     float: right;
+}
+fieldset    {
+    padding: 30% 15%;
+}
+.login-form    {
+    width: 70%;
+    margin: 0 auto;
+}
+.login-form {
+    background-color: #9ece55;
+    width: 60%;
 }
 .login-form .form-group {
     position: relative;
@@ -14,21 +33,10 @@ body.login  {
     background-color: #6e972f;
     border-radius: 2px 0 0 2px;
     height: 15px;
-    width: 30px;
+    width: 15%;
     position: absolute;
     text-align: center;
     padding: 10px 0;
-}
-.login-form button {
-    background-color: #434d57;
-    border-radius: 2px;
-    border: none;
-    height: 35px;
-}
-.login-form button:hover,  .login-form button:focus {
-    border-color: #5599cc;
-    background-color: #5599cc;
-    color: #ffffff;
 }
 .login-form input {
     border: none;
@@ -36,14 +44,34 @@ body.login  {
     height: 35px;
     border-radius: 0 3px 3px 0;
     padding: 0 0 0 10px;
-    margin-left: 30px;
+    margin-left: 15%;
     color: #547324;
     text-transform: capitalize;
-}
-.login-form input:focus {
-    border-color: #ff9900;
+    width: 75%;
 }
 
+.login-form button {
+    background-color: #434d57;
+    border-radius: 2px;
+    border: none;
+    height: 35px;
+    width: 93.5%;
+    text-transform: uppercase;
+    color: #FFFFFF;
+}
 .schoollogo {
-    width: 50%;
+    border-right: 1px solid #7faf36;
+    padding: 0 10% 0 20%;
+}
+.schoollogo h1 {
+    font-size:60px;
+    margin-bottom: 10px;
+}
+.schoollogo p {
+    font-size:14px;
+    font-weight: 300;
+}
+.schoollogo img {
+    display: block;
+    margin: 80px auto 0;
 }

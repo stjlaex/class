@@ -57,15 +57,17 @@ print '<?xml version="1.0" encoding="utf-8"?' . '>';
 <body onload="loadLogin('logbook.php');">
 
 <header>
-    <div id="navtabs">
-        <div class="booktabs"></div>
-    </div>
-    <div id="branded" class="branded">
-        <img src="../images/logo.png" />
-    </div>
-    <div id="logbook">
-        <form id="langchoice" name="langpref" method="post" action="logbook.php" target="viewlogbook">
-        </form>
+    <div class="container">
+        <div id="navtabs">
+            <div class="booktabs"></div>
+        </div>
+        <div id="branded" class="branded">
+            <img src="../images/logo.png" />
+        </div>
+        <div id="logbook">
+            <form id="langchoice" name="langpref" method="post" action="logbook.php" target="viewlogbook">
+            </form>
+        </div>
     </div>
 </header>
 
@@ -93,7 +95,8 @@ print '<?xml version="1.0" encoding="utf-8"?' . '>';
     foreach($showbooks as $bookhost=>$bookname){
 ?>
         <div id="<?php print $bookhost . 'options'; ?>" style="display:none;" class="bookoptions"></div>
-        <iframe id="<?php print 'view' . $bookhost; ?>" name="<?php print 'view' . $bookhost; ?>" class="bookframe"></iframe>
+        <iframe id="<?php print 'view' . $bookhost; ?>" name="<?php print 'view' . $bookhost; ?>"
+ class="bookframe"></iframe>
 <?php
 }
 ?>
@@ -101,7 +104,7 @@ print '<?xml version="1.0" encoding="utf-8"?' . '>';
     <script src="js/host.js?version=1042"></script>
     <script src="js/jquery.uniform.min.js"></script>
     <script>
-        $("iframe").load(function(){
+        $("iframe").load(function() {
             $("select").uniform();
             $("iframe").contents().find("select").uniform();
         });
