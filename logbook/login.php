@@ -57,14 +57,7 @@ kill_class_phpsession();
     }
     else{
     ?>
-        <div class="theme-selector">
-            <select>
-                <option value="0"><?php print_string('theme'); ?></option>
-                <option value="1">Classis 1.0</option>
-                <option value="2">Classis 2.0</option>
-            </select>
-        </div>
-        
+
       <div class="login-left">
             <div class="login-form">
                 <fieldset>
@@ -91,7 +84,7 @@ kill_class_phpsession();
     <div class="login-right">
         <div id="schoollogo" class="schoollogo">
             <h1><?php print_string('welcome');?></h1>
-            <p><?php print $CFG -> loginasidex; ?></p>
+            <p><?php print $CFG -> loginaside; ?></p>
         	<img src="../images/<?php print $CFG -> schoollogo; ?>" />
         </div>
     </div>
