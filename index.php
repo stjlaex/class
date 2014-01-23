@@ -50,7 +50,8 @@ print '<?xml version="1.0" encoding="utf-8"?' . '>';
 <link href="css/hoststyle.css" rel="stylesheet" type="text/css" />
 <link href="css/selery.css?version=1042" rel="stylesheet" type="text/css" />
 <link rel="stylesheet" href="css/uniform.default.css" media="screen" />
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+<link rel="stylesheet" href="css/uniform.edit.css" media="screen" />
+
 </head>
 
 <body onload="loadLogin('logbook.php');">
@@ -59,7 +60,7 @@ print '<?xml version="1.0" encoding="utf-8"?' . '>';
     <div id="navtabs">
         <div class="booktabs"></div>
     </div>
-    <div id="branded">
+    <div id="branded" class="branded">
         <img src="../images/logo.png" />
     </div>
     <div id="logbook">
@@ -82,36 +83,28 @@ print '<?xml version="1.0" encoding="utf-8"?' . '>';
     foreach($showbooks as $bookhost=>$bookname){
 ?>
         <div id="<?php print $bookhost . 'options'; ?>" class="bookoptions"></div>
-
-        <iframe id="<?php print 'view' . $bookhost; ?>" 
-            name="<?php print 'view' . $bookhost; ?>" class="bookframe">
-        </iframe>
+        <iframe id="<?php print 'view' . $bookhost; ?>" name="<?php print 'view' . $bookhost; ?>" class="bookframe"></iframe>
 <?php
 }
 ?>
+
 <?php
     $showbooks=$books['external']['all'];
     foreach($showbooks as $bookhost=>$bookname){
 ?>
         <div id="<?php print $bookhost . 'options'; ?>" style="display:none;" class="bookoptions"></div>
-
-        <iframe id="<?php print 'view' . $bookhost; ?>" 
-            name="<?php print 'view' . $bookhost; ?>"
-
- class="bookframe">
-        </iframe>
+        <iframe id="<?php print 'view' . $bookhost; ?>" name="<?php print 'view' . $bookhost; ?>" class="bookframe"></iframe>
 <?php
 }
 ?>
-
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
     <script src="js/host.js?version=1042"></script>
-
     <script src="js/jquery.uniform.min.js"></script>
     <script>
         $("iframe").load(function(){
             $("select").uniform();
             $("iframe").contents().find("select").uniform();
-            });
+        });
     </script>
 </body>
 </html>

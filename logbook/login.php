@@ -55,22 +55,6 @@ kill_class_phpsession();
     }
     else{
     ?>
-        <div class="login-form">
-            <form name="formtoprocess" id="formtoprocess" novalidate method="post" action="logbook/login_action.php">
-                <div class="form-group">
-                    <label for="Username" class="fa fa-user"></label>
-                    <input type="text" placeholder="<?php print_string('username'); ?>" id="Username" name="username" class="required" tabindex="1" pattern="truealphanumeric" onkeypress="capsCheck(arguments[0]);" />
-                </div>
-                <div class="form-group">
-                    <label for="Password" class="fa fa-lock"></label>
-                    <input type="password" placeholder="<?php print_string('password'); ?>" id="Password" name="password" class="required" tabindex="2" pattern="truealphanumeric" onkeypress="capsCheck(arguments[0]);" />
-                </div>
-                <button id="login" name="submitlogin" tabindex="3" onClick="return validateForm(this.form);">
-                  <?php print_string('enter'); ?>
-                </button>
-                <input type="hidden" id="lang" name="lang" value="<?php print $langchoice; ?>" />
-            </form>
-        </div>
         <div>
             <?php print_string('theme'); ?>
             <select>
@@ -78,6 +62,26 @@ kill_class_phpsession();
                 <option value="2">Classis 2.0</option>
             </select>
         </div>
+        
+        <div class="login-form">
+            <fieldset>
+                <form name="formtoprocess" id="formtoprocess" novalidate method="post" action="logbook/login_action.php">
+                    <div class="form-group">
+                        <label for="Username" class="fa fa-user"></label>
+                        <input type="text" placeholder="<?php print_string('username'); ?>" id="Username" name="username" class="required" tabindex="1" pattern="truealphanumeric" onkeypress="capsCheck(arguments[0]);" />
+                    </div>
+                    <div class="form-group">
+                        <label for="Password" class="fa fa-lock"></label>
+                        <input type="password" placeholder="<?php print_string('password'); ?>" id="Password" name="password" class="required" tabindex="2" pattern="truealphanumeric" onkeypress="capsCheck(arguments[0]);" />
+                    </div>
+                    <button id="login" name="submitlogin" tabindex="3" onClick="return validateForm(this.form);">
+                      <?php print_string('enter'); ?>
+                    </button>
+                    <input type="hidden" id="lang" name="lang" value="<?php print $langchoice; ?>" />
+                </form>
+            </fieldset>
+        </div>
+        
     <?php
     }
     ?>

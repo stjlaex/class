@@ -1,0 +1,79 @@
+/*
+
+ Uniform Theme: Uniform Default
+ Version: 1.8
+ By: Josh Pyles
+ License: MIT License
+ ---
+ For use with the Uniform plugin:
+ http://uniformjs.com/
+
+ */
+
+/* Select */
+div.selector {
+    background-color: #4d5f72;
+    background-image: none;
+    line-height: 40px;
+    height: 40px;
+    padding: 0 0 0 10px;
+    position: relative;
+    overflow: hidden;
+    border-radius: 3px 0 0 3px;
+}
+div.selector span {
+    text-overflow: ellipsis;
+    display: block;
+    overflow: hidden;
+    white-space: nowrap;
+    background-position: right 0;
+    height: 40px;
+    line-height: 40px;
+    padding-right: 25px;
+    cursor: pointer;
+    width: 100%;
+    display: block;
+}
+div.selector select {
+    opacity: 0;
+    filter: alpha(opacity=0);
+    -moz-opacity: 0;
+    border: none;
+    background: none;
+    position: absolute;
+    height: 40px;
+    top: 2px;
+    left: 0px;
+    width: 100%;
+}
+div.selector.active span {
+    background-position: right 0;
+}
+div.selector.hover span, div.selector.focus span {
+    background-position: right 0;
+}
+div.selector.hover.active span, div.selector.focus.active span {
+    background-position: right 0;
+}
+div.selector.disabled span, div.selector.disabled.active span {
+    background-position: right 0;
+}
+
+/* PRESENTATION */
+
+/* Select */
+div.selector {
+    font-size: 16px;
+}
+div.selector span {
+    color: #FFFFFF;
+    text-shadow: none;
+}
+div.selector select {
+    font-family: "Helvetica Neue", Arial, Helvetica, sans-serif;
+    font-size: 16px;
+}
+div.selector.disabled span, div.selector.disabled.active span {
+    color: #FFFFFF;
+}
+

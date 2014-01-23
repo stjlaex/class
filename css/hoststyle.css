@@ -21,6 +21,13 @@ div#currentbook {
     overflow: hidden;
 }
 
+.branded    {
+    position: absolute;
+    z-index: 150;
+    top: 0;
+    left: 0;
+}
+
 /***************************************************************************/
 /* the two possible main displays one after login and one before*/
 /* plus the logbook div which fills out the rest of the display*/

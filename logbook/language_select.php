@@ -7,10 +7,8 @@ if(isset($_SESSION['lang'])){$sellang=$_SESSION['lang'];}else{$sellang='';}
 $languages=get_list_of_languages();
 ?>
   <div id="loginlang">
-	<label for="Language">Language</label>
-	<select onChange="document.langpref.submit();" name="langchoice"
-	  id="Language" size="1"  >
-	  <option value=""></option>
+	<select onChange="document.langpref.submit();" name="langchoice" id="Language" class="language" size="1"  >
+	  <option value="">Language</option>
 <?php
 	foreach($languages as $key => $language){		
 		print "<option ";
