@@ -144,6 +144,7 @@ function loadLogin(page){
 function logInSuccess(){
 	document.getElementById("navtabs").innerHTML=viewlogbook.document.getElementById("hiddennavtabs").innerHTML;
 	document.getElementById("logbook").innerHTML=viewlogbook.document.getElementById("hiddenlogbook").innerHTML;
+	document.getElementById("logbook").className="loggedin";
 	document.getElementById("loginlabel").innerHTML=viewlogbook.document.getElementById("hiddenloginlabel").innerHTML;
 	document.getElementById("viewlogbook").innerHTML="";
 	document.getElementById("viewlogbook").style.zIndex="-100";

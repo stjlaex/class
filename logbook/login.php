@@ -27,22 +27,21 @@ kill_class_phpsession();
     <div style="display:none;" id="hiddenbookoptions">
         <p>
             <?php
-                if ($CFG -> loginaside != '') {print $CFG -> loginaside;
-                } 
-                else {print_string('loginaside');
-                }
+            if ($CFG -> loginaside != '') {print $CFG -> loginaside;
+            } else {print_string('loginaside');
+            }
             ?>
         </p>
     </div>
     <div style="display:none;" id="hiddenlang">
         <?php
-            if (isset($_POST['langchoice'])) {
-                $langchoice = $_POST['langchoice'];
-                update_user_language($langchoice);
+        if (isset($_POST['langchoice'])) {
+            $langchoice = $_POST['langchoice'];
+            update_user_language($langchoice);
         } else {
             $langchoice = '';
         }
-            include ('logbook/language_select.php');
+        include ('logbook/language_select.php');
         ?>
     </div>
     <?php 
@@ -83,13 +82,26 @@ kill_class_phpsession();
     ?>
     <div class="login-right">
         <div id="schoollogo" class="schoollogo">
-            <h1><?php print_string('welcome');?></h1>
+            <h1><?php print_string('welcome'); ?></h1>
             <p><?php print $CFG -> loginaside; ?></p>
         	<img src="../images/<?php print $CFG -> schoollogo; ?>" />
         </div>
     </div>
     <footer>
-        
+            <div class="container">
+                <ul>
+                    <li>Powered by</li>
+                    <li><a title="learningdata" href="http://www.learningdata.ie/"><img width="156px" height="47px" alt="learningdata" src="images/learningdata.png"></a></li>
+                </ul>
+                <ul class="school-col">
+                    <li>School</li>
+                    <li><a href="http://learningdata.ie"><img src="images/generic-school.png" id="school_logo" data-pb-tint-colour="#d2e5ed" data-pb-tint-opacity="1" class="filter-tint pb-ref-filter-tint-0"></a></li>
+                </ul>
+                <ul class="legal-col">
+                    <li>&copy; 2014 Learning Data</li>
+                    <li><a href="http://demo.learningdata.net/classic/mod/invite/terms.php">Terms and conditions</a></li>
+                </ul>
+        </div>        
     </footer>
     <script type="text/javascript" src="js/qtip.js"></script>
     <script type="text/javascript" src="js/book.js?version=1013"></script>

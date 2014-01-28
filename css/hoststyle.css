@@ -264,14 +264,20 @@ div#loginworking select {
     position: relative;
     margin: 0 0 4px 2px;
 }
-div#loginlang, #logbook {
-    width: 250px;
+#logbook {
+    width: 550px;
     position: absolute;
     z-index: 150;
-    top: 10px;
+    top: 20px;
     right: 10px;
 }
-#loginlabel {
+#loginlang .selector  {
+    float: left;
+    width: 245px!important;
+    margin-left: 20px;
+}
+#loginlang .selector span  {
+    width: 220px!important;
 }
 #login {
     background-color: #666666;

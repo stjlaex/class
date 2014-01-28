@@ -95,8 +95,7 @@ print '<?xml version="1.0" encoding="utf-8"?' . '>';
     foreach($showbooks as $bookhost=>$bookname){
 ?>
         <div id="<?php print $bookhost . 'options'; ?>" style="display:none;" class="bookoptions"></div>
-        <iframe id="<?php print 'view' . $bookhost; ?>" name="<?php print 'view' . $bookhost; ?>"
- class="bookframe"></iframe>
+        <iframe id="<?php print 'view' . $bookhost; ?>" name="<?php print 'view' . $bookhost; ?>" class="bookframe"></iframe>
 <?php
 }
 ?>

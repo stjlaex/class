@@ -2,16 +2,21 @@ body.login  {
     background-color: #91c73e;
     font-size: 14px!important;
 }
+.container  {
+    width: 80%;
+    position: relative;
+    margin: 0 auto;
+}
+
 .theme-selector {
     width: 80%;
     margin:2% auto 5%;
 }
-
-
 .login-left,
 .login-right {
     width: 50%;
     float: right;
+    margin-top: 50px;
 }
 fieldset    {
     padding: 30% 15%;
@@ -74,4 +79,64 @@ fieldset    {
 .schoollogo img {
     display: block;
     margin: 80px auto 0;
+}
+
+
+
+footer {
+    background-color: #434d57;
+    color: #174764;
+    font-size: 1em;
+    font-weight: bold;
+    height: 275px;
+    padding: 3px 0 0;
+    position: absolute;
+    width: 100%;
+    display: block;
+    bottom: 0;
+}
+footer ul {
+    color: #FFFFFF;
+    float: left;
+    list-style: none outside none;
+    margin-top: 70px;
+    padding: 0;
+}
+footer ul li a {
+    padding: 0;
+}
+footer ul.school-col {
+    margin-left: 100px;
+    width: 280px;
+}
+footer ul.legal-col li {
+    float: left;
+    font-size: 12px;
+    font-weight: 100;
+    margin: 30px 20px 0 0;
+}
+footer ul.school-col li img {
+    max-width: 80px;
+}
+footer ul.school-col li:nth-child(2) {
+    text-align: center;
+    width: 110px;
+}
+footer img {
+    padding: 3px 0 0;
+    text-align: right;
+}
+footer p {
+    padding: 0 20px;
+}
+footer a {
+    color: #FFFFFF;
+    font-weight: 100;
+    padding: 0 5px;
+}
+footer a:hover {
+    text-decoration: underline;
+}
+footer a:link, footer a:visited {
+    text-align: right;
 }
