@@ -538,11 +538,14 @@ twoplus_buttonmenu($sidskey,sizeof($sids),$extrabuttons);
   <input type="hidden" name="choice" value="<?php print $choice;?>" />
 </form>
 </div>
-
+<?php
+	if($CFG->tempinfosheet!=''){$profileprint=$CFG->tempinfosheet;}
+	else{$profileprint="student_profile_print";}
+?>
 	<div id="xml-profile" style="display:none;">
 	  <params>
 		<sids><?php print $sid;?></sids>
-		<transform>student_profile_print</transform>
+		<transform><?php print $profileprint;?></transform>
 		<paper>portrait</paper>
 	  </params>
 	</div>

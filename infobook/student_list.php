@@ -409,9 +409,14 @@ two_buttonmenu($extrabuttons,$book);
 include('scripts/studentlist_extra.php');
 ?>
 
+<?php
+	if($CFG->tempinfosheet!=''){$profileprint=$CFG->tempinfosheet;}
+	else{$profileprint="student_profile_print";}
+?>
 	<div id="xml-profile" style="display:none;">
 	  <params>
-		<transform>student_profile_print</transform>
+		<sids><?php print $sid;?></sids>
+		<transform><?php print $profileprint;?></transform>
 		<paper>portrait</paper>
 	  </params>
 	</div>
