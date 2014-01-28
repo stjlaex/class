@@ -17,7 +17,7 @@ $languages=get_list_of_languages();
 		}
 ?>
 	</select>
-	<?php
+<?php
 	if($CFG->theme20!=""){
 ?>
 	<label for="Theme">Theme</label>
