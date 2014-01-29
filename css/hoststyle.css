@@ -80,6 +80,13 @@ header {
     height: 80px;
 }
 .booktabs ul {
+    float: right;
+    height: 50px;
+    list-style: none;
+    width: 100%;
+}
+
+.booktabs ul {
     margin: 0;
     list-style: none;
 }
@@ -95,7 +102,7 @@ header {
     cursor: pointer;
     font-size: 18px;
     color: #8995a2;
-    margin: 25px 0 0;
+    margin: 0;
     padding: 15px 20px;
 }
 .booktabs li a:hover,
@@ -106,16 +113,39 @@ header {
 }
 
 /*the special case logbook in top left corner*/
-#logbooktab {
-    float: left;
-    width: 18%;
-}
-.booktabs .logbook:hover {
-    background-color: #ee9900;
-    color: #ffffff;
-}
 .booktabs .logbook {
     cursor: pointer;
+}
+div#loginworking {
+    width: 140px;
+    float: right;
+    margin-right: 10px;
+}
+#loginworking .selector, 
+#loginworking .selector span,
+#loginworking .selector select {
+    height: 25px;
+    font-size: 12px;
+    line-height: 25px;
+    padding: 0;
+    color: #8995a2;
+    text-transform: capitalize;
+}
+#loginworking .selector span   {
+    background-position: right -100px;
+    padding-left: 10px;
+}
+.user-logout    {
+    color:#8995a2;
+    background-color: #2e4053;
+    display: inline-block;
+    padding: 5px 10px;
+    float: right;
+    font-size: 14px;
+    text-transform: uppercase;
+}
+.user-logout a    {
+    color:#8995a2;
 }
 
 /***************************************************************************/
@@ -241,29 +271,6 @@ button {
     z-index: 500;
 }
 
-div#logbookstripe {
-    width: 100%;
-    height: 0;
-    padding: 0;
-    border: 0;
-    margin: 0;
-    background-color: #444444;
-    border-top: 3px solid;
-    z-index: 1000;
-}
-div#loginworking {
-    width: 50%;
-    padding: 6px 0 0 0;
-    z-index: 100;
-    border-left: 3px solid #ffffff;
-    background-color: #eeeeee;
-    margin: 0;
-    color: #222;
-}
-div#loginworking select {
-    position: relative;
-    margin: 0 0 4px 2px;
-}
 #logbook {
     width: 550px;
     position: absolute;
