@@ -244,6 +244,9 @@ further help then please refer to the information on ClaSSic.</p>
 $string['epfcommentemail']='<p>Dear Parent,</p><p>There is a new comment on ClaSSic about '."\$a". 
 	'.</p><p>Please follow the link below to access it:</p>';
 $string['epfcommenttitle']='New comment from';
+$string['epfreportemail']='<p>Dear Parent,</p><p>There is a new report on ClaSSic about '."\$a". 
+	'.</p><p>Please follow the link below to access it:</p>';
+$string['epfreporttitle']='New report from';
 $string['passwords']='Passwords';
 $string['statementbank']='Statement bank';
 $string['subjectcomponent']='Subject component';

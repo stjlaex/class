@@ -720,7 +720,7 @@ function elgg_new_comment($epfu,$dateset,$message,$title,$tid){
 			   	posted='$posted',title='$title',body='$message',access='$access';");
 		$epfuidpost=mysql_insert_id();
 
-
+		$recipients=array();
 		$table=$CFG->eportfolio_db_prefix.'friends';
 		$d_f=mysql_query("SELECT owner FROM $table WHERE friend='$epfuid';");
 		while($friend=mysql_fetch_array($d_f,MYSQL_ASSOC)){
@@ -730,15 +730,15 @@ function elgg_new_comment($epfu,$dateset,$message,$title,$tid){
 			mysql_query("INSERT INTO $table SET owner='$epfuidmember',weblog_post='$epfuidpost';");
 
 			/* Notify the parent by email. */
+			$recipient=array();
 			$table=$CFG->eportfolio_db_prefix.'users';
 			$d_u=mysql_query("SELECT name FROM $table WHERE ident='$epfuid';");
-			$studentname=mysql_result($d_u,0);
+			$recipient['studentname']=mysql_result($d_u,0);
 			$d_u=mysql_query("SELECT email FROM $table WHERE ident='$epfuidmember';");
-			$emailaddress=trim(mysql_result($d_u,0));
-			//$emailaddress='stj@laex.org';
-			$emailaddresses[]=$emailaddress;
+			$recipient['emailaddress']=trim(mysql_result($d_u,0));
+			$recipients[]=$recipient;
 			}
-		elgg_send_email($emailaddresses,"comment");
+		elgg_send_email($recipients,"comment");
 
 		}
 
@@ -755,7 +755,7 @@ function elgg_new_comment($epfu,$dateset,$message,$title,$tid){
  * @param $emailtype		string (example: comment,report,homework)
  *
  */
-function elgg_send_email($emailaddresses,$emailtype){
+function elgg_send_email($recipients,$emailtype){
 	global $CFG;
 
 	if($CFG->eportfolio_db!=''){
@@ -764,16 +764,16 @@ function elgg_send_email($emailaddresses,$emailtype){
 		}
 
 	$sends=array();//use to avoid mulitple notification meassages to the same address
-	foreach($emailaddresses as $emailaddress){
-		if($emailaddress!='' and !in_array($emailaddress,$sends)){
-			$sends[]=$emailaddress;
+	foreach($recipients as $recipient){
+		if($recipient['emailaddress']!='' and !in_array($recipient['emailaddress'],$sends)){
+			$sends[]=$recipient['emailaddress'];
 			$title=get_string('epf'.$emailtype.'title','infobook').' '.$CFG->schoolname;
-			$messagehtml=get_string('epf'.$emailtype.'email','infobook',$studentname)
+			$messagehtml=get_string('epf'.$emailtype.'email','infobook',$recipient['studentname'])
 				.' <p><a href="'.$CFG->eportfoliosite.'">'.$CFG->eportfoliosite.'</a></p>';
 			$footer=get_string('guardianemailfooterdisclaimer');
-			$messagetxt=strip_tags(html_entity_decode($message, ENT_QUOTES, 'UTF-8'))."\r\n".'--'. "\r\n" . $footer;
+			$messagetxt=strip_tags(html_entity_decode($messagehtml, ENT_QUOTES, 'UTF-8'))."\r\n".'--'. "\r\n" . $footer;
 			$messagehtml.='<br><hr><p>'. $footer.'<p>';
-			$emailaddress=strtolower($emailaddress);
+			$emailaddress=strtolower($recipient['emailaddress']);
 			$dbn=db_connect(false,$CFG->eportfolio_db);
 			$table=$CFG->eportfolio_db_prefix.'message_event';
 			send_email_to($emailaddress,'',$title,$messagetxt,$messagehtml,'','',$dbn,$table);
@@ -900,6 +900,25 @@ function elgg_upload_files($filedata,$dbc=true){
 				trigger_error('Uploaded file to: '.$dir,E_USER_NOTICE);
 				// chmod($file_fullpath, $CFG->filepermissions);
 				$success=true;
+
+				/*Send an email to guardians if a report has been uploaded*/
+				if($filedata['foldertype']=='report'){
+					$recipients=array();
+					$table=$CFG->eportfolio_db_prefix.'friends';
+					$d_f=mysql_query("SELECT owner FROM $table WHERE friend='$epfuid';");
+					while($friend=mysql_fetch_array($d_f,MYSQL_ASSOC)){
+						/* Notify the parent by email. */
+						$recipient=array();
+						$epfuidmember=$friend['owner'];
+						$table=$CFG->eportfolio_db_prefix.'users';
+						$d_u=mysql_query("SELECT name FROM $table WHERE ident='$epfuid';");
+						$recipient['studentname']=mysql_result($d_u,0);
+						$d_u=mysql_query("SELECT email FROM $table WHERE ident='$epfuidmember';");
+						$recipient['emailaddress']=trim(mysql_result($d_u,0));
+						$recipients[]=$recipient;
+						}
+					elgg_send_email($recipients,"report");
+					}
 				}
 
 			else{trigger_error('Could not move file to eportfolio: '.$file_fullpath,E_USER_WARNING);}
