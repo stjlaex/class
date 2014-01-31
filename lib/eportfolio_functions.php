@@ -721,7 +721,6 @@ function elgg_new_comment($epfu,$dateset,$message,$title,$tid){
 		$epfuidpost=mysql_insert_id();
 
 
-		$sends=array();//use to avoid mulitple notification meassages to the same address
 		$table=$CFG->eportfolio_db_prefix.'friends';
 		$d_f=mysql_query("SELECT owner FROM $table WHERE friend='$epfuid';");
 		while($friend=mysql_fetch_array($d_f,MYSQL_ASSOC)){
@@ -737,20 +736,9 @@ function elgg_new_comment($epfu,$dateset,$message,$title,$tid){
 			$d_u=mysql_query("SELECT email FROM $table WHERE ident='$epfuidmember';");
 			$emailaddress=trim(mysql_result($d_u,0));
 			//$emailaddress='stj@laex.org';
-			if($emailaddress!='' and !in_array($emailaddress,$sends)){
-				$sends[]=$emailaddress;
-				$title=get_string('epfcommenttitle','infobook').' '.$CFG->schoolname;
-				$message=get_string('epfcommentemail','infobook',$studentname)
-					.' <p><a href="'.$CFG->eportfoliosite.'">'.$CFG->eportfoliosite.'</a></p>';
-				$footer=get_string('guardianemailfooterdisclaimer');
-				$messagetxt=strip_tags(html_entity_decode($message, ENT_QUOTES, 'UTF-8'))."\r\n".'--'. "\r\n" . $footer;
-				$message.='<br /><hr><p>'. $footer.'<p>';
-				$emailaddress=strtolower($emailaddress);
-				$dbn=db_connect(false,$CFG->eportfolio_db);
-				$table=$CFG->eportfolio_db_prefix.'message_event';
-				send_email_to($emailaddress,'',$title,$messagetxt,$message,'','',$dbn,$table);
-				}
+			$emailaddresses[]=$emailaddress;
 			}
+		elgg_send_email($emailaddresses,"comment");
 
 		}
 
@@ -760,6 +748,39 @@ function elgg_new_comment($epfu,$dateset,$message,$title,$tid){
 	}
 
 
+/**
+ * Adds a message to classic's message_event table to be sent to parents
+ *
+ * @param $emailaddresses	array()
+ * @param $emailtype		string (example: comment,report,homework)
+ *
+ */
+function elgg_send_email($emailaddresses,$emailtype){
+	global $CFG;
+
+	if($CFG->eportfolio_db!=''){
+		$dbepf=db_connect(true,$CFG->eportfolio_db);
+		mysql_query("SET NAMES 'utf8'");
+		}
+
+	$sends=array();//use to avoid mulitple notification meassages to the same address
+	foreach($emailaddresses as $emailaddress){
+		if($emailaddress!='' and !in_array($emailaddress,$sends)){
+			$sends[]=$emailaddress;
+			$title=get_string('epf'.$emailtype.'title','infobook').' '.$CFG->schoolname;
+			$messagehtml=get_string('epf'.$emailtype.'email','infobook',$studentname)
+				.' <p><a href="'.$CFG->eportfoliosite.'">'.$CFG->eportfoliosite.'</a></p>';
+			$footer=get_string('guardianemailfooterdisclaimer');
+			$messagetxt=strip_tags(html_entity_decode($message, ENT_QUOTES, 'UTF-8'))."\r\n".'--'. "\r\n" . $footer;
+			$messagehtml.='<br><hr><p>'. $footer.'<p>';
+			$emailaddress=strtolower($emailaddress);
+			$dbn=db_connect(false,$CFG->eportfolio_db);
+			$table=$CFG->eportfolio_db_prefix.'message_event';
+			send_email_to($emailaddress,'',$title,$messagetxt,$messagehtml,'','',$dbn,$table);
+			}
+		}
+
+	}
 
 /**
  *
