@@ -241,10 +241,10 @@ one child at the school then your password maybe the matriculation
 number for either the eldest or youngest child. If you need any
 further help then please refer to the information on ClaSSic.</p>
 ';
-$string['epfcommentemail']='<p>Dear Parent,</p><p>There is a new comment on ClaSSic about '."\$a". 
+$string['epfcommentemail']='<p>Dear Parent,</p><p>There is a new comment on Classic about '."\$a". 
 	'.</p><p>Please follow the link below to access it:</p>';
 $string['epfcommenttitle']='New comment from';
-$string['epfreportemail']='<p>Dear Parent,</p><p>There is a new report on ClaSSic about '."\$a". 
+$string['epfreportemail']='<p>Dear Parent,</p><p>There is a new report on Classic about '."\$a". 
 	'.</p><p>Please follow the link below to access it:</p>';
 $string['epfreporttitle']='New report from';
 $string['passwords']='Passwords';
