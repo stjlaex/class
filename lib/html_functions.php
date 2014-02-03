@@ -17,8 +17,12 @@ function all_extrabuttons($extrabuttons,$book='',
 		while(list($description,$attributes)=each($extrabuttons)){
 			if(!isset($attributes['onclick'])){$attributes['onclick']=$onclick;}
 			if(!isset($attributes['title'])){$attributes['title']=$description;}
+			if(!isset($attributes['id'])){$buttonid='';}else{$buttonid=' id="'.$attributes['id'].'"';}
+			if(!isset($attributes['display'])){$display='';}else{$display=' style="display:'.$attributes['display'].';" ';}
 ?>
   <button onClick="<?php print $attributes['onclick'];?>" 
+	<?php print $buttonid;?>
+	<?php print $display;?>
 	tabindex="<?php // print $tab++;?>"
 	<?php print $class;?> 
 	<?php if(isset($attributes['pathtoscript'])){print '

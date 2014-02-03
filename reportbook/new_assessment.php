@@ -187,11 +187,24 @@ three_buttonmenu($extrabuttons);
 <?php
 		$extrabuttons=array();
 		$extrabuttons['generatecolumns']=array('name'=>'current',
+											   'id'=>'generatecolumns'.$eid,
 											   'title'=>'generatecolumns',
-											   'value'=>'generate_assessment_columns.php');
+											   'value'=>'generate_assessment_columns.php',
+											   'onclick'=>'clickToAction(this); document.getElementById(\'deletecolumns'.$eid.'\').style.display=\'block\'; this.style.display=\'none\';');
 		$extrabuttons['deletecolumns']=array('name'=>'current',
+											 'id'=>'deletecolumns'.$eid,
 											 'title'=>'deletecolumns',
-											 'value'=>'delete_assessment_columns.php');
+											 'value'=>'delete_assessment_columns.php',
+											 'onclick'=>'clickToAction(this); document.getElementById(\'generatecolumns'.$eid.'\').style.display=\'block\'; this.style.display=\'none\';');
+		if($AssCount['MarkCount']['value']==0){
+			$extrabuttons['generatecolumns']['display']='block';
+			$extrabuttons['deletecolumns']['display']='none';
+			}
+		if($AssCount['MarkCount']['value']>0){
+			$extrabuttons['generatecolumns']['display']='none';
+			$extrabuttons['deletecolumns']['display']='display';
+			}
+
 		if(!isset($AssDef['Derivation']['value'][0]) or (isset($AssDef['Derivation']['value'][0]) and ($AssDef['Derivation']['value'][0]==' ' or $AssDef['Derivation']['value'][0]==''))){
 			$extrabuttons['statistics']=array('name'=>'current',
 											  'title'=>'updatestatistics',
