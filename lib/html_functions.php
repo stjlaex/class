@@ -19,12 +19,13 @@ function all_extrabuttons($extrabuttons,$book='',
 			if(!isset($attributes['title'])){$attributes['title']=$description;}
 			if(!isset($attributes['id'])){$buttonid='';}else{$buttonid=' id="'.$attributes['id'].'"';}
 			if(!isset($attributes['display'])){$display='';}else{$display=' style="display:'.$attributes['display'].';" ';}
+			if(!isset($attributes['class'])){$thisclass='';}else{$thisclass=' class="'.$attributes['class'].'" ';}
 ?>
   <button onClick="<?php print $attributes['onclick'];?>" 
 	<?php print $buttonid;?>
 	<?php print $display;?>
 	tabindex="<?php // print $tab++;?>"
-	<?php print $class;?> 
+	<?php if($thisclass==''){print $class;}else{print $thisclass;}?> 
 	<?php if(isset($attributes['pathtoscript'])){print '
 						  pathtoscript="'.$attributes['pathtoscript'].'" ';}?>
 	<?php if(isset($attributes['xmlcontainerid'])){print '

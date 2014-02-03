@@ -165,9 +165,11 @@ three_buttonmenu($extrabuttons);
 		  <tr class="hidden" id="<?php print $eid.'-'.$rown++;?>">
 			<td colspan="7">
 			  <p>
+<!--
 				<?php print_string('statistics',$book);?>
 				<value id="<?php print $eid;?>-Statistics"><?php print
 					$AssDef['Statistics']['value'];?></value>.&nbsp;
+-->
 				<?php print_string('markbookcolumns',$book);?>
 				<value id="<?php print $eid;?>-Markcount"><?php print
 						 $AssCount['MarkCount']['value'];?></value>.&nbsp;
@@ -190,9 +192,10 @@ three_buttonmenu($extrabuttons);
 											   'id'=>'generatecolumns'.$eid,
 											   'title'=>'generatecolumns',
 											   'value'=>'generate_assessment_columns.php',
-											   'onclick'=>'clickToAction(this); document.getElementById(\'deletecolumns'.$eid.'\').style.display=\'block\'; this.style.display=\'none\';');
+											   'onclick'=>'clickToAction(this); document.getElementById(\'deletecolumns'.$eid.'\').style.display=\'block\'; this.style.display=\'none\'; ');
 		$extrabuttons['deletecolumns']=array('name'=>'current',
 											 'id'=>'deletecolumns'.$eid,
+											 'class'=>'rowaction deletecolumns',
 											 'title'=>'deletecolumns',
 											 'value'=>'delete_assessment_columns.php',
 											 'onclick'=>'clickToAction(this); document.getElementById(\'generatecolumns'.$eid.'\').style.display=\'block\'; this.style.display=\'none\';');
@@ -202,13 +205,13 @@ three_buttonmenu($extrabuttons);
 			}
 		if($AssCount['MarkCount']['value']>0){
 			$extrabuttons['generatecolumns']['display']='none';
-			$extrabuttons['deletecolumns']['display']='display';
+			$extrabuttons['deletecolumns']['display']='block';
 			}
 
 		if(!isset($AssDef['Derivation']['value'][0]) or (isset($AssDef['Derivation']['value'][0]) and ($AssDef['Derivation']['value'][0]==' ' or $AssDef['Derivation']['value'][0]==''))){
-			$extrabuttons['statistics']=array('name'=>'current',
+			/*$extrabuttons['statistics']=array('name'=>'current',
 											  'title'=>'updatestatistics',
-											  'value'=>'calculate_assessment_statistics.php');
+											  'value'=>'calculate_assessment_statistics.php');*/
 			}
 		elseif(isset($AssDef['Derivation']['value'][0]) and $AssDef['Derivation']['value'][0]=='R'){
 			$extrabuttons['rank']=array('name'=>'current',

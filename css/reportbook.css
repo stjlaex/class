@@ -33,3 +33,6 @@ p.reporttable a.vspecial {
 p.reporttable a.special { 
     background-color:#ffff99;
 	}
+.deletecolumns {
+    background-color:#666666 !important;
+	}
