@@ -2,20 +2,6 @@
  * main color: aaaa44
  * light shade:
  */
-
-.infocolor fieldset, .infocolor div.topform, .infocolor table.listmenu {
-	border-color:#aaaa44;
-    color:#000000;
-	}
-div#bookbox{
-	border-color:#aaaa44;
-	}
-.infocolor button {
-	background-color:#aaaa44;
-	}
-.infocolor legend, .infocolor caption {
-    border-color:#aaaa44;
-	}
 /*used (but rarely) to describe page content in the space to the left of the top buttonmenu*/
 div#formstatus-new {
 	border:0; margin:2px 0 10px 0;

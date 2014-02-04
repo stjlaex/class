@@ -41,5 +41,10 @@ if($current!=''){
 	mysql_query("INSERT INTO history SET uid='$uid', page='$current'");
 	}
 ?>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+    <script src="js/jquery.uniform.min.js"></script>
+    <script>
+          $("select, input").uniform();
+    </script>
 </body>
 </html>

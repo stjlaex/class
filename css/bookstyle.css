@@ -10,14 +10,13 @@
     border: 0;
 }
 body {
-    color: #ffffff;
+    color: #657585;
     text-align: left;
     font-family: 'Lato', sans-serif;
     font-size: 14px;
 }
 a {
-    font-size: small;
-    color: #000000;
+    color: #657585;
     font-weight: 900;
     text-decoration: none;
 }
@@ -54,7 +53,11 @@ h6  {
     line-height: 1.1;
     color: inherit;
 }
-
+.fa {
+    color: #91c73e;
+    font-size: 16px;
+    margin-right: 5px;
+}
 input, textarea, select {
     margin-bottom: 10px;
     text-align: left;
@@ -88,24 +91,17 @@ input[type="radio"] {
 
 table {
     width: 100%;
-    margin: 0;
-    border: 0;
-    padding: 0;
     empty-cells: hide;
     border-collapse: collapse;
-    background-color: #dde;
-    color: #000000;
 }
 th {
     text-align: left;
-    font-weight: 500;
     border-style: none;
     border-width: 0px;
 }
 td {
     text-align: left;
-    border-style: none;
-    border-width: 0px;
+    font-size: 14px;    
 }
 legend, caption {
     text-align: left;
@@ -219,14 +215,6 @@ div.content {
     border: 0;
     background-color: #444444;
     overflow: auto;
-}
-.content input[type="checkbox"] {
-    width: 1em;
-}
-div.content div {
-    border: 0;
-    margin: 0;
-    overflow: hidden;
 }
 div.content fieldset, div.topcontent fieldset {
     padding: 1%;
@@ -490,21 +478,8 @@ img.clicktoconfigure {
     content: url("../images/document-properties.png");
     cursor: pointer;
 }
-img.clicktoaddmerit {
-    background-image: url("../images/goldstar.png");
-    content: url("../images/goldstar.png");
-    cursor: pointer;
-}
-img.clicktotarget {
-    background-image: url("../images/greentick.png");
-    content: url("../images/greentick.png");
-    cursor: pointer;
-}
-img.clicktochart {
-    background-image: url("../images/charter.png");
-    content: url("../images/charter.png");
-    cursor: pointer;
-}
+.add-merit div  { float: right; }
+.add-merit .fa  { cursor: pointer; }
 img.clicktoprint {
     background-image: url("../images/printer.png");
     content: url("../images/printer.png");
@@ -561,11 +536,16 @@ table.listmenu {
 .listmenu td label, .listmenu th label, .listmenu li label {
     color: #666666 !important;
 }
+.listmenu tr {
+    background-color: #ebedef;
+}
+.listmenu tr:nth-of-type(odd) {
+  background-color:#d2d7dc;
+}
 .listmenu td {
     border-top: 1px solid;
-    border-color: #cccccc;
-    background-color: #ffffee;
-    padding-left: 1%;
+    border-color: #bac1c8;
+    padding:10px 0 10px 1%;
 }
 ul.listmenu, .listmenu li {
     border: 0px none;
@@ -650,14 +630,6 @@ div.content fieldset.listmenu, div.content fieldset.listmenu div, .listmenu td l
 .listmenu td div.row input, .listmenu td.row div input {
     margin: 0;
     border: 2px solid #ff9900;
-    cursor: pointer;
-}
-.listmenu td div.checked, div.checked input, div.checked label, .checked {
-    background-color: #ff9966 !important;
-    cursor: pointer;
-}
-.listmenu td div.notchecked, div.notchecked input, div.notchecked label, .notchecked {
-    background-color: #eeeeee !important;
     cursor: pointer;
 }
 .listmenu td.boundary div {

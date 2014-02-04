@@ -13,8 +13,8 @@
   </div>
 
   <div style="visibility:hidden;" id="hiddenlogbook">
-    <!--div id="logbookstripe" class="logbook"></div-->
-    <!--div id="sidebuttons" class="sidebuttons">
+    <!--div id="logbookstripe" class="logbook"></div>
+    <div id="sidebuttons" class="sidebuttons">
       <button onclick="viewBook('aboutbook');" title="<?php print_string('about');?>"><img src="images/help-browser.png" /></button>
       <button id="sitestatus" class="hide" ><img src="images/roller.gif"/></button>
       <button id="siteicon" class="show" onClick="loadBook('');" title="<?php print_string('reload');?>" ><img src="images/view-refresh.png" alt="<?php print_string('reload');?>" /></button>

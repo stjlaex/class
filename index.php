@@ -98,8 +98,8 @@
     <script src="js/jquery.uniform.min.js"></script>
     <script>
       $("iframe").load(function() {
-          $("select").uniform();
-          $("iframe").contents().find("select").uniform();
+          $("select, input").uniform();
+          //$("iframe").contents().find("select").uniform();
       });
     </script>
   </body>

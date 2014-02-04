@@ -4,7 +4,7 @@
 /***************************************************************************/
 
 body {
-    background-color: ivory;
+    background-color: ffffff;
     color: #ffffff;
     margin: 0;
     border: 0;
@@ -139,10 +139,11 @@ div#loginworking {
     color:#8995a2;
     background-color: #2e4053;
     display: inline-block;
-    padding: 5px 10px;
+    padding: 3px 10px 0;
     float: right;
     font-size: 14px;
     text-transform: uppercase;
+    height: 22px
 }
 .user-logout a    {
     color:#8995a2;

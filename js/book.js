@@ -941,6 +941,7 @@ function checkAll(checkAllBox,checkname){
 				formObject.elements[c].checked=false;
 				}
 			checkrowIndicator(formObject.elements[c]);
+			$.uniform.update( formObject.elements[c] )
 			}
 		}
 	}

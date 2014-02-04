@@ -71,17 +71,17 @@ fieldset    {
 .schoollogo h1 {
     font-size:60px;
     margin-bottom: 10px;
+    color: #FFFFFF;
 }
 .schoollogo p {
     font-size:14px;
     font-weight: 300;
+    color: #FFFFFF;    
 }
 .schoollogo img {
     display: block;
     margin: 80px auto 0;
 }
-
-
 
 footer {
     background-color: #434d57;
