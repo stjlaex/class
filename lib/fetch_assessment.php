@@ -193,6 +193,11 @@ function fetchAssessmentDefinition($eid){
 						   'field_db'=>'stage',
 						   'type_db'=>'char(3)', 
 						   'value'=>''.$ass['stage']);
+	$AssDef['ProfileName']=array('label'=>'Profile Name',
+						   'table_db'=>'assessment', 
+						   'field_db'=>'profile_name',
+						   'type_db'=>'varchar(60)', 
+						   'value'=>''.$ass['profile_name']);
 	/*
    	$AssDef['Method']=array('label'=>'Method',
 							'table_db' =>'assessment', 
@@ -1709,7 +1714,7 @@ function generate_assessment_columns($eid){
 	
 							mysql_query("INSERT INTO mark (entrydate, marktype, topic, comment, author,
 							 def_name, assessment, component_id) VALUES ('$entrydate', 'score', '$description', 
-							 '', 'ClaSS', '$markdef_name', '$asstype', '$pidnow');");
+							 '', 'Class', '$markdef_name', '$asstype', '$pidnow');");
 							$mid=mysql_insert_id();
 
 							/* Make entry in eidmid for this new mark. */
@@ -1734,7 +1739,7 @@ function generate_assessment_columns($eid){
 								eidsid.subject_id LIKE '$bid' AND eidsid.component_id='$pid' AND eidsid.assessment_id='$eid';");
 
 							if(mysql_num_rows($d_eidsids)==0){
-								//								$AssDef['Year']['value'];
+								//$AssDef['Year']['value'];
 								$assyear=$yearnow-$yeardiff;
 								$d_s=mysql_query("SELECT DISTINCT subject_id FROM component 
 												WHERE course_id='$crid' AND id='$bid' AND status!='U' AND year='$assyear';");
@@ -1772,5 +1777,95 @@ function generate_assessment_columns($eid){
 			}
 		}
 		return $AssDef;
+	}
+
+/**
+ *
+ * Generates columns for a class
+ *
+ * @param array $classdef
+ * @return array $AssDef
+ */
+function generate_class_assessment_columns($classes){
+
+	foreach($classes as $classdef){
+		$crid=$classdef['crid'];
+		$stage=$classdef['stage'];
+		if(isset($classdef['year'])){$curryear=$classdef['year'];}
+		else{$curryear=get_curriculumyear($crid);}
+		$bid=$classdef['bid'];
+		$cid=$classdef['class_id'];
+		$cids[]=$cid;
+		$cohid=$classdef['cohid'];
+		$cohort=array('course_id'=>$crid,'stage'=>$stage,'year'=>$curryear);
+		$cohorts[$cohid]=$cohort;
+		$profiles[$crid]=list_assessment_profiles($crid);
+		}
+
+	foreach($cohorts as $cohid=>$cohort){
+		if(count($profiles)>0){
+			$AssDefs=fetch_cohortAssessmentDefinitions($cohort);
+			foreach($profiles as $crprofiles){
+				foreach($crprofiles as $profile){
+					$AssDefsPro=fetch_cohortAssessmentDefinitions($cohort,$profile['id']);
+					$AssDefs=array_merge($AssDefs,$AssDefsPro);
+					}
+				}
+			}
+		else{$AssDefs=fetch_cohortAssessmentDefinitions($cohort);}
+		foreach($AssDefs as $AssDef){
+			$eid=$AssDef['id_db'];
+			$AssCount=fetchAssessmentCount($eid);
+			$AssDef=array_merge($AssDef,$AssCount);
+			$crid=$AssDef['Course']['value'];
+			$gena=$AssDef['GradingScheme']['value'];
+			$subject=$AssDef['Subject']['value'];
+			$compstatus=$AssDef['ComponentStatus']['value'];
+			$strandstatus=$AssDef['StrandStatus']['value'];
+			$description=$AssDef['Description']['value'];
+			$deadline=$AssDef['Deadline']['value'];
+
+			if($AssDef['ResultStatus']['value']=='R'){$asstype='yes';}
+			else{$asstype='other';}
+
+			if($AssDef['Component']['value']!=''){$pid=$AssDef['Component']['value'];}
+			else{$pid='';}
+
+			if($AssDef['MarkCount']['value']!=0){
+				$yearnow=get_curriculumyear($crid);
+
+				if($deadline!='0000-00-00'){$entrydate=$deadline;}
+				else{$entrydate=date('Y').'-'.date('n').'-'.date('j');}
+
+				if($bid!='' and ($subject==$bid or $subject=='' or $subject=='%')){
+
+					$noentries=true;
+					foreach($cids as $cid){
+						$d_c=mysql_query("SELECT * FROM midcid WHERE class_id='$cid';");
+						while($mark=mysql_fetch_array($d_c,MYSQL_ASSOC)){
+							$noentries=false;
+							}
+						}
+
+					if($noentries){
+						mysql_query("INSERT INTO mark (entrydate, marktype, topic, comment, author,
+						 def_name, assessment, component_id) VALUES ('$entrydate', 'score', '$description', 
+						 '', 'Class', '$markdef_name', '$asstype', '$pid');");
+						$mid=mysql_insert_id();
+
+						mysql_query("INSERT INTO eidmid (assessment_id,mark_id) VALUES ('$eid', '$mid');");
+
+						foreach($cids as $cid){
+							$d_c=mysql_query("SELECT * FROM midcid WHERE class_id='$cid';");
+							if(mysql_num_rows($d_c)==0){
+								mysql_query("INSERT INTO midcid (mark_id,class_id) VALUES ('$mid', '$cid');");
+								}
+							}
+						}
+
+					}
+				}
+			}
+		}
 	}
 ?>

@@ -992,9 +992,13 @@ function populate_subjectclassdef($classdef,$currentseason='S'){
 						}
 					}
 				}
+			$classdef['class_id']=$cid;
+			$classdef['cohid']=$cohid;
+			$classes[]=$classdef;
 			}
 		/*finished with this cid*/
 		}
+		generate_class_assessment_columns($classes);
 	}
 
 
