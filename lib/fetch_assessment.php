@@ -1820,6 +1820,7 @@ function generate_class_assessment_columns($classes){
 			$crid=$AssDef['Course']['value'];
 			$gena=$AssDef['GradingScheme']['value'];
 			$subject=$AssDef['Subject']['value'];
+			$stage=$AssDef['Stage']['value'];
 			$compstatus=$AssDef['ComponentStatus']['value'];
 			$strandstatus=$AssDef['StrandStatus']['value'];
 			$description=$AssDef['Description']['value'];
@@ -1828,8 +1829,30 @@ function generate_class_assessment_columns($classes){
 			if($AssDef['ResultStatus']['value']=='R'){$asstype='yes';}
 			else{$asstype='other';}
 
-			if($AssDef['Component']['value']!=''){$pid=$AssDef['Component']['value'];}
-			else{$pid='';}
+			if($gena!='' and $gena!=' '){
+				$grading_grades=$AssDef['GradingScheme']['grades'];
+				$d_m=mysql_query("SELECT name FROM markdef WHERE
+								grading_name='$gena' AND scoretype='grade' 
+								AND (course_id='%' OR course_id='$crid');");
+				if(mysql_num_rows($d_m)==0){
+					$markdef_name=$crid.' '.$gena;
+					mysql_query("INSERT INTO markdef SET
+								name='$markdef_name', scoretype='grade', grading_name='$gena',
+								comment='$description', outoftotal='$total', author='ClaSS', 
+								course_id='$crid', subject_id='$subject';");
+					}
+				else{
+					$markdef_name=mysql_result($d_m,0);
+					}
+				$markdef_scoretype='grade';
+				}
+			else{
+				$d_m=mysql_query("SELECT name FROM markdef WHERE
+								scoretype='value' AND (course_id='%' OR course_id='$crid');");
+				$markdef_name=mysql_result($d_m,0);
+				$markdef_scoretype='value';
+				}
+			mysql_free_result($d_m);
 
 			if($AssDef['MarkCount']['value']!=0){
 				$yearnow=get_curriculumyear($crid);
@@ -1848,17 +1871,61 @@ function generate_class_assessment_columns($classes){
 						}
 
 					if($noentries){
-						mysql_query("INSERT INTO mark (entrydate, marktype, topic, comment, author,
-						 def_name, assessment, component_id) VALUES ('$entrydate', 'score', '$description', 
-						 '', 'Class', '$markdef_name', '$asstype', '$pid');");
-						$mid=mysql_insert_id();
+						$components=(array)list_subject_components($bid,$crid,$compstatus);
+						if(sizeof($components)==0){$components[0]['id']='';}
+						foreach($components as $component){
+							$strands=(array)list_subject_components($component['id'],$crid,$strandstatus);
+							if(sizeof($strands)==0){$strands[0]['id']=$component['id'];}
+							foreach($strands as $strand){
+								$pid=$strand['id'];
 
-						mysql_query("INSERT INTO eidmid (assessment_id,mark_id) VALUES ('$eid', '$mid');");
+								$cohid=update_cohort($cohort);
+								$cridnow=$cohort['course_id'];
+								$stagenow=$cohort['stage'];
+								$bidnow='';
+								$pidnow='';
+								if($cridnow!=$crid){
+									$d_s=mysql_query("SELECT DISTINCT subject_id FROM component 
+												WHERE course_id='$cridnow' AND id='$pid' AND subject_id='$bid' AND status!='U';");
+									if(mysql_num_rows($d_s)>0){$bidnow=$bid;$pidnow=$pid;}
+									else{
+										if($pid!=''){
+											$d_s=mysql_query("SELECT DISTINCT subject_id FROM component 
+														WHERE course_id='$cridnow' AND id='' AND subject_id='$pid' AND status!='U';");
+											if(mysql_num_rows($d_s)>0){$bidnow=$pid;$pidnow='';}
+											else{
+												if($pid!=''){
+													$d_s=mysql_query("SELECT DISTINCT subject_id FROM component 
+																		WHERE course_id='$cridnow' AND id='$pid' AND status!='U';");
+													if(mysql_num_rows($d_s)>0){$bidnow=mysql_result($d_s,0);$pidnow=$pid;}
+													if($bidnow!=''){
+														$d_s=mysql_query("SELECT DISTINCT subject_id FROM component 
+																	   WHERE course_id='$cridnow' AND id='$bidnow' AND status!='U';");
+														if(mysql_num_rows($d_s)>0){$bidnow=mysql_result($d_s,0);$pidnow=$pid;}
+														}
+													}
+												}
+											}
+										}
+									}
+								else{
+									$bidnow=$bid;
+									$pidnow=$pid;
+									}
 
-						foreach($cids as $cid){
-							$d_c=mysql_query("SELECT * FROM midcid WHERE class_id='$cid';");
-							if(mysql_num_rows($d_c)==0){
-								mysql_query("INSERT INTO midcid (mark_id,class_id) VALUES ('$mid', '$cid');");
+								mysql_query("INSERT INTO mark (entrydate, marktype, topic, comment, author,
+								 def_name, assessment, component_id) VALUES ('$entrydate', 'score', '$description', 
+								 '', 'Class', '$markdef_name', '$asstype', '$pidnow');");
+								$mid=mysql_insert_id();
+
+								mysql_query("INSERT INTO eidmid (assessment_id,mark_id) VALUES ('$eid', '$mid');");
+
+								foreach($cids as $cid){
+									$d_c=mysql_query("SELECT * FROM midcid WHERE class_id='$cid';");
+									//if(mysql_num_rows($d_c)==0){
+										mysql_query("INSERT INTO midcid (mark_id,class_id) VALUES ('$mid', '$cid');");
+									//	}
+									}
 								}
 							}
 						}
