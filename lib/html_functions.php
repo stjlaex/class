@@ -664,9 +664,9 @@ function list_select_list($list,$vars,$book=''){
 	$extraclass='';
 	if($vars['label']!=''){
 ?>
-  <label for="<?php print $vars['id'];?>">
+  <!--label for="<?php print $vars['id'];?>">
 	<?php print_string($vars['label'],$book);?>
-  </label>
+  </label-->
 <?php
 		}
 ?>
@@ -686,7 +686,7 @@ function list_select_list($list,$vars,$book=''){
 		elseif($vars['required']=='eitheror'){ 
 			print ' class="eitheror" eitheror="'.$vars['eitheror'].'" ';} ?>
 	>
-    <option value=""></option>
+    <option value=""><?php print_string($vars['label'],$book);?></option>
 <?php
 	while(list($index,$item)=each($list)){
 		if(!is_array($item)){
@@ -728,14 +728,13 @@ function list_select_enum($fieldname,$vars,$book=''){
 		}
 	if($vars['label']!=''){
 ?>
-  <label for="<?php print $vars['id'];?>">
+  <!--label for="<?php print $vars['id'];?>">
 	<?php print_string($vars['label'],$book);?>
-  </label>
+  </label-->
 <?php 
 		}
 ?>
-  <select 
-	id="<?php print $vars['id'];?>" 
+  <select id="<?php print $vars['id'];?>" 
 <?php 
 	if($vars['multi']>1){print ' name="'.$vars['name'].$vars['i'].'[]" multiple="multiple" ';}
 	else{print ' name="'.$vars['name'].$vars['i'].'" ';}
@@ -749,7 +748,7 @@ function list_select_enum($fieldname,$vars,$book=''){
 			elseif($vars['required']=='eitheror'){
 				print 'class="eitheror" eitheror="'.$vars['eitheror'].'" ';} ?> 
 	>
-    <option value=""></option>
+    <option value=""><?php print_string($vars['label'],$book);?></option>
 <?php
 			 while(list($inval,$description)=each($enum)){	
 				 print '<option ';

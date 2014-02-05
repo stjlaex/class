@@ -97,10 +97,11 @@
     <script src="js/host.js?version=1042"></script>
     <script src="js/jquery.uniform.min.js"></script>
     <script>
-      $("iframe").load(function() {
-          $("select, input").uniform();
-          //$("iframe").contents().find("select").uniform();
-      });
+        $("iframe").load(function() {
+            $('.infobook select').uniform({wrapperClass: "blueTheme"});   
+            $('select, input').uniform();
+            $.uniform.update();       
+        });
     </script>
   </body>
 </html>

@@ -14,6 +14,7 @@ body {
     text-align: left;
     font-family: 'Lato', sans-serif;
     font-size: 14px;
+    background-color: #FFFFFF;
 }
 a {
     color: #657585;
@@ -536,17 +537,38 @@ table.listmenu {
 .listmenu td label, .listmenu th label, .listmenu li label {
     color: #666666 !important;
 }
+.listmenu thead tr,
 .listmenu tr {
-    background-color: #ebedef;
+    background-color: #d2d7dc;
 }
+
 .listmenu tr:nth-of-type(odd) {
-  background-color:#d2d7dc;
+  background-color:#ebedef;
 }
 .listmenu td {
     border-top: 1px solid;
     border-color: #bac1c8;
     padding:10px 0 10px 1%;
 }
+.listmenu td.E {
+    color: #aaaaaa;
+    background-color: #ffffff;
+}
+.listmenu tr:hover {
+    background-color: #fcd39a !important;
+}
+.listmenu tr:hover td {
+    background-color: #fcd39a !important;
+}
+.listmenu tr:hover th {
+    background-color: #fcd39a !important;
+}
+.listmenu tr td table td:hover {
+    background-color: #eeeeee !important;
+}
+
+
+
 ul.listmenu, .listmenu li {
     border: 0px none;
     background-color: #ffffee;
@@ -567,30 +589,6 @@ div.content fieldset.listmenu, div.content fieldset.listmenu div, .listmenu td l
     background-color: #ffff99 !important;
     font-weight: 600;
     font-style: italic;
-}
-.listmenu th {
-    font-size: x-small;
-    border-left: 2px solid #999999;
-    background-color: #ffffff;
-}
-.listmenu th:first-child {
-    border-left: 0;
-}
-.listmenu td.E {
-    color: #aaaaaa;
-    background-color: #ffffff;
-}
-.listmenu tr:hover {
-    background-color: #fcd39a !important;
-}
-.listmenu tr:hover td {
-    background-color: #fcd39a !important;
-}
-.listmenu tr:hover th {
-    background-color: #fcd39a !important;
-}
-.listmenu tr td table td:hover {
-    background-color: #eeeeee !important;
 }
 /*fade to gray*/
 .listmenu tr.lowlite td, .listmenu td.lowlite, tr.lowlite a, .lowlite {

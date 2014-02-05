@@ -12,7 +12,7 @@
 
 /* Select */
 div.selector {
-    background-color: #4d5f72;
+    background-color: #34495e;
     background-image: none;
     line-height: 40px;
     height: 40px;
@@ -26,7 +26,7 @@ div.selector span {
     display: block;
     overflow: hidden;
     white-space: nowrap;
-    background-position: right 0;
+    background-position: right -50px;
     height: 40px;
     line-height: 40px;
     padding-right: 25px;
@@ -46,17 +46,32 @@ div.selector select {
     left: 0px;
     width: 100%;
 }
+div.selector.blueTheme {
+    width: 22%!important;
+}
+div.selector.blueTheme span {
+    width: 95%!important;
+}
+
+
+
+
+
+
+
+
+
 div.selector.active span {
-    background-position: right 0;
+    background-position: right -50px;
 }
 div.selector.hover span, div.selector.focus span {
-    background-position: right 0;
+    background-position: right -50px;
 }
 div.selector.hover.active span, div.selector.focus.active span {
-    background-position: right 0;
+    background-position: right -50px;
 }
 div.selector.disabled span, div.selector.disabled.active span {
-    background-position: right 0;
+    background-position: right -50px;
 }
 
 /* PRESENTATION */
