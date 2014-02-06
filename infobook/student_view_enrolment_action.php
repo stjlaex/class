@@ -85,6 +85,7 @@ if($sub=='Submit'){
 	 */
 	$todate=date('Y-m-d');
 	foreach($eids as $eid){
+		if(isset($_POST['extra'.$eid]) and $_POST['extra'.$eid]!='' and $_POST[$eid]=='1'){$extra=$_POST['extra'.$eid];}else{$extra='0';}
 		$AssDef=fetchAssessmentDefinition($eid);
 		$grading_grades=$AssDef['GradingScheme']['grades'];
 		/* $$eid are the names of score values posted by the form
@@ -98,7 +99,9 @@ if($sub=='Submit'){
 		else{
 			$result=$scorevalue;
 			}
-		$score=array('result'=>$result,'value'=>$scorevalue,'date'=>$todate);
+		$label=$AssDef['PrintLabel']['value'];
+		if($label=='extra'){$score=array('result'=>$result,'value'=>$scorevalue,'date'=>$todate,'comment'=>$extra);}
+		else{$score=array('result'=>$result,'value'=>$scorevalue,'date'=>$todate);}
 		update_assessment_score($eid,$sid,'G','',$score);
 		/* Option to automatically flag student as SEN */
 		if($CFG->enrol_assess_sen!='' and $CFG->enrol_assess_sen==$result){
