@@ -106,6 +106,12 @@ if(isset($d_info)){
 		$extra_studentfields['Medical'.$medcat['subtype']]=strtolower($medcat['name']);
 		}
 	$extra_studentfields['NextReviewDate']='nextreviewdate';
+	$EnrolAssDefs=fetch_enrolmentAssessmentDefinitions('','M');
+	if(sizeof($EnrolAssDefs)>0){
+		foreach($EnrolAssDefs as $AssDef){
+			$extra_studentfields['Assessment'.$AssDef['id_db']]=$AssDef['Description']['value'];
+			}
+		}
 
 	while(list($index,$displayfield)=each($displayfields)){
 
@@ -186,6 +192,16 @@ if(isset($d_info)){
 			}
 		else{
 			$field=fetchStudent_singlefield($sid,$displayfield);
+			if(substr($displayfield, 0, 10)=="Assessment"){
+				$edisplayfield=str_split($displayfield, 10);
+				$eid=$edisplayfield[1];
+				$Assessments=(array)fetchAssessments_short($sid,$eid,'G');
+				if($Assessments[0]['Comment']['value']!=""){
+					$extra=$Assessments[0]['Comment']['value'];
+					$displayout="<span title='$extra'>".$field[$displayfield]['value']."</span>";
+					$field[$displayfield]['value']=$displayout;
+					}
+				}
 			print '<td>'.$field[$displayfield]['value'].'</td>';
 			}
 		}
