@@ -906,34 +906,36 @@ function elgg_upload_files($filedata,$dbc=true){
 					}
 				}
 
-			if(rename($file_originalpath,$file_fullpath)){
-				trigger_error('Uploaded file to: '.$dir,E_USER_NOTICE);
-				// chmod($file_fullpath, $CFG->filepermissions);
-				$success=true;
+			if($filedata['foldertype']!='icon'){
+				if(rename($file_originalpath,$file_fullpath)){
+					trigger_error('Uploaded file to: '.$dir,E_USER_NOTICE);
+					// chmod($file_fullpath, $CFG->filepermissions);
+					$success=true;
 
-				/*Send an email to guardians if a report has been uploaded*/
-				if($filedata['foldertype']=='report'){
-					$recipients=array();
-					$table=$CFG->eportfolio_db_prefix.'friends';
-					$d_f=mysql_query("SELECT owner FROM $table WHERE friend='$epfuid';");
-					while($friend=mysql_fetch_array($d_f,MYSQL_ASSOC)){
-						/* Notify the parent by email. */
-						$recipient=array();
-						$epfuidmember=$friend['owner'];
-						$table=$CFG->eportfolio_db_prefix.'users';
-						$d_u=mysql_query("SELECT name FROM $table WHERE ident='$epfuid';");
-						$recipient['studentname']=mysql_result($d_u,0);
-						$recipient['sid']=$epfuid;
-						$d_u=mysql_query("SELECT email FROM $table WHERE ident='$epfuidmember';");
-						$recipient['emailaddress']=trim(mysql_result($d_u,0));
-						$recipient['gid']=$epfuidmember;
-						$recipients[]=$recipient;
+					/*Send an email to guardians if a report has been uploaded*/
+					if($filedata['foldertype']=='report'){
+						$recipients=array();
+						$table=$CFG->eportfolio_db_prefix.'friends';
+						$d_f=mysql_query("SELECT owner FROM $table WHERE friend='$epfuid';");
+						while($friend=mysql_fetch_array($d_f,MYSQL_ASSOC)){
+							/* Notify the parent by email. */
+							$recipient=array();
+							$epfuidmember=$friend['owner'];
+							$table=$CFG->eportfolio_db_prefix.'users';
+							$d_u=mysql_query("SELECT name FROM $table WHERE ident='$epfuid';");
+							$recipient['studentname']=mysql_result($d_u,0);
+							$recipient['sid']=$epfuid;
+							$d_u=mysql_query("SELECT email FROM $table WHERE ident='$epfuidmember';");
+							$recipient['emailaddress']=trim(mysql_result($d_u,0));
+							$recipient['gid']=$epfuidmember;
+							$recipients[]=$recipient;
+							}
+						elgg_send_email($recipients,"report");
 						}
-					elgg_send_email($recipients,"report");
 					}
-				}
 
-			else{trigger_error('Could not move file to eportfolio: '.$file_fullpath,E_USER_WARNING);}
+				else{trigger_error('Could not move file to eportfolio: '.$file_fullpath,E_USER_WARNING);}
+				}
 			}
 
 		}

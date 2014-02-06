@@ -174,9 +174,9 @@ require_once($CFG->installpath.'/'.$CFG->applicationdirectory.'/lib/eportfolio_f
 
 			/* Check if a profile photo has been cached and up load as an icon. */
 			$filename=$epfun .'.jpeg';
-			$filepath=$CFG->eportfolio_dataroot . '/cache/images/' . $filename;
+			$filepath=$CFG->eportfolio_dataroot . '/icons/' . substr($epfun,0,1) . '/' . $epfun.'/'.$filename;
 			if(file_exists($filepath)){
-				$description=get_yeargroupname($yid);					
+				$description=get_yeargroupname($yid);
 				$filedata=array();
 				$file_batch=array();
 				$filedata['foldertype']='icon';
