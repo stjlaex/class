@@ -165,13 +165,18 @@ input:focus, select:focus {
     z-index: 10000;
 }
 button {
-    width: 100%;
-    font-weight: 900;
-    font-size: small;
+    border-radius: 2px;
+    border: none;
+    background-color: #91c73e;
+    color: #E7F3D5;
+    font-size: 14px;
+    padding: 10px;
     cursor: pointer;
-    border-radius: 4px;
-    border: 0px none;
 }
+button:hover    {
+    background-color: #abd46c;
+}
+
 .bookoptions {
     position: absolute;
     left: 0;
@@ -209,22 +214,8 @@ button {
     color: #ffffff;
     background-color: #444444;
 }
-.bookoptions form button {
-    width: 90%;
-    font-weight: 900;
-    margin: 0 0 5% 5%;
-    border-radius: 4px;
-}
-.bookoptions button[value="Reset"] {
-    background-color: #666666;
-    color: #ffffee;
-}
 .bookoptions fieldset {
     border: none;
-}
-.bookoptions button:hover {
-    background-color: #5599cc;
-    color: #ffffff;
 }
 /*these select widths are not ideal but seem to solve a firefox bug for 100%!*/
 .bookoptions option {

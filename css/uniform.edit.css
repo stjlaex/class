@@ -54,13 +54,6 @@ div.selector.blueTheme span {
 }
 
 
-
-
-
-
-
-
-
 div.selector.active span {
     background-position: right -50px;
 }
@@ -78,7 +71,7 @@ div.selector.disabled span, div.selector.disabled.active span {
 
 /* Select */
 div.selector {
-    font-size: 16px;
+    font-size: 14px;
 }
 div.selector span {
     color: #FFFFFF;

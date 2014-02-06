@@ -10,8 +10,7 @@ $action='search_action.php'
 
 	<fieldset class="infobook">
 		<legend><?php print_string('studentgroups');?></legend>
-		<form id="infobookchoice" name="infobookchoice" method="post"
-			action="infobook.php" target="viewinfobook">
+		<form id="infobookchoice" name="infobookchoice" method="post" action="infobook.php" target="viewinfobook">
 <?php
 	$onsidechange='yes'; include('scripts/list_year.php');
 	$onsidechange='yes'; include('scripts/list_form.php');
@@ -33,9 +32,7 @@ $action='search_action.php'
 <?php
 	   if($_SESSION['role']=='office' or $_SESSION['role']=='admin'){
 ?>
-		<div>
-		  <form id="groupchoice" name="groupchoice"  method="post" 
-			action="infobook.php" target="viewinfobook">
+		  <form id="groupchoice" name="groupchoice"  method="post" action="infobook.php" target="viewinfobook">
 			<button type="submit" name="submit">
 			<?php print get_string('custom',$book).' '.get_string('groups');?>
 			</button>
@@ -44,8 +41,7 @@ $action='search_action.php'
 <?php
 		if($_SESSION['role']=='admin' or $_SESSION['role']=='district'){
 ?>
-		  <form id="updatesfile" name="updatesfile"  method="post" 
-			action="infobook.php" target="viewinfobook">
+		  <form id="updatesfile" name="updatesfile"  method="post" action="infobook.php" target="viewinfobook">
 			<button type="submit" name="submit">
 			<?php print get_string('updatesfile',$book);?>
 			</button>
@@ -54,26 +50,19 @@ $action='search_action.php'
 <?php
 			}
 ?>
-		</div>
 <?php
 		}
 ?>
-
 	</fieldset>
 
-	<div style="margin-top:20px;">
-	</div>
-
-   	<form id="quicksearch" name="quicksearch" method="post"
-				action="infobook.php" target="viewinfobook">
+   	<form id="quicksearch" name="quicksearch" method="post" action="infobook.php" target="viewinfobook">
 <?php
 	   if($_SESSION['role']=='office' or $_SESSION['role']=='admin'){
 ?>
 	  <fieldset class="infobook">
 		<legend><?php print_string('contactsearch',$book);?></legend>
 
-		<select class="switcher" type="text" id="contact" 
-		  tabindex="<?php print $tab++;?>" name="gfield" size="1">
+		<!--select class="switcher" type="text" id="contact" tabindex="<?php print $tab++;?>" name="gfield" size="1">
 <?php
 		$selgfield='surname';
 		/*only used for the infobook search options, not an enumarray at all!*/
@@ -105,11 +94,10 @@ $action='search_action.php'
 				print ' value="'.$val.'">'.get_string($description,'infobook').'</option>';
 				}
 ?>
-		</select>
+		</select-->
 
 		<div id="switchcontact">
-		  <input tabindex="<?php print $tab++;?>" 
-			type="text" id="Contactsurname" name="contactsurname" value="" maxlength="30"/>
+		  <input tabindex="<?php print $tab++;?>" type="text" id="Contactsurname" name="contactsurname" value="" maxlength="30"/>
 		</div>
 	  </fieldset>
 <?php
@@ -119,8 +107,7 @@ if($_SESSION['worklevel']>-1){
 ?>
 	  <fieldset class="infobook">
 		<legend><?php print_string('studentsearch');?></legend>
-		<select class="switcher" type="text" id="student" 
-		  tabindex="<?php print $tab++;?>" name="sfield" size="1">
+		<!--select class="switcher" type="text" id="student" tabindex="<?php print $tab++;?>" name="sfield" size="1">
 <?php
 		$selsfield='surname';
 		$enum=array(
@@ -135,7 +122,7 @@ if($_SESSION['worklevel']>-1){
 				print ' value="'.$val.'">'.get_string($description,'infobook').'</option>';
 				}
 ?>
-		</select>
+		</select-->
 
 		<div id="switchstudent">
 		  <input tabindex="<?php print $tab++;?>" type="text" name="studentsurname" value="" maxlength="30"/>
