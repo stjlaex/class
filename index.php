@@ -50,7 +50,6 @@
     <link href="css/selery.css?version=1042" rel="stylesheet" type="text/css" />
     <link href='http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900' rel='stylesheet' type='text/css'>
     <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
-    <link rel="stylesheet" href="css/uniform.default.css" media="screen" />
     <link rel="stylesheet" href="css/uniform.edit.css" media="screen" />
     <link href="css/hoststyle.css" rel="stylesheet" type="text/css" />
   </head>
@@ -98,9 +97,10 @@
     <script src="js/jquery.uniform.min.js"></script>
     <script>
         $("iframe").load(function() {
-            $('.infobook select').uniform({wrapperClass: "blueTheme"});   
+            $('.infobook select').uniform({wrapperClass: "default"});
+            $('#loginlang select').uniform({wrapperClass: "blueLight"});            
+               
             $('select, input').uniform();
-            $.uniform.update();       
         });
     </script>
   </body>

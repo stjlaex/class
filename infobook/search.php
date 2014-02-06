@@ -6,11 +6,9 @@
 $action='search_action.php'
 ?>	
   <div style="visibility:hidden;" id="hiddenbookoptions" class="bookoptions">	
-
-
 	<fieldset class="infobook">
 		<legend><?php print_string('studentgroups');?></legend>
-		<form id="infobookchoice" name="infobookchoice" method="post" action="infobook.php" target="viewinfobook">
+		<form id="infobookchoice" class="infobookchoice" name="infobookchoice" method="post" action="infobook.php" target="viewinfobook">
 <?php
 	$onsidechange='yes'; include('scripts/list_year.php');
 	$onsidechange='yes'; include('scripts/list_form.php');
@@ -38,32 +36,20 @@ $action='search_action.php'
 			</button>
 			<input type="hidden" name="current" value="group_search.php"/>
 		  </form>
-<?php
-		if($_SESSION['role']=='admin' or $_SESSION['role']=='district'){
-?>
-		  <form id="updatesfile" name="updatesfile"  method="post" action="infobook.php" target="viewinfobook">
-			<button type="submit" name="submit">
-			<?php print get_string('updatesfile',$book);?>
-			</button>
-			<input type="hidden" name="current" value="updates_file.php"/>
-		  </form>
-<?php
-			}
-?>
+		  </fieldset>
 <?php
 		}
+       
 ?>
-	</fieldset>
-
-   	<form id="quicksearch" name="quicksearch" method="post" action="infobook.php" target="viewinfobook">
+   	<fieldset class="infobook">
+   	    <form id="quicksearch" name="quicksearch" method="post" action="infobook.php" target="viewinfobook">
 <?php
 	   if($_SESSION['role']=='office' or $_SESSION['role']=='admin'){
 ?>
-	  <fieldset class="infobook">
-		<legend><?php print_string('contactsearch',$book);?></legend>
-
-		<!--select class="switcher" type="text" id="contact" tabindex="<?php print $tab++;?>" name="gfield" size="1">
-<?php
+		<!--legend><?php print_string('contactsearch',$book);?></legend-->
+		<select class="switcher" type="text" id="contact" tabindex="<?php print $tab++;?>" name="gfield" size="1">
+		    <option selected="selected"><?php print_string('contactsearch',$book);?></option>
+    <?php
 		$selgfield='surname';
 		/*only used for the infobook search options, not an enumarray at all!*/
 		$contactfield=array(
@@ -90,24 +76,23 @@ $action='search_action.php'
 		$enum=$contactfield;
 		while(list($val,$description)=each($enum)){	
 				print '<option ';
-				if(($selgfield==$val)){print ' selected="selected" ';}
+				if(($selgfield==$val)){print '';}
 				print ' value="'.$val.'">'.get_string($description,'infobook').'</option>';
 				}
 ?>
-		</select-->
+		</select>
 
 		<div id="switchcontact">
 		  <input tabindex="<?php print $tab++;?>" type="text" id="Contactsurname" name="contactsurname" value="" maxlength="30"/>
 		</div>
-	  </fieldset>
 <?php
 		   }
 
 if($_SESSION['worklevel']>-1){
 ?>
-	  <fieldset class="infobook">
-		<legend><?php print_string('studentsearch');?></legend>
-		<!--select class="switcher" type="text" id="student" tabindex="<?php print $tab++;?>" name="sfield" size="1">
+		<!--legend><?php print_string('studentsearch');?></legend-->
+		<select class="switcher" type="text" id="student" tabindex="<?php print $tab++;?>" name="sfield" size="1">
+		    <option selected="selected"><?php print_string('studentsearch');?></option>
 <?php
 		$selsfield='surname';
 		$enum=array(
@@ -118,56 +103,47 @@ if($_SESSION['worklevel']>-1){
 					);
 		while(list($val,$description)=each($enum)){	
 				print '<option ';
-				if(($selsfield==$val)){print ' selected="selected" ';}
+				if(($selsfield==$val)){print '';}
 				print ' value="'.$val.'">'.get_string($description,'infobook').'</option>';
 				}
 ?>
-		</select-->
+		</select>
 
-		<div id="switchstudent">
+		<div id="switchstudent" class="switchstudent">
 		  <input tabindex="<?php print $tab++;?>" type="text" name="studentsurname" value="" maxlength="30"/>
 		</div>
-		<button type="submit" name="submit">
-		  <?php print_string('search');?>
-		</button>
-	  </fieldset>
+		<button type="submit" name="submit"><?php print_string('search');?></button>
 <?php
 	}
 else{
 ?>
-	  <fieldset class="infobook">
-		<legend><?php print_string('studentsearch');?></legend>
+        <legend><?php print_string('studentsearch');?></legend>
 		<label for="Surname"><?php print_string('surname');?></label>
-		<input tabindex="<?php print $tab++;?>" 
-		  type="text" id="Surname" name="surname" value="" maxlength="30"/>
-		  <label for="Forename"><?php print_string('forename');?></label>
-		  <input tabindex="<?php print $tab++;?>" 
-			type="text" id="Forename" name="forename" value="" maxlength="30"/>
-
-			<button type="submit" name="submit">
-				<?php print_string('search');?>
-			</button>
-	  </fieldset>
+		<input tabindex="<?php print $tab++;?>" type="text" id="Surname" name="surname" value="" maxlength="30"/>
+		<label for="Forename"><?php print_string('forename');?></label>
+		<input tabindex="<?php print $tab++;?>"type="text" id="Forename" name="forename" value="" maxlength="30"/>
+    	<button type="submit" name="submit">
+    		<?php print_string('search');?>
+    	</button>
 <?php
 		}
 ?>
 	  <input type="hidden" name="current" value="<?php print $action;?>"/>
    	</form>
+   	      
 
 		<div id="switchcontactsurname" class="hidden">
-		  <input tabindex="<?php print $tab++;?>" 
-			type="text" id="Contactsurname" name="contactsurname" value="" maxlength="30"/>
+		  <input tabindex="<?php print $tab++;?>" type="text" id="Contactsurname" name="contactsurname" value="" />
 		</div>
 		<div id="switchcontactforename" class="hidden">
-		  <input tabindex="<?php print $tab++;?>" 
-			type="text" id="Contactforename" name="contactforename" value="" maxlength="30"/>
+		  <input tabindex="<?php print $tab++;?>" type="text" id="Contactforename" name="contactforename" value="" />
 		</div>
 		<div id="switchcontactcountry" class="hidden">
-<?php 
-	    $listname='contactcountry';$listlabel='';$listfilter='address';
-		include('scripts/set_list_vars.php');
-		list_select_enum('country',$listoptions,$book);
-?>
+            <?php 
+            	    $listname='contactcountry';$listlabel='';$listfilter='address';
+            		include('scripts/set_list_vars.php');
+            		list_select_enum('country',$listoptions,$book);
+            ?>
 		</div>
 		<div id="switchcontactpostcode" class="hidden">
 <?php 
@@ -178,24 +154,19 @@ else{
 ?>
 		</div>
 		<div id="switchcontactemail" class="hidden">
-		  <input tabindex="<?php print $tab++;?>" 
-			type="text" name="contactemail" value="" maxlength="30"/>
+		  <input tabindex="<?php print $tab++;?>" type="text" name="contactemail" value="" maxlength="30"/>
 		</div>
 		<div id="switchcontactepfusername" class="hidden">
-		  <input tabindex="<?php print $tab++;?>" 
-			type="text" name="contactepfusername" value="" maxlength="30"/>
+		  <input tabindex="<?php print $tab++;?>" type="text" name="contactepfusername" value="" maxlength="30"/>
 		</div>
 		<div id="switchstudentsurname" class="hidden">
-		  <input tabindex="<?php print $tab++;?>" 
-			type="text" name="studentsurname" value="" maxlength="30"/>
+		  <input tabindex="<?php print $tab++;?>" type="text" name="studentsurname" value="" maxlength="30"/>
 		</div>
 		<div id="switchstudentforename" class="hidden">
-		  <input tabindex="<?php print $tab;?>" 
-			type="text" name="studentforename" value="" maxlength="30"/>
+		  <input tabindex="<?php print $tab;?>" type="text" name="studentforename" value="" maxlength="30"/>
 		</div>
 		<div id="switchstudentpreferredforename" class="hidden">
-		  <input tabindex="<?php print $tab;?>" 
-			type="text" name="studentpreferredforename" value="" maxlength="30"/>
+		  <input tabindex="<?php print $tab;?>" type="text" name="studentpreferredforename" value="" maxlength="30"/>
 		</div>
 		<div id="switchstudentgender"  class="hidden">
 <?php 
@@ -231,5 +202,20 @@ else{
 		</div>
 <?php
 		}
+
+
+           if($_SESSION['role']=='office' or $_SESSION['role']=='admin' or $_SESSION['role']=='sen'){
+            if($_SESSION['role']=='admin' or $_SESSION['role']=='district'){
+?>
+          <form id="updatesfile" name="updatesfile"  method="post" action="infobook.php" target="viewinfobook">
+            <button type="submit" name="submit">
+            <?php print get_string('updatesfile',$book);?>
+            </button>
+            <input type="hidden" name="current" value="updates_file.php"/>
+          </form>
+          
+<?php
+               }
+            }
 ?>
   </div>

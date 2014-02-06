@@ -44,9 +44,9 @@ header {
 /* plus the logbook div which fills out the rest of the display*/
 .bookframe {
     position: absolute;
-    left: 16%;
-    top: 80px;
-    width: 84%;
+    left: 0;
+    top: 600px;
+    width: 100%;
     height: 95.1%;
     border: 0;
     padding: 0;
@@ -111,6 +111,9 @@ header {
     border-radius: 2px 2px 0 0;
     color: #e7f3d5;
 }
+.booktabs #currentbook:hover    {
+    background-color: #ABD46C;
+}
 
 /*the special case logbook in top left corner*/
 .booktabs .logbook {
@@ -151,19 +154,11 @@ div#loginworking {
 
 /***************************************************************************/
 /* stuff for the bookoptions in the sidebar*/
-select, input {
-    width: 95%;
-    font-size: x-small;
-    background-color: #ffffff;
-}
 option {
     font-size: x-small;
     background-color: #ffffff;
 }
-input:focus, select:focus {
-    border: 2px solid #ee9900;
-    z-index: 10000;
-}
+
 button {
     border-radius: 2px;
     border: none;
@@ -185,6 +180,7 @@ button:hover    {
     height:auto;
     overflow: hidden;
     background-color: #4d5f72;
+    padding-top: 10px;
 }
 .bookoptions label {
     margin: 0 0 5% 2%;
@@ -216,6 +212,22 @@ button:hover    {
 }
 .bookoptions fieldset {
     border: none;
+    padding:0;
+    width: 80%;
+    margin: 0 auto 20px;
+}
+.bookoptions fieldset:first-child {
+    border-bottom: solid 1px #CAD5DA;
+}
+.bookoptions form {
+    display: inline;
+}
+.bookoptions form.infobookchoice    {
+    width: 80%;
+}
+.switchstudent, #switchcontact  {
+    float: left;
+    margin-right: 10px;
 }
 /*these select widths are not ideal but seem to solve a firefox bug for 100%!*/
 .bookoptions option {

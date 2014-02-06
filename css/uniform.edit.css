@@ -10,6 +10,35 @@
 
  */
 
+div.selector, div.selector span, div.checker span, div.radio span, div.uploader, div.uploader span.action, div.button, div.button span {
+    background-image: url("../images/sprite.png");
+    background-repeat: no-repeat;
+    -webkit-font-smoothing: antialiased;
+}
+div.selector, div.checker, div.button, div.radio, div.uploader {
+    display: -moz-inline-box;
+    display: inline-block;
+    *display: inline;
+    zoom: 1;
+    vertical-align: middle;
+    /* Keeping this as :focus to remove browser styles */
+}
+div.selector:focus, div.checker:focus, div.button:focus, div.radio:focus, div.uploader:focus {
+    outline: 0;
+}
+div.selector, div.selector *, div.radio, div.radio *, div.checker, div.checker *, div.uploader, div.uploader *, div.button, div.button * {
+    margin: 0;
+    padding: 0;
+}
+
+.highContrastDetect {
+    background: url("../images/bg-input.png") repeat-x 0 0;
+    width: 0px;
+    height: 0px;
+}
+
+
+
 /* Select */
 div.selector {
     background-color: #34495e;
@@ -19,7 +48,7 @@ div.selector {
     padding: 0 0 0 10px;
     position: relative;
     overflow: hidden;
-    border-radius: 3px 0 0 3px;
+    border-radius: 3px;
 }
 div.selector span {
     text-overflow: ellipsis;
@@ -46,27 +75,27 @@ div.selector select {
     left: 0px;
     width: 100%;
 }
-div.selector.blueTheme {
-    width: 22%!important;
+div.selector.default {
+    min-width: 130px !important;
+    width: 19% !important;
+    float: left;
+    margin-right: 10px;
+    margin-bottom: 10px;
 }
-div.selector.blueTheme span {
-    width: 95%!important;
+div.selector.default span {
+    width: 90% !important;
 }
-
 
 div.selector.active span {
     background-position: right -50px;
 }
-div.selector.hover span, div.selector.focus span {
-    background-position: right -50px;
-}
-div.selector.hover.active span, div.selector.focus.active span {
-    background-position: right -50px;
-}
-div.selector.disabled span, div.selector.disabled.active span {
-    background-position: right -50px;
-}
 
+div.selector.blueLight {
+    background-color: #4d5f72;
+}
+div.selector.blueLight span {
+    background-position: right 0;
+}
 /* PRESENTATION */
 
 /* Select */
@@ -74,7 +103,7 @@ div.selector {
     font-size: 14px;
 }
 div.selector span {
-    color: #FFFFFF;
+    color: #cad5da;
     text-shadow: none;
 }
 div.selector select {
@@ -149,3 +178,21 @@ div.checker.hover span {
 div.checker span.checked, div.checker.hover span.checked {
     background-color: #91c73e;
 }
+
+/* INPUT & TEXTAREA */
+input.uniform-input, select.uniform-multiselect, textarea.uniform {
+    font-size: 14px;
+    font-family: 'Lato', sans-serif;
+    color: #CAD5DA;
+    border: none;
+    height: 34px;
+    -webkit-border-radius: 2px;
+    -moz-border-radius: 2px;
+    border-radius: 2px;
+    background-color: #34495e;
+    background-image: none;
+}
+input.uniform-input:focus {
+    background-color: #8995a2;
+}
+
