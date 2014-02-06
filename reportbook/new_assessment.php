@@ -45,7 +45,11 @@ three_buttonmenu($extrabuttons);
 <?php
 		$selstage='%';
  		include('scripts/list_stage.php');
-
+?>
+ 		<div id="displaycurriculum" style="display:none;float:right;width:50%;">
+ 			<p class="warn" style="margin:0;"><?php print_string('assessmentcurriculummessage',$book); ?></p>
+ 		</div>
+<?php
 		$selbid='%';
 		include('scripts/list_subjects.php');
 ?>
@@ -79,10 +83,15 @@ three_buttonmenu($extrabuttons);
 		$required='no';
 		include('scripts/list_gradescheme.php');
 ?>
+		<div id="displaygrading" style="display:none;float:right;width:40%;">
+			<p class="warn" style="margin:0;"><?php print_string('assessmentgradingmessage',$book); ?></p>
+		</div>
 
+<!--
 		<label for="Derivation"><?php print_string('derivation',$book);?></label>
 		<input type="text" id="Derivation" tabindex="<?php print $tab++;?>" 
 				name="derivation" style="width:12em;" maxlength="59" value="" />
+-->
 <?php 
 		$listname='newprofid';
 		$selnewprofid=$profid;
@@ -93,6 +102,7 @@ three_buttonmenu($extrabuttons);
 
 
 	  <input type="text" style="display:none;" id="Id_db" name="id" value="" />
+	  <input type="hidden" name="Markcount" value="" id="Markcount" />
 	  <input type="hidden" name="profid" value="<?php print $profid;?>" />
 	  <input type="hidden" name="curryear" value="<?php print $curryear;?>" />
 	  <input type="hidden" name="cancel" value="<?php print '';?>" />
@@ -171,7 +181,7 @@ three_buttonmenu($extrabuttons);
 					$AssDef['Statistics']['value'];?></value>.&nbsp;
 -->
 				<?php print_string('markbookcolumns',$book);?>
-				<value id="<?php print $eid;?>-Markcount"><?php print
+				<value id="<?php print $eid;?>-Markcount" name="<?php print $eid;?>-Markcount"> <?php print
 						 $AssCount['MarkCount']['value'];?></value>.&nbsp;
 			<a href="reportbook.php?current=edit_scores.php&cancel=new_assessment.php&eid=<?php print $eid;?>&curryear=<?php print $curryear;?>&profid=<?php print $profid;?>&pid=&bid="><?php print_string('scoresentered',$book);?>				
 				<value id="<?php print $eid;?>-Archivecount">
@@ -187,6 +197,7 @@ three_buttonmenu($extrabuttons);
 		  <tr class="hidden" id="<?php print $eid.'-'.$rown++;?>">
 			<td colspan="7">
 <?php
+		/* TODO: Change when reportbook/new_assessment changes */
 		$extrabuttons=array();
 		$extrabuttons['generatecolumns']=array('name'=>'current',
 											   'id'=>'generatecolumns'.$eid,
@@ -202,10 +213,20 @@ three_buttonmenu($extrabuttons);
 		if($AssCount['MarkCount']['value']==0){
 			$extrabuttons['generatecolumns']['display']='block';
 			$extrabuttons['deletecolumns']['display']='none';
+			$AssDef['Stage']['disabled']='false';
+			$AssDef['Subject']['disabled']='false';
+			$AssDef['ComponentStatus']['disabled']='false';
+			$AssDef['StrandStatus']['disabled']='false';
+			$AssDef['MarkCount']['value']=$AssCount['MarkCount']['value'];
 			}
 		if($AssCount['MarkCount']['value']>0){
 			$extrabuttons['generatecolumns']['display']='none';
 			$extrabuttons['deletecolumns']['display']='block';
+			$AssDef['Stage']['disabled']='true';
+			$AssDef['Subject']['disabled']='true';
+			$AssDef['ComponentStatus']['disabled']='true';
+			$AssDef['StrandStatus']['disabled']='true';
+			$AssDef['MarkCount']['value']=$AssCount['MarkCount']['value'];
 			}
 
 		if(!isset($AssDef['Derivation']['value'][0]) or (isset($AssDef['Derivation']['value'][0]) and ($AssDef['Derivation']['value'][0]==' ' or $AssDef['Derivation']['value'][0]==''))){

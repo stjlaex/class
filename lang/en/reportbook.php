@@ -61,4 +61,6 @@ $string['result']='Result';
 $string['target']='Target';
 $string['formatoffilenewassessment']='Format of file: Description, ElementID, Print Label, Result Status, Create Date, Deadline Date, Stage, Subject, Component Status, Strand Status, Grading Scheme, Profile Name';
 $string['unlock']='Unlock';
+$string['assessmentcurriculummessage']='Hide the assessment columns in order to change these values.';
+$string['assessmentgradingmessage']='To change this value you should reset the scores.';
 ?>

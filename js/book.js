@@ -796,22 +796,54 @@ function fillxmlTable(recordId, xmlRecord){
 // ID_DB is the special, hidden form field, which must be the unique identifier
 // for the record in the database record
 
-function fillxmlForm(xmlRecord){
-	var test='';
-    if(xmlRecord.hasChildNodes()){
-        for(var i=0; i < xmlRecord.childNodes.length; i++){
-            test=test + "i=" + i + fillxmlForm(xmlRecord.childNodes[i]);
-		    }
+function fillxmlForm(xmlRecord,once){
+	/* Do things for the whole xml */
+	if(!once){
+
+		/* TODO: Change when reportbook/new_assessment changes */
+		/* Updates the xml from new_assessment.php for the assessment to edit */
+		if(xmlRecord.getElementsByTagName('MARKCOUNT')){
+			id=xmlRecord.getElementsByTagName('ID_DB')[0].firstChild.nodeValue;
+			mid=id+'-Markcount';
+			newValue=document.getElementById(mid).childNodes[0].nodeValue;
+			updateXML(xmlRecord,newValue,'MARKCOUNT');
+			}
 		}
-    else{
+	/* Recursive */
+	var test='';
+	if(xmlRecord.hasChildNodes()){
+		for(var i=0; i < xmlRecord.childNodes.length; i++){
+			test=test + "i=" + i + fillxmlForm(xmlRecord.childNodes[i],true);
+			}
+		}
+	else{
 		var xmltag=xmlRecord.parentNode.tagName;
 		if(xmltag=='VALUE' || xmltag=='VALUE_DB'){
 			var xmltag=xmlRecord.parentNode.parentNode.tagName;
-	        var xmlvalue=xmlRecord.nodeValue;
+			var xmlvalue=xmlRecord.nodeValue;
 			fieldId=makeLabel(xmltag);
 			//test=xmltag + ' : ' + xmlvalue;
 			if(document.getElementById(fieldId)){
 				document.getElementById(fieldId).value=xmlvalue;
+
+				/* TODO: Change when reportbook/new_assessment changes */
+				if(document.getElementById(fieldId).disabled){document.getElementById(fieldId).removeAttribute("disabled");}
+				/* Enables/disables GradingScheme depending 
+					on the score count and shows a message */
+				if(document.getElementById('Gradingscheme')){
+					id=xmlRecord.parentNode.parentNode.parentNode.getElementsByTagName('ID_DB')[0].firstChild.nodeValue;
+					gsid=id+'-Archivecount';
+					scorecount=document.getElementById(gsid).childNodes[0].nodeValue.trim();
+					if(scorecount>0){
+						document.getElementById('Gradingscheme').disabled=true;
+						document.getElementById('displaygrading').style.display='block';
+						}
+					else{
+						document.getElementById('Gradingscheme').removeAttribute("disabled");
+						document.getElementById('displaygrading').style.display='none';
+						}
+					}
+
 				}
 			}
 		else if(xmltag=='ID_DB'){
@@ -820,6 +852,50 @@ function fillxmlForm(xmlRecord){
 			//test=xmltag + ' : ' + xmlvalue;
 			if(document.getElementById(fieldId)){
 				document.getElementById(fieldId).value=xmlvalue;
+				}
+			}
+		/* TODO: Change when reportbook/new_assessment changes */
+		/* Workaround for report/assessments */
+		else if(xmltag=='DISABLED'){
+			var xmltag=xmlRecord.parentNode.parentNode.tagName;
+			var xmlvalue=xmlRecord.nodeValue;
+			fieldId=makeLabel(xmltag);
+			if(document.getElementById(fieldId)){
+
+				/* Enables/disables the fields that have DISABLE tag depending 
+					on the mark count and shows a message */
+				markcountTag=xmlRecord.parentNode.parentNode.parentNode.getElementsByTagName('MARKCOUNT')[0].childNodes[0].firstChild.nodeValue;
+				if(markcountTag>0){
+					document.getElementById(fieldId).disabled=true;
+					document.getElementById('displaycurriculum').style.display='block';
+					}
+				else{
+					document.getElementById(fieldId).removeAttribute("disabled");
+					document.getElementById('displaycurriculum').style.display='none';
+					}
+
+				}
+			}
+		}
+	return test;
+	}
+
+/*
+ * Updates the xml value for a tag in a whole xml record
+ */
+function updateXML(xmlRecord,newValue,newValueTag){
+	var test='';
+	if(xmlRecord.hasChildNodes()){
+		for(var i=0; i < xmlRecord.childNodes.length; i++){
+			test=test + "i=" + i + updateXML(xmlRecord.childNodes[i],newValue,newValueTag);
+			}
+		}
+	else{
+		var xmltag=xmlRecord.parentNode.tagName;
+		if(xmltag=='VALUE' || xmltag=='VALUE_DB'){
+			var xmltag=xmlRecord.parentNode.parentNode.tagName;
+			if(xmltag==newValueTag){
+				xmlRecord.nodeValue=newValue;
 				}
 			}
 		}
