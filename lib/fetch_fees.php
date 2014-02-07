@@ -159,10 +159,13 @@ function fetchFeesInvoice($invoice=array('id'=>'-1')){
 	else{
 		$d_c=mysql_query("SELECT SUM(c.amount) AS totalamount, c.paymenttype, c.student_id 
 							FROM fees_charge AS c WHERE c.invoice_id='$invid';");
+		$d_i=mysql_query("SELECT remittance_id FROM fees_invoice WHERE id='$invid';");
 		$c=mysql_fetch_array($d_c,MYSQL_ASSOC);
 		$sid=$c['student_id'];
 		$Student=(array)fetchStudent_short($sid);
 		$charges=(array)list_invoice_charges($invid);
+		$remid=mysql_result($d_i,0);
+		$Remittance=(array)fetchRemittance($remid);
 		$Account=fetchAccount($invoice['account_id'],'id');
 		$gid=$Account['guardian_id_db'];
 		$d_gidaid=mysql_query("SELECT * FROM gidaid WHERE guardian_id='$gid' ORDER BY priority;");
@@ -196,6 +199,9 @@ function fetchFeesInvoice($invoice=array('id'=>'-1')){
 											   );
 	$Invoice['AccountName']=array('label' => 'name', 
 								  'value' => ''.$Account['AccountName']['value']
+								  );
+	$Invoice['RemittanceName']=array('label' => 'remittance', 
+								  'value' => ''.$Remittance['Name']['value']
 								  );
 	$Invoice['Address']=$Address;
 	$Invoice['Charges']=array();
