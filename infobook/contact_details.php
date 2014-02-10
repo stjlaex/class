@@ -104,7 +104,7 @@ elseif($contactno==-1){
   </div>
 <?php
 	}
-threeplus_buttonmenu($contactno,sizeof($gids),$extrabuttons,$book)
+threeplus_buttonmenu($contactno,sizeof($gids),$extrabuttons,$book,"guardian");
 ?>
   <div class="content" id="viewcontent">
 	<form id="formtoprocess" name="formtoprocess" method="post" autocomplete="off" novalidate="novalidate" action="<?php print $host;?>">
