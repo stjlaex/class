@@ -579,16 +579,7 @@ function selery_stick($choices,$choice='',$book=''){
 			  <p><?php print_string($title,$book);?></p>
 			</input>
 		  </li-->
-		  
-		  
-		  
-		  
 		  <option value="selerySubmit(this)"><?php print_string($title,$book);?></option>
-		  
-		  
-		  
-		  
-		  
 <?php
 		}
 ?>

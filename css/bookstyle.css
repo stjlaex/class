@@ -203,7 +203,7 @@ div.content {
     font-size: small;
     border: 0;
     overflow: hidden;
-    margin: 40px auto 0;
+    margin: 50px auto 0;
 }
 div.content fieldset, div.topcontent fieldset {
     padding: 1%;
@@ -316,7 +316,7 @@ div.buttonmenu {
     width: 95%;
     text-align: right;
     background-color: #FFFFFF;
-    padding: 0 2.5% 10px ;
+    padding: 10px 2.5%;
 }
 
 #heading span {
