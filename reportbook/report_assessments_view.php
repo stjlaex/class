@@ -98,7 +98,7 @@ $description='';
 				if(!isset($limitbid) or $limitbid=='' or $limitbid=='%' or $subject['id']==$limitbid){
 					$bid=$subject['id'];
 					$assbids[$bid]=$bid;
-					$compstatus='%';
+					$compstatus='A';
 					//trigger_error($bid,E_USER_WARNING);
 					$comps=list_subject_components($bid,$asscrid,$compstatus);
 					foreach($comps as $comp){
