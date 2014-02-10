@@ -1,9 +1,44 @@
+Version ClaSS-1.0.63 release (2014/02/10)
+-------------------------------------------
+
+Added next and previous buttons for navigating contacts.
+
+Fix to deleting fee charges from the InfoBook.
+
+New functionality for selecting students during the new remittance.
+
+Invoices for fees now have the option to use a custom template
+(defined as $CFG->tempinvoice).
+
+InfoBook student sheet now has the option to use a custom template
+(defined as $CFG->tempinfosheet).
+
+Fix to syncing icons with the epf database.
+
+Extra box to have a comment associated with enrolment assessments.
+
+Automatic updating of assessments in MarkBook as and when definitions are changed.
+
+A cron job added to automatically generate assessment columns based on create date.
+
+The generate/delete buttons have been merged into one function under
+manage assessments.
+
+Added a tmeplate for use when sending epf emails (needs a categorydef
+template name=classicemail).
+
+The eportfolio_publish_reports cron script now also queues a
+notification message to contacts thorugh Classic's message_event queue.
+
+
+
 Version ClaSS-1.0.62 release (2014/01/21)
 -------------------------------------------
 
 Fields for IBAN and BIC added to the fees_account table.
 
 Added title to a teacher's name.
+
 
 
 Version ClaSS-1.0.61 release (2014/01/14)
