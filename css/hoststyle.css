@@ -131,7 +131,7 @@ div#loginworking {
 #loginworking .selector span {
     background-position: right -100px;
     padding-left: 10px;
-    width: 93%!important;
+    width: 93% !important;
 }
 .user-logout {
     color: #8995a2;
@@ -215,11 +215,9 @@ button:hover {
 }
 .bookoptions form {
     display: inline-block;
-    width: 300px;
 }
 .bookoptions form fieldset {
     display: inline-block;
-    width: 300px;
 }
 .bookoptions form.infobookchoice {
     width: 80%;
@@ -332,4 +330,9 @@ select option.derived {
 }
 select option.other {
     background-color: #ddeecc;
+}
+
+#registeroptions fieldset {
+    width: 30%;
+    float: left;
 }

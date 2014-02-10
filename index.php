@@ -100,6 +100,7 @@
             $('.infobook select').uniform({wrapperClass: "default"});
             $('#loginlang select').uniform({wrapperClass: "blueLight"});            
             $('select, input').uniform();
+            $("select").uniform();
         });
     </script>
   </body>

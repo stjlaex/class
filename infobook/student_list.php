@@ -246,7 +246,7 @@ include ('scripts/studentlist_shortcuts.php');
 			?>
 			</a>
 			<div id="mini-<?php echo $sid; ?>" style="float:right;"></div>
-			<div id="merit-<?php print $sid; ?>"></div>
+			<div class="merit" id="merit-<?php print $sid; ?>"></div>
 		  </td>
 <?php
 foreach($displayfields as $displayfield) {

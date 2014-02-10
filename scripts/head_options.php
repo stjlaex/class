@@ -43,14 +43,10 @@ print '<?xml version="1.0" encoding="utf-8"?'.'>';
         <link rel="stylesheet" href="css/uniform.default.css" media="screen" />
         <link rel="stylesheet" href="css/uniform.edit.css" media="screen" />
 
-        <script language="JavaScript" type="text/javascript">var pathtobook= "<?php print $CFG->sitepath.'/'.$CFG->applicationdirectory.'/'.$book.'/'; ?>
-									";
-									var pathtoapplication = "
-<?php print $CFG->sitepath.'/'.$CFG->applicationdirectory.'/'; ?>
-	";
-	var book = "
-<?php print $book; ?>
-	";
+        <script language="JavaScript" type="text/javascript">
+        		var pathtobook= "<?php print $CFG->sitepath.'/'.$CFG->applicationdirectory.'/'.$book.'/'; ?>";
+			var pathtoapplication = "<?php print $CFG->sitepath.'/'.$CFG->applicationdirectory.'/'; ?>";
+			var book = "<?php print $book; ?>";
         </script>
         <script language="JavaScript" type="text/javascript" src="js/book.js?version=1048"></script>
         <script language="JavaScript" type="text/javascript" src="js/qtip.js"></script>

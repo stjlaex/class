@@ -56,9 +56,9 @@ elseif($sid!=''){
 	<form id="seneedschoice" name="seneedschoice" method="post" action="seneeds.php" target="viewseneeds">
 	  <fieldset class="seneeds">
 		<legend><?php print_string('filterlist',$book);?></legend>
-		<label for="Type"><?php print_string('sentype',$book);?></label>test
+		<!--label for="Type"><?php print_string('sentype',$book);?></label-->
 		<select id="Type" name="sentype" onChange="document.<?php print $book;?>choice.submit();">
-		  <option value=""></option>
+		  <option value=""><?php print_string('sentype',$book);?></option>
 <?php
 		 foreach($enum as $inval => $description){	
 			  print '<option ';

@@ -130,10 +130,6 @@ if($nodays==''){$nodays=8;}
 		</a>
 		</div>	  
 	  </fieldset>
-
-		<br />
-		<br />
-
 	  <fieldset class="register">
 		<legend><?php print_string('section',$book);?></legend>
 
@@ -159,14 +155,10 @@ else{
 		<input type="hidden" name="current" value="<?php print $nextpage;?>" />
 		</form>
 	  </fieldset>
+	  
+      <fieldset class="register selery">
+          	<form id="registerchoicesel" name="registerchoicesel" method="post" action="register.php" target="viewregister">
 
-	  <br />
-	  <br />
-
-
-	<form id="registerchoicesel" name="registerchoicesel" method="post" 
-		  action="register.php" target="viewregister">
-	  <fieldset class="register selery">
 		<legend><?php print_string('list',$book);?></legend>
 <?php
 		$choices=array('absence_list.php' => 'absencelists'
@@ -176,13 +168,13 @@ else{
 					   );
 		selery_stick($choices,$choice,$book);
 ?>
-	  </fieldset>
+	  
 	  <input type="hidden" name="secid" value="<?php print $secid;?>" />
 	  <input type="hidden" name="newcid" value="" />
 	  <input type="hidden" name="newcomid" value="" />
 	  <input type="hidden" name="nodays" value="8" />
 	</form>
-
+</fieldset>
   </div>
 <?php
 	/* This is for the pop-up Register notices. */

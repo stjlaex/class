@@ -88,7 +88,7 @@ table {
 th {
     text-align: left;
     border-style: none;
-    border-width: 0px;
+    border-width: 0;
 }
 td {
     text-align: left;
@@ -119,13 +119,7 @@ legend, caption {
 label[for="Day"], label[for="Month"], label[for="Year"] {
     clear: none;
 }
-form img {
-    float: left;
-    width: 12px;
-    height: 12px;
-    border: 0 none;
-    background-repeat: no-repeat;
-}
+
 form img.required {
     background-image: url("../images/orangestar.png");
     content: url("../images/orangestar.png");
@@ -468,6 +462,9 @@ table.listmenu {
 .listmenu thead tr, .listmenu tr {
     background-color: #d2d7dc;
 }
+.listmenu th  {
+    padding: 10px 0 10px 1%;
+}
 .listmenu tbody tr:nth-of-type(odd) {
     background-color: #ebedef;
 }
@@ -486,6 +483,13 @@ table.listmenu {
 .listmenu tfoot td label{
     color: #bac1c8;
 }
+.listmenu tbody td.student  {
+    padding: 1%;
+}
+.listmenu .merit   {
+    margin-right: 20px;
+x}
+
 ul.listmenu, .listmenu li {
     border: 0 none;
     background-color: #ffffee;
@@ -815,3 +819,4 @@ div.upload input {
     overflow: hidden;
     position: absolute;
 }
+

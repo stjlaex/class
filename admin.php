@@ -56,7 +56,7 @@ $section_perm=get_admin_perm('s',get_uid($tid));
 		$choices['class_nos.php']='classnumbers';
 		$choices['usage.php']='logcounter';
 		}
-	selery_stick($choices,$choice,$book);
+	selery_select_stick($choices,$choice,$book);
 ?>
 	</fieldset>
   </form>
@@ -87,7 +87,7 @@ $section_perm=get_admin_perm('s',get_uid($tid));
 					   //,'db_export.php' => 'db'
 					   //,'lang.php' => 'langexport'
 					   );
-		selery_stick($choices,$choice,$book);
+		selery_select_stick($choices,$choice,$book);
 ?>
 	  </fieldset>
 	</form>
