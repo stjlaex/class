@@ -1,3 +1,12 @@
+$( document ).ready(function() {
+    var windowHeight  = $(window).height();
+    var bookHeight  = $('.bookoptions').height();
+    var bookframeHeight = $('.bookframe').height();
+    $('.bookframe').css('height', windowHeight-bookHeight - 80);
+    $('.bookframe').css('top', bookHeight + 100 );
+   // alert(bookframeHeight);
+});
+
 //--------------------------------------------------------
 //functions for the marktable to display columns from gradebox
 

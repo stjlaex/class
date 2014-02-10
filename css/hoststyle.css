@@ -9,7 +9,7 @@ body {
     margin: 0;
     border: 0;
     overflow: hidden;
-        font-family: 'Lato', sans-serif;
+    font-family: 'Lato', sans-serif;
 }
 a {
     font-size: small;
@@ -21,18 +21,18 @@ div#currentbook {
     overflow: hidden;
 }
 header {
-    width:100%;
-    height:80px;
-    float:left;
+    width: 100%;
+    height: 80px;
+    float: left;
     background-color: #34495e;
 }
-.container  {
-    width: 80%;
+.container {
+    width: 95%;
     position: relative;
     margin: 0 auto;
 }
 
-.branded    {
+.branded {
     position: absolute;
     z-index: 150;
     top: 10px;
@@ -45,12 +45,11 @@ header {
 .bookframe {
     position: absolute;
     left: 0;
-    top: 600px;
+    top: 245px;
     width: 100%;
-    height: 95.1%;
+    /*height: 95.1%;*/
     border: 0;
     padding: 0;
-    overflow: hidden;
 }
 .fullbookframe {
     position: absolute;
@@ -105,13 +104,12 @@ header {
     margin: 0;
     padding: 15px 20px;
 }
-.booktabs li a:hover,
-.booktabs #currentbook{
+.booktabs li a:hover, .booktabs #currentbook {
     background-color: #91c73e;
     border-radius: 2px 2px 0 0;
     color: #e7f3d5;
 }
-.booktabs #currentbook:hover    {
+.booktabs #currentbook:hover {
     background-color: #ABD46C;
 }
 
@@ -124,9 +122,8 @@ div#loginworking {
     float: right;
     margin-right: 10px;
 }
-#loginworking .selector, 
-#loginworking .selector span,
-#loginworking .selector select {
+#loginworking .selector, #loginworking .selector span, #loginworking .selector select {
+    width: 100% !important;
     height: 25px;
     font-size: 12px;
     line-height: 25px;
@@ -134,12 +131,12 @@ div#loginworking {
     color: #8995a2;
     text-transform: capitalize;
 }
-#loginworking .selector span   {
+#loginworking .selector span {
     background-position: right -100px;
     padding-left: 10px;
 }
-.user-logout    {
-    color:#8995a2;
+.user-logout {
+    color: #8995a2;
     background-color: #2e4053;
     display: inline-block;
     padding: 3px 10px 0;
@@ -148,8 +145,8 @@ div#loginworking {
     text-transform: uppercase;
     height: 22px
 }
-.user-logout a    {
-    color:#8995a2;
+.user-logout a {
+    color: #8995a2;
 }
 
 /***************************************************************************/
@@ -168,7 +165,7 @@ button {
     padding: 10px;
     cursor: pointer;
 }
-button:hover    {
+button:hover {
     background-color: #abd46c;
 }
 
@@ -177,7 +174,7 @@ button:hover    {
     left: 0;
     top: 80px;
     width: 100%;
-    height:auto;
+    height: 150px;
     overflow: hidden;
     background-color: #4d5f72;
     padding-top: 10px;
@@ -212,8 +209,8 @@ button:hover    {
 }
 .bookoptions fieldset {
     border: none;
-    padding:0;
-    width: 80%;
+    padding: 0;
+    width: 95%;
     margin: 0 auto 20px;
 }
 .bookoptions fieldset:first-child {
@@ -222,10 +219,10 @@ button:hover    {
 .bookoptions form {
     display: inline;
 }
-.bookoptions form.infobookchoice    {
+.bookoptions form.infobookchoice {
     width: 80%;
 }
-.switchstudent, #switchcontact  {
+.switchstudent, #switchcontact {
     float: left;
     margin-right: 10px;
 }
@@ -271,13 +268,13 @@ button:hover    {
     top: 20px;
     right: 10px;
 }
-#loginlang .selector  {
+#loginlang .selector {
     float: left;
-    width: 245px!important;
+    width: 245px !important;
     margin-left: 20px;
 }
-#loginlang .selector span  {
-    width: 220px!important;
+#loginlang .selector span {
+    width: 220px !important;
 }
 #login {
     background-color: #666666;

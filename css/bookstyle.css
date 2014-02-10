@@ -4,9 +4,9 @@
  *   and layout. The color schemes are defined on a book by book basis
  *   elsewhere.
  */
-*   {
+* {
     margin: 0;
-    padding:0;
+    padding: 0;
     border: 0;
 }
 body {
@@ -43,12 +43,7 @@ h5 {
 h6 {
     font-size: 16px;
 }
-h1,
-h2,
-h3,
-h4,
-h5,
-h6  {
+h1, h2, h3, h4, h5, h6 {
     font-family: 'Lato', sans-serif;
     font-weight: 400;
     line-height: 1.1;
@@ -64,8 +59,6 @@ input, textarea, select {
     text-align: left;
     cursor: text;
     padding: 2px;
-    width: auto;
-    background-color: #ffffff;
 }
 input:focus, textarea:focus, select:focus {
     border-color: #ff9900;
@@ -83,9 +76,6 @@ input[readonly="readonly"] {
     border-color: #cccccc;
     background-color: #cccccc;
 }
-input[type="checkbox"] {
-    width: 1em;
-}
 input[type="radio"] {
     width: 1em;
 }
@@ -102,7 +92,7 @@ th {
 }
 td {
     text-align: left;
-    font-size: 14px;    
+    font-size: 14px;
 }
 legend, caption {
     text-align: left;
@@ -188,8 +178,7 @@ div#bookbox {
     left: 0%;
     top: 0%;
     width: 100%;
-    height: 99%;
-    overflow: hidden;
+    overflow: auto;
 }
 .externalbookframe {
     position: absolute;
@@ -209,13 +198,12 @@ div.background {
 }
 /*this is main display div within each book*/
 div.content {
-    position: relative;
-    top: 7%;
-    height: 93%;
+    width: 100%;
+    height: auto;
     font-size: small;
     border: 0;
-    background-color: #444444;
-    overflow: auto;
+    overflow: hidden;
+    margin: 40px auto 0;
 }
 div.content fieldset, div.topcontent fieldset {
     padding: 1%;
@@ -318,120 +306,59 @@ div#heading {
     margin: 0;
     float: left;
 }
+div.buttonmenu {
+    border: 0 none;
+    overflow: hidden;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 4000;
+    width: 95%;
+    text-align: right;
+    background-color: #FFFFFF;
+    padding: 0 2.5% 10px ;
+}
+
 #heading span {
     clear: none;
     font-size: xx-small;
     font-weight: 100;
 }
 /*the set of action buttons at the very top of the book*/
-div.buttonmenu {
-    border: 0;
-    margin-top: 0.5%;
-    overflow: hidden;
-    position: absolute;
-    top: 0%;
-    right: 10%;
-    background-color: #444444;
-    z-index: 4000;
+div.buttonmenu button {
+    border-radius: 2px;
+    border: none;
+    background-color: #4d5f72;
+    color: #CAD5DA;
+    font-size: 14px;
+    padding: 5px 10px;
+    cursor: pointer;
+    font-weight: 300;
 }
-.buttonmenu button, #heading button {
-    margin: 1px 2px;
-    border: 0px none;
-    border-radius: 3px;
-    padding: 2px 4px 2px 3px;
-    font-size: x-small;
-    font-weight: 900;
-    color: #ffeeff;
+div.buttonmenu button:hover {
+    background-color: #657585;
+}
+
+
+button {
+    border-radius: 2px;
+    border: none;
+    background-color: #91c73e;
+    color: #E7F3D5;
+    font-size: 14px;
+    padding: 5px 10px;
     cursor: pointer;
 }
-.buttonmenu button[value="Submit"], .buttonmenu button[value="Enter"] {
-    background-color: #666666;
-    color: #ff9900;
-    font-weight: 900;
+button:hover {
+    background-color: #abd46c;
 }
-.buttonmenu button[value="Submit"]:hover, .buttonmenu button[value="Enter"]:hover {
-    background-color: #ff9900;
-    color: #ffffff;
-    z-index: 1000;
-}
-.buttonmenu button[value="Cancel"], .buttonmenu button.cancel {
-    background-color: #666666;
-    color: #ffffee;
-}
-.buttonmenu button[value="Back"] {
-    background-color: #666666;
-    color: #ffffee;
-}
-div.buttongroup {
-    margin-left: 10px;
-    padding: 2px;
-    float: left;
-}
-.buttonmenu button[value="Reset"], div.buttongroup {
-    background-color: #666666;
-    color: #ffffee;
-}
-div.buttongroup label {
-    color: #dddddd;
-    line-height: 90%;
-    font-size: xx-small;
-}
-button[value="Okay"] {
-    background-color: #666666;
-    color: #ffffee;
-    width: 5em;
-}
-button.install {
-    background-color: #666666;
-    color: #ffffee;
-    font-size: xx-small;
-}
-.buttonmenu button:hover, .buttonmenu button:focus, #heading button:hover, #heading button:focus {
-    border-color: #5599cc;
-    background-color: #5599cc;
-    color: #ffffff;
-}
+
 /* The micro-action buttons contianed inside content, usually for xmlHttprequests*/
 div.rowaction {
-    float: right;
-    width: 8em;
-}
-button.rowaction, div.rowaction, div.rowaction button {
-    margin: 1px 2px;
-    padding: 0;
-    font-size: xx-small;
-    color: #ffeeff;
-    cursor: pointer;
-    float: right;
-}
-button.rowaction, div.rowaction button {
-    border: 1px none;
-    border-radius: 4px;
-    padding: 0 3px 0 3px;
-    font-weight: 600;
-    background-color: #666666;
-}
-button.rowaction img {
     float: left;
-    width: 12px;
-    height: 12px;
-    border-style: none;
-    background-repeat: no-repeat;
-    opacity: 1;
+    padding: 0 10px;
 }
-button.rowaction:hover, button.rowaction:focus {
-    border-color: #5599cc;
-    background-color: #5599cc;
-    color: #ffffff;
-}
-.rowaction input.underrow {
-    height: 18px;
-    font-size: 8pt;
-    padding: 0;
-}
-button.imagebutton {
-    border: 0 !important;
-}
+
 img.displayfilepdf {
     background-image: url("../images/file-pdf.png");
     content: url("../images/file-pdf.png");
@@ -479,8 +406,12 @@ img.clicktoconfigure {
     content: url("../images/document-properties.png");
     cursor: pointer;
 }
-.add-merit div  { float: right; }
-.add-merit .fa  { cursor: pointer; }
+.student div {
+    float: right;
+}
+.student .fa {
+    cursor: pointer;
+}
 img.clicktoprint {
     background-image: url("../images/printer.png");
     content: url("../images/printer.png");
@@ -534,52 +465,35 @@ table.listmenu {
     padding-right: 5%;
     margin: 0 5% 0 70%;
 }
-.listmenu td label, .listmenu th label, .listmenu li label {
-    color: #666666 !important;
-}
-.listmenu thead tr,
-.listmenu tr {
+.listmenu thead tr, .listmenu tr {
     background-color: #d2d7dc;
 }
-
-.listmenu tr:nth-of-type(odd) {
-  background-color:#ebedef;
+.listmenu tbody tr:nth-of-type(odd) {
+    background-color: #ebedef;
 }
-.listmenu td {
+.listmenu tbody tr:hover {
+    background-color: #ebedef !important;
+}
+.listmenu tbody td {
     border-top: 1px solid;
     border-color: #bac1c8;
-    padding:10px 0 10px 1%;
+    padding: 10px 0 10px 1%;
 }
-.listmenu td.E {
-    color: #aaaaaa;
-    background-color: #ffffff;
+.listmenu tfoot tr{
+    background-color: #4d5f72;
 }
-.listmenu tr:hover {
-    background-color: #fcd39a !important;
+.listmenu tfoot td,
+.listmenu tfoot td label{
+    color: #bac1c8;
 }
-.listmenu tr:hover td {
-    background-color: #fcd39a !important;
-}
-.listmenu tr:hover th {
-    background-color: #fcd39a !important;
-}
-.listmenu tr td table td:hover {
-    background-color: #eeeeee !important;
-}
-
-
-
 ul.listmenu, .listmenu li {
-    border: 0px none;
+    border: 0 none;
     background-color: #ffffee;
     color: #115599;
     margin-top: 2px;
 }
 ul.listmenu {
     list-style-type: square;
-}
-div.content fieldset.listmenu, div.content fieldset.listmenu div, .listmenu td label, .listmenu th label {
-    background-color: #ffffee;
 }
 .listmenu .special {
     font-weight: 600;
@@ -716,72 +630,6 @@ th.hidden {
     display: none;
 }
 
-/***********sidtable selected class*******/
-table.sidtable {
-    width: 99%;
-}
-.sidtable th {
-    font-weight: 600;
-    font-size: x-small;
-    cursor: pointer;
-}
-.sidtable td.edit, .sidtable th.edit {
-    border-left: 20px solid #444444;
-    padding: 0 5px 0 2px;
-    margin: 0;
-    width: 20%;
-}
-.sidtable td.empty, .sidtable th.empty {
-    background-color: #444444;
-    border-color: #444444;
-}
-.sidtable .edit select, .sidtable th select {
-    float: left;
-    padding: 0;
-    margin: 0;
-    font-size: x-small;
-}
-.sidtable td.extra {
-    background-color: yellow;
-    padding: 0 5px;
-    margin: 0;
-}
-.sidtable .extra input {
-    width: 1em;
-    padding: 0;
-    margin: 0;
-}
-.sidtable .edit select:focus {
-    border: 2px solid #ff9900;
-}
-.sidtable td img {
-    padding: 0;
-    width: 12px;
-    height: 12px;
-    border: 0;
-}
-.sidtable #miniature {
-    padding: 0;
-    width: 60px;
-    height: 62px;
-    border: 0;
-}
-.sidtable td[title] {
-    background-repeat: no-repeat;
-}
-.sidtable td:first-child {
-    width: 4em;
-    padding: 0;
-}
-.sidtable td:first-child + td {
-    width: 4em;
-    padding: 0;
-    text-align: left;
-}
-.sidtable td:first-child + td a {
-    color: #444;
-    font-weight: 300;
-}
 /***********tinytabs*******/
 div.tinytabs {
     font-size: x-small;
@@ -942,11 +790,7 @@ div.document {
     cursor: pointer;
     margin: 4px !important;
     border-radius: 5px;
-}
-div.document, .documentdrop button, #filedrag, .document label {
-    background-color: #446 !important;
-    color: #ffffff !important;
-}
+
 div.upload {
     width: 142px;
     height: 30px;
@@ -971,4 +815,3 @@ div.upload input {
     overflow: hidden;
     position: absolute;
 }
-

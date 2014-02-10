@@ -10,7 +10,7 @@
 
  */
 
-div.selector, div.selector span, div.checker span, div.radio span, div.uploader, div.uploader span.action, div.button, div.button span {
+div.selector, div.selector span {
     background-image: url("../images/sprite.png");
     background-repeat: no-repeat;
     -webkit-font-smoothing: antialiased;
@@ -121,7 +121,7 @@ div.checker {
     width: 20px;
     height: 20px;
     float: left;
-    margin: 0 10px;
+    margin: 0 5px;
     *display: inline;
     zoom: 1;
     vertical-align: middle;
@@ -146,10 +146,16 @@ div.checker span.checked:before {
     content: "\f00c";
     color: #FFFFFF;
     display: block;
-    margin-top: -1px;
+    margin-top: 3px;
     cursor: pointer;
+    font-size: 14px;
+    font-weight: normal;
 }
-
+div.checker span, div.checker input {
+    width: 20px;
+    height: 20px;
+}
+    
 div.checker span {
     display: -moz-inline-box;
     display: inline-block;
@@ -196,3 +202,50 @@ input.uniform-input:focus {
     background-color: #8995a2;
 }
 
+/* Radio */
+div.radio {
+    position: relative;
+}
+div.radio, div.radio span, div.radio input {
+    width: 14px;
+    height: 14px;
+    cursor: pointer;
+}
+div.radio span {
+    display: -moz-inline-box;
+    display: inline-block;
+    *display: inline;
+    zoom: 1;
+    text-align: center;
+    position: relative;
+}
+div.radio span:before,
+div.radio span.checked:before {
+    font-family: FontAwesome;
+    content: "\f111";
+    color: #bac1c8;
+    display: block;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: normal;
+}
+div.radio span.checked:before {
+    content: "\f192";
+    color: #91c73e;
+    font-weight: normal;
+}
+div.radio input {
+    opacity: 0;
+    filter: alpha(opacity=0);
+    -moz-opacity: 0;
+    border: none;
+    background: none;
+    display: -moz-inline-box;
+    display: inline-block;
+    *display: inline;
+    zoom: 1;
+    text-align: center;
+    position: absolute;
+    top: 0;
+    left: 0;
+}

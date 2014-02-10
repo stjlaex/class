@@ -1,8 +1,8 @@
-body.login  {
+body.login {
     background-color: #91c73e;
-    font-size: 14px!important;
+    font-size: 14px !important;
 }
-.container  {
+.container {
     width: 80%;
     position: relative;
     margin: 0 auto;
@@ -10,18 +10,17 @@ body.login  {
 
 .theme-selector {
     width: 80%;
-    margin:2% auto 5%;
+    margin: 2% auto 5%;
 }
-.login-left,
-.login-right {
+.login-left, .login-right {
     width: 50%;
     float: right;
     margin-top: 50px;
 }
-fieldset    {
+fieldset {
     padding: 30% 15%;
 }
-.login-form    {
+.login-form {
     width: 70%;
     margin: 0 auto;
 }
@@ -32,7 +31,7 @@ fieldset    {
 .login-form .form-group {
     position: relative;
 }
-.login-form label   {
+.login-form label {
     font-size: 14px;
     color: #bfde8f;
     background-color: #6e972f;
@@ -69,14 +68,14 @@ fieldset    {
     padding: 0 10% 0 20%;
 }
 .schoollogo h1 {
-    font-size:60px;
+    font-size: 60px;
     margin-bottom: 10px;
     color: #FFFFFF;
 }
 .schoollogo p {
-    font-size:14px;
+    font-size: 14px;
     font-weight: 300;
-    color: #FFFFFF;    
+    color: #FFFFFF;
 }
 .schoollogo img {
     display: block;

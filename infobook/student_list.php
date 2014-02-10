@@ -119,17 +119,16 @@ two_buttonmenu($extrabuttons,$book);
 	  <table class="listmenu sidtable" id="sidtable">
 		<thead>
 		  <tr>
-    		  <th rowspan="2" colspan="1" style="width:1em;">
+    		  <th rowspan="2" colspan="1">
     			<input type="checkbox" name="checkall"  value="yes" onChange="checkAll(this);" />
     			<?php print_string('checkall'); ?>
     		  </th>
-		  <th rowspan="2" style="border:0;text-align:left;">
-		  </th>
+		  <th rowspan="2"></th>
 
 <?php
 	if(isset($tutor_users)){
 ?>
-		<th rowspan="2"  style="width:30%;">form group
+		<th rowspan="2"  style="width:25%;">form group
 		<label><?php print_string('formgroup'); ?></label>
 		<?php print $fid.' &nbsp;&nbsp;'; ?>
 <?php
@@ -145,12 +144,12 @@ two_buttonmenu($extrabuttons,$book);
 }
 elseif(isset($title) and $title!=''){
 ?>
-		<th rowspan="2"   style="width:30%;"><label><?php print $title; ?></label></th>
+		<th rowspan="2"   style="width:25%;"><label><?php print $title; ?></label></th>
 <?php
 }
 else{
 ?>
-		<th rowspan="2" style="width:30%;">
+		<th rowspan="2" style="width:25%;">
 		  <?php print_string('student'); ?>
 		</th>
 <?php
@@ -232,7 +231,7 @@ else{
 		<tr id="sid-<?php print $sid; ?>" <?php print $enrolclass; ?>>
 		  <td>
 			<input type="checkbox" name="sids[]" value="<?php print $sid; ?>" />
-			<?php print $rown++; ?>
+			<div style="float: left"><?php print $rown++; ?></div>
 		  </td>
 		  <td>
 <?php
@@ -282,89 +281,53 @@ print '<td>'.$displayout.'</td>';
 	</tbody>
 	<tfoot class="noprint">
 		<tr>
-		  <th colspan="3">
+		  <td colspan="3">
 		  <div class="rowaction">
-			<label><?php print_string('all',$book); ?></label>
-			<input title="<?php print_string('filter',$book); ?>" 
-				  type="radio" name="umnfilter"
-				  value="%" <?php
-							if($umnfilter=='%') {print 'checked';
-							}
-						?>
-				  onchange="processContent(this);" />
+			<input title="<?php print_string('filter',$book); ?>" type="radio" name="umnfilter" value="P" <?php if($umnfilter=='P') {print 'checked'; } ?>onchange="processContent(this);" />
+            <label><?php print_string('previous',$book); ?></label>
 		  </div>
 		  <div class="rowaction">
-			<label><?php print_string('current',$book); ?></label>
-			<input title="<?php print_string('filter',$book); ?>" 
-				  type="radio" name="umnfilter"
-				  value="C" <?php
-							if($umnfilter=='C') {print 'checked';
-							}
-						?>
-				  onchange="processContent(this);" />
+            <input title="<?php print_string('filter',$book); ?>" type="radio" name="umnfilter" value="A" <?php if($umnfilter=='A') {print 'checked'; } ?> onchange="processContent(this);" />
+            <label><?php print_string('applied',$book); ?></label>
+          </div>
+		  <div class="rowaction">
+            <input title="<?php print_string('filter',$book); ?>" type="radio" name="umnfilter" value="C" <?php if($umnfilter=='C') {print 'checked'; } ?>onchange="processContent(this);" />
+            <label><?php print_string('current',$book); ?></label>
+          </div>
+		  <div class="rowaction">
+            <input title="<?php print_string('filter',$book); ?>" type="radio" name="umnfilter" value="%" <?php if($umnfilter=='%') {print 'checked'; } ?> onchange="processContent(this);" />
+            <label><?php print_string('all',$book); ?></label>
+          </div>
+		</td>
+		  <td colspan="<?php print $displayfields_no-1; ?>">
+		  <div class="rowaction">
+            <?php
+                $d_c=mysql_query("SELECT DISTINCT name AS id, name AS name FROM categorydef WHERE type='col' ORDER BY name;");
+                $listname='selsavedview';
+                $selsavedview=$savedview;
+                $listlabel='';
+                $liststyle='width:16em;';
+                include ('scripts/set_list_vars.php');
+                list_select_db($d_c,$listoptions,$book);
+            ?>
 		  </div>
 		  <div class="rowaction">
-			<label><?php print_string('applied',$book); ?></label>
-			<input title="<?php print_string('filter',$book); ?>" 
-				  type="radio" name="umnfilter"
-				  value="A" <?php
-							if($umnfilter=='A') {print 'checked';
-							}
-						?>
-				  onchange="processContent(this);" />
+            <?php
+                $buttons=array();
+                $buttons['selectview']=array('name'=>'sub','value'=>'select');
+                all_extrabuttons($buttons,'infobook','processContent(this)');
+            ?>
 		  </div>
 		  <div class="rowaction">
-			<label><?php print_string('previous',$book); ?></label>
-			<input title="<?php print_string('filter',$book); ?>" 
-				  type="radio" name="umnfilter"
-				  value="P" <?php
-							if($umnfilter=='P') {print 'checked';
-							}
-						?>
-				  onchange="processContent(this);" />
-		  </div>
-		</th>
-		  <th colspan="<?php print $displayfields_no-1; ?>">
-		  <div class="rowaction">
-<?php
-$d_c=mysql_query("SELECT DISTINCT name AS id, name AS name FROM categorydef WHERE type='col' ORDER BY name;");
-$listname='selsavedview';
-$selsavedview=$savedview;
-$listlabel='';
-$liststyle='width:16em;';
-include ('scripts/set_list_vars.php');
-list_select_db($d_c,$listoptions,$book);
-?>
+			<input title="<?php print get_string('private',$book).' '.get_string('visible',$book); ?>" type="radio" name="privfilter" value="visible" <?php if($privfilter=='visible') {print 'checked'; } ?> onchange="processContent(this);" />
+            <label><?php print_string('visible',$book); ?></label>
 		  </div>
 		  <div class="rowaction">
-<?php
-$buttons=array();
-$buttons['selectview']=array('name'=>'sub','value'=>'select');
-all_extrabuttons($buttons,'infobook','processContent(this)');
-?>
-		  </div>
-		  <div class="rowaction">
-			<label><?php print_string('private',$book); ?></label>
-			<input title="<?php print get_string('private',$book).' '.get_string('hidden',$book); ?>" 
-				  type="radio" name="privfilter"
-				  value="hidden" <?php
-							if($privfilter=='hidden') {print 'checked';
-							}
-						?>
-				  onchange="processContent(this);" />
-		  </div>
-		  <div class="rowaction">
-			<label><?php print_string('visible',$book); ?></label>
-			<input title="<?php print get_string('private',$book).' '.get_string('visible',$book); ?>" 
-				   type="radio" name="privfilter"
-				   value="visible" <?php
-								if($privfilter=='visible') {print 'checked';
-								}
-							?>
-			onchange="processContent(this);" />
-		  </div>
-		</th>
-		<th>
+            <input title="<?php print get_string('private',$book).' '.get_string('hidden',$book); ?>" type="radio" name="privfilter" value="hidden" <?php if($privfilter=='hidden') {print 'checked'; } ?>onchange="processContent(this);" />
+            <label><?php print_string('private',$book); ?></label>
+          </div>
+		</td>
+		<td>
 		  <div class="rowaction">
 <?php
 	$buttons=array();
@@ -373,27 +336,24 @@ all_extrabuttons($buttons,'infobook','processContent(this)');
 ?>
 		  </div>
 		  <div class="rowaction">
-<?php
-$buttons=array();
-if($savedview=='') {
-$buttons['saveview']=array('title'=>'saveview','name'=>'current','value'=>'column_save.php');
-}
-all_extrabuttons($buttons,'infobook','processContent(this)');
-?>
+            <?php
+                $buttons=array();
+                if($savedview=='') {
+                $buttons['saveview']=array('title'=>'saveview','name'=>'current','value'=>'column_save.php');
+                }
+                all_extrabuttons($buttons,'infobook','processContent(this)');
+            ?>
 		  </div>
-		</th>
+		</td>
 	  </tr>
 	</tfoot>
 	</table> 
-
 	  <input type="hidden" name="colno" value="<?php print $displayfields_no; ?>" />
 	  <input type="hidden" name="current" value="<?php print $action; ?>" />
 	  <input type="hidden" name="cancel" value="<?php print ''; ?>" />
 	  <input type="hidden" name="choice" value="<?php print $choice; ?>" />
 	</form>
   </div>
-
-
 
 <script type="text/javascript">var TSort_Data=new Array('sidtable','','','''<?php print $sort_types; ?>
 	);
