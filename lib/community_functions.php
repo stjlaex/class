@@ -1023,7 +1023,7 @@ function list_community_users($com,$perms=array('r'=>1,'w'=>1,'x'=>1),$yid='%'){
 	if(sizeof($gids)>0){
 		foreach($gids as $gid){
 			$d_u=mysql_query("SELECT DISTINCT users.uid,
-					username, forename, surname, email, epfusername, role
+					username, forename, surname, email, epfusername, role, title
 					FROM users JOIN perms ON users.uid=perms.uid 
 					WHERE users.nologin='0' AND perms.gid='$gid' AND perms.r='$r' 
 					AND perms.w='$w' AND perms.x='$x';");

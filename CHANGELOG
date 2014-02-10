@@ -3,6 +3,8 @@ Version ClaSS-1.0.62 release (2014/01/21)
 
 Fields for IBAN and BIC added to the fees_account table.
 
+Added title to a teacher's name.
+
 
 Version ClaSS-1.0.61 release (2014/01/14)
 -------------------------------------------
