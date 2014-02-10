@@ -570,22 +570,29 @@ function display_file($epfun,$foldertype,$linkedid='-1',$comment=''){
  */
 function selery_stick($choices,$choice='',$book=''){
 ?>
-		<ul class="selery">
+		<select class="selery" style="width:200px">
 <?php
 	while(list($page,$title)=each($choices)){
 ?>
-		  <li onclick="selerySubmit(this)" 
-			<?php if($choice==$page){print 'class="checked" ';}?> >
-			<input type="radio"
-				<?php if($choice==$page){print 'checked="checked" ';} ?>
-			  value="<?php print $page;?>" name="current" >
+		  <!--li onclick="selerySubmit(this)" <?php if($choice==$page){print 'class="checked" ';}?> >
+			<input type="radio"<?php if($choice==$page){print 'checked="checked" ';} ?> value="<?php print $page;?>" name="current" >
 			  <p><?php print_string($title,$book);?></p>
 			</input>
-		  </li>
+		  </li-->
+		  
+		  
+		  
+		  
+		  <option value="selerySubmit(this)"><?php print_string($title,$book);?></option>
+		  
+		  
+		  
+		  
+		  
 <?php
 		}
 ?>
-		</ul>
+		</select>
 <?php
 	}
 

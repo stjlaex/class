@@ -99,7 +99,6 @@
         $("iframe").load(function() {
             $('.infobook select').uniform({wrapperClass: "default"});
             $('#loginlang select').uniform({wrapperClass: "blueLight"});            
-               
             $('select, input').uniform();
         });
     </script>

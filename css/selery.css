@@ -3,7 +3,7 @@
  * or buttons which click round a selectiong of 1-4 values
  * main color: 5599cc mimics the blue of a slected <select> option
  */
-
+/*
 fieldset.selery {
     border-width: 2px 0 0 0;
 }
@@ -40,8 +40,9 @@ fieldset.selery {
     width: 1em;
     height: auto;
 }
-
+*/
 /*these are for the grow selery button*/
+/*
 button.selery {
     width: 16px;
     height: 16px;
@@ -83,3 +84,4 @@ button.selerytick[value="3"] img {
 .selery div.lolite {
     color: #aabbcc !important;
 }
+*/
