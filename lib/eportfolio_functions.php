@@ -720,8 +720,7 @@ function elgg_new_comment($epfu,$dateset,$message,$title,$tid){
 			   	posted='$posted',title='$title',body='$message',access='$access';");
 		$epfuidpost=mysql_insert_id();
 
-
-		$sends=array();//use to avoid mulitple notification meassages to the same address
+		$recipients=array();
 		$table=$CFG->eportfolio_db_prefix.'friends';
 		$d_f=mysql_query("SELECT owner FROM $table WHERE friend='$epfuid';");
 		while($friend=mysql_fetch_array($d_f,MYSQL_ASSOC)){
@@ -731,26 +730,17 @@ function elgg_new_comment($epfu,$dateset,$message,$title,$tid){
 			mysql_query("INSERT INTO $table SET owner='$epfuidmember',weblog_post='$epfuidpost';");
 
 			/* Notify the parent by email. */
+			$recipient=array();
 			$table=$CFG->eportfolio_db_prefix.'users';
 			$d_u=mysql_query("SELECT name FROM $table WHERE ident='$epfuid';");
-			$studentname=mysql_result($d_u,0);
+			$recipient['studentname']=mysql_result($d_u,0);
+			$recipient['sid']=$epfuid;
 			$d_u=mysql_query("SELECT email FROM $table WHERE ident='$epfuidmember';");
-			$emailaddress=trim(mysql_result($d_u,0));
-			//$emailaddress='stj@laex.org';
-			if($emailaddress!='' and !in_array($emailaddress,$sends)){
-				$sends[]=$emailaddress;
-				$title=get_string('epfcommenttitle','infobook').' '.$CFG->schoolname;
-				$message=get_string('epfcommentemail','infobook',$studentname)
-					.' <p><a href="'.$CFG->eportfoliosite.'">'.$CFG->eportfoliosite.'</a></p>';
-				$footer=get_string('guardianemailfooterdisclaimer');
-				$messagetxt=strip_tags(html_entity_decode($message, ENT_QUOTES, 'UTF-8'))."\r\n".'--'. "\r\n" . $footer;
-				$message.='<br /><hr><p>'. $footer.'<p>';
-				$emailaddress=strtolower($emailaddress);
-				$dbn=db_connect(false,$CFG->eportfolio_db);
-				$table=$CFG->eportfolio_db_prefix.'message_event';
-				send_email_to($emailaddress,'',$title,$messagetxt,$message,'','',$dbn,$table);
-				}
+			$recipient['emailaddress']=trim(mysql_result($d_u,0));
+			$recipient['gid']=$epfuidmember;
+			$recipients[]=$recipient;
 			}
+		elgg_send_email($recipients,"comment");
 
 		}
 
@@ -760,6 +750,47 @@ function elgg_new_comment($epfu,$dateset,$message,$title,$tid){
 	}
 
 
+/**
+ * Adds a message to classic's message_event table to be sent to parents
+ *
+ * @param $emailaddresses	array()
+ * @param $emailtype		string (example: comment,report,homework)
+ *
+ */
+function elgg_send_email($recipients,$emailtype,$template='classicemail'){
+	global $CFG;
+
+	$sends=array();//use to avoid mulitple notification meassages to the same address
+	foreach($recipients as $recipient){
+		if($recipient['emailaddress']!='' and !in_array($recipient['emailaddress'],$sends)){
+			$sid=$recipient['sid'];
+			$gid=$recipient['gid'];
+			$sends[]=$recipient['emailaddress'];
+			$title=get_string('epf'.$emailtype.'title','infobook').' '.$CFG->schoolname;
+			$messagehtml=get_string('epf'.$emailtype.'email','infobook',$recipient['studentname'])
+						.' <p><a href="'.$CFG->eportfoliosite.'">'.$CFG->eportfoliosite.'</a></p>';
+			$footer=get_string('guardianemailfooterdisclaimer');
+			$messagetxt=strip_tags(html_entity_decode($messagehtml, ENT_QUOTES, 'UTF-8'))."\r\n".'--'. "\r\n" . $footer;
+			$messagehtml.='<br><hr><p>'. $footer.'<p>';
+			$emailaddress=strtolower($recipient['emailaddress']);
+			/*Add template if exists for Classic email named classicemail*/
+			$dbt=db_connect(true,'class');
+			$templates=getTemplates('tmp',$template);
+			if(count($templates)>0){
+				$type['{{type}}']=$emailtype;
+				$tags=getTags(true,'default',$uid=array('student_id'=>$sid,'guardian_id'=>$gid));
+				$tags=array_merge($tags,$type);
+				$messagehtml=getMessage($tags,'',$template);
+				$messagetxt=strip_tags(html_entity_decode($messagehtml, ENT_QUOTES, 'UTF-8'));
+				}
+			/*Add email to message_event table*/
+			$dbn=db_connect(false,$CFG->eportfolio_db);
+			$table=$CFG->eportfolio_db_prefix.'message_event';
+			send_email_to($emailaddress,'',$title,$messagetxt,$messagehtml,'','',$dbn,$table);
+			}
+		}
+
+	}
 
 /**
  *
@@ -875,13 +906,36 @@ function elgg_upload_files($filedata,$dbc=true){
 					}
 				}
 
-			if(rename($file_originalpath,$file_fullpath)){
-				trigger_error('Uploaded file to: '.$dir,E_USER_NOTICE);
-				// chmod($file_fullpath, $CFG->filepermissions);
-				$success=true;
-				}
+			if($filedata['foldertype']!='icon'){
+				if(rename($file_originalpath,$file_fullpath)){
+					trigger_error('Uploaded file to: '.$dir,E_USER_NOTICE);
+					// chmod($file_fullpath, $CFG->filepermissions);
+					$success=true;
 
-			else{trigger_error('Could not move file to eportfolio: '.$file_fullpath,E_USER_WARNING);}
+					/*Send an email to guardians if a report has been uploaded*/
+					if($filedata['foldertype']=='report'){
+						$recipients=array();
+						$table=$CFG->eportfolio_db_prefix.'friends';
+						$d_f=mysql_query("SELECT owner FROM $table WHERE friend='$epfuid';");
+						while($friend=mysql_fetch_array($d_f,MYSQL_ASSOC)){
+							/* Notify the parent by email. */
+							$recipient=array();
+							$epfuidmember=$friend['owner'];
+							$table=$CFG->eportfolio_db_prefix.'users';
+							$d_u=mysql_query("SELECT name FROM $table WHERE ident='$epfuid';");
+							$recipient['studentname']=mysql_result($d_u,0);
+							$recipient['sid']=$epfuid;
+							$d_u=mysql_query("SELECT email FROM $table WHERE ident='$epfuidmember';");
+							$recipient['emailaddress']=trim(mysql_result($d_u,0));
+							$recipient['gid']=$epfuidmember;
+							$recipients[]=$recipient;
+							}
+						elgg_send_email($recipients,"report");
+						}
+					}
+
+				else{trigger_error('Could not move file to eportfolio: '.$file_fullpath,E_USER_WARNING);}
+				}
 			}
 
 		}

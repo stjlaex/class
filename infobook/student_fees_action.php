@@ -77,8 +77,9 @@ if(isset($_POST['newconcept']) and $_POST['newconcept']=='add' and $newconceptid
 	}
 
 /**
- *  Adding a new fee.
+ *  Deleting a fee.
  */
+$feeids=$_POST['feeids'];
 if($_POST['oldfees']=='delete' and sizeof($feeids)>0){
 	foreach($feeids as $feeid){
 		delete_fee($feeid);

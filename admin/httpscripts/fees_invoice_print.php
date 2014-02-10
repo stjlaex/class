@@ -19,6 +19,16 @@ else{
 	$Invoices['Invoice']=array();
 	foreach($invids as $invid){
 		$Invoice=fetchFeesInvoice(array('id'=>$invid));
+		$Student=fetchStudent($Invoice['student_id_db']);
+		$Invoice=array_merge($Invoice,$Student);
+		if($CFG->tempinvoice!=''){
+			$paymenttype=displayEnum($Invoice['PaymentType']['value'],'paymenttype');
+			if($paymenttype!='bank' and $paymenttype!='cash' and $paymenttype!='other'){
+				include("../../../schoollang.php");
+				$Invoice['PaymentType']['value']=$string[$paymenttype];
+				}
+			else{$Invoice['PaymentType']['value']=$paymenttype;}
+			}
 		$Invoices['Invoice'][]=$Invoice;
 		}
 	//$Invoices['Paper']='portrait';

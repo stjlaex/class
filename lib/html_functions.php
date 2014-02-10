@@ -17,10 +17,15 @@ function all_extrabuttons($extrabuttons,$book='',
 		while(list($description,$attributes)=each($extrabuttons)){
 			if(!isset($attributes['onclick'])){$attributes['onclick']=$onclick;}
 			if(!isset($attributes['title'])){$attributes['title']=$description;}
+			if(!isset($attributes['id'])){$buttonid='';}else{$buttonid=' id="'.$attributes['id'].'"';}
+			if(!isset($attributes['display'])){$display='';}else{$display=' style="display:'.$attributes['display'].';" ';}
+			if(!isset($attributes['class'])){$thisclass='';}else{$thisclass=' class="'.$attributes['class'].'" ';}
 ?>
   <button onClick="<?php print $attributes['onclick'];?>" 
+	<?php print $buttonid;?>
+	<?php print $display;?>
 	tabindex="<?php // print $tab++;?>"
-	<?php print $class;?> 
+	<?php if($thisclass==''){print $class;}else{print $thisclass;}?> 
 	<?php if(isset($attributes['pathtoscript'])){print '
 						  pathtoscript="'.$attributes['pathtoscript'].'" ';}?>
 	<?php if(isset($attributes['xmlcontainerid'])){print '
@@ -96,15 +101,17 @@ function twoplus_buttonmenu($currentkey,$maxkey,$extrabuttons='',$book='',$minke
  * by maxkey.
  *
  */
-function threeplus_buttonmenu($currentkey,$maxkey,$extrabuttons='',$book=''){
+function threeplus_buttonmenu($currentkey,$maxkey,$extrabuttons='',$book='',$usertype='student'){
 	if($currentkey==''){$currentkey=1;}//Register only needs this
+	if($usertype!="guardian"){$next=get_string('next',$book);$previous=get_string('previous',$book);}
+	else{$next=get_string('nextcontact',$book);$previous=get_string('previouscontact',$book);}
 ?>
   <div class="buttonmenu">
 <?php
 		 all_extrabuttons($extrabuttons,$book);
 ?>
-  	<button onClick="processContent(this);" <?php if($currentkey==0){print 'disabled="disabled" style="visibility:hidden;"';} ?> name="sub" value="Previous"><?php print_string('previous',$book);?></button>
-	<button onClick="processContent(this);" <?php if($currentkey>=($maxkey-1)){print 'disabled="disabled" style="visibility:hidden;"';} ?> name="sub" value="Next"><?php print_string('next',$book);?></button>
+  	<button onClick="processContent(this);" <?php if($currentkey==0){print 'disabled="disabled" style="visibility:hidden;"';} ?> name="sub" value="Previous"><?php echo $previous;?></button>
+	<button onClick="processContent(this);" <?php if($currentkey>=($maxkey-1)){print 'disabled="disabled" style="visibility:hidden;"';} ?> name="sub" value="Next"><?php echo $next;?></button>
 	<button onClick="processContent(this);" name="sub"  style="margin-left:1em;"
 	  value="Submit"><?php print_string('submit');?></button>
 	<button onClick="processContent(this);" name="sub" value="Cancel"><?php print_string('cancel');?></button>

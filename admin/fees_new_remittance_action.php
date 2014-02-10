@@ -11,6 +11,8 @@ $accid=$_POST['accid'];
 $remid=$_POST['remid'];
 $enrolstatus=$_POST['enrolstatus'];
 
+if(isset($_POST['editsids']) and $_POST['editsids']=="true"){$editsids=true;$action='fees_new_remittance_action_edit.php';}else{$editsids=false;}
+
 
 $action_post_vars=array('feeyear');
 include('scripts/sub_action.php');
@@ -73,9 +75,20 @@ if($sub=='Submit'){
 					$students=(array)listin_community($community);
 					foreach($students as $student){
 						$sid=$student['id'];
-						mysql_query("INSERT INTO fees_charge (student_id, remittance_id, tarif_id, paymenttype, amount) 
-							SELECT a.student_id, '$remid', a.tarif_id, a.paymenttype, t.amount FROM fees_applied AS a, 
-							fees_tarif AS t WHERE t.concept_id='$conid' AND t.id=a.tarif_id AND a.student_id='$sid';");
+						if(!$editsids){
+							mysql_query("INSERT INTO fees_charge (student_id, remittance_id, tarif_id, paymenttype, amount) 
+			SELECT a.student_id, '$remid', a.tarif_id, a.paymenttype, t.amount FROM fees_applied AS a, 
+			fees_tarif AS t WHERE t.concept_id='$conid' AND t.id=a.tarif_id AND a.student_id='$sid';");
+							}
+						else{
+							$charges=list_student_fees($sid);
+							foreach($charges as $conceptid=>$charge){
+								if($conceptid==$conid){
+									$sids[$sid]=$sid;
+									}
+								}
+							$conceptids[$conid]=$conid;
+							}
 						}
 					}
 				}
@@ -90,17 +103,27 @@ if($sub=='Submit'){
 			foreach($yids as $yid){
 				$com=array('id'=>'','type'=>$community_type, 
 						   'name'=>$enrolstatus.':'.$yid,'year'=>$enrolyear);
-				$yearstudents=(array)listin_community($com);			
+				$yearstudents=(array)listin_community($com);
 				$students=array_merge($students,$yearstudents);
 				}
 			
 			foreach($students as $student){
 				$sid=$student['id'];
-				mysql_query("INSERT INTO fees_charge (student_id, remittance_id, tarif_id, paymenttype, amount) 
-							SELECT a.student_id, '$remid', a.tarif_id, a.paymenttype, t.amount FROM fees_applied AS a, 
-							fees_tarif AS t WHERE t.concept_id='$conid' AND t.id=a.tarif_id AND a.student_id='$sid';");
+				if(!$editsids){
+					mysql_query("INSERT INTO fees_charge (student_id, remittance_id, tarif_id, paymenttype, amount) 
+					SELECT a.student_id, '$remid', a.tarif_id, a.paymenttype, t.amount FROM fees_applied AS a, 
+					fees_tarif AS t WHERE t.concept_id='$conid' AND t.id=a.tarif_id AND a.student_id='$sid';");
+					}
+				else{
+					$charges=list_student_fees($sid);
+					foreach($charges as $conceptid=>$charge){
+						if($conceptid==$conid){
+							$sids[$sid]=$sid;
+							}
 						}
-
+					$conceptids[$conid]=$conid;
+					}
+				}
 			}
 		else{
 			$comtype=$concept['community_type'];
@@ -111,27 +134,53 @@ if($sub=='Submit'){
 				$students=(array)listin_community($community);
 				foreach($students as $student){
 					$sid=$student['id'];
-					$d_c=mysql_query("SELECT id FROM fees_charge 
-							 WHERE student_id='$sid' AND remittance_id='$remid' AND community_id='$comid';");
-					if(mysql_num_rows($d_c)>0){
-						/* If charged once for this remittance for this community then do nothing.*/
-						$charid=mysql_result($d_c);
+					if(!$editsids){
+						$d_c=mysql_query("SELECT id FROM fees_charge 
+								 WHERE student_id='$sid' AND remittance_id='$remid' AND community_id='$comid';");
+						if(mysql_num_rows($d_c)>0){
+							$charid=mysql_result($d_c);
+							}
+						else{
+							if($student['special']=='' or $student['special']=='10'){$rate=1;}else{$rate=$student['special']/10;};
+							$amount=$community['charge']*$rate;
+							add_student_community_charge($sid,$comid,$remid,$amount);
+							}
 						}
 					else{
-						/* If no charge exists then add one. */
-						if($student['special']=='' or $student['special']=='10'){$rate=1;}else{$rate=$student['special']/10;};
-						$amount=$community['charge']*$rate;
-						add_student_community_charge($sid,$comid,$remid,$amount);
+						$charges=list_student_fees($sid);
+						foreach($charges as $conceptid=>$charge){
+							if($conceptid==$conid){
+								$sids[$sid]=$sid;
+								}
+							}
+						$conceptids[$conid]=$conid;
 						}
 					}
 				}
 			}
 
 		}
-
 	mysql_query("UPDATE fees_remittance SET concepts='$concept_list' WHERE id='$remid';");
 
 	}
+
+	if($editsids){
+		$sidsvars="";
+		$separator="";
+		foreach($sids as $sid){
+			$sidsvars.=$separator."sids[]=".$sid;
+			$separator="&";
+			}
+		$conidsvars="";
+		$separator="";
+		foreach($conceptids as $conid){
+			$conidsvars.=$separator."conids[]=".$conid;
+			$separator="&";
+			}
+		$remidvar="remid=".$remid;
+		$enrolstatusvar="enrolstatus=".$enrolstatus;
+		header("Location: admin.php?current=".$action."&".$sidsvars."&".$conidsvars."&".$remidvar."&".$enrolstatusvar);
+		}
 
 include('scripts/results.php');
 include('scripts/redirect.php');

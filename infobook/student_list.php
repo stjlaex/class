@@ -296,6 +296,15 @@ two_buttonmenu($extrabuttons,$book);
 			else{
 				$displayout='';
 				}
+			if(substr($displayfield, 0, 10)=="Assessment"){
+				$edisplayfield=str_split($displayfield, 10);
+				$eid=$edisplayfield[1];
+				$Assessments=(array)fetchAssessments_short($sid,$eid,'G');
+				if($Assessments[0]['Comment']['value']!=""){
+					$extra=$Assessments[0]['Comment']['value'];
+					$displayout="<span title='$extra'>".$displayout."</span>";
+					}
+				}
 			print '<td>'.$displayout.'</td>';
 			}
 ?>
@@ -409,9 +418,14 @@ two_buttonmenu($extrabuttons,$book);
 include('scripts/studentlist_extra.php');
 ?>
 
+<?php
+	if($CFG->tempinfosheet!=''){$profileprint=$CFG->tempinfosheet;}
+	else{$profileprint="student_profile_print";}
+?>
 	<div id="xml-profile" style="display:none;">
 	  <params>
-		<transform>student_profile_print</transform>
+		<sids><?php print $sid;?></sids>
+		<transform><?php print $profileprint;?></transform>
 		<paper>portrait</paper>
 	  </params>
 	</div>

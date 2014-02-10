@@ -71,7 +71,7 @@ elseif($sub=='Submit'){
 		$subject=$_POST['bid'];
 		if(isset($_POST['course'])){$course=$_POST['course'];}else{$course=$rcrid;};
 		//$method=$_POST['method'];
-		//$outoftotal=$_POST['outoftotal'];
+		$outoftotal=$_POST['outoftotal'];
 		//$season=$_POST['season'];
 		//$resultq=$_POST['resultq'];
 		$pid='';
@@ -107,13 +107,52 @@ elseif($sub=='Submit'){
 				}
 			}
 		elseif($eid!=''){
+			/* Editing an existing assessment if the are no marks. */
+			$count=$_POST['Markcount'];
+			if($count==0){
+				mysql_query("UPDATE assessment SET stage='$stage', 
+					subject_id='$subject', course_id='$course', 
+					component_status='$componentstatus', 
+					strand_status='$strandstatus' WHERE id='$eid';");
+				}
+
+			/* Find the appropriate markdef_name */
+			if($gena!='' and $gena!=' '){
+				$d_m=mysql_query("SELECT name FROM markdef WHERE
+								grading_name='$gena' AND scoretype='grade' 
+								AND (course_id='%' OR course_id='$course');");
+				if(mysql_num_rows($d_m)==0){
+					$markdef_name=$crid.' '.$gena;
+					/*mysql_query("UPDATE markdef SET
+								name='$markdef_name', scoretype='grade', grading_name='$gena',
+								comment='$description', outoftotal='$outoftotal', 
+								course_id='$course', subject_id='$subject' WHERE id='$markdef_id';");*/
+					}
+				else{
+					$markdef_name=mysql_result($d_m,0);
+					}
+				$markdef_scoretype='grade';
+				}
+			else{
+				$d_m=mysql_query("SELECT name FROM markdef WHERE
+								scoretype='value' AND (course_id='%' OR course_id='$course');");
+				$markdef_name=mysql_result($d_m,0);
+				$markdef_scoretype='value';
+				}
+			mysql_free_result($d_m);
+
+			/* Updating existing marks for this assessment */
+			$d_e=mysql_query("SELECT * FROM eidmid WHERE assessment_id='$eid';");
+			while($e=mysql_fetch_array($d_e,MYSQL_ASSOC)){
+				$mid=$e['mark_id'];
+				mysql_query("UPDATE mark SET topic='$description', entrydate='$creation', def_name='$markdef_name' WHERE id='$mid';");
+				}
+
 			/* Editing an existing assessment. */
 			mysql_query("UPDATE assessment SET year='$year',
-				stage='$stage', subject_id='$subject', method='$method',
-				component_id='$pid', description='$description', 
-				resultqualifier='$resultq', resultstatus='$resultstatus', course_id='$course', 
-				element='$element', component_status='$componentstatus', 
-				strand_status='$strandstatus',label='$printlabel', grading_name='$gena',
+				method='$method', component_id='$pid', description='$description', 
+				resultqualifier='$resultq', resultstatus='$resultstatus', 
+				element='$element', label='$printlabel', grading_name='$gena',
 				deadline='$deadline', creation='$creation', profile_name='$profile_name' WHERE id='$eid';");
 			update_derivation($eid,$derivation);
 			}

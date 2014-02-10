@@ -212,10 +212,14 @@ else{
   </form>
 
   </div>
+<?php
+	if($CFG->tempinvoice!=''){$invoiceprint=$CFG->tempinvoice;}
+	else{$invoiceprint="fees_invoice";}
+?>
   <div id="xml-invoices" style="display:none;">
 	<params>
 	  <checkname>sids</checkname>
-	  <transform>fees_invoice</transform>
+	  <transform><?php print $invoiceprint;?></transform>
 	  <paper>portrait</paper>
 	</params>
   </div>

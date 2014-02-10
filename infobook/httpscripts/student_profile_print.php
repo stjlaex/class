@@ -37,13 +37,32 @@ if(isset($sids) and sizeof($sids)>0){
 
 		/* Translate a few of the strings... */
 		$Student['EnrolNumber']['label']=strtoupper(get_string($Student['EnrolNumber']['label'],'infobook'));
+		$PreviousSchool=fetchStudent_singlefield($sid,"EnrolmentPreviousSchool");
+		$Student['PreviousSchool']['value']=$PreviousSchool['EnrolmentPreviousSchool']['value'];
 		$Student['PersonalNumber']['label']=strtoupper(get_string($Student['PersonalNumber']['label'],'infobook'));
 
+		if($Student['MedicalFlag']['value']=='Y'){
+			$Medical=fetchMedical($sid);
+			$Notes=$Medical['Notes'];
+			while(list($index,$Note)=each($Notes['Note'])){
+				if(is_array($Note) and $Note['MedicalRating']['value']==1){
+					$Student['Medical'][]=$Note;
+					}
+				}
+			}
+		$SEN=fetchStudent_singlefield($sid,"SENFlag");
+		$Student['SEN']['value']=get_string(displayEnum($SEN['SENFlag']['value'], 'sen'),'infobook');
+
 		$Student['Language']['value']=get_string(displayEnum($Student['Language']['value'], 'language'),'infobook');
+		$Student['SecondLanguage']['value']=get_string(displayEnum($Student['SecondLanguage']['value'], 'language'),'infobook');
+		$Student['ThirdLanguage']['value']=get_string(displayEnum($Student['ThirdLanguage']['value'], 'language'),'infobook');
+
+		$Student['TransportMode']['value']=get_string(displayEnum($Student['TransportMode']['value'], 'transportmode'),'infobook');
+		$Student['YearGroup']['value']=get_yeargroupname($Student['YearGroup']['value']);
 		$Student['Nationality']['value']=get_string(displayEnum($Student['Nationality']['value'], 'nationality'),'infobook');
 
 		$Student['Photo']['url']=$http.'://'.$CFG->siteaddress.$CFG->sitepath.'/'.$CFG->applicationdirectory. 
-									'/scripts/photo_display.php?epfu='.$Student['EPFUsername']['value'].'&enrolno='.$Student['EnrolNumber']['value'];
+									'/scripts/photo_display.php?epfu='.$Student['EPFUsername']['value'].'&enrolno='.$Student['EnrolNumber']['value'].'&size=midi';
 
 		$Student['Contacts'][0]['Nationality']['value']=get_string(displayEnum($Student['Contacts'][0]['Nationality']['value'], 'nationality'),'infobook');
 		$Student['Contacts'][1]['Nationality']['value']=get_string(displayEnum($Student['Contacts'][1]['Nationality']['value'], 'nationality'),'infobook');

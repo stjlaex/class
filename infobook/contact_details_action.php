@@ -151,6 +151,16 @@ elseif($sub=='Unlink'){
 
 	}
 
+if($sub=='Previous'){
+	if($contactno>1){$contactno=$contactno-1;}else{$contactno=0;}
+	$action="contact_details.php";
+	}
+elseif($sub=='Next'){
+	$nogids=sizeof($gids);
+	if($contactno<$nogids-1){$contactno=$contactno+1;}else{$contactno=$nogids-1;}
+	$action="contact_details.php";
+	}
+
 if(isset($access) AND $access=='access'){
 	$action='contact_details.php';
 	include('scripts/fees_access.php');

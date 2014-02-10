@@ -27,6 +27,11 @@ $sids=(array)$_SESSION['infosids'];
 $sid=$_SESSION['infosid'];
 $sidskey=array_search($sid,$sids);
 
+$Contacts=fetchContacts($sid);
+foreach($Contacts as $Contact){
+	$gids[]=$Contact['id_db'];
+	}
+
 /*seneeds variables*/
 if(!isset($_SESSION['infosenhid']) or $current=='search_action.php'){$_SESSION['infosenhid']='';}
 if(isset($_GET['senhid'])){$_SESSION['infosenhid']=$_GET['senhid'];}
