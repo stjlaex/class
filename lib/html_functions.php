@@ -568,32 +568,35 @@ function display_file($epfun,$foldertype,$linkedid='-1',$comment=''){
 /**
  * 
  */
-function selery_stick($choices,$choice='',$book=''){
+function selery_select_stick($choices,$choice='',$book=''){
 ?>
-		<select class="selery" style="width:200px">
+		<select class="selery" name="current" onchange="selerySelectSubmit(this)" style="width:200px">
+		  <option value=""> </option>
 <?php
 	while(list($page,$title)=each($choices)){
 ?>
-		  <!--li onclick="selerySubmit(this)" <?php if($choice==$page){print 'class="checked" ';}?> >
-			<input type="radio"<?php if($choice==$page){print 'checked="checked" ';} ?> value="<?php print $page;?>" name="current" >
-			  <p><?php print_string($title,$book);?></p>
-			</input>
-		  </li-->
-		  
-		  
-		  
-		  
-		  <option value="selerySubmit(this)"><?php print_string($title,$book);?></option>
-		  
-		  
-		  
-		  
-		  
+		  <option value="<?php echo $page;?>" <?php if($choice==$page){print 'selected="selected" ';}?> ><?php print_string($title,$book);?></option>
 <?php
 		}
 ?>
 		</select>
 <?php
+	}
+
+
+/**
+ * 
+ */
+function selery_stick($choices,$choice='',$book=''){
+	while(list($page,$title)=each($choices)){
+?>
+		  <li onclick="selerySubmit(this)" <?php if($choice==$page){print 'class="checked" ';}?> >
+			<input type="radio"<?php if($choice==$page){print 'checked="checked" ';} ?> value="<?php print $page;?>" name="current" >
+			  <p><?php print_string($title,$book);?></p>
+			</input>
+		  </li>
+<?php
+		}
 	}
 
 
