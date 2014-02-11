@@ -10,9 +10,9 @@ include('scripts/sub_action.php');
 if($sub=='Submit'){
 	$action='fees_remittance_list.php';
 	$sids=$_POST['sids'];
-	$conids=$_POST['conids'];
-	$remid=$_POST['remid'];
-	$enrolstatus=$_POST['enrolstatus'];
+	$conids=$_SESSION['conidsvars'];
+	$remid=$_SESSION['remidvar'];
+	$enrolstatus=$_SESSION['enrolstatusvar'];
 
 	foreach($conids as $conid){
 		$concept=get_concept($conid);
@@ -29,7 +29,6 @@ if($sub=='Submit'){
 			if($enrolstatus=='EN'){$community_type='enquired';}
 			elseif($enrolstatus=='AC'){$community_type='accepted';}
 			else{$community_type='applied';}
-			$enrolyear=get_curriculumyear()+1;
 
 			foreach($sids as $sid){
 				mysql_query("INSERT INTO fees_charge (student_id, remittance_id, tarif_id, paymenttype, amount) 
@@ -39,23 +38,40 @@ if($sub=='Submit'){
 				}
 			}
 		else{
-			/* TODO: improve */
-			$comid=0;
+			$comtype=$concept['community_type'];
+			$communities=list_communities($comtype);
 			foreach($sids as $sid){
+				foreach($communities as $community){
+					$communityid=$community['id'];
+					$community=(array)get_community($communityid);
+					$students=(array)listin_community($community);
+					foreach($students as $student){
+						if($student['id']==$sid){
+							$com=$community;
+							$comid=$communityid;
+							$special=$student['special'];
+							}
+						}
+					}
 				$d_c=mysql_query("SELECT id FROM fees_charge 
 						 WHERE student_id='$sid' AND remittance_id='$remid' AND community_id='$comid';");
 				if(mysql_num_rows($d_c)>0){
 					$charid=mysql_result($d_c);
 					}
 				else{
-					if($student['special']=='' or $student['special']=='10'){$rate=1;}else{$rate=$student['special']/10;};
-					$amount=$community['charge']*$rate;
+					if($special=='' or $special=='10'){$rate=1;}else{$rate=$special/10;};
+					$amount=$com['charge']*$rate;
 					add_student_community_charge($sid,$comid,$remid,$amount);
 					}
 				//$result[]="Inserted ".mysql_insert_id()." >> ".$remid."-".$sid."-".$comid."-".$amount."<br>";
 				}
 			}
 		}
+		
+	unset($_SESSION['sidsvars']);
+	unset($_SESSION['conidsvars']);
+	unset($_SESSION['enrolstatusvar']);
+	unset($_SESSION['remidvar']);
 
 	include('scripts/results.php');
 	include('scripts/redirect.php');
@@ -64,6 +80,7 @@ else{
 
 	$sids=$_SESSION['sidsvars'];
 	$conids=$_SESSION['conidsvars'];
+
 	three_buttonmenu();
 ?>
 <div id="viewcontent" class="content">
@@ -82,7 +99,7 @@ else{
 		</thead>
 		<thead>
 		  <tr>
-			<th colspan="2"></th>
+			<th colspan="2">&nbsp;</th>
 			<th colspan="3">
 			  <?php print_string('student',$book);?>
 			</th>
@@ -114,36 +131,30 @@ else{
 			print '<td colspan="3" class="student"><a target="viewinfobook" onclick="parent.viewBook(\'infobook\');" href="infobook.php?current=student_fees.php&cancel=student_view.php&sids[]='.$sid.'&sid='.$sid.'">'.$Student['DisplayFullSurname']['value'].'</a></td>';
 			print '<td>'.$Student['EnrolNumber']['value'].'</td>';
 			print '<td>'.$Student['RegistrationGroup']['value'].'</td>';
+
 			$charges=list_student_fees($sid);
 			$amount=0;
-			foreach($charges as $conceptid=>$cs){
-				foreach($conids as $cid){
-					if($conceptid==$cid){
-						foreach($cs as $c){
+			foreach($charges as $chargeconid=>$charge){
+				foreach($conids as $conid){
+					if($chargeconid==$conid){
+						foreach($charge as $c){
 							$amount+=$c['amount'];
 							}
 						}
 					}
 				}
+
 			print '<td>'.$amount.'</td></tr>';
 			}
 ?>
 		</tbody>
 	  </table>
 	</div>
-	<input type="hidden" name="enrolstatus" value="<?php print $_SESSION['enrolstatusvar'];?>" />
-	<input type="hidden" name="remid" value="<?php print $_SESSION['remidvar'];?>" />
+
 	<input type="hidden" name="current" value="<?php print $action;?>" />
 	<input type="hidden" name="choice" value="<?php print $choice;?>" />
 	<input type="hidden" name="cancel" value="<?php print $choice;?>" />
 
-<?php
-	foreach($conids as $conid){
-?>
-		<input type="hidden" name="conids[]" value="<?php print $conid;?>" />
-<?php
-		}
-?>
 </form>
 </div>
 <?php

@@ -82,8 +82,8 @@ if($sub=='Submit'){
 							}
 						else{
 							$charges=list_student_fees($sid);
-							foreach($charges as $conceptid=>$charge){
-								if($conceptid==$conid){
+							foreach($charges as $chargeconid=>$charge){
+								if($chargeconid==$conid){
 									$sids[$sid]=$sid;
 									}
 								}
@@ -116,8 +116,8 @@ if($sub=='Submit'){
 					}
 				else{
 					$charges=list_student_fees($sid);
-					foreach($charges as $conceptid=>$charge){
-						if($conceptid==$conid){
+					foreach($charges as $chargeconid=>$charge){
+						if($chargeconid==$conid){
 							$sids[$sid]=$sid;
 							}
 						}
@@ -147,12 +147,7 @@ if($sub=='Submit'){
 							}
 						}
 					else{
-						$charges=list_student_fees($sid);
-						foreach($charges as $conceptid=>$charge){
-							if($conceptid==$conid){
-								$sids[$sid]=$sid;
-								}
-							}
+						$sids[$sid]=$sid;
 						$conceptids[$conid]=$conid;
 						}
 					}
@@ -164,26 +159,21 @@ if($sub=='Submit'){
 
 	}
 
+	/*Set SESSION variables for editing sids*/
 	if($editsids){
-		$sidsvars="";
-		//$separator="";
+		$_SESSION['sidsvars']=array();
+		$_SESSION['conidsvars']=array();
+		$_SESSION['remidvar']="";
+		$_SESSION['enrolstatusvar']="";
+
 		foreach($sids as $sid){
-			/*$sidsvars.=$separator."sids[]=".$sid;
-			$separator="&";*/
-			$_SESSION['sidsvars'][]=$sid;
+			$_SESSION['sidsvars'][$sid]=$sid;
 			}
-		$conidsvars="";
-		//$separator="";
 		foreach($conceptids as $conid){
-			/*$conidsvars.=$separator."conids[]=".$conid;
-			$separator="&";*/
-			$_SESSION['conidsvars'][]=$conid;
+			$_SESSION['conidsvars'][$conid]=$conid;
 			}
 		$_SESSION['remidvar']=$remid;
 		$_SESSION['enrolstatusvar']=$enrolstatus;
-		/*$remidvar="remid=".$remid;
-		$enrolstatusvar="enrolstatus=".$enrolstatus;
-		header("Location: admin.php?current=".$action."&".$sidsvars."&".$conidsvars."&".$remidvar."&".$enrolstatusvar);*/
 		}
 
 include('scripts/results.php');
