@@ -321,6 +321,12 @@ $SEN=fetchSEN($sid,$senhid);
 			 }
 ?>
 	  </fieldset>
+	  <fieldset style="margin-left:2%;margin-right:2%;">
+<?php
+	require_once('lib/eportfolio_functions.php');
+	html_document_drop($Student['EPFUsername']['value'],'sen','9999998',$sid);
+?>
+	  </fieldset>
 </div>
 
   </div>
