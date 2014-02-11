@@ -62,8 +62,8 @@ if($sub=='Submit'){
 }
 else{
 
-	$sids=$_GET['sids'];
-	$conids=$_GET['conids'];
+	$sids=$_SESSION['sidsvars'];
+	$conids=$_SESSION['conidsvars'];
 	three_buttonmenu();
 ?>
 <div id="viewcontent" class="content">
@@ -131,8 +131,8 @@ else{
 		</tbody>
 	  </table>
 	</div>
-	<input type="hidden" name="enrolstatus" value="<?php print $_GET['enrolstatus'];?>" />
-	<input type="hidden" name="remid" value="<?php print $_GET['remid'];?>" />
+	<input type="hidden" name="enrolstatus" value="<?php print $_SESSION['enrolstatusvar'];?>" />
+	<input type="hidden" name="remid" value="<?php print $_SESSION['remidvar'];?>" />
 	<input type="hidden" name="current" value="<?php print $action;?>" />
 	<input type="hidden" name="choice" value="<?php print $choice;?>" />
 	<input type="hidden" name="cancel" value="<?php print $choice;?>" />

@@ -166,20 +166,24 @@ if($sub=='Submit'){
 
 	if($editsids){
 		$sidsvars="";
-		$separator="";
+		//$separator="";
 		foreach($sids as $sid){
-			$sidsvars.=$separator."sids[]=".$sid;
-			$separator="&";
+			/*$sidsvars.=$separator."sids[]=".$sid;
+			$separator="&";*/
+			$_SESSION['sidsvars'][]=$sid;
 			}
 		$conidsvars="";
-		$separator="";
+		//$separator="";
 		foreach($conceptids as $conid){
-			$conidsvars.=$separator."conids[]=".$conid;
-			$separator="&";
+			/*$conidsvars.=$separator."conids[]=".$conid;
+			$separator="&";*/
+			$_SESSION['conidsvars'][]=$conid;
 			}
-		$remidvar="remid=".$remid;
+		$_SESSION['remidvar']=$remid;
+		$_SESSION['enrolstatusvar']=$enrolstatus;
+		/*$remidvar="remid=".$remid;
 		$enrolstatusvar="enrolstatus=".$enrolstatus;
-		header("Location: admin.php?current=".$action."&".$sidsvars."&".$conidsvars."&".$remidvar."&".$enrolstatusvar);
+		header("Location: admin.php?current=".$action."&".$sidsvars."&".$conidsvars."&".$remidvar."&".$enrolstatusvar);*/
 		}
 
 include('scripts/results.php');
