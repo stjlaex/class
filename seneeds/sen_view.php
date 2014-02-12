@@ -287,7 +287,7 @@ $SEN=fetchSEN($sid,$senhid);
 	$senhistories=(array)list_student_senhistories($sid);
 ?>
 <div id="records" style="width:100%;">
-	  <fieldset style="background-color:#666666;margin-left:2%;margin-right:2%;">
+	  <fieldset class="left" style="background-color:#666666;">
 		<legend><?php print_string('records','admin');?></legend>
 		 <div class="selery" style="float:left">
 <?php
@@ -321,10 +321,10 @@ $SEN=fetchSEN($sid,$senhid);
 			 }
 ?>
 	  </fieldset>
-	  <fieldset style="margin-left:2%;margin-right:2%;">
+	  <fieldset class="right" style="background-color:#666666;">
 <?php
 	require_once('lib/eportfolio_functions.php');
-	html_document_drop($Student['EPFUsername']['value'],'sen','9999998',$sid);
+	html_document_drop($Student['EPFUsername']['value'],'support',$senhid,$sid);
 ?>
 	  </fieldset>
 </div>
