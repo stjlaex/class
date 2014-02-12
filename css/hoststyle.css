@@ -17,6 +17,11 @@ a {
     font-weight: 600;
     text-decoration: none;
 }
+ul, li  {list-style: none;}
+legend  {
+    margin-bottom: 10px;
+}
+
 div#currentbook {
     overflow: hidden;
 }
@@ -181,6 +186,26 @@ button:hover {
     margin: 0 0 5% 2%;
     color: #ffffff;
 }
+.bookoptions li {
+    display: inline-block;
+}
+.bookoptions li p {
+    margin: 0;
+    background-color: #91C73E;
+    border: medium none;
+    border-radius: 2px;
+    color: #E7F3D5;
+    cursor: pointer;
+    font-size: 14px;
+    padding: 10px;
+}
+.bookoptions li p:hover {
+    background-color: #ABD46C;
+}
+    
+.bookoptions li .radio {
+    display:none;
+}
 .bookoptions .neat label, .bookoptions .neat input[type="radio"] {
     font-weight: 300;
     margin: 0;
@@ -210,17 +235,10 @@ button:hover {
     padding: 0;
     margin: 0 auto 20px;
 }
-.bookoptions fieldset:first-child {
-    border-bottom: solid 1px #CAD5DA;
-}
+
 .bookoptions form {
-    display: inline-block;
-}
-.bookoptions form fieldset {
-    display: inline-block;
-}
-.bookoptions form.infobookchoice {
-    width: 80%;
+    float: left;
+    margin-right: 1%;
 }
 .switchstudent, #switchcontact {
     float: left;
@@ -332,6 +350,7 @@ select option.other {
     background-color: #ddeecc;
 }
 
+/* REGISTER */
 #registeroptions fieldset {
     width: 30%;
     float: left;

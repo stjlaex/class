@@ -28,7 +28,8 @@ $section_perm=get_admin_perm('s',get_uid($tid));
 	  <fieldset class="admin selery">
 		<legend><?php print_string('manage');?></legend>
 <?php
-	$choices=array('formgroup_matrix.php' => 'formgroups'
+	$choices=array('manage' => 'manage'
+	               ,'formgroup_matrix.php' => 'formgroups'
 				   ,'yeargroup_matrix.php' => 'yeargroups'
 				   );
 	if($_SESSION['worklevel']>-1){
@@ -64,12 +65,12 @@ $section_perm=get_admin_perm('s',get_uid($tid));
 <?php 
 	if($rtid=='administrator'){
 ?>
-	<form id="configadminchoice" name="configadminchoice" method="post" 
-	  action="admin.php" target="viewadmin">
+	<form id="configadminchoice" name="configadminchoice" method="post" action="admin.php" target="viewadmin">
 	  <fieldset class="admin selery">
 		<legend><?php print_string('configure','admin');?></legend>
 <?php
-		$choices=array('import_students.php' => 'newstudents'
+		$choices=array('configure' => 'configure'
+		               ,'import_students.php' => 'newstudents'
 					   ,'new_teacher.php' => 'newteachers'
 					   ,'passwords.php' => 'refreshpasswords'
 					   ,'class_matrix.php' => 'classesmatrix'

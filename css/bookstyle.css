@@ -794,7 +794,7 @@ div.document {
     cursor: pointer;
     margin: 4px !important;
     border-radius: 5px;
-
+}
 div.upload {
     width: 142px;
     height: 30px;
@@ -819,4 +819,3 @@ div.upload input {
     overflow: hidden;
     position: absolute;
 }
-

@@ -85,3 +85,12 @@ button.selerytick[value="3"] img {
     color: #aabbcc !important;
 }
 */
+.selery li input {
+    display: none;
+    margin: 2px;
+    border: 0;
+    padding: 1px;
+    float: left;
+    width: 1em;
+    height: auto;
+}

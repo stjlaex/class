@@ -18,7 +18,6 @@ kill_class_phpsession();
 <link href="css/logbook.css" rel="stylesheet" type="text/css" />
 <link href='http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900' rel='stylesheet' type='text/css'>
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
-<link rel="stylesheet" href="css/uniform.default.css" media="screen" />
 <link rel="stylesheet" href="css/uniform.edit.css" media="screen" />
 
 </head>

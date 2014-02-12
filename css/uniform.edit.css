@@ -10,7 +10,7 @@
 
  */
 
-div.selector, div.selector span {
+div.selector span {
     background-image: url("../images/sprite.png");
     background-repeat: no-repeat;
     -webkit-font-smoothing: antialiased;
@@ -40,13 +40,13 @@ div.selector, div.selector *, div.radio, div.radio *, div.checker, div.checker *
 /* Select */
 div.selector {
     background-color: #34495e;
-    background-image: none;
     line-height: 40px;
     height: 40px;
     padding: 0 0 0 10px;
     position: relative;
     overflow: hidden;
     border-radius: 3px;
+    font-size: 12px;
 }
 div.selector span {
     text-overflow: ellipsis;
@@ -56,10 +56,12 @@ div.selector span {
     background-position: right -50px;
     height: 40px;
     line-height: 40px;
-    padding-right: 25px;
+    padding-right: 45px;
     cursor: pointer;
     width: 100%;
     display: block;
+    color: #cad5da;
+    text-shadow: none;
 }
 div.selector select {
     opacity: 0;
@@ -72,7 +74,11 @@ div.selector select {
     top: 2px;
     left: 0px;
     width: 100%;
+    font-family: 'Lato', sans-serif;
+    font-size: 14px;
 }
+
+
 div.selector.default {
     min-width: 130px !important;
     width: 19% !important;
@@ -95,22 +101,6 @@ div.selector.blueLight span {
     background-position: right 0;
 }
 /* PRESENTATION */
-
-/* Select */
-div.selector {
-    font-size: 14px;
-}
-div.selector span {
-    color: #cad5da;
-    text-shadow: none;
-}
-div.selector select {
-    font-family: 'Lato', sans-serif;
-    font-size: 16px;
-}
-div.selector.disabled span, div.selector.disabled.active span {
-    color: #FFFFFF;
-}
 
 /* CheckBox*/
 

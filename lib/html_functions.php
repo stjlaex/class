@@ -562,16 +562,12 @@ function display_file($epfun,$foldertype,$linkedid='-1',$comment=''){
 			}
 	}
 
-
-
-
 /**
  * 
  */
 function selery_select_stick($choices,$choice='',$book=''){
 ?>
-		<select class="selery" name="current" onchange="selerySelectSubmit(this)" style="width:200px">
-		  <option value=""> </option>
+		<select class="selery" name="current" onchange="selerySelectSubmit(this)">
 <?php
 	while(list($page,$title)=each($choices)){
 ?>
@@ -593,6 +589,9 @@ function selery_select_stick($choices,$choice='',$book=''){
  * 
  */
 function selery_stick($choices,$choice='',$book=''){
+?>
+        <ul class="selery">
+<?php
 	while(list($page,$title)=each($choices)){
 ?>
 		  <li onclick="selerySubmit(this)" <?php if($choice==$page){print 'class="checked" ';}?> >
@@ -602,6 +601,9 @@ function selery_stick($choices,$choice='',$book=''){
 		  </li>
 <?php
 		}
+?>
+        </ul>
+<?php
 	}
 
 
@@ -618,9 +620,9 @@ function list_select_db($d_list,$vars,$book=''){
 	$extraclass='';
 	if($vars['label']!=''){
 ?>
-  <label for="<?php print $vars['id'];?>">
+  <!--label for="<?php print $vars['id'];?>">
 	<?php print_string($vars['label'],$book);?>
-  </label>
+  </label-->
 <?php
 		  }
 ?>
@@ -642,7 +644,7 @@ function list_select_db($d_list,$vars,$book=''){
 		elseif($vars['required']=='eitheror'){ 
 			print ' class="eitheror" eitheror="'.$vars['eitheror'].'" ';} ?>
 	>
-    <option value=""></option>
+    <option value=""><?php print_string($vars['label'],$book);?></option>
 <?php
 	while($item=mysql_fetch_array($d_list,MYSQL_ASSOC)){
 		print '<option ';

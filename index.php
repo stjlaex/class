@@ -97,10 +97,9 @@
     <script src="js/jquery.uniform.min.js"></script>
     <script>
         $("iframe").load(function() {
-            $('.infobook select').uniform({wrapperClass: "default"});
+            //$('.infobook select').uniform({wrapperClass: "default infoBook"});
             $('#loginlang select').uniform({wrapperClass: "blueLight"});            
             $('select, input').uniform();
-            $("select").uniform();
         });
     </script>
   </body>

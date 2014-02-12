@@ -68,10 +68,8 @@ elseif($sid!=''){
 ?>
 		</select>
 <?php
-
 		  $onsidechange='yes'; 
 		  include('scripts/list_year.php');
-
 		  $listname='sensupport';
 		  $listlabel='extrasupport';
 		  $cattype='sen';
@@ -89,6 +87,7 @@ elseif($sid!=''){
 <?php 
 		$choices=array('sen_student_list.php'=>'allstudents');
 		selery_stick($choices,'',$book);
+		//selery_select_stick(($choices,',$book');
 ?>
 		<input type="hidden" name="list" value="all"/>
 	  </fieldset>
