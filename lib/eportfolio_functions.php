@@ -263,6 +263,73 @@ function elgg_updateUser($epfuid,$User,$role='guardian'){
 	}
 
 
+/*
+ * Creates an html image tag for a document which can be displayed in Classic
+ */
+function epf_photo_display($file){
+	global $CFG;
+	if(isset($_SERVER['HTTPS'])){
+		$http='https';
+		}
+	else{
+		$http='http';
+		}
+	$filedisplay_url=$http.'://'.$CFG->siteaddress.$CFG->sitepath.'/'.$CFG->applicationdirectory.'/scripts/epf_file_display.php';
+
+	if(!isset($file['id']) or $file['id']==''){$fileid=$file['name'];}
+	else{$fileid=$file['id'];}
+	$fileparam_list='?fileid='.$fileid.'&location='.$file['location'].'&filename='.$file['name'];
+	$path=$filedisplay_url.$fileparam_list;
+
+	$img="<img src='".$filedisplay_url.$fileparam_list."'>";
+	return $img;
+
+	}
+
+
+/*
+ * Appends html to a comment in Classic
+ */
+function epf_append_to_comment($html,$epfusername,$commentid){
+
+	$d_c=mysql_query("SELECT detail,subject_id FROM comments WHERE id='$commentid';");
+	$comment=mysql_result($d_c,0,'detail');
+	$subject_id=mysql_result($d_c,0,'subject_id');
+	if($subject_id=="form"){$subject="Subject: form";}
+	else{
+		$d_s=mysql_query("SELECT name FROM subject WHERE id='$subject_id';");
+		$subject="Subject: ".mysql_result($d_s,0,'name');
+		}
+
+	global $CFG;
+	if($CFG->eportfolio_db!=''){
+		$dbepf=db_connect(true,$CFG->eportfolio_db);
+		mysql_query("SET NAMES 'utf8'");
+		}
+	$table=$CFG->eportfolio_db_prefix.'weblog_posts';
+
+	if(isset($CFG->clientid)){$school=$CFG->clientid;}
+	else{$school='';}
+
+	$epfuid=elgg_get_epfuid($epfusername,'person');
+
+	$group=array('epfgroupid'=>'','owner'=>$epfuid,'name'=>'Family','access'=>'');
+	$epfgroupid=elgg_update_group($group,array('owner'=>'','name'=>'','access'=>''),false);
+	$access='group'.$epfgroupid;
+
+	$d_p=mysql_query("SELECT ident,body FROM $table WHERE weblog='$epfuid' AND access='$access' 
+						AND body LIKE '<p>$comment</p>%' AND title='$subject' ORDER BY ident DESC;");
+	$post_id=mysql_result($d_p,0,'ident');
+
+	$body=mysql_result($d_p,0,'body');
+	$newbody=addslashes($body).'<p>'.addslashes($html).'</p>';
+
+
+	mysql_query("UPDATE $table SET body='$newbody' WHERE ident=$post_id;");
+
+	$db=db_connect();
+	mysql_query("SET NAMES 'utf8'");
+	}
 
 
 /**

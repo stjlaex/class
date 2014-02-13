@@ -126,6 +126,14 @@ if($_FILES or $_SERVER['HTTP_DRAG']=='true') {
 												   );
 				/*Upload the file to eportfolio directory*/
 				upload_files($publishdata);
+
+				if($ownertype=="epfsharedfile"){
+					$file['name']=$filename;
+					$file['location']="files/".substr($owner,0,1)."/".$owner."/".$uniquename;
+					$img=epf_photo_display($file);
+					epf_append_to_comment($img,$owner,$linkedid);
+					}
+
 				@unlink($tmp);
 //				}
 			}
