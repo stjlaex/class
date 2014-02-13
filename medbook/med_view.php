@@ -115,8 +115,8 @@ $action='med_view_action.php';
 		</div>
 	  </div>
 
-
-	  <fieldset class="center listmenu">
+	<div class="center">
+	<fieldset class="left listmenu" style="margin:0px !important;">
 		<legend><?php print_string('medications',$book);?></legend>
 		<table class="listmenu">
 <?php 
@@ -133,8 +133,8 @@ $action='med_view_action.php';
 		else{$value='';}
 		$extra=$Assessments[0]['Comment']['value'];
 ?>
-		  <tr>
-			  <td>
+			<tr>
+				<td>
 <?php 
 		print '<label>'.$AssDef['Description']['value'].'</label>';
 		if($gena!='' and $gena!=' '){
@@ -190,8 +190,14 @@ $action='med_view_action.php';
 		}
 ?>
 		</table>
-
 	  </fieldset>
+	  <fieldset class="right" style="margin:0px !important;">
+<?php
+	require_once('lib/eportfolio_functions.php');
+	html_document_drop($Student['EPFUsername']['value'],'medical','%',$sid);
+?>
+	  </fieldset>
+	</div>
 
  	<?php print $input_elements;?>
  	<input type="hidden" name="current" value="<?php print $action;?>"/>

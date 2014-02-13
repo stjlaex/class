@@ -106,7 +106,9 @@ print '('.$Student['RegistrationGroup']['value'].')';
 		   if($shared){
 			   /* TODO: display parent's cofirmation*/
 			   print '<p><br /></p><br />';
+			   $sharedcomment="epfsharedfile";
 			   }
+		   else{$sharedcomment="";}
 
 		   $imagebuttons=array();
 		   $extrabuttons=array();
@@ -117,7 +119,7 @@ print '('.$Student['RegistrationGroup']['value'].')';
 									   'value'=>'edit',
 									   'title'=>'edit');
 		   $imagebuttons['clicktoload']=array('name'=>'Attachment',
-										 'onclick'=>"clickToAttachFile($sid,$entryno,'','','')", 
+										 'onclick'=>"clickToAttachFile($sid,$entryno,'','','$sharedcomment')", 
 										 'class'=>'clicktoload',
 										 'value'=>'category_editor.php',
 										 'title'=>'clicktoattachfile');

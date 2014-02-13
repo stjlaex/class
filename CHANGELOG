@@ -1,3 +1,17 @@
+Version ClaSS-1.0.64 release (2014/02/13)
+-------------------------------------------
+
+Added script to display images from Classis in Classic (only $CFG->eportfoliosite).
+
+Added function to append html to a comment in Classic.
+
+When a shared comment is deleted in Classis it is also deleted from Classic.
+
+If a comment is shared the "Share with parents" area is hidden.
+
+When an image is uploaded for a comment is is appended to a comment if this is shared.
+
+
 Version ClaSS-1.0.63 release (2014/02/10)
 -------------------------------------------
 

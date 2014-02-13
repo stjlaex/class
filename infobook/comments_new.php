@@ -15,6 +15,7 @@ else{
 	/* Editing an existing comment.*/
 	$bid=$Comment['Subject']['value_db'];
 	$todate=$Comment['EntryDate']['value'];
+	$shared=$Comment['Shared']['value'];
 	$catid=$Comment['Categories']['Category'][0]['value'];
 	$ratvalue=$Comment['Categories']['Category'][0]['rating']['value'];
 	if(isset($Comment['incident_id_db'])){
@@ -76,7 +77,7 @@ print '('.$Student['RegistrationGroup']['value'].')';
 	  <div class="right">
 <?php 
 				
-if($_SESSION['worklevel']>-1 and ($CFG->emailguardiancomments=='yes' or ($CFG->emailguardiancomments=='limit' and $perm['x']==1))){
+if($_SESSION['worklevel']>-1 and ($CFG->emailguardiancomments=='yes' or ($CFG->emailguardiancomments=='limit' and $perm['x']==1)) and !$shared){
 		$checkname='sharewithparents';$checkcaption=get_string('sharewithguardian',$book);
 		$checkalert=get_string('sharecommentalert',$book);
 		include('scripts/check_yesno.php');
