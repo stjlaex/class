@@ -72,7 +72,7 @@ if($_SESSION['worklevel']>-1){
 	<form id="formtoprocess" name="formtoprocess" 
 	  method="post" action="markbook.php">
 
-	  <table class="sidtable marktable" id="sidtable">
+	  <table class="sidtable marktable listmenu" id="sidtable">
 		<tr>
 <?php 
 /**
@@ -203,12 +203,11 @@ if($_SESSION['worklevel']>-1){
 ?>
 		  </td>
 		  <td class="student">
-			<a href="infobook.php?current=student_view.php&sid=<?php print $viewtable[$c2]['sid'];?>&sids[]=<?php print $viewtable[$c2]['sid'];?>"
-			  target="viewinfobook" onclick="parent.viewBook('infobook');">
+			<a href="infobook.php?current=student_view.php&sid=<?php print $viewtable[$c2]['sid'];?>&sids[]=<?php print $viewtable[$c2]['sid'];?>" target="viewinfobook" onclick="parent.viewBook('infobook');">
 			<?php if($viewtable[$c2]['preferredforename']!=''){$preferredforename='&nbsp;('.$viewtable[$c2]['preferredforename'].')';}else{$preferredforename='';}?>
 			<?php print $viewtable[$c2]['surname'];?>,&nbsp;<?php print $viewtable[$c2]['forename']. '&nbsp;'.$viewtable[$c2]['middlenames'].$preferredforename;?></a>
-			<div id="mini-<?php echo $viewtable[$c2]['sid']; ?>" style="float:right;"></div>
-			<div id="merit-<?php print $viewtable[$c2]['sid'];?>"></div>
+			<div class="miniature" id="mini-<?php echo $viewtable[$c2]['sid']; ?>"></div>
+			<div class="merit" id="merit-<?php print $viewtable[$c2]['sid'];?>"></div>
 		  </td>
 		  <td><?php print $viewtable[$c2]['form_id'];?></td>
 <?php

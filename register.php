@@ -118,17 +118,15 @@ if($nodays==''){$nodays=8;}
 
 	  <fieldset class="register">
 		<legend><?php print get_string('currentsession',$book);?></legend>
-		<div style="background-color:#666655;font-size:x-small;padding:2px;">
-		 <a style="color:#fff;"
-			href="register.php?current=register_list.php&newcid=<?php print $newcid;?>&newcomid=<?php print $newcomid;?>&nodays=<?php print $nodays;?>&checkeveid=0&startday=" 
-			target="viewregister" onclick="parent.viewBook('register');">
+		<div class="register-session">
+		 <a href="register.php?current=register_list.php&newcid=<?php print $newcid;?>&newcomid=<?php print $newcomid;?>&nodays=<?php print $nodays;?>&checkeveid=0&startday=" target="viewregister" onclick="parent.viewBook('register');">
 <?php 
 			print ''.display_date($currentevent['date']).'<br />';
 			print date('H:i').'<br />';
 			print get_string('period',$book).': '.$currentevent['session'];
 ?>
 		</a>
-		</div>	  
+		</div>
 	  </fieldset>
 	  <fieldset class="register">
 		<legend><?php print_string('section',$book);?></legend>

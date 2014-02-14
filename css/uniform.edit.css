@@ -77,6 +77,10 @@ div.selector select {
     font-family: 'Lato', sans-serif;
     font-size: 14px;
 }
+div.selector select option {
+    background: #ebedef;
+    color: #657585;
+}
 
 
 div.selector.default {
@@ -143,7 +147,7 @@ div.checker span, div.checker input {
     width: 20px;
     height: 20px;
 }
-    
+
 div.checker span {
     display: -moz-inline-box;
     display: inline-block;
@@ -174,7 +178,7 @@ div.checker span.checked, div.checker.hover span.checked {
 }
 
 /* INPUT & TEXTAREA */
-input.uniform-input, select.uniform-multiselect, textarea.uniform {
+input.uniform-input {
     font-size: 14px;
     font-family: 'Lato', sans-serif;
     color: #CAD5DA;
@@ -207,8 +211,7 @@ div.radio span {
     text-align: center;
     position: relative;
 }
-div.radio span:before,
-div.radio span.checked:before {
+div.radio span:before, div.radio span.checked:before {
     font-family: FontAwesome;
     content: "\f111";
     color: #bac1c8;
@@ -237,3 +240,75 @@ div.radio input {
     top: 0;
     left: 0;
 }
+
+/* INPUT & TEXTAREA */
+select.uniform-multiselect {
+   min-width: 150px;
+   height: 120px;
+   border: solid 1px #34495e;
+    padding:0;
+    margin:0;
+    margin-bottom:10px;
+    width:95%;
+    font-size:x-small;
+    background-color:#ebedef;
+}
+select.uniform-multiselect:focus {
+    border:2px solid #91c73e;
+    z-index:10000;
+}
+
+select.uniform-multiselect option   {
+    font-size:x-small;
+    background-color:#ebedef;
+    width:160px;
+    color: #657585;
+    padding: 0 5px;
+    font-family: 'Lato', sans-serif;
+    /*font-size: 12px;*/
+        
+}
+
+/*these select widths are not ideal but seem to solve a firefox bug for 100%!*/
+select#mids:focus option {
+    width:100%;
+}
+
+select.uniform-multiselect option.report {
+    background-color:#eeeeee;
+    }
+select.uniform-multiselect option.derived {
+    background-color:#ddeeff;
+    }
+select.uniform-multiselect option.other {
+    background-color:#bfde8f;
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

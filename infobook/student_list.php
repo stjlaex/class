@@ -245,7 +245,7 @@ include ('scripts/studentlist_shortcuts.php');
 				print $Student[$displayname]['value'];
 			?>
 			</a>
-			<div id="mini-<?php echo $sid; ?>" style="float:right;"></div>
+			<div class="miniature" id="mini-<?php echo $sid; ?>"></div>
 			<div class="merit" id="merit-<?php print $sid; ?>"></div>
 		  </td>
 <?php

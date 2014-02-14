@@ -1,41 +1,41 @@
 <?php
-  /**
-   *
-   * ClaSS is the ClaSS Student System, a complete student
-   * tracking, reporting, and information management system for schools.
-   *
-   * Copyright (C) 2002-2012 by Stuart Thomas Johnson.
-   *
-   * This program is free software: you can redistribute it and/or modify
-   * it under the terms of the GNU Affero General Public License as published by
-   * the Free Software Foundation, either version 3 of the License, or
-   * (at your option) any later version.
-   *
-   * This program is distributed in the hope that it will be useful,
-   * but WITHOUT ANY WARRANTY; without even the implied warranty of
-   * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-   * GNU General Public License for more details.
-   *
-   * You should have received a copy of the GNU Affero General Public License
-   * along with this program. If not, see <http://www.gnu.org/licenses/agpl.html>.
-   *
-   * @package    class
-   * @subpackage core
-   * @author     Stuart Thomas Johnson
-   * @license    http://www.gnu.org/licenses/agpl.html GNU AGPL
-   * @copyright  (C) 2012 Stuart Thomas Johnson
-   *
-   */
-  require_once ('../school.php');
-  require_once ('classdata.php');
-  require_once ('lib/include.php');
-  /* Just maybe last logout wasn't clean... */
-  require_once ('logbook/session.php');
-  start_class_phpsession();
-  kill_class_phpsession();
-  $books = $CFG -> books;
-  $currentlang = current_language();
-  print '<?xml version="1.0" encoding="utf-8"?' . '>';
+/**
+ *
+ * ClaSS is the ClaSS Student System, a complete student
+ * tracking, reporting, and information management system for schools.
+ *
+ * Copyright (C) 2002-2012 by Stuart Thomas Johnson.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Affero General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU Affero General Public License
+ * along with this program. If not, see <http://www.gnu.org/licenses/agpl.html>.
+ *
+ * @package    class
+ * @subpackage core
+ * @author     Stuart Thomas Johnson
+ * @license    http://www.gnu.org/licenses/agpl.html GNU AGPL
+ * @copyright  (C) 2012 Stuart Thomas Johnson
+ *
+ */
+require_once ('../school.php');
+require_once ('classdata.php');
+require_once ('lib/include.php');
+/* Just maybe last logout wasn't clean... */
+require_once ('logbook/session.php');
+start_class_phpsession();
+kill_class_phpsession();
+$books = $CFG -> books;
+$currentlang = current_language();
+print '<?xml version="1.0" encoding="utf-8"?' . '>';
     ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" lang="<?php print $currentlang; ?>" xml:lang="<?php print $currentlang; ?>">
@@ -81,7 +81,7 @@
     <div id="<?php print $bookhost . 'options'; ?>" class="bookoptions"></div>
     <iframe id="<?php print 'view' . $bookhost; ?>" name="<?php print 'view' . $bookhost; ?>" class="bookframe"></iframe>
     <?php
-      }
+    }
       ?>
     <?php
       $showbooks=$books['external']['all'];
@@ -90,16 +90,16 @@
     <div id="<?php print $bookhost . 'options'; ?>" style="display:none;" class="bookoptions"></div>
     <iframe id="<?php print 'view' . $bookhost; ?>" name="<?php print 'view' . $bookhost; ?>" class="bookframe"></iframe>
     <?php
-      }
+    }
       ?>
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
     <script src="js/host.js?version=1042"></script>
     <script src="js/jquery.uniform.min.js"></script>
     <script>
         $("iframe").load(function() {
+            $('select, .markbook :radio').uniform();
             //$('.infobook select').uniform({wrapperClass: "default infoBook"});
-            $('#loginlang select').uniform({wrapperClass: "blueLight"});            
-            $('select, input').uniform();
+            //$('#loginlang select').uniform({wrapperClass: "blueLight"});
         });
     </script>
   </body>
