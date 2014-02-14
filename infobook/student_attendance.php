@@ -40,6 +40,37 @@ $params=array(
 			  );
 $url=url_construct($params,$script);
 $reports[]=array('title'=>'Previous academic year','url'=>$url);
+
+$oldest_date=date('Y-m-d');
+$d_a=mysql_query("SELECT * FROM attendance WHERE student_id='$sid';");
+while($attendance=mysql_fetch_array($d_a,MYSQL_ASSOC)){
+	$eventid=$attendance['event_id'];
+	$d_e=mysql_query("SELECT date FROM event WHERE id='$eventid';");
+	$date=mysql_result($d_e,0,'date');
+	if($date<$oldest_date){
+		$date_elements=explode("-",$date);
+		$oldest_year=$date_elements[0];
+		$oldest_date=$date;
+		}
+	}
+
+$yearend=$yearstart;
+if($oldest_date>=($oldest_year.'-08-20')){$yearstart=$oldest_year;}
+else{$yearstart=$oldest_year-1;}
+
+for($end=$yearend;$end>$yearstart;$end--){
+	$date1=$end.'-08-01';
+	$date0=($end-1).'-08-20';
+
+	$params=array(
+			  'uniqueid'=>$sid,
+			  'sids[]'=>$sid,
+			  'startdate'=>$date0,
+			  'enddate'=>$date1
+			  );
+	$url=url_construct($params,$script);
+	$reports[]=array('title'=>'Year '.$end.'-'.($end-1),'url'=>$url);
+	}
 ?>
 
 

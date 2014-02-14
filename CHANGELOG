@@ -1,5 +1,7 @@
-Version ClaSS-1.0.64 release (2014/02/13)
+Version ClaSS-1.0.64 release (2014/02/14)
 -------------------------------------------
+
+Student attendance history has now sheets for every year since he/she started.
 
 Added script to display images from Classis in Classic (only $CFG->eportfoliosite).
 
