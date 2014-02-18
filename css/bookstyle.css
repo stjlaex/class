@@ -122,10 +122,21 @@ label[for="Day"], label[for="Month"], label[for="Year"] {
   clear: none;
 }
 
-form img.required {
-  background-image: url("../images/orangestar.png");
-  content: url("../images/orangestar.png");
+form .required {
+  cursor: pointer;
+  font-weight: normal;
 }
+
+form .required:before {
+  font-family: 'FontAwesome';
+}
+form .required:before {
+  content: "\f005";
+  color: #f7941d;
+  margin-right: 5px;
+  font-size: 10px;
+}
+
 form img.caution {
   background-image: url("../images/redcross.png");
   content: url("../images/redcross.png");
@@ -360,7 +371,7 @@ div.rowaction {
   color: #91C73E;
 }
 .clicktoedit:before {
-  content: "\f044";
+  content: "\f040";
 }
 .clicktoemail:before {
   content: "\f003";
@@ -455,8 +466,9 @@ table.listmenu {
   background-color: #d2d7dc;
 }
 .listmenu th {
-  padding: 10px 0 10px 1%;
+  padding: 5px 0 5px 1%;
 }
+
 .listmenu tbody tr:nth-of-type(odd) {
   background-color: #ebedef;
 }
@@ -467,6 +479,15 @@ table.listmenu {
   border-top: 1px solid;
   border-color: #bac1c8;
   padding: 5px 2%;
+}
+.listmenu tbody td:first-child,
+.listmenu th:first-child {
+  padding: 5px;
+  padding-left: 2%;
+}
+.sidtable tbody td:first-child,
+.sidtable th:first-child {
+  padding: 5px;
 }
 .listmenu tfoot tr {
   background-color: #4d5f72;
@@ -508,10 +529,11 @@ ul.listmenu {
   font-style: italic;
 }
 .listmenu .vspecial, .vspecial {
-  background-color: #ffff99 !important;
-  font-weight: 600;
+  background-color: #ed776b !important;
   font-style: italic;
+  color: #f7c2bc;
 }
+
 /*fade to gray*/
 .listmenu tr.lowlite td, .listmenu td.lowlite, tr.lowlite a, .lowlite {
   color: #aaaaaa !important;

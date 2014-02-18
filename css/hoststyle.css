@@ -295,14 +295,7 @@ button:hover {
     top: 20px;
     right: 10px;
 }
-#loginlang .selector {
-    float: left;
-    width: 245px !important;
-    margin-left: 20px;
-}
-#loginlang .selector span {
-    width: 220px !important;
-}
+
 #login {
     background-color: #666666;
     color: #ee9900;
@@ -348,4 +341,9 @@ div.hidden {
 }
 .marktable th.derived, .marktable td.derived {
     background-color: #ddeeff;
+}
+
+
+#logbookoptions {
+  
 }

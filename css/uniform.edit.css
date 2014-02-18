@@ -81,8 +81,6 @@ div.selector select option {
     background: #ebedef;
     color: #657585;
 }
-
-
 div.selector.default {
     min-width: 130px !important;
     width: 19% !important;
@@ -92,6 +90,17 @@ div.selector.default {
 }
 div.selector.default span {
     width: 90% !important;
+}
+div.selector.loginlang {
+    min-width: 245px !important;
+    width: 245px !important;
+    float: left;
+    margin-left: 20px;
+    background-color: #4d5f72;
+}
+div.selector.loginlang span {
+    width: 80% !important;
+    background-position: right 0;
 }
 
 div.selector.active span {

@@ -136,7 +136,7 @@ two_buttonmenu($extrabuttons);
 				$tutor_users=array();
 				$title='';
 				}
-			if(($nop+$noa+$nol+$noso)==$nosids and $nosids!=0){$status='complete';$cssclass='';}
+			if(($nop+$noa+$nol+$noso)==$nosids and $nosids!=0){$status='complete';$cssclass='complete';}
 			else{$status='incomplete';$cssclass='vspecial';}
 			/*The number present in school is nop (present) + nol (late after register)*/
 			$nop+=$nol;

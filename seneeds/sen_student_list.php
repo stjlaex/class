@@ -93,8 +93,7 @@ if(sizeof($sids)>0){
 	<div id="viewcontent" class="content">
 	  <form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
 		<table class="listmenu sidtable">
-		  <th colspan="2"><?php print_string('checkall'); ?><input type="checkbox" name="checkall" 
-				value="yes" onChange="checkAll(this);" /></th>
+		  <th colspan="2"><?php print_string('checkall'); ?><input type="checkbox" name="checkall" value="yes" onChange="checkAll(this);" /></th>
 		  <th><?php print_string('student'); ?></th>
 		  <th><?php print_string('formgroup'); ?></th>
 <?php
@@ -132,12 +131,12 @@ if(sizeof($sids)>0){
 		  </td>
 		  <td>
 			<span title="<?php print $comment['body'];?>">
-			<a onclick="parent.viewBook('infobook');" target="viewinfobook"  
-			  href="infobook.php?current=comments_list.php&sid=<?php print $sid;?>"
-			  class="<?php print $comment['class'];?>">C</a> 
+			 <a onclick="parent.viewBook('infobook');" target="viewinfobook"  href="infobook.php?current=comments_list.php&sid=<?php print $sid;?>" class="<?php print $comment['class'];?>">
+                <span title="" class="fa fa-comment"></span>
+             </a> 
 			</span>
 		  </td>
-		  <td>
+		  <td class="student">
 			<a href="seneeds.php?current=sen_view.php&sid=<?php print $sid;?>">
 			  <?php print $Student['DisplayFullName']['value']; ?>
 			</a>

@@ -120,13 +120,13 @@ if($nodays==''){$nodays=8;}
 		<legend><?php print get_string('currentsession',$book);?></legend>
 		<div class="register-session">
 		 <a href="register.php?current=register_list.php&newcid=<?php print $newcid;?>&newcomid=<?php print $newcomid;?>&nodays=<?php print $nodays;?>&checkeveid=0&startday=" target="viewregister" onclick="parent.viewBook('register');">
-            <?php 
-                print ''.display_date($currentevent['date']).' | ';
-                print date('H:i').' | ';
-                print get_string('period',$book).': '.$currentevent['session'];
-            ?>
-        </a>
-		</div>
+<?php 
+			print ''.display_date($currentevent['date']).' | ';
+			print date('H:i').' | ';
+			print get_string('period',$book).': '.$currentevent['session'];
+?>
+		</a>
+		</div>	  
 	  </fieldset>
 	  <fieldset class="register">
 		<legend><?php print_string('section',$book);?></legend>
@@ -153,10 +153,11 @@ else{
 		<input type="hidden" name="current" value="<?php print $nextpage;?>" />
 		</form>
 	  </fieldset>
-	  
-      <fieldset class="register selery">
-          	<form id="registerchoicesel" name="registerchoicesel" method="post" action="register.php" target="viewregister">
 
+
+
+	<form id="registerchoicesel" name="registerchoicesel" method="post" action="register.php" target="viewregister">
+	  <fieldset class="register selery">
 		<legend><?php print_string('list',$book);?></legend>
 <?php
 		$choices=array('absence_list.php' => 'absencelists'
@@ -166,13 +167,13 @@ else{
 					   );
 		selery_stick($choices,$choice,$book);
 ?>
-	  
+	  </fieldset>
 	  <input type="hidden" name="secid" value="<?php print $secid;?>" />
 	  <input type="hidden" name="newcid" value="" />
 	  <input type="hidden" name="newcomid" value="" />
 	  <input type="hidden" name="nodays" value="8" />
 	</form>
-</fieldset>
+
   </div>
 <?php
 	/* This is for the pop-up Register notices. */

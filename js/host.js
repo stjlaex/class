@@ -320,13 +320,13 @@ function loadRequired(book) {
             elementObject = formObject.elements[c];
             if (elementObject.className.indexOf("required") != -1) {
                 elementObject.setAttribute("onChange", "validateRequired(this)");
-                imageRequired = window.frames["view" + book].document.createElement("img");
+                imageRequired = window.frames["view" + book].document.createElement("span");
                 imageRequired.className = "required";
                 elementObject.parentNode.insertBefore(imageRequired, elementObject);
             }
             if (elementObject.className.indexOf("eitheror") != -1) {
                 elementObject.setAttribute('onChange', 'validateRequiredOr(this)');
-                imageRequired = window.frames["view" + book].document.createElement("img");
+                imageRequired = window.frames["view" + book].document.createElement("span");
                 imageRequired.className = "required";
                 elementObject.parentNode.insertBefore(imageRequired, elementObject);
             }
@@ -442,11 +442,11 @@ function loadRequired(book) {
             $('#' + book + "options").slideToggle(300, function() {
                 $('#' + book + "options").css("display", "none");
             });
-            $('#view' + book).css('top', 90);
+            $('#view' + book).css('top', 80);
             if (book == 'infobook' || book == 'entrybook' || book == 'markbook') {
                 var bheight = bookframeHeight + 180;
             } else {
-                var bheight = bookframeHeight + 90;
+                var bheight = bookframeHeight + 80;
             }
             $('#view' + book).css('height', bheight);
 
@@ -465,7 +465,7 @@ function loadRequired(book) {
                 var bheight = bookframeHeight - 180;
             } else {
                 var btop = 170;
-                var bheight = bookframeHeight - 90;
+                var bheight = bookframeHeight - 80;
             }
             $('#view' + book).css('top', btop);
             $('#view' + book).css('height', bheight);
