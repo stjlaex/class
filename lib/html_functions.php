@@ -124,18 +124,13 @@ function rowaction_buttonmenu($imagebuttons,$extrabuttons='',$book=''){
 			if(!isset($attributes['onclick'])){$attributes['onclick']='clickToAction(this)';}
 			if(!isset($attributes['id'])){$buttonid='';}else{$buttonid=' id="'.$attributes['id'].'" ';}
 ?>
-  <button class="rowaction imagebutton" type="button" title="<?php print_string($attributes['title']);?>" 
-				<?php print $buttonid;?>
-				name="<?php print $attributes['name'];?>" 
-				value="<?php print $attributes['value'];?>" 
-				onClick="<?php print $attributes['onclick'];?>">
-	<img class="<?php print($imageclass);?>" />
-  </button>
-<?php
-			 }
-		}
-   	all_extrabuttons($extrabuttons,$book,'clickToAction(this)','class="rowaction" ');
-	}
+	<!--span class="<?php print($imageclass);?> rowaction imagebutton" title="<?php print_string($attributes['title']);?>" <?php print $buttonid;?> name="<?php print $attributes['name'];?>" value="<?php print $attributes['value'];?>" onClick="<?php print $attributes['onclick'];?>"></span-->
+	<span class="<?php print($imageclass);?>  rowaction imagebutton" title="<?php print_string($attributes['title'],$book);?>"></span>
+    <?php
+	   }
+	       }
+   	    all_extrabuttons($extrabuttons,$book,'clickToAction(this)','class="rowaction" ');
+	   }
 
 /**
  * 
@@ -269,10 +264,7 @@ function xmlelement_input($val,$no,$tab,$book){
 		}
 	elseif($val['type_db']=='text'){
 ?>
-		<textarea rows="2" cols="80"  id="<?php print $val['label'];?>" 
-			class="<?php if(isset($val['inputtype'])){print $val['inputtype'];}?>" 
-				name="<?php print $val['field_db'].$no; ?>" 
-					tabindex="<?php print $tab++;?>" ><?php print $setval; ?></textarea>
+		<textarea rows="2" cols="80"  id="<?php print $val['label'];?>" class="<?php if(isset($val['inputtype'])){print $val['inputtype'];}?>" name="<?php print $val['field_db'].$no; ?>" tabindex="<?php print $tab++;?>" ><?php print $setval; ?></textarea>
 <?php
 		}
 	elseif(substr($val['type_db'],0,3)=='var' or substr($val['type_db'],0,3)=='cha'){
@@ -285,11 +277,7 @@ function xmlelement_input($val,$no,$tab,$book){
 		$field_type=(array)explode(')', $field_type[1]);
 		if(isset($field_type[0])){$maxlength='maxlength="'.$field_type[0].'" ';}else{$maxlength=' ';}
 ?>
-		<input type="text" id="<?php print $val['label'];?>" 
-		  <?php print $pattern;?> <?php print $maxlength; ?>
-		  class="<?php if(isset($val['inputtype'])){print $val['inputtype'];}?>" 
-		  name="<?php print $val['field_db'].$no; ?>" 
-		  tabindex="<?php print $tab++;?>" value="<?php print $setval; ?>" />
+		<input type="text" id="<?php print $val['label'];?>" <?php print $pattern;?> <?php print $maxlength; ?> class="<?php if(isset($val['inputtype'])){print $val['inputtype'];}?>" name="<?php print $val['field_db'].$no; ?>" tabindex="<?php print $tab++;?>" value="<?php print $setval; ?>" />
 <?php
 		}
 	elseif($val['type_db']=='smallint' or $val['type_db']=='decimal'){
@@ -377,7 +365,7 @@ function emaillink_display($email){
 	if($email!='' and $email!=' '){
 ?>
 	<a href="mailto:<?php print $email;?>">
-	  <img class="clicktoemail" title="<?php print_string('clicktoemail');?>" />
+	  <span class="clicktoemail" title="<?php print_string('clicktoemail');?>"></span>
 	</a>
 <?php
 		}
@@ -591,17 +579,17 @@ function selery_select_stick($choices,$choice='',$book=''){
 function selery_stick($choices,$choice='',$book=''){
 ?>
         <ul class="selery">
-<?php
-	while(list($page,$title)=each($choices)){
-?>
+            <?php
+            	while(list($page,$title)=each($choices)){
+            ?>
 		  <li onclick="selerySubmit(this)" <?php if($choice==$page){print 'class="checked" ';}?> >
 			<input class="skip_these" type="radio"<?php if($choice==$page){print 'checked="checked" ';} ?> value="<?php print $page;?>" name="current" >
 			  <p><?php print_string($title,$book);?></p>
 			</input>
 		  </li>
-<?php
-		}
-?>
+            <?php
+            	}
+            ?>
         </ul>
 <?php
 	}
@@ -840,12 +828,10 @@ function html_table_container_open($containerno,$state='rowplus',$label){
 		  </div>
 		  <div class="<?php print $hidden;?>" id="<?php print $containerno.'-1';?>">
 			<table class="listmenu">
-<?php 
-
-		}
-
-	return;
-	}
+                <?php 
+		          }
+                    return;
+	               }
 
 /**
  *

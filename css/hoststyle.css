@@ -246,12 +246,11 @@ button:hover {
 }
 .register-session {
     background-color: #34495e;
-    padding: 10px 50px 10px 20px;
+    padding: 12px 20px;
 }
 .register-session a {
     color: #FFFFFF;
 }
-
 .bookoptions form {
     float: left;
     margin-right: 1%;

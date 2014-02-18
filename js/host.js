@@ -5,12 +5,12 @@ $(document).ready(function() {
         $('#viewinfobook, #viewentrybook, #viewmarkbook').css('height', windowHeight - 260);
         // alert(bookframeHeight);
     }
+
     resizeFrame();
     $(window).resize(function() {
         resizeFrame();
     });
 
-    
 });
 
 //--------------------------------------------------------
@@ -399,10 +399,80 @@ function loadRequired(book) {
             window.frames["view"+book].document.forms[0].elements[firstFocus].focus();
         }
     }
-    
-        window.frames["view" + book].document.onscroll = function() {
-            $(".bookoptions").css("display", "none").fadeOut( "slow" );
-        };
 
-    //$(".content").css("displa", "none");
+    /*    window.frames["view" + book].document.onscroll = temp1;
+     function temp1() {
+     var bookframeHeight = $('.bookframe').height();
+
+     if ($(window.frames["view" + book]).scrollTop() > 0) {
+     $(".bookoptions").slideToggle(300, function() {
+     $(".bookoptions").css("display", "none");
+     });
+     // $(".bookoptions").css("display", "none");
+
+     $('.bookframe').css('top', 90);
+     $('.bookframe').css('height', bookframeHeight + 90);
+     //$('#viewinfobook, #viewentrybook, #viewmarkbook').css('height', $('.bookframe').height() + 260);
+
+     //alert('test')
+     window.frames["view" + book].document.onscroll = temp
+     }
+     }
+
+     function temp() {
+     var bookframeHeight = $('.bookframe').height();
+     if ($(window.frames["view" + book]).scrollTop() == 0) {
+     $(".bookoptions").slideToggle(300, function() {
+     $(".bookoptions").css("display", "block");
+     });
+
+     $('.bookframe').css('top', 170);
+     $('#viewinfobook, #viewentrybook, #viewmarkbook').css('top', 260);
+     $('.bookframe').css('height', bookframeHeight - 90);
+     $('#viewinfobook, #viewentrybook, #viewmarkbook').css('height', bookframeHeight - 180);
+     window.frames["view" + book].document.onscroll = temp1
+     }
+     }*/
+
+    window.frames["view" + book].document.onscroll = temp1;
+    function temp1() {
+        var bookframeHeight = $('#view' + book).height();
+
+        if ($(window.frames["view" + book]).scrollTop() > 0) {
+            $('#' + book + "options").slideToggle(300, function() {
+                $('#' + book + "options").css("display", "none");
+            });
+            $('#view' + book).css('top', 90);
+            if (book == 'infobook' || book == 'entrybook' || book == 'markbook') {
+                var bheight = bookframeHeight + 180;
+            } else {
+                var bheight = bookframeHeight + 90;
+            }
+            $('#view' + book).css('height', bheight);
+
+            window.frames["view" + book].document.onscroll = temp
+        }
+    }
+
+    function temp() {
+        var bookframeHeight = $('#view' + book).height();
+        if ($(window.frames["view" + book]).scrollTop() == 0) {
+            $('#' + book + "options").slideToggle(300, function() {
+                $('#' + book + "options").css("display", "block");
+            });
+            if (book == 'infobook' || book == 'entrybook' || book == 'markbook') {
+                var btop = 260;
+                var bheight = bookframeHeight - 180;
+            } else {
+                var btop = 170;
+                var bheight = bookframeHeight - 90;
+            }
+            $('#view' + book).css('top', btop);
+            $('#view' + book).css('height', bheight);
+
+            window.frames["view" + book].document.onscroll = temp1
+        }
+
+    }
+
 }

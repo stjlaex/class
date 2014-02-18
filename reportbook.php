@@ -52,12 +52,11 @@ include('scripts/set_book_vars.php');
 </div>
 
 <div style="visibility:hidden;" id="hiddenbookoptions">	
-	<form id="reportchoice" name="reportchoice" method="post" 
-		action="reportbook.php" target="viewreportbook">
+	<form id="reportchoice" name="reportchoice" method="post" action="reportbook.php" target="viewreportbook">
 	  <fieldset class="reportbook selery">
 		<legend><?php print_string('reporton');?></legend>
-<?php
-	$choices=array(
+            <?php
+            	$choices=array(
 				   'report_comments.php' => 'comments'
 				   ,'report_incidents.php' => 'incidents'
 				   ,'report_assessments.php' => 'assessments'
@@ -66,8 +65,8 @@ include('scripts/set_book_vars.php');
 				   ,'report_reports.php' => 'subjectreports'
 				   //,'report_results.php' => 'finalresults'
 				   );
-	selery_stick($choices,$choice,$book);
-?>
+            	selery_select_stick($choices,$choice,$book);
+            ?>
 	  </fieldset>
 	</form>
 
@@ -75,27 +74,26 @@ include('scripts/set_book_vars.php');
 
 	if($_SESSION['role']=='admin'){
 		$choices=array(
-					   'manage_homework.php' => 'homework'
-					   ,'new_stats.php' => 'newstatistics'
-					   ,'new_estimate.php' => 'newestimates'
-					   ,'new_assessment.php' => 'newassessments'
-					   ,'new_report.php' => 'subjectreports'
-					   );
+		   'manage_homework.php' => 'homework'
+		   ,'new_stats.php' => 'newstatistics'
+		   ,'new_estimate.php' => 'newestimates'
+		   ,'new_assessment.php' => 'newassessments'
+		   ,'new_report.php' => 'subjectreports'
+		   );
 		}
 	else{
 		$choices=array(
-					   'manage_homework.php' => 'homework'
-					   ,'new_assessment.php' => 'newassessments'
-					   );
+    	   'manage_homework.php' => 'homework'
+    	   ,'new_assessment.php' => 'newassessments'
+    	   );
 		}
 ?>
-	<form id="reportadminchoice" name="reportadminchoice" method="post" 
-	  action="reportbook.php" target="viewreportbook">
+	<form id="reportadminchoice" name="reportadminchoice" method="post" action="reportbook.php" target="viewreportbook">
 	  <fieldset class="reportbook selery">
 		<legend><?php print_string('manage');?></legend>
-<?php
-		selery_stick($choices,$choice,$book);
-?>
+        <?php
+            selery_select_stick($choices,$choice,$book);
+        ?>
 	  </fieldset>
 	</form>
   </div>

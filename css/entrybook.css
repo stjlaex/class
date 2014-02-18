@@ -3,16 +3,16 @@
  * light shade:
  */
 
-div#bookbox{
-	border-color:#1181aa;
-	}
+div#bookbox {
+  border-color: #1181aa;
+}
 .entrybookcolor fieldset, .entrybookcolor div.topform, .entrybookcolor table.listmenu {
-	border-color:#1181aa;
-    color:#000000;
-	}
+  border-color: #1181aa;
+  color: #000000;
+}
 .entrybookcolor button {
-	background-color:#1181aa;
-	}
+  background-color: #1181aa;
+}
 .entrybookcolor legend, .entrybookcolor caption {
-    border-color:#1181aa;
-	}
+  border-color: #1181aa;
+}

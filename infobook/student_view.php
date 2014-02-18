@@ -25,6 +25,11 @@ if($_SESSION['role']=='office' or $_SESSION['role']=='admin'){
 										'onclick'=>'checksidsAction(this)'
 										);
 	}
+    $editbutton['clicktoedit']=array(
+        'name'=>'process',
+        'value'=>'edit',
+        'title'=>'edit'
+    );
 
 twoplus_buttonmenu($sidskey,sizeof($sids),$extrabuttons);
 ?>
@@ -45,7 +50,8 @@ twoplus_buttonmenu($sidskey,sizeof($sids),$extrabuttons);
 		<table class="listmenu listinfo">
 		  <caption>
 			<a href="infobook.php?current=student_view_student.php&cancel=student_view.php">
-			<img class="clicktoedit" title="<?php print_string('edit');?>" />
+			<!--img class="clicktoedit" title="<?php print_string('edit');?>" /-->
+			<?php rowaction_buttonmenu($editbutton);?>
 			<?php print_string('studentdetails',$book); ?>
 			</a>
 		  </caption>
@@ -138,19 +144,19 @@ twoplus_buttonmenu($sidskey,sizeof($sids),$extrabuttons);
 		<table class="listmenu">
 		  <caption><?php print_string('studenthistory',$book);?></caption>
 		  <tr>
-			<th>
+			<td>
 			  <a href="infobook.php?current=student_attendance.php&cancel=student_view.php&sid=<?php print $sid;?>">
 				<?php print_string('attendance'); ?>
 			  </a> 
-			</th>
+			</td>
 			<td colspan="3">&nbsp;</td>
 		  </tr>
 		  <tr>
-			<th>
+			<td>
 			  <a href="infobook.php?current=student_reports.php&cancel=student_view.php">
 				<?php print_string('subjectreports'); ?>
 			  </a>
-			</th>
+			</td>
 			<td colspan="3">&nbsp;</td>
 		  </tr>
 
@@ -158,19 +164,19 @@ twoplus_buttonmenu($sidskey,sizeof($sids),$extrabuttons);
 	if($_SESSION['role']!='office'){
 ?>
 		  <tr>
-			<th>
+			<td>
 			  <a href="infobook.php?current=student_scores.php&cancel=student_view.php&sid=<?php print $sid;?>">
 				<?php print_string('assessments'); ?>
 			  </a> 
-			</th>
+			</td>
 			<td colspan="3">&nbsp;</td>
 		  </tr>
 		  <tr>
-			<th>
+			<td>
 			  <a href="infobook.php?current=comments_list.php&cancel=student_view.php">
 				<?php print_string('comments'); ?>
 			  </a>
-			</th>
+			</td>
 <?php
 	$date='';
 	$Comments=(array)fetchComments($sid,$date,'');
@@ -186,11 +192,11 @@ twoplus_buttonmenu($sidskey,sizeof($sids),$extrabuttons);
 ?>
 		  </tr>
 		  <tr>
-			<th>
+			<td>
 			  <a href="infobook.php?current=incidents_list.php&cancel=student_view.php">
 				<?php print_string('incidents'); ?>
 			  </a>
-			</th>
+			</td>
 <?php
 	$Incidents=(array)fetchIncidents($sid);
 	$Student['Incidents']=$Incidents;
@@ -205,10 +211,10 @@ twoplus_buttonmenu($sidskey,sizeof($sids),$extrabuttons);
 ?>
 		  </tr>
 		  <tr>
-			<th>
+			<td>
 			  <a href="infobook.php?current=targets_list.php&cancel=student_view.php"><?php print_string('targets',$book); ?>
 			  </a>
-			</th>
+			</td>
 <?php
 		$Targets=(array)fetchTargets($sid);
 		$detail='';
@@ -233,10 +239,10 @@ twoplus_buttonmenu($sidskey,sizeof($sids),$extrabuttons);
 	foreach($Backgrounds as $tagname => $Ents){
 ?>
 		  <tr>
-			<th>
+			<td>
 			  <a href="infobook.php?current=ents_list.php&cancel=student_view.php&tagname=<?php print $tagname;?>"><?php print_string(strtolower($tagname),$book); ?>
 			  </a>
-			</th>
+			</td>
 <?php
 		/* Ensure private entries for Background are not displayed here! */
 		if(array_key_exists(0,$Ents) and !($tagname=='Background' and $Ents[0]['Categories']['Category'][0]['rating']['value']<0)){
@@ -296,7 +302,8 @@ twoplus_buttonmenu($sidskey,sizeof($sids),$extrabuttons);
 				  <td style="width:50%;">
 					<span title="<?php print $Contact['Note']['value'];?>">
 					<a href="infobook.php?current=contact_details.php&cancel=student_view.php&contactno=<?php print $contactno;?>">
-					  <img class="clicktoedit" title="<?php print_string('edit');?>" />
+					  <!--img class="clicktoedit" title="<?php print_string('edit');?>" /-->
+					  <?php rowaction_buttonmenu($editbutton);?>
 					  <?php print $Contact['DisplayFullName']['value'];?>
 					</a>
 					<?php emaillink_display($Contact['EmailAddress']['value']);?>
@@ -333,7 +340,8 @@ twoplus_buttonmenu($sidskey,sizeof($sids),$extrabuttons);
 				  </td>
 				  <td>
 					<a href="infobook.php?current=contact_details.php&cancel=student_view.php&contactno=-1">
-					  <img class="clicktoedit" title="<?php print_string('edit');?>" />
+					  <!--img class="clicktoedit" title="<?php print_string('edit');?>" /-->
+					  <?php rowaction_buttonmenu($editbutton);?>
 					  <?php print_string('addnewcontact',$book);?>
 					</a>
 				  </td>
@@ -366,7 +374,8 @@ twoplus_buttonmenu($sidskey,sizeof($sids),$extrabuttons);
 		<fieldset class="left">
 		  <legend>
 			<a href="infobook.php?current=student_view_sen.php&cancel=student_view.php">
-			  <img class="clicktoedit" title="<?php print_string('edit');?>" />
+			  <!--img class="clicktoedit" title="<?php print_string('edit');?>" /-->
+			  <?php rowaction_buttonmenu($editbutton);?>
 			  <?php print_string('sen','seneeds');?>
 			</a>
 		  </legend>
@@ -379,7 +388,8 @@ twoplus_buttonmenu($sidskey,sizeof($sids),$extrabuttons);
 		<fieldset class="right">
 		  <legend>
 		  <a href="infobook.php?current=student_view_medical.php&cancel=student_view.php">
-			<img class="clicktoedit" title="<?php print_string('edit');?>" />
+			<!--img class="clicktoedit" title="<?php print_string('edit');?>" /-->
+			<?php rowaction_buttonmenu($editbutton);?>
 		    <?php print_string('medical',$book);?>
 		  </a>
 		  </legend>	
@@ -397,7 +407,8 @@ twoplus_buttonmenu($sidskey,sizeof($sids),$extrabuttons);
 		<fieldset class="right">
 		  <legend>
 			<a href="infobook.php?current=student_view_boarder.php&cancel=student_view.php">
-			    <img class="clicktoedit" title="<?php print_string('edit');?>" />
+			    <!--img class="clicktoedit" title="<?php print_string('edit');?>" /-->
+			    <?php rowaction_buttonmenu($editbutton);?>
 				<?php print_string('boarder',$book);?>
 			</a>
 		  </legend>
@@ -416,7 +427,8 @@ twoplus_buttonmenu($sidskey,sizeof($sids),$extrabuttons);
 		<fieldset class="left">
 		  <legend>
 			<a href="infobook.php?current=student_transport.php&cancel=student_view.php">
-			  <img class="clicktoedit" title="<?php print_string('edit');?>" />
+			  <!--img class="clicktoedit" title="<?php print_string('edit');?>" /-->
+			  <?php rowaction_buttonmenu($editbutton);?>
 				<?php print_string('transport','admin');?>
 			</a>
 		  </legend>
@@ -426,7 +438,8 @@ twoplus_buttonmenu($sidskey,sizeof($sids),$extrabuttons);
 		<fieldset class="right">
 		  <legend>
 			<a href="infobook.php?current=student_transport.php&cancel=student_view.php">
-			  <img class="clicktoedit" title="<?php print_string('edit');?>" />
+			  <!--img class="clicktoedit" title="<?php print_string('edit');?>" /-->
+			  <?php rowaction_buttonmenu($editbutton);?>
 				<?php print_string('club','admin');?>
 			</a>
 		  </legend>
@@ -454,7 +467,8 @@ twoplus_buttonmenu($sidskey,sizeof($sids),$extrabuttons);
 		<fieldset class="left">
 		  <legend>
 			<a href="infobook.php?current=student_view_enrolment.php&cancel=student_view.php">
-			  <img class="clicktoedit" title="<?php print_string('edit');?>" />
+			  <!--img class="clicktoedit" title="<?php print_string('edit');?>" /-->
+			  <?php rowaction_buttonmenu($editbutton);?>
 			  <?php print_string('enrolment','admin');?>
 			</a>
 		  </legend>
@@ -491,7 +505,8 @@ twoplus_buttonmenu($sidskey,sizeof($sids),$extrabuttons);
 		<fieldset class="right">
 		  <legend>
 			<a href="infobook.php?current=student_fees.php&cancel=student_view.php">
-			  <img class="clicktoedit" title="<?php print_string('edit');?>" />
+			  <!--img class="clicktoedit" title="<?php print_string('edit');?>" /-->
+			  <?php rowaction_buttonmenu($editbutton);?>
 			  <?php print_string('fees','admin');?>
 			</a>
 		  </legend>
