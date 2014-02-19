@@ -31,7 +31,7 @@ $action='orders.php';
 					   'indent' => '  ',
 					   'mode' => 'simplexml',
 					   'rootName' => 'Accounts_Transfer',
-					   'rootAttributes'=> array('version'=>'ClaSS '.$CFG->version),
+					   'rootAttributes'=> '',
 					   'addDoctype' => true,
 					   'doctype' => array(
 					   				  'uri' => '',
