@@ -57,7 +57,16 @@ function xmlpreparer($root_element_name,$xmlarray,$options=''){
 		}
  
 	$rootname=strtolower(trim($root_element_name));
-	$xml=new SimpleXMLElement("<{$rootname}></{$rootname}>");
+	if($options==''){
+		$xml=new SimpleXMLElement("<{$rootname}></{$rootname}>");
+		}
+	elseif($options!='' and count($options['rootAttributes'])>0){
+		$attributes='';
+		foreach($options['rootAttributes'] as $name=>$value){
+			$attributes.=" $name='$value' ";
+			}
+		$xml=new SimpleXMLElement("<{$rootname} {$attributes} ></{$rootname}>");
+		}
 
 	array_to_xml($xmlarray,$xml);
 
