@@ -779,13 +779,13 @@ function fetchRegGroup($student){
 
 	foreach($tutors as $tutor){
 		if($CFG->teachername=='formal'){
-			$teachername=$tutor['forename'][0].' '.$tutor['surname'];
+			$teachername=get_string(displayEnum($tutor['title'], 'title'),'infobook').' '.$tutor['forename'][0].' '.$tutor['surname'];
 			}
 		elseif($CFG->teachername=='informal'){
 			$teachername=$tutor['forename'];
 			}
 		else{
-			$teachername=$tutor['forename'].' '.$tutor['surname'];
+			$teachername=get_string(displayEnum($tutor['title'], 'title'),'infobook').' '.$tutor['forename'].' '.$tutor['surname'];
 			}
 
 		$Student['RegistrationTutor'][]=array('label' => 'formtutor', 
