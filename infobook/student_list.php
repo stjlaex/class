@@ -424,7 +424,7 @@ include('scripts/studentlist_extra.php');
 ?>
 	<div id="xml-profile" style="display:none;">
 	  <params>
-		<sids><?php print $sid;?></sids>
+		<checkname>sids</checkname>
 		<transform><?php print $profileprint;?></transform>
 		<paper>portrait</paper>
 	  </params>
