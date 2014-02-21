@@ -51,7 +51,7 @@ h1, h2, h3, h4, h5, h6 {
 .fa {
   color: #91c73e;
   font-size: 14px;
-  margin-right: 5px;
+  margin-right: 10px;
 }
 #hiddenbookoptions {
   display: none;
@@ -59,7 +59,7 @@ h1, h2, h3, h4, h5, h6 {
 input, textarea, select {
   text-align: left;
   cursor: text;
-  padding: 2px;
+  padding: 5px;
 }
 input:focus, textarea:focus, select:focus {
   border-color: #ff9900;
@@ -68,11 +68,10 @@ input:focus, textarea:focus, select:focus {
 input[type=text], input[type=date], textarea {
   background-color: #2e4053;
   border-radius: 3px;
+  color: #CAD5DA;
 }
-
 input[type=text], input[type=date] {
-  height: 25px;
-  color: #FFFFFF;
+  height: 20px;
 }
 
 option[value=""] {
@@ -140,9 +139,8 @@ form img.caution {
   background-image: url("../images/redcross.png");
   content: url("../images/redcross.png");
 }
-form img.completed {
-  background-image: url("../images/greentick.png");
-  content: url("../images/greentick.png");
+.completed:before {
+  content: "\f00c";
 }
 form img.caution+ input, form img.caution+ select {
   background-color: #ffff99;
@@ -354,12 +352,12 @@ div.rowaction {
   float: left;
   padding: 0 10px;
 }
-.student .fa, .clicktoaction div, .clicktoemail, .clicktoedit, .clicktoconfigure, .clicktoprint {
+.student .fa, .clicktoaction div, .clicktoemail, .clicktoedit, .clicktoconfigure, .clicktoprint, .completed {
   cursor: pointer;
   font-weight: normal;
 }
 
-.clicktoedit:before, .clicktoemail:before, .clicktoconfigure:before, .clicktoprint:before {
+.clicktoedit:before, .clicktoemail:before, .clicktoconfigure:before, .clicktoprint:before, .completed:before {
   font-family: 'FontAwesome';
   color: #91C73E;
 }
@@ -376,7 +374,9 @@ div.rowaction {
   content: "\f02f";
   font-size: 20px;
 }
-
+.completed:before {
+  content: "\f00c";
+}
 img.displayfilepdf {
   background-image: url("../images/file-pdf.png");
   content: url("../images/file-pdf.png");
@@ -685,16 +685,14 @@ p.success {
 
 /*qTip for the title attributes*/
 div#qTip {
-  background-color: #ff9900;
+  background-color: #fff200;
   color: #000;
   padding: 3px;
-  border: 1px solid #666;
-  border-right-width: 2px;
-  border-bottom-width: 2px;
   display: none;
-  font: bold 13px Verdana, Arial, sans-serif;
   text-align: left;
   position: absolute;
+  font-size:14px;
+  padding:10px;
   z-index: 1000;
   max-width: 28em;
   min-width: 6em;

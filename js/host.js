@@ -319,7 +319,8 @@ function loadRequired(book) {
         for ( c = 0; c < formObject.elements.length; c++) {
             elementObject = formObject.elements[c];
             if (elementObject.className.indexOf("required") != -1) {
-                elementObject.setAttribute("onChange", "validateRequired(this)");
+                if(elementObject.tagName!='SELECT'){elementObject.setAttribute("onChange", "validateRequired(this)");}
+                else{elementObject.setAttribute("onChange", "validateSelectRequired(this)");}
                 imageRequired = window.frames["view" + book].document.createElement("span");
                 imageRequired.className = "required";
                 elementObject.parentNode.insertBefore(imageRequired, elementObject);

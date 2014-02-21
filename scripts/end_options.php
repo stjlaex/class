@@ -46,10 +46,10 @@ mysql_query("INSERT INTO history SET uid='$uid', page='$current'");
 }
 ?>
 <?php
-if($current=='register_list.php'){
+    if($current=='register_list.php' || 'new_student.php'){
 ?>
 <script>
-    $('.edit select').uniform({ wrapperClass : "registerEdit" }); 
+    $('.edit select, #formtoprocess select').uniform({ wrapperClass : "registerEdit" }); 
 </script>
 <?php
 }

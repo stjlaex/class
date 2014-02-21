@@ -1042,6 +1042,17 @@ function validateRequired(fieldObj){
 		}
 	}
 
+function validateSelectRequired(fieldObj){
+    var fieldImage=fieldObj.parentNode.previousSibling;
+    if(validateResult(fieldObj)){
+        fieldImage.className="caution";
+        fieldObj.focus();
+        }
+    else{
+        fieldImage.className="completed";
+        }
+    }
+
 //-------------------------------------------------------
 // Does validation triggered by an event, checks either current 
 // field or field identified by eitheror attribute for values

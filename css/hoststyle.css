@@ -4,7 +4,7 @@
 /***************************************************************************/
 
 body {
-    background-color: ffffff;
+    background-color: #ffffff;
     color: #ffffff;
     margin: 0;
     border: 0;
@@ -22,6 +22,21 @@ ul, li {
 }
 legend {
     margin-bottom: 10px;
+}
+
+input, textarea, select {
+  text-align: left;
+  cursor: text;
+  padding: 5px;
+}
+input[type=text], input[type=date], textarea {
+  background-color: #2e4053;
+  border-radius: 3px;
+  color: #CAD5DA;
+  border: none;
+}
+input[type=text], input[type=date] {
+  height: 30px;
 }
 
 div#currentbook {
@@ -105,31 +120,6 @@ header {
 .booktabs li a:hover, .booktabs li a#currentbook {
     background-color: #91c73e;
 }
-/*
- .booktabs li#aboutbooktab a:hover, .booktabs li#aboutbooktab a#currentbook {
- }
- .booktabs li#admintab a:hover, .booktabs li#admintab a#currentbook {
- background-color: #ca1b1b;
- }
- .booktabs li#reportbooktab a:hover, .booktabs li#reportbooktab a#currentbook {
- background-color: #34c6c6;
- }
- .booktabs li#markbooktab a:hover, .booktabs li#markbooktab a#currentbook {
- background-color: #cc7bcc;
- }
- .booktabs li#registertab a:hover, .booktabs li#registertab a#currentbook {
- background-color: #1bcc56;
- }
- .booktabs li#infobooktab a:hover, .booktabs li#infobooktab a#currentbook {
- background-color: #b9b90c;
- }
- .booktabs li#entrybooktab a:hover, .booktabs li#entrybooktab a#currentbook {
- background-color: #009ed8;
- }
- .booktabs li#seneedstab a:hover, .booktabs li#seneedstab a#currentbook {
- background-color: #7b39be;
- }
- */
 
 /*the special case logbook in top left corner*/
 .booktabs .logbook {
@@ -228,7 +218,7 @@ button:hover {
 .bookoptions li p:hover {
     background-color: #ABD46C;
 }
-.bookoptions .neat label, .bookoptions .neat input[type="radio"] {
+.bookoptions .neat label {
     font-weight: 300;
     margin: 0;
     padding: 0;
@@ -256,7 +246,7 @@ button:hover {
     margin-right: 1%;
 }
 .switchstudent, #switchcontact {
-    float: left;
+    display: inline-block;
     margin-right: 10px;
 }
 /*these select widths are not ideal but seem to solve a firefox bug for 100%!*/
@@ -341,9 +331,4 @@ div.hidden {
 }
 .marktable th.derived, .marktable td.derived {
     background-color: #ddeeff;
-}
-
-
-#logbookoptions {
-  
 }

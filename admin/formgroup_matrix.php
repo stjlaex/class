@@ -44,7 +44,7 @@ three_buttonmenu($extrabuttons);
 <?php
 	$listlabel=$newcomtype;
 	$listname='gid';
-	$liststyle='width:95%;';
+	$liststyle='width:100%;';
 	include('scripts/set_list_vars.php');
 	$listgids=array();
 	$listcoms=array();

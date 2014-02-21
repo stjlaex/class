@@ -17,9 +17,7 @@ if(isset($xmldate)){$dateid=$xmldate;}else{$dateid='Date'.$idate;}
 <div id="calendar-Date<?php print $idate;?>">
 	<label for="<?php print $dateid;?>"><?php print_string('date');?></label>
 	<input type="date" tabindex="<?php print $tab++;?>"
-	  <?php if($required=='yes'){print ' class="required" ';} ?>
-	  id="<?php print $dateid;?>"
-	  name="<?php print strtolower($dateid);?>" value="<?php print $thedate;?>" />
+	  <?php if($required=='yes'){print ' class="required" ';} ?> id="<?php print $dateid;?>" name="<?php print strtolower($dateid);?>" value="<?php print $thedate;?>" />
 	<img class="calendar">
 <?php 
 /* print display_date($thedate) */;

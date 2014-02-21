@@ -104,7 +104,6 @@ div.selector.loginlang span {
 }
 
 div.selector.registerEdit {
-  float: left;
   background-color: #2e4053;
   height: 25px;
   margin-right: 5px;
@@ -117,10 +116,6 @@ div.selector.registerEdit span {
 }
 div.selector.registerEdit select {
   height: 25px;
-}
-
-div.selector.active span {
-  background-position: right -50px;
 }
 
 div.selector.blueLight {
@@ -202,30 +197,13 @@ div.checker span.checked, div.checker.hover span.checked {
   background-color: #91c73e;
 }
 
-/* INPUT & TEXTAREA */
-input.uniform-input {
-  font-size: 14px;
-  font-family: 'Lato', sans-serif;
-  color: #CAD5DA;
-  border: none;
-  height: 34px;
-  -webkit-border-radius: 2px;
-  -moz-border-radius: 2px;
-  border-radius: 2px;
-  background-color: #34495e;
-  background-image: none;
-}
-input.uniform-input:focus {
-  background-color: #8995a2;
-}
-
 /* Radio */
 div.radio {
   position: relative;
 }
 div.radio, div.radio span, div.radio input {
-  width: 14px;
-  height: 14px;
+  width: 16px;
+  height: 16px;
   cursor: pointer;
 }
 div.radio span {
@@ -242,7 +220,7 @@ div.radio span:before, div.radio span.checked:before {
   color: #bac1c8;
   display: block;
   cursor: pointer;
-  font-size: 14px;
+  font-size: 16px;
   font-weight: normal;
 }
 div.radio span.checked:before {
