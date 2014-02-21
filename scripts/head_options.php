@@ -41,6 +41,11 @@ print '<?xml version="1.0" encoding="utf-8"?'.'>';
         <link href='http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900' rel='stylesheet' type='text/css'>
         <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
         <link rel="stylesheet" href="css/uniform.edit.css" media="screen" />
+        
+        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+        <script src="js/jquery.uniform.min.js"></script>
+
+
 
         <script language="JavaScript" type="text/javascript">
         		var pathtobook= "<?php print $CFG->sitepath.'/'.$CFG->applicationdirectory.'/'.$book.'/'; ?>";

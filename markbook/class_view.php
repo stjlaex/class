@@ -20,7 +20,7 @@ if($_SESSION['worklevel']>-1){
   <div class="buttonmenu">
 	<div class="buttongroup">
 	  <label>
-		<?php print get_string('new',$book).'<br />'.get_string('mark',$book);?>
+		<?php print get_string('new',$book).' '.get_string('mark',$book);?>
 	  </label>
 	<button onClick="processContent(this);" name="current" value="new_mark.php">
 	  <?php print_string('classwork',$book);?>
@@ -102,24 +102,20 @@ if($_SESSION['worklevel']>-1){
 				$url=url_construct($params,'class_photo_print.php');
 ?>
 				<td colspan="3">
-				  <span title="<?php print $classes[$cids[$i]]['detail'];?>">&nbsp;&nbsp;<?php print $classes[$cids[$i]]['name'].$teachers[$i];?><a
-				  href="admin.php?current=class_edit.php&newcid=<?php print $cids[$i];?>" 
-				  target="viewadmin" onclick="parent.viewBook('admin');">
-				  <img class="clicktoconfigure" style="padding:1px;" title="<?php print_string('clicktoconfigure','admin');?>" />&nbsp;
-					</a>
+				  <span title="<?php print $classes[$cids[$i]]['detail'];?>">
+				      <a href="admin.php?current=class_edit.php&newcid=<?php print $cids[$i];?>" target="viewadmin" onclick="parent.viewBook('admin');">
+				        <span class="clicktoconfigure" title="<?php print_string('clicktoconfigure','admin');?>" /></span>
+					  <?php print $classes[$cids[$i]]['name'].$teachers[$i];?>
+					  </a>
 				  </span>
 				 </td>
 				<td>
-				  <div style="float:right;" title="<?php print_string('tracking','markbook');?>" 
-											name="current" value="student_grades_print.php" 
-											onclick="clickToPresent('markbook','<?php print $url;?>','class_photo_print')" >
-					<img class="clicktoprint" style="padding:1px;" title="<?php print_string('clicktoprint','infobook');?>" />&nbsp;
+				  <div style="float:right;" title="<?php print_string('tracking','markbook');?>" name="current" value="student_grades_print.php" onclick="clickToPresent('markbook','<?php print $url;?>','class_photo_print')" >
+					<span class="clicktoprint" title="<?php print_string('clicktoprint','infobook');?>" /></span>
 				  </div>
 				</td>
 				 <td status="p">
-				   <a style="color:#fff;"
-				   href="register.php?current=register_list.php&newcomid=&newcid=<?php print $cids[$i];?>&nodays=1&startday=" 
-				   target="viewregister" onclick="parent.viewBook('register');">R</a>
+				   <a style="color:#fff;" href="register.php?current=register_list.php&newcomid=&newcid=<?php print $cids[$i];?>&nodays=1&startday=" target="viewregister" onclick="parent.viewBook('register');">R</a>
 				 </td>
 			</tr>
 <?php
@@ -150,7 +146,7 @@ if($_SESSION['worklevel']>-1){
 				print '<th class="'.$umns[$col]['displayclass'].'" id="'.$umns[$col]['id'].'"><span title="'.$umns[$col]['comment'].'"><a 
 				href="markbook.php?current=edit_scores.php&cancel=class_view.php&scoretype='. 
 					  $scoretype[$col].'&grading_name='. 
-					  $scoregrading[$col].'&mid='.$umns[$col]['id'].'&col='.$col.'"><img class="clicktoedit"/>' 
+					  $scoregrading[$col].'&mid='.$umns[$col]['id'].'&col='.$col.'"><span class="clicktoedit"/></span> ' 
 					  .$umns[$col]['topic'].'<p>'.display_date($umns[$col]['entrydate']).'</p></a>
 	      <p class="component">'.$umns[$col]['component'].'</p>'.$umns[$col]['marktype'].'<input type="checkbox" name="checkmid[]" value="'.$umns[$col]['id'].'" /></span></th>';
 				}

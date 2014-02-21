@@ -13,14 +13,17 @@ div#bookbox {
   background-color: #66cc66;
 }
 .registercolor td.selected, .registercolor th.selected {
-  background-color: #44aa66;
+  background-color: #91C73E;
   color: #ffffff;
+  text-align: center;
+}
+.registercolor th.selected {
+  text-align: left;
 }
 .sidtable td[status="a"] {
-  background-color: yellow;
+  background-color: #fff200;
   font-weight: 900;
-  font-size: 10pt;
-  color: #000000;
+  color: #1e2a37;
   text-align: center;
 }
 .sidtable td[code="US"] {

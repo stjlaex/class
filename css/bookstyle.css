@@ -53,8 +53,10 @@ h1, h2, h3, h4, h5, h6 {
   font-size: 14px;
   margin-right: 5px;
 }
+#hiddenbookoptions {
+  display: none;
+}
 input, textarea, select {
-  margin-bottom: 10px;
   text-align: left;
   cursor: text;
   padding: 2px;
@@ -63,6 +65,16 @@ input:focus, textarea:focus, select:focus {
   border-color: #ff9900;
   z-index: 10000;
 }
+input[type=text], input[type=date], textarea {
+  background-color: #2e4053;
+  border-radius: 3px;
+}
+
+input[type=text], input[type=date] {
+  height: 25px;
+  color: #FFFFFF;
+}
+
 option[value=""] {
   background-color: #eeeeee;
   color: #aaaaaa;
@@ -74,9 +86,6 @@ textarea {
 input[readonly="readonly"] {
   border-color: #cccccc;
   background-color: #cccccc;
-}
-input[type="radio"] {
-  width: 1em;
 }
 
 table {
@@ -98,26 +107,16 @@ legend, caption {
   text-align: left;
   margin-bottom: 10px;
   margin-top: 10px;
-  padding: 0 2%;
   font-weight: 600;
   background: none;
+}
+table caption {
+  padding: 0 2%;
 }
 legend {
   margin-bottom: 40px;
 }
 
-/*generic form stuff, including validation
- label {
- clear: both;
- float: left;
- width: auto;
- text-align: right;
- font-size: x-small;
- font-weight: 400;
- margin-left: 5px;
- margin-right: 5px;
- color: #666;
- }*/
 label[for="Day"], label[for="Month"], label[for="Year"] {
   clear: none;
 }
@@ -217,16 +216,6 @@ div.content fieldset, div.topcontent fieldset {
   margin: 0;
   background-color: #eeeeee;
 }
-div.content fieldset.divgroup, div.topform fieldset.divgroup, div.divgroup, fieldset.divgroup div {
-  background-color: #666666 !important;
-  color: #ffffee !important;
-  border: 0 !important;
-}
-div.divgroup label, fieldset.divgroup label {
-  background-color: #666666;
-  color: #ffffee !important;
-  padding: 3px 6px !important;
-}
 div.divgroup fieldset label, fieldset.divgroup fieldset label {
   background-color: #ddddee;
   color: #666666 !important;
@@ -323,6 +312,10 @@ div.buttonmenu {
   background-color: #FFFFFF;
   padding: 10px 2.5%;
 }
+.buttongroup {
+  width: 50%;
+  float: left;
+}
 #heading span {
   clear: none;
   font-size: xx-small;
@@ -361,12 +354,12 @@ div.rowaction {
   float: left;
   padding: 0 10px;
 }
-.student .fa, .clicktoaction div, .clicktoemail, .clicktoedit {
+.student .fa, .clicktoaction div, .clicktoemail, .clicktoedit, .clicktoconfigure, .clicktoprint {
   cursor: pointer;
   font-weight: normal;
 }
 
-.clicktoedit:before, .clicktoemail:before {
+.clicktoedit:before, .clicktoemail:before, .clicktoconfigure:before, .clicktoprint:before {
   font-family: 'FontAwesome';
   color: #91C73E;
 }
@@ -375,6 +368,13 @@ div.rowaction {
 }
 .clicktoemail:before {
   content: "\f003";
+}
+.clicktoconfigure:before {
+  content: "\f0ad";
+}
+.clicktoprint:before {
+  content: "\f02f";
+  font-size: 20px;
 }
 
 img.displayfilepdf {
@@ -415,23 +415,8 @@ img.clicktodelete {
   content: url("../images/redcross.png");
   cursor: pointer;
 }
-img.clicktoconfigure {
-  background-image: url("../images/document-properties.png");
-  content: url("../images/document-properties.png");
-  cursor: pointer;
-}
 .student div {
   float: right;
-}
-
-img.clicktoprint {
-  background-image: url("../images/printer.png");
-  content: url("../images/printer.png");
-  padding: 0;
-  cursor: pointer;
-  width: 20px !important;
-  height: 20px !important;
-  border: 0;
 }
 
 img.clicktotransport {
@@ -465,8 +450,8 @@ table.listmenu {
 .listmenu thead tr, .listmenu tr {
   background-color: #d2d7dc;
 }
-.listmenu th {
-  padding: 5px 0 5px 1%;
+.listmenu th, .listmenu tbody td {
+  padding: 5px;
 }
 
 .listmenu tbody tr:nth-of-type(odd) {
@@ -478,17 +463,8 @@ table.listmenu {
 .listmenu tbody td {
   border-top: 1px solid;
   border-color: #bac1c8;
-  padding: 5px 2%;
 }
-.listmenu tbody td:first-child,
-.listmenu th:first-child {
-  padding: 5px;
-  padding-left: 2%;
-}
-.sidtable tbody td:first-child,
-.sidtable th:first-child {
-  padding: 5px;
-}
+
 .listmenu tfoot tr {
   background-color: #4d5f72;
 }
@@ -535,12 +511,6 @@ ul.listmenu {
 }
 
 /*fade to gray*/
-.listmenu tr.lowlite td, .listmenu td.lowlite, tr.lowlite a, .lowlite {
-  color: #aaaaaa !important;
-}
-.listmenu tr.nolite td, .listmenu td.nolite, .nolite {
-  background-color: #eeeeee !important;
-}
 /*two shades of red*/
 .listmenu tr.hilite td, .listmenu td.hilite, tr.hilite a, .hilite {
   background-color: #ff6600 !important;
@@ -741,18 +711,7 @@ table.smalltable {
   margin-left: 5%;
   padding-left: 5px;
 }
-.smalltable th, th.smalltable {
-  font-size: small;
-  font-weight: 300;
-  width: 10%;
-  text-align: left;
-}
-.smalltable th + th, .smalltable td {
-  font-size: small;
-  font-weight: 300;
-  width: 10%;
-  text-align: center;
-}
+
 .overlay {
   top: 80px;
   left: 80px;
@@ -841,7 +800,6 @@ div.upload input {
 form img {
   background-repeat: no-repeat;
   border: 0 none;
-  float: left;
   height: 12px;
   width: 12px;
 }

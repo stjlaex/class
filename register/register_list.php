@@ -356,8 +356,7 @@ else{
    		if(sizeof($AttendanceEvents['Event'])>0){
 ?>
 			  <td id="edit-<?php print $sid;?>" class="edit">
-				<select tabindex="<?php print $tab++;?>" 					
-					name="status-<?php print $sid;?>" >
+				<select tabindex="<?php print $tab++;?>" name="status-<?php print $sid;?>" >
 				  <option value="n"></option>
 				  <option value="p"><?php print_string('present',$book);?></option>
 				  <option value="a"><?php print_string('absent',$book);?></option>
@@ -432,8 +431,7 @@ else{
   </div>
 
   <div class="hidden" id="add-extra-ppp">
-	<button type="button" name="late" id="late-butt" value="0" 
-	  onclick="parent.seleryGrow(this,4)"  class="rowaction selerydot">
+	<button type="button" name="late" id="late-butt" value="0" onclick="parent.seleryGrow(this,4)"  class="rowaction selerydot">
 	  <img src="images/null.png" />
 	</button>
 	<input type="hidden" id="late" name="late" value="0" />
@@ -451,20 +449,18 @@ else{
 	</select>
   </div>
 
-
   <div class="hidden" id="add-extra-a">
-	<select style="width:10em;" name="code" id="code">
+    <select style="width:10em;" name="code" id="code">
 <?php
-	$enum=getEnumArray('absencecode');
-	while(list($inval,$description)=each($enum)){	
-		print '<option ';
-		print ' value="'.$inval.'">'.$inval.': '.get_string($description,$book).'</option>';
-		}
+    $enum=getEnumArray('absencecode');
+    while(list($inval,$description)=each($enum)){   
+        print '<option ';
+        print ' value="'.$inval.'">'.$inval.': '.get_string($description,$book).'</option>';
+        }
 ?>
-	</select>
-	<input style="width:10em;" name="comm" id="comm" value="" />
+    </select>
+    <input style="width:10em;" name="comm" id="comm" value="" />
   </div>
-
 <?php
 	$toyear=get_curriculumyear()-1;//TODO: set a proper start of term date
 	$today=date('Y-m-d');
