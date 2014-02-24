@@ -86,7 +86,7 @@ if($_SESSION['worklevel']>-1){
 	if($cidsno==1 and $lessonatt>0){$headcols=5+$lessonatt;}
 	else{$headcols=5;}
 ?>
-<td style="background-color:#fff;" colspan="<?php print $headcols;?>">
+<td class="td-status" colspan="<?php print $headcols;?>">
 			<table>
 <?php
 	/* cidsno is the size of the cids array being displayed */
@@ -289,7 +289,7 @@ else{
 if($lessonatt>0){
 	print '<td colspan="'.$lessonatt.'"></td>';
 	}
-print ' <td status="p" >'.$attlink.'</td>';
+print ' <td class="td-status" status="p" >'.$attlink.'</td>';
 
 /**
  * This is the bottom row of the mark table for the totals.

@@ -53,6 +53,10 @@ h1, h2, h3, h4, h5, h6 {
   font-size: 14px;
   margin-right: 10px;
 }
+.selected.student .fa {
+  color: #657585;
+}
+
 #hiddenbookoptions {
   display: none;
 }
@@ -89,6 +93,7 @@ input[readonly="readonly"] {
 
 table {
   width: 100%;
+  height: 100%;
   empty-cells: hide;
   border-collapse: collapse;
 }
@@ -282,16 +287,13 @@ div.content .fullwidth, div.topcontent .fullwidth, div.topform .fullwidth {
 /*used to describe page content in the space to the left of the top buttonmenu*/
 div#heading {
   position: absolute;
-  top: 1%;
-  left: 10%;
-  border: 0;
+  top: 10px;
+  left: 5px;
   margin-top: 2px;
   padding: 3px 8px 3px 4px;
-  background-color: #ffffff;
-  color: #000000;
-  font-weight: 600;
-  font-size: x-small;
   max-width: 55%;
+  z-index: 4000;
+  font-size: 18px;
 }
 #heading div {
   padding: 0;
@@ -451,14 +453,14 @@ table.listmenu {
   background-color: #d2d7dc;
 }
 .listmenu th, .listmenu tbody td {
-  padding: 5px;
+  padding: 5px 1.5%;
 }
 
 .listmenu tbody tr:nth-of-type(odd) {
   background-color: #ebedef;
 }
 .listmenu tbody tr:hover {
-  background-color: #ebedef !important;
+  background-color: #FFFFFF !important;
 }
 .listmenu tbody td {
   border-top: 1px solid;
@@ -641,9 +643,9 @@ div.tinytab-display {
 }
 .tinytabs li p {
   padding: 4px 12px 20px 8px;
-  color: #ffffff;
-  background-color: #888888;
-  border: 1px solid #cccccc;
+  color: #657585;
+  background-color: #EBEDEF;
+  border: 1px solid #D2D7DC;
   cursor: pointer;
 }
 .tinytabs p:hover, .tinytabs #current-tinytab {
@@ -685,18 +687,19 @@ p.success {
 
 /*qTip for the title attributes*/
 div#qTip {
-  background-color: #fff200;
+  background-color: #F7941D;
   color: #000;
   padding: 3px;
   display: none;
   text-align: left;
   position: absolute;
-  font-size:14px;
-  padding:10px;
+  font-size: 14px;
+  padding: 10px;
   z-index: 1000;
   max-width: 28em;
   min-width: 6em;
   opacity: .80;
+  border: solid 1px #8d5b0a;
 }
 
 /*only used on the enrolments page*/
@@ -800,4 +803,24 @@ form img {
   border: 0 none;
   height: 12px;
   width: 12px;
+}
+
+.sidtable td.td-status, .sidtable td.td-status td {
+    padding-bottom: 0;
+    padding-top: 0;
+    padding-right: 0;
+}
+.sidtable td.td-status table {
+  height: 100%!important;
+}
+.sidtable td.td-status td {
+  border: none;
+  padding: 0;
+}
+
+[id^="event-"] {
+  cursor: pointer;
+}
+[id^="event-"] {
+  cursor: pointer;
 }

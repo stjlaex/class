@@ -77,7 +77,8 @@ td[status=" "] {
     background-color: #777;
 }
 td[status="p"], td[status="a"], td[status=" "] {
-    width: 1em !important;
+    width: 2em !important;
+    text-align: center;
 }
 
 .component {

@@ -21,7 +21,7 @@ two_buttonmenu($extrabuttons);
   </div>
   <div id="viewcontent" class="content">
 	  <form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host; ?>">
-		<table class="listmenu smalltable center">
+		<table class="listmenu smalltable">
 		<tr>
 		  <th><a name="Month"><?php print_string('month', $book); ?></a></th>
 		  <th><?php print_string('present', $book); ?></th>

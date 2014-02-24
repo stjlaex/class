@@ -54,8 +54,9 @@ mysql_query("INSERT INTO history SET uid='$uid', page='$current'");
 <?php
 }
 ?>
-
-<script>$("select, :checkbox, :radio").uniform();</script>
+<script>
+    $("select, :checkbox, :radio").uniform();
+</script>
 </body>
 </html>
 

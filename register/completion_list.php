@@ -94,7 +94,9 @@ two_buttonmenu($extrabuttons);
   </div>
   <div id="viewcontent" class="content">
 	  <form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
+		
 		<table class="listmenu">
+		    <thead>
 		<tr>
 		  <th  style="width:1em;">
 			<label id="checkall">
@@ -110,6 +112,7 @@ two_buttonmenu($extrabuttons);
 		  <th><?php print_string('latebeforeregisterclosed',$book);?></th>
 		  <th><?php print_string('signedout',$book);?></th>
 		</tr>
+		</thead>
 <?php
 
 	$totalnop=0;

@@ -1437,7 +1437,7 @@ function processAttendance(selObj){
 function selectRow(rowId){
 	var oldtdObj=document.getElementById("selected-row");
 	if(oldtdObj){
-		oldtdObj.className="";
+		oldtdObj.className="student";
 		oldtdObj.id="";
 		var len=oldtdObj.parentNode.getElementsByTagName("td").length;
 		var oldtdEditObj=oldtdObj.parentNode.getElementsByTagName("td")[len-1];
@@ -1452,7 +1452,7 @@ function selectRow(rowId){
 	// expects the third td of the row to contain the sid's name
 	// consequently this gets the class
 	var tdObj=document.getElementById(rowId).getElementsByTagName("td")[2];
-	tdObj.className="selected";
+	tdObj.className="selected student";
 	tdObj.setAttribute("id","selected-row");
 	len=document.getElementById(rowId).getElementsByTagName("td").length;
 	// expects the last cell of the row to be the edit cell
@@ -1597,7 +1597,7 @@ function removeExtraFields(sidId,extraId,containerId){
 	var editContainer=document.getElementById(containerId+"-"+sidId);
 	var extraDiv=document.getElementById("add-"+extraId+"-"+sidId);
 	var a=document.getElementById("miniaturechange"+sidId);
-	console.log(extraDiv, a)
+	//console.log(extraDiv, a)
 	var img=document.getElementById("miniature");
 	if(extraDiv){
 		document.getElementById(containerId+"-"+sidId).removeChild(extraDiv);

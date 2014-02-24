@@ -439,10 +439,10 @@ function loadRequired(book) {
     function temp1() {
         var bookframeHeight = $('#view' + book).height();
 
-        if ($(window.frames["view" + book]).scrollTop() > 0) {
-            $('#' + book + "options").slideToggle(300, function() {
+        if ($(window.frames["view" + book]).scrollTop() >  0) {
+            /*$('#' + book + "options").slideToggle(300, function() {
                 $('#' + book + "options").css("display", "none");
-            });
+            });*/
             $('#view' + book).css('top', 80);
             if (book == 'infobook' || book == 'entrybook' || book == 'markbook') {
                 var bheight = bookframeHeight + 180;
@@ -458,9 +458,9 @@ function loadRequired(book) {
     function temp() {
         var bookframeHeight = $('#view' + book).height();
         if ($(window.frames["view" + book]).scrollTop() == 0) {
-            $('#' + book + "options").slideToggle(300, function() {
+            /*$('#' + book + "options").slideToggle(300, function() {
                 $('#' + book + "options").css("display", "block");
-            });
+            });*/
             if (book == 'infobook' || book == 'entrybook' || book == 'markbook') {
                 var btop = 260;
                 var bheight = bookframeHeight - 180;

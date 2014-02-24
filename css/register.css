@@ -20,6 +20,10 @@ div#bookbox {
 .registercolor th.selected {
   text-align: left;
 }
+.registercolor th.selected .radio {
+  display: none;
+}
+
 .sidtable td[status="a"] {
   background-color: #fff200;
   font-weight: 900;
