@@ -64,6 +64,10 @@ header {
 /***************************************************************************/
 /* the two possible main displays one after login and one before*/
 /* plus the logbook div which fills out the rest of the display*/
+#viewlogbook  {
+  top: 80px!important;
+}
+
 
 .fullbookframe {
     position: absolute;

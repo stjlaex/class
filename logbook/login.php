@@ -93,8 +93,8 @@ kill_class_phpsession();
                     <li><a title="learningdata" href="http://www.learningdata.ie/"><img width="156px" height="47px" alt="learningdata" src="images/learningdata.png"></a></li>
                 </ul>
                 <ul class="school-col">
-                    <li>School</li>
-                    <li><a href="http://learningdata.ie"><img src="images/generic-school.png" id="school_logo" data-pb-tint-colour="#d2e5ed" data-pb-tint-opacity="1" class="filter-tint pb-ref-filter-tint-0"></a></li>
+                    <!--li>School</li>
+                    <li><a href="http://learningdata.ie"><img src="images/generic-school.png" id="school_logo" data-pb-tint-colour="#d2e5ed" data-pb-tint-opacity="1" class="filter-tint pb-ref-filter-tint-0"></a></li-->
                 </ul>
                 <ul class="legal-col">
                     <li>&copy; 2014 Learning Data</li>
