@@ -72,13 +72,14 @@ table#editscores {
 }
 td[status="p"] {
     background-color: #91C73E;
+    text-align: center;
+    padding: 5px 0!important;    
 }
 td[status=" "] {
     background-color: #777;
 }
 td[status="p"], td[status="a"], td[status=" "] {
     width: 2em !important;
-    text-align: center;
 }
 
 .component {

@@ -23,8 +23,7 @@ $section_perm=get_admin_perm('s',get_uid($tid));
   </div>
 
   <div style="visibility:hidden;" id="hiddenbookoptions">
-	<form id="adminchoice" name="adminchoice" method="post" 
-							action="admin.php" target="viewadmin">
+	<form id="adminchoice" name="adminchoice" method="post" action="admin.php" target="viewadmin">
 	  <fieldset class="admin selery">
 		<legend><?php print_string('manage');?></legend>
 <?php

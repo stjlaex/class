@@ -104,15 +104,20 @@ div.selector.loginlang span {
 }
 
 div.selector.registerEdit {
-  background-color: #2e4053;
+  background-color: #FFFFFF;
   height: 25px;
   margin-right: 5px;
+  border: solid 1px #bac1c8;
+}
+div.selector.registerEdit.hover {
+  border: solid 1px #34495e;
 }
 div.selector.registerEdit span {
-  background-position: right -100px;
+  background-position: right -135px;
   height: 25px;
   line-height: 25px;
   padding-right: 25px;
+  color: #34495e;
 }
 div.selector.registerEdit select {
   height: 25px;
@@ -138,7 +143,6 @@ div.checker {
   zoom: 1;
   vertical-align: middle;
   position: relative;
-  cursor: pointer;
 }
 div.checker:focus {
   outline: 0;

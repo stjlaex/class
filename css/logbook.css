@@ -30,6 +30,7 @@ fieldset {
 }
 .login-form .form-group {
     position: relative;
+    margin: 0 0 2px;
 }
 .login-form label {
     font-size: 14px;

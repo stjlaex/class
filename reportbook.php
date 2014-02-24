@@ -57,7 +57,8 @@ include('scripts/set_book_vars.php');
 		<legend><?php print_string('reporton');?></legend>
             <?php
             	$choices=array(
-				   'report_comments.php' => 'comments'
+                   '' => ''
+                   ,'report_comments.php' => 'comments'
 				   ,'report_incidents.php' => 'incidents'
 				   ,'report_assessments.php' => 'assessments'
 				   ,'report_merits.php' => 'merits'
@@ -74,7 +75,8 @@ include('scripts/set_book_vars.php');
 
 	if($_SESSION['role']=='admin'){
 		$choices=array(
-		   'manage_homework.php' => 'homework'
+		   '' => ''
+           ,'manage_homework.php' => 'homework'
 		   ,'new_stats.php' => 'newstatistics'
 		   ,'new_estimate.php' => 'newestimates'
 		   ,'new_assessment.php' => 'newassessments'

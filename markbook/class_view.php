@@ -211,11 +211,11 @@ if($_SESSION['worklevel']>-1){
 			$Attendances=(array)fetch_classAttendances($cids[0],$viewtable[$c2]['sid'],0,$lessonatt);
 			$lessonno=0;
 			foreach($Attendances['Attendance'] as $Att){
-				print '<td style="border:1px solid #ddd;" status="'.$Att['Status']['value'].'"><span title="'.$Att['Date']['value'].' P'.$Att['Period']['value'].' '.$Att['Comment']['value'].'">'.$Att['Code']['value'].'</span></td>';
+				print '<td style="border:1px solid #bac1c8;" status="'.$Att['Status']['value'].'"><span title="'.$Att['Date']['value'].' P'.$Att['Period']['value'].' '.$Att['Comment']['value'].'">'.$Att['Code']['value'].'</span></td>';
 					 $lessonno++;
 				}
 			while($lessonno<$lessonatt){
-				print '<td style="border:1px solid #ddd;" status=""></td>';
+				print '<td style="border:1px solid #bac1c8;" status=""></td>';
 				$lessonno++;
 				}
 			}
@@ -289,7 +289,7 @@ else{
 if($lessonatt>0){
 	print '<td colspan="'.$lessonatt.'"></td>';
 	}
-print ' <td class="td-status" status="p" >'.$attlink.'</td>';
+print ' <td status="p" >'.$attlink.'</td>';
 
 /**
  * This is the bottom row of the mark table for the totals.

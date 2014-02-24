@@ -70,9 +70,14 @@ input:focus, textarea:focus, select:focus {
   z-index: 10000;
 }
 input[type=text], input[type=date], textarea {
-  background-color: #2e4053;
+  background-color: #FFFFFF;
   border-radius: 3px;
-  color: #CAD5DA;
+  color: #34495e;
+  border: solid 1px #bac1c8;
+  font-size: 16px;
+}
+input:focus[type=text], input[type=date]:focus, textarea:focus {
+  border: solid 1px #34495e;
 }
 input[type=text], input[type=date] {
   height: 20px;
@@ -375,6 +380,7 @@ div.rowaction {
 .clicktoprint:before {
   content: "\f02f";
   font-size: 20px;
+  margin-right: 5px;
 }
 .completed:before {
   content: "\f00c";
@@ -453,7 +459,7 @@ table.listmenu {
   background-color: #d2d7dc;
 }
 .listmenu th, .listmenu tbody td {
-  padding: 5px 1.5%;
+  padding: 5px;
 }
 
 .listmenu tbody tr:nth-of-type(odd) {
@@ -824,3 +830,12 @@ form img {
 [id^="event-"] {
   cursor: pointer;
 }
+
+button[value="Cancel"]  {
+  /*float: left;*/
+}
+button[value="Submit"]  {
+  background-color: #bfde8f!important;
+  color: #7faf36!important;
+}
+
