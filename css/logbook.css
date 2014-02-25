@@ -43,7 +43,7 @@ fieldset {
     text-align: center;
     padding: 10px 0;
 }
-.login-form input {
+.login-form input, .login-form input:focus {
     border: none;
     background-color: #daefd7;
     height: 35px;
