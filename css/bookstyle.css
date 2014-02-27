@@ -67,6 +67,8 @@ input, textarea, select {
   text-align: left;
   cursor: text;
   padding: 5px;
+  font-family: 'Lato', sans-serif;
+  font-size: 14px;
 }
 input:focus, textarea:focus, select:focus {
   border-color: #ff9900;
@@ -177,7 +179,7 @@ form img.rowplus {
 fieldset {
   border-style: none;
 }
-div.hidden {
+div.hidden, input.hidden {
   display: none;
   border: 0;
   margin: 0;
@@ -573,37 +575,37 @@ ul.listmenu {
 
 /*extra functionality for a listmenu which lets rows be expanded and collapsed*/
 tr.rowplus th:first-child, div.rowplus div:first-child {
-  background-image: url("../images/orangeplus.png");
-  background-repeat: no-repeat;
-  background-position: center;
   cursor: pointer;
-  background-color: #888888;
+  background-color: #FFFFFF;
+  text-align: center;
+  border-top: 1px solid #BAC1C8;
+}
+tr.rowplus th:first-child:before, div.rowplus div:first-child:before, tr.rowminus th:first-child:before, div.rowminus div:first-child:before {
+  content: "\f067";
+  font-family: 'FontAwesome';
+  color: #91c73e;
+}
+.rowaction {
+  display: inline-block;
 }
 tr.rowminus th:first-child, div.rowminus div:first-child {
-  background-image: url("../images/orangeminus.png");
-  background-repeat: no-repeat;
-  background-position: center;
   cursor: pointer;
-  background-color: #eeeeee;
-  color: #444444;
-}
-div.rowminus div:first-child, div.rowplus div:first-child {
-  background-position: left;
+  background-color: #FFFFFF;
   text-align: center;
-  margin: 20px 0 0 0;
-  padding: 4px;
+  border-top: 1px solid #BAC1C8;
 }
-tr.rowplus, div.rowplus {
-  cursor: pointer;
+tr.rowminus th:first-child:before, div.rowminus div:first-child:before {
+  content: "\f068";
 }
-tr.rowminus, div.rowminus {
+
+tr.rowplus, div.rowplus, tr.rowminus, div.rowminus {
   cursor: pointer;
 }
 tr.hidden, div.hidden {
   display: none;
 }
 tr.revealed td, tr.revealed td label {
-  background-color: #aaaaaa;
+  background-color: #8995a2;
 }
 tr.revealed td label {
   background-color: #888888;
@@ -617,14 +619,14 @@ tr.revealed div {
 }
 tr.revealed p, tr.revealed ul {
   background-color: #ffffff;
-  margin: 0 0 0 2px;
   padding: 0 4px;
   width: 80%;
 }
-td.hidden {
-  display: none;
+tr.revealed p {
+  padding: 5px;
+  display: inline-block;
 }
-th.hidden {
+td.hidden, th.hidden {
   display: none;
 }
 
@@ -656,20 +658,18 @@ div.tinytab-display {
 }
 
 /*some general colors used across all books*/
-.neutral {
+.neutral, .negative, .positive {
   background-color: #ffffff;
-  color: #000000 !important;
-  font-weight: 600 !important;
+  padding: 5px;
+}
+.neutral {
+  color: #1e2a37 !important;
 }
 .negative {
-  background-color: #ffffff;
-  color: red !important;
-  font-weight: 600 !important;
+  color: #e74c3c !important;
 }
 .positive {
-  background-color: #ffffff;
-  color: green !important;
-  font-weight: 600 !important;
+  color: #547324 !important;
 }
 p.warn {
   color: #000000;
@@ -831,20 +831,17 @@ form img {
   display: inline-block;
 }
 .edit .registerEdit, [id^="add-extra-a-"] .registerEdit, [id^="add-extra-p-"] .registerEdit {
-  margin-right: 0!important;
+  margin-right: 0 !important;
 }
 [id^="add-extra-a-"] input, [id^="add-extra-p-"] input {
   font-size: 11px;
   padding: 5px 3px 5px 6px;
   height: 10px;
 }
-.edit .registerEdit, [id^="add-extra-a-"] .registerEdit, [id^="add-extra-p-"] .registerEdit,
-.edit .registerEdit select, [id^="add-extra-a-"] .registerEdit select, [id^="add-extra-p-"] .registerEdit select,
-.edit .registerEdit span, [id^="add-extra-a-"] .registerEdit span, [id^="add-extra-p-"] .registerEdit span   {
-  height: 20px!important;
-  line-height: 20px!important;
+.edit .registerEdit, [id^="add-extra-a-"] .registerEdit, [id^="add-extra-p-"] .registerEdit, .edit .registerEdit select, [id^="add-extra-a-"] .registerEdit select, [id^="add-extra-p-"] .registerEdit select, .edit .registerEdit span, [id^="add-extra-a-"] .registerEdit span, [id^="add-extra-p-"] .registerEdit span {
+  height: 20px !important;
+  line-height: 20px !important;
 }
-
 
 button[value="Submit"] {
   background-color: #bfde8f !important;
@@ -854,12 +851,12 @@ button[value="Submit"] {
 /*//// InforBook || Profile \\\\*/
 .profile {
   padding: 20px;
-  margin-bottom:20px;
+  margin-bottom: 20px;
   background-color: #ebedef;
   position: relative;
   overflow: hidden;
 }
-.profile  h4  {
+.profile  h4 {
   margin-bottom: 20px;
   font-weight: bold;
 }
@@ -872,10 +869,10 @@ button[value="Submit"] {
   border-radius: 3px;
 }
 
-  /* Details */
-.profile-details a  {
+/* Details */
+.profile-details a {
   text-decoration: none;
-} 
+}
 .icon {
   float: left;
   margin-right: 50px;
@@ -893,28 +890,28 @@ button[value="Submit"] {
 }
 .clicktoedit-bg span, .clicktoedit-bg span:before {
   color: #FFFFFF !important;
-  position: static!important;
-  padding: 0!important;
+  position: static !important;
+  padding: 0 !important;
 }
-.profile-details  {
+.profile-details {
   overflow: hidden;
 }
 
-.profile-details  ul  {
+.profile-details  ul {
   display: inline-block;
   margin-right: 2.5%;
   width: 30%;
 }
-.profile-details  ul li  {
+.profile-details  ul li {
   font-weight: bold;
   font-size: 14px;
 }
-.profile-details  ul li label  {
+.profile-details  ul li label {
   font-weight: normal;
   width: 45%;
   display: inline-block;
 }
-  /* History */
+/* History */
 .profile-history li {
   font-weight: bold;
 }
@@ -926,15 +923,15 @@ button[value="Submit"] {
 }
 .profile-history li label {
   display: inline-block;
-  margin-right: 5%;  
+  margin-right: 5%;
 }
-  /* Info */
+/* Info */
 .profile-info {
   width: 26.6%;
   float: left;
   padding: 20px 2.5%;
   min-height: 100px;
 }
-.profile-info.second  {
+.profile-info.second {
   margin: 0 2.5% 20px;
 }

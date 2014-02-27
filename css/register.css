@@ -19,9 +19,6 @@ div#bookbox {
 .registercolor th.selected {
   text-align: left;
 }
-.registercolor th.selected .radio {
-  display: none;
-}
 .registercolor .listmenu.sidtable td  {
   padding-top: 0;
   padding-bottom: 0;

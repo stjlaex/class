@@ -138,7 +138,7 @@ function updateLauncher(openId,entryn,text){
 //	the id should refer to the containing html entity for the icon (probably a td)
 //  and the actual textarea for the text
 	if(document.getElementById("text"+openId)){
-		document.getElementById("text"+openId).value=text;
+		document.getElementById("text"+openId)=text;
 		}
 	if(document.getElementById("icon"+openId)){
 		document.getElementById("icon"+openId).setAttribute("class","vspecial");
@@ -1504,6 +1504,7 @@ function selectColumn(thObj,multi){
 		}
 
 	thObj.getElementsByTagName("input")[0].setAttribute("checked","checked");
+	console.log(thObj.getElementsByTagName("input")[0])
 	thObj.className="selected";
 	var colId=thObj.getElementsByTagName("input")[0].value;
 	for(var c=0;c<sids.length;c++){
@@ -1515,6 +1516,7 @@ function selectColumn(thObj,multi){
 				var tdEditObj=document.getElementById(editId);
 				var selObj=tdEditObj.getElementsByTagName("select")[0];
 				selObj.value=cellObj.attributes.getNamedItem("status").value;
+				$.uniform.update(selObj);
 				var tdEditClaSS=tdEditObj.className;
 				removeExtraFields(sids[c],"extra-a","edit");
 				removeExtraFields(sids[c],"extra-p","edit");
@@ -1533,6 +1535,7 @@ function selectColumn(thObj,multi){
 	}
 
 
+
 /**
  * Will grab a hidden div identified by extraDiv (id="add-extraDiv") and 
  * place a copy in the sidtable for a particular sid.
@@ -1548,10 +1551,11 @@ function addExtraFields(sidId,cellId,extraId,containerId){
 	$(extraDiv).find('select').uniform({
         wrapperClass : "registerEdit"
     });
+    var selElem = $(extraDiv).find('select')
 	extraDiv.removeAttribute("class");
 	extraDiv.id="add-"+extraId+"-"+sidId;
 
-	var newElements=extraDiv.childNodes;
+	var newElements=$(extraDiv).find('select')//extraDiv.childNodes;
 
 	if(cellId!=null){var cellObj=document.getElementById(cellId);}
 	for(var i=0;i<newElements.length;i++){
@@ -1560,12 +1564,12 @@ function addExtraFields(sidId,cellId,extraId,containerId){
 		if(genName){
 			newElements[i].name=genName+"-"+sidId;
 			newElements[i].id=genId+"-"+sidId;
-			if(cellId!=null){newElements[i].value=cellObj.attributes.getNamedItem(genName).value;}
+			if(cellId!=null){
+			    newElements[i].value=cellObj.attributes.getNamedItem(genName).value;
+			    $.uniform.update(newElements[i])
+		    }
 		} 
-        /*if (newElements[i].id == 'uniform-late' || newElements[i].id == 'uniform-code' ) {
-            newElements[i].classList.add('registerEdit')
-        }*/
-		}
+	}
        
 	if(editContainer){
 		editContainer.insertBefore(extraDiv,null);

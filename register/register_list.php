@@ -233,7 +233,7 @@ else{
 
 			if($_SESSION['worklevel']>-1 or $seleveid==$Event['id_db']){
 ?>
-			<br /><input type="radio" name="checkeveid" value="<?php print $Event['id_db'];?>" />
+			<br /><input type="radio" name="checkeveid" class="hidden" value="<?php print $Event['id_db'];?>" />
 <?php
 				}
 ?>

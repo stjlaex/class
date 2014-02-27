@@ -437,6 +437,8 @@ function loadRequired(book) {
 
     window.frames["view" + book].document.onscroll = temp1;
     function temp1() {
+        console.log('1', $(window.frames["view" + book]).scrollTop())
+        console.log(book)
         var bookframeHeight = $('#view' + book).height();
         if ($(window.frames["view" + book]).scrollTop() >  0) {
             $('#' + book + "options").slideToggle(300, function() {
@@ -450,13 +452,16 @@ function loadRequired(book) {
             }
             $('#view' + book).css('height', bheight);
 
+            //window.frames["view" + book].document.onscroll = null
             window.frames["view" + book].document.onscroll = temp
         }
     }
 
     function temp() {
         var bookframeHeight = $('#view' + book).height();
-        if ($(window.frames["view" + book]).scrollTop() == 0) {
+        console.log('0', $(window.frames["view" + book])[0].document.getElementById('bookbox').clientHeight)
+        console.log($(window.frames["view" + book])[0].document.body.scrollHeight)
+        if ($(window.frames["view" + book]).scrollTop() == 0 ) {
             $('#' + book + "options").slideToggle(300, function() {
                 $('#' + book + "options").css("display", "block");
             });
@@ -470,7 +475,7 @@ function loadRequired(book) {
             $('#view' + book).css('top', btop);
             $('#view' + book).css('height', bheight);
 
-            window.frames["view" + book].document.onscroll = temp1
+           window.frames["view" + book].document.onscroll = temp1
         }
 
     }
