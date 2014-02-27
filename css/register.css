@@ -15,13 +15,16 @@ div#bookbox {
 .registercolor td.selected, .registercolor th.selected {
   background-color: #91C73E;
   color: #ffffff;
-  text-align: center;
 }
 .registercolor th.selected {
   text-align: left;
 }
 .registercolor th.selected .radio {
   display: none;
+}
+.registercolor .listmenu.sidtable td  {
+  padding-top: 0;
+  padding-bottom: 0;
 }
 
 .sidtable td[status="a"] {

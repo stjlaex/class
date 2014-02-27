@@ -50,12 +50,13 @@ mysql_query("INSERT INTO history SET uid='$uid', page='$current'");
 ?>
 <script>
     $('.edit select, #formtoprocess select').uniform({ wrapperClass : "registerEdit" }); 
+    
 </script>
 <?php
 }
 ?>
 <script>
-    $("select, :checkbox, :radio").uniform();
+    $(":checkbox, :radio").uniform();
 </script>
 </body>
 </html>

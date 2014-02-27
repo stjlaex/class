@@ -647,13 +647,12 @@ div.tinytab-display {
 .tinytabs li p {
   padding: 4px 12px 20px 8px;
   color: #657585;
-  background-color: #EBEDEF;
-  border: 1px solid #D2D7DC;
+  background-color: #FFFFFF;
   cursor: pointer;
 }
 .tinytabs p:hover, .tinytabs #current-tinytab {
-  color: #000000;
-  background-color: #ffffee;
+  color: #657585;
+  background-color: #d2d7dc;
 }
 
 /*some general colors used across all books*/
@@ -826,6 +825,24 @@ form img {
 }
 [id^="event-"] {
   cursor: pointer;
+}
+
+[id^="add-extra-a-"], [id^="add-extra-p-"] {
+  display: inline-block;
+}
+.edit .registerEdit, [id^="add-extra-a-"] .registerEdit, [id^="add-extra-p-"] .registerEdit {
+  margin-right: 0!important;
+}
+[id^="add-extra-a-"] input, [id^="add-extra-p-"] input {
+  font-size: 11px;
+  padding: 5px 3px 5px 6px;
+  height: 10px;
+}
+.edit .registerEdit, [id^="add-extra-a-"] .registerEdit, [id^="add-extra-p-"] .registerEdit,
+.edit .registerEdit select, [id^="add-extra-a-"] .registerEdit select, [id^="add-extra-p-"] .registerEdit select,
+.edit .registerEdit span, [id^="add-extra-a-"] .registerEdit span, [id^="add-extra-p-"] .registerEdit span   {
+  height: 20px!important;
+  line-height: 20px!important;
 }
 
 

@@ -438,7 +438,6 @@ function loadRequired(book) {
     window.frames["view" + book].document.onscroll = temp1;
     function temp1() {
         var bookframeHeight = $('#view' + book).height();
-
         if ($(window.frames["view" + book]).scrollTop() >  0) {
             $('#' + book + "options").slideToggle(300, function() {
                 $('#' + book + "options").css("display", "none");

@@ -1543,8 +1543,8 @@ function addExtraFields(sidId,cellId,extraId,containerId){
 	if(containerId==''){containerId=extraId;}
 	var editContainer=document.getElementById(containerId+"-"+sidId);
 	var extraDiv=document.getElementById("add-"+extraId)
-	 $.uniform.restore($(extraDiv))
-	 extraDiv = extraDiv.cloneNode(true);
+    extraDiv = extraDiv.cloneNode(true);
+    $.uniform.restore($(extraDiv))
 	$(extraDiv).find('select').uniform({
         wrapperClass : "registerEdit"
     });
@@ -1658,9 +1658,10 @@ function setAll(eveid){
 					addExtraFields(sids[c],cellId,"extra-p","edit");
 					selObj.selectedIndex=1;
 					}
-                $.uniform.update(selObj);
+               
 				tdEditObj.setAttribute("class",classname);
 				}
+				$.uniform.update(selObj);
 			}
 	}
 	

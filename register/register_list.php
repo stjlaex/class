@@ -200,7 +200,9 @@ else{
 	  <form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
 		<table class="listmenu sidtable" id="sidtable">
 		<tr>
-		  <th colspan="3">&nbsp;</th>
+		    <th width="6%"></th>
+		    <th width="6%"></th>
+		    <th></th>
 <?php
 	/* This events array will determine which events are displayed */
 	$events=array();
@@ -231,7 +233,7 @@ else{
 
 			if($_SESSION['worklevel']>-1 or $seleveid==$Event['id_db']){
 ?>
-			<input type="radio" name="checkeveid" value="<?php print $Event['id_db'];?>" />
+			<br /><input type="radio" name="checkeveid" value="<?php print $Event['id_db'];?>" />
 <?php
 				}
 ?>
@@ -283,7 +285,7 @@ else{
 			<a href="infobook.php?current=student_view.php&sid=<?php print $sid;?>&sids[]=<?php print $sid;?>"
 			  target="viewinfobook" onclick="parent.viewBook('infobook');">
 			  <?php print $Student['DisplayFullName']['value']; ?></a>
-			<div id="merit-<?php print $sid;?>"></div>
+			<div class="merit" id="merit-<?php print $sid;?>"></div>
 		  </td>
 <?php
 		$attodds=array('AM'=>'forstroke','PM'=>'backstroke');
@@ -438,7 +440,7 @@ else{
   </div>
 
   <div class="hidden" id="add-extra-p">
-	<select style="width:10em;" name="late" id="late">
+	<select style="width:100px;" name="late" id="late">
 <?php
 	$enum=getEnumArray('latecode');
 	foreach($enum as $inval =>$description){	
@@ -450,7 +452,7 @@ else{
   </div>
 
   <div class="hidden" id="add-extra-a">
-    <select style="width:10em;" name="code" id="code">
+    <select style="width:100px;" name="code" id="code">
 <?php
     $enum=getEnumArray('absencecode');
     while(list($inval,$description)=each($enum)){   
@@ -459,7 +461,7 @@ else{
         }
 ?>
     </select>
-    <input style="width:10em;" name="comm" id="comm" value="" />
+    <input style="width:100px;" name="comm" id="comm" value="" type="text" />
   </div>
 <?php
 	$toyear=get_curriculumyear()-1;//TODO: set a proper start of term date

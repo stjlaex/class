@@ -158,21 +158,21 @@ twoplus_buttonmenu($sidskey, sizeof($sids), $extrabuttons);
             <a href="infobook.php?current=incidents_list.php&cancel=student_view.php">
                 <?php print_string('incidents'); ?>
             </a>
-        </li>
+        
         <?php
             $Incidents = (array)fetchIncidents($sid);
             $Student['Incidents'] = $Incidents;
             if (array_key_exists(0, $Incidents['Incident'])) {
                 $Incident = $Incidents['Incident'][0];
-                print '<li>' . display_date($Incident['EntryDate']['value']) . substr($Incident['Detail']['value'], 0, 60) . '...' .'</li>';
+                print display_date($Incident['EntryDate']['value']) . substr($Incident['Detail']['value'], 0, 60) . '...';
             } else {
             }
             ?>
+        </li>
         <li>
             <a href="infobook.php?current=targets_list.php&cancel=student_view.php">
                 <?php print_string('targets', $book); ?>
             </a>
-        </li>
         <?php
             $Targets = (array)fetchTargets($sid);
             $detail = '';
@@ -184,10 +184,11 @@ twoplus_buttonmenu($sidskey, sizeof($sids), $extrabuttons);
                 }
             }
             if ($detail != '') {
-                print '<li><label>' . $date . '</label>'. $detail . '...' .'</li>';
+                print '<label>' . $date . '</label>'. $detail . '...' ;
             } else {
             }
         ?>
+        </li>
         <?php
             $Backgrounds=(array)fetchBackgrounds($sid);
             foreach($Backgrounds as $tagname => $Ents){
@@ -196,12 +197,11 @@ twoplus_buttonmenu($sidskey, sizeof($sids), $extrabuttons);
             <a href="infobook.php?current=ents_list.php&cancel=student_view.php&tagname=<?php print $tagname; ?>">
                 <?php print_string(strtolower($tagname), $book); ?>
           </a>
-        </li>
         <?php
             /* Ensure private entries for Background are not displayed here! */
             if (array_key_exists(0, $Ents) and !($tagname == 'Background' and $Ents[0]['Categories']['Category'][0]['rating']['value'] < 0)) {
                 $Ent = $Ents[0];
-                print '<li><label>' . display_date($Ent['EntryDate']['value']) . '</label>' . substr($Ent['Detail']['value_db'], 0, 120) . '...' . '</li>';
+                print '<label>' . display_date($Ent['EntryDate']['value']) . '</label>' . substr($Ent['Detail']['value_db'], 0, 120) . '...';
             } else {
             }
             ?>
@@ -209,119 +209,127 @@ twoplus_buttonmenu($sidskey, sizeof($sids), $extrabuttons);
                 }
             }
         ?>
+        </li>
     </div>
+  
+    
+    
+    
+    
+    
     
     <?php
-        $Contacts = (array)$Student['Contacts'];
-    ?>
-<div class="profile-contacts profile">
-    <h4><?php print_string('contacts', $book); ?></h4>
-	<div class="tinytabs" id="contact">
-	   <ul>
-<?php
-    $n=0;
-    foreach($Contacts as $contactno => $Contact){
-    	if($Contact['id_db']!=' '){
-    		$gid=$Contact['id_db'];
-    		$relation=displayEnum($Contact['Relationship']['value'],'relationship');
-    
-    		$Dependents=(array)fetchDependents($gid);
-    		$Dependents=(array)array_merge($Dependents['Dependents'],$Dependents['Others']);
-    		if(sizeof($Dependents)>0){
-    			foreach($Dependents as $depindex=>$Dependent){
-    				$r=$Dependent['Relationship']['value'];
-    				/* Check relationship to only list true siblings. */
-    				if($Dependent['id_db']!=$sid and ($r=='PAF' or $r=='PAM' or $r=='STP')){$Siblings[$Dependent['id_db']]=$Dependent['Student'];}
-    				}
-    			}
-    ?>
-            <li id="<?php print 'tinytab-contact-' . $relation . $contactno; ?>">
-                <p 
-    		<?php
-                if ($n == 0) { print ' id="current-tinytab" ';
-            }
-            ?>
-			class="<?php print $relation . $contactno; ?>" onclick="parent.tinyTabs(this)"><?php print_string($relation, $book); ?>
-                </p>
-            </li>
+    $Contacts=(array)$Student['Contacts'];
+?>
+        <div class="profile-details profile">
 
-		<div class="hidden" id="tinytab-xml-contact-<?php print $relation . $contactno; ?>">
-		  <table class="listmenu">
-			<tr>
-			  <td colspan="2">
-				<label><?php print_string($Contact['Order']['label'], $book); ?></label>
-				<?php print_string(displayEnum($Contact['Order']['value'], 'priority'), $book); ?>
-			  </td>
-			</tr>
-			<tr>
-			  <td style="width:50%;">
-				<span title="<?php print $Contact['Note']['value']; ?>">
-				<a href="infobook.php?current=contact_details.php&cancel=student_view.php&contactno=<?php print $contactno; ?>">
-				  <?php rowaction_buttonmenu($editbutton); ?>
-				  <?php print $Contact['DisplayFullName']['value']; ?>
-				</a>
-				<?php emaillink_display($Contact['EmailAddress']['value']); ?>
-			  </td>
-			  <td>
-                <?php
-                    $Phones = $Contact['Phones'];
-                    while (list($phoneno, $Phone) = each($Phones)) {
-                        print '<label>' . get_string(displayEnum($Phone['PhoneType']['value'], $Phone['PhoneType']['field_db']), $book) . '</label>' . $Phone['PhoneNo']['value'] . '<br />';
+ <h4><?php print_string('contacts', $book); ?></h4> 
+ 
+ 
+        <div class="tinytabs" id="contact" style="">
+          <ul>
+<?php
+        $n=0;
+        foreach($Contacts as $contactno => $Contact){
+            if($Contact['id_db']!=' '){
+                $gid=$Contact['id_db'];
+                $relation=displayEnum($Contact['Relationship']['value'],'relationship');
+
+                $Dependents=(array)fetchDependents($gid);
+                $Dependents=(array)array_merge($Dependents['Dependents'],$Dependents['Others']);
+                if(sizeof($Dependents)>0){
+                    foreach($Dependents as $depindex=>$Dependent){
+                        $r=$Dependent['Relationship']['value'];
+                        /* Check relationship to only list true siblings. */
+                        if($Dependent['id_db']!=$sid and ($r=='PAF' or $r=='PAM' or $r=='STP')){$Siblings[$Dependent['id_db']]=$Dependent['Student'];}
+                        }
                     }
-                ?>
-			  </td>
-			</tr>
-		  </table>
-		</div>
-    <?php
-        $n++;
-        }
-        }
-        $relation='newcontact';
-    ?>
-		<li id="<?php print 'tinytab-contact-' . $relation; ?>"><p 
-			<?php
-            if ($n == 0) { print ' id="current-tinytab" ';
+?>
+            <li id="<?php print 'tinytab-contact-'.$relation. $contactno;?>"><p 
+                     <?php if($n==0){ print ' id="current-tinytab" ';}?>
+                class="<?php print $relation. $contactno;?>"
+                onclick="parent.tinyTabs(this)"><?php print_string($relation,$book);?></p></li>
+
+            <div class="hidden" id="tinytab-xml-contact-<?php print $relation. $contactno;?>">
+              <table class="listmenu">
+                <tr>
+                  <td colspan="2">
+                    <label><?php print_string($Contact['Order']['label'],$book);?></label>
+                    <?php print_string(displayEnum($Contact['Order']['value'],'priority'),$book);?>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="width:50%;">
+                    <span title="<?php print $Contact['Note']['value'];?>">
+                    <a href="infobook.php?current=contact_details.php&cancel=student_view.php&contactno=<?php print $contactno;?>">
+                      <img class="clicktoedit" title="<?php print_string('edit');?>" />
+                      <?php print $Contact['DisplayFullName']['value'];?>
+                    </a>
+                    <?php emaillink_display($Contact['EmailAddress']['value']);?>
+                  </td>
+                  <td>
+<?php
+                $Phones=$Contact['Phones'];
+                while(list($phoneno,$Phone)=each($Phones)){
+                    print '<label>'.get_string(displayEnum($Phone['PhoneType']['value'],$Phone['PhoneType']['field_db']),$book).'</label>'.$Phone['PhoneNo']['value'].'<br />';             
+                    }
+?>
+                  </td>
+                </tr>
+              </table>
+            </div>
+<?php
+                $n++;
+                }
             }
-        ?>
-			class="<?php print $relation; ?>"
-			onclick="parent.tinyTabs(this)"><?php print_string($relation, $book); ?></p></li>
-		<div class="hidden" id="tinytab-xml-contact-<?php print $relation; ?>">
-		  <table class="listmenu">
-			<tr>
-			  <tr>
-			  <td colspan="3">&nbsp
-			  </td>
-			</tr>
-			  <td>&nbsp
-			  </td>
-			  <td>
-				<a href="infobook.php?current=contact_details.php&cancel=student_view.php&contactno=-1">
-				  <?php rowaction_buttonmenu($editbutton); ?>
-				  <?php print_string('addnewcontact', $book); ?>
-				</a>
-			  </td>
-			</tr>
-		  </table>
-		</div>			
-	  </ul>
-	</div>
-	<div id="tinytab-display-contact" class="tinytab-display">
-	    
-	</div>
-	
-
-
-<?php
-	if($CFG->emailoff!='yes'){
+        $relation='newcontact';
 ?>
-	<p>
-	    <a href="infobook.php?current=message_list.php&cancel=student_view.php&sid=<?php print $sid; ?>"><?php print_string('parentmessages', $book); ?></a>
-    </p>
+            <li id="<?php print 'tinytab-contact-'.$relation;?>"><p 
+                <?php if($n==0){ print ' id="current-tinytab" ';}?>
+                class="<?php print $relation;?>"
+                onclick="parent.tinyTabs(this)"><?php print_string($relation,$book);?></p></li>
+            <div class="hidden" id="tinytab-xml-contact-<?php print $relation;?>">
+              <table class="listmenu">
+                <tr>
+                  <tr>
+                  <td colspan="3">&nbsp
+                  </td>
+                </tr>
+                  <td>&nbsp
+                  </td>
+                  <td>
+                    <a href="infobook.php?current=contact_details.php&cancel=student_view.php&contactno=-1">
+                      <img class="clicktoedit" title="<?php print_string('edit');?>" />
+                      <?php print_string('addnewcontact',$book);?>
+                    </a>
+                  </td>
+                </tr>
+              </table>
+            </div>          
+          </ul>
+        </div>
+        <div id="tinytab-display-contact" class="tinytab-display">
+        </div>
 <?php
-}
+        if($CFG->emailoff!='yes'){
 ?>
+        <table class="listmenu">
+          <tr>
+            <td style="text-align:right;">
+              <a href="infobook.php?current=message_list.php&cancel=student_view.php&sid=<?php print $sid;?>"><?php print_string('parentmessages',$book); ?></a>
+            </td>
+          </tr>
+        </table>
 </div>
+<?php
+            }
+?>
+      
+      
+      
+      
+      
+      
     
             <div class="profile profile-info">
                 <h5><?php print_string('sen', 'seneeds'); ?></h5>
@@ -423,8 +431,6 @@ twoplus_buttonmenu($sidskey, sizeof($sids), $extrabuttons);
             <?php
                 }
             ?>
-
-
 
 
     <div class="profile">
