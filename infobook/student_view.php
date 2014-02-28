@@ -301,7 +301,7 @@ twoplus_buttonmenu($sidskey, sizeof($sids), $extrabuttons);
 <?php
             }
 ?>
-    
+   </div> 
             <div class="profile profile-info">
                 <h5><?php print_string('sen', 'seneeds'); ?></h5>
                 <a href="infobook.php?current=student_view_sen.php&cancel=student_view.php">
