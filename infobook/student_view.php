@@ -1,7 +1,7 @@
 <?php
-/**									student_view.php
+/**                                 student_view.php
  *
- *	A composite view of all informaiton for one sid
+ *  A composite view of all informaiton for one sid
  */
 
 $action = 'student_view_action.php';
@@ -24,7 +24,6 @@ $editbutton['clicktoedit'] = array('name' => 'process', 'value' => 'edit', 'titl
 
 twoplus_buttonmenu($sidskey, sizeof($sids), $extrabuttons);
 ?>
-
 <div id="viewcontent" class="content">
     <form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host; ?>">
         <div class="profile-details profile">
@@ -114,8 +113,7 @@ twoplus_buttonmenu($sidskey, sizeof($sids), $extrabuttons);
                 ?>
             </ul>
         </div>
-        
-        <?php
+<?php
             if($_SESSION['role']!='support'){
         ?>
         <div class="profile-history profile">
@@ -211,14 +209,8 @@ twoplus_buttonmenu($sidskey, sizeof($sids), $extrabuttons);
         ?>
         </li>
     </div>
-  
-    
-    
-    
-    
-    
-    
-    <?php
+
+<?php
     $Contacts=(array)$Student['Contacts'];
 ?>
         <div class="profile-contact profile">
@@ -297,24 +289,44 @@ twoplus_buttonmenu($sidskey, sizeof($sids), $extrabuttons);
                 if($CFG->emailoff!='yes'){
             ?>
               <a href="infobook.php?current=message_list.php&cancel=student_view.php&sid=<?php print $sid;?>"><?php print_string('parentmessages',$book); ?></a>
-</div>
 <?php
             }
 ?>
-   </div> 
-            <div class="profile profile-info">
-                <h5><?php print_string('sen', 'seneeds'); ?></h5>
-                <a href="infobook.php?current=student_view_sen.php&cancel=student_view.php">
-                  <?php rowaction_buttonmenu($editbutton); ?>
-                </a>
-                <?php
-                    if ($Student['SENFlag']['value'] == 'Y') {print_string('senprofile', 'seneeds');
-                    } else {print_string('noinfo', $book);
-                    }
-                ?>
-            </div>
-    		
-    		<div class="profile profile-info ">
+
+</div>
+
+
+
+
+
+
+
+
+
+
+        
+        
+        
+        
+        
+        <div class="profile profile-info">
+            <h5><?php print_string('sen', 'seneeds'); ?></h5>
+            <a href="infobook.php?current=student_view_sen.php&cancel=student_view.php">
+              <?php rowaction_buttonmenu($editbutton); ?>
+            </a>
+            <?php
+                if ($Student['SENFlag']['value'] == 'Y') {print_string('senprofile', 'seneeds');
+                } else {print_string('noinfo', $book);
+                }
+            ?>
+        </div>
+            
+            
+            
+            
+            
+        
+        <div class="profile profile-info ">
                 <h5><?php print_string('medical', $book); ?></h5>
                 <a href="infobook.php?current=student_view_medical.php&cancel=student_view.php">
                     <?php rowaction_buttonmenu($editbutton); ?>
@@ -324,16 +336,21 @@ twoplus_buttonmenu($sidskey, sizeof($sids), $extrabuttons);
                     } else {print_string('noinfo', $book);
                     }
                 ?>
-    		</div>
-            <?php
+            </div>
+      
+      
+      
+      
+      
+<?php
                 }
                 if(isset($CFG->enrol_boarders) and $CFG->enrol_boarders=='yes'){
             ?>
-    		<div class="profile profile-info">
+            <div class="profile profile-info">
                 <h5><?php print_string('boarder', $book); ?></h5>
-    			<a href="infobook.php?current=student_view_boarder.php&cancel=student_view.php">
-    			    <?php rowaction_buttonmenu($editbutton); ?>
-    			</a>
+                <a href="infobook.php?current=student_view_boarder.php&cancel=student_view.php">
+                    <?php rowaction_buttonmenu($editbutton); ?>
+                </a>
                 <?php
                     if ($Student['Boarder']['value'] != 'N' and $Student['Boarder']['value'] != '') {
                     print '<div>' . get_string(displayEnum($Student['Boarder']['value'], $Student['Boarder']['field_db']), $book) . '</div>';
@@ -341,68 +358,92 @@ twoplus_buttonmenu($sidskey, sizeof($sids), $extrabuttons);
                     }
                 ?>
             </div>
+            
+            
+            
+            
             <?php
                 }
                 $transport=display_student_transport($sid);
             ?>
-    		
-    		<div class="profile profile-info">
-    		    <h5><?php print_string('transport', 'admin'); ?></h5>
-    			<a href="infobook.php?current=student_transport.php&cancel=student_view.php">
-    			  <?php rowaction_buttonmenu($editbutton); ?>
-    			</a>
-                <p><?php print $transport; ?></p>
-    		</div>
-    
-    		<div class="profile profile-info">
-    		    <h5><?php print_string('club', 'admin'); ?></h5>
-    			<a href="infobook.php?current=student_transport.php&cancel=student_view.php">
-    			  <?php rowaction_buttonmenu($editbutton); ?>
-    			</a>
-                <p><?php print get_student_club($sid); ?></p>
-    		</div>
-            <?php ?>
-    
+            
             <div class="profile profile-info">
+                <h5><?php print_string('transport', 'admin'); ?></h5>
+                <a href="infobook.php?current=student_transport.php&cancel=student_view.php">
+                  <?php rowaction_buttonmenu($editbutton); ?>
+                </a>
+                <p><?php print $transport; ?></p>
+            </div>
+            
+            
+            
+
+        <div class="profile profile-info">
+                <h5><?php print_string('club', 'admin'); ?></h5>
+                <a href="infobook.php?current=student_transport.php&cancel=student_view.php">
+                  <?php rowaction_buttonmenu($editbutton); ?>
+                </a>
+                <p><?php print get_student_club($sid); ?></p>
+            </div>
+
+
+        <div class="profile profile-info">
                 <h5><?php print_string('enrolment', 'admin'); ?></h5>
                 <a href="infobook.php?current=student_view_enrolment.php&cancel=student_view.php">
                     <?php rowaction_buttonmenu($editbutton); ?>
                 </a>
                 <p>
                     <?php
-                        print '<label>' . get_string('status', 'admin') . '</label> ' . get_string(displayEnum($Student['EnrolmentStatus']['value'], $Student['EnrolmentStatus']['field_db']), $book);
+                        print '<label>' . get_string('status', 'admin') . '</label> ' 
+                        . get_string(displayEnum($Student['EnrolmentStatus']['value'], $Student['EnrolmentStatus']['field_db']), $book);
                     ?>
                 </p>
             </div>
-            <?php
-                if(empty($_SESSION['accessfees'])){
-            ?>
-            <div class="profile profile-info">
-                <h5><?php print_string('fees', 'admin'); ?></h5>
-    		  <input type="password" name="accesstest" maxlength="20" value="" />
-    		  <input type="password" name="accessfees" maxlength="4" value="" />
-                <?php
-                    $buttons = array();
-                    $buttons['access'] = array('name' => 'access', 'value' => 'access');
-                    all_extrabuttons($buttons, $book, '');
-                ?>
-            </div>
-            <?php
-                }
-                else{
-                require_once('lib/fetch_fees.php');
-                $Account=(array)fetchAccount($gid);
-            ?>
-    		<div class="profile profile-info">
-    		    <h5><?php print_string('fees', 'admin'); ?></h5>
-                <a href="infobook.php?current=student_fees.php&cancel=student_view.php">
-                    <?php rowaction_buttonmenu($editbutton); ?>
-    			</a>
-    		</div>
-            <?php
-                }
-            ?>
-    <div class="profile profile-sibling">
+        
+        
+        
+        
+        
+<?php
+        if(empty($_SESSION['accessfees'])){
+?>
+      <fieldset class="profile profile-info">
+        <h5><?php print_string('fees','admin');?></h5>
+        <input type="password" name="accesstest" maxlength="20" value="" />
+        <input type="password" name="accessfees" maxlength="4" value="" />
+<?php
+            $buttons=array();
+            $buttons['access']=array('name'=>'access','value'=>'access');
+            all_extrabuttons($buttons,$book,'');
+?>
+      </fieldset>
+<?php
+            }
+        else{
+            require_once('lib/fetch_fees.php');
+            $Account=(array)fetchAccount($gid);
+?>
+        <fieldset class="profile profile-info">
+          <h5><?php print_string('fees','admin');?></h5>
+            <a href="infobook.php?current=student_fees.php&cancel=student_view.php">
+              <?php rowaction_buttonmenu($editbutton); ?>
+            </a>
+        </fieldset>
+<?php
+            }
+?>
+
+
+
+
+
+
+
+
+
+
+
+      <div class="profile profile-sibling">
         <h4><?php print_string('siblings',$book);?></h4>
             <?php
             foreach($Siblings as $Sibling){
@@ -418,22 +459,26 @@ twoplus_buttonmenu($sidskey, sizeof($sids), $extrabuttons);
             ?>
     </div>
     
+      </div>
 
 
-    	  </div>
-    
-    
-    
-      <input type="hidden" name="current" value="<?php print $action; ?>" />
-      <input type="hidden" name="cancel" value="<?php print 'student_list.php'; ?>" />
-      <input type="hidden" name="choice" value="<?php print $choice; ?>" />
-        </form>
+
+  <input type="hidden" name="current" value="<?php print $action;?>" />
+  <input type="hidden" name="cancel" value="<?php print 'student_list.php';?>" />
+  <input type="hidden" name="choice" value="<?php print $choice;?>" />
+</form>
 </div>
-
-	<div id="xml-profile" style="display:none;">
-	  <params>
-		<sids><?php print $sid; ?></sids>
-		<transform>student_profile_print</transform>
-		<paper>portrait</paper>
-	  </params>
-	</div>
+<?php
+    if($CFG->tempinfosheet!=''){$profileprint=$CFG->tempinfosheet;}
+    else{$profileprint="student_profile_print";}
+?>
+    <div id="xml-profile" style="display:none;">
+      <params>
+        <sids><?php print $sid;?></sids>
+        <transform><?php print $profileprint;?></transform>
+        <paper>portrait</paper>
+      </params>
+    </div>
+    
+    
+    

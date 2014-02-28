@@ -890,7 +890,7 @@ button[value="Submit"] {
 
 /*//// InforBook || Profile \\\\*/
 .profile {
-  padding: 2%;
+  padding: 2%!important;
   margin: 20px 2%;
   margin-top: 0;
   background-color: #ebedef;
@@ -987,5 +987,5 @@ button[value="Submit"] {
 
 /* Info */
 .profile-sibling  {
-
+  clear: left;
 }
