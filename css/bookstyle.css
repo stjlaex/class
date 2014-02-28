@@ -858,6 +858,10 @@ form img {
   padding: 5px 3px 5px 6px;
   height: 10px;
 }
+[id^="cell-"] {
+  text-align: center;
+}
+
 .edit .registerEdit, 
 [id^="add-extra-a-"] .registerEdit, 
 [id^="add-extra-p-"] .registerEdit, 
