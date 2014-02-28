@@ -1504,7 +1504,6 @@ function selectColumn(thObj,multi){
 		}
 
 	thObj.getElementsByTagName("input")[0].setAttribute("checked","checked");
-	console.log(thObj.getElementsByTagName("input")[0])
 	thObj.className="selected";
 	var colId=thObj.getElementsByTagName("input")[0].value;
 	for(var c=0;c<sids.length;c++){
@@ -1530,7 +1529,6 @@ function selectColumn(thObj,multi){
 					}
 				tdEditObj.className=tdEditClaSS;
 				}
-			//i++;
 			}
 	}
 
