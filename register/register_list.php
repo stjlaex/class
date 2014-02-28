@@ -242,7 +242,7 @@ else{
 			}
 		}
 ?>
-		  <th class="edit">
+		  <th class="edit" width="37%">
 <?php
 	if($nodays==1 or $_SESSION['role']=='office' or $_SESSION['role']=='admin'){
 		print_string('checkall',$book);

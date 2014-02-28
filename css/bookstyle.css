@@ -79,7 +79,7 @@ input[type=text], input[type=date], input[type=password], textarea {
   border-radius: 3px;
   color: #34495e;
   border: solid 1px #bac1c8;
-  font-size: 16px;
+  font-size: 14px;
 }
 input:focus[type=text], input[type=date]:focus, textarea:focus {
   border: solid 1px #34495e;
@@ -213,7 +213,6 @@ div.background {
 div.content {
   width: 100%;
   height: auto;
-  font-size: small;
   border: 0;
   overflow: hidden;
   margin: 50px auto 0;
@@ -424,6 +423,8 @@ img.clicktodelete {
 }
 .student div {
   float: right;
+  margin: 0;
+  padding: 0;
 }
 
 img.clicktotransport {
@@ -483,7 +484,7 @@ table.listmenu {
   font-weight: bold;
 }
 .listmenu .merit {
-  margin-right: 20px;
+  width: 80px;
 }
 .miniature a {
   width: 60px;
@@ -632,22 +633,20 @@ td.hidden, th.hidden {
 
 /***********tinytabs*******/
 div.tinytabs {
-  font-size: x-small;
-  line-height: normal;
-  padding: 0 1px;
+  float: right;
 }
 div.tinytab-display {
   overflow: auto;
+  margin-bottom: 30px;
 }
 .tinytabs ul {
-  list-style: none;
+  float: left;
 }
 .tinytabs li {
   float: right;
-  height: 40px;
 }
 .tinytabs li p {
-  padding: 4px 12px 20px 8px;
+  padding: 10px;
   color: #657585;
   background-color: #FFFFFF;
   cursor: pointer;
@@ -656,20 +655,41 @@ div.tinytab-display {
   color: #657585;
   background-color: #d2d7dc;
 }
+.full-contact .clicktoedit {
+  position: static !important;
+  display: inline-block !important;
+  padding: 0 !important;
+}
+.full-contact div {
+  float: left;
+  margin: 10px 25px 0 0;
+  font-weight: 600;
+}
+.full-contact div label {
+  font-weight: normal;
+  width: 50px;
+  display: inline-block;
+}
 
 /*some general colors used across all books*/
 .neutral, .negative, .positive {
   background-color: #ffffff;
   padding: 5px;
 }
-.neutral {
+.neutral, .neutral .fa {
   color: #1e2a37 !important;
+    background: none;
 }
-.negative {
+.negative, .negative .fa {
   color: #e74c3c !important;
+  background: none;
 }
-.positive {
+.positive, .positive .fa {
   color: #547324 !important;
+    background: none;
+}
+.checked.negative, .checked.positive, .checked.neutral  {
+  padding: 0;
 }
 p.warn {
   color: #000000;
@@ -838,9 +858,25 @@ form img {
   padding: 5px 3px 5px 6px;
   height: 10px;
 }
-.edit .registerEdit, [id^="add-extra-a-"] .registerEdit, [id^="add-extra-p-"] .registerEdit, .edit .registerEdit select, [id^="add-extra-a-"] .registerEdit select, [id^="add-extra-p-"] .registerEdit select, .edit .registerEdit span, [id^="add-extra-a-"] .registerEdit span, [id^="add-extra-p-"] .registerEdit span {
+.edit .registerEdit, 
+[id^="add-extra-a-"] .registerEdit, 
+[id^="add-extra-p-"] .registerEdit, 
+.edit .registerEdit select, 
+[id^="add-extra-a-"] .registerEdit select, 
+[id^="add-extra-p-"] .registerEdit select, 
+.edit .registerEdit span, 
+[id^="add-extra-a-"] .registerEdit span, 
+[id^="add-extra-p-"] .registerEdit span {
   height: 20px !important;
   line-height: 20px !important;
+}
+.edit .registerEdit, [id^="add-extra-a-"] .registerEdit, [id^="add-extra-p-"] .registerEdit{
+  width:100px!important;
+}
+.edit .registerEdit span, 
+[id^="add-extra-a-"] .registerEdit span, 
+[id^="add-extra-p-"] .registerEdit span {
+  width:75px!important;
 }
 
 button[value="Submit"] {
@@ -850,8 +886,9 @@ button[value="Submit"] {
 
 /*//// InforBook || Profile \\\\*/
 .profile {
-  padding: 20px;
-  margin-bottom: 20px;
+  padding: 2%;
+  margin: 20px 2%;
+  margin-top: 0;
   background-color: #ebedef;
   position: relative;
   overflow: hidden;
@@ -925,13 +962,26 @@ button[value="Submit"] {
   display: inline-block;
   margin-right: 5%;
 }
+
 /* Info */
 .profile-info {
-  width: 26.6%;
+  width: 26.66%;
   float: left;
-  padding: 20px 2.5%;
+  padding: 20px 2;
   min-height: 100px;
+  margin: 0 0 20px;
 }
-.profile-info.second {
-  margin: 0 2.5% 20px;
+.profile-info:nth-child(3n+3) {
+  margin-right: 2%;
+}
+.profile-info:nth-child(3n+4) {
+  margin-left: 2%;
+}
+.profile-info:nth-child(3n+2) {
+  margin: 0 2% 20px;
+}
+
+/* Info */
+.profile-sibling  {
+
 }

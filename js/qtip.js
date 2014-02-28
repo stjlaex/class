@@ -38,7 +38,7 @@ tooltip.init = function(){
 	for(var i=0; i<anchors.length; i++){
 		a=anchors[i];
 		sTitle=a.getAttribute("title");
-		if(sTitle!=""){
+		if(sTitle!="" && sTitle!=null){
 			a.setAttribute("tiptitle", sTitle);
 			a.removeAttribute("title");
 			a.onmouseover=function(){tooltip.show(this.getAttribute("tiptitle"))};

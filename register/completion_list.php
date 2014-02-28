@@ -156,8 +156,9 @@ two_buttonmenu($extrabuttons);
 		  </td>
 		  <td>
 			<span style="margin-right:4px;" title="<?php print $title;?>">
-			<a onclick="parent.viewBook('register');" target="viewregister"  
-			  href="register.php?current=register_list.php&cancel=completion_list.php&<?php print $getparam;?>&checkeveid=0&startday=&nodays=8"><?php print $com['displayname'];?></a>
+			    <strong>
+			     <a onclick="parent.viewBook('register');" target="viewregister" href="register.php?current=register_list.php&cancel=completion_list.php&<?php print $getparam;?>&checkeveid=0&startday=&nodays=8"><?php print $com['displayname'];?></a>
+		      </strong>
 		  </span>
 		  </td>
 		  <td class="<?php print $cssclass;?>">
