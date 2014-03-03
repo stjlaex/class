@@ -51,6 +51,7 @@ if(empty($_SESSION['accessfees'])){
 
 $extrabuttons=array();
 if($_SESSION['username']=='administrator'){
+	$extrabuttons['manageaccounts']=array('name'=>'current','value'=>'fees_accounts_manage.php'/*,'class'=>'manageaccounts'*/);
 	$extrabuttons['import']=array('name'=>'current','value'=>'fees_import.php');
 	}
 if($_SESSION['role']=='admin' or $aperm==1 or $_SESSION['role']=='office'){

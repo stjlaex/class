@@ -46,3 +46,8 @@ div#bookbox {
     border:0;
     background-color:#CCCCCC;
 	}
+
+.manageaccounts {
+    background-color:#eeee99 !important;
+    color:#000000 !important;
+	}

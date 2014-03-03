@@ -279,4 +279,7 @@ $string['subjects']='Subjects';
 $string['duplicatesubject']="The subject already exists.";
 $string['duplicatesubjectid']="The id already exists for the subject";
 $string['editstudents']="Edit students";
+$string['manageaccounts']="Manage bank accounts";
+$string['newaccount']="New bank account";
+$string['bankaccounts']="Bank accounts";
 ?>
