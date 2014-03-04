@@ -1,10 +1,3 @@
-$(document).ready(function() {
-   $(window).resize(function() {
-     //resizeFrame();
-     loadBook('');
-     });
-  });
-
 function resizeFrame(height,top,book){
      $('#view' + book).css('height', height);
      $('#view' + book).css('top', top);
@@ -403,6 +396,7 @@ function loadRequired(book) {
         }
     }
 
+<<<<<<< HEAD
     /*window.frames["view" + book].document.onscroll = temp1;
     function temp1() {
         //console.log('1', $(window.frames["view" + book]).scrollTop())
@@ -447,6 +441,8 @@ function loadRequired(book) {
         }
     }*/
 
+=======
+>>>>>>> 6416927f1b7003f02edab0e8dc11f0f793a9e11e
     var previousScroll = new Array();
     previousScroll[book] = 0;
 
@@ -472,6 +468,7 @@ function loadRequired(book) {
 
     /*on frame's scroll resize the frame*/
     $(window.frames["view" + book]).scroll(function() {
+      var windowHeight = $(window).outerHeight(true);
       var currentScroll = new Array();
       currentScroll[book] = $(this).scrollTop();
         if(currentScroll[book] == 0) {
@@ -490,5 +487,10 @@ function loadRequired(book) {
             });
            }
          previousScroll[book] = currentScroll[book];
-   });
+     });
+   $(window).resize(function() {
+       var windowHeight = $(window).outerHeight(true);
+       if($('#' + book + "options").css("display")=="none"){resizeFrame(windowHeight - headerHeight, headerHeight, book);}
+       else{resizeFrame(windowHeight - headerHeight - menuHeight, menuHeight + headerHeight, book);}
+     });
 }
