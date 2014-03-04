@@ -1,17 +1,13 @@
 $(document).ready(function() {
-    function resizeFrame() {
-        var windowHeight = $(window).height();
-        $('.bookframe').css('height', windowHeight - 170);
-        $('#viewinfobook, #viewentrybook, #viewmarkbook').css('height', windowHeight - 260);
-        // alert(bookframeHeight);
-    }
+   $(window).resize(function() {
+     //resizeFrame();
+     });
+  });
 
-    resizeFrame();
-    $(window).resize(function() {
-        resizeFrame();
-    });
-
-});
+function resizeFrame(height,top,book){
+     $('#view' + book).css('height', height);
+     $('#view' + book).css('top', top);
+     }
 
 //--------------------------------------------------------
 //functions for the marktable to display columns from gradebox
@@ -304,6 +300,10 @@ function tinyTabs(tabObject) {
     }
 }
 
+
+var previousPage="";
+var previousPageScroll=0;
+
 /**
  * adds the images and attributes to required input fields
  * inits the js-calendar elements and the tooltip titles
@@ -445,4 +445,49 @@ function loadRequired(book) {
         }
     }*/
 
+}
+    var previousScroll = new Array();
+    previousScroll[book] = 0;
+
+    /*heights*/
+    var contentsHeight = $('#view' + book).contents().find("#bookbox").outerHeight(true);
+    var frameHeight = $('#view' + book).height();
+    var menuHeight = $('#' + book + "options").outerHeight(true);
+    var headerHeight = $('.booktabs').height();
+    var windowHeight = $(window).outerHeight(true);
+
+    var currentPage=$('#view' + book).contents().find("input[name='current']").val();
+    if(previousPage==currentPage && book!="logbook" && previousPageScroll>0){
+      $('#' + book + "options").css("display", "none");
+      resizeFrame(windowHeight - headerHeight, headerHeight, book);
+      $(window.frames["view" + book]).scrollTop(2);
+      }
+    
+
+    /*default settings*/
+    if(book!="logbook"){resizeFrame(windowHeight - headerHeight - menuHeight, menuHeight + headerHeight, book);}
+    if($('#' + book + "options").css("display")=="none"){$('#' + book + "options").css("display", "block");}
+    if(contentsHeight>=frameHeight && contentsHeight<=(frameHeight+menuHeight)){$('#view' + book).contents().find("#bookbox").css('padding-bottom',menuHeight);}
+
+    /*on frame's scroll resize the frame*/
+    $(window.frames["view" + book]).scroll(function() {
+      var currentScroll = new Array();
+      currentScroll[book] = $(this).scrollTop();
+        if(currentScroll[book] == 0) {
+         $('#' + book + "options").slideToggle(300, function() {
+            $('#' + book + "options").css("display", "block");
+            resizeFrame(windowHeight - headerHeight - menuHeight, menuHeight + headerHeight, book);
+            previousPageScroll=0;
+            });
+           }
+         else if (currentScroll[book] > previousScroll[book] && previousScroll[book]==0){
+           $('#' + book + "options").slideToggle(300, function() {
+              $('#' + book + "options").css("display", "none");
+              resizeFrame(windowHeight - headerHeight, headerHeight, book);
+              previousPage=currentPage;
+              previousPageScroll=1;
+            });
+           }
+         previousScroll[book] = currentScroll[book];
+   });
 }

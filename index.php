@@ -105,3 +105,4 @@ print '<?xml version="1.0" encoding="utf-8"?' . '>';
     </script>
   </body>
 </html>
+<?php setcookie("theme", basename(dirname(__FILE__)), time() + (86400));?>

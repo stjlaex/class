@@ -1,4 +1,5 @@
 <?php
+unset($_COOKIE['theme']);$_COOKIE['theme']="";
 require_once('school.php');
 global $CFG;
 if(isset($_GET['theme']) and $_GET['theme']!=""){$theme=$_GET['theme'];}

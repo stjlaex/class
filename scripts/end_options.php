@@ -2,7 +2,6 @@
 /**							end_options.php
  */
 ?>
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
 <script src="js/jquery.uniform.min.js"></script>
 <script>
 parent.loadRequired("<?php print $book; ?>");parent.loadBookOptions("<?php print $book; ?>");</script>

@@ -41,10 +41,6 @@ print '<?xml version="1.0" encoding="utf-8"?'.'>';
         <link href='http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900' rel='stylesheet' type='text/css'>
         <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
         <link rel="stylesheet" href="css/uniform.edit.css" media="screen" />
-        
-        <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
-        <script src="js/jquery.uniform.min.js"></script>
-
 
 
         <script language="JavaScript" type="text/javascript">
@@ -57,16 +53,17 @@ print '<?xml version="1.0" encoding="utf-8"?'.'>';
         <script language="JavaScript" type="text/javascript" src="lib/jscalendar/calendar.js"></script>
         <script language="JavaScript" type="text/javascript" src="lib/jscalendar/lang/calendar-<?php  print_string('shortlocale'); ?>.js"></script>
         <script language="JavaScript" type="text/javascript" src="lib/jscalendar/calendar-setup.js"></script>
+        <script language="Javascript" type="text/javascript" src="js/jcrop/jquery.min.js"></script>
+
         <?php
 if($book=='infobook' or $book=='admin'){
 ?>
         <link rel="stylesheet" type="text/css" href="js/jcrop/jquery.Jcrop.min.css" />
-        <script language="Javascript" type="text/javascript" src="js/jcrop/jquery.min.js"></script>
         <script language="Javascript" type="text/javascript" src="js/jcrop/jquery.Jcrop.min.js"></script>
         <script language="Javascript" type="text/javascript" src="js/crop.js"></script>
         <?php
 								}
-								if($book=='infobook' or $book=='reportbook'  or $book=='admin'  or $book=='markbook' or $book=='medbook'){
+if($book=='infobook' or $book=='reportbook'  or $book=='admin'  or $book=='markbook' or $book=='medbook'){
 							?>
         <script language="JavaScript" type="text/javascript" src="js/gs_sortable.js?version=1048"></script>
         <script language="JavaScript" type="text/javascript" src="js/documentdrop.js?version=1048"></script>
