@@ -401,83 +401,52 @@ function loadRequired(book) {
         }
     }
 
-    /*    window.frames["view" + book].document.onscroll = temp1;
-     function temp1() {
-     var bookframeHeight = $('.bookframe').height();
-
-     if ($(window.frames["view" + book]).scrollTop() > 0) {
-     $(".bookoptions").slideToggle(300, function() {
-     $(".bookoptions").css("display", "none");
-     });
-     // $(".bookoptions").css("display", "none");
-
-     $('.bookframe').css('top', 90);
-     $('.bookframe').css('height', bookframeHeight + 90);
-     //$('#viewinfobook, #viewentrybook, #viewmarkbook').css('height', $('.bookframe').height() + 260);
-
-     //alert('test')
-     window.frames["view" + book].document.onscroll = temp
-     }
-     }
-
-     function temp() {
-     var bookframeHeight = $('.bookframe').height();
-     if ($(window.frames["view" + book]).scrollTop() == 0) {
-     $(".bookoptions").slideToggle(300, function() {
-     $(".bookoptions").css("display", "block");
-     });
-
-     $('.bookframe').css('top', 170);
-     $('#viewinfobook, #viewentrybook, #viewmarkbook').css('top', 260);
-     $('.bookframe').css('height', bookframeHeight - 90);
-     $('#viewinfobook, #viewentrybook, #viewmarkbook').css('height', bookframeHeight - 180);
-     window.frames["view" + book].document.onscroll = temp1
-     }
-     }*/
-
-    window.frames["view" + book].document.onscroll = temp1;
-    function temp1() {
-        //console.log('1', $(window.frames["view" + book]).scrollTop())
-        //console.log(book)
-        var bookframeHeight = $('#view' + book).height();
-        if ($(window.frames["view" + book]).scrollTop() >  0) {
-            $('#' + book + "options").slideToggle(300, function() {
-                $('#' + book + "options").css("display", "none");
+    var previousScroll = new Array();
+    /*declare the scroll to 0 for all books*/
+    previousScroll[book] = 0;
+    $(window.frames["view" + book]).scroll(function() {
+      /*on scroll gets the current iframe height and the current scrolling position*/ 
+      var bookframeHeight = $('#view' + book).height();
+      var currentScroll = new Array();
+      currentScroll[book] = $(this).scrollTop();
+        if(currentScroll[book] == 0) {
+         //0=top shows the menu with toggle effect, resizes the frame and adds the top 
+         $('#' + book + "options").slideToggle(300, function() {
+                 $('#' + book + "options").css("display", "block");
+                 if (book == 'infobook' || book == 'entrybook' || book == 'markbook') {
+                     /*top (2rows + header) and height for two rows menus*/
+                     var btop = 260;
+                     var bheight = bookframeHeight - 160;
+                   } else {
+                     /*top (1row + header) and height for one row menus*/
+                     var btop = 170;
+                     var bheight = bookframeHeight - 120;
+                   }
+                 $('#view' + book).css('top', btop);
+                 $('#view' + book).css('height', bheight);
             });
-            $('#view' + book).css('top', 80);
-            if (book == 'infobook' || book == 'entrybook' || book == 'markbook') {
-                var bheight = bookframeHeight + 180;
-            } else {
-                var bheight = bookframeHeight + 80;
-            }
-            $('#view' + book).css('height', bheight);
+          }
+         /*previousscroll is 0 and the current position is greater than 0*/
+         /*we can use the 20 as the minimum value (px) we want to hide the menu so we have a padding for the hidden elements in tables (photo miniature, merits,etc)*/
+         /*else if (currentScroll[book] > 20 && previousScroll[book]==0){*/
+         else if (currentScroll[book] > previousScroll[book] && previousScroll[book]==0){
+           //down
 
-            //window.frames["view" + book].document.onscroll = null
-            window.frames["view" + book].document.onscroll = temp
-        }
-    }
-
-    function temp() {
-        var bookframeHeight = $('#view' + book).height();
-        console.log('0', $(window.frames["view" + book])[0].document.getElementById('bookbox').clientHeight)
-        console.log($(window.frames["view" + book])[0].document.body.scrollHeight)
-        if ($(window.frames["view" + book]).scrollTop() == 0 ) {
-            $('#' + book + "options").slideToggle(300, function() {
-                $('#' + book + "options").css("display", "block");
+           $('#' + book + "options").slideToggle(300, function() {
+              $('#' + book + "options").css("display", "none");
+              /*top is just the header*/
+              $('#view' + book).css('top', 80);
+              /*resize height*/
+              if (book == 'infobook' || book == 'entrybook' || book == 'markbook') {
+                var bheight = bookframeHeight + 160;
+                }
+              else {
+                var bheight = bookframeHeight + 120;
+                }
+              $('#view' + book).css('height', bheight);
             });
-            if (book == 'infobook' || book == 'entrybook' || book == 'markbook') {
-                var btop = 260;
-                var bheight = bookframeHeight - 180;
-            } else {
-                var btop = 170;
-                var bheight = bookframeHeight - 80;
-            }
-            $('#view' + book).css('top', btop);
-            $('#view' + book).css('height', bheight);
-
-           window.frames["view" + book].document.onscroll = temp1
-        }
-
-    }
-
+         }
+         /*the last known position is now the current position*/
+         previousScroll[book] = currentScroll[book];
+   });
 }
