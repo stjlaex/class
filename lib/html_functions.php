@@ -862,9 +862,9 @@ function html_document_drop($epfun,$context,$linked_id='-1',$lid='-1',$ownertype
 	if($context=='assessment'){$path='../../';}
 	else{$path='';}
 ?>
-	  <fieldset class="center listmenu">
-		<legend><?php print_string('documents');?></legend>
-		<fieldset class="left documentdrop">
+	  <fieldset class="profile">
+		<h5><?php print_string('documents');?></h5>
+		<fieldset class=" documentdrop">
 		  <form id="formfiledelete" name="formfiledelete" method="post" action="<?php print $path;?>infobook/httpscripts/file_delete.php">
 			<input type="hidden" id="FILEOWNER" name="FILEOWNER" value="<?php print $epfun;?>" />
 			<input type="hidden" id="FILECONTEXT" name="FILECONTEXT" value="<?php print $context;?>" />

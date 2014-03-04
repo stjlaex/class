@@ -79,9 +79,9 @@ three_buttonmenu($extrabuttons);
 
 	  <div style="float:left;width:33%;"  id="viewcontent">
 		<table class="listmenu">
-		<caption><?php print_string('currentclassfor',$book);?>: <?php print $bid;?></caption>
+		<h5><?php print_string('currentclassfor',$book);?>: <?php print $bid;?></h5>
 		<tr>
-		  <th colspan="3"><?php print $class['name'].'/'.$newtid; ?></th>
+		  <td colspan="3"><?php print $class['name'].'/'.$newtid; ?></td>
 			<td>
 			  <?php print_string('remove');?><br />
 			  <input type="checkbox" name="checkall" 
@@ -111,7 +111,7 @@ three_buttonmenu($extrabuttons);
 
 		<div  style="float:right;width:66%;">
 		<fieldset>
-		  <legend><?php print_string('choosestudentstoadd',$book);?></legend>
+		  <h5><?php print_string('choosestudentstoadd',$book);?></h5>
 
 <?php
 	/*list those not assigned already in this subject*/
@@ -124,9 +124,7 @@ three_buttonmenu($extrabuttons);
 ?>
 		<div class="left">
 		  <label><?php print_string('studentsnotinsubject',$book);?></label>
-			<select name="newsid[]" size="20" 	
-			  tabindex="<?php print $tab++;?>"
-			  multiple="multiple" style="width:98%;">	
+			<select name="newsid[]" size="20" tabindex="<?php print $tab++;?>"multiple="multiple" style="width:98%;">	
 <?php
 	while($student=mysql_fetch_array($d_student,MYSQL_ASSOC)) {
 			print '<option ';
@@ -176,17 +174,17 @@ $value='';$description='';
 
 	  <div style="float:right;width:66%;">
 		<fieldset>
-		  <legend>
+		  <h5>
 			<?php print get_string('notesonclass',$book);?>
-		  </legend>
+		  </h5>
 		  <input name="detail" maxlength="240" tabindex="<?php print $tab++;?>" value="<?php print $detail;?>"/>
 		</fieldset>
 	  </div>
 	  <div style="float:right;width:66%;">
 		<fieldset>
-		  <legend>
+		  <h5>
 			<?php print get_string('coursecurriculum',$book);?>
-		  </legend>
+		  </h5>
 		  <textarea  tabindex="<?php print $tab++;?>" name="description" class="htmleditorarea" 
 					 id="Description" rows="3" cols="35"><?php print $classdescription;?></textarea>
 		</fieldset>

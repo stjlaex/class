@@ -1,4 +1,4 @@
-<?php
+ƒ<?php
 /**                                 student_view.php
  *
  *  A composite view of all informaiton for one sid
