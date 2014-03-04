@@ -306,7 +306,7 @@ print '<td>'.$displayout.'</td>';
                 $listname='selsavedview';
                 $selsavedview=$savedview;
                 $listlabel='';
-                $liststyle='width:16em;';
+                //$liststyle='width:16em;';
                 include ('scripts/set_list_vars.php');
                 list_select_db($d_c,$listoptions,$book);
             ?>

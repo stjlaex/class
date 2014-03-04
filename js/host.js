@@ -401,41 +401,7 @@ function loadRequired(book) {
         }
     }
 
-    /*    window.frames["view" + book].document.onscroll = temp1;
-     function temp1() {
-     var bookframeHeight = $('.bookframe').height();
-
-     if ($(window.frames["view" + book]).scrollTop() > 0) {
-     $(".bookoptions").slideToggle(300, function() {
-     $(".bookoptions").css("display", "none");
-     });
-     // $(".bookoptions").css("display", "none");
-
-     $('.bookframe').css('top', 90);
-     $('.bookframe').css('height', bookframeHeight + 90);
-     //$('#viewinfobook, #viewentrybook, #viewmarkbook').css('height', $('.bookframe').height() + 260);
-
-     //alert('test')
-     window.frames["view" + book].document.onscroll = temp
-     }
-     }
-
-     function temp() {
-     var bookframeHeight = $('.bookframe').height();
-     if ($(window.frames["view" + book]).scrollTop() == 0) {
-     $(".bookoptions").slideToggle(300, function() {
-     $(".bookoptions").css("display", "block");
-     });
-
-     $('.bookframe').css('top', 170);
-     $('#viewinfobook, #viewentrybook, #viewmarkbook').css('top', 260);
-     $('.bookframe').css('height', bookframeHeight - 90);
-     $('#viewinfobook, #viewentrybook, #viewmarkbook').css('height', bookframeHeight - 180);
-     window.frames["view" + book].document.onscroll = temp1
-     }
-     }*/
-
-    window.frames["view" + book].document.onscroll = temp1;
+    /*window.frames["view" + book].document.onscroll = temp1;
     function temp1() {
         //console.log('1', $(window.frames["view" + book]).scrollTop())
         //console.log(book)
@@ -452,8 +418,8 @@ function loadRequired(book) {
             }
             $('#view' + book).css('height', bheight);
 
-            //window.frames["view" + book].document.onscroll = null
-            window.frames["view" + book].document.onscroll = temp
+            window.frames["view" + book].document.onscroll = null
+            //window.frames["view" + book].document.onscroll = temp
         }
     }
 
@@ -477,7 +443,6 @@ function loadRequired(book) {
 
            window.frames["view" + book].document.onscroll = temp1
         }
-
-    }
+    }*/
 
 }

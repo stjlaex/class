@@ -23,7 +23,12 @@ a {
 a:hover {
   text-decoration: underline;
 }
-
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Lato', sans-serif;
+  font-weight: 400;
+  line-height: 1.1;
+  color: inherit;
+}
 h1 {
   font-size: 36px;
 }
@@ -35,26 +40,24 @@ h3 {
 }
 h4 {
   font-size: 21px;
+  margin-bottom: 20px;
+  font-weight: bold;
 }
 h5 {
   font-size: 18px;
+  margin-bottom: 10px;
 }
 h6 {
   font-size: 16px;
 }
-h1, h2, h3, h4, h5, h6 {
-  font-family: 'Lato', sans-serif;
-  font-weight: 400;
-  line-height: 1.1;
-  color: inherit;
-}
+
 ul, ul li {
   list-style: none;
 }
 .fa {
   color: #91c73e;
   font-size: 14px;
-  margin-right: 10px;
+  margin-right: 5px;
 }
 .selected.student .fa {
   color: #657585;
@@ -217,18 +220,6 @@ div.content {
   overflow: hidden;
   margin: 50px auto 0;
 }
-div.content fieldset, div.topcontent fieldset {
-  padding: 1%;
-  margin: 0;
-  background-color: #eeeeee;
-}
-div.divgroup fieldset label, fieldset.divgroup fieldset label {
-  background-color: #ddddee;
-  color: #666666 !important;
-}
-div.content fieldset.divgroup .subgroup, div.topform fieldset.divgroup .subgroup, div.divgroup .subgroup, fieldset.divgroup .subgroup {
-  background-color: #888888 !important;
-}
 
 /*a fixed height div, always at the top of the page before the content*/
 div.topform, div.topcontent {
@@ -262,14 +253,14 @@ div.content fieldset.right, div.topcontent fieldset.right, div.topform fieldset.
 }
 div.content fieldset.center, div.topcontent fieldset.center, div.topform fieldset.center {
   width: 100%;
-  padding: 0 2% 2%;
+  padding: 0 1% 0 2%;
 }
 
 div.content div.left, div.topcontent div.left, div.topform div.left {
   float: left;
   width: 47%;
   clear: left;
-  margin: 0 0 2% 2%;
+  margin: 0 2%;
 }
 div.content div.right, div.topcontent div.right, div.topform div.right {
   float: right;
@@ -289,14 +280,9 @@ div.content .fullwidth, div.topcontent .fullwidth, div.topform .fullwidth {
 
 /*used to describe page content in the space to the left of the top buttonmenu*/
 div#heading {
-  position: absolute;
-  top: 10px;
-  left: 5px;
-  margin-top: 2px;
-  padding: 3px 8px 3px 4px;
-  max-width: 55%;
-  z-index: 4000;
   font-size: 18px;
+  margin-top: 50px;
+  margin-left: 2%;
 }
 #heading div {
   padding: 0;
@@ -316,8 +302,8 @@ div.buttonmenu {
   padding: 10px 2.5%;
 }
 .buttongroup {
-  width: 50%;
-  float: left;
+  margin-left: 20px;
+  display: inline;
 }
 #heading span {
   clear: none;
@@ -520,8 +506,19 @@ ul.listmenu {
 
 /*fade to gray*/
 /*two shades of red*/
-.listmenu tr.hilite td, .listmenu td.hilite, tr.hilite a, .hilite {
-  background-color: #ff6600 !important;
+.listmenu tr.hilite td, .listmenu td.hilite, tr.hilite a {
+  background-color: #F39C12 !important;
+}
+.hilite a {
+  color: #FCE9CB !important;
+  background-color: #F39C12;
+  border-radius: 2px;
+  border: none;
+  font-size: 14px;
+  padding: 6px 10px;
+  margin-right:10px;
+  cursor: pointer;
+  display: inline-block;
 }
 .listmenu tr.midlite td, .listmenu td.midlite, .midlite {
   background-color: #ff9966 !important;
@@ -638,6 +635,7 @@ div.tinytabs {
 div.tinytab-display {
   overflow: auto;
   margin-bottom: 30px;
+  clear: right;
 }
 .tinytabs ul {
   float: left;
@@ -674,11 +672,10 @@ div.tinytab-display {
 /*some general colors used across all books*/
 .neutral, .negative, .positive {
   background-color: #ffffff;
-  padding: 5px;
 }
 .neutral, .neutral .fa {
   color: #1e2a37 !important;
-    background: none;
+  background: none;
 }
 .negative, .negative .fa {
   color: #e74c3c !important;
@@ -686,10 +683,7 @@ div.tinytab-display {
 }
 .positive, .positive .fa {
   color: #547324 !important;
-    background: none;
-}
-.checked.negative, .checked.positive, .checked.neutral  {
-  padding: 0;
+  background: none;
 }
 p.warn {
   color: #000000;
@@ -862,25 +856,15 @@ form img {
   text-align: center;
 }
 
-.edit .registerEdit, 
-[id^="add-extra-a-"] .registerEdit, 
-[id^="add-extra-p-"] .registerEdit, 
-.edit .registerEdit select, 
-[id^="add-extra-a-"] .registerEdit select, 
-[id^="add-extra-p-"] .registerEdit select, 
-.edit .registerEdit span, 
-[id^="add-extra-a-"] .registerEdit span, 
-[id^="add-extra-p-"] .registerEdit span {
+.edit .registerEdit, [id^="add-extra-a-"] .registerEdit, [id^="add-extra-p-"] .registerEdit, .edit .registerEdit select, [id^="add-extra-a-"] .registerEdit select, [id^="add-extra-p-"] .registerEdit select, .edit .registerEdit span, [id^="add-extra-a-"] .registerEdit span, [id^="add-extra-p-"] .registerEdit span {
   height: 20px !important;
   line-height: 20px !important;
 }
-.edit .registerEdit, [id^="add-extra-a-"] .registerEdit, [id^="add-extra-p-"] .registerEdit{
-  width:100px!important;
+.edit .registerEdit, [id^="add-extra-a-"] .registerEdit, [id^="add-extra-p-"] .registerEdit {
+  width: 100px !important;
 }
-.edit .registerEdit span, 
-[id^="add-extra-a-"] .registerEdit span, 
-[id^="add-extra-p-"] .registerEdit span {
-  width:75px!important;
+.edit .registerEdit span, [id^="add-extra-a-"] .registerEdit span, [id^="add-extra-p-"] .registerEdit span {
+  width: 75px !important;
 }
 
 button[value="Submit"] {
@@ -890,16 +874,12 @@ button[value="Submit"] {
 
 /*//// InforBook || Profile \\\\*/
 .profile {
-  padding: 2%!important;
+  padding: 2% !important;
   margin: 20px 2%;
   margin-top: 0;
   background-color: #ebedef;
   position: relative;
   overflow: hidden;
-}
-.profile  h4 {
-  margin-bottom: 20px;
-  font-weight: bold;
 }
 .profile .clicktoedit, .clicktoedit-bg {
   display: block;
@@ -986,6 +966,21 @@ button[value="Submit"] {
 }
 
 /* Info */
-.profile-sibling  {
+.profile-sibling {
   clear: left;
+}
+
+
+/* Special needs */
+div.content fieldset, div.topcontent fieldset {
+  padding: 2%;
+  margin: 0 0 20px;
+  background-color: #eeeeee;
+}
+
+.form-margin .divgroup p {
+  margin-bottom: 10px;
+}
+.assessment {
+  margin-top: 37px!important
 }

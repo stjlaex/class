@@ -3,10 +3,6 @@
  * light shade:
  */
 
-.admincolor fieldset, .admincolor div.topform, .admincolor table.listmenu {
-    border-color: #aa4444;
-    color: #000000;
-}
 .admincolor legend, .admincolor caption {
     border-color: #aa4444;
 }
