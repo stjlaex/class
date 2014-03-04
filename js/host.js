@@ -1,6 +1,7 @@
 $(document).ready(function() {
    $(window).resize(function() {
      //resizeFrame();
+     loadBook('');
      });
   });
 
@@ -8,6 +9,7 @@ function resizeFrame(height,top,book){
      $('#view' + book).css('height', height);
      $('#view' + book).css('top', top);
      }
+ 
 
 //--------------------------------------------------------
 //functions for the marktable to display columns from gradebox
@@ -445,7 +447,6 @@ function loadRequired(book) {
         }
     }*/
 
-}
     var previousScroll = new Array();
     previousScroll[book] = 0;
 

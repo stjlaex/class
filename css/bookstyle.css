@@ -193,8 +193,11 @@ div#bookbox {
   position: absolute;
   left: 0%;
   top: 0%;
-  width: 100%;
+  width: 96%;
   overflow: auto;
+  margin: 0 2%;
+  padding-bottom: 20px;
+  
 }
 .externalbookframe {
   position: absolute;
@@ -266,7 +269,7 @@ div.content div.right, div.topcontent div.right, div.topform div.right {
   float: right;
   width: 47%;
   clear: right;
-  margin: 0 2% 2% 0;
+  margin: 0 2% 0 0;
 }
 div.content .center, div.topcontent .center, div.topform .center {
   width: 100%;
@@ -340,8 +343,7 @@ button:hover {
 
 /* The micro-action buttons contianed inside content, usually for xmlHttprequests*/
 div.rowaction {
-  float: left;
-  padding: 0 10px;
+  padding: 5px;
 }
 .student .fa, .clicktoaction div, .clicktoemail, .clicktoedit, .clicktoconfigure, .clicktoprint, .completed {
   cursor: pointer;
@@ -976,6 +978,7 @@ div.content fieldset, div.topcontent fieldset {
   padding: 2%;
   margin: 0 0 20px;
   background-color: #eeeeee;
+  min-height: 100px;
 }
 
 .form-margin .divgroup p {
