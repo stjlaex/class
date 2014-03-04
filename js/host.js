@@ -396,53 +396,6 @@ function loadRequired(book) {
         }
     }
 
-<<<<<<< HEAD
-    /*window.frames["view" + book].document.onscroll = temp1;
-    function temp1() {
-        //console.log('1', $(window.frames["view" + book]).scrollTop())
-        //console.log(book)
-        var bookframeHeight = $('#view' + book).height();
-        if ($(window.frames["view" + book]).scrollTop() >  0) {
-            $('#' + book + "options").slideToggle(300, function() {
-                $('#' + book + "options").css("display", "none");
-            });
-            $('#view' + book).css('top', 80);
-            if (book == 'infobook' || book == 'entrybook' || book == 'markbook') {
-                var bheight = bookframeHeight + 180;
-            } else {
-                var bheight = bookframeHeight + 80;
-            }
-            $('#view' + book).css('height', bheight);
-
-            window.frames["view" + book].document.onscroll = null
-            //window.frames["view" + book].document.onscroll = temp
-        }
-    }
-
-    function temp() {
-        var bookframeHeight = $('#view' + book).height();
-        console.log('0', $(window.frames["view" + book])[0].document.getElementById('bookbox').clientHeight)
-        console.log($(window.frames["view" + book])[0].document.body.scrollHeight)
-        if ($(window.frames["view" + book]).scrollTop() == 0 ) {
-            $('#' + book + "options").slideToggle(300, function() {
-                $('#' + book + "options").css("display", "block");
-            });
-            if (book == 'infobook' || book == 'entrybook' || book == 'markbook') {
-                var btop = 260;
-                var bheight = bookframeHeight - 180;
-            } else {
-                var btop = 170;
-                var bheight = bookframeHeight - 80;
-            }
-            $('#view' + book).css('top', btop);
-            $('#view' + book).css('height', bheight);
-
-           window.frames["view" + book].document.onscroll = temp1
-        }
-    }*/
-
-=======
->>>>>>> 6416927f1b7003f02edab0e8dc11f0f793a9e11e
     var previousScroll = new Array();
     previousScroll[book] = 0;
 
@@ -459,7 +412,6 @@ function loadRequired(book) {
       resizeFrame(windowHeight - headerHeight, headerHeight, book);
       $(window.frames["view" + book]).scrollTop(2);
       }
-    
 
     /*default settings*/
     if(book!="logbook"){resizeFrame(windowHeight - headerHeight - menuHeight, menuHeight + headerHeight, book);}
