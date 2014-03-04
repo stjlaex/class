@@ -1,9 +1,3 @@
-$(document).ready(function() {
-   $(window).resize(function() {
-     //resizeFrame();
-     });
-  });
-
 function resizeFrame(height,top,book){
      $('#view' + book).css('height', height);
      $('#view' + book).css('top', top);
@@ -426,6 +420,7 @@ function loadRequired(book) {
 
     /*on frame's scroll resize the frame*/
     $(window.frames["view" + book]).scroll(function() {
+      var windowHeight = $(window).outerHeight(true);
       var currentScroll = new Array();
       currentScroll[book] = $(this).scrollTop();
         if(currentScroll[book] == 0) {
@@ -444,5 +439,10 @@ function loadRequired(book) {
             });
            }
          previousScroll[book] = currentScroll[book];
-   });
+     });
+   $(window).resize(function() {
+       var windowHeight = $(window).outerHeight(true);
+       if($('#' + book + "options").css("display")=="none"){resizeFrame(windowHeight - headerHeight, headerHeight, book);}
+       else{resizeFrame(windowHeight - headerHeight - menuHeight, menuHeight + headerHeight, book);}
+     });
 }
