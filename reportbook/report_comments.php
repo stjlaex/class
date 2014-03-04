@@ -27,6 +27,7 @@ three_buttonmenu($extrabuttons);
                     <?php include('scripts/jsdate-form.php'); ?>
                 </fieldset>
             </div>
+            <div class="row">
             <div class="left">
                 <fieldset class="divgroup">
                     <h5><?php print_string('collateuntil',$book);?></h5>
@@ -42,6 +43,7 @@ three_buttonmenu($extrabuttons);
                     include('scripts/list_category.php');
                 ?>
                 </fieldset>
+            </div>
             </div>
             <div class="left">
                 <fieldset class="divgroup" >
