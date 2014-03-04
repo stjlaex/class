@@ -1,17 +1,13 @@
 $(document).ready(function() {
-    function resizeFrame() {
-        var windowHeight = $(window).height();
-        $('.bookframe').css('height', windowHeight - 170);
-        $('#viewinfobook, #viewentrybook, #viewmarkbook').css('height', windowHeight - 260);
-        // alert(bookframeHeight);
-    }
+   $(window).resize(function() {
+     //resizeFrame();
+     });
+  });
 
-    resizeFrame();
-    $(window).resize(function() {
-        resizeFrame();
-    });
-
-});
+function resizeFrame(height,top,book){
+     $('#view' + book).css('height', height);
+     $('#view' + book).css('top', top);
+     }
 
 //--------------------------------------------------------
 //functions for the marktable to display columns from gradebox
@@ -304,6 +300,10 @@ function tinyTabs(tabObject) {
     }
 }
 
+
+var previousPage="";
+var previousPageScroll=0;
+
 /**
  * adds the images and attributes to required input fields
  * inits the js-calendar elements and the tooltip titles
@@ -402,51 +402,47 @@ function loadRequired(book) {
     }
 
     var previousScroll = new Array();
-    /*declare the scroll to 0 for all books*/
     previousScroll[book] = 0;
+
+    /*heights*/
+    var contentsHeight = $('#view' + book).contents().find("#bookbox").outerHeight(true);
+    var frameHeight = $('#view' + book).height();
+    var menuHeight = $('#' + book + "options").outerHeight(true);
+    var headerHeight = $('.booktabs').height();
+    var windowHeight = $(window).outerHeight(true);
+
+    var currentPage=$('#view' + book).contents().find("input[name='current']").val();
+    if(previousPage==currentPage && book!="logbook" && previousPageScroll>0){
+      $('#' + book + "options").css("display", "none");
+      resizeFrame(windowHeight - headerHeight, headerHeight, book);
+      $(window.frames["view" + book]).scrollTop(2);
+      }
+    
+
+    /*default settings*/
+    if(book!="logbook"){resizeFrame(windowHeight - headerHeight - menuHeight, menuHeight + headerHeight, book);}
+    if($('#' + book + "options").css("display")=="none"){$('#' + book + "options").css("display", "block");}
+    if(contentsHeight>=frameHeight && contentsHeight<=(frameHeight+menuHeight)){$('#view' + book).contents().find("#bookbox").css('padding-bottom',menuHeight);}
+
+    /*on frame's scroll resize the frame*/
     $(window.frames["view" + book]).scroll(function() {
-      /*on scroll gets the current iframe height and the current scrolling position*/ 
-      var bookframeHeight = $('#view' + book).height();
       var currentScroll = new Array();
       currentScroll[book] = $(this).scrollTop();
         if(currentScroll[book] == 0) {
-         //0=top shows the menu with toggle effect, resizes the frame and adds the top 
          $('#' + book + "options").slideToggle(300, function() {
-                 $('#' + book + "options").css("display", "block");
-                 if (book == 'infobook' || book == 'entrybook' || book == 'markbook') {
-                     /*top (2rows + header) and height for two rows menus*/
-                     var btop = 260;
-                     var bheight = bookframeHeight - 160;
-                   } else {
-                     /*top (1row + header) and height for one row menus*/
-                     var btop = 170;
-                     var bheight = bookframeHeight - 120;
-                   }
-                 $('#view' + book).css('top', btop);
-                 $('#view' + book).css('height', bheight);
+            $('#' + book + "options").css("display", "block");
+            resizeFrame(windowHeight - headerHeight - menuHeight, menuHeight + headerHeight, book);
+            previousPageScroll=0;
             });
-          }
-         /*previousscroll is 0 and the current position is greater than 0*/
-         /*we can use the 20 as the minimum value (px) we want to hide the menu so we have a padding for the hidden elements in tables (photo miniature, merits,etc)*/
-         /*else if (currentScroll[book] > 20 && previousScroll[book]==0){*/
+           }
          else if (currentScroll[book] > previousScroll[book] && previousScroll[book]==0){
-           //down
-
            $('#' + book + "options").slideToggle(300, function() {
               $('#' + book + "options").css("display", "none");
-              /*top is just the header*/
-              $('#view' + book).css('top', 80);
-              /*resize height*/
-              if (book == 'infobook' || book == 'entrybook' || book == 'markbook') {
-                var bheight = bookframeHeight + 160;
-                }
-              else {
-                var bheight = bookframeHeight + 120;
-                }
-              $('#view' + book).css('height', bheight);
+              resizeFrame(windowHeight - headerHeight, headerHeight, book);
+              previousPage=currentPage;
+              previousPageScroll=1;
             });
-         }
-         /*the last known position is now the current position*/
+           }
          previousScroll[book] = currentScroll[book];
    });
 }
