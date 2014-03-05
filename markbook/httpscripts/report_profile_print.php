@@ -113,6 +113,52 @@ else{
 		$prev_AssDefs=(array)fetch_cohortAssessmentDefinitions($prevcohort,$profile['id']);
 		$AssDefs=(array)array_merge($AssDefs,$prev_AssDefs);
 		}
+	elseif($profile['transform']=='tracking_chart_cats'){
+		$pid='%';
+		$bid='%';
+		$prevcohort=array('id'=>'','course_id'=>$crid,'stage'=>'%','year'=>'%');
+		//$prev_AssDefs=(array)fetch_cohortAssessmentDefinitions($prevcohort,$profile['id']);
+		//$AssDefs=(array)array_merge($AssDefs,$prev_AssDefs);
+		}
+	elseif($profile['transform']=='tracking_chart_pimpie'){
+		if($profilename=="PIE"){$subject="Eng";}
+		elseif($profilename=="PIM"){$subject="Mat";}
+		$bid='';
+		$pid='';
+		$subject=trim($subject);
+		$d_sub=mysql_query("SELECT subject_id FROM 
+				component WHERE course_id='$crid' AND subject_id='$subject' AND id='';");
+		if(mysql_num_rows($d_sub)==0){
+			$d_com=mysql_query("SELECT subject_id FROM 
+					component WHERE course_id='$crid' AND id='$subject';");
+			if(mysql_num_rows($d_com)>0){
+				/* If the subject is a component. */
+				$bid=mysql_result($d_com,0);
+				$d_com=mysql_query("SELECT subject_id FROM 
+					component WHERE course_id='$crid' AND id='$bid';");
+				if(mysql_num_rows($d_com)>0){
+					/* Or it could be a strand. */
+					$bid=mysql_result($d_com,0);
+					}
+				$pid=$subject;
+				}
+			elseif($subject=='G'){
+				$bid='G';
+				$pid='';
+				}
+			elseif($subject[0]=='#'){
+				$bid=$subject;
+				$pid='';
+				}
+			}
+		else{
+			$bid=$subject;
+			$pid='';
+			}
+		$prevcohort=array('id'=>'','course_id'=>$crid,'stage'=>'%','year'=>'%');
+		//$prev_AssDefs=(array)fetch_cohortAssessmentDefinitions($prevcohort,$profile['id']);
+		//$AssDefs=(array)array_merge($AssDefs,$prev_AssDefs);
+		}
 	elseif($profile['transform']=='tracking_sheet'){
 		$pid='%';$bid='%';
 		$AssDefs=(array)fetch_cohortAssessmentDefinitions($cohort,$profile['id']);

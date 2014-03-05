@@ -91,12 +91,15 @@ $displayfields_width=60/$displayfields_no.'%';
 /* Include any general assessments plus their re-enrolment status for next year. */
 $enrolyear=get_curriculumyear()+1;
 $ReenrolAssDefs=fetch_enrolmentAssessmentDefinitions('','RE',$enrolyear);
-$EnrolAssDefs=array_merge(fetch_enrolmentAssessmentDefinitions(),$ReenrolAssDefs);
-if(sizeof($EnrolAssDefs)>0) {
-foreach($EnrolAssDefs as $AssDef) {
-$extra_studentfields['Assessment'.$AssDef['id_db']]=$AssDef['Description']['value'];
-}
-}
+
+$EnrolAssDefs=array_merge(fetch_enrolmentAssessmentDefinitions(),$ReenrolAssDefs); 
+$EnrolAssDefs=array_merge(fetch_enrolmentAssessmentDefinitions('','M'),$EnrolAssDefs);
+if(sizeof($EnrolAssDefs)>0){
+	foreach($EnrolAssDefs as $AssDef){
+		$extra_studentfields['Assessment'.$AssDef['id_db']]=$AssDef['Description']['value'];
+		}
+	}
+
 $extrabuttons=array();
 if(($_SESSION['role']=='office' or $_SESSION['role']=='admin') and $CFG->studentname_order=='surname') {
 $displayname='DisplayFullSurname';
@@ -249,29 +252,46 @@ include ('scripts/studentlist_shortcuts.php');
 			<div class="merit" id="merit-<?php print $sid; ?>"></div>
 		  </td>
 <?php
-foreach($displayfields as $displayfield) {
-if(!array_key_exists($displayfield,$Student)) {
-$field=fetchStudent_singlefield($sid,$displayfield,$privfilter);
-$Student=array_merge($Student,$field);
-}
-if(isset($Student[$displayfield]['type_db']) and $Student[$displayfield]['type_db']=='enum') {
-$displayout=displayEnum($Student[$displayfield]['value'],$Student[$displayfield]['field_db']);
-$displayout=get_string($displayout,$book);
-} elseif(isset($Student[$displayfield]['type_db']) and $Student[$displayfield]['type_db']=='date') {
-$displayout=display_date($Student[$displayfield]['value']);
-} elseif(!isset($Student[$displayfield]['value'])) {
-/* This is for the Tutor field or any which has multiple values to combine. */
-$displayout='';
-foreach($Student[$displayfield] as $displayfieldvalue) {
-$displayout.=' '.$displayfieldvalue['value'];
-}
-} elseif($displayfield!='') {
-$displayout=$Student[$displayfield]['value'];
-} else {
-$displayout='';
-}
-print '<td>'.$displayout.'</td>';
-}
+
+		foreach($displayfields as $displayfield){
+			if(!array_key_exists($displayfield,$Student)){
+				$field=fetchStudent_singlefield($sid,$displayfield,$privfilter);
+				$Student=array_merge($Student,$field);
+				}
+			if(isset($Student[$displayfield]['type_db'])  
+			   and $Student[$displayfield]['type_db']=='enum'){
+				$displayout=displayEnum($Student[$displayfield]['value'],$Student[$displayfield]['field_db']);
+				$displayout=get_string($displayout,$book);
+				}
+			elseif(isset($Student[$displayfield]['type_db'])  
+				   and $Student[$displayfield]['type_db']=='date'){
+					$displayout=display_date($Student[$displayfield]['value']);
+				}
+			elseif(!isset($Student[$displayfield]['value'])){
+				/* This is for the Tutor field or any which has multiple values to combine. */
+				$displayout='';
+				foreach($Student[$displayfield] as $displayfieldvalue){
+					$displayout.=' '.$displayfieldvalue['value'];
+					}
+				}
+			elseif($displayfield!=''){
+				$displayout=$Student[$displayfield]['value'];
+				}
+			else{
+				$displayout='';
+				}
+			if(substr($displayfield, 0, 10)=="Assessment"){
+				$edisplayfield=str_split($displayfield, 10);
+				$eid=$edisplayfield[1];
+				$Assessments=(array)fetchAssessments_short($sid,$eid,'G');
+				if($Assessments[0]['Comment']['value']!=""){
+					$extra=$Assessments[0]['Comment']['value'];
+					$displayout="<span title='$extra'>".$displayout."</span>";
+					}
+				}
+			print '<td>'.$displayout.'</td>';
+			}
+
 ?>
 		</tr>
 <?php
@@ -365,9 +385,14 @@ print '<td>'.$displayout.'</td>';
 include ('scripts/studentlist_extra.php');
 ?>
 
+<?php
+	if($CFG->tempinfosheet!=''){$profileprint=$CFG->tempinfosheet;}
+	else{$profileprint="student_profile_print";}
+?>
 	<div id="xml-profile" style="display:none;">
 	  <params>
-		<transform>student_profile_print</transform>
+		<checkname>sids</checkname>
+		<transform><?php print $profileprint;?></transform>
 		<paper>portrait</paper>
 	  </params>
 	</div>

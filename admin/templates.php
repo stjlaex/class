@@ -32,6 +32,8 @@ $extrabuttons['save']=array('name'=>'current','value'=>'templates_action.php');
 two_buttonmenu($extrabuttons);
 
 $templates=getTemplates();
+$messages=getTemplates('mes');
+if(count($messages)>0){$templates=array_merge($templates,$messages);}
 ?>
   <div style="margin-top:50px;">
 	<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host; ?>" >
@@ -72,14 +74,18 @@ $templates=getTemplates();
 			<label style="color:#FFFFEE !important"><?php print_string('templatename',$book);?></label>
 			<input type="text" id="template_name" name="template_name">
 			<div style="float:right"><label style="color:#FFFFEE !important"><?php print_string('templates',$book);?></label>
-			<select id="templates" onchange="processObject(this)">
-				<option> </option>
+			<select id="templates" name="template" onchange="processObject(this)">
+				<option value="-1"> </option>
 <?php
+				$options="";$contents="";
 				foreach($templates as $template){
-					echo "<option value='".$template['comment']."'>".$template['name']."</option>";
+					$options.="<option value='".$template['id']."'>".$template['name']."</option>";
+					$contents.="<textarea id='template".$template['id']."' style='display:none;'>".$template['comment']."</textarea>";
 					}
+				echo $options;
 ?>
 			</select></div><br><br><br>
+			<?php echo $contents;?>
 			<textarea id="code" name='content' style="width:47%;float:left" rows="30"></textarea>
 			<div id="preview" style="float:right;width:47%;background:#ffffff !important;height:395px;"></div>
 		</fieldset>

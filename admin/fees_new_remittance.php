@@ -83,6 +83,10 @@ $Remittance=fetchRemittance($remid);
 		<div class="center">
 		  <?php xmlelement_div($Remittance['EnrolmentStatus'],'',$tab,'center','admin');?>
 		</div>
+		<div class="center">
+		  <label><?php print_string("editstudents",$book);?></label>
+		  <input type="checkbox" name="editsids" value="true">
+		</div>
 <?php
 		$yeargroups=list_yeargroups();
 ?>

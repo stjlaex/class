@@ -19,3 +19,15 @@ p.reporttable a.vspecial {
 p.reporttable a.special { 
     background-color:#ffff99;
 	}
+.deletecolumns {
+    background-color:#666666 !important;
+	}
+
+tr.specialrow td {
+    background-color:#eb3939 !important;
+    padding-left:0 !important;
+	}
+
+.listmenu td {
+    padding-left:0 !important;
+	}

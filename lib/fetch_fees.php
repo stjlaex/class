@@ -32,7 +32,9 @@ function fetchAccount($fetchid=-1,$idname='guardian_id'){
 					AES_DECRYPT(bankcode,'$access') AS bankcode,
 					AES_DECRYPT(bankcountry,'$access') AS bankcountry, 
 					AES_DECRYPT(bankcontrol,'$access') AS bankcontrol, 
-					AES_DECRYPT(banknumber,'$access') AS banknumber  
+					AES_DECRYPT(banknumber,'$access') AS banknumber, 
+					AES_DECRYPT(iban,'$access') AS iban,
+					AES_DECRYPT(bic,'$access') AS bic
 					FROM fees_account WHERE $idname='$fetchid' AND id!='1';");
 		$a=mysql_fetch_array($d_a,MYSQL_ASSOC);
 		if(mysql_numrows($d_a)>0){
@@ -43,7 +45,7 @@ function fetchAccount($fetchid=-1,$idname='guardian_id'){
 			mysql_query("INSERT INTO fees_account SET guardian_id='$fetchid', valid='0';");
 			$accid=mysql_insert_id();
 			$gid=$fetchid;
-			$a=array('bankname'=>'','accountname'=>'','bankcountry'=>'','bankcode'=>'','bankbranch'=>'','bankcontrol'=>'','banknumber'=>'');
+			$a=array('bankname'=>'','accountname'=>'','bankcountry'=>'','bankcode'=>'','bankbranch'=>'','bankcontrol'=>'','banknumber'=>'','iban'=>'','bic'=>'');
 			}
 
 		if($a['accountname']=='' and $gid!=-1){
@@ -56,7 +58,7 @@ function fetchAccount($fetchid=-1,$idname='guardian_id'){
 
 		}
 	else{
-		$a=array('bankname'=>'','accountname'=>'','bankcountry'=>'','bankcode'=>'','bankbranch'=>'','bankcontrol'=>'','banknumber'=>'');
+		$a=array('bankname'=>'','accountname'=>'','bankcountry'=>'','bankcode'=>'','bankbranch'=>'','bankcontrol'=>'','banknumber'=>'','iban'=>'','bic'=>'');
 		}
 
 	$Account['id_db']=$accid;
@@ -110,6 +112,20 @@ function fetchAccount($fetchid=-1,$idname='guardian_id'){
 							 'type_db' => 'varchar(20)', 
 							 'value' => ''.$a['banknumber']
 							 );
+	$Account['Iban']=array('label' => 'iban', 
+							 //'inputtype'=> 'required',
+							 'table_db' => 'fees_account', 
+							 'field_db' => 'iban',
+							 'type_db' => 'varchar(35)', 
+							 'value' => ''.$a['iban']
+							 );
+	$Account['Bic']=array('label' => 'bic', 
+							 //'inputtype'=> 'required',
+							 'table_db' => 'fees_account', 
+							 'field_db' => 'bic',
+							 'type_db' => 'varchar(12)', 
+							 'value' => ''.$a['bic']
+							 );
 	return $Account;
 	}
 
@@ -143,10 +159,13 @@ function fetchFeesInvoice($invoice=array('id'=>'-1')){
 	else{
 		$d_c=mysql_query("SELECT SUM(c.amount) AS totalamount, c.paymenttype, c.student_id 
 							FROM fees_charge AS c WHERE c.invoice_id='$invid';");
+		$d_i=mysql_query("SELECT remittance_id FROM fees_invoice WHERE id='$invid';");
 		$c=mysql_fetch_array($d_c,MYSQL_ASSOC);
 		$sid=$c['student_id'];
 		$Student=(array)fetchStudent_short($sid);
 		$charges=(array)list_invoice_charges($invid);
+		$remid=mysql_result($d_i,0);
+		$Remittance=(array)fetchRemittance($remid);
 		$Account=fetchAccount($invoice['account_id'],'id');
 		$gid=$Account['guardian_id_db'];
 		$d_gidaid=mysql_query("SELECT * FROM gidaid WHERE guardian_id='$gid' ORDER BY priority;");
@@ -180,6 +199,9 @@ function fetchFeesInvoice($invoice=array('id'=>'-1')){
 											   );
 	$Invoice['AccountName']=array('label' => 'name', 
 								  'value' => ''.$Account['AccountName']['value']
+								  );
+	$Invoice['RemittanceName']=array('label' => 'remittance', 
+								  'value' => ''.$Remittance['Name']['value']
 								  );
 	$Invoice['Address']=$Address;
 	$Invoice['Charges']=array();

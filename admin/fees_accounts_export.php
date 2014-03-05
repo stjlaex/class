@@ -92,14 +92,18 @@ function acreedorIdDigits($string){
 		foreach($Accounts as $Account){
 			$gid=$Account['guardian_id_db'];
 			$Relationships=array();
+			$current="";
 			$Contact=fetchContact(array("guardian_id"=>$gid));
-			$d_relationship=mysql_query("SELECT relationship,student_id FROM gidsid WHERE guardian_id='$gid';");
+			$d_relationship=mysql_query("SELECT relationship,student_id,paymenttype FROM gidsid WHERE guardian_id='$gid';");
 			while($rel=mysql_fetch_array($d_relationship,MYSQL_ASSOC)){
 				$Student=fetchStudent($rel['student_id']);
-				$Relationships[]=$Student['DisplayFullName']['value'].": ".get_string(displayEnum($rel['relationship'], 'relationship'),'infobook');
+				if($Student['EnrolmentStatus']['value']=="C"){
+					if($rel['paymenttype']==1){$current=true;}
+					$Relationships[]=$Student['DisplayFullName']['value'].": ".get_string(displayEnum($rel['relationship'], 'relationship'),'infobook');
+					}
 				}
-	
-			if($Account['Number']['value']!=''){
+
+			if($Account['Number']['value']!='' and $current){
 				$digits=acreedorIdDigits($Account['BankCode']['value'].$Account['Branch']['value'].$Account['Control']['value'].$Account['Number']['value']);
 				$IBAN="ES".$digits.$Account['BankCode']['value'].$Account['Branch']['value'].$Account['Control']['value'].$Account['Number']['value'];
 				$phones='';

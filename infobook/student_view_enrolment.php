@@ -78,9 +78,11 @@ include('scripts/perm_action.php');
 		$eid=$AssDef['id_db'];
 		$input_elements.=' <input type="hidden" name="eids[]" value="'.$eid.'" />';
 		$gena=$AssDef['GradingScheme']['value'];
+		$label=$AssDef['PrintLabel']['value'];
 		$Assessments=(array)fetchAssessments_short($sid,$eid,'G');
 		if(sizeof($Assessments)>0){$value=$Assessments[0]['Value']['value'];}
 		else{$value='';}
+		$extra=$Assessments[0]['Comment']['value'];
 ?>
 		  <tr>
 			  <td>
@@ -104,6 +106,15 @@ include('scripts/perm_action.php');
 ?>
 				</select>
 <?php
+			if($label=='extra'){
+?>
+			  <div id="extra<?php echo $eid;?>">
+				<label>Extra info</label>
+				<input type="text" tabindex="<?php print $tab++;?>" size="5"
+				  name="extra<?php echo $eid;?>" value="<?php print $extra;?>"/>
+			  </div>
+<?php
+				}
 			}
 		else{
 ?>

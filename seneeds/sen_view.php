@@ -207,9 +207,9 @@ $SEN=fetchSEN($sid,$senhid);
      	<input type="hidden" name="choice" value="<?php print $current;?>"/>
      	<input type="hidden" name="cancel" value=""/>
 	</form>
-    <?php
+<?php
     	$senhistories=(array)list_student_senhistories($sid);
-    ?>
+?>
 <div id="records" class="left">
     <fieldset class="divgroup">
 		<h5><?php print_string('records','admin');?></h5>
@@ -242,6 +242,12 @@ $SEN=fetchSEN($sid,$senhid);
 		 </div>
 <?php
     }
+?>
+	  </fieldset>
+	  <fieldset class="right" style="background-color:#666666;">
+<?php
+	require_once('lib/eportfolio_functions.php');
+	html_document_drop($Student['EPFUsername']['value'],'support',$senhid,$sid);
 ?>
 	  </fieldset>
 </div>

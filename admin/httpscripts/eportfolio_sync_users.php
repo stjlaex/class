@@ -88,6 +88,20 @@ require_once($CFG->installpath.'/'.$CFG->applicationdirectory.'/lib/eportfolio_f
 			elgg_join_community($epfuid,$com);
 			}
 		$staff[$Newuser['Username']['value']]=$epfuid;
+		/* Check if a profile photo has been cached and up load as an icon. */
+		$filename=$user['epfusername'] .'.jpeg';
+		$filepath=$CFG->eportfolio_dataroot . '/icons/' . substr($user['epfusername'],0,1) . '/' . $user['epfusername'].'/'.$filename;
+		if(file_exists($filepath)){
+			$description=$user['epfusername'];
+			$filedata=array();
+			$file_batch=array();
+			$filedata['foldertype']='icon';
+			$filedata['description']=$description;
+			$filedata['title']=$description;
+			$file_batch[]=array('epfusername'=>$user['epfusername'],'filename'=>$filename);
+			$filedata['batchfiles']=$file_batch;
+			elgg_upload_files($filedata,true);
+			}
 		}
 
 	foreach($yearcoms as $com){
@@ -174,9 +188,9 @@ require_once($CFG->installpath.'/'.$CFG->applicationdirectory.'/lib/eportfolio_f
 
 			/* Check if a profile photo has been cached and up load as an icon. */
 			$filename=$epfun .'.jpeg';
-			$filepath=$CFG->eportfolio_dataroot . '/cache/images/' . $filename;
+			$filepath=$CFG->eportfolio_dataroot . '/icons/' . substr($epfun,0,1) . '/' . $epfun.'/'.$filename;
 			if(file_exists($filepath)){
-				$description=get_yeargroupname($yid);					
+				$description=get_yeargroupname($yid);
 				$filedata=array();
 				$file_batch=array();
 				$filedata['foldertype']='icon';

@@ -222,6 +222,7 @@ function list_subject_components($bid,$crid,$compstatus='A',$curryear=''){
 
 	if($compstatus=='A'){$compmatch="(component.status LIKE '%' AND component.status!='U')";}
 	elseif($compstatus=='AV'){$compmatch="(component.status='V' OR component.status='O')";}
+	elseif($compstatus=='U'){$compmatch="(component.status LIKE '%')";}
 	else{$compmatch="(component.status LIKE '$compstatus' AND component.status!='U')";}
 	if($bid!='' and $crid!=''){
 		if($bid!='%'){
@@ -992,9 +993,13 @@ function populate_subjectclassdef($classdef,$currentseason='S'){
 						}
 					}
 				}
+			$classdef['class_id']=$cid;
+			$classdef['cohid']=$cohid;
+			$classes[]=$classdef;
 			}
 		/*finished with this cid*/
 		}
+		generate_class_assessment_columns($classes);
 	}
 
 

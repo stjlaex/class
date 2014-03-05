@@ -104,7 +104,7 @@ elseif($contactno==-1){
   </div>
 <?php
 	}
-three_buttonmenu($extrabuttons,$book);
+threeplus_buttonmenu($contactno,sizeof($gids),$extrabuttons,$book,"guardian");
 ?>
   <div class="content" id="viewcontent">
 	<form id="formtoprocess" name="formtoprocess" method="post" autocomplete="off" novalidate="novalidate" action="<?php print $host;?>">
@@ -223,6 +223,8 @@ three_buttonmenu($extrabuttons,$book);
 		else{
 			require_once('lib/fetch_fees.php');
 			$Account=(array)fetchAccount($gid);
+			if(checkIBAN($Account['Iban']['value']) or $Account['Iban']['value']==''){$valid='true';}
+			else{$valid='false';}
 ?>
 		<div class="right">
 		  <?php $tab=xmlarray_form($Account,'','bankdetails',$tab,$book); ?>
@@ -248,3 +250,13 @@ three_buttonmenu($extrabuttons,$book);
  	<input type="hidden" name="choice" value="<?php print $choice;?>">
 	</form>
   </div>
+
+  <script>
+	$(document).ready(function () {
+		var valid=<?php echo $valid;?>;
+		if(!valid){
+			var message='IBAN is invalid';
+			alert(message);
+			}
+	  });
+  </script>

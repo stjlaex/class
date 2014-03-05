@@ -61,7 +61,12 @@ if(isset($_GET['openid'])){$openid=$_GET['openid'];}
 		<div class="listmenu fileupload">
 <?php
 		require_once('../../lib/eportfolio_functions.php');
-		html_document_drop($Student['EPFUsername']['value'],'assessment',$eid);
+		if($openid=="epfsharedfile"){
+			html_document_drop($Student['EPFUsername']['value'],'assessment',$eid,'',$openid);
+			}
+		else{
+			html_document_drop($Student['EPFUsername']['value'],'assessment',$eid);
+			}
 ?>
 		</div>
 
@@ -71,10 +76,12 @@ if(isset($_GET['openid'])){$openid=$_GET['openid'];}
 
 		<div class="listmenu fileupload">
 		  <div class="center">
+<?php
+if($openid!="epfsharedfile"){
+?>
 		  <fieldset class="right documentdrop">
 <?php
-
-if($_SESSION['worklevel']>-1 and ($CFG->emailguardiancomments=='yes' or ($CFG->emailguardiancomments=='limit' and $perm['x']==1))){
+	if($_SESSION['worklevel']>-1 and ($CFG->emailguardiancomments=='yes' or ($CFG->emailguardiancomments=='limit' and $perm['x']==1))){
 		$checkname='sharewithparents';
 		$checkcaption=get_string('sharewithguardian','infobook');
 		$checkalert=get_string('sharecommentalert','infobook');
@@ -90,6 +97,9 @@ if($_SESSION['worklevel']>-1 and ($CFG->emailguardiancomments=='yes' or ($CFG->e
 				style="height:80px;" tabindex="<?php print $tab++;?>"  
 				name="comment" ></textarea>
 		  </fieldset>
+<?php
+	}
+?>
 		  </div>
 		</div>
 

@@ -58,9 +58,12 @@ $string['gender']='Gender';
 $string['dateofbirth']='Date of birth';
 $string['next']='Next';
 $string['previous']='Previous';
+$string['nextcontact']='Next Contact';
+$string['previouscontact']='Previous Contact';
 $string['student']='Student';
 $string['students']='Students';
 $string['noinfo']='No information';
+$string['upn']='Unique Pupil Number';
 $string['nopermissions']='You do not have the permissions to edit this!';
 $string['edit']='Edit';
 $string['selectresponsibility']='You need to select a responsibility to work with, instead of \'My classes\'.';
@@ -78,6 +81,11 @@ $string['year']='Year';
 $string['category']='Category';
 $string['fails']='Fails';
 $string['priority']='Priority';
+$string['columnno']='Column Number';
+$string['assessmentcolumnstart']='Assessment Column Start';
+$string['headers']='Headers';
+$string['other']='Other';
+$string['profile']='Profile';
 $string['youneedtoselectstudents']='You need to select one or more students from the list.';
 $string['printwindowwillopen']='A print window will open in a moment.';
 $string['printselected']='Preview';
@@ -242,9 +250,12 @@ one child at the school then your password maybe the matriculation
 number for either the eldest or youngest child. If you need any
 further help then please refer to the information on ClaSSic.</p>
 ';
-$string['epfcommentemail']='<p>Dear Parent,</p><p>There is a new comment on ClaSSic about '."\$a". 
+$string['epfcommentemail']='<p>Dear Parent,</p><p>There is a new comment on Classic about '."\$a". 
 	'.</p><p>Please follow the link below to access it:</p>';
 $string['epfcommenttitle']='New comment from';
+$string['epfreportemail']='<p>Dear Parent,</p><p>There is a new report on Classic about '."\$a". 
+	'.</p><p>Please follow the link below to access it:</p>';
+$string['epfreporttitle']='New report from';
 $string['passwords']='Passwords';
 $string['statementbank']='Statement bank';
 $string['subjectcomponent']='Subject component';
@@ -483,4 +494,6 @@ $string['strong']='Strong';
 $string['paragraph']='Paragraph';
 $string['underlined']='Underlined';
 $string['emphasized']='Emphasized';
+$string['iban']='IBAN';
+$string['bic']='BIC';
 ?>
