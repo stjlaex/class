@@ -469,21 +469,6 @@ twoplus_buttonmenu($sidskey, sizeof($sids), $extrabuttons);
 </form>
 </div>
 <?php
-<<<<<<< HEAD
-    if($CFG->tempinfosheet!=''){$profileprint=$CFG->tempinfosheet;}
-    else{$profileprint="student_profile_print";}
-?>
-    <div id="xml-profile" style="display:none;">
-      <params>
-        <sids><?php print $sid;?></sids>
-        <transform><?php print $profileprint;?></transform>
-        <paper>portrait</paper>
-      </params>
-    </div>
-    
-    
-    
-=======
 	if($CFG->tempinfosheet!=''){$profileprint=$CFG->tempinfosheet;}
 	else{$profileprint="student_profile_print";}
 ?>
@@ -494,4 +479,3 @@ twoplus_buttonmenu($sidskey, sizeof($sids), $extrabuttons);
 		<paper>portrait</paper>
 	  </params>
 	</div>
->>>>>>> master
