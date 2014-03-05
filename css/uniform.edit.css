@@ -266,13 +266,11 @@ select.uniform-multiselect:focus {
 }
 
 select.uniform-multiselect option {
-  font-size: x-small;
+  font-size: 12px;
   background-color: #ebedef;
-  width: 160px;
   color: #657585;
   padding: 0 5px;
   font-family: 'Lato', sans-serif;
-  /*font-size: 12px;*/
 
 }
 

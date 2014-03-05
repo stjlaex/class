@@ -24,9 +24,8 @@
 
 ?>
 
-<div class="center"> 
   <label for="Reports"><?php print_string('reports');?></label>
-  <select style="width:70%;" id="Reports" name="wrapper_rid"
+  <select  id="Reports" name="wrapper_rid"
 	  class="required"  tabindex="<?php print $tab++;?>" size="14" >
 	  <option value="">----<?php print_string('current');?>----------------</option>
 <?php
@@ -54,4 +53,3 @@
  		}
 ?>
   </select>
-</div>
