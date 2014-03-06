@@ -261,19 +261,18 @@ div.content fieldset.center, div.topcontent fieldset.center, div.topform fieldse
 
 div.content div.left, div.topcontent div.left, div.topform div.left {
   float: left;
-  width: 47%;
+  width: 49%;
   clear: left;
-  margin: 0 2%;
+  margin: 0;
 }
 div.content div.right, div.topcontent div.right, div.topform div.right {
   float: right;
-  width: 47%;
+  width: 49%;
   clear: right;
-  margin: 0 2% 0 0;
+  margin: 0;
 }
 div.content .center, div.topcontent .center, div.topform .center {
   width: 100%;
-  margin: 30px 0 10px;
 }
 div.content .fullwidth, div.topcontent .fullwidth, div.topform .fullwidth {
   margin: 0 1% 2% 1%;
@@ -285,7 +284,7 @@ div.content .fullwidth, div.topcontent .fullwidth, div.topform .fullwidth {
 div#heading {
   font-size: 18px;
   margin-top: 50px;
-  margin-left: 2%;
+  margin-bottom: -30px;
 }
 #heading div {
   padding: 0;
@@ -509,7 +508,8 @@ ul.listmenu {
 /*fade to gray*/
 /*two shades of red*/
 .listmenu tr.hilite td, .listmenu td.hilite, tr.hilite a {
-  background-color: #F39C12 !important;
+  color: #FCE9CB !important;
+  background-color: #F39C12!important;
 }
 .hilite a {
   color: #FCE9CB !important;
@@ -983,6 +983,9 @@ div.content fieldset, div.topcontent fieldset {
 
 .form-margin .divgroup p {
   margin-bottom: 10px;
+}
+.divgroup .registerEdit, .divgroup .right, .divgroup .registerEdit {
+  margin-bottom: 5px!important;
 }
 .assessment {
   margin-top: 37px!important

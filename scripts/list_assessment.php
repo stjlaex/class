@@ -75,9 +75,9 @@
 	if(!isset($required)){$required='yes';}
 	if(!isset($multi)){$multi='10';}
 	if(!isset($ieid)){$ieid='';}else{$ieid++;}
-?>
+?><br />
 	<label for="Assessments"><?php print_string('assessment');?></label>
-	<select style="width:30em;" id="Assessments" tabindex="<?php print $tab++;?>"
+	<select id="Assessments" tabindex="<?php print $tab++;?>"
 		<?php if($required=='yes'){ print ' class="required" ';} ?>
 		size="<?php print $multi;?>"
 		<?php if($multi>1){print ' name="eids'.$ieid.'[]" multiple="multiple"';}

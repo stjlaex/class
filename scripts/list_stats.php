@@ -17,7 +17,7 @@ if(!isset($multi)){$multi="10";}
 				FROM stats WHERE (course_id LIKE '$crid' or
 				course_id='%') ORDER BY id DESC");
 ?>
-	<select style="width:20em;" id="Stats"
+	<select id="Stats"
 	<?php if($required=='yes'){ print ' class="required" ';} ?>
 	size="<?php print $multi;?>"
 	<?php if($multi>1){print 'name="statids[]" multiple="multiple" ';}
