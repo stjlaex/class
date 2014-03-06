@@ -397,50 +397,6 @@ function loadRequired(book) {
         }
     }
 
-    /*window.frames["view" + book].document.onscroll = temp1;
-     function temp1() {
-     //console.log('1', $(window.frames["view" + book]).scrollTop())
-     //console.log(book)
-     var bookframeHeight = $('#view' + book).height();
-     if ($(window.frames["view" + book]).scrollTop() >  0) {
-     $('#' + book + "options").slideToggle(300, function() {
-     $('#' + book + "options").css("display", "none");
-     });
-     $('#view' + book).css('top', 80);
-     if (book == 'infobook' || book == 'entrybook' || book == 'markbook') {
-     var bheight = bookframeHeight + 180;
-     } else {
-     var bheight = bookframeHeight + 80;
-     }
-     $('#view' + book).css('height', bheight);
-
-     window.frames["view" + book].document.onscroll = null
-     //window.frames["view" + book].document.onscroll = temp
-     }
-     }
-
-     function temp() {
-     var bookframeHeight = $('#view' + book).height();
-     console.log('0', $(window.frames["view" + book])[0].document.getElementById('bookbox').clientHeight)
-     console.log($(window.frames["view" + book])[0].document.body.scrollHeight)
-     if ($(window.frames["view" + book]).scrollTop() == 0 ) {
-     $('#' + book + "options").slideToggle(300, function() {
-     $('#' + book + "options").css("display", "block");
-     });
-     if (book == 'infobook' || book == 'entrybook' || book == 'markbook') {
-     var btop = 260;
-     var bheight = bookframeHeight - 180;
-     } else {
-     var btop = 170;
-     var bheight = bookframeHeight - 80;
-     }
-     $('#view' + book).css('top', btop);
-     $('#view' + book).css('height', bheight);
-
-     window.frames["view" + book].document.onscroll = temp1
-     }
-     }*/
-
     var previousScroll = new Array();
     previousScroll[book] = 0;
 
@@ -451,12 +407,12 @@ function loadRequired(book) {
     var headerHeight = $('.booktabs').height();
     var windowHeight = $(window).outerHeight(true);
 
-    var currentPage = $('#view' + book).contents().find("input[name='current']").val();
-    if (previousPage == currentPage && book != "logbook" && previousPageScroll > 0) {
-        $('#' + book + "options").css("display", "none");
-        resizeFrame(windowHeight - headerHeight, headerHeight, book);
-        $(window.frames["view" + book]).scrollTop(2);
-    }
+    var currentPage=$('#view' + book).contents().find("input[name='current']").val();
+    if(previousPage==currentPage && book!="logbook" && previousPageScroll>0){
+      $('#' + book + "options").css("display", "none");
+      resizeFrame(windowHeight - headerHeight, headerHeight, book);
+      $(window.frames["view" + book]).scrollTop(2);
+      }
 
     /*default settings*/
     if (book != "logbook") {
