@@ -344,12 +344,12 @@ button:hover {
 div.rowaction {
   padding: 5px;
 }
-.student .fa, .clicktoaction div, .clicktoemail, .clicktoedit, .clicktoconfigure, .clicktoprint, .completed {
+.student .fa, .clicktoaction div, .clicktoemail, .clicktoedit, .clicktoconfigure, .clicktoprint, .completed, .clicktohelp {
   cursor: pointer;
   font-weight: normal;
 }
 
-.clicktoedit:before, .clicktoemail:before, .clicktoconfigure:before, .clicktoprint:before, .completed:before {
+.clicktoedit:before, .clicktoemail:before, .clicktoconfigure:before, .clicktoprint:before, .completed:before, .clicktohelp:before {
   font-family: 'FontAwesome';
   color: #91C73E;
 }
@@ -369,6 +369,10 @@ div.rowaction {
 }
 .completed:before {
   content: "\f00c";
+}
+.clicktohelp:before {
+  content: "\f059";
+  font-size: 18px;
 }
 img.displayfilepdf {
   background-image: url("../images/file-pdf.png");
@@ -420,15 +424,6 @@ img.clicktotransport {
   width: 16px !important;
   height: 16px !important;
   border: 0;
-}
-img.clicktohelp {
-  background-image: url("../images/help-browser.png");
-  content: url("../images/help-browser.png");
-  cursor: pointer;
-  width: 22px !important;
-  height: 22px !important;
-  border: 0;
-  position: absolute;
 }
 /*a generic content table, usually for selecting things from a list*/
 table.listmenu {
@@ -981,7 +976,7 @@ div.content fieldset, div.topcontent fieldset {
   min-height: 100px;
 }
 
-.form-margin .divgroup p {
+.divgroup p {
   margin-bottom: 10px;
 }
 .divgroup .registerEdit, .divgroup .right, .divgroup .registerEdit {
