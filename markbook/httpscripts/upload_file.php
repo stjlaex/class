@@ -103,12 +103,59 @@ if($openid!="epfsharedfile"){
 		  </div>
 		</div>
 
-		<input type="hidden" name="inmust" value="<?php print $inmust; ?>"/>
-		<input type="hidden" name="sid" value="<?php print $sid; ?>"/>
-	    <input type="hidden" name="bid" value="<?php print $bid; ?>"/>
-	    <input type="hidden" name="pid" value="<?php print $pid; ?>"/>
-		<input type="hidden" name="eid" value="<?php print $eid; ?>"/>
-		<input type="hidden" name="openid" value="<?php print $openid; ?>"/>
+<?php
+	if($openid!="epfsharedfile" and $openid!=""){
+?>
+<fieldset class="center">
+	<legend><?php print_string('images',$book);?></legend>
+	<div style="width:90%;float:left;">
+<?php
+		$files=(array)list_files($Student['EPFUsername']['value'],'assessment');
+		if(sizeof($files)>0){
+
+			if(isset($_SERVER['HTTPS'])){
+				$http='https';
+				}
+			else{
+				$http='http';
+				}
+			$filedisplay_url=$http.'://'.$CFG->siteaddress.$CFG->sitepath.'/'.$CFG->applicationdirectory.'/scripts/file_display.php';
+
+			foreach($files as $file){
+				if(!isset($file['id']) or $file['id']=='') $fileid=$file['name'];
+				else $fileid=$file['id'];
+				$fileparam_list='?fileid='.$fileid.'&location='.$file['location'].'&filename='.$file['name'];
+				$path=$filedisplay_url.$fileparam_list;
+				$ext=pathinfo($path);
+?>
+		<div style="height:100px;float:left;">
+<?php
+				if((strcasecmp($ext['extension'], 'jpg')==0 or strcasecmp($ext['extension'], 'png')==0 or strcasecmp($ext['extension'], 'gif')==0 or strcasecmp($ext['extension'], 'jpeg')==0) and $eid!=$file['other_id']){
+?>
+			<img src="<?php print $filedisplay_url.$fileparam_list;?>" style="height:70px;width:auto;float:left;cursor:pointer;margin:2px;" onclick="alert(this.style.border);if(this.style.border=='1px solid rgb(0, 0, 255)'){this.style.border=0;}else{this.style.border='1px solid #0000FF';}">
+<?php
+					}
+?>
+		</div>
+<?php
+				}
+			}
+?>
+	</div>
+	<div style="width:40px;float:left;">
+		<input type="button" name="add" value="Add">
+	</div>
+</fieldset>
+<?php
+		}
+?>
+
+			<input type="hidden" name="inmust" value="<?php print $inmust; ?>"/>
+			<input type="hidden" name="sid" value="<?php print $sid; ?>"/>
+			<input type="hidden" name="bid" value="<?php print $bid; ?>"/>
+			<input type="hidden" name="pid" value="<?php print $pid; ?>"/>
+			<input type="hidden" name="eid" value="<?php print $eid; ?>"/>
+			<input type="hidden" name="openid" value="<?php print $openid; ?>"/>
 		</form>
 	</div>
 

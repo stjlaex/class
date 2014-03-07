@@ -1411,7 +1411,7 @@ function list_files($epfun,$foldertype,$linkedid='-1',$bid=''){
 			$attachment='';
 			}
 
-		$d_f=mysql_query("SELECT file.id, title, description, location, originalname FROM file 
+		$d_f=mysql_query("SELECT file.id, title, description, location, originalname, other_id FROM file 
 						JOIN file_folder ON file_folder.id=file.folder_id
 						WHERE $attachment file.owner_id='$epfuid' AND file.owner='$folder_usertype' 
 						AND file_folder.name='$foldertype';");
