@@ -30,9 +30,7 @@ if($_SESSION['role']=='admin' or $aperm==1 or $_SESSION['role']=='office'){
 twoplus_buttonmenu($budgetyear,$currentyear+2,$extrabuttons,$book);
 ?>
   <div class="content">
-	<form id="formtoprocess" name="formtoprocess" method="post"
-	  action="<?php print $host; ?>" >
-
+	<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host; ?>" >
 		<input type="hidden" name="budgetyear" value="<?php print $budgetyear;?>" />
 		<input type="hidden" name="current" value="<?php print $action;?>" />
 		<input type="hidden" name="choice" value="<?php print $choice;?>" />
@@ -40,48 +38,40 @@ twoplus_buttonmenu($budgetyear,$currentyear+2,$extrabuttons,$book);
 	</form>
 
 
-	<form id="formtoprocess2" name="formtoprocess2" method="post"
-	  action="<?php print $host; ?>" >
-
-	  <fieldset class="left">
-		<legend><?php print_string('ordersearch',$book);?></legend>		
+	<form id="formtoprocess2" name="formtoprocess2" method="post" action="<?php print $host; ?>" >
+	  <div class="left">
+	  <fieldset class="divgroup">
+		<h5><?php print_string('ordersearch',$book);?></h5>		
 		<div class="center">
-		  <div class="left">
-		  <label for="Ordernumber"><?php print_string('ordernumber',$book);?></label>
-		  <input tabindex="<?php print $tab++;?>" 
-			type="text" id="Ordernumber" name="ordernumber" maxlength="30"/>
-		  </div>
+		  <label for="Ordernumber"><?php print_string('ordernumber',$book);?></label><br />
+		  <input tabindex="<?php print $tab++;?>" type="text" id="Ordernumber" name="ordernumber" maxlength="30"/>
 			<button style="float:right;"  type="submit" name="sub" value="search">
 			  <?php print_string('search');?>
 			</button>
 		</div>
 		<div class="center">
 
-		  <div class="left">
-<?php 
-		$orderstatus='-1';
-		$listlabel='status';
-		$listname='orderstatus';
-		include('scripts/set_list_vars.php');
-		list_select_enum('action',$listoptions,$book);
-?>
-		  </div>
-		  <div class="right">
-<?php 
-		$orderstatus='-1';
-		$listlabel='supplier';
-		$liststyle='width:8em;';
-		$listname='ordersupid';
-		$d_sup=mysql_query("SELECT id, name FROM ordersupplier ORDER BY name;");
-		include('scripts/set_list_vars.php');
-		list_select_db($d_sup,$listoptions,$book);
-?>
-		  </div>
+        <?php 
+            $orderstatus='-1';
+            $listlabel='status';
+            $listname='orderstatus';
+            include('scripts/set_list_vars.php');
+            list_select_enum('action',$listoptions,$book);
+        ?>
+        <?php 
+            $orderstatus='-1';
+            $listlabel='supplier';
+            $listname='ordersupid';
+            $d_sup=mysql_query("SELECT id, name FROM ordersupplier ORDER BY name;");
+            include('scripts/set_list_vars.php');
+            list_select_db($d_sup,$listoptions,$book);
+        ?>
 		</div>
 	  </fieldset>
-
-	  <fieldset class="right">
-		<legend><?php print_string('invoicesearch',$book);?></legend>		
+        </div>
+        <div class="right">
+	  <fieldset class="divgroup">
+		<h5><?php print_string('invoicesearch',$book);?></h5>		
 		<div class="center">
 		  <div class="left">
 		  <label for="Invoicenumber"><?php print_string('reference',$book);?></label>
@@ -95,15 +85,15 @@ twoplus_buttonmenu($budgetyear,$currentyear+2,$extrabuttons,$book);
 		  </div>
 		</div>
 	  </fieldset>
-
+</div>
 		<input type="hidden" name="budgetyear" value="<?php print $budgetyear;?>" />
 		<input type="hidden" name="current" value="orders_list.php" />
 		<input type="hidden" name="choice" value="<?php print $choice;?>" />
 		<input type="hidden" name="cancel" value="<?php print '';?>" />
 	</form>
-
-	<fieldset class="center divgroup" id="viewcontent">
-	  <legend><?php print get_string('budgets',$book).' - '.display_curriculumyear($budgetyear);?></legend>
+<div class="center">
+	<fieldset class="divgroup" id="viewcontent">
+	  <h5><?php print get_string('budgets',$book).' - '.display_curriculumyear($budgetyear);?></h5>
 
 	  <table class="listmenu smalltable">
 		<tr>
@@ -160,4 +150,5 @@ twoplus_buttonmenu($budgetyear,$currentyear+2,$extrabuttons,$book);
 
 	  </table>
 	</fieldset>
+	</div>
   </div>

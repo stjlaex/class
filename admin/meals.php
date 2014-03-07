@@ -32,15 +32,15 @@ two_buttonmenu($extrabuttons,'admin');
 		<input type="hidden" name="choice" value="<?php print $choice;?>" />
 		<input type="hidden" name="cancel" value="<?php print '';?>" />
 
-	<fieldset class="center divgroup" id="viewcontent">
-	  <legend><?php print_string('meals',$book);?></legend>
-		<div>
-		  <?php print_string('checkall'); ?>
-		  <input type="checkbox" name="checkall" value="yes" onChange="checkAll(this,'meals[]');" />
-		  <div style="float:right;">
-			<?php $required='no'; include('scripts/jsdate-form.php');?>
-		  </div>
-		</div>
+        <fieldset class="divgroup" id="viewcontent">
+            <h5><?php print_string('meals',$book);?></h5>
+            <div class="right">
+                <?php $required='no'; include('scripts/jsdate-form.php');?>
+            </div>
+            <div class="chk-height">
+                <?php print_string('checkall'); ?>
+                <input type="checkbox" name="checkall" value="yes" onChange="checkAll(this,'meals[]');" />
+            </div>
 <?php
 		$meals=list_meals();
 
@@ -75,36 +75,27 @@ two_buttonmenu($extrabuttons,'admin');
 ?>
 	</fieldset>
 
-	<fieldset class="center divgroup" id="viewcontent">
-	  <legend><?php print get_string('formgroups',$book);?></legend>
-		<div>
+	<fieldset class="divgroup" id="viewcontent">
+	  <h5><?php print get_string('formgroups',$book);?></h5>
+		<div class="chk-height">
 		  <?php print_string('checkall'); ?>
 		  <input type="checkbox" name="checkall" value="yes" onChange="checkAll(this,'formnames[]');" />
 		</div>
-<?php
-		$forms=list_formgroups();
-
-		foreach($forms as $index => $form){
-?>
-	<div style="float:left;width:24%;margin:2px;">
-	  <table class="listmenu smalltable">
-		<tr>
-		  <td>
-			<input type="checkbox" name="formnames[]" value="f-<?php print $form['id']; ?>" />
-		  </td>
-		  <td>
-<?php
-				print '<a  href="admin.php?current=meals_list.php&cancel='.$choice.'&choice='.$choice.'&comid='.$form['id'].'">'.$form['name'].'</a>';
-?>
-		  </td>
-		  <td></td>
-		  <td></td>
-		</tr>
-	  </table>
-	</div>
-<?php
-			}
-?>
+		<ul class="chk-list">
+        <?php
+    		$forms=list_formgroups();
+    		foreach($forms as $index => $form){
+        ?>
+            <li>
+		      <input type="checkbox" name="formnames[]" value="f-<?php print $form['id']; ?>" />
+                <?php
+        		  print '<a  href="admin.php?current=meals_list.php&cancel='.$choice.'&choice='.$choice.'&comid='.$form['id'].'">'.$form['name'].'</a>';
+                ?>
+            </li>
+        <?php
+        	}
+        ?>
+        </ul>
 	</fieldset>
 
 	<div id="xml-list" style="display:none;">

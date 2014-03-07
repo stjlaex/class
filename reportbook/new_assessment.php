@@ -139,7 +139,7 @@ three_buttonmenu($extrabuttons);
                 ?>
                 <tbody id="<?php print $eid;?>">
                     <tr class="rowplus" onClick="clickToReveal(this)" id="<?php print $eid.'-'.$rown++;?>">
-                        <td>&nbsp</td>
+                        <th>&nbsp</td>
                         <td><?php print $AssDef['Description']['value']; ?></td>
                         <td style="font-style:italic;"><?php print display_date($AssDef['Deadline']['value']); ?></td>
                         <td><?php print $AssDef['Stage']['value']; ?></td>

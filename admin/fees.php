@@ -24,7 +24,7 @@ if(empty($_SESSION['accessfees'])){
 	<form id="formtoprocess" name="formtoprocess" method="post"
 	  action="<?php print $host; ?>" >
 
-	  <fieldset class="center listmenu">
+	  <fieldset class="divgroup">
 		<legend>
 		  <?php print_string('bankdetails','infobook');?>
 		</legend>

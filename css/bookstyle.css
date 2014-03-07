@@ -197,7 +197,6 @@ div#bookbox {
   overflow: auto;
   margin: 0 2%;
   padding-bottom: 20px;
-  
 }
 .externalbookframe {
   position: absolute;
@@ -273,6 +272,7 @@ div.content div.right, div.topcontent div.right, div.topform div.right {
 }
 div.content .center, div.topcontent .center, div.topform .center {
   width: 100%;
+  clear: both;
 }
 div.content .fullwidth, div.topcontent .fullwidth, div.topform .fullwidth {
   margin: 0 1% 2% 1%;
@@ -504,7 +504,7 @@ ul.listmenu {
 /*two shades of red*/
 .listmenu tr.hilite td, .listmenu td.hilite, tr.hilite a {
   color: #FCE9CB !important;
-  background-color: #F39C12!important;
+  background-color: #F39C12 !important;
 }
 .hilite a {
   color: #FCE9CB !important;
@@ -513,7 +513,7 @@ ul.listmenu {
   border: none;
   font-size: 14px;
   padding: 6px 10px;
-  margin-right:10px;
+  margin-right: 10px;
   cursor: pointer;
   display: inline-block;
 }
@@ -967,7 +967,6 @@ button[value="Submit"] {
   clear: left;
 }
 
-
 /* Special needs */
 div.content fieldset, div.topcontent fieldset {
   padding: 2%;
@@ -980,8 +979,18 @@ div.content fieldset, div.topcontent fieldset {
   margin-bottom: 10px;
 }
 .divgroup .registerEdit, .divgroup .right, .divgroup .registerEdit {
-  margin-bottom: 5px!important;
+  margin-bottom: 5px !important;
 }
 .assessment {
-  margin-top: 37px!important
+  margin-top: 37px !important
 }
+
+.chk-height {
+  height: 30px;
+}
+.chk-list li {
+  display: inline-block;
+  width: 100px;
+  height: 30px;
+}
+

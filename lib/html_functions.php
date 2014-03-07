@@ -871,7 +871,7 @@ function html_document_drop($epfun,$context,$linked_id='-1',$lid='-1',$ownertype
 ?>
 	  <fieldset class="profile">
 		<h5><?php print_string('documents');?></h5>
-		<fieldset class=" documentdrop">
+		<fieldset class="documentdrop">
 		  <form id="formfiledelete" name="formfiledelete" method="post" action="<?php print $path;?>infobook/httpscripts/file_delete.php">
 			<input type="hidden" id="FILEOWNER" name="FILEOWNER" value="<?php print $epfun;?>" />
 			<input type="hidden" id="FILECONTEXT" name="FILECONTEXT" value="<?php print $context;?>" />
@@ -887,7 +887,7 @@ function html_document_drop($epfun,$context,$linked_id='-1',$lid='-1',$ownertype
 		  </form>
 		</fieldset>
 
-		<fieldset class="right documentdrop">
+		<fieldset class="documentdrop">
 			<form id="formdocumentdrop" name="formdocumentdrop" method="post" action="<?php print $path;?>infobook/httpscripts/file_upload.php" enctype="multipart/form-data" <?php if($context=='icon') print "onsubmit='return checkForm()'"; ?>>
 				<input type="hidden" id="MAX_FILE_SIZE" name="MAX_FILE_SIZE" value="<?php print return_bytes(ini_get('upload_max_filesize'));?>" />
 				<input type="hidden" id="FILEOWNER" name="FILEOWNER" value="<?php print $epfun;?>" />
