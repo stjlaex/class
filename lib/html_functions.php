@@ -1061,9 +1061,9 @@ function html_document_list($files){
 /*
  *
  */
-function html_files_preview($epfun,$eid,$displaythiseid=true){
+function html_files_preview($epfun,$eid,$displaythiseid=true,$pid=''){
 	global $CFG;
-	$files=(array)list_files($epfun,'assessment');
+	$files=array_merge(list_files($epfun,'assessment'),list_files($epfun,'comment'));
 	if(sizeof($files)>0){
 
 		if(isset($_SERVER['HTTPS'])){
@@ -1080,7 +1080,17 @@ function html_files_preview($epfun,$eid,$displaythiseid=true){
 			else{$fileid=$file['id'];}
 			$fileparam_list='?fileid='.$fileid.'&location='.$file['location'].'&filename='.$file['name'];
 			$path=$filedisplay_url.$fileparam_list;
+			$otherid=$file['other_id'];
 			$ext=pathinfo($path);
+			$display=true;
+			$d_c=mysql_query("SELECT subject_id FROM comments WHERE id='$otherid';");
+			if(mysql_num_rows($d_c)>0 and $pid!=''){
+				$d_p=mysql_query("SELECT subject_id FROM component WHERE id='$pid';");
+				$skill_subject=mysql_result($d_p,0);
+				$com_subject=mysql_result($d_c,0,'subject_id');
+				if($skill_subject!=$com_subject){$display=false;}
+				}
+			if($display){
 ?>
 		<div style="height:100px;float:left;">
 <?php
@@ -1100,6 +1110,7 @@ function html_files_preview($epfun,$eid,$displaythiseid=true){
 ?>
 		</div>
 <?php
+				}
 			}
 		}
 	}

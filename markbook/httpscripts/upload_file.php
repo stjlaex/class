@@ -70,7 +70,7 @@ if(isset($_GET['openid'])){$openid=$_GET['openid'];}
 			}
 		else{
 ?>
-		<form id="formtoprocess" name="formtoprocess" method="post" action="upload_file_action.php">
+		<form id="formtoprocess2" name="formtoprocess2" method="post" action="upload_file_action.php">
 				<fieldset class="center">
 					<legend><?php print_string('documents',$book);?></legend>
 					<div style="width:90%;float:left;">
@@ -100,7 +100,7 @@ if(isset($_GET['openid'])){$openid=$_GET['openid'];}
 ?>
 
 
-	<form id="formtoprocess2" name="formtoprocess2" method="post" action="upload_file_action.php">
+	<form id="formtoprocess" name="formtoprocess" method="post" action="upload_file_action.php">
 
 <?php
 	if($openid!="epfsharedfile" and $openid!=""){
@@ -109,7 +109,7 @@ if(isset($_GET['openid'])){$openid=$_GET['openid'];}
 			<legend><?php print_string('copy',$book);?></legend>
 			<div style="width:90%;float:left;">
 <?php
-			html_files_preview($Student['EPFUsername']['value'],$eid,false);
+			html_files_preview($Student['EPFUsername']['value'],$eid,false,$pid);
 ?>
 			</div>
 			<div style="width:40px;float:left;">
