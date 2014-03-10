@@ -44,6 +44,7 @@ if(isset($_GET['openid'])){$openid=$_GET['openid'];}
 <script src="../../js/editor.js" type="text/javascript"></script>
 <script src="../../js/book.js?version=1043" type="text/javascript"></script>
 <script src="../../js/documentdrop.js?version=1043" type="text/javascript"></script>
+<script src="../../js/jcrop/jquery.min.js" type="text/javascript"></script>
 <script src="../../js/qtip.js" type="text/javascript"></script>
 </head>
 <body onload="loadRequired('<?php print $book;?>');documentdropInit();">
@@ -64,88 +65,58 @@ if(isset($_GET['openid'])){$openid=$_GET['openid'];}
 		if($openid=="epfsharedfile"){
 			html_document_drop($Student['EPFUsername']['value'],'assessment',$eid,'',$openid);
 			}
-		else{
+		elseif($openid==""){
 			html_document_drop($Student['EPFUsername']['value'],'assessment',$eid);
 			}
+		else{
 ?>
-		</div>
-
-
-
 		<form id="formtoprocess" name="formtoprocess" method="post" action="upload_file_action.php">
-
-		<div class="listmenu fileupload">
-		  <div class="center">
+				<fieldset class="center">
+					<legend><?php print_string('documents',$book);?></legend>
+					<div style="width:90%;float:left;">
 <?php
-if($openid!="epfsharedfile"){
+				html_files_preview($Student['EPFUsername']['value'],$eid);
 ?>
-		  <fieldset class="right documentdrop">
-<?php
-	if($_SESSION['worklevel']>-1 and ($CFG->emailguardiancomments=='yes' or ($CFG->emailguardiancomments=='limit' and $perm['x']==1))){
-		$checkname='sharewithparents';
-		$checkcaption=get_string('sharewithguardian','infobook');
-		$checkalert=get_string('sharecommentalert','infobook');
-		/* TODO: implement share with parents */
-		include('../../scripts/check_yesno.php');
-		unset($checkalert);
-		}
+					</div>
 
+					<div style="width:60px;float:left;">
+						<button onClick="processContent(this);" name="sub"
+							  value="Remove"><?php print_string('remove');?></button>
+					</div>
+				</fieldset>
+			</div>
+			<input type="hidden" name="sid" value="<?php print $sid; ?>"/>
+			<input type="hidden" name="eid" value="<?php print $eid; ?>"/>
+			<input type="hidden" name="openid" value="<?php print $openid; ?>"/>
+		</form>
+		<fieldset class="left">
+			<legend><?php print_string('upload',$book);?></legend>
+<?php
+			html_document_drop($Student['EPFUsername']['value'],'assessment',$eid,'-1','',false);
+?>
+		</fieldset>
+<?php
+			}
 ?>
 
-			<label for="Comment"><?php print_string('description',$book);?></label>
-			<textarea id="Comment"
-				style="height:80px;" tabindex="<?php print $tab++;?>"  
-				name="comment" ></textarea>
-		  </fieldset>
-<?php
-	}
-?>
-		  </div>
-		</div>
+
+	<form id="formtoprocess2" name="formtoprocess" method="post" action="upload_file_action.php">
 
 <?php
 	if($openid!="epfsharedfile" and $openid!=""){
 ?>
-<fieldset class="center">
-	<legend><?php print_string('images',$book);?></legend>
-	<div style="width:90%;float:left;">
+		<fieldset class="right">
+			<legend><?php print_string('copy',$book);?></legend>
+			<div style="width:90%;float:left;">
 <?php
-		$files=(array)list_files($Student['EPFUsername']['value'],'assessment');
-		if(sizeof($files)>0){
-
-			if(isset($_SERVER['HTTPS'])){
-				$http='https';
-				}
-			else{
-				$http='http';
-				}
-			$filedisplay_url=$http.'://'.$CFG->siteaddress.$CFG->sitepath.'/'.$CFG->applicationdirectory.'/scripts/file_display.php';
-
-			foreach($files as $file){
-				if(!isset($file['id']) or $file['id']=='') $fileid=$file['name'];
-				else $fileid=$file['id'];
-				$fileparam_list='?fileid='.$fileid.'&location='.$file['location'].'&filename='.$file['name'];
-				$path=$filedisplay_url.$fileparam_list;
-				$ext=pathinfo($path);
+			html_files_preview($Student['EPFUsername']['value'],$eid,false);
 ?>
-		<div style="height:100px;float:left;">
-<?php
-				if((strcasecmp($ext['extension'], 'jpg')==0 or strcasecmp($ext['extension'], 'png')==0 or strcasecmp($ext['extension'], 'gif')==0 or strcasecmp($ext['extension'], 'jpeg')==0) and $eid!=$file['other_id']){
-?>
-			<img src="<?php print $filedisplay_url.$fileparam_list;?>" style="height:70px;width:auto;float:left;cursor:pointer;margin:2px;" onclick="alert(this.style.border);if(this.style.border=='1px solid rgb(0, 0, 255)'){this.style.border=0;}else{this.style.border='1px solid #0000FF';}">
-<?php
-					}
-?>
-		</div>
-<?php
-				}
-			}
-?>
-	</div>
-	<div style="width:40px;float:left;">
-		<input type="button" name="add" value="Add">
-	</div>
-</fieldset>
+			</div>
+			<div style="width:40px;float:left;">
+				<button onClick="processContent(this);" name="sub"
+				  value="Copy"><?php print_string('copy');?></button>
+			</div>
+		</fieldset>
 <?php
 		}
 ?>
