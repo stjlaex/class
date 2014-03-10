@@ -100,7 +100,7 @@ if(isset($_GET['openid'])){$openid=$_GET['openid'];}
 ?>
 
 
-	<form id="formtoprocess2" name="formtoprocess" method="post" action="upload_file_action.php">
+	<form id="formtoprocess2" name="formtoprocess2" method="post" action="upload_file_action.php">
 
 <?php
 	if($openid!="epfsharedfile" and $openid!=""){
