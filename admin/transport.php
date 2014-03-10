@@ -99,12 +99,12 @@ two_buttonmenu($extrabuttons);
     		  <?php print_string('checkall'); ?>
     		  <input type="checkbox" name="checkall" value="yes" onChange="checkAll(this,'formnames[]');" />
     		</div>
-    		<ul>
+    		<ul class="chk-list">
             <?php
                 $forms=list_formgroups();
                 foreach($forms as $index => $form){
             ?>
-                <li style="display: inline-block; width: 100px; height: 30px;">
+                <li>
                     <input type="checkbox" name="formnames[]" value="f-<?php print $form['id']; ?>" />
                     <?php
                         print '<a  href="admin.php?current=transport_list.php&cancel='.$choice.'&choice='.$choice.'&comid='.$form['id'].'">'.$form['name'].'</a>';

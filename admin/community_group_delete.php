@@ -39,21 +39,25 @@ else{
 ?>
 <div class="content">
   <form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
-	<fieldset class="center"> 
-		<legend><?php print_string('becareful',$book);?></legend>
+      <div class="center">
+	<fieldset class="divgroup"> 
+		<h5><?php print_string('becareful',$book);?></h5>
 	  <p class="center warn">
 	<?php print_string('deletecommunitygroups',$book); ?>
 	  </p>
 	</fieldset>
-
-	<fieldset class="center divgroup"> 
-		<legend><?php print_string('confirm',$book);?></legend>
-		<p><?php print_string('confidentwhatyouaredoing',$book);?></p>
+	</div>
+    <div class="center">
+	<fieldset class="divgroup"> 
 		<div class="right">
-		  <?php include('scripts/check_yesno.php');?>
-		</div>
+          <?php include('scripts/check_yesno.php');?>
+        </div>
+        
+        <h5><?php print_string('confirm',$book);?></h5>
+		<p><?php print_string('confidentwhatyouaredoing',$book);?></p>
+		
 	</fieldset>
-
+</div>
 <?php
 foreach($comids as $comid){
 ?>

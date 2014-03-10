@@ -454,6 +454,9 @@ table.listmenu {
   border-top: 1px solid;
   border-color: #bac1c8;
 }
+.listmenu.noborder td {
+  border: none;
+}
 
 .listmenu tfoot tr {
   background-color: #4d5f72;
@@ -505,6 +508,7 @@ ul.listmenu {
 .listmenu tr.hilite td, .listmenu td.hilite, tr.hilite a {
   color: #FCE9CB !important;
   background-color: #F39C12 !important;
+  text-align: center;
 }
 .hilite a {
   color: #FCE9CB !important;
@@ -516,9 +520,15 @@ ul.listmenu {
   margin-right: 10px;
   cursor: pointer;
   display: inline-block;
+  text-align: center;
 }
 .listmenu tr.midlite td, .listmenu td.midlite, .midlite {
   background-color: #ff9966 !important;
+  text-align: center;
+  color: #ffe9dd;
+}
+.nolite {
+  text-align: center;
 }
 /*yellow*/
 .listmenu tr.pauselite td, .listmenu td.pauselite, .pauselite {
@@ -530,6 +540,8 @@ ul.listmenu {
 }
 .listmenu tr.gomidlite td, .listmenu td.gomidlite, .gomidlite {
   background-color: #66cc66 !important;
+  color: #ddf4dd;
+  text-align: center;
 }
 /*outline red*/
 .listmenu tr.outlite td, .listmenu td.outlite, .outlite {
@@ -592,7 +604,6 @@ tr.rowminus th:first-child, div.rowminus div:first-child {
 tr.rowminus th:first-child:before, div.rowminus div:first-child:before {
   content: "\f068";
 }
-
 tr.rowplus, div.rowplus, tr.rowminus, div.rowminus {
   cursor: pointer;
 }
@@ -683,7 +694,6 @@ div.tinytab-display {
   background: none;
 }
 p.warn {
-  color: #000000;
   border: 2px solid #ff9900;
   background-color: #eeeeee;
   padding: 0.5em;
@@ -992,5 +1002,10 @@ div.content fieldset, div.topcontent fieldset {
   display: inline-block;
   width: 100px;
   height: 30px;
+  font-weight: bold;
 }
 
+.notchecked, .checked {
+  display: inline-block;
+  margin-right: 10px;
+}

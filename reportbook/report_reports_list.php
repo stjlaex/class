@@ -66,27 +66,26 @@ if(($_SESSION['role']=='admin' or $yearperm['x']==1) and isset($CFG->eportfolio_
 
 two_buttonmenu($extrabuttons,$book);
 ?>
-  <div id="heading">
-  <?php print get_string('subjectreportsfor',$book).' '.get_yeargroupname($yid).' '.$com['displayname'];?>
-  </div>
-  <div id="viewcontent" class="content">
-	<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
-
-	  <div id="xml-checked-action" style="display:none;">
-		<reportids>
-<?php
-	$reportdefs=array();
-	$input_elements='';
-	foreach($rids as $rid){
-		$reportdefs[]=(array)fetch_reportdefinition($rid);
-		/*this is to feed the rids to the javascript function*/
-		print '<rids>'.$rid.'</rids>';
-	    $input_elements.=' <input type="hidden" name="rids[]" value="'.$rid.'" />';
-		}
-?>
-		</reportids>
-	  </div>
-	  <div class="fullwidth">
+    <div id="heading">
+        <h4><?php print get_string('subjectreportsfor',$book).' '.get_yeargroupname($yid).' '.$com['displayname'];?></h4>
+    </div>
+    <div id="viewcontent" class="content">
+        <form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
+            <div id="xml-checked-action" style="display:none;">
+                <reportids>
+                    <?php
+                    	$reportdefs=array();
+                    	$input_elements='';
+                    	foreach($rids as $rid){
+                    		$reportdefs[]=(array)fetch_reportdefinition($rid);
+                    		/*this is to feed the rids to the javascript function*/
+                    		print '<rids>'.$rid.'</rids>';
+                    	    $input_elements.=' <input type="hidden" name="rids[]" value="'.$rid.'" />';
+                    		}
+                    ?>
+                </reportids>
+            </div>
+        <div class="center">
 		<table class="listmenu sidtable" id="sidtable">
 		  <tr>
 			<th>
@@ -96,33 +95,33 @@ two_buttonmenu($extrabuttons,$book);
 			  </label>
 			</th>
 			<th colspan="2"><?php print_string('student');?></th>
-<?php
-	$uploadpic='no';
-	foreach($rids as $index => $rid){
-		$summaries=(array)$reportdefs[$index]['summaries'];
-		foreach($summaries as $summary){
-			$summaryid=$summary['subtype'];
-			if($summary['type']=='com'){
-				if($formperm['x']==1 and $summaryid=='form'){
-					print '<th style="width:4%;">'.$summary['name'].'</th>';
-					}
-				elseif($yearperm['x']==1 and $summaryid=='year'){
-					print '<th style="width:4%;">'.$summary['name'].'</th>';
-					}
-				elseif($yearperm['x']==1 and $summaryid=='section'){
-					print '<th style="width:4%;">'.$summary['name'].'</th>';
-					}
-				elseif($resperm['x']==1 and $summaryid=='residence'){
-					print '<th style="width:4%;">'.$summary['name'].'</th>';
-					}
-				}
-			elseif($summary['type']=='pic'){
-				$uploadpic='yes';
-				}
-			}
-		}
-	if($uploadpic=='yes' or $yid<3){
-?>
+                <?php
+                	$uploadpic='no';
+                	foreach($rids as $index => $rid){
+                		$summaries=(array)$reportdefs[$index]['summaries'];
+                		foreach($summaries as $summary){
+                			$summaryid=$summary['subtype'];
+                			if($summary['type']=='com'){
+                				if($formperm['x']==1 and $summaryid=='form'){
+                					print '<th style="width:4%;">'.$summary['name'].'</th>';
+                					}
+                				elseif($yearperm['x']==1 and $summaryid=='year'){
+                					print '<th style="width:4%;">'.$summary['name'].'</th>';
+                					}
+                				elseif($yearperm['x']==1 and $summaryid=='section'){
+                					print '<th style="width:4%;">'.$summary['name'].'</th>';
+                					}
+                				elseif($resperm['x']==1 and $summaryid=='residence'){
+                					print '<th style="width:4%;">'.$summary['name'].'</th>';
+                					}
+                				}
+                			elseif($summary['type']=='pic'){
+                				$uploadpic='yes';
+                				}
+                			}
+                		}
+                	if($uploadpic=='yes' or $yid<3){
+                ?>
 			<th><?php print_string('uploadfile');?></th>
 <?php
 		}

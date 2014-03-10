@@ -155,7 +155,7 @@ three_buttonmenu($extrabuttons);
 
 		  </select>
 		</div>
-		<div class="fullwidth">
+		<div class="fullwidth"> test
 		  <label><?php print get_string('orderby',$book);?></label>
 <?php
 	$options=array('surname'=>'surname','forename'=>'forename','preferredforename'=>'preferredforename','form_id'=>'formgroup');

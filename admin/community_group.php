@@ -63,7 +63,7 @@ two_buttonmenu($extrabuttons);
 		<td>
 		<input type="checkbox" name="comids[]" value="<?php print $com['id'];?>" />
 			</td>
-		<td>
+		<td class="student">
 <?php
 	   		print '<a href="admin.php?current=community_group_edit.php&cancel='.$choice.'&choice='.$choice.'&newcomtype='.$newcomtype.'&comid='.$com['id'].'">'.$com['name'].'</a>';
 		print '</td>';

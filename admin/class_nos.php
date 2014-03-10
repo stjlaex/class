@@ -20,7 +20,7 @@ $curryear=get_curriculumyear();
 		$subjects=(array)list_course_subjects($crid);
 ?>
 
-	  <table class="listmenu">
+	  <table class="listmenu noborder">
 		<tr>
 		<th><?php print_string('stage',$book);?></th>
 <?php
