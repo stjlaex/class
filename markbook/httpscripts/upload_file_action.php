@@ -10,6 +10,7 @@ $sub=$_POST['sub'];
 $sid=$_POST['sid'];
 $tid=$_SESSION['username'];
 
+
 if($sub=='Cancel'){
 	$openerId='-100';
 	$incom='';
@@ -39,6 +40,9 @@ elseif($sub=='Submit'){
 		//	$eidsid_id=mysql_insert_id();
 		//	}
 
+		if($openid==""){$folder="comment";}
+		else{$folder="assessment";}
+
 		/*Only inserts comments or file links if there is a comment or a file uploaded (avoids empty fields)*/
 		$d_f=mysql_query("SELECT * FROM file WHERE owner_id='$sid' AND other_id='0' AND owner='s';");
 		if(mysql_num_rows($d_f)>0 or $comment!=''){
@@ -46,7 +50,7 @@ elseif($sub=='Submit'){
 								report_id='$eid', teacher_id='$tid';");
 			$entid=mysql_insert_id();
 			require_once('../../lib/eportfolio_functions.php');
-			link_files($Student['EPFUsername']['value'],'assessment',$entid);
+			link_files($Student['EPFUsername']['value'],$folder,$entid);
 			}
 
 		//$Student=fetchStudent_short($sid);
@@ -63,6 +67,49 @@ elseif($sub=='Submit'){
 		/* TODO: Update an existing file*/
 		$entryn=$inmust;
 		}
+	}
+elseif($sub=="Copy"){
+	if(isset($_POST['files'])){$filesids=$_POST['files'];}
+	if(isset($_POST['eid'])){$eid=$_POST['eid'];}
+	if(isset($_POST['openid'])){$openid=$_POST['openid'];}
+	if(isset($_POST['pid'])){$pid=$_POST['pid'];}else{$pid="";}
+	$d_ff=mysql_query("SELECT id FROM file_folder WHERE owner_id=$openid;");
+	$ffid=mysql_result($d_ff,0);
+	foreach($filesids as $fileid){
+		$d_f=mysql_query("SELECT * FROM file WHERE id = $fileid;");
+		$files[$fileid]=mysql_fetch_array($d_f,MYSQL_ASSOC);
+		}
+	foreach($files as $file){
+		$owner=$file['owner'];
+		$owner_id=$file['owner_id'];
+		$folder_id=$ffid;
+		$title=$file['title'];
+		$originalname=$file['originalname'];
+		$description=$file['description'];
+		$location=$file['location'];
+		$access=$file['access'];
+		$size=$file['size'];
+		$other_id=$eid;
+		$d_l=mysql_query("SELECT * FROM file WHERE location='$location' and folder_id='$folder_id' and other_id='$eid';");
+		if(mysql_num_rows($d_l)==0){
+			$d_f=mysql_query("INSERT INTO file (owner, owner_id, folder_id, title, originalname,
+										description, location, access, size, other_id) VALUES 
+										('$owner', '$owner_id','$folder_id','$title','$originalname',
+										'$description','$location','$access','$size','$other_id');");
+			}
+		}
+	$redirect="upload_file.php?sid=$sid&eid=$eid&bid=&pid=&openid=$openid";
+	header("Location:".$redirect);
+	}
+elseif($sub=="Remove"){
+	if(isset($_POST['files'])){$filesids=$_POST['files'];}
+	if(isset($_POST['eid'])){$eid=$_POST['eid'];}
+	if(isset($_POST['openid'])){$openid=$_POST['openid'];}
+	foreach($filesids as $fileid){
+		mysql_query("DELETE FROM file WHERE id = $fileid;");
+		}
+	$redirect="upload_file.php?sid=$sid&eid=$eid&bid=&pid=&openid=$openid";
+	header("Location:".$redirect);
 	}
 ?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">

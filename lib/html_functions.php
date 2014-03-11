@@ -868,12 +868,14 @@ function html_table_container_close($containerno,$xmltagname='',$entry=''){
  * $ownertype defaults to student
  *
  */
-function html_document_drop($epfun,$context,$linked_id='-1',$lid='-1',$ownertype=''){
+function html_document_drop($epfun,$context,$linked_id='-1',$lid='-1',$ownertype='',$listfiles=true){
 
 	global $CFG;
 
 	if($context=='assessment'){$path='../../';}
 	else{$path='';}
+
+	if($listfiles){
 ?>
 	  <fieldset class="center listmenu">
 		<legend><?php print_string('documents');?></legend>
@@ -894,6 +896,14 @@ function html_document_drop($epfun,$context,$linked_id='-1',$lid='-1',$ownertype
 		</fieldset>
 
 		<fieldset class="right documentdrop">
+<?php
+		}
+		else{
+?>
+		<fieldset class="center documentdrop">
+<?php
+		}
+?>
 			<form id="formdocumentdrop" name="formdocumentdrop" method="post" action="<?php print $path;?>infobook/httpscripts/file_upload.php" enctype="multipart/form-data" <?php if($context=='icon') print "onsubmit='return checkForm()'"; ?>>
 				<input type="hidden" id="MAX_FILE_SIZE" name="MAX_FILE_SIZE" value="<?php print return_bytes(ini_get('upload_max_filesize'));?>" />
 				<input type="hidden" id="FILEOWNER" name="FILEOWNER" value="<?php print $epfun;?>" />
@@ -1045,5 +1055,63 @@ function html_document_list($files){
 		}
 
 	return;
+	}
+
+
+/*
+ *
+ */
+function html_files_preview($epfun,$eid,$displaythiseid=true,$pid=''){
+	global $CFG;
+	$files=array_merge(list_files($epfun,'assessment'),list_files($epfun,'comment'));
+	if(sizeof($files)>0){
+
+		if(isset($_SERVER['HTTPS'])){
+			$http='https';
+			}
+		else{
+			$http='http';
+			}
+		$filedisplay_root=$http.'://'.$CFG->siteaddress.$CFG->sitepath.'/'.$CFG->applicationdirectory;
+		$filedisplay_url=$filedisplay_root.'/scripts/file_display.php';
+
+		foreach($files as $file){
+			if(!isset($file['id']) or $file['id']==''){$fileid=$file['name'];}
+			else{$fileid=$file['id'];}
+			$fileparam_list='?fileid='.$fileid.'&location='.$file['location'].'&filename='.$file['name'];
+			$path=$filedisplay_url.$fileparam_list;
+			$otherid=$file['other_id'];
+			$ext=pathinfo($path);
+			$display=true;
+			$d_c=mysql_query("SELECT subject_id FROM comments WHERE id='$otherid';");
+			if(mysql_num_rows($d_c)>0 and $pid!=''){
+				$d_p=mysql_query("SELECT subject_id FROM component WHERE id='$pid';");
+				$skill_subject=mysql_result($d_p,0);
+				$com_subject=mysql_result($d_c,0,'subject_id');
+				if($skill_subject!=$com_subject){$display=false;}
+				}
+			if($display){
+?>
+		<div style="height:100px;float:left;">
+<?php
+			if(($displaythiseid and $eid==$file['other_id']) or (!$displaythiseid and $eid!=$file['other_id'])){
+				if((strcasecmp($ext['extension'], 'jpg')==0 or strcasecmp($ext['extension'], 'png')==0 or strcasecmp($ext['extension'], 'gif')==0 or strcasecmp($ext['extension'], 'jpeg')==0)){
+					$src=$filedisplay_url.$fileparam_list;
+					}
+				else{
+					$src=$filedisplay_root."/images/file-generic.png";
+					}
+?>
+				<img src="<?php print $src;?>" style="height:70px;width:auto;float:left;cursor:pointer;margin:2px;" 
+					onclick="if(document.getElementById('file-<?php echo $fileid;?>')){this.style.border=0;removeHiddenInput($(this).closest('form').attr('id'),'file-<?php echo $fileid;?>');}else{this.style.border='1px solid #0000FF';appendHiddenInput($(this).closest('form').attr('id'),'files[]','file-<?php echo $fileid;?>','<?php echo $fileid;?>');}"
+					title="<?php print $file['name'];?>">
+<?php
+				}
+?>
+		</div>
+<?php
+				}
+			}
+		}
 	}
 ?>

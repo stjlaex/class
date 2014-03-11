@@ -1302,11 +1302,15 @@ function delete_file($filedata){
 	else{
 		mysql_query("DELETE FROM file WHERE id='$file_id';");
 		}
-	
-	if(unlink($filedata['path'])){
-		$success=true;
+
+	$flocation=$filedata['flocation'];
+	$d_f=mysql_query("SELECT * FROM file WHERE location='$flocation';");
+	if(mysql_num_rows($d_f)==1){
+		if(unlink($filedata['path'])){
+			$success=true;
+			}
+		else{trigger_error('Could not remove file from eportfolio: '.$filedata['path'],E_USER_WARNING);}
 		}
-	else{trigger_error('Could not remove file from eportfolio: '.$filedata['path'],E_USER_WARNING);}
  
 
 	return $success;
@@ -1411,7 +1415,7 @@ function list_files($epfun,$foldertype,$linkedid='-1',$bid=''){
 			$attachment='';
 			}
 
-		$d_f=mysql_query("SELECT file.id, title, description, location, originalname FROM file 
+		$d_f=mysql_query("SELECT file.id, title, description, location, originalname, other_id FROM file 
 						JOIN file_folder ON file_folder.id=file.folder_id
 						WHERE $attachment file.owner_id='$epfuid' AND file.owner='$folder_usertype' 
 						AND file_folder.name='$foldertype';");

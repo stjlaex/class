@@ -134,6 +134,7 @@ print '('.$Student['RegistrationGroup']['value'].')';
 			   }
 		   require_once('lib/eportfolio_functions.php');
 		   display_file($Student['EPFUsername']['value'],'assessment',$entryno);
+		   display_file($Student['EPFUsername']['value'],'comment',$entryno);
 ?>			</td>
 		  </tr>
 		  <div id="<?php print 'xml-'.$entryno;?>" style="display:none;">
