@@ -1096,6 +1096,12 @@ function html_files_preview($epfun,$eid,$displaythiseid=true,$pid=''){
 <?php
 			if(($displaythiseid and $eid==$file['other_id']) or (!$displaythiseid and $eid!=$file['other_id'])){
 				if((strcasecmp($ext['extension'], 'jpg')==0 or strcasecmp($ext['extension'], 'png')==0 or strcasecmp($ext['extension'], 'gif')==0 or strcasecmp($ext['extension'], 'jpeg')==0)){
+					$mini=$CFG->eportfolio_dataroot."/".$file['location']."_mini";
+					if(!file_exists($mini)){
+						copy($CFG->eportfolio_dataroot."/".$file['location'],$mini);
+						resize_image($mini,$max_width=70,$max_height=70);
+						}
+					$fileparam_list='?fileid='.$fileid.'&location='.$file['location'].'_mini&filename='.$file['name'];
 					$src=$filedisplay_url.$fileparam_list;
 					}
 				else{
