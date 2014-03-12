@@ -132,7 +132,7 @@ function rowaction_buttonmenu($imagebuttons,$extrabuttons='',$book=''){
 			if(!isset($attributes['id'])){$buttonid='';}else{$buttonid=' id="'.$attributes['id'].'" ';}
 ?>
 	<!--span class="<?php print($imageclass);?> rowaction imagebutton" title="<?php print_string($attributes['title']);?>" <?php print $buttonid;?> name="<?php print $attributes['name'];?>" value="<?php print $attributes['value'];?>" onClick="<?php print $attributes['onclick'];?>"></span-->
-	<span class="<?php print($imageclass);?>  rowaction imagebutton" title="<?php print_string($attributes['title'],$book);?>"></span>
+	<span class="<?php print($imageclass);?>  rowaction imagebutton" title="<?php print_string($attributes['title'],$book);?>" <?php print $buttonid;?> name="<?php print $attributes['name'];?>" value="<?php print $attributes['value'];?>" onClick="<?php print $attributes['onclick'];?>"></span>
     <?php
 	   }
 	       }
@@ -521,12 +521,9 @@ function display_file($epfun,$foldertype,$linkedid='-1',$comment=''){
 			$path=$filedisplay_url.$fileparam_list;
 			$ext=pathinfo($path);
 ?>
-	<div style="height:100px;float:left;">
-		<div>
-		  <span  style="text-align:center;width:100px;" title="<?php echo $comment;?>">
-			<a href="<?php print $filedisplay_url.$fileparam_list;?>">
-				<button type="button" class="rowaction imagebutton" style="float:left;" >
-			
+		  <!--span title="<?php echo $comment;?>">
+				<button type="button" class="rowaction imagebutton">
+				    <a href="<?php print $filedisplay_url.$fileparam_list;?>"-->
 <?php
 			if($ext['extension']=='pdf'){
 ?>
@@ -539,20 +536,18 @@ function display_file($epfun,$foldertype,$linkedid='-1',$comment=''){
 <?php
 				}
 ?>
-					<span style="text-align: center;"><?php echo $file['name']; ?></span>
+					<!--span><?php echo $file['name']; ?></span>
 				</button>
 			</a>
-		  </span>
+		  </span-->
 
 <?php
 			if(strcasecmp($ext['extension'], 'jpg')==0 or strcasecmp($ext['extension'], 'png')==0 or strcasecmp($ext['extension'], 'gif')==0 or strcasecmp($ext['extension'], 'jpeg')==0){
 ?>
-				<img src="<?php print $filedisplay_url.$fileparam_list;?>" style="height:70px;width:70px;float:right;cursor:pointer;" onclick="getElementById('preview').style.display='block';getElementById('shadow').style.display='block';getElementById('imgpreview').setAttribute('src','<?php print $filedisplay_url.$fileparam_list;?>');">
+				<div style="margin-top: 20px; "><img src="<?php print $filedisplay_url.$fileparam_list;?>" style="height:70px;width:70px; cursor:pointer;" onclick="getElementById('preview').style.display='block';getElementById('shadow').style.display='block';getElementById('imgpreview').setAttribute('src','<?php print $filedisplay_url.$fileparam_list;?>');"></div>
 <?php
 				}
 ?>
-		</div>
-	</div>
 <?php
 			}
 	}
@@ -871,7 +866,7 @@ function html_document_drop($epfun,$context,$linked_id='-1',$lid='-1',$ownertype
 ?>
 	  <fieldset class="profile">
 		<h5><?php print_string('documents');?></h5>
-		<fieldset class="documentdrop">
+		<div class="documentdrop">
 		  <form id="formfiledelete" name="formfiledelete" method="post" action="<?php print $path;?>infobook/httpscripts/file_delete.php">
 			<input type="hidden" id="FILEOWNER" name="FILEOWNER" value="<?php print $epfun;?>" />
 			<input type="hidden" id="FILECONTEXT" name="FILECONTEXT" value="<?php print $context;?>" />
@@ -885,7 +880,7 @@ function html_document_drop($epfun,$context,$linked_id='-1',$lid='-1',$ownertype
 		}
 ?>
 		  </form>
-		</fieldset>
+		</div>
 
 		<fieldset class="documentdrop">
 			<form id="formdocumentdrop" name="formdocumentdrop" method="post" action="<?php print $path;?>infobook/httpscripts/file_upload.php" enctype="multipart/form-data" <?php if($context=='icon') print "onsubmit='return checkForm()'"; ?>>

@@ -3,87 +3,102 @@
  * light shade:
  */
 
-.markcolor button {
-    background-color: #aa66aa;
-}
-
-.marktable input {
-    text-align: center;
-}
-.marktable input[type="checkbox"] {
-    width: 2em;
-}
-
 .marktable td.grade, .marktable td.derived, .marktable td.other {
-    text-align: center;
-    border-left: 1px solid #cccccc;
-    border-right: 1px solid #cccccc;
-    display: none;
+  text-align: center;
+  border-left: 1px solid #cccccc;
+  border-right: 1px solid #cccccc;
+  display: none;
 }
 .marktable td.grade span {
-    height: 100%;
-    width: 100%;
+  height: 100%;
+  width: 100%;
 }
 .marktable td[title] {
-    background-image: url("../images/purplecorner.png");
-    background-repeat: no-repeat;
+  background-image: url("../images/purplecorner.png");
+  background-repeat: no-repeat;
 }
 .marktable td.report {
-    text-align: center;
-    display: none;
+  text-align: center;
+  display: none;
 }
 .marktable input[type="checkbox"] {
-    clear: none;
-    float: none;
-    margin: 0 0 0.2em 0.4em;
-    padding: 0px;
+  clear: none;
+  float: none;
+  margin: 0 0 0.2em 0.4em;
+  padding: 0px;
 }
 
-table#editscores {
-    border: 0;
-    padding: 0;
-    margin: 0;
-    color: black;
-    background-color: #444444;
-}
 #editscores input, #editscores select {
-    font-size: x-small;
-    margin: 0;
-    padding: 0;
-    float: right;
-    margin-right: 20%;
+  font-size: x-small;
+  margin: 0;
+  padding: 0;
+  float: right;
+  margin-right: 20%;
 }
 #editscores select {
-    margin-right: 45%;
+  margin-right: 45%;
 }
 #editscores th {
-    background-color: #ffffff;
-    text-align: center;
+  background-color: #ffffff;
+  text-align: center;
 }
 
 /*for the attendance status*/
 .marktable td[status="a"], #editscores td[status="a"] {
-    background-image: none;
-    background-color: yellow;
-    font-weight: 100;
-    font-size: x-small;
-    color: #000000;
-    text-align: center;
+  background-image: none;
+  background-color: yellow;
+  font-weight: 100;
+  font-size: x-small;
+  color: #000000;
+  text-align: center;
 }
 td[status="p"] {
-    background-color: #91C73E;
-    text-align: center;
-    padding: 5px 0!important;    
+  background-color: #91C73E;
+  text-align: center;
+  padding: 5px 0 !important;
 }
 td[status=" "] {
-    background-color: #777;
+  background-color: #777;
 }
 td[status="p"], td[status="a"], td[status=" "] {
-    width: 2em !important;
+  width: 2em !important;
 }
 
 .component {
-    color: #6666ff;
-    background-color: #ffffff;
-    font-weight: 600;
+  color: #6666ff;
+  background-color: #ffffff;
+  font-weight: 600;
+}
+
+#preview {
+  display: none;
+  width: 80%;
+  margin-left: 10%;
+  z-index: 1000;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+#imgpreview {
+  display: block;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: 100%;
+  padding-top: 3%;
+  padding-bottom: 3%;
+  margin-left: auto;
+  margin-right: auto;
+  float: none;
+}
+#shadow {
+  display: none;
+  width: 100%;
+  height: 100%;
+  background-color: black;
+  z-index: 999;
+  position: fixed;
+  opacity: 0.4;
+  top: 0;
+  left: 0;
 }
