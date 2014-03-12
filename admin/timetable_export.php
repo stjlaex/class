@@ -57,7 +57,7 @@ include('scripts/answer_action.php');
 			while(list($index,$form)=each($forms)){
 				$Group=array();
 				$Group['Name']=$form['name'];
-				$Group['Number_of_Students']='0';
+				$Group['Number_of_Students']=countin_community($form);
 				$Groups[]=$Group;
 				}
 			$Year=array();

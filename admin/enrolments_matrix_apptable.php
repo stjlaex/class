@@ -120,7 +120,8 @@ foreach($yeargroups as $year){
 			$extravalue=countin_community($com,'','',true);
 			}
 
-		if($enrolstatus=='CA' or $enrolstatus=='RE'){
+		if($enrolstatus=='CA'){
+			//if($enrolstatus=='CA' or $enrolstatus=='RE'){
 			/* Exclude applications which were canceled before the start of the year. */
 			$d_nosids=mysql_query("SELECT COUNT(student_id) FROM
 						comidsid WHERE community_id='$comid'
