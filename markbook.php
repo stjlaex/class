@@ -185,29 +185,6 @@ $_SESSION['lessonatt'] = $lessonatt;
             </fieldset>
         </form>
         
-        <form id="componentchoice" name="componentchoice" method="post" action="markbook.php" target="viewmarkbook">
-            <fieldset class="markbook"></fieldset>
-            <input name="tid" type="hidden" value="<?php print $tid; ?>">
-            <input name="current" type="hidden" value="class_view.php">		
-            <?php
-                if(sizeof($pids)>0){
-            ?>
-            <select name="pid" size="1" onchange="document.componentchoice.submit();">
-                <option value=""><?php print_string('allcomponents'); ?></option>
-                <?php
-                    foreach ($components as $index => $component) {
-                        print '<option ';
-                        if ($component['id'] == $pid) {print 'selected="selected"';
-                    }
-                        print ' value="' . $component['id'] . '">' . $component['name'] . '</option>';
-                    }
-                ?>
-            </select>
-            <?php
-                }
-            ?>
-        </form>
-        
         <form id="gradechoice" name="gradechoice"  method="post" action="markbook.php" target="viewmarkbook">
             <fieldset class="markbook"><legend></legend></fieldset>
             <select id="mids" name="mids[]" size="14" multiple="multiple" onChange="changeMarkDisplay(this.form);">
@@ -302,6 +279,33 @@ $_SESSION['lessonatt'] = $lessonatt;
                     $onsidechange = 'yes';
                     include ('scripts/list_curriculum_year.php');
                 ?>
+            </fieldset>
+        </form>
+        
+        <form id="componentchoice" name="componentchoice" method="post" action="markbook.php" target="viewmarkbook">
+            <fieldset class="markbook">
+                <legend>&nbsp;</legend>
+            
+            <input name="tid" type="hidden" value="<?php print $tid; ?>">
+            <input name="current" type="hidden" value="class_view.php">     
+            <?php
+                if(sizeof($pids)>0){
+            ?>
+            
+            <select name="pid" size="1" onchange="document.componentchoice.submit();">
+                <option value=""><?php print_string('allcomponents'); ?></option>
+                <?php
+                    foreach ($components as $index => $component) {
+                        print '<option ';
+                        if ($component['id'] == $pid) {print 'selected="selected"';
+                    }
+                        print ' value="' . $component['id'] . '">' . $component['name'] . '</option>';
+                    }
+                ?>
+            </select>
+            <?php
+                }
+            ?>
             </fieldset>
         </form>
     </div>

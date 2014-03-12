@@ -276,17 +276,27 @@ div.content .fullwidth, div.topcontent .fullwidth, div.topform .fullwidth {
   clear: both;
 }
 
-/*used to describe page content in the space to the left of the top buttonmenu*/
+/*used to describe page content in the space to the left of the top buttonmenu
+ div#heading {
+ font-size: 18px;
+ margin-top: 50px;
+ margin-bottom: -30px;
+ }
+ */
 div#heading {
   font-size: 18px;
-  margin-top: 50px;
+  left: 10px;
   margin-bottom: -30px;
+  margin-top: 10px;
+  position: fixed;
+  top: 0;
+  z-index: 10000;
 }
-#heading div {
-  padding: 0;
-  margin: 0;
-  float: left;
+
+#heading h4 label {
+  font-weight: 300;
 }
+
 div.buttonmenu {
   border: 0 none;
   overflow: hidden;
@@ -340,12 +350,12 @@ button:hover {
 div.rowaction {
   padding: 5px;
 }
-.student .fa, .clicktoaction div, .clicktoemail, .clicktoedit, .clicktoconfigure, .clicktoprint, .completed, .clicktohelp, .clicktoload {
+.student .fa, .clicktoaction div, .clicktoemail, .clicktoedit, .clicktoconfigure, .clicktoprint, .completed, .clicktohelp, .clicktoload,.clicktodelete {
   cursor: pointer;
   font-weight: normal;
 }
 
-.clicktoedit:before, .clicktoemail:before, .clicktoconfigure:before, .clicktoprint:before, .completed:before, .clicktohelp:before, .clicktoload:before {
+.clicktoedit:before, .clicktoemail:before, .clicktoconfigure:before, .clicktoprint:before, .completed:before, .clicktohelp:before, .clicktoload:before, .clicktodelete:before {
   font-family: 'FontAwesome';
   color: #91C73E;
 }
@@ -374,6 +384,10 @@ div.rowaction {
   content: "\f03e";
   font-size: 16px;
 }
+.clicktodelete:before {
+  content: "\f014";
+  font-size: 20px;
+}
 img.displayfilepdf {
   background-image: url("../images/file-pdf.png");
   content: url("../images/file-pdf.png");
@@ -400,11 +414,6 @@ img.clicktowrite {
   height: 16px !important;
 }
 
-.clicktodelete {
-  background-image: url("../images/redcross.png");
-  content: url("../images/redcross.png");
-  cursor: pointer;
-}
 .student div {
   float: right;
   margin: 0;
@@ -498,12 +507,6 @@ ul.listmenu {
 
 /*fade to gray*/
 /*two shades of red*/
-
-.hilite, .pauselite, .golite {
-  padding: 5px;
-  margin: 5px;
-}
-
 .listmenu tr.hilite td, .listmenu td.hilite, tr.hilite a {
   color: #FCE9CB !important;
   background-color: #F39C12 !important;
@@ -524,8 +527,6 @@ ul.listmenu {
 .hilite {
   color: #FCE9CB !important;
   background-color: #F39C12;
-  padding-top: 8px;
-  margin: 5px;
   text-align: center;
 }
 .hilite div.radio span:before {
@@ -553,8 +554,6 @@ ul.listmenu {
 .pauselite {
   color: #b5b500 !important;
   text-align: center;
-  padding-top: 8px;
-  margin: 5px;
 }
 .pauselite div.radio span:before, .pauselite a {
   color: #b5b500 !important;
@@ -570,13 +569,16 @@ div.pauselite {
 }
 .golite {
   color: #dde9c7 !important;
-  text-align: center;
-  padding-top: 8px;
-  margin: 5px;
 }
 .golite div.radio span:before, .golite a {
   color: #dde9c7 !important;
 }
+
+div.pauselite, div.midlite, div.golite, div.gomidlite {
+  text-align: center;
+  padding: 5px;
+}
+
 .listmenu tr.gomidlite td, .listmenu td.gomidlite, .gomidlite {
   background-color: #66cc66 !important;
   color: #ddf4dd;
@@ -802,11 +804,16 @@ table.smalltable {
 .documentdrop #progress p.failed {
   background: #c00 none 0 0 no-repeat;
 }
+.documentdrop div a {
+  text-decoration: none;
+}
 .documentdrop div a label {
-  color: #ffffff !important;
-  background-color: #446 !important;
+  color: #91C73E !important;
   cursor: pointer;
   padding: 2px 4px;
+}
+.documentdrop div a label span {
+  margin-left: 10px;
 }
 div.document {
   float: left;
@@ -1004,6 +1011,7 @@ div.content fieldset, div.topcontent fieldset {
 }
 .documentdrop {
   height: auto;
+  width: 100%;
 }
 
 .divgroup p {
@@ -1015,7 +1023,6 @@ div.content fieldset, div.topcontent fieldset {
 .assessment {
   margin-top: 37px !important
 }
-
 .chk-height {
   height: 30px;
 }
@@ -1025,20 +1032,29 @@ div.content fieldset, div.topcontent fieldset {
   height: 30px;
   font-weight: bold;
 }
-.markbook-img .chk-list {
+fieldset.divgroup.markbook-img {
+  min-height: 10px;
+}
+.markbook-img .list-box {
   width: 40%;
   margin-left: 20px;
   float: right;
 }
 .markbook-img .chk-list li {
-  height: auto;
   width: 85px;
+  height: auto;
+  padding: 5px;
+  margin: 2px 2px 0 0;
+  margin-top: 0;
 }
-.markbook-img .chk-list li:last-child span:before, .markbook-img .chk-list li:last-child div.radio span.checked:before {
+
+.markbook-img .chk-list li:nth-child(4), .markbook-img .chk-list li:last-child {
+  width: auto;
+}
+.markbook-img .chk-list li:nth-child(4) span:before, .markbook-img .chk-list li:nth-child(4) div.radio span.checked:before {
   content: "\f014";
   font-size: 21px;
 }
-
 .notchecked, .checked {
   display: inline-block;
   margin-right: 10px;

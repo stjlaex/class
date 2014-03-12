@@ -55,8 +55,7 @@ three_buttonmenu($extrabuttons,$book);
  ?>
 
 	<div id="heading">
-	  <label><?php print_string('transport','admin'); ?></label>
-			<?php print $Student['DisplayFullName']['value'];?>
+	  <h4><label><?php print_string('transport','admin'); ?></label> <?php print $Student['DisplayFullName']['value'];?></h4>
 	</div>
 
 

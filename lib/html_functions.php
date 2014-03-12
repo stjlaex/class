@@ -544,7 +544,7 @@ function display_file($epfun,$foldertype,$linkedid='-1',$comment=''){
 <?php
 			if(strcasecmp($ext['extension'], 'jpg')==0 or strcasecmp($ext['extension'], 'png')==0 or strcasecmp($ext['extension'], 'gif')==0 or strcasecmp($ext['extension'], 'jpeg')==0){
 ?>
-				<div style="margin-top: 20px; "><img src="<?php print $filedisplay_url.$fileparam_list;?>" style="height:70px;width:70px; cursor:pointer;" onclick="getElementById('preview').style.display='block';getElementById('shadow').style.display='block';getElementById('imgpreview').setAttribute('src','<?php print $filedisplay_url.$fileparam_list;?>');"></div>
+				<img src="<?php print $filedisplay_url.$fileparam_list;?>" style="height:70px;width:70px; cursor:pointer;" onclick="getElementById('preview').style.display='block';getElementById('shadow').style.display='block';getElementById('imgpreview').setAttribute('src','<?php print $filedisplay_url.$fileparam_list;?>');">
 <?php
 				}
 ?>
@@ -874,9 +874,7 @@ function html_document_drop($epfun,$context,$linked_id='-1',$lid='-1',$ownertype
 	$files=(array)list_files($epfun,$context,$linked_id);
 	if(sizeof($files)>0){
 		html_document_list($files);
-		print '<button id="deletebutton" class="rowaction imagebutton" 
-						type="button" title="Delete" name="current" 
-						value=""/><img class="clicktodelete" style="max-width:100%;" /></button>';
+		print '<span class="clicktodelete"></span>';
 		}
 ?>
 		  </form>
@@ -970,10 +968,10 @@ function html_document_drop($epfun,$context,$linked_id='-1',$lid='-1',$ownertype
 						<br>
 						<div class="upload">
 						   <input type="file" name="image_file" onchange="document.getElementById('messages').style.display='block';document.getElementById('messages').innerHTML=this.value;"/>
-						   <button type="button" id="submitbutton" style="position:absolute;float:none;background-color:#444466;color:white;font-weight: bold;border-radius: 7px 7px 7px 7px;border: 2px dashed #555555;font-size: small;z-index:1000;width:140px;height:27px;"><?php print_string('browse');?></button>
+						   <button type="button" id="submitbutton" style="position:absolute;float:none;background-color:#444466;color:white;font-weight: bold;border-radius: 7px 7px 7px 7px;font-size: small;z-index:1000;width:140px;height:27px;"><?php print_string('browse');?></button>
 						</div>
 						<div style="float:left;">
-							<button type="submit" id="submitbutton" style="background-color:#444466;color:white;font-weight: bold;border-radius: 7px 7px 7px 7px;border: 2px dashed #555555;font-size: small;float:right;height:27px;"><?php print_string('upload');?></button>
+							<button type="submit" id="submitbutton" style="background-color:#444466;color:white;font-weight: bold;border-radius: 7px 7px 7px 7px;font-size: small;float:right;height:27px;"><?php print_string('upload');?></button>
 						 </div>
 					</div>
 
@@ -1027,7 +1025,7 @@ function html_document_list($files){
 		else $fileid=$file['id'];
 		$fileparam_list='?fileid='.$fileid.'&location='.$file['location'].'&filename='.$file['name'];
 		print '<div id="filecontainer'.$fileid.'" class="document"><span title="'.$file['description'].'">';
-		print '<a href="'.$filedisplay_url. $fileparam_list.'" /><label>'.$file['originalname'].'<img src="images/printer.png" /></label></a>';
+		print '<a href="'.$filedisplay_url. $fileparam_list.'" /><label>'.$file['originalname'].'<span class="clicktoprint"></span></label></a>';
 		print '<input type="checkbox" name="fileids[]" value="'.$fileid.'" />';
 		print '<input type="hidden" id="fname" value="'.$fileid.'" />';
 		print '</span></div>';

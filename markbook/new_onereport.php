@@ -165,6 +165,7 @@
 				else{$statementlabel='';}
 				print '';
 				print '<fieldset class="divgroup markbook-img">';
+				print '<div class="list-box"><span>'.display_date($setcat_date).'</span>';
 				print '<ul class="chk-list">';
 
 				/* Find any previously recorded value for this catid,
@@ -215,14 +216,6 @@
 
 				print '<!--li>'.get_string('uncheck',$book).'</li-->';
 				print '<li><input type="radio" name="sid'.$sid.':'.$inc. '" value="uncheck" /></li>';
-				print '</ul>';
-                print '<h5>'.$statementlabel. $Statement['Value'].'</h5>';
-
-				if($setcat_date!=' ' and $setcat_date!=''){
-					print '<span>'.display_date($setcat_date).'</span>';
-					print '<input type="hidden" name="cat'.$sid.':'.$catid.'" value="'.$setcat_value.'"/>';
-					print '<input type="hidden" name="dat'.$sid.':'.$catid.'" value="'.$setcat_date.'"/>';
-					}
 
 				$inc++;
 				print '';
@@ -234,7 +227,7 @@
 					$thisscore=get_assessment_score($eid,$sid,$bid,$pid);
 					$eidsid_id=$thisscore['id'];
 					*/
-
+                    print '<li>';
 					$imagebuttons=array();
 					$imagebuttons['clicktoload']=array(
 					   'name'=>'Attachment',
@@ -244,17 +237,13 @@
 					   'title'=>'clicktoattachfile'
                    );
 					$d_c=mysql_query("SELECT id, comment FROM report_skill_log WHERE skill_id='$catid' AND report_id='$rid' AND student_id='$sid';");
-					/*Not empty row*/
-					if(mysql_num_rows($d_c)>0){
-						print '';
-						}
-					/*Row without comments or files*/
-					else{
-						print '';
-						}
+					
 					rowaction_buttonmenu($imagebuttons,array(),$book);
 					require_once('lib/eportfolio_functions.php');
-
+                
+                    print '</li></ul>';
+                    print '</div><h5>'.$statementlabel. $Statement['Value'].'</h5>';
+                
 					while($c=mysql_fetch_array($d_c,MYSQL_ASSOC)){
 						$files=(array)list_files($Student['EPFUsername']['value'],'assessment',$c['id']);
 						//html_document_list($files);
@@ -277,6 +266,10 @@
 					*/
 					print '</fieldset>';
 					}
+                    if($setcat_date!=' ' and $setcat_date!=''){
+                        print '<input type="hidden" name="cat'.$sid.':'.$catid.'" value="'.$setcat_value.'"/>';
+                        print '<input type="hidden" name="dat'.$sid.':'.$catid.'" value="'.$setcat_date.'"/>';
+                    }
 				}
 			}
 

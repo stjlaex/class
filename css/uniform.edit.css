@@ -207,8 +207,6 @@ div.radio {
   position: relative;
 }
 div.radio, div.radio span, div.radio input {
-  width: 16px;
-  height: 16px;
   cursor: pointer;
 }
 div.radio span {
@@ -272,6 +270,7 @@ select.uniform-multiselect option {
   color: #657585;
   padding: 0 5px;
   font-family: 'Lato', sans-serif;
+  cursor: pointer;
 }
 
 /*these select widths are not ideal but seem to solve a firefox bug for 100%!*/

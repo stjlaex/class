@@ -177,14 +177,14 @@ else{
 
 ?>
   <div id="heading">
+      <h4>
 <?php
 if($community['type']=='form' or $community['type']=='house' or $community['type']=='reg'){
-	print '<div><label>'.get_string($community['type']).'</label>'.$community['name'].'</div>';
+	print '<label>'.get_string($community['type']).'</label> '.$community['name'];
 	if(isset($tutor_users)){
 		foreach($tutor_users as $uid => $tutor_user){
-			print '<div><label>'.get_string('formtutor').'</label>'.$tutor_user['forename'][0].' '. $tutor_user['surname'].'</div><div>';
+			print '<label>  / '.get_string('formtutor').'</label>'.$tutor_user['forename'][0].' '. $tutor_user['surname'];
 			emaillink_display($tutor_user['email']);
-			print '</div>';
 			}
 		}
 	}
@@ -193,6 +193,7 @@ else{
 	print '<div><label>'.get_string('subject',$book).' class'.'</label>'.$thisclass['name'].'</div>';
 	}
 ?>
+</h4>
   </div>
 
 
