@@ -276,16 +276,10 @@ div.content .fullwidth, div.topcontent .fullwidth, div.topform .fullwidth {
   clear: both;
 }
 
-/*used to describe page content in the space to the left of the top buttonmenu
- div#heading {
- font-size: 18px;
- margin-top: 50px;
- margin-bottom: -30px;
- }
- */
+/*used to describe page content in the space to the left of the top buttonmenu*/
 div#heading {
   font-size: 18px;
-  left: 10px;
+  left: 2%;
   margin-bottom: -30px;
   margin-top: 10px;
   position: fixed;
@@ -545,6 +539,10 @@ ul.listmenu {
 }
 .nolite {
   text-align: center;
+}
+.nolite a {
+  display: block;
+  text-decoration: none;
 }
 /*yellow*/
 .listmenu tr.pauselite td, .listmenu td.pauselite, .pauselite {

@@ -338,4 +338,5 @@ div.hidden {
 }
 .marktable th.derived, .marktable td.derived {
     background-color: #ddeeff;
+    padding: 0;
 }

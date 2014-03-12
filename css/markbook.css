@@ -5,9 +5,9 @@
 
 .marktable td.grade, .marktable td.derived, .marktable td.other {
   text-align: center;
-  border-left: 1px solid #cccccc;
   border-right: 1px solid #cccccc;
   display: none;
+  padding: 0!important;
 }
 .marktable td.grade span {
   height: 100%;
