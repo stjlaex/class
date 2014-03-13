@@ -13,23 +13,22 @@ three_buttonmenu();
 ?>
 
 <div class="content">
-<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
-	<fieldset class="center"> 
-	<legend><?php print_string('updatecurriculum',$book); ?></legend> 
-	<?php print_string('updatecurriculumwarning',$book); ?>
-	</fieldset>
-
-	<fieldset class="center divgroup"> 
-		<legend><?php print_string('confirm',$book);?></legend>
-		<p><?php print_string('confidentwhatyouaredoing',$book);?></p>
-		<div class="right">
-		  <?php include('scripts/check_yesno.php');?>
-		</div>
-	</fieldset>
-
-
-	<input type="hidden" name="cancel" value="<?php print ''; ?>" />
-	<input type="hidden" name="current" value="<?php print $action;?>" />
-	<input type="hidden" name="choice" value="<?php print $choice;?>" />
-</form> 
+    <form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
+        <div class="left">
+            <fieldset class="divgroup"> 
+                <h5><?php print_string('updatecurriculum',$book); ?></h5> 
+                <?php print_string('updatecurriculumwarning',$book); ?>
+            </fieldset>
+        </div>
+        <div class="right">
+            <fieldset class="divgroup"> 
+                <h5><?php print_string('confirm',$book);?></h5>
+                <p><?php print_string('confidentwhatyouaredoing',$book);?></p>
+                  <?php include('scripts/check_yesno.php');?>
+            </fieldset>
+        </div>
+        <input type="hidden" name="cancel" value="<?php print ''; ?>" />
+        <input type="hidden" name="current" value="<?php print $action;?>" />
+        <input type="hidden" name="choice" value="<?php print $choice;?>" />
+    </form>
 </div>

@@ -55,8 +55,8 @@ elseif($sub=='Generate'){
 ?>
   <div class="content">
 	<form name="formtoprocess" id="formtoprocess" method="post" action="<?php print $host; ?>">
-	  <fieldset class="center">
-		<legend><?php print_string('confirm',$book);?></legend>
+	  <fieldset class="divgroup">
+		<h5><?php print_string('confirm',$book);?></h5>
 		<?php print_string('generateclassstructurequestion',$book);?>		
 		<div class="right">
 		  <?php include('scripts/check_yesno.php');?>

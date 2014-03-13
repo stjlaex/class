@@ -25,15 +25,13 @@ elseif($sub=='Create'){
 	<form name="formtoprocess" id="formtoprocess" method="post"
 								action="<?php print $host; ?>">
 
-	  <fieldset class="center">
-		<legend><?php print_string('changegroupname',$book);?></legend>
+	  <fieldset class="divgroup">
+		<h5><?php print_string('changegroupname',$book);?></h5>
 
 
 		<div class="center">
 		  <label for="Newname"><?php print_string('newgroupname',$book);?></label>
-			<input type="text" id="Newname" name="newname"
-						tabindex="<?php print $tab++;?>" maxlength="10"
-							class="required" value="" />
+			<input type="text" id="Newname" name="newname" tabindex="<?php print $tab++;?>" maxlength="10" class="required" value="" />
 		</div>
 
 	  </fieldset>

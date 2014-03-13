@@ -72,19 +72,12 @@ for($end=$yearend;$end>$yearstart;$end--){
 	$reports[]=array('title'=>'Year '.$end.'-'.($end-1),'url'=>$url);
 	}
 ?>
-
-
-  <div id="heading">
-	<label><?php print_string('attendance'); ?></label>
-	<?php print $Student['DisplayFullName']['value'];?>
-  </div>
-  <div class="content">
-
-
-
-	  <fieldset class="center listmenu">
-		<legend><?php print get_string('absent','register');?></legend>
-		<div class="center">
+    <div id="heading">
+        <h4><label><?php print_string('attendance'); ?></label> <?php print $Student['DisplayFullName']['value'];?></h4>
+    </div>
+    <div class="content">
+	  <fieldset class="divgroup listmenu">
+		<h5><?php print get_string('absent','register');?></h5>
 		<table>
 		<thead>
 		  <tr>
@@ -136,34 +129,22 @@ for($end=$yearend;$end>$yearstart;$end--){
 		print '</tr>';
 ?>
 		</table>
-		</div>
 	  </fieldset>
 
-
-
-
-
-	<fieldset class="center divgroup">
-	  <legend>
+	<fieldset class="divgroup">
+	  <h5>
 			<?php print get_string('attendance','reportbook'). ' '.get_string('reports',$book);?>
-	  </legend>
+	  </h5>
 <?php
 	foreach($reports as $report){
 ?>
-	<div style="float:left;width:24%;margin:2px;">
-	  <table class="listmenu smalltable">
-		<tr>
-		  <td>
-			<h4> <?php print $report['title'];?></h4>
-		  </td>
-		  <td>
-			<button style="float:right;" title="<?php print_string('print');?>" 			 
-			onclick="clickToPresent('reportbook','<?php print $report['url'];?>','attendance_summary')" >
-			<img src="images/printer.png" /></button>
-		  </td>
-		</tr>
-	  </table>
-	</div>
+			<div class="center" style="margin-bottom: 15px;">
+			<h6> <?php print $report['title'];?>
+    			<a  title="<?php print_string('print');?>" onclick="clickToPresent('reportbook','<?php print $report['url'];?>','attendance_summary')" >
+    			     <span class="clicktoprint"></span>
+    			</a>
+			</h6>
+			</div>
 <?php
 		}
 ?>

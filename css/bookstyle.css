@@ -1006,12 +1006,12 @@ div.content fieldset, div.topcontent fieldset {
   margin: 0 0 20px;
   background-color: #eeeeee;
   min-height: 100px;
+  width: 96%;
 }
 .documentdrop {
   height: auto;
   width: 100%;
 }
-
 .divgroup p {
   margin-bottom: 10px;
 }
@@ -1030,6 +1030,12 @@ div.content fieldset, div.topcontent fieldset {
   height: 30px;
   font-weight: bold;
 }
+.chk-list-alt {
+  margin-top: 20px;
+}
+.chk-list-alt li {
+  width: 170px;
+}
 fieldset.divgroup.markbook-img {
   min-height: 10px;
 }
@@ -1045,7 +1051,6 @@ fieldset.divgroup.markbook-img {
   margin: 2px 2px 0 0;
   margin-top: 0;
 }
-
 .markbook-img .chk-list li:nth-child(4), .markbook-img .chk-list li:last-child {
   width: auto;
 }

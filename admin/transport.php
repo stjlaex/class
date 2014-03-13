@@ -61,39 +61,39 @@ two_buttonmenu($extrabuttons);
 		<input type="hidden" name="current" value="<?php print $action;?>" />
 		<input type="hidden" name="choice" value="<?php print $choice;?>" />
 		<input type="hidden" name="cancel" value="<?php print '';?>" />
-
-    <fieldset class="divgroup" id="viewcontent">
-    	  <h5><?php print_string('transport',$book);?></h5>
-              <div class="right">
-                <?php $required='no'; include('scripts/jsdate-form.php');?>
-              </div>
-             <div class="chk-height">
-    		  <?php print_string('checkall'); ?>
-    		  <input type="checkbox" name="checkall" value="yes" onChange="checkAll(this,'busnames[]');" />
-    		</div>
-            <ul class="class="chk-list">   
-            <?php
-                $busnames=list_busnames();
-                foreach($busnames as $busname){
-            ?>
-                <li>
-                    <input type="checkbox" name="busnames[]" value="b-<?php print $busname['name']; ?>" />
-                    <?php
-                        print '<a  href="admin.php?current=transport_list.php&cancel='.$choice.'&choice='.$choice.'&busname='.$busname['name'].'">'.$busname['name'].'</a>';
-                    ?>
-                    <?php
-                    	$noi=count_bus_journey_students($busname['name'],'I',$todate,1);
-                    	$noo=count_bus_journey_students($busname['name'],'O',$todate,1);
-                    	print '<div> AM:'.$noi. ' PM:' .$noo.'</div>';
-                    ?>
-                </li>
-        <?php
-            }
-        ?>
-        </ul>
-	</fieldset>
+        <fieldset class="divgroup" id="viewcontent">
+        	  <h5><?php print_string('transport',$book);?></h5>
+                  <div class="right">
+                    <?php $required='no'; include('scripts/jsdate-form.php');?>
+                  </div>
+                 <div class="chk-height">
+        		  <?php print_string('checkall'); ?>
+        		  <input type="checkbox" name="checkall" value="yes" onChange="checkAll(this,'busnames[]');" />
+        		</div>
+                <ul class="chk-list chk-list-alt">   
+                <?php
+                    $busnames=list_busnames();
+                    foreach($busnames as $busname){
+                ?>
+                    <li>
+                        <input type="checkbox" name="busnames[]" value="b-<?php print $busname['name']; ?>" />
+                        <?php
+                            print '<a  href="admin.php?current=transport_list.php&cancel='.$choice.'&choice='.$choice.'&busname='.$busname['name'].'">'.$busname['name'].'</a>';
+                        ?>
+                         | 
+                        <?php
+                        	$noi=count_bus_journey_students($busname['name'],'I',$todate,1);
+                        	$noo=count_bus_journey_students($busname['name'],'O',$todate,1);
+                        	print ' AM:'.$noi. ' PM:' .$noo;
+                        ?>
+                    </li>
+                <?php
+                    }
+                ?>
+            </ul>
+    	</fieldset>
 	
-    <fieldset class="divgroup" id="viewcontent">
+        <fieldset class="divgroup" id="viewcontent">
         <h5><?php print get_string('formgroups',$book);?></h5>
     		<div style="height: 30px;">
     		  <?php print_string('checkall'); ?>
@@ -115,66 +115,63 @@ two_buttonmenu($extrabuttons);
             ?>
             </ul>
        </fieldset>
-	<div id="xml-listin" style="display:none;">
-	  <params>
-		<checkname>busnames</checkname>
-		<checkname>formnames</checkname>
-		<selectname>date0</selectname>
-		<length>full</length>
-		<transform>transport_list_in</transform>
-		<paper>landscape</paper>
-	  </params>
-	</div>
-	<div id="xml-listout" style="display:none;">
-	  <params>
-		<checkname>busnames</checkname>
-		<checkname>formnames</checkname>
-		<selectname>date0</selectname>
-		<length>full</length>
-		<transform>transport_list_out</transform>
-		<paper>landscape</paper>
-	  </params>
-	</div>
-	<div id="xml-changes" style="display:none;">
-	  <params>
-		<checkname>busnames</checkname>
-		<checkname>formnames</checkname>
-		<selectname>date0</selectname>
-		<length>full</length>
-		<transform>transport_list_changes</transform>
-		<paper>landscape</paper>
-	  </params>
-	</div>
-	<div id="xml-attendance" style="display:none;">
-	  <params>
-		<checkname>busnames</checkname>
-		<checkname>formnames</checkname>
-		<selectname>date0</selectname>
-		<length>short</length>
-		<transform>transport_list_attendance</transform>
-		<paper>landscape</paper>
-	  </params>
-	</div>
-	<div id="xml-list" style="display:none;">
-	  <params>
-		<checkname>busnames</checkname>
-		<checkname>formnames</checkname>
-		<selectname>date0</selectname>
-		<length>short</length>
-		<transform>transport_list</transform>
-		<paper>landscape</paper>
-	  </params>
-	</div>
-	<div id="xml-route" style="display:none;">
-	  <params>
-		<checkname>busnames</checkname>
-		<transform>transport_route</transform>
-		<paper>portrait</paper>
-	  </params>
-	</div>
-  </form>
-
-
-
-  </div>
+    	<div id="xml-listin" style="display:none;">
+    	  <params>
+    		<checkname>busnames</checkname>
+    		<checkname>formnames</checkname>
+    		<selectname>date0</selectname>
+    		<length>full</length>
+    		<transform>transport_list_in</transform>
+    		<paper>landscape</paper>
+    	  </params>
+    	</div>
+    	<div id="xml-listout" style="display:none;">
+    	  <params>
+    		<checkname>busnames</checkname>
+    		<checkname>formnames</checkname>
+    		<selectname>date0</selectname>
+    		<length>full</length>
+    		<transform>transport_list_out</transform>
+    		<paper>landscape</paper>
+    	  </params>
+    	</div>
+    	<div id="xml-changes" style="display:none;">
+    	  <params>
+    		<checkname>busnames</checkname>
+    		<checkname>formnames</checkname>
+    		<selectname>date0</selectname>
+    		<length>full</length>
+    		<transform>transport_list_changes</transform>
+    		<paper>landscape</paper>
+    	  </params>
+    	</div>
+    	<div id="xml-attendance" style="display:none;">
+    	  <params>
+    		<checkname>busnames</checkname>
+    		<checkname>formnames</checkname>
+    		<selectname>date0</selectname>
+    		<length>short</length>
+    		<transform>transport_list_attendance</transform>
+    		<paper>landscape</paper>
+    	  </params>
+    	</div>
+    	<div id="xml-list" style="display:none;">
+    	  <params>
+    		<checkname>busnames</checkname>
+    		<checkname>formnames</checkname>
+    		<selectname>date0</selectname>
+    		<length>short</length>
+    		<transform>transport_list</transform>
+    		<paper>landscape</paper>
+    	  </params>
+    	</div>
+    	<div id="xml-route" style="display:none;">
+    	  <params>
+    		<checkname>busnames</checkname>
+    		<transform>transport_route</transform>
+    		<paper>portrait</paper>
+    	  </params>
+    	</div>
+    </form>
+    </div>
 

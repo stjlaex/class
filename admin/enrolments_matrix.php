@@ -122,8 +122,8 @@ else{
 	$tables[]=array('caption'=>'enrolments','rows'=>$enrol_tablerows,'cols'=>$enrolcols);
 	foreach($tables as $table){
 ?>
-<h4><?php print get_string($table['caption'],$book). 
-        ' - '.$CFG->schoolname.'  ('.display_date($todate).')';?></h4>
+<h6><?php print get_string($table['caption'],$book). 
+        ' - '.$CFG->schoolname.'  ('.display_date($todate).')';?></h6>
         
 	  <table class="listmenu center smalltable">
 		<tr>

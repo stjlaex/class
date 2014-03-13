@@ -143,8 +143,8 @@ else{
                 <h5 for="Charge"><?php print_string('fee',$book);?></h5>
                 <input  name="charge" value="<?php print $com['charge'];?>" >
         <div class="center">
-            <fieldset class="center">
-                <legend for="days"><?php print_string('sessions',$book);?></legend>
+            <fieldset class="divgroup">
+                <h5 for="days"><?php print_string('sessions',$book);?></h5>
                 <ul class="chk-list">
                 <?php
                 	foreach($days as $day => $dayname){

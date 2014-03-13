@@ -864,8 +864,6 @@ function html_document_drop($epfun,$context,$linked_id='-1',$lid='-1',$ownertype
 	if($context=='assessment'){$path='../../';}
 	else{$path='';}
 ?>
-	  <fieldset class="profile">
-		<h5><?php print_string('documents');?></h5>
 		<div class="documentdrop">
 		  <form id="formfiledelete" name="formfiledelete" method="post" action="<?php print $path;?>infobook/httpscripts/file_delete.php">
 			<input type="hidden" id="FILEOWNER" name="FILEOWNER" value="<?php print $epfun;?>" />
@@ -881,6 +879,7 @@ function html_document_drop($epfun,$context,$linked_id='-1',$lid='-1',$ownertype
 		</div>
 
 		<fieldset class="documentdrop">
+		    <h5><?php print_string('documents');?></h5>
 			<form id="formdocumentdrop" name="formdocumentdrop" method="post" action="<?php print $path;?>infobook/httpscripts/file_upload.php" enctype="multipart/form-data" <?php if($context=='icon') print "onsubmit='return checkForm()'"; ?>>
 				<input type="hidden" id="MAX_FILE_SIZE" name="MAX_FILE_SIZE" value="<?php print return_bytes(ini_get('upload_max_filesize'));?>" />
 				<input type="hidden" id="FILEOWNER" name="FILEOWNER" value="<?php print $epfun;?>" />
@@ -913,7 +912,7 @@ function html_document_drop($epfun,$context,$linked_id='-1',$lid='-1',$ownertype
 					<input type="hidden" id="w" name="w" />
 					<input type="hidden" id="h" name="h" />
 
-					<h4><?php print_string('searchfile');?> (<?php print_string('max');?>: <?php echo ini_get("upload_max_filesize"); ?>)</h4>
+					<h4>test<?php print_string('searchfile');?> (<?php print_string('max');?>: <?php echo ini_get("upload_max_filesize"); ?>)</h4>
 
 					<div>
 						<label for="fileselect">
@@ -959,9 +958,9 @@ function html_document_drop($epfun,$context,$linked_id='-1',$lid='-1',$ownertype
 					}
 				if($context!='icon') { 
 ?>
-					<h4><?php print_string('uploadfile');?> (<?php print_string('max');?>: <?php echo ini_get("upload_max_filesize"); ?>)</h4>
+					<h6><?php print_string('uploadfile');?> (<?php print_string('max');?>: <?php echo ini_get("upload_max_filesize"); ?>)</h6>
 
-					<div style="padding:2%;">
+					<div>
 						<label for="fileselect">
 							<?php print_string('searchfile');?>:<br />
 						</label>
@@ -987,7 +986,6 @@ function html_document_drop($epfun,$context,$linked_id='-1',$lid='-1',$ownertype
 
 			</form>
 		</fieldset>
-	  </fieldset>
 
 <?php 
 	if($context=='icon'){ 

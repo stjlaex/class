@@ -16,13 +16,14 @@ $Supplier=fetchSupplier($supid);
 
 ?>
 
-  <div id="heading">
-<?php
-	if($supid==-1){print '<label>'.get_string('newsupplier',$book).'</label>';}
-	else{print '<label>'.get_string('supplier',$book). '</label>' .$Supplier['Name']['value'];}
-
-?>
-  </div>
+    <div id="heading">
+        <h4>
+            <?php
+            	if($supid==-1){print get_string('newsupplier',$book);}
+            	else{print get_string('supplier',$book). '' .$Supplier['Name']['value'];}
+            ?>
+        </h4>
+    </div>
 
   <div class="content">
 	<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
@@ -49,7 +50,7 @@ if($supid>-1){
 
 
 
-	print '<fieldset id="viewcontent" class="center divgroup">';
+	print '<fieldset id="viewcontent" class="divgroup">';
 	print '<table class="center listmenu">';
 	$headrow='<th></th>';
 	$firstrow='<th>Budget Year</th>';

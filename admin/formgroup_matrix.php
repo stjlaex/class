@@ -62,7 +62,6 @@ three_buttonmenu($extrabuttons);
     $listname='pastoraltype';
     $onchange='yes';
     $listlabel='';
-    $liststyle='width:95%;';
     include('scripts/set_list_vars.php');
     $list=array('form'=>'form','house'=>'house','reg'=>'registrationgroup');
     list_select_list($list,$listoptions,$book);
