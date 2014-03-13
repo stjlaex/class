@@ -827,6 +827,17 @@ function elgg_new_comment($epfu,$dateset,$message,$title,$tid){
 function elgg_send_email($recipients,$emailtype,$template='classicemail'){
 	global $CFG;
 
+	/*Add template if exists for Classic email named classicemail*/
+	$dbt=db_connect(true,'class');
+	$templates=getTemplates('tmp',$template);
+	if(count($templates)>0){
+		$type['{{type}}']=$emailtype;
+		$tags=getTags(true,'default',$uid=array('student_id'=>$sid,'guardian_id'=>$gid));
+		$tags=array_merge($tags,$type);
+		}
+
+	$dbn=db_connect(false,$CFG->eportfolio_db);
+
 	$sends=array();//use to avoid mulitple notification meassages to the same address
 	foreach($recipients as $recipient){
 		if($recipient['emailaddress']!='' and !in_array($recipient['emailaddress'],$sends)){
@@ -840,23 +851,17 @@ function elgg_send_email($recipients,$emailtype,$template='classicemail'){
 			$messagetxt=strip_tags(html_entity_decode($messagehtml, ENT_QUOTES, 'UTF-8'))."\r\n".'--'. "\r\n" . $footer;
 			$messagehtml.='<br><hr><p>'. $footer.'<p>';
 			$emailaddress=strtolower($recipient['emailaddress']);
-			/*Add template if exists for Classic email named classicemail*/
-			$dbt=db_connect(true,'class');
-			$templates=getTemplates('tmp',$template);
 			if(count($templates)>0){
-				$type['{{type}}']=$emailtype;
-				$tags=getTags(true,'default',$uid=array('student_id'=>$sid,'guardian_id'=>$gid));
-				$tags=array_merge($tags,$type);
 				$messagehtml=getMessage($tags,'',$template);
 				$messagetxt=strip_tags(html_entity_decode($messagehtml, ENT_QUOTES, 'UTF-8'));
 				}
 			/*Add email to message_event table*/
-			$dbn=db_connect(false,$CFG->eportfolio_db);
 			$table=$CFG->eportfolio_db_prefix.'message_event';
 			send_email_to($emailaddress,'',$title,$messagetxt,$messagehtml,'','',$dbn,$table);
 			}
 		}
 
+	$dbt=db_connect();
 	}
 
 /**
