@@ -48,6 +48,38 @@ if(empty($_SESSION['accessfees'])){
 <?php
 			}
 		else{
+			$d_c=mysql_query("SELECT id FROM fees_remittance ORDER BY year DESC,issuedate ASC;");
+			while($remittance=mysql_fetch_array($d_c)){
+				$remid=$remittance['id'];
+				$Remittance=fetchRemittance($remid);
+				$remyear=$Remittance['Year']['value'];
+				if(!isset($_SESSION['remittancestotals'][$remyear])){
+					$date_parts=explode("-",$Remittance['IssueDate']['value']);
+					$remmonth=(int)$date_parts[1];
+					foreach($Remittance['Concepts'] as $Concept){
+						$total[$remyear][$remmonth]+=$Concept['TotalAmount']['value'];
+						$total_paid[$remyear][$remmonth]+=$Concept['AmountPaid']['value'];
+						$total_notpaid[$remyear][$remmonth]+=$Concept['AmountNotPaid']['value'];
+						}
+					$remittances[$remyear][$remmonth]=
+							array(
+								$remmonth,
+								array(
+									$total[$remyear][$remmonth],
+									$total_paid[$remyear][$remmonth],
+									$total_notpaid[$remyear][$remmonth]
+									)
+								);
+					}
+				}
+			foreach($remittances as $year=>$months){
+				if(!isset($_SESSION['remittancestotals'][$year])){
+					foreach($months as $month){
+						$_SESSION['remittancestotals'][$year][]=$month;
+						}
+					}
+				}
+
 
 $extrabuttons=array();
 if($_SESSION['username']=='administrator'){
@@ -113,6 +145,12 @@ two_buttonmenu($extrabuttons,$book);
 <?php
 		}
 ?>
+
+	  <fieldset class="center divgroup">
+		<legend><?php print get_string('remittances',$book);?></legend>
+		<?php include("remittances_barchart.php");?>
+	  </fieldset>
+
 
 	  <fieldset class="center divgroup" id="viewcontent">
 		<legend><?php print get_string('yeargroups',$book);?></legend>

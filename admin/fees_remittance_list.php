@@ -4,6 +4,32 @@
 
 $action='fees_remittance_list_action.php';
 
+if(isset($_GET['month']) and $_GET['month']!=""){$month=$_GET['month'];}else{$month="";}
+if(isset($_GET['year']) and $_GET['year']!=""){$year=$_GET['year'];}else{$year="";}
+
+$monthoptions="";$yearoptions="";
+$d_c=mysql_query("SELECT id FROM fees_remittance GROUP BY issuedate,year ORDER BY issuedate DESC;");
+while($remittance=mysql_fetch_array($d_c)){
+	$remid=$remittance['id'];
+	$Remittance=fetchRemittance($remid);
+	$date_parts=explode("-",$Remittance['IssueDate']['value']);
+	$ayear=$Remittance['Year']['value'];
+	if($month==""){$month=$date_parts[1];}
+	if($year==""){$year=$ayear;}
+	if($year==$ayear){$selectedyear="selected";}else{$selectedyear="";}
+	$years[$ayear]="<option value='$ayear' $selectedyear>".($ayear-1)."-".$ayear."</option>";
+	if($month==$date_parts[1]){$selectedmonth="selected";}else{$selectedmonth="";}
+	$monthNum=sprintf("%02s", $date_parts[1]);
+	$monthName=date("F", mktime(0, 0, 0, $monthNum, 10));
+	$months[$date_parts[1]]="<option value='$date_parts[1]' $selectedmonth>".$monthName."</option>";
+	}
+foreach($months as $monthoption){
+	$monthoptions.=$monthoption;
+	}
+foreach($years as $yearoption){
+	$yearoptions.=$yearoption;
+	}
+
 $feeyear=$_POST['feeyear'];
 
 include('scripts/sub_action.php');
@@ -12,6 +38,15 @@ $extrabuttons['newremittance']=array('name'=>'current','value'=>'fees_new_remitt
 
 two_buttonmenu($extrabuttons,$book);
 ?>
+  <div id="heading">
+	<select id="month" onchange="document.location.href = 'admin.php?current=fees_remittance_list.php&month='+this.value+'&year='+$('#year').val();">
+		<?php print $monthoptions;?>
+	</select>
+	<select id="year" onchange="document.location.href = 'admin.php?current=fees_remittance_list.php&month='+$('#month').val()+'&year='+this.value;">
+		<?php print $yearoptions;?>
+	</select>
+  </div>
+
   <div id="viewcontent" class="content">
 
   <form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host; ?>" >
@@ -22,7 +57,7 @@ two_buttonmenu($extrabuttons,$book);
 		<tr><th></th><th style="width:60%;">&nbsp;</th><th><?php print get_string('issue',$book).' '.get_string('date',$book);?></th><th><?php print get_string('payment',$book).' '.get_string('date',$book);?></th><th><?php print_string('account',$book);?></th></tr>
 <?php
 		$entryno=0;
-		$d_c=mysql_query("SELECT id FROM fees_remittance ORDER BY issuedate DESC;");
+		$d_c=mysql_query("SELECT id FROM fees_remittance WHERE ((issuedate>='$year-$month-01' and issuedate<='$year-$month-31') or (issuedate>='".($year-1)."-$month-01' and issuedate<='".($year-1)."-$month-31')) and year='$year' ORDER BY issuedate DESC;");
 		while($remittance=mysql_fetch_array($d_c)){
 			$remid=$remittance['id'];
 			$Remittance=fetchRemittance($remid);
