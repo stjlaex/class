@@ -383,6 +383,11 @@ function fetchReportDefinition($rid,$selbid='%'){
 								  'field_db'=>'addcategory',
 								  'type_db'=>'enum', 
 								  'value'=>''.$report['addcategory']);
+	$RepDef['AddPhotos']=array('label'=>'addphotos', 
+								  'table_db'=>'report', 
+								  'field_db'=>'addphotos',
+								  'type_db'=>'enum', 
+								  'value'=>''.$report['addphotos']);
    	$RepDef['CategoriesRating']=array('label'=>'ratingname', 
 									  'table_db'=>'report', 
 									  'field_db'=>'rating_name',

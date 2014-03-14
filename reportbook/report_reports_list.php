@@ -97,8 +97,13 @@ two_buttonmenu($extrabuttons,$book);
 			</th>
 			<th colspan="2"><?php print_string('student');?></th>
 <?php
-	$uploadpic='no';
 	foreach($rids as $index => $rid){
+		echo "<pre>";
+		print_r($addphotos=$reportdefs[$index]['report']);
+		echo "</pre>";
+		if($reportdefs[$index]['report']['course_id']=="wrapper"){
+			$addphotos=$reportdefs[$index]['report']['addphotos'];
+			}
 		$summaries=(array)$reportdefs[$index]['summaries'];
 		foreach($summaries as $summary){
 			$summaryid=$summary['subtype'];
@@ -116,12 +121,9 @@ two_buttonmenu($extrabuttons,$book);
 					print '<th style="width:4%;">'.$summary['name'].'</th>';
 					}
 				}
-			elseif($summary['type']=='pic'){
-				$uploadpic='yes';
-				}
 			}
 		}
-	if($uploadpic=='yes' or $yid<3){
+	if($addphotos=="yes"){
 ?>
 			<th><?php print_string('uploadfile');?></th>
 <?php
@@ -160,6 +162,9 @@ two_buttonmenu($extrabuttons,$book);
 		  </td>
 <?php
 	   foreach($rids as $index => $rid){
+	   		if($reportdefs[$index]['report']['course_id']=="wrapper"){
+				$addphotos=$reportdefs[$index]['report']['addphotos'];
+				}
    			$summaries=(array)$reportdefs[$index]['summaries'];
 			foreach($summaries as $summary){
 				$summaryid=$summary['subtype'];
@@ -232,7 +237,7 @@ two_buttonmenu($extrabuttons,$book);
 					}
 				}
 			}
-	if($uploadpic=='yes' or $yid<3){
+	if($addphotos=="yes"){
 ?>
 		  <td>
 		  	<div id="upload-<?php print $sid;?>">

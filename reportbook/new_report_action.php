@@ -245,8 +245,6 @@ three_buttonmenu();
 		include('scripts/list_assessment_profile.php');
 ?>
 	  </fieldset>
-
-
 <?php
 			}
 	if($rcrid==''){
@@ -274,6 +272,15 @@ three_buttonmenu();
 <?php
 			}
 ?>
+
+	  <fieldset class="right">
+		<legend><?php print_string('reportphotos',$book);?></legend>
+<?php
+			$checkchoice=$RepDef['AddPhotos']['value'];
+			$checkcaption=get_string('reportphotos',$book);
+			$checkname='addphotos'; include('scripts/check_yesno.php');
+?>
+	  </fieldset>
 
 
 		<input type="hidden" name="oldrid" value="<?php print $oldrid;?>" />
@@ -306,10 +313,12 @@ elseif($sub=='Submit'){
 	if(isset($_POST['paperstyle'])){$paperstyle=$_POST['paperstyle'];}else{$paperstyle='portrait';}
 	if(isset($_POST['addcategory0'])){$addcategory=$_POST['addcategory0'];}
 	if(isset($_POST['ratingname'])){$ratingname=$_POST['ratingname'];}
+	if(isset($_POST['addphotos0'])){$addphotos=$_POST['addphotos0'];}
 
 	mysql_query("UPDATE report SET title='$title',date='$date', deadline='$deadline',  
 				style='$paperstyle', transform='$transform',
-				addcategory='$addcategory', rating_name='$ratingname'  WHERE id='$rid';");
+				addcategory='$addcategory', addphotos='$addphotos', rating_name='$ratingname'
+				 WHERE id='$rid';");
 
 	if($crid!='wrapper'){
 		/*** This is a subject report ****/

@@ -1,5 +1,7 @@
-Version ClaSS-1.0.65 release (2014/03/10)
+Version ClaSS-1.0.65 release (2014/03/14)
 -------------------------------------------
+
+New field yes/no in report table for photos attachments - addphotos.
 
 Added bar chart for remittances list and navigation by month/year.
 
