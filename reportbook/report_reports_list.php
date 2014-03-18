@@ -98,9 +98,6 @@ two_buttonmenu($extrabuttons,$book);
 			<th colspan="2"><?php print_string('student');?></th>
 <?php
 	foreach($rids as $index => $rid){
-		echo "<pre>";
-		print_r($addphotos=$reportdefs[$index]['report']);
-		echo "</pre>";
 		if($reportdefs[$index]['report']['course_id']=="wrapper"){
 			$addphotos=$reportdefs[$index]['report']['addphotos'];
 			}
