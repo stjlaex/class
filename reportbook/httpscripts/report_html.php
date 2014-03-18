@@ -20,7 +20,7 @@
 		$Reports['Paper']=$paper;
 		$Student['Reports']=$Reports;
 		$reportyear=$reportdefs[0]['report']['year']-1;
-		$startdate=$reportyear.'-08-15';//Does the whole academic year
+		if($reportdefs[0]['report']['attendancestartdate']=="0000-00-00"){$startdate=$reportyear.'-08-15';}else{$startdate=$reportdefs[0]['report']['attendancestartdate'];}
 		$Student['Reports']['Attendance']=fetchAttendanceSummary($sid,$startdate,$pubdate);
 		$Student['Reports']['Merits']['Total']=fetchMeritsTotal($sid,$reportdefs[0]['report']['year']);
 		$Student['Reports']['Targets']=fetchTargets($sid);

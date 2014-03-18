@@ -341,6 +341,12 @@ function fetchReportDefinition($rid,$selbid='%'){
 								   'field_db'=>'date',
 								   'type_db'=>'date', 
 								   'value'=>''.$report['date']);
+	$RepDef['AttendanceStartDate']=array('label'=>'attendancestartdate', 
+								   //'inputtype'=> 'required',
+								   'table_db'=>'report', 
+								   'field_db'=>'attendancestartdate',
+								   'type_db'=>'date', 
+								   'value'=>''.$report['attendancestartdate']);
    	$RepDef['Deadline']=array('label'=>'deadlineforcompletion', 
 							  'inputtype'=>'required',
 							  'table_db'=>'report', 

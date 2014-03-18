@@ -40,6 +40,9 @@ three_buttonmenu();
 	$tab=xmlelement_div($RepDef['Title'],'',$tab,'center','reportbook');
  	$tab=xmlelement_div($RepDef['PublishedDate'],'',$tab,'center','reportbook');
  	$tab=xmlelement_div($RepDef['Deadline'],'',$tab,'center','reportbook');
+
+	if($RepDef['AttendanceStartDate']['value']=="0000-00-00"){$RepDef['AttendanceStartDate']['value']=substr($RepDef['PublishedDate']['value'],0,4)."-08-15";}
+ 	$tab=xmlelement_div($RepDef['AttendanceStartDate'],'',$tab,'center','reportbook');
 ?>
 </div>
 <div class="right">
@@ -309,14 +312,15 @@ elseif($sub=='Submit'){
 	$title=$_POST['title'];
 	$date=$_POST['date'];
 	$deadline=$_POST['deadline'];
+	$attendancestartdate=$_POST['attendancestartdate'];
 	if(isset($_POST['template'])){$transform=$_POST['template'];}else{$transform='';}
 	if(isset($_POST['paperstyle'])){$paperstyle=$_POST['paperstyle'];}else{$paperstyle='portrait';}
 	if(isset($_POST['addcategory0'])){$addcategory=$_POST['addcategory0'];}
 	if(isset($_POST['ratingname'])){$ratingname=$_POST['ratingname'];}
 	if(isset($_POST['addphotos0'])){$addphotos=$_POST['addphotos0'];}
 
-	mysql_query("UPDATE report SET title='$title',date='$date', deadline='$deadline',  
-				style='$paperstyle', transform='$transform',
+	mysql_query("UPDATE report SET title='$title', date='$date', attendancestartdate='$attendancestartdate',
+				 deadline='$deadline', style='$paperstyle', transform='$transform',
 				addcategory='$addcategory', addphotos='$addphotos', rating_name='$ratingname'
 				 WHERE id='$rid';");
 
