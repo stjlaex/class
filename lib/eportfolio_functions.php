@@ -993,7 +993,7 @@ function elgg_upload_files($filedata,$dbc=true){
 							$recipient['gid']=$epfuidmember;
 							$recipients[]=$recipient;
 							}
-						if(!elgg_send_email($recipients,"report")){trigger_error('Could send eportfolio email: '.$recipient['studentname'],E_USER_WARNING);}
+						if(!elgg_send_email($recipients,"report")){trigger_error('Couldn\'t send eportfolio email: '.$recipient['studentname'],E_USER_WARNING);}
 						}
 					}
 

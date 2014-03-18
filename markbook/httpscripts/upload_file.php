@@ -99,7 +99,6 @@ if(isset($_GET['openid'])){$openid=$_GET['openid'];}
 			}
 ?>
 
-
 	<form id="formtoprocess" name="formtoprocess" method="post" action="upload_file_action.php">
 
 <?php
@@ -118,9 +117,21 @@ if(isset($_GET['openid'])){$openid=$_GET['openid'];}
 			</div>
 		</fieldset>
 <?php
-		}
+
+		$files=(array)list_files($Student['EPFUsername']['value'],'enrolment','');
+		if(sizeof($files)>0){
 ?>
 
+		<fieldset class="center">
+			<legend><?php print_string('enrolment','admin');?></legend>
+<?php
+		html_document_list($files);
+?>
+		</fieldset>
+<?php
+			}
+		}
+?>
 			<input type="hidden" name="inmust" value="<?php print $inmust; ?>"/>
 			<input type="hidden" name="sid" value="<?php print $sid; ?>"/>
 			<input type="hidden" name="bid" value="<?php print $bid; ?>"/>
