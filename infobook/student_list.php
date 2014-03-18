@@ -117,79 +117,81 @@ $extrabuttons['exportstudentrecords']=array('name'=>'current','title'=>'exportst
 two_buttonmenu($extrabuttons,$book);
 ?>
 
-  <div id="viewcontent" class="content">
-	<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host; ?>">
-	  <table class="listmenu sidtable" id="sidtable">
-		<thead>
-		  <tr>
-    		  <th rowspan="2" colspan="1">
-    			<input type="checkbox" name="checkall"  value="yes" onChange="checkAll(this);" />
-    			<?php print_string('checkall'); ?>
-    		  </th>
-		  <th rowspan="2"></th>
-
-<?php
-	if(isset($tutor_users)){
-?>
-		<th rowspan="2"  style="width:25%;">form group
-		<label><?php print_string('formgroup'); ?></label>
-		<?php print $fid.' &nbsp;&nbsp;'; ?>
-<?php
-			$tutoremails='';
-			foreach($tutor_users as $tutor_user) {
-			print $tutor_user['forename'][0].' '.$tutor_user['surname'].' ';
-			$tutoremails.=$tutor_user['email'].';';
-			}
-			emaillink_display($tutoremails);
-		?>
-		</th>
-<?php
-}
-elseif(isset($title) and $title!=''){
-?>
-		<th rowspan="2"   style="width:25%;"><label><?php print $title; ?></label></th>
-<?php
-}
-else{
-?>
-		<th rowspan="2" style="width:25%;">
-		  <?php print_string('student'); ?>
-		</th>
-<?php
-}
-if($_SESSION['role']!='support'){
-/* Consider support staff to be not priviliged to access. */
-$d_catdef=mysql_query("SELECT name, subtype FROM categorydef WHERE
-type='med' AND rating='1' ORDER BY name;");
-while($medcat=mysql_fetch_array($d_catdef,MYSQL_ASSOC)){
-$extra_studentfields['Medical'.$medcat['subtype']]=strtolower($medcat['name']);
-}
-foreach($displayfields as $dno => $displayfield){
-$sortno=$dno+3;
-//a=age, d=date, i=integer, s=string
-if($displayfield=='Age') $sort_types.=",'a'";
-elseif($displayfield=='DOB' or $displayfield=='IdExpiryDate' or $displayfield=='LeavingDate' or $displayfield=='EntryDate' or $displayfield=='EnrolmentApplicationDate'){
-$sort_types.=",'d'";
-}
-elseif($displayfield=='YearGroup' or $displayfield=='EnrolmentYearGroup' or $displayfield=='EnrolNumber') $sort_types.=",'i'";
-else $sort_types.=",'s'";
-?>
-		<th style="width:<?php print $displayfields_width; ?>;">
-<?php
-			include ('scripts/list_studentfield.php');
-		?>
-		</th>
-<?php
-}
-}
-else{
-?>
-	<th colspan="<?php print $displayfields_no; ?>">&nbsp</th>
-<?php
-}
-?>
-		</tr>
-		<tr>
+    <div id="viewcontent" class="content">
+        <form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host; ?>">
+            <table class="listmenu sidtable" id="sidtable">
+                <thead>
+                    <tr>
+                        <th rowspan="2" colspan="1">
+                            <input type="checkbox" name="checkall"  value="yes" onChange="checkAll(this);" />
+                            <?php print_string('checkall'); ?>
+                        </th>
+                        <th rowspan="2"></th>
+                            <?php
+                                if(isset($tutor_users)){
+                            ?>
+                        <th rowspan="2"  style="width:25%;">form group
+                    		<label><?php print_string('formgroup'); ?></label>
+                    		<?php print $fid.' &nbsp;&nbsp;'; ?>
+                            <?php
+                            	$tutoremails='';
+                            	foreach($tutor_users as $tutor_user) {
+                            	print $tutor_user['forename'][0].' '.$tutor_user['surname'].' ';
+                            	$tutoremails.=$tutor_user['email'].';';
+                            	}
+                            	emaillink_display($tutoremails);
+                            ?>
+                        </th>
+                            <?php
+                                }
+                                elseif(isset($title) and $title!=''){
+                            ?>
+                        <th rowspan="2" style="width:25%;"><label><?php print $title; ?></label></th>
+                            <?php
+                                }
+                                else{
+                            ?>
+                        <th rowspan="2" style="width:25%;">
+                            <?php print_string('student'); ?>
+                        </th>
+                        <?php
+                            }
+                            if($_SESSION['role']!='support'){
+                            /* Consider support staff to be not priviliged to access. */
+                            $d_catdef=mysql_query("SELECT name, subtype FROM categorydef WHERE
+                            type='med' AND rating='1' ORDER BY name;");
+                            while($medcat=mysql_fetch_array($d_catdef,MYSQL_ASSOC)){
+                            $extra_studentfields['Medical'.$medcat['subtype']]=strtolower($medcat['name']);
+                            }
+                            foreach($displayfields as $dno => $displayfield){
+                            $sortno=$dno+3;
+                            //a=age, d=date, i=integer, s=string
+                            if($displayfield=='Age') $sort_types.=",'a'";
+                            elseif($displayfield=='DOB' or $displayfield=='IdExpiryDate' or $displayfield=='LeavingDate' or $displayfield=='EntryDate' or $displayfield=='EnrolmentApplicationDate'){
+                            $sort_types.=",'d'";
+                            }
+                            elseif($displayfield=='YearGroup' or $displayfield=='EnrolmentYearGroup' or $displayfield=='EnrolNumber') $sort_types.=",'i'";
+                            else $sort_types.=",'s'";
+                        ?>
+                        <th style="width:<?php print $displayfields_width; ?>;">
+                            <div class="div-sortable">
+                                <?php
+                                    include ('scripts/list_studentfield.php');
+                                ?>
+                                <a href="#" class="sortable"></a>
+                            </div>
+                        </th>
+                        <?php
+                            }
+                                }
+                            else{
+                        ?>
+                        <th colspan="<?php print $displayfields_no; ?>">&nbsp</th>
+                            <?php
+                                }
+                            ?>
+                    </tr>
+		<!--tr-->
 <?php
 
 		foreach($displayfields as $dno => $displayfield){	
@@ -202,18 +204,18 @@ else{
 			elseif($displayfield=='YearGroup' or $displayfield=='EnrolmentYearGroup' or $displayfield=='EnrolNumber') $sort_types.=",'i'";
 			else $sort_types.=",'s'";
 ?>
-	  <th  class="noprint">
+	  <!--th  class="noprint">
 		<div class="rowaction">
 		  <input class="underrow" type='button' name='action' value='v' onClick='tsDraw("<?php print $sortno; ?>A", "sidtable");' />
 		  <input class="underrow"  type='button' name='action' value='-' onClick='tsDraw("<?php print $sortno; ?>U", "sidtable");' />
 		  <input class="underrow"  type='button' name='action' value='^' onClick='tsDraw("<?php print $sortno; ?>D", "sidtable");' />
 		</div>
-	  </th>
+	  </th-->
 <?php
 }
 ?>
 
-		</tr>
+		<!--/tr-->
 	</thead>
 	<tbody>
 <?php	

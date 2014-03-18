@@ -344,7 +344,7 @@ button:hover {
 div.rowaction {
   padding: 5px;
 }
-.student .fa, .clicktoaction div, .clicktoemail, .clicktoedit, .clicktoconfigure, .clicktoprint, .completed, .clicktohelp, .clicktoload,.clicktodelete {
+.student .fa, .clicktoaction div, .clicktoemail, .clicktoedit, .clicktoconfigure, .clicktoprint, .completed, .clicktohelp, .clicktoload, .clicktodelete {
   cursor: pointer;
   font-weight: normal;
 }
@@ -1061,4 +1061,30 @@ fieldset.divgroup.markbook-img {
 .notchecked, .checked {
   display: inline-block;
   margin-right: 10px;
+}
+.div-sortable {
+  position: relative;
+  display: inline;
+}
+.sort_column_default a.sortable:after {
+  content: "\f0dc";
+}
+.sort_column_asc a.sortable:after {
+  content: "\f0dd";
+}
+.sort_column_desc a.sortable:after {
+  content: "\f0de";
+}
+.sort_column_asc a.sortable, .sort_column_desc a.sortable, .sort_column_default a.sortable {
+  display: block;
+  font-family: 'FontAwesome';
+  position: absolute;
+  right: 0;
+  text-decoration: none;
+  top: 0;
+  height: 23px;
+  width: 10px;
+}
+.sort_column_asc .selector, .sort_column_desc .selector, .sort_column_default .selector {
+  margin-right: 10px !important;
 }

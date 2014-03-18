@@ -13,11 +13,8 @@ three_buttonmenu();
 
   <div class="content">
 	<form id="formtoprocess" name="formtoprocess" novalidate method="post" action="<?php print $host;?>">
-
-	  <div class="center">
+	      <h4><?php print_string('staff',$book);?></h4>
 		<table class="listmenu">
-		  <caption><?php print_string('staff',$book);?></caption>
-
 		  <tr>
 			<td><label for="Surname"><?php print_string('surname');?></label></td>
 			<td><input class="required" tabindex="<?php print $tab++;?>" 

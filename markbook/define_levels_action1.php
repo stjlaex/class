@@ -24,8 +24,8 @@ three_buttonmenu();
 ?>
 <div class="content">
 <form name="formtoprocess" id="formtoprocess" novalidate method="post" action="<?php print $host;?>"> 
+<h4><?php print_string('definelevelboundaries',$book);?> <?php print $lena;?></h4>
 <table class="listmenu">
-<caption><?php print_string('definelevelboundaries',$book);?> <?php print $lena;?></caption>
 	<tr>
 		  <th><?php print_string('gradescheme',$book);?>: <?php print $gena;?></th>
 		  <th><?php print_string('enterlevels',$book);?></th>

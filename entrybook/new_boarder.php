@@ -25,10 +25,9 @@ $Inputs[]=array_filter_fields($Stay,$fields);
 
 if(isset($sid)){
 ?>
-  <div id="heading">
-	<label><?php print_string('stay'); ?></label>
-	<?php print $Student['DisplayFullName']['value'];?>
-  </div>
+    <div id="heading">
+        <h4><label><?php print_string('stay'); ?></label> <?php print $Student['DisplayFullName']['value'];?></h4>
+    </div>
 <?php
 	}
 ?>

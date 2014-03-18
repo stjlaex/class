@@ -3,6 +3,8 @@
  */
 ?>
 <script src="js/jquery.uniform.min.js"></script>
+<script src="js/jquery.table_sort.js"></script>
+
 <script>
 parent.loadRequired("<?php print $book; ?>");parent.loadBookOptions("<?php print $book; ?>");</script>
 <div id="helpcontent" class="hidden">
@@ -57,6 +59,16 @@ mysql_query("INSERT INTO history SET uid='$uid', page='$current'");
 <script>
     $(":checkbox, :radio").not('.hidden').uniform();
 </script>
+
+<script>
+    $(function(){
+    $(".sidtable").tableSort();
+});
+</script>
+
+
+
+
 </body>
 </html>
 

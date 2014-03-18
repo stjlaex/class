@@ -65,7 +65,6 @@ if($book=='infobook' or $book=='admin'){
 								}
 if($book=='infobook' or $book=='reportbook'  or $book=='admin'  or $book=='markbook' or $book=='medbook' or $book=='seneeds'){
 							?>
-        <script language="JavaScript" type="text/javascript" src="js/gs_sortable.js?version=1048"></script>
         <script language="JavaScript" type="text/javascript" src="js/documentdrop.js?version=1048"></script>
         <?php
 								}

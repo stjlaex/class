@@ -108,8 +108,7 @@ if(isset($d_info)){
 					</th>
 <?php
 
-	$d_catdef=mysql_query("SELECT name, subtype FROM categorydef WHERE 
-				type='med' AND (rating='1' OR rating='0') ORDER BY rating DESC, name;");
+	$d_catdef=mysql_query("SELECT name, subtype FROM categorydef WHERE type='med' AND (rating='1' OR rating='0') ORDER BY rating DESC, name;");
 	while($medcat=mysql_fetch_array($d_catdef,MYSQL_ASSOC)){
 		$extra_studentfields['Medical'.$medcat['subtype']]=strtolower($medcat['name']);
 		}
@@ -124,13 +123,16 @@ if(isset($d_info)){
 	foreach($displayfields as $dno => $displayfield){
 ?>
 					<th style="width:<?php print $displayfields_width;?>;">
-						<?php include('scripts/list_studentfield.php'); ?>
-					</th>
+                        <div class="div-sortable">
+                            <?php include('scripts/list_studentfield.php'); ?>
+                            <a href="#" class="sortable"></a>
+                        </div>
+                    </th>
 <?php
 		 }
 ?>
 				</tr>
-				<tr>
+				<!--tr-->
 <?php
 
 	foreach($displayfields as $dno => $displayfield){
@@ -141,18 +143,18 @@ if(isset($d_info)){
 		elseif($displayfield=='YearGroup' or $displayfield=='EnrolmentYearGroup' or $displayfield=='EnrolNumber'){$sort_types.=",'i'";}
 		else{$sort_types.=",'s'";}
 ?>
-					<th class="noprint">
+					<!--th class="noprint">
 						<div class="rowaction">
 							<input class="underrow" type='button' name='action' value='v' onClick='tsDraw("<?php print $sortno;?>A", "sidtable");' />
 							<input class="underrow"  type='button' name='action' value='-' onClick='tsDraw("<?php print $sortno;?>U", "sidtable");' />
 							<input class="underrow"  type='button' name='action' value='^' onClick='tsDraw("<?php print $sortno;?>D", "sidtable");' />
 						</div>
-					</th>
+					</th-->
 		
 <?php
 		}
 ?>
-				</tr>
+				<!--/tr-->
 			</thead>
 			<tbody>
 <?php
@@ -183,13 +185,13 @@ if(isset($d_info)){
 						</span>
 					</td>
 					<td>
-<?php
-		  $choice='';
-		  if($list=='all'){$curr='med_view.php';$choice1='med_student_list.php';}
-		  elseif($list=='new'){$curr='med_view.php';$choice2='med_student_list.php';}
-		  elseif($list=='visit'){$curr='med_view_visits.php';$choice3='med_student_list.php';}
-		  else{$curr='med_view.php';}
-?>
+                        <?php
+                          $choice='';
+                          if($list=='all'){$curr='med_view.php';$choice1='med_student_list.php';}
+                          elseif($list=='new'){$curr='med_view.php';$choice2='med_student_list.php';}
+                          elseif($list=='visit'){$curr='med_view_visits.php';$choice3='med_student_list.php';}
+                          else{$curr='med_view.php';}
+                        ?>
 						<a href="medbook.php?current=<?php print $curr;?>&sid=<?php print $sid;?>">
 							<?php print $Student['DisplayFullName']['value']; ?>
 						</a>
@@ -251,8 +253,3 @@ if(isset($d_info)){
 		<input type="hidden" name="choice" value="<?php print $choice;?>" />
 	</form>
 </div>
-
-<script type="text/javascript">
-	var TSort_Data = new Array ('sidtable','','','',''<?php print $sort_types;?>);
-	tsRegister();
-</script>
