@@ -1,5 +1,10 @@
-Version ClaSS-1.0.65 release (2014/03/18)
+Version ClaSS-1.0.65 release (2014/03/19)
 -------------------------------------------
+
+Added file uploader for infobook assessments.
+
+The file uploader from infobook/enrolment has to option to share a file
+with medical, subject reports and assessments. 
 
 New field for report attendance start date, user for report preview.
 

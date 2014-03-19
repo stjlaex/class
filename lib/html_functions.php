@@ -900,7 +900,7 @@ function html_document_drop($epfun,$context,$linked_id='-1',$lid='-1',$ownertype
 						<option>Select area to share</option>
 						<option value="medical">Medical</option>
 						<option value="report">Subject Reports</option>
-						<option value="assessment">Assessments</option>
+						<option value="assessments">Assessments</option>
 					</select>';
 					print '<button id="sharebutton" class="" 
 						type="button" title="share" name="current" 

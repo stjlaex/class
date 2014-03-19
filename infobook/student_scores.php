@@ -123,4 +123,12 @@ twoplus_buttonmenu($sidskey,sizeof($sids));
 		}
 ?>
 	</table>
+
+	<fieldset class="center" style="margin-top:10px !important;">
+<?php
+	require_once('lib/eportfolio_functions.php');
+	html_document_drop($Student['EPFUsername']['value'],'assessments','%',$sid);
+?>
+	</fieldset>
+
   </div>
