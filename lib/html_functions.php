@@ -886,13 +886,65 @@ function html_document_drop($epfun,$context,$linked_id='-1',$lid='-1',$ownertype
 <?php
 	$files=(array)list_files($epfun,$context,$linked_id);
 	if(sizeof($files)>0){
-		html_document_list($files);
+		if($context=="enrolment"){
+			foreach($files as $file){
+				$d_ff=mysql_query("SELECT name FROM file_folder WHERE id='".$file['folder_id']."';");
+				$ffname=mysql_result($d_ff,0);
+				$files_types[$ffname][]=$file;
+				}
+			foreach($files_types as $type=>$files){
+				print "<fieldset>";
+				print "<legend>".$type."</legend>";
+				if($type=="enrolment"){
+					print '<fieldset class="right"><select name="sharearea" id="sharearea">
+						<option>Select area to share</option>
+						<option value="medical">Medical</option>
+						<option value="report">Subject Reports</option>
+						<option value="assessment">Assessments</option>
+					</select>';
+					print '<button id="sharebutton" class="" 
+						type="button" title="share" name="current" 
+						value=""/>Share</button></fieldset>';
+					}
+				print "<fieldset class='left'>";
+				html_document_list($files);
+				print "</fieldset>";
+				print "</fieldset>";
+				}
+			}
+		else{
+			html_document_list($files);
+			}
+
 		print '<button id="deletebutton" class="rowaction imagebutton" 
 						type="button" title="Delete" name="current" 
 						value=""/><img class="clicktodelete" style="max-width:100%;" /></button>';
 		}
 ?>
+		</form>
+<?php
+		if($context=="enrolment"){
+?>
 		  </form>
+		  <form id="formfileshare" name="formfileshare" method="post" action="<?php print $path;?>infobook/httpscripts/file_share.php">
+			<input type="hidden" id="FILECONTEXT" name="FILECONTEXT" value="<?php print $context;?>" />
+			<input type="hidden" id="filesharearea" name="sharearea" value="" />
+			<input type="hidden" id='upload_redirect' name='upload_redirect' value="<?php echo $_SERVER['REQUEST_URI'];?>">
+			<script>
+				$('#sharearea').change(function (){
+					$("#filesharearea").val($(this).val());
+					});
+				$('#sharebutton').click(function (){
+					$("#formfiledelete input[name='fileids[]']:checked:enabled").each(function (){
+						$('<input>').attr({type: 'hidden', name: 'fileids[]',value: $(this).val()}).appendTo('#formfileshare');
+						});
+					$('#formfileshare').submit();
+					});
+			</script>
+		  </form>
+<?php
+			}
+?>
 		</fieldset>
 
 		<fieldset class="right documentdrop">

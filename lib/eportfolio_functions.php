@@ -1411,10 +1411,17 @@ function list_files($epfun,$foldertype,$linkedid='-1',$bid=''){
 			$attachment='';
 			}
 
-		$d_f=mysql_query("SELECT file.id, title, description, location, originalname, other_id FROM file 
+		if($foldertype=='enrolment'){
+			$sharedfiles=" OR (file_folder.name!='$foldertype' AND parent_folder_id!=0); ";
+			}
+		else{
+			$sharedfiles="";
+			}
+
+		$d_f=mysql_query("SELECT file.id, title, description, location, originalname, other_id, folder_id,file_folder.parent_folder_id,file_folder.name FROM file 
 						JOIN file_folder ON file_folder.id=file.folder_id
 						WHERE $attachment file.owner_id='$epfuid' AND file.owner='$folder_usertype' 
-						AND file_folder.name='$foldertype';");
+						AND file_folder.name='$foldertype' $sharedfiles");
 		while($file=mysql_fetch_array($d_f,MYSQL_ASSOC)){
 			if($foldertype=='assessment'){
 				/*

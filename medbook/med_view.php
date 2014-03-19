@@ -203,19 +203,6 @@ $action='med_view_action.php';
 <?php
 	require_once('lib/eportfolio_functions.php');
 	html_document_drop($Student['EPFUsername']['value'],'medical','%',$sid);
-
-	$files=(array)list_files($Student['EPFUsername']['value'],'enrolment','');
-	if(sizeof($files)>0){
-?>
-
-		<fieldset class="center">
-			<legend><?php print_string('enrolment','admin');?></legend>
-<?php
-		html_document_list($files);
-?>
-		</fieldset>
-<?php
-		}
 ?>
 		</fieldset>
 	</div>
