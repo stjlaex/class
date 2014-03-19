@@ -35,24 +35,25 @@ $secid=get_student_section($sid);
 three_buttonmenu();
 ?>
 
-  <div id="heading">
-	<label><?php print_string('comments');?></label>
-<?php
-print $Student['Forename']['value'].' '.$Student['Surname']['value'];
-print '('.$Student['RegistrationGroup']['value'].')';
-?>
-  </div>
+    <div id="heading">
+        <h4>
+            <label><?php print_string('comments');?></label>
+            <?php
+                print $Student['Forename']['value'].' '.$Student['Surname']['value'];
+                print '('.$Student['RegistrationGroup']['value'].')';
+            ?>
+        </h4>
+    </div>
 
   <div class="content">
 
 	<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
 
 
-	  <fieldset class="center">
+	  <fieldset class="divgroup">
 		<div class="center">
 		  <label for="Detail"><?php print_string('comments',$book);?></label>
-		  <textarea tabindex="<?php print $tab++;?>" name="detail" class="required" id="Detail" rows="4" 
-					cols="35"><?php print $Comment['Detail']['value'];?></textarea>
+		  <textarea tabindex="<?php print $tab++;?>" name="detail" class="required" id="Detail" rows="4" cols="35"><?php print $Comment['Detail']['value'];?></textarea>
 		</div>
 		<div class="left">
 <?php 
@@ -88,7 +89,7 @@ if($_SESSION['worklevel']>-1 and ($CFG->emailguardiancomments=='yes' or ($CFG->e
 
 	</fieldset>
 
-	<fieldset class="center">
+	<fieldset class="divgroup">
 	  <div class="left">
 <?php
 	list($ratingnames,$catdefs)=fetch_categorydefs('con','%',$secid);
@@ -119,7 +120,7 @@ if($_SESSION['worklevel']>-1 and ($CFG->emailguardiancomments=='yes' or ($CFG->e
 	</fieldset>
 
 		  
-	<fieldset class="center divgroup">
+	<fieldset class="divgroup">
 
 	  <div class="left">
 <?php 					 
@@ -194,7 +195,6 @@ if($_SESSION['worklevel']>-1 and ($CFG->emailguardiancomments=='yes' or ($CFG->e
 <?php
 			if(!isset($Incident)){print_string('recordnewincident',$book);}
 			else{print_string('editincident',$book);}
-
 ?>
   </div>
 	  <div class="left">
