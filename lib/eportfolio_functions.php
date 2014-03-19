@@ -835,7 +835,8 @@ function elgg_send_email($recipients,$emailtype,$template='classicemail'){
 			$messagehtml.='<br><hr><p>'. $footer.'<p>';
 			$emailaddress=strtolower($recipient['emailaddress']);
 			/*Add template if exists for Classic email named classicemail*/
-			$dbt=db_connect(true,'class');
+			$dbt=db_connect();
+			mysql_query("SET NAMES 'utf8'");
 			$templates=getTemplates('tmp',$template);
 			if(count($templates)>0){
 				$type['{{type}}']=$emailtype;
@@ -847,6 +848,7 @@ function elgg_send_email($recipients,$emailtype,$template='classicemail'){
 
 			/*Add email to message_event table*/
 			$dbn=db_connect(false,$CFG->eportfolio_db);
+			mysql_query("SET NAMES 'utf8'");
 			$table=$CFG->eportfolio_db_prefix.'message_event';
 			if(send_email_to($emailaddress,'',$title,$messagetxt,$messagehtml,'','',$dbn,$table)){$success=true;}
 			else{trigger_error('Couldn\'t send email to : '.$recipient['emailaddress'],E_USER_NOTICE);}
