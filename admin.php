@@ -23,12 +23,12 @@ $section_perm=get_admin_perm('s',get_uid($tid));
   </div>
 
   <div style="visibility:hidden;" id="hiddenbookoptions">
-	<form id="adminchoice" name="adminchoice" method="post" 
-							action="admin.php" target="viewadmin">
+	<form id="adminchoice" name="adminchoice" method="post" action="admin.php" target="viewadmin">
 	  <fieldset class="admin selery">
 		<legend><?php print_string('manage');?></legend>
 <?php
-	$choices=array('formgroup_matrix.php' => 'formgroups'
+	$choices=array('manage' => 'manage'
+	               ,'formgroup_matrix.php' => 'formgroups'
 				   ,'yeargroup_matrix.php' => 'yeargroups'
 				   );
 	if($_SESSION['worklevel']>-1){
@@ -56,7 +56,7 @@ $section_perm=get_admin_perm('s',get_uid($tid));
 		$choices['class_nos.php']='classnumbers';
 		$choices['usage.php']='logcounter';
 		}
-	selery_stick($choices,$choice,$book);
+	selery_select_stick($choices,$choice,$book);
 ?>
 	</fieldset>
   </form>
@@ -64,12 +64,12 @@ $section_perm=get_admin_perm('s',get_uid($tid));
 <?php 
 	if($rtid=='administrator'){
 ?>
-	<form id="configadminchoice" name="configadminchoice" method="post" 
-	  action="admin.php" target="viewadmin">
+	<form id="configadminchoice" name="configadminchoice" method="post" action="admin.php" target="viewadmin">
 	  <fieldset class="admin selery">
 		<legend><?php print_string('configure','admin');?></legend>
 <?php
-		$choices=array('import_students.php' => 'newstudents'
+		$choices=array('configure' => 'configure'
+		               ,'import_students.php' => 'newstudents'
 					   ,'new_teacher.php' => 'newteachers'
 					   ,'passwords.php' => 'refreshpasswords'
 					   ,'class_matrix.php' => 'classesmatrix'
@@ -87,7 +87,7 @@ $section_perm=get_admin_perm('s',get_uid($tid));
 					   //,'db_export.php' => 'db'
 					   //,'lang.php' => 'langexport'
 					   );
-		selery_stick($choices,$choice,$book);
+		selery_select_stick($choices,$choice,$book);
 ?>
 	  </fieldset>
 	</form>

@@ -23,8 +23,7 @@ if($Student['SENFlag']['value']=='N'){
 	<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
 	  <fieldset class="center">	
 		<legend><?php print_string('notsenstudent','seneeds');?></legend>
-		<button onClick="processContent(this);" name="sub" 
-				value="senstatus"><?php print_string('changesenstatus','seneeds');?></button>
+		<button onClick="processContent(this);" name="sub" value="senstatus"><?php print_string('changesenstatus','seneeds');?></button>
 	  </fieldset>
 	<input type="hidden" name="current" value="<?php print $action;?>"/>
 	<input type="hidden" name="cancel" value="<?php print $cancel;?>"/>

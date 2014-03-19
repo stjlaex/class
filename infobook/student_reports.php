@@ -29,61 +29,50 @@ if($epfu!=''){
 	}
 ?>
 
-  <div id="heading">
-	<label><?php print_string('subjectreports'); ?></label>
-	<?php print $Student['DisplayFullName']['value'];?>
-  </div>
-  <div class="content">
-
-	<fieldset class="center">
-	  <legend>
-			<?php print get_string('published','reportbook'). ' '.get_string('reports',$book);?>
-	  </legend>
-<?php
-
-	if(isset($_SERVER['HTTPS'])){
-		$http='https';
-		}
-	else{
-		$http='http';
-		}
-
-	if(trim($epfu)==''){$epfu=strtolower($Student['EnrolNumber']['value']);}
-	foreach($report_files as $reportdetails){
-		if(!is_array($reportdetails)){$report=array('title'=>$reportdetails,'name'=>$reportdetails.'.pdf','location'=>$directory.'/'.$reportdetails.'.pdf');}
-		else{$report=$reportdetails;}
-
-		/* A mix of PDFs will be uploaded to the epfdata directory for
-		 * files and we only want to display report PDFs. 
-		 */
-		if(strpos($report['name'],'eport')>0){
-			print '<div style="float:left;width:24%;margin:2px;padding:2px 4px;background-color:#ffffff;">';
-			print '<a href="'.$http.'://'.$CFG->siteaddress.$CFG->sitepath.'/'.$CFG->applicationdirectory.'/scripts/file_display.php?epfu='.$epfu.'&location='.$report['location'].'&filename='.$report['name'].'" /><label>'.$report['title'].'</label><img src="images/printer.png" /></a>';
-			print '</div>';
-			}
-		}
-?>
-	</fieldset>
-
-	<fieldset class="center" style="background-color:#888888;">
-<?php
-		html_table_container_open('1','rowplus',get_string('notpublished','reportbook'));
-?>
-
-	  <form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
-
-<?php
-	include('scripts/list_student_report.php');
-?>
-
-		<div id="xml-checked-action" style="display:none;">
-		  <params>
-			<sids><?php print $sid;?></sids>
-			<selectname>wrapper_rid</selectname>
-		  </params>
-		</div>
-
-
+    <div id="heading">
+        <h4><label><?php print_string('subjectreports'); ?></label> <?php print $Student['DisplayFullName']['value'];?></h4>
+    </div>
+    <div class="content">
+        <fieldset class="divgroup">
+            <h5><?php print get_string('published','reportbook'). ' '.get_string('reports',$book);?></h5>
+            <?php
+            	if(isset($_SERVER['HTTPS'])){
+            		$http='https';
+            		}
+            	else{
+            		$http='http';
+            		}
+            
+            	if(trim($epfu)==''){$epfu=strtolower($Student['EnrolNumber']['value']);}
+            	foreach($report_files as $reportdetails){
+            		if(!is_array($reportdetails)){$report=array('title'=>$reportdetails,'name'=>$reportdetails.'.pdf','location'=>$directory.'/'.$reportdetails.'.pdf');}
+            		else{$report=$reportdetails;}
+            
+            		/* A mix of PDFs will be uploaded to the epfdata directory for
+            		 * files and we only want to display report PDFs. 
+            		 */
+            		if(strpos($report['name'],'eport')>0){
+            			print '<div style="float:left;width:24%;margin:2px;padding:2px 4px;background-color:#ffffff;">';
+            			print '<a href="'.$http.'://'.$CFG->siteaddress.$CFG->sitepath.'/'.$CFG->applicationdirectory.'/scripts/file_display.php?epfu='.$epfu.'&location='.$report['location'].'&filename='.$report['name'].'" /><label>'.$report['title'].'</label><img src="images/printer.png" /></a>';
+            			print '</div>';
+            		}
+            	}
+            ?>
+    	</fieldset>
+	<fieldset class="divgroup">
+        <?php
+        	html_table_container_open('1','rowplus',get_string('notpublished','reportbook'));
+        ?>
+        <form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
+            <?php
+            	include('scripts/list_student_report.php');
+            ?>
+    		<div id="xml-checked-action" style="display:none;">
+                <params>
+                    <sids><?php print $sid;?></sids>
+                    <selectname>wrapper_rid</selectname>
+                </params>
+    		</div>
 		<input type="hidden" name="cancel" value="<?php print $cancel;?>"/>
 		<input type="hidden" name="choice" value="<?php print $choice;?>"/>
 	  </form>

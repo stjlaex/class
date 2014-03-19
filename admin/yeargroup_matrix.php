@@ -14,25 +14,21 @@ else{
 three_buttonmenu($extrabuttons);
 ?>
   <div class="content">
-	  <form id="formtoprocess" name="formtoprocess" method="post"
-										action="<?php print $host; ?>" >
-
-	<fieldset class="right">
-		<legend><?php print_string('assignyeartoteacher',$book);?></legend>
-		<div class="center">
-<?php $liststyle='width:95%;'; $required='yes'; include('scripts/list_teacher.php');?>
-		</div>
-		<div class="center">
-<?php $liststyle='width:95%;'; $required='yes'; include('scripts/list_year.php');?>
-		</div>
+	  <form id="formtoprocess" name="formtoprocess" method="post"action="<?php print $host; ?>" >
+	<div class="center">
+	<fieldset class="divgroup">
+		<h5><?php print_string('assignyeartoteacher',$book);?></h5>
+<?php $required='yes'; include('scripts/list_teacher.php');?>
+<?php $required='yes'; include('scripts/list_year.php');?>
 	</fieldset>
+	</div>
 
 	    <input type="hidden" name="current" value="<?php print $action;?>" />
 		<input type="hidden" name="choice" value="<?php print $choice;?>" />
 		<input type="hidden" name="cancel" value="<?php print '';?>" />
 	</form>
 
-	<div class="left"  id="viewcontent">
+	<div class="center"  id="viewcontent">
 	  <table class="listmenu">
 		<tr>
 		  <th><?php print_string('yeargroup');?></th>

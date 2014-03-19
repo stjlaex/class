@@ -1,0 +1,291 @@
+/*
+
+ Uniform Theme: Uniform Default
+ Version: 1.8
+ By: Josh Pyles
+ License: MIT License
+ ---
+ For use with the Uniform plugin:
+ http://uniformjs.com/
+
+ */
+
+div.selector span {
+  background-image: url("../images/sprite.png");
+  background-repeat: no-repeat;
+  -webkit-font-smoothing: antialiased;
+}
+div.selector, div.checker, div.button, div.radio, div.uploader {
+  display: -moz-inline-box;
+  display: inline-block;
+  *display: inline;
+  zoom: 1;
+  vertical-align: middle;
+  /* Keeping this as :focus to remove browser styles */
+}
+div.selector:focus, div.checker:focus, div.button:focus, div.radio:focus, div.uploader:focus {
+  outline: 0;
+}
+div.selector, div.selector *, div.radio, div.radio *, div.checker, div.checker *, div.uploader, div.uploader *, div.button, div.button * {
+  margin: 0;
+  padding: 0;
+}
+
+.highContrastDetect {
+  background: url("../images/bg-input.png") repeat-x 0 0;
+  width: 0px;
+  height: 0px;
+}
+
+/* Select */
+div.selector {
+  background-color: #34495e;
+  line-height: 40px;
+  height: 40px;
+  padding: 0 0 0 10px;
+  position: relative;
+  overflow: hidden;
+  border-radius: 3px;
+  font-size: 12px;
+}
+div.selector span {
+  text-overflow: ellipsis;
+  display: block;
+  overflow: hidden;
+  white-space: nowrap;
+  background-position: right -50px;
+  height: 40px;
+  line-height: 40px;
+  padding-right: 45px;
+  cursor: pointer !important;
+  width: 100%;
+  display: block;
+  color: #cad5da;
+  text-shadow: none;
+}
+div.selector select {
+  opacity: 0;
+  filter: alpha(opacity=0);
+  -moz-opacity: 0;
+  border: none;
+  background: none;
+  position: absolute;
+  height: 40px;
+  top: 2px;
+  left: 0px;
+  width: 100%;
+  font-family: 'Lato', sans-serif;
+  font-size: 14px;
+  cursor: pointer !important;
+}
+div.selector select option {
+  background: #ebedef;
+  color: #657585;
+}
+div.selector.default {
+  min-width: 130px !important;
+  width: 19% !important;
+  float: left;
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
+div.selector.default span {
+  width: 90% !important;
+}
+div.selector.loginlang {
+  min-width: 245px !important;
+  width: 245px !important;
+  float: left;
+  margin-left: 20px;
+  background-color: #4d5f72;
+}
+div.selector.loginlang span {
+  width: 80% !important;
+  background-position: right 0;
+}
+
+div.selector.registerEdit {
+  background-color: #FFFFFF;
+  height: 25px;
+  margin-right: 5px;
+  border: solid 1px #bac1c8;
+}
+div.selector.registerEdit.hover {
+  border: solid 1px #34495e;
+}
+div.selector.registerEdit span {
+  background-position: right -135px;
+  height: 25px;
+  line-height: 25px;
+  padding-right: 25px;
+  color: #34495e;
+}
+div.selector.registerEdit select {
+  height: 25px;
+}
+
+div.selector.blueLight {
+  background-color: #4d5f72;
+}
+div.selector.blueLight span {
+  background-position: right 0;
+}
+/* PRESENTATION */
+
+/* CheckBox*/
+
+/*Reset Uniform*/
+div.checker {
+  width: 20px;
+  height: 20px;
+  float: left;
+  margin: 0 3px;
+  *display: inline;
+  zoom: 1;
+  vertical-align: middle;
+  position: relative;
+}
+div.checker:focus {
+  outline: 0;
+  cursor: pointer;
+}
+
+/* Checkbox */
+div.checker span.checked input {
+  position: absolute;
+  z-index: 1;
+  left: -1px;
+  top: -1px;
+  cursor: pointer;
+}
+div.checker span.checked:before {
+  font-family: FontAwesome;
+  content: "\f00c";
+  color: #FFFFFF;
+  display: block;
+  margin-top: 3px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: normal;
+}
+div.checker span, div.checker input {
+  width: 20px;
+  height: 20px;
+}
+
+div.checker span {
+  display: -moz-inline-box;
+  display: inline-block;
+  *display: inline;
+  zoom: 1;
+  text-align: center;
+  background-color: #bac1c8;
+  cursor: pointer;
+}
+div.checker input {
+  opacity: 0;
+  filter: alpha(opacity=0);
+  -moz-opacity: 0;
+  border: none;
+  background: none;
+  display: -moz-inline-box;
+  display: inline-block;
+  *display: inline;
+  zoom: 1;
+  cursor: pointer;
+}
+div.checker.hover span {
+  background-color: #bac1c8;
+  cursor: pointer;
+}
+div.checker span.checked, div.checker.hover span.checked {
+  background-color: #91c73e;
+}
+
+/* Radio */
+div.radio {
+  position: relative;
+  margin-left: 5px;
+}
+div.radio, div.radio span, div.radio input {
+  cursor: pointer;
+}
+div.radio span {
+  display: -moz-inline-box;
+  display: inline-block;
+  *display: inline;
+  zoom: 1;
+  text-align: center;
+  position: relative;
+}
+div.radio span:before, div.radio span.checked:before {
+  font-family: FontAwesome;
+  content: "\f111";
+  color: #bac1c8;
+  display: block;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: normal;
+}
+div.radio span.checked:before {
+  content: "\f192";
+  color: #91c73e;
+  font-weight: normal;
+}
+div.radio input {
+  opacity: 0;
+  filter: alpha(opacity=0);
+  -moz-opacity: 0;
+  border: none;
+  background: none;
+  display: -moz-inline-box;
+  display: inline-block;
+  *display: inline;
+  zoom: 1;
+  text-align: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+/* INPUT & TEXTAREA */
+select.uniform-multiselect {
+  min-width: 150px;
+  height: 120px;
+  border: solid 1px #34495e;
+  padding: 0;
+  margin: 0;
+  margin-bottom: 10px;
+  width: 95%;
+  font-size: x-small;
+  background-color: #ebedef;
+}
+select.uniform-multiselect:focus {
+  border: 2px solid #91c73e;
+  z-index: 10000;
+}
+
+select.uniform-multiselect option {
+  font-size: 12px;
+  background-color: #ebedef;
+  color: #657585;
+  padding: 0 5px;
+  font-family: 'Lato', sans-serif;
+  cursor: pointer;
+}
+
+/*these select widths are not ideal but seem to solve a firefox bug for 100%!*/
+select#mids:focus option {
+  width: 100%;
+}
+
+select.uniform-multiselect option.report {
+  background-color: #eeeeee;
+}
+select.uniform-multiselect option.derived {
+  background-color: #ddeeff;
+}
+select.uniform-multiselect option.other {
+  background-color: #bfde8f;
+}
+

@@ -29,22 +29,17 @@ three_buttonmenu($extrabuttons);
 ?>
   <div class="content">
 	  <form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host; ?>" >
-
-	  <fieldset class="right">
-		  <legend><?php print_string('assigntoteacher',$book);?></legend>
-
-		<div class="center">
+	      <div class="center">
+	  <div class="left">
+	  <fieldset class="divgroup">
+		  <h5><?php print_string('assigntoteacher',$book);?></h5>
 <?php 
 	$required='yes';
 	include('scripts/list_teacher.php');
 ?>
-		</div>
-
-		<div class="center">
 <?php
 	$listlabel=$newcomtype;
 	$listname='gid';
-	$liststyle='width:95%;';
 	include('scripts/set_list_vars.php');
 	$listgids=array();
 	$listcoms=array();
@@ -56,11 +51,28 @@ three_buttonmenu($extrabuttons);
 	list_select_list($listgids,$listoptions,$book);
 	unset($listoptions);
 ?>
-		</div>
 	  </fieldset>
+	  </div>
+	  <div class="right">
+	   <fieldset class="divgroup">
+      <h5><?php print_string('changetype',$book);?></h5>
 
+        <div class="center">
+<?php
+    $listname='pastoraltype';
+    $onchange='yes';
+    $listlabel='';
+    include('scripts/set_list_vars.php');
+    $list=array('form'=>'form','house'=>'house','reg'=>'registrationgroup');
+    list_select_list($list,$listoptions,$book);
+    unset($listoptions);
+?>
+        </div>
 
-	<div class="left"  id="viewcontent">
+    </fieldset>
+    </div>
+</div>
+<div class="center" id="viewcontent">
 	  <table class="listmenu">
 		<tr>
 		  <th colspan="2"><?php print_string('checkall'); ?>
@@ -137,31 +149,6 @@ three_buttonmenu($extrabuttons);
 		  </tr>
 
 	  </table>
-	</div>
-
-
-	<fieldset class="right">
-	  <legend><?php print_string('changetype',$book);?></legend>
-
-		<div class="center">
-<?php
-	$listname='pastoraltype';
-	$onchange='yes';
-	$listlabel='';
-	$liststyle='width:95%;';
-	include('scripts/set_list_vars.php');
-	$list=array('form'=>'form','house'=>'house','reg'=>'registrationgroup');
-	list_select_list($list,$listoptions,$book);
-	unset($listoptions);
-?>
-		</div>
-
-	</fieldset>
-
-
-
-
-
 
 	  <input type="hidden" name="newcomtype" value="<?php print $newcomtype;?>" />
 	  <input type="hidden" name="current" value="<?php print $action;?>" />
@@ -170,7 +157,7 @@ three_buttonmenu($extrabuttons);
       <input type="hidden" name="cancel" value="<?php print '';?>" />
 	</form>
   </div>
-
+</div>
   <div id="xml-checked-action" style="display:none;">
 	<params>
 	  <checkname>comids</checkname>

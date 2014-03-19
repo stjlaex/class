@@ -8,49 +8,45 @@ $action='responsables_action.php';
 $users=list_all_users(0);
 three_buttonmenu();
 ?>
-  <div class="topform">
-	<form id="formtoprocess" name="formtoprocess"  
-		method="post" action="<?php print $host;?>"> 
-
-	  <fieldset class="left divgroup">
-		<legend><?php print_string('staff',$book);?></legend>
-		<div>
-		<label for="User">
-		  <?php print_string('username',$book);?>
-		</label>
-		<select class="required"  tabindex="<?php print $tab++;?>" 
-		  name="user" id="User" size="1">	  	
-<?php
-	print '<option value="" selected="selected"></option>';
-	foreach($users as $uid => $user){
-		if($user['username']!='administrator'){
-			print '<option ';
-			print	' value="'.$uid.'">'.$user['username'].'  ('.$user['surname'].')</option>';
-			}
-		}
-?>
-		</select>
-
-		<label for="Permissions">
-		  <?php print_string('permissions',$book);?>
-		</label>
-		<select class="required"   tabindex="<?php print $tab++;?>" 
-		  name="privilege" id="Permissions" size="1">
-			  <option value="" selected="selected"></option>
-			  <option value="r" ><?php print_string('canview',$book);?></option>
-			  <option value="w" ><?php print_string('canedit',$book);?></option>
-			  <option value="x" ><?php print_string('canconfigure',$book);?></option>
-		</select>
-
-		<label for="email"><?php print_string('receiveemailalerts',$book);?></label>
-		<input type="checkbox"  tabindex="<?php print $tab++;?>" 
-		  id="email" name="email" value="yes"/>
-			</div>
-	  </fieldset>
+    <div class="content">
+        <form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>"> 
+            <div class="left">
+                <fieldset class="divgroup">
+                    <h5><?php print_string('staff',$book);?></h5>
+    	           
+                    <div class="center">
+                        <label for="User"> <?php print_string('username',$book);?> </label>
+                        <select class="required"  tabindex="<?php print $tab++;?>" name="user" id="User" size="1">	  	
+                            <?php
+                                print '<option value="" selected="selected"></option>';
+                                foreach($users as $uid => $user){
+                                	if($user['username']!='administrator'){
+                                		print '<option ';
+                                		print	' value="'.$uid.'">'.$user['username'].'  ('.$user['surname'].')</option>';
+                                		}
+                                	}
+                            ?>
+                        </select>
+                    </div>
+                    <div class="center">
+        	            <label for="Permissions"><?php print_string('permissions',$book);?></label>
+        	            <select class="required"   tabindex="<?php print $tab++;?>" name="privilege" id="Permissions" size="1">
+                            <option value="" selected="selected"></option>
+                		    <option value="r" ><?php print_string('canview',$book);?></option>
+                		    <option value="w" ><?php print_string('canedit',$book);?></option>
+                		    <option value="x" ><?php print_string('canconfigure',$book);?></option>
+        	            </select>
+    	            </div>
+                    <div class="center">
+                        <label for="email"><?php print_string('receiveemailalerts',$book);?></label>
+                        <input type="checkbox"  tabindex="<?php print $tab++;?>" id="email" name="email" value="yes"/>
+                    </div>
+                </fieldset>
+            </div>
 
 	  <div class="right">
-		<fieldset class="center divgroup">
-		  <legend><?php print_string('academicresponsibility',$book);?></legend>
+		<fieldset class="divgroup">
+		  <h5><?php print_string('academicresponsibility',$book);?></h5>
 		  <div class="left">
 			<label for="Course"><?php print_string('course');?></label>
 			<select id="Course"  tabindex="<?php print $tab++;?>" name="crid" size="1">
@@ -89,7 +85,6 @@ three_buttonmenu();
 		<input type="hidden" name="choice" value="<?php print $choice;?>">
 		<input type="hidden" name="cancel" value="<?php print '';?>">
 	</form>
-  </div>
 
 <?php
 	foreach($users as $uid => $user){
@@ -104,7 +99,7 @@ three_buttonmenu();
 		$users[$uid]=$user;
 		}
 ?>
-  <div class="content">
+
 	<div class="center" id="viewcontent">
 	  <table class="listmenu">
 	  <tr>

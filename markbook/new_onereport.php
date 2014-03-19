@@ -13,28 +13,19 @@
 		$Report['Subject']=array('id'=>$bid, 'value'=>$subjectname);
 		if($pid!=''){$Report['Component']=array('id'=>$pid, 'value'=>$componentname);}
 ?>
-	<tr id="sid-<?php print $sid;?>"
 <?php
 		if($edit_comments_off!='yes'){
 ?>
-	style="height:4em;">
-	<th>
-	</th>
 <?php
 			}
 		else{
 ?>
-	><td>
 	  <input type="checkbox" name="sids[]" value="<?php print $sid;?>" />
 		<?php print $tab;?>
-	</td>
 <?php
 			}
 ?>
-	<td>
-	<a href="infobook.php?current=student_view.php&sid=<?php print $viewtable[$row]['sid'];?>&sids[]=<?php print $viewtable[$row]['sid'];?>" target="viewinfobook" onclick="parent.viewBook('infobook');"<?php if($viewtable[$row]['preferredforename']!=''){$preferredforename='&nbsp;('.$viewtable[$row]['preferredforename'].')';}else{$preferredforename='';}?>><?php print $viewtable[$row]['surname'];?>,&nbsp;<?php print $viewtable[$row]['forename'].'&nbsp;'.$viewtable[$row]['middlenames'].$preferredforename;?></a>
-	</td>
-
+	<h4><a href="infobook.php?current=student_view.php&sid=<?php print $viewtable[$row]['sid'];?>&sids[]=<?php print $viewtable[$row]['sid'];?>" target="viewinfobook" onclick="parent.viewBook('infobook');"<?php if($viewtable[$row]['preferredforename']!=''){$preferredforename='&nbsp;('.$viewtable[$row]['preferredforename'].')';}else{$preferredforename='';}?>><?php print $viewtable[$row]['surname'];?>,&nbsp;<?php print $viewtable[$row]['forename'].'&nbsp;'.$viewtable[$row]['middlenames'].$preferredforename;?></a></h4>
 <?php
 
 
@@ -55,7 +46,6 @@
 				if($grading_grades!='' and $grading_grades!=' '){
 					$pairs=explode (';', $grading_grades);
 ?>
-		  <td>
 			<select tabindex="<?php print $tab;?>" name="sid<?php print $sid.':'.$inc++;?>">
 <?php 
 				print '<option value="" ';
@@ -69,15 +59,13 @@
 					}
 ?>
 			</select>
-		  </td>
 <?php
 				}
 			else{
-			   	print '<td><input pattern="decimal" type="text" tabindex="'.$tab.'" name="sid'.$sid.':'.$inc++.'" maxlength="8" value="'.$value.'" /></td>';
+			   	print '<input pattern="decimal" type="text" tabindex="'.$tab.'" name="sid'.$sid.':'.$inc++.'" maxlength="8" value="'.$value.'" />';
 				}
 			}
 ?>
-	</tr>
 <?php
 	if($reportdef['report']['addcomment']=='yes' or 
 						$reportdef['report']['addcategory']=='yes'){ 
@@ -128,28 +116,16 @@
 
 		  if($edit_comments_off!='yes' and ((!$teacherdone and $entryn==$totalentryn) or ($entryn<$totalentryn) or $totalentryn<1)){
 ?>
-  <tbody id="<?php print $openId;?>">
-	<tr onClick="clickToReveal(this)" class="<?php print $rowstate;?>" 
-					id="<?php print $openId.'-'.$rown++;?>">
-	  <th>&nbsp</th>
 <?php
 		if($reportdef['report']['addcomment']=='yes'){
 ?>
-	  <th><?php print_string('teachercomment');?>:</th>
-	  <td id="icon<?php print $openId;?>" class="" colspan="<?php print $ass_colspan;?>">
-	  <div class="special"><?php print $Comment['Teacher']['value'];?></div><img class="clicktowrite" name="Write"  
-		  onClick="clickToWriteCommentNew(<?php print $sid.','.$rid.',\''.$bid.'\',\''.$pid.'\',\''.$entryn.'\',\''.$openId.'\'';?>);" 
-		  title="<?php print_string('clicktowritecomment');?>" />
-	  </td>
+	  <?php print_string('teachercomment');?>:
+	       <div class="special"><?php print $Comment['Teacher']['value'];?></div>
+	       <img class="clicktowrite" name="Write" onClick="clickToWriteCommentNew(<?php print $sid.','.$rid.',\''.$bid.'\',\''.$pid.'\',\''.$entryn.'\',\''.$openId.'\'';?>);" title="<?php print_string('clicktowritecomment');?>" />
 <?php
 			  }
 ?>
-	  <input type="hidden" id="inmust<?php print $openId;?>" 
-		name="inmust<?php print $sid.':'.$inc++;?>" 
-		value="<?php print $inmust;?>" />
-	</tr>
-	<tr>
-		<tbody>
+	  <input type="hidden" id="inmust<?php print $openId;?>" name="inmust<?php print $sid.':'.$inc++;?>" value="<?php print $inmust;?>" />
 <?php
 		if($reportdef['report']['addcategory']=='yes'){
 			$ass_colspan++;
@@ -173,7 +149,7 @@
 						if(mysql_num_rows($d_g)>0){$cat_grading_grades=mysql_result($d_g,0);}
 						else{$cat_grading_grades='';}
 						}
-					$statementrating='<span style="color:#44f;float:right;">'.scoreToGrade($catdefs[$catindex]['rating'],$cat_grading_grades).'</span>';
+					$statementrating='<span>'.scoreToGrade($catdefs[$catindex]['rating'],$cat_grading_grades).'</span>';
 					}
 				else{
 					$statementrating='';
@@ -181,16 +157,16 @@
 
 				$extra_colspan=$ass_colspan+1;
 				if($catdefs[$catindex]['subtype']!=''){
-					$statementlabel=$statementrating.' '.'<label style="float:right;">'.get_subjectname($catdefs[$catindex]['subtype']).'</label><br />';
+					$statementlabel=$statementrating.' '.'<label style="float:right;">'.get_subjectname($catdefs[$catindex]['subtype']).'</label>]';
 					}
 				elseif($statementrating!=''){
-					$statementlabel=$statementrating.'<br />';
+					$statementlabel=$statementrating.'';
 					}
 				else{$statementlabel='';}
-				print '<tr class="'.$rowclass.'" id="'.$openId.'-'.$rown++.'"><td></td>';
-				print '<td colspan="'.$extra_colspan.'"><div class="row" style="width:100%;"><p class="bigger">'
-					.$statementlabel. $Statement['Value'].'</p></div></td></tr>';
-				print '<tr class="'.$rowclass.'" id="'.$openId.'-'.$rown++.'"><th></th><td colspan="'.$extra_colspan.'" class="boundary row">';
+				print '';
+				print '<fieldset class="divgroup markbook-img">';
+				print '<div class="list-box"><span>'.display_date($setcat_date).'</span>';
+				print '<ul class="chk-list">';
 
 				/* Find any previously recorded value for this catid,
 				   make a first guess that they will have been
@@ -233,23 +209,16 @@
 					elseif($descriptor=='green'){$trafficlite='class="golite"';}
 					elseif($descriptor=='yellow'){$trafficlite='class="pauselite"';}
 					else{$trafficlite='';}
-					print '<div class="row '.$checkclass.'"><label '.$trafficlite.'>'.$descriptor.'</label>';
+					print '<li class="row '.$checkclass.'"><label '.$trafficlite.'>'.$descriptor.'</label>';
 					print '<input type="radio" name="sid'.$sid.':'.$inc. '" tabindex="'.$tab.'" value="'.$value.'" '.$checked;
-					print ' /></div>';
+					print ' /></li>';
 					}
 
-				print '<div class="row">'.get_string('uncheck',$book).'';
-				print '<input type="radio" name="sid'.$sid.':'.$inc. '" value="uncheck" />';
-				print '</div>';
-
-				if($setcat_date!=' ' and $setcat_date!=''){
-					print '<span style="float:right;color:#aaa;">'.display_date($setcat_date).'</span>';
-					print '<input type="hidden" name="cat'.$sid.':'.$catid.'" value="'.$setcat_value.'"/>';
-					print '<input type="hidden" name="dat'.$sid.':'.$catid.'" value="'.$setcat_date.'"/>';
-					}
+				print '<!--li>'.get_string('uncheck',$book).'</li-->';
+				print '<li><input type="radio" name="sid'.$sid.':'.$inc. '" value="uncheck" /></li>';
 
 				$inc++;
-				print '</td></tr>';
+				print '';
 				
 				if($reportdef['report']['addcategory']=='yes' and $reportdef['report']['course_id']=='FS'){
 
@@ -258,29 +227,23 @@
 					$thisscore=get_assessment_score($eid,$sid,$bid,$pid);
 					$eidsid_id=$thisscore['id'];
 					*/
-
+                    print '<li>';
 					$imagebuttons=array();
-					$imagebuttons['clicktoload']=array('name'=>'Attachment',
-															 'onclick'=>"clickToAttachFile($sid,$rid,'$catid','$pid','$sid')", 
-															 'class'=>'clicktoload',
-															 'value'=>'category_editor.php',
-															 'title'=>'clicktoattachfile');
+					$imagebuttons['clicktoload']=array(
+					   'name'=>'Attachment',
+					   'onclick'=>"clickToAttachFile($sid,$rid,'$catid','$pid','$sid')", 
+					   'class'=>'clicktoload',
+					   'value'=>'category_editor.php',
+					   'title'=>'clicktoattachfile'
+                   );
 					$d_c=mysql_query("SELECT id, comment FROM report_skill_log WHERE skill_id='$catid' AND report_id='$rid' AND student_id='$sid';");
-					/*Not empty row*/
-					if(mysql_num_rows($d_c)>0){
-						print '<tr class="'.$rowclass.'" id="'.$openId.'-'.$rown++.'" ><td onclick="clickToRevealRow(\''.$openId.'\',\''.$rown.'\')" ><img id="status'.$openId.'-'.($rown-1).'" class="rowplus"></td><td colspan="'.$extra_colspan.'"></td><td id="icon'.$sid.'" class="" style="width:18px;" >';
-						}
-					/*Row without comments or files*/
-					else{
-						print '<tr class="'.$rowclass.'" id="'.$openId.'-'.$rown++.'" ><td></td><td colspan="'.$extra_colspan.'"></td><td id="icon'.$sid.'" class="" style="width:18px;" >';
-						}
+					
 					rowaction_buttonmenu($imagebuttons,array(),$book);
-					print '</td></tr>';
-					print '<tr class="hidden" id="'.$openId.'-'.$rown++.'" >';
-					print '<td></td><td colspan="'.($extra_colspan).'">';
-					print '<div class="listmenu fileupload">';
 					require_once('lib/eportfolio_functions.php');
-
+                
+                    print '</li></ul>';
+                    print '</div><h5>'.$statementlabel. $Statement['Value'].'</h5>';
+                
 					while($c=mysql_fetch_array($d_c,MYSQL_ASSOC)){
 						$files=(array)list_files($Student['EPFUsername']['value'],'assessment',$c['id']);
 						//html_document_list($files);
@@ -288,13 +251,11 @@
 						/*Displays the comment without files*/
 						if(count($files)==0 and $c['comment']!=''){
 ?>
-						  <div style="float:left;margin-top: 3px;">
-							<span  style="text-align:center;width:100px;padding: 3px;" title="<?php echo $c['comment'];?>">
-								<button type="button" class="rowaction imagebutton" style="float:left;" >
-									<img class="displayfile" style="display:block;margin:0 auto;float:none;">
+							<span title="<?php echo $c['comment'];?>">
+								<button type="button" class="rowaction imagebutton" >
+									<img class="displayfile">
 								</button>
 							</span>
-						  </div>
 <?php
 							}
 						}
@@ -303,16 +264,20 @@
 					unset($thisscore);
 					unset($eidsid_id);
 					*/
-					print '</div></td><td></td></tr>';
+					print '</fieldset>';
 					}
+                    if($setcat_date!=' ' and $setcat_date!=''){
+                        print '<input type="hidden" name="cat'.$sid.':'.$catid.'" value="'.$setcat_value.'"/>';
+                        print '<input type="hidden" name="dat'.$sid.':'.$catid.'" value="'.$setcat_date.'"/>';
+                    }
 				}
 			}
 
 		if($reportdef['report']['addcomment']=='yes' or $reportdef['report']['addcategory']=='yes'){
 			if($reportdef['report']['commentlength']=='0'){$commentlength='';}
 		    else{$commentlength=' maxlength="'.$reportdef['report']['commentlength'].'"';}
-			print '<tr class="'.$rowclass.'" id="'.$openId.'-'.$rown++.'" >';
-			print '<td></td><td colspan="'.$extra_colspan.'">';
+			print '';
+			print '';
 			print '<textarea '.$commentlength.' rows="1" cols="80" readonly="readonly" style="display:none;"';
 /*TODO: the xmlid must have the real entryn not the index!!!!*/
 			print 'onClick="clickToWriteCommentNew('.$sid.','.$rid.',\''.$bid.'\',\''.$pid.'\',\''.$entryn.'\',\''.$openId.'\');"'; 
@@ -322,25 +287,22 @@
 			$imagebuttons=array();
 			if($inmust=='yes' and $reportdef['report']['addcategory']=='yes'){
 				$imagebuttons['clicktoconfigure']=array('name'=>'current',
-														'onclick'=>"clickToConfigureCategories('cat',$rid,'$bid','$pid','$class_stage','0')", 
-														'value'=>'category_editor.php',
-														'title'=>'configure');
-				}
+    				'onclick'=>"clickToConfigureCategories('cat',$rid,'$bid','$pid','$class_stage','0')", 
+    				'value'=>'category_editor.php',
+    				'title'=>'configure');
+    				}
 			if($inmust!='yes' and $reportdef['report']['addcomment']=='yes'){
 				$imagebuttons['clicktodelete']=array('name'=>'current',
 													 'value'=>'delete_reportentry.php',
 													 'title'=>'deletethiscomment');
 				}
 			rowaction_buttonmenu($imagebuttons,array(),$book);
-			print '</td></tr>';
+			print '';
 			}
 ?>
 	<div id="<?php print 'xml-'.$openId;?>" style="display:none;">
 	  <?php	 xmlechoer('Comment',$Comment); ?>
 	</div>
-  </tbody>
-  </tbody>
-  </tr>
 <?php
 		  }
 		}

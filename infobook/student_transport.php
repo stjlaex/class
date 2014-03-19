@@ -18,14 +18,16 @@ include('scripts/perm_action.php');
 
 ?>
   <div id="heading">
-	<?php print $Student['Forename']['value'].' '.$Student['Surname']['value'];?>
+	<h4>
+	   <?php print $Student['Forename']['value'].' '.$Student['Surname']['value'];?>
+	</h4>
   </div>
 
   <div id="viewcontent" class="content">
 	<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
 
-	  <fieldset class="center listmenu">
-		<legend><?php print get_string('transport',$book);?></legend>
+	  <fieldset class="divgroup">
+		<h5><?php print get_string('transport',$book);?></h5>
 		<div class="center">
 		<table>
 		<thead>
@@ -87,8 +89,8 @@ include('scripts/perm_action.php');
 		</div>
 	  </fieldset>
 
-	  <fieldset class="center listmenu">
-		<legend><?php print get_string('current',$book).' '.get_string('club',$book);?></legend>
+	  <fieldset class="divgroup">
+		<h5><?php print get_string('current',$book).' '.get_string('club',$book);?></h5>
 		<div>
 		  <table>
 			<tr>
@@ -153,8 +155,8 @@ include('scripts/perm_action.php');
 	  </fieldset>
 
 
-	  <fieldset class="center listmenu">
-		<legend><?php print get_string('previous',$book).' '.get_string('club',$book);?></legend>
+	  <fieldset class="divgroup">
+		<h5><?php print get_string('previous',$book).' '.get_string('club',$book);?></h5>
 		<div>
 		  <table>
 			<tr>

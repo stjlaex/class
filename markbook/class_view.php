@@ -20,7 +20,7 @@ if($_SESSION['worklevel']>-1){
   <div class="buttonmenu">
 	<div class="buttongroup">
 	  <label>
-		<?php print get_string('new',$book).'<br />'.get_string('mark',$book);?>
+		<?php print get_string('new',$book).' '.get_string('mark',$book);?>
 	  </label>
 	<button onClick="processContent(this);" name="current" value="new_mark.php">
 	  <?php print_string('classwork',$book);?>
@@ -72,7 +72,7 @@ if($_SESSION['worklevel']>-1){
 	<form id="formtoprocess" name="formtoprocess" 
 	  method="post" action="markbook.php">
 
-	  <table class="sidtable marktable" id="sidtable">
+	  <table class="sidtable marktable listmenu" id="sidtable">
 		<tr>
 <?php 
 /**
@@ -86,7 +86,7 @@ if($_SESSION['worklevel']>-1){
 	if($cidsno==1 and $lessonatt>0){$headcols=5+$lessonatt;}
 	else{$headcols=5;}
 ?>
-<td style="background-color:#fff;" colspan="<?php print $headcols;?>">
+<td class="td-status" colspan="<?php print $headcols;?>">
 			<table>
 <?php
 	/* cidsno is the size of the cids array being displayed */
@@ -102,24 +102,20 @@ if($_SESSION['worklevel']>-1){
 				$url=url_construct($params,'class_photo_print.php');
 ?>
 				<td colspan="3">
-				  <span title="<?php print $classes[$cids[$i]]['detail'];?>">&nbsp;&nbsp;<?php print $classes[$cids[$i]]['name'].$teachers[$i];?><a
-				  href="admin.php?current=class_edit.php&newcid=<?php print $cids[$i];?>" 
-				  target="viewadmin" onclick="parent.viewBook('admin');">
-				  <img class="clicktoconfigure" style="padding:1px;" title="<?php print_string('clicktoconfigure','admin');?>" />&nbsp;
-					</a>
+				  <span title="<?php print $classes[$cids[$i]]['detail'];?>">
+				      <a href="admin.php?current=class_edit.php&newcid=<?php print $cids[$i];?>" target="viewadmin" onclick="parent.viewBook('admin');">
+				        <span class="clicktoconfigure" title="<?php print_string('clicktoconfigure','admin');?>" /></span>
+					  <?php print $classes[$cids[$i]]['name'].$teachers[$i];?>
+					  </a>
 				  </span>
 				 </td>
 				<td>
-				  <div style="float:right;" title="<?php print_string('tracking','markbook');?>" 
-											name="current" value="student_grades_print.php" 
-											onclick="clickToPresent('markbook','<?php print $url;?>','class_photo_print')" >
-					<img class="clicktoprint" style="padding:1px;" title="<?php print_string('clicktoprint','infobook');?>" />&nbsp;
+				  <div style="float:right;" title="<?php print_string('tracking','markbook');?>" name="current" value="student_grades_print.php" onclick="clickToPresent('markbook','<?php print $url;?>','class_photo_print')" >
+					<span class="clicktoprint" title="<?php print_string('clicktoprint','infobook');?>" /></span>
 				  </div>
 				</td>
 				 <td status="p">
-				   <a style="color:#fff;"
-				   href="register.php?current=register_list.php&newcomid=&newcid=<?php print $cids[$i];?>&nodays=1&startday=" 
-				   target="viewregister" onclick="parent.viewBook('register');">R</a>
+				   <a style="color:#fff;" href="register.php?current=register_list.php&newcomid=&newcid=<?php print $cids[$i];?>&nodays=1&startday=" target="viewregister" onclick="parent.viewBook('register');">R</a>
 				 </td>
 			</tr>
 <?php
@@ -150,7 +146,7 @@ if($_SESSION['worklevel']>-1){
 				print '<th class="'.$umns[$col]['displayclass'].'" id="'.$umns[$col]['id'].'"><span title="'.$umns[$col]['comment'].'"><a 
 				href="markbook.php?current=edit_scores.php&cancel=class_view.php&scoretype='. 
 					  $scoretype[$col].'&grading_name='. 
-					  $scoregrading[$col].'&mid='.$umns[$col]['id'].'&col='.$col.'"><img class="clicktoedit"/>' 
+					  $scoregrading[$col].'&mid='.$umns[$col]['id'].'&col='.$col.'"><span class="clicktoedit"/></span> ' 
 					  .$umns[$col]['topic'].'<p>'.display_date($umns[$col]['entrydate']).'</p></a>
 	      <p class="component">'.$umns[$col]['component'].'</p>'.$umns[$col]['marktype'].'<input type="checkbox" name="checkmid[]" value="'.$umns[$col]['id'].'" /></span></th>';
 				}
@@ -203,12 +199,11 @@ if($_SESSION['worklevel']>-1){
 ?>
 		  </td>
 		  <td class="student">
-			<a href="infobook.php?current=student_view.php&sid=<?php print $viewtable[$c2]['sid'];?>&sids[]=<?php print $viewtable[$c2]['sid'];?>"
-			  target="viewinfobook" onclick="parent.viewBook('infobook');">
+			<a href="infobook.php?current=student_view.php&sid=<?php print $viewtable[$c2]['sid'];?>&sids[]=<?php print $viewtable[$c2]['sid'];?>" target="viewinfobook" onclick="parent.viewBook('infobook');">
 			<?php if($viewtable[$c2]['preferredforename']!=''){$preferredforename='&nbsp;('.$viewtable[$c2]['preferredforename'].')';}else{$preferredforename='';}?>
 			<?php print $viewtable[$c2]['surname'];?>,&nbsp;<?php print $viewtable[$c2]['forename']. '&nbsp;'.$viewtable[$c2]['middlenames'].$preferredforename;?></a>
-			<div id="mini-<?php echo $viewtable[$c2]['sid']; ?>" style="float:right;"></div>
-			<div id="merit-<?php print $viewtable[$c2]['sid'];?>"></div>
+			<div class="miniature" id="mini-<?php echo $viewtable[$c2]['sid']; ?>"></div>
+			<div class="merit" id="merit-<?php print $viewtable[$c2]['sid'];?>"></div>
 		  </td>
 		  <td><?php print $viewtable[$c2]['form_id'];?></td>
 <?php
@@ -216,11 +211,11 @@ if($_SESSION['worklevel']>-1){
 			$Attendances=(array)fetch_classAttendances($cids[0],$viewtable[$c2]['sid'],0,$lessonatt);
 			$lessonno=0;
 			foreach($Attendances['Attendance'] as $Att){
-				print '<td style="border:1px solid #ddd;" status="'.$Att['Status']['value'].'"><span title="'.$Att['Date']['value'].' P'.$Att['Period']['value'].' '.$Att['Comment']['value'].'">'.$Att['Code']['value'].'</span></td>';
+				print '<td style="border:1px solid #bac1c8;" status="'.$Att['Status']['value'].'"><span title="'.$Att['Date']['value'].' P'.$Att['Period']['value'].' '.$Att['Comment']['value'].'">'.$Att['Code']['value'].'</span></td>';
 					 $lessonno++;
 				}
 			while($lessonno<$lessonatt){
-				print '<td style="border:1px solid #ddd;" status=""></td>';
+				print '<td style="border:1px solid #bac1c8;" status=""></td>';
 				$lessonno++;
 				}
 			}

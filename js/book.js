@@ -138,7 +138,7 @@ function updateLauncher(openId,entryn,text){
 //	the id should refer to the containing html entity for the icon (probably a td)
 //  and the actual textarea for the text
 	if(document.getElementById("text"+openId)){
-		document.getElementById("text"+openId).value=text;
+		document.getElementById("text"+openId)=text;
 		}
 	if(document.getElementById("icon"+openId)){
 		document.getElementById("icon"+openId).setAttribute("class","vspecial");
@@ -1017,6 +1017,7 @@ function checkAll(checkAllBox,checkname){
 				formObject.elements[c].checked=false;
 				}
 			checkrowIndicator(formObject.elements[c]);
+			$.uniform.update( formObject.elements[c] )
 			}
 		}
 	}
@@ -1116,6 +1117,17 @@ function validateRequired(fieldObj){
 		fieldImage.className="completed";
 		}
 	}
+
+function validateSelectRequired(fieldObj){
+    var fieldImage=fieldObj.parentNode.previousSibling;
+    if(validateResult(fieldObj)){
+        fieldImage.className="caution";
+        fieldObj.focus();
+        }
+    else{
+        fieldImage.className="completed";
+        }
+    }
 
 //-------------------------------------------------------
 // Does validation triggered by an event, checks either current 
@@ -1467,7 +1479,7 @@ function undecorateStudent(tdObj){
  * Highlight the student row when the attendnace input has focus. 
  */
 function checkAttendance(selObj){
-	var editId=selObj.parentNode.id;
+	var editId=selObj.parentNode.parentNode.id;
 	var sidId=editId.substring(5,editId.length);//strip off "edit-" part
 	processAttendance(selObj);
 	var rowId="sid-"+sidId;
@@ -1479,11 +1491,12 @@ function checkAttendance(selObj){
  * for absence codes.
  */
 function processAttendance(selObj){
-	var editId=selObj.parentNode.id;
+	var editId=selObj.parentNode.parentNode.id;
 	var sidId=editId.substring(5,editId.length);//strip off "edit-" part
 	if(selObj.value=="a"){
 		removeExtraFields(sidId,"extra-p","edit");
-		selObj.parentNode.className=selObj.parentNode.className+" extra";
+		removeExtraFields(sidId,"extra-a","edit");
+		selObj.parentNode.parentNode.className=selObj.parentNode.parentNode.className+" extra";
 		if(!document.getElementById("code-"+sidId)){
 			addExtraFields(sidId,null,"extra-a","edit");
 			}
@@ -1491,6 +1504,7 @@ function processAttendance(selObj){
 	else{
 		if(selObj.value=="n"){selObj.value="p";}
 		removeExtraFields(sidId,"extra-a","edit");
+		removeExtraFields(sidId,"extra-p","edit");
 		if(!document.getElementById("late-"+sidId)){
 			addExtraFields(sidId,null,"extra-p","edit");
 			}
@@ -1500,7 +1514,7 @@ function processAttendance(selObj){
 function selectRow(rowId){
 	var oldtdObj=document.getElementById("selected-row");
 	if(oldtdObj){
-		oldtdObj.className="";
+		oldtdObj.className="student";
 		oldtdObj.id="";
 		var len=oldtdObj.parentNode.getElementsByTagName("td").length;
 		var oldtdEditObj=oldtdObj.parentNode.getElementsByTagName("td")[len-1];
@@ -1515,7 +1529,7 @@ function selectRow(rowId){
 	// expects the third td of the row to contain the sid's name
 	// consequently this gets the class
 	var tdObj=document.getElementById(rowId).getElementsByTagName("td")[2];
-	tdObj.className="selected";
+	tdObj.className="selected student";
 	tdObj.setAttribute("id","selected-row");
 	len=document.getElementById(rowId).getElementsByTagName("td").length;
 	// expects the last cell of the row to be the edit cell
@@ -1578,6 +1592,7 @@ function selectColumn(thObj,multi){
 				var tdEditObj=document.getElementById(editId);
 				var selObj=tdEditObj.getElementsByTagName("select")[0];
 				selObj.value=cellObj.attributes.getNamedItem("status").value;
+				$.uniform.update(selObj);
 				var tdEditClaSS=tdEditObj.className;
 				removeExtraFields(sids[c],"extra-a","edit");
 				removeExtraFields(sids[c],"extra-p","edit");
@@ -1591,9 +1606,9 @@ function selectColumn(thObj,multi){
 					}
 				tdEditObj.className=tdEditClaSS;
 				}
-			//i++;
 			}
 	}
+
 
 
 /**
@@ -1602,14 +1617,20 @@ function selectColumn(thObj,multi){
  * The exact location it is added to is identified by the containerId (id="containerId-sid")
  */
 function addExtraFields(sidId,cellId,extraId,containerId){
+   
 	if(containerId==''){containerId=extraId;}
 	var editContainer=document.getElementById(containerId+"-"+sidId);
-	var extraDiv=document.getElementById("add-"+extraId).cloneNode(true);
-
+	var extraDiv=document.getElementById("add-"+extraId)
+    extraDiv = extraDiv.cloneNode(true);
+    $.uniform.restore($(extraDiv))
+	$(extraDiv).find('select').uniform({
+        wrapperClass : "registerEdit"
+    });
+    var selElem = $(extraDiv).find('select')
 	extraDiv.removeAttribute("class");
 	extraDiv.id="add-"+extraId+"-"+sidId;
 
-	var newElements=extraDiv.childNodes;
+	var newElements=$(extraDiv).find('select')//extraDiv.childNodes;
 
 	if(cellId!=null){var cellObj=document.getElementById(cellId);}
 	for(var i=0;i<newElements.length;i++){
@@ -1618,14 +1639,17 @@ function addExtraFields(sidId,cellId,extraId,containerId){
 		if(genName){
 			newElements[i].name=genName+"-"+sidId;
 			newElements[i].id=genId+"-"+sidId;
-			if(cellId!=null){newElements[i].value=cellObj.attributes.getNamedItem(genName).value;}
-			}
-		}
-
+			if(cellId!=null){
+			    newElements[i].value=cellObj.attributes.getNamedItem(genName).value;
+			    $.uniform.update(newElements[i])
+		    }
+		} 
+	}
+       
 	if(editContainer){
 		editContainer.insertBefore(extraDiv,null);
 		}
-
+		
 	/* Optionally (if a mini div is present) inserts a mini profile photo */
 	if(document.getElementById('mini-'+sidId)){
 		if(!document.getElementById('mini-'+sidId).hasChildNodes()){
@@ -1643,7 +1667,8 @@ function addExtraFields(sidId,cellId,extraId,containerId){
 			document.getElementById('miniaturechange'+sidId).appendChild(img);
 			}
 		}
-
+		
+    
 	}
 
 function removeExtraFields(sidId,extraId,containerId){
@@ -1651,6 +1676,7 @@ function removeExtraFields(sidId,extraId,containerId){
 	var editContainer=document.getElementById(containerId+"-"+sidId);
 	var extraDiv=document.getElementById("add-"+extraId+"-"+sidId);
 	var a=document.getElementById("miniaturechange"+sidId);
+	//console.log(extraDiv, a)
 	var img=document.getElementById("miniature");
 	if(extraDiv){
 		document.getElementById(containerId+"-"+sidId).removeChild(extraDiv);
@@ -1711,11 +1737,19 @@ function setAll(eveid){
 					addExtraFields(sids[c],cellId,"extra-p","edit");
 					selObj.selectedIndex=1;
 					}
-
+               
 				tdEditObj.setAttribute("class",classname);
 				}
+				$.uniform.update(selObj);
 			}
 	}
+	
+	
+	
+
+    
+    
+    
 
 /* Edit meal, redirects to meals editor action script*/
 function clickToEditMeal(sid,date,mealid,day){

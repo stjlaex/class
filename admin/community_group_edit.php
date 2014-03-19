@@ -30,15 +30,16 @@ $extrabuttons['edit']=array('name'=>'current','value'=>'community_group_rename.p
 three_buttonmenu($extrabuttons);
 ?>
   <div id="heading">
-	<label><?php print_string($description,$book);?></label><?php print $comname;?>
+	<h4><?php print_string($description,$book);?></label><?php print $comname;?></h4>
   </div>
  <div class="content">
 	<form name="formtoprocess" id="formtoprocess" method="post" action="<?php print $host; ?>">
-	  <div style="width:33%;float:left;"  id="viewcontent" >
+	  <div id="viewcontent">
+	      <fieldset class="divgroup">
+		<h5><?php print_string($description,$book);?></h5>
 		<table class="listmenu">
-		  <caption><?php print_string($description,$book);?></caption>
 		  <tr>
-			<th colspan="3"><h2><?php print $comname;?></h2></th>
+			<th colspan="3"><h6><?php print $comname;?></h6></th>
 			<th>
 			  <?php print_string('remove');?><br />
 			  <input type="checkbox" name="checkall" value="yes" onChange="checkAll(this);" />
@@ -58,11 +59,12 @@ three_buttonmenu($extrabuttons);
 		}
 ?>
 		</table>
+		</fieldset>
 	  </div>
 
-	  <div style="width:67%;float:right;">
-		<fieldset class="center">
-		<legend><?php print_string('changegroup',$book);?></legend>
+	  <div >
+		<fieldset class="divgroup">
+		<h5><?php print_string('changegroup',$book);?></h5>
 		  <div class="center">
 <?php
 			$onchange='yes';$required='no';$multi='1';
@@ -72,8 +74,8 @@ three_buttonmenu($extrabuttons);
 		  </div>
 		</fieldset>
 
-		<fieldset class="center">
-		<legend><?php print_string('choosestudentstoadd',$book);?></legend>
+		<fieldset class="divgroup">
+		<h5><?php print_string('choosestudentstoadd',$book);?></h5>
 		<div class="left">
 		  <label><?php print_string('studentsnotin',$book);?></label>
 		  <select name="newsids[]" size="24" multiple="multiple" style="width:98%;">

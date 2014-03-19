@@ -21,84 +21,74 @@ else{
 	}
 three_buttonmenu($extrabuttons,$book);
 ?>
-  <div class="topform">
-	<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host; ?>" >
-	  <fieldset class="left divgroup">
-		<legend><?php print_string('teacher',$book);?></legend>
-		<div class="center">
-		  <label for="tid"><?php print_string('unassigned',$book);?></label>
-		  <select name="tid" id="tid"  
-			eitheror="subtid"  class="requiredor" 
-			tabindex="<?php print $tab++;?>" size="1">
-<?php
-	$allteachers=(array)list_teacher_users();
-   	print '<option value="" selected="selected" ></option>';
-	foreach($allteachers as $tid => $user){
-		if(!array_key_exists($tid,$teachers)){
-			print '<option  value="'.$tid.'">'.$tid.' ('.$user['surname'].')</option>';
-			}
-   		}
-?>		
-			</select>
-		</div>
-	  </fieldset>
-
-
-	  <fieldset class="right divgroup">
-		<legend><?php print_string('classes',$book);?></legend>
-		<div class="left">
-		  <label for="Unassigned"><?php print_string('unassigned',$book);?></label>
-		  <select id="Unassigned" name="newcid[]"  
-			tabindex="<?php print $tab++;?>" size="8" multiple="multiple">
-<?php
-	$classes=list_course_classes($crid,$bid,'%',$curryear,'nottaught');
-	foreach($classes as $class){
-   		print '<option ';
-		print	' value="'.$class['id'].'">'.$class['name'].'</option>';
-	   	}
-?>		
-		  </select>
-		</div>
-		<div class="right">
-		  <label for="Assigned"><?php print_string('assigned',$book);?></label>
-		  <select id="Assigned" name="newcid[]" 
-			tabindex="<?php print $tab++;?>" size="8" multiple="multiple">
-<?php
-	$classes=list_course_classes($crid,$bid,'%',$curryear,'taught');
-	foreach($classes as $class){
-		print '<option ';
-		print	' value="'.$class['id'].'">'.$class['name'].'</option>';
-		}
-?>		
-		  </select>
-		</div>
-	  </fieldset>
-
-	  <fieldset class="left divgroup">
-		<div class="center">
-		  <label for="subtid"><?php print get_string('course',$book) .' '.get_string('teacher',$book);?></label>
-			<select tabindex="<?php print $tab++;?>"  id="subtid"
-			eitheror="tid"  class="requiredor" 
-			name="subtid" size="1">
-<?php
-   	print '<option value="" selected="selected" ></option>';
-	foreach($teachers as $tid => $user){
-   		print '<option  value="'.$tid.'">'.$tid.' ('.$user['surname'].')</option>';
-   		}
-?>		
-			</select>
-		</div>
-	  </fieldset>
-
-
+    <div class="content" id="viewcontent">
+        <form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host; ?>" >
+            <div class="left">
+                <fieldset class="divgroup">
+                    <h5><?php print_string('teacher',$book);?></h5>
+                    <label for="tid"><?php print_string('unassigned',$book);?></label>
+                    <select name="tid" id="tid" eitheror="subtid"  class="requiredor" tabindex="<?php print $tab++;?>" size="1">
+                        <?php
+                        	$allteachers=(array)list_teacher_users();
+                           	print '<option value="" selected="selected" ></option>';
+                        	foreach($allteachers as $tid => $user){
+                        		if(!array_key_exists($tid,$teachers)){
+                        			print '<option  value="'.$tid.'">'.$tid.' ('.$user['surname'].')</option>';
+                        			}
+                           		}
+                        ?>		
+                    </select>
+                
+            </fieldset>
+        </div>
+        <div class="right">
+            <fieldset class="divgroup">
+                <label for="subtid"><?php print get_string('course',$book) .' '.get_string('teacher',$book);?></label>
+                <select tabindex="<?php print $tab++;?>"  id="subtid" eitheror="tid"  class="requiredor" name="subtid" size="1">
+                    <?php
+                        print '<option value="" selected="selected" ></option>';
+                        foreach($teachers as $tid => $user){
+                            print '<option  value="'.$tid.'">'.$tid.' ('.$user['surname'].')</option>';
+                            }
+                    ?>      
+                </select>
+            </fieldset>        
+        </div>
+        <div class="center">        
+            <fieldset class="divgroup">
+                <h5><?php print_string('classes',$book);?></h5>
+                <div class="left">
+                    <label for="Unassigned"><?php print_string('unassigned',$book);?></label>
+                    <select id="Unassigned" name="newcid[]" tabindex="<?php print $tab++;?>" size="8" multiple="multiple">
+                        <?php
+                        	$classes=list_course_classes($crid,$bid,'%',$curryear,'nottaught');
+                        	foreach($classes as $class){
+                           		print '<option ';
+                        		print	' value="'.$class['id'].'">'.$class['name'].'</option>';
+                        	   	}
+            ?>		</select>
+                </div>
+                <div class="right">
+                    <label for="Assigned"><?php print_string('assigned',$book);?></label>
+                    <select id="Assigned" name="newcid[]" tabindex="<?php print $tab++;?>" size="8" multiple="multiple">
+                        <?php
+                        	$classes=list_course_classes($crid,$bid,'%',$curryear,'taught');
+                        	foreach($classes as $class){
+                        		print '<option ';
+                        		print	' value="'.$class['id'].'">'.$class['name'].'</option>';
+                        		}
+                        ?>		
+                    </select>
+                </div>
+            </fieldset>
+        </div>
 	    <input type="hidden" name="curryear" value="<?php print $curryear;?>" />
 	    <input type="hidden" name="current" value="<?php print $action;?>" />
 		<input type="hidden" name="choice" value="<?php print $choice;?>" />
 		<input type="hidden" name="cancel" value="<?php print '';?>" />
 	</form>
-  </div>
 
-  <div class="content" id="viewcontent">
+  
 	<div class="center">
 
 	<form id="formtoprocess2" name="formtoprocess2" method="post" action="<?php print $host; ?>" >

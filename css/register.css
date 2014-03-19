@@ -3,54 +3,59 @@
  * light shade: 66cc66
  */
 
-div#bookbox{
-	border-color:#44aa66;
-	}
-.registercolor {
-	background-color:#444444; color:#000000;
-	}
-.registercolor button, .registercolor legend, .registercolor caption {
-	background-color:#44aa66; color:#ffffff;
-	}	
-.registercolor fieldset {
-	background-color:#cccccc; border-color:#44aa66
-	} 
+div#bookbox {
+  border-color: #44aa66;
+}
 .registercolor div {
-	border-color:#44aa66;
-	}
-.registercolor button.selery { 
-    background-color:#66cc66;
-	}
-.registercolor td.selected, .registercolor th.selected {  
- 	background-color:#44aa66; color:#ffffff;
-	}
-.sidtable td[status="a"] { 
-    background-color:yellow;
-    font-weight:900;
-    font-size:10pt;
-    color:#000000;
-	text-align:center;
-	}
-.sidtable td[code="US"] { 
-    background-color:#d7df01;
-	}
-.sidtable td[code="UB"], .sidtable td[code="UA"], .sidtable td[code="U"] { 
-    background-color:#ffffee;
-	}
+  border-color: #44aa66;
+}
+.registercolor button.selery {
+  background-color: #66cc66;
+}
+.registercolor td.selected, .registercolor th.selected {
+  background-color: #91C73E;
+  color: #ffffff;
+}
+.registercolor th.selected {
+  text-align: left;
+}
+.registercolor .listmenu.sidtable td  {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.sidtable td[status="a"] {
+  background-color: #fff200;
+  font-weight: 900;
+  color: #1e2a37;
+  text-align: center;
+}
+.sidtable td[code="US"] {
+  background-color: #d7df01;
+}
+.sidtable td[code="UB"], .sidtable td[code="UA"], .sidtable td[code="U"] {
+  background-color: #ffffee;
+}
 /*these are register specific additions to the sidtable class*/
-.sidtable td[late="1"] {  
-	background-image:url("../images/dot1.png");
-	background-repeat: no-repeat;
-	}
-.sidtable td[late="2"] {  
-	background-image:url("../images/dot2.png");
-	background-repeat: no-repeat;
-	}
-.sidtable td[late="3"] {  
-	background-image:url("../images/dot3.png");
-	background-repeat: no-repeat;
-	}
-.sidtable td[late="4"] {  
-	background-image:url("../images/dot4.png");
-	background-repeat: no-repeat;
-	}
+.sidtable td[late="1"] {
+  background-image: url("../images/dot1.png");
+  background-repeat: no-repeat;
+}
+.sidtable td[late="2"] {
+  background-image: url("../images/dot2.png");
+  background-repeat: no-repeat;
+}
+.sidtable td[late="3"] {
+  background-image: url("../images/dot3.png");
+  background-repeat: no-repeat;
+}
+.sidtable td[late="4"] {
+  background-image: url("../images/dot4.png");
+  background-repeat: no-repeat;
+}
+
+.complete {
+  color: #d9ecbd;
+  background-color: #abd46c;
+  font-style: italic;
+}

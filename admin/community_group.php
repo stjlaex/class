@@ -26,19 +26,17 @@ $extrabuttons['delete']=array('name'=>'current','value'=>'community_group_delete
 two_buttonmenu($extrabuttons);
 ?>
   <div class="content">
-	  <form id="formtoprocess" name="formtoprocess" method="post"
-		action="<?php print $host; ?>" >
+	  <form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host; ?>" >
 
-	<fieldset class="right">
-		  <legend><?php print_string('changetype',$book);?></legend>
-
+	<div class="center">
+	<fieldset class="divgroup">
+		  <h5><?php print_string('changetype',$book);?></h5>
 		<div class="center">
 		  <?php $onchange='yes';include('scripts/list_community_type.php');?>
 		</div>
-
 	</fieldset>
 
-	<div class="left" id="viewcontent">
+	<div class="center" id="viewcontent">
 	  <table class="listmenu">
 		<tr>
 		<th colspan="2"><?php print_string('checkall'); ?>
@@ -65,7 +63,7 @@ two_buttonmenu($extrabuttons);
 		<td>
 		<input type="checkbox" name="comids[]" value="<?php print $com['id'];?>" />
 			</td>
-		<td>
+		<td class="student">
 <?php
 	   		print '<a href="admin.php?current=community_group_edit.php&cancel='.$choice.'&choice='.$choice.'&newcomtype='.$newcomtype.'&comid='.$com['id'].'">'.$com['name'].'</a>';
 		print '</td>';

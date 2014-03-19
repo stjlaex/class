@@ -83,21 +83,20 @@ two_buttonmenu($extrabuttons,$book);
 
   <div class="content">
   <form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host; ?>" >
-  	<fieldset class='right'>
-		  <legend><?php print_string('newsubject',$book);?></legend>
-			<div class="center">
+  	<fieldset class='divgroup'>
+		  <h5><?php print_string('newsubject',$book);?></h5>
+			<div class="left">
 				<label for="subjectname"><?php print_string('subjectname',$book);?></label>
-				<img class="required">
-		  		<input type='text' id='subjectname' name='subjectname' value="<?php echo $name;?>" >
-		  	</div>
-			<div class="center">
-				<label for="subjectid"><?php print_string('subjectid',$book);?></label>
-				<img class="required">
-		  		<input type='text' <?php if($action=='edit'){echo "readonly='readonly'";} ?> id='subjectid' name='subjectid' value="<?php echo $id;?>" >
+		  		<input type='text' id='subjectname' name='subjectname' value="<?php echo $name;?>" class="required">
+			</div>
+			<div class="right">
+                <label for="subjectid"><?php print_string('subjectid',$book);?></label>
+                <input type='text' <?php if($action=='edit'){echo "readonly='readonly'";} ?> id='subjectid' name='subjectid' value="<?php echo $id;?>"  class="required" >
 		  	</div>
 		<div><?php echo $message;?></div>
 		</fieldset>
-	<div id="viewcontent" class="left">
+		
+	<div id="viewcontent" class="">
 	  <table class="listmenu sidtable">
 		<tr>
 		  <th colspan="2"><?php print_string('subjects',$book);?></th>

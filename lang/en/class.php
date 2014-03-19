@@ -4,6 +4,7 @@
 include('countries.php');
 $string['locale']='en_GB';
 $string['shortlocale']='en';
+$string['welcome']='Welcome';
 $string['thislanguage']='English';
 $string['language']='Language';
 $string['classesandmarks']='Classes and marks';

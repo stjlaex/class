@@ -99,11 +99,12 @@ foreach($ygs as $yg){
 		<tr id="sid-<?php print $sid;?>">
 		<td>
 		<?php print $rown++;?>
-		</td>
-		<td>
 		<input type="checkbox" name="sids[]" value="<?php print $sid; ?>" />
 		</td>
 		<td>
+		
+		</td>
+		<td class="student">
 			<a href="infobook.php?current=student_view.php&sid=<?php print $sid;?>&sids[]=<?php print $sid;?>"
 			  target="viewinfobook" onclick="parent.viewBook('infobook');">
 			<?php print $Student['DisplayFullName']['value']; ?></a>

@@ -22,7 +22,4 @@ foreach($comps as $comp){
 		}
 	}
 ?>
-		<div style="float:left;" title="<?php print $moreinfo;?>" 
-			name="help" value="" onclick="" >
-		<img class="clicktohelp" />
-		</div>
+		  <span class="clicktohelp" title="<?php print $moreinfo;?>" name="help" value="" onclick="" ></span>

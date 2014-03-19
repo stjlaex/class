@@ -45,14 +45,11 @@ two_buttonmenu($extrabuttons,$book);
 
   <div class="content">
   <form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host; ?>" >
-  	<fieldset class='right'>
-		  <legend>New meal</legend>
-			<div class="center">
+  	<fieldset class='divgroup'>
+		  <h5>New meal</h5>
 				<label for="mealname">Name</label>
-				<img class="required">
-		  		<input type='text' id='mealname' name='mealname' value="<?php echo $name;?>" >
-		  	</div>
-			<div class="center">
+		  		<input type='text' id='mealname' name='mealname' value="<?php echo $name;?>" class="required">
+
 				<label for="mealdetails">Details</label>
 		  		<input type='text' id='mealdetails' name='mealdetails' value="<?php echo $details;?>" >
 		  	</div>

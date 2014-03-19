@@ -1,18 +1,11 @@
 /**										seneeds.css
  * main color: 554466
- * light shade: 
+ * light shade:
  */
 
-div#bookbox{
-	border-color:#554466;
-	}
-.seneedscolor fieldset, .seneedscolor div.topform, .seneedscolor table.listmenu {
-	border-color:#554466;
-    color:#000000;
-	}
-.seneedscolor button {
-	background-color:#554466;
-	}
+div#bookbox {
+  border-color: #554466;
+}
 .seneedscolor legend, .seneedscolor caption {
-    border-color:#554466;
-	}
+  border-color: #554466;
+}

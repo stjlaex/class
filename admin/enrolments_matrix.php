@@ -107,29 +107,25 @@ else{
 		}
 ?>
 
-  <div id="heading">
-	<label><?php print_string('academicyear'); ?></label>
-	<?php  print display_curriculumyear($enrolyear);?>
-  </div>
+    <div id="heading">
+        <h4><?php print_string('academicyear'); ?> <?php  print display_curriculumyear($enrolyear);?></h4>
+    </div>
 
   <div id="viewcontent" class="content">
- 	  <form id="formtoprocess" name="formtoprocess" method="post"
-		action="<?php print $host; ?>" >
+ 	  <form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host; ?>" >
 
 <?php
-
 	include('enrolments_matrix_apptable.php');
-
 	include('enrolments_matrix_enroltable.php');
-
 	$tables=array();
 	$tables[]=array('caption'=>'applications','rows'=>$app_tablerows,'cols'=>$appcols);
 	$tables[]=array('caption'=>'enrolments','rows'=>$enrol_tablerows,'cols'=>$enrolcols);
 	foreach($tables as $table){
 ?>
+<h6><?php print get_string($table['caption'],$book). 
+        ' - '.$CFG->schoolname.'  ('.display_date($todate).')';?></h6>
+        
 	  <table class="listmenu center smalltable">
-		<caption><?php print get_string($table['caption'],$book). 
-		' - '.$CFG->schoolname.'  ('.display_date($todate).')';?></caption>
 		<tr>
 		  <th><?php print display_curriculumyear($enrolyear);?></th>
 <?php

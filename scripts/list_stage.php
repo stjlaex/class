@@ -6,7 +6,6 @@
 
 if(!isset($listname)){$listname='stage';}
 if(!isset($listlabel)){$listlabel='stage';}
-if(!isset($liststyle)){$liststyle='width:12em;';}
 if(!isset($required)){$required='yes';}
 if(!isset($onchange)){$onchange='no';}
 

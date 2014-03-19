@@ -87,59 +87,60 @@ include('scripts/answer_action.php');
 
 three_buttonmenu();
 ?>
-  <div class="content">
-	<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
-
-	  <fieldset class="left"> 
-		<legend><?php print_string('endofyearpromotions',$book);?></legend> 
-		  <p><?php print_string('confirmyeargroupstopromote',$book);?></p>
-<?php
-     foreach($yidsyears as $yid => $year){
-		 if(isset($year['nextyid'])){
-			 $seqyear=$year['sequence'];
-?>
-		  <label for="<?php print $year['name'];?>"><?php print $year['name'];?></label>
-		  <select id="<?php print $year['name'];?>" name="<?php print $yid;?>">
-<?php
-			 foreach($year['nextyid'] as $newyid){
-				 print '<option ';
-				 if(($yid==$newyid)){print 'selected="selected"';}
-				 print	' value="'.$newyid.'"> '.$yidsyears[$newyid]['name'].'</option>';
-				 }
-?>
-		  </select>
-<?php
-			 }
-		 }
-?>
-	  </fieldset>
-
-	  <fieldset class="right"> 
-		<legend><?php print_string('endofcoursepromotions',$book);?></legend> 
-		  <p><?php print_string('confirmcoursestopromote',$book);?></p>
-<?php
-     foreach($cridscourses as $crid => $course){
-		 if(isset($course['nextcrid'])){
-			 $sequence=$course['sequence'];
-?>
-		  <label for="<?php print $course['name'];?>"><?php print $course['name'];?></label>
-		  <select id="<?php print $course['name'];?>" name="<?php print $crid;?>">
-<?php
-    	foreach($course['nextcrid'] as $newcrid){
-			print '<option ';
-			if(($crid==$newcrid)){print 'selected="selected"';}
-			print	' value="'.$newcrid.'"> '.$cridscourses[$newcrid]['name'].'</option>';
-			}
-?>
-		  </select>
-<?php
-		}
-	 }
-?>
-	  </fieldset>
-
-		<input type="hidden" name="cancel" value="<?php  print $cancel;?>" />
-		<input type="hidden" name="current" value="<?php print $action;?>" />
-	    <input type="hidden" name="choice" value="<?php print $choice;?>" />
+    <div class="content">
+        <form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
+            <div class="left">
+                <fieldset class="divgroup"> 
+                    <h5><?php print_string('endofyearpromotions',$book);?></h5> 
+                    <p><?php print_string('confirmyeargroupstopromote',$book);?></p>
+                    <?php
+                     foreach($yidsyears as $yid => $year){
+                    	 if(isset($year['nextyid'])){
+                    		 $seqyear=$year['sequence'];
+                    ?>
+                    <label for="<?php print $year['name'];?>"><?php print $year['name'];?></label>
+                    <select id="<?php print $year['name'];?>" name="<?php print $yid;?>">
+                        <?php
+                         foreach($year['nextyid'] as $newyid){
+                        	 print '<option ';
+                        	 if(($yid==$newyid)){print 'selected="selected"';}
+                        	 print	' value="'.$newyid.'"> '.$yidsyears[$newyid]['name'].'</option>';
+                        	 }
+                        ?>
+                    </select>
+                    <?php
+                            }
+                        }
+                    ?>
+                </fieldset>
+            </div>
+            <div class="right">
+                <fieldset class="divgroup"> 
+                    <h5><?php print_string('endofcoursepromotions',$book);?></h5> 
+                    <p><?php print_string('confirmcoursestopromote',$book);?></p>
+                    <?php
+                     foreach($cridscourses as $crid => $course){
+                    	 if(isset($course['nextcrid'])){
+                    		 $sequence=$course['sequence'];
+                    ?>
+                    <label for="<?php print $course['name'];?>"><?php print $course['name'];?></label>
+                    <select id="<?php print $course['name'];?>" name="<?php print $crid;?>">
+                        <?php
+                            foreach($course['nextcrid'] as $newcrid){
+                            	print '<option ';
+                            	if(($crid==$newcrid)){print 'selected="selected"';}
+                            	print	' value="'.$newcrid.'"> '.$cridscourses[$newcrid]['name'].'</option>';
+                            	}
+                        ?>
+                    </select>
+                    <?php
+                    		}
+                    	 }
+                    ?>
+            </fieldset>
+        </div>
+        <input type="hidden" name="cancel" value="<?php  print $cancel;?>" />
+        <input type="hidden" name="current" value="<?php print $action;?>" />
+        <input type="hidden" name="choice" value="<?php print $choice;?>" />
 	</form>
   </div>

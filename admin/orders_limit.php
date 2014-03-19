@@ -40,9 +40,7 @@ three_buttonmenu($extrabuttons,$book);
   </div>
 
   <div class="content">
-	<form name="formtoprocess" id="formtoprocess" method="post"
-	  action="<?php print $host; ?>">
-
+	<form name="formtoprocess" id="formtoprocess" method="post" action="<?php print $host; ?>">
 	  <fieldset class="left divgroup">
 		<div class="center">
 		  <label for="<?php print $Budget['Limit']['label'];?>">
@@ -57,11 +55,7 @@ three_buttonmenu($extrabuttons,$book);
 		</label>
 		  <?php	$tab=xmlelement_input($Budget['Name'],'',$tab,'admin');?>
 		</div>
-
-
 	  </fieldset>
-
-
 		<input type="hidden" name="budgetyear" value="<?php print $budgetyear;?>" />
 	    <input type="hidden" name="budid" value="<?php print $budid;?>" /> 
 		<input type="hidden" name="choice" value="<?php print $choice;?>" />
@@ -76,16 +70,12 @@ three_buttonmenu($extrabuttons,$book);
 		</tr>
 		<tr>
 		  <td>
-			&nbsp;
 <?php 
 		while(list($uid,$user)=each($xusers)){
 			$Responsible=array('id_db'=>$budid.'-'.$uid);
 ?>
 			<div  id="<?php print $budid.'-'.$uid;?>" class="rowaction" >
-			  <button title="Remove this responsibility"
-				name="current" 
-				value="responsables_edit_budget.php" 
-				onClick="clickToAction(this)">
+			  <button title="Remove this responsibility" name="current" value="responsables_edit_budget.php" onClick="clickToAction(this)">
 					 <?php print $user['username'].' ('.$user['surname'].')';?>
 			  </button>
 			  <div id="<?php print 'xml-'.$budid.'-'.$uid;?>" style="display:none;">
@@ -103,10 +93,7 @@ three_buttonmenu($extrabuttons,$book);
 			$Responsible=array('id_db'=>$budid.'-'.$uid);
 ?>
 			<div  id="<?php print $budid.'-'.$uid;?>" class="rowaction" >
-			  <button title="Remove this responsibility"
-				name="current" 
-				value="responsables_edit_budget.php" 
-				onClick="clickToAction(this)">
+			  <button title="Remove this responsibility" name="current" value="responsables_edit_budget.php" onClick="clickToAction(this)">
 					 <?php print $user['username'].' ('.$user['surname'].')';?>
 			  </button>
 			  <div id="<?php print 'xml-'.$budid.'-'.$uid;?>" style="display:none;">
@@ -147,7 +134,6 @@ three_buttonmenu($extrabuttons,$book);
 		list_select_list($users,$listoptions,$book);
 		unset($listoptions);
 ?>
-
 			</div>
 		  </td>
 		</tr>
@@ -185,10 +171,8 @@ three_buttonmenu($extrabuttons,$book);
 <?php
 			}
 ?>
-
 	  </table>
 <?php
 		}
 ?>
-
   </div>

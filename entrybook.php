@@ -22,8 +22,7 @@ include('scripts/set_book_session_vars.php');
   </div>
 
   <div style="visibility:hidden;" id="hiddenbookoptions" class="bookoptions">
-	<form id="entrybookchoice" name="entrybookchoice" method="post" 
-		action="entrybook.php" target="viewentrybook">
+	<form id="entrybookchoice" name="entrybookchoice" method="post" action="entrybook.php" target="viewentrybook">
 	  <fieldset class="entrybook selery">
 		<legend><?php print_string('addnew');?></legend>
 <?php

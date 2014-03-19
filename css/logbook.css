@@ -1,58 +1,141 @@
-.logincolor fieldset, .logincolor div.topform, .logincolor table.listmenu {
-	border-color:#777777;
-	color:#000000;
-	background-color:#bbbbbb;
-    color:#000000;
-	}	
-.logincolor button {
-	background-color:#666666;
-    width:60%; 
-    margin-left:20%; 
-    margin-top:10%;
-	border-radius:4px;
-	}
-.logincolor button:hover, .logincolor button:focus {
-    border-color:#5599cc;
-    background-color:#5599cc;
-    color:#ffffff;
-	}	
-.logincolor legend, .logincolor caption {
-	background-color:#eeeeee;
-    border-color:#666666;
-	}	
-.logincolor input {
-	border-color:#eeeeee;
-	}
-.logincolor input:focus {
-	border-color:#ff9900;
-	}
-.logincolor fieldset#loginbox {
-    position:absolute; left:20%; top:16%; width:35%;
-	padding:2% 0% 2% 5%;
-	}
-.logincolor fieldset#loginbox table { 
-    background-color:#bbbbbb;
-    width:70%;
-	}
-.logincolor table td { 
-    float:right;
-    font-size:medium;
-	}
-.logincolor table td:first-child { 
-    float:left;
-    width:80%;
-	}
-.logincolor table label, .logincolor button  { 
-    font-size:medium;
-    font-weight:600;
-	}
+body.login {
+    background-color: #91c73e;
+    font-size: 14px !important;
+}
+.container {
+    width: 80%;
+    position: relative;
+    margin: 0 auto;
+}
 
-/*only used in the coverpage splash*/
-div#branded  {
-	position:absolute; right:6%; bottom:4%;
-	cursor:pointer;
-	}
-div#schoollogo {
-	position:absolute; right:5%; top:5%;
-    z-index:5;
-	}
+.theme-selector {
+    width: 80%;
+    margin: 2% auto 5%;
+}
+.login-left, .login-right {
+    width: 50%;
+    float: right;
+    margin-top: 50px;
+}
+fieldset {
+    padding: 30% 15%;
+}
+.login-form {
+    width: 70%;
+    margin: 0 auto;
+}
+.login-form {
+    background-color: #9ece55;
+    width: 60%;
+}
+.login-form .form-group {
+    position: relative;
+    margin: 0 0 2px;
+}
+.login-form label {
+    font-size: 14px;
+    color: #bfde8f;
+    background-color: #6e972f;
+    border-radius: 2px 0 0 2px;
+    height: 15px;
+    width: 15%;
+    position: absolute;
+    text-align: center;
+    padding: 10px 0;
+}
+.login-form input, .login-form input:focus {
+    border: none;
+    background-color: #daefd7;
+    height: 35px;
+    border-radius: 0 3px 3px 0;
+    padding: 0 0 0 10px;
+    margin-left: 15%;
+    color: #547324;
+    width: 75%;
+}
+
+.login-form button {
+    background-color: #434d57;
+    border-radius: 2px;
+    border: none;
+    height: 35px;
+    width: 93.5%;
+    text-transform: uppercase;
+    color: #FFFFFF;
+}
+.schoollogo {
+    border-right: 1px solid #7faf36;
+    padding: 0 10% 0 20%;
+}
+.schoollogo h1 {
+    font-size: 60px;
+    margin-bottom: 10px;
+    color: #FFFFFF;
+}
+.schoollogo p {
+    font-size: 14px;
+    font-weight: 300;
+    color: #FFFFFF;
+}
+.schoollogo img {
+    display: block;
+    margin: 80px auto 0;
+}
+
+footer {
+    background-color: #434d57;
+    color: #174764;
+    font-size: 1em;
+    font-weight: bold;
+    height: 275px;
+    padding: 3px 0 0;
+    position: absolute;
+    width: 100%;
+    display: block;
+    bottom: 0;
+}
+footer ul {
+    color: #FFFFFF;
+    float: left;
+    list-style: none outside none;
+    margin-top: 70px;
+    padding: 0;
+}
+footer ul li a {
+    padding: 0;
+}
+footer ul.school-col {
+    margin-left: 100px;
+    width: 280px;
+}
+footer ul.legal-col li {
+    float: left;
+    font-size: 12px;
+    font-weight: 100;
+    margin: 30px 20px 0 0;
+}
+footer ul.school-col li img {
+    max-width: 80px;
+}
+footer ul.school-col li:nth-child(2) {
+    text-align: center;
+    width: 110px;
+}
+footer img {
+    padding: 3px 0 0;
+    text-align: right;
+}
+footer p {
+    padding: 0 20px;
+}
+footer a {
+    color: #FFFFFF;
+    font-weight: 100;
+    padding: 0 5px;
+}
+footer a:hover {
+    text-decoration: underline;
+}
+footer a:link, footer a:visited {
+    text-align: right;
+}

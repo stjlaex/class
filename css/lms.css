@@ -1,7 +1,8 @@
 .lmscolor fieldset, .lmscolor div.topform, .lmscolor table.listmenu {
-	border-color:#ffcc44;
-	background-color:#444444; color:#000000;
-	}
-div#bookbox{
-	border-color:#ffcc44;
-	}
+    border-color: #ffcc44;
+    background-color: #444444;
+    color: #000000;
+}
+div#bookbox {
+    border-color: #ffcc44;
+}

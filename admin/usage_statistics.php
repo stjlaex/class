@@ -18,25 +18,25 @@ $todate=date('Y-m-d');
 
 ?>
   <div id="heading">
-	<label><?php print_string(''); ?></label>
-	<?php print 'Usage statistics since '.display_date($date);?>
+	<h4><label><?php print_string(''); ?></label> <?php print 'Usage statistics since '.display_date($date);?></h4>
   </div>
 
   <div id="viewcontent" class="content">
 
-  <fieldset class="right divgroup">
+  <fieldset class="divgroup">
+<h5>
 <?php 
 	print 'Statistics for '.$CFG->sitename;
 	if(isset($CFG->client)){
 		print '  Client ID '.$CFG->client;
 		}
 ?>
-	  <br />
+</h5>
 	  <?php print 'Between '.display_date($date) .' and '.display_date($todate);?>
   </fieldset>
 
-	<fieldset class="center divgroup">
-	  <legend><?php print_string('userlogins',$book);?></legend>
+	<fieldset class="divgroup">
+	  <h5><?php print_string('userlogins',$book);?></h5>
 	  <table class="listmenu">
 		<tr>
 		  <th><?php print_string('role',$book);?></th>
@@ -80,8 +80,8 @@ $todate=date('Y-m-d');
 	  </table>
   </fieldset>
 
-	<fieldset class="center divgroup">
-	  <legend><?php print_string('pagesaccessed',$book);?></legend>
+	<fieldset class="divgroup">
+	  <h5><?php print_string('pagesaccessed',$book);?></h5>
 <?php
 	$tot1=0;
 	$tot2=0;
@@ -148,8 +148,8 @@ $todate=date('Y-m-d');
 	</fieldset>
 
 
-	<fieldset class="center divgroup">
-	  <legend><?php print_string('register','register');?></legend>
+	<fieldset class="divgroup">
+	  <h5><?php print_string('register','register');?></h5>
 
 	  <table class="listmenu">
 		<tr>
@@ -186,8 +186,8 @@ $todate=date('Y-m-d');
 	</fieldset>
 
 
-	<fieldset class="center divgroup">
-	  <legend><?php print_string('reportstoparents',$book);?></legend>
+	<fieldset class="divgroup">
+	  <h5><?php print_string('reportstoparents',$book);?></h5>
 	  <table class="listmenu">
 		<tr>
 		  <th><?php print_string('course',$book);?></th>
@@ -248,8 +248,8 @@ $todate=date('Y-m-d');
 	  </table>
 	</fieldset>
 
-	<fieldset class="center divgroup">
-	  <legend><?php print_string('assessmentandtrackingscores',$book);?></legend>
+	<fieldset class="divgroup">
+	  <h5><?php print_string('assessmentandtrackingscores',$book);?></h5>
 
 	  <table class="listmenu">
 		<tr>
@@ -296,8 +296,8 @@ $todate=date('Y-m-d');
 
 
 
-	<fieldset class="center divgroup">
-	  <legend><?php print_string('specialneedsandsupport',$book);?></legend>
+	<fieldset class="divgroup">
+	  <h5><?php print_string('specialneedsandsupport',$book);?></h5>
 <?php
 		$d_h=mysql_query("SELECT COUNT(*) 
 				FROM senhistory WHERE reviewdate>'$date' OR reviewdate IS NULL");
@@ -321,8 +321,8 @@ $todate=date('Y-m-d');
 	  </table>
 	</fieldset>
 
-	<fieldset class="center divgroup">
-	  <legend><?php print_string('eportfolios',$book);?></legend>
+	<fieldset class="divgroup">
+	  <h5><?php print_string('eportfolios',$book);?></h5>
 	  <table class="listmenu">
 		<tr>
 		  <th><?php print_string('role',$book);?></th>
@@ -374,8 +374,6 @@ $todate=date('Y-m-d');
 		</tr>
 	  </table>
   </fieldset>
-
-
 
 	<form id="formtoprocess" name="formtoprocess" method="post"
 		action="<?php print $host; ?>" >

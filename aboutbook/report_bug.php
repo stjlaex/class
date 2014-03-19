@@ -24,8 +24,7 @@ three_buttonmenu();
 
 		<div class="left" >
 		  <label for="Detail"><?php print_string('details',$book);?></label>
-		  <textarea name="detail" id="Detail" maxlength="1200" 
-			tabindex="<?php print $tab++;?>" rows="8" cols="70"></textarea>
+		  <textarea name="detail" id="Detail" maxlength="1200" tabindex="<?php print $tab++;?>" rows="8" cols="70"></textarea>
 		</div>
 
 		<div class="right">

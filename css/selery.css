@@ -1,102 +1,102 @@
 /**										selery.css
- * a selery class for offering either a menu made up of of <li>s 
- * or buttons which click round a selectiong of 1-4 values 
+ * a selery class for offering either a menu made up of of <li>s
+ * or buttons which click round a selectiong of 1-4 values
  * main color: 5599cc mimics the blue of a slected <select> option
  */
 
-fieldset.selery { 
-    border-width:2px 0 0 0;
-    background-color:#444444;
-	}
+
 .selery ul {
-    margin:0;
-    border:0;
-    padding:1px 1px 0 1px;
-    list-style:none;
-    width:100%;
-	float:left;
-	}
+    padding: 0;
+    margin: 0 ;
+}
+/*
+fieldset.selery {
+    border-width: 2px 0 0 0;
+}
+.selery ul {
+    list-style: none;
+    padding: 0;
+    margin: 0 auto;
+    width: 80%;
+}
 
-.selery ul + ul {
-    border:0;
-    margin:0;
-    padding:0;
-	}
-
-.selery li, .selery div.solery {
-    border:0;
-    padding:0 4px 0 0;
-    margin-bottom:2px;
-	border-top:1px solid #765;
-	text-align:left;
-    width:auto;
-	}
 .selery li {
-    color:#765;
-    background-color:#eee;
-	}
+    color: #d2d7dc;
+    display: inline-block;
+    font-size: 14px;
+    padding: 0 5px;
+}
+.selery li p    {
+    margin: 5px;
+}
+.selery li:hover, .selery li.checked {
+    color: #ffffff;
+    cursor: pointer;
+    background-color: #34495e;
+}
 .selery div.solery {
-    background-color:#665;
-	}
+    background-color: #665;
+}
 .selery li input {
-    display:none;
-    margin:2px;
-    border:0;
-    padding:1px;
-	float:left;
-    width:1em;
-    height:auto;
-	}
-.selery li:hover, .selery li.checked  {  
-    border-color:#5599cc;
-    background-color:#5599cc;
-    color:#ffffff;
-	cursor:pointer;
-	}
-
-.selery li p { 
-    margin:2px 5px;
-    border:0;
-    padding:0;
-	font-size:small; 
-    font-weight:900;
-	}
-
+    display: none;
+    margin: 2px;
+    border: 0;
+    padding: 1px;
+    float: left;
+    width: 1em;
+    height: auto;
+}
+*/
 /*these are for the grow selery button*/
-button.selery { 
-	width:16px; height:16px; border-style:none;	
-	background-repeat:no-repeat;
-	}
-button.selery img { 
-    float:left;
-	width:12px; height:12px;
-	background-repeat:no-repeat;	
-    padding:1px;border:0;
-	}
-button.selerydot[value="1"] img { 
-	background-image:url("../images/dot1.png");
-	}
-button.selerydot[value="2"] img { 
-	background-image:url("../images/dot2.png");
-	}
-button.selerydot[value="3"] img { 
-	background-image:url("../images/dot3.png");
-	}
-button.selerydot[value="4"] img { 
-	background-image:url("../images/dot4.png");
-	}
-button.selerytick[value="1"] img { 
-	background-image:url("../images/greentick.png");
-	}
-button.selerytick[value="2"] img { 
-	background-image:url("../images/greyminus.png");
-	}
-button.selerytick[value="3"] img { 
-	background-image:url("../images/redcross.png");
-	}
+/*
+button.selery {
+    width: 16px;
+    height: 16px;
+    border-style: none;
+    background-repeat: no-repeat;
+}
+button.selery img {
+    float: left;
+    width: 12px;
+    height: 12px;
+    background-repeat: no-repeat;
+    padding: 1px;
+    border: 0;
+}
+button.selerydot[value="1"] img {
+    background-image: url("../images/dot1.png");
+}
+button.selerydot[value="2"] img {
+    background-image: url("../images/dot2.png");
+}
+button.selerydot[value="3"] img {
+    background-image: url("../images/dot3.png");
+}
+button.selerydot[value="4"] img {
+    background-image: url("../images/dot4.png");
+}
+button.selerytick[value="1"] img {
+    background-image: url("../images/greentick.png");
+}
+button.selerytick[value="2"] img {
+    background-image: url("../images/greyminus.png");
+}
+button.selerytick[value="3"] img {
+    background-image: url("../images/redcross.png");
+}
 .selery div.hilite {
-	color:#ffffff !important;
-	}
+    color: #ffffff !important;
+}
 .selery div.lolite {
-	color:#aabbcc !important;
-	}
+    color: #aabbcc !important;
+}
+*/
+.selery li input {
+    display: none;
+    margin: 2px;
+    border: 0;
+    padding: 1px;
+    float: left;
+    width: 1em;
+    height: auto;
+}

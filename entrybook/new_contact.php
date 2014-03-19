@@ -41,7 +41,7 @@ if(isset($sid)){
 ?>
   <div id="heading">
 	<form id="headertoprocess" name="headertoprocess" method="post" action="<?php print $host;?>">
-	<label><?php print $Student['DisplayFullName']['value'];?></label>
+	<h4><label><?php print $Student['DisplayFullName']['value'];?></label></h4>
 <?php
 		$listname='pregid';$listlabel='';$liststyle='width:12em;';
 		include('scripts/set_list_vars.php');
@@ -59,21 +59,18 @@ if(isset($sid)){
 	}
 ?>
   <div class="content">
-
 	<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
-
 	  <div class="center">
 		  <?php $tab=xmlarray_form($Contact,'','newcontact',$tab,'infobook'); ?>
 	  </div>
-
-	  <div class="left">
+	  <div class="center">
 		  <?php $tab=xmlarray_form($Address,'0','contactaddress',$tab,'infobook'); ?>
 	  </div>
 <?php
 	reset($Phones);
 	while(list($phoneno,$Phone)=each($Phones)){
 ?>
-	  <div class="right">
+	  <div class="center">
 		  <?php $tab=xmlarray_form($Phone,$phoneno,'',$tab,'infobook'); ?>
 	  </div>
 <?php

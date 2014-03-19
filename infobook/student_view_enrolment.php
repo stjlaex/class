@@ -30,29 +30,29 @@ if($perm['r']==1){
 include('scripts/perm_action.php');
 
 ?>
-  <div id="heading">
-	<?php print $Student['Forename']['value'].' '.$Student['Surname']['value'];?>
-  </div>
+    <div id="heading">
+        <h4>
+	       <?php print $Student['Forename']['value'].' '.$Student['Surname']['value'];?>
+        </h4>
+    </div>
 
   <div id="viewcontent" class="content">
 	<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
 
-	  <fieldset class="center listmenu">
+	  <fieldset class="profile">
 		<div class="left">
 <?php 
 	$listname='enrolstatus';$listlabel='enrolstatus';$required='yes';
 	include('scripts/set_list_vars.php');
 	list_select_enum('enrolstatus',$listoptions,$book);
 ?>
-		</div>
-		<div class="left" >
 <?php
 	$listname='enrolyear';$listlabel='enrolmentyear';$required='yes';
 	$enrolyear=$Enrolment['Year']['value'];
 	include('scripts/list_calendar_year.php');
 ?>
 		</div>
-		<div class="right" >
+		<div class="right">
 <?php 
 	$listname='enrolyid';$listlabel='yeargroup';$required='yes';
 	$enrolyid=$Enrolment['YearGroup']['value'];
@@ -61,13 +61,13 @@ include('scripts/perm_action.php');
 		</div>
 	  </fieldset>
 
-	  <fieldset class="center listmenu">
+	  <fieldset class="profile">
 <?php 	$tab=xmlarray_form($Enrolment,'','',$tab,'infobook');?>
 
 	  </fieldset>
 
-	  <fieldset class="center listmenu">
-		<legend><?php print_string('assessments',$book);?></legend>
+	  <fieldset class="profile">
+		<h5><?php print_string('assessments',$book);?></h5>
 		<table class="listmenu">
 <?php 
 	$EnrolAssDefs=array();
@@ -118,8 +118,7 @@ include('scripts/perm_action.php');
 			}
 		else{
 ?>
-				<input tabindex="<?php print $tab++;?>" 
-				  name="<?php print $eid;?>" value="<?php print $value;?>"/>
+				<input tabindex="<?php print $tab++;?>" name="<?php print $eid;?>" value="<?php print $value;?>"/>
 <?php
 			}
 ?>
@@ -130,11 +129,8 @@ include('scripts/perm_action.php');
 			$EnrolNotes=(array)fetchBackgrounds_Entries($sid,'ena');
 			print '<label>'.get_string('notes',$book).'</label>';
 ?>
-			  <input type="text" style="display:none;"
-					name="enaid" value="<?php print $EnrolNotes[0]['id_db'];?>" />
-			  <textarea name="enadetail" id="Detail"   
-				tabindex="<?php print $tab++;?>" rows="3" cols="30" 
-				  ><?php print $EnrolNotes[0]['Detail']['value_db'];?></textarea>
+			  <input type="text" style="display:none;" name="enaid" value="<?php print $EnrolNotes[0]['id_db'];?>" />
+			  <textarea name="enadetail" id="Detail" tabindex="<?php print $tab++;?>" rows="3" cols="30" ><?php print $EnrolNotes[0]['Detail']['value_db'];?></textarea>
 <?php 
 		  }
 ?>
@@ -144,9 +140,7 @@ include('scripts/perm_action.php');
 		}
 ?>
 		</table>
-
 	  </fieldset>
-
 	  <?php print $input_elements;?>
 	    <input type="hidden" name="current" value="<?php print $action;?>" />
 		<input type="hidden" name="cancel" value="<?php print $cancel;?>">

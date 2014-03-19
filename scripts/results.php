@@ -7,8 +7,8 @@ if(isset($result) or isset($error)){
 	$pausetime=2000;
 ?>
 <div class="content">
-	<fieldset class="center">
-	  <legend>Results</legend>
+	<fieldset class="divgroup">
+	  <h4>Results</h4>
 <?php
 	if(isset($result)){
 		for($c=0;$c<sizeof($result);$c++){

@@ -16,19 +16,20 @@ if(isset($sid) and $_SESSION['role']!='support'){
 		}
 	$comment=comment_display($sid);
 ?>
-	<span title="<?php print $comment['body'];?>">
 		<a href="infobook.php?current=comments_list.php&sid=<?php print $sid;?>&sids[]=<?php print $sid;?>"
-				<?php print $target;?> class="<?php print $comment['class'];?>">C</a> 
-	</span>
+		    <?php print $target;?> class="<?php print $comment['class'];?>"><span class="fa fa-comment" title="<?php print $comment['body'];?>"></span>
+        </a> 
 <?php
 	if($Student['SENFlag']['value']=='Y'){ 
 		if(isset($bid)){$sensbuject=$bid[0];}else{$sensubject='';}
 ?>
-		<a href="infobook.php?current=student_view_sen.php&sid=<?php print $sid;?>&sids[]=<?php print $sid;?>&bid=<?php print $sensubject;?>" <?php print $target;?> >S</a>
+		<a href="infobook.php?current=student_view_sen.php&sid=<?php print $sid;?>&sids[]=<?php print $sid;?>&bid=<?php print $sensubject;?>" <?php print $target;?>>
+		    <span class="fa fa-shield"></span>
+		</a>
 <?php
 		}
 	if($Student['MedicalFlag']['value']=='Y'){ ?>
-		<a href="infobook.php?current=student_view_medical.php&sid=<?php print $sid;?>&sids[]=<?php print $sid;?>" <?php print $target;?> >M</a>
+		<a href="infobook.php?current=student_view_medical.php&sid=<?php print $sid;?>&sids[]=<?php print $sid;?>" <?php print $target;?> ><span class="fa fa-medkit"></span></a>
 <?php
 		}
 	if($Student['Boarder']['value']!='N' and $Student['Boarder']['value']!=''){ ?>

@@ -88,100 +88,86 @@ else{
 	three_buttonmenu();
 ?>
 
-  <div class="content">
-	<form name="formtoprocess" id="formtoprocess" method="post"
-								action="<?php print $host;?>">
-
-	  <fieldset class="center">
-		<legend><?php print_string('changegroupname',$book);?></legend>
-		<div class="center">
-		  <label for="Newname"><?php print_string('newgroupname',$book);?></label>
-			<input type="text" id="Newname" name="newname"
-				   tabindex="<?php print $tab++;?>" maxlength="30" class="required" value="<?php if(isset($com['name'])){print $com['name'];} ?>">
-		</div>
-	  </fieldset>
-
-
-<?php
-	if($newcomtype=='form' and !isset($comid)){
-		$yeargroups=list_yeargroups();
-?>
-	  <fieldset class="center">
-		<legend><?php print_string('yeargroups',$book);?></legend>
-		<div class="center">
-		<?php $required='yes'; include('scripts/list_year.php');?>
-		</div>
-<?php
-
-		 }
-	elseif($newcomtype=='ACADEMIC'){
-?>
-	  <fieldset class="center">
-<?php
-		$cohids=array();
-		$cohorts=array();
-		if(isset($comid) and $comid!=''){
-			$com_cohorts=(array)list_community_cohorts($com,true);
-			foreach($com_cohorts as $com_cohort){
-				$cohids[]=$com_cohort['id'];
-				}
-			}
-		$courses=(array)list_courses();
-		foreach($courses as $course){
-			$course_cohorts=(array)list_course_cohorts($course['id']);
-			foreach($course_cohorts as $index => $course_cohort){
-				$course_cohort['name']=$course['name'].' ('.$course['id'].') - '.$course_cohort['stage'];
-				$cohorts[]=$course_cohort;
-				}
-			}
-		$multi=6;
-		$required='yes';
-		$listname='cohid';
-		$listlabel='cohort';
-		include('scripts/set_list_vars.php');
-		list_select_list($cohorts,$listoptions,$book);
-
-		}
-	elseif($newcomtype=='TUTOR'){
-		$days=getEnumArray('dayofweek');
-?>
-	  <fieldset class="center">
-		<div class="center">
-		  <label for="Charge"><?php print_string('fee',$book);?></label>
-			<input  name="charge" value="<?php print $com['charge'];?>" >
-		</div>
-	  </fieldset>
-
-	  <fieldset class="center">
-		<legend for="days"><?php print_string('sessions',$book);?></legend>
-		<div class="center">
-<?php
-		foreach($days as $day => $dayname){
-			$pos=strpos($com['sessions'],"A$day");
-?>
-						  <div>
-						  <?php print_string($dayname);?>
-
-						  <input type="checkbox" name="sessions[]" value="<?php print $day;?>" 
-								 <?php if($pos!==false){print 'checked="checked"';}?>/>
-
-						  </div>
-<?php
-
-			}
-?>
-		</div>
-	  </fieldset>
-<?php
-		}
-
-?>
-
-
-<?php
-	if(isset($comid)){
-?>
-	<input type="hidden" name="comid" value="<?php print $comid;?>" />
+    <div class="content">
+        <form name="formtoprocess" id="formtoprocess" method="post"
+            <div class="center">
+                <fieldset class="divgroup">
+        		  <h5><?php print_string('changegroupname',$book);?></h5>
+        		  
+                    <label for="Newname"><?php print_string('newgroupname',$book);?></label>
+                    <input type="text" id="Newname" name="newname" tabindex="<?php print $tab++;?>" maxlength="30" class="required" value="<?php if(isset($com['name'])){print $com['name'];} ?>">
+                </fieldset>
+            </div>
+            <?php
+            	if($newcomtype=='form' and !isset($comid)){
+            		$yeargroups=list_yeargroups();
+            ?>
+            <div class="center">
+                <fieldset class="divgroup">
+            	<h5><?php print_string('yeargroups',$book);?></h5>
+                <?php $required='yes'; include('scripts/list_year.php');?>
+            <?php
+		      }
+	           elseif($newcomtype=='ACADEMIC'){
+            ?>
+            <fieldset class="center">
+            <?php
+        		$cohids=array();
+        		$cohorts=array();
+        		if(isset($comid) and $comid!=''){
+        			$com_cohorts=(array)list_community_cohorts($com,true);
+        			foreach($com_cohorts as $com_cohort){
+        				$cohids[]=$com_cohort['id'];
+        				}
+        			}
+        		$courses=(array)list_courses();
+        		foreach($courses as $course){
+        			$course_cohorts=(array)list_course_cohorts($course['id']);
+        			foreach($course_cohorts as $index => $course_cohort){
+        				$course_cohort['name']=$course['name'].' ('.$course['id'].') - '.$course_cohort['stage'];
+        				$cohorts[]=$course_cohort;
+        				}
+        			}
+        		$multi=6;
+        		$required='yes';
+        		$listname='cohid';
+        		$listlabel='cohort';
+        		include('scripts/set_list_vars.php');
+        		list_select_list($cohorts,$listoptions,$book);
+        
+        		}
+        	   elseif($newcomtype=='TUTOR'){
+                    $days=getEnumArray('dayofweek');
+            ?>
+            <fieldset class="center">
+                <h5 for="Charge"><?php print_string('fee',$book);?></h5>
+                <input  name="charge" value="<?php print $com['charge'];?>" >
+        <div class="center">
+            <fieldset class="divgroup">
+                <h5 for="days"><?php print_string('sessions',$book);?></h5>
+                <ul class="chk-list">
+                <?php
+                	foreach($days as $day => $dayname){
+                		$pos=strpos($com['sessions'],"A$day");
+                ?>
+                <li>
+					  <?php print_string($dayname);?>
+					  <input type="checkbox" name="sessions[]" value="<?php print $day;?>" 
+							 <?php if($pos!==false){print 'checked="checked"';}?>/>
+                </li>
+                <?php
+                	}
+                ?>
+                </ul>
+            </fieldset>
+        </div>
+        <?php
+        	}
+        ?>
+        <?php
+        	if(isset($comid)){
+        ?>
+	   <input type="hidden" name="comid" value="<?php print $comid;?>" />
 <?php
 		}
 ?>

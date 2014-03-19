@@ -74,6 +74,7 @@ elseif($sid!=''){
 
 	<form id="configmedbookchoice" name="configmedbookchoice" method="post" action="medbook.php" target="viewmedbook">
 	  <fieldset class="medbook selery">
+	      <legend>&nbsp;</legend>
 <?php 
 		$choices=array('med_student_list.php'=>'newstudents');
 		selery_stick($choices,$choice2,$book);
@@ -96,6 +97,7 @@ elseif($sid!=''){
 
 	<form id="configmedbookchoice" name="configmedbookchoice" method="post" action="medbook.php?current=med_search_student.php" target="viewmedbook">
 	  <fieldset class="medbook selery">
+	      <legend>&nbsp;</legend>
 <?php 
 		$choices=array('med_search_student.php'=>'newvisit');
 		selery_stick($choices,$choice,$book);

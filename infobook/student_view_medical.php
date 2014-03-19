@@ -14,37 +14,36 @@ two_buttonmenu();
 
 ?>
   <div id="heading">
-	<?php print $Student['Forename']['value'].' '.$Student['Surname']['value'];?>
+	<h4>
+	   <?php print $Student['Forename']['value'].' '.$Student['Surname']['value'];?>
+	</h4>
   </div>
 
   <div id="viewcontent" class="content">
 	<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
 
-	  <fieldset class="center">	
-		<legend><?php print_string('medicalcaption',$book);?></legend>
-
-<?php 
-if($Student['MedicalFlag']['value']=='N' and $perm['w']==1){
-?>
-
+	  <fieldset class="divgroup">	
+		<h5><?php print_string('medicalcaption',$book);?></h5>
+        <?php 
+            if($Student['MedicalFlag']['value']=='N' and $perm['w']==1){
+        ?>
 		<p><?php print_string('nomedicalinfo',$book);?></p>
 		<button name="sub" value="MedicalStatus">
-		  <?php print_string('medicalbutton',$book);?></button>
-
-<?php
-	}
-else{
-	$Medical=fetchMedical($sid);
-?>
+            <?php print_string('medicalbutton',$book);?></button>
+            <?php
+            	}
+                    else{
+            	   $Medical=fetchMedical($sid);
+            ?>
 		<div class="center">
 		  <p><?php print_String('furtherinformationonfile',$book);?></p>
 		</div>
-<?php
-		$Notes=$Medical['Notes'];
-		while(list($index,$Note)=each($Notes['Note'])){
-			if(is_array($Note) and $Note['MedicalRating']['value']==1){
-				$cattype=$Note['MedicalCategory']['value_db'];
-?>
+        <?php
+    		$Notes=$Medical['Notes'];
+    		while(list($index,$Note)=each($Notes['Note'])){
+    			if(is_array($Note) and $Note['MedicalRating']['value']==1){
+    				$cattype=$Note['MedicalCategory']['value_db'];
+        ?>
 			<div class="center">
 			  <table>
 				<tr>

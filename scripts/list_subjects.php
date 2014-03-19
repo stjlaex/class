@@ -24,8 +24,9 @@
 	if(!isset($bid)){$current_bid='nowt';}else{$current_bid=$bid;}
 	if(isset($selbid)){$current_bid=$selbid;}
 ?>
+<p>
 <label for="Subject"><?php print_string('subject');?></label>
-<select  style="width:14em;" tabindex="<?php print $tab++;?>"
+<select tabindex="<?php print $tab++;?>"
 	<?php if($multi>1){print 'name="bids[]" multiple="multiple"';}else{print 'name="bid"';}?>" 
 	id="Subject" size="<?php print $multi;?>"
 <?php if($required=='yes'){ print ' class="required" ';} ?>
@@ -44,6 +45,7 @@
   	<option value="G" 
 		<?php if($current_bid==''){print 'selected="selected"';}?> >General</option>
 </select>
+</p>
 <?php 
 	unset($required);
 	unset($multi);

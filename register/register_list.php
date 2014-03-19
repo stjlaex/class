@@ -177,14 +177,14 @@ else{
 
 ?>
   <div id="heading">
+      <h4>
 <?php
 if($community['type']=='form' or $community['type']=='house' or $community['type']=='reg'){
-	print '<div><label>'.get_string($community['type']).'</label>'.$community['name'].'</div>';
+	print '<label>'.get_string($community['type']).'</label> '.$community['name'];
 	if(isset($tutor_users)){
 		foreach($tutor_users as $uid => $tutor_user){
-			print '<div><label>'.get_string('formtutor').'</label>'.$tutor_user['forename'][0].' '. $tutor_user['surname'].'</div><div>';
+			print '<label>  / '.get_string('formtutor').'</label>'.$tutor_user['forename'][0].' '. $tutor_user['surname'];
 			emaillink_display($tutor_user['email']);
-			print '</div>';
 			}
 		}
 	}
@@ -193,6 +193,7 @@ else{
 	print '<div><label>'.get_string('subject',$book).' class'.'</label>'.$thisclass['name'].'</div>';
 	}
 ?>
+</h4>
   </div>
 
 
@@ -200,7 +201,9 @@ else{
 	  <form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
 		<table class="listmenu sidtable" id="sidtable">
 		<tr>
-		  <th colspan="3">&nbsp;</th>
+		    <th width="6%"></th>
+		    <th width="6%"></th>
+		    <th></th>
 <?php
 	/* This events array will determine which events are displayed */
 	$events=array();
@@ -231,7 +234,7 @@ else{
 
 			if($_SESSION['worklevel']>-1 or $seleveid==$Event['id_db']){
 ?>
-			<input type="radio" name="checkeveid" value="<?php print $Event['id_db'];?>" />
+			<br /><input type="radio" name="checkeveid" class="hidden" value="<?php print $Event['id_db'];?>" />
 <?php
 				}
 ?>
@@ -240,7 +243,7 @@ else{
 			}
 		}
 ?>
-		  <th class="edit">
+		  <th class="edit" width="37%">
 <?php
 	if($nodays==1 or $_SESSION['role']=='office' or $_SESSION['role']=='admin'){
 		print_string('checkall',$book);
@@ -283,7 +286,7 @@ else{
 			<a href="infobook.php?current=student_view.php&sid=<?php print $sid;?>&sids[]=<?php print $sid;?>"
 			  target="viewinfobook" onclick="parent.viewBook('infobook');">
 			  <?php print $Student['DisplayFullName']['value']; ?></a>
-			<div id="merit-<?php print $sid;?>"></div>
+			<div class="merit" id="merit-<?php print $sid;?>"></div>
 		  </td>
 <?php
 		$attodds=array('AM'=>'forstroke','PM'=>'backstroke');
@@ -356,8 +359,7 @@ else{
    		if(sizeof($AttendanceEvents['Event'])>0){
 ?>
 			  <td id="edit-<?php print $sid;?>" class="edit">
-				<select tabindex="<?php print $tab++;?>" 					
-					name="status-<?php print $sid;?>" >
+				<select tabindex="<?php print $tab++;?>" name="status-<?php print $sid;?>" >
 				  <option value="n"></option>
 				  <option value="p"><?php print_string('present',$book);?></option>
 				  <option value="a"><?php print_string('absent',$book);?></option>
@@ -432,15 +434,14 @@ else{
   </div>
 
   <div class="hidden" id="add-extra-ppp">
-	<button type="button" name="late" id="late-butt" value="0" 
-	  onclick="parent.seleryGrow(this,4)"  class="rowaction selerydot">
+	<button type="button" name="late" id="late-butt" value="0" onclick="parent.seleryGrow(this,4)"  class="rowaction selerydot">
 	  <img src="images/null.png" />
 	</button>
 	<input type="hidden" id="late" name="late" value="0" />
   </div>
 
   <div class="hidden" id="add-extra-p">
-	<select style="width:10em;" name="late" id="late">
+	<select style="width:100px;" name="late" id="late">
 <?php
 	$enum=getEnumArray('latecode');
 	foreach($enum as $inval =>$description){	
@@ -451,20 +452,18 @@ else{
 	</select>
   </div>
 
-
   <div class="hidden" id="add-extra-a">
-	<select style="width:10em;" name="code" id="code">
+    <select style="width:100px;" name="code" id="code">
 <?php
-	$enum=getEnumArray('absencecode');
-	while(list($inval,$description)=each($enum)){	
-		print '<option ';
-		print ' value="'.$inval.'">'.$inval.': '.get_string($description,$book).'</option>';
-		}
+    $enum=getEnumArray('absencecode');
+    while(list($inval,$description)=each($enum)){   
+        print '<option ';
+        print ' value="'.$inval.'">'.$inval.': '.get_string($description,$book).'</option>';
+        }
 ?>
-	</select>
-	<input style="width:10em;" name="comm" id="comm" value="" />
+    </select>
+    <input style="width:100px;" name="comm" id="comm" value="" type="text" />
   </div>
-
 <?php
 	$toyear=get_curriculumyear()-1;//TODO: set a proper start of term date
 	$today=date('Y-m-d');

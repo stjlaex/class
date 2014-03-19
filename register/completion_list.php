@@ -94,7 +94,9 @@ two_buttonmenu($extrabuttons);
   </div>
   <div id="viewcontent" class="content">
 	  <form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
+		
 		<table class="listmenu">
+		    <thead>
 		<tr>
 		  <th  style="width:1em;">
 			<label id="checkall">
@@ -110,6 +112,7 @@ two_buttonmenu($extrabuttons);
 		  <th><?php print_string('latebeforeregisterclosed',$book);?></th>
 		  <th><?php print_string('signedout',$book);?></th>
 		</tr>
+		</thead>
 <?php
 
 	$totalnop=0;
@@ -136,7 +139,7 @@ two_buttonmenu($extrabuttons);
 				$tutor_users=array();
 				$title='';
 				}
-			if(($nop+$noa+$nol+$noso)==$nosids and $nosids!=0){$status='complete';$cssclass='';}
+			if(($nop+$noa+$nol+$noso)==$nosids and $nosids!=0){$status='complete';$cssclass='complete';}
 			else{$status='incomplete';$cssclass='vspecial';}
 			/*The number present in school is nop (present) + nol (late after register)*/
 			$nop+=$nol;
@@ -153,8 +156,9 @@ two_buttonmenu($extrabuttons);
 		  </td>
 		  <td>
 			<span style="margin-right:4px;" title="<?php print $title;?>">
-			<a onclick="parent.viewBook('register');" target="viewregister"  
-			  href="register.php?current=register_list.php&cancel=completion_list.php&<?php print $getparam;?>&checkeveid=0&startday=&nodays=8"><?php print $com['displayname'];?></a>
+			    <strong>
+			     <a onclick="parent.viewBook('register');" target="viewregister" href="register.php?current=register_list.php&cancel=completion_list.php&<?php print $getparam;?>&checkeveid=0&startday=&nodays=8"><?php print $com['displayname'];?></a>
+		      </strong>
 		  </span>
 		  </td>
 		  <td class="<?php print $cssclass;?>">

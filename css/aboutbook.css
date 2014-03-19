@@ -31,4 +31,8 @@ div#bookbox{
 	}
 img:hover {
 	cursor:pointer;
+	overflow: hidden
 	}
+	
+
+

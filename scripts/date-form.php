@@ -19,8 +19,7 @@ elseif (!isset($today)){
 if(!isset($idate)){$idate='';}
 ?>
 <label for="Day">Day</label>
-	 <select style="width:4em;" class="required" id="Day"
-				name="day<?php print $idate;?>" size="1">
+	 <select style="width:4em;" class="required" id="Day" name="day<?php print $idate;?>" size="1">
 <?php	
 	$c=$today;
 	while ($c<32){

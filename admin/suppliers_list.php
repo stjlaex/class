@@ -13,31 +13,29 @@ $extrabuttons['newsupplier']=array('name'=>'current','value'=>'new_supplier.php'
 two_buttonmenu($extrabuttons,$book);
 ?>
   <div id="viewcontent" class="content">
-
   <form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host; ?>" >
-
 	<div class="center">
+    <h4><?php print_string('suppliers',$book);?></h4>
 	  <table class="listmenu">
-		<caption><?php print_string('suppliers',$book);?></caption>
+		
 		<thead>
 		  <tr>
 			<th></th>
 			<th><?php print_string('supplier',$book);?></th>
 		  </tr>
 		</thead>
-<?php
-		$entryno=0;
-		$d_sup=mysql_query("SELECT id FROM ordersupplier ORDER BY specialaction, name;");
-		while($supplier=mysql_fetch_array($d_sup)){
-			$supid=$supplier['id'];
-			$Supplier=fetchSupplier($supid);
-			$entryno++;
-			$actionbuttons=array();
-			$rown=0;
-?>
+        <?php
+            $entryno=0;
+            $d_sup=mysql_query("SELECT id FROM ordersupplier ORDER BY specialaction, name;");
+            while($supplier=mysql_fetch_array($d_sup)){
+            	$supid=$supplier['id'];
+            	$Supplier=fetchSupplier($supid);
+            	$entryno++;
+            	$actionbuttons=array();
+            	$rown=0;
+        ?>
 		<tbody id="<?php print $entryno;?>">
-		  <tr class="rowplus <?php if($Supplier['Inactive']['value']=='1'){print 'lowlite';} ?>" 
-			  onClick="clickToReveal(this)" id="<?php print $entryno.'-'.$rown++; ?>">
+		  <tr class="rowplus <?php if($Supplier['Inactive']['value']=='1'){print 'lowlite';} ?>" onClick="clickToReveal(this)" id="<?php print $entryno.'-'.$rown++; ?>">
 			<th>&nbsp</th>
 			<td>
 			  <a href="admin.php?current=new_supplier.php&cancel=suppliers_list.php&supid=<?php print $supid;?>&budgetyear=<?php print $budgetyear;?>">
