@@ -16,8 +16,8 @@ $action='med_view_action.php';
   <div class="content">
 	<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
 
-	  <fieldset class="center">
-		<legend><?php print_string('studentdetails','infobook');?></legend>
+	  <fieldset class="divgroup">
+		<h5><?php print_string('studentdetails','infobook');?></h5>
 		<table class="listmenu">
 		  <tr>
 			<?php xmlelement_display($Student['DisplayFullName'],'infobook');?>
@@ -117,7 +117,7 @@ $action='med_view_action.php';
 
 	<div class="center">
 	<fieldset class="left listmenu" style="margin:0px !important;">
-		<legend><?php print_string('medications',$book);?></legend>
+		<h5><?php print_string('medications',$book);?></h5>
 		<table class="listmenu">
 <?php 
 	$MedicalAssDefs=array();

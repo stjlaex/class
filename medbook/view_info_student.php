@@ -3,8 +3,8 @@
  */
 $med=fetchMedical($sid);
 ?>
-<fieldset class="center">
-		<legend><?php print_string('studentdetails','infobook');?></legend>
+<fieldset class="divgroup">
+		<h5><?php print_string('studentdetails','infobook');?></h5>
 		<table class="listmenu">
 		  <tr>
 			<?php xmlelement_display($Student['DisplayFullName'],'infobook');?>
@@ -21,7 +21,6 @@ $med=fetchMedical($sid);
 			</td>
 		  </tr>
 		  <tr>
-
 			  <td colspan="3">
 			  	<span title="<?php echo $title;?>">
 		  			<label><?php print_string("contactinfo","infobook");?></label>

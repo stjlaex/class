@@ -210,15 +210,9 @@ $SEN=fetchSEN($sid,$senhid);
 <?php
     	$senhistories=(array)list_student_senhistories($sid);
 ?>
-<<<<<<< HEAD
-<div id="records" style="width:100%;">
-	  <fieldset class="left" style="background-color:#666666;">
-		<legend><?php print_string('records','admin');?></legend>
-=======
 <div id="records" class="left">
     <fieldset class="divgroup">
 		<h5><?php print_string('records','admin');?></h5>
->>>>>>> ebbdc421d495fb2fbaf1b16fab9d975e27cbede9
 		 <div class="selery" style="float:left">
             <?php
                 foreach($senhistories as $no => $senhistory){

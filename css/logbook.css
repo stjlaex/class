@@ -79,7 +79,7 @@ fieldset {
 }
 .schoollogo img {
     display: block;
-    margin: 80px auto 0;
+    margin: 40px auto 0;
 }
 
 footer {
@@ -87,7 +87,7 @@ footer {
     color: #174764;
     font-size: 1em;
     font-weight: bold;
-    height: 275px;
+    height: 200px;
     padding: 3px 0 0;
     position: absolute;
     width: 100%;
@@ -98,7 +98,7 @@ footer ul {
     color: #FFFFFF;
     float: left;
     list-style: none outside none;
-    margin-top: 70px;
+    margin-top: 20px;
     padding: 0;
 }
 footer ul li a {

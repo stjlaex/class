@@ -66,6 +66,7 @@ header {
 /* plus the logbook div which fills out the rest of the display*/
 #viewlogbook  {
   top: 80px!important;
+  height: 100%!important;
 }
 
 

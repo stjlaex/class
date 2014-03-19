@@ -42,7 +42,6 @@ print '<?xml version="1.0" encoding="utf-8"?'.'>';
         <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
         <link rel="stylesheet" href="css/uniform.edit.css" media="screen" />
 
-
         <script language="JavaScript" type="text/javascript">
         		var pathtobook= "<?php print $CFG->sitepath.'/'.$CFG->applicationdirectory.'/'.$book.'/'; ?>";
 			var pathtoapplication = "<?php print $CFG->sitepath.'/'.$CFG->applicationdirectory.'/'; ?>";

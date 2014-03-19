@@ -20,7 +20,6 @@ $languages=get_list_of_languages();
 <?php
 	if($CFG->theme20!=""){
 ?>
-
 	<select class="theme-selector" onChange="parent.window.location.replace('../'+this.value+'/index.php');" name="theme" id="Theme" size="1"  >
         <option value="Theme" selected>Theme</option>
         <option value="<?php echo $CFG->theme10?>">Classis 1.0</option>

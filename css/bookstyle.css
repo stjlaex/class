@@ -90,7 +90,6 @@ input:focus[type=text], input[type=date]:focus, textarea:focus {
 input[type=text], input[type=date] {
   height: 20px;
 }
-
 option[value=""] {
   background-color: #eeeeee;
   color: #aaaaaa;
@@ -184,6 +183,18 @@ div.hidden, input.hidden {
   margin: 0;
   padding: 0;
 }
+/* Medbook */
+.medbook input[type=text] {
+  height: 17px;
+  padding-bottom: 3px;
+}
+.medbook button{
+  padding: 5px 10px 3px;
+}
+.medbook span{
+  float: right;
+}
+
 /*the two possible container divs for each book, one after login and one for before*/
 div#bookbox {
   position: absolute;
@@ -464,6 +475,13 @@ table.listmenu {
   padding: 5px 1%;
   font-weight: bold;
 }
+.revealed td  {
+  padding: 10px!important;
+}
+.revealed td p  {
+  margin-bottom: 10px;
+}
+
 .listmenu .merit {
   width: 80px;
 }
@@ -620,32 +638,23 @@ div.pauselite, div.midlite, div.golite, div.gomidlite {
 }
 
 /*extra functionality for a listmenu which lets rows be expanded and collapsed*/
-tr.rowplus th:first-child, div.rowplus div:first-child {
+tr.rowplus th:first-child, div.rowplus div:first-child, tr.rowminus th:first-child, div.rowminus div:first-child {
   cursor: pointer;
   background-color: #FFFFFF;
   text-align: center;
   border-top: 1px solid #BAC1C8;
 }
-tr.rowplus th:first-child:before, div.rowplus div:first-child:before, tr.rowminus th:first-child:before, div.rowminus div:first-child:before, .rowplus:before {
+tr.rowplus th:first-child:before, div.rowplus div:first-child:before, tr.rowminus th:first-child:before, div.rowminus div:first-child:before {
   content: "\f067";
   font-family: 'FontAwesome';
   color: #91c73e;
   cursor: pointer;
 }
-.rowaction {
-  display: inline-block;
-}
-tr.rowminus th:first-child, div.rowminus div:first-child {
-  cursor: pointer;
-  background-color: #FFFFFF;
-  text-align: center;
-  border-top: 1px solid #BAC1C8;
-}
 tr.rowminus th:first-child:before, div.rowminus div:first-child:before {
   content: "\f068";
 }
-tr.rowplus, div.rowplus, tr.rowminus, div.rowminus {
-  cursor: pointer;
+.rowaction {
+  display: inline-block;
 }
 tr.hidden, div.hidden {
   display: none;
@@ -1079,9 +1088,9 @@ fieldset.divgroup.markbook-img {
   display: block;
   font-family: 'FontAwesome';
   position: absolute;
-  right: 0;
+  right: -3px;
   text-decoration: none;
-  top: 0;
+  top: 3px;
   height: 23px;
   width: 10px;
 }

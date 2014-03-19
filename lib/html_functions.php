@@ -104,16 +104,9 @@ function threeplus_buttonmenu($currentkey,$maxkey,$extrabuttons='',$book='',$use
 <?php
 		 all_extrabuttons($extrabuttons,$book);
 ?>
-<<<<<<< HEAD
-  	<button onClick="processContent(this);" <?php if($currentkey==0){print 'disabled="disabled" style="visibility:hidden;"';} ?> name="sub" value="Previous"><?php echo $previous;?></button>
-	<button onClick="processContent(this);" <?php if($currentkey>=($maxkey-1)){print 'disabled="disabled" style="visibility:hidden;"';} ?> name="sub" value="Next"><?php echo $next;?></button>
-	<button onClick="processContent(this);" name="sub"  style="margin-left:1em;"
-	  value="Submit"><?php print_string('submit');?></button>
-=======
   	<button onClick="processContent(this);" <?php if($currentkey==0){print 'disabled="disabled" style="visibility:hidden;"';} ?> name="sub" value="Previous"><?php print_string('previous',$book);?></button>
 	<button onClick="processContent(this);" <?php if($currentkey>=($maxkey-1)){print 'disabled="disabled" style="visibility:hidden;"';} ?> name="sub" value="Next"><?php print_string('next',$book);?></button>
 	<button onClick="processContent(this);" name="sub" value="Submit"><?php print_string('submit');?></button>
->>>>>>> ebbdc421d495fb2fbaf1b16fab9d975e27cbede9
 	<button onClick="processContent(this);" name="sub" value="Cancel"><?php print_string('cancel');?></button>
 	<button onClick="processContent(this);" name="sub" value="Reset"><?php print_string('reset');?></button>
   </div>

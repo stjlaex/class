@@ -73,11 +73,6 @@ if(count($messages)>0){$templates=array_merge($templates,$messages);}
 			<legend><?php print_string('template',$book);?></legend>
 			<label><?php print_string('templatename',$book);?></label>
 			<input type="text" id="template_name" name="template_name">
-<<<<<<< HEAD
-			<div style="float:right"><label style="color:#FFFFEE !important"><?php print_string('templates',$book);?></label>
-=======
-			<label><?php print_string('templates',$book);?></label>
->>>>>>> ebbdc421d495fb2fbaf1b16fab9d975e27cbede9
 			<select id="templates" name="template" onchange="processObject(this)">
 				<option value="-1"> </option>
 <?php
@@ -88,17 +83,10 @@ if(count($messages)>0){$templates=array_merge($templates,$messages);}
 					}
 				echo $options;
 ?>
-<<<<<<< HEAD
-			</select></div><br><br><br>
-			<?php echo $contents;?>
-			<textarea id="code" name='content' style="width:47%;float:left" rows="30"></textarea>
-			<div id="preview" style="float:right;width:47%;background:#ffffff !important;height:395px;"></div>
-=======
 			</select><br><br><br>
 			<?php echo $contents;?>
 			<textarea id="code" name='content' rows="30"></textarea>
 			<div id="preview"></div>
->>>>>>> ebbdc421d495fb2fbaf1b16fab9d975e27cbede9
 		</fieldset>
 		
 

@@ -16,14 +16,15 @@ $extrabuttons=array();
 $extrabuttons['addnew']=array('name'=>'current','value'=>'comments_new.php');
 two_buttonmenu($extrabuttons);
 ?>
-
-  <div id="heading">
-	<label><?php print_string('comments');?></label>
-<?php
-print $Student['Forename']['value'].' '.$Student['Surname']['value'];
-print '('.$Student['RegistrationGroup']['value'].')';
-?>
-  </div>
+    <div id="heading">
+        <h4>
+        	<label><?php print_string('comments');?></label>
+            <?php
+                print $Student['Forename']['value'].' '.$Student['Surname']['value'];
+                print '('.$Student['RegistrationGroup']['value'].')';
+            ?>
+        </h4>
+    </div>
 
   <div id="viewcontent" class="content">
 	<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
