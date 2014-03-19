@@ -20,6 +20,7 @@ $feeyear=get_curriculumyear();
 if(empty($_SESSION['accessfees'])){
 
 ?>
+<<<<<<< HEAD
   <div class="content">
 	<form id="formtoprocess" name="formtoprocess" method="post"
 	  action="<?php print $host; ?>" >
@@ -87,74 +88,117 @@ two_buttonmenu($extrabuttons,$book);
 		</div>
 	  </fieldset>
 
+=======
+    <div class="content">
+        <form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host; ?>" >
+            <fieldset class="divgroup">
+                <h5><?php print_string('bankdetails','infobook');?></h5>
+                <div class="center">
+                    <input type="password" name="accesstest" maxlength="20" value="" />
+                    <input type="password" name="accessfees" maxlength="4" value="" />
+                    <?php
+                    	$buttons=array();
+                    	$buttons['access']=array('name'=>'access','value'=>'access');
+                    	all_extrabuttons($buttons,'infobook','');
+                    ?>
+                </div>
+            </fieldset>
+            <input type="hidden" name="feeyear" value="<?php print $feeyear;?>" />
+            <input type="hidden" name="current" value="<?php print $action;?>" />
+            <input type="hidden" name="choice" value="<?php print $choice;?>" />
+            <input type="hidden" name="cancel" value="<?php print '';?>" />
+        </form>
+    </div>
+    <?php
+        	}
+        else{
+    $extrabuttons=array();
+    if($_SESSION['username']=='administrator'){
+    	$extrabuttons['manageaccounts']=array('name'=>'current','value'=>'fees_accounts_manage.php'/*,'class'=>'manageaccounts'*/);
+    	$extrabuttons['import']=array('name'=>'current','value'=>'fees_import.php');
+    	}
+    if($_SESSION['role']=='admin' or $aperm==1 or $_SESSION['role']=='office'){
+    	$extrabuttons['exportbankaccounts']=array('name'=>'current','value'=>'fees_accounts_export.php');
+    	$extrabuttons['remittances']=array('name'=>'current','value'=>'fees_remittance_list.php');
+    	$extrabuttons['conceptlist']=array('name'=>'current','value'=>'fees_concept_list.php');
+    	}
+    two_buttonmenu($extrabuttons,$book);
+    ?>
+    <div class="content">
+        <form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host; ?>" >
+    		<input type="hidden" name="feeyear" value="<?php print $feeyear;?>" />
+    		<input type="hidden" name="current" value="<?php print $action;?>" />
+    		<input type="hidden" name="choice" value="<?php print $choice;?>" />
+    		<input type="hidden" name="cancel" value="<?php print '';?>" />
+        </form>
+        <form id="formtoprocess2" name="formtoprocess2" method="post" action="<?php print $host; ?>" >
+            <fieldset class="left">
+                <h5><?php print_string('invoicesearch',$book);?></h5>		
+                <div class="center">
+                    <button type="submit" name="sub" value="search"><?php print_string('search');?></button>
+                    <label for="Invoicenumber"><?php print_string('reference',$book);?></label>
+                    <input tabindex="<?php print $tab++;?>" type="text" id="Invoicenumber" name="invoicenumber" maxlength="30"/>
+                </div>
+            </fieldset>
+>>>>>>> ebbdc421d495fb2fbaf1b16fab9d975e27cbede9
 		<input type="hidden" name="feeyear" value="<?php print $feeyear;?>" />
 		<input type="hidden" name="current" value="fees_invoice_list.php" />
 		<input type="hidden" name="choice" value="<?php print $choice;?>" />
 		<input type="hidden" name="cancel" value="<?php print '';?>" />
 	</form>
-
-
-
-<?php
-
-	$remittances=(array)list_remittances($feeyear);
-	if(sizeof($remittances)>0){
-?>
-	  <fieldset class="right">
-		<legend><?php print get_string('recent',$book).' '.get_string('remittance',$book);?></legend>		
-		<div class="center">
-		  <ul><li>
-<?php
-										   print '<a  href="admin.php?current=fees_remittance_view.php&cancel='.$choice.'&choice='.$choice.'&remid='.$remittances[0]['id'].'">'.$remittances[0]['name'].'</a>';
-?>
-		  </li></ul>
-		</div>
-	  </fieldset>
-<?php
-		}
-?>
-
-	  <fieldset class="center divgroup" id="viewcontent">
-		<legend><?php print get_string('yeargroups',$book);?></legend>
-		<div>
-		  <?php print_string('checkall'); ?>
-		  <input type="checkbox" name="checkall" value="yes" onChange="checkAll(this,'yids[]');" />
-		</div>
-<?php
-		$years=list_yeargroups();
-		foreach($years as $year){
-			$com=array('id'=>'','type'=>'year','name'=>$year['id']);
-			$comid=update_community($com);
-?>
-	<div style="float:left;width:24%;margin:2px;">
-	  <table class="listmenu smalltable">
-		<tr>
-		  <td>
-			<input type="checkbox" name="comids[]" value="<?php print $comid; ?>" />
-		  </td>
-		  <td>
-<?php
-				print '<a  href="admin.php?current=fees_charge_list.php&cancel='.$choice.'&choice='.$choice.'&comids[]='.$comid.'">'.$year['name'].'</a>';
-?>
-		  </td>
-		  <td></td>
-		  <td></td>
-		</tr>
-	  </table>
-	</div>
-<?php
-			}
-?>
-	</fieldset>
-
-
-		<input type="hidden" name="feeyear" value="<?php print $feeyear;?>" />
-		<input type="hidden" name="current" value="fees_charge_list.php" />
-		<input type="hidden" name="choice" value="<?php print $choice;?>" />
-		<input type="hidden" name="cancel" value="<?php print '';?>" />
-	</form>
-
-  </div>
-<?php
-			}
-?>
+    <?php
+    	$remittances=(array)list_remittances($feeyear);
+    	if(sizeof($remittances)>0){
+    ?>
+            <fieldset class="right">
+                <h5><?php print get_string('recent',$book).' '.get_string('remittance',$book);?></h5>		
+                <div class="center">
+                    <ul>
+                        <li>
+                    <?php
+                       print '<a  href="admin.php?current=fees_remittance_view.php&cancel='.$choice.'&choice='.$choice.'&remid='.$remittances[0]['id'].'">'.$remittances[0]['name'].'</a>';
+                    ?>
+                        </li>
+                    </ul>
+                </div>
+            </fieldset>
+            <?php
+            	}
+            ?>
+            <fieldset class="divgroup" id="viewcontent">
+                <h5><?php print get_string('yeargroups',$book);?></h5>
+                <?php print_string('checkall'); ?>
+                <input type="checkbox" name="checkall" value="yes" onChange="checkAll(this,'yids[]');" />
+                <?php
+                $years=list_yeargroups();
+                foreach($years as $year){
+                    $com=array('id'=>'','type'=>'year','name'=>$year['id']);
+                $comid=update_community($com);
+                ?>
+                <div style="float:left;width:24%;margin:2px;">
+                    <table class="listmenu smalltable">
+                        <tr>
+                            <td><input type="checkbox" name="comids[]" value="<?php print $comid; ?>" /></td>
+                            <td>
+                            <?php
+                                print '<a  href="admin.php?current=fees_charge_list.php&cancel='.$choice.'&choice='.$choice.'&comids[]='.$comid.'">'.$year['name'].'</a>';
+                            ?>
+                            </td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </table>
+                </div>
+                    <?php
+                        }
+                    ?>
+            </fieldset>
+    		<input type="hidden" name="feeyear" value="<?php print $feeyear;?>" />
+    		<input type="hidden" name="current" value="fees_charge_list.php" />
+    		<input type="hidden" name="choice" value="<?php print $choice;?>" />
+    		<input type="hidden" name="cancel" value="<?php print '';?>" />
+    	</form>
+    </div>
+    <?php
+    	}
+    ?>

@@ -49,12 +49,9 @@ function three_buttonmenu($extrabuttons='',$book=''){
 <?php
 		 all_extrabuttons($extrabuttons,$book);
 ?>
-	<button onClick="processContent(this);" name="sub" style="margin-left:1em;"
-	  value="Submit"><?php print_string('submit');?></button>
-	<button onClick="processContent(this);" name="sub" 
-	  value="Cancel"><?php print_string('cancel');?></button>
-	<button onClick="processContent(this);" name="sub" 
-	  value="Reset"><?php print_string('reset');?></button>
+	<button onClick="processContent(this);" name="sub" value="Submit"><?php print_string('submit');?></button>
+	<button onClick="processContent(this);" name="sub" value="Cancel"><?php print_string('cancel');?></button>
+	<button onClick="processContent(this);" name="sub" value="Reset"><?php print_string('reset');?></button>
 </div>
 
 <?php
@@ -66,13 +63,11 @@ function three_buttonmenu($extrabuttons='',$book=''){
 function two_buttonmenu($extrabuttons='',$book=''){
 ?>
   <div class="buttonmenu">
+      <button onClick="processContent(this);" name="sub" value="Cancel"><?php print_string('cancel');?></button>
 <?php
 		 all_extrabuttons($extrabuttons,$book);
 ?>
-	<button onClick="processContent(this);" name="sub"  style="margin-left:1em;"
-	  value="Cancel"><?php print_string('cancel');?></button>
-	<button onClick="processContent(this);" name="sub" 
-	  value="Reset"><?php print_string('reset');?></button>
+	<button onClick="processContent(this);" name="sub" value="Reset"><?php print_string('reset');?></button>
   </div>
 <?php
 	}
@@ -86,8 +81,7 @@ function twoplus_buttonmenu($currentkey,$maxkey,$extrabuttons='',$book='',$minke
 <?php
 		 all_extrabuttons($extrabuttons,$book);
 ?>
-  	<button onClick="processContent(this);" <?php if($currentkey<=$minkey){print 'disabled="disabled"
-	style="visibility:hidden;"';} ?> name="sub" value="Previous"><?php print_string('previous',$book);?></button>
+  	<button onClick="processContent(this);" <?php if($currentkey<=$minkey){print 'disabled="disabled" style="visibility:hidden;"';} ?> name="sub" value="Previous"><?php print_string('previous',$book);?></button>
 	<button onClick="processContent(this);" <?php if($currentkey>=($maxkey-1)){print 'disabled="disabled" style="visibility:hidden;"';} ?> name="sub" value="Next"><?php print_string('next',$book);?></button>
 	<button onClick="processContent(this);" name="sub" value="Cancel"><?php print_string('cancel');?></button>
 	<button onClick="processContent(this);" name="sub" value="Reset"><?php print_string('reset');?></button>
@@ -110,10 +104,16 @@ function threeplus_buttonmenu($currentkey,$maxkey,$extrabuttons='',$book='',$use
 <?php
 		 all_extrabuttons($extrabuttons,$book);
 ?>
+<<<<<<< HEAD
   	<button onClick="processContent(this);" <?php if($currentkey==0){print 'disabled="disabled" style="visibility:hidden;"';} ?> name="sub" value="Previous"><?php echo $previous;?></button>
 	<button onClick="processContent(this);" <?php if($currentkey>=($maxkey-1)){print 'disabled="disabled" style="visibility:hidden;"';} ?> name="sub" value="Next"><?php echo $next;?></button>
 	<button onClick="processContent(this);" name="sub"  style="margin-left:1em;"
 	  value="Submit"><?php print_string('submit');?></button>
+=======
+  	<button onClick="processContent(this);" <?php if($currentkey==0){print 'disabled="disabled" style="visibility:hidden;"';} ?> name="sub" value="Previous"><?php print_string('previous',$book);?></button>
+	<button onClick="processContent(this);" <?php if($currentkey>=($maxkey-1)){print 'disabled="disabled" style="visibility:hidden;"';} ?> name="sub" value="Next"><?php print_string('next',$book);?></button>
+	<button onClick="processContent(this);" name="sub" value="Submit"><?php print_string('submit');?></button>
+>>>>>>> ebbdc421d495fb2fbaf1b16fab9d975e27cbede9
 	<button onClick="processContent(this);" name="sub" value="Cancel"><?php print_string('cancel');?></button>
 	<button onClick="processContent(this);" name="sub" value="Reset"><?php print_string('reset');?></button>
   </div>
@@ -138,19 +138,13 @@ function rowaction_buttonmenu($imagebuttons,$extrabuttons='',$book=''){
 			if(!isset($attributes['onclick'])){$attributes['onclick']='clickToAction(this)';}
 			if(!isset($attributes['id'])){$buttonid='';}else{$buttonid=' id="'.$attributes['id'].'" ';}
 ?>
-  <button class="rowaction imagebutton" type="button"
-			title="<?php print_string($attributes['title']);?>" 
-				<?php print $buttonid;?>
-				name="<?php print $attributes['name'];?>" 
-				value="<?php print $attributes['value'];?>" 
-				onClick="<?php print $attributes['onclick'];?>">
-	<img class="<?php print($imageclass);?>" />
-  </button>
-<?php
-			 }
-		}
-   	all_extrabuttons($extrabuttons,$book,'clickToAction(this)','class="rowaction" ');
-	}
+	<!--span class="<?php print($imageclass);?> rowaction imagebutton" title="<?php print_string($attributes['title']);?>" <?php print $buttonid;?> name="<?php print $attributes['name'];?>" value="<?php print $attributes['value'];?>" onClick="<?php print $attributes['onclick'];?>"></span-->
+	<span class="<?php print($imageclass);?>  rowaction imagebutton" title="<?php print_string($attributes['title'],$book);?>" <?php print $buttonid;?> name="<?php print $attributes['name'];?>" value="<?php print $attributes['value'];?>" onClick="<?php print $attributes['onclick'];?>"></span>
+    <?php
+	   }
+	       }
+   	    all_extrabuttons($extrabuttons,$book,'clickToAction(this)','class="rowaction" ');
+	   }
 
 /**
  * 
@@ -284,10 +278,7 @@ function xmlelement_input($val,$no,$tab,$book){
 		}
 	elseif($val['type_db']=='text'){
 ?>
-		<textarea rows="2" cols="80"  id="<?php print $val['label'];?>" 
-			class="<?php if(isset($val['inputtype'])){print $val['inputtype'];}?>" 
-				name="<?php print $val['field_db'].$no; ?>" 
-					tabindex="<?php print $tab++;?>" ><?php print $setval; ?></textarea>
+		<textarea rows="2" cols="80"  id="<?php print $val['label'];?>" class="<?php if(isset($val['inputtype'])){print $val['inputtype'];}?>" name="<?php print $val['field_db'].$no; ?>" tabindex="<?php print $tab++;?>" ><?php print $setval; ?></textarea>
 <?php
 		}
 	elseif(substr($val['type_db'],0,3)=='var' or substr($val['type_db'],0,3)=='cha'){
@@ -300,11 +291,7 @@ function xmlelement_input($val,$no,$tab,$book){
 		$field_type=(array)explode(')', $field_type[1]);
 		if(isset($field_type[0])){$maxlength='maxlength="'.$field_type[0].'" ';}else{$maxlength=' ';}
 ?>
-		<input type="text" id="<?php print $val['label'];?>" 
-		  <?php print $pattern;?> <?php print $maxlength; ?>
-		  class="<?php if(isset($val['inputtype'])){print $val['inputtype'];}?>" 
-		  name="<?php print $val['field_db'].$no; ?>" 
-		  tabindex="<?php print $tab++;?>" value="<?php print $setval; ?>" />
+		<input type="text" id="<?php print $val['label'];?>" <?php print $pattern;?> <?php print $maxlength; ?> class="<?php if(isset($val['inputtype'])){print $val['inputtype'];}?>" name="<?php print $val['field_db'].$no; ?>" tabindex="<?php print $tab++;?>" value="<?php print $setval; ?>" />
 <?php
 		}
 	elseif($val['type_db']=='smallint' or $val['type_db']=='decimal'){
@@ -392,7 +379,7 @@ function emaillink_display($email){
 	if($email!='' and $email!=' '){
 ?>
 	<a href="mailto:<?php print $email;?>">
-	  <img class="clicktoemail" title="<?php print_string('clicktoemail');?>" />
+	  <span class="clicktoemail" title="<?php print_string('clicktoemail');?>"></span>
 	</a>
 <?php
 		}
@@ -541,12 +528,9 @@ function display_file($epfun,$foldertype,$linkedid='-1',$comment=''){
 			$path=$filedisplay_url.$fileparam_list;
 			$ext=pathinfo($path);
 ?>
-	<div style="height:100px;float:left;">
-		<div>
-		  <span  style="text-align:center;width:100px;" title="<?php echo $comment;?>">
-			<a href="<?php print $filedisplay_url.$fileparam_list;?>">
-				<button type="button" class="rowaction imagebutton" style="float:left;" >
-			
+		  <!--span title="<?php echo $comment;?>">
+				<button type="button" class="rowaction imagebutton">
+				    <a href="<?php print $filedisplay_url.$fileparam_list;?>"-->
 <?php
 			if($ext['extension']=='pdf'){
 ?>
@@ -559,25 +543,43 @@ function display_file($epfun,$foldertype,$linkedid='-1',$comment=''){
 <?php
 				}
 ?>
-					<span style="text-align: center;"><?php echo $file['name']; ?></span>
+					<!--span><?php echo $file['name']; ?></span>
 				</button>
 			</a>
-		  </span>
+		  </span-->
 
 <?php
 			if(strcasecmp($ext['extension'], 'jpg')==0 or strcasecmp($ext['extension'], 'png')==0 or strcasecmp($ext['extension'], 'gif')==0 or strcasecmp($ext['extension'], 'jpeg')==0){
 ?>
-				<img src="<?php print $filedisplay_url.$fileparam_list;?>" style="height:70px;width:70px;float:right;cursor:pointer;" onclick="getElementById('preview').style.display='block';getElementById('shadow').style.display='block';getElementById('imgpreview').setAttribute('src','<?php print $filedisplay_url.$fileparam_list;?>');">
+				<img src="<?php print $filedisplay_url.$fileparam_list;?>" style="height:70px;width:70px; cursor:pointer;" onclick="getElementById('preview').style.display='block';getElementById('shadow').style.display='block';getElementById('imgpreview').setAttribute('src','<?php print $filedisplay_url.$fileparam_list;?>');">
 <?php
 				}
 ?>
-		</div>
-	</div>
 <?php
 			}
 	}
 
-
+/**
+ * 
+ */
+function selery_select_stick($choices,$choice='',$book=''){
+?>
+		<select class="selery" name="current" onchange="selerySelectSubmit(this)">
+<?php
+	while(list($page,$title)=each($choices)){
+?>
+		  <!--li onclick="selerySubmit(this)" <?php if($choice==$page){print 'class="checked" ';}?> >
+			<input type="radio"<?php if($choice==$page){print 'checked="checked" ';} ?> value="<?php print $page;?>" name="current" >
+			  <p><?php print_string($title,$book);?></p>
+			</input>
+		  </li-->
+		  <option value="<?php echo $page;?>" <?php if($choice==$page){print 'selected="selected" ';}?> ><?php print_string($title,$book);?></option>
+<?php
+		}
+?>
+		</select>
+<?php
+	}
 
 
 /**
@@ -585,22 +587,19 @@ function display_file($epfun,$foldertype,$linkedid='-1',$comment=''){
  */
 function selery_stick($choices,$choice='',$book=''){
 ?>
-		<ul class="selery">
-<?php
-	while(list($page,$title)=each($choices)){
-?>
-		  <li onclick="selerySubmit(this)" 
-			<?php if($choice==$page){print 'class="checked" ';}?> >
-			<input type="radio"
-				<?php if($choice==$page){print 'checked="checked" ';} ?>
-			  value="<?php print $page;?>" name="current" >
+        <ul class="selery">
+            <?php
+            	while(list($page,$title)=each($choices)){
+            ?>
+		  <li onclick="selerySubmit(this)" <?php if($choice==$page){print 'class="checked" ';}?> >
+			<input type="radio"<?php if($choice==$page){print 'checked="checked" ';} ?> value="<?php print $page;?>" name="current" >
 			  <p><?php print_string($title,$book);?></p>
 			</input>
 		  </li>
-<?php
-		}
-?>
-		</ul>
+            <?php
+            	}
+            ?>
+        </ul>
 <?php
 	}
 
@@ -618,9 +617,9 @@ function list_select_db($d_list,$vars,$book=''){
 	$extraclass='';
 	if($vars['label']!=''){
 ?>
-  <label for="<?php print $vars['id'];?>">
+  <!--label for="<?php print $vars['id'];?>">
 	<?php print_string($vars['label'],$book);?>
-  </label>
+  </label-->
 <?php
 		  }
 ?>
@@ -642,7 +641,7 @@ function list_select_db($d_list,$vars,$book=''){
 		elseif($vars['required']=='eitheror'){ 
 			print ' class="eitheror" eitheror="'.$vars['eitheror'].'" ';} ?>
 	>
-    <option value=""></option>
+    <option value=""><?php print_string($vars['label'],$book);?></option>
 <?php
 	while($item=mysql_fetch_array($d_list,MYSQL_ASSOC)){
 		print '<option ';
@@ -671,9 +670,9 @@ function list_select_list($list,$vars,$book=''){
 	$extraclass='';
 	if($vars['label']!=''){
 ?>
-  <label for="<?php print $vars['id'];?>">
+  <!--label for="<?php print $vars['id'];?>">
 	<?php print_string($vars['label'],$book);?>
-  </label>
+  </label-->
 <?php
 		}
 ?>
@@ -693,7 +692,7 @@ function list_select_list($list,$vars,$book=''){
 		elseif($vars['required']=='eitheror'){ 
 			print ' class="eitheror" eitheror="'.$vars['eitheror'].'" ';} ?>
 	>
-    <option value=""></option>
+    <option value=""><?php print_string($vars['label'],$book);?></option>
 <?php
 	while(list($index,$item)=each($list)){
 		if(!is_array($item)){
@@ -735,14 +734,13 @@ function list_select_enum($fieldname,$vars,$book=''){
 		}
 	if($vars['label']!=''){
 ?>
-  <label for="<?php print $vars['id'];?>">
+  <!--label for="<?php print $vars['id'];?>">
 	<?php print_string($vars['label'],$book);?>
-  </label>
+  </label-->
 <?php 
 		}
 ?>
-  <select 
-	id="<?php print $vars['id'];?>" 
+  <select id="<?php print $vars['id'];?>" 
 <?php 
 	if($vars['multi']>1){print ' name="'.$vars['name'].$vars['i'].'[]" multiple="multiple" ';}
 	else{print ' name="'.$vars['name'].$vars['i'].'" ';}
@@ -756,7 +754,7 @@ function list_select_enum($fieldname,$vars,$book=''){
 			elseif($vars['required']=='eitheror'){
 				print 'class="eitheror" eitheror="'.$vars['eitheror'].'" ';} ?> 
 	>
-    <option value=""></option>
+    <option value=""><?php print_string($vars['label'],$book);?></option>
 <?php
 			 while(list($inval,$description)=each($enum)){	
 				 print '<option ';
@@ -839,12 +837,10 @@ function html_table_container_open($containerno,$state='rowplus',$label){
 		  </div>
 		  <div class="<?php print $hidden;?>" id="<?php print $containerno.'-1';?>">
 			<table class="listmenu">
-<?php 
-
-		}
-
-	return;
-	}
+                <?php 
+		          }
+                    return;
+	               }
 
 /**
  *
@@ -875,9 +871,7 @@ function html_document_drop($epfun,$context,$linked_id='-1',$lid='-1',$ownertype
 	if($context=='assessment'){$path='../../';}
 	else{$path='';}
 ?>
-	  <fieldset class="center listmenu">
-		<legend><?php print_string('documents');?></legend>
-		<fieldset class="left documentdrop">
+		<div class="documentdrop">
 		  <form id="formfiledelete" name="formfiledelete" method="post" action="<?php print $path;?>infobook/httpscripts/file_delete.php">
 			<input type="hidden" id="FILEOWNER" name="FILEOWNER" value="<?php print $epfun;?>" />
 			<input type="hidden" id="FILECONTEXT" name="FILECONTEXT" value="<?php print $context;?>" />
@@ -885,15 +879,14 @@ function html_document_drop($epfun,$context,$linked_id='-1',$lid='-1',$ownertype
 	$files=(array)list_files($epfun,$context,$linked_id);
 	if(sizeof($files)>0){
 		html_document_list($files);
-		print '<button id="deletebutton" class="rowaction imagebutton" 
-						type="button" title="Delete" name="current" 
-						value=""/><img class="clicktodelete" style="max-width:100%;" /></button>';
+		print '<span class="clicktodelete"></span>';
 		}
 ?>
 		  </form>
-		</fieldset>
+		</div>
 
-		<fieldset class="right documentdrop">
+		<fieldset class="documentdrop">
+		    <h5><?php print_string('documents');?></h5>
 			<form id="formdocumentdrop" name="formdocumentdrop" method="post" action="<?php print $path;?>infobook/httpscripts/file_upload.php" enctype="multipart/form-data" <?php if($context=='icon') print "onsubmit='return checkForm()'"; ?>>
 				<input type="hidden" id="MAX_FILE_SIZE" name="MAX_FILE_SIZE" value="<?php print return_bytes(ini_get('upload_max_filesize'));?>" />
 				<input type="hidden" id="FILEOWNER" name="FILEOWNER" value="<?php print $epfun;?>" />
@@ -926,7 +919,7 @@ function html_document_drop($epfun,$context,$linked_id='-1',$lid='-1',$ownertype
 					<input type="hidden" id="w" name="w" />
 					<input type="hidden" id="h" name="h" />
 
-					<h4><?php print_string('searchfile');?> (<?php print_string('max');?>: <?php echo ini_get("upload_max_filesize"); ?>)</h4>
+					<h4>test<?php print_string('searchfile');?> (<?php print_string('max');?>: <?php echo ini_get("upload_max_filesize"); ?>)</h4>
 
 					<div>
 						<label for="fileselect">
@@ -972,19 +965,19 @@ function html_document_drop($epfun,$context,$linked_id='-1',$lid='-1',$ownertype
 					}
 				if($context!='icon') { 
 ?>
-					<h4><?php print_string('uploadfile');?> (<?php print_string('max');?>: <?php echo ini_get("upload_max_filesize"); ?>)</h4>
+					<h6><?php print_string('uploadfile');?> (<?php print_string('max');?>: <?php echo ini_get("upload_max_filesize"); ?>)</h6>
 
-					<div style="padding:2%;">
+					<div>
 						<label for="fileselect">
 							<?php print_string('searchfile');?>:<br />
 						</label>
 						<br>
 						<div class="upload">
 						   <input type="file" name="image_file" onchange="document.getElementById('messages').style.display='block';document.getElementById('messages').innerHTML=this.value;"/>
-						   <button type="button" id="submitbutton" style="position:absolute;float:none;background-color:#444466;color:white;font-weight: bold;border-radius: 7px 7px 7px 7px;border: 2px dashed #555555;font-size: small;z-index:1000;width:140px;height:27px;"><?php print_string('browse');?></button>
+						   <button type="button" id="submitbutton" style="position:absolute;float:none;background-color:#444466;color:white;font-weight: bold;border-radius: 7px 7px 7px 7px;font-size: small;z-index:1000;width:140px;height:27px;"><?php print_string('browse');?></button>
 						</div>
 						<div style="float:left;">
-							<button type="submit" id="submitbutton" style="background-color:#444466;color:white;font-weight: bold;border-radius: 7px 7px 7px 7px;border: 2px dashed #555555;font-size: small;float:right;height:27px;"><?php print_string('upload');?></button>
+							<button type="submit" id="submitbutton" style="background-color:#444466;color:white;font-weight: bold;border-radius: 7px 7px 7px 7px;font-size: small;float:right;height:27px;"><?php print_string('upload');?></button>
 						 </div>
 					</div>
 
@@ -1000,7 +993,6 @@ function html_document_drop($epfun,$context,$linked_id='-1',$lid='-1',$ownertype
 
 			</form>
 		</fieldset>
-	  </fieldset>
 
 <?php 
 	if($context=='icon'){ 
@@ -1038,7 +1030,7 @@ function html_document_list($files){
 		else $fileid=$file['id'];
 		$fileparam_list='?fileid='.$fileid.'&location='.$file['location'].'&filename='.$file['name'];
 		print '<div id="filecontainer'.$fileid.'" class="document"><span title="'.$file['description'].'">';
-		print '<a href="'.$filedisplay_url. $fileparam_list.'" /><label>'.$file['originalname'].'<img src="images/printer.png" /></label></a>';
+		print '<a href="'.$filedisplay_url. $fileparam_list.'" /><label>'.$file['originalname'].'<span class="clicktoprint"></span></label></a>';
 		print '<input type="checkbox" name="fileids[]" value="'.$fileid.'" />';
 		print '<input type="hidden" id="fname" value="'.$fileid.'" />';
 		print '</span></div>';

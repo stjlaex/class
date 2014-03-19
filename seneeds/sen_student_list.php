@@ -90,6 +90,7 @@ if(sizeof($sids)>0){
 	two_buttonmenu($extrabuttons,'infobook');
 ?>
 
+<<<<<<< HEAD
 <div id="viewcontent" class="content">
 	<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
 		<table class="listmenu sidtable" id="sidtable">
@@ -105,6 +106,14 @@ if(sizeof($sids)>0){
 					<th rowspan="2" style="width:10%;">
 						<?php print_string('formgroup'); ?>
 					</th>
+=======
+	<div id="viewcontent" class="content">
+	  <form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
+		<table class="listmenu sidtable">
+		  <th colspan="2"><?php print_string('checkall'); ?><input type="checkbox" name="checkall" value="yes" onChange="checkAll(this);" /></th>
+		  <th><?php print_string('student'); ?></th>
+		  <th><?php print_string('formgroup'); ?></th>
+>>>>>>> ebbdc421d495fb2fbaf1b16fab9d975e27cbede9
 <?php
 	$extra_studentfields=array('NextReviewDate'=>'nextreviewdate');
 	foreach($displayfields as $dno => $displayfield){
@@ -116,7 +125,11 @@ if(sizeof($sids)>0){
 		}
 ?>
 				</tr>
+<<<<<<< HEAD
 				<tr>
+=======
+				<!--tr-->
+>>>>>>> ebbdc421d495fb2fbaf1b16fab9d975e27cbede9
 <?php
 		foreach($displayfields as $dno => $displayfield){
 		$sortno=$dno+4;
@@ -126,18 +139,30 @@ if(sizeof($sids)>0){
 		elseif($displayfield=='YearGroup' or $displayfield=='EnrolmentYearGroup' or $displayfield=='EnrolNumber'){$sort_types.=",'i'";}
 		else{$sort_types.=",'s'";}
 ?>
+<<<<<<< HEAD
 					<th class="noprint">
+=======
+					<!--th class="noprint">
+>>>>>>> ebbdc421d495fb2fbaf1b16fab9d975e27cbede9
 						<div class="rowaction">
 							<input class="underrow" type='button' name='action' value='v' onClick='tsDraw("<?php print $sortno;?>A", "sidtable");' />
 							<input class="underrow"  type='button' name='action' value='-' onClick='tsDraw("<?php print $sortno;?>U", "sidtable");' />
 							<input class="underrow"  type='button' name='action' value='^' onClick='tsDraw("<?php print $sortno;?>D", "sidtable");' />
 						</div>
+<<<<<<< HEAD
 					</th>
+=======
+					</th-->
+>>>>>>> ebbdc421d495fb2fbaf1b16fab9d975e27cbede9
 		
 <?php
 		}
 ?>
+<<<<<<< HEAD
 				</tr>
+=======
+				<!--/tr-->
+>>>>>>> ebbdc421d495fb2fbaf1b16fab9d975e27cbede9
 			</thead>
 			<tbody>
 <?php
@@ -160,6 +185,7 @@ if(sizeof($sids)>0){
 			}
 		if($display=='yes'){
 ?>
+<<<<<<< HEAD
 				<tr>
 					<td>
 						<input type="checkbox" name="sids[]" value="<?php print $sid; ?>" />
@@ -180,6 +206,28 @@ if(sizeof($sids)>0){
 					<td>
 						<?php print $Student['RegistrationGroup']['value']; ?>
 					</td>
+=======
+		<tr>
+		  <td>
+			<input type="checkbox" name="sids[]" value="<?php print $sid; ?>" />
+			<?php print $sindex+1;?>
+		  </td>
+		  <td>
+			<span title="<?php print $comment['body'];?>">
+			 <a onclick="parent.viewBook('infobook');" target="viewinfobook"  href="infobook.php?current=comments_list.php&sid=<?php print $sid;?>" class="<?php print $comment['class'];?>">
+                <span title="" class="fa fa-comment"></span>
+             </a> 
+			</span>
+		  </td>
+		  <td class="student">
+			<a href="seneeds.php?current=sen_view.php&sid=<?php print $sid;?>">
+			  <?php print $Student['DisplayFullName']['value']; ?>
+			</a>
+		  </td>
+		  <td>
+			<?php	print $Student['RegistrationGroup']['value']; ?>
+		  </td>
+>>>>>>> ebbdc421d495fb2fbaf1b16fab9d975e27cbede9
 <?php
 				foreach($displayfields as $displayfield){
 					if(array_key_exists($displayfield,$Student)){

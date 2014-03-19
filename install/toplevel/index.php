@@ -1,4 +1,8 @@
 <?php
+<<<<<<< HEAD:install/toplevel/index.php
+=======
+unset($_COOKIE['theme']);$_COOKIE['theme']="";
+>>>>>>> ebbdc421d495fb2fbaf1b16fab9d975e27cbede9:install/toplevel/index.php
 require_once('school.php');
 global $CFG;
 if(isset($_GET['theme']) and $_GET['theme']!=""){$theme=$_GET['theme'];}

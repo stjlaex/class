@@ -35,14 +35,14 @@ $templates=getTemplates();
 $messages=getTemplates('mes');
 if(count($messages)>0){$templates=array_merge($templates,$messages);}
 ?>
-  <div style="margin-top:50px;">
+    <div class="content">
 	<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host; ?>" >
 		<input type="hidden" name="current" value="<?php print $action;?>" />
 		<input type="hidden" name="choice" value="<?php print $choice;?>" />
 		<input type="hidden" name="cancel" value="<?php print '';?>" />
 
-		<fieldset class="center divgroup" id="viewcontent" style="background: none repeat scroll 0 0 #666666 !important;">
-			<legend><?php print_string('tags',$book);?></legend>
+		<fieldset class="divgroup" id="viewcontent">
+			<h5><?php print_string('tags',$book);?></h5>
 			<label><?php print_string('infotag',$book);?></label>
 			<select id="tags" onchange="processObject(this);">
 				<option value=""></option>
@@ -68,12 +68,16 @@ if(count($messages)>0){$templates=array_merge($templates,$messages);}
 			<input id="picker" class="color {hash:true}" style="float:right" onchange="processObject(this)">
 			<button name="add" type="submit"><?php print_string('tags',$book);?></button>
 		</fieldset>
-		<br>
-		<fieldset  style="background: none repeat scroll 0 0 #666666 !important;">
+
+		<fieldset class="divgroup">
 			<legend><?php print_string('template',$book);?></legend>
-			<label style="color:#FFFFEE !important"><?php print_string('templatename',$book);?></label>
+			<label><?php print_string('templatename',$book);?></label>
 			<input type="text" id="template_name" name="template_name">
+<<<<<<< HEAD
 			<div style="float:right"><label style="color:#FFFFEE !important"><?php print_string('templates',$book);?></label>
+=======
+			<label><?php print_string('templates',$book);?></label>
+>>>>>>> ebbdc421d495fb2fbaf1b16fab9d975e27cbede9
 			<select id="templates" name="template" onchange="processObject(this)">
 				<option value="-1"> </option>
 <?php
@@ -84,10 +88,17 @@ if(count($messages)>0){$templates=array_merge($templates,$messages);}
 					}
 				echo $options;
 ?>
+<<<<<<< HEAD
 			</select></div><br><br><br>
 			<?php echo $contents;?>
 			<textarea id="code" name='content' style="width:47%;float:left" rows="30"></textarea>
 			<div id="preview" style="float:right;width:47%;background:#ffffff !important;height:395px;"></div>
+=======
+			</select><br><br><br>
+			<?php echo $contents;?>
+			<textarea id="code" name='content' rows="30"></textarea>
+			<div id="preview"></div>
+>>>>>>> ebbdc421d495fb2fbaf1b16fab9d975e27cbede9
 		</fieldset>
 		
 
