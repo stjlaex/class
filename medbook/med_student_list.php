@@ -179,9 +179,8 @@ if(isset($d_info)){
 					</td>
 					<td>
 						<span title="<?php print $comment['body'];?>">
-						  <a onclick="parent.viewBook('infobook');" target="viewinfobook"  
-							href="infobook.php?current=comments_list.php&sid=<?php print $sid;?>"
-							class="<?php print $comment['class'];?>">C</a> 
+						  <a onclick="parent.viewBook('infobook');" target="viewinfobook" href="infobook.php?current=comments_list.php&sid=<?php print $sid;?>"
+							class="<?php print $comment['class'];?>"><span title="" class="fa fa-comment"></span></a> 
 						</span>
 					</td>
 					<td class="student">

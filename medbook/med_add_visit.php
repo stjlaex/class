@@ -23,46 +23,44 @@ if($sub=='edit'){
 	}
 else{$entid=-1;$choice='med_search_student.php';}
 ?>
-  <div id="heading"><label><?php print_string('medicalrecord',$book);?></label>
-	<a href="infobook.php?current=student_view.php&sid=<?php print $sid;?>&sids[]=<?php print $sid;?>"
-			  target="viewinfobook" onclick="parent.viewBook('infobook');">
-  <?php print $Student['Forename']['value'].' '.$Student['Surname']['value'];?>
-	</a>
-  </div>
-<?php
-	three_buttonmenu();
-?>
+    <div id="heading">
+        <h4>
+            <label><?php print_string('medicalrecord',$book);?></label>
+            <a href="infobook.php?current=student_view.php&sid=<?php print $sid;?>&sids[]=<?php print $sid;?>" target="viewinfobook" onclick="parent.viewBook('infobook');">
+                <?php print $Student['Forename']['value'].' '.$Student['Surname']['value'];?>
+            </a>
+	   </h4>
+    </div>
+    <?php
+    	three_buttonmenu();
+    ?>
 <div class="content">
   <form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
 	<?php include("view_info_student.php");?>
-
 	<div class='center'>
 		<fieldset>
-			<legend><?php print_string('newvisit',$book);?></legend>
+			<h5><?php print_string('newvisit',$book);?></h5>
 			<table>
 				<tr>
 					<td style="width:300px">
-						<label for="Date0"><?php print_string('date');?></label>
-						<input id="Date0" class="required" type="date" value="<?php if($Entry[0]['Date']['value']!=''){echo $Entry[0]['Date']['value'];}?>" name="date0" tabindex="1" 
-										onchange="validateRequired(this)"><?php if($Entry[0]['Date']['value']==''){echo '<script>displayCurrentDate(\'Date0\');</script>';}?>
+						<label for="Date0" style="width: 55px; display: inline-block;"><?php print_string('date');?></label>
+						<input id="Date0" class="required" type="date" value="<?php if($Entry[0]['Date']['value']!=''){echo $Entry[0]['Date']['value'];}?>" name="date0" tabindex="1" onchange="validateRequired(this)"><?php if($Entry[0]['Date']['value']==''){echo '<script>displayCurrentDate(\'Date0\');</script>';}?>
 						<img class="calendar">
 					<td>
 					<td rowspan='3'>
 						<label for="Detail"><?php print_string('details');?></label>
-						<textarea id="Detail" style="font-wight:600; font-size:large;" class="required" tabindex="4"
-							wrap="on" rows="5" tabindex="<?php print $tab++;?>" onchange="validateRequired(this)"
-							name="detail"><?php if($entid!=-1){echo $Entry[0]['Details']['value'];}?></textarea>
+						<textarea id="Detail" class="required" tabindex="4" wrap="on" rows="5" tabindex="<?php print $tab++;?>" onchange="validateRequired(this)" name="detail"><?php if($entid!=-1){echo $Entry[0]['Details']['value'];}?></textarea>
 					</td>
 				</tr>
 				<tr>
 					<td style="width:300px">
-						<label><?php print_string('time');?></label>
+						<label style="width: 70px; display: inline-block;"><?php print_string('time');?></label>
 						<input type="time" id='time' name="time" tabindex="2" <?php if($Entry[0]['Time']['value']!='00:00:00' and $Entry[0]['Time']['value']!=''){echo "value=\"".$Entry[0]['Time']['value']."\">";}else{echo "><script>displayCurrentTime('time');</script>";}?>
 					<td>
 				</tr>
 				<tr>
 					<td style="width:300px;">
-						<label><?php print_string('category');?></label>
+						<label style="width: 70px; display: inline-block;"><?php print_string('category');?></label>
 						<input type="text" name="category" tabindex="3" value="<?php echo $Entry[0]['Category']['value'];?>">
 					<td>
 				</tr>
@@ -73,9 +71,9 @@ else{$entid=-1;$choice='med_search_student.php';}
 $logs=fetchMedicalLog('-1',$sid,'1');
 $lastlog=$logs[0];
 ?>
-	<fieldset class="center">
-			<legend><?php print_string('lastvisit',$book);?></legend>
-				<table class="listmenu">
+	<fieldset class="divgroup">
+			<h5><?php print_string('lastvisit',$book);?></h5>
+				<table>
 					<tr>
 						<td>
 							<?php print_string('date');?>: <?php echo display_date($lastlog['Date']['value']);?>

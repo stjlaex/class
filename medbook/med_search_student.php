@@ -47,7 +47,7 @@ two_buttonmenu();
 			<h5><?php print_string('students');?></h5>
 <?php
 	if(count($sid)>1){echo print_string("didyoumean").":<br>";}
-    print ('<ul>');
+    print ('<ul class="list-student">');
 	foreach($sid as $student_id){
 		$student_info=fetchStudent($student_id);
 		if($student_info['Forename']['value']!='' or $student_info['Surname']['value']!=''){
@@ -55,8 +55,8 @@ two_buttonmenu();
             <li>
                 <a href="medbook.php?current=med_add_visit.php&sid=<?php print $student_id;?>">
 				    <img src="<?php print 'scripts/photo_display.php?epfu='.$student_info['EPFUsername']['value'].'&enrolno='.$enrolno.'&size=midi';?>" style="display:block;margin-left:auto;margin-right:auto;"/>
-				</a>
-				<?php print $student_info['Forename']['value'].' '.$student_info['MiddleNames']['value'].' '.$student_info['Surname']['value'].' ('.$student_info['RegistrationGroup']['value'].')'; ?>
+				    <?php print $student_info['Forename']['value'].' '.$student_info['MiddleNames']['value'].' '.$student_info['Surname']['value'].' ('.$student_info['RegistrationGroup']['value'].')'; ?>
+                </a>
             </li>
 			  
 <?php

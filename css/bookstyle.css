@@ -96,7 +96,8 @@ option[value=""] {
   margin: 5px 0;
 }
 textarea {
-  width: 95%;
+  width: 98%;
+  margin: 5px 0 15px;
 }
 input[readonly="readonly"] {
   border-color: #cccccc;
@@ -185,13 +186,13 @@ div.hidden, input.hidden {
 }
 /* Medbook */
 .medbook input[type=text] {
-  height: 17px;
-  padding-bottom: 3px;
+  height: 16px;
+  padding-bottom: 4px;
 }
-.medbook button{
+.medbook button {
   padding: 5px 10px 3px;
 }
-.medbook span{
+.medbook span {
   float: right;
 }
 
@@ -457,6 +458,9 @@ table.listmenu {
 .listmenu tbody tr:hover {
   background-color: #FFFFFF !important;
 }
+.listmenu.hovernone tbody tr:hover {
+  background: none;
+}
 .listmenu tbody td {
   border-top: 1px solid;
   border-color: #bac1c8;
@@ -475,10 +479,10 @@ table.listmenu {
   padding: 5px 1%;
   font-weight: bold;
 }
-.revealed td  {
-  padding: 10px!important;
+.revealed td {
+  padding: 10px !important;
 }
-.revealed td p  {
+.revealed td p {
   margin-bottom: 10px;
 }
 
@@ -945,6 +949,9 @@ button[value="Submit"] {
   border: 0;
   background-color: #d2d7dc;
 }
+.iconedit img {
+  padding: 4px;
+}
 .clicktoedit-bg {
   background: #91c73e;
 }
@@ -1096,4 +1103,17 @@ fieldset.divgroup.markbook-img {
 }
 .sort_column_asc .selector, .sort_column_desc .selector, .sort_column_default .selector {
   margin-right: 10px !important;
+}
+.list-student {
+  margin-top: 30px;
+}
+.list-student li {
+  display: inline-block;
+  width: 210px;
+  height: 150px;
+  text-align: center;
+}
+.list-student li img {
+  background-color: #D2D7DC;
+  padding: 3px;
 }

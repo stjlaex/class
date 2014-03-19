@@ -320,7 +320,7 @@ function xmlelement_input($val,$no,$tab,$book){
  */
 function xmlelement_display($val,$book){
 	print '<td>';
-	print '<label>'.get_string($val['label'],$book).'</label>';
+	print '<label>'.get_string($val['label'],$book).':</label> <strong>';
 	if($val['type_db']=='enum'){
 		print_string(displayEnum($val['value'],$val['field_db']),$book);
 		}
@@ -335,7 +335,7 @@ function xmlelement_display($val,$book){
 	else{
 		print $val['value'];
 		}
-	print '</td>';
+	print '</strong></td>';
 	}
 
 
@@ -879,6 +879,7 @@ function html_document_drop($epfun,$context,$linked_id='-1',$lid='-1',$ownertype
 		</div>
 
 		<fieldset class="documentdrop">
+		    <span style="float: right;"><?php print_string('uploadfile');?> (<?php print_string('max');?>: <?php echo ini_get("upload_max_filesize"); ?>)</span>
 		    <h5><?php print_string('documents');?></h5>
 			<form id="formdocumentdrop" name="formdocumentdrop" method="post" action="<?php print $path;?>infobook/httpscripts/file_upload.php" enctype="multipart/form-data" <?php if($context=='icon') print "onsubmit='return checkForm()'"; ?>>
 				<input type="hidden" id="MAX_FILE_SIZE" name="MAX_FILE_SIZE" value="<?php print return_bytes(ini_get('upload_max_filesize'));?>" />
@@ -958,7 +959,6 @@ function html_document_drop($epfun,$context,$linked_id='-1',$lid='-1',$ownertype
 					}
 				if($context!='icon') { 
 ?>
-					<h6><?php print_string('uploadfile');?> (<?php print_string('max');?>: <?php echo ini_get("upload_max_filesize"); ?>)</h6>
 
 					<div>
 						<label for="fileselect">

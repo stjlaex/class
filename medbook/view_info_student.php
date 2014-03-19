@@ -5,13 +5,13 @@ $med=fetchMedical($sid);
 ?>
 <fieldset class="divgroup">
 		<h5><?php print_string('studentdetails','infobook');?></h5>
-		<table class="listmenu">
+		<table>
 		  <tr>
 			<?php xmlelement_display($Student['DisplayFullName'],'infobook');?>
 			<?php xmlelement_display($Student['DOB'],'infobook');?>
 			<?php xmlelement_display($Student['RegistrationGroup'],'infobook');?>
 			<td rowspan="3">
-				<div class="icon">
+				<div class="icon iconedit">
 					<a href="infobook.php?current=student_view.php&sid=<?php print $sid;?>&sids[]=<?php print $sid;?>"
 							target="viewinfobook" onclick="parent.viewBook('infobook');">
 						<img src="<?php print 'scripts/photo_display.php?epfu='.$Student['EPFUsername']['value'].'&enrolno='.$Student['EnrolmentNumber']['value'].'&size=maxi';?>" 
@@ -24,6 +24,7 @@ $med=fetchMedical($sid);
 			  <td colspan="3">
 			  	<span title="<?php echo $title;?>">
 		  			<label><?php print_string("contactinfo","infobook");?></label>
+		  			<strong>
 <?php
 		  	if(isset($Student['Contacts'])
 			   and sizeof($Student['Contacts'])>0){
@@ -35,11 +36,12 @@ $med=fetchMedical($sid);
 					print get_string(displayEnum($Phone['PhoneType']['value'],$Phone['PhoneType']['field_db']),'infobook').
 					': '.$Phone['PhoneNo']['value'].'; ';
 					}
-?>
+?></strong>
 		  </tr>
 		  <tr>
 		  	<td colspan="3">
 		  			<label><?php print_string("medicalinformation","infobook");?></label>
+		  			<strong>
 <?php
 		  			foreach($med['Notes']['Note'] as $note){
 		  				$title='';
@@ -48,7 +50,7 @@ $med=fetchMedical($sid);
 		  					echo '<span title="'.$title.'" style="margin:2%;padding:2px 4px 2px 4px;border:0 none;border-radius: 3px 3px 3px 3px;cursor: pointer;background-color:#554466;color:#FFFFEE;">'.$note['MedicalCategory']['value'].'</span>';
 		  					}
 		  				}
-?>
+?></strong>
 		  	</td>
 		  </tr>
 		</table>

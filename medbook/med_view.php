@@ -4,11 +4,14 @@
 
 $action='med_view_action.php';
 ?>
-  <div id="heading"><label><?php print_string('medicalrecord',$book);?></label>
+  <div id="heading">
+      <h4>      <label><?php print_string('medicalrecord',$book);?></label>
 	<a href="infobook.php?current=student_view.php&sid=<?php print $sid;?>&sids[]=<?php print $sid;?>"
 			  target="viewinfobook" onclick="parent.viewBook('infobook');">
   <?php print $Student['Forename']['value'].' '.$Student['Surname']['value'];?>
 	</a>
+	</h4>
+
   </div>
 <?php
 	three_buttonmenu(array('removemed'=>array('name'=>'sub','value'=>'medstatus')),$book);
@@ -18,7 +21,7 @@ $action='med_view_action.php';
 
 	  <fieldset class="divgroup">
 		<h5><?php print_string('studentdetails','infobook');?></h5>
-		<table class="listmenu">
+		<table>
 		  <tr>
 			<?php xmlelement_display($Student['DisplayFullName'],'infobook');?>
 			<?php xmlelement_display($Student['DOB'],'infobook');?>
@@ -29,7 +32,7 @@ $action='med_view_action.php';
 		  </tr>
 		</table>
 		<br />
-		  <table class="listmenu">
+		  <table>
 			<tr>
 <?php
 			if(isset($Student['Contacts'])
@@ -84,6 +87,7 @@ $action='med_view_action.php';
 			</li>
 
 			<div class="hidden" id="tinytab-xml-med-<?php print $cattype;?>">
+			    <fieldset class="divgroup">
 			  <table>
 				<tr>
 				  <?php xmlelement_display($Note['LastReviewDate'],$book);?>
@@ -97,13 +101,11 @@ $action='med_view_action.php';
 				</tr>
 				<tr>
 				  <td>
-				  <textarea id="Detail" style="font-wight:600; font-size:large;" 
-				  wrap="on" rows="5" tabindex="<?php print $tab++;?>"
-				  name="<?php print $Note['Detail']['field_db'].$index;?>" 
-				  ><?php print $Note['Detail']['value'];?></textarea>
+				  <textarea id="Detail" wrap="on" rows="5" tabindex="<?php print $tab++;?>"name="<?php print $Note['Detail']['field_db'].$index;?>" ><?php print $Note['Detail']['value'];?></textarea>
 				  </td>
 				</tr>
 			  </table>
+			  </fieldset>
 			</div>
 <?php
 			}
