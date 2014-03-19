@@ -58,21 +58,7 @@ print '<?xml version="1.0" encoding="utf-8"?'.'>';
         <?php
 if($book=='infobook' or $book=='admin'){
 ?>
-<<<<<<< HEAD
-<link rel="stylesheet" type="text/css" href="js/jcrop/jquery.Jcrop.min.css" />
-<script language="Javascript" type="text/javascript" src="js/jcrop/jquery.min.js"></script>
-<script language="Javascript" type="text/javascript" src="js/jcrop/jquery.Jcrop.min.js"></script>
-<script language="Javascript" type="text/javascript" src="js/crop.js"></script>
-<?php 
-	}
-if($book=='infobook' or $book=='reportbook'  or $book=='admin'  or $book=='markbook' or $book=='medbook' or $book=='seneeds'){
-?>
-<script language="JavaScript" type="text/javascript" src="js/gs_sortable.js?version=1048"></script>
-<script language="JavaScript" type="text/javascript" src="js/documentdrop.js?version=1048"></script>
-<?php 
-	}
-?>
-=======
+
         <link rel="stylesheet" type="text/css" href="js/jcrop/jquery.Jcrop.min.css" />
         <script language="Javascript" type="text/javascript" src="js/jcrop/jquery.Jcrop.min.js"></script>
         <script language="Javascript" type="text/javascript" src="js/crop.js"></script>
@@ -84,7 +70,6 @@ if($book=='infobook' or $book=='reportbook'  or $book=='admin'  or $book=='markb
         <?php
 								}
         ?>
->>>>>>> ebbdc421d495fb2fbaf1b16fab9d975e27cbede9
 
     </head>
     <body>

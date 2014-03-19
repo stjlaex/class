@@ -69,22 +69,11 @@ if ($sid == '') {
 	  <div class="content">
 		<div class="listmenu fileupload">
 <?php
-<<<<<<< HEAD
-		require_once('../../lib/eportfolio_functions.php');
-		if($openid=="epfsharedfile"){
-			html_document_drop($Student['EPFUsername']['value'],'assessment',$eid,'',$openid);
-			}
-		else{
-			html_document_drop($Student['EPFUsername']['value'],'assessment',$eid);
-			}
-=======
-require_once ('../../lib/eportfolio_functions.php');
 if ($openid == "epfsharedfile") {
     html_document_drop($Student['EPFUsername']['value'], 'assessment', $eid, '', $openid);
 } else {
     html_document_drop($Student['EPFUsername']['value'], 'assessment', $eid);
 }
->>>>>>> ebbdc421d495fb2fbaf1b16fab9d975e27cbede9
 ?>
 		</div>
 
@@ -94,22 +83,6 @@ if ($openid == "epfsharedfile") {
 
 		<div class="listmenu fileupload">
 		  <div class="center">
-<<<<<<< HEAD
-<?php
-if($openid!="epfsharedfile"){
-?>
-		  <fieldset class="right documentdrop">
-<?php
-	if($_SESSION['worklevel']>-1 and ($CFG->emailguardiancomments=='yes' or ($CFG->emailguardiancomments=='limit' and $perm['x']==1))){
-		$checkname='sharewithparents';
-		$checkcaption=get_string('sharewithguardian','infobook');
-		$checkalert=get_string('sharecommentalert','infobook');
-		/* TODO: implement share with parents */
-		include('../../scripts/check_yesno.php');
-		unset($checkalert);
-		}
-
-=======
 <?php
 if($openid!="epfsharedfile"){
 ?>
@@ -123,18 +96,7 @@ if ($_SESSION['worklevel'] > -1 and ($CFG -> emailguardiancomments == 'yes' or (
     include ('../../scripts/check_yesno.php');
     unset($checkalert);
 }
->>>>>>> ebbdc421d495fb2fbaf1b16fab9d975e27cbede9
-?>
-
-			<label for="Comment"><?php print_string('description', $book); ?></label>
-			<textarea id="Comment"style="height:80px;" tabindex="<?php print $tab++; ?>" name="comment" ></textarea>
-		  </fieldset>
-<?php
-<<<<<<< HEAD
 	}
-=======
-}
->>>>>>> ebbdc421d495fb2fbaf1b16fab9d975e27cbede9
 ?>
 		  </div>
 		</div>

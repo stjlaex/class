@@ -20,75 +20,6 @@ $feeyear=get_curriculumyear();
 if(empty($_SESSION['accessfees'])){
 
 ?>
-<<<<<<< HEAD
-  <div class="content">
-	<form id="formtoprocess" name="formtoprocess" method="post"
-	  action="<?php print $host; ?>" >
-
-	  <fieldset class="center listmenu">
-		<legend>
-		  <?php print_string('bankdetails','infobook');?>
-		</legend>
-
-		<div class="center">
-		<input type="password" name="accesstest" maxlength="20" value="" />
-		<input type="password" name="accessfees" maxlength="4" value="" />
-<?php
-			$buttons=array();
-			$buttons['access']=array('name'=>'access','value'=>'access');
-			all_extrabuttons($buttons,'infobook','');
-?>
-		</div>
-	  </fieldset>
-	  <input type="hidden" name="feeyear" value="<?php print $feeyear;?>" />
-	  <input type="hidden" name="current" value="<?php print $action;?>" />
-	  <input type="hidden" name="choice" value="<?php print $choice;?>" />
-	  <input type="hidden" name="cancel" value="<?php print '';?>" />
-	</form>
-  </div>
-<?php
-			}
-		else{
-
-$extrabuttons=array();
-if($_SESSION['username']=='administrator'){
-	$extrabuttons['manageaccounts']=array('name'=>'current','value'=>'fees_accounts_manage.php'/*,'class'=>'manageaccounts'*/);
-	$extrabuttons['import']=array('name'=>'current','value'=>'fees_import.php');
-	}
-if($_SESSION['role']=='admin' or $aperm==1 or $_SESSION['role']=='office'){
-	$extrabuttons['exportbankaccounts']=array('name'=>'current','value'=>'fees_accounts_export.php');
-	$extrabuttons['remittances']=array('name'=>'current','value'=>'fees_remittance_list.php');
-	$extrabuttons['conceptlist']=array('name'=>'current','value'=>'fees_concept_list.php');
-	}
-two_buttonmenu($extrabuttons,$book);
-?>
-  <div class="content">
-	<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host; ?>" >
-
-		<input type="hidden" name="feeyear" value="<?php print $feeyear;?>" />
-		<input type="hidden" name="current" value="<?php print $action;?>" />
-		<input type="hidden" name="choice" value="<?php print $choice;?>" />
-		<input type="hidden" name="cancel" value="<?php print '';?>" />
-	</form>
-
-
-	<form id="formtoprocess2" name="formtoprocess2" method="post" action="<?php print $host; ?>" >
-
-	  <fieldset class="left">
-		<legend><?php print_string('invoicesearch',$book);?></legend>		
-		<div class="center">
-		  <div class="center">
-			<button type="submit" name="sub" value="search">
-			  <?php print_string('search');?>
-			</button>
-			<label for="Invoicenumber"><?php print_string('reference',$book);?></label>
-			<input tabindex="<?php print $tab++;?>" 
-				   type="text" id="Invoicenumber" name="invoicenumber" maxlength="30"/>
-		  </div>
-		</div>
-	  </fieldset>
-
-=======
     <div class="content">
         <form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host; ?>" >
             <fieldset class="divgroup">
@@ -140,7 +71,6 @@ two_buttonmenu($extrabuttons,$book);
                     <input tabindex="<?php print $tab++;?>" type="text" id="Invoicenumber" name="invoicenumber" maxlength="30"/>
                 </div>
             </fieldset>
->>>>>>> ebbdc421d495fb2fbaf1b16fab9d975e27cbede9
 		<input type="hidden" name="feeyear" value="<?php print $feeyear;?>" />
 		<input type="hidden" name="current" value="fees_invoice_list.php" />
 		<input type="hidden" name="choice" value="<?php print $choice;?>" />
