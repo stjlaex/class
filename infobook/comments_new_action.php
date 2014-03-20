@@ -203,6 +203,6 @@ include('scripts/sub_action.php');
 			}
 		}
 
-include('scripts/results.php');	
-include('scripts/redirect.php');	
+include('scripts/results.php');
+include('scripts/redirect.php');
 ?>

@@ -802,9 +802,9 @@ function elgg_new_comment($epfu,$dateset,$message,$title,$tid,$sid){
 			$d_u=mysql_query("SELECT name FROM $table WHERE ident='$epfuid';");
 			$recipient['studentname']=mysql_result($d_u,0);
 			$recipient['sid']=$sid;
-			$d_u=mysql_query("SELECT email FROM $table WHERE ident='$epfuidmember';");
-			$recipient['emailaddress']=trim(mysql_result($d_u,0));
-			//$recipient['gid']=$epfuidmember;
+			$d_u=mysql_query("SELECT email,username FROM $table WHERE ident='$epfuidmember';");
+			$recipient['emailaddress']=trim(mysql_result($d_u,0,'email'));
+			$recipient['username']=trim(mysql_result($d_u,0,'username'));
 			$recipients[]=$recipient;
 			}
 		elgg_send_email($recipients,"comment");
@@ -830,9 +830,12 @@ function elgg_send_email($recipients,$emailtype,$template='classicemail'){
 
 	$sends=array();//use to avoid mulitple notification meassages to the same address
 	foreach($recipients as $recipient){
-		$sid=$recipient['sid'];
-		$gid=$recipient['gid'];
 		if($recipient['emailaddress']!='' and !in_array($recipient['emailaddress'],$sends)){
+			$sends[]=$recipient['emailaddress'];
+			$title=get_string('epf'.$emailtype.'title','infobook').' '.$CFG->schoolname;
+			$messagehtml=get_string('epf'.$emailtype.'email','infobook',$recipient['studentname'])
+						.' <p><a href="'.$CFG->eportfoliosite.'">'.$CFG->eportfoliosite.'</a></p>';
+			$footer=get_string('guardianemailfooterdisclaimer');
 			$messagetxt=strip_tags(html_entity_decode($messagehtml, ENT_QUOTES, 'UTF-8'))."\r\n".'--'. "\r\n" . $footer;
 			$messagehtml.='<br><hr><p>'. $footer.'<p>';
 			$emailaddress=strtolower($recipient['emailaddress']);
@@ -841,8 +844,21 @@ function elgg_send_email($recipients,$emailtype,$template='classicemail'){
 			mysql_query("SET NAMES 'utf8'");
 			$templates=getTemplates('tmp',$template);
 			if(count($templates)>0){
+				if(isset($recipient['gid'])){$gid=$recipient['gid'];}
+				else{
+					$gepfusername=$recipient['username'];
+					$d_g=mysql_query("SELECT id FROM guardian WHERE epfusername='$gepfusername';");
+					$gid=mysql_result($d_g,0);
+					}
+				if(isset($recipient['sid'])){$sid=$recipient['sid'];}
+				else{
+					$sepfusername=$recipient['student_username'];
+					$d_g=mysql_query("SELECT student_id FROM info WHERE epfusername='$sepfusername';");
+					$sid=mysql_result($d_g,0);
+					}
+				
 				$type['{{type}}']=$emailtype;
-				$tags=getTags(true,'default',$uid=array('student_id'=>$sid/*,'guardian_id'=>$gid*/));
+				$tags=getTags(true,'default',$uid=array('student_id'=>$sid,'guardian_id'=>$gid));
 				$tags=array_merge($tags,$type);
 				$messagehtml=getMessage($tags,'',$template);
 				$messagetxt=strip_tags(html_entity_decode($messagehtml, ENT_QUOTES, 'UTF-8'));
@@ -989,12 +1005,12 @@ function elgg_upload_files($filedata,$dbc=true){
 							$recipient=array();
 							$epfuidmember=$friend['owner'];
 							$table=$CFG->eportfolio_db_prefix.'users';
-							$d_u=mysql_query("SELECT name FROM $table WHERE ident='$epfuid';");
-							$recipient['studentname']=mysql_result($d_u,0);
-							$recipient['sid']=$epfuid;
-							$d_u=mysql_query("SELECT email FROM $table WHERE ident='$epfuidmember';");
-							$recipient['emailaddress']=trim(mysql_result($d_u,0));
-							$recipient['gid']=$epfuidmember;
+							$d_u=mysql_query("SELECT name,username FROM $table WHERE ident='$epfuid';");
+							$recipient['studentname']=mysql_result($d_u,0,'name');
+							$recipient['student_username']=mysql_result($d_u,0,'username');
+							$d_u=mysql_query("SELECT email,username FROM $table WHERE ident='$epfuidmember';");
+							$recipient['emailaddress']=trim(mysql_result($d_u,0,'email'));
+							$recipient['username']=trim(mysql_result($d_u,0,'username'));
 							$recipients[]=$recipient;
 							}
 						if(!elgg_send_email($recipients,"report")){trigger_error('Couldn\'t send eportfolio email: '.$recipient['studentname'],E_USER_WARNING);}
