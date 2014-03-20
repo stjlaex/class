@@ -757,7 +757,7 @@ function elgg_new_homework($tid,$classname,$bid,$pid,$title,$body,$dateset){
 /**
  *
  */
-function elgg_new_comment($epfu,$dateset,$message,$title,$tid){
+function elgg_new_comment($epfu,$dateset,$message,$title,$tid,$sid){
 
 	list($year,$month,$day)=explode('-',$dateset);
 	$posted=mktime(0,0,0,$month,$day,$year);
@@ -801,10 +801,10 @@ function elgg_new_comment($epfu,$dateset,$message,$title,$tid){
 			$table=$CFG->eportfolio_db_prefix.'users';
 			$d_u=mysql_query("SELECT name FROM $table WHERE ident='$epfuid';");
 			$recipient['studentname']=mysql_result($d_u,0);
-			$recipient['sid']=$epfuid;
+			$recipient['sid']=$sid;
 			$d_u=mysql_query("SELECT email FROM $table WHERE ident='$epfuidmember';");
 			$recipient['emailaddress']=trim(mysql_result($d_u,0));
-			$recipient['gid']=$epfuidmember;
+			//$recipient['gid']=$epfuidmember;
 			$recipients[]=$recipient;
 			}
 		elgg_send_email($recipients,"comment");
@@ -830,6 +830,8 @@ function elgg_send_email($recipients,$emailtype,$template='classicemail'){
 
 	$sends=array();//use to avoid mulitple notification meassages to the same address
 	foreach($recipients as $recipient){
+		$sid=$recipient['sid'];
+		$gid=$recipient['gid'];
 		if($recipient['emailaddress']!='' and !in_array($recipient['emailaddress'],$sends)){
 			$messagetxt=strip_tags(html_entity_decode($messagehtml, ENT_QUOTES, 'UTF-8'))."\r\n".'--'. "\r\n" . $footer;
 			$messagehtml.='<br><hr><p>'. $footer.'<p>';
@@ -840,7 +842,7 @@ function elgg_send_email($recipients,$emailtype,$template='classicemail'){
 			$templates=getTemplates('tmp',$template);
 			if(count($templates)>0){
 				$type['{{type}}']=$emailtype;
-				$tags=getTags(true,'default',$uid=array('student_id'=>$sid,'guardian_id'=>$gid));
+				$tags=getTags(true,'default',$uid=array('student_id'=>$sid/*,'guardian_id'=>$gid*/));
 				$tags=array_merge($tags,$type);
 				$messagehtml=getMessage($tags,'',$template);
 				$messagetxt=strip_tags(html_entity_decode($messagehtml, ENT_QUOTES, 'UTF-8'));
