@@ -36,8 +36,14 @@ When a shared comment is deleted in Classis it is also deleted from Classic.
 
 If a comment is shared the "Share with parents" area is hidden.
 
+<<<<<<< HEAD
 When an image is uploaded for a comment is is appended to a comment 
 if this is shared.
+=======
+When an image is uploaded for a comment it is appended to a comment if
+this is shared.
+
+>>>>>>> 21dd08a1787b91d12e12ce4584b6d545535063bc
 
 
 Version ClaSS-1.0.63 release (2014/02/10)
