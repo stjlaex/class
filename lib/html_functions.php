@@ -1031,4 +1031,32 @@ function html_document_list($files){
 
 	return;
 	}
+
+
+function list_markbook_filters($profiles,$umnfilter,$currentprofile){
+?>
+	<select name="umnfilter" onchange="document.umnfilterchoice.submit();">
+		<option value="cw" <?php if ($umnfilter == 'cw') {print 'selected'; } ?> >CW</label>
+<?php
+	if($cidsno==1 and isset($cid) and !in_array($classes[$cid]['crid'],getEnumArray('nohomeworkcourses'))){
+?>
+		<option value="hw" <?php if ($umnfilter == 'hw') {print 'selected'; } ?> >HW</label>
+<?php
+		}
+?>
+		<option value="t" <?php if ($umnfilter == 't') {print 'selected'; } ?> >R</label>
+<?php
+	if(sizeof($profiles)>0){
+		foreach($profiles as $choiceprono => $choiceprofile){
+?>
+		<option value="p<?php print $choiceprono; ?>" <?php if ($umnfilter == 'p' . $choiceprono) {print 'selected'; $currentprofile=$choiceprofile; } ?> ><?php print substr($choiceprofile['name'], 0, 4); ?></label>
+<?php
+			}
+		}
+?>
+		<option value="%" <?php if ($umnfilter=='%') {print 'selected'; }?> ><?php print_string('all'); ?></label>
+	</select>
+<?php
+	return $currentprofile;
+	}
 ?>

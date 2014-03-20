@@ -202,42 +202,18 @@ $_SESSION['lessonatt'] = $lessonatt;
                 ?>
             </select>
         </form>
-    
+        
         <form id="umnfilterchoice" name="umnfilterchoice" method="post" action="markbook.php" target="viewmarkbook">
-            <fieldset class="markbook markbook-filter">
-                <legend><?php print_string('filterlist'); ?></legend>
-                <input name="tid" type="hidden" value="<?php print $tid; ?>">
-                <input name="current" type="hidden" value="class_view.php">		
-                <label>CW</label>
-                <input title="<?php print_string('classwork', $book); ?>" type="radio" name="umnfilter" value="cw" <?php if ($umnfilter == 'cw') {print 'checked'; } ?> onchange="document.umnfilterchoice.submit();" />
-                <?php
-                    /* Only display HW for a single class and only for courses
-                    * which do do homework
-                    */
-                if($cidsno==1 and isset($cid) and 
-                   !in_array($classes[$cid]['crid'],getEnumArray('nohomeworkcourses'))){
-                ?>
-                <label>HW</label>
-                <input title="<?php print_string('homework', $book); ?>" type="radio" name="umnfilter" value="hw" <?php if ($umnfilter == 'hw') {print 'checked'; } ?> onchange="document.umnfilterchoice.submit();" />
-                <?php
-                    }
-                ?>
-                <label>R</label>
-                <input title="<?php print get_string('reports', $book) . ' & ' . get_string('assessments', $book); ?>" type="radio" name="umnfilter" value="t" <?php if ($umnfilter == 't') {print 'checked'; }?> onchange="document.umnfilterchoice.submit();" />
-                <?php
-                    if(sizeof($profiles)>0){
-        	           foreach($profiles as $choiceprono => $choiceprofile){
-                ?>
-                <label><?php print substr($choiceprofile['name'], 0, 4); ?></label>
-                <input title="<?php print $choiceprofile['name'] . ' ' . get_string('assessmentprofile', $book); ?>" type="radio" name="umnfilter" value="p<?php print $choiceprono; ?>" <?php if ($umnfilter == 'p' . $choiceprono) {print 'checked'; $currentprofile = $choiceprofile; } ?> onchange="document.umnfilterchoice.submit();" />
-                <?php
-                        }
-                    }
-                ?>
-                <label><?php print_string('all'); ?></label>
-                <input  title="<?php print_string('all'); ?>" type="radio" name="umnfilter" value="%" <?php if ($umnfilter == '%') {print 'checked'; }?> onchange="document.umnfilterchoice.submit();" />
-          </fieldset>
-        </form>
+		<fieldset class="markbook markbook-filter">
+			<legend><?php print_string('filterlist'); ?></legend>
+			<input name="tid" type="hidden" value="<?php print $tid; ?>">
+			<input name="current" type="hidden" value="class_view.php">
+<?php
+		$currentprofile=list_markbook_filters($profiles,$umnfilter,$currentprofile);
+?>
+		</fieldset>
+	   </form>
+
         <?php
             if(!empty($currentprofile) and isset($cid)){
         ?>
