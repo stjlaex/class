@@ -26,6 +26,8 @@ $CFG->sitestatus='up';
 $CFG->installpath='/var/www/html/demo-site';
 /*almost always just class*/
 $CFG->applicationdirectory='class';
+/*applicationdirectory for the new class theme*/
+$CFG->theme20='';
 /*full name of the school*/
 $CFG->schoolname='Demo School Site';
 /*filename of the school logo in top-level image directory*/
@@ -242,4 +244,6 @@ $CFG->api_key='';
 $CFG->debug='off';
 $CFG->classlog='/var/www/classerrors.xml';
 $CFG->serverlog='/var/www/myerrors.html';
+
+if($_COOKIE['theme']==$CFG->theme20){$CFG->theme10=$CFG->applicationdirectory;$CFG->applicationdirectory=$CFG->theme20;}
 ?>
