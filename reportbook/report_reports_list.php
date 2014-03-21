@@ -149,10 +149,9 @@ two_buttonmenu($extrabuttons,$book);
 ?>
 		  </td>
 		  <td class="student">
-			<a onclick="parent.viewBook('infobook');" target="viewinfobook" 
-			  href="infobook.php?current=student_view.php&sid=<?php print $sid;?>">
-					<?php print $Student['DisplayFullSurname']['value']; ?> 
-					(<?php print $Student['RegistrationGroup']['value']; ?>)
+			<a onclick="parent.viewBook('infobook');" target="viewinfobook" href="infobook.php?current=student_view.php&sid=<?php print $sid;?>">
+			     <?php print $Student['DisplayFullSurname']['value']; ?> 
+				 (<?php print $Student['RegistrationGroup']['value']; ?>)
 			</a>
 			<div id="mini-<?php print $sid;?>"></div>
 			<div id="merit-<?php print $sid;?>"></div>
@@ -168,10 +167,10 @@ two_buttonmenu($extrabuttons,$book);
 							student_id='$sid' AND subject_id='summary' AND component_id='$summaryid' AND entryn='1'");
 						$openId=$sid.'summary-'.$summaryid;
 ?>
-			<td id="icon<?php print $openId;?>" <?php if(mysql_num_rows($d_summaryentry)>0){print 'class="vspecial"';}?> >  
+			<td id="icon<?php print $openId;?>" <?php if(mysql_num_rows($d_summaryentry)>0){print 'class="vspecial"';} else {print 'class="txt-center"';} ?>>
 <?php
 			if($success<1){
-				print '<img class="clicktowrite" name="Write" onClick="clickToWriteCommentNew('.$sid.','.$rid.',\'summary\',\''.$summaryid.'\',\'0\',\''.$openId.'\');"/>';
+				print '<span class="clicktowrite" name="Write" onClick="clickToWriteCommentNew('.$sid.','.$rid.',\'summary\',\''.$summaryid.'\',\'0\',\''.$openId.'\');"></span>';
 				}
 ?>
 			</td>
@@ -182,11 +181,11 @@ two_buttonmenu($extrabuttons,$book);
 							student_id='$sid' AND subject_id='summary' AND component_id='$summaryid' AND entryn='1'");
 						$openId=$sid.'summary-'.$summaryid;
 ?>
-			<td id="icon<?php print $openId;?>" <?php if(mysql_num_rows($d_summaryentry)>0){print 'class="vspecial"';}?> >
+			<td id="icon<?php print $openId;?>" <?php if(mysql_num_rows($d_summaryentry)>0){print 'class="vspecial"';} else {print 'class="txt-center"';} ?>>
 			    
 <?php
 			if($success<1){
-				print '<img class="clicktowrite" name="Write" onClick="clickToWriteCommentNew('.$sid.','.$rid.',\'summary\',\''.$summaryid.'\',\'0\',\''.$openId.'\');"/>';
+				print '<span class="clicktowrite" name="Write" onClick="clickToWriteCommentNew('.$sid.','.$rid.',\'summary\',\''.$summaryid.'\',\'0\',\''.$openId.'\');"></span>';
 				}
 ?>
 			</td>
@@ -197,10 +196,10 @@ two_buttonmenu($extrabuttons,$book);
 									student_id='$sid' AND subject_id='summary' AND component_id='$summaryid' AND entryn='1';");
 						$openId=$sid.'summary-'.$summaryid;
 ?>
-			<td id="icon<?php print $openId;?>" <?php if(mysql_num_rows($d_summaryentry)>0){print 'class="vspecial"';}?> > 
+			<td id="icon<?php print $openId;?>" <?php if(mysql_num_rows($d_summaryentry)>0){print 'class="vspecial"';} else {print 'class="txt-center"';} ?>> 
 <?php
 			if($success<1){
-				print '<img class="clicktowrite" name="Write" onClick="clickToWriteCommentNew('.$sid.','.$rid.',\'summary\',\''.$summaryid.'\',\'0\',\''.$openId.'\');"/>';
+				print '<span class="clicktowrite" name="Write" onClick="clickToWriteCommentNew('.$sid.','.$rid.',\'summary\',\''.$summaryid.'\',\'0\',\''.$openId.'\');"></span>';
 				}
 ?>
 			</td>
@@ -215,10 +214,10 @@ two_buttonmenu($extrabuttons,$book);
 												component_id='$summaryid' AND entryn='1';");
 							$openId=$sid.'summary-'.$summaryid;
 ?>
-			<td id="icon<?php print $openId;?>" <?php if(mysql_num_rows($d_summaryentry)>0){print 'class="vspecial"';}?> >
+			<td id="icon<?php print $openId;?>" <?php if(mysql_num_rows($d_summaryentry)>0){print 'class="vspecial"';} else {print 'class="txt-center"';} ?>>
 <?php
 			if($success<1){
-				print '<img class="clicktowrite" name="Write" onClick="clickToWriteCommentNew('.$sid.','.$rid.',\'summary\',\''.$summaryid.'\',\'0\',\''.$openId.'\');"/>';
+				print '<span class="clicktowrite" name="Write" onClick="clickToWriteCommentNew('.$sid.','.$rid.',\'summary\',\''.$summaryid.'\',\'0\',\''.$openId.'\');"></span>';
 				}
 ?>
 			</td>
@@ -234,16 +233,15 @@ two_buttonmenu($extrabuttons,$book);
 	if($uploadpic=='yes' or $yid<3){
 ?>
 		  <td>
-		  	<div id="upload-<?php print $sid;?>">
-				<button onclick="clickToAttachFile(<?php print $sid;?>,<?php print $wrapper_rid;?>,'','',<?php print $sid;?>)" value="category_editor.php" name="Attachment" title="Click to post file" type="button" class="rowaction imagebutton">
-					<img class="clicktoload">
-				</button>
+		  	<div class="txt-center" id="upload-<?php print $sid;?>">
+				<span class="clicktoload" onclick="clickToAttachFile(<?php print $sid;?>,<?php print $wrapper_rid;?>,'','',<?php print $sid;?>)" value="category_editor.php" name="Attachment" title="Click to post file" type="button">
+				</span>
 			</div>
 		  </td>
 <?php
 						}
 
-		print '<td>';
+		print '<td class="report-td">';
 
 		/* Going to check each subject class for completed assessments
 		 * and reportentrys and list in the table highlighting those that
@@ -319,8 +317,7 @@ two_buttonmenu($extrabuttons,$book);
 				  
 <?php
 			if($success<1){
-				  print '<img class="clicktowrite" name="Write" onClick="clickToWriteCommentNew('.
-				  $sid.','.$rid.',\''.$bid.'\',\''.$pid.'\',\''.$en.'\',\''.$openId.'\');"/>';
+				  print '<span class="clicktowrite" name="Write" onClick="clickToWriteCommentNew('. $sid.','.$rid.',\''.$bid.'\',\''.$pid.'\',\''.$en.'\',\''.$openId.'\');"></span>';
 				}
 ?>
 				  

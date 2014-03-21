@@ -43,7 +43,7 @@ print '<?xml version="1.0" encoding="utf-8"?'.'>';
         <link rel="stylesheet" href="css/uniform.edit.css" media="screen" />
 
         <script language="JavaScript" type="text/javascript">
-        		var pathtobook= "<?php print $CFG->sitepath.'/'.$CFG->applicationdirectory.'/'.$book.'/'; ?>";
+    		var pathtobook= "<?php print $CFG->sitepath.'/'.$CFG->applicationdirectory.'/'.$book.'/'; ?>";
 			var pathtoapplication = "<?php print $CFG->sitepath.'/'.$CFG->applicationdirectory.'/'; ?>";
 			var book = "<?php print $book; ?>";
         </script>
@@ -57,7 +57,6 @@ print '<?xml version="1.0" encoding="utf-8"?'.'>';
         <?php
 if($book=='infobook' or $book=='admin'){
 ?>
-
         <link rel="stylesheet" type="text/css" href="js/jcrop/jquery.Jcrop.min.css" />
         <script language="Javascript" type="text/javascript" src="js/jcrop/jquery.Jcrop.min.js"></script>
         <script language="Javascript" type="text/javascript" src="js/crop.js"></script>
@@ -69,6 +68,5 @@ if($book=='infobook' or $book=='reportbook'  or $book=='admin'  or $book=='markb
         <?php
 								}
         ?>
-
     </head>
     <body>

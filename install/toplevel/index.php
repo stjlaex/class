@@ -17,7 +17,7 @@ else{$theme=$CFG->applicationdirectory;}
 <meta name="license" content="GNU Affero General Publice License version 3 or later" />
 
 <script>
-<!-- hide script from old browsers
+<!-- hide script from old browsers-->
 
 // checks the window is top i.e. has not been opened in a frame
 function preventFraming(){

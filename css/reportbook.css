@@ -3,31 +3,39 @@
  * light shade:
  */
 
-p.reporttable { 
-    float:left;
-    padding:0 6px 0 4px;
-    margin:0;
-	}
-p.reporttable a { 
-    float:left;
-    padding:2px 4px;
-    margin:0;
-	}
-p.reporttable a.vspecial { 
-    background-color:#ffff99;
-	}
-p.reporttable a.special { 
-    background-color:#ffff99;
-	}
+p.reporttable {
+  display: inline-block;
+  height: 100%;
+  margin: 0;
+  padding: 4px 6px 5px 4px;
+  width: 51px;
+}
+p.reporttable a {
+  float: left;
+  padding: 2px 4px;
+  margin: 0;
+}
+.listmenu .vspecial, .vspecial {
+  background-color: #eef5d3 !important;
+  color: #91C73E;
+  font-style: normal;
+  text-align: center;
+}
+.listmenu .vspecial a span:before {
+  font-style: normal;
+}
 .deletecolumns {
-    background-color:#666666 !important;
-	}
+  background-color: #666666 !important;
+}
 
 tr.specialrow td {
-    background-color:#eb3939 !important;
-    padding-left:0 !important;
-	}
+  background-color: #eb3939 !important;
+  padding-left: 0 !important;
+}
 
-.listmenu td {
-    padding-left:0 !important;
-	}
+.listmenu td, .listmenu th {
+  padding-left: 0 !important;
+}
+.listmenu .txt-center {
+  text-align: center;
+}

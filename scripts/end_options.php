@@ -51,7 +51,6 @@ mysql_query("INSERT INTO history SET uid='$uid', page='$current'");
 ?>
 <script>
     $('.edit select, #formtoprocess select, #formtoprocess2 select').uniform({ wrapperClass : "registerEdit" }); 
-    
 </script>
 <?php
 }

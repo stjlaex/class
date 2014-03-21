@@ -278,7 +278,7 @@ else{
 			<div style="font-size:7pt;color:#909090;float:right;width:30px;">
 <?php
 	   		$t=display_student_transport($sid);
-			if($t!=' '){print '<span title="'.$t.'"><img class="clicktotransport" /></span>';}
+			if($t!=' '){print '<span title="'.$t.'" class="clicktotransport" />bus</span>';}
 ?>
 			</div>
 		  </td>

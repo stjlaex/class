@@ -157,7 +157,7 @@
 
 				$extra_colspan=$ass_colspan+1;
 				if($catdefs[$catindex]['subtype']!=''){
-					$statementlabel=$statementrating.' '.'<label style="float:right;">'.get_subjectname($catdefs[$catindex]['subtype']).'</label>]';
+					$statementlabel=$statementrating.' '.'<label style="float:right;">'.get_subjectname($catdefs[$catindex]['subtype']).'</label>';
 					}
 				elseif($statementrating!=''){
 					$statementlabel=$statementrating.'';
@@ -229,7 +229,7 @@
 					*/
                     print '<li>';
 					$imagebuttons=array();
-					$imagebuttons['clicktoload']=array(
+					$imagebuttons['clicktoloadimg']=array(
 					   'name'=>'Attachment',
 					   'onclick'=>"clickToAttachFile($sid,$rid,'$catid','$pid','$sid')", 
 					   'class'=>'clicktoload',

@@ -254,9 +254,7 @@ button:hover {
     display: inline-block;
     margin-right: 10px;
 }
-#umnfilterchoice  {
-  width: 150px;
-}
+
 /*these select widths are not ideal but seem to solve a firefox bug for 100%!*/
 
 .bookoptions select#mids:focus, select#mids:focus option {

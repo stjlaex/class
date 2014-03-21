@@ -152,14 +152,14 @@ form .required:before {
   margin-right: 5px;
   font-size: 10px;
 }
-
+.completed:before {
+  content: "\f00c";
+}
 form img.caution {
   background-image: url("../images/redcross.png");
   content: url("../images/redcross.png");
 }
-.completed:before {
-  content: "\f00c";
-}
+
 form img.caution+ input, form img.caution+ select {
   background-color: #ffff99;
 }
@@ -319,11 +319,10 @@ div.buttonmenu {
   margin-left: 20px;
   display: inline;
 }
-#heading span {
-  clear: none;
-  font-size: xx-small;
-  font-weight: 100;
+#heading a {
+  text-decoration: none;
 }
+
 /*the set of action buttons at the very top of the book*/
 div.buttonmenu button {
   border-radius: 2px;
@@ -356,12 +355,12 @@ button:hover {
 div.rowaction {
   padding: 5px;
 }
-.student .fa, .clicktoaction div, .clicktoemail, .clicktoedit, .clicktoconfigure, .clicktoprint, .completed, .clicktohelp, .clicktoload, .clicktodelete {
+.student .fa, .clicktoaction div, .clicktoemail, .clicktoedit, .clicktoconfigure, .clicktoprint, .completed, .clicktohelp, .clicktoload, .clicktoloadimg, .clicktodelete, .clicktowrite {
   cursor: pointer;
   font-weight: normal;
 }
 
-.clicktoedit:before, .clicktoemail:before, .clicktoconfigure:before, .clicktoprint:before, .completed:before, .clicktohelp:before, .clicktoload:before, .clicktodelete:before {
+.clicktoedit:before, .clicktoemail:before, .clicktoconfigure:before, .clicktoprint:before, .completed:before, .clicktohelp:before, .clicktoload:before, .clicktoloadimg:before, .clicktodelete:before, .clicktowrite:before {
   font-family: 'FontAwesome';
   color: #91C73E;
 }
@@ -369,7 +368,9 @@ div.rowaction {
   content: "\f040";
 }
 .clicktoemail:before {
-  content: "\f003";
+  content: "\f0e0";
+  font-size: 16px;
+  margin-left: 10px;
 }
 .clicktoconfigure:before {
   content: "\f0ad";
@@ -386,13 +387,20 @@ div.rowaction {
   content: "\f059";
   font-size: 18px;
 }
-.clicktoload:before {
+.clicktoloadimg:before {
   content: "\f03e";
   font-size: 16px;
+}
+.clicktoload:before {
+  content: "\f093";
 }
 .clicktodelete:before {
   content: "\f014";
   font-size: 20px;
+}
+.clicktowrite:before {
+  content: "\f044";
+  font-size: 16px;
 }
 img.displayfilepdf {
   background-image: url("../images/file-pdf.png");
@@ -412,26 +420,21 @@ img.displayfile {
   height: 50px !important;
   border: 0;
 }
-img.clicktowrite {
-  background-image: url("../images/accessories-text-editor.png");
-  content: url("../images/accessories-text-editor.png");
-  cursor: pointer;
-  width: 16px !important;
-  height: 16px !important;
-}
-
 .student div {
   float: right;
   margin: 0;
   padding: 0;
 }
-
-img.clicktotransport {
+.clicktotransport {
   background-image: url("../images/bus.png");
   content: url("../images/bus.png");
   width: 16px !important;
-  height: 16px !important;
-  border: 0;
+  height: 17px !important;
+  background-size: 16px 17px;
+  text-indent: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  display: block;
 }
 /*a generic content table, usually for selecting things from a list*/
 table.listmenu {
@@ -520,6 +523,9 @@ ul.listmenu {
   font-style: italic;
   color: #f7c2bc;
 }
+.listmenu .report-td {
+  padding: 0 !important;
+}
 
 /*fade to gray*/
 /*two shades of red*/
@@ -528,7 +534,7 @@ ul.listmenu {
   background-color: #F39C12 !important;
   text-align: center;
 }
-.hilite a {
+a.hilite {
   color: #FCE9CB !important;
   background-color: #F39C12;
   border-radius: 2px;
@@ -749,7 +755,7 @@ div#qTip {
   position: absolute;
   font-size: 14px;
   padding: 10px;
-  z-index: 1000;
+  z-index: 5000;
   max-width: 28em;
   min-width: 6em;
   opacity: .80;

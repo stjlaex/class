@@ -215,38 +215,38 @@ $_SESSION['lessonatt'] = $lessonatt;
 	   </form>
 
         <?php
-            if(!empty($currentprofile) and isset($cid)){
+            //if(!empty($currentprofile) and isset($cid)){
         ?>
         
-        <div id="<?php print $currentprofile['id']; ?>" class="neat sidebuttons">
+        <!--div id="<?php print $currentprofile['id']; ?>" class="neat sidebuttons">
             <button name="chart" onclick="window.frames['viewmarkbook'].clickToAction(this);" value="report_profile_print.php">
                 <img alt="Chart" src="images/charter.png"/>
             </button>
-            <label><?php print $currentprofile['name']; ?></label>
+            <label><?php print $currentprofile['name']; ?></label-->
             <?php
-                $listid = 'chart-template';
-                $seltemplate = $currentprofile['transform'];
-                include ('scripts/list_profile_template.php');
+                //$listid = 'chart-template';
+                //$seltemplate = $currentprofile['transform'];
+                //include ('scripts/list_profile_template.php');
+            ?>
+            <!--div id="<?php print 'xml-' . $currentprofile['id']; ?>" style="display:none;">
+                <?php
+                    /*TODO: should bid and pid be past here? Seems to stop report_profile_print from working*/
+                    $currentprofile['bid'] = $bid[0];
+                    $currentprofile['pid'] = $pid;
+                    $currentprofile['stage'] = $classes[$cid]['stage'];
+                    $currentprofile['classes'] = '';
+                    unset($currentprofile['component_status']);
+                    unset($currentprofile['celldisplay']);
+                    unset($currentprofile['rating_name']);
+                    foreach ($cids as $cindex => $cid) {
+                        $currentprofile['classes'] .= $classes[$cid]['name'] . ' ';
+                    }
+                    xmlechoer('Profile', $currentprofile);
                 ?>
-                <div id="<?php print 'xml-' . $currentprofile['id']; ?>" style="display:none;">
-                    <?php
-                        /*TODO: should bid and pid be past here? Seems to stop report_profile_print from working*/
-                        $currentprofile['bid'] = $bid[0];
-                        $currentprofile['pid'] = $pid;
-                        $currentprofile['stage'] = $classes[$cid]['stage'];
-                        $currentprofile['classes'] = '';
-                        unset($currentprofile['component_status']);
-                        unset($currentprofile['celldisplay']);
-                        unset($currentprofile['rating_name']);
-                        foreach ($cids as $cindex => $cid) {
-                            $currentprofile['classes'] .= $classes[$cid]['name'] . ' ';
-                        }
-                        xmlechoer('Profile', $currentprofile);
-                    ?>
-                </div>
-        </div>
+            </div>
+        </div-->
             <?php
-                }
+                //}
             ?>
         <form id="markbookchoice" name="markbookchoice" method="post" action="markbook.php" target="viewmarkbook">
     	   <fieldset class="markbook">
@@ -284,6 +284,17 @@ $_SESSION['lessonatt'] = $lessonatt;
             ?>
             </fieldset>
         </form>
+        <?php
+            if(!empty($currentprofile) and isset($cid)){
+        ?>
+            <button name="chart" onclick="window.frames['viewmarkbook'].clickToAction(this);" value="report_profile_print.php">
+                <img alt="Chart" src="images/charter.png"/>
+            </button>
+        <?php
+            }
+        ?>
+            
+            
     </div>
 <?php
 include ('scripts/end_options.php');

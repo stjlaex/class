@@ -130,7 +130,7 @@ two_buttonmenu($extrabuttons,$book);
                             <?php
                                 if(isset($tutor_users)){
                             ?>
-                        <th rowspan="2"  style="width:25%;">form group
+                        <th rowspan="2"  style="width:25%;">
                     		<label><?php print_string('formgroup'); ?></label>
                     		<?php print $fid.' &nbsp;&nbsp;'; ?>
                             <?php

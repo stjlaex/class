@@ -13,7 +13,7 @@ $SEN=fetchSEN($sid,$senhid);
 ?>
     <div id="heading">
         <h4>
-            <?php print_string('senprofile',$book);?>
+            <label><?php print_string('senprofile',$book);?></label>
             <?php print $Student['Forename']['value'].' '.$Student['Surname']['value']; print ' - '.display_date($SEN['StartDate']['value']); ?>
         </h4>
     </div>
@@ -222,11 +222,9 @@ $SEN=fetchSEN($sid,$senhid);
         			 else{$displayclass=' class="lolite" ';}
                 ?>
 			   
-				 <div <?php print $displayclass;?>>
-				   <a href="<?php print $currentbook;?>.php?current=<?php print $action;?>&sid=<?php print $sid;?>&senhid=<?php print $senhistory['id'];?>"  onclick="parent.viewBook('<?php print $currentbook;?>');" style="text-decoration: none !important;">
+				   <a <?php print $displayclass;?> href="<?php print $currentbook;?>.php?current=<?php print $action;?>&sid=<?php print $sid;?>&senhid=<?php print $senhistory['id'];?>"  onclick="parent.viewBook('<?php print $currentbook;?>');" style="text-decoration: none !important;">
 				       <?php print '&nbsp;'.display_date($senhistory['startdate']); ?>
 		         </a>
-			   </div>
 <?php
 			 }
 ?>
@@ -244,13 +242,13 @@ $SEN=fetchSEN($sid,$senhid);
     }
 ?>
 	  </fieldset>
-	  <fieldset class="right" style="background-color:#666666;">
+	  <fieldset class="divgroup">
 <?php
 	require_once('lib/eportfolio_functions.php');
 	html_document_drop($Student['EPFUsername']['value'],'support',$senhid,$sid);
 ?>
 	  </fieldset>
-	  <fieldset class="right" style="background-color:#666666;">
+	  <fieldset class="divgroup">
 <?php
 	require_once('lib/eportfolio_functions.php');
 	html_document_drop($Student['EPFUsername']['value'],'support',$senhid,$sid);
