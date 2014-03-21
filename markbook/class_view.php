@@ -338,8 +338,6 @@ print ' <td status="p" >'.$attlink.'</td>';
   </div>
 
 <?php
-
-include('scripts/studentlist_extra.php');
-
+    include('scripts/studentlist_extra.php');
 ?>
 
