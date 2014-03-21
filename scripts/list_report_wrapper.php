@@ -21,35 +21,45 @@
 			$reports[$rid]=mysql_fetch_array($d_report,MYSQL_ASSOC);
 			}
 		}
-
 ?>
-
-  <label for="Reports"><?php print_string('reports');?></label>
-  <select  id="Reports" name="wrapper_rid"
-	  class="required"  tabindex="<?php print $tab++;?>" size="14" >
-	  <option value="">----<?php print_string('current');?>----------------</option>
-<?php
-   	foreach($reports as $rid => $report){
-		if(strtotime($report['date'])>=strtotime($todate)){
-?>
-		<option value="<?php print $report['id'];?>">
-			<?php print $report['title'].' ('.$report['date'].')';?>
-		</option>
-<?php
-			}
- 		}
-?>
-	  <option value="">----<?php print_string('previous');?>----------------</option>
-<?php
-
-   	foreach($reports as $rid => $report){
-		if(strtotime($report['date']) < strtotime($todate)){
-?>
-		<option value="<?php print $report['id'];?>">
-			<?php print $report['title'].' ('.$report['date'].')';?>
-		</option>
-<?php
-			}
- 		}
-?>
-  </select>
+    <label for="Reports"><?php print_string('reports');?></label>
+    <ul id="Reports" class="required">
+        <li><?php print_string('current');?>
+            <ul>
+            <?php
+                foreach($reports as $rid => $report){
+                    if(strtotime($report['date'])>=strtotime($todate)){
+            ?>
+            <li>
+                <input type="radio" value="<?php print $report['id'];?>" name="report">
+                <?php print $report['title'].' ('.$report['date'].')';?>
+            </li>
+            <?php
+                    }
+                }
+            ?>
+            </ul>
+        </li>
+        <li><?php print_string('previous');?>
+            <a href="#" class="button">click me</a>
+            <ul class="listhide" style="display: none;">
+                <?php
+                    foreach($reports as $rid => $report){
+                        if(strtotime($report['date']) < strtotime($todate)){
+                ?>
+                <li>
+                    <input type="radio" value="<?php print $report['id'];?>"  name="report">
+                    <?php print $report['title'].' ('.$report['date'].')';?>
+                </li>
+                <?php
+                        }
+                    }
+                ?>                   
+            </ul>
+        </li>  
+    </ul>          
+    <script>
+        $( ".button" ).click(function() {
+            $( ".listhide" ).slideToggle( "slow" );
+        });
+    </script>

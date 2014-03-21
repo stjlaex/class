@@ -516,7 +516,6 @@ ul.listmenu {
 }
 .listmenu .special {
   font-weight: 600;
-  font-style: italic;
 }
 .listmenu .vspecial, .vspecial {
   background-color: #ed776b !important;
@@ -1007,6 +1006,10 @@ button[value="Submit"] {
   min-height: 100px;
   margin: 0 0 20px;
 }
+.profile-info fieldset {
+  padding: 0!important;
+  margin: 0!important;
+}
 .profile-info:nth-child(3n+3) {
   margin-right: 2%;
 }
@@ -1019,7 +1022,7 @@ button[value="Submit"] {
 
 /* Info */
 .profile-sibling {
-  clear: left;
+  width:92%;
 }
 
 /* Special needs */

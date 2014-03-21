@@ -4,24 +4,25 @@
 /***************************************************************************/
 
 body {
-    background-color: #ffffff;
-    color: #ffffff;
-    margin: 0;
-    border: 0;
-    overflow: hidden;
-    font-family: 'Lato', sans-serif;
+  background-color: #ffffff;
+  color: #ffffff;
+  margin: 0;
+  border: 0;
+  overflow: hidden;
+  font-family: 'Lato', sans-serif;
 }
 a {
-    font-size: small;
-    color: #000000;
-    font-weight: 600;
-    text-decoration: none;
+  font-size: small;
+  color: #000000;
+  font-weight: 600;
+  text-decoration: none;
 }
 ul, li {
-    list-style: none;
+  list-style: none;
 }
 legend {
-    margin-bottom: 10px;
+  margin-bottom: 10px;
+  color: #FFFFFF;
 }
 
 input, textarea, select {
@@ -40,234 +41,229 @@ input[type=text], input[type=date] {
 }
 
 div#currentbook {
-    overflow: hidden;
+  overflow: hidden;
 }
 header {
-    width: 100%;
-    height: 80px;
-    float: left;
-    background-color: #34495e;
+  width: 100%;
+  height: 80px;
+  float: left;
+  background-color: #34495e;
 }
 .container {
-    width: 95%;
-    position: relative;
-    margin: 0 auto;
+  width: 95%;
+  position: relative;
+  margin: 0 auto;
 }
 
 .branded {
-    position: absolute;
-    z-index: 150;
-    top: 10px;
-    left: 0;
+  position: absolute;
+  z-index: 150;
+  top: 10px;
+  left: 0;
 }
 
 /***************************************************************************/
 /* the two possible main displays one after login and one before*/
 /* plus the logbook div which fills out the rest of the display*/
-#viewlogbook  {
-  top: 80px!important;
-  height: 100%!important;
+#viewlogbook {
+  top: 80px !important;
+  height: 100% !important;
 }
-
 
 .fullbookframe {
-    position: absolute;
-    left: 0%;
-    top: 4.4%;
-    width: 100%;
-    height: 95.1%;
-    border: 0;
-    padding: 0;
-    overflow: hidden;
+  position: absolute;
+  left: 0%;
+  top: 4.4%;
+  width: 100%;
+  height: 95.1%;
+  border: 0;
+  padding: 0;
+  overflow: hidden;
 }
 .coverframe, .bookframe {
-    position: absolute;
-    left: 0;
-    top: 170px;
-    width: 100%;
-    height: 100%;
-    border: 0;
-    overflow: auto;
+  position: absolute;
+  left: 0;
+  top: 170px;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  overflow: auto;
 }
 
 /***************************************************************************/
 /* controls the book tabs along the top*/
 .booktabs {
-    width: 100%;
-    background-color: #34495e;
-    height: 80px;
+  width: 100%;
+  background-color: #34495e;
+  height: 80px;
 }
 .booktabs ul {
-    float: right;
-    height: 50px;
-    list-style: none;
-    width: 100%;
-    list-style: none;
-    margin: 0
+  float: right;
+  height: 50px;
+  list-style: none;
+  width: 100%;
+  list-style: none;
+  margin: 0
 }
 .booktabs li {
-    float: right;
-    margin: 0;
-    padding: 0;
-    border: 0;
+  float: right;
+  margin: 0;
+  padding: 0;
+  border: 0;
 }
 .booktabs li a {
-    display: block;
-    font-weight: 400;
-    cursor: pointer;
-    font-size: 18px;
-    color: #FFFFFF; /* Fallback for older browsers */
-    color: rgba(255, 255, 255, 0.6);
-    margin: 0;
-    padding: 10px 20px;
-    border-radius: 3px 3px 0 0;
+  display: block;
+  font-weight: 400;
+  cursor: pointer;
+  font-size: 18px;
+  color: #FFFFFF; /* Fallback for older browsers */
+  color: rgba(255, 255, 255, 0.6);
+  margin: 0;
+  padding: 10px 20px;
+  border-radius: 3px 3px 0 0;
 }
 .booktabs li a:hover, .booktabs li a#currentbook {
-    background-color: #91c73e;
+  background-color: #91c73e;
 }
 
 /*the special case logbook in top left corner*/
 .booktabs .logbook {
-    cursor: pointer;
+  cursor: pointer;
 }
 div#loginworking {
-    width: 140px;
-    float: right;
-    margin-right: 10px;
-    margin-bottom: 13px;
+  width: 140px;
+  float: right;
+  margin-right: 10px;
+  margin-bottom: 13px;
 }
 #loginworking .selector, #loginworking .selector span, #loginworking .selector select {
-    width: 100% !important;
-    height: 25px;
-    font-size: 12px;
-    line-height: 25px;
-    padding: 0;
-    color: #8995a2;
-    text-transform: capitalize;
+  width: 100% !important;
+  height: 25px;
+  font-size: 12px;
+  line-height: 25px;
+  padding: 0;
+  color: #8995a2;
+  text-transform: capitalize;
 }
 #loginworking .selector span {
-    background-position: right -100px;
-    padding-left: 10px;
-    width: 93% !important;
+  background-position: right -100px;
+  padding-left: 10px;
+  width: 93% !important;
 }
 .user-logout {
-    color: #8995a2;
-    background-color: #2e4053;
-    display: inline-block;
-    padding: 3px 10px 0;
-    float: right;
-    font-size: 14px;
-    text-transform: uppercase;
-    height: 22px
+  color: #8995a2;
+  background-color: #2e4053;
+  display: inline-block;
+  padding: 3px 10px 0;
+  float: right;
+  font-size: 14px;
+  text-transform: uppercase;
+  height: 22px
 }
 .user-logout a {
-    color: #8995a2;
+  color: #8995a2;
 }
 
 /***************************************************************************/
 /* stuff for the bookoptions in the sidebar*/
 button {
-    border-radius: 2px;
-    border: none;
-    background-color: #91c73e;
-    color: #E7F3D5;
-    font-size: 14px;
-    padding: 10px;
-    cursor: pointer;
+  border-radius: 2px;
+  border: none;
+  background-color: #91c73e;
+  color: #E7F3D5;
+  font-size: 14px;
+  padding: 10px;
+  cursor: pointer;
 }
 button:hover {
-    background-color: #abd46c;
+  background-color: #abd46c;
 }
 /***************************************************************************/
 /* bookoptions and bookframe*/
 
 .bookoptions {
-    position: absolute;
-    left: 0;
-    top: 80px;
-    width: 95%;
-    height: 70px;
-    overflow: hidden;
-    background-color: #4d5f72;
-    padding: 10px 2.5%;
+  position: absolute;
+  left: 0;
+  top: 80px;
+  width: 95%;
+  height: 70px;
+  overflow: hidden;
+  background-color: #4d5f72;
+  padding: 10px 2.5%;
 }
 
-#infobookoptions,
-#entrybookoptions,
-#markbookoptions {
-    height: 160px;
+#infobookoptions, #entrybookoptions, #markbookoptions {
+  height: 160px;
 }
-#viewinfobook,
-#viewentrybook,
-#viewmarkbook   {
-    top: 260px;
+#viewinfobook, #viewentrybook, #viewmarkbook {
+  top: 260px;
 }
 
 .bookoptions label {
-    margin: 0 0 5% 5px;
-    color: #ffffff;
+  margin: 0 0 5% 5px;
+  color: #ffffff;
 }
 .bookoptions li {
-    display: inline-block;
+  display: inline-block;
 }
 .bookoptions li p {
-    margin: 0;
-    background-color: #91C73E;
-    border: medium none;
-    border-radius: 2px;
-    color: #E7F3D5;
-    cursor: pointer;
-    font-size: 14px;
-    padding: 10px;
+  margin: 0;
+  background-color: #91C73E;
+  border: medium none;
+  border-radius: 2px;
+  color: #E7F3D5;
+  cursor: pointer;
+  font-size: 14px;
+  padding: 10px;
 }
 .bookoptions li p:hover {
-    background-color: #ABD46C;
+  background-color: #ABD46C;
 }
 .bookoptions .neat label {
-    font-weight: 300;
-    margin: 0;
-    padding: 0;
-    color: #dddddd;
+  font-weight: 300;
+  margin: 0;
+  padding: 0;
+  color: #dddddd;
 }
 .bookoptions fieldset {
-    border: none;
-    padding: 0;
-    margin: 0 auto 20px;
+  border: none;
+  padding: 0;
+  margin: 0 auto 20px;
 }
 
 .bookoptions fieldset.register {
-    float: left;
-    margin-right: 20px;
+  float: left;
+  margin-right: 20px;
 }
 .register-session {
-    background-color: #34495e;
-    padding: 12px 20px;
+  background-color: #34495e;
+  padding: 12px 20px;
 }
 .register-session a {
-    color: #FFFFFF;
+  color: #FFFFFF;
 }
 .bookoptions form {
-    float: left;
-    margin-right: 1%;
+  float: left;
+  margin-right: 1%;
 }
 .switchstudent, #switchcontact {
-    display: inline-block;
-    margin-right: 10px;
+  display: inline-block;
+  margin-right: 10px;
 }
 
 /*these select widths are not ideal but seem to solve a firefox bug for 100%!*/
 
 .bookoptions select#mids:focus, select#mids:focus option {
-    width: 100%;
+  width: 100%;
 }
 .bookoptions input[type="radio"] {
-    width: 1em;
+  width: 1em;
 }
 .formimages {
-    padding: 5px;
-    width: 10px;
-    height: 10px;
-    border-style: none;
+  padding: 5px;
+  width: 10px;
+  height: 10px;
+  border-style: none;
 }
 
 /***************************************************************************/
@@ -275,67 +271,67 @@ button:hover {
 
 /*sitethrobber and sitestatus are interchangable div elements*/
 #siteicon.hide, #sitestatus.hide {
-    visibility: hidden;
-    z-index: -1000;
-    display: none;
+  visibility: hidden;
+  z-index: -1000;
+  display: none;
 }
 #siteicon.show, #sitestatus.show {
-    visibility: visible;
-    z-index: 500;
+  visibility: visible;
+  z-index: 500;
 }
 
 #logbook {
-    width: 550px;
-    position: absolute;
-    z-index: 150;
-    top: 20px;
-    right: 10px;
+  width: 550px;
+  position: absolute;
+  z-index: 150;
+  top: 20px;
+  right: 10px;
 }
 
 #login {
-    background-color: #666666;
-    color: #ee9900;
-    margin: 5%;
-    width: 100%;
-    border-left: 3px solid #ffffff;
+  background-color: #666666;
+  color: #ee9900;
+  margin: 5%;
+  width: 100%;
+  border-left: 3px solid #ffffff;
 }
 div#sidebuttons {
-    width: 40%;
-    padding: 0;
-    margin: 0;
-    border: 0;
-    z-index: 100;
-    background-color: #444444;
+  width: 40%;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  z-index: 100;
+  background-color: #444444;
 }
 div#sidebuttons button {
-    background-color: #444444;
+  background-color: #444444;
 }
 .sidebuttons img {
-    padding: 0;
-    margin: 0;
-    border: 0;
-    width: 20px;
-    height: 20px;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  width: 20px;
+  height: 20px;
 }
 .sidebuttons button {
-    float: left;
-    border-radius: 4px;
-    padding: 0;
-    margin: 0 1px;
-    border: 0px none;
-    width: 22px;
-    height: 22px;
+  float: left;
+  border-radius: 4px;
+  padding: 0;
+  margin: 0 1px;
+  border: 0px none;
+  width: 22px;
+  height: 22px;
 }
 div.hidden {
-    display: none;
-    border: 0;
-    margin: 0;
-    padding: 0;
+  display: none;
+  border: 0;
+  margin: 0;
+  padding: 0;
 }
 .marktable th.other, .marktable td.other {
-    background-color: #ddeecc;
+  background-color: #ddeecc;
 }
 .marktable th.derived, .marktable td.derived {
-    background-color: #ddeeff;
-    padding: 0;
+  background-color: #ddeeff;
+  padding: 0;
 }

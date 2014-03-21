@@ -226,6 +226,7 @@ div.radio span:before, div.radio span.checked:before {
   cursor: pointer;
   font-size: 16px;
   font-weight: normal;
+  font-style: normal;
 }
 div.radio span.checked:before {
   content: "\f192";

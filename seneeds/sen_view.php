@@ -243,16 +243,10 @@ $SEN=fetchSEN($sid,$senhid);
 ?>
 	  </fieldset>
 	  <fieldset class="divgroup">
-<?php
-	require_once('lib/eportfolio_functions.php');
-	html_document_drop($Student['EPFUsername']['value'],'support',$senhid,$sid);
-?>
-	  </fieldset>
-	  <fieldset class="divgroup">
-<?php
-	require_once('lib/eportfolio_functions.php');
-	html_document_drop($Student['EPFUsername']['value'],'support',$senhid,$sid);
-?>
+        <?php
+        	require_once('lib/eportfolio_functions.php');
+        	html_document_drop($Student['EPFUsername']['value'],'support',$senhid,$sid);
+        ?>
 	  </fieldset>
 </div>
 

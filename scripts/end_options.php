@@ -57,17 +57,10 @@ mysql_query("INSERT INTO history SET uid='$uid', page='$current'");
 ?>
 <script>
     $(":checkbox, :radio").not('.hidden').uniform();
-</script>
-
-<script>
     $(function(){
-    $(".sidtable").tableSort();
-});
+        $(".sidtable").tableSort();
+    });
 </script>
-
-
-
-
 </body>
 </html>
 

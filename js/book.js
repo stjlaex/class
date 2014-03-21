@@ -2007,7 +2007,7 @@ function openAlert(book) {
 
 	}
 
-function closeAlert() {
-	document.getElementById('notice').className="hidden";
-	}
+    function closeAlert() {
+    	document.getElementById('notice').className="hidden";
+    }
 

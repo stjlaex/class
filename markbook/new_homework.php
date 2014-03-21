@@ -39,63 +39,61 @@ else{
 					(stage LIKE '$stage' OR stage='%') AND
 					(course_id LIKE '$crid' OR course_id='%') ORDER BY title;");
 ?>
-  <div id="heading">
-	<form id="headertoprocess" name="headertoprocess" 
-					method="post" action="<?php print $host;?>">
-<?php
-	$listname='hwid';$listlabel='';
-	include('scripts/set_list_vars.php');
-	list_select_db($d_hw,$listoptions,$book);
-	$button['existinghomework']=array('name'=>'sub','value'=>'Link');
-	all_extrabuttons($button,'markbook','processHeader(this)');
-?>
- 	<input type="hidden" name="current" value="<?php print $current;?>">
- 	<input type="hidden" name="cancel" value="<?php print $cancel;?>">
- 	<input type="hidden" name="choice" value="<?php print $choice;?>">
+  <div class="content">
+	<form id="headertoprocess" name="headertoprocess" method="post" action="<?php print $host;?>">
+        <?php
+        	$listname='hwid';$listlabel='';
+        	include('scripts/set_list_vars.php');
+        	list_select_db($d_hw,$listoptions,$book);
+        	$button['existinghomework']=array('name'=>'sub','value'=>'Link');
+        	all_extrabuttons($button,'markbook','processHeader(this)');
+        ?>
+     	<input type="hidden" name="current" value="<?php print $current;?>">
+     	<input type="hidden" name="cancel" value="<?php print $cancel;?>">
+     	<input type="hidden" name="choice" value="<?php print $choice;?>">
 	</form>
-  </div>
 <?php
 	three_buttonmenu($extrabuttons,$book);
 ?>
 
-  <div class="topform divgroup">
-	<form id="formtoprocess" name="formtoprocess" 
-					method="post" action="<?php print $host;?>">
-	  <div class="left">
-		<?php $tab=xmlarray_divform($HomeworkDef,'','',$tab,$book); ?>
-	  </div>
-
-	  <div class="right">
-		<label><?php print_string('dateset',$book);?></label>
-		<?php $xmldate='Dateset'; $required='yes'; 
-			 include('scripts/jsdate-form.php');?>
-
-		<label><?php print_string('datedue',$book);?></label>
-		<?php $xmldate='Datedue'; $required='yes'; 
-		/* default to one week hence for collecting homework */
-		$time=mktime(0,0,0,date('n'),date('j')+7,date('Y'));
-		$todate=date('Y-m-j',$time);
-		include('scripts/jsdate-form.php');?>
-	  </div>
-
-	  <div class="right">
-<?php 
-  		$d_markdef=mysql_query("SELECT name AS id,
-					CONCAT(name,' (',comment,')') AS name FROM markdef WHERE 
-					(subject_id LIKE '$bid' OR subject_id='%') AND
-					(course_id LIKE '$crid' OR course_id='%') ORDER BY subject_id;");
-		$required='yes';$liststyle='width:90%;';
-		$listswitch='yes';
-		$listname='defname';$listlabel='thetypeofmark';
-		$seldefname=$HomeworkDef['Markdef']['value'];
-		include('scripts/set_list_vars.php');
-		list_select_db($d_markdef,$listoptions,$book);
-?>
-	  </div>
-
-		<div id="switchDefname" class="right">
-		</div>
-
+    <div class="divgroup">
+        <form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
+            <div class="left">
+                <fieldset class="divgroup">
+                    <?php $tab=xmlarray_divform($HomeworkDef,'','',$tab,$book); ?>
+                </fieldset>
+            </div>
+            
+            <div class="right">
+                <fieldset class="divgroup">
+                    <label><?php print_string('dateset',$book);?></label>
+                    <?php $xmldate='Dateset'; $required='yes'; 
+                    include('scripts/jsdate-form.php');?>
+    
+                    <label><?php print_string('datedue',$book);?></label>
+                    <?php $xmldate='Datedue'; $required='yes'; 
+                    /* default to one week hence for collecting homework */
+                    $time=mktime(0,0,0,date('n'),date('j')+7,date('Y'));
+                    $todate=date('Y-m-j',$time);
+                    include('scripts/jsdate-form.php');?>
+                </fieldset>
+            </div>
+            
+            <div class="left">
+                <?php 
+              		$d_markdef=mysql_query("SELECT name AS id,
+            			CONCAT(name,' (',comment,')') AS name FROM markdef WHERE 
+            			(subject_id LIKE '$bid' OR subject_id='%') AND
+            			(course_id LIKE '$crid' OR course_id='%') ORDER BY subject_id;");
+            		$required='yes';$liststyle='width:90%;';
+            		$listswitch='yes';
+            		$listname='defname';$listlabel='thetypeofmark';
+            		$seldefname=$HomeworkDef['Markdef']['value'];
+            		include('scripts/set_list_vars.php');
+            		list_select_db($d_markdef,$listoptions,$book);
+                ?>
+            </div>
+    		<div id="switchDefname" class="right"></div>
 
 	    <input type="hidden" name="hwid" value="<?php print $hwid;?>">
 	    <input type="hidden" name="crid" value="<?php print $crid;?>">
@@ -108,7 +106,7 @@ else{
 	</form>
   </div>
 
-  <div class="content">
+
 	<div class="center">
 	  <table class="listmenu" name="listmenu">
 		<caption><?php print_string('assessments');?></caption>
@@ -165,6 +163,5 @@ else{
   </div>
   <div id="switchDefnametest percent" class="hidden">
 	<label for="Total"><?php print_string('outoftotal',$book);?></label>
-	<input class="required" type="text" id="Total" name="total" 
-		   maxlength="4" pattern="integer" />
+	<input class="required" type="text" id="Total" name="total"  maxlength="4" pattern="integer" />
   </div>

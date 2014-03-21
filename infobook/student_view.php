@@ -294,21 +294,6 @@ twoplus_buttonmenu($sidskey, sizeof($sids), $extrabuttons);
 ?>
 
 </div>
-
-
-
-
-
-
-
-
-
-
-        
-        
-        
-        
-        
         <div class="profile profile-info">
             <h5><?php print_string('sen', 'seneeds'); ?></h5>
             <a href="infobook.php?current=student_view_sen.php&cancel=student_view.php">
@@ -407,7 +392,8 @@ twoplus_buttonmenu($sidskey, sizeof($sids), $extrabuttons);
 <?php
         if(empty($_SESSION['accessfees'])){
 ?>
-      <fieldset class="profile profile-info">
+<div class="profile profile-info">
+      <fieldset >
         <h5><?php print_string('fees','admin');?></h5>
         <input type="password" name="accesstest" maxlength="20" value="" />
         <input type="password" name="accessfees" maxlength="4" value="" />
@@ -417,6 +403,7 @@ twoplus_buttonmenu($sidskey, sizeof($sids), $extrabuttons);
             all_extrabuttons($buttons,$book,'');
 ?>
       </fieldset>
+      </div>
 <?php
             }
         else{
@@ -429,20 +416,10 @@ twoplus_buttonmenu($sidskey, sizeof($sids), $extrabuttons);
               <?php rowaction_buttonmenu($editbutton); ?>
             </a>
         </fieldset>
+        </div>
 <?php
             }
 ?>
-
-
-
-
-
-
-
-
-
-
-
       <div class="profile profile-sibling">
         <h4><?php print_string('siblings',$book);?></h4>
             <?php
@@ -458,10 +435,7 @@ twoplus_buttonmenu($sidskey, sizeof($sids), $extrabuttons);
                 }
             ?>
     </div>
-    
       </div>
-
-
 
   <input type="hidden" name="current" value="<?php print $action;?>" />
   <input type="hidden" name="cancel" value="<?php print 'student_list.php';?>" />

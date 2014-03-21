@@ -22,8 +22,8 @@ three_buttonmenu();
     <div class="content">
         <form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>"> 
             <fieldset class="divgroup">
-            <h5><?php print_string('collateforstudentsfrom',$book);?></h5>
-            <?php $onchange='yes'; $required='yes'; include('scripts/'.$listgroup);?>
+                <h5><?php print_string('collateforstudentsfrom',$book);?></h5>
+                <?php $onchange='yes'; $required='yes'; include('scripts/'.$listgroup);?>
             </fieldset>
             <?php
                 /* Restrict to the current academic year unles an admin */
@@ -43,7 +43,7 @@ three_buttonmenu();
             ?>
             <fieldset class="divgroup">
                 <h5><?php print_string('choosetoinclude',$book);?></h5>
-                <?php		include('scripts/list_report_wrapper.php');?>
+                <?php include('scripts/list_report_wrapper.php');?>
             </fieldset>
             <?php
                 }
