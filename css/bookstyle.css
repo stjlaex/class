@@ -525,6 +525,35 @@ ul.listmenu {
 .listmenu .report-td {
   padding: 0 !important;
 }
+.report-list {
+  margin-top: 20px;
+}
+.report-list li {
+  margin-bottom: 20px;
+}
+.report-list .listhide li, .report-list .listnothide li {
+  margin-bottom: 0;
+}
+.report-list .listhide {
+  display: none;
+  margin-top: 10px;
+}
+.button {
+  cursor: pointer;
+}
+
+li strong.minus, li strong.plus {
+  font-family: 'FontAwesome';
+  cursor: pointer;
+  margin-right: 10px;
+  color: #91c73e;
+}
+li strong.plus:before {
+  content: "\f067";
+}
+li strong.minus:before {
+  content: "\f068" !important;
+}
 
 /*fade to gray*/
 /*two shades of red*/
@@ -662,6 +691,7 @@ tr.rowplus th:first-child:before, div.rowplus div:first-child:before, tr.rowminu
 tr.rowminus th:first-child:before, div.rowminus div:first-child:before {
   content: "\f068";
 }
+
 .rowaction {
   display: inline-block;
 }
@@ -1007,8 +1037,8 @@ button[value="Submit"] {
   margin: 0 0 20px;
 }
 .profile-info fieldset {
-  padding: 0!important;
-  margin: 0!important;
+  padding: 0 !important;
+  margin: 0 !important;
 }
 .profile-info:nth-child(3n+3) {
   margin-right: 2%;
@@ -1022,7 +1052,7 @@ button[value="Submit"] {
 
 /* Info */
 .profile-sibling {
-  width:92%;
+  width: 92%;
 }
 
 /* Special needs */
@@ -1060,6 +1090,13 @@ div.content fieldset, div.topcontent fieldset {
 }
 .chk-list-alt li {
   width: 170px;
+}
+.bus-route  {
+  display: inline-block;
+  background-color: #bac1c8;
+  padding: 3px;
+  margin-left: 10px;
+  color: #657585;
 }
 fieldset.divgroup.markbook-img {
   min-height: 10px;

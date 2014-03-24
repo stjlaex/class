@@ -22,10 +22,10 @@
 			}
 		}
 ?>
-    <label for="Reports"><?php print_string('reports');?></label>
-    <ul id="Reports" class="required">
+    <h6 for="Reports"><?php print_string('reports');?></h6>
+    <ul id="Reports" class="report-list">
         <li><?php print_string('current');?>
-            <ul>
+            <ul class="listnothide">
             <?php
                 foreach($reports as $rid => $report){
                     if(strtotime($report['date'])>=strtotime($todate)){
@@ -40,9 +40,12 @@
             ?>
             </ul>
         </li>
-        <li><?php print_string('previous');?>
-            <a href="#" class="button">click me</a>
-            <ul class="listhide" style="display: none;">
+        <li>
+            <div class="button">
+                <strong class="plus"></strong>
+                <?php print_string('previous');?>
+            </div>
+            <ul class="listhide">
                 <?php
                     foreach($reports as $rid => $report){
                         if(strtotime($report['date']) < strtotime($todate)){
@@ -58,8 +61,4 @@
             </ul>
         </li>  
     </ul>          
-    <script>
-        $( ".button" ).click(function() {
-            $( ".listhide" ).slideToggle( "slow" );
-        });
-    </script>
+

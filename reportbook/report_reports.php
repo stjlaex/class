@@ -54,4 +54,9 @@ three_buttonmenu();
             <input type="hidden" name="choice" value="<?php print $choice; ?>">
         </form>
     </div>
-
+    <script>
+        $( ".button" ).click(function() {
+            $( ".listhide" ).slideToggle( "slow" );
+            $( '.button strong' ).toggleClass( "minus" );
+        });
+    </script>

@@ -80,12 +80,13 @@ two_buttonmenu($extrabuttons);
                         <?php
                             print '<a  href="admin.php?current=transport_list.php&cancel='.$choice.'&choice='.$choice.'&busname='.$busname['name'].'">'.$busname['name'].'</a>';
                         ?>
-                         | 
+                        <div class="bus-route"> 
                         <?php
                         	$noi=count_bus_journey_students($busname['name'],'I',$todate,1);
                         	$noo=count_bus_journey_students($busname['name'],'O',$todate,1);
                         	print ' AM:'.$noi. ' PM:' .$noo;
                         ?>
+                        </div>
                     </li>
                 <?php
                     }
