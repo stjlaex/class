@@ -94,7 +94,8 @@ if(sizeof($sids)>0){
             <table id="sidtable" class="listmenu sidtable">
                 <thead>
                     <tr>
-                        <th colspan="2"><?php print_string('checkall'); ?><input type="checkbox" name="checkall" value="yes" onChange="checkAll(this);" /></th>
+                        <th><?php print_string('checkall'); ?><input type="checkbox" name="checkall" value="yes" onChange="checkAll(this);" /></th>
+                        <th></th>
                         <th><?php print_string('student'); ?></th>
                         <th><?php print_string('formgroup'); ?></th>
                         <?php
