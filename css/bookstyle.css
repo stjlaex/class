@@ -96,7 +96,7 @@ option[value=""] {
   margin: 5px 0;
 }
 textarea {
-  width: 98%;
+  width: 99%;
   margin: 5px 0 15px;
 }
 input[readonly="readonly"] {
@@ -633,13 +633,13 @@ div.pauselite, div.midlite, div.golite, div.gomidlite {
   padding: 5px;
 }
 
-.listmenu tr.gomidlite td, .listmenu td.gomidlite, .gomidlite {
+tr.gomidlite td, td.gomidlite, .gomidlite {
   background-color: #66cc66 !important;
   color: #ddf4dd;
   text-align: center;
 }
 /*outline red*/
-.listmenu tr.outlite td, .listmenu td.outlite, .outlite {
+tr.outlite td, td.outlite, .outlite {
   border: 3px solid #bbbbbb !important;
 }
 /*handy for checkboxes inside a table*/

@@ -7,11 +7,13 @@ $action='student_scores_action.php';
 twoplus_buttonmenu($sidskey,sizeof($sids));
 ?>
   <div id="heading">
+<h4>
 	<label><?php print_string('student');?></label>
 <?php	
 	print $Student['Forename']['value'].' '.$Student['Surname']['value'].' ';
 	print '('.$Student['RegistrationGroup']['value'].')';
 ?>
+</h4>
   </div>
   <div id="viewcontent" class="content">
 	<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">

@@ -23,7 +23,7 @@
 		}
 ?>
     <h6 for="Reports"><?php print_string('reports');?></h6>
-    <ul id="Reports" class="report-list">
+    <ul id="Reports" class="report-list" >
         <li><?php print_string('current');?>
             <ul class="listnothide">
             <?php
@@ -31,7 +31,7 @@
                     if(strtotime($report['date'])>=strtotime($todate)){
             ?>
             <li>
-                <input type="radio" value="<?php print $report['id'];?>" name="report">
+                <input type="radio" value="<?php print $report['id'];?>" name="wrapper_rid">
                 <?php print $report['title'].' ('.$report['date'].')';?>
             </li>
             <?php
@@ -51,7 +51,7 @@
                         if(strtotime($report['date']) < strtotime($todate)){
                 ?>
                 <li>
-                    <input type="radio" value="<?php print $report['id'];?>"  name="report">
+                    <input type="radio" value="<?php print $report['id'];?>" name="wrapper_rid">
                     <?php print $report['title'].' ('.$report['date'].')';?>
                 </li>
                 <?php

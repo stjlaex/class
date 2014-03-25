@@ -153,8 +153,8 @@ two_buttonmenu($extrabuttons,$book);
 			     <?php print $Student['DisplayFullSurname']['value']; ?> 
 				 (<?php print $Student['RegistrationGroup']['value']; ?>)
 			</a>
-			<div id="mini-<?php print $sid;?>"></div>
-			<div id="merit-<?php print $sid;?>"></div>
+			<div class="miniature" id="mini-<?php print $sid;?>"></div>
+			<div class="merit" id="merit-<?php print $sid;?>"></div>
 		  </td>
 <?php
 	   foreach($rids as $index => $rid){

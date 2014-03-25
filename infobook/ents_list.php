@@ -18,33 +18,32 @@ $extrabuttons['addnew']=array('name'=>'current','value'=>'ents_new.php');
 two_buttonmenu($extrabuttons);
 ?>
   <div id="heading">
+      <h4>
 	<label><?php print_string('student',$book);?></label>
 	<?php print $Student['DisplayFullName']['value'];?>
+	</h4>
   </div>
 
   <div id="viewcontent" class="content">
 	<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
-
 	<div class="center">
 <?php
-
-$imagebuttons=array();
-$extrabuttons=array();
-/*the rowaction buttons used within each assessments table row*/
-$imagebuttons['clicktodelete']=array('name'=>'current',
-									 'value'=>'delete_background.php',
-									 'title'=>'delete');
-$extrabuttons['edit']=array('name'=>'process',
-							'value'=>'edit',
-							'title'=>'edit');
-
-
-
-$Entries=$Backgrounds["$tagname"];
-$entryno=0;
+    $imagebuttons=array();
+    $extrabuttons=array();
+    /*the rowaction buttons used within each assessments table row*/
+    $imagebuttons['clicktodelete']=array(
+        'name'=>'current',
+        'value'=>'delete_background.php',
+        'title'=>'delete');
+        
+    $extrabuttons['edit']=array(
+        'name'=>'process',
+        'value'=>'edit',
+        'title'=>'edit');
+    $Entries=$Backgrounds["$tagname"];
+    $entryno=0;
 
 if(is_array($Entries)){
-
 	$currentyid='';
 	foreach($Entries as $key => $entry){
 		/* Display the entries grouped by year group. */

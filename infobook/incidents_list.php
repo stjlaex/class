@@ -11,75 +11,68 @@ $secid=get_student_section($sid);
 
 three_buttonmenu();
 ?>
-  <div id="heading">
-	<label><?php print_string('incidents');?></label>
-<?php
-	print $Student['DisplayFullName']['value'].' ';
-	print '('.$Student['RegistrationGroup']['value'].')';
-?>
-  </div>
+    <div id="heading">
+        <h4>
+            <label><?php print_string('incidents');?></label>
+            <?php
+            	print $Student['DisplayFullName']['value'].' ';
+            	print '('.$Student['RegistrationGroup']['value'].')';
+            ?>
+        </h4>
+    </div>
+    <div id="viewcontent" class="content">
+    <div id="topform" class="topform">
+        <form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
+            <div class="left">
+                <div id="formstatus-new" class="">
+                    <?php print_string('recordnewincident',$book);?>
+                </div>
+                <div id="formstatus-edit" class="hidden">
+                    <?php print_string('editincident',$book);?>
+                </div>
+                <div id="formstatus-action" class="hidden">
+                    <?php print_string('newaction',$book);?>
+                </div>
+            </div>
+            <div class="right">
+                <?php $listlabel='incidentstatus'; $required='yes'; $listname='closed';
+                    include('scripts/set_list_vars.php');
+                    list_select_enum('closed',$listoptions,'infobook');
+                ?>
+            </div>
+            <div class="left">
+                <label for="Detail"><?php print_string('details',$book);?></label>
+                <textarea name="detail"   tabindex="<?php print $tab++;?>" class="required" id="Detail" rows="5" cols="35"></textarea>
+            </div>
+            <div class="right" >
+                <?php $xmldate='Entrydate'; include('scripts/jsdate-form.php'); ?>
+            </div>
+            <div class="right">
+                <?php 
+                    $listlabel='sanction'; 
+                    $listid='sanction';$catsecid=$secid;$cattype='inc';
+                    $required='yes'; include('scripts/list_category.php');
+                ?>
+            </div>
+            <div class="right">
+                <label for="Subject"><?php print_string('subjectspecific');?></label>
+                <?php
+                    $required='no'; $listname='bid'; $listid='subject';$listlabel='';
+                    $subjects=list_student_subjects($sid);
+                    include('scripts/set_list_vars.php');
+                    list_select_list($subjects,$listoptions,$book);
+                    unset($listoptions);
+                ?>
+            </div>
+            <input type="text" style="display:none;" id="Id_db" name="id_db" value="" />
+            <input type="text" style="display:none;" id="No_db" name="no_db" value="" />
+            <input type="hidden" name="current" value="<?php print $action;?>" />
+            <input type="hidden" name="cancel" value="<?php print 'student_view.php';?>" />
+            <input type="hidden" name="choice" value="<?php print $choice;?>" />
+        </form>
+    </div>
 
-  <div id="topform" class="topform divgroup">
-	<form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
-
-
-	  <div class="left">
-		<div id="formstatus-new" class="">
-		  <?php print_string('recordnewincident',$book);?>
-		</div>
-		<div id="formstatus-edit" class="hidden">
-		  <?php print_string('editincident',$book);?>
-		</div>
-		<div id="formstatus-action" class="hidden">
-		  <?php print_string('newaction',$book);?>
-		</div>
-	  </div>
-
-	  <div class="right">
-		<?php $listlabel='incidentstatus'; $required='yes'; $listname='closed';
-		include('scripts/set_list_vars.php');
-		list_select_enum('closed',$listoptions,'infobook');
-		?>
-	  </div>
-
-	  <div class="left">
-		<label for="Detail"><?php print_string('details',$book);?></label>
-		<textarea name="detail"   tabindex="<?php print $tab++;?>" 
-		  class="required" id="Detail" rows="5" cols="35"></textarea>
-	  </div>
-
-	  <div class="right" >
-		<?php $xmldate='Entrydate'; include('scripts/jsdate-form.php'); ?>
-	  </div>
-
-	  <div class="right">
-<?php 
-		$listlabel='sanction'; 
-		$listid='sanction';$catsecid=$secid;$cattype='inc';
-		$required='yes'; include('scripts/list_category.php');
-?>
-	  </div>
-
-	  <div class="right">
-		<label for="Subject"><?php print_string('subjectspecific');?></label>
-<?php
-		$required='no'; $listname='bid'; $listid='subject';$listlabel='';
-		$subjects=list_student_subjects($sid);
-		include('scripts/set_list_vars.php');
-		list_select_list($subjects,$listoptions,$book);
-		unset($listoptions);
-?>
-	  </div>
-
-	  <input type="text" style="display:none;" id="Id_db" name="id_db" value="" />
-	  <input type="text" style="display:none;" id="No_db" name="no_db" value="" />
-	  <input type="hidden" name="current" value="<?php print $action;?>" />
-	  <input type="hidden" name="cancel" value="<?php print 'student_view.php';?>" />
-	  <input type="hidden" name="choice" value="<?php print $choice;?>" />
-	</form>
-  </div>
-
-  <div id="viewcontent" class="content">
+  
 	<div class="center">
 	  <table class="listmenu">
 		<caption><?php print_string('existingincidents',$book);?></caption>
