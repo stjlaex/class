@@ -28,7 +28,6 @@ if($epfu!=''){
 		}
 	}
 ?>
-
     <div id="heading">
         <h4><label><?php print_string('subjectreports'); ?></label> <?php print $Student['DisplayFullName']['value'];?></h4>
     </div>
