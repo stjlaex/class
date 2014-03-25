@@ -87,14 +87,14 @@ two_buttonmenu($extrabuttons,$book);
             </div>
         <div class="center">
 		<table class="listmenu sidtable" id="sidtable">
-		  <tr>
-			<th>
-			  <label id="checkall">
-				<?php print_string('checkall');?>
-				<input type="checkbox" name="checkall" value="yes" onChange="checkAll(this);" />
-			  </label>
-			</th>
-			<th colspan="2"><?php print_string('student');?></th>
+		    <thead>
+		        <tr>
+		            <th width="1%">
+	                   <label id="checkall"><?php print_string('checkall');?></label>
+	                   <input type="checkbox" name="checkall" value="yes" onChange="checkAll(this);" />
+		            </th>
+		            <th width="2%"></th>
+			<th><?php print_string('student');?></th>
                 <?php
                 	$uploadpic='no';
                 	foreach($rids as $index => $rid){
@@ -127,7 +127,8 @@ two_buttonmenu($extrabuttons,$book);
 		}
 ?>
 			<th><?php print_string('completedsubjectreports',$book);?></th>
-		  </tr>
+		                  </tr>
+            </thead>
 <?php
 	$rown=1;
 	foreach($students as $student){

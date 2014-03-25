@@ -1009,7 +1009,7 @@ function html_document_drop($epfun,$context,$linked_id='-1',$lid='-1',$ownertype
             		}
             	return;
             	}
-            function list_markbook_filters($profiles,$umnfilter,$currentprofile){
+            function list_markbook_filters($profiles,$umnfilter,$currentprofile,$cid,$cidsno,$classes){
         ?>
 	<select name="umnfilter" onchange="document.umnfilterchoice.submit();">
     	<option value="cw" <?php if ($umnfilter == 'cw') {print 'selected'; } ?> >CW</label>

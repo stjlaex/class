@@ -209,7 +209,7 @@ $_SESSION['lessonatt'] = $lessonatt;
 			<input name="tid" type="hidden" value="<?php print $tid; ?>">
 			<input name="current" type="hidden" value="class_view.php">
 <?php
-		$currentprofile=list_markbook_filters($profiles,$umnfilter,$currentprofile);
+		$currentprofile=list_markbook_filters($profiles,$umnfilter,$currentprofile,$cid,$cidsno,$classes);
 ?>
 		</fieldset>
 	   </form>
