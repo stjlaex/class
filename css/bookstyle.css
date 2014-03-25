@@ -490,7 +490,7 @@ table.listmenu {
 }
 
 .listmenu .merit {
-  width: 80px;
+  max-width: 80px;
 }
 .miniature a {
   width: 60px;
