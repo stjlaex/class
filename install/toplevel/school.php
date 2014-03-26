@@ -112,8 +112,11 @@ function enrolno_formula($sid){
 	$year=substr($year,2,2);
 	$d_i=mysql_query("SELECT MAX(CAST(formerupn AS UNSIGNED)) FROM info WHERE formerupn LIKE '$year%';");
 	$maxno=mysql_result($d_i,0);
-	$idno=substr($maxno,2) + 1;
-	$enrolno=$year. sprintf("%03s",$idno);// number format 001-999
+	if($maxno!=NULL){
+		$idno=substr($maxno,2) + 1;
+		$enrolno=$year. sprintf("%03s",$idno);// number format 001-999
+		}
+	else{$enrolno=0;}
 	trigger_error('NEW enrolno : '.$enrolno,E_USER_WARNING);
 	return $enrolno;
 	}
