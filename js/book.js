@@ -834,12 +834,25 @@ function fillxmlForm(xmlRecord,once){
 					id=xmlRecord.parentNode.parentNode.parentNode.getElementsByTagName('ID_DB')[0].firstChild.nodeValue;
 					gsid=id+'-Archivecount';
 					scorecount=document.getElementById(gsid).childNodes[0].nodeValue.trim();
+					var hiddengena=document.getElementById('hiddenGradingscheme');
 					if(scorecount>0){
 						document.getElementById('Gradingscheme').disabled=true;
+						if(hiddengena){
+							document.getElementById('formtoprocess').removeChild(hiddengena);
+							}
+						var gsinput=document.createElement('input');
+						gsinput.name="gena";
+						gsinput.type="hidden";
+						gsinput.id="hiddenGradingscheme";
+						gsinput.value=document.getElementById('Gradingscheme').value;
+						document.getElementById('formtoprocess').appendChild(gsinput);
 						document.getElementById('displaygrading').style.display='block';
 						}
 					else{
 						document.getElementById('Gradingscheme').removeAttribute("disabled");
+						if(hiddengena){
+							document.getElementById('formtoprocess').removeChild(hiddengena);
+							}
 						document.getElementById('displaygrading').style.display='none';
 						}
 					}
