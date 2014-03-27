@@ -31,8 +31,8 @@
                     if(strtotime($report['date'])>=strtotime($todate)){
             ?>
             <li>
-                <input type="radio" value="<?php print $report['id'];?>" name="wrapper_rid">
-                <?php print $report['title'].' ('.$report['date'].')';?>
+                <input type="radio" value="<?php print $report['id'];?>" id="<?php print $report['id'];?>" name="wrapper_rid">
+                <label for="<?php print $report['id'];?>"><?php print $report['title'].' ('.$report['date'].')';?></label>
             </li>
             <?php
                     }
@@ -51,8 +51,8 @@
                         if(strtotime($report['date']) < strtotime($todate)){
                 ?>
                 <li>
-                    <input type="radio" value="<?php print $report['id'];?>" name="wrapper_rid">
-                    <?php print $report['title'].' ('.$report['date'].')';?>
+                    <input type="radio" value="<?php print $report['id'];?>" id="<?php print $report['id'];?>" name="wrapper_rid">
+                    <label for="<?php print $report['id'];?>"><?php print $report['title'].' ('.$report['date'].')';?></label>
                 </li>
                 <?php
                         }

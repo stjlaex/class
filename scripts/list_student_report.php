@@ -38,17 +38,20 @@
 
 krsort($reportwrappers);
 ?>
-
-    <div class="center"> 
-        <label for="Current Reports"><?php print_string('reports');?></label>
-        <select id="Current Reports" name="wrapper_rid" tabindex="<?php print $tab++;?>" size="18">
-            <?php
-            	while(list($rid,$report)=each($reportwrappers)){
-            ?>
-    		<option value="<?php print $report['id'];?>">
-    			<?php print $report['title'].' ('.$report['date'].')';?>
-    		</option>
-            <?php
-            	}
-            ?>
-        </select>
+    <ul>
+        <li>
+            <?php print_string('reports');?>
+            <ul>
+                <?php
+                    while(list($rid,$report)=each($reportwrappers)){
+                ?>
+                <li>
+                    <input type="radio" value="<?php print $report['id'];?>" id="<?php print $report['id'];?>" name="wrapper_rid">
+                    <label for="<?php print $report['id'];?>"><?php print $report['title'].' ('.$report['date'].')';?></label>
+                </li>
+                <?php
+                    }
+                ?>
+            </ul>
+        </li>
+    </ul>

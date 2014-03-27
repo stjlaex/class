@@ -22,13 +22,7 @@ two_buttonmenu($extrabuttons);
 ?>
 
     <div class="content" id="viewcontent">
-        <div class="right">
-            <?php
-                require_once('lib/eportfolio_functions.php');
-                html_document_drop('section'.$selsection['id'],'staff',$selsection['id']);
-            ?>
-        </div>
-        <div class="left">
+
             <fieldset class="divgroup">
                 <div class="center">
                     <form name="formtoprocess2" id="formtoprocess2" method="post" novalidate action="<?php print $host; ?>">
@@ -42,40 +36,40 @@ two_buttonmenu($extrabuttons);
                         ?>
             <div style="float:right;">
               <button type="submit" name="sub" value="list">
-            	<?php print_string('filterlist');?>
+                <?php print_string('filterlist');?>
               </button>
             </div>
             
             <div class="center">
               <table class="listmenu">
-            	<tr>
-            	  <th><?php print get_string('role',$book);?></th>
-            	</tr>
+                <tr>
+                  <th><?php print get_string('role',$book);?></th>
+                </tr>
             <?php
             $userroles=$CFG->roles;
             foreach($userroles as $userrole){
-            	if(in_array($userrole,$listroles)){$checked=' checked="checked" ';}else{$checked='';}
-            	print '<tr><td><input type="checkbox" name="listroles[]" '.$checked.' value="'.$userrole.'">'.get_string($userrole).'</input></td></tr>';
-            	}
+                if(in_array($userrole,$listroles)){$checked=' checked="checked" ';}else{$checked='';}
+                print '<tr><td><input type="checkbox" name="listroles[]" '.$checked.' value="'.$userrole.'">'.get_string($userrole).'</input></td></tr>';
+                }
             ?>
               </table>
             
             <?php
             if($aperm==1){
             ?>
-            	<table class="listmenu">
-            	  <tr>
+                <table class="listmenu">
+                  <tr>
             <?php
             $options=array(array('id'=>'current','name'=>'current'),array('id'=>'previous','name'=>'previous'));
             foreach($options as $option){
-            	if($option['id']==$listoption){$checked=' checked="checked" ';}else{$checked='';}
-            	print '<td><input type="radio" name="listoption" '.$checked.' value="'.$option['id'].'">'.get_string($option['name'],$book).get_string('staff',$book).'</input></td>';
-            	}
+                if($option['id']==$listoption){$checked=' checked="checked" ';}else{$checked='';}
+                print '<td><input type="radio" name="listoption" '.$checked.' value="'.$option['id'].'">'.get_string($option['name'],$book).get_string('staff',$book).'</input></td>';
+                }
             ?>
-            	  </tr>
-            	</table>
+                  </tr>
+                </table>
             <?php
-            	}
+                }
             ?>
             
             </div>
@@ -85,14 +79,20 @@ two_buttonmenu($extrabuttons);
               </form>
             </div>
             </fieldset>
-        </div>
+        
+        <?php
+            require_once('lib/eportfolio_functions.php');
+            html_document_drop('section'.$selsection['id'],'staff',$selsection['id']);
+        ?>
+        
 
-  
-  
+                            <div class="div-sortable">
+                                <a href="#" class="sortable"></a>
+                            </div>
   <div class="center">
   <form name="formtoprocess" id="formtoprocess" method="post" novalidate action="<?php print $host; ?>">
   <h5><?php print get_string($listoption,$book).' '.get_string('staff',$book);?></h5>
-<table class="listmenu" id="sidtable">
+<table id="sidtable" class="listmenu sidtable">
     <thead>
       <tr>
         <th style="width:1em;">
@@ -100,31 +100,22 @@ two_buttonmenu($extrabuttons);
           <input type="checkbox" name="checkall" value="yes" onChange="checkAll(this,'uids[]');" />
         </th>
         <th>
-        <?php print_string('surname',$book);?>
-        <div class="rowaction">
-          <?php $sortno++;$sort_types.=",'s'";?>
-          <input class="underrow" type='button' name='action' value='v' onClick='tsDraw("<?php print $sortno;?>A", "sidtable");' />
-          <input class="underrow"  type='button' name='action' value='-' onClick='tsDraw("<?php print $sortno;?>U", "sidtable");' />
-          <input class="underrow"  type='button' name='action' value='^' onClick='tsDraw("<?php print $sortno;?>D", "sidtable");' />
-        </div>
+            <div class="div-sortable">
+                <span style="display: inline-block; margin-right: 10px;"><?php print_string('surname',$book);?></span>
+                <a class="sortable"></a>
+            </div>
         </th>
         <th>
-        <?php print_string('forename',$book);?>
-        <div class="rowaction">
-          <?php $sortno++;$sort_types.=",'s'";?>
-          <input class="underrow" type='button' name='action' value='v' onClick='tsDraw("<?php print $sortno;?>A", "sidtable");' />
-          <input class="underrow"  type='button' name='action' value='-' onClick='tsDraw("<?php print $sortno;?>U", "sidtable");' />
-          <input class="underrow"  type='button' name='action' value='^' onClick='tsDraw("<?php print $sortno;?>D", "sidtable");' />
-        </div>
+            <div class="div-sortable">
+                <span style="display: inline-block; margin-right: 10px;"><?php print_string('forename',$book);?></span>
+                <a class="sortable"></a>
+            </div>
         </th>
         <th>
-        <?php print_string('username');?>
-        <div class="rowaction">
-          <?php $sortno++;$sort_types.=",'s'";?>
-          <input class="underrow" type='button' name='action' value='v' onClick='tsDraw("<?php print $sortno;?>A", "sidtable");' />
-          <input class="underrow"  type='button' name='action' value='-' onClick='tsDraw("<?php print $sortno;?>U", "sidtable");' />
-          <input class="underrow"  type='button' name='action' value='^' onClick='tsDraw("<?php print $sortno;?>D", "sidtable");' />
-        </div>
+            <div class="div-sortable">
+                <span style="display: inline-block; margin-right: 10px;"><?php print_string('username');?></span>
+                <a class="sortable"></a>
+            </div>
         </th>
         <th><?php print_string('email',$book);?></th>
       </tr>

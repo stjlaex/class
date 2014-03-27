@@ -219,6 +219,9 @@ button:hover {
 .bookoptions li p:hover {
   background-color: #ABD46C;
 }
+.neat {
+  position: relative;
+}
 .bookoptions .neat label {
   font-weight: 300;
   margin: 0;
@@ -314,13 +317,13 @@ div#sidebuttons button {
   height: 20px;
 }
 .sidebuttons button {
-  float: left;
   border-radius: 4px;
   padding: 0;
   margin: 0 1px;
   border: 0px none;
   width: 22px;
   height: 22px;
+  background: none;
 }
 div.hidden {
   display: none;

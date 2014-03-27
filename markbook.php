@@ -212,23 +212,23 @@ $_SESSION['lessonatt'] = $lessonatt;
 		$currentprofile=list_markbook_filters($profiles,$umnfilter,$currentprofile,$cid,$cidsno,$classes);
 ?>
 		</fieldset>
-	   </form>
-
-        <?php
-            //if(!empty($currentprofile) and isset($cid)){
+		
+		
+<?php
+            if(!empty($currentprofile) and isset($cid)){
         ?>
         
-        <!--div id="<?php print $currentprofile['id']; ?>" class="neat sidebuttons">
+        <div id="<?php print $currentprofile['id']; ?>" class="neat sidebuttons">
             <button name="chart" onclick="window.frames['viewmarkbook'].clickToAction(this);" value="report_profile_print.php">
                 <img alt="Chart" src="images/charter.png"/>
             </button>
-            <label><?php print $currentprofile['name']; ?></label-->
+            <!--label><?php print $currentprofile['name']; ?></label-->
             <?php
-                //$listid = 'chart-template';
-                //$seltemplate = $currentprofile['transform'];
+                $listid = 'chart-template';
+                $seltemplate = $currentprofile['transform'];
                 //include ('scripts/list_profile_template.php');
             ?>
-            <!--div id="<?php print 'xml-' . $currentprofile['id']; ?>" style="display:none;">
+            <div id="<?php print 'xml-' . $currentprofile['id']; ?>" style="display:none;">
                 <?php
                     /*TODO: should bid and pid be past here? Seems to stop report_profile_print from working*/
                     $currentprofile['bid'] = $bid[0];
@@ -244,10 +244,15 @@ $_SESSION['lessonatt'] = $lessonatt;
                     xmlechoer('Profile', $currentprofile);
                 ?>
             </div>
-        </div-->
+        </div>
             <?php
-                //}
+                }
             ?>
+            
+            		
+	   </form>
+
+ 
         <form id="markbookchoice" name="markbookchoice" method="post" action="markbook.php" target="viewmarkbook">
     	   <fieldset class="markbook">
                 <legend><?php print_string('curriculumyear'); ?></legend>
@@ -284,17 +289,6 @@ $_SESSION['lessonatt'] = $lessonatt;
             ?>
             </fieldset>
         </form>
-        <?php
-            if(!empty($currentprofile) and isset($cid)){
-        ?>
-            <button name="chart" onclick="window.frames['viewmarkbook'].clickToAction(this);" value="report_profile_print.php">
-                <img alt="Chart" src="images/charter.png"/>
-            </button>
-        <?php
-            }
-        ?>
-            
-            
     </div>
 <?php
 include ('scripts/end_options.php');

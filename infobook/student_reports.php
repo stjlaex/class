@@ -59,9 +59,7 @@ if($epfu!=''){
             ?>
     	</fieldset>
 	<fieldset class="divgroup">
-        <?php
-        	html_table_container_open('1','rowplus',get_string('notpublished','reportbook'));
-        ?>
+
         <form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
             <?php
             	include('scripts/list_student_report.php');
@@ -77,9 +75,7 @@ if($epfu!=''){
 	  </form>
 
 
-<?php
-		html_table_container_close(1);
-?>
+
 	</fieldset>
 <?php
 	require_once('lib/eportfolio_functions.php');
