@@ -82,8 +82,9 @@
 	if($reportdef['report']['addcomment']=='yes' or 
 						$reportdef['report']['addcategory']=='yes'){ 
 		$teacherdone=false;
- 		$Report['Comments']=fetchReportEntry($reportdef,$sid,$bid,$pid);
-		if(!isset($Report['Comments']['Comment'])){$Report['Comments']['Comment']=array();}
+		if($reportdef['report']['addcomment']=='yes' and $reportdef['report']['addcategory']=='no'){$Report['Comments']=fetchReportEntry($reportdef,$sid,$bid,$pid);}
+		if($reportdef['report']['addcategory']=='yes'){$Report['Comments']=fetchSkillLog($reportdef,$sid,$bid,$pid);}
+		if(!isset($Report['Comments']['Comment'][0]['Skills']['Skill'])){$Report['Comments']['Comment']=array();}
 		$totalentryn=sizeof($Report['Comments']['Comment']);
 		for($entryn=0;$entryn<=$totalentryn;$entryn++){
 			if($reportdef['report']['addcomment']=='no' and !$teacherdone){
@@ -153,13 +154,13 @@
 <?php
 		if($reportdef['report']['addcategory']=='yes'){
 			$ass_colspan++;
-			unset($Categories);
-			if(isset($Comment['Categories'])){$Categories=$Comment['Categories'];}
+			unset($Skills);
+			if(isset($Comment['Skills'])){$Skills=$Comment['Skills'];}
 			else{
-				$Categories['Category']=array();
-				$Categories['ratingname']=get_report_ratingname($reportdef,$bid);
+				$Skills['Skill']=array();
+				$Skills['ratingname']=get_report_ratingname($reportdef,$bid);
 				}
-			$ratings=get_ratings($Categories['ratingname']);
+			$ratings=get_ratings($Skills['ratingname']);
 
 			foreach($catdefs as $catindex=> $catdef){
 				$catid=$catdefs[$catindex]['id'];
@@ -173,16 +174,17 @@
 						if(mysql_num_rows($d_g)>0){$cat_grading_grades=mysql_result($d_g,0);}
 						else{$cat_grading_grades='';}
 						}
-					$statementrating='<span style="color:#44f;float:right;">'.scoreToGrade($catdefs[$catindex]['rating'],$cat_grading_grades).'</span>';
+					$statementrating='<span style="color:#44f;float:right;">'.ratingToGrade($catdefs[$catindex]['rating'],$cat_grading_grades).'</span>';
 					}
 				else{
 					$statementrating='';
 					}
 
 				$extra_colspan=$ass_colspan+1;
-				if($catdefs[$catindex]['subtype']!=''){
-					$statementlabel=$statementrating.' '.'<label style="float:right;">'.get_subjectname($catdefs[$catindex]['subtype']).'</label><br />';
-					}
+				$statementlabel='';
+
+				if($catdefs[$catindex]['rating']!=''){$statementlabel=$statementrating.' ';}
+				if($catdefs[$catindex]['subtype']!=''){$statementlabel.='<label style="float:right;">'.get_subjectname($catdefs[$catindex]['subtype']).'</label><br />';}
 				elseif($statementrating!=''){
 					$statementlabel=$statementrating.'<br />';
 					}
@@ -201,13 +203,13 @@
 				$setcat_value=-1000;
 				$setcat_date='';
 
-				if(isset($Categories['Category'][$catindex]) 
-				   and $Categories['Category'][$catindex]['id_db']==$catid){
-					$setcat_value=$Categories['Category'][$catindex]['value'];
-					$setcat_date=$Categories['Category'][$catindex]['date'];
+				if(isset($Skills['Skill'][$catindex]) 
+				   and $Skills['Skill'][$catindex]['id_db']==$catid){
+					$setcat_value=$Skills['Skill'][$catindex]['value'];
+					$setcat_date=$Skills['Skill'][$catindex]['date'];
 					}
 	   			else{
-					foreach($Categories['Category'] as $Category){
+					foreach($Skills['Skill'] as $Category){
 						if($Category['id_db']==$catid){
 							$setcat_value=$Category['value'];
 							$setcat_date=$Category['date'];
@@ -265,7 +267,7 @@
 															 'class'=>'clicktoload',
 															 'value'=>'category_editor.php',
 															 'title'=>'clicktoattachfile');
-					$d_c=mysql_query("SELECT id, comment FROM report_skill_log WHERE skill_id='$catid' AND report_id='$rid' AND student_id='$sid';");
+					$d_c=mysql_query("SELECT r.id FROM report_skill as r JOIN file as f ON r.id=f.other_id WHERE r.id='$catid' AND r.profile_id='$rid' AND f.owner_id='$sid';");
 					/*Not empty row*/
 					if(mysql_num_rows($d_c)>0){
 						print '<tr class="'.$rowclass.'" id="'.$openId.'-'.$rown++.'" ><td onclick="clickToRevealRow(\''.$openId.'\',\''.$rown.'\')" ><img id="status'.$openId.'-'.($rown-1).'" class="rowplus"></td><td colspan="'.$extra_colspan.'"></td><td id="icon'.$sid.'" class="" style="width:18px;" >';
@@ -281,12 +283,12 @@
 					print '<div class="listmenu fileupload">';
 					require_once('lib/eportfolio_functions.php');
 
-					while($c=mysql_fetch_array($d_c,MYSQL_ASSOC)){
-						$files=(array)list_files($Student['EPFUsername']['value'],'assessment',$c['id']);
+					if(mysql_num_rows($d_c)>0){
+						$files=(array)list_files($Student['EPFUsername']['value'],'assessment',$catid);
 						//html_document_list($files);
-						display_file($Student['EPFUsername']['value'],'assessment',$c['id'],$c['comment']);
+						display_file($Student['EPFUsername']['value'],'assessment',$catid,'');
 						/*Displays the comment without files*/
-						if(count($files)==0 and $c['comment']!=''){
+						/*if(count($files)==0 and $c['comment']!=''){
 ?>
 						  <div style="float:left;margin-top: 3px;">
 							<span  style="text-align:center;width:100px;padding: 3px;" title="<?php echo $c['comment'];?>">
@@ -296,7 +298,7 @@
 							</span>
 						  </div>
 <?php
-							}
+							}*/
 						}
 
 					/* TO REMOVE?
@@ -331,7 +333,7 @@
 													 'value'=>'delete_reportentry.php',
 													 'title'=>'deletethiscomment');
 				}
-			rowaction_buttonmenu($imagebuttons,array(),$book);
+			rowaction_buttonmenu($imagebuttons,array(),$category_editobook);
 			print '</td></tr>';
 			}
 ?>

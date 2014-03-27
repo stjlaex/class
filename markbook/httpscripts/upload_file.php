@@ -75,24 +75,29 @@ if(isset($_GET['openid'])){$openid=$_GET['openid'];}
 					<legend><?php print_string('documents',$book);?></legend>
 					<div style="width:90%;float:left;">
 <?php
-				html_files_preview($Student['EPFUsername']['value'],$eid);
+				$oid=$eid;
+				$d_s=mysql_query("SELECT id FROM report_skill WHERE id='$bid' AND subject_id='$pid';");
+				if(mysql_num_rows($d_s)>0){$oid=$bid;}
+				html_files_preview($Student['EPFUsername']['value'],$oid);
 ?>
 					</div>
 
 					<div style="width:60px;float:left;">
-						<button onClick="processContent(this);" name="sub"
+						<button name="action"
 							  value="Remove"><?php print_string('remove');?></button>
 					</div>
 				</fieldset>
 			</div>
 			<input type="hidden" name="sid" value="<?php print $sid; ?>"/>
 			<input type="hidden" name="eid" value="<?php print $eid; ?>"/>
+			<input type="hidden" name="bid" value="<?php print $bid; ?>"/>
+			<input type="hidden" name="pid" value="<?php print $pid; ?>"/>
 			<input type="hidden" name="openid" value="<?php print $openid; ?>"/>
 		</form>
 		<fieldset class="left">
 			<legend><?php print_string('upload',$book);?></legend>
 <?php
-			html_document_drop($Student['EPFUsername']['value'],'assessment',$eid,'-1','',false);
+			html_document_drop($Student['EPFUsername']['value'],'assessment',$bid,'-1','',false);
 ?>
 		</fieldset>
 <?php
@@ -108,11 +113,16 @@ if(isset($_GET['openid'])){$openid=$_GET['openid'];}
 			<legend><?php print_string('copy',$book);?></legend>
 			<div style="width:90%;float:left;">
 <?php
+			html_files_preview($Student['EPFUsername']['value'],$eid);
 			html_files_preview($Student['EPFUsername']['value'],$eid,false,$pid);
+			$d_o=mysql_query("SELECT DISTINCT id FROM report_skill WHERE profile_id='$eid' AND id!='$bid';");
+			while($other=mysql_fetch_array($d_o,MYSQL_ASSOC)){
+				html_files_preview($Student['EPFUsername']['value'],$other['id']);
+				}
 ?>
 			</div>
 			<div style="width:40px;float:left;">
-				<button onClick="processContent(this);" name="sub"
+				<button  name="action"
 				  value="Copy"><?php print_string('copy');?></button>
 			</div>
 		</fieldset>

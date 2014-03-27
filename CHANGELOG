@@ -1,7 +1,11 @@
 Version ClaSS-1.0.66 release (2014/03/25)
 -------------------------------------------
 
+Skill statements have to be migrated to report_skills_log table 
+(run migrate_statements results).
+
 Added script for updating school.php file with the new config variables.
+
 
 Version ClaSS-1.0.65 release (2014/03/20)
 -------------------------------------------
