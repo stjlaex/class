@@ -85,7 +85,7 @@ if($sub=='Submit'){
 	 */
 	$todate=date('Y-m-d');
 	foreach($eids as $eid){
-		if(isset($_POST['extra'.$eid]) and $_POST['extra'.$eid]!='' and $_POST[$eid]=='1'){$extra=$_POST['extra'.$eid];}else{$extra='0';}
+		if(isset($_POST['extra'.$eid]) and $_POST['extra'.$eid]!='' and $_POST[$eid]=='1'){$extra=$_POST['extra'.$eid];}else{$extra='';}
 		$AssDef=fetchAssessmentDefinition($eid);
 		$grading_grades=$AssDef['GradingScheme']['grades'];
 		/* $$eid are the names of score values posted by the form
