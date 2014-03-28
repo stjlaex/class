@@ -146,21 +146,19 @@ function xmlarray_form($Array,$no='',$caption='',$tab=1,$book=''){
 ?>
   <table class="listmenu">
 <?php
-	if($caption!=''){print '<caption>'.get_string($caption,$book).'</caption>';}
-	while(list($key,$val)=each($Array)){
-		/* If the table_db attribute is omitted it indicates this is not */
-		/* a field for entry by the user - this  may be because it is disabled or */
-		/* because it is dependent on some other value - it will not appear in the form*/
-		if(isset($val['inputtype']) and $val['inputtype']=='fixed'){
-			unset($val['table_db']);
-			}
-		if(isset($val['value']) and is_array($val) and isset($val['table_db'])){
+    if($caption!=''){print '<h5>'.get_string($caption,$book).'</h5>';}
+    while(list($key,$val)=each($Array)){
+        /* If the table_db attribute is omitted it indicates this is not */
+        /* a field for entry by the user - this  may be because it is disabled or */
+        /* because it is dependent on some other value - it will not appear in the form*/
+        if(isset($val['inputtype']) and $val['inputtype']=='fixed'){
+            unset($val['table_db']);
+            }
+        if(isset($val['value']) and is_array($val) and isset($val['table_db'])){
 ?>
 	<tr>
 	  <td>
-		<label for="<?php print $val['label'];?>">
-		  <?php print_string($val['label'],$book);?>
-		</label>
+		<label for="<?php print $val['label'];?>"><?php print_string($val['label'],$book);?></label>
 	  </td>
 	  <td>
 <?php
