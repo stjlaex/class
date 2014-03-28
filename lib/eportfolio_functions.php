@@ -303,7 +303,7 @@ function epf_append_to_comment($html,$epfusername,$commentid){
 
 	global $CFG;
 	if($CFG->eportfolio_db!=''){
-		$dbepf=db_connect(true,$CFG->eportfolio_db);
+		$dbepf=db_connect(false,$CFG->eportfolio_db);
 		mysql_query("SET NAMES 'utf8'");
 		}
 	$table=$CFG->eportfolio_db_prefix.'weblog_posts';
