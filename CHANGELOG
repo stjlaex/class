@@ -1,7 +1,10 @@
-Version ClaSS-1.0.66 release (2014/03/27)
+Version ClaSS-1.0.66 release (2014/03/31)
 -------------------------------------------
 
-Added functions for skill_log table total by term and by component.
+Added field result in rating table for the equivalent used in markbook tables.
+
+Added functions for skill_log table total by term and by component and cron 
+file for scores updates and generate terms assessments.
 
 Added script for sharing old comments.
 
