@@ -1201,3 +1201,19 @@ fieldset.divgroup.markbook-img {
   background-color: #D2D7DC;
   padding: 3px;
 }
+
+.staff-box	{
+	width: 28%;
+	float:left;
+	margin-top: 20px;
+	padding: 2%;
+	background-color: #EEEEEE;
+	min-height: 200px;
+}
+.staff-box fieldset	{
+	padding: 0!important;
+}
+.staff-box-middle	{
+	margin-left: 2%;
+	margin-right: 2%;
+}
