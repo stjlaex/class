@@ -26,7 +26,7 @@ three_buttonmenu();
 
 
 	  <fieldset class="right">
-		<legend><?php print_string('account',$book);?></legend>
+		<h5><?php print_string('account',$book);?></h5>
 		<div class="center">
 				<?php photo_img($User['EPFUsername']['value'],$seluid,'w','staff'); ?>
 		</div>
@@ -96,7 +96,7 @@ if($_SESSION['role']=='admin' or $aperm==1){
 	if($_SESSION['role']=='admin'  or $aperm==1){
 ?>
 	  <fieldset class="right">
-		<legend><?php print_string('password',$book);?></legend>
+		<h5><?php print_string('password',$book);?></h5>
 		<div class="center">
 
 		  <label for="Number1"><?php print_string('newstaffpin',$book);?></label>
@@ -126,16 +126,14 @@ if($_SESSION['role']=='admin' or $aperm==1){
 	if($_SESSION['role']=='admin'){
 ?>
 	  <fieldset class="left">
-		<legend><?php print_string('specialadminpermissions',$book);?></legend>
+		<h5><?php print_string('specialadminpermissions',$book);?></h5>
 <?php
 		$agroups=(array)list_admin_groups();
 		foreach($agroups as $type=>$agroup){
 			$editaperm=get_admin_perm($type,$seluid);
 ?>
-		  <label for="<?php print $agroup['name'];?>"><?php print_string($agroup['name'],$book);?></label>
-		  <input type="checkbox" id="a<?php print $agroup['gid'];?>"  
-				  name="a<?php print $agroup['gid'];?>"  tabindex="<?php print $tab++;?>" 
-				  <?php if($editaperm){print 'checked="checked"';}?> value="1"/>
+			<input type="checkbox" id="a<?php print $agroup['gid'];?>" name="a<?php print $agroup['gid'];?>"  tabindex="<?php print $tab++;?>" <?php if($editaperm){print 'checked="checked"';}?> value="1"/>
+			<label for="<?php print $agroup['name'];?>"><?php print_string($agroup['name'],$book);?></label>
 <?php
 			}
 ?>
@@ -148,7 +146,7 @@ if($_SESSION['role']=='admin' or $aperm==1){
 ?>
 
 	  <fieldset class="right">
-		<legend><?php print_string('section',$book);?></legend>
+		<h5><?php print_string('section',$book);?></h5>
 <?php
 		$sections=(array)list_sections(true);
 		$access_groups=(array)list_user_groups($seluid,'s');
