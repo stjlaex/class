@@ -1592,7 +1592,12 @@ function selectColumn(thObj,multi){
 				var tdEditObj=document.getElementById(editId);
 				var selObj=tdEditObj.getElementsByTagName("select")[0];
 				selObj.value=cellObj.attributes.getNamedItem("status").value;
-				$.uniform.update(selObj);
+				//trying to speed up dom minipulation
+				//assuming a uniformjs element is present before select
+				if (selObj.previousSibling.tagName == 'SPAN'){
+					selObj.previousSibling.textContent = selObj.options[selObj.selectedIndex ].text;
+				}
+				//$.uniform.update(selObj); -- too slow on firefox!
 				var tdEditClaSS=tdEditObj.className;
 				removeExtraFields(sids[c],"extra-a","edit");
 				removeExtraFields(sids[c],"extra-p","edit");
@@ -1621,15 +1626,11 @@ function addExtraFields(sidId,cellId,extraId,containerId){
 	if(containerId==''){containerId=extraId;}
 	var editContainer=document.getElementById(containerId+"-"+sidId);
 	var extraDiv=document.getElementById("add-"+extraId)
+	
     extraDiv = extraDiv.cloneNode(true);
-    $.uniform.restore($(extraDiv))
-	$(extraDiv).find('select').uniform({
-        wrapperClass : "registerEdit"
-    });
     var selElem = $(extraDiv).find('select')
 	extraDiv.removeAttribute("class");
 	extraDiv.id="add-"+extraId+"-"+sidId;
-
 	var newElements=$(extraDiv).find('select')//extraDiv.childNodes;
 
 	if(cellId!=null){var cellObj=document.getElementById(cellId);}
@@ -1641,14 +1642,20 @@ function addExtraFields(sidId,cellId,extraId,containerId){
 			newElements[i].id=genId+"-"+sidId;
 			if(cellId!=null){
 			    newElements[i].value=cellObj.attributes.getNamedItem(genName).value;
-			    $.uniform.update(newElements[i])
+				//update uniform js element
+				if (newElements[i].previousSibling.tagName == "SPAN") {
+					newElements[i].previousSibling.textContent = newElements[i].options[newElements[i].selectedIndex ].text;
+				}
 		    }
 		} 
 	}
        
 	if(editContainer){
 		editContainer.insertBefore(extraDiv,null);
+		selElem.onchange = function(event){
+			this.previousSibling.textContent = this.options[this.selectedIndex ].text;
 		}
+	}
 		
 	/* Optionally (if a mini div is present) inserts a mini profile photo */
 	if(document.getElementById('mini-'+sidId)){
