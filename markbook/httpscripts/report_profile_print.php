@@ -195,7 +195,6 @@ else{
 		$pid='%';
 		}
 
-
 	/* Bands in ascending date order. */
   	$d_stats=mysql_query("SELECT DISTINCT * FROM statvalues JOIN stats ON stats.id=statvalues.stats_id 
 				WHERE stats.course_id='$crid' AND stats.profile_name='$profilename'
@@ -271,6 +270,57 @@ else{
 		$Students['Student'][]=$Student;
 		}
 
+
+	if($profile['transform']=='eyfs_statements_results'){
+		$values=getTermsValues($year);
+		$terms=$values['terms'];
+		$components=$values['components'];
+		$year=$values['year'];
+		$rids=$values['rids'];
+		$dates=$values['dates'];
+		$lastdate=$dates['firstentry'];
+		$Students['Student']=array();
+		foreach($sids as $sid){
+			$Student=(array)fetchStudent_short($sid);
+			$Student=array_merge($Student,fetchStudent_singlefield($sid,'Language'));
+			$Student=array_merge($Student,fetchStudent_singlefield($sid,'Nationality'));
+			$Assessments=array();
+			$Assessments['Assessment']=array();
+			$Assessments['Assessment'][0]=array("mid"=>"", "score"=>getStatementsResultsTotals($sid,$rids,$startdate,$lastdate), "component"=>"", "name"=>"Entry");
+			foreach($terms as $date=>$term){
+				foreach($components as $component){
+					$Assessment=array();
+					if($component!='Total' and $component!='Progress'){$component_name="";}
+					else{$component_name=" - ".$component;}
+					$description=$term.$component_name;
+					$d_m=mysql_query("SELECT mark.id,mark.topic,mark.component_id,score.value FROM (SELECT class_id FROM cidsid WHERE student_id='$sid' ORDER BY class_id DESC LIMIT 1) as c JOIN midcid ON c.class_id=midcid.class_id JOIN mark ON midcid.mark_id=mark.id JOIN score on score.mark_id=mark.id WHERE score.student_id='$sid' AND topic='$description' AND (component_id='$component' OR component_id='') ORDER BY entrydate, id ASC LIMIT 1;");
+					if(mysql_num_rows($d_m)>0){
+						$mid=mysql_result($d_m,0,'id');
+						$score=mysql_result($d_m,0,'value');
+						$component=mysql_result($d_m,0,'component_id');
+						$name=mysql_result($d_m,0,'topic');
+						$Assessment['mid']=$mid;
+						$Assessment['score']=$score;
+						$Assessment['component']=$component;
+						$Assessment['name']=$name;
+						$Assessments['Assessment'][]=$Assessment;
+						}
+					else{
+						$d_m=mysql_query("SELECT mark.id,mark.topic,mark.component_id,score.value FROM (SELECT class_id FROM cidsid WHERE student_id='$sid' ORDER BY class_id DESC LIMIT 1) as c JOIN midcid ON c.class_id=midcid.class_id JOIN mark ON midcid.mark_id=mark.id JOIN score on score.mark_id=mark.id WHERE topic='$description' AND (component_id='$component' OR component_id='') ORDER BY entrydate, id ASC LIMIT 1;");
+						$component=mysql_result($d_m,0,'component_id');
+						$name=mysql_result($d_m,0,'topic');
+						$Assessment['mid']=0;
+						$Assessment['score']=0;
+						$Assessment['component']=$component;
+						$Assessment['name']=$name;
+						$Assessments['Assessment'][]=$Assessment;
+						}
+					}
+				}
+			$Student['Assessments']=xmlarray_indexed_check($Assessments,'Assessment');
+			$Students['Student'][]=$Student;
+			}
+		}
 
 	/**
 	 * Totally ignore all of the above!!

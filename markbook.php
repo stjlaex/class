@@ -264,6 +264,16 @@ if(isset($umns)){
 
 <br />
 <?php
+if($currentprofile==""){
+	$d_p=mysql_query("SELECT * FROM categorydef WHERE type='pro' AND subtype='NP';");
+	if(mysql_num_rows($d_p)>0){
+		$currentprofile['id']=mysql_result($d_p,0,'id');
+		$currentprofile['name']=mysql_result($d_p,0,'name');
+		$currentprofile['stage']=mysql_result($d_p,0,'stage');
+		$currentprofile['bid']=mysql_result($d_p,0,'subject_id');
+		$currentprofile['course_id']=mysql_result($d_p,0,'course_id');
+		}
+	}
 if(!empty($currentprofile) and isset($cid)){
 ?>
 	  <div id="<?php print $currentprofile['id'];?>" class="neat sidebuttons">
