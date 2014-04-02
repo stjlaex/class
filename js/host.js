@@ -155,6 +155,7 @@ function logInSuccess() {
     document.getElementById("viewlogbook").style.zIndex = "-100";
     document.getElementById("logbookoptions").innerHTML = "";
     document.getElementById("logbookoptions").style.zIndex = "-100";
+    $(document.getElementById("navtabs")).find('select').uniform()
     viewBook("aboutbook");
 }
 
@@ -192,6 +193,7 @@ function loadBook(book) {
 
 function loadBookOptions(book) {
     document.getElementById(book + "options").innerHTML = window.frames["view" + book].document.getElementById("hiddenbookoptions").innerHTML;
+    $(document.getElementById(book + "options")).find('select').uniform()
 }
 
 function viewBook(newbook) {

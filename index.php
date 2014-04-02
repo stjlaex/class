@@ -98,7 +98,6 @@ print '<?xml version="1.0" encoding="utf-8"?' . '>';
     <script>
         $("iframe").load(function() {
             $('#loginlang select').uniform({wrapperClass: "loginlang"});
-            $('select, .markbook :radio').uniform();
             //$('.infobook select').uniform({wrapperClass: "default infoBook"});
             //$('#loginlang select').uniform({wrapperClass: "blueLight"});
         });
