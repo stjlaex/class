@@ -138,12 +138,15 @@ div.selector.blueLight span {
 div.checker {
   width: 20px;
   height: 20px;
-  float: left;
+  display: inline-block;
   margin: 0 3px;
   *display: inline;
   zoom: 1;
   vertical-align: middle;
   position: relative;
+}
+.listmenu.sidtable div.checker	{
+	float:left;
 }
 div.checker:focus {
   outline: 0;
