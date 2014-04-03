@@ -962,9 +962,9 @@ function getTermsValues($year=""){
 		}
 	$preyear=$year-1;
 	$dates['firstentry']=$preyear."-09-01";
-	$dates['term1']=$preyear."-12-20";
-	$dates['term2']=$year."-03-28";
-	$dates['term3']=$year."-06-27";
+	$dates['term1']=$preyear."-12-31";
+	$dates['term2']=$year."-04-06";
+	$dates['term3']=$year."-07-31";
 	$terms=array($dates['term1']=>"Term 1",$dates['term2']=>"Term 2",$dates['term3']=>"Term 3");
 	$d_c=mysql_query("SELECT c.subject_id,c.id FROM report_skill as s JOIN component as c ON s.subject_id=c.id WHERE s.subject_id!='%' AND s.subject_id!='' AND year='$year' GROUP BY c.subject_id;");
 	while($component=mysql_fetch_array($d_c,MYSQL_ASSOC)){
