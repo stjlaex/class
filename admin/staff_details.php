@@ -149,8 +149,6 @@ if($_SESSION['role']=='admin' or $aperm==1){
 <?php
 		}
 ?>
-	  
-
   	  <div class="center" style="margin: 30px 0; float: left;">
 		<?php $tab=xmlarray_form($User,'','details',$tab,'infobook'); ?>
 	  </div>
