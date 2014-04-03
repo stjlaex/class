@@ -110,7 +110,7 @@ include('scripts/perm_action.php');
 ?>
 			  <div id="extra<?php echo $eid;?>">
 				<label>Extra info</label>
-				<input type="text" tabindex="<?php print $tab++;?>" size="5"
+				<input type="text" tabindex="<?php print $tab++;?>" size="75"
 				  name="extra<?php echo $eid;?>" value="<?php print $extra;?>"/>
 			  </div>
 <?php
