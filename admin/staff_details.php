@@ -25,15 +25,17 @@ three_buttonmenu();
 
 		  <label for="ID"><?php print_string('username');?></label>
 		  <input pattern="truealphanumeric" readonly="readonly" type="text" id="ID" name="username" maxlength="14" value="<?php print $User['Username']['value'];?>" />
+			<br /><br />
+			
 			<?php 
 				$selbook=$User['FirstBook']['value'];
 				include('scripts/list_books.php');
 			?>
+			
 <?php
 if($_SESSION['role']=='admin' or $aperm==1){
 ?>
-		<div class="center">
-		  <label for="Work level"><?php print_string('workexperiencelevel',$book);?></label>
+		  <br /><label for="Work level"><?php print_string('workexperiencelevel',$book);?></label>
 		  <select name="worklevel" id="Worklevel" size="1" tabindex="<?php print $tab++;?>" class="required" >
 			<option value=""></option>
 				<?php
@@ -45,6 +47,7 @@ if($_SESSION['role']=='admin' or $aperm==1){
 							}
 				?>
 		  </select>
+		  		  <br />
 
 		  <?php $selrole=$User['Role']['value']; include('scripts/list_roles.php');?>
 			<?php
@@ -61,7 +64,6 @@ if($_SESSION['role']=='admin' or $aperm==1){
 					  list_select_list($list,$listoptions);
 			
 			?>
-		  </div>
 <?php
 		}
 	else{
@@ -147,17 +149,17 @@ if($_SESSION['role']=='admin' or $aperm==1){
 <?php
 		}
 ?>
-	  </div>
+	  
 
-	  	  <div class="left">
+  	  <div class="center" style="margin: 30px 0; float: left;">
 		<?php $tab=xmlarray_form($User,'','details',$tab,'infobook'); ?>
 	  </div>
 	  
-	  <div class="right">
-<?php
-	$addressno='0';/*Only doing one address.*/
-	$tab=xmlarray_form($User['Address'],$addressno,'contactaddress',$tab,'infobook'); 
-?>
+	  <div class="center" style="margin: 0 0 30px; float: left;">
+		<?php
+			$addressno='0';/*Only doing one address.*/
+			$tab=xmlarray_form($User['Address'],$addressno,'contactaddress',$tab,'infobook'); 
+		?>
 		<input type="hidden" name="addid" value="<?php print $User['Address']['id_db']; ?>">
 	  </div>
 
@@ -172,4 +174,5 @@ if($_SESSION['role']=='admin' or $aperm==1){
 	require_once('lib/eportfolio_functions.php');
 	html_document_drop($User['EPFUsername']['value'],'staff');
 ?>
+  </div>
   </div>
