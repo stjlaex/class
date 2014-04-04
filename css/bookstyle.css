@@ -1128,7 +1128,7 @@ div.content fieldset, div.topcontent fieldset {
 .chk-list-alt li {
   width: 170px;
 }
-.bus-route {
+.bus-route, .meal-item {
   display: inline-block;
   background-color: #bac1c8;
   padding: 3px;
@@ -1216,4 +1216,7 @@ fieldset.divgroup.markbook-img {
 .staff-box-middle	{
 	margin-left: 2%;
 	margin-right: 2%;
+}
+.rowaction	{
+	display: inline;
 }

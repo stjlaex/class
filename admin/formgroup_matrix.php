@@ -94,7 +94,7 @@ three_buttonmenu($extrabuttons);
 		  <td>
 			<input type="checkbox" name="comids[]" value="<?php print $comid;?>" />
 		  </td>
-		  <td>
+		  <td class="student">
 <?php
 		if($perms['r']==1 and $newcomtype=='form'){
 			print '<a href="admin.php?current=form_edit.php&cancel='.$choice.'&choice='.$choice.'&comid='.$com['id'].'&newcomtype='.$newcomtype.'">'.$com['displayname'].'</a>';
