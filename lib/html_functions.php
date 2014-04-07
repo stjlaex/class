@@ -146,7 +146,7 @@ function xmlarray_form($Array,$no='',$caption='',$tab=1,$book=''){
 ?>
   <table class="listmenu">
 <?php
-	if($caption!=''){print '<caption>'.get_string($caption,$book).'</caption>';}
+	if($caption!=''){print '<h5>'.get_string($caption,$book).'</h5>';}
 	while(list($key,$val)=each($Array)){
 		/* If the table_db attribute is omitted it indicates this is not */
 		/* a field for entry by the user - this  may be because it is disabled or */

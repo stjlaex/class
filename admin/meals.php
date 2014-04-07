@@ -50,13 +50,15 @@ two_buttonmenu($extrabuttons,'admin');
                         <li>
                             <input type="checkbox" name="meals[]" value="m-<?php print $meal['id']; ?>" />
                             <?php
-                            print ''.$meal['name'].'';
+                            	print ''.$meal['name'].'';
                             ?>
+                            <div class="meal-item">
                             <?php
                                 /*Does not count past bookings*/
                                 $no=count_meals_students($meal['name'],$todate,1);
                                 print $no;
                             ?>
+                            </div>
                         </li>
             <?php
                 }

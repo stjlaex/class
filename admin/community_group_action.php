@@ -23,19 +23,13 @@ elseif($sub=='Create'){
 
   <div class="content">
 	<form name="formtoprocess" id="formtoprocess" method="post"
-								action="<?php print $host; ?>">
-
 	  <fieldset class="divgroup">
 		<h5><?php print_string('changegroupname',$book);?></h5>
-
-
 		<div class="center">
 		  <label for="Newname"><?php print_string('newgroupname',$book);?></label>
 			<input type="text" id="Newname" name="newname" tabindex="<?php print $tab++;?>" maxlength="10" class="required" value="" />
 		</div>
-
 	  </fieldset>
-
 	<input type="hidden" name="newcomtype" value="<?php print $newcomtype;?>" />
 	<input type="hidden" name="choice" value="<?php print $choice;?>" />
 	<input type="hidden" name="current" value="<?php print $action;?>" />
