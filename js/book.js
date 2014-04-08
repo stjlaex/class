@@ -1628,7 +1628,7 @@ function addExtraFields(sidId,cellId,extraId,containerId){
 	var extraDiv=document.getElementById("add-"+extraId)
 	
     extraDiv = extraDiv.cloneNode(true);
-    var selElem = $(extraDiv).find('select')
+    var selElem = extraDiv.getElementsByTagName("select")[0]
 	extraDiv.removeAttribute("class");
 	extraDiv.id="add-"+extraId+"-"+sidId;
 	var newElements=$(extraDiv).find('select')//extraDiv.childNodes;
@@ -1643,8 +1643,8 @@ function addExtraFields(sidId,cellId,extraId,containerId){
 			if(cellId!=null){
 			    newElements[i].value=cellObj.attributes.getNamedItem(genName).value;
 				//update uniform js element
-				if (newElements[i].previousSibling.tagName == "SPAN") {
-					newElements[i].previousSibling.textContent = newElements[i].options[newElements[i].selectedIndex ].text;
+				if (newElements[i].value && newElements[i].previousSibling.tagName == "SPAN") {
+					newElements[i].previousSibling.textContent = newElements[i].options[newElements[i].selectedIndex ].text || "";
 				}
 		    }
 		} 
@@ -1683,7 +1683,6 @@ function removeExtraFields(sidId,extraId,containerId){
 	var editContainer=document.getElementById(containerId+"-"+sidId);
 	var extraDiv=document.getElementById("add-"+extraId+"-"+sidId);
 	var a=document.getElementById("miniaturechange"+sidId);
-	//console.log(extraDiv, a)
 	var img=document.getElementById("miniature");
 	if(extraDiv){
 		document.getElementById(containerId+"-"+sidId).removeChild(extraDiv);
@@ -2008,13 +2007,10 @@ function createPreviewFrame(tags,height,code){
 	}
 //
 function openAlert(book) {
-	//document.getElementById(book+"options").innerHTML=window.frames["view"+book].document.getElementById("hiddenbookoptions").innerHTML;
+    //document.getElementById(book+"options").innerHTML=window.frames["view"+book].document.getElementById("hiddenbookoptions").innerHTML;
+    document.getElementById("notice").className="overlay";
+}
 
-	document.getElementById("notice").className="overlay";
-
-	}
-
-    function closeAlert() {
-    	document.getElementById('notice').className="hidden";
-    }
-
+function closeAlert() {
+    document.getElementById('notice').className="hidden";
+}
