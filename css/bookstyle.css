@@ -1128,7 +1128,7 @@ div.content fieldset, div.topcontent fieldset {
 .chk-list-alt li {
   width: 170px;
 }
-.bus-route {
+.bus-route, .meal-item {
   display: inline-block;
   background-color: #bac1c8;
   padding: 3px;
@@ -1200,4 +1200,23 @@ fieldset.divgroup.markbook-img {
 .list-student li img {
   background-color: #D2D7DC;
   padding: 3px;
+}
+
+.staff-box	{
+	width: 28%;
+	float:left;
+	margin-top: 20px;
+	padding: 2%;
+	background-color: #EEEEEE;
+	min-height: 200px;
+}
+.staff-box fieldset	{
+	padding: 0!important;
+}
+.staff-box-middle	{
+	margin-left: 2%;
+	margin-right: 2%;
+}
+.rowaction	{
+	display: inline;
 }

@@ -72,7 +72,7 @@ $todate=date('Y-m-d');
 	$ave=round($tot2/$tot1);
 ?>
 		<tr>
-		  <th><?php print_string('total',$book);?></th>
+		  <td><?php print_string('total',$book);?></th>
 		  <td><?php print $tot1;?></td>
 		  <td><?php print $tot2;?></td>
 		  <td><?php print $ave;?></td>
@@ -239,7 +239,7 @@ $todate=date('Y-m-d');
 		}
 ?>
 		<tr>
-		  <th><?php print_string('total',$book);?></th>
+		  <td><?php print_string('total',$book);?></th>
 		  <td><?php print 'reports: '.$tot1;?></td>
 		  <td>&nbsp</td>
 		  <td><?php print $tot3;?></td>
@@ -287,7 +287,7 @@ $todate=date('Y-m-d');
 		}
 ?>
 		<tr>
-		  <th><?php print_string('total',$book);?></th>
+		  <td><?php print_string('total',$book);?></th>
 		  <td><?php print $tot1;?></td>
 		  <td>&nbsp</td>
 		</tr>
@@ -367,7 +367,7 @@ $todate=date('Y-m-d');
 		}
 ?>
 		<tr>
-		  <th><?php print_string('total',$book);?></th>
+		  <td><?php print_string('total',$book);?></th>
 		  <td><?php print $tot1;?></td>
 		  <td><?php print $tot2;?></td>
 		  <td><?php print $ave;?></td>
