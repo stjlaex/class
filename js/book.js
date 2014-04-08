@@ -651,9 +651,10 @@ function checksidsAction(buttonObject){
 		if(formObject.elements[c].type=="checkbox" && (formObject.elements[c].name==checkname1 || formObject.elements[c].name==checkname2)){
 			if(formObject.elements[c].checked){
 				sids[sidno++]=formObject.elements[c].value;
-				params=params+"&sids[]=" + escape(formObject.elements[c].value);
+				params=params+"&sids[]=" + escape(formObject.elements[c].value)
 				//and uncheck them for (maybe) convenience
 				formObject.elements[c].checked=false;
+				$.uniform.update(formObject.elements[c])
 				}
 			}
 		else {
