@@ -22,7 +22,6 @@ two_buttonmenu($extrabuttons);
 ?>
 
     <div class="content" id="viewcontent">
-
             <fieldset class="divgroup">
                 <div class="center">
                     <form name="formtoprocess2" id="formtoprocess2" method="post" novalidate action="<?php print $host; ?>">

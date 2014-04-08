@@ -146,6 +146,7 @@ function xmlarray_form($Array,$no='',$caption='',$tab=1,$book=''){
 ?>
   <table class="listmenu">
 <?php
+
 	if($caption!=''){print '<h5>'.get_string($caption,$book).'</h5>';}
 	while(list($key,$val)=each($Array)){
 		/* If the table_db attribute is omitted it indicates this is not */
@@ -158,9 +159,7 @@ function xmlarray_form($Array,$no='',$caption='',$tab=1,$book=''){
 ?>
 	<tr>
 	  <td>
-		<label for="<?php print $val['label'];?>">
-		  <?php print_string($val['label'],$book);?>
-		</label>
+		<label for="<?php print $val['label'];?>"><?php print_string($val['label'],$book);?></label>
 	  </td>
 	  <td>
 <?php
