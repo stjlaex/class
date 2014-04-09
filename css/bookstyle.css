@@ -903,6 +903,9 @@ table.smalltable {
   clear: both;
   margin-bottom: 10px;
 }
+.list-files li .checker {
+  float: left;
+}
 .document .checker {
   margin: 0 5px 0 0;
 }
@@ -990,7 +993,7 @@ button[value="Submit"] {
 /*//// InforBook || Profile \\\\*/
 .profile {
   padding: 2% !important;
-  margin: 20px 2%;
+  margin: 20px 0;
   margin-top: 0;
   background-color: #ebedef;
   position: relative;
@@ -1067,7 +1070,7 @@ button[value="Submit"] {
 
 /* Info */
 .profile-info {
-  width: 26.66%;
+  width: 28%;
   float: left;
   padding: 20px 2;
   min-height: 100px;
@@ -1077,19 +1080,13 @@ button[value="Submit"] {
   padding: 0 !important;
   margin: 0 !important;
 }
-.profile-info:nth-child(3n+3) {
-  margin-right: 2%;
-}
-.profile-info:nth-child(3n+4) {
-  margin-left: 2%;
-}
 .profile-info:nth-child(3n+2) {
   margin: 0 2% 20px;
 }
 
 /* Info */
 .profile-sibling {
-  width: 92%;
+  width: 96%;
 }
 
 /* Special needs */
