@@ -117,8 +117,7 @@ $action='med_view_action.php';
 		</div>
 	  </div>
 
-	<div class="center">
-	<fieldset class="left listmenu" style="margin:0px !important;">
+	<fieldset class=" listmenu">
 		<h5><?php print_string('medications',$book);?></h5>
 		<table class="listmenu">
 <?php 
@@ -193,13 +192,12 @@ $action='med_view_action.php';
 ?>
 		</table>
 	  </fieldset>
-	  <fieldset class="right" style="margin:0px !important;">
+	  <fieldset>
 <?php
 	require_once('lib/eportfolio_functions.php');
 	html_document_drop($Student['EPFUsername']['value'],'medical','%',$sid);
 ?>
 	  </fieldset>
-	</div>
 
  	<?php print $input_elements;?>
  	<input type="hidden" name="current" value="<?php print $action;?>"/>

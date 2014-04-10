@@ -101,8 +101,10 @@
     <div style="visibility:hidden;" id="hiddennavtabs">
         <div class="booktabs">
             <div class="user-logout">
-                <label id="loginlabel"></label> | 
-                <a id="logbooktab" class="logbook" onclick="logOut();"><span class="fa fa-power-off"></span></a>
+                <a id="logbooktab" class="logbook" onclick="logOut();">
+                    <label id="loginlabel"></label> |
+                    <span class="fa fa-power-off"></span>
+                </a>
             </div>
             <div id="loginworking">
                 <form  id="loginchoice" name="workingas" method="post" action="logbook.php" target="viewlogbook">

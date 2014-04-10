@@ -61,12 +61,12 @@ include('scripts/perm_action.php');
 		</div>
 	  </fieldset>
 
-	  <fieldset class="profile">
+	  <div class="center" style="margin-bottom: 20px;">
 <?php 	$tab=xmlarray_form($Enrolment,'','',$tab,'infobook');?>
 
-	  </fieldset>
+	  </div>
 
-	  <fieldset class="profile">
+	  <div class="center" style="margin-bottom: 20px;">
 		<h5><?php print_string('assessments',$book);?></h5>
 		<table class="listmenu">
 <?php 
@@ -140,7 +140,7 @@ include('scripts/perm_action.php');
 		}
 ?>
 		</table>
-	  </fieldset>
+	  </div>
 	  <?php print $input_elements;?>
 	    <input type="hidden" name="current" value="<?php print $action;?>" />
 		<input type="hidden" name="cancel" value="<?php print $cancel;?>">

@@ -911,7 +911,7 @@ function html_table_container_close($containerno,$xmltagname='',$entry=''){
 			<input type="hidden" id="y2" name="y2" />
 			<input type="hidden" id="w" name="w" />
 			<input type="hidden" id="h" name="h" />
-			<h4><?php print_string('searchfile');?> (<?php print_string('max');?>: <?php echo ini_get("upload_max_filesize"); ?>)</h4>
+			<!--h4><?php print_string('searchfile');?> (<?php print_string('max');?>: <?php echo ini_get("upload_max_filesize"); ?>)</h4-->
 			<div>
 				<label for="fileselect">
 					<?php print_string('filestoupload');?>:<br />
