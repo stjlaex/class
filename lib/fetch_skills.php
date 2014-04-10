@@ -890,15 +890,16 @@ function ratingToGrade($score,$grading_grades){
  * 
  * @param array $sids
  */
-function updateTermTotals($sids,$year=""){
-	$values=getTermsValues($year);
+function updateTermTotals($sids,$year="",$profile=""){
+	if($profile=="app"){$values=getTermsValues($year,array("APP Framework"));$cstatus="AV";$profile_name="APP Framework";}
+	else{$values=getTermsValues($year);$cstatus="V";$profile_name="";}
 	$terms=$values['terms'];
 	$components=$values['components'];
 	$year=$values['year'];
 	$rids=$values['rids'];
 	$dates=$values['dates'];
 	$lastdate=$dates['firstentry'];
-	$d_a=mysql_query("SELECT id FROM assessment WHERE element='TT1' AND year='$year';");
+	$d_a=mysql_query("SELECT id FROM assessment WHERE element='TT1' AND year='$year' AND profile_name='$profile_name';");
 	if(mysql_num_rows($d_a)>0){
 		foreach($sids as $sid){
 			$t=0;
@@ -906,45 +907,93 @@ function updateTermTotals($sids,$year=""){
 			$lastyear_entry=getStatementsResultsTotals($sid,$rids,$startdate,$lastdate);
 			/*TODO: update all only the first time, then update the current term only*/
 			foreach($terms as $date=>$term){
-				foreach($components as $component){
-					if($component!='Total' and $component!='Progress'){$component_name="";}
-					else{$component_name=" - ".$component;}
-					$result=0;
-					$rs=array();
-					$description=$term.$component_name;
-					$d_a=mysql_query("SELECT id FROM assessment WHERE description='$description' AND year='$year';");
-					$eid=mysql_result($d_a,0,'id');
-					$d_m=mysql_query("SELECT mark.id FROM (SELECT class_id FROM cidsid WHERE student_id='$sid' ORDER BY class_id DESC LIMIT 1) as c JOIN midcid ON c.class_id=midcid.class_id JOIN mark ON midcid.mark_id=mark.id WHERE topic='$description' AND (component_id='$component' OR component_id='') ORDER BY entrydate, id ASC LIMIT 1;");
-					$mid=mysql_result($d_m,0,'id');
-					if(mysql_num_rows($d_a)>0){
-						if($component!='Total' and $component!='Progress'){
-							$rs=getStatementsResults($sid,$rids,$startdate,$date,$component);
-							$result=$rs[$component];
-							}
-						elseif($component=='Progress'){
-							if($t>1){
-								$previoustotal_key=$t-2;
-								$currenttotal_key=$t-1;
-								if(isset($totals[$currenttotal_key])){$currenttotal=$totals[$currenttotal_key];}else{$currenttotal=0;}
-								if(isset($totals[$previoustotal_key])){$previoustotal=$totals[$previoustotal_key];}else{$previoustotal=0;}
-								$result=$currenttotal-$previoustotal;
+				$total[$term]['result']=0;
+				//if($dates['term'+t]<date('Y-m-d')){
+					foreach($components as $crid=>$course){
+						foreach($course as $component){
+							if($component!='Total' and $component!='Progress'){
+								$component_name="";
+								$component_status=$cstatus;
 								}
 							else{
-								$currenttotal=$totals[0];
-								$result=$currenttotal-$lastyear_entry;
+								$component_name=" - ".$component;
+								if($profile=="app" and $component=="Progress"){
+									$component_status=$cstatus;
+									}
+								else{
+									$component_status='None';
+									}
+								}
+							$result=0;
+							$rs=array();
+							$description=$term.$component_name;
+							$d_a=mysql_query("SELECT id FROM assessment WHERE description='$description' AND year='$year' AND course_id='$crid' AND deadline='$date' AND component_status='$component_status';");
+							$eid=mysql_result($d_a,0,'id');
+							if($profile=="app" and $component=="Progress"){
+								$d_m=mysql_query("SELECT mark.id,component_id FROM (SELECT class_id FROM cidsid WHERE student_id='$sid' ORDER BY class_id DESC LIMIT 1) as c JOIN midcid ON c.class_id=midcid.class_id JOIN mark ON midcid.mark_id=mark.id WHERE topic='$description' AND component_id!='' ORDER BY entrydate;");
+								}
+							else{
+								$d_m=mysql_query("SELECT mark.id FROM (SELECT class_id FROM cidsid WHERE student_id='$sid' ORDER BY class_id DESC LIMIT 1) as c JOIN midcid ON c.class_id=midcid.class_id JOIN mark ON midcid.mark_id=mark.id WHERE topic='$description' AND (component_id='$component' OR component_id='') ORDER BY entrydate, id ASC LIMIT 1;");
+								}
+							while($mark=mysql_fetch_array($d_m,MYSQL_ASSOC)){
+								$mid=$mark['id'];
+								$component_id=$mark['component_id'];
+								if($profile=="app"){
+									if($component!='Total' and $component!='Progress'){
+										$rs=getStatementsResults($sid,$rids,$startdate,$date,$component,array("APP Framework"));
+										$score=$rs[$component];
+										$total[$term]['result']+=$score['result'];
+										$total[$term]['values'][$component]=$score['value'];
+										}
+									elseif($component=='Progress'){
+										foreach($total[$term]['values'] as $c=>$level){
+											if($level[2]=='a'){$sl=0;}
+											elseif($level[2]=='b'){$sl=1;}
+											elseif($level[2]=='c'){$sl=2;}
+											if($level!=""){$l[$term][$c]=($level[1]*3)-$sl;}
+											}
+										$score['value']=$l[$term][$component_id]-$l['Term '.(substr($term, -1)-1)][$component_id];
+										$score['result']=$l[$term][$component_id]-$l['Term '.(substr($term, -1)-1)][$component_id];
+										}
+									elseif($component=='Total'){
+										$score['value']=$total[$term]['result'];
+										$score['result']=$total[$term]['result'];
+										}
+									$value=$score['result'];
+									$result=$score['value'];
+									}
+								else{
+									if($component!='Total' and $component!='Progress'){
+										$rs=getStatementsResults($sid,$rids,$startdate,$date,$component);
+										$result=$rs[$component];
+										$value=$result;
+										}
+									elseif($component=='Progress'){
+										if($t>1){
+											$previoustotal_key=$t-2;
+											$currenttotal_key=$t-1;
+											if(isset($totals[$currenttotal_key])){$currenttotal=$totals[$currenttotal_key];}else{$currenttotal=0;}
+											if(isset($totals[$previoustotal_key])){$previoustotal=$totals[$previoustotal_key];}else{$previoustotal=0;}
+											$result=$currenttotal-$previoustotal;
+											}
+										else{
+											$currenttotal=$totals[0];
+											$result=$currenttotal-$lastyear_entry;
+											}
+										}
+									elseif($component=='Total'){
+										$result=getStatementsResultsTotals($sid,$rids,$startdate,$date);
+										$totals[$t]=$result;
+										$t++;
+										}
+									}
+								$score=array('type'=>'value','result'=>$result,'value'=>$value,'date'=>$date);
+								update_assessment_score($eid,$sid,'',$component,$score);
+								update_mark_score($mid,$sid,$score);
 								}
 							}
-						elseif($component=='Total'){
-							$result=getStatementsResultsTotals($sid,$rids,$startdate,$date);
-							$totals[$t]=$result;
-							$t++;
-							}
-						$score=array('type'=>'value','result'=>$result,'value'=>$result,'date'=>$date);
-						update_assessment_score($eid,$sid,'',$component,$score);
-						update_mark_score($mid,$sid,$score);
-						
 						}
-					}
+					//}
 				}
 			}
 		}
@@ -953,12 +1002,38 @@ function updateTermTotals($sids,$year=""){
 /**
  * Gets the terms dates, the rids for profiles, the components and the total/progress assessments.
  */
-function getTermsValues($year=""){
+function getTermsValues($year="",$profiles=array('ELG','EYFS3648','EYFS2436')){
 	$values=array();
 	if($year==""){$year=get_curriculumyear();}
-	$d_r=mysql_query("SELECT id FROM report WHERE title='ELG' OR title='EYFS3648' OR title='EYFS2436';");
-	while($report=mysql_fetch_array($d_r,MYSQL_ASSOC)){
-		$rids[]=$report['id'];
+	if($profiles[0]=="APP Framework"){
+		$d_r=mysql_query("SELECT * FROM course JOIN report ON report.course_id=course.id WHERE course.id LIKE 'KS%' AND report.title LIKE 'L%';");
+		while($report=mysql_fetch_array($d_r,MYSQL_ASSOC)){
+			$rids[]=$report['id'];
+			}
+		$d_c=mysql_query("SELECT id,course_id FROM component WHERE id!='' AND course_id LIKE 'KS%' AND status IN ('V', 'O') AND year='$year';");
+		while($component=mysql_fetch_array($d_c,MYSQL_ASSOC)){
+			$component_id=$component['id'];
+			$course_id=$component['course_id'];
+			$components[$course_id][$component_id]=$component_id;
+			$components[$course_id]['Total']="Total";
+			$components[$course_id]['Progress']="Progress";
+			}
+		}
+	elseif($profiles[0]=="ELG" or $profiles[0]=="EYFS3648" or $profiles[0]=="EYFS2436"){
+		$d_r=mysql_query("SELECT id FROM report WHERE title='ELG' OR title='EYFS3648' OR title='EYFS2436';");
+		while($report=mysql_fetch_array($d_r,MYSQL_ASSOC)){
+			$rids[]=$report['id'];
+			}
+		$d_c=mysql_query("SELECT c.subject_id,c.id FROM report_skill as s JOIN component as c ON s.subject_id=c.id WHERE s.subject_id!='%' AND s.subject_id!='' AND year='$year' AND course_id='FS' GROUP BY c.subject_id;");
+		while($component=mysql_fetch_array($d_c,MYSQL_ASSOC)){
+			$strand_id=$component['id'];
+			$component_id=$component['subject_id'];
+			$d_cc=mysql_query("SELECT id FROM component WHERE id='$component_id' and year='$year';");
+			if(mysql_num_rows($d_cc)==0){$component_id=$strand_id;}
+			$components['FS'][$component_id]=$component_id;
+			}
+		$components['FS']['Total']="Total";
+		$components['FS']['Progress']="Progress";
 		}
 	$preyear=$year-1;
 	$dates['firstentry']=$preyear."-09-01";
@@ -966,16 +1041,6 @@ function getTermsValues($year=""){
 	$dates['term2']=$year."-04-06";
 	$dates['term3']=$year."-07-31";
 	$terms=array($dates['term1']=>"Term 1",$dates['term2']=>"Term 2",$dates['term3']=>"Term 3");
-	$d_c=mysql_query("SELECT c.subject_id,c.id FROM report_skill as s JOIN component as c ON s.subject_id=c.id WHERE s.subject_id!='%' AND s.subject_id!='' AND year='$year' GROUP BY c.subject_id;");
-	while($component=mysql_fetch_array($d_c,MYSQL_ASSOC)){
-		$strand_id=$component['id'];
-		$component_id=$component['subject_id'];
-		$d_cc=mysql_query("SELECT id FROM component WHERE id='$component_id' and year='$year';");
-		if(mysql_num_rows($d_cc)==0){$component_id=$strand_id;}
-		$components[$component_id]=$component_id;
-		}
-	$components['Total']="Total";
-	$components['Progress']="Progress";
 	$values['rids']=$rids;
 	$values['components']=$components;
 	$values['terms']=$terms;
@@ -987,30 +1052,44 @@ function getTermsValues($year=""){
 /**
  * Used to create the assessments for each term totals.
  */
-function createTermStatementsAssessments($year="",$current=true){
+function createTermStatementsAssessments($year="",$current=true,$profile=""){
 	if($year==""){$year=get_curriculumyear();}
 	if($current){$current_date=date("Y-m-d");}
-	$values=getTermsValues($year);
+	if($profile=="app"){$values=getTermsValues($year,array("APP Framework"));$cstatus="AV";$profile_name="APP Framework";}
+	else{$values=getTermsValues($year);$cstatus="V";$profile_name="";}
 	$terms=$values['terms'];
 	$components=$values['components'];
 	$year=$values['year'];
 	/*TODO: Use subject General or Early Years and create assessement in the first days of each term*/
 	foreach($terms as $date=>$term){
 		//if($current and $date>=$current_date){break;}
-		foreach($components as $component){
-			if($component!='Total' and $component!='Progress'){$component_name="";$component_status='V';}
-			else{$component_name=" - ".$component;$component_status='None';}
-			$description=$term.$component_name;
-			$label="TT".substr($term, -1).$component_name;
-			$element="TT".substr($term, -1);
-			$d_a=mysql_query("SELECT id FROM assessment WHERE description='$description' AND year='$year';");
-			if(mysql_num_rows($d_a)==0){
-				mysql_query("INSERT INTO assessment (stage, year, subject_id, description, label,
-											 resultstatus, element, course_id, deadline,component_status) 
-									VALUES ('%', '$year', '%', '$description', '$label',
-											'R', '$element','FS', '$date', '$component_status');");
-				$eid=mysql_insert_id();
-				generate_assessment_columns($eid);
+		foreach($components as $crid=>$course){
+			foreach($course as $component){
+				if($component!='Total' and $component!='Progress'){
+					$component_name="";
+					$component_status=$cstatus;
+					}
+				else{
+					$component_name=" - ".$component;
+					if($profile=="app" and $component=="Progress"){
+						$component_status=$cstatus;
+						}
+					else{
+						$component_status='None';
+						}
+					}
+				$description=$term.$component_name;
+				$label="TT".substr($term, -1).$component_name;
+				$element="TT".substr($term, -1);
+				$d_a=mysql_query("SELECT id FROM assessment WHERE description='$description' AND year='$year' AND course_id='$crid' AND deadline='$date' AND component_status='$component_status';");
+				if(mysql_num_rows($d_a)==0){
+					mysql_query("INSERT INTO assessment (stage, year, subject_id, description, label,profile_name,
+												 resultstatus, element, course_id, deadline,component_status) 
+										VALUES ('%', '$year', '%', '$description', '$label','$profile_name',
+												'R', '$element','$crid', '$date', '$component_status');");
+					$eid=mysql_insert_id();
+					generate_assessment_columns($eid);
+					}
 				}
 			}
 		}
@@ -1080,15 +1159,22 @@ function getStatementsResultsTotals($sid,$rids,$assessment_startdate="",$assessm
  * @param date $assessment_startdate
  * @param date $assessment_date
  * @param string $component
+ * @param array $profiles
  *
  * @return array $results
  */
-function getStatementsResults($sid,$rids,$assessment_startdate="",$assessment_date="",$component=""){
+function getStatementsResults($sid,$rids,$assessment_startdate="",$assessment_date="",$component="",$profiles=array('ELG','EYFS3648','EYFS2436')){
 	$results=array();
+	$comp='fs';
 	if($assessment_date==""){$assessment_date=date('Y-m-d');}
 	if($assessment_startdate==""){$assessment_startdate="0000-00-00";}
 	foreach($rids as $rid){
-		$d_r=mysql_query("SELECT id FROM report WHERE title='ELG' OR title='EYFS3648' OR title='EYFS2436' AND id='$rid';");
+		if($profiles[0]=="APP Framework"){
+			$d_r=mysql_query("SELECT title FROM report WHERE title LIKE 'L%' AND id='$rid';");
+			$area=mysql_result($d_r,0);
+			$comp='app';$score="";
+			}
+		else{$d_r=mysql_query("SELECT id FROM report WHERE title='ELG' OR title='EYFS3648' OR title='EYFS2436' AND id='$rid';");}
 		if(mysql_num_rows($d_r)>0){
 			$d_s=mysql_query("SELECT s.skill_id FROM (SELECT skill_id FROM report_skill_log WHERE student_id='$sid' AND report_id='$rid' AND timestamp>'$assessment_startdate' AND timestamp<='$assessment_date' GROUP BY skill_id ORDER BY timestamp DESC) s GROUP BY s.skill_id;");
 			while($skill=mysql_fetch_array($d_s,MYSQL_ASSOC)){
@@ -1097,8 +1183,26 @@ function getStatementsResults($sid,$rids,$assessment_startdate="",$assessment_da
 				$component_subject=mysql_result($d_p,0,'subject_id');
 				$d_c=mysql_query("SELECT subject_id FROM component WHERE id='$component_subject';");
 				$component_profile=mysql_result($d_c,0,'subject_id');
-				if($component==$component_profile or $component==""){
-					$results[$component_profile]+=getStatementResult($sid,$skid,$rid,$assessment_startdate,$assessment_date);
+				if($component==$component_profile or $component=="" and $comp=='fs'){
+					$skill_result=getStatementResult($sid,$skid,$rid,$assessment_startdate,$assessment_date);
+					$results[$component_profile]+=$skill_result['result'];
+					}
+				else{
+					if(!isset($totalno[$component_subject])){
+						$tot[$component_subject]=0;
+						$totalno[$component_subject]=1;
+						}
+					$skill_result=getStatementResult($sid,$skid,$rid,$assessment_startdate,$assessment_date);
+					$results[$component_subject]['result']+=$skill_result['result'];
+					if($skill_result['rating']>0){
+						$tot[$component_subject]+=$skill_result['rating'];
+						}
+					$val=round(100*$tot[$component_subject]/$totalno[$component_subject]);
+					if($val>80){$score=$area.'a';}
+					elseif($val>60){$score=$area.'b';}
+					elseif($val>30){$score=$area.'c';}
+					$results[$component_subject]['value']=$score;
+					$totalno[$component_subject]++;
 					}
 				}
 			}
@@ -1118,7 +1222,7 @@ function getStatementsResults($sid,$rids,$assessment_startdate="",$assessment_da
  * @return integer $result
  */
 function getStatementResult($sid,$skid,$rid,$assessment_startdate="",$assessment_date=""){
-	$result=0;
+	$result=array();
 	if($assessment_date==""){$assessment_date=date('Y-m-d');}
 	if($assessment_startdate==""){$assessment_startdate="0000-00-00";}
 	$d_r=mysql_query("SELECT title,rating_name FROM report WHERE id='$rid';");
@@ -1128,20 +1232,21 @@ function getStatementResult($sid,$skid,$rid,$assessment_startdate="",$assessment
 	if(mysql_num_rows($d_s)>0){
 		$rating=mysql_result($d_s,0,'rating');
 		$d_rn=mysql_query("SELECT name,value,result FROM rating WHERE name LIKE '$ratingname';");
+		$result['rating']=$rating;
 		if(mysql_num_rows($d_rn)>0){
 			while($rn=mysql_fetch_array($d_rn,MYSQL_ASSOC)){
-				if($rn['value']==$rating){$result=$rn['result'];}
+				if($rn['value']==$rating){$result['result']=$rn['result'];}
 				}
 			}
 		else{
 			if($rating==-1){
-				$result+=1;
+				$result['result']+=1;
 				}
 			elseif($rating==0){
-				$result+=2;
+				$result['result']+=2;
 				}
 			elseif($rating==1){
-				$result+=3;
+				$result['result']+=3;
 				}
 			}
 		}
