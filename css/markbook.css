@@ -35,16 +35,16 @@
   float: right;
   margin-right: 20%;
 }
-#editscores select {
+ #editscores select {
   margin-right: 45%;
 }
-#editscores th {
+ #editscores th {
   background-color: #ffffff;
   text-align: center;
 }
 
 /*for the attendance status*/
-.marktable td[status="a"], #editscores td[status="a"] {
+.marktable td[status="a"],  #editscores td[status="a"] {
   background-image: none;
   background-color: yellow;
   font-weight: 100;
@@ -52,15 +52,15 @@
   color: #000000;
   text-align: center;
 }
-td[status="p"] {
+.markcolor td[status="p"] {
   background-color: #91C73E;
   text-align: center;
   padding: 5px 0 !important;
 }
-td[status=" "] {
+.markcolor td[status=" "] {
   background-color: #777;
 }
-td[status="p"], td[status="a"], td[status=" "] {
+.markcolor td[status="p"], .markcolor td[status="a"], .markcolor td[status=" "] {
   width: 2em !important;
 }
 
