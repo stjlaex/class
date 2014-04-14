@@ -158,6 +158,7 @@ function xmlechoer($rootName,$xmlentry){
 function xmlprocessor($xml,$xsl_filename,$output_filename=NULL){
 	global $CFG;
 
+	libxml_use_internal_errors(true);
 	$arguments=array(
 					 '/_xml' => $xml
 					 //,'/_xsl' => $xsl
@@ -177,6 +178,7 @@ function xmlprocessor($xml,$xsl_filename,$output_filename=NULL){
 					   );
 	if(empty($html)){
 		trigger_error('XSLT processing error: '. xslt_error($xh), E_USER_WARNING);
+		$html=xml_errors(libxml_get_errors(),false);
 		}
 
 	xslt_free($xh);
@@ -185,6 +187,48 @@ function xmlprocessor($xml,$xsl_filename,$output_filename=NULL){
 	}
 
 
+/**
+ *
+ */
+function xml_errors($errors,$print=true){
+	if(!$print){$message="";}
+	foreach ($errors as $error){
+		if(!$print){$message.=display_xml_error($error, $xml);}
+		else{echo display_xml_error($error, $xml);}
+		}
+	libxml_clear_errors();
+	if(!$print){return $message;}
+	}
+
+
+/**
+ *
+ */
+function display_xml_error($error, $xml){
+	$return=$xml[$error->line-1]."<br>";
+	$return.=str_repeat('-', $error->column)."^".trim($error->message)."<br>";
+
+	switch ($error->level){
+		case LIBXML_ERR_WARNING:
+			$return.="Warning $error->code: ";
+		break;
+		case LIBXML_ERR_ERROR:
+			$return.="Error $error->code: ";
+		break;
+		case LIBXML_ERR_FATAL:
+			$return.="Fatal Error $error->code: ";
+		break;
+		}
+	$return.=trim($error->message)
+			."<br> Line: $error->line"
+			."<br> Column: $error->column";
+	if($error->file) {
+		$return.="<br> File: $error->file";
+		}
+	$return.="<br>";
+
+	return $return;
+	}
 
 /**
  *
