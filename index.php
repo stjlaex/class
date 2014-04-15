@@ -104,6 +104,7 @@ print '<?xml version="1.0" encoding="utf-8"?' . '>';
             //$('.infobook select').uniform({wrapperClass: "default infoBook"});
             //$('#loginlang select').uniform({wrapperClass: "blueLight"});
         });
+        vex.defaultOptions.className ="vex-ld-theme";
     </script>
   </body>
 </html>
