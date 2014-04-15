@@ -9,7 +9,7 @@
         var book = "<?php print $book; ?>";
     </script>
 <?php
-if ($CFG->debug == 'dev' or !file_exists("js/appboox.min.js")) {
+if ($CFG->debug == 'dev' or !file_exists("js/appbook.min.js")) {
     print '<script language="JavaScript" type="text/javascript" src="js/book.js"></script>
     <script language="JavaScript" type="text/javascript" src="js/qtip.js"></script>
     <script language="JavaScript" type="text/javascript" src="lib/jscalendar/calendar.js"></script>
