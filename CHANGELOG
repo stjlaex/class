@@ -1,5 +1,7 @@
-Version ClaSS-1.0.66 release (2014/03/31)
+Version ClaSS-1.0.66 release (2014/04/15)
 -------------------------------------------
+
+Option to check students from the fees charge list table.
 
 Added field result in rating table for the equivalent used in markbook tables.
 

@@ -10,6 +10,7 @@ if(isset($_POST['conceptid']) and $_POST['conceptid']!=''){$conceptid=$_POST['co
 if(isset($_POST['comids'])){$comids=$_POST['comids'];}else{$comids=array();}
 if(isset($_POST['answer0'])){$flood=$_POST['answer0'];}else{$flood='no';}
 if(isset($_POST['floodtarifid'])){$flood_tarifid=$_POST['floodtarifid'];}else{$flood_tarifid='';}
+if(isset($_POST['sids'])){$sids=$_POST['sids'];}else{$sids=array();}
 
 include('scripts/sub_action.php');
 
@@ -26,10 +27,8 @@ if($sub=='Submit'){
 			}
 		}
 
-	foreach($students as $student){
-		$sid=$student['id'];
-
-		if($flood=='yes'){
+	if(count($sids)>0){
+		foreach($sids as $sid){
 			if(array_key_exists($sid,$charges)){
 				if($charges[$sid][0]['tarif_id']!=$flood_tarifid){
 					$charid=$charges[$sid][0]['id'];
@@ -45,21 +44,43 @@ if($sub=='Submit'){
 				apply_student_fee($sid,'',$flood_tarifid);
 				}
 			}
-		elseif($flood=='no' and isset($_POST['tarifid'.$sid])){
-			$tarifid=$_POST['tarifid'.$sid];
-			if(array_key_exists($sid,$charges)){
-				if($charges[$sid][0]['tarif_id']!=$tarifid){
-					$charid=$charges[$sid][0]['id'];
-					if($tarifid!=''){
-						mysql_query("UPDATE fees_applied SET tarif_id='$tarifid' WHERE id='$charid';");
-						}
-					else{
-						delete_fee($charid);
+		}
+	else{
+		foreach($students as $student){
+			$sid=$student['id'];
+
+			if($flood=='yes'){
+				if(array_key_exists($sid,$charges)){
+					if($charges[$sid][0]['tarif_id']!=$flood_tarifid){
+						$charid=$charges[$sid][0]['id'];
+						if($flood_tarifid!=''){
+							mysql_query("UPDATE fees_applied SET tarif_id='$flood_tarifid' WHERE id='$charid';");
+							}
+						else{
+							delete_fee($charid);
+							}
 						}
 					}
+				elseif($flood_tarifid!=''){
+					apply_student_fee($sid,'',$flood_tarifid);
+					}
 				}
-			elseif($tarifid!=''){
-				apply_student_fee($sid,'',$tarifid);
+			elseif($flood=='no' and isset($_POST['tarifid'.$sid])){
+				$tarifid=$_POST['tarifid'.$sid];
+				if(array_key_exists($sid,$charges)){
+					if($charges[$sid][0]['tarif_id']!=$tarifid){
+						$charid=$charges[$sid][0]['id'];
+						if($tarifid!=''){
+							mysql_query("UPDATE fees_applied SET tarif_id='$tarifid' WHERE id='$charid';");
+							}
+						else{
+							delete_fee($charid);
+							}
+						}
+					}
+				elseif($tarifid!=''){
+					apply_student_fee($sid,'',$tarifid);
+					}
 				}
 			}
 		}
