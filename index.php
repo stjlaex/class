@@ -50,10 +50,17 @@ print '<?xml version="1.0" encoding="utf-8"?' . '>';
     <link href="css/selery.css?version=1042" rel="stylesheet" type="text/css" />
     <link href='http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900' rel='stylesheet' type='text/css'>
     <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
-    <link rel="stylesheet" href="css/uniform.edit.css" media="screen" />
-    <link href="css/hoststyle.css" rel="stylesheet" type="text/css" />
-    <link rel="stylesheet" type="text/css" href="css/vex.css" />
-    <link rel="stylesheet" type="text/css" href="css/vex-ld-theme.css" />
+    <?php
+      if ($CFG->debug == 'dev' or !file_exists("css/apphost.min.css")) {
+          print '<link rel="stylesheet" href="css/uniform.edit.css" media="screen" />
+            <link href="css/hoststyle.css" rel="stylesheet" type="text/css" />
+            <link rel="stylesheet" type="text/css" href="css/vex.css" />
+            <link rel="stylesheet" type="text/css" href="css/vex-ld-theme.css" />';
+      } else {
+          print '<link href="css/apphost.min.' . str_replace('.', '', $CFG->version) . '.css" rel="stylesheet" type="text/css" /';
+      }
+    ?>
+      
   </head>
   <body onload="loadLogin('logbook.php');">
     <header>
@@ -94,10 +101,16 @@ print '<?xml version="1.0" encoding="utf-8"?' . '>';
     <?php
     }
       ?>
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
-    <script src="js/host.js?version=1042"></script>
-    <script src="js/jquery.uniform.min.js"></script>
-    <script src="js/vex.combined.min.js"></script>
+      <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+      <?php
+        if ($CFG->debug == 'dev' or !file_exists("js/apphost.min.js")) {
+          print '<script src="js/host.js"></script>
+              <script language="Javascript" type="text/javascript" src="js/vex.combined.min.js"></script>
+              <script src="js/jquery.uniform.min.js"></script>';
+        } else {
+          print '<script src="js/apphost.min.' . str_replace('.', '', $CFG->version) . '.js"></script>';
+        }
+      ?>
     <script>
         $("iframe").load(function() {
             $('#loginlang select').uniform({wrapperClass: "loginlang"});
