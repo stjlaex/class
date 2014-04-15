@@ -1,6 +1,6 @@
 var xmlHttp = false;
 requestxmlHttp();
-
+$(document).ready(function() { $(":checkbox, :radio").not('.hidden').uniform(); })
 function requestxmlHttp(){
 	try { xmlHttp=new XMLHttpRequest(); } 
 	catch (failed) { xmlHttp=false; }
@@ -398,9 +398,9 @@ function clickToPresent(book,script,xsltransform){
 	xmlHttp.onreadystatechange=function () {
 		if(xmlHttp.readyState==4){
 			if(xmlHttp.status==200){
-				xmlRecord=xmlHttp.responseXML;
-				var xmlResult=processXML(xmlRecord,xsltransform,"../templates/");
-				openPrintReport(xmlResult,xsltransform,paper);
+				console.log(xmlHttp.response, JSON.parse(xmlHttp.response).html)
+				response=JSON.parse(xmlHttp.response).html;
+				parent.openPrintReport(response, paper);
 				}
 			else if(xmlHttp.status==404){alert ("Requested URL is not found.");}
 			else if(xmlHttp.status==403){alert("Access denied.");}
@@ -571,6 +571,7 @@ function checkRadioIndicator(parentObj){
  *
  */
 function checksidsAction(buttonObject){
+
 	var formObject=document.formtoprocess;
 	var formElements=formObject.elements;
 	var action=buttonObject.name;
@@ -1372,7 +1373,7 @@ function openPrintReport(xml, xsltName, paper){
 	else{
 		printWindow=window.open('','','height=800,width=750,dependent,resizable,menubar,screenX=50,scrollbars');
 		}
-
+	
 	printWindow.document.open("text/html");
 	printWindow.document.writeln("<html xmlns='http://www.w3.org/1999/xhtml'>");
 	printWindow.document.writeln("<head>");
@@ -1385,7 +1386,6 @@ function openPrintReport(xml, xsltName, paper){
 	printWindow.document.writeln("</body>");
 	printWindow.document.writeln("</html>");
 	printWindow.document.close();
-
 	}
 
 

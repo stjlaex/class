@@ -52,6 +52,8 @@ print '<?xml version="1.0" encoding="utf-8"?' . '>';
     <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
     <link rel="stylesheet" href="css/uniform.edit.css" media="screen" />
     <link href="css/hoststyle.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="css/vex.css" />
+    <link rel="stylesheet" type="text/css" href="css/vex-ld-theme.css" />
   </head>
   <body onload="loadLogin('logbook.php');">
     <header>
@@ -95,6 +97,7 @@ print '<?xml version="1.0" encoding="utf-8"?' . '>';
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
     <script src="js/host.js?version=1042"></script>
     <script src="js/jquery.uniform.min.js"></script>
+    <script src="js/vex.combined.min.js"></script>
     <script>
         $("iframe").load(function() {
             $('#loginlang select').uniform({wrapperClass: "loginlang"});
