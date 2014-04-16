@@ -293,3 +293,12 @@ select.uniform-multiselect option.other {
   background-color: #bfde8f;
 }
 
+
+/* iPads (portrait and landscape) ----------- */
+@media only screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px) {
+  select.uniform-multiselect {
+    height: auto!important;
+  }
+}

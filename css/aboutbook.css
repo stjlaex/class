@@ -3,36 +3,71 @@
  * dark shade: ff9900
  */
 
-.aboutcolor fieldset, .aboutcolor div.topform, .aboutcolor table.listmenu {
-	border-color:#ee9900;
-	background-color:#444444; color:#000000;
-	}
-div#bookbox{
-	border-color:#ee9900;
-	}
+.aboutcolor div.topform, .aboutcolor table.listmenu {
+  border-color: #ee9900;
+  color: #000000;
+}
+div#bookbox {
+  border-color: #ee9900;
+}
 .aboutcolor button {
-	background-color:#444444;
-	}
+  background-color: #444444;
+}
 .aboutcolor legend, .aboutcolor caption {
-    border-color:#ee9900;
-	}
-
+  border-color: #ee9900;
+}
 .aboutcolor h2, h4 {
-	color:#000000;
-    text-align:center;
-	}
-.aboutcolor p {
-	color:#000000;
-    text-align:center;
-	}
-#splash { 
-    margin-top:4.5%;
-    background-color:#ffffee;
-	}
+}
 img:hover {
-	cursor:pointer;
-	overflow: hidden
-	}
-	
+  cursor: pointer;
+  overflow: hidden
+}
+.modal-about  h4{
+  text-align: center;
+}
+.modal-about  p{
+  font-size: 18px;
+  margin-bottom: 20px;
+  font-weight: 300;
+}
+hr{
+  background-color: #aeb6bf;
+  height: 1px;
+  width: 80%;
+  margin: 60px auto;
+}
 
+/* Thanks*/
+.modal-thanks h2 {
+  font-size: 48px;
+  font-weight: bold;
+}
+.modal-thanks h3 {
+  font-size: 22px;
+  font-weight: 300;
+  margin: 20px 0 40px;
+}
+.modal-thanks h5 {
+  font-size: 18px;
+  font-weight: 400;
+  margin: 20px 0 40px;
+}
+.modal-thanks a {
+  text-decoration: underline;
+}
+.modal-thanks .navigation {
+  background-color: #d2d7dc;
+  padding: 2.5%;
+  margin-bottom: 20px;
+}
+.modal-thanks .navigation h6, .modal-thanks .navigation p {
+  display: inline-block;
+  width: 45%;
+}
+.modal-thanks .navigation p {
+  font-weight: 300;
+}
+.modal-thanks .navigation span {
+  color: #34495e;
+}
 

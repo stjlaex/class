@@ -106,7 +106,9 @@
                     <span class="fa fa-power-off"></span>
                 </a>
             </div>
+                
             <div id="loginworking">
+                <a onclick="viewBook('aboutbook');" title="<?php print_string('about');?>"><span class="fa fa-info-circle"></span></a>
                 <form  id="loginchoice" name="workingas" method="post" action="logbook.php" target="viewlogbook">
                     <select name="new_r" size="1" onChange="document.workingas.submit();">
                         <option value="-1" <?php  if($r==-1){print 'selected="selected" ';} ?>><?php print_string('myclasses');?></option>

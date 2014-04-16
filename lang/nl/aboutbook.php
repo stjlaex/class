@@ -13,9 +13,7 @@ $string['supportexplanation']='This form will post an email to your
 local ClaSS Contact person.	<br /> Do not expect a reply by email. But you
 will be contacted should more detail be needed to solve your request.';
 $string['timetakenappreciated']='Bedankt voor het beschijven van het probleem.';
-$string['classblurb']='ClaSS (the ClaSS Student System) is een compleet student volg-, <br /> rapporterings- en informatie- management systeem. ClaSS probeert <br /> de alomtegenwoordige informatie assistent voor scholen te zijn.';
-$string['formoreinformation']='Voor meer informatie over het gebruik van ClaSS, over hoe je kan bijdragen <br />  om ClaSS te verbeteren en om te ontdekken hoe ClaSS een verschil kan maken <br /> in het leren op uw school, neem dan een kijkje op de ClaSS homepage.<br />';
-$string['gplintro']='This software is copyright (c) 2002 - 2008
-S. T. Johnson.<br /> This program is free software; you can
-redistribute it <br /> and/or modify it under the terms of the ...<br />';
+$string['classblurb']='ClaSS (the ClaSS Student System) is een compleet student volg-, rapporterings- en informatie- management systeem. ClaSS probeert de alomtegenwoordige informatie assistent voor scholen te zijn.';
+$string['formoreinformation']='Voor meer informatie over het gebruik van ClaSS, over hoe je kan bijdragen om ClaSS te verbeteren en om te ontdekken hoe ClaSS een verschil kan maken in het leren op uw school, neem dan een kijkje op de ClaSS homepage.';
+$string['gplintro']='This software is copyright (c) 2002 - 2008 S. T. Johnson. This program is free software; you can redistribute it and/or modify it under the terms of the ...';
 ?>
