@@ -15,7 +15,7 @@
  *	@since
  */
 
-if($CFG->debug=='on'){
+if($CFG->debug=='on' or $CFG->debug=='dev'){
 	error_reporting(0);
 
 	function myErrorHandler($errno, $errmsg, $filename, $linenum, $vars){

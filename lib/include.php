@@ -13,7 +13,7 @@ $languages=array(
 				 'it' => 'Italiano'
 				 );
 require_once($CFG->dirroot.'/lib/functions.php');
-if($CFG->debug=='on'){require_once($CFG->dirroot.'/lib/logging.php');}
+if($CFG->debug=='on' or $CFG->debug=='dev'){require_once($CFG->dirroot.'/lib/logging.php');}
 require_once($CFG->dirroot.'/lib/community_functions.php');
 require_once($CFG->dirroot.'/lib/curriculum_functions.php');
 require_once($CFG->dirroot.'/lib/fetch_student.php');

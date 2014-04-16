@@ -155,7 +155,7 @@ function logInSuccess() {
     document.getElementById("viewlogbook").style.zIndex = "-100";
     document.getElementById("logbookoptions").innerHTML = "";
     document.getElementById("logbookoptions").style.zIndex = "-100";
-    $(document.getElementById("navtabs")).find('select').uniform()
+    $(document.getElementById("navtabs")).find('select').uniform();
     viewBook("aboutbook");
 }
 
@@ -253,7 +253,21 @@ function printGenericContent(iFrameName) {
         printWindow.document.close();
     }
 }
-
+/**
+ * propigates dialog from child frame to take full page dialog.
+ * This replaces the xsl transformation from xml js function
+ * and opens a new iframe in a dialog display.
+ * htmlStr is a full document including style and js tags.
+ */
+function openPrintReport(htmlStr, xsltName, paper) {
+    var template  = "<div class='" + xsltName + "'>" +
+        "<span onclick='window.print()' class='fa fa-print'></span>" +
+        "<iframe id='printFrame' width=750></div>";
+    vex.open({content: template, contentClassName: 'print-modal', showCloseButton: true});
+    var iFrame = document.getElementById("printFrame")
+    iFrame.contentWindow.document.write(htmlStr);
+    iFrame.contentWindow.document.close();
+}
 // Keep the php session alive
 function sessionAlive(pathtobook) {
     var url = pathtobook + "httpscripts/session_alive.php?uniqueid=1";

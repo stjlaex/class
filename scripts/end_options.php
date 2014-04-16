@@ -2,9 +2,35 @@
 /**							end_options.php
  */
 ?>
-<script src="js/jquery.uniform.min.js"></script>
-<script src="js/jquery.table_sort.js"></script>
-
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+    <script language="JavaScript" type="text/javascript">
+        var pathtobook= "<?php print $CFG->sitepath.'/'.$CFG->applicationdirectory.'/'.$book.'/'; ?>";
+        var pathtoapplication = "<?php print $CFG->sitepath.'/'.$CFG->applicationdirectory.'/'; ?>";
+        var book = "<?php print $book; ?>";
+    </script>
+<?php
+if ($CFG->debug == 'dev' or !file_exists("js/appbook.min.js")) {
+    print '<script language="JavaScript" type="text/javascript" src="js/book.js"></script>
+    <script language="JavaScript" type="text/javascript" src="js/qtip.js"></script>
+    <script language="JavaScript" type="text/javascript" src="lib/jscalendar/calendar.js"></script>
+    <script language="JavaScript" type="text/javascript" src="lib/jscalendar/calendar-setup.js"></script>
+    <script language="Javascript" type="text/javascript" src="js/jquery.uniform.min.js"></script>
+    <script language="Javascript" type="text/javascript" src="js/jquery.table_sort.js"></script>
+    <script language="Javascript" type="text/javascript" src="js/documentdrop.js"></script>
+    <script language="Javascript" type="text/javascript" src="js/jcrop/jquery.Jcrop.min.js"></script>
+    <script language="Javascript" type="text/javascript" src="js/crop.js"></script>';
+} else {
+    print '<script src="js/appbook.min.' . str_replace('.', '', $CFG->version) . '.js"></script>';
+    }
+?>
+    <script language="JavaScript" type="text/javascript" src="lib/jscalendar/lang/calendar-<?php  print_string('shortlocale'); ?>.js"></script>
+        <?php
+if($book=='infobook' or $book=='admin'){
+?>
+        
+        <?php
+}
+?>
 <script>
 parent.loadRequired("<?php print $book; ?>");parent.loadBookOptions("<?php print $book; ?>");</script>
 <div id="helpcontent" class="hidden">
@@ -56,7 +82,7 @@ mysql_query("INSERT INTO history SET uid='$uid', page='$current'");
 }
 ?>
 <script>
-    $(":checkbox, :radio").not('.hidden').uniform();
+    $("input").uniform()
     $(function(){
         $(".sidtable").tableSort();
     });

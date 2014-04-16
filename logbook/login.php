@@ -13,12 +13,17 @@ kill_class_phpsession();
 <meta http-equiv="content-type" content="application/xhtml+xml; charset=utf-8" />
 <meta http-equiv="Content-Script-Type" content="text/JavaScript" />
 <meta name="copyright" content="Copyright 2002-2012 S T Johnson. All trademarks acknowledged. All rights reserved" />
-
-<link href="css/bookstyle.css" rel="stylesheet" type="text/css" />
-<link href="css/logbook.css" rel="stylesheet" type="text/css" />
+<?php
+    if ($CFG->debug == 'dev' or !file_exists("css/applogbook.min.css")) {
+        print '<link rel="stylesheet" type="text/css" href="css/bookstyle.css" />
+          <link rel="stylesheet" type="text/css" href="css/logbook.css" />
+          <link rel="stylesheet" href="css/uniform.edit.css" media="screen" />';
+    } else {
+        print '<link href="css/applogbook.min.' . str_replace('.', '', $CFG->version) . '.css" rel="stylesheet" type="text/css" /';
+    }
+?>
 <link href='http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900' rel='stylesheet' type='text/css'>
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
-<link rel="stylesheet" href="css/uniform.edit.css" media="screen" />
 
 </head>
 
@@ -83,7 +88,7 @@ kill_class_phpsession();
         <div id="schoollogo" class="schoollogo">
             <h1><?php print_string('welcome'); ?></h1>
             <p><?php print $CFG -> loginaside; ?></p>
-        	<img src="../images/<?php print $CFG -> schoollogo; ?>" />
+            <img src="../images/<?php print $CFG -> schoollogo; ?>" />
         </div>
     </div>
     <footer>
@@ -102,8 +107,16 @@ kill_class_phpsession();
                 </ul>
         </div>        
     </footer>
-    <script type="text/javascript" src="js/qtip.js"></script>
-    <script type="text/javascript" src="js/book.js?version=1013"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
+    <?php
+    if ($CFG->debug == 'dev' or !file_exists("js/applogbook.min.js")) {
+        print '<script type="text/javascript" src="js/qtip.js"></script>
+          <script type="text/javascript" src="js/book.js"></script>';
+    } else {
+        print '<script type="text/javascript"  src="js/applogbook.min.' . str_replace('.', '', $CFG->version) . '.js"></script>';
+    }
+    ?>
+    
     <script type="text/javascript" >
         parent.document.getElementById("langchoice").innerHTML = document.getElementById("hiddenlang").innerHTML;
         //document.getElementById("coverbox").style.zIndex = "100";
@@ -113,4 +126,3 @@ kill_class_phpsession();
 
 </body>
 </html>
-
