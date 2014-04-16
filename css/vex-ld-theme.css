@@ -470,7 +470,3 @@
   top: -1.1em;
   bottom: auto;
 }
-.vex.vex-ld-theme .print-modal {
-  width: 780px;
-  width: calc(750px +  2em);
-}

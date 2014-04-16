@@ -345,7 +345,12 @@ div.hidden {
 #printFrame {
   border: none;
   width: 100%;
-  height: 80%
+  height: 100%
+}
+.vex.vex-ld-theme .vex-content.print-modal {
+      width: 780px;
+      width: calc(750px + 2em);
+      height: 100%
 }
 @media print {
     body.vex-open {
@@ -356,6 +361,6 @@ div.hidden {
     }
     .vex.vex-ld-theme .vex-content {
         visibility: visible;
-        
     }
+    
 }
