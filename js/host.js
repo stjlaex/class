@@ -156,7 +156,7 @@ function logInSuccess() {
     document.getElementById("logbookoptions").innerHTML = "";
     document.getElementById("logbookoptions").style.zIndex = "-100";
     $(document.getElementById("navtabs")).find('select').uniform();
-    viewBook("aboutbook");
+    //viewBook("aboutbook");
 }
 
 //  only called when the LogOut button is hit
@@ -268,6 +268,7 @@ function openPrintReport(htmlStr, xsltName, paper) {
     iFrame.contentWindow.document.write(htmlStr);
     iFrame.contentWindow.document.close();
 }
+
 // Keep the php session alive
 function sessionAlive(pathtobook) {
     var url = pathtobook + "httpscripts/session_alive.php?uniqueid=1";
@@ -312,6 +313,20 @@ function tinyTabs(tabObject) {
 
 var previousPage = "";
 var previousPageScroll = 0;
+
+/**
+ *
+ */
+function openModalWindow(content,src){
+	var html="<div><iframe id='printFrame' width=750></div>";
+	vex.open({content: html, showCloseButton: true});
+	var iFrame = document.getElementById("printFrame");
+	if(src!=''){iFrame.src=src;}
+	else{
+		iFrame.contentWindow.document.write(content);
+		iFrame.contentWindow.document.close();
+		}
+	}
 
 /**
  * adds the images and attributes to required input fields

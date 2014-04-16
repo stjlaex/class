@@ -95,7 +95,6 @@
         $showtabs=$books[$role]+$externalbooks[$role];
 ?>
 
-        <script>parent.loadBook("aboutbook")</script>
         <script>tabtimer=setTimeout("parent.viewBook('<?php print $firstbookpref; ?>');",1000);</script>
 
     <div style="visibility:hidden;" id="hiddennavtabs">
@@ -108,7 +107,7 @@
             </div>
                 
             <div id="loginworking">
-                <a onclick="viewBook('aboutbook');" title="<?php print_string('about');?>"><span class="fa fa-info-circle"></span></a>
+                <a onclick="openModalWindow('','aboutbook.php?subtype=thanks');" title="<?php print_string('about');?>"><span class="fa fa-info-circle"></span></a>
                 <form  id="loginchoice" name="workingas" method="post" action="logbook.php" target="viewlogbook">
                     <select name="new_r" size="1" onChange="document.workingas.submit();">
                         <option value="-1" <?php  if($r==-1){print 'selected="selected" ';} ?>><?php print_string('myclasses');?></option>
@@ -124,7 +123,7 @@
               </form>
             </div>
             <ul>
-                <li id="aboutbooktab" style="display:none;"><a id="currentbook" class="aboutbook">About</a></li>
+                <li id="admintab" style="display:none;"><a id="currentbook" class="admin">Admin</a></li>
                     <?php
                         foreach($showtabs as $bookhost=>$bookname){
                     ?>
@@ -142,5 +141,6 @@
         <?php
             }
         ?>
+        
 </body>
 </html>

@@ -9,7 +9,8 @@
 		if(!$xmlechoer){
 			$xml=xmlpreparer($rootName,$returnXML);
 			$xml='<'.'?xml version="1.0" encoding="utf-8"?'.'>'.$xml.'';
-			if(array_key_exists('Transform', $returnXML);){
+			$template=$returnXML['Transform'];
+			if(!isset($returnXML['Transform'])){
 				function array_searchRecursive($string, $array, $strict=false, $value=array()){
 					if(!is_array($array)){return false;}
 					foreach($array as $key=>$val){

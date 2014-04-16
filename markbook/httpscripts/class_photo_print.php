@@ -41,7 +41,7 @@ else{
 
 	$Students['Date']=date('Y-m-d');
 	$Students['Paper']='landscape';
-	$Students['Transform']='';
+	$Students['Transform']='class_photo_print';
 	$returnXML=$Students;
 	$rootName='Students';
 	}

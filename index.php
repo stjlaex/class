@@ -79,8 +79,6 @@ print '<?xml version="1.0" encoding="utf-8"?' . '>';
     </header>
     <iframe id="viewlogbook" name="viewlogbook" class="coverframe" scrolling="no"></iframe>
     <div id="logbookoptions" class="bookoptions"></div>
-    <div id="aboutbookoptions" class="bookoptions"></div>
-    <iframe id="viewaboutbook" name="viewaboutbook" class="bookframe"></iframe>
     <?php
       /* Use all because it contains all possible books*/
       /* even if after login user does not have access*/
