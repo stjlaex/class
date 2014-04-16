@@ -7,6 +7,7 @@
 
 $host='aboutbook.php';
 $book='aboutbook';
+if(isset($_GET['subtype']) and $_GET['subtype']!=""){$subtype=$_GET['subtype'];}else{$subtype="";}
 
 include('scripts/head_options.php');
 
@@ -22,55 +23,6 @@ include('scripts/set_book_vars.php');
 		include($book.'/about.php');
 		}
 ?>
-  </div>
-
-  <div style="visibility:hidden;" id="hiddenbookoptions">	
-	<form id="aboutchoice" name="aboutchoice" method="post" 
-	  action="aboutbook.php" target="viewaboutbook">
-	  <fieldset class="aboutbook selery">
-		<legend><?php print_string('helpandsupport');?></legend>
-<?php
-	$choices=array('report_bug.php' => 'reportbug'
-				   //,'request_feature.php' => 'requestfeature'
-				   ,'support.php' => 'contactsupport'
-				   );
-
-	selery_stick($choices,$choice,$book);
-?>
-	  </fieldset>
-<br />
-<br />
-<br />
-
-	  <fieldset class="aboutbook selery">
-		<legend><?php print_string('documentation',$book);?></legend>
-<a href="http://wiki.classlearning.net/" target="_blank">
-<?php
-	$choices=array('usermanual.php' => 'usermanual'
-				   );
-
-	selery_stick($choices,$choice,$book);
-?>
-</a>
-<a href="http://laex.org/class" target="_blank">
-<?php
-	$choices=array('homepage.php' => 'homepage'
-				   );
-
-	selery_stick($choices,$choice,$book);
-?>
-</a>
-<a href="http://learningdata.ie/" target="_blank">
-<?php
-	$choices=array('classis.php' => 'classis'
-				   );
-
-	selery_stick($choices,$choice,$book);
-?>
-</a>
-	  </fieldset>
-
-	</form>
   </div>
 
 <?php include('scripts/end_options.php');?>

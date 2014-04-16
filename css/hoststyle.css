@@ -373,3 +373,10 @@ div.hidden {
     }
     
 }
+.thanks-modal {
+  height: 100%;
+  width: 80%!important;
+}
+.thanks-modal div {
+  height: 100%;
+}
