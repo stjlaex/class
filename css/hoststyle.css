@@ -127,6 +127,15 @@ header {
 }
 
 /*the special case logbook in top left corner*/
+
+.aboutinfo {
+    color: #FFFFFF;
+    display: inline-block;
+    float: right;
+    font-size: 19px;
+    margin: 4px 5px 0 0 ;
+    cursor: pointer;
+}
 .booktabs .logbook, .booktabs label {
   cursor: pointer;
 }
