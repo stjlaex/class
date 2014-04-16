@@ -261,11 +261,12 @@ function printGenericContent(iFrameName) {
  */
 function openPrintReport(htmlStr, xsltName, paper) {
     var template  = "<div class='" + xsltName + "'>" +
-        "<a href='javascript:window.print()' class='fa fa-print'></a>" +
+        "<span onclick='window.print()' class='fa fa-print'></span>" +
         "<iframe id='printFrame' width=750></div>";
     vex.open({content: template, contentClassName: 'print-modal', showCloseButton: true});
     var iFrame = document.getElementById("printFrame")
     iFrame.contentWindow.document.write(htmlStr);
+    iFrame.contentWindow.document.close();
 }
 // Keep the php session alive
 function sessionAlive(pathtobook) {
