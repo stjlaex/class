@@ -50,94 +50,15 @@ print '<?xml version="1.0" encoding="utf-8"?'.'>';
 <link href="css/hoststyle.css" rel="stylesheet" type="text/css" />
 <link href="css/selery.css?version=1042" rel="stylesheet" type="text/css" />
 <link href='http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900' rel='stylesheet' type='text/css'>
-<script language="JavaScript" type="text/javascript" src="js/host.js?version=1042"></script>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-
-
-<style media="screen">
-#Theme  {
-    position: absolute;
-    top: 60px;
-    left: 10px;
-    
-}
-#loginlang{
-    z-index: 103!important;
-}
-#loginlang select   {
-    width: 100px;
-}
-#loginlang label   {
-    display: block;
-}
-#modal-background {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: #000000;
-    opacity: 0.75;
-    -webkit-opacity: .75;
-    -moz-opacity: .75;
-    filter: alpha(opacity=75);
-    z-index: 101;
-}
-#modal-content {
-    display: none;
-    height: 240px;
-    left: 0;
-    margin: 0;
-    position: fixed;
-    top: 64px;
-    width: 550px;
-    z-index: 102;
-}
-.mask   {
-    width:200px;
-    height:75px;
-    background-image: url(images/teaser-mask.png);
-    background-repeat: no-repeat;
-}
-#modal-content  h2, #modal-content  button {
-    font-family: 'Lato', sans-serif;
-    font-size: 22px;
-    font-weight: 300;
-    color: #FFFFFF;
-    margin-left: 190px;
-}
-
-#modal-content  button  {
-    width:150px;
-    height: 50px;
-    background-color: transparent;
-    background-image: url(images/teaser-button.png);
-    background-repeat: no-repeat;
-    font-size: 18px;
-    margin: 50px 0 0 300px;
-    padding: 0;
-}
-#modal-background.active, #modal-content.active {
-    display: block;
-}​
-</style>
-
-<script>
-$(function(){
-    $("#modal-close, .logbook").click(function() {
-        $("#modal-content, #modal-background").toggleClass("active");
-    });
-});
-
-</script>
+<script language="JavaScript" type="text/javascript" src="js/host.js?version=1042"></script>
 
 <body onload="loadLogin('cover.php');">
 
 <div id="navtabs">
 	<div class="booktabs">
 		<ul>
-            <li id="logbooktab"><p class="logbook" onclick="loadLogin('logbook.php');">Log In</p></li>
+			<li id="logbooktab"><p class="logbook" onclick="loadLogin('logbook.php');">Log In</p></li>
 		</ul>
 	</div>
 </div>
@@ -146,14 +67,11 @@ $(function(){
 	</form>
 	
 	<div id="modal-background"></div>
-    <div id="modal-content">
-        <div class="mask"></div>
-        <h2>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus in varius purus, posuere sodales turpis.</h2>
-        <button id="modal-close">Ok, I got</button>
-    </div>​
-
-
-
+	<div id="modal-content">
+		<div class="mask"></div>
+		<h2><?php print_string('newthememessage',$book); ?></h2>
+		<button id="modal-close"><?php print_string('newthemeaccept',$book); ?></button>
+	</div>​
 </div>
 
 <iframe id="viewlogbook" name="viewlogbook" class="coverframe" scrolling="no"></iframe>
@@ -169,11 +87,12 @@ $(function(){
 	foreach($showbooks as $bookhost=>$bookname){
 ?>
 		<div id="<?php print $bookhost.'options';?>" class="bookoptions"></div>
-		<iframe id="<?php print 'view'.$bookhost;?>" name="<?php print 'view'.$bookhost;?>" class="bookframe"></iframe>
-    <?php
-        }
-    ?>
+
+		<iframe id="<?php print 'view'.$bookhost;?>"
+			name="<?php print 'view'.$bookhost;?>" class="bookframe">
+		</iframe>
 <?php
+		}
 	$showbooks=$books['external']['all'];
 	foreach($showbooks as $bookhost=>$bookname){
 ?>
@@ -183,7 +102,7 @@ $(function(){
 			name="<?php print 'view'.$bookhost;?>" class="bookframe">
 		</iframe>
 <?php
-   		}
+		}
 ?>
 </body>
 </html>

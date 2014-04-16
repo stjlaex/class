@@ -1,4 +1,10 @@
 //--------------------------------------------------------
+$(function(){
+	$("#modal-close, .logbook").click(function() {
+		$("#modal-content, #modal-background").toggleClass("active");
+		});
+	});
+
 //functions for the marktable to display columns from gradebox
 
 // array for the gradechoice box - (mid, style.display, select)
