@@ -38,9 +38,7 @@ include('scripts/set_book_vars.php');
 	selery_stick($choices,$choice,$book);
 ?>
 	  </fieldset>
-<br />
-<br />
-<br />
+
 
 	  <fieldset class="aboutbook selery">
 		<legend><?php print_string('documentation',$book);?></legend>
