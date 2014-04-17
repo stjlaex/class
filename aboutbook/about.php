@@ -2,7 +2,7 @@
 /**									about.php
  *
  */
-if($subtype=="about" or $subtype==""){
+if($subtype=="about" or $subtype=="" or !isset($CFG->theme20)){
 ?>
 <div class="content modal-about">
         <h4><img src="images/classis_transparent_220x92.png" onClick="window.open('http://www.laex.org/class/index.html','ClaSS Homepage');"/><br /> version <?php print $CFG->version; ?></h4>
@@ -25,17 +25,16 @@ if($subtype=="about" or $subtype==""){
 </div>
 <?php
 	}
-elseif($subtype=='thanks'){
+elseif($subtype=='thanks' and (isset($CFG->theme20) and $CFG->theme20!="")){
 ?>
 <div class="content modal-thanks">
-    <h2>Thanks for joining us.</h2>
-    <h3>You’re looking at a prototype of our new website. <br /> Opt-out any time by clicking “current version” at the bottom of the page. </h3>
-    <h5>We love feedback - <a href="#" title="let us know yours.">let us know yours.</a></h5>
+    <h2><?php print_string('thankstitle',$book);?></h2>
+    <h3><?php print_string('thanksmessage',$book);?></h3>
+    <h5><?php print_string('thankssurveylink',$book);?></a></h5>
     <div class="navigation">
-        <!--h6><a href="#gotit"><span class="fa fa-rocket"></span>Got it</a></h6-->
-        <p><a href="#old-version"><span class="fa fa-rocket"></span>Opt-out and return to the current version</a></p>
+        <p><a href="#" onclick="parent.window.location.href='../<?php echo $CFG->theme10;?>';"><span class="fa fa-rocket"></span><?php print_string('oldclassislink',$book);?></a></p>
     </div>
-    <p><a class="btn-about" onclick="$('.vex-content', window.parent.document).toggleClass('highlight');" href="aboutbook.php?subtype=about">About Class</a></p>
+    <p><a onclick="$('.vex-content', window.parent.document).toggleClass('highlight');" href="aboutbook.php?subtype=about"></span><?php print_string('aboutclassis',$book);?></a></p>
 </div>
 <?php
 	}

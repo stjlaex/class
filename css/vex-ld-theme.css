@@ -467,3 +467,44 @@
   top: -1.1em;
   bottom: auto;
 }
+
+
+.vex.vex-ld-theme .thanks-modal {
+  background: none repeat scroll 0 0 #FFFFFF !important;
+  border-radius: 0 !important;
+  height: 420px;
+  left: 50% !important;
+  margin-left: -40% !important;
+  margin-top: -210px !important;
+  position: absolute !important;
+  top: 50% !important;
+  width: 80% !important;
+  box-shadow: 10px 10px 5px #757575;
+}
+.thanks-modal div {
+  height: 100%;
+}
+
+.vex.vex-ld-theme .vex-close.thanks-modal-close:before, .vex.vex-ld-theme .vex-close.thanks-modal-close:hover:before, .vex.vex-ld-theme .vex-close.thanks-modal-close:active:before {
+  background: none repeat scroll 0 0 #D2D7DC;
+  border-radius: 3px;
+  color: #4D5F72;
+  content: "X";
+  font-family: 'Lato', sans-serif;
+  font-size: 16px;
+  font-weight: 900;
+  height: 35px;
+  line-height: 31px;
+  padding: 3px;
+  position: absolute;
+  right: 10px;
+  text-align: center;
+  top: 10px;
+  width: 35px;
+}
+.thanks-modal.highlight {
+  height: 94%;
+  margin: 0 0 0 -40% !important;
+  position: absolute !important;
+  top: 3% !important;
+}

@@ -169,7 +169,19 @@ function logOut() {
 
     window.frames["viewlogbook"].location.href = "logbook/exit.php";
 }
-
+// called if session reopens the login screen, in any frame.
+function refreshloginscreen(frame) {
+    if (frame.id == "viewlogbook") {
+        return
+        }
+    logOut()
+    var books=document.getElementsByClassName('bookoptions')
+    for (var i=0; i<books.length; i++) {
+        books[i].style.display = 'none';
+        }
+    frame.style.top = "80px";
+    frame.style.height = "100%";
+    }
 //	Reloads the book without giving focus (never used for logbook!)
 //	always called by logbook if a session is set,
 //	also called when changes in one book needs to update another
@@ -207,8 +219,8 @@ function viewBook(newbook) {
     document.getElementById("view" + newbook).focus();
     document.getElementById(newbook + "options").style.zIndex = "60";
     document.getElementById(newbook + "tab").firstChild.setAttribute("id", "currentbook");
-    // change the colour of the logbook's stripe to match
-    document.getElementById("logbookstripe").setAttribute("class", newbook);
+    // change the colour of the logbook's stripe to match -- Colour no longer used
+    //document.getElementById("logbookstripe").setAttribute("class", newbook);
 }
 
 // A print function that handles pages designated as printable
@@ -259,9 +271,9 @@ function printGenericContent(iFrameName) {
  * and opens a new iframe in a dialog display.
  * htmlStr is a full document including style and js tags.
  */
-function openPrintReport(htmlStr, xsltName, paper) {
-    var template  = "<div class='" + xsltName + "'>" +
-        "<span onclick='window.print()' class='fa fa-print'></span>" +
+function openPrintReport(htmlStr) {
+    var template  = "<div class='xslt'>" +
+        "<span onclick='document.getElementById(\"printFrame\").contentWindow.print();' class='fa fa-print'></span>" +
         "<iframe id='printFrame' width=750></div>";
     vex.open({content: template, contentClassName: 'print-modal', showCloseButton: true});
     var iFrame = document.getElementById("printFrame")

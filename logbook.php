@@ -6,6 +6,7 @@
     if(isset($_POST['new_r'])){$_SESSION['r']=$_POST['new_r'];$fresh='yes';}
     if(!isset($_SESSION['r'])){$_SESSION['r']=-1;$fresh='very';}
 ?>
+
   <div style="visibility:hidden;" id="hiddenbookoptions"></div>
 
   <div style="visibility:hidden;" id="hiddenloginlabel">
@@ -78,7 +79,7 @@
 
         foreach($books[$role] as $bookhost=>$bookname){
 ?>
-                <script>parent.loadBook("<?php print $bookhost; ?>")</script>
+                <script>parent.loadBook("<?php print $bookhost; ?>");</script>
 <?php
            }
 
@@ -135,13 +136,22 @@
             </ul>
         </div>
     </div>
-        <?php
-            update_user_language(current_language());
-        ?>
-        <script>parent.logInSuccess();</script>
-        <?php
-            }
-        ?>
-        
-</body>
+<?php
+		update_user_language(current_language());
+?>
+		<script>parent.logInSuccess();</script>
+<?php
+		$time=date('Y-m-d', strtotime("last Monday"));
+		$uid=$_SESSION['uid'];
+		$d_page=mysql_query("SELECT COUNT(*) FROM history 
+			WHERE time>'$time' AND page='login.php' AND uid='$uid' AND classis_version!='';");
+		$count=mysql_result($d_page,0);
+		if(isset($CFG->theme20) and $CFG->theme20!="" and $count<=4){
+?>
+		<script>parent.openModalWindow('','aboutbook.php?subtype=thanks');</script>
+<?php
+			}
+		}
+?>
+  </body>
 </html>

@@ -36,11 +36,10 @@ print '<?xml version="1.0" encoding="utf-8"?'.'>';
             @import url(lib/jscalendar/skins/aqua/theme.css);
         </style>
         <?php
-        if ($CFG->debug == 'dev' or !file_exists("css/appboox.min.css")) {
+        if ($CFG->debug == 'dev' or !file_exists("css/appbook.min.css")) {
             print '<link rel="stylesheet" type="text/css" href="css/bookstyle.css" />
                 <link rel="stylesheet" type="text/css" href="css/selery.css" />
                 <link rel="stylesheet" type="text/css" href="css/' . $book . '.css" />
-                <link rel="stylesheet" href="css/modal-contents.css" />
                 <link rel="stylesheet" href="css/uniform.edit.css" media="screen" />';
                 
         } else {

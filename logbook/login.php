@@ -27,7 +27,7 @@ kill_class_phpsession();
 
 </head>
 
-<body class="login">
+<body class="login" onload="parent.refreshloginscreen(window.frameElement)">
     <div style="display:none;" id="hiddenbookoptions">
         <p>
             <?php
@@ -110,7 +110,8 @@ kill_class_phpsession();
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
     <?php
     if ($CFG->debug == 'dev' or !file_exists("js/applogbook.min.js")) {
-        print '<script type="text/javascript" src="js/qtip.js"></script>
+        print '<script language="Javascript" type="text/javascript" src="js/jquery.uniform.min.js"></script>
+          <script type="text/javascript" src="js/qtip.js"></script>
           <script type="text/javascript" src="js/book.js"></script>';
     } else {
         print '<script type="text/javascript"  src="js/applogbook.min.' . str_replace('.', '', $CFG->version) . '.js"></script>';

@@ -4,7 +4,7 @@
 var exec = require('child_process').exec;
 
 exec('grunt deploy', {
-       cwd: '/Projects/classis/class'
+       cwd: '/Projects/classis/class/grunttask'
      }, function (err, stdout, stderr) {
   
   console.log(stdout);
