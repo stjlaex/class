@@ -1443,7 +1443,7 @@ function sidtableInit(){
 		else if(tdObj.className=="edit" | tdObj.className=="edit extra"){
 			var selObj=tdObj.getElementsByTagName("select")[0];
 			selObj.onfocus=function(){checkAttendance(this)};
-			selObj.onblur=function(){processAttendance(this)};
+			selObj.onblur=function(event){processAttendance(this); updateUniformSelect(event.currentTarget)};
 			}
 		}
 	}
@@ -1651,9 +1651,7 @@ function addExtraFields(sidId,cellId,extraId,containerId){
 	if(editContainer){
 		editContainer.insertBefore(extraDiv,null);
 		if (selElem) {
-			selElem.onchange = function(event){
-				this.previousSibling.textContent = this.options[this.selectedIndex ].text;
-			}
+			selElem.onchange = function(event) { updateUniformSelect(event.currentTarget) }
 		}
 	}
 		
@@ -2013,4 +2011,10 @@ function openAlert(book) {
 
 function closeAlert() {
     document.getElementById('notice').className="hidden";
+}
+/***helper functions for uniform elements *****/
+function updateUniformSelect(element) {
+	if (element.previousSibling.tagName == "SPAN") {
+		element.previousSibling.textContent = element.options[element.selectedIndex ].text;
+	}
 }
