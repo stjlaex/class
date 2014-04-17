@@ -55,6 +55,20 @@ print '<?xml version="1.0" encoding="utf-8"?'.'>';
 
 <body onload="loadLogin('cover.php');">
 
+<?php
+	if(isset($CFG->theme20) and $CFG->theme20!=""){
+?>
+		<script>
+		$(function(){
+			$("#modal-close, .logbook").click(function() {
+				$("#modal-content, #modal-background").toggleClass("active");
+				});
+			});
+		</script>
+<?php
+		}
+?>
+
 <div id="navtabs">
 	<div class="booktabs">
 		<ul>
