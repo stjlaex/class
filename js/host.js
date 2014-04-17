@@ -319,8 +319,8 @@ var previousPageScroll = 0;
  */
 function openModalWindow(content,src){
 	var html="<div><iframe id='printFrame' width=750></div>";
-	vex.open({content: html, contentClassName: 'thanks-modal', showCloseButton: true});
-
+	vex.open({content: html, contentClassName: 'thanks-modal', closeClassName: 'thanks-modal-close', showCloseButton: true});
+	
 	var iFrame = document.getElementById("printFrame");
 	if(src!=''){iFrame.src=src;}
 	else{
@@ -487,3 +487,4 @@ function loadRequired(book) {
         }
     });
 }
+

@@ -129,12 +129,12 @@ header {
 /*the special case logbook in top left corner*/
 
 .aboutinfo {
-    color: #FFFFFF;
-    display: inline-block;
-    float: right;
-    font-size: 19px;
-    margin: 4px 5px 0 0 ;
-    cursor: pointer;
+  color: #FFFFFF;
+  display: inline-block;
+  float: right;
+  font-size: 19px;
+  margin: 4px 5px 0 0;
+  cursor: pointer;
 }
 .booktabs .logbook, .booktabs label {
   cursor: pointer;
@@ -357,26 +357,58 @@ div.hidden {
   height: 100%
 }
 .vex.vex-ld-theme .vex-content.print-modal {
-      width: 780px;
-      width: calc(750px + 2em);
-      height: 100%
+  width: 780px;
+  width: calc(750px + 2em);
+  height: 100%
 }
 @media print {
-    body.vex-open {
-      visibility: hidden;
-    }
-    .vex.vex-ld-theme .fa.fa-print, .vex.vex-ld-theme .vex-close {
-        visibility: hidden
-    }
-    .vex.vex-ld-theme .vex-content {
-        visibility: visible;
-    }
-    
+  body.vex-open {
+    visibility: hidden;
+  }
+  .vex.vex-ld-theme .fa.fa-print, .vex.vex-ld-theme .vex-close {
+    visibility: hidden
+  }
+  .vex.vex-ld-theme .vex-content {
+    visibility: visible;
+  }
 }
+
 .thanks-modal {
-  height: 100%;
-  width: 80%!important;
+  background: none repeat scroll 0 0 #FFFFFF !important;
+  border-radius: 0 !important;
+  height: 420px;
+  left: 50% !important;
+  margin-left: -40% !important;
+  margin-top: -210px !important;
+  position: absolute !important;
+  top: 50% !important;
+  width: 80% !important;
+  box-shadow: 10px 10px 5px #757575;
 }
 .thanks-modal div {
   height: 100%;
+}
+
+.vex.vex-ld-theme .vex-close.thanks-modal-close:before, .vex.vex-ld-theme .vex-close.thanks-modal-close:hover:before, .vex.vex-ld-theme .vex-close.thanks-modal-close:active:before {
+  background: none repeat scroll 0 0 #D2D7DC;
+  border-radius: 3px;
+  color: #4D5F72;
+  content: "X";
+  font-family: 'Lato', sans-serif;
+  font-size: 16px;
+  font-weight: 900;
+  height: 35px;
+  line-height: 31px;
+  padding: 3px;
+  position: absolute;
+  right: 10px;
+  text-align: center;
+  top: 10px;
+  width: 35px;
+}
+.thanks-modal.highlight {
+  height: 94%;
+  margin: 0 0 0 -40% !important;
+  position: absolute !important;
+  top: 3% !important;
 }

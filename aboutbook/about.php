@@ -32,12 +32,11 @@ elseif($subtype=='thanks'){
     <h3>You’re looking at a prototype of our new website. <br /> Opt-out any time by clicking “current version” at the bottom of the page. </h3>
     <h5>We love feedback - <a href="#" title="let us know yours.">let us know yours.</a></h5>
     <div class="navigation">
-        <h6><a href="#gotit"><span class="fa fa-rocket"></span>Got it</a></h6>
+        <!--h6><a href="#gotit"><span class="fa fa-rocket"></span>Got it</a></h6-->
         <p><a href="#old-version"><span class="fa fa-rocket"></span>Opt-out and return to the current version</a></p>
     </div>
-    <p><a href="aboutbook.php?subtype=about"></span>About Class</a></p>
+    <p><a class="btn-about" onclick="$('.vex-content', window.parent.document).toggleClass('highlight');" href="aboutbook.php?subtype=about">About Class</a></p>
 </div>
 <?php
 	}
 ?>
-

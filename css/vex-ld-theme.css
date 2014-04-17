@@ -324,7 +324,6 @@
   -ms-border-radius: 5px;
   -o-border-radius: 5px;
   border-radius: 5px;
-  font-family: "Helvetica Neue", sans-serif;
   background: #f0f0f0;
   color: #444444;
   padding: 1em;
@@ -332,8 +331,6 @@
   margin: 0 auto;
   max-width: 100%;
   width: 450px;
-  font-size: 1.1em;
-  line-height: 1.5em;
 }
 .vex.vex-ld-theme .vex-content h1, .vex.vex-ld-theme .vex-content h2, .vex.vex-ld-theme .vex-content h3, .vex.vex-ld-theme .vex-content h4, .vex.vex-ld-theme .vex-content h5, .vex.vex-ld-theme .vex-content h6, .vex.vex-ld-theme .vex-content p, .vex.vex-ld-theme .vex-content ul, .vex.vex-ld-theme .vex-content li {
   color: inherit;
