@@ -1472,7 +1472,12 @@ function undecorateStudent(tdObj){
  * Highlight the student row when the attendnace input has focus. 
  */
 function checkAttendance(selObj){
-	var editId=selObj.parentNode.parentNode.id;
+	selElem = selObj.parentNode;
+	//if uniform need grandparent need a td element
+	if (selElem.tagName != 'TD') {
+		selElem = selElem.parentNode;
+		}
+	var editId=selElem.id;
 	var sidId=editId.substring(5,editId.length);//strip off "edit-" part
 	processAttendance(selObj);
 	var rowId="sid-"+sidId;
@@ -1645,8 +1650,10 @@ function addExtraFields(sidId,cellId,extraId,containerId){
        
 	if(editContainer){
 		editContainer.insertBefore(extraDiv,null);
-		selElem.onchange = function(event){
-			this.previousSibling.textContent = this.options[this.selectedIndex ].text;
+		if (selElem) {
+			selElem.onchange = function(event){
+				this.previousSibling.textContent = this.options[this.selectedIndex ].text;
+			}
 		}
 	}
 		

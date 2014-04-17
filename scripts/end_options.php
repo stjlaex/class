@@ -10,15 +10,15 @@
     </script>
 <?php
 if ($CFG->debug == 'dev' or !file_exists("js/appbook.min.js")) {
-    print '<script language="JavaScript" type="text/javascript" src="js/book.js"></script>
-    <script language="JavaScript" type="text/javascript" src="js/qtip.js"></script>
+    print '<script language="JavaScript" type="text/javascript" src="js/qtip.js"></script>
     <script language="JavaScript" type="text/javascript" src="lib/jscalendar/calendar.js"></script>
     <script language="JavaScript" type="text/javascript" src="lib/jscalendar/calendar-setup.js"></script>
     <script language="Javascript" type="text/javascript" src="js/jquery.uniform.min.js"></script>
     <script language="Javascript" type="text/javascript" src="js/jquery.table_sort.js"></script>
     <script language="Javascript" type="text/javascript" src="js/documentdrop.js"></script>
     <script language="Javascript" type="text/javascript" src="js/jcrop/jquery.Jcrop.min.js"></script>
-    <script language="Javascript" type="text/javascript" src="js/crop.js"></script>';
+    <script language="Javascript" type="text/javascript" src="js/crop.js"></script>
+    <script language="JavaScript" type="text/javascript" src="js/book.js"></script>';
 } else {
     print '<script src="js/appbook.min.' . str_replace('.', '', $CFG->version) . '.js"></script>';
     }
