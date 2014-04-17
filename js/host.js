@@ -259,9 +259,10 @@ function printGenericContent(iFrameName) {
  * and opens a new iframe in a dialog display.
  * htmlStr is a full document including style and js tags.
  */
-function openPrintReport(htmlStr, xsltName, paper) {
-    var template  = "<div class='" + xsltName + "'>" +
-        "<span onclick='window.print()' class='fa fa-print'></span>" +
+function openPrintReport(htmlStr) {
+    console.log('gogo')
+    var template  = "<div class='xslt'>" +
+        "<span onclick='document.getElementById(\"printFrame\").contentWindow.print();' class='fa fa-print'></span>" +
         "<iframe id='printFrame' width=750></div>";
     vex.open({content: template, contentClassName: 'print-modal', showCloseButton: true});
     var iFrame = document.getElementById("printFrame")
