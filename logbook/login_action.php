@@ -21,5 +21,9 @@
 	if($_SESSION['logged']!==true){session_defaults();}
 	require_once('../lib/include.php');
 	if($langchoice!=''){update_user_language($langchoice);}
+	$uid=$_SESSION['uid'];
+	$ip=$_SERVER['REMOTE_ADDR'];
+	$browser=$_SERVER['HTTP_USER_AGENT'];
+	mysql_query("INSERT INTO history SET uid='$uid', page='login.php',classis_version='$CFG->version',browser_version='$browser',ip='$ip';");
 ?>
 <script>self.location.href = '../logbook.php'</script>

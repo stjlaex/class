@@ -208,7 +208,7 @@ function viewBook(newbook) {
     document.getElementById(newbook + "options").style.zIndex = "60";
     document.getElementById(newbook + "tab").firstChild.setAttribute("id", "currentbook");
     // change the colour of the logbook's stripe to match
-    document.getElementById("logbookstripe").setAttribute("class", newbook);
+    //document.getElementById("logbookstripe").setAttribute("class", newbook);
 }
 
 // A print function that handles pages designated as printable
