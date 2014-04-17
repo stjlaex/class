@@ -40,7 +40,6 @@ print '<?xml version="1.0" encoding="utf-8"?'.'>';
             print '<link rel="stylesheet" type="text/css" href="css/bookstyle.css" />
                 <link rel="stylesheet" type="text/css" href="css/selery.css" />
                 <link rel="stylesheet" type="text/css" href="css/' . $book . '.css" />
-                <link rel="stylesheet" href="css/modal-contents.css" />
                 <link rel="stylesheet" href="css/uniform.edit.css" media="screen" />';
                 
         } else {
