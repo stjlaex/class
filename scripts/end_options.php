@@ -69,7 +69,9 @@ set_update_event($sid);
 }
 
 $uid=$_SESSION['uid'];
-mysql_query("INSERT INTO history SET uid='$uid', page='$current'");
+$ip=$_SERVER['REMOTE_ADDR'];
+$browser=$_SERVER['HTTP_USER_AGENT'];
+mysql_query("INSERT INTO history SET uid='$uid', page='$current',classis_version='$CFG->version',browser_version='$browser',ip='$ip';");
 }
 ?>
 <?php
