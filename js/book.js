@@ -324,17 +324,8 @@ function clickToAction(buttonObject){
 								updatexmlRecord(xmlRecord);
 								}
 							else if(action=="print" || action=="chart"){
-								xsltransform=xmlRecord.getElementsByTagName("transform")[0].firstChild.nodeValue;
-								paper=xmlRecord.getElementsByTagName("paper")[0].firstChild.nodeValue;
-								if(xsltransform!=""){
-									var xmlResult=processXML(xmlRecord,xsltransform,"../templates/");
-									if(action=="print"){
-										openPrintReport(xmlResult,xsltransform,paper);
-										}
-									else if(action=="chart"){
-										openChartReport(xmlResult,xsltransform,paper);
-										}
-									}
+								var response=JSON.parse(xmlHttp.response).html;
+								parent.openPrintReport(response);
 								}
 							}
 						else if(xmlHttp.status==404){alert ("Requested URL is not found.");}
@@ -342,10 +333,10 @@ function clickToAction(buttonObject){
 						else {
 							//alert("status is " + xmlHttp.status);
 							}
-						progressIndicator("stop");
+						//progressIndicator("stop");
 						}
 					else{
-						progressIndicator("start");
+						//progressIndicator("start");
 						}
 				}
 			xmlHttp.send(null);
@@ -707,13 +698,8 @@ function checksidsAction(buttonObject){
 		xmlHttp.onreadystatechange=function () {
 			if(xmlHttp.readyState==4){
 				if(xmlHttp.status==200){
-					if(action=="chart"){
-						openChartReport(xmlResult,xsltransform,paper);
-						}
-					else{
-						var response=JSON.parse(xmlHttp.response).html;
-						parent.openPrintReport(response);
-						}
+					var response=JSON.parse(xmlHttp.response).html;
+					parent.openPrintReport(response);
 					/*var xmlReport=xmlHttp.responseXML;
 					if(xsltransform=="" && xmlReport.getElementsByTagName("transform")!=null){
 						/* only if its been set in some non-standard way (should be one of the params!) *\/
@@ -734,10 +720,10 @@ function checksidsAction(buttonObject){
 				else if(xmlHttp.status==404){alert ("Requested URL is not found.");}
         		else if(xmlHttp.status==403){alert("Access denied.");} 
 				else {alert("status is " + xmlHttp.status);}
-				progressIndicator("stop");
+				//progressIndicator("stop");
 				}
 			else{
-				progressIndicator("start");
+				//progressIndicator("start");
 				}
 			}
 		}

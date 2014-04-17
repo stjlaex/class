@@ -169,7 +169,19 @@ function logOut() {
 
     window.frames["viewlogbook"].location.href = "logbook/exit.php";
 }
-
+// called if session reopens the login screen, in any frame.
+function refreshloginscreen(frame) {
+    if (frame.id == "viewlogbook") {
+        return
+        }
+    logOut()
+    var books=document.getElementsByClassName('bookoptions')
+    for (var i=0; i<books.length; i++) {
+        books[i].style.display = 'none';
+        }
+    frame.style.top = "80px";
+    frame.style.height = "100%";
+    }
 //	Reloads the book without giving focus (never used for logbook!)
 //	always called by logbook if a session is set,
 //	also called when changes in one book needs to update another
@@ -260,7 +272,6 @@ function printGenericContent(iFrameName) {
  * htmlStr is a full document including style and js tags.
  */
 function openPrintReport(htmlStr) {
-    console.log('gogo')
     var template  = "<div class='xslt'>" +
         "<span onclick='document.getElementById(\"printFrame\").contentWindow.print();' class='fa fa-print'></span>" +
         "<iframe id='printFrame' width=750></div>";
