@@ -26,6 +26,7 @@
  * @copyright  (C) 2012 Stuart Thomas Johnson
  *
  */
+setcookie("theme", basename(dirname(__FILE__)), time() + (86400));
 require_once ('../school.php');
 require_once ('classdata.php');
 require_once ('lib/include.php');
@@ -119,4 +120,3 @@ print '<?xml version="1.0" encoding="utf-8"?' . '>';
     </script>
   </body>
 </html>
-<?php setcookie("theme", basename(dirname(__FILE__)), time() + (86400));?>
