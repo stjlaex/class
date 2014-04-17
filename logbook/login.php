@@ -27,7 +27,7 @@ kill_class_phpsession();
 
 </head>
 
-<body class="login">
+<body class="login" onload="parent.refreshloginscreen(window.frameElement)">
     <div style="display:none;" id="hiddenbookoptions">
         <p>
             <?php

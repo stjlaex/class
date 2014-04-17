@@ -361,17 +361,8 @@ div.hidden {
       width: calc(750px + 2em);
       height: 100%
 }
-@media print {
-    body.vex-open {
-      visibility: hidden;
-    }
-    .vex.vex-ld-theme .fa.fa-print, .vex.vex-ld-theme .vex-close {
-        visibility: hidden
-    }
-    .vex.vex-ld-theme .vex-content {
-        visibility: visible;
-    }
-    
+.vex.vex-ld-theme .vex-content .xslt {                                           
+    height: 100%;
 }
 .thanks-modal {
   height: 100%;

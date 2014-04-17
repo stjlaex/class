@@ -43,7 +43,7 @@
 			</head>
 			<body onLoad=\"".$template."();\">"
 			.xmlprocessor($xml,$template.'.xsl')
-			."</body>;
+			."</body>
 			</html>";
 			header('Content-Type: text/html'); 
 			$response=array("html"=>$html,"template"=>$template);
