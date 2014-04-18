@@ -141,7 +141,7 @@ if($_SESSION['worklevel']>-1){
 				if(($umns[$col]['entrydate']<$cutoffdate and $umns[$col]['assessment']!='no' and $r==-1)){
 					print '<th class="'.$umns[$col]['displayclass'].'" id="'.$umns[$col]['id'].'"><span title="'.$umns[$col]['comment'].'">' 
 						  .$umns[$col]['topic'].'<p>'.display_date($umns[$col]['entrydate']).'</p>
-			 <p class="component">'.$umns[$col]['component'].'</p>'.$umns[$col]['marktype'].'<input type="checkbox" name="checkmid[]" value="'.$umns[$col]['id'].'" /></span></th>';
+			 <p class="component">'.$umns[$col]['component'].'</p>'.'<input type="checkbox" name="checkmid[]" value="'.$umns[$col]['id'].'" /></span></th>';
 					}
 				else{
 					print '<th class="'.$umns[$col]['displayclass'].'" id="'.$umns[$col]['id'].'"><span title="'.$umns[$col]['comment'].'"><a 
@@ -149,7 +149,7 @@ if($_SESSION['worklevel']>-1){
 						  $scoretype[$col].'&grading_name='. 
 						  $scoregrading[$col].'&mid='.$umns[$col]['id'].'&col='.$col.'"><span class="clicktoedit"/></span> ' 
 						  .$umns[$col]['topic'].'<p>'.display_date($umns[$col]['entrydate']).'</p></a>
-			 <p class="component">'.$umns[$col]['component'].'</p>'.$umns[$col]['marktype'].'<input type="checkbox" name="checkmid[]" value="'.$umns[$col]['id'].'" /></span></th>';
+			 <p class="component">'.$umns[$col]['component'].'</p>'.'<input type="checkbox" name="checkmid[]" value="'.$umns[$col]['id'].'" /></span></th>';
 					}
 				}
 			elseif($umns[$col]['marktype']=='report'){

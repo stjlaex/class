@@ -20,4 +20,9 @@ $string['documentation']='Documentation';
 $string['usermanual']='User manual';
 $string['homepage']='ClaSS Project';
 $string['classis']='ClaSS Information Services';
+$string['thankstitle']='Thanks for joining us.';
+$string['thanksmessage']='Thanks message.';
+$string['thankssurveylink']='Thanks survey link';
+$string['aboutclassis']='About';
+$string['oldclassislink']='Get me back: I\'ll stick with the old version for now!';
 ?>

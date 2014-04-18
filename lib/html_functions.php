@@ -1016,20 +1016,23 @@ function html_table_container_close($containerno,$xmltagname='',$entry=''){
         function list_markbook_filters($profiles,$umnfilter,$currentprofile,$cid,$cidsno,$classes){
     ?>
 	<select name="umnfilter" onchange="document.umnfilterchoice.submit();">
-    	<option value="cw" <?php if ($umnfilter == 'cw') {print 'selected'; } ?> >CW</label>
+	    <option value="cw" <?php if ($umnfilter == 'cw') {print 'selected'; } ?> ><?php print_string('classwork',$book);?></label>
         <?php
     	   if($cidsno==1 and isset($cid) and !in_array($classes[$cid]['crid'],getEnumArray('nohomeworkcourses'))){
         ?>
-    	<option value="hw" <?php if ($umnfilter == 'hw') {print 'selected'; } ?> >HW</label>
+    	<option value="hw" <?php if ($umnfilter == 'hw') {print 'selected'; } ?> ><?php print_string('homework',$book);?></label>
         <?php
         	}
         ?>
-    	<option value="t" <?php if ($umnfilter == 't') {print 'selected'; } ?> >R</label>
+    	<option value="t" <?php if ($umnfilter == 't') {print 'selected'; } ?> ><?php print_string('reports',$book);?></label>
         <?php
         	if(sizeof($profiles)>0){
+	?>
+
+	<?php
         		foreach($profiles as $choiceprono => $choiceprofile){
         ?>
-    	<option value="p<?php print $choiceprono; ?>" <?php if ($umnfilter == 'p' . $choiceprono) {print 'selected'; $currentprofile=$choiceprofile; } ?> ><?php print substr($choiceprofile['name'], 0, 4); ?></label>
+    	<option value="p<?php print $choiceprono; ?>" <?php if ($umnfilter == 'p' . $choiceprono) {print 'selected'; $currentprofile=$choiceprofile; } ?> ><?php print substr($choiceprofile['name'], 0, 30); ?></label>
         <?php
             	}
             }

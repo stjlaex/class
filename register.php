@@ -158,7 +158,7 @@ else{
 
 	<form id="registerchoicesel" name="registerchoicesel" method="post" action="register.php" target="viewregister">
 	  <fieldset class="register selery">
-		<legend><?php print_string('list',$book);?></legend>
+		<legend><?php print '<br />';?></legend>
 <?php
 		$choices=array('absence_list.php' => 'absencelists'
 					   ,'signedout_list.php' => 'signedout'

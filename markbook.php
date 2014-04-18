@@ -178,7 +178,7 @@ $_SESSION['lessonatt'] = $lessonatt;
     <div style="visibility:hidden;" id="hiddenbookoptions">
         <form id="classchoice" name="classchoice" method="post" action="markbook.php" target="viewmarkbook">
             <fieldset class="markbook">
-                <legend><?php print_string('classesandmarks'); ?></legend>  
+                <legend><?php print_string('classes'); ?></legend>  
                 <?php
                     include ('scripts/list_class.php');
                 ?>
@@ -186,7 +186,7 @@ $_SESSION['lessonatt'] = $lessonatt;
         </form>
         
         <form id="gradechoice" name="gradechoice"  method="post" action="markbook.php" target="viewmarkbook">
-            <fieldset class="markbook"><legend></legend></fieldset>
+            <fieldset class="markbook"><legend><?php print_string('markcolumns');?></legend>
             <select id="mids" name="mids[]" size="14" multiple="multiple" onChange="changeMarkDisplay(this.form);">
                 <?php
                     if (isset($umns)) {
@@ -201,6 +201,7 @@ $_SESSION['lessonatt'] = $lessonatt;
                 }
                 ?>
             </select>
+	    </fieldset>
         </form>
         
         <form id="umnfilterchoice" name="umnfilterchoice" method="post" action="markbook.php" target="viewmarkbook">
@@ -252,17 +253,6 @@ $_SESSION['lessonatt'] = $lessonatt;
             		
 	   </form>
 
- 
-        <form id="markbookchoice" name="markbookchoice" method="post" action="markbook.php" target="viewmarkbook">
-    	   <fieldset class="markbook">
-                <legend><?php print_string('curriculumyear'); ?></legend>
-                <?php
-                    $onsidechange = 'yes';
-                    include ('scripts/list_curriculum_year.php');
-                ?>
-            </fieldset>
-        </form>
-        
         <form id="componentchoice" name="componentchoice" method="post" action="markbook.php" target="viewmarkbook">
             <fieldset class="markbook">
                 <legend>&nbsp;</legend>
@@ -289,6 +279,17 @@ $_SESSION['lessonatt'] = $lessonatt;
             ?>
             </fieldset>
         </form>
+ 
+        <form id="markbookchoice" name="markbookchoice" method="post" action="markbook.php" target="viewmarkbook" style="float:right;">
+    	   <fieldset class="markbook">
+                <legend><?php print_string('curriculumyear'); ?></legend>
+                <?php
+                    $onsidechange = 'yes';
+                    include ('scripts/list_curriculum_year.php');
+                ?>
+            </fieldset>
+        </form>
+        
     </div>
 <?php
 include ('scripts/end_options.php');
