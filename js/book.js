@@ -2003,7 +2003,7 @@ function createPreviewFrame(tags,height,code){
 	iframe.contentWindow.document.close();
 	document.getElementById('code').value=code;
 	}
-//
+
 function openAlert(book) {
     //document.getElementById(book+"options").innerHTML=window.frames["view"+book].document.getElementById("hiddenbookoptions").innerHTML;
     document.getElementById("notice").className="overlay";
@@ -2011,13 +2011,10 @@ function openAlert(book) {
 
 function closeAlert() {
     document.getElementById('notice').className="hidden";
-<<<<<<< HEAD
-=======
 }
 /***helper functions for uniform elements *****/
 function updateUniformSelect(element) {
 	if (element.previousSibling.tagName == "SPAN") {
 		element.previousSibling.textContent = element.options[element.selectedIndex ].text;
 	}
->>>>>>> 3514daa29f494d0249ffd202a0cbbc4d5fb1b85d
 }
