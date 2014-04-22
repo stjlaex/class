@@ -147,7 +147,7 @@ function xmlarray_form($Array,$no='',$caption='',$tab=1,$book=''){
   <table class="listmenu">
 <?php
 
-	if($caption!=''){print '<h5>'.get_string($caption,$book).'</h5>';}
+	if($caption!=''){print '<caption>'.get_string($caption,$book).'</caption>';}
 	while(list($key,$val)=each($Array)){
 		/* If the table_db attribute is omitted it indicates this is not */
 		/* a field for entry by the user - this  may be because it is disabled or */
@@ -862,10 +862,18 @@ function html_table_container_close($containerno,$xmltagname='',$entry=''){
     	else{$path='';}
     ?>
     <fieldset class="documentdrop">
-        <span style="float: right;"><?php print_string('uploadfile');?> (<?php print_string('max');?>: <?php echo ini_get("upload_max_filesize"); ?>)</span>
-        <h5><?php print_string('documents');?></h5>
-
         <div class="documentdrop">
+	   <h5>
+<?php 
+            	 if($context=='icon'){ 
+		   print_string('profilephotos');
+		 }
+		 else{
+		   print_string('documents');
+		 }
+?>
+	   </h5>
+
            <form id="formfiledelete" name="formfiledelete" method="post" action="<?php print $path;?>infobook/httpscripts/file_delete.php">
                 <input type="hidden" id="FILEOWNER" name="FILEOWNER" value="<?php print $epfun;?>" />
                 <input type="hidden" id="FILECONTEXT" name="FILECONTEXT" value="<?php print $context;?>" />
@@ -873,15 +881,19 @@ function html_table_container_close($containerno,$xmltagname='',$entry=''){
                 <?php
                     $files=(array)list_files($epfun,$context,$linked_id);
                     if(sizeof($files)>0){
-                        print '<li><span id="deletebutton" class="clicktodelete"></span></li>';
                         html_document_list($files);
+                        print '<li><span id="deletebutton" class="clicktodelete"></span></li>';
                         }
                 ?>
                 </ul>
             </form>
         </div>        
+    </fieldset>
 
-		<form id="formdocumentdrop" name="formdocumentdrop" method="post" action="<?php print $path;?>infobook/httpscripts/file_upload.php" enctype="multipart/form-data" <?php if($context=='icon') print "onsubmit='return checkForm()'"; ?>>
+    <fieldset class="documentdrop">
+        <div class="documentdrop">
+        <h5><?php print_string('uploadfile');?> <span style="font-size:small;">(<?php print_string('max');?>: <?php echo ini_get("upload_max_filesize"); ?>)</span></h5>
+		<form id="formdocumentdrop" name="formdocumentdrop" method="post" action="<?php print $path;?>infobook/httpscripts/file_upload.php" enctype="multipart/form-data" <?php if($context=='icon'){ print "onsubmit='return checkForm()'";} ?>>
     		<input type="hidden" id="MAX_FILE_SIZE" name="MAX_FILE_SIZE" value="<?php print return_bytes(ini_get('upload_max_filesize'));?>" />
     		<input type="hidden" id="FILEOWNER" name="FILEOWNER" value="<?php print $epfun;?>" />
     		<input type="hidden" id="FILECONTEXT" name="FILECONTEXT" value="<?php print $context;?>" />
@@ -911,18 +923,26 @@ function html_table_container_close($containerno,$xmltagname='',$entry=''){
 			<input type="hidden" id="y2" name="y2" />
 			<input type="hidden" id="w" name="w" />
 			<input type="hidden" id="h" name="h" />
-			<!--h4><?php print_string('searchfile');?> (<?php print_string('max');?>: <?php echo ini_get("upload_max_filesize"); ?>)</h4-->
-			<div>
-				<label for="fileselect">
-					<?php print_string('filestoupload');?>:<br />
-				</label>
-				<div style="position:relative;">
-					<input type="file" name="image_file" id="image_file" onchange="photoSelectHandler();" style="position: relative; text-align: right; -moz-opacity:0; filter:alpha(opacity: 0); opacity:0; z-index: 2; width:270px;cursor:pointer;"/>
-					<div style="position: absolute; top: 0px; left: 0px; z-index: 1;">
-						<input type="text" name="fake_field" id="fake_field" value="Select a photo" style="border-top-color:black;border-left-color:black;">
-						<input type="button" name="fake_button" id="fake_button" value="<?php print_string('browse');?>" style="background-color:#444466;color:white;font-weight: bold;border-radius: 7px 7px 7px 7px;border: 2px dashed #555555;font-size: small;cursor:pointer;">
-					</div>
+	    <div class="boxdragdrop">
+                <div id="filedrag">
+                    <span></span>
+                    <?php print_string('drophere');?>
+                </div>
+		<div class="error"></div>
+	        <div class="step2">
+			<div id="progress"></div>
+			<div id="messages"></div>
+			<div class="info" style="display:none">
+    	       			<label><?php print_string('filesize');?></label> <input type="text" id="filesize" name="filesize" />
+       				<label><?php print_string('filetype');?></label> <input type="text" id="filetype" name="filetype" />
+       				<label><?php print_string('imagedimension');?></label> <input type="text" id="filedim" name="filedim" />
+			</div>
+	       		<div class="upload">
+			       <input type="file" name="image_file" id="image_file" onchange="photoSelectHandler();"/>
+			       <div style="position: absolute; top: 0px; left: 0px; z-index: 1;">
+				   <button type="button" id="browsebutton"><?php print_string('browse');?></button>
 				</div>
+       			</div>
 				<script>
 					//TODO find a place for this 
 					//Changes the value of the fake field with the filename
@@ -930,34 +950,19 @@ function html_table_container_close($containerno,$xmltagname='',$entry=''){
 						$('#fake_field').val($(this).val());
 					});
 				</script>
-				<div><input type="hidden" name="fileselect" id="fileselect" onchange="photoSelectHandler();" /></div>
-                <div id="filedrag">
-                    <span></span>
-                    <?php print_string('dropfileshere');?>
-                </div>
+		        <div class="submit">
+				<button type="submit" id="submitbutton"><?php print_string('upload');?></button>
+				<button type="button" id="dragbutton"><?php print_string('upload');?></button>
+				<input type="hidden" name="fileselect" id="fileselect" onchange="photoSelectHandler();" />
 			</div>
-			<div class="error"></div>
-            <div class="step2">
-				<div id="messages" style="display:none">
-					<p><?php print_string('statusmessages');?></p>
-				</div>
-				<div id="progress"></div>
-					<div class="info" style="display:none">
-    					<label><?php print_string('filesize');?></label> <input type="text" id="filesize" name="filesize" />
-    					<label><?php print_string('filetype');?></label> <input type="text" id="filetype" name="filetype" />
-    					<label><?php print_string('imagedimension');?></label> <input type="text" id="filedim" name="filedim" />
-					</div>
-					<div style="float:right;z-index:1001;">
-						<button type="submit" id="submitbutton"><?php print_string('upload');?></button>
-						<button type="button" id="dragbutton"><?php print_string('upload');?></button>
-				    </div>
-                </div>
+		</div>
             <?php 
                 	}
-                if($context!='icon') { 
+		 else{
+		   /* when $context != 'icon' */
             ?>
             
-			<div class="boxdragdrop">
+	    <div class="boxdragdrop">
                 <div id="filedrag">
                     <span></span>
                     <?php print_string('drophere');?>
@@ -965,10 +970,9 @@ function html_table_container_close($containerno,$xmltagname='',$entry=''){
                 
                 <div id="progress"></div>
                 <div id="messages"></div>
-				<!--label for="fileselect"><?php print_string('searchfile');?>:<br /></label-->
 				<div class="upload">
 				   <input type="file" name="image_file" onchange="document.getElementById('messages').style.display='block';document.getElementById('messages').innerHTML=this.value;"/>
-				   <button type="button" id="submitbutton"><?php print_string('browse');?></button>
+				   <button type="button" id="browsebutton"><?php print_string('browse');?></button>
 				</div>
 				<div class="submit">
 				    <button type="submit" id="submitbutton"><?php print_string('upload');?></button>
@@ -979,6 +983,7 @@ function html_table_container_close($containerno,$xmltagname='',$entry=''){
                 } 
             ?>
         </form>
+	</div>
     </fieldset>
     <?php 
     	if($context=='icon'){ 
