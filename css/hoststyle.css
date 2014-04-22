@@ -347,30 +347,3 @@ div.hidden {
   background-color: #ddeeff;
   padding: 0;
 }
-/**********************Print Modal Dialog******************************/
-.vex .portrait {
-  height: 100%;
-}
-#printFrame {
-  border: none;
-  width: 100%;
-  height: 100%
-}
-.vex.vex-ld-theme .vex-content.print-modal {
-  width: 780px;
-  width: calc(750px + 2em);
-  height: 100%
-}
-@media print {
-  body.vex-open {
-    visibility: hidden;
-  }
-  .vex.vex-ld-theme .fa.fa-print, .vex.vex-ld-theme .vex-close {
-    visibility: hidden
-  }
-  .vex.vex-ld-theme .vex-content {
-    visibility: visible;
-  }
-.vex.vex-ld-theme .vex-content .xslt {                                           
-    height: 100%;
-}

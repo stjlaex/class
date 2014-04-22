@@ -124,6 +124,7 @@ function openHelperWindow(helperurl,getvars){
 	writerWindow.document.writeln("</body>");
 	writerWindow.document.writeln("</html>");
 	writerWindow.document.close();
+	
 	}
 
 /* For text editor only */
@@ -361,11 +362,10 @@ function clickToPresentSid(thisObj,script,xsltransform){
 	var paper="portrait";
 	xmlHttp.open("GET", url, true);
 	xmlHttp.onreadystatechange=function () {
-		if(xmlHttp.readyState==4){
-			if(xmlHttp.status==200){
-				xmlRecord=xmlHttp.responseXML;
-				var xmlResult=processXML(xmlRecord,xsltransform,"../templates/");
-				openPrintReport(xmlResult,xsltransform,paper);
+		if(xmlHttp.readyState==4) {
+			if(xmlHttp.status==200) {
+				var response=JSON.parse(xmlHttp.response).html;
+				parent.openPrintReport(response);
 				}
 			else if(xmlHttp.status==404){alert ("Requested URL is not found.");}
 			else if(xmlHttp.status==403){alert("Access denied.");}
@@ -1352,7 +1352,7 @@ function openChartReport(xml, xsltName, paper){
  * separate preview window to display. xsltName defines the css sheet to
  * apply and paper is either ladnscape or portrait.
  */
-function openPrintReport(xml, xsltName, paper){
+/*function openPrintReport(xml, xsltName, paper){
 	var content="";
 
 	if(xml!=""){
@@ -2003,7 +2003,7 @@ function createPreviewFrame(tags,height,code){
 	iframe.contentWindow.document.close();
 	document.getElementById('code').value=code;
 	}
-
+//
 function openAlert(book) {
     //document.getElementById(book+"options").innerHTML=window.frames["view"+book].document.getElementById("hiddenbookoptions").innerHTML;
     document.getElementById("notice").className="overlay";
