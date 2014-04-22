@@ -60,6 +60,22 @@ function three_buttonmenu($extrabuttons='',$book=''){
 /**
  * 
  */
+function two_buttonmenu_submit($extrabuttons='',$book=''){
+?>
+<div class="buttonmenu">
+<?php
+		 all_extrabuttons($extrabuttons,$book);
+?>
+	<button onClick="processContent(this);" name="sub" value="Submit"><?php print_string('submit');?></button>
+	<button onClick="processContent(this);" name="sub" value="Reset"><?php print_string('reset');?></button>
+</div>
+
+<?php
+	}
+
+/**
+ * 
+ */
 function two_buttonmenu($extrabuttons='',$book=''){
 ?>
   <div class="buttonmenu">

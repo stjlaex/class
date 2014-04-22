@@ -46,7 +46,8 @@ function clickToAddMerit(thisObj,bid,pid,openId){
 
 	var helperurl="infobook/httpscripts/merit_adder.php";
 	var getvars="sid="+sidId+"&bid="+bid+"&pid="+pid+"&openid="+openId+'-'+sidId;
-	openHelperWindow(helperurl,getvars);
+	var src=helperurl+'?'+getvars;
+	parent.openModalWindow(content,src);
 	}
 
 /* Opens the transport edit window */
@@ -978,6 +979,7 @@ function processContent(buttonObject){
 			}
 		else if(validateForm()){
 			document.formtoprocess.submit();
+			parent.vex.close();
 			}
 		}
 	}
