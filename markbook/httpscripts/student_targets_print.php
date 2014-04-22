@@ -10,6 +10,8 @@ require_once('../../scripts/http_head_options.php');
 
 if(isset($_GET['sid'])){$sid=$_GET['sid'];}else{$sid=-1;}
 if(isset($_POST['sid'])){$sid=$_POST['sid'];}
+if(isset($_GET['xslt'])){$xsltransform=$_GET['xslt'];}else{$xsltransform=-1;}
+if(isset($_POST['xslt'])){$xsltransform=$_POST['xslt'];}
 
 if($sid==-1){
 	$result[]=get_string('youneedtoselectstudents');
@@ -35,6 +37,7 @@ else{
 	$Student=fetchStudent_short($sid);
 	$Targets=(array)fetchTargets($sid);
 	$Student['Targets']=$Targets;
+
 	/*
 	$Student['Targets']['Target'][]=array('title'=>array('value'=>'Target One - Academic'),'detail'=>array('value'=>$Targets['Target'][1]['value_db']),'status'=>array('value'=>'active'));
 	$Student['Targets']['Target'][]=array('title'=>array('value'=>'Target Two – Academic / Extra-curricular'),'detail'=>array('value'=>''),'status'=>array('value'=>'active'));
@@ -44,7 +47,13 @@ else{
 	$Students['Student'][]=$Student;
 	$Students['Date']=date('Y-m-d');
 	$Students['Paper']='landscape';
-	$Students['Transform']='';
+
+	if($xsltransform==-1){
+	  $Students['Transform']='student_targets_print';
+	}
+	else{
+	  $Students['Transform']=$xsltransform;
+	}
 	$returnXML=$Students;
 	$rootName='Students';
 	}
