@@ -60,6 +60,22 @@ function three_buttonmenu($extrabuttons='',$book=''){
 /**
  * 
  */
+function two_buttonmenu_submit($extrabuttons='',$book=''){
+?>
+<div class="buttonmenu">
+<?php
+		 all_extrabuttons($extrabuttons,$book);
+?>
+	<button onClick="processContent(this);" name="sub" value="Submit"><?php print_string('submit');?></button>
+	<button onClick="processContent(this);" name="sub" value="Reset"><?php print_string('reset');?></button>
+</div>
+
+<?php
+	}
+
+/**
+ * 
+ */
 function two_buttonmenu($extrabuttons='',$book=''){
 ?>
   <div class="buttonmenu">
@@ -128,11 +144,11 @@ function rowaction_buttonmenu($imagebuttons,$extrabuttons='',$book=''){
 
 	if(is_array($imagebuttons)){
 		while(list($imageclass,$attributes)=each($imagebuttons)){
-			if(!isset($attributes['onclick'])){$attributes['onclick']='clickToAction(this)';}
+			if(!isset($attributes['onclick'])){$attributes['onclick']='clickToAction(document.getElementById(\''.$attributes['id'].'\'))';}
 			if(!isset($attributes['id'])){$buttonid='';}else{$buttonid=' id="'.$attributes['id'].'" ';}
 ?>
-	<!--span class="<?php print($imageclass);?> rowaction imagebutton" title="<?php print_string($attributes['title']);?>" <?php print $buttonid;?> name="<?php print $attributes['name'];?>" value="<?php print $attributes['value'];?>" onClick="<?php print $attributes['onclick'];?>"></span-->
-	<span class="<?php print($imageclass);?>  rowaction imagebutton" title="<?php print_string($attributes['title'],$book);?>" <?php print $buttonid;?> name="<?php print $attributes['name'];?>" value="<?php print $attributes['value'];?>" onClick="<?php print $attributes['onclick'];?>"></span>
+	<span class="<?php print($imageclass);?> rowaction imagebutton" title="<?php print_string($attributes['title'],$book);?>" value="<?php print $attributes['value'];?>" onClick="<?php print $attributes['onclick'];?>"></span>
+	<input type="hidden" title="<?php print_string($attributes['title']);?>" <?php print $buttonid;?> name="<?php print $attributes['name'];?>" value="<?php print $attributes['value'];?>" onClick="<?php print $attributes['onclick'];?>"/>
     <?php
 	   }
 	       }

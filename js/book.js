@@ -46,7 +46,8 @@ function clickToAddMerit(thisObj,bid,pid,openId){
 
 	var helperurl="infobook/httpscripts/merit_adder.php";
 	var getvars="sid="+sidId+"&bid="+bid+"&pid="+pid+"&openid="+openId+'-'+sidId;
-	openHelperWindow(helperurl,getvars);
+	var src=helperurl+'?'+getvars;
+	parent.openModalWindow(content,src);
 	}
 
 /* Opens the transport edit window */
@@ -217,6 +218,9 @@ function clickToAction(buttonObject){
 	if(theDivId==""){
 		//gets it from the id of the tbody container for this row
 		var theContainerId=buttonObject.parentNode.parentNode.parentNode.id;
+		if(theContainerId==""){
+			var theContainerId=buttonObject.parentNode.parentNode.id;
+			}
 		}
 	else{
 		//or gets it from the id of the parent div container
@@ -978,6 +982,7 @@ function processContent(buttonObject){
 			}
 		else if(validateForm()){
 			document.formtoprocess.submit();
+			parent.vex.close();
 			}
 		}
 	}

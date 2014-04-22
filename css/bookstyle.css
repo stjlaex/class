@@ -251,6 +251,17 @@ div.topform, div.topcontent {
   padding: 1%;
   margin: 0 4% 1% 4%;
 }
+
+/*a fixed height div, always at the top of the page before the content*/
+div.meritstopform{
+  overflow: auto;
+  position: relative;
+  top: 7%;
+  width: 90%;
+  padding: 1%;
+  margin: 5% 4% 1% 4%;
+}
+
 /*a div, always at the top of the page before the content*/
 div.topform {
   height: 30%;
@@ -266,9 +277,21 @@ div.content fieldset.left, div.topcontent fieldset.left, div.topform fieldset.le
   clear: left;
   margin: 0 0 2% 2%;
 }
+div.addmerits fieldset.left {
+  float: left;
+  width: 40% !important;
+  clear: left;
+  margin: 0 0 2% 2%;
+}
 div.content fieldset.right, div.topcontent fieldset.right, div.topform fieldset.right {
   float: right;
   width: 45%;
+  clear: right;
+  margin: 0% 2% 2% 0;
+}
+div.addmerits fieldset.right {
+  float: right;
+  width: 40% !important;
   clear: right;
   margin: 0% 2% 2% 0;
 }
@@ -703,6 +726,9 @@ tr.rowplus th:first-child:before, div.rowplus div:first-child:before, tr.rowminu
 }
 tr.rowminus th:first-child:before, div.rowminus div:first-child:before {
   content: "\f068";
+  font-family: 'FontAwesome';
+  color: #91c73e;
+  cursor: pointer;
 }
 
 tr.hidden, div.hidden {

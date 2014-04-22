@@ -55,6 +55,7 @@ two_buttonmenu($extrabuttons);
 <?php
     $imagebuttons=array();
 	$imagebuttons['clicktodelete']=array('name'=>'current',
+									'id'=>'deletereport',
 										 'value'=>'delete_report.php',
 										 'title'=>'delete');
     $extrabuttons=array();

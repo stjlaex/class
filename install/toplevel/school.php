@@ -188,6 +188,8 @@ $CFG->smslib='sms_lib.php';
 /**
  */
 $CFG->feeslib='fees_lib.php';
+$CFG->feesdetails['nif']='NIFno';
+$CFG->feesdetails['bic']='DEFBICg';
 /**
  *
  * Optional LDAP connection details.
@@ -242,4 +244,6 @@ $CFG->api_key='';
 $CFG->debug='off';
 $CFG->classlog='/var/www/classerrors.xml';
 $CFG->serverlog='/var/www/myerrors.html';
+
+if(isset($_COOKIE['theme']) and $_COOKIE['theme']==$CFG->theme20){$CFG->theme10=$CFG->applicationdirectory;$CFG->applicationdirectory=$CFG->theme20;}
 ?>

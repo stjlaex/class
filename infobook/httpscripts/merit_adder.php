@@ -16,6 +16,7 @@ $curryear=get_curriculumyear();
 $imagebuttons=array();
 /*the rowaction buttons used within each assessments table row*/
 $imagebuttons['clicktodelete']=array('name'=>'current',
+									'id'=>'meritdelete',
 									 'value'=>'merit_delete.php',
 									 'title'=>'delete');
 
@@ -38,6 +39,8 @@ $inmust='yes';
 <meta name="licence" content="GNU Affero General Public License version 3" />
 <link rel="stylesheet" type="text/css" href="../../css/bookstyle.css" />
 <link rel="stylesheet" type="text/css" href="../../css/infobook.css" />
+<link href='http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900' rel='stylesheet' type='text/css'>
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
 <script src="../../js/editor.js" type="text/javascript"></script>
 <script src="../../js/book.js?version=1013" type="text/javascript"></script>
 <script src="../../js/qtip.js" type="text/javascript"></script>
@@ -49,14 +52,14 @@ var book = "<?php print $book;?>";
 <body onload="loadRequired();">
 
 	<div id="bookbox" class="infocolor">
-	<?php three_buttonmenu(); ?>
+	<?php two_buttonmenu_submit(); ?>
 
 	<div id="heading">
 		<label><?php print_string('student'); ?></label>
 			<?php print $Student['DisplayFullName']['value'];?>
 	</div>
 
-	<div id="topform" class="topform divgroup">
+	<div id="topform" class="meritstopform divgroup">
 		<form id="formtoprocess" name="formtoprocess" method="post" action="merit_adder_action.php">
 
 	  <div class="left">
@@ -118,7 +121,7 @@ var book = "<?php print $book;?>";
 	</div>
 
 
-	<div id="viewcontent" class="content">
+	<div id="viewcontent" class="content addmerits">
 
 	  <table class="listmenu center">
 		<caption><?php print_string('recentmerits',$book);?></caption>
