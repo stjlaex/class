@@ -16,6 +16,7 @@ $curryear=get_curriculumyear();
 $imagebuttons=array();
 /*the rowaction buttons used within each assessments table row*/
 $imagebuttons['clicktodelete']=array('name'=>'current',
+									'id'=>'meritdelete',
 									 'value'=>'merit_delete.php',
 									 'title'=>'delete');
 

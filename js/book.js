@@ -218,6 +218,9 @@ function clickToAction(buttonObject){
 	if(theDivId==""){
 		//gets it from the id of the tbody container for this row
 		var theContainerId=buttonObject.parentNode.parentNode.parentNode.id;
+		if(theContainerId==""){
+			var theContainerId=buttonObject.parentNode.parentNode.id;
+			}
 		}
 	else{
 		//or gets it from the id of the parent div container
