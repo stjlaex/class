@@ -200,7 +200,7 @@ button:hover {
   padding: 10px 2.5%;
 }
 
-#infobookoptions, #entrybookoptions, #markbookoptions {
+#infobookoptions, #entrybookoptions {
   height: 160px;
 }
 #viewinfobook, #viewentrybook, #viewmarkbook {
