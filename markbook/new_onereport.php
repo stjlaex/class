@@ -121,7 +121,7 @@
 ?>
 	  <?php print_string('teachercomment');?>:
 	       <div class="special"><?php print $Comment['Teacher']['value'];?></div>
-	       <img class="clicktowrite" name="Write" onClick="clickToWriteCommentNew(<?php print $sid.','.$rid.',\''.$bid.'\',\''.$pid.'\',\''.$entryn.'\',\''.$openId.'\'';?>);" title="<?php print_string('clicktowritecomment');?>" />
+	       <span class="clicktowrite" name="Write" onClick="clickToWriteCommentNew(<?php print $sid.','.$rid.',\''.$bid.'\',\''.$pid.'\',\''.$entryn.'\',\''.$openId.'\'';?>);" title="<?php print_string('clicktowritecomment');?>" /></span>
 <?php
 			  }
 ?>

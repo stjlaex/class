@@ -154,8 +154,8 @@ else{
 </head>
 <body onload="window.opener.parent.loadRequired('reportbook');if(document.getElementById('current-tinytab')){tinyTabs(document.getElementById('current-tinytab'));}loadEditor();">
 
-	<div id="bookbox">
-	  <?php three_buttonmenu(); ?>
+	<div id="bookbox" class="newcommentwriter">
+	  <?php two_buttonmenu_submit(); ?>
 
 	  <div id="heading">
 		<label><?php print_string('student'); ?></label>
