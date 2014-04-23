@@ -196,7 +196,6 @@ button:hover {
   top: 80px;
   width: 95%;
   height: 70px;
-  overflow: hidden;
   background-color: #4d5f72;
   padding: 10px 2.5%;
 }
@@ -318,6 +317,7 @@ div#sidebuttons {
 div#sidebuttons button {
   background-color: #444444;
 }
+
 .sidebuttons img {
   padding: 0;
   margin: 0;

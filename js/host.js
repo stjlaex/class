@@ -206,6 +206,10 @@ function loadBook(book) {
 function loadBookOptions(book) {
     document.getElementById(book + "options").innerHTML = window.frames["view" + book].document.getElementById("hiddenbookoptions").innerHTML;
     $(document.getElementById(book + "options")).find('select').uniform()
+    $(document.getElementById(book + "options")).find('select[multiple="multiple"]').each(function(index, element){
+        multiSelect(element);
+    }); 
+    
 }
 
 function viewBook(newbook) {
@@ -466,7 +470,7 @@ function loadRequired(book) {
         $('#' + book + "options").css("display", "block");
     }
     if (contentsHeight >= frameHeight && contentsHeight <= (frameHeight + menuHeight)) {
-        $('#view' + book).contents().find("#bookbox").css('padding-bottom', menuHeight);
+        $('#view' + book).contents().find("#bookbox").css('padding-bottom', frameHeight);
     }
 
     /*on frame's scroll resize the frame*/
@@ -499,4 +503,3 @@ function loadRequired(book) {
         }
     });
 }
-

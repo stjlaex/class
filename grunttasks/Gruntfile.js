@@ -21,7 +21,8 @@ module.exports = function(grunt) {
                 src: [
                     '../js/host.js',
                     '../js/jquery.uniform.min.js',
-                    '../js/vex.combined.min.js'
+                    '../js/vex.combined.min.js',
+                    '../js/ld-ui-elements.js'
                 ],
                 dest: '../js/apphost.js'
                 },

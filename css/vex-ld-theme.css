@@ -502,8 +502,9 @@
   top: 10px;
   width: 35px;
 }
-.thanks-modal.highlight {
-  height: 94%;
+.thanks-modal.highlight,
+.print-modal.highlight {
+  height: 94% !important;
   margin: 0 0 0 -40% !important;
   position: absolute !important;
   top: 3% !important;
@@ -532,12 +533,7 @@
   box-shadow: 10px 10px 5px #757575;
 }
 
-.print-modal.highlight {
-  height: 94%;
-  margin: 0 0 0 -40% !important;
-  position: absolute !important;
-  top: 3% !important;
-}
+
 @media print {
   body.vex-open {
     visibility: hidden;
