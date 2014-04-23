@@ -1,19 +1,19 @@
 //get mulitselect options and add to a new div, also create a new button to display
 //selected options and toggle the new options div. Also hide the current select.
 function multiSelect(selectElem) {
-    var selectObject = {select: selectElem}
+    var selectObject = {select: selectElem};
     var options = selectElem.getElementsByTagName('option');
     var multi = $("<div class='ld-multi-select'>");
-    multi.css("max-width", selectObject.width)
+    multi.css("max-width", selectObject.width);
     var span = $("<span class='btn-select'>");
-    span.on('click', function() {toggleOptions(selectObject)})
-    var label = $("<span class='placeholder'>");
-    span.append(label);
+    span.on('click', function() {toggleOptions(selectObject)});
+    var display = selectObject.display = $("<span class='placeholder'>");
+    span.append(display);
     var optPanel = selectObject.optPanel = $("<div class='option-panel'>");
-    list =$("<ul class='option-group'>")
-    optPanel.append(list)
+    list =$("<ul class='option-group'>");
+    optPanel.append(list);
     optPanel.on('mousedown', function(event){ startSelectGroup(selectObject, event)})
-    for (var i = 0; i < options.length; i++){
+    for (var i = 0; i < options.length; i++) {
         var label = $("<li class='option' value="+ options[i].value +
                       ">" + options[i].textContent + "</li>");
         label.on('mousedown', function(event) {
@@ -22,13 +22,13 @@ function multiSelect(selectElem) {
         });
         list.append(label);
     }
-    multi.append(span)
-    multi.append(optPanel)
+    multi.append(span);
+    multi.append(optPanel);
     $(selectElem).after(multi);
-    selectElem.style.display = "none"
+    selectElem.style.display = "none";
+    updateDisplay(selectObject);
     
 }
-
 function toggleOptions(selectObject) {
     selectObject.optPanel.toggleClass('show-selection');
     selectObject.optPanel.find('li').each(function(index, element) {
@@ -46,17 +46,17 @@ function startSelectGroup(selectObject, event){
     event.preventDefault();
     selectObject.optPanel.on('mouseup', function(){ endSelectGroup(selectObject)})
     selectObject.optPanel.on('mouseleave', function(){
-        $(document).on('mouseup', function(){endSelectGroup(selectObject)})
+        $(document).on('mouseup', function(){endSelectGroup(selectObject)});
     })
-    setSelectGroup(selectObject)
-    var position = event.clientY
-    var diff = null
+    setSelectGroup(selectObject);
+    var position = event.clientY;
+    var diff = null;
     selectObject.optPanel.off('mousemove');
     selectObject.optPanel.on('mousemove', function(event) {
         if (diff != null && Math.abs(diff) > Math.abs(event.clientY - position)) { //reverse
-            setSelectGroup(selectObject)
+            setSelectGroup(selectObject);
         }
-        diff = event.clientY - position
+        diff = event.clientY - position;
     })
 }
 
@@ -90,10 +90,16 @@ function endSelectGroup(selectObject) {
     selectObject.optPanel.off("mouseleave");
     $(document).off("mouseup");
     toggleOptions(selectObject);
+    updateDisplay(selectObject);
+}
+function updateDisplay(selectObject) {
+    console.log(selectObject.select)
+    selectObject.display.text(selectObject.select.selectedOptions.length +
+        " selected");
 }
 function addSelect(event) {
-    $(event.currentTarget).addClass('selected')
+    $(event.currentTarget).addClass('selected');
 }
 function removeSelect(event) {
-    $(event.currentTarget).removeClass('selected')
+    $(event.currentTarget).removeClass('selected');
 }

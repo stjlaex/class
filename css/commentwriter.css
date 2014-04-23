@@ -1,118 +1,121 @@
 .commentwritercolor fieldset, .commentwritercolor div.topform, .commentwritercolor table.listmenu {
-	border-color:#44aaaa;
-    color:#000000;
-	}
-div#bookbox{
-	border-color:#44aaaa;
-    overflow:auto;
-	}
-div.content{ 
-	position:relative; 
-    top:7%; 
-    overflow:hidden;
-	}
-div#statementbank { 
-    top:14%;
-    left:4%;
-	width:92%;
-	overflow:auto;
-	}
-div.statementlevels { 
-    float:left;
-    width:10%;
-    font-size:7pt; 
-	}
-table.statements { 
-    float:right;
-    width:89.5%;
-    margin-right:1px;
-    font-size:9pt; 
-	}
+	border-color: #44aaaa;
+	color: #000000;
+}
+div#bookbox {
+	border-color: #44aaaa;
+	overflow: auto;
+}
+div.content {
+	position: relative;
+	top: 7%;
+	overflow: hidden;
+}
+div#statementbank {
+	top: 14%;
+	left: 4%;
+	width: 92%;
+	overflow: auto;
+}
+div.statementlevels {
+	float: left;
+	width: 10%;
+	font-size: 7pt;
+}
+table.statements {
+	float: right;
+	width: 89.5%;
+	margin-right: 1px;
+	font-size: 9pt;
+}
 .commentwritercolor button {
-	background-color:#44aaaa;
-	}
+	background-color: #44aaaa;
+}
 .commentwritercolor legend, .commentwritercolor caption {
-    border-color:#44aaaa;
-	}
+	border-color: #44aaaa;
+}
 
 textarea#Comment {
-    width:98%; 
-  	font-weight:300; 
-    font-size:12pt; 
-	text-align:left;
-	}
+	width: 98%;
+	font-weight: 300;
+	font-size: 12pt;
+	text-align: left;
+}
 /* All the rest is for the spell_checker */
-.status { 
-	color:#ff0000;
-	padding-left:150px;
-	white-space:nowrap;
+.status {
+	color: #ff0000;
+	padding-left: 150px;
+	white-space: nowrap;
 }
 .spell_container {
 
 }
 .suggestion_box {
-	background-color:#e8f1ff;
-	border:1px solid #000000;
-	position:absolute;
-	padding:2px 2px 2px 2px;
-	text-align:left;
+	background-color: #e8f1ff;
+	border: 1px solid #000000;
+	position: absolute;
+	padding: 2px 2px 2px 2px;
+	text-align: left;
 }
 .suggestion {
-	cursor:pointer;
-	text-decoration:underline;
-	font-size:12pt;
-	color:#000000;
+	cursor: pointer;
+	text-decoration: underline;
+	font-size: 12pt;
+	color: #000000;
 }
 .corrected_word {
-	color:#005500;
+	color: #005500;
 }
 .addtoDictionary {
-	background-color:#e8f1ff;
-	cursor:pointer;
-	text-decoration:underline;
-	font-size:12pt;
-	color:#000000;
+	background-color: #e8f1ff;
+	cursor: pointer;
+	text-decoration: underline;
+	font-size: 12pt;
+	color: #000000;
 }
 .edit_box {
-	background-color:#ffffff;
-	color:#000000;
-	font-size:12pt;
-	border:1px inset #000000;
-	padding-top:2px;
-	padding-left:2px;
-	overflow:auto;
+	background-color: #ffffff;
+	color: #000000;
+	font-size: 12pt;
+	border: 1px inset #000000;
+	padding-top: 2px;
+	padding-left: 2px;
+	overflow: auto;
 }
 .text_box {
-	background-color:#ffffff;
-	color:#000000;
-	font-size:12pt;
+	background-color: #ffffff;
+	color: #000000;
+	font-size: 12pt;
 }
 .highlight {
-	color:#ff0000;
-	font-size:12pt;
-	text-decoration:underline;
-	cursor:pointer;
+	color: #ff0000;
+	font-size: 12pt;
+	text-decoration: underline;
+	cursor: pointer;
 }
 .no_misspellings {
-	color:#ffff00;
-    background-color:#666666;
-	font-size:12pt;
-    float:right;
+	color: #ffff00;
+	background-color: #666666;
+	font-size: 12pt;
+	float: right;
 }
 .check_spelling {
-	color:#ffffff;
-    background-color:#666666;
-	cursor:pointer;
-	font-size:11pt;
-    float:left;
+	color: #ffffff;
+	background-color: #666666;
+	cursor: pointer;
+	font-size: 11pt;
+	float: left;
 }
 .resume_editing {
-	color:#ffffff;
-    background-color:#666666;
-	cursor:pointer;
-	font-size:11pt;
-    float:left;
+	color: #ffffff;
+	background-color: #666666;
+	cursor: pointer;
+	font-size: 11pt;
+	float: left;
 }
 .heading {
-	font-size:10pt;
+	font-size: 10pt;
+}
+.newcommentwriter {
+	top: 100px !important;
 }

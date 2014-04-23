@@ -77,16 +77,13 @@ else{
 			<div class="center">
 <?php
 if($openid!="epfsharedfile"){
-?>
-				<fieldset class="documentdrop">
-<?php
 	if($_SESSION['worklevel']>-1 and ($CFG->emailguardiancomments=='yes' or ($CFG->emailguardiancomments=='limit' and $perm['x']==1))){
-		$checkname = 'sharewithparents';
+		/*$checkname = 'sharewithparents';
 		$checkcaption = get_string('sharewithguardian', 'infobook');
-		$checkalert = get_string('sharecommentalert', 'infobook');
+		$checkalert = get_string('sharecommentalert', 'infobook');*/
 		/* TODO: implement share with parents */
-		include ('../../scripts/check_yesno.php');
-		unset($checkalert);
+		/*include ('../../scripts/check_yesno.php');
+		unset($checkalert);*/
 		}
 	}
 ?>
@@ -99,8 +96,7 @@ if($openid!="epfsharedfile"){
 		<input type="hidden" name="pid" value="<?php print $pid; ?>"/>
 		<input type="hidden" name="eid" value="<?php print $eid; ?>"/>
 		<input type="hidden" name="openid" value="<?php print $openid; ?>"/>
-		</form>
-	</div>
+	</form>
 
 
 </body>
