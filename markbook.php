@@ -145,12 +145,15 @@ $pid = $_SESSION['pid'];
 if (!isset($_SESSION['umnfilter']) or ($cidsno > 1 and $_SESSION['umnfilter'] == 'hw')) {$_SESSION['umnfilter'] = '%';
 }
 $umnfilter = $_SESSION['umnfilter'];
-if (sizeof($profiles) == 0 and substr($umnfilter, 0, 1) == 'p') {
+if (sizeof($profiles) == 0 and $umnfilter[0] == 'p') {
     /* If a profile was previously selected but no profiles now available... */
     $umnfilter = '%';
+    $umnfilterno = '-1';
     $_SESSION['umnfilter'] = $umnfilter;
-    if ($displaymid == 0) {$displaymid = -1;
-    }
+    if ($displaymid == 0) {$displaymid = -1;}
+}
+elseif($umnfilter[0] == 'p') {
+    $umnfilterno = substr($umnfilter, 1);
 }
 if (!isset($_SESSION['umnrank'])) {$_SESSION['umnrank'] = 'surname';
 }
@@ -185,11 +188,13 @@ $_SESSION['lessonatt'] = $lessonatt;
             </fieldset>
         </form>
         
+<?php
+            if(isset($umns) and isset($cid)){
+?>
         <form id="gradechoice" name="gradechoice"  method="post" action="markbook.php" target="viewmarkbook">
             <fieldset class="markbook"><legend><?php print_string('markcolumns');?></legend>
             <select id="mids" name="mids[]" size="14" multiple="multiple" onChange="changeMarkDisplay(this.form);">
                 <?php
-                    if (isset($umns)) {
                         for ($col = 0; $col < sizeof($umns); $col++) {
                             if ($umns[$col]['component'] == $pid or $pid == '') {
                                 print '<option class="' . $umns[$col]['displayclass'] . '" value="' . $umns[$col]['id'] . '" id="sel-' . $umns[$col]['id'] . '">';
@@ -198,7 +203,6 @@ $_SESSION['lessonatt'] = $lessonatt;
                         print $umns[$col]['topic'] . ' (' . $umns[$col]['entrydate'] . ')</option>';
                         }
                     }
-                }
                 ?>
             </select>
 	    </fieldset>
@@ -206,20 +210,16 @@ $_SESSION['lessonatt'] = $lessonatt;
         
         <form id="umnfilterchoice" name="umnfilterchoice" method="post" action="markbook.php" target="viewmarkbook">
 		<fieldset class="markbook markbook-filter">
-			<legend><?php print_string('filterlist'); ?></legend>
-			<input name="tid" type="hidden" value="<?php print $tid; ?>">
-			<input name="current" type="hidden" value="class_view.php">
-<?php
-		$currentprofile=list_markbook_filters($profiles,$umnfilter,$currentprofile,$cid,$cidsno,$classes);
-?>
-		</fieldset>
-		
-		
-<?php
-            if(!empty($currentprofile) and isset($cid)){
-        ?>
-        
-        <div id="<?php print $currentprofile['id']; ?>" class="neat sidebuttons">
+			<legend>
+<?php 
+		print_string('filterlist');
+           /**
+            * This is the chart button which present for certain filter options which are defined as a profile
+            */
+	        if(!empty($umnfilter) and $umnfilterno>-1 and isset($cid)){
+		  $currentprofile=$profiles[$umnfilterno];
+?>        
+        <div id="<?php print $currentprofile['id']; ?>" title="<?php print_string('chart');?>" class="sidebuttons" style="display:inline;padding:0 0 0 15px;margin:0;">
             <button type="button" name="chart" onclick="window.frames['viewmarkbook'].clickToAction(this);" value="report_profile_print.php">
                 <img alt="Chart" src="images/charter.png"/>
             </button>
@@ -240,12 +240,22 @@ $_SESSION['lessonatt'] = $lessonatt;
                 ?>
             </div>
         </div>
-            <?php
-                }
-            ?>
+<?php
+	    }
+?>
+</legend>
+<?php
+		list_markbook_filters($profiles,$umnfilter,$currentprofile,$cid,$cidsno,$classes);
+?>
+			<input name="tid" type="hidden" value="<?php print $tid; ?>">
+			<input name="current" type="hidden" value="class_view.php">
+		</fieldset>
+	   </form>
+<?php
+	    }
+?>
             
             		
-	   </form>
 
         <form id="componentchoice" name="componentchoice" method="post" action="markbook.php" target="viewmarkbook">
             <fieldset class="markbook">
