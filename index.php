@@ -56,7 +56,8 @@ print '<?xml version="1.0" encoding="utf-8"?' . '>';
           print '<link rel="stylesheet" href="css/uniform.edit.css" media="screen" />
             <link href="css/hoststyle.css" rel="stylesheet" type="text/css" />
             <link rel="stylesheet" type="text/css" href="css/vex.css" />
-            <link rel="stylesheet" type="text/css" href="css/vex-ld-theme.css" />';
+            <link rel="stylesheet" type="text/css" href="css/vex-ld-theme.css" />
+            <link rel="stylesheet" type="text/css" href="css/ld-ui-elements.css" />';
       } else {
           print '<link href="css/apphost.min.' . str_replace('.', '', $CFG->version) . '.css" rel="stylesheet" type="text/css" /';
       }
@@ -105,7 +106,8 @@ print '<?xml version="1.0" encoding="utf-8"?' . '>';
         if ($CFG->debug == 'dev' or !file_exists("js/apphost.min.js")) {
           print '<script src="js/host.js"></script>
               <script language="Javascript" type="text/javascript" src="js/vex.combined.min.js"></script>
-              <script src="js/jquery.uniform.min.js"></script>';
+              <script src="js/jquery.uniform.min.js"></script>
+              <script src="js/ld-ui-elements.js"></script>';
         } else {
           print '<script src="js/apphost.min.' . str_replace('.', '', $CFG->version) . '.js"></script>';
         }

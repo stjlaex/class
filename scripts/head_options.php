@@ -13,7 +13,7 @@ $user=new user($db);
 require_once ('lib/include.php');
 if($_SESSION['uid']==0) {
 include ('logbook/login.php');
-exit ;
+exit;
 }
 require_once ('logbook/permissions.php');
 $tid=$_SESSION['username'];

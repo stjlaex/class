@@ -36,17 +36,16 @@ $action='search_action.php'
 			</button>
 			<input type="hidden" name="current" value="group_search.php"/>
 		  </form>
-		  </fieldset>
 <?php
 		}
        
 ?>
+	</fieldset>
    	<fieldset class="infobook">
    	    <form id="quicksearch" name="quicksearch" method="post" action="infobook.php" target="viewinfobook">
 <?php
 	   if($_SESSION['role']=='office' or $_SESSION['role']=='admin'){
 ?>
-		<!--legend><?php print_string('contactsearch',$book);?></legend-->
 		<select class="switcher" type="text" id="contact" tabindex="<?php print $tab++;?>" name="gfield" size="1">
 		    <option selected="selected"><?php print_string('contactsearch',$book);?></option>
     <?php
@@ -90,7 +89,6 @@ $action='search_action.php'
 
 if($_SESSION['worklevel']>-1){
 ?>
-		<!--legend><?php print_string('studentsearch');?></legend-->
 		<select class="switcher" type="text" id="student" tabindex="<?php print $tab++;?>" name="sfield" size="1">
 		    <option selected="selected"><?php print_string('studentsearch');?></option>
 <?php
@@ -121,7 +119,7 @@ else{
 		<label for="Surname"><?php print_string('surname');?></label>
 		<input tabindex="<?php print $tab++;?>" type="text" id="Surname" name="surname" value="" maxlength="30"/>
 		<label for="Forename"><?php print_string('forename');?></label>
-		<input tabindex="<?php print $tab++;?>"type="text" id="Forename" name="forename" value="" maxlength="30"/>
+		<input tabindex="<?php print $tab++;?>" type="text" id="Forename" name="forename" value="" maxlength="30"/>
     	<button type="submit" name="submit">
     		<?php print_string('search');?>
     	</button>
@@ -183,12 +181,10 @@ else{
 ?>
 		</div>
 		<div id="switchstudentformerupn" class="hidden">
-		  <input tabindex="<?php print $tab++;?>" 
-			type="text" name="studentformerupn" value="" maxlength="30"/>
+		  <input tabindex="<?php print $tab++;?>" type="text" name="studentformerupn" value="" maxlength="30"/>
 		</div>
 		<div id="switchstudentepfusername" class="hidden">
-		  <input tabindex="<?php print $tab++;?>" 
-			type="text" name="studentepfusername" value="" maxlength="30"/>
+		  <input tabindex="<?php print $tab++;?>" type="text" name="studentepfusername" value="" maxlength="30"/>
 		</div>
 <?php
 	if(isset($CFG->enrol_boarders) and $CFG->enrol_boarders=='yes'){
@@ -218,4 +214,5 @@ else{
                }
             }
 ?>
+		  </fieldset>
   </div>

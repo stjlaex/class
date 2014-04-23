@@ -23,17 +23,18 @@ three_buttonmenu($extrabuttons);
             </div>
             <div class="right">
                 <fieldset class="divgroup">
+		<div class="left">
                     <h5><?php print_string('collatesince',$book);?></h5>
                     <?php include('scripts/jsdate-form.php'); ?>
-                </fieldset>
-            </div>
-            <div class="row">
-            <div class="left">
-                <fieldset class="divgroup">
+		</div>
+		<div class="right">
                     <h5><?php print_string('collateuntil',$book);?></h5>
                     <?php $required='no'; unset($todate); include('scripts/jsdate-form.php'); ?>
+		</div>
                 </fieldset>
             </div>
+
+            <div class="row">
             <div class="right">
                 <fieldset class="divgroup" >
                     <h5><?php print_string('limittoonetype',$book);?></h5>
@@ -44,7 +45,6 @@ three_buttonmenu($extrabuttons);
                 ?>
                 </fieldset>
             </div>
-            </div>
             <div class="left">
                 <fieldset class="divgroup" >
                     <h5><?php print_string('limittoonesubject');?></h5>
@@ -53,6 +53,7 @@ three_buttonmenu($extrabuttons);
                       include('scripts/list_subjects.php');
                     ?>
                 </fieldset>
+            </div>
             </div>
             <input type="hidden" name="current" value="<?php print $action; ?>">
             <input type="hidden" name="choice" value="<?php print $choice; ?>">
