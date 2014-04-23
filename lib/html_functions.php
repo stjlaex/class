@@ -144,11 +144,11 @@ function rowaction_buttonmenu($imagebuttons,$extrabuttons='',$book=''){
 
 	if(is_array($imagebuttons)){
 		while(list($imageclass,$attributes)=each($imagebuttons)){
-			if(!isset($attributes['onclick'])){$attributes['onclick']='clickToAction(this)';}
+			if(!isset($attributes['onclick'])){$attributes['onclick']='clickToAction(document.getElementById(\''.$attributes['id'].'\'))';}
 			if(!isset($attributes['id'])){$buttonid='';}else{$buttonid=' id="'.$attributes['id'].'" ';}
 ?>
-	<!--span class="<?php print($imageclass);?> rowaction imagebutton" title="<?php print_string($attributes['title']);?>" <?php print $buttonid;?> name="<?php print $attributes['name'];?>" value="<?php print $attributes['value'];?>" onClick="<?php print $attributes['onclick'];?>"></span-->
-	<span class="<?php print($imageclass);?>  rowaction imagebutton" title="<?php print_string($attributes['title'],$book);?>" <?php print $buttonid;?> name="<?php print $attributes['name'];?>" value="<?php print $attributes['value'];?>" onClick="<?php print $attributes['onclick'];?>"></span>
+	<span class="<?php print($imageclass);?> rowaction imagebutton" title="<?php print_string($attributes['title'],$book);?>" value="<?php print $attributes['value'];?>" onClick="<?php print $attributes['onclick'];?>"></span>
+	<input type="hidden" title="<?php print_string($attributes['title']);?>" <?php print $buttonid;?> name="<?php print $attributes['name'];?>" value="<?php print $attributes['value'];?>" onClick="<?php print $attributes['onclick'];?>"/>
     <?php
 	   }
 	       }
@@ -163,7 +163,7 @@ function xmlarray_form($Array,$no='',$caption='',$tab=1,$book=''){
   <table class="listmenu">
 <?php
 
-	if($caption!=''){print '<h5>'.get_string($caption,$book).'</h5>';}
+	if($caption!=''){print '<caption>'.get_string($caption,$book).'</caption>';}
 	while(list($key,$val)=each($Array)){
 		/* If the table_db attribute is omitted it indicates this is not */
 		/* a field for entry by the user - this  may be because it is disabled or */
@@ -595,19 +595,19 @@ function selery_select_stick($choices,$choice='',$book=''){
  */
 function selery_stick($choices,$choice='',$book=''){
 ?>
-        <ul class="selery">
-            <?php
-            	while(list($page,$title)=each($choices)){
-            ?>
-		  <li onclick="selerySubmit(this)" <?php if($choice==$page){print 'class="checked" ';}?> >
+	<ul class="selery">
+<?php
+	while(list($page,$title)=each($choices)){
+?>
+		<li onclick="selerySubmit(this)" <?php if($choice==$page){print 'class="checked" ';}?> >
 			<input type="radio"<?php if($choice==$page){print 'checked="checked" ';} ?> value="<?php print $page;?>" name="current" >
-			  <p><?php print_string($title,$book);?></p>
+				<p><?php print_string($title,$book);?></p>
 			</input>
-		  </li>
-            <?php
-            	}
-            ?>
-        </ul>
+		</li>
+<?php
+		}
+?>
+	</ul>
 <?php
 	}
 
@@ -748,27 +748,28 @@ function list_select_enum($fieldname,$vars,$book=''){
 <?php 
 		}
 ?>
-  <select id="<?php print $vars['id'];?>" 
+	<select id="<?php print $vars['id'];?>" 
 <?php 
 	if($vars['multi']>1){print ' name="'.$vars['name'].$vars['i'].'[]" multiple="multiple" ';}
 	else{print ' name="'.$vars['name'].$vars['i'].'" ';}
 ?>
-	tabindex="<?php print $vars['tab'];?>"  
-	size="<?php print $vars['multi'];?>"
-	<?php print $vars['style'];?>
-	<?php if($vars['onsidechange']=='yes'){print ' onChange="document.'.$book.'choice.submit();"';}?>
-	<?php if($vars['onchange']=='yes'){print ' onChange="processContent(this);"';}?>
-	<?php if($vars['required']=='yes'){ print ' class="required" ';}
+		tabindex="<?php print $vars['tab'];?>"  
+		size="<?php print $vars['multi'];?>"
+		<?php print $vars['style'];?>
+		<?php if($vars['onsidechange']=='yes'){print ' onChange="document.'.$book.'choice.submit();"';}?>
+		<?php if($vars['onchange']=='yes'){print ' onChange="processContent(this);"';}?>
+<?php
+			if($vars['required']=='yes'){print ' class="required" ';}
 			elseif($vars['required']=='eitheror'){
 				print 'class="eitheror" eitheror="'.$vars['eitheror'].'" ';} ?> 
 	>
-    <option value=""><?php print_string($vars['label'],$book);?></option>
+		<option value=""><?php print_string($vars['label'],$book);?></option>
 <?php
-			 while(list($inval,$description)=each($enum)){	
-				 print '<option ';
-				 if($vars['selectedvalue']==strtoupper($inval)){print ' selected="selected"';}
-				 print ' value="'.$inval.'">'.get_string($description,$book).'</option>';
-				 }
+		while(list($inval,$description)=each($enum)){	
+			print '<option ';
+			if($vars['selectedvalue']==strtoupper($inval)){print ' selected="selected"';}
+			print ' value="'.$inval.'">'.get_string($description,$book).'</option>';
+			}
 ?>
 	</select>
 <?php
@@ -832,23 +833,21 @@ function html_message_transform($epfum,$transform){
  *
  */
 function html_table_container_open($containerno,$state='rowplus',$label){
-
-
 	if($state!='' and $containerno!=0){
 
 		if($state=='rowplus'){$hidden='hidden';}
 		else{$hidden='revealed';}
 ?>
 		<div id="<?php print $containerno;?>">
-		  <div class="<?php print $state;?>" onClick="clickToReveal(this)" id="<?php print $containerno.'-0';?>" >
-			<div><?php print $label;?></div>
-		  </div>
-		  <div class="<?php print $hidden;?>" id="<?php print $containerno.'-1';?>">
-			<table class="listmenu">
-                <?php 
-		          }
-                    return;
-	               }
+			<div class="<?php print $state;?>" onClick="clickToReveal(this)" id="<?php print $containerno.'-0';?>" >
+				<div><?php print $label;?></div>
+			</div>
+			<div class="<?php print $hidden;?>" id="<?php print $containerno.'-1';?>">
+				<table class="listmenu">
+<?php 
+		}
+	return;
+	}
 
 /**
  *
@@ -867,195 +866,201 @@ function html_table_container_close($containerno,$xmltagname='',$entry=''){
 	}
 
 
-    /**
-     *
-     * $ownertype defaults to student
-     *
-     */
-    function html_document_drop($epfun,$context,$linked_id='-1',$lid='-1',$ownertype=''){
-    	global $CFG;
-    	if($context=='assessment'){$path='../../';}
-    	else{$path='';}
-    ?>
-    <fieldset class="documentdrop">
-        <span style="float: right;"><?php print_string('uploadfile');?> (<?php print_string('max');?>: <?php echo ini_get("upload_max_filesize"); ?>)</span>
-        <h5><?php print_string('documents');?></h5>
+/**
+ *
+ * $ownertype defaults to student
+ *
+ */
+function html_document_drop($epfun,$context,$linked_id='-1',$lid='-1',$ownertype=''){
+	global $CFG;
+	if($context=='assessment'){$path='../../';}
+	else{$path='';}
+?>
+	<fieldset class="documentdrop">
+		<div class="documentdrop">
+			<h5>
+<?php 
+	if($context=='icon'){ 
+		print_string('profilephotos');
+		}
+	else{
+		print_string('documents');
+		}
+?>
+			</h5>
 
-        <div class="documentdrop">
-           <form id="formfiledelete" name="formfiledelete" method="post" action="<?php print $path;?>infobook/httpscripts/file_delete.php">
-                <input type="hidden" id="FILEOWNER" name="FILEOWNER" value="<?php print $epfun;?>" />
-                <input type="hidden" id="FILECONTEXT" name="FILECONTEXT" value="<?php print $context;?>" />
-                <ul class="list-files">
-                <?php
-                    $files=(array)list_files($epfun,$context,$linked_id);
-                    if(sizeof($files)>0){
-                        print '<li><span id="deletebutton" class="clicktodelete"></span></li>';
-                        html_document_list($files);
-                        }
-                ?>
-                </ul>
-            </form>
-        </div>        
+			<form id="formfiledelete" name="formfiledelete" method="post" action="<?php print $path;?>infobook/httpscripts/file_delete.php">
+				<input type="hidden" id="FILEOWNER" name="FILEOWNER" value="<?php print $epfun;?>" />
+				<input type="hidden" id="FILECONTEXT" name="FILECONTEXT" value="<?php print $context;?>" />
+				<ul class="list-files">
+<?php
+		$files=(array)list_files($epfun,$context,$linked_id);
+		if(sizeof($files)>0){
+			html_document_list($files);
+			print '<li><span id="deletebutton" class="clicktodelete"></span></li>';
+			}
+?>
+				</ul>
+			</form>
+		</div>
+	</fieldset>
 
-		<form id="formdocumentdrop" name="formdocumentdrop" method="post" action="<?php print $path;?>infobook/httpscripts/file_upload.php" enctype="multipart/form-data" <?php if($context=='icon') print "onsubmit='return checkForm()'"; ?>>
-    		<input type="hidden" id="MAX_FILE_SIZE" name="MAX_FILE_SIZE" value="<?php print return_bytes(ini_get('upload_max_filesize'));?>" />
-    		<input type="hidden" id="FILEOWNER" name="FILEOWNER" value="<?php print $epfun;?>" />
-    		<input type="hidden" id="FILECONTEXT" name="FILECONTEXT" value="<?php print $context;?>" />
-    		<input type="hidden" id="FILELINKEDID" name="FILELINKEDID" value="<?php print $linked_id;?>" />
-    		<input type="hidden" id="FILESID" name="FILESID" value="<?php print $lid;?>" />
-    		<input type="hidden" id="OWNERTYPE" name="OWNERTYPE" value="<?php print $ownertype;?>" />
-    		<input type="hidden" id="DRAG" name="DRAG" value="false" />
-    		<input type="hidden" id='upload_redirect' name='upload_redirect' value="<?php echo $_SERVER['REQUEST_URI'];?>">
-    		<input type="hidden" id='maxpostsize' name='maxpostsize' value="<?php echo ini_get('upload_max_filesize'); ?>">
-            <?php 
-            	 if($context=='icon'){ 
-            		 if($ownertype=='staff'){
-            			 $d_book='admin';
-            			 $d_current='staff_details';
-            			 $d_id='seluid';
-            			 }
-            		 else{
-            			 $d_book='infobook';
-            			 $d_current='student_view';
-            			 $d_id='sid';
-            			 }
-            ?>
-			<!--crops parameters-->
-			<input type="hidden" id="x1" name="x1" />
-			<input type="hidden" id="y1" name="y1" />
-			<input type="hidden" id="x2" name="x2" />
-			<input type="hidden" id="y2" name="y2" />
-			<input type="hidden" id="w" name="w" />
-			<input type="hidden" id="h" name="h" />
-			<!--h4><?php print_string('searchfile');?> (<?php print_string('max');?>: <?php echo ini_get("upload_max_filesize"); ?>)</h4-->
-			<div>
-				<label for="fileselect">
-					<?php print_string('filestoupload');?>:<br />
-				</label>
-				<div style="position:relative;">
-					<input type="file" name="image_file" id="image_file" onchange="photoSelectHandler();" style="position: relative; text-align: right; -moz-opacity:0; filter:alpha(opacity: 0); opacity:0; z-index: 2; width:270px;cursor:pointer;"/>
-					<div style="position: absolute; top: 0px; left: 0px; z-index: 1;">
-						<input type="text" name="fake_field" id="fake_field" value="Select a photo" style="border-top-color:black;border-left-color:black;">
-						<input type="button" name="fake_button" id="fake_button" value="<?php print_string('browse');?>" style="background-color:#444466;color:white;font-weight: bold;border-radius: 7px 7px 7px 7px;border: 2px dashed #555555;font-size: small;cursor:pointer;">
+	<fieldset class="documentdrop">
+		<div class="documentdrop">
+			<h5><?php print_string('uploadfile');?> <span style="font-size:small;">(<?php print_string('max');?>: <?php echo ini_get("upload_max_filesize"); ?>)</span></h5>
+			<form id="formdocumentdrop" name="formdocumentdrop" method="post" action="<?php print $path;?>infobook/httpscripts/file_upload.php" enctype="multipart/form-data" <?php if($context=='icon'){ print "onsubmit='return checkForm()'";} ?>>
+				<input type="hidden" id="MAX_FILE_SIZE" name="MAX_FILE_SIZE" value="<?php print return_bytes(ini_get('upload_max_filesize'));?>" />
+				<input type="hidden" id="FILEOWNER" name="FILEOWNER" value="<?php print $epfun;?>" />
+				<input type="hidden" id="FILECONTEXT" name="FILECONTEXT" value="<?php print $context;?>" />
+				<input type="hidden" id="FILELINKEDID" name="FILELINKEDID" value="<?php print $linked_id;?>" />
+				<input type="hidden" id="FILESID" name="FILESID" value="<?php print $lid;?>" />
+				<input type="hidden" id="OWNERTYPE" name="OWNERTYPE" value="<?php print $ownertype;?>" />
+				<input type="hidden" id="DRAG" name="DRAG" value="false" />
+				<input type="hidden" id='upload_redirect' name='upload_redirect' value="<?php echo $_SERVER['REQUEST_URI'];?>">
+				<input type="hidden" id='maxpostsize' name='maxpostsize' value="<?php echo ini_get('upload_max_filesize'); ?>">
+<?php 
+		if($context=='icon'){ 
+			if($ownertype=='staff'){
+				$d_book='admin';
+				$d_current='staff_details';
+				$d_id='seluid';
+				}
+			else{
+				$d_book='infobook';
+				$d_current='student_view';
+				$d_id='sid';
+				}
+?>
+				<!--crop parameters-->
+				<input type="hidden" id="x1" name="x1" />
+				<input type="hidden" id="y1" name="y1" />
+				<input type="hidden" id="x2" name="x2" />
+				<input type="hidden" id="y2" name="y2" />
+				<input type="hidden" id="w" name="w" />
+				<input type="hidden" id="h" name="h" />
+
+				<div class="boxdragdrop">
+					<div id="filedrag">
+						<span></span>
+						<?php print_string('drophere');?>
+					</div>
+					<div class="error"></div>
+					<div class="step2">
+						<div id="progress"></div>
+						<div id="messages"></div>
+						<div class="info" style="display:none">
+							<label><?php print_string('filesize');?></label> <input type="text" id="filesize" name="filesize" />
+							<label><?php print_string('filetype');?></label> <input type="text" id="filetype" name="filetype" />
+							<label><?php print_string('imagedimension');?></label> <input type="text" id="filedim" name="filedim" />
+						</div>
+						<div class="upload">
+							<input type="file" name="image_file" id="image_file" onchange="photoSelectHandler();"/>
+							<button type="button" id="browsebutton"><?php print_string('browse');?></button>
+						</div>
+						<div class="submit">
+							<button type="button" id="dragbutton"><?php print_string('upload');?></button>
+							<button type="submit" id="submitbutton" style="z-index:2000;"><?php print_string('upload');?></button>
+							<input type="hidden" name="fileselect" id="fileselect" onchange="photoSelectHandler();" />
+						</div>
 					</div>
 				</div>
-				<script>
-					//TODO find a place for this 
-					//Changes the value of the fake field with the filename
-					$('#image_file').change(function() {
-						$('#fake_field').val($(this).val());
-					});
-				</script>
-				<div><input type="hidden" name="fileselect" id="fileselect" onchange="photoSelectHandler();" /></div>
-                <div id="filedrag">
-                    <span></span>
-                    <?php print_string('dropfileshere');?>
-                </div>
-			</div>
-			<div class="error"></div>
-            <div class="step2">
-				<div id="messages" style="display:none">
-					<p><?php print_string('statusmessages');?></p>
-				</div>
-				<div id="progress"></div>
-					<div class="info" style="display:none">
-    					<label><?php print_string('filesize');?></label> <input type="text" id="filesize" name="filesize" />
-    					<label><?php print_string('filetype');?></label> <input type="text" id="filetype" name="filetype" />
-    					<label><?php print_string('imagedimension');?></label> <input type="text" id="filedim" name="filedim" />
+<?php 
+			}
+		else{
+?>
+				<div class="boxdragdrop">
+					<div id="filedrag">
+						<span></span>
+						<?php print_string('drophere');?>
 					</div>
-					<div style="float:right;z-index:1001;">
+					<div id="progress"></div>
+					<div id="messages"></div>
+					<div class="upload">
+						<input type="file" name="image_file" onchange="document.getElementById('messages').style.display='block';document.getElementById('messages').innerHTML=this.value;"/>
+						<button type="button" id="browsebutton"><?php print_string('browse');?></button>
+					</div>
+					<div class="submit">
 						<button type="submit" id="submitbutton"><?php print_string('upload');?></button>
-						<button type="button" id="dragbutton"><?php print_string('upload');?></button>
-				    </div>
-                </div>
-            <?php 
-                	}
-                if($context!='icon') { 
-            ?>
-            
-			<div class="boxdragdrop">
-                <div id="filedrag">
-                    <span></span>
-                    <?php print_string('drophere');?>
-                </div>
-                
-                <div id="progress"></div>
-                <div id="messages"></div>
-				<!--label for="fileselect"><?php print_string('searchfile');?>:<br /></label-->
-				<div class="upload">
-				   <input type="file" name="image_file" onchange="document.getElementById('messages').style.display='block';document.getElementById('messages').innerHTML=this.value;"/>
-				   <button type="button" id="submitbutton"><?php print_string('browse');?></button>
+						<input type="file" id="fileselect" name="fileselect[]" multiple="multiple"/>
+					</div>
 				</div>
-				<div class="submit">
-				    <button type="submit" id="submitbutton"><?php print_string('upload');?></button>
-    			    <input type="file" id="fileselect" name="fileselect[]" multiple="multiple"/>
-    			</div>
-            </div>
-            <?php 
-                } 
-            ?>
-        </form>
-    </fieldset>
-    <?php 
-    	if($context=='icon'){ 
-    ?>
+<?php 
+			}
+?>
+			</form>
+		</div>
+	</fieldset>
+<?php 
+	if($context=='icon'){ 
+?>
 	<div style="margin: 0 0 0 2%;"><?php print_string('uploadbuttonabove');?></div>
 	<div style="border-style:solid;border-width:5px;max-width:93.5%;max-height:90.5%;margin:0 0 4% 2%;background-color: #FFFFEE;overflow:auto;">
-	   <center><img id="preview" /></center>
+		<center><img id="preview" /></center>
 	</div>
-    <?php 
-    		} 
-    	return;
-    	}
-        function html_document_list($files){
-        	global $CFG;
-        	if(isset($_SERVER['HTTPS'])){
-        		$http='https';
-        		}
-        	else{
-        		$http='http';
-        		}
-        	$filedisplay_url=$http.'://'.$CFG->siteaddress.$CFG->sitepath.'/'.$CFG->applicationdirectory.'/scripts/file_display.php';
-        
-        	foreach($files as $file){
-        		if(!isset($file['id']) or $file['id']=='') $fileid=$file['name'];
-        		else $fileid=$file['id'];
-        		$fileparam_list='?fileid='.$fileid.'&location='.$file['location'].'&filename='.$file['name'];
-        		print '<li id="filecontainer'.$fileid.'" class="document" title="'.$file['description'].'">';
-        		print '<a href="'.$filedisplay_url. $fileparam_list.'" />'.$file['originalname'].'<span class="clicktodownload"></span></a>';
-        		print '<input type="checkbox" name="fileids[]" value="'.$fileid.'" />';
-        		print '<input type="hidden" id="fname" value="'.$fileid.'" />';
-        		print '</li>';
-        		}
-        	return;
-        	}
-        function list_markbook_filters($profiles,$umnfilter,$currentprofile,$cid,$cidsno,$classes){
-    ?>
-	<select name="umnfilter" onchange="document.umnfilterchoice.submit();">
-	    <option value="cw" <?php if ($umnfilter == 'cw') {print 'selected'; } ?> ><?php print_string('classwork',$book);?></label>
-        <?php
-    	   if($cidsno==1 and isset($cid) and !in_array($classes[$cid]['crid'],getEnumArray('nohomeworkcourses'))){
-        ?>
-    	<option value="hw" <?php if ($umnfilter == 'hw') {print 'selected'; } ?> ><?php print_string('homework',$book);?></label>
-        <?php
-        	}
-        ?>
-    	<option value="t" <?php if ($umnfilter == 't') {print 'selected'; } ?> ><?php print_string('reports',$book);?></label>
-        <?php
-        	if(sizeof($profiles)>0){
-	?>
+<?php 
+		} 
+	return;
+	}
 
-	<?php
-        		foreach($profiles as $choiceprono => $choiceprofile){
-        ?>
-    	<option value="p<?php print $choiceprono; ?>" <?php if ($umnfilter == 'p' . $choiceprono) {print 'selected'; $currentprofile=$choiceprofile; } ?> ><?php print substr($choiceprofile['name'], 0, 30); ?></label>
-        <?php
-            	}
-            }
-        ?>
-    	<option value="%" <?php if ($umnfilter=='%') {print 'selected'; }?> ><?php print_string('all'); ?></label>
+function getHTTPType(){
+	if(isset($_SERVER['HTTPS'])){
+		$http='https';
+		}
+	else{
+		$http='http';
+		}
+	return $http;
+	}
+
+/*
+ *
+ */
+function html_document_list($files){
+	global $CFG;
+	$http=getHTTPType();
+	$filedisplay_url=$http.'://'.$CFG->siteaddress.$CFG->sitepath.'/'.$CFG->applicationdirectory.'/scripts/file_display.php';
+
+	foreach($files as $file){
+		if(!isset($file['id']) or $file['id']==''){$fileid=$file['name'];}
+		else{$fileid=$file['id'];}
+		$fileparam_list='?fileid='.$fileid.'&location='.$file['location'].'&filename='.$file['name'];
+		print '<li id="filecontainer'.$fileid.'" class="document" title="'.$file['description'].'">';
+		print '<a href="'.$filedisplay_url. $fileparam_list.'" />'.$file['originalname'].'<span class="clicktodownload"></span></a>';
+		print '<input type="checkbox" name="fileids[]" value="'.$fileid.'" />';
+		print '<input type="hidden" id="fname" value="'.$fileid.'" />';
+		print '</li>';
+		}
+	return;
+	}
+
+/*
+ *
+ */
+function list_markbook_filters($profiles,$umnfilter,$currentprofile,$cid,$cidsno,$classes){
+?>
+	<select name="umnfilter" onchange="document.umnfilterchoice.submit();">
+		<option value="cw" <?php if ($umnfilter=='cw') {print 'selected'; } ?> ><?php print_string('classwork',$book);?></label>
+<?php
+	if($cidsno==1 and isset($cid) and !in_array($classes[$cid]['crid'],getEnumArray('nohomeworkcourses'))){
+?>
+		<option value="hw" <?php if ($umnfilter=='hw'){print 'selected'; } ?> ><?php print_string('homework',$book);?></label>
+<?php
+		}
+?>
+		<option value="t" <?php if ($umnfilter=='t'){print 'selected'; } ?> ><?php print_string('reports',$book);?></label>
+<?php
+	if(sizeof($profiles)>0){
+		foreach($profiles as $choiceprono=>$choiceprofile){
+?>
+		<option value="p<?php print $choiceprono; ?>" <?php if($umnfilter=='p'.$choiceprono){print 'selected'; $currentprofile=$choiceprofile; } ?> ><?php print substr($choiceprofile['name'], 0, 30); ?></label>
+<?php
+			}
+		}
+?>
+		<option value="%" <?php if ($umnfilter=='%') {print 'selected'; }?> ><?php print_string('all'); ?></label>
 	</select>
-    <?php
-    	return $currentprofile;
-    	}
-    ?>
+<?php
+	return $currentprofile;
+	}
+
+?>

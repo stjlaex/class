@@ -79,12 +79,6 @@ two_buttonmenu($extrabuttons);
             </div>
             </fieldset>
         
-        <?php
-            require_once('lib/eportfolio_functions.php');
-            html_document_drop('section'.$selsection['id'],'staff',$selsection['id']);
-        ?>
-        
-
                             <div class="div-sortable">
                                 <a href="#" class="sortable"></a>
                             </div>
@@ -147,22 +141,20 @@ foreach($users as $user){
     $User=(array)fetchUser($user['uid']);
     if((in_array($user['role'],$listroles) or sizeof($listroles)==0) and $user['username']!='administrator'){
 ?>
-    <tr>
+<?php
+        if($aperm==1 or $user['uid']==$_SESSION['uid'] or $_SESSION['role']=='office'){
+            print '<tr class="clickableRow" data-url="admin.php?current=staff_details.php&cancel='.$choice.'&choice='.$choice.'&seluid='.$user['uid'].'">';
+            }
+        else{
+	  print '<tr>';
+            }
+?>
       <td>
         <input type="checkbox" name="uids[]" value="<?php print $user['uid'];?>" />
       </td>
       <td><?php print $User['Surname']['value'];?></td>
       <td><?php print $User['Forename']['value'];?></td>
-      <td>
-<?php
-        if($aperm==1 or $user['uid']==$_SESSION['uid'] or $_SESSION['role']=='office'){
-            print '<a href="admin.php?current=staff_details.php&cancel='.$choice.'&choice='.$choice.'&seluid='.$user['uid'].'">'.$User['Username']['value'].'</a>';
-            }
-        else{
-            print $User['Username']['value'];
-            }
-?>
-      </td>
+      <td><?php print $User['Username']['value'];?></td>
       <td><?php print $User['EmailAddress']['value'];?></td>
     </tr>
 <?php
@@ -178,10 +170,11 @@ foreach($users as $user){
 </form>
 </div>
 
+
+<?php
+  /* TO DO: remove document drop permanently from this page (if no one complains!) */
+  //            require_once('lib/eportfolio_functions.php');
+  //         html_document_drop('section'.$selsection['id'],'staff',$selsection['id']);
+?>
+
   </div>
-
-
-<script type="text/javascript">
-	var TSort_Data = new Array ('sidtable', '', '', ''<?php print $sort_types;?>);
-		tsRegister();
-</script> 

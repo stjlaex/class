@@ -1,0 +1,52 @@
+/* Select */
+.ld-multi-select {
+  background-color: #34495e;
+  line-height: 40px;
+  height: 40px;
+  min-width: 150px;
+  padding: 0 0 0 10px;
+  position: relative;
+  border-radius: 3px;
+  font-size: 12px;
+}
+
+.ld-multi-select .btn-select {
+  text-overflow: ellipsis;
+  display: block;
+  overflow: hidden;
+  background-position: right -50px;
+  height: 40px;
+  line-height: 40px;
+  cursor: pointer !important;
+  width: 100%;
+  display: block;
+  color: #cad5da;
+  text-shadow: none;
+  background-image: url("../images/sprite.png");
+  background-repeat: no-repeat;
+  -webkit-font-smoothing: antialiased;
+}
+.ld-multi-select .option-panel {
+    display: none;
+    margin: -10px 0 0 -10px;
+}
+.ld-multi-select .option-group {
+    padding: 0;
+    max-height: 250px;
+    overflow: auto;
+}
+.ld-multi-select .option-panel.show-selection {
+    display: block;
+}
+
+.ld-multi-select .option {
+    display: block;
+    background: #ebedef;
+    color: #657585;
+    line-height: normal;
+}
+
+.ld-multi-select .option.selected {
+    background: #73A8EC;
+    color: #fff
+}

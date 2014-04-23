@@ -23,6 +23,10 @@ div.selector, div.checker, div.button, div.radio, div.uploader {
   vertical-align: middle;
   /* Keeping this as :focus to remove browser styles */
 }
+/* custom for the documnet drop in Classis*/
+div.uploader span.action, div.uploader span.filename {
+  display: none;
+}
 div.selector:focus, div.checker:focus, div.button:focus, div.radio:focus, div.uploader:focus {
   outline: 0;
 }

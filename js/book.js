@@ -35,7 +35,8 @@ function clickToWriteCommentNew(sid,rid,bid,pid,entryn,openId){
 function clickToAttachFile(sid,eid,bid,pid,openId){
 	var helperurl="markbook/httpscripts/upload_file.php";
 	var getvars="sid="+sid+"&eid="+eid+"&bid="+bid+"&pid="+pid+"&openid="+openId;
-	openHelperWindow(helperurl,getvars);
+	var src=helperurl+'?'+getvars;
+	parent.openModalWindow(content,src);
 	}
 
 //opens the merit window
@@ -218,6 +219,9 @@ function clickToAction(buttonObject){
 	if(theDivId==""){
 		//gets it from the id of the tbody container for this row
 		var theContainerId=buttonObject.parentNode.parentNode.parentNode.id;
+		if(theContainerId==""){
+			var theContainerId=buttonObject.parentNode.parentNode.id;
+			}
 		}
 	else{
 		//or gets it from the id of the parent div container
@@ -1222,14 +1226,18 @@ function validateResult(fieldObj){
 function getLabel(fieldId) {
  	var label;
 	var labels=document.getElementsByTagName("label");
- 	for(var i=0; (label=labels[i]); i++){
-   		if(label.getAttribute('for')==fieldId){
+	if(labels!=null){
+ 	    for(var i=0; (label=labels[i]); i++){
+		if(label.getAttribute('for')==fieldId){
 			var fieldLabel=label.firstChild.nodeValue;
-     		return fieldLabel;
-   			}
- 		}
-	fieldLabel='text box'
-    return fieldLabel;
+			return fieldLabel;
+			}
+		}
+	    }
+	else{
+	    var fieldLabel='';
+	    }
+	return fieldLabel;
 	}
 
 

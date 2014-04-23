@@ -20,14 +20,14 @@ three_buttonmenu();
             </div>
             <div class="right">
                 <fieldset class="divgroup">
+	            <div class="left">
                     <h5><?php print_string('collatesince',$book);?></h5>
                     <?php include('scripts/jsdate-form.php'); ?>
-                </fieldset>
-            </div>
-            <div class="left">
-                <fieldset class="divgroup">
+		    </div>
+		     <div class="right">
                     <h5><?php print_string('collateuntil',$book);?></h5>
                     <?php $required='no'; unset($todate); include('scripts/jsdate-form.php'); ?>
+		    </div>
                 </fieldset>
             </div>
             <div class="right">

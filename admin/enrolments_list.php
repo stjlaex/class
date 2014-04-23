@@ -252,11 +252,6 @@ if(isset($_POST['startdate'])){$startdate=$_POST['startdate'];}
 ?>
 		<th> 
 				<?php print $AssDef['Description']['value'];?>
-				<div class="rowaction">
-				  <input class="underrow" type='button' name='action' value='v' onClick='tsDraw("<?php print $sortno;?>A", "sidtable");' />
-				  <input class="underrow"  type='button' name='action' value='-' onClick='tsDraw("<?php print $sortno;?>U", "sidtable");' />
-				  <input class="underrow"  type='button' name='action' value='^' onClick='tsDraw("<?php print $sortno;?>D", "sidtable");' />
-				</div>
 		</th>
 <?php
 				}
@@ -429,7 +424,3 @@ if(isset($_POST['startdate'])){$startdate=$_POST['startdate'];}
   </div>
 
 
-<script type="text/javascript">
-	var TSort_Data = new Array ('sidtable', '', '', ''<?php print $sort_types;?>);
-		tsRegister();
-</script> 
