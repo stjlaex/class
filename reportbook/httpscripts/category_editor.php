@@ -192,7 +192,7 @@ while(list($cindex,$catdef)=each($catdefs)){
 <body onload="loadRequired('<?php print $book;?>');">
 
 	<div id="bookbox">
-	<?php three_buttonmenu(); ?>
+	<?php two_buttonmenu_submit(); ?>
 
 <div id="heading">
 	<label><?php print get_string('configure','reportbook').' '.get_string('categories','reportbook'); ?></label>

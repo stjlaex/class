@@ -15,20 +15,23 @@ function requestxmlHttp(){
 function clickToConfigureCategories(type,rid,bid,pid,stage,openId){
 	var helperurl="reportbook/httpscripts/category_editor.php";
 	var getvars="type="+type+"&rid="+rid+"&bid="+bid+"&pid="+pid+"&stage="+stage+"&openid="+openId;
-	openHelperWindow(helperurl,getvars);
+	var src=helperurl+'?'+getvars;
+	parent.openModalWindow(content,src);
 	}
 
 //opens the comment writer window
 function clickToWriteComment(sid,rid,bid,pid,entryn,openId){
 	var helperurl="reportbook/httpscripts/comment_writer.php";
 	var getvars="sid="+sid+"&rid="+rid+"&bid="+bid+"&pid="+pid+"&entryn="+entryn+"&openid="+openId;
-	openHelperWindow(helperurl,getvars);
+	var src=helperurl+'?'+getvars;
+	parent.openModalWindow(content,src);
 	}
 //opens the comment writer window
 function clickToWriteCommentNew(sid,rid,bid,pid,entryn,openId){
 	var helperurl="reportbook/httpscripts/newcomment_writer.php";
 	var getvars="sid="+sid+"&rid="+rid+"&bid="+bid+"&pid="+pid+"&entryn="+entryn+"&openid="+openId;
-	openHelperWindow(helperurl,getvars);
+	var src=helperurl+'?'+getvars;
+	parent.openModalWindow(content,src);
 	}
 
 //opens the a window for file attachments
@@ -55,14 +58,16 @@ function clickToAddMerit(thisObj,bid,pid,openId){
 function clickToEditTransport(sid,date,bookingid,openId){
 	var helperurl="admin/httpscripts/transport_editor.php";
 	var getvars="sid="+sid+"&date="+date+"&bookingid="+bookingid+"&openid="+openId;
-	openHelperWindow(helperurl,getvars);
+	var src=helperurl+'?'+getvars;
+	parent.openModalWindow(content,src);
 	}
 
 /* Opens the attendance booking edit window */
 function clickToEditAttendance(sid,date,bookingid,openId){
 	var helperurl="register/httpscripts/attendance_editor.php";
 	var getvars="sid="+sid+"&date="+date+"&bookingid="+bookingid+"&openid="+openId;
-	openHelperWindow(helperurl,getvars);
+	var src=helperurl+'?'+getvars;
+	parent.openModalWindow(content,src);
 	}
 
 /**/

@@ -116,3 +116,6 @@ textarea#Comment {
 .heading {
 	font-size:10pt;
 }
+.newcommentwriter{
+	top:100px !important;
+	}
