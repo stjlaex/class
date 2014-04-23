@@ -6,7 +6,6 @@
     if(isset($_POST['new_r'])){$_SESSION['r']=$_POST['new_r'];$fresh='yes';}
     if(!isset($_SESSION['r'])){$_SESSION['r']=-1;$fresh='very';}
 ?>
-
   <div style="visibility:hidden;" id="hiddenbookoptions"></div>
 
   <div style="visibility:hidden;" id="hiddenloginlabel">
