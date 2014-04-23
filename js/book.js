@@ -282,6 +282,7 @@ function clickToAction(buttonObject){
 		var recordId=xmlRecord.childNodes[0].childNodes[0].nodeValue;
 		var script=buttonObject.value;
 		var url=pathtobook + "httpscripts/" + script + "?uniqueid=" + escape(recordId);
+
 		if(action!="print" && action!="chart"){
 			var answer=confirmAction(buttonObject.title);
 			var params="";
@@ -289,14 +290,8 @@ function clickToAction(buttonObject){
 		else{
 			var answer=true;
 			var params="";
-			if(parent.document.getElementById("Chart-template")){
-				var selectObj=parent.document.getElementById("Chart-template");
-				for(var i=0; i < selectObj.options.length; i++){
-					if(selectObj.options[i].selected){
-						params="&template=" + escape(selectObj.options[i].value);
-						}
-					}
-				}
+			var template=xmlRecord.getElementsByTagName("transform").item(0).firstChild.data;
+			params="&template=" + escape(template);
 			/* This is for passing a list of sids grabbed from the tr ids of a sidtable
 			 * used for example by report_profile_print
 			 */
@@ -339,18 +334,18 @@ function clickToAction(buttonObject){
 								parent.openPrintReport(response);
 								}
 							}
-						else if(xmlHttp.status==404){alert ("Requested URL is not found.");}
+					else if(xmlHttp.status==404){alert ("Requested URL is not found.");}
         				else if(xmlHttp.status==403){alert("Access denied.");} 
-						else {
-							//alert("status is " + xmlHttp.status);
-							}
-						//progressIndicator("stop");
+					else {
+						//alert("status is " + xmlHttp.status);
 						}
-					else{
-						//progressIndicator("start");
-						}
+					//progressIndicator("stop");
+					}
+				else{
+					//progressIndicator("start");
+					}
 				}
-			xmlHttp.send(null);
+			xmlHttp.send();
 			}
 		}
 	}
