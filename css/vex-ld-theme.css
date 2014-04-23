@@ -324,13 +324,13 @@
   -ms-border-radius: 5px;
   -o-border-radius: 5px;
   border-radius: 5px;
-  background: #f0f0f0;
   color: #444444;
   padding: 1em;
   position: relative;
   margin: 0 auto;
   max-width: 100%;
   width: 450px;
+  background: url("../images/roller.gif") no-repeat center center;
 }
 .vex.vex-ld-theme .vex-content h1, .vex.vex-ld-theme .vex-content h2, .vex.vex-ld-theme .vex-content h3, .vex.vex-ld-theme .vex-content h4, .vex.vex-ld-theme .vex-content h5, .vex.vex-ld-theme .vex-content h6, .vex.vex-ld-theme .vex-content p, .vex.vex-ld-theme .vex-content ul, .vex.vex-ld-theme .vex-content li {
   color: inherit;
@@ -470,7 +470,7 @@
 
 
 .vex.vex-ld-theme .thanks-modal {
-  background: none repeat scroll 0 0 #FFFFFF !important;
+  background-color: #FFFFFF;
   border-radius: 0 !important;
   height: 420px;
   left: 50% !important;
@@ -502,10 +502,11 @@
   top: 10px;
   width: 35px;
 }
-.thanks-modal.highlight,
-.print-modal.highlight {
+.vex.vex-ld-theme .thanks-modal.highlight,
+.vex.vex-ld-theme .print-modal.highlight {
+  width:90%!important;
   height: 94% !important;
-  margin: 0 0 0 -40% !important;
+  margin: 0 0 0 -45% !important;
   position: absolute !important;
   top: 3% !important;
 }
