@@ -220,18 +220,12 @@ $_SESSION['lessonatt'] = $lessonatt;
         ?>
         
         <div id="<?php print $currentprofile['id']; ?>" class="neat sidebuttons">
-            <button name="chart" onclick="window.frames['viewmarkbook'].clickToAction(this);" value="report_profile_print.php">
+            <button type="button" name="chart" onclick="window.frames['viewmarkbook'].clickToAction(this);" value="report_profile_print.php">
                 <img alt="Chart" src="images/charter.png"/>
             </button>
-            <!--label><?php print $currentprofile['name']; ?></label-->
-            <?php
-                $listid = 'chart-template';
-                $seltemplate = $currentprofile['transform'];
-                //include ('scripts/list_profile_template.php');
-            ?>
             <div id="<?php print 'xml-' . $currentprofile['id']; ?>" style="display:none;">
                 <?php
-                    /*TODO: should bid and pid be past here? Seems to stop report_profile_print from working*/
+                    /*TODO: should bid and pid be past as params here? Seems to stop report_profile_print from working*/
                     $currentprofile['bid'] = $bid[0];
                     $currentprofile['pid'] = $pid;
                     $currentprofile['stage'] = $classes[$cid]['stage'];

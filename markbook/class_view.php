@@ -111,7 +111,7 @@ if($_SESSION['worklevel']>-1){
 				 </td>
 				<td>
 				  <div style="float:right;" title="<?php print_string('tracking','markbook');?>" name="current" value="student_grades_print.php" onclick="clickToPresent('markbook','<?php print $url;?>','class_photo_print')" >
-					<span class="clicktoprint" title="<?php print_string('clicktoprint','infobook');?>" /></span>
+					<span class="clicktoprint" title="<?php print get_string('print','infobook').' '.get_string('students','infobook');?>" /></span>
 				  </div>
 				</td>
 				 <td status="p">

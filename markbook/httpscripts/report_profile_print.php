@@ -37,7 +37,8 @@ $profile['transform']=$template;
 
 if(sizeof($sids)==0){
 	$result[]=get_string('youneedtoselectstudents');
-	$returnXML=$result;
+	$returnXML['messages']=$result;
+	$returnXML['Transform']=$profile['error_message'];
 	$rootName='Error';
 	}
 else{
