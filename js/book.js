@@ -1225,14 +1225,18 @@ function validateResult(fieldObj){
 function getLabel(fieldId) {
  	var label;
 	var labels=document.getElementsByTagName("label");
- 	for(var i=0; (label=labels[i]); i++){
-   		if(label.getAttribute('for')==fieldId){
+	if(labels!=null){
+ 	    for(var i=0; (label=labels[i]); i++){
+		if(label.getAttribute('for')==fieldId){
 			var fieldLabel=label.firstChild.nodeValue;
-     		return fieldLabel;
-   			}
- 		}
-	fieldLabel='text box'
-    return fieldLabel;
+			return fieldLabel;
+			}
+		}
+	    }
+	else{
+	    var fieldLabel='';
+	    }
+	return fieldLabel;
 	}
 
 
