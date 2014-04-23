@@ -2125,11 +2125,13 @@ function fetchMerit($m=array('id'=>-1,'subject_id'=>'','component_id'=>'','resul
 	if($m['id']>-1 and (!isset($m['student_id']) or $m['student_id']<1)){
 		$id=$m['id'];
 		$d_m=mysql_query("SELECT * FROM merits WHERE id='$id';");
-		$m=mysql_fetch_array($d_m,MYSQL_ASSOC);
+		if(mysql_numrows($d_m)>0){$m=mysql_fetch_array($d_m,MYSQL_ASSOC);}
 		}
 
 	$Merit=array();
 	$Merit['id_db']=$m['id'];
+	if(mysql_numrows($d_m)==0){$Merit['exists']='false';}
+	else{$Merit['exists']='true';}
 	if($m['subject_id']=='%'){$subject='';}
 	else{$subject=$m['subject_id'];}
 	if($m['component_id']=='%'){$component='';}

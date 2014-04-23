@@ -452,8 +452,10 @@ function confirmAction(title){
 
 function updatexmlRecord(xmlRecord){
 	var exists=false;
+	console.log(xmlRecord);
 	if(xmlRecord!=""){
 		var recordId=xmlRecord.getElementsByTagName("id_db").item(0).firstChild.data;
+		console.log(recordId);
 		var exists=xmlRecord.getElementsByTagName("exists").item(0).firstChild.data;
 //		var xmlId="xml-"+recordId;
 //		var xmlContainer=document.getElementById(xmlId);
