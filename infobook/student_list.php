@@ -166,12 +166,12 @@ two_buttonmenu($extrabuttons,$book);
                             foreach($displayfields as $dno => $displayfield){
                             $sortno=$dno+3;
                             //a=age, d=date, i=integer, s=string
-                            if($displayfield=='Age') $sort_types.=",'a'";
+                            if($displayfield=='Age'){$sort_types.=",'a'";}
                             elseif($displayfield=='DOB' or $displayfield=='IdExpiryDate' or $displayfield=='LeavingDate' or $displayfield=='EntryDate' or $displayfield=='EnrolmentApplicationDate'){
                             $sort_types.=",'d'";
                             }
-                            elseif($displayfield=='YearGroup' or $displayfield=='EnrolmentYearGroup' or $displayfield=='EnrolNumber') $sort_types.=",'i'";
-                            else $sort_types.=",'s'";
+                            elseif($displayfield=='YearGroup' or $displayfield=='EnrolmentYearGroup' or $displayfield=='EnrolNumber'){$sort_types.=",'i'";}
+                            else{$sort_types.=",'s'";}
                         ?>
                         <th style="width:<?php print $displayfields_width; ?>;">
                             <div class="div-sortable">
@@ -203,15 +203,6 @@ two_buttonmenu($extrabuttons,$book);
 			}
 			elseif($displayfield=='YearGroup' or $displayfield=='EnrolmentYearGroup' or $displayfield=='EnrolNumber') $sort_types.=",'i'";
 			else $sort_types.=",'s'";
-?>
-	  <!--th  class="noprint">
-		<div class="rowaction">
-		  <input class="underrow" type='button' name='action' value='v' onClick='tsDraw("<?php print $sortno; ?>A", "sidtable");' />
-		  <input class="underrow"  type='button' name='action' value='-' onClick='tsDraw("<?php print $sortno; ?>U", "sidtable");' />
-		  <input class="underrow"  type='button' name='action' value='^' onClick='tsDraw("<?php print $sortno; ?>D", "sidtable");' />
-		</div>
-	  </th-->
-<?php
 }
 ?>
 
@@ -376,12 +367,6 @@ include ('scripts/studentlist_shortcuts.php');
 	  <input type="hidden" name="choice" value="<?php print $choice; ?>" />
 	</form>
   </div>
-
-<script type="text/javascript">var TSort_Data=new Array('sidtable','','','''<?php print $sort_types; ?>
-	);
-	tsRegister();
-</script>
-
 
 <?php
 include ('scripts/studentlist_extra.php');

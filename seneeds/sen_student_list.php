@@ -112,7 +112,6 @@ if(sizeof($sids)>0){
                             }
                         ?>
                     </tr>
-                    <!--tr-->
                     <?php
                         foreach($displayfields as $dno => $displayfield){
                         $sortno=$dno+4;
@@ -121,18 +120,8 @@ if(sizeof($sids)>0){
                         elseif($displayfield=='DOB'  or $displayfield=='IdExpiryDate' or $displayfield=='LeavingDate' or $displayfield=='EntryDate' or $displayfield=='EnrolmentApplicationDate'){$sort_types.=",'d'";}
                         elseif($displayfield=='YearGroup' or $displayfield=='EnrolmentYearGroup' or $displayfield=='EnrolNumber'){$sort_types.=",'i'";}
                         else{$sort_types.=",'s'";}
-                    ?>
-                        <!--th class="noprint">
-                        	<div class="rowaction">
-                        		<input class="underrow" type='button' name='action' value='v' onClick='tsDraw("<?php print $sortno;?>A", "sidtable");' />
-                        		<input class="underrow"  type='button' name='action' value='-' onClick='tsDraw("<?php print $sortno;?>U", "sidtable");' />
-                        		<input class="underrow"  type='button' name='action' value='^' onClick='tsDraw("<?php print $sortno;?>D", "sidtable");' />
-                        	</div>
-                        </th-->
-                    <?php
                         }
                     ?>
-                    <!--/tr-->
                 </thead>
                 <tbody>
                 <?php
