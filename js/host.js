@@ -470,7 +470,7 @@ function loadRequired(book) {
         $('#' + book + "options").css("display", "block");
     }
     if (contentsHeight >= frameHeight && contentsHeight <= (frameHeight + menuHeight)) {
-        $('#view' + book).contents().find("#bookbox").css('padding-bottom', menuHeight);
+        $('#view' + book).contents().find("#bookbox").css('padding-bottom', frameHeight);
     }
 
     /*on frame's scroll resize the frame*/

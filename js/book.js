@@ -35,7 +35,8 @@ function clickToWriteCommentNew(sid,rid,bid,pid,entryn,openId){
 function clickToAttachFile(sid,eid,bid,pid,openId){
 	var helperurl="markbook/httpscripts/upload_file.php";
 	var getvars="sid="+sid+"&eid="+eid+"&bid="+bid+"&pid="+pid+"&openid="+openId;
-	openHelperWindow(helperurl,getvars);
+	var src=helperurl+'?'+getvars;
+	parent.openModalWindow(content,src);
 	}
 
 //opens the merit window
