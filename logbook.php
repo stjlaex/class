@@ -125,12 +125,13 @@
                 <span class="fa fa-info-circle"></span>
             </a>
             <ul>
-                <li id="admintab" style="display:none;"><a id="currentbook" class="admin">Admin</a></li>
                     <?php
+			$firsttab='id="currentbook"';
                         foreach($showtabs as $bookhost=>$bookname){
                     ?>
-                <li id="<?php print $bookhost.'tab';?>"><a class="<?php print $bookhost;?>" onclick="viewBook(this.getAttribute('class'));"><?php print $bookname;?></a></li>
+			  <li id="<?php print $bookhost.'tab';?>"><a <?php print $firsttab;?> class="<?php print $bookhost;?>" onclick="viewBook(this.getAttribute('class'));"><?php print $bookname;?></a></li>
                     <?php
+																					$firsttab='';
                         }
                     ?>
             </ul>
