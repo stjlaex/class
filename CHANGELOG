@@ -1,5 +1,7 @@
-Version ClaSS-1.0.66 release (2014/04/15)
+Version ClaSS-1.0.66 release (2014/04/23)
 -------------------------------------------
+
+Added fees_lib_xml.php and added temporary notices for the new theme.
 
 Fees tables added to demoiser.
 

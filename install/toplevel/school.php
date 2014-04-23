@@ -193,6 +193,8 @@ $CFG->smslib='sms_lib.php';
 /**
  */
 $CFG->feeslib='fees_lib.php';
+$CFG->feesdetails['nif']='NIFNO';
+$CFG->feesdetails['bic']='BIC';
 /**
  *
  * Optional LDAP connection details.
@@ -248,5 +250,5 @@ $CFG->debug='off';
 $CFG->classlog='/var/www/classerrors.xml';
 $CFG->serverlog='/var/www/myerrors.html';
 
-if($_COOKIE['theme']==$CFG->theme20){$CFG->theme10=$CFG->applicationdirectory;$CFG->applicationdirectory=$CFG->theme20;}
+if(isset($_COOKIE['theme']) and $_COOKIE['theme']==$CFG->theme20){$CFG->theme10=$CFG->applicationdirectory;$CFG->applicationdirectory=$CFG->theme20;}
 ?>
