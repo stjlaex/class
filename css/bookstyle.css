@@ -283,6 +283,9 @@ div.addmerits fieldset.left {
   clear: left;
   margin: 0 0 2% 2%;
 }
+div.modal fieldset.left {
+  width: 40% !important;
+}
 div.content fieldset.right, div.topcontent fieldset.right, div.topform fieldset.right {
   float: right;
   width: 45%;

@@ -334,15 +334,21 @@ var previousPageScroll = 0;
  *
  */
 function openModalWindow(content,src){
-	var html="<div><iframe id='printFrame' width=750></div>";
+	var html="<div><iframe id='printFrame' width=800></div>";
 	vex.open({content: html, contentClassName: 'thanks-modal', closeClassName: 'thanks-modal-close', showCloseButton: true});
 	
-	var iFrame = document.getElementById("printFrame");
+	var iFrame=document.getElementById("printFrame");
 	if(src!=''){iFrame.src=src;}
 	else{
 		iFrame.contentWindow.document.write(content);
 		iFrame.contentWindow.document.close();
 		}
+	$("#printFrame").load(function(){
+		if($(this).contents().find("#bookbox")){
+			$('.vex.vex-ld-theme .thanks-modal').height($(this).contents().find("#bookbox").outerHeight(true));
+			//$('.vex.vex-ld-theme .thanks-modal').css('margin-bottom', '10px');
+			}
+		});
 	}
 
 /**
