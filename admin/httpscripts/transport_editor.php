@@ -60,7 +60,7 @@ three_buttonmenu($extrabuttons,$book);
 
 
 
-	<div id="viewcontent" class="content">
+	<div id="viewcontent" class="content modal">
 
 		<form id="formtoprocess" name="formtoprocess" method="post" 
 									action="transport_editor_action.php">

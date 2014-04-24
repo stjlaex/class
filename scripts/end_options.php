@@ -78,7 +78,7 @@ mysql_query("INSERT INTO history SET uid='$uid', page='$current',classis_version
     if($current=='register_list.php' || 'new_student.php'){
 ?>
 <script>
-    $('.edit select, #formtoprocess select, #add-extra-p select, #add-extra-a select, #formtoprocess2 select').uniform({ wrapperClass : "registerEdit" }); 
+    $('#heading select, .edit select, #formtoprocess select, #add-extra-p select, #add-extra-a select, #formtoprocess2 select').uniform({ wrapperClass : "registerEdit" }); 
 </script>
 <?php
 }

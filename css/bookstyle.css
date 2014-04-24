@@ -225,6 +225,7 @@ div#bookbox {
   height: 100%;
   margin: 0;
   border: 0;
+  padding: 0;
 }
 /* only used to place a background image*/
 div.background {
@@ -282,6 +283,9 @@ div.addmerits fieldset.left {
   width: 40% !important;
   clear: left;
   margin: 0 0 2% 2%;
+}
+div.modal fieldset.left {
+  width: 40% !important;
 }
 div.content fieldset.right, div.topcontent fieldset.right, div.topform fieldset.right {
   float: right;

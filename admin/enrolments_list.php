@@ -213,22 +213,24 @@ if(isset($_POST['startdate'])){$startdate=$_POST['startdate'];}
 ?>
   </div>
   <div class="content">
-	<form name="formtoprocess" id="formtoprocess" method="post"
-	  action="<?php print $host; ?>">
-
+	<form name="formtoprocess" id="formtoprocess" method="post" action="<?php print $host; ?>">
 	  <div  class="fullwidth" id="viewcontent">
-		<table class="listmenu sidtable" id="sidtable">
 		  <caption>
 			<?php print_string($comtype,$book);?>
 		  </caption>
+		<table class="listmenu sidtable" id="sidtable">
 		  <thead>
 		  <tr>
 			<th colpsan="2"><?php print_string('checkall'); ?>
-			  <input type="checkbox" name="checkall" 
-				value="yes" onChange="checkAll(this);" />
+			  <input type="checkbox" name="checkall" value="yes" onChange="checkAll(this);" />
 			</th>
 			<th style="width:40%;"><?php print $description;?></th>
-			<th><?php print_string('yeargroup','infobook');?></th>
+			<th>
+				<?php print_string('yeargroup','infobook');?>
+				<div class="div-sortable">
+	                <a href="#" class="sortable"></a>
+                </div>
+			</th>
 			<th><?php print_string('schoolstartdate','infobook');?></th>
 <?php
 
