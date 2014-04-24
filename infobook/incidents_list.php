@@ -21,12 +21,11 @@ three_buttonmenu();
         </h4>
     </div>
     <div id="viewcontent" class="content">
-    <div id="topform" class="topform">
         <form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
+            <div id="formstatus-new" class="">
+                <?php print_string('recordnewincident',$book);?>
+            </div>
             <div class="left">
-                <div id="formstatus-new" class="">
-                    <?php print_string('recordnewincident',$book);?>
-                </div>
                 <div id="formstatus-edit" class="hidden">
                     <?php print_string('editincident',$book);?>
                 </div>
@@ -70,7 +69,6 @@ three_buttonmenu();
             <input type="hidden" name="cancel" value="<?php print 'student_view.php';?>" />
             <input type="hidden" name="choice" value="<?php print $choice;?>" />
         </form>
-    </div>
 
   
 	<div class="center">

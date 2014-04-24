@@ -468,22 +468,26 @@
   bottom: auto;
 }
 
-
 .vex.vex-ld-theme .thanks-modal {
-  background-color: #FFFFFF;
   border-radius: 0 !important;
   height: 420px;
   left: 50% !important;
   margin-left: -40% !important;
-  margin-top: -210px !important;
+  margin-top: -210px;
   position: absolute !important;
-  top: 50% !important;
+  top: 50%;
   width: 80% !important;
-  box-shadow: 10px 10px 5px #757575;
+  padding: 0;
+  background-color: #FFFFFF;
 }
-.thanks-modal div {
-  height: 100%;
-}
+/*.vex.vex-ld-theme .thanks-modal.highlight,
+.vex.vex-ld-theme .print-modal.highlight {
+  width:90%!important;
+  height: 94% !important;
+  margin: 0 0 0 -45% !important;
+  position: absolute !important;
+  top: 3% !important;
+}*/
 
 .vex.vex-ld-theme .vex-close:before, .vex.vex-ld-theme .vex-close:hover:before, .vex.vex-ld-theme .vex-close:active:before {
   background: none repeat scroll 0 0 #D2D7DC;
@@ -502,14 +506,7 @@
   top: 10px;
   width: 35px;
 }
-.vex.vex-ld-theme .thanks-modal.highlight,
-.vex.vex-ld-theme .print-modal.highlight {
-  width:90%!important;
-  height: 94% !important;
-  margin: 0 0 0 -45% !important;
-  position: absolute !important;
-  top: 3% !important;
-}
+
 /**********************Print Modal Dialog******************************/
 .vex .portrait {
   height: 100%;
@@ -517,7 +514,8 @@
 #printFrame {
   border: none;
   width: 100%;
-  height: 100%;
+  box-shadow: 10px 10px 5px #757575;
+  height: 420px;
 }
 .vex.vex-ld-theme .vex-content.print-modal {
   width: 780px;
