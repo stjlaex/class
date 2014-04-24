@@ -28,7 +28,7 @@ function multiSelect(selectElem) {
         var label = $("<li class='option' value="+ options[i].value +
                       ">" + options[i].textContent + "</li>");
         label.on('mousedown', function(event) {
-            optionSelectStart(selectObject)
+            optionSelectStart(selectObject, event)
         });
         list.append(label);
     }
@@ -39,7 +39,7 @@ function multiSelect(selectElem) {
     updateDisplay(selectObject);
     
 }
-function optionSelectStart(selectObject) {
+function optionSelectStart(selectObject, event) {
     if (!event.ctrlKey) {
         selectObject.optPanel.find('li').each(function(index, element) {
         var elementObj = $(element)
