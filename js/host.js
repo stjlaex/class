@@ -334,7 +334,7 @@ var previousPageScroll = 0;
  *
  */
 function openModalWindow(src,content){
-	var html="<div><iframe id='printFrame' width=800></div>";
+	var html="<iframe id='printFrame' width=800>";
 	vex.open({content: html, contentClassName: 'thanks-modal', closeClassName: 'thanks-modal-close', showCloseButton: true});
 	
 	var iFrame=document.getElementById("printFrame");
@@ -345,8 +345,10 @@ function openModalWindow(src,content){
 		}
 	$("#printFrame").load(function(){
 		if($(this).contents().find("#bookbox")){
-			$('.vex.vex-ld-theme .thanks-modal').height($(this).contents().find("#bookbox").outerHeight(true));
-			//$('.vex.vex-ld-theme .thanks-modal').css('margin-bottom', '10px');
+			$(this).height( $(this).contents().find("#bookbox").outerHeight(true));
+			$('.vex.vex-ld-theme .thanks-modal').height($(this).contents().find("#bookbox").outerHeight(true) + 20);
+			//$('.vex.vex-ld-theme .thanks-modal').css('margin-top', - ($(this).contents().find("#bookbox").outerHeight(true) / 2) );
+			$('.vex.vex-ld-theme .thanks-modal').css({'top':'20px', 'margin-top':'0', 'background': 'none'});
 			}
 		});
 	}
