@@ -5,42 +5,73 @@ function multiSelect(selectElem) {
     var options = selectElem.getElementsByTagName('option');
     var multi = $("<div class='ld-multi-select'>");
     multi.css("max-width", selectObject.width);
-    var span = $("<span class='btn-select'>");
-    span.on('click', function() {toggleOptions(selectObject)});
+    var button = selectObject.button = $("<span class='btn-select'>");
+    button.on('click', function(event) {toggleOptionsPanel(selectObject);});
     var display = selectObject.display = $("<span class='placeholder'>");
-    span.append(display);
-    var optPanel = selectObject.optPanel = $("<div class='option-panel'>");
+    button.append(display);
+    var optPanel = selectObject.optPanel = $("<div class='option-panel' tabindex=-1>");
+    optPanel.on('blur', function() { //need to remove button click tempurally
+        button.off('click');
+        selectObject.optPanel.removeClass('show-selection');
+        setTimeout(function() {
+            button.on('click', function(event) {toggleOptionsPanel(selectObject);});
+        }, 100)
+        
+    })
     list =$("<ul class='option-group'>");
     optPanel.append(list);
     optPanel.on('mousedown', function(event){ startSelectGroup(selectObject, event)})
+    list.on('scroll', function(event){
+        turnOffSelectEvents(selectObject);
+        })
     for (var i = 0; i < options.length; i++) {
         var label = $("<li class='option' value="+ options[i].value +
                       ">" + options[i].textContent + "</li>");
         label.on('mousedown', function(event) {
-            $(event.currentTarget).addClass('clicked');
-            addSelect(event);
+            optionSelectStart(selectObject, event)
         });
         list.append(label);
     }
-    multi.append(span);
+    multi.append(button);
     multi.append(optPanel);
     $(selectElem).after(multi);
     selectElem.style.display = "none";
     updateDisplay(selectObject);
     
 }
-function toggleOptions(selectObject) {
-    selectObject.optPanel.toggleClass('show-selection');
-    selectObject.optPanel.find('li').each(function(index, element) {
-        resetOption($(element));
-        $(element).removeClass('selected');
-    })
+function optionSelectStart(selectObject, event) {
+    if (!event.ctrlKey) {
+        selectObject.optPanel.find('li').each(function(index, element) {
+        var elementObj = $(element)
+        resetOption(elementObj);
+        })
+    } else {
+        selectObject.optPanel.find('li.selected').each(function(index, element) {
+            $(element).addClass('locked');
+        });
+    }
+    $(event.currentTarget).addClass('locked selected');
 }
 function resetOption(elementObj) {
-    elementObj.removeClass('clicked');
+    elementObj.removeClass('locked');
     elementObj.removeClass('selected');
-    elementObj.off('mouseenter', addSelect);
-    elementObj.off('mouseleave', removeSelect);
+    elementObj.off('mouseenter', addSelectClass);
+    elementObj.off('mouseleave', removeSelectClass);
+}
+function toggleOptionsPanel(selectObject) {
+    if (selectObject.optPanel.hasClass('show-selection')) {
+        return
+    }
+    selectObject.optPanel.addClass('show-selection');
+    selectObject.optPanel.find('li').each(function(index, element) {
+        var elementObj = $(element);
+        resetOption(elementObj);
+        selectedItems = $(selectObject.select).find("[value='" + element.value + "']:selected")
+        if (selectedItems.length > 0) {
+            elementObj.addClass('selected');
+        }
+    })
+    selectObject.optPanel.focus();
 }
 function startSelectGroup(selectObject, event){
     event.preventDefault();
@@ -62,44 +93,50 @@ function startSelectGroup(selectObject, event){
 
 function setSelectGroup(selectObject) {
     selectObject.optPanel.find('li').each(function(index, element) {
-        if ($(element).hasClass('clicked')) {
+        if ($(element).hasClass('locked')) {
             return
         }
         if ($(element).hasClass('selected')) {
-            $(element).off('mouseenter', addSelect);
-            $(element).on('mouseleave', removeSelect);
+            $(element).off('mouseenter', addSelectClass);
+            $(element).on('mouseleave', removeSelectClass);
         } else {
-            $(element).on('mouseenter', addSelect);
-            $(element).off('mouseleave', removeSelect);
+            $(element).on('mouseenter', addSelectClass);
+            $(element).off('mouseleave', removeSelectClass);
         }
     })
 }
-
 function endSelectGroup(selectObject) {
     var selected = [];
     selectObject.optPanel.find('li').each(function(index, element) {
         if ($(element).hasClass("selected")) {
             selected.push(element.value);
         }
-        $(element).off('mouseenter', addSelect);
     })
     $(selectObject.select).val(selected);
     selectObject.select.onchange();
+    turnOffSelectEvents(selectObject);
+    toggleOptionsPanel(selectObject);
+    updateDisplay(selectObject);
+}
+function turnOffSelectEvents(selectObject) {
     selectObject.optPanel.off("mouseup");
     selectObject.optPanel.off("mousemove");
     selectObject.optPanel.off("mouseleave");
     $(document).off("mouseup");
-    toggleOptions(selectObject);
-    updateDisplay(selectObject);
+    selectObject.optPanel.find('li').each(function(index, element) {
+        var elementObj = $(element);
+        elementObj.off('mouseenter', addSelectClass);
+        elementObj.off('mouseleave', removeSelectClass);
+    })
 }
 function updateDisplay(selectObject) {
-    console.log(selectObject.select)
-    selectObject.display.text(selectObject.select.selectedOptions.length +
-        " selected");
+    var count = $(selectObject.select).find("option").length
+    var selectedCount = $(selectObject.select).find(":selected").length
+    selectObject.display.text(selectedCount + "/" + count);
 }
-function addSelect(event) {
+function addSelectClass(event) {
     $(event.currentTarget).addClass('selected');
 }
-function removeSelect(event) {
+function removeSelectClass(event) {
     $(event.currentTarget).removeClass('selected');
 }
