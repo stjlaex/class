@@ -333,7 +333,7 @@ var previousPageScroll = 0;
 /**
  *
  */
-function openModalWindow(content,src){
+function openModalWindow(src,content){
 	var html="<div><iframe id='printFrame' width=800></div>";
 	vex.open({content: html, contentClassName: 'thanks-modal', closeClassName: 'thanks-modal-close', showCloseButton: true});
 	

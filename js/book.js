@@ -16,7 +16,7 @@ function clickToConfigureCategories(type,rid,bid,pid,stage,openId){
 	var helperurl="reportbook/httpscripts/category_editor.php";
 	var getvars="type="+type+"&rid="+rid+"&bid="+bid+"&pid="+pid+"&stage="+stage+"&openid="+openId;
 	var src=helperurl+'?'+getvars;
-	parent.openModalWindow(content,src);
+	parent.openModalWindow(src,'');
 	}
 
 //opens the comment writer window
@@ -24,14 +24,14 @@ function clickToWriteComment(sid,rid,bid,pid,entryn,openId){
 	var helperurl="reportbook/httpscripts/comment_writer.php";
 	var getvars="sid="+sid+"&rid="+rid+"&bid="+bid+"&pid="+pid+"&entryn="+entryn+"&openid="+openId;
 	var src=helperurl+'?'+getvars;
-	parent.openModalWindow(content,src);
+	parent.openModalWindow(src,'');
 	}
 //opens the comment writer window
 function clickToWriteCommentNew(sid,rid,bid,pid,entryn,openId){
 	var helperurl="reportbook/httpscripts/newcomment_writer.php";
 	var getvars="sid="+sid+"&rid="+rid+"&bid="+bid+"&pid="+pid+"&entryn="+entryn+"&openid="+openId;
 	var src=helperurl+'?'+getvars;
-	parent.openModalWindow(content,src);
+	parent.openModalWindow(src,'');
 	}
 
 //opens the a window for file attachments
@@ -39,7 +39,7 @@ function clickToAttachFile(sid,eid,bid,pid,openId){
 	var helperurl="markbook/httpscripts/upload_file.php";
 	var getvars="sid="+sid+"&eid="+eid+"&bid="+bid+"&pid="+pid+"&openid="+openId;
 	var src=helperurl+'?'+getvars;
-	parent.openModalWindow(content,src);
+	parent.openModalWindow(src,'');
 	}
 
 //opens the merit window
@@ -51,7 +51,7 @@ function clickToAddMerit(thisObj,bid,pid,openId){
 	var helperurl="infobook/httpscripts/merit_adder.php";
 	var getvars="sid="+sidId+"&bid="+bid+"&pid="+pid+"&openid="+openId+'-'+sidId;
 	var src=helperurl+'?'+getvars;
-	parent.openModalWindow(content,src);
+	parent.openModalWindow(src,'');
 	}
 
 /* Opens the transport edit window */
@@ -59,7 +59,8 @@ function clickToEditTransport(sid,date,bookingid,openId){
 	var helperurl="admin/httpscripts/transport_editor.php";
 	var getvars="sid="+sid+"&date="+date+"&bookingid="+bookingid+"&openid="+openId;
 	var src=helperurl+'?'+getvars;
-	parent.openModalWindow(content,src);
+	var content='';
+	parent.openModalWindow(src,'');
 	}
 
 /* Opens the attendance booking edit window */
@@ -67,7 +68,7 @@ function clickToEditAttendance(sid,date,bookingid,openId){
 	var helperurl="register/httpscripts/attendance_editor.php";
 	var getvars="sid="+sid+"&date="+date+"&bookingid="+bookingid+"&openid="+openId;
 	var src=helperurl+'?'+getvars;
-	parent.openModalWindow(content,src);
+	parent.openModalWindow(src,'');
 	}
 
 /**/
@@ -1226,17 +1227,17 @@ function validateResult(fieldObj){
 function getLabel(fieldId) {
  	var label;
 	var labels=document.getElementsByTagName("label");
+	var fieldLabel='';
+
 	if(labels!=null){
  	    for(var i=0; (label=labels[i]); i++){
-		if(label.getAttribute('for')==fieldId){
-			var fieldLabel=label.firstChild.nodeValue;
+		if(label.getAttribute('for')==fieldId && label.firstChild!=null){
+			fieldLabel=label.firstChild.nodeValue;
 			return fieldLabel;
 			}
 		}
 	    }
-	else{
-	    var fieldLabel='';
-	    }
+
 	return fieldLabel;
 	}
 
