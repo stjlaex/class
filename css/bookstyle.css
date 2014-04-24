@@ -1246,4 +1246,5 @@ fieldset.divgroup.markbook-img {
 }
 .rowaction	{
 	display: inline;
+	float:right;
 }

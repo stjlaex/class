@@ -121,7 +121,7 @@
                     </select>
               </form>
             </div>
-            <a class="aboutinfo" onclick="openModalWindow('','aboutbook.php?subtype=thanks');" title="<?php print_string('about');?>">
+            <a class="aboutinfo" onclick="openModalWindow('aboutbook.php?subtype=thanks','');" title="<?php print_string('about');?>">
                 <span class="fa fa-info-circle"></span>
             </a>
             <ul>
@@ -149,7 +149,7 @@
 		$count=mysql_result($d_page,0);
 		if(isset($CFG->theme20) and $CFG->theme20!="" and $count<=4){
 ?>
-		<script>parent.openModalWindow('','aboutbook.php?subtype=thanks');</script>
+		  <script>parent.openModalWindow('aboutbook.php?subtype=thanks','');</script>
 <?php
 			}
 		}
