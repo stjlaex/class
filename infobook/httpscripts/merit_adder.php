@@ -39,6 +39,7 @@ $inmust='yes';
 <meta name="licence" content="GNU Affero General Public License version 3" />
 <link rel="stylesheet" type="text/css" href="../../css/bookstyle.css" />
 <link rel="stylesheet" type="text/css" href="../../css/infobook.css" />
+<link rel="stylesheet" type="text/css" href="../../css/uniform.edit.css" />
 <link href='http://fonts.googleapis.com/css?family=Lato:100,300,400,700,900' rel='stylesheet' type='text/css'>
 <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
 </head>
@@ -62,6 +63,7 @@ $inmust='yes';
   			</div>
 			<?php list($ratingnames,$catdefs)=fetch_categorydefs('mer'); ?>
 			<div class="right">
+				<br />
 				<?php 
 					$listlabel='points'; $required='yes'; $listname='points';$listid='points';
 					$ratings=$ratingnames['meritpoints']; asort($ratings);
@@ -104,83 +106,84 @@ $inmust='yes';
 			<input type="hidden" name="pid" value="<?php print $pid; ?>"/>
 			<input type="hidden" name="openid" value="<?php print $openid; ?>"/>
 		</form>
-		
-		<table class="listmenu center">
-			<caption><?php print_string('recentmerits',$book);?></caption>
-			<thead>
-				<tr>
-					<th></th>
-					<th></th>
-					<th><?php print_string('points',$book);?></th>
-				</tr>
-			</thead>
-			<?php
-				if(array_key_exists('Merit',$Merits) and is_array($Merits['Merit'])){
-					while(list($key,$entry)=each($Merits['Merit'])){
-						if(is_array($entry)){
-							$rown=0;
-							$entryno=$entry['id_db'];
-			?>
-			<tbody id="<?php print $entryno;?>">
-				<tr class="rowplus" onClick="clickToReveal(this)" id="<?php print $entryno.'-'.$rown++;?>">
-					<td>&nbsp</th>
-					<td>
-						<?php print $entry['Activity']['value']. '  ('.display_date($entry['Date']['value']).') - '.$entry['CoreValue']['value'];?>
-					</td>
-					<td>
-						<?php print $entry['Points']['value'];?>
-					</td>
-				</tr>
-				<tr class="hidden" id="<?php print $entryno.'-'.$rown++;?>">
-					<td colspan="3">
-						<p>
-							<?php		   
-								if(isset($entry['Detail']['value'])){
-									print $entry['Detail']['value'];
-								}
-								if(isset($entry['Teacher']['value'])){print
-									'  - '.$entry['Teacher']['value'];}
+		<div class="center" style="margin-bottom: 20px;">
+			<h4><?php print_string('recentmerits',$book);?></h4>		
+			<table class="listmenu">
+				<thead>
+					<tr>
+						<th></th>
+						<th></th>
+						<th><?php print_string('points',$book);?></th>
+					</tr>
+				</thead>
+				<?php
+					if(array_key_exists('Merit',$Merits) and is_array($Merits['Merit'])){
+						while(list($key,$entry)=each($Merits['Merit'])){
+							if(is_array($entry)){
+								$rown=0;
+								$entryno=$entry['id_db'];
+				?>
+				<tbody id="<?php print $entryno;?>">
+					<tr class="rowplus" onClick="clickToReveal(this)" id="<?php print $entryno.'-'.$rown++;?>">
+						<td>&nbsp</th>
+						<td>
+							<?php print $entry['Activity']['value']. '  ('.display_date($entry['Date']['value']).') - '.$entry['CoreValue']['value'];?>
+						</td>
+						<td>
+							<?php print $entry['Points']['value'];?>
+						</td>
+					</tr>
+					<tr class="hidden" id="<?php print $entryno.'-'.$rown++;?>">
+						<td colspan="3">
+							<p>
+								<?php		   
+									if(isset($entry['Detail']['value'])){
+										print $entry['Detail']['value'];
+									}
+									if(isset($entry['Teacher']['value'])){print
+										'  - '.$entry['Teacher']['value'];}
+								?>
+							</p>
+							<?php
+								rowaction_buttonmenu($imagebuttons,array(),$book);
 							?>
-						</p>
+						</td>
+		  			</tr>
+			  		<div id="<?php print 'xml-'.$entryno;?>" style="display:none;">
 						<?php
-							rowaction_buttonmenu($imagebuttons,array(),$book);
+							xmlechoer('Merit',$entry);
 						?>
-					</td>
-	  			</tr>
-		  		<div id="<?php print 'xml-'.$entryno;?>" style="display:none;">
-					<?php
-						xmlechoer('Merit',$entry);
-					?>
-				</div>
-			</tbody>
-			<?php
+					</div>
+				</tbody>
+				<?php
+							}
 						}
 					}
-				}
-			?>
-		</table>
-	  	<fieldset class="listmenu left">
-			<div class="left">
+				?>
+			</table>
+		</div>
+	  	<div class="left">
+		  	<fieldset class="divgroup">
 				<label><?php print_string('house'); ?></label>
 				<?php print $house; ?>
-			</div>
-	   	</fieldset>
-	  	<fieldset class="listmenu right">
-			<div class="right">
+		   	</fieldset>
+		</div>
+		<div class="right">
+		  	<fieldset class="divgroup">
 				<label><?php print get_string('total').' '.get_string('points',$book); ?></label>
 				<?php print $Merits['Total']['Sum']['value']; ?>
-			</div>
-	   	</fieldset>
+		   	</fieldset>
+		</div>
 	</div>
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8/jquery.min.js"></script>
 	<script src="../../js/editor.js" type="text/javascript"></script>
 	<script src="../../js/book.js?version=1013" type="text/javascript"></script>
 	<script src="../../js/qtip.js" type="text/javascript"></script>
-	<script language="Javascript" type="text/javascript" src="js/jquery.uniform.min.js"></script>
-	<script language="JavaScript" type="text/javascript">
+	<script src="../../js/jquery.uniform.min.js" type="text/javascript"></script>
+	<script type="text/javascript">
 		var pathtobook = "<?php print $CFG->sitepath.'/'.$CFG->applicationdirectory.'/'.$book.'/';?>";
 		var book = "<?php print $book;?>";
-		$('.addmerits .right select').uniform(); 
+		$('.addmerits .right select').uniform({ wrapperClass : "registerEdit" });
 	</script>
 </body>
 </html>

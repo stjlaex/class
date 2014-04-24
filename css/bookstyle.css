@@ -327,7 +327,7 @@ div.content .fullwidth, div.topcontent .fullwidth, div.topform .fullwidth {
 }
 
 /*used to describe page content in the space to the left of the top buttonmenu*/
-div#heading {
+#heading {
   font-size: 18px;
   left: 2%;
   margin-bottom: -30px;
@@ -336,7 +336,15 @@ div#heading {
   top: 0;
   z-index: 10000;
 }
-
+.bookbox-active #heading  {
+  margin: 70px 0 0;
+}
+.bookbox-active .buttonmenu {
+  top: 60px;
+}
+.bookbox-active .content  {
+  margin-top: 140px;
+}
 #heading h4 label {
   font-weight: 300;
 }

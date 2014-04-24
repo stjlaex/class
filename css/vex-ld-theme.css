@@ -480,6 +480,11 @@
   padding: 0;
   background-color: #FFFFFF;
 }
+.vex.vex-ld-theme .thanks-modal.thanks-modal-active  {
+  top: 20px;
+  margin-top: 0;
+  background: none
+}
 /*.vex.vex-ld-theme .thanks-modal.highlight,
 .vex.vex-ld-theme .print-modal.highlight {
   width:90%!important;
@@ -517,6 +522,7 @@
   box-shadow: 10px 10px 5px #757575;
   height: 420px;
 }
+
 .vex.vex-ld-theme .vex-content.print-modal {
   width: 780px;
   width: calc(750px + 2em);
