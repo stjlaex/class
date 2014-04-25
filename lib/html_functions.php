@@ -941,17 +941,6 @@ function html_document_drop($epfun,$context,$linked_id='-1',$lid='-1',$ownertype
 			<input type="hidden" id="FILECONTEXT" name="FILECONTEXT" value="<?php print $context;?>" />
 			<input type="hidden" id="filesharearea" name="sharearea" value="" />
 			<input type="hidden" id='upload_redirect' name='upload_redirect' value="<?php echo $_SERVER['REQUEST_URI'];?>">
-			<script>
-				$('#sharearea').change(function (){
-					$("#filesharearea").val($(this).val());
-					});
-				$('#sharebutton').click(function (){
-					$("#formfiledelete input[name='fileids[]']:checked:enabled").each(function (){
-						$('<input>').attr({type: 'hidden', name: 'fileids[]',value: $(this).val()}).appendTo('#formfileshare');
-						});
-					$('#formfileshare').submit();
-					});
-			</script>
 		  </form>
 <?php
 			}

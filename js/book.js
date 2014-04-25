@@ -4,6 +4,18 @@ requestxmlHttp();
 $(document).ready(function() {
 	$(":checkbox, :radio").not('.hidden').uniform();
 })
+
+/*Actions for share area in Infobook/Enrolment*/
+$('#sharearea').change(function (){
+		$("#filesharearea").val($(this).val());
+		});
+$('#sharebutton').click(function (){
+	$("#formfiledelete input[name='fileids[]']:checked:enabled").each(function (){
+		$('<input>').attr({type: 'hidden', name: 'fileids[]',value: $(this).val()}).appendTo('#formfileshare');
+		});
+	$('#formfileshare').submit();
+	});
+
 //$(document).ready(function() { console.log($(":checkbox").not('.checker input')); })
 function requestxmlHttp(){
 	try { xmlHttp=new XMLHttpRequest(); } 
