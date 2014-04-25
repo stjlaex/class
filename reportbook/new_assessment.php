@@ -17,86 +17,65 @@ include('scripts/course_respon.php');
 $extrabuttons['importfromfile']=array('name'=>'current','value'=>'import_assessment_scores.php');
 three_buttonmenu($extrabuttons);
 ?>
+
   <div class="topform divgroup">
-	<form id="formtoprocess" name="formtoprocess" 
-	enctype="multipart/form-data" method="post" action="<?php print $host;?>">
-
-	  <div class="left"> 
-		<label for="Description"><?php print_string('description');?></label>
-		<input class="required" type="text" id="Description" tabindex="<?php print $tab++;?>" 
-				name="description"  style="width:20em;" maxlength="59" value="" />
-
-		<label for="Element"><?php print_string('element',$book);?></label>
-		<input class="required" type="text" id="Element" tabindex="<?php print $tab++;?>" 
-				name="element"  style="width:3em;" maxlength="3" value="" />
-
-		<label for="Printlabel"><?php print_string('printlabel',$book);?></label>
-		<input class="required" type="text" id="Printlabel" tabindex="<?php print $tab++;?>" 
-				name="printlabel"  style="width:8em;" maxlength="59" value="" />
+	<form id="formtoprocess" name="formtoprocess" enctype="multipart/form-data" method="post" action="<?php print $host;?>">
+		<fieldset class="divgroup">
+			<div class="left">
+				<p>
+					<label for="Description"><?php print_string('description');?></label>
+					<input class="required" type="text" id="Description" tabindex="<?php print $tab++;?>" name="description"  maxlength="59" value="" />
+				</p>
+				<p>
+					<label for="Element"><?php print_string('element',$book);?></label>
+					<input class="required" type="text" id="Element" tabindex="<?php print $tab++;?>" name="element"   maxlength="3" value="" />
+				</p>
+				<p>
+					<label for="Printlabel"><?php print_string('printlabel',$book);?></label>
+					<input class="required" type="text" id="Printlabel" tabindex="<?php print $tab++;?>" name="printlabel" maxlength="59" value="" />
+				</p>
+				<p>
 <?php
-		include('scripts/list_resultstatus.php');
+					include('scripts/list_resultstatus.php');
+					$selcomponentstatus='None';
+					include('scripts/list_componentstatus.php');
 ?>
-	  </div>
+				</p>
+				<p>
+					<label><?php print_string('create',$book);?></label>
+					<?php $xmldate='Creation'; $required='no'; $todate='0000-00-00'; include('scripts/jsdate-form.php');?>
+				</p>
 
-	  <div class="right">
+			</div>
+			<div class="right">
 <?php
-		$selstage='%';
- 		include('scripts/list_stage.php');
-?>
- 		<div id="displaycurriculum" style="display:none;float:right;width:50%;">
- 			<p class="warn" style="margin:0;"><?php print_string('assessmentcurriculummessage',$book); ?></p>
- 		</div>
-<?php
-		$selbid='%';
-		include('scripts/list_subjects.php');
-?>
-		<div class="left">
-<?php
-			$selcomponentstatus='None';
-		include('scripts/list_componentstatus.php');
-?>
-		</div>
-		<div class="right">
-<?php
-			$selstrandstatus='None';
-		include('scripts/list_strandstatus.php');
-?>
-		</div>
-	  </div>
+					$selstage='%';
+					include('scripts/list_stage.php');
+					$selbid='%';
+					include('scripts/list_subjects.php');
 
-	  <div class="left">
-		<label><?php print_string('create',$book);?></label>
-		<?php $xmldate='Creation'; $required='no'; 
-			$todate='0000-00-00'; include('scripts/jsdate-form.php');?>
+					$selstrandstatus='None';
+					include('scripts/list_strandstatus.php');
 
-		<label><?php print_string('deadlineforcompletion');?></label>
-		<?php $xmldate='Deadline'; $required='yes'; include('scripts/jsdate-form.php');?>
-	  </div>
-
-	  <div class="right">
-<?php
-//include('scripts/list_method.php'); 
-//include('scripts/list_resultqualifier.php'); 
-		$required='no';
-		include('scripts/list_gradescheme.php');
+					$required='no';
+					include('scripts/list_gradescheme.php');
 ?>
-		<div id="displaygrading" style="display:none;float:right;width:40%;">
-			<p class="warn" style="margin:0;"><?php print_string('assessmentgradingmessage',$book); ?></p>
-		</div>
-
-<!--
-		<label for="Derivation"><?php print_string('derivation',$book);?></label>
-		<input type="text" id="Derivation" tabindex="<?php print $tab++;?>" 
-				name="derivation" style="width:12em;" maxlength="59" value="" />
--->
+				<p>
+					<label for="Derivation"><?php print_string('derivation',$book);?></label>
+					<input type="text" id="Derivation" tabindex="<?php print $tab++;?>" name="derivation"  value="" />
 <?php 
-		$listname='newprofid';
-		$selnewprofid=$profid;
-		$required='no';
-		include('scripts/list_assessment_profile.php');
+					$listname='newprofid';
+					$selnewprofid=$profid;
+					$required='no';
+					include('scripts/list_assessment_profile.php');
 ?>
-	  </div>
-
+				</p>
+				<p>
+					<label><?php print_string('deadlineforcompletion');?></label>
+					<?php $xmldate='Deadline'; $required='yes'; include('scripts/jsdate-form.php');?>
+				</p>
+			</div>
+		</fieldset>
 
 	  <input type="text" style="display:none;" id="Id_db" name="id" value="" />
 	  <input type="hidden" name="Markcount" value="" id="Markcount" />
@@ -280,3 +259,4 @@ three_buttonmenu($extrabuttons);
 	  </table>
 	</div>
   </div>
+
