@@ -479,11 +479,14 @@
   width: 80% !important;
   padding: 0;
   background-color: #FFFFFF;
+  box-shadow: 10px 10px 5px #757575;
+
 }
 .vex.vex-ld-theme .thanks-modal.thanks-modal-active  {
   top: 20px;
   margin-top: 0;
-  background: none
+  background: none;
+  box-shadow: none;
 }
 /*.vex.vex-ld-theme .thanks-modal.highlight,
 .vex.vex-ld-theme .print-modal.highlight {
@@ -519,10 +522,11 @@
 #printFrame {
   border: none;
   width: 100%;
-  box-shadow: 10px 10px 5px #757575;
   height: 95%;
 }
-
+.thanks-modal-active #printFrame {
+  box-shadow: 10px 10px 5px #757575;
+}
 
 .vex.vex-ld-theme .vex-content .xslt {
   height: 100%;
