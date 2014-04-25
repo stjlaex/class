@@ -51,6 +51,7 @@ div.selector {
   overflow: hidden;
   border-radius: 3px;
   font-size: 12px;
+  max-width: 160px;
 }
 div.selector span {
   text-overflow: ellipsis;
@@ -63,6 +64,7 @@ div.selector span {
   padding-right: 45px;
   cursor: pointer !important;
   width: 100%;
+  max-width: 115px;
   display: block;
   color: #cad5da;
   text-shadow: none;
@@ -98,6 +100,7 @@ div.selector.default span {
 }
 div.selector.loginlang {
   min-width: 245px !important;
+  max-width: 245px !important;
   width: 245px !important;
   float: left;
   margin-left: 20px;
@@ -105,6 +108,7 @@ div.selector.loginlang {
 }
 div.selector.loginlang span {
   width: 80% !important;
+  max-width: 80% !important;
   background-position: right 0;
 }
 
