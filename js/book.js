@@ -1,6 +1,10 @@
 var xmlHttp = false;
 requestxmlHttp();
-$(document).ready(function() { $(":checkbox, :radio").not('.hidden').uniform(); })
+//$(document).ready(function() { })
+$(document).ready(function() {
+	$(":checkbox, :radio").not('.hidden').uniform();
+})
+//$(document).ready(function() { console.log($(":checkbox").not('.checker input')); })
 function requestxmlHttp(){
 	try { xmlHttp=new XMLHttpRequest(); } 
 	catch (failed) { xmlHttp=false; }
@@ -1018,7 +1022,7 @@ function checkAll(checkAllBox,checkname){
 				formObject.elements[c].checked=false;
 				}
 			checkrowIndicator(formObject.elements[c]);
-			$.uniform.update( formObject.elements[c] )
+			$.uniform.update(formObject.elements[c]);
 			}
 		}
 	}
@@ -2029,3 +2033,4 @@ function updateUniformSelect(element) {
 		element.previousSibling.textContent = element.options[element.selectedIndex ].text;
 	}
 }
+

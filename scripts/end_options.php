@@ -84,7 +84,7 @@ mysql_query("INSERT INTO history SET uid='$uid', page='$current',classis_version
 }
 ?>
 <script>
-    $("input").uniform()
+ //   $("input").uniform()
     $(function(){
         $(".sidtable").tableSort();
         $(".sidtable a.sortable").on("click", function(event) {event.preventDefault()});
