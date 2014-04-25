@@ -45,30 +45,38 @@ two_buttonmenu($extrabuttons);
 
 if(is_array($Entries)){
 	$currentyid='';
+	if(strtolower($tagname)=="background"){
+		$containerclass='rowminus';
+		$hidden='revealed';
+		$opencontainer=uniqid();
+		html_table_container_open($opencontainer,$containerclass,get_string(strtolower($tagname),$book));
+		}
 	foreach($Entries as $key => $entry){
-		/* Display the entries grouped by year group. */
-		if(!isset($startyid)){
-			$startyid=$entry['YearGroup']['value'];
-			$currentyid=$startyid;
-			$opencontainer=uniqid();
-			$containerno=0;
-			}
-		elseif($entry['YearGroup']['value']!=$currentyid){
-			html_table_container_close(1);
-			$currentyid=$entry['YearGroup']['value'];
-			$opencontainer=uniqid();
-			$containerno++;
-			}
-		else{
-			$opencontainer=0;
-			}
+		if(strtolower($tagname)!="background"){
+			/* Display the entries grouped by year group. */
+			if(!isset($startyid)){
+				$startyid=$entry['YearGroup']['value'];
+				$currentyid=$startyid;
+				$opencontainer=uniqid();
+				$containerno=0;
+				}
+			elseif($entry['YearGroup']['value']!=$currentyid){
+				html_table_container_close(1);
+				$currentyid=$entry['YearGroup']['value'];
+				$opencontainer=uniqid();
+				$containerno++;
+				}
+			else{
+				$opencontainer=0;
+				}
 
-		if($containerno<1){$containerclass='rowminus';}
-		else{$containerclass='rowplus';}
-		if($containerclass=='rowplus'){$hidden='hidden';}
-		else{$hidden='revealed';}
+			if($containerno<1){$containerclass='rowminus';}
+			else{$containerclass='rowplus';}
+			if($containerclass=='rowplus'){$hidden='hidden';}
+			else{$hidden='revealed';}
 
-		html_table_container_open($opencontainer,$containerclass,get_yeargroupname($currentyid).' - '.get_string(strtolower($tagname),$book));
+			html_table_container_open($opencontainer,$containerclass,get_yeargroupname($currentyid).' - '.get_string(strtolower($tagname),$book));
+			}
 
 		$restricted=false;
 		if($tagname=='Background' and $entry['Categories']['Category'][0]['rating']['value']<0){$restricted=true;}

@@ -71,6 +71,11 @@ if($_POST['payment0']=='yes'){
 				}
 			}
 		}
+
+	if(isset($_SESSION['remittancestotals'])){
+		$Remittance=fetchRemittance($remid);
+		unset($_SESSION['remittancestotals'][$Remittance['Year']['value']]);
+		}
 	}
 else{
 	$result[]=get_string('noactiontaken',$book);

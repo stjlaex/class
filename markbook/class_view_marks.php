@@ -203,8 +203,12 @@ for($i=0;$i<sizeof($cids);$i++){
 			  }
 		  elseif($marktype[$c]=='score' or $marktype[$c]=='hw'){
 			  $markdef_name=$mark['def_name'];
+			  $markdef_topic=$mark['topic'];
 			  $d_markdef=mysql_query("SELECT * FROM markdef WHERE name='$markdef_name';");
 			  $markdef=mysql_fetch_array($d_markdef,MYSQL_ASSOC);	      
+			  $d_locklevel=mysql_query("SELECT lock_level FROM assessment WHERE description='$markdef_topic';");
+			  $locklevel=mysql_result($d_locklevel,0,'lock_level');
+			  $umns[$c]['locklevel']=$locklevel;
 			  $scoretype[$c]=$markdef['scoretype'];
 			  $umns[$c]['scoretype']=$markdef['scoretype'];
 			  $scoregrading[$c]=$markdef['grading_name'];

@@ -316,6 +316,96 @@ function generate_random_name($gender){
 			}
 		}
 
+	$table='fees_account';
+	$trows=tableRead($table);
+	$newtest='classis1234';
+	$newaccess='1234';
+	if(count($trows)>0){
+		foreach($trows as $row){
+			$aid=$row['id'];
+			$gid=$row['guardian_id'];
+			if($aid==1 and $gid==0){
+				mysql_query("UPDATE fees_account SET bankname=AES_ENCRYPT('$newtest','$newaccess') WHERE id='1';");
+				}
+			elseif($aid>1 and $gid==0){
+				mysql_query("UPDATE fees_account SET 
+								accountname=AES_ENCRYPT('Classis','$newaccess'),
+								bankname=AES_ENCRYPT('Bankname','$newaccess'),
+								banknumber=AES_ENCRYPT('0012002356','$newaccess'), 
+								bankcode=AES_ENCRYPT('2310','$newaccess'), 
+								bankbranch=AES_ENCRYPT('0001','$newaccess'), 
+								bankcontrol=AES_ENCRYPT('18','$newaccess'),
+								bankcountry=AES_ENCRYPT('ES','$newaccess'), 
+								iban=AES_ENCRYPT('ES8023100001180012002356','$newaccess')
+						WHERE id='$aid';");
+				}
+			else{
+				$guardian=fetchContact($gid);
+				$guardian_name='';
+				mysql_query("UPDATE fees_account SET 
+								accountname=AES_ENCRYPT('$guardian_name','$newaccess'),
+								bankname=AES_ENCRYPT('Bankname','$newaccess'),
+								banknumber=AES_ENCRYPT('0012002356','$newaccess'), 
+								bankcode=AES_ENCRYPT('2310','$newaccess'), 
+								bankbranch=AES_ENCRYPT('0001','$newaccess'), 
+								bankcontrol=AES_ENCRYPT('18','$newaccess'),
+								bankcountry=AES_ENCRYPT('ES','$newaccess'), 
+								iban=AES_ENCRYPT('ES8023100001180012002356','$newaccess')
+						WHERE id='$aid';");
+				}
+			}
+		$result[]="Test password: $newtest, access password: $newaccess.";
+
+		$table='fees_concept';
+		$trows=tableRead($table);
+		$concepts=array('Subject','Stationery','Transport','Refectory','Enrolment');
+		foreach($trows as $row){
+			$id=$row['id'];
+			srand((double)microtime()*1000000);
+			$concept=$concepts[(rand() %  count($concepts))];
+			mysql_query("UPDATE $table SET name='$concept' WHERE id='$id';");
+			}
+
+		$table='fees_remittance';
+		$trows=tableRead($table);
+		$no=array();
+		foreach($trows as $row){
+			$id=$row['id'];
+			$date=explode("-",$row['duedate']);
+			$rem=$date.$row['yeargroups'];
+			if(!isset($no[$rem])){$no[$rem]=0;}
+			$name="Y".$row['yeargroups']." ".$date['0'].".".$date[1].": DEMO ".$no[$rem];
+			$no[$rem]++;
+			mysql_query("UPDATE $table SET name='$name' WHERE id='$id';");
+			}
+
+		$table='fees_tarif';
+		$trows=tableRead($table);
+		$no=array();
+		$tariffs=array('Subject'=>'120.00','Stationery'=>'210.00','Transport'=>'90.00','Refectory'=>'50.00','Enrolment'=>'500.00');
+		foreach($trows as $row){
+			$id=$row['id'];
+			$fid=$row['concept_id'];
+			$d_concept=mysql_query("SELECT name FROM fees_concept WHERE id=$fid;");
+			$cname=mysql_result($d_concept,0,'name');
+			if(!isset($no[$fid])){$no[$fid]=0;}
+			$name=$cname." ".$no[$fid];
+			$amount=$tariffs[$cname]+$no[$fid];
+			mysql_query("UPDATE $table SET name='$name',amount='$amount' WHERE id='$id';");
+			$no[$fid]++;
+			}
+
+		$table='fees_charge';
+		$trows=tableRead($table);
+		foreach($trows as $row){
+			$id=$row['id'];
+			$tarifid=$row['tarif_id'];
+			$d_tarifs=mysql_query("SELECT amount FROM fees_tarif WHERE id=$tarifid;");
+			$amount=mysql_result($d_tarifs,0,'amount');
+			mysql_query("UPDATE $table SET amount='$amount' WHERE id='$id';");
+			}
+		}
+
 $d_class=mysql_query("TRUNCATE TABLE message_event;");
 $d_class=mysql_query("TRUNCATE TABLE message_event_seq;");
 $d_class=mysql_query("TRUNCATE TABLE message_text_event;");

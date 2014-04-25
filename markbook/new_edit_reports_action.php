@@ -98,15 +98,23 @@ if($sub=='Submit'){
 				/* Read previous entry for the categories and check which have changed. */
 				foreach($catdefs as $catdef){
 					$catid=$catdef['id'];
+					if(isset($_POST["sid$sid:$c2"]) and $_POST["sid$sid:$c2"]=='uncheck'){
+						mysql_query("DELETE FROM report_skill_log WHERE report_id='$rid' AND student_id='$sid' AND skill_id='$catid';");
+						}
 					if(isset($_POST["sid$sid:$c2"]) and $_POST["sid$sid:$c2"]!='uncheck'){
-					    $in=$_POST["sid$sid:$c2"];
+						if($inorders['comment']=='yes'){
+							$incom=$_POST["sid$sid:$c2"];
+							}
+						else{$incom='';}
+						$in=$_POST["sid$sid:$c2"];
 						if(isset($_POST["cat$sid:$catid"]) and $in==$_POST["cat$sid:$catid"]){
 							$setdate=$_POST["dat$sid:$catid"];
 							}
 						else{
 							$setdate=$todate;
 							}
-						$incategory=$incategory . $catid.':'.$in.':'.$setdate.';';
+						mysql_query("INSERT INTO report_skill_log (report_id,student_id, skill_id, rating, comment, teacher_id) 
+							VALUES ('$rid','$sid', '$catid', '$in', '$incom', '$tid');");
 						}
 					$c2++;
 					}
@@ -114,31 +122,31 @@ if($sub=='Submit'){
 				}
 
 			/*this assumes that the comment comes after all the category entries!!!*/
-			if($inorders['comment']=='yes'){
-				if(isset($_POST["sid$sid:$c2"])){
-					$incom=$_POST["sid$sid:$c2"];
-					$c2++;
-					}
-				else{$incom='';}
-				}
-			if($inmust=='yes' and $incategory!=''){
-						mysql_query("INSERT INTO reportentry (category, teacher_id, report_id, student_id, subject_id, component_id) 
-							VALUES ('$incategory', '$tid', '$rid', '$sid', '$inbid', '$inpid')");
-						}
-			elseif($inmust!='yes' and $incategory!=''){
-   						$entryn=$inmust;
-						mysql_query("UPDATE reportentry SET
-						category='$incategory' WHERE report_id='$rid' AND
-						student_id='$sid' AND subject_id='$inbid' AND
-						component_id='$inpid' AND entryn='$entryn'");
-						}
-			elseif($inmust!='yes' and $incom=='' and $incategory==''){	   
-   						$entryn=$inmust;
-						mysql_query("DELETE FROM reportentry WHERE
-						 report_id='$rid' AND
-						student_id='$sid' AND subject_id='$inbid' AND
-						component_id='$inpid' AND entryn='$entryn' LIMIT 1");
-						}
+#			if($inorders['comment']=='yes'){
+#				if(isset($_POST["sid$sid:$c2"])){
+#					$incom=$_POST["sid$sid:$c2"];
+#					$c2++;
+#					}
+#				else{$incom='';}
+#				}
+#			if($inmust=='yes' and $incategory!=''){
+#						mysql_query("INSERT INTO reportentry (category, teacher_id, report_id, student_id, subject_id, component_id) 
+#							VALUES ('$incategory', '$tid', '$rid', '$sid', '$inbid', '$inpid')");
+#						}
+#			elseif($inmust!='yes' and $incategory!=''){
+#   						$entryn=$inmust;
+#						mysql_query("UPDATE reportentry SET
+#						category='$incategory' WHERE report_id='$rid' AND
+#						student_id='$sid' AND subject_id='$inbid' AND
+#						component_id='$inpid' AND entryn='$entryn'");
+#						}
+#			elseif($inmust!='yes' and $incom=='' and $incategory==''){	   
+#   						$entryn=$inmust;
+#						mysql_query("DELETE FROM reportentry WHERE
+#						 report_id='$rid' AND
+#						student_id='$sid' AND subject_id='$inbid' AND
+#						component_id='$inpid' AND entryn='$entryn' LIMIT 1");
+#						}
 			}
 		}
 	}

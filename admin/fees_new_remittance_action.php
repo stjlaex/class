@@ -172,8 +172,13 @@ if($sub=='Submit'){
 		foreach($conceptids as $conid){
 			$_SESSION['conidsvars'][$conid]=$conid;
 			}
+
 		$_SESSION['remidvar']=$remid;
 		$_SESSION['enrolstatusvar']=$enrolstatus;
+		}
+	if(isset($_SESSION['remittancestotals'])){
+		$Remittance=fetchRemittance($remid);
+		unset($_SESSION['remittancestotals'][$Remittance['Year']['value']]);
 		}
 
 include('scripts/results.php');

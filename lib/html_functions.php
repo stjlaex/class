@@ -871,10 +871,13 @@ function html_table_container_close($containerno,$xmltagname='',$entry=''){
  * $ownertype defaults to student
  *
  */
-function html_document_drop($epfun,$context,$linked_id='-1',$lid='-1',$ownertype=''){
+function html_document_drop($epfun,$context,$linked_id='-1',$lid='-1',$ownertype='',$listfiles=true){
+
 	global $CFG;
 	if($context=='assessment'){$path='../../';}
 	else{$path='';}
+
+	if($listfiles){
 ?>
 	<fieldset class="documentdrop">
 		<div class="documentdrop">
@@ -888,26 +891,79 @@ function html_document_drop($epfun,$context,$linked_id='-1',$lid='-1',$ownertype
 		}
 ?>
 			</h5>
-
 			<form id="formfiledelete" name="formfiledelete" method="post" action="<?php print $path;?>infobook/httpscripts/file_delete.php">
 				<input type="hidden" id="FILEOWNER" name="FILEOWNER" value="<?php print $epfun;?>" />
 				<input type="hidden" id="FILECONTEXT" name="FILECONTEXT" value="<?php print $context;?>" />
 				<ul class="list-files">
 <?php
-		$files=(array)list_files($epfun,$context,$linked_id);
-		if(sizeof($files)>0){
+	$files=(array)list_files($epfun,$context,$linked_id);
+	if(sizeof($files)>0){
+		if($context=="enrolment"){
+			foreach($files as $file){
+				$d_ff=mysql_query("SELECT name FROM file_folder WHERE id='".$file['folder_id']."';");
+				$ffname=mysql_result($d_ff,0);
+				$files_types[$ffname][]=$file;
+				}
+			foreach($files_types as $type=>$files){
+				print "<fieldset>";
+				print "<legend>".$type."</legend>";
+				if($type=="enrolment"){
+					print '<fieldset class="right"><select name="sharearea" id="sharearea">
+						<option>Select area to share</option>
+						<option value="medical">Medical</option>
+						<option value="report">Subject Reports</option>
+						<option value="assessments">Assessments</option>
+					</select>';
+					print '<button id="sharebutton" class="" 
+						type="button" title="share" name="current" 
+						value=""/>Share</button></fieldset>';
+					}
+				print "<fieldset class='left'>";
+				html_document_list($files);
+				print "</fieldset>";
+				print "</fieldset>";
+				}
+			}
+		else{
 			html_document_list($files);
-			print '<li><span id="deletebutton" class="clicktodelete"></span></li>';
+			}
+
+		print '<li><span id="deletebutton" class="clicktodelete"></span></li>';
+		}
+?>
+			</ul>
+		</form>
+<?php
+		if($context=="enrolment"){
+?>
+		  </form>
+		  <form id="formfileshare" name="formfileshare" method="post" action="<?php print $path;?>infobook/httpscripts/file_share.php">
+			<input type="hidden" id="FILECONTEXT" name="FILECONTEXT" value="<?php print $context;?>" />
+			<input type="hidden" id="filesharearea" name="sharearea" value="" />
+			<input type="hidden" id='upload_redirect' name='upload_redirect' value="<?php echo $_SERVER['REQUEST_URI'];?>">
+			<script>
+				$('#sharearea').change(function (){
+					$("#filesharearea").val($(this).val());
+					});
+				$('#sharebutton').click(function (){
+					$("#formfiledelete input[name='fileids[]']:checked:enabled").each(function (){
+						$('<input>').attr({type: 'hidden', name: 'fileids[]',value: $(this).val()}).appendTo('#formfileshare');
+						});
+					$('#formfileshare').submit();
+					});
+			</script>
+		  </form>
+<?php
 			}
 ?>
-				</ul>
-			</form>
-		</div>
-	</fieldset>
-
-	<fieldset class="documentdrop">
-		<div class="documentdrop">
-			<h5><?php print_string('uploadfile');?> <span style="font-size:small;">(<?php print_string('max');?>: <?php echo ini_get("upload_max_filesize"); ?>)</span></h5>
+			</div>
+		</fieldset>
+<?php
+		}
+?>
+		<fieldset class="documentdrop">
+			<div class="documentdrop">
+				<h5><?php print_string('uploadfile');?> <span style="font-size:small;">(<?php print_string('max');?>: <?php echo ini_get("upload_max_filesize"); ?>)</span></h5>
 			<form id="formdocumentdrop" name="formdocumentdrop" method="post" action="<?php print $path;?>infobook/httpscripts/file_upload.php" enctype="multipart/form-data" <?php if($context=='icon'){ print "onsubmit='return checkForm()'";} ?>>
 				<input type="hidden" id="MAX_FILE_SIZE" name="MAX_FILE_SIZE" value="<?php print return_bytes(ini_get('upload_max_filesize'));?>" />
 				<input type="hidden" id="FILEOWNER" name="FILEOWNER" value="<?php print $epfun;?>" />
@@ -1063,4 +1119,67 @@ function list_markbook_filters($profiles,$umnfilter,$currentprofile,$cid,$cidsno
 	return $currentprofile;
 	}
 
+
+/*
+ *
+ */
+function html_files_preview($epfun,$eid,$displaythiseid=true,$pid=''){
+	global $CFG;
+	$files=array_merge(list_files($epfun,'assessment'),list_files($epfun,'comment'));
+	if(sizeof($files)>0){
+
+		if(isset($_SERVER['HTTPS'])){
+			$http='https';
+			}
+		else{
+			$http='http';
+			}
+		$filedisplay_root=$http.'://'.$CFG->siteaddress.$CFG->sitepath.'/'.$CFG->applicationdirectory;
+		$filedisplay_url=$filedisplay_root.'/scripts/file_display.php';
+
+		foreach($files as $file){
+			if(!isset($file['id']) or $file['id']==''){$fileid=$file['name'];}
+			else{$fileid=$file['id'];}
+			$fileparam_list='?fileid='.$fileid.'&location='.$file['location'].'&filename='.$file['name'];
+			$path=$filedisplay_url.$fileparam_list;
+			$otherid=$file['other_id'];
+			$ext=pathinfo($path);
+			$display=true;
+			$d_c=mysql_query("SELECT subject_id FROM comments WHERE id='$otherid';");
+			if(mysql_num_rows($d_c)>0 and $pid!=''){
+				$d_p=mysql_query("SELECT subject_id FROM component WHERE id='$pid';");
+				$skill_subject=mysql_result($d_p,0);
+				$com_subject=mysql_result($d_c,0,'subject_id');
+				if($skill_subject!=$com_subject){$display=false;}
+				}
+			if($display){
+?>
+		<div style="height:100px;float:left;">
+<?php
+			if(($displaythiseid and $eid==$file['other_id']) or (!$displaythiseid and $eid!=$file['other_id'])){
+				if((strcasecmp($ext['extension'], 'jpg')==0 or strcasecmp($ext['extension'], 'png')==0 or strcasecmp($ext['extension'], 'gif')==0 or strcasecmp($ext['extension'], 'jpeg')==0)){
+					$mini=$CFG->eportfolio_dataroot."/".$file['location']."_mini";
+					if(!file_exists($mini)){
+						copy($CFG->eportfolio_dataroot."/".$file['location'],$mini);
+						resize_image($mini,$max_width=70,$max_height=70);
+						}
+					$fileparam_list='?fileid='.$fileid.'&location='.$file['location'].'_mini&filename='.$file['name'];
+					$src=$filedisplay_url.$fileparam_list;
+					}
+				else{
+					$src=$filedisplay_root."/images/file-generic.png";
+					}
+?>
+				<img src="<?php print $src;?>" style="height:70px;width:auto;float:left;cursor:pointer;margin:2px;" 
+					onclick="if(document.getElementById('file-<?php echo $fileid;?>')){this.style.border=0;removeHiddenInput($(this).closest('form').attr('id'),'file-<?php echo $fileid;?>');}else{this.style.border='1px solid #0000FF';appendHiddenInput($(this).closest('form').attr('id'),'files[]','file-<?php echo $fileid;?>','<?php echo $fileid;?>');}"
+					title="<?php print $file['name'];?>">
+<?php
+				}
+?>
+		</div>
+<?php
+				}
+			}
+		}
+	}
 ?>

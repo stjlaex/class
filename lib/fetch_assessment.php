@@ -210,6 +210,11 @@ function fetchAssessmentDefinition($eid){
 								'field_db'=>'statistics',
 								'type_db'=>'', 
 								'value'=>''.$ass['statistics']);
+	$AssDef['LockLevel']=array('label'=>'Lock Level',
+								'table_db'=>'assessment', 
+								'field_db'=>'lock_level',
+								'type_db'=>'enum', 
+								'value'=>''.$ass['lock_level']);
 
 	$gena=''.$ass['grading_name'];
 	if($gena!='' and $gena!=' '){
@@ -1164,72 +1169,6 @@ function update_mark_score($mid,$sid,$score){
 					$field='$val' WHERE mark_id='$mid' AND student_id='$sid';");}
 			}
 		}
-	}
-
-
-
-/**
- *
- * Used to calculate a numerical score based on the profile statements
- * checked.  The result is stored in an assessment linked to the
- * profile for this purpose only. The link depends on the assessment
- * being named the same as the profile report and indeed as the
- * othertype value for the statements.
- *
- * The cut_off rating is used to only count those statements above
- * that value, hard-set hewre to 1 to only count level status=achieved.
- *
- * @param integer $rid
- * @param integer $sid
- * @param string $bid
- * @param string $pid
- * @param string $cat
- * @param string $catdefs
- * @param string $rating_name
- *
- * @return boolean
- */
-function update_profile_score($rid,$sid,$bid,$pid,$cat,$catdefs,$rating_name){
-
-	$Student=fetchStudent_short($sid);
-	$score=array('result'=>'','value'=>0, 'date'=>'0000-00-00');
-	$cutoff_rating='1';
-
-	$eid=get_profile_eid($rid);
-
-	$statno=0;
-	$lowvalue=0;
-	$Categories=(array)fetchCategories($Student,$cat,$catdefs,$rating_name);
-	if(isset($Categories['Category'])){
-		foreach($Categories['Category'] as $Category){
-			/* Only count positive scores (cutoff_rating fixed at 1) as part of the total. */
-			if($Category['value']>=$cutoff_rating){
-				$score['value']++;
-				}
-			elseif($Category['value']<$cutoff_rating){
-				$lowvalue++;
-				}
-			/* Grab the date of the most recent category changed. */
-			if(strtotime($Category['date'])>strtotime($score['date'])){$score['date']=$Category['date'];}
-			$statno++;
-			}
-		}
-
-	$catno=sizeof($catdefs);
-	if($statno>0 and $eid>-1){
-		$score['result']=round(100*($score['value']/$catno));	
-		if($score['result']==''){
-			$score['result']=$lowvalue;
-			$score['value']=0;
-			}
-		update_assessment_score($eid,$sid,$bid,$pid,$score);
-		$result=true;
-		}
-	else{
-		$result=false;
-		}
-
-	return $result;
 	}
 
 

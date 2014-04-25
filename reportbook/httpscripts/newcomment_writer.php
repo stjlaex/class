@@ -96,7 +96,8 @@ if(isset($reportdef['report']['profile_names'][0]) and $reportdef['report']['pro
 		//$reportyear=$reportdef['report']['year']-1;
 		//$fromdate=$reportyear.'-08-15';//Does the whole academic year
 		$reportyear=$reportdef['report']['year'];
-		$fromdate=$reportyear.'-02-10';
+		//$fromdate=$reportyear.'-02-10';
+		$fromdate='';
 		foreach($reportdef['report']['profile_names'] as $profile_name){
 			$Statements=(array)fetchProfileStatements($profile_name,$bid,$pid,$sid,$fromdate);
 			}

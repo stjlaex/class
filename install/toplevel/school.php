@@ -26,6 +26,8 @@ $CFG->sitestatus='up';
 $CFG->installpath='/var/www/html/demo-site';
 /*almost always just class*/
 $CFG->applicationdirectory='class';
+/*applicationdirectory for the new class theme*/
+$CFG->theme20='';
 /*full name of the school*/
 $CFG->schoolname='Demo School Site';
 /*filename of the school logo in top-level image directory*/
@@ -110,8 +112,11 @@ function enrolno_formula($sid){
 	$year=substr($year,2,2);
 	$d_i=mysql_query("SELECT MAX(CAST(formerupn AS UNSIGNED)) FROM info WHERE formerupn LIKE '$year%';");
 	$maxno=mysql_result($d_i,0);
-	$idno=substr($maxno,2) + 1;
-	$enrolno=$year. sprintf("%03s",$idno);// number format 001-999
+	if($maxno!=NULL){
+		$idno=substr($maxno,2) + 1;
+		$enrolno=$year. sprintf("%03s",$idno);// number format 001-999
+		}
+	else{$enrolno=0;}
 	trigger_error('NEW enrolno : '.$enrolno,E_USER_WARNING);
 	return $enrolno;
 	}

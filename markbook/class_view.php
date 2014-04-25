@@ -135,10 +135,16 @@ if($_SESSION['worklevel']>-1){
 <?php
 	/*The mark's column header, with a checkbox which provides $mid */	      
 	for($col=0;$col<sizeof($umns);$col++){
+
 		if ($umns[$col]['component'] == $pid or $pid == '') {
 			if($umns[$col]['marktype']=='score' or $umns[$col]['marktype']=='hw'){
 				/* If it is an assessment column and older than 60 days then lock from editing, unless you have course permissions. */
-				if(($umns[$col]['entrydate']<$cutoffdate and $umns[$col]['assessment']!='no' and $r==-1)){
+				if(($umns[$col]['locklevel']==1 and $umns[$col]['assessment']!='no' and $r==-1)){
+					print '<th class="'.$umns[$col]['displayclass'].'" id="'.$umns[$col]['id'].'"><span title="'.$umns[$col]['comment'].'">' 
+						  .$umns[$col]['topic'].'<p>'.display_date($umns[$col]['entrydate']).'</p>
+			 <p class="component">'.$umns[$col]['component'].'</p>'.'<input type="checkbox" name="checkmid[]" value="'.$umns[$col]['id'].'" /></span></th>';
+					}
+				elseif($umns[$col]['locklevel']==2 and $umns[$col]['assessment']!='no'){
 					print '<th class="'.$umns[$col]['displayclass'].'" id="'.$umns[$col]['id'].'"><span title="'.$umns[$col]['comment'].'">' 
 						  .$umns[$col]['topic'].'<p>'.display_date($umns[$col]['entrydate']).'</p>
 			 <p class="component">'.$umns[$col]['component'].'</p>'.'<input type="checkbox" name="checkmid[]" value="'.$umns[$col]['id'].'" /></span></th>';
@@ -147,8 +153,9 @@ if($_SESSION['worklevel']>-1){
 					print '<th class="'.$umns[$col]['displayclass'].'" id="'.$umns[$col]['id'].'"><span title="'.$umns[$col]['comment'].'"><a 
 					href="markbook.php?current=edit_scores.php&cancel=class_view.php&scoretype='. 
 						  $scoretype[$col].'&grading_name='. 
-						  $scoregrading[$col].'&mid='.$umns[$col]['id'].'&col='.$col.'"><span class="clicktoedit"/></span> ' 
-						  .$umns[$col]['topic'].'<p>'.display_date($umns[$col]['entrydate']).'</p></a>
+						  $scoregrading[$col].'&mid='.$umns[$col]['id'].'&col='.$col.'">';
+					if($umns[$col]['locklevel']==0){print '<span class="clicktoedit" style="float:right;"/></span> ';}
+					print $umns[$col]['topic'].'<p>'.display_date($umns[$col]['entrydate']).'</p></a>
 			 <p class="component">'.$umns[$col]['component'].'</p>'.'<input type="checkbox" name="checkmid[]" value="'.$umns[$col]['id'].'" /></span></th>';
 					}
 				}
@@ -330,8 +337,8 @@ print ' <td status="p" >'.$attlink.'</td>';
 	  </table>
 
 	<input type="hidden" name="current" value="" />		
-	<input type="hidden" name="cancel" value="<?php print $cancel;?>" />		
-	<input type="hidden" name="choice" value="<?php print $choice;?>" />		
+	<input type="hidden" name="cancel" value="<?php print $cancel;?>" />
+	<input type="hidden" name="choice" value="<?php print $choice;?>" />
 	<input type="hidden" name="mid" value="" />
 	<input type="hidden" name="bid" value="<?php print $bid[0]; ?>" />
 	</form>
@@ -340,4 +347,3 @@ print ' <td status="p" >'.$attlink.'</td>';
 <?php
     include('scripts/studentlist_extra.php');
 ?>
-
