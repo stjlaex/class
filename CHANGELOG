@@ -1,7 +1,72 @@
+Version ClaSS-2.0.2 release (2014/04/25)
+-------------------------------------------
+
+Fixes for mergin conflicts.
+
+
+Version ClaSS-1.0.68 release (2014/04/25)
+-------------------------------------------
+
+New field for assessment table for locking/unlocking an assessment.
+
+Button added to Report/Manage Assessments for locking/unlocking assessments.
+
+
+Version ClaSS-1.0.67 release (2014/04/24)
+-------------------------------------------
+
+New fields for history table: ip, classis version and browser.
+
+
+Version ClaSS-1.0.66 release (2014/04/23)
+-------------------------------------------
+
+Added fees_lib_xml.php and added temporary notices for the new theme.
+
+Fees tables added to demoiser.
+
+Option to check students from the fees charge list table.
+
+Added field result in rating table for the equivalent used in markbook tables.
+
+Added functions for skill_log table total by term and by component and cron 
+file for scores updates and generate terms assessments.
+
+Added script for sharing old comments.
+
+Skill statements have to be migrated to report_skills_log table 
+(run migrate_statements_results();).
+
+Added script for updating school.php file with the new config variables.
+
+
+Version ClaSS-1.0.65 release (2014/03/20)
+-------------------------------------------
+
+Tiny fixes for elgg_send_email, background and entrybook xml import.
+
+Added file uploader for infobook assessments.
+
+The file uploader from infobook/enrolment has the option to share a file
+with medical, subject reports and assessments areas. 
+
+New field for report attendance start date, user for report preview.
+
+New field yes/no in report table for photos attachments - addphotos.
+
+Added bar chart for remittances list and navigation by month/year.
+
+Photo picker added for report skills and subject reports.
+
+School bank accounts management added to fees.
+
+New import assessments scores from file.
+
+
 Version ClaSS-1.0.64 release (2014/02/17)
 -------------------------------------------
 
-Teacher photo is share now with Classic.
+Teacher photo is shared now with Classic.
 
 Student attendance history has now sheets for every year since he/she started.
 
@@ -14,7 +79,6 @@ When a shared comment is deleted in Classis it is also deleted from Classic.
 If a comment is shared the "Share with parents" area is hidden.
 
 When an image is uploaded for a comment is is appended to a comment if this is shared.
-
 
 Version ClaSS-1.0.63 release (2014/02/10)
 -------------------------------------------

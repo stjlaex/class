@@ -192,16 +192,18 @@ $action='med_view_action.php';
 ?>
 		</table>
 	  </fieldset>
-	  <fieldset>
-<?php
-	require_once('lib/eportfolio_functions.php');
-	html_document_drop($Student['EPFUsername']['value'],'medical','%',$sid);
-?>
-	  </fieldset>
 
  	<?php print $input_elements;?>
  	<input type="hidden" name="current" value="<?php print $action;?>"/>
  	<input type="hidden" name="choice" value="<?php print $current;?>"/>
  	<input type="hidden" name="cancel" value=""/>
 	</form>
+
+		<fieldset class="right" style="margin:0px !important;">
+<?php
+	require_once('lib/eportfolio_functions.php');
+	html_document_drop($Student['EPFUsername']['value'],'medical','%',$sid);
+?>
+		</fieldset>
+	</div>
   </div>

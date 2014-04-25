@@ -21,9 +21,9 @@ if($sub=='Cancel'){
 	}
 elseif($sub=='Submit'){
 	$openerId=$_POST['openid'];
-	
+
 	if($gradingname==''){
-		$d_gn=mysql_query("SELECT grading_name FROM assessment WHERE subject_id='$bid' LIMIT 1;");
+		$d_gn=mysql_query("SELECT rating_name FROM report_skill WHERE subject_id='$pid' and profile_id='$rid' LIMIT 1;");
 		$gn=mysql_fetch_row($d_gn);
 		$gradingname=$gn[0];
 		}

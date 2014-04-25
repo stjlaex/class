@@ -159,6 +159,9 @@ two_buttonmenu($extrabuttons,$book);
 		  </td>
 <?php
 	   foreach($rids as $index => $rid){
+	   		if($reportdefs[$index]['report']['course_id']=="wrapper"){
+				$addphotos=$reportdefs[$index]['report']['addphotos'];
+				}
    			$summaries=(array)$reportdefs[$index]['summaries'];
 			foreach($summaries as $summary){
 				$summaryid=$summary['subtype'];
@@ -231,7 +234,7 @@ two_buttonmenu($extrabuttons,$book);
 					}
 				}
 			}
-	if($uploadpic=='yes' or $yid<3){
+	if($addphotos=="yes"){
 ?>
 		  <td>
 		  	<div class="txt-center" id="upload-<?php print $sid;?>">

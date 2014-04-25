@@ -4,6 +4,18 @@ requestxmlHttp();
 $(document).ready(function() {
 	$(":checkbox, :radio").not('.hidden').uniform();
 })
+
+/*Actions for share area in Infobook/Enrolment*/
+$('#sharearea').change(function (){
+		$("#filesharearea").val($(this).val());
+		});
+$('#sharebutton').click(function (){
+	$("#formfiledelete input[name='fileids[]']:checked:enabled").each(function (){
+		$('<input>').attr({type: 'hidden', name: 'fileids[]',value: $(this).val()}).appendTo('#formfileshare');
+		});
+	$('#formfileshare').submit();
+	});
+
 //$(document).ready(function() { console.log($(":checkbox").not('.checker input')); })
 function requestxmlHttp(){
 	try { xmlHttp=new XMLHttpRequest(); } 
@@ -838,12 +850,25 @@ function fillxmlForm(xmlRecord,once){
 					id=xmlRecord.parentNode.parentNode.parentNode.getElementsByTagName('ID_DB')[0].firstChild.nodeValue;
 					gsid=id+'-Archivecount';
 					scorecount=document.getElementById(gsid).childNodes[0].nodeValue.trim();
+					var hiddengena=document.getElementById('hiddenGradingscheme');
 					if(scorecount>0){
 						document.getElementById('Gradingscheme').disabled=true;
+						if(hiddengena){
+							document.getElementById('formtoprocess').removeChild(hiddengena);
+							}
+						var gsinput=document.createElement('input');
+						gsinput.name="gena";
+						gsinput.type="hidden";
+						gsinput.id="hiddenGradingscheme";
+						gsinput.value=document.getElementById('Gradingscheme').value;
+						document.getElementById('formtoprocess').appendChild(gsinput);
 						document.getElementById('displaygrading').style.display='block';
 						}
 					else{
 						document.getElementById('Gradingscheme').removeAttribute("disabled");
+						if(hiddengena){
+							document.getElementById('formtoprocess').removeChild(hiddengena);
+							}
 						document.getElementById('displaygrading').style.display='none';
 						}
 					}
@@ -2018,6 +2043,23 @@ function createPreviewFrame(tags,height,code){
 	iframe.contentWindow.document.close();
 	document.getElementById('code').value=code;
 	}
+
+/*Appends a hidden input to a form or a div*/
+function appendHiddenInput(parent, name, id, value) {
+	var input = document.createElement('input');
+	input.type = 'hidden';
+	input.name = name;
+	input.id = id;
+	input.value = value;
+	document.getElementById(parent).appendChild(input);
+	}
+
+/*Remove a child from a div or form parent*/
+function removeHiddenInput(parent,id) {
+	var child=document.getElementById(id);
+	document.getElementById(parent).removeChild(child);
+	}
+
 //
 function openAlert(book) {
     //document.getElementById(book+"options").innerHTML=window.frames["view"+book].document.getElementById("hiddenbookoptions").innerHTML;

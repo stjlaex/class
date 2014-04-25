@@ -2064,7 +2064,7 @@ function fetchMeritsTotal($sid,$year){
    	$d_m=mysql_query("SELECT SUM(value) FROM merits WHERE student_id='$sid' AND year='$year' AND result!='Commendation';");
 	$sum=mysql_result($d_m,0);
 
-	/* Commendations have the special vlaue of 4 and counted per term*/
+	/* Commendations have the special value of 4 and counted per term*/
 	$date1=$year.'-01-01';
 	$date2=$year.'-04-01';
 	$date3=$year.'-08-01';

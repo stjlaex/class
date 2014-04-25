@@ -24,6 +24,7 @@ require_once($CFG->dirroot.'/lib/fetch_report.php');
 require_once($CFG->dirroot.'/lib/fetch_attendance.php');
 require_once($CFG->dirroot.'/lib/fetch_transport.php');
 require_once($CFG->dirroot.'/lib/fetch_meals.php');
+require_once($CFG->dirroot.'/lib/fetch_skills.php');
 require_once($CFG->dirroot.'/lib/fetch_templates.php');
 require_once($CFG->dirroot.'/lib/language.php');
 require_once($CFG->dirroot.'/lib/html_functions.php');

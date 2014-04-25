@@ -24,5 +24,4 @@ include('scripts/set_book_vars.php');
 		}
 ?>
   </div>
-
 <?php include('scripts/end_options.php');?>

@@ -16,7 +16,10 @@ if($sub=='Submit'){
 
 	include('scripts/file_import_xml.php');
 
-	$inrecords=sizeof($xml['form']['submissions']['submission']);
+	if(sizeof($xml['form']['submissions']['submission'])>1 and is_array($xml['form']['submissions']['submission'][0])){$submissions=$xml['form']['submissions']['submission'];}
+	else{$submissions=$xml['form']['submissions'];}
+
+	$inrecords=sizeof($submissions);
 	$result[]='Succesfully uploaded	'.$inrecords.' records.';
 
 	$sids=array();
@@ -29,6 +32,7 @@ if($sub=='Submit'){
 	function import_xml_read_fields($import,$Current,$fields,$date_format){
 		foreach($fields as $studentfield => $inputfield){
 
+			
 			if(is_array($import[$inputfield])){
 				foreach($import[$inputfield] as $junk){
 					trigger_error('WHAT HAPPENED! '.$inputfield.' = '.$junk,E_USER_WARNING);
@@ -106,9 +110,7 @@ if($sub=='Submit'){
 	$blank_Phone=(array)fetchPhone();
 	$blank_Enrolment=(array)fetchEnrolment();
 
-	foreach($xml['form']['submissions']['submission'] as $index => $import){
-	
-
+	foreach($submissions as $index => $import){
 		foreach($tables as $table => $fields){
 			if($table=='student'){
 				$Current=$blank_Student;

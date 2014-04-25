@@ -56,6 +56,7 @@ $string['studentdbid']='ClaSS Database ID';
 $string['importscores']='Import scores';
 $string['nocommentsfound']='No comments found!';
 $string['limittoonetype']='Limit to one type';
+$string['reportphotos']='Report photos upload';
 $string['estimate']='Estimate';
 $string['result']='Result';
 $string['target']='Target';
@@ -63,4 +64,5 @@ $string['formatoffilenewassessment']='Format of file: Description, ElementID, Pr
 $string['unlock']='Unlock';
 $string['assessmentcurriculummessage']='Hide the assessment columns in order to change these values.';
 $string['assessmentgradingmessage']='To change this value you should reset the scores.';
+$string['attendancestartdate']='Attendance start date';
 ?>

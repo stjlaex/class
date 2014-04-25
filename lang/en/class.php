@@ -499,4 +499,6 @@ $string['emphasized']='Emphasized';
 $string['iban']='IBAN';
 $string['bic']='BIC';
 $string['chart']='Chart';
+$string['lock']='Lock';
+$string['unlock']='Unlock';
 ?>

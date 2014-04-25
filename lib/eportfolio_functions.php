@@ -303,7 +303,7 @@ function epf_append_to_comment($html,$epfusername,$commentid){
 
 	global $CFG;
 	if($CFG->eportfolio_db!=''){
-		$dbepf=db_connect(true,$CFG->eportfolio_db);
+		$dbepf=db_connect(false,$CFG->eportfolio_db);
 		mysql_query("SET NAMES 'utf8'");
 		}
 	$table=$CFG->eportfolio_db_prefix.'weblog_posts';
@@ -757,7 +757,7 @@ function elgg_new_homework($tid,$classname,$bid,$pid,$title,$body,$dateset){
 /**
  *
  */
-function elgg_new_comment($epfu,$dateset,$message,$title,$tid){
+function elgg_new_comment($epfu,$dateset,$message,$title,$tid,$sid){
 
 	list($year,$month,$day)=explode('-',$dateset);
 	$posted=mktime(0,0,0,$month,$day,$year);
@@ -801,10 +801,10 @@ function elgg_new_comment($epfu,$dateset,$message,$title,$tid){
 			$table=$CFG->eportfolio_db_prefix.'users';
 			$d_u=mysql_query("SELECT name FROM $table WHERE ident='$epfuid';");
 			$recipient['studentname']=mysql_result($d_u,0);
-			$recipient['sid']=$epfuid;
-			$d_u=mysql_query("SELECT email FROM $table WHERE ident='$epfuidmember';");
-			$recipient['emailaddress']=trim(mysql_result($d_u,0));
-			$recipient['gid']=$epfuidmember;
+			$recipient['sid']=$sid;
+			$d_u=mysql_query("SELECT email,username FROM $table WHERE ident='$epfuidmember';");
+			$recipient['emailaddress']=trim(mysql_result($d_u,0,'email'));
+			$recipient['username']=trim(mysql_result($d_u,0,'username'));
 			$recipients[]=$recipient;
 			}
 		elgg_send_email($recipients,"comment");
@@ -826,12 +826,11 @@ function elgg_new_comment($epfu,$dateset,$message,$title,$tid){
  */
 function elgg_send_email($recipients,$emailtype,$template='classicemail'){
 	global $CFG;
+	$success=false;
 
 	$sends=array();//use to avoid mulitple notification meassages to the same address
 	foreach($recipients as $recipient){
 		if($recipient['emailaddress']!='' and !in_array($recipient['emailaddress'],$sends)){
-			$sid=$recipient['sid'];
-			$gid=$recipient['gid'];
 			$sends[]=$recipient['emailaddress'];
 			$title=get_string('epf'.$emailtype.'title','infobook').' '.$CFG->schoolname;
 			$messagehtml=get_string('epf'.$emailtype.'email','infobook',$recipient['studentname'])
@@ -841,22 +840,39 @@ function elgg_send_email($recipients,$emailtype,$template='classicemail'){
 			$messagehtml.='<br><hr><p>'. $footer.'<p>';
 			$emailaddress=strtolower($recipient['emailaddress']);
 			/*Add template if exists for Classic email named classicemail*/
-			$dbt=db_connect(true,'class');
+			$dbt=db_connect();
+			mysql_query("SET NAMES 'utf8'");
 			$templates=getTemplates('tmp',$template);
 			if(count($templates)>0){
+				if(isset($recipient['gid'])){$gid=$recipient['gid'];}
+				else{
+					$gepfusername=$recipient['username'];
+					$d_g=mysql_query("SELECT id FROM guardian WHERE epfusername='$gepfusername';");
+					$gid=mysql_result($d_g,0);
+					}
+				if(isset($recipient['sid'])){$sid=$recipient['sid'];}
+				else{
+					$sepfusername=$recipient['student_username'];
+					$d_g=mysql_query("SELECT student_id FROM info WHERE epfusername='$sepfusername';");
+					$sid=mysql_result($d_g,0);
+					}
+				
 				$type['{{type}}']=$emailtype;
 				$tags=getTags(true,'default',$uid=array('student_id'=>$sid,'guardian_id'=>$gid));
 				$tags=array_merge($tags,$type);
 				$messagehtml=getMessage($tags,'',$template);
 				$messagetxt=strip_tags(html_entity_decode($messagehtml, ENT_QUOTES, 'UTF-8'));
 				}
+
 			/*Add email to message_event table*/
 			$dbn=db_connect(false,$CFG->eportfolio_db);
+			mysql_query("SET NAMES 'utf8'");
 			$table=$CFG->eportfolio_db_prefix.'message_event';
-			send_email_to($emailaddress,'',$title,$messagetxt,$messagehtml,'','',$dbn,$table);
+			if(send_email_to($emailaddress,'',$title,$messagetxt,$messagehtml,'','',$dbn,$table)){$success=true;}
+			else{trigger_error('Couldn\'t send email to : '.$recipient['emailaddress'],E_USER_NOTICE);}
 			}
 		}
-
+		return $success;
 	}
 
 /**
@@ -989,15 +1005,15 @@ function elgg_upload_files($filedata,$dbc=true){
 							$recipient=array();
 							$epfuidmember=$friend['owner'];
 							$table=$CFG->eportfolio_db_prefix.'users';
-							$d_u=mysql_query("SELECT name FROM $table WHERE ident='$epfuid';");
-							$recipient['studentname']=mysql_result($d_u,0);
-							$recipient['sid']=$epfuid;
-							$d_u=mysql_query("SELECT email FROM $table WHERE ident='$epfuidmember';");
-							$recipient['emailaddress']=trim(mysql_result($d_u,0));
-							$recipient['gid']=$epfuidmember;
+							$d_u=mysql_query("SELECT name,username FROM $table WHERE ident='$epfuid';");
+							$recipient['studentname']=mysql_result($d_u,0,'name');
+							$recipient['student_username']=mysql_result($d_u,0,'username');
+							$d_u=mysql_query("SELECT email,username FROM $table WHERE ident='$epfuidmember';");
+							$recipient['emailaddress']=trim(mysql_result($d_u,0,'email'));
+							$recipient['username']=trim(mysql_result($d_u,0,'username'));
 							$recipients[]=$recipient;
 							}
-						elgg_send_email($recipients,"report");
+						if(!elgg_send_email($recipients,"report")){trigger_error('Couldn\'t send eportfolio email: '.$recipient['studentname'],E_USER_WARNING);}
 						}
 					}
 
@@ -1302,11 +1318,15 @@ function delete_file($filedata){
 	else{
 		mysql_query("DELETE FROM file WHERE id='$file_id';");
 		}
-	
-	if(unlink($filedata['path'])){
-		$success=true;
+
+	$flocation=$filedata['flocation'];
+	$d_f=mysql_query("SELECT * FROM file WHERE location='$flocation';");
+	if(mysql_num_rows($d_f)==1){
+		if(unlink($filedata['path'])){
+			$success=true;
+			}
+		else{trigger_error('Could not remove file from eportfolio: '.$filedata['path'],E_USER_WARNING);}
 		}
-	else{trigger_error('Could not remove file from eportfolio: '.$filedata['path'],E_USER_WARNING);}
  
 
 	return $success;
@@ -1411,10 +1431,17 @@ function list_files($epfun,$foldertype,$linkedid='-1',$bid=''){
 			$attachment='';
 			}
 
-		$d_f=mysql_query("SELECT file.id, title, description, location, originalname FROM file 
+		if($foldertype=='enrolment'){
+			$sharedfiles=" OR (file_folder.name!='$foldertype' AND parent_folder_id!=0); ";
+			}
+		else{
+			$sharedfiles="";
+			}
+
+		$d_f=mysql_query("SELECT file.id, title, description, location, originalname, other_id, folder_id,file_folder.parent_folder_id,file_folder.name FROM file 
 						JOIN file_folder ON file_folder.id=file.folder_id
 						WHERE $attachment file.owner_id='$epfuid' AND file.owner='$folder_usertype' 
-						AND file_folder.name='$foldertype';");
+						AND file_folder.name='$foldertype' $sharedfiles");
 		while($file=mysql_fetch_array($d_f,MYSQL_ASSOC)){
 			if($foldertype=='assessment'){
 				/*

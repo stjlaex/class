@@ -62,7 +62,7 @@ $section_perm=get_admin_perm('s',get_uid($tid));
   </form>
 
 <?php 
-	if($rtid=='administrator'){
+	if($rtid=='administrator' or $rtid=='classadmin'){
 ?>
 	<form id="configadminchoice" name="configadminchoice" method="post" action="admin.php" target="viewadmin">
 	  <fieldset class="admin selery">

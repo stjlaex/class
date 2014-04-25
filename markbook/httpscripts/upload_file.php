@@ -48,6 +48,7 @@ else{
 <script src="../../js/jcrop/jquery.min.js" type="text/javascript"></script>
 <script src="../../js/book.js?version=1043" type="text/javascript"></script>
 <script src="../../js/documentdrop.js?version=1043" type="text/javascript"></script>
+<script src="../../js/jcrop/jquery.min.js" type="text/javascript"></script>
 <script src="../../js/qtip.js" type="text/javascript"></script>
 </head>
 <body onload="loadRequired('<?php print $book; ?>');documentdropInit();">
@@ -60,43 +61,93 @@ else{
 	<div class="content">
 		<div class="listmenu fileupload">
 <?php
-if($openid=="epfsharedfile"){
-	html_document_drop($Student['EPFUsername']['value'], 'assessment', $eid, '', $openid);
-	}
-else{
-	html_document_drop($Student['EPFUsername']['value'], 'assessment', $eid);
-	}
+		require_once('../../lib/eportfolio_functions.php');
+		if($openid=="epfsharedfile"){
+			html_document_drop($Student['EPFUsername']['value'],'assessment',$eid,'',$openid);
+			}
+		elseif($openid==""){
+			html_document_drop($Student['EPFUsername']['value'],'assessment',$eid);
+			}
+		else{
 ?>
-	</div>
-
-
+		<form id="formtoprocess2" name="formtoprocess2" method="post" action="upload_file_action.php">
+				<fieldset class="center">
+					<legend><?php print_string('documents',$book);?></legend>
+					<div style="width:90%;float:left;">
+<?php
+				$oid=$eid;
+				$d_s=mysql_query("SELECT id FROM report_skill WHERE id='$bid' AND subject_id='$pid';");
+				if(mysql_num_rows($d_s)>0){$oid=$bid;}
+				html_files_preview($Student['EPFUsername']['value'],$oid);
+?>
+					</div>
+<?php
+				if(mysql_num_rows($d_s)>0){
+?>
+					<div style="width:60px;float:left;">
+						<button name="action"
+							  value="Remove"><?php print_string('remove');?></button>
+					</div>
+<?php
+					}
+?>
+				</fieldset>
+			</div>
+			<input type="hidden" name="sid" value="<?php print $sid; ?>"/>
+			<input type="hidden" name="eid" value="<?php print $eid; ?>"/>
+			<input type="hidden" name="bid" value="<?php print $bid; ?>"/>
+			<input type="hidden" name="pid" value="<?php print $pid; ?>"/>
+			<input type="hidden" name="openid" value="<?php print $openid; ?>"/>
+		</form>
+		<fieldset class="center">
+			<legend><?php print_string('upload',$book);?></legend>
+<?php
+			html_document_drop($Student['EPFUsername']['value'],'assessment',$bid,'-1','',false);
+?>
+		</fieldset>
+<?php
+			}
+?>
 
 	<form id="formtoprocess" name="formtoprocess" method="post" action="upload_file_action.php">
 
-		<div class="listmenu fileupload">
-			<div class="center">
 <?php
-if($openid!="epfsharedfile"){
-	if($_SESSION['worklevel']>-1 and ($CFG->emailguardiancomments=='yes' or ($CFG->emailguardiancomments=='limit' and $perm['x']==1))){
-		/*$checkname = 'sharewithparents';
-		$checkcaption = get_string('sharewithguardian', 'infobook');
-		$checkalert = get_string('sharecommentalert', 'infobook');*/
-		/* TODO: implement share with parents */
-		/*include ('../../scripts/check_yesno.php');
-		unset($checkalert);*/
-		}
-	}
+	if($openid!="epfsharedfile" and $openid!=""){
+?>
+		<fieldset class="center">
+			<legend><?php print_string('copy',$book);?></legend>
+			<div style="width:90%;float:left;">
+<?php
+			html_files_preview($Student['EPFUsername']['value'],$eid);
+			html_files_preview($Student['EPFUsername']['value'],$eid,false,$pid);
+			$d_o=mysql_query("SELECT DISTINCT id FROM report_skill WHERE profile_id='$eid' AND id!='$bid';");
+			while($other=mysql_fetch_array($d_o,MYSQL_ASSOC)){
+				html_files_preview($Student['EPFUsername']['value'],$other['id']);
+				}
 ?>
 			</div>
-		</div>
-
-		<input type="hidden" name="inmust" value="<?php print $inmust; ?>"/>
-		<input type="hidden" name="sid" value="<?php print $sid; ?>"/>
-		<input type="hidden" name="bid" value="<?php print $bid; ?>"/>
-		<input type="hidden" name="pid" value="<?php print $pid; ?>"/>
-		<input type="hidden" name="eid" value="<?php print $eid; ?>"/>
-		<input type="hidden" name="openid" value="<?php print $openid; ?>"/>
-	</form>
+<?php
+			if(mysql_num_rows($d_o)>0){
+?>
+			<div style="width:40px;float:left;">
+				<button  name="action"
+				  value="Copy"><?php print_string('copy');?></button>
+			</div>
+<?php
+				}
+?>
+		</fieldset>
+<?php
+		}
+?>
+			<input type="hidden" name="inmust" value="<?php print $inmust; ?>"/>
+			<input type="hidden" name="sid" value="<?php print $sid; ?>"/>
+			<input type="hidden" name="bid" value="<?php print $bid; ?>"/>
+			<input type="hidden" name="pid" value="<?php print $pid; ?>"/>
+			<input type="hidden" name="eid" value="<?php print $eid; ?>"/>
+			<input type="hidden" name="openid" value="<?php print $openid; ?>"/>
+		</form>
+	</div>
 
 
 </body>

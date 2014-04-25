@@ -12,8 +12,10 @@
 	foreach($cohorts as $cohort){
 		$crid=$cohort['course_id'];
 		$year=$cohort['year'];
+		$stage=$cohort['stage'];
 		$d_r=mysql_query("SELECT report_id FROM ridcatid JOIN report ON ridcatid.categorydef_id=report.id
 								WHERE ridcatid.subject_id='wrapper' AND report.year='$year' AND report.course_id='$crid' 
+								AND (report.stage='$stage' OR report.stage='%')
 								AND report.date<'$startdate' ORDER BY report.date DESC, report.title;");
 		while($r=mysql_fetch_array($d_r,MYSQL_ASSOC)){
 			$rid=$r['report_id'];

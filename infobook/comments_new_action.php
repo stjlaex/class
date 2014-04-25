@@ -198,11 +198,11 @@ include('scripts/sub_action.php');
 		if($CFG->eportfolio_db!='' and $epfu!=''){
 			/* Set guardians field in comments table to 1 to indicate shared. */
 			mysql_query("UPDATE comments SET guardians='1' WHERE id='$commentid';");
-			elgg_new_comment($epfu,$entrydate,$message,$title,$tid);
+			elgg_new_comment($epfu,$entrydate,$message,$title,$tid,$sid);
 			$result[]='Shared with parents.';
 			}
 		}
 
-include('scripts/results.php');	
-include('scripts/redirect.php');	
+include('scripts/results.php');
+include('scripts/redirect.php');
 ?>
