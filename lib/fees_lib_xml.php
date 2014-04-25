@@ -41,7 +41,7 @@ function create_fees_file($remid,$Students){
 
 	$e2eid=1;
 	foreach($Students as $sid => $Student){
-		if($e2eid<=99){
+		//if($e2eid<=99){
 			$Account=(array)fetchAccount($Student['payee']['id']);
 			if($Account['Iban']['value']!='' and checkIBAN($Account['Iban']['value'])){$IBAN=$Account['Iban']['value'];}
 			else{
@@ -93,7 +93,7 @@ function create_fees_file($remid,$Students){
 				$NbOfTxs++;
 				$e2eid++;
 				}
-			}
+			//}
 		}
 
 	$Account=$Remittance['Account'];
