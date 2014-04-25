@@ -346,20 +346,12 @@ function openModalWindow(src,content){
 	$("#printFrame").load(function(){
 		if($(this).contents().find("#bookbox")){
 			$(this).contents().find("#bookbox").toggleClass( "bookbox-active" );
-			
 			$(this).height( $(this).contents().find("#bookbox").outerHeight(true));
-			var test = $(this).height();
-			//alert (test);
-			
-			
 			$('.vex.vex-ld-theme .thanks-modal').height($(this).contents().find("#bookbox").outerHeight(true));
-			//$('.vex.vex-ld-theme .thanks-modal').css('margin-top', - ($(this).contents().find("#bookbox").outerHeight(true) / 2) );
-			//$('.vex.vex-ld-theme .thanks-modal').css({'top':'20px', 'margin-top':'0', 'background': 'none'});
 			$('.vex.vex-ld-theme .thanks-modal').toggleClass( "thanks-modal-active" );
-
-			}
-		});
-	}
+		}
+	});
+}
 
 /**
  * adds the images and attributes to required input fields

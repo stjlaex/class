@@ -523,21 +523,26 @@
   height: 420px;
 }
 
-.vex.vex-ld-theme .vex-content.print-modal {
-  width: 780px;
-  width: calc(750px + 2em);
-  height: 100%;
-}
+
 .vex.vex-ld-theme .vex-content .xslt {
   height: 100%;
   padding: 10px 0 0 0;
 }
-.vex.vex-ld-theme .print-modal {
+.vex.vex-ld-theme .vex-content.print-modal {
+  width: 780px;
+  width: calc(750px + 2em);
+  height: 100%;
   background: none repeat scroll 0 0 #FFFFFF;
   border-radius: 0;
   box-shadow: 10px 10px 5px #757575;
 }
-
+.vex.vex-ld-theme .vex-content.print-modal #printFrame  {
+  box-shadow: none;
+}
+.vex.vex-ld-theme .vex-content.print-modal .fa.fa-print  {
+  font-size: 22px;
+  cursor: pointer;
+}
 
 @media print {
   body.vex-open {
