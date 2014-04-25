@@ -89,7 +89,7 @@ else{$checkmids=array();}
 		/*send the workbook w/ spreadsheet and close them*/ 
 		$workbook->close();
 ?>
-		<script>openFileExport('xls');</script>
+		<input type="hidden" name="openexport" id="openexport" value="xls">
 <?php
 		}
 

@@ -188,7 +188,7 @@ if(sizeof($sids)==0){
 		$workbook->close();
 		//$result[]='exportedtofile';
 ?>
-		<script>openFileExport('xls');</script>
+		<input type="hidden" name="openexport" id="openexport" value="xls">
 <?php
 		}
 
