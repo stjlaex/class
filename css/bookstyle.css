@@ -104,6 +104,9 @@ input[readonly="readonly"] {
   background-color: #cccccc;
 }
 
+.table-scrollable {
+  overflow-x: auto;
+}
 table {
   width: 100%;
   height: 100%;
@@ -1260,4 +1263,5 @@ fieldset.divgroup.markbook-img {
 .rowaction	{
 	display: inline;
 	float:right;
+	margin: 5px;
 }
