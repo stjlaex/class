@@ -111,7 +111,7 @@ if(!$file){
 
 		$workbook->close();
 ?>
-		<script>openFileExport('xls');</script>
+		<input type="hidden" name="openexport" id="openexport" value="xls">
 <?php
 		}
 

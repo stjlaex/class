@@ -473,9 +473,8 @@
   height: 420px;
   left: 50% !important;
   margin-left: -40% !important;
-  margin-top: -210px;
   position: absolute !important;
-  top: 50%;
+  top: 20px;
   width: 80% !important;
   padding: 0;
   background-color: #FFFFFF;
@@ -520,7 +519,7 @@
   border: none;
   width: 100%;
   box-shadow: 10px 10px 5px #757575;
-  height: 95%;
+  height: 96%;
 }
 
 

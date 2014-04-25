@@ -15,6 +15,8 @@ $('#sharebutton').click(function (){
 		});
 	$('#formfileshare').submit();
 	});
+/*OpenExport*/
+if($('#openexport').val()){openFileExport($('#openexport').val());}
 
 //$(document).ready(function() { console.log($(":checkbox").not('.checker input')); })
 function requestxmlHttp(){
@@ -1301,21 +1303,18 @@ function trim(s){
  * functions previously in the file printing.js
  */
 function openFileExport(ftype){
-	printWindow=window.open('','','height=250,width=450,dependent');
-	printWindow.document.open();
-	printWindow.document.writeln("<html>");
-	printWindow.document.writeln("<head>");
-	printWindow.document.writeln("<meta http-equiv='pragma' content='no-cache'/>");
-	printWindow.document.writeln("<meta http-equiv='Expires' content='0'/>");
-	printWindow.document.writeln("</head>");
-	printWindow.document.writeln("<script type='text/javascript'>function actionpage(){document.location='scripts/export.php?ftype="+ftype+"'}</script>");
-	printWindow.document.writeln("<body onLoad=\"setTimeout('actionpage()', 5000);\">");
-	printWindow.document.writeln("<h3>The file will download shortly.<h2>");
-	printWindow.document.writeln("<h4>Open using your favourite Spreadsheet.<h4>");
-	printWindow.document.writeln("<form><input type='button' value='Close This Window' onClick='window.close();' /></form>");
-	printWindow.document.writeln("</body>");
-	printWindow.document.writeln("</html>");
-	printWindow.document.close();
+	var html="<html>";
+	html+="<head>";
+	html+="<meta http-equiv='pragma' content='no-cache'/>";
+	html+="<meta http-equiv='Expires' content='0'/>";
+	html+="</head>";
+	html+="<script type='text/javascript'>function actionpage(){document.location='scripts/export.php?ftype="+ftype+"';document.getElementById('roller').removeChild(document.getElementById('loading'));parent.vex.close();}var loading=document.createElement('img');loading.src='images/roller.gif';loading.id='loading'</script>";
+	html+="<body onLoad=\"document.getElementById('roller').appendChild(loading);setTimeout('actionpage()', 5000);\" style='background-color:#FFFFFF;padding:50px;'>";
+	html+="<h3>The file will download shortly.<h2>";
+	html+="<h4>Open using your favourite Spreadsheet.<h4><div id='roller' class='roller'></div>";
+	html+="</body>";
+	html+="</html>";
+	parent.openModalWindow('',html);
 	}
 
 function openXMLExport(ftype){
