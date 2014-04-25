@@ -1209,7 +1209,7 @@ fieldset.divgroup.markbook-img {
 .sort_column_desc a.sortable:after {
   content: "\f0de";
 }
-.sort_column_asc a.sortable, .sort_column_desc a.sortable, .sort_column_default a.sortable {
+.sort_column_asc .no-label a.sortable, .sort_column_desc .no-label a.sortable, .sort_column_default .no-label a.sortable {
   display: block;
   font-family: 'FontAwesome';
   position: absolute;
@@ -1220,6 +1220,12 @@ fieldset.divgroup.markbook-img {
   width: 10px;
   cursor: pointer;
 }
+
+a.sortable, a.sortable, a.sortable {
+  right: -18px!important;
+}
+
+
 .sort_column_asc .selector, .sort_column_desc .selector, .sort_column_default .selector {
   margin-right: 10px !important;
 }
