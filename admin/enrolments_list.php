@@ -214,10 +214,8 @@ if(isset($_POST['startdate'])){$startdate=$_POST['startdate'];}
   </div>
   <div class="content">
 	<form name="formtoprocess" id="formtoprocess" method="post" action="<?php print $host; ?>">
-	  <div  class="fullwidth" id="viewcontent">
-		  <caption>
-			<?php print_string($comtype,$book);?>
-		  </caption>
+	  <div id="viewcontent">
+		  <h4><?php print_string($comtype,$book);?></h4>
 		<table class="listmenu sidtable" id="sidtable">
 		  <thead>
 		  <tr>
@@ -226,40 +224,47 @@ if(isset($_POST['startdate'])){$startdate=$_POST['startdate'];}
 			</th>
 			<th style="width:40%;"><?php print $description;?></th>
 			<th>
-				<?php print_string('yeargroup','infobook');?>
-				<div class="div-sortable">
+				<div class="div-sortable no-label">
+					<?php print_string('yeargroup','infobook');?>
 	                <a href="#" class="sortable"></a>
                 </div>
 			</th>
-			<th><?php print_string('schoolstartdate','infobook');?></th>
-<?php
-
-		$required='no';$multi='1';
-		$colspan=2 + sizeof($AssDefs);
-		if($enrolstage=='RE'){
-			foreach($AssDefs as $AssDef){
-				print '<th>'.$AssDef['Description']['value'].'</th>';
+			<th>
+				<div class="div-sortable no-label">
+					<?php print_string('schoolstartdate','infobook');?>
+	                <a href="#" class="sortable"></a>
+                </div>
+			</th>
+			<?php
+				$required='no';$multi='1';
+				$colspan=2 + sizeof($AssDefs);
+				if($enrolstage=='RE'){
+					foreach($AssDefs as $AssDef){
+						print '<th><div class="div-sortable no-label">'.$AssDef['Description']['value'].'<a href="#" class="sortable"></a></div></th>';
+						}
+					}
+				elseif($comtype=='allapplied' or 
+					   $enrolstatus=='year' or $enrolstatus=='alumni'){
+						print '<th colspan="'.$colspan.'"><div class="div-sortable no-label">'.get_string('enrolstatus','infobook').'<a href="#" class="sortable"></a></div></th>';
+					}
+				else{
+					foreach($AssDefs as $ano => $AssDef){
+						if($AssDef['Course']['value']!='%'){$coursename=get_coursename($AssDef['Course']['value']);}
+						else{$coursename='';}
+						$sortno=$ano+4;
+						$sort_types.=",'s'";
+			?>
+			<th>
+				<div class="div-sortable no-label">
+					<?php print $AssDef['Description']['value'];?>
+	                <a href="#" class="sortable"></a>
+                </div>
+			</th>			
+			<?php
+					}
+				print '<th><div class="div-sortable no-label">'.get_string('enrolstatus','infobook').'<a href="#" class="sortable"></a></div></th>';
 				}
-			}
-		elseif($comtype=='allapplied' or 
-			   $enrolstatus=='year' or $enrolstatus=='alumni'){
-				print '<th colspan="'.$colspan.'">'.get_string('enrolstatus','infobook').'</th>';
-			}
-		else{
-			foreach($AssDefs as $ano => $AssDef){
-				if($AssDef['Course']['value']!='%'){$coursename=get_coursename($AssDef['Course']['value']);}
-				else{$coursename='';}
-				$sortno=$ano+4;
-				$sort_types.=",'s'";
-?>
-		<th> 
-				<?php print $AssDef['Description']['value'];?>
-		</th>
-<?php
-				}
-			print '<th>'.get_string('enrolstatus','infobook').'</th>';
-			}
-?>
+			?>
 		  </tr>
 		</thead>
 <?php

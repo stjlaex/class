@@ -1220,6 +1220,11 @@ fieldset.divgroup.markbook-img {
   width: 10px;
   cursor: pointer;
 }
+
+.no-label a.sortable, .no-label a.sortable, .no-label a.sortable {
+  right: -18px;
+}
+
 .sort_column_asc .selector, .sort_column_desc .selector, .sort_column_default .selector {
   margin-right: 10px !important;
 }
