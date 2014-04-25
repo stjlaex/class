@@ -44,13 +44,14 @@ function optionSelectStart(selectObject, event) {
         selectObject.optPanel.find('li').each(function(index, element) {
         var elementObj = $(element)
         resetOption(elementObj);
+        $(event.currentTarget).addClass('locked selected');
         })
     } else {
+        $(event.currentTarget).toggleClass('selected');
         selectObject.optPanel.find('li.selected').each(function(index, element) {
             $(element).addClass('locked');
         });
     }
-    $(event.currentTarget).addClass('locked selected');
 }
 function resetOption(elementObj) {
     elementObj.removeClass('locked');
@@ -60,7 +61,7 @@ function resetOption(elementObj) {
 }
 function toggleOptionsPanel(selectObject) {
     if (selectObject.optPanel.hasClass('show-selection')) {
-        return
+        selectObject.optPanel.removeClass('show-selection')
     }
     selectObject.optPanel.addClass('show-selection');
     selectObject.optPanel.find('li').each(function(index, element) {
@@ -115,7 +116,7 @@ function endSelectGroup(selectObject) {
     $(selectObject.select).val(selected);
     selectObject.select.onchange();
     turnOffSelectEvents(selectObject);
-    toggleOptionsPanel(selectObject);
+    selectObject.optPanel.removeClass('show-selection')
     updateDisplay(selectObject);
 }
 function turnOffSelectEvents(selectObject) {
