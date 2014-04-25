@@ -210,6 +210,11 @@ function fetchAssessmentDefinition($eid){
 								'field_db'=>'statistics',
 								'type_db'=>'', 
 								'value'=>''.$ass['statistics']);
+	$AssDef['LockLevel']=array('label'=>'Lock Level',
+								'table_db'=>'assessment', 
+								'field_db'=>'lock_level',
+								'type_db'=>'enum', 
+								'value'=>''.$ass['lock_level']);
 
 	$gena=''.$ass['grading_name'];
 	if($gena!='' and $gena!=' '){

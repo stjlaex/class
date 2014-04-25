@@ -196,6 +196,16 @@ three_buttonmenu($extrabuttons);
 <?php
 		/* TODO: Change when reportbook/new_assessment changes */
 		$extrabuttons=array();
+		$extrabuttons['lock']=array('name'=>'current',
+											   'id'=>'lock'.$eid,
+											   'title'=>'lockassessment',
+											   'value'=>'lock_assessment.php',
+											   'onclick'=>'clickToAction(this); document.getElementById(\'unlock'.$eid.'\').style.display=\'block\'; this.style.display=\'none\';');
+		$extrabuttons['unlock']=array('name'=>'current',
+											   'id'=>'unlock'.$eid,
+											   'title'=>'unlockassessment',
+											   'value'=>'unlock_assessment.php',
+											   'onclick'=>'clickToAction(this); document.getElementById(\'lock'.$eid.'\').style.display=\'block\'; this.style.display=\'none\';');
 		$extrabuttons['generatecolumns']=array('name'=>'current',
 											   'id'=>'generatecolumns'.$eid,
 											   'title'=>'generatecolumns',
@@ -224,6 +234,18 @@ three_buttonmenu($extrabuttons);
 			$AssDef['ComponentStatus']['disabled']='true';
 			$AssDef['StrandStatus']['disabled']='true';
 			$AssDef['MarkCount']['value']=$AssCount['MarkCount']['value'];
+			}
+		if($AssDef['LockLevel']['value']==0){
+			$extrabuttons['lock']['display']='block';
+			$extrabuttons['unlock']['display']='none';
+			}
+		elseif($AssDef['LockLevel']['value']==1){
+			$extrabuttons['lock']['display']='none';
+			$extrabuttons['unlock']['display']='block';
+			}
+		else{
+			$extrabuttons['lock']['display']='none';
+			$extrabuttons['unlock']['display']='none';
 			}
 
 		if(!isset($AssDef['Derivation']['value'][0]) or (isset($AssDef['Derivation']['value'][0]) and ($AssDef['Derivation']['value'][0]==' ' or $AssDef['Derivation']['value'][0]==''))){

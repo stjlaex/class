@@ -141,7 +141,12 @@ if($_SESSION['worklevel']>-1){
 	for($col=0;$col<sizeof($umns);$col++){
 		if($umns[$col]['marktype']=='score' or $umns[$col]['marktype']=='hw'){
 			/* If it is an assessment column and older than 60 days then lock from editing, unless you have course permissions. */
-			if(($umns[$col]['entrydate']<$cutoffdate and $umns[$col]['assessment']!='no' and $r==-1)){
+			if(($umns[$col]['locklevel']==1 and $umns[$col]['assessment']!='no' and $r==-1)){
+				print '<th class="'.$umns[$col]['displayclass'].'" id="'.$umns[$col]['id'].'"><span title="'.$umns[$col]['comment'].'">' 
+					  .$umns[$col]['topic'].'<p>'.display_date($umns[$col]['entrydate']).'</p>
+	      <p class="component">'.$umns[$col]['component'].'</p>'.$umns[$col]['marktype'].'<input type="checkbox" name="checkmid[]" value="'.$umns[$col]['id'].'" /></span></th>';
+				}
+			elseif($umns[$col]['locklevel']==2 and $umns[$col]['assessment']!='no'){
 				print '<th class="'.$umns[$col]['displayclass'].'" id="'.$umns[$col]['id'].'"><span title="'.$umns[$col]['comment'].'">' 
 					  .$umns[$col]['topic'].'<p>'.display_date($umns[$col]['entrydate']).'</p>
 	      <p class="component">'.$umns[$col]['component'].'</p>'.$umns[$col]['marktype'].'<input type="checkbox" name="checkmid[]" value="'.$umns[$col]['id'].'" /></span></th>';
@@ -150,8 +155,9 @@ if($_SESSION['worklevel']>-1){
 				print '<th class="'.$umns[$col]['displayclass'].'" id="'.$umns[$col]['id'].'"><span title="'.$umns[$col]['comment'].'"><a 
 				href="markbook.php?current=edit_scores.php&cancel=class_view.php&scoretype='. 
 					  $scoretype[$col].'&grading_name='. 
-					  $scoregrading[$col].'&mid='.$umns[$col]['id'].'&col='.$col.'"><img class="clicktoedit"/>' 
-					  .$umns[$col]['topic'].'<p>'.display_date($umns[$col]['entrydate']).'</p></a>
+					  $scoregrading[$col].'&mid='.$umns[$col]['id'].'&col='.$col.'">';
+				if($umns[$col]['locklevel']==0){print '<img class="clicktoedit"/>';}
+				print $umns[$col]['topic'].'<p>'.display_date($umns[$col]['entrydate']).'</p></a>
 	      <p class="component">'.$umns[$col]['component'].'</p>'.$umns[$col]['marktype'].'<input type="checkbox" name="checkmid[]" value="'.$umns[$col]['id'].'" /></span></th>';
 				}
 			}

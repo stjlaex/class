@@ -495,4 +495,6 @@ $string['underlined']='Underlined';
 $string['emphasized']='Emphasized';
 $string['iban']='IBAN';
 $string['bic']='BIC';
+$string['lock']='Lock';
+$string['unlock']='Unlock';
 ?>

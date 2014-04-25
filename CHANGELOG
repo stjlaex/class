@@ -1,3 +1,17 @@
+Version ClaSS-1.0.68 release (2014/04/25)
+-------------------------------------------
+
+New field for assessment table for locking/unlocking an assessment.
+
+Button added to Report/Manage Assessments for locking/unlocking assessments.
+
+
+Version ClaSS-1.0.67 release (2014/04/24)
+-------------------------------------------
+
+New fields for history table: ip, classis version and browser.
+
+
 Version ClaSS-1.0.66 release (2014/04/23)
 -------------------------------------------
 

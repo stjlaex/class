@@ -1037,7 +1037,7 @@ function getTermsValues($year="",$profiles=array('ELG','EYFS3648','EYFS2436')){
 		}
 	$preyear=$year-1;
 	$dates['firstentry']=$preyear."-09-01";
-	$dates['term1']=$preyear."-12-31";
+	$dates['term1']=$year."-01-10";
 	$dates['term2']=$year."-04-06";
 	$dates['term3']=$year."-07-31";
 	$terms=array($dates['term1']=>"Term 1",$dates['term2']=>"Term 2",$dates['term3']=>"Term 3");
@@ -1084,9 +1084,9 @@ function createTermStatementsAssessments($year="",$current=true,$profile=""){
 				$d_a=mysql_query("SELECT id FROM assessment WHERE description='$description' AND year='$year' AND course_id='$crid' AND deadline='$date' AND component_status='$component_status';");
 				if(mysql_num_rows($d_a)==0){
 					mysql_query("INSERT INTO assessment (stage, year, subject_id, description, label,profile_name,
-												 resultstatus, element, course_id, deadline,component_status) 
+												 resultstatus, element, course_id, deadline,component_status,lock_level) 
 										VALUES ('%', '$year', '%', '$description', '$label','$profile_name',
-												'R', '$element','$crid', '$date', '$component_status');");
+												'R', '$element','$crid', '$date', '$component_status',2);");
 					$eid=mysql_insert_id();
 					generate_assessment_columns($eid);
 					}
