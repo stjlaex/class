@@ -71,7 +71,7 @@ if($_SESSION['worklevel']>-1){
   <div id="viewcontent" class="content">
 	<form id="formtoprocess" name="formtoprocess" 
 	  method="post" action="markbook.php">
-
+        <div class="table-scrollable">
 	  <table class="sidtable marktable listmenu" id="sidtable">
 		<tr>
 <?php 
@@ -335,7 +335,7 @@ print ' <td status="p" >'.$attlink.'</td>';
 ?>
 		</tr>
 	  </table>
-
+    </div>
 	<input type="hidden" name="current" value="" />		
 	<input type="hidden" name="cancel" value="<?php print $cancel;?>" />
 	<input type="hidden" name="choice" value="<?php print $choice;?>" />
