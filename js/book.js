@@ -1303,22 +1303,18 @@ function trim(s){
  * functions previously in the file printing.js
  */
 function openFileExport(ftype){
-	
 	var html="<html>";
 	html+="<head>";
 	html+="<meta http-equiv='pragma' content='no-cache'/>";
 	html+="<meta http-equiv='Expires' content='0'/>";
 	html+="</head>";
-	html+="<script type='text/javascript'>function actionpage(){document.location='scripts/export.php?ftype="+ftype+"'}</script>";
-	html+="<body onLoad=\"setTimeout('actionpage()', 5000);\" style='background-color:#FFFFFF;padding:50px;'>";
-	//html+="<div id='bookbox'";
+	html+="<script type='text/javascript'>function actionpage(){document.location='scripts/export.php?ftype="+ftype+"';document.getElementById('roller').removeChild(document.getElementById('loading'));parent.vex.close();}var loading=document.createElement('img');loading.src='images/roller.gif';loading.id='loading'</script>";
+	html+="<body onLoad=\"document.getElementById('roller').appendChild(loading);setTimeout('actionpage()', 5000);\" style='background-color:#FFFFFF;padding:50px;'>";
 	html+="<h3>The file will download shortly.<h2>";
-	html+="<h4>Open using your favourite Spreadsheet.<h4>";
-	//html+="</div>";
+	html+="<h4>Open using your favourite Spreadsheet.<h4><div id='roller' class='roller'></div>";
 	html+="</body>";
 	html+="</html>";
 	parent.openModalWindow('',html);
-	//parent.vex.close();
 	}
 
 function openXMLExport(ftype){
