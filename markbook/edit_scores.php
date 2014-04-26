@@ -60,7 +60,7 @@ three_buttonmenu();
 		print '<th>'.get_string('decimalvalue',$book).'</th>';
 		}
 ?>
-		  <th style="background-color:#444;border-color:#444;width:10px;">&nbsp;</th>
+		  <th style="width:10px;">&nbsp;</th>
 <?php
 	if($scoretype=='percentage'){
 		$total=$umns[$col]['mark_total'];
@@ -134,7 +134,7 @@ three_buttonmenu();
 			print '<td><input pattern="decimal" type="text" tabindex="'.$tab.'" name="'.$sid.'" maxlength="8" value="'.$viewtable[$c]["score$mid"]['value'].'" /></td>';
 			}
 ?>
-			<td style="background-color:#444;border-color:#444;width:10px;"></td>
+			<td></td>
 
 <?php
 		if($scoretype=='percentage'){

@@ -14,14 +14,11 @@
 	else{
 		$sel_classes=list_teacher_classes($tid,'%','%',$curryear);
 		}
-	$nocids=sizeof($sel_classes);
-	if($nocids>6){$nocids=6;}
 ?>
 
 <input name="tid" type="hidden" value="<?php print $tid;?>">
 <input name="current" type="hidden" value="class_view.php">		
-<select name="cids[]" size="<?php print $nocids; ?>"
-		  multiple="multiple" onchange="document.classchoice.submit();">
+<select name="cids[]" multiple="multiple" onchange="document.classchoice.submit();" title="<?php print_string('choose');?>">
 <?php
 	foreach($sel_classes as $sel_class){
 		print '<option ';

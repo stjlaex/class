@@ -131,9 +131,10 @@ function turnOffSelectEvents(selectObject) {
     })
 }
 function updateDisplay(selectObject) {
-    var count = $(selectObject.select).find("option").length
-    var selectedCount = $(selectObject.select).find(":selected").length
-    selectObject.display.text(selectedCount + "/" + count);
+    var count = $(selectObject.select).find("option").length;
+    var selectedCount = $(selectObject.select).find(":selected").length;
+    var title = $(selectObject.select).attr("title");
+    selectObject.display.text(title + "  " + selectedCount + " / " + count);
 }
 function addSelectClass(event) {
     $(event.currentTarget).addClass('selected');

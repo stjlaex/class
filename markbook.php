@@ -183,7 +183,7 @@ $_SESSION['lessonatt'] = $lessonatt;
 		<form id="gradechoice" name="gradechoice"  method="post" action="markbook.php" target="viewmarkbook">
 			<fieldset class="markbook">
 				<legend><?php print_string('markcolumns');?></legend>
-				<select id="mids" name="mids[]" size="14" multiple="multiple" onChange="changeMarkDisplay(this.form);">
+				<select id="mids" name="mids[]" size="14" multiple="multiple"  title="<?php print_string('choose');?>" onChange="changeMarkDisplay(this.form);">
 <?php
 		for ($col = 0; $col < sizeof($umns); $col++) {
 			if ($umns[$col]['component'] == $pid or $pid == '') {
