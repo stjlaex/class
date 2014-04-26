@@ -5,16 +5,7 @@ $(document).ready(function() {
 	$(":checkbox, :radio").not('.hidden').uniform();
 })
 
-/*Actions for share area in Infobook/Enrolment*/
-$('#sharearea').change(function (){
-		$("#filesharearea").val($(this).val());
-		});
-$('#sharebutton').click(function (){
-	$("#formfiledelete input[name='fileids[]']:checked:enabled").each(function (){
-		$('<input>').attr({type: 'hidden', name: 'fileids[]',value: $(this).val()}).appendTo('#formfileshare');
-		});
-	$('#formfileshare').submit();
-	});
+
 /*OpenExport*/
 if($('#openexport').val()){openFileExport($('#openexport').val());}
 
@@ -1438,9 +1429,29 @@ function serializeXML(xmlDocument){
 
 /*-------------------------------------------------------*/
 
-/**
- * Functions previous in separate file register.js
- */
+//------------------------------------------------------
+//
+function listplusInit() {
+    $( ".button" ).click(function() {
+        $( ".listhide" ).slideToggle( "slow" );
+        $( '.button strong' ).toggleClass( "minus" );
+    });
+}
+
+
+/* Actions for share area in Infobook/Enrolment */
+function shareareaInit() {
+    $('#sharearea').change(function (){
+	$("#filesharearea").val($(this).val());
+	});
+    $('#sharebutton').click(function (){
+	$("#formfiledelete input[name='fileids[]']:checked:enabled").each(function (){
+		$('<input>').attr({type: 'hidden', name: 'fileids[]',value: $(this).val()}).appendTo('#formfileshare');
+		});
+	$('#formfileshare').submit();
+	});
+}
+
 
 
 function sidtableInit(){
@@ -1506,6 +1517,13 @@ function undecorateStudent(tdObj){
 	var sidId=getrowsidId(tdObj);
 	removeExtraFields(sidId,'merit','');
 	}
+
+
+
+
+/**
+ * Functions related exclusively to the Register
+ */
 
 /**
  * Highlight the student row when the attendnace input has focus. 
