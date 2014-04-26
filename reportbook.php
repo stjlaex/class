@@ -93,9 +93,9 @@ include('scripts/set_book_vars.php');
 	<form id="reportadminchoice" name="reportadminchoice" method="post" action="reportbook.php" target="viewreportbook">
 	  <fieldset class="reportbook selery">
 		<legend><?php print_string('manage');?></legend>
-        <?php
+<?php
             selery_select_stick($choices,$choice,$book);
-        ?>
+?>
 	  </fieldset>
 	</form>
   </div>

@@ -596,7 +596,7 @@ ul.listmenu {
   display: none;
   margin-top: 10px;
 }
-.button {
+.button, td.clickrow  {
   cursor: pointer;
 }
 

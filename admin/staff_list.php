@@ -25,52 +25,45 @@ two_buttonmenu($extrabuttons);
             <fieldset class="divgroup">
                 <div class="center">
                     <form name="formtoprocess2" id="formtoprocess2" method="post" novalidate action="<?php print $host; ?>">
-                        <?php
+<?php
                             $sections=list_sections();
                             $listlabel='section';
                             $listname='listsecid';
                             include('scripts/set_list_vars.php');
                             list_select_list($sections,$listoptions,$book);
                             unset($listoptions);
-                        ?>
-            <div style="float:right;">
+?>
+            <div class="rowaction">
               <button type="submit" name="sub" value="list">
                 <?php print_string('filterlist');?>
               </button>
             </div>
+<?php
+            if($aperm==1){
+	      $options=array(array('id'=>'current','name'=>'current'),array('id'=>'previous','name'=>'previous'));
+	      foreach($options as $option){
+                if($option['id']==$listoption){$checked=' checked="checked" ';}else{$checked='';}
+                print '<div class="rowaction"><input type="radio" name="listoption" '.$checked.' value="'.$option['id'].'">'.get_string($option['name'],$book).get_string('staff',$book).'</input></div>';
+	      }
+	    }
+?>
+            
             
             <div class="center">
-              <table class="listmenu">
+              <table>
                 <tr>
                   <th><?php print get_string('role',$book);?></th>
-                </tr>
-            <?php
+		  </tr>
+		  <tr>
+<?php
             $userroles=$CFG->roles;
             foreach($userroles as $userrole){
                 if(in_array($userrole,$listroles)){$checked=' checked="checked" ';}else{$checked='';}
-                print '<tr><td><input type="checkbox" name="listroles[]" '.$checked.' value="'.$userrole.'">'.get_string($userrole).'</input></td></tr>';
+                print '<td><input type="checkbox" name="listroles[]" '.$checked.' value="'.$userrole.'">'.get_string($userrole).'</input></td>';
                 }
-            ?>
+?>
+		</tr>
               </table>
-            
-            <?php
-            if($aperm==1){
-            ?>
-                <table class="listmenu">
-                  <tr>
-            <?php
-            $options=array(array('id'=>'current','name'=>'current'),array('id'=>'previous','name'=>'previous'));
-            foreach($options as $option){
-                if($option['id']==$listoption){$checked=' checked="checked" ';}else{$checked='';}
-                print '<td><input type="radio" name="listoption" '.$checked.' value="'.$option['id'].'">'.get_string($option['name'],$book).get_string('staff',$book).'</input></td>';
-                }
-            ?>
-                  </tr>
-                </table>
-            <?php
-                }
-            ?>
-            
             </div>
               <input type="hidden" name="current" value="<?php print $action; ?>">
               <input type="hidden" name="choice" value="<?php print $choice; ?>">
@@ -78,41 +71,41 @@ two_buttonmenu($extrabuttons);
               </form>
             </div>
             </fieldset>
-        
-                            <div class="div-sortable">
-                                <a href="#" class="sortable"></a>
-                            </div>
-  <div class="center">
-  <form name="formtoprocess" id="formtoprocess" method="post" novalidate action="<?php print $host; ?>">
-  <h5><?php print get_string($listoption,$book).' '.get_string('staff',$book);?></h5>
-<table id="sidtable" class="listmenu sidtable">
-    <thead>
-      <tr>
-        <th style="width:1em;">
-          <?php print_string('checkall'); ?>
-          <input type="checkbox" name="checkall" value="yes" onChange="checkAll(this,'uids[]');" />
-        </th>
-        <th>
+
             <div class="div-sortable">
+	      <a href="#" class="sortable"></a>
+            </div>
+            <div class="center">
+	      <form name="formtoprocess" id="formtoprocess" method="post" novalidate action="<?php print $host; ?>">
+	      <h5><?php print get_string($listoption,$book).' '.get_string('staff',$book);?></h5>
+	      <table id="sidtable" class="listmenu sidtable">
+	    <thead>
+	      <tr>
+	      <th style="width:1em;">
+	        <?php print_string('checkall'); ?>
+	        <input type="checkbox" name="checkall" value="yes" onChange="checkAll(this,'uids[]');" />
+	      </th>
+	      <th>
+	      <div class="div-sortable">
                 <span style="display: inline-block; margin-right: 10px;"><?php print_string('surname',$book);?></span>
                 <a class="sortable"></a>
-            </div>
-        </th>
-        <th>
-            <div class="div-sortable">
+	      </div>
+	      </th>
+	      <th>
+	      <div class="div-sortable">
                 <span style="display: inline-block; margin-right: 10px;"><?php print_string('forename',$book);?></span>
                 <a class="sortable"></a>
-            </div>
-        </th>
-        <th>
-            <div class="div-sortable">
-                <span style="display: inline-block; margin-right: 10px;"><?php print_string('username');?></span>
-                <a class="sortable"></a>
-            </div>
-        </th>
-        <th><?php print_string('email',$book);?></th>
-      </tr>
-    </thead>
+	      </div>
+	      </th>
+	      <th>
+	      <div class="div-sortable">
+	        <span style="display: inline-block; margin-right: 10px;"><?php print_string('username');?></span>
+	        <a class="sortable"></a>
+	      </div>
+	      </th>
+	      <th><?php print_string('email',$book);?></th>
+	      </tr>
+	    </thead>
 <?php
 
 
@@ -143,18 +136,18 @@ foreach($users as $user){
 ?>
 <?php
         if($aperm==1 or $user['uid']==$_SESSION['uid'] or $_SESSION['role']=='office'){
-            print '<tr class="clickableRow" data-url="admin.php?current=staff_details.php&cancel='.$choice.'&choice='.$choice.'&seluid='.$user['uid'].'">';
+            print '<tr class="clickrow" data-clickrow-url="admin.php?current=staff_details.php&cancel='.$choice.'&choice='.$choice.'&seluid='.$user['uid'].'">';
             }
         else{
 	  print '<tr>';
             }
 ?>
       <td>
-        <input type="checkbox" name="uids[]" value="<?php print $user['uid'];?>" />
+	 <input type="checkbox" name="uids[]" value="<?php print $user['uid'];?>" />
       </td>
-      <td><?php print $User['Surname']['value'];?></td>
-      <td><?php print $User['Forename']['value'];?></td>
-      <td><?php print $User['Username']['value'];?></td>
+      <td class="clickrow"><?php print $User['Surname']['value'];?></td>
+      <td class="clickrow"><?php print $User['Forename']['value'];?></td>
+      <td class="clickrow"><?php print $User['Username']['value'];?></td>
       <td><?php print $User['EmailAddress']['value'];?></td>
     </tr>
 <?php

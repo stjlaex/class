@@ -1490,6 +1490,11 @@ function sidtableInit(){
 				undecorateStudent(this);
 				};
 			}
+		else if(tdObj.className=="clickrow"){
+			tdObj.onclick=function() {
+				document.location = tdObj.parentNode.getAttribute("data-clickrow-url");
+				};
+			}
 		else if(tdObj.className=="edit" | tdObj.className=="edit extra"){
 			var selObj=tdObj.getElementsByTagName("select")[0];
 			selObj.onfocus=function(){checkAttendance(this)};
