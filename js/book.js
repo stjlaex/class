@@ -1515,12 +1515,38 @@ function decorateStudent(tdObj){
 	if(document.getElementById("add-merit-"+sidId)==null){
 		addExtraFields(sidId,null,'merit','');
 		}
+
+	/* Optionally (if a mini- div is present) adds a mini profile photo */
+	if(document.getElementById('mini-'+sidId)){
+		if(!document.getElementById('mini-'+sidId).hasChildNodes()){
+			var a = document.createElement("a");
+			a.href = pathtoapplication+'infobook.php?current=student_view.php&cancel=student_view.php&sid='+sidId+'&sids[]='+sidId;
+			a.setAttribute("id", "miniaturechange"+sidId);
+			a.setAttribute("target", "viewinfobook");
+			a.onclick=function(){parent.viewBook("infobook");};
+			//creates a miniature and displays it
+			var img = document.createElement("img");
+			img.src = pathtoapplication+'scripts/photo_display.php?sid='+sidId+'&size=mini';
+			img.setAttribute("id", "miniature");
+			//when the mouse is over displays the main div and appends the link and inside it the image
+			document.getElementById('mini-'+sidId).appendChild(a);
+			document.getElementById('miniaturechange'+sidId).appendChild(img);
+			}
+		}
 	}
 
 
 function undecorateStudent(tdObj){
 	var sidId=getrowsidId(tdObj);
 	removeExtraFields(sidId,'merit','');
+	/* remove the mini photo if present */
+	if(document.getElementById('mini-'+sidId)){
+		var a=document.getElementById("miniaturechange"+sidId);
+		if(document.getElementById('mini-'+sidId).hasChildNodes()){
+			document.getElementById('mini-'+sidId).removeChild(a);
+			}
+		}
+
 	}
 
 
@@ -1705,52 +1731,25 @@ function addExtraFields(sidId,cellId,extraId,containerId){
 				//update uniform js element
 				if (newElements[i].value && newElements[i].previousSibling.tagName == "SPAN") {
 					newElements[i].previousSibling.textContent = newElements[i].options[newElements[i].selectedIndex ].text || "";
+					}
 				}
-		    }
-		} 
-	}
+			} 
+		}
        
 	if(editContainer){
 		editContainer.insertBefore(extraDiv,null);
-		if (selElem) {
+		if(selElem){
 			selElem.onchange = function(event) { updateUniformSelect(event.currentTarget) }
-		}
-	}
-		
-	/* Optionally (if a mini div is present) inserts a mini profile photo */
-	if(document.getElementById('mini-'+sidId)){
-		if(!document.getElementById('mini-'+sidId).hasChildNodes()){
-			var a = document.createElement("a");
-			a.href = pathtoapplication+'infobook.php?current=student_view.php&cancel=student_view.php&sid='+sidId+'&sids[]='+sidId;
-			a.setAttribute("id", "miniaturechange"+sidId);
-			a.setAttribute("target", "viewinfobook");
-			a.onclick=function(){parent.viewBook("infobook");};
-			//creates a miniature and displays it
-			var img = document.createElement("img");
-			img.src = pathtoapplication+'scripts/photo_display.php?sid='+sidId+'&size=mini';
-			img.setAttribute("id", "miniature");
-			//when the mouse is over displays the main div and appends the link and inside it the image
-			document.getElementById('mini-'+sidId).appendChild(a);
-			document.getElementById('miniaturechange'+sidId).appendChild(img);
 			}
-		}
-		
-    
+		}    
 	}
 
 function removeExtraFields(sidId,extraId,containerId){
 	if(containerId==''){containerId=extraId;}
 	var editContainer=document.getElementById(containerId+"-"+sidId);
 	var extraDiv=document.getElementById("add-"+extraId+"-"+sidId);
-	var a=document.getElementById("miniaturechange"+sidId);
-	var img=document.getElementById("miniature");
 	if(extraDiv){
 		document.getElementById(containerId+"-"+sidId).removeChild(extraDiv);
-		}
-	if(document.getElementById('mini-'+sidId)){
-		if(document.getElementById('mini-'+sidId).hasChildNodes()){
-			document.getElementById('mini-'+sidId).removeChild(a);
-			}
 		}
 	}
 
