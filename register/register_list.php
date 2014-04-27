@@ -200,10 +200,11 @@ else{
   <div id="viewcontent" class="content">
 	  <form id="formtoprocess" name="formtoprocess" method="post" action="<?php print $host;?>">
 		<table class="listmenu sidtable" id="sidtable">
-		<tr>
-		    <th width="6%"></th>
-		    <th width="6%"></th>
-		    <th></th>
+		  <thead>
+			<tr>
+			  <th width="6%"></th>
+			  <th width="6%"></th>
+			  <th></th>
 <?php
 	/* This events array will determine which events are displayed */
 	$events=array();
@@ -259,6 +260,7 @@ else{
 ?>
 		  </th>
 		</tr>
+	  </thead>
 <?php
 	$rown=1;
 	foreach($students as $student){

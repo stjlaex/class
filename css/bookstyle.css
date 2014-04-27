@@ -77,7 +77,7 @@ input, textarea, select {
   font-size: 14px;
 }
 input:focus, textarea:focus, select:focus {
-  border-color: #ff9900;
+  border-color: #f39c12;
   z-index: 10000;
 }
 input[type=text], input[type=date], input[type=password], textarea {
@@ -88,10 +88,10 @@ input[type=text], input[type=date], input[type=password], textarea {
   font-size: 14px;
 }
 input:focus[type=text], input[type=date]:focus, textarea:focus {
-  border: solid 1px #34495e;
+  border: solid 1px #f39c12;
 }
 input[type=text], input[type=date] {
-  height: 20px;
+  height: 25px;
 }
 option[value=""] {
   background-color: #eeeeee;

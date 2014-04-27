@@ -23,12 +23,13 @@ div.selector, div.checker, div.button, div.radio, div.uploader {
   vertical-align: middle;
   /* Keeping this as :focus to remove browser styles */
 }
-/* custom for the documnet drop in Classis*/
+/* custom for the document drop in Classis*/
 div.uploader span.action, div.uploader span.filename {
   display: none;
 }
 div.selector:focus, div.checker:focus, div.button:focus, div.radio:focus, div.uploader:focus {
   outline: 0;
+  border: solid 2px #f39c12;
 }
 div.selector, div.selector *, div.radio, div.radio *, div.checker, div.checker *, div.uploader, div.uploader *, div.button, div.button * {
   margin: 0;
@@ -119,7 +120,10 @@ div.selector.registerEdit {
   border: solid 1px #bac1c8;
 }
 div.selector.registerEdit.hover {
-  border: solid 1px #34495e;
+  border: solid 1px #f39c12;
+}
+div.selector.registerEdit.focus {
+  border: solid 1px #f39c12;
 }
 div.selector.registerEdit span {
   background-position: right -135px;
@@ -273,7 +277,7 @@ select.uniform-multiselect {
   background-color: #ebedef;
 }
 select.uniform-multiselect:focus {
-  border: 2px solid #91c73e;
+  border: 2px solid #f39c12;
   z-index: 10000;
 }
 
