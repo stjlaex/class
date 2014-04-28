@@ -502,4 +502,5 @@ $string['chart']='Chart';
 $string['lock']='Lock';
 $string['unlock']='Unlock';
 $string['choose']='Choose';
+$string['logout']='Logout';
 ?>
