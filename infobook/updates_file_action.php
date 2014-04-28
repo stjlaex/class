@@ -10,10 +10,12 @@ include('scripts/sub_action.php');
 
 if(isset($_POST['catid'])){$catid=$_POST['catid'];}
 if(isset($_POST['update'])){$update=$_POST['update'];}
+if(isset($_POST['format'])){$format=$_POST['format'];}
 
+if($format=='xml'){$action='export_students_xml.php';}
 
 if($sub=='Submit'){
-	if(!empty($catid) and $catid!='uncheck'){
+	if((!empty($catid) and $catid!='uncheck') or ((empty($catid) or $catid=='uncheck') and $format!='')){
 		$sids=array();
 		if($update==1){
 			$d_u=mysql_query("SELECT student_id FROM update_event WHERE export='0';");

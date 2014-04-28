@@ -42,19 +42,19 @@ include('scripts/perm_action.php');
 	  <fieldset class="profile">
 		<div class="left">
 <?php 
-	$listname='enrolstatus';$listlabel='enrolstatus';$required='yes';
+	$listname='enrolstatus';$listlabel='enrolstatus';$listlabelstyle='external';$required='yes';
 	include('scripts/set_list_vars.php');
 	list_select_enum('enrolstatus',$listoptions,$book);
 ?>
 <?php
-	$listname='enrolyear';$listlabel='enrolmentyear';$required='yes';
+	$listname='enrolyear';$listlabel='enrolmentyear';$listlabelstyle='external';$required='yes';
 	$enrolyear=$Enrolment['Year']['value'];
 	include('scripts/list_calendar_year.php');
 ?>
 		</div>
 		<div class="right">
 <?php 
-	$listname='enrolyid';$listlabel='yeargroup';$required='yes';
+	$listname='enrolyid';$listlabel='yeargroup';$listlabelstyle='external';$required='yes';
 	$enrolyid=$Enrolment['YearGroup']['value'];
 	include('scripts/list_year.php');
 ?>
