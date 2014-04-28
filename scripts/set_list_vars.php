@@ -25,6 +25,7 @@ if(isset($onsidechange)){$listoptions['onsidechange']=$onsidechange;unset($onsid
 if(isset($onchange)){$listoptions['onchange']=$onchange;unset($onchange);}else{$listoptions['onchange']='no';}
 if(isset($liststyle)){$listoptions['style']='style="'.$liststyle.'"';unset($liststyle);}else{$listoptions['style']='';}
 if(isset($listlabel)){$listoptions['label']=$listlabel;unset($listlabel);}else{$listoptions['label']=$listname;}
+if(isset($listlabelstyle)){$listoptions['labelstyle']=$listlabelstyle;unset($listlabelstyle);}else{$listoptions['labelstyle']='';}
 if(isset($listvaluefield)){$listoptions['valuefield']=$listvaluefield;}else{$listoptions['valuefield']='id';}
 if(isset($listdescriptionfield)){$listoptions['descriptionfield']=$listdescriptionfield;}else{$listoptions['descriptionfield']='name';}
 if(isset($listfilter)){$listoptions['filter']=$listfilter;unset($listfilter);}else{$listoptions['filter']='';}
