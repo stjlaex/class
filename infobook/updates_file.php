@@ -62,6 +62,40 @@ three_buttonmenu();
 	</div>
 
 
+<?php
+if($tid=='administrator' or $tid=='classadmin'){
+?>
+	<br/>
+	<div class="center">
+	  <table class="listmenu">
+		<tr>
+		  <th colspan="2">
+			<?php print_string('selectformat',$book); ?>
+		  </th>
+		</tr>
+		<tr>
+		  <td>
+			<input type="radio" name="format" value="xls" checked="yes"/>
+		  </td>
+		  <td>
+			<?php print_string('xls',$book); ?>
+		  </td>
+		</tr>
+		<tr>
+		  <td>
+			<input type="radio" name="format" value="xml" />
+		  </td>
+		  <td>
+			<?php print_string('xml',$book); ?>
+		  </td>
+		</tr>
+	  </table>
+	</div>
+
+<?php
+	}
+?>
+
 	<input type="hidden" name="colno" value="<?php print $displayfields_no;?>" />
 	<input type="hidden" name="current" value="<?php print $action;?>" />
 	<input type="hidden" name="cancel" value="<?php print 'student_list.php';?>" />

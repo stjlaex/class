@@ -431,9 +431,13 @@ function loadRequired(book) {
         window.frames["view" + book].listplusInit();
     }
 
-    if (window.frames["view" + book].document.getElementById("sharearea")) {
-        window.frames["view" + book].shareareaInit();
-    }
+	if (window.frames["view" + book].document.getElementById("sharearea")) {
+		window.frames["view" + book].shareareaInit();
+		}
+
+	if (window.frames["view" + book].document.getElementById("openexport")) {
+		window.frames["view" + book].openexportInit();
+		}
 
     /*prepares the span elements with title attributes for qtip*/
     if (window.frames["view" + book].tooltip) {

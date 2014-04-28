@@ -6,9 +6,6 @@ $(document).ready(function() {
 })
 
 
-/*OpenExport*/
-if($('#openexport').val()){openFileExport($('#openexport').val());}
-
 //$(document).ready(function() { console.log($(":checkbox").not('.checker input')); })
 function requestxmlHttp(){
 	try { xmlHttp=new XMLHttpRequest(); } 
@@ -1299,7 +1296,7 @@ function openFileExport(ftype){
 	html+="<meta http-equiv='pragma' content='no-cache'/>";
 	html+="<meta http-equiv='Expires' content='0'/>";
 	html+="</head>";
-	html+="<script type='text/javascript'>function actionpage(){document.location='scripts/export.php?ftype="+ftype+"';document.getElementById('roller').removeChild(document.getElementById('loading'));parent.vex.close();}var loading=document.createElement('img');loading.src='images/roller.gif';loading.id='loading'</script>";
+	html+="<script type='text/javascript'>function actionpage(){document.location='scripts/export.php?ftype="+ftype+"';document.getElementById('roller').removeChild(document.getElementById('loading'));setTimeout('parent.vex.close()', 1800);}var loading=document.createElement('img');loading.src='images/roller.gif';loading.id='loading'</script>";
 	html+="<body onLoad=\"document.getElementById('roller').appendChild(loading);setTimeout('actionpage()', 5000);\" style='background-color:#FFFFFF;padding:50px;'>";
 	html+="<h3>The file will download shortly.<h2>";
 	html+="<h4>Open using your favourite Spreadsheet.<h4><div id='roller' class='roller'></div>";
@@ -1441,17 +1438,21 @@ function listplusInit() {
 
 /* Actions for share area in Infobook/Enrolment */
 function shareareaInit() {
-    $('#sharearea').change(function (){
-	$("#filesharearea").val($(this).val());
-	});
-    $('#sharebutton').click(function (){
-	$("#formfiledelete input[name='fileids[]']:checked:enabled").each(function (){
-		$('<input>').attr({type: 'hidden', name: 'fileids[]',value: $(this).val()}).appendTo('#formfileshare');
+	$('#sharearea').change(function (){
+		$("#filesharearea").val($(this).val());
 		});
-	$('#formfileshare').submit();
-	});
-}
+	$('#sharebutton').click(function (){
+		$("#formfiledelete input[name='fileids[]']:checked:enabled").each(function (){
+			$('<input>').attr({type: 'hidden', name: 'fileids[]',value: $(this).val()}).appendTo('#formfileshare');
+			});
+		$('#formfileshare').submit();
+		});
+	}
 
+/*OpenExport*/
+function openexportInit() {
+	if($('#openexport').val()){openFileExport($('#openexport').val());}
+	}
 
 
 function sidtableInit(){

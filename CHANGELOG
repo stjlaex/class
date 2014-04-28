@@ -1,5 +1,7 @@
-Version 2.0.2 release (2014/04/27)
+Version 2.0.2 release (2014/04/28)
 -------------------------------------------
+
+Added XML export option to Infobook/Updates export.
 
 The first production of release of the new design. All changes post
 this release to be logged to this file.
