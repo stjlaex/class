@@ -10,7 +10,7 @@ if(!isset($required)){$required='yes';}
 if(isset($User['Role']['value'])){$role=$User['Role']['value'];}
 ?>
 
-  <label for="book"><?php print_string('book');?></label>
+  <label for="book"><?php print get_string('start').' '.get_string('book');?></label>
   <select name="book" id="book" size="1" tabindex="<?php print $tab++;?>" 
   <?php if($required=='yes'){ print ' class="required" ';} ?> >
    	<option value=""></option>

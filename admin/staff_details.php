@@ -19,25 +19,37 @@ three_buttonmenu();
 ?>
   <div class="content">
 	<form name="formtoprocess" id="formtoprocess" method="post" novalidate action="<?php print $host; ?>">
-	  <fieldset class="divgroup">
-		<h5><?php print_string('account',$book);?></h5>
-		<?php photo_img($User['EPFUsername']['value'],$seluid,'w','staff'); ?>
 
-		  <label for="ID"><?php print_string('username');?></label>
-		  <input pattern="truealphanumeric" readonly="readonly" type="text" id="ID" name="username" maxlength="14" value="<?php print $User['Username']['value'];?>" />
-			<br /><br />
-			
-			<?php 
+		<div class="staff-box passlabel">
+		  <?php photo_img($User['EPFUsername']['value'],$seluid,'w','staff'); ?>
+		</div>
+
+		<div class="staff-box">
+		  <fieldset class="divgroup">
+			<p>
+			  <label for="ID"><?php print_string('username');?></label>
+			  <input pattern="truealphanumeric" readonly="readonly" type="text" id="ID" name="username" maxlength="14" value="<?php print $User['Username']['value'];?>" />
+			</p>
+			<p>
+<?php 
 				$selbook=$User['FirstBook']['value'];
 				include('scripts/list_books.php');
-			?>
-			
+?>
+		  </p>
+		  </fieldset>
+		</div>
+
+
+		<div class="staff-box">
+		  <fieldset class="divgroup">
+
 <?php
 if($_SESSION['role']=='admin' or $aperm==1){
 ?>
-		  <br /><label for="Work level"><?php print_string('workexperiencelevel',$book);?></label>
-		  <select name="worklevel" id="Worklevel" size="1" tabindex="<?php print $tab++;?>" class="required" >
-			<option value=""></option>
+		  <p>
+			<label for="Work level"><?php print_string('workexperiencelevel',$book);?></label>
+			<select name="worklevel" id="Worklevel" size="1" tabindex="<?php print $tab++;?>" class="required" >
+			  <option value=""></option>
 				<?php
 						$worklevels=array('-1'=>'useless','0'=>'tryharder','1'=>'good','2'=>'verygood');
 						foreach($worklevels as $index => $worklevel){
@@ -46,24 +58,36 @@ if($_SESSION['role']=='admin' or $aperm==1){
 							print	' value="'.$index.'">'.get_string($worklevel,$book).'</option>';
 							}
 				?>
-		  </select>
-		  		  <br />
-
-		  <?php $selrole=$User['Role']['value']; include('scripts/list_roles.php');?>
-			<?php
+			</select>
+		  </p>
+		  <p>
+<?php 
+					 $selrole=$User['Role']['value']; 
+					 include('scripts/list_roles.php');
+?>
+		  </p>
+		  <p>
+<?php
 					  unset($key);
-					  $listname='senrole';$selsenrole=$User['SENRole']['value'];$listlabel='senrole';
+					  $listname='senrole';$selsenrole=$User['SENRole']['value'];
+					  $listlabel='senrole';$listlabelstyle='external';
 					  include('scripts/set_list_vars.php');
 					  $list[]=array('id'=>'0','name'=>get_string('no'));
 					  $list[]=array('id'=>'1','name'=>get_string('yes'));
 					  list_select_list($list,$listoptions);
-			
+?>
+		  </p>
+		  <p>
+<?php		
 					  unset($key);
-					  $listname='medrole';$selmedrole=$User['MedRole']['value'];$listlabel='medrole';$required='yes';
+					  $listname='medrole';$selmedrole=$User['MedRole']['value'];
+					  $listlabel='medrole';$listlabelstyle='external';
+					  $required='yes';
 					  include('scripts/set_list_vars.php');
 					  list_select_list($list,$listoptions);
 			
-			?>
+?>
+		  </p>
 <?php
 		}
 	else{
@@ -77,31 +101,48 @@ if($_SESSION['role']=='admin' or $aperm==1){
 		}
 ?>
 		</fieldset>
+	</div>
 
 <?php
 	if($_SESSION['role']=='admin'  or $aperm==1){
 ?>
-<div class="staff-box passlabel">
+  <div class="center">
+	<div class="staff-box passlabel">
 	  <fieldset class="divgroup">
 		<h5><?php print_string('password',$book);?></h5>
 			<p>
 		  <label style="width: 150px; display: inline-block;" for="Number1"><?php print_string('newstaffpin',$book);?></label>
 		  <input pattern="integer" tabindex="<?php print $tab++;?>" type="password" id="Number1" name="pin1" pattern="integer" maxlength="4" />
-</p>
-<p>
+			</p>
+			<p>
 		  <label style="width: 150px; display: inline-block;" for="Number2"><?php print_string('retypenewstaffpin',$book);?></label>
 		  <input pattern="integer" tabindex="<?php print $tab++;?>" type="password" id="Number2" name="pin2" pattern="integer" maxlength="4" />
-</p>
+			</p>
 		  <input type="checkbox" id="Nologin" name="nologin"  tabindex="<?php print $tab++;?>" <?php if($User['NoLogin']['value']=='1'){print 'checked="checked"';}?> value="1"/>
 		  <label for="Nologin"><?php print_string('disablelogin',$book);?></label>
 	  </fieldset>
-</div>
+	</div>
+
+	<div class="staff-box staff-box-middle">
+	  <fieldset class="divgroup">
+		<h5><?php print_string('section',$book);?></h5>
 <?php
-		}
-
+		$sections=(array)list_sections(true);
+		$access_groups=(array)list_user_groups($seluid,'s');
+		foreach($sections as $section){
+			if(in_array($section['gid'],$access_groups)){$editaperm=true;}
+			else{$editaperm=false;}
 ?>
-<div class="staff-box staff-box-middle">
-
+		  <p>
+		  <input type="checkbox" id="a<?php print $section['gid'];?>" name="a<?php print $section['gid'];?>"  tabindex="<?php print $tab++;?>" <?php if($editaperm){print 'checked="checked"';}?> value="1"/>
+		  <label for="<?php print $section['name'];?>"><?php print $section['name'];?></label>
+		  </p>
+<?php
+			}
+?>
+		</fieldset>
+	</div>
+	<div class="staff-box">
 <?php
 	if($_SESSION['role']=='admin'){
 ?>
@@ -120,35 +161,15 @@ if($_SESSION['role']=='admin' or $aperm==1){
 			}
 ?>
 	  </fieldset>
+<?php
+		}
+?>
 	 </div>
-<?php
-		}
-
-	if($_SESSION['role']=='admin' or $aperm==1){
-
-?>
-<div class="staff-box">
-	  <fieldset class="divgroup">
-		<h5><?php print_string('section',$book);?></h5>
-<?php
-		$sections=(array)list_sections(true);
-		$access_groups=(array)list_user_groups($seluid,'s');
-		foreach($sections as $section){
-			if(in_array($section['gid'],$access_groups)){$editaperm=true;}
-			else{$editaperm=false;}
-?>
-		  <p>
-		  <input type="checkbox" id="a<?php print $section['gid'];?>" name="a<?php print $section['gid'];?>"  tabindex="<?php print $tab++;?>" <?php if($editaperm){print 'checked="checked"';}?> value="1"/>
-		  <label for="<?php print $section['name'];?>"><?php print $section['name'];?></label>
-			</p>
-<?php
-			}
-?>
-		</fieldset>
-		</div>
+  </div>
 <?php
 		}
 ?>
+
   	  <div class="center" style="margin: 30px 0; float: left;">
 		<?php $tab=xmlarray_form($User,'','details',$tab,'infobook'); ?>
 	  </div>
@@ -167,10 +188,8 @@ if($_SESSION['role']=='admin' or $aperm==1){
 	  <input type="hidden" name="cancel" value="<?php print $choice; ?>">
 	</form>
 
-
 <?php
 	require_once('lib/eportfolio_functions.php');
 	html_document_drop($User['EPFUsername']['value'],'staff');
 ?>
-  </div>
   </div>
