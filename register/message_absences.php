@@ -91,7 +91,6 @@ three_buttonmenu();
 	  </fieldset> 
 
 	  <fieldset class="center divgroup"> 
-		<legend><?php print_string('confirm',$book);?></legend>
 		<p><?php print get_string('messagecontactsallabsences','register');?>
 
 		<div class="right">

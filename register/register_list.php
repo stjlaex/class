@@ -180,17 +180,17 @@ else{
       <h4>
 <?php
 if($community['type']=='form' or $community['type']=='house' or $community['type']=='reg'){
-	print '<label>'.get_string($community['type']).'</label> '.$community['name'];
+	print '<label>'.get_string($community['type']).'</label> &nbsp;'.$community['name'].' &nbsp;&nbsp;';
 	if(isset($tutor_users)){
+		print '<label> '.get_string('formtutor').'</label> ';
 		foreach($tutor_users as $uid => $tutor_user){
-			print '<label>  / '.get_string('formtutor').'</label>'.$tutor_user['forename'][0].' '. $tutor_user['surname'];
-			emaillink_display($tutor_user['email']);
+			print $tutor_user['forename'][0].' '. $tutor_user['surname']. ' '.emaillink_display($tutor_user['email']). ' &nbsp;&nbsp;';
 			}
 		}
 	}
 else{
 	$thisclass=(array)get_this_class($newcid);
-	print '<div><label>'.get_string('subject',$book).' class'.'</label>'.$thisclass['name'].'</div>';
+	print '<div><label>'.get_string('subject',$book).' class'.'</label> '.$thisclass['name'].'</div>';
 	}
 ?>
 </h4>
