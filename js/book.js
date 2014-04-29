@@ -1658,7 +1658,7 @@ function selectColumn(thObj,multi){
 		// only allowed one checked column, so un-select all other columns
 		var theCols=document.getElementsByTagName("th");
 		for(var c=1;c<(theCols.length-1);c++){
-			if(theCols[c].className=="selected"){
+			if($(theCols[c]).hasClass("selected")) {
 				theCols[c].getElementsByTagName("input")[0].removeAttribute("checked");
 				var colId=theCols[c].getElementsByTagName("input")[0].value;
 				theCols[c].removeAttribute("class");
