@@ -694,7 +694,11 @@ function checksidsAction(buttonObject){
 			}
 		}
 
-	if(script=='message.php'){
+	if(sidno==0){
+		/* I think sidsno must always be set but haven't checked every scenario... */
+		alert("Please select at least one option from the table.");
+		}
+	else if(script=='message.php'){
 		progressIndicator("stop");
 		parent.viewBook("infobook");
 		javascript:parent.frames["viewinfobook"].document.location.href="infobook.php?current=message.php&cancel="+params;
@@ -738,9 +742,8 @@ function checksidsAction(buttonObject){
 				//progressIndicator("start");
 				}
 			}
+		xmlHttp.send(null);
 		}
-
-	xmlHttp.send(null);
 	}
 
 
@@ -762,12 +765,12 @@ function processXML(xmlsource, xsltName, xsltPath){
 function progressIndicator(action){
 	//var statusObject=parent.document.getElementById("sitestatus");
 	if(action=="start"){
-		parent.document.getElementById("sitestatus").setAttribute("class","show");
-		parent.document.getElementById("siteicon").setAttribute("class","hide");
+		//parent.document.getElementById("sitestatus").setAttribute("class","show");
+		//parent.document.getElementById("siteicon").setAttribute("class","hide");
 		}
 	else{
-		parent.document.getElementById("sitestatus").setAttribute("class","hide");
-		parent.document.getElementById("siteicon").setAttribute("class","show");
+		//parent.document.getElementById("sitestatus").setAttribute("class","hide");
+		//parent.document.getElementById("siteicon").setAttribute("class","show");
 		}
 	}
 
